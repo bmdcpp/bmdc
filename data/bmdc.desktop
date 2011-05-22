@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Exec=bmdc
+TryExec=bmdc
+Icon=bmdc
+Terminal=false
+Categories=Network;FileTransfer;GTK;
+Name=BMDC++
+GenericName=DC++ Client
+GenericName[cs]=Klient DC++
+Comment=DC++ Client
+Comment[cs]=Klient DC++
+X-Ubuntu-Gettext-Domain=bmdc

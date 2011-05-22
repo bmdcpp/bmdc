@@ -1,0 +1,34 @@
+This work was packaged for Debian by:
+
+    Mank <freedcpp@seznam.cz> 
+
+It was downloaded from <http://bmdc.no-ip.sk>
+
+Upstream Author(s):
+
+    <troll.freedcpp@gmail.com>
+
+Copyright:
+
+    <Copyright (C) 2010 Mank>
+    <Copyright (C) branec>
+
+License:
+
+    <   GPLv3  >
+
+The Debian packaging is:
+
+    Copyright (C) 2010 Mank <freedcpp@seznam.cz>
+
+# Please chose a license for your packaging work. If the program you package
+# uses a mainstream license, using the same license is the safest choice.
+# Please avoid to pick license terms that are more restrictive than the
+# packaged work, as it may make Debian's contributions unacceptable upstream.
+# If you just want it to be GPL version 3, leave the following lines in.
+
+and is licensed under the GPL version 3, 
+see `/usr/share/common-licenses/GPL-3'.
+
+# Please also look if there are files or directories which have a
+# different copyright/license attached and list them here.

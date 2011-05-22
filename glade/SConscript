@@ -1,0 +1,10 @@
+# -*- coding: utf-8 -*-
+
+Import('env')
+
+glade_files = env.Glob('*.glade')
+
+pot_file = env.PotBuild(source=glade_files, target='po/glade.pot', LANGUAGE='glade')
+
+Return('pot_file')
+

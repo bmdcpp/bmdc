@@ -1,0 +1,8 @@
+?package(bmdc):\
+  needs="X11"\
+  section="Applications/Network/File Transfer"\
+  Path="/usr/share/bmdc/"\
+  title="BMDC++"\
+  icon="/usr/share/pixmaps/bmdc.xpm"\
+  command="bmdc"
+ 
