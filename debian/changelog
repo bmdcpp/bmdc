@@ -1,7 +1,8 @@
 bmdc (0.0.1-1~natty) natty; urgency=low
-	* BMDC initial,
+	
+  * BMDC initial,
  
-  -- BMDC++ <freedcpp@seznam.cz>  Tue, 15 Feb 2011 20:50:35 +0100
+  -- FreeDC++ <freedcpp@seznam.cz>  Tue, 15 Mar 2011 20:50:35 +0100
 
 freedcppmv-unstable-op (0.0.2-1alpha4.5-r100~maverick) maverick; urgency=low
 
