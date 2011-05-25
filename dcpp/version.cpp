@@ -22,13 +22,13 @@
 #include "version.h"
 
 #ifndef DCPP_REVISION
-#define DCPP_REVISION 110
+#define DCPP_REVISION 4
 #endif
 
 #define xstrver(s) strver(s)
 #define strver(s) #s
 
 namespace dcpp {
-const string fullVersionString(APPNAME " v" VERSIONSTRING " (r" xstrver(DCPP_REVISION) ")");
+const string fullVersionString(VERSIONSTRING " (r" xstrver(DCPP_REVISION) ")");
 }
 

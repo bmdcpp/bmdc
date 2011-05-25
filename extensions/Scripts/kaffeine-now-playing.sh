@@ -27,7 +27,7 @@
 
 PLAYERS="amarok audacious qmmp mpd xmms2 dragon vlc songbird clementine exaile guayadeque"
 
-CONFIG_FILE="${HOME}/.dc++/mpris_now_playing.conf"
+CONFIG_FILE="${HOME}/.bmdc++/mpris_now_playing.conf"
 
 METADATA_CALL="/Player org.freedesktop.MediaPlayer.GetMetadata"
 PLAYER=''

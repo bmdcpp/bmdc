@@ -50,5 +50,5 @@ case "$PERDECA" in
 	10 ) SLIDER="---------|" ;;
 esac
 
-echo "-=FreeDC++ in Linux in Audacious ${VER} => (${TITLE} - ${KBPS}kbps) - (${POS}/${LENGTH} )=-"
+echo "-=BMDC++ in Linux in Audacious ${VER} => (${TITLE} - ${KBPS}kbps) - (${POS}/${LENGTH} )=-"
 #echo -n "${PROG}(${VER}) ${STATUS} (${TITLE} - ${KBPS}kbps) - (${POS}/${LENGTH} [${SLIDER}])"

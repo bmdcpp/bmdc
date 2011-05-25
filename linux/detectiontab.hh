@@ -21,41 +21,34 @@ class DetectionTab:
 	private:
         ///GUI
         static void onCloseItem(gpointer data);
+		
 		///1page
 		typedef std::tr1::unordered_map<int, GtkTreeIter> ActRaw;
 		static void onAddActRaw(GtkWidget *widget,gpointer data);
 		static void onEditActRaw(GtkWidget *widget,gpointer data);
 		static void onRemoveActRaw(GtkWidget *widget , gpointer data);
 		void removeEntry_gui(std::string _name,int _id,std::string _action);
-		static GtkTreeModel * create_model(gpointer data);
+		void create_actions_raws();
 		bool showAddActRawDialog(dcpp::StringMap &params,DetectionTab *dt);
 		void addRawAct_client(dcpp::StringMap params);
 		void editRawAct_client(dcpp::StringMap params);
 		void removeActRaw_client(int id);
-		void removeRaw_client(int id,int _parent);
+		void removeRaw_client(int id);
 		void addActRaw_gui(dcpp::StringMap params);
 		bool findAct_gui(const int &Id, GtkTreeIter *iter);
 		bool findRaw_gui(const int &Id, GtkTreeIter *iter);
 
-		enum {
-			COLUMN = 0,
-			RAW,
-			TIME,
-			ENABLED,
-			ID,
-			NUM_COLS
-		};
-		GtkWidget *araw;
-		GtkTreeSelection *aselection;
-		GtkTreeViewColumn *colname,*colraw,*coltime,*colenb,*colid;
-		GtkCellRenderer *renname,*renraw,*rentime,*renenb,*renid;
-		GtkTreeModel *model;
-		ActRaw act;
+		
+		TreeView actionRawView;
+		GtkTreeStore *actionRawStore;
+		GtkTreeSelection *actionRawSelection;
+		
+		ActRaw actions;
 		ActRaw raws;
 		///2page
 		typedef std::tr1::unordered_map<uint32_t, GtkTreeIter> Prof;
 		Prof profiles;
-		static GtkTreeModel * create_profiles(gpointer data);
+		void create_profiles();
 		static void onAddEntryDet(GtkWidget *widget, gpointer data);
 		static void ondModEntryDet(GtkWidget *widget, gpointer data);
 		static void onRemoveEntryDet(GtkWidget *widget, gpointer data);
@@ -68,24 +61,11 @@ class DetectionTab:
 		void addEntryDet_client(dcpp::StringMap params);
 		void editEntryDet_client(int id,dcpp::StringMap params);
 		void removeEntryDet_client(int id);
-
-		enum {
-			COLUMNS = 0,
-			NAME,
-			CHEAT,
-			COMMENT,
-			RAWS,
-			IDS,
-			FLAG,
-			MISMATCH,
-			NUM_COL
-		};
-
-		GtkWidget *cldet;
-		GtkTreeSelection *prselection;
-		GtkTreeViewColumn *coldname,*coldenb,*coldcheat,*coldcom,*coldid,*coldraw,*coldflag,*coldmmf;
-		GtkCellRenderer *rendname,*rendenb,*rendcheat,*rendcom,*rendid,*rendraw,*rendflag,*rendmmf;
-		GtkTreeModel *models;
+		
+		/**/
+		GtkListStore *detectionStore;
+		TreeView detectionView;
+		GtkTreeSelection *detectionSelection;
 		dcpp::DetectionEntry::INFMap map,mapadc,mapnmdc;
 
 		void clear_all_col(TreeView tree);

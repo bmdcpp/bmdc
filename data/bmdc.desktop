@@ -2,6 +2,7 @@
 Type=Application
 Exec=bmdc
 TryExec=bmdc
+Path=/usr/share/bmdc
 Icon=bmdc
 Terminal=false
 Categories=Network;FileTransfer;GTK;

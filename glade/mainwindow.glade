@@ -573,13 +573,16 @@ You should have received a copy of the GNU General Public License along with thi
 
 In addition, as a special exception, compiling, linking, and/or using OpenSSL with this program is allowed.
 </property>
-    <property name="authors">Developers:
+    <property name="authors">Dev-Team
+Mank,branec
+
+Developers of FreeDC++:
   troll
 
-Contributors:
+Contributors to FreeDC++:
   Leliksan Floyd
 </property>
-    <property name="artists">troll (icons: users, logo)</property>
+    <property name="artists">branec (icons: users, logo)</property>
     <property name="wrap_license">True</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox3">
