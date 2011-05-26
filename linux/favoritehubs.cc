@@ -187,7 +187,7 @@ void FavoriteHubs::initialze_client()
     const FavoriteHubEntryList& flist = FavoriteManager::getInstance()->getFavoriteHubs();
     for(FavoriteHubEntryList::const_iterator it = flist.begin();it!=flist.end();++it)
     {
-		if((*it)->getGroup() == "" || (*it)->getGroup() == "Deufault")
+		if((*it)->getGroup() == "" || (*it)->getGroup() == _("Default"))
 		{
 		
 			string pass= (*it)->getPassword().empty()  ? "" : string(8,'*');
@@ -1274,7 +1274,7 @@ void FavoriteHubs::popmenu()
     gtk_menu_shell_append(GTK_MENU_SHELL(getNewTabMenu()),closeMenuItem);
     gtk_widget_show(closeMenuItem);
 
-    g_signal_connect_swapped(closeMenuItem, "activate",G_CALLBACK(onCloseItem),this);
+    g_signal_connect_swapped(closeMenuItem, "activate", G_CALLBACK(onCloseItem),this);
 
 }
 

@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-05-25 19:08+0200\n"
+"POT-Creation-Date: 2011-05-26 20:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-05-25 19:58+0200\n"
+"POT-Creation-Date: 2011-05-26 20:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -150,7 +150,7 @@ msgstr ""
 msgid "<b>Hub List</b>"
 msgstr ""
 
-#: glade/favoritehubs.glade:130
+#: glade/favoritehubs.glade:287
 msgid "<b>Hub</b>"
 msgstr ""
 
@@ -162,7 +162,7 @@ msgstr ""
 msgid "<b>Icons</b>"
 msgstr ""
 
-#: glade/favoritehubs.glade:231
+#: glade/favoritehubs.glade:399
 msgid "<b>Identify on Hub</b>"
 msgstr ""
 
@@ -375,7 +375,7 @@ msgstr ""
 msgid "Actions and Raws"
 msgstr ""
 
-#: glade/favoritehubs.glade:451 glade/settingsdialog.glade:400
+#: glade/favoritehubs.glade:636 glade/settingsdialog.glade:400
 msgid "Active"
 msgstr ""
 
@@ -393,7 +393,7 @@ msgstr ""
 msgid "Add this file to your download queue"
 msgstr ""
 
-#: glade/favoritehubs.glade:787
+#: glade/favoritehubs.glade:187
 msgid "Add to List"
 msgstr ""
 
@@ -405,7 +405,7 @@ msgstr ""
 msgid "Add..."
 msgstr ""
 
-#: glade/favoritehubs.glade:147
+#: glade/favoritehubs.glade:306
 msgid "Address:"
 msgstr ""
 
@@ -446,7 +446,7 @@ msgstr ""
 msgid "Auto refresh time"
 msgstr ""
 
-#: glade/favoritehubs.glade:763
+#: glade/favoritehubs.glade:157
 msgid "AutoConnect"
 msgstr ""
 
@@ -485,7 +485,7 @@ msgid ""
 "Limiting"
 msgstr ""
 
-#: glade/favoritehubs.glade:547
+#: glade/favoritehubs.glade:751
 msgid "Basic"
 msgstr ""
 
@@ -566,11 +566,11 @@ msgstr ""
 msgid "Check Client Before FL"
 msgstr ""
 
-#: glade/favoritehubs.glade:368
+#: glade/favoritehubs.glade:543
 msgid "Check Clients"
 msgstr ""
 
-#: glade/favoritehubs.glade:355
+#: glade/favoritehubs.glade:529
 msgid "Check Filelists"
 msgstr ""
 
@@ -578,7 +578,7 @@ msgstr ""
 msgid "Check User FL"
 msgstr ""
 
-#: glade/favoritehubs.glade:383
+#: glade/favoritehubs.glade:559
 msgid "Check at connect to hub"
 msgstr ""
 
@@ -678,9 +678,10 @@ msgstr ""
 msgid "DETECTION"
 msgstr ""
 
+#: glade/favoritehubs.glade:601 glade/favoritehubs.glade:727
 #: glade/settingsdialog.glade:3178 glade/settingsdialog.glade:3771
 #: glade/settingsdialog.glade:3917 linux/emoticonsdialog.cc:104
-#: linux/favoritehubs.cc:794 linux/previewmenu.cc:88
+#: linux/favoritehubs.cc:190 linux/favoritehubs.cc:794 linux/previewmenu.cc:88
 msgid "Default"
 msgstr ""
 
@@ -709,7 +710,7 @@ msgstr ""
 msgid "Delete item"
 msgstr ""
 
-#: glade/favoritehubs.glade:157 glade/favoriteusers.glade:81
+#: glade/favoritehubs.glade:317 glade/favoriteusers.glade:81
 #: glade/ignoreeusers.glade:81 glade/settingsdialog.glade:105
 #: linux/favoritehubs.cc:30 linux/favoritehubs.cc:163
 #: linux/favoritehubs.cc:199 linux/favoritehubs.cc:307
@@ -731,10 +732,6 @@ msgstr ""
 
 #: glade/detection.glade:1272
 msgid "Detections"
-msgstr ""
-
-#: glade/favoritehubs.glade:423 glade/favoritehubs.glade:524
-msgid "Deufault"
 msgstr ""
 
 #: glade/settingsdialog.glade:695
@@ -838,7 +835,7 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: glade/favoritehubs.glade:205 linux/favoritehubs.cc:34
+#: glade/favoritehubs.glade:365 linux/favoritehubs.cc:34
 #: linux/favoritehubs.cc:167 linux/favoritehubs.cc:203
 #: linux/favoritehubs.cc:313 linux/favoritehubs.cc:409
 #: linux/favoritehubs.cc:475 linux/favoritehubs.cc:510
@@ -878,7 +875,7 @@ msgstr ""
 msgid "External / WAN IP"
 msgstr ""
 
-#: glade/favoritehubs.glade:397
+#: glade/favoritehubs.glade:575
 msgid "Extra Chat Info"
 msgstr ""
 
@@ -886,7 +883,7 @@ msgstr ""
 msgid "Fake Share Action"
 msgstr ""
 
-#: glade/favoritehubs.glade:112
+#: glade/favoritehubs.glade:218
 msgid "Favorite Hub Properties"
 msgstr ""
 
@@ -1001,7 +998,7 @@ msgstr ""
 msgid "Get TestSUR"
 msgstr ""
 
-#: glade/favoritehubs.glade:346
+#: glade/favoritehubs.glade:520
 msgid "Group"
 msgstr ""
 
@@ -1030,7 +1027,7 @@ msgstr ""
 msgid "Hash"
 msgstr ""
 
-#: glade/favoritehubs.glade:317
+#: glade/favoritehubs.glade:488
 msgid "HideShare"
 msgstr ""
 
@@ -1177,7 +1174,7 @@ msgstr ""
 msgid "Log uploads"
 msgstr ""
 
-#: glade/favoritehubs.glade:330
+#: glade/favoritehubs.glade:502
 msgid "LogChat"
 msgstr ""
 
@@ -1193,7 +1190,7 @@ msgstr ""
 msgid "Magnet"
 msgstr ""
 
-#: glade/favoritehubs.glade:775
+#: glade/favoritehubs.glade:172
 msgid "Make Private"
 msgstr ""
 
@@ -1315,7 +1312,7 @@ msgstr ""
 msgid "MisMatch FL Version"
 msgstr ""
 
-#: glade/favoritehubs.glade:509
+#: glade/favoritehubs.glade:709
 msgid "Mode"
 msgstr ""
 
@@ -1345,7 +1342,7 @@ msgid "NICK"
 msgstr ""
 
 #: glade/detection.glade:120 glade/detection.glade:436
-#: glade/detection.glade:749 glade/favoritehubs.glade:740
+#: glade/detection.glade:749 glade/favoritehubs.glade:128
 #: glade/settingsdialog.glade:6238 linux/detectiontab.cc:17
 #: linux/detectiontab.cc:34 linux/detectiontab.cc:209
 #: linux/detectiontab.cc:223 linux/detectiontab.cc:247
@@ -1379,7 +1376,7 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: glade/favoritehubs.glade:137 glade/settingsdialog.glade:1781
+#: glade/favoritehubs.glade:295 glade/settingsdialog.glade:1781
 msgid "Name:"
 msgstr ""
 
@@ -1405,7 +1402,7 @@ msgstr ""
 msgid "Nick"
 msgstr ""
 
-#: glade/favoritehubs.glade:241
+#: glade/favoritehubs.glade:409
 msgid "Nick:"
 msgstr ""
 
@@ -1495,11 +1492,11 @@ msgstr ""
 msgid "PM history"
 msgstr ""
 
-#: glade/favoritehubs.glade:436
+#: glade/favoritehubs.glade:617
 msgid "Pasive"
 msgstr ""
 
-#: glade/favoritehubs.glade:268 glade/settingsdialog.glade:619
+#: glade/favoritehubs.glade:438 glade/settingsdialog.glade:619
 #: linux/favoritehubs.cc:33 linux/favoritehubs.cc:166
 #: linux/favoritehubs.cc:202 linux/favoritehubs.cc:309
 msgid "Password"
@@ -1617,11 +1614,11 @@ msgstr ""
 msgid "Raw for Actions"
 msgstr ""
 
-#: glade/favoritehubs.glade:574
+#: glade/favoritehubs.glade:779
 msgid "Raw_and_Actions"
 msgstr ""
 
-#: glade/favoritehubs.glade:588
+#: glade/favoritehubs.glade:794
 msgid "Raws and Actions"
 msgstr ""
 
@@ -1649,7 +1646,7 @@ msgstr ""
 msgid "Remember choice"
 msgstr ""
 
-#: glade/adlsearch.glade:86 glade/favoritehubs.glade:717
+#: glade/adlsearch.glade:86 glade/favoritehubs.glade:97
 msgid "Remove"
 msgstr ""
 
@@ -1955,7 +1952,7 @@ msgstr ""
 msgid "Unfinished downloads directory"
 msgstr ""
 
-#: glade/favoritehubs.glade:706 glade/searchspy.glade:150
+#: glade/favoritehubs.glade:83 glade/searchspy.glade:150
 msgid "Update"
 msgstr ""
 
@@ -1999,7 +1996,7 @@ msgstr ""
 msgid "User Commands"
 msgstr ""
 
-#: glade/favoritehubs.glade:304 linux/favoritehubs.cc:32
+#: glade/favoritehubs.glade:474 linux/favoritehubs.cc:32
 #: linux/favoritehubs.cc:165 linux/favoritehubs.cc:201
 #: linux/favoritehubs.cc:312 linux/favoritehubs.cc:408
 #: linux/favoritehubs.cc:737
@@ -2061,7 +2058,7 @@ msgstr ""
 msgid "Virtual name"
 msgstr ""
 
-#: glade/favoritehubs.glade:469
+#: glade/favoritehubs.glade:659
 msgid "WAN IP:"
 msgstr ""
 
