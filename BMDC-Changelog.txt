@@ -255,3 +255,4 @@ Fix Match queue definetivy
 Fix UC on Hub Tab Right click
 refactoring Detection Settings
 Fix groups
+Add Support as Userlist column

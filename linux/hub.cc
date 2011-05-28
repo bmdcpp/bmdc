@@ -86,12 +86,13 @@ Hub::Hub(const string &address, const string &encoding):
 	nickView.insertColumn("IP", G_TYPE_STRING, TreeView::STRING, 85);
 	nickView.insertColumn(N_("eMail"), G_TYPE_STRING, TreeView::STRING, 90);
 	nickView.insertColumn(N_("CC"), G_TYPE_STRING, TreeView::PIXBUF_STRING, 50, "Country");//Patched
-	nickView.insertColumn(N_("Exact Share"),G_TYPE_INT64, TreeView::ESIZE,100);//Patched
-	nickView.insertColumn(N_("Slots"),G_TYPE_STRING, TreeView::STRING,50);//Patched
-	nickView.insertColumn(N_("Hubs"), G_TYPE_STRING, TreeView::STRING,50);//Patched
-	nickView.insertColumn("PK", G_TYPE_STRING, TreeView::STRING,80);//Support
-	nickView.insertColumn(N_("Cheat"), G_TYPE_STRING, TreeView::STRING,80);//Cheat
-	nickView.insertColumn(N_("Generator"), G_TYPE_STRING, TreeView::STRING,80);//Generator
+	nickView.insertColumn(N_("Exact Share"),G_TYPE_INT64, TreeView::ESIZE, 100);//Patched
+	nickView.insertColumn(N_("Slots"),G_TYPE_STRING, TreeView::STRING, 50);//Patched
+	nickView.insertColumn(N_("Hubs"), G_TYPE_STRING, TreeView::STRING, 50);//Patched
+	nickView.insertColumn("PK", G_TYPE_STRING, TreeView::STRING, 80);//PK
+	nickView.insertColumn(N_("Cheat"), G_TYPE_STRING, TreeView::STRING, 80);//Cheat
+	nickView.insertColumn(N_("Generator"), G_TYPE_STRING, TreeView::STRING, 80);//Generator
+	nickView.insertColumn(N_("Support"), G_TYPE_STRING, TreeView::STRING, 80);
 	nickView.insertHiddenColumn("Country", GDK_TYPE_PIXBUF);//Country
 	nickView.insertHiddenColumn("ClientType", G_TYPE_STRING); //User/OP/ADMIN
 	nickView.insertHiddenColumn("Icon", G_TYPE_STRING);
@@ -373,7 +374,7 @@ bool Hub::isHighlitingWorld(string word,GtkTextTag *tag)
 				}
 			}
 
-			string w=cs->getMatch();
+			string w = cs->getMatch();
 			string sW(w.length(),NULL);
 			std::transform(w.begin(), w.end(), sW.begin(), _tolower);
 			if(cs->usingRegexp())
@@ -579,6 +580,7 @@ void Hub::updateUser_gui(ParamMap params)
 			nickView.col("PK"), sup.c_str(),
 			nickView.col(N_("Cheat")), cheat.c_str(),
             nickView.col("Generator"), params["FLGEN"].c_str(),
+            nickView.col(N_("Support")), params["SUPPORT"].c_str(),
 			nickView.col("ClientType"), params["TypeC"].c_str(),
 			nickView.col("Country"), buf,
 			nickView.col("Icon"), icon.c_str(),
@@ -612,6 +614,7 @@ void Hub::updateUser_gui(ParamMap params)
 			nickView.col("PK"), sup.c_str(),
 			nickView.col(N_("Cheat")), cheat.c_str(),
             nickView.col("Generator"), params["FLGEN"].c_str(),
+            nickView.col(N_("Support")), params["SUPPORT"].c_str(),
 			nickView.col("ClientType"), params["TypeC"].c_str(),
 			nickView.col("Country"), buf ,
 			nickView.col("Icon"), icon.c_str(),
@@ -3349,9 +3352,9 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 	params.insert(ParamMap::value_type("Hubs", cn )); //Huby
 	params.insert(ParamMap::value_type("Slots", id.get("SL")));//Sloty
 	#ifndef _DEBUG
-	params.insert(ParamMap::value_type("Country", Util::getIpCountry(id.getIp())));
+        params.insert(ParamMap::value_type("Country", Util::getIpCountry(id.getIp())));
 	#else
-	params.insert(ParamMap::value_type("Country", Util::getIpCountry("0.0.0.0")));
+        params.insert(ParamMap::value_type("Country", Util::getIpCountry("0.0.0.0")));
 	#endif
 	//add
 //	params.insert(ParamMap::value_type("Version", id.get("VE")));
@@ -3361,6 +3364,8 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 	params.insert(ParamMap::value_type("Cheat",id.get("CS")));
 
     params.insert(ParamMap::value_type("FLGEN",id.get("GE")));
+
+    params.insert(ParamMap::value_type("SUPPORT",id.get("SU")));
 
 	if(id.isBot() || id.isHub())
 		params.insert(ParamMap::value_type("TypeC","BOT"));
@@ -3892,15 +3897,6 @@ void Hub::on(ClientListener::SearchFlood, Client *, const string &msg) throw()
 	F3 *func = new F3(this, &Hub::addStatusMessage_gui, _("Search spam detected from ") + msg, Msg::STATUS, Sound::NONE);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
-
-/*void Hub::sendUC(UserCommand uc, StringMap& params)
-{
-	client->getMyIdentity().getParams(params, "my", true);
-	client->getHubIdentity().getParams(params, "hub", true);
-	client->escapeParams(params);
-	client->sendUserCmd(Util::formatParams(uc.getCommand(), params, false));
-}
-*/
 //CheatMessage NOTE: RSX++
 void Hub::on(ClientListener::CheatMessage,const Client *c, const string &msg) throw()
 {

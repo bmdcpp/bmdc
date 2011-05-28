@@ -1,5 +1,3 @@
-//      System.cc
-//
 //      Copyright 2011 Mank <freedcpp@seznam.cz>
 //
 //      This program is free software; you can redistribute it and/or modify
@@ -118,7 +116,6 @@ void systemlog::on(LogManagerListener::Message, time_t t, const string& message)
     typedef Func2<systemlog,time_t,std::string> F2;
     F2 *func = new F2(this,&systemlog::add_gui,t,message);
     WulforManager::get()->dispatchGuiFunc(func);
-
 }
 
 /*this is a a pop menu*/

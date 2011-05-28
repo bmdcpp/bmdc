@@ -1,4 +1,22 @@
-﻿#include "detectiontab.hh"
+﻿//
+//      Copyright 2011 Mank <freedcpp@seznam.cz>
+//
+//      This program is free software; you can redistribute it and/or modify
+//      it under the terms of the GNU General Public License as published by
+//      the Free Software Foundation; either version 2 of the License, or
+//      (at your option) any later version.
+//
+//      This program is distributed in the hope that it will be useful,
+//      but WITHOUT ANY WARRANTY; without even the implied warranty of
+//      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//      GNU General Public License for more details.
+//
+//      You should have received a copy of the GNU General Public License
+//      along with this program; if not, write to the Free Software
+//      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+//      MA 02110-1301, USA.
+
+#include "detectiontab.hh"
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
 
@@ -26,9 +44,9 @@ BookEntry(Entry::DET,_("Detection Settings"),"detection.glade")
 	detectionStore = gtk_list_store_newv(detectionView.getColCount(), detectionView.getGTypes());
 	gtk_tree_view_set_model(detectionView.get(), GTK_TREE_MODEL(detectionStore));
 	g_object_unref(detectionStore);
-	
+
 	detectionSelection = gtk_tree_view_get_selection(detectionView.get());
-	
+
 	//Action&&Raw
 	actionRawView.setView(GTK_TREE_VIEW(getWidget("treeviewRaw")));
 	actionRawView.insertColumn(N_("Name"), G_TYPE_STRING, TreeView::STRING, 100);
@@ -37,7 +55,7 @@ BookEntry(Entry::DET,_("Detection Settings"),"detection.glade")
 	actionRawView.insertColumn(N_("Enable"), G_TYPE_BOOLEAN, TreeView::BOOL, 100);//checkbox
 	actionRawView.insertColumn(N_("ID"), G_TYPE_INT, TreeView::INT, 100);
 	actionRawView.finalize();
-	
+
 	actionRawStore = gtk_tree_store_newv(actionRawView.getColCount(),actionRawView.getGTypes());
 	gtk_tree_view_set_model(actionRawView.get(),GTK_TREE_MODEL(actionRawStore));
 	g_object_unref(actionRawStore);
@@ -93,7 +111,7 @@ BookEntry(Entry::DET,_("Detection Settings"),"detection.glade")
 
 	g_signal_connect(getWidget("button7Save"), "clicked", G_CALLBACK(onSave), (gpointer)this);
 	g_signal_connect(getWidget("buttonadlsp7"), "clicked", G_CALLBACK(onADSLPoints), (gpointer)this);
-	
+
 	points.setView(GTK_TREE_VIEW(getWidget("treeviewPoints")));
 	points.insertColumn(N_("Points"), G_TYPE_STRING, TreeView::STRING,100);
 	points.insertColumn(N_("Action"), G_TYPE_STRING, TreeView::STRING,100);
@@ -212,7 +230,7 @@ void DetectionTab::create_actions_raws() {
 						actionRawView.col(N_("Enable")), (*i)->getEnabled() ? TRUE : FALSE,
 						actionRawView.col(N_("ID")), (*i)->getId(),
 						-1);
-		
+
 		GtkTreeIter child;
 		actions.insert(ActRaw::value_type( ((*i)->getId()),topi));
 
@@ -285,17 +303,17 @@ void DetectionTab::onEditActRaw(GtkWidget *widget,gpointer data)
 {
 	DetectionTab *dt = (DetectionTab *)data;
 	GtkTreeIter	iter;
-	
+
 	if (!gtk_tree_selection_get_selected(dt->detectionSelection, NULL, &iter))
 		return;
-	
+
 	StringMap params;
 	params["Name"] = dt->actionRawView.getString(&iter,N_("Name"));
 	params["RAW"] = dt->actionRawView.getString(&iter,N_("Raw"));
 	params["Time"] = Util::toString(dt->actionRawView.getValue<gint>(&iter,N_("Time")));
 	params["Enabled"] = dt->actionRawView.getValue<gboolean>(&iter,N_("Enable")) ? "1" : "0";
 	params["ID"] = Util::toString(dt->actionRawView.getValue<gint>(&iter,N_("ID")));
-	
+
 	Action* a = RawManager::getInstance()->findAction(params["Name"]);
 	if(a != NULL)
 	{
@@ -308,7 +326,7 @@ void DetectionTab::onEditActRaw(GtkWidget *widget,gpointer data)
 		params["Type"] = "1";
 		params["Action"] = Util::toString(dt->find_raw(a->getName()));///
 
-		
+
 	}
 
 	bool isOk = dt->showAddActRawDialog(params,dt);
@@ -328,11 +346,11 @@ void DetectionTab::onRemoveActRaw(GtkWidget *widget , gpointer data)
 {
 	DetectionTab *dt = (DetectionTab *)data;
 	GtkTreeIter iter;
-	
+
 	if (gtk_tree_selection_get_selected(dt->detectionSelection, NULL, &iter))
 	{
 		string name = dt->actionRawView.getString(&iter, N_("Name"));
-	
+
 		if(BOOLSETTING(CONFIRM_HUB_REMOVAL))
 		{
 			GtkWindow* parent = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
@@ -350,7 +368,7 @@ void DetectionTab::onRemoveActRaw(GtkWidget *widget , gpointer data)
 
 		gboolean isT = dt->actionRawView.getString(&iter, N_("Raw")).empty() ? 	TRUE : FALSE;
 		gint id = dt->actionRawView.getValue<gint>(&iter, N_("ID"));
-		
+
 		if(isT)
 		{
 			typedef Func1<DetectionTab, int> F1;
@@ -620,20 +638,20 @@ void DetectionTab::removeRaw_client(int id)
 	for(Action::ActionList::const_iterator it = list.begin(); it!= list.end(); ++it)
 	{
 	  Action *a = *it;
-	  Action::RawsList *r = &(a->raw);	
+	  Action::RawsList *r = &(a->raw);
 		for(Action::RawsList::const_iterator qt = r->begin(); qt!= r->end(); ++qt)
 		{
 			const Raw *raws= &(*qt);
 			if(raws->getId() == id)
 			{
-				if(RawManager::getInstance()->remRaw(a,raws))	
+				if(RawManager::getInstance()->remRaw(a,raws))
 				{
 					RawManager::getInstance()->unlock();
-					return;		
-				}	
+					return;
+				}
 			}
 		}
-	}	
+	}
 	RawManager::getInstance()->unlock();
 }
 
@@ -667,7 +685,7 @@ void DetectionTab::ondModEntryDet(GtkWidget *widget, gpointer data)
 {
 	DetectionTab *dt = (DetectionTab *)data;
 	GtkTreeIter iter;
-		
+
 	if (!gtk_tree_selection_get_selected(dt->detectionSelection, NULL, &iter))
 		return;
 
@@ -680,7 +698,7 @@ void DetectionTab::ondModEntryDet(GtkWidget *widget, gpointer data)
 	params["ID"] = Util::toString(dt->detectionView.getValue<gint>(&iter,N_("ID")));
 	params["Flag"] = Util::toString(dt->detectionView.getValue<gint>(&iter,N_("Flag")));
 	params["MisMatch"] = dt->detectionView.getValue<gboolean>(&iter,"MisMatch") ? "1" : "0";
-	
+
 	bool isOk = dt->showAddEntryDetDialog(params,dt);
 	if(isOk)
 	{
@@ -689,7 +707,7 @@ void DetectionTab::ondModEntryDet(GtkWidget *widget, gpointer data)
 			typedef Func2<DetectionTab,int,StringMap> F2;
 			F2 *func = new F2(dt,&DetectionTab::editEntryDet_client,dcpp::Util::toInt(params["ID"]),params);
 			WulforManager::get()->dispatchClientFunc(func);
-			
+
 	}
 }
 
@@ -698,12 +716,12 @@ void DetectionTab::onRemoveEntryDet(GtkWidget *widget, gpointer data)
 {
 	DetectionTab *dt = (DetectionTab *)data;
 	GtkTreeIter iter;
-	
+
 	if (gtk_tree_selection_get_selected(dt->detectionSelection, NULL, &iter))
 	{
 		string name = dt->detectionView.getString(&iter,N_("Name"));
 		gint id = dt->detectionView.getValue<gint>(&iter, N_("ID"));
-		
+
 				if(BOOLSETTING(CONFIRM_HUB_REMOVAL))
 				{
 					GtkWindow* parent = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
@@ -951,10 +969,10 @@ void DetectionTab::onToggleDet(GtkCellRendererToggle *cell, gchar *pathStr, gpoi
 	gint id;
 	GtkTreePath* path = gtk_tree_path_new_from_string(pathStr);
    gtk_tree_model_get_iter(GTK_TREE_MODEL (data), &iter, path);
-  gtk_tree_model_get(GTK_TREE_MODEL (data), &iter, 
+  gtk_tree_model_get(GTK_TREE_MODEL (data), &iter,
 						dt->detectionView.col(N_("Enable")),&enabled,
 						dt->detectionView.col(N_("ID")),&id,-1);
-  
+
    DetectionManager::getInstance()->setItemEnabled(id,!enabled,false);
 
    enabled = !enabled;
