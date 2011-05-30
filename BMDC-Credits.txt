@@ -1,5 +1,3 @@
-LinuxDC++ code from LinuxDC++ Team
-FreeDC++ code by troll.freedcpp
 Many Code from CrZDC.net (Curse) and CZDC.org (PPK) ;)
 Alias Patch from Lelinksad
 Many Code from RSX (adrian_007)

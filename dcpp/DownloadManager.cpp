@@ -152,10 +152,10 @@ void DownloadManager::checkIdle(const UserPtr& user) {
 }
 
 void DownloadManager::addConnection(UserConnectionPtr conn) {
-	if(!conn->isSet(UserConnection::FLAG_SUPPORTS_TTHF) || !conn->isSet(UserConnection::FLAG_SUPPORTS_ADCGET)) {
+	if(!conn->isSet(UserConnection::FLAG_SUPPORTS_TTHL) || !conn->isSet(UserConnection::FLAG_SUPPORTS_ADCGET)) {
 		// Can't download from these...
-		//RSX++ // No TTHF/ADCGET support
-		ClientManager::getInstance()->setCheating(conn->getUser(), "", "No TTHF/ADCGET support", 0,true /*RSXPP_BOOLSETTING(SHOW_NO_TTHF)*/, true, true, true, true);//add settings NO_TTHF
+		//RSX++ // No TTHL/ADCGET support///BMDC++ F->L
+		ClientManager::getInstance()->setCheating(conn->getUser(), "", "No TTHL/ADCGET support", 0,true /*RSXPP_BOOLSETTING(SHOW_NO_TTHF)*/, true, true, true, true);//add settings NO_TTHF
 		//END
 		conn->getUser()->setFlag(User::OLD_CLIENT);
 		QueueManager::getInstance()->removeSource(conn->getUser(), QueueItem::Source::FLAG_NO_TTHF);

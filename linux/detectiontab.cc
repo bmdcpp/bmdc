@@ -426,6 +426,8 @@ bool DetectionTab::showAddActRawDialog(StringMap &params,DetectionTab *dt)
 				return TRUE;
 			}
 		}
+    gtk_widget_hide(dt->getWidget("ActRawDialog"));
+	return FALSE;
 }
 
 void DetectionTab::addActRaw_gui(StringMap params)

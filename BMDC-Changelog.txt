@@ -253,6 +253,8 @@ Rename project to BMDC++
 Fix System Log Tab
 Fix Match queue definetivy
 Fix UC on Hub Tab Right click
-refactoring Detection Settings
+Refactoring Detection Settings
 Fix groups
 Add Support as Userlist column
+Small Fix Det. Settings
+Small Fix with compaktibility with CZDC

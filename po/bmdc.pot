@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-05-28 23:20+0200\n"
+"POT-Creation-Date: 2011-05-29 00:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -352,8 +352,8 @@ msgid "About BMDC++"
 msgstr ""
 
 #: glade/adlsearch.glade:444 linux/detectiontab.cc:117
-#: linux/detectiontab.cc:1240 linux/detectiontab.cc:1270
-#: linux/detectiontab.cc:1323
+#: linux/detectiontab.cc:1242 linux/detectiontab.cc:1272
+#: linux/detectiontab.cc:1325
 msgid "Action"
 msgstr ""
 
@@ -556,8 +556,8 @@ msgid "Chat Menu"
 msgstr ""
 
 #: glade/detection.glade:470 linux/detectiontab.cc:36
-#: linux/detectiontab.cc:266 linux/detectiontab.cc:695
-#: linux/detectiontab.cc:791 linux/detectiontab.cc:807 linux/hub.cc:93
+#: linux/detectiontab.cc:266 linux/detectiontab.cc:697
+#: linux/detectiontab.cc:793 linux/detectiontab.cc:809 linux/hub.cc:93
 #: linux/hub.cc:581 linux/hub.cc:615
 msgid "Cheat"
 msgstr ""
@@ -630,8 +630,8 @@ msgstr ""
 #: glade/adlsearch.glade:413 linux/ADLSearchGUI.cc:53
 #: linux/ADLSearchGUI.cc:149 linux/ADLSearchGUI.cc:256
 #: linux/ADLSearchGUI.cc:298 linux/detectiontab.cc:37
-#: linux/detectiontab.cc:267 linux/detectiontab.cc:696
-#: linux/detectiontab.cc:792 linux/detectiontab.cc:808
+#: linux/detectiontab.cc:267 linux/detectiontab.cc:698
+#: linux/detectiontab.cc:794 linux/detectiontab.cc:810
 msgid "Comment"
 msgstr ""
 
@@ -1066,11 +1066,11 @@ msgstr ""
 #: glade/detection.glade:82 linux/detectiontab.cc:39 linux/detectiontab.cc:56
 #: linux/detectiontab.cc:231 linux/detectiontab.cc:245
 #: linux/detectiontab.cc:269 linux/detectiontab.cc:315
-#: linux/detectiontab.cc:370 linux/detectiontab.cc:445
-#: linux/detectiontab.cc:456 linux/detectiontab.cc:473
-#: linux/detectiontab.cc:486 linux/detectiontab.cc:698
-#: linux/detectiontab.cc:723 linux/detectiontab.cc:794
-#: linux/detectiontab.cc:810 linux/detectiontab.cc:974
+#: linux/detectiontab.cc:370 linux/detectiontab.cc:447
+#: linux/detectiontab.cc:458 linux/detectiontab.cc:475
+#: linux/detectiontab.cc:488 linux/detectiontab.cc:700
+#: linux/detectiontab.cc:725 linux/detectiontab.cc:796
+#: linux/detectiontab.cc:812 linux/detectiontab.cc:976
 msgid "ID"
 msgstr ""
 
@@ -1303,8 +1303,8 @@ msgid "Mini slot size"
 msgstr ""
 
 #: glade/detection.glade:626 linux/detectiontab.cc:41
-#: linux/detectiontab.cc:271 linux/detectiontab.cc:796
-#: linux/detectiontab.cc:812
+#: linux/detectiontab.cc:271 linux/detectiontab.cc:798
+#: linux/detectiontab.cc:814
 msgid "MisMatch"
 msgstr ""
 
@@ -1347,10 +1347,10 @@ msgstr ""
 #: linux/detectiontab.cc:52 linux/detectiontab.cc:227
 #: linux/detectiontab.cc:241 linux/detectiontab.cc:265
 #: linux/detectiontab.cc:311 linux/detectiontab.cc:352
-#: linux/detectiontab.cc:441 linux/detectiontab.cc:452
-#: linux/detectiontab.cc:469 linux/detectiontab.cc:482
-#: linux/detectiontab.cc:694 linux/detectiontab.cc:722
-#: linux/detectiontab.cc:790 linux/detectiontab.cc:806
+#: linux/detectiontab.cc:443 linux/detectiontab.cc:454
+#: linux/detectiontab.cc:471 linux/detectiontab.cc:484
+#: linux/detectiontab.cc:696 linux/detectiontab.cc:724
+#: linux/detectiontab.cc:792 linux/detectiontab.cc:808
 #: linux/favoritehubs.cc:28 linux/favoritehubs.cc:54 linux/favoritehubs.cc:149
 #: linux/favoritehubs.cc:161 linux/favoritehubs.cc:197
 #: linux/favoritehubs.cc:238 linux/favoritehubs.cc:255
@@ -1519,8 +1519,8 @@ msgid "Play"
 msgstr ""
 
 #: glade/detection.glade:1007 linux/detectiontab.cc:116
-#: linux/detectiontab.cc:1239 linux/detectiontab.cc:1269
-#: linux/detectiontab.cc:1322
+#: linux/detectiontab.cc:1241 linux/detectiontab.cc:1271
+#: linux/detectiontab.cc:1324
 msgid "Points"
 msgstr ""
 
@@ -1603,10 +1603,10 @@ msgstr ""
 #: linux/detectiontab.cc:53 linux/detectiontab.cc:228
 #: linux/detectiontab.cc:242 linux/detectiontab.cc:268
 #: linux/detectiontab.cc:312 linux/detectiontab.cc:369
-#: linux/detectiontab.cc:442 linux/detectiontab.cc:453
-#: linux/detectiontab.cc:470 linux/detectiontab.cc:483
-#: linux/detectiontab.cc:697 linux/detectiontab.cc:793
-#: linux/detectiontab.cc:809
+#: linux/detectiontab.cc:444 linux/detectiontab.cc:455
+#: linux/detectiontab.cc:472 linux/detectiontab.cc:485
+#: linux/detectiontab.cc:699 linux/detectiontab.cc:795
+#: linux/detectiontab.cc:811
 msgid "Raw"
 msgstr ""
 
@@ -2025,8 +2025,8 @@ msgid "Users"
 msgstr ""
 
 #: glade/detection.glade:756 linux/detectiontab.cc:82
-#: linux/detectiontab.cc:917 linux/detectiontab.cc:1021
-#: linux/detectiontab.cc:1118
+#: linux/detectiontab.cc:919 linux/detectiontab.cc:1023
+#: linux/detectiontab.cc:1120
 msgid "Value"
 msgstr ""
 
@@ -2683,7 +2683,7 @@ msgstr ""
 msgid "Application"
 msgstr ""
 
-#: linux/detectiontab.cc:730
+#: linux/detectiontab.cc:732
 #, c-format, boost-format
 msgid "Are you sure you want to delete Entry \"%s\"?"
 msgstr ""
@@ -2706,7 +2706,7 @@ msgstr ""
 msgid "Are you sure you want to delete ignore user(s)?"
 msgstr ""
 
-#: linux/detectiontab.cc:945 linux/detectiontab.cc:1343
+#: linux/detectiontab.cc:947 linux/detectiontab.cc:1345
 msgid "Are you sure you want to delete item?"
 msgstr ""
 
@@ -2832,7 +2832,7 @@ msgid "Clear search box after each search"
 msgstr ""
 
 #: linux/ADLSearchGUI.cc:663 linux/System.cc:124 linux/cmddebug.cc:153
-#: linux/detectiontab.cc:1476 linux/downloadqueue.cc:1429
+#: linux/detectiontab.cc:1478 linux/downloadqueue.cc:1429
 #: linux/favoritehubs.cc:1273 linux/favoriteusers.cc:649
 #: linux/finishedtransfers.cc:435 linux/highliting.cc:427 linux/hub.cc:3918
 #: linux/ignoreusers.cc:582 linux/notepad.cc:116 linux/privatemessage.cc:1260
@@ -3045,10 +3045,10 @@ msgstr ""
 #: linux/detectiontab.cc:34 linux/detectiontab.cc:55 linux/detectiontab.cc:75
 #: linux/detectiontab.cc:230 linux/detectiontab.cc:244
 #: linux/detectiontab.cc:264 linux/detectiontab.cc:314
-#: linux/detectiontab.cc:444 linux/detectiontab.cc:455
-#: linux/detectiontab.cc:472 linux/detectiontab.cc:485
-#: linux/detectiontab.cc:693 linux/detectiontab.cc:789
-#: linux/detectiontab.cc:805 linux/detectiontab.cc:973
+#: linux/detectiontab.cc:446 linux/detectiontab.cc:457
+#: linux/detectiontab.cc:474 linux/detectiontab.cc:487
+#: linux/detectiontab.cc:695 linux/detectiontab.cc:791
+#: linux/detectiontab.cc:807 linux/detectiontab.cc:975
 msgid "Enable"
 msgstr ""
 
@@ -3136,8 +3136,8 @@ msgstr ""
 msgid "Favorite user quit"
 msgstr ""
 
-#: linux/detectiontab.cc:81 linux/detectiontab.cc:916
-#: linux/detectiontab.cc:1020 linux/detectiontab.cc:1117
+#: linux/detectiontab.cc:81 linux/detectiontab.cc:918
+#: linux/detectiontab.cc:1022 linux/detectiontab.cc:1119
 msgid "Field"
 msgstr ""
 
@@ -3192,8 +3192,8 @@ msgid "Filter kick and NMDC debug messages"
 msgstr ""
 
 #: linux/detectiontab.cc:40 linux/detectiontab.cc:270
-#: linux/detectiontab.cc:699 linux/detectiontab.cc:795
-#: linux/detectiontab.cc:811
+#: linux/detectiontab.cc:701 linux/detectiontab.cc:797
+#: linux/detectiontab.cc:813
 msgid "Flag"
 msgstr ""
 
@@ -3254,8 +3254,8 @@ msgstr ""
 msgid "Higlitings"
 msgstr ""
 
-#: linux/detectiontab.cc:83 linux/detectiontab.cc:918
-#: linux/detectiontab.cc:1022 linux/detectiontab.cc:1119 linux/search.cc:90
+#: linux/detectiontab.cc:83 linux/detectiontab.cc:920
+#: linux/detectiontab.cc:1024 linux/detectiontab.cc:1121 linux/search.cc:90
 #: linux/search.cc:578 linux/search.cc:674 linux/search.cc:803
 #: linux/settingsdialog.cc:1525 linux/settingsdialog.cc:1535
 #: linux/settingsdialog.cc:2567 linux/settingsdialog.cc:2641
@@ -3934,8 +3934,8 @@ msgstr ""
 
 #: linux/detectiontab.cc:54 linux/detectiontab.cc:229
 #: linux/detectiontab.cc:243 linux/detectiontab.cc:313
-#: linux/detectiontab.cc:443 linux/detectiontab.cc:454
-#: linux/detectiontab.cc:471 linux/detectiontab.cc:484 linux/searchspy.cc:53
+#: linux/detectiontab.cc:445 linux/detectiontab.cc:456
+#: linux/detectiontab.cc:473 linux/detectiontab.cc:486 linux/searchspy.cc:53
 #: linux/searchspy.cc:265 linux/searchspy.cc:290 linux/searchspy.cc:306
 msgid "Time"
 msgstr ""
