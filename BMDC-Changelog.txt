@@ -260,3 +260,5 @@ Small Fix Det. Settings
 Small Fix with compaktibility with CZDC
 Make NICK Item insensible from user actions/events
 Add ubu smailpack
+Remove Auto-gran slot colum from Ignore Users tab
+Small Fix to open Notepad,System, Ignore after start program

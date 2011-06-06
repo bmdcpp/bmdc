@@ -117,7 +117,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("search-spy-waiting", 40));
 	defaultInt.insert(IntMap::value_type("search-spy-top", 4));
 	defaultInt.insert(IntMap::value_type("magnet-action", -1));//default show magnet dialog
-///[core 0.762 NOTE: удалены из libdcpp
+	///[core 0.762
 	defaultInt.insert(IntMap::value_type("open-public", 0));
 	defaultInt.insert(IntMap::value_type("open-favorite-hubs", 0));
 	defaultInt.insert(IntMap::value_type("open-queue", 0));

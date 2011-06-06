@@ -1,6 +1,6 @@
-//      favoriteusers.cpp
+//      ignoreusers.cpp
 //
-//      Copyright 2009 Mank <mank@besthub.eu>
+//      Copyright 2009 Mank <mank@no-ip.sk>
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -30,21 +30,17 @@
 
 #include "settingsmanager.hh"
 
-
 using namespace std;
 using namespace dcpp;
-
 
 ignoreusers::ignoreusers():
 BookEntry(Entry::IGNORE_USERS,_("Ignore Users"),"ignoreeusers.glade")
 {
-
 		// Configure the dialog
 		gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("DescriptionDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
 
 		// Initialize favorite users list treeview
 		favoriteUserView.setView(GTK_TREE_VIEW(getWidget("favoriteUserView")), TRUE, "favoriteusers");
-		favoriteUserView.insertColumn(N_("Auto grant slot"), G_TYPE_BOOLEAN, TreeView::BOOL, 100);
 		favoriteUserView.insertColumn(N_("Nick"), G_TYPE_STRING, TreeView::ICON_STRING, 100, "Icon");
 		favoriteUserView.insertColumn(N_("Hub (last seen in, if offline)"), G_TYPE_STRING, TreeView::STRING, 200);
 		favoriteUserView.insertColumn(N_("Time last seen"), G_TYPE_STRING, TreeView::STRING, 120);
@@ -64,7 +60,7 @@ BookEntry(Entry::IGNORE_USERS,_("Ignore Users"),"ignoreeusers.glade")
 		GtkTreeViewColumn *column = gtk_tree_view_get_column(favoriteUserView.get(), favoriteUserView.col(N_("Nick")));
 		gtk_widget_grab_focus(column->button);
 
-		/*CONECT TO SIGNAL*/
+		/*conect to signals*/
 
 		g_signal_connect(getWidget("browseItem"), "activate", G_CALLBACK(onBrowseItemClicked_gui), (gpointer)this);
 		g_signal_connect(getWidget("matchQueueItem"), "activate", G_CALLBACK(onMatchQueueItemClicked_gui), (gpointer)this);
@@ -102,7 +98,6 @@ void ignoreusers::show()
 
 		gtk_list_store_append(favoriteUserStore, &iter);
 		gtk_list_store_set(favoriteUserStore, &iter,
-			favoriteUserView.col(N_("Auto grant slot")), user.isSet(FavoriteUser::FLAG_GRANTSLOT) ? TRUE : FALSE,
 			favoriteUserView.col(N_("Nick")), user.getNick().c_str(),
 			favoriteUserView.col(N_("Hub (last seen in, if offline)")), hub.c_str(),
 			favoriteUserView.col(N_("Time last seen")), seen.c_str(),
@@ -583,7 +578,6 @@ void ignoreusers::popmenu()
     gtk_menu_shell_append(GTK_MENU_SHELL(getNewTabMenu()),closeMenuItem);
 
     g_signal_connect_swapped(closeMenuItem, "activate",G_CALLBACK(onCloseItem),this);
-
 }
 
 void ignoreusers::onCloseItem(gpointer data)

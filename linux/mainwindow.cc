@@ -464,8 +464,14 @@ void MainWindow::autoOpen_gui()
 		showFinishedUploads_gui();
 	if (WGETB("open-search-spy"))
 		showSearchSpy_gui();
+	/**/	
+	if (WGETB("open-notepad"))
+		showNotepad_gui();
+	if (WGETB("open-ignore"))
+		showIgnore_gui();
+	if (WGETB("open-system"))
+		showSystem_gui();
 //NOTE: core 0.762
-	//@@ ADD me tab
 }
 
 void MainWindow::getAway()

@@ -1265,7 +1265,7 @@ void Settings::initAppearance_gui()
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type modem (away)"), "icon-modem-away");
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type modem (pasive)"), "icon-modem-pasive");
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type modem (pasive&away)"), "icon-modem-away-pasive");
-        /*wirilies*/
+        /*wireles*/
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type wireless "), "icon-wireless");
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type wireless (away)"), "icon-wireless-away");
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type wireless (pasive)"), "icon-wireless-pasive");
@@ -1426,7 +1426,7 @@ void Settings::initAppearance_gui()
 
 	{ // Window
 		// Auto-open
-///[core 0.762 NOTE: удалены из libdcpp
+///[core 0.762
 		createOptionsView_gui(windowView1, windowStore1, "windowsAutoOpenTreeView");
 
 		addOption_gui(windowStore1, _("Public Hubs"), "open-public");
