@@ -1744,3 +1744,71 @@ GdkPixbuf *WulforUtil::loadIconSB(std::string ext)
 	return icon_d;	
 	
 }
+
+/*see http://svn.xiph.org/trunk/sushivision/gtksucks.c */
+void WulforUtil::my_gtk_widget_remove_events (GtkWidget *widget,gint       events)
+{
+  
+  g_return_if_fail (GTK_IS_WIDGET (widget));
+
+  GQuark quark_event_mask = g_quark_from_static_string ("gtk-event-mask");
+  gint *eventp = g_object_get_qdata (G_OBJECT (widget), quark_event_mask);
+  gint original_events = events;
+  
+  if (!eventp){
+    eventp = g_slice_new (gint);
+    *eventp = 0;
+  }
+  
+  events = ~events;
+  events &= *eventp;
+
+  if(events)
+  { 
+    *eventp = events;
+    g_object_set_qdata (G_OBJECT (widget), quark_event_mask, eventp);
+  }
+  else
+  {
+    g_slice_free (gint, eventp);
+    g_object_set_qdata (G_OBJECT (widget), quark_event_mask, NULL);
+  }
+
+  if (GTK_WIDGET_REALIZED (widget))
+  {
+    GList *window_list;
+    
+    if (GTK_WIDGET_NO_WINDOW (widget))
+      window_list = gdk_window_get_children (widget->window);
+    else
+      window_list = g_list_prepend (NULL, widget->window);
+    
+    remove_events_internal (widget, original_events, window_list);
+    
+    g_list_free (window_list);
+  }
+  
+  g_object_notify (G_OBJECT (widget), "events");
+}
+
+void WulforUtil::remove_events_internal (GtkWidget *widget, gint events, GList     *window_list)
+{
+  GList *l;
+  
+  for (l = window_list; l != NULL; l = l->next)
+  {
+    GdkWindow *window = l->data;
+    gpointer user_data;
+    
+    gdk_window_get_user_data (window, &user_data);
+    if (user_data == widget){
+      GList *children;
+      
+      gdk_window_set_events (window, gdk_window_get_events(window) & (~events));
+      
+      children = gdk_window_get_children (window);
+      remove_events_internal (widget, events, children);
+      g_list_free (children);
+    }
+  }
+}

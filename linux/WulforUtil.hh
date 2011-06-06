@@ -91,7 +91,9 @@ class WulforUtil
 		static std::vector<std::pair<std::string,int> >& getActions();
 		/*Load Icon of SH based on .ext*/
 		static GdkPixbuf *loadIconSB(std::string ext);
-		
+		/*remove events from widget*/
+		static void my_gtk_widget_remove_events (GtkWidget *widget,gint events);
+				
 		static const std::string ENCODING_LOCALE;
 
 	private:
@@ -105,7 +107,7 @@ class WulforUtil
 		static std::map<std::string,std::string> m_mimetyp;//.avi - > mimetype
 		static std::string StringToUpper(std::string myString);
 		static std::string generateLeech();
-		
+		static void remove_events_internal (GtkWidget *widget, gint events, GList *window_list);
 		static void loadmimetypes();
 
 };

@@ -258,3 +258,5 @@ Fix groups
 Add Support as Userlist column
 Small Fix Det. Settings
 Small Fix with compaktibility with CZDC
+Make NICK Item insensible from user actions/events
+Add ubu smailpack

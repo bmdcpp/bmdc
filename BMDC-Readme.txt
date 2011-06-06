@@ -35,7 +35,7 @@ Installing:
 
 Running:
 --------
-$ freedcpp
+$ bmdc
 
 Uninstalling:
 -------------
