@@ -20,7 +20,6 @@
 #include "DCPlusPlus.h"
 
 #include "Download.h"
-
 #include "UserConnection.h"
 #include "QueueItem.h"
 #include "HashManager.h"
@@ -64,7 +63,6 @@ Download::Download(UserConnection& conn, QueueItem& qi, const string& path, bool
 			setTreeValid(true);
 			setSegment(qi.getNextSegment(getTigerTree().getBlockSize(), 0, 0, source->getPartialSource()));
 		}
-
 	}
 }
 

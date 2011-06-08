@@ -254,6 +254,8 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("icon-hub-offline","bmdc-hub-offline"));
 	defaultString.insert(StringMap::value_type("icon-highlight","bmdc-highlight"));
 	defaultString.insert(StringMap::value_type("icon-limiting","bmdc-limiting"));
+	
+	defaultString.insert(StringMap::value_type("icon-normal", "bmdc-normal"));
 	/*Icon of conn*/
 	defaultString.insert(StringMap::value_type("icon-op", "bmdc-op"));
 	defaultString.insert(StringMap::value_type("icon-modem", "bmdc-modem"));

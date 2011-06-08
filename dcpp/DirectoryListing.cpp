@@ -31,7 +31,7 @@
 #include "CryptoManager.h"
 #include "ResourceManager.h"
 #include "User.h"
-#include "RegexUtil.h" //RSX++//m
+#include "RegexUtil.h" //RSX++
 #include "MerkleTree.h"
 
 #ifdef ff

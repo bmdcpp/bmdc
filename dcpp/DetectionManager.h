@@ -16,8 +16,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef RSXPLUSPLUS_DETECTION_MANAGER_H
-#define RSXPLUSPLUS_DETECTION_MANAGER_H
+#ifndef DETECTION_MANAGER_H
+#define DETECTION_MANAGER_H
 
 #include "Singleton.h"
 #include "CriticalSection.h"

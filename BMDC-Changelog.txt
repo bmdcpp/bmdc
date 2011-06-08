@@ -262,3 +262,4 @@ Make NICK Item insensible from user actions/events
 Add ubu smailpack
 Remove Auto-gran slot colum from Ignore Users tab
 Small Fix to open Notepad,System, Ignore after start program
+Fix normal icon in Favorite & Ignore tab

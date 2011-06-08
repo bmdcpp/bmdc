@@ -276,11 +276,11 @@ void Identity::logDetect(bool successful) {
 		if(successful) {
 			//RSXPP_SET(TOTAL_DETECTS, RSXPP_SETTING(TOTAL_DETECTS) + 1);
 			int a = SETTING(DETECTT);
-			sm->set(SettingsManager::DETECTT ,a+1);
+			sm->set(SettingsManager::DETECTT ,a + 1);
 		} else {
 			//RSXPP_SET(TOTAL_FAILED_DETECTS, RSXPP_SETTING(TOTAL_FAILED_DETECTS) + 1);
 			int b = SETTING(DETECTF);
-			sm->set(SettingsManager::DETECTF ,b+1);
+			sm->set(SettingsManager::DETECTF ,b + 1);
 		}
 
 	}

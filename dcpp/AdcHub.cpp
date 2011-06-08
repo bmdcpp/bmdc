@@ -113,7 +113,6 @@ void AdcHub::putUser(const uint32_t aSID, bool disconnect) {
 
 	fire(ClientListener::UserRemoved(), this, *ou);
 	ou->dec();
-	//delete ou;
 }
 
 void AdcHub::clearUsers() {
@@ -819,12 +818,12 @@ void AdcHub::info(bool /*alwaysSend*/) {
 	}
 
 	bool gslotf = BOOLSETTING(SHOW_FREE_SLOTS_DESC);
-   string gslot = "["+Util::toString(UploadManager::getInstance()->getFreeSlots())+"]";
+   string gslot = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
 
 	addParam(lastInfoMap, c, "ID", ClientManager::getInstance()->getMyCID().toBase32());
 	addParam(lastInfoMap, c, "PD", ClientManager::getInstance()->getMyPID().toBase32());
 	addParam(lastInfoMap, c, "NI", getCurrentNick());
-	addParam(lastInfoMap, c, "DE", gslotf ? gslot+" "+getCurrentDescription() : getCurrentDescription());
+	addParam(lastInfoMap, c, "DE", gslotf ? gslot + " " + getCurrentDescription() : getCurrentDescription());
 	addParam(lastInfoMap, c, "SL", Util::toString(SETTING(SLOTS)));
 	addParam(lastInfoMap, c, "SS", getHideShare() ? "0" : ShareManager::getInstance()->getShareSizeString());
 	addParam(lastInfoMap, c, "SF", getHideShare() ? "0" : Util::toString(ShareManager::getInstance()->getSharedFiles()));

@@ -1134,6 +1134,7 @@ void WulforUtil::registerIcons()
 	icons["bmdc-file"] = wsm->getString("icon-file");
 	icons["bmdc-directory"] = wsm->getString("icon-directory");
 
+	icons["bmdc-normal"] = wsm->getString("icon-normal");
     /*normal mode*/
 	icons["bmdc-op"] = wsm->getString("icon-op");
 	icons["bmdc-modem"] = wsm->getString("icon-modem");
@@ -1324,13 +1325,18 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			long uhour= (upt % day) / hour;
 			long umin = (upt % hour) / minute;
 			const unsigned long megabyte = 1024;
+			/**/
+			int dettotal = SETTING(DETECTT);
+			int detfail = SETTING(DETECTF);
 
-		message = "\n-=Stats "+string(GUI_PACKAGE)+dcpp::fullVersionString+"=-\n"
-					+sys_name+" "+node_name+" "+rel+" "+mach+"\n"
-					+"Uptime: "+Util::formatSeconds(Util::getUptime())+"\n"
-					+"Sys Uptime: "+Util::toString(udays)+" days," +Util::toString(uhour)+" Hours,"+Util::toString(umin)+" min.\n"
-					+"Time: "+Util::getShortTimeString()+"\n"
-					+"Mem Usage (Free/Total):"+Util::toString(uram/megabyte)+" MB /"+Util::toString(toram/megabyte)+" MB \n";
+		message = "\n-=Stats " + string(GUI_PACKAGE) + " " + string(GUI_VERSION_STRING) + "/" + dcpp::fullVersionString + "=-\n"
+					+ sys_name + " " + node_name + " " + rel + " " + mach + "\n"
+					+ "Uptime: " + Util::formatSeconds(Util::getUptime()) + "\n"
+					+ "Sys Uptime: " + Util::toString(udays) + " days," + Util::toString(uhour) + " Hours," + Util::toString(umin) + " min.\n"
+					+ "Time: " + Util::getShortTimeString() + "\n"
+					+ "Mem Usage (Free/Total):" + Util::toString(uram/megabyte) + " MB /" + Util::toString(toram/megabyte) + " MB \n"
+					+ "Detection (failed/total) :" + Util::toString(detfail) + " /" + Util::toString(dettotal) + "\n";
+					
 	}
 	/// "Now Playing" spam // added by curse and Irene
 	else if (cmd == "amar")

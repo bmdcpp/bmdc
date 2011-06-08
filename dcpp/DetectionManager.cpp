@@ -24,7 +24,7 @@
 #include "FilteredFile.h"
 #include "BZUtils.h"
 
-#include "SettingsManager.h"//rsxp
+#include "SettingsManager.h"//rsx
 
 namespace dcpp {
 

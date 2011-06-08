@@ -816,7 +816,7 @@ void ConnectionManager::on(UserConnectionListener::Supports, UserConnection* con
 			conn->setFlag(UserConnection::FLAG_SUPPORTS_TTHF);
 		}
 	}
-	//det
+	//detection
 	if(conn->getUser())
 		ClientManager::getInstance()->setSupports(conn->getUser(), sup);
 
