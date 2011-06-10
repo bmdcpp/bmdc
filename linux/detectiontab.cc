@@ -304,7 +304,7 @@ void DetectionTab::onEditActRaw(GtkWidget *widget,gpointer data)
 	DetectionTab *dt = (DetectionTab *)data;
 	GtkTreeIter	iter;
 
-	if (!gtk_tree_selection_get_selected(dt->detectionSelection, NULL, &iter))
+	if (!gtk_tree_selection_get_selected(dt->actionRawSelection,NULL, &iter))
 		return;
 
 	StringMap params;
@@ -336,18 +336,15 @@ void DetectionTab::onEditActRaw(GtkWidget *widget,gpointer data)
 		typedef Func1<DetectionTab,StringMap> F1;
 		F1 *func = new F1(dt,&DetectionTab::editRawAct_client, params);
 		WulforManager::get()->dispatchClientFunc(func);
-
 	}
-
 }
-
 
 void DetectionTab::onRemoveActRaw(GtkWidget *widget , gpointer data)
 {
 	DetectionTab *dt = (DetectionTab *)data;
 	GtkTreeIter iter;
 
-	if (gtk_tree_selection_get_selected(dt->detectionSelection, NULL, &iter))
+	if (gtk_tree_selection_get_selected(dt->actionRawSelection, NULL, &iter))
 	{
 		string name = dt->actionRawView.getString(&iter, N_("Name"));
 
@@ -433,8 +430,7 @@ bool DetectionTab::showAddActRawDialog(StringMap &params,DetectionTab *dt)
 void DetectionTab::addActRaw_gui(StringMap params)
 {
 		GtkTreeIter iter,child;
-		int Id = Util::toInt(params["ID"]);
-		int q;
+		int Id = Util::toUInt32(params["ID"]);
 		if(!(params["Type"] == "1"))
 		{
 			if(findAct_gui(Id,&iter))
@@ -444,7 +440,7 @@ void DetectionTab::addActRaw_gui(StringMap params)
 												actionRawView.col(N_("Raw")), "",
 												actionRawView.col(N_("Time")), 0,
 												actionRawView.col(N_("Enable")), params["Enabled"].c_str(),
-												actionRawView.col(N_("ID")), Util::toInt(params["ID"]),
+												actionRawView.col(N_("ID")), /*Util::toInt(params["ID"])*/Id,
 												-1);
 			}
 			else
@@ -462,7 +458,7 @@ void DetectionTab::addActRaw_gui(StringMap params)
 		}
 		else
 		{
-			q = Util::toInt(params["Action"]);
+			int q = Util::toUInt32(params["Action"]);
 			if(findAct_gui(q,&iter))
 			{
 				if(findRaw_gui(Id,&child))
@@ -478,8 +474,11 @@ void DetectionTab::addActRaw_gui(StringMap params)
 				}
 				else
 				{
+				    GtkTreeModel *model = GTK_TREE_MODEL(actionRawStore);
+                    if(gtk_tree_model_iter_parent(model,&iter,&child))
+                    {
 
-					gtk_tree_store_append(actionRawStore,&child,&iter);
+					//gtk_tree_store_append(actionRawStore,&child,&iter);
 					gtk_tree_store_set(actionRawStore,&child,
 												actionRawView.col(N_("Name")), params["Name"].c_str(),
 												actionRawView.col(N_("Raw")), params["RAW"].c_str(),
@@ -487,6 +486,7 @@ void DetectionTab::addActRaw_gui(StringMap params)
 												actionRawView.col(N_("Enable")), params["Enabled"].c_str(),
 												actionRawView.col(N_("ID")), Util::toInt(params["ID"]),
 												-1);
+                    }
 				}
 			}
     	}
@@ -740,46 +740,19 @@ void DetectionTab::onRemoveEntryDet(GtkWidget *widget, gpointer data)
 
 				}
 
-		//dt->removeEntryDet_gui(name,(int)id);
+		dt->removeEntryDet_gui((uint32_t)id);
 		typedef Func1<DetectionTab,int> F1;
 		F1 *func = new F1(dt,&DetectionTab::removeEntryDet_client,(int)id);
 		WulforManager::get()->dispatchClientFunc(func);
 	}
 }
 
-/*void DetectionTab::removeEntryDet_gui(string _name,int _id)
+void DetectionTab::removeEntryDet_gui(uint32_t _id)
 {
-	gboolean valid,gvalid;
-	GtkTreeIter iter,giter;
-
-	valid = gtk_tree_model_get_iter_first(models,&iter);
-
-	while(valid)
-	{
-		char *name,*cheat,*com;
-		int *id,*raw;
-		bool enb;
-
-		gtk_tree_model_get(models,&iter,
-								COLUMN,&enb,
-								NAME,&name,
-								CHEAT,&cheat,
-								COMMENT,&com,
-								RAWS,&raw,
-								IDS,&id,
-							-1);
-
-
-			if(name == _name && id == _id)
-			{
-				gtk_tree_store_remove(GTK_TREE_STORE(models),&iter);
-				break;
-			}
-
-
-			valid = gtk_tree_model_iter_next (models, &iter);
-	}
-}*/
+    GtkTreeIter iter;
+    if(findProf_gui(_id,&iter))
+        gtk_list_store_remove(detectionStore,&iter);
+}
 
 void DetectionTab::addEntryDet_gui(dcpp::StringMap params)
 {
@@ -813,10 +786,12 @@ void DetectionTab::addEntryDet_gui(dcpp::StringMap params)
 												detectionView.col(N_("Flag")),Util::toInt(params["Flag"]),
 												detectionView.col(N_("MisMatch")),Util::toInt(params["MisMatch"]),
 												-1);
+				profiles.insert(Prof::value_type(id,iter));
 		}
 }
 
 void DetectionTab::addEntryDet_client(dcpp::StringMap params){
+
 	DetectionEntry entry;
 	entry.name = params["Name"];
 	entry.cheat = params["Cheat"];

@@ -21,7 +21,7 @@ class DetectionTab:
 	private:
         ///GUI
         static void onCloseItem(gpointer data);
-		
+
 		///1page
 		typedef std::tr1::unordered_map<int, GtkTreeIter> ActRaw;
 		static void onAddActRaw(GtkWidget *widget,gpointer data);
@@ -38,11 +38,11 @@ class DetectionTab:
 		bool findAct_gui(const int &Id, GtkTreeIter *iter);
 		bool findRaw_gui(const int &Id, GtkTreeIter *iter);
 
-		
+
 		TreeView actionRawView;
 		GtkTreeStore *actionRawStore;
 		GtkTreeSelection *actionRawSelection;
-		
+
 		ActRaw actions;
 		ActRaw raws;
 		///2page
@@ -56,12 +56,12 @@ class DetectionTab:
 		void addMap_gui(dcpp::StringMap params);
 		void editMap_gui(dcpp::StringMap &params,GtkTreeIter *iter);
 		bool showAddEntryDetDialog(dcpp::StringMap &params,DetectionTab *dt);
-		void removeEntryDet_gui(std::string _name,int _id);
+		void removeEntryDet_gui(uint32_t _id);
 		void addEntryDet_gui(dcpp::StringMap params);
 		void addEntryDet_client(dcpp::StringMap params);
 		void editEntryDet_client(int id,dcpp::StringMap params);
 		void removeEntryDet_client(int id);
-		
+
 		/**/
 		GtkListStore *detectionStore;
 		TreeView detectionView;
@@ -97,7 +97,7 @@ class DetectionTab:
 		void editPoints_gui(dcpp::StringMap& params,GtkTreeIter *iter);
 		bool showAddPointsDialog(dcpp::StringMap &params,DetectionTab *dt);
 		dcpp::IntMap imap;
-		
+
 };
 #else
 class DetectionTab;
