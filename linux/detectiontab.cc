@@ -107,6 +107,7 @@ BookEntry(Entry::DET,_("Detection Settings"),"detection.glade")
 	WulforUtil::drop_combo(getWidget("comboboxentry1ADLA"),act);
 	/**/
 	WulforUtil::drop_combo(getWidget("comboboxentryactionp1"),act);
+	WulforUtil::drop_combo(getWidget("comboboxentryAct"),act);
 	/**/
 
 	g_signal_connect(getWidget("button7Save"), "clicked", G_CALLBACK(onSave), (gpointer)this);
@@ -325,8 +326,6 @@ void DetectionTab::onEditActRaw(GtkWidget *widget,gpointer data)
 	{
 		params["Type"] = "1";
 		params["Action"] = Util::toString(dt->find_raw(a->getName()));///
-
-
 	}
 
 	bool isOk = dt->showAddActRawDialog(params,dt);
@@ -431,7 +430,7 @@ void DetectionTab::addActRaw_gui(StringMap params)
 {
 		GtkTreeIter iter,child;
 		int Id = Util::toUInt32(params["ID"]);
-		if(!(params["Type"] == "1"))
+		if(!(params["Type"] == "0"))
 		{
 			if(findAct_gui(Id,&iter))
 			{
@@ -451,14 +450,14 @@ void DetectionTab::addActRaw_gui(StringMap params)
 												actionRawView.col(N_("Raw")), "",
 												actionRawView.col(N_("Time")), 0,
 												actionRawView.col(N_("Enable")), params["Enabled"].c_str(),
-												actionRawView.col(N_("ID")), Util::toInt(params["ID"]),
+												actionRawView.col(N_("ID")), /*Util::toInt(params["ID"])*/Id,
 												-1);
 			}
 
 		}
 		else
 		{
-			int q = Util::toUInt32(params["Action"]);
+			int q = Util::toInt(params["Action"]);
 			if(findAct_gui(q,&iter))
 			{
 				if(findRaw_gui(Id,&child))
@@ -474,11 +473,11 @@ void DetectionTab::addActRaw_gui(StringMap params)
 				}
 				else
 				{
-				    GtkTreeModel *model = GTK_TREE_MODEL(actionRawStore);
-                    if(gtk_tree_model_iter_parent(model,&iter,&child))
-                    {
+				    //GtkTreeModel *model = GTK_TREE_MODEL(actionRawStore);
+                    //if(gtk_tree_model_iter_parent(model,&iter,&child))
+                    //{
 
-					//gtk_tree_store_append(actionRawStore,&child,&iter);
+					gtk_tree_store_append(actionRawStore,&child,&iter);
 					gtk_tree_store_set(actionRawStore,&child,
 												actionRawView.col(N_("Name")), params["Name"].c_str(),
 												actionRawView.col(N_("Raw")), params["RAW"].c_str(),
@@ -486,7 +485,7 @@ void DetectionTab::addActRaw_gui(StringMap params)
 												actionRawView.col(N_("Enable")), params["Enabled"].c_str(),
 												actionRawView.col(N_("ID")), Util::toInt(params["ID"]),
 												-1);
-                    }
+                    //}
 				}
 			}
     	}
@@ -549,7 +548,7 @@ void DetectionTab::removeEntry_gui(string _name,int _id,string _action)
 */
 void DetectionTab::addRawAct_client(StringMap params)
 {
-	bool raw= false;
+	bool raw = false;
 	if(params["Type"] == "1")
 		raw = true;
 
@@ -563,13 +562,14 @@ void DetectionTab::addRawAct_client(StringMap params)
 	{
 		Action* a = RawManager::getInstance()->findAction(Util::toInt(params["Action"]));
 		Raw *raw = new Raw();
-		raw->setId(Util::toInt(params["ID"]));
+		//raw->setId(Util::toInt(params["ID"]));
 		raw->setName(params["Name"]);
 		raw->setRaw(params["RAW"]);
 		raw->setTime(Util::toInt(params["Time"]));
 		raw->setEnabled(true);
 
 		Raw* r = RawManager::getInstance()->addRaw(a,*raw);
+		g_print("OK");
 
 	}
 	RawManager::getInstance()->unlock();
@@ -1151,7 +1151,7 @@ bool DetectionTab::findRaw_gui(const int &Id, GtkTreeIter *iter)
 /*Util func*/
 int DetectionTab::find_raw(string rawString)
 {
-	int raw =0;
+	int raw = 0;
 	vector<std::pair<std::string,int> >& act = WulforUtil::getActions();
 	for (vector<std::pair<std::string,int> >::const_iterator it = act.begin(); it != act.end(); ++it)
 	{
@@ -1162,8 +1162,8 @@ int DetectionTab::find_raw(string rawString)
 }
 int DetectionTab::find_rawInt(int raw)
 {
-	int _raw =0;
-	int i=0;
+	int _raw = 0;
+	int i = 0;
 	vector<std::pair<std::string,int> >& act = WulforUtil::getActions();
 	for (vector<std::pair<std::string,int> >::const_iterator it = act.begin(); it != act.end(); ++it)
 	{

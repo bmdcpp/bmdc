@@ -546,6 +546,20 @@ void ClientManager::search(StringList& who, int aSizeMode, int64_t aSize, int aF
 	}
 }
 
+void ClientManager::search(StringList& who, int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken, const StringList& aExtList) {
+	Lock l(cs);
+
+	for(StringIter it = who.begin(); it != who.end(); ++it) {
+		string& client = *it;
+		for(Client::Iter j = clients.begin(); j != clients.end(); ++j) {
+			Client* c = *j;
+			if(c->isConnected() && c->getHubUrl() == client) {
+				c->search(aSizeMode, aSize, aFileType, aString, aToken, aExtList);
+			}
+		}
+	}
+}
+
 void ClientManager::on(TimerManagerListener::Minute, uint64_t /* aTick */) throw() {
 	Lock l(cs);
 

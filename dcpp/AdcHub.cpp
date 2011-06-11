@@ -768,6 +768,52 @@ void AdcHub::search(int aSizeMode, int64_t aSize, int aFileType, const string& a
 	}
 }
 
+void AdcHub::search(int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken, const StringList& aExtList) {
+	if(state != STATE_NORMAL)
+		return;
+
+	AdcCommand c(AdcCommand::CMD_SCH, AdcCommand::TYPE_BROADCAST);
+
+	if(aFileType == SearchManager::TYPE_TTH) {
+		c.addParam("TR", aString);
+	} else {
+		if(aSizeMode == SearchManager::SIZE_ATLEAST) {
+			c.addParam("GE", Util::toString(aSize));
+		} else if(aSizeMode == SearchManager::SIZE_ATMOST) {
+			c.addParam("LE", Util::toString(aSize));
+		}
+		StringTokenizer<string> st(aString, ' ');
+		for(StringIter i = st.getTokens().begin(); i != st.getTokens().end(); ++i) {
+			c.addParam("AN", *i);
+		}
+		if(aFileType == SearchManager::TYPE_DIRECTORY) {
+			c.addParam("TY", "2");
+		}
+		if (!aExtList.empty()) {
+			for(StringIterC i = aExtList.begin(); i != aExtList.end(); ++i) {
+				c.addParam("EX", *i);
+			}
+		}
+	}
+
+	if(!aToken.empty())
+		c.addParam("TO", aToken);
+
+	if(ClientManager::getInstance()->isActive()) {
+		send(c);
+	} else {
+		c.setType(AdcCommand::TYPE_FEATURE);
+#ifndef DISABLE_NAT_TRAVERSAL
+		c.setFeatures("+TCP4-NAT0");
+		send(c);
+		c.setFeatures("+NAT0");
+#else
+		c.setFeatures("+TCP4");
+#endif
+		send(c);
+	}
+}
+
 void AdcHub::password(const string& pwd) {
 	if(state != STATE_VERIFY)
 		return;

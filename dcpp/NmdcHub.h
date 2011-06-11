@@ -32,6 +32,7 @@
 #ifdef _USELUA
 	#include "ScriptManager.h"
 #endif
+
 #include "HubUsersMap.h"//rsx++
 //end
 namespace dcpp {
@@ -58,6 +59,8 @@ public:
 	virtual void privateMessage(const OnlineUser& aUser, const string& aMessage, bool /*thirdPerson*/ = false);
 	virtual void sendUserCmd(const UserCommand& command, const StringMap& params);
 	virtual void search(int aSizeType, int64_t aSize, int aFileType, const string& aString, const string& aToken);
+	virtual void search(int aSizeType, int64_t aSize, int aFileType, const string& aString, const string& aToken, const StringList& aExtList)
+	{  search(aSizeType,aSize,aFileType, aString, aToken); }
 	virtual void password(const string& aPass) { send("$MyPass " + fromUtf8(aPass) + "|"); }
 	virtual void info(bool force) { myInfo(force); }
 	void sendUserCmd(const string& aUserCmd) throw() { send(fromUtf8(aUserCmd)); }
@@ -121,7 +124,7 @@ private:
 	uint32_t lastProtectedIPsUpdate;
 	StringList protectedIPs;
 
-	NmdcHub(const string& aHubURL);
+	NmdcHub(const string& aHubURL) throw();
 	virtual ~NmdcHub() throw();
 
 	// Dummy
@@ -165,7 +168,6 @@ private:
 	string startChecking(const string& aParams) { return users.startChecking(this, aParams); }//ch
 	void stopChecking()	{ users.stopCheck(); }//ch
 	void stopMyINFOCheck() { users.stopMyINFOCheck(); }//ch
-
 
 };
 

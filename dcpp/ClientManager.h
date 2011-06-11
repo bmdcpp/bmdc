@@ -72,6 +72,7 @@ public:
 
 	void search(int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken);
 	void search(StringList& who, int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken);
+	void search(StringList& who, int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken, const StringList& aExtList);
 	void infoUpdated();
 
 	UserPtr getUser(const string& aNick, const string& aHubUrl) throw();

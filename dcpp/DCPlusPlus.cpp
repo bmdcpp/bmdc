@@ -35,6 +35,7 @@
 #include "ResourceManager.h"
 #include "ADLSearch.h"
 #include "WindowManager.h"
+#include "UPnPManager.h"
 #include "ThrottleManager.h"
 #ifdef _USELUA
 	#include "ScriptManager.h"
@@ -91,6 +92,7 @@ void startup(void (*f)(void*, const string&), void* p) {
 	FavoriteManager::newInstance();
 	FinishedManager::newInstance();
 	ADLSearchManager::newInstance();
+	UPnPManager::newInstance();//
 	WindowManager::newInstance();
 
 	DebugManager::newInstance();
@@ -165,7 +167,7 @@ void shutdown() {
 #endif
 
 	ConnectionManager::getInstance()->shutdown();
-
+	UPnPManager::getInstance()->close();
 	BufferedSocket::waitShutdown();
 
 	WindowManager::getInstance()->prepareSave();
@@ -175,6 +177,7 @@ void shutdown() {
 
 	HighlightManager::deleteInstance();
 	WindowManager::deleteInstance();
+	UPnPManager::deleteInstance();
 	ADLSearchManager::deleteInstance();
 	FinishedManager::deleteInstance();
 	ShareManager::deleteInstance();

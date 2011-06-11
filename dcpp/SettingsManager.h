@@ -24,6 +24,7 @@
 #include "Singleton.h"
 
 namespace dcpp {
+STANDARD_EXCEPTION(SearchTypeException);
 
 class SimpleXML;
 
@@ -34,14 +35,20 @@ public:
 
 	typedef X<0> Load;
 	typedef X<1> Save;
+	typedef X<2> SearchTypesChanged;
 
 	virtual void on(Load, SimpleXML&) throw() { }
 	virtual void on(Save, SimpleXML&) throw() { }
+	virtual void on(SearchTypesChanged) throw() { }
 };
 
 class SettingsManager : public Singleton<SettingsManager>, public Speaker<SettingsManagerListener>
 {
 public:
+	typedef std::tr1::unordered_map<string, StringList> SearchTypes;
+	typedef SearchTypes::iterator SearchTypesIter;
+	typedef SearchTypes::const_iterator SearchTypesIterC;
+
 	static StringList connectionSpeeds;
 
 	enum StrSetting { STR_FIRST,
@@ -230,6 +237,19 @@ public:
 
 	bool getType(const char* name, int& n, int& type) const;
 
+	// Search types
+	void validateSearchTypeName(const string& name) const;
+	void setSearchTypeDefaults();
+	void addSearchType(const string& name, const StringList& extensions, bool validated = false);
+	void delSearchType(const string& name);
+	void renameSearchType(const string& oldName, const string& newName);
+	void modSearchType(const string& name, const StringList& extensions);
+
+	const SearchTypes& getSearchTypes() const {
+		return searchTypes;
+	}
+	const StringList& getExtensions(const string& name);
+
 private:
 	friend class Singleton<SettingsManager>;
 	SettingsManager();
@@ -250,6 +270,11 @@ private:
 	bool isSet[SETTINGS_LAST];
 
 	string getConfigFile() { return Util::getPath(Util::PATH_USER_CONFIG) + "DCPlusPlus.xml"; }
+
+	// Search types
+	SearchTypes searchTypes; // name, extlist
+
+	SearchTypesIter getSearchType(const string& name);
 };
 
 // Shorthand accessor macros

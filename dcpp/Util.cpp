@@ -159,7 +159,7 @@ void Util::initialize() {
 	const char* home_ = getenv("HOME");
 	string home = home_ ? Text::toUtf8(home_) : "/tmp/";
 
-	paths[PATH_USER_CONFIG] = home + "/.bmdc++/";/**/
+	paths[PATH_USER_CONFIG] = home + "/.bmdc++/";/*BMDCDIR conf*/
 
 	loadBootConfig();
 
@@ -481,7 +481,7 @@ void Util::decodeUrl(const string& url, string& protocol, string& host, uint16_t
                         }
                         else {
 							port = 411;//
-						}	
+						}
                 } else {
                         dcdebug("p");
                         port = static_cast<uint16_t>(Util::toInt(url.substr(portStart, authorityEnd - portStart)));
@@ -1079,6 +1079,18 @@ string Util::translateError(int aError) {
 #else // _WIN32
 	return Text::toUtf8(strerror(aError));
 #endif // _WIN32
+}
+
+bool Util::checkExtension(const string& tmp) {
+	for(int i = 0; i < tmp.length(); i++) {
+		if (tmp[i] < 0 || tmp[i] == 32 || tmp[i] == ':') {
+			return false;
+		}
+	}
+	if(tmp.find_first_of(badChars, 0) != string::npos) {
+		return false;
+	}
+	return true;
 }
 
 bool Util::fileExists(const string aFile) {

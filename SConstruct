@@ -14,8 +14,10 @@ EnsureSConsVersion(0, 98, 1)
 
 PACKAGE = 'bmdc'
 CORE_PACKAGE = 'libdcpp'
+LIB_UPNP = 'libminiupnpc'
 BUILD_PATH = '#/build/'
 BUILD_LOCALE_PATH = BUILD_PATH + 'locale/'
+LIB_IS_UPNP = True
 
 # todo: remove -fpermissive and fix the errors
 BUILD_FLAGS = {
@@ -297,7 +299,10 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if not conf.CheckPKG('lua5.1 > 5.0'):
 		print '\tLua5.1 library not found'
 		conf.env['HAVE_LUA_H_51_B'] = 1
-
+	
+	# MiniUPnPc for UPnP
+	if not conf.CheckLib('libminiupnpc'):
+		LIB_IS_UPNP = False
 #	conf.CheckBZRRevision()
 
 	env = conf.Finish()
@@ -345,7 +350,11 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if env.get('profile'):
 		env.Append(CXXFLAGS = '-pg')
 		env.Append(LINKFLAGS= '-pg')
-
+	
+	if not LIB_IS_UPNP:
+		env.Append(LIBPATH = [BUILD_PATH + LIB_UPNP])
+		env.Prepend(LIBS = [LIB_UPNP])
+		
 	if env.get('PREFIX'):
 		data_dir = '\'\"%s/share\"\'' % env['PREFIX']
 		env.Append(CPPDEFINES = ('_DATADIR', data_dir))
@@ -354,7 +363,11 @@ if not 'install' in COMMAND_LINE_TARGETS:
 # ----------------------------------------------------------------------
 # Build
 # ----------------------------------------------------------------------
-
+	# Build the miniupnpc library
+	if not LIB_IS_UPNP:
+		mini_env = env.Clone(package = LIB_UPNP)
+		upnp = SConscript(dirs = 'miniupnpc', variant_dir = BUILD_PATH + LIB_UPNP, duplicate = 0, exports = {'env': mini_env})
+	
 	# Build the dcpp library
 	dcpp_env = env.Clone(package = CORE_PACKAGE)
 	libdcpp = SConscript(dirs = 'dcpp', variant_dir = env['build_path'] + CORE_PACKAGE, duplicate = 0, exports = {'env': dcpp_env})
@@ -366,7 +379,10 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	(linux_pot_file, obj_files) = SConscript(dirs = 'linux', variant_dir = env['build_path'] + 'gui', duplicate = 0, exports = {'env': ui_env})
 
 	# Create the executable
-	env.Program(target = PACKAGE, source = [libdcpp, obj_files])
+	if not LIB_IS_UPNP:
+		env.Program(target = PACKAGE, source = [libdcpp, upnp,  obj_files])
+	else:
+		env.Program(target = APP_NAME, source = [dcpp, gui])		
 
 	# i18n
 	env.MergePotFiles(source = [glade_pot_file, linux_pot_file], target = 'po/%s.pot' % PACKAGE)

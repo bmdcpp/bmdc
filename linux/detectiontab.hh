@@ -24,6 +24,7 @@ class DetectionTab:
 
 		///1page
 		typedef std::tr1::unordered_map<int, GtkTreeIter> ActRaw;
+
 		static void onAddActRaw(GtkWidget *widget,gpointer data);
 		static void onEditActRaw(GtkWidget *widget,gpointer data);
 		static void onRemoveActRaw(GtkWidget *widget , gpointer data);

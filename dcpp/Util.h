@@ -206,6 +206,8 @@ public:
 	static string cleanPathChars(string aNick);
 	static string addBrackets(const string& s);
 
+	static bool checkExtension(const string& tmp);//core 0.77
+
 	static string formatBytes(const string& aString) { return formatBytes(toInt64(aString)); }
 
 	static string getShortTimeString(time_t t = time(NULL) );

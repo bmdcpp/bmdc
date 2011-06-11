@@ -56,8 +56,11 @@ public:
 		TYPE_PICTURE,
 		TYPE_VIDEO,
 		TYPE_DIRECTORY,
-		TYPE_TTH
+		TYPE_TTH,
+		TYPE_LAST
 	};
+
+	static const char* getTypeStr(int type);
 
 	void search(const string& aName, int64_t aSize, TypeModes aTypeMode, SizeModes aSizeMode, const string& aToken);
 	void search(const string& aName, const string& aSize, TypeModes aTypeMode, SizeModes aSizeMode, const string& aToken) {
@@ -65,9 +68,12 @@ public:
 	}
 
 	void search(StringList& who, const string& aName, int64_t aSize, TypeModes aTypeMode, SizeModes aSizeMode, const string& aToken);
+    void SearchManager::search(StringList& who, const string& aName, int64_t aSize  , TypeModes aTypeMode  , SizeModes aSizeMode  , const string& aToken   , const StringList& aExtList);
+
 	void search(StringList& who, const string& aName, const string& aSize, TypeModes aTypeMode, SizeModes aSizeMode, const string& aToken) {
 		search(who, aName, Util::toInt64(aSize), aTypeMode, aSizeMode, aToken);
 	}
+
 
 	void respond(const AdcCommand& cmd, const CID& cid,  bool isUdpActive, const string& hubIpPort);
 
@@ -94,6 +100,7 @@ public:
 	void onPSR(const AdcCommand& cmd, UserPtr from, const string& remoteIp = Util::emptyString);
 	AdcCommand toPSR(bool wantResponse, const string& myNick, const string& hubIpPort, const string& tth, const vector<uint16_t>& partialInfo) const;
 private:
+    static const char* types[TYPE_LAST];
 /*
 	class UdpQueue: public Thread {
 	public:
