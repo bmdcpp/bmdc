@@ -17,7 +17,7 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
+#include "format.h"
 
 #include "UploadManager.h"
 
@@ -143,7 +143,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 			type = Transfer::TYPE_TREE;
 		} else if(aType == Transfer::names[Transfer::TYPE_PARTIAL_LIST]) {
 			// Partial file list
-			MemoryInputStream* mis = ShareManager::getInstance()->generatePartialList(aFile, listRecursive);
+			MemoryInputStream* mis = ShareManager::getInstance()->generatePartialList(aFile, listRecursive,isInSharingHub);
 			if(mis == NULL) {
 				aSource.fileNotAvail();
 				return false;

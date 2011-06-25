@@ -29,6 +29,7 @@
 #include "Singleton.h"
 #include "DirectoryListing.h"
 #include "MerkleTree.h"
+#include "typedefs.h"
 
 #include "ClientManager.h"
 
@@ -325,6 +326,11 @@ private:
 	void setDirty();
 
 	string getListPath(const HintedUser& user);
+	
+	bool checkSfv(QueueItem* qi, Download* d);
+	uint32_t calcCrc32(const string& file);
+
+	void logFinishedDownload(QueueItem* qi, Download* d, bool crcError);
 
 	// TimerManagerListener
 	virtual void on(TimerManagerListener::Second, uint64_t aTick) throw();

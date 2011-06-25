@@ -31,7 +31,7 @@ namespace dcpp {
 void DetectionManager::ProfilesLoad() {
 	try {
 		//Util::migrate(Util::getPath(Util::PATH_USER_CONFIG) + "Profiles.xml");
-		
+
 		SimpleXML xml;
 		xml.fromXML(File(Util::getPath(Util::PATH_USER_CONFIG) + "Profiles.xml", File::READ, File::OPEN).read());
 
@@ -656,7 +656,7 @@ void DetectionManager::addDetectionItem(DetectionEntry& e, bool isUserInfo /*=fa
 	}
 
 	list.push_back(e);
-	
+
 }
 
 void DetectionManager::validateItem(const DetectionEntry& e, bool checkIds, bool isUserInfo /*=false*/) throw(Exception) {
@@ -701,7 +701,7 @@ void DetectionManager::validateItem(const DetectionEntry& e, bool checkIds, bool
 		}
 	}
 
-	if(e.name.empty()) throw Exception("Item's name can't be empty!");
+//	if(e.name.empty()) throw Exception("Item's name can't be empty!");
 }
 
 void DetectionManager::removeDetectionItem(const uint32_t id, bool isUserInfo /*=false*/) throw() {

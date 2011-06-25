@@ -127,11 +127,9 @@ void ADLSearchManager::Load()
 				}
 			}
 		}
-	} catch(const SimpleXMLException&) {
-		return;
-	} catch(const FileException&) {
-		return;
-	}
+	} 
+	catch(const SimpleXMLException&) { } 
+	catch(const FileException&) {	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -224,12 +222,9 @@ void ADLSearchManager::Save()
 			fout.write(SimpleXML::utf8Header);
 			fout.write(xml.toXML());
 			fout.close();
-		} catch(const FileException&) {
-			return;
-		}
-	} catch(const SimpleXMLException&) {
-		return;
-	}
+		} 
+		catch(const FileException&) { }
+	} catch(const SimpleXMLException&) { }
 }
 
 void ADLSearchManager::MatchesFile(DestDirList& destDirVector, DirectoryListing::File *currentFile, string& fullPath) {

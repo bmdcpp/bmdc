@@ -17,8 +17,9 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
-
+#include "format.h"
+#include "compiler.h"
+#include "w.h"
 #include "Util.h"
 #include "File.h"
 
@@ -30,13 +31,13 @@
 #include "SimpleXML.h"
 
 #ifndef _WIN32
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#include <sys/utsname.h>
-#include <ctype.h>
-#include <string.h>
+	#include <sys/socket.h>
+	#include <netinet/in.h>
+	#include <arpa/inet.h>
+	#include <netdb.h>
+	#include <sys/utsname.h>
+	#include <ctype.h>
+	#include <string.h>
 #endif
 #include <locale.h>
 

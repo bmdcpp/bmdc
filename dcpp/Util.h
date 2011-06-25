@@ -20,13 +20,25 @@
 #define DCPLUSPLUS_DCPP_UTIL_H
 
 #ifndef _WIN32
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <stdlib.h>
+	#include <sys/stat.h>
+	#include <sys/types.h>
+	#include <unistd.h>
+	#include <stdlib.h>
 #endif
-
+#include "compiler.h"
+#include "typedefs.h"
 #include "Text.h"
+
+#ifdef _WIN32
+	#define PATH_SEPARATOR '\\'
+	#define PATH_SEPARATOR_STR "\\"
+#else
+	#define PATH_SEPARATOR '/'
+	#define PATH_SEPARATOR_STR "/"
+	#include <sys/stat.h>
+	#include <unistd.h>
+	#include <cstdlib>
+#endif
 
 namespace dcpp {
 

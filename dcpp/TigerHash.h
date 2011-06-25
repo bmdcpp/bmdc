@@ -31,6 +31,7 @@
 
 #if !defined(TIGER_HASH_H)
 #define TIGER_HASH_H
+#include "compiler.h"
 
 namespace dcpp {
 

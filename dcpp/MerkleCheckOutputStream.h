@@ -20,6 +20,7 @@
 #define DCPLUSPLUS_DCPP_MERKLE_CHECK_OUTPUT_STREAM_H
 
 #include "Streams.h"
+#include "format.h"
 #include "MerkleTree.h"
 
 namespace dcpp {

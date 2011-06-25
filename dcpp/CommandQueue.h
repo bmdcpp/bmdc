@@ -43,7 +43,6 @@ private:
 	struct CommandItem {
 		string cmd;
 		string name;
-	//	bool lua;
 	};
 
 	typedef list<pair<uint64_t, CommandItem> > Commands;

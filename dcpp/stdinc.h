@@ -25,10 +25,6 @@
 
 // --- Shouldn't have to change anything under here...
 
-#ifndef _REENTRANT
-# define _REENTRANT 1
-#endif
-
 #ifndef BZ_NO_STDIO
 #define BZ_NO_STDIO 1
 #endif
@@ -62,25 +58,8 @@ typedef unsigned __int64 uint64_t;
 
 #endif // _MSC_VER
 
-#ifdef _WIN32
-# define _WIN32_WINNT 0x0501
-# define _WIN32_IE	0x0501
-# define WINVER 0x501
-
-#define STRICT
-#define WIN32_LEAN_AND_MEAN
-
-#include <winsock2.h>
-
-#include <windows.h>
-#include <mmsystem.h>
-
-#include <tchar.h>
-#include <shlobj.h>
-
-#else
 #include <unistd.h>
-#endif
+
 
 #ifdef _MSC_VER
 #include <crtdbg.h>
@@ -144,8 +123,6 @@ typedef unsigned __int64 uint64_t;
 	# define HASH_MULTIMAP_X(key, type, hfunc, eq, order) hash_multimap<key, type, hfunc, eq >
 
    	#include <ext/hash_map>
-	//#include <unordered_map>
-	//#include <unordered_set>	//to do add if going on
 	#include <ext/hash_set>
 	#include <ext/functional>
     using namespace std;

@@ -198,16 +198,6 @@ void UserCommandMenu::sendUserCommand_client(string cid, string commandName, str
 		if (id == -1 || !FavoriteManager::getInstance()->getUserCommand(id, uc))
 			return;
 
-		/*UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
-		if (user)
-		{
-			HintedUser hintedUser(user, hub);
-		  #ifdef _USELUA
-            if(!ClientManager::ucExecuteLua(uc.getCommand(), params))
-		  #endif
-				ClientManager::getInstance()->userCommand(hintedUser, uc, params, true);//NOTE: core 0.762
-
-		}*/
 		OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid),hubs.back(),true);
 		UserPtr user = ou->getUser();
 		if(user)

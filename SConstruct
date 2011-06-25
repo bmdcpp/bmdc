@@ -370,6 +370,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	
 	# Build the dcpp library
 	dcpp_env = env.Clone(package = CORE_PACKAGE)
+	dcpp_env.Append(CXXFLAGS = '-std=c++0x')
 	libdcpp = SConscript(dirs = 'dcpp', variant_dir = env['build_path'] + CORE_PACKAGE, duplicate = 0, exports = {'env': dcpp_env})
 
 	# Build the GUI

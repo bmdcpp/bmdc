@@ -22,7 +22,7 @@
 namespace dcpp {
 struct Raw {
 	Raw() : id(0), time(0), enabled(false) { };
-	Raw(int _id, const std::string& _name, const std::string& _raw, int _time, bool _enabled, bool _lua)
+	Raw(int _id, const std::string& _name, const std::string& _raw, int _time, bool _enabled)
 		throw() : id(_id), name(_name), raw(_raw), time(_time), enabled(_enabled) { };
 	Raw(const Raw& rhs) : id(rhs.id), name(rhs.name), raw(rhs.raw), time(rhs.time), enabled(rhs.enabled) { }
 	Raw& operator=(const Raw& rhs) {
@@ -39,7 +39,7 @@ struct Raw {
 	GETSET(std::string, raw, Raw);
 	GETSET(int, time, Time);
 	GETSET(bool, enabled, Enabled);
-	
+
 };
 
 struct Action {

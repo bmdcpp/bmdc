@@ -201,8 +201,6 @@ public:
 	 */
 	void getPartialInfo(PartsInfo& partialInfo, int64_t blockSize) const;
 
-
-
 	void addSegment(const Segment& segment);
 	void resetDownloaded() { done.clear(); }
 

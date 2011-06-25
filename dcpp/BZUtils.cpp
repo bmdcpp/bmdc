@@ -17,7 +17,8 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
+//#include "DCPlusPlus.h"
+#include "format.h"
 
 #include "BZUtils.h"
 #include "Exception.h"

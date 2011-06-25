@@ -17,8 +17,8 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
-
+//#include "DCPlusPlus.h"
+#include "format.h"
 #include "SearchManager.h"
 #include "UploadManager.h"
 
@@ -80,13 +80,6 @@ string SearchManager::normalizeWhitespace(const string& aString){
 void SearchManager::search(const string& aName, int64_t aSize, TypeModes aTypeMode /* = TYPE_ANY */, SizeModes aSizeMode /* = SIZE_ATLEAST */, const string& aToken /* = Util::emptyString */) {
 	if(okToSearch()) {
 		ClientManager::getInstance()->search(aSizeMode, aSize, aTypeMode, normalizeWhitespace(aName), aToken);
-		lastSearch = GET_TICK();
-	}
-}
-
-void SearchManager::search(StringList& who, const string& aName, int64_t aSize /* = 0 */, TypeModes aTypeMode /* = TYPE_ANY */, SizeModes aSizeMode /* = SIZE_ATLEAST */, const string& aToken /* = Util::emptyString */) {
-	if(okToSearch()) {
-		ClientManager::getInstance()->search(who, aSizeMode, aSize, aTypeMode, normalizeWhitespace(aName), aToken);
 		lastSearch = GET_TICK();
 	}
 }

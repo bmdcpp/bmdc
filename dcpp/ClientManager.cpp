@@ -17,8 +17,8 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
-
+//#include "DCPlusPlus.h"
+#include "typedefs.h"
 #include "ClientManager.h"
 
 #include "ShareManager.h"
@@ -366,6 +366,10 @@ OnlineUser* ClientManager::findOnlineUser(const CID& cid, const string& hintUrl,
 	return p.first->second;
 }
 
+OnlineUser* ClientManager::findOnlineUser(const HintedUser& user, bool priv) {
+	return findOnlineUser(user.user->getCID(), user.hint, priv);
+}
+
 void ClientManager::connect(const HintedUser& user, const string& token) {
 	bool priv = FavoriteManager::getInstance()->isPrivate(user.hint);
 
@@ -527,24 +531,11 @@ void ClientManager::search(int aSizeMode, int64_t aSize, int aFileType, const st
 
 	for(Client::Iter i = clients.begin(); i != clients.end(); ++i) {
 		if((*i)->isConnected()) {
-			(*i)->search(aSizeMode, aSize, aFileType, aString, aToken);
+			(*i)->search(aSizeMode, aSize, aFileType, aString, aToken, StringList());
 		}
 	}
 }
 
-void ClientManager::search(StringList& who, int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken) {
-	Lock l(cs);
-
-	for(StringIter it = who.begin(); it != who.end(); ++it) {
-		string& client = *it;
-		for(Client::Iter j = clients.begin(); j != clients.end(); ++j) {
-			Client* c = *j;
-			if(c->isConnected() && c->getHubUrl() == client) {
-				c->search(aSizeMode, aSize, aFileType, aString, aToken);
-			}
-		}
-	}
-}
 
 void ClientManager::search(StringList& who, int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken, const StringList& aExtList) {
 	Lock l(cs);
@@ -806,7 +797,7 @@ void ClientManager::setListSize(const UserPtr& p, int64_t aFileLength, bool adc)
 		} else if(adc == false) {
 			int64_t listLength = (!ou->getIdentity().get("LL").empty()) ? Util::toInt64(ou->getIdentity().get("LL")) : -1;
 			if(p->isSet(User::DCPLUSPLUS) && (listLength != -1) && (listLength * 3 < aFileLength) && (ou->getIdentity().getBytesShared() > 0)) {
-				report = ou->setCheat("Fake file list - ListLen = %[userLL], FileLength = %[userLS]", false, true,BOOLSETTING(LISTLEN_MISMATCH_SHOW));
+				report = ou->setCheat("Fake file list - ListLen = %[userLL], FileLength = %[userLS]", false, true, BOOLSETTING(LISTLEN_MISMATCH_SHOW));
 				sendAction(*ou, SETTING(LISTLEN_MISMATCH));
 			}
 		}
@@ -857,6 +848,7 @@ void ClientManager::setCheating(const UserPtr& p, const string& _ccResponse, con
 			report = ou->setCheat(_cheatString, _badClient, _badFileList, _displayCheat);
 		sendAction(*ou, _actionId);
 	}
+	
 	if(ou) {
 		ou->getClient().updated(ou);
 		if(!report.empty())
@@ -873,8 +865,8 @@ void ClientManager::fileListDisconnected(const UserPtr& p) {
 	Client* c = NULL;
 	{
 		Lock l(cs);
-		OnlineUser* ou = findOnlineUser(p->getCID(),"",false);
-		if(!ou) return;
+		OnlineUser* ou = findOnlineUser(p->getCID(),"", false);
+			if(!ou) return;
 
 		int fileListDisconnects = Util::toInt(ou->getIdentity().get("FD")) + 1;
 		ou->getIdentity().set("FD", Util::toString(fileListDisconnects));
@@ -921,7 +913,7 @@ int ClientManager::getMode(const string& aHubUrl) const {
 
 void ClientManager::setListLength(const UserPtr& p, const string& listLen) {
 	Lock l(cs);
-	OnlineUser* ou = findOnlineUser(p->getCID(), Util::emptyString,false);
+	OnlineUser* ou = findOnlineUser(p->getCID(), Util::emptyString, false);
 	if(ou) {
 		ou->getIdentity().set("LL", listLen);
 	}
@@ -1095,7 +1087,7 @@ void ClientManager::addCheckToQueue(const UserPtr& p, bool filelist) {
 		} catch(...) {
 			//...
 		}
-		ou->dec();//ch
+		ou->dec();///
 	}
 }
 #ifdef _USELUA
@@ -1145,26 +1137,23 @@ bool ClientManager::ucExecuteLua(const string& cmd,StringMap& params)
 #endif
 
 string ClientManager::getField(const CID& cid, const string& hint, const char* field) const {
-        Lock l(cs);
-       OnlinePair p;//c
-       OnlineUser* u = findOnlineUser_hint(cid, hint, p);
-        if(u) {
-               string value = u->getIdentity().get(field);
-
-                if(!value.empty()) {
-                        return value;
-                }
+    Lock l(cs);
+    OnlinePair p;//
+    OnlineUser* u = findOnlineUser_hint(cid, hint, p);
+    if(u) {
+      string value = u->getIdentity().get(field);
+       if(!value.empty()) {
+                return value;
+        }
       }
 
-        for(OnlineIterC i = p.first; i != p.second; ++i) {
-             string value = i->second->getIdentity().get(field);
+     for(OnlineIterC i = p.first; i != p.second; ++i) {
+          string value = i->second->getIdentity().get(field);
 
-             if(!value.empty()) {
-
-                 return value;
+           if(!value.empty()) {
+               return value;
              }
-
-         }
+    }
     return Util::emptyString;
 }
 //END

@@ -241,6 +241,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("icon-adlsearch", "bmdc-adlsearch"));
 	defaultString.insert(StringMap::value_type("icon-ignore", "bmdc-ignore-users"));
 	defaultString.insert(StringMap::value_type("icon-away", "bmdc-away"));
+	defaultString.insert(StringMap::value_type("icon-away-on", "bmdc-away-on"));
 	defaultString.insert(StringMap::value_type("icon-none", "bmdc-none"));
 	defaultString.insert(StringMap::value_type("icon-upload", "bmdc-upload"));
 	defaultString.insert(StringMap::value_type("icon-quit", "bmdc-quit"));
@@ -254,6 +255,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("icon-hub-offline","bmdc-hub-offline"));
 	defaultString.insert(StringMap::value_type("icon-highlight","bmdc-highlight"));
 	defaultString.insert(StringMap::value_type("icon-limiting","bmdc-limiting"));
+	defaultString.insert(StringMap::value_type("icon-limiting-on","bmdc-limiting-on"));
 	
 	defaultString.insert(StringMap::value_type("icon-normal", "bmdc-normal"));
 	/*Icon of conn*/

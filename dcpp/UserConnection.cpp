@@ -17,9 +17,8 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
-
 #include "UserConnection.h"
+
 #include "ClientManager.h"
 #include "ScriptManager.h"
 
@@ -27,7 +26,7 @@
 #include "AdcCommand.h"
 #include "Transfer.h"
 #include "Download.h"
-
+#include "format.h"
 #include "DebugManager.h"
 
 namespace dcpp {
@@ -52,12 +51,14 @@ const string UserConnection::DOWNLOAD = "Download";
 void UserConnection::on(BufferedSocketListener::Line, const string& aLine) throw () {
 
 	if(aLine.length() < 2)
-		return;
+	{	fire(UserConnectionListener::ProtocolError(), this, _("Invalid data"));
+		return;	}
+		
 	COMMAND_DEBUG(aLine, DebugManager::CLIENT_IN, getRemoteIp());
 
 	if(aLine[0] == 'C' && !isSet(FLAG_NMDC)) {
 		if(!Text::validateUtf8(aLine)) {
-			// @todo Report to user?
+			fire(UserConnectionListener::ProtocolError(), this, _("Non-UTF-8 data in an ADC connection"));
 			return;
 		}
 		dispatch(aLine);
@@ -65,6 +66,7 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) throw
 	} else if(aLine[0] == '$') {
 		setFlag(FLAG_NMDC);
 	} else {
+		fire(UserConnectionListener::ProtocolError(), this, _("Invalid data"));
 		// We shouldn't be here?
 		dcdebug("Unknown UserConnection command: %.50s\n", aLine.c_str());
 		return;
@@ -107,7 +109,6 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) throw
 		}
 		else
 		{
-
 			dcdebug("Unknown $Error %s\n", param.c_str());
 			fire(UserConnectionListener::Failed(), this, param);
 			disconnect(true);
@@ -165,9 +166,9 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) throw
 		if(getUser() && aLine.length() < 255)
 			ClientManager::getInstance()->setUnknownCommand(getUser(), aLine);
 
-
+		fire(UserConnectionListener::ProtocolError(), this, _("Invalid data"));
 		dcdebug("Unknown NMDC command: %.50s\n", aLine.c_str());
-		unsetFlag(FLAG_NMDC);
+	//	unsetFlag(FLAG_NMDC);
 	}
 }
 #ifdef _USELUA
@@ -220,6 +221,18 @@ void UserConnection::supports(const StringList& feat) {
 		x+= *i + ' ';
 	}
 	send("$Supports " + x + '|');
+}
+
+void UserConnection::handle(AdcCommand::STA t, const AdcCommand& c) {
+	if(c.getParameters().size() >= 2) {
+		const string& code = c.getParam(0);
+		if(!code.empty() && code[0] - '0' == AdcCommand::SEV_FATAL) {
+			fire(UserConnectionListener::ProtocolError(), this, c.getParam(1));
+			return;
+		}
+	}
+
+	fire(t, this, c);
 }
 
 void UserConnection::on(Connected) throw() {

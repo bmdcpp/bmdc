@@ -49,7 +49,7 @@ BookEntry(Entry::RECENT,_("Recent Hubs"),"recenthub.glade")
 		gtk_tree_view_set_fixed_height_mode(recentView.get(), TRUE);
 		recentSelection = gtk_tree_view_get_selection(recentView.get());
 
-		/*CONECT TO SIGNAL*/
+		/* CONECT TO SIGNAL */
 
 		g_signal_connect(getWidget("connectItem"), "activate", G_CALLBACK(onConnectItemClicked_gui), (gpointer)this);
 		g_signal_connect(getWidget("removeItem"), "activate", G_CALLBACK(onRemoveItemClicked_gui), (gpointer)this);

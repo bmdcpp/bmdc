@@ -17,10 +17,8 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
-
 #include "HttpConnection.h"
-
+#include "format.h"
 #include "SettingsManager.h"
 #include "version.h"
 
@@ -56,12 +54,10 @@ void HttpConnection::downloadFile(const string& aUrl) {
 	}
 	string proto, query, fragment;
 	if(SETTING(HTTP_PROXY).empty()) {
-		//Util::decodeUrl(currentUrl, server, port, file);
 		Util::decodeUrl(currentUrl, proto, server, port, file, query, fragment);
 		if(file.empty())
 			file = "/";
 	} else {
-		//Util::decodeUrl(SETTING(HTTP_PROXY), server, port, file);
 		Util::decodeUrl(SETTING(HTTP_PROXY), proto, server, port, file, query, fragment);
 		file = currentUrl;
 	}
@@ -97,16 +93,14 @@ void HttpConnection::on(BufferedSocketListener::Connected) throw() {
 	string sRemoteServer = server;
 	if(!SETTING(HTTP_PROXY).empty())
 	{
-		//string tfile;
-		uint16_t tport;
+		 uint16_t tport;
 		 string tfile, proto, query, fragment;
 		 Util::decodeUrl(file, proto, sRemoteServer, tport, tfile, query, fragment);
-		//Util::decodeUrl(file, sRemoteServer, tport, tfile);
 	}
 	socket->write("Host: " + sRemoteServer + "\r\n");
 	socket->write("Connection: close\r\n");	// we'll only be doing one request
 	socket->write("Cache-Control: no-cache\r\n\r\n");
-	coralizeState = CST_CONNECTED;
+	if (coralizeState == CST_DEFAULT) coralizeState = CST_CONNECTED;
 }
 
 void HttpConnection::on(BufferedSocketListener::Line, const string& aLine) throw() {
@@ -119,13 +113,19 @@ void HttpConnection::on(BufferedSocketListener::Line, const string& aLine) throw
 				socket->removeListener(this);
 				BufferedSocket::putSocket(socket);
 				socket = NULL;
+				if(SETTING(CORAL) && coralizeState != CST_NOCORALIZE) {
+					fire(HttpConnectionListener::Retried(), this, coralizeState == CST_CONNECTED);		
+					coralizeState = CST_NOCORALIZE;
+					dcdebug("HTTP error with Coral, retrying : %s\n",currentUrl.c_str());
+					downloadFile(currentUrl);
+					return;
+				}
 				fire(HttpConnectionListener::Failed(), this, aLine + " (" + currentUrl + ")");
 				coralizeState = CST_DEFAULT;
 				return;
 			}
 		}
 		ok = true;
-		dcdebug("%s\n",aLine.c_str());
 	} else if(moved302 && Util::findSubString(aLine, "Location") != string::npos){
 		dcassert(socket);
 		socket->removeListener(this);
@@ -169,7 +169,8 @@ void HttpConnection::on(BufferedSocketListener::Failed, const string& aLine) thr
 	socket->removeListener(this);
 	BufferedSocket::putSocket(socket);
 	socket = NULL;
-	if(BOOLSETTING(CORAL) && coralizeState == CST_DEFAULT) {
+	if(BOOLSETTING(CORAL) && coralizeState != CST_NOCORALIZE) {
+		fire(HttpConnectionListener::Retried(), this, coralizeState == CST_CONNECTED);
 		coralizeState = CST_NOCORALIZE;
 		dcdebug("Coralized address failed, retrying : %s\n",currentUrl.c_str());
 		downloadFile(currentUrl);

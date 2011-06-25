@@ -17,8 +17,7 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
-
+#include "format.h"
 #include "HashManager.h"
 #include "SimpleXML.h"
 #include "LogManager.h"
@@ -27,9 +26,9 @@
 #include "SFVReader.h"
 
 #ifndef _WIN32
-#include <sys/mman.h> // mmap, munmap, madvise
-#include <signal.h>  // for handling read errors from previous trio
-#include <setjmp.h>
+	#include <sys/mman.h> // mmap, munmap, madvise
+	#include <signal.h>  // for handling read errors from previous trio
+	#include <setjmp.h>
 #endif
 
 namespace dcpp {

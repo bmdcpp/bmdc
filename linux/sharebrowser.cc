@@ -1031,7 +1031,7 @@ void ShareBrowser::onDirGet(GtkMenuItem* item, gpointer data)
  GtkTreePath *path;
  GtkTreeIter iter;
  string name,fullpath;
-  DirectoryListing::File *filed;
+ DirectoryListing::File *filed;
 
  for (GList *i = list;i;i=i->next)
  {
@@ -1044,11 +1044,12 @@ void ShareBrowser::onDirGet(GtkMenuItem* item, gpointer data)
 		 if(ii->type == ItemInfo::FILE)
 		 {
 			if(!ii->file->getAdls())return;
-			DirectoryListing::Directory *dir=ii->file->getParent();
-			 while( (dir!=NULL) && (dir!=sb->listing.getRoot()))
+			
+			DirectoryListing::Directory *dir = ii->file->getParent();
+			 while( (dir != NULL) && (dir != sb->listing.getRoot()))
 			 {
-				fullpath=dir->getName()+PATH_SEPARATOR+fullpath;
-				dir=dir->getParent();
+				fullpath = dir->getName()+PATH_SEPARATOR+fullpath;
+				dir = dir->getParent();
 			 }
 		 }
 		 else if(ii->type == ItemInfo::DIRECTORY)
@@ -1093,9 +1094,9 @@ void ShareBrowser::popmenu()
     GtkWidget *copyMenuItem = gtk_menu_item_new_with_label(_("Copy Nick"));
     gtk_menu_shell_append(GTK_MENU_SHELL(getTabMenu()),copyMenuItem);
     ///Close
-    g_signal_connect_swapped(closeMenuItem, "activate",G_CALLBACK(onCloseItem),this);
+    g_signal_connect_swapped(closeMenuItem, "activate", G_CALLBACK(onCloseItem),this);
     ///Copy Signal
-    g_signal_connect_swapped(copyMenuItem, "activate",G_CALLBACK(onCopyNick),this);
+    g_signal_connect_swapped(copyMenuItem, "activate", G_CALLBACK(onCopyNick),this);
 }
 
 void ShareBrowser::onCloseItem(gpointer data)

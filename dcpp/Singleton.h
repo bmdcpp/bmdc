@@ -18,6 +18,7 @@
 
 #if !defined(SINGLETON_H)
 #define SINGLETON_H
+#include "debug.h"
 
 namespace dcpp {
 

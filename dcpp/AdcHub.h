@@ -53,7 +53,7 @@ public:
 	virtual void hubMessage(const string& aMessage, bool thirdPerson = false);
 	virtual void privateMessage(const OnlineUser& user, const string& aMessage, bool thirdPerson = false);
 	virtual void sendUserCmd(const UserCommand& command, const StringMap& params);
-	virtual void search(int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken);
+//	virtual void search(int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken);
 	virtual void search(int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken, const StringList& aExtList);
 	virtual void password(const string& pwd);
 	virtual void info(bool alwaysSend);
@@ -67,6 +67,9 @@ public:
 
 	string getMySID() { return AdcCommand::fromSID(sid); }
 	void sendUserCmd(const string& aUserCmd) { send(aUserCmd); }
+
+	static const vector<StringList>& getSearchExts();
+	static StringList parseSearchExts(int flag);
 
 private:
 	friend class ClientManager;
@@ -106,6 +109,7 @@ private:
 	static const string TCP4_FEATURE;
 	static const string UDP4_FEATURE;
 	static const string NAT0_FEATURE;
+	static const string SEGA_FEATURE;
 	static const string BASE_SUPPORT;
 	static const string BAS0_SUPPORT;
 	static const string TIGR_SUPPORT;
@@ -142,6 +146,7 @@ private:
 	void sendUDP(const AdcCommand& cmd) throw();
 	void unknownProtocol(uint32_t target, const string& protocol, const string& token);
 	bool secureAvail(uint32_t target, const string& protocol, const string& token);
+	void sendSearch(AdcCommand& c);
 
 	virtual void on(Connecting) throw() { fire(ClientListener::Connecting(), this); }
 	virtual void on(Connected) throw();
@@ -162,6 +167,8 @@ private:
 	string startChecking(const string& aParams) { return users.startChecking(this, aParams); }//s
 	void stopChecking()	{ users.stopCheck(); }//s
 	void stopMyINFOCheck() { users.stopMyINFOCheck(); }//s
+	
+	static const vector<StringList> searchExts;
 
 };
 

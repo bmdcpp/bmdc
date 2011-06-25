@@ -42,7 +42,7 @@ public:
 	bool remAction(Action* a) throw();
 
 	Raw* addRaw(Action* a, Raw& r) throw(Exception);
-	void editRaw(const Action* a, Raw* old, Raw& _new) throw(Exception);
+	void editRaw(const Action* a, Raw* old, Raw _new) throw(Exception);
 	bool remRaw(Action* a, Raw* r) throw();
 
 	void loadActionRaws();

@@ -1204,7 +1204,7 @@ void Settings::initAppearance_gui()
 		g_signal_connect(renderer, "toggled", G_CALLBACK(onOptionsViewToggled_gui), (gpointer)notifyStore);
 		g_list_free(list);
 
-	#ifdef _HAVENOTIFY
+	#ifdef HAVE_LIBNOTIFY
 		addOption_gui(notifyStore, wsm, _("Download finished"),
 			"notify-download-finished-use", "notify-download-finished-title",
 			"notify-download-finished-icon", NOTIFY_URGENCY_NORMAL);
@@ -2153,7 +2153,7 @@ void Settings::onNotifyTestButton_gui(GtkWidget *widget, gpointer data)
 	{
 		string title = s->notifyView.getString(&iter, _("Title"));
 		string icon = s->notifyView.getString(&iter, _("Icon"));
-		#ifdef _HAVENOTIFY
+		#ifdef HAVE_LIBNOTIFY
 		NotifyUrgency urgency = (NotifyUrgency)s->notifyView.getValue<int>(&iter, "Urgency");
 		Notify::get()->showNotify(title, "<span weight=\"bold\" size=\"larger\">" + string(_("*** T E S T ***")) + "</span>",
 			"", icon, gtk_combo_box_get_active(GTK_COMBO_BOX(s->getWidget("notifyIconSizeComboBox"))), urgency);
@@ -2897,11 +2897,7 @@ void Settings::onAddShare_gui(GtkWidget *widget, gpointer data)
 
 			if (path[path.length() - 1] != PATH_SEPARATOR)
 				path += PATH_SEPARATOR;
-
-			/*gtk_entry_set_text(GTK_ENTRY(s->getWidget("nameDialogEntry")), Util::getLastDir(path).c_str());
-			gtk_editable_select_region(GTK_EDITABLE(s->getWidget("nameDialogEntry")), 0, -1);
-			response = gtk_dialog_run(GTK_DIALOG(s->getWidget(/*"virtualNameDialog""nameDialog")));
-			//gtk_widget_hide(s->getWidget("nameDialog"/*"virtualNameDialog"));*/
+			
 			GtkWidget *dialog = s->getWidget("nameDialog");
 			gtk_window_set_title(GTK_WINDOW(dialog), _("Virtual name"));
 			gtk_entry_set_text(GTK_ENTRY(s->getWidget("nameDialogEntry")), Util::getLastDir(path).c_str());
@@ -3025,7 +3021,7 @@ void Settings::selectTextStyle_gui(const int select)
 
 		while (valid)
 		{
-			style = textStyleView.getString(&iter, "Style");
+			style = textStyleView.getString(&iter, _("Style"));
 			fore = wsm->getString(textStyleView.getString(&iter, "keyForeColor"), true);
 			back = wsm->getString(textStyleView.getString(&iter, "keyBackColor"), true);
 			bolt = wsm->getInt(textStyleView.getString(&iter, "keyBolt"), true);

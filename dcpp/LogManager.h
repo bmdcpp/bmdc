@@ -23,6 +23,7 @@
 #include "Singleton.h"
 #include "Speaker.h"
 #include "LogManagerListener.h"
+#include "typedefs.h"
 
 namespace dcpp {
 
@@ -32,7 +33,7 @@ public:
 	typedef pair<time_t, string> Pair;
 	typedef deque<Pair> List;
 
-	enum Area { CHAT, PM, DOWNLOAD, UPLOAD, SYSTEM, STATUS, RAW, LAST };
+	enum Area { CHAT, PM, DOWNLOAD, FINISHED_DOWNLOAD, UPLOAD, SYSTEM, STATUS, RAW, LAST };
 	enum { FILE, FORMAT };
 
 	void log(Area area, StringMap& params) throw();

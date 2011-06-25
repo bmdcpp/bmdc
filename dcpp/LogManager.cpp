@@ -18,6 +18,7 @@
 
 #include "stdinc.h"
 #include "DCPlusPlus.h"
+#include "typedefs.h"
 
 #include "LogManager.h"
 

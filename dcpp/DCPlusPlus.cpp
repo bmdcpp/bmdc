@@ -18,7 +18,9 @@
 
 #include "stdinc.h"
 #include "DCPlusPlus.h"
-
+#include "compiler.h"
+#include "typedefs.h"
+#include "format.h"
 #include "ConnectionManager.h"
 #include "DownloadManager.h"
 #include "UploadManager.h"
@@ -104,8 +106,6 @@ void startup(void (*f)(void*, const string&), void* p) {
 	HighlightManager::newInstance();
 
 	DetectionManager::newInstance();
-
-
 
 	SettingsManager::getInstance()->load();
 

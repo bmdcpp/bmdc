@@ -67,7 +67,7 @@ Notify* Notify::get()
 
 void Notify::init()
 {
-	#ifdef _HAVENOTIFY
+	#ifdef HAVE_LIBNOTIFY
 	notify_init(g_get_application_name());
 		#ifdef HAVE_LIBNOTIFY_0_7
 			notification = notify_notification_new("template", "template", g_get_prgname());
@@ -80,7 +80,7 @@ void Notify::init()
 
 void Notify::finalize()
 {
-	#ifdef _HAVENOTIFY
+	#ifdef HAVE_LIBNOTIFY
 	notify_notification_close(notification, NULL);
 	g_object_unref(notification);
 	notify_uninit();
@@ -133,7 +133,7 @@ void Notify::setCurrIconSize(const int size)
 
 void Notify::showNotify(const string &head, const string &body, TypeNotify notify)
 {
-#ifdef _HAVENOTIFY
+#ifdef HAVE_LIBNOTIFY
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
 
 	switch (notify)
@@ -212,7 +212,7 @@ void Notify::showNotify(const string &head, const string &body, TypeNotify notif
 	}
 #endif
 }
-#ifdef _HAVENOTIFY
+#ifdef HAVE_LIBNOTIFY
 void Notify::showNotify(const string &title, const string &head, const string &body, const string &icon, const int iconSize, NotifyUrgency urgency)
 {
 	if (title.empty())

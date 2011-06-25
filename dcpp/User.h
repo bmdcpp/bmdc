@@ -25,6 +25,7 @@
 #include "FastAlloc.h"
 #include "CriticalSection.h"
 #include "Flags.h"
+#include "typedefs.h"
 #include "forward.h"
 //RSX++
 #include "RegexUtil.h"
@@ -151,7 +152,6 @@ public:
 	GS(TestSURQueued, "TQ")
 #undef GS
 
-
 	void setBytesShared(const string& bs) { set("SS", bs); }
 	int64_t getBytesShared() const { return Util::toInt64(get("SS")); }
 
@@ -176,7 +176,7 @@ public:
 	std::map<string, string> getInfo() const;
 
 	bool isClientType(ClientType ct) const;
-	//RSX add Mank
+	//RSX 
 	string setCheat(const Client& c, string aCheatDescription, bool aBadClient, bool aBadFilelist = false, bool aDisplayCheat = true);//p
 	string getVersion() const;
 	string getFilelistGeneratorVer() const;//p
@@ -190,7 +190,7 @@ public:
 	GETSET(uint32_t, sid, SID);
 
 	GETSET(uint64_t, loggedIn, LoggedIn); //RSX++//
-	void logDetect(bool successful);//Patch
+	void logDetect(bool successful);//P
 
 	string myInfoDetect(OnlineUser& ou);//p
 	string updateClientType(OnlineUser& ou);//p
@@ -208,7 +208,6 @@ private:
 	typedef InfMap::iterator InfIter;
 	typedef InfMap::const_iterator InfIterC;
 	InfMap info;
-
 	static FastCriticalSection cs;
 	void getDetectionParams(StringMap& p);//p
 	string getDetectionField(const string& aName) const;//p

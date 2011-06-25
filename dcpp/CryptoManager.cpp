@@ -17,8 +17,8 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
-
+//#include "DCPlusPlus.h"
+#include "format.h"
 #include "CryptoManager.h"
 
 #include "BitInputStream.h"

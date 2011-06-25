@@ -25,6 +25,7 @@
 #define DCPLUSPLUS_DCPP_A_D_L_SEARCH_H
 
 #include "Util.h"
+#include "typedefs.h"
 
 #include "SettingsManager.h"
 #include "ResourceManager.h"

@@ -21,7 +21,7 @@
 
 #include "DownloadManagerListener.h"
 #include "UploadManagerListener.h"
-
+#include "QueueManagerListener.h"
 #include "Speaker.h"
 #include "CriticalSection.h"
 #include "Singleton.h"
@@ -104,7 +104,7 @@ public:
 	typedef unordered_map<string, FinishedFileItemPtr> MapByFile;
 	typedef unordered_map<HintedUser, FinishedUserItemPtr, User::Hash> MapByUser;
 
-	void lockLists();
+	Lock lockLists();
 	const FinishedItem::FinishedItemList& lockList(bool upload = false) { cs.enter(); return upload ? uploads : downloads; }
 	const MapByFile& getMapByFile(bool upload) const;
 	const MapByUser& getMapByUser(bool upload) const;
@@ -142,6 +142,7 @@ private:
 
 	virtual void on(UploadManagerListener::Complete, Upload* u) throw();
 	virtual void on(UploadManagerListener::Failed, Upload* u, const string&) throw();
+	virtual void on(QueueManagerListener::CRCChecked, Download* d) throw();
 };
 
 } // namespace dcpp

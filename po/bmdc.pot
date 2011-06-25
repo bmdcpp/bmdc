@@ -5,21 +5,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-06-11 19:32+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  linux.pot  #-#-#-#-#\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-06-11 20:04+0200\n"
+"POT-Creation-Date: 2011-06-25 14:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -326,7 +314,7 @@ msgstr ""
 msgid "<b>Window Options</b>"
 msgstr ""
 
-#: glade/detection.glade:1403
+#: glade/detection.glade:1457
 msgid "ADL Action"
 msgstr ""
 
@@ -347,9 +335,9 @@ msgstr ""
 msgid "About BMDC++"
 msgstr ""
 
-#: glade/adlsearch.glade:444 linux/detectiontab.cc:118
-#: linux/detectiontab.cc:1217 linux/detectiontab.cc:1247
-#: linux/detectiontab.cc:1300
+#: glade/adlsearch.glade:444 linux/detectiontab.cc:135
+#: linux/detectiontab.cc:1347 linux/detectiontab.cc:1377
+#: linux/detectiontab.cc:1431
 msgid "Action"
 msgstr ""
 
@@ -359,15 +347,15 @@ msgid ""
 "Raw"
 msgstr ""
 
-#: glade/detection.glade:1019
+#: glade/detection.glade:1017
 msgid "Actions"
 msgstr ""
 
-#: glade/detection.glade:2290
+#: glade/detection.glade:2324
 msgid "Actions Setup"
 msgstr ""
 
-#: glade/detection.glade:1180
+#: glade/detection.glade:1234
 msgid "Actions and Raws"
 msgstr ""
 
@@ -375,14 +363,22 @@ msgstr ""
 msgid "Active"
 msgstr ""
 
-#: glade/detection.glade:883 glade/detection.glade:1124
-#: glade/detection.glade:1216 glade/detection.glade:2355
-#: glade/highliting.glade:33 glade/settingsdialog.glade:7333
+#: glade/detection.glade:881 glade/detection.glade:1270
+#: glade/detection.glade:2389 glade/highliting.glade:33
+#: glade/settingsdialog.glade:7333
 msgid "Add"
 msgstr ""
 
-#: glade/detection.glade:2313
+#: glade/detection.glade:1139
+msgid "Add Action"
+msgstr ""
+
+#: glade/detection.glade:2347
 msgid "Add Item"
+msgstr ""
+
+#: glade/detection.glade:1181
+msgid "Add Raw"
 msgstr ""
 
 #: glade/settingsdialog.glade:5008
@@ -413,7 +409,7 @@ msgstr ""
 msgid "Advanced"
 msgstr ""
 
-#: glade/detection.glade:1705
+#: glade/detection.glade:1617
 msgid "Advanced ADL Points"
 msgstr ""
 
@@ -441,7 +437,7 @@ msgstr ""
 msgid "Automatically open extra slot if speed is below (0 = disable)"
 msgstr ""
 
-#: glade/detection.glade:1839 glade/detection.glade:2164
+#: glade/detection.glade:1715 glade/detection.glade:2040
 #: glade/settingsdialog.glade:6442 glade/settingsdialog.glade:6455
 msgid "B"
 msgstr ""
@@ -530,7 +526,7 @@ msgstr ""
 msgid "Certificate file"
 msgstr ""
 
-#: glade/detection.glade:2373
+#: glade/detection.glade:2407
 msgid "Change"
 msgstr ""
 
@@ -543,13 +539,13 @@ msgid "Chat Menu"
 msgstr ""
 
 #: glade/detection.glade:470 linux/detectiontab.cc:36
-#: linux/detectiontab.cc:267 linux/detectiontab.cc:697
-#: linux/detectiontab.cc:766 linux/detectiontab.cc:782 linux/hub.cc:93
+#: linux/detectiontab.cc:257 linux/detectiontab.cc:811
+#: linux/detectiontab.cc:880 linux/detectiontab.cc:896 linux/hub.cc:93
 #: linux/hub.cc:581 linux/hub.cc:615
 msgid "Cheat"
 msgstr ""
 
-#: glade/detection.glade:1977
+#: glade/detection.glade:1853
 msgid "Check Client Before FL"
 msgstr ""
 
@@ -578,8 +574,8 @@ msgid "Choose a File"
 msgstr ""
 
 #: glade/search.glade:580 glade/settingsdialog.glade:7463
-#: glade/sharebrowser.glade:7 linux/hub.cc:2499 linux/mainwindow.cc:1410
-#: linux/mainwindow.cc:1535 linux/privatemessage.cc:1117
+#: glade/sharebrowser.glade:7 linux/hub.cc:2499 linux/mainwindow.cc:1420
+#: linux/mainwindow.cc:1545 linux/privatemessage.cc:1117
 msgid "Choose a directory"
 msgstr ""
 
@@ -596,7 +592,7 @@ msgstr ""
 msgid "Clear frame search"
 msgstr ""
 
-#: glade/detection.glade:580
+#: glade/detection.glade:578
 msgid "ClientFlag"
 msgstr ""
 
@@ -609,16 +605,16 @@ msgid "Colors & Fonts"
 msgstr ""
 
 #: glade/settingsdialog.glade:572 linux/settingsdialog.cc:1531
-#: linux/settingsdialog.cc:1539 linux/settingsdialog.cc:3114
-#: linux/settingsdialog.cc:3188
+#: linux/settingsdialog.cc:1539 linux/settingsdialog.cc:3110
+#: linux/settingsdialog.cc:3184
 msgid "Command"
 msgstr ""
 
 #: glade/adlsearch.glade:413 linux/ADLSearchGUI.cc:53
 #: linux/ADLSearchGUI.cc:149 linux/ADLSearchGUI.cc:256
 #: linux/ADLSearchGUI.cc:298 linux/detectiontab.cc:37
-#: linux/detectiontab.cc:268 linux/detectiontab.cc:698
-#: linux/detectiontab.cc:767 linux/detectiontab.cc:783
+#: linux/detectiontab.cc:258 linux/detectiontab.cc:812
+#: linux/detectiontab.cc:881 linux/detectiontab.cc:897
 msgid "Comment"
 msgstr ""
 
@@ -645,7 +641,7 @@ msgstr ""
 msgid "Connect to a hub"
 msgstr ""
 
-#: glade/detection.glade:2334 glade/favoriteusers.glade:74
+#: glade/detection.glade:2368 glade/favoriteusers.glade:74
 #: glade/highliting.glade:78 glade/ignoreeusers.glade:192
 #: glade/recenthub.glade:42
 msgid "Connect to hub"
@@ -693,8 +689,8 @@ msgstr ""
 msgid "Default styles"
 msgstr ""
 
-#: glade/detection.glade:911 glade/detection.glade:1152
-#: glade/detection.glade:1244 glade/highliting.glade:57
+#: glade/detection.glade:909 glade/detection.glade:1298
+#: glade/highliting.glade:57
 msgid "Delete"
 msgstr ""
 
@@ -722,7 +718,7 @@ msgstr ""
 msgid "Detection and Raw Tab"
 msgstr ""
 
-#: glade/detection.glade:1272
+#: glade/detection.glade:1326
 msgid "Detections"
 msgstr ""
 
@@ -733,14 +729,14 @@ msgstr ""
 #: glade/settingsdialog.glade:5446 linux/UserCommandMenu.cc:67
 #: linux/search.cc:1682 linux/settingsdialog.cc:849
 #: linux/settingsdialog.cc:863 linux/settingsdialog.cc:950
-#: linux/settingsdialog.cc:1335 linux/settingsdialog.cc:3518
-#: linux/settingsdialog.cc:3538 linux/settingsdialog.cc:3567
-#: linux/settingsdialog.cc:3581 linux/settingsdialog.cc:3636
+#: linux/settingsdialog.cc:1335 linux/settingsdialog.cc:3514
+#: linux/settingsdialog.cc:3534 linux/settingsdialog.cc:3563
+#: linux/settingsdialog.cc:3577 linux/settingsdialog.cc:3632
 #: linux/sharebrowser.cc:283
 msgid "Directory"
 msgstr ""
 
-#: glade/detection.glade:1367
+#: glade/detection.glade:1421
 msgid "Disconect"
 msgstr ""
 
@@ -802,6 +798,14 @@ msgstr ""
 msgid "E-Mail"
 msgstr ""
 
+#: glade/detection.glade:1167
+msgid "Edit Action"
+msgstr ""
+
+#: glade/detection.glade:1209
+msgid "Edit Raw"
+msgstr ""
+
 #: glade/mainwindow.glade:1339
 msgid "Edit the preferences"
 msgstr ""
@@ -810,12 +814,12 @@ msgstr ""
 msgid "Emoticons"
 msgstr ""
 
-#: glade/detection.glade:1319
+#: glade/detection.glade:1373
 msgid "Emulation Action"
 msgstr ""
 
 #: glade/adlsearch.glade:356 glade/detection.glade:223
-#: glade/detection.glade:610 linux/ADLSearchGUI.cc:46 linux/ADLSearchGUI.cc:76
+#: glade/detection.glade:608 linux/ADLSearchGUI.cc:46 linux/ADLSearchGUI.cc:76
 #: linux/ADLSearchGUI.cc:84 linux/ADLSearchGUI.cc:142
 #: linux/ADLSearchGUI.cc:249 linux/ADLSearchGUI.cc:294
 #: linux/ADLSearchGUI.cc:487 linux/ADLSearchGUI.cc:489
@@ -871,7 +875,7 @@ msgstr ""
 msgid "Extra Chat Info"
 msgstr ""
 
-#: glade/detection.glade:1297
+#: glade/detection.glade:1351
 msgid "Fake Share Action"
 msgstr ""
 
@@ -891,7 +895,7 @@ msgstr ""
 msgid "Favorite Users"
 msgstr ""
 
-#: glade/settingsdialog.glade:7651 linux/settingsdialog.cc:3500
+#: glade/settingsdialog.glade:7651 linux/settingsdialog.cc:3496
 msgid "Favorite name"
 msgstr ""
 
@@ -1063,14 +1067,16 @@ msgstr ""
 msgid "Hubs (normal / registered / op)"
 msgstr ""
 
-#: glade/detection.glade:82 linux/detectiontab.cc:39 linux/detectiontab.cc:56
-#: linux/detectiontab.cc:232 linux/detectiontab.cc:246
-#: linux/detectiontab.cc:270 linux/detectiontab.cc:316
-#: linux/detectiontab.cc:366 linux/detectiontab.cc:442
-#: linux/detectiontab.cc:453 linux/detectiontab.cc:470
-#: linux/detectiontab.cc:486 linux/detectiontab.cc:700
-#: linux/detectiontab.cc:725 linux/detectiontab.cc:769
-#: linux/detectiontab.cc:785 linux/detectiontab.cc:951
+#: glade/detection.glade:82 linux/detectiontab.cc:39 linux/detectiontab.cc:54
+#: linux/detectiontab.cc:67 linux/detectiontab.cc:236
+#: linux/detectiontab.cc:260 linux/detectiontab.cc:360
+#: linux/detectiontab.cc:375 linux/detectiontab.cc:447
+#: linux/detectiontab.cc:472 linux/detectiontab.cc:509
+#: linux/detectiontab.cc:541 linux/detectiontab.cc:609
+#: linux/detectiontab.cc:618 linux/detectiontab.cc:637
+#: linux/detectiontab.cc:649 linux/detectiontab.cc:814
+#: linux/detectiontab.cc:839 linux/detectiontab.cc:883
+#: linux/detectiontab.cc:899 linux/detectiontab.cc:1065
 msgid "ID"
 msgstr ""
 
@@ -1138,7 +1144,7 @@ msgstr ""
 msgid "Limitin on/off"
 msgstr ""
 
-#: glade/detection.glade:1343
+#: glade/detection.glade:1397
 msgid "ListLen Action"
 msgstr ""
 
@@ -1198,15 +1204,15 @@ msgstr ""
 msgid "Matches"
 msgstr ""
 
-#: glade/detection.glade:1863
+#: glade/detection.glade:1739
 msgid "Max Disconects"
 msgstr ""
 
-#: glade/detection.glade:1943
+#: glade/detection.glade:1819
 msgid "Max Filelist"
 msgstr ""
 
-#: glade/detection.glade:1904
+#: glade/detection.glade:1780
 msgid "Max TestSURs"
 msgstr ""
 
@@ -1278,7 +1284,7 @@ msgid ""
 "11PM"
 msgstr ""
 
-#: glade/detection.glade:1813
+#: glade/detection.glade:1689
 msgid "Min FL SIze"
 msgstr ""
 
@@ -1294,7 +1300,7 @@ msgstr ""
 msgid "Min sources online"
 msgstr ""
 
-#: glade/detection.glade:2040
+#: glade/detection.glade:1916
 msgid "Min. ADL Points to Display"
 msgstr ""
 
@@ -1302,13 +1308,13 @@ msgstr ""
 msgid "Mini slot size"
 msgstr ""
 
-#: glade/detection.glade:626 linux/detectiontab.cc:41
-#: linux/detectiontab.cc:272 linux/detectiontab.cc:771
-#: linux/detectiontab.cc:787
+#: glade/detection.glade:624 linux/detectiontab.cc:41
+#: linux/detectiontab.cc:262 linux/detectiontab.cc:885
+#: linux/detectiontab.cc:901
 msgid "MisMatch"
 msgstr ""
 
-#: glade/detection.glade:1331
+#: glade/detection.glade:1385
 msgid "MisMatch FL Version"
 msgstr ""
 
@@ -1316,9 +1322,8 @@ msgstr ""
 msgid "Mode"
 msgstr ""
 
-#: glade/detection.glade:897 glade/detection.glade:1138
-#: glade/detection.glade:1230 glade/highliting.glade:45
-#: glade/settingsdialog.glade:7347
+#: glade/detection.glade:895 glade/detection.glade:1284
+#: glade/highliting.glade:45 glade/settingsdialog.glade:7347
 msgid "Modify"
 msgstr ""
 
@@ -1343,37 +1348,38 @@ msgid "NICK"
 msgstr ""
 
 #: glade/detection.glade:120 glade/detection.glade:436
-#: glade/detection.glade:749 glade/favoritehubs.glade:128
+#: glade/detection.glade:747 glade/favoritehubs.glade:128
 #: glade/settingsdialog.glade:536 linux/detectiontab.cc:35
-#: linux/detectiontab.cc:52 linux/detectiontab.cc:228
-#: linux/detectiontab.cc:242 linux/detectiontab.cc:266
-#: linux/detectiontab.cc:312 linux/detectiontab.cc:348
-#: linux/detectiontab.cc:438 linux/detectiontab.cc:449
-#: linux/detectiontab.cc:466 linux/detectiontab.cc:482
-#: linux/detectiontab.cc:696 linux/detectiontab.cc:724
-#: linux/detectiontab.cc:765 linux/detectiontab.cc:781
-#: linux/favoritehubs.cc:28 linux/favoritehubs.cc:54 linux/favoritehubs.cc:149
-#: linux/favoritehubs.cc:161 linux/favoritehubs.cc:197
-#: linux/favoritehubs.cc:238 linux/favoritehubs.cc:255
-#: linux/favoritehubs.cc:306 linux/favoritehubs.cc:402
-#: linux/favoritehubs.cc:441 linux/favoritehubs.cc:578
-#: linux/favoritehubs.cc:732 linux/highliting.cc:18 linux/highliting.cc:78
-#: linux/highliting.cc:102 linux/highliting.cc:173 linux/highliting.cc:189
-#: linux/highliting.cc:207 linux/highliting.cc:221 linux/publichubs.cc:39
-#: linux/publichubs.cc:156 linux/publichubs.cc:297 linux/recenthub.cc:40
-#: linux/recenthub.cc:77 linux/recenthub.cc:187 linux/recenthub.cc:256
-#: linux/recenthub.cc:265 linux/search.cc:69 linux/search.cc:238
-#: linux/search.cc:255 linux/search.cc:276 linux/settingsdialog.cc:685
-#: linux/settingsdialog.cc:694 linux/settingsdialog.cc:870
-#: linux/settingsdialog.cc:905 linux/settingsdialog.cc:1252
-#: linux/settingsdialog.cc:1351 linux/settingsdialog.cc:1529
-#: linux/settingsdialog.cc:1538 linux/settingsdialog.cc:2791
-#: linux/settingsdialog.cc:2807 linux/settingsdialog.cc:2825
-#: linux/settingsdialog.cc:2843 linux/settingsdialog.cc:2869
-#: linux/settingsdialog.cc:2874 linux/settingsdialog.cc:3112
-#: linux/settingsdialog.cc:3186 linux/settingsdialog.cc:3739
-#: linux/settingsdialog.cc:3830 linux/settingsdialog.cc:3853
-#: linux/settingsdialog.cc:3872
+#: linux/detectiontab.cc:53 linux/detectiontab.cc:64 linux/detectiontab.cc:234
+#: linux/detectiontab.cc:256 linux/detectiontab.cc:371
+#: linux/detectiontab.cc:423 linux/detectiontab.cc:445
+#: linux/detectiontab.cc:468 linux/detectiontab.cc:492
+#: linux/detectiontab.cc:524 linux/detectiontab.cc:607
+#: linux/detectiontab.cc:616 linux/detectiontab.cc:633
+#: linux/detectiontab.cc:645 linux/detectiontab.cc:810
+#: linux/detectiontab.cc:838 linux/detectiontab.cc:879
+#: linux/detectiontab.cc:895 linux/favoritehubs.cc:28 linux/favoritehubs.cc:54
+#: linux/favoritehubs.cc:148 linux/favoritehubs.cc:161
+#: linux/favoritehubs.cc:197 linux/favoritehubs.cc:238
+#: linux/favoritehubs.cc:255 linux/favoritehubs.cc:306
+#: linux/favoritehubs.cc:402 linux/favoritehubs.cc:441
+#: linux/favoritehubs.cc:578 linux/favoritehubs.cc:732 linux/highliting.cc:18
+#: linux/highliting.cc:78 linux/highliting.cc:102 linux/highliting.cc:173
+#: linux/highliting.cc:189 linux/highliting.cc:207 linux/highliting.cc:221
+#: linux/publichubs.cc:39 linux/publichubs.cc:156 linux/publichubs.cc:297
+#: linux/recenthub.cc:40 linux/recenthub.cc:77 linux/recenthub.cc:187
+#: linux/recenthub.cc:256 linux/recenthub.cc:265 linux/search.cc:69
+#: linux/search.cc:238 linux/search.cc:255 linux/search.cc:276
+#: linux/settingsdialog.cc:685 linux/settingsdialog.cc:694
+#: linux/settingsdialog.cc:870 linux/settingsdialog.cc:905
+#: linux/settingsdialog.cc:1252 linux/settingsdialog.cc:1351
+#: linux/settingsdialog.cc:1529 linux/settingsdialog.cc:1538
+#: linux/settingsdialog.cc:2791 linux/settingsdialog.cc:2807
+#: linux/settingsdialog.cc:2825 linux/settingsdialog.cc:2843
+#: linux/settingsdialog.cc:2869 linux/settingsdialog.cc:2874
+#: linux/settingsdialog.cc:3108 linux/settingsdialog.cc:3182
+#: linux/settingsdialog.cc:3735 linux/settingsdialog.cc:3826
+#: linux/settingsdialog.cc:3849 linux/settingsdialog.cc:3868
 msgid "Name"
 msgstr ""
 
@@ -1519,7 +1525,7 @@ msgstr ""
 msgid "Pause"
 msgstr ""
 
-#: glade/detection.glade:2113
+#: glade/detection.glade:1989
 msgid "Percent Fake"
 msgstr ""
 
@@ -1535,9 +1541,9 @@ msgstr ""
 msgid "Play"
 msgstr ""
 
-#: glade/detection.glade:1007 linux/detectiontab.cc:117
-#: linux/detectiontab.cc:1216 linux/detectiontab.cc:1246
-#: linux/detectiontab.cc:1299
+#: glade/detection.glade:1005 linux/detectiontab.cc:134
+#: linux/detectiontab.cc:1346 linux/detectiontab.cc:1376
+#: linux/detectiontab.cc:1430
 msgid "Points"
 msgstr ""
 
@@ -1575,7 +1581,7 @@ msgstr ""
 msgid "Properties"
 msgstr ""
 
-#: glade/detection.glade:2244
+#: glade/detection.glade:2120
 msgid "Protect Users"
 msgstr ""
 
@@ -1611,19 +1617,17 @@ msgstr ""
 msgid "Quit the program"
 msgstr ""
 
-#: glade/detection.glade:1307
+#: glade/detection.glade:1361
 msgid "RMDC Action"
 msgstr ""
 
 #: glade/detection.glade:155 glade/detection.glade:542
 #: glade/settingsdialog.glade:335 linux/detectiontab.cc:38
-#: linux/detectiontab.cc:53 linux/detectiontab.cc:229
-#: linux/detectiontab.cc:243 linux/detectiontab.cc:269
-#: linux/detectiontab.cc:313 linux/detectiontab.cc:365
-#: linux/detectiontab.cc:439 linux/detectiontab.cc:450
-#: linux/detectiontab.cc:467 linux/detectiontab.cc:483
-#: linux/detectiontab.cc:699 linux/detectiontab.cc:768
-#: linux/detectiontab.cc:784
+#: linux/detectiontab.cc:65 linux/detectiontab.cc:259
+#: linux/detectiontab.cc:372 linux/detectiontab.cc:469
+#: linux/detectiontab.cc:634 linux/detectiontab.cc:646
+#: linux/detectiontab.cc:813 linux/detectiontab.cc:882
+#: linux/detectiontab.cc:898
 msgid "Raw"
 msgstr ""
 
@@ -1688,7 +1692,7 @@ msgstr ""
 msgid "Run in background"
 msgstr ""
 
-#: glade/detection.glade:1429
+#: glade/detection.glade:1467
 msgid "Save"
 msgstr ""
 
@@ -1740,7 +1744,7 @@ msgstr ""
 msgid "Security Certificates"
 msgstr ""
 
-#: glade/mainwindow.glade:792 linux/mainwindow.cc:2106
+#: glade/mainwindow.glade:792 linux/mainwindow.cc:2116
 msgid "Select filelist to browse"
 msgstr ""
 
@@ -1752,7 +1756,7 @@ msgstr ""
 msgid "Send once per nick"
 msgstr ""
 
-#: glade/settingsdialog.glade:388 linux/settingsdialog.cc:3138
+#: glade/settingsdialog.glade:388 linux/settingsdialog.cc:3134
 msgid "Separator"
 msgstr ""
 
@@ -1776,11 +1780,11 @@ msgstr ""
 msgid "Sharing"
 msgstr ""
 
-#: glade/detection.glade:1789
+#: glade/detection.glade:1665
 msgid "Show ADL Action"
 msgstr ""
 
-#: glade/detection.glade:1754
+#: glade/detection.glade:1648
 msgid "Show Cheats on Mc"
 msgstr ""
 
@@ -1788,10 +1792,10 @@ msgstr ""
 msgid "Show magnet dialog"
 msgstr ""
 
-#: glade/detection.glade:1553 glade/detection.glade:1568
-#: glade/detection.glade:1585 glade/detection.glade:1602
-#: glade/detection.glade:1619 glade/detection.glade:1636
-#: glade/detection.glade:1653 glade/detection.glade:1688
+#: glade/detection.glade:1483 glade/detection.glade:1498
+#: glade/detection.glade:1515 glade/detection.glade:1532
+#: glade/detection.glade:1549 glade/detection.glade:1566
+#: glade/detection.glade:1583 glade/detection.glade:1600
 msgid "Show on MC"
 msgstr ""
 
@@ -1816,7 +1820,7 @@ msgstr ""
 #: linux/downloadqueue.cc:379 linux/search.cc:86 linux/search.cc:116
 #: linux/search.cc:635 linux/search.cc:726 linux/search.cc:852
 #: linux/settingsdialog.cc:951 linux/settingsdialog.cc:957
-#: linux/settingsdialog.cc:3568 linux/settingsdialog.cc:3637
+#: linux/settingsdialog.cc:3564 linux/settingsdialog.cc:3633
 #: linux/sharebrowser.cc:75 linux/sharebrowser.cc:95 linux/sharebrowser.cc:280
 #: linux/sharebrowser.cc:320 linux/transfers.cc:62 linux/transfers.cc:552
 #: linux/transfers.cc:632 linux/transfers.cc:718 linux/transfers.cc:733
@@ -1824,19 +1828,19 @@ msgstr ""
 msgid "Size"
 msgstr ""
 
-#: glade/detection.glade:2001
+#: glade/detection.glade:1877
 msgid "Sleep Time"
 msgstr ""
 
-#: glade/detection.glade:2190
+#: glade/detection.glade:2066
 msgid "Slow Download Time"
 msgstr ""
 
-#: glade/detection.glade:2137
+#: glade/detection.glade:2013
 msgid "Slow Speed"
 msgstr ""
 
-#: glade/detection.glade:1391
+#: glade/detection.glade:1445
 msgid "SlowSpeed"
 msgstr ""
 
@@ -1916,7 +1920,7 @@ msgstr ""
 msgid "To (empty for selected user)"
 msgstr ""
 
-#: glade/detection.glade:1379
+#: glade/detection.glade:1433
 msgid "Too Big/Small FL"
 msgstr ""
 
@@ -1960,7 +1964,7 @@ msgstr ""
 msgid "Trusted certificates path"
 msgstr ""
 
-#: glade/detection.glade:244 glade/detection.glade:767 linux/search.cc:85
+#: glade/detection.glade:244 glade/detection.glade:765 linux/search.cc:85
 #: linux/search.cc:637 linux/search.cc:740 linux/search.cc:867
 #: linux/search.cc:1667 linux/sharebrowser.cc:76 linux/sharebrowser.cc:283
 #: linux/sharebrowser.cc:304
@@ -2007,7 +2011,7 @@ msgstr ""
 msgid "Use Blinking Icon"
 msgstr ""
 
-#: glade/detection.glade:2074
+#: glade/detection.glade:1950
 msgid "Use Delay Raw"
 msgstr ""
 
@@ -2015,7 +2019,7 @@ msgstr ""
 msgid "Use SOCKS5 server to resolve hostnames"
 msgstr ""
 
-#: glade/detection.glade:1737
+#: glade/detection.glade:1631
 msgid "Use SlowDowKick"
 msgstr ""
 
@@ -2063,13 +2067,13 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: glade/detection.glade:756 linux/detectiontab.cc:82
-#: linux/detectiontab.cc:894 linux/detectiontab.cc:998
-#: linux/detectiontab.cc:1095
+#: glade/detection.glade:754 linux/detectiontab.cc:103
+#: linux/detectiontab.cc:1008 linux/detectiontab.cc:1112
+#: linux/detectiontab.cc:1211
 msgid "Value"
 msgstr ""
 
-#: glade/detection.glade:1355
+#: glade/detection.glade:1409
 msgid "Version Mismatch"
 msgstr ""
 
@@ -2268,8 +2272,8 @@ msgstr ""
 msgid "_Refresh file list"
 msgstr ""
 
-#: glade/adlsearch.glade:123 glade/detection.glade:2322
-#: glade/detection.glade:2343 glade/detection.glade:2364
+#: glade/adlsearch.glade:123 glade/detection.glade:2356
+#: glade/detection.glade:2377 glade/detection.glade:2398
 #: glade/downloadqueue.glade:188 glade/downloadqueue.glade:336
 #: glade/favoriteusers.glade:93 glade/highliting.glade:85
 #: glade/ignoreeusers.glade:216 glade/recenthub.glade:49
@@ -2350,14 +2354,22 @@ msgstr ""
 msgid "is user"
 msgstr ""
 
+#: glade/detection.glade:1153
+msgid "rem Action"
+msgstr ""
+
+#: glade/detection.glade:1195
+msgid "rem Raw"
+msgstr ""
+
 #: glade/settingsdialog.glade:2511 glade/settingsdialog.glade:2527
 #: glade/settingsdialog.glade:2569 linux/hashdialog.cc:79
-#: linux/mainwindow.cc:794 linux/mainwindow.cc:795 linux/mainwindow.cc:2481
-#: linux/mainwindow.cc:2483 linux/treeview.cc:209
+#: linux/mainwindow.cc:804 linux/mainwindow.cc:805 linux/mainwindow.cc:2491
+#: linux/mainwindow.cc:2493 linux/treeview.cc:209
 msgid "s"
 msgstr ""
 
-#: glade/detection.glade:2218
+#: glade/detection.glade:2094
 msgid "sec"
 msgstr ""
 
@@ -2524,7 +2536,7 @@ msgstr ""
 msgid "*** Available commands:"
 msgstr ""
 
-#: linux/WulforUtil.cc:1544
+#: linux/WulforUtil.cc:1546
 msgid "*** Info on "
 msgstr ""
 
@@ -2532,11 +2544,11 @@ msgstr ""
 msgid "*** T E S T ***"
 msgstr ""
 
-#: linux/WulforUtil.cc:1417
+#: linux/WulforUtil.cc:1419
 msgid "---------- Cleaning the chat ----------"
 msgstr ""
 
-#: linux/WulforUtil.cc:1419
+#: linux/WulforUtil.cc:1421
 msgid "---------- The chat has been cleaned ----------"
 msgstr ""
 
@@ -2594,7 +2606,7 @@ msgstr ""
 msgid "<b>Name of the new search type</b>"
 msgstr ""
 
-#: linux/settingsdialog.cc:2909
+#: linux/settingsdialog.cc:2905
 msgid "<b>Name under which the others see the directory</b>"
 msgstr ""
 
@@ -2602,11 +2614,11 @@ msgstr ""
 msgid "<b>New name</b>"
 msgstr ""
 
-#: linux/settingsdialog.cc:3502
+#: linux/settingsdialog.cc:3498
 msgid "<b>Under what name you see the directory</b>"
 msgstr ""
 
-#: linux/mainwindow.cc:2420
+#: linux/mainwindow.cc:2430
 msgid "<b>file:</b> "
 msgstr ""
 
@@ -2666,7 +2678,7 @@ msgstr ""
 msgid "Alias add uname -a as A"
 msgstr ""
 
-#: linux/WulforUtil.cc:1451
+#: linux/WulforUtil.cc:1453
 msgid "Aliases not found."
 msgstr ""
 
@@ -2692,7 +2704,7 @@ msgstr ""
 msgid "Application"
 msgstr ""
 
-#: linux/detectiontab.cc:732
+#: linux/detectiontab.cc:846
 #, c-format, boost-format
 msgid "Are you sure you want to delete Entry \"%s\"?"
 msgstr ""
@@ -2715,7 +2727,7 @@ msgstr ""
 msgid "Are you sure you want to delete ignore user(s)?"
 msgstr ""
 
-#: linux/detectiontab.cc:922 linux/detectiontab.cc:1320
+#: linux/detectiontab.cc:1036 linux/detectiontab.cc:1451
 msgid "Are you sure you want to delete item?"
 msgstr ""
 
@@ -2723,7 +2735,7 @@ msgstr ""
 msgid "Are you sure you want to delete recent hub(s)?"
 msgstr ""
 
-#: linux/detectiontab.cc:355
+#: linux/detectiontab.cc:499 linux/detectiontab.cc:531
 #, c-format, boost-format
 msgid "Are you sure you want to delete this item \"%s\"?"
 msgstr ""
@@ -2766,16 +2778,16 @@ msgstr ""
 msgid "Away mode message on/off"
 msgstr ""
 
-#: linux/WulforUtil.cc:1246 linux/WulforUtil.cc:1259 linux/hub.cc:2034
-#: linux/mainwindow.cc:483 linux/privatemessage.cc:874
+#: linux/WulforUtil.cc:1248 linux/WulforUtil.cc:1261 linux/hub.cc:2034
+#: linux/mainwindow.cc:481 linux/privatemessage.cc:874
 msgid "Away mode off"
 msgstr ""
 
-#: linux/mainwindow.cc:489
+#: linux/mainwindow.cc:488
 msgid "Away mode on"
 msgstr ""
 
-#: linux/WulforUtil.cc:1253
+#: linux/WulforUtil.cc:1255
 msgid "Away mode on: "
 msgstr ""
 
@@ -2841,12 +2853,12 @@ msgid "Clear search box after each search"
 msgstr ""
 
 #: linux/ADLSearchGUI.cc:663 linux/System.cc:124 linux/cmddebug.cc:153
-#: linux/detectiontab.cc:1453 linux/downloadqueue.cc:1429
+#: linux/detectiontab.cc:1732 linux/downloadqueue.cc:1429
 #: linux/favoritehubs.cc:1273 linux/favoriteusers.cc:649
 #: linux/finishedtransfers.cc:435 linux/highliting.cc:427 linux/hub.cc:3919
 #: linux/ignoreusers.cc:577 linux/notepad.cc:116 linux/privatemessage.cc:1260
 #: linux/publichubs.cc:487 linux/recenthub.cc:325 linux/search.cc:2011
-#: linux/searchspy.cc:675 linux/sharebrowser.cc:1090
+#: linux/searchspy.cc:675 linux/sharebrowser.cc:1091
 msgid "Close"
 msgstr ""
 
@@ -2866,11 +2878,11 @@ msgstr ""
 msgid "Closing connection..."
 msgstr ""
 
-#: linux/settingsdialog.cc:3232
+#: linux/settingsdialog.cc:3228
 msgid "Command name already exists"
 msgstr ""
 
-#: linux/WulforUtil.cc:1235
+#: linux/WulforUtil.cc:1237
 msgid "Command send: "
 msgstr ""
 
@@ -2918,7 +2930,7 @@ msgstr ""
 msgid "Copy CID"
 msgstr ""
 
-#: linux/privatemessage.cc:1263 linux/sharebrowser.cc:1093
+#: linux/privatemessage.cc:1263 linux/sharebrowser.cc:1094
 msgid "Copy Nick"
 msgstr ""
 
@@ -2952,7 +2964,7 @@ msgstr ""
 msgid "Detection Settings"
 msgstr ""
 
-#: linux/settingsdialog.cc:3523
+#: linux/settingsdialog.cc:3519
 msgid "Directory or favorite name already exists"
 msgstr ""
 
@@ -3022,7 +3034,7 @@ msgstr ""
 msgid "Download starting: "
 msgstr ""
 
-#: linux/mainwindow.cc:766
+#: linux/mainwindow.cc:776
 msgid "Download: "
 msgstr ""
 
@@ -3051,13 +3063,14 @@ msgstr ""
 msgid "Emotion packs"
 msgstr ""
 
-#: linux/detectiontab.cc:34 linux/detectiontab.cc:55 linux/detectiontab.cc:75
-#: linux/detectiontab.cc:231 linux/detectiontab.cc:245
-#: linux/detectiontab.cc:265 linux/detectiontab.cc:315
-#: linux/detectiontab.cc:441 linux/detectiontab.cc:452
-#: linux/detectiontab.cc:469 linux/detectiontab.cc:485
-#: linux/detectiontab.cc:695 linux/detectiontab.cc:764
-#: linux/detectiontab.cc:780 linux/detectiontab.cc:950
+#: linux/detectiontab.cc:34 linux/detectiontab.cc:52 linux/detectiontab.cc:63
+#: linux/detectiontab.cc:96 linux/detectiontab.cc:235
+#: linux/detectiontab.cc:255 linux/detectiontab.cc:374
+#: linux/detectiontab.cc:446 linux/detectiontab.cc:471
+#: linux/detectiontab.cc:608 linux/detectiontab.cc:617
+#: linux/detectiontab.cc:636 linux/detectiontab.cc:648
+#: linux/detectiontab.cc:809 linux/detectiontab.cc:878
+#: linux/detectiontab.cc:894 linux/detectiontab.cc:1064
 msgid "Enable"
 msgstr ""
 
@@ -3073,7 +3086,7 @@ msgstr ""
 msgid "Enable segmented downloads"
 msgstr ""
 
-#: linux/mainwindow.cc:1344
+#: linux/mainwindow.cc:1354
 msgid "Enter value for "
 msgstr ""
 
@@ -3126,7 +3139,7 @@ msgid "Extra Info"
 msgstr ""
 
 #: linux/settingsdialog.cc:848 linux/settingsdialog.cc:862
-#: linux/settingsdialog.cc:3517
+#: linux/settingsdialog.cc:3513
 msgid "Favorite Name"
 msgstr ""
 
@@ -3152,9 +3165,13 @@ msgstr ""
 msgid "Favorite user quit"
 msgstr ""
 
-#: linux/detectiontab.cc:81 linux/detectiontab.cc:893
-#: linux/detectiontab.cc:997 linux/detectiontab.cc:1094
+#: linux/detectiontab.cc:102 linux/detectiontab.cc:1007
+#: linux/detectiontab.cc:1111 linux/detectiontab.cc:1210
 msgid "Field"
+msgstr ""
+
+#: linux/detectiontab.cc:1232
+msgid "Fields Name, ID and detection fields are required"
 msgstr ""
 
 #: linux/UserCommandMenu.cc:69 linux/settingsdialog.cc:350
@@ -3175,7 +3192,7 @@ msgstr ""
 msgid "File not available"
 msgstr ""
 
-#: linux/mainwindow.cc:2333
+#: linux/mainwindow.cc:2343
 msgid ""
 "File transfers will not work correctly until you change settings or turn off "
 "any application that might be using the TCP/TLS port."
@@ -3207,9 +3224,9 @@ msgstr ""
 msgid "Filter kick and NMDC debug messages"
 msgstr ""
 
-#: linux/detectiontab.cc:40 linux/detectiontab.cc:271
-#: linux/detectiontab.cc:701 linux/detectiontab.cc:770
-#: linux/detectiontab.cc:786
+#: linux/detectiontab.cc:40 linux/detectiontab.cc:261
+#: linux/detectiontab.cc:815 linux/detectiontab.cc:884
+#: linux/detectiontab.cc:900
 msgid "Flag"
 msgstr ""
 
@@ -3270,13 +3287,13 @@ msgstr ""
 msgid "Higlitings"
 msgstr ""
 
-#: linux/detectiontab.cc:83 linux/detectiontab.cc:895
-#: linux/detectiontab.cc:999 linux/detectiontab.cc:1096 linux/search.cc:90
+#: linux/detectiontab.cc:104 linux/detectiontab.cc:1009
+#: linux/detectiontab.cc:1113 linux/detectiontab.cc:1212 linux/search.cc:90
 #: linux/search.cc:639 linux/search.cc:735 linux/search.cc:864
 #: linux/settingsdialog.cc:1530 linux/settingsdialog.cc:1540
-#: linux/settingsdialog.cc:3113 linux/settingsdialog.cc:3187
-#: linux/settingsdialog.cc:3740 linux/settingsdialog.cc:3831
-#: linux/settingsdialog.cc:3854 linux/settingsdialog.cc:3873
+#: linux/settingsdialog.cc:3109 linux/settingsdialog.cc:3183
+#: linux/settingsdialog.cc:3736 linux/settingsdialog.cc:3827
+#: linux/settingsdialog.cc:3850 linux/settingsdialog.cc:3869
 msgid "Hub"
 msgstr ""
 
@@ -3412,7 +3429,7 @@ msgstr ""
 msgid "Load Lua file"
 msgstr ""
 
-#: linux/mainwindow.cc:2143
+#: linux/mainwindow.cc:2153
 msgid "Loading file list"
 msgstr ""
 
@@ -3432,11 +3449,11 @@ msgstr ""
 msgid "Lowest"
 msgstr ""
 
-#: linux/mainwindow.cc:1528
+#: linux/mainwindow.cc:1538
 msgid "Magnet Choice"
 msgstr ""
 
-#: linux/mainwindow.cc:1401
+#: linux/mainwindow.cc:1411
 msgid "Magnet Properties / Choice"
 msgstr ""
 
@@ -3491,11 +3508,11 @@ msgstr ""
 msgid "My own message"
 msgstr ""
 
-#: linux/settingsdialog.cc:3226
+#: linux/settingsdialog.cc:3222
 msgid "Name and command must not be empty"
 msgstr ""
 
-#: linux/publichubs.cc:365 linux/settingsdialog.cc:3425
+#: linux/publichubs.cc:365 linux/settingsdialog.cc:3421
 msgid "New list"
 msgstr ""
 
@@ -3514,7 +3531,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: linux/WulforUtil.cc:1297
+#: linux/WulforUtil.cc:1299
 msgid "No 0 Slots!!"
 msgstr ""
 
@@ -3716,13 +3733,13 @@ msgstr ""
 msgid "Searching too soon, retry in "
 msgstr ""
 
-#: linux/mainwindow.cc:2347
+#: linux/mainwindow.cc:2357
 msgid ""
 "Searching will not work correctly until you change settings or turn off any "
 "application that might be using the UDP port."
 msgstr ""
 
-#: linux/mainwindow.cc:1469
+#: linux/mainwindow.cc:1479
 msgid "Select file to Get TTH"
 msgstr ""
 
@@ -3746,7 +3763,7 @@ msgstr ""
 msgid "Set Slots to n"
 msgstr ""
 
-#: linux/WulforUtil.cc:1304
+#: linux/WulforUtil.cc:1306
 msgid "Set Slots to:"
 msgstr ""
 
@@ -3765,7 +3782,7 @@ msgstr ""
 msgid "Shared"
 msgstr ""
 
-#: linux/mainwindow.cc:809 linux/mainwindow.cc:2363
+#: linux/mainwindow.cc:819 linux/mainwindow.cc:2373
 msgid "Shared: "
 msgstr ""
 
@@ -3875,7 +3892,7 @@ msgstr ""
 msgid "Slots"
 msgstr ""
 
-#: linux/mainwindow.cc:808
+#: linux/mainwindow.cc:818
 msgid "Slots:"
 msgstr ""
 
@@ -3929,8 +3946,9 @@ msgid "Status message"
 msgstr ""
 
 #: linux/settingsdialog.cc:1070 linux/settingsdialog.cc:1143
-#: linux/settingsdialog.cc:2509 linux/settingsdialog.cc:2944
-#: linux/settingsdialog.cc:2987 linux/settingsdialog.cc:3083
+#: linux/settingsdialog.cc:2509 linux/settingsdialog.cc:2940
+#: linux/settingsdialog.cc:2983 linux/settingsdialog.cc:3024
+#: linux/settingsdialog.cc:3079
 msgid "Style"
 msgstr ""
 
@@ -3963,19 +3981,18 @@ msgstr ""
 msgid "The name and address fields are required"
 msgstr ""
 
-#: linux/mainwindow.cc:534
+#: linux/mainwindow.cc:537
 msgid "Throtle off"
 msgstr ""
 
-#: linux/mainwindow.cc:536
+#: linux/mainwindow.cc:543
 msgid "Throtle on"
 msgstr ""
 
-#: linux/detectiontab.cc:54 linux/detectiontab.cc:230
-#: linux/detectiontab.cc:244 linux/detectiontab.cc:314
-#: linux/detectiontab.cc:440 linux/detectiontab.cc:451
-#: linux/detectiontab.cc:468 linux/detectiontab.cc:484 linux/searchspy.cc:53
-#: linux/searchspy.cc:265 linux/searchspy.cc:290 linux/searchspy.cc:306
+#: linux/detectiontab.cc:66 linux/detectiontab.cc:373
+#: linux/detectiontab.cc:470 linux/detectiontab.cc:635
+#: linux/detectiontab.cc:647 linux/searchspy.cc:53 linux/searchspy.cc:265
+#: linux/searchspy.cc:290 linux/searchspy.cc:306
 msgid "Time"
 msgstr ""
 
@@ -4003,7 +4020,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: linux/settingsdialog.cc:3642
+#: linux/settingsdialog.cc:3638
 msgid "Total size: "
 msgstr ""
 
@@ -4027,15 +4044,15 @@ msgstr ""
 msgid "Unable to load file list: "
 msgstr ""
 
-#: linux/mainwindow.cc:2131
+#: linux/mainwindow.cc:2141
 msgid "Unable to load file list: Invalid file list name"
 msgstr ""
 
-#: linux/mainwindow.cc:2332
+#: linux/mainwindow.cc:2342
 msgid "Unable to open TCP/TLS port"
 msgstr ""
 
-#: linux/mainwindow.cc:2346
+#: linux/mainwindow.cc:2356
 msgid "Unable to open UDP port"
 msgstr ""
 
@@ -4076,7 +4093,7 @@ msgstr ""
 msgid "Upload starting..."
 msgstr ""
 
-#: linux/mainwindow.cc:766
+#: linux/mainwindow.cc:776
 msgid "Upload: "
 msgstr ""
 
@@ -4084,7 +4101,7 @@ msgstr ""
 msgid "Uploaded "
 msgstr ""
 
-#: linux/WulforUtil.cc:1408
+#: linux/WulforUtil.cc:1410
 msgid "Uptime: "
 msgstr ""
 
@@ -4322,12 +4339,12 @@ msgstr ""
 msgid "View status messages in main chat"
 msgstr ""
 
-#: linux/settingsdialog.cc:949 linux/settingsdialog.cc:3566
-#: linux/settingsdialog.cc:3635
+#: linux/settingsdialog.cc:949 linux/settingsdialog.cc:3562
+#: linux/settingsdialog.cc:3631
 msgid "Virtual Name"
 msgstr ""
 
-#: linux/settingsdialog.cc:2906
+#: linux/settingsdialog.cc:2902
 msgid "Virtual name"
 msgstr ""
 
@@ -4344,7 +4361,7 @@ msgstr ""
 msgid "Waiting to retry"
 msgstr ""
 
-#: linux/mainwindow.cc:276
+#: linux/mainwindow.cc:274
 msgid "Welcome to "
 msgstr ""
 
@@ -4363,7 +4380,7 @@ msgstr ""
 msgid "You must enter a name"
 msgstr ""
 
-#: linux/settingsdialog.cc:3628
+#: linux/settingsdialog.cc:3624
 msgid "[HIDDEN SHARE] "
 msgstr ""
 
@@ -4395,11 +4412,11 @@ msgstr ""
 msgid "eMail"
 msgstr ""
 
-#: linux/mainwindow.cc:2396
+#: linux/mainwindow.cc:2406
 msgid "file list from "
 msgstr ""
 
-#: linux/WulforUtil.cc:1266
+#: linux/WulforUtil.cc:1268
 msgid "project home: "
 msgstr ""
 
@@ -4415,7 +4432,7 @@ msgstr ""
 msgid "sc"
 msgstr ""
 
-#: linux/settingsdialog.cc:2962 linux/settingsdialog.cc:3063
+#: linux/settingsdialog.cc:2958 linux/settingsdialog.cc:3059
 msgid "selected style failed"
 msgstr ""
 

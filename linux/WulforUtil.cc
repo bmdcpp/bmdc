@@ -28,8 +28,8 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include "settingsmanager.hh"
-
 #include "version.hh"
+
 #include <dcpp/HashManager.h>
 #include <dcpp/ShareManager.h>
 #include <dcpp/version.h>
@@ -1029,7 +1029,7 @@ GtkStockItem WulforUtil::icons[] ={
 	{ JE ,"JE"}
 	};
 
-/* 
+/*
 * load Country Flag
 */
 
@@ -1040,7 +1040,7 @@ GdkPixbuf *WulforUtil::loadCountry(const string &country)
 	GtkIconFactory *ffactory = gtk_icon_factory_new();
 	for (int i = 0; i < G_N_ELEMENTS(icons); i++)
 	{
-		
+
 			if(country==icons[i].stock_id)
 			{
 				gchar *path = g_strdup_printf(_DATADIR "/country/%s.png",
@@ -1057,9 +1057,9 @@ GdkPixbuf *WulforUtil::loadCountry(const string &country)
 			}
 	}
 
-	GtkStockItem item[] ={{NONE,"questionb"}};
-	gchar *path = g_strdup_printf(_DATADIR "/country/%s.png",item[0].stock_id);
-	GdkPixbuf *buf = gdk_pixbuf_new_from_file(path,NULL);
+	GtkStockItem item[] ={{NONE, "questionb"}};
+	gchar *path = g_strdup_printf(_DATADIR "/country/%s.png", item[0].stock_id);
+	GdkPixbuf *buf = gdk_pixbuf_new_from_file(path, NULL);
 	if(buf != NULL)
 		return buf;
 	else
@@ -1121,8 +1121,10 @@ void WulforUtil::registerIcons()
 	icons["bmdc-ignore-users"] = wsm->getString("icon-ignore");
 	icons["bmdc-system"] = wsm->getString("icon-system");
 	icons["bmdc-away"] = wsm->getString("icon-away");
+	icons["bmdc-away-on"] = wsm->getString("icon-away-on");
 	icons["bmdc-none"] = wsm->getString("icon-none");
 	icons["bmdc-limiting"] = wsm->getString("icon-limiting");
+	icons["bmdc-limiting-on"] = wsm->getString("icon-limiting-on");
 	icons["bmdc-highlight"] = wsm->getString("icon-highlight");
 	/**/
 	icons["bmdc-pm-online"] = wsm->getString("icon-pm-online");
@@ -1336,7 +1338,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 					+ "Time: " + Util::getShortTimeString() + "\n"
 					+ "Mem Usage (Free/Total):" + Util::toString(uram/megabyte) + " MB /" + Util::toString(toram/megabyte) + " MB \n"
 					+ "Detection (failed/total) :" + Util::toString(detfail) + " /" + Util::toString(dettotal) + "\n";
-					
+
 	}
 	/// "Now Playing" spam // added by curse and Irene
 	else if (cmd == "amar")
@@ -1355,8 +1357,8 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 		{
 			message = s.Output();
 			status += s.ErrorMessage();
-			thirdperson = s.isThirdPerson();	
-			
+			thirdperson = s.isThirdPerson();
+
 		}
 	}
  	else if (cmd == "auda" || cmd == "w")
@@ -1422,9 +1424,9 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	else if ( cmd == "leech" )
 	{
 		if (param == "mc")
-			message = generateLeech();	
+			message = generateLeech();
 		else
-			status += generateLeech();	
+			status += generateLeech();
 	}
 	//alias patch
 	else if (cmd == "alias" && !param.empty())
@@ -1543,7 +1545,7 @@ string WulforUtil::getReport(const Identity& identity)
 
 	string report = _("*** Info on " )+ identity.getNick() + " ***" + "\n";
 
-	for(map<string, string>::const_iterator i = reportMap.begin(); i != reportMap.end(); ++i) 
+	for(map<string, string>::const_iterator i = reportMap.begin(); i != reportMap.end(); ++i)
 	{
 		report += "\n" + i->first + ": " +  i->second;
 	}
@@ -1579,7 +1581,7 @@ string WulforUtil::generateLeech() {
 
 	char buf[650];
 	snprintf(buf, sizeof(buf), "\n\t [ BMDC++ %s %s Leech Stats ]\r\n [ Downloaded:\t\t\t %s ]\r\n [ Uploaded:\t\t\t %s ]\r\n [ Total Download:\t\t %s ]\r\n [ Total Upload:\t\t\t %s ]\r\n [ Ratio: \t\t\t\t %s ]\r\n [ Current Uploads:\t\t %s Running Upload(s) ]\r\n [ Current Upload Speed: \t\t %s/s ]\r\n [ Current Downloads:\t\t %s Running Download(s) ]\r\n [ Current Download Speed: \t %s/s ]",
-		VERSIONSTRING, GUI_VERSION_STRING, Util::formatBytes(Socket::getTotalDown()).c_str(), Util::formatBytes(Socket::getTotalUp()).c_str(), 
+		VERSIONSTRING, GUI_VERSION_STRING, Util::formatBytes(Socket::getTotalDown()).c_str(), Util::formatBytes(Socket::getTotalUp()).c_str(),
 		Util::formatBytes(Util::toDouble(WGETS("dw-st"))).c_str(), Util::formatBytes(Util::toDouble(WGETS("up-st"))).c_str(),
 		Util::toString((((double)Util::toDouble(WGETS("up-st"))) / ((double)Util::toDouble(WGETS("dw-st"))))).c_str(),
 		Util::toString(UploadManager::getInstance()->getUploadCount()).c_str(), Util::formatBytes(UploadManager::getInstance()->getRunningAverage()).c_str(),
@@ -1597,7 +1599,7 @@ void WulforUtil::drop_combo(GtkWidget *widget, vector<pair<std::string,int> > CO
 
 	list_store = gtk_list_store_new(1,G_TYPE_STRING);
 
-	for (cont=0; cont < CONTEUDO.size();cont++)
+	for (cont=0; cont < CONTEUDO.size(); cont++)
 	{
 		char conteude[130];
 		sprintf(conteude,"%s",CONTEUDO.at(cont).first.c_str());
@@ -1608,10 +1610,11 @@ void WulforUtil::drop_combo(GtkWidget *widget, vector<pair<std::string,int> > CO
 	gtk_combo_box_set_model(GTK_COMBO_BOX(widget),GTK_TREE_MODEL(list_store));
 
 	renderer = gtk_cell_renderer_text_new();
-	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(widget),renderer,TRUE);
-	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(widget),renderer,"text",0,NULL);
+	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(widget), renderer, TRUE);
+	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(widget),renderer, "text", 0, NULL);
 
-    gtk_combo_box_entry_set_text_column(GTK_COMBO_BOX_ENTRY(widget),0);
+   // gtk_combo_box_entry_set_text_column(GTK_COMBO_BOX_ENTRY(widget), 0);
+   gtk_combo_box_set_active(GTK_COMBO_BOX(widget),  0);
 
 }
 
@@ -1656,6 +1659,7 @@ vector<std::pair<std::string,int> >& WulforUtil::getActions()
 			}
 			return actions;
 }
+
 void WulforUtil::loadmimetypes()
 {
 	m_mimetyp.insert( std::pair<std::string, std::string>(".zip","application/zip"));
@@ -1720,7 +1724,7 @@ void WulforUtil::loadmimetypes()
 	m_mimetyp.insert( std::pair<std::string, std::string>(".wav","audio/x-wav"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".cue","application/x-cue"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".rm", "application/vnd.rn-realmedia"));
-	
+
 }
 
 GdkPixbuf *WulforUtil::loadIconSB(std::string ext)
@@ -1728,49 +1732,49 @@ GdkPixbuf *WulforUtil::loadIconSB(std::string ext)
 	if(ext == "directory" || ext.empty())
 	{
 		GtkWidget *iwid = gtk_invisible_new ();
-		GdkPixbuf *buf = gtk_widget_render_icon(iwid,GTK_STOCK_DIRECTORY,GTK_ICON_SIZE_MENU,NULL);  
+		GdkPixbuf *buf = gtk_widget_render_icon(iwid,GTK_STOCK_DIRECTORY,GTK_ICON_SIZE_MENU,NULL);
 		return buf;
-	}	
-		
+	}
+
 	loadmimetypes();
 
 	std::map<std::string,std::string>::iterator it = m_mimetyp.find(ext);
 	if(it == m_mimetyp.end())
 	{
 		GtkWidget *iwid = gtk_invisible_new ();
-		GdkPixbuf *buf = gtk_widget_render_icon(iwid,GTK_STOCK_FILE,GTK_ICON_SIZE_MENU,NULL);  
+		GdkPixbuf *buf = gtk_widget_render_icon(iwid,GTK_STOCK_FILE,GTK_ICON_SIZE_MENU,NULL);
 		return buf;
 	}
-	
+
 	GIcon *icon =g_content_type_get_icon((const gchar *)it->second.c_str());
 	GtkIconTheme *theme = gtk_icon_theme_get_default ();
-	GtkIconInfo *info = gtk_icon_theme_lookup_by_gicon(theme,icon,(GtkIconSize)16,GTK_ICON_LOOKUP_GENERIC_FALLBACK); 
+	GtkIconInfo *info = gtk_icon_theme_lookup_by_gicon(theme,icon,(GtkIconSize)16,GTK_ICON_LOOKUP_GENERIC_FALLBACK);
 	GdkPixbuf *icon_d = gtk_icon_info_load_icon (info,NULL);
 	g_object_unref(icon);
-	return icon_d;	
-	
+	return icon_d;
+
 }
 
-/*see http://svn.xiph.org/trunk/sushivision/gtksucks.c */
-void WulforUtil::my_gtk_widget_remove_events (GtkWidget *widget,gint       events)
+/* see http://svn.xiph.org/trunk/sushivision/gtksucks.c */
+void WulforUtil::my_gtk_widget_remove_events (GtkWidget *widget,gint events)
 {
-  
+
   g_return_if_fail (GTK_IS_WIDGET (widget));
 
   GQuark quark_event_mask = g_quark_from_static_string ("gtk-event-mask");
   gint *eventp = g_object_get_qdata (G_OBJECT (widget), quark_event_mask);
   gint original_events = events;
-  
+
   if (!eventp){
     eventp = g_slice_new (gint);
     *eventp = 0;
   }
-  
+
   events = ~events;
   events &= *eventp;
 
   if(events)
-  { 
+  {
     *eventp = events;
     g_object_set_qdata (G_OBJECT (widget), quark_event_mask, eventp);
   }
@@ -1783,35 +1787,35 @@ void WulforUtil::my_gtk_widget_remove_events (GtkWidget *widget,gint       event
   if (GTK_WIDGET_REALIZED (widget))
   {
     GList *window_list;
-    
+
     if (GTK_WIDGET_NO_WINDOW (widget))
       window_list = gdk_window_get_children (widget->window);
     else
       window_list = g_list_prepend (NULL, widget->window);
-    
+
     remove_events_internal (widget, original_events, window_list);
-    
+
     g_list_free (window_list);
   }
-  
+
   g_object_notify (G_OBJECT (widget), "events");
 }
 
 void WulforUtil::remove_events_internal (GtkWidget *widget, gint events, GList     *window_list)
 {
   GList *l;
-  
+
   for (l = window_list; l != NULL; l = l->next)
   {
     GdkWindow *window = l->data;
     gpointer user_data;
-    
+
     gdk_window_get_user_data (window, &user_data);
     if (user_data == widget){
       GList *children;
-      
+
       gdk_window_set_events (window, gdk_window_get_events(window) & (~events));
-      
+
       children = gdk_window_get_children (window);
       remove_events_internal (widget, events, children);
       g_list_free (children);

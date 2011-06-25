@@ -17,7 +17,7 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
+#include "format.h"
 
 #include "Socket.h"
 
@@ -68,7 +68,7 @@ void Socket::create(int aType /* = TYPE_TCP */) throw(SocketException) {
 		sock = checksocket(socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP));
 		break;
 	default:
-		dcasserta(0);
+		dcassert(0);
 	}
 	type = aType;
 	setBlocking(false);

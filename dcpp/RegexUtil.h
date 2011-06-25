@@ -23,6 +23,8 @@
 
 //#include "ResourceManager.h"
 //#include <boost/regex.hpp>
+
+#include "typedefs.h"
 #include <regex.h>
 
 namespace dcpp {

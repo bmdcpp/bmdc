@@ -112,7 +112,6 @@ FavoriteHubs::FavoriteHubs():
 	g_signal_connect(groupView.get(), "button-release-event", G_CALLBACK(onGroupsButtonReleased_gui), (gpointer)this);
 	g_signal_connect(groupView.get(), "key-release-event", G_CALLBACK(onGroupsKeyReleased_gui), (gpointer)this);
 	
-	
 }
 
 FavoriteHubs::~FavoriteHubs()
@@ -151,6 +150,7 @@ void FavoriteHubs::initialze_client()
 
 		GtkTreeIter piter;
         const FavoriteHubEntryList& flist = FavoriteManager::getInstance()->getFavoriteHubs(iq->first);
+        
         for(FavoriteHubEntryList::const_iterator it=flist.begin();it!=flist.end();++it)
         {
 
@@ -187,7 +187,7 @@ void FavoriteHubs::initialze_client()
     const FavoriteHubEntryList& flist = FavoriteManager::getInstance()->getFavoriteHubs();
     for(FavoriteHubEntryList::const_iterator it = flist.begin();it!=flist.end();++it)
     {
-		if((*it)->getGroup() == "" || (*it)->getGroup() == _("Default"))
+		if((*it)->getGroup() == "" || (*it)->getGroup() == _("Default") || (*it)->getGroup() == "Default")
 		{
 		
 			string pass= (*it)->getPassword().empty()  ? "" : string(8,'*');

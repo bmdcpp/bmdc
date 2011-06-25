@@ -19,12 +19,12 @@
 #ifndef DCPLUSPLUS_DCPP_BUFFERED_SOCKET_H
 #define DCPLUSPLUS_DCPP_BUFFERED_SOCKET_H
 
-#include "forward.h"
+#include "Atomic.h"
+#include "typedefs.h"
 #include "BufferedSocketListener.h"
 #include "Semaphore.h"
 #include "Thread.h"
 #include "Speaker.h"
-#include "Util.h"
 #include "Socket.h"
 
 namespace dcpp {
@@ -164,7 +164,8 @@ private:
 	void threadSendData() throw(Exception);
 
 	void fail(const string& aError);
-	static volatile long sockets;
+//	static volatile long sockets;
+	static Atomic<long,memory_ordering_strong> sockets;
 
 	bool checkEvents() throw(Exception);
 	void checkSocket() throw(Exception);

@@ -44,8 +44,8 @@ Client::Client(const string& hubURL, char separator_, bool secure_) :
 	string file, proto, query, fragment;
 	Util::decodeUrl(hubURL, proto, address, port, file, query, fragment);
 	if(!query.empty()) {
-		map<string, string> q = Util::decodeQuery(query);
-		map<string, string>::iterator kp = q.find("kp");
+		auto q = Util::decodeQuery(query);
+		auto kp = q.find("kp");
 		if(kp != q.end()) {
 			keyprint = kp->second;
 		}	
@@ -166,7 +166,7 @@ void Client::on(Connected) throw() {
 	ip = sock->getIp();
 	localIp = sock->getLocalIp();
 	if(sock->isSecure() && keyprint.compare(0, 7, "SHA256/") == 0) {
-		vector<uint8_t> kp = sock->getKeyprint();
+		auto kp = sock->getKeyprint();
 		 if(!kp.empty()) {
 			 vector<uint8_t> kp2v(kp.size());
 			 Encoder::fromBase32(keyprint.c_str() + 7, &kp2v[0], kp2v.size());
@@ -213,24 +213,25 @@ vector<uint8_t> Client::getKeyprint() const {
 void Client::updateCounts(bool aRemove) {
 	// We always remove the count and then add the correct one if requested...
 	if(countType == COUNT_NORMAL) {
-		Thread::safeDec(counts.normal);
-	} else if(countType == COUNT_REGISTERED) {
-		Thread::safeDec(counts.registered);
-	} else if(countType == COUNT_OP) {
-		Thread::safeDec(counts.op);
-	}
-
-	countType = COUNT_UNCOUNTED;
-
+	    counts.normal.dec();
+	}    
+	else if (countType == COUNT_REGISTERED) {
+			counts.registered.dec();
+	} else if (countType == COUNT_OP) {
+	   	counts.op.dec();
+	}   	
+		
+	countType = COUNT_UNCOUNTED;	
+	
 	if(!aRemove) {
 		if(getMyIdentity().isOp()) {
-			Thread::safeInc(counts.op);
+			counts.op.inc();
 			countType = COUNT_OP;
 		} else if(getMyIdentity().isRegistered()) {
-			Thread::safeInc(counts.registered);
+			counts.registered.inc();
 			countType = COUNT_REGISTERED;
 		} else {
-			Thread::safeInc(counts.normal);
+			counts.normal.inc();
 			countType = COUNT_NORMAL;
 		}
 	}

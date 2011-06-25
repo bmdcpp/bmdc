@@ -23,7 +23,7 @@
 #include "Client.h"
 #include "Thread.h"
 #include "SettingsManager.h"
-
+#include "format.h"
 #include "Exception.h"
 
 namespace dcpp {

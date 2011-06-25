@@ -17,7 +17,7 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
+//#include "DCPlusPlus.h"
 
 #include "FinishedManager.h"
 
@@ -29,25 +29,25 @@
 #include "QueueManager.h"
 #include "UploadManager.h"
 
-
 namespace dcpp {
-
 
 FinishedManager::FinishedManager() {
 	DownloadManager::getInstance()->addListener(this);
 	UploadManager::getInstance()->addListener(this);
+//	QueueManager::getInstance()->addListener(this);
 }
 
 FinishedManager::~FinishedManager() throw() {
 	DownloadManager::getInstance()->removeListener(this);
 	UploadManager::getInstance()->removeListener(this);
+//	QueueManager::getInstance()->removeListener(this);
 
 	clearDLs();
 	clearULs();
 }
 
-void FinishedManager::lockLists() {
-	cs.enter();
+Lock FinishedManager::lockLists() {
+	return Lock(cs);//.enter();
 }
 
 const FinishedManager::MapByFile& FinishedManager::getMapByFile(bool upload) const {
@@ -145,6 +145,7 @@ void FinishedManager::onComplete(Transfer* t, bool upload, bool crc32Checked) {
 					milliSeconds,
 					time,
 					upload ? File::getSize(file) : size,
+					t->getActual(),
 					crc32Checked,
 					user
 					);
@@ -152,9 +153,10 @@ void FinishedManager::onComplete(Transfer* t, bool upload, bool crc32Checked) {
 				fire(FinishedManagerListener::AddedFile(), upload, file, p);
 			} else {
 				it->second->update(
-					t->getPos(),
+					crc32Checked ? 0 : t->getPos(),
 					milliSeconds,
 					time,
+					t->getActual(),
 					crc32Checked,
 					user
 					);
@@ -188,13 +190,17 @@ void FinishedManager::onComplete(Transfer* t, bool upload, bool crc32Checked) {
 	}
 }
 
+void FinishedManager::on(QueueManagerListener::CRCChecked, Download* d) throw() {
+	onComplete(d, false, true);
+}
+
 void FinishedManager::on(DownloadManagerListener::Complete, Download* d) throw() {
-	onComplete(d, false, d->isSet(Download::FLAG_CRC32_OK));
+	onComplete(d, false );
 }
 
 void FinishedManager::on(DownloadManagerListener::Failed, Download* d, const string&) throw() {
 	if(d->getPos() > 0)
-		onComplete(d, false, d->isSet(Download::FLAG_CRC32_OK));
+		onComplete(d, false);
 }
 
 void FinishedManager::on(UploadManagerListener::Complete, Upload* u) throw() {
@@ -225,7 +231,6 @@ string FinishedManager::getTarget(const string& aTTH){
 
 bool FinishedManager::handlePartialRequest(const TTHValue& tth, vector<uint16_t>& outPartialInfo)
 {
-
 	string target = getTarget(tth.toBase32());
 
 	if(target.empty()) return false;

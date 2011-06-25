@@ -548,13 +548,11 @@ Raw</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkComboBoxEntry" id="comboboxentry1Act">
+                      <widget class="GtkVBox" id="comboboxentry1Act">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <child internal-child="entry">
-                          <widget class="GtkEntry" id="comboboxentry-entry24">
-                            <property name="can_focus">False</property>
-                          </widget>
+                        <child>
+                          <placeholder/>
                         </child>
                       </widget>
                       <packing>
@@ -1051,13 +1049,11 @@ BOTH</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkComboBoxEntry" id="comboboxentryactionp1">
+                  <widget class="GtkVBox" id="comboboxentryactionp1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <child internal-child="entry">
-                      <widget class="GtkEntry" id="comboboxentry-entry26">
-                        <property name="can_focus">False</property>
-                      </widget>
+                    <child>
+                      <placeholder/>
                     </child>
                   </widget>
                   <packing>
@@ -1103,7 +1099,7 @@ BOTH</property>
                 <property name="hscrollbar_policy">automatic</property>
                 <property name="vscrollbar_policy">automatic</property>
                 <child>
-                  <widget class="GtkTreeView" id="treeviewRaw">
+                  <widget class="GtkTreeView" id="treeviewAction">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                   </widget>
@@ -1116,12 +1112,31 @@ BOTH</property>
               </packing>
             </child>
             <child>
+              <widget class="GtkScrolledWindow" id="scrolledwindow4">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="hscrollbar_policy">automatic</property>
+                <property name="vscrollbar_policy">automatic</property>
+                <child>
+                  <widget class="GtkTreeView" id="treeviewRaw">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                  </widget>
+                </child>
+              </widget>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
               <widget class="GtkHBox" id="hbox1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <widget class="GtkButton" id="button1">
-                    <property name="label" translatable="yes">Add</property>
+                  <widget class="GtkButton" id="buttonAddAct">
+                    <property name="label" translatable="yes">Add Action</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -1134,8 +1149,8 @@ BOTH</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkButton" id="button2">
-                    <property name="label" translatable="yes">Modify</property>
+                  <widget class="GtkButton" id="buttonremact">
+                    <property name="label" translatable="yes">rem Action</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -1148,8 +1163,8 @@ BOTH</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkButton" id="button3">
-                    <property name="label" translatable="yes">Delete</property>
+                  <widget class="GtkButton" id="buttonmodact">
+                    <property name="label" translatable="yes">Edit Action</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -1162,13 +1177,52 @@ BOTH</property>
                   </packing>
                 </child>
                 <child>
-                  <placeholder/>
+                  <widget class="GtkButton" id="buttonAddRaw">
+                    <property name="label" translatable="yes">Add Raw</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="use_action_appearance">False</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">3</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkButton" id="buttonremraw">
+                    <property name="label" translatable="yes">rem Raw</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="use_action_appearance">False</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">4</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkButton" id="buttoneditraw">
+                    <property name="label" translatable="yes">Edit Raw</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="use_action_appearance">False</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">5</property>
+                  </packing>
                 </child>
               </widget>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
-                <property name="position">1</property>
+                <property name="position">2</property>
               </packing>
             </child>
           </widget>
@@ -1409,22 +1463,6 @@ BOTH</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkComboBoxEntry" id="comboboxentry1Fake">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child internal-child="entry">
-                      <widget class="GtkEntry" id="comboboxentry-entry2">
-                        <property name="can_focus">False</property>
-                      </widget>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-                <child>
                   <widget class="GtkButton" id="button7Save">
                     <property name="label" translatable="yes">Save</property>
                     <property name="visible">True</property>
@@ -1437,114 +1475,6 @@ BOTH</property>
                     <property name="right_attach">3</property>
                     <property name="top_attach">15</property>
                     <property name="bottom_attach">16</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkComboBoxEntry" id="comboboxentry1rmdc">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child internal-child="entry">
-                      <widget class="GtkEntry" id="comboboxentry-entry4">
-                        <property name="can_focus">False</property>
-                      </widget>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">1</property>
-                    <property name="bottom_attach">2</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkComboBoxEntry" id="comboboxentry1emul">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child internal-child="entry">
-                      <widget class="GtkEntry" id="comboboxentry-entry6">
-                        <property name="can_focus">False</property>
-                      </widget>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">2</property>
-                    <property name="bottom_attach">3</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkComboBoxEntry" id="comboboxentry1mis">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child internal-child="entry">
-                      <widget class="GtkEntry" id="comboboxentry-entry8">
-                        <property name="can_focus">False</property>
-                      </widget>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">3</property>
-                    <property name="bottom_attach">4</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkComboBoxEntry" id="comboboxentry1listlen">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child internal-child="entry">
-                      <widget class="GtkEntry" id="comboboxentry-entry10">
-                        <property name="can_focus">False</property>
-                      </widget>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">4</property>
-                    <property name="bottom_attach">5</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkComboBoxEntry" id="comboboxentry1vermis">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child internal-child="entry">
-                      <widget class="GtkEntry" id="comboboxentry-entry12">
-                        <property name="can_focus">False</property>
-                      </widget>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">5</property>
-                    <property name="bottom_attach">6</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkComboBoxEntry" id="comboboxentry1disc">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child internal-child="entry">
-                      <widget class="GtkEntry" id="comboboxentry-entry14">
-                        <property name="can_focus">False</property>
-                      </widget>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">6</property>
-                    <property name="bottom_attach">7</property>
                     <property name="y_options"></property>
                   </packing>
                 </child>
@@ -1666,24 +1596,6 @@ BOTH</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkComboBoxEntry" id="comboboxentry1BigSmall">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child internal-child="entry">
-                      <widget class="GtkEntry" id="comboboxentry-entry16">
-                        <property name="can_focus">False</property>
-                      </widget>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">7</property>
-                    <property name="bottom_attach">8</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-                <child>
                   <widget class="GtkCheckButton" id="checkbutton1">
                     <property name="label" translatable="yes">Show on MC</property>
                     <property name="visible">True</property>
@@ -1711,24 +1623,6 @@ BOTH</property>
                   <packing>
                     <property name="top_attach">15</property>
                     <property name="bottom_attach">16</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkComboBoxEntry" id="comboboxentry1slwsp">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child internal-child="entry">
-                      <widget class="GtkEntry" id="comboboxentry-entry18">
-                        <property name="can_focus">False</property>
-                      </widget>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">8</property>
-                    <property name="bottom_attach">9</property>
                     <property name="y_options"></property>
                   </packing>
                 </child>
@@ -1763,24 +1657,6 @@ BOTH</property>
                     <property name="right_attach">3</property>
                     <property name="top_attach">10</property>
                     <property name="bottom_attach">11</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkComboBoxEntry" id="comboboxentry1ADLA">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child internal-child="entry">
-                      <widget class="GtkEntry" id="comboboxentry-entry20">
-                        <property name="can_focus">False</property>
-                      </widget>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">9</property>
-                    <property name="bottom_attach">10</property>
                     <property name="y_options"></property>
                   </packing>
                 </child>
@@ -2265,6 +2141,164 @@ BOTH</property>
                   <packing>
                     <property name="top_attach">14</property>
                     <property name="bottom_attach">15</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="comboboxentry1Fake">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="y_options"></property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="comboboxentry1rmdc">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="top_attach">1</property>
+                    <property name="bottom_attach">2</property>
+                    <property name="y_options"></property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="comboboxentry1emul">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="top_attach">2</property>
+                    <property name="bottom_attach">3</property>
+                    <property name="y_options"></property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="comboboxentry1mis">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="top_attach">3</property>
+                    <property name="bottom_attach">4</property>
+                    <property name="y_options"></property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="comboboxentry1listlen">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="top_attach">4</property>
+                    <property name="bottom_attach">5</property>
+                    <property name="y_options"></property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="comboboxentry1vermis">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="top_attach">5</property>
+                    <property name="bottom_attach">6</property>
+                    <property name="y_options"></property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="comboboxentry1disc">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="top_attach">6</property>
+                    <property name="bottom_attach">7</property>
+                    <property name="y_options"></property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="comboboxentry1BigSmall">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="top_attach">7</property>
+                    <property name="bottom_attach">8</property>
+                    <property name="y_options"></property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="comboboxentry1slwsp">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="top_attach">8</property>
+                    <property name="bottom_attach">9</property>
+                    <property name="y_options"></property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkVBox" id="comboboxentry1ADLA">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="top_attach">9</property>
+                    <property name="bottom_attach">10</property>
+                    <property name="y_options"></property>
                   </packing>
                 </child>
                 <child>

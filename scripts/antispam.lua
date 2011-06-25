@@ -1,5 +1,4 @@
 --based on some parts of lwolf's & BottledHate's scripts, created by Patch for both ApexDC++ and BCDC++
---a script alapjául szolgált néhány script töredék lwolf és BottledHate-tõl.
 
 local pmcount = 0
 local totalpmcount = 0

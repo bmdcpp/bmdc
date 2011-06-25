@@ -17,12 +17,13 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
+//#include "DCPlusPlus.h"
 
 #include "Download.h"
 #include "UserConnection.h"
 #include "QueueItem.h"
 #include "HashManager.h"
+#include "SettingsManager.h"
 
 namespace dcpp {
 
@@ -51,7 +52,7 @@ Download::Download(UserConnection& conn, QueueItem& qi, const string& path, bool
 	if(qi.getSize() != -1) {
 		if(HashManager::getInstance()->getTree(getTTH(), getTigerTree())) {
 			setTreeValid(true);
-			setSegment(qi.getNextSegment(getTigerTree().getBlockSize(), conn.getChunkSize(),conn.getSpeed(), source->getPartialSource()));
+			setSegment(qi.getNextSegment(getTigerTree().getBlockSize(), conn.getChunkSize(), conn.getSpeed(), source->getPartialSource()));
 		} else if(supportsTrees && !qi.getSource(conn.getUser())->isSet(QueueItem::Source::FLAG_NO_TREE) && qi.getSize() > HashManager::MIN_BLOCK_SIZE) {
 			// Get the tree unless the file is small (for small files, we'd probably only get the root anyway)
 			setType(TYPE_TREE);
@@ -100,7 +101,7 @@ AdcCommand Download::getCommand(bool zlib) {
 void Download::getParams(const UserConnection& aSource, StringMap& params) {
 	Transfer::getParams(aSource, params);
 	params["target"] = getPath();
-	params["sfv"] = Util::toString(isSet(Download::FLAG_CRC32_OK) ? 1 : 0);
+//	params["sfv"] = Util::toString(isSet(Download::FLAG_CRC32_OK) ? 1 : 0);
 }
 
 } // namespace dcpp

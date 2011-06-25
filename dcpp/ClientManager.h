@@ -27,7 +27,8 @@
 #include "User.h"
 #include "Socket.h"
 #include "DirectoryListing.h"
-
+#include <tr1/unordered_map>
+#include <tr1/unordered_set>
 #include "ClientManagerListener.h"
 
 namespace dcpp {
@@ -65,7 +66,8 @@ public:
 
 	StringList getNicks(const HintedUser& user) { return getNicks(user.user->getCID(), user.hint); }
 	StringList getHubNames(const HintedUser& user) { return getHubNames(user.user->getCID(), user.hint); }
-
+	StringList getHubs(const HintedUser& user) { return getHubs(user.user->getCID(), user.hint); }
+	
 	string getConnection(const CID& cid) const;
 
 	bool isConnected(const string& aUrl) const;
@@ -85,6 +87,7 @@ public:
 	* @param priv discard any user that doesn't match the hint.
 	* @return OnlineUser* found by CID and hint; might be only by CID if priv is false.
 	*/
+	OnlineUser* findOnlineUser(const HintedUser& user, bool priv);
 	OnlineUser* findOnlineUser(const CID& cid, const string& hintUrl, bool priv) throw();
 
 	UserPtr findUser(const string& aNick, const string& aHubUrl) const throw() { return findUser(makeCid(aNick, aHubUrl)); }

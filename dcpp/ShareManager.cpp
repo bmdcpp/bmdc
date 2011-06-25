@@ -17,7 +17,7 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
+#include "format.h"
 
 #include "ShareManager.h"
 
@@ -916,10 +916,17 @@ void ShareManager::generateXmlList() {
 	}
 }
 
-MemoryInputStream* ShareManager::generatePartialList(const string& dir, bool recurse) const {
+MemoryInputStream* ShareManager::generatePartialList(const string& dir, bool recurse,bool isInSharingHub) const {
 	if(dir[0] != '/' || dir[dir.size()-1] != '/')
 		return 0;
-
+	if(!isInSharingHub) {
+		string xml = SimpleXML::utf8Header;
+        string tmp;
+        xml += "<FileListing Version=\"1\" CID=\"" + ClientManager::getInstance()->getMe()->getCID().toBase32() + "\" Base=\"" + SimpleXML::escape(dir, tmp, false) + "\" Generator=\"" APPNAME " " VERSIONSTRING "\">\r\n";
+        xml += "</FileListing>";
+        return new MemoryInputStream(xml);
+	}
+	
 	string xml = SimpleXML::utf8Header;
 	string tmp;
 	xml += "<FileListing Version=\"1\" CID=\"" + ClientManager::getInstance()->getMe()->getCID().toBase32() + "\" Base=\"" + SimpleXML::escape(dir, tmp, false) + "\" Generator=\"" APPNAME " " VERSIONSTRING "\">\r\n";
@@ -1102,7 +1109,7 @@ static bool checkType(const string& aString, int aType) {
 		}
 		break;
 	default:
-		dcasserta(0);
+		dcassert(0);
 		break;
 	}
 	return false;

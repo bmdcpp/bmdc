@@ -20,6 +20,7 @@
 #define MERKLE_TREE_H
 
 #include "TigerHash.h"
+#include "typedefs.h"
 #include "Encoder.h"
 #include "HashValue.h"
 

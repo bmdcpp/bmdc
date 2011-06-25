@@ -17,8 +17,8 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
-
+//#include "DCPlusPlus.h"
+#include "format.h"
 #include "SSLSocket.h"
 #include "LogManager.h"
 #include "SettingsManager.h"

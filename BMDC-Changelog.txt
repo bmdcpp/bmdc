@@ -263,7 +263,9 @@ Add ubu smailpack
 Remove Auto-gran slot colum from Ignore Users tab
 Small Fix to open Notepad,System, Ignore after start program
 Fix normal icon in Favorite & Ignore tab
-Added miniupnp lib and supports it
-Added custum search on adc hubs
-
+Add miniupnp lib and supports it
+Add custum search on adc hubs
+More Refactor Det. Settings
+Update core
+Add change icon Away/Limit
 

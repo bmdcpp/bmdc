@@ -1,9 +1,9 @@
+
 #include "stdinc.h"
 #include "DCPlusPlus.h"
-
+#include "typedefs.h"
 #include "SimpleXMLReader.h"
 #include "SimpleXML.h"
-
 #include "Text.h"
 #include "Streams.h"
 

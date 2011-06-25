@@ -70,7 +70,7 @@ public:
 
 	StringPairList getDirectories() const throw();
 
-	MemoryInputStream* generatePartialList(const string& dir, bool recurse) const;
+	MemoryInputStream* generatePartialList(const string& dir, bool recurse,bool isInSharingHub) const;
 	MemoryInputStream* getTree(const string& virtualFile) const;
 
 	AdcCommand getFileInfo(const string& aFile) throw(ShareException);

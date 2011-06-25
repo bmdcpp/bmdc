@@ -46,6 +46,9 @@ public:
 	typedef X<14> RecheckDone;
 
 	typedef X<15> FileMoved;
+	
+	typedef X<16> CRCChecked;
+	typedef X<17> CRCFailed;
 
 	virtual void on(Added, QueueItem*) throw() { }
 	virtual void on(Finished, QueueItem*, const string&, int64_t) throw() { }
@@ -65,6 +68,8 @@ public:
 	virtual void on(RecheckDone, const string&) throw() { }
 
 	virtual void on(FileMoved, const string&) throw() { }
+	virtual void on(CRCChecked, Download*) throw() { }
+	virtual void on(CRCFailed, Download*, const string&) throw() { }
 };
 
 } // namespace dcpp

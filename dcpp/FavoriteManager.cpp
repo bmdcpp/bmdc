@@ -17,8 +17,7 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
-
+#include "format.h"
 #include "FavoriteManager.h"
 
 #include "ClientManager.h"
@@ -33,10 +32,12 @@
 #include "File.h"
 #include "BZUtils.h"
 #include "FilteredFile.h"
-
-#include "RawManager.h"
+#include "RawManager.h"//
 
 namespace dcpp {
+	
+using std::make_pair;
+using std::swap;	
 
 //RSX++
 FavoriteHubEntry::FavAction::FavAction(bool _enabled, string _raw /*= Util::emptyString*/, int id /*=0*/) throw() : enabled(_enabled) {
@@ -476,8 +477,8 @@ bool FavoriteManager::onHttpFinished(bool fromHttp) throw() {
 		try {
 			const string se("/");
 			const string re("_");
-			string hubl=Util::validateFileName(publicListServer);
-			Util::replace(se,re,hubl);
+			string hubl = Util::validateFileName(publicListServer);
+			Util::replace(se, re, hubl);
 			File f(Util::getHubListsPath() + hubl, File::WRITE, File::CREATE | File::TRUNCATE);
 			f.write(downloadBuf);
 			f.close();
@@ -1012,11 +1013,13 @@ void FavoriteManager::refresh(bool forceDownload /* = false */) {
 	}
 
 	if(!forceDownload) {
-		const string se("/");//hublist
-		const string re("_");//hublist
-		string hubl=Util::validateFileName(publicListServer);//hublist
+		//Mank
+		const string se("/");
+		const string re("_");
+		string hubl = Util::validateFileName(publicListServer);//hublist
 		Util::replace(se,re,hubl);//replace chars
-		string path = Util::getHubListsPath() +hubl ;//hublist
+		//end
+		string path = Util::getHubListsPath() + hubl;//hublist
 		if(File::getSize(path) > 0) {
 			useHttp = false;
 			string fileDate;
@@ -1141,6 +1144,11 @@ void FavoriteManager::on(TypeNormal, HttpConnection*) throw() {
 void FavoriteManager::on(TypeBZ2, HttpConnection*) throw() {
 	if(useHttp)
 		listType = TYPE_BZIP2;
+}
+
+void FavoriteManager::on(Retried, HttpConnection*, const bool Connected) throw() {
+	if (Connected)
+		downloadBuf = Util::emptyString;
 }
 
 void FavoriteManager::on(UserUpdated, const OnlineUser& user) throw() {

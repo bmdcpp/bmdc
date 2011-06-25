@@ -17,8 +17,7 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
-
+#include "format.h"
 #include "BufferedSocket.h"
 
 #include "TimerManager.h"
@@ -42,13 +41,12 @@ disconnecting(false)
 {
 	start();
 
-	Thread::safeInc(sockets);
+	sockets.inc();
 }
-
-volatile long BufferedSocket::sockets = 0;
+Atomic<long,memory_ordering_strong> BufferedSocket::sockets(0);
 
 BufferedSocket::~BufferedSocket() throw() {
-	Thread::safeDec(sockets);
+	sockets.dec();
 }
 
 void BufferedSocket::setMode (Modes aMode, size_t aRollback) {

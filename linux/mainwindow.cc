@@ -144,7 +144,7 @@ MainWindow::MainWindow():
 		g_object_set_data_full(G_OBJECT(item), "type", g_strdup("up"), g_free);
 		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(onLimitingMenuItem_gui), (gpointer)this);
 	}
-	GtkWidget *sep3 = gtk_separator_menu_item_new();	
+	GtkWidget *sep3 = gtk_separator_menu_item_new();
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu),sep3);
 	GtkWidget *dwitem = gtk_menu_item_new_with_label(_("Download Limit (disable)"));
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu),dwitem);
@@ -152,7 +152,7 @@ MainWindow::MainWindow():
 	g_signal_connect(G_OBJECT(dwitem), "activate", G_CALLBACK(onLimitingDisable), (gpointer)this);
 	GtkWidget *sep2 = gtk_separator_menu_item_new();
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu),sep2);
-	
+
 	for(int j=10240; j<2097152; j=j*2+40960/2) {
 		string tmenu = Text::toT(Util::formatBytes(j)) + (_("/s"));
 		string tspeed = Util::toString(j);
@@ -161,9 +161,8 @@ MainWindow::MainWindow():
 		g_object_set_data_full(G_OBJECT(item), "speed", g_strdup(tspeed.c_str()), g_free);
 		g_object_set_data_full(G_OBJECT(item), "type", g_strdup("dw"), g_free);
 		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(onLimitingMenuItem_gui), (gpointer)this);
-	}	
+	}
 	gtk_widget_show_all(menu);
-	
 
 	// colourstuff added by curse //add to bmdc by Mank
 	string res = WulforManager::get()->getPath() + "/glade/resources.rc";
@@ -184,7 +183,6 @@ MainWindow::MainWindow():
 	gtk_notebook_remove_page(GTK_NOTEBOOK(getWidget("book")), -1);
 	g_object_set_data(G_OBJECT(getWidget("book")), "page-rotation-list", NULL);
 	gtk_widget_set_sensitive(getWidget("closeMenuItem"), FALSE);
-
 
 	// Connect the signals to their callback functions.
 	g_signal_connect(window, "delete-event", G_CALLBACK(onCloseWindow_gui), (gpointer)this);
@@ -464,7 +462,7 @@ void MainWindow::autoOpen_gui()
 		showFinishedUploads_gui();
 	if (WGETB("open-search-spy"))
 		showSearchSpy_gui();
-	/**/	
+	/**/
 	if (WGETB("open-notepad"))
 		showNotepad_gui();
 	if (WGETB("open-ignore"))
@@ -481,12 +479,14 @@ void MainWindow::getAway()
 			Util::setAway(FALSE);
 			Util::setManualAway(FALSE);
 			MainWindow::setMainStatus_gui(_("Away mode off"),time(NULL));
+			gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("AwayIcon")), "bmdc-away");
 	}
 	else
 	{
 			Util::setAway(TRUE);
 			Util::setManualAway(TRUE);
 			MainWindow::setMainStatus_gui(_("Away mode on"),time(NULL));
+			gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("AwayIcon")), "bmdc-away-on");
 	}
 }
 
@@ -497,9 +497,9 @@ void MainWindow::onLimitingMenuItem_gui(GtkWidget *widget, gpointer data)
 	string type = (gchar*)g_object_get_data(G_OBJECT(widget), "type");
 	if(speed.empty())
 		return;
-		
+
 	bool isEnb = BOOLSETTING(THROTTLE_ENABLE);
-    SettingsManager::getInstance()->set(SettingsManager::THROTTLE_ENABLE,!isEnb);	
+    SettingsManager::getInstance()->set(SettingsManager::THROTTLE_ENABLE,!isEnb);
 
 	if(type == "up")
 	{
@@ -518,7 +518,7 @@ void MainWindow::onLimitingDisable(GtkWidget *widget, gpointer data)
 	if(type == "dw")
 	{
 		SettingsManager::getInstance()->set(ThrottleManager::getInstance()->getCurSetting(SettingsManager::MAX_DOWNLOAD_SPEED_MAIN), 0);
-		
+
 	}
 	else if(type == "up")
 	{
@@ -530,10 +530,20 @@ void MainWindow::EnbDsbLimit()
 {
     bool isEnb = BOOLSETTING(THROTTLE_ENABLE);
     SettingsManager::getInstance()->set(SettingsManager::THROTTLE_ENABLE,!isEnb);
-    if(isLimiting)
+    GtkWidget *widget = getWidget("EnableLimit");
+    //if(isLimiting)
+    if(!isEnb)
+    {
         MainWindow::setMainStatus_gui(_("Throtle off"), time(NULL));
+         gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(widget),"bmdc-limiting");
+
+     }
      else
-		MainWindow::setMainStatus_gui(_("Throtle on"), time(NULL));	
+     {
+		MainWindow::setMainStatus_gui(_("Throtle on"), time(NULL));
+		gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(widget),"bmdc-limiting-on");
+
+	}
 }
 
 ///close all
@@ -788,7 +798,7 @@ void MainWindow::setStats_gui(string hubs, string downloadSpeed,
 	int uploadSpeedl = SETTING(MAX_UPLOAD_SPEED_MAIN);
 	int downloadSpeedl = SETTING(MAX_DOWNLOAD_SPEED_MAIN);
 	string uploadRate,downloadRate;
-	
+
 	if(BOOLSETTING(THROTTLE_ENABLE))
     {
         uploadRate = uploadSpeedl ? Util::formatBytes(uploadSpeedl*1024) + "/" + _("s") : "";

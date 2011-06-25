@@ -17,10 +17,8 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
-
+#include "format.h"
 #include "ConnectionManager.h"
-
 #include "DownloadManager.h"
 #include "UploadManager.h"
 #include "CryptoManager.h"
@@ -703,7 +701,7 @@ void ConnectionManager::force(const UserPtr& aUser) {
 	(*i)->setLastAttempt(0);
 }
 
-void ConnectionManager::on(UserConnectionListener::Failed, UserConnection* aSource, const string& aError) throw() {
+void ConnectionManager::failed(UserConnection* aSource, const string& aError, bool protocolError) {
 	Lock l(cs);
 
 	if(aSource->isSet(UserConnection::FLAG_ASSOCIATED)) {
@@ -713,6 +711,7 @@ void ConnectionManager::on(UserConnectionListener::Failed, UserConnection* aSour
 			ConnectionQueueItem* cqi = *i;
 			cqi->setState(ConnectionQueueItem::WAITING);
 			cqi->setLastAttempt(GET_TICK());
+			cqi->setErrors(protocolError ? -1 : (cqi->getErrors() + 1));
 			fire(ConnectionManagerListener::Failed(), cqi, aError);
 		} else if(aSource->isSet(UserConnection::FLAG_UPLOAD)) {
 			ConnectionQueueItem::Iter i = find(uploads.begin(), uploads.end(), aSource->getUser());
@@ -722,6 +721,14 @@ void ConnectionManager::on(UserConnectionListener::Failed, UserConnection* aSour
 		}
 	}
 	putConnection(aSource);
+}
+
+void ConnectionManager::on(UserConnectionListener::Failed, UserConnection* aSource, const string& aError) throw() {
+	failed(aSource, aError, false);
+}
+
+void ConnectionManager::on(UserConnectionListener::ProtocolError, UserConnection* aSource, const string& aError) throw() {
+	failed(aSource, aError, true);
 }
 
 void ConnectionManager::disconnect(const UserPtr& aUser) {

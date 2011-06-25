@@ -22,27 +22,45 @@ class DetectionTab:
         ///GUI
         static void onCloseItem(gpointer data);
 
+        static void onSwitchTab(GtkNotebook *notebook, GtkNotebookPage *page, guint num, gpointer data);
+        static bool showErrorDialog_gui(const std::string &description, DetectionTab *dt);
 		///1page
 		typedef std::tr1::unordered_map<int, GtkTreeIter> ActRaw;
 
-		static void onAddActRaw(GtkWidget *widget,gpointer data);
-		static void onEditActRaw(GtkWidget *widget,gpointer data);
-		static void onRemoveActRaw(GtkWidget *widget , gpointer data);
-		void removeEntry_gui(std::string _name,int _id,std::string _action);
+		static void onAddAct(GtkWidget *widget, gpointer data);
+		static void onAddRaw(GtkWidget *widget, gpointer data) ;
+		static void onEditAct(GtkWidget *widget,gpointer data);
+		static void onEditRaw(GtkWidget *widget,gpointer data);
+		static void onRemoveAct(GtkWidget *widget , gpointer data);
+		static void onRemoveRaw(GtkWidget *widget , gpointer data);
+
+		static gboolean onActButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		static gboolean onActButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		static gboolean onActKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+
+		void removeRaw_gui(std::string Id, std::string name);
 		void create_actions_raws();
 		bool showAddActRawDialog(dcpp::StringMap &params,DetectionTab *dt);
-		void addRawAct_client(dcpp::StringMap params);
-		void editRawAct_client(dcpp::StringMap params);
-		void removeActRaw_client(int id);
+		void addAct_client(dcpp::StringMap params);
+		void addRaw_client(dcpp::StringMap params);
+		void editAct_client(dcpp::StringMap params);
+		void editRaw_client(dcpp::StringMap params);
+		void removeAct_client(int id);
 		void removeRaw_client(int id);
-		void addActRaw_gui(dcpp::StringMap params);
+		void addAct_gui(dcpp::StringMap params);
+		void addRaw_gui(dcpp::StringMap params);
 		bool findAct_gui(const int &Id, GtkTreeIter *iter);
 		bool findRaw_gui(const int &Id, GtkTreeIter *iter);
+		void updateRawView_gui();
 
+		TreeView actionView;
+		TreeView RawView;
+		GtkListStore *actionStore,*RawStore;
+		GtkTreeSelection *RawSelection,*actionSelection;
+        GdkEventType actPrevious;
 
-		TreeView actionRawView;
-		GtkTreeStore *actionRawStore;
-		GtkTreeSelection *actionRawSelection;
+        vector<std::pair<std::string,int> > actionsn;
+        //std::map<int,std::string> mapactions;
 
 		ActRaw actions;
 		ActRaw raws;
@@ -59,6 +77,7 @@ class DetectionTab:
 		bool showAddEntryDetDialog(dcpp::StringMap &params,DetectionTab *dt);
 		void removeEntryDet_gui(uint32_t _id);
 		void addEntryDet_gui(dcpp::StringMap params);
+		void removeAction_gui(string Id, string name);
 		void addEntryDet_client(dcpp::StringMap params);
 		void editEntryDet_client(int id,dcpp::StringMap params);
 		void removeEntryDet_client(int id);
@@ -98,6 +117,15 @@ class DetectionTab:
 		void editPoints_gui(dcpp::StringMap& params,GtkTreeIter *iter);
 		bool showAddPointsDialog(dcpp::StringMap &params,DetectionTab *dt);
 		dcpp::IntMap imap;
+
+		void set_combo(GtkWidget *place,vector<pair<string,int> > act,int set,bool det);
+		void loadAgain(GtkWidget *widget, vector<pair<string,int> >act);
+		int save_combo(GtkWidget *widget);
+		enum
+		{
+		    TYPE_STR,
+		    TYPE_INT
+		};
 
 };
 #else

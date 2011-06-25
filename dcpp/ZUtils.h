@@ -20,9 +20,9 @@
 #define Z_UTILS_H
 
 #ifdef _WIN32
-#include "../zlib/zlib.h"
+	#include "../zlib/zlib.h"
 #else
-#include <zlib.h>
+	#include <zlib.h>
 #endif
 
 namespace dcpp {

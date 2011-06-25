@@ -17,10 +17,8 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
 
 #include "Upload.h"
-
 #include "UserConnection.h"
 #include "Streams.h"
 

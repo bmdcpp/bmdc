@@ -17,10 +17,8 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
-
+#include "format.h"
 #include "Transfer.h"
-
 #include "UserConnection.h"
 #include "ClientManager.h"
 
@@ -87,8 +85,6 @@ void Transfer::getParams(const UserConnection& aSource, StringMap& params) {
 	params["hubURL"] = Util::toString(hubs);
 	params["fileSI"] = Util::toString(getSize());
 	params["fileSIshort"] = Util::formatBytes(getSize());
-//	params["fileSIchunk"] = Util::toString(getTotal());
-//	params["fileSIchunkshort"] = Util::formatBytes(getTotal());
 	params["fileSIactual"] = Util::toString(getActual());
 	params["fileSIactualshort"] = Util::formatBytes(getActual());
 	params["speed"] = Util::formatBytes(getAverageSpeed()) + "/s";
