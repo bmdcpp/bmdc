@@ -110,7 +110,7 @@ MainWindow::MainWindow():
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("transferCheckButton")), TRUE);
 
 	// About dialog
-	gchar *comments = g_strdup_printf(_("DC++ Client based on the source code FreeDC++\n\BMDC++ version: %s.%s\nCore version: %s"),
+	gchar *comments = g_strdup_printf(_("DC++ Client based on the source code FreeDC++\nBMDC++ version: %s.%s\nCore version: %s"),
 		GUI_VERSION_STRING, GUI_VERSION_BUILD_STRING, VERSIONSTRING);
 	gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(getWidget("aboutDialog")), comments);
 	g_free(comments);
@@ -135,7 +135,7 @@ MainWindow::MainWindow():
 	GtkWidget *sep =  gtk_separator_menu_item_new();
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu),sep);
 	///@change to dynamic
-	for(int i=10240; i<2097152; i=i*2+40960/2) {
+	for(int i = 10240; i<2097152; i = i*2+40960/2) {
 		string tmenu = Text::toT(Util::formatBytes(i)) + (_("/s"));
 		string tspeed = Util::toString(i);
 		GtkWidget *item = gtk_menu_item_new_with_label(tmenu.c_str());
@@ -153,7 +153,7 @@ MainWindow::MainWindow():
 	GtkWidget *sep2 = gtk_separator_menu_item_new();
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu),sep2);
 
-	for(int j=10240; j<2097152; j=j*2+40960/2) {
+	for(int j = 10240; j<2097152; j = j*2+40960/2) {
 		string tmenu = Text::toT(Util::formatBytes(j)) + (_("/s"));
 		string tspeed = Util::toString(j);
 		GtkWidget *item = gtk_menu_item_new_with_label(tmenu.c_str());
@@ -469,7 +469,6 @@ void MainWindow::autoOpen_gui()
 		showIgnore_gui();
 	if (WGETB("open-system"))
 		showSystem_gui();
-//NOTE: core 0.762
 }
 
 void MainWindow::getAway()

@@ -59,9 +59,8 @@ class DetectionTab:
 		GtkTreeSelection *RawSelection,*actionSelection;
         GdkEventType actPrevious;
 
-        vector<std::pair<std::string,int> > actionsn;
-        //std::map<int,std::string> mapactions;
-
+        std::vector<std::pair<std::string,int> > actionsn;
+        
 		ActRaw actions;
 		ActRaw raws;
 		///2page
@@ -114,18 +113,19 @@ class DetectionTab:
 		static void onADSLPointsMOD(GtkWidget *widget, gpointer data);
 		static void onADSLPointsDEL(GtkWidget *widget, gpointer data);
 		void addPoints_gui(dcpp::StringMap params);
-		void editPoints_gui(dcpp::StringMap& params,GtkTreeIter *iter);
-		bool showAddPointsDialog(dcpp::StringMap &params,DetectionTab *dt);
+		void editPoints_gui(dcpp::StringMap& params, GtkTreeIter *iter);
+		bool showAddPointsDialog(dcpp::StringMap &params, DetectionTab *dt);
 		dcpp::IntMap imap;
 
-		void set_combo(GtkWidget *place,vector<pair<string,int> > act,int set,bool det);
-		void loadAgain(GtkWidget *widget, vector<pair<string,int> >act);
+		void set_combo(GtkWidget *place, vector<pair<string,int> > act, int set, bool det,gpointer data);
+		void loadAgain(GtkWidget *widget, vector<pair<string,int> >act, int set, gpointer data);
 		int save_combo(GtkWidget *widget);
 		enum
 		{
 		    TYPE_STR,
 		    TYPE_INT
 		};
+		std::map<int,std::string> tmpname;
 
 };
 #else

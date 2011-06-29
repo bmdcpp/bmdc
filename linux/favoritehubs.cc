@@ -25,14 +25,14 @@ FavoriteHubs::FavoriteHubs():
 	WulforUtil::drop_combo(getWidget("comboboxCharset"),charsets);
 	
 	favoriteView.setView(GTK_TREE_VIEW(getWidget("favoriteView")));
-	favoriteView.insertColumn(_("Name"),G_TYPE_STRING, TreeView::STRING,200);
-	favoriteView.insertColumn(_("Address"),G_TYPE_STRING, TreeView::STRING,100);
-    favoriteView.insertColumn(_("Description"),G_TYPE_STRING, TreeView::STRING,200);
-    favoriteView.insertColumn(_("Nick"),G_TYPE_STRING, TreeView::STRING,100);
-    favoriteView.insertColumn(_("User Description"),G_TYPE_STRING, TreeView::STRING,100);
-    favoriteView.insertColumn(_("Password"),G_TYPE_STRING,TreeView::STRING,100);
-    favoriteView.insertColumn(_("Encoding"),G_TYPE_STRING, TreeView::STRING,50);
-    favoriteView.insertColumn(_("Extra Info"),G_TYPE_STRING, TreeView::STRING,60);
+	favoriteView.insertColumn(_("Name"),G_TYPE_STRING, TreeView::STRING, 200);
+	favoriteView.insertColumn(_("Address"),G_TYPE_STRING, TreeView::STRING, 100);
+    favoriteView.insertColumn(_("Description"),G_TYPE_STRING, TreeView::STRING, 200);
+    favoriteView.insertColumn(_("Nick"),G_TYPE_STRING, TreeView::STRING, 100);
+    favoriteView.insertColumn(_("User Description"),G_TYPE_STRING, TreeView::STRING, 100);
+    favoriteView.insertColumn(_("Password"),G_TYPE_STRING,TreeView::STRING, 100);
+    favoriteView.insertColumn(_("Encoding"),G_TYPE_STRING, TreeView::STRING, 50);
+    favoriteView.insertColumn(_("Extra Info"),G_TYPE_STRING, TreeView::STRING, 60);
 	favoriteView.insertHiddenColumn("Group",G_TYPE_STRING);
     favoriteView.insertHiddenColumn("Hide",G_TYPE_STRING);
     favoriteView.insertHiddenColumn("Log",G_TYPE_STRING);
@@ -94,7 +94,7 @@ FavoriteHubs::FavoriteHubs():
 	g_signal_connect(favoriteView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 	g_signal_connect(favoriteView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 	
-	///Fav Dialogs
+	///Fav Dialog
 	g_signal_connect(getWidget("checkbuttonEncoding"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("comboboxCharset"));
 	g_signal_connect(getWidget("checkbuttonNick"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("entryNick"));
 	g_signal_connect(getWidget("checkbuttonUserDescription"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("entryUserDescription"));
@@ -102,7 +102,7 @@ FavoriteHubs::FavoriteHubs():
 	g_signal_connect(GTK_TOGGLE_BUTTON(getWidget("radiobuttonmode1")), "toggled", G_CALLBACK(onToggledMode_d_gui), this);
 	g_signal_connect(GTK_TOGGLE_BUTTON(getWidget("radiobuttonmode2")), "toggled", G_CALLBACK(onToggledMode_p_gui), this);
 	g_signal_connect(GTK_TOGGLE_BUTTON(getWidget("radiobuttonmode3")), "toggled", G_CALLBACK(onToggledMode_a_gui), this);
-	///actios
+	///actions
 	g_signal_connect(arenderer, "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
 	///Groups
 	g_signal_connect(getWidget("buttonAddGrp"), "clicked", G_CALLBACK(onAddGroupClicked_gui), (gpointer)this);

@@ -74,7 +74,7 @@ BookEntry(Entry::DET,_("Detection Settings"),"detection.glade")
 	RawSelection = gtk_tree_view_get_selection(RawView.get());
 
 	/* connect to signals */
-	/*1page*/
+	/* 1page */
 	g_signal_connect(getWidget("buttonAddAct"), "clicked", G_CALLBACK(onAddAct),(gpointer)this);//add
 	g_signal_connect(getWidget("buttonmodact"), "clicked", G_CALLBACK(onEditAct), (gpointer)this);//edit
 	g_signal_connect(getWidget("buttonremact"), "clicked", G_CALLBACK(onRemoveAct), (gpointer)this);//remove
@@ -116,16 +116,16 @@ BookEntry(Entry::DET,_("Detection Settings"),"detection.glade")
 	g_signal_connect(getWidget("removeitem"), "activate", G_CALLBACK(onRemItemDlg_gui), (gpointer)this);
 
 	vector<std::pair<std::string,int> >& act = WulforUtil::getActions();
-	set_combo(getWidget("comboboxentry1Fake"), act, (int)SETTING(FAKESHARE_RAW), false );
-	set_combo(getWidget("comboboxentry1rmdc"), act, (int)SETTING(RMDC_RAW), false);
-	set_combo(getWidget("comboboxentry1emul"), act, (int)SETTING(DCPP_EMULATION_RAW), false );
-	set_combo(getWidget("comboboxentry1mis"), act, (int)SETTING(FILELIST_VERSION_MISMATCH), false);
-	set_combo(getWidget("comboboxentry1listlen"), act, (int)SETTING(LISTLEN_MISMATCH), false);
-	set_combo(getWidget("comboboxentry1vermis"), act, (int)SETTING(VERSION_MISMATCH), false );
-	set_combo(getWidget("comboboxentry1disc"), act, (int)SETTING(DISCONNECT_RAW), false );
-	set_combo(getWidget("comboboxentry1BigSmall"), act, (int)SETTING(FILELIST_TOO_SMALL_BIG_RAW), false);
-	set_combo(getWidget("comboboxentry1slwsp"), act, (int)SETTING(SDL_RAW), false);
-	set_combo(getWidget("comboboxentry1ADLA"), act, (int)SETTING(ADLSEARCH_DEFAULT_ACTION), false);
+	set_combo(getWidget("comboboxentry1Fake"), act, (int)SETTING(FAKESHARE_RAW), false, this );
+	set_combo(getWidget("comboboxentry1rmdc"), act, (int)SETTING(RMDC_RAW), false, this);
+	set_combo(getWidget("comboboxentry1emul"), act, (int)SETTING(DCPP_EMULATION_RAW), false , this);
+	set_combo(getWidget("comboboxentry1mis"), act, (int)SETTING(FILELIST_VERSION_MISMATCH), false, this);
+	set_combo(getWidget("comboboxentry1listlen"), act, (int)SETTING(LISTLEN_MISMATCH), false, this);
+	set_combo(getWidget("comboboxentry1vermis"), act, (int)SETTING(VERSION_MISMATCH), false, this );
+	set_combo(getWidget("comboboxentry1disc"), act, (int)SETTING(DISCONNECT_RAW), false, this );
+	set_combo(getWidget("comboboxentry1BigSmall"), act, (int)SETTING(FILELIST_TOO_SMALL_BIG_RAW), false, this);
+	set_combo(getWidget("comboboxentry1slwsp"), act, (int)SETTING(SDL_RAW), false, this);
+	set_combo(getWidget("comboboxentry1ADLA"), act, (int)SETTING(ADLSEARCH_DEFAULT_ACTION), false, this);
 
 	g_signal_connect(getWidget("button7Save"), "clicked", G_CALLBACK(onSave), (gpointer)this);
 	g_signal_connect(getWidget("buttonadlsp7"), "clicked", G_CALLBACK(onADSLPoints), (gpointer)this);
@@ -144,7 +144,7 @@ BookEntry(Entry::DET,_("Detection Settings"),"detection.glade")
 	g_signal_connect(getWidget("buttonp2"), "clicked", G_CALLBACK(onADSLPointsMOD), (gpointer)this);
 	g_signal_connect(getWidget("buttonp3"), "clicked", G_CALLBACK(onADSLPointsDEL), (gpointer)this);
 
-//	g_signal_connect(getWidget("notebook1") ,"switch-page", G_CALLBACK(onSwitchTab), (gpointer)this);
+	g_signal_connect(getWidget("notebook1") ,"switch-page", G_CALLBACK(onSwitchTab), (gpointer)this);
 
 }
 
@@ -239,7 +239,7 @@ void DetectionTab::create_actions_raws() {
 		actions.insert(ActRaw::value_type( ((*i)->getId()),topi));
 		actionsn.push_back(make_pair(name,(*i)->getId()));
 	}
-	//WulforUtil::setActions(actionsn);
+	
 }
 /*2Page*/
 void DetectionTab::create_profiles()
@@ -271,17 +271,17 @@ void DetectionTab::onSwitchTab(GtkNotebook *notebook, GtkNotebookPage *page, gui
 
     if(num == 2 || num == 1)
     {
-        vector<std::pair<std::string,int> >& act = (dt->actionsn);//WulforUtil::getActions();
-        dt->loadAgain(dt->getWidget("comboboxentry1Fake"),act);
-        dt->loadAgain(dt->getWidget("comboboxentry1rmdc"),act);
-        dt->loadAgain(dt->getWidget("comboboxentry1emul"),act);
-        dt->loadAgain(dt->getWidget("comboboxentry1mis"),act);
-        dt->loadAgain(dt->getWidget("comboboxentry1listlen"),act);
-        dt->loadAgain(dt->getWidget("comboboxentry1vermis"),act);
-        dt->loadAgain(dt->getWidget("comboboxentry1disc"),act);
-        dt->loadAgain(dt->getWidget("comboboxentry1BigSmall"),act);
-        dt->loadAgain(dt->getWidget("comboboxentry1slwsp"),act);
-        dt->loadAgain(dt->getWidget("comboboxentry1ADLA"),act);
+        vector<std::pair<std::string,int> >& act = (dt->actionsn);
+        dt->loadAgain(dt->getWidget("comboboxentry1Fake"), act, (int)SETTING(FAKESHARE_RAW), dt);
+        dt->loadAgain(dt->getWidget("comboboxentry1rmdc"), act, (int)SETTING(RMDC_RAW), dt);
+        dt->loadAgain(dt->getWidget("comboboxentry1emul"), act,(int)SETTING(DCPP_EMULATION_RAW)  , dt);
+        dt->loadAgain(dt->getWidget("comboboxentry1mis"), act,(int)SETTING(FILELIST_VERSION_MISMATCH), dt);
+        dt->loadAgain(dt->getWidget("comboboxentry1listlen"), act, (int)SETTING(LISTLEN_MISMATCH), dt);
+        dt->loadAgain(dt->getWidget("comboboxentry1vermis"), act, (int)SETTING(VERSION_MISMATCH), dt);
+        dt->loadAgain(dt->getWidget("comboboxentry1disc"), act, (int)SETTING(DISCONNECT_RAW), dt);
+        dt->loadAgain(dt->getWidget("comboboxentry1BigSmall"), act,(int)SETTING(FILELIST_TOO_SMALL_BIG_RAW), dt);
+        dt->loadAgain(dt->getWidget("comboboxentry1slwsp"), act,(int)SETTING(SDL_RAW), dt);
+        dt->loadAgain(dt->getWidget("comboboxentry1ADLA"), act,(int)SETTING(ADLSEARCH_DEFAULT_ACTION), dt);
     }
 }
 
@@ -560,7 +560,7 @@ bool DetectionTab::showAddActRawDialog(StringMap &params,DetectionTab *dt)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(dt->getWidget("checkEnabled")), enabled);
 		gtk_combo_box_set_active(GTK_COMBO_BOX(dt->getWidget("comboboxType")),Util::toInt(params["Type"]));
 
-		vector< pair <string,int> >& act = actionsn;//WulforUtil::getActions();
+		vector< pair <string,int> >& act = actionsn;
 		WulforUtil::drop_combo(dt->getWidget("comboboxentryAct"), act);
 
         gtk_entry_set_text(GTK_ENTRY(dt->getWidget("comboboxentryAct")), params["Action"].c_str());
@@ -1129,7 +1129,7 @@ bool DetectionTab::showAddEntryDetDialog(StringMap &params, DetectionTab *dt)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(dt->getWidget("checkbuttonCheckMis")), mismatch);
 		///Set Action
 		vector< pair <string,int> >& act = WulforUtil::getActions();
-        dt->set_combo(dt->getWidget("comboboxentry1Act"),act,Util::toInt(params["RAW"]),true);
+        dt->set_combo(dt->getWidget("comboboxentry1Act"),act,Util::toInt(params["RAW"]),true,dt);
 		/*WulforUtil::drop_combo(dt->getWidget("comboboxentry1Act"),act);
 		gtk_combo_box_set_active(GTK_COMBO_BOX(dt->getWidget("comboboxentry1Act")), (gint)(dt->find_rawInt(Util::toInt(params["RAW"])) ));*/
 		//Flag
@@ -1389,7 +1389,7 @@ void DetectionTab::onADSLPoints(GtkWidget *widget, gpointer data)
 bool DetectionTab::showAddPointsDialog(StringMap &params,DetectionTab *dt)
 {
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(dt->getWidget("spinbuttonpointss1")),(gdouble)(Util::toInt(params["Points"])));
-	dt->set_combo(dt->getWidget("comboboxentryactionp1"), WulforUtil::getActions(), (int)Util::toInt(params["Action"]), false);
+	dt->set_combo(dt->getWidget("comboboxentryactionp1"), WulforUtil::getActions(), (int)Util::toInt(params["Action"]), false, dt);
 
 	gint response = gtk_dialog_run(GTK_DIALOG(dt->getWidget("dialogpointitem1")));
 
@@ -1563,7 +1563,7 @@ void DetectionTab::onSave(GtkWidget *widget , gpointer data)
 	int sdltime = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(dt->getWidget("spintimesd")));
 	st->set(SettingsManager::SDL_TIME, sdltime);
 	///Protect U
-    gchar * protectuser = gtk_entry_get_text(GTK_ENTRY(dt->getWidget("entryProtectPatern")));
+    const gchar * protectuser = gtk_entry_get_text(GTK_ENTRY(dt->getWidget("entryProtectPatern")));
     st->set(SettingsManager::PROTECTED_USERS, protectuser);
 
 	///Save
@@ -1586,8 +1586,9 @@ bool DetectionTab::showErrorDialog_gui(const string &description, DetectionTab *
 	return TRUE;
 }
 
-void DetectionTab::set_combo(GtkWidget *place, vector<pair<string,int> > act, int set, bool det)
+void DetectionTab::set_combo(GtkWidget *place, vector<pair<string,int> > act, int set, bool det,gpointer data)
 {
+    DetectionTab *dt = (DetectionTab *)data;
     GtkListStore *store;
     GtkComboBox *box;
     GtkTreeIter iter,*piter = NULL;
@@ -1603,6 +1604,8 @@ void DetectionTab::set_combo(GtkWidget *place, vector<pair<string,int> > act, in
                             -1 );
         if(it->second == set)
             piter = gtk_tree_iter_copy(&iter);
+        
+        dt->tmpname.insert ( pair<int,std::string>(it->second,it->first));    
 
     }
 
@@ -1651,79 +1654,48 @@ int DetectionTab::save_combo(GtkWidget *widget)
     return ints;
 }
 
-void DetectionTab::loadAgain(GtkWidget *widget, vector<pair<string,int> > act)
+void DetectionTab::loadAgain(GtkWidget *widget, vector<pair<string,int> > act, int set, gpointer data)
 {
+	DetectionTab *dt = (DetectionTab *)data;
 	GList *list;
 	list = gtk_container_get_children(GTK_CONTAINER(widget));
 	GtkWidget *combo = GTK_WIDGET(g_list_first(list)->data);
-	GtkTreeIter iter;
+	GtkTreeIter iter,*piter;
 	GtkTreeModel *model;
 	if(!GTK_IS_COMBO_BOX(combo))
 		return;
-	GList *nalist = NULL;
-	struct names
-	{
-	   string name;
-	   int id;		
-	};	
-		
-	{
-		/* Obtain data model from combo box. */
-        model = gtk_combo_box_get_model( GTK_COMBO_BOX(combo) );
-        if(gtk_tree_model_get_iter_first(model,&iter))
-        {
-			while(gtk_tree_model_iter_next(model,&iter) )
+	std::map<int,string> tmpmaps;
+			
+	for(vector<pair<string,int> >::const_iterator q = act.begin();q!=act.end();q++)
+			tmpmaps.insert( pair<int, std::string>(q->second,q->first) );
+	
+	/* Obtain data model from combo box. */
+    model = gtk_combo_box_get_model( GTK_COMBO_BOX(combo) );
+    if(gtk_tree_model_get_iter_first(model,&iter))
+    {
+		GtkListStore *store = GTK_LIST_STORE(model);
+		if(dt->tmpname.size() != tmpmaps.size())
+		{
+			gtk_list_store_clear(store);
+			for ( std::map<int,std::string>::iterator it=(tmpmaps.begin()); it != (tmpmaps.end()); it++ )
 			{
-				gchar *str;
-				gint ints;
-				/* Obtain string from model. */
-				gtk_tree_model_get( model, &iter, TYPE_STR, &str, TYPE_INT, &ints , -1 );
-        
-				names *name = new names();
-				name->name = string(g_strdup(str));
-				name->id = (int)ints;
-				nalist = g_list_append(nalist, (gpointer)name);
-				
+				gtk_list_store_append( store, &iter );
+				gtk_list_store_set( store, &iter,
+                            TYPE_STR, it->second.c_str(),
+                            TYPE_INT, it->first,
+                            -1 );
+                  if(it->first == set)
+						piter = gtk_tree_iter_copy(&iter);		
+			
 			}
 		}
+	
 	}
-    GList *adds = NULL;
-    for(vector<pair<string,int> >::const_iterator it = act.begin();it!= act.end(); it++)
-    {
-		GList *llist = NULL;
-		for(llist = nalist;llist != NULL;llist = llist->next)
-		{
-			names *named = (names *)llist->data;
-			string& _name = named->name;
-			gint Ids = named->id;
-			g_print("%s",_name.c_str());
-			if((g_strcmp0(it->first.c_str(),_name.c_str()) == 1  ))
-			{
-				adds = g_list_append(adds,(gpointer)named);
-			}	
-		
-		}
-	}
-	g_print("DEB3\n");
-	GList *slist = NULL;
-	model = gtk_combo_box_get_model( GTK_COMBO_BOX(combo) );
-	GtkListStore *store = GTK_LIST_STORE(model);
-	GtkTreeIter _iter;
-	gtk_list_store_clear(store);
-	for(slist = adds; slist!=NULL;slist = slist->next)
-	{
-		names *nameu= (names *)slist->data;
-		g_print("\n%s\n",nameu->name.c_str());
-		gtk_list_store_append(store,&_iter);
-		gtk_list_store_set(store,&_iter,
-							TYPE_STR,(gchar *)nameu->name.c_str(),
-							TYPE_INT,(gint)nameu->id,
-							-1);
-		
-	}
-	 gtk_combo_box_set_model (GTK_COMBO_BOX(combo), GTK_TREE_MODEL(store));
+	 gtk_combo_box_set_model (GTK_COMBO_BOX(combo), model);
 	 gtk_widget_show_all(combo);
-	 g_print("END");
+	 
+ 	gtk_combo_box_set_active_iter(GTK_COMBO_BOX(combo),piter);
+	 
 }
 
 /*this is a generic pop menu*/
