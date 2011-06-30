@@ -35,10 +35,10 @@ stop(false)
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("cmdtextview")));
     gtk_text_buffer_get_end_iter(buffer, &iter);
     cmdMark = gtk_text_buffer_create_mark(buffer, NULL, &iter, FALSE);
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("hub_in_button")) ,TRUE);
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("hub_out_button")) ,TRUE);
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("client_in_button")) ,TRUE);
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("client_out_button")) ,TRUE);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("hub_in_button")) , TRUE);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("hub_out_button")) , TRUE);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("client_in_button")) , TRUE);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("client_out_button")) , TRUE);
     GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("cmdscroll")));
     g_signal_connect(adjustment, "value_changed", G_CALLBACK(onScroll_gui), (gpointer)this);
     g_signal_connect(adjustment, "changed", G_CALLBACK(onResize_gui), (gpointer)this);
@@ -58,7 +58,7 @@ void cmddebug::add_gui(time_t t,string file)
 
     gtk_text_buffer_get_end_iter(buffer, &iter);
 
-    line = Text::toUtf8("["+Util::getShortTimeString(t)+"]"+file+"\n\0");
+    line = Text::toUtf8("[" + Util::getShortTimeString(t) + "]" + file + "\n\0");
 
     gtk_text_buffer_insert(buffer, &iter, line.c_str(), line.size());
     gtk_text_buffer_get_end_iter(buffer, &iter);

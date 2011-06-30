@@ -259,14 +259,14 @@ bool Highlighting::showColorDialog(StringMap &params)
     /*Set The BG //FG colors*/
 	GdkColor clr;
 	gdk_color_parse(params["FGColor"].c_str(),&clr);
-	gtk_color_button_set_color(GTK_COLOR_BUTTON(getWidget("colorbuttonfg")),&clr);//
+	gtk_color_button_set_color(GTK_COLOR_BUTTON(getWidget("colorbuttonfg")), &clr);//
 	gtk_widget_modify_base (getWidget("colorbuttonfg"), GTK_STATE_NORMAL, &clr);
     gtk_widget_modify_fg (getWidget("colorbuttonfg"), GTK_STATE_NORMAL, &clr);
 
 
 	GdkColor colr;
 	gdk_color_parse(params["BGColor"].c_str(),&colr);
-	gtk_color_button_set_color(GTK_COLOR_BUTTON(getWidget("colorbuttonbg")),&colr);//
+	gtk_color_button_set_color(GTK_COLOR_BUTTON(getWidget("colorbuttonbg")), &colr);//
 	gtk_widget_modify_base (getWidget("colorbuttonbg"), GTK_STATE_NORMAL, &colr);
     gtk_widget_modify_fg (getWidget("colorbuttonbg"), GTK_STATE_NORMAL, &colr);
 
@@ -369,7 +369,7 @@ void Highlighting::addHigl_client(StringMap params)
 
 void Highlighting::editHigl_client(StringMap params,string name)
 {
-	ColorSettings * cs= new ColorSettings();
+	ColorSettings * cs = new ColorSettings();
 	cs->setMatch(params["Name"]);
 	cs->setPopup(Util::toInt(params["POPUP"]));
 	cs->setBold(Util::toInt(params["Bold"]));

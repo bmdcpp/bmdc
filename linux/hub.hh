@@ -76,6 +76,7 @@ class Hub:
 			TAG_OPERATOR,
 			TAG_FAVORITE,
 			TAG_URL,
+			TAG_IPADR,
 			TAG_LAST
 		} TypeTag;
 
@@ -115,6 +116,7 @@ class Hub:
 		static gboolean onNickTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
 		static gboolean onLinkTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
 		static gboolean onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
+		static gboolean onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
 		static gboolean onMagnetTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
 
 static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gchar *key, GtkTreeIter *iter, gpointer data);
@@ -153,6 +155,8 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		static void onDownloadToClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onDownloadClicked_gui(GtkMenuItem *item, gpointer data);
 		static gboolean expose(GtkWidget *widget, GdkEventExpose *event, gpointer data);
+		static void ripeIp(GtkWidget *wid, gpointer data);
+		static void copyIp(GtkWidget *wid, gpointer data);
 		void addStatusPrivateMessage_gui(string cid, string message);
 		/*new*/
 		void addOp(ParamMap params);
@@ -183,7 +187,7 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		std::string formatAdditionalInfo(const std::string& aIp, bool sIp, bool sCC,bool isPm);
 		std::string getConn(const dcpp::Identity& id);
 		static void refreshul(GtkWidget *widget , gpointer data);
-
+		gboolean HitIP(string name, string &sIp);
 
 		// Favorite callbacks
 		virtual void on(dcpp::FavoriteManagerListener::UserAdded, const dcpp::FavoriteUser &user) throw();
@@ -248,6 +252,7 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		GtkTooltips *tooltip;
 		int tooltipcount;
 		static const int maxtooltip = 10;
+		string ip;
 
 };
 

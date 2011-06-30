@@ -26,6 +26,28 @@
       </widget>
     </child>
   </widget>
+  <widget class="GtkMenu" id="ipMenu">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <child>
+      <widget class="GtkMenuItem" id="copyItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_action_appearance">False</property>
+        <property name="label" translatable="yes">Copy IP</property>
+        <property name="use_underline">True</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkMenuItem" id="ripeMenuItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_action_appearance">False</property>
+        <property name="label" translatable="yes">Ripe DB</property>
+        <property name="use_underline">True</property>
+      </widget>
+    </child>
+  </widget>
   <widget class="GtkMenu" id="linkMenu">
     <property name="can_focus">False</property>
     <child>
@@ -181,6 +203,10 @@
           <widget class="GtkEntry" id="chatEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="primary_icon_activatable">False</property>
+            <property name="secondary_icon_activatable">False</property>
+            <property name="primary_icon_sensitive">True</property>
+            <property name="secondary_icon_sensitive">True</property>
           </widget>
           <packing>
             <property name="expand">True</property>

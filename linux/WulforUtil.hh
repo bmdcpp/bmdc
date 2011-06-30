@@ -85,13 +85,13 @@ class WulforUtil
 		static std::string getReport(const dcpp::Identity& identity);
 
 		static int matchRe(const std::string/*&*/ strToMatch, const std::string/*&*/ expression, bool caseSensative = true);//used this ??
-		/*This is fill comboboxentry*/
+		/* This is fill comboboxentry */
 		static void drop_combo(GtkWidget *widget, std::vector<std::pair<std::string,int> > CONTEUDO);
 		static void drop_combo(GtkWidget *widget, std::vector<std::string> CONTEUDO);
 		static std::vector<std::pair<std::string,int> >& getActions();
-		/*Load Icon of SH based on .ext*/
+		/* Load Icon of SH based on .ext */
 		static GdkPixbuf *loadIconSB(std::string ext);
-		/*remove events from widget*/
+		/* remove events from widget */
 		static void my_gtk_widget_remove_events (GtkWidget *widget,gint events);
 				
 		static const std::string ENCODING_LOCALE;

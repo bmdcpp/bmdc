@@ -39,7 +39,7 @@
 #define NOTIFY_HH
 
 #ifdef HAVE_LIBNOTIFY
-#include <libnotify/notify.h>
+	#include <libnotify/notify.h>
 #endif
 
 class Notify

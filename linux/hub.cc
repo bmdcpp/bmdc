@@ -199,7 +199,10 @@ Hub::Hub(const string &address, const string &encoding):
 	//End
 	g_signal_connect(getWidget("downloadBrowseItem"), "activate", G_CALLBACK(onDownloadToClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("downloadItem"), "activate", G_CALLBACK(onDownloadClicked_gui), (gpointer)this);
-
+	///
+	g_signal_connect(getWidget("ripeMenuItem"), "activate", G_CALLBACK(ripeIp) , (gpointer)this);
+	g_signal_connect(getWidget("copyItem") ,"activate", G_CALLBACK(copyIp) , (gpointer)this);
+	
 	gtk_widget_grab_focus(getWidget("chatEntry"));
 
 	// Set the pane position
@@ -227,6 +230,7 @@ Hub::Hub(const string &address, const string &encoding):
 	TagsMap[TAG_OPERATOR] = createTag_gui("TAG_OPERATOR", TAG_OPERATOR);
 	TagsMap[TAG_FAVORITE] = createTag_gui("TAG_FAVORITE", TAG_FAVORITE);
 	TagsMap[TAG_URL] = createTag_gui("TAG_URL", TAG_URL);
+	TagsMap[TAG_IPADR] = createTag_gui("TAG_IPADR", TAG_IPADR);
 
 	// Initialize favorite users list
 	FavoriteManager::FavoriteMap map = FavoriteManager::getInstance()->getFavoriteUsers();
@@ -913,6 +917,41 @@ void Hub::addMessage_gui(string message, Msg::TypeMsg typemsg)
 	}
 }
 
+/* Isnpired by StrongDC catch code */
+gboolean Hub::HitIP(string name, string &sIp)
+{
+	for(int i = 0;i < name.length();i++)
+	{
+		if(!((name[i] == 0) || (name[i] == '.') || ((name[i] >= '0') && (name[i] <= '9')))) {
+			return FALSE;
+		}
+	}
+	
+	name+=".";
+	size_t begin = 0, pos = string::npos,end = 0;
+	bool isOk = true;
+	for(int i = 0; i < 4; i++) {
+		pos = name.find('.', begin);
+		if(pos == tstring::npos) {
+			isOk = false;
+			break;
+		}
+		end = atoi(Text::fromT(name.substr(begin)).c_str());
+		if((end < 0) || (end > 255)) {
+			isOk = false;
+			break;
+		}
+		begin = pos + 1;
+	}
+	
+	if(isOk)
+	{
+		sIp = name.substr(0,pos);
+		
+	}
+	return isOk;
+}
+
 void Hub::applyTags_gui(const string &line)
 {
 	GtkTextIter start_iter;
@@ -947,7 +986,7 @@ void Hub::applyTags_gui(const string &line)
 
 	bool firstNick = FALSE;
 	bool start = FALSE;
-
+	bool isIp = false;
 	for(;;)
 	{
 		do {
@@ -981,7 +1020,7 @@ void Hub::applyTags_gui(const string &line)
 		GCallback callback = NULL;
 		bool isNick = FALSE , image_tag = FALSE;
 		gchar *temp = gtk_text_iter_get_text(&tag_start_iter, &tag_end_iter);
-
+		gchar *pname = temp;//IP
 		GtkTextTag *tag = gtk_text_tag_table_lookup(gtk_text_buffer_get_tag_table(chatBuffer), temp);
 		if(WGETB("use-highliting"))
 		{
@@ -1049,6 +1088,14 @@ void Hub::applyTags_gui(const string &line)
 
 				tagStyle = TAG_URL;
 			}
+			
+			if(HitIP(tagName,ip))
+			{
+				callback = G_CALLBACK(onIpTagEvent_gui);
+				tagStyle = TAG_IPADR;
+				isIp = true;
+			}	
+			
 		}
     }
 		g_free(temp);
@@ -1107,12 +1154,13 @@ void Hub::applyTags_gui(const string &line)
 
 			if (!tag)
 			{
-				if (isNick)
+				if (isNick || isIp)
 					tag = gtk_text_buffer_create_tag(chatBuffer, tagName.c_str(), NULL);
 				else
 					tag = gtk_text_buffer_create_tag(chatBuffer, tagName.c_str(), "underline", PANGO_UNDERLINE_SINGLE, NULL);
 
 				g_signal_connect(tag, "event", callback, (gpointer)this);
+				g_object_set_data_full(G_OBJECT (tag), "nameq", pname ,g_free);//used ?
 			}
 
 			/* apply tags */
@@ -1489,7 +1537,7 @@ void Hub::getSettingTag_gui(WulforSettingsManager *wsm, TypeTag type, string &fo
 			else
 				bold = 0;
 		break;
-
+		case TAG_IPADR:
 		case TAG_GENERAL:
 
 		default:
@@ -1813,6 +1861,34 @@ gboolean Hub::onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *ev
 		return TRUE;
 	}
 	return FALSE;
+}
+
+gboolean Hub::onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event , GtkTextIter *iter, gpointer data)
+{
+	Hub *hub = (Hub *)data;
+	
+	if(event->type == GDK_BUTTON_PRESS)
+	{
+		if(event->button.button == 3)
+		{
+			gtk_widget_show_all(hub->getWidget("ipMenu"));
+			gtk_menu_popup(GTK_MENU(hub->getWidget("ipMenu")), NULL,NULL,NULL,NULL, 0,gtk_get_current_event_time());
+			return TRUE;	
+		}
+	}
+	return FALSE;	
+}
+
+void Hub::copyIp(GtkWidget *wid, gpointer data)
+{
+	Hub *hub = (Hub *)data;
+	gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), hub->ip.c_str(), hub->ip.length());	
+}
+
+void Hub::ripeIp(GtkWidget *wid, gpointer data)
+{
+	Hub *hub = (Hub *)data;
+	WulforUtil::openURI("http://www.db.ripe.net/whois?searchtext="+hub->ip+"&searchSubmit=search");
 }
 
 gboolean Hub::onMagnetTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data)
