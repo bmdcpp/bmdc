@@ -1052,7 +1052,8 @@ GdkPixbuf *WulforUtil::loadCountry(const string &country)
 
 				gtk_icon_factory_add(ffactory, icons[i].stock_id,
 		                    gtk_icon_set_new_from_pixbuf(pixbuf));
-
+				
+				
 				return pixbuf;
 			}
 	}

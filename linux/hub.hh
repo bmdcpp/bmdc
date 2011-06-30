@@ -187,7 +187,7 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		std::string formatAdditionalInfo(const std::string& aIp, bool sIp, bool sCC,bool isPm);
 		std::string getConn(const dcpp::Identity& id);
 		static void refreshul(GtkWidget *widget , gpointer data);
-		gboolean HitIP(string name, string &sIp);
+		gboolean HitIP(std::string name, std::string &sIp);
 
 		// Favorite callbacks
 		virtual void on(dcpp::FavoriteManagerListener::UserAdded, const dcpp::FavoriteUser &user) throw();

@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-06-30 12:35+0200\n"
+"POT-Creation-Date: 2011-06-30 17:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-06-30 12:07+0200\n"
+"POT-Creation-Date: 2011-06-30 17:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2564,7 +2564,7 @@ msgstr ""
 msgid "*** Available commands:"
 msgstr ""
 
-#: linux/WulforUtil.cc:1546
+#: linux/WulforUtil.cc:1547
 msgid "*** Info on "
 msgstr ""
 
@@ -2572,11 +2572,11 @@ msgstr ""
 msgid "*** T E S T ***"
 msgstr ""
 
-#: linux/WulforUtil.cc:1419
+#: linux/WulforUtil.cc:1420
 msgid "---------- Cleaning the chat ----------"
 msgstr ""
 
-#: linux/WulforUtil.cc:1421
+#: linux/WulforUtil.cc:1422
 msgid "---------- The chat has been cleaned ----------"
 msgstr ""
 
@@ -2706,7 +2706,7 @@ msgstr ""
 msgid "Alias add uname -a as A"
 msgstr ""
 
-#: linux/WulforUtil.cc:1453
+#: linux/WulforUtil.cc:1454
 msgid "Aliases not found."
 msgstr ""
 
@@ -2806,7 +2806,7 @@ msgstr ""
 msgid "Away mode message on/off"
 msgstr ""
 
-#: linux/WulforUtil.cc:1248 linux/WulforUtil.cc:1261 linux/hub.cc:2110
+#: linux/WulforUtil.cc:1249 linux/WulforUtil.cc:1262 linux/hub.cc:2110
 #: linux/mainwindow.cc:480 linux/privatemessage.cc:874
 msgid "Away mode off"
 msgstr ""
@@ -2815,7 +2815,7 @@ msgstr ""
 msgid "Away mode on"
 msgstr ""
 
-#: linux/WulforUtil.cc:1255
+#: linux/WulforUtil.cc:1256
 msgid "Away mode on: "
 msgstr ""
 
@@ -2910,7 +2910,7 @@ msgstr ""
 msgid "Command name already exists"
 msgstr ""
 
-#: linux/WulforUtil.cc:1237
+#: linux/WulforUtil.cc:1238
 msgid "Command send: "
 msgstr ""
 
@@ -3559,7 +3559,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: linux/WulforUtil.cc:1299
+#: linux/WulforUtil.cc:1300
 msgid "No 0 Slots!!"
 msgstr ""
 
@@ -3791,7 +3791,7 @@ msgstr ""
 msgid "Set Slots to n"
 msgstr ""
 
-#: linux/WulforUtil.cc:1306
+#: linux/WulforUtil.cc:1307
 msgid "Set Slots to:"
 msgstr ""
 
@@ -4129,7 +4129,7 @@ msgstr ""
 msgid "Uploaded "
 msgstr ""
 
-#: linux/WulforUtil.cc:1410
+#: linux/WulforUtil.cc:1411
 msgid "Uptime: "
 msgstr ""
 
@@ -4444,7 +4444,7 @@ msgstr ""
 msgid "file list from "
 msgstr ""
 
-#: linux/WulforUtil.cc:1268
+#: linux/WulforUtil.cc:1269
 msgid "project home: "
 msgstr ""
 

@@ -537,7 +537,7 @@ void Hub::updateUser_gui(ParamMap params)
 	#else
 	GdkPixbuf *buf = WulforUtil::loadCountry("CZ");
 	#endif
-
+	g_object_ref(buf);
 
 	if (findUser_gui(cid, &iter))
 	{
@@ -548,7 +548,7 @@ void Hub::updateUser_gui(ParamMap params)
 		{
 			// User has changed nick, update userMap and remove the old Nick tag
 			userMap.erase(nick);
-			removeTag_gui(nick);
+			//removeTag_gui(nick);
 			userMap.insert(UserMap::value_type(Nick, cid));
 
 			// update favorite
@@ -667,7 +667,7 @@ void Hub::removeUser_gui(string cid)
 		nick = nickView.getString(&iter, N_("Nick"));
 		totalShared -= nickView.getValue<int64_t>(&iter, N_("Shared"));
 		gtk_list_store_remove(nickStore, &iter);
-		removeTag_gui(nick);
+		//removeTag_gui(nick);
 		userMap.erase(nick);
 		userIters.erase(cid);
 		setStatus_gui("statusUsers", Util::toString(userMap.size()) + N_(" Users"));
@@ -708,10 +708,10 @@ void Hub::removeTag_gui(const string &nick)
 void Hub::clearNickList_gui()
 {
 	// Remove all old nick tags from the text view
-	unordered_map<string, string>::const_iterator it;
+	/*unordered_map<string, string>::const_iterator it;
 	for (it = userMap.begin(); it != userMap.end(); ++it)
 		removeTag_gui(it->first);
-
+	*/
 	gtk_list_store_clear(nickStore);
 	userMap.clear();
 	userIters.clear();
@@ -2923,7 +2923,7 @@ void Hub::addFavoriteUser_gui(ParamMap params)
 				nickView.col("Favorite"), ("f" + params["Order"] + nick).c_str(),
 				nickView.col("NickColor"), "#ff0000",
 				-1);
-			removeTag_gui(nick);
+		//	removeTag_gui(nick);
 		}
 
 		string message = nick + _(" added to favorites list");
@@ -2952,7 +2952,7 @@ void Hub::removeFavoriteUser_gui(ParamMap params)
 				nickView.col("Favorite"), nickOrder.c_str(),
 				nickView.col("NickColor"), "#000000",
 				-1);
-			removeTag_gui(nick);
+		//	removeTag_gui(nick);
 		}
 
 		string message = nick + _(" removed from favorites list");
@@ -2976,7 +2976,7 @@ void Hub::addOp(ParamMap params)
 			gtk_list_store_set(nickStore,&iter,
 					nickView.col("NickColor"),"#1E90FF",
 					-1);
-			removeTag_gui(nick);
+	//		removeTag_gui(nick);
 		}
 
 	}
@@ -2997,7 +2997,7 @@ void Hub::addPasive(ParamMap params)
 			gtk_list_store_set(nickStore,&iter,
 					nickView.col("NickColor"),"#747677",
 					-1);
-			removeTag_gui(nick);
+	//		removeTag_gui(nick);
 		}
 	}
 }
@@ -3018,7 +3018,7 @@ void Hub::addIgnore(ParamMap params)
 			gtk_list_store_set(nickStore,&iter,
 					nickView.col("NickColor"),"#9affaf",
 					-1);
-			removeTag_gui(nick);
+//			removeTag_gui(nick);
 		}
 	}
 }
@@ -3036,7 +3036,7 @@ void Hub::AddProtectUser(ParamMap params)
 			gtk_list_store_set(nickStore,&iter,
 						nickView.col("NickColor"),"#8B6914",
 						-1);
-			removeTag_gui(nick);
+	//		removeTag_gui(nick);
 
 		}
 
@@ -3056,7 +3056,7 @@ void Hub::delOp(ParamMap params)
 			gtk_list_store_set(nickStore, &iter,
 				nickView.col("NickColor"), "#000000",
 				-1);
-			removeTag_gui(nick);
+	//		removeTag_gui(nick);
 		}
 	}
 
@@ -3076,7 +3076,7 @@ void Hub::delPasive(ParamMap params)
 			gtk_list_store_set(nickStore, &iter,
 				nickView.col("NickColor"), "#000000",
 				-1);
-			removeTag_gui(nick);
+	//		removeTag_gui(nick);
 		}
 	}
 }
@@ -3095,7 +3095,7 @@ void Hub::delIgnore(ParamMap params)
 			gtk_list_store_set(nickStore, &iter,
 				nickView.col("NickColor"), "#000000",
 				-1);
-			removeTag_gui(nick);
+	//		removeTag_gui(nick);
 		}
 	}
 
