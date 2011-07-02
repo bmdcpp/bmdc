@@ -141,6 +141,14 @@ Hub::Hub(const string &address, const string &encoding):
 	emot_mark = gtk_text_buffer_create_mark(chatBuffer, NULL, &iter, TRUE);
 
 	handCursor = gdk_cursor_new(GDK_HAND2);
+	
+	// menu
+	g_object_ref_sink(getWidget("nickMenu"));
+	g_object_ref_sink(getWidget("magnetMenu"));
+	g_object_ref_sink(getWidget("linkMenu"));
+	g_object_ref_sink(getWidget("hubMenu"));
+//	g_object_ref_sink(getWidget("chatCommandsMenu"));
+	g_object_ref_sink(getWidget("ipMenu"));
 
 	// Initialize the user command menu
 	userCommandMenu = new UserCommandMenu(getWidget("usercommandMenu"), ::UserCommand::CONTEXT_USER);//NOTE: core 0.762
@@ -298,6 +306,13 @@ Hub::~Hub()
 	}
 
 	delete emotdialog;
+	
+	g_object_unref(getWidget("nickMenu"));
+	g_object_unref(getWidget("magnetMenu"));
+	g_object_unref(getWidget("linkMenu"));
+	g_object_unref(getWidget("hubMenu"));
+//	g_object_unref(getWidget("chatCommandsMenu"));
+	g_object_unref(getWidget("ipMenu"));
 }
 
 void Hub::show()
@@ -312,7 +327,7 @@ bool Hub::isHighlitingWorld(string word,GtkTextTag *tag)
 {
 		GtkTreeIter q;
 
-		string sMsgLower(word.length(),NULL);
+		string sMsgLower(NULL,word.length());
 		std::transform(word.begin(), word.end(), sMsgLower.begin(), _tolower);
 		gboolean ret;
 
@@ -355,7 +370,7 @@ bool Hub::isHighlitingWorld(string word,GtkTextTag *tag)
 
 
 			string _w=cs->getMatch();
-			string _sW(_w.length(),NULL);
+			string _sW(NULL,_w.length());
 			std::transform(_w.begin(), _w.end(), _sW.begin(), _tolower);
 			int ffound = sMsgLower.compare(_sW);
 			if(!ffound) {
@@ -379,7 +394,7 @@ bool Hub::isHighlitingWorld(string word,GtkTextTag *tag)
 			}
 
 			string w = cs->getMatch();
-			string sW(w.length(),NULL);
+			string sW(NULL,w.length());
 			std::transform(w.begin(), w.end(), sW.begin(), _tolower);
 			if(cs->usingRegexp())
 			{
@@ -548,7 +563,7 @@ void Hub::updateUser_gui(ParamMap params)
 		{
 			// User has changed nick, update userMap and remove the old Nick tag
 			userMap.erase(nick);
-			//removeTag_gui(nick);
+			removeTag_gui(nick);
 			userMap.insert(UserMap::value_type(Nick, cid));
 
 			// update favorite
@@ -667,7 +682,7 @@ void Hub::removeUser_gui(string cid)
 		nick = nickView.getString(&iter, N_("Nick"));
 		totalShared -= nickView.getValue<int64_t>(&iter, N_("Shared"));
 		gtk_list_store_remove(nickStore, &iter);
-		//removeTag_gui(nick);
+		removeTag_gui(nick);
 		userMap.erase(nick);
 		userIters.erase(cid);
 		setStatus_gui("statusUsers", Util::toString(userMap.size()) + N_(" Users"));
@@ -1160,7 +1175,6 @@ void Hub::applyTags_gui(const string &line)
 					tag = gtk_text_buffer_create_tag(chatBuffer, tagName.c_str(), "underline", PANGO_UNDERLINE_SINGLE, NULL);
 
 				g_signal_connect(tag, "event", callback, (gpointer)this);
-				g_object_set_data_full(G_OBJECT (tag), "nameq", pname ,g_free);//used ?
 			}
 
 			/* apply tags */
@@ -2180,7 +2194,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 						}
 						else
 						{
-							WulforManager::get()->getMainWindow()->addPrivateMessage_gui(Msg::UNKNOWN, hub->userMap[nick], hub->client->getHubUrl(),false);
+							WulforManager::get()->getMainWindow()->addPrivateMessage_gui(Msg::UNKNOWN, hub->userMap[nick], hub->client->getHubUrl(),"",false);
 						}
 
 					}
@@ -2923,7 +2937,7 @@ void Hub::addFavoriteUser_gui(ParamMap params)
 				nickView.col("Favorite"), ("f" + params["Order"] + nick).c_str(),
 				nickView.col("NickColor"), "#ff0000",
 				-1);
-		//	removeTag_gui(nick);
+			removeTag_gui(nick);
 		}
 
 		string message = nick + _(" added to favorites list");
@@ -2952,7 +2966,7 @@ void Hub::removeFavoriteUser_gui(ParamMap params)
 				nickView.col("Favorite"), nickOrder.c_str(),
 				nickView.col("NickColor"), "#000000",
 				-1);
-		//	removeTag_gui(nick);
+			removeTag_gui(nick);
 		}
 
 		string message = nick + _(" removed from favorites list");
@@ -2976,7 +2990,7 @@ void Hub::addOp(ParamMap params)
 			gtk_list_store_set(nickStore,&iter,
 					nickView.col("NickColor"),"#1E90FF",
 					-1);
-	//		removeTag_gui(nick);
+			removeTag_gui(nick);
 		}
 
 	}
@@ -2997,7 +3011,7 @@ void Hub::addPasive(ParamMap params)
 			gtk_list_store_set(nickStore,&iter,
 					nickView.col("NickColor"),"#747677",
 					-1);
-	//		removeTag_gui(nick);
+			removeTag_gui(nick);
 		}
 	}
 }
@@ -3018,7 +3032,7 @@ void Hub::addIgnore(ParamMap params)
 			gtk_list_store_set(nickStore,&iter,
 					nickView.col("NickColor"),"#9affaf",
 					-1);
-//			removeTag_gui(nick);
+			removeTag_gui(nick);
 		}
 	}
 }
@@ -3036,7 +3050,7 @@ void Hub::AddProtectUser(ParamMap params)
 			gtk_list_store_set(nickStore,&iter,
 						nickView.col("NickColor"),"#8B6914",
 						-1);
-	//		removeTag_gui(nick);
+		removeTag_gui(nick);
 
 		}
 
@@ -3056,7 +3070,7 @@ void Hub::delOp(ParamMap params)
 			gtk_list_store_set(nickStore, &iter,
 				nickView.col("NickColor"), "#000000",
 				-1);
-	//		removeTag_gui(nick);
+			removeTag_gui(nick);
 		}
 	}
 
@@ -3076,7 +3090,7 @@ void Hub::delPasive(ParamMap params)
 			gtk_list_store_set(nickStore, &iter,
 				nickView.col("NickColor"), "#000000",
 				-1);
-	//		removeTag_gui(nick);
+			removeTag_gui(nick);
 		}
 	}
 }
@@ -3095,7 +3109,7 @@ void Hub::delIgnore(ParamMap params)
 			gtk_list_store_set(nickStore, &iter,
 				nickView.col("NickColor"), "#000000",
 				-1);
-	//		removeTag_gui(nick);
+			removeTag_gui(nick);
 		}
 	}
 
