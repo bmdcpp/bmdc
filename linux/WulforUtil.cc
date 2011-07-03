@@ -1763,7 +1763,7 @@ void WulforUtil::my_gtk_widget_remove_events (GtkWidget *widget,gint events)
   g_return_if_fail (GTK_IS_WIDGET (widget));
 
   GQuark quark_event_mask = g_quark_from_static_string ("gtk-event-mask");
-  gint *eventp = g_object_get_qdata (G_OBJECT (widget), quark_event_mask);
+  gint *eventp = (gint *)g_object_get_qdata (G_OBJECT (widget), quark_event_mask);
   gint original_events = events;
 
   if (!eventp){
@@ -1808,14 +1808,14 @@ void WulforUtil::remove_events_internal (GtkWidget *widget, gint events, GList  
 
   for (l = window_list; l != NULL; l = l->next)
   {
-    GdkWindow *window = l->data;
+    GdkWindow *window = (GdkWindow *)l->data;
     gpointer user_data;
 
     gdk_window_get_user_data (window, &user_data);
     if (user_data == widget){
       GList *children;
 
-      gdk_window_set_events (window, gdk_window_get_events(window) & (~events));
+      gdk_window_set_events (window, (GdkEventMask) (gdk_window_get_events(window) & (~events)));
 
       children = gdk_window_get_children (window);
       remove_events_internal (widget, events, children);

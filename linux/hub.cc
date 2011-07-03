@@ -1880,6 +1880,7 @@ gboolean Hub::onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *ev
 gboolean Hub::onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event , GtkTextIter *iter, gpointer data)
 {
 	Hub *hub = (Hub *)data;
+	hub->ip = tag->name;//think
 	
 	if(event->type == GDK_BUTTON_PRESS)
 	{

@@ -269,4 +269,4 @@ More Refactor Det. Settings
 Update core
 Add change icon Away/Limit
 Add Copy and Ripe DB of IP in chat in menu
-
+Fix Copy IP

@@ -150,7 +150,7 @@ Help(vars.GenerateHelpText(env))
 
 pot_args = ['xgettext', '--default-domain=$PACKAGE', '--package-name=$PACKAGE',
 		'--msgid-bugs-address=https://sourceforge.net/projects/freedcppmv/',
-		'--copyright-holder=LinuxDC++ Team', '--add-comments=TRANSLATORS',
+		'--copyright-holder=BMDC++ Team', '--add-comments=TRANSLATORS',
 		'--keyword=_', '--keyword=N_', '--keyword=C_:1c,2', '--keyword=F_',
 		'--keyword=P_:1,2', '--from-code=UTF-8', '--foreign-user',
 		'--no-wrap', '--boost', '--sort-output', '--language=$LANGUAGE',
