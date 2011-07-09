@@ -107,13 +107,14 @@ Hub::Hub(const string &address, const string &encoding):
 
 	nickSelection = gtk_tree_view_get_selection(nickView.get());
 	gtk_tree_selection_set_mode(gtk_tree_view_get_selection(nickView.get()), GTK_SELECTION_MULTIPLE);
-	string sort = BOOLSETTING(SORT_FAVUSERS_FIRST)? "ClientType"/*"Favorite"*/ : "Nick Order";
+	string sort = BOOLSETTING(SORT_FAVUSERS_FIRST) ? "ClientType"/*"Favorite"*/ : "Nick Order";
 
 	nickView.setSortColumn_gui(N_("Nick"), sort);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(nickView.get(), nickView.col(N_("Nick"))), TRUE);
 	gtk_tree_view_set_fixed_height_mode(nickView.get(), TRUE);
     gtk_tree_view_set_search_equal_func(nickView.get(), onNickListSearch_gui, 0,0);
+	
 	nickView.setSelection(nickSelection);
 	nickView.buildCopyMenu(getWidget("CopyMenus"));
 
@@ -147,7 +148,6 @@ Hub::Hub(const string &address, const string &encoding):
 	g_object_ref_sink(getWidget("magnetMenu"));
 	g_object_ref_sink(getWidget("linkMenu"));
 	g_object_ref_sink(getWidget("hubMenu"));
-//	g_object_ref_sink(getWidget("chatCommandsMenu"));
 	g_object_ref_sink(getWidget("ipMenu"));
 
 	// Initialize the user command menu
@@ -311,7 +311,6 @@ Hub::~Hub()
 	g_object_unref(getWidget("magnetMenu"));
 	g_object_unref(getWidget("linkMenu"));
 	g_object_unref(getWidget("hubMenu"));
-//	g_object_unref(getWidget("chatCommandsMenu"));
 	g_object_unref(getWidget("ipMenu"));
 }
 
@@ -598,8 +597,8 @@ void Hub::updateUser_gui(ParamMap params)
 			nickView.col(N_("Hubs")), hubs.c_str(),
 			nickView.col("PK"), sup.c_str(),
 			nickView.col(N_("Cheat")), cheat.c_str(),
-            nickView.col("Generator"), params["FLGEN"].c_str(),
-            nickView.col(N_("Support")), params["SUPPORT"].c_str(),
+         nickView.col("Generator"), params["FLGEN"].c_str(),
+         nickView.col(N_("Support")), params["SUPPORT"].c_str(),
 			nickView.col("ClientType"), params["TypeC"].c_str(),
 			nickView.col("Country"), buf,
 			nickView.col("Icon"), icon.c_str(),
@@ -1460,7 +1459,7 @@ void Hub::preferences_gui()
 	}
 
 	// resort users
-	string sort = BOOLSETTING(SORT_FAVUSERS_FIRST)? "Favorite" : "Nick Order";
+	string sort = BOOLSETTING(SORT_FAVUSERS_FIRST)? /*"Favorite"*/"ClientType" : "Nick Order";
 	nickView.setSortColumn_gui(N_("Nick"), sort);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);
 }
@@ -1691,7 +1690,7 @@ gboolean Hub::onNickListSearch_gui(GtkTreeModel *model, gint column, const gchar
     gchar *nickCasefold = g_utf8_casefold(nick, -1);
 
     // Return false per search equal func API if the key is contained within the nick
-    if (g_strstr_len(nickCasefold, 1, keyCasefold) != NULL)
+    if (g_strstr_len(nickCasefold, -1, keyCasefold) != NULL)//-
 		result = FALSE;
 
     g_free(nick);
@@ -3441,8 +3440,9 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 	params.insert(ParamMap::value_type("eMail", id.getEmail()));
 	params.insert(ParamMap::value_type("CID", id.getUser()->getCID().toBase32()));
 	const string cn = Util::toString(Util::toInt(id.get("HN")) + Util::toInt(id.get("HR")) + Util::toInt(id.get("HO")));//hubs
-	params.insert(ParamMap::value_type("Hubs", cn )); //Huby
-	params.insert(ParamMap::value_type("Slots", id.get("SL")));//Sloty
+	params.insert(ParamMap::value_type("Hubs", cn )); //Hubs
+	params.insert(ParamMap::value_type("Slots", id.get("SL")));//Slots
+	
 	#ifndef _DEBUG
         params.insert(ParamMap::value_type("Country", Util::getIpCountry(id.getIp())));
 	#else
@@ -3453,20 +3453,20 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 //	params.insert(ParamMap::value_type("Mode", id.isTcpActive() ? "A" : "P"  ));
 
 	params.insert(ParamMap::value_type("SUP", id.get("PK")));
-	params.insert(ParamMap::value_type("Cheat",id.get("CS")));
+	params.insert(ParamMap::value_type("Cheat", id.get("CS")));
 
-    params.insert(ParamMap::value_type("FLGEN",id.get("GE")));
+    params.insert(ParamMap::value_type("FLGEN", id.get("GE")));
 
-    params.insert(ParamMap::value_type("SUPPORT",id.get("SU")));
+    params.insert(ParamMap::value_type("SUPPORT", id.get("SU")));
 
 	if(id.isBot() || id.isHub())
-		params.insert(ParamMap::value_type("TypeC","BOT"));
+		params.insert(ParamMap::value_type("TypeC", "BOT" + id.getNick()));
 	else if(id.isOp())
-		params.insert(ParamMap::value_type("TypeC","COP"));
+		params.insert(ParamMap::value_type("TypeC", "COP" + id.getNick()));
 	else if(FavoriteManager::getInstance()->isFavoriteUser(id.getUser()))
-		params.insert(ParamMap::value_type("TypeC","F"));
+		params.insert(ParamMap::value_type("TypeC", "F" + id.getNick()));
 	else
-		params.insert(ParamMap::value_type("TypeC","U"));
+		params.insert(ParamMap::value_type("TypeC", "U" + id.getNick()));
 
 }
 
@@ -3502,6 +3502,7 @@ void Hub::on(FavoriteManagerListener::UserRemoved, const FavoriteUser &user) thr
 
 	Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::removeFavoriteUser_gui, params);
 	WulforManager::get()->dispatchGuiFunc(func);
+	
 	if(FavoriteManager::getInstance()->isIgnoredUser(user.getUser()))
 	{
 		Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::delIgnore, params);
@@ -3534,13 +3535,13 @@ void Hub::on(ClientListener::UserUpdated, Client *, const OnlineUser &user) thro
 		Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::updateUser_gui, params);
 		WulforManager::get()->dispatchGuiFunc(func);
 
-		//Patched
+		//Patch
 		string message = params["Nick"] + _( " is online");
 		string cid = params["CID"];
 		//end
 		Func2<Hub,string,string> *func1 = new Func2<Hub, string , string>(this,&Hub::addStatusPrivateMessage_gui, cid, message);
 		WulforManager::get()->dispatchGuiFunc(func1);
-		/*new*/
+		/* new */
 		if(id.isOp() || id.isHub() || id.isBot())
 		{
 			ParamMap params;
@@ -3588,14 +3589,13 @@ void Hub::on(ClientListener::UserUpdated, Client *, const OnlineUser &user) thro
 			getParams_client(params,id);
 			Func1<Hub, ParamMap> *func3 = new Func1<Hub, ParamMap>(this, &Hub::AddProtectUser, params);
 			WulforManager::get()->dispatchGuiFunc(func3);
-
 	}
 
 	if(FavoriteManager::getInstance()->isIgnoredUser(id.getUser()))
 	{
 		ParamMap params;
 		getParams_client(params,id);
-		Func1<Hub, ParamMap> *func4 = new Func1<Hub, ParamMap>(this,&Hub::addIgnore, params);
+		Func1<Hub, ParamMap> *func4 = new Func1<Hub, ParamMap>(this, &Hub::addIgnore, params);
 		WulforManager::get()->dispatchGuiFunc(func4);
 	}
 	//end
@@ -3616,7 +3616,7 @@ void Hub::on(ClientListener::UsersUpdated, Client *, const OnlineUserList &list)
 			getParams_client(params, id);
 			func = new F1(this, &Hub::updateUser_gui, params);
 			WulforManager::get()->dispatchGuiFunc(func);
-			//p
+			//
 			if(id.isOp() || id.isHub() || id.isBot())
 			{
 				F1 *func2 = new F1(this,&Hub::addOp,params);
@@ -3683,18 +3683,18 @@ void Hub::on(ClientListener::UserRemoved, Client *, const OnlineUser &user) thro
 
 	if (user.getIdentity().isOp())
 	{
-		Func1<Hub,ParamMap> *func1 = new Func1<Hub, ParamMap>(this,&Hub::delOp,params);
+		Func1<Hub,ParamMap> *func1 = new Func1<Hub, ParamMap>(this, &Hub::delOp, params);
 		WulforManager::get()->dispatchGuiFunc(func1);
 	}
 
 	if (user.getIdentity().getUser()->isSet(User::PASSIVE))
 	{
-		Func1<Hub,ParamMap> *func1 = new Func1<Hub, ParamMap>(this,&Hub::delPasive,params);
+		Func1<Hub,ParamMap> *func1 = new Func1<Hub, ParamMap>(this, &Hub::delPasive, params);
 		WulforManager::get()->dispatchGuiFunc(func1);
 	}
 
 	//end
-	Func2<Hub,string,string> *func1 = new Func2<Hub, string , string>(this,&Hub::addStatusPrivateMessage_gui, cid, message);
+	Func2<Hub,string,string> *func1 = new Func2<Hub, string , string>(this, &Hub::addStatusPrivateMessage_gui, cid, message);
 	WulforManager::get()->dispatchGuiFunc(func1);
 
 }
@@ -3765,9 +3765,11 @@ string Hub::formatAdditionalInfo(const string& aIp, bool sIp, bool sCC, bool isP
 		if(showIp) {
 			ret = "[" + aIp + "] ";
 		}
+		
 		if(showCc) {
 			ret += "[" + cc + "] ";
 		}
+		
 		if(useFlagIcons) {
 			ret += " [ccc]" + cc + "[/ccc] ";
 		}
@@ -3785,15 +3787,14 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 	Msg::TypeMsg typemsg;
 	string line;
 
-
 	if( (!message.from->getIdentity().isHub()) && (!message.from->getIdentity().isBot()) )
 	{
 
 		string info;
 		string extraInfo;
 		if((!(message.from->getUser() == client->getMyIdentity().getUser())) || client->getMyIdentity().isOp())
-			info=formatAdditionalInfo(message.from->getIdentity().getIp(),BOOLSETTING(USE_IP),BOOLSETTING(USE_COUNTRY),message.to && message.replyTo);
-		else info="";
+			info = formatAdditionalInfo(message.from->getIdentity().getIp(), BOOLSETTING(USE_IP), BOOLSETTING(USE_COUNTRY), message.to && message.replyTo);
+		else info = "";
 
 		//Extra Info
 
@@ -3803,10 +3804,9 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 		client->getMyIdentity().getParams(params, "my", true);
 		message.from->getIdentity().getParams(params, "user", true);
 		extraInfo = Text::toT(Util::formatParams(client->getChatExtraInfo(), params, false));
-		info+=extraInfo;
+		info += extraInfo;
 
-
-	   line+=info;
+	   line += info;
 	}
 
 
