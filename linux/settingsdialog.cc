@@ -996,6 +996,7 @@ void Settings::initAppearance_gui()
 		addOption_gui(appearanceStore, _("Use DNS in Transfers"), "use-dns");
 		addOption_gui(appearanceStore, _("Only FavUsers PM"), "only-fav");
 		addOption_gui(appearanceStore, _("Log Ignored Messages as STATUS mess"),"log-messages");
+		addOption_gui(appearanceStore, _("Enable Lua debug messages"), SettingsManager::ENB_LUA_DEBUG); 
 
 		/// @todo: Uncomment when implemented
 		//addOption_gui(appearanceStore, _("Minimize to tray"), SettingsManager::MINIMIZE_TRAY);

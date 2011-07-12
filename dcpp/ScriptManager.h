@@ -93,6 +93,7 @@ class ScriptInstance {
 	public:
 		void EvaluateFile(const string& fn);
 		void EvaluateChunk(const string& chunk);
+		  
 };
 
 class ScriptManager: public ScriptInstance, public Singleton<ScriptManager>, public Speaker<ScriptManagerListener>,

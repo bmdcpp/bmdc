@@ -241,7 +241,7 @@ void DetectionTab::create_actions_raws() {
 	}
 	
 }
-/*2Page*/
+/* 2Page */
 void DetectionTab::create_profiles()
 {
 	dcpp::StringMap params;

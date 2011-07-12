@@ -57,7 +57,6 @@ static void report_eror(lua_State *L, int status)
 	}
 }
 
-
 static int aux_do (lua_State *L, int status) {
   if (status == 0) {  /* parse OK? */
     status = lua_pcall(L, 0, LUA_MULTRET, 0);  /* call main */
@@ -440,8 +439,12 @@ bool ScriptInstance::MakeCallRaw(const string& table, const string& method, int 
 			return true;
 		}
 		const char *msg = lua_tostring(L, -1);
-		string formatted_msg = (msg != NULL)?string("LUA Error: ") + msg:string("LUA Error: (unknown)");
-		ScriptManager::getInstance()->SendDebugMessage(formatted_msg);
+		string formatted_msg = (msg != NULL) ? string("LUA Error: ") + msg:string("LUA Error: (unknown)");
+		if(BOOLSETTING(ENB_LUA_DEBUG))
+		{	  
+			ScriptManager::getInstance()->SendDebugMessage(formatted_msg);
+		}	 
+			 
 		dcassert(lua_gettop(L) == 1);
 		lua_pop(L, 1);
 	} else {
@@ -454,5 +457,5 @@ bool ScriptInstance::MakeCallRaw(const string& table, const string& method, int 
 #endif
 /**
  * @file ScriptManager.cpp
- * $Id: ScriptManager.cpp,v 1.4 2011/01/01 04:37:23 cologic Exp $ Little Edited by Mank for FreeDC++
+ * $Id: ScriptManager.cpp,v 1.4 2011/01/01 04:37:23 cologic Exp $ Little Edited by Mank for BMDC++
  */

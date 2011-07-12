@@ -3763,7 +3763,7 @@ string Hub::formatAdditionalInfo(const string& aIp, bool sIp, bool sCC, bool isP
 		bool useFlagIcons = (WGETB("use-flag") && !isPm && !cc.empty());
 
 		if(showIp) {
-			ret = "[" + aIp + "] ";
+			ret = "[ " + aIp + " ] ";
 		}
 		
 		if(showCc) {

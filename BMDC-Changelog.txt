@@ -271,3 +271,5 @@ Add change icon Away/Limit
 Add Copy and Ripe DB of IP in chat in menu
 Fix Copy IP
 Fix sort UL
+Add Option Hide Lua error
+Fix Copy IP
