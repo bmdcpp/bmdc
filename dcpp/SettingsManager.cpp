@@ -98,7 +98,7 @@ const string SettingsManager::settingTags[] =
 	"ListlenMismatchShow", "UseSdlKick", "SdlSpeed", "SdlTime", "SdlRaw",
 	"ShowSdlRaw", "ShowFakeShare", "ShowDisconnectRaw", "FavUserIsProtectedUser", "ShowFilelistVersionMismatch",
 	"ShowDcppEmulationRaw", "UncheckClientProtectedUser", "UncheckListProtectedUser", "ShowRmdcRaw", "DisplayCheatsInMainChat",
-	"ShowListenMisMatch", "ThrottleEnable", "LogFinishedDownload", "EnbLuaDebug" 
+	"ShowListenMisMatch", "ThrottleEnable", "LogFinishedDownload", "EnbLuaDebug", 
 	"SENTRY",
 	// Int64
 	"TotalUpload", "TotalDownload",

@@ -94,7 +94,7 @@ Hub::Hub(const string &address, const string &encoding):
 	nickView.insertColumn(N_("Generator"), G_TYPE_STRING, TreeView::STRING, 80);//Generator
 	nickView.insertColumn(N_("Support"), G_TYPE_STRING, TreeView::STRING, 80);
 	nickView.insertHiddenColumn("Country", GDK_TYPE_PIXBUF);//Country
-	nickView.insertHiddenColumn("ClientType", G_TYPE_STRING); //User/OP/ADMIN
+	nickView.insertHiddenColumn("ClientType", G_TYPE_STRING); //User/BOT/OP/ADMIN/(Fav)/User
 	nickView.insertHiddenColumn("Icon", G_TYPE_STRING);
 	nickView.insertHiddenColumn("Nick Order", G_TYPE_STRING);
 	nickView.insertHiddenColumn("Favorite", G_TYPE_STRING);
@@ -117,7 +117,6 @@ Hub::Hub(const string &address, const string &encoding):
 	
 	nickView.setSelection(nickSelection);
 	nickView.buildCopyMenu(getWidget("CopyMenus"));
-
 
 	// Initialize the chat window
 	if (BOOLSETTING(USE_OEM_MONOFONT))
@@ -193,7 +192,7 @@ Hub::Hub(const string &address, const string &encoding):
 	g_signal_connect(getWidget("emotButton"), "button-release-event", G_CALLBACK(onEmotButtonRelease_gui), (gpointer)this);
 	g_signal_connect(getWidget("favoriteUserItem"), "activate", G_CALLBACK(onAddFavoriteUserClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("removeFavoriteUserItem"), "activate", G_CALLBACK(onRemoveFavoriteUserClicked_gui), (gpointer)this);
-	//Patched
+	// Patched
 	g_signal_connect(getWidget("IgnoreUserItem"), "activate", G_CALLBACK(onAddIgnItemClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("unIgnoreUserItem"), "activate", G_CALLBACK(onRemoveIgnItemClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("UserInfo") , "activate", G_CALLBACK(onUserInfo_gui), (gpointer)this);
@@ -201,16 +200,16 @@ Hub::Hub(const string &address, const string &encoding):
 	g_signal_connect(getWidget("CheckUserItem"), "activate", G_CALLBACK(onCheckFL), (gpointer)this);
 	g_signal_connect(getWidget("Protect"), "activate", G_CALLBACK(onProtect), (gpointer)this);
 	g_signal_connect(getWidget("UnProtect"), "activate", G_CALLBACK(onUnProtect), (gpointer)this);
-    ///Refresh UL Button & Item
+    // Refresh UL Button & Item
 	g_signal_connect(getWidget("buttonrefresh"),"clicked", G_CALLBACK(refreshul), (gpointer)this);
 	g_signal_connect(getWidget("userlistrefreshMenuItem"),"activate",G_CALLBACK(refreshul),(gpointer)this);
-	//End
+	// End
 	g_signal_connect(getWidget("downloadBrowseItem"), "activate", G_CALLBACK(onDownloadToClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("downloadItem"), "activate", G_CALLBACK(onDownloadClicked_gui), (gpointer)this);
-	///
+	//Patch
 	g_signal_connect(getWidget("ripeMenuItem"), "activate", G_CALLBACK(ripeIp) , (gpointer)this);
 	g_signal_connect(getWidget("copyItem") ,"activate", G_CALLBACK(copyIp) , (gpointer)this);
-	
+	// End
 	gtk_widget_grab_focus(getWidget("chatEntry"));
 
 	// Set the pane position
@@ -255,7 +254,6 @@ Hub::Hub(const string &address, const string &encoding):
 	// set default select tag (fix error show cursor in neutral space).
 	selectedTag = TagsMap[TAG_GENERAL];
 
-
 	RecentHubEntry r;
 	r.setName("*");
 	r.setDescription("***");
@@ -264,14 +262,14 @@ Hub::Hub(const string &address, const string &encoding):
 	r.setServer(huburl);
 	FavoriteManager::getInstance()->addRecent(r);
 
-	//log chat
-	FavoriteHubEntry *entry=FavoriteManager::getInstance()->getFavoriteHubEntry(huburl);
+	// log chat
+	FavoriteHubEntry *entry = FavoriteManager::getInstance()->getFavoriteHubEntry(huburl);
 
 	if(entry!=NULL)
 	{
 		logChat = entry->getLogChat() ? true : false;
 	}
-	//End
+	// End
 	tooltip = gtk_tooltips_new();
 
 }
@@ -322,11 +320,11 @@ void Hub::show()
 	WulforManager::get()->dispatchClientFunc(func);
 }
 
-bool Hub::isHighlitingWorld(string word,GtkTextTag *tag)
+bool Hub::isHighlitingWorld(string word, GtkTextTag *tag)
 {
 		GtkTreeIter q;
 
-		string sMsgLower(NULL,word.length());
+		string sMsgLower(' ',word.length());
 		std::transform(word.begin(), word.end(), sMsgLower.begin(), _tolower);
 		gboolean ret;
 
@@ -352,13 +350,13 @@ bool Hub::isHighlitingWorld(string word,GtkTextTag *tag)
 
 			if(cs->getHasBgColor())
 				back = cs->getBgColor();
-			//else
-			//	back = "#FFFFFF";
+			else
+				back = "#FFFFFF";
 
 			if(cs->getHasFgColor())
 				fore = cs->getFgColor();
-			//else
-			//	fore = "#000000";
+			else
+				fore = "#000000";
 
 			if(cs->getPopup())
 				tPopup = true;
@@ -367,16 +365,17 @@ bool Hub::isHighlitingWorld(string word,GtkTextTag *tag)
 			if(cs->getPlaySound())
 				tSound = true;
 
-
-			string _w=cs->getMatch();
-			string _sW(NULL,_w.length());
+			string _w = cs->getMatch();
+			string _sW(' ', _w.length());
 			std::transform(_w.begin(), _w.end(), _sW.begin(), _tolower);
+			
 			int ffound = sMsgLower.compare(_sW);
+			
 			if(!ffound) {
-				if(!((cs->getIncludeNick()) || findNick_gui(word,&q)))
+				if(((cs->getIncludeNick()) && findNick_gui(word,&q)))
 				{
-					ret = TRUE;
 					if(!tag) {
+						g_print("IN fore %s back %s word %s",fore.c_str(),back.c_str(), word.c_str());
 						tag = gtk_text_buffer_create_tag(chatBuffer, word.c_str(),
 						"foreground", fore.c_str(),
 						"background", back.c_str(),
@@ -393,12 +392,13 @@ bool Hub::isHighlitingWorld(string word,GtkTextTag *tag)
 			}
 
 			string w = cs->getMatch();
-			string sW(NULL,w.length());
+			string sW(' ',w.length());
 			std::transform(w.begin(), w.end(), sW.begin(), _tolower);
+			
 			if(cs->usingRegexp())
 			{
-				string q=cs->getMatch().substr(5);
-				int rematch=0;
+				string q = cs->getMatch().substr(4);
+				int rematch = 0;
 				if(cs->getCaseSensitive())
 					rematch = WulforUtil::matchRe(word,q,true);
 				else
@@ -408,8 +408,8 @@ bool Hub::isHighlitingWorld(string word,GtkTextTag *tag)
 					ret = FALSE;
 				else
 				{
-					ret = TRUE;
 					if(!tag) {
+						g_print("REGEXP fore %s back %s word %s",fore.c_str(),back.c_str(), word.c_str());
 						tag = gtk_text_buffer_create_tag(chatBuffer, word.c_str(),
 						"foreground", fore.c_str(),
 						"background", back.c_str(),
@@ -430,7 +430,7 @@ bool Hub::isHighlitingWorld(string word,GtkTextTag *tag)
 
 				if(!tag)
 				{
-
+				g_print("fore %s back %s word %s",fore.c_str(),back.c_str(), word.c_str());
 				tag = gtk_text_buffer_create_tag(chatBuffer, word.c_str(),
 					"foreground", fore.c_str(),
 					"background", back.c_str(),
@@ -443,17 +443,17 @@ bool Hub::isHighlitingWorld(string word,GtkTextTag *tag)
 				TagsMap[TAG_HIGHL] = tag;//think about this  =P
 
 
-				if(tPopup == true)
+				if(tPopup)
 					WulforManager::get()->getMainWindow()->showNotification_gui(cs->getNoti()+":",word,Notify::HIGHLITING_E);
 
-				if(tTab == true)
+				if(tTab)
 				{
 					typedef Func0<Hub> F0;
 					F0 *func = new F0(this, &Hub::setUrgent_gui);
 					WulforManager::get()->dispatchGuiFunc(func);
 				}
 
-				if(tSound == true )
+				if(tSound)
 				{
 					Sound::get()->playSound(cs->getSoundFile());
 				}
@@ -533,23 +533,23 @@ void Hub::updateUser_gui(ParamMap params)
 	bool isPasive = userPasiveMap.find(cid) != userPasiveMap.end();
 	bool isIgnore = userIgnoreMap.find(cid) != userIgnoreMap.end();
 	bool protect = userProtect.find(cid) != userProtect.end();
-	/**/
+	/*Country*/
 	#ifndef _DEBUG
-	string country((!(params["IP"].empty())) ? Util::getIpCountry(params["IP"]).c_str() : string("").c_str());//Country from IP
+		string country((!(params["IP"].empty())) ? Util::getIpCountry(params["IP"]).c_str() : string("").c_str());//Country from IP
 	#else
-	string country("CZ");
+		string country("CZ");
 	#endif
-	/**/
+	/*end*/
 	string hubs(params["Hubs"].c_str());
 	string slots(params["Slots"].c_str());
 	/**/
 	string sup(params["SUP"].c_str());
 	string cheat(params["Cheat"].c_str());
-	/**/
+	/*Country*/
 	#ifndef _DEBUG
-	GdkPixbuf *buf = WulforUtil::loadCountry(params["Country"]);
+		GdkPixbuf *buf = WulforUtil::loadCountry(params["Country"]);
 	#else
-	GdkPixbuf *buf = WulforUtil::loadCountry("CZ");
+		GdkPixbuf *buf = WulforUtil::loadCountry("CZ");
 	#endif
 	g_object_ref(buf);
 

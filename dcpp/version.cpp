@@ -22,7 +22,7 @@
 #include "version.h"
 
 #ifndef DCPP_REVISION
-#define DCPP_REVISION 25
+#define DCPP_REVISION 26
 #endif
 
 #define xstrver(s) strver(s)
