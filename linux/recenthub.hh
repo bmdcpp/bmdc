@@ -43,14 +43,14 @@ class RecentTab:
 
 	private:
 		typedef std::map<std::string, std::string> ParamMap;
-		typedef std::tr1::unordered_map<std::string, GtkTreeIter> UserIters;
+		typedef std::unordered_map<std::string, GtkTreeIter> UserIters;
 
 		// GUI functions
 		static void onCloseItem(gpointer data);
 
-		bool findUser_gui(const std::string &cid, GtkTreeIter *iter);
-		void updateFavoriteUser_gui(ParamMap params);
-		void removeFavoriteUser_gui(const std::string cid);
+		bool findRecent_gui(const std::string &cid, GtkTreeIter *iter);
+		void updateRecent_gui(ParamMap params);
+		void removeRecent_gui(const std::string cid);
 		// GUI callbacks
 		static void onConnectItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data);
@@ -59,7 +59,7 @@ class RecentTab:
 		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 
-		void removeFavoriteUser_client(const std::string adr);
+		void removeRecent_client(const std::string adr);
 
 		// Favorite callbacks
 		virtual void on(dcpp::FavoriteManagerListener::RecentUpdated, const dcpp::RecentHubEntry *entry) throw();

@@ -27,8 +27,8 @@
 #include "User.h"
 #include "Socket.h"
 #include "DirectoryListing.h"
-#include <tr1/unordered_map>
-#include <tr1/unordered_set>
+#include <unordered_map>//tr1
+#include <unordered_set>
 #include "ClientManagerListener.h"
 
 namespace dcpp {
@@ -157,7 +157,7 @@ public:
 	void setListLength(const UserPtr& p, const string& listLen);
 	void checkCheating(const UserPtr& p, DirectoryListing* dl);
 	void sendRawCommand(const UserPtr& user, const string& aRaw, bool checkProtection = false);
-	void addCheckToQueue(const UserPtr& p, bool filelist);
+	void addCheckToQueue(const HintedUser huser, bool filelist);
 
 private:
 	typedef unordered_map<string, UserPtr> LegacyMap;

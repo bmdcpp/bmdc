@@ -230,6 +230,8 @@ Hub::Hub(const string &address, const string &encoding):
 	TagsMap[TAG_SYSTEM] = createTag_gui("TAG_SYSTEM", TAG_SYSTEM);
 	TagsMap[TAG_STATUS] = createTag_gui("TAG_STATUS", TAG_STATUS);
 	TagsMap[TAG_TIMESTAMP] = createTag_gui("TAG_TIMESTAMP", TAG_TIMESTAMP);
+	TagsMap[TAG_CHEAT] = createTag_gui("TAG_CHEAT", TAG_CHEAT);
+	 
 	/*-*/
 	TagsMap[TAG_HIGHL] = createTag_gui("TAG_HIGHL", TAG_HIGHL);
 	TagsMap[TAG_MYNICK] = createTag_gui("TAG_MYNICK", TAG_MYNICK);
@@ -375,7 +377,7 @@ bool Hub::isHighlitingWorld(string word, GtkTextTag *tag)
 				if(((cs->getIncludeNick()) && findNick_gui(word,&q)))
 				{
 					if(!tag) {
-						g_print("IN fore %s back %s word %s",fore.c_str(),back.c_str(), word.c_str());
+						//g_print("IN fore %s back %s word %s",fore.c_str(),back.c_str(), word.c_str());
 						tag = gtk_text_buffer_create_tag(chatBuffer, word.c_str(),
 						"foreground", fore.c_str(),
 						"background", back.c_str(),
@@ -409,7 +411,7 @@ bool Hub::isHighlitingWorld(string word, GtkTextTag *tag)
 				else
 				{
 					if(!tag) {
-						g_print("REGEXP fore %s back %s word %s",fore.c_str(),back.c_str(), word.c_str());
+						//g_print("REGEXP fore %s back %s word %s",fore.c_str(),back.c_str(), word.c_str());
 						tag = gtk_text_buffer_create_tag(chatBuffer, word.c_str(),
 						"foreground", fore.c_str(),
 						"background", back.c_str(),
@@ -430,7 +432,7 @@ bool Hub::isHighlitingWorld(string word, GtkTextTag *tag)
 
 				if(!tag)
 				{
-				g_print("fore %s back %s word %s",fore.c_str(),back.c_str(), word.c_str());
+				//g_print("fore %s back %s word %s",fore.c_str(),back.c_str(), word.c_str());
 				tag = gtk_text_buffer_create_tag(chatBuffer, word.c_str(),
 					"foreground", fore.c_str(),
 					"background", back.c_str(),
@@ -496,7 +498,7 @@ void Hub::setStatus_gui(string statusBar, string text)
 
 bool Hub::findUser_gui(const string &cid, GtkTreeIter *iter)
 {
-	unordered_map<string, GtkTreeIter>::const_iterator it = userIters.find(cid);
+	std::unordered_map<string, GtkTreeIter>::const_iterator it = userIters.find(cid);
 
 	if (it != userIters.end())
 	{
@@ -511,7 +513,7 @@ bool Hub::findUser_gui(const string &cid, GtkTreeIter *iter)
 
 bool Hub::findNick_gui(const string &nick, GtkTreeIter *iter)
 {
-	unordered_map<string, string>::const_iterator it = userMap.find(nick);
+	std::unordered_map<string, string>::const_iterator it = userMap.find(nick);
 
 	if (it != userMap.end())
 		return findUser_gui(it->second, iter);
@@ -580,8 +582,8 @@ void Hub::updateUser_gui(ParamMap params)
 			//end
 		}
 
-		//Color of OP,Pasive, Fav,Ignore,Prot
-		string nickColor=(protect ? "#8B6914":(isOP ? "#1E90FF" : (isPasive ? "#747677" :(favorite ? "#ff0000" : (isIgnore? "#9affaf" :"#000000")))));
+		//Color of OP,Pasive, Fav, Ignore, Protect
+		string nickColor = (protect ? "#8B6914":(isOP ? "#1E90FF" : (isPasive ? "#747677" :(favorite ? "#ff0000" : (isIgnore? "#9affaf" :"#000000")))));
 
 		gtk_list_store_set(nickStore, &iter,
 			nickView.col(N_("Nick")), Nick.c_str(),
@@ -614,8 +616,8 @@ void Hub::updateUser_gui(ParamMap params)
 		totalShared += shared;
 		userMap.insert(UserMap::value_type(Nick, cid));
 
-		//color of Op,Pasive
-		string nickColor=(protect? "#8B6914":(isOP ? "#1E90FF" : (isPasive ? "#747677" :(favorite ? "#ff0000" : (isIgnore? "#9affaf" : "#000000")))));
+		//color of Op, Pasive...
+		string nickColor = (protect? "#8B6914":(isOP ? "#1E90FF" : (isPasive ? "#747677" :(favorite ? "#ff0000" : (isIgnore? "#9affaf" : "#000000")))));
 
 		gtk_list_store_insert_with_values(nickStore, &iter, userMap.size(),
 			nickView.col(N_("Nick")), Nick.c_str(),
@@ -908,6 +910,9 @@ void Hub::addMessage_gui(string message, Msg::TypeMsg typemsg)
 		case Msg::STATUS:
 			tagMsg = TAG_STATUS;
 			break;
+		case Msg::CHEAT:
+			tagMsg = TAG_CHEAT;
+			break;  
 
 		case Msg::GENERAL:
 
@@ -941,7 +946,7 @@ gboolean Hub::HitIP(string name, string &sIp)
 		}
 	}
 	
-	name+=".";
+	name += ".";
 	size_t begin = 0, pos = string::npos,end = 0;
 	bool isOk = true;
 	for(int i = 0; i < 4; i++) {
@@ -1036,11 +1041,12 @@ void Hub::applyTags_gui(const string &line)
 		gchar *temp = gtk_text_iter_get_text(&tag_start_iter, &tag_end_iter);
 		gchar *pname = temp;//IP
 		GtkTextTag *tag = gtk_text_tag_table_lookup(gtk_text_buffer_get_tag_table(chatBuffer), temp);
+
 		if(WGETB("use-highliting"))
 		{
 			if(isHighlitingWorld(string(temp),tag))
 			{
-				gtk_text_buffer_apply_tag(chatBuffer,TagsMap[TAG_HIGHL],&tag_start_iter,&tag_end_iter);
+				gtk_text_buffer_apply_tag(chatBuffer, TagsMap[TAG_HIGHL], &tag_start_iter, &tag_end_iter);
 			}
 		}
 
@@ -1241,7 +1247,7 @@ void Hub::applyEmoticons_gui()
 		return;
 
 	/* apply general tag */
-	dcassert(tagMsg >= TAG_GENERAL && tagMsg < TAG_TIMESTAMP);
+	dcassert(tagMsg >= TAG_GENERAL && tagMsg < TAG_CHEAT);
 	gtk_text_buffer_apply_tag(chatBuffer, TagsMap[tagMsg], &start_iter, &end_iter);
 
 	/* emoticons */
@@ -1499,6 +1505,13 @@ void Hub::getSettingTag_gui(WulforSettingsManager *wsm, TypeTag type, string &fo
 			bold = wsm->getInt("text-timestamp-bold");
 			italic = wsm->getInt("text-timestamp-italic");
 		break;
+
+		case TAG_CHEAT:
+			  fore = "#DE1515";
+			  back = "#EEE7E7";
+			  italic = 0;
+			  bold = 1;
+		break;	  
 
 		case TAG_HIGHL:
 			/*fore = "#000000";
@@ -2144,7 +2157,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			"/lua <chunk>\t\t\t\t -  " + _("Execute Lua Chunk") + "\n"+
 			"/uptime \t\t\t\t\t\t -  " + _("Show Client Uptime") + "\n"+
 			"/df (mc) \t\t\t\t -  "+ _("Show Free space (mainchat)") +"\n"+
-			"/w /auda /kaff /amar\t"+_("Media Spam") + "\n"+
+			"/w ,/auda, /kaff, /amar\t"+_("Media Spam") + "\n"+
 			"/stats \t\t\t\t - " +  _("Stats Clients") +"\n"+
 			"/exec \t\t\t\t  - " +  _("Execute code (bash)") +"\n"+
 			"/slots param\t\t\t\t"+ _("Set Uploads slots") + "\n"+
@@ -2154,8 +2167,10 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			"/alias A::uname -a" +  _("Alias add uname -a as A")+"\n"+
 			"/A\t\t\t\t\t\t\t\t\t" + _("Alias A executing")+"\n" +
 			"/sc\t\t\t\t\t\t\t\t"+  _("Start checkers")+"\n"+
-			"/ulrefresh\t\t\t\t  "+ _("Refresh UserList")+"\n"
-			    , Msg::SYSTEM);
+			"/ulrefresh\t\t\t\t  "+ _("Refresh UserList")+"\n"+
+			"/leech\t\t\t\t"+ _("Show Leech Info")+"\n"+
+			"/topic\t\t\t\t"+ _("Show topic text in chat")+"\n"                    
+			 , Msg::SYSTEM);
 		}
 		else if (command == "join" && !param.empty())
 		{
@@ -2210,7 +2225,11 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 
 				}
 		}
-		else if ( command == _("sc"))
+		else if ( command == "topic")
+		{
+			hub->addMessage_gui(hub->client->getHubDescription(), Msg::SYSTEM);
+		}	  
+		else if ( command == "sc")
 		{
 		//Checker
 			string det=hub->client->startChecking(param);
@@ -2654,9 +2673,9 @@ void Hub::onAddIgnItemClicked_gui(GtkMenuItem *item, gpointer data)
 				}
 				else
 				{
-				string message="User Ignored ";
-				message+=WulforUtil::getNicks(user,Util::emptyString);
-				hub->addStatusMessage_gui(message,Msg::SYSTEM,Sound::NONE);
+				string message = "User Ignored ";
+				message += WulforUtil::getNicks(user, Util::emptyString);
+				hub->addStatusMessage_gui(message, Msg::SYSTEM, Sound::NONE);
 
 				}
 			}
@@ -2695,9 +2714,9 @@ void Hub::onRemoveIgnItemClicked_gui(GtkMenuItem *item, gpointer data)
 				}
 				else
 				{
-					string message="User unIgnored ";
-					message+=WulforUtil::getNicks(user,Util::emptyString);
-					hub->addStatusMessage_gui(message,Msg::SYSTEM,Sound::NONE);
+					string message = "User unIgnored ";
+					message += WulforUtil::getNicks(user, Util::emptyString);
+					hub->addStatusMessage_gui(message, Msg::SYSTEM, Sound::NONE);
 
 				}
 			}
@@ -2733,10 +2752,13 @@ void Hub::onTestSUR_gui(GtkMenuItem *item, gpointer data)
 		{
 			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(nicks),hub->huburl,false);
 			if(ou != NULL)
-			try {
-				ClientManager::getInstance()->addCheckToQueue(ou->getUser(),false);
-			}catch(...)
-			{ }
+			{	  
+				try {
+					HintedUser hintedUser(ou->getUser(), hub->huburl); 
+					ClientManager::getInstance()->addCheckToQueue(/*ou->getUser()*/hintedUser, false);
+				}catch(...)
+				{ }
+			}	 
 		}
 	}
 }
@@ -2768,10 +2790,14 @@ Hub *hub = (Hub *)data;
 		{
 			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(nicks),hub->huburl,false);
 			if(ou != NULL)
-			try {
-				ClientManager::getInstance()->addCheckToQueue(ou->getUser(),true);
-			}catch(...)
-			{ }
+			{	  
+				try {
+					 HintedUser hintedUser(ou->getUser(), hub->huburl);
+					ClientManager::getInstance()->addCheckToQueue(/*ou->getUser()*/hintedUser, true);
+				}
+				 catch(...)
+				{ }
+			}	 
 		}
 	}
 }
@@ -2944,8 +2970,6 @@ void Hub::addFavoriteUser_gui(ParamMap params)
 		addStatusMessage_gui(message, Msg::STATUS, Sound::NONE);
 		WulforManager::get()->getMainWindow()->addPrivateStatusMessage_gui(Msg::STATUS, cid, message);
 	}
-
-
 }
 
 void Hub::removeFavoriteUser_gui(ParamMap params)
@@ -3112,7 +3136,6 @@ void Hub::delIgnore(ParamMap params)
 			removeTag_gui(nick);
 		}
 	}
-
 
 }
 /*end*/
@@ -3419,9 +3442,9 @@ string Hub::getConn(const Identity& id)
 
 void Hub::getParams_client(ParamMap &params, Identity &id)
 {
+	string icon = getConn(id);
+	params.insert(ParamMap::value_type("Icon",icon));
 
-		string icon = getConn(id);
-		params.insert(ParamMap::value_type("Icon",icon));
 	if (id.isOp())
 	{
 		params.insert(ParamMap::value_type("Nick Order", "o" + id.getNick()));
@@ -3887,7 +3910,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 		    else
 		    {
 				error = _("Ignored private message from User what is not in Fav Users ") + user->getIdentity().getNick();
-				error += _("\nMessage ")+line;
+				error +=  _("\nMessage ") + line;
 				typedef Func3<Hub, string, Msg::TypeMsg, Sound::TypeSound> F3;
 				F3 *func = new F3(this, &Hub::addStatusMessage_gui, error, Msg::STATUS, Sound::NONE);
 				WulforManager::get()->dispatchGuiFunc(func);
@@ -3992,8 +4015,8 @@ void Hub::on(ClientListener::SearchFlood, Client *, const string &msg) throw()
 //CheatMessage NOTE: RSX++
 void Hub::on(ClientListener::CheatMessage,const Client *c, const string &msg) throw()
 {
-	typedef Func3<Hub, string, Msg::TypeMsg, Sound::TypeSound> F3;
-	F3 *func = new F3(this, &Hub::addStatusMessage_gui, _("** ") + msg, Msg::STATUS, Sound::NONE);
+	typedef Func2<Hub, string, Msg::TypeMsg> F2;
+	F2 *func = new F2(this, &Hub::addMessage_gui, _("** ") + msg, Msg::CHEAT);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 

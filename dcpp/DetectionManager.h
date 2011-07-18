@@ -42,11 +42,11 @@ public:
 
 	inline void load() {
 		ProfilesLoad();
-	//	UserInfoLoad();
+		UserInfoLoad();
 	}
 	inline void save() {
 		ProfilesSave();
-	//	UserInfoSave();
+		UserInfoSave();
 	}
 
 	const DetectionItems& reload(bool isUserInfo = false);

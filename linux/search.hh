@@ -24,9 +24,14 @@
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
+#include <dcpp/typedefs.h>
+
+#include <dcpp/Client.h>
 #include <dcpp/ClientManager.h>
-#include <dcpp/SearchManager.h>
+#include <dcpp/ClientManagerListener.h>
 #include <dcpp/SearchResult.h>
+#include <dcpp/SearchManager.h>
+#include <dcpp/DirectoryListing.h>
 
 #include "bookentry.hh"
 #include "treeview.hh"
@@ -65,9 +70,9 @@ class Search:
 		static void onCloseItem(gpointer data);
 
 		void initHubs_gui();
-		void addHub_gui(std::string name, std::string url,bool isOp);//modifed
+		void addHub_gui(std::string name, std::string url, bool isOp);//modifed
 		void modifyHub_gui(std::string name, std::string url);
-		void modifyHubnOp_gui(std::string name, std::string url,bool op);
+		void modifyHubnOp_gui(std::string name, std::string url, bool op);
 		void removeHub_gui(std::string url);
 		void popupMenu_gui();
 		void setStatus_gui(std::string statusBar, std::string text);
@@ -130,7 +135,7 @@ class Search:
 		virtual void on(dcpp::ClientManagerListener::ClientDisconnected, dcpp::Client *client) throw();
 		virtual void on(dcpp::SearchManagerListener::SR, const dcpp::SearchResultPtr &result) throw();
 
-		typedef std::tr1::unordered_map<std::string, std::string> SeMap;
+		//typedef std::unordered_map<std::string, std::string> SeMap;
 		TreeView hubView, resultView;
 		GtkListStore *hubStore;
 		GtkTreeStore *resultStore;
@@ -147,7 +152,7 @@ class Search:
 		bool onlyFree;
 		UserCommandMenu *userCommandMenu;
 		GroupType previousGrouping;
-		std::tr1::unordered_map<std::string, std::vector<dcpp::SearchResultPtr> > results;
+		std::unordered_map<std::string, std::vector<dcpp::SearchResultPtr> > results;
 };
 
 #else

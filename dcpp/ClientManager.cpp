@@ -17,7 +17,6 @@
  */
 
 #include "stdinc.h"
-//#include "DCPlusPlus.h"
 #include "typedefs.h"
 #include "ClientManager.h"
 
@@ -754,7 +753,7 @@ void ClientManager::sendRawCommand(const UserPtr& user, const string& aRaw, bool
 		}
 		if(!skipRaw || !checkProtection) {
 			StringMap ucParams;
-			UserCommand uc = UserCommand(0, 0, 0, 0, "", aRaw, "",Util::emptyString);
+			UserCommand uc = UserCommand(0, 0, 0, 0, "", aRaw, "", Util::emptyString);
 			userCommand(HintedUser(user,Util::emptyString), uc, ucParams, true);
 			//RSXPP_SET(TOTAL_RAW_COMMANDS_SENT, RSXPP_SETTING(TOTAL_RAW_COMMANDS_SENT)+1); //important stuff ;p
 			if(SETTING(LOG_RAW_CMD)) {
@@ -766,7 +765,7 @@ void ClientManager::sendRawCommand(const UserPtr& user, const string& aRaw, bool
 
 void ClientManager::setPkLock(const UserPtr& p, const string& aPk, const string& aLock) {
 	Lock l(cs);
-	OnlineUser* ou = findOnlineUser(p->getCID(),"",false);
+	OnlineUser* ou = findOnlineUser(p->getCID(), "", false);
 	if(!ou)
 		return;
 
@@ -780,7 +779,7 @@ void ClientManager::setListSize(const UserPtr& p, int64_t aFileLength, bool adc)
 	string report = Util::emptyString;
 	{
 		Lock l(cs);
-		ou = findOnlineUser(p->getCID(),"",false);
+		ou = findOnlineUser(p->getCID(),"", false);
 		if(!ou)
 			return;
 
@@ -802,6 +801,7 @@ void ClientManager::setListSize(const UserPtr& p, int64_t aFileLength, bool adc)
 			}
 		}
 	}
+	 
 	if(ou) {
 		ou->getClient().updated(ou);
 		if(!report.empty())
@@ -819,7 +819,7 @@ void ClientManager::setSupports(const UserPtr& p, const string& aSupports) {
 
 void ClientManager::setUnknownCommand(const UserPtr& p, const string& aUnknownCommand) {
 	Lock l(cs);
-	OnlineUser* ou = findOnlineUser(p->getCID(),"",false);
+	OnlineUser* ou = findOnlineUser(p->getCID(),"", false);
 	if(!ou)
 		return;
 	ou->getIdentity().set("UC", aUnknownCommand);
@@ -831,7 +831,7 @@ void ClientManager::setCheating(const UserPtr& p, const string& _ccResponse, con
 	string report = Util::emptyString;
 	{
 		Lock l(cs);
-		ou = findOnlineUser(p->getCID(),"",false);
+		ou = findOnlineUser(p->getCID(), "", false);
 		if(!ou)
 			return;
 
@@ -845,7 +845,7 @@ void ClientManager::setCheating(const UserPtr& p, const string& _ccResponse, con
 		if(_fileListCheckComplete)
 			ou->setFileListComplete();
 		if(!_cheatString.empty())
-			report = ou->setCheat(_cheatString, _badClient, _badFileList, _displayCheat);
+			report += ou->setCheat(_cheatString, _badClient, _badFileList, _displayCheat);
 		sendAction(*ou, _actionId);
 	}
 	
@@ -926,7 +926,7 @@ void ClientManager::checkCheating(const UserPtr& p, DirectoryListing* dl) {
 	{
 		Lock l(cs);
 
-		ou = findOnlineUser(p->getCID(),"",false);
+		ou = findOnlineUser(p->getCID(), "", false);
 		if(!ou) return;
 
 		int64_t statedSize = ou->getIdentity().getBytesShared();
@@ -1023,7 +1023,7 @@ void ClientManager::checkCheating(const UserPtr& p, DirectoryListing* dl) {
 
 				s = "[%[adlTotalPoints]] Is sharing %[adlFilesCount] forbidden files/directories including: %[adlFile]";
 
-                if(forOverRide) {
+            if(forOverRide) {
 					report = ou->setCheat(s, false, true, true);
 					if(forFromFavs) {
 						sendAction(*ou, actionCommand);
@@ -1057,12 +1057,12 @@ void ClientManager::checkCheating(const UserPtr& p, DirectoryListing* dl) {
 	}
 }
 
-void ClientManager::addCheckToQueue(const UserPtr& p, bool filelist) {
+void ClientManager::addCheckToQueue(const HintedUser huser, bool filelist) {
 	OnlineUser* ou = 0;
 	bool addCheck = false;
 	{
 		Lock l(cs);
-		ou = findOnlineUser(p->getCID(),Util::emptyString,false);
+		ou = findOnlineUser(huser,false);
 		if(!ou) return;
 
 		if(ou->isCheckable() /*&& ou->getClient().isOp()*/) {
@@ -1078,16 +1078,16 @@ void ClientManager::addCheckToQueue(const UserPtr& p, bool filelist) {
 	if(addCheck) {
 		try {
 			if(filelist) {
-				QueueManager::getInstance()->addFileListCheck(p, ou->getClient().getHubUrl());
+				QueueManager::getInstance()->addFileListCheck(huser.user, ou->getClient().getHubUrl());
 				ou->getIdentity().setFileListQueued("1");
 			} else {
-				QueueManager::getInstance()->addTestSUR(p, ou->getClient().getHubUrl());
+				QueueManager::getInstance()->addTestSUR(huser.user, ou->getClient().getHubUrl());
 				ou->getIdentity().setTestSURQueued("1");
 			}
 		} catch(...) {
 			//...
 		}
-		ou->dec();///
+		ou->dec();
 	}
 }
 #ifdef _USELUA
@@ -1138,14 +1138,14 @@ bool ClientManager::ucExecuteLua(const string& cmd,StringMap& params)
 
 string ClientManager::getField(const CID& cid, const string& hint, const char* field) const {
     Lock l(cs);
-    OnlinePair p;//
-    OnlineUser* u = findOnlineUser_hint(cid, hint, p);
+    OnlinePair p;
+    OnlineUser* u = findOnlineUser_hint(cid, hint,p);
     if(u) {
       string value = u->getIdentity().get(field);
        if(!value.empty()) {
                 return value;
         }
-      }
+    }
 
      for(OnlineIterC i = p.first; i != p.second; ++i) {
           string value = i->second->getIdentity().get(field);

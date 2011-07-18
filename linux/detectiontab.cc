@@ -246,7 +246,7 @@ void DetectionTab::create_profiles()
 {
 	dcpp::StringMap params;
 	GtkTreeIter iter;
-	const DetectionManager::DetectionItems& lst = DetectionManager::getInstance()->getProfiles(params,false);
+	const DetectionManager::DetectionItems& lst = DetectionManager::getInstance()->getProfiles(params,/*false*/true);
 	for ( DetectionManager::DetectionItems::const_iterator i = lst.begin(); i != lst.end() ;++i)
 	{
 		const DetectionEntry& de = *i ;

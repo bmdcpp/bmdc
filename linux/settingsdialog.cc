@@ -1521,6 +1521,7 @@ void Settings::initAdvanced_gui()
 		addOption_gui(advancedStore, _("Use fast hashing method (disable if you have problems with hashing)"), SettingsManager::FAST_HASH);
 		addOption_gui(advancedStore, _("Register with the OS to handle dchub:// and adc:// URL links"), SettingsManager::URL_HANDLER);
 		addOption_gui(advancedStore, _("Register with the OS to handle magnet: URL links"), SettingsManager::MAGNET_REGISTER);
+		addOption_gui(advancedStore, _("Enable debug ADC"), SettingsManager::ADC_DEBUG);
 		/// @todo: Uncomment when implemented
 		//addOption_gui(advancedStore, _("Use CTRL for line history"), SettingsManager::USE_CTRL_FOR_LINE_HISTORY);
 	}

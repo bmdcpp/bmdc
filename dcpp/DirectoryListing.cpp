@@ -18,11 +18,12 @@
 
 #include "stdinc.h"
 //#include "DCPlusPlus.h"
-
 #include "DirectoryListing.h"
 
 #include "QueueManager.h"
 #include "SearchManager.h"
+#include "ClientManager.h"
+#include "ShareManager.h"
 
 #include "StringTokenizer.h"
 #include "SimpleXML.h"
@@ -33,6 +34,8 @@
 #include "User.h"
 #include "RegexUtil.h" //RSX++
 #include "MerkleTree.h"
+#include "SimpleXMLReader.h"
+#include "File.h"
 
 #ifdef ff
 #undef ff
@@ -41,7 +44,7 @@
 namespace dcpp {
 
 UserPtr DirectoryListing::getUserFromFilename(const string& fileName) {
-	// General file list name format: [username].[CID].[xml|xml.bz2|DcLst]
+	// General file list name format: [username].[CID].[xml|xml.bz2]
 
 	string name = Util::getFileName(fileName);
 

@@ -309,6 +309,8 @@ MainWindow::~MainWindow()
 	TimerManager::getInstance()->removeListener(this);
 	LogManager::getInstance()->removeListener(this);
 
+	listQueue.shutdown(); 
+
 	GList *list = (GList *)g_object_get_data(G_OBJECT(getWidget("book")), "page-rotation-list");
 	g_list_free(list);
 

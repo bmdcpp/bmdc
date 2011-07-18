@@ -18,12 +18,12 @@ class Highlighting:
 		virtual void popmenu();
 	private:
         //GUI
-        static void onCloseItem(gpointer data);
+      static void onCloseItem(gpointer data);
 
 		void addEntry_gui(dcpp::StringMap params);
 		void editEntry_gui(dcpp::StringMap &params, GtkTreeIter *iter);
-		void removeEntry_gui(string name);
-		void get_ColorParams(dcpp::ColorSettings *cs,dcpp::StringMap &params);
+		void removeEntry_gui(std::string name);
+		void get_ColorParams(dcpp::ColorSettings *cs, dcpp::StringMap &params);
 		static void onADD(GtkWidget *widget, gpointer data);
 		static void onModify(GtkWidget *widget, gpointer data);
 		static void onRemoveEntry_gui(GtkWidget *widget, gpointer data);
@@ -42,7 +42,7 @@ class Highlighting:
 		bool showColorDialog(dcpp::StringMap &params);
 		void addHigl_client(dcpp::StringMap params);
 		void editHigl_client(dcpp::StringMap params,std::string name);
-		void removeEntry_client(string name);
+		void removeEntry_client(std::string name);
 		TreeView hView;
 		GtkListStore *store;
 		GtkTreeSelection *selection;

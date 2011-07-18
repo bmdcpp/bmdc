@@ -67,11 +67,11 @@ public:
 		search(aName, Util::toInt64(aSize), aTypeMode, aSizeMode, aToken);
 	}
 
-    void search(StringList& who, const string& aName, int64_t aSize  , TypeModes aTypeMode  , SizeModes aSizeMode  , const string& aToken , const StringList& aExtList);
-
 	void search(StringList& who, const string& aName, const string& aSize, TypeModes aTypeMode, SizeModes aSizeMode, const string& aToken) {
 		search(who, aName, Util::toInt64(aSize), aTypeMode, aSizeMode, aToken);
 	}
+
+	void search(StringList& who, const string& aName, int64_t aSize  , TypeModes aTypeMode  , SizeModes aSizeMode  , const string& aToken , const StringList& aExtList); 
 
 
 	void respond(const AdcCommand& cmd, const CID& cid,  bool isUdpActive, const string& hubIpPort);

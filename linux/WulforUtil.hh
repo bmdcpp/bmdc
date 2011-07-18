@@ -98,7 +98,7 @@ class WulforUtil
 
 	private:
 		static std::vector<std::string> charsets;
-		static vector<std::pair<std::string,int> > actions;
+		static std::vector<std::pair<std::string,int> > actions;
 		static const std::string magnetSignature;
 		static GtkIconFactory *iconFactory;
 		static GtkStockItem icons[];

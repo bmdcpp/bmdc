@@ -44,7 +44,7 @@ class FavoriteUsers:
         static void onCloseItem(gpointer data);
 
 		typedef std::map<std::string, std::string> ParamMap;
-		typedef std::tr1::unordered_map<std::string, GtkTreeIter> UserIters;
+		typedef std::unordered_map<std::string, GtkTreeIter> UserIters;
 
 		// GUI functions
 		bool findUser_gui(const std::string &cid, GtkTreeIter *iter);

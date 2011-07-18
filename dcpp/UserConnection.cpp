@@ -106,6 +106,7 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) throw
 			if(Util::stricmp(param.c_str(),GT_NOT_SUPPORTED) == 0)
 				setFlag(FLAG_TESTSURNA);
 			fire(UserConnectionListener::FileNotAvailable(), this);
+			disconnect (true);	 
 		}
 		else
 		{

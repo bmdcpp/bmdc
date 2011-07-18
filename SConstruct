@@ -20,8 +20,9 @@ BUILD_LOCALE_PATH = BUILD_PATH + 'locale/'
 LIB_IS_UPNP = True
 
 # todo: remove -fpermissive and fix the errors
+#'-Wno-deprecated'
 BUILD_FLAGS = {
-	'common'  : ['-I#', '-fpermissive','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-Wno-deprecated'],
+	'common'  : ['-I#','-fpermissive','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT' ],
 	'debug'   : ['-g', '-ggdb', '-Wall', '-D_DEBUG'], 
 	'release' : ['-O3', '-fomit-frame-pointer', '-DNDEBUG']
 }
@@ -95,7 +96,6 @@ def generate_message_catalogs(env):
 
 	return None
 
-
 # ----------------------------------------------------------------------
 # Command-line options
 # ----------------------------------------------------------------------
@@ -110,10 +110,12 @@ vars.AddVariables(
 	BoolVariable('debug', 'Compile the program with debug information', 0),
 	BoolVariable('release', 'Compile the program with optimizations', 0),
 	BoolVariable('profile', 'Compile the program with profiling information', 0),
+	BoolVariable('libnotify', 'Enable notifications through libnotify', 1),
+	BoolVariable('liblua', 'Enable lua scripting', 1),
+	BoolVariable('libgnome', 'Enable Gnome Libs', 1),
 	PathVariable('PREFIX', 'Compile the program with PREFIX as the root for installation', '/usr/local', PathVariable.PathIsDir),
 	('FAKE_ROOT', 'Make scons install the program under a fake root', '')
 )
-
 
 # ----------------------------------------------------------------------
 # Initialization
@@ -179,7 +181,6 @@ conf = env.Configure(
 	},
 	conf_dir = 'build/sconf',
 	log_file = 'build/sconf/config.log')
-
 
 # ----------------------------------------------------------------------
 # Dependencies
@@ -265,48 +266,41 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		conf.env.Append(CPPDEFINES = 'HAVE_IFADDRS_H')
 
 	# TODO: Implement a plugin system so libnotify doesn't have compile-time dependencies
-	if not conf.CheckPKG('libnotify >= 0.4.1'):
-		print '\tlibnotify >= 0.4.1 not found, disabling notifications.'
-		print '\tNote: You might have the lib but not the headers'
-	else:
-		conf.env.Append(CPPDEFINES = 'HAVE_LIBNOTIFY')
-		conf.env.ParseConfig('pkg-config --libs libnotify')
-		if conf.CheckPKG('libnotify >= 0.7'):
-			conf.env.Append(CPPDEFINES = 'HAVE_LIBNOTIFY_0_7')
+	if conf.env.get('libnotify'):
+			if not conf.CheckPKG('libnotify >= 0.4.1'):
+				print '\tlibnotify >= 0.4.1 not found, disabling notifications.'
+				print '\tNote: You might have the lib but not the headers'
+			else:
+				conf.env.Append(CPPDEFINES = 'HAVE_LIBNOTIFY')
+				conf.env.ParseConfig('pkg-config --libs libnotify')
+				if conf.CheckPKG('libnotify >= 0.7'):
+					conf.env.Append(CPPDEFINES = 'HAVE_LIBNOTIFY_0_7')
 	
-#	conf.env['HAVE_LIBNOTIFY'] = 0
-#	if not conf.CheckPKG('libnotify >= 0.4.1'):
-#		print '\tlibnotify >= 0.4.1 not found, disabling notifications.'
-#		print '\tNote: You might have the lib but not the headers'
-#	else:
-#		conf.env['HAVE_LIBNOTIFY'] = 1
-		#conf.env.Append(CPPDEFINES = 'HAVE_LIBNOTIFY')
-		#conf.env.ParseConfig('pkg-config --libs libnotify')
-
-	conf.env['HAVE_GNOME_LIB'] = 0
-	if not conf.CheckPKG('libgnome-2.0 >= 2.0'):
-		print '\tlibgnome >= 2.0 not found.'
-		#print '\tNote: You might have the lib but not the headers'
-	else:
-		conf.env['HAVE_GNOME_LIB'] = 1
-		#Exit(1)
-	
-	conf.env['HAVE_LUA_H_B'] = 0
-	conf.env['HAVE_LUA_H_51_B'] = 0
-	if not conf.CheckPKG('lua > 5.0'):
-		print '\tLua library not found'
-		conf.env['HAVE_LUA_H_B'] = 1
-	if not conf.CheckPKG('lua5.1 > 5.0'):
-		print '\tLua5.1 library not found'
-		conf.env['HAVE_LUA_H_51_B'] = 1
+	#GNOME LIBs (use to Sounds)
+	if conf.env.get('libgnome'):
+		conf.env['HAVE_GNOME_LIB'] = 0
+		if not conf.CheckPKG('libgnome-2.0 >= 2.0'):
+			print '\tlibgnome >= 2.0 not found.'
+			print '\tNote: You might have the lib but not the headers'
+		else:
+			conf.env['HAVE_GNOME_LIB'] = 1
+	#lua	
+	if conf.env.get('liblua'):
+		conf.env['HAVE_LUA_H_B'] = 0
+		conf.env['HAVE_LUA_H_51_B'] = 0
+		if not conf.CheckPKG('lua > 5.0'):
+			print '\tLua library not found'
+			conf.env['HAVE_LUA_H_B'] = 1
+		if not conf.CheckPKG('lua5.1 > 5.0'):
+			print '\tLua5.1 library not found'
+			conf.env['HAVE_LUA_H_51_B'] = 1
 	
 	# MiniUPnPc for UPnP
 	if not conf.CheckLib('libminiupnpc'):
 		LIB_IS_UPNP = False
-#	conf.CheckBZRRevision()
 
+	#	conf.CheckBZRRevision()
 	env = conf.Finish()
-
 
 # ----------------------------------------------------------------------
 # Compile and link flags
@@ -314,6 +308,9 @@ if not 'install' in COMMAND_LINE_TARGETS:
 
 	env.MergeFlags(BUILD_FLAGS['common'])
 	env.MergeFlags(BUILD_FLAGS[env['mode']])
+
+	env.Append(CXXFLAGS = '-std=c++0x')
+
 	env.ParseConfig('pkg-config --libs libglade-2.0')
 	env.ParseConfig('pkg-config --libs gthread-2.0')
 
@@ -331,21 +328,20 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		env.Append(LIBS = ['socket', 'nsl'])
 		
 	#LUA
-	if env['HAVE_LUA_H_B'] == 0:
-		env.ParseConfig('pkg-config --cflags --libs lua')
-		conf.env.Append(CPPDEFINES = ('-D_USELUA'))
-	if env['HAVE_LUA_H_51_B'] == 0:
-		env.ParseConfig('pkg-config --cflags --libs lua5.1')
-		conf.env.Append(CPPDEFINES = ('-D_USELUA'))
+	if conf.env.get('liblua'):
+		if env['HAVE_LUA_H_B'] == 0:
+			env.ParseConfig('pkg-config --cflags --libs lua')
+			conf.env.Append(CPPDEFINES = ('-D_USELUA'))
+		if env['HAVE_LUA_H_51_B'] == 0:
+			env.ParseConfig('pkg-config --cflags --libs lua5.1')
+			conf.env.Append(CPPDEFINES = ('-D_USELUA'))
+
 	#gnome libs
-	if env['HAVE_GNOME_LIB'] == 1:
-		env.ParseConfig('pkg-config --cflags libgnome-2.0')
-		env.ParseConfig('pkg-config --libs libgnome-2.0')
-		conf.env.Append(CPPDEFINES = '-D_HAVEGNOME')
-	#libnotify		
-	#if env['HAVE_LIBNOTIFY'] == 1:
-	#	env.ParseConfig('pkg-config --libs libnotify')
-	#	conf.env.Append(CPPDEFINES = '-D_HAVENOTIFY')	
+	if conf.env.get('libgnome'):
+		if env['HAVE_GNOME_LIB'] == 1:
+			env.ParseConfig('pkg-config --cflags libgnome-2.0')
+			env.ParseConfig('pkg-config --libs libgnome-2.0')
+			conf.env.Append(CPPDEFINES = '-D_HAVEGNOME')
 
 	if env.get('profile'):
 		env.Append(CXXFLAGS = '-pg')
@@ -370,7 +366,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	
 	# Build the dcpp library
 	dcpp_env = env.Clone(package = CORE_PACKAGE)
-	dcpp_env.Append(CXXFLAGS = '-std=c++0x')
 	libdcpp = SConscript(dirs = 'dcpp', variant_dir = env['build_path'] + CORE_PACKAGE, duplicate = 0, exports = {'env': dcpp_env})
 
 	# Build the GUI
@@ -391,7 +386,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 
 	# Build source files followed by everything else
 	Default(PACKAGE, '.')
-
 
 # ----------------------------------------------------------------------
 # Install

@@ -21,13 +21,16 @@
 
 #include "User.h"
 #include "FastAlloc.h"
-
+#include "TigerHash.h"
 #include "MerkleTree.h"
 #include "SimpleXML.h"
 #include "Streams.h"
 #include "QueueItem.h"
-
+#include "CID.h"
 namespace dcpp {
+
+using std::unordered_set;
+using std::unordered_map;	 
 
 class ListLoader;
 //STANDARD_EXCEPTION(AbortException);
@@ -90,7 +93,7 @@ public:
 		};
 		typedef vector<Ptr> List;
 		typedef List::const_iterator Iter;
-		typedef unordered_set<TTHValue> TTHSet;
+		typedef std::unordered_set<TTHValue> TTHSet;
 
 		List directories;
 		File::List files;

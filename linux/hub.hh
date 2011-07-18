@@ -69,6 +69,7 @@ class Hub:
 			TAG_SYSTEM,
 			TAG_STATUS,
 			TAG_TIMESTAMP,
+			TAG_CHEAT, 
 			/*-*/
 			TAG_HIGHL,
 			TAG_MYNICK,
@@ -81,8 +82,8 @@ class Hub:
 		} TypeTag;
 
 		typedef std::map<std::string, std::string> ParamMap;
-		typedef std::tr1::unordered_map<std::string, std::string> UserMap;
-		typedef std::tr1::unordered_map<std::string, GtkTreeIter> UserIters;
+		typedef std::unordered_map<std::string, std::string> UserMap;
+		typedef std::unordered_map<std::string, GtkTreeIter> UserIters;
 
 		// GUI functions
 		void setStatus_gui(std::string statusBar, std::string text);
@@ -157,7 +158,7 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		static gboolean expose(GtkWidget *widget, GdkEventExpose *event, gpointer data);
 		static void ripeIp(GtkWidget *wid, gpointer data);
 		static void copyIp(GtkWidget *wid, gpointer data);
-		void addStatusPrivateMessage_gui(string cid, string message);
+		void addStatusPrivateMessage_gui(std::string cid, std::string message);
 		/*new*/
 		void addOp(ParamMap params);
 		void addPasive(ParamMap params);
@@ -252,7 +253,7 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		GtkTooltips *tooltip;
 		int tooltipcount;
 		static const int maxtooltip = 10;
-		string ip;
+		std::string ip;
 
 };
 

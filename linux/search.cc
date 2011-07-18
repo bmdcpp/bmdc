@@ -23,6 +23,7 @@
 
 #include <dcpp/FavoriteManager.h>
 #include <dcpp/QueueManager.h>
+#include <dcpp/ClientManager.h>
 #include <dcpp/ShareManager.h>
 #include <dcpp/StringTokenizer.h>
 #include <dcpp/Text.h>
@@ -33,6 +34,7 @@
 
 using namespace std;
 using namespace dcpp;
+using std::unordered_map;
 
 GtkTreeModel* Search::searchEntriesModel = NULL;
 
@@ -625,7 +627,7 @@ void Search::addResult_gui(const SearchResultPtr result)
 
 
 		string country((!(resultMap["IP"].empty())) ? Util::getIpCountry(resultMap["IP"]).c_str() : string("").c_str());//Country from IP
-		GdkPixbuf *buf=WulforUtil::loadCountry(resultMap["CC"]);
+		GdkPixbuf *buf = WulforUtil::loadCountry(resultMap["CC"]);
 	// Have to use insert with values since appending would cause searchFilterFunc to be
 	// called with empty row which in turn will cause assert failure in treeview::getString
 	gtk_tree_store_insert_with_values(resultStore, &iter, foundParent ? &parent : NULL, -1,
@@ -780,7 +782,7 @@ void Search::ungroup_gui()
 
 void Search::regroup_gui()
 {
-	unordered_map<string, GtkTreeIter> iterMap; // Maps group string -> parent tree iter
+	std::unordered_map<string, GtkTreeIter> iterMap; // Maps group string -> parent tree iter
 	GtkTreeIter iter;
 	gint position = 0;
 	GtkTreeModel *m = GTK_TREE_MODEL(resultStore);
@@ -802,7 +804,7 @@ void Search::regroup_gui()
 			continue;
 		}
 
-		unordered_map<string, GtkTreeIter>::iterator mapIter = iterMap.find(groupStr);
+		std::unordered_map<string, GtkTreeIter>::iterator mapIter = iterMap.find(groupStr);
 
 		// New non-parent, top-level item
 		if (mapIter == iterMap.end())
@@ -2007,12 +2009,10 @@ gboolean Search::searchFilterFunc_gui(GtkTreeModel *model, GtkTreeIter *iter, gp
 /*this is a pop menu*/
 void Search::popmenu()
 {
-    //tabMenu = gtk_menu_new();
     GtkWidget *closeMenuItem = gtk_menu_item_new_with_label(_("Close"));
     gtk_menu_shell_append(GTK_MENU_SHELL(getNewTabMenu()),closeMenuItem);
 
     g_signal_connect_swapped(closeMenuItem, "activate",G_CALLBACK(onCloseItem),this);
-
 }
 
 void Search::onCloseItem(gpointer data)

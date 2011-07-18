@@ -30,7 +30,6 @@
  */
 
 #include "stdinc.h"
-//#include "DCPlusPlus.h"
 #include "debug.h"
 
 #include "TigerHash.h"

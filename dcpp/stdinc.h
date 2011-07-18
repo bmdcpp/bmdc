@@ -60,11 +60,10 @@ typedef unsigned __int64 uint64_t;
 
 #include <unistd.h>
 
-
 #ifdef _MSC_VER
-#include <crtdbg.h>
+	#include <crtdbg.h>
 #else
-#include <assert.h>
+	#include <assert.h>
 #endif
 
 #include <ctype.h>
@@ -75,7 +74,7 @@ typedef unsigned __int64 uint64_t;
 #include <time.h>
 #include <locale.h>
 #ifndef _MSC_VER
-#include <stdint.h>
+	#include <stdint.h>
 #endif
 
 #include <algorithm>
@@ -93,64 +92,28 @@ typedef unsigned __int64 uint64_t;
 #include <libintl.h>
 
 #include <boost/format.hpp>
-//#include <boost/scoped_array.hpp>
+#include <boost/scoped_array.hpp>
 #include <boost/smart_ptr/scoped_array.hpp>
 #include <boost/smart_ptr/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>
 //RegExp
 //#include <boost/regex.hpp>
-
+/*
 #if defined(_MSC_VER) || defined(_STLPORT_VERSION)
 
 #include <unordered_map>
 #include <unordered_set>
 
 #elif defined(__GLIBCPP__) || defined(__GLIBCXX__)  // Using GNU C++ library?
+*/
+#include <unordered_set>
+#include <unordered_map>
 
-#include <tr1/unordered_set>
-#include <tr1/unordered_map>
-
-#else
-#error "Unknown STL, please configure accordingly"
-#endif
-
-#if defined(__GLIBCPP__) || defined(__GLIBCXX__)  // Using GNU C++ library?
-	# define HASH_SET hash_set
-	# define HASH_MAP hash_map
-	# define HASH_MULTIMAP hash_multimap
-	# define HASH_SET_X(key, hfunc, eq, order) hash_set<key, hfunc, eq >
-	# define HASH_MAP_X(key, type, hfunc, eq, order) hash_map<key, type, hfunc, eq >
-	# define HASH_MULTIMAP_X(key, type, hfunc, eq, order) hash_multimap<key, type, hfunc, eq >
-
-   	#include <ext/hash_map>
-	#include <ext/hash_set>
-	#include <ext/functional>
-    using namespace std;
-    using namespace __gnu_cxx;
-
-    // GNU C++ library doesn't have hash(std::string) or hash(long long int)
-    namespace __gnu_cxx {
-    	template<> struct hash<std::string> {
-    		size_t operator()(const std::string& x) const
-    			{ return hash<const char*>()(x.c_str()); }
-    	};
-    	template<> struct hash<long long int> {
-    		size_t operator()(long long int x) const { return x; }
-    	};
-    }
-#else
-	# define HASH_SET set
-	# define HASH_MAP map
-	# define HASH_SET_X(key, hfunc, eq, order)
-	# define HASH_MAP_X(key, type, hfunc, eq, order) map<key, type, order >
-	# define HASH_MULTIMAP multimap
-	# define HASH_MULTIMAP_X(key, type, hfunc, eq, order) multimap<key, type, order >
-#endif
-
-
+//#else
+//#error "Unknown STL, please configure accordingly"
+//#endif
 namespace dcpp {
 using namespace std;
-using namespace std::tr1;
 }
 
 #endif // !defined(STDINC_H)

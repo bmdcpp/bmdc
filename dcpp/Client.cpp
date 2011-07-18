@@ -104,6 +104,7 @@ void Client::reloadSettings(bool updateNick) {
 		setCheckClients(hub->getCheckClients());
 		setCheckFilelists(hub->getCheckFilelists());
 		setCheckOnConnect(hub->getCheckOnConnect());
+		setCheckMyInfo(hub->getCheckMyInfo());
 		setChatExtraInfo(hub->getChatExtraInfo());
 		
 		setFavIp(hub->getIp());
@@ -119,6 +120,8 @@ void Client::reloadSettings(bool updateNick) {
 		setCheckClients(false);
 		setCheckFilelists(false);
 		setCheckOnConnect(false);
+		setCheckMyInfo(true);
+		 
 		setChatExtraInfo(Util::emptyString);
 		setFavIp(Util::emptyString);
 

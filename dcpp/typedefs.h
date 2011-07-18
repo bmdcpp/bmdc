@@ -21,9 +21,11 @@
 
 #include "forward.h"
 
+#include <cstdint>
+
 #include <string>
-#include <tr1/unordered_map>
-#include <tr1/unordered_set>
+#include <unordered_map>//tr1
+#include <unordered_set>//tr1
 #include <vector>
 
 namespace dcpp {
@@ -32,6 +34,9 @@ using std::pair;
 using std::string;
 using std::vector;
 using std::wstring;
+using std::unordered_map;
+using std::unordered_set;
+using std::unordered_multimap;//thinking	 
 
 typedef vector<string> StringList;
 typedef StringList::iterator StringIter;

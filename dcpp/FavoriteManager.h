@@ -77,7 +77,8 @@ public:
 	void setIgnUserDescription(const UserPtr& aUser, const string& description);
 
 //Ignored Users
-	typedef HASH_MAP_X(CID, FavoriteUser, CID::Hash, equal_to<CID>, less<CID>) IgnoredMap;
+	//typedef HASH_MAP_X(CID, FavoriteUser, CID::Hash, equal_to<CID>, less<CID>) IgnoredMap;
+	typedef std::unordered_map<CID, FavoriteUser> IgnoredMap; 
 	IgnoredMap getIgnoredUsers() { Lock l(cs); return ignored_users; }
 	void addIgnoredUser(UserPtr& aUser);
 	bool isIgnoredUser(const UserPtr& aUser) const { Lock l(cs); return ignored_users.find(aUser->getCID()) != ignored_users.end(); }

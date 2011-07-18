@@ -67,7 +67,7 @@ RecentTab::~RecentTab()
 
 void RecentTab::show()
 {
-	const RecentHubEntry::List& fl=FavoriteManager::getInstance()->getRecentHubs();
+	const RecentHubEntry::List& fl = FavoriteManager::getInstance()->getRecentHubs();
 	for(RecentHubEntry::List::const_iterator i = fl.begin(); i != fl.end(); ++i)
 	{
 		GtkTreeIter iter;
@@ -78,7 +78,7 @@ void RecentTab::show()
 			recentView.col(_("Server")), (*i)->getServer().c_str(),
 			recentView.col(_("Description")), (*i)->getDescription().c_str(),
 			recentView.col(_("Users")), (*i)->getUsers().c_str(),
-			recentView.col(_("Shared")),Util::formatBytes((*i)->getShared()).c_str(),
+			recentView.col(_("Shared")), Util::formatBytes((*i)->getShared()).c_str(),
 			-1);
 		userIters.insert(UserIters::value_type((*i)->getServer(), iter));
 
@@ -157,7 +157,7 @@ void RecentTab::onConnectItemClicked_gui(GtkMenuItem *item, gpointer data)
 
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(fu->recentStore), &iter, path))
 			{
-				WulforManager::get()->getMainWindow()->showHub_gui(fu->recentView.getString(&iter, "Server"));
+				WulforManager::get()->getMainWindow()->showHub_gui(fu->recentView.getString(&iter, _("Server")));
 			}
 			gtk_tree_path_free(path);
 		}
@@ -183,7 +183,7 @@ void RecentTab::onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data)
 
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(fu->recentStore), &iter, path))
 			{
-				params.insert(ParamMap::value_type(fu->recentView.getString(&iter, "Server"),
+				params.insert(ParamMap::value_type(fu->recentView.getString(&iter, _("Server")),
 					fu->recentView.getString(&iter, _("Name"))));
 			}
 			gtk_tree_path_free(path);
@@ -214,13 +214,13 @@ void RecentTab::onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data)
 
 		for (ParamMap::const_iterator it = params.begin(); it != params.end(); ++it)
 		{
-			F1 *func = new F1(fu, &RecentTab::removeFavoriteUser_client, it->first);
+			F1 *func = new F1(fu, &RecentTab::removeRecent_client, it->first);
 			WulforManager::get()->dispatchClientFunc(func);
 		}
 	}
 }
 
-void RecentTab::removeFavoriteUser_client(const string adr)
+void RecentTab::removeRecent_client(const string adr)
 {
 	RecentHubEntry *r = FavoriteManager::getInstance()->getRecentHubEntry(adr);
 	if(r)
@@ -229,7 +229,7 @@ void RecentTab::removeFavoriteUser_client(const string adr)
 	}
 }
 
-bool RecentTab::findUser_gui(const string &cid, GtkTreeIter *iter)
+bool RecentTab::findRecent_gui(const string &cid, GtkTreeIter *iter)
 {
 	UserIters::const_iterator it = userIters.find(cid);
 
@@ -244,12 +244,12 @@ bool RecentTab::findUser_gui(const string &cid, GtkTreeIter *iter)
 	return FALSE;
 }
 
-void RecentTab::updateFavoriteUser_gui(ParamMap params)
+void RecentTab::updateRecent_gui(ParamMap params)
 {
 	const string &server = params["Server"];
 	GtkTreeIter iter;
 
-	if (findUser_gui(server, &iter))
+	if (findRecent_gui(server, &iter))
 	{
 		gtk_list_store_set(recentStore, &iter,
 				recentView.col(_("Description")), params["Description"].c_str(),
@@ -273,11 +273,11 @@ void RecentTab::updateFavoriteUser_gui(ParamMap params)
 	}
 }
 
-void RecentTab::removeFavoriteUser_gui(const string cid)
+void RecentTab::removeRecent_gui(const string cid)
 {
 	GtkTreeIter iter;
 
-	if (findUser_gui(cid, &iter))
+	if (findRecent_gui(cid, &iter))
 	{
 		gtk_list_store_remove(recentStore, &iter);
 		userIters.erase(cid);
@@ -295,13 +295,13 @@ void RecentTab::on(FavoriteManagerListener::RecentUpdated, const RecentHubEntry 
 	params.insert(ParamMap::value_type("Users", entry->getUsers() ));
 	params.insert(ParamMap::value_type("Shared", Util::formatBytes(entry->getShared())));
 
-	Func1<RecentTab, ParamMap> *func = new Func1<RecentTab, ParamMap>(this, &RecentTab::updateFavoriteUser_gui, params);
+	Func1<RecentTab, ParamMap> *func = new Func1<RecentTab, ParamMap>(this, &RecentTab::updateRecent_gui, params);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
 void RecentTab::on(FavoriteManagerListener::RecentRemoved, const RecentHubEntry *entry) throw()
 {
-	Func1<RecentTab, string> *func = new Func1<RecentTab, string>(this, &RecentTab::removeFavoriteUser_gui,
+	Func1<RecentTab, string> *func = new Func1<RecentTab, string>(this, &RecentTab::removeRecent_gui,
 		entry->getServer());
 	WulforManager::get()->dispatchGuiFunc(func);
 }
@@ -315,7 +315,7 @@ void RecentTab::on(FavoriteManagerListener::RecentAdded, const RecentHubEntry *e
 	params.insert(ParamMap::value_type("Users", entry->getUsers() ));
 	params.insert(ParamMap::value_type("Shared", Util::formatBytes(entry->getShared())));
 
-	Func1<RecentTab, ParamMap> *func = new Func1<RecentTab, ParamMap>(this, &RecentTab::updateFavoriteUser_gui, params);
+	Func1<RecentTab, ParamMap> *func = new Func1<RecentTab, ParamMap>(this, &RecentTab::updateRecent_gui, params);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
@@ -325,7 +325,7 @@ void RecentTab::popmenu()
     GtkWidget *closeMenuItem = gtk_menu_item_new_with_label(_("Close"));
     gtk_menu_shell_append(GTK_MENU_SHELL(getNewTabMenu()),closeMenuItem);
 
-    g_signal_connect_swapped(closeMenuItem, "activate",G_CALLBACK(onCloseItem),this);
+    g_signal_connect_swapped(closeMenuItem, "activate",G_CALLBACK(onCloseItem), this);
 
 }
 

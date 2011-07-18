@@ -72,7 +72,6 @@ void startup(void (*f)(void*, const string&), void* p) {
 	WSAStartup(MAKEWORD(2, 2), &wsaData);
 #endif
 
-
 	bindtextdomain(PACKAGE, LOCALEDIR);
 
 	ResourceManager::newInstance();
@@ -196,8 +195,6 @@ void shutdown() {
 	SettingsManager::deleteInstance();
 	TimerManager::deleteInstance();
 	ResourceManager::deleteInstance();
-
-
 
 #ifdef _WIN32
 	::WSACleanup();

@@ -160,6 +160,7 @@ public:
 	GETSET(bool, checkFilelists, CheckFilelists);
 	GETSET(bool, checkOnConnect, CheckOnConnect);
 	GETSET(bool, checkMyInfo, CheckMyInfo);
+
 	GETSET(string, chatExtraInfo, ChatExtraInfo);
 	GETSET(string, favIp, FavIp);
 
@@ -184,7 +185,6 @@ protected:
 		COUNT_UNCOUNTED,
 	};
 	
-	//static Atomic<long> counts[COUNT_UNCOUNTED];	
 	struct Counts {
 		private:
 			typedef Atomic<boost::int32_t,memory_ordering_weak> atomic_counter_t;
@@ -195,7 +195,6 @@ protected:
 			atomic_counter_t registered;
 			atomic_counter_t op;
 	};
-
 
 	enum States {
 		STATE_CONNECTING,	///< Waiting for socket to connect

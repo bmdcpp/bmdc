@@ -45,7 +45,7 @@ class cmddebug:
         virtual void show();
         virtual void popmenu();
         //GUI FCE
-        void add_gui(time_t t,std::string file);
+        void add_gui(time_t t, std::string file);
 
     private:
         //GUI
@@ -84,7 +84,7 @@ class cmddebug:
             time_t tt = time(NULL);
             F2 *func = new F2(this, &cmddebug::add_gui, tt, x);
             WulforManager::get()->dispatchGuiFunc(func);
-            }
+        }
 
         stop = false;
         return 0;
@@ -108,7 +108,7 @@ class cmddebug:
     void on(dcpp::DebugManagerListener::DebugDetection, const std::string& com) throw()
     {
     if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("detection_button"))) == TRUE)
-        addCmd(string("[Detection] ")+ com,"");
+        addCmd(std::string("[Detection] ") + com,"");
     }
     void on(dcpp::DebugManagerListener::DebugCommand, const std::string& mess, int typedir, const std::string& ip) throw();
 

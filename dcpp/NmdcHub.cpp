@@ -409,7 +409,8 @@ void NmdcHub::onLine(const string& aLine) throw() {
 			setMyIdentity(u.getIdentity());
 		}else {
            //RSX++
-                if(getCheckedAtConnect() && getCheckMyInfo()) {
+               // if(getCheckedAtConnect() && getCheckMyInfo()) 
+			 	{
                     string report = u.getIdentity().myInfoDetect(u);
                     if(!report.empty()) {
                         updated(&u);
@@ -615,8 +616,8 @@ void NmdcHub::onLine(const string& aLine) throw() {
 		 string str2="Tema hubu:";
 		 line=aLine;
 		 line.replace(0,9,str2);
-		fire(ClientListener::StatusMessage(), this, unescape(line), ClientListener::FLAG_NORMAL);
 
+		 fire(ClientListener::StatusMessage(), this, unescape(line), ClientListener::FLAG_NORMAL);
 	}
 	else if(cmd == "$ValidateDenide") {		// Mind the spelling...
 		disconnect(false);

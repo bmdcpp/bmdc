@@ -25,7 +25,7 @@ class DetectionTab:
         static void onSwitchTab(GtkNotebook *notebook, GtkNotebookPage *page, guint num, gpointer data);
         static bool showErrorDialog_gui(const std::string &description, DetectionTab *dt);
 		///1page
-		typedef std::tr1::unordered_map<int, GtkTreeIter> ActRaw;
+		typedef std::unordered_map<int, GtkTreeIter> ActRaw;
 
 		static void onAddAct(GtkWidget *widget, gpointer data);
 		static void onAddRaw(GtkWidget *widget, gpointer data) ;
@@ -40,7 +40,7 @@ class DetectionTab:
 
 		void removeRaw_gui(std::string Id, std::string name);
 		void create_actions_raws();
-		bool showAddActRawDialog(dcpp::StringMap &params,DetectionTab *dt);
+		bool showAddActRawDialog(dcpp::StringMap &params, DetectionTab *dt);
 		void addAct_client(dcpp::StringMap params);
 		void addRaw_client(dcpp::StringMap params);
 		void editAct_client(dcpp::StringMap params);
@@ -64,7 +64,7 @@ class DetectionTab:
 		ActRaw actions;
 		ActRaw raws;
 		///2page
-		typedef std::tr1::unordered_map<uint32_t, GtkTreeIter> Prof;
+		typedef std::unordered_map<uint32_t, GtkTreeIter> Prof;
 		Prof profiles;
 		void create_profiles();
 		static void onAddEntryDet(GtkWidget *widget, gpointer data);
@@ -73,12 +73,12 @@ class DetectionTab:
 		static void onToggleDet(GtkCellRendererToggle *cell, gchar *pathStr, gpointer data);
 		void addMap_gui(dcpp::StringMap params);
 		void editMap_gui(dcpp::StringMap &params,GtkTreeIter *iter);
-		bool showAddEntryDetDialog(dcpp::StringMap &params,DetectionTab *dt);
+		bool showAddEntryDetDialog(dcpp::StringMap &params, DetectionTab *dt);
 		void removeEntryDet_gui(uint32_t _id);
 		void addEntryDet_gui(dcpp::StringMap params);
-		void removeAction_gui(string Id, string name);
+		void removeAction_gui(std::string Id, std::string name);
 		void addEntryDet_client(dcpp::StringMap params);
-		void editEntryDet_client(int id,dcpp::StringMap params);
+		void editEntryDet_client(int id, dcpp::StringMap params);
 		void removeEntryDet_client(int id);
 
 		/**/
@@ -102,7 +102,7 @@ class DetectionTab:
 		static void onAddItemDlg_gui(GtkWidget *widget, gpointer data);
 		static void onModItemDlg_gui(GtkWidget *widget, gpointer data);
 		static void onRemItemDlg_gui(GtkWidget *widget, gpointer data);
-		bool runDialogItem(dcpp::StringMap &params,DetectionTab *dt);
+		bool runDialogItem(dcpp::StringMap &params, DetectionTab *dt);
 		/*3d tab*/
 		static void onSave(GtkWidget *widget , gpointer data);
 		TreeView points;
@@ -117,8 +117,8 @@ class DetectionTab:
 		bool showAddPointsDialog(dcpp::StringMap &params, DetectionTab *dt);
 		dcpp::IntMap imap;
 
-		void set_combo(GtkWidget *place, vector<pair<string,int> > act, int set, bool det,gpointer data);
-		void loadAgain(GtkWidget *widget, vector<pair<string,int> >act, int set, gpointer data);
+		void set_combo(GtkWidget *place, std::vector<std::pair<std::string,int> > act, int set, bool det, gpointer data);
+		void loadAgain(GtkWidget *widget, std::vector<std::pair<std::string,int> >act, int set, gpointer data);
 		int save_combo(GtkWidget *widget);
 		enum
 		{

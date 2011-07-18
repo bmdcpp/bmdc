@@ -61,8 +61,8 @@ public:
 		OLD_CLIENT = 1<<OLD_CLIENT_BIT,  //< Can't download - old client
 		NO_ADC_1_0_PROTOCOL = 1<<NO_ADC_1_0_PROTOCOL_BIT,	//< Doesn't support "ADC/1.0" (dc++ <=0.703)
 		NO_ADCS_0_10_PROTOCOL = 1<< NO_ADCS_0_10_PROTOCOL_BIT,	//< Doesn't support "ADCS/0.10"
-	    SAVE_NICK = 0x10,	// <- Save cid->nick association
-	    PROTECTED 	= 0x800	//< User protected
+	   SAVE_NICK = 0x10,	// <- Save cid->nick association
+	   PROTECTED 	= 0x800	//< User protected
 	};
 
 	struct Hash {
@@ -177,7 +177,7 @@ public:
 
 	bool isClientType(ClientType ct) const;
 	//RSX 
-	string setCheat(const Client& c, string aCheatDescription, bool aBadClient, bool aBadFilelist = false, bool aDisplayCheat = true);//p
+	string setCheat(const Client& c, string aCheatDescription, bool aBadClient, bool aBadFilelist = false, bool aDisplayCheat = true);
 	string getVersion() const;
 	string getFilelistGeneratorVer() const;//p
 	string getPkVersion() const;//p
@@ -190,7 +190,7 @@ public:
 	GETSET(uint32_t, sid, SID);
 
 	GETSET(uint64_t, loggedIn, LoggedIn); //RSX++//
-	void logDetect(bool successful);//P
+	void logDetect(bool successful);//p
 
 	string myInfoDetect(OnlineUser& ou);//p
 	string updateClientType(OnlineUser& ou);//p
@@ -204,7 +204,7 @@ public:
 	bool isProtectedUser(const Client& c, bool OpBotHubCheck) const;
 
 private:
-	typedef std::tr1::unordered_map<short, string> InfMap;
+	typedef std::unordered_map<short, string> InfMap;
 	typedef InfMap::iterator InfIter;
 	typedef InfMap::const_iterator InfIterC;
 	InfMap info;

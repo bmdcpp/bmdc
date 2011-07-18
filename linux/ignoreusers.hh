@@ -42,7 +42,7 @@ class ignoreusers:
 
 	private:
 		typedef std::map<std::string, std::string> ParamMap;
-		typedef std::tr1::unordered_map<std::string, GtkTreeIter> UserIters;
+		typedef std::unordered_map<std::string, GtkTreeIter> UserIters;
 
 		// GUI functions
 		static void onCloseItem(gpointer data);

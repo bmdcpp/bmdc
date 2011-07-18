@@ -18,7 +18,7 @@ class FavoriteHubs:
 				virtual void show();
 				virtual void popmenu();
 		private:
-		typedef std::tr1::unordered_map<std::string, GtkTreeIter> FavHubGroupsIter;
+		typedef std::unordered_map<std::string, GtkTreeIter> FavHubGroupsIter;
 
 		///GUI
 		static void onCloseItem(gpointer data);
@@ -92,7 +92,7 @@ class FavoriteHubs:
 				GtkTreeIter child;
 		};
 
-		typedef std::tr1::unordered_map<std::string, Iters*> FavIter;
+		typedef std::unordered_map<std::string, Iters*> FavIter;
 		FavIter faviters;
 
 		struct Actions {
@@ -101,7 +101,7 @@ class FavoriteHubs:
 			GtkTreeIter iter;
 		};
 
-		typedef std::tr1::unordered_map<std::string, Actions*> ActionsIter;
+		typedef std::unordered_map<std::string, Actions*> ActionsIter;
 		ActionsIter praws,actions;
 		///Utils func@todo move to WulforUtil
 		void drop_combo(GtkWidget *DROP, std::vector<std::string> CONTEUDO);

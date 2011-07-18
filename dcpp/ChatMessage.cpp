@@ -17,11 +17,8 @@
  */
 
 #include "stdinc.h"
-//#include "DCPlusPlus.h"
 #include "format.h"
-
 #include "ChatMessage.h"
-
 #include "User.h"
 #include "Util.h"
 

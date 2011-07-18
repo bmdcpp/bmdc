@@ -255,7 +255,7 @@ class MainWindow:
 		bool useStatusIconBlink;
 		bool onQuit;
 		bool isLimiting;
-        FileListQueue listQueue;
+      FileListQueue listQueue;
 
 		std::vector<PrivateMessage*> allprivatemess;
 		std::vector<Hub*> allhub;

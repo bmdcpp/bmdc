@@ -182,7 +182,7 @@ string Identity::setCheat(const Client& c, string aCheatDescription, bool aBadCl
  		set("BF", "1");
 
 	if(BOOLSETTING(DISPLAY_CHEATS_IN_MAIN_CHAT) && aDisplayCheat) {
-		string report = "*** *** " +  getNick() + " - " + cheat;
+		string report = "*** *** " +  getNick() + " - " + newCheat;
 		return report;
 	}
 	return Util::emptyString;
@@ -255,10 +255,10 @@ string Identity::checkFilelistGenerator(OnlineUser& ou) {
 
 	if((dcpp::RegexUtil::match(get("FG"), "^DC\\+\\+.*"))) {
 		if(!get("VE").empty() && (get("VE") != getFilelistGeneratorVer())) {
-			string report = ou.setCheat("Filelist Version mis-match", false, true,BOOLSETTING(SHOW_FILELIST_VERSION_MISMATCH));
+			string report = ou.setCheat("Filelist Version mis-match", false, true, BOOLSETTING(SHOW_FILELIST_VERSION_MISMATCH));
 			logDetect(true);
 			ou.getClient().updated(&ou);
-			ClientManager::getInstance()->sendAction(ou,SETTING(FILELIST_VERSION_MISMATCH));
+			ClientManager::getInstance()->sendAction(ou, SETTING(FILELIST_VERSION_MISMATCH));
 			return report;
 		}
 	}
@@ -349,7 +349,7 @@ string Identity::myInfoDetect(OnlineUser& ou) {
 
 	StringMap params;
 	getDetectionParams(params); // get identity fields and escape them, then get the rest and leave as-is
-	const DetectionManager::DetectionItems& profiles = DetectionManager::getInstance()->getProfiles(params, false/*true*/);
+	const DetectionManager::DetectionItems& profiles = DetectionManager::getInstance()->getProfiles(params, /*false*/true);
 
 	for(DetectionManager::DetectionItems::const_iterator i = profiles.begin(); i != profiles.end(); ++i) {
 		const DetectionEntry& entry = *i;
@@ -433,7 +433,7 @@ string Identity::updateClientType(OnlineUser& ou) {
 
 	StringMap params;
 	getDetectionParams(params); // get identity fields and escape them, then get the rest and leave as-is
-	const DetectionManager::DetectionItems& profiles = DetectionManager::getInstance()->getProfiles(params);
+	const DetectionManager::DetectionItems& profiles = DetectionManager::getInstance()->getProfiles(params,true);//thinking
 
 	for(DetectionManager::DetectionItems::const_iterator i = profiles.begin(); i != profiles.end(); ++i) {
 		const DetectionEntry& entry = *i;
@@ -474,7 +474,8 @@ string Identity::updateClientType(OnlineUser& ou) {
 
 		setClientType(entry.name);
 		set("CM", entry.comment);
-		set("BC", entry.cheat.empty() ? Util::emptyString : "1");//w
+		set("CS", entry.cheat); 
+		set("BC", entry.cheat.empty() ? Util::emptyString : "1");
 		logDetect(true);
 
 		if(entry.checkMismatch && getUser()->isSet(User::NMDC) &&  (params["VE"] != params["PKVE"])) {
@@ -588,8 +589,15 @@ map<string, string> Identity::getReport() const {
 				case TAG('M','C'): name = "UserInfo count"; break;
 				case TAG('T','S'): name = "TestSUR"; break;
 				case TAG('A','H'): name = "All hubs count"; break;
+				case TAG('A','1'): name = "ADL result File";break;
+				case TAG('A','2'): name = "ADL result comment";break;
+				case TAG('A','3'): name = "ADL result file size";break;
+				case TAG('A','4'): name = "ADL result TTH";break; 
+				case TAG('A','5'): name = "ADL result forbiden size";break;
+				case TAG('A','6'): name = "ADL result total points";break; 
+				case TAG('A','7'): name = "ADL result no. files";break; 
 				case TAG('U','C'): name = "Commands";break;//me
-				case TAG('I', 'C'): name = ""; break;
+				case TAG('I','C'): name = ""; break;
 				case TAG('W','O'): name = ""; break;	// for GUI purposes
 				default: name += " (unknown)";
 

@@ -272,4 +272,12 @@ Add Copy and Ripe DB of IP in chat in menu
 Fix Copy IP
 Fix sort UL
 Add Option Hide Lua error
+
 Fix Copy IP
+Added a build flag to enable/disable libnotify. (Francisco Blas Izquierdo Riera)
+-||- lua support (liblua)
+-||- libgnome supports (libgnome)
+Change Cheat message to show on hub´s mainchat
+Add hub client command /topic to show topic of Hub 
+Move unordered-* out from tr1
+Add Ax => name 
