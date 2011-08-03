@@ -17,7 +17,6 @@
  */
 
 #include "stdinc.h"
-//#include "DCPlusPlus.h"
 #include "QueueManager.h"
 
 #include "ClientManager.h"
@@ -135,7 +134,7 @@ static QueueItem* findCandidate(QueueItem* cand, QueueItem::StringIter start, Qu
 		if(q->isFinished())
 			continue;
 		// No user lists
-		if(q->isSet(QueueItem::FLAG_USER_LIST) || q->isSet(QueueItem::FLAG_TESTSUR) || q->isSet(QueueItem::FLAG_CHECK_FILE_LIST))
+		if(q->isSet(QueueItem::FLAG_USER_LIST))
 			continue;
 		// No paused downloads
 		if(q->getPriority() == QueueItem::PAUSED)
@@ -145,6 +144,9 @@ static QueueItem* findCandidate(QueueItem* cand, QueueItem::StringIter start, Qu
 			continue;
 		// Did we search for it recently?
 		if(find(recent.begin(), recent.end(), q->getTarget()) != recent.end())
+			continue;
+		
+		if(q->isSet(QueueItem::FLAG_TESTSUR) || q->isSet(QueueItem::FLAG_CHECK_FILE_LIST))
 			continue;
 
 		cand = q;
@@ -1239,8 +1241,6 @@ void QueueManager::putDownload(Download* aDownload, bool finished, bool reportFi
 	int fl_flag = 0;
 	UserPtr user = aDownload->getUser();
 	string hubUrl = aDownload->getUserConnection().getHubUrl();
-//	Flags::MaskType flag = 0;
-
 	{
 		Lock l(cs);
 
@@ -1290,6 +1290,10 @@ void QueueManager::putDownload(Download* aDownload, bool finished, bool reportFi
 							fl_user = aDownload->getHintedUser();
 							fl_flag = (q->isSet(QueueItem::FLAG_DIRECTORY_DOWNLOAD) ? QueueItem::FLAG_DIRECTORY_DOWNLOAD : 0);
 														
+						}
+						if(aDownload->isSet(Download::FLAG_TESTSUR) || q->isSet(QueueItem::FLAG_TESTSUR))
+						{
+							removeTestSUR(aDownload->getHintedUser().user);	
 						}
 
 						string dir;

@@ -179,21 +179,21 @@ public:
 	//RSX 
 	string setCheat(const Client& c, string aCheatDescription, bool aBadClient, bool aBadFilelist = false, bool aDisplayCheat = true);
 	string getVersion() const;
-	string getFilelistGeneratorVer() const;//p
-	string getPkVersion() const;//p
-	string checkFilelistGenerator(OnlineUser& ou);//p
-	void checkTagState(OnlineUser& ou);	//p
+	string getFilelistGeneratorVer() const;
+	string getPkVersion() const;
+	string checkFilelistGenerator(OnlineUser& ou);
+	void checkTagState(OnlineUser& ou);	
 
 	void getParams(StringMap& map, const string& prefix, bool compatibility) const;
 	UserPtr& getUser() { return user; }
 	GETSET(UserPtr, user, User);
 	GETSET(uint32_t, sid, SID);
 
-	GETSET(uint64_t, loggedIn, LoggedIn); //RSX++//
-	void logDetect(bool successful);//p
+	GETSET(uint64_t, loggedIn, LoggedIn); //RSX++
+	void logDetect(bool successful);
 
-	string myInfoDetect(OnlineUser& ou);//p
-	string updateClientType(OnlineUser& ou);//p
+	string myInfoDetect(OnlineUser& ou);
+	string updateClientType(OnlineUser& ou);
 	bool isFileListQueued() const { return isSet("FQ"); }//p
 	bool isClientChecked() const { return isSet("TC"); }//p
 	bool isFileListChecked() const { return isSet("FC"); }//p
@@ -233,13 +233,13 @@ public:
 	Client& getClient() { return client; }
 	const Client& getClient() const { return client; }
 
-	inline string setCheat(const string& aCheat, bool aBadClient, bool aBadFilelist = false, bool aDisplayCheat = true) {
+	/*inline */string setCheat(const string& aCheat, bool aBadClient, bool aBadFilelist = false, bool aDisplayCheat = true) {
 		return identity.setCheat(getClient(), aCheat, aBadClient, aBadFilelist, aDisplayCheat);
 	}
-	inline void setTestSURComplete() {
+	/*inline */void setTestSURComplete() {
 		identity.setTestSURChecked(Util::toString(GET_TIME()));
 	}
-	inline void setFileListComplete() {
+	/*inline */void setFileListComplete() {
 		identity.setFileListChecked(Util::toString(GET_TIME()));
 	}
 

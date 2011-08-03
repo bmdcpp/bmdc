@@ -27,9 +27,9 @@
 namespace dcpp {
 
 namespace {
-	const string TEMP_EXTENSION = ".dctmp";
+const string TEMP_EXTENSION = ".dctmp";
 
-	string getTempName(const string& aFileName, const TTHValue& aRoot) {
+string getTempName(const string& aFileName, const TTHValue& aRoot) {
 		string tmp(aFileName);
 		tmp += "." + aRoot.toBase32();
 		tmp += TEMP_EXTENSION;

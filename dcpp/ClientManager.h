@@ -27,11 +27,15 @@
 #include "User.h"
 #include "Socket.h"
 #include "DirectoryListing.h"
-#include <unordered_map>//tr1
+#include <unordered_map>
 #include <unordered_set>
 #include "ClientManagerListener.h"
 
 namespace dcpp {
+using std::pair;
+using std::unordered_map;
+using std::unordered_multimap;
+using std::unordered_set;
 
 class UserCommand;
 
@@ -40,6 +44,8 @@ class ClientManager : public Speaker<ClientManagerListener>,
 	private TimerManagerListener
 {
 public:
+	typedef unordered_set<Client*> ClientList;
+
 	Client* getClient(const string& aHubURL);
 	void putClient(Client* aClient);
 	///RSX++
@@ -135,7 +141,7 @@ public:
 	void lock() throw() { cs.enter(); }
 	void unlock() throw() { cs.leave(); }
 
-	Client::List& getClients() { return clients; }
+	/*Client::List*/ClientList& getClients() { return clients; }
 
 	CID getMyCID();
 	const CID& getMyPID();
@@ -175,7 +181,7 @@ private:
 	typedef pair<OnlineIter, OnlineIter> OnlinePair;
 	typedef pair<OnlineIterC, OnlineIterC> OnlinePairC;
 
-	Client::List clients;
+	/*Client::List*/ClientList clients;
 	mutable CriticalSection cs;
 
 	UserMap users;

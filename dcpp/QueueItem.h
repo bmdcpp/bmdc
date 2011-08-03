@@ -74,7 +74,7 @@ public:
 		/** Test user for slotlocker */
 		FLAG_TESTSUR		= 0x300,
 		/** Test user's file list for fake share */
-		FLAG_CHECK_FILE_LIST	= 0x10
+		FLAG_CHECK_FILE_LIST	= 0x400
 	};
 
 	/**
@@ -237,7 +237,7 @@ public:
 
 private:
 	QueueItem& operator=(const QueueItem&);
-
+	
 	friend class QueueManager;
 	SourceList sources;
 	SourceList badSources;

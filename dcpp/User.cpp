@@ -433,7 +433,7 @@ string Identity::updateClientType(OnlineUser& ou) {
 
 	StringMap params;
 	getDetectionParams(params); // get identity fields and escape them, then get the rest and leave as-is
-	const DetectionManager::DetectionItems& profiles = DetectionManager::getInstance()->getProfiles(params,true);//thinking
+	const DetectionManager::DetectionItems& profiles = DetectionManager::getInstance()->getProfiles(params);//thinking//true
 
 	for(DetectionManager::DetectionItems::const_iterator i = profiles.begin(); i != profiles.end(); ++i) {
 		const DetectionEntry& entry = *i;

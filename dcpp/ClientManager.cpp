@@ -51,7 +51,7 @@ Client* ClientManager::getClient(const string& aHubURL) {
 
 	{
 		Lock l(cs);
-		clients.push_back(c);
+		clients.insert(c);
 	}
 
 	c->addListener(this);
@@ -65,7 +65,7 @@ void ClientManager::putClient(Client* aClient) {
 
 	{
 		Lock l(cs);
-		clients.remove(aClient);
+		clients.erase(aClient);
 	}
 	aClient->shutdown();
 	delete aClient;
@@ -170,7 +170,7 @@ int64_t ClientManager::getAvailable() const {
 bool ClientManager::isConnected(const string& aUrl) const {
 	Lock l(cs);
 
-	for(Client::List::const_iterator i = clients.begin(); i != clients.end(); ++i) {
+	for(/*Client::List::const_iterator*/auto i = clients.begin(); i != clients.end(); ++i) {
 		if((*i)->getHubUrl() == aUrl) {
 			return true;
 		}
@@ -192,7 +192,7 @@ string ClientManager::findHub(const string& ipPort) const {
 	}
 
 	string url;
-	for(Client::List::const_iterator i = clients.begin(); i != clients.end(); ++i) {
+	for(/*Client::List::const_iterator*/auto i = clients.begin(); i != clients.end(); ++i) {
 		const Client* c = *i;
 		if(c->getIp() == ip) {
 			// If exact match is found, return it
@@ -210,7 +210,7 @@ string ClientManager::findHub(const string& ipPort) const {
 string ClientManager::findHubEncoding(const string& aUrl) const {
 	Lock l(cs);
 
-	for(Client::List::const_iterator i = clients.begin(); i != clients.end(); ++i) {
+	for(/*Client::List::const_iterator*/auto i = clients.begin(); i != clients.end(); ++i) {
 		if((*i)->getHubUrl() == aUrl) {
 			return (*i)->getEncoding();
 		}
@@ -299,7 +299,7 @@ void ClientManager::putOnline(OnlineUser* ou) throw() {
 
 	if(!ou->getUser()->isOnline()) {
 		ou->getUser()->setFlag(User::ONLINE);
-		ou->initializeData();//ch
+		ou->initializeData();//
 		fire(ClientManagerListener::UserConnected(), ou->getUser());
 	}
 }
@@ -430,7 +430,7 @@ void ClientManager::send(AdcCommand& cmd, const CID& cid) {
 
 void ClientManager::infoUpdated() {
 	Lock l(cs);
-	for(Client::Iter i = clients.begin(); i != clients.end(); ++i) {
+	for(/*Client::Iter*/auto i = clients.begin(); i != clients.end(); ++i) {
 		if((*i)->isConnected()) {
 			(*i)->info(false);
 		}
@@ -528,9 +528,9 @@ void ClientManager::on(AdcSearch, Client* c, const AdcCommand& adc, const CID& f
 void ClientManager::search(int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken) {
 	Lock l(cs);
 
-	for(Client::Iter i = clients.begin(); i != clients.end(); ++i) {
+	for(/*Client::Iter*/auto i = clients.begin(); i != clients.end(); ++i) {
 		if((*i)->isConnected()) {
-			(*i)->search(aSizeMode, aSize, aFileType, aString, aToken, StringList());
+			(*i)->search(aSizeMode, aSize, aFileType, aString, aToken, StringList() /*extlist*/);
 		}
 	}
 }
@@ -541,7 +541,7 @@ void ClientManager::search(StringList& who, int aSizeMode, int64_t aSize, int aF
 
 	for(StringIter it = who.begin(); it != who.end(); ++it) {
 		string& client = *it;
-		for(Client::Iter j = clients.begin(); j != clients.end(); ++j) {
+		for(/*Client::Iter*/auto j = clients.begin(); j != clients.end(); ++j) {
 			Client* c = *j;
 			if(c->isConnected() && c->getHubUrl() == client) {
 				c->search(aSizeMode, aSize, aFileType, aString, aToken, aExtList);
@@ -563,7 +563,7 @@ void ClientManager::on(TimerManagerListener::Minute, uint64_t /* aTick */) throw
 		}
 	}
 
-	for(Client::Iter j = clients.begin(); j != clients.end(); ++j) {
+	for(/*Client::Iter*/auto j = clients.begin(); j != clients.end(); ++j) {
 		(*j)->info(false);
 	}
 }
@@ -713,7 +713,7 @@ void ClientManager::setGenerator(const UserPtr& p, const string& aGenerator, con
 		report = ou->getIdentity().checkFilelistGenerator(*ou);
 		c = &ou->getClient();
 	}
-	if(c && !report.empty()) {
+	if(c /*&& !report.empty()*/) {
 		c->cheatMessage(report);
 	}
 }
@@ -723,7 +723,7 @@ void ClientManager::sendAction(const UserPtr& p, const int aAction) {
 		return;
 	{
 		Lock l(cs);
-		OnlineIterC i = onlineUsers.find(/*const_cast<CID*>(*/p->getCID())/*)*/;
+		OnlineIterC i = onlineUsers.find(p->getCID());
 		if(i == onlineUsers.end())
 			return;
 
@@ -747,7 +747,7 @@ void ClientManager::sendRawCommand(const UserPtr& user, const string& aRaw, bool
 		bool skipRaw = false;
 		Lock l(cs);
 		if(checkProtection) {
-			OnlineUser* ou = findOnlineUser(user->getCID(), Util::emptyString,false);
+			OnlineUser* ou = findOnlineUser(user->getCID(), Util::emptyString, false);
 			if(!ou) return;
 			skipRaw = ou->isProtectedUser();
 		}
@@ -776,7 +776,7 @@ void ClientManager::setPkLock(const UserPtr& p, const string& aPk, const string&
 //RSX++
 void ClientManager::setListSize(const UserPtr& p, int64_t aFileLength, bool adc) {
 	OnlineUser* ou = NULL;
-	string report = Util::emptyString;
+	string report;// = Util::emptyString;
 	{
 		Lock l(cs);
 		ou = findOnlineUser(p->getCID(),"", false);
@@ -811,7 +811,7 @@ void ClientManager::setListSize(const UserPtr& p, int64_t aFileLength, bool adc)
 //END
 void ClientManager::setSupports(const UserPtr& p, const string& aSupports) {
 	Lock l(cs);
-	OnlineUser* ou = findOnlineUser(p->getCID(),"",false);
+	OnlineUser* ou = findOnlineUser(p->getCID(),"", false);
 	if(!ou)
 		return;
 	ou->getIdentity().set("SU", aSupports);
@@ -827,8 +827,8 @@ void ClientManager::setUnknownCommand(const UserPtr& p, const string& aUnknownCo
 
 void ClientManager::setCheating(const UserPtr& p, const string& _ccResponse, const string& _cheatString, int _actionId, bool _displayCheat,
 		bool _badClient, bool _badFileList, bool _clientCheckComplete, bool _fileListCheckComplete) {
-	OnlineUser* ou = 0;
-	string report = Util::emptyString;
+	OnlineUser* ou = NULL;//0
+	string report;// = Util::emptyString;
 	{
 		Lock l(cs);
 		ou = findOnlineUser(p->getCID(), "", false);
@@ -861,19 +861,19 @@ void ClientManager::fileListDisconnected(const UserPtr& p) {
 		return;
 
 	bool remove = false;
-	string report = Util::emptyString;
+	string report = "Disconnected";// = Util::emptyString;
 	Client* c = NULL;
 	{
 		Lock l(cs);
 		OnlineUser* ou = findOnlineUser(p->getCID(),"", false);
-			if(!ou) return;
+		if(!ou) return;
 
 		int fileListDisconnects = Util::toInt(ou->getIdentity().get("FD")) + 1;
 		ou->getIdentity().set("FD", Util::toString(fileListDisconnects));
 
 		if(fileListDisconnects == SETTING(MAX_DISCONNECTS)) {
 			c = &ou->getClient();
-			report = ou->setCheat("Disconnected file list %[userFD] times", false, true, BOOLSETTING(SHOW_DISCONNECT_RAW));
+			report += ou->setCheat("Disconnected file list %[userFD] times", false, true, BOOLSETTING(SHOW_DISCONNECT_RAW));
 			if(ou->getIdentity().isFileListQueued()) {
 				ou->setFileListComplete();
 				ou->getIdentity().setFileListQueued(Util::emptyString);
@@ -890,7 +890,7 @@ void ClientManager::fileListDisconnected(const UserPtr& p) {
 			//...
 		}
 	}
-	if(c && !report.empty()) {
+	if(c/* && !report.empty()*/) {
 		c->cheatMessage(report);
 	}
 }
@@ -920,8 +920,8 @@ void ClientManager::setListLength(const UserPtr& p, const string& listLen) {
 }
 
 void ClientManager::checkCheating(const UserPtr& p, DirectoryListing* dl) {
-	string report = Util::emptyString;
-	OnlineUser* ou = 0;
+	string report;// = Util::emptyString;
+	OnlineUser* ou = NULL;//0
 
 	{
 		Lock l(cs);
@@ -1051,14 +1051,14 @@ void ClientManager::checkCheating(const UserPtr& p, DirectoryListing* dl) {
 		ou->setFileListComplete();
 		ou->getIdentity().setFileListQueued(Util::emptyString);
 		ou->getClient().updated(ou);
-		if(!report.empty()) {
+		/*if(!report.empty())*/ {
 			ou->getClient().cheatMessage(report);
 		}
 	}
 }
 
 void ClientManager::addCheckToQueue(const HintedUser huser, bool filelist) {
-	OnlineUser* ou = 0;
+	OnlineUser* ou = NULL;//0
 	bool addCheck = false;
 	{
 		Lock l(cs);
@@ -1078,10 +1078,10 @@ void ClientManager::addCheckToQueue(const HintedUser huser, bool filelist) {
 	if(addCheck) {
 		try {
 			if(filelist) {
-				QueueManager::getInstance()->addFileListCheck(huser.user, ou->getClient().getHubUrl());
+				QueueManager::getInstance()->addFileListCheck(huser.user, /*ou->getClient().getHubUrl()*/huser.hint);
 				ou->getIdentity().setFileListQueued("1");
 			} else {
-				QueueManager::getInstance()->addTestSUR(huser.user, ou->getClient().getHubUrl());
+				QueueManager::getInstance()->addTestSUR(huser.user, huser.hint/*ou->getClient().getHubUrl()*/);
 				ou->getIdentity().setTestSURQueued("1");
 			}
 		} catch(...) {

@@ -1041,7 +1041,7 @@ GdkPixbuf *WulforUtil::loadCountry(const string &country)
 	for (int i = 0; i < G_N_ELEMENTS(icons); i++)
 	{
 
-			if(country==icons[i].stock_id)
+			if(country == icons[i].stock_id)
 			{
 				gchar *path = g_strdup_printf(_DATADIR "/country/%s.png",
 		                              icons[i].stock_id);

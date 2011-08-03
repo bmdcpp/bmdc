@@ -215,10 +215,10 @@ void Search::initHubs_gui()
 {
 	ClientManager::getInstance()->lock();
 
-	Client::List& clients = ClientManager::getInstance()->getClients();
+	/*Client::List&*/ClientManager::ClientList& clients = ClientManager::getInstance()->getClients();
 
 	Client *client = NULL;
-	for (Client::List::iterator it = clients.begin(); it != clients.end(); ++it)
+	for (/*Client::List::iterator*/auto it = clients.begin(); it != clients.end(); ++it)
 	{
 		client = *it;
 		if (client->isConnected())
@@ -1093,9 +1093,9 @@ void Search::onSharedButtonToggled_gui(GtkToggleButton *button, gpointer data)
 void Search::onCheckOp_gui(GtkToggleButton *button, gpointer data)
 {
 	Search *s = (Search *)data;
-	Client::List& clients = ClientManager::getInstance()->getClients();
+	ClientManager::ClientList& clients = ClientManager::getInstance()->getClients();
 	Client *client = NULL;
-	for (Client::List::iterator it = clients.begin(); it != clients.end(); ++it)
+	for (/*Client::List::iterator*/auto it = clients.begin(); it != clients.end(); ++it)
 	{
 		client = *it;
 		if (client->isConnected())

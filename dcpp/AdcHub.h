@@ -23,7 +23,7 @@
 #include "AdcCommand.h"
 #include "Socket.h"
 #ifdef _USELUA
-#include "ScriptManager.h"
+	#include "ScriptManager.h"
 #endif
 #include "QueueManager.h"
 #include "HubUsersMap.h" //RSX++
@@ -54,7 +54,6 @@ public:
 	virtual void hubMessage(const string& aMessage, bool thirdPerson = false);
 	virtual void privateMessage(const OnlineUser& user, const string& aMessage, bool thirdPerson = false);
 	virtual void sendUserCmd(const UserCommand& command, const StringMap& params);
-//	virtual void search(int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken);
 	virtual void search(int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken, const StringList& aExtList);
 	virtual void password(const string& pwd);
 	virtual void info(bool alwaysSend);
@@ -64,7 +63,7 @@ public:
 
 	virtual string escape(string const& str) const { return AdcCommand::escape(str, false); }
 	virtual void send(const AdcCommand& cmd);
-		void refreshUserList(bool);
+	void refreshUserList(bool);
 
 	string getMySID() { return AdcCommand::fromSID(sid); }
 	void sendUserCmd(const string& aUserCmd) { send(aUserCmd); }
@@ -165,9 +164,9 @@ private:
 		}
 	}
 
-	string startChecking(const string& aParams) { return users.startChecking(this, aParams); }//s
-	void stopChecking()	{ users.stopCheck(); }//s
-	void stopMyINFOCheck() { users.stopMyINFOCheck(); }//s
+	string startChecking(const string& aParams) { return users.startChecking(this, aParams); }//checker
+	void stopChecking()	{ users.stopCheck(); }
+	void stopMyINFOCheck() { users.stopMyINFOCheck(); }
 	
 	static const vector<StringList> searchExts;
 

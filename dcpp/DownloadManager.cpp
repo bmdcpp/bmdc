@@ -104,7 +104,7 @@ void DownloadManager::on(TimerManagerListener::Second, uint64_t aTick) throw() {
 					if(BOOLSETTING(AUTODROP_DISCONNECT) && isUserList) {
 						d->getUserConnection().disconnect();
 					} else {
-						if(BOOLSETTING(USE_SDL_KICK))//
+						if(BOOLSETTING(USE_SDL_KICK))
 						{
 							if(d->getType() == Transfer::TYPE_FULL_LIST && d->getStart() > 0) {
 								if(d->isSet(Download::FLAG_CHECK_FILE_LIST)) {
@@ -130,7 +130,7 @@ void DownloadManager::on(TimerManagerListener::Second, uint64_t aTick) throw() {
 	//RSX++
 	for(SlowChecks::iterator j = slowdl.begin(); j != slowdl.end(); ++j) {
 		string cheat = str(boost::format("Too low download speed (%1%/s)") % Util::formatBytes(j->first));
-		ClientManager::getInstance()->setCheating(j->second, "", cheat, SETTING(SDL_RAW), BOOLSETTING(SHOW_SDL_RAW), false, true, false, true);
+		ClientManager::getInstance()->setCheating(j->second, "LowSpeed", cheat, SETTING(SDL_RAW), BOOLSETTING(SHOW_SDL_RAW), false, true, false, true);
 	}
 	//END
 
@@ -443,7 +443,7 @@ void DownloadManager::failDownload(UserConnection* aSource, const string& reason
 			if(reason == string("No slots available"))
 				ClientManager::getInstance()->setCheating(aSource->getUser(), "MaxedOut", "No slots for TestSUR - SlotLocker", -1, true, true, false, true, false);
 			else
-				ClientManager::getInstance()->setCheating(aSource->getUser(), reason, "", -1, false, true, false, true, false);
+				ClientManager::getInstance()->setCheating(aSource->getUser(), reason, reason, -1, false, true, false, true, false);
 			QueueManager::getInstance()->putDownload(d, true);
 			removeConnection(aSource);
 			return;
@@ -563,7 +563,7 @@ void DownloadManager::fileNotAvailable(UserConnection* aSource) {
 		fire(DownloadManagerListener::Failed(), d, "Check complete, idle");
 
 		if(!aSource->isSet(UserConnection::FLAG_TESTSURNA))
-			ClientManager::getInstance()->setCheating(aSource->getUser(), "File Not Available", "", /*"!TESTSUR_FLNOAVLABLE"*/-1, false, false, false, true, false);//todo actions
+			ClientManager::getInstance()->setCheating(aSource->getUser(), "File Not Available", "N/A", /*"!TESTSUR_FLNOAVLABLE"*/-1, false, false, false, true, false);//todo actions
 		else
 			ClientManager::getInstance()->setCheating(aSource->getUser(), "File Not Available", "", /*"!TESTSUR_FLNOAVLABLE"*/-1, false, false, false, true, false);//todo actions
 

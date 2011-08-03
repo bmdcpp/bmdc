@@ -545,7 +545,7 @@ void TreeView::saveSettings()
 		WSET(name + "-visibility", columnVisibility);
 	}
 }
-//COpy Menu =p
+//Copy Menu =p
 void TreeView::buildCopyMenu(GtkWidget *wid)
 {
 	GtkWidget *menuItem;

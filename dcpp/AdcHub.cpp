@@ -191,7 +191,8 @@ void AdcHub::handle(AdcCommand::INF, AdcCommand& c) throw() {
 	}
 
 	//RSX++ 
-	if(getCheckedAtConnect() && getCheckMyInfo()) {
+	if(getCheckedAtConnect()/* && getCheckMyInfo()*/) 
+	{
 		string report = u->getIdentity().myInfoDetect(*u);
 		if(!report.empty()) {
 			cheatMessage(report);
@@ -735,7 +736,7 @@ const vector<StringList>& AdcHub::getSearchExts() {
 	
 	auto& xSearchExts = const_cast<vector<StringList>&>(searchExts);
 	
-		/// @todo simplify this as searchExts[0] = { "mp3", "etc" } when VC++ supports initializer lists
+	/// @todo simplify this as searchExts[0] = { "mp3", "etc" } when VC++ supports initializer lists
 
 	// these extensions *must* be sorted alphabetically!
 
@@ -978,7 +979,8 @@ void AdcHub::info(bool /*alwaysSend*/) {
 	addParam(lastInfoMap, c, "HN", Util::toString(counts.normal));
 	addParam(lastInfoMap, c, "HR", Util::toString(counts.registered));
 	addParam(lastInfoMap, c, "HO", Util::toString(counts.op));
-	addParam(lastInfoMap, c, "VE", "++ " VERSIONSTRING);
+	addParam(lastInfoMap, c, "AP", "++"); 
+	addParam(lastInfoMap, c, "VE", VERSIONSTRING);
 	addParam(lastInfoMap, c, "AW", Util::getAway() ? "1" : Util::emptyString);
 
 	int limit = ThrottleManager::getInstance()->getDownLimit();
@@ -998,7 +1000,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 	string su;
 	if(CryptoManager::getInstance()->TLSOk()) {
 		su += ADCS_FEATURE + ",";
-		const vector<uint8_t> &kp = CryptoManager::getInstance()->getKeyprint();
+		/*const vector<uint8_t>*/auto &kp = CryptoManager::getInstance()->getKeyprint();
 		addParam(lastInfoMap, c, "KP", "SHA256/" + Encoder::toBase32(&kp[0], kp.size()));
 	}
 
@@ -1109,7 +1111,7 @@ void AdcHub::on(Line l, const string& aLine) throw() {
 		fire(ClientListener::StatusMessage(), this, "<ADC>" + aLine + "</ADC>");
 	}
 
-    #ifdef _USELUA
+   #ifdef _USELUA
 	if (onClientMessage(this, aLine))
 		return;
 	#endif
@@ -1142,14 +1144,12 @@ void AdcHub::refreshUserList(bool) {
 }
 
 #ifdef _USELUA
-//aded
 bool AdcScriptInstance::onClientMessage(AdcHub* aClient, const string& aLine) {
 	Lock l(cs);
 	MakeCall("adch", "DataArrival", 1, aClient, aLine);
 	return GetLuaBool();
 
 }
-//end
 #endif
 
 } // namespace dcpp

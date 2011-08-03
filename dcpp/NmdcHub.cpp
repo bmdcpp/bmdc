@@ -129,7 +129,7 @@ void NmdcHub::putUser(const string& aNick) {
 		users.erase(i);
 	}
 	ClientManager::getInstance()->putOffline(ou);
-	ou->dec();//
+	ou->dec();
 }
 
 void NmdcHub::clearUsers() {
@@ -409,7 +409,7 @@ void NmdcHub::onLine(const string& aLine) throw() {
 			setMyIdentity(u.getIdentity());
 		}else {
            //RSX++
-               // if(getCheckedAtConnect() && getCheckMyInfo()) 
+            if(getCheckedAtConnect() /*&& getCheckMyInfo()*/) 
 			 	{
                     string report = u.getIdentity().myInfoDetect(u);
                     if(!report.empty()) {
@@ -514,6 +514,7 @@ void NmdcHub::onLine(const string& aLine) throw() {
 				supportFlags |= SUPPORTS_USERIP2;
 			}
 		}
+		  
 	} else if(cmd == "$UserCommand") {
 		string::size_type i = 0;
 		string::size_type j = param.find(' ');
@@ -613,7 +614,7 @@ void NmdcHub::onLine(const string& aLine) throw() {
 	}else if(cmd == "$HubTopic") {
 		//dcdebug("Nmdc topic:%s",aLine.c_str());
 		 string line;
-		 string str2="Tema hubu:";
+		 string str2="Tema hubu:";//TODO change to fire topic ?
 		 line=aLine;
 		 line.replace(0,9,str2);
 
@@ -825,7 +826,7 @@ void NmdcHub::myInfo(bool alwaysSend) {
 	}
 	char modeChar = '?';
 	if(SETTING(OUTGOING_CONNECTIONS) == SettingsManager::OUTGOING_SOCKS5)
-		modeChar = 'P';
+		modeChar = '5';
 	else if(ClientManager::getInstance()->isActive(getHubUrl()))
 		modeChar = 'A';
 	else
@@ -849,7 +850,7 @@ void NmdcHub::myInfo(bool alwaysSend) {
 	string myInfoB = tmp4 + Util::toString(SETTING(SLOTS));
 	string myInfoC = uMin +
 		">$ $" + uploadSpeed + "\x01$" + fromUtf8(escape(SETTING(EMAIL))) + '$';
-	string share=getHideShare() ? "0" : ShareManager::getInstance()->getShareSizeString();//patched no share NMDC
+	string share = getHideShare() ? "0" : ShareManager::getInstance()->getShareSizeString();//no share NMDC
 	string myInfoD = share + "$|";
 	// we always send A and C; however, B (slots) and D (share size) can frequently change so we delay them if needed
  	if(lastMyInfoA != myInfoA || lastMyInfoC != myInfoC ||
@@ -1040,8 +1041,7 @@ void NmdcHub::on(Minute, uint64_t aTick) throw() {
 		lastProtectedIPsUpdate = aTick;
 	}
 }
-
-//add
+//Refresh UL
 void NmdcHub::refreshUserList(bool refreshOnly) {
 	if(refreshOnly) {
 		Lock l(cs);

@@ -151,8 +151,16 @@ void ConnectionManager::on(TimerManagerListener::Second, uint64_t aTick) throw()
 					continue;
 				}
 
-				if(cqi->getLastAttempt() == 0 || (((cqi->getLastAttempt() + 60*1000) < aTick) && !attemptDone)) {
-					cqi->setLastAttempt(aTick);
+				if(cqi->getErrors() == -1 && cqi->getLastAttempt() != 0) {
+					// protocol error, don't reconnect except after a forced attempt
+					continue;
+				} 
+
+				//if(cqi->getLastAttempt() == 0 || (((cqi->getLastAttempt() + 60*1000) < aTick) && !attemptDone)) {
+				if(cqi->getLastAttempt() == 0 || (!attemptDone &&
+					cqi->getLastAttempt() + 60 * 1000 * max(1, cqi->getErrors()) < aTick))
+				{
+				 	cqi->setLastAttempt(aTick);
 
 					QueueItem::Priority prio = QueueManager::getInstance()->hasDownload(cqi->getUser());
 
@@ -176,7 +184,9 @@ void ConnectionManager::on(TimerManagerListener::Second, uint64_t aTick) throw()
 					} else if(cqi->getState() == ConnectionQueueItem::NO_DOWNLOAD_SLOTS && startDown) {
 						cqi->setState(ConnectionQueueItem::WAITING);
 					}
-				} else if(((cqi->getLastAttempt() + 50*1000) < aTick) && (cqi->getState() == ConnectionQueueItem::CONNECTING)) {
+				 //}else if(((cqi->getLastAttempt() + 50*1000) < aTick) && (cqi->getState() == ConnectionQueueItem::CONNECTING)) {
+				 } else if(cqi->getState() == ConnectionQueueItem::CONNECTING && cqi->getLastAttempt() + 50 * 1000 < aTick) {
+					cqi->setErrors(cqi->getErrors() + 1);	
 					fire(ConnectionManagerListener::Failed(), cqi, _("Connection timeout"));
 					cqi->setState(ConnectionQueueItem::WAITING);
 				}
@@ -457,6 +467,7 @@ void ConnectionManager::on(UserConnectionListener::MyNick, UserConnection* aSour
 		Lock l(cs);
 		for(ConnectionQueueItem::Iter i = downloads.begin(); i != downloads.end(); ++i) {
 			ConnectionQueueItem* cqi = *i;
+			cqi->setErrors(0); 
 			if((cqi->getState() == ConnectionQueueItem::CONNECTING || cqi->getState() == ConnectionQueueItem::WAITING) &&
 				cqi->getUser().user->getCID() == cid)
 			{
@@ -484,7 +495,7 @@ void ConnectionManager::on(UserConnectionListener::MyNick, UserConnection* aSour
 	if(ClientManager::getInstance()->isOp(aSource->getUser(), aSource->getHubUrl()))
 		aSource->setFlag(UserConnection::FLAG_OP);
 
-	if( aSource->isSet(UserConnection::FLAG_INCOMING) ) {
+	if(aSource->isSet(UserConnection::FLAG_INCOMING) ) {
 		aSource->myNick(aSource->getToken());
 		aSource->lock(CryptoManager::getInstance()->getLock(), CryptoManager::getInstance()->getPk());
 	}
@@ -514,7 +525,7 @@ void ConnectionManager::on(UserConnectionListener::CLock, UserConnection* aSourc
 	aSource->setState(UserConnection::STATE_DIRECTION);
 	aSource->direction(aSource->getDirectionString(), aSource->getNumber());
 	aSource->key(CryptoManager::getInstance()->makeKey(aLock));
-//det ..Pk String
+//detection ..Pk String/Lock string
 	if(aSource->getUser())
 		ClientManager::getInstance()->setPkLock(aSource->getUser(), aPk, aLock);
 
@@ -776,12 +787,12 @@ void ConnectionManager::shutdown() {
 bool ConnectionManager::checkKeyprint(UserConnection *aSource) {
         dcassert(aSource->getUser());
 
-        vector<uint8_t> kp = aSource->getKeyprint();
+        /*vector<uint8_t>*/auto kp = aSource->getKeyprint();
         if(kp.empty()) {
                 return true;
         }
 
-        string kp2 = ClientManager::getInstance()->getField(aSource->getUser()->getCID(), aSource->getHubUrl(), "KP");
+        /*string*/auto kp2 = ClientManager::getInstance()->getField(aSource->getUser()->getCID(), aSource->getHubUrl(), "KP");
         if(kp2.empty()) {
                 // TODO false probably
                 return true;
@@ -806,7 +817,7 @@ bool ConnectionManager::checkKeyprint(UserConnection *aSource) {
 
 // UserConnectionListener
 void ConnectionManager::on(UserConnectionListener::Supports, UserConnection* conn, const StringList& feat) throw() {
-	string sup = Util::emptyString;//det
+	string sup = Util::emptyString;
 	for(StringList::const_iterator i = feat.begin(); i != feat.end(); ++i) {
 		sup += (string)*i + " ";	//det
 		if(*i == UserConnection::FEATURE_MINISLOTS) {

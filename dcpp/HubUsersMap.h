@@ -327,19 +327,20 @@ private:
 						} else if(action & ADD_FILELIST_CHECK) {
 							string fname;
 							try {
-								/*string */fname = QueueManager::getInstance()->addFileListCheck(ou->getUser(), client->getHubUrl());
+								fname = QueueManager::getInstance()->addFileListCheck(ou->getUser(), client->getHubUrl());
 								if(!fname.empty())
 									ou->getIdentity().setFileListQueued(fname);
 							} catch(...) {
-							//catch(const Exception& e){
-								//
+							
 							}
 						} else if(action & REMOVE_CLIENT_CHECK) {
 							string path = Util::getPath(Util::PATH_USER_CONFIG) + "TestSURs//"+ ou->getIdentity().getTestSURQueued();
 							if(!Util::fileExists(path)) {
 								ou->getIdentity().setTestSURQueued(Util::emptyString);
 							}
-							try {QueueManager::getInstance()->remove(path);}catch(...){ }
+							try {
+								QueueManager::getInstance()->remove(path);
+							}catch(...){ }
 						}
 					}
 
@@ -369,5 +370,5 @@ private:
 
 /**
  * @file
- * $Id: HubUsersMap.h 141 2009-08-10 00:06:13Z adrian_007 $
+ * $Id: HubUsersMap.h 141 2011-08-10 00:06:13Z adrian_007 $
  */

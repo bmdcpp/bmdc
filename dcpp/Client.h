@@ -18,11 +18,9 @@
 
 #ifndef DCPLUSPLUS_DCPP_CLIENT_H
 #define DCPLUSPLUS_DCPP_CLIENT_H
-
+#include "compiler.h"
 #include "forward.h"
-
 #include "Atomic.h"
-
 #include "User.h"
 #include "Speaker.h"
 #include "BufferedSocketListener.h"
@@ -49,8 +47,8 @@ class Client : public Speaker<ClientListener>, public BufferedSocketListener, pr
 {
 public:
 	typedef Client* Ptr;
-	typedef list<Ptr> List;
-	typedef List::iterator Iter;
+	//typedef list<Ptr> List;
+	//typedef List::iterator Iter;
 
 	virtual void connect();
 	virtual void disconnect(bool graceless);
@@ -94,12 +92,13 @@ public:
 	string getIpPort() const { return getIp() + ':' + Util::toString(port); }
 	string getLocalIp() const;
 
-	void updated(const OnlineUser& aUser) {
-		fire(ClientListener::UserUpdated(), this, aUser);
-		}
 	void updated(const OnlineUserPtr& aUser)  {
 		fire(ClientListener::UserUpdated(), this, aUser);
 	 }
+
+	void updated(const OnlineUser& aUser) {
+		fire(ClientListener::UserUpdated(), this, aUser);
+	}
 
 	static string getCounts() {
 		char buf[128];
@@ -159,7 +158,7 @@ public:
 	GETSET(bool, checkClients, CheckClients);
 	GETSET(bool, checkFilelists, CheckFilelists);
 	GETSET(bool, checkOnConnect, CheckOnConnect);
-	GETSET(bool, checkMyInfo, CheckMyInfo);
+//	GETSET(bool, checkMyInfo, CheckMyInfo);
 
 	GETSET(string, chatExtraInfo, ChatExtraInfo);
 	GETSET(string, favIp, FavIp);

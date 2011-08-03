@@ -17,7 +17,6 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
 
 #include "Client.h"
 
@@ -52,10 +51,10 @@ Client::Client(const string& hubURL, char separator_, bool secure_) :
 	}		
 
 	TimerManager::getInstance()->addListener(this);
-	/*RSX++*/
+	/* RSX++ */
 	setCheckedAtConnect(false);
 	cmdQueue.setClientPtr(this);
-	/*RSX++*/
+	/* RSX++ */
 }
 
 Client::~Client() throw() {
@@ -104,7 +103,7 @@ void Client::reloadSettings(bool updateNick) {
 		setCheckClients(hub->getCheckClients());
 		setCheckFilelists(hub->getCheckFilelists());
 		setCheckOnConnect(hub->getCheckOnConnect());
-		setCheckMyInfo(hub->getCheckMyInfo());
+	//	setCheckMyInfo(hub->getCheckMyInfo());
 		setChatExtraInfo(hub->getChatExtraInfo());
 		
 		setFavIp(hub->getIp());
@@ -120,7 +119,7 @@ void Client::reloadSettings(bool updateNick) {
 		setCheckClients(false);
 		setCheckFilelists(false);
 		setCheckOnConnect(false);
-		setCheckMyInfo(true);
+//		setCheckMyInfo(true);
 		 
 		setChatExtraInfo(Util::emptyString);
 		setFavIp(Util::emptyString);
