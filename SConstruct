@@ -378,7 +378,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if not LIB_IS_UPNP:
 		env.Program(target = PACKAGE, source = [libdcpp, upnp,  obj_files])
 	else:
-		env.Program(target = APP_NAME, source = [dcpp, gui])		
+		env.Program(target = PACKAGE, source = [dcpp, gui])		
 
 	# i18n
 	env.MergePotFiles(source = [glade_pot_file, linux_pot_file], target = 'po/%s.pot' % PACKAGE)
