@@ -282,3 +282,5 @@ Move unordered-* out from tr1
 Add Ax => name 
 SmallFix Det.Tab
 Update Core partialy
+Fix Crash if no country folder and GeoIpCountryWhois.csv
+Fix /me hnadling

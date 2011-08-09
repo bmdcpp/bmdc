@@ -28,6 +28,12 @@ class ShellCommand
 		bool error;
 		int resultsize;
 		bool thirdPerson;
+		char * substr (const char* string, int start, int end)
+		{
+  			size_t len = (end - start + 1);
+  			char *output = (char *)malloc (len + 1);
+	 	 	return strncpy (output, &string[start], len);
+		}
 };
 
 #else

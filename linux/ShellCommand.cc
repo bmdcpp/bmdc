@@ -82,12 +82,13 @@ ShellCommand::ShellCommand(char* input, int len, bool shell)
 			{
 				thirdPerson = true;
 				//substr()
+				output = substr(output,4,strlen(output)+1);
 
-				output[0] = ' ';
+				/*output[0] = ' ';
 				output[1] = ' ';
 				output[2] = ' ';
 				output[3] = ' ';
-				output[strlen(output)-1]='\0';
+				output[strlen(output)-1]='\0';*/
 			}
 	}
 }

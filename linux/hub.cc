@@ -3833,8 +3833,9 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 	}
 
 
-	bool thirdPerson = false;
+	bool third = false;
 	string mess;
+	/* 
     size_t nestle=message.text.find("/me ")	;
 
 	if(nestle != string::npos)
@@ -3842,10 +3843,26 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 		thirdPerson=true;
 		mess=message.text;
 		mess.replace(mess.find("/me "),4,"");
-	}
+	}*/
+	mess = message.text; 
+	{	  
+		 
+		size_t nestle = message.text.find("/me");
+		if(nestle != string::npos)
+		 {
+			
+			size_t nt = message.text.find_first_of(" ",nestle);
+			size_t nend = message.text.find_last_of (" ",nestle);  
+			if( message.text.compare(0,nt,"/me") == 0) {
+				 	third = true;
+					mess.replace(0,nt+1,"");
+			}
 
-	if (thirdPerson || message.thirdPerson)
-		line += "* " + message.from->getIdentity().getNick() + " " +  (!mess.empty() ? mess : message.text);
+		}		
+	} 
+
+	if (third || message.thirdPerson)
+		line += "* " + message.from->getIdentity().getNick() + " " +  (mess.empty() ? message.text : mess);
 	else
 		line += "<" + message.from->getIdentity().getNick() + "> " + message.text;
 
