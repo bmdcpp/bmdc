@@ -580,7 +580,6 @@ void TreeView::buildCopyMenu(GtkWidget *wid)
     }
 }	
 
-
 void TreeView::onCopyRowClicked_gui(GtkMenuItem *item, gpointer data)
 {
 	TreeView *tv = (TreeView *)data;
@@ -610,12 +609,12 @@ void TreeView::onCopyRowClicked_gui(GtkMenuItem *item, gpointer data)
 			        if (gtk_tree_model_get_iter(GTK_TREE_MODEL(gtk_tree_view_get_model(tv->view)), &iter, path))
 			        {
 			         //   GtkTreeModel *m = gtk_tree_view_get_model(tv->view);
-			            data += tv->getValueAsText(&iter, title) + G_DIR_SEPARATOR;//+ '\t';
+			            data += tv->getValueAsText(&iter, title) + G_DIR_SEPARATOR;
 			        }
 			    }
 	        }
 	        
-	        data += G_DIR_SEPARATOR;//'\n';
+	        data += G_DIR_SEPARATOR;
 			
 			gtk_tree_path_free(path);
 		}

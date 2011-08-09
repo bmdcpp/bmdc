@@ -215,10 +215,10 @@ void Search::initHubs_gui()
 {
 	ClientManager::getInstance()->lock();
 
-	/*Client::List&*/ClientManager::ClientList& clients = ClientManager::getInstance()->getClients();
+	ClientManager::ClientList& clients = ClientManager::getInstance()->getClients();
 
 	Client *client = NULL;
-	for (/*Client::List::iterator*/auto it = clients.begin(); it != clients.end(); ++it)
+	for (auto it = clients.begin(); it != clients.end(); ++it)
 	{
 		client = *it;
 		if (client->isConnected())
@@ -560,7 +560,6 @@ void Search::search_gui()
 	{
 		dcdebug("Sent ADC extensions : %s\n",Util::toString(";", exts).c_str());//NOTE: core 0.770
 
-		//SearchManager::getInstance()->search(clients, text, llsize, (SearchManager::TypeModes)ftype, mode, "manual");
 		SearchManager::getInstance()->search(clients, text, llsize, (SearchManager::TypeModes)ftype, mode, "manual", exts);//NOTE: core 0.770
 
 		if (BOOLSETTING(CLEAR_SEARCH)) // Only clear if the search was sent.
@@ -1095,7 +1094,7 @@ void Search::onCheckOp_gui(GtkToggleButton *button, gpointer data)
 	Search *s = (Search *)data;
 	ClientManager::ClientList& clients = ClientManager::getInstance()->getClients();
 	Client *client = NULL;
-	for (/*Client::List::iterator*/auto it = clients.begin(); it != clients.end(); ++it)
+	for (auto it = clients.begin(); it != clients.end(); ++it)
 	{
 		client = *it;
 		if (client->isConnected())

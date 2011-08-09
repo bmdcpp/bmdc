@@ -870,7 +870,6 @@ void Transfers::getParams_client(StringMap& params, ConnectionQueueItem* cqi)
 
 void Transfers::getParams_client(StringMap& params, Transfer* tr)
 {
-	// NOTE: const HintedUser getHintedUser() const;
 	const HintedUser user = tr->getHintedUser();//NOTE: core 0.762
 	double percent = 0.0;
 
@@ -1032,10 +1031,6 @@ void Transfers::on(ConnectionManagerListener::Connected, ConnectionQueueItem* cq
 
 void Transfers::on(ConnectionManagerListener::Removed, ConnectionQueueItem* cqi) throw()
 {
-// 	typedef Func2<Transfers, const string, bool> F2;
-// 	F2* f2 = new F2(this, &Transfers::removeConnection_gui, cqi->getUser()->getCID().toBase32(), cqi->getDownload());
-// 	WulforManager::get()->dispatchGuiFunc(f2);
-
 	string cid = cqi->getUser().user->getCID().toBase32();//NOTE: core 0.762
 	typedef Func2<Transfers, const string, bool> F2;
 	F2* f2 = new F2(this, &Transfers::removeConnection_gui, cid, cqi->getDownload());

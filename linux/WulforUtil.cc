@@ -1035,7 +1035,7 @@ GtkStockItem WulforUtil::icons[] ={
 
 GdkPixbuf *WulforUtil::loadCountry(const string &country)
 {
-
+	GError *error = NULL;
 	gtk_stock_add(icons,G_N_ELEMENTS(icons));
 	GtkIconFactory *ffactory = gtk_icon_factory_new();
 	for (int i = 0; i < G_N_ELEMENTS(icons); i++)
@@ -1045,9 +1045,9 @@ GdkPixbuf *WulforUtil::loadCountry(const string &country)
 			{
 				gchar *path = g_strdup_printf(_DATADIR "/country/%s.png",
 		                              icons[i].stock_id);
-				GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(path, NULL);
+				GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(path, &error);
 					if (pixbuf == NULL)
-						g_error("Cannot open stock image: %s", path);
+						g_warning("Cannot open stock image: %s => %s", path, error->message);
 				g_free(path);
 
 				gtk_icon_factory_add(ffactory, icons[i].stock_id,
@@ -1060,12 +1060,14 @@ GdkPixbuf *WulforUtil::loadCountry(const string &country)
 
 	GtkStockItem item[] ={{NONE, "questionb"}};
 	gchar *path = g_strdup_printf(_DATADIR "/country/%s.png", item[0].stock_id);
-	GdkPixbuf *buf = gdk_pixbuf_new_from_file(path, NULL);
+	GdkPixbuf *buf = gdk_pixbuf_new_from_file(path, &error);
 	if(buf != NULL)
 		return buf;
 	else
+	{
+		g_warning("load error %s",error->message);
 		return NULL;
-
+	}
 }
 
 std::string WulforUtil::StringToUpper(std::string myString)
@@ -1080,7 +1082,7 @@ std::string WulforUtil::StringToUpper(std::string myString)
 
 string WulforUtil::getCC(string _countryname)
 {
-	string _cc=StringToUpper(_countryname);
+	string _cc = StringToUpper(_countryname);
 	 for(uint8_t q = 0; q < (sizeof(CountryNames) / sizeof(CountryNames[0])); q++)
 	 {
 		if(_cc == CountryNames[q])

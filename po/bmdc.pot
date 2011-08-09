@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-08-03 22:01+0200\n"
+"POT-Creation-Date: 2011-08-04 18:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2557,7 +2557,7 @@ msgstr ""
 msgid "*** Available commands:"
 msgstr ""
 
-#: linux/WulforUtil.cc:1547
+#: linux/WulforUtil.cc:1549
 msgid "*** Info on "
 msgstr ""
 
@@ -2565,11 +2565,11 @@ msgstr ""
 msgid "*** T E S T ***"
 msgstr ""
 
-#: linux/WulforUtil.cc:1420
+#: linux/WulforUtil.cc:1422
 msgid "---------- Cleaning the chat ----------"
 msgstr ""
 
-#: linux/WulforUtil.cc:1422
+#: linux/WulforUtil.cc:1424
 msgid "---------- The chat has been cleaned ----------"
 msgstr ""
 
@@ -2699,7 +2699,7 @@ msgstr ""
 msgid "Alias add uname -a as A"
 msgstr ""
 
-#: linux/WulforUtil.cc:1454
+#: linux/WulforUtil.cc:1456
 msgid "Aliases not found."
 msgstr ""
 
@@ -2799,7 +2799,7 @@ msgstr ""
 msgid "Away mode message on/off"
 msgstr ""
 
-#: linux/WulforUtil.cc:1249 linux/WulforUtil.cc:1262 linux/hub.cc:2137
+#: linux/WulforUtil.cc:1251 linux/WulforUtil.cc:1264 linux/hub.cc:2137
 #: linux/mainwindow.cc:482 linux/privatemessage.cc:874
 msgid "Away mode off"
 msgstr ""
@@ -2808,7 +2808,7 @@ msgstr ""
 msgid "Away mode on"
 msgstr ""
 
-#: linux/WulforUtil.cc:1256
+#: linux/WulforUtil.cc:1258
 msgid "Away mode on: "
 msgstr ""
 
@@ -2903,7 +2903,7 @@ msgstr ""
 msgid "Command name already exists"
 msgstr ""
 
-#: linux/WulforUtil.cc:1238
+#: linux/WulforUtil.cc:1240
 msgid "Command send: "
 msgstr ""
 
@@ -3560,7 +3560,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: linux/WulforUtil.cc:1300
+#: linux/WulforUtil.cc:1302
 msgid "No 0 Slots!!"
 msgstr ""
 
@@ -3793,7 +3793,7 @@ msgstr ""
 msgid "Set Slots to n"
 msgstr ""
 
-#: linux/WulforUtil.cc:1307
+#: linux/WulforUtil.cc:1309
 msgid "Set Slots to:"
 msgstr ""
 
@@ -4139,7 +4139,7 @@ msgstr ""
 msgid "Uploaded "
 msgstr ""
 
-#: linux/WulforUtil.cc:1411
+#: linux/WulforUtil.cc:1413
 msgid "Uptime: "
 msgstr ""
 
@@ -4454,7 +4454,7 @@ msgstr ""
 msgid "file list from "
 msgstr ""
 
-#: linux/WulforUtil.cc:1269
+#: linux/WulforUtil.cc:1271
 msgid "project home: "
 msgstr ""
 
