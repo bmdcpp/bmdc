@@ -94,7 +94,7 @@ Hub::Hub(const string &address, const string &encoding):
 	nickView.insertColumn(N_("Generator"), G_TYPE_STRING, TreeView::STRING, 80);//Generator
 	nickView.insertColumn(N_("Support"), G_TYPE_STRING, TreeView::STRING, 80);
 	nickView.insertHiddenColumn("Country", GDK_TYPE_PIXBUF);//Country
-	nickView.insertHiddenColumn("ClientType", G_TYPE_STRING); //User/BOT/OP/ADMIN/(Fav)/User
+	nickView.insertHiddenColumn("ClientType", G_TYPE_STRING); //User/BOT/OP/ADMIN/FavUser
 	nickView.insertHiddenColumn("Icon", G_TYPE_STRING);
 	nickView.insertHiddenColumn("Nick Order", G_TYPE_STRING);
 	nickView.insertHiddenColumn("Favorite", G_TYPE_STRING);
@@ -599,8 +599,8 @@ void Hub::updateUser_gui(ParamMap params)
 			nickView.col(N_("Hubs")), hubs.c_str(),
 			nickView.col("PK"), sup.c_str(),
 			nickView.col(N_("Cheat")), cheat.c_str(),
-         nickView.col("Generator"), params["FLGEN"].c_str(),
-         nickView.col(N_("Support")), params["SUPPORT"].c_str(),
+			nickView.col("Generator"), params["FLGEN"].c_str(),
+			nickView.col(N_("Support")), params["SUPPORT"].c_str(),
 			nickView.col("ClientType"), params["TypeC"].c_str(),
 			nickView.col("Country"), buf,
 			nickView.col("Icon"), icon.c_str(),

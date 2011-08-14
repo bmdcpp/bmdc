@@ -4,4 +4,4 @@
 PROG="rhythmbox"
 #ARTIST=`rhythmbox-client --print-playing-format '%aa - %at - %tt'`
 ARTIST=`rhythmbox-client --print-playing-format '%st %tt'`
-echo "/me listenig ( ${ARTIST} ) with RB "
+echo "/me listening ( ${ARTIST} ) with RB "

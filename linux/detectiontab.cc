@@ -1352,7 +1352,7 @@ void DetectionTab::onADSLPoints(GtkWidget *widget, gpointer data)
 {
 	DetectionTab *dt = (DetectionTab *)data;
 	const IntMap& list = RawManager::getInstance()->getADLPoints();
-	for(IntMap::const_iterator i= list.begin();i!=list.end();++i)
+	for(IntMap::const_iterator i = list.begin(); i!=list.end(); ++i)
 	{
 		StringMap params;
 		params["Points"] = Util::toString(i->first);
@@ -1384,6 +1384,7 @@ void DetectionTab::onADSLPoints(GtkWidget *widget, gpointer data)
 		RawManager::getInstance()->updateADLPoints(dt->imap);
 
 		gtk_widget_hide(dt->getWidget("dialogitemPoints"));
+		return TRUE;//TODO
 	}
 }
 bool DetectionTab::showAddPointsDialog(StringMap &params,DetectionTab *dt)

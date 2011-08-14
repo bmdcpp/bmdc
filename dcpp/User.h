@@ -202,6 +202,7 @@ public:
 	map<string, string> getReport() const;
 	string isEmpty(const string& val) const { return val.empty() ? "N/A" : val; }
 	bool isProtectedUser(const Client& c, bool OpBotHubCheck) const;
+	string getApplication() const;
 
 private:
 	typedef std::unordered_map<short, string> InfMap;

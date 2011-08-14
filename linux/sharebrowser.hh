@@ -134,11 +134,6 @@ class ShareBrowser:
 		ItemInfo(dcpp::DirectoryListing::File* f) : type(FILE), file(f) {
 			columns.insert(ParamMap::value_type("FILENAME",f->getName()));
 			columns.insert(ParamMap::value_type("TYPE",dcpp::Util::getFileExt(columns["FILENAME"])));
-			//if(columns["TYPE"].size() > 0 && columns["TYPE"][0] == '.')
-			//if(columns["COLUMN_TYPE"].size() > 0 && columns["COLUMN_TYPE"][0] == '.')
-			//	columns["TYPE"].erase(0, 1);
-			//	columns["COLUMN_TYPE"].erase(0, 1);
-
 			columns["EXACTSIZE"] = dcpp::Text::toT(dcpp::Util::formatExactSize(f->getSize()));
 			columns["SIZE"] = dcpp::Text::toT(dcpp::Util::formatBytes(f->getSize()));
 			columns["TTH"] = dcpp::Text::toT(f->getTTH().toBase32());
@@ -146,25 +141,14 @@ class ShareBrowser:
 		ItemInfo(dcpp::DirectoryListing::Directory* d) : type(DIRECTORY), dir(d) {
 			columns.insert(ParamMap::value_type("FILENAME",d->getName()));
 			columns.insert(ParamMap::value_type("EXACTSIZE",d->getComplete() ? dcpp::Util::formatExactSize(d->getTotalSize()) : _("?")));
-			//columns["COLUMN_FILENAME"] = dcpp::Text::toT(d->getName());
-			//columns["COLUMN_EXACTSIZE"] = d->getComplete() ? dcpp::Text::toT(dcpp::Util::formatExactSize(d->getTotalSize())) : _("?");
 			columns.insert(ParamMap::value_type("SIZE",d->getComplete() ? dcpp::Util::formatBytes(d->getTotalSize()) : _("?")));
-			//columns["COLUMN_SIZE"] = d->getComplete() ? dcpp::Text::toT(dcpp::Util::formatBytes(d->getTotalSize())) : _("?");
 		}
-
-		//const char *getText() const {
-		//	return columns["COLUMN_FILENAME"].c_str();
-		//}
 
 		int getImage()  const {return 0;};
 
 		int getSelectedImage() const {
 			return getImage();
 		}
-
-		/*const std::string& getText(int col) const {
-			return columns[col];
-		}*/
 
 			struct TotalSize {
 				TotalSize() : total(0) { }

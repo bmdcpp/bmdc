@@ -114,7 +114,7 @@ string Identity::getTag() const {
 		return get("TA");
 	if(get("VE").empty() || get("HN").empty() || get("HR").empty() ||get("HO").empty() || get("SL").empty())
 		return Util::emptyString;
-	return "<" + get("VE") + ",M:" + string(isTcpActive() ? "A" : "P") + ",H:" + get("HN") + "/" +
+	return "<" + getApplication() + ",M:" + string(isTcpActive() ? "A" : "P") + ",H:" + get("HN") + "/" +
 		get("HR") + "/" + get("HO") + ",S:" + get("SL") + ">";
 }
 
@@ -545,8 +545,9 @@ map<string, string> Identity::getReport() const {
 			// TODO: translate known tags and format values to something more readable
 			switch(i->first) {
 				case TAG('A','W'): name = "Away mode"; break;
+				case TAG('A','P'): name = "Aplication"; break;
 				case TAG('B','O'): name = "Bot"; break;
-				case TAG('B','C'): name = "Bad Client";break;//me
+				case TAG('B','C'): name = "Bad Client";break;//
 				case TAG('C','L'): name = "Client name"; break;
 				case TAG('C','M'): name = "Comment"; break;
 				case TAG('C','O'): name = "Connection"; break;
@@ -558,8 +559,8 @@ map<string, string> Identity::getReport() const {
 				case TAG('F','C'): name = "Fake Check status"; break;
 				case TAG('F','D'): name = "Filelist disconnects"; break;
 				case TAG('G','E'): name = "Filelist generator"; break;
-				case TAG('F','B'): name = "Filelist Base";break;//me
-				case TAG('F','I'): name = "Filelist CID";break;//me
+				case TAG('F','B'): name = "Filelist Base";break;//
+				case TAG('F','I'): name = "Filelist CID";break;//
 				case TAG('H','N'): name = "Hubs Normal"; break;
 				case TAG('H','O'): name = "Hubs OP"; break;
 				case TAG('H','R'): name = "Hubs Registered"; break;
@@ -596,7 +597,7 @@ map<string, string> Identity::getReport() const {
 				case TAG('A','5'): name = "ADL result forbiden size";break;
 				case TAG('A','6'): name = "ADL result total points";break; 
 				case TAG('A','7'): name = "ADL result no. files";break; 
-				case TAG('U','C'): name = "Commands";break;//me
+				case TAG('U','C'): name = "Commands";break;//
 				case TAG('I','C'): name = ""; break;
 				case TAG('W','O'): name = ""; break;	// for GUI purposes
 				default: name += " (unknown)";
@@ -651,4 +652,17 @@ std::map<string, string> Identity::getInfo() const {
 	}
 	return ret;
   }
+string Identity::getApplication() const {
+  auto application = get("AP");
+  auto version = get("VE");
+  if(version.empty()) {
+         return application;
+  }
+  if(application.empty()) {
+     // AP is an extension, so we can't guarantee that the other party supports it, so default to VE.
+       return version;
+  }
+  return application + ' ' + version; 
+}   
+  
 } // namespace dcpp

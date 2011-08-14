@@ -17,12 +17,12 @@ libbz2
 libssl
 libboost
 --------------
-(optional)	
-libgnome 
-libnotify >= 0.4.1
-lua5.1
-libluabind-dev
-liblua5.1-0-dev
+optional:
+ libgnome 
+ libnotify >= 0.4.1
+ lua5.1
+ libluabind-dev
+ liblua5.1-0-dev
 
 Compiling:
 ----------

@@ -70,7 +70,7 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	handCursor = gdk_cursor_new(GDK_HAND2);
 
 	GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("scroll")));
-    ///UC
+    //UC
     userCommandMenu = new UserCommandMenu(getNewTabMenu(), ::UserCommand::CONTEXT_USER);
     addChild(userCommandMenu);
     //END

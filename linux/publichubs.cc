@@ -40,14 +40,14 @@ PublicHubs::PublicHubs():
 	hubView.insertColumn(_("Description"), G_TYPE_STRING, TreeView::STRING, 350);
 	hubView.insertColumn(_("Users"), G_TYPE_INT, TreeView::INT, 75);
 	hubView.insertColumn(_("Address"), G_TYPE_STRING, TreeView::STRING, 110);
-	hubView.insertColumn(_("Country"), G_TYPE_STRING, TreeView::PIXBUF_STRING, 100,"CC");
+	hubView.insertColumn(_("Country"), G_TYPE_STRING, TreeView::PIXBUF_STRING, 100, "CountryPix");
 	hubView.insertColumn(_("Shared"), G_TYPE_INT64, TreeView::SIZE, 70);
 	hubView.insertColumn(_("Min Share"), G_TYPE_INT64, TreeView::SIZE, 80);
 	hubView.insertColumn(_("Min Slots"), G_TYPE_INT, TreeView::INT, 70);
 	hubView.insertColumn(_("Max Hubs"), G_TYPE_INT, TreeView::INT, 80);
 	hubView.insertColumn(_("Max Users"), G_TYPE_INT, TreeView::INT, 80);
 	hubView.insertColumn(_("Rating"), G_TYPE_STRING, TreeView::STRING, 70);
-	hubView.insertHiddenColumn("CC",GDK_TYPE_PIXBUF);
+	hubView.insertHiddenColumn("CountryPix",GDK_TYPE_PIXBUF);
 	hubView.finalize();
 	hubStore = gtk_list_store_newv(hubView.getColCount(), hubView.getGTypes());
 	gtk_tree_view_set_model(hubView.get(), GTK_TREE_MODEL(hubStore));
@@ -149,7 +149,17 @@ void PublicHubs::updateList_gui()
 		if (filter.getPattern().empty() || filter.match(i->getName()) ||
 			filter.match(i->getDescription()) || filter.match(i->getServer()))
 		{
-			GdkPixbuf *buf=WulforUtil::loadCountry(WulforUtil::getCC(i->getCountry()));
+			GdkPixbuf *buf = NULL;
+			string cc = Util::emptyString;
+			try {
+			cc = i->getCountry();
+			}catch(...) { }
+			if(!cc.empty())
+			{
+				string tmp = WulforUtil::getCC(cc);
+				buf = WulforUtil::loadCountry(tmp);
+			}
+			
 
 			gtk_list_store_append(hubStore, &iter);
 			gtk_list_store_set(hubStore, &iter,
@@ -164,7 +174,7 @@ void PublicHubs::updateList_gui()
 				hubView.col(_("Max Hubs")), i->getMaxHubs(),
 				hubView.col(_("Max Users")), i->getMaxUsers(),
 				hubView.col(_("Rating")), i->getRating().c_str(),
-				hubView.col("CC"), buf,
+				hubView.col("CountryPix"), buf,
 				-1);
 
 			numUsers += i->getUsers();

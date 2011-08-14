@@ -701,7 +701,7 @@ void ClientManager::on(HubUserCommand, Client* client, int aType, int ctx, const
 //RSX
 void ClientManager::setGenerator(const UserPtr& p, const string& aGenerator, const string& aCID, const string& aBase) {
 	Client* c = 0;
-	string report = Util::emptyString;
+	string report; //= Util::emptyString;
 	{
 		Lock l(cs);
 		OnlineUser* ou = findOnlineUser(p->getCID(),"",false);
@@ -713,7 +713,7 @@ void ClientManager::setGenerator(const UserPtr& p, const string& aGenerator, con
 		report = ou->getIdentity().checkFilelistGenerator(*ou);
 		c = &ou->getClient();
 	}
-	if(c /*&& !report.empty()*/) {
+	if(c && !report.empty()) {
 		c->cheatMessage(report);
 	}
 }
@@ -827,7 +827,7 @@ void ClientManager::setUnknownCommand(const UserPtr& p, const string& aUnknownCo
 
 void ClientManager::setCheating(const UserPtr& p, const string& _ccResponse, const string& _cheatString, int _actionId, bool _displayCheat,
 		bool _badClient, bool _badFileList, bool _clientCheckComplete, bool _fileListCheckComplete) {
-	OnlineUser* ou = NULL;//0
+	OnlineUser* ou = NULL;
 	string report;// = Util::emptyString;
 	{
 		Lock l(cs);
@@ -890,7 +890,7 @@ void ClientManager::fileListDisconnected(const UserPtr& p) {
 			//...
 		}
 	}
-	if(c/* && !report.empty()*/) {
+	if(c && !report.empty()) {
 		c->cheatMessage(report);
 	}
 }
@@ -921,7 +921,7 @@ void ClientManager::setListLength(const UserPtr& p, const string& listLen) {
 
 void ClientManager::checkCheating(const UserPtr& p, DirectoryListing* dl) {
 	string report;// = Util::emptyString;
-	OnlineUser* ou = NULL;//0
+	OnlineUser* ou = NULL;
 
 	{
 		Lock l(cs);
@@ -1051,7 +1051,7 @@ void ClientManager::checkCheating(const UserPtr& p, DirectoryListing* dl) {
 		ou->setFileListComplete();
 		ou->getIdentity().setFileListQueued(Util::emptyString);
 		ou->getClient().updated(ou);
-		/*if(!report.empty())*/ {
+		if(!report.empty()) {
 			ou->getClient().cheatMessage(report);
 		}
 	}

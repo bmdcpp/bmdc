@@ -21,8 +21,8 @@
 
 #include "version.h"
 
-#ifndef DCPP_REVISION
-#define DCPP_REVISION 27
+#ifndef BMDC_REVISION
+#define BMDC_REVISION 33
 #endif
 
 #define xstrver(s) strver(s)
