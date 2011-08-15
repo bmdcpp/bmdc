@@ -284,4 +284,5 @@ SmallFix Det.Tab
 Update Core partialy
 Fix Crash if no country folder and no GeoIpCountryWhois.csv in ~/.bmdc++
 Fix /me hnadling
--smallest Country Icons
+Smallest Country Icons
+Fix Hublist loading..

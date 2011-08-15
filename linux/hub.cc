@@ -553,8 +553,7 @@ void Hub::updateUser_gui(ParamMap params)
 	#else
 		GdkPixbuf *buf = WulforUtil::loadCountry("CZ");
 	#endif
-	g_object_ref(buf);
-
+	
 	if (findUser_gui(cid, &iter))
 	{
 		totalShared += shared - nickView.getValue<int64_t>(&iter, N_("Shared"));
@@ -570,7 +569,7 @@ void Hub::updateUser_gui(ParamMap params)
 			// update favorite
 			if (favorite)
 				userFavoriteMap[cid] = Nick;
-			// Update OP,Pass,Ign,Prot
+			// Update OP,Pass,Ignored,Protected
 			if(isOP)
 				userOPMap[cid] = Nick;
 			if(isPasive)
@@ -936,7 +935,7 @@ void Hub::addMessage_gui(string message, Msg::TypeMsg typemsg)
 	}
 }
 
-/* Isnpired by StrongDC catch code */
+/* Inspired by StrongDC catch code ips */
 gboolean Hub::HitIP(string name, string &sIp)
 {
 	for(int i = 0;i < name.length();i++)

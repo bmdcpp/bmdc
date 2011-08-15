@@ -152,7 +152,8 @@ void PublicHubs::updateList_gui()
 			GdkPixbuf *buf = NULL;
 			string cc = Util::emptyString;
 			try {
-			cc = i->getCountry();
+					if(i->getCountry().length() != 0 || !i->getCountry().length() < 0 )
+						cc = string(g_strdup(i->getCountry().c_str()));
 			}catch(...) { }
 			if(!cc.empty())
 			{
@@ -167,7 +168,7 @@ void PublicHubs::updateList_gui()
 				hubView.col(_("Description")), i->getDescription().c_str(),
 				hubView.col(_("Users")), i->getUsers(),
 				hubView.col(_("Address")), i->getServer().c_str(),
-				hubView.col(_("Country")), i->getCountry().c_str(),
+				hubView.col(_("Country")),g_strdup(i->getCountry().c_str()),
 				hubView.col(_("Shared")), (int64_t)i->getShared(),
 				hubView.col(_("Min Share")), (int64_t)i->getMinShare(),
 				hubView.col(_("Min Slots")), i->getMinSlots(),
@@ -291,9 +292,9 @@ void PublicHubs::onRefresh_gui(GtkWidget *widget, gpointer data)
 	F1 *func = new F1(ph, &PublicHubs::refresh_client, pos);
 	WulforManager::get()->dispatchClientFunc(func);
 
-	//typedef Func0<PublicHubs> F0;
-	//F0 *funcd = new F0(ph, &PublicHubs::updateList_gui);
-	//WulforManager::get()->dispatchGuiFunc(funcd);
+	typedef Func0<PublicHubs> F0;
+	F0 *funcd = new F0(ph, &PublicHubs::updateList_gui);
+	WulforManager::get()->dispatchGuiFunc(funcd);
 }
 
 void PublicHubs::onAddFav_gui(GtkMenuItem *item, gpointer data)
@@ -478,14 +479,14 @@ void PublicHubs::on(FavoriteManagerListener::DownloadFinished, const string &fil
 	WulforManager::get()->dispatchGuiFunc(f0);
 }
 
-void PublicHubs::on(FavoriteManagerListener::LoadedFromCache, const string& l,const string& d) throw()
+void PublicHubs::on(FavoriteManagerListener::LoadedFromCache, const string &l,const string &d) throw()
 {
 	string msg = _("Cached Hublist loaded:") + l;
 	typedef Func2<PublicHubs, string, string> Func;
 	Func *f2 = new Func(this, &PublicHubs::setStatus_gui, "statusMain", msg);
 	WulforManager::get()->dispatchGuiFunc(f2);
 
-	hubs = FavoriteManager::getInstance()->getPublicHubs();
+	//hubs = FavoriteManager::getInstance()->getPublicHubs();
 
 	Func0<PublicHubs> *f0 = new Func0<PublicHubs>(this, &PublicHubs::updateList_gui);
 	WulforManager::get()->dispatchGuiFunc(f0);
