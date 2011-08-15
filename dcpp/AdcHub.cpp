@@ -973,6 +973,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 	addParam(lastInfoMap, c, "NI", getCurrentNick());
 	addParam(lastInfoMap, c, "DE", gslotf ? gslot + " " + getCurrentDescription() : getCurrentDescription());
 	addParam(lastInfoMap, c, "SL", Util::toString(SETTING(SLOTS)));
+	addParam(lastInfoMap, c, "FS", Util::toString(UploadManager::getInstance()->getFreeSlots()));
 	addParam(lastInfoMap, c, "SS", getHideShare() ? "0" : ShareManager::getInstance()->getShareSizeString());
 	addParam(lastInfoMap, c, "SF", getHideShare() ? "0" : Util::toString(ShareManager::getInstance()->getSharedFiles()));
 	addParam(lastInfoMap, c, "EM", SETTING(EMAIL));

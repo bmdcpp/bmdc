@@ -80,7 +80,7 @@ class WulforUtil
 		///Country Related func
 		static GdkPixbuf *loadCountry(const std::string &country);
 		static std::string getCC(std::string _countryname);
-		///cmd ,UserInfo
+		///comands ,UserInfo
 		static bool checkCommand(std::string& cmd,std::string& param, std::string& message,std::string& status,bool& thirdperson);
 		static std::string getReport(const dcpp::Identity& identity);
 

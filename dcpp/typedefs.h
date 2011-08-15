@@ -24,8 +24,8 @@
 #include <cstdint>
 
 #include <string>
-#include <unordered_map>//tr1
-#include <unordered_set>//tr1
+#include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 namespace dcpp {

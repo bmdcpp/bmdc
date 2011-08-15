@@ -558,6 +558,7 @@ map<string, string> Identity::getReport() const {
 				case TAG('E','M'): name = "E-mail"; break;
 				case TAG('F','C'): name = "Fake Check status"; break;
 				case TAG('F','D'): name = "Filelist disconnects"; break;
+				case TAG('F','S'): name = "Free Slots"; break;//
 				case TAG('G','E'): name = "Filelist generator"; break;
 				case TAG('F','B'): name = "Filelist Base";break;//
 				case TAG('F','I'): name = "Filelist CID";break;//

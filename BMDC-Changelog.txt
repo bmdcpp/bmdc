@@ -286,3 +286,5 @@ Fix Crash if no country folder and no GeoIpCountryWhois.csv in ~/.bmdc++
 Fix /me hnadling
 Smallest Country Icons
 Fix Hublist loading..
+-Add FS in ADC (and in UserInfo too as Free Slots)
+Updated czech,turkish translate..
