@@ -20,7 +20,6 @@ BUILD_LOCALE_PATH = BUILD_PATH + 'locale/'
 LIB_IS_UPNP = True
 
 # todo: remove -fpermissive and fix the errors
-#'-Wno-deprecated'
 BUILD_FLAGS = {
 	'common'  : ['-I#','-fpermissive','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT' ],
 	'debug'   : ['-g', '-ggdb', '-Wall', '-D_DEBUG'], 

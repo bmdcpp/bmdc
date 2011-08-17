@@ -621,9 +621,9 @@ void ADLSearchGUI::onToggleForb(GtkWidget *widget, gpointer data)
     gchar *tmp;
     gint type;
 
-	gtk_widget_set_sensitive(s->getWidget("checkcasesensitive"),s->forbid);
-	gtk_widget_set_sensitive(s->getWidget("checkoveride1"),s->forbid);
-	gtk_widget_set_sensitive(s->getWidget("spinbuttonPoints"),s->forbid);
+	gtk_widget_set_sensitive(s->getWidget("checkcasesensitive"), s->forbid);
+	gtk_widget_set_sensitive(s->getWidget("checkoveride1"), s->forbid);
+	gtk_widget_set_sensitive(s->getWidget("spinbuttonPoints"), s->forbid);
 
 	tmp=gtk_entry_get_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")));
 	if( (tmp != "Forbidden Files") || (tmp != "Forbidden TTHS") || (tmp != "Forbidden Directories"))
@@ -631,12 +631,12 @@ void ADLSearchGUI::onToggleForb(GtkWidget *widget, gpointer data)
         type = gtk_combo_box_get_active(GTK_COMBO_BOX(s->getWidget("sourceTypeComboBox")));
         if(type == 0)
         {
-           gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")),"Forbidden Files");
-           gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"),!s->forbid);
+           gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")), "Forbidden Files");
+           gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"), !s->forbid);
         } else if (type == 1)
         {
-           gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")),"Forbidden Directories");
-           gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"),!s->forbid);
+           gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")), "Forbidden Directories");
+           gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"), !s->forbid);
         }
         else if(type == 2)
         {
@@ -645,7 +645,7 @@ void ADLSearchGUI::onToggleForb(GtkWidget *widget, gpointer data)
         }
         else if(type == 3)
         {
-            gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")),"Forbidden TTHS");
+            gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")), "Forbidden TTHS");
            gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"),!s->forbid);
         }
         else gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"),!s->forbid);;

@@ -61,7 +61,7 @@ vector<std::pair<std::string,int> > WulforUtil::actions;
 const string WulforUtil::magnetSignature = "magnet:?xt=urn:tree:tiger:";
 GtkIconFactory* WulforUtil::iconFactory = NULL;
 
-std::map<std::string,std::string> WulforUtil::m_mimetyp;//.avi - > mimetype
+std::map<std::string,std::string> WulforUtil::m_mimetyp; //.avi - > mimetype
 
 const char* WulforUtil::CountryNames[] = { 
 "ANDORRA", "UNITED ARAB EMIRATES", "AFGHANISTAN", "ANTIGUA AND BARBUDA", 
@@ -788,247 +788,247 @@ void WulforUtil::copyValue_gui(GtkTreeStore *store, GtkTreeIter *fromIter, GtkTr
 }
 
 GtkStockItem WulforUtil::icons[] ={
-		{ AD , "AD" },
-		{ AE , "AE"},
-		{ AF , "AF"},
-		{ AG , "AG"},
-		{AI , "AI"},
-		{AL , "AL"},
-	{AM , "AM"},
+	{ AD , "AD"},
+	{ AE , "AE"},
+	{ AF , "AF"},
+	{ AG , "AG"},
+	{ AI , "AI"},
+	{ AL , "AL"},
+	{ AM , "AM"},
 	{ AN , "AN"},
 	{ AO , "AO"},
 	{ AQ , "AQ"},
 	{ AR , "AR"},
-	{ AS ,"AS"},
-	{ AT ,"AT"},
-	{ AU ,"AU"},
-	{ AW ,"AW"},
-	{ AX ,"AX"},
-	{ AZ ,"AZ"},
-	{ BA ,"BA"},
-	{ BB ,"BB"},
-	{ BD ,"BD"},
-	{ BE ,"BE"},
-	{ BF ,"BF"},
-	{ BG ,"BG"},
-	{ BH ,"BH"},
-	{ BI ,"BI"},
-	{ BJ ,"BJ"},
-	{ BM ,"BM"},
-	{ BN ,"BN"},
-	{ BO ,"BO"},
-	{ BR ,"BR"},
-	{ BS ,"BS"},
-	{ BT ,"BT"},
-	{ BV ,"BV"},
-	{ BW ,"BW"},
-	{ BY ,"BY"},
-	{ BZ ,"BZ"},
-	{ CA ,"CA"},
-	{ CC ,"CC"},
-	{ CD ,"CD"},
-	{ CF ,"CF"},
-	{ CG ,"CG"},
-	{ CI ,"CI"},
-	{ CK ,"CK"},
-	{ CL ,"CL"},
-	{ CM ,"CM"},
-	{ CN ,"CN"},
-	{ CO ,"CO"},
-	{ CR ,"CR"},
-	{ CS ,"CS"},
-	{ CU ,"CU"},
-	{ CV ,"CV"},
-	{ CX ,"CX"},
-	{ CY ,"CY"},
-	{ CZ ,"CZ"},
-	{ DE ,"DE"},
-	{ DJ ,"DJ"},
-	{ DK ,"DK"},
-	{ DM ,"DM"},
-	{ DO ,"DO"},
-	{ DZ ,"DZ"},
-	{ EC ,"EC"},
-	{ EE ,"EE"},
-	{ EG ,"EG"},
-	{ EH ,"EH"},
-	{ ER ,"ER"},
-	{ ES ,"ES"},
-	{ ET ,"ET"},
-	{ FI ,"fi"},
-	{ FJ ,"FJ"},
-	{ FK ,"FK"},
-	{ FM ,"FM"},
-	{ FO ,"FO"},
-	{ FR ,"FR"},
-	{ GA ,"GA"},
-	{ GB ,"GB"},
-	{ GD ,"GD"},
-	{ GE ,"GE"},
-	{ GF ,"GF"},
-	{ GH ,"GH"},
-	{ GI ,"GI"},
-	{ GL ,"GL"},
-	{ GM ,"GM"},
-	{ GN ,"GN"},
-	{ GP ,"GP"},
-	{ GQ ,"GQ"},
-	{ GR ,"GR"},
-	{ GS ,"GS"},
-	{ GT ,"GT"},
-	{ GU ,"GU"},
-	{ GW ,"GW"},
-	{ GY ,"GY"},
-	{ HK ,"HK"},
-	{ HM ,"HM"},
-	{ HN ,"HN"},
-	{ HR ,"HR"},
-	{ HT ,"HT"},
-	{ HU, "HU"},
-	{ CH ,"CH"},
-	{ ID ,"ID"},
-	{ IE ,"IE"},
-	{ IL ,"IL"},
-	{ IN ,"IN"},
-	{ IO ,"IO"},
-	{ IQ ,"IQ"},
-	{ IR ,"IR"},
-	{ IS ,"IS"},
-	{ IT ,"IT"},
-	{ JM ,"JM"},
-	{ JO ,"JO"},
-	{ JP ,"JP"},
-	{ KE ,"KE"},
-	{ KG ,"KG"},
-	{ KH ,"KH"},
-	{ KI ,"KI"},
-	{ KM ,"KM"},
-	{ KN ,"KN"},
-	{ KP ,"KP"},
-	{ KR ,"KR"},
-	{ KW ,"KW"},
-	{ KY ,"KY"},
-	{ KZ ,"KZ"},
-	{ LA ,"LA"},
-	{ LB ,"LB"},
-	{ LC ,"LC"},
-	{ LI ,"LI"},
-	{ LK ,"LK"},
-	{ LR ,"LR"},
-	{ LS ,"LS"},
-	{ LT ,"LT"},
-	{ LU ,"LU"},
-	{ LV ,"LV"},
-	{ LY ,"LY"},
-	{ MA ,"MA"},
-	{ MC ,"MC"},
-	{ MD ,"MD"},
-	{ MG ,"MG"},
-	{ MH ,"MH"},
-	{ MK ,"MK"},
-	{ ML ,"ML"},
-	{ MM ,"MM"},
-	{ MN ,"MN"},
-	{ MO ,"MO"},
-	{ MP ,"MP"},
-	{ MQ ,"MQ"},
-	{ MR ,"MR"},
-	{ MS ,"MS"},
-	{ MT ,"MT"},
-	{ MU ,"MU"},
-	{ MV ,"MV"},
-	{ MW ,"MW"},
-	{ MX ,"MX"},
-	{ MY ,"MY"},
-	{ MZ ,"MZ"},
-	{ NA ,"NA"},
-	{ NC ,"NC"},
-	{ NE ,"NE"},
-	{ NF ,"NF"},
-	{ NG ,"NG"},
-	{ NI ,"NI"},
-	{ NL ,"NL"},
-	{ NO ,"NO"},
-	{ NP ,"NP"},
-	{ NR ,"NR"},
-	{ NU ,"NU"},
-	{ NZ ,"NZ"},
-	{ OM ,"OM"},
-	{ PA ,"PA"},
-	{ PE ,"PE"},
-	{ PF ,"PF"},
-	{ PG ,"PG"},
-	{ PH ,"PH"},
-	{ PK ,"PK"},
-	{ PL ,"PL"},
-	{ PM ,"PM"},
-	{ PN ,"PN"},
-	{ PR ,"PR"},
-	{ PS ,"PS"},
-	{ PT ,"PT"},
-	{ PW ,"PW"},
-	{ PY ,"PY"},
-	{ QA ,"QA"},
-	{ RE ,"RE"},
-	{ RO ,"RO"},
-	{ RU ,"RU"},
-	{ RW ,"RW"},
-	{ SA ,"SA"},
-	{ SB ,"SB"},
-	{ SC ,"SC"},
-	{ SD ,"SD"},
-	{ SE ,"SE"},
-	{ SG ,"SG"},
-	{ SH ,"SH"},
-	{ SI ,"SI"},
-	{ SJ ,"SJ"},
-	{ SK ,"SK"},
-	{ SL ,"SL"},
-	{ SM ,"SM"},
-	{ SN ,"SN"},
-	{ SO ,"SO"},
-	{ SR ,"SR"},
-	{ ST ,"ST"},
-	{ SV ,"SV"},
-	{ SY ,"SY"},
-	{ SZ ,"SZ"},
-	{ TC ,"TC"},
-	{ TL ,"TL"},
-	{ TM ,"TM"},
-	{ TN ,"TN"},
-	{ TO ,"TO"},
-	{ TR ,"TR"},
-	{ TT ,"TT"},
-	{ TV ,"TV"},
-	{ TW ,"TW"},
-	{ TZ ,"TZ"},
-	{ UA ,"UA"},
-	{ UG ,"UG"},
-	{ UM ,"UM"},
-	{ US ,"US"},
-	{ UY ,"UY"},
-	{ UZ ,"UZ"},
-	{ VA ,"VA"},
-	{ VC ,"VC"},
-	{ VE ,"VE"},
-	{ VG ,"VG"},
-	{ VI ,"VI"},
-	{ VN ,"VN"},
-	{ VU ,"VU"},
-	{ WF ,"WF"},
-	{ WS ,"WS"},
-	{ YE ,"YE"},
-	{ YT ,"YT"},
-	{ YU ,"YU"},
-	{ ZA ,"ZA"},
-	{ ZM ,"ZM"},
-	{ ZW ,"ZW"},
-	{ EU ,"EU"},
-	{ RS ,"RS"},
-	{ ME ,"ME"},
-	{ GG ,"GG"},
-	{ IM ,"IM"},
-	{ JE ,"JE"}
+	{ AS , "AS"},
+	{ AT , "AT"},
+	{ AU , "AU"},
+	{ AW , "AW"},
+	{ AX , "AX"},
+	{ AZ , "AZ"},
+	{ BA , "BA"},
+	{ BB , "BB"},
+	{ BD , "BD"},
+	{ BE , "BE"},
+	{ BF , "BF"},
+	{ BG , "BG"},
+	{ BH , "BH"},
+	{ BI , "BI"},
+	{ BJ , "BJ"},
+	{ BM , "BM"},
+	{ BN , "BN"},
+	{ BO , "BO"},
+	{ BR , "BR"},
+	{ BS , "BS"},
+	{ BT , "BT"},
+	{ BV , "BV"},
+	{ BW , "BW"},
+	{ BY , "BY"},
+	{ BZ , "BZ"},
+	{ CA , "CA"},
+	{ CC , "CC"},
+	{ CD , "CD"},
+	{ CF , "CF"},
+	{ CG , "CG"},
+	{ CI , "CI"},
+	{ CK , "CK"},
+	{ CL , "CL"},
+	{ CM , "CM"},
+	{ CN , "CN"},
+	{ CO , "CO"},
+	{ CR , "CR"},
+	{ CS , "CS"},
+	{ CU , "CU"},
+	{ CV , "CV"},
+	{ CX , "CX"},
+	{ CY , "CY"},
+	{ CZ , "CZ"},
+	{ DE , "DE"},
+	{ DJ , "DJ"},
+	{ DK , "DK"},
+	{ DM , "DM"},
+	{ DO , "DO"},
+	{ DZ , "DZ"},
+	{ EC , "EC"},
+	{ EE , "EE"},
+	{ EG , "EG"},
+	{ EH , "EH"},
+	{ ER , "ER"},
+	{ ES , "ES"},
+	{ ET , "ET"},
+	{ FI , "FI"},
+	{ FJ , "FJ"},
+	{ FK , "FK"},
+	{ FM , "FM"},
+	{ FO , "FO"},
+	{ FR , "FR"},
+	{ GA , "GA"},
+	{ GB , "GB"},
+	{ GD , "GD"},
+	{ GE , "GE"},
+	{ GF , "GF"},
+	{ GH , "GH"},
+	{ GI , "GI"},
+	{ GL , "GL"},
+	{ GM , "GM"},
+	{ GN , "GN"},
+	{ GP , "GP"},
+	{ GQ , "GQ"},
+	{ GR , "GR"},
+	{ GS , "GS"},
+	{ GT , "GT"},
+	{ GU , "GU"},
+	{ GW , "GW"},
+	{ GY , "GY"},
+	{ HK , "HK"},
+	{ HM , "HM"},
+	{ HN , "HN"},
+	{ HR , "HR"},
+	{ HT , "HT"},
+	{ HU , "HU"},
+	{ CH , "CH"},
+	{ ID , "ID"},
+	{ IE , "IE"},
+	{ IL , "IL"},
+	{ IN , "IN"},
+	{ IO , "IO"},
+	{ IQ , "IQ"},
+	{ IR , "IR"},
+	{ IS , "IS"},
+	{ IT , "IT"},
+	{ JM , "JM"},
+	{ JO , "JO"},
+	{ JP , "JP"},
+	{ KE , "KE"},
+	{ KG , "KG"},
+	{ KH , "KH"},
+	{ KI , "KI"},
+	{ KM , "KM"},
+	{ KN , "KN"},
+	{ KP , "KP"},
+	{ KR , "KR"},
+	{ KW , "KW"},
+	{ KY , "KY"},
+	{ KZ , "KZ"},
+	{ LA , "LA"},
+	{ LB , "LB"},
+	{ LC , "LC"},
+	{ LI , "LI"},
+	{ LK , "LK"},
+	{ LR , "LR"},
+	{ LS , "LS"},
+	{ LT , "LT"},
+	{ LU , "LU"},
+	{ LV , "LV"},
+	{ LY , "LY"},
+	{ MA , "MA"},
+	{ MC , "MC"},
+	{ MD , "MD"},
+	{ MG , "MG"},
+	{ MH , "MH"},
+	{ MK , "MK"},
+	{ ML , "ML"},
+	{ MM , "MM"},
+	{ MN , "MN"},
+	{ MO , "MO"},
+	{ MP , "MP"},
+	{ MQ , "MQ"},
+	{ MR , "MR"},
+	{ MS , "MS"},
+	{ MT , "MT"},
+	{ MU , "MU"},
+	{ MV , "MV"},
+	{ MW , "MW"},
+	{ MX , "MX"},
+	{ MY , "MY"},
+	{ MZ , "MZ"},
+	{ NA , "NA"},
+	{ NC , "NC"},
+	{ NE , "NE"},
+	{ NF , "NF"},
+	{ NG , "NG"},
+	{ NI , "NI"},
+	{ NL , "NL"},
+	{ NO , "NO"},
+	{ NP , "NP"},
+	{ NR , "NR"},
+	{ NU , "NU"},
+	{ NZ , "NZ"},
+	{ OM , "OM"},
+	{ PA , "PA"},
+	{ PE , "PE"},
+	{ PF , "PF"},
+	{ PG , "PG"},
+	{ PH , "PH"},
+	{ PK , "PK"},
+	{ PL , "PL"},
+	{ PM , "PM"},
+	{ PN , "PN"},
+	{ PR , "PR"},
+	{ PS , "PS"},
+	{ PT , "PT"},
+	{ PW , "PW"},
+	{ PY , "PY"},
+	{ QA , "QA"},
+	{ RE , "RE"},
+	{ RO , "RO"},
+	{ RU , "RU"},
+	{ RW , "RW"},
+	{ SA , "SA"},
+	{ SB , "SB"},
+	{ SC , "SC"},
+	{ SD , "SD"},
+	{ SE , "SE"},
+	{ SG , "SG"},
+	{ SH , "SH"},
+	{ SI , "SI"},
+	{ SJ , "SJ"},
+	{ SK , "SK"},
+	{ SL , "SL"},
+	{ SM , "SM"},
+	{ SN , "SN"},
+	{ SO , "SO"},
+	{ SR , "SR"},
+	{ ST , "ST"},
+	{ SV , "SV"},
+	{ SY , "SY"},
+	{ SZ , "SZ"},
+	{ TC , "TC"},
+	{ TL , "TL"},
+	{ TM , "TM"},
+	{ TN , "TN"},
+	{ TO , "TO"},
+	{ TR , "TR"},
+	{ TT , "TT"},
+	{ TV , "TV"},
+	{ TW , "TW"},
+	{ TZ , "TZ"},
+	{ UA , "UA"},
+	{ UG , "UG"},
+	{ UM , "UM"},
+	{ US , "US"},
+	{ UY , "UY"},
+	{ UZ , "UZ"},
+	{ VA , "VA"},
+	{ VC , "VC"},
+	{ VE , "VE"},
+	{ VG , "VG"},
+	{ VI , "VI"},
+	{ VN , "VN"},
+	{ VU , "VU"},
+	{ WF , "WF"},
+	{ WS , "WS"},
+	{ YE , "YE"},
+	{ YT , "YT"},
+	{ YU , "YU"},
+	{ ZA , "ZA"},
+	{ ZM , "ZM"},
+	{ ZW , "ZW"},
+	{ EU , "EU"},
+	{ RS , "RS"},
+	{ ME , "ME"},
+	{ GG , "GG"},
+	{ IM , "IM"},
+	{ JE , "JE"}
 	};
 
 /*
@@ -1078,16 +1078,16 @@ GdkPixbuf *WulforUtil::loadCountry(const string &country)
 
 std::string WulforUtil::StringToUpper(std::string myString)
 {
-  const int length = myString.length();
-  if(myString.length() == 0)
+	const int length = myString.length();
+	if(myString.length() == 0)
 		return Util::emptyString;
-  locale loc;				
+	locale loc;				
 	for(int i=0; i!=length ; ++i)
 	{
 		myString[i] = toupper(myString[i],loc);
 	}
 	
-  return myString;
+	return myString;
 }
 
 string WulforUtil::getCC(string _countryname)
@@ -1248,7 +1248,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	}
 
 	std::transform(cmd.begin(), cmd.end(), cmd.begin(), (int(*)(int))tolower);
-	/*commnads*/
+	/* commnads */
 	if(WGETB("show-commnads"))
 	{
 	    status = _("Command send: ");
@@ -1282,7 +1282,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
         if(param == "mc")
             message = string(GUI_PACKAGE " " GUI_VERSION_STRING "." GUI_VERSION_BUILD_STRING "/" VERSIONSTRING " ");
         else
-            status += string(GUI_PACKAGE " " GUI_VERSION_STRING "." GUI_VERSION_BUILD_STRING "/" VERSIONSTRING ", ") + _("project home: ") + "(Original version => http://freedcpp.googlecode.com), My Version => http://bmdc.no-ip.sk";
+            status += string(GUI_PACKAGE " " GUI_VERSION_STRING "." GUI_VERSION_BUILD_STRING "/" VERSIONSTRING ", ") + _("project home: ") + "http://bmdc.no-ip.sk";
 
 	} else if ( cmd == "ratio")
 	{
@@ -1445,7 +1445,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 		else
 			status += generateLeech();
 	}
-	//alias patch
+	//aliases
 	else if (cmd == "alias" && !param.empty())
  	{
  			StringTokenizer<string> sl(param, ' ');
@@ -1679,29 +1679,29 @@ vector<std::pair<std::string,int> >& WulforUtil::getActions()
 
 void WulforUtil::loadmimetypes()
 {
-	m_mimetyp.insert( std::pair<std::string, std::string>(".zip","application/zip"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".pdf","application/pdf"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".py","text/python"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".bin","application/octet-stream"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".iso","application/octet-stream"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".tar","application/x-tar"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".gz","application/x-tar"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".mid","audio/mid"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".rmi","audio/mid"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".midi","audio/mid"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".jpeg","image/jpeg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".jpe","image/jpeg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".jpg","image/jpeg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".png","image/png"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".svg","image/svg+xml"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".mpg","video/mpeg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".mpeg","video/mpeg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".mpe","video/mpeg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".mov","video/quicktime"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".qt","video/quicktime"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".bmp","image/bmp"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".doc","application/msword"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".docx","application/vnd.openxmlformats-officedocument.wordprocessingml.document"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".zip", "application/zip"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".pdf", "application/pdf"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".py", "text/python"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".bin", "application/octet-stream"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".iso", "application/octet-stream"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".tar", "application/x-tar"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".gz", "application/x-tar"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".mid", "audio/mid"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".rmi", "audio/mid"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".midi", "audio/mid"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".jpeg", "image/jpeg"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".jpe", "image/jpeg"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".jpg", "image/jpeg"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".png", "image/png"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".svg", "image/svg+xml"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".mpg", "video/mpeg"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".mpeg", "video/mpeg"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".mpe", "video/mpeg"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".mov", "video/quicktime"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".qt", "video/quicktime"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".bmp", "image/bmp"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".doc", "application/msword"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".rtf", "application/rtf"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".xls", "application/vnd.ms-excel"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".xlsx","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
@@ -1714,32 +1714,32 @@ void WulforUtil::loadmimetypes()
 	m_mimetyp.insert( std::pair<std::string, std::string>(".html", "text/html"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".htm", "text/html"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".txt", "text/plain"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".c","text/plain"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".h","text/plain"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".srt","text/plain"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".sfv","text/plain"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".nfo","text/plain"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".lua","text/plain"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".ini","text/plain"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".c", "text/plain"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".h", "text/plain"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".srt", "text/plain"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".sfv", "text/plain"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".nfo", "text/plain"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".lua", "text/plain"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".ini", "text/plain"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".mp3", "audio/mpeg"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".mp4", "audio/mpeg"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".avi", "audio/mpeg"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".vob", "audio/mpeg"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".mkv", "video/x-matroska"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".xhtml","application/xhtml+xml"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".xhtml", "application/xhtml+xml"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".7z", "application/x-7z-compressed"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".wmv", "video/x-ms-wmv"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".wma", "audio/x-ms-wma"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".m3u", "audio/x-mpegurl"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".xcf", "image/x-xcf"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".chm","application/x-chm"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".rar","application/rar"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".ogg","application/ogg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".ogv","application/ogg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".oga","application/ogg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".flac","audio/x-flac"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".wav","audio/x-wav"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".cue","application/x-cue"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".chm", "application/x-chm"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".rar", "application/rar"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".ogg", "application/ogg"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".ogv", "application/ogg"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".oga", "application/ogg"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".flac", "audio/x-flac"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".wav", "audio/x-wav"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".cue", "application/x-cue"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".rm", "application/vnd.rn-realmedia"));
 
 }
@@ -1749,7 +1749,7 @@ GdkPixbuf *WulforUtil::loadIconSB(std::string ext)
 	if(ext == "directory" || ext.empty())
 	{
 		GtkWidget *iwid = gtk_invisible_new ();
-		GdkPixbuf *buf = gtk_widget_render_icon(iwid,GTK_STOCK_DIRECTORY,GTK_ICON_SIZE_MENU,NULL);
+		GdkPixbuf *buf = gtk_widget_render_icon(iwid, GTK_STOCK_DIRECTORY, GTK_ICON_SIZE_MENU, NULL);
 		return buf;
 	}
 
@@ -1759,14 +1759,14 @@ GdkPixbuf *WulforUtil::loadIconSB(std::string ext)
 	if(it == m_mimetyp.end())
 	{
 		GtkWidget *iwid = gtk_invisible_new ();
-		GdkPixbuf *buf = gtk_widget_render_icon(iwid,GTK_STOCK_FILE,GTK_ICON_SIZE_MENU,NULL);
+		GdkPixbuf *buf = gtk_widget_render_icon(iwid, GTK_STOCK_FILE, GTK_ICON_SIZE_MENU, NULL);
 		return buf;
 	}
 
 	GIcon *icon =g_content_type_get_icon((const gchar *)it->second.c_str());
 	GtkIconTheme *theme = gtk_icon_theme_get_default ();
-	GtkIconInfo *info = gtk_icon_theme_lookup_by_gicon(theme,icon,(GtkIconSize)16,GTK_ICON_LOOKUP_GENERIC_FALLBACK);
-	GdkPixbuf *icon_d = gtk_icon_info_load_icon (info,NULL);
+	GtkIconInfo *info = gtk_icon_theme_lookup_by_gicon(theme,icon, (GtkIconSize)16, GTK_ICON_LOOKUP_GENERIC_FALLBACK);
+	GdkPixbuf *icon_d = gtk_icon_info_load_icon (info, NULL);
 	g_object_unref(icon);
 	return icon_d;
 

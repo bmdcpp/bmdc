@@ -15,8 +15,8 @@ BookEntry(Entry::HIGHL,_("Highliting Settings"),"highliting.glade")
 	gtk_widget_set_sensitive(getWidget("colorbuttonfg"), FALSE);
 	
 	hView.setView(GTK_TREE_VIEW(getWidget("favoriteUserView")));
-	hView.insertColumn(_("Name"),G_TYPE_STRING,TreeView::STRING,80);
-	hView.insertColumn(_("Popup"),G_TYPE_STRING, TreeView::STRING,60);
+	hView.insertColumn(_("Name"), G_TYPE_STRING,TreeView::STRING,80);
+	hView.insertColumn(_("Popup"), G_TYPE_STRING, TreeView::STRING,60);
 	hView.insertColumn(_("Bold"), G_TYPE_STRING, TreeView::STRING,60);
 	hView.insertColumn(_("Underline"), G_TYPE_STRING, TreeView::STRING,60);
 	hView.insertColumn(_("Italic"), G_TYPE_STRING, TreeView::STRING,60);
@@ -273,6 +273,9 @@ bool Highlighting::showColorDialog(StringMap &params)
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entryPopText")),params["Noti"].c_str());
 
 	gint response = gtk_dialog_run(GTK_DIALOG(getWidget("HiglitingDialog")));
+	// Fix crash, if the dialog gets programmatically destroyed.
+	if (response == GTK_RESPONSE_NONE)
+		return FALSE;
 
 	while (response == GTK_RESPONSE_OK)
 	{
@@ -298,17 +301,21 @@ bool Highlighting::showColorDialog(StringMap &params)
 			response = gtk_dialog_run(GTK_DIALOG(getWidget("HiglitingDialog")));
 		else
 		{
+			colors.bgcolor = Util::emptyString;
+			colors.fgcolor = Util::emptyString;
 			gtk_widget_hide(getWidget("HiglitingDialog"));
 			return TRUE;
 		}
 	}
+	gtk_widget_hide(getWidget("HiglitingDialog"));
+	return FALSE;
 }
 
 void Highlighting::onColorFore_clicked(GtkWidget *widget,gpointer data)
 {
 	Highlighting *hg = (Highlighting *)data;
 	GdkColor _fgcolor;
-	gtk_color_button_get_color(GTK_COLOR_BUTTON(widget),&_fgcolor);
+	gtk_color_button_get_color(GTK_COLOR_BUTTON(widget), &_fgcolor);
 	string fg;
 	fg = WulforUtil::colorToString(&_fgcolor);
 	hg->colors.fgcolor = fg;
@@ -318,7 +325,7 @@ void Highlighting::onColorBg_clicked(GtkWidget *widget,gpointer data)
 {
 	Highlighting *hg = (Highlighting *)data;
 	GdkColor _bgcolor;
-	gtk_color_button_get_color(GTK_COLOR_BUTTON(widget),&_bgcolor);
+	gtk_color_button_get_color(GTK_COLOR_BUTTON(widget), &_bgcolor);
 	string bg;
 	bg = WulforUtil::colorToString(&_bgcolor);
 	hg->colors.bgcolor = bg;
@@ -346,15 +353,17 @@ void Highlighting::addHigl_client(StringMap params)
 	cs.setUnderline(Util::toInt(params["Underline"]));
 	cs.setItalic(Util::toInt(params["Italic"]));
 	cs.setUnderline(Util::toInt(params["Underline"]));
-	if(!colors.bgcolor.empty())
+	if(/*!colors.bgcolor.empty()*/!params["BGColor"].empty())
 	{
 		cs.setHasBgColor(true);
-		cs.setBgColor(colors.bgcolor);
+		cs.setBgColor(params["BGColor"]);
+		//cs.setBgColor(colors.bgcolor);
 	}
-	if(!colors.fgcolor.empty())
+	if(/*!colors.fgcolor.empty()*/!params["FGColor"].empty())
 	{
 		cs.setHasFgColor(true);
-		cs.setFgColor(colors.fgcolor);
+		//cs.setFgColor(colors.fgcolor);
+		cs.setFgColor(params["BGColor"]);
 	}
 
 	cs.setIncludeNick(Util::toInt(params["INCNICK"]));
@@ -377,15 +386,17 @@ void Highlighting::editHigl_client(StringMap params,string name)
 	cs->setItalic(Util::toInt(params["Italic"]));
 	cs->setUnderline(Util::toInt(params["Underline"]));
 	cs->setTab(Util::toInt(params["Tab"]));
-	if(!colors.bgcolor.empty())
+	if(/*!colors.bgcolor.empty()*/!params["BGColor"].empty())
 	{
 		cs->setHasBgColor(true);
-		cs->setBgColor(colors.bgcolor);
+		//cs->setBgColor(colors.bgcolor);
+		cs->setBgColor(params["BGColor"]);
 	}
-	if(!colors.fgcolor.empty())
+	if(/*!colors.fgcolor.empty()*/!params["FGColor"].empty())
 	{
 		cs->setHasFgColor(true);
-		cs->setFgColor(colors.fgcolor);
+		//cs->setFgColor(colors.fgcolor);
+		cs->setFgColor(params["FGColor"]);
 	}
 
 	cs->setIncludeNick(Util::toInt(params["INCNICK"]));

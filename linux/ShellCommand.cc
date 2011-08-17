@@ -16,8 +16,8 @@ ShellCommand::ShellCommand(char* input, int len, bool shell)
 	if (shell == 0)
 	{
 		char testscript[strlen(input)+28];
-	        strcpy(testscript,"test -e extensions/Scripts/");
-        	strcat(testscript,input);
+	    strcpy(testscript,"test -e extensions/Scripts/");
+        strcat(testscript,input);
 		//test if script exists
 		if (system(testscript)!=0)
 		{
@@ -69,6 +69,7 @@ ShellCommand::ShellCommand(char* input, int len, bool shell)
 	{
 		strcpy(command,input);
 	}
+	
 	if (error == 0)
 	{
 	        FILE* f;
@@ -81,14 +82,7 @@ ShellCommand::ShellCommand(char* input, int len, bool shell)
 			if(strncmp(output,"/me",3) ==0)
 			{
 				thirdPerson = true;
-				//substr()
 				output = substr(output,4,strlen(output)+1);
-
-				/*output[0] = ' ';
-				output[1] = ' ';
-				output[2] = ' ';
-				output[3] = ' ';
-				output[strlen(output)-1]='\0';*/
 			}
 	}
 }
@@ -123,4 +117,3 @@ bool ShellCommand::isThirdPerson()
 {
 	return thirdPerson;
 }
-

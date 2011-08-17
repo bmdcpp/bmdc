@@ -49,7 +49,7 @@ void systemlog::add_gui(time_t t,string file)
 	line="";
 	gtk_text_buffer_get_end_iter(buffer, &iter);
 
-	line = Text::toUtf8("[ "+Util::getShortTimeString(t)+" ] "+file+"\n\0");
+	line = Text::toUtf8("[ " + Util::getShortTimeString(t)+" ] " + file + "\n\0");
 
 	gtk_text_buffer_insert(buffer, &iter, line.c_str(), line.size());
 	gtk_text_buffer_get_end_iter(buffer, &iter);
@@ -114,7 +114,7 @@ void systemlog::show()
 void systemlog::on(LogManagerListener::Message, time_t t, const string& message) throw()
 {
     typedef Func2<systemlog,time_t,std::string> F2;
-    F2 *func = new F2(this,&systemlog::add_gui,t,message);
+    F2 *func = new F2(this,&systemlog::add_gui, t, message);
     WulforManager::get()->dispatchGuiFunc(func);
 }
 

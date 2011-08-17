@@ -104,7 +104,7 @@ MainWindow::MainWindow():
 	// TTH file get dialog
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("TTHFileDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL,-1);
 	gtk_window_set_transient_for(GTK_WINDOW(getWidget("TTHFileDialog")),window);
-	///todo response@
+	///todo response
 	g_signal_connect(getWidget("TTHFileDialog"), "delete-event", G_CALLBACK(onDeleteEventMagnetDialog_gui), (gpointer)this);
 
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("transferCheckButton")), TRUE);
@@ -532,7 +532,6 @@ void MainWindow::EnbDsbLimit()
     bool isEnb = BOOLSETTING(THROTTLE_ENABLE);
     SettingsManager::getInstance()->set(SettingsManager::THROTTLE_ENABLE,!isEnb);
     GtkWidget *widget = getWidget("EnableLimit");
-    //if(isLimiting)
     if(!isEnb)
     {
         MainWindow::setMainStatus_gui(_("Throtle off"), time(NULL));
@@ -811,13 +810,13 @@ void MainWindow::setStats_gui(string hubs, string downloadSpeed,
         downloadRate = "";
     }
 	gtk_label_set_text(GTK_LABEL(getWidget("labelHubs")), hubs.c_str());
-	gtk_label_set_text(GTK_LABEL(getWidget("labelDownloadSpeed")), (string("[")+downloadRate+string("]")+downloadSpeed).c_str());
+	gtk_label_set_text(GTK_LABEL(getWidget("labelDownloadSpeed")), (string(" ") + downloadRate + string(" ") + downloadSpeed).c_str());
 	gtk_label_set_text(GTK_LABEL(getWidget("labelDownloaded")), downloaded.c_str());
-	gtk_label_set_text(GTK_LABEL(getWidget("labelUploadSpeed")), (string("[")+uploadRate+string("]")+uploadSpeed).c_str());
+	gtk_label_set_text(GTK_LABEL(getWidget("labelUploadSpeed")), (string(" ") + uploadRate+string(" ") + uploadSpeed).c_str());
 	gtk_label_set_text(GTK_LABEL(getWidget("labelUploaded")), uploaded.c_str());
 	string fslots = Util::toString(UploadManager::getInstance()->getFreeSlots());
-	string pslots = _("Slots:")+ fslots + "/" + Util::toString(SETTING(SLOTS));
-	string text = _("Shared: ") + Util::formatBytes(ShareManager::getInstance()->getShareSize())+" "+pslots;
+	string pslots = _("Slots:") + fslots + "/" + Util::toString(SETTING(SLOTS));
+	string text = _("Shared: ") + Util::formatBytes(ShareManager::getInstance()->getShareSize()) + " "+ pslots;
 	gtk_label_set_text(GTK_LABEL(getWidget("labelShare")), text.c_str());
 
 }
@@ -965,7 +964,7 @@ void MainWindow::showIgnore_gui()
 	raisePage_gui(entry->getContainer());
 }
 //END
-//SYSTEM
+//System
 void MainWindow::showSystem_gui()
 {
 	BookEntry *entry = findBookEntry(Entry::SYSTEML);
@@ -1009,7 +1008,7 @@ void MainWindow::showHigliting_gui()
 
 }
 //end
-///Detection
+//Detection
 void MainWindow::showDetection_gui()
 {
 	BookEntry *entry = findBookEntry(Entry::DET);
@@ -1475,8 +1474,8 @@ void MainWindow::onTTHFileDialog_gui(GtkWidget *widget, gpointer data)
 
 void MainWindow::onTTHFileButton_gui(GtkWidget *widget , gpointer data)
 {
-	MainWindow *mw =(MainWindow *)data;
-	GtkWidget *chooser=mw->getChooserDialog_gui();
+	MainWindow *mw = (MainWindow *)data;
+	GtkWidget *chooser = mw->getChooserDialog_gui();
 	gtk_window_set_title(GTK_WINDOW(chooser), _("Select file to Get TTH"));
 	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(chooser), GTK_FILE_CHOOSER_ACTION_OPEN);
 	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(chooser), "/home/");
@@ -1512,8 +1511,8 @@ void MainWindow::onTTHFileButton_gui(GtkWidget *widget , gpointer data)
 		string magnetlink = "magnet:?xt=urn:tree:tiger:"+ TTH +"&xl="+Util::toString(f.getSize())+"&dn="+Util::encodeURI(Text::fromT(Util::getFileName(string(temp))));
 		f.close();
 		
-		gtk_entry_set_text(GTK_ENTRY(mw->getWidget("entrymagnet")),magnetlink.c_str());
-		gtk_entry_set_text(GTK_ENTRY(mw->getWidget("entrytthfileresult")),TTH.c_str());
+		gtk_entry_set_text(GTK_ENTRY(mw->getWidget("entrymagnet")), magnetlink.c_str());
+		gtk_entry_set_text(GTK_ENTRY(mw->getWidget("entrytthfileresult")), TTH.c_str());
 		
 		}
 		catch(...)
@@ -2032,7 +2031,7 @@ void MainWindow::onSystem_gui(GtkWidget *widget, gpointer data)
 	mw->showSystem_gui();
 }
 //END
-//IgnoreU
+//Ignore
 void MainWindow::onIgnore_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
@@ -2053,7 +2052,7 @@ void MainWindow::onHighliting(GtkWidget *widget, gpointer data)
 		mw->showHigliting_gui();
 }
 //end
-///Detection
+//Detection
 void MainWindow::onDetection(GtkWidget *widget, gpointer data)
 {
 		MainWindow *mw = (MainWindow *)data;
@@ -2287,7 +2286,7 @@ void MainWindow::onStatusIconBlinkUseToggled_gui(GtkWidget *widget, gpointer dat
 
 void MainWindow::onLinkClicked_gui(GtkWidget *widget, gpointer data)
 {
-	string link = (gchar*) g_object_get_data(G_OBJECT(widget), "link");
+	string link = (gchar*)g_object_get_data(G_OBJECT(widget), "link");
 	WulforUtil::openURI(link);
 }
 
@@ -2501,8 +2500,8 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) throw()
 	lastUp = Socket::getTotalUp();
 	lastDown = Socket::getTotalDown();
 
-	WSET("up-st",Util::toString(Util::toInt64(WGETS("up-st"))+upBytes));
-	WSET("dw-st",Util::toString(Util::toInt64(WGETS("dw-st"))+downBytes));
+	WSET("up-st", Util::toString(Util::toInt64(WGETS("up-st"))+upBytes));
+	WSET("dw-st", Util::toString(Util::toInt64(WGETS("dw-st"))+downBytes));
 
 	typedef Func5<MainWindow, string, string, string, string, string> F5;
 	F5 *func = new F5(this, &MainWindow::setStats_gui, hubs, downloadSpeed, downloaded, uploadSpeed, uploaded);

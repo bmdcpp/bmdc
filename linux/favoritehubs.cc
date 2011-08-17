@@ -22,27 +22,27 @@ FavoriteHubs::FavoriteHubs():
 	gtk_widget_set_sensitive(getWidget("buttonGroups"), TRUE);
 	
 	vector<string> &charsets = WulforUtil::getCharsets();
-	WulforUtil::drop_combo(getWidget("comboboxCharset"),charsets);
+	WulforUtil::drop_combo(getWidget("comboboxCharset"), charsets);
 	
 	favoriteView.setView(GTK_TREE_VIEW(getWidget("favoriteView")));
-	favoriteView.insertColumn(_("Name"),G_TYPE_STRING, TreeView::STRING, 200);
-	favoriteView.insertColumn(_("Address"),G_TYPE_STRING, TreeView::STRING, 100);
-    favoriteView.insertColumn(_("Description"),G_TYPE_STRING, TreeView::STRING, 200);
-    favoriteView.insertColumn(_("Nick"),G_TYPE_STRING, TreeView::STRING, 100);
-    favoriteView.insertColumn(_("User Description"),G_TYPE_STRING, TreeView::STRING, 100);
-    favoriteView.insertColumn(_("Password"),G_TYPE_STRING,TreeView::STRING, 100);
-    favoriteView.insertColumn(_("Encoding"),G_TYPE_STRING, TreeView::STRING, 50);
-    favoriteView.insertColumn(_("Extra Info"),G_TYPE_STRING, TreeView::STRING, 60);
-	favoriteView.insertHiddenColumn("Group",G_TYPE_STRING);
-    favoriteView.insertHiddenColumn("Hide",G_TYPE_STRING);
-    favoriteView.insertHiddenColumn("Log",G_TYPE_STRING);
-    favoriteView.insertHiddenColumn("Clients",G_TYPE_STRING);
-    favoriteView.insertHiddenColumn("Filelists",G_TYPE_STRING);
-    favoriteView.insertHiddenColumn("onConnects",G_TYPE_STRING);
-    favoriteView.insertHiddenColumn("Mode",G_TYPE_INT);
-    favoriteView.insertHiddenColumn("IP",G_TYPE_STRING);
+	favoriteView.insertColumn(_("Name"), G_TYPE_STRING, TreeView::STRING, 200);
+	favoriteView.insertColumn(_("Address"), G_TYPE_STRING, TreeView::STRING, 100);
+    favoriteView.insertColumn(_("Description"), G_TYPE_STRING, TreeView::STRING, 200);
+    favoriteView.insertColumn(_("Nick"), G_TYPE_STRING, TreeView::STRING, 100);
+    favoriteView.insertColumn(_("User Description"), G_TYPE_STRING, TreeView::STRING, 100);
+    favoriteView.insertColumn(_("Password"), G_TYPE_STRING,TreeView::STRING, 100);
+    favoriteView.insertColumn(_("Encoding"), G_TYPE_STRING, TreeView::STRING, 50);
+    favoriteView.insertColumn(_("Extra Info"), G_TYPE_STRING, TreeView::STRING, 60);
+	favoriteView.insertHiddenColumn("Group", G_TYPE_STRING);
+    favoriteView.insertHiddenColumn("Hide", G_TYPE_STRING);
+    favoriteView.insertHiddenColumn("Log", G_TYPE_STRING);
+    favoriteView.insertHiddenColumn("Clients", G_TYPE_STRING);
+    favoriteView.insertHiddenColumn("Filelists", G_TYPE_STRING);
+    favoriteView.insertHiddenColumn("onConnects", G_TYPE_STRING);
+    favoriteView.insertHiddenColumn("Mode", G_TYPE_INT);
+    favoriteView.insertHiddenColumn("IP", G_TYPE_STRING);
     favoriteView.insertHiddenColumn("Action", G_TYPE_INT);
-    favoriteView.insertHiddenColumn("HidePassword",G_TYPE_STRING);
+    favoriteView.insertHiddenColumn("HidePassword", G_TYPE_STRING);
     favoriteView.finalize();
     favoriteStore = gtk_tree_store_newv(favoriteView.getColCount(),favoriteView.getGTypes());
     gtk_tree_view_set_model(favoriteView.get(),GTK_TREE_MODEL(favoriteStore));
@@ -51,10 +51,10 @@ FavoriteHubs::FavoriteHubs():
 
     ///Actions
     actionView.setView(GTK_TREE_VIEW(getWidget("treeviewActions")));
-    actionView.insertColumn(_("Name"),G_TYPE_STRING,TreeView::STRING,100);
-    actionView.insertColumn(_("Enabled"),G_TYPE_BOOLEAN, TreeView::BOOL,100);
-    actionView.insertHiddenColumn("ISRAW",G_TYPE_BOOLEAN);
-    actionView.insertHiddenColumn("ID",G_TYPE_INT);
+    actionView.insertColumn(_("Name"), G_TYPE_STRING,TreeView::STRING,100);
+    actionView.insertColumn(_("Enabled"), G_TYPE_BOOLEAN, TreeView::BOOL,100);
+    actionView.insertHiddenColumn("ISRAW", G_TYPE_BOOLEAN);
+    actionView.insertHiddenColumn("ID", G_TYPE_INT);
     actionView.finalize();
     actionStore = gtk_tree_store_newv(actionView.getColCount(),actionView.getGTypes());
     gtk_tree_view_set_model(actionView.get(),GTK_TREE_MODEL(actionStore));
@@ -127,15 +127,11 @@ void FavoriteHubs::show()
 
 void FavoriteHubs::initialze_client()
 {
-  //  StringMap params;
- //   typedef Func1<FavoriteHubs,StringMap> F1;
-   // const FavoriteHubEntryList& fl = FavoriteManager::getInstance()->getFavoriteHubs();
-	FavHubGroups favHubGroups = FavoriteManager::getInstance()->getFavHubGroups();
+  	FavHubGroups favHubGroups = FavoriteManager::getInstance()->getFavHubGroups();
 
     GtkTreeIter iter,fiter;
     GtkListStore *store = GTK_LIST_STORE(gtk_combo_box_get_model(GTK_COMBO_BOX(getWidget("groupsComboBox"))));
-   // GtkTreeStore *fstore = GTK_TREE_STORE(favoriteView.get());
-
+  
     for (FavHubGroups::const_iterator iq = favHubGroups.begin(); iq != favHubGroups.end(); ++iq)
 	{
 		// favorite hub properties combo box groups
@@ -145,7 +141,7 @@ void FavoriteHubs::initialze_client()
         //thinking
         gtk_tree_store_append(favoriteStore,&fiter,NULL);
         gtk_tree_store_set(favoriteStore,&fiter,
-                           favoriteView.col(_("Name")),iq->first.c_str(),
+                           favoriteView.col(_("Name")), iq->first.c_str(),
                           -1);
 
 		GtkTreeIter piter;
@@ -158,20 +154,20 @@ void FavoriteHubs::initialze_client()
 
             gtk_tree_store_append(favoriteStore,&piter,&fiter);
             gtk_tree_store_set(favoriteStore,&piter,
-                                favoriteView.col(_("Name")),(*it)->getName().c_str(),
-                                favoriteView.col(_("Address")),(*it)->getServer().c_str(),
-                                favoriteView.col(_("Description")),(*it)->getDescription().c_str(),
-                                favoriteView.col(_("Nick")),(*it)->getNick().c_str(),
-								favoriteView.col(_("User Description")),(*it)->getUserDescription().c_str(),
-								favoriteView.col(_("Password")),pass.c_str(),
-								favoriteView.col(_("Encoding")),(*it)->getEncoding().c_str(),
-								favoriteView.col(_("Extra Info")),(*it)->getChatExtraInfo().c_str(),
-								favoriteView.col("Group"),iq->first.c_str(),
-								favoriteView.col("Hide"),(*it)->getHideShare() ? "1" : "0",
-								favoriteView.col("Log"),(*it)->getLogChat() ? "1" : "0",
-								favoriteView.col("Clients"),(*it)->getCheckClients() ? "1" : "0",
-								favoriteView.col("Filelists"),(*it)->getCheckFilelists() ? "1" : "0",
-								favoriteView.col("onConnects"),(*it)->getCheckOnConnect() ? "1" : "0",
+                                favoriteView.col(_("Name")), (*it)->getName().c_str(),
+                                favoriteView.col(_("Address")), (*it)->getServer().c_str(),
+                                favoriteView.col(_("Description")), (*it)->getDescription().c_str(),
+                                favoriteView.col(_("Nick")), (*it)->getNick().c_str(),
+								favoriteView.col(_("User Description")), (*it)->getUserDescription().c_str(),
+								favoriteView.col(_("Password")), pass.c_str(),
+								favoriteView.col(_("Encoding")), (*it)->getEncoding().c_str(),
+								favoriteView.col(_("Extra Info")), (*it)->getChatExtraInfo().c_str(),
+								favoriteView.col("Group"), iq->first.c_str(),
+								favoriteView.col("Hide"), (*it)->getHideShare() ? "1" : "0",
+								favoriteView.col("Log"), (*it)->getLogChat() ? "1" : "0",
+								favoriteView.col("Clients"), (*it)->getCheckClients() ? "1" : "0",
+								favoriteView.col("Filelists"), (*it)->getCheckFilelists() ? "1" : "0",
+								favoriteView.col("onConnects"), (*it)->getCheckOnConnect() ? "1" : "0",
 								favoriteView.col("Mode"), (*it)->getMode(),
 								favoriteView.col("IP"), (*it)->getIp().c_str(),
 								favoriteView.col("HidePassword"), (*it)->getPassword().c_str(),
@@ -194,27 +190,27 @@ void FavoriteHubs::initialze_client()
 				
 			gtk_tree_store_append(favoriteStore,&fiter,NULL);
             gtk_tree_store_set(favoriteStore,&fiter,
-                                favoriteView.col(_("Name")),(*it)->getName().c_str(),
-                                favoriteView.col(_("Address")),(*it)->getServer().c_str(),
-                                favoriteView.col(_("Description")),(*it)->getDescription().c_str(),
-                                favoriteView.col(_("Nick")),(*it)->getNick().c_str(),
-								favoriteView.col(_("User Description")),(*it)->getUserDescription().c_str(),
-								favoriteView.col(_("Password")),pass.c_str(),
-								favoriteView.col(_("Encoding")),(*it)->getEncoding().c_str(),
-								favoriteView.col(_("Extra Info")),(*it)->getChatExtraInfo().c_str(),
-								favoriteView.col("Group"),"",
-								favoriteView.col("Hide"),(*it)->getHideShare() ? "1" : "0",
-								favoriteView.col("Log"),(*it)->getLogChat() ? "1" : "0",
-								favoriteView.col("Clients"),(*it)->getCheckClients() ? "1" : "0",
-								favoriteView.col("Filelists"),(*it)->getCheckFilelists() ? "1" : "0",
-								favoriteView.col("onConnects"),(*it)->getCheckOnConnect() ? "1" : "0",
+                                favoriteView.col(_("Name")), (*it)->getName().c_str(),
+                                favoriteView.col(_("Address")), (*it)->getServer().c_str(),
+                                favoriteView.col(_("Description")), (*it)->getDescription().c_str(),
+                                favoriteView.col(_("Nick")), (*it)->getNick().c_str(),
+								favoriteView.col(_("User Description")), (*it)->getUserDescription().c_str(),
+								favoriteView.col(_("Password")), pass.c_str(),
+								favoriteView.col(_("Encoding")), (*it)->getEncoding().c_str(),
+								favoriteView.col(_("Extra Info")), (*it)->getChatExtraInfo().c_str(),
+								favoriteView.col("Group"), "",
+								favoriteView.col("Hide"), (*it)->getHideShare() ? "1" : "0",
+								favoriteView.col("Log"), (*it)->getLogChat() ? "1" : "0",
+								favoriteView.col("Clients"), (*it)->getCheckClients() ? "1" : "0",
+								favoriteView.col("Filelists"), (*it)->getCheckFilelists() ? "1" : "0",
+								favoriteView.col("onConnects"), (*it)->getCheckOnConnect() ? "1" : "0",
 								favoriteView.col("Mode"), (*it)->getMode(),
 								favoriteView.col("IP"), (*it)->getIp().c_str(),
 								favoriteView.col("HidePassword"), (*it)->getPassword().c_str(),
 								-1);
 			Iters *iw = new Iters();
 			iw->main = fiter;
-			//iw->child = NULL;
+			
 			faviters.insert(FavIter::value_type((*it)->getServer(),iw));
 			
 		}
@@ -235,35 +231,26 @@ void FavoriteHubs::initActions()
 		
 		gtk_tree_store_append(actionStore,&toplevel,NULL);
 		gtk_tree_store_set(actionStore,&toplevel,
-						actionView.col(_("Name")),name.c_str(),
-						actionView.col(_("Enabled")),(*it)->getEnabled() ? TRUE : FALSE,
-						actionView.col("ISRAW"),FALSE,
-						actionView.col("ID"),(*it)->getId(),
+						actionView.col(_("Name")), name.c_str(),
+						actionView.col(_("Enabled")), (*it)->getEnabled() ? TRUE : FALSE,
+						actionView.col("ISRAW"), FALSE,
+						actionView.col("ID"), (*it)->getId(),
 						-1);
+		
+		GtkTreeIter child;
 			
-			/*Actions *act = new Actions();
-			act->enabled = (*it)->getEnabled();
-			act->iter = toplevel;
-			actions.insert(ActionsIter::value_type(name,act));*/
-			GtkTreeIter child;
-			
-			for(Action::RawsList::const_iterator i = (*it)->raw.begin(); i != (*it)->raw.end(); ++i)
-			{
-				string rname = (*i).getName();
-				gtk_tree_store_append(actionStore,&child,&toplevel);
-				gtk_tree_store_set(actionStore,&child,
+		for(Action::RawsList::const_iterator i = (*it)->raw.begin(); i != (*it)->raw.end(); ++i)
+		{
+			string rname = (*i).getName();
+			gtk_tree_store_append(actionStore,&child,&toplevel);
+			gtk_tree_store_set(actionStore,&child,
 						actionView.col(_("Name")),rname.c_str(),
 						actionView.col(_("Enabled")),(*i).getEnabled() ? TRUE : FALSE,
 						actionView.col("ISRAW"),TRUE,
 						actionView.col("ID"),(*i).getId(),
 						-1);
 				
-			/*Actions *raws = new Actions();
-			raws->enabled = (*i).getEnabled();
-			raws->citer = child;//todo
-			raws->iter = toplevel;//todo
-			praws,insert(ActionsIter::value_type(rname,raws));*/
-			}
+		}
 	}
 }
 
@@ -313,12 +300,12 @@ void FavoriteHubs::editEntry_gui(StringMap &params, GtkTreeIter *iter)
 		favoriteView.col(_("Encoding")), params["Encoding"].c_str(),
 		favoriteView.col("Group"), params["Group"].c_str(),
 		favoriteView.col("Action"), 0,
-		favoriteView.col(_("Extra Info")),params["ExtraInfo"].c_str(),
-		favoriteView.col("Hide"),params["HideShare"].c_str(),
-		favoriteView.col("Log"),params["Log"].c_str(),
-		favoriteView.col("Clients"),params["CL"].c_str(),
-		favoriteView.col("Filelists"),params["FL"].c_str(),
-		favoriteView.col("onConnects"),params["CHAT"].c_str(),
+		favoriteView.col(_("Extra Info")), params["ExtraInfo"].c_str(),
+		favoriteView.col("Hide"), params["HideShare"].c_str(),
+		favoriteView.col("Log"), params["Log"].c_str(),
+		favoriteView.col("Clients"), params["CL"].c_str(),
+		favoriteView.col("Filelists"), params["FL"].c_str(),
+		favoriteView.col("onConnects"), params["CHAT"].c_str(),
 		favoriteView.col("Mode"), Util::toInt(params["Mode"]),
 		favoriteView.col("IP"), params["IP"].c_str(),
 		-1);
@@ -334,13 +321,13 @@ void FavoriteHubs::removeEntry_gui(string address,string group)
 	while (valid)
 	{
 		
-		if(favoriteView.getString(&iter,"Group") == group)
+		if(favoriteView.getString(&iter, "Group") == group)
 		{
 			GtkTreeIter child;
 			gboolean gvalid = gtk_tree_model_iter_children(GTK_TREE_MODEL(favoriteStore),&child,&iter);
 			while(gvalid)
 			{
-					if(favoriteView.getString(&child,_("Address")) == address)
+					if(favoriteView.getString(&child, _("Address")) == address)
 					{
 						gtk_tree_store_remove(favoriteStore,&child);
 					}
@@ -613,7 +600,7 @@ void FavoriteHubs::onToggledMode_p_gui(GtkToggleButton *widget, gpointer data)
 	fh->mode.isDef = FALSE;
 	fh->mode.active = FALSE;
 	fh->mode.pasive = tmp;
-	gtk_widget_set_sensitive(fh->getWidget("entryip1"),FALSE);
+	gtk_widget_set_sensitive(fh->getWidget("entryip1"), FALSE);
 }
 
 void FavoriteHubs::onToggledMode_d_gui(GtkToggleButton *widget, gpointer data)
@@ -623,7 +610,7 @@ void FavoriteHubs::onToggledMode_d_gui(GtkToggleButton *widget, gpointer data)
 	fh->mode.isDef = tmp;
 	fh->mode.active = FALSE;
 	fh->mode.pasive = FALSE;
-	gtk_widget_set_sensitive(fh->getWidget("entryip1"),FALSE);
+	gtk_widget_set_sensitive(fh->getWidget("entryip1"), FALSE);
 }
 
 void FavoriteHubs::onAddGroupClicked_gui(GtkWidget *widget, gpointer data)
@@ -892,8 +879,8 @@ gboolean FavoriteHubs::onGroupsButtonReleased_gui(GtkWidget *widget, GdkEventBut
 bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh)
 {
 	fh->initActions();
-	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryName")),params["Name"].c_str());
-	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryAddress")),params["Address"].c_str());
+	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryName")), params["Name"].c_str());
+	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryAddress")), params["Address"].c_str());
 	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryDescription")), params["Description"].c_str());
 	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryNick")), params["Nick"].c_str());
 	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryPassword")), params["Password"].c_str());
@@ -909,7 +896,7 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 		fh->mode.active = FALSE;
 		fh->mode.pasive = FALSE;
 		fh->mode.ip = "0.0.0.0";
-		gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryip1")),params["IP"].c_str());
+		gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryip1")), params["IP"].c_str());
 	}
 	else if (params["Mode"] == "1")
 	{
@@ -918,7 +905,7 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 		fh->mode.active = TRUE;
 		fh->mode.pasive = FALSE;
 		fh->mode.ip = params["IP"];
-		gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryip1")),params["IP"].c_str());
+		gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryip1")), params["IP"].c_str());
 	}
 	else if (params["Mode"] == "2")
 	{
@@ -927,7 +914,7 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 		fh->mode.active = FALSE;
 		fh->mode.pasive = FALSE;
 		fh->mode.ip = "0.0.0.0";
-		gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryip1")),params["IP"].c_str());
+		gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryip1")), params["IP"].c_str());
 	}
 	///Groups
 	FavHubGroupsIter::const_iterator it = fh->GroupsIter.find(params["Group"]);
@@ -1066,20 +1053,20 @@ void FavoriteHubs::setRawActions_gui(FavoriteHubs *fh,StringMap params)
 	
 	while(valid)
 	{
-		gint ida = actionView.getValue<gint>(&iter,"ID");
-		gboolean isRaw = actionView.getValue<gboolean>(&iter,"ISRAW");
-		bool isActive = FavoriteManager::getInstance()->getEnabledAction(&(*entry),ida);
-		gtk_tree_store_set (actionStore, &iter,actionView.col(_("Enabled")), isActive,-1);
+		gint ida = actionView.getValue<gint>(&iter, "ID");
+		gboolean isRaw = actionView.getValue<gboolean>(&iter, "ISRAW");
+		bool isActive = FavoriteManager::getInstance()->getEnabledAction(&(*entry), ida);
+		gtk_tree_store_set (actionStore, &iter,actionView.col(_("Enabled")), isActive, -1);
 		
 		if(!isRaw)
 		{
 			GtkTreeIter child;
-			gboolean cvalid = gtk_tree_model_iter_children(GTK_TREE_MODEL(fh->actionStore),&child,&iter);
+			gboolean cvalid = gtk_tree_model_iter_children(GTK_TREE_MODEL(fh->actionStore), &child, &iter);
 			while(cvalid)
 			{
-				gint idr = actionView.getValue<gint>(&child,"ID");
-				bool isActive = FavoriteManager::getInstance()->getEnabledRaw(&(*entry),ida,idr);
-				gtk_tree_store_set (fh->actionStore, &child,actionView.col(_("Enabled")),isActive,-1);
+				gint idr = actionView.getValue<gint>(&child, "ID");
+				bool isActive = FavoriteManager::getInstance()->getEnabledRaw(&(*entry), ida, idr);
+				gtk_tree_store_set (fh->actionStore, &child,actionView.col(_("Enabled")), isActive, -1);
 				
 				cvalid = gtk_tree_model_iter_next(GTK_TREE_MODEL(fh->actionStore), &child);
 			}
@@ -1093,13 +1080,13 @@ void FavoriteHubs::setRawActions_client(FavoriteHubs *fh, StringMap params)
 {
 	GtkTreeIter iter;
 	
-	gboolean valid = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(fh->actionStore), &iter);//??
+	gboolean valid = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(fh->actionStore), &iter);
 	FavoriteHubEntry *entry = FavoriteManager::getInstance()->getFavoriteHubEntry(params["Address"]);
 	
 	while(valid)
 	{
-		gint ida = actionView.getValue<gint>(&iter,"ID");
-		gboolean isRaw = actionView.getValue<gboolean>(&iter,"ISRAW");
+		gint ida = actionView.getValue<gint>(&iter, "ID");
+		gboolean isRaw = actionView.getValue<gboolean>(&iter, "ISRAW");
 		gboolean active = actionView.getValue<gboolean>(&iter, _("Enabled"));
 		if(active)
 		{
@@ -1109,14 +1096,14 @@ void FavoriteHubs::setRawActions_client(FavoriteHubs *fh, StringMap params)
 		if(!isRaw)
 		{
 			GtkTreeIter child;
-			gboolean cvalid = gtk_tree_model_iter_children(GTK_TREE_MODEL(fh->actionStore),&child,&iter);
+			gboolean cvalid = gtk_tree_model_iter_children(GTK_TREE_MODEL(fh->actionStore), &child, &iter);
 			while(cvalid)
 			{
-				gint idr = actionView.getValue<gint>(&child,"ID");
-				gboolean active = actionView.getValue<gboolean>(&child,_("Enabled"));
+				gint idr = actionView.getValue<gint>(&child, "ID");
+				gboolean active = actionView.getValue<gboolean>(&child, _("Enabled"));
 				if(active)
 				{
-                   FavoriteManager::getInstance()->setEnabledRaw(&(*entry), ida,idr, true);
+                   FavoriteManager::getInstance()->setEnabledRaw(&(*entry), ida, idr, true);
 				}
 				cvalid = gtk_tree_model_iter_next(GTK_TREE_MODEL(fh->actionStore), &child);
 			}
@@ -1141,7 +1128,7 @@ bool FavoriteHubs::showErrorDialog_gui(const string &description, FavoriteHubs *
 	return TRUE;
 }
 
-bool FavoriteHubs::findHub_gui(const string &server, GtkTreeIter *par,GtkTreeIter *child)
+bool FavoriteHubs::findHub_gui(const string &server, GtkTreeIter *par, GtkTreeIter *child)
 {
 	FavIter::const_iterator it = faviters.find(server);
 
@@ -1180,7 +1167,7 @@ void FavoriteHubs::addEntry_client(StringMap params)
 		entry.setCheckOnConnect(Util::toInt(params["CHAT"]));
 		///ExtraInfo
 		entry.setChatExtraInfo(params["ExtraInfo"]);
-		///Modes
+		///Mode
 		entry.setMode(Util::toInt(params["Mode"]));
 		entry.setIp(params["IP"]);
 		///Groups
