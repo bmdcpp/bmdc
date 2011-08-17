@@ -32,7 +32,7 @@
 #include "File.h"
 #include "BZUtils.h"
 #include "FilteredFile.h"
-#include "RawManager.h"//
+#include "RawManager.h"
 
 namespace dcpp {
 	
@@ -813,8 +813,6 @@ void FavoriteManager::load(SimpleXML& aXml) {
 				u = ClientManager::getInstance()->getUser(nick, hubUrl);
 			} else {
 				u = ClientManager::getInstance()->getUser(CID(cid));
-				//if(u->getFirstNick().empty())
-				//	u->setFirstNick(nick);
 			}
 			IgnoredMap::iterator i = ignored_users.insert(make_pair(u->getCID(), FavoriteUser(u, nick, hubUrl))).first;
 

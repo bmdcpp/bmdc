@@ -1001,7 +1001,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 	string su;
 	if(CryptoManager::getInstance()->TLSOk()) {
 		su += ADCS_FEATURE + ",";
-		/*const vector<uint8_t>*/auto &kp = CryptoManager::getInstance()->getKeyprint();
+		auto &kp = CryptoManager::getInstance()->getKeyprint();
 		addParam(lastInfoMap, c, "KP", "SHA256/" + Encoder::toBase32(&kp[0], kp.size()));
 	}
 
@@ -1130,7 +1130,6 @@ void AdcHub::on(Second s, uint64_t aTick) throw() {
 		send("\n", 1);
 	}
 }
-
 //Refresh UL
 void AdcHub::refreshUserList(bool) {
 	Lock l(cs);
@@ -1149,7 +1148,6 @@ bool AdcScriptInstance::onClientMessage(AdcHub* aClient, const string& aLine) {
 	Lock l(cs);
 	MakeCall("adch", "DataArrival", 1, aClient, aLine);
 	return GetLuaBool();
-
 }
 #endif
 

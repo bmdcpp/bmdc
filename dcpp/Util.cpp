@@ -1095,7 +1095,7 @@ bool Util::checkExtension(const string& tmp) {
 }
 
 bool Util::fileExists(const string aFile) {
-     struct stat stFileInfo;
+    struct stat stFileInfo;
 	bool blnReturn;
 	int intStat;
 
@@ -1115,7 +1115,7 @@ bool Util::fileExists(const string aFile) {
     blnReturn = false;
   }
 
-  return(blnReturn);
+  return blnReturn;
 }
 
 

@@ -567,7 +567,7 @@ void QueueManager::on(TimerManagerListener::Minute, uint64_t aTick) throw() {
 	string fn;
 	string searchString;
 	bool online = false;
-	//StringList offlineChecks; //RSX++
+	//StringList offlineChecks; //RSX++/TODO
 	vector<const PartsInfoReqParam*> params;//sdc++
 
 	{
@@ -732,8 +732,6 @@ void QueueManager::add(const string& aTarget, int64_t aSize, const TTHValue& roo
 		}
 		return;
 	}
-
-
 
 	{
 		Lock l(cs);
@@ -1893,16 +1891,18 @@ void QueueManager::on(ClientManagerListener::UserConnected, const UserPtr& aUser
 void QueueManager::on(ClientManagerListener::UserDisconnected, const UserPtr& aUser) throw() {
 	bool hasTestSURinQueue = false;
 	{
+	
 	Lock l(cs);
 	for(int i = 0; i < QueueItem::LAST; ++i) {
 		QueueItem::UserListIter j = userQueue.getList(i).find(aUser);
 		if(j != userQueue.getList(i).end()) {
-			for(QueueItem::Iter m = j->second.begin(); m != j->second.end(); ++m)
+			for(QueueItem::Iter m = j->second.begin(); m != j->second.end(); ++m) {
 				if((*m)->isSet(QueueItem::FLAG_TESTSUR))  hasTestSURinQueue = true;
 					fire(QueueManagerListener::StatusUpdated(), *m);
+			}		
 		}
 	}
-
+	
 	}
 
 	if(hasTestSURinQueue)

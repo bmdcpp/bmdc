@@ -810,9 +810,9 @@ void MainWindow::setStats_gui(string hubs, string downloadSpeed,
         downloadRate = "";
     }
 	gtk_label_set_text(GTK_LABEL(getWidget("labelHubs")), hubs.c_str());
-	gtk_label_set_text(GTK_LABEL(getWidget("labelDownloadSpeed")), (string(" ") + downloadRate + string(" ") + downloadSpeed).c_str());
+	gtk_label_set_text(GTK_LABEL(getWidget("labelDownloadSpeed")), (string("[") + downloadRate + string("]") + downloadSpeed).c_str());
 	gtk_label_set_text(GTK_LABEL(getWidget("labelDownloaded")), downloaded.c_str());
-	gtk_label_set_text(GTK_LABEL(getWidget("labelUploadSpeed")), (string(" ") + uploadRate+string(" ") + uploadSpeed).c_str());
+	gtk_label_set_text(GTK_LABEL(getWidget("labelUploadSpeed")), (string("[") + uploadRate+string("]") + uploadSpeed).c_str());
 	gtk_label_set_text(GTK_LABEL(getWidget("labelUploaded")), uploaded.c_str());
 	string fslots = Util::toString(UploadManager::getInstance()->getFreeSlots());
 	string pslots = _("Slots:") + fslots + "/" + Util::toString(SETTING(SLOTS));

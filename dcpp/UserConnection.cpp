@@ -169,7 +169,6 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) throw
 
 		fire(UserConnectionListener::ProtocolError(), this, _("Invalid data"));
 		dcdebug("Unknown NMDC command: %.50s\n", aLine.c_str());
-	//	unsetFlag(FLAG_NMDC);
 	}
 }
 #ifdef _USELUA

@@ -24,14 +24,12 @@
 #include "FilteredFile.h"
 #include "BZUtils.h"
 
-#include "SettingsManager.h"//rsx
+#include "SettingsManager.h"
 
 namespace dcpp {
 
 void DetectionManager::ProfilesLoad() {
 	try {
-		//Util::migrate(Util::getPath(Util::PATH_USER_CONFIG) + "Profiles.xml");
-
 		SimpleXML xml;
 		xml.fromXML(File(Util::getPath(Util::PATH_USER_CONFIG) + "Profiles.xml", File::READ, File::OPEN).read());
 

@@ -34,26 +34,7 @@
 #endif
 
 namespace dcpp {
-/*
-#ifdef _WIN32
-#define PATH_SEPARATOR '\\'
-#define PATH_SEPARATOR_STR "\\"
-#else
-#define PATH_SEPARATOR '/'
-#define PATH_SEPARATOR_STR "/"
-#endif
-*/
 extern void startup(void (*f)(void*, const string&), void* p);
 extern void shutdown();
-
-/*#ifdef BUILDING_DCPP
-#define PACKAGE "libdcpp"
-#define LOCALEDIR _DATADIR PATH_SEPARATOR_STR "locale"
-#define _(String) dgettext(PACKAGE, String)
-#define F_(String) dcpp_fmt(dgettext(PACKAGE, String))
-#define FN_(String1,String2, N) dcpp_fmt(dngettext(PACKAGE, String1, String2, N))
-
-#endif
-*/
 } // namespace dcpp
 #endif // !defined(DC_PLUS_PLUS_H)

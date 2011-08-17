@@ -47,7 +47,7 @@ namespace RegexUtil {
 		return "";
 	}*/
 
-	inline bool/*int*/ match(const std::string& strToMatch, const std::string& expression, bool caseSensative = true) {
+	inline bool match(const std::string& strToMatch, const std::string& expression, bool caseSensative = true) {
 		/*try {
 			const boost::regex reg(expression, caseSensative ? 0 : boost::regex::icase);
 			return boost::regex_search(strToMatch.begin(), strToMatch.end(), reg);
