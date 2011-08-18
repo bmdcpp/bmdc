@@ -29,6 +29,6 @@
 #define strver(s) #s
 
 namespace dcpp {
-const string fullVersionString(VERSIONSTRING " (r" xstrver(DCPP_REVISION) ")");
+const string fullVersionString(VERSIONSTRING " (r" xstrver(BMDC_REVISION) ")");
 }
 

@@ -14,8 +14,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __DEBUGMANAGER_H
-#define __DEBUGMANAGER_H
+#ifndef _DEBUGMANAGER_H
+#define _DEBUGMANAGER_H
 
 #include "DCPlusPlus.h"
 #include "Singleton.h"

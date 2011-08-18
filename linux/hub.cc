@@ -278,7 +278,6 @@ Hub::Hub(const string &address, const string &encoding):
 
 Hub::~Hub()
 {
-
 	RecentHubEntry* r = FavoriteManager::getInstance()->getRecentHubEntry(huburl);
 
 	if(r)
@@ -411,7 +410,6 @@ bool Hub::isHighlitingWorld(string word, GtkTextTag *tag)
 				else
 				{
 					if(!tag) {
-						//g_print("REGEXP fore %s back %s word %s",fore.c_str(),back.c_str(), word.c_str());
 						tag = gtk_text_buffer_create_tag(chatBuffer, word.c_str(),
 						"foreground", fore.c_str(),
 						"background", back.c_str(),
@@ -432,7 +430,6 @@ bool Hub::isHighlitingWorld(string word, GtkTextTag *tag)
 
 				if(!tag)
 				{
-				//g_print("fore %s back %s word %s",fore.c_str(),back.c_str(), word.c_str());
 				tag = gtk_text_buffer_create_tag(chatBuffer, word.c_str(),
 					"foreground", fore.c_str(),
 					"background", back.c_str(),
@@ -535,7 +532,7 @@ void Hub::updateUser_gui(ParamMap params)
 	bool isPasive = userPasiveMap.find(cid) != userPasiveMap.end();
 	bool isIgnore = userIgnoreMap.find(cid) != userIgnoreMap.end();
 	bool protect = userProtect.find(cid) != userProtect.end();
-	/*Country*/
+	/* Country */
 	#ifndef _DEBUG
 		string country((!(params["IP"].empty())) ? Util::getIpCountry(params["IP"]).c_str() : string("").c_str());//Country from IP
 	#else
@@ -547,7 +544,7 @@ void Hub::updateUser_gui(ParamMap params)
 	/**/
 	string sup(params["SUP"].c_str());
 	string cheat(params["Cheat"].c_str());
-	/*Country*/
+	/* Country */
 	#ifndef _DEBUG
 		GdkPixbuf *buf = WulforUtil::loadCountry(params["Country"]);
 	#else
@@ -604,7 +601,7 @@ void Hub::updateUser_gui(ParamMap params)
 			nickView.col("Country"), buf,
 			nickView.col("Icon"), icon.c_str(),
 			nickView.col("Nick Order"), nickOrder.c_str(),
-			nickView.col("Favorite"), favorite? ("f" + nickOrder).c_str() : nickOrder.c_str(),
+			nickView.col("Favorite"), favorite ? ("f" + nickOrder).c_str() : nickOrder.c_str(),
 			nickView.col("CID"), cid.c_str(),
 			nickView.col("NickColor"), nickColor.c_str(),
 			-1);
@@ -638,7 +635,7 @@ void Hub::updateUser_gui(ParamMap params)
 			nickView.col("Country"), buf ,
 			nickView.col("Icon"), icon.c_str(),
 			nickView.col("Nick Order"), nickOrder.c_str(),
-			nickView.col("Favorite"), favorite? ("f" + nickOrder).c_str() : nickOrder.c_str(),
+			nickView.col("Favorite"), favorite ? ("f" + nickOrder).c_str() : nickOrder.c_str(),
 			nickView.col("CID"), cid.c_str(),
 			nickView.col("NickColor"), nickColor.c_str(),
 			-1);
@@ -771,7 +768,6 @@ void Hub::popupNickMenu_gui()
 
 	gtk_menu_popup(GTK_MENU(getWidget("nickMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 	gtk_widget_show_all(getWidget("nickMenu"));
-
 
 }
 

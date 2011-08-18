@@ -945,6 +945,7 @@ void FavoriteManager::setAutoGrant(const UserPtr& aUser, bool grant) {
 		i->second.unsetFlag(FavoriteUser::FLAG_GRANTSLOT);
 	save();
 }
+
 void FavoriteManager::setUserDescription(const UserPtr& aUser, const string& description) {
 	Lock l(cs);
 	FavoriteMap::iterator i = users.find(aUser->getCID());
