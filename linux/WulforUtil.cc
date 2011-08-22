@@ -99,7 +99,7 @@ const char* WulforUtil::CountryNames[] = {
 "VIET NAM", "VANUATU", "WALLIS AND FUTUNA", "SAMOA", "YEMEN", "MAYOTTE", "YUGOSLAVIA", "SOUTH AFRICA", "ZAMBIA", 
 "ZIMBABWE" };
 
-static const char* WulforUtil::CountryCodes[] = {  
+const char* WulforUtil::CountryCodes[] = {  
  "AD", "AE", "AF", "AG", "AI", "AL", "AM", "AN", "AO", "AQ", "AR", "AS", "AT", "AU", "AW", "AX", "AZ", "BA", "BB", 
  "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BM", "BN", "BO", "BR", "BS", "BT", "BV", "BW", "BY", "BZ", "CA", "CC", 
  "CD", "CF", "CG", "CH", "CI", "CK", "CL", "CM", "CN", "CO", "CR", "CS", "CU", "CV", "CX", "CY", "CZ", "DE", "DJ", 
@@ -113,252 +113,6 @@ static const char* WulforUtil::CountryCodes[] = {
  "RW", "SA", "SB", "SC", "SD", "SE", "SG", "SH", "SI", "SJ", "SK", "SL", "SM", "SN", "SO", "SR", "ST", "SV", "SY", 
  "SZ", "TC", "TD", "TF", "TG", "TH", "TJ", "TK", "TL", "TM", "TN", "TO", "TR", "TT", "TV", "TW", "TZ", "UA", "UG", 
  "UM", "US", "UY", "UZ", "VA", "VC", "VE", "VG", "VI", "VN", "VU", "WF", "WS", "YE", "YT", "YU", "ZA", "ZM", "ZW" };
-
-#define AD "AD"
-#define AE "AE"
-#define AF "AF"
-#define AG "AG"
-#define AI "AI"
-#define AL "AL"
-#define AM "AM"
-#define AN "AN"
-#define AO "AO"
-#define AQ "AQ"
-#define AR "AR"
-#define AS "AS"
-#define AT "AT"
-#define AU "AU"
-#define AW "AW"
-#define AX "AX"
-#define AZ "AZ"
-#define BA "BA"
-#define BB "BB"
-#define BD "BD"
-#define BE "BE"
-#define BF "BF"
-#define BG "BG"
-#define BH "BH"
-#define BI "BI"
-#define BJ "BJ"
-#define BM "BM"
-#define BN "BN"
-#define BO "BO"
-#define BR "BR"
-#define BS "BS"
-#define BT "BT"
-#define BV "BV"
-#define BW "BW"
-#define BY "BY"
-#define BZ "BZ"
-#define CA "CA"
-#define CC "CC"
-#define CD "CD"
-#define CF "CF"
-#define CG "CG"
-#define CI "CI"
-#define CK "CK"
-#define CL "CL"
-#define CM "CM"
-#define CN "CN"
-#define CO "CO"
-#define CR "CR"
-#define CS "CS"
-#define CU "CU"
-#define CV "CV"
-#define CX "CX"
-#define CY "CY"
-#define CZ "CZ"
-#define DE "DE"
-#define DJ "DJ"
-#define DK "DK"
-#define DM "DM"
-#define DO "DO"
-#define DZ "DZ"
-#define EC "EC"
-#define EE "EE"
-#define EG "EG"
-#define EH "EH"
-#define ER "ER"
-#define ES "ES"
-#define ET "ET"
-#define FI "FI"
-#define FJ "FJ"
-#define FK "FK"
-#define FM "FM"
-#define FO "FO"
-#define FR "FR"
-#define GA "GA"
-#define GB "GB"
-#define GD "GD"
-#define GE "GE"
-#define GF "GF"
-#define GH "GH"
-#define GI "GI"
-#define GL "GL"
-#define GM "GM"
-#define GN "GN"
-#define GP "GP"
-#define GQ "GQ"
-#define GR "GR"
-#ifdef GS
-#undef GS
-#endif
-#define GS "GS"
-#define GT "GT"
-#define GU "GU"
-#define GW "GW"
-#define GY "GY"
-#define HK "HK"
-#define HM "HM"
-#define HN "HN"
-#define HR "HR"
-#define HT "HT"
-#define HU "HU"
-#define CH "CH"
-#define ID "ID"
-#define IE "IE"
-#define IL "IL"
-#define IN "IN"
-#define IO "IO"
-#define IQ "IQ"
-#define IR "IR"
-#define IS "IS"
-#define IT "IT"
-#define JM "JM"
-#define JO "JO"
-#define JP "JP"
-#define KE "KE"
-#define KG "KG"
-#define KH "KH"
-#define KI "KI"
-#define KM "KM"
-#define KN "KN"
-#define KP "KP"
-#define KR "KR"
-#define KW "KW"
-#define KY "KY"
-#define KZ "KZ"
-#define LA "LA"
-#define LB "LB"
-#define LC "LC"
-#define LI "LI"
-#define LK "LK"
-#define LR "LR"
-#define LS "LS"
-#define LT "LT"
-#define LU "LU"
-#define LV "LV"
-#define LY "LY"
-#define MA "MA"
-#define MC "MC"
-#define MD "MD"
-#define MG "MG"
-#define MH "MH"
-#define MK "MK"
-#define ML "ML"
-#define MM "MM"
-#define MN "MN"
-#define MO "MO"
-#define MP "MP"
-#define MQ "MQ"
-#define MR "MR"
-#define MS "MS"
-#define MT "MT"
-#define MU "MU"
-#define MV "MV"
-#define MW "MW"
-#define MX "MX"
-#define MY "MY"
-#define MZ "MZ"
-#define NA "NA"
-#define NC "NC"
-#define NE "NE"
-#define NF "NF"
-#define NG "NG"
-#define NI "NI"
-#define NL "NL"
-#define NO "NO"
-#define NP "NP"
-#define NR "NR"
-#define NU "NU"
-#define NZ "NZ"
-#define OM "OM"
-#define PA "PA"
-#define PE "PE"
-#define PF "PF"
-#define PG "PG"
-#define PH "PH"
-#define PK "PK"
-#define PL "PL"
-#define PM "PM"
-#define PN "PN"
-#define PR "PR"
-#define PS "PS"
-#define PT "PT"
-#define PW "PW"
-#define PY "PY"
-#define QA "QA"
-#define RE "RE"
-#define RO "RO"
-#define RU "RU"
-#define RW "RW"
-#define SA "SA"
-#define SB "SB"
-#define SC "SC"
-#define SD "SD"
-#define SE "SE"
-#define SG "SG"
-#define SH "SH"
-#define SI "SI"
-#define SJ "SJ"
-#define SK "SK"
-#define SL "SL"
-#define SM "SM"
-#define SN "SN"
-#define SO "SO"
-#define SR "SR"
-#define ST "ST"
-#define SV "SV"
-#define SY "SY"
-#define SZ "SZ"
-#define TC "TC"
-#define TL "TL"
-#define TM "TM"
-#define TN "TN"
-#define TO "TO"
-#define TR "TR"
-#define TT "TT"
-#define TV "TV"
-#define TW "TW"
-#define TZ "TZ"
-#define UA "UA"
-#define UG "UG"
-#define UM "UM"
-#define US "US"
-#define UY "UY"
-#define UZ "UZ"
-#define VA "VA"
-#define VC "VC"
-#define VE "VE"
-#define VG "VG"
-#define VI "VI"
-#define VN "VN"
-#define VU "VU"
-#define WF "WF"
-#define WS "WS"
-#define YE "YE"
-#define YT "YT"
-#define YU "YU"
-#define ZA "ZA"
-#define ZM "ZM"
-#define ZW "ZW"
-#define EU "EU"
-#define RS "RS"
-#define ME "ME"
-#define GG "GG"
-#define IM "IM"
-#define JE "JE"
-#define NONE "questionb"
 
 vector<int> WulforUtil::splitString(const string &str, const string &delimiter)
 {
@@ -788,250 +542,6 @@ void WulforUtil::copyValue_gui(GtkTreeStore *store, GtkTreeIter *fromIter, GtkTr
 	g_value_unset(&value);
 }
 
-GtkStockItem WulforUtil::icons[] ={
-	{ AD , "AD"},
-	{ AE , "AE"},
-	{ AF , "AF"},
-	{ AG , "AG"},
-	{ AI , "AI"},
-	{ AL , "AL"},
-	{ AM , "AM"},
-	{ AN , "AN"},
-	{ AO , "AO"},
-	{ AQ , "AQ"},
-	{ AR , "AR"},
-	{ AS , "AS"},
-	{ AT , "AT"},
-	{ AU , "AU"},
-	{ AW , "AW"},
-	{ AX , "AX"},
-	{ AZ , "AZ"},
-	{ BA , "BA"},
-	{ BB , "BB"},
-	{ BD , "BD"},
-	{ BE , "BE"},
-	{ BF , "BF"},
-	{ BG , "BG"},
-	{ BH , "BH"},
-	{ BI , "BI"},
-	{ BJ , "BJ"},
-	{ BM , "BM"},
-	{ BN , "BN"},
-	{ BO , "BO"},
-	{ BR , "BR"},
-	{ BS , "BS"},
-	{ BT , "BT"},
-	{ BV , "BV"},
-	{ BW , "BW"},
-	{ BY , "BY"},
-	{ BZ , "BZ"},
-	{ CA , "CA"},
-	{ CC , "CC"},
-	{ CD , "CD"},
-	{ CF , "CF"},
-	{ CG , "CG"},
-	{ CI , "CI"},
-	{ CK , "CK"},
-	{ CL , "CL"},
-	{ CM , "CM"},
-	{ CN , "CN"},
-	{ CO , "CO"},
-	{ CR , "CR"},
-	{ CS , "CS"},
-	{ CU , "CU"},
-	{ CV , "CV"},
-	{ CX , "CX"},
-	{ CY , "CY"},
-	{ CZ , "CZ"},
-	{ DE , "DE"},
-	{ DJ , "DJ"},
-	{ DK , "DK"},
-	{ DM , "DM"},
-	{ DO , "DO"},
-	{ DZ , "DZ"},
-	{ EC , "EC"},
-	{ EE , "EE"},
-	{ EG , "EG"},
-	{ EH , "EH"},
-	{ ER , "ER"},
-	{ ES , "ES"},
-	{ ET , "ET"},
-	{ FI , "FI"},
-	{ FJ , "FJ"},
-	{ FK , "FK"},
-	{ FM , "FM"},
-	{ FO , "FO"},
-	{ FR , "FR"},
-	{ GA , "GA"},
-	{ GB , "GB"},
-	{ GD , "GD"},
-	{ GE , "GE"},
-	{ GF , "GF"},
-	{ GH , "GH"},
-	{ GI , "GI"},
-	{ GL , "GL"},
-	{ GM , "GM"},
-	{ GN , "GN"},
-	{ GP , "GP"},
-	{ GQ , "GQ"},
-	{ GR , "GR"},
-	{ GS , "GS"},
-	{ GT , "GT"},
-	{ GU , "GU"},
-	{ GW , "GW"},
-	{ GY , "GY"},
-	{ HK , "HK"},
-	{ HM , "HM"},
-	{ HN , "HN"},
-	{ HR , "HR"},
-	{ HT , "HT"},
-	{ HU , "HU"},
-	{ CH , "CH"},
-	{ ID , "ID"},
-	{ IE , "IE"},
-	{ IL , "IL"},
-	{ IN , "IN"},
-	{ IO , "IO"},
-	{ IQ , "IQ"},
-	{ IR , "IR"},
-	{ IS , "IS"},
-	{ IT , "IT"},
-	{ JM , "JM"},
-	{ JO , "JO"},
-	{ JP , "JP"},
-	{ KE , "KE"},
-	{ KG , "KG"},
-	{ KH , "KH"},
-	{ KI , "KI"},
-	{ KM , "KM"},
-	{ KN , "KN"},
-	{ KP , "KP"},
-	{ KR , "KR"},
-	{ KW , "KW"},
-	{ KY , "KY"},
-	{ KZ , "KZ"},
-	{ LA , "LA"},
-	{ LB , "LB"},
-	{ LC , "LC"},
-	{ LI , "LI"},
-	{ LK , "LK"},
-	{ LR , "LR"},
-	{ LS , "LS"},
-	{ LT , "LT"},
-	{ LU , "LU"},
-	{ LV , "LV"},
-	{ LY , "LY"},
-	{ MA , "MA"},
-	{ MC , "MC"},
-	{ MD , "MD"},
-	{ MG , "MG"},
-	{ MH , "MH"},
-	{ MK , "MK"},
-	{ ML , "ML"},
-	{ MM , "MM"},
-	{ MN , "MN"},
-	{ MO , "MO"},
-	{ MP , "MP"},
-	{ MQ , "MQ"},
-	{ MR , "MR"},
-	{ MS , "MS"},
-	{ MT , "MT"},
-	{ MU , "MU"},
-	{ MV , "MV"},
-	{ MW , "MW"},
-	{ MX , "MX"},
-	{ MY , "MY"},
-	{ MZ , "MZ"},
-	{ NA , "NA"},
-	{ NC , "NC"},
-	{ NE , "NE"},
-	{ NF , "NF"},
-	{ NG , "NG"},
-	{ NI , "NI"},
-	{ NL , "NL"},
-	{ NO , "NO"},
-	{ NP , "NP"},
-	{ NR , "NR"},
-	{ NU , "NU"},
-	{ NZ , "NZ"},
-	{ OM , "OM"},
-	{ PA , "PA"},
-	{ PE , "PE"},
-	{ PF , "PF"},
-	{ PG , "PG"},
-	{ PH , "PH"},
-	{ PK , "PK"},
-	{ PL , "PL"},
-	{ PM , "PM"},
-	{ PN , "PN"},
-	{ PR , "PR"},
-	{ PS , "PS"},
-	{ PT , "PT"},
-	{ PW , "PW"},
-	{ PY , "PY"},
-	{ QA , "QA"},
-	{ RE , "RE"},
-	{ RO , "RO"},
-	{ RU , "RU"},
-	{ RW , "RW"},
-	{ SA , "SA"},
-	{ SB , "SB"},
-	{ SC , "SC"},
-	{ SD , "SD"},
-	{ SE , "SE"},
-	{ SG , "SG"},
-	{ SH , "SH"},
-	{ SI , "SI"},
-	{ SJ , "SJ"},
-	{ SK , "SK"},
-	{ SL , "SL"},
-	{ SM , "SM"},
-	{ SN , "SN"},
-	{ SO , "SO"},
-	{ SR , "SR"},
-	{ ST , "ST"},
-	{ SV , "SV"},
-	{ SY , "SY"},
-	{ SZ , "SZ"},
-	{ TC , "TC"},
-	{ TL , "TL"},
-	{ TM , "TM"},
-	{ TN , "TN"},
-	{ TO , "TO"},
-	{ TR , "TR"},
-	{ TT , "TT"},
-	{ TV , "TV"},
-	{ TW , "TW"},
-	{ TZ , "TZ"},
-	{ UA , "UA"},
-	{ UG , "UG"},
-	{ UM , "UM"},
-	{ US , "US"},
-	{ UY , "UY"},
-	{ UZ , "UZ"},
-	{ VA , "VA"},
-	{ VC , "VC"},
-	{ VE , "VE"},
-	{ VG , "VG"},
-	{ VI , "VI"},
-	{ VN , "VN"},
-	{ VU , "VU"},
-	{ WF , "WF"},
-	{ WS , "WS"},
-	{ YE , "YE"},
-	{ YT , "YT"},
-	{ YU , "YU"},
-	{ ZA , "ZA"},
-	{ ZM , "ZM"},
-	{ ZW , "ZW"},
-	{ EU , "EU"},
-	{ RS , "RS"},
-	{ ME , "ME"},
-	{ GG , "GG"},
-	{ IM , "IM"},
-	{ JE , "JE"}
-	};
-
 /*
 * load Country Flag
 */
@@ -1043,38 +553,13 @@ GdkPixbuf *WulforUtil::loadCountry(const string &country)
 	{
 		return NULL;
 	}
-	
-	gtk_stock_add(icons,G_N_ELEMENTS(icons));
-	GtkIconFactory *ffactory = gtk_icon_factory_new();
-	for (int i = 0; i < G_N_ELEMENTS(icons); i++)
-	{
-
-			if(country == icons[i].stock_id)
-			{
-				gchar *path = g_strdup_printf(_DATADIR "/country/%s.png",
-		                              icons[i].stock_id);
-				GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_size(path,15,15,&error);
-					if (pixbuf == NULL)
-						g_warning("Cannot open stock image: %s => %s", path, error->message);
-				g_free(path);
-
-				gtk_icon_factory_add(ffactory, icons[i].stock_id,
-		                    gtk_icon_set_new_from_pixbuf(pixbuf));
-				
-				return pixbuf;
-			}
-	}
-
-	GtkStockItem item[] ={{NONE, "questionb"}};
-	gchar *path = g_strdup_printf(_DATADIR "/country/%s.png", item[0].stock_id);
-	GdkPixbuf *buf = gdk_pixbuf_new_from_file(path, &error);
-	if(buf != NULL)
-		return buf;
-	else
-	{
-		g_warning("load error %s",error->message);
-		return NULL;
-	}
+	gchar *path = g_strdup_printf(_DATADIR "/country/%s.png",
+		                              (gchar *)country.c_str());
+	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_size(path,15,15,&error);
+	if (pixbuf == NULL)
+			g_warning("Cannot open stock image: %s => %s", path, error->message);
+	g_free(path);
+	return pixbuf;
 }
 
 std::string WulforUtil::StringToUpper(std::string myString)
@@ -1311,17 +796,18 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 		{
 			status += e.getError();
 		}
-	}	else if ( cmd == "slots")
+	}
+	else if ( cmd == "slots")
 	{
 		if (param == "0")
 					status = _("No 0 Slots!!");
 		else
 		{
-					SettingsManager *sm = SettingsManager::getInstance();
+			SettingsManager *sm = SettingsManager::getInstance();
 
-					sm->set(SettingsManager::SLOTS,Util::toInt(param));
-					sm->set(SettingsManager::SLOTS_PRIMARY,Util::toInt(param));
-					status += _("Set Slots to:")+param;
+			sm->set(SettingsManager::SLOTS, Util::toInt(param));
+			sm->set(SettingsManager::SLOTS_PRIMARY, Util::toInt(param));
+			status += _("Set Slots to:") + param;
 		}
 	}
 	else if (cmd == "stats")
@@ -1418,7 +904,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	{
         ShellCommand s("df.sh");
 
-		if (param=="mc")
+		if (param == "mc")
 			message = s.Output();
 		else
 			status += s.Output();

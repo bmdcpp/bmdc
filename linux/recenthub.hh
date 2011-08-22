@@ -19,8 +19,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef WULFOR_RECENT_TAB_HH
-#define WULFOR_RECENT_TAB_HH
+#ifndef RECENT_TAB_HH
+#define RECENT_TAB_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
