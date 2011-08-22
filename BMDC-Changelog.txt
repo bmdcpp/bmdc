@@ -289,4 +289,5 @@ Fix Hublist loading..
 -Add FS in ADC (and in UserInfo too as Free Slots)
 Updated czech,turkish translate
 Some cleanup code 
-
+Add Hub´s menu Add Favorite
+Add PM´s menu Add Favorite

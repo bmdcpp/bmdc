@@ -19,8 +19,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef WULFOR_SYSTEM_HH
-#define WULFOR_SYSTEM_HH
+#ifndef SYSTEM_HH
+#define SYSTEM_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>

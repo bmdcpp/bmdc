@@ -18,8 +18,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef WULFOR_IGNORE_USERS_HH
-#define WULFOR_IGNORE_USERS_HH
+#ifndef IGNORE_USERS_HH
+#define IGNORE_USERS_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
@@ -31,7 +31,7 @@
 #include "treeview.hh"
 
 class ignoreusers:
-		public BookEntry,
+	public BookEntry,
 	public dcpp::FavoriteManagerListener
 {
 	public:

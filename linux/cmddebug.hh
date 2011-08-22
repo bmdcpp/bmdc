@@ -20,8 +20,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef WULFOR_CMDDEBUG_HH
-#define WULFOR_CMDDEBUG_HH
+#ifndef CMDDEBUG_HH
+#define CMDDEBUG_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
@@ -107,8 +107,8 @@ class cmddebug:
     //DebugManager
     void on(dcpp::DebugManagerListener::DebugDetection, const std::string& com) throw()
     {
-    if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("detection_button"))) == TRUE)
-        addCmd(std::string("[Detection] ") + com,"");
+		if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("detection_button"))) == TRUE)
+			addCmd(std::string("[Detection] ") + com,"");
     }
     void on(dcpp::DebugManagerListener::DebugCommand, const std::string& mess, int typedir, const std::string& ip) throw();
 

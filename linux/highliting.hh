@@ -1,5 +1,5 @@
-#ifndef WULFOR_HIGHLITING_HH
-#define WULFOR_HIGHLITING_HH
+#ifndef HIGHLITING_HH
+#define HIGHLITING_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
@@ -18,7 +18,7 @@ class Highlighting:
 		virtual void popmenu();
 	private:
         //GUI
-      static void onCloseItem(gpointer data);
+		static void onCloseItem(gpointer data);
 
 		void addEntry_gui(dcpp::StringMap params);
 		void editEntry_gui(dcpp::StringMap &params, GtkTreeIter *iter);

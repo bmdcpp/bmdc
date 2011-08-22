@@ -24,10 +24,16 @@ using namespace std;
 using namespace dcpp;
 
 DetectionTab::DetectionTab():
-BookEntry(Entry::DET,_("Detection Settings"),"detection.glade")
+BookEntry(Entry::DET,_("Detection Settings"), "detection.glade")
 {
 	gtk_window_set_transient_for(GTK_WINDOW(getWidget("ActRawDialog")), GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()));
 	gtk_window_set_destroy_with_parent(GTK_WINDOW(getWidget("ActRawDialog")), TRUE);
+	
+	gtk_window_set_transient_for(GTK_WINDOW(getWidget("dialogitemPoints")), GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()));
+	gtk_window_set_destroy_with_parent(GTK_WINDOW(getWidget("dialogitemPoints")), TRUE);
+	
+	gtk_window_set_transient_for(GTK_WINDOW(getWidget("dialogpointitem1")), GTK_WINDOW(getWidget("dialogitemPoints")));
+	gtk_window_set_destroy_with_parent(GTK_WINDOW(getWidget("dialogpointitem1")), TRUE);
 
 	//DetectionClients
 	detectionView.setView(GTK_TREE_VIEW(getWidget("treeviewProf")));
@@ -48,6 +54,7 @@ BookEntry(Entry::DET,_("Detection Settings"),"detection.glade")
 	detectionSelection = gtk_tree_view_get_selection(detectionView.get());
 
 	//Action&&Raw
+	///Actions
 	actionView.setView(GTK_TREE_VIEW(getWidget("treeviewAction")));
     actionView.insertColumn(N_("Enable"), G_TYPE_BOOLEAN, TreeView::BOOL, 100);//checkbox
 	actionView.insertColumn(N_("Name"), G_TYPE_STRING, TreeView::STRING, 100);
@@ -58,7 +65,7 @@ BookEntry(Entry::DET,_("Detection Settings"),"detection.glade")
 	gtk_tree_view_set_model(actionView.get(),GTK_TREE_MODEL(actionStore));
 	g_object_unref(actionStore);
 	actionSelection = gtk_tree_view_get_selection(actionView.get());
-	///raw
+	///raws
 	RawView.setView(GTK_TREE_VIEW(getWidget("treeviewRaw")));
 	RawView.insertColumn(N_("Enable"), G_TYPE_BOOLEAN, TreeView::BOOL, 100);//checkbox
 	RawView.insertColumn(N_("Name"), G_TYPE_STRING, TreeView::STRING, 100);
@@ -128,11 +135,11 @@ BookEntry(Entry::DET,_("Detection Settings"),"detection.glade")
 	set_combo(getWidget("comboboxentry1ADLA"), act, (int)SETTING(ADLSEARCH_DEFAULT_ACTION), false, this);
 
 	g_signal_connect(getWidget("button7Save"), "clicked", G_CALLBACK(onSave), (gpointer)this);
-	g_signal_connect(getWidget("buttonadlsp7"), "clicked", G_CALLBACK(onADSLPoints), (gpointer)this);
+	g_signal_connect(getWidget("buttonadlsp7"), "clicked", G_CALLBACK(onADLPoints), (gpointer)this);
 
 	points.setView(GTK_TREE_VIEW(getWidget("treeviewPoints")));
-	points.insertColumn(N_("Points"), G_TYPE_STRING, TreeView::STRING,100);
-	points.insertColumn(N_("Action"), G_TYPE_STRING, TreeView::STRING,100);
+	points.insertColumn(N_("Points"), G_TYPE_INT, TreeView::INT, 100);
+	points.insertColumn(N_("Action"), G_TYPE_INT, TreeView::INT, 100);
 	points.finalize();
 
 	pointstore = gtk_list_store_newv(points.getColCount(), points.getGTypes());
@@ -1343,20 +1350,29 @@ void DetectionTab::addPoints_gui(StringMap params)
 void DetectionTab::editPoints_gui(StringMap& params,GtkTreeIter *iter)
 {
 	gtk_list_store_set(pointstore, iter,
-	points.col(N_("Points")),params["Points"].c_str(),
-	points.col(N_("Action")),params["Action"].c_str(),
+	points.col(N_("Points")),Util::toInt(params["Points"]),
+	points.col(N_("Action")),Util::toInt(params["Action"]),
 	-1);
 }
 
-void DetectionTab::onADSLPoints(GtkWidget *widget, gpointer data)
+void DetectionTab::onADLPoints(GtkWidget *widget, gpointer data)
 {
 	DetectionTab *dt = (DetectionTab *)data;
+	bool isOk = dt->showADLPoints(dt);
+	if(isOk)
+		RawManager::getInstance()->updateADLPoints(dt->imap);
+}
+
+gboolean DetectionTab::showADLPoints(DetectionTab *dt)
+{
+	gtk_list_store_clear(dt->pointstore);
+	//DetectionTab *dt = (DetectionTab *)data;
 	const IntMap& list = RawManager::getInstance()->getADLPoints();
-	for(IntMap::const_iterator i = list.begin(); i!=list.end(); ++i)
+	for(IntMap::const_iterator i = list.begin(); i != list.end(); ++i)
 	{
 		StringMap params;
 		params["Points"] = Util::toString(i->first);
-		params["Action"] = RawManager::getInstance()->getNameActionId(i->second);
+		params["Action"] = Util::toString(i->second);
 		dt->addPoints_gui(params);
 
 	}
@@ -1373,20 +1389,23 @@ void DetectionTab::onADSLPoints(GtkWidget *widget, gpointer data)
 		gboolean valid = gtk_tree_model_get_iter_first(tmodel, &iter);
 		while(valid)
 		{
-			string a = dt->points.getString(&iter, N_("Points"));
-			string b = dt->points.getString(&iter, N_("Action"));
+			int a = dt->points.getValue<gint>(&iter, N_("Points"));
+			int b = dt->points.getValue<gint>(&iter, N_("Action"));
 
-			dt->imap.insert(make_pair(Util::toInt(a),dt->find_raw(b)));
+			dt->imap.insert(make_pair(a,Util::toInt(dt->find_raw(b))));
 
 			valid = gtk_tree_model_iter_next(tmodel, &iter);
 		}
 
-		RawManager::getInstance()->updateADLPoints(dt->imap);
+		//RawManager::getInstance()->updateADLPoints(dt->imap);
 
 		gtk_widget_hide(dt->getWidget("dialogitemPoints"));
-		return TRUE;//TODO
+		return TRUE;
 	}
+	gtk_widget_hide(dt->getWidget("dialogitemPoints"));
+	return FALSE;
 }
+
 bool DetectionTab::showAddPointsDialog(StringMap &params,DetectionTab *dt)
 {
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(dt->getWidget("spinbuttonpointss1")),(gdouble)(Util::toInt(params["Points"])));
@@ -1412,7 +1431,7 @@ void DetectionTab::onADSLPointsADD(GtkWidget *widget, gpointer data)
 	DetectionTab *dt = (DetectionTab *)data;
 	StringMap params;
 	params["Points"] = "0";
-	params["Action"] = "";
+	params["Action"] = "0";
 	bool isOk = dt->showAddPointsDialog(params,dt);
 	if(isOk)
 	{
@@ -1428,8 +1447,8 @@ void DetectionTab::onADSLPointsMOD(GtkWidget *widget, gpointer data)
 	if(!gtk_tree_selection_get_selected(dt->pointselect, NULL, &iter))
 		return;
 
-	params["Points"] = dt->points.getString(&iter,N_("Points"));
-	params["Action"] == dt->points.getString(&iter,N_("Action"));
+	params["Points"] = Util::toString(dt->points.getValue<gint>(&iter,N_("Points")));
+	params["Action"] = Util::toString(dt->points.getValue<gint>(&iter,N_("Action")));
 	bool isOk = dt->showAddPointsDialog(params,dt);
 	if(isOk)
 	{

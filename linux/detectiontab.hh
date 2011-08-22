@@ -108,7 +108,8 @@ class DetectionTab:
 		TreeView points;
 		GtkListStore *pointstore;
 		GtkTreeSelection *pointselect;
-		static void onADSLPoints(GtkWidget *widget, gpointer data);
+		static void onADLPoints(GtkWidget *widget, gpointer data);
+		gboolean showADLPoints(DetectionTab *dt);
 		static void onADSLPointsADD(GtkWidget *widget, gpointer data);
 		static void onADSLPointsMOD(GtkWidget *widget, gpointer data);
 		static void onADSLPointsDEL(GtkWidget *widget, gpointer data);

@@ -1,6 +1,6 @@
-//      favoriteusers.cpp
+//      notepad.cc
 //
-//      Copyright 2009 Mank <mank@besthub.eu>
+//      Copyright 2011 Mank <mank@no-ip.sk>
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -27,7 +27,9 @@ using namespace dcpp;
 
 
 notepad::notepad():
-BookEntry(Entry::NOTEPAD,_("Notepad"),"notepad.glade"),usefile(false),file("")
+BookEntry(Entry::NOTEPAD,_("Notepad"),"notepad.glade"),
+usefile(false),
+file("")
 {
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("textview1")));
 }
@@ -36,15 +38,15 @@ notepad::~notepad()
 {
 	GtkTextIter start;
 	GtkTextIter end;
+	
+	gchar *text;
+	/* Obtain iters for the start and end of points of the buffer */
+	gtk_text_buffer_get_start_iter (buffer, &start);
+	gtk_text_buffer_get_end_iter (buffer, &end);
 
-  gchar *text;
-  /* Obtain iters for the start and end of points of the buffer */
-  gtk_text_buffer_get_start_iter (buffer, &start);
-  gtk_text_buffer_get_end_iter (buffer, &end);
+	/* Get the entire buffer text. */
 
-  /* Get the entire buffer text. */
-
-  text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
+	text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
 	std::string stext ;
 	stext.assign(text);
 
@@ -53,12 +55,10 @@ notepad::~notepad()
 	
 	if(!usefile)
 	{
-		configFile=dcpp::Util::getNotepadFile();
+		configFile = dcpp::Util::getNotepadFile();
 	}
 	else
-		configFile=file;
-
-
+		configFile = file;
 
 	File out(configFile + ".tmp", File::WRITE, File::CREATE | File::TRUNCATE);
 		out.write(stext);
@@ -69,9 +69,8 @@ notepad::~notepad()
 
 	}
 	catch (const Exception &e)
-	{;}
+	{ }
   g_free (text);
-
 
 }
 
@@ -82,21 +81,21 @@ void notepad::add_gui(string file)
 
 void notepad::ini_client()
 {
-try {
-	string path;
+	try {
+		string path;
 	
-	if(!usefile) {
-		path = dcpp::Util::getNotepadFile();
-	}
-	else
-		path=file;
+		if(!usefile) {
+			path = dcpp::Util::getNotepadFile();
+		}
+		else
+			path=file;
 
 
-	File f(path,File::READ,File::OPEN);
-	//add to GUI
-	add_gui(f.read());
+		File f(path,File::READ,File::OPEN);
+		//add to GUI
+		add_gui(f.read());
 
-	f.close();
+		f.close();
 
 	}
 	catch (const Exception &e)
@@ -114,9 +113,9 @@ void notepad::show()
 void notepad::popmenu()
 {
     GtkWidget *closeMenuItem = gtk_menu_item_new_with_label(_("Close"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(getNewTabMenu()),closeMenuItem);
+    gtk_menu_shell_append(GTK_MENU_SHELL(getNewTabMenu()), closeMenuItem);
 
-    g_signal_connect_swapped(closeMenuItem, "activate",G_CALLBACK(onCloseItem),this);
+    g_signal_connect_swapped(closeMenuItem, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
 
 }
 

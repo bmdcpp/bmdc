@@ -20,6 +20,7 @@
  */
 
 #include "WulforUtil.hh"
+
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <dcpp/ClientManager.h>
@@ -1253,7 +1254,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	{
 	    status = _("Command send: ");
 	    status += tmp;
-	    status += "\n";
+	    status += '\0';
 	}
 
 	if( cmd == "away" )
@@ -1647,10 +1648,10 @@ void WulforUtil::drop_combo(GtkWidget *widget, vector<string> CONTEUDO)
 
 	for (cont=0; cont < CONTEUDO.size();cont++)
 	{
-	char conteude[130];
-	sprintf(conteude,"%s",CONTEUDO.at(cont).c_str());
-	gtk_list_store_append(list_store,&iter);
-	gtk_list_store_set(list_store,&iter,0,conteude,-1);
+		char conteude[130];
+		sprintf(conteude,"%s",CONTEUDO.at(cont).c_str());
+		gtk_list_store_append(list_store,&iter);
+		gtk_list_store_set(list_store,&iter,0,conteude,-1);
 	}
 
 	gtk_combo_box_set_model(GTK_COMBO_BOX(widget),GTK_TREE_MODEL(list_store));

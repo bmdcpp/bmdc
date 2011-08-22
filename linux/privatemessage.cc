@@ -1258,20 +1258,25 @@ void PrivateMessage::popmenu()
     GtkWidget *menu = userCommandMenu->getContainer();
 
     GtkWidget *closeMenuItem = gtk_menu_item_new_with_label(_("Close"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu),closeMenuItem);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), closeMenuItem);
 
     GtkWidget *copyMenuItem = gtk_menu_item_new_with_label(_("Copy Nick"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu),copyMenuItem);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), copyMenuItem);
 
     GtkWidget *copyCIDMenuItem = gtk_menu_item_new_with_label(_("Copy CID"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu),copyCIDMenuItem);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), copyCIDMenuItem);
+    
+    GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite"));
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), addFav);
 
 
-    g_signal_connect_swapped(closeMenuItem, "activate",G_CALLBACK(onCloseItem),this);
+    g_signal_connect_swapped(closeMenuItem, "activate",G_CALLBACK(onCloseItem), this);
 
-    g_signal_connect_swapped(copyMenuItem, "activate", G_CALLBACK(onCopyNick),this);
+    g_signal_connect_swapped(copyMenuItem, "activate", G_CALLBACK(onCopyNick), this);
 
-    g_signal_connect_swapped(copyCIDMenuItem, "activate", G_CALLBACK(onCopyCID),this);
+    g_signal_connect_swapped(copyCIDMenuItem, "activate", G_CALLBACK(onCopyCID), this);
+    
+    g_signal_connect_swapped(addFav, "activate", G_CALLBACK(onAddFav), (gpointer)this);
 
 
 }
@@ -1295,4 +1300,10 @@ void PrivateMessage::onCopyCID(gpointer data)
 {
     PrivateMessage *pm =(PrivateMessage *)data;
     gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), pm->cid.c_str(), pm->cid.length());
+}
+
+void PrivateMessage::onAddFav( gpointer data)
+{
+	PrivateMessage *pm = (PrivateMessage *)data;
+	pm->addFavoriteUser_client();	
 }

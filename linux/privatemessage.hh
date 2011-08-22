@@ -76,6 +76,7 @@ class PrivateMessage:
 		static void onCloseItem(gpointer data);
 		static void onCopyNick(gpointer data);
 		static void onCopyCID(gpointer data);
+		static void onAddFav( gpointer data);
         /// GUI
 		void setStatus_gui(std::string text);
 		void addLine_gui(Msg::TypeMsg typemsg, const std::string &line);

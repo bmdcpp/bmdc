@@ -60,6 +60,7 @@ class Hub:
         //GUI
         static void onCloseItem(gpointer data);
         static void onCopyHubUrl(gpointer data);
+        static void onAddFavItem(gpointer data);
 
 		typedef enum
 		{

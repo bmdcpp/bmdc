@@ -19,14 +19,11 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef WULFOR_NOTEPAD_HH
-#define WULFOR_NOTEPAD_HH
+#ifndef NOTEPAD_HH
+#define NOTEPAD_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
-#include <dcpp/FavoriteManager.h>
-#include <dcpp/FavoriteUser.h>
-#include <dcpp/FavoriteManagerListener.h>
 
 #include "bookentry.hh"
 #include "treeview.hh"
@@ -37,7 +34,8 @@ class notepad:
 {
 	public:
 		notepad();
-		notepad(std::string aFile,bool aUseFile = false){file=aFile;usefile=aUseFile;}
+		notepad(std::string aFile,bool aUseFile = false)
+		{ file = aFile; usefile =aUseFile; }
 		virtual ~notepad();
 		virtual void show();
 		virtual void popmenu();

@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-08-14 21:18+0200\n"
+"POT-Creation-Date: 2011-08-19 11:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-08-18 14:43+0200\n"
+"POT-Creation-Date: 2011-08-22 19:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -347,9 +347,9 @@ msgstr ""
 msgid "About BMDC++"
 msgstr ""
 
-#: glade/adlsearch.glade:444 linux/detectiontab.cc:135
-#: linux/detectiontab.cc:1347 linux/detectiontab.cc:1377
-#: linux/detectiontab.cc:1432
+#: glade/adlsearch.glade:444 linux/detectiontab.cc:142
+#: linux/detectiontab.cc:1354 linux/detectiontab.cc:1393
+#: linux/detectiontab.cc:1451
 msgid "Action"
 msgstr ""
 
@@ -551,9 +551,9 @@ msgstr ""
 msgid "Chat Menu"
 msgstr ""
 
-#: glade/detection.glade:470 linux/detectiontab.cc:36
-#: linux/detectiontab.cc:257 linux/detectiontab.cc:811
-#: linux/detectiontab.cc:880 linux/detectiontab.cc:896 linux/hub.cc:93
+#: glade/detection.glade:470 linux/detectiontab.cc:42
+#: linux/detectiontab.cc:264 linux/detectiontab.cc:818
+#: linux/detectiontab.cc:887 linux/detectiontab.cc:903 linux/hub.cc:93
 #: linux/hub.cc:597 linux/hub.cc:631
 msgid "Cheat"
 msgstr ""
@@ -625,9 +625,9 @@ msgstr ""
 
 #: glade/adlsearch.glade:413 linux/ADLSearchGUI.cc:53
 #: linux/ADLSearchGUI.cc:149 linux/ADLSearchGUI.cc:256
-#: linux/ADLSearchGUI.cc:298 linux/detectiontab.cc:37
-#: linux/detectiontab.cc:258 linux/detectiontab.cc:812
-#: linux/detectiontab.cc:881 linux/detectiontab.cc:897
+#: linux/ADLSearchGUI.cc:298 linux/detectiontab.cc:43
+#: linux/detectiontab.cc:265 linux/detectiontab.cc:819
+#: linux/detectiontab.cc:888 linux/detectiontab.cc:904
 msgid "Comment"
 msgstr ""
 
@@ -1084,16 +1084,16 @@ msgstr ""
 msgid "Hubs (normal / registered / op)"
 msgstr ""
 
-#: glade/detection.glade:82 linux/detectiontab.cc:39 linux/detectiontab.cc:54
-#: linux/detectiontab.cc:67 linux/detectiontab.cc:236
-#: linux/detectiontab.cc:260 linux/detectiontab.cc:360
-#: linux/detectiontab.cc:375 linux/detectiontab.cc:447
-#: linux/detectiontab.cc:472 linux/detectiontab.cc:509
-#: linux/detectiontab.cc:541 linux/detectiontab.cc:609
-#: linux/detectiontab.cc:618 linux/detectiontab.cc:637
-#: linux/detectiontab.cc:649 linux/detectiontab.cc:814
-#: linux/detectiontab.cc:839 linux/detectiontab.cc:883
-#: linux/detectiontab.cc:899 linux/detectiontab.cc:1065
+#: glade/detection.glade:82 linux/detectiontab.cc:45 linux/detectiontab.cc:61
+#: linux/detectiontab.cc:74 linux/detectiontab.cc:243
+#: linux/detectiontab.cc:267 linux/detectiontab.cc:367
+#: linux/detectiontab.cc:382 linux/detectiontab.cc:454
+#: linux/detectiontab.cc:479 linux/detectiontab.cc:516
+#: linux/detectiontab.cc:548 linux/detectiontab.cc:616
+#: linux/detectiontab.cc:625 linux/detectiontab.cc:644
+#: linux/detectiontab.cc:656 linux/detectiontab.cc:821
+#: linux/detectiontab.cc:846 linux/detectiontab.cc:890
+#: linux/detectiontab.cc:906 linux/detectiontab.cc:1072
 msgid "ID"
 msgstr ""
 
@@ -1325,9 +1325,9 @@ msgstr ""
 msgid "Mini slot size"
 msgstr ""
 
-#: glade/detection.glade:624 linux/detectiontab.cc:41
-#: linux/detectiontab.cc:262 linux/detectiontab.cc:885
-#: linux/detectiontab.cc:901
+#: glade/detection.glade:624 linux/detectiontab.cc:47
+#: linux/detectiontab.cc:269 linux/detectiontab.cc:892
+#: linux/detectiontab.cc:908
 msgid "MisMatch"
 msgstr ""
 
@@ -1366,16 +1366,16 @@ msgstr ""
 
 #: glade/detection.glade:120 glade/detection.glade:436
 #: glade/detection.glade:747 glade/favoritehubs.glade:128
-#: glade/settingsdialog.glade:536 linux/detectiontab.cc:35
-#: linux/detectiontab.cc:53 linux/detectiontab.cc:64 linux/detectiontab.cc:234
-#: linux/detectiontab.cc:256 linux/detectiontab.cc:371
-#: linux/detectiontab.cc:423 linux/detectiontab.cc:445
-#: linux/detectiontab.cc:468 linux/detectiontab.cc:492
-#: linux/detectiontab.cc:524 linux/detectiontab.cc:607
-#: linux/detectiontab.cc:616 linux/detectiontab.cc:633
-#: linux/detectiontab.cc:645 linux/detectiontab.cc:810
-#: linux/detectiontab.cc:838 linux/detectiontab.cc:879
-#: linux/detectiontab.cc:895 linux/favoritehubs.cc:28 linux/favoritehubs.cc:54
+#: glade/settingsdialog.glade:536 linux/detectiontab.cc:41
+#: linux/detectiontab.cc:60 linux/detectiontab.cc:71 linux/detectiontab.cc:241
+#: linux/detectiontab.cc:263 linux/detectiontab.cc:378
+#: linux/detectiontab.cc:430 linux/detectiontab.cc:452
+#: linux/detectiontab.cc:475 linux/detectiontab.cc:499
+#: linux/detectiontab.cc:531 linux/detectiontab.cc:614
+#: linux/detectiontab.cc:623 linux/detectiontab.cc:640
+#: linux/detectiontab.cc:652 linux/detectiontab.cc:817
+#: linux/detectiontab.cc:845 linux/detectiontab.cc:886
+#: linux/detectiontab.cc:902 linux/favoritehubs.cc:28 linux/favoritehubs.cc:54
 #: linux/favoritehubs.cc:144 linux/favoritehubs.cc:157
 #: linux/favoritehubs.cc:193 linux/favoritehubs.cc:234
 #: linux/favoritehubs.cc:247 linux/favoritehubs.cc:293
@@ -1558,9 +1558,9 @@ msgstr ""
 msgid "Play"
 msgstr ""
 
-#: glade/detection.glade:1005 linux/detectiontab.cc:134
-#: linux/detectiontab.cc:1346 linux/detectiontab.cc:1376
-#: linux/detectiontab.cc:1431
+#: glade/detection.glade:1005 linux/detectiontab.cc:141
+#: linux/detectiontab.cc:1353 linux/detectiontab.cc:1392
+#: linux/detectiontab.cc:1450
 msgid "Points"
 msgstr ""
 
@@ -1639,12 +1639,12 @@ msgid "RMDC Action"
 msgstr ""
 
 #: glade/detection.glade:155 glade/detection.glade:542
-#: glade/settingsdialog.glade:335 linux/detectiontab.cc:38
-#: linux/detectiontab.cc:65 linux/detectiontab.cc:259
-#: linux/detectiontab.cc:372 linux/detectiontab.cc:469
-#: linux/detectiontab.cc:634 linux/detectiontab.cc:646
-#: linux/detectiontab.cc:813 linux/detectiontab.cc:882
-#: linux/detectiontab.cc:898
+#: glade/settingsdialog.glade:335 linux/detectiontab.cc:44
+#: linux/detectiontab.cc:72 linux/detectiontab.cc:266
+#: linux/detectiontab.cc:379 linux/detectiontab.cc:476
+#: linux/detectiontab.cc:641 linux/detectiontab.cc:653
+#: linux/detectiontab.cc:820 linux/detectiontab.cc:889
+#: linux/detectiontab.cc:905
 msgid "Raw"
 msgstr ""
 
@@ -2088,9 +2088,9 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: glade/detection.glade:754 linux/detectiontab.cc:103
-#: linux/detectiontab.cc:1008 linux/detectiontab.cc:1112
-#: linux/detectiontab.cc:1211
+#: glade/detection.glade:754 linux/detectiontab.cc:110
+#: linux/detectiontab.cc:1015 linux/detectiontab.cc:1119
+#: linux/detectiontab.cc:1218
 msgid "Value"
 msgstr ""
 
@@ -2557,7 +2557,7 @@ msgstr ""
 msgid "*** Available commands:"
 msgstr ""
 
-#: linux/WulforUtil.cc:1563
+#: linux/WulforUtil.cc:1564
 msgid "*** Info on "
 msgstr ""
 
@@ -2565,11 +2565,11 @@ msgstr ""
 msgid "*** T E S T ***"
 msgstr ""
 
-#: linux/WulforUtil.cc:1436
+#: linux/WulforUtil.cc:1437
 msgid "---------- Cleaning the chat ----------"
 msgstr ""
 
-#: linux/WulforUtil.cc:1438
+#: linux/WulforUtil.cc:1439
 msgid "---------- The chat has been cleaned ----------"
 msgstr ""
 
@@ -2659,6 +2659,14 @@ msgstr ""
 msgid "Add finished files to share instantly (if shared)"
 msgstr ""
 
+#: linux/privatemessage.cc:1269
+msgid "Add to Favorite"
+msgstr ""
+
+#: linux/hub.cc:4046
+msgid "Add to Favorite hubs"
+msgstr ""
+
 #: linux/hub.cc:2137 linux/privatemessage.cc:877
 msgid "Add user to favorites list"
 msgstr ""
@@ -2699,7 +2707,7 @@ msgstr ""
 msgid "Alias add uname -a as A"
 msgstr ""
 
-#: linux/WulforUtil.cc:1470
+#: linux/WulforUtil.cc:1471
 msgid "Aliases not found."
 msgstr ""
 
@@ -2725,7 +2733,7 @@ msgstr ""
 msgid "Application"
 msgstr ""
 
-#: linux/detectiontab.cc:846
+#: linux/detectiontab.cc:853
 #, c-format, boost-format
 msgid "Are you sure you want to delete Entry \"%s\"?"
 msgstr ""
@@ -2748,7 +2756,7 @@ msgstr ""
 msgid "Are you sure you want to delete ignore user(s)?"
 msgstr ""
 
-#: linux/detectiontab.cc:1036 linux/detectiontab.cc:1452
+#: linux/detectiontab.cc:1043 linux/detectiontab.cc:1471
 msgid "Are you sure you want to delete item?"
 msgstr ""
 
@@ -2756,7 +2764,7 @@ msgstr ""
 msgid "Are you sure you want to delete recent hub(s)?"
 msgstr ""
 
-#: linux/detectiontab.cc:499 linux/detectiontab.cc:531
+#: linux/detectiontab.cc:506 linux/detectiontab.cc:538
 #, c-format, boost-format
 msgid "Are you sure you want to delete this item \"%s\"?"
 msgstr ""
@@ -2799,7 +2807,7 @@ msgstr ""
 msgid "Away mode message on/off"
 msgstr ""
 
-#: linux/WulforUtil.cc:1265 linux/WulforUtil.cc:1278 linux/hub.cc:2132
+#: linux/WulforUtil.cc:1266 linux/WulforUtil.cc:1279 linux/hub.cc:2132
 #: linux/mainwindow.cc:482 linux/privatemessage.cc:874
 msgid "Away mode off"
 msgstr ""
@@ -2808,7 +2816,7 @@ msgstr ""
 msgid "Away mode on"
 msgstr ""
 
-#: linux/WulforUtil.cc:1272
+#: linux/WulforUtil.cc:1273
 msgid "Away mode on: "
 msgstr ""
 
@@ -2829,27 +2837,27 @@ msgstr ""
 msgid "CMD"
 msgstr ""
 
-#: linux/WulforUtil.cc:512
+#: linux/WulforUtil.cc:513
 msgid "CP1250 (Central Europe)"
 msgstr ""
 
-#: linux/WulforUtil.cc:521
+#: linux/WulforUtil.cc:522
 msgid "CP1251 (Cyrillic)"
 msgstr ""
 
-#: linux/WulforUtil.cc:511
+#: linux/WulforUtil.cc:512
 msgid "CP1252 (Western Europe)"
 msgstr ""
 
-#: linux/WulforUtil.cc:522
+#: linux/WulforUtil.cc:523
 msgid "CP1256 (Arabic)"
 msgstr ""
 
-#: linux/WulforUtil.cc:523
+#: linux/WulforUtil.cc:524
 msgid "CP1257 (Baltic)"
 msgstr ""
 
-#: linux/WulforUtil.cc:519
+#: linux/WulforUtil.cc:520
 msgid "CP949 (Korean)"
 msgstr ""
 
@@ -2874,10 +2882,10 @@ msgid "Clear search box after each search"
 msgstr ""
 
 #: linux/ADLSearchGUI.cc:663 linux/System.cc:124 linux/cmddebug.cc:153
-#: linux/detectiontab.cc:1705 linux/downloadqueue.cc:1429
+#: linux/detectiontab.cc:1724 linux/downloadqueue.cc:1429
 #: linux/favoritehubs.cc:1260 linux/favoriteusers.cc:648
 #: linux/finishedtransfers.cc:435 linux/highliting.cc:438 linux/hub.cc:4045
-#: linux/ignoreusers.cc:577 linux/notepad.cc:116 linux/privatemessage.cc:1260
+#: linux/ignoreusers.cc:577 linux/notepad.cc:115 linux/privatemessage.cc:1260
 #: linux/publichubs.cc:498 linux/recenthub.cc:325 linux/search.cc:2011
 #: linux/searchspy.cc:675 linux/sharebrowser.cc:1090
 msgid "Close"
@@ -2903,7 +2911,7 @@ msgstr ""
 msgid "Command name already exists"
 msgstr ""
 
-#: linux/WulforUtil.cc:1254
+#: linux/WulforUtil.cc:1255
 msgid "Command send: "
 msgstr ""
 
@@ -3084,14 +3092,14 @@ msgstr ""
 msgid "Emotion packs"
 msgstr ""
 
-#: linux/detectiontab.cc:34 linux/detectiontab.cc:52 linux/detectiontab.cc:63
-#: linux/detectiontab.cc:96 linux/detectiontab.cc:235
-#: linux/detectiontab.cc:255 linux/detectiontab.cc:374
-#: linux/detectiontab.cc:446 linux/detectiontab.cc:471
-#: linux/detectiontab.cc:608 linux/detectiontab.cc:617
-#: linux/detectiontab.cc:636 linux/detectiontab.cc:648
-#: linux/detectiontab.cc:809 linux/detectiontab.cc:878
-#: linux/detectiontab.cc:894 linux/detectiontab.cc:1064
+#: linux/detectiontab.cc:40 linux/detectiontab.cc:59 linux/detectiontab.cc:70
+#: linux/detectiontab.cc:103 linux/detectiontab.cc:242
+#: linux/detectiontab.cc:262 linux/detectiontab.cc:381
+#: linux/detectiontab.cc:453 linux/detectiontab.cc:478
+#: linux/detectiontab.cc:615 linux/detectiontab.cc:624
+#: linux/detectiontab.cc:643 linux/detectiontab.cc:655
+#: linux/detectiontab.cc:816 linux/detectiontab.cc:885
+#: linux/detectiontab.cc:901 linux/detectiontab.cc:1071
 msgid "Enable"
 msgstr ""
 
@@ -3194,12 +3202,12 @@ msgstr ""
 msgid "Favorite user quit"
 msgstr ""
 
-#: linux/detectiontab.cc:102 linux/detectiontab.cc:1007
-#: linux/detectiontab.cc:1111 linux/detectiontab.cc:1210
+#: linux/detectiontab.cc:109 linux/detectiontab.cc:1014
+#: linux/detectiontab.cc:1118 linux/detectiontab.cc:1217
 msgid "Field"
 msgstr ""
 
-#: linux/detectiontab.cc:1232
+#: linux/detectiontab.cc:1239
 msgid "Fields Name, ID and detection fields are required"
 msgstr ""
 
@@ -3253,9 +3261,9 @@ msgstr ""
 msgid "Filter kick and NMDC debug messages"
 msgstr ""
 
-#: linux/detectiontab.cc:40 linux/detectiontab.cc:261
-#: linux/detectiontab.cc:815 linux/detectiontab.cc:884
-#: linux/detectiontab.cc:900
+#: linux/detectiontab.cc:46 linux/detectiontab.cc:268
+#: linux/detectiontab.cc:822 linux/detectiontab.cc:891
+#: linux/detectiontab.cc:907
 msgid "Flag"
 msgstr ""
 
@@ -3272,7 +3280,7 @@ msgstr ""
 msgid "Full tree does not match TTH root"
 msgstr ""
 
-#: linux/WulforUtil.cc:524
+#: linux/WulforUtil.cc:525
 msgid "GB18030 (Chinese)"
 msgstr ""
 
@@ -3316,8 +3324,8 @@ msgstr ""
 msgid "Higlitings"
 msgstr ""
 
-#: linux/detectiontab.cc:104 linux/detectiontab.cc:1009
-#: linux/detectiontab.cc:1113 linux/detectiontab.cc:1212 linux/search.cc:92
+#: linux/detectiontab.cc:111 linux/detectiontab.cc:1016
+#: linux/detectiontab.cc:1120 linux/detectiontab.cc:1219 linux/search.cc:92
 #: linux/search.cc:640 linux/search.cc:736 linux/search.cc:865
 #: linux/settingsdialog.cc:1532 linux/settingsdialog.cc:1542
 #: linux/settingsdialog.cc:3111 linux/settingsdialog.cc:3185
@@ -3355,23 +3363,23 @@ msgstr ""
 msgid "Hubs: "
 msgstr ""
 
-#: linux/WulforUtil.cc:517
+#: linux/WulforUtil.cc:518
 msgid "ISO-2022-JP (Japanese)"
 msgstr ""
 
-#: linux/WulforUtil.cc:513
+#: linux/WulforUtil.cc:514
 msgid "ISO-8859-2 (Central Europe)"
 msgstr ""
 
-#: linux/WulforUtil.cc:514
+#: linux/WulforUtil.cc:515
 msgid "ISO-8859-7 (Greek)"
 msgstr ""
 
-#: linux/WulforUtil.cc:515
+#: linux/WulforUtil.cc:516
 msgid "ISO-8859-8 (Hebrew)"
 msgstr ""
 
-#: linux/WulforUtil.cc:516
+#: linux/WulforUtil.cc:517
 msgid "ISO-8859-9 (Turkish)"
 msgstr ""
 
@@ -3432,7 +3440,7 @@ msgstr ""
 msgid "Items: 0"
 msgstr ""
 
-#: linux/WulforUtil.cc:520
+#: linux/WulforUtil.cc:521
 msgid "KOI8-R (Cyrillic)"
 msgstr ""
 
@@ -3560,7 +3568,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: linux/WulforUtil.cc:1316
+#: linux/WulforUtil.cc:1317
 msgid "No 0 Slots!!"
 msgstr ""
 
@@ -3588,7 +3596,7 @@ msgstr ""
 msgid "Not found user: "
 msgstr ""
 
-#: linux/WulforUtil.cc:474
+#: linux/WulforUtil.cc:475
 msgid "Offline"
 msgstr ""
 
@@ -3723,7 +3731,7 @@ msgstr ""
 msgid "Running..."
 msgstr ""
 
-#: linux/WulforUtil.cc:518
+#: linux/WulforUtil.cc:519
 msgid "SJIS (Japanese)"
 msgstr ""
 
@@ -3793,7 +3801,7 @@ msgstr ""
 msgid "Set Slots to n"
 msgstr ""
 
-#: linux/WulforUtil.cc:1323
+#: linux/WulforUtil.cc:1324
 msgid "Set Slots to:"
 msgstr ""
 
@@ -3999,7 +4007,7 @@ msgstr ""
 msgid "System Tab"
 msgstr ""
 
-#: linux/WulforUtil.cc:58
+#: linux/WulforUtil.cc:59
 msgid "System default"
 msgstr ""
 
@@ -4007,7 +4015,7 @@ msgstr ""
 msgid "System message"
 msgstr ""
 
-#: linux/WulforUtil.cc:525
+#: linux/WulforUtil.cc:526
 msgid "TIS-620 (Thai)"
 msgstr ""
 
@@ -4027,9 +4035,9 @@ msgstr ""
 msgid "Throtle on"
 msgstr ""
 
-#: linux/detectiontab.cc:66 linux/detectiontab.cc:373
-#: linux/detectiontab.cc:470 linux/detectiontab.cc:635
-#: linux/detectiontab.cc:647 linux/searchspy.cc:53 linux/searchspy.cc:265
+#: linux/detectiontab.cc:73 linux/detectiontab.cc:380
+#: linux/detectiontab.cc:477 linux/detectiontab.cc:642
+#: linux/detectiontab.cc:654 linux/searchspy.cc:53 linux/searchspy.cc:265
 #: linux/searchspy.cc:290 linux/searchspy.cc:306
 msgid "Time"
 msgstr ""
@@ -4070,7 +4078,7 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
-#: linux/WulforUtil.cc:510
+#: linux/WulforUtil.cc:511
 msgid "UTF-8 (Unicode)"
 msgstr ""
 
@@ -4098,7 +4106,7 @@ msgstr ""
 msgid "Underline"
 msgstr ""
 
-#: linux/WulforUtil.cc:617 linux/WulforUtil.cc:619 linux/downloadqueue.cc:1289
+#: linux/WulforUtil.cc:618 linux/WulforUtil.cc:620 linux/downloadqueue.cc:1289
 #: linux/downloadqueue.cc:1290
 msgid "Unknown"
 msgstr ""
@@ -4139,7 +4147,7 @@ msgstr ""
 msgid "Uploaded "
 msgstr ""
 
-#: linux/WulforUtil.cc:1427
+#: linux/WulforUtil.cc:1428
 msgid "Uptime: "
 msgstr ""
 
@@ -4454,7 +4462,7 @@ msgstr ""
 msgid "file list from "
 msgstr ""
 
-#: linux/WulforUtil.cc:1285
+#: linux/WulforUtil.cc:1286
 msgid "project home: "
 msgstr ""
 

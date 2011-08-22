@@ -4043,12 +4043,15 @@ void Hub::popmenu()
 
     GtkWidget *copyHubUrl = gtk_menu_item_new_with_label(_("Copy URL"));
     GtkWidget *close = gtk_menu_item_new_with_label(_("Close"));
+    GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite hubs"));
 
     gtk_menu_shell_append(GTK_MENU_SHELL(menu),close);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu),copyHubUrl);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu),addFav);
 
     g_signal_connect_swapped(copyHubUrl, "activate", G_CALLBACK(onCopyHubUrl),this);
-    g_signal_connect_swapped(close, "activate",G_CALLBACK(onCloseItem),this);
+    g_signal_connect_swapped(close, "activate", G_CALLBACK(onCloseItem),this);
+    g_signal_connect_swapped(addFav, "activate", G_CALLBACK(onAddFavItem),(gpointer)this);
 
 }
 
@@ -4062,4 +4065,10 @@ void Hub::onCopyHubUrl(gpointer data)
 {
     Hub *hub = (Hub *)data;
     gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), hub->huburl.c_str(), hub->huburl.length());
+}
+
+void Hub::onAddFavItem(gpointer data)
+{
+	Hub *hub = (Hub *)data;
+	hub->addAsFavorite_client();
 }

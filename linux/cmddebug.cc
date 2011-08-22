@@ -51,10 +51,10 @@ cmddebug::~cmddebug()
     DebugManager::getInstance()->removeListener(this);
 }
 
-void cmddebug::add_gui(time_t t,string file)
+void cmddebug::add_gui(time_t t, string file)
 {
     string line;
-    line="";
+    line = "";
 
     gtk_text_buffer_get_end_iter(buffer, &iter);
 

@@ -661,8 +661,8 @@ void ADLSearchGUI::onToggleForb(GtkWidget *widget, gpointer data)
 void ADLSearchGUI::popmenu()
 {
     GtkWidget *closeMenuItem = gtk_menu_item_new_with_label(_("Close"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(getNewTabMenu()),closeMenuItem);
-    g_signal_connect_swapped(closeMenuItem, "activate",G_CALLBACK(onCloseItem),this);
+    gtk_menu_shell_append(GTK_MENU_SHELL(getNewTabMenu()), closeMenuItem);
+    g_signal_connect_swapped(closeMenuItem, "activate", G_CALLBACK(onCloseItem),this);
 }
 
 void ADLSearchGUI::onCloseItem(gpointer data)

@@ -307,7 +307,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("icon-zerozeroone-away-pasive", "bmdc-zerozeroone-away-pasive"));
 	defaultString.insert(StringMap::value_type("icon-other-away-pasive", "bmdc-other-away-pasive"));
 	//Sounds
-	defaultString.insert(StringMap::value_type("sound-command","aplay"));
+	defaultString.insert(StringMap::value_type("sound-command", "aplay"));
 	/**/
 	//customs aliasies
 	defaultString.insert(StringMap::value_type("custom-aliases", ""));
