@@ -309,6 +309,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	env.MergeFlags(BUILD_FLAGS[env['mode']])
 
 	env.Append(CXXFLAGS = '-std=c++0x')
+	env.Append(LINKFLAGS = ['-lboost_thread','-lboost_regex'])
 
 	env.ParseConfig('pkg-config --libs libglade-2.0')
 	env.ParseConfig('pkg-config --libs gthread-2.0')

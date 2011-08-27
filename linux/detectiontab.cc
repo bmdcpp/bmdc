@@ -1115,8 +1115,8 @@ void DetectionTab::addMap_gui(StringMap params)
 void DetectionTab::editMap_gui(StringMap &params,GtkTreeIter *iter)
 {
 	gtk_list_store_set(itemstore, iter,
-	item.col(N_("Field")),params["Name"].c_str(),
-	item.col(N_("Value")),params["Value"].c_str(),
+	item.col(N_("Field")), params["Name"].c_str(),
+	item.col(N_("Value")), params["Value"].c_str(),
 	item.col(N_("Hub")), params["Type"].c_str(),
 	-1);
 }

@@ -395,6 +395,23 @@ void PrivateMessage::applyTags_gui(const string &line)
 
 		GCallback callback = NULL;
 		gchar *temp = gtk_text_iter_get_text(&tag_start_iter, &tag_end_iter);
+		
+		GtkTextTag *tag = gtk_text_tag_table_lookup(gtk_text_buffer_get_tag_table(messageBuffer), temp);
+		
+		if(WGETB("use-highliting"))
+		{
+			bool isTab = false;
+			if(WulforUtil::isHighlitingWorld(messageBuffer,tag,string(temp),isTab,(gpointer)NULL))
+			{
+				gtk_text_buffer_apply_tag(messageBuffer, /*TagsMap[TAG_HIGHL]*/tag, &tag_start_iter, &tag_end_iter);
+				if(isTab)
+				{
+					typedef Func0<PrivateMessage> F0;
+					F0 *func = new F0(this, &PrivateMessage::setUrgent_gui);
+					WulforManager::get()->dispatchGuiFunc(func);
+				}
+			}
+		}
 
 		if (!C_EMPTY(temp))
 		{

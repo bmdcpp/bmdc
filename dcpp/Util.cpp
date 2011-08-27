@@ -232,6 +232,7 @@ void Util::initialize() {
 		}
 	} catch(const FileException&) {
 	}
+	
 }
 
 void Util::migrate(const string& file) {
@@ -999,14 +1000,13 @@ string Util::getIpCountry (string IP) {
 			(Util::toUInt32(IP.c_str() + a + 1) << 16) |
 			(Util::toUInt32(IP.c_str() + b + 1) << 8) |
 			(Util::toUInt32(IP.c_str() + c + 1) );
-
+				
 		CountryIter i = countries.lower_bound(ipnum);
 
 		if(i != countries.end()) {
 			return string((char*)&(i->second), 2);
 		}
-	}
-
+}
 	return Util::emptyString; //if doesn't returned anything already, something is wrong...
 }
 

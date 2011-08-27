@@ -46,7 +46,7 @@
 
 #include <dcpp/Client.h>
 
-#include <dcpp/HighlightManager.h>
+//#include <dcpp/HighlightManager.h>
 //CMD
 #include <dcpp/QueueManager.h>
 #include <dcpp/RsxUtil.h>
@@ -206,7 +206,7 @@ Hub::Hub(const string &address, const string &encoding):
 	// End
 	g_signal_connect(getWidget("downloadBrowseItem"), "activate", G_CALLBACK(onDownloadToClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("downloadItem"), "activate", G_CALLBACK(onDownloadClicked_gui), (gpointer)this);
-	//Patch
+	//
 	g_signal_connect(getWidget("ripeMenuItem"), "activate", G_CALLBACK(ripeIp) , (gpointer)this);
 	g_signal_connect(getWidget("copyItem") ,"activate", G_CALLBACK(copyIp) , (gpointer)this);
 	// End
@@ -320,7 +320,7 @@ void Hub::show()
 	F2 *func = new F2(this, &Hub::connectClient_client, address, encoding);
 	WulforManager::get()->dispatchClientFunc(func);
 }
-
+/*
 bool Hub::isHighlitingWorld(string word, GtkTextTag *tag)
 {
 		GtkTreeIter q;
@@ -405,7 +405,7 @@ bool Hub::isHighlitingWorld(string word, GtkTextTag *tag)
 				else
 					rematch = WulforUtil::matchRe(word,q,false);
 
-				if(rematch == 0)
+				if(!rematch)
 					ret = FALSE;
 				else
 				{
@@ -470,7 +470,7 @@ bool Hub::isHighlitingWorld(string word, GtkTextTag *tag)
 
 	return ret;
 }
-
+*/
 void Hub::setStatus_gui(string statusBar, string text)
 {
 	if (!statusBar.empty() && !text.empty())
@@ -663,8 +663,7 @@ void Hub::updateUser_gui(ParamMap params)
 		}
 	}
 
-
-	setStatus_gui("statusUsers", Util::toString(userMap.size()) + _(" Users"));
+	setStatus_gui("statusUsers", Util::toString(userMap.size()) + N_(" Users"));
 	setStatus_gui("statusShared", Util::formatBytes(totalShared));
 }
 
@@ -1034,14 +1033,23 @@ void Hub::applyTags_gui(const string &line)
 		GCallback callback = NULL;
 		bool isNick = FALSE , image_tag = FALSE;
 		gchar *temp = gtk_text_iter_get_text(&tag_start_iter, &tag_end_iter);
-		gchar *pname = temp;//IP
+		gchar *pname = temp; //IP
+		
 		GtkTextTag *tag = gtk_text_tag_table_lookup(gtk_text_buffer_get_tag_table(chatBuffer), temp);
 
 		if(WGETB("use-highliting"))
 		{
-			if(isHighlitingWorld(string(temp),tag))
+			bool isTab = false;
+			if(WulforUtil::isHighlitingWorld(chatBuffer,tag,string(temp),isTab,(gpointer)this))
 			{
-				gtk_text_buffer_apply_tag(chatBuffer, TagsMap[TAG_HIGHL], &tag_start_iter, &tag_end_iter);
+				gtk_text_buffer_apply_tag(chatBuffer, /*TagsMap[TAG_HIGHL]*/tag, &tag_start_iter, &tag_end_iter);
+				if(isTab)
+				{
+					typedef Func0<Hub> F0;
+					F0 *func = new F0(this, &Hub::setUrgent_gui);
+					WulforManager::get()->dispatchGuiFunc(func);	
+					
+				}
 			}
 		}
 
@@ -1558,7 +1566,7 @@ void Hub::getSettingTag_gui(WulforSettingsManager *wsm, TypeTag type, string &fo
 			else
 				bold = 0;
 		break;
-		case TAG_IPADR:
+		case TAG_IPADR://TODO
 		case TAG_GENERAL:
 
 		default:
@@ -3364,6 +3372,9 @@ void Hub::addAsFavorite_client()
  		aEntry.setNick(client->getMyNick());
  		aEntry.setEncoding(encoding);
  		aEntry.setGroup("");
+ 		if(client->getPassword().size() > 0)  {
+            aEntry.setPassword(client->getPassword());
+        }   
  		FavoriteManager::getInstance()->addFavorite(aEntry);
  		func = new F4(this, &Hub::addStatusMessage_gui, _("Favorite hub added"), Msg::STATUS, Sound::NONE,Notify::NONE);
  		WulforManager::get()->dispatchGuiFunc(func);

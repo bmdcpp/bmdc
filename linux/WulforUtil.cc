@@ -46,7 +46,11 @@
 #include <sys/utsname.h>
 #include <sys/sysinfo.h>
 
-#include <regex.h>
+#include <dcpp/HighlightManager.h>
+#include "hub.hh"
+#include "wulformanager.hh"
+
+//#include <regex.h>
 
 #ifdef HAVE_IFADDRS_H
 	#include <ifaddrs.h>
@@ -1058,27 +1062,27 @@ string WulforUtil::getReport(const Identity& identity)
 }
 
 
-int WulforUtil::matchRe(const std::string/*&*/ strToMatch, const std::string/*&*/ expression, bool caseSensative /*= true*/) {
-		/*try {
+bool WulforUtil::matchRe(const std::string/*&*/ strToMatch, const std::string/*&*/ expression, bool caseSensative /*= true*/) {
+		try {
 			const boost::regex reg(expression, caseSensative ? 0 : boost::regex::icase);
 			return boost::regex_search(strToMatch.begin(), strToMatch.end(), reg);
 		} catch(...) {
 			//...
 		}
-		return false;*/
-			int    status;
+		return false;
+		/*	int    status;
 			regex_t    re;
 			const char *pattern=expression.c_str();
 			const char *strings=strToMatch.c_str();
 			    if (regcomp(&re, pattern, REG_EXTENDED|REG_NOSUB) != 0) {
 			        return 0;      /* Report error. */
-    				}
+    	/*			}
 			    status = regexec(&re, strings, (size_t) 0, NULL, 0);
 			    regfree(&re);
 			    if (status != 0) {
 			        return 0;    /* Report error. */
-				    }
-    			return 1;
+		/*		    }
+    			return 1;*/
 }
 ///From Crzdc
 string WulforUtil::generateLeech() {
@@ -1325,4 +1329,159 @@ void WulforUtil::remove_events_internal (GtkWidget *widget, gint events, GList  
       g_list_free (children);
     }
   }
+}
+
+bool WulforUtil::isHighlitingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, string word, bool &tTab, gpointer hub)
+{
+		GtkTreeIter q;
+
+		string sMsgLower;//(' ',word.length());
+		sMsgLower.resize(word.size()+1);
+		std::transform(word.begin(), word.end(), sMsgLower.begin(), _tolower);
+		gboolean ret;
+
+		ColorList* cList = HighlightManager::getInstance()->getList();
+		for(ColorIter i = cList->begin();i != cList->end(); ++i) {
+			ColorSettings* cs= &(*i);
+			bool tBold = false;
+			bool tItalic = false;
+			bool tUnderline = false;
+			bool tPopup = false;
+			bool user = false;
+			bool tTab = true;
+			bool tSound = true;
+			string fore("");
+			string back("");
+
+			if(cs->getBold())
+				tBold = true;
+			if(cs->getItalic())
+				tItalic = true;
+			if(cs->getUnderline())
+				tUnderline = true;
+
+			if(cs->getHasBgColor())
+				back = cs->getBgColor();
+			else
+				back = "#FFFFFF";
+
+			if(cs->getHasFgColor())
+				fore = cs->getFgColor();
+			else
+				fore = "#000000";
+
+			if(cs->getPopup())
+				tPopup = true;
+			if(cs->getTab())
+				tTab = true;
+			if(cs->getPlaySound())
+				tSound = true;
+
+			string _w = cs->getMatch();
+			string _sW;//(' ', _w.length());
+			_sW.resize(_w.size()+1);
+			std::transform(_w.begin(), _w.end(), _sW.begin(), _tolower);
+			
+			int ffound = sMsgLower.compare(_sW);
+			
+			if(!ffound) {
+				if((Hub *)hub)
+				{
+					Hub *p = (Hub *)hub;
+					if(((cs->getIncludeNick()) && p->findNick_gui_p(word,q)))
+					{
+						if(!tag) {
+
+							tag = gtk_text_buffer_create_tag(buffer, word.c_str(),
+							"foreground", fore.c_str(),
+							"background", back.c_str(),
+							"weight", tBold ? TEXT_WEIGHT_BOLD : TEXT_WEIGHT_NORMAL,
+							"style", tItalic ? TEXT_STYLE_ITALIC : TEXT_STYLE_NORMAL,
+							"underline", tUnderline ? PANGO_UNDERLINE_DOUBLE : PANGO_UNDERLINE_NONE,
+							NULL);
+						}
+					//TagsMap[TAG_HIGHL] = tag;//think about this  =P
+					ret = TRUE;
+					continue;
+					}
+				}	
+			}
+
+			string w = cs->getMatch();
+			string sW;//(' ',w.length());
+			sW.resize(w.size()+1);
+			std::transform(w.begin(), w.end(), sW.begin(), _tolower);
+			
+			if(cs->usingRegexp())
+			{
+				string q = cs->getMatch().substr(4);
+				int rematch = 0;
+				if(cs->getCaseSensitive())
+					rematch = matchRe(word,q,true);
+				else
+					rematch = matchRe(word,q,false);
+
+				if(!rematch)
+					ret = FALSE;
+				else
+				{
+					if(!tag) {
+						tag = gtk_text_buffer_create_tag(buffer, word.c_str(),
+						"foreground", fore.c_str(),
+						"background", back.c_str(),
+						"weight", tBold ? TEXT_WEIGHT_BOLD : TEXT_WEIGHT_NORMAL,
+						"style", tItalic ? TEXT_STYLE_ITALIC : TEXT_STYLE_NORMAL,
+						"underline", tUnderline ? PANGO_UNDERLINE_DOUBLE : PANGO_UNDERLINE_NONE,
+						NULL);
+					}
+
+				//	TagsMap[TAG_HIGHL] = tag;//think about this  =P
+					ret = TRUE;
+					continue;
+				}
+			}
+
+			int found = sMsgLower.compare(sW);
+			if(!found) {
+
+				if(!tag)
+				{
+				tag = gtk_text_buffer_create_tag(buffer, word.c_str(),
+					"foreground", fore.c_str(),
+					"background", back.c_str(),
+					"weight", tBold ? TEXT_WEIGHT_BOLD : TEXT_WEIGHT_NORMAL,
+					"style", tItalic ? TEXT_STYLE_ITALIC : TEXT_STYLE_NORMAL,
+					"underline", tUnderline ? PANGO_UNDERLINE_DOUBLE : PANGO_UNDERLINE_NONE,
+					NULL);
+
+				}
+				//TagsMap[TAG_HIGHL] = tag;//think about this  =P
+
+
+				if(tPopup)
+					WulforManager::get()->getMainWindow()->showNotification_gui(cs->getNoti()+":",word,Notify::HIGHLITING_E);
+
+				/*if(tTab)
+				{
+					typedef Func0<Hub> F0;
+					F0 *func = new F0(this, &Hub::setUrgent_gui);
+					WulforManager::get()->dispatchGuiFunc(func);
+				}*/
+
+				if(tSound)
+				{
+					Sound::get()->playSound(cs->getSoundFile());
+				}
+
+				ret = TRUE;
+				break;
+			}
+			else
+			{
+				ret = FALSE;
+				continue;
+			}
+	}
+	return ret;	
+
 }

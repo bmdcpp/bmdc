@@ -70,12 +70,6 @@ class Entry
 		void remove();
 		virtual void show() {};
 
-		Entry(const Entry& entry): xml(NULL),type(entry.getType()), id(entry.getID()) {
-						*this = entry;
-		}
-		Entry& operator=(const Entry& entry) { id = entry.id; return *this;  }
-
-
 	protected:
 		std::string generateID();
 		GtkWidget *getWidget(const std::string &name);

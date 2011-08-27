@@ -441,9 +441,8 @@ public:
 	static uint32_t rand(uint32_t low, uint32_t high) { return rand(high-low) + low; }
 	static double randd() { return ((double)rand()) / ((double)0xffffffff); }
 	static bool fileExists(const string aFile);
-	static int64_t getUptime(){return uptime;}
-	static void setUptime(){uptime++;}
-
+	static int64_t getUptime(){ return uptime; }
+	static void setUptime() { uptime++; }
 
 private:
 	/** In local mode, all config and temp files are kept in the same dir as the executable */
@@ -461,7 +460,7 @@ private:
 	typedef unsigned long DWORD;
 
 	static CountryList countries;
-
+	
 	static void loadBootConfig();
 };
 

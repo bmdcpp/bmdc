@@ -39,6 +39,8 @@
 #include <math.h>
 
 namespace dcpp {
+	
+using std::make_pair;	
 
 const string AdcHub::CLIENT_PROTOCOL("ADC/1.0");
 const string AdcHub::SECURE_CLIENT_PROTOCOL_TEST("ADCS/0.10");
@@ -732,9 +734,11 @@ void AdcHub::sendUserCmd(const UserCommand& command, const StringMap& params) {
 
 const vector<StringList>& AdcHub::getSearchExts() {
 	if(!searchExts.empty())
-			return searchExts;
+		return searchExts;
 	
 	auto& xSearchExts = const_cast<vector<StringList>&>(searchExts);
+	
+	xSearchExts.resize(6);
 	
 	/// @todo simplify this as searchExts[0] = { "mp3", "etc" } when VC++ supports initializer lists
 

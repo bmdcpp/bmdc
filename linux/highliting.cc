@@ -20,14 +20,13 @@ BookEntry(Entry::HIGHL,_("Highliting Settings"),"highliting.glade")
 	hView.insertColumn(_("Bold"), G_TYPE_STRING, TreeView::STRING, 60);
 	hView.insertColumn(_("Underline"), G_TYPE_STRING, TreeView::STRING, 60);
 	hView.insertColumn(_("Italic"), G_TYPE_STRING, TreeView::STRING, 60);
-	hView.insertColumn("INCNICK", G_TYPE_STRING, TreeView::STRING, 60);
-	hView.insertColumn("BoldTab", G_TYPE_STRING, TreeView::STRING, 60);
-	hView.insertColumn("UsingREEXP", G_TYPE_STRING, TreeView::STRING, 60);
-	hView.insertColumn("BGColor", G_TYPE_STRING, TreeView::STRING, 60);
-	hView.insertColumn("FGColor", G_TYPE_STRING, TreeView::STRING, 60);
-	hView.insertColumn("NotifyStr", G_TYPE_STRING, TreeView::STRING, 60);
+	hView.insertColumn(_("Include Nick"), G_TYPE_STRING, TreeView::STRING, 60);
+	hView.insertColumn(_("Bold Tab"), G_TYPE_STRING, TreeView::STRING, 60);
+	hView.insertColumn(_("Back Color"), G_TYPE_STRING, TreeView::STRING, 60);
+	hView.insertColumn(_("Fore Color"), G_TYPE_STRING, TreeView::STRING, 60);
+	hView.insertColumn(_("Notify String"), G_TYPE_STRING, TreeView::STRING, 60);
 	hView.insertColumn(_("Sound"), G_TYPE_STRING, TreeView::STRING, 60);
-	hView.insertColumn("SoundStr", G_TYPE_STRING, TreeView::STRING, 80);
+	hView.insertColumn(_("Sound String"), G_TYPE_STRING, TreeView::STRING, 80);
 	hView.finalize();
 	store = gtk_list_store_newv(hView.getColCount(), hView.getGTypes());
 	gtk_tree_view_set_model(hView.get(), GTK_TREE_MODEL(store));
@@ -80,14 +79,13 @@ void Highlighting::editEntry_gui(StringMap &params, GtkTreeIter *iter)
 		hView.col(_("Bold")), params["Bold"].c_str(),
 		hView.col(_("Underline")), params["Underline"].c_str(),
 		hView.col(_("Italic")), params["Italic"].c_str(),
-		hView.col("INCNICK"), params["INCNICK"].c_str(),
-		hView.col("BoldTab"), params["Tab"].c_str(),
-		hView.col("UsingREEXP"), params["EXP"].c_str(),
-		hView.col("BGColor"), params["BGColor"].c_str(),
-		hView.col("FGColor"), params["FGColor"].c_str(),
-		hView.col("NotifyStr"), params["Noti"].c_str(),
+		hView.col(_("Include Nick")), params["INCNICK"].c_str(),
+		hView.col(_("Bold Tab")), params["Tab"].c_str(),
+		hView.col(_("Back Color")), params["BGColor"].c_str(),
+		hView.col(_("Fore Color")), params["FGColor"].c_str(),
+		hView.col(_("Notify String")), params["Noti"].c_str(),
 		hView.col(_("Sound")), params["Sound"].c_str(),
-		hView.col("SoundStr"), params["SoundF"].c_str(),
+		hView.col(_("Sound String")), params["SoundF"].c_str(),
 		-1);
 }
 
@@ -175,13 +173,13 @@ void Highlighting::onModify(GtkWidget *widget, gpointer data)
 	params["Bold"] = hg->hView.getString(&iter, _("Bold"));
 	params["Underline"] = hg->hView.getString(&iter, _("Underline"));
 	params["Italic"] = hg->hView.getString(&iter, _("Italic"));
-	params["INCNICK"] = hg->hView.getString(&iter, "INCNICK");
-	params["Tab"] = hg->hView.getString(&iter, "BoldTab");
-	params["FGColor"] = hg->hView.getString(&iter, "FGColor");
-	params["BGColor"] = hg->hView.getString(&iter, "BGColor");
-	params["Noti"] = hg->hView.getString(&iter, "NotifyStr");
+	params["INCNICK"] = hg->hView.getString(&iter, _("Include Nick"));
+	params["Tab"] = hg->hView.getString(&iter, _("Bold Tab"));
+	params["FGColor"] = hg->hView.getString(&iter, _("Fore Color"));
+	params["BGColor"] = hg->hView.getString(&iter, _("Back Color"));
+	params["Noti"] = hg->hView.getString(&iter, _("Notify String"));
 	params["Sound"] = hg->hView.getString(&iter, _("Sound"));
-	params["SoundF"] = hg->hView.getString(&iter, "SoundStr");
+	params["SoundF"] = hg->hView.getString(&iter, _("Sound String"));
 
     bool isOk = hg->showColorDialog(params);
 	if(isOk)
@@ -239,7 +237,7 @@ bool Highlighting::showColorDialog(StringMap &params)
 	// Set Italic checkbox
 	gboolean isItalic = params["Italic"] == "1" ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkitalic")), isItalic);
-	// Set is Nick/User 
+	// Set is Nick
 	gboolean isNick = params["INCNICK"] == "1" ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkNick")), isNick);
 	//set Bold Tab
@@ -254,19 +252,26 @@ bool Highlighting::showColorDialog(StringMap &params)
 
 	gboolean isSound = params["Sound"] == "1" ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkSound")), isSound);
+	
+	gboolean isFgColor = params["FGColor"].empty();
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkfccolor")), isFgColor);
+	
+	gboolean isBgColor = params["BGColor"].empty();
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkbgcolor")), isFgColor);
+	
+	
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entrySoundFile")),params["SoundF"].c_str());
 
-    /*Set The BG //FG colors*/
+	/*Set The BG //FG colors*/
 	GdkColor clr;
 	gdk_color_parse(params["FGColor"].c_str(),&clr);
-	gtk_color_button_set_color(GTK_COLOR_BUTTON(getWidget("colorbuttonfg")), &clr);//
+	gtk_color_button_set_color(GTK_COLOR_BUTTON(getWidget("colorbuttonfg")), &clr);
 	gtk_widget_modify_base (getWidget("colorbuttonfg"), GTK_STATE_NORMAL, &clr);
     gtk_widget_modify_fg (getWidget("colorbuttonfg"), GTK_STATE_NORMAL, &clr);
 
-
 	GdkColor colr;
 	gdk_color_parse(params["BGColor"].c_str(),&colr);
-	gtk_color_button_set_color(GTK_COLOR_BUTTON(getWidget("colorbuttonbg")), &colr);//
+	gtk_color_button_set_color(GTK_COLOR_BUTTON(getWidget("colorbuttonbg")), &colr);
 	gtk_widget_modify_base (getWidget("colorbuttonbg"), GTK_STATE_NORMAL, &colr);
     gtk_widget_modify_fg (getWidget("colorbuttonbg"), GTK_STATE_NORMAL, &colr);
 
@@ -275,12 +280,16 @@ bool Highlighting::showColorDialog(StringMap &params)
 	gint response = gtk_dialog_run(GTK_DIALOG(getWidget("HiglitingDialog")));
 	// Fix crash, if the dialog gets programmatically destroyed.
 	if (response == GTK_RESPONSE_NONE)
+	{
+		colors.bgcolor = Util::emptyString;
+		colors.fgcolor = Util::emptyString;
 		return FALSE;
-
+	}
+	
 	while (response == GTK_RESPONSE_OK)
 	{
 		params.clear();
-		params["Name"]=gtk_entry_get_text(GTK_ENTRY(getWidget("entrystring")));
+		params["Name"]= gtk_entry_get_text(GTK_ENTRY(getWidget("entrystring")));
 		params["Bold"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkbold"))) ? "1" : "0";
 		params["POPUP"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkpopup"))) ? "1" : "0";
 		params["Italic"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkitalic"))) ? "1" : "0";
@@ -291,7 +300,7 @@ bool Highlighting::showColorDialog(StringMap &params)
 		params["Noti"] = gtk_entry_get_text(GTK_ENTRY(getWidget("entryPopText")));
 		params["Sound"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkSound"))) ? "1" : "0";
 		params["SoundF"] = gtk_entry_get_text(GTK_ENTRY(getWidget("entrySoundFile")));
-
+		
         if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkfccolor"))))
             params["FGColor"] = colors.fgcolor;
         if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget("checkbgcolor"))))
@@ -301,12 +310,12 @@ bool Highlighting::showColorDialog(StringMap &params)
 			response = gtk_dialog_run(GTK_DIALOG(getWidget("HiglitingDialog")));
 		else
 		{
-			colors.bgcolor = Util::emptyString;
-			colors.fgcolor = Util::emptyString;
 			gtk_widget_hide(getWidget("HiglitingDialog"));
 			return TRUE;
 		}
 	}
+	colors.bgcolor = Util::emptyString;
+	colors.fgcolor = Util::emptyString;
 	gtk_widget_hide(getWidget("HiglitingDialog"));
 	return FALSE;
 }
@@ -353,17 +362,17 @@ void Highlighting::addHigl_client(StringMap params)
 	cs.setUnderline(Util::toInt(params["Underline"]));
 	cs.setItalic(Util::toInt(params["Italic"]));
 	cs.setUnderline(Util::toInt(params["Underline"]));
-	if(/*!colors.bgcolor.empty()*/!params["BGColor"].empty())
+	
+	if(!params["BGColor"].empty())
 	{
 		cs.setHasBgColor(true);
 		cs.setBgColor(params["BGColor"]);
-		//cs.setBgColor(colors.bgcolor);
 	}
-	if(/*!colors.fgcolor.empty()*/!params["FGColor"].empty())
+	
+	if(!params["FGColor"].empty())
 	{
 		cs.setHasFgColor(true);
-		//cs.setFgColor(colors.fgcolor);
-		cs.setFgColor(params["BGColor"]);
+		cs.setFgColor(params["FGColor"]);
 	}
 
 	cs.setIncludeNick(Util::toInt(params["INCNICK"]));
@@ -386,16 +395,16 @@ void Highlighting::editHigl_client(StringMap params,string name)
 	cs->setItalic(Util::toInt(params["Italic"]));
 	cs->setUnderline(Util::toInt(params["Underline"]));
 	cs->setTab(Util::toInt(params["Tab"]));
-	if(/*!colors.bgcolor.empty()*/!params["BGColor"].empty())
+	
+	if(!params["BGColor"].empty())
 	{
 		cs->setHasBgColor(true);
-		//cs->setBgColor(colors.bgcolor);
 		cs->setBgColor(params["BGColor"]);
 	}
-	if(/*!colors.fgcolor.empty()*/!params["FGColor"].empty())
+	
+	if(!params["FGColor"].empty())
 	{
 		cs->setHasFgColor(true);
-		//cs->setFgColor(colors.fgcolor);
 		cs->setFgColor(params["FGColor"]);
 	}
 
@@ -405,7 +414,6 @@ void Highlighting::editHigl_client(StringMap params,string name)
 
 	cs->setPlaySound(Util::toInt(params["Sound"]));
 	cs->setSoundFile(params["SoundF"]);
-
 
 	for(int i=0;i < pList.size(); i++)
 	{
@@ -422,7 +430,7 @@ void Highlighting::removeEntry_client(string name)
 
     for(int i=0;i < pList.size() ;i++)
     {
-		if(pList[i].getMatch()==name)
+		if(pList[i].getMatch() == name)
 	    	pList.erase(pList.begin() + i);
 	}
 

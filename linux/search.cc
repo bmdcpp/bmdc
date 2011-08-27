@@ -263,7 +263,7 @@ void Search::modifyHub_gui(string name, string url)
 	}
 }
 
-void Search::modifyHubnOp_gui(string name, string url,bool op)
+void Search::modifyHubnOp_gui(string name, string url, bool op)
 {
 	GtkTreeIter iter;
 	GtkTreeModel *m = GTK_TREE_MODEL(hubStore);
@@ -1092,7 +1092,10 @@ void Search::onSharedButtonToggled_gui(GtkToggleButton *button, gpointer data)
 void Search::onCheckOp_gui(GtkToggleButton *button, gpointer data)
 {
 	Search *s = (Search *)data;
+	ClientManager::getInstance()->lock();
+	
 	ClientManager::ClientList& clients = ClientManager::getInstance()->getClients();
+	
 	Client *client = NULL;
 	for (auto it = clients.begin(); it != clients.end(); ++it)
 	{
@@ -1102,6 +1105,8 @@ void Search::onCheckOp_gui(GtkToggleButton *button, gpointer data)
 			s->modifyHubnOp_gui(client->getHubName(),client->getHubUrl(),client->getMyIdentity().isOp());
 		}
 	}
+	
+	ClientManager::getInstance()->unlock();
 }
 
 void Search::onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data)

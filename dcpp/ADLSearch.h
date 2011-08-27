@@ -36,7 +36,7 @@
 #include "DirectoryListing.h"
 
 //RSX++
-#include "RegexUtil.h"//m
+#include "RegexUtil.h"
 #include "MerkleTree.h"
 //END
 
@@ -135,9 +135,9 @@ public:
 	tstring SourceTypeToDisplayString(SourceType t) {
 		switch(t) {
 		default:
-		case OnlyFile:		return ("FileName");//TSTRING(FILENAME);
-		case OnlyDirectory:	return ("Directotry");//TSTRING(DIRECTORY);
-		case FullPath:		return ("ADLS_FULL_PATH");//TSTRING(ADLS_FULL_PATH);
+		case OnlyFile:		return ("FileName");
+		case OnlyDirectory:	return ("Directory");
+		case FullPath:		return ("ADLS_FULL_PATH");
 		case TTHFile:		return ("TTH"); //RSX++
 		}
 	}
@@ -256,8 +256,8 @@ private:
 	StringSearch::List stringSearchList;
 	bool SearchAll(const string& s) {
 		try {
-			//boost::regex reg(searchString, boost::regex_constants::icase);
-			return RegexUtil::match(s,searchString,false)  ? true : false;//boost::regex_search(s.begin(), s.end(), reg);
+			boost::regex reg(searchString, boost::regex_constants::icase);
+			return /*RegexUtil::match(s,searchString,false)  ? true : false;*/boost::regex_search(s.begin(), s.end(), reg);
 		} catch(...) {
 		}
 

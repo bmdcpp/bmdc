@@ -121,4 +121,3 @@ void Entry::removeChildren()
 	while (!children.empty())
 		removeChild(children.begin()->second);
 }
-

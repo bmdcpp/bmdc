@@ -44,7 +44,7 @@ scons FAKE_ROOT=$RPM_BUILD_ROOT release=1 install
 %{_datadir}/locale/*
 
 %changelog
-* Sat Mar 24 2011 Mank <freedcpp@seznam.cz> 0.0.2-3
+* Sat Mar 24 2011 Mank <mank@no-ip.sk> 0.0.2-3
 - intial version of spec file
  	
 

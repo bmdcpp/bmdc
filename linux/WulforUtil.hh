@@ -84,7 +84,7 @@ class WulforUtil
 		static bool checkCommand(std::string& cmd,std::string& param, std::string& message,std::string& status,bool& thirdperson);
 		static std::string getReport(const dcpp::Identity& identity);
 
-		static int matchRe(const std::string/*&*/ strToMatch, const std::string/*&*/ expression, bool caseSensative = true);//used this ??
+		static bool matchRe(const std::string/*&*/ strToMatch, const std::string/*&*/ expression, bool caseSensative = true);//used this ??
 		/* This is fill comboboxentry */
 		static void drop_combo(GtkWidget *widget, std::vector<std::pair<std::string,int> > CONTEUDO);
 		static void drop_combo(GtkWidget *widget, std::vector<std::string> CONTEUDO);
@@ -93,6 +93,8 @@ class WulforUtil
 		static GdkPixbuf *loadIconSB(std::string ext);
 		/* remove events from widget */
 		static void my_gtk_widget_remove_events (GtkWidget *widget,gint events);
+		/*Higliting´s words*/
+		static bool isHighlitingWorld(GtkTextBuffer *buffer, GtkTextTag *tag, std::string word, bool &tTab, gpointer hub);
 				
 		static const std::string ENCODING_LOCALE;
 

@@ -32,7 +32,7 @@
 
 
 class RecentTab:
-		public BookEntry,
+	public BookEntry,
 	public dcpp::FavoriteManagerListener
 {
 	public:
@@ -43,7 +43,7 @@ class RecentTab:
 
 	private:
 		typedef std::map<std::string, std::string> ParamMap;
-		typedef std::unordered_map<std::string, GtkTreeIter> UserIters;
+		typedef std::unordered_map<std::string, GtkTreeIter> RecIters;
 
 		// GUI functions
 		static void onCloseItem(gpointer data);
@@ -54,10 +54,12 @@ class RecentTab:
 		// GUI callbacks
 		static void onConnectItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data);
+		static void onDeleteAll_gui(GtkWidget *widget, gpointer data);
 
 		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		
 
 		void removeRecent_client(const std::string adr);
 
@@ -66,7 +68,7 @@ class RecentTab:
 		virtual void on(dcpp::FavoriteManagerListener::RecentRemoved, const dcpp::RecentHubEntry *entry) throw();
 		virtual void on(dcpp::FavoriteManagerListener::RecentAdded, const dcpp::RecentHubEntry *entry) throw();
 
-		UserIters userIters;
+		RecIters recIters;
 		GdkEventType previous;
 		TreeView recentView;
 		GtkListStore *recentStore;

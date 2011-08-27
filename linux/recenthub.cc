@@ -53,6 +53,7 @@ BookEntry(Entry::RECENT,_("Recent Hubs"),"recenthub.glade")
 
 		g_signal_connect(getWidget("connectItem"), "activate", G_CALLBACK(onConnectItemClicked_gui), (gpointer)this);
 		g_signal_connect(getWidget("removeItem"), "activate", G_CALLBACK(onRemoveItemClicked_gui), (gpointer)this);
+		g_signal_connect(getWidget("removeALLItem"), "activate", G_CALLBACK(onDeleteAll_gui), (gpointer)this);
 		g_signal_connect(recentView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
 		g_signal_connect(recentView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 		g_signal_connect(recentView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
@@ -68,6 +69,7 @@ RecentTab::~RecentTab()
 void RecentTab::show()
 {
 	const RecentHubEntry::List& fl = FavoriteManager::getInstance()->getRecentHubs();
+	
 	for(RecentHubEntry::List::const_iterator i = fl.begin(); i != fl.end(); ++i)
 	{
 		GtkTreeIter iter;
@@ -80,9 +82,10 @@ void RecentTab::show()
 			recentView.col(_("Users")), (*i)->getUsers().c_str(),
 			recentView.col(_("Shared")), Util::formatBytes((*i)->getShared()).c_str(),
 			-1);
-		userIters.insert(UserIters::value_type((*i)->getServer(), iter));
+		recIters.insert(RecIters::value_type((*i)->getServer(), iter));
 
 	}
+	
 	FavoriteManager::getInstance()->addListener(this);
 }
 
@@ -220,6 +223,22 @@ void RecentTab::onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
+void RecentTab::onDeleteAll_gui(GtkWidget *widget, gpointer data)
+{
+	RecentTab *rt = (RecentTab *)data;
+	GtkTreeIter iter;
+	typedef Func1<RecentTab, string> F1;
+
+	gboolean valid = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(rt->recentStore), &iter);
+	
+	while(valid)
+	{
+		string name = rt->recentView.getString(&iter, _("Name"));
+		F1 *func = new F1(rt, &RecentTab::removeRecent_client, name);
+		WulforManager::get()->dispatchClientFunc(func);
+	}
+}
+
 void RecentTab::removeRecent_client(const string adr)
 {
 	RecentHubEntry *r = FavoriteManager::getInstance()->getRecentHubEntry(adr);
@@ -231,9 +250,9 @@ void RecentTab::removeRecent_client(const string adr)
 
 bool RecentTab::findRecent_gui(const string &cid, GtkTreeIter *iter)
 {
-	UserIters::const_iterator it = userIters.find(cid);
+	RecIters::const_iterator it = recIters.find(cid);
 
-	if (it != userIters.end())
+	if (it != recIters.end())
 	{
 		if (iter)
 			*iter = it->second;
@@ -269,7 +288,7 @@ void RecentTab::updateRecent_gui(ParamMap params)
 			recentView.col(_("Shared")), params["Shared"].c_str(),
 			-1);
 
-		userIters.insert(UserIters::value_type(server, iter));
+		recIters.insert(RecIters::value_type(server, iter));
 	}
 }
 
@@ -280,11 +299,9 @@ void RecentTab::removeRecent_gui(const string cid)
 	if (findRecent_gui(cid, &iter))
 	{
 		gtk_list_store_remove(recentStore, &iter);
-		userIters.erase(cid);
+		recIters.erase(cid);
 	}
 }
-
-
 
 void RecentTab::on(FavoriteManagerListener::RecentUpdated, const RecentHubEntry *entry) throw()
 {

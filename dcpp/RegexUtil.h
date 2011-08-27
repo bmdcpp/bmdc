@@ -22,10 +22,10 @@
 #define REGEX_UTIL_H
 
 //#include "ResourceManager.h"
-//#include <boost/regex.hpp>
+#include <boost/regex.hpp>
 
 #include "typedefs.h"
-#include <regex.h>
+//#include <regex.h>
 
 namespace dcpp {
 using namespace std;
@@ -48,26 +48,26 @@ namespace RegexUtil {
 	}*/
 
 	inline bool match(const std::string& strToMatch, const std::string& expression, bool caseSensative = true) {
-		/*try {
+		try {
 			const boost::regex reg(expression, caseSensative ? 0 : boost::regex::icase);
 			return boost::regex_search(strToMatch.begin(), strToMatch.end(), reg);
 		} catch(...) {
 			//...
 		}
-		return false;*/
+		return false;/*
 			int    status;
 			regex_t    re;
 			const char *pattern=expression.c_str();
 			const char *strings=strToMatch.c_str();
 			    if (regcomp(&re, pattern, REG_EXTENDED|REG_NOSUB) != 0) {
-			        return /*0*/false;      /* Report error. */
-    				}
+			        return false;      /* Report error. */
+    		/*		}
 			    status = regexec(&re, strings, (size_t) 0, NULL, 0);
 			    regfree(&re);
 			    if (status != 0) {
-			        return /*0*/false;    /* Report error. */
-				    }
-    			return /*1*/true;
+			        return false;    /* Report error. */
+			/*	    }
+    			return true;*/
 	}
 
 	// Return the tags version number for %[version]

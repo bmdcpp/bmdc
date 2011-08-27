@@ -54,8 +54,8 @@ Sound* Sound::get()
 void Sound::sound_init()
 {
 	#ifdef _HAVEGNOME
-	gnome_sound_init(NULL);
-	dcdebug("Sound::sound_init: Esound connection %d...\n", gnome_sound_connection_get());
+		gnome_sound_init(NULL);
+		dcdebug("Sound::sound_init: Esound connection %d...\n", gnome_sound_connection_get());
 	#endif
 }
 
@@ -137,6 +137,6 @@ void Sound::playSound(const string &target)
 void Sound::sound_finalize()
 {
 	#ifdef HAVEGNOME
-	gnome_sound_shutdown();
+		gnome_sound_shutdown();
 	#endif
 }

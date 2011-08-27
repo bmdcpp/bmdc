@@ -56,6 +56,7 @@ class Hub:
 		void preferences_gui();
 		//void sendUC(dcpp::UserCommand uc,dcpp::StringMap& params);
 		std::string getAddress() const {return !address.empty() ? address : (!huburl.empty() ? huburl : dcpp::Util::emptyString);}
+		bool findNick_gui_p(std::string &nick, GtkTreeIter iter) { return findNick_gui(nick,&iter);}
 	private:
         //GUI
         static void onCloseItem(gpointer data);
@@ -168,7 +169,7 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		void delPasive(ParamMap params);
 		void delIgnore(ParamMap params);
 		void AddProtectUser(ParamMap params);
-		bool isHighlitingWorld(std::string word,GtkTextTag *tag);
+		//bool isHighlitingWorld(std::string word,GtkTextTag *tag);
 
 		// Client functions
 		void addFavoriteUser_client(const std::string cid);
