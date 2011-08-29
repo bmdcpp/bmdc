@@ -38,5 +38,34 @@ class Msg
 			UNKNOWN
 		} TypeMsg;
 };
+/**/
+class Tag
+{
+	public:
+		typedef enum
+		{
+			TAG_FIRST = 0,
+			TAG_GENERAL = TAG_FIRST,
+			TAG_PRIVATE,
+			TAG_MYOWN,
+			TAG_SYSTEM,
+			TAG_STATUS,
+			TAG_TIMESTAMP,
+			TAG_CHEAT, 
+			/*-*/
+			TAG_HIGHL,
+			TAG_MYNICK,
+			TAG_NICK,
+			TAG_OPERATOR,
+			TAG_FAVORITE,
+			TAG_URL,
+			TAG_IPADR,
+			TAG_LAST
+		} TypeTag;	
+	
+	
+	
+	
+};
 
 #endif

@@ -21,4 +21,4 @@
 
 #define GUI_PACKAGE "bmdc"
 #define GUI_VERSION_STRING "0.0.1"
-#define GUI_VERSION_BUILD_STRING "41"
+#define GUI_VERSION_BUILD_STRING "42"

@@ -292,9 +292,11 @@ Some cleanup code
 Add Hub´s menu Add Favorite
 Add PM´s menu Add Favorite
 Simplify load country
-
 Add Remeber password if aviable on /fav or Add Favorite from Hub´s tab menu
 Supports Higlliting on PM
 Move regexp from POSIX ver. to boost ver.
 Add Remove All to Recent´s tab menu Items
+
+Fix Higlitings
+
 

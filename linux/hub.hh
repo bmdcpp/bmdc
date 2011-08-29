@@ -62,7 +62,7 @@ class Hub:
         static void onCloseItem(gpointer data);
         static void onCopyHubUrl(gpointer data);
         static void onAddFavItem(gpointer data);
-
+/*
 		typedef enum
 		{
 			TAG_FIRST = 0,
@@ -73,7 +73,7 @@ class Hub:
 			TAG_TIMESTAMP,
 			TAG_CHEAT, 
 			/*-*/
-			TAG_HIGHL,
+/*			TAG_HIGHL,
 			TAG_MYNICK,
 			TAG_NICK,
 			TAG_OPERATOR,
@@ -82,7 +82,7 @@ class Hub:
 			TAG_IPADR,
 			TAG_LAST
 		} TypeTag;
-
+*/
 		typedef std::map<std::string, std::string> ParamMap;
 		typedef std::unordered_map<std::string, std::string> UserMap;
 		typedef std::unordered_map<std::string, GtkTreeIter> UserIters;
@@ -102,8 +102,8 @@ class Hub:
 		void addStatusMessage_gui(std::string message, Msg::TypeMsg typemsg, Sound::TypeSound sound);
 		void applyEmoticons_gui();
 		void updateCursor_gui(GtkWidget *widget);
-		void getSettingTag_gui(WulforSettingsManager *wsm, TypeTag type, std::string &fore, std::string &back, int &bold, int &italic);
-		GtkTextTag* createTag_gui(const std::string &tagname, TypeTag type);
+		void getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, std::string &fore, std::string &back, int &bold, int &italic);
+		GtkTextTag* createTag_gui(const std::string &tagname, Tag::TypeTag type);
 		void addStatusMessage_gui(std::string message, Msg::TypeMsg typemsg, Sound::TypeSound sound, Notify::TypeNotify notify);
 		void nickToChat_gui(const std::string &nick);
 		void addFavoriteUser_gui(ParamMap params);
@@ -220,7 +220,7 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		UserMap userPasiveMap;
 		UserMap userIgnoreMap;
 		UserMap userProtect;
-		GtkTextTag *TagsMap[TAG_LAST];
+		GtkTextTag *TagsMap[Tag::TAG_LAST];
 		std::string completionKey;
 		dcpp::Client *client;
 		TreeView nickView;
@@ -243,7 +243,7 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		bool scrollToBottom;
 		static const std::string tagPrefix;
 		static const std::string tPrefix;
-		TypeTag tagMsg;
+		Tag::TypeTag tagMsg;
 		bool useEmoticons;
 		gint totalEmoticons;
 		EmoticonsDialog *emotdialog;

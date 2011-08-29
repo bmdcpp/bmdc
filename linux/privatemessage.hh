@@ -55,7 +55,7 @@ class PrivateMessage:
 		}
 
 	private:
-		typedef enum
+/*		typedef enum
 		{
 			TAG_FIRST = 0,
 			TAG_PRIVATE = TAG_FIRST,
@@ -64,14 +64,14 @@ class PrivateMessage:
 			TAG_STATUS,
 			TAG_TIMESTAMP,
 			/*-*/
-			TAG_MYNICK,
+/*			TAG_MYNICK,
 			TAG_NICK,
 			TAG_OPERATOR,
 			TAG_FAVORITE,
 			TAG_URL,
 			TAG_LAST
 		} TypeTag;
-
+*/
 		// GUI functions
 		static void onCloseItem(gpointer data);
 		static void onCopyNick(gpointer data);
@@ -82,8 +82,8 @@ class PrivateMessage:
 		void addLine_gui(Msg::TypeMsg typemsg, const std::string &line);
 		void applyTags_gui(const std::string &line);
 		void applyEmoticons_gui();
-		void getSettingTag_gui(WulforSettingsManager *wsm, TypeTag type, std::string &fore, std::string &back, int &bold, int &italic);
-		GtkTextTag* createTag_gui(const std::string &tagname, TypeTag type);
+		void getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, std::string &fore, std::string &back, int &bold, int &italic);
+		GtkTextTag* createTag_gui(const std::string &tagname, Tag::TypeTag type);
 		void updateCursor(GtkWidget *widget);
 		/**/
 		void updateOnlineStatus_gui(bool online);
@@ -132,8 +132,8 @@ class PrivateMessage:
 		std::string selectedTagStr;
 		GtkTextTag* selectedTag;
 		bool scrollToBottom;
-		GtkTextTag *TagsMap[TAG_LAST];
-		TypeTag tagMsg, tagNick;
+		GtkTextTag *TagsMap[Tag::TAG_LAST];
+		Tag::TypeTag tagMsg, tagNick;
 		bool useEmoticons;
 		gint totalEmoticons;
 		EmoticonsDialog *emotdialog;

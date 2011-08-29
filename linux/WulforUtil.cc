@@ -1254,7 +1254,7 @@ GdkPixbuf *WulforUtil::loadIconSB(std::string ext)
 		return buf;
 	}
 
-	GIcon *icon =g_content_type_get_icon((const gchar *)it->second.c_str());
+	GIcon *icon = g_content_type_get_icon((const gchar *)it->second.c_str());
 	GtkIconTheme *theme = gtk_icon_theme_get_default ();
 	GtkIconInfo *info = gtk_icon_theme_lookup_by_gicon(theme,icon, (GtkIconSize)16, GTK_ICON_LOOKUP_GENERIC_FALLBACK);
 	GdkPixbuf *icon_d = gtk_icon_info_load_icon (info, NULL);
@@ -1331,11 +1331,11 @@ void WulforUtil::remove_events_internal (GtkWidget *widget, gint events, GList  
   }
 }
 
-bool WulforUtil::isHighlitingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, string word, bool &tTab, gpointer hub)
+bool WulforUtil::isHighlitingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, string word, bool &tTab, gpointer hub, GtkTextTag *TagsMap[])
 {
 		GtkTreeIter q;
 
-		string sMsgLower;//(' ',word.length());
+		string sMsgLower;
 		sMsgLower.resize(word.size()+1);
 		std::transform(word.begin(), word.end(), sMsgLower.begin(), _tolower);
 		gboolean ret;
@@ -1378,7 +1378,7 @@ bool WulforUtil::isHighlitingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, stri
 				tSound = true;
 
 			string _w = cs->getMatch();
-			string _sW;//(' ', _w.length());
+			string _sW;
 			_sW.resize(_w.size()+1);
 			std::transform(_w.begin(), _w.end(), _sW.begin(), _tolower);
 			
@@ -1400,7 +1400,7 @@ bool WulforUtil::isHighlitingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, stri
 							"underline", tUnderline ? PANGO_UNDERLINE_DOUBLE : PANGO_UNDERLINE_NONE,
 							NULL);
 						}
-					//TagsMap[TAG_HIGHL] = tag;//think about this  =P
+					TagsMap[Tag::TAG_HIGHL] = tag;//think about this  =P
 					ret = TRUE;
 					continue;
 					}
@@ -1408,7 +1408,7 @@ bool WulforUtil::isHighlitingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, stri
 			}
 
 			string w = cs->getMatch();
-			string sW;//(' ',w.length());
+			string sW;
 			sW.resize(w.size()+1);
 			std::transform(w.begin(), w.end(), sW.begin(), _tolower);
 			
@@ -1435,7 +1435,7 @@ bool WulforUtil::isHighlitingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, stri
 						NULL);
 					}
 
-				//	TagsMap[TAG_HIGHL] = tag;//think about this  =P
+					TagsMap[Tag::TAG_HIGHL] = tag;//think about this  =P
 					ret = TRUE;
 					continue;
 				}
@@ -1455,7 +1455,7 @@ bool WulforUtil::isHighlitingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, stri
 					NULL);
 
 				}
-				//TagsMap[TAG_HIGHL] = tag;//think about this  =P
+				TagsMap[Tag::TAG_HIGHL] = tag;//think about this  =P
 
 
 				if(tPopup)

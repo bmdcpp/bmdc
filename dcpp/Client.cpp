@@ -17,9 +17,7 @@
  */
 
 #include "stdinc.h"
-
 #include "Client.h"
-
 #include "BufferedSocket.h"
 
 #include "FavoriteManager.h"
