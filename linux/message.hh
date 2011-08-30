@@ -62,10 +62,7 @@ class Tag
 			TAG_IPADR,
 			TAG_LAST
 		} TypeTag;	
-	
-	
-	
-	
+
 };
 
 #endif

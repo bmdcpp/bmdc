@@ -347,7 +347,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 			gtk_text_iter_backward_chars(&nick_start_iter, g_utf8_strlen(line.c_str() + begin, -1));
 			gtk_text_iter_backward_chars(&nick_end_iter, g_utf8_strlen(line.c_str() + end, -1) - 1);
 
-			dcassert(tagNick >= TAG_MYNICK && tagNick < TAG_URL);
+			dcassert(tagNick >= Tag::TAG_MYNICK && tagNick < Tag::TAG_URL);
 			gtk_text_buffer_apply_tag(messageBuffer, TagsMap[tagNick], &nick_start_iter, &nick_end_iter);
 
 			start_iter = nick_end_iter;

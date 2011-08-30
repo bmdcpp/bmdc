@@ -1442,6 +1442,9 @@ void Hub::preferences_gui()
 
 	for (int i = Tag::TAG_FIRST; i < Tag::TAG_LAST; i++)
 	{
+		if(i == Tag::TAG_PRIVATE)
+			continue;
+		
 		getSettingTag_gui(wsm, (Tag::TypeTag)i, fore, back, bold, italic);
 
 		g_object_set(TagsMap[i],
