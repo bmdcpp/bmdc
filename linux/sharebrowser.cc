@@ -1026,13 +1026,13 @@ void ShareBrowser::matchQueue_client()
 
 void ShareBrowser::onDirGet(GtkMenuItem* item, gpointer data)
 {
-    ShareBrowser *sb=(ShareBrowser*)data;
+    ShareBrowser *sb = (ShareBrowser*)data;
     GList *list = gtk_tree_selection_get_selected_rows(sb->fileSelection, NULL);
     GtkTreePath *path;
     GtkTreeIter iter;
     string name,fullpath;
     DirectoryListing::File *filed;
-    for (GList *i = list;i;i=i->next)
+    for (GList *i = list; i; i=i->next)
     {
         path = (GtkTreePath *)i->data;
         if (gtk_tree_model_get_iter(GTK_TREE_MODEL(sb->fileStore), &iter, path))
@@ -1042,12 +1042,12 @@ void ShareBrowser::onDirGet(GtkMenuItem* item, gpointer data)
             ItemInfo* ii= new ItemInfo(filed);
             if(ii->type == ItemInfo::FILE)
             {
-                if(!ii->file->getAdls())return;
+                if(!ii->file->getAdls()) return;
 
                 DirectoryListing::Directory *dir = ii->file->getParent();
                 while( (dir != NULL) && (dir != sb->listing.getRoot()))
                 {
-                    fullpath = dir->getName()+PATH_SEPARATOR+fullpath;
+                    fullpath = dir->getName() + PATH_SEPARATOR + fullpath;
                     dir = dir->getParent();
                 }
             }

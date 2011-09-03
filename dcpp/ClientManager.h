@@ -151,7 +151,7 @@ public:
 	void saveUser(const CID& cid);
 	//RSX
 	void setGenerator(const UserPtr& p, const string& aGenerator, const string& aCID, const string& aBase);
-	//RSX  Mank =P
+	// =P
 	void sendAction(const UserPtr& p, const int aAction);
 	void sendAction(OnlineUser& ou, const int aAction);
 	void setPkLock(const UserPtr& p, const string& aPk, const string& aLock);
@@ -181,7 +181,7 @@ private:
 	typedef pair<OnlineIter, OnlineIter> OnlinePair;
 	typedef pair<OnlineIterC, OnlineIterC> OnlinePairC;
 
-	/*Client::List*/ClientList clients;
+	ClientList clients;
 	mutable CriticalSection cs;
 
 	UserMap users;
@@ -199,10 +199,6 @@ private:
 	ClientManager() {
 		TimerManager::getInstance()->addListener(this);
 	}
-
-//	virtual ~ClientManager() throw() {
-//		TimerManager::getInstance()->removeListener(this);
-//	}
 
 	void updateNick(const OnlineUser& user) throw();
 

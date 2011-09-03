@@ -25,7 +25,6 @@
 #include <boost/regex.hpp>
 
 #include "typedefs.h"
-//#include <regex.h>
 
 namespace dcpp {
 using namespace std;

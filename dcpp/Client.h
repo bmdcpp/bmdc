@@ -47,8 +47,6 @@ class Client : public Speaker<ClientListener>, public BufferedSocketListener, pr
 {
 public:
 	typedef Client* Ptr;
-	//typedef list<Ptr> List;
-	//typedef List::iterator Iter;
 
 	virtual void connect();
 	virtual void disconnect(bool graceless);
@@ -60,7 +58,7 @@ public:
 	virtual void search(int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken, const StringList& aExtList) = 0;
 	virtual void password(const string& pwd) = 0;
 	virtual void info(bool force) = 0;
-//checking
+//checking&ref UL
 	virtual void refreshUserList(bool) = 0;
 	virtual void getUserList(OnlineUserList& list) const = 0;
 	virtual string startChecking(const string& aParams) = 0;
@@ -138,6 +136,7 @@ public:
 	void sendActionCommand(const OnlineUser& ou, int actionId);
 
 	bool isActive() const;
+	
 	void putDetectors() { stopMyINFOCheck(); stopChecking(); setCheckedAtConnect(false); }
 
 	GETSET(Identity, myIdentity, MyIdentity);
@@ -168,14 +167,6 @@ public:
 protected:
 	friend class ClientManager;
 	Client(const string& hubURL, char separator, bool secure_);
-	/*
-	struct Counts {
-		Counts(long n = 0, long r = 0, long o = 0) : normal(n), registered(r), op(o) { }
-		volatile long normal;
-		volatile long registered;
-		volatile long op;
-		bool operator !=(const Counts& rhs) { return normal != rhs.normal || registered != rhs.registered || op != rhs.op; }
-	};*/
 	
 	enum CountType {
 		COUNT_NORMAL,

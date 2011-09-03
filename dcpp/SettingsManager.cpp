@@ -322,11 +322,11 @@ SettingsManager::SettingsManager()
 	setDefault(MIN_FL_SIZE, 0);
 	setDefault(FILELIST_TOO_SMALL_BIG,false);
 	setDefault(MAX_DISCONNECTS, 5);
-	setDefault(CHECK_DELAY, /*1200*/0);
+	setDefault(CHECK_DELAY, 0);
 	setDefault(MAX_TESTSURS, 30);
 	setDefault(MAX_FILELISTS, 30);
 	setDefault(CHECK_ALL_CLIENTS_BEFORE_FILELISTS, true);
-	setDefault(SLEEP_TIME, /*800*/0);
+	setDefault(SLEEP_TIME, 0);
 	setDefault(FILE_SLOTS, 10);
 	setDefault(SHOW_ADLSEARCH_DEFAULT_ACTION, true);
 	setDefault(MIN_POINTS_TO_DISPLAY_CHEAT, 0);

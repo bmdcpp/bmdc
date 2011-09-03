@@ -30,9 +30,7 @@
 
 #include "bookentry.hh"
 #include "treeview.hh"
-
 #include "wulformanager.hh"
-
 
 class cmddebug:
     public BookEntry,

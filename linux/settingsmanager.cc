@@ -132,11 +132,11 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("use-highliting", 0));
 	defaultInt.insert(IntMap::value_type("show-close-butt", 1));
 	defaultInt.insert(IntMap::value_type("show-preferences-on-startup", 1));
-	defaultInt.insert(IntMap::value_type("show-commnads",1));
-	defaultInt.insert(IntMap::value_type("use-flag",1));
-	defaultInt.insert(IntMap::value_type("use-dns",0));
-	defaultInt.insert(IntMap::value_type("only-fav",0));
-	defaultInt.insert(IntMap::value_type("log-messages",0));
+	defaultInt.insert(IntMap::value_type("show-commnads", 1));
+	defaultInt.insert(IntMap::value_type("use-flag", 1));
+	defaultInt.insert(IntMap::value_type("use-dns", 0));
+	defaultInt.insert(IntMap::value_type("only-fav", 0));
+	defaultInt.insert(IntMap::value_type("log-messages", 0));
 ///core 0.762]
 	/**/
 	defaultString.insert(StringMap::value_type("magnet-choose-dir", SETTING(DOWNLOAD_DIRECTORY)));

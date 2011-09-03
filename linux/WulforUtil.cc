@@ -50,8 +50,6 @@
 #include "hub.hh"
 #include "wulformanager.hh"
 
-//#include <regex.h>
-
 #ifdef HAVE_IFADDRS_H
 	#include <ifaddrs.h>
 	#include <net/if.h>

@@ -52,24 +52,24 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 
 	if(WGETB("show-close-butt"))
 	{
-	closeButton = gtk_button_new();
-	gtk_button_set_relief(GTK_BUTTON(closeButton), GTK_RELIEF_NONE);
-	gtk_button_set_focus_on_click(GTK_BUTTON(closeButton), FALSE);
+		closeButton = gtk_button_new();
+		gtk_button_set_relief(GTK_BUTTON(closeButton), GTK_RELIEF_NONE);
+		gtk_button_set_focus_on_click(GTK_BUTTON(closeButton), FALSE);
 
-	// Shrink the padding around the close button
-	GtkRcStyle *rcstyle = gtk_rc_style_new();
-	rcstyle->xthickness = rcstyle->ythickness = 0;
-	gtk_widget_modify_style(closeButton, rcstyle);
-	gtk_rc_style_unref(rcstyle);
+		// Shrink the padding around the close button
+		GtkRcStyle *rcstyle = gtk_rc_style_new();
+		rcstyle->xthickness = rcstyle->ythickness = 0;
+		gtk_widget_modify_style(closeButton, rcstyle);
+		gtk_rc_style_unref(rcstyle);
 
-	// Add the stock icon to the close button
-	GtkWidget *image = gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
-	gtk_container_add(GTK_CONTAINER(closeButton), image);
-	gtk_box_pack_start(GTK_BOX(labelBox), closeButton, FALSE, FALSE, 0);
+		// Add the stock icon to the close button
+		GtkWidget *image = gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
+		gtk_container_add(GTK_CONTAINER(closeButton), image);
+		gtk_box_pack_start(GTK_BOX(labelBox), closeButton, FALSE, FALSE, 0);
 
-	tips = gtk_tooltips_new();
-	gtk_tooltips_enable(tips);
-	gtk_tooltips_set_tip(tips, closeButton, _("Close tab"), NULL);
+		tips = gtk_tooltips_new();
+		gtk_tooltips_enable(tips);
+		gtk_tooltips_set_tip(tips, closeButton, _("Close tab"), NULL);
 	}
 	gtk_widget_show_all(labelBox);
 
@@ -132,6 +132,7 @@ void BookEntry::setLabel_gui(string text)
 	{
 		gtk_tooltips_set_tip(tips, eventBox, text.c_str(), text.c_str());
 	}
+	
 	glong len = g_utf8_strlen(text.c_str(), -1);
 
 	// Truncate the label text

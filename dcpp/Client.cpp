@@ -40,6 +40,7 @@ Client::Client(const string& hubURL, char separator_, bool secure_) :
 {
 	string file, proto, query, fragment;
 	Util::decodeUrl(hubURL, proto, address, port, file, query, fragment);
+	
 	if(!query.empty()) {
 		auto q = Util::decodeQuery(query);
 		auto kp = q.find("kp");
@@ -276,6 +277,7 @@ void Client::on(Second, uint64_t aTick) throw() {
 bool Client::isActive() const {
 	return ClientManager::getInstance()->isActive(hubUrl);
 }
+
 #ifdef _USELUA
 string ClientScriptInstance::formatChatMessage(const tstring& aLine) {
 	Lock l(cs);
@@ -296,6 +298,7 @@ bool ClientScriptInstance::onHubFrameEnter(Client* aClient, const string& aLine)
 	return GetLuaBool();
 }
 #endif
+
 void Client::sendActionCommand(const OnlineUser& ou, int actionId) {
 	if(!isConnected() /*|| (userCount < getUsersLimit())*/)
 		return;

@@ -719,7 +719,7 @@ void ClientManager::setGenerator(const UserPtr& p, const string& aGenerator, con
 }
 
 void ClientManager::sendAction(const UserPtr& p, const int aAction) {
-	if(/*p->isSet(User::DHT) ||*/ aAction < 1)
+	if(aAction < 1)//dht
 		return;
 	{
 		Lock l(cs);
@@ -734,7 +734,7 @@ void ClientManager::sendAction(const UserPtr& p, const int aAction) {
 }
 
 void ClientManager::sendAction(OnlineUser& ou, const int aAction) {
-	if(/*ou.getIdentity().getUser()->isSet(User::DHT) || */aAction < 1)
+	if(aAction < 1)//dht
 		return;
 
 	if(ou.getClient().isOp() && !ou.isProtectedUser()) {
@@ -1139,7 +1139,7 @@ bool ClientManager::ucExecuteLua(const string& cmd,StringMap& params)
 string ClientManager::getField(const CID& cid, const string& hint, const char* field) const {
     Lock l(cs);
     OnlinePair p;
-    OnlineUser* u = findOnlineUser_hint(cid, hint,p);
+    OnlineUser* u = findOnlineUser_hint(cid, hint, p);
     if(u) {
       string value = u->getIdentity().get(field);
        if(!value.empty()) {

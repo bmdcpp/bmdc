@@ -18,7 +18,7 @@
 
 #include "stdinc.h"
 #include "DCPlusPlus.h"
-#include "RegexUtil.h"//RSX++
+#include "RegexUtil.h" //RSX++
 #include "User.h"
 
 #include "AdcHub.h"
@@ -26,7 +26,7 @@
 #include "StringTokenizer.h"
 #include "ClientManager.h"
 #include "FavoriteManager.h"
-#include "DetectionManager.h"//RSX++
+#include "DetectionManager.h" //RSX++
 #include "DebugManager.h"
 
 namespace dcpp {
@@ -545,7 +545,7 @@ map<string, string> Identity::getReport() const {
 			// TODO: translate known tags and format values to something more readable
 			switch(i->first) {
 				case TAG('A','W'): name = "Away mode"; break;
-				case TAG('A','P'): name = "Aplication"; break;
+				case TAG('A','P'): name = "Application"; break;
 				case TAG('B','O'): name = "Bot"; break;
 				case TAG('B','C'): name = "Bad Client";break;//
 				case TAG('C','L'): name = "Client name"; break;
