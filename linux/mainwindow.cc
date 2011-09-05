@@ -200,7 +200,7 @@ MainWindow::MainWindow():
 	g_signal_connect(getWidget("search"), "clicked", G_CALLBACK(onSearchClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("searchSpy"), "clicked", G_CALLBACK(onSearchSpyClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("queue"), "clicked", G_CALLBACK(onDownloadQueueClicked_gui), (gpointer)this);
-	//Me Toolbars
+	// Toolbars
 	g_signal_connect(getWidget("ADLSearch"), "clicked", G_CALLBACK(onADLSearch_gui), (gpointer)this);
 	g_signal_connect(getWidget("System"), "clicked", G_CALLBACK(onSystem_gui), (gpointer)this);
 	g_signal_connect(getWidget("Notepad"), "clicked", G_CALLBACK(onNotepad_gui), (gpointer)this);
@@ -375,7 +375,7 @@ void MainWindow::show()
        onPreferencesClicked_gui(NULL, (gpointer)this);
         WSET("show-preferences-on-startup", 0);
     }
-    //think
+    //think..
     isLimiting = BOOLSETTING(THROTTLE_ENABLE);
 }
 
@@ -477,16 +477,16 @@ void MainWindow::getAway()
 {
 	if (Util::getAway())
 	{
-			Util::setAway(FALSE);
-			Util::setManualAway(FALSE);
-			MainWindow::setMainStatus_gui(_("Away mode off"),time(NULL));
+			Util::switchAway();
+			Util::setManualAway(false);
+			setMainStatus_gui(_("Away mode off"), time(NULL));
 			gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("AwayIcon")), "bmdc-away");
 	}
 	else
 	{
-			Util::setAway(TRUE);
-			Util::setManualAway(TRUE);
-			MainWindow::setMainStatus_gui(_("Away mode on"),time(NULL));
+			Util::switchAway();
+			Util::setManualAway(true);
+			setMainStatus_gui(_("Away mode on"),time(NULL));
 			gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("AwayIcon")), "bmdc-away-on");
 	}
 }
@@ -494,8 +494,8 @@ void MainWindow::getAway()
 void MainWindow::onLimitingMenuItem_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	string speed = (gchar*)g_object_get_data(G_OBJECT(widget), "speed");
-	string type = (gchar*)g_object_get_data(G_OBJECT(widget), "type");
+	string speed = (gchar *)g_object_get_data(G_OBJECT(widget), "speed");
+	string type = (gchar *)g_object_get_data(G_OBJECT(widget), "type");
 	if(speed.empty())
 		return;
 
@@ -519,7 +519,6 @@ void MainWindow::onLimitingDisable(GtkWidget *widget, gpointer data)
 	if(type == "dw")
 	{
 		SettingsManager::getInstance()->set(ThrottleManager::getInstance()->getCurSetting(SettingsManager::MAX_DOWNLOAD_SPEED_MAIN), 0);
-
 	}
 	else if(type == "up")
 	{
@@ -534,15 +533,14 @@ void MainWindow::EnbDsbLimit()
     GtkWidget *widget = getWidget("EnableLimit");
     if(!isEnb)
     {
-        MainWindow::setMainStatus_gui(_("Throtle off"), time(NULL));
-         gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(widget),"bmdc-limiting");
+        setMainStatus_gui(_("Throtle off"), time(NULL));
+        gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(widget),"bmdc-limiting");
 
-     }
-     else
-     {
-		MainWindow::setMainStatus_gui(_("Throtle on"), time(NULL));
+    }
+    else
+    {
+		setMainStatus_gui(_("Throtle on"), time(NULL));
 		gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(widget),"bmdc-limiting-on");
-
 	}
 }
 
@@ -626,11 +624,13 @@ void MainWindow::addBookEntry_gui(BookEntry *entry)
 	gtk_notebook_append_page(GTK_NOTEBOOK(getWidget("book")), page, label);
 
 	g_signal_connect(label, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
+	
 	if(WGETB("show-close-butt"))
 	{
 		g_signal_connect(closeButton, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
 		g_signal_connect(closeButton, "clicked", G_CALLBACK(onCloseBookEntry_gui), (gpointer)entry);
 	}
+	
 	gtk_widget_set_sensitive(getWidget("closeMenuItem"), TRUE);
 
 	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(getWidget("book")), page, TRUE);
@@ -931,7 +931,6 @@ void MainWindow::showADLSearch_gui()
 		entry = new ADLSearchGUI();
 		addBookEntry_gui(entry);
 	}
-
 	raisePage_gui(entry->getContainer());
 }
 //END
@@ -945,7 +944,6 @@ void MainWindow::showNotepad_gui()
 		entry = new notepad();
 		addBookEntry_gui(entry);
 	}
-
 	raisePage_gui(entry->getContainer());
 }
 //END
@@ -958,9 +956,7 @@ void MainWindow::showIgnore_gui()
 	{
 		entry = new ignoreusers();
 		addBookEntry_gui(entry);
-
 	}
-
 	raisePage_gui(entry->getContainer());
 }
 //END
@@ -973,9 +969,7 @@ void MainWindow::showSystem_gui()
 	{
 		entry = new systemlog();
 		addBookEntry_gui(entry);
-
 	}
-
 	raisePage_gui(entry->getContainer());
 }
 //END
@@ -988,7 +982,6 @@ void MainWindow::showRecentHub_gui()
 	{
 		entry = new RecentTab();
 		addBookEntry_gui(entry);
-
 	}
 	raisePage_gui(entry->getContainer());
 }
@@ -1002,10 +995,8 @@ void MainWindow::showHigliting_gui()
 	{
 		entry = new Highlighting();
 		addBookEntry_gui(entry);
-
 	}
 	raisePage_gui(entry->getContainer());
-
 }
 //end
 //Detection
@@ -1017,10 +1008,8 @@ void MainWindow::showDetection_gui()
 	{
 		entry = new DetectionTab();
 		addBookEntry_gui(entry);
-
 	}
 	raisePage_gui(entry->getContainer());
-
 }
 ///end
 ///CMD
@@ -1032,13 +1021,10 @@ void MainWindow::showcmddebug_gui()
 	{
 		entry = new cmddebug();
 		addBookEntry_gui(entry);
-
 	}
 	raisePage_gui(entry->getContainer());
-
 }
 ///CMD
-
 void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string hubUrl, string message, bool useSetting)
 {
 	BookEntry *entry = findBookEntry(Entry::PRIVATE_MESSAGE, cid);
@@ -1508,7 +1494,7 @@ void MainWindow::onTTHFileButton_gui(GtkWidget *widget , gpointer data)
 		tth.finalize();
 
 		strcpy(&TTH[0], tth.getRoot().toBase32().c_str());
-		string magnetlink = "magnet:?xt=urn:tree:tiger:"+ TTH +"&xl="+Util::toString(f.getSize())+"&dn="+Util::encodeURI(Text::fromT(Util::getFileName(string(temp))));
+		string magnetlink = "magnet:?xt=urn:tree:tiger:" + TTH + "&xl=" + Util::toString(f.getSize()) + "&dn=" + Util::encodeURI(Text::fromT(Util::getFileName(string(temp))));
 		f.close();
 		
 		gtk_entry_set_text(GTK_ENTRY(mw->getWidget("entrymagnet")), magnetlink.c_str());
@@ -2191,7 +2177,6 @@ void MainWindow::onCloseClicked_gui(GtkWidget *widget, gpointer data)
 
 		if (entry)
 			mw->removeBookEntry_gui(entry);
-
 	}
 }
 
@@ -2278,7 +2263,6 @@ void MainWindow::onStatusIconBlinkUseToggled_gui(GtkWidget *widget, gpointer dat
 	mw->removeTimerSource_gui();
 
 	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(mw->getWidget("statusIconBlinkUseItem"))))
-
 		mw->useStatusIconBlink = TRUE;
 	else
 		mw->useStatusIconBlink = FALSE;
@@ -2286,7 +2270,7 @@ void MainWindow::onStatusIconBlinkUseToggled_gui(GtkWidget *widget, gpointer dat
 
 void MainWindow::onLinkClicked_gui(GtkWidget *widget, gpointer data)
 {
-	string link = (gchar*)g_object_get_data(G_OBJECT(widget), "link");
+	string link = (gchar *)g_object_get_data(G_OBJECT(widget), "link");
 	WulforUtil::openURI(link);
 }
 

@@ -211,14 +211,13 @@ public:
 		replace(string_t(search), string_t(replacement), str);
 	}
 
-	//static void decodeUrl(const string& aUrl, string& aServer, uint16_t& aPort, string& aFile);
 	static void decodeUrl(const string& aUrl, string& protocol, string& host, uint16_t& port, string& path, string& query, string& fragment);
 	static map<string, string> decodeQuery(const string& query);
 	static string validateFileName(string aFile);
 	static string cleanPathChars(string aNick);
 	static string addBrackets(const string& s);
 
-	static bool checkExtension(const string& tmp);//core 0.77
+	static bool checkExtension(const string& tmp);//core 0.770
 
 	static string formatBytes(const string& aString) { return formatBytes(toInt64(aString)); }
 
@@ -259,7 +258,6 @@ public:
 	static inline int roundUp(int size, int blockSize) {
 		return ((size + blockSize - 1) / blockSize) * blockSize;
 	}
-
 
 	static int64_t toInt64(const string& aString) {
 #ifdef _WIN32

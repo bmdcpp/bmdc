@@ -76,14 +76,14 @@ class MainWindow:
 		void showHub_gui(std::string address, std::string encoding = "");
 		void showSearchSpy_gui();
 		//Add
-		void showSystem_gui();//System Tab
-		void showIgnore_gui();//Ignore Tab
-		void showADLSearch_gui();//ADL Tab
-		void showNotepad_gui();//Notepad Tab
-		void showRecentHub_gui();//RecentHub Tab
-		void showHigliting_gui();//Higliting Tab
-		void showDetection_gui();//Detection Tab
-		void showcmddebug_gui();//CMD DEBUG Tab
+		void showSystem_gui(); //System Tab
+		void showIgnore_gui(); //Ignore Tab
+		void showADLSearch_gui(); //ADL Tab
+		void showNotepad_gui(); //Notepad Tab
+		void showRecentHub_gui(); //RecentHub Tab
+		void showHigliting_gui(); //Higliting Tab
+		void showDetection_gui(); //Detection Tab
+		void showcmddebug_gui(); //CMD DEBUG Tab
 		//END
 		void addPrivateMessage_gui(Msg::TypeMsg typemsg, std::string cid, std::string hubUrl = "", std::string message = "", bool useSetting = FALSE);
 		void addPrivateStatusMessage_gui(Msg::TypeMsg typemsg, std::string cid, std::string message = "");
@@ -111,7 +111,7 @@ class MainWindow:
                 std::string file;
                 std::string dir;
                 int64_t speed;
-        };
+			};
        /* class DirectoryBrowseInfo {
             public:
                 DirectoryBrowseInfo(const dcpp::UserPtr& ptr, std::string aText) : user(ptr), text(aText) { }
@@ -136,7 +136,6 @@ class MainWindow:
                 s.signal();
             }
         };
-
 
 		// GUI functions
 		void loadIcons_gui();
@@ -204,7 +203,6 @@ class MainWindow:
 		static void onLimitingMenuItem_gui(GtkWidget *widget, gpointer data);
 		static void onLimitingDisable(GtkWidget *widget, gpointer data);
 		//End
-
 		static void onQuitClicked_gui(GtkWidget *widget, gpointer data);
 		static void onOpenFileListClicked_gui(GtkWidget *widget, gpointer data);
 		static void onOpenOwnListClicked_gui(GtkWidget *widget, gpointer data);
@@ -237,8 +235,6 @@ class MainWindow:
 		void getAway();
 		void EnbDsbLimit();
 
-//		void save_windows();
-
 		// Client callbacks
 		virtual void on(dcpp::LogManagerListener::Message, time_t t, const std::string &m) throw();
 		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) throw();
@@ -255,7 +251,7 @@ class MainWindow:
 		bool useStatusIconBlink;
 		bool onQuit;
 		bool isLimiting;
-      FileListQueue listQueue;
+		FileListQueue listQueue;
 
 		std::vector<PrivateMessage*> allprivatemess;
 		std::vector<Hub*> allhub;

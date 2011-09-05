@@ -114,6 +114,7 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	TagsMap[Tag::TAG_STATUS] = createTag_gui("TAG_STATUS", Tag::TAG_STATUS);
 	TagsMap[Tag::TAG_TIMESTAMP] = createTag_gui("TAG_TIMESTAMP", Tag::TAG_TIMESTAMP);
 	/*-*/
+	TagsMap[Tag::TAG_HIGHL] = createTag_gui("TAG_HIGHL", Tag::TAG_HIGHL);
 	TagsMap[Tag::TAG_MYNICK] = createTag_gui("TAG_MYNICK", Tag::TAG_MYNICK);
 	TagsMap[Tag::TAG_NICK] = createTag_gui("TAG_NICK", Tag::TAG_NICK);
 	TagsMap[Tag::TAG_OPERATOR] = createTag_gui("TAG_OPERATOR", Tag::TAG_OPERATOR);
@@ -196,8 +197,13 @@ void PrivateMessage::preferences_gui()
 	string fore, back;
 	int bold, italic;
 
-	for (int i = Tag::TAG_FIRST; i < Tag::TAG_LAST; i++)
+	for (int i = Tag::TAG_PRIVATE; i < Tag::TAG_LAST; i++)
 	{
+		if(i == Tag::TAG_CHEAT)
+			continue;
+		if(i == Tag::TAG_IPADR )
+			continue;
+		
 		getSettingTag_gui(wsm, (Tag::TypeTag)i, fore, back, bold, italic);
 
 		g_object_set(TagsMap[i],
@@ -698,6 +704,7 @@ void PrivateMessage::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag 
 			else
 				bold = 0;
 		break;
+		case Tag::TAG_HIGHL:/*NOTE*/
 
 		case Tag::TAG_PRIVATE:
 
@@ -888,17 +895,17 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		{
 			pm->addLine_gui(Msg::SYSTEM, string(_("*** Available commands:")) + "\n\n" +
 			"/away <message>\t\t - " + _("Away mode message on/off") + "\n" +
-			"/back\t\t\t\t - " + _("Away mode off") + "\n" +
-			"/clear\t\t\t\t - " + _("Clear PM") + "\n" +
-			"/close\t\t\t\t - " + _("Close PM") + "\n" +
+			"/back\t\t\t\t - " 		 + _("Away mode off") + "\n" +
+			"/clear\t\t\t\t - " 	 + _("Clear PM") + "\n" +
+			"/close\t\t\t\t - " 	 + _("Close PM") + "\n" +
 			"/fuser, /fu\t\t\t\t - " + _("Add user to favorites list") + "\n" +
-			"/removefu, /rmfu\t\t - " + _("Remove user favorite") + "\n" +
-			"/getlist\t\t\t\t - " + _("Get file list") + "\n" +
-			"/grant\t\t\t\t - " + _("Grant extra slot") + "\n" +
+			"/removefu, /rmfu\t\t - "+ _("Remove user favorite") + "\n" +
+			"/getlist\t\t\t\t - " 	 + _("Get file list") + "\n" +
+			"/grant\t\t\t\t - " 	 + _("Grant extra slot") + "\n" +
 			"/emoticons, /emot\t\t - " + _("Emoticons on/off") + "\n" +
 			"/help\t\t\t\t - " + _("Show help") + "\n" +
 			"/amar\t\t\t -  " +_("Media Spam")+ "\n" +
-			"/amar\t\t\t -  " +_("Media Spam")+ "\n" +
+			"/auda\t\t\t -  " +_("Media Spam")+ "\n" +
 			"/kaff\t\t\t -  "+_("Media Spam") + "\n" +
 			"/ratio (mc)\t\t\t - "+_("Show Ratio (mc)")+ "\n"+
 			"/refresh\t\t\\t  -"  +_("refresh share")+ "\n"+
@@ -1286,24 +1293,16 @@ void PrivateMessage::popmenu()
     GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), addFav);
 
-
     g_signal_connect_swapped(closeMenuItem, "activate",G_CALLBACK(onCloseItem), this);
-
     g_signal_connect_swapped(copyMenuItem, "activate", G_CALLBACK(onCopyNick), this);
-
     g_signal_connect_swapped(copyCIDMenuItem, "activate", G_CALLBACK(onCopyCID), this);
-    
     g_signal_connect_swapped(addFav, "activate", G_CALLBACK(onAddFav), (gpointer)this);
-
-
 }
 
 void PrivateMessage::onCloseItem(gpointer data)
 {
     BookEntry *entry = (BookEntry *)data;
-
     WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
-
 }
 
 void PrivateMessage::onCopyNick(gpointer data)

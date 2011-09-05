@@ -297,6 +297,7 @@ Supports Higlliting on PM
 Move regexp from POSIX ver. to boost ver.
 Add Remove All to Recent´s tab menu Items
 Fix Higlitings
-Fix debian folder.
+Fix debian folder
+Fix if opened PM and then open setting and then hit ok.
 
 

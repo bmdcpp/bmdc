@@ -1470,7 +1470,7 @@ void Hub::preferences_gui()
 	}
 
 	// resort users
-	string sort = BOOLSETTING(SORT_FAVUSERS_FIRST)? /*"Favorite"*/"ClientType" : "Nick Order";
+	string sort = BOOLSETTING(SORT_FAVUSERS_FIRST)? "ClientType" : "Nick Order";
 	nickView.setSortColumn_gui(N_("Nick"), sort);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);
 }
