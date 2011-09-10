@@ -244,7 +244,7 @@ void DetectionTab::create_actions_raws() {
 						-1);
 
 		actions.insert(ActRaw::value_type( ((*i)->getId()),topi));
-		actionsn.push_back(make_pair(name,(*i)->getId()));
+		actionsn.push_back(make_pair(name, (*i)->getId()));
 	}
 	
 }
@@ -281,14 +281,14 @@ void DetectionTab::onSwitchTab(GtkNotebook *notebook, GtkNotebookPage *page, gui
         vector<std::pair<std::string,int> >& act = (dt->actionsn);
         dt->loadAgain(dt->getWidget("comboboxentry1Fake"), act, (int)SETTING(FAKESHARE_RAW), dt);
         dt->loadAgain(dt->getWidget("comboboxentry1rmdc"), act, (int)SETTING(RMDC_RAW), dt);
-        dt->loadAgain(dt->getWidget("comboboxentry1emul"), act,(int)SETTING(DCPP_EMULATION_RAW)  , dt);
-        dt->loadAgain(dt->getWidget("comboboxentry1mis"), act,(int)SETTING(FILELIST_VERSION_MISMATCH), dt);
+        dt->loadAgain(dt->getWidget("comboboxentry1emul"), act, (int)SETTING(DCPP_EMULATION_RAW)  , dt);
+        dt->loadAgain(dt->getWidget("comboboxentry1mis"), act, (int)SETTING(FILELIST_VERSION_MISMATCH), dt);
         dt->loadAgain(dt->getWidget("comboboxentry1listlen"), act, (int)SETTING(LISTLEN_MISMATCH), dt);
         dt->loadAgain(dt->getWidget("comboboxentry1vermis"), act, (int)SETTING(VERSION_MISMATCH), dt);
         dt->loadAgain(dt->getWidget("comboboxentry1disc"), act, (int)SETTING(DISCONNECT_RAW), dt);
-        dt->loadAgain(dt->getWidget("comboboxentry1BigSmall"), act,(int)SETTING(FILELIST_TOO_SMALL_BIG_RAW), dt);
-        dt->loadAgain(dt->getWidget("comboboxentry1slwsp"), act,(int)SETTING(SDL_RAW), dt);
-        dt->loadAgain(dt->getWidget("comboboxentry1ADLA"), act,(int)SETTING(ADLSEARCH_DEFAULT_ACTION), dt);
+        dt->loadAgain(dt->getWidget("comboboxentry1BigSmall"), act, (int)SETTING(FILELIST_TOO_SMALL_BIG_RAW), dt);
+        dt->loadAgain(dt->getWidget("comboboxentry1slwsp"), act, (int)SETTING(SDL_RAW), dt);
+        dt->loadAgain(dt->getWidget("comboboxentry1ADLA"), act, (int)SETTING(ADLSEARCH_DEFAULT_ACTION), dt);
     }
 }
 

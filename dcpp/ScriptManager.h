@@ -12,9 +12,9 @@
 #ifdef _USELUA
 /* Include The lua files*/
 extern "C" {
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
+	#include "lua.h"
+	#include "lualib.h"
+	#include "lauxlib.h"
 }
 /*END*/
 #endif
@@ -71,18 +71,18 @@ class ScriptInstance {
 		static CriticalSection cs;
 		template <typename T> bool MakeCall(const string& table, const string& method, int ret , const T& t) throw()
 		{
-		Lock l(cs);
-		dcassert(lua_gettop(L) == 0);
-		LuaPush(t);
-		return MakeCallRaw(table, method, 1 , ret);
+			Lock l(cs);
+			dcassert(lua_gettop(L) == 0);
+			LuaPush(t);
+			return MakeCallRaw(table, method, 1 , ret);
 		}
 		template <typename T,typename T2> bool MakeCall(const string& table, const string& method, int ret , const T& t, const T2& t2) throw()
 		{
-		Lock l(cs);
-		dcassert(lua_gettop(L) == 0);
-		LuaPush(t);
-		LuaPush(t2);
-		return MakeCallRaw(table, method, 2, ret);
+			Lock l(cs);
+			dcassert(lua_gettop(L) == 0);
+			LuaPush(t);
+			LuaPush(t2);
+			return MakeCallRaw(table, method, 2, ret);
 		}
 		template <typename T> void LuaPush(T* p) { lua_pushlightuserdata(L, p);	}
 
@@ -119,10 +119,3 @@ class ScriptManager: public ScriptInstance, public Singleton<ScriptManager>, pub
 #endif
 }//namespace dcpp
 #endif
-
-
-
-
-
-
-

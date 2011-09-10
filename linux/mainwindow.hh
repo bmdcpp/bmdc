@@ -100,8 +100,6 @@ class MainWindow:
 		// Client functions
 		void openOwnList_client(bool useSetting);
 
-        void addNotepad_gui(std::string file);
-
 	private:
         //Checker
         class DirectoryListInfo {
@@ -123,13 +121,12 @@ class MainWindow:
                 bool stop;
                 dcpp::Semaphore s;
                 dcpp::CriticalSection cs;
-            std::list<DirectoryListInfo*> fileLists;
+				std::list<DirectoryListInfo*> fileLists;
 
-            FileListQueue() : stop(true) {}
-            ~FileListQueue() throw() {
-                shutdown();
-            }
-
+				FileListQueue() : stop(true) {}
+				~FileListQueue() throw() {
+					shutdown();
+				}
             int run();
             void shutdown() {
                 stop = true;

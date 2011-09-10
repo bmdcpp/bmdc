@@ -61,8 +61,8 @@ public:
 		OLD_CLIENT = 1<<OLD_CLIENT_BIT,  //< Can't download - old client
 		NO_ADC_1_0_PROTOCOL = 1<<NO_ADC_1_0_PROTOCOL_BIT,	//< Doesn't support "ADC/1.0" (dc++ <=0.703)
 		NO_ADCS_0_10_PROTOCOL = 1<< NO_ADCS_0_10_PROTOCOL_BIT,	//< Doesn't support "ADCS/0.10"
-	   SAVE_NICK = 0x10,	// <- Save cid->nick association
-	   PROTECTED 	= 0x800	//< User protected
+	    SAVE_NICK = 0x10,	// <- Save cid->nick association
+	    PROTECTED 	= 0x800	//< User protected
 	};
 
 	struct Hash {
@@ -217,7 +217,7 @@ private:
 class Client;
 class NmdcHub;
 
-class OnlineUser : public FastAlloc<OnlineUser>,public intrusive_ptr_base<OnlineUser>/*, private boost::noncopyable */{
+class OnlineUser : public FastAlloc<OnlineUser>, public intrusive_ptr_base<OnlineUser>/*, private boost::noncopyable */{
 public:
 	typedef vector<OnlineUser*> List;
 	typedef List::iterator Iter;

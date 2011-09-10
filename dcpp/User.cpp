@@ -548,6 +548,7 @@ map<string, string> Identity::getReport() const {
 				case TAG('A','P'): name = "Application"; break;
 				case TAG('B','O'): name = "Bot"; break;
 				case TAG('B','C'): name = "Bad Client";break;//
+				case TAG('B','F'): name = "Bad Filelist";break;
 				case TAG('C','L'): name = "Client name"; break;
 				case TAG('C','M'): name = "Comment"; break;
 				case TAG('C','O'): name = "Connection"; break;

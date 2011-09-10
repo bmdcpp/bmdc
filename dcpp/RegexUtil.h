@@ -21,7 +21,6 @@
 #ifndef REGEX_UTIL_H
 #define REGEX_UTIL_H
 
-//#include "ResourceManager.h"
 #include <boost/regex.hpp>
 
 #include "typedefs.h"
@@ -59,13 +58,13 @@ namespace RegexUtil {
 			const char *pattern=expression.c_str();
 			const char *strings=strToMatch.c_str();
 			    if (regcomp(&re, pattern, REG_EXTENDED|REG_NOSUB) != 0) {
-			        return false;      /* Report error. */
-    		/*		}
+			        return false;      
+    				}
 			    status = regexec(&re, strings, (size_t) 0, NULL, 0);
 			    regfree(&re);
 			    if (status != 0) {
-			        return false;    /* Report error. */
-			/*	    }
+			        return false;    
+				    }
     			return true;*/
 	}
 

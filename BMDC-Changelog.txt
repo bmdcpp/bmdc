@@ -299,5 +299,9 @@ Add Remove All to Recent´s tab menu Items
 Fix Higlitings
 Fix debian folder
 Fix if opened PM and then open setting and then hit ok.
+Add UC param. fileMN
+Add cmd /ws and /dcpps for setting what is not in GUI
+Better info for error when no install xdg-util for open link
+Add Setting in colors&Font for Cheat message and IP address
 
 

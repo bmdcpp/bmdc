@@ -24,6 +24,7 @@
 #include <dcpp/File.h>
 #include <dcpp/SimpleXML.h>
 #include <dcpp/Util.h>
+#include <dcpp/StringTokenizer.h>
 #include "WulforUtil.hh"
 
 #include <glib/gi18n.h>
@@ -80,6 +81,12 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("text-op-italic", 0));
 	defaultInt.insert(IntMap::value_type("text-url-bold", 0));
 	defaultInt.insert(IntMap::value_type("text-url-italic", 0));
+	
+	defaultInt.insert(IntMap::value_type("text-ip-bold", 0));
+	defaultInt.insert(IntMap::value_type("text-ip-italic", 0));
+	defaultInt.insert(IntMap::value_type("text-cheat-bold", 1));
+	defaultInt.insert(IntMap::value_type("text-cheat-italic", 0));
+	
 	defaultInt.insert(IntMap::value_type("toolbar-button-connect", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-button-fav-hubs", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-button-fav-users", 1));
@@ -206,6 +213,12 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("search-spy-q-color", "#b0b0b0"));
 	defaultString.insert(StringMap::value_type("search-spy-c-color", "#b28600"));
 	defaultString.insert(StringMap::value_type("search-spy-r-color", "#6c85ca"));
+	
+	defaultString.insert(StringMap::value_type("text-ip-fore-color", "#000000"));
+	defaultString.insert(StringMap::value_type("text-ip-back-color", "#FFFFFF"));
+	defaultString.insert(StringMap::value_type("text-cheat-fore-color", "#DE1515"));
+	defaultString.insert(StringMap::value_type("text-cheat-back-color", "#EEE7E7"));
+	
 	defaultString.insert(StringMap::value_type("emoticons-pack", ""));
 	defaultString.insert(StringMap::value_type("emoticons-icon-size", "24x24"));
 	defaultString.insert(StringMap::value_type("notify-download-finished-title", _("Download finished")));
@@ -525,4 +538,24 @@ bool WulforSettingsManager::getPreviewApp(string &name, PreviewApp::size &index)
 		if((*item)->name == name) return true;
 
 	return false;
+}
+
+const std::string WulforSettingsManager::parseCmd(const std::string cmd)
+{
+    StringTokenizer<string> sl(cmd, ' ');
+        if (sl.getTokens().size() == 2) {
+            if (intMap.find(sl.getTokens().at(0)) != intMap.end() && defaultInt.find(sl.getTokens().at(0)) != defaultInt.end()) {
+                int i = atoi(sl.getTokens().at(1).c_str());
+                WSET(sl.getTokens().at(0), i);
+                save();
+            }
+            else if (stringMap.find(sl.getTokens().at(0)) != stringMap.end() && defaultString.find(sl.getTokens().at(0)) != defaultString.end()) {
+                WSET(sl.getTokens().at(0), sl.getTokens().at(1));
+                save();
+            } else
+                return _("Error: setting not found!");
+            string msg = _("Change setting ") + string(sl.getTokens().at(0)) + _(" to ") + string(sl.getTokens().at(1));
+            return msg;
+        }
+    return _("Error: params have been not 2!");
 }

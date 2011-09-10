@@ -130,7 +130,6 @@ private:
 	NmdcHub& operator=(const NmdcHub&);
 
 	void clearUsers();
-	//void onLine(const string& aLine) throw();
 
 	OnlineUser& getUser(const string& aNick);
 	OnlineUser* findUser(const string& aNick);
@@ -164,8 +163,8 @@ private:
 	virtual void on(Failed, const string&) throw();
 
 	string startChecking(const string& aParams) { return users.startChecking(this, aParams); }//ch
-	void stopChecking()	{ users.stopCheck(); }//ch
-	void stopMyINFOCheck() { users.stopMyINFOCheck(); }//ch
+	void stopChecking()	{ users.stopCheck(); }
+	void stopMyINFOCheck() { users.stopMyINFOCheck(); }
 
 };
 

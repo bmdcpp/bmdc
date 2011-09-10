@@ -174,6 +174,7 @@ void UserCommandMenu::onUserCommandClick_gui(GtkMenuItem *item, gpointer data)
 	 			params["fileSI"] = Util::toString(i->size);
 	 			params["fileSIshort"] = Util::formatBytes(i->size);
 	 			params["fileTR"] = i->tth;
+	 			params["fileMN"] = WulforUtil::makeMagnet(i->name, i->size, i->tth);
 	 			params["file"] = params["fileFN"];
 	 			params["filesize"] = params["fileSI"];
 	 			params["filesizeshort"] = params["fileSIshort"];

@@ -555,7 +555,7 @@ gboolean ADLSearchGUI::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, 
 
 	return FALSE;
 }
-/*Util func*/
+/* Util func */
 int ADLSearchGUI::find_raw(string rawString)
 {
 	int raw =0;
@@ -567,6 +567,7 @@ int ADLSearchGUI::find_raw(string rawString)
 	}
   return raw;
 }
+
 int ADLSearchGUI::find_rawInt(int raw)
 {
 	int _raw =0;
@@ -593,7 +594,7 @@ void ADLSearchGUI::onToggleOveride(GtkWidget *widget,gpointer data) {
 
 void ADLSearchGUI::onToggleAct(GtkWidget *widget, gpointer data)
 {
-   ADLSearchGUI *s = (ADLSearchGUI *)data;
+	ADLSearchGUI *s = (ADLSearchGUI *)data;
 	gtk_widget_set_sensitive(s->getWidget("comboboxAction"),s->acts);
 	gtk_widget_set_sensitive(s->getWidget("checkAction"),s->acts);
 	s->acts =!s->acts;
@@ -612,7 +613,7 @@ void ADLSearchGUI::onChangeCombo(GtkWidget *widget, gpointer data)
         gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")),"Forbidden Full Paths");
     else if(!s->forbid && type == 3)
         gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")),"Forbidden TTHS");
-     else return;
+    else return;
 }
 
 void ADLSearchGUI::onToggleForb(GtkWidget *widget, gpointer data)

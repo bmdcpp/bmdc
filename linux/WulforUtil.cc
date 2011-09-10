@@ -37,16 +37,15 @@
 #include <dcpp/ShareManager.h>
 #include <dcpp/version.h>
 #include <dcpp/StringTokenizer.h>
-
 #include <dcpp/UploadManager.h>
 #include <dcpp/DownloadManager.h>
 #include <dcpp/RawManager.h>
+#include <dcpp/HighlightManager.h>
 
-#include "ShellCommand.hh"
 #include <sys/utsname.h>
 #include <sys/sysinfo.h>
 
-#include <dcpp/HighlightManager.h>
+#include "ShellCommand.hh"
 #include "hub.hh"
 #include "wulformanager.hh"
 
@@ -303,7 +302,9 @@ void WulforUtil::openURI(const string &uri)
 
 	if (error != NULL)
 	{
-		cerr << "Failed to open URI: " << error->message << endl;
+		//	cerr << "Failed to open URI: " << error->message << endl;
+		//beter info about it to MainStatusbar for now...
+		WulforManager::get()->getMainWindow()->setMainStatus_gui(string(_("Failed to open URI: "))+string(error->message));
 		g_error_free(error);
 	}
 }
@@ -316,7 +317,8 @@ void WulforUtil::openURItoApp(const string &cmd)
 
 	if (error != NULL)
 	{
-		cerr << "Failed to open application: " << error->message << endl;
+		//cerr << "Failed to open application: " << error->message << endl;
+		WulforManager::get()->getMainWindow()->setMainStatus_gui(string(_("Failed to open application: "))+string(error->message));
 		g_error_free(error);
 	}
 }
@@ -570,7 +572,7 @@ std::string WulforUtil::StringToUpper(std::string myString)
 	if(myString.length() == 0)
 		return Util::emptyString;
 	locale loc;				
-	for(int i=0; i!=length ; ++i)
+	for(int i=0; i != length; ++i)
 	{
 		myString[i] = toupper(myString[i],loc);
 	}
@@ -754,10 +756,10 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 		}
 		else
 		{
-			Util::setAway(TRUE);
-			Util::setManualAway(TRUE);
-			Util::setAwayMessage(param);
-			status += _("Away mode on: ") + Util::getAwayMessage();
+				Util::setAway(TRUE);
+				Util::setManualAway(TRUE);
+				Util::setAwayMessage(param);
+				status += _("Away mode on: ") + Util::getAwayMessage();
 		}
 	}
 	else if ( cmd == "back" )
@@ -778,14 +780,14 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			double up =Util::toInt64(WGETS("up-st"));
 			double dw =Util::toInt64(WGETS("dw-st"));
 			if(dw > 0)
-				ratio = up /dw;
+				ratio = up / dw;
 			else
 				ratio = 0;
 
 			if(param == "mc")
-				message = string("Ratio: " )+ Util::toString(ratio) + string(" ( Uploads: ")+ Util::formatBytes(up)+ "/ Downloads " + Util::formatBytes(dw)+" )";
+				message = string("Ratio: " ) + Util::toString(ratio) + string(" ( Uploads: ") + Util::formatBytes(up) + "/ Downloads " + Util::formatBytes(dw) + " )";
 			else
-				status += string("Ratio: " )+ Util::toString(ratio) + string(" ( Uploads: ")+Util::formatBytes(up) + string("/ Downloads ") + Util::formatBytes(dw)+" )";
+				status += string("Ratio: " ) + Util::toString(ratio) + string(" ( Uploads: ") + Util::formatBytes(up) + string("/ Downloads ") + Util::formatBytes(dw) + " )";
 	}
 	else if ( cmd == "refresh" )
 	{
@@ -837,7 +839,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			int dettotal = SETTING(DETECTT);
 			int detfail = SETTING(DETECTF);
 
-		message = "\n-=Stats " + string(GUI_PACKAGE) + " " + string(GUI_VERSION_STRING) + "/" + dcpp::fullVersionString + "=-\n"
+		message =   "\n-=Stats " + string(GUI_PACKAGE) + " " + string(GUI_VERSION_STRING) + "/" + dcpp::fullVersionString + "=-\n"
 					+ sys_name + " " + node_name + " " + rel + " " + mach + "\n"
 					+ "Uptime: " + Util::formatSeconds(Util::getUptime()) + "\n"
 					+ "Sys Uptime: " + Util::toString(udays) + " days," + Util::toString(uhour) + " Hours," + Util::toString(umin) + " min.\n"
@@ -913,7 +915,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	}
 	else if (cmd == "uptime")
 	{
-		message = _("Uptime: ")+Util::formatSeconds(Util::getUptime());
+		message = _("Uptime: ") + Util::formatSeconds(Util::getUptime());
 	}
 	else if ( cmd == "rebuild" )
 	{
@@ -933,6 +935,14 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			message = generateLeech();
 		else
 			status += generateLeech();
+	}
+	else if ( cmd == "ws")
+	{
+		status = WSCMD(param);	
+	}
+	else if ( cmd == "dcpps" )
+	{
+		status  = SettingsManager::getInstance()->parseCoreCmd(param);
 	}
 	//aliases
 	else if (cmd == "alias" && !param.empty())
@@ -1073,14 +1083,15 @@ bool WulforUtil::matchRe(const std::string/*&*/ strToMatch, const std::string/*&
 			const char *pattern=expression.c_str();
 			const char *strings=strToMatch.c_str();
 			    if (regcomp(&re, pattern, REG_EXTENDED|REG_NOSUB) != 0) {
-			        return 0;      /* Report error. */
-    	/*			}
+			        return 0;      
+    				}
 			    status = regexec(&re, strings, (size_t) 0, NULL, 0);
 			    regfree(&re);
 			    if (status != 0) {
-			        return 0;    /* Report error. */
-		/*		    }
-    			return 1;*/
+			        return 0;    
+				    }
+    			return 1;
+    	 */
 }
 ///From Crzdc
 string WulforUtil::generateLeech() {
@@ -1345,8 +1356,7 @@ bool WulforUtil::isHighlitingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, stri
 			bool tItalic = false;
 			bool tUnderline = false;
 			bool tPopup = false;
-			bool user = false;
-			bool tTab = true;
+//			bool user = false;
 			bool tSound = true;
 			string fore("");
 			string back("");

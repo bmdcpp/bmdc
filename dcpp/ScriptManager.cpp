@@ -39,7 +39,6 @@ extern "C" {
 	#include "lauxlib.h"
 }
 
-
 namespace dcpp {
 
 static void report_eror(lua_State *L, int status)

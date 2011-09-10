@@ -161,6 +161,12 @@ Settings::Settings(GtkWindow* parent):
 	defaultStringTheme.insert(StringMap::value_type("text-op-fore-color", "#0000FF"));
 	defaultStringTheme.insert(StringMap::value_type("text-url-back-color", "#FFFFFF"));
 	defaultStringTheme.insert(StringMap::value_type("text-url-fore-color", "#0000FF"));
+	
+	defaultStringTheme.insert(StringMap::value_type("text-ip-fore-color", "#000000"));
+	defaultStringTheme.insert(StringMap::value_type("text-ip-back-color", "#FFFFFF"));
+	defaultStringTheme.insert(StringMap::value_type("text-cheat-fore-color", "#DE1515"));
+	defaultStringTheme.insert(StringMap::value_type("text-cheat-back-color", "#EEE7E7"));
+	
 	defaultIntTheme.insert(IntMap::value_type("text-general-bold", 0));
 	defaultIntTheme.insert(IntMap::value_type("text-general-italic", 0));
 	defaultIntTheme.insert(IntMap::value_type("text-myown-bold", 1));
@@ -181,6 +187,11 @@ Settings::Settings(GtkWindow* parent):
 	defaultIntTheme.insert(IntMap::value_type("text-op-italic", 0));
 	defaultIntTheme.insert(IntMap::value_type("text-url-bold", 0));
 	defaultIntTheme.insert(IntMap::value_type("text-url-italic", 0));
+	
+	defaultIntTheme.insert(IntMap::value_type("text-ip-bold", 0));
+	defaultIntTheme.insert(IntMap::value_type("text-ip-italic", 0));
+	defaultIntTheme.insert(IntMap::value_type("text-cheat-bold", 1));
+	defaultIntTheme.insert(IntMap::value_type("text-cheat-italic", 0));
 
 	// Initialize the tabs in the GtkNotebook.
 	initPersonal_gui();
@@ -1101,12 +1112,18 @@ void Settings::initAppearance_gui()
 
 		addOption_gui(textStyleStore, wsm, _("Status message"),
 			"text-status-fore-color", "text-status-back-color", "text-status-bold", "text-status-italic");
+		//Cheat
+		addOption_gui(textStyleStore, wsm, _("Cheat message"),
+			"text-cheat-fore-color", "text-cheat-back-color", "text-cheat-bold", "text-cheat-italic");	
 
 		addOption_gui(textStyleStore, wsm, _("Timestamp"),
 			"text-timestamp-fore-color", "text-timestamp-back-color", "text-timestamp-bold", "text-timestamp-italic");
 
 		addOption_gui(textStyleStore, wsm, _("URL"),
 			"text-url-fore-color", "text-url-back-color", "text-url-bold", "text-url-italic");
+		//IP adr.		
+		addOption_gui(textStyleStore, wsm, _("IP address"),
+			"text-ip-fore-color", "text-ip-back-color", "text-ip-bold", "text-ip-italic");	
 
 		addOption_gui(textStyleStore, wsm, _("Favorite User"),
 			"text-fav-fore-color", "text-fav-back-color", "text-fav-bold", "text-fav-italic");

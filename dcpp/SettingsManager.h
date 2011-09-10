@@ -250,6 +250,8 @@ public:
 		return searchTypes;
 	}
 	const StringList& getExtensions(const string& name);
+	
+	const std::string parseCoreCmd(const std::string cmd);
 
 private:
 	friend class Singleton<SettingsManager>;

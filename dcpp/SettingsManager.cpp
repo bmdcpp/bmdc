@@ -205,7 +205,7 @@ SettingsManager::SettingsManager()
 	setDefault(COMPRESS_TRANSFERS, true);
 	setDefault(SFV_CHECK, true);
 	setDefault(DEFAULT_AWAY_MESSAGE, "I'm away. State your business and I might answer later if you're lucky.");
-	setDefault(TIME_STAMPS_FORMAT, "%H:%M");
+	setDefault(TIME_STAMPS_FORMAT, "%H:%M:%S");
 	setDefault(MAX_COMPRESSION, 6);
 	setDefault(NO_AWAYMSG_TO_BOTS, true);
 	setDefault(SKIP_ZERO_BYTE, false);
@@ -318,7 +318,7 @@ SettingsManager::SettingsManager()
 	setDefault(USE_COUNTRY, true);
 	setDefault(SHOW_FREE_SLOTS_DESC, false);
 	setDefault(OVERLAP_CHUNKS, true);
-	///RSX++
+	///BMDC++
 	setDefault(MIN_FL_SIZE, 0);
 	setDefault(FILELIST_TOO_SMALL_BIG,false);
 	setDefault(MAX_DISCONNECTS, 5);
@@ -712,6 +712,26 @@ SettingsManager::SearchTypesIter SettingsManager::getSearchType(const string& na
 		throw SearchTypeException(_("No such search type"));
 	}
 	return ret;
+}
+
+const std::string SettingsManager::parseCoreCmd(const std::string cmd) {
+	StringTokenizer<string> sl(cmd, ' ');
+		if (sl.getTokens().size() == 2) {
+			int n,type;
+			getType(sl.getTokens().at(0).c_str(),n,type);
+           if (type == SettingsManager::TYPE_INT) {
+                int i = atoi(sl.getTokens().at(1).c_str());
+                set((SettingsManager::IntSetting)n,i);
+                save();
+            }
+            else if (type == SettingsManager::TYPE_STRING) {
+                set((SettingsManager::StrSetting)n, sl.getTokens().at(1));
+                save();
+            } else
+                return _("Error: setting not found!");
+            return _("Change core setting ") + string(sl.getTokens().at(0)) + _(" to ") + string(sl.getTokens().at(1));
+        }
+    return _("Error: params have been not 2!");
 }
 
 } // namespace dcpp

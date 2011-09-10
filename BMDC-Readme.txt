@@ -7,7 +7,7 @@ Dependencies:
 -------------
 scons >= 0.96
 pkg-config
-g++ >= 4.4
+g++ >= 4.5
 gtk+-2.0 >= 2.10
 gthread-2.0 >= 2.4
 libglade-2.0 >= 2.4

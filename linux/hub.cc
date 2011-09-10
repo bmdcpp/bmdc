@@ -45,8 +45,6 @@
 #endif
 
 #include <dcpp/Client.h>
-
-//#include <dcpp/HighlightManager.h>
 //CMD
 #include <dcpp/QueueManager.h>
 #include <dcpp/RsxUtil.h>
@@ -1512,10 +1510,11 @@ void Hub::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, strin
 		break;
 
 		case Tag::TAG_CHEAT:
-			  fore = "#DE1515";
-			  back = "#EEE7E7";
-			  italic = 0;
-			  bold = 1;
+			fore = wsm->getString("text-cheat-fore-color");
+			back = wsm->getString("text-cheat-back-color");
+			bold = wsm->getInt("text-cheat-bold");
+			italic = wsm->getInt("text-cheat-italic");
+			break;
 		break;	  
 
 		case Tag::TAG_HIGHL:
@@ -1568,7 +1567,12 @@ void Hub::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, strin
 			else
 				bold = 0;
 		break;
-		case Tag::TAG_IPADR://TODO
+		case Tag::TAG_IPADR:
+			fore = wsm->getString("text-ip-fore-color");
+			back = wsm->getString("text-ip-back-color");
+			bold = wsm->getInt("text-ip-bold");
+			italic = wsm->getInt("text-ip-italic");
+			break;
 		case Tag::TAG_GENERAL:
 
 		default:
@@ -1897,7 +1901,7 @@ gboolean Hub::onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *ev
 gboolean Hub::onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event , GtkTextIter *iter, gpointer data)
 {
 	Hub *hub = (Hub *)data;
-	hub->ip = tag->name;//think
+	hub->ip = tag->name; //think
 	
 	if(event->type == GDK_BUTTON_PRESS)
 	{
@@ -2138,43 +2142,48 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		else if (command == "help")
 		{
 			hub->addMessage_gui(string(_("*** Available commands:")) + "\n\n" +
-			"/away <message>\t\t - " + _("Away mode message on/off") + "\n" +
-			"/back\t\t\t\t - " + _("Away mode off") + "\n" +
-			"/clear\t\t\t\t - " + _("Clear chat") + "\n" +
-			"/close\t\t\t\t - " + _("Close chat") + "\n" +
-			"/password pass\t\t\t" + _("send password")+
-			"/favorite, /fav\t\t\t - " + _("Add a hub to favorites") + "\n" +
+			"/away <message>\t\t - "	+ _("Away mode message on/off") + "\n" +
+			"/back\t\t\t\t - " 			+ _("Away mode off") + "\n" +
+			"/clear\t\t\t\t - " 		+ _("Clear chat") + "\n" +
+			"/close\t\t\t\t - " 		+ _("Close chat") + "\n" +
+			"/password pass\t\t\t" 		+ _("send password") + "\n" +
+			"/favorite, /fav\t\t\t - " 	+ _("Add a hub to favorites") + "\n" +
 			"/fuser, /fu <nick>\t\t - " + _("Add user to favorites list") + "\n" +
 			"/removefu, /rmfu <nick>\t - " + _("Remove user favorite") + "\n" +
-			"/listfu, /lsfu\t\t\t - " + _("Show favorites list") + "\n" +
-			"/getlist <nick>\t\t\t - " + _("Get file list") + "\n" +
-			"/grant <nick>\t\t\t - " + _("Grant extra slot") + "\n" +
-			"/help\t\t\t\t - " + _("Show help") + "\n" +
-			"/join <address>\t\t - " + _("Connect to the hub") + "\n" +
-			"/me <message>\t\t - " + _("Say a third person") + "\n" +
-			"/pm <nick> <text>\t\t - " + _("Private message") + "\n" +
-			"/rebuild\t\t\t\t - " + _("Rebuild hash") + "\n" +
-			"/refresh\t\t\t\t - " + _("Update own file list") + "\n" +
-			"/userlist\t\t\t\t - " + _("User list show/hide") + "\n" +
-			"/bmdc\t\t\t\t - " + _("Show version") + "\n" +
-			"/emoticons, /emot\t\t - " + _("Emoticons on/off") + "\n" +
-			"/luafile <file>\t\t\t - " + _("Load Lua file") + "\n" +
-			"/lua <chunk>\t\t\t\t -  " + _("Execute Lua Chunk") + "\n"+
-			"/uptime \t\t\t\t\t\t -  " + _("Show Client Uptime") + "\n"+
-			"/df (mc) \t\t\t\t -  "+ _("Show Free space (mainchat)") +"\n"+
-			"/w ,/auda, /kaff, /amar\t"+_("Media Spam") + "\n"+
-			"/stats \t\t\t\t - " +  _("Stats Clients") +"\n"+
-			"/exec \t\t\t\t  - " +  _("Execute code (bash)") +"\n"+
-			"/slots param\t\t\t\t"+ _("Set Uploads slots") + "\n"+
-			"/ratio (mc)\t\t\t\t"+ _("Show ratio (mainchat)") + "\n"+
-			"/alias list\t\t\t" +   _("Alias List")+ "\n"
-			"/alias purge ::A\t\t"+ _("Alias Remove A")+"\n"
-			"/alias A::uname -a" +  _("Alias add uname -a as A")+"\n"+
-			"/A\t\t\t\t\t\t\t\t\t" + _("Alias A executing")+"\n" +
-			"/sc\t\t\t\t\t\t\t\t"+  _("Start checkers")+"\n"+
-			"/ulrefresh\t\t\t\t  "+ _("Refresh UserList")+"\n"+
-			"/leech\t\t\t\t"+ _("Show Leech Info")+"\n"+
-			"/topic\t\t\t\t"+ _("Show topic text in chat")+"\n"                    
+			"/listfu, /lsfu\t\t\t - " 	+ _("Show favorites list") + "\n" +
+			"/getlist <nick>\t\t\t - " 	+ _("Get file list") + "\n" +
+			"/grant <nick>\t\t\t - " 	+ _("Grant extra slot") + "\n" +
+			"/help\t\t\t\t - " 			+ _("Show help") + "\n" +
+			"/join <address>\t\t - " 	+ _("Connect to the hub") + "\n" +
+			"/me <message>\t\t - " 		+ _("Say a third person") + "\n" +
+			"/pm <nick> <text>\t\t - " 	+ _("Private message") + "\n" +
+			"/rebuild\t\t\t\t - " 		+ _("Rebuild hash") + "\n" +
+			"/refresh\t\t\t\t - " 		+ _("Update own file list") + "\n" +
+			"/userlist\t\t\t\t - " 		+ _("User list show/hide") + "\n" +
+			"/bmdc [mc]\t\t\t - "   	+ _("Show version") + "\n" +
+			"/emoticons, /emot\t\t - " 	+ _("Emoticons on/off") + "\n" +
+			#ifdef _USELUA
+			"/luafile <file>\t\t - " 	+ _("Load Lua file") + "\n" +
+			"/lua <chunk>\t\t\t -  " 	+ _("Execute Lua Chunk") + "\n" +
+			#endif
+			"/uptime \t\t\t\t\t\t -  " 	+ _("Show Client Uptime") + "\n" +
+			"/df [mc] \t\t\t\t -  "		+ _("Show Free space (mainchat)") + "\n" +
+			"/w ,/auda, /kaff, /amar\t"	+ _("Media Spam") + "\n" +
+			"/stats \t\t\t\t - " 		+ _("Stats Clients") + "\n" +
+			"/exec \t\t\t\t  - " 		+ _("Execute code (bash)") + "\n" +
+			"/slots [n]\t\t\t\t"		+ _("Set Uploads slots") + "\n" +
+			"/ratio [mc]\t\t\t\t"		+ _("Show ratio (mainchat)") + "\n" +
+			"/alias list\t\t\t" 		+ _("Alias List") + "\n"
+			"/alias purge ::A\t\t"		+ _("Alias Remove A") + "\n"
+			"/alias A::uname -a" 		+ _("Alias add uname -a as A") + "\n" +
+			"/A\t\t\t\t\t\t\t\t\t" 		+ _("Alias A executing") + "\n" +
+			"/sc\t\t\t\t\t\t\t\t"		+ _("Start checkers") + "\n" +
+			"/ulrefresh\t\t\t\t  "		+ _("Refresh UserList") + "\n" +
+			"/leech\t\t\t\t"			+ _("Show Leech Info") + "\n" +
+			"/topic\t\t\t\t"			+ _("Show topic text in chat") + "\n" +
+			"/cleanmc\t\t\t\t"			+ _("Clean Mainchat (sended to Hub)") + "\n" +
+			"/ws [name-of-set-in-file] [value]\t"      + _("Set GUI Setting (all)") + "\n" +
+			"/dcpps [name-of-set-in-file] [value]\t" + _("Set dcpp kernel setting") + "\n"
 			 , Msg::SYSTEM);
 		}
 		else if (command == "join" && !param.empty())
@@ -2232,7 +2241,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if ( command == "topic")
 		{
-			hub->addMessage_gui(hub->client->getHubDescription(), Msg::SYSTEM);
+			hub->addMessage_gui(_("Topic: ")+hub->client->getHubDescription(), Msg::SYSTEM);
 		}	  
 		else if ( command == "sc")
 		{
@@ -2303,7 +2312,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
                 WulforManager::get()->dispatchClientFunc(func2);
             }
             else
-            hub->addStatusMessage_gui(_("Unknown command '") + text + _("': type /help for a list of available commands"), Msg::SYSTEM, Sound::NONE);
+				hub->addStatusMessage_gui(_("Unknown command '") + text + _("': type /help for a list of available commands"), Msg::SYSTEM, Sound::NONE);
         #ifdef _USELUA
 		}
 		else
@@ -2372,7 +2381,7 @@ void Hub::onCopyNickItemClicked_gui(GtkMenuItem *item, gpointer data)
 		}
 	}
 }
-//Patched
+//NOTE:Patched is this used ?
 void Hub::onCopyTag_gui(GtkMenuItem *item, gpointer data)
 {
 	Hub *hub = (Hub *)data;
@@ -2425,10 +2434,10 @@ void Hub::onUserInfo_gui(GtkMenuItem *item, gpointer data)
 		}
 		g_list_free(list);
 
-		OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid),hub->client->getHubUrl(),false);
+		OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hub->client->getHubUrl(), false);
 		Identity id = ou->getIdentity();
 
-		hub->addMessage_gui(WulforUtil::getReport(id),Msg::SYSTEM);
+		hub->addMessage_gui(WulforUtil::getReport(id), Msg::SYSTEM);
 
 	}
 }
@@ -2673,15 +2682,13 @@ void Hub::onAddIgnItemClicked_gui(GtkMenuItem *item, gpointer data)
 
 				if (user)
 				{
-				FavoriteManager::getInstance()->addIgnoredUser(user);
-
+					FavoriteManager::getInstance()->addIgnoredUser(user);
 				}
 				else
 				{
-				string message = "User Ignored ";
-				message += WulforUtil::getNicks(user, Util::emptyString);
-				hub->addStatusMessage_gui(message, Msg::SYSTEM, Sound::NONE);
-
+					string message = _("User Ignored ");
+					message += WulforUtil::getNicks(user, Util::emptyString);
+					hub->addStatusMessage_gui(message, Msg::SYSTEM, Sound::NONE);
 				}
 			}
 		  gtk_tree_path_free(path);
@@ -2719,7 +2726,7 @@ void Hub::onRemoveIgnItemClicked_gui(GtkMenuItem *item, gpointer data)
 				}
 				else
 				{
-					string message = "User unIgnored ";
+					string message = _("User unIgnored ");
 					message += WulforUtil::getNicks(user, Util::emptyString);
 					hub->addStatusMessage_gui(message, Msg::SYSTEM, Sound::NONE);
 
@@ -2760,7 +2767,7 @@ void Hub::onTestSUR_gui(GtkMenuItem *item, gpointer data)
 			{	  
 				try {
 					HintedUser hintedUser(ou->getUser(), hub->huburl); 
-					ClientManager::getInstance()->addCheckToQueue(/*ou->getUser()*/hintedUser, false);
+					ClientManager::getInstance()->addCheckToQueue(hintedUser, false);
 				}catch(...)
 				{ }
 			}	 
@@ -2771,7 +2778,7 @@ void Hub::onTestSUR_gui(GtkMenuItem *item, gpointer data)
 //check FL
 void Hub::onCheckFL(GtkMenuItem *item , gpointer data)
 {
-Hub *hub = (Hub *)data;
+	Hub *hub = (Hub *)data;
 
 	if (gtk_tree_selection_count_selected_rows(hub->nickSelection) > 0)
 	{
@@ -2798,7 +2805,7 @@ Hub *hub = (Hub *)data;
 			{	  
 				try {
 					 HintedUser hintedUser(ou->getUser(), hub->huburl);
-					ClientManager::getInstance()->addCheckToQueue(/*ou->getUser()*/hintedUser, true);
+					 ClientManager::getInstance()->addCheckToQueue(hintedUser, true);
 				}
 				 catch(...)
 				{ }
@@ -2810,9 +2817,9 @@ Hub *hub = (Hub *)data;
 void Hub::onProtect(GtkMenuItem *item , gpointer data)
 {
 	Hub *hub =(Hub *)data;
-	if (gtk_tree_selection_count_selected_rows(hub->nickSelection) > 0)
+	if (gtk_tree_selection_count_selected_rows(hub->nickSelection) == 1)
 	{
-		string nicks;
+		string cid;
 		GtkTreeIter iter;
 		GtkTreePath *path;
 		GList *list = gtk_tree_selection_get_selected_rows(hub->nickSelection, NULL);
@@ -2822,19 +2829,19 @@ void Hub::onProtect(GtkMenuItem *item , gpointer data)
 			path = (GtkTreePath *)i->data;
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(hub->nickStore), &iter, path))
 			{
-				nicks = hub->nickView.getString(&iter, _("CID"));
+				cid = hub->nickView.getString(&iter, _("CID"));
 			}
 			gtk_tree_path_free(path);
 		}
 		g_list_free(list);
 
-		if (!nicks.empty())
+		if (!cid.empty())
 		{
-			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(nicks),Util::emptyString,false);
+			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), Util::emptyString, false);
 			if(ou->getUser() && !ou->getUser()->isSet(User::PROTECTED))
 				const_cast<UserPtr&>(ou->getUser())->setFlag(User::PROTECTED);
 			ParamMap params;
-			hub->getParams_client(params,ou->getIdentity());
+			hub->getParams_client(params, ou->getIdentity());
 			hub->AddProtectUser(params);
 		}
 	}
@@ -2843,9 +2850,9 @@ void Hub::onProtect(GtkMenuItem *item , gpointer data)
 void Hub::onUnProtect(GtkMenuItem *item , gpointer data)
 {
 	Hub *hub =(Hub *)data;
-	if (gtk_tree_selection_count_selected_rows(hub->nickSelection) > 0)
+	if (gtk_tree_selection_count_selected_rows(hub->nickSelection) == 1)//think
 	{
-		string nicks;
+		string cid;
 		GtkTreeIter iter;
 		GtkTreePath *path;
 		GList *list = gtk_tree_selection_get_selected_rows(hub->nickSelection, NULL);
@@ -2855,19 +2862,19 @@ void Hub::onUnProtect(GtkMenuItem *item , gpointer data)
 			path = (GtkTreePath *)i->data;
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(hub->nickStore), &iter, path))
 			{
-				nicks = hub->nickView.getString(&iter, _("CID"));
+				cid = hub->nickView.getString(&iter, _("CID"));
 			}
 			gtk_tree_path_free(path);
 		}
 		g_list_free(list);
 
-		if (!nicks.empty())
+		if (!cid.empty())
 		{
-			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(nicks),Util::emptyString,false);
+			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), Util::emptyString, false);
 			if(ou->getUser() && !ou->getUser()->isSet(User::PROTECTED))
 				const_cast<UserPtr&>(ou->getUser())->unsetFlag(User::PROTECTED);
 			ParamMap params;
-			hub->getParams_client(params,ou->getIdentity());
+			hub->getParams_client(params, ou->getIdentity());
 			hub->AddProtectUser(params);
 		}
 	}
@@ -3021,7 +3028,6 @@ void Hub::addOp(ParamMap params)
 					-1);
 			removeTag_gui(nick);
 		}
-
 	}
 }
 
@@ -3143,7 +3149,7 @@ void Hub::delIgnore(ParamMap params)
 	}
 
 }
-/*end*/
+/* end */
 void Hub::addPrivateMessage_gui(Msg::TypeMsg typemsg, string CID, string cid, string url, string message, bool useSetting)
 {
 	if (userFavoriteMap.find(CID) != userFavoriteMap.end())
@@ -3339,24 +3345,7 @@ void Hub::redirect_client(string address, bool follow)
 		}
 	}
 }
-/* This leave for backward
-void Hub::rebuildHashData_client()
-{
-	HashManager::getInstance()->rebuild();
-}
 
-void Hub::refreshFileList_client()
-{
-	try
-	{
-		ShareManager::getInstance()->setDirty();
-		ShareManager::getInstance()->refresh(true);
-	}
-	catch (const ShareException& e)
-	{
-	}
-}
-*/
 void Hub::addAsFavorite_client()
 {
 	///@
@@ -3403,7 +3392,7 @@ void Hub::refreshul(GtkWidget *widget , gpointer data)
     hub->clearNickList_gui();
     hub->client->refreshUserList(true);
 }
-/*Inspipred by code UserInfoase getImageIndex*/
+/*Inspipred by code UserInfoBase getImageIndex*/
 string Hub::getConn(const Identity& id)
 {
 	string tmp = "other";
@@ -3472,7 +3461,7 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 	params.insert(ParamMap::value_type("CID", id.getUser()->getCID().toBase32()));
 	const string cn = Util::toString(Util::toInt(id.get("HN")) + Util::toInt(id.get("HR")) + Util::toInt(id.get("HO")));//hubs
 	params.insert(ParamMap::value_type("Hubs", cn )); //Hubs
-	params.insert(ParamMap::value_type("Slots", id.get("SL")));//Slots
+	params.insert(ParamMap::value_type("Slots", id.get("SL"))); //Slots
 	
 	#ifndef _DEBUG
         params.insert(ParamMap::value_type("Country", Util::getIpCountry(id.getIp())));
@@ -3840,21 +3829,11 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 	   line += info;
 	}
 
-
 	bool third = false;
 	string mess;
-	/* 
-    size_t nestle=message.text.find("/me ")	;
 
-	if(nestle != string::npos)
-	{
-		thirdPerson=true;
-		mess=message.text;
-		mess.replace(mess.find("/me "),4,"");
-	}*/
 	mess = message.text; 
 	{	  
-		 
 		size_t nestle = message.text.find("/me");
 		if(nestle != string::npos)
 		 {

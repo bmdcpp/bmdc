@@ -481,7 +481,8 @@ void Util::decodeUrl(const string& url, string& protocol, string& host, uint16_t
                         } else if(protocol == "dchub") {
                                 port = 411;
                         }
-                        else {
+                        else 
+                        {
 							port = 411;//
 						}
                 } else {
