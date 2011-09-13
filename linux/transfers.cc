@@ -1197,7 +1197,7 @@ void Transfers::onALtSearch(GtkMenuItem *item, gpointer data)
 					Search *s = WulforManager::get()->getMainWindow()->addSearch_gui();
 					s->putValue_gui(tth, 0, SearchManager::SIZE_DONTCARE, SearchManager::TYPE_TTH);
 					wi++;
-					if(wi ==1)
+					if(wi == 1)
                         break;
 				}
 			}

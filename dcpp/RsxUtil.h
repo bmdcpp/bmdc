@@ -28,12 +28,10 @@ public:
 	static uint32_t			toIpNumber(const string& aIp);
 	static uint32_t			getUpperRange(const string& aRange);
 	static uint32_t			getLowerRange(const string& aRange);
-	static void				changeProcessPriority(ProcessPrio level);
-	static int				getActualProcessPrio();*/
+*/
 	static void		generateTestSURString();
 	static const string&	getTestSURString();
-/*	static const string		getOsVersion();*/
-	static string			getUpdateFileNames(const int number);
+//	static string			getUpdateFileNames(const int number);
 /*	static bool				toBool(const string& aString);
 	static bool				toBool(const int aNumber);
 	static void				trim(string& source, const string& delims = " \t\r\n");
@@ -41,23 +39,7 @@ public:
 	static string			replace(const string& aString, const string& fStr, const string& rStr);
 	static bool				compareLower(const string& firstStr, const string& secondStr);
 	static bool				compareLower(const tstring& firstStr, const tstring& secondStr);
-	static int				CalcContrastColor(int crBg);
 	static bool				isIpInRange(const string& aIp, const string& aRange);
-	static tstring			formatAdditionalInfo(const string& aIp, bool sIp, bool sCC);
-	static tstring			getWndTitle();
-
-	//simple function from cplusplus.com with changes ;)
-	template<int len>
-	static string strFormat(const char* sFormat, ...) {
-		char ret[len];
-		va_list args;
-		if(sFormat != NULL) {
-			va_start(args, sFormat);
-				vsprintf(ret, sFormat, args);
-			va_end(args);	
-		}
-		return ret;
-	}
 */
 private:
 	static string tmpTestSur;

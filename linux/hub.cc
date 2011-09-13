@@ -264,7 +264,7 @@ Hub::Hub(const string &address, const string &encoding):
 	// log chat
 	FavoriteHubEntry *entry = FavoriteManager::getInstance()->getFavoriteHubEntry(huburl);
 
-	if(entry!=NULL)
+	if(entry != NULL)
 	{
 		logChat = entry->getLogChat() ? true : false;
 	}
@@ -317,157 +317,7 @@ void Hub::show()
 	F2 *func = new F2(this, &Hub::connectClient_client, address, encoding);
 	WulforManager::get()->dispatchClientFunc(func);
 }
-/*
-bool Hub::isHighlitingWorld(string word, GtkTextTag *tag)
-{
-		GtkTreeIter q;
 
-		string sMsgLower(' ',word.length());
-		std::transform(word.begin(), word.end(), sMsgLower.begin(), _tolower);
-		gboolean ret;
-
-		ColorList* cList = HighlightManager::getInstance()->getList();
-		for(ColorIter i = cList->begin();i != cList->end(); ++i) {
-			ColorSettings* cs= &(*i);
-			bool tBold = false;
-			bool tItalic = false;
-			bool tUnderline = false;
-			bool tPopup = false;
-			bool user = false;
-			bool tTab = true;
-			bool tSound = true;
-			string fore("");
-			string back("");
-
-			if(cs->getBold())
-				tBold = true;
-			if(cs->getItalic())
-				tItalic = true;
-			if(cs->getUnderline())
-				tUnderline = true;
-
-			if(cs->getHasBgColor())
-				back = cs->getBgColor();
-			else
-				back = "#FFFFFF";
-
-			if(cs->getHasFgColor())
-				fore = cs->getFgColor();
-			else
-				fore = "#000000";
-
-			if(cs->getPopup())
-				tPopup = true;
-			if(cs->getTab())
-				tTab = true;
-			if(cs->getPlaySound())
-				tSound = true;
-
-			string _w = cs->getMatch();
-			string _sW(' ', _w.length());
-			std::transform(_w.begin(), _w.end(), _sW.begin(), _tolower);
-			
-			int ffound = sMsgLower.compare(_sW);
-			
-			if(!ffound) {
-				if(((cs->getIncludeNick()) && findNick_gui(word,&q)))
-				{
-					if(!tag) {
-						//g_print("IN fore %s back %s word %s",fore.c_str(),back.c_str(), word.c_str());
-						tag = gtk_text_buffer_create_tag(chatBuffer, word.c_str(),
-						"foreground", fore.c_str(),
-						"background", back.c_str(),
-						"weight", tBold ? TEXT_WEIGHT_BOLD : TEXT_WEIGHT_NORMAL,
-						"style", tItalic ? TEXT_STYLE_ITALIC : TEXT_STYLE_NORMAL,
-						"underline", tUnderline ? PANGO_UNDERLINE_DOUBLE : PANGO_UNDERLINE_NONE,
-						NULL);
-					}
-
-					TagsMap[TAG_HIGHL] = tag;//think about this  =P
-					ret = TRUE;
-					continue;
-				}
-			}
-
-			string w = cs->getMatch();
-			string sW(' ',w.length());
-			std::transform(w.begin(), w.end(), sW.begin(), _tolower);
-			
-			if(cs->usingRegexp())
-			{
-				string q = cs->getMatch().substr(4);
-				int rematch = 0;
-				if(cs->getCaseSensitive())
-					rematch = WulforUtil::matchRe(word,q,true);
-				else
-					rematch = WulforUtil::matchRe(word,q,false);
-
-				if(!rematch)
-					ret = FALSE;
-				else
-				{
-					if(!tag) {
-						tag = gtk_text_buffer_create_tag(chatBuffer, word.c_str(),
-						"foreground", fore.c_str(),
-						"background", back.c_str(),
-						"weight", tBold ? TEXT_WEIGHT_BOLD : TEXT_WEIGHT_NORMAL,
-						"style", tItalic ? TEXT_STYLE_ITALIC : TEXT_STYLE_NORMAL,
-						"underline", tUnderline ? PANGO_UNDERLINE_DOUBLE : PANGO_UNDERLINE_NONE,
-						NULL);
-					}
-
-					TagsMap[TAG_HIGHL] = tag;//think about this  =P
-					ret = TRUE;
-					continue;
-				}
-			}
-
-			int found = sMsgLower.compare(sW);
-			if(!found) {
-
-				if(!tag)
-				{
-				tag = gtk_text_buffer_create_tag(chatBuffer, word.c_str(),
-					"foreground", fore.c_str(),
-					"background", back.c_str(),
-					"weight", tBold ? TEXT_WEIGHT_BOLD : TEXT_WEIGHT_NORMAL,
-					"style", tItalic ? TEXT_STYLE_ITALIC : TEXT_STYLE_NORMAL,
-					"underline", tUnderline ? PANGO_UNDERLINE_DOUBLE : PANGO_UNDERLINE_NONE,
-					NULL);
-
-				}
-				TagsMap[TAG_HIGHL] = tag;//think about this  =P
-
-
-				if(tPopup)
-					WulforManager::get()->getMainWindow()->showNotification_gui(cs->getNoti()+":",word,Notify::HIGHLITING_E);
-
-				if(tTab)
-				{
-					typedef Func0<Hub> F0;
-					F0 *func = new F0(this, &Hub::setUrgent_gui);
-					WulforManager::get()->dispatchGuiFunc(func);
-				}
-
-				if(tSound)
-				{
-					Sound::get()->playSound(cs->getSoundFile());
-				}
-
-
-				ret = TRUE;
-				break;
-			}
-			else
-			{
-				ret = FALSE;
-				continue;
-			}
-	}
-
-	return ret;
-}
-*/
 void Hub::setStatus_gui(string statusBar, string text)
 {
 	if (!statusBar.empty() && !text.empty())
@@ -576,7 +426,8 @@ void Hub::updateUser_gui(ParamMap params)
 		}
 
 		//Color of OP,Pasive, Fav, Ignore, Protect
-		string nickColor = (protect ? "#8B6914":(isOP ? "#1E90FF" : (isPasive ? "#747677" :(favorite ? "#ff0000" : (isIgnore? "#9affaf" :"#000000")))));
+		//string nickColor = (protect ? "#8B6914":(isOP ? "#1E90FF" : (isPasive ? "#747677" :(favorite ? "#ff0000" : (isIgnore? "#9affaf" :"#000000")))));
+		string nickColor = (protect ? WGETS("userlist-text-protected") :(isOP ? WGETS("userlist-text-operator") : (isPasive ? WGETS("userlist-text-pasive") :(favorite ? WGETS("userlist-text-favorite") : ( isIgnore ? WGETS("userlist-text-ignored") : WGETS("userlist-text-normal"))))));
 
 		gtk_list_store_set(nickStore, &iter,
 			nickView.col(N_("Nick")), Nick.c_str(),
@@ -610,7 +461,8 @@ void Hub::updateUser_gui(ParamMap params)
 		userMap.insert(UserMap::value_type(Nick, cid));
 
 		//color of Op, Pasive...
-		string nickColor = (protect? "#8B6914":(isOP ? "#1E90FF" : (isPasive ? "#747677" :(favorite ? "#ff0000" : (isIgnore? "#9affaf" : "#000000")))));
+		//string nickColor = (protect? "#8B6914":(isOP ? "#1E90FF" : (isPasive ? "#747677" :(favorite ? "#ff0000" : (isIgnore? "#9affaf" : "#000000")))));
+		string nickColor = (protect ? WGETS("userlist-text-protected") :(isOP ? WGETS("userlist-text-operator") : (isPasive ? WGETS("userlist-text-pasive") :(favorite ? WGETS("userlist-text-favorite") : ( isIgnore ? WGETS("userlist-text-ignored") : WGETS("userlist-text-normal"))))));
 
 		gtk_list_store_insert_with_values(nickStore, &iter, userMap.size(),
 			nickView.col(N_("Nick")), Nick.c_str(),
@@ -1466,11 +1318,12 @@ void Hub::preferences_gui()
 	{
 		gtk_widget_set_sensitive(getWidget("emotButton"), TRUE);
 	}
-
+	this->refreshul(NULL, (gpointer)this);//Just for refresh UL colors..
 	// resort users
 	string sort = BOOLSETTING(SORT_FAVUSERS_FIRST)? "ClientType" : "Nick Order";
 	nickView.setSortColumn_gui(N_("Nick"), sort);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);
+	
 }
 
 void Hub::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, string &fore, string &back, int &bold, int &italic)
@@ -2351,7 +2204,7 @@ void Hub::onNickToChat_gui(GtkMenuItem *item, gpointer data)
 		}
 	}
 }
-
+/*
 void Hub::onCopyNickItemClicked_gui(GtkMenuItem *item, gpointer data)
 {
 	Hub *hub = (Hub *)data;
@@ -2380,9 +2233,9 @@ void Hub::onCopyNickItemClicked_gui(GtkMenuItem *item, gpointer data)
 			gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), nicks.c_str(), nicks.length());
 		}
 	}
-}
+}*/
 //NOTE:Patched is this used ?
-void Hub::onCopyTag_gui(GtkMenuItem *item, gpointer data)
+/*void Hub::onCopyTag_gui(GtkMenuItem *item, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -2411,7 +2264,7 @@ void Hub::onCopyTag_gui(GtkMenuItem *item, gpointer data)
 		}
 	}
 }
-
+*/
 void Hub::onUserInfo_gui(GtkMenuItem *item, gpointer data)
 {
 	Hub *hub = (Hub *)data;
@@ -2973,7 +2826,7 @@ void Hub::addFavoriteUser_gui(ParamMap params)
 		{
 			gtk_list_store_set(nickStore, &iter,
 				nickView.col("Favorite"), ("f" + params["Order"] + nick).c_str(),
-				nickView.col("NickColor"), "#ff0000",
+				nickView.col("NickColor"), /*"#ff0000"*/WGETS("userlist-text-favorite").c_str(),
 				-1);
 			removeTag_gui(nick);
 		}
@@ -3000,7 +2853,7 @@ void Hub::removeFavoriteUser_gui(ParamMap params)
 			string nickOrder = nickView.getString(&iter, "Nick Order");
 			gtk_list_store_set(nickStore, &iter,
 				nickView.col("Favorite"), nickOrder.c_str(),
-				nickView.col("NickColor"), "#000000",
+				nickView.col("NickColor"), WGETS("userlist-text-normal").c_str()/*"#000000"*/,
 				-1);
 			removeTag_gui(nick);
 		}
@@ -3024,7 +2877,7 @@ void Hub::addOp(ParamMap params)
 		if( findUser_gui(cid, &iter))
 		{
 			gtk_list_store_set(nickStore,&iter,
-					nickView.col("NickColor"),"#1E90FF",
+					nickView.col("NickColor"),/*"#1E90FF"*/WGETS("userlist-text-operator").c_str(),
 					-1);
 			removeTag_gui(nick);
 		}
@@ -3044,7 +2897,7 @@ void Hub::addPasive(ParamMap params)
 		if( findUser_gui(cid, &iter))
 		{
 			gtk_list_store_set(nickStore,&iter,
-					nickView.col("NickColor"),"#747677",
+					nickView.col("NickColor"),/*"#747677"*/WGETS("userlist-text-pasive").c_str(),
 					-1);
 			removeTag_gui(nick);
 		}
@@ -3065,7 +2918,7 @@ void Hub::addIgnore(ParamMap params)
 		if( findUser_gui(cid, &iter))
 		{
 			gtk_list_store_set(nickStore,&iter,
-					nickView.col("NickColor"),"#9affaf",
+					nickView.col("NickColor"),/*"#9affaf"*/WGETS("userlist-text-ignored").c_str(),
 					-1);
 			removeTag_gui(nick);
 		}
@@ -3083,7 +2936,7 @@ void Hub::AddProtectUser(ParamMap params)
 		if( findNick_gui(cid,&iter))
 		{
 			gtk_list_store_set(nickStore,&iter,
-						nickView.col("NickColor"),"#8B6914",
+						nickView.col("NickColor"), WGETS("userlist-text-protected").c_str()/*"#8B6914*/,
 						-1);
 		removeTag_gui(nick);
 
@@ -3103,7 +2956,7 @@ void Hub::delOp(ParamMap params)
 		if(findUser_gui(cid,&iter))
 		{
 			gtk_list_store_set(nickStore, &iter,
-				nickView.col("NickColor"), "#000000",
+				nickView.col("NickColor"), /*"#000000"*/WGETS("userlist-text-normal").c_str(),
 				-1);
 			removeTag_gui(nick);
 		}
@@ -3123,7 +2976,7 @@ void Hub::delPasive(ParamMap params)
 		if(findUser_gui(cid,&iter))
 		{
 			gtk_list_store_set(nickStore, &iter,
-				nickView.col("NickColor"), "#000000",
+				nickView.col("NickColor"), /*"#000000"*/WGETS("userlist-text-normal").c_str(),
 				-1);
 			removeTag_gui(nick);
 		}
@@ -3142,7 +2995,7 @@ void Hub::delIgnore(ParamMap params)
 		if(findUser_gui(cid,&iter))
 		{
 			gtk_list_store_set(nickStore, &iter,
-				nickView.col("NickColor"), "#000000",
+				nickView.col("NickColor"), /*"#000000"*/WGETS("userlist-text-normal").c_str(),
 				-1);
 			removeTag_gui(nick);
 		}

@@ -1289,7 +1289,7 @@ void QueueManager::putDownload(Download* aDownload, bool finished, bool reportFi
 							fl_flag = (q->isSet(QueueItem::FLAG_DIRECTORY_DOWNLOAD) ? QueueItem::FLAG_DIRECTORY_DOWNLOAD : 0);
 														
 						}
-						if(aDownload->isSet(Download::FLAG_TESTSUR) || q->isSet(QueueItem::FLAG_TESTSUR))
+						if(q->isSet(QueueItem::FLAG_TESTSUR) || aDownload->isSet(Download::FLAG_TESTSUR))//thing (otoceni)
 						{
 							removeTestSUR(aDownload->getHintedUser().user);	
 						}
@@ -1613,7 +1613,7 @@ void QueueManager::saveQueue(bool force) throw() {
 		string b32tmp;
 		for(QueueItem::StringIter i = fileQueue.getQueue().begin(); i != fileQueue.getQueue().end(); ++i) {
 			QueueItem* qi = i->second;
-			if(!qi->isSet(QueueItem::FLAG_USER_LIST)&& !qi->isSet(QueueItem::FLAG_TESTSUR)) {
+			if(!qi->isSet(QueueItem::FLAG_USER_LIST) && !qi->isSet(QueueItem::FLAG_TESTSUR)) {
 				f.write(LIT("\t<Download Target=\""));
 				f.write(SimpleXML::escape(qi->getTarget(), tmp, true));
 				f.write(LIT("\" Size=\""));

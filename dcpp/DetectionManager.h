@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2009 adrian_007, adrian-007 on o2 point pl
+ * Copyright (C) 2007-2011 adrian_007, adrian-007 on o2 point pl
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,8 +49,8 @@ public:
 		UserInfoSave();
 	}
 
-	const DetectionItems& reload(bool isUserInfo = false);
-	const DetectionItems& reloadFromHttp(bool bz2 = false, bool isUserInfo = false);
+	//const DetectionItems& reload(bool isUserInfo = false);
+	//const DetectionItems& reloadFromHttp(bool bz2 = false, bool isUserInfo = false);
 
 	void addDetectionItem(DetectionEntry& e, bool isUserInfo = false) throw(Exception);
 	void updateDetectionItem(const uint32_t aOrigId, const DetectionEntry& e, bool isUserInfo = false) throw(Exception);
@@ -88,7 +88,7 @@ public:
 	GETSET(string, userInfoUrl, UserInfoUrl);
 
 private:
-	void loadCompressedProfiles();
+	//void loadCompressedProfiles();
 
 	DetectionItems det;
 	DetectionItems ui_det;
@@ -106,7 +106,7 @@ private:
 
 }; // namespace dcpp
 
-#endif // RSXPLUSPLUS_DETECTION_MANAGER_H
+#endif // DETECTION_MANAGER_H
 
 /**
  * @file

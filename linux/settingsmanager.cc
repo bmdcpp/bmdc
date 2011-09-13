@@ -327,6 +327,13 @@ WulforSettingsManager::WulforSettingsManager():
 	/*for ratio*/
 	defaultString.insert(StringMap::value_type("up-st", "0"));
 	defaultString.insert(StringMap::value_type("dw-st", "0"));
+	/*for UL color text*/
+	defaultString.insert(StringMap::value_type("userlist-text-operator", "#1E90FF"));
+	defaultString.insert(StringMap::value_type("userlist-text-pasive", "#747677"));
+	defaultString.insert(StringMap::value_type("userlist-text-protected", "#8B6914"));
+	defaultString.insert(StringMap::value_type("userlist-text-favorite", "#ff0000"));
+	defaultString.insert(StringMap::value_type("userlist-text-ignored", "#9affaf"));
+	defaultString.insert(StringMap::value_type("userlist-text-normal", "#000000"));
 
 	load();
 }

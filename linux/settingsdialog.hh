@@ -50,6 +50,10 @@ class Settings:
 			const std::string &name, const std::string &key1, const std::string &key2,
 			const std::string &key3, const int key4);
 		void addOption_gui(GtkListStore *store, const std::string &name, const std::string &setting);
+		//NOTE BMDC++
+		void addOption_gui(GtkListStore *store, const std::string &name, const std::string &setting, bool q/*not used*/);
+		void addPreviewUL_gui(GtkListStore *store, const std::string &name, const std::string &color, const std::string &icon);
+		//end
 		void addOption_gui(GtkListStore *store, WulforSettingsManager *wsm, const std::string &name,
 			const std::string &key1, const std::string &key2);
 		void addOption_gui(GtkListStore *store, WulforSettingsManager *wsm, GtkIconTheme *iconTheme,
@@ -170,7 +174,9 @@ class Settings:
 		static void onDownExtensionButton_gui(GtkWidget *widget, gpointer data);//NOTE: core 0.770
 		static void onSTKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);//NOTE: core 0.770
 		static void onSTButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);//NOTE: core 0.770
-
+		//BMDC++
+		static void onTextColorForeULClicked_gui(GtkWidget *widget, gpointer data);
+		static void onTextColorDefaultULClicked_gui(GtkWidget *widget, gpointer data);
 		// Client functions
 		void saveSettings_client();
 		void shareHidden_client(bool show);
@@ -178,27 +184,31 @@ class Settings:
 		void removeUserCommand_client(std::string name, std::string hub);
 		void moveUserCommand_client(std::string name, std::string hub, int pos);
 		void generateCertificates_client();
+		void setColorUL();//BMDC++
+		void setDefaultColor(std::string color, std::string name, GtkTreeIter *iter);//BMDC++
 
 		GtkComboBox *connectionSpeedComboBox;
 		GtkListStore *downloadToStore, *publicListStore, *queueStore,
 			*shareStore, *appearanceStore, *tabStore, *windowStore1,
 			*windowStore2, *windowStore3, *advancedStore, *certificatesStore, *userCommandStore,
 			*previewAppToStore, *soundStore, *textStyleStore, *notifyStore, *themeIconsStore,
-			*toolbarStore, *extensionStore, *searchTypeStore;
+			*toolbarStore, *extensionStore, *searchTypeStore, *userListStore1, *userListStore2;
 		TreeView downloadToView, publicListView, queueView, shareView,
 			appearanceView, tabView, windowView1, windowView2,
 			windowView3, advancedView, certificatesView, userCommandView,
 			previewAppView, soundView, textStyleView, notifyView, themeIconsView,
-			toolbarView, extensionView, searchTypeView;
+			toolbarView, extensionView, searchTypeView, userListNames, userListPreview;
 		GtkTextBuffer *textStyleBuffer;
 
 		typedef std::map<std::string, int> IntMap;
 		typedef std::map<std::string, std::string> StringMap;
+		typedef std::map<std::string, GtkTreeIter> ColorIters;
 
 		IntMap defaultIntTheme;
 		IntMap intMapTheme;
 		StringMap stringMapTheme;
 		StringMap defaultStringTheme;
+		ColorIters colorsIters;
 
 		bool loadFileTheme(const std::string &file);
 		void saveFileTheme(const std::string &file);

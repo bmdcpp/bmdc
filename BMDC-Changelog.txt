@@ -303,5 +303,7 @@ Add UC param. fileMN
 Add cmd /ws and /dcpps for setting what is not in GUI
 Better info for error when no install xdg-util for open link
 Add Setting in colors&Font for Cheat message and IP address
+Applied ZLIF patch from iceman50
+Added setting of Colors text in UserList
 
 

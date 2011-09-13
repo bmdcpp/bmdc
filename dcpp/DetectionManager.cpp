@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2009 adrian_007, adrian-007 on o2 point pl
+ * Copyright (C) 2007-2011 adrian_007, adrian-007 on o2 point pl
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -363,8 +363,8 @@ void DetectionManager::UserInfoSave() {
 		dcdebug("DetectionManager::save: %s\n", e.getError().c_str());
 	}
 }
-
-const DetectionManager::DetectionItems& DetectionManager::reload(bool isUserInfo /*= false*/) {
+/*
+const DetectionManager::DetectionItems& DetectionManager::reload(bool isUserInfo ) {
 	Lock l(cs);
 	if(!isUserInfo) {
 		det.clear();
@@ -376,9 +376,9 @@ const DetectionManager::DetectionItems& DetectionManager::reload(bool isUserInfo
 		UserInfoLoad();
 		return ui_det;
 	}
-}
-
-const DetectionManager::DetectionItems& DetectionManager::reloadFromHttp(bool bz2 /*= false*/, bool isUserInfo /*= false*/) {
+}*/
+/*
+const DetectionManager::DetectionItems& DetectionManager::reloadFromHttp(bool bz2 , bool isUserInfo ) {
 	Lock l(cs);
 	if(bz2)
 		loadCompressedProfiles();
@@ -393,9 +393,9 @@ const DetectionManager::DetectionItems& DetectionManager::reloadFromHttp(bool bz
 		for(DetectionManager::DetectionItems::const_iterator k = oldList.begin(); k != oldList.end(); ++k) {
 			if(k->Id == j->Id) {
 				j->rawToSend = k->rawToSend;
-				if(/*RSXPP_*/BOOLSETTING(UPDATE_PROFILE_CHEATS))
+				if(BOOLSETTING(UPDATE_PROFILE_CHEATS))
 					j->cheat = k->cheat;
-				if(/*RSXPP_*/BOOLSETTING(UPDATE_PROFILE_COMMENTS))
+				if(BOOLSETTING(UPDATE_PROFILE_COMMENTS))
 					j->comment = k->comment;
 				j->clientFlag = k->clientFlag;
 				j->isEnabled = k->isEnabled;
@@ -405,7 +405,7 @@ const DetectionManager::DetectionItems& DetectionManager::reloadFromHttp(bool bz
 
 	return list;
 }
-
+*/
 void DetectionManager::importProfiles(SimpleXML& xml) {
 	try {
 		xml.resetCurrentChild();
@@ -600,7 +600,7 @@ void DetectionManager::ProfilesSave() {
 		dcdebug("DetectionManager::save: %s\n", e.getError().c_str());
 	}
 }
-
+/*
 void DetectionManager::loadCompressedProfiles() {
 	string xml = Util::emptyString;
 	string file = Util::getPath(Util::PATH_USER_CONFIG) + "Profiles.xml";
@@ -630,7 +630,7 @@ void DetectionManager::loadCompressedProfiles() {
 		//
 	}
 }
-
+*/
 void DetectionManager::addDetectionItem(DetectionEntry& e, bool isUserInfo /*=false*/) throw(Exception) {
 	Lock l(cs);
 	DetectionItems& list = isUserInfo ? ui_det : det;

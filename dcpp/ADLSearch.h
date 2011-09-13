@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2009 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2011 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 
 /*
  * Automatic Directory Listing Search
- * Henrik Engstr�m, henrikengstrom at home se
+ * Henrik Engström, henrikengstrom at home se
  */
 
 #ifndef DCPLUSPLUS_DCPP_A_D_L_SEARCH_H
@@ -137,7 +137,7 @@ public:
 		default:
 		case OnlyFile:		return ("FileName");
 		case OnlyDirectory:	return ("Directory");
-		case FullPath:		return ("ADLS_FULL_PATH");
+		case FullPath:		return ("ADLS Full Path");
 		case TTHFile:		return ("TTH"); //RSX++
 		}
 	}
@@ -183,10 +183,10 @@ public:
 	string SizeTypeToDisplayString(SizeType t) {
 		switch(t) {
 		default:
-		case SizeBytes:		return "B";//CTSTRING(B);
-		case SizeKiloBytes:	return "KB";//CTSTRING(KB);
-		case SizeMegaBytes:	return "MB";//CTSTRING(MB);
-		case SizeGigaBytes:	return "GB";//CTSTRING(GB);
+		case SizeBytes:		return "B";
+		case SizeKiloBytes:	return "KB";
+		case SizeMegaBytes:	return "MB";
+		case SizeGigaBytes:	return "GB";
 		}
 	}
 
@@ -257,7 +257,7 @@ private:
 	bool SearchAll(const string& s) {
 		try {
 			boost::regex reg(searchString, boost::regex_constants::icase);
-			return /*RegexUtil::match(s,searchString,false)  ? true : false;*/boost::regex_search(s.begin(), s.end(), reg);
+			return boost::regex_search(s.begin(), s.end(), reg);
 		} catch(...) {
 		}
 
@@ -337,7 +337,7 @@ private:
 	void PrepareDestinationDirectories(DestDirList& destDirVector, DirectoryListing::Directory* root, StringMap& params);
 	// Finalize destination directories
 	void FinalizeDestinationDirectories(DestDirList& destDirVector, DirectoryListing::Directory* root) {
-		string szDiscard = "<<< Discard >>>";/*STRING(ADLS_DISCARD)*/
+		string szDiscard = "<<< Discard >>>";
 
 		// Add non-empty destination directories to the top level
 		for(vector<DestDir>::iterator id = destDirVector.begin(); id != destDirVector.end(); ++id) {

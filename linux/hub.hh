@@ -130,7 +130,7 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		static void onChatResize_gui(GtkAdjustment *adjustment, gpointer data);
 		static void onSendMessage_gui(GtkEntry *entry, gpointer data);
 		static void onNickToChat_gui(GtkMenuItem *item, gpointer data);
-		static void onCopyNickItemClicked_gui(GtkMenuItem *item, gpointer data);
+		//static void onCopyNickItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onMatchItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onMsgItemClicked_gui(GtkMenuItem *item, gpointer data);
@@ -144,10 +144,10 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		static void onUserListToggled_gui(GtkWidget *widget, gpointer data);
 		static void onAddFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onRemoveFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data);
-		//Patched Ign+CopyTag
+		//Ignored Users
 		static void onAddIgnItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onRemoveIgnItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onCopyTag_gui(GtkMenuItem *item, gpointer data);
+		//static void onCopyTag_gui(GtkMenuItem *item, gpointer data);
 		static void onUserInfo_gui(GtkMenuItem *item, gpointer data);
 		static void onTestSUR_gui(GtkMenuItem *item, gpointer data);
 		static void onCheckFL(GtkMenuItem *item , gpointer data);
@@ -161,7 +161,7 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		static void ripeIp(GtkWidget *wid, gpointer data);
 		static void copyIp(GtkWidget *wid, gpointer data);
 		void addStatusPrivateMessage_gui(std::string cid, std::string message);
-		/*new*/
+		/**/
 		void addOp(ParamMap params);
 		void addPasive(ParamMap params);
 		void addIgnore(ParamMap params);
@@ -169,8 +169,7 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		void delPasive(ParamMap params);
 		void delIgnore(ParamMap params);
 		void AddProtectUser(ParamMap params);
-		//bool isHighlitingWorld(std::string word,GtkTextTag *tag);
-
+		
 		// Client functions
 		void addFavoriteUser_client(const std::string cid);
 		void removeFavoriteUser_client(const std::string cid);
@@ -182,11 +181,10 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		void grantSlot_client(std::string cid);
 		void removeUserFromQueue_client(std::string cid);
 		void redirect_client(std::string address, bool follow);
-		/*void rebuildHashData_client();
-		void refreshFileList_client();*/
+
 		void addAsFavorite_client();
 		void getParams_client(ParamMap &user, dcpp::Identity &id);
-
+		//Utilized func
 		std::string formatAdditionalInfo(const std::string& aIp, bool sIp, bool sCC,bool isPm);
 		std::string getConn(const dcpp::Identity& id);
 		static void refreshul(GtkWidget *widget , gpointer data);
@@ -210,7 +208,7 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		virtual void on(dcpp::ClientListener::StatusMessage, dcpp::Client *, const std::string &message, int flag) throw();
 		virtual void on(dcpp::ClientListener::NickTaken, dcpp::Client *) throw();
 		virtual void on(dcpp::ClientListener::SearchFlood, dcpp::Client *, const std::string &message) throw();
-		//RSX
+		//RSX like
 		virtual void on(dcpp::ClientListener::CheatMessage, const dcpp::Client *,const std::string &message) throw();
 
 		UserMap userMap;

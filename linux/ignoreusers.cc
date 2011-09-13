@@ -1,6 +1,6 @@
 //      ignoreusers.cpp
 //
-//      Copyright 2009 Mank <mank@no-ip.sk>
+//      Copyright 2011 Mank <mank@no-ip.sk>
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ using namespace std;
 using namespace dcpp;
 
 ignoreusers::ignoreusers():
-BookEntry(Entry::IGNORE_USERS,_("Ignore Users"),"ignoreeusers.glade")
+BookEntry(Entry::IGNORE_USERS, _("Ignore Users"), "ignoreeusers.glade")
 {
 		// Configure the dialog
 		gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("DescriptionDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);

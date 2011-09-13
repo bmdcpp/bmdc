@@ -69,12 +69,12 @@ public:
 		FLAG_MATCH_QUEUE = 0x80,
 		/** The file list downloaded was actually an .xml.bz2 list */
 		FLAG_XML_BZLIST = 0x100,
-		/** Only download a part of the file list */
+		/** Only download a part of the filelist */
 		FLAG_PARTIAL_LIST = 0x200,
 		/** Test user for slotlocker */
-		FLAG_TESTSUR		= 0x300,
+		FLAG_TESTSUR = 0x300,
 		/** Test user's file list for fake share */
-		FLAG_CHECK_FILE_LIST	= 0x400
+		FLAG_CHECK_FILE_LIST = 0x400
 	};
 
 	/**
@@ -118,7 +118,7 @@ public:
 			FLAG_UNTRUSTED = 0x300,
 			FLAG_MASK = FLAG_FILE_NOT_AVAILABLE
 				| FLAG_PASSIVE | FLAG_REMOVED | FLAG_CRC_FAILED | FLAG_CRC_WARN
-				| FLAG_BAD_TREE | FLAG_NO_TREE | FLAG_SLOW_SOURCE | FLAG_UNTRUSTED
+				| FLAG_BAD_TREE | FLAG_NO_TREE | FLAG_SLOW_SOURCE |FLAG_UNTRUSTED  
 		};
 
 		Source(const HintedUser& aUser) : user(aUser) { }

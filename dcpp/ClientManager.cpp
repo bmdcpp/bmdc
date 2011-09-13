@@ -299,7 +299,7 @@ void ClientManager::putOnline(OnlineUser* ou) throw() {
 
 	if(!ou->getUser()->isOnline()) {
 		ou->getUser()->setFlag(User::ONLINE);
-		ou->initializeData();//
+		ou->initializeData();//.
 		fire(ClientManagerListener::UserConnected(), ou->getUser());
 	}
 }
@@ -522,7 +522,7 @@ void ClientManager::on(AdcSearch, Client* c, const AdcCommand& adc, const CID& f
 		}
 
 	}
-	SearchManager::getInstance()->respond(adc, from, isUdpActive,c->getHubUrl());
+	SearchManager::getInstance()->respond(adc, from, isUdpActive, c->getHubUrl());
 }
 
 void ClientManager::search(int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken) {
@@ -534,7 +534,6 @@ void ClientManager::search(int aSizeMode, int64_t aSize, int aFileType, const st
 		}
 	}
 }
-
 
 void ClientManager::search(StringList& who, int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken, const StringList& aExtList) {
 	Lock l(cs);
@@ -779,7 +778,7 @@ void ClientManager::setListSize(const UserPtr& p, int64_t aFileLength, bool adc)
 	string report;// = Util::emptyString;
 	{
 		Lock l(cs);
-		ou = findOnlineUser(p->getCID(),"", false);
+		ou = findOnlineUser(p->getCID(), "", false);
 		if(!ou)
 			return;
 

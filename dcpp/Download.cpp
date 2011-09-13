@@ -47,7 +47,6 @@ Download::Download(UserConnection& conn, QueueItem& qi, const string& path, bool
 		setFlag(FLAG_TESTSUR);
 
 
-
 	if(qi.getSize() != -1) {
 		if(HashManager::getInstance()->getTree(getTTH(), getTigerTree())) {
 			setTreeValid(true);

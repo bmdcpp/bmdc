@@ -40,9 +40,9 @@ separator(aSeparator), mode(MODE_LINE), dataBytes(0), rollback(0), state(STARTIN
 disconnecting(false)
 {
 	start();
-
 	sockets.inc();
 }
+
 Atomic<long,memory_ordering_strong> BufferedSocket::sockets(0);
 
 BufferedSocket::~BufferedSocket() throw() {

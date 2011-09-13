@@ -124,5 +124,5 @@ typedef LockBase<FastCriticalSection> FastLock;
 
 /**
  * @file
- * $Id: CriticalSection.h 464 2009-10-09 20:40:43Z BigMuscle $
+ * $Id: CriticalSection.h 464 2011-10-09 20:40:43Z BigMuscle $
  */

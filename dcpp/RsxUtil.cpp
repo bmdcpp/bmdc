@@ -22,7 +22,6 @@
 #include "Util.h"
 #include "Text.h"
 #include "ResourceManager.h"
-//#include "rsxppSettingsManager.h"
 
 namespace dcpp {
 
@@ -96,14 +95,14 @@ void RsxUtil::generateTestSURString() {
 const string& RsxUtil::getTestSURString() {
 	return tmpTestSur.empty() ? defaultTestSURName : tmpTestSur;
 }
-
+/*
 string RsxUtil::getUpdateFileNames(const int number) {
 	switch(number) {
 		case 1: return "UserInfoProfiles.xml";
-		case 2: return "IPWatch.xml";
+//		case 2: return "IPWatch.xml";
 		default: return "Profiles.xml";
 	}
-}
+}*/
 /*
 bool RsxUtil::toBool(const string& aString) {
 	return (Util::toInt(aString) >= 1 ? true : false);
@@ -167,49 +166,6 @@ bool RsxUtil::compareLower(const tstring& firstStr, const tstring& secondStr) {
 		return false;
 	}
 }
-//http://www.codeproject.com/tips/JbColorContrast.asp
-#define abs(x) ((x) < 0 ? (-(x)) : (x))
-#define calc_col(x) abs(((x) & 0xFF) - 0x80) <= TOLERANCE
-#define TOLERANCE 0x40
 
-int RsxUtil::CalcContrastColor(int crBg) {
-    if(calc_col(crBg) && calc_col(crBg >> 8) && calc_col(crBg >> 16))
-		return (0x7F7F7F + crBg) & 0xFFFFFF;
-    else
-		return crBg ^ 0xFFFFFF;
-}
-
-tstring RsxUtil::formatAdditionalInfo(const string& aIp, bool sIp, bool sCC) {
-	string ret = Util::emptyString;
-
-	if(!aIp.empty()) {
-		string cc = Util::getIpCountry(aIp);
-		bool showIp = RSXPP_BOOLSETTING(IP_IN_CHAT) || sIp;
-		bool showCc = (RSXPP_BOOLSETTING(COUNTRY_IN_CHAT) || sCC) && !cc.empty();
-
-		if(showIp) {
-			ret = "[ " + aIp + " ] ";
-		}
-		if(showCc) {
-			ret += "[ " + cc + " ] ";
-		}
-	}
-	return Text::toT(ret);
-}
-
-#ifdef _WIN64
-#define CONFIGURATION_TYPE "x86-64"
-#else
-#define CONFIGURATION_TYPE "x86-32"
-#endif
-
-tstring RsxUtil::getWndTitle() {
-#ifdef SVNBUILD
-	return _T(APPNAME) _T(" ") _T(VERSIONSTRING) _T(" ") _T(CONFIGURATION_TYPE) _T(" [SVN:") _T(BOOST_STRINGIZE(SVN_REVISION)) _T(" / ") _T(DCVERSIONSTRING) _T(" / ") _T(SVNVERSION) _T("]");
-#elif _DEBUG
-	return _T(APPNAME) _T(" ") _T(VERSIONSTRING) _T(" ") _T(CONFIGURATION_TYPE) _T(" DEBUG [SVN:") _T(BOOST_STRINGIZE(SVN_REVISION)) _T(" / ") _T(DCVERSIONSTRING) _T(" / ") _T(SVNVERSION) _T("]");
-#else
-	return _T(APPNAME) _T(" ") _T(VERSIONSTRING) _T(" ") _T(CONFIGURATION_TYPE);
-#endif
 }*/
 }; // namespace dcpp

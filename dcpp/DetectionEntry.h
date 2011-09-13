@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2009 adrian_007, adrian-007 on o2 point pl
+ * Copyright (C) 2007-2011 adrian_007, adrian-007 on o2 point pl
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef RSXPLUSPLUS_DETECTION_ENTRY_H
-#define RSXPLUSPLUS_DETECTION_ENTRY_H
+#ifndef DETECTION_ENTRY_H
+#define DETECTION_ENTRY_H
 
 namespace dcpp {
 
@@ -51,7 +51,7 @@ public:
 
 } // namespace dcpp
 
-#endif // RSXPLUSPLUS_DETECTION_ENTRY_H
+#endif // DETECTION_ENTRY_H
 
 /**
  * @file

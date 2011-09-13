@@ -115,6 +115,7 @@ private:
 	static const string TIGR_SUPPORT;
 	static const string UCM0_SUPPORT;
 	static const string BLO0_SUPPORT;
+	static const string ZLIF_SUPPORT;
 
 	virtual string checkNick(const string& nick);
 
@@ -140,6 +141,8 @@ private:
 	void handle(AdcCommand::GET, AdcCommand& c) throw();
 	void handle(AdcCommand::NAT, AdcCommand& c) throw();
 	void handle(AdcCommand::RNT, AdcCommand& c) throw();
+	void handle(AdcCommand::ZON, AdcCommand& c) throw();
+	void handle(AdcCommand::ZOF, AdcCommand& c) throw();
 
 	template<typename T> void handle(T, AdcCommand&) { }
 

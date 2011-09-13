@@ -20,7 +20,7 @@ class ShellCommand
 		char* Output(); //Returns output. If unfixable error has occurred, output = ""
 		char* ErrorMessage(); //Returns errormessage. If no error has occurred, errormessage = ""
 		int GetResultSize(); //Returns size of the result
-		bool isThirdPerson();//Returns if is 3rd person
+		bool isThirdPerson(); //Returns if is 3rd person
 
 	private:
 		char* output;

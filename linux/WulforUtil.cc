@@ -845,7 +845,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 					+ "Sys Uptime: " + Util::toString(udays) + " days," + Util::toString(uhour) + " Hours," + Util::toString(umin) + " min.\n"
 					+ "Time: " + Util::getShortTimeString() + "\n"
 					+ "Mem Usage (Free/Total):" + Util::toString(uram/megabyte) + " MB /" + Util::toString(toram/megabyte) + " MB \n"
-					+ "Detection (failed/total) :" + Util::toString(detfail) + " /" + Util::toString(dettotal) + "\n";
+					+ "Detection (Failed/Successful) :" + Util::toString(detfail) + " /" + Util::toString(dettotal) + "\n";
 
 	}
 	/// "Now Playing" spam // added by curse and Irene

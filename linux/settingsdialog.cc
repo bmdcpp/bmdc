@@ -167,6 +167,14 @@ Settings::Settings(GtkWindow* parent):
 	defaultStringTheme.insert(StringMap::value_type("text-cheat-fore-color", "#DE1515"));
 	defaultStringTheme.insert(StringMap::value_type("text-cheat-back-color", "#EEE7E7"));
 	
+	/*for UL color text*///NOTE BMDC++ 
+	defaultStringTheme.insert(StringMap::value_type("userlist-text-operator", "#1E90FF"));
+	defaultStringTheme.insert(StringMap::value_type("userlist-text-pasive", "#747677"));
+	defaultStringTheme.insert(StringMap::value_type("userlist-text-protected", "#8B6914"));
+	defaultStringTheme.insert(StringMap::value_type("userlist-text-favorite", "#ff0000"));
+	defaultStringTheme.insert(StringMap::value_type("userlist-text-ignored", "#9affaf"));
+	defaultStringTheme.insert(StringMap::value_type("userlist-text-normal", "#000000"));
+	
 	defaultIntTheme.insert(IntMap::value_type("text-general-bold", 0));
 	defaultIntTheme.insert(IntMap::value_type("text-general-italic", 0));
 	defaultIntTheme.insert(IntMap::value_type("text-myown-bold", 1));
@@ -201,8 +209,8 @@ Settings::Settings(GtkWindow* parent):
 	initAppearance_gui();
 	initLog_gui();
 	initAdvanced_gui();
-	initBandwidthLimiting_gui();//NOTE: core 0.762
-	initSearchTypes_gui();//NOTE: core 0.770
+	initBandwidthLimiting_gui(); //NOTE: core 0.762
+	initSearchTypes_gui(); //NOTE: core 0.770
 }
 
 Settings::~Settings()
@@ -465,6 +473,21 @@ void Settings::saveSettings_client()
 			// Confirm dialog options
 			saveOptionsView_gui(windowView3, sm);
 		}
+		
+		{ // Colors UL
+
+			GtkTreeIter iter;
+			GtkTreeModel *m = GTK_TREE_MODEL(userListStore1);
+			gboolean valid = gtk_tree_model_get_iter_first(m, &iter);
+
+			while (valid)
+			{
+				wsm->set(userListNames.getString(&iter, "Set"), userListNames.getString(&iter, "Color"));
+				
+				valid = gtk_tree_model_iter_next(m, &iter);
+			}	
+		
+		}
 	}
 
 	{ // Logs
@@ -570,7 +593,18 @@ void Settings::addOption_gui(GtkListStore *store, const string &name, const stri
 		3, setting.c_str(),
 		-1);
 }
-
+//NOTE BMDC
+void Settings::addOption_gui(GtkListStore *store, const string &name, const string &setting, bool q/*not used*/)
+{
+	GtkTreeIter iter;
+	gtk_list_store_append(store, &iter);
+	gtk_list_store_set(store, &iter,
+		0, name.c_str(),
+		1, WGETS(setting).c_str(),
+		2, setting.c_str(),
+		-1);
+}
+//END
 /* Adds a sounds options */
 
 void Settings::addOption_gui(GtkListStore *store, WulforSettingsManager *wsm, const string &name, const string &key1, const string &key2)
@@ -1481,6 +1515,46 @@ void Settings::initAppearance_gui()
 		/// @todo: Uncomment when implemented
 		//addOption_gui(windowStore3, _("Confirm item removal in download queue"), SettingsManager::CONFIRM_ITEM_REMOVAL);
 	}
+//NOTE: BMDC+++
+	{
+		userListNames.setView(GTK_TREE_VIEW(getWidget("treeviewNames")));
+		userListNames.insertColumn(_("Name"), G_TYPE_STRING, TreeView::STRING, -1);
+		userListNames.insertHiddenColumn("Color", G_TYPE_STRING);
+		userListNames.insertHiddenColumn("Set", G_TYPE_STRING);
+		userListNames.finalize();
+	
+		userListStore1 = gtk_list_store_newv(userListNames.getColCount(), userListNames.getGTypes());
+		gtk_tree_view_set_model(userListNames.get(), GTK_TREE_MODEL(userListStore1));
+		g_object_unref(userListStore1);
+		
+		addOption_gui(userListStore1, _("Normal"), "userlist-text-normal", false);
+		addOption_gui(userListStore1, _("Operator"), "userlist-text-operator", false);
+		addOption_gui(userListStore1, _("Pasive"), "userlist-text-pasive", false);
+		addOption_gui(userListStore1, _("Favorite"), "userlist-text-favorite", false);
+		addOption_gui(userListStore1, _("Protected"), "userlist-text-protected", false);
+		addOption_gui(userListStore1, _("Ignored"), "userlist-text-ignored", false);
+		/**/
+		userListPreview.setView(GTK_TREE_VIEW(getWidget("treeviewUserListPreview")));
+		userListPreview.insertColumn(_("Name"), G_TYPE_STRING, TreeView::ICON_STRING_TEXT_COLOR,-1, "Icon", "Color");
+		userListPreview.insertHiddenColumn("Icon", G_TYPE_STRING);
+		userListPreview.insertHiddenColumn("Color", G_TYPE_STRING);
+		userListPreview.finalize();
+		
+		userListStore2 = gtk_list_store_newv(userListPreview.getColCount(), userListPreview.getGTypes());
+		gtk_tree_view_set_model(userListPreview.get(), GTK_TREE_MODEL(userListStore2));
+		g_object_unref(userListStore2);
+		
+		addPreviewUL_gui(userListStore2, _("User Normal"), WGETS("userlist-text-normal"), WGETS("icon-normal"));
+		addPreviewUL_gui(userListStore2, _("User Operator"), WGETS("userlist-text-operator"), WGETS("icon-normal"));
+		addPreviewUL_gui(userListStore2, _("User Pasive"), WGETS("userlist-text-pasive"), WGETS("icon-normal"));
+		addPreviewUL_gui(userListStore2, _("User Favorite"), WGETS("userlist-text-favorite"), WGETS("icon-normal"));
+		addPreviewUL_gui(userListStore2, _("User Protected"), WGETS("userlist-text-protected"), WGETS("icon-normal"));
+		addPreviewUL_gui(userListStore2, _("User Ignored"), WGETS("userlist-text-ignored"), WGETS("icon-normal"));
+		
+		g_signal_connect(getWidget("buttonForeColorTextUL"), "clicked", G_CALLBACK(onTextColorForeULClicked_gui), (gpointer)this);
+		g_signal_connect(getWidget("buttonDefUL"), "clicked", G_CALLBACK(onTextColorDefaultULClicked_gui), (gpointer)this);
+	}	
+//NOTE: END	
 }
 
 void Settings::initLog_gui()
@@ -1736,6 +1810,18 @@ void Settings::addOption_gui(GtkListStore *store, const string &type, const Stri
 		2, Util::toString(";", exts).c_str(), //extensions
 		3, key,                               //key predefined
 		-1);
+}
+
+void Settings::addPreviewUL_gui(GtkListStore *store, const std::string &name, const std::string &color, const std::string &icon)
+{
+	GtkTreeIter iter;
+	gtk_list_store_append(store, &iter);
+	gtk_list_store_set(store, &iter,
+			0, name.c_str(),
+			1, icon.c_str(),
+			2, color.c_str(),
+			-1);
+	colorsIters.insert(ColorIters::value_type(name, iter));		
 }
 
 void Settings::onAddSTButton_gui(GtkWidget *widget, gpointer data)
@@ -3109,6 +3195,93 @@ void Settings::selectTextStyle_gui(const int select)
 		}
 	}
 }
+/**/
+void Settings::onTextColorForeULClicked_gui(GtkWidget *widget, gpointer data)
+{
+	Settings *s = (Settings *)data;
+	s->setColorUL();	
+}
+
+void Settings::onTextColorDefaultULClicked_gui(GtkWidget *widget, gpointer data)
+{
+	Settings *s = (Settings *)data;	
+	GtkTreeIter iter;
+	//GtkTreeSelection *selection = gtk_tree_view_get_selection(s->userListNames.get());
+	gboolean valid = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(s->userListStore1), &iter);
+	
+	if (!valid/*!gtk_tree_selection_get_selected(selection, NULL, &iter)*/)
+	{
+		s->showErrorDialog(_("selected name failed"));
+		return;
+	}
+	//gboolean valid;
+	s->setDefaultColor("#000000", _("Normal"), &iter);
+	valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(s->userListStore1), &iter);
+	if(valid)
+		s->setDefaultColor("#1E90FF", _("Operator"), &iter);
+		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(s->userListStore1), &iter);
+	if(valid)
+		s->setDefaultColor("#747677", _("Pasive"), &iter);
+		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(s->userListStore1), &iter);
+	if(valid)	
+		s->setDefaultColor("#FF0000", _("Favorite"), &iter);
+		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(s->userListStore1), &iter);
+	if(valid)	
+		s->setDefaultColor("#8B6914", _("Protected"), &iter);
+		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(s->userListStore1), &iter);
+	if(valid)	
+		s->setDefaultColor("#9AFFAF", _("Ignored"), &iter);
+}
+
+void Settings::setColorUL()
+{
+	GtkTreeIter iter;
+	GtkTreeSelection *selection = gtk_tree_view_get_selection(userListNames.get());
+
+	if (!gtk_tree_selection_get_selected(selection, NULL, &iter))
+	{
+		showErrorDialog(_("selected color failed"));
+		return;
+	}
+
+	GdkColor color;
+	string currentcolor = "", currname = "";
+	GtkColorSelection *colorsel = GTK_COLOR_SELECTION(getWidget("colorsel-color_selection"));
+	
+	currentcolor = userListNames.getString(&iter, "Color");
+	currname = userListNames.getString(&iter, _("Name"));
+	if (gdk_color_parse(currentcolor.c_str(), &color))
+		gtk_color_selection_set_current_color(colorsel, &color);
+
+	gint response = gtk_dialog_run(GTK_DIALOG(getWidget("colorSelectionDialog")));
+	gtk_widget_hide(getWidget("colorSelectionDialog"));
+
+	if (response == GTK_RESPONSE_OK)
+	{
+		gtk_color_selection_get_current_color(colorsel, &color);
+
+		string strcolor = WulforUtil::colorToString(&color);
+		
+		ColorIters::const_iterator qp = colorsIters.find("User "+currname);
+		GtkTreeIter qiter = qp->second;
+		
+		gtk_list_store_set(userListStore2, &qiter, userListPreview.col("Color"), strcolor.c_str(), -1);
+		gtk_list_store_set(userListStore1, &iter, userListNames.col("Color"), strcolor.c_str(), -1);
+	
+	}
+}
+
+void Settings::setDefaultColor(string color, string name, GtkTreeIter *iter)
+{
+	ColorIters::const_iterator qp = colorsIters.find("User "+name);
+	GtkTreeIter qiter = qp->second;
+		
+	gtk_list_store_set(userListStore2, &qiter, userListPreview.col("Color"), color.c_str(), -1);
+	gtk_list_store_set(userListStore1, iter, userListNames.col("Color"), color.c_str(), -1);	
+
+	
+}
+
 
 void Settings::loadUserCommands_gui()
 {

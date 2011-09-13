@@ -34,7 +34,7 @@ namespace dcpp {
 FastCriticalSection Identity::cs;
 
 OnlineUser::OnlineUser(const UserPtr& ptr, Client& client_, uint32_t sid_) : identity(ptr, sid_), client(client_) {
-
+		identity.isProtectedUser(getClient(), true); // run init check
 }
 
 bool Identity::isTcpActive(const Client* c) const {
@@ -588,6 +588,7 @@ map<string, string> Identity::getReport() const {
 				case TAG('U','S'): name = "Upload speed"; value = Util::formatBytes(value) + "/s"; break;
 				case TAG('V','E'): name = "Client version"; break;
 				case TAG('L','T'): name = "Login time"; break;
+				case TAG('L','S'): name = "FileList size"; break; //
 				case TAG('M','T'): name = "UserInfo"; break;
 				case TAG('M','C'): name = "UserInfo count"; break;
 				case TAG('T','S'): name = "TestSUR"; break;
