@@ -279,13 +279,13 @@ Added a build flag to enable/disable libnotify. (Francisco Blas Izquierdo Riera)
 Change Cheat message to show on hub´s mainchat
 Add hub client command /topic to show topic of Hub 
 Move unordered-* out from tr1
-Add Ax => name 
+Add Ax => name to report in UserInfo
 SmallFix Det.Tab
 Update Core partialy
 Fix Crash if no country folder and no GeoIpCountryWhois.csv in ~/.bmdc++
 Fix /me hnadling
 Smallest Country Icons
-Fix Hublist loading..
+Fix Hublist loading.
 Add FS in ADC (and in UserInfo too as Free Slots)
 Updated czech,turkish translate
 Some cleanup code 
@@ -299,11 +299,13 @@ Add Remove All to Recent´s tab menu Items
 Fix Higlitings
 Fix debian folder
 Fix if opened PM and then open setting and then hit ok.
-Add UC param. fileMN
+Add UC param fileMN
 Add cmd /ws and /dcpps for setting what is not in GUI
 Better info for error when no install xdg-util for open link
 Add Setting in colors&Font for Cheat message and IP address
 Applied ZLIF patch from iceman50
 Added setting of Colors text in UserList
+Update czech translate.
+Some missing code of UPNP
 
 

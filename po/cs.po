@@ -7,21 +7,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freedcpp\n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-08-14 21:18+0200\n"
-"PO-Revision-Date: 2011-08-13 20:58+0000\n"
+"POT-Creation-Date: 2011-09-13 17:30+0200\n"
+"PO-Revision-Date: 2011-09-14 15:17+0000\n"
 "Last-Translator: Mank <Unknown>\n"
 "Language-Team: Mank <Mank@jabbim.cz>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-15 19:28+0000\n"
-"X-Generator: Launchpad (build 13687)\n"
+"X-Launchpad-Export-Date: 2011-09-14 15:20+0000\n"
+"X-Generator: Launchpad (build 13921)\n"
 "X-Poedit-Country: CZECH REPUBLIC\n"
 "Language: \n"
 "X-Poedit-Language: Czech\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: glade/mainwindow.glade:567
+#: glade/mainwindow.glade:595
 msgid ""
 "\n"
 "This program is free software; you can redistribute it and/or modify it "
@@ -59,7 +59,7 @@ msgstr ""
 "In addition, as a special exception, compiling, linking, and/or using "
 "OpenSSL with this program is allowed.\n"
 
-#: glade/settingsdialog.glade:3502
+#: glade/settingsdialog.glade:3658
 msgid ""
 "%a abbreviated weekday name.\n"
 "%b abbreviated month name.\n"
@@ -79,7 +79,7 @@ msgstr ""
 "\n"
 "see man strftime for details."
 
-#: glade/mainwindow.glade:233
+#: glade/mainwindow.glade:253
 msgid "+/-"
 msgstr "+/-"
 
@@ -87,60 +87,64 @@ msgstr "+/-"
 msgid "<b>Actions and Raws</b>"
 msgstr "<b>Akce a Rawy</b>"
 
-#: glade/settingsdialog.glade:2844
+#: glade/settingsdialog.glade:2988
 msgid "<b>Add player</b>"
 msgstr "<b>Přidat přehravač</b>"
 
-#: glade/settingsdialog.glade:2638
+#: glade/settingsdialog.glade:2770
 msgid "<b>Auto-drop settings</b>"
 msgstr "<b>Nastavení Automatického odpojení</b>"
 
-#: glade/settingsdialog.glade:3685
+#: glade/settingsdialog.glade:3845
 msgid "<b>Auto-open on startup</b>"
 msgstr "<b>Automatické otevíraní po startu</b>"
 
-#: glade/settingsdialog.glade:2337
+#: glade/settingsdialog.glade:2445
 msgid "<b>Auto-priority settings</b>"
 msgstr "<b>Nastavení Automatické priority</b>"
 
-#: glade/settingsdialog.glade:4025
+#: glade/settingsdialog.glade:4185
 msgid "<b>Available styles</b>"
 msgstr "<b>Dostupné styly</b>"
 
-#: glade/settingsdialog.glade:6660
+#: glade/settingsdialog.glade:7091
 msgid "<b>Certificate Paths</b>"
 msgstr "<b>Cesta k certifikatům</b>"
 
-#: glade/settingsdialog.glade:5182
+#: glade/settingsdialog.glade:5627
+msgid "<b>Colors of Userlist</b>"
+msgstr "<b>Barvy v Seznamu uživatelů</b>"
+
+#: glade/settingsdialog.glade:5350
 msgid "<b>Colors</b>"
 msgstr "<b>Barvy</b>"
 
-#: glade/settingsdialog.glade:406
+#: glade/settingsdialog.glade:410
 msgid "<b>Command Type</b>"
 msgstr "<b>Typ příkazu</b>"
 
-#: glade/settingsdialog.glade:3777
+#: glade/settingsdialog.glade:3937
 msgid "<b>Confirmation Dialog Options</b>"
 msgstr "<b>Možnosti Potvrzujícího Dialogu</b>"
 
-#: glade/mainwindow.glade:700
+#: glade/mainwindow.glade:732
 msgid "<b>Connect to address:</b>"
 msgstr "<b>Připojit k adrese:</b>"
 
-#: glade/settingsdialog.glade:502
+#: glade/settingsdialog.glade:506
 msgid "<b>Context</b>"
 msgstr "<b>Context</b>"
 
-#: glade/settingsdialog.glade:4720
+#: glade/settingsdialog.glade:4888
 msgid "<b>Current theme name:</b>"
 msgstr "<b>Jméno stavajícího tématu:</b>"
 
-#: glade/settingsdialog.glade:3474
+#: glade/settingsdialog.glade:3630
 msgid "<b>Default away message</b>"
 msgstr "<b>Standartní zpráva nepřitomnosti</b>"
 
-#: glade/favoriteusers.glade:135 glade/highliting.glade:342
-#: glade/ignoreeusers.glade:94 glade/recenthub.glade:91
+#: glade/favoriteusers.glade:135 glade/ignoreeusers.glade:94
+#: glade/recenthub.glade:98
 msgid "<b>Description</b>"
 msgstr "<b>Popis</b>"
 
@@ -148,11 +152,11 @@ msgstr "<b>Popis</b>"
 msgid "<b>Destination Directory</b>"
 msgstr "<b>Cílové Adresáře</b>"
 
-#: glade/settingsdialog.glade:1743
+#: glade/settingsdialog.glade:1823
 msgid "<b>Directories</b>"
 msgstr "<b>Adresáře</b>"
 
-#: glade/settingsdialog.glade:2106
+#: glade/settingsdialog.glade:2198
 msgid "<b>Favorite download to directories</b>"
 msgstr "<b>Oblíbené složky pro stahovaní</b>"
 
@@ -160,7 +164,7 @@ msgstr "<b>Oblíbené složky pro stahovaní</b>"
 msgid "<b>Filter</b>"
 msgstr "<b>Filtr</b>"
 
-#: glade/settingsdialog.glade:5364
+#: glade/settingsdialog.glade:5544
 msgid "<b>Frame</b>"
 msgstr "<b>Frame</b>"
 
@@ -172,11 +176,11 @@ msgstr "<b>Seznam veřejných hubů</b>"
 msgid "<b>Hub</b>"
 msgstr "<b>Hub</b>"
 
-#: glade/settingsdialog.glade:4345
+#: glade/settingsdialog.glade:4509
 msgid "<b>Icon size</b>"
 msgstr "<b>Velikost icon</b>"
 
-#: glade/settingsdialog.glade:4650
+#: glade/settingsdialog.glade:4818
 msgid "<b>Icons</b>"
 msgstr "<b>Ikony</b>"
 
@@ -184,23 +188,23 @@ msgstr "<b>Ikony</b>"
 msgid "<b>Identify on Hub</b>"
 msgstr "<b>Identifikace na Hubu</b>"
 
-#: glade/settingsdialog.glade:1332
+#: glade/settingsdialog.glade:1388
 msgid "<b>Incoming connection settings</b>"
 msgstr "<b>Nastavení příchozího připojení</b>"
 
-#: glade/settingsdialog.glade:1858
+#: glade/settingsdialog.glade:1946
 msgid "<b>Limits</b>"
 msgstr "<b>Limity</b>"
 
-#: glade/settingsdialog.glade:5762
+#: glade/settingsdialog.glade:6137
 msgid "<b>Logging</b>"
 msgstr "<b>Zaznamenávání</b>"
 
-#: glade/mainwindow.glade:245
+#: glade/mainwindow.glade:265
 msgid "<b>Magnet properties</b>"
 msgstr "<b>Možnosti Magnetu</b>"
 
-#: glade/settingsdialog.glade:3422
+#: glade/settingsdialog.glade:3574
 msgid "<b>Main Toolbar Style</b>"
 msgstr "<b>Nastavení Hlavního panelu nástrojů</b>"
 
@@ -212,53 +216,57 @@ msgstr "<b>Maximalní velikost souboru</b>"
 msgid "<b>Min FileSize</b>"
 msgstr "<b>Minimalní velikost souboru</b>"
 
-#: glade/publichubs.glade:276 glade/settingsdialog.glade:7898
+#: glade/publichubs.glade:276 glade/settingsdialog.glade:8352
 msgid ""
 "<b>Note:</b> Edit urls in the list by clicking them once when selected"
 msgstr ""
 "<b>Poznámka:</b> Upravujte url jedním kliknutím, když je položka označena"
 
-#: glade/settingsdialog.glade:4264
+#: glade/settingsdialog.glade:4424
 msgid "<b>Notify</b>"
 msgstr "<b>Oznamení</b>"
 
-#: glade/settingsdialog.glade:3310
+#: glade/settingsdialog.glade:3462
 msgid "<b>Options</b>"
 msgstr "<b>Možnosti</b>"
 
-#: glade/settingsdialog.glade:6705
+#: glade/settingsdialog.glade:7136
 msgid "<b>Other Security Options</b>"
 msgstr "<b>Ostatní Nastavení Bezpečnosti</b>"
 
-#: glade/settingsdialog.glade:2679
+#: glade/settingsdialog.glade:2811
 msgid "<b>Other queue options</b>"
 msgstr "<b>Ostatní možnosti fronty</b>"
 
-#: glade/settingsdialog.glade:1583
+#: glade/settingsdialog.glade:1655
 msgid "<b>Outgoing connection settings</b>"
 msgstr "<b>Nastavení odchozího připojení</b>"
 
-#: glade/settingsdialog.glade:693
+#: glade/settingsdialog.glade:713
 msgid "<b>Parameters</b>"
 msgstr "<b>Parametry</b>"
 
-#: glade/settingsdialog.glade:993
+#: glade/settingsdialog.glade:1033
 msgid "<b>Personal Information</b>"
 msgstr "<b>Osobní údaje</b>"
 
-#: glade/settingsdialog.glade:2740
+#: glade/settingsdialog.glade:2872
 msgid "<b>Players list</b>"
 msgstr "<b>Seznam přehravaču</b>"
 
-#: glade/settingsdialog.glade:4064
+#: glade/settingsdialog.glade:4224
 msgid "<b>Preview styles</b>"
 msgstr "<b>Náhled Stylu</b>"
 
-#: glade/settingsdialog.glade:3953
+#: glade/settingsdialog.glade:5672
+msgid "<b>Preview</b>"
+msgstr "<b>Náhled</b>"
+
+#: glade/settingsdialog.glade:4113
 msgid "<b>Private message sound</b>"
 msgstr "<b>Zvuk při soukromé zprávě</b>"
 
-#: glade/settingsdialog.glade:4559
+#: glade/settingsdialog.glade:4727
 msgid "<b>Private message</b>"
 msgstr "<b>Soukromá zpráva</b>"
 
@@ -266,7 +274,7 @@ msgstr "<b>Soukromá zpráva</b>"
 msgid "<b>Processing file:</b>"
 msgstr "<b>Zpracován soubor:</b>"
 
-#: glade/settingsdialog.glade:1977
+#: glade/settingsdialog.glade:2069
 msgid "<b>Public Hubs list</b>"
 msgstr "<b>Seznam veřejných Hubů</b>"
 
@@ -274,19 +282,23 @@ msgstr "<b>Seznam veřejných Hubů</b>"
 msgid "<b>Search String</b>"
 msgstr "<b>Řeťezec k hledaní</b>"
 
-#: glade/settingsdialog.glade:7427
+#: glade/settingsdialog.glade:7878
 msgid "<b>Search types</b>"
 msgstr "<b>Typy Hledaní</b>"
 
-#: glade/settingsdialog.glade:7063
+#: glade/settingsdialog.glade:7502
 msgid "<b>Secondary Transfer Rate Limiting</b>"
 msgstr "<b>Druhotné rychlostní Omezení</b>"
 
-#: glade/settingsdialog.glade:7246
+#: glade/settingsdialog.glade:7697
 msgid "<b>Secondary Transfer Rate Settings</b>"
 msgstr "<b>Nastavení Druhotného Rychlostního Omezení </b>"
 
-#: glade/settingsdialog.glade:3119
+#: glade/highliting.glade:392
+msgid "<b>Settings of Item</b>"
+msgstr "<b>Nastavení položky</b>"
+
+#: glade/settingsdialog.glade:3263
 msgid "<b>Shared directories</b>"
 msgstr "<b>Sdílené Adresáře</b>"
 
@@ -294,7 +306,7 @@ msgstr "<b>Sdílené Adresáře</b>"
 msgid "<b>Size Type</b>"
 msgstr "<b>Typ Velikosti</b>"
 
-#: glade/settingsdialog.glade:3839
+#: glade/settingsdialog.glade:3999
 msgid "<b>Sounds</b>"
 msgstr "<b>Zvuky</b>"
 
@@ -306,43 +318,43 @@ msgstr "<b>Typ Zdroje</b>"
 msgid "<b>Statistics</b>"
 msgstr "<b>Statistika</b>"
 
-#: glade/settingsdialog.glade:3368
+#: glade/settingsdialog.glade:3520
 msgid "<b>Tab Position</b>"
 msgstr "<b>Umístění karet</b>"
 
-#: glade/settingsdialog.glade:3603
+#: glade/settingsdialog.glade:3763
 msgid "<b>Tab bolding on content change</b>"
 msgstr "<b>Zvýrazňovat Karty, pokud se obsah změni</b>"
 
-#: glade/settingsdialog.glade:735
+#: glade/settingsdialog.glade:759
 msgid "<b>Text sent to hub</b>"
 msgstr "<b>Text poslaný na hub</b>"
 
-#: glade/settingsdialog.glade:4689
+#: glade/settingsdialog.glade:4857
 msgid "<b>Text styles</b>"
 msgstr "<b>Textové styly</b>"
 
-#: glade/settingsdialog.glade:3523
+#: glade/settingsdialog.glade:3683
 msgid "<b>Timestamps</b>"
 msgstr "<b>Timestamps</b>"
 
-#: glade/settingsdialog.glade:4308
+#: glade/settingsdialog.glade:4472
 msgid "<b>Title</b>"
 msgstr "<b>Nadpis</b>"
 
-#: glade/settingsdialog.glade:4895
+#: glade/settingsdialog.glade:5063
 msgid "<b>Toolbar buttons</b>"
 msgstr "<b>Tlacitka Nástrojové lišty</b>"
 
-#: glade/settingsdialog.glade:6907
+#: glade/settingsdialog.glade:7346
 msgid "<b>Transfer Rate Limiting</b>"
 msgstr "<b>Rychlostní Omezení</b>"
 
-#: glade/mainwindow.glade:417
+#: glade/mainwindow.glade:437
 msgid "<b>What would you like to do?</b>"
 msgstr "<b>Co byste chtěli dělat?</b>"
 
-#: glade/settingsdialog.glade:3731
+#: glade/settingsdialog.glade:3891
 msgid "<b>Window Options</b>"
 msgstr "<b>Možnosti Okna</b>"
 
@@ -350,12 +362,12 @@ msgstr "<b>Možnosti Okna</b>"
 msgid "ADL Action"
 msgstr "ADL Akce"
 
-#: glade/mainwindow.glade:1505 linux/ADLSearchGUI.cc:31
-#: linux/settingsdialog.cc:1328 linux/settingsdialog.cc:1394
+#: glade/mainwindow.glade:1544 linux/ADLSearchGUI.cc:31
+#: linux/settingsdialog.cc:1379 linux/settingsdialog.cc:1445
 msgid "ADL Search"
 msgstr "ADL Hledaní"
 
-#: glade/mainwindow.glade:1502
+#: glade/mainwindow.glade:1541
 msgid "ADLSearch"
 msgstr "ADL Hledaní"
 
@@ -363,13 +375,13 @@ msgstr "ADL Hledaní"
 msgid "ADLSearch Properties"
 msgstr "Vlastnosti ADL vyhledávání"
 
-#: glade/mainwindow.glade:1252
+#: glade/mainwindow.glade:1291
 msgid "About BMDC++"
 msgstr "O BMDC++"
 
-#: glade/adlsearch.glade:444 linux/detectiontab.cc:135
-#: linux/detectiontab.cc:1347 linux/detectiontab.cc:1377
-#: linux/detectiontab.cc:1432
+#: glade/adlsearch.glade:444 linux/detectiontab.cc:142
+#: linux/detectiontab.cc:1354 linux/detectiontab.cc:1393
+#: linux/detectiontab.cc:1451
 msgid "Action"
 msgstr "Akce"
 
@@ -393,13 +405,13 @@ msgstr "Nastavení Akcí"
 msgid "Actions and Raws"
 msgstr "Akce a Rawy"
 
-#: glade/favoritehubs.glade:636 glade/settingsdialog.glade:1188
+#: glade/favoritehubs.glade:636 glade/settingsdialog.glade:1244
 msgid "Active"
 msgstr "Aktivní"
 
 #: glade/detection.glade:881 glade/detection.glade:1270
-#: glade/detection.glade:2389 glade/highliting.glade:33
-#: glade/settingsdialog.glade:7333
+#: glade/detection.glade:2389 glade/highliting.glade:441
+#: glade/settingsdialog.glade:7784
 msgid "Add"
 msgstr "Přidat"
 
@@ -415,11 +427,11 @@ msgstr "Přidat položku"
 msgid "Add Raw"
 msgstr "Přidat Raw"
 
-#: glade/settingsdialog.glade:5008
+#: glade/settingsdialog.glade:5176
 msgid "Add string or TTH to the top"
 msgstr "Přidat retězec nebo TTH nahoru"
 
-#: glade/mainwindow.glade:276
+#: glade/mainwindow.glade:296
 msgid "Add this file to your download queue"
 msgstr "Přidat soubor do Fronty"
 
@@ -439,7 +451,7 @@ msgstr "Přidat..."
 msgid "Address:"
 msgstr "Adresa:"
 
-#: glade/settingsdialog.glade:5831 glade/settingsdialog.glade:6774
+#: glade/settingsdialog.glade:6206 glade/settingsdialog.glade:7205
 msgid "Advanced"
 msgstr "Pokročilé"
 
@@ -447,19 +459,19 @@ msgstr "Pokročilé"
 msgid "Advanced ADL Points"
 msgstr "ADL Body Nastavení"
 
-#: glade/settingsdialog.glade:3564 glade/settingsdialog.glade:5411
+#: glade/settingsdialog.glade:3724 glade/settingsdialog.glade:5766
 msgid "Appearance"
 msgstr "Vzhled"
 
-#: glade/settingsdialog.glade:2795
+#: glade/settingsdialog.glade:2931
 msgid "Application:"
 msgstr "Aplikace:"
 
-#: glade/settingsdialog.glade:2819
+#: glade/settingsdialog.glade:2959
 msgid "Apply to Extensions: (avi;mov;divx)"
 msgstr "Použít na přípony: (avi;mov;divx)"
 
-#: glade/settingsdialog.glade:6287
+#: glade/settingsdialog.glade:6682
 msgid "Auto refresh time"
 msgstr "Čas obnovy Seznamu Souborů"
 
@@ -467,12 +479,12 @@ msgstr "Čas obnovy Seznamu Souborů"
 msgid "AutoConnect"
 msgstr "Automatické připojení"
 
-#: glade/settingsdialog.glade:3149
+#: glade/settingsdialog.glade:3293
 msgid "Automatically open extra slot if speed is below (0 = disable)"
 msgstr "Automaticky otevřít slot, pokud rychlost pod ( 0 = vypnuto)"
 
 #: glade/detection.glade:1715 glade/detection.glade:2040
-#: glade/settingsdialog.glade:6442 glade/settingsdialog.glade:6455
+#: glade/settingsdialog.glade:6861 glade/settingsdialog.glade:6874
 msgid "B"
 msgstr "B"
 
@@ -488,19 +500,19 @@ msgstr ""
 "MiB\n"
 "GiB"
 
-#: glade/settingsdialog.glade:2541 linux/hashdialog.cc:70
+#: glade/settingsdialog.glade:2669 linux/hashdialog.cc:70
 msgid "B/s"
 msgstr "B/s"
 
-#: glade/settingsdialog.glade:4107
+#: glade/settingsdialog.glade:4267
 msgid "Back color"
 msgstr "Barva Pozadí"
 
-#: glade/highliting.glade:113
+#: glade/highliting.glade:83
 msgid "Backgroung Color"
 msgstr "Barva Pozadí"
 
-#: glade/settingsdialog.glade:7284
+#: glade/settingsdialog.glade:7735
 msgid ""
 "Bandwidth\n"
 "Limiting"
@@ -512,36 +524,37 @@ msgstr ""
 msgid "Basic"
 msgstr "Základní"
 
-#: glade/settingsdialog.glade:6248
+#: glade/settingsdialog.glade:6643
 msgid "Bind address"
 msgstr "Bind adresa"
 
-#: glade/settingsdialog.glade:4171
+#: glade/settingsdialog.glade:4331
 msgid "Black/White"
 msgstr "Černá/bílá"
 
-#: glade/highliting.glade:172 linux/highliting.cc:20 linux/highliting.cc:80
-#: linux/highliting.cc:175
+#: glade/highliting.glade:160 linux/highliting.cc:20 linux/highliting.cc:79
+#: linux/highliting.cc:173
 msgid "Bold"
 msgstr "Tučně"
 
-#: glade/settingsdialog.glade:4087
+#: glade/settingsdialog.glade:4247
 msgid "Bold Authors of message in chat"
 msgstr "Ztučňovat Autory zpráv v chatu"
 
-#: glade/highliting.glade:280
+#: glade/highliting.glade:308 linux/highliting.cc:24 linux/highliting.cc:83
+#: linux/highliting.cc:177
 msgid "Bold Tab"
 msgstr "Ztučnit Kartu"
 
-#: glade/mainwindow.glade:1323
+#: glade/mainwindow.glade:1362
 msgid "Browse the list of public hubs"
 msgstr "Procházet Seznam veřejných hubů"
 
-#: glade/hub.glade:107 glade/mainwindow.glade:307
-#: glade/privatemessage.glade:85 glade/settingsdialog.glade:1666
-#: glade/settingsdialog.glade:1717 glade/settingsdialog.glade:3888
-#: glade/settingsdialog.glade:5468 glade/settingsdialog.glade:6527
-#: glade/settingsdialog.glade:6544 glade/settingsdialog.glade:6561
+#: glade/hub.glade:107 glade/mainwindow.glade:327
+#: glade/privatemessage.glade:85 glade/settingsdialog.glade:1742
+#: glade/settingsdialog.glade:1797 glade/settingsdialog.glade:4048
+#: glade/settingsdialog.glade:5827 glade/settingsdialog.glade:6946
+#: glade/settingsdialog.glade:6963 glade/settingsdialog.glade:6980
 #: linux/search.cc:358 linux/search.cc:428 linux/sharebrowser.cc:497
 #: linux/sharebrowser.cc:549
 msgid "Browse..."
@@ -555,15 +568,15 @@ msgstr "CLIENT IN"
 msgid "CLIENT OUT"
 msgstr "CLIENT OUT"
 
-#: glade/mainwindow.glade:1142
+#: glade/mainwindow.glade:1181
 msgid "CMDDebug Tab"
 msgstr "CMDDebug Karta"
 
-#: glade/adlsearch.glade:519 glade/highliting.glade:297
+#: glade/adlsearch.glade:519 glade/highliting.glade:330
 msgid "Case Sensitive"
 msgstr "Case Sensitive"
 
-#: glade/settingsdialog.glade:6628
+#: glade/settingsdialog.glade:7059
 msgid "Certificate file"
 msgstr "Soubor Certfikatu"
 
@@ -571,18 +584,18 @@ msgstr "Soubor Certfikatu"
 msgid "Change"
 msgstr "Změnit"
 
-#: glade/settingsdialog.glade:371
+#: glade/settingsdialog.glade:375
 msgid "Chat"
 msgstr "Chat"
 
-#: glade/settingsdialog.glade:450
+#: glade/settingsdialog.glade:454
 msgid "Chat Menu"
 msgstr "Chat Menu"
 
-#: glade/detection.glade:470 linux/detectiontab.cc:36
-#: linux/detectiontab.cc:257 linux/detectiontab.cc:811
-#: linux/detectiontab.cc:880 linux/detectiontab.cc:896 linux/hub.cc:93
-#: linux/hub.cc:601 linux/hub.cc:635
+#: glade/detection.glade:470 linux/detectiontab.cc:42
+#: linux/detectiontab.cc:264 linux/detectiontab.cc:818
+#: linux/detectiontab.cc:887 linux/detectiontab.cc:903 linux/hub.cc:91
+#: linux/hub.cc:445 linux/hub.cc:480
 msgid "Cheat"
 msgstr "Cheat"
 
@@ -606,21 +619,21 @@ msgstr "Kontrola Seznamu Souborů"
 msgid "Check at connect to hub"
 msgstr "Kontrola při připojení"
 
-#: glade/settingsdialog.glade:2481
+#: glade/settingsdialog.glade:2609
 msgid "Check every"
 msgstr "Kontrolovat každých"
 
-#: glade/settingsdialog.glade:7531
+#: glade/settingsdialog.glade:7982
 msgid "Choose a File"
 msgstr "Vybrat Soubor"
 
-#: glade/search.glade:580 glade/settingsdialog.glade:7463
-#: glade/sharebrowser.glade:7 linux/hub.cc:2608 linux/mainwindow.cc:1421
-#: linux/mainwindow.cc:1549 linux/privatemessage.cc:1117
+#: glade/search.glade:580 glade/settingsdialog.glade:7914
+#: glade/sharebrowser.glade:7 linux/hub.cc:2475 linux/mainwindow.cc:1406
+#: linux/mainwindow.cc:1534 linux/privatemessage.cc:1141
 msgid "Choose a directory"
 msgstr "Vybrat složku"
 
-#: glade/mainwindow.glade:501
+#: glade/mainwindow.glade:521
 msgid "Chose A File"
 msgstr "Vybrat Soubor"
 
@@ -637,25 +650,25 @@ msgstr "Vyčistit okno hledaní"
 msgid "ClientFlag"
 msgstr "ClientFlag"
 
-#: glade/settingsdialog.glade:207
+#: glade/settingsdialog.glade:211
 msgid "Color select"
 msgstr "Výběr Barvy"
 
-#: glade/settingsdialog.glade:4224
+#: glade/settingsdialog.glade:4384
 msgid "Colors & Fonts"
 msgstr "Barvy & Pismo"
 
-#: glade/settingsdialog.glade:572 linux/settingsdialog.cc:1533
-#: linux/settingsdialog.cc:1541 linux/settingsdialog.cc:3112
-#: linux/settingsdialog.cc:3186
+#: glade/settingsdialog.glade:580 linux/settingsdialog.cc:1624
+#: linux/settingsdialog.cc:1632 linux/settingsdialog.cc:3302
+#: linux/settingsdialog.cc:3376
 msgid "Command"
 msgstr "Příkaz"
 
 #: glade/adlsearch.glade:413 linux/ADLSearchGUI.cc:53
 #: linux/ADLSearchGUI.cc:149 linux/ADLSearchGUI.cc:256
-#: linux/ADLSearchGUI.cc:298 linux/detectiontab.cc:37
-#: linux/detectiontab.cc:258 linux/detectiontab.cc:812
-#: linux/detectiontab.cc:881 linux/detectiontab.cc:897
+#: linux/ADLSearchGUI.cc:298 linux/detectiontab.cc:43
+#: linux/detectiontab.cc:265 linux/detectiontab.cc:819
+#: linux/detectiontab.cc:888 linux/detectiontab.cc:904
 msgid "Comment"
 msgstr "Komentář"
 
@@ -663,33 +676,33 @@ msgstr "Komentář"
 msgid "Comments"
 msgstr "Komentáře"
 
-#: glade/settingsdialog.glade:1906
+#: glade/settingsdialog.glade:1994
 msgid "Configure Public Hub Lists"
 msgstr "Konfigurovat Veřejné Huby"
 
-#: glade/publichubs.glade:190 glade/settingsdialog.glade:7756
+#: glade/publichubs.glade:190 glade/settingsdialog.glade:8210
 msgid "Configure hub lists"
 msgstr "Konfigurovat Seznamy Veřejných hubů"
 
-#: glade/mainwindow.glade:1278 linux/favoritehubs.cc:72
-#: linux/favoritehubs.cc:287 linux/favoritehubs.cc:664
-#: linux/favoritehubs.cc:838 linux/settingsdialog.cc:1334
-#: linux/settingsdialog.cc:1367
+#: glade/mainwindow.glade:1317 linux/favoritehubs.cc:72
+#: linux/favoritehubs.cc:274 linux/favoritehubs.cc:651
+#: linux/favoritehubs.cc:825 linux/settingsdialog.cc:1385
+#: linux/settingsdialog.cc:1418
 msgid "Connect"
 msgstr "Připojit"
 
-#: glade/mainwindow.glade:608
+#: glade/mainwindow.glade:636
 msgid "Connect to a hub"
 msgstr "Připojit na hub"
 
 #: glade/detection.glade:2368 glade/favoriteusers.glade:74
-#: glade/highliting.glade:78 glade/ignoreeusers.glade:192
-#: glade/recenthub.glade:42
+#: glade/highliting.glade:496 glade/ignoreeusers.glade:192
+#: glade/recenthub.glade:160
 msgid "Connect to hub"
 msgstr "Připojit k hubu"
 
-#: glade/settingsdialog.glade:1606 linux/hub.cc:85 linux/hub.cc:593
-#: linux/hub.cc:627 linux/search.cc:91 linux/search.cc:639 linux/search.cc:719
+#: glade/settingsdialog.glade:1678 linux/hub.cc:83 linux/hub.cc:437
+#: linux/hub.cc:472 linux/search.cc:91 linux/search.cc:639 linux/search.cc:719
 #: linux/search.cc:856
 msgid "Connection"
 msgstr "Připojení"
@@ -702,7 +715,7 @@ msgstr "Kopírovat"
 msgid "Copy IP"
 msgstr "Kopírovat IP"
 
-#: glade/settingsdialog.glade:5291
+#: glade/settingsdialog.glade:5467
 msgid "Count matches"
 msgstr ""
 
@@ -711,31 +724,31 @@ msgid "DETECTION"
 msgstr "DETEKCE"
 
 #: glade/favoritehubs.glade:601 glade/favoritehubs.glade:727
-#: glade/settingsdialog.glade:4443 glade/settingsdialog.glade:5157
-#: glade/settingsdialog.glade:5339 glade/settingsdialog.glade:7389
-#: linux/emoticonsdialog.cc:104 linux/favoritehubs.cc:190
-#: linux/favoritehubs.cc:794 linux/previewmenu.cc:88
+#: glade/settingsdialog.glade:4607 glade/settingsdialog.glade:5325
+#: glade/settingsdialog.glade:5519 glade/settingsdialog.glade:7840
+#: linux/emoticonsdialog.cc:104 linux/favoritehubs.cc:186
+#: linux/favoritehubs.cc:781 linux/previewmenu.cc:88
 msgid "Default"
 msgstr "Výchozí"
 
-#: glade/settingsdialog.glade:1640
+#: glade/settingsdialog.glade:1712
 msgid "Default download directory"
 msgstr "Výchozí adresář pro stahované soubory"
 
-#: glade/settingsdialog.glade:958
+#: glade/settingsdialog.glade:994
 msgid "Default hub encoding"
 msgstr "Výchozí hub kódovani"
 
-#: glade/settingsdialog.glade:4799
+#: glade/settingsdialog.glade:4967
 msgid "Default icons"
 msgstr "Výchozí ikony"
 
-#: glade/settingsdialog.glade:4155
+#: glade/settingsdialog.glade:4315
 msgid "Default styles"
 msgstr "Výchozí styly"
 
 #: glade/detection.glade:909 glade/detection.glade:1298
-#: glade/highliting.glade:57
+#: glade/highliting.glade:469
 msgid "Delete"
 msgstr "Odstranit"
 
@@ -744,39 +757,43 @@ msgid "Delete item"
 msgstr "Odstranit položku"
 
 #: glade/favoritehubs.glade:317 glade/favoriteusers.glade:81
-#: glade/ignoreeusers.glade:201 glade/settingsdialog.glade:918
-#: linux/favoritehubs.cc:30 linux/favoritehubs.cc:163
-#: linux/favoritehubs.cc:199 linux/favoritehubs.cc:307
-#: linux/favoritehubs.cc:404 linux/favoritehubs.cc:734
+#: glade/ignoreeusers.glade:201 glade/settingsdialog.glade:954
+#: linux/favoritehubs.cc:30 linux/favoritehubs.cc:159
+#: linux/favoritehubs.cc:195 linux/favoritehubs.cc:294
+#: linux/favoritehubs.cc:391 linux/favoritehubs.cc:721
 #: linux/favoriteusers.cc:45 linux/favoriteusers.cc:108
 #: linux/favoriteusers.cc:368 linux/favoriteusers.cc:393
-#: linux/favoriteusers.cc:583 linux/hub.cc:83 linux/hub.cc:591
-#: linux/hub.cc:625 linux/ignoreusers.cc:47 linux/ignoreusers.cc:104
+#: linux/favoriteusers.cc:582 linux/hub.cc:81 linux/hub.cc:435
+#: linux/hub.cc:470 linux/ignoreusers.cc:47 linux/ignoreusers.cc:104
 #: linux/ignoreusers.cc:336 linux/ignoreusers.cc:361 linux/ignoreusers.cc:511
-#: linux/publichubs.cc:40 linux/publichubs.cc:167 linux/publichubs.cc:308
-#: linux/recenthub.cc:42 linux/recenthub.cc:79 linux/recenthub.cc:255
-#: linux/recenthub.cc:268
+#: linux/publichubs.cc:40 linux/publichubs.cc:168 linux/publichubs.cc:309
+#: linux/recenthub.cc:42 linux/recenthub.cc:81 linux/recenthub.cc:274
+#: linux/recenthub.cc:287
 msgid "Description"
 msgstr "Popis"
 
-#: glade/mainwindow.glade:1006
-msgid "Detection and Raw Tab"
-msgstr "Detekce a Rawy"
+#: glade/mainwindow.glade:1020
+msgid "Detection and Raws Settings"
+msgstr "Nastavení Detekce a Rawu"
 
 #: glade/detection.glade:1326
 msgid "Detections"
 msgstr "Detekce"
 
-#: glade/settingsdialog.glade:1524
+#: glade/settingsdialog.glade:5714
+msgid "Deufault"
+msgstr "Deufault"
+
+#: glade/settingsdialog.glade:1596
 msgid "Direct connection"
 msgstr "Příme připojení"
 
-#: glade/settingsdialog.glade:5446 linux/UserCommandMenu.cc:67
-#: linux/search.cc:1683 linux/settingsdialog.cc:849
-#: linux/settingsdialog.cc:863 linux/settingsdialog.cc:950
-#: linux/settingsdialog.cc:1336 linux/settingsdialog.cc:3516
-#: linux/settingsdialog.cc:3536 linux/settingsdialog.cc:3565
-#: linux/settingsdialog.cc:3579 linux/settingsdialog.cc:3634
+#: glade/settingsdialog.glade:5801 linux/UserCommandMenu.cc:67
+#: linux/search.cc:1688 linux/settingsdialog.cc:894
+#: linux/settingsdialog.cc:908 linux/settingsdialog.cc:995
+#: linux/settingsdialog.cc:1387 linux/settingsdialog.cc:3706
+#: linux/settingsdialog.cc:3726 linux/settingsdialog.cc:3755
+#: linux/settingsdialog.cc:3769 linux/settingsdialog.cc:3824
 #: linux/sharebrowser.cc:283
 msgid "Directory"
 msgstr "Adresář"
@@ -785,16 +802,16 @@ msgstr "Adresář"
 msgid "Disconect"
 msgstr "Odpojen"
 
-#: glade/mainwindow.glade:779
+#: glade/mainwindow.glade:811
 msgid "Do you really want to exit?"
 msgstr "Opravdu chcete ukončit?"
 
-#: glade/settingsdialog.glade:1238
+#: glade/settingsdialog.glade:1294
 msgid "Don't allow hub/UPnP to override"
 msgstr "Nedovolit hubu/UPnP přepsat nastavení"
 
 #: glade/sharebrowser.glade:78 glade/sharebrowser.glade:124
-#: linux/settingsdialog.cc:1316
+#: linux/settingsdialog.cc:1367
 msgid "Download"
 msgstr "Stáhnout"
 
@@ -802,8 +819,8 @@ msgstr "Stáhnout"
 msgid "Download Matches"
 msgstr "Porovnat Stahování"
 
-#: glade/mainwindow.glade:1091 linux/downloadqueue.cc:34
-#: linux/settingsdialog.cc:1017 linux/settingsdialog.cc:1440
+#: glade/mainwindow.glade:1130 linux/downloadqueue.cc:34
+#: linux/settingsdialog.cc:1062 linux/settingsdialog.cc:1491
 msgid "Download Queue"
 msgstr "Fronta souboru k stáhnutí"
 
@@ -815,11 +832,11 @@ msgstr "Stáhnout _do"
 msgid "Download _whole directory"
 msgstr "Stáhnout _cely adresář"
 
-#: glade/mainwindow.glade:1718
+#: glade/mainwindow.glade:1757
 msgid "Download speed"
 msgstr "Rychlost stahování"
 
-#: glade/settingsdialog.glade:2122
+#: glade/settingsdialog.glade:2214
 msgid "Download to"
 msgstr "Stáhnout do"
 
@@ -831,15 +848,15 @@ msgstr "Stáhnout do..."
 msgid "Download whole director_y to..."
 msgstr "Stáhnout do (celý adresář)..."
 
-#: glade/settingsdialog.glade:1997 glade/settingsdialog.glade:2956
+#: glade/settingsdialog.glade:2089 glade/settingsdialog.glade:3100
 msgid "Downloads"
 msgstr "Stahovaní"
 
-#: glade/settingsdialog.glade:2613
+#: glade/settingsdialog.glade:2745
 msgid "Drop sources below"
 msgstr "Odpojovat zdroje pod"
 
-#: glade/settingsdialog.glade:932
+#: glade/settingsdialog.glade:968
 msgid "E-Mail"
 msgstr "E-Mail"
 
@@ -851,7 +868,7 @@ msgstr "Upravit akci"
 msgid "Edit Raw"
 msgstr "Editovat Raw"
 
-#: glade/mainwindow.glade:1339
+#: glade/mainwindow.glade:1378
 msgid "Edit the preferences"
 msgstr "Upravit nastavení"
 
@@ -868,23 +885,23 @@ msgstr "Akce Při Emulaci DC++"
 #: linux/ADLSearchGUI.cc:84 linux/ADLSearchGUI.cc:142
 #: linux/ADLSearchGUI.cc:249 linux/ADLSearchGUI.cc:294
 #: linux/ADLSearchGUI.cc:487 linux/ADLSearchGUI.cc:489
-#: linux/favoritehubs.cc:55 linux/favoritehubs.cc:64 linux/favoritehubs.cc:239
-#: linux/favoritehubs.cc:256 linux/favoritehubs.cc:579
-#: linux/favoritehubs.cc:581 linux/favoritehubs.cc:1072
-#: linux/favoritehubs.cc:1082 linux/favoritehubs.cc:1103
-#: linux/favoritehubs.cc:1116
+#: linux/favoritehubs.cc:55 linux/favoritehubs.cc:64 linux/favoritehubs.cc:235
+#: linux/favoritehubs.cc:248 linux/favoritehubs.cc:566
+#: linux/favoritehubs.cc:568 linux/favoritehubs.cc:1059
+#: linux/favoritehubs.cc:1069 linux/favoritehubs.cc:1090
+#: linux/favoritehubs.cc:1103
 msgid "Enabled"
 msgstr "Povoleno"
 
 #: glade/favoritehubs.glade:365 linux/favoritehubs.cc:34
-#: linux/favoritehubs.cc:167 linux/favoritehubs.cc:203
-#: linux/favoritehubs.cc:313 linux/favoritehubs.cc:409
-#: linux/favoritehubs.cc:475 linux/favoritehubs.cc:510
-#: linux/favoritehubs.cc:537 linux/favoritehubs.cc:738
+#: linux/favoritehubs.cc:163 linux/favoritehubs.cc:199
+#: linux/favoritehubs.cc:300 linux/favoritehubs.cc:396
+#: linux/favoritehubs.cc:462 linux/favoritehubs.cc:497
+#: linux/favoritehubs.cc:524 linux/favoritehubs.cc:725
 msgid "Encoding"
 msgstr "Kódování"
 
-#: glade/mainwindow.glade:1927
+#: glade/mainwindow.glade:1966
 msgid "Enter line for user command"
 msgstr "Zadat řádku pro uživatelský příkaz"
 
@@ -892,27 +909,27 @@ msgstr "Zadat řádku pro uživatelský příkaz"
 msgid "Enter text to search for"
 msgstr "Vložte text pro hledani"
 
-#: glade/settingsdialog.glade:3919
+#: glade/settingsdialog.glade:4079
 msgid "Every time a private message is received"
 msgstr "Pokaždé, co je PM přijata"
 
-#: glade/mainwindow.glade:204
+#: glade/mainwindow.glade:220
 msgid "Exact size"
 msgstr "Přesná velikost"
 
-#: glade/mainwindow.glade:719
+#: glade/mainwindow.glade:751
 msgid "Exit FreeDC++?"
 msgstr "Ukončit BMDC++?"
 
-#: glade/settingsdialog.glade:6497
+#: glade/settingsdialog.glade:6916
 msgid "Experts Only"
 msgstr "Pro Experty"
 
-#: glade/settingsdialog.glade:4756
+#: glade/settingsdialog.glade:4924
 msgid "Export..."
 msgstr "Exportovat..."
 
-#: glade/settingsdialog.glade:1225
+#: glade/settingsdialog.glade:1281
 msgid "External / WAN IP"
 msgstr "External / WAN IP"
 
@@ -928,19 +945,19 @@ msgstr "Akce Při Fake Sdílení"
 msgid "Favorite Hub Properties"
 msgstr "Oblíbený Hub Vlastnosti"
 
-#: glade/mainwindow.glade:1029 glade/mainwindow.glade:1294
-#: linux/favoritehubs.cc:15 linux/settingsdialog.cc:1318
-#: linux/settingsdialog.cc:1369 linux/settingsdialog.cc:1439
+#: glade/mainwindow.glade:1068 glade/mainwindow.glade:1333
+#: linux/favoritehubs.cc:15 linux/settingsdialog.cc:1369
+#: linux/settingsdialog.cc:1420 linux/settingsdialog.cc:1490
 msgid "Favorite Hubs"
 msgstr "Oblíbené Huby"
 
-#: glade/mainwindow.glade:1039 glade/mainwindow.glade:1307
-#: linux/favoriteusers.cc:34 linux/settingsdialog.cc:1319
-#: linux/settingsdialog.cc:1371 linux/settingsdialog.cc:1443
+#: glade/mainwindow.glade:1078 glade/mainwindow.glade:1346
+#: linux/favoriteusers.cc:34 linux/settingsdialog.cc:1370
+#: linux/settingsdialog.cc:1422 linux/settingsdialog.cc:1494
 msgid "Favorite Users"
 msgstr "Oblíbení uživatelé"
 
-#: glade/settingsdialog.glade:7651 linux/settingsdialog.cc:3498
+#: glade/settingsdialog.glade:8102 linux/settingsdialog.cc:3688
 msgid "Favorite name"
 msgstr "Oblíbené jmeno"
 
@@ -952,7 +969,7 @@ msgstr "Název souboru:"
 msgid "File type"
 msgstr "Typ souboru"
 
-#: glade/settingsdialog.glade:466
+#: glade/settingsdialog.glade:470
 msgid "Filelist Menu"
 msgstr "Seznam Souboru Menu"
 
@@ -984,50 +1001,51 @@ msgstr "Najít"
 msgid "Find files"
 msgstr "Najít soubor"
 
-#: glade/mainwindow.glade:1101 glade/mainwindow.glade:1422
-#: linux/finishedtransfers.cc:34 linux/settingsdialog.cc:1015
-#: linux/settingsdialog.cc:1320 linux/settingsdialog.cc:1385
-#: linux/settingsdialog.cc:1441
+#: glade/mainwindow.glade:1140 glade/mainwindow.glade:1461
+#: linux/finishedtransfers.cc:34 linux/settingsdialog.cc:1060
+#: linux/settingsdialog.cc:1371 linux/settingsdialog.cc:1436
+#: linux/settingsdialog.cc:1492
 msgid "Finished Downloads"
 msgstr "Dokončené stahovaní"
 
-#: glade/mainwindow.glade:1110 glade/mainwindow.glade:1438
-#: linux/finishedtransfers.cc:39 linux/settingsdialog.cc:1016
-#: linux/settingsdialog.cc:1321 linux/settingsdialog.cc:1387
-#: linux/settingsdialog.cc:1442
+#: glade/mainwindow.glade:1149 glade/mainwindow.glade:1477
+#: linux/finishedtransfers.cc:39 linux/settingsdialog.cc:1061
+#: linux/settingsdialog.cc:1372 linux/settingsdialog.cc:1438
+#: linux/settingsdialog.cc:1493
 msgid "Finished Uploads"
 msgstr "Dokončené odesílaní"
 
-#: glade/settingsdialog.glade:1204
+#: glade/settingsdialog.glade:1260
 msgid "Firewall (passive, last resort)"
 msgstr "Firewall (passive, poslední možnost)"
 
-#: glade/settingsdialog.glade:1257
+#: glade/settingsdialog.glade:1313
 msgid "Firewall with manual port forward"
 msgstr "Firewall s manualním přesmerovaním portu"
 
-#: glade/settingsdialog.glade:3055
+#: glade/settingsdialog.glade:3199
 msgid "Follow Links"
 msgstr "Následovat odkazy"
 
-#: glade/settingsdialog.glade:7598
+#: glade/settingsdialog.glade:8049
 msgid "Font select"
 msgstr "Zvolit font"
 
-#: glade/highliting.glade:144
+#: glade/highliting.glade:124 linux/highliting.cc:26 linux/highliting.cc:85
+#: linux/highliting.cc:178
 msgid "Fore Color"
 msgstr "Barva Textu"
 
-#: glade/settingsdialog.glade:5515 glade/settingsdialog.glade:5570
-#: glade/settingsdialog.glade:5625 glade/settingsdialog.glade:5680
+#: glade/settingsdialog.glade:5874 glade/settingsdialog.glade:5933
+#: glade/settingsdialog.glade:5992 glade/settingsdialog.glade:6051
 msgid "Format"
 msgstr "Formát"
 
-#: glade/settingsdialog.glade:5230
+#: glade/settingsdialog.glade:5402
 msgid "Frame (size)"
 msgstr "Frame (velikost)"
 
-#: glade/settingsdialog.glade:5217
+#: glade/settingsdialog.glade:5385
 msgid "Frame size"
 msgstr "Velikost rámce"
 
@@ -1039,11 +1057,11 @@ msgstr "Frame:"
 msgid "From Fav"
 msgstr "Z Oblibených"
 
-#: glade/settingsdialog.glade:6725
+#: glade/settingsdialog.glade:7156
 msgid "Generate certificates"
 msgstr "Generovat certifikáty"
 
-#: glade/mainwindow.glade:988
+#: glade/mainwindow.glade:996
 msgid "Get TTH from File"
 msgstr "Získat TTH ze souboru"
 
@@ -1059,7 +1077,7 @@ msgstr "Skupina"
 msgid "Group by"
 msgstr "Seskupit podle"
 
-#: glade/settingsdialog.glade:1945
+#: glade/settingsdialog.glade:2033
 msgid "HTTP Proxy (for hublist only)"
 msgstr "HTTP Proxy (pro hublisty jen)"
 
@@ -1075,8 +1093,8 @@ msgstr "HUB OUT"
 msgid "H_igh"
 msgstr "_Vysoká"
 
-#: glade/mainwindow.glade:1358 linux/settingsdialog.cc:1322
-#: linux/settingsdialog.cc:1377
+#: glade/mainwindow.glade:1397 linux/settingsdialog.cc:1373
+#: linux/settingsdialog.cc:1428
 msgid "Hash"
 msgstr "Hash"
 
@@ -1084,56 +1102,56 @@ msgstr "Hash"
 msgid "HideShare"
 msgstr "Skrýt Sdilení"
 
-#: glade/settingsdialog.glade:2198
+#: glade/settingsdialog.glade:2302
 msgid "High priority max size"
 msgstr "Vysoká priorita max velikost"
 
-#: glade/settingsdialog.glade:2318
+#: glade/settingsdialog.glade:2426
 msgid "Highest priority max size"
 msgstr "Vyšší priorita max velikost"
 
-#: glade/mainwindow.glade:997
-msgid "Highliting Set Tab"
-msgstr "Karta Zvýrazňovaní"
+#: glade/mainwindow.glade:1011 linux/highliting.cc:9
+msgid "Highliting Settings"
+msgstr "Nastavení zvýrazňovaní"
 
-#: glade/mainwindow.glade:1243
+#: glade/mainwindow.glade:1282
 msgid "Homepage"
 msgstr "Domovská stránka"
 
-#: glade/settingsdialog.glade:608
+#: glade/settingsdialog.glade:620
 msgid "Hub IP / DNS (empty = All, 'op' = where operator)"
 msgstr "Hub IP / DNS (empty = All, 'op' = where operator)"
 
-#: glade/settingsdialog.glade:484
+#: glade/settingsdialog.glade:488
 msgid "Hub Menu"
 msgstr "Hub Menu"
 
-#: glade/search.glade:281 linux/hub.cc:91 linux/hub.cc:599 linux/hub.cc:633
+#: glade/search.glade:281 linux/hub.cc:89 linux/hub.cc:443 linux/hub.cc:478
 msgid "Hubs"
 msgstr "Huby"
 
-#: glade/mainwindow.glade:1667
+#: glade/mainwindow.glade:1706
 msgid "Hubs (normal / registered / op)"
 msgstr "Huby (normal / registrovaný / op)"
 
-#: glade/detection.glade:82 linux/detectiontab.cc:39 linux/detectiontab.cc:54
-#: linux/detectiontab.cc:67 linux/detectiontab.cc:236
-#: linux/detectiontab.cc:260 linux/detectiontab.cc:360
-#: linux/detectiontab.cc:375 linux/detectiontab.cc:447
-#: linux/detectiontab.cc:472 linux/detectiontab.cc:509
-#: linux/detectiontab.cc:541 linux/detectiontab.cc:609
-#: linux/detectiontab.cc:618 linux/detectiontab.cc:637
-#: linux/detectiontab.cc:649 linux/detectiontab.cc:814
-#: linux/detectiontab.cc:839 linux/detectiontab.cc:883
-#: linux/detectiontab.cc:899 linux/detectiontab.cc:1065
+#: glade/detection.glade:82 linux/detectiontab.cc:45 linux/detectiontab.cc:61
+#: linux/detectiontab.cc:74 linux/detectiontab.cc:243
+#: linux/detectiontab.cc:267 linux/detectiontab.cc:367
+#: linux/detectiontab.cc:382 linux/detectiontab.cc:454
+#: linux/detectiontab.cc:479 linux/detectiontab.cc:516
+#: linux/detectiontab.cc:548 linux/detectiontab.cc:616
+#: linux/detectiontab.cc:625 linux/detectiontab.cc:644
+#: linux/detectiontab.cc:656 linux/detectiontab.cc:821
+#: linux/detectiontab.cc:846 linux/detectiontab.cc:890
+#: linux/detectiontab.cc:906 linux/detectiontab.cc:1072
 msgid "ID"
 msgstr "ID"
 
-#: glade/settingsdialog.glade:4401
+#: glade/settingsdialog.glade:4565
 msgid "Icon..."
 msgstr "Ikona..."
 
-#: glade/settingsdialog.glade:3401
+#: glade/settingsdialog.glade:3553
 msgid ""
 "Icons\n"
 "Text\n"
@@ -1157,17 +1175,17 @@ msgstr "Ignorovat TTH"
 msgid "Ignore TTH search"
 msgstr "Ignorovat TTH Hledani"
 
-#: glade/mainwindow.glade:1468 glade/mainwindow.glade:1471
-#: linux/ignoreusers.cc:37 linux/settingsdialog.cc:1331
-#: linux/settingsdialog.cc:1398
+#: glade/mainwindow.glade:1507 glade/mainwindow.glade:1510
+#: linux/ignoreusers.cc:37 linux/settingsdialog.cc:1382
+#: linux/settingsdialog.cc:1449
 msgid "Ignore Users"
 msgstr "Ignorovaní Uživatele"
 
-#: glade/settingsdialog.glade:4770
+#: glade/settingsdialog.glade:4938
 msgid "Import..."
 msgstr "Import..."
 
-#: glade/mainwindow.glade:1125
+#: glade/mainwindow.glade:1164
 msgid "Indexing Progress"
 msgstr "Indexuju soubory..."
 
@@ -1175,15 +1193,15 @@ msgstr "Indexuju soubory..."
 msgid "Indexing files..."
 msgstr "Indexuji soubory..."
 
-#: glade/highliting.glade:184 linux/highliting.cc:22 linux/highliting.cc:82
-#: linux/highliting.cc:177
+#: glade/highliting.glade:175 linux/highliting.cc:22 linux/highliting.cc:81
+#: linux/highliting.cc:175
 msgid "Italic"
 msgstr "Kurzíva"
 
-#: glade/settingsdialog.glade:2228 glade/settingsdialog.glade:2244
-#: glade/settingsdialog.glade:2274 glade/settingsdialog.glade:2290
-#: glade/settingsdialog.glade:2495 glade/settingsdialog.glade:6172
-#: glade/settingsdialog.glade:6407
+#: glade/settingsdialog.glade:2332 glade/settingsdialog.glade:2348
+#: glade/settingsdialog.glade:2382 glade/settingsdialog.glade:2398
+#: glade/settingsdialog.glade:2623 glade/settingsdialog.glade:6567
+#: glade/settingsdialog.glade:6826
 msgid "KiB"
 msgstr "KiB"
 
@@ -1195,7 +1213,7 @@ msgstr "Kick"
 msgid "L_ow"
 msgstr "Ní_zka"
 
-#: glade/mainwindow.glade:1552
+#: glade/mainwindow.glade:1591
 msgid "Limitin on/off"
 msgstr "Limitovani on/off"
 
@@ -1203,31 +1221,31 @@ msgstr "Limitovani on/off"
 msgid "ListLen Action"
 msgstr "Akce při ListLen"
 
-#: glade/settingsdialog.glade:5600
+#: glade/settingsdialog.glade:5967
 msgid "Log downloads"
 msgstr "Logovat Stahovani"
 
-#: glade/settingsdialog.glade:5742
+#: glade/settingsdialog.glade:6117
 msgid "Log filelist transfers"
 msgstr "Zaznamenávat stahnutí seznamu souborů od uživatele"
 
-#: glade/settingsdialog.glade:5490
+#: glade/settingsdialog.glade:5849
 msgid "Log main chat"
 msgstr "Zaznamenávat hlavní chat"
 
-#: glade/settingsdialog.glade:5545
+#: glade/settingsdialog.glade:5908
 msgid "Log private chat"
 msgstr "Zaznamenávat soukromý chat"
 
-#: glade/settingsdialog.glade:5726
+#: glade/settingsdialog.glade:6101
 msgid "Log status messages"
 msgstr "Zaznamenávat stavové zprávy"
 
-#: glade/settingsdialog.glade:5710
+#: glade/settingsdialog.glade:6085
 msgid "Log system messages"
 msgstr "Zaznamenávat systemové zprávy"
 
-#: glade/settingsdialog.glade:5655
+#: glade/settingsdialog.glade:6026
 msgid "Log uploads"
 msgstr "Zaznamenávat odeslané"
 
@@ -1235,11 +1253,11 @@ msgstr "Zaznamenávat odeslané"
 msgid "LogChat"
 msgstr "Logovat Chat"
 
-#: glade/settingsdialog.glade:5785
+#: glade/settingsdialog.glade:6160
 msgid "Logs"
 msgstr "Záznamy"
 
-#: glade/settingsdialog.glade:2212
+#: glade/settingsdialog.glade:2316
 msgid "Low priority size"
 msgstr "Nízká priority velikost"
 
@@ -1255,7 +1273,7 @@ msgstr "Udělat Privatní"
 msgid "Match Queue"
 msgstr "Porovnat Frontu"
 
-#: glade/settingsdialog.glade:5084
+#: glade/settingsdialog.glade:5252
 msgid "Matches"
 msgstr "Shody"
 
@@ -1271,47 +1289,47 @@ msgstr "Maximum seznamu souboru"
 msgid "Max TestSURs"
 msgstr "Maximum TestSUR"
 
-#: glade/settingsdialog.glade:6029
+#: glade/settingsdialog.glade:6404
 msgid "Max filelist size"
 msgstr "Max filelist velikost"
 
-#: glade/settingsdialog.glade:5990
+#: glade/settingsdialog.glade:6365
 msgid "Max hash speed"
 msgstr "Max.rychl.hash."
 
-#: glade/settingsdialog.glade:2465
+#: glade/settingsdialog.glade:2593
 msgid "Max inactivity"
 msgstr "Max nečinnost"
 
-#: glade/settingsdialog.glade:904
+#: glade/settingsdialog.glade:940
 msgid "Max upload speed (MiB/s)"
 msgstr "Max. Odesilací rychlost (MiB/s)"
 
-#: glade/settingsdialog.glade:6872 glade/settingsdialog.glade:7161
+#: glade/settingsdialog.glade:7311 glade/settingsdialog.glade:7608
 msgid "Maximum Download Rate (KiB/s) (0 = infinite)"
 msgstr "Maximalní Stahovací rychlost (KiB/s) (0 = nekonečno)"
 
-#: glade/settingsdialog.glade:6822 glade/settingsdialog.glade:7111
+#: glade/settingsdialog.glade:7257 glade/settingsdialog.glade:7554
 msgid "Maximum Upload Rate (KiB/s) (0 = infinite)"
 msgstr "Maximalní odesilací rychlost (KiB/s) (0 = nekonečno)"
 
-#: glade/settingsdialog.glade:4512
+#: glade/settingsdialog.glade:4680
 msgid "Maximum message length (0 = infinite)"
 msgstr "Maximalní délka zprávy ( 0 = nekonečno)"
 
-#: glade/settingsdialog.glade:1797
+#: glade/settingsdialog.glade:1877
 msgid "Maximum simultaneous downloads (0 = infinite)"
 msgstr "Maximální počet souběžných stahovaní (0 = neomezeně)"
 
-#: glade/settingsdialog.glade:6185
+#: glade/settingsdialog.glade:6580
 msgid "MiB"
 msgstr "MiB"
 
-#: glade/settingsdialog.glade:6148
+#: glade/settingsdialog.glade:6543
 msgid "MiB/s"
 msgstr "MiB/s"
 
-#: glade/settingsdialog.glade:6979 glade/settingsdialog.glade:7026
+#: glade/settingsdialog.glade:7418 glade/settingsdialog.glade:7465
 msgid ""
 "Midnight\n"
 "1AM\n"
@@ -1367,15 +1385,15 @@ msgstr ""
 msgid "Min FL SIze"
 msgstr "Minimalní Velikost: Seznamu souboru"
 
-#: glade/settingsdialog.glade:2599
+#: glade/settingsdialog.glade:2731
 msgid "Min elapsed"
 msgstr "Minut uběhlo"
 
-#: glade/settingsdialog.glade:2449
+#: glade/settingsdialog.glade:2577
 msgid "Min filesize"
 msgstr "Minimální velikost souboru"
 
-#: glade/settingsdialog.glade:2585
+#: glade/settingsdialog.glade:2717
 msgid "Min sources online"
 msgstr "Minimální počet zdrojů online"
 
@@ -1383,13 +1401,13 @@ msgstr "Minimální počet zdrojů online"
 msgid "Min. ADL Points to Display"
 msgstr "Minimum ADL Bodů pro zobrazení"
 
-#: glade/settingsdialog.glade:6016
+#: glade/settingsdialog.glade:6391
 msgid "Mini slot size"
 msgstr "Velikost Malého slotu"
 
-#: glade/detection.glade:624 linux/detectiontab.cc:41
-#: linux/detectiontab.cc:262 linux/detectiontab.cc:885
-#: linux/detectiontab.cc:901
+#: glade/detection.glade:624 linux/detectiontab.cc:47
+#: linux/detectiontab.cc:269 linux/detectiontab.cc:892
+#: linux/detectiontab.cc:908
 msgid "MisMatch"
 msgstr "Akce při MisMatch"
 
@@ -1402,11 +1420,11 @@ msgid "Mode"
 msgstr "Mod"
 
 #: glade/detection.glade:895 glade/detection.glade:1284
-#: glade/highliting.glade:45 glade/settingsdialog.glade:7347
+#: glade/highliting.glade:455 glade/settingsdialog.glade:7798
 msgid "Modify"
 msgstr "Upravit"
 
-#: glade/settingsdialog.glade:256
+#: glade/settingsdialog.glade:260
 msgid "Modify User Command"
 msgstr "Upravit User Command"
 
@@ -1428,45 +1446,47 @@ msgstr "NICK"
 
 #: glade/detection.glade:120 glade/detection.glade:436
 #: glade/detection.glade:747 glade/favoritehubs.glade:128
-#: glade/settingsdialog.glade:536 linux/detectiontab.cc:35
-#: linux/detectiontab.cc:53 linux/detectiontab.cc:64 linux/detectiontab.cc:234
-#: linux/detectiontab.cc:256 linux/detectiontab.cc:371
-#: linux/detectiontab.cc:423 linux/detectiontab.cc:445
-#: linux/detectiontab.cc:468 linux/detectiontab.cc:492
-#: linux/detectiontab.cc:524 linux/detectiontab.cc:607
-#: linux/detectiontab.cc:616 linux/detectiontab.cc:633
-#: linux/detectiontab.cc:645 linux/detectiontab.cc:810
-#: linux/detectiontab.cc:838 linux/detectiontab.cc:879
-#: linux/detectiontab.cc:895 linux/favoritehubs.cc:28 linux/favoritehubs.cc:54
-#: linux/favoritehubs.cc:148 linux/favoritehubs.cc:161
-#: linux/favoritehubs.cc:197 linux/favoritehubs.cc:238
-#: linux/favoritehubs.cc:255 linux/favoritehubs.cc:306
-#: linux/favoritehubs.cc:402 linux/favoritehubs.cc:441
-#: linux/favoritehubs.cc:578 linux/favoritehubs.cc:732 linux/highliting.cc:18
-#: linux/highliting.cc:78 linux/highliting.cc:102 linux/highliting.cc:173
-#: linux/highliting.cc:189 linux/highliting.cc:207 linux/highliting.cc:221
-#: linux/publichubs.cc:39 linux/publichubs.cc:166 linux/publichubs.cc:307
-#: linux/recenthub.cc:40 linux/recenthub.cc:77 linux/recenthub.cc:187
-#: linux/recenthub.cc:256 linux/recenthub.cc:265 linux/search.cc:71
-#: linux/search.cc:240 linux/search.cc:257 linux/search.cc:278
-#: linux/settingsdialog.cc:685 linux/settingsdialog.cc:694
-#: linux/settingsdialog.cc:870 linux/settingsdialog.cc:905
-#: linux/settingsdialog.cc:1253 linux/settingsdialog.cc:1352
-#: linux/settingsdialog.cc:1531 linux/settingsdialog.cc:1540
-#: linux/settingsdialog.cc:2793 linux/settingsdialog.cc:2809
-#: linux/settingsdialog.cc:2827 linux/settingsdialog.cc:2845
-#: linux/settingsdialog.cc:2871 linux/settingsdialog.cc:2876
-#: linux/settingsdialog.cc:3110 linux/settingsdialog.cc:3184
-#: linux/settingsdialog.cc:3737 linux/settingsdialog.cc:3828
-#: linux/settingsdialog.cc:3851 linux/settingsdialog.cc:3870
+#: glade/settingsdialog.glade:540 linux/detectiontab.cc:41
+#: linux/detectiontab.cc:60 linux/detectiontab.cc:71 linux/detectiontab.cc:241
+#: linux/detectiontab.cc:263 linux/detectiontab.cc:378
+#: linux/detectiontab.cc:430 linux/detectiontab.cc:452
+#: linux/detectiontab.cc:475 linux/detectiontab.cc:499
+#: linux/detectiontab.cc:531 linux/detectiontab.cc:614
+#: linux/detectiontab.cc:623 linux/detectiontab.cc:640
+#: linux/detectiontab.cc:652 linux/detectiontab.cc:817
+#: linux/detectiontab.cc:845 linux/detectiontab.cc:886
+#: linux/detectiontab.cc:902 linux/favoritehubs.cc:28 linux/favoritehubs.cc:54
+#: linux/favoritehubs.cc:144 linux/favoritehubs.cc:157
+#: linux/favoritehubs.cc:193 linux/favoritehubs.cc:234
+#: linux/favoritehubs.cc:247 linux/favoritehubs.cc:293
+#: linux/favoritehubs.cc:389 linux/favoritehubs.cc:428
+#: linux/favoritehubs.cc:565 linux/favoritehubs.cc:719 linux/highliting.cc:18
+#: linux/highliting.cc:77 linux/highliting.cc:100 linux/highliting.cc:171
+#: linux/highliting.cc:187 linux/highliting.cc:205 linux/highliting.cc:219
+#: linux/publichubs.cc:39 linux/publichubs.cc:167 linux/publichubs.cc:308
+#: linux/recenthub.cc:40 linux/recenthub.cc:79 linux/recenthub.cc:190
+#: linux/recenthub.cc:236 linux/recenthub.cc:275 linux/recenthub.cc:284
+#: linux/search.cc:71 linux/search.cc:240 linux/search.cc:257
+#: linux/search.cc:278 linux/settingsdialog.cc:730 linux/settingsdialog.cc:739
+#: linux/settingsdialog.cc:915 linux/settingsdialog.cc:950
+#: linux/settingsdialog.cc:1304 linux/settingsdialog.cc:1403
+#: linux/settingsdialog.cc:1521 linux/settingsdialog.cc:1538
+#: linux/settingsdialog.cc:1622 linux/settingsdialog.cc:1631
+#: linux/settingsdialog.cc:2896 linux/settingsdialog.cc:2912
+#: linux/settingsdialog.cc:2930 linux/settingsdialog.cc:2948
+#: linux/settingsdialog.cc:2974 linux/settingsdialog.cc:2979
+#: linux/settingsdialog.cc:3252 linux/settingsdialog.cc:3300
+#: linux/settingsdialog.cc:3374 linux/settingsdialog.cc:3927
+#: linux/settingsdialog.cc:4018 linux/settingsdialog.cc:4041
+#: linux/settingsdialog.cc:4060
 msgid "Name"
 msgstr "Jméno"
 
-#: glade/favoritehubs.glade:295 glade/settingsdialog.glade:2771
+#: glade/favoritehubs.glade:295 glade/settingsdialog.glade:2903
 msgid "Name:"
 msgstr "Jmeno:"
 
-#: glade/settingsdialog.glade:4970
+#: glade/settingsdialog.glade:5138
 msgid "New string or TTH"
 msgstr "Nový rětězec nebo TTH"
 
@@ -1474,21 +1494,20 @@ msgstr "Nový rětězec nebo TTH"
 msgid "Next"
 msgstr "Další"
 
-#: glade/settingsdialog.glade:946 linux/favoritehubs.cc:31
-#: linux/favoritehubs.cc:164 linux/favoritehubs.cc:200
-#: linux/favoritehubs.cc:308 linux/favoritehubs.cc:405
-#: linux/favoritehubs.cc:735 linux/favoriteusers.cc:42
+#: glade/settingsdialog.glade:982 linux/favoritehubs.cc:31
+#: linux/favoritehubs.cc:160 linux/favoritehubs.cc:196
+#: linux/favoritehubs.cc:295 linux/favoritehubs.cc:392
+#: linux/favoritehubs.cc:722 linux/favoriteusers.cc:42
 #: linux/favoriteusers.cc:57 linux/favoriteusers.cc:58
 #: linux/favoriteusers.cc:105 linux/favoriteusers.cc:369
-#: linux/favoriteusers.cc:422 linux/favoriteusers.cc:580 linux/hub.cc:81
-#: linux/hub.cc:112 linux/hub.cc:114 linux/hub.cc:561 linux/hub.cc:589
-#: linux/hub.cc:623 linux/hub.cc:683 linux/hub.cc:755 linux/hub.cc:1469
-#: linux/hub.cc:1781 linux/hub.cc:1834 linux/hub.cc:2326 linux/hub.cc:2357
-#: linux/hub.cc:2890 linux/hub.cc:2929 linux/ignoreusers.cc:44
-#: linux/ignoreusers.cc:59 linux/ignoreusers.cc:60 linux/ignoreusers.cc:101
-#: linux/ignoreusers.cc:337 linux/ignoreusers.cc:390 linux/ignoreusers.cc:508
-#: linux/search.cc:86 linux/search.cc:633 linux/search.cc:732
-#: linux/search.cc:862
+#: linux/favoriteusers.cc:422 linux/favoriteusers.cc:579 linux/hub.cc:79
+#: linux/hub.cc:110 linux/hub.cc:112 linux/hub.cc:404 linux/hub.cc:433
+#: linux/hub.cc:468 linux/hub.cc:527 linux/hub.cc:599 linux/hub.cc:1324
+#: linux/hub.cc:1643 linux/hub.cc:1696 linux/hub.cc:2193 linux/hub.cc:2755
+#: linux/hub.cc:2794 linux/ignoreusers.cc:44 linux/ignoreusers.cc:59
+#: linux/ignoreusers.cc:60 linux/ignoreusers.cc:101 linux/ignoreusers.cc:337
+#: linux/ignoreusers.cc:390 linux/ignoreusers.cc:508 linux/search.cc:86
+#: linux/search.cc:633 linux/search.cc:732 linux/search.cc:862
 msgid "Nick"
 msgstr "Přezdívka"
 
@@ -1518,11 +1537,11 @@ msgstr ""
 "Hubu\n"
 "typu Souboru\n"
 
-#: glade/settingsdialog.glade:1781
+#: glade/settingsdialog.glade:1861
 msgid "No new downloads if speed exceeds (KiB/s, 0 = disable)"
 msgstr "Nezahajovat dalši stahovaní při rychlosti nad (kB/s, 0 = vypnuté)"
 
-#: glade/settingsdialog.glade:4429
+#: glade/settingsdialog.glade:4593
 msgid "None icon"
 msgstr "Žádná ikona"
 
@@ -1536,38 +1555,38 @@ msgstr ""
 "nejmin\n"
 "nejvic"
 
-#: glade/settingsdialog.glade:2304
+#: glade/settingsdialog.glade:2412
 msgid "Normal priority max size"
 msgstr "Normalní priorita max velikost"
 
-#: glade/settingsdialog.glade:7413
+#: glade/settingsdialog.glade:7864
 msgid "Note: Custom search types will only be applied to ADC hubs!"
 msgstr "Poznámka: Volitelné hledaní je aplikované pouze v ADC hubech!"
 
-#: glade/settingsdialog.glade:3550 glade/settingsdialog.glade:3623
+#: glade/settingsdialog.glade:3710 glade/settingsdialog.glade:3783
 msgid "Note: Most of these options require that you restart the application"
 msgstr "Poznamka: Některe možnosti vyžadadují restart Aplikace"
 
-#: glade/settingsdialog.glade:3007
+#: glade/settingsdialog.glade:3151
 msgid "Note: New files are added to the share only once they've been hashed!"
 msgstr "Poznamka: Nové soubory přidány jen jednou do sdílení"
 
-#: glade/settingsdialog.glade:1844
+#: glade/settingsdialog.glade:1932
 msgid ""
 "Note; because of changing download speeds, this is not 100% accurate..."
 msgstr "Poznamka; protože rychlost se měni neni toto 100% přesné"
 
-#: glade/mainwindow.glade:1485 glade/mainwindow.glade:1488 linux/notepad.cc:30
-#: linux/settingsdialog.cc:1329 linux/settingsdialog.cc:1392
-#: linux/settingsdialog.cc:1445
+#: glade/mainwindow.glade:1524 glade/mainwindow.glade:1527 linux/notepad.cc:30
+#: linux/settingsdialog.cc:1380 linux/settingsdialog.cc:1443
+#: linux/settingsdialog.cc:1496
 msgid "Notepad"
 msgstr "Poznámkový Blok"
 
-#: glade/settingsdialog.glade:4606 linux/settingsdialog.cc:1189
+#: glade/settingsdialog.glade:4774 linux/settingsdialog.cc:1240
 msgid "Notify"
 msgstr "Oznámení"
 
-#: glade/settingsdialog.glade:5046
+#: glade/settingsdialog.glade:5214
 msgid "Old string or TTH"
 msgstr "Starý retězec nebo TTH"
 
@@ -1579,11 +1598,11 @@ msgstr "Hledat pouze tam, kde jsem Operátor"
 msgid "Only users with free slots"
 msgstr "Jen uživatelé s volnými sloty"
 
-#: glade/mainwindow.glade:883
+#: glade/mainwindow.glade:915
 msgid "Open _file list..."
 msgstr "Otevřít _seznam souborů..."
 
-#: glade/mainwindow.glade:893
+#: glade/mainwindow.glade:925
 msgid "Open _own list"
 msgstr "Otevřít _vlastní seznam souborů"
 
@@ -1595,21 +1614,22 @@ msgstr "Otevřit složku se souborem"
 msgid "Overide"
 msgstr "Přepsat"
 
-#: glade/settingsdialog.glade:352 glade/settingsdialog.glade:4582
+#: glade/settingsdialog.glade:356 glade/settingsdialog.glade:4750
 msgid "PM"
 msgstr "PM"
 
-#: glade/settingsdialog.glade:6003
+#: glade/settingsdialog.glade:6378
 msgid "PM history"
 msgstr "PM historie"
 
-#: glade/favoritehubs.glade:617
+#: glade/favoritehubs.glade:617 linux/settingsdialog.cc:1532
+#: linux/settingsdialog.cc:3224
 msgid "Pasive"
 msgstr "Pasive"
 
-#: glade/favoritehubs.glade:438 glade/settingsdialog.glade:1447
-#: linux/favoritehubs.cc:33 linux/favoritehubs.cc:166
-#: linux/favoritehubs.cc:202 linux/favoritehubs.cc:309
+#: glade/favoritehubs.glade:438 glade/settingsdialog.glade:1515
+#: linux/favoritehubs.cc:33 linux/favoritehubs.cc:162
+#: linux/favoritehubs.cc:198 linux/favoritehubs.cc:296
 msgid "Password"
 msgstr "Heslo"
 
@@ -1621,21 +1641,21 @@ msgstr "Pauza"
 msgid "Percent Fake"
 msgstr "Procent Fake"
 
-#: glade/settingsdialog.glade:1013
+#: glade/settingsdialog.glade:1053
 msgid "Personal"
 msgstr "Osobní"
 
-#: glade/settingsdialog.glade:3221
+#: glade/settingsdialog.glade:3373
 msgid "Pictures"
 msgstr "Obrázky"
 
-#: glade/settingsdialog.glade:3860
+#: glade/settingsdialog.glade:4020
 msgid "Play"
 msgstr "Hrát"
 
-#: glade/detection.glade:1005 linux/detectiontab.cc:134
-#: linux/detectiontab.cc:1346 linux/detectiontab.cc:1376
-#: linux/detectiontab.cc:1431
+#: glade/detection.glade:1005 linux/detectiontab.cc:141
+#: linux/detectiontab.cc:1353 linux/detectiontab.cc:1392
+#: linux/detectiontab.cc:1450
 msgid "Points"
 msgstr "Body"
 
@@ -1643,29 +1663,29 @@ msgstr "Body"
 msgid "Points:"
 msgstr "Body:"
 
-#: glade/highliting.glade:199 linux/highliting.cc:19 linux/highliting.cc:79
-#: linux/highliting.cc:174
+#: glade/highliting.glade:195 linux/highliting.cc:19 linux/highliting.cc:78
+#: linux/highliting.cc:172
 msgid "Popup"
 msgstr "Oznamení"
 
-#: glade/settingsdialog.glade:1477
+#: glade/settingsdialog.glade:1549
 msgid "Port"
 msgstr "Port"
 
-#: glade/settingsdialog.glade:1177
+#: glade/settingsdialog.glade:1233
 msgid "Ports"
 msgstr "Porty"
 
-#: glade/mainwindow.glade:1342 glade/settingsdialog.glade:764
-#: linux/settingsdialog.cc:1323 linux/settingsdialog.cc:1375
+#: glade/mainwindow.glade:1381 glade/settingsdialog.glade:788
+#: linux/settingsdialog.cc:1374 linux/settingsdialog.cc:1426
 msgid "Preferences"
 msgstr "Nastavení"
 
-#: glade/settingsdialog.glade:2939 glade/transfers.glade:87
+#: glade/settingsdialog.glade:3083 glade/transfers.glade:87
 msgid "Preview"
 msgstr "Náhled"
 
-#: glade/settingsdialog.glade:6643
+#: glade/settingsdialog.glade:7074
 msgid "Private key file"
 msgstr "Soubor soukromého klíče"
 
@@ -1681,31 +1701,31 @@ msgstr "Protect Uživatele"
 msgid "Protect_User"
 msgstr "Protect_User"
 
-#: glade/mainwindow.glade:1049 glade/mainwindow.glade:1326
-#: linux/publichubs.cc:30 linux/settingsdialog.cc:1324
-#: linux/settingsdialog.cc:1373 linux/settingsdialog.cc:1438
+#: glade/mainwindow.glade:1088 glade/mainwindow.glade:1365
+#: linux/publichubs.cc:30 linux/settingsdialog.cc:1375
+#: linux/settingsdialog.cc:1424 linux/settingsdialog.cc:1489
 msgid "Public Hubs"
 msgstr "Veřejné huby"
 
-#: glade/settingsdialog.glade:1892
+#: glade/settingsdialog.glade:1980
 msgid "Public Hubs list URL"
 msgstr "Veřejné huby URL"
 
-#: glade/mainwindow.glade:1406 glade/settingsdialog.glade:2702
-#: linux/settingsdialog.cc:1325 linux/settingsdialog.cc:1383
+#: glade/mainwindow.glade:1445 glade/settingsdialog.glade:2834
+#: linux/settingsdialog.cc:1376 linux/settingsdialog.cc:1434
 msgid "Queue"
 msgstr "Fronta"
 
-#: glade/mainwindow.glade:1275
+#: glade/mainwindow.glade:1314
 msgid "Quick connect to a hub"
 msgstr "Rychlé připojení na hub"
 
-#: glade/mainwindow.glade:1454 linux/settingsdialog.cc:1333
-#: linux/settingsdialog.cc:1389
+#: glade/mainwindow.glade:1493 linux/settingsdialog.cc:1384
+#: linux/settingsdialog.cc:1440
 msgid "Quit"
 msgstr "Konec"
 
-#: glade/mainwindow.glade:1451
+#: glade/mainwindow.glade:1490
 msgid "Quit the program"
 msgstr "Ukončit program"
 
@@ -1714,12 +1734,12 @@ msgid "RMDC Action"
 msgstr "Akce při RMDC"
 
 #: glade/detection.glade:155 glade/detection.glade:542
-#: glade/settingsdialog.glade:335 linux/detectiontab.cc:38
-#: linux/detectiontab.cc:65 linux/detectiontab.cc:259
-#: linux/detectiontab.cc:372 linux/detectiontab.cc:469
-#: linux/detectiontab.cc:634 linux/detectiontab.cc:646
-#: linux/detectiontab.cc:813 linux/detectiontab.cc:882
-#: linux/detectiontab.cc:898
+#: glade/settingsdialog.glade:339 linux/detectiontab.cc:44
+#: linux/detectiontab.cc:72 linux/detectiontab.cc:266
+#: linux/detectiontab.cc:379 linux/detectiontab.cc:476
+#: linux/detectiontab.cc:641 linux/detectiontab.cc:653
+#: linux/detectiontab.cc:820 linux/detectiontab.cc:889
+#: linux/detectiontab.cc:905
 msgid "Raw"
 msgstr "Raw"
 
@@ -1739,11 +1759,11 @@ msgstr "Rawy a Akce"
 msgid "Re-_add source"
 msgstr "Znovu-_přidat zdroje"
 
-#: glade/mainwindow.glade:928
+#: glade/mainwindow.glade:960
 msgid "Re_connect"
 msgstr "Znovu-_připojit"
 
-#: glade/mainwindow.glade:1134 linux/recenthub.cc:33
+#: glade/mainwindow.glade:1173 linux/recenthub.cc:33
 msgid "Recent Hubs"
 msgstr "Navštivené Huby"
 
@@ -1755,16 +1775,16 @@ msgstr "Obnovit Seznam Uzivatelu"
 msgid "Refresh Userlist"
 msgstr "Obnovit Seznam Uzivatelu"
 
-#: glade/mainwindow.glade:377
+#: glade/mainwindow.glade:397
 msgid "Remember choice"
 msgstr "Pomatovat vyber"
 
 #: glade/adlsearch.glade:86 glade/favoritehubs.glade:97
-#: glade/settingsdialog.glade:7375
+#: glade/settingsdialog.glade:7826
 msgid "Remove"
-msgstr "_Odebrat"
+msgstr "Odebrat"
 
-#: glade/finishedtransfers.glade:103
+#: glade/finishedtransfers.glade:103 glade/recenthub.glade:178
 msgid "Remove All"
 msgstr "Odebrat vse"
 
@@ -1776,7 +1796,7 @@ msgstr "Odebrat Z_droj"
 msgid "Remove user from _queue"
 msgstr "odebrat uzivatele z_fronty"
 
-#: glade/settingsdialog.glade:7361
+#: glade/settingsdialog.glade:7812
 msgid "Rename"
 msgstr "Přejmenovat"
 
@@ -1792,23 +1812,23 @@ msgstr "Bezet v pozadi"
 msgid "Save"
 msgstr "Uložit"
 
-#: glade/mainwindow.glade:1065 glade/mainwindow.glade:1374
+#: glade/mainwindow.glade:1104 glade/mainwindow.glade:1413
 #: glade/searchspy.glade:184 glade/searchspy.glade:249
-#: glade/settingsdialog.glade:7443 linux/search.cc:70 linux/search.cc:239
-#: linux/search.cc:277 linux/search.cc:457 linux/search.cc:1930
-#: linux/settingsdialog.cc:1020 linux/settingsdialog.cc:1326
-#: linux/settingsdialog.cc:1379
+#: glade/settingsdialog.glade:7894 linux/search.cc:70 linux/search.cc:239
+#: linux/search.cc:277 linux/search.cc:457 linux/search.cc:1935
+#: linux/settingsdialog.cc:1065 linux/settingsdialog.cc:1377
+#: linux/settingsdialog.cc:1430
 msgid "Search"
 msgstr "Hledani"
 
-#: glade/settingsdialog.glade:434
+#: glade/settingsdialog.glade:438
 msgid "Search Menu"
 msgstr "Hledani Menu"
 
-#: glade/mainwindow.glade:1075 glade/mainwindow.glade:1387
-#: glade/settingsdialog.glade:5394 linux/searchspy.cc:36
-#: linux/settingsdialog.cc:1021 linux/settingsdialog.cc:1327
-#: linux/settingsdialog.cc:1381 linux/settingsdialog.cc:1444
+#: glade/mainwindow.glade:1114 glade/mainwindow.glade:1426
+#: glade/settingsdialog.glade:5574 linux/searchspy.cc:36
+#: linux/settingsdialog.cc:1066 linux/settingsdialog.cc:1378
+#: linux/settingsdialog.cc:1432 linux/settingsdialog.cc:1495
 msgid "Search Spy"
 msgstr "Hledaci Spion"
 
@@ -1820,11 +1840,11 @@ msgstr "Hledat..."
 msgid "Search for a file"
 msgstr "Hledat soubor"
 
-#: glade/mainwindow.glade:1371
+#: glade/mainwindow.glade:1410
 msgid "Search for files to download"
 msgstr "Hledat soubor pro stahovani"
 
-#: glade/settingsdialog.glade:6235
+#: glade/settingsdialog.glade:6630
 msgid "Search history"
 msgstr "Historie Hledani"
 
@@ -1836,11 +1856,11 @@ msgstr "Moznosti Hledani"
 msgid "Search within local results"
 msgstr "Hledat s lokalnimmi vysledkami"
 
-#: glade/settingsdialog.glade:6757
+#: glade/settingsdialog.glade:7188
 msgid "Security Certificates"
 msgstr "Bezpecnostni certifikaty"
 
-#: glade/mainwindow.glade:792 linux/mainwindow.cc:2120
+#: glade/mainwindow.glade:824 linux/mainwindow.cc:2105
 msgid "Select filelist to browse"
 msgstr "Vybrat Seznam souboru pro prochaznei"
 
@@ -1848,19 +1868,19 @@ msgstr "Vybrat Seznam souboru pro prochaznei"
 msgid "Send _private message"
 msgstr "Poslat _soukromou zpravu"
 
-#: glade/settingsdialog.glade:673
+#: glade/settingsdialog.glade:693
 msgid "Send once per nick"
 msgstr "Poslat jednou na prezdivku"
 
-#: glade/settingsdialog.glade:388 linux/settingsdialog.cc:3136
+#: glade/settingsdialog.glade:392 linux/settingsdialog.cc:3326
 msgid "Separator"
 msgstr "Separator"
 
-#: glade/mainwindow.glade:1539
+#: glade/mainwindow.glade:1578
 msgid "Set Away"
 msgstr "Nastavit Nepritomnost"
 
-#: glade/mainwindow.glade:1555
+#: glade/mainwindow.glade:1594
 msgid "Set Limiting"
 msgstr "Nastvit Limit na"
 
@@ -1868,11 +1888,15 @@ msgstr "Nastvit Limit na"
 msgid "Set Priorit_y"
 msgstr "Nastvit Priorit_u"
 
-#: glade/settingsdialog.glade:3039
+#: glade/settingsdialog.glade:5700
+msgid "Set color of Text"
+msgstr "Nastavit Barvu Textu"
+
+#: glade/settingsdialog.glade:3183
 msgid "Share hidden files"
 msgstr "Sdilet skryte soubory"
 
-#: glade/settingsdialog.glade:3259
+#: glade/settingsdialog.glade:3411
 msgid "Sharing"
 msgstr "Sdileni"
 
@@ -1884,7 +1908,7 @@ msgstr "Zobrazit ADL Akci"
 msgid "Show Cheats on Mc"
 msgstr "Zobrazit Cheat na Hlavni chatu"
 
-#: glade/mainwindow.glade:346
+#: glade/mainwindow.glade:366
 msgid "Show magnet dialog"
 msgstr "Zobrazit magnet dialog"
 
@@ -1895,7 +1919,7 @@ msgstr "Zobrazit magnet dialog"
 msgid "Show on MC"
 msgstr "Zobrazit na Chatu"
 
-#: glade/settingsdialog.glade:4533
+#: glade/settingsdialog.glade:4701
 msgid "Show only when the application is not active."
 msgstr "Zobrazit jen pokud appliakce neni aktvni"
 
@@ -1903,7 +1927,7 @@ msgstr "Zobrazit jen pokud appliakce neni aktvni"
 msgid "Show top search"
 msgstr "zobrazit top hledani"
 
-#: glade/mainwindow.glade:1623
+#: glade/mainwindow.glade:1662
 msgid "Show/Hide transfers panel"
 msgstr "Zobrazit/Skryt transfers panel"
 
@@ -1915,8 +1939,8 @@ msgstr "Zobrazit/Skryt list uzivatelu"
 #: linux/downloadqueue.cc:82 linux/downloadqueue.cc:272
 #: linux/downloadqueue.cc:379 linux/search.cc:88 linux/search.cc:118
 #: linux/search.cc:636 linux/search.cc:727 linux/search.cc:853
-#: linux/settingsdialog.cc:951 linux/settingsdialog.cc:957
-#: linux/settingsdialog.cc:3566 linux/settingsdialog.cc:3635
+#: linux/settingsdialog.cc:996 linux/settingsdialog.cc:1002
+#: linux/settingsdialog.cc:3756 linux/settingsdialog.cc:3825
 #: linux/sharebrowser.cc:75 linux/sharebrowser.cc:95 linux/sharebrowser.cc:280
 #: linux/sharebrowser.cc:320 linux/transfers.cc:62 linux/transfers.cc:552
 #: linux/transfers.cc:632 linux/transfers.cc:718 linux/transfers.cc:733
@@ -1940,43 +1964,43 @@ msgstr "Pomala Rychlost"
 msgid "SlowSpeed"
 msgstr "PomalaRychlost"
 
-#: glade/settingsdialog.glade:6261
+#: glade/settingsdialog.glade:6656
 msgid "Socket read buffer"
 msgstr "Socket read buffer"
 
-#: glade/settingsdialog.glade:6274
+#: glade/settingsdialog.glade:6669
 msgid "Socket write buffer"
 msgstr "Socket write buffer"
 
-#: glade/settingsdialog.glade:1493
+#: glade/settingsdialog.glade:1565
 msgid "Socks IP"
 msgstr "Socks IP"
 
-#: glade/highliting.glade:312
+#: glade/highliting.glade:350
 msgid "Sound:"
 msgstr "Zvuky:"
 
-#: glade/settingsdialog.glade:3976 linux/settingsdialog.cc:1030
+#: glade/settingsdialog.glade:4136 linux/settingsdialog.cc:1075
 msgid "Sounds"
 msgstr "Zvuky"
 
-#: glade/mainwindow.glade:1390
+#: glade/mainwindow.glade:1429
 msgid "Spy"
 msgstr "Spy"
 
-#: glade/mainwindow.glade:330
+#: glade/mainwindow.glade:350
 msgid "Start a search for this file"
 msgstr "Zacit hledat tento soubor"
 
-#: glade/highliting.glade:242
+#: glade/highliting.glade:255
 msgid "String"
 msgstr "Řetězec"
 
-#: glade/mainwindow.glade:1519 glade/mainwindow.glade:1522 linux/System.cc:29
+#: glade/mainwindow.glade:1558 glade/mainwindow.glade:1561 linux/System.cc:28
 msgid "System Log"
 msgstr "Systemovy Log"
 
-#: glade/settingsdialog.glade:4813
+#: glade/settingsdialog.glade:4981
 msgid "System icons"
 msgstr "Systemove icony"
 
@@ -1984,27 +2008,27 @@ msgstr "Systemove icony"
 msgid "TTH"
 msgstr "TTH"
 
-#: glade/settingsdialog.glade:3640
+#: glade/settingsdialog.glade:3800
 msgid "Tabs"
 msgstr "Karty"
 
-#: glade/settingsdialog.glade:4373
+#: glade/settingsdialog.glade:4537
 msgid "Test"
 msgstr "Test"
 
-#: glade/settingsdialog.glade:4123
+#: glade/settingsdialog.glade:4283
 msgid "Text color"
 msgstr "Barva Textu"
 
-#: glade/settingsdialog.glade:4139
+#: glade/settingsdialog.glade:4299
 msgid "Text style"
 msgstr "Styl Textu"
 
-#: glade/settingsdialog.glade:4827
+#: glade/settingsdialog.glade:4995
 msgid "Theme default"
 msgstr "Theme stadart"
 
-#: glade/settingsdialog.glade:4855
+#: glade/settingsdialog.glade:5023
 msgid "Themes"
 msgstr "Themata"
 
@@ -2012,7 +2036,7 @@ msgstr "Themata"
 msgid "Time:"
 msgstr "Cas:"
 
-#: glade/settingsdialog.glade:644
+#: glade/settingsdialog.glade:660
 msgid "To (empty for selected user)"
 msgstr "To (empty for selected user)"
 
@@ -2020,7 +2044,7 @@ msgstr "To (empty for selected user)"
 msgid "Too Big/Small FL"
 msgstr "Akce Při Big/Small FL"
 
-#: glade/settingsdialog.glade:4918
+#: glade/settingsdialog.glade:5086
 msgid "Toolbar"
 msgstr "Toolbar"
 
@@ -2028,7 +2052,7 @@ msgstr "Toolbar"
 msgid "Top"
 msgstr "Top"
 
-#: glade/settingsdialog.glade:3349
+#: glade/settingsdialog.glade:3501
 msgid ""
 "Top\n"
 "Left\n"
@@ -2040,7 +2064,7 @@ msgstr ""
 "vpravo\n"
 "dole"
 
-#: glade/settingsdialog.glade:5304
+#: glade/settingsdialog.glade:5484
 msgid "Top (count matches, >)"
 msgstr ""
 
@@ -2048,25 +2072,25 @@ msgstr ""
 msgid "Top: >"
 msgstr "Top: >"
 
-#: glade/mainwindow.glade:1769
+#: glade/mainwindow.glade:1808
 msgid "Total received"
 msgstr "Celkove prijato"
 
-#: glade/mainwindow.glade:1857
+#: glade/mainwindow.glade:1896
 msgid "Total sent"
 msgstr "Celkove odeslano"
 
-#: glade/settingsdialog.glade:3024
+#: glade/settingsdialog.glade:3168
 msgid "Total size: 0 B"
 msgstr "Celkova Velikost 0 B"
 
-#: glade/settingsdialog.glade:6613
+#: glade/settingsdialog.glade:7044
 msgid "Trusted certificates path"
 msgstr "Duveryhodny certikat cesta"
 
 #: glade/detection.glade:244 glade/detection.glade:765 linux/search.cc:87
 #: linux/search.cc:638 linux/search.cc:741 linux/search.cc:868
-#: linux/search.cc:1668 linux/sharebrowser.cc:76 linux/sharebrowser.cc:283
+#: linux/search.cc:1673 linux/sharebrowser.cc:76 linux/sharebrowser.cc:283
 #: linux/sharebrowser.cc:304
 msgid "Type"
 msgstr "Typ"
@@ -2075,11 +2099,11 @@ msgstr "Typ"
 msgid "UnProtect User"
 msgstr "OdProtect Uzivatele"
 
-#: glade/highliting.glade:226
+#: glade/highliting.glade:233
 msgid "UnderLine"
 msgstr "Potržené"
 
-#: glade/settingsdialog.glade:1691
+#: glade/settingsdialog.glade:1767
 msgid "Unfinished downloads directory"
 msgstr "Slozka Nedokoncnych stahovani"
 
@@ -2087,7 +2111,7 @@ msgstr "Slozka Nedokoncnych stahovani"
 msgid "Update"
 msgstr "Updatovat"
 
-#: glade/settingsdialog.glade:5122
+#: glade/settingsdialog.glade:5290
 msgid "Update a string or TTH"
 msgstr "Udpatova retězec nebo TTH"
 
@@ -2095,19 +2119,19 @@ msgstr "Udpatova retězec nebo TTH"
 msgid "Update frame search"
 msgstr "Updatovat frame hledani"
 
-#: glade/settingsdialog.glade:7211
+#: glade/settingsdialog.glade:7662
 msgid "Upload Slots"
 msgstr "Odesilaci Sloty"
 
-#: glade/settingsdialog.glade:3187
+#: glade/settingsdialog.glade:3335
 msgid "Upload slots"
 msgstr "Odesilaci sloty"
 
-#: glade/mainwindow.glade:1795
+#: glade/mainwindow.glade:1834
 msgid "Upload speed"
 msgstr "Rychlost Odesilani"
 
-#: glade/mainwindow.glade:1903
+#: glade/mainwindow.glade:1942
 msgid "Use Blinking Icon"
 msgstr "Pouzivat blikaci iconu"
 
@@ -2115,7 +2139,7 @@ msgstr "Pouzivat blikaci iconu"
 msgid "Use Delay Raw"
 msgstr "Použivat Zpožděné rawy"
 
-#: glade/settingsdialog.glade:1411
+#: glade/settingsdialog.glade:1475
 msgid "Use SOCKS5 server to resolve hostnames"
 msgstr "Pouzivat SOCKS5 server pro preklad hostnames"
 
@@ -2123,11 +2147,11 @@ msgstr "Pouzivat SOCKS5 server pro preklad hostnames"
 msgid "Use SlowDowKick"
 msgstr "Pouzit SlowDownload Kick"
 
-#: glade/settingsdialog.glade:1041
+#: glade/settingsdialog.glade:1081
 msgid "Use UPnP to let client cofigure my router"
 msgstr "Použít UPnP ke konfiguraci mého routru"
 
-#: glade/settingsdialog.glade:6936
+#: glade/settingsdialog.glade:7375
 msgid "Use second set of bandwidth limits"
 msgstr "Pouzit druhotne nastveni limitace pripojeni"
 
@@ -2135,14 +2159,14 @@ msgstr "Pouzit druhotne nastveni limitace pripojeni"
 msgid "Use separator extensions (doc;xls;ppt;docx;xlsx;pptx)"
 msgstr ""
 
-#: glade/settingsdialog.glade:5960
+#: glade/settingsdialog.glade:6335
 msgid "User Commands"
 msgstr "Uzivatelske prikazy"
 
 #: glade/favoritehubs.glade:474 linux/favoritehubs.cc:32
-#: linux/favoritehubs.cc:165 linux/favoritehubs.cc:201
-#: linux/favoritehubs.cc:312 linux/favoritehubs.cc:408
-#: linux/favoritehubs.cc:737
+#: linux/favoritehubs.cc:161 linux/favoritehubs.cc:197
+#: linux/favoritehubs.cc:299 linux/favoritehubs.cc:395
+#: linux/favoritehubs.cc:724
 msgid "User Description"
 msgstr "Uzivatelsky popis"
 
@@ -2155,21 +2179,25 @@ msgstr "User _Info"
 msgid "User commands"
 msgstr "Uzivatelske prikazy"
 
-#: glade/settingsdialog.glade:1398
+#: glade/settingsdialog.glade:5749
+msgid "Userlist colors"
+msgstr "Barvy v Sez. uživatelů"
+
+#: glade/settingsdialog.glade:1462
 msgid "Username"
 msgstr "Prezdivka"
 
-#: glade/mainwindow.glade:1310 linux/downloadqueue.cc:66
+#: glade/mainwindow.glade:1349 linux/downloadqueue.cc:66
 #: linux/downloadqueue.cc:270 linux/downloadqueue.cc:377
 #: linux/publichubs.cc:41 linux/publichubs.cc:56 linux/publichubs.cc:57
-#: linux/publichubs.cc:168 linux/recenthub.cc:43 linux/recenthub.cc:80
-#: linux/recenthub.cc:258 linux/recenthub.cc:267
+#: linux/publichubs.cc:169 linux/recenthub.cc:43 linux/recenthub.cc:82
+#: linux/recenthub.cc:277 linux/recenthub.cc:286
 msgid "Users"
 msgstr "Uzivatele"
 
-#: glade/detection.glade:754 linux/detectiontab.cc:103
-#: linux/detectiontab.cc:1008 linux/detectiontab.cc:1112
-#: linux/detectiontab.cc:1211
+#: glade/detection.glade:754 linux/detectiontab.cc:110
+#: linux/detectiontab.cc:1015 linux/detectiontab.cc:1119
+#: linux/detectiontab.cc:1218
 msgid "Value"
 msgstr "Hodnota"
 
@@ -2177,23 +2205,23 @@ msgstr "Hodnota"
 msgid "Version Mismatch"
 msgstr "Akce při MisMatch Verzi"
 
-#: glade/mainwindow.glade:1403
+#: glade/mainwindow.glade:1442
 msgid "View the files to be downloaded"
 msgstr "Videt Frontu souboru"
 
-#: glade/mainwindow.glade:1355
+#: glade/mainwindow.glade:1394
 msgid "View the hashing progress"
 msgstr "videt hash prubeh"
 
-#: glade/mainwindow.glade:1419
+#: glade/mainwindow.glade:1458
 msgid "View the list of finished downloads"
 msgstr "Videt List dokoncenych stahovani"
 
-#: glade/mainwindow.glade:1435
+#: glade/mainwindow.glade:1474
 msgid "View the list of finished uploads"
 msgstr "Videt List dokoncenych odesilani"
 
-#: glade/mainwindow.glade:1291
+#: glade/mainwindow.glade:1330
 msgid "View the saved hubs"
 msgstr "Videt Ulozene Huby"
 
@@ -2201,11 +2229,11 @@ msgstr "Videt Ulozene Huby"
 msgid "WAN IP:"
 msgstr "WAN IP:"
 
-#: glade/settingsdialog.glade:5267
+#: glade/settingsdialog.glade:5443
 msgid "Waiting (sec)"
 msgstr "Čekat (sec)"
 
-#: glade/settingsdialog.glade:5254
+#: glade/settingsdialog.glade:5426
 msgid "Waiting time(sec)"
 msgstr ""
 
@@ -2213,15 +2241,15 @@ msgstr ""
 msgid "Waiting:"
 msgstr "Cekam:"
 
-#: glade/settingsdialog.glade:3934
+#: glade/settingsdialog.glade:4094
 msgid "When a private message window is opened"
 msgstr "Behem otevreni PM"
 
-#: glade/settingsdialog.glade:3800
+#: glade/settingsdialog.glade:3960
 msgid "Windows"
 msgstr "Okna"
 
-#: glade/settingsdialog.glade:6222
+#: glade/settingsdialog.glade:6617
 msgid "Write buffer size"
 msgstr "Write buffer size"
 
@@ -2235,19 +2263,19 @@ msgstr "_Pridat do Oblibenych"
 msgid "_Browse file list"
 msgstr "_Prochazet Seznam Souboru"
 
-#: glade/mainwindow.glade:1196
+#: glade/mainwindow.glade:1235
 msgid "_Close All Hub"
 msgstr "_Zavřit Všecny huby"
 
-#: glade/mainwindow.glade:1187
+#: glade/mainwindow.glade:1226
 msgid "_Close All PM"
 msgstr "Zavrit všechny PM"
 
-#: glade/mainwindow.glade:1205
+#: glade/mainwindow.glade:1244
 msgid "_Close All Search Tab"
 msgstr "_Zavřít všechna Hledaní"
 
-#: glade/mainwindow.glade:1214
+#: glade/mainwindow.glade:1253
 msgid "_Close All offline PM"
 msgstr "_Zavřit Všechny Offline PM"
 
@@ -2270,11 +2298,11 @@ msgstr "_Kopirovat magnet"
 msgid "_Download"
 msgstr "_Stáhnout"
 
-#: glade/mainwindow.glade:979
+#: glade/mainwindow.glade:1045
 msgid "_Exit"
 msgstr "U_končit"
 
-#: glade/mainwindow.glade:873
+#: glade/mainwindow.glade:905
 msgid "_File"
 msgstr "_Soubor"
 
@@ -2306,7 +2334,7 @@ msgstr "_Ignorovat"
 msgid "_Lowest"
 msgstr "Nižší"
 
-#: glade/mainwindow.glade:954
+#: glade/mainwindow.glade:986
 msgid "_Magnet Choice"
 msgstr "Výběr _Magnetu"
 
@@ -2327,7 +2355,7 @@ msgstr "_Přesunout"
 msgid "_Move/Rename"
 msgstr "_Přesunout/Přejmenovat"
 
-#: glade/mainwindow.glade:1177
+#: glade/mainwindow.glade:1216
 msgid "_Next Tab"
 msgstr "_Další karta"
 
@@ -2347,11 +2375,11 @@ msgstr "_Otevřít link v standartní aplikaci"
 msgid "_Paused"
 msgstr "_Pozastaveno"
 
-#: glade/mainwindow.glade:944
+#: glade/mainwindow.glade:976
 msgid "_Preferences"
 msgstr "Na_stavení"
 
-#: glade/mainwindow.glade:1166
+#: glade/mainwindow.glade:1205
 msgid "_Previous Tab"
 msgstr "_Předchozí karta"
 
@@ -2364,19 +2392,19 @@ msgstr "_Soukromá zpráva"
 msgid "_Properties/Choice"
 msgstr "_Nastavení/Volba"
 
-#: glade/mainwindow.glade:918
+#: glade/mainwindow.glade:950
 msgid "_Quick connect"
 msgstr "_Rychlé připojení na hub"
 
-#: glade/mainwindow.glade:902
+#: glade/mainwindow.glade:934
 msgid "_Refresh file list"
 msgstr "_Obnovit Seznam Souborů"
 
 #: glade/adlsearch.glade:123 glade/detection.glade:2356
 #: glade/detection.glade:2377 glade/detection.glade:2398
 #: glade/downloadqueue.glade:188 glade/downloadqueue.glade:336
-#: glade/favoriteusers.glade:93 glade/highliting.glade:85
-#: glade/ignoreeusers.glade:216 glade/recenthub.glade:49
+#: glade/favoriteusers.glade:93 glade/highliting.glade:505
+#: glade/ignoreeusers.glade:216 glade/recenthub.glade:169
 #: glade/search.glade:574 glade/searchspy.glade:196 glade/searchspy.glade:263
 msgid "_Remove"
 msgstr "_Odebrat"
@@ -2418,11 +2446,11 @@ msgstr "_Poslat Soukromou zprávu"
 msgid "_Send public message"
 msgstr "_Poslat veřejnou zprávu"
 
-#: glade/mainwindow.glade:1887
+#: glade/mainwindow.glade:1926
 msgid "_Show Interface"
 msgstr "_Zobrazit rozhraní"
 
-#: glade/mainwindow.glade:1155
+#: glade/mainwindow.glade:1194
 msgid "_Tabs"
 msgstr "_Karty"
 
@@ -2434,15 +2462,15 @@ msgstr "_Od Ignorovat"
 msgid "_User commands"
 msgstr "_Uživatelské příkazy"
 
-#: glade/mainwindow.glade:1019
+#: glade/mainwindow.glade:1058
 msgid "_View"
 msgstr "_Zobrazit"
 
-#: glade/settingsdialog.glade:6967
+#: glade/settingsdialog.glade:7406
 msgid "from"
 msgstr "z"
 
-#: glade/mainwindow.glade:970
+#: glade/mainwindow.glade:1036
 msgid "gtk-close"
 msgstr "gtk-close"
 
@@ -2450,7 +2478,7 @@ msgstr "gtk-close"
 msgid "is Forbidden"
 msgstr "Zakazané"
 
-#: glade/highliting.glade:268
+#: glade/highliting.glade:293
 msgid "is user"
 msgstr "Je uživatel"
 
@@ -2462,10 +2490,10 @@ msgstr "Odstranit Akci"
 msgid "rem Raw"
 msgstr "Odstranit Raw"
 
-#: glade/settingsdialog.glade:2511 glade/settingsdialog.glade:2527
-#: glade/settingsdialog.glade:2569 linux/hashdialog.cc:79
-#: linux/mainwindow.cc:805 linux/mainwindow.cc:806 linux/mainwindow.cc:2495
-#: linux/mainwindow.cc:2497 linux/treeview.cc:209
+#: glade/settingsdialog.glade:2639 glade/settingsdialog.glade:2655
+#: glade/settingsdialog.glade:2701 linux/hashdialog.cc:79
+#: linux/mainwindow.cc:804 linux/mainwindow.cc:805 linux/mainwindow.cc:2478
+#: linux/mainwindow.cc:2480 linux/treeview.cc:209
 msgid "s"
 msgstr "s"
 
@@ -2473,19 +2501,19 @@ msgstr "s"
 msgid "sec"
 msgstr "sec"
 
-#: glade/mainwindow.glade:1536
+#: glade/mainwindow.glade:1575
 msgid "set away on/off"
 msgstr "nastavit nepřitomnost on/off"
 
-#: glade/settingsdialog.glade:4733
+#: glade/settingsdialog.glade:4901
 msgid "theme"
 msgstr "Téma"
 
-#: glade/settingsdialog.glade:7014
+#: glade/settingsdialog.glade:7453
 msgid "to"
 msgstr "do"
 
-#: glade/mainwindow.glade:280
+#: glade/mainwindow.glade:300
 msgid ""
 "Для начала закачки файла включите автоматический поиск альтернативных "
 "источников закачки (Настроки/Закачки/Очередь)"
@@ -2513,7 +2541,7 @@ msgstr ""
 "jak dlouho se bude cekat  ( narust => zvysuje top pozadaky , ale snizuje "
 "obnovu ramu)"
 
-#: linux/hub.cc:3930
+#: linux/hub.cc:3770
 msgid ""
 "\n"
 "Message "
@@ -2521,7 +2549,7 @@ msgstr ""
 "\n"
 "Zpráva "
 
-#: linux/hub.cc:3872
+#: linux/hub.cc:3712
 msgid ""
 "\n"
 "Message: "
@@ -2529,36 +2557,36 @@ msgstr ""
 "\n"
 "Zpráva: "
 
-#: linux/hub.cc:1270 linux/hub.cc:1349 linux/privatemessage.cc:500
-#: linux/privatemessage.cc:579
+#: linux/hub.cc:1122 linux/hub.cc:1201 linux/privatemessage.cc:523
+#: linux/privatemessage.cc:602
 msgid " *** Emoticons limit"
 msgstr " *** Limit počtu smajliku"
 
-#: linux/hub.cc:1265 linux/privatemessage.cc:495
+#: linux/hub.cc:1117 linux/privatemessage.cc:518
 msgid " *** Emoticons mode off"
 msgstr " *** Smajlicí vypnuty"
 
-#: linux/hub.cc:1260 linux/privatemessage.cc:490
+#: linux/hub.cc:1112 linux/privatemessage.cc:513
 msgid " *** Emoticons not loaded"
 msgstr " **** Smajle nejsou nacteny"
 
-#: linux/settingsdialog.cc:2388
+#: linux/settingsdialog.cc:2491
 msgid " + system icons"
 msgstr " + systemové icony"
 
-#: linux/hub.cc:671 linux/hub.cc:689
+#: linux/hub.cc:515 linux/hub.cc:533
 msgid " Users"
 msgstr " Uživatelé"
 
-#: linux/hub.cc:2969
+#: linux/hub.cc:2834
 msgid " added to favorites list"
 msgstr " Přidan do oblíbených"
 
-#: linux/search.cc:1896
+#: linux/search.cc:1901
 msgid " dropped"
 msgstr " dropnuto"
 
-#: linux/hub.cc:2098
+#: linux/hub.cc:1960
 msgid " empty..."
 msgstr " prázdný..."
 
@@ -2566,39 +2594,39 @@ msgstr " prázdný..."
 msgid " files"
 msgstr " soubory"
 
-#: linux/search.cc:1883
+#: linux/search.cc:1888
 msgid " filtered"
 msgstr " filtrovano"
 
-#: linux/hub.cc:653 linux/hub.cc:664
+#: linux/hub.cc:498 linux/hub.cc:509
 msgid " has joined"
 msgstr " se připojil"
 
-#: linux/hub.cc:654 linux/hub.cc:663
+#: linux/hub.cc:499 linux/hub.cc:508
 msgid " has joined hub "
 msgstr " připojil se na hub "
 
-#: linux/hub.cc:696 linux/hub.cc:706
+#: linux/hub.cc:540 linux/hub.cc:550
 msgid " has quit"
 msgstr " opustil"
 
-#: linux/hub.cc:695 linux/hub.cc:705
+#: linux/hub.cc:539 linux/hub.cc:549
 msgid " has quit hub "
 msgstr " opustil hub "
 
-#: linux/hub.cc:2071 linux/hub.cc:2901 linux/privatemessage.cc:1171
+#: linux/hub.cc:1933 linux/hub.cc:2766 linux/privatemessage.cc:1195
 msgid " is favorite user"
 msgstr " je oblíbený uživatel"
 
-#: linux/hub.cc:2089 linux/hub.cc:2940 linux/privatemessage.cc:1192
+#: linux/hub.cc:1951 linux/hub.cc:2805 linux/privatemessage.cc:1216
 msgid " is not favorite user"
 msgstr " neni oblíbený uživatel"
 
-#: linux/hub.cc:3701
+#: linux/hub.cc:3551
 msgid " is offline"
 msgstr " je offline"
 
-#: linux/hub.cc:3562
+#: linux/hub.cc:3412
 msgid " is online"
 msgstr " je online"
 
@@ -2614,9 +2642,13 @@ msgstr " uběhlo"
 msgid " of "
 msgstr " z "
 
-#: linux/hub.cc:2996
+#: linux/hub.cc:2861
 msgid " removed from favorites list"
 msgstr " odebrán z oblibeních"
+
+#: linux/settingsmanager.cc:564
+msgid " to "
+msgstr ""
 
 #: linux/search.cc:700 linux/transfers.cc:589
 msgid " user(s)"
@@ -2630,31 +2662,31 @@ msgstr " uživatel(é) připojen"
 msgid "%) from "
 msgstr "%) z "
 
-#: linux/hub.cc:2301 linux/hub.cc:2305
+#: linux/hub.cc:2168 linux/hub.cc:2172
 msgid "': type /help for a list of available commands"
 msgstr ": napište /help pro seznam použitelných prikazu"
 
-#: linux/hub.cc:4036
+#: linux/hub.cc:3876
 msgid "** "
 msgstr "** "
 
-#: linux/hub.cc:2135 linux/privatemessage.cc:872
+#: linux/hub.cc:1997 linux/privatemessage.cc:896
 msgid "*** Available commands:"
 msgstr "*** Dostupne prikazy"
 
-#: linux/WulforUtil.cc:1563
+#: linux/WulforUtil.cc:1062
 msgid "*** Info on "
 msgstr "*** Info o "
 
-#: linux/settingsdialog.cc:2160
+#: linux/settingsdialog.cc:2263
 msgid "*** T E S T ***"
 msgstr "*** T E S T ***"
 
-#: linux/WulforUtil.cc:1436
+#: linux/WulforUtil.cc:927
 msgid "---------- Cleaning the chat ----------"
 msgstr "---------- Cistim Chat ----------"
 
-#: linux/WulforUtil.cc:1438
+#: linux/WulforUtil.cc:929
 msgid "---------- The chat has been cleaned ----------"
 msgstr "---------- Chat vycisten ----------"
 
@@ -2666,12 +2698,12 @@ msgstr "-:--:-- ubehlo"
 msgid "...Quit"
 msgstr "...Ukončeno"
 
-#: linux/settingsdialog.cc:2340 linux/settingsdialog.cc:2364
+#: linux/settingsdialog.cc:2443 linux/settingsdialog.cc:2467
 msgid "...must be *.theme"
 msgstr "...musí být *.theme"
 
-#: linux/settingsdialog.cc:2243 linux/settingsdialog.cc:2272
-#: linux/settingsdialog.cc:2309
+#: linux/settingsdialog.cc:2346 linux/settingsdialog.cc:2375
+#: linux/settingsdialog.cc:2412
 msgid "...must not be empty"
 msgstr "...nemůže být prázdný"
 
@@ -2683,7 +2715,7 @@ msgstr "/s"
 msgid "0"
 msgstr "0"
 
-#: linux/hub.cc:735
+#: linux/hub.cc:579
 msgid "0 Users"
 msgstr "0 Uživatelů"
 
@@ -2700,31 +2732,31 @@ msgstr "0 položek"
 msgid "1"
 msgstr "1"
 
-#: linux/hub.cc:822
+#: linux/hub.cc:665
 msgid "<b>Enter your password</b>"
 msgstr "<b>Vložte svoje heslo</b>"
 
-#: linux/settingsdialog.cc:2084
+#: linux/settingsdialog.cc:2187
 msgid "<b>Extension</b>"
 msgstr "<b>Přípony</b>"
 
-#: linux/settingsdialog.cc:1731
+#: linux/settingsdialog.cc:1834
 msgid "<b>Name of the new search type</b>"
 msgstr "<b>Jméno Nového Hledacího typu</b>"
 
-#: linux/settingsdialog.cc:2907
+#: linux/settingsdialog.cc:3010
 msgid "<b>Name under which the others see the directory</b>"
 msgstr "<b>Jmeno,pod kterým ostatní uvidí tento adresár</b>"
 
-#: linux/settingsdialog.cc:1984
+#: linux/settingsdialog.cc:2087
 msgid "<b>New name</b>"
 msgstr "<b>Nové jméno</b>"
 
-#: linux/settingsdialog.cc:3500
+#: linux/settingsdialog.cc:3690
 msgid "<b>Under what name you see the directory</b>"
 msgstr "<b>Pod jakým jménen bude videt adresář</b>"
 
-#: linux/mainwindow.cc:2434
+#: linux/mainwindow.cc:2417
 msgid "<b>file:</b> "
 msgstr "<b>soubor:</b> "
 
@@ -2732,19 +2764,27 @@ msgstr "<b>soubor:</b> "
 msgid "?"
 msgstr "?"
 
-#: linux/settingsdialog.cc:1517
+#: linux/settingsdialog.cc:1608
 msgid "Accept custom user commands from hub"
 msgstr "Akceptovat uživatelské přikazy z hubu"
 
-#: linux/hub.cc:2141
+#: linux/hub.cc:2003
 msgid "Add a hub to favorites"
 msgstr "Přidat hub do oblíbených"
 
-#: linux/settingsdialog.cc:1519
+#: linux/settingsdialog.cc:1610
 msgid "Add finished files to share instantly (if shared)"
 msgstr "Pridávat dokončene soubory do sdilení ( pokud sou ve sdílene složce)"
 
-#: linux/hub.cc:2142 linux/privatemessage.cc:877
+#: linux/privatemessage.cc:1293
+msgid "Add to Favorite"
+msgstr "Přidat do Oblíbených"
+
+#: linux/hub.cc:3891
+msgid "Add to Favorite hubs"
+msgstr "Přidat do Oblíbených hubů"
+
+#: linux/hub.cc:2004 linux/privatemessage.cc:901
 msgid "Add user to favorites list"
 msgstr "Přidat uživatele na Seznam Obíbených"
 
@@ -2753,74 +2793,74 @@ msgstr "Přidat uživatele na Seznam Obíbených"
 msgid "Added"
 msgstr "Přidáno"
 
-#: linux/favoritehubs.cc:29 linux/favoritehubs.cc:162
-#: linux/favoritehubs.cc:198 linux/favoritehubs.cc:311
-#: linux/favoritehubs.cc:343 linux/favoritehubs.cc:352
-#: linux/favoritehubs.cc:403 linux/favoritehubs.cc:422
-#: linux/favoritehubs.cc:459 linux/favoritehubs.cc:474
-#: linux/favoritehubs.cc:509 linux/favoritehubs.cc:536
-#: linux/favoritehubs.cc:718 linux/favoritehubs.cc:733 linux/publichubs.cc:42
-#: linux/publichubs.cc:169 linux/publichubs.cc:280 linux/publichubs.cc:309
+#: linux/favoritehubs.cc:29 linux/favoritehubs.cc:158
+#: linux/favoritehubs.cc:194 linux/favoritehubs.cc:298
+#: linux/favoritehubs.cc:330 linux/favoritehubs.cc:339
+#: linux/favoritehubs.cc:390 linux/favoritehubs.cc:409
+#: linux/favoritehubs.cc:446 linux/favoritehubs.cc:461
+#: linux/favoritehubs.cc:496 linux/favoritehubs.cc:523
+#: linux/favoritehubs.cc:705 linux/favoritehubs.cc:720 linux/publichubs.cc:42
+#: linux/publichubs.cc:170 linux/publichubs.cc:281 linux/publichubs.cc:310
 msgid "Address"
 msgstr "Adresa"
 
-#: linux/hub.cc:3319
+#: linux/hub.cc:3183
 msgid "Address  => "
 msgstr "adresa => "
 
-#: linux/hub.cc:2168 linux/privatemessage.cc:896
+#: linux/hub.cc:2032 linux/privatemessage.cc:920
 msgid "Alias A executing"
 msgstr "Alias A spuštění"
 
-#: linux/hub.cc:2165 linux/privatemessage.cc:893
+#: linux/hub.cc:2029 linux/privatemessage.cc:917
 msgid "Alias List"
 msgstr "Alias List"
 
-#: linux/hub.cc:2166 linux/privatemessage.cc:894
+#: linux/hub.cc:2030 linux/privatemessage.cc:918
 msgid "Alias Remove A"
 msgstr "Alias Odstranění A"
 
-#: linux/hub.cc:2167 linux/privatemessage.cc:895
+#: linux/hub.cc:2031 linux/privatemessage.cc:919
 msgid "Alias add uname -a as A"
 msgstr "Alias přidaní uname -a jako A"
 
-#: linux/WulforUtil.cc:1470
+#: linux/WulforUtil.cc:969
 msgid "Aliases not found."
 msgstr "Alias nenajitý"
 
-#: linux/settingsdialog.cc:1586
+#: linux/settingsdialog.cc:1677
 msgid "Allow TLS connections to clients without trusted certificate"
 msgstr "Povolit TLS připojení bez duverihodného certifikatu"
 
-#: linux/settingsdialog.cc:1585
+#: linux/settingsdialog.cc:1676
 msgid "Allow TLS connections to hubs without trusted certificate"
 msgstr "Povolit TLS spojení s hubem bez duverihodného certikatu"
 
-#: linux/settingsdialog.cc:898
+#: linux/settingsdialog.cc:943
 msgid "Amarok player"
 msgstr "Amarok přehravač"
 
-#: linux/favoritehubs.cc:651
+#: linux/favoritehubs.cc:638
 msgid "Another group with the name already exists"
 msgstr "Jina skupina s daným jménem existuje"
 
-#: linux/settingsdialog.cc:871 linux/settingsdialog.cc:906
-#: linux/settingsdialog.cc:2794 linux/settingsdialog.cc:2828
-#: linux/settingsdialog.cc:2846 linux/settingsdialog.cc:2877
+#: linux/settingsdialog.cc:916 linux/settingsdialog.cc:951
+#: linux/settingsdialog.cc:2897 linux/settingsdialog.cc:2931
+#: linux/settingsdialog.cc:2949 linux/settingsdialog.cc:2980
 msgid "Application"
 msgstr "Aplikace"
 
-#: linux/detectiontab.cc:846
+#: linux/detectiontab.cc:853
 #, boost-format, c-format
 msgid "Are you sure you want to delete Entry \"%s\"?"
 msgstr "Jste si jistý smazaním položky \"%s\"?"
 
-#: linux/highliting.cc:211
+#: linux/highliting.cc:209
 #, boost-format, c-format
 msgid "Are you sure you want to delete Higliting \"%s\"?"
 msgstr "Ste si jistý smazanim Zvýraznění \"%s\" ?"
 
-#: linux/favoritehubs.cc:445
+#: linux/favoritehubs.cc:432
 #, boost-format, c-format
 msgid "Are you sure you want to delete favorite hub \"%s\"?"
 msgstr "Ste si jistý smazaním oblíbeného hubu \"%s\"?"
@@ -2833,15 +2873,15 @@ msgstr "Ste si jistý smazaním oblibeneho uživatel(e)?"
 msgid "Are you sure you want to delete ignore user(s)?"
 msgstr "Ste si jisty smazaním ignore uživatel(e)?"
 
-#: linux/detectiontab.cc:1036 linux/detectiontab.cc:1452
+#: linux/detectiontab.cc:1043 linux/detectiontab.cc:1471
 msgid "Are you sure you want to delete item?"
 msgstr "Ste si jistý smazaním položky?"
 
-#: linux/recenthub.cc:199
+#: linux/recenthub.cc:202
 msgid "Are you sure you want to delete recent hub(s)?"
 msgstr "Opravdu chcete smazat seznam naposled navštívených hubů?"
 
-#: linux/detectiontab.cc:499 linux/detectiontab.cc:531
+#: linux/detectiontab.cc:506 linux/detectiontab.cc:538
 #, boost-format, c-format
 msgid "Are you sure you want to delete this item \"%s\"?"
 msgstr "Ste si jistý smazaním položky \"%s\"?"
@@ -2852,44 +2892,44 @@ msgstr "Ste si jistý smazaním položky \"%s\"?"
 msgid "Auto grant slot"
 msgstr "Automatické dání slotu"
 
-#: linux/settingsdialog.cc:1508
+#: linux/settingsdialog.cc:1599
 msgid "Auto-away on minimize (and back on restore)"
 msgstr ""
 "Automaticky aktivovat Nepřitomnost při minimalizaci (při znovuotevreni "
 "vypnout)"
 
-#: linux/settingsdialog.cc:931
+#: linux/settingsdialog.cc:976
 msgid "Auto-drop slow sources for all queue items (except filelists)"
 msgstr ""
 "Automatické Odpojení pomalých zdroju pro všechno v Fronte (mimo Seznamu "
 "Souboru)"
 
-#: linux/settingsdialog.cc:1513
+#: linux/settingsdialog.cc:1604
 msgid "Automatically disconnect users who leave the hub"
 msgstr "Automaticky odpojit uživatele, kteři se odpojí"
 
-#: linux/settingsdialog.cc:1509
+#: linux/settingsdialog.cc:1600
 msgid "Automatically follow redirects"
 msgstr "Automaticky následovat přesměrovaní"
 
-#: linux/settingsdialog.cc:935
+#: linux/settingsdialog.cc:980
 msgid "Automatically match queue for auto search hits"
 msgstr "Automaticky porovnat frontu pří automatickém hledání"
 
-#: linux/settingsdialog.cc:934
+#: linux/settingsdialog.cc:979
 msgid "Automatically search for alternative download locations"
 msgstr "Automaticky hledat alternativni zdroje pro stahovani"
 
-#: linux/settingsdialog.cc:1332 linux/settingsdialog.cc:1400
+#: linux/settingsdialog.cc:1383 linux/settingsdialog.cc:1451
 msgid "Away Icon"
 msgstr "Icona Nepřitomnosti"
 
-#: linux/hub.cc:2136 linux/privatemessage.cc:873
+#: linux/hub.cc:1998 linux/privatemessage.cc:897
 msgid "Away mode message on/off"
 msgstr "Nepřítomnost - mod on/off"
 
-#: linux/WulforUtil.cc:1265 linux/WulforUtil.cc:1278 linux/hub.cc:2137
-#: linux/mainwindow.cc:482 linux/privatemessage.cc:874
+#: linux/WulforUtil.cc:755 linux/WulforUtil.cc:768 linux/hub.cc:1999
+#: linux/mainwindow.cc:482 linux/privatemessage.cc:898
 msgid "Away mode off"
 msgstr "Nepřítomnost off"
 
@@ -2897,20 +2937,24 @@ msgstr "Nepřítomnost off"
 msgid "Away mode on"
 msgstr "Mód nepřítomnosti zapnutý"
 
-#: linux/WulforUtil.cc:1272
+#: linux/WulforUtil.cc:762
 msgid "Away mode on: "
 msgstr "Nepřítomnost zapnuta: "
 
-#: linux/settingsdialog.cc:1315
+#: linux/highliting.cc:25 linux/highliting.cc:84 linux/highliting.cc:179
+msgid "Back Color"
+msgstr "Barva Pozadí"
+
+#: linux/settingsdialog.cc:1366
 msgid "Button smile"
 msgstr "Tlačítko smajlů"
 
-#: linux/hub.cc:88 linux/hub.cc:596 linux/hub.cc:630 linux/search.cc:94
+#: linux/hub.cc:86 linux/hub.cc:440 linux/hub.cc:475 linux/search.cc:94
 #: linux/search.cc:642
 msgid "CC"
 msgstr "CC"
 
-#: linux/hub.cc:2745 linux/hub.cc:2783 linux/hub.cc:2820 linux/hub.cc:2853
+#: linux/hub.cc:2610 linux/hub.cc:2648 linux/hub.cc:2685 linux/hub.cc:2718
 msgid "CID"
 msgstr "CID"
 
@@ -2918,27 +2962,27 @@ msgstr "CID"
 msgid "CMD"
 msgstr "CMD"
 
-#: linux/WulforUtil.cc:512
+#: linux/WulforUtil.cc:268
 msgid "CP1250 (Central Europe)"
 msgstr "CP1250 (Central Europe)"
 
-#: linux/WulforUtil.cc:521
+#: linux/WulforUtil.cc:277
 msgid "CP1251 (Cyrillic)"
 msgstr "CP1251 (Cyrillic)"
 
-#: linux/WulforUtil.cc:511
+#: linux/WulforUtil.cc:267
 msgid "CP1252 (Western Europe)"
 msgstr "CP1252 (Western Europe)"
 
-#: linux/WulforUtil.cc:522
+#: linux/WulforUtil.cc:278
 msgid "CP1256 (Arabic)"
 msgstr "CP1256 (Arabic)"
 
-#: linux/WulforUtil.cc:523
+#: linux/WulforUtil.cc:279
 msgid "CP1257 (Baltic)"
 msgstr "CP1257 (Baltic)"
 
-#: linux/WulforUtil.cc:519
+#: linux/WulforUtil.cc:275
 msgid "CP949 (Korean)"
 msgstr "CP949 (Korean)"
 
@@ -2946,37 +2990,49 @@ msgstr "CP949 (Korean)"
 msgid "CRC32 inconsistency (SFV-Check)"
 msgstr "CRC32 inconsistency (SFV-Check)"
 
-#: linux/publichubs.cc:483
+#: linux/publichubs.cc:484
 msgid "Cached Hublist loaded:"
 msgstr "Uložený Hublist načten"
 
-#: linux/privatemessage.cc:875
+#: linux/settingsmanager.cc:564
+msgid "Change setting "
+msgstr "Změnit nastavení "
+
+#: linux/settingsdialog.cc:1150
+msgid "Cheat message"
+msgstr "Cheat message"
+
+#: linux/hub.cc:2037
+msgid "Clean Mainchat (sended to Hub)"
+msgstr "Vyčistit Hlavní chat (poslat toto na hub)"
+
+#: linux/privatemessage.cc:899
 msgid "Clear PM"
 msgstr "Vyčistit PM"
 
-#: linux/hub.cc:2138
+#: linux/hub.cc:2000
 msgid "Clear chat"
 msgstr "Vyčistit Chat"
 
-#: linux/settingsdialog.cc:1510
+#: linux/settingsdialog.cc:1601
 msgid "Clear search box after each search"
 msgstr "Vymazat po každem hledaní řadek s hledaným vyrazem"
 
-#: linux/ADLSearchGUI.cc:663 linux/System.cc:124 linux/cmddebug.cc:153
-#: linux/detectiontab.cc:1705 linux/downloadqueue.cc:1429
-#: linux/favoritehubs.cc:1273 linux/favoriteusers.cc:649
-#: linux/finishedtransfers.cc:435 linux/highliting.cc:427 linux/hub.cc:4050
-#: linux/ignoreusers.cc:577 linux/notepad.cc:116 linux/privatemessage.cc:1260
-#: linux/publichubs.cc:497 linux/recenthub.cc:325 linux/search.cc:2011
+#: linux/ADLSearchGUI.cc:664 linux/System.cc:123 linux/cmddebug.cc:153
+#: linux/detectiontab.cc:1724 linux/downloadqueue.cc:1429
+#: linux/favoritehubs.cc:1260 linux/favoriteusers.cc:648
+#: linux/finishedtransfers.cc:435 linux/highliting.cc:446 linux/hub.cc:3890
+#: linux/ignoreusers.cc:577 linux/notepad.cc:115 linux/privatemessage.cc:1284
+#: linux/publichubs.cc:498 linux/recenthub.cc:342 linux/search.cc:2016
 #: linux/searchspy.cc:675 linux/sharebrowser.cc:1090
 msgid "Close"
 msgstr "Zavřit"
 
-#: linux/privatemessage.cc:876
+#: linux/privatemessage.cc:900
 msgid "Close PM"
 msgstr "Zavřit PM"
 
-#: linux/hub.cc:2139
+#: linux/hub.cc:2001
 msgid "Close chat"
 msgstr "Zavřit chat"
 
@@ -2988,31 +3044,31 @@ msgstr "Zavřít kartu"
 msgid "Closing connection..."
 msgstr "Zavíram Připojení"
 
-#: linux/settingsdialog.cc:3230
+#: linux/settingsdialog.cc:3420
 msgid "Command name already exists"
 msgstr "Jméno Přikazu už existuje"
 
-#: linux/WulforUtil.cc:1254
+#: linux/WulforUtil.cc:744
 msgid "Command send: "
 msgstr "Přikaz poslán "
 
-#: linux/settingsdialog.cc:1462
+#: linux/settingsdialog.cc:1513
 msgid "Confirm application exit"
 msgstr "Potvrzovat odchod z aplikace"
 
-#: linux/settingsdialog.cc:1463
+#: linux/settingsdialog.cc:1514
 msgid "Confirm favorite hub removal"
 msgstr "Požadovat potvrzení při odebraní oblíbeného hubu"
 
-#: linux/hub.cc:3739
+#: linux/hub.cc:3589
 msgid "Connect failed: "
 msgstr "Připojení selhalo: "
 
-#: linux/hub.cc:2148
+#: linux/hub.cc:2010
 msgid "Connect to the hub"
 msgstr "Připojit na hub"
 
-#: linux/hub.cc:3546 linux/transfers.cc:1025
+#: linux/hub.cc:3396 linux/transfers.cc:1025
 msgid "Connected"
 msgstr "Připojen"
 
@@ -3024,7 +3080,7 @@ msgstr "Připojuji"
 msgid "Connecting (forced)..."
 msgstr "Připojuji ( vynuceně)"
 
-#: linux/hub.cc:3539
+#: linux/hub.cc:3389
 msgid "Connecting to "
 msgstr "připojuji k "
 
@@ -3036,15 +3092,15 @@ msgstr "Připojuji..."
 msgid "Copy All"
 msgstr "Kopírovat vše"
 
-#: linux/privatemessage.cc:1266
+#: linux/privatemessage.cc:1290
 msgid "Copy CID"
 msgstr "Kopírovat CID"
 
-#: linux/privatemessage.cc:1263 linux/sharebrowser.cc:1093
+#: linux/privatemessage.cc:1287 linux/sharebrowser.cc:1093
 msgid "Copy Nick"
 msgstr "_Kopírovat Nick"
 
-#: linux/hub.cc:4049
+#: linux/hub.cc:3889
 msgid "Copy URL"
 msgstr "Kopírovat URL"
 
@@ -3053,7 +3109,7 @@ msgstr "Kopírovat URL"
 msgid "Count"
 msgstr "Počet"
 
-#: linux/publichubs.cc:43 linux/publichubs.cc:170
+#: linux/publichubs.cc:43 linux/publichubs.cc:171
 msgid "Country"
 msgstr "Země"
 
@@ -3077,31 +3133,31 @@ msgstr "Cílová složka"
 msgid "Detection Settings"
 msgstr "Nastavení Detekce"
 
-#: linux/settingsdialog.cc:3521
+#: linux/settingsdialog.cc:3711
 msgid "Directory or favorite name already exists"
 msgstr "Složka nebo Oblíbené jméno již existuje"
 
-#: linux/settingsdialog.cc:987
+#: linux/settingsdialog.cc:1032
 msgid "Do not close the program, hide in the system tray"
 msgstr "Neukončovat program,skrýt do tray"
 
-#: linux/settingsdialog.cc:1512
+#: linux/settingsdialog.cc:1603
 msgid "Don't delete file lists when exiting"
 msgstr "Nemazat stáhnute seznamy souborů při ukončení programu"
 
-#: linux/settingsdialog.cc:937
+#: linux/settingsdialog.cc:982
 msgid "Don't download files already in share"
 msgstr "Nestahovat soubory, které už sdílíte"
 
-#: linux/settingsdialog.cc:938
+#: linux/settingsdialog.cc:983
 msgid "Don't download files already in the queue"
 msgstr "Nenačitat data které jsou už ve fronte"
 
-#: linux/settingsdialog.cc:933
+#: linux/settingsdialog.cc:978
 msgid "Don't remove the source when auto-dropping, only disconnect"
 msgstr "Neodebírat zdroj při automatickém odpojení, jen odpojit"
 
-#: linux/settingsdialog.cc:1520
+#: linux/settingsdialog.cc:1611
 msgid "Don't send the away message to bots"
 msgstr "Neposílat zprávu o nepřitomnosti botum,skriptům apod."
 
@@ -3117,21 +3173,21 @@ msgstr "Limit Stahovaní (zakazat)"
 msgid "Download complete..."
 msgstr "Stahovaní dokončeno"
 
-#: linux/publichubs.cc:462
+#: linux/publichubs.cc:463
 msgid "Download failed: "
 msgstr "Stahovaní selhalo: "
 
-#: linux/settingsdialog.cc:1047 linux/settingsdialog.cc:1209
-#: linux/settingsmanager.cc:211 linux/transfers.cc:1086
+#: linux/settingsdialog.cc:1092 linux/settingsdialog.cc:1260
+#: linux/settingsmanager.cc:224 linux/transfers.cc:1086
 msgid "Download finished"
 msgstr "Stahování dokončeno"
 
-#: linux/settingsdialog.cc:1048 linux/settingsdialog.cc:1213
-#: linux/settingsmanager.cc:213
+#: linux/settingsdialog.cc:1093 linux/settingsdialog.cc:1264
+#: linux/settingsmanager.cc:226
 msgid "Download finished file list"
 msgstr "Dokončené stáhovaní Seznamu Souborů"
 
-#: linux/publichubs.cc:470
+#: linux/publichubs.cc:471
 msgid "Download finished: "
 msgstr "Dokončené stahování: "
 
@@ -3143,11 +3199,11 @@ msgstr "Stahování odebráno"
 msgid "Download starting..."
 msgstr "Stahovaní začína..."
 
-#: linux/publichubs.cc:454
+#: linux/publichubs.cc:455
 msgid "Download starting: "
 msgstr "Stahovaní začíná_ "
 
-#: linux/mainwindow.cc:777
+#: linux/mainwindow.cc:776
 msgid "Download: "
 msgstr "Stahovaní: "
 
@@ -3160,15 +3216,15 @@ msgstr "Stažené"
 msgid "Downloaded "
 msgstr "Stáhnuto "
 
-#: linux/hub.cc:2125 linux/privatemessage.cc:862
+#: linux/hub.cc:1987 linux/privatemessage.cc:886
 msgid "Emoticons mode off"
 msgstr "Smajly off"
 
-#: linux/hub.cc:2130 linux/privatemessage.cc:867
+#: linux/hub.cc:1992 linux/privatemessage.cc:891
 msgid "Emoticons mode on"
 msgstr "Smajly on"
 
-#: linux/hub.cc:2155 linux/privatemessage.cc:881
+#: linux/hub.cc:2017 linux/privatemessage.cc:905
 msgid "Emoticons on/off"
 msgstr "Smaily on/off"
 
@@ -3176,52 +3232,60 @@ msgstr "Smaily on/off"
 msgid "Emotion packs"
 msgstr "Smajl packy"
 
-#: linux/detectiontab.cc:34 linux/detectiontab.cc:52 linux/detectiontab.cc:63
-#: linux/detectiontab.cc:96 linux/detectiontab.cc:235
-#: linux/detectiontab.cc:255 linux/detectiontab.cc:374
-#: linux/detectiontab.cc:446 linux/detectiontab.cc:471
-#: linux/detectiontab.cc:608 linux/detectiontab.cc:617
-#: linux/detectiontab.cc:636 linux/detectiontab.cc:648
-#: linux/detectiontab.cc:809 linux/detectiontab.cc:878
-#: linux/detectiontab.cc:894 linux/detectiontab.cc:1064
+#: linux/detectiontab.cc:40 linux/detectiontab.cc:59 linux/detectiontab.cc:70
+#: linux/detectiontab.cc:103 linux/detectiontab.cc:242
+#: linux/detectiontab.cc:262 linux/detectiontab.cc:381
+#: linux/detectiontab.cc:453 linux/detectiontab.cc:478
+#: linux/detectiontab.cc:615 linux/detectiontab.cc:624
+#: linux/detectiontab.cc:643 linux/detectiontab.cc:655
+#: linux/detectiontab.cc:816 linux/detectiontab.cc:885
+#: linux/detectiontab.cc:901 linux/detectiontab.cc:1071
 msgid "Enable"
 msgstr "Povolit"
 
-#: linux/settingsdialog.cc:999
+#: linux/settingsdialog.cc:1044
 msgid "Enable Lua debug messages"
 msgstr "Povolit Lua debug zprávy"
 
-#: linux/settingsdialog.cc:1515
+#: linux/settingsdialog.cc:1606
 msgid "Enable automatic SFV checking"
 msgstr "Povolit Automatickou kontrolu SFV"
 
-#: linux/settingsdialog.cc:1524
+#: linux/settingsdialog.cc:1615
 msgid "Enable debug ADC"
 msgstr "Povolit debug ADC"
 
-#: linux/settingsdialog.cc:1516
+#: linux/settingsdialog.cc:1607
 msgid "Enable safe and compressed transfers"
 msgstr "Povolit bezpečné a kompresované stahovaní"
 
-#: linux/settingsdialog.cc:1514
+#: linux/settingsdialog.cc:1605
 msgid "Enable segmented downloads"
 msgstr "Povolit segmentové stahování"
 
-#: linux/mainwindow.cc:1355
+#: linux/mainwindow.cc:1340
 msgid "Enter value for "
 msgstr "Zadat hodnotu pro "
 
-#: linux/settingsdialog.cc:1792 linux/settingsdialog.cc:1836
-#: linux/settingsdialog.cc:2784
+#: linux/settingsdialog.cc:1895 linux/settingsdialog.cc:1939
+#: linux/settingsdialog.cc:2887
 msgid "Error"
 msgstr "Chyba"
+
+#: linux/settingsmanager.cc:567
+msgid "Error: params have been not 2!"
+msgstr "Chyba: parametry maji být dva"
+
+#: linux/settingsmanager.cc:563
+msgid "Error: setting not found!"
+msgstr "Chyba: Nastavení nenalezeno!"
 
 #: linux/downloadqueue.cc:69 linux/downloadqueue.cc:279
 #: linux/downloadqueue.cc:386
 msgid "Errors"
 msgstr "Chyby"
 
-#: linux/hub.cc:89 linux/hub.cc:597 linux/hub.cc:631
+#: linux/hub.cc:87 linux/hub.cc:441 linux/hub.cc:476
 msgid "Exact Share"
 msgstr "Přesné Sdilení"
 
@@ -3233,71 +3297,83 @@ msgstr "Přesné Sdilení"
 msgid "Exact Size"
 msgstr "Přesná velikost"
 
-#: linux/hub.cc:2157
+#: linux/hub.cc:2020
 msgid "Execute Lua Chunk"
 msgstr "spustit lua code"
 
-#: linux/hub.cc:2162
+#: linux/hub.cc:2026
 msgid "Execute code (bash)"
 msgstr "spustit přikaz (bash)"
 
-#: linux/settingsdialog.cc:2083
+#: linux/settingsdialog.cc:2186
 msgid "Extension edition"
 msgstr "Editace přípon"
 
-#: linux/settingsdialog.cc:872 linux/settingsdialog.cc:907
-#: linux/settingsdialog.cc:1620 linux/settingsdialog.cc:1759
-#: linux/settingsdialog.cc:1810 linux/settingsdialog.cc:1865
-#: linux/settingsdialog.cc:2795 linux/settingsdialog.cc:2829
-#: linux/settingsdialog.cc:2847 linux/settingsdialog.cc:2878
+#: linux/settingsdialog.cc:917 linux/settingsdialog.cc:952
+#: linux/settingsdialog.cc:1711 linux/settingsdialog.cc:1862
+#: linux/settingsdialog.cc:1913 linux/settingsdialog.cc:1968
+#: linux/settingsdialog.cc:2898 linux/settingsdialog.cc:2932
+#: linux/settingsdialog.cc:2950 linux/settingsdialog.cc:2981
 msgid "Extensions"
 msgstr "Přípony"
 
-#: linux/favoritehubs.cc:35 linux/favoritehubs.cc:168
-#: linux/favoritehubs.cc:204 linux/favoritehubs.cc:316
-#: linux/favoritehubs.cc:415
+#: linux/favoritehubs.cc:35 linux/favoritehubs.cc:164
+#: linux/favoritehubs.cc:200 linux/favoritehubs.cc:303
+#: linux/favoritehubs.cc:402
 msgid "Extra Info"
 msgstr "Extra Chat Info"
 
-#: linux/settingsdialog.cc:848 linux/settingsdialog.cc:862
-#: linux/settingsdialog.cc:3515
+#: linux/WulforUtil.cc:307
+msgid "Failed to open URI: "
+msgstr "Nepovedlo se otevřit URI: "
+
+#: linux/WulforUtil.cc:321
+msgid "Failed to open application: "
+msgstr "Nepovedlo se otevřít applikaci: "
+
+#: linux/settingsdialog.cc:1533 linux/settingsdialog.cc:3227
+msgid "Favorite"
+msgstr "Oblíbený"
+
+#: linux/settingsdialog.cc:893 linux/settingsdialog.cc:907
+#: linux/settingsdialog.cc:3705
 msgid "Favorite Name"
 msgstr "Oblíbené Jméno"
 
-#: linux/settingsdialog.cc:1111
+#: linux/settingsdialog.cc:1162
 msgid "Favorite User"
 msgstr "Oblíbené uživatele"
 
-#: linux/hub.cc:3373
+#: linux/hub.cc:3223
 msgid "Favorite hub added"
 msgstr "Hub byl přidaný do Oblíbených"
 
-#: linux/hub.cc:3378
+#: linux/hub.cc:3228
 msgid "Favorite hub already exists"
 msgstr "Oblíbený Hub již existuje"
 
-#: linux/settingsdialog.cc:1053 linux/settingsdialog.cc:1229
-#: linux/settingsmanager.cc:221
+#: linux/settingsdialog.cc:1098 linux/settingsdialog.cc:1280
+#: linux/settingsmanager.cc:234
 msgid "Favorite user joined"
 msgstr "Oblíbený uživatel připojen"
 
-#: linux/settingsdialog.cc:1054 linux/settingsdialog.cc:1233
-#: linux/settingsmanager.cc:223
+#: linux/settingsdialog.cc:1099 linux/settingsdialog.cc:1284
+#: linux/settingsmanager.cc:236
 msgid "Favorite user quit"
 msgstr "Oblíbený uživatel odpojen"
 
-#: linux/detectiontab.cc:102 linux/detectiontab.cc:1007
-#: linux/detectiontab.cc:1111 linux/detectiontab.cc:1210
+#: linux/detectiontab.cc:109 linux/detectiontab.cc:1014
+#: linux/detectiontab.cc:1118 linux/detectiontab.cc:1217
 msgid "Field"
 msgstr "Pole"
 
-#: linux/detectiontab.cc:1232
+#: linux/detectiontab.cc:1239
 msgid "Fields Name, ID and detection fields are required"
 msgstr "Pole Jméno, ID a Položky Detekce jsou nutné"
 
-#: linux/UserCommandMenu.cc:69 linux/settingsdialog.cc:350
-#: linux/settingsdialog.cc:1031 linux/settingsdialog.cc:1335
-#: linux/settingsdialog.cc:2715 linux/settingsdialog.cc:2731
+#: linux/UserCommandMenu.cc:69 linux/settingsdialog.cc:369
+#: linux/settingsdialog.cc:1076 linux/settingsdialog.cc:1386
+#: linux/settingsdialog.cc:2818 linux/settingsdialog.cc:2834
 msgid "File"
 msgstr "Soubor"
 
@@ -3313,7 +3389,7 @@ msgstr "Seznam souborů byl načten"
 msgid "File not available"
 msgstr "Soubor je nedostupný"
 
-#: linux/mainwindow.cc:2347
+#: linux/mainwindow.cc:2330
 msgid ""
 "File transfers will not work correctly until you change settings or turn off "
 "any application that might be using the TCP/TLS port."
@@ -3325,9 +3401,9 @@ msgstr "Prenosy nebudou fungovat dokud nezmněníte TCP/TLS port"
 #: linux/downloadqueue.cc:785 linux/downloadqueue.cc:836 linux/search.cc:85
 #: linux/search.cc:121 linux/search.cc:373 linux/search.cc:634
 #: linux/search.cc:678 linux/search.cc:683 linux/search.cc:847
-#: linux/search.cc:895 linux/search.cc:905 linux/search.cc:1233
-#: linux/search.cc:1272 linux/search.cc:1329 linux/search.cc:1628
-#: linux/search.cc:1666 linux/search.cc:1667 linux/search.cc:1951
+#: linux/search.cc:895 linux/search.cc:905 linux/search.cc:1238
+#: linux/search.cc:1277 linux/search.cc:1334 linux/search.cc:1633
+#: linux/search.cc:1671 linux/search.cc:1672 linux/search.cc:1956
 #: linux/sharebrowser.cc:74 linux/sharebrowser.cc:92 linux/sharebrowser.cc:94
 #: linux/sharebrowser.cc:273 linux/sharebrowser.cc:303
 #: linux/sharebrowser.cc:514 linux/sharebrowser.cc:606
@@ -3341,13 +3417,13 @@ msgstr "Jméno souboru"
 msgid "Files: "
 msgstr "Soubory: "
 
-#: linux/settingsdialog.cc:976
+#: linux/settingsdialog.cc:1021
 msgid "Filter kick and NMDC debug messages"
 msgstr "Filtrovat kick a NMDC debug zprávy"
 
-#: linux/detectiontab.cc:40 linux/detectiontab.cc:261
-#: linux/detectiontab.cc:815 linux/detectiontab.cc:884
-#: linux/detectiontab.cc:900
+#: linux/detectiontab.cc:46 linux/detectiontab.cc:268
+#: linux/detectiontab.cc:822 linux/detectiontab.cc:891
+#: linux/detectiontab.cc:907
 msgid "Flag"
 msgstr "Flag"
 
@@ -3364,31 +3440,31 @@ msgstr "Najitá schoda"
 msgid "Full tree does not match TTH root"
 msgstr "Stáhnutý strom neodpovídá porovnanému TTH základu (TTH root)"
 
-#: linux/WulforUtil.cc:524
+#: linux/WulforUtil.cc:280
 msgid "GB18030 (Chinese)"
 msgstr "GB18030 (Chinese)"
 
-#: linux/settingsdialog.cc:1087
+#: linux/settingsdialog.cc:1132
 msgid "General text"
 msgstr "Hlavní text"
 
-#: linux/hub.cc:94
+#: linux/hub.cc:92
 msgid "Generator"
 msgstr "Generátor"
 
-#: linux/hub.cc:2145 linux/privatemessage.cc:879
+#: linux/hub.cc:2007 linux/privatemessage.cc:903
 msgid "Get file list"
 msgstr "Získat seznam souborů"
 
-#: linux/hub.cc:2146 linux/privatemessage.cc:880
+#: linux/hub.cc:2008 linux/privatemessage.cc:904
 msgid "Grant extra slot"
 msgstr "Dát Extra slot"
 
-#: linux/favoritehubs.cc:70 linux/favoritehubs.cc:80 linux/favoritehubs.cc:285
-#: linux/favoritehubs.cc:647 linux/favoritehubs.cc:662
-#: linux/favoritehubs.cc:677 linux/favoritehubs.cc:801
-#: linux/favoritehubs.cc:836 linux/favoritehubs.cc:854
-#: linux/favoritehubs.cc:879
+#: linux/favoritehubs.cc:70 linux/favoritehubs.cc:80 linux/favoritehubs.cc:272
+#: linux/favoritehubs.cc:634 linux/favoritehubs.cc:649
+#: linux/favoritehubs.cc:664 linux/favoritehubs.cc:788
+#: linux/favoritehubs.cc:823 linux/favoritehubs.cc:841
+#: linux/favoritehubs.cc:866
 msgid "Group name"
 msgstr "Jméno skupiny"
 
@@ -3400,30 +3476,26 @@ msgstr "High"
 msgid "Highest"
 msgstr "Nejvyšší"
 
-#: linux/highliting.cc:9
-msgid "Highliting Settings"
-msgstr "Nastavení zvýrazňovaní"
-
-#: linux/settingsdialog.cc:1338
+#: linux/settingsdialog.cc:1389
 msgid "Higlitings"
 msgstr "Zvýrazňovaní"
 
-#: linux/detectiontab.cc:104 linux/detectiontab.cc:1009
-#: linux/detectiontab.cc:1113 linux/detectiontab.cc:1212 linux/search.cc:92
+#: linux/detectiontab.cc:111 linux/detectiontab.cc:1016
+#: linux/detectiontab.cc:1120 linux/detectiontab.cc:1219 linux/search.cc:92
 #: linux/search.cc:640 linux/search.cc:736 linux/search.cc:865
-#: linux/settingsdialog.cc:1532 linux/settingsdialog.cc:1542
-#: linux/settingsdialog.cc:3111 linux/settingsdialog.cc:3185
-#: linux/settingsdialog.cc:3738 linux/settingsdialog.cc:3829
-#: linux/settingsdialog.cc:3852 linux/settingsdialog.cc:3871
+#: linux/settingsdialog.cc:1623 linux/settingsdialog.cc:1633
+#: linux/settingsdialog.cc:3301 linux/settingsdialog.cc:3375
+#: linux/settingsdialog.cc:3928 linux/settingsdialog.cc:4019
+#: linux/settingsdialog.cc:4042 linux/settingsdialog.cc:4061
 msgid "Hub"
 msgstr "Hub"
 
-#: linux/settingsdialog.cc:1018
+#: linux/settingsdialog.cc:1063
 msgid "Hub (also sets urgency hint)"
 msgstr "Hub (a take nastavit urgency hit)"
 
 #: linux/favoriteusers.cc:43 linux/favoriteusers.cc:106
-#: linux/favoriteusers.cc:581 linux/ignoreusers.cc:45 linux/ignoreusers.cc:102
+#: linux/favoriteusers.cc:580 linux/ignoreusers.cc:45 linux/ignoreusers.cc:102
 #: linux/ignoreusers.cc:509
 msgid "Hub (last seen in, if offline)"
 msgstr "Hub (naposled viděn, pokud je offline)"
@@ -3433,43 +3505,47 @@ msgstr "Hub (naposled viděn, pokud je offline)"
 msgid "Hub Name"
 msgstr "Jméno Hubu"
 
-#: linux/settingsdialog.cc:1051 linux/settingsdialog.cc:1221
-#: linux/settingsmanager.cc:219
+#: linux/settingsdialog.cc:1096 linux/settingsdialog.cc:1272
+#: linux/settingsmanager.cc:232
 msgid "Hub connected"
 msgstr "Hub připojen"
 
-#: linux/settingsdialog.cc:1052 linux/settingsdialog.cc:1225
-#: linux/settingsmanager.cc:217
+#: linux/settingsdialog.cc:1097 linux/settingsdialog.cc:1276
+#: linux/settingsmanager.cc:230
 msgid "Hub disconnected"
 msgstr "Hub odpojen"
 
-#: linux/publichubs.cc:187
+#: linux/publichubs.cc:188
 msgid "Hubs: "
 msgstr "Huby: "
 
-#: linux/WulforUtil.cc:517
+#: linux/settingsdialog.cc:1159
+msgid "IP address"
+msgstr "IP adresa"
+
+#: linux/WulforUtil.cc:273
 msgid "ISO-2022-JP (Japanese)"
 msgstr "ISO-2022-JP (Japanese)"
 
-#: linux/WulforUtil.cc:513
+#: linux/WulforUtil.cc:269
 msgid "ISO-8859-2 (Central Europe)"
 msgstr "ISO-8859-2 (Central Europe)"
 
-#: linux/WulforUtil.cc:514
+#: linux/WulforUtil.cc:270
 msgid "ISO-8859-7 (Greek)"
 msgstr "ISO-8859-7 (Greek)"
 
-#: linux/WulforUtil.cc:515
+#: linux/WulforUtil.cc:271
 msgid "ISO-8859-8 (Hebrew)"
 msgstr "ISO-8859-8 (Hebrew)"
 
-#: linux/WulforUtil.cc:516
+#: linux/WulforUtil.cc:272
 msgid "ISO-8859-9 (Turkish)"
 msgstr "ISO-8859-9 (Turkish)"
 
-#: linux/settingsdialog.cc:387 linux/settingsdialog.cc:1191
-#: linux/settingsdialog.cc:2157 linux/settingsdialog.cc:2193
-#: linux/settingsdialog.cc:2270 linux/settingsdialog.cc:2306
+#: linux/settingsdialog.cc:406 linux/settingsdialog.cc:1242
+#: linux/settingsdialog.cc:2260 linux/settingsdialog.cc:2296
+#: linux/settingsdialog.cc:2373 linux/settingsdialog.cc:2409
 msgid "Icon"
 msgstr "Ikona"
 
@@ -3477,7 +3553,7 @@ msgstr "Ikona"
 msgid "Icon size"
 msgstr "Velikost ikony"
 
-#: linux/favoritehubs.cc:683
+#: linux/favoritehubs.cc:670
 msgid ""
 "If you select 'Yes', all of these hubs are going to be deleted!\n"
 "If you select 'No', these hubs will simply be moved to the main default "
@@ -3486,35 +3562,43 @@ msgstr ""
 "Pokud zvolíte 'Ano'. všechny tyto huby budou smazany!\n"
 "Pokud zvolíte 'Ne', budou přesunuty do hlavní skupiny."
 
-#: linux/settingsdialog.cc:1446
+#: linux/settingsdialog.cc:1497
 msgid "Ignore User"
 msgstr "Ignorovaní Uživatele"
 
-#: linux/settingsdialog.cc:1456
+#: linux/settingsdialog.cc:1507
 msgid "Ignore private messages from bots"
 msgstr "Ignorovat soukromé zprávy od botů"
 
-#: linux/settingsdialog.cc:1455
+#: linux/settingsdialog.cc:1506
 msgid "Ignore private messages from the hub"
 msgstr "Ignorovat soukromé zprávy z hubu"
 
-#: linux/hub.cc:3871
+#: linux/settingsdialog.cc:1535 linux/settingsdialog.cc:3233
+msgid "Ignored"
+msgstr "Ignorován"
+
+#: linux/hub.cc:3711
 msgid "Ignored PM/Chat message from User "
 msgstr "Ignorována PM/Chat zpráva od uživatele "
 
-#: linux/hub.cc:3929
+#: linux/hub.cc:3769
 msgid "Ignored private message from User what is not in Fav Users "
 msgstr "Ignorováná PM od Uživatele který není v Oblíbených "
 
-#: linux/hub.cc:3906
+#: linux/hub.cc:3746
 msgid "Ignored private message from bot "
 msgstr "Ignorovat PM od bota "
 
-#: linux/hub.cc:3899
+#: linux/hub.cc:3739
 msgid "Ignored private message from hub"
 msgstr "Ignorovat PM z hubu"
 
-#: linux/settingsdialog.cc:1912 linux/settingsdialog.cc:2099
+#: linux/highliting.cc:23 linux/highliting.cc:82 linux/highliting.cc:176
+msgid "Include Nick"
+msgstr "Obsahuje Přezdívku"
+
+#: linux/settingsdialog.cc:2015 linux/settingsdialog.cc:2202
 msgid "Invalid extension: "
 msgstr "Nesprávná připona "
 
@@ -3526,15 +3610,15 @@ msgstr "Položky: "
 msgid "Items: 0"
 msgstr "Položky: 0"
 
-#: linux/WulforUtil.cc:520
+#: linux/WulforUtil.cc:276
 msgid "KOI8-R (Cyrillic)"
 msgstr "KOI8-R (Cyrillic)"
 
-#: linux/settingsdialog.cc:896
+#: linux/settingsdialog.cc:941
 msgid "Kaffeine player"
 msgstr "Kaffeine přehravač"
 
-#: linux/settingsdialog.cc:1511
+#: linux/settingsdialog.cc:1602
 msgid ""
 "Keep duplicate files in your file list (duplicates never count towards your "
 "share size)"
@@ -3542,7 +3626,7 @@ msgstr ""
 "Zachovat duplikáty ve vašem seznamu souboru ( nepočitaji se do celkové "
 "velikosti sdilení)"
 
-#: linux/settingsdialog.cc:1337 linux/settingsdialog.cc:1402
+#: linux/settingsdialog.cc:1388 linux/settingsdialog.cc:1453
 msgid "Limiting"
 msgstr "Limitovaní"
 
@@ -3550,11 +3634,11 @@ msgstr "Limitovaní"
 msgid "List: "
 msgstr "Seznam "
 
-#: linux/hub.cc:2156
+#: linux/hub.cc:2019
 msgid "Load Lua file"
 msgstr "Načíst Lua soubor"
 
-#: linux/mainwindow.cc:2157
+#: linux/mainwindow.cc:2142
 msgid "Loading file list"
 msgstr "Načitám Seznam souborů"
 
@@ -3562,7 +3646,7 @@ msgstr "Načitám Seznam souborů"
 msgid "Loading: "
 msgstr "Načítám: "
 
-#: linux/settingsdialog.cc:998
+#: linux/settingsdialog.cc:1043
 msgid "Log Ignored Messages as STATUS mess"
 msgstr "Zaznamenávat Ignorované Zprávy jako STATUS zprávy"
 
@@ -3574,11 +3658,11 @@ msgstr "Nízký"
 msgid "Lowest"
 msgstr "Nejnižší"
 
-#: linux/mainwindow.cc:1542
+#: linux/mainwindow.cc:1527
 msgid "Magnet Choice"
 msgstr "Výběr Magnetu"
 
-#: linux/mainwindow.cc:1412
+#: linux/mainwindow.cc:1397
 msgid "Magnet Properties / Choice"
 msgstr "Nastavení Magnetu/výber"
 
@@ -3586,7 +3670,7 @@ msgstr "Nastavení Magnetu/výber"
 msgid "Matched "
 msgstr "Porovnáno "
 
-#: linux/publichubs.cc:47 linux/publichubs.cc:174
+#: linux/publichubs.cc:47 linux/publichubs.cc:175
 msgid "Max Hubs"
 msgstr "Maximum Hubů"
 
@@ -3595,16 +3679,16 @@ msgstr "Maximum Hubů"
 msgid "Max Size"
 msgstr "Maximální Velikost"
 
-#: linux/publichubs.cc:48 linux/publichubs.cc:175
+#: linux/publichubs.cc:48 linux/publichubs.cc:176
 msgid "Max Users"
 msgstr "Maximum Uživatelů"
 
-#: linux/hub.cc:2160 linux/privatemessage.cc:883 linux/privatemessage.cc:884
-#: linux/privatemessage.cc:885
+#: linux/hub.cc:2024 linux/privatemessage.cc:907 linux/privatemessage.cc:908
+#: linux/privatemessage.cc:909
 msgid "Media Spam"
 msgstr "Media Spam"
 
-#: linux/publichubs.cc:45 linux/publichubs.cc:172
+#: linux/publichubs.cc:45 linux/publichubs.cc:173
 msgid "Min Share"
 msgstr "Minimální Sdilení"
 
@@ -3613,50 +3697,50 @@ msgstr "Minimální Sdilení"
 msgid "Min Size"
 msgstr "Minimalní Velikost:"
 
-#: linux/publichubs.cc:46 linux/publichubs.cc:173
+#: linux/publichubs.cc:46 linux/publichubs.cc:174
 msgid "Min Slots"
 msgstr "Minimalní sloty"
 
-#: linux/settingsdialog.cc:897
+#: linux/settingsdialog.cc:942
 msgid "Mplayer player"
 msgstr "Mplayer přehravač"
 
-#: linux/settingsdialog.cc:2776 linux/settingsdialog.cc:2862
+#: linux/settingsdialog.cc:2879 linux/settingsdialog.cc:2965
 msgid "Must not be empty..."
 msgstr "Nesmí byt prázdné..."
 
-#: linux/settingsdialog.cc:1090
+#: linux/settingsdialog.cc:1135
 msgid "My nick"
 msgstr "Moje prezdívka"
 
-#: linux/settingsdialog.cc:1093
+#: linux/settingsdialog.cc:1138
 msgid "My own message"
 msgstr "Moje Vlastní zpráva"
 
-#: linux/settingsdialog.cc:3224
+#: linux/settingsdialog.cc:3414
 msgid "Name and command must not be empty"
 msgstr "Jméno a příkaz musí být vyplněno"
 
-#: linux/publichubs.cc:375 linux/settingsdialog.cc:3423
+#: linux/publichubs.cc:376 linux/settingsdialog.cc:3613
 msgid "New list"
 msgstr "Nový seznam"
 
-#: linux/settingsdialog.cc:1730
+#: linux/settingsdialog.cc:1833
 msgid "New search type"
 msgstr "Nový Hledací typ"
 
-#: linux/hub.cc:4022
+#: linux/hub.cc:3862
 msgid "Nick already taken"
 msgstr "Přezdívka je již zadána"
 
-#: linux/favoritehubs.cc:286 linux/favoritehubs.cc:287
-#: linux/favoritehubs.cc:663 linux/favoritehubs.cc:664
-#: linux/favoritehubs.cc:837 linux/favoritehubs.cc:838
+#: linux/favoritehubs.cc:273 linux/favoritehubs.cc:274
+#: linux/favoritehubs.cc:650 linux/favoritehubs.cc:651
+#: linux/favoritehubs.cc:824 linux/favoritehubs.cc:825
 #: linux/finishedtransfers.cc:376
 msgid "No"
 msgstr "Ne"
 
-#: linux/WulforUtil.cc:1316
+#: linux/WulforUtil.cc:807
 msgid "No 0 Slots!!"
 msgstr "Ne, Nula Slotů!!"
 
@@ -3676,29 +3760,34 @@ msgstr "Nezadán text k hledaní"
 msgid "No users"
 msgstr "Žádní uživatelé"
 
-#: linux/downloadqueue.cc:1329
+#: linux/downloadqueue.cc:1329 linux/settingsdialog.cc:1530
+#: linux/settingsdialog.cc:3218
 msgid "Normal"
 msgstr "Normal"
 
-#: linux/hub.cc:2073 linux/hub.cc:2108 linux/hub.cc:2118
+#: linux/hub.cc:1935 linux/hub.cc:1970 linux/hub.cc:1980
 msgid "Not found user: "
 msgstr "Uživatel nenalezen: "
 
-#: linux/WulforUtil.cc:474
+#: linux/highliting.cc:27 linux/highliting.cc:86 linux/highliting.cc:180
+msgid "Notify String"
+msgstr "Retězec Notifikace"
+
+#: linux/WulforUtil.cc:230
 msgid "Offline"
 msgstr "Offline"
 
-#: linux/favoriteusers.cc:99 linux/favoriteusers.cc:619
-#: linux/favoriteusers.cc:638 linux/ignoreusers.cc:96 linux/ignoreusers.cc:547
+#: linux/favoriteusers.cc:99 linux/favoriteusers.cc:618
+#: linux/favoriteusers.cc:637 linux/ignoreusers.cc:96 linux/ignoreusers.cc:547
 #: linux/ignoreusers.cc:566
 msgid "Online"
 msgstr "Online"
 
-#: linux/settingsdialog.cc:997
+#: linux/settingsdialog.cc:1042
 msgid "Only FavUsers PM"
 msgstr "PM Jen od Favorite Uživatelu"
 
-#: linux/settingsdialog.cc:981
+#: linux/settingsdialog.cc:1026
 msgid "Only show joins / parts for favorite users"
 msgstr "Zobrazovat jen připojení/odpojení oblíbených uživatelu"
 
@@ -3706,7 +3795,7 @@ msgstr "Zobrazovat jen připojení/odpojení oblíbených uživatelu"
 msgid "Open file"
 msgstr "Otevřit soubor"
 
-#: linux/settingsdialog.cc:1452
+#: linux/settingsdialog.cc:1503
 msgid "Open file list window in the background"
 msgstr "Otevírat Seznamy Souborů na pozadí"
 
@@ -3714,15 +3803,16 @@ msgstr "Otevírat Seznamy Souborů na pozadí"
 msgid "Open folder"
 msgstr "Otevřít složku"
 
-#: linux/settingsdialog.cc:1453
+#: linux/settingsdialog.cc:1504
 msgid "Open new private messages from other users in the background"
 msgstr "Otevírat nové soukromé zpravy na pozadí"
 
-#: linux/settingsdialog.cc:1454
+#: linux/settingsdialog.cc:1505
 msgid "Open new window when using /join"
 msgstr "Otevřit nové okno při použití /join"
 
-#: linux/settingsdialog.cc:1114
+#: linux/settingsdialog.cc:1165 linux/settingsdialog.cc:1531
+#: linux/settingsdialog.cc:3221
 msgid "Operator"
 msgstr "Operátor"
 
@@ -3733,8 +3823,8 @@ msgstr "Pasivní uživatel"
 #: linux/downloadqueue.cc:67 linux/downloadqueue.cc:278
 #: linux/downloadqueue.cc:385 linux/search.cc:89 linux/search.cc:637
 #: linux/search.cc:716 linux/search.cc:850 linux/search.cc:904
-#: linux/search.cc:1232 linux/search.cc:1271 linux/search.cc:1328
-#: linux/search.cc:1390 linux/search.cc:1952 linux/transfers.cc:63
+#: linux/search.cc:1237 linux/search.cc:1276 linux/search.cc:1333
+#: linux/search.cc:1395 linux/search.cc:1957 linux/transfers.cc:63
 #: linux/transfers.cc:717 linux/transfers.cc:885
 msgid "Path"
 msgstr "Cesta"
@@ -3747,12 +3837,12 @@ msgstr "Zastaveno"
 msgid "Paused..."
 msgstr "Zastaveno.."
 
-#: linux/settingsdialog.cc:1457
+#: linux/settingsdialog.cc:1508
 msgid "Popup box to input password for hubs"
 msgstr "Popup box pro zadavani hesla pro huby"
 
-#: linux/settingsdialog.cc:1619 linux/settingsdialog.cc:1718
-#: linux/settingsdialog.cc:1809
+#: linux/settingsdialog.cc:1710 linux/settingsdialog.cc:1809
+#: linux/settingsdialog.cc:1912
 msgid "Predefined"
 msgstr "Předdefinováno"
 
@@ -3761,37 +3851,41 @@ msgstr "Předdefinováno"
 msgid "Priority"
 msgstr "Priorita"
 
-#: linux/favoritehubs.cc:71 linux/favoritehubs.cc:286
-#: linux/favoritehubs.cc:663 linux/favoritehubs.cc:837
+#: linux/favoritehubs.cc:71 linux/favoritehubs.cc:273
+#: linux/favoritehubs.cc:650 linux/favoritehubs.cc:824
 msgid "Private"
 msgstr "Privatni"
 
-#: linux/settingsdialog.cc:1019
+#: linux/settingsdialog.cc:1064
 msgid "Private Message (also sets urgency hint)"
 msgstr "Soukromá zpráva (a také nastavit urgency hint)"
 
-#: linux/hub.cc:2150 linux/settingsdialog.cc:1050 linux/settingsdialog.cc:1096
-#: linux/settingsdialog.cc:1217 linux/settingsmanager.cc:215
+#: linux/hub.cc:2012 linux/settingsdialog.cc:1095 linux/settingsdialog.cc:1141
+#: linux/settingsdialog.cc:1268 linux/settingsmanager.cc:228
 msgid "Private message"
 msgstr "Soukromá zpráva"
 
-#: linux/publichubs.cc:49 linux/publichubs.cc:176
+#: linux/settingsdialog.cc:1534 linux/settingsdialog.cc:3230
+msgid "Protected"
+msgstr "Chráněný"
+
+#: linux/publichubs.cc:49 linux/publichubs.cc:177
 msgid "Rating"
 msgstr "Hodnocení"
 
-#: linux/hub.cc:2151
+#: linux/hub.cc:2013
 msgid "Rebuild hash"
 msgstr "Rebuild hash"
 
-#: linux/hub.cc:2170
+#: linux/hub.cc:2034
 msgid "Refresh UserList"
 msgstr "Obnovit Seznam Uživatelů"
 
-#: linux/settingsdialog.cc:1522
+#: linux/settingsdialog.cc:1613
 msgid "Register with the OS to handle dchub:// and adc:// URL links"
 msgstr "Registrovat s os dchub:// a adc:// URL linky"
 
-#: linux/settingsdialog.cc:1523
+#: linux/settingsdialog.cc:1614
 msgid "Register with the OS to handle magnet: URL links"
 msgstr "Registrovat s OS magnet linky"
 
@@ -3799,15 +3893,15 @@ msgstr "Registrovat s OS magnet linky"
 msgid "Remote client does not fully support TTH - cannot download"
 msgstr "Vzdálený klient plně nepodporuje TTH - nemohu stahovat"
 
-#: linux/settingsdialog.cc:932
+#: linux/settingsdialog.cc:977
 msgid "Remove slow filelists"
 msgstr "Odpojit pomalé stahovaní Seznamů Souborů"
 
-#: linux/hub.cc:2143 linux/privatemessage.cc:878
+#: linux/hub.cc:2005 linux/privatemessage.cc:902
 msgid "Remove user favorite"
 msgstr "Odebrat oblibeného uživatele"
 
-#: linux/settingsdialog.cc:1983
+#: linux/settingsdialog.cc:2086
 msgid "Rename a search type"
 msgstr "Přejmenovat hledací typ"
 
@@ -3819,11 +3913,11 @@ msgstr "Žadám"
 msgid "Running..."
 msgstr "Probíhá..."
 
-#: linux/WulforUtil.cc:518
+#: linux/WulforUtil.cc:274
 msgid "SJIS (Japanese)"
 msgstr "SJIS (Japanese)"
 
-#: linux/hub.cc:2149
+#: linux/hub.cc:2011
 msgid "Say a third person"
 msgstr "Napsat ve třetí osobě"
 
@@ -3836,13 +3930,13 @@ msgstr "Napsat ve třetí osobě"
 msgid "Search String"
 msgstr "Hledací řeťezec"
 
-#: linux/hub.cc:4029
+#: linux/hub.cc:3869
 msgid "Search spam detected from "
 msgstr "Hledaci spam detekovan od "
 
-#: linux/settingsdialog.cc:1618 linux/settingsdialog.cc:1808
-#: linux/settingsdialog.cc:1841 linux/settingsdialog.cc:1927
-#: linux/settingsdialog.cc:1976 linux/settingsdialog.cc:2024
+#: linux/settingsdialog.cc:1709 linux/settingsdialog.cc:1911
+#: linux/settingsdialog.cc:1944 linux/settingsdialog.cc:2030
+#: linux/settingsdialog.cc:2079 linux/settingsdialog.cc:2127
 msgid "Search type"
 msgstr "Hledací typ"
 
@@ -3858,144 +3952,152 @@ msgstr "Hledám... "
 msgid "Searching too soon, retry in "
 msgstr "Hledaní moc brzo , zkuste za .. "
 
-#: linux/mainwindow.cc:2361
+#: linux/mainwindow.cc:2344
 msgid ""
 "Searching will not work correctly until you change settings or turn off any "
 "application that might be using the UDP port."
 msgstr "Hledaní nebude funkční dokud nezměníte UDP port"
 
-#: linux/mainwindow.cc:1480
+#: linux/mainwindow.cc:1465
 msgid "Select file to Get TTH"
 msgstr "Vybrat Soubor pro Získaní TTH"
 
-#: linux/settingsdialog.cc:988
+#: linux/settingsdialog.cc:1033
 msgid "Send PM when double clicked in the user list"
 msgstr "Posílat PM dvojklikem v listu uživatelů"
 
-#: linux/hub.cc:3750
+#: linux/hub.cc:3600
 msgid "Send Stored password. "
 msgstr "Uložené heslo posláno "
 
-#: linux/settingsdialog.cc:1518
+#: linux/settingsdialog.cc:1609
 msgid "Send unknown /commands to the hub"
 msgstr "Posilat neznáme přikazy na hub"
 
-#: linux/recenthub.cc:41 linux/recenthub.cc:78 linux/recenthub.cc:160
-#: linux/recenthub.cc:186 linux/recenthub.cc:266
+#: linux/recenthub.cc:41 linux/recenthub.cc:80 linux/recenthub.cc:163
+#: linux/recenthub.cc:189 linux/recenthub.cc:285
 msgid "Server"
 msgstr "Server"
 
-#: linux/privatemessage.cc:889
+#: linux/hub.cc:2038
+msgid "Set GUI Setting (all)"
+msgstr "Nastavit GUI nastaveni (vsechna)"
+
+#: linux/privatemessage.cc:913
 msgid "Set Slots to n"
 msgstr "Nastavit sloty na hodnotu x:"
 
-#: linux/WulforUtil.cc:1323
+#: linux/WulforUtil.cc:814
 msgid "Set Slots to:"
 msgstr "Sloty nastaveny:"
 
-#: linux/hub.cc:2163
+#: linux/hub.cc:2027
 msgid "Set Uploads slots"
 msgstr "Odesílací sloty nastaveny na:"
 
-#: linux/settingsdialog.cc:930
+#: linux/hub.cc:2039
+msgid "Set dcpp kernel setting"
+msgstr "Nastavit nastaveni z dcpp kernelu"
+
+#: linux/settingsdialog.cc:975
 msgid ""
 "Set lowest priority for newly added files larger than low priority size"
 msgstr ""
 "Nastavit nejnižši prioritu pro nově přidané soubory větší, než je velikost "
 "pro nízkou prioritu (degraduje nízkou prioritu u nových souborů na nejnižší)"
 
-#: linux/hub.cc:82 linux/hub.cc:560 linux/hub.cc:590 linux/hub.cc:624
-#: linux/hub.cc:684 linux/publichubs.cc:44 linux/publichubs.cc:171
-#: linux/recenthub.cc:44 linux/recenthub.cc:81 linux/recenthub.cc:257
-#: linux/recenthub.cc:269
+#: linux/hub.cc:80 linux/hub.cc:403 linux/hub.cc:434 linux/hub.cc:469
+#: linux/hub.cc:528 linux/publichubs.cc:44 linux/publichubs.cc:172
+#: linux/recenthub.cc:44 linux/recenthub.cc:83 linux/recenthub.cc:276
+#: linux/recenthub.cc:288
 msgid "Shared"
 msgstr "Sdíleno"
 
-#: linux/mainwindow.cc:820 linux/mainwindow.cc:2377
+#: linux/mainwindow.cc:819 linux/mainwindow.cc:2360
 msgid "Shared: "
 msgstr "Sdíleno: "
 
-#: linux/settingsdialog.cc:989
+#: linux/settingsdialog.cc:1034
 msgid "Show CC in chat"
 msgstr "Zobrazit Zemi v chatu"
 
-#: linux/hub.cc:2158
+#: linux/hub.cc:2022
 msgid "Show Client Uptime"
 msgstr "Zobrazit Uptime Klienta"
 
-#: linux/settingsdialog.cc:993
+#: linux/settingsdialog.cc:1038
 msgid "Show Close Icon in Tab"
 msgstr "Zobrazit Ikonu Zavření na Kartě"
 
-#: linux/settingsdialog.cc:995
+#: linux/settingsdialog.cc:1040
 msgid "Show Flags in main chat"
 msgstr "Zobrazit Vlajku v chatu"
 
-#: linux/settingsdialog.cc:991
+#: linux/settingsdialog.cc:1036
 msgid "Show Free Slots in Desc"
 msgstr "Zobrazit Volné sloty v popisu"
 
-#: linux/hub.cc:2159
+#: linux/hub.cc:2023
 msgid "Show Free space (mainchat)"
 msgstr "Zobrazit volné místo (chat)"
 
-#: linux/privatemessage.cc:891
+#: linux/privatemessage.cc:915
 msgid "Show FreeSpace (mc)"
 msgstr "Zobrazit volné místo (chat)"
 
-#: linux/settingsdialog.cc:990
+#: linux/settingsdialog.cc:1035
 msgid "Show IP in chat"
 msgstr "Zobrazit IP v chatu"
 
-#: linux/hub.cc:2171
+#: linux/hub.cc:2035
 msgid "Show Leech Info"
 msgstr "Zobrazit leech info"
 
-#: linux/privatemessage.cc:886
+#: linux/privatemessage.cc:910
 msgid "Show Ratio (mc)"
 msgstr "Zobrazit ratio (chat)"
 
-#: linux/hub.cc:2144
+#: linux/hub.cc:2006
 msgid "Show favorites list"
 msgstr "Zobrazit Seznam Oblíbených"
 
-#: linux/hub.cc:2147 linux/privatemessage.cc:882
+#: linux/hub.cc:2009 linux/privatemessage.cc:906
 msgid "Show help"
 msgstr "Zobrazit nápovědu"
 
-#: linux/settingsdialog.cc:980
+#: linux/settingsdialog.cc:1025
 msgid "Show joins / parts in chat by default"
 msgstr "Zobrazovat přichody/odchody uživatelů v chatu"
 
-#: linux/hub.cc:2164
+#: linux/hub.cc:2028
 msgid "Show ratio (mainchat)"
 msgstr "Zobrazit ratio (chat)"
 
-#: linux/settingsdialog.cc:994
+#: linux/settingsdialog.cc:1039
 msgid "Show send /commnads in status message"
 msgstr "Zobrazit poslané /přikazy jako status zprávy"
 
-#: linux/privatemessage.cc:890
+#: linux/privatemessage.cc:914
 msgid "Show stats"
 msgstr "Zobrazit stats"
 
-#: linux/settingsdialog.cc:977
+#: linux/settingsdialog.cc:1022
 msgid "Show status icon"
 msgstr "Zobrazovat stavovou ikonu"
 
-#: linux/settingsdialog.cc:978
+#: linux/settingsdialog.cc:1023
 msgid "Show timestamps in chat by default"
 msgstr "Zobrazovat čas v chatu"
 
-#: linux/hub.cc:2172
+#: linux/hub.cc:2036
 msgid "Show topic text in chat"
 msgstr "Zobrazit text Tématu hubu v chatu"
 
-#: linux/privatemessage.cc:892
+#: linux/privatemessage.cc:916
 msgid "Show uptime"
 msgstr "Zobrazit uptime"
 
-#: linux/hub.cc:2154
+#: linux/hub.cc:2016
 msgid "Show version"
 msgstr "Zobrazit verzi"
 
@@ -4012,34 +4114,38 @@ msgstr "Velikost: "
 msgid "Size: 0 B"
 msgstr "Velikost: 0 B"
 
-#: linux/settingsdialog.cc:936
+#: linux/settingsdialog.cc:981
 msgid "Skip zero-byte files"
 msgstr "Vynechávat soubory z nulovou velikosti"
 
-#: linux/privatemessage.cc:1224
+#: linux/privatemessage.cc:1248
 msgid "Slot granted"
 msgstr "Slot přidelen"
 
-#: linux/favoriteusers.cc:507 linux/hub.cc:3286
+#: linux/favoriteusers.cc:506 linux/hub.cc:3150
 msgid "Slot granted to "
 msgstr "Slot přidělen k "
 
-#: linux/hub.cc:90 linux/hub.cc:598 linux/hub.cc:632 linux/search.cc:90
+#: linux/hub.cc:88 linux/hub.cc:442 linux/hub.cc:477 linux/search.cc:90
 #: linux/search.cc:120 linux/search.cc:635
 msgid "Slots"
 msgstr "Sloty"
 
-#: linux/mainwindow.cc:819
+#: linux/mainwindow.cc:818
 msgid "Slots:"
 msgstr "Sloty:"
 
-#: linux/settingsdialog.cc:982
+#: linux/settingsdialog.cc:1027
 msgid "Sort favorite users first"
 msgstr "Třídit nejdříve oblíbené uživatele"
 
-#: linux/highliting.cc:29 linux/highliting.cc:89 linux/highliting.cc:183
+#: linux/highliting.cc:28 linux/highliting.cc:87 linux/highliting.cc:181
 msgid "Sound"
 msgstr "Zvuky"
+
+#: linux/highliting.cc:29 linux/highliting.cc:88 linux/highliting.cc:182
+msgid "Sound String"
+msgstr "Cesta k Zvuku"
 
 #: linux/ADLSearchGUI.cc:48 linux/ADLSearchGUI.cc:78 linux/ADLSearchGUI.cc:144
 #: linux/ADLSearchGUI.cc:251
@@ -4057,11 +4163,11 @@ msgstr "Příliš pomalý zdroj"
 msgid "Speed"
 msgstr "Rychlost"
 
-#: linux/hub.cc:2169
+#: linux/hub.cc:2033
 msgid "Start checkers"
 msgstr "Start checkers"
 
-#: linux/hub.cc:2161
+#: linux/hub.cc:2025
 msgid "Stats Clients"
 msgstr "Stats Clients"
 
@@ -4078,57 +4184,57 @@ msgstr "Stats Clients"
 msgid "Status"
 msgstr "Status"
 
-#: linux/settingsdialog.cc:1102
+#: linux/settingsdialog.cc:1147
 msgid "Status message"
 msgstr "Status zpráva"
 
-#: linux/settingsdialog.cc:1071 linux/settingsdialog.cc:1144
-#: linux/settingsdialog.cc:2511 linux/settingsdialog.cc:2942
-#: linux/settingsdialog.cc:2985 linux/settingsdialog.cc:3026
-#: linux/settingsdialog.cc:3081
+#: linux/settingsdialog.cc:1116 linux/settingsdialog.cc:1195
+#: linux/settingsdialog.cc:2614 linux/settingsdialog.cc:3045
+#: linux/settingsdialog.cc:3088 linux/settingsdialog.cc:3129
+#: linux/settingsdialog.cc:3184
 msgid "Style"
 msgstr "Styl"
 
-#: linux/hub.cc:95 linux/hub.cc:603 linux/hub.cc:637
+#: linux/hub.cc:93 linux/hub.cc:447 linux/hub.cc:482
 msgid "Support"
 msgstr "Support"
 
-#: linux/settingsdialog.cc:1330 linux/settingsdialog.cc:1396
-#: linux/settingsdialog.cc:1447
+#: linux/settingsdialog.cc:1381 linux/settingsdialog.cc:1447
+#: linux/settingsdialog.cc:1498
 msgid "System Tab"
 msgstr "Systemová Karta"
 
-#: linux/WulforUtil.cc:58
+#: linux/WulforUtil.cc:60
 msgid "System default"
 msgstr "Systémové výchozí"
 
-#: linux/settingsdialog.cc:1099
+#: linux/settingsdialog.cc:1144
 msgid "System message"
 msgstr "Systemová zpráva"
 
-#: linux/WulforUtil.cc:525
+#: linux/WulforUtil.cc:281
 msgid "TIS-620 (Thai)"
 msgstr "TIS-620 (Thai)"
 
-#: linux/hub.cc:84 linux/hub.cc:592 linux/hub.cc:626 linux/hub.cc:2387
+#: linux/hub.cc:82 linux/hub.cc:436 linux/hub.cc:471
 msgid "Tag"
 msgstr "Tag"
 
-#: linux/favoritehubs.cc:1037
+#: linux/favoritehubs.cc:1024
 msgid "The name and address fields are required"
 msgstr "Jméno a Adresa jsou vyžadovány"
 
-#: linux/mainwindow.cc:538
+#: linux/mainwindow.cc:536
 msgid "Throtle off"
 msgstr "Limitování vypnuto"
 
-#: linux/mainwindow.cc:544
+#: linux/mainwindow.cc:542
 msgid "Throtle on"
 msgstr "Limitovaní zapnuto"
 
-#: linux/detectiontab.cc:66 linux/detectiontab.cc:373
-#: linux/detectiontab.cc:470 linux/detectiontab.cc:635
-#: linux/detectiontab.cc:647 linux/searchspy.cc:53 linux/searchspy.cc:265
+#: linux/detectiontab.cc:73 linux/detectiontab.cc:380
+#: linux/detectiontab.cc:477 linux/detectiontab.cc:642
+#: linux/detectiontab.cc:654 linux/searchspy.cc:53 linux/searchspy.cc:265
 #: linux/searchspy.cc:290 linux/searchspy.cc:306
 msgid "Time"
 msgstr "Čas"
@@ -4140,24 +4246,28 @@ msgid "Time Left"
 msgstr "Zbývající čas"
 
 #: linux/favoriteusers.cc:44 linux/favoriteusers.cc:107
-#: linux/favoriteusers.cc:574 linux/favoriteusers.cc:582
+#: linux/favoriteusers.cc:573 linux/favoriteusers.cc:581
 #: linux/ignoreusers.cc:46 linux/ignoreusers.cc:103 linux/ignoreusers.cc:502
 #: linux/ignoreusers.cc:510
 msgid "Time last seen"
 msgstr "Čas (Kdy byl naposledy připojen)"
 
-#: linux/settingsdialog.cc:1105 linux/settingsdialog.cc:1133
+#: linux/settingsdialog.cc:1153 linux/settingsdialog.cc:1184
 msgid "Timestamp"
 msgstr "Timestamp"
 
-#: linux/settingsdialog.cc:386 linux/settingsdialog.cc:1190
-#: linux/settingsdialog.cc:2156 linux/settingsdialog.cc:2214
-#: linux/settingsdialog.cc:2230 linux/settingsdialog.cc:2252
-#: linux/settingsdialog.cc:2256 linux/settingsdialog.cc:2306
+#: linux/settingsdialog.cc:405 linux/settingsdialog.cc:1241
+#: linux/settingsdialog.cc:2259 linux/settingsdialog.cc:2317
+#: linux/settingsdialog.cc:2333 linux/settingsdialog.cc:2355
+#: linux/settingsdialog.cc:2359 linux/settingsdialog.cc:2409
 msgid "Title"
 msgstr "Nadpis"
 
-#: linux/settingsdialog.cc:3640
+#: linux/hub.cc:2097
+msgid "Topic: "
+msgstr "Téma: "
+
+#: linux/settingsdialog.cc:3830
 msgid "Total size: "
 msgstr "Celková Velikost: "
 
@@ -4165,15 +4275,15 @@ msgstr "Celková Velikost: "
 msgid "Total: "
 msgstr "Celkové: "
 
-#: linux/settingsdialog.cc:1108
+#: linux/settingsdialog.cc:1156
 msgid "URL"
 msgstr "URL"
 
-#: linux/WulforUtil.cc:510
+#: linux/WulforUtil.cc:266
 msgid "UTF-8 (Unicode)"
 msgstr "UTF-8 (Unicode)"
 
-#: linux/hub.cc:3311
+#: linux/hub.cc:3175
 msgid "Unable to connect: already connected to the requested hub"
 msgstr "Nemohu se připojit: již jste připojeni"
 
@@ -4181,36 +4291,36 @@ msgstr "Nemohu se připojit: již jste připojeni"
 msgid "Unable to load file list: "
 msgstr "Nemohu načíst Seznam Souboru: "
 
-#: linux/mainwindow.cc:2145
+#: linux/mainwindow.cc:2130
 msgid "Unable to load file list: Invalid file list name"
 msgstr "Nemohu načíst seznam souboru: Špatné jméno"
 
-#: linux/mainwindow.cc:2346
+#: linux/mainwindow.cc:2329
 msgid "Unable to open TCP/TLS port"
 msgstr "Nepodařilo se otevřit TCP/TLS port"
 
-#: linux/mainwindow.cc:2360
+#: linux/mainwindow.cc:2343
 msgid "Unable to open UDP port"
 msgstr "Nepodařilo se otevřit UDP port"
 
-#: linux/highliting.cc:21 linux/highliting.cc:81 linux/highliting.cc:176
+#: linux/highliting.cc:21 linux/highliting.cc:80 linux/highliting.cc:174
 msgid "Underline"
 msgstr "Podtržené"
 
-#: linux/WulforUtil.cc:617 linux/WulforUtil.cc:619 linux/downloadqueue.cc:1289
+#: linux/WulforUtil.cc:376 linux/WulforUtil.cc:378 linux/downloadqueue.cc:1289
 #: linux/downloadqueue.cc:1290
 msgid "Unknown"
 msgstr "Neznámý"
 
-#: linux/hub.cc:2301 linux/hub.cc:2305
+#: linux/hub.cc:2168 linux/hub.cc:2172
 msgid "Unknown command '"
 msgstr "Neznámy přikaz '"
 
-#: linux/hub.cc:2152
+#: linux/hub.cc:2014
 msgid "Update own file list"
 msgstr "Updatovat vlastní Seznam Souborů"
 
-#: linux/settingsdialog.cc:1317
+#: linux/settingsdialog.cc:1368
 msgid "Upload"
 msgstr "Odesílaní"
 
@@ -4222,7 +4332,7 @@ msgstr "Odesílací Limit (zakázano)"
 msgid "Upload complete..."
 msgstr "Odesílání Dokončeno..."
 
-#: linux/settingsdialog.cc:1049
+#: linux/settingsdialog.cc:1094
 msgid "Upload finished"
 msgstr "Dokončené odesílaní"
 
@@ -4230,7 +4340,7 @@ msgstr "Dokončené odesílaní"
 msgid "Upload starting..."
 msgstr "Odesílaní startuje..."
 
-#: linux/mainwindow.cc:777
+#: linux/mainwindow.cc:776
 msgid "Upload: "
 msgstr "Odesílání: "
 
@@ -4238,50 +4348,50 @@ msgstr "Odesílání: "
 msgid "Uploaded "
 msgstr "Odesláno "
 
-#: linux/WulforUtil.cc:1427
+#: linux/WulforUtil.cc:918
 msgid "Uptime: "
 msgstr "Uptime: "
 
-#: linux/settingsdialog.cc:349 linux/settingsdialog.cc:385
-#: linux/settingsdialog.cc:419 linux/settingsdialog.cc:684
-#: linux/settingsdialog.cc:697 linux/settingsdialog.cc:713
-#: linux/settingsdialog.cc:1029 linux/settingsdialog.cc:1040
-#: linux/settingsdialog.cc:1188 linux/settingsdialog.cc:1203
-#: linux/settingsdialog.cc:1351 linux/settingsdialog.cc:1361
+#: linux/settingsdialog.cc:368 linux/settingsdialog.cc:404
+#: linux/settingsdialog.cc:438 linux/settingsdialog.cc:729
+#: linux/settingsdialog.cc:742 linux/settingsdialog.cc:758
+#: linux/settingsdialog.cc:1074 linux/settingsdialog.cc:1085
+#: linux/settingsdialog.cc:1239 linux/settingsdialog.cc:1254
+#: linux/settingsdialog.cc:1402 linux/settingsdialog.cc:1412
 msgid "Use"
 msgstr "Použít"
 
-#: linux/settingsdialog.cc:996
+#: linux/settingsdialog.cc:1041
 msgid "Use DNS in Transfers"
 msgstr "Používat DNS v Přenosech"
 
-#: linux/settingsdialog.cc:992
+#: linux/settingsdialog.cc:1037
 msgid "Use Higliting"
 msgstr "Použivat Zvýrazňovaní"
 
-#: linux/settingsdialog.cc:983
+#: linux/settingsdialog.cc:1028
 msgid "Use OEM monospaced font for chat windows"
 msgstr "Použivat OEM monospaced font pro chat okna"
 
-#: linux/settingsdialog.cc:1584
+#: linux/settingsdialog.cc:1675
 msgid "Use TLS when remote client supports it"
 msgstr "Použivat TLS, pokud vzdálený klient podporuje"
 
-#: linux/settingsdialog.cc:985
+#: linux/settingsdialog.cc:1030
 msgid "Use blinking status icon"
 msgstr "Používat blikací status iconu"
 
-#: linux/settingsdialog.cc:986
+#: linux/settingsdialog.cc:1031
 msgid "Use emoticons"
 msgstr "Používat Smajly"
 
-#: linux/settingsdialog.cc:1521
+#: linux/settingsdialog.cc:1612
 msgid "Use fast hashing method (disable if you have problems with hashing)"
 msgstr ""
 "Použít rychlou metodu hashování (vypnout, pokud se potýkáte s problémy při "
 "hashování)"
 
-#: linux/settingsdialog.cc:984
+#: linux/settingsdialog.cc:1029
 msgid "Use magnet split"
 msgstr "Použivat skracené magnety"
 
@@ -4294,200 +4404,232 @@ msgstr "Použivat skracené magnety"
 msgid "User"
 msgstr "Uživatel"
 
-#: linux/hub.cc:2098
+#: linux/settingsdialog.cc:1550
+msgid "User Favorite"
+msgstr "Uživatel Oblíbený"
+
+#: linux/settingsdialog.cc:1552
+msgid "User Ignored"
+msgstr "Uživatel Ignorován"
+
+#: linux/hub.cc:2542
+msgid "User Ignored "
+msgstr "Uživatel Ignorován "
+
+#: linux/settingsdialog.cc:1547
+msgid "User Normal"
+msgstr "Uživatel Normal"
+
+#: linux/settingsdialog.cc:1548
+msgid "User Operator"
+msgstr "Uživatel Operator"
+
+#: linux/settingsdialog.cc:1549
+msgid "User Pasive"
+msgstr "Uživatel Pasive"
+
+#: linux/settingsdialog.cc:1551
+msgid "User Protected"
+msgstr "Uživatel Chráněn"
+
+#: linux/hub.cc:1960
 msgid "User favorite list:"
 msgstr "Seznam Oblibených uživatelů"
 
-#: linux/hub.cc:2153
+#: linux/hub.cc:2015
 msgid "User list show/hide"
 msgstr "List uživatelů zobrazit/skryt"
 
-#: linux/hub.cc:2218 linux/hub.cc:2224 linux/hub.cc:3257 linux/hub.cc:3277
+#: linux/hub.cc:2085 linux/hub.cc:2091 linux/hub.cc:3121 linux/hub.cc:3141
 msgid "User not found"
 msgstr "Uživatel nebyl nalezen"
 
-#: linux/settingsdialog.cc:1265
+#: linux/settingsdialog.cc:1316
 msgid "User operator "
 msgstr "Uživatel je Operator "
 
-#: linux/settingsdialog.cc:1266
+#: linux/settingsdialog.cc:1317
 msgid "User operator (away) "
 msgstr "Uživatel je Operator (away) "
 
-#: linux/settingsdialog.cc:1268
+#: linux/settingsdialog.cc:1319
 msgid "User operator (pasive&away) "
 msgstr "Uživatel je Operator (pasive a away) "
 
-#: linux/settingsdialog.cc:1267
+#: linux/settingsdialog.cc:1318
 msgid "User operator (pasive) "
 msgstr "Uživatel je Operator (pasive) "
 
-#: linux/privatemessage.cc:1159
+#: linux/hub.cc:2582
+msgid "User unIgnored "
+msgstr "Uživatel odignorován "
+
+#: linux/privatemessage.cc:1183
 msgid "User went offline"
 msgstr "Uživatel je offilne"
 
-#: linux/settingsdialog.cc:1305
+#: linux/settingsdialog.cc:1356
 msgid "User with connection type 0.0x or low"
 msgstr "Uživatel s připojením typu 0.0x nebo nižším"
 
-#: linux/settingsdialog.cc:1306
+#: linux/settingsdialog.cc:1357
 msgid "User with connection type 0.0x or low (away)"
 msgstr "Uživatel s připojením typu 0.0x nebo nižším (away)"
 
-#: linux/settingsdialog.cc:1308
+#: linux/settingsdialog.cc:1359
 msgid "User with connection type 0.0x or low (pasive&away)"
 msgstr "Uživatel s připojením typu 0.0x nebo nižším (pasive a away)"
 
-#: linux/settingsdialog.cc:1307
+#: linux/settingsdialog.cc:1358
 msgid "User with connection type 0.0x or low (pasive)"
 msgstr "Uživatel s připojením typu 0.0x nebo nižším (pasive)"
 
-#: linux/settingsdialog.cc:1300
+#: linux/settingsdialog.cc:1351
 msgid "User with connection type 0.x"
 msgstr "Uživatel s připojením typu 0.x"
 
-#: linux/settingsdialog.cc:1301
+#: linux/settingsdialog.cc:1352
 msgid "User with connection type 0.x (away)"
 msgstr "Uživatel s připojením typu 0.x (away)"
 
-#: linux/settingsdialog.cc:1303
+#: linux/settingsdialog.cc:1354
 msgid "User with connection type 0.x (pasive&away)"
 msgstr "Uživatel s připojením typu 0.x (pasive a away)"
 
-#: linux/settingsdialog.cc:1302
+#: linux/settingsdialog.cc:1353
 msgid "User with connection type 0.x (pasive)"
 msgstr "Uživatel s připojením typu 0.x (pasive)"
 
-#: linux/settingsdialog.cc:1295
+#: linux/settingsdialog.cc:1346
 msgid "User with connection type 10 or more "
 msgstr "Uživatel s připojením typu 10 nebo víc "
 
-#: linux/settingsdialog.cc:1296
+#: linux/settingsdialog.cc:1347
 msgid "User with connection type 10 or more (away)"
 msgstr "Uživatel s připojením typu 10 nebo víc (away)"
 
-#: linux/settingsdialog.cc:1298
+#: linux/settingsdialog.cc:1349
 msgid "User with connection type 10 or more (pasive&away)"
 msgstr "Uživatel s připojením typu 10 nebo víc (pasive a away)"
 
-#: linux/settingsdialog.cc:1297
+#: linux/settingsdialog.cc:1348
 msgid "User with connection type 10 or more (pasive)"
 msgstr "Uživatel s připojením typu 10 nebo víc (pasive)"
 
-#: linux/settingsdialog.cc:1285
+#: linux/settingsdialog.cc:1336
 msgid "User with connection type LAN "
 msgstr "Uživatel s připojením typu LAN "
 
-#: linux/settingsdialog.cc:1286
+#: linux/settingsdialog.cc:1337
 msgid "User with connection type LAN (away)"
 msgstr "Uživatel s připojením typu LAN (away)"
 
-#: linux/settingsdialog.cc:1288
+#: linux/settingsdialog.cc:1339
 msgid "User with connection type LAN (pasive&away)"
 msgstr "Uživatel s připojením typu LAN (pasive a away)"
 
-#: linux/settingsdialog.cc:1287
+#: linux/settingsdialog.cc:1338
 msgid "User with connection type LAN (pasive)"
 msgstr "Uživatel s připojením typu LAN (pasive)"
 
-#: linux/settingsdialog.cc:1290
+#: linux/settingsdialog.cc:1341
 msgid "User with connection type Netlimiter "
 msgstr "Uživatel s připojením typu Netlimiter "
 
-#: linux/settingsdialog.cc:1291
+#: linux/settingsdialog.cc:1342
 msgid "User with connection type Netlimiter (away)"
 msgstr "Uživatel s připojením typu Netlimiter (away)"
 
-#: linux/settingsdialog.cc:1293
+#: linux/settingsdialog.cc:1344
 msgid "User with connection type Netlimiter (pasive&away)"
 msgstr "Uživatel s připojením typu Netlimiter (pasive a away)"
 
-#: linux/settingsdialog.cc:1292
+#: linux/settingsdialog.cc:1343
 msgid "User with connection type Netlimiter (pasive)"
 msgstr "Uživatel s připojením typu Netlimiter (pasive)"
 
-#: linux/settingsdialog.cc:1280
+#: linux/settingsdialog.cc:1331
 msgid "User with connection type dsl "
 msgstr "Uživatel s připojením typu DSL "
 
-#: linux/settingsdialog.cc:1281
+#: linux/settingsdialog.cc:1332
 msgid "User with connection type dsl (away)"
 msgstr "Uživatel s připojením typu DSL (away)"
 
-#: linux/settingsdialog.cc:1283
+#: linux/settingsdialog.cc:1334
 msgid "User with connection type dsl (pasive&away)"
 msgstr "Uživatel s připojením typu DSL (pasive a away)"
 
-#: linux/settingsdialog.cc:1282
+#: linux/settingsdialog.cc:1333
 msgid "User with connection type dsl (pasive)"
 msgstr "Uživatel s připojením typu DSL (pasive)"
 
-#: linux/settingsdialog.cc:1270
+#: linux/settingsdialog.cc:1321
 msgid "User with connection type modem "
 msgstr "Uživatel s připojením typu modem "
 
-#: linux/settingsdialog.cc:1271
+#: linux/settingsdialog.cc:1322
 msgid "User with connection type modem (away)"
 msgstr "Uživatel s připojením typu modem (away)"
 
-#: linux/settingsdialog.cc:1273
+#: linux/settingsdialog.cc:1324
 msgid "User with connection type modem (pasive&away)"
 msgstr "Uživatel s připojením typu modem (pasive a away)"
 
-#: linux/settingsdialog.cc:1272
+#: linux/settingsdialog.cc:1323
 msgid "User with connection type modem (pasive)"
 msgstr "Uživatel s připojením typu modem (pasive)"
 
-#: linux/settingsdialog.cc:1275
+#: linux/settingsdialog.cc:1326
 msgid "User with connection type wireless "
 msgstr "Uživatel s typem připojením wireless "
 
-#: linux/settingsdialog.cc:1276
+#: linux/settingsdialog.cc:1327
 msgid "User with connection type wireless (away)"
 msgstr "Uživatel s typem připojení wireless (away)"
 
-#: linux/settingsdialog.cc:1278
+#: linux/settingsdialog.cc:1329
 msgid "User with connection type wireless (pasive&away)"
 msgstr "Uživatel s typem připojení wireless  (pasive a away)"
 
-#: linux/settingsdialog.cc:1277
+#: linux/settingsdialog.cc:1328
 msgid "User with connection type wireless (pasive)"
 msgstr "Uživatel s typem připojení wireless  (pasive)"
 
-#: linux/settingsdialog.cc:1310
+#: linux/settingsdialog.cc:1361
 msgid "User with other connection type or unknown"
 msgstr "Uživatel s typem připojení ostatní nebo neznamím"
 
-#: linux/settingsdialog.cc:1311
+#: linux/settingsdialog.cc:1362
 msgid "User with other connection type or unknown (away)"
 msgstr "Uživatel s typem připojení ostatní nebo neznamím (away)"
 
-#: linux/settingsdialog.cc:1313
+#: linux/settingsdialog.cc:1364
 msgid "User with other connection type or unknown (pasive&away)"
 msgstr "Uživatel s typem připojení ostatní nebo neznamím (pasive a away)"
 
-#: linux/settingsdialog.cc:1312
+#: linux/settingsdialog.cc:1363
 msgid "User with other connection type or unknown (pasive)"
 msgstr "Uživatel s typem připojení ostatní nebo neznamím (pasive)"
 
-#: linux/publichubs.cc:188
+#: linux/publichubs.cc:189
 msgid "Users: "
 msgstr "Uživatelé: "
 
-#: linux/settingsdialog.cc:979
+#: linux/settingsdialog.cc:1024
 msgid "View status messages in main chat"
 msgstr "Zobrazovat stavové zprávy v chatu"
 
-#: linux/settingsdialog.cc:949 linux/settingsdialog.cc:3564
-#: linux/settingsdialog.cc:3633
+#: linux/settingsdialog.cc:994 linux/settingsdialog.cc:3754
+#: linux/settingsdialog.cc:3823
 msgid "Virtual Name"
 msgstr "Virtualní jméno"
 
-#: linux/settingsdialog.cc:2904
+#: linux/settingsdialog.cc:3007
 msgid "Virtual name"
 msgstr "Virtualni jmeno"
 
-#: linux/hub.cc:783
+#: linux/hub.cc:626
 msgid ""
 "Waiting for input password (don't remove /password before your password)"
 msgstr "čekám na vložení hesla (neodstraňovat /password před svým heslem )"
@@ -4504,22 +4646,22 @@ msgstr "Čekám na další pokus"
 msgid "Welcome to "
 msgstr "Vítejte v "
 
-#: linux/settingsdialog.cc:895
+#: linux/settingsdialog.cc:940
 msgid "Xine player"
 msgstr "Xine přehravač"
 
-#: linux/favoritehubs.cc:286 linux/favoritehubs.cc:287
-#: linux/favoritehubs.cc:663 linux/favoritehubs.cc:664
-#: linux/favoritehubs.cc:837 linux/favoritehubs.cc:838
+#: linux/favoritehubs.cc:273 linux/favoritehubs.cc:274
+#: linux/favoritehubs.cc:650 linux/favoritehubs.cc:651
+#: linux/favoritehubs.cc:824 linux/favoritehubs.cc:825
 #: linux/finishedtransfers.cc:376
 msgid "Yes"
 msgstr "Ano"
 
-#: linux/favoritehubs.cc:637
+#: linux/favoritehubs.cc:624
 msgid "You must enter a name"
 msgstr "Musíte zadat jméno"
 
-#: linux/settingsdialog.cc:3626
+#: linux/settingsdialog.cc:3816
 msgid "[HIDDEN SHARE] "
 msgstr "[HIDDEN SHARE] "
 
@@ -4539,39 +4681,47 @@ msgstr "[U]"
 msgid "[Z]"
 msgstr "[Z]"
 
-#: linux/settingsdialog.cc:2379
+#: linux/settingsdialog.cc:2482
 msgid "default icons"
 msgstr "standartní ikony"
 
-#: linux/settingsdialog.cc:2417
+#: linux/settingsdialog.cc:2520
 msgid "default theme"
 msgstr "standartní Vzhled"
 
-#: linux/hub.cc:87 linux/hub.cc:595 linux/hub.cc:629
+#: linux/hub.cc:85 linux/hub.cc:439 linux/hub.cc:474
 msgid "eMail"
 msgstr "eMail"
 
-#: linux/mainwindow.cc:2410
+#: linux/mainwindow.cc:2393
 msgid "file list from "
 msgstr "Seznam souborů z "
 
-#: linux/WulforUtil.cc:1285
+#: linux/WulforUtil.cc:775
 msgid "project home: "
 msgstr "Domovská Stránka "
 
-#: linux/privatemessage.cc:888
+#: linux/privatemessage.cc:912
 msgid "rebuild share"
 msgstr "Rebuild share"
 
-#: linux/privatemessage.cc:887
+#: linux/privatemessage.cc:911
 msgid "refresh share"
 msgstr "Obnovení Sdilení"
 
-#: linux/settingsdialog.cc:2960 linux/settingsdialog.cc:3061
+#: linux/settingsdialog.cc:3243
+msgid "selected color failed"
+msgstr "označená barva selhala"
+
+#: linux/settingsdialog.cc:3214
+msgid "selected name failed"
+msgstr "označený jméno selhalo"
+
+#: linux/settingsdialog.cc:3063 linux/settingsdialog.cc:3164
 msgid "selected style failed"
 msgstr "Selhalo nastavení stylu"
 
-#: linux/hub.cc:2140
+#: linux/hub.cc:2002
 msgid "send password"
 msgstr "Poslat heslo"
 

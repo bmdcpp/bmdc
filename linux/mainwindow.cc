@@ -31,6 +31,7 @@
 #include <dcpp/Upload.h>
 #include <dcpp/Download.h>
 #include <dcpp/ClientManager.h>
+#include <dcpp/UPnPManager.h>//NOTE: core 0.762
 #include <dcpp/version.h>
 #include "downloadqueue.hh"
 #include "favoritehubs.hh"
@@ -1918,8 +1919,20 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 	{
 		if (SETTING(INCOMING_CONNECTIONS) != lastConn || SETTING(TCP_PORT) != tcpPort || SETTING(UDP_PORT) != udpPort)
 		{
+			//NOTE: core 0.762
+			if (SETTING(INCOMING_CONNECTIONS) == SettingsManager::INCOMING_FIREWALL_UPNP ||
+				lastConn == SettingsManager::INCOMING_FIREWALL_UPNP)
+			{
+				UPnPManager::getInstance()->close();
+			}
+
 			F0 *func = new F0(mw, &MainWindow::startSocket_client);
 			WulforManager::get()->dispatchClientFunc(func);
+		}
+		else if (SETTING(INCOMING_CONNECTIONS) == SettingsManager::INCOMING_FIREWALL_UPNP && !UPnPManager::getInstance()->getOpened())//NOTE: core 0.762
+		{
+			// previous UPnP mappings had failed; try again
+			UPnPManager::getInstance()->open();
 		}
 
 		if (BOOLSETTING(ALWAYS_TRAY))
@@ -2346,6 +2359,10 @@ void MainWindow::startSocket_client()
 			F2* func = new F2(this, &MainWindow::showMessageDialog_gui, primaryText, secondaryText);
 			WulforManager::get()->dispatchGuiFunc(func);
 		}
+		// must be done after listen calls; otherwise ports won't be set
+		if (SETTING(INCOMING_CONNECTIONS) == SettingsManager::INCOMING_FIREWALL_UPNP)// NOTE: core 0.762
+			UPnPManager::getInstance()->open();
+		
 	}
 
 	ClientManager::getInstance()->infoUpdated();
@@ -2370,7 +2387,7 @@ void MainWindow::openOwnList_client(bool useSetting)
 	string path = ShareManager::getInstance()->getOwnListFile();
 
 	typedef Func5<MainWindow, UserPtr, string, string, bool,int64_t> F5;
-	F5 *func = new F5(this, &MainWindow::showShareBrowser_gui, user, path, "", useSetting,(int64_t)0);
+	F5 *func = new F5(this, &MainWindow::showShareBrowser_gui, user, path, "", useSetting, (int64_t)0);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
