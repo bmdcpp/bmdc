@@ -307,5 +307,6 @@ Applied ZLIF patch from iceman50
 Added setting of Colors text in UserList
 Update czech translate.
 Some missing code of UPNP
+Some translate able strings fix in settings
 
 

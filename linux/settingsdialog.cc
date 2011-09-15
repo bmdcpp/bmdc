@@ -1544,12 +1544,12 @@ void Settings::initAppearance_gui()
 		gtk_tree_view_set_model(userListPreview.get(), GTK_TREE_MODEL(userListStore2));
 		g_object_unref(userListStore2);
 		
-		addPreviewUL_gui(userListStore2, _("User Normal"), WGETS("userlist-text-normal"), WGETS("icon-normal"));
-		addPreviewUL_gui(userListStore2, _("User Operator"), WGETS("userlist-text-operator"), WGETS("icon-normal"));
-		addPreviewUL_gui(userListStore2, _("User Pasive"), WGETS("userlist-text-pasive"), WGETS("icon-normal"));
-		addPreviewUL_gui(userListStore2, _("User Favorite"), WGETS("userlist-text-favorite"), WGETS("icon-normal"));
-		addPreviewUL_gui(userListStore2, _("User Protected"), WGETS("userlist-text-protected"), WGETS("icon-normal"));
-		addPreviewUL_gui(userListStore2, _("User Ignored"), WGETS("userlist-text-ignored"), WGETS("icon-normal"));
+		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Normal"), WGETS("userlist-text-normal"), WGETS("icon-normal"));
+		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Operator"), WGETS("userlist-text-operator"), WGETS("icon-normal"));
+		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Pasive"), WGETS("userlist-text-pasive"), WGETS("icon-normal"));
+		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Favorite"), WGETS("userlist-text-favorite"), WGETS("icon-normal"));
+		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Protected"), WGETS("userlist-text-protected"), WGETS("icon-normal"));
+		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Ignored"), WGETS("userlist-text-ignored"), WGETS("icon-normal"));
 		
 		g_signal_connect(getWidget("buttonForeColorTextUL"), "clicked", G_CALLBACK(onTextColorForeULClicked_gui), (gpointer)this);
 		g_signal_connect(getWidget("buttonDefUL"), "clicked", G_CALLBACK(onTextColorDefaultULClicked_gui), (gpointer)this);
@@ -3195,7 +3195,7 @@ void Settings::selectTextStyle_gui(const int select)
 		}
 	}
 }
-/**/
+/*BMDC++*/
 void Settings::onTextColorForeULClicked_gui(GtkWidget *widget, gpointer data)
 {
 	Settings *s = (Settings *)data;
@@ -3206,15 +3206,15 @@ void Settings::onTextColorDefaultULClicked_gui(GtkWidget *widget, gpointer data)
 {
 	Settings *s = (Settings *)data;	
 	GtkTreeIter iter;
-	//GtkTreeSelection *selection = gtk_tree_view_get_selection(s->userListNames.get());
+	
 	gboolean valid = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(s->userListStore1), &iter);
 	
-	if (!valid/*!gtk_tree_selection_get_selected(selection, NULL, &iter)*/)
+	if (!valid)
 	{
 		s->showErrorDialog(_("selected name failed"));
 		return;
 	}
-	//gboolean valid;
+
 	s->setDefaultColor("#000000", _("Normal"), &iter);
 	valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(s->userListStore1), &iter);
 	if(valid)
@@ -3262,7 +3262,7 @@ void Settings::setColorUL()
 
 		string strcolor = WulforUtil::colorToString(&color);
 		
-		ColorIters::const_iterator qp = colorsIters.find("User "+currname);
+		ColorIters::const_iterator qp = colorsIters.find(_("User ") + currname);
 		GtkTreeIter qiter = qp->second;
 		
 		gtk_list_store_set(userListStore2, &qiter, userListPreview.col("Color"), strcolor.c_str(), -1);
@@ -3273,15 +3273,13 @@ void Settings::setColorUL()
 
 void Settings::setDefaultColor(string color, string name, GtkTreeIter *iter)
 {
-	ColorIters::const_iterator qp = colorsIters.find("User "+name);
+	ColorIters::const_iterator qp = colorsIters.find(_("User ") + name);
 	GtkTreeIter qiter = qp->second;
 		
 	gtk_list_store_set(userListStore2, &qiter, userListPreview.col("Color"), color.c_str(), -1);
 	gtk_list_store_set(userListStore1, iter, userListNames.col("Color"), color.c_str(), -1);	
 
-	
 }
-
 
 void Settings::loadUserCommands_gui()
 {
