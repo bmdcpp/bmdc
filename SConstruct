@@ -21,7 +21,7 @@ LIB_IS_UPNP = True
 
 # todo: remove -fpermissive and fix the errors
 BUILD_FLAGS = {
-	'common'  : ['-I#','-fpermissive','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT' ],
+	'common'  : ['-I#','-fpermissive','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib' ],#fix for oneiric
 	'debug'   : ['-g', '-ggdb', '-Wall', '-D_DEBUG'], 
 	'release' : ['-O3', '-fomit-frame-pointer', '-DNDEBUG']
 }
@@ -309,7 +309,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	env.MergeFlags(BUILD_FLAGS[env['mode']])
 
 	env.Append(CXXFLAGS = '-std=c++0x')
-	env.Append(LINKFLAGS = ['-lboost_thread','-lboost_regex'])
+	env.Append(LINKFLAGS = ['-lboost_thread','-lboost_regex','-L/usr/local/lib'])
 
 	env.ParseConfig('pkg-config --libs libglade-2.0')
 	env.ParseConfig('pkg-config --libs gthread-2.0')
