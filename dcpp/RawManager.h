@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2009 adrian_007, adrian-007 on o2 point pl
+ * Copyright (C) 2007-2011 adrian_007, adrian-007 on o2 point pl
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -81,5 +81,5 @@ private:
 
 /**
  * @file
- * $Id: RawManager.h 42 2007-10-31 18:27:40Z adrian_007 $
+ * $Id: RawManager.h 42 2011-10-31 18:27:40Z adrian_007 $
  */

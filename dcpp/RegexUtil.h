@@ -52,20 +52,7 @@ namespace RegexUtil {
 		} catch(...) {
 			//...
 		}
-		return false;/*
-			int    status;
-			regex_t    re;
-			const char *pattern=expression.c_str();
-			const char *strings=strToMatch.c_str();
-			    if (regcomp(&re, pattern, REG_EXTENDED|REG_NOSUB) != 0) {
-			        return false;      
-    				}
-			    status = regexec(&re, strings, (size_t) 0, NULL, 0);
-			    regfree(&re);
-			    if (status != 0) {
-			        return false;    
-				    }
-    			return true;*/
+		return false;
 	}
 
 	// Return the tags version number for %[version]

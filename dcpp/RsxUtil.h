@@ -31,7 +31,6 @@ public:
 */
 	static void		generateTestSURString();
 	static const string&	getTestSURString();
-//	static string			getUpdateFileNames(const int number);
 /*	static bool				toBool(const string& aString);
 	static bool				toBool(const int aNumber);
 	static void				trim(string& source, const string& delims = " \t\r\n");

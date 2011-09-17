@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2008 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,8 +34,8 @@ class notepad:
 {
 	public:
 		notepad();
-		notepad(std::string aFile,bool aUseFile = false)
-		{ file = aFile; usefile =aUseFile; }
+		notepad(std::string aFile, bool aUseFile = false):
+		file(aFile), usefile(aUseFile)	{  }
 		virtual ~notepad();
 		virtual void show();
 		virtual void popmenu();

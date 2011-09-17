@@ -12,7 +12,7 @@ def listening():	# Announce in the current channel
    except IOError:
       print "Unable to read the songtitle file"
    else:
-      print ("IDJC playing => " +song +" <=The Best Radio")
+      print ("IDJC playing => " +song +" <= The Best Radio")
    return song			# Processing of the command stops here
  
 idjc = os.environ.get("HOME") + "/.idjc/"	# The file path of the ~/.idjc directory   

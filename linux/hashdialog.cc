@@ -44,7 +44,7 @@ Hash::Hash(GtkWindow* parent):
 		gtk_window_set_title(GTK_WINDOW(getContainer()), _("Indexing files..."));
 
 	g_signal_connect(getWidget("pauseHashingToggleButton"), "toggled", G_CALLBACK(onPauseHashing_gui), (gpointer)this);
-//NOTE: core 0.762]
+
 	TimerManager::getInstance()->addListener(this);
 }
 

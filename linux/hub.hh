@@ -54,7 +54,6 @@ class Hub:
 
 		// GUI functions
 		void preferences_gui();
-		//void sendUC(dcpp::UserCommand uc,dcpp::StringMap& params);
 		std::string getAddress() const {return !address.empty() ? address : (!huburl.empty() ? huburl : dcpp::Util::emptyString);}
 		bool findNick_gui_p(std::string &nick, GtkTreeIter iter) { return findNick_gui(nick,&iter);}
 	private:
@@ -130,7 +129,7 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		static void onChatResize_gui(GtkAdjustment *adjustment, gpointer data);
 		static void onSendMessage_gui(GtkEntry *entry, gpointer data);
 		static void onNickToChat_gui(GtkMenuItem *item, gpointer data);
-		//static void onCopyNickItemClicked_gui(GtkMenuItem *item, gpointer data);
+
 		static void onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onMatchItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onMsgItemClicked_gui(GtkMenuItem *item, gpointer data);
@@ -147,7 +146,6 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		//Ignored Users
 		static void onAddIgnItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onRemoveIgnItemClicked_gui(GtkMenuItem *item, gpointer data);
-		//static void onCopyTag_gui(GtkMenuItem *item, gpointer data);
 		static void onUserInfo_gui(GtkMenuItem *item, gpointer data);
 		static void onTestSUR_gui(GtkMenuItem *item, gpointer data);
 		static void onCheckFL(GtkMenuItem *item , gpointer data);

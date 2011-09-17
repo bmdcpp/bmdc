@@ -1,5 +1,5 @@
 /* Parts of Code 2010-2011 (C) Mank (freedcpp@seznam.cz)*/
-/* Part of Code (C) troll.freedcpp*/
+/* Part of Code (C) 2010 troll.freedcpp*/
 #include "favoritehubs.hh"
 #include "settingsmanager.hh"
 #include "wulformanager.hh"
@@ -1268,6 +1268,5 @@ void FavoriteHubs::popmenu()
 void FavoriteHubs::onCloseItem(gpointer data)
 {
     BookEntry *entry = (BookEntry *)data;
-
     WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
 }

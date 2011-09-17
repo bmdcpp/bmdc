@@ -474,7 +474,6 @@ bool WulforUtil::profileIsLocked()
 	return profileIsLocked;
 }
 
-
 gboolean WulforUtil::getNextIter_gui(GtkTreeModel *model, GtkTreeIter *iter, bool children /* = TRUE */, bool parent /* = TRUE */)
 {
 	gboolean valid = FALSE;
@@ -548,6 +547,8 @@ void WulforUtil::copyValue_gui(GtkTreeStore *store, GtkTreeIter *fromIter, GtkTr
 
 /*
 * load Country Flag
+* param (CZ, SK,... ENG) 
+* return flag of country 
 */
 
 GdkPixbuf *WulforUtil::loadCountry(const string &country)
@@ -644,7 +645,7 @@ void WulforUtil::registerIcons()
 	icons["bmdc-directory"] = wsm->getString("icon-directory");
 
 	icons["bmdc-normal"] = wsm->getString("icon-normal");
-    /*normal mode*/
+    /* normal mode */
 	icons["bmdc-op"] = wsm->getString("icon-op");
 	icons["bmdc-modem"] = wsm->getString("icon-modem");
 	icons["bmdc-wireless"] = wsm->getString("icon-wireless");
@@ -656,46 +657,42 @@ void WulforUtil::registerIcons()
 	icons["bmdc-zeroone"] = wsm->getString("icon-zeroone");
 	icons["bmdc-zerozeroone"] = wsm->getString("icon-zerozeroone");
 	icons["bmdc-other"] = wsm->getString("icon-other");
-	/*aways mode*/
-	/**/
+	/* aways mode */
 	icons["bmdc-op-away"] = wsm->getString("icon-op-away");
 	icons["bmdc-modem-away"] = wsm->getString("icon-modem-away");
 	icons["bmdc-wireless-away"] = wsm->getString("icon-wireless-away");
 	icons["bmdc-dsl-away"] = wsm->getString("icon-dsl-away");
 	icons["bmdc-lan-away"] = wsm->getString("icon-lan-away");
 	icons["bmdc-netlimiter-away"] = wsm->getString("icon-netlimiter-away");
-	/***/
+	/**/
 	icons["bmdc-ten-away"] = wsm->getString("icon-ten-away");
 	icons["bmdc-zeroone"] = wsm->getString("icon-zeroone-away");
 	icons["bmdc-zerozeroone-away"] = wsm->getString("icon-zerozeroone-away");
 	icons["bmdc-other-away"] = wsm->getString("icon-other-away");
-	/*end*/
-	/*normal pasive mod*/
+	/* normal pasive mod */
 	icons["bmdc-op-pasive"] = wsm->getString("icon-op-pasive");
 	icons["bmdc-modem-pasive"] = wsm->getString("icon-modem-pasive");
 	icons["bmdc-wireless-pasive"] = wsm->getString("icon-wireless-pasive");
 	icons["bmdc-dsl-pasive"] = wsm->getString("icon-dsl");
 	icons["bmdc-lan-pasive"] = wsm->getString("icon-lan-pasive");
 	icons["bmdc-netlimiter-pasive"] = wsm->getString("icon-netlimiter-pasive");
-	/***/
+	/**/
 	icons["bmdc-ten-pasive"] = wsm->getString("icon-ten-pasive");
 	icons["bmdc-zeroone-pasive"] = wsm->getString("icon-zeroone-pasive");
 	icons["bmdc-zerozeroone-pasive"] = wsm->getString("icon-zerozeroone-pasive");
 	icons["bmdc-other-pasive"] = wsm->getString("icon-other-pasive");
-	/*aways pasive mode*/
-	/**/
+	/* aways pasive mode */
 	icons["bmdc-op-away-pasive"] = wsm->getString("icon-op-away-pasive");
 	icons["bmdc-modem-away-pasive"] = wsm->getString("icon-modem-away-pasive");
 	icons["bmdc-wireless-away-pasive"] = wsm->getString("icon-wireless-away-pasive");
 	icons["bmdc-dsl-away-pasive"] = wsm->getString("icon-dsl-away-pasive");
 	icons["bmdc-lan-away-pasive"] = wsm->getString("icon-lan-away-pasive");
 	icons["bmdc-netlimiter-away-pasive"] = wsm->getString("icon-netlimiter-away-pasive");
-	/***/
+	/**/
 	icons["bmdc-ten-away-pasive"] = wsm->getString("icon-ten-away-pasive");
 	icons["bmdc-zeroone-pasive"] = wsm->getString("icon-zeroone-away-pasive");
 	icons["bmdc-zerozeroone-away"] = wsm->getString("icon-zerozeroone-away-pasive");
 	icons["bmdc-other-away-pasive"] = wsm->getString("icon-other-away-pasive");
-	/*end*/
 
 	if (iconFactory)
 	{
@@ -753,6 +750,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 				Util::setAway(FALSE);
 				Util::setManualAway(FALSE);
 				status += _("Away mode off");
+				WulforManager::get()->getMainWindow()->setAwayIcon(false);
 		}
 		else
 		{
@@ -760,12 +758,16 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 				Util::setManualAway(TRUE);
 				Util::setAwayMessage(param);
 				status += _("Away mode on: ") + Util::getAwayMessage();
+				WulforManager::get()->getMainWindow()->setAwayIcon(true);
 		}
+		ClientManager::getInstance()->infoUpdated();
 	}
 	else if ( cmd == "back" )
 	{
 		Util::setAway(FALSE);
 		status += _("Away mode off");
+		WulforManager::get()->getMainWindow()->setAwayIcon(false);
+		ClientManager::getInstance()->infoUpdated();
 
 	} else if ( cmd == "bmdc" )
 	{
@@ -785,9 +787,9 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 				ratio = 0;
 
 			if(param == "mc")
-				message = string("Ratio: " ) + Util::toString(ratio) + string(" ( Uploads: ") + Util::formatBytes(up) + "/ Downloads " + Util::formatBytes(dw) + " )";
+				message = string(_("Ratio: " )) + Util::toString(ratio) + string(_(" ( Uploads: ")) + Util::formatBytes(up) + _("/ Downloads ") + Util::formatBytes(dw) + " )";
 			else
-				status += string("Ratio: " ) + Util::toString(ratio) + string(" ( Uploads: ") + Util::formatBytes(up) + string("/ Downloads ") + Util::formatBytes(dw) + " )";
+				status += string(_("Ratio: " )) + Util::toString(ratio) + string(_(" ( Uploads: ")) + Util::formatBytes(up) + _("/ Downloads ") + Util::formatBytes(dw) + " )";
 	}
 	else if ( cmd == "refresh" )
 	{
@@ -938,11 +940,11 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	}
 	else if ( cmd == "ws")
 	{
-		status = WSCMD(param);	
+		status += WSCMD(param);	
 	}
 	else if ( cmd == "dcpps" )
 	{
-		status  = SettingsManager::getInstance()->parseCoreCmd(param);
+		status  += SettingsManager::getInstance()->parseCoreCmd(param);
 	}
 	//aliases
 	else if (cmd == "alias" && !param.empty())
@@ -985,7 +987,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
  				else
  				{
 					///pridani aliasu
- 					StringTokenizer<string> command( param, '::' );
+ 					StringTokenizer<string> command( param, "::" );//'
  					string store(""), name("");
  					bool exists = false;
  					for(StringIter i = aliases.getTokens().begin(); i != aliases.getTokens().end(); ++i)
@@ -1130,7 +1132,6 @@ void WulforUtil::drop_combo(GtkWidget *widget, vector<pair<std::string,int> > CO
 	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(widget), renderer, TRUE);
 	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(widget),renderer, "text", 0, NULL);
 
-   // gtk_combo_box_entry_set_text_column(GTK_COMBO_BOX_ENTRY(widget), 0);
    gtk_combo_box_set_active(GTK_COMBO_BOX(widget),  0);
 
 }
@@ -1181,41 +1182,41 @@ void WulforUtil::loadmimetypes()
 {
 	m_mimetyp.insert( std::pair<std::string, std::string>(".zip", "application/zip"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".pdf", "application/pdf"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".py", "text/python"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".py",  "text/python"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".bin", "application/octet-stream"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".iso", "application/octet-stream"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".tar", "application/x-tar"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".gz", "application/x-tar"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".gz",  "application/x-tar"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".mid", "audio/mid"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".rmi", "audio/mid"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".midi", "audio/mid"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".jpeg", "image/jpeg"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".midi","audio/mid"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".jpeg","image/jpeg"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".jpe", "image/jpeg"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".jpg", "image/jpeg"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".png", "image/png"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".svg", "image/svg+xml"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".mpg", "video/mpeg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".mpeg", "video/mpeg"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".mpeg","video/mpeg"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".mpe", "video/mpeg"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".mov", "video/quicktime"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".qt", "video/quicktime"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".qt",  "video/quicktime"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".bmp", "image/bmp"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".doc", "application/msword"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".docx","application/vnd.openxmlformats-officedocument.wordprocessingml.document"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".rtf", "application/rtf"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".xls", "application/vnd.ms-excel"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".xlsx","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".pptx","application/vnd.openxmlformats-officedocument.presentationml.presentation"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".ppt", "application/vnd.ms-powerpoint"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".gif", "image/gif"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".exe", "application/octet-stream"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".dll", "application/x-msdownload"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".css", "text/css"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".html", "text/html"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".html","text/html"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".htm", "text/html"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".txt", "text/plain"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".c", "text/plain"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".h", "text/plain"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".c",   "text/plain"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".h",   "text/plain"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".srt", "text/plain"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".sfv", "text/plain"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".nfo", "text/plain"));
@@ -1347,7 +1348,7 @@ bool WulforUtil::isHighlitingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, stri
 		string sMsgLower;
 		sMsgLower.resize(word.size()+1);
 		std::transform(word.begin(), word.end(), sMsgLower.begin(), _tolower);
-		gboolean ret;
+		gboolean ret = FALSE;
 
 		ColorList* cList = HighlightManager::getInstance()->getList();
 		for(ColorIter i = cList->begin();i != cList->end(); ++i) {
@@ -1356,8 +1357,7 @@ bool WulforUtil::isHighlitingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, stri
 			bool tItalic = false;
 			bool tUnderline = false;
 			bool tPopup = false;
-//			bool user = false;
-			bool tSound = true;
+			bool tSound = false;
 			string fore("");
 			string back("");
 
@@ -1467,14 +1467,7 @@ bool WulforUtil::isHighlitingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, stri
 
 
 				if(tPopup)
-					WulforManager::get()->getMainWindow()->showNotification_gui(cs->getNoti()+":",word,Notify::HIGHLITING_E);
-
-				/*if(tTab)
-				{
-					typedef Func0<Hub> F0;
-					F0 *func = new F0(this, &Hub::setUrgent_gui);
-					WulforManager::get()->dispatchGuiFunc(func);
-				}*/
+					WulforManager::get()->getMainWindow()->showNotification_gui(cs->getNoti()+":", word, Notify::HIGHLITING_E);
 
 				if(tSound)
 				{

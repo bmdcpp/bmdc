@@ -96,7 +96,13 @@ class MainWindow:
 		void showNotification_gui(std::string head, std::string body, Notify::TypeNotify notify);
 		GtkWidget* getChooserDialog_gui();
 		void fileToDownload_gui(std::string magnet, std::string path);
-
+		void setAwayIcon(bool isAway)
+		{  
+			if(isAway)
+				gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("AwayIcon")), "bmdc-away-on");
+			else	
+				gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("AwayIcon")), "bmdc-away");
+		}
 		// Client functions
 		void openOwnList_client(bool useSetting);
 

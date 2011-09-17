@@ -31,7 +31,7 @@
 #include <dcpp/Upload.h>
 #include <dcpp/Download.h>
 #include <dcpp/ClientManager.h>
-#include <dcpp/UPnPManager.h>//NOTE: core 0.762
+#include <dcpp/UPnPManager.h> //NOTE: core 0.762
 #include <dcpp/version.h>
 #include "downloadqueue.hh"
 #include "favoritehubs.hh"
@@ -55,11 +55,10 @@
 #include "notepad.hh"
 #include "ADLSearchGUI.hh"
 #include "ignoreusers.hh"
-
 #include "recenthub.hh"
+
 #include <dcpp/HashManager.h>
 #include <dcpp/ThrottleManager.h>
-
 #include <dcpp/Util.h>
 #ifdef _USELUA
 	#include <dcpp/ScriptManager.h>
@@ -135,7 +134,7 @@ MainWindow::MainWindow():
 	g_signal_connect(G_OBJECT(upitem), "activate", G_CALLBACK(onLimitingDisable), (gpointer)this);
 	GtkWidget *sep =  gtk_separator_menu_item_new();
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu),sep);
-	///@change to dynamic
+	///TODO @change to dynamic
 	for(int i = 10240; i<2097152; i = i*2+40960/2) {
 		string tmenu = Text::toT(Util::formatBytes(i)) + (_("/s"));
 		string tspeed = Util::toString(i);
@@ -490,6 +489,7 @@ void MainWindow::getAway()
 			setMainStatus_gui(_("Away mode on"),time(NULL));
 			gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("AwayIcon")), "bmdc-away-on");
 	}
+	ClientManager::getInstance()->infoUpdated();
 }
 
 void MainWindow::onLimitingMenuItem_gui(GtkWidget *widget, gpointer data)
@@ -789,7 +789,9 @@ void MainWindow::setMainStatus_gui(string text, time_t t)
 
 void MainWindow::showNotification_gui(string head, string body, Notify::TypeNotify notify)
 {
+#ifdef HAVE_LIBNOTIFY
 	Notify::get()->showNotify(head, body, notify);
+#endif	
 }
 
 void MainWindow::setStats_gui(string hubs, string downloadSpeed,
@@ -1094,11 +1096,16 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 
 				string::size_type i = string(p).size();
 				string::size_type j = message.size();
-
+			#ifdef HAVE_LIBNOTIFY
 				Notify::get()->showNotify("", message.substr(0, j - i) + "...", Notify::PRIVATE_MESSAGE);
+			#endif	
 			}
 			else
+			#ifdef HAVE_LIBNOTIFY
 				Notify::get()->showNotify("", message, Notify::PRIVATE_MESSAGE);
+			#else
+			;
+			#endif	
 		}
 	}
 

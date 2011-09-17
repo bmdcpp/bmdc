@@ -48,7 +48,8 @@ class PrivateMessage:
 		void addMessage_gui(std::string message, Msg::TypeMsg typemsg);
 		void addStatusMessage_gui(std::string message, Msg::TypeMsg typemsg);
 		void preferences_gui();
-		void SendCL(std::string mess) {sendMessage_client(mess);}
+		
+		void SendCL(std::string mess) { sendMessage_client(mess); }
 		bool getOffline()
 		{
 			return offline;

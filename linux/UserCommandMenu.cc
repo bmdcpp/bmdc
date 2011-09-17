@@ -199,7 +199,7 @@ void UserCommandMenu::sendUserCommand_client(string cid, string commandName, str
 		if (id == -1 || !FavoriteManager::getInstance()->getUserCommand(id, uc))
 			return;
 
-		OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid),hubs.back(),true);
+		OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hubs.back(), true);
 		UserPtr user = ou->getUser();
 		if(user)
 		{

@@ -1,4 +1,25 @@
-﻿#include "highliting.hh"
+﻿/*
+ * Copyright © 2011 Mank, mank@no-ip.sk
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * In addition, as a special exception, compiling, linking, and/or
+ * using OpenSSL with this program is allowed.
+ */
+
+#include "highliting.hh"
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
 
@@ -27,6 +48,8 @@ BookEntry(Entry::HIGHL,_("Highliting Settings"),"highliting.glade")
 	hView.insertColumn(_("Notify String"), G_TYPE_STRING, TreeView::STRING, 60);
 	hView.insertColumn(_("Sound"), G_TYPE_STRING, TreeView::STRING, 60);
 	hView.insertColumn(_("Sound String"), G_TYPE_STRING, TreeView::STRING, 80);
+	hView.insertHiddenColumn("EnableFGColor", G_TYPE_STRING);
+	hView.insertHiddenColumn("EnableBGColor", G_TYPE_STRING);
 	hView.finalize();
 	store = gtk_list_store_newv(hView.getColCount(), hView.getGTypes());
 	gtk_tree_view_set_model(hView.get(), GTK_TREE_MODEL(store));
@@ -86,6 +109,8 @@ void Highlighting::editEntry_gui(StringMap &params, GtkTreeIter *iter)
 		hView.col(_("Notify String")), params["Noti"].c_str(),
 		hView.col(_("Sound")), params["Sound"].c_str(),
 		hView.col(_("Sound String")), params["SoundF"].c_str(),
+		hView.col("EnableFGColor"), params["FGColorENB"].c_str(),
+		hView.col("EnableBGColor"), params["BGColorENB"].c_str(),
 		-1);
 }
 
@@ -122,14 +147,26 @@ void Highlighting::get_ColorParams(dcpp::ColorSettings *cs,dcpp::StringMap &para
 	params["SoundF"] = cs->getSoundFile();
 
 	if(cs->getHasBgColor())
+	{
 		params["BGColor"] = cs->getBgColor();
+		params["BGColorENB"] = "1";	
+	}	
 	else
-		params["BGColor"] = "#FFFFFF";
-
+	{
+		params["BGColor"] = "";
+		params["BGColorENB"] = "0";
+	}
+	
 	if(cs->getHasFgColor())
+	{
 		params["FGColor"] = cs->getFgColor();
+		params["FGColorENB"] = "1";	
+	}	
 	else
-		params["FGColor"] = "#000000";
+	{
+		params["FGColor"] = "";
+		params["FGColorENB"] = "0";	
+	}	
 }
 
 void Highlighting::onADD(GtkWidget *widget , gpointer data)
@@ -150,6 +187,8 @@ void Highlighting::onADD(GtkWidget *widget , gpointer data)
 	params["Noti"] = "Example";
 	params["Sound"] = "0";
 	params["SoundF"] = "Example.wav";
+	params["FGColorENB"] = "0";	
+	params["BGColorENB"] = "0";	
 
 	bool isOk = hg->showColorDialog(params);
 	if(isOk)
@@ -180,6 +219,8 @@ void Highlighting::onModify(GtkWidget *widget, gpointer data)
 	params["Noti"] = hg->hView.getString(&iter, _("Notify String"));
 	params["Sound"] = hg->hView.getString(&iter, _("Sound"));
 	params["SoundF"] = hg->hView.getString(&iter, _("Sound String"));
+	params["FGColorENB"] = hg->hView.getString(&iter, "EnableFGColor");
+	params["BGColorENB"] = hg->hView.getString(&iter, "EnableBGColor");	
 
     bool isOk = hg->showColorDialog(params);
 	if(isOk)
@@ -253,10 +294,10 @@ bool Highlighting::showColorDialog(StringMap &params)
 	gboolean isSound = params["Sound"] == "1" ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkSound")), isSound);
 	
-	gboolean isFgColor = params["FGColor"].empty();
+	gboolean isFgColor = params["FGColorENB"] == "1" ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkfccolor")), isFgColor);
 	
-	gboolean isBgColor = params["BGColor"].empty();
+	gboolean isBgColor = params["BGColorENB"] == "1" ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkbgcolor")), isFgColor);
 	
 	
@@ -302,10 +343,16 @@ bool Highlighting::showColorDialog(StringMap &params)
 		params["SoundF"] = gtk_entry_get_text(GTK_ENTRY(getWidget("entrySoundFile")));
 		
         if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkfccolor"))))
+        {
             params["FGColor"] = colors.fgcolor;
+            params["FGColorENB"] = "1";
+            
+        }   
         if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget("checkbgcolor"))))
+        {
             params["BGColor"] = colors.bgcolor;
-
+            params["BGColorENB"] = "1";
+		}
 		if(params["Name"].empty())
 			response = gtk_dialog_run(GTK_DIALOG(getWidget("HiglitingDialog")));
 		else
@@ -363,13 +410,13 @@ void Highlighting::addHigl_client(StringMap params)
 	cs.setItalic(Util::toInt(params["Italic"]));
 	cs.setUnderline(Util::toInt(params["Underline"]));
 	
-	if(!params["BGColor"].empty())
+	if(params["BGColorENB"] == "1")
 	{
 		cs.setHasBgColor(true);
 		cs.setBgColor(params["BGColor"]);
 	}
 	
-	if(!params["FGColor"].empty())
+	if(params["FGColorENB"] == "1")
 	{
 		cs.setHasFgColor(true);
 		cs.setFgColor(params["FGColor"]);
@@ -396,13 +443,13 @@ void Highlighting::editHigl_client(StringMap params,string name)
 	cs->setUnderline(Util::toInt(params["Underline"]));
 	cs->setTab(Util::toInt(params["Tab"]));
 	
-	if(!params["BGColor"].empty())
+	if(params["BGColorENB"] == "1")
 	{
 		cs->setHasBgColor(true);
 		cs->setBgColor(params["BGColor"]);
 	}
 	
-	if(!params["FGColor"].empty())
+	if(params["FGColorENB"] == "1")
 	{
 		cs->setHasFgColor(true);
 		cs->setFgColor(params["FGColor"]);
@@ -440,7 +487,7 @@ void Highlighting::removeEntry_client(string name)
 
 }
 
-/*this is a generic pop menu*/
+/* this is a pop menu*/
 void Highlighting::popmenu()
 {
     GtkWidget *closeMenuItem = gtk_menu_item_new_with_label(_("Close"));

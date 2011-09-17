@@ -40,7 +40,7 @@ for P in ${PLAYERS}; do
 	then
 		METAINFO="$(qdbus "${DBUS}" ${METADATA_CALL} 2>/dev/null)"
 		PLAYER="${P}"
-		for i in album artist genre title; do
+		for i in album artist genre title bitrate; do
 			tag[${i}]="$(echo "${METAINFO}"	| sed -e "/^${i}: / !d" -e "s/^${i}: //")"
 		done
 		# Works only for local files:

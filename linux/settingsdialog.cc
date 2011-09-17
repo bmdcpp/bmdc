@@ -271,7 +271,7 @@ void Settings::saveSettings_client()
 		else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("passiveRadioButton"))))
 			sm->set(SettingsManager::INCOMING_CONNECTIONS, SettingsManager::INCOMING_FIREWALL_PASSIVE);
 
-		sm->set(SettingsManager::EXTERNAL_IP, gtk_entry_get_text(GTK_ENTRY(getWidget("ipEntry"))));
+		sm->set(SettingsManager::EXTERNAL_IP, gtk_entry_get_text(GTK_ENTRY(getWidget("comboboxentry-entry"))));//ipEntry//TODO  GtkComboBoxText
 		sm->set(SettingsManager::NO_IP_OVERRIDE, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("forceIPCheckButton"))));
 
 		int port = Util::toInt(gtk_entry_get_text(GTK_ENTRY(getWidget("tcpEntry"))));
@@ -302,6 +302,8 @@ void Settings::saveSettings_client()
 		port = Util::toInt(gtk_entry_get_text(GTK_ENTRY(getWidget("socksPortEntry"))));
 		if (port > 0 && port <= 65535)
 			sm->set(SettingsManager::SOCKS_PORT, port);
+			
+		sm->set(SettingsManager::TIME_RECCON, gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(getWidget("spinReconect"))));	
 	}
 
 	{ // Downloads
@@ -804,7 +806,7 @@ void Settings::initConnection_gui()
 	g_signal_connect(getWidget("upnpRadioButton"), "toggled", G_CALLBACK(onInFW_UPnP_gui), (gpointer)this);
 	g_signal_connect(getWidget("portForwardRadioButton"), "toggled", G_CALLBACK(onInFW_NAT_gui), (gpointer)this);
 	g_signal_connect(getWidget("passiveRadioButton"), "toggled", G_CALLBACK(onInPassive_gui), (gpointer)this);
-	gtk_entry_set_text(GTK_ENTRY(getWidget("ipEntry")), SETTING(EXTERNAL_IP).c_str());
+	gtk_entry_set_text(GTK_ENTRY(getWidget("comboboxentry-entry")), SETTING(EXTERNAL_IP).c_str());//ipEntry
 
 	// Fill IP address combo box
 	vector<string> addresses = WulforUtil::getLocalIPs();
@@ -851,6 +853,8 @@ void Settings::initConnection_gui()
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("socksRadioButton")), TRUE);
 			break;
 	}
+	
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("spinReconect")), SETTING(TIME_RECCON));
 }
 
 void Settings::initDownloads_gui()
@@ -1284,6 +1288,9 @@ void Settings::initAppearance_gui()
 		addOption_gui(notifyStore, wsm, _("Favorite user quit"),
 			"notify-fuser-quit", "notify-fuser-quit-title",
 			"notify-fuser-quit-icon", NOTIFY_URGENCY_NORMAL);
+		addOption_gui(notifyStore, wsm, _("Highliting string"),
+			"notify-higl-use", "notify-higl-title",
+			"notify-higl-icon", NOTIFY_URGENCY_LOW);	
 
 		#endif
 		g_signal_connect(getWidget("notifyTestButton"), "clicked", G_CALLBACK(onNotifyTestButton_gui), (gpointer)this);
@@ -3449,7 +3456,7 @@ void Settings::onOptionsViewToggled_gui(GtkCellRendererToggle *cell, gchar *path
 void Settings::onInDirect_gui(GtkToggleButton *button, gpointer data)
 {
 	Settings *s = (Settings *)data;
-	gtk_widget_set_sensitive(s->getWidget("ipEntry"), TRUE);
+	gtk_widget_set_sensitive(s->getWidget("ipComboboxEntry"), TRUE);
 	gtk_widget_set_sensitive(s->getWidget("ipLabel"), TRUE);
 	gtk_widget_set_sensitive(s->getWidget("tcpEntry"), TRUE);
 	gtk_widget_set_sensitive(s->getWidget("tcpLabel"), TRUE);
@@ -3460,26 +3467,11 @@ void Settings::onInDirect_gui(GtkToggleButton *button, gpointer data)
 	gtk_widget_set_sensitive(s->getWidget("forceIPCheckButton"), TRUE);
 }
 
-/**@todo Uncomment when implemented
-void Settings::onInFW_UPnP_gui(GtkToggleButton *button, gpointer data)
-{
-	Settings *s = (Settings *)data;
-	gtk_widget_set_sensitive(s->getWidget("ipEntry"), TRUE);
-	gtk_widget_set_sensitive(s->getWidget("ipLabel"), TRUE);
-	gtk_widget_set_sensitive(s->getWidget("tcpEntry"), TRUE);
-	gtk_widget_set_sensitive(s->getWidget("tcpLabel"), TRUE);
-	gtk_widget_set_sensitive(s->getWidget("udpEntry"), TRUE);
-	gtk_widget_set_sensitive(s->getWidget("udpLabel"), TRUE);
-	gtk_widget_set_sensitive(s->getWidget("tlsEntry"), TRUE);
-	gtk_widget_set_sensitive(s->getWidget("tlsEntry"), TRUE);
-	gtk_widget_set_sensitive(s->getWidget("forceIPCheckButton"), TRUE);
-}
-*/
-
 void Settings::onInFW_NAT_gui(GtkToggleButton *button, gpointer data)
 {
 	Settings *s = (Settings *)data;
-	gtk_widget_set_sensitive(s->getWidget("ipEntry"), TRUE);
+	//gtk_widget_set_sensitive(s->getWidget("ipEntry"), TRUE);
+	gtk_widget_set_sensitive(s->getWidget("ipComboboxEntry"), TRUE);
 	gtk_widget_set_sensitive(s->getWidget("ipLabel"), TRUE);
 	gtk_widget_set_sensitive(s->getWidget("tcpEntry"), TRUE);
 	gtk_widget_set_sensitive(s->getWidget("tcpLabel"), TRUE);
@@ -3493,7 +3485,7 @@ void Settings::onInFW_NAT_gui(GtkToggleButton *button, gpointer data)
 void Settings::onInPassive_gui(GtkToggleButton *button, gpointer data)
 {
 	Settings *s = (Settings *)data;
-	gtk_widget_set_sensitive(s->getWidget("ipEntry"), FALSE);
+	gtk_widget_set_sensitive(s->getWidget("ipComboboxEntry"), FALSE);//ipEntry
 	gtk_widget_set_sensitive(s->getWidget("ipLabel"), FALSE);
 	gtk_widget_set_sensitive(s->getWidget("tcpEntry"), FALSE);
 	gtk_widget_set_sensitive(s->getWidget("tcpLabel"), FALSE);
@@ -4266,7 +4258,7 @@ void Settings::generateCertificates_client()
 void Settings::onInFW_UPnP_gui(GtkToggleButton *button, gpointer data)//NOTE: core 0.762
 {
 	Settings *s = (Settings *)data;
-	gtk_widget_set_sensitive(s->getWidget("ipEntry"), TRUE);
+	gtk_widget_set_sensitive(s->getWidget("ipComboboxEntry"), TRUE);
 	gtk_widget_set_sensitive(s->getWidget("ipLabel"), TRUE);
 	gtk_widget_set_sensitive(s->getWidget("tcpEntry"), TRUE);
 	gtk_widget_set_sensitive(s->getWidget("tcpLabel"), TRUE);

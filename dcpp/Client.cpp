@@ -131,7 +131,7 @@ void Client::connect() {
 		BufferedSocket::putSocket(sock);
 
 	setAutoReconnect(true);
-	setReconnDelay(0);//Patched
+	setReconnDelay((uint32_t)(SETTING(TIME_RECCON)));//Time for Reconect
 	reloadSettings(true);
 	setRegistered(false);
 	setMyIdentity(Identity(ClientManager::getInstance()->getMe(), 0));

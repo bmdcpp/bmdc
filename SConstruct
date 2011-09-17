@@ -110,7 +110,7 @@ vars.AddVariables(
 	BoolVariable('release', 'Compile the program with optimizations', 0),
 	BoolVariable('profile', 'Compile the program with profiling information', 0),
 	BoolVariable('libnotify', 'Enable notifications through libnotify', 1),
-	BoolVariable('liblua', 'Enable lua scripting', 1),
+	BoolVariable('liblua', 'Enable Lua scripting', 1),
 	BoolVariable('libgnome', 'Enable Gnome Libs', 1),
 	PathVariable('PREFIX', 'Compile the program with PREFIX as the root for installation', '/usr/local', PathVariable.PathIsDir),
 	('FAKE_ROOT', 'Make scons install the program under a fake root', '')

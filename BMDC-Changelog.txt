@@ -304,9 +304,11 @@ Add cmd /ws and /dcpps for setting what is not in GUI
 Better info for error when no install xdg-util for open link
 Add Setting in colors&Font for Cheat message and IP address
 Applied ZLIF patch from iceman50
-Added setting of Colors text in UserList
+Add setting of Colors text in UserList
 Update czech translate.
 Some missing code of UPNP
 Some translate able strings fix in settings
-
+Add Setting in GUI for reconect time (sec)
+Fix Higliting if no items in it
+Fix debianize for 64bit
 

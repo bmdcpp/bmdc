@@ -34,7 +34,7 @@ class Msg
 			STATUS,
 			FAVORITE,
 			OPERATOR,
-			CHEAT,//ch 
+			CHEAT, //ch 
 			UNKNOWN
 		} TypeMsg;
 };

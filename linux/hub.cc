@@ -498,9 +498,10 @@ void Hub::updateUser_gui(ParamMap params)
 			addStatusMessage_gui(Nick + _(" has joined"), Msg::STATUS, favorite ? Sound::FAVORITE_USER_JOIN : Sound::NONE);
 			string message = Nick + _(" has joined hub ") + client->getHubName();
 			WulforManager::get()->getMainWindow()->addPrivateStatusMessage_gui(Msg::STATUS, cid, message);
-
-			if (favorite)
-				Notify::get()->showNotify("", message, Notify::FAVORITE_USER_JOIN);
+			#ifdef HAVE_LIBNOTIFY
+				if (favorite)
+					Notify::get()->showNotify("", message, Notify::FAVORITE_USER_JOIN);
+			#endif		
 		}
 		else if (BOOLSETTING(FAV_SHOW_JOINS) && favorite)
 		{
@@ -508,7 +509,10 @@ void Hub::updateUser_gui(ParamMap params)
 			string message = Nick + _(" has joined hub ") + client->getHubName();
 			addStatusMessage_gui(Nick + _(" has joined"), Msg::STATUS, Sound::FAVORITE_USER_JOIN);
 			WulforManager::get()->getMainWindow()->addPrivateStatusMessage_gui(Msg::STATUS, cid, message);
-			Notify::get()->showNotify("", message, Notify::FAVORITE_USER_JOIN);
+			
+			#ifdef HAVE_LIBNOTIFY
+				Notify::get()->showNotify("", message, Notify::FAVORITE_USER_JOIN);
+			#endif	
 		}
 	}
 
@@ -539,9 +543,10 @@ void Hub::removeUser_gui(string cid)
 			string message = nick + _(" has quit hub ") + client->getHubName();
 			addStatusMessage_gui(nick + _(" has quit"), Msg::STATUS, order[0] == 'f'? Sound::FAVORITE_USER_QUIT : Sound::NONE);
 			WulforManager::get()->getMainWindow()->addPrivateStatusMessage_gui(Msg::STATUS, cid, message);
-
+		#ifdef HAVE_LIBNOTIFY
 			if (order[0] == 'f')
 				Notify::get()->showNotify("", message, Notify::FAVORITE_USER_QUIT);
+		#endif		
 		}
 		else if (BOOLSETTING(FAV_SHOW_JOINS) && order[0] == 'f')
 		{
@@ -549,7 +554,9 @@ void Hub::removeUser_gui(string cid)
 			string message = nick + _(" has quit hub ") + client->getHubName();
 			addStatusMessage_gui(nick + _(" has quit"), Msg::STATUS, Sound::FAVORITE_USER_QUIT);
 			WulforManager::get()->getMainWindow()->addPrivateStatusMessage_gui(Msg::STATUS, cid, message);
+		#ifdef HAVE_LIBNOTIFY	
 			Notify::get()->showNotify("", message, Notify::FAVORITE_USER_QUIT);
+		#endif	
 		}
 	}
 }
@@ -1467,7 +1474,9 @@ void Hub::addStatusMessage_gui(string message, Msg::TypeMsg typemsg, Sound::Type
 		setIcon_gui(WGETS("icon-hub-offline"));
 
 	addStatusMessage_gui(message, typemsg, sound);
-	Notify::get()->showNotify("<b>" + client->getHubUrl() + ":</b> ", message, notify);
+	#ifdef HAVE_LIBNOTIFY
+		Notify::get()->showNotify("<b>" + client->getHubUrl() + ":</b> ", message, notify);
+	#endif
 }
 
 gboolean Hub::onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data)

@@ -98,7 +98,7 @@ const string SettingsManager::settingTags[] =
 	"ListlenMismatchShow", "UseSdlKick", "SdlSpeed", "SdlTime", "SdlRaw",
 	"ShowSdlRaw", "ShowFakeShare", "ShowDisconnectRaw", "FavUserIsProtectedUser", "ShowFilelistVersionMismatch",
 	"ShowDcppEmulationRaw", "UncheckClientProtectedUser", "UncheckListProtectedUser", "ShowRmdcRaw", "DisplayCheatsInMainChat",
-	"ShowListenMisMatch", "ThrottleEnable", "LogFinishedDownload", "EnbLuaDebug", 
+	"ShowListenMisMatch", "ThrottleEnable", "LogFinishedDownload", "EnbLuaDebug", "TimeReccon", 
 	"SENTRY",
 	// Int64
 	"TotalUpload", "TotalDownload",
@@ -314,13 +314,14 @@ SettingsManager::SettingsManager()
 	setDefault(BANDWIDTH_LIMIT_END, 1);
 	setDefault(SLOTS_ALTERNATE_LIMITING, 1);
 	setDefault(SLOTS_PRIMARY, 3);
+	
 	setDefault(USE_IP, true);
 	setDefault(USE_COUNTRY, true);
 	setDefault(SHOW_FREE_SLOTS_DESC, false);
 	setDefault(OVERLAP_CHUNKS, true);
 	///BMDC++
 	setDefault(MIN_FL_SIZE, 0);
-	setDefault(FILELIST_TOO_SMALL_BIG,false);
+	setDefault(FILELIST_TOO_SMALL_BIG, false);
 	setDefault(MAX_DISCONNECTS, 5);
 	setDefault(CHECK_DELAY, 0);
 	setDefault(MAX_TESTSURS, 30);
@@ -361,11 +362,13 @@ SettingsManager::SettingsManager()
 	setDefault(FAV_USER_IS_PROTECTED_USER, true);
 	setDefault(SHOW_FILELIST_VERSION_MISMATCH, true);
 	setDefault(SHOW_DCPP_EMULATION_RAW, true);
-	setDefault(UNCHECK_CLIENT_PROTECTED_USER, true);//dont check prot u
+	setDefault(UNCHECK_CLIENT_PROTECTED_USER, true);//dont check prot user
 	setDefault(UNCHECK_LIST_PROTECTED_USER, true);
 	setDefault(SHOW_RMDC_RAW, true);
 	setDefault(DISPLAY_CHEATS_IN_MAIN_CHAT, true);
-	setDefault(ENB_LUA_DEBUG, false);           
+	
+	setDefault(ENB_LUA_DEBUG, false); 
+	setDefault(TIME_RECCON, 0);          
 
     setSearchTypeDefaults();
 

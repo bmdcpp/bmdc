@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009 Leliksan Floyd <leliksan@Quadrafon2>
+ * Copyright © 2011 Leliksan Floyd <leliksan@Quadrafon2>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -72,7 +72,7 @@ void Notify::init()
 		#ifdef HAVE_LIBNOTIFY_0_7
 			notification = notify_notification_new("template", "template", g_get_prgname());
 		#else
-			notification = notify_notification_new("template", "template", NULL,NULL);
+			notification = notify_notification_new("template", "template", NULL, NULL);
 		#endif	
 	action = FALSE;
 	#endif
@@ -130,10 +130,10 @@ void Notify::setCurrIconSize(const int size)
 			WSET("notify-icon-size", DEFAULT);
 	}
 }
-
+#ifdef HAVE_LIBNOTIFY
 void Notify::showNotify(const string &head, const string &body, TypeNotify notify)
 {
-#ifdef HAVE_LIBNOTIFY
+
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
 
 	switch (notify)
@@ -204,15 +204,16 @@ void Notify::showNotify(const string &head, const string &body, TypeNotify notif
 			showNotify(wsm->getString("notify-fuser-quit-title"), head, body,
 				wsm->getString("notify-fuser-quit-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_NORMAL);
 			break;
-		case HIGHLITING_E://todo settings
-			showNotify("Higliting:", head , body,
-					wsm->getString("notify-fuser-quit-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_NORMAL);
-
+		case HIGHLITING_E://TODO settings
+			if (wsm->getInt("notify-higl-use"))	
+				showNotify(wsm->getString("notify-higl-title"), head , body,
+						wsm->getString("notify-higl-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_LOW);
+			break;
 		default: break;
 	}
-#endif
+
 }
-#ifdef HAVE_LIBNOTIFY
+
 void Notify::showNotify(const string &title, const string &head, const string &body, const string &icon, const int iconSize, NotifyUrgency urgency)
 {
 	if (title.empty())

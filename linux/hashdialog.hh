@@ -44,7 +44,7 @@ class Hash:
 		virtual void on(dcpp::TimerManagerListener::Second, uint32_t tics) throw();
 
 		// GUI callback
-		static void onPauseHashing_gui(GtkWidget *widget, gpointer data);//NOTE: core 0.762
+		static void onPauseHashing_gui(GtkWidget *widget, gpointer data); //NOTE: core 0.762
 
 		int64_t startBytes;
 		size_t startFiles;

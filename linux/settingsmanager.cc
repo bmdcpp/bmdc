@@ -105,7 +105,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("toolbar-button-system", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-button-ignore", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-button-away", 1));
-	defaultInt.insert(IntMap::value_type("toolbar-limit-bandwith",0));
+	defaultInt.insert(IntMap::value_type("toolbar-limit-bandwith", 0));
 
 	defaultInt.insert(IntMap::value_type("notify-download-finished-use", 0));
 	defaultInt.insert(IntMap::value_type("notify-download-finished-ul-use", 0));
@@ -114,6 +114,9 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("notify-hub-connect-use", 0));
 	defaultInt.insert(IntMap::value_type("notify-fuser-join", 0));
 	defaultInt.insert(IntMap::value_type("notify-fuser-quit", 0));
+	/**/
+	defaultInt.insert(IntMap::value_type("notify-higl-use", 1));
+	/**/
 	defaultInt.insert(IntMap::value_type("notify-pm-length", 50));
 	defaultInt.insert(IntMap::value_type("notify-icon-size", 3));
 	defaultInt.insert(IntMap::value_type("notify-only-not-active", 0));
@@ -235,6 +238,10 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("notify-fuser-join-icon", ""));
 	defaultString.insert(StringMap::value_type("notify-fuser-quit-title", _("Favorite user quit")));
 	defaultString.insert(StringMap::value_type("notify-fuser-quit-icon", ""));
+	/**/
+	defaultString.insert(StringMap::value_type("notify-higl-title", _("Higliting string")));
+	defaultString.insert(StringMap::value_type("notify-higl-icon", ""));
+	/**/
 	defaultString.insert(StringMap::value_type("theme-name", "default"));
 	/**/
 	defaultString.insert(StringMap::value_type("icon-smile", "bmdc-smile"));
@@ -320,7 +327,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("icon-zerozeroone-away-pasive", "bmdc-zerozeroone-away-pasive"));
 	defaultString.insert(StringMap::value_type("icon-other-away-pasive", "bmdc-other-away-pasive"));
 	//Sounds
-	defaultString.insert(StringMap::value_type("sound-command", "aplay"));
+	defaultString.insert(StringMap::value_type("sound-command", "aplay -q"));
 	/**/
 	//customs aliasies
 	defaultString.insert(StringMap::value_type("custom-aliases", ""));

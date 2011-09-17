@@ -6,7 +6,7 @@ Maintainer: Mank <freedcpp@seznam.cz>
 Build-Depends: debhelper (>= 4.2.0), scons, libbz2-dev, zlib1g-dev, libgtk2.0-dev, libglade2-dev, libssl-dev, libboost-all-dev, libnotify-dev, liblua5.1-0-dev, libgnome2-dev
 
 Package: bmdc
-Architecture: i386
+Architecture: any
 Installed-Size: ${Installed-Size}
 Depends: ${shlibs:Depends}
 Homepage: http://bmdc.no-ip.sk

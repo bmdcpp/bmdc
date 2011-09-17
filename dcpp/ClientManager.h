@@ -141,7 +141,7 @@ public:
 	void lock() throw() { cs.enter(); }
 	void unlock() throw() { cs.leave(); }
 
-	/*Client::List*/ClientList& getClients() { return clients; }
+	ClientList& getClients() { return clients; }
 
 	CID getMyCID();
 	const CID& getMyPID();
