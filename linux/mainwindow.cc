@@ -300,7 +300,6 @@ MainWindow::MainWindow():
 	 string defaultluascript = "startup.lua";
 	 ScriptManager::getInstance()->EvaluateFile(defaultluascript);
 	#endif
-
 }
 
 MainWindow::~MainWindow()
@@ -331,7 +330,6 @@ MainWindow::~MainWindow()
 	WSET("main-window-pos-y", posY);
 	WSET("main-window-size-x", sizeX);
 	WSET("main-window-size-y", sizeY);
-
 
 	WSET("main-window-maximized", maximized);
 	if (transferPanePosition > 10)
@@ -936,7 +934,6 @@ void MainWindow::showADLSearch_gui()
 	}
 	raisePage_gui(entry->getContainer());
 }
-//END
 //Notepad
 void MainWindow::showNotepad_gui()
 {
@@ -949,7 +946,6 @@ void MainWindow::showNotepad_gui()
 	}
 	raisePage_gui(entry->getContainer());
 }
-//END
 //Ignore
 void MainWindow::showIgnore_gui()
 {
@@ -962,7 +958,6 @@ void MainWindow::showIgnore_gui()
 	}
 	raisePage_gui(entry->getContainer());
 }
-//END
 //System
 void MainWindow::showSystem_gui()
 {
@@ -975,7 +970,6 @@ void MainWindow::showSystem_gui()
 	}
 	raisePage_gui(entry->getContainer());
 }
-//END
 //Recent
 void MainWindow::showRecentHub_gui()
 {
@@ -988,7 +982,6 @@ void MainWindow::showRecentHub_gui()
 	}
 	raisePage_gui(entry->getContainer());
 }
-//END
 //Highliting
 void MainWindow::showHigliting_gui()
 {
@@ -1001,7 +994,6 @@ void MainWindow::showHigliting_gui()
 	}
 	raisePage_gui(entry->getContainer());
 }
-//end
 //Detection
 void MainWindow::showDetection_gui()
 {
@@ -1014,7 +1006,6 @@ void MainWindow::showDetection_gui()
 	}
 	raisePage_gui(entry->getContainer());
 }
-///end
 ///CMD
 void MainWindow::showcmddebug_gui()
 {
@@ -1027,7 +1018,7 @@ void MainWindow::showcmddebug_gui()
 	}
 	raisePage_gui(entry->getContainer());
 }
-///CMD
+
 void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string hubUrl, string message, bool useSetting)
 {
 	BookEntry *entry = findBookEntry(Entry::PRIVATE_MESSAGE, cid);
@@ -1144,7 +1135,7 @@ void MainWindow::showPublicHubs_gui()
 	raisePage_gui(entry->getContainer());
 }
 
-void MainWindow::showShareBrowser_gui(UserPtr user, string filename, string dir, bool useSetting,int64_t speed)
+void MainWindow::showShareBrowser_gui(UserPtr user, string filename, string dir, bool useSetting, int64_t speed)
 {
 	bool raise = useSetting ? !BOOLSETTING(POPUNDER_FILELIST) : TRUE;
 	BookEntry *entry = findBookEntry(Entry::SHARE_BROWSER, user->getCID().toBase32());
@@ -1271,7 +1262,7 @@ void MainWindow::setToolbarButton_gui()
 	if(!WGETB("toolbar-button-ignore"))
 		gtk_widget_hide(getWidget("IgnoreUsers"));
 	if(!WGETB("toolbar-button-away"))
-		gtk_widget_hide(getWidget("Awayicon"));
+		gtk_widget_hide(getWidget("AwayIcon"));
 	if(!WGETB("toolbar-limit-bandwith"))
         gtk_widget_hide(getWidget("EnableLimit"));
 
@@ -1460,8 +1451,8 @@ void MainWindow::onTTHFileDialog_gui(GtkWidget *widget, gpointer data)
 	MainWindow *mw =(MainWindow *)data;
 	GtkWidget *dialog = mw->getWidget("TTHFileDialog");
 	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-	if(response == GTK_RESPONSE_NONE)
-			return;
+	if(response == GTK_RESPONSE_NONE);
+
 	gtk_widget_hide(dialog);
 
 }

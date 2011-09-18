@@ -106,7 +106,7 @@ class WulforUtil
 		static GtkStockItem icons[];
 		static const char* CountryNames[];
 		static const char* CountryCodes[];
-		static std::map<std::string,std::string> m_mimetyp;//.avi - > mimetype
+		static std::map<std::string,std::string> m_mimetyp; //.avi - > mimetype
 		
 		static std::string StringToUpper(std::string myString);
 		static std::string generateLeech();

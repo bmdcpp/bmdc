@@ -131,5 +131,4 @@ void systemlog::onCloseItem(gpointer data)
 {
     BookEntry *entry = (BookEntry *)data;
     WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
-
 }

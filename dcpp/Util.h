@@ -217,7 +217,7 @@ public:
 	static string cleanPathChars(string aNick);
 	static string addBrackets(const string& s);
 
-	static bool checkExtension(const string& tmp);//core 0.770
+	static bool checkExtension(const string& tmp); //core 0.770
 
 	static string formatBytes(const string& aString) { return formatBytes(toInt64(aString)); }
 
@@ -414,7 +414,6 @@ public:
 	static int strnicmp(const string& a, const string& b, size_t n) { return strnicmp(a.c_str(), b.c_str(), n); }
 	static int stricmp(const wstring& a, const wstring& b) { return stricmp(a.c_str(), b.c_str()); }
 	static int strnicmp(const wstring& a, const wstring& b, size_t n) { return strnicmp(a.c_str(), b.c_str(), n); }
-
 
 	static string getIpCountry (string IP);
 

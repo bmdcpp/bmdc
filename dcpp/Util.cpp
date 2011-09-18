@@ -193,7 +193,6 @@ void Util::initialize() {
 	try {
 		// This product includes GeoIP data created by MaxMind, available from http://maxmind.com/
 		// Updates at http://www.maxmind.com/app/geoip_country
-		//string file = getPath(PATH_RESOURCES) + "GeoIpCountryWhois.csv";
 		string file = getPath(PATH_USER_CONFIG) + "GeoIpCountryWhois.csv";
 		string data = File(file, File::READ, File::OPEN).read();
 

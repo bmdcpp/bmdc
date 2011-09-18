@@ -307,8 +307,10 @@ Applied ZLIF patch from iceman50
 Add setting of Colors text in UserList
 Update czech translate.
 Some missing code of UPNP
-Some translate able strings fix in settings
+Some translateable strings fix in settings
 Add Setting in GUI for reconect time (sec)
 Fix Higliting if no items in it
 Fix debianize for 64bit
+Fix /away /back and Icon in toolbar
+Fix hidding Away Icon
 

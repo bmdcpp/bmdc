@@ -5,9 +5,21 @@
 #, fuzzy
 msgid ""
 msgstr ""
+"#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
 "POT-Creation-Date: 2011-09-18 01:36+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"#-#-#-#-#  linux.pot  #-#-#-#-#\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
+"POT-Creation-Date: 2011-09-18 15:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -589,8 +601,8 @@ msgid "Choose a File"
 msgstr ""
 
 #: glade/search.glade:580 glade/settingsdialog.glade:8010
-#: glade/sharebrowser.glade:7 linux/hub.cc:2484 linux/mainwindow.cc:1414
-#: linux/mainwindow.cc:1542 linux/privatemessage.cc:1141
+#: glade/sharebrowser.glade:7 linux/hub.cc:2484 linux/mainwindow.cc:1405
+#: linux/mainwindow.cc:1533 linux/privatemessage.cc:1141
 msgid "Choose a directory"
 msgstr ""
 
@@ -1778,7 +1790,7 @@ msgstr ""
 msgid "Security Certificates"
 msgstr ""
 
-#: glade/mainwindow.glade:824 linux/mainwindow.cc:2125
+#: glade/mainwindow.glade:824 linux/mainwindow.cc:2116
 msgid "Select filelist to browse"
 msgstr ""
 
@@ -2406,8 +2418,8 @@ msgstr ""
 
 #: glade/settingsdialog.glade:2735 glade/settingsdialog.glade:2751
 #: glade/settingsdialog.glade:2797 linux/hashdialog.cc:79
-#: linux/mainwindow.cc:807 linux/mainwindow.cc:808 linux/mainwindow.cc:2502
-#: linux/mainwindow.cc:2504 linux/treeview.cc:209
+#: linux/mainwindow.cc:805 linux/mainwindow.cc:806 linux/mainwindow.cc:2493
+#: linux/mainwindow.cc:2495 linux/treeview.cc:209
 msgid "s"
 msgstr ""
 
@@ -2672,7 +2684,7 @@ msgstr ""
 msgid "<b>Under what name you see the directory</b>"
 msgstr ""
 
-#: linux/mainwindow.cc:2441
+#: linux/mainwindow.cc:2432
 msgid "<b>file:</b> "
 msgstr ""
 
@@ -2841,11 +2853,11 @@ msgid "Away mode message on/off"
 msgstr ""
 
 #: linux/WulforUtil.cc:752 linux/WulforUtil.cc:768 linux/hub.cc:2008
-#: linux/mainwindow.cc:482 linux/privatemessage.cc:898
+#: linux/mainwindow.cc:480 linux/privatemessage.cc:898
 msgid "Away mode off"
 msgstr ""
 
-#: linux/mainwindow.cc:489
+#: linux/mainwindow.cc:487
 msgid "Away mode on"
 msgstr ""
 
@@ -3112,7 +3124,7 @@ msgstr ""
 msgid "Download starting: "
 msgstr ""
 
-#: linux/mainwindow.cc:777
+#: linux/mainwindow.cc:775
 msgid "Download: "
 msgstr ""
 
@@ -3172,7 +3184,7 @@ msgstr ""
 msgid "Enable segmented downloads"
 msgstr ""
 
-#: linux/mainwindow.cc:1348
+#: linux/mainwindow.cc:1339
 msgid "Enter value for "
 msgstr ""
 
@@ -3299,7 +3311,7 @@ msgstr ""
 msgid "File not available"
 msgstr ""
 
-#: linux/mainwindow.cc:2350
+#: linux/mainwindow.cc:2341
 msgid ""
 "File transfers will not work correctly until you change settings or turn off "
 "any application that might be using the TCP/TLS port."
@@ -3553,7 +3565,7 @@ msgstr ""
 msgid "Load Lua file"
 msgstr ""
 
-#: linux/mainwindow.cc:2162
+#: linux/mainwindow.cc:2153
 msgid "Loading file list"
 msgstr ""
 
@@ -3573,11 +3585,11 @@ msgstr ""
 msgid "Lowest"
 msgstr ""
 
-#: linux/mainwindow.cc:1535
+#: linux/mainwindow.cc:1526
 msgid "Magnet Choice"
 msgstr ""
 
-#: linux/mainwindow.cc:1405
+#: linux/mainwindow.cc:1396
 msgid "Magnet Properties / Choice"
 msgstr ""
 
@@ -3872,13 +3884,13 @@ msgstr ""
 msgid "Searching too soon, retry in "
 msgstr ""
 
-#: linux/mainwindow.cc:2364
+#: linux/mainwindow.cc:2355
 msgid ""
 "Searching will not work correctly until you change settings or turn off any "
 "application that might be using the UDP port."
 msgstr ""
 
-#: linux/mainwindow.cc:1473
+#: linux/mainwindow.cc:1464
 msgid "Select file to Get TTH"
 msgstr ""
 
@@ -3930,7 +3942,7 @@ msgstr ""
 msgid "Shared"
 msgstr ""
 
-#: linux/mainwindow.cc:822 linux/mainwindow.cc:2384
+#: linux/mainwindow.cc:820 linux/mainwindow.cc:2375
 msgid "Shared: "
 msgstr ""
 
@@ -4048,7 +4060,7 @@ msgstr ""
 msgid "Slots"
 msgstr ""
 
-#: linux/mainwindow.cc:821
+#: linux/mainwindow.cc:819
 msgid "Slots:"
 msgstr ""
 
@@ -4141,11 +4153,11 @@ msgstr ""
 msgid "The name and address fields are required"
 msgstr ""
 
-#: linux/mainwindow.cc:537
+#: linux/mainwindow.cc:535
 msgid "Throtle off"
 msgstr ""
 
-#: linux/mainwindow.cc:543
+#: linux/mainwindow.cc:541
 msgid "Throtle on"
 msgstr ""
 
@@ -4208,15 +4220,15 @@ msgstr ""
 msgid "Unable to load file list: "
 msgstr ""
 
-#: linux/mainwindow.cc:2150
+#: linux/mainwindow.cc:2141
 msgid "Unable to load file list: Invalid file list name"
 msgstr ""
 
-#: linux/mainwindow.cc:2349
+#: linux/mainwindow.cc:2340
 msgid "Unable to open TCP/TLS port"
 msgstr ""
 
-#: linux/mainwindow.cc:2363
+#: linux/mainwindow.cc:2354
 msgid "Unable to open UDP port"
 msgstr ""
 
@@ -4257,7 +4269,7 @@ msgstr ""
 msgid "Upload starting..."
 msgstr ""
 
-#: linux/mainwindow.cc:777
+#: linux/mainwindow.cc:775
 msgid "Upload: "
 msgstr ""
 
@@ -4591,7 +4603,7 @@ msgstr ""
 msgid "eMail"
 msgstr ""
 
-#: linux/mainwindow.cc:2417
+#: linux/mainwindow.cc:2408
 msgid "file list from "
 msgstr ""
 
