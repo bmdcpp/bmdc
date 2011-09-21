@@ -59,7 +59,7 @@ public:
 	virtual void privateMessage(const OnlineUser& aUser, const string& aMessage, bool /*thirdPerson*/ = false);
 	virtual void sendUserCmd(const UserCommand& command, const StringMap& params);
 	virtual void search(int aSizeType, int64_t aSize, int aFileType, const string& aString, const string& aToken, const StringList& aExtList);
-	virtual void password(const string& aPass) { send("$MyPass " + fromUtf8(aPass) + "|"); }
+	virtual void password(const string& aPass);
 	virtual void info(bool force) { myInfo(force); }
 	void sendUserCmd(const string& aUserCmd) throw() { send(fromUtf8(aUserCmd)); }
 
@@ -121,6 +121,8 @@ private:
 
 	uint32_t lastProtectedIPsUpdate;
 	StringList protectedIPs;
+	
+	string salt;
 
 	NmdcHub(const string& aHubURL) throw();
 	virtual ~NmdcHub() throw();

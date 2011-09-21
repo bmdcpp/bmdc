@@ -142,7 +142,7 @@ private:
 	void handle(AdcCommand::NAT, AdcCommand& c) throw();
 	void handle(AdcCommand::RNT, AdcCommand& c) throw();
 	void handle(AdcCommand::ZON, AdcCommand& c) throw();
-	void handle(AdcCommand::ZOF, AdcCommand& c) throw();
+	//void handle(AdcCommand::ZOF, AdcCommand& c) throw();
 
 	template<typename T> void handle(T, AdcCommand&) { }
 

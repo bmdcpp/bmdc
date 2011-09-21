@@ -145,10 +145,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="editable">False</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -163,10 +159,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="editable">False</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -181,10 +173,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="editable">False</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -201,10 +189,6 @@
                             <property name="has_focus">True</property>
                             <property name="editable">False</property>
                             <property name="width_chars">35</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -231,10 +215,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="editable">False</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -542,10 +522,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="invisible_char">●</property>
-                    <property name="primary_icon_activatable">False</property>
-                    <property name="secondary_icon_activatable">False</property>
-                    <property name="primary_icon_sensitive">True</property>
-                    <property name="secondary_icon_sensitive">True</property>
                   </widget>
                   <packing>
                     <property name="expand">True</property>
@@ -558,10 +534,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="invisible_char">●</property>
-                    <property name="primary_icon_activatable">False</property>
-                    <property name="secondary_icon_activatable">False</property>
-                    <property name="primary_icon_sensitive">True</property>
-                    <property name="secondary_icon_sensitive">True</property>
                   </widget>
                   <packing>
                     <property name="expand">True</property>
@@ -710,10 +682,6 @@ Contributors to FreeDC++:
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="activates_default">True</property>
-                        <property name="primary_icon_activatable">False</property>
-                        <property name="secondary_icon_activatable">False</property>
-                        <property name="primary_icon_sensitive">True</property>
-                        <property name="secondary_icon_sensitive">True</property>
                       </widget>
                       <packing>
                         <property name="expand">True</property>
@@ -979,6 +947,21 @@ Contributors to FreeDC++:
                       </widget>
                     </child>
                     <child>
+                      <widget class="GtkMenuItem" id="detectionMenuItem">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="label" translatable="yes">Detection and Raws Settings</property>
+                        <property name="use_underline">True</property>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkSeparatorMenuItem" id="separator3">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                      </widget>
+                    </child>
+                    <child>
                       <widget class="GtkMenuItem" id="setMagnetChoiceItem">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -994,30 +977,6 @@ Contributors to FreeDC++:
                         <property name="can_focus">False</property>
                         <property name="use_action_appearance">False</property>
                         <property name="label" translatable="yes">Get TTH from File</property>
-                        <property name="use_underline">True</property>
-                      </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkSeparatorMenuItem" id="separator3">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                      </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkMenuItem" id="highlitingMenuItem">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_action_appearance">False</property>
-                        <property name="label" translatable="yes">Highliting Settings</property>
-                        <property name="use_underline">True</property>
-                      </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkMenuItem" id="detectionMenuItem">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_action_appearance">False</property>
-                        <property name="label" translatable="yes">Detection and Raws Settings</property>
                         <property name="use_underline">True</property>
                       </widget>
                     </child>
@@ -1042,7 +1001,7 @@ Contributors to FreeDC++:
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_action_appearance">False</property>
-                        <property name="label" translatable="yes">_Exit</property>
+                        <property name="label" translatable="yes">Exit</property>
                         <property name="use_underline">True</property>
                       </widget>
                     </child>
@@ -1088,6 +1047,14 @@ Contributors to FreeDC++:
                         <property name="label" translatable="yes">Public Hubs</property>
                         <property name="use_underline">True</property>
                         <accelerator key="P" signal="activate" modifiers="GDK_CONTROL_MASK"/>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkMenuItem" id="recentHubsMenuItem">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="label" translatable="yes">Recent Hubs</property>
                       </widget>
                     </child>
                     <child>
@@ -1163,14 +1130,6 @@ Contributors to FreeDC++:
                         <property name="use_action_appearance">False</property>
                         <property name="label" translatable="yes">Indexing Progress</property>
                         <property name="use_underline">True</property>
-                      </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkMenuItem" id="recentHubsMenuItem">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="use_action_appearance">False</property>
-                        <property name="label" translatable="yes">Recent Hubs</property>
                       </widget>
                     </child>
                     <child>
@@ -1269,7 +1228,7 @@ Contributors to FreeDC++:
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="use_action_appearance">False</property>
-                <property name="label">gtk-help</property>
+                <property name="label" translatable="yes">Help</property>
                 <property name="use_underline">True</property>
                 <child>
                   <widget class="GtkMenu" id="help1_menu">
@@ -2041,10 +2000,6 @@ Contributors to FreeDC++:
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="activates_default">True</property>
-                        <property name="primary_icon_activatable">False</property>
-                        <property name="secondary_icon_activatable">False</property>
-                        <property name="primary_icon_sensitive">True</property>
-                        <property name="secondary_icon_sensitive">True</property>
                       </widget>
                       <packing>
                         <property name="expand">True</property>

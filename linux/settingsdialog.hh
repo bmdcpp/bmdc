@@ -26,6 +26,7 @@
 #include <dcpp/DCPlusPlus.h>
 #include <dcpp/SettingsManager.h>
 #include <dcpp/UserCommand.h>
+#include <dcpp/HighlightManager.h>
 
 #include "dialogentry.hh"
 #include "treeview.hh"
@@ -64,6 +65,7 @@ class Settings:
 			bool predefined, const int key);//NOTE: core 0.770
 		void createOptionsView_gui(TreeView &treeView, GtkListStore *&store, const std::string &widgetName);
 		void saveOptionsView_gui(TreeView &treeView, dcpp::SettingsManager *sm);
+		
 		void initPersonal_gui();
 		void initConnection_gui();
 		void initDownloads_gui();
@@ -73,6 +75,8 @@ class Settings:
 		void initAdvanced_gui();
 		void initBandwidthLimiting_gui();//NOTE: core 0.762
 		void initSearchTypes_gui();//NOTE: core 0.770
+		void initHigliting_gui();//NOTE: BMDC++
+		
 		void addShare_gui(std::string path, std::string name, int64_t size);
 		void selectTextColor_gui(const int select);
 		void selectTextStyle_gui(const int select);
@@ -177,6 +181,16 @@ class Settings:
 		//BMDC++
 		static void onTextColorForeULClicked_gui(GtkWidget *widget, gpointer data);
 		static void onTextColorDefaultULClicked_gui(GtkWidget *widget, gpointer data);
+		static void onAddHigliting_gui(GtkWidget *widget, gpointer data);
+		static void onEditHigliting_gui(GtkWidget *widget, gpointer data);
+		static void onRemoveHigliting_gui(GtkWidget *widget, gpointer data);
+		static void onColorText_gui(GtkWidget *widget, gpointer data);
+		static void onColorBack_gui(GtkWidget *widget, gpointer data);
+		static void onSound_gui(GtkWidget *widget, gpointer data);
+		static void onToggledHGText_gui(GtkWidget *widget, gpointer data);
+		static void onToggledHGSound_gui(GtkWidget *widget, gpointer data);
+		static void onToggledHGColor_gui(GtkWidget *widget, gpointer data);
+		static void onToggledHGNotify_gui(GtkWidget *widget, gpointer data);
 		// Client functions
 		void saveSettings_client();
 		void shareHidden_client(bool show);
@@ -186,20 +200,23 @@ class Settings:
 		void generateCertificates_client();
 		void setColorUL();//BMDC++
 		void setDefaultColor(std::string color, std::string name, GtkTreeIter *iter);//BMDC++
+		void saveHigliting(dcpp::StringMap &params, bool add, const std::string &name = "");//BMDC++
+		void addHigliting_to_gui(dcpp::ColorSettings &cs, bool add);//BMDC++
 
 		GtkComboBox *connectionSpeedComboBox;
 		GtkListStore *downloadToStore, *publicListStore, *queueStore,
 			*shareStore, *appearanceStore, *tabStore, *windowStore1,
 			*windowStore2, *windowStore3, *advancedStore, *certificatesStore, *userCommandStore,
 			*previewAppToStore, *soundStore, *textStyleStore, *notifyStore, *themeIconsStore,
-			*toolbarStore, *extensionStore, *searchTypeStore, *userListStore1, *userListStore2;
+			*toolbarStore, *extensionStore, *searchTypeStore, *userListStore1, *userListStore2, *hStore;
 		TreeView downloadToView, publicListView, queueView, shareView,
 			appearanceView, tabView, windowView1, windowView2,
 			windowView3, advancedView, certificatesView, userCommandView,
 			previewAppView, soundView, textStyleView, notifyView, themeIconsView,
-			toolbarView, extensionView, searchTypeView, userListNames, userListPreview;
+			toolbarView, extensionView, searchTypeView, userListNames, userListPreview, hView;
 		GtkTextBuffer *textStyleBuffer;
-
+		GtkTreeSelection *selection;
+		
 		typedef std::map<std::string, int> IntMap;
 		typedef std::map<std::string, std::string> StringMap;
 		typedef std::map<std::string, GtkTreeIter> ColorIters;
@@ -220,6 +237,9 @@ class Settings:
 		void set(const std::string &key, const std::string &value);
 		void applyIconsTheme(bool useDefault = FALSE);
 		void applyTextTheme(bool useDefault = FALSE);
+		
+		dcpp::ColorList pList;
+		gboolean isSensitiveHG[3];
 };
 
 #else

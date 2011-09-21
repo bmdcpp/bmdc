@@ -81,7 +81,7 @@ class MainWindow:
 		void showADLSearch_gui(); //ADL Tab
 		void showNotepad_gui(); //Notepad Tab
 		void showRecentHub_gui(); //RecentHub Tab
-		void showHigliting_gui(); //Higliting Tab
+		//void showHigliting_gui(); //Higliting Tab
 		void showDetection_gui(); //Detection Tab
 		void showcmddebug_gui(); //CMD DEBUG Tab
 		//END
@@ -193,7 +193,7 @@ class MainWindow:
 		static void onRecent_gui(GtkWidget *widget, gpointer data);
 		static void onTTHFileDialog_gui(GtkWidget *widget, gpointer data);
 		static void onTTHFileButton_gui(GtkWidget *widget, gpointer data);
-		static void onHighliting(GtkWidget *widget , gpointer data);
+		//static void onHighliting(GtkWidget *widget , gpointer data);
 		static void onDetection(GtkWidget *widget , gpointer data);
 		static void onDebugCMD(GtkWidget *widget, gpointer data);
         /*Close**/

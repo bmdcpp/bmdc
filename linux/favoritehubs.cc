@@ -1,4 +1,4 @@
-/* Parts of Code 2010-2011 (C) Mank (freedcpp@seznam.cz)*/
+/* Parts of Code 2010-2011 (C) Mank <freedcpp@seznam.cz>*/
 /* Part of Code (C) 2010 troll.freedcpp*/
 #include "favoritehubs.hh"
 #include "settingsmanager.hh"

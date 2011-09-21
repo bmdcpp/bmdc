@@ -78,10 +78,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="tooltip" translatable="yes">Use separator extensions (doc;xls;ppt;docx;xlsx;pptx)</property>
-                    <property name="primary_icon_activatable">False</property>
-                    <property name="secondary_icon_activatable">False</property>
-                    <property name="primary_icon_sensitive">True</property>
-                    <property name="secondary_icon_sensitive">True</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -201,6 +197,381 @@
             <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="GtkDialog" id="HiglitingDialog">
+    <property name="can_focus">False</property>
+    <property name="border_width">5</property>
+    <property name="type_hint">dialog</property>
+    <child internal-child="vbox">
+      <widget class="GtkVBox" id="dialog-vbox10">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <widget class="GtkHButtonBox" id="dialog-action_area10">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <widget class="GtkButton" id="button1">
+                <property name="label">gtk-cancel</property>
+                <property name="response_id">-6</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <property name="use_stock">True</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkButton" id="button2">
+                <property name="label">gtk-ok</property>
+                <property name="response_id">-5</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <property name="use_stock">True</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkFrame" id="frame1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label_xalign">0</property>
+            <property name="shadow_type">none</property>
+            <child>
+              <widget class="GtkAlignment" id="alignment1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="left_padding">12</property>
+                <child>
+                  <widget class="GtkTable" id="table1">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="n_rows">8</property>
+                    <property name="n_columns">3</property>
+                    <child>
+                      <widget class="GtkLabel" id="label2">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">String</property>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkEntry" id="entryHGString">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="invisible_char">●</property>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkEntry" id="entryHGColorText">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="invisible_char">●</property>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">2</property>
+                        <property name="top_attach">1</property>
+                        <property name="bottom_attach">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkEntry" id="entryHGColorBack">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="invisible_char">●</property>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">2</property>
+                        <property name="top_attach">2</property>
+                        <property name="bottom_attach">3</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkButton" id="buttonColorText">
+                        <property name="label" translatable="yes">Select Text Color</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="use_action_appearance">False</property>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">2</property>
+                        <property name="right_attach">3</property>
+                        <property name="top_attach">1</property>
+                        <property name="bottom_attach">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkButton" id="buttonBackground">
+                        <property name="label" translatable="yes">Select Background Color</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="use_action_appearance">False</property>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">2</property>
+                        <property name="right_attach">3</property>
+                        <property name="top_attach">2</property>
+                        <property name="bottom_attach">3</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkEntry" id="entryHGSoundFile">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="invisible_char">●</property>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">2</property>
+                        <property name="top_attach">3</property>
+                        <property name="bottom_attach">4</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkButton" id="buttonSound">
+                        <property name="label" translatable="yes">Select Sound File</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="use_action_appearance">False</property>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">2</property>
+                        <property name="right_attach">3</property>
+                        <property name="top_attach">3</property>
+                        <property name="bottom_attach">4</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkCheckButton" id="checkbuttonHGbold">
+                        <property name="label" translatable="yes">Bold Text</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="draw_indicator">True</property>
+                      </widget>
+                      <packing>
+                        <property name="top_attach">4</property>
+                        <property name="bottom_attach">5</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkCheckButton" id="checkbuttonHGItal">
+                        <property name="label" translatable="yes">Italic Text</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="draw_indicator">True</property>
+                      </widget>
+                      <packing>
+                        <property name="top_attach">5</property>
+                        <property name="bottom_attach">6</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkCheckButton" id="checkbuttonHGundr">
+                        <property name="label" translatable="yes">Underline text</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="draw_indicator">True</property>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">2</property>
+                        <property name="top_attach">4</property>
+                        <property name="bottom_attach">5</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkCheckButton" id="checkbuttonHGuser">
+                        <property name="label" translatable="yes">is User</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="draw_indicator">True</property>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">2</property>
+                        <property name="top_attach">5</property>
+                        <property name="bottom_attach">6</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkCheckButton" id="checkHGsens">
+                        <property name="label" translatable="yes">Case Sensitive</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="draw_indicator">True</property>
+                      </widget>
+                      <packing>
+                        <property name="top_attach">6</property>
+                        <property name="bottom_attach">7</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkEntry" id="entryHGPopup">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="invisible_char">●</property>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">2</property>
+                        <property name="top_attach">7</property>
+                        <property name="bottom_attach">8</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkCheckButton" id="checkHgBoldTab">
+                        <property name="label" translatable="yes">Bold Tab</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="draw_indicator">True</property>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">2</property>
+                        <property name="top_attach">6</property>
+                        <property name="bottom_attach">7</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkCheckButton" id="checkbuttonHGNotify">
+                        <property name="label" translatable="yes">Enable Notify/String</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="draw_indicator">True</property>
+                      </widget>
+                      <packing>
+                        <property name="top_attach">7</property>
+                        <property name="bottom_attach">8</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkCheckButton" id="checkHGSound">
+                        <property name="label" translatable="yes">Enable Sound/File</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="draw_indicator">True</property>
+                      </widget>
+                      <packing>
+                        <property name="top_attach">3</property>
+                        <property name="bottom_attach">4</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkCheckButton" id="checkHGColor">
+                        <property name="label" translatable="yes">Enable Background Color</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="draw_indicator">True</property>
+                      </widget>
+                      <packing>
+                        <property name="top_attach">2</property>
+                        <property name="bottom_attach">3</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkCheckButton" id="checkHGText">
+                        <property name="label" translatable="yes">Enable Text Color</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="draw_indicator">True</property>
+                      </widget>
+                      <packing>
+                        <property name="top_attach">1</property>
+                        <property name="bottom_attach">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </widget>
+                </child>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkLabel" id="label1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">&lt;b&gt;Item of Higliting&lt;/b&gt;</property>
+                <property name="use_markup">True</property>
+              </widget>
+              <packing>
+                <property name="type">label_item</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
         </child>
       </widget>
     </child>
@@ -550,10 +921,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="activates_default">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -590,10 +957,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="activates_default">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -630,10 +993,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="activates_default">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -670,10 +1029,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="activates_default">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -739,10 +1094,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="editable">False</property>
-                        <property name="primary_icon_activatable">False</property>
-                        <property name="secondary_icon_activatable">False</property>
-                        <property name="primary_icon_sensitive">True</property>
-                        <property name="secondary_icon_sensitive">True</property>
                       </widget>
                       <packing>
                         <property name="expand">False</property>
@@ -887,10 +1238,6 @@
                           <widget class="GtkEntry" id="descriptionEntry">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -904,10 +1251,6 @@
                           <widget class="GtkEntry" id="emailEntry">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -921,10 +1264,6 @@
                           <widget class="GtkEntry" id="nickEntry">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -1010,10 +1349,6 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_ENTER_NOTIFY_MASK</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                             </child>
                           </widget>
@@ -1120,10 +1455,6 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="invisible_char">●</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">3</property>
@@ -1140,10 +1471,6 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="invisible_char">●</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">3</property>
@@ -1162,10 +1489,6 @@
                                 <child internal-child="entry">
                                   <widget class="GtkEntry" id="comboboxentry-entry">
                                     <property name="can_focus">False</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                 </child>
                               </widget>
@@ -1183,10 +1506,6 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="invisible_char">●</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">3</property>
@@ -1430,10 +1749,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="invisible_char">●</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -1449,10 +1764,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="invisible_char">●</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -1503,10 +1814,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="invisible_char">●</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">2</property>
@@ -1538,10 +1845,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="invisible_char">●</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">2</property>
@@ -1717,10 +2020,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="invisible_char">●</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                             <property name="adjustment">0 0 10000 1 10 0</property>
                             <property name="climb_rate">1</property>
                             <property name="numeric">True</property>
@@ -1822,10 +2121,6 @@
                                   <widget class="GtkEntry" id="finishedDownloadsEntry">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">True</property>
@@ -1877,10 +2172,6 @@
                                   <widget class="GtkEntry" id="unfinishedDownloadsEntry">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">True</property>
@@ -1983,10 +2274,6 @@
                                   <widget class="GtkSpinButton" id="newDownloadsSpinButton">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">1 0 10000 1 10 0</property>
                                     <property name="climb_rate">1</property>
                                   </widget>
@@ -2001,10 +2288,6 @@
                                   <widget class="GtkSpinButton" id="maxDownloadsSpinButton">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">0 0 1000 1 10 0</property>
                                     <property name="climb_rate">1</property>
                                   </widget>
@@ -2138,10 +2421,6 @@
                                   <widget class="GtkEntry" id="proxyEntry">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -2338,10 +2617,6 @@
                               <widget class="GtkSpinButton" id="priorityHighestSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">1 0 10240 10 10 0</property>
                                 <property name="climb_rate">1</property>
                               </widget>
@@ -2356,10 +2631,6 @@
                               <widget class="GtkSpinButton" id="priorityLowSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">1 0 102400 10 100 0</property>
                                 <property name="climb_rate">1</property>
                               </widget>
@@ -2376,10 +2647,6 @@
                               <widget class="GtkSpinButton" id="priorityHighSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">1 0 102400 10 100 0</property>
                                 <property name="climb_rate">1</property>
                               </widget>
@@ -2454,10 +2721,6 @@
                               <widget class="GtkSpinButton" id="priorityNormalSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">1 0 102400 10 10 0</property>
                                 <property name="climb_rate">1</property>
                               </widget>
@@ -2571,10 +2834,6 @@
                               <widget class="GtkSpinButton" id="dropMinSourcesSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">1 0 100 1 10 0</property>
                                 <property name="climb_rate">1</property>
                               </widget>
@@ -2591,10 +2850,6 @@
                               <widget class="GtkSpinButton" id="dropElapsedSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">1 0 100 1 10 0</property>
                                 <property name="climb_rate">1</property>
                               </widget>
@@ -2611,10 +2866,6 @@
                               <widget class="GtkSpinButton" id="dropCheckSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">1 0 100 1 10 0</property>
                                 <property name="climb_rate">1</property>
                               </widget>
@@ -2629,10 +2880,6 @@
                               <widget class="GtkSpinButton" id="dropSizeSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">1 0 100 1 10 0</property>
                                 <property name="climb_rate">1</property>
                               </widget>
@@ -2649,10 +2896,6 @@
                               <widget class="GtkSpinButton" id="dropInactiveSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">1 0 100 1 10 0</property>
                                 <property name="climb_rate">1</property>
                               </widget>
@@ -2775,10 +3018,6 @@
                               <widget class="GtkSpinButton" id="dropSpeedSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">1 0 102400 100 10 0</property>
                                 <property name="climb_rate">1</property>
                               </widget>
@@ -3008,10 +3247,6 @@
                               <widget class="GtkEntry" id="previewNameEntry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -3036,10 +3271,6 @@
                               <widget class="GtkEntry" id="previewApplicationEntry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -3064,10 +3295,6 @@
                               <widget class="GtkEntry" id="previewExtensionsEntry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -3398,10 +3625,6 @@
                           <widget class="GtkSpinButton" id="sharedExtraSlotSpinButton">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                             <property name="adjustment">0 0 256 1 10 0</property>
                             <property name="climb_rate">1</property>
                           </widget>
@@ -3440,10 +3663,6 @@
                           <widget class="GtkSpinButton" id="sharedUploadSlotsSpinButton">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                             <property name="adjustment">0 0 100 1 10 0</property>
                             <property name="climb_rate">1</property>
                           </widget>
@@ -3706,10 +3925,6 @@ System default</property>
                                   <widget class="GtkEntry" id="awayMessageEntry">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">True</property>
@@ -3759,10 +3974,6 @@ System default</property>
 %% a literal '%' character.
 
 see man strftime for details.</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">True</property>
@@ -4555,10 +4766,6 @@ see man strftime for details.</property>
                                       <widget class="GtkEntry" id="notifyTitleEntry">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="primary_icon_activatable">False</property>
-                                        <property name="secondary_icon_activatable">False</property>
-                                        <property name="primary_icon_sensitive">True</property>
-                                        <property name="secondary_icon_sensitive">True</property>
                                       </widget>
                                     </child>
                                     <child>
@@ -4757,10 +4964,6 @@ default</property>
                                           <widget class="GtkSpinButton" id="notifyPMLengthSpinButton">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="primary_icon_activatable">False</property>
-                                            <property name="secondary_icon_activatable">False</property>
-                                            <property name="primary_icon_sensitive">True</property>
-                                            <property name="secondary_icon_sensitive">True</property>
                                             <property name="adjustment">0 0 255 1 10 0</property>
                                           </widget>
                                           <packing>
@@ -5479,10 +5682,6 @@ default</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="tooltip" translatable="yes">Frame size</property>
-                                        <property name="primary_icon_activatable">False</property>
-                                        <property name="secondary_icon_activatable">False</property>
-                                        <property name="primary_icon_sensitive">True</property>
-                                        <property name="secondary_icon_sensitive">True</property>
                                         <property name="adjustment">50 10 256 1 10 0</property>
                                       </widget>
                                       <packing>
@@ -5520,10 +5719,6 @@ default</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="tooltip" translatable="yes">Waiting time(sec)</property>
-                                        <property name="primary_icon_activatable">False</property>
-                                        <property name="secondary_icon_activatable">False</property>
-                                        <property name="primary_icon_sensitive">True</property>
-                                        <property name="secondary_icon_sensitive">True</property>
                                         <property name="adjustment">40 1 300 1 10 0</property>
                                       </widget>
                                       <packing>
@@ -5561,10 +5756,6 @@ default</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="tooltip" translatable="yes">Count matches</property>
-                                        <property name="primary_icon_activatable">False</property>
-                                        <property name="secondary_icon_activatable">False</property>
-                                        <property name="primary_icon_sensitive">True</property>
-                                        <property name="secondary_icon_sensitive">True</property>
                                         <property name="adjustment">2 2 100 1 10 0</property>
                                       </widget>
                                       <packing>
@@ -5907,10 +6098,6 @@ default</property>
                                 <property name="width_request">226</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">True</property>
@@ -5981,10 +6168,6 @@ default</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">True</property>
@@ -6040,10 +6223,6 @@ default</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">True</property>
@@ -6099,10 +6278,6 @@ default</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">True</property>
@@ -6158,10 +6333,6 @@ default</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">True</property>
@@ -6535,10 +6706,6 @@ default</property>
                               <widget class="GtkSpinButton" id="hashSpeedSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">0 0 102400 1 64 0</property>
                                 <property name="climb_rate">1</property>
                                 <property name="numeric">True</property>
@@ -6553,10 +6720,6 @@ default</property>
                               <widget class="GtkSpinButton" id="pmHistorySpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">10 0 100 1 10 0</property>
                                 <property name="climb_rate">1</property>
                                 <property name="numeric">True</property>
@@ -6571,10 +6734,6 @@ default</property>
                               <widget class="GtkSpinButton" id="slotSizeSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">64 0 10240 1 10 0</property>
                                 <property name="climb_rate">1</property>
                                 <property name="numeric">True</property>
@@ -6589,10 +6748,6 @@ default</property>
                               <widget class="GtkSpinButton" id="maxListSizeSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">0 0 100 1 10 0</property>
                                 <property name="climb_rate">1</property>
                                 <property name="numeric">True</property>
@@ -6607,10 +6762,6 @@ default</property>
                               <widget class="GtkEntry" id="CIDEntry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -6800,10 +6951,6 @@ default</property>
                               <widget class="GtkSpinButton" id="writeBufferSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">0 0 1024 64 10 0</property>
                                 <property name="climb_rate">1</property>
                                 <property name="numeric">True</property>
@@ -6818,10 +6965,6 @@ default</property>
                               <widget class="GtkSpinButton" id="searchHistorySpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">10 0 100 1 10 0</property>
                                 <property name="climb_rate">1</property>
                                 <property name="numeric">True</property>
@@ -6836,10 +6979,6 @@ default</property>
                               <widget class="GtkEntry" id="bindAddressEntry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -6851,10 +6990,6 @@ default</property>
                               <widget class="GtkSpinButton" id="socketReadSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">0 0 102400 1 64 0</property>
                                 <property name="climb_rate">1</property>
                                 <property name="numeric">True</property>
@@ -6869,10 +7004,6 @@ default</property>
                               <widget class="GtkSpinButton" id="socketWriteSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">0 0 102400 1 64 0</property>
                                 <property name="climb_rate">1</property>
                                 <property name="numeric">True</property>
@@ -6887,10 +7018,6 @@ default</property>
                               <widget class="GtkSpinButton" id="autoRefreshSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">1 0 100 1 10 0</property>
                                 <property name="climb_rate">1</property>
                                 <property name="numeric">True</property>
@@ -7090,10 +7217,6 @@ default</property>
                                   <widget class="GtkEntry" id="trustedCertificatesPathEntry">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -7106,10 +7229,6 @@ default</property>
                                   <widget class="GtkEntry" id="certificateFileEntry">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -7122,10 +7241,6 @@ default</property>
                                   <widget class="GtkEntry" id="privateKeyEntry">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -7307,6 +7422,126 @@ default</property>
               </packing>
             </child>
             <child>
+              <widget class="GtkFrame" id="frame19">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label_xalign">0</property>
+                <property name="shadow_type">none</property>
+                <child>
+                  <widget class="GtkAlignment" id="alignment23">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="left_padding">12</property>
+                    <child>
+                      <widget class="GtkVBox" id="vbox30">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <widget class="GtkScrolledWindow" id="scrolledwindow22">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="hscrollbar_policy">automatic</property>
+                            <property name="vscrollbar_policy">automatic</property>
+                            <child>
+                              <widget class="GtkTreeView" id="treeviewHigliting">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                              </widget>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkHBox" id="hbox45">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="homogeneous">True</property>
+                            <child>
+                              <widget class="GtkButton" id="buttonHGADD">
+                                <property name="label" translatable="yes">Add</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="use_action_appearance">False</property>
+                              </widget>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkButton" id="buttonHGED">
+                                <property name="label" translatable="yes">Edit</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="use_action_appearance">False</property>
+                              </widget>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkButton" id="buttonHGDEL">
+                                <property name="label" translatable="yes">Remove</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="use_action_appearance">False</property>
+                              </widget>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </widget>
+                    </child>
+                  </widget>
+                </child>
+                <child>
+                  <widget class="GtkLabel" id="label72">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">&lt;b&gt;Higliting&lt;/b&gt;</property>
+                    <property name="use_markup">True</property>
+                  </widget>
+                  <packing>
+                    <property name="type">label_item</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="position">7</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkLabel" id="label71">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Higliting</property>
+              </widget>
+              <packing>
+                <property name="position">7</property>
+                <property name="tab_fill">False</property>
+                <property name="type">tab</property>
+              </packing>
+            </child>
+            <child>
               <widget class="GtkVBox" id="vbox26">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -7334,10 +7569,6 @@ default</property>
                               <widget class="GtkSpinButton" id="transferMaxUpload">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">0 0 10240 1 10 0</property>
                               </widget>
                               <packing>
@@ -7388,10 +7619,6 @@ default</property>
                               <widget class="GtkSpinButton" id="transferMaxDownload">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">0 0 10240 1 10 0</property>
                               </widget>
                               <packing>
@@ -7631,10 +7858,6 @@ Noon
                               <widget class="GtkSpinButton" id="secondaryMaxUpload">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">0 0 10240 1 10 0</property>
                               </widget>
                               <packing>
@@ -7685,10 +7908,6 @@ Noon
                               <widget class="GtkSpinButton" id="secondaryMaxDownload">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">0 0 10240 1 10 0</property>
                               </widget>
                               <packing>
@@ -7739,10 +7958,6 @@ Noon
                               <widget class="GtkSpinButton" id="secondaryUploadSlots">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
-                                <property name="primary_icon_sensitive">True</property>
-                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">0 0 64 1 10 0</property>
                               </widget>
                               <packing>
@@ -7821,7 +8036,7 @@ Noon
                 </child>
               </widget>
               <packing>
-                <property name="position">7</property>
+                <property name="position">8</property>
               </packing>
             </child>
             <child>
@@ -7832,7 +8047,7 @@ Noon
 Limiting</property>
               </widget>
               <packing>
-                <property name="position">7</property>
+                <property name="position">8</property>
                 <property name="tab_fill">False</property>
                 <property name="type">tab</property>
               </packing>
@@ -7980,7 +8195,7 @@ Limiting</property>
                 </child>
               </widget>
               <packing>
-                <property name="position">8</property>
+                <property name="position">9</property>
               </packing>
             </child>
             <child>
@@ -7990,7 +8205,7 @@ Limiting</property>
                 <property name="label" translatable="yes">Search</property>
               </widget>
               <packing>
-                <property name="position">8</property>
+                <property name="position">9</property>
                 <property name="tab_fill">False</property>
                 <property name="type">tab</property>
               </packing>
@@ -8266,10 +8481,6 @@ Limiting</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="activates_default">True</property>
-                    <property name="primary_icon_activatable">False</property>
-                    <property name="secondary_icon_activatable">False</property>
-                    <property name="primary_icon_sensitive">True</property>
-                    <property name="secondary_icon_sensitive">True</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>

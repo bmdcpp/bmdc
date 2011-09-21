@@ -661,7 +661,7 @@ void AdcHub::handle(AdcCommand::ZON, AdcCommand& c) throw() {
 			dcdebug("AdcHub::handleZON failed with error: %s\n", e.getError().c_str());
 		}
 }
-
+/*
 void AdcHub::handle(AdcCommand::ZOF, AdcCommand& c) throw() {
 	try {
 			sock->setMode(BufferedSocket::MODE_LINE);
@@ -669,7 +669,7 @@ void AdcHub::handle(AdcCommand::ZOF, AdcCommand& c) throw() {
 			dcdebug("AdcHub::handleZOF failed with error: %s\n", e.getError().c_str());
 		}
 }
-
+*/
 
 void AdcHub::connect(const OnlineUser& user, const string& token) {
 	connect(user, token, CryptoManager::getInstance()->TLSOk() && user.getUser()->isSet(User::TLS));

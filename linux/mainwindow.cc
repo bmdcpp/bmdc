@@ -63,7 +63,6 @@
 #ifdef _USELUA
 	#include <dcpp/ScriptManager.h>
 #endif
-#include "highliting.hh"
 #include "detectiontab.hh"
 #include "cmddebug.hh"
 //END
@@ -151,7 +150,7 @@ MainWindow::MainWindow():
 	g_object_set_data_full(G_OBJECT(dwitem), "type", g_strdup("dw"), g_free);
 	g_signal_connect(G_OBJECT(dwitem), "activate", G_CALLBACK(onLimitingDisable), (gpointer)this);
 	GtkWidget *sep2 = gtk_separator_menu_item_new();
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu),sep2);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep2);
 
 	for(int j = 10240; j<2097152; j = j*2+40960/2) {
 		string tmenu = Text::toT(Util::formatBytes(j)) + (_("/s"));
@@ -164,7 +163,7 @@ MainWindow::MainWindow():
 	}
 	gtk_widget_show_all(menu);
 
-	// colourstuff added by curse //add to bmdc by Mank
+	// colourstuff added by curse //add to BMDC++ by Mank
 	string res = WulforManager::get()->getPath() + "/glade/resources.rc";
 	gtk_rc_parse(res.c_str());
 	// colourstuff end
@@ -227,8 +226,6 @@ MainWindow::MainWindow():
 	///TTHFileDialog
 	g_signal_connect(getWidget("TTHFileMenu"), "activate", G_CALLBACK(onTTHFileDialog_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonfile"), "clicked", G_CALLBACK(onTTHFileButton_gui), (gpointer)this);
-	///Higliting Tab
-	g_signal_connect(getWidget("highlitingMenuItem"), "activate", G_CALLBACK(onHighliting), (gpointer)this);
 	///Detection
 	g_signal_connect(getWidget("detectionMenuItem"), "activate", G_CALLBACK(onDetection), (gpointer)this);
 	///CMD TAB
@@ -982,18 +979,6 @@ void MainWindow::showRecentHub_gui()
 	}
 	raisePage_gui(entry->getContainer());
 }
-//Highliting
-void MainWindow::showHigliting_gui()
-{
-	BookEntry *entry = findBookEntry(Entry::HIGHL);
-
-	if(entry == NULL)
-	{
-		entry = new Highlighting();
-		addBookEntry_gui(entry);
-	}
-	raisePage_gui(entry->getContainer());
-}
 //Detection
 void MainWindow::showDetection_gui()
 {
@@ -1454,7 +1439,6 @@ void MainWindow::onTTHFileDialog_gui(GtkWidget *widget, gpointer data)
 	if(response == GTK_RESPONSE_NONE);
 
 	gtk_widget_hide(dialog);
-
 }
 
 void MainWindow::onTTHFileButton_gui(GtkWidget *widget , gpointer data)
@@ -2006,56 +1990,42 @@ void MainWindow::onSearchSpyClicked_gui(GtkWidget *widget, gpointer data)
 	MainWindow *mw = (MainWindow *)data;
 	mw->showSearchSpy_gui();
 }
-
 //Notepad
 void MainWindow::onNotepad_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 	mw->showNotepad_gui();
 }
-//END
 //ADL
 void MainWindow::onADLSearch_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 	mw->showADLSearch_gui();
 }
-//END
 //SYSTEMTAB
 void MainWindow::onSystem_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 	mw->showSystem_gui();
 }
-//END
 //Ignore
 void MainWindow::onIgnore_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 	mw->showIgnore_gui();
 }
-//END
 //RecentTab
 void MainWindow::onRecent_gui(GtkWidget *widget , gpointer data)
 {
 		MainWindow *mw = (MainWindow *)data;
 		mw->showRecentHub_gui();
 }
-//END
-//Highliting
-void MainWindow::onHighliting(GtkWidget *widget, gpointer data)
-{
-		MainWindow *mw = (MainWindow *)data;
-		mw->showHigliting_gui();
-}
-//end
 //Detection
 void MainWindow::onDetection(GtkWidget *widget, gpointer data)
 {
 		MainWindow *mw = (MainWindow *)data;
 		mw->showDetection_gui();
 }
-///end
 ///CMD
 void MainWindow::onDebugCMD(GtkWidget *widget, gpointer data)
 {
@@ -2068,14 +2038,12 @@ void MainWindow::onAway_gui(GtkWidget *widget, gpointer data)
 	MainWindow *mw = (MainWindow *)data;
 	mw->getAway();
 }
-//END
 //Limiting Icon
 void MainWindow::onLimiting(GtkWidget *widget, gpointer data)
 {
     MainWindow *mw = (MainWindow *)data;
     mw->EnbDsbLimit();
 }
-//end
 
 void MainWindow::onDownloadQueueClicked_gui(GtkWidget *widget, gpointer data)
 {

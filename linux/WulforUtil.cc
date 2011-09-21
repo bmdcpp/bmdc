@@ -633,7 +633,6 @@ void WulforUtil::registerIcons()
 	icons["bmdc-none"] = wsm->getString("icon-none");
 	icons["bmdc-limiting"] = wsm->getString("icon-limiting");
 	icons["bmdc-limiting-on"] = wsm->getString("icon-limiting-on");
-	icons["bmdc-highlight"] = wsm->getString("icon-highlight");
 	/**/
 	icons["bmdc-pm-online"] = wsm->getString("icon-pm-online");
 	icons["bmdc-pm-offline"] = wsm->getString("icon-pm-offline");

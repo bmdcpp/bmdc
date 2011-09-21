@@ -273,7 +273,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("icon-pm-offline","bmdc-pm-offline"));
 	defaultString.insert(StringMap::value_type("icon-hub-online","bmdc-hub-online"));
 	defaultString.insert(StringMap::value_type("icon-hub-offline","bmdc-hub-offline"));
-	defaultString.insert(StringMap::value_type("icon-highlight","bmdc-highlight"));
+//	defaultString.insert(StringMap::value_type("icon-highlight","bmdc-highlight"));
 	defaultString.insert(StringMap::value_type("icon-limiting","bmdc-limiting"));
 	defaultString.insert(StringMap::value_type("icon-limiting-on","bmdc-limiting-on"));
 	

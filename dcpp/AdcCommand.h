@@ -110,7 +110,7 @@ public:
 	C(RNT, 'R','N','T');
 	// ZLIF - iceman50
 	C(ZON, 'Z','O','N');
-	C(ZOF, 'Z','O','F');
+//	C(ZOF, 'Z','O','F');
 #undef C
 
 	static const uint32_t HUB_SID = 0xffffffff;		// No client will have this sid

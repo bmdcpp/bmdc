@@ -575,6 +575,7 @@ void NmdcHub::onLine(const string& aLine) throw() {
 				feat.push_back("UserIP2");
 				feat.push_back("TTHSearch");
 				feat.push_back("ZPipe0");
+				feat.push_back("SaltPass");
 
 				supports(feat);
 			}
@@ -759,7 +760,11 @@ void NmdcHub::onLine(const string& aLine) throw() {
 		OnlineUser& ou = getUser(getMyNick());
 		ou.getIdentity().set("RG", "1");
 		setMyIdentity(ou.getIdentity());
+		if(!param.empty()) {
+			salt = param;
+		}
 		fire(ClientListener::GetPassword(), this);
+		
 	} else if(cmd == "$BadPass") {
 		setPassword(Util::emptyString);
 	} else if(cmd == "$ZOn") {
@@ -1054,6 +1059,21 @@ void NmdcHub::refreshUserList(bool refreshOnly) {
 	} else {
 		clearUsers();
 		getNickList();
+	}
+}
+
+void NmdcHub::password(const string& aPass) {
+	if(!salt.empty()) {
+		size_t saltBytes = salt.size() * 5 / 8;
+		boost::scoped_array<uint8_t> buf(new uint8_t[saltBytes]);
+		Encoder::fromBase32(salt.c_str(), &buf[0], saltBytes);
+		TigerHash th;
+		th.update(aPass.data(), aPass.length());
+		th.update(&buf[0], saltBytes);		
+		send("$MyPass " + Encoder::toBase32(th.finalize(), TigerHash::BYTES) + "|");
+		salt.clear();
+	} else {
+		send("$MyPass " + fromUtf8(aPass) + "|");
 	}
 }
 

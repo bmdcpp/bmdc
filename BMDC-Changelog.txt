@@ -313,4 +313,6 @@ Fix Higliting if no items in it
 Fix debianize for 64bit
 Fix /away /back and Icon in toolbar
 Fix hidding Away Icon
+Move Higlitings to Settings Dialog
+Add Hashesh/Salted password from iceman50
 

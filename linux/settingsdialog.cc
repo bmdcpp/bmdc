@@ -87,8 +87,7 @@ Settings::Settings(GtkWindow* parent):
 	defaultStringTheme.insert(StringMap::value_type("icon-none", "bmdc-none"));
 	defaultStringTheme.insert(StringMap::value_type("icon-limiting", "bmdc-limiting"));
 	defaultStringTheme.insert(StringMap::value_type("icon-highlight", "bmdc-highlight"));
-
-	/*icons of conn*/
+	/* icons of conn */
 	defaultStringTheme.insert(StringMap::value_type("icon-op", "bmdc-op"));
 	defaultStringTheme.insert(StringMap::value_type("icon-modem", "bmdc-modem"));
 	defaultStringTheme.insert(StringMap::value_type("icon-wireless", "bmdc-wireless"));
@@ -100,8 +99,7 @@ Settings::Settings(GtkWindow* parent):
 	defaultStringTheme.insert(StringMap::value_type("icon-zeroone", "bmdc-zeroone"));
 	defaultStringTheme.insert(StringMap::value_type("icon-zerozeroone", "bmdc-zerozeroone"));
 	defaultStringTheme.insert(StringMap::value_type("icon-other", "bmdc-other"));
-	/*aways*/
-	/**/
+	/* aways */
 	defaultStringTheme.insert(StringMap::value_type("icon-op-away", "bmdc-op-away"));
 	defaultStringTheme.insert(StringMap::value_type("icon-modem-away", "bmdc-modem-away"));
 	defaultStringTheme.insert(StringMap::value_type("icon-wireless-away", "bmdc-wireless-away"));
@@ -113,7 +111,7 @@ Settings::Settings(GtkWindow* parent):
 	defaultStringTheme.insert(StringMap::value_type("icon-zeroone-away", "bmdc-zeroone"));
 	defaultStringTheme.insert(StringMap::value_type("icon-zerozeroone-away", "bmdc-zerozeroone-away"));
 	defaultStringTheme.insert(StringMap::value_type("icon-other-away", "bmdc-other-away"));
-	/*pasive*/
+	/* pasive */
 	defaultStringTheme.insert(StringMap::value_type("icon-op-pasive", "bmdc-op-pasive"));
 	defaultStringTheme.insert(StringMap::value_type("icon-modem-pasive", "bmdc-modem-pasive"));
 	defaultStringTheme.insert(StringMap::value_type("icon-wireless-pasive", "bmdc-wireless-pasive"));
@@ -126,7 +124,6 @@ Settings::Settings(GtkWindow* parent):
 	defaultStringTheme.insert(StringMap::value_type("icon-zerozeroone-pasive", "bmdc-zerozeroone-pasive"));
 	defaultStringTheme.insert(StringMap::value_type("icon-other-pasive", "bmdc-other-pasive"));
 	/*aways*/
-	/**/
 	defaultStringTheme.insert(StringMap::value_type("icon-op-away-pasive", "bmdc-op-away-pasive"));
 	defaultStringTheme.insert(StringMap::value_type("icon-modem-away-pasive", "bmdc-modem-away-pasive"));
 	defaultStringTheme.insert(StringMap::value_type("icon-wireless-away-pasive", "bmdc-wireless-away-pasive"));
@@ -174,7 +171,7 @@ Settings::Settings(GtkWindow* parent):
 	defaultStringTheme.insert(StringMap::value_type("userlist-text-favorite", "#ff0000"));
 	defaultStringTheme.insert(StringMap::value_type("userlist-text-ignored", "#9affaf"));
 	defaultStringTheme.insert(StringMap::value_type("userlist-text-normal", "#000000"));
-	
+	//NOTE: END
 	defaultIntTheme.insert(IntMap::value_type("text-general-bold", 0));
 	defaultIntTheme.insert(IntMap::value_type("text-general-italic", 0));
 	defaultIntTheme.insert(IntMap::value_type("text-myown-bold", 1));
@@ -200,7 +197,8 @@ Settings::Settings(GtkWindow* parent):
 	defaultIntTheme.insert(IntMap::value_type("text-ip-italic", 0));
 	defaultIntTheme.insert(IntMap::value_type("text-cheat-bold", 1));
 	defaultIntTheme.insert(IntMap::value_type("text-cheat-italic", 0));
-
+	//For Higliting...
+	isSensitiveHG[0] = isSensitiveHG[1] = isSensitiveHG[2] = isSensitiveHG[3] = FALSE;
 	// Initialize the tabs in the GtkNotebook.
 	initPersonal_gui();
 	initConnection_gui();
@@ -211,6 +209,7 @@ Settings::Settings(GtkWindow* parent):
 	initAdvanced_gui();
 	initBandwidthLimiting_gui(); //NOTE: core 0.762
 	initSearchTypes_gui(); //NOTE: core 0.770
+	initHigliting_gui();//NOTE: BMDC++
 }
 
 Settings::~Settings()
@@ -219,13 +218,13 @@ Settings::~Settings()
 		saveSettings_client();
 
 	gtk_widget_destroy(getWidget("publicHubsDialog"));
-	gtk_widget_destroy(getWidget("nameDialog"));//NOTE: core 0.770
+	gtk_widget_destroy(getWidget("nameDialog")); //NOTE: core 0.770
 	gtk_widget_destroy(getWidget("dirChooserDialog"));
 	gtk_widget_destroy(getWidget("fileChooserDialog"));
 	gtk_widget_destroy(getWidget("commandDialog"));
 	gtk_widget_destroy(getWidget("fontSelectionDialog"));
 	gtk_widget_destroy(getWidget("colorSelectionDialog"));
-	gtk_widget_destroy(getWidget("ExtensionsDialog"));//NOTE: core 0.770
+	gtk_widget_destroy(getWidget("ExtensionsDialog")); //NOTE: core 0.770
 }
 
 void Settings::response_gui()
@@ -233,13 +232,13 @@ void Settings::response_gui()
 	gtk_dialog_response(GTK_DIALOG(getContainer()), GTK_RESPONSE_CANCEL);
 
 	gtk_dialog_response(GTK_DIALOG(getWidget("publicHubsDialog")), GTK_RESPONSE_CANCEL);
-	gtk_dialog_response(GTK_DIALOG(getWidget("nameDialog")), GTK_RESPONSE_CANCEL);//NOTE: core 0.770
+	gtk_dialog_response(GTK_DIALOG(getWidget("nameDialog")), GTK_RESPONSE_CANCEL); //NOTE: core 0.770
 	gtk_dialog_response(GTK_DIALOG(getWidget("dirChooserDialog")), GTK_RESPONSE_CANCEL);
 	gtk_dialog_response(GTK_DIALOG(getWidget("fileChooserDialog")), GTK_RESPONSE_CANCEL);
 	gtk_dialog_response(GTK_DIALOG(getWidget("commandDialog")), GTK_RESPONSE_CANCEL);
 	gtk_dialog_response(GTK_DIALOG(getWidget("fontSelectionDialog")), GTK_RESPONSE_CANCEL);
 	gtk_dialog_response(GTK_DIALOG(getWidget("colorSelectionDialog")), GTK_RESPONSE_CANCEL);
-	gtk_dialog_response(GTK_DIALOG(getWidget("ExtensionsDialog")), GTK_RESPONSE_CANCEL);//NOTE: core 0.770
+	gtk_dialog_response(GTK_DIALOG(getWidget("ExtensionsDialog")), GTK_RESPONSE_CANCEL); //NOTE: core 0.770
 
 }
 
@@ -490,6 +489,10 @@ void Settings::saveSettings_client()
 			}	
 		
 		}
+	}
+	//Higliting
+	{
+		HighlightManager::getInstance()->replaceList(pList);	
 	}
 
 	{ // Logs
@@ -1564,6 +1567,77 @@ void Settings::initAppearance_gui()
 //NOTE: END	
 }
 
+void Settings::initHigliting_gui()//NOTE: BMDC++
+{
+	GtkTreeIter iter;
+	hView.setView(GTK_TREE_VIEW(getWidget("treeviewHigliting")));
+	hView.insertColumn(_("String"), G_TYPE_STRING, TreeView::STRING, 100);
+	hView.insertHiddenColumn("Bold", G_TYPE_STRING);
+	hView.insertHiddenColumn("Underline", G_TYPE_STRING);
+	hView.insertHiddenColumn("Italic", G_TYPE_STRING);
+	hView.insertHiddenColumn("Bold Tab", G_TYPE_STRING);
+	hView.insertHiddenColumn("Include Nick", G_TYPE_STRING);
+	hView.insertHiddenColumn("Popup Enable", G_TYPE_STRING);
+	hView.insertHiddenColumn("Popup String", G_TYPE_STRING);
+	hView.insertHiddenColumn("Enable Sound", G_TYPE_STRING);
+	hView.insertHiddenColumn("Sound File", G_TYPE_STRING);
+	hView.insertHiddenColumn("Enable Fore Color", G_TYPE_STRING);
+	hView.insertHiddenColumn("Fore Color", G_TYPE_STRING);
+	hView.insertHiddenColumn("Enable Back Color", G_TYPE_STRING);
+	hView.insertHiddenColumn("Back Color", G_TYPE_STRING);
+	hView.insertHiddenColumn("Case sensitive", G_TYPE_STRING);
+	hView.finalize();
+	
+	hStore = gtk_list_store_newv(hView.getColCount(), hView.getGTypes());
+	gtk_tree_view_set_model(hView.get(), GTK_TREE_MODEL(hStore));
+	g_object_unref(hStore);
+	
+	selection = gtk_tree_view_get_selection(hView.get());
+	
+	ColorList* cList = HighlightManager::getInstance()->getList();
+		for(ColorIter i = cList->begin();i != cList->end(); ++i) {
+			ColorSettings *cs= &(*i);
+			pList.push_back((*i));
+			
+			gtk_list_store_append(hStore,&iter);
+			gtk_list_store_set(hStore,&iter,
+							hView.col(_("String")), cs->getMatch().c_str(),
+							hView.col("Bold"), cs->getBold() ? "1" : "0",
+							hView.col("Underline"), cs->getUnderline() ? "1" : "0",
+							hView.col("Italic"), cs->getItalic() ? "1" : "0",
+							hView.col("Bold Tab"), cs->getTab() ? "1" : "0",
+							hView.col("Include Nick"), cs->getIncludeNick() ? "1" : "0",
+							hView.col("Popup Enable"), cs->getPopup() ? "1" : "0",
+							hView.col("Popup String"), cs->getNoti().c_str(),
+							hView.col("Enable Sound"), cs->getPlaySound() ? "1" : "0",
+							hView.col("Sound File"), cs->getSoundFile().c_str(),
+							hView.col("Enable Fore Color"), cs->getHasFgColor() ? "1" : "0",
+							hView.col("Fore Color"), cs->getFgColor().c_str(),
+							hView.col("Enable Back Color"), cs->getHasBgColor() ? "1" : "0",
+							hView.col("Back Color"), cs->getBgColor().c_str(),
+							hView.col("Case sensitive"), cs->usingRegexp() ? "1" : "0",
+							-1);
+	
+	}
+	//Main
+	g_signal_connect(getWidget("buttonHGADD"), "clicked", G_CALLBACK(onAddHigliting_gui), (gpointer)this);
+	g_signal_connect(getWidget("buttonHGED"), "clicked", G_CALLBACK(onEditHigliting_gui), (gpointer)this);
+	g_signal_connect(getWidget("buttonHGDEL"), "clicked", G_CALLBACK(onRemoveHigliting_gui), (gpointer)this);
+	//Dialog
+	g_signal_connect(getWidget("buttonColorText"), "clicked", G_CALLBACK(onColorText_gui), (gpointer)this);
+	g_signal_connect(getWidget("buttonBackground"), "clicked", G_CALLBACK(onColorBack_gui), (gpointer)this);
+	g_signal_connect(getWidget("buttonSound"), "clicked", G_CALLBACK(onSound_gui), (gpointer)this);
+	/**/
+	g_signal_connect(getWidget("checkHGText"), "toggled", G_CALLBACK(onToggledHGText_gui), (gpointer)this);
+	g_signal_connect(getWidget("checkHGColor"), "toggled", G_CALLBACK(onToggledHGColor_gui), (gpointer)this);
+	g_signal_connect(getWidget("checkHGSound"), "toggled", G_CALLBACK(onToggledHGSound_gui), (gpointer)this);
+	g_signal_connect(getWidget("checkbuttonHGNotify"), "toggled", G_CALLBACK(onToggledHGNotify_gui), (gpointer)this);
+	//init dialog
+	onToggledHGColor_gui(NULL, (gpointer)this);
+	onToggledHGNotify_gui(NULL, (gpointer)this);
+	onToggledHGSound_gui(NULL, (gpointer)this);
+	onToggledHGText_gui(NULL, (gpointer)this);
+}
 void Settings::initLog_gui()
 {
 	g_signal_connect(getWidget("logBrowseButton"), "clicked", G_CALLBACK(onLogBrowseClicked_gui), (gpointer)this);
@@ -1707,7 +1781,6 @@ void Settings::initBandwidthLimiting_gui()
 	onLimitSecondToggled_gui(NULL, (gpointer)this);
 	g_signal_connect(getWidget("useLimitSecondCheckButton"), "toggled", G_CALLBACK(onLimitSecondToggled_gui), (gpointer)this);
 }
-//NOTE: core 0.762
 //NOTE: core 0.770
 void Settings::initSearchTypes_gui()
 {
@@ -4267,4 +4340,318 @@ void Settings::onInFW_UPnP_gui(GtkToggleButton *button, gpointer data)//NOTE: co
 	gtk_widget_set_sensitive(s->getWidget("tlsEntry"), TRUE);
 	gtk_widget_set_sensitive(s->getWidget("tlsLabel"), TRUE);
 	gtk_widget_set_sensitive(s->getWidget("forceIPCheckButton"), TRUE);
+}
+//BMDC++
+void Settings::onAddHigliting_gui(GtkWidget *widget, gpointer data)
+{
+	Settings *s = (Settings *)data;
+
+	GtkWidget *dialog = s->getWidget("HiglitingDialog");
+	gtk_window_set_title(GTK_WINDOW(dialog), _("New Higliting Item"));
+	gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGString")), "Example");
+	gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGColorText")), "#000000");
+	gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGColorBack")), "#FFFFFF");
+	gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGSoundFile")), "Example.wav");
+	gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGPopup")), "Popup Text");
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkbuttonHGbold")), FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkbuttonHGundr")), FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkbuttonHGItal")), FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkbuttonHGuser")), FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGsens")), FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHgBoldTab")), FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGSound")), TRUE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkbuttonHGNotify")), TRUE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGColor")), TRUE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGText")), TRUE);
+	
+	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
+
+	if (response == GTK_RESPONSE_OK)
+	{
+		gtk_widget_hide(dialog);
+		dcpp::StringMap params;
+		params["String"] = gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryHGString")));
+		params["Color Text"] = gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryHGColorText")));
+		params["Color Back"] = gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryHGColorBack")));
+		params["Sound File"] = gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryHGSoundFile")));
+		params["Popup Text"] = gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryHGPopup")));
+		params["Bold"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkbuttonHGbold"))) ? "1" : "0";
+		params["Underline"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkbuttonHGundr"))) ? "1" : "0";
+		params["Italic"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkbuttonHGItal"))) ? "1" : "0";
+		params["User"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkbuttonHGuser"))) ? "1" : "0";
+		params["Sensitive"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGsens"))) ? "1" : "0";
+		params["Tab"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHgBoldTab"))) ? "1" : "0";
+		params["Enable Popup"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkbuttonHGNotify"))) ? "1" : "0";
+		params["Enable Sound"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGSound"))) ? "1" : "0";
+		params["Enable Background"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGColor"))) ? "1" : "0";
+		params["Enable Text"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGText"))) ? "1" : "0";
+		
+		s->saveHigliting(params,true);
+	}
+	else
+		gtk_widget_hide(dialog);
+}
+
+void Settings::onEditHigliting_gui(GtkWidget *widget, gpointer data)
+{
+	Settings *s = (Settings *)data;
+	
+	GtkTreeIter iter;
+
+	if (gtk_tree_selection_get_selected(s->selection, NULL, &iter))
+	{
+		dcpp::StringMap params;
+		string name = params["String"] = s->hView.getString(&iter, _("String"));
+		params["Color Text"] = s->hView.getString(&iter, "Fore Color");
+		params["Color Back"] = s->hView.getString(&iter, "Back Color");
+		params["Sound File"] = s->hView.getString(&iter, "Sound File");
+		params["Popup Text"] = s->hView.getString(&iter, "Popup String");
+		params["Bold"] = s->hView.getString(&iter, "Bold");
+		params["Italic"] = s->hView.getString(&iter, "Italic");
+		params["Underline"] = s->hView.getString(&iter, "Underline");
+		params["User"] = s->hView.getString(&iter, "Include Nick");
+		params["Sensitive"] = s->hView.getString(&iter, "Case sensitive");
+		params["Tab"] = s->hView.getString(&iter, "Bold Tab");
+		params["Enable Popup"] = s->hView.getString(&iter, "Popup Enable");
+		params["Enable Sound"] = s->hView.getString(&iter, "Enable Sound");
+		params["Enable Background"] = s->hView.getString(&iter, "Enable Back Color");
+		params["Enable Text"] = s->hView.getString(&iter, "Enable Fore Color");
+		
+		GtkWidget *dialog = s->getWidget("HiglitingDialog");
+		gtk_window_set_title(GTK_WINDOW(dialog), _("New Higliting Item"));
+		gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGString")), params["String"].c_str());
+		gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGColorText")), params["Color Text"].c_str());
+		gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGColorBack")), params["Color Back"].c_str());
+		gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGSoundFile")), params["Sound File"].c_str());
+		gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGPopup")), params["Popup Text"].c_str());
+		gboolean isBold = params["Bold"] == "1" ? TRUE : FALSE;
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkbuttonHGbold")), isBold);
+		gboolean isUnderline = params["Underline"] == "1" ? TRUE : FALSE;
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkbuttonHGundr")), isUnderline);
+		gboolean isItalic = params["Italic"] == "1" ? TRUE : FALSE;
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkbuttonHGItal")), isItalic);
+		gboolean isUser = params["User"] == "1" ? TRUE : FALSE;
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkbuttonHGuser")), isUser);
+		gboolean isSensitive = params["Sensitive"] == "1" ? TRUE : FALSE;
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGsens")), isSensitive);
+		gboolean isBoldTab = params["Tab"] == "1" ? TRUE : FALSE;
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHgBoldTab")), isBoldTab);
+		gboolean isSound = params["Enable Sound"] == "1" ? TRUE : FALSE;
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGSound")), isSound);
+		gboolean isNotify = params["Enable Popup"] == "1" ? TRUE : FALSE;
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkbuttonHGNotify")), isNotify);
+		gboolean isColor = params["Enable Background"] ==  "1" ? TRUE : FALSE;
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGColor")), isColor);
+		gboolean isText = params["Enable Text"] == "1" ? TRUE : FALSE;
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGText")), isText);
+	
+		gint response = gtk_dialog_run(GTK_DIALOG(dialog));
+
+		if (response == GTK_RESPONSE_OK)
+		{
+			gtk_widget_hide(dialog);
+			dcpp::StringMap params;
+			params["String"] = gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryHGString")));
+			params["Color Text"] = gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryHGColorText")));
+			params["Color Back"] = gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryHGColorBack")));
+			params["Sound File"] = gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryHGSoundFile")));
+			params["Popup Text"] = gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryHGPopup")));
+			params["Bold"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkbuttonHGbold"))) ? "1" : "0";
+			params["Underline"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkbuttonHGundr"))) ? "1" : "0";
+			params["Italic"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkbuttonHGItal"))) ? "1" : "0";
+			params["User"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkbuttonHGuser"))) ? "1" : "0";
+			params["Sensitive"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGsens"))) ? "1" : "0";
+			params["Tab"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHgBoldTab"))) ? "1" : "0";
+			params["Enable Popup"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkbuttonHGNotify"))) ? "1" : "0";
+			params["Enable Sound"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGSound"))) ? "1" : "0";
+			params["Enable Background"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGColor"))) ? "1" : "0";
+			params["Enable Text"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGText"))) ? "1" : "0";
+		
+			s->saveHigliting(params,false,name);
+		}
+		else gtk_widget_hide(dialog);
+	
+	}
+}
+
+void Settings::onRemoveHigliting_gui(GtkWidget *widget, gpointer data)
+{
+	Settings *s = (Settings *)data;
+	GtkTreeIter iter;
+
+	if (gtk_tree_selection_get_selected(s->selection, NULL, &iter))
+	{
+		if (BOOLSETTING(CONFIRM_HUB_REMOVAL))
+		{
+			string name = s->hView.getString(&iter, _("String"));
+			GtkWindow* parent = GTK_WINDOW(s->getContainer());
+			GtkWidget* dialog = gtk_message_dialog_new(NULL,
+				GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
+				_("Are you sure you want to delete Higliting \"%s\"?"), name.c_str());
+			gtk_dialog_add_buttons(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
+			gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_CANCEL, -1);
+			gint response = gtk_dialog_run(GTK_DIALOG(dialog));
+			gtk_widget_destroy(dialog);
+
+			if (response != GTK_RESPONSE_YES)
+				return;
+		}
+		
+		string name = s->hView.getString(&iter,_("String"));
+		for(int i=0;i < s->pList.size() ;i++)
+		{
+			if(s->pList[i].getMatch() == name)
+				s->pList.erase(s->pList.begin() + i);
+		}
+		gtk_list_store_remove(s->hStore,&iter);
+	}
+}
+
+void Settings::onColorText_gui(GtkWidget *widget, gpointer data)
+{
+	Settings *s = (Settings *)data;
+	GtkColorSelection *colorsel = GTK_COLOR_SELECTION(s->getWidget("colorsel-color_selection"));
+	GdkColor color;
+	if (gdk_color_parse(gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryHGColorText"))), &color))
+		gtk_color_selection_set_current_color(colorsel, &color);
+
+	gint response = gtk_dialog_run(GTK_DIALOG(s->getWidget("colorSelectionDialog")));
+	gtk_widget_hide(s->getWidget("colorSelectionDialog"));
+
+	if (response == GTK_RESPONSE_OK)
+	{
+		gtk_color_selection_get_current_color(colorsel, &color);
+		string strcolor = WulforUtil::colorToString(&color);
+		gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGColorText")), strcolor.c_str());	
+	}
+}
+
+void Settings::onColorBack_gui(GtkWidget *widget, gpointer data)
+{
+	Settings *s = (Settings *)data;
+	GtkColorSelection *colorsel = GTK_COLOR_SELECTION(s->getWidget("colorsel-color_selection"));
+	GdkColor color;
+	if (gdk_color_parse(gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryHGColorBack"))), &color))
+		gtk_color_selection_set_current_color(colorsel, &color);
+
+	gint response = gtk_dialog_run(GTK_DIALOG(s->getWidget("colorSelectionDialog")));
+	gtk_widget_hide(s->getWidget("colorSelectionDialog"));
+
+	if (response == GTK_RESPONSE_OK)
+	{
+		gtk_color_selection_get_current_color(colorsel, &color);
+		string strcolor = WulforUtil::colorToString(&color);
+		gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGColorBack")), strcolor.c_str());	
+	}
+}
+
+void Settings::onSound_gui(GtkWidget *widget, gpointer data)
+{
+	Settings *s = (Settings *)data;
+	
+	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(s->getWidget("fileChooserDialog")), GTK_FILE_CHOOSER_ACTION_OPEN);
+	gint response = gtk_dialog_run(GTK_DIALOG(s->getWidget("fileChooserDialog")));
+	gtk_widget_hide(s->getWidget("fileChooserDialog"));
+
+	if (response == GTK_RESPONSE_OK)
+	{
+		gchar *path = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(s->getWidget("fileChooserDialog")));
+		gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGSoundFile")), path);
+		g_free(path);
+	}
+}
+/**/
+void Settings::onToggledHGText_gui(GtkWidget *widget, gpointer data)
+{
+	Settings *s = (Settings *)data;	
+	gtk_widget_set_sensitive(s->getWidget("entryHGColorText"), s->isSensitiveHG[0]);
+	gtk_widget_set_sensitive(s->getWidget("buttonColorText"), s->isSensitiveHG[0]);
+	s->isSensitiveHG[0] = !s->isSensitiveHG[0];
+}
+void Settings::onToggledHGColor_gui(GtkWidget *widget, gpointer data)
+{
+	Settings *s = (Settings *)data;	
+	gtk_widget_set_sensitive(s->getWidget("entryHGColorBack"), s->isSensitiveHG[1]);
+	gtk_widget_set_sensitive(s->getWidget("buttonBackground"), s->isSensitiveHG[1]);
+	s->isSensitiveHG[1] = !s->isSensitiveHG[1];
+}
+void Settings::onToggledHGSound_gui(GtkWidget *widget, gpointer data)
+{
+	Settings *s = (Settings *)data;	
+	gtk_widget_set_sensitive(s->getWidget("entryHGSoundFile"), s->isSensitiveHG[2]);
+	gtk_widget_set_sensitive(s->getWidget("buttonSound"), s->isSensitiveHG[2]);
+	s->isSensitiveHG[2] = !s->isSensitiveHG[2];
+}
+void Settings::onToggledHGNotify_gui(GtkWidget *widget, gpointer data)
+{
+	Settings *s = (Settings *)data;	
+	gtk_widget_set_sensitive(s->getWidget("entryHGPopup"), s->isSensitiveHG[3]);
+	s->isSensitiveHG[3] = !s->isSensitiveHG[3];
+}
+/**/
+void Settings::saveHigliting(dcpp::StringMap &params, bool add, const string &name /*""*/)
+{
+	ColorSettings cs;
+	
+	cs.setMatch(params["String"]);
+	cs.setPopup(Util::toInt(params["Enable Popup"]));
+	cs.setBold(Util::toInt(params["Bold"]));
+	cs.setUnderline(Util::toInt(params["Underline"]));
+	cs.setItalic(Util::toInt(params["Italic"]));
+	cs.setIncludeNick(Util::toInt(params["User"]));
+	cs.setCaseSensitive(Util::toInt(params["Sensitive"]));
+	cs.setTab(Util::toInt(params["Tab"]));
+	cs.setNoti(params["Popup Text"]);
+	cs.setPlaySound(Util::toInt(params["Enable Sound"]));
+	cs.setSoundFile(params["Sound File"]);
+	
+	cs.setHasBgColor(Util::toInt(params["Enable Background"]));
+	cs.setBgColor(params["Color Back"]);
+	
+	cs.setHasFgColor(Util::toInt(params["Enable Text"]));
+	cs.setFgColor(params["Color Text"]);
+	if(add)
+	{	
+		pList.push_back(cs);
+		addHigliting_to_gui(cs,true);
+		
+	}
+	else
+	{
+		for(dcpp::ColorIter it = pList.begin(); it != pList.end(); ++it)
+		{
+			if((*it).getMatch() == name)
+			{
+				pList.erase(it);
+				pList.insert(it,cs);
+			}
+		}
+		addHigliting_to_gui(cs, false);
+	}
+}
+
+void Settings::addHigliting_to_gui(ColorSettings &cs, bool add)
+{
+	GtkTreeIter iter;
+	if(add)
+		gtk_list_store_append(hStore,&iter);
+	gtk_list_store_set(hStore,&iter,
+				hView.col(_("String")), cs.getMatch().c_str(),
+				hView.col("Bold"), cs.getBold() ? "1" : "0",
+				hView.col("Underline"), cs.getUnderline() ? "1" : "0",
+				hView.col("Italic"), cs.getItalic() ? "1" : "0",
+				hView.col("Bold Tab"), cs.getTab() ? "1" : "0",
+				hView.col("Include Nick"), cs.getIncludeNick() ? "1" : "0",
+				hView.col("Popup Enable"), cs.getPopup() ? "1" : "0",
+				hView.col("Popup String"), cs.getNoti().c_str(),
+				hView.col("Enable Sound"), cs.getPlaySound() ? "1" : "0",
+				hView.col("Sound File"), cs.getSoundFile().c_str(),
+				hView.col("Enable Fore Color"), cs.getHasFgColor() ? "1" : "0",
+				hView.col("Fore Color"), cs.getFgColor().c_str(),
+				hView.col("Enable Back Color"), cs.getHasBgColor() ? "1" : "0",
+				hView.col("Back Color"), cs.getBgColor().c_str(),
+				hView.col("Case sensitive"), cs.usingRegexp() ? "1" : "0",
+				-1);
+	
+	
 }

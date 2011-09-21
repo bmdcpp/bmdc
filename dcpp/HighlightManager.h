@@ -19,10 +19,6 @@
 #ifndef HIGHLIGHTMANAGER_H
 #define HIGHLIGHTMANAGER_H
 
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
-
 #include "SettingsManager.h"
 
 #include "Singleton.h"
@@ -43,7 +39,7 @@ public:
 		return &colorSettings;
 	}
 
-	void replaceList(ColorList& settings) {
+	void replaceList(ColorList &settings) {
 		colorSettings.clear();
 		colorSettings = settings;
 	}
