@@ -29,6 +29,7 @@
 #include "User.h"
 #include "AdcCommand.h"
 #include "MerkleTree.h"
+#include "AdcCommand.h"
 #ifdef _USELUA
 	#include "ScriptManager.h"
 #endif
@@ -124,7 +125,18 @@ public:
 	void fileLength(const string& aLength) { send("$FileLength " + aLength + '|'); }
 	void error(const string& aError) { send("$Error " + aError + '|'); }
 	void listLen(const string& aLength) { send("$ListLen " + aLength + '|'); }
-	void maxedOut() { isSet(FLAG_NMDC) ? send("$MaxedOut|") : send(AdcCommand(AdcCommand::SEV_RECOVERABLE, AdcCommand::ERROR_SLOTS_FULL, "Slots full")); }
+	void maxedOut(size_t queue_position = 0) {
+		 bool sendPos = queue_position > 0;
+		 if(isSet(FLAG_NMDC)) {
+			send("$MaxedOut" + (sendPos ? (" " + Util::toString(queue_position)) : Util::emptyString) + "|"); 
+		 } else {
+		  	AdcCommand cmd(AdcCommand::SEV_RECOVERABLE, AdcCommand::ERROR_SLOTS_FULL, "Slots full");
+			if(sendPos) {
+				cmd.addParam("QP", Util::toString(queue_position));
+			}	
+			send(cmd);
+		 }
+	}
 	void fileNotAvail(const std::string& msg = FILE_NOT_AVAILABLE) { isSet(FLAG_NMDC) ? send("$Error " + msg + "|") : send(AdcCommand(AdcCommand::SEV_RECOVERABLE, AdcCommand::ERROR_FILE_NOT_AVAILABLE, msg)); }
 	void supports(const StringList& feat);
 
@@ -214,8 +226,6 @@ private:
 	UserConnection(bool secure_) throw() : encoding(Text::systemCharset), state(STATE_UNCONNECTED),
 		lastActivity(0), speed(0), chunkSize(0), socket(0), secure(secure_), download(NULL) {
 	}
-
-
 
 	friend struct DeleteFunction;
 

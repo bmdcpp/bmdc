@@ -66,7 +66,7 @@ private:
 	void removeConnection(UserConnectionPtr aConn);
 	void removeDownload(Download* aDown);
 	void fileNotAvailable(UserConnection* aSource);
-	void noSlots(UserConnection* aSource);
+	void noSlots(UserConnection* aSource, string param = Util::emptyString);
 	
 	void logDownload(UserConnection* aSource, Download* d);
 	int64_t getResumePos(const string& file, const TigerTree& tt, int64_t startPos);
@@ -86,9 +86,9 @@ private:
 
 	// UserConnectionListener
 	virtual void on(Data, UserConnection*, const uint8_t*, size_t) throw();
-	virtual void on(Failed, UserConnection*, const string&) throw();
+	virtual void on(Failed, UserConnection* aSource, const string &aError) throw() { onFailed(aSource,aError);}
 	virtual void on(ProtocolError, UserConnection* aSource, const string& aError) throw() { onFailed(aSource, aError); }
-	virtual void on(MaxedOut, UserConnection*) throw();
+	virtual void on(MaxedOut, UserConnection*, string params  = Util::emptyString) throw();
 	virtual	void on(FileNotAvailable, UserConnection*) throw();
 	virtual void on(Updated, UserConnection*) throw();
 	virtual void on(ListLength, UserConnection* aSource, const string& aListLength) throw();

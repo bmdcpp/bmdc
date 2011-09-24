@@ -46,7 +46,7 @@ public:
 	typedef X<2> Starting;
 	typedef X<3> Tick;
 	typedef X<3> Requesting;
-
+	
 	/**
 	 * This is the first message sent before a download starts.
 	 * No other messages will be sent before this.
@@ -77,6 +77,7 @@ public:
 	 * display an error string.
 	 */
 	virtual void on(Failed, Download*, const string&) throw() { }
+	
 };
 
 } // namespace dcpp

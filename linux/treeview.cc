@@ -586,7 +586,7 @@ void TreeView::onCopyRowClicked_gui(GtkMenuItem *item, gpointer data)
 
 	if (gtk_tree_selection_count_selected_rows(tv->sel) > 0)
 	{
-		string data;
+		string data="\n";
 		GtkTreeIter iter;
 		GtkTreePath *path;
 		GList *list = gtk_tree_selection_get_selected_rows(tv->sel, NULL);
@@ -609,7 +609,8 @@ void TreeView::onCopyRowClicked_gui(GtkMenuItem *item, gpointer data)
 			        if (gtk_tree_model_get_iter(GTK_TREE_MODEL(gtk_tree_view_get_model(tv->view)), &iter, path))
 			        {
 			         //   GtkTreeModel *m = gtk_tree_view_get_model(tv->view);
-			            data += tv->getValueAsText(&iter, title) + G_DIR_SEPARATOR;
+						data += title + ": ";
+			            data += tv->getValueAsText(&iter, title) + "\n";
 			        }
 			    }
 	        }

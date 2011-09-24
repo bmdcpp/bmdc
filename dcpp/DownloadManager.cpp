@@ -407,26 +407,19 @@ void DownloadManager::logDownload(UserConnection* aSource, Download* d) {
 	LOG(LogManager::DOWNLOAD, params);
 }
 
-void DownloadManager::on(UserConnectionListener::MaxedOut, UserConnection* aSource) throw() {
-	noSlots(aSource);
+void DownloadManager::on(UserConnectionListener::MaxedOut, UserConnection* aSource, string params) throw() {
+	noSlots(aSource, params);
 }
 
-void DownloadManager::noSlots(UserConnection* aSource) {
+void DownloadManager::noSlots(UserConnection* aSource, string param) {
 	if(aSource->getState() != UserConnection::STATE_SND) {
 		dcdebug("DM::noSlots Bad state, disconnecting\n");
 		aSource->disconnect();
 		return;
 	}
-
-	failDownload(aSource, _("No slots available"));
-}
-
-void DownloadManager::on(UserConnectionListener::Failed, UserConnection* aSource, const string& aError) throw() {
-	{
-		Lock l(cs);
- 		idlers.erase(remove(idlers.begin(), idlers.end(), aSource), idlers.end());
-	}
-	failDownload(aSource, aError);
+	string extra = param.empty() ? Util::emptyString : _(" - Queued: ") + param;
+	dcdebug("DM:noSlots No slot aviable %s",extra.c_str());
+	failDownload(aSource, _("No slots available") + extra);
 }
 
 void DownloadManager::failDownload(UserConnection* aSource, const string& reason) {
@@ -515,7 +508,8 @@ void DownloadManager::on(AdcCommand::STA, UserConnection* aSource, const AdcComm
 			fileNotAvailable(aSource);
 			return;
 		case AdcCommand::ERROR_SLOTS_FULL:
-			noSlots(aSource);
+			string param;
+			noSlots(aSource, cmd.getParam("QP", 0, param) ? param : Util::emptyString);
 			return;
 		}
 	case AdcCommand::SEV_SUCCESS:

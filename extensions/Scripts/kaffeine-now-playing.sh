@@ -25,7 +25,7 @@
 # http://incise.org/mpris-remote.html
 
 
-PLAYERS="amarok audacious qmmp mpd xmms2 dragon vlc songbird clementine exaile guayadeque"
+PLAYERS="amarok audacious qmmp mpd xmms2 dragon vlc songbird clementine exaile guayadeque radiotray"
 
 CONFIG_FILE="${HOME}/.bmdc++/mpris_now_playing.conf"
 

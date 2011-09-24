@@ -93,6 +93,7 @@ class WulforUtil
 		static GdkPixbuf *loadIconSB(std::string ext);
 		/* remove events from widget */
 		static void my_gtk_widget_remove_events (GtkWidget *widget,gint events);
+		
 		/* Higliting´s words */
 		static bool isHighlitingWorld(GtkTextBuffer *buffer, GtkTextTag *tag, std::string word, bool &tTab, gpointer hub, GtkTextTag *TagsMap[]);
 				

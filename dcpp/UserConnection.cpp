@@ -18,7 +18,6 @@
 
 #include "stdinc.h"
 #include "UserConnection.h"
-
 #include "ClientManager.h"
 #include "ScriptManager.h"
 
@@ -152,7 +151,7 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) throw
 	} else if(cmd == "$Send") {
 		fire(UserConnectionListener::Send(), this);
 	} else if(cmd == "$MaxedOut") {
-		fire(UserConnectionListener::MaxedOut(), this);
+		fire(UserConnectionListener::MaxedOut(), this, param);
 	} else if(cmd == "$Supports") {
 		if(!param.empty()) {
 			fire(UserConnectionListener::Supports(), this, StringTokenizer<string>(param, ' ').getTokens());

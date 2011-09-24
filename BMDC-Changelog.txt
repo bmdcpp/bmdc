@@ -315,4 +315,7 @@ Fix /away /back and Icon in toolbar
 Fix hidding Away Icon
 Move Higlitings to Settings Dialog
 Add Hashesh/Salted password from iceman50
+More responsible error in SSLSocket
+Add QP (mainly from Dice!) (Upload Queue)
+Better Formated Copy all on Hub UserList;
 

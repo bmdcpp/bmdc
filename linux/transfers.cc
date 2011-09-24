@@ -63,7 +63,7 @@ Transfers::Transfers() :
 	transferView.insertColumn(_("Path"), G_TYPE_STRING, TreeView::STRING, 200);
 	transferView.insertColumn("IP", G_TYPE_STRING, TreeView::STRING, 175);
 	transferView.insertColumn("CC", G_TYPE_STRING, TreeView::PIXBUF_STRING, 80, "Country");
-	transferView.insertColumn("DNS", G_TYPE_STRING, TreeView::STRING,175);
+	transferView.insertColumn("DNS", G_TYPE_STRING, TreeView::STRING, 175);
 	transferView.insertHiddenColumn("Icon", G_TYPE_STRING);
 	transferView.insertHiddenColumn("Country", GDK_TYPE_PIXBUF);
 	transferView.insertHiddenColumn("Progress", G_TYPE_INT);
@@ -492,7 +492,7 @@ void Transfers::addConnection_gui(StringMap params, bool download)
 	GtkTreeIter iter;
 	dcassert(params.find("CID") != params.end());
 	dcassert(findTransfer_gui(params["CID"], download, &iter) == FALSE);	// shouldn't fail, if it's already there we've forgot to remove it or dcpp core sends more than one Connection::Added
-	GdkPixbuf* buf=WulforUtil::loadCountry(params["CC"]);
+	GdkPixbuf* buf = WulforUtil::loadCountry(params["CC"]);
 
 	gtk_tree_store_append(transferStore, &iter, NULL);
 	gtk_tree_store_set(transferStore, &iter,
@@ -577,14 +577,16 @@ void Transfers::updateParent_gui(GtkTreeIter* iter)
 		timeLeft = (totalSize - position) / speed;
 
 	stream << setiosflags(ios::fixed) << setprecision(1);
+	
 
 	if (transferView.getValue<gboolean>(iter, "Failed") == 0)
 	{
 		if (active)
 			stream << _("Downloaded ");
 		else
+		{
 			stream << _("Waiting for slot ");
-
+		}
 		stream << Util::formatBytes(position) << " (" << progress;
 		stream << _("%) from ") << active << "/" << gtk_tree_model_iter_n_children(GTK_TREE_MODEL(transferStore), iter) << _(" user(s)");
 	}
@@ -592,7 +594,7 @@ void Transfers::updateParent_gui(GtkTreeIter* iter)
 	{
 		stream << transferView.getString(iter, _("Status"));
 	}
-
+	
 	std::copy(hubs.begin(), hubs.end(), std::ostream_iterator<string>(tmpHubs, ", "));
 
 	gtk_tree_store_set(transferStore, iter,
@@ -985,6 +987,7 @@ void Transfers::on(DownloadManagerListener::Complete, Download* dl) throw()
 
 void Transfers::on(DownloadManagerListener::Failed, Download* dl, const string& reason) throw()
 {
+	g_print("\nDM:=> %s\n",reason.c_str());
 	StringMap params;
 	getParams_client(params, dl);
 	params[_("Status")] = reason;
