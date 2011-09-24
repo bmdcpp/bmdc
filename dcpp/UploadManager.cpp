@@ -38,6 +38,7 @@
 
 #include <functional>
 #include <cmath>
+#include <algorithm>
 
 namespace dcpp {
 
@@ -176,7 +177,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 		bool isFavorite = FavoriteManager::getInstance()->hasSlot(aSource.getUser());
 		bool hasFreeSlot = (getFreeSlots() > 0) && ((waitingFiles.empty() && connectingUsers.empty()) || isConnecting(aSource.getUser()));
 
-		if(!(hasReserved || isFavorite || getAutoSlot()) || hasFreeSlot) {
+		if(!(hasReserved || isFavorite || getAutoSlot() || hasFreeSlot)) {
 			bool supportsFree = aSource.isSet(UserConnection::FLAG_SUPPORTS_MINISLOTS);
 			bool allowedFree = aSource.isSet(UserConnection::FLAG_HASEXTRASLOT) || aSource.isSet(UserConnection::FLAG_OP) || getFreeExtraSlots() > 0;
 			if(free && supportsFree && allowedFree) {

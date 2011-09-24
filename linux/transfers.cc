@@ -987,7 +987,6 @@ void Transfers::on(DownloadManagerListener::Complete, Download* dl) throw()
 
 void Transfers::on(DownloadManagerListener::Failed, Download* dl, const string& reason) throw()
 {
-	g_print("\nDM:=> %s\n",reason.c_str());
 	StringMap params;
 	getParams_client(params, dl);
 	params[_("Status")] = reason;

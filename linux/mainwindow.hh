@@ -259,6 +259,10 @@ class MainWindow:
 		std::vector<PrivateMessage*> allprivatemess;
 		std::vector<Hub*> allhub;
 		std::vector<Search*> allsearch;
+		
+		static const int maxTooltipCount = 5;//TODO setting;
+		int countTooltip;
+		std::string statusTexts;
 
 };
 

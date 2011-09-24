@@ -317,5 +317,6 @@ Move Higlitings to Settings Dialog
 Add Hashesh/Salted password from iceman50
 More responsible error in SSLSocket
 Add QP (mainly from Dice!) (Upload Queue)
-Better Formated Copy all on Hub UserList;
+Better Formated Copy all on Hub UserList
+Add tooltip to mainStatusbar where show from System log
 

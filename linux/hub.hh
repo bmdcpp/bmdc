@@ -250,7 +250,7 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		std::string statustext;
 		GtkTooltips *tooltip;
 		int tooltipcount;
-		static const int maxtooltip = 10;
+		static const int maxtooltip = 10;//TODO setting ?
 		std::string ip;
 
 };
