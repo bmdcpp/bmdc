@@ -41,6 +41,8 @@
 #include "privatemessage.hh"
 #include "hub.hh"
 
+#include <queue>
+
 class BookEntry;
 class Search;
 
@@ -261,8 +263,7 @@ class MainWindow:
 		std::vector<Search*> allsearch;
 		
 		static const int maxTooltipCount = 5;//TODO setting;
-		int countTooltip;
-		std::string statusTexts;
+		std::queue<std::string> statusTexts;
 
 };
 

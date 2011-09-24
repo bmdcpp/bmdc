@@ -79,8 +79,8 @@ MainWindow::MainWindow():
 	minimized(FALSE),
 	timer(0),
 	statusFrame(1),
-	isLimiting(FALSE),
-	countTooltip(0)
+	isLimiting(FALSE)//,
+//	countTooltip(0)
 {
 	window = GTK_WINDOW(getWidget("mainWindow"));
 	gtk_window_set_role(window, getID().c_str());
@@ -781,13 +781,20 @@ void MainWindow::setMainStatus_gui(string text, time_t t)
 		text = "[" + Util::getShortTimeString(t) + "] " + text;
 		gtk_label_set_text(GTK_LABEL(getWidget("labelStatus")), text.c_str());
 		
-		countTooltip++;
-		if(countTooltip > maxTooltipCount)
+		if(statusTexts.size() > maxTooltipCount)
 		{
-			statusTexts.clear();
+			statusTexts.pop();
 		}
-		statusTexts += "\n" + text;
-		gtk_widget_set_tooltip_text (getWidget("labelStatus"),statusTexts.c_str());
+		queue<string> tmp = statusTexts;
+		string statusTool;
+		while(!tmp.empty())
+		{
+			statusTool+="\n"+tmp.front();
+			tmp.pop();
+		}
+		statusTexts.push(text);
+		statusTool+"\n"+text;
+		gtk_widget_set_tooltip_text (getWidget("labelStatus"),statusTool.c_str());
 		
 	}
 }

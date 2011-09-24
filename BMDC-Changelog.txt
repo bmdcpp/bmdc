@@ -320,3 +320,5 @@ Add QP (mainly from Dice!) (Upload Queue)
 Better Formated Copy all on Hub UserList
 Add tooltip to mainStatusbar where show from System log
 
+Fix items in tooltip to mainwindow
+
