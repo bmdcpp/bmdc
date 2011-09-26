@@ -129,6 +129,10 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		static void onChatResize_gui(GtkAdjustment *adjustment, gpointer data);
 		static void onSendMessage_gui(GtkEntry *entry, gpointer data);
 		static void onNickToChat_gui(GtkMenuItem *item, gpointer data);
+		
+		static gboolean onUserListTooltip_gui(GtkWidget  *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer data);
+		static void selection_changed_cb_gui (GtkTreeSelection *selection, GtkWidget        *tree_view);
+		void set_Header_tooltip();
 
 		static void onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onMatchItemClicked_gui(GtkMenuItem *item, gpointer data);

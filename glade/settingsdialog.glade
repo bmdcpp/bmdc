@@ -1482,25 +1482,6 @@
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkComboBoxEntry" id="ipComboboxEntry">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="items"></property>
-                                <child internal-child="entry">
-                                  <widget class="GtkEntry" id="comboboxentry-entry">
-                                    <property name="can_focus">False</property>
-                                  </widget>
-                                </child>
-                              </widget>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="right_attach">2</property>
-                                <property name="top_attach">5</property>
-                                <property name="bottom_attach">6</property>
-                                <property name="y_options"></property>
-                              </packing>
-                            </child>
-                            <child>
                               <widget class="GtkEntry" id="tcpEntry">
                                 <property name="width_request">50</property>
                                 <property name="visible">True</property>
@@ -1703,6 +1684,19 @@
                             </child>
                             <child>
                               <placeholder/>
+                            </child>
+                            <child>
+                              <widget class="GtkEntry" id="entryIpExt">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="invisible_char">●</property>
+                              </widget>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="right_attach">2</property>
+                                <property name="top_attach">5</property>
+                                <property name="bottom_attach">6</property>
+                              </packing>
                             </child>
                           </widget>
                         </child>

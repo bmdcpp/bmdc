@@ -115,6 +115,12 @@ Hub::Hub(const string &address, const string &encoding):
 	
 	nickView.setSelection(nickSelection);
 	nickView.buildCopyMenu(getWidget("CopyMenus"));
+	
+	g_object_set(G_OBJECT(nickView.get()), "has-tooltip", TRUE, NULL);
+	g_signal_connect(nickView.get(), "query-tooltip", G_CALLBACK(onUserListTooltip_gui), (gpointer)this);
+	g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (nickView.get())), "changed", G_CALLBACK (selection_changed_cb_gui), GTK_WIDGET(nickView.get()));
+	/* Set a tooltip on the column */
+	set_Header_tooltip();
 
 	// Initialize the chat window
 	if (BOOLSETTING(USE_OEM_MONOFONT))
@@ -308,6 +314,75 @@ Hub::~Hub()
 	g_object_unref(getWidget("linkMenu"));
 	g_object_unref(getWidget("hubMenu"));
 	g_object_unref(getWidget("ipMenu"));
+}
+
+void Hub::selection_changed_cb_gui (GtkTreeSelection *selection,
+		      GtkWidget        *tree_view)
+{
+  gtk_widget_trigger_tooltip_query (tree_view);
+}
+
+void Hub::set_Header_tooltip()//How beter ?
+{
+	GtkTreeViewColumn *column = gtk_tree_view_get_column (nickView.get(), 0);
+	gtk_tree_view_column_set_clickable (column, TRUE);
+	g_object_set (column->button, "tooltip-text", "Nick", NULL);	
+
+	GtkTreeViewColumn *column1 = gtk_tree_view_get_column (nickView.get(), 1);
+	gtk_tree_view_column_set_clickable (column1, TRUE);
+	g_object_set (column1->button, "tooltip-text", "Shared", NULL);	
+
+	GtkTreeViewColumn *column2 = gtk_tree_view_get_column (nickView.get(), 2);
+	gtk_tree_view_column_set_clickable (column2, TRUE);
+	g_object_set (column2->button, "tooltip-text", "Description", NULL);
+
+	GtkTreeViewColumn *column3 = gtk_tree_view_get_column (nickView.get(), 3);
+	gtk_tree_view_column_set_clickable (column3, TRUE);
+	g_object_set (column3->button, "tooltip-text", "Tag", NULL);
+
+	GtkTreeViewColumn *column4 = gtk_tree_view_get_column (nickView.get(), 4);
+	gtk_tree_view_column_set_clickable (column4, TRUE);
+	g_object_set (column4->button, "tooltip-text", "Conection", NULL);
+
+	GtkTreeViewColumn *column5 = gtk_tree_view_get_column (nickView.get(), 5);
+	gtk_tree_view_column_set_clickable (column5, TRUE);
+	g_object_set (column5->button, "tooltip-text", "IP", NULL);
+
+	GtkTreeViewColumn *column6 = gtk_tree_view_get_column (nickView.get(), 6);
+	gtk_tree_view_column_set_clickable (column6, TRUE);
+	g_object_set (column6->button, "tooltip-text", "eMail", NULL);
+
+	GtkTreeViewColumn *column7 = gtk_tree_view_get_column (nickView.get(), 7);
+	gtk_tree_view_column_set_clickable (column7, TRUE);
+	g_object_set (column7->button, "tooltip-text", "Country", NULL);
+
+	GtkTreeViewColumn *column8 = gtk_tree_view_get_column (nickView.get(), 8);
+	gtk_tree_view_column_set_clickable (column8, TRUE);
+	g_object_set (column8->button, "tooltip-text", "Exact Share", NULL);
+
+	GtkTreeViewColumn *column9 = gtk_tree_view_get_column (nickView.get(), 9);
+	gtk_tree_view_column_set_clickable (column9, TRUE);
+	g_object_set (column9->button, "tooltip-text", "Slots", NULL);
+
+	GtkTreeViewColumn *column10 = gtk_tree_view_get_column (nickView.get(), 10);
+	gtk_tree_view_column_set_clickable (column10, TRUE);
+	g_object_set (column10->button, "tooltip-text", "Hubs", NULL);
+	
+	GtkTreeViewColumn *column11 = gtk_tree_view_get_column (nickView.get(), 11);
+	gtk_tree_view_column_set_clickable (column11, TRUE);
+	g_object_set (column11->button, "tooltip-text", "PK", NULL);
+
+	GtkTreeViewColumn *column12 = gtk_tree_view_get_column (nickView.get(), 12);
+	gtk_tree_view_column_set_clickable (column12, TRUE);
+	g_object_set (column12->button, "tooltip-text", "Cheat", NULL);
+	
+	GtkTreeViewColumn *column13 = gtk_tree_view_get_column (nickView.get(), 13);
+	gtk_tree_view_column_set_clickable (column13, TRUE);
+	g_object_set (column13->button, "tooltip-text", "Generator", NULL);
+	
+	GtkTreeViewColumn *column14 = gtk_tree_view_get_column (nickView.get(), 14);
+	gtk_tree_view_column_set_clickable (column14, TRUE);
+	g_object_set (column14->button, "tooltip-text", "Support", NULL);
 }
 
 void Hub::show()
@@ -729,6 +804,68 @@ void Hub::nickToChat_gui(const string &nick)
 	gint pos = gtk_editable_get_position(GTK_EDITABLE(getWidget("chatEntry")));
 	gtk_editable_insert_text(GTK_EDITABLE(getWidget("chatEntry")), (nick + (!pos? ": " : " ")).c_str(), -1, &pos);
 	gtk_editable_set_position(GTK_EDITABLE(getWidget("chatEntry")), pos);
+}
+
+gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer data)
+{
+  Hub *hub = (Hub *)data;
+	
+  GtkTreeIter iter;
+  GtkTreeView *tree_view = GTK_TREE_VIEW (widget);
+  GtkTreeModel *model = gtk_tree_view_get_model (tree_view);
+  GtkTreePath *path = NULL;
+  gchar *tmp;
+  gchar *tag;
+  gchar *desc;
+  gchar *con;
+  gchar *ip;
+  gchar *e;
+  gchar *country;
+  gchar *slots;
+  gchar *hubs;
+  gchar *pk;
+  gchar *cheat;
+  gchar *gen;
+  gchar *sup;
+  gchar *cid;
+  gchar *pathstring;
+  gint64 ssize;
+
+  char buffer[1000];
+
+  if (!gtk_tree_view_get_tooltip_context (tree_view, &x, &y,
+					  keyboard_tip,
+					  &model, &path, &iter))
+    return FALSE;
+
+  gtk_tree_model_get (model, &iter, 0, &tmp,
+									2, &desc,
+									3, &tag,
+									4, &con,
+									5, &ip,
+									6, &e,
+									7, &country,
+									8, &ssize,
+									9, &slots,
+									10, &hubs,
+									11, &pk,
+									12, &cheat,
+									13, &gen,
+									14, &sup,
+									20, &cid,
+  									-1);
+  pathstring = gtk_tree_path_to_string (path);
+  string sharesize  = Util::formatBytes(ssize);  
+  g_snprintf (buffer, 1000, "Nick: %s\n Connection: %s\n Tag: %s\n Share: %s\n IP: %s\n eMail: %s\nCountry: %s\n Slots: %s\n Hubs: %s\n PK: %s\n Cheat: %s\n Generator: %s\n Support %s\n CID: %s", tmp, con, tag , sharesize.c_str() ,ip, e, country, slots, hubs, pk, cheat, gen, sup, cid);
+  gtk_tooltip_set_text (_tooltip, buffer);
+
+  gtk_tree_view_set_tooltip_row (tree_view, _tooltip, path);
+
+  gtk_tree_path_free (path);
+  g_free (pathstring);
+  g_free (tmp);
+
+  return TRUE;
 }
 
 void Hub::addMessage_gui(string message, Msg::TypeMsg typemsg)
