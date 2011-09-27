@@ -67,9 +67,9 @@ Hub::Hub(const string &address, const string &encoding):
 	scrollToBottom(TRUE),
 	PasswordDialog(FALSE),
 	WaitingPassword(FALSE),
-	huburl(address),
-	statustext(""),
-	tooltipcount(0)
+	huburl(address)//,
+//	statustext(""),
+//	tooltipcount(0)
 {
 	// Configure the dialog
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")), TRUE);
@@ -399,16 +399,25 @@ void Hub::setStatus_gui(string statusBar, string text)
 	{
 		if (statusBar == "statusMain")
 		{
-				tooltipcount++;
+				//tooltipcount++;
 
-				if(tooltipcount > maxtooltip)
-				{
-					statustext.clear();
-				}
-
-				statustext += "\n" + text;
-				gtk_tooltips_set_tip (tooltip, getWidget("statusMain"), statustext.c_str(), NULL);
-				text = "[" + Util::getShortTimeString() + "] " + text;
+			if(statustext.size() > maxtooltip)
+			{
+					statustext.pop();
+			}
+				
+			queue<string> tmp = statustext;
+			string statusTool;
+			while(!tmp.empty())
+			{
+				statusTool+="\n"+tmp.front();
+				tmp.pop();
+			}
+			statustext.push(text);
+			statusTool+"\n"+text;
+			
+			gtk_tooltips_set_tip (tooltip, getWidget("statusMain"), statusTool.c_str(), NULL);
+			text = "[" + Util::getShortTimeString() + "] " + text;
 		}
 		gtk_statusbar_pop(GTK_STATUSBAR(getWidget(statusBar)), 0);
 		gtk_statusbar_push(GTK_STATUSBAR(getWidget(statusBar)), 0, text.c_str());
@@ -856,7 +865,7 @@ gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean 
   									-1);
   pathstring = gtk_tree_path_to_string (path);
   string sharesize  = Util::formatBytes(ssize);  
-  g_snprintf (buffer, 1000, "Nick: %s\n Connection: %s\n Tag: %s\n Share: %s\n IP: %s\n eMail: %s\nCountry: %s\n Slots: %s\n Hubs: %s\n PK: %s\n Cheat: %s\n Generator: %s\n Support %s\n CID: %s", tmp, con, tag , sharesize.c_str() ,ip, e, country, slots, hubs, pk, cheat, gen, sup, cid);
+  g_snprintf (buffer, 1000, "Nick: %s\n Connection: %s\n Tag: %s\n Share: %s\n IP: %s\n eMail: %s\nCountry: %s\n Slots: %s\n Hubs: %s\n PK: %s\n Cheat: %s\n Generator: %s\n Support: %s\n CID: %s", tmp, con, tag , sharesize.c_str() ,ip, e, country, slots, hubs, pk, cheat, gen, sup, cid);
   gtk_tooltip_set_text (_tooltip, buffer);
 
   gtk_tree_view_set_tooltip_row (tree_view, _tooltip, path);

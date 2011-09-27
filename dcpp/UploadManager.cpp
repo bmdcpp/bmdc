@@ -398,12 +398,12 @@ size_t UploadManager::addFailedUpload(const UserConnection& source, string filen
 void UploadManager::clearUserFiles(const UserPtr& source) {
 	Lock l(cs);
 	//run this when a user's got a slot or goes offline.
-	auto sit = find_if(waitingUsers.begin(), waitingUsers.end(), [&source](const UserPtr& other) { return other == source; });
+	auto sit = find_if(waitingUsers.begin(), waitingUsers.end(),([&source](const UserPtr& other) { return other == source; }));
 	if (sit == waitingUsers.end()) return;
 
 	FilesMap::iterator fit = waitingFiles.find(sit->user);
 	if (fit != waitingFiles.end()) waitingFiles.erase(fit);
-	 fire(UploadManagerListener::WaitingRemoveUser(), sit->user);
+		fire(UploadManagerListener::WaitingRemoveUser(), sit->user);
 
 	waitingUsers.erase(sit);
 }
@@ -457,10 +457,10 @@ void UploadManager::notifyQueuedUsers() {
 	freeslots -= connectingUsers.size();
 	if(!waitingUsers.empty() && freeslots > 0) {
 			// let's keep him in the connectingList until he asks for a file
-				WaitingUser waitUser = waitingUsers.front();
-				clearUserFiles(waitUser.user);			
-				connectingUsers[waitUser.user] = GET_TICK();
-				ClientManager::getInstance()->connect(waitUser.user, waitUser.token);
+				WaitingUser queuedUser = waitingUsers.front();
+				clearUserFiles(queuedUser.user);			
+				connectingUsers[queuedUser.user] = GET_TICK();
+				ClientManager::getInstance()->connect(queuedUser.user, queuedUser.token);
 				freeslots--;
 
 		}

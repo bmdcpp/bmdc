@@ -34,6 +34,8 @@
 #include "notify.hh"
 #include "message.hh"
 
+#include <queue>
+
 class UserCommandMenu;
 class WulforSettingsManager;
 class EmoticonsDialog;
@@ -251,9 +253,10 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		bool WaitingPassword;
 		bool logChat;
 		std::string huburl;
-		std::string statustext;
+		//std::string statustext;
+		std::queue<std::string> statustext;
 		GtkTooltips *tooltip;
-		int tooltipcount;
+		//int tooltipcount;
 		static const int maxtooltip = 10;//TODO setting ?
 		std::string ip;
 

@@ -79,8 +79,7 @@ MainWindow::MainWindow():
 	minimized(FALSE),
 	timer(0),
 	statusFrame(1),
-	isLimiting(FALSE)//,
-//	countTooltip(0)
+	isLimiting(FALSE)
 {
 	window = GTK_WINDOW(getWidget("mainWindow"));
 	gtk_window_set_role(window, getID().c_str());

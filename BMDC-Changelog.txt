@@ -322,4 +322,5 @@ Add tooltip to mainStatusbar where show from System log
 Fix items in tooltip to mainwindow
 Add tooltip on hover at Nick row in Userlist
 Fix entry on Settings External IP
+Better tooltips on hub statusbar;
 
