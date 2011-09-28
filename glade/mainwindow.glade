@@ -1141,6 +1141,15 @@ Contributors to FreeDC++:
                         <property name="use_underline">True</property>
                       </widget>
                     </child>
+                    <child>
+                      <widget class="GtkMenuItem" id="uploadQueueItem">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="label" translatable="yes">Upload Queue</property>
+                        <property name="use_underline">True</property>
+                      </widget>
+                    </child>
                   </widget>
                 </child>
               </widget>

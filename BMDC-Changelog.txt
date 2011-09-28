@@ -324,4 +324,6 @@ Add tooltip on hover at Nick row in Userlist
 Fix entry on Settings External IP
 Better tooltips on hub statusbar
 Load Log file into PrivateMessage frame if aviable
+Fix missing description in tooltips at Userlist on Hubs
+Add Upload Queue Tab
 

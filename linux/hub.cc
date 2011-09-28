@@ -862,7 +862,7 @@ gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean 
   									-1);
   pathstring = gtk_tree_path_to_string (path);
   string sharesize  = Util::formatBytes(ssize);  
-  g_snprintf (buffer, 1000, "Nick: %s\n Connection: %s\n Tag: %s\n Share: %s\n IP: %s\n eMail: %s\nCountry: %s\n Slots: %s\n Hubs: %s\n PK: %s\n Cheat: %s\n Generator: %s\n Support: %s\n CID: %s", tmp, con, tag , sharesize.c_str() ,ip, e, country, slots, hubs, pk, cheat, gen, sup, cid);
+  g_snprintf (buffer, 1000, " Nick: %s\n Connection: %s\n Description: %s\n Tag: %s\n Share: %s\n IP: %s\n eMail: %s\nCountry: %s\n Slots: %s\n Hubs: %s\n PK: %s\n Cheat: %s\n Generator: %s\n Support: %s\n CID: %s", tmp, con,desc, tag , sharesize.c_str() ,ip, e, country, slots, hubs, pk, cheat, gen, sup, cid);
   gtk_tooltip_set_text (_tooltip, buffer);
 
   gtk_tree_view_set_tooltip_row (tree_view, _tooltip, path);

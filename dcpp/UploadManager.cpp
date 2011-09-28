@@ -384,7 +384,7 @@ size_t UploadManager::addFailedUpload(const UserConnection& source, string filen
 	{
 		Lock l(cs);
 		
-        auto it = find_if(waitingUsers.begin(), waitingUsers.end(), [&](const UserPtr& u) -> bool { ++queue_position; return u == source.getUser(); });
+        WaitingUserList::iterator it = find_if(waitingUsers.begin(), waitingUsers.end(), [&](const UserPtr& u) -> bool { ++queue_position; return u == source.getUser(); });
         if (it==waitingUsers.end()) {
 			waitingUsers.push_back(WaitingUser(source.getHintedUser(), source.getToken()));	
 			waitingFiles[source.getUser()].insert(filename);                //files for which user's asked
@@ -398,7 +398,7 @@ size_t UploadManager::addFailedUpload(const UserConnection& source, string filen
 void UploadManager::clearUserFiles(const UserPtr& source) {
 	Lock l(cs);
 	//run this when a user's got a slot or goes offline.
-	auto sit = find_if(waitingUsers.begin(), waitingUsers.end(),([&source](const UserPtr& other) { return other == source; }));
+	WaitingUserList::iterator sit = find_if(waitingUsers.begin(), waitingUsers.end(),([&source](const UserPtr& other) { return other == source; }));
 	if (sit == waitingUsers.end()) return;
 
 	FilesMap::iterator fit = waitingFiles.find(sit->user);

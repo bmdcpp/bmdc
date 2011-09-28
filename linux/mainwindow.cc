@@ -65,6 +65,7 @@
 #endif
 #include "detectiontab.hh"
 #include "cmddebug.hh"
+#include "uploadqueue.hh"
 //END
 
 using namespace std;
@@ -230,6 +231,7 @@ MainWindow::MainWindow():
 	g_signal_connect(getWidget("detectionMenuItem"), "activate", G_CALLBACK(onDetection), (gpointer)this);
 	///CMD TAB
 	g_signal_connect(getWidget("cmdMenuItem1"), "activate", G_CALLBACK(onDebugCMD), (gpointer)this);
+	g_signal_connect(getWidget("uploadQueueItem"), "activate", G_CALLBACK(onUploadQueue_gui), (gpointer)this);
 	
 	g_signal_connect(getWidget("indexingProgressMenuItem"), "activate", G_CALLBACK(onHashClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("searchMenuItem"), "activate", G_CALLBACK(onSearchClicked_gui), (gpointer)this);
@@ -2496,5 +2498,23 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) throw()
 		F2 *f2 = new F2(this, &MainWindow::updateStatusIconTooltip_gui, downloadSpeed, uploadSpeed);
 		WulforManager::get()->dispatchGuiFunc(f2);
 	}
+}
+
+void MainWindow::showUploadQueue()
+{
+	BookEntry *entry = findBookEntry(Entry::UPLOADQUEUE);
+	
+	if( entry == NULL)
+	{
+		entry = new UploadQueue();
+		addBookEntry_gui(entry);	
+	}	
+	raisePage_gui(entry->getContainer());	
+}
+
+void MainWindow::onUploadQueue_gui( GtkWidget *widget , gpointer data)
+{ 
+	MainWindow *mw = (MainWindow *)data;
+	mw->showUploadQueue();
 }
 

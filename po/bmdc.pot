@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-09-28 13:11+0200\n"
+"POT-Creation-Date: 2011-09-28 23:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -118,7 +118,7 @@ msgstr ""
 msgid "<b>Description</b>"
 msgstr ""
 
-#: glade/adlsearch.glade:337 glade/uploadqueue.glade:337
+#: glade/adlsearch.glade:337
 msgid "<b>Destination Directory</b>"
 msgstr ""
 
@@ -186,11 +186,11 @@ msgstr ""
 msgid "<b>Main Toolbar Style</b>"
 msgstr ""
 
-#: glade/adlsearch.glade:264 glade/uploadqueue.glade:264
+#: glade/adlsearch.glade:264
 msgid "<b>Max FileSize</b>"
 msgstr ""
 
-#: glade/adlsearch.glade:234 glade/uploadqueue.glade:234
+#: glade/adlsearch.glade:234
 msgid "<b>Min FileSize</b>"
 msgstr ""
 
@@ -254,7 +254,7 @@ msgstr ""
 msgid "<b>Public Hubs list</b>"
 msgstr ""
 
-#: glade/adlsearch.glade:161 glade/uploadqueue.glade:161
+#: glade/adlsearch.glade:161
 msgid "<b>Search String</b>"
 msgstr ""
 
@@ -274,7 +274,7 @@ msgstr ""
 msgid "<b>Shared directories</b>"
 msgstr ""
 
-#: glade/adlsearch.glade:301 glade/uploadqueue.glade:301
+#: glade/adlsearch.glade:301
 msgid "<b>Size Type</b>"
 msgstr ""
 
@@ -282,7 +282,7 @@ msgstr ""
 msgid "<b>Sounds</b>"
 msgstr ""
 
-#: glade/adlsearch.glade:192 glade/uploadqueue.glade:192
+#: glade/adlsearch.glade:192
 msgid "<b>Source Type</b>"
 msgstr ""
 
@@ -334,26 +334,26 @@ msgstr ""
 msgid "ADL Action"
 msgstr ""
 
-#: glade/mainwindow.glade:1503 linux/ADLSearchGUI.cc:31
+#: glade/mainwindow.glade:1512 linux/ADLSearchGUI.cc:31
 #: linux/settingsdialog.cc:1389 linux/settingsdialog.cc:1455
 msgid "ADL Search"
 msgstr ""
 
-#: glade/mainwindow.glade:1500
+#: glade/mainwindow.glade:1509
 msgid "ADLSearch"
 msgstr ""
 
-#: glade/adlsearch.glade:130 glade/uploadqueue.glade:130
+#: glade/adlsearch.glade:130
 msgid "ADLSearch Properties"
 msgstr ""
 
-#: glade/mainwindow.glade:1250
+#: glade/mainwindow.glade:1259
 msgid "About BMDC++"
 msgstr ""
 
-#: glade/adlsearch.glade:444 glade/uploadqueue.glade:444
-#: linux/detectiontab.cc:142 linux/detectiontab.cc:1354
-#: linux/detectiontab.cc:1393 linux/detectiontab.cc:1451
+#: glade/adlsearch.glade:444 linux/detectiontab.cc:142
+#: linux/detectiontab.cc:1354 linux/detectiontab.cc:1393
+#: linux/detectiontab.cc:1451
 msgid "Action"
 msgstr ""
 
@@ -405,6 +405,10 @@ msgstr ""
 msgid "Add this file to your download queue"
 msgstr ""
 
+#: glade/uploadqueue.glade:60
+msgid "Add to Favorite Users"
+msgstr ""
+
 #: glade/favoritehubs.glade:187
 msgid "Add to List"
 msgstr ""
@@ -414,7 +418,6 @@ msgid "Add to favorites"
 msgstr ""
 
 #: glade/adlsearch.glade:34 glade/adlsearch.glade:109
-#: glade/uploadqueue.glade:34 glade/uploadqueue.glade:109
 msgid "Add..."
 msgstr ""
 
@@ -460,7 +463,7 @@ msgstr ""
 msgid "B"
 msgstr ""
 
-#: glade/adlsearch.glade:292 glade/search.glade:94 glade/uploadqueue.glade:292
+#: glade/adlsearch.glade:292 glade/search.glade:94
 msgid ""
 "B\n"
 "KiB\n"
@@ -506,7 +509,11 @@ msgstr ""
 msgid "Bold Text"
 msgstr ""
 
-#: glade/mainwindow.glade:1321
+#: glade/uploadqueue.glade:87
+msgid "Browse FileList"
+msgstr ""
+
+#: glade/mainwindow.glade:1330
 msgid "Browse the list of public hubs"
 msgstr ""
 
@@ -533,7 +540,6 @@ msgid "CMDDebug Tab"
 msgstr ""
 
 #: glade/adlsearch.glade:519 glade/settingsdialog.glade:439
-#: glade/uploadqueue.glade:519
 msgid "Case Sensitive"
 msgstr ""
 
@@ -589,8 +595,8 @@ msgid "Choose a File"
 msgstr ""
 
 #: glade/search.glade:580 glade/settingsdialog.glade:8219
-#: glade/sharebrowser.glade:7 linux/hub.cc:2627 linux/mainwindow.cc:1406
-#: linux/mainwindow.cc:1533 linux/privatemessage.cc:1144
+#: glade/sharebrowser.glade:7 linux/hub.cc:2627 linux/mainwindow.cc:1408
+#: linux/mainwindow.cc:1535 linux/privatemessage.cc:1144
 msgid "Choose a directory"
 msgstr ""
 
@@ -625,12 +631,11 @@ msgstr ""
 msgid "Command"
 msgstr ""
 
-#: glade/adlsearch.glade:413 glade/uploadqueue.glade:413
-#: linux/ADLSearchGUI.cc:53 linux/ADLSearchGUI.cc:148
-#: linux/ADLSearchGUI.cc:255 linux/ADLSearchGUI.cc:297
-#: linux/detectiontab.cc:43 linux/detectiontab.cc:265
-#: linux/detectiontab.cc:819 linux/detectiontab.cc:888
-#: linux/detectiontab.cc:904
+#: glade/adlsearch.glade:413 linux/ADLSearchGUI.cc:53
+#: linux/ADLSearchGUI.cc:148 linux/ADLSearchGUI.cc:255
+#: linux/ADLSearchGUI.cc:297 linux/detectiontab.cc:43
+#: linux/detectiontab.cc:265 linux/detectiontab.cc:819
+#: linux/detectiontab.cc:888 linux/detectiontab.cc:904
 msgid "Comment"
 msgstr ""
 
@@ -646,7 +651,7 @@ msgstr ""
 msgid "Configure hub lists"
 msgstr ""
 
-#: glade/mainwindow.glade:1276 linux/favoritehubs.cc:72
+#: glade/mainwindow.glade:1285 linux/favoritehubs.cc:72
 #: linux/favoritehubs.cc:274 linux/favoritehubs.cc:651
 #: linux/favoritehubs.cc:825 linux/settingsdialog.cc:1395
 #: linux/settingsdialog.cc:1428
@@ -775,7 +780,7 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: glade/adlsearch.glade:369 glade/uploadqueue.glade:369
+#: glade/adlsearch.glade:369
 msgid "Download Matches"
 msgstr ""
 
@@ -792,7 +797,7 @@ msgstr ""
 msgid "Download _whole directory"
 msgstr ""
 
-#: glade/mainwindow.glade:1716
+#: glade/mainwindow.glade:1725
 msgid "Download speed"
 msgstr ""
 
@@ -832,7 +837,7 @@ msgstr ""
 msgid "Edit Raw"
 msgstr ""
 
-#: glade/mainwindow.glade:1337
+#: glade/mainwindow.glade:1346
 msgid "Edit the preferences"
 msgstr ""
 
@@ -861,15 +866,15 @@ msgid "Enable Text Color"
 msgstr ""
 
 #: glade/adlsearch.glade:356 glade/detection.glade:223
-#: glade/detection.glade:608 glade/uploadqueue.glade:356
-#: linux/ADLSearchGUI.cc:46 linux/ADLSearchGUI.cc:75 linux/ADLSearchGUI.cc:83
-#: linux/ADLSearchGUI.cc:141 linux/ADLSearchGUI.cc:248
-#: linux/ADLSearchGUI.cc:293 linux/ADLSearchGUI.cc:486
-#: linux/ADLSearchGUI.cc:488 linux/favoritehubs.cc:55 linux/favoritehubs.cc:64
-#: linux/favoritehubs.cc:235 linux/favoritehubs.cc:248
-#: linux/favoritehubs.cc:566 linux/favoritehubs.cc:568
-#: linux/favoritehubs.cc:1059 linux/favoritehubs.cc:1069
-#: linux/favoritehubs.cc:1090 linux/favoritehubs.cc:1103
+#: glade/detection.glade:608 linux/ADLSearchGUI.cc:46 linux/ADLSearchGUI.cc:75
+#: linux/ADLSearchGUI.cc:83 linux/ADLSearchGUI.cc:141
+#: linux/ADLSearchGUI.cc:248 linux/ADLSearchGUI.cc:293
+#: linux/ADLSearchGUI.cc:486 linux/ADLSearchGUI.cc:488
+#: linux/favoritehubs.cc:55 linux/favoritehubs.cc:64 linux/favoritehubs.cc:235
+#: linux/favoritehubs.cc:248 linux/favoritehubs.cc:566
+#: linux/favoritehubs.cc:568 linux/favoritehubs.cc:1059
+#: linux/favoritehubs.cc:1069 linux/favoritehubs.cc:1090
+#: linux/favoritehubs.cc:1103
 msgid "Enabled"
 msgstr ""
 
@@ -881,7 +886,7 @@ msgstr ""
 msgid "Encoding"
 msgstr ""
 
-#: glade/mainwindow.glade:1925
+#: glade/mainwindow.glade:1934
 msgid "Enter line for user command"
 msgstr ""
 
@@ -929,13 +934,13 @@ msgstr ""
 msgid "Favorite Hub Properties"
 msgstr ""
 
-#: glade/mainwindow.glade:1027 glade/mainwindow.glade:1292
+#: glade/mainwindow.glade:1027 glade/mainwindow.glade:1301
 #: linux/favoritehubs.cc:15 linux/settingsdialog.cc:1379
 #: linux/settingsdialog.cc:1430 linux/settingsdialog.cc:1500
 msgid "Favorite Hubs"
 msgstr ""
 
-#: glade/mainwindow.glade:1037 glade/mainwindow.glade:1305
+#: glade/mainwindow.glade:1037 glade/mainwindow.glade:1314
 #: linux/favoriteusers.cc:34 linux/settingsdialog.cc:1380
 #: linux/settingsdialog.cc:1432 linux/settingsdialog.cc:1504
 msgid "Favorite Users"
@@ -957,7 +962,7 @@ msgstr ""
 msgid "Filelist Menu"
 msgstr ""
 
-#: glade/adlsearch.glade:183 glade/uploadqueue.glade:183
+#: glade/adlsearch.glade:183
 msgid ""
 "Filename\n"
 "Directory\n"
@@ -981,14 +986,14 @@ msgstr ""
 msgid "Find files"
 msgstr ""
 
-#: glade/mainwindow.glade:1107 glade/mainwindow.glade:1420
+#: glade/mainwindow.glade:1107 glade/mainwindow.glade:1429
 #: linux/finishedtransfers.cc:34 linux/settingsdialog.cc:1067
 #: linux/settingsdialog.cc:1381 linux/settingsdialog.cc:1446
 #: linux/settingsdialog.cc:1502
 msgid "Finished Downloads"
 msgstr ""
 
-#: glade/mainwindow.glade:1116 glade/mainwindow.glade:1436
+#: glade/mainwindow.glade:1116 glade/mainwindow.glade:1445
 #: linux/finishedtransfers.cc:39 linux/settingsdialog.cc:1068
 #: linux/settingsdialog.cc:1382 linux/settingsdialog.cc:1448
 #: linux/settingsdialog.cc:1503
@@ -1028,7 +1033,7 @@ msgstr ""
 msgid "Frame:"
 msgstr ""
 
-#: glade/adlsearch.glade:472 glade/uploadqueue.glade:472
+#: glade/adlsearch.glade:472
 msgid "From Fav"
 msgstr ""
 
@@ -1042,6 +1047,10 @@ msgstr ""
 
 #: glade/hub.glade:490
 msgid "Get TestSUR"
+msgstr ""
+
+#: glade/uploadqueue.glade:51
+msgid "Grant Slot"
 msgstr ""
 
 #: glade/favoritehubs.glade:520
@@ -1068,12 +1077,12 @@ msgstr ""
 msgid "H_igh"
 msgstr ""
 
-#: glade/mainwindow.glade:1356 linux/settingsdialog.cc:1383
+#: glade/mainwindow.glade:1365 linux/settingsdialog.cc:1383
 #: linux/settingsdialog.cc:1438
 msgid "Hash"
 msgstr ""
 
-#: glade/mainwindow.glade:1231
+#: glade/mainwindow.glade:1240
 msgid "Help"
 msgstr ""
 
@@ -1093,7 +1102,7 @@ msgstr ""
 msgid "Higliting"
 msgstr ""
 
-#: glade/mainwindow.glade:1241
+#: glade/mainwindow.glade:1250
 msgid "Homepage"
 msgstr ""
 
@@ -1109,7 +1118,7 @@ msgstr ""
 msgid "Hubs"
 msgstr ""
 
-#: glade/mainwindow.glade:1665
+#: glade/mainwindow.glade:1674
 msgid "Hubs (normal / registered / op)"
 msgstr ""
 
@@ -1148,7 +1157,7 @@ msgstr ""
 msgid "Ignore TTH search"
 msgstr ""
 
-#: glade/mainwindow.glade:1466 glade/mainwindow.glade:1469
+#: glade/mainwindow.glade:1475 glade/mainwindow.glade:1478
 #: linux/ignoreusers.cc:37 linux/settingsdialog.cc:1392
 #: linux/settingsdialog.cc:1459
 msgid "Ignore Users"
@@ -1177,7 +1186,7 @@ msgstr ""
 msgid "KiB"
 msgstr ""
 
-#: glade/adlsearch.glade:488 glade/uploadqueue.glade:488
+#: glade/adlsearch.glade:488
 msgid "Kick"
 msgstr ""
 
@@ -1185,7 +1194,7 @@ msgstr ""
 msgid "L_ow"
 msgstr ""
 
-#: glade/mainwindow.glade:1550
+#: glade/mainwindow.glade:1559
 msgid "Limitin on/off"
 msgstr ""
 
@@ -1376,11 +1385,11 @@ msgstr ""
 msgid "Modify User Command"
 msgstr ""
 
-#: glade/adlsearch.glade:73 glade/uploadqueue.glade:73
+#: glade/adlsearch.glade:73
 msgid "Move Down"
 msgstr ""
 
-#: glade/adlsearch.glade:60 glade/uploadqueue.glade:60
+#: glade/adlsearch.glade:60
 msgid "Move Up"
 msgstr ""
 
@@ -1509,7 +1518,7 @@ msgstr ""
 msgid "Note; because of changing download speeds, this is not 100% accurate..."
 msgstr ""
 
-#: glade/mainwindow.glade:1483 glade/mainwindow.glade:1486 linux/notepad.cc:30
+#: glade/mainwindow.glade:1492 glade/mainwindow.glade:1495 linux/notepad.cc:30
 #: linux/settingsdialog.cc:1390 linux/settingsdialog.cc:1453
 #: linux/settingsdialog.cc:1506
 msgid "Notepad"
@@ -1543,7 +1552,7 @@ msgstr ""
 msgid "Open containing _folder"
 msgstr ""
 
-#: glade/adlsearch.glade:531 glade/uploadqueue.glade:531
+#: glade/adlsearch.glade:531
 msgid "Overide"
 msgstr ""
 
@@ -1592,7 +1601,7 @@ msgstr ""
 msgid "Points"
 msgstr ""
 
-#: glade/adlsearch.glade:544 glade/uploadqueue.glade:544
+#: glade/adlsearch.glade:544
 msgid "Points:"
 msgstr ""
 
@@ -1604,7 +1613,7 @@ msgstr ""
 msgid "Ports"
 msgstr ""
 
-#: glade/mainwindow.glade:1340 glade/settingsdialog.glade:1139
+#: glade/mainwindow.glade:1349 glade/settingsdialog.glade:1139
 #: linux/settingsdialog.cc:1384 linux/settingsdialog.cc:1436
 msgid "Preferences"
 msgstr ""
@@ -1618,7 +1627,6 @@ msgid "Private key file"
 msgstr ""
 
 #: glade/adlsearch.glade:47 glade/adlsearch.glade:116
-#: glade/uploadqueue.glade:47 glade/uploadqueue.glade:116
 msgid "Properties"
 msgstr ""
 
@@ -1630,7 +1638,7 @@ msgstr ""
 msgid "Protect_User"
 msgstr ""
 
-#: glade/mainwindow.glade:1047 glade/mainwindow.glade:1324
+#: glade/mainwindow.glade:1047 glade/mainwindow.glade:1333
 #: linux/publichubs.cc:30 linux/settingsdialog.cc:1385
 #: linux/settingsdialog.cc:1434 linux/settingsdialog.cc:1499
 msgid "Public Hubs"
@@ -1640,21 +1648,21 @@ msgstr ""
 msgid "Public Hubs list URL"
 msgstr ""
 
-#: glade/mainwindow.glade:1404 glade/settingsdialog.glade:3163
+#: glade/mainwindow.glade:1413 glade/settingsdialog.glade:3163
 #: linux/settingsdialog.cc:1386 linux/settingsdialog.cc:1444
 msgid "Queue"
 msgstr ""
 
-#: glade/mainwindow.glade:1273
+#: glade/mainwindow.glade:1282
 msgid "Quick connect to a hub"
 msgstr ""
 
-#: glade/mainwindow.glade:1452 linux/settingsdialog.cc:1394
+#: glade/mainwindow.glade:1461 linux/settingsdialog.cc:1394
 #: linux/settingsdialog.cc:1450
 msgid "Quit"
 msgstr ""
 
-#: glade/mainwindow.glade:1449
+#: glade/mainwindow.glade:1458
 msgid "Quit the program"
 msgstr ""
 
@@ -1714,7 +1722,7 @@ msgstr ""
 
 #: glade/adlsearch.glade:86 glade/favoritehubs.glade:97
 #: glade/settingsdialog.glade:7487 glade/settingsdialog.glade:8131
-#: glade/uploadqueue.glade:86
+#: glade/uploadqueue.glade:69
 msgid "Remove"
 msgstr ""
 
@@ -1746,7 +1754,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: glade/mainwindow.glade:1071 glade/mainwindow.glade:1372
+#: glade/mainwindow.glade:1071 glade/mainwindow.glade:1381
 #: glade/searchspy.glade:184 glade/searchspy.glade:249
 #: glade/settingsdialog.glade:8199 linux/search.cc:70 linux/search.cc:239
 #: linux/search.cc:277 linux/search.cc:457 linux/search.cc:1935
@@ -1759,7 +1767,7 @@ msgstr ""
 msgid "Search Menu"
 msgstr ""
 
-#: glade/mainwindow.glade:1081 glade/mainwindow.glade:1385
+#: glade/mainwindow.glade:1081 glade/mainwindow.glade:1394
 #: glade/settingsdialog.glade:5855 linux/searchspy.cc:36
 #: linux/settingsdialog.cc:1073 linux/settingsdialog.cc:1388
 #: linux/settingsdialog.cc:1442 linux/settingsdialog.cc:1505
@@ -1774,7 +1782,7 @@ msgstr ""
 msgid "Search for a file"
 msgstr ""
 
-#: glade/mainwindow.glade:1369
+#: glade/mainwindow.glade:1378
 msgid "Search for files to download"
 msgstr ""
 
@@ -1806,8 +1814,12 @@ msgstr ""
 msgid "Select Text Color"
 msgstr ""
 
-#: glade/mainwindow.glade:792 linux/mainwindow.cc:2100
+#: glade/mainwindow.glade:792 linux/mainwindow.cc:2102
 msgid "Select filelist to browse"
+msgstr ""
+
+#: glade/uploadqueue.glade:78
+msgid "Send Private Message"
 msgstr ""
 
 #: glade/downloadqueue.glade:287 glade/search.glade:531
@@ -1822,11 +1834,11 @@ msgstr ""
 msgid "Separator"
 msgstr ""
 
-#: glade/mainwindow.glade:1537
+#: glade/mainwindow.glade:1546
 msgid "Set Away"
 msgstr ""
 
-#: glade/mainwindow.glade:1553
+#: glade/mainwindow.glade:1562
 msgid "Set Limiting"
 msgstr ""
 
@@ -1873,7 +1885,7 @@ msgstr ""
 msgid "Show top search"
 msgstr ""
 
-#: glade/mainwindow.glade:1621
+#: glade/mainwindow.glade:1630
 msgid "Show/Hide transfers panel"
 msgstr ""
 
@@ -1926,7 +1938,7 @@ msgstr ""
 msgid "Sounds"
 msgstr ""
 
-#: glade/mainwindow.glade:1388
+#: glade/mainwindow.glade:1397
 msgid "Spy"
 msgstr ""
 
@@ -1941,7 +1953,7 @@ msgstr ""
 msgid "String"
 msgstr ""
 
-#: glade/mainwindow.glade:1517 glade/mainwindow.glade:1520 linux/System.cc:28
+#: glade/mainwindow.glade:1526 glade/mainwindow.glade:1529 linux/System.cc:28
 msgid "System Log"
 msgstr ""
 
@@ -2013,11 +2025,11 @@ msgstr ""
 msgid "Top: >"
 msgstr ""
 
-#: glade/mainwindow.glade:1767
+#: glade/mainwindow.glade:1776
 msgid "Total received"
 msgstr ""
 
-#: glade/mainwindow.glade:1855
+#: glade/mainwindow.glade:1864
 msgid "Total sent"
 msgstr ""
 
@@ -2060,6 +2072,10 @@ msgstr ""
 msgid "Update frame search"
 msgstr ""
 
+#: glade/mainwindow.glade:1149 linux/uploadqueue.cc:37
+msgid "Upload Queue"
+msgstr ""
+
 #: glade/settingsdialog.glade:7967
 msgid "Upload Slots"
 msgstr ""
@@ -2068,11 +2084,11 @@ msgstr ""
 msgid "Upload slots"
 msgstr ""
 
-#: glade/mainwindow.glade:1793
+#: glade/mainwindow.glade:1802
 msgid "Upload speed"
 msgstr ""
 
-#: glade/mainwindow.glade:1901
+#: glade/mainwindow.glade:1910
 msgid "Use Blinking Icon"
 msgstr ""
 
@@ -2128,7 +2144,7 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: glade/mainwindow.glade:1308 linux/downloadqueue.cc:66
+#: glade/mainwindow.glade:1317 linux/downloadqueue.cc:66
 #: linux/downloadqueue.cc:270 linux/downloadqueue.cc:377
 #: linux/publichubs.cc:41 linux/publichubs.cc:56 linux/publichubs.cc:57
 #: linux/publichubs.cc:169 linux/recenthub.cc:43 linux/recenthub.cc:82
@@ -2146,23 +2162,23 @@ msgstr ""
 msgid "Version Mismatch"
 msgstr ""
 
-#: glade/mainwindow.glade:1401
+#: glade/mainwindow.glade:1410
 msgid "View the files to be downloaded"
 msgstr ""
 
-#: glade/mainwindow.glade:1353
+#: glade/mainwindow.glade:1362
 msgid "View the hashing progress"
 msgstr ""
 
-#: glade/mainwindow.glade:1417
+#: glade/mainwindow.glade:1426
 msgid "View the list of finished downloads"
 msgstr ""
 
-#: glade/mainwindow.glade:1433
+#: glade/mainwindow.glade:1442
 msgid "View the list of finished uploads"
 msgstr ""
 
-#: glade/mainwindow.glade:1289
+#: glade/mainwindow.glade:1298
 msgid "View the saved hubs"
 msgstr ""
 
@@ -2204,19 +2220,19 @@ msgstr ""
 msgid "_Browse file list"
 msgstr ""
 
-#: glade/mainwindow.glade:1194
+#: glade/mainwindow.glade:1203
 msgid "_Close All Hub"
 msgstr ""
 
-#: glade/mainwindow.glade:1185
+#: glade/mainwindow.glade:1194
 msgid "_Close All PM"
 msgstr ""
 
-#: glade/mainwindow.glade:1203
+#: glade/mainwindow.glade:1212
 msgid "_Close All Search Tab"
 msgstr ""
 
-#: glade/mainwindow.glade:1212
+#: glade/mainwindow.glade:1221
 msgid "_Close All offline PM"
 msgstr ""
 
@@ -2292,7 +2308,7 @@ msgstr ""
 msgid "_Move/Rename"
 msgstr ""
 
-#: glade/mainwindow.glade:1175
+#: glade/mainwindow.glade:1184
 msgid "_Next Tab"
 msgstr ""
 
@@ -2316,7 +2332,7 @@ msgstr ""
 msgid "_Preferences"
 msgstr ""
 
-#: glade/mainwindow.glade:1164
+#: glade/mainwindow.glade:1173
 msgid "_Previous Tab"
 msgstr ""
 
@@ -2342,7 +2358,7 @@ msgstr ""
 #: glade/downloadqueue.glade:188 glade/downloadqueue.glade:336
 #: glade/favoriteusers.glade:93 glade/ignoreeusers.glade:216
 #: glade/recenthub.glade:169 glade/search.glade:574 glade/searchspy.glade:196
-#: glade/searchspy.glade:263 glade/uploadqueue.glade:123
+#: glade/searchspy.glade:263
 msgid "_Remove"
 msgstr ""
 
@@ -2383,11 +2399,11 @@ msgstr ""
 msgid "_Send public message"
 msgstr ""
 
-#: glade/mainwindow.glade:1885
+#: glade/mainwindow.glade:1894
 msgid "_Show Interface"
 msgstr ""
 
-#: glade/mainwindow.glade:1153
+#: glade/mainwindow.glade:1162
 msgid "_Tabs"
 msgstr ""
 
@@ -2411,7 +2427,7 @@ msgstr ""
 msgid "gtk-close"
 msgstr ""
 
-#: glade/adlsearch.glade:397 glade/uploadqueue.glade:397
+#: glade/adlsearch.glade:397
 msgid "is Forbidden"
 msgstr ""
 
@@ -2429,8 +2445,8 @@ msgstr ""
 
 #: glade/settingsdialog.glade:2972 glade/settingsdialog.glade:2988
 #: glade/settingsdialog.glade:3030 linux/hashdialog.cc:79
-#: linux/mainwindow.cc:818 linux/mainwindow.cc:819 linux/mainwindow.cc:2477
-#: linux/mainwindow.cc:2479 linux/treeview.cc:209
+#: linux/mainwindow.cc:820 linux/mainwindow.cc:821 linux/mainwindow.cc:2479
+#: linux/mainwindow.cc:2481 linux/treeview.cc:209
 msgid "s"
 msgstr ""
 
@@ -2438,7 +2454,7 @@ msgstr ""
 msgid "sec"
 msgstr ""
 
-#: glade/mainwindow.glade:1534
+#: glade/mainwindow.glade:1543
 msgid "set away on/off"
 msgstr ""
 
@@ -2646,7 +2662,7 @@ msgstr ""
 msgid "/ Downloads "
 msgstr ""
 
-#: linux/mainwindow.cc:138 linux/mainwindow.cc:156
+#: linux/mainwindow.cc:139 linux/mainwindow.cc:157
 msgid "/s"
 msgstr ""
 
@@ -2695,7 +2711,7 @@ msgstr ""
 msgid "<b>Under what name you see the directory</b>"
 msgstr ""
 
-#: linux/mainwindow.cc:2416
+#: linux/mainwindow.cc:2418
 msgid "<b>file:</b> "
 msgstr ""
 
@@ -2864,11 +2880,11 @@ msgid "Away mode message on/off"
 msgstr ""
 
 #: linux/WulforUtil.cc:751 linux/WulforUtil.cc:767 linux/hub.cc:2151
-#: linux/mainwindow.cc:477 linux/privatemessage.cc:901
+#: linux/mainwindow.cc:479 linux/privatemessage.cc:901
 msgid "Away mode off"
 msgstr ""
 
-#: linux/mainwindow.cc:484
+#: linux/mainwindow.cc:486
 msgid "Away mode on"
 msgstr ""
 
@@ -2955,7 +2971,7 @@ msgstr ""
 #: linux/finishedtransfers.cc:435 linux/hub.cc:4042 linux/ignoreusers.cc:577
 #: linux/notepad.cc:115 linux/privatemessage.cc:1287 linux/publichubs.cc:498
 #: linux/recenthub.cc:342 linux/search.cc:2016 linux/searchspy.cc:675
-#: linux/sharebrowser.cc:1090
+#: linux/sharebrowser.cc:1090 linux/uploadqueue.cc:390
 msgid "Close"
 msgstr ""
 
@@ -3044,7 +3060,7 @@ msgstr ""
 msgid "Country"
 msgstr ""
 
-#: linux/mainwindow.cc:112
+#: linux/mainwindow.cc:113
 #, c-format, boost-format
 msgid ""
 "DC++ Client based on the source code FreeDC++\n"
@@ -3093,7 +3109,7 @@ msgstr ""
 msgid "Done"
 msgstr ""
 
-#: linux/mainwindow.cc:148
+#: linux/mainwindow.cc:149
 msgid "Download Limit (disable)"
 msgstr ""
 
@@ -3131,7 +3147,7 @@ msgstr ""
 msgid "Download starting: "
 msgstr ""
 
-#: linux/mainwindow.cc:772
+#: linux/mainwindow.cc:774
 msgid "Download: "
 msgstr ""
 
@@ -3191,7 +3207,7 @@ msgstr ""
 msgid "Enable segmented downloads"
 msgstr ""
 
-#: linux/mainwindow.cc:1340
+#: linux/mainwindow.cc:1342
 msgid "Enter value for "
 msgstr ""
 
@@ -3318,7 +3334,7 @@ msgstr ""
 msgid "File not available"
 msgstr ""
 
-#: linux/mainwindow.cc:2325
+#: linux/mainwindow.cc:2327
 msgid ""
 "File transfers will not work correctly until you change settings or turn off "
 "any application that might be using the TCP/TLS port."
@@ -3568,7 +3584,7 @@ msgstr ""
 msgid "Load Lua file"
 msgstr ""
 
-#: linux/mainwindow.cc:2137
+#: linux/mainwindow.cc:2139
 msgid "Loading file list"
 msgstr ""
 
@@ -3588,11 +3604,11 @@ msgstr ""
 msgid "Lowest"
 msgstr ""
 
-#: linux/mainwindow.cc:1526
+#: linux/mainwindow.cc:1528
 msgid "Magnet Choice"
 msgstr ""
 
-#: linux/mainwindow.cc:1397
+#: linux/mainwindow.cc:1399
 msgid "Magnet Properties / Choice"
 msgstr ""
 
@@ -3887,13 +3903,13 @@ msgstr ""
 msgid "Searching too soon, retry in "
 msgstr ""
 
-#: linux/mainwindow.cc:2339
+#: linux/mainwindow.cc:2341
 msgid ""
 "Searching will not work correctly until you change settings or turn off any "
 "application that might be using the UDP port."
 msgstr ""
 
-#: linux/mainwindow.cc:1464
+#: linux/mainwindow.cc:1466
 msgid "Select file to Get TTH"
 msgstr ""
 
@@ -3945,7 +3961,7 @@ msgstr ""
 msgid "Shared"
 msgstr ""
 
-#: linux/mainwindow.cc:833 linux/mainwindow.cc:2359
+#: linux/mainwindow.cc:835 linux/mainwindow.cc:2361
 msgid "Shared: "
 msgstr ""
 
@@ -4063,7 +4079,7 @@ msgstr ""
 msgid "Slots"
 msgstr ""
 
-#: linux/mainwindow.cc:832
+#: linux/mainwindow.cc:834
 msgid "Slots:"
 msgstr ""
 
@@ -4148,11 +4164,11 @@ msgstr ""
 msgid "The name and address fields are required"
 msgstr ""
 
-#: linux/mainwindow.cc:532
+#: linux/mainwindow.cc:534
 msgid "Throtle off"
 msgstr ""
 
-#: linux/mainwindow.cc:538
+#: linux/mainwindow.cc:540
 msgid "Throtle on"
 msgstr ""
 
@@ -4215,15 +4231,15 @@ msgstr ""
 msgid "Unable to load file list: "
 msgstr ""
 
-#: linux/mainwindow.cc:2125
+#: linux/mainwindow.cc:2127
 msgid "Unable to load file list: Invalid file list name"
 msgstr ""
 
-#: linux/mainwindow.cc:2324
+#: linux/mainwindow.cc:2326
 msgid "Unable to open TCP/TLS port"
 msgstr ""
 
-#: linux/mainwindow.cc:2338
+#: linux/mainwindow.cc:2340
 msgid "Unable to open UDP port"
 msgstr ""
 
@@ -4244,7 +4260,7 @@ msgstr ""
 msgid "Upload"
 msgstr ""
 
-#: linux/mainwindow.cc:130
+#: linux/mainwindow.cc:131
 msgid "Upload Limit (disable)"
 msgstr ""
 
@@ -4260,7 +4276,7 @@ msgstr ""
 msgid "Upload starting..."
 msgstr ""
 
-#: linux/mainwindow.cc:772
+#: linux/mainwindow.cc:774
 msgid "Upload: "
 msgstr ""
 
@@ -4543,7 +4559,7 @@ msgstr ""
 msgid "Waiting to retry"
 msgstr ""
 
-#: linux/mainwindow.cc:271
+#: linux/mainwindow.cc:273
 msgid "Welcome to "
 msgstr ""
 
@@ -4594,7 +4610,7 @@ msgstr ""
 msgid "eMail"
 msgstr ""
 
-#: linux/mainwindow.cc:2392
+#: linux/mainwindow.cc:2394
 msgid "file list from "
 msgstr ""
 

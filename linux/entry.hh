@@ -57,7 +57,8 @@ class Entry
 			RECENT,
 			HIGHL,
 			CMD,
-			DET
+			DET,
+			UPLOADQUEUE
 		} EntryType;
 
 		Entry() : xml(NULL) {}
