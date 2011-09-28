@@ -56,7 +56,7 @@ class Hub:
 
 		// GUI functions
 		void preferences_gui();
-		std::string getAddress() const {return !address.empty() ? address : (!huburl.empty() ? huburl : dcpp::Util::emptyString);}
+		std::string getAddress() const {return !address.empty() ? address : dcpp::Util::emptyString;}
 		bool findNick_gui_p(std::string &nick, GtkTreeIter iter) { return findNick_gui(nick,&iter);}
 	private:
         //GUI
@@ -252,11 +252,8 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		bool PasswordDialog;
 		bool WaitingPassword;
 		bool logChat;
-		std::string huburl;
-		//std::string statustext;
 		std::queue<std::string> statustext;
 		GtkTooltips *tooltip;
-		//int tooltipcount;
 		static const int maxtooltip = 10;//TODO setting ?
 		std::string ip;
 

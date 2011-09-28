@@ -5,21 +5,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-09-26 12:40+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  linux.pot  #-#-#-#-#\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-09-27 09:41+0200\n"
+"POT-Creation-Date: 2011-09-28 13:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -130,7 +118,7 @@ msgstr ""
 msgid "<b>Description</b>"
 msgstr ""
 
-#: glade/adlsearch.glade:337
+#: glade/adlsearch.glade:337 glade/uploadqueue.glade:337
 msgid "<b>Destination Directory</b>"
 msgstr ""
 
@@ -198,11 +186,11 @@ msgstr ""
 msgid "<b>Main Toolbar Style</b>"
 msgstr ""
 
-#: glade/adlsearch.glade:264
+#: glade/adlsearch.glade:264 glade/uploadqueue.glade:264
 msgid "<b>Max FileSize</b>"
 msgstr ""
 
-#: glade/adlsearch.glade:234
+#: glade/adlsearch.glade:234 glade/uploadqueue.glade:234
 msgid "<b>Min FileSize</b>"
 msgstr ""
 
@@ -266,7 +254,7 @@ msgstr ""
 msgid "<b>Public Hubs list</b>"
 msgstr ""
 
-#: glade/adlsearch.glade:161
+#: glade/adlsearch.glade:161 glade/uploadqueue.glade:161
 msgid "<b>Search String</b>"
 msgstr ""
 
@@ -286,7 +274,7 @@ msgstr ""
 msgid "<b>Shared directories</b>"
 msgstr ""
 
-#: glade/adlsearch.glade:301
+#: glade/adlsearch.glade:301 glade/uploadqueue.glade:301
 msgid "<b>Size Type</b>"
 msgstr ""
 
@@ -294,7 +282,7 @@ msgstr ""
 msgid "<b>Sounds</b>"
 msgstr ""
 
-#: glade/adlsearch.glade:192
+#: glade/adlsearch.glade:192 glade/uploadqueue.glade:192
 msgid "<b>Source Type</b>"
 msgstr ""
 
@@ -355,7 +343,7 @@ msgstr ""
 msgid "ADLSearch"
 msgstr ""
 
-#: glade/adlsearch.glade:130
+#: glade/adlsearch.glade:130 glade/uploadqueue.glade:130
 msgid "ADLSearch Properties"
 msgstr ""
 
@@ -363,9 +351,9 @@ msgstr ""
 msgid "About BMDC++"
 msgstr ""
 
-#: glade/adlsearch.glade:444 linux/detectiontab.cc:142
-#: linux/detectiontab.cc:1354 linux/detectiontab.cc:1393
-#: linux/detectiontab.cc:1451
+#: glade/adlsearch.glade:444 glade/uploadqueue.glade:444
+#: linux/detectiontab.cc:142 linux/detectiontab.cc:1354
+#: linux/detectiontab.cc:1393 linux/detectiontab.cc:1451
 msgid "Action"
 msgstr ""
 
@@ -426,6 +414,7 @@ msgid "Add to favorites"
 msgstr ""
 
 #: glade/adlsearch.glade:34 glade/adlsearch.glade:109
+#: glade/uploadqueue.glade:34 glade/uploadqueue.glade:109
 msgid "Add..."
 msgstr ""
 
@@ -471,7 +460,7 @@ msgstr ""
 msgid "B"
 msgstr ""
 
-#: glade/adlsearch.glade:292 glade/search.glade:94
+#: glade/adlsearch.glade:292 glade/search.glade:94 glade/uploadqueue.glade:292
 msgid ""
 "B\n"
 "KiB\n"
@@ -544,6 +533,7 @@ msgid "CMDDebug Tab"
 msgstr ""
 
 #: glade/adlsearch.glade:519 glade/settingsdialog.glade:439
+#: glade/uploadqueue.glade:519
 msgid "Case Sensitive"
 msgstr ""
 
@@ -565,8 +555,8 @@ msgstr ""
 
 #: glade/detection.glade:470 linux/detectiontab.cc:42
 #: linux/detectiontab.cc:264 linux/detectiontab.cc:818
-#: linux/detectiontab.cc:887 linux/detectiontab.cc:903 linux/hub.cc:91
-#: linux/hub.cc:529 linux/hub.cc:564
+#: linux/detectiontab.cc:887 linux/detectiontab.cc:903 linux/hub.cc:88
+#: linux/hub.cc:526 linux/hub.cc:561
 msgid "Cheat"
 msgstr ""
 
@@ -599,8 +589,8 @@ msgid "Choose a File"
 msgstr ""
 
 #: glade/search.glade:580 glade/settingsdialog.glade:8219
-#: glade/sharebrowser.glade:7 linux/hub.cc:2630 linux/mainwindow.cc:1406
-#: linux/mainwindow.cc:1533 linux/privatemessage.cc:1141
+#: glade/sharebrowser.glade:7 linux/hub.cc:2627 linux/mainwindow.cc:1406
+#: linux/mainwindow.cc:1533 linux/privatemessage.cc:1144
 msgid "Choose a directory"
 msgstr ""
 
@@ -635,11 +625,12 @@ msgstr ""
 msgid "Command"
 msgstr ""
 
-#: glade/adlsearch.glade:413 linux/ADLSearchGUI.cc:53
-#: linux/ADLSearchGUI.cc:149 linux/ADLSearchGUI.cc:256
-#: linux/ADLSearchGUI.cc:298 linux/detectiontab.cc:43
-#: linux/detectiontab.cc:265 linux/detectiontab.cc:819
-#: linux/detectiontab.cc:888 linux/detectiontab.cc:904
+#: glade/adlsearch.glade:413 glade/uploadqueue.glade:413
+#: linux/ADLSearchGUI.cc:53 linux/ADLSearchGUI.cc:148
+#: linux/ADLSearchGUI.cc:255 linux/ADLSearchGUI.cc:297
+#: linux/detectiontab.cc:43 linux/detectiontab.cc:265
+#: linux/detectiontab.cc:819 linux/detectiontab.cc:888
+#: linux/detectiontab.cc:904
 msgid "Comment"
 msgstr ""
 
@@ -672,7 +663,7 @@ msgid "Connect to hub"
 msgstr ""
 
 #: glade/settingsdialog.glade:1983 glade/settingsdialog.glade:2067
-#: linux/hub.cc:83 linux/hub.cc:521 linux/hub.cc:556 linux/search.cc:91
+#: linux/hub.cc:80 linux/hub.cc:518 linux/hub.cc:553 linux/search.cc:91
 #: linux/search.cc:639 linux/search.cc:719 linux/search.cc:856
 msgid "Connection"
 msgstr ""
@@ -732,8 +723,8 @@ msgstr ""
 #: linux/favoritehubs.cc:391 linux/favoritehubs.cc:721
 #: linux/favoriteusers.cc:45 linux/favoriteusers.cc:108
 #: linux/favoriteusers.cc:368 linux/favoriteusers.cc:393
-#: linux/favoriteusers.cc:582 linux/hub.cc:81 linux/hub.cc:519
-#: linux/hub.cc:554 linux/ignoreusers.cc:47 linux/ignoreusers.cc:104
+#: linux/favoriteusers.cc:582 linux/hub.cc:78 linux/hub.cc:516
+#: linux/hub.cc:551 linux/ignoreusers.cc:47 linux/ignoreusers.cc:104
 #: linux/ignoreusers.cc:336 linux/ignoreusers.cc:361 linux/ignoreusers.cc:511
 #: linux/publichubs.cc:40 linux/publichubs.cc:168 linux/publichubs.cc:309
 #: linux/recenthub.cc:42 linux/recenthub.cc:81 linux/recenthub.cc:274
@@ -784,7 +775,7 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: glade/adlsearch.glade:369
+#: glade/adlsearch.glade:369 glade/uploadqueue.glade:369
 msgid "Download Matches"
 msgstr ""
 
@@ -870,15 +861,15 @@ msgid "Enable Text Color"
 msgstr ""
 
 #: glade/adlsearch.glade:356 glade/detection.glade:223
-#: glade/detection.glade:608 linux/ADLSearchGUI.cc:46 linux/ADLSearchGUI.cc:76
-#: linux/ADLSearchGUI.cc:84 linux/ADLSearchGUI.cc:142
-#: linux/ADLSearchGUI.cc:249 linux/ADLSearchGUI.cc:294
-#: linux/ADLSearchGUI.cc:487 linux/ADLSearchGUI.cc:489
-#: linux/favoritehubs.cc:55 linux/favoritehubs.cc:64 linux/favoritehubs.cc:235
-#: linux/favoritehubs.cc:248 linux/favoritehubs.cc:566
-#: linux/favoritehubs.cc:568 linux/favoritehubs.cc:1059
-#: linux/favoritehubs.cc:1069 linux/favoritehubs.cc:1090
-#: linux/favoritehubs.cc:1103
+#: glade/detection.glade:608 glade/uploadqueue.glade:356
+#: linux/ADLSearchGUI.cc:46 linux/ADLSearchGUI.cc:75 linux/ADLSearchGUI.cc:83
+#: linux/ADLSearchGUI.cc:141 linux/ADLSearchGUI.cc:248
+#: linux/ADLSearchGUI.cc:293 linux/ADLSearchGUI.cc:486
+#: linux/ADLSearchGUI.cc:488 linux/favoritehubs.cc:55 linux/favoritehubs.cc:64
+#: linux/favoritehubs.cc:235 linux/favoritehubs.cc:248
+#: linux/favoritehubs.cc:566 linux/favoritehubs.cc:568
+#: linux/favoritehubs.cc:1059 linux/favoritehubs.cc:1069
+#: linux/favoritehubs.cc:1090 linux/favoritehubs.cc:1103
 msgid "Enabled"
 msgstr ""
 
@@ -966,7 +957,7 @@ msgstr ""
 msgid "Filelist Menu"
 msgstr ""
 
-#: glade/adlsearch.glade:183
+#: glade/adlsearch.glade:183 glade/uploadqueue.glade:183
 msgid ""
 "Filename\n"
 "Directory\n"
@@ -1037,7 +1028,7 @@ msgstr ""
 msgid "Frame:"
 msgstr ""
 
-#: glade/adlsearch.glade:472
+#: glade/adlsearch.glade:472 glade/uploadqueue.glade:472
 msgid "From Fav"
 msgstr ""
 
@@ -1114,7 +1105,7 @@ msgstr ""
 msgid "Hub Menu"
 msgstr ""
 
-#: glade/search.glade:281 linux/hub.cc:89 linux/hub.cc:527 linux/hub.cc:562
+#: glade/search.glade:281 linux/hub.cc:86 linux/hub.cc:524 linux/hub.cc:559
 msgid "Hubs"
 msgstr ""
 
@@ -1186,7 +1177,7 @@ msgstr ""
 msgid "KiB"
 msgstr ""
 
-#: glade/adlsearch.glade:488
+#: glade/adlsearch.glade:488 glade/uploadqueue.glade:488
 msgid "Kick"
 msgstr ""
 
@@ -1385,11 +1376,11 @@ msgstr ""
 msgid "Modify User Command"
 msgstr ""
 
-#: glade/adlsearch.glade:73
+#: glade/adlsearch.glade:73 glade/uploadqueue.glade:73
 msgid "Move Down"
 msgstr ""
 
-#: glade/adlsearch.glade:60
+#: glade/adlsearch.glade:60 glade/uploadqueue.glade:60
 msgid "Move Up"
 msgstr ""
 
@@ -1455,11 +1446,11 @@ msgstr ""
 #: linux/favoritehubs.cc:722 linux/favoriteusers.cc:42
 #: linux/favoriteusers.cc:57 linux/favoriteusers.cc:58
 #: linux/favoriteusers.cc:105 linux/favoriteusers.cc:369
-#: linux/favoriteusers.cc:422 linux/favoriteusers.cc:579 linux/hub.cc:79
-#: linux/hub.cc:110 linux/hub.cc:112 linux/hub.cc:488 linux/hub.cc:517
-#: linux/hub.cc:552 linux/hub.cc:615 linux/hub.cc:690 linux/hub.cc:1477
-#: linux/hub.cc:1798 linux/hub.cc:1851 linux/hub.cc:2348 linux/hub.cc:2910
-#: linux/hub.cc:2949 linux/ignoreusers.cc:44 linux/ignoreusers.cc:59
+#: linux/favoriteusers.cc:422 linux/favoriteusers.cc:579 linux/hub.cc:76
+#: linux/hub.cc:107 linux/hub.cc:109 linux/hub.cc:485 linux/hub.cc:514
+#: linux/hub.cc:549 linux/hub.cc:612 linux/hub.cc:687 linux/hub.cc:1474
+#: linux/hub.cc:1795 linux/hub.cc:1848 linux/hub.cc:2345 linux/hub.cc:2907
+#: linux/hub.cc:2946 linux/ignoreusers.cc:44 linux/ignoreusers.cc:59
 #: linux/ignoreusers.cc:60 linux/ignoreusers.cc:101 linux/ignoreusers.cc:337
 #: linux/ignoreusers.cc:390 linux/ignoreusers.cc:508 linux/search.cc:86
 #: linux/search.cc:633 linux/search.cc:732 linux/search.cc:862
@@ -1552,7 +1543,7 @@ msgstr ""
 msgid "Open containing _folder"
 msgstr ""
 
-#: glade/adlsearch.glade:531
+#: glade/adlsearch.glade:531 glade/uploadqueue.glade:531
 msgid "Overide"
 msgstr ""
 
@@ -1601,7 +1592,7 @@ msgstr ""
 msgid "Points"
 msgstr ""
 
-#: glade/adlsearch.glade:544
+#: glade/adlsearch.glade:544 glade/uploadqueue.glade:544
 msgid "Points:"
 msgstr ""
 
@@ -1627,6 +1618,7 @@ msgid "Private key file"
 msgstr ""
 
 #: glade/adlsearch.glade:47 glade/adlsearch.glade:116
+#: glade/uploadqueue.glade:47 glade/uploadqueue.glade:116
 msgid "Properties"
 msgstr ""
 
@@ -1722,6 +1714,7 @@ msgstr ""
 
 #: glade/adlsearch.glade:86 glade/favoritehubs.glade:97
 #: glade/settingsdialog.glade:7487 glade/settingsdialog.glade:8131
+#: glade/uploadqueue.glade:86
 msgid "Remove"
 msgstr ""
 
@@ -2349,7 +2342,7 @@ msgstr ""
 #: glade/downloadqueue.glade:188 glade/downloadqueue.glade:336
 #: glade/favoriteusers.glade:93 glade/ignoreeusers.glade:216
 #: glade/recenthub.glade:169 glade/search.glade:574 glade/searchspy.glade:196
-#: glade/searchspy.glade:263
+#: glade/searchspy.glade:263 glade/uploadqueue.glade:123
 msgid "_Remove"
 msgstr ""
 
@@ -2418,7 +2411,7 @@ msgstr ""
 msgid "gtk-close"
 msgstr ""
 
-#: glade/adlsearch.glade:397
+#: glade/adlsearch.glade:397 glade/uploadqueue.glade:397
 msgid "is Forbidden"
 msgstr ""
 
@@ -2483,13 +2476,13 @@ msgid ""
 "снижает динамику(обновление) кадра"
 msgstr ""
 
-#: linux/hub.cc:3925
+#: linux/hub.cc:3922
 msgid ""
 "\n"
 "Message "
 msgstr ""
 
-#: linux/hub.cc:3867
+#: linux/hub.cc:3864
 msgid ""
 "\n"
 "Message: "
@@ -2499,16 +2492,16 @@ msgstr ""
 msgid " ( Uploads: "
 msgstr ""
 
-#: linux/hub.cc:1275 linux/hub.cc:1354 linux/privatemessage.cc:523
-#: linux/privatemessage.cc:602
+#: linux/hub.cc:1272 linux/hub.cc:1351 linux/privatemessage.cc:526
+#: linux/privatemessage.cc:605
 msgid " *** Emoticons limit"
 msgstr ""
 
-#: linux/hub.cc:1270 linux/privatemessage.cc:518
+#: linux/hub.cc:1267 linux/privatemessage.cc:521
 msgid " *** Emoticons mode off"
 msgstr ""
 
-#: linux/hub.cc:1265 linux/privatemessage.cc:513
+#: linux/hub.cc:1262 linux/privatemessage.cc:516
 msgid " *** Emoticons not loaded"
 msgstr ""
 
@@ -2516,11 +2509,11 @@ msgstr ""
 msgid " + system icons"
 msgstr ""
 
-#: linux/hub.cc:603 linux/hub.cc:621
+#: linux/hub.cc:600 linux/hub.cc:618
 msgid " Users"
 msgstr ""
 
-#: linux/hub.cc:2989
+#: linux/hub.cc:2986
 msgid " added to favorites list"
 msgstr ""
 
@@ -2528,7 +2521,7 @@ msgstr ""
 msgid " dropped"
 msgstr ""
 
-#: linux/hub.cc:2115
+#: linux/hub.cc:2112
 msgid " empty..."
 msgstr ""
 
@@ -2540,35 +2533,35 @@ msgstr ""
 msgid " filtered"
 msgstr ""
 
-#: linux/hub.cc:582 linux/hub.cc:594
+#: linux/hub.cc:579 linux/hub.cc:591
 msgid " has joined"
 msgstr ""
 
-#: linux/hub.cc:583 linux/hub.cc:593
+#: linux/hub.cc:580 linux/hub.cc:590
 msgid " has joined hub "
 msgstr ""
 
-#: linux/hub.cc:628 linux/hub.cc:639
+#: linux/hub.cc:625 linux/hub.cc:636
 msgid " has quit"
 msgstr ""
 
-#: linux/hub.cc:627 linux/hub.cc:638
+#: linux/hub.cc:624 linux/hub.cc:635
 msgid " has quit hub "
 msgstr ""
 
-#: linux/hub.cc:2088 linux/hub.cc:2921 linux/privatemessage.cc:1195
+#: linux/hub.cc:2085 linux/hub.cc:2918 linux/privatemessage.cc:1198
 msgid " is favorite user"
 msgstr ""
 
-#: linux/hub.cc:2106 linux/hub.cc:2960 linux/privatemessage.cc:1216
+#: linux/hub.cc:2103 linux/hub.cc:2957 linux/privatemessage.cc:1219
 msgid " is not favorite user"
 msgstr ""
 
-#: linux/hub.cc:3706
+#: linux/hub.cc:3703
 msgid " is offline"
 msgstr ""
 
-#: linux/hub.cc:3567
+#: linux/hub.cc:3564
 msgid " is online"
 msgstr ""
 
@@ -2584,7 +2577,7 @@ msgstr ""
 msgid " of "
 msgstr ""
 
-#: linux/hub.cc:3016
+#: linux/hub.cc:3013
 msgid " removed from favorites list"
 msgstr ""
 
@@ -2604,15 +2597,15 @@ msgstr ""
 msgid "%) from "
 msgstr ""
 
-#: linux/hub.cc:2323 linux/hub.cc:2327
+#: linux/hub.cc:2320 linux/hub.cc:2324
 msgid "': type /help for a list of available commands"
 msgstr ""
 
-#: linux/hub.cc:4031
+#: linux/hub.cc:4028
 msgid "** "
 msgstr ""
 
-#: linux/hub.cc:2152 linux/privatemessage.cc:896
+#: linux/hub.cc:2149 linux/privatemessage.cc:899
 msgid "*** Available commands:"
 msgstr ""
 
@@ -2657,11 +2650,11 @@ msgstr ""
 msgid "/s"
 msgstr ""
 
-#: linux/ADLSearchGUI.cc:148 linux/ADLSearchGUI.cc:255
+#: linux/ADLSearchGUI.cc:147 linux/ADLSearchGUI.cc:254
 msgid "0"
 msgstr ""
 
-#: linux/hub.cc:670
+#: linux/hub.cc:667
 msgid "0 Users"
 msgstr ""
 
@@ -2673,12 +2666,12 @@ msgstr ""
 msgid "0 items"
 msgstr ""
 
-#: linux/ADLSearchGUI.cc:148 linux/ADLSearchGUI.cc:255
-#: linux/ADLSearchGUI.cc:322
+#: linux/ADLSearchGUI.cc:147 linux/ADLSearchGUI.cc:254
+#: linux/ADLSearchGUI.cc:321
 msgid "1"
 msgstr ""
 
-#: linux/hub.cc:756
+#: linux/hub.cc:753
 msgid "<b>Enter your password</b>"
 msgstr ""
 
@@ -2714,7 +2707,7 @@ msgstr ""
 msgid "Accept custom user commands from hub"
 msgstr ""
 
-#: linux/hub.cc:2158
+#: linux/hub.cc:2155
 msgid "Add a hub to favorites"
 msgstr ""
 
@@ -2722,15 +2715,15 @@ msgstr ""
 msgid "Add finished files to share instantly (if shared)"
 msgstr ""
 
-#: linux/privatemessage.cc:1293
+#: linux/privatemessage.cc:1296
 msgid "Add to Favorite"
 msgstr ""
 
-#: linux/hub.cc:4046
+#: linux/hub.cc:4043
 msgid "Add to Favorite hubs"
 msgstr ""
 
-#: linux/hub.cc:2159 linux/privatemessage.cc:901
+#: linux/hub.cc:2156 linux/privatemessage.cc:904
 msgid "Add user to favorites list"
 msgstr ""
 
@@ -2750,23 +2743,23 @@ msgstr ""
 msgid "Address"
 msgstr ""
 
-#: linux/hub.cc:3338
+#: linux/hub.cc:3335
 msgid "Address  => "
 msgstr ""
 
-#: linux/hub.cc:2187 linux/privatemessage.cc:920
+#: linux/hub.cc:2184 linux/privatemessage.cc:923
 msgid "Alias A executing"
 msgstr ""
 
-#: linux/hub.cc:2184 linux/privatemessage.cc:917
+#: linux/hub.cc:2181 linux/privatemessage.cc:920
 msgid "Alias List"
 msgstr ""
 
-#: linux/hub.cc:2185 linux/privatemessage.cc:918
+#: linux/hub.cc:2182 linux/privatemessage.cc:921
 msgid "Alias Remove A"
 msgstr ""
 
-#: linux/hub.cc:2186 linux/privatemessage.cc:919
+#: linux/hub.cc:2183 linux/privatemessage.cc:922
 msgid "Alias add uname -a as A"
 msgstr ""
 
@@ -2866,12 +2859,12 @@ msgstr ""
 msgid "Away Icon"
 msgstr ""
 
-#: linux/hub.cc:2153 linux/privatemessage.cc:897
+#: linux/hub.cc:2150 linux/privatemessage.cc:900
 msgid "Away mode message on/off"
 msgstr ""
 
-#: linux/WulforUtil.cc:751 linux/WulforUtil.cc:767 linux/hub.cc:2154
-#: linux/mainwindow.cc:477 linux/privatemessage.cc:898
+#: linux/WulforUtil.cc:751 linux/WulforUtil.cc:767 linux/hub.cc:2151
+#: linux/mainwindow.cc:477 linux/privatemessage.cc:901
 msgid "Away mode off"
 msgstr ""
 
@@ -2887,12 +2880,12 @@ msgstr ""
 msgid "Button smile"
 msgstr ""
 
-#: linux/hub.cc:86 linux/hub.cc:524 linux/hub.cc:559 linux/search.cc:94
+#: linux/hub.cc:83 linux/hub.cc:521 linux/hub.cc:556 linux/search.cc:94
 #: linux/search.cc:642
 msgid "CC"
 msgstr ""
 
-#: linux/hub.cc:2765 linux/hub.cc:2803 linux/hub.cc:2840 linux/hub.cc:2873
+#: linux/hub.cc:2762 linux/hub.cc:2800 linux/hub.cc:2837 linux/hub.cc:2870
 msgid "CID"
 msgstr ""
 
@@ -2940,15 +2933,15 @@ msgstr ""
 msgid "Cheat message"
 msgstr ""
 
-#: linux/hub.cc:2192
+#: linux/hub.cc:2189
 msgid "Clean Mainchat (sended to Hub)"
 msgstr ""
 
-#: linux/privatemessage.cc:899
+#: linux/privatemessage.cc:902
 msgid "Clear PM"
 msgstr ""
 
-#: linux/hub.cc:2155
+#: linux/hub.cc:2152
 msgid "Clear chat"
 msgstr ""
 
@@ -2956,21 +2949,21 @@ msgstr ""
 msgid "Clear search box after each search"
 msgstr ""
 
-#: linux/ADLSearchGUI.cc:664 linux/System.cc:123 linux/cmddebug.cc:153
+#: linux/ADLSearchGUI.cc:663 linux/System.cc:123 linux/cmddebug.cc:153
 #: linux/detectiontab.cc:1724 linux/downloadqueue.cc:1429
 #: linux/favoritehubs.cc:1260 linux/favoriteusers.cc:648
-#: linux/finishedtransfers.cc:435 linux/hub.cc:4045 linux/ignoreusers.cc:577
-#: linux/notepad.cc:115 linux/privatemessage.cc:1284 linux/publichubs.cc:498
+#: linux/finishedtransfers.cc:435 linux/hub.cc:4042 linux/ignoreusers.cc:577
+#: linux/notepad.cc:115 linux/privatemessage.cc:1287 linux/publichubs.cc:498
 #: linux/recenthub.cc:342 linux/search.cc:2016 linux/searchspy.cc:675
 #: linux/sharebrowser.cc:1090
 msgid "Close"
 msgstr ""
 
-#: linux/privatemessage.cc:900
+#: linux/privatemessage.cc:903
 msgid "Close PM"
 msgstr ""
 
-#: linux/hub.cc:2156
+#: linux/hub.cc:2153
 msgid "Close chat"
 msgstr ""
 
@@ -2998,15 +2991,15 @@ msgstr ""
 msgid "Confirm favorite hub removal"
 msgstr ""
 
-#: linux/hub.cc:3744
+#: linux/hub.cc:3741
 msgid "Connect failed: "
 msgstr ""
 
-#: linux/hub.cc:2165
+#: linux/hub.cc:2162
 msgid "Connect to the hub"
 msgstr ""
 
-#: linux/hub.cc:3551 linux/transfers.cc:1027
+#: linux/hub.cc:3548 linux/transfers.cc:1027
 msgid "Connected"
 msgstr ""
 
@@ -3018,7 +3011,7 @@ msgstr ""
 msgid "Connecting (forced)..."
 msgstr ""
 
-#: linux/hub.cc:3544
+#: linux/hub.cc:3541
 msgid "Connecting to "
 msgstr ""
 
@@ -3030,15 +3023,15 @@ msgstr ""
 msgid "Copy All"
 msgstr ""
 
-#: linux/privatemessage.cc:1290
+#: linux/privatemessage.cc:1293
 msgid "Copy CID"
 msgstr ""
 
-#: linux/privatemessage.cc:1287 linux/sharebrowser.cc:1093
+#: linux/privatemessage.cc:1290 linux/sharebrowser.cc:1093
 msgid "Copy Nick"
 msgstr ""
 
-#: linux/hub.cc:4044
+#: linux/hub.cc:4041
 msgid "Copy URL"
 msgstr ""
 
@@ -3059,8 +3052,8 @@ msgid ""
 "Core version: %s"
 msgstr ""
 
-#: linux/ADLSearchGUI.cc:49 linux/ADLSearchGUI.cc:79 linux/ADLSearchGUI.cc:145
-#: linux/ADLSearchGUI.cc:252 linux/ADLSearchGUI.cc:289
+#: linux/ADLSearchGUI.cc:49 linux/ADLSearchGUI.cc:78 linux/ADLSearchGUI.cc:144
+#: linux/ADLSearchGUI.cc:251 linux/ADLSearchGUI.cc:288
 msgid "Destination Directory"
 msgstr ""
 
@@ -3151,15 +3144,15 @@ msgstr ""
 msgid "Downloaded "
 msgstr ""
 
-#: linux/hub.cc:2142 linux/privatemessage.cc:886
+#: linux/hub.cc:2139 linux/privatemessage.cc:889
 msgid "Emoticons mode off"
 msgstr ""
 
-#: linux/hub.cc:2147 linux/privatemessage.cc:891
+#: linux/hub.cc:2144 linux/privatemessage.cc:894
 msgid "Emoticons mode on"
 msgstr ""
 
-#: linux/hub.cc:2172 linux/privatemessage.cc:905
+#: linux/hub.cc:2169 linux/privatemessage.cc:908
 msgid "Emoticons on/off"
 msgstr ""
 
@@ -3220,7 +3213,7 @@ msgstr ""
 msgid "Errors"
 msgstr ""
 
-#: linux/hub.cc:87 linux/hub.cc:525 linux/hub.cc:560
+#: linux/hub.cc:84 linux/hub.cc:522 linux/hub.cc:557
 msgid "Exact Share"
 msgstr ""
 
@@ -3232,11 +3225,11 @@ msgstr ""
 msgid "Exact Size"
 msgstr ""
 
-#: linux/hub.cc:2175
+#: linux/hub.cc:2172
 msgid "Execute Lua Chunk"
 msgstr ""
 
-#: linux/hub.cc:2181
+#: linux/hub.cc:2178
 msgid "Execute code (bash)"
 msgstr ""
 
@@ -3280,11 +3273,11 @@ msgstr ""
 msgid "Favorite User"
 msgstr ""
 
-#: linux/hub.cc:3378
+#: linux/hub.cc:3375
 msgid "Favorite hub added"
 msgstr ""
 
-#: linux/hub.cc:3383
+#: linux/hub.cc:3380
 msgid "Favorite hub already exists"
 msgstr ""
 
@@ -3363,8 +3356,8 @@ msgstr ""
 msgid "Flag"
 msgstr ""
 
-#: linux/ADLSearchGUI.cc:52 linux/ADLSearchGUI.cc:148
-#: linux/ADLSearchGUI.cc:255 linux/ADLSearchGUI.cc:297
+#: linux/ADLSearchGUI.cc:52 linux/ADLSearchGUI.cc:147
+#: linux/ADLSearchGUI.cc:254 linux/ADLSearchGUI.cc:296
 msgid "Forbiden File"
 msgstr ""
 
@@ -3384,15 +3377,15 @@ msgstr ""
 msgid "General text"
 msgstr ""
 
-#: linux/hub.cc:92
+#: linux/hub.cc:89
 msgid "Generator"
 msgstr ""
 
-#: linux/hub.cc:2162 linux/privatemessage.cc:903
+#: linux/hub.cc:2159 linux/privatemessage.cc:906
 msgid "Get file list"
 msgstr ""
 
-#: linux/hub.cc:2163 linux/privatemessage.cc:904
+#: linux/hub.cc:2160 linux/privatemessage.cc:907
 msgid "Grant extra slot"
 msgstr ""
 
@@ -3521,19 +3514,19 @@ msgstr ""
 msgid "Ignored"
 msgstr ""
 
-#: linux/hub.cc:3866
+#: linux/hub.cc:3863
 msgid "Ignored PM/Chat message from User "
 msgstr ""
 
-#: linux/hub.cc:3924
+#: linux/hub.cc:3921
 msgid "Ignored private message from User what is not in Fav Users "
 msgstr ""
 
-#: linux/hub.cc:3901
+#: linux/hub.cc:3898
 msgid "Ignored private message from bot "
 msgstr ""
 
-#: linux/hub.cc:3894
+#: linux/hub.cc:3891
 msgid "Ignored private message from hub"
 msgstr ""
 
@@ -3571,7 +3564,7 @@ msgstr ""
 msgid "List: "
 msgstr ""
 
-#: linux/hub.cc:2174
+#: linux/hub.cc:2171
 msgid "Load Lua file"
 msgstr ""
 
@@ -3611,8 +3604,8 @@ msgstr ""
 msgid "Max Hubs"
 msgstr ""
 
-#: linux/ADLSearchGUI.cc:51 linux/ADLSearchGUI.cc:81 linux/ADLSearchGUI.cc:147
-#: linux/ADLSearchGUI.cc:254
+#: linux/ADLSearchGUI.cc:51 linux/ADLSearchGUI.cc:80 linux/ADLSearchGUI.cc:146
+#: linux/ADLSearchGUI.cc:253
 msgid "Max Size"
 msgstr ""
 
@@ -3620,8 +3613,8 @@ msgstr ""
 msgid "Max Users"
 msgstr ""
 
-#: linux/hub.cc:2179 linux/privatemessage.cc:907 linux/privatemessage.cc:908
-#: linux/privatemessage.cc:909
+#: linux/hub.cc:2176 linux/privatemessage.cc:910 linux/privatemessage.cc:911
+#: linux/privatemessage.cc:912
 msgid "Media Spam"
 msgstr ""
 
@@ -3629,8 +3622,8 @@ msgstr ""
 msgid "Min Share"
 msgstr ""
 
-#: linux/ADLSearchGUI.cc:50 linux/ADLSearchGUI.cc:80 linux/ADLSearchGUI.cc:146
-#: linux/ADLSearchGUI.cc:253
+#: linux/ADLSearchGUI.cc:50 linux/ADLSearchGUI.cc:79 linux/ADLSearchGUI.cc:145
+#: linux/ADLSearchGUI.cc:252
 msgid "Min Size"
 msgstr ""
 
@@ -3670,7 +3663,7 @@ msgstr ""
 msgid "New search type"
 msgstr ""
 
-#: linux/hub.cc:4017
+#: linux/hub.cc:4014
 msgid "Nick already taken"
 msgstr ""
 
@@ -3706,7 +3699,7 @@ msgstr ""
 msgid "Normal"
 msgstr ""
 
-#: linux/hub.cc:2090 linux/hub.cc:2125 linux/hub.cc:2135
+#: linux/hub.cc:2087 linux/hub.cc:2122 linux/hub.cc:2132
 msgid "Not found user: "
 msgstr ""
 
@@ -3797,7 +3790,7 @@ msgstr ""
 msgid "Private Message (also sets urgency hint)"
 msgstr ""
 
-#: linux/hub.cc:2167 linux/settingsdialog.cc:1102 linux/settingsdialog.cc:1148
+#: linux/hub.cc:2164 linux/settingsdialog.cc:1102 linux/settingsdialog.cc:1148
 #: linux/settingsdialog.cc:1275 linux/settingsmanager.cc:231
 msgid "Private message"
 msgstr ""
@@ -3815,11 +3808,11 @@ msgstr ""
 msgid "Ratio: "
 msgstr ""
 
-#: linux/hub.cc:2168
+#: linux/hub.cc:2165
 msgid "Rebuild hash"
 msgstr ""
 
-#: linux/hub.cc:2189
+#: linux/hub.cc:2186
 msgid "Refresh UserList"
 msgstr ""
 
@@ -3839,7 +3832,7 @@ msgstr ""
 msgid "Remove slow filelists"
 msgstr ""
 
-#: linux/hub.cc:2160 linux/privatemessage.cc:902
+#: linux/hub.cc:2157 linux/privatemessage.cc:905
 msgid "Remove user favorite"
 msgstr ""
 
@@ -3859,12 +3852,12 @@ msgstr ""
 msgid "SJIS (Japanese)"
 msgstr ""
 
-#: linux/hub.cc:2166
+#: linux/hub.cc:2163
 msgid "Say a third person"
 msgstr ""
 
-#: linux/ADLSearchGUI.cc:47 linux/ADLSearchGUI.cc:77 linux/ADLSearchGUI.cc:143
-#: linux/ADLSearchGUI.cc:250 linux/ADLSearchGUI.cc:288 linux/searchspy.cc:51
+#: linux/ADLSearchGUI.cc:47 linux/ADLSearchGUI.cc:76 linux/ADLSearchGUI.cc:142
+#: linux/ADLSearchGUI.cc:249 linux/ADLSearchGUI.cc:287 linux/searchspy.cc:51
 #: linux/searchspy.cc:69 linux/searchspy.cc:71 linux/searchspy.cc:75
 #: linux/searchspy.cc:216 linux/searchspy.cc:227 linux/searchspy.cc:281
 #: linux/searchspy.cc:288 linux/searchspy.cc:304 linux/searchspy.cc:463
@@ -3872,7 +3865,7 @@ msgstr ""
 msgid "Search String"
 msgstr ""
 
-#: linux/hub.cc:4024
+#: linux/hub.cc:4021
 msgid "Search spam detected from "
 msgstr ""
 
@@ -3908,7 +3901,7 @@ msgstr ""
 msgid "Send PM when double clicked in the user list"
 msgstr ""
 
-#: linux/hub.cc:3755
+#: linux/hub.cc:3752
 msgid "Send Stored password. "
 msgstr ""
 
@@ -3921,11 +3914,11 @@ msgstr ""
 msgid "Server"
 msgstr ""
 
-#: linux/hub.cc:2193
+#: linux/hub.cc:2190
 msgid "Set GUI Setting (all)"
 msgstr ""
 
-#: linux/privatemessage.cc:913
+#: linux/privatemessage.cc:916
 msgid "Set Slots to n"
 msgstr ""
 
@@ -3933,11 +3926,11 @@ msgstr ""
 msgid "Set Slots to:"
 msgstr ""
 
-#: linux/hub.cc:2182
+#: linux/hub.cc:2179
 msgid "Set Uploads slots"
 msgstr ""
 
-#: linux/hub.cc:2194
+#: linux/hub.cc:2191
 msgid "Set dcpp kernel setting"
 msgstr ""
 
@@ -3945,8 +3938,8 @@ msgstr ""
 msgid "Set lowest priority for newly added files larger than low priority size"
 msgstr ""
 
-#: linux/hub.cc:80 linux/hub.cc:487 linux/hub.cc:518 linux/hub.cc:553
-#: linux/hub.cc:616 linux/publichubs.cc:44 linux/publichubs.cc:172
+#: linux/hub.cc:77 linux/hub.cc:484 linux/hub.cc:515 linux/hub.cc:550
+#: linux/hub.cc:613 linux/publichubs.cc:44 linux/publichubs.cc:172
 #: linux/recenthub.cc:44 linux/recenthub.cc:83 linux/recenthub.cc:276
 #: linux/recenthub.cc:288
 msgid "Shared"
@@ -3960,7 +3953,7 @@ msgstr ""
 msgid "Show CC in chat"
 msgstr ""
 
-#: linux/hub.cc:2177
+#: linux/hub.cc:2174
 msgid "Show Client Uptime"
 msgstr ""
 
@@ -3976,11 +3969,11 @@ msgstr ""
 msgid "Show Free Slots in Desc"
 msgstr ""
 
-#: linux/hub.cc:2178
+#: linux/hub.cc:2175
 msgid "Show Free space (mainchat)"
 msgstr ""
 
-#: linux/privatemessage.cc:915
+#: linux/privatemessage.cc:918
 msgid "Show FreeSpace (mc)"
 msgstr ""
 
@@ -3988,19 +3981,19 @@ msgstr ""
 msgid "Show IP in chat"
 msgstr ""
 
-#: linux/hub.cc:2190
+#: linux/hub.cc:2187
 msgid "Show Leech Info"
 msgstr ""
 
-#: linux/privatemessage.cc:910
+#: linux/privatemessage.cc:913
 msgid "Show Ratio (mc)"
 msgstr ""
 
-#: linux/hub.cc:2161
+#: linux/hub.cc:2158
 msgid "Show favorites list"
 msgstr ""
 
-#: linux/hub.cc:2164 linux/privatemessage.cc:906
+#: linux/hub.cc:2161 linux/privatemessage.cc:909
 msgid "Show help"
 msgstr ""
 
@@ -4008,7 +4001,7 @@ msgstr ""
 msgid "Show joins / parts in chat by default"
 msgstr ""
 
-#: linux/hub.cc:2183
+#: linux/hub.cc:2180
 msgid "Show ratio (mainchat)"
 msgstr ""
 
@@ -4016,7 +4009,7 @@ msgstr ""
 msgid "Show send /commnads in status message"
 msgstr ""
 
-#: linux/privatemessage.cc:914
+#: linux/privatemessage.cc:917
 msgid "Show stats"
 msgstr ""
 
@@ -4028,15 +4021,15 @@ msgstr ""
 msgid "Show timestamps in chat by default"
 msgstr ""
 
-#: linux/hub.cc:2191
+#: linux/hub.cc:2188
 msgid "Show topic text in chat"
 msgstr ""
 
-#: linux/privatemessage.cc:916
+#: linux/privatemessage.cc:919
 msgid "Show uptime"
 msgstr ""
 
-#: linux/hub.cc:2171
+#: linux/hub.cc:2168
 msgid "Show version"
 msgstr ""
 
@@ -4057,15 +4050,15 @@ msgstr ""
 msgid "Skip zero-byte files"
 msgstr ""
 
-#: linux/privatemessage.cc:1248
+#: linux/privatemessage.cc:1251
 msgid "Slot granted"
 msgstr ""
 
-#: linux/favoriteusers.cc:506 linux/hub.cc:3305
+#: linux/favoriteusers.cc:506 linux/hub.cc:3302
 msgid "Slot granted to "
 msgstr ""
 
-#: linux/hub.cc:88 linux/hub.cc:526 linux/hub.cc:561 linux/search.cc:90
+#: linux/hub.cc:85 linux/hub.cc:523 linux/hub.cc:558 linux/search.cc:90
 #: linux/search.cc:120 linux/search.cc:635
 msgid "Slots"
 msgstr ""
@@ -4078,8 +4071,8 @@ msgstr ""
 msgid "Sort favorite users first"
 msgstr ""
 
-#: linux/ADLSearchGUI.cc:48 linux/ADLSearchGUI.cc:78 linux/ADLSearchGUI.cc:144
-#: linux/ADLSearchGUI.cc:251
+#: linux/ADLSearchGUI.cc:48 linux/ADLSearchGUI.cc:77 linux/ADLSearchGUI.cc:143
+#: linux/ADLSearchGUI.cc:250
 msgid "Source Type"
 msgstr ""
 
@@ -4094,11 +4087,11 @@ msgstr ""
 msgid "Speed"
 msgstr ""
 
-#: linux/hub.cc:2188
+#: linux/hub.cc:2185
 msgid "Start checkers"
 msgstr ""
 
-#: linux/hub.cc:2180
+#: linux/hub.cc:2177
 msgid "Stats Clients"
 msgstr ""
 
@@ -4126,7 +4119,7 @@ msgstr ""
 msgid "Style"
 msgstr ""
 
-#: linux/hub.cc:93 linux/hub.cc:531 linux/hub.cc:566
+#: linux/hub.cc:90 linux/hub.cc:528 linux/hub.cc:563
 msgid "Support"
 msgstr ""
 
@@ -4147,7 +4140,7 @@ msgstr ""
 msgid "TIS-620 (Thai)"
 msgstr ""
 
-#: linux/hub.cc:82 linux/hub.cc:520 linux/hub.cc:555
+#: linux/hub.cc:79 linux/hub.cc:517 linux/hub.cc:552
 msgid "Tag"
 msgstr ""
 
@@ -4194,7 +4187,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: linux/hub.cc:2252
+#: linux/hub.cc:2249
 msgid "Topic: "
 msgstr ""
 
@@ -4214,7 +4207,7 @@ msgstr ""
 msgid "UTF-8 (Unicode)"
 msgstr ""
 
-#: linux/hub.cc:3330
+#: linux/hub.cc:3327
 msgid "Unable to connect: already connected to the requested hub"
 msgstr ""
 
@@ -4239,11 +4232,11 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: linux/hub.cc:2323 linux/hub.cc:2327
+#: linux/hub.cc:2320 linux/hub.cc:2324
 msgid "Unknown command '"
 msgstr ""
 
-#: linux/hub.cc:2169
+#: linux/hub.cc:2166
 msgid "Update own file list"
 msgstr ""
 
@@ -4336,19 +4329,19 @@ msgstr ""
 msgid "User "
 msgstr ""
 
-#: linux/hub.cc:2697
+#: linux/hub.cc:2694
 msgid "User Ignored "
 msgstr ""
 
-#: linux/hub.cc:2115
+#: linux/hub.cc:2112
 msgid "User favorite list:"
 msgstr ""
 
-#: linux/hub.cc:2170
+#: linux/hub.cc:2167
 msgid "User list show/hide"
 msgstr ""
 
-#: linux/hub.cc:2240 linux/hub.cc:2246 linux/hub.cc:3276 linux/hub.cc:3296
+#: linux/hub.cc:2237 linux/hub.cc:2243 linux/hub.cc:3273 linux/hub.cc:3293
 msgid "User not found"
 msgstr ""
 
@@ -4368,11 +4361,11 @@ msgstr ""
 msgid "User operator (pasive) "
 msgstr ""
 
-#: linux/hub.cc:2737
+#: linux/hub.cc:2734
 msgid "User unIgnored "
 msgstr ""
 
-#: linux/privatemessage.cc:1183
+#: linux/privatemessage.cc:1186
 msgid "User went offline"
 msgstr ""
 
@@ -4537,7 +4530,7 @@ msgstr ""
 msgid "Virtual name"
 msgstr ""
 
-#: linux/hub.cc:717
+#: linux/hub.cc:714
 msgid ""
 "Waiting for input password (don't remove /password before your password)"
 msgstr ""
@@ -4597,7 +4590,7 @@ msgstr ""
 msgid "default theme"
 msgstr ""
 
-#: linux/hub.cc:85 linux/hub.cc:523 linux/hub.cc:558
+#: linux/hub.cc:82 linux/hub.cc:520 linux/hub.cc:555
 msgid "eMail"
 msgstr ""
 
@@ -4609,11 +4602,11 @@ msgstr ""
 msgid "project home: "
 msgstr ""
 
-#: linux/privatemessage.cc:912
+#: linux/privatemessage.cc:915
 msgid "rebuild share"
 msgstr ""
 
-#: linux/privatemessage.cc:911
+#: linux/privatemessage.cc:914
 msgid "refresh share"
 msgstr ""
 
@@ -4629,7 +4622,7 @@ msgstr ""
 msgid "selected style failed"
 msgstr ""
 
-#: linux/hub.cc:2157
+#: linux/hub.cc:2154
 msgid "send password"
 msgstr ""
 

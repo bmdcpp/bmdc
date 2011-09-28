@@ -6,7 +6,7 @@
 ShellCommand::ShellCommand(char* input, int len, bool shell)
 {
 	thirdPerson = false;
-	resultsize=len;
+	resultsize = len;
 	output = new char[resultsize];
 	strcpy(output,"");
 	errormessage = new char[strlen(input)+100];

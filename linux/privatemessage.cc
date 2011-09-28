@@ -23,6 +23,7 @@
 
 #include <dcpp/ClientManager.h>
 #include <dcpp/FavoriteManager.h>
+#include <dcpp/StringTokenizer.h>
 #include "settingsmanager.hh"
 #include "emoticonsdialog.hh"
 #include "emoticons.hh"
@@ -123,6 +124,8 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 
 	// set default select tag (fix error show cursor in neutral space)
 	selectedTag = TagsMap[Tag::TAG_PRIVATE];
+	
+	readLog(SETTING(LOG_DIRECTORY)+SETTING(LOG_FILE_PRIVATE_CHAT),(unsigned int) SETTING(PM_LAST_LOG_LINES));
 }
 
 PrivateMessage::~PrivateMessage()
@@ -1322,4 +1325,45 @@ void PrivateMessage::onAddFav( gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 	pm->addFavoriteUser_client();	
+}
+
+void PrivateMessage::readLog(const string& logPath, const unsigned setting) {
+		if(setting == 0)
+			return;
+		if(logPath.empty())
+			return;	
+		//make %[] to it value...
+		StringMap params;
+		params["hubUrl"] = hubUrl;
+		OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hubUrl, false);
+		Client *client = &ou->getClient();
+		client->getHubIdentity().getParams(params, "hub", false);
+		client->getMyIdentity().getParams(params, "my", true);
+		Identity *id = &ou->getIdentity();
+		id->getParams(params, "user", true);
+		logPath = Util::formatParams(logPath, params, false);
+		//..
+		StringList lines;
+
+		try {
+			const int MAX_SIZE = 32 * 1024;
+
+			File f(logPath, File::READ, File::OPEN);
+			if(f.getSize() > MAX_SIZE) {
+				f.setEndPos(-MAX_SIZE + 1);
+			}
+
+			lines = StringTokenizer<string>(f.read(MAX_SIZE), "\r\n").getTokens();
+		} catch(const FileException&) { }
+
+		if(lines.empty())
+			return;
+
+		// the last line in the log file is an empty line; remove it
+		lines.pop_back();
+
+		const size_t linesCount = lines.size();
+		for(size_t i = ((linesCount > setting) ? (linesCount - setting) : 0); i < linesCount; ++i) {
+			addLine_gui(Msg::GENERAL, lines[i]);
+		}
 }

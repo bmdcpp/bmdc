@@ -23,6 +23,7 @@ public:
 	virtual void on(Failed, Upload*, const string&) throw() { }
 	virtual void on(WaitingAddFile, const HintedUser&, const string&) throw() { }
 	virtual void on(WaitingRemoveUser, const HintedUser&) throw() { }
+		
 
 };
 

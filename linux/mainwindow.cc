@@ -230,7 +230,7 @@ MainWindow::MainWindow():
 	g_signal_connect(getWidget("detectionMenuItem"), "activate", G_CALLBACK(onDetection), (gpointer)this);
 	///CMD TAB
 	g_signal_connect(getWidget("cmdMenuItem1"), "activate", G_CALLBACK(onDebugCMD), (gpointer)this);
-
+	
 	g_signal_connect(getWidget("indexingProgressMenuItem"), "activate", G_CALLBACK(onHashClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("searchMenuItem"), "activate", G_CALLBACK(onSearchClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("searchSpyMenuItem"), "activate", G_CALLBACK(onSearchSpyClicked_gui), (gpointer)this);
@@ -2497,3 +2497,4 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) throw()
 		WulforManager::get()->dispatchGuiFunc(f2);
 	}
 }
+

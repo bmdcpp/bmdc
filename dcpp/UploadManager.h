@@ -75,7 +75,7 @@ public:
 	HintedUserList getWaitingUsers() const;
 	bool isWaiting(const UserPtr &) const;
 	FileSet getWaitingUserFiles(const UserPtr&) const;
-
+	
 	/** @internal */
 	void addConnection(UserConnectionPtr conn);
 

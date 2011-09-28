@@ -63,7 +63,6 @@ ADLSearchGUI::ADLSearchGUI():
 	searchADLView.insertHiddenColumn("FromFav", G_TYPE_BOOLEAN);
 	searchADLView.insertHiddenColumn("OverRideP", G_TYPE_BOOLEAN);
 	searchADLView.insertHiddenColumn("KickString",G_TYPE_STRING);
-
 	searchADLView.finalize();
 
 	searchADLStore = gtk_list_store_newv(searchADLView.getColCount(), searchADLView.getGTypes());
@@ -105,15 +104,15 @@ ADLSearchGUI::ADLSearchGUI():
 
 	g_signal_connect(getWidget("checkForbiden"), "toggled", G_CALLBACK(onToggleForb), (gpointer)this);
 
-	g_signal_connect(getWidget("sourceTypeComboBox"),"changed",G_CALLBACK(onChangeCombo),(gpointer)this);
+	g_signal_connect(getWidget("sourceTypeComboBox"),"changed", G_CALLBACK(onChangeCombo),(gpointer)this);
 
-	gtk_widget_set_sensitive(getWidget("checkFromFav"),FALSE);
-	gtk_widget_set_sensitive(getWidget("entryKick"),FALSE);
-	gtk_widget_set_sensitive(getWidget("checkAction"),FALSE);
-	gtk_widget_set_sensitive(getWidget("comboboxAction"),FALSE);
-	gtk_widget_set_sensitive(getWidget("spinbuttonPoints"),FALSE);
-	gtk_widget_set_sensitive(getWidget("checkoveride1"),FALSE);
-	gtk_widget_set_sensitive(getWidget("checkcasesensitive"),FALSE);
+	gtk_widget_set_sensitive(getWidget("checkFromFav"), FALSE);
+	gtk_widget_set_sensitive(getWidget("entryKick"), FALSE);
+	gtk_widget_set_sensitive(getWidget("checkAction"), FALSE);
+	gtk_widget_set_sensitive(getWidget("comboboxAction"), FALSE);
+	gtk_widget_set_sensitive(getWidget("spinbuttonPoints"), FALSE);
+	gtk_widget_set_sensitive(getWidget("checkoveride1"), FALSE);
+	gtk_widget_set_sensitive(getWidget("checkcasesensitive"), FALSE);
 }
 
 ADLSearchGUI::~ADLSearchGUI()

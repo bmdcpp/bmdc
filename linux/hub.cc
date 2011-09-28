@@ -66,10 +66,7 @@ Hub::Hub(const string &address, const string &encoding):
 	encoding(encoding),
 	scrollToBottom(TRUE),
 	PasswordDialog(FALSE),
-	WaitingPassword(FALSE),
-	huburl(address)//,
-//	statustext(""),
-//	tooltipcount(0)
+	WaitingPassword(FALSE)
 {
 	// Configure the dialog
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")), TRUE);
@@ -205,7 +202,7 @@ Hub::Hub(const string &address, const string &encoding):
 	g_signal_connect(getWidget("Protect"), "activate", G_CALLBACK(onProtect), (gpointer)this);
 	g_signal_connect(getWidget("UnProtect"), "activate", G_CALLBACK(onUnProtect), (gpointer)this);
     // Refresh UL Button & Item
-	g_signal_connect(getWidget("buttonrefresh"),"clicked", G_CALLBACK(refreshul), (gpointer)this);
+	g_signal_connect(getWidget("buttonrefresh"), "clicked", G_CALLBACK(refreshul), (gpointer)this);
 	g_signal_connect(getWidget("userlistrefreshMenuItem"),"activate",G_CALLBACK(refreshul),(gpointer)this);
 	// End
 	g_signal_connect(getWidget("downloadBrowseItem"), "activate", G_CALLBACK(onDownloadToClicked_gui), (gpointer)this);
@@ -264,11 +261,11 @@ Hub::Hub(const string &address, const string &encoding):
 	r.setDescription("***");
 	r.setUsers("*");
 	r.setShared("*");
-	r.setServer(huburl);
+	r.setServer(address);
 	FavoriteManager::getInstance()->addRecent(r);
 
 	// log chat
-	FavoriteHubEntry *entry = FavoriteManager::getInstance()->getFavoriteHubEntry(huburl);
+	FavoriteHubEntry *entry = FavoriteManager::getInstance()->getFavoriteHubEntry(address);
 
 	if(entry != NULL)
 	{
@@ -281,7 +278,7 @@ Hub::Hub(const string &address, const string &encoding):
 
 Hub::~Hub()
 {
-	RecentHubEntry* r = FavoriteManager::getInstance()->getRecentHubEntry(huburl);
+	RecentHubEntry* r = FavoriteManager::getInstance()->getRecentHubEntry(address);
 
 	if(r)
 	{
@@ -2770,11 +2767,11 @@ void Hub::onTestSUR_gui(GtkMenuItem *item, gpointer data)
 
 		if (!nicks.empty())
 		{
-			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(nicks),hub->huburl,false);
+			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(nicks),hub->address,false);
 			if(ou != NULL)
 			{	  
 				try {
-					HintedUser hintedUser(ou->getUser(), hub->huburl); 
+					HintedUser hintedUser(ou->getUser(), hub->address); 
 					ClientManager::getInstance()->addCheckToQueue(hintedUser, false);
 				}catch(...)
 				{ }
@@ -2808,11 +2805,11 @@ void Hub::onCheckFL(GtkMenuItem *item , gpointer data)
 
 		if (!nicks.empty())
 		{
-			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(nicks),hub->huburl,false);
+			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(nicks),hub->address,false);
 			if(ou != NULL)
 			{	  
 				try {
-					 HintedUser hintedUser(ou->getUser(), hub->huburl);
+					 HintedUser hintedUser(ou->getUser(), hub->address);
 					 ClientManager::getInstance()->addCheckToQueue(hintedUser, true);
 				}
 				 catch(...)
@@ -4037,7 +4034,7 @@ void Hub::popmenu()
 {
     userCommandMenu1->cleanMenu_gui();
     userCommandMenu1->addUser(client->getMyIdentity().getUser()->getCID().toBase32());
-    userCommandMenu1->addHub(huburl);
+    userCommandMenu1->addHub(address);
     userCommandMenu1->buildMenu_gui();
     GtkWidget *menu = userCommandMenu1->getContainer();
 
@@ -4064,7 +4061,7 @@ void Hub::onCloseItem(gpointer data)
 void Hub::onCopyHubUrl(gpointer data)
 {
     Hub *hub = (Hub *)data;
-    gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), hub->huburl.c_str(), hub->huburl.length());
+    gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), hub->address.c_str(), hub->address.length());
 }
 
 void Hub::onAddFavItem(gpointer data)

@@ -88,6 +88,8 @@ class PrivateMessage:
 		void updateCursor(GtkWidget *widget);
 		/**/
 		void updateOnlineStatus_gui(bool online);
+		
+		void readLog(const std::string& logPath, const unsigned setting);
 
 		// GUI callbacks
 		static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);

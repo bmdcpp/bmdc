@@ -333,7 +333,7 @@ void TreeView::addColumn_gui(Column& column)
 			break;
 		///add	
 		case PIXBUF_STRING_TEXT_COLOR:
-			// PIXBUF I
+			// PIXBUF
 			renderer = gtk_cell_renderer_pixbuf_new();
 			col = gtk_tree_view_column_new();
 			gtk_tree_view_column_set_title(col, column.title.c_str());
@@ -358,7 +358,7 @@ void TreeView::addColumn_gui(Column& column)
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(),
 				renderer, "text", column.pos, "value", TreeView::col(column.linkedCol), NULL);
 			break;
-		case ESIZE://Patch ESHare
+		case ESIZE://Exact SHare
 			renderer = gtk_cell_renderer_text_new();
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(),
 					renderer, "text", column.pos, NULL);
