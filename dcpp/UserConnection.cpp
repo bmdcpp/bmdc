@@ -27,6 +27,7 @@
 #include "Download.h"
 #include "format.h"
 #include "DebugManager.h"
+#include "SettingsManager.h"
 
 namespace dcpp {
 
@@ -183,7 +184,7 @@ bool UserConnectionScriptInstance::onUserConnectionMessageOut(UserConnection* aC
 	return GetLuaBool();
 }
 #endif
-void UserConnection::connect(const string& aServer, uint16_t aPort, uint16_t localPort, BufferedSocket::NatRoles natRole) throw(SocketException, ThreadException) {
+void UserConnection::connect(const string& aServer, string aPort, string localPort, BufferedSocket::NatRoles natRole) throw(SocketException, ThreadException) {
 	dcassert(!socket);
 
 	socket = BufferedSocket::getSocket(0);

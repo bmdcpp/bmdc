@@ -910,6 +910,7 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			"/amar\t\t\t -  " +_("Media Spam")+ "\n" +
 			"/auda\t\t\t -  " +_("Media Spam")+ "\n" +
 			"/kaff\t\t\t -  "+_("Media Spam") + "\n" +
+			"/vlc\t\t\t -  "+_("Media Spam") + "\n" +
 			"/ratio (mc)\t\t\t - "+_("Show Ratio (mc)")+ "\n"+
 			"/refresh\t\t\\t  -"  +_("refresh share")+ "\n"+
 			"/rebuild\t\t\t\t  -"+ _("rebuild share")+ "\n"+

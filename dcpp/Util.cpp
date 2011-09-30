@@ -45,6 +45,7 @@
 #include "ClientManager.h"
 
 #include "FastAlloc.h"
+#include "GeoIP.h"
 
 namespace dcpp {
 
@@ -60,8 +61,9 @@ bool Util::away = false;
 bool Util::manualAway = false;
 string Util::awayMsg;
 time_t Util::awayTime;
-int64_t Util::uptime=0;
-Util::CountryList Util::countries;
+int64_t Util::uptime = 0;
+Util::CountryList Util::countries;//TODO  maybe remove
+GeoIP geo6, geo4;
 
 string Util::paths[Util::PATH_LAST];
 
@@ -232,6 +234,9 @@ void Util::initialize() {
 	} catch(const FileException&) {
 	}
 	
+	geo6.init(getPath(PATH_USER_CONFIG) + "GeoIPv6.dat");
+	geo4.init(getPath(PATH_USER_CONFIG) + "GeoIP.dat");
+	
 }
 
 void Util::migrate(const string& file) {
@@ -400,100 +405,96 @@ string Util::getShortTimeString(time_t t) {
  * http:// -> port 80
  * dchub:// -> port 411
  */
-void Util::decodeUrl(const string& url, string& protocol, string& host, uint16_t& port, string& path, string& query, string& fragment) {
-        size_t fragmentEnd = url.size();
-        size_t fragmentStart = url.rfind('#');
+void Util::decodeUrl(const string& url, string& protocol, string& host, string& port, string& path, string& query, string& fragment) {
+        auto fragmentEnd = url.size();
+	auto fragmentStart = url.rfind('#');
 
-        size_t queryEnd;
-        if(fragmentStart == string::npos) {
-                queryEnd = fragmentStart = fragmentEnd;
-        } else {
-                dcdebug("f");
-                queryEnd = fragmentStart;
-                fragmentStart++;
-        }
+	size_t queryEnd;
+	if(fragmentStart == string::npos) {
+		queryEnd = fragmentStart = fragmentEnd;
+	} else {
+		dcdebug("f");
+		queryEnd = fragmentStart;
+		fragmentStart++;
+	}
 
-        size_t queryStart = url.rfind('?', queryEnd);
-        size_t fileEnd;
+	auto queryStart = url.rfind('?', queryEnd);
+	size_t fileEnd;
 
-        if(queryStart == string::npos) {
-                fileEnd = queryStart = queryEnd;
-        } else {
-                dcdebug("q");
-                fileEnd = queryStart;
-                queryStart++;
-        }
+	if(queryStart == string::npos) {
+		fileEnd = queryStart = queryEnd;
+	} else {
+		dcdebug("q");
+		fileEnd = queryStart;
+		queryStart++;
+	}
 
-        size_t protoStart = 0;
-        size_t protoEnd = url.find("://", protoStart);
+	auto protoStart = 0;
+	auto protoEnd = url.find("://", protoStart);
 
-        size_t authorityStart = protoEnd == string::npos ? protoStart : protoEnd + 3;
-        size_t authorityEnd = url.find_first_of("/#?", authorityStart);
+	auto authorityStart = protoEnd == string::npos ? protoStart : protoEnd + 3;
+	auto authorityEnd = url.find_first_of("/#?", authorityStart);
 
-        size_t fileStart;
-        if(authorityEnd == string::npos) {
-                authorityEnd = fileStart = fileEnd;
-        } else {
-                dcdebug("a");
-                fileStart = authorityEnd;
-        }
+	size_t fileStart;
+	if(authorityEnd == string::npos) {
+		authorityEnd = fileStart = fileEnd;
+	} else {
+		dcdebug("a");
+		fileStart = authorityEnd;
+	}
 
-        protocol = url.substr(protoStart, protoEnd - protoStart);
+	protocol = (protoEnd == string::npos ? Util::emptyString : url.substr(protoStart, protoEnd - protoStart));
 
-        if(authorityEnd > authorityStart) {
-                dcdebug("x");
-                size_t portStart = string::npos;
-                if(url[authorityStart] == '[') {
-                        // IPv6?
-                        size_t hostEnd = url.find(']');
-                        if(hostEnd == string::npos) {
-                                return;
-                        }
+	if(authorityEnd > authorityStart) {
+		dcdebug("x");
+		size_t portStart = string::npos;
+		if(url[authorityStart] == '[') {
+			// IPv6?
+			auto hostEnd = url.find(']');
+			if(hostEnd == string::npos) {
+				return;
+			}
 
-                        host = url.substr(authorityStart, hostEnd - authorityStart);
-                        if(hostEnd + 1 < url.size() && url[hostEnd + 1] == ':') {
-                                portStart = hostEnd + 1;
-                        }
-                } else {
-                        size_t hostEnd;
-                        portStart = url.find(':', authorityStart);
-                        if(portStart != string::npos && portStart > authorityEnd) {
-                                portStart = string::npos;
-                        }
+			host = url.substr(authorityStart + 1, hostEnd - authorityStart - 1);
+			if(hostEnd + 1 < url.size() && url[hostEnd + 1] == ':') {
+				portStart = hostEnd + 2;
+			}
+		} else {
+			size_t hostEnd;
+			portStart = url.find(':', authorityStart);
+			if(portStart != string::npos && portStart > authorityEnd) {
+				portStart = string::npos;
+			}
 
-                        if(portStart == string::npos) {
-                                hostEnd = authorityEnd;
-                        } else {
-                                hostEnd = portStart;
-                                portStart++;
-                        }
+			if(portStart == string::npos) {
+				hostEnd = authorityEnd;
+			} else {
+				hostEnd = portStart;
+				portStart++;
+			}
 
-                        dcdebug("h");
-                        host = url.substr(authorityStart, hostEnd - authorityStart);
-                }
+			dcdebug("h");
+			host = url.substr(authorityStart, hostEnd - authorityStart);
+		}
 
-                if(portStart == string::npos) {
-                        if(protocol == "http") {
-                                port = 80;
-                        } else if(protocol == "https") {
-                                port = 443;
-                        } else if(protocol == "dchub") {
-                                port = 411;
-                        }
-                        else 
-                        {
-							port = 411;//
-						}
-                } else {
-                        dcdebug("p");
-                        port = static_cast<uint16_t>(Util::toInt(url.substr(portStart, authorityEnd - portStart)));
-                }
-        }
+		if(portStart == string::npos) {
+			if(protocol == "http") {
+				port = "80";
+			} else if(protocol == "https") {
+				port = "443";
+			} else if(protocol == "dchub"  || protocol.empty()) {
+				port = "411";
+			}
+		} else {
+			dcdebug("p");
+			port = url.substr(portStart, authorityEnd - portStart);
+		}
+	}
 
-        dcdebug("\n");
-        path = url.substr(fileStart, fileEnd - fileStart);
-        query = url.substr(queryStart, queryEnd - queryStart);
-        fragment = url.substr(fragmentStart, fragmentStart);
+	dcdebug("\n");
+	path = url.substr(fileStart, fileEnd - fileStart);
+	query = url.substr(queryStart, queryEnd - queryStart);
+	fragment = url.substr(fragmentStart, fragmentEnd - fragmentStart);
 }
 
 map<string, string> Util::decodeQuery(const string& query) {
@@ -986,7 +987,7 @@ uint32_t Util::rand() {
 	This function returns the country(Abbreviation) of an ip
 	for exemple: it returns "PT", whitch standards for "Portugal"
 	more info: http://www.maxmind.com/app/csv
-*/
+*//*
 string Util::getIpCountry (string IP) {
 	if (BOOLSETTING(USE_COUNTRY)) {
 		dcassert(count(IP.begin(), IP.end(), '.') == 3);
@@ -1008,7 +1009,28 @@ string Util::getIpCountry (string IP) {
 		}
 }
 	return Util::emptyString; //if doesn't returned anything already, something is wrong...
+}*/
+
+string Util::getCountry(const string& ip, int flags) {
+	if(BOOLSETTING(GET_USER_COUNTRY) && !ip.empty()) {
+
+		if(flags & V6) {
+			string ret = geo6.getCountry(ip);
+			if(!ret.empty())
+				return ret;
+		}
+
+		if(flags & V4) {
+			return geo4.getCountry(ip);
+		}
+	}
+
+	return emptyString;
 }
+string Util::getCountryAB(const string& ip) 
+{ 
+	return geo4.getCountryAB(ip);
+}//think about IPv6  here...
 
 string Util::getTimeString() {
 	char buf[64];

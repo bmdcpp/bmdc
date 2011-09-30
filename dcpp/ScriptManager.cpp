@@ -291,7 +291,7 @@ int LuaManager::RunTimer(lua_State* L) {
 lua_State* ScriptInstance::L = 0;		//filled in by scriptmanager.
 CriticalSection ScriptInstance::cs;
 
-ScriptManager::ScriptManager() : timerEnabled(false) {
+ScriptManager::ScriptManager() : timerEnabled(false), s(Socket::TYPE_UDP) {
 }
 
 /*
@@ -377,8 +377,6 @@ void ScriptManager::load() {
 
 
 	lua_pop(L, lua_gettop(L));		//hm. starts at 8 or so for me. I have no idea why...
-
-	s.create(Socket::TYPE_UDP);
 
 	ClientManager::getInstance()->addListener(this);
 }

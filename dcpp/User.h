@@ -138,8 +138,10 @@ public:
 #define GS(n, x) string get##n() const { return get(x); } void set##n(const string& v) { set(x, v); }
 	GS(Nick, "NI")
 	GS(Description, "DE")
-	GS(Ip, "I4")
-	GS(UdpPort, "U4")
+	GS(Ip4, "I4")
+	GS(Udp4Port, "U4")
+	GS(Ip6, "I6")
+	GS(Udp6Port, "U6")
 	GS(Email, "EM")
 	GS(Connection, "CO")
 	//RSX++
@@ -169,11 +171,19 @@ public:
 	bool isAway() const { return isSet("AW"); }
 	bool isTcpActive(const Client* c = NULL) const;
 	bool isUdpActive() const;
+	bool isTcp4Active() const;
+	bool isTcp6Active() const;
+	bool isUdp4Active() const;
+	bool isUdp6Active() const;
+	string getIp() const;
+	string getUdpPort() const;
+	
 	string get(const char* name) const;
 	void set(const char* name, const string& val);
 	bool isSet(const char* name) const;
 	string getSIDString() const { return string((const char*)&sid, 4); }
 	std::map<string, string> getInfo() const;
+	string getCountry() const;
 
 	bool isClientType(ClientType ct) const;
 	//RSX 

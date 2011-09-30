@@ -52,10 +52,10 @@ public:
 	virtual ~SSLSocket() throw() {}
 
 	virtual void accept(const Socket& listeningSocket) throw(SocketException);
-	virtual void connect(const string& aIp, uint16_t aPort) throw(SocketException);
+	virtual void connect(const string& aIp, string aPort) throw(SocketException);
 	virtual int read(void* aBuffer, int aBufLen) throw(SocketException);
 	virtual int write(const void* aBuffer, int aLen) throw(SocketException);
-	virtual int wait(uint32_t millis, int waitFor) throw(SocketException);
+	virtual std::pair<bool, bool> wait(uint32_t millis, bool checkRead, bool checkWrite);
 	virtual void shutdown() throw();
 	virtual void close() throw();
 

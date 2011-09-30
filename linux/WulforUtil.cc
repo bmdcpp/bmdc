@@ -904,6 +904,26 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			thirdperson = s.isThirdPerson();
 		}
 	}
+	else if (cmd == "vlc")
+	{
+		ShellCommand s("vlc-np.sh");
+		//test if script is in the right directory and set executable and if so run it
+		if (strcmp(s.Output(),"VLC is not running.")==0)
+		{
+			status += s.Output();
+		}
+		else if (strcmp(s.Output(),"VLC is not playing.")==0)
+		{
+				status += s.Output();
+		}
+		else
+		{
+			message = s.Output();
+			status += s.ErrorMessage();
+			thirdperson = s.isThirdPerson();
+
+		}
+	}
 	// End of "Now Playing"
 	else if ( cmd == "df" )
 	{
@@ -1079,20 +1099,6 @@ bool WulforUtil::matchRe(const std::string/*&*/ strToMatch, const std::string/*&
 			//...
 		}
 		return false;
-		/*	int    status;
-			regex_t    re;
-			const char *pattern=expression.c_str();
-			const char *strings=strToMatch.c_str();
-			    if (regcomp(&re, pattern, REG_EXTENDED|REG_NOSUB) != 0) {
-			        return 0;      
-    				}
-			    status = regexec(&re, strings, (size_t) 0, NULL, 0);
-			    regfree(&re);
-			    if (status != 0) {
-			        return 0;    
-				    }
-    			return 1;
-    	 */
 }
 ///From Crzdc
 string WulforUtil::generateLeech() {

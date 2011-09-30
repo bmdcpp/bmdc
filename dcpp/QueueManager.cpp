@@ -615,7 +615,7 @@ void QueueManager::on(TimerManagerListener::Minute, uint64_t aTick) throw() {
 
 		try {
 			AdcCommand cmd = SearchManager::getInstance()->toPSR(true, param->myNick, param->hubIpPort, param->tth, param->parts);
-			Socket s;
+			Socket s(Socket::TYPE_UDP);
 			s.writeTo(param->ip, param->udpPort, cmd.toString(ClientManager::getInstance()->getMyCID()));
 		} catch(...) {
 			dcdebug("Partial search caught error\n");

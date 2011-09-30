@@ -326,4 +326,7 @@ Better tooltips on hub statusbar
 Load Log file into PrivateMessage frame if aviable
 Fix missing description in tooltips at Userlist on Hubs
 Add Upload Queue Tab
+Add VLC Spam script (curse)
+Fixed Upload Queue
+Ipv6 support
 

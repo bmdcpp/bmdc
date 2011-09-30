@@ -446,7 +446,7 @@ void NmdcHub::onLine(const string& aLine) throw() {
 		if(j == string::npos) {
 			return;
 		}
-		string server = Socket::resolve(param.substr(i, j-i));
+		string server = Socket::resolve(param.substr(i, j-i), AF_INET);
 		if(isProtectedIP(server))
 			return;
 		if(j+1 >= param.size()) {
@@ -454,7 +454,7 @@ void NmdcHub::onLine(const string& aLine) throw() {
 		}
 		string port = param.substr(j+1);
 		// For simplicity, we make the assumption that users on a hub have the same character encoding
-		ConnectionManager::getInstance()->nmdcConnect(server, (uint16_t)Util::toInt(port), getMyNick(), getHubUrl(), getEncoding());
+		ConnectionManager::getInstance()->nmdcConnect(server, port, getMyNick(), getHubUrl(), getEncoding());
 	} else if(cmd == "$RevConnectToMe") {
 		if(state != STATE_NORMAL || getHideShare()) {//patched
 			return;
@@ -615,7 +615,7 @@ void NmdcHub::onLine(const string& aLine) throw() {
 	}else if(cmd == "$HubTopic") {
 		//dcdebug("Nmdc topic:%s",aLine.c_str());
 		 string line;
-		 string str2="Tema hubu:";//TODO change to fire topic ?
+		 string str2="Hub Topic:";//TODO change to fire topic ?
 		 line=aLine;
 		 line.replace(0,9,str2);
 
@@ -641,7 +641,7 @@ void NmdcHub::onLine(const string& aLine) throw() {
 				if(!u)
 					continue;
 
-				u->getIdentity().setIp(it->substr(j+1));
+				u->getIdentity().setIp4(it->substr(j+1));
 				if(u->getUser() == getMyIdentity().getUser()) {
 					setMyIdentity(u->getIdentity());
 				}
@@ -1036,7 +1036,7 @@ void NmdcHub::on(Minute, uint64_t aTick) throw() {
 		protectedIPs.push_back("hublista.hu");
 		protectedIPs.push_back("adcportal.com");
 		for(StringIter i = protectedIPs.begin(); i != protectedIPs.end();) {
-			*i = Socket::resolve(*i);
+			*i = Socket::resolve(*i, AF_INET);
 			if(Util::isPrivateIp(*i))
 				i = protectedIPs.erase(i);
 			else

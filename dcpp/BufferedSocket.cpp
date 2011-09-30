@@ -68,66 +68,71 @@ void BufferedSocket::setMode (Modes aMode, size_t aRollback) {
 	mode = aMode;
 }
 
-void BufferedSocket::setSocket(std::auto_ptr<Socket> s) {
+void BufferedSocket::setSocket(std::unique_ptr<Socket> s) {
 	dcassert(!sock.get());
+		sock = move(s);
+}
+
+void BufferedSocket::setOptions()
+{
 	if(SETTING(SOCKET_IN_BUFFER) > 0)
-		s->setSocketOpt(SO_RCVBUF, SETTING(SOCKET_IN_BUFFER));
+		sock->setSocketOpt(SO_RCVBUF, SETTING(SOCKET_IN_BUFFER));
 	if(SETTING(SOCKET_OUT_BUFFER) > 0)
-		s->setSocketOpt(SO_SNDBUF, SETTING(SOCKET_OUT_BUFFER));
-	s->setSocketOpt(SO_REUSEADDR, 1);	// NAT traversal
+		sock->setSocketOpt(SO_SNDBUF, SETTING(SOCKET_OUT_BUFFER));
+	//s->setSocketOpt(SO_REUSEADDR, 1);	// NAT traversal
 
-	inbuf.resize(s->getSocketOptInt(SO_RCVBUF));
-
-	sock = s;
+	//inbuf.resize(s->getSocketOptInt(SO_RCVBUF));
 }
 
 void BufferedSocket::accept(const Socket& srv, bool secure, bool allowUntrusted) throw(SocketException) {
 	dcdebug("BufferedSocket::accept() %p\n", (void*)this);
 
-	std::auto_ptr<Socket> s(secure ? CryptoManager::getInstance()->getServerSocket(allowUntrusted) : new Socket);
+	std::unique_ptr<Socket> s(secure ? CryptoManager::getInstance()->getServerSocket(allowUntrusted) : new Socket(Socket::TYPE_TCP));
 
 	s->accept(srv);
 
-	setSocket(s);
+	setSocket(move(s));
+	setOptions();
 
 	Lock l(cs);
 	addTask(ACCEPTED, 0);
 }
 
-void BufferedSocket::connect(const string& aAddress, uint16_t aPort, bool secure, bool allowUntrusted, bool proxy) throw(SocketException) {
-	connect(aAddress, aPort, 0, NAT_NONE, secure, allowUntrusted, proxy);
+void BufferedSocket::connect(const string& aAddress, string aPort, bool secure, bool allowUntrusted, bool proxy) throw(SocketException) {
+	connect(aAddress, aPort, Util::emptyString, NAT_NONE, secure, allowUntrusted, proxy);
 }
 
-void BufferedSocket::connect(const string& aAddress, uint16_t aPort, uint16_t localPort, NatRoles natRole, bool secure, bool allowUntrusted, bool proxy) throw(SocketException) {
+void BufferedSocket::connect(const string& aAddress, string aPort, string localPort, NatRoles natRole, bool secure, bool allowUntrusted, bool proxy) throw(SocketException) {
 	dcdebug("BufferedSocket::connect() %p\n", (void*)this);
-	std::auto_ptr<Socket> s(secure ? (natRole == NAT_SERVER ? CryptoManager::getInstance()->getServerSocket(allowUntrusted) : CryptoManager::getInstance()->getClientSocket(allowUntrusted)) : new Socket);
+	std::unique_ptr<Socket> s(secure ? (natRole == NAT_SERVER ? CryptoManager::getInstance()->getServerSocket(allowUntrusted) : CryptoManager::getInstance()->getClientSocket(allowUntrusted)) : new Socket(Socket::TYPE_TCP));
 
-	s->create();
-	setSocket(s);
-	sock->bind(localPort, SETTING(BIND_ADDRESS));
-
+	s->setLocalIp4(SETTING(BIND_ADDRESS));
+	s->setLocalIp6(SETTING(BIND_ADDRESS6));
+	
+	setSocket(move(s));
+	
 	Lock l(cs);
 	addTask(CONNECT, new ConnectInfo(aAddress, aPort, localPort, natRole, proxy && (SETTING(OUTGOING_CONNECTIONS) == SettingsManager::OUTGOING_SOCKS5)));
 }
 
 #define LONG_TIMEOUT 30000
 #define SHORT_TIMEOUT 1000
-void BufferedSocket::threadConnect(const string& aAddr, uint16_t aPort, uint16_t localPort, NatRoles natRole, bool proxy) throw(SocketException) {
+void BufferedSocket::threadConnect(const string& aAddr, string aPort, string localPort, NatRoles natRole, bool proxy) throw(SocketException) {
 	dcassert(state == STARTING);
 
-	dcdebug("threadConnect %s:%d/%d\n", aAddr.c_str(), (int)localPort, (int)aPort);
 	fire(BufferedSocketListener::Connecting());
 
 	const uint64_t endTime = GET_TICK() + LONG_TIMEOUT;
 	state = RUNNING;
 
 	while (GET_TICK() < endTime) {
-		dcdebug("threadConnect attempt to addr \"%s\"\n", aAddr.c_str());
+		dcdebug("threadConnect attempt %s %s:%s\n", localPort.c_str(), aAddr.c_str(), aPort.c_str());
 		try {
+			setOptions();
 			if(proxy) {
 				sock->socksConnect(aAddr, aPort, LONG_TIMEOUT);
 			} else {
-				sock->connect(aAddr, aPort);
+				sock->connect(aAddr, aPort, localPort);
 			}
 
 			bool connSucceeded;
@@ -136,6 +141,7 @@ void BufferedSocket::threadConnect(const string& aAddr, uint16_t aPort, uint16_t
 			}
 
 			if (connSucceeded) {
+				inbuf.resize(sock->getSocketOptInt(SO_RCVBUF));
 				fire(BufferedSocketListener::Connected());
 				return;
 			}
@@ -158,6 +164,7 @@ void BufferedSocket::threadAccept() throw(SocketException) {
 	dcdebug("threadAccept\n");
 
 	state = RUNNING;
+	inbuf.resize(sock->getSocketOptInt(SO_RCVBUF));
 
 	uint64_t startTime = GET_TICK();
 	while(!sock->waitAccepted(POLL_TIMEOUT)) {
@@ -356,11 +363,11 @@ void BufferedSocket::threadSendFile(InputStream* file) throw(Exception) {
 					}
 				} else {
 					while(!disconnecting) {
-						int w = sock->wait(POLL_TIMEOUT, Socket::WAIT_WRITE | Socket::WAIT_READ);
-						if(w & Socket::WAIT_READ) {
+						auto w = sock->wait(POLL_TIMEOUT, true, true);
+						if(w.first) {
 							threadRead();
 						}
-						if(w & Socket::WAIT_WRITE) {
+						if(w.second) {
 							break;
 						}
 					}
@@ -399,13 +406,13 @@ void BufferedSocket::threadSendData() throw(Exception) {
 			return;
 		}
 
-		int w = sock->wait(POLL_TIMEOUT, Socket::WAIT_READ | Socket::WAIT_WRITE);
+		auto w =  sock->wait(POLL_TIMEOUT, true, true);
 
-		if(w & Socket::WAIT_READ) {
+		if(w.first) {
 			threadRead();
 		}
 
-		if(w & Socket::WAIT_WRITE) {
+		if(w.second) {
 			int n = sock->write(&sendBuf[done], left);
 			if(n > 0) {
 				left -= n;
@@ -458,9 +465,9 @@ bool BufferedSocket::checkEvents() throw(Exception) {
 }
 
 void BufferedSocket::checkSocket() throw(Exception) {
-	int waitFor = sock->wait(POLL_TIMEOUT, Socket::WAIT_READ);
+	 auto w = sock->wait(POLL_TIMEOUT, true, false);
 
-	if(waitFor & Socket::WAIT_READ) {
+	if(w.first) {
 		threadRead();
 	}
 }

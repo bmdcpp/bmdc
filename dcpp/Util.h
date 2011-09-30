@@ -211,7 +211,7 @@ public:
 		replace(string_t(search), string_t(replacement), str);
 	}
 
-	static void decodeUrl(const string& aUrl, string& protocol, string& host, uint16_t& port, string& path, string& query, string& fragment);
+	static void decodeUrl(const string& aUrl, string& protocol, string& host, string& port, string& path, string& query, string& fragment);
 	static map<string, string> decodeQuery(const string& query);
 	static string validateFileName(string aFile);
 	static string cleanPathChars(string aNick);
@@ -415,7 +415,10 @@ public:
 	static int stricmp(const wstring& a, const wstring& b) { return stricmp(a.c_str(), b.c_str()); }
 	static int strnicmp(const wstring& a, const wstring& b, size_t n) { return strnicmp(a.c_str(), b.c_str(), n); }
 
-	static string getIpCountry (string IP);
+	//static string getIpCountry (string IP);//TODO REMOVE
+	enum { V6 = 1 << 1, V4 = 1 << 2 };
+	static string getCountry(const string& ip, int flags = V6 | V4);
+	static string getCountryAB(const string& ip); //think about IPv6  here...
 
 	static bool getAway() { return away; }
 	static void setAway(bool aAway) {

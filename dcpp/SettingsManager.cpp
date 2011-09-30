@@ -36,7 +36,7 @@ StringList SettingsManager::connectionSpeeds;
 const string SettingsManager::settingTags[] =
 {
 	// Strings
-	"Nick", "UploadSpeed", "Description", "DownloadDirectory", "EMail", "ExternalIp",
+	"Nick", "UploadSpeed", "Description", "DownloadDirectory", "EMail", "ExternalIp", "ExternalIp6"
 	"Font", "ConnectionsOrder", "ConnectionsWidths", "HubFrameOrder", "HubFrameWidths",
 	"SearchFrameOrder", "SearchFrameWidths", "FavHubsFrameOrder", "FavHubsFrameWidths",
 	"HublistServers", "QueueFrameOrder", "QueueFrameWidths", "PublicHubsFrameOrder", "PublicHubsFrameWidths",
@@ -44,7 +44,7 @@ const string SettingsManager::settingTags[] =
 	"FinishedULFilesOrder", "FinishedULFilesWidths", "FinishedULUsersOrder", "FinishedULUsersWidths",
 	"UsersFrameOrder", "UsersFrameWidths", "HttpProxy", "LogDirectory", "LogFormatPostDownload",
 	"LogFormatPostUpload", "LogFormatMainChat", "LogFormatPrivateChat",
-	"TempDownloadDirectory", "BindAddress", "SocksServer", "SocksUser", "SocksPassword", "ConfigVersion",
+	"TempDownloadDirectory", "BindAddress", "BindAddress6" "SocksServer", "SocksUser", "SocksPassword", "ConfigVersion",
 	"DefaultAwayMessage", "TimeStampsFormat", "ADLSearchFrameOrder", "ADLSearchFrameWidths",
 	"CID", "SpyFrameWidths", "SpyFrameOrder", "LogFileMainChat",
 	"LogFilePrivateChat", "LogFileStatus", "LogFileUpload", "LogFileDownload", "LogFileSystem",
@@ -196,6 +196,7 @@ SettingsManager::SettingsManager()
 	setDefault(URL_HANDLER, false);
 	setDefault(AUTO_AWAY, false);
 	setDefault(BIND_ADDRESS, "0.0.0.0");
+	setDefault(BIND_ADDRESS6, "0:::0");
 	setDefault(SOCKS_PORT, 1080);
 	setDefault(SOCKS_RESOLVE, 1);
 	setDefault(CONFIG_VERSION, "0.181");		// 0.181 is the last version missing configversion

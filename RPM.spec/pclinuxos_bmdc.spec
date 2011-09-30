@@ -11,6 +11,7 @@ BuildRequires:	gtk+2-devel >= 2.6
 BuildRequires:	libglade2.0-devel >= 2.4
 BuildRequires:	bzip2-devel
 BuildRequires:	zlib-devel
+BuildRequires:  libgeoip-devel
 BuildRequires:	openssl-devel
 BuildRequires:	scons
 

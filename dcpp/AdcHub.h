@@ -31,7 +31,6 @@
 namespace dcpp {
 using std::unordered_map;	 
 
-
 class ClientManager;
 #ifdef _USELUA
 class AdcHub;
@@ -108,6 +107,8 @@ private:
 	static const string ADCS_FEATURE;
 	static const string TCP4_FEATURE;
 	static const string UDP4_FEATURE;
+	static const string TCP6_FEATURE;//ipv6
+	static const string UDP6_FEATURE;//ipv6
 	static const string NAT0_FEATURE;
 	static const string SEGA_FEATURE;
 	static const string BASE_SUPPORT;

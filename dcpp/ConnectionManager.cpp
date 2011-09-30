@@ -217,11 +217,10 @@ void ConnectionManager::on(TimerManagerListener::Minute, uint64_t aTick) throw()
 static const uint32_t FLOOD_TRIGGER = 20000;
 static const uint32_t FLOOD_ADD = 2000;
 
-ConnectionManager::Server::Server(bool secure_, uint16_t aPort, const string& ip_ /* = "0.0.0.0" */) : port(0), secure(secure_), die(false) {
-	sock.create();
+ConnectionManager::Server::Server(bool secure_, uint16_t aPort, const string& ip_ /* = "0.0.0.0" */) : port(0), secure(secure_), die(false),  sock(Socket::TYPE_TCP) {
+	sock.setLocalIp4(ip);
+	port = sock.listen(Util::toString(aPort));
 	ip = ip_;
-	port = sock.bind(aPort, ip);
-	sock.listen();
 
 	start();
 }
@@ -232,7 +231,8 @@ int ConnectionManager::Server::run() throw() {
 	while(!die) {
 		try {
 			while(!die) {
-				if(sock.wait(POLL_TIMEOUT, Socket::WAIT_READ) == Socket::WAIT_READ) {
+				auto ret = sock.wait(POLL_TIMEOUT, true, false);
+				if(ret.first) {
 					ConnectionManager::getInstance()->accept(sock, secure);
 				}
 			}
@@ -244,9 +244,7 @@ int ConnectionManager::Server::run() throw() {
 		while(!die) {
 			try {
 				sock.disconnect();
-				sock.create();
-				sock.bind(port, ip);
-				sock.listen();
+				port = sock.listen(Util::toString(port));
 				if(failed) {
 					LogManager::getInstance()->message(_("Connectivity restored"));
 					failed = false;
@@ -280,7 +278,7 @@ void ConnectionManager::accept(const Socket& sock, bool secure) throw() {
 		floodCounter = now + FLOOD_ADD;
 	} else {
 		if(false && now + FLOOD_TRIGGER < floodCounter) {
-			Socket s;
+			Socket s(Socket::TYPE_TCP);
 			try {
 				s.accept(sock);
 			} catch(const SocketException&) {
@@ -304,7 +302,7 @@ void ConnectionManager::accept(const Socket& sock, bool secure) throw() {
 	}
 }
 
-void ConnectionManager::nmdcConnect(const string& aServer, uint16_t aPort, const string& aNick, const string& hubUrl, const string& encoding) {
+void ConnectionManager::nmdcConnect(const string& aServer, string aPort, const string& aNick, const string& hubUrl, const string& encoding) {
 	if(shuttingDown)
 		return;
 
@@ -315,18 +313,18 @@ void ConnectionManager::nmdcConnect(const string& aServer, uint16_t aPort, const
 	uc->setState(UserConnection::STATE_CONNECT);
 	uc->setFlag(UserConnection::FLAG_NMDC);
 	try {
-		uc->connect(aServer, aPort, 0, BufferedSocket::NAT_NONE);
+		uc->connect(aServer, aPort, Util::emptyString, BufferedSocket::NAT_NONE);
 	} catch(const Exception&) {
 		putConnection(uc);
 		delete uc;
 	}
 }
 
-void ConnectionManager::adcConnect(const OnlineUser& aUser, uint16_t aPort, const string& aToken, bool secure) {
-	adcConnect(aUser, aPort, 0, BufferedSocket::NAT_NONE, aToken, secure);
+void ConnectionManager::adcConnect(const OnlineUser& aUser, string aPort, const string& aToken, bool secure) {
+	adcConnect(aUser, aPort, Util::emptyString , BufferedSocket::NAT_NONE, aToken, secure);
 }
 
-void ConnectionManager::adcConnect(const OnlineUser& aUser, uint16_t aPort, uint16_t localPort, BufferedSocket::NatRoles natRole, const string& aToken, bool secure) {
+void ConnectionManager::adcConnect(const OnlineUser& aUser, string aPort, string localPort, BufferedSocket::NatRoles natRole, const string& aToken, bool secure) {
 	if(shuttingDown)
 		return;
 

@@ -83,11 +83,11 @@ public:
 
 	bool isOp() const { return getMyIdentity().isOp(); }
 
-	uint16_t getPort() const { return port; }
+	string getPort() const { return port; }
 	const string& getAddress() const { return address; }
 
 	const string& getIp() const { return ip; }
-	string getIpPort() const { return getIp() + ':' + Util::toString(port); }
+	string getIpPort() const { return getIp() + ':' + port; }
 	string getLocalIp() const;
 
 	void updated(const OnlineUserPtr& aUser)  {
@@ -228,7 +228,7 @@ private:
 	string address;
 	string ip;
 	string localIp;
-	uint16_t port;
+	string port;
 	char separator;
 	bool secure;
 	CountType countType;

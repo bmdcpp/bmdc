@@ -147,7 +147,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("use-dns", 0));
 	defaultInt.insert(IntMap::value_type("only-fav", 0));
 	defaultInt.insert(IntMap::value_type("log-messages", 0));
-///core 0.762]
+	defaultInt.insert(IntMap::value_type("use-cc-name-ab", 1));
 	/**/
 	defaultString.insert(StringMap::value_type("magnet-choose-dir", SETTING(DOWNLOAD_DIRECTORY)));
 	defaultString.insert(StringMap::value_type("downloadqueue-order", ""));
@@ -341,7 +341,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("userlist-text-favorite", "#ff0000"));
 	defaultString.insert(StringMap::value_type("userlist-text-ignored", "#9affaf"));
 	defaultString.insert(StringMap::value_type("userlist-text-normal", "#000000"));
-
+	
 	load();
 }
 

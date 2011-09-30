@@ -196,7 +196,7 @@ private:
 
 	friend class Singleton<ClientManager>;
 
-	ClientManager() {
+	ClientManager() : udp(Socket::TYPE_UDP) {
 		TimerManager::getInstance()->addListener(this);
 	}
 

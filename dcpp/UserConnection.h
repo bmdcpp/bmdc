@@ -152,7 +152,7 @@ public:
 	void setDataMode(int64_t aBytes = -1) { dcassert(socket); socket->setDataMode(aBytes); }
 	void setLineMode(size_t rollback) { dcassert(socket); socket->setLineMode(rollback); }
 
-	void connect(const string& aServer, uint16_t aPort, uint16_t localPort, const BufferedSocket::NatRoles natRole) throw(SocketException, ThreadException);
+	void connect(const string& aServer, string aPort, string localPort, const BufferedSocket::NatRoles natRole) throw(SocketException, ThreadException);
 	void accept(const Socket& aServer) throw(SocketException, ThreadException);
 
 	void updated() { if(socket) socket->updated(); }
@@ -172,6 +172,7 @@ public:
 	bool isSecure() const { return socket && socket->isSecure(); }
 	bool isTrusted() const { return socket && socket->isTrusted(); }
 	std::string getCipherName() const { return socket ? socket->getCipherName() : Util::emptyString; }
+	const string getPort() const { if(socket) return socket->getPort(); else return 0; }
 	
 	vector<uint8_t> getKeyprint() const { return socket ? socket->getKeyprint() : vector<uint8_t>(); }
 

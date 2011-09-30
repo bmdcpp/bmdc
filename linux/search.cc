@@ -625,7 +625,7 @@ void Search::addResult_gui(const SearchResultPtr result)
 	}
 
 
-		string country((!(resultMap["IP"].empty())) ? Util::getIpCountry(resultMap["IP"]).c_str() : string("").c_str());//Country from IP
+		string country((!(resultMap["IP"].empty())) ? Util::getCountry(resultMap["IP"]).c_str() : string("").c_str());//Country from IP
 		GdkPixbuf *buf = WulforUtil::loadCountry(resultMap["CC"]);
 	// Have to use insert with values since appending would cause searchFilterFunc to be
 	// called with empty row which in turn will cause assert failure in treeview::getString
@@ -1717,7 +1717,7 @@ void Search::parseSearchResult_gui(SearchResultPtr result, StringMap &resultMap)
 	else
 		resultMap["SeColor"] = dcpp::ShareManager::getInstance()->isTTHShared(result->getTTH()) ? "#1E90FF" : "black";
 
-	resultMap["CC"] = Util::getIpCountry(result->getIP());
+	resultMap["CC"] = Util::getCountryAB(result->getIP());
 }
 
 void Search::download_client(string target, string cid, string filename, int64_t size, string tth, string hubUrl)

@@ -71,8 +71,8 @@ void HttpConnection::downloadFile(const string& aUrl) {
 
 	}
 
-	if(port == 0)
-		port = 80;
+	if(port.empty())
+		port = "80";
 
 	if(!socket) {
 		socket = BufferedSocket::getSocket(0x0a);
@@ -93,7 +93,7 @@ void HttpConnection::on(BufferedSocketListener::Connected) throw() {
 	string sRemoteServer = server;
 	if(!SETTING(HTTP_PROXY).empty())
 	{
-		 uint16_t tport;
+		 string tport;
 		 string tfile, proto, query, fragment;
 		 Util::decodeUrl(file, proto, sRemoteServer, tport, tfile, query, fragment);
 	}
@@ -141,8 +141,8 @@ void HttpConnection::on(BufferedSocketListener::Line, const string& aLine) throw
 				Util::decodeUrl(currentUrl, proto, server, port, file, query, fragment);
 				//Util::decodeUrl(currentUrl, server, port, file);
 				string tmp = "http://" + server;
-				if(port != 80)
-					tmp += ':' + Util::toString(port);
+				if(port != "80")
+					tmp += ':' + port;
 				location302 = tmp + location302;
 			} else {
 				string::size_type i = currentUrl.rfind('/');

@@ -49,6 +49,7 @@
 #include <dcpp/QueueManager.h>
 #include <dcpp/RsxUtil.h>
 #include <dcpp/HubUsersMap.h>
+#include <dcpp/GeoIP.h>
 
 
 using namespace std;
@@ -396,8 +397,6 @@ void Hub::setStatus_gui(string statusBar, string text)
 	{
 		if (statusBar == "statusMain")
 		{
-				//tooltipcount++;
-
 			if(statustext.size() > maxtooltip)
 			{
 					statustext.pop();
@@ -462,7 +461,7 @@ void Hub::updateUser_gui(ParamMap params)
 	bool protect = userProtect.find(cid) != userProtect.end();
 	/* Country */
 	#ifndef _DEBUG
-		string country((!(params["IP"].empty())) ? Util::getIpCountry(params["IP"]).c_str() : string("").c_str());//Country from IP
+		string country((!(params["IP"].empty())) ? Util::getCountryAB(params["IP"]).c_str() : string("").c_str());//Country from IP
 	#else
 		string country("CZ");
 	#endif
@@ -507,7 +506,6 @@ void Hub::updateUser_gui(ParamMap params)
 		}
 
 		//Color of OP,Pasive, Fav, Ignore, Protect
-		//string nickColor = (protect ? "#8B6914":(isOP ? "#1E90FF" : (isPasive ? "#747677" :(favorite ? "#ff0000" : (isIgnore? "#9affaf" :"#000000")))));
 		string nickColor = (protect ? WGETS("userlist-text-protected") :(isOP ? WGETS("userlist-text-operator") : (isPasive ? WGETS("userlist-text-pasive") :(favorite ? WGETS("userlist-text-favorite") : ( isIgnore ? WGETS("userlist-text-ignored") : WGETS("userlist-text-normal"))))));
 
 		gtk_list_store_set(nickStore, &iter,
@@ -542,7 +540,6 @@ void Hub::updateUser_gui(ParamMap params)
 		userMap.insert(UserMap::value_type(Nick, cid));
 
 		//color of Op, Pasive...
-		//string nickColor = (protect? "#8B6914":(isOP ? "#1E90FF" : (isPasive ? "#747677" :(favorite ? "#ff0000" : (isIgnore? "#9affaf" : "#000000")))));
 		string nickColor = (protect ? WGETS("userlist-text-protected") :(isOP ? WGETS("userlist-text-operator") : (isPasive ? WGETS("userlist-text-pasive") :(favorite ? WGETS("userlist-text-favorite") : ( isIgnore ? WGETS("userlist-text-ignored") : WGETS("userlist-text-normal"))))));
 
 		gtk_list_store_insert_with_values(nickStore, &iter, userMap.size(),
@@ -2173,7 +2170,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			#endif
 			"/uptime \t\t\t\t\t\t -  " 	+ _("Show Client Uptime") + "\n" +
 			"/df [mc] \t\t\t\t -  "		+ _("Show Free space (mainchat)") + "\n" +
-			"/w ,/auda, /kaff, /amar\t"	+ _("Media Spam") + "\n" +
+			"/w ,/auda, /kaff, /amar /vlc\t"	+ _("Media Spam") + "\n" +
 			"/stats \t\t\t\t - " 		+ _("Stats Clients") + "\n" +
 			"/exec \t\t\t\t  - " 		+ _("Execute code (bash)") + "\n" +
 			"/slots [n]\t\t\t\t"		+ _("Set Uploads slots") + "\n" +
@@ -2356,67 +2353,7 @@ void Hub::onNickToChat_gui(GtkMenuItem *item, gpointer data)
 		}
 	}
 }
-/*
-void Hub::onCopyNickItemClicked_gui(GtkMenuItem *item, gpointer data)
-{
-	Hub *hub = (Hub *)data;
 
-	if (gtk_tree_selection_count_selected_rows(hub->nickSelection) > 0)
-	{
-		string nicks;
-		GtkTreeIter iter;
-		GtkTreePath *path;
-		GList *list = gtk_tree_selection_get_selected_rows(hub->nickSelection, NULL);
-
-		for (GList *i = list; i; i = i->next)
-		{
-			path = (GtkTreePath *)i->data;
-			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(hub->nickStore), &iter, path))
-			{
-				nicks += hub->nickView.getString(&iter, N_("Nick")) + ' ';
-			}
-			gtk_tree_path_free(path);
-		}
-		g_list_free(list);
-
-		if (!nicks.empty())
-		{
-			nicks.erase(nicks.length() - 1);
-			gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), nicks.c_str(), nicks.length());
-		}
-	}
-}*/
-//NOTE:Patched is this used ?
-/*void Hub::onCopyTag_gui(GtkMenuItem *item, gpointer data)
-{
-	Hub *hub = (Hub *)data;
-
-	if (gtk_tree_selection_count_selected_rows(hub->nickSelection) > 0)
-	{
-		string nicks;
-		GtkTreeIter iter;
-		GtkTreePath *path;
-		GList *list = gtk_tree_selection_get_selected_rows(hub->nickSelection, NULL);
-
-		for (GList *i = list; i; i = i->next)
-		{
-			path = (GtkTreePath *)i->data;
-			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(hub->nickStore), &iter, path))
-			{
-				nicks += hub->nickView.getString(&iter, _("Tag")) + ' ';
-			}
-			gtk_tree_path_free(path);
-		}
-		g_list_free(list);
-
-		if (!nicks.empty())
-		{
-			nicks.erase(nicks.length() - 1);
-			gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), nicks.c_str(), nicks.length());
-		}
-	}
-}
-*/
 void Hub::onUserInfo_gui(GtkMenuItem *item, gpointer data)
 {
 	Hub *hub = (Hub *)data;
@@ -2978,7 +2915,7 @@ void Hub::addFavoriteUser_gui(ParamMap params)
 		{
 			gtk_list_store_set(nickStore, &iter,
 				nickView.col("Favorite"), ("f" + params["Order"] + nick).c_str(),
-				nickView.col("NickColor"), /*"#ff0000"*/WGETS("userlist-text-favorite").c_str(),
+				nickView.col("NickColor"), WGETS("userlist-text-favorite").c_str(),
 				-1);
 			removeTag_gui(nick);
 		}
@@ -3005,7 +2942,7 @@ void Hub::removeFavoriteUser_gui(ParamMap params)
 			string nickOrder = nickView.getString(&iter, "Nick Order");
 			gtk_list_store_set(nickStore, &iter,
 				nickView.col("Favorite"), nickOrder.c_str(),
-				nickView.col("NickColor"), WGETS("userlist-text-normal").c_str()/*"#000000"*/,
+				nickView.col("NickColor"), WGETS("userlist-text-normal").c_str(),
 				-1);
 			removeTag_gui(nick);
 		}
@@ -3029,7 +2966,7 @@ void Hub::addOp(ParamMap params)
 		if( findUser_gui(cid, &iter))
 		{
 			gtk_list_store_set(nickStore,&iter,
-					nickView.col("NickColor"),/*"#1E90FF"*/WGETS("userlist-text-operator").c_str(),
+					nickView.col("NickColor"),WGETS("userlist-text-operator").c_str(),
 					-1);
 			removeTag_gui(nick);
 		}
@@ -3049,7 +2986,7 @@ void Hub::addPasive(ParamMap params)
 		if( findUser_gui(cid, &iter))
 		{
 			gtk_list_store_set(nickStore,&iter,
-					nickView.col("NickColor"),/*"#747677"*/WGETS("userlist-text-pasive").c_str(),
+					nickView.col("NickColor"),WGETS("userlist-text-pasive").c_str(),
 					-1);
 			removeTag_gui(nick);
 		}
@@ -3070,7 +3007,7 @@ void Hub::addIgnore(ParamMap params)
 		if( findUser_gui(cid, &iter))
 		{
 			gtk_list_store_set(nickStore,&iter,
-					nickView.col("NickColor"),/*"#9affaf"*/WGETS("userlist-text-ignored").c_str(),
+					nickView.col("NickColor"),WGETS("userlist-text-ignored").c_str(),
 					-1);
 			removeTag_gui(nick);
 		}
@@ -3108,7 +3045,7 @@ void Hub::delOp(ParamMap params)
 		if(findUser_gui(cid,&iter))
 		{
 			gtk_list_store_set(nickStore, &iter,
-				nickView.col("NickColor"), /*"#000000"*/WGETS("userlist-text-normal").c_str(),
+				nickView.col("NickColor"), WGETS("userlist-text-normal").c_str(),
 				-1);
 			removeTag_gui(nick);
 		}
@@ -3128,7 +3065,7 @@ void Hub::delPasive(ParamMap params)
 		if(findUser_gui(cid,&iter))
 		{
 			gtk_list_store_set(nickStore, &iter,
-				nickView.col("NickColor"), /*"#000000"*/WGETS("userlist-text-normal").c_str(),
+				nickView.col("NickColor"), WGETS("userlist-text-normal").c_str(),
 				-1);
 			removeTag_gui(nick);
 		}
@@ -3147,7 +3084,7 @@ void Hub::delIgnore(ParamMap params)
 		if(findUser_gui(cid,&iter))
 		{
 			gtk_list_store_set(nickStore, &iter,
-				nickView.col("NickColor"), /*"#000000"*/WGETS("userlist-text-normal").c_str(),
+				nickView.col("NickColor"), WGETS("userlist-text-normal").c_str(),
 				-1);
 			removeTag_gui(nick);
 		}
@@ -3469,9 +3406,9 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 	params.insert(ParamMap::value_type("Slots", id.get("SL"))); //Slots
 	
 	#ifndef _DEBUG
-        params.insert(ParamMap::value_type("Country", Util::getIpCountry(id.getIp())));
+        params.insert(ParamMap::value_type("Country", Util::getCountryAB(id.getIp())));
 	#else
-        params.insert(ParamMap::value_type("Country", Util::getIpCountry("0.0.0.0")));
+        params.insert(ParamMap::value_type("Country", Util::getCountryAB("0.0.0.0")));
 	#endif
 	//add
 //	params.insert(ParamMap::value_type("Version", id.get("VE")));
@@ -3766,7 +3703,7 @@ void Hub::on(ClientListener::HubUpdated, Client *) throw()
 	string hubName = "";
 
 	if (client->getHubName().empty())
-		hubName += client->getAddress() + ":" + Util::toString(client->getPort());
+		hubName += client->getAddress() + ":" + client->getPort();
 	else
 		hubName += client->getHubName();
 
@@ -3782,10 +3719,12 @@ string Hub::formatAdditionalInfo(const string& aIp, bool sIp, bool sCC, bool isP
 	string ret = Util::emptyString;
 
 	if(!aIp.empty()) {
-		string cc = Util::getIpCountry(aIp);
+		string cc = Util::getCountryAB(aIp);
+		string countryn = Util::getCountry(aIp);
 		bool showIp = BOOLSETTING(USE_IP) || sIp;
 		bool showCc = (BOOLSETTING(USE_COUNTRY) || sCC) && !cc.empty();
 		bool useFlagIcons = (WGETB("use-flag") && !isPm && !cc.empty());
+		bool showNameandCC = (WGETB("use-cc-name-ab") && !countryn.empty());
 
 		if(showIp) {
 			ret = "[ " + aIp + " ] ";
@@ -3795,6 +3734,9 @@ string Hub::formatAdditionalInfo(const string& aIp, bool sIp, bool sCC, bool isP
 			ret += "[" + cc + "] ";
 		}
 		
+		if(showNameandCC && !showCc)	{
+			ret += "[" + countryn + "] ";	
+		}
 		if(useFlagIcons) {
 			ret += " [ccc]" + cc + "[/ccc] ";
 		}

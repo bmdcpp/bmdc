@@ -65,8 +65,8 @@ public:
 	}
 
 	void accept(const Socket& srv, bool secure, bool allowUntrusted) throw(SocketException);
-	void connect(const string& aAddress, uint16_t aPort, bool secure, bool allowUntrusted, bool proxy) throw(SocketException);
-	void connect(const string& aAddress, uint16_t aPort, uint16_t localPort, NatRoles natRole, bool secure, bool allowUntrusted, bool proxy) throw(SocketException);
+	void connect(const string& aAddress, string aPort, bool secure, bool allowUntrusted, bool proxy) throw(SocketException);
+	void connect(const string& aAddress, string aPort, string localPort, NatRoles natRole, bool secure, bool allowUntrusted, bool proxy) throw(SocketException);
 
 	/** Sets data mode for aBytes bytes. Must be called within onLine. */
 	void setDataMode(int64_t aBytes = -1) { mode = MODE_DATA; dataBytes = aBytes; }
@@ -79,7 +79,8 @@ public:
 	void setMode(Modes mode, size_t aRollback = 0);
 	Modes getMode() const { return mode; }
 	const string& getIp() const { return sock->getIp(); }
-	bool isConnected() const { return sock->isConnected(); }
+	//bool isConnected() const { return sock->isConnected(); }
+	const string getPort() const { return sock->getPort(); }
 
 	bool isSecure() const { return sock->isSecure(); }
 	bool isTrusted() const { return sock->isTrusted(); }
@@ -121,10 +122,10 @@ private:
 		virtual ~TaskData() { }
 	};
 	struct ConnectInfo : public TaskData {
-		ConnectInfo(string addr_, uint16_t port_, uint16_t localPort_, NatRoles natRole_, bool proxy_) : addr(addr_), port(port_), localPort(localPort_), natRole(natRole_), proxy(proxy_) { }
+		ConnectInfo(string addr_, string port_, string localPort_, NatRoles natRole_, bool proxy_) : addr(addr_), port(port_), localPort(localPort_), natRole(natRole_), proxy(proxy_) { }
 		string addr;
-		uint16_t port;
-		uint16_t localPort;
+		string port;
+		string localPort;
 		NatRoles natRole;
 		bool proxy;
 	};
@@ -151,13 +152,13 @@ private:
 	ByteVector writeBuf;
 	ByteVector sendBuf;
 
-	std::auto_ptr<Socket> sock;
+	std::unique_ptr<Socket> sock;
 	State state;
 	bool disconnecting;
 
 	virtual int run();
 
-	void threadConnect(const string& aAddr, uint16_t aPort, uint16_t localPort, NatRoles natRole, bool proxy) throw(SocketException);
+	void threadConnect(const string& aAddr, string aPort, string localPort, NatRoles natRole, bool proxy) throw(SocketException);
 	void threadAccept() throw(SocketException);
 	void threadRead() throw(Exception);
 	void threadSendFile(InputStream* is) throw(Exception);
@@ -170,7 +171,8 @@ private:
 	bool checkEvents() throw(Exception);
 	void checkSocket() throw(Exception);
 
-	void setSocket(std::auto_ptr<Socket> s);
+	void setSocket(std::unique_ptr<Socket> s);
+	void setOptions();
 	void shutdown();
 	void addTask(Tasks task, TaskData* data);
 };

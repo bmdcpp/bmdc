@@ -24,13 +24,10 @@
 
 namespace dcpp {
 
-void ServerSocket::listen(uint16_t aPort) throw(SocketException) {
+void ServerSocket::listen(uint16_t aPort)  {
 	socket.disconnect();
-	socket.create(Socket::TYPE_TCP);
-	// Set reuse address option...
-	socket.setSocketOpt(SO_REUSEADDR, 1);
-	socket.bind(aPort, SETTING(BIND_ADDRESS));
-	socket.listen();
+	socket.setLocalIp4(SETTING(BIND_ADDRESS));
+    port = socket.listen(Util::toString(aPort));
 }
 
 } // namespace dcpp

@@ -1632,60 +1632,6 @@
                               </packing>
                             </child>
                             <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
                               <widget class="GtkEntry" id="entryIpExt">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
@@ -1696,6 +1642,80 @@
                                 <property name="right_attach">2</property>
                                 <property name="top_attach">5</property>
                                 <property name="bottom_attach">6</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <widget class="GtkEntry" id="entryipv6">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="invisible_char">●</property>
+                              </widget>
+                              <packing>
+                                <property name="left_attach">3</property>
+                                <property name="right_attach">4</property>
+                                <property name="top_attach">5</property>
+                                <property name="bottom_attach">6</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkLabel" id="label74">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">External/WAN IPv6</property>
+                              </widget>
+                              <packing>
+                                <property name="left_attach">3</property>
+                                <property name="right_attach">4</property>
+                                <property name="top_attach">4</property>
+                                <property name="bottom_attach">5</property>
                               </packing>
                             </child>
                           </widget>
@@ -6628,7 +6648,7 @@ default</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="position">1</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
@@ -6641,7 +6661,7 @@ default</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="position">2</property>
+                                <property name="position">1</property>
                               </packing>
                             </child>
                             <child>
@@ -6654,7 +6674,7 @@ default</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="position">3</property>
+                                <property name="position">2</property>
                               </packing>
                             </child>
                             <child>
@@ -6667,7 +6687,7 @@ default</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="position">4</property>
+                                <property name="position">3</property>
                               </packing>
                             </child>
                             <child>
@@ -6680,8 +6700,11 @@ default</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="position">5</property>
+                                <property name="position">4</property>
                               </packing>
+                            </child>
+                            <child>
+                              <placeholder/>
                             </child>
                           </widget>
                           <packing>
@@ -6707,7 +6730,7 @@ default</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="position">1</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
@@ -6721,7 +6744,7 @@ default</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="position">2</property>
+                                <property name="position">1</property>
                               </packing>
                             </child>
                             <child>
@@ -6735,7 +6758,7 @@ default</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="position">3</property>
+                                <property name="position">2</property>
                               </packing>
                             </child>
                             <child>
@@ -6749,7 +6772,7 @@ default</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="position">4</property>
+                                <property name="position">3</property>
                               </packing>
                             </child>
                             <child>
@@ -6760,8 +6783,11 @@ default</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="position">5</property>
+                                <property name="position">4</property>
                               </packing>
+                            </child>
+                            <child>
+                              <placeholder/>
                             </child>
                           </widget>
                           <packing>
@@ -6786,7 +6812,7 @@ default</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="position">1</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
@@ -6797,7 +6823,7 @@ default</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="position">2</property>
+                                <property name="position">1</property>
                               </packing>
                             </child>
                             <child>
@@ -6810,7 +6836,7 @@ default</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="position">3</property>
+                                <property name="position">2</property>
                               </packing>
                             </child>
                             <child>
@@ -6823,8 +6849,11 @@ default</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="position">4</property>
+                                <property name="position">3</property>
                               </packing>
+                            </child>
+                            <child>
+                              <placeholder/>
                             </child>
                             <child>
                               <widget class="GtkLabel" id="label209">
@@ -6928,6 +6957,18 @@ default</property>
                                 <property name="position">5</property>
                               </packing>
                             </child>
+                            <child>
+                              <widget class="GtkLabel" id="label73">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Bind6 address</property>
+                              </widget>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">6</property>
+                              </packing>
+                            </child>
                           </widget>
                           <packing>
                             <property name="expand">True</property>
@@ -7020,6 +7061,18 @@ default</property>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
                                 <property name="position">5</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkEntry" id="bind6AddressEntry">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="invisible_char">●</property>
+                              </widget>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">6</property>
                               </packing>
                             </child>
                           </widget>

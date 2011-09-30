@@ -101,9 +101,9 @@ public:
 		expectedConnections.add(aNick, aMyNick, aHubUrl);
 	}
 
-	void nmdcConnect(const string& aServer, uint16_t aPort, const string& aMyNick, const string& hubUrl, const string& encoding);
-	void adcConnect(const OnlineUser& aUser, uint16_t aPort, const string& aToken, bool secure);
-	void adcConnect(const OnlineUser& aUser, uint16_t aPort, uint16_t localPort, BufferedSocket::NatRoles natRole, const string& aToken, bool secure);
+	void nmdcConnect(const string& aServer, string aPort, const string& aMyNick, const string& hubUrl, const string& encoding);
+	void adcConnect(const OnlineUser& aUser, string aPort, const string& aToken, bool secure);
+	void adcConnect(const OnlineUser& aUser, string aPort, string localPort, BufferedSocket::NatRoles natRole, const string& aToken, bool secure);
 
 	void getDownloadConnection(const HintedUser& aUser);
 	void force(const UserPtr& aUser);
@@ -123,7 +123,7 @@ private:
 
 	class Server : public Thread {
 	public:
-		Server(bool secure_, uint16_t port, const string& ip = "0.0.0.0");
+		Server(bool secure_, uint16_t port, const string& ip);
 		uint16_t getPort() { return port; }
 		virtual ~Server() { die = true; join(); }
 	private:

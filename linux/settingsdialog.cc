@@ -271,6 +271,8 @@ void Settings::saveSettings_client()
 			sm->set(SettingsManager::INCOMING_CONNECTIONS, SettingsManager::INCOMING_FIREWALL_PASSIVE);
 
 		sm->set(SettingsManager::EXTERNAL_IP, gtk_entry_get_text(GTK_ENTRY(getWidget("entryIpExt"))));//ipEntry
+		sm->set(SettingsManager::EXTERNAL_IP6, gtk_entry_get_text(GTK_ENTRY(getWidget("entryipv6"))));//ipEntry
+		
 		sm->set(SettingsManager::NO_IP_OVERRIDE, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("forceIPCheckButton"))));
 
 		int port = Util::toInt(gtk_entry_get_text(GTK_ENTRY(getWidget("tcpEntry"))));
@@ -527,6 +529,7 @@ void Settings::saveSettings_client()
 		sm->set(SettingsManager::AUTO_REFRESH_TIME, Util::toString (gtk_spin_button_get_value(GTK_SPIN_BUTTON(getWidget("autoRefreshSpinButton")))));
 		sm->set(SettingsManager::SEARCH_HISTORY, Util::toString (gtk_spin_button_get_value(GTK_SPIN_BUTTON(getWidget("searchHistorySpinButton")))));
 		sm->set(SettingsManager::BIND_ADDRESS, string(gtk_entry_get_text(GTK_ENTRY(getWidget("bindAddressEntry")))));
+		sm->set(SettingsManager::BIND_ADDRESS6, string(gtk_entry_get_text(GTK_ENTRY(getWidget("bind6AddressEntry")))));
 		sm->set(SettingsManager::SOCKET_IN_BUFFER, Util::toString(gtk_spin_button_get_value(GTK_SPIN_BUTTON(getWidget("socketReadSpinButton")))));
 		sm->set(SettingsManager::SOCKET_OUT_BUFFER, Util::toString(gtk_spin_button_get_value(GTK_SPIN_BUTTON(getWidget("socketWriteSpinButton")))));
 		// Security Certificates
@@ -810,6 +813,7 @@ void Settings::initConnection_gui()
 	g_signal_connect(getWidget("portForwardRadioButton"), "toggled", G_CALLBACK(onInFW_NAT_gui), (gpointer)this);
 	g_signal_connect(getWidget("passiveRadioButton"), "toggled", G_CALLBACK(onInPassive_gui), (gpointer)this);
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entryIpExt")), SETTING(EXTERNAL_IP).c_str());//ipEntry
+	gtk_entry_set_text(GTK_ENTRY(getWidget("entryipv6")), SETTING(EXTERNAL_IP6).c_str());//ipEntry
 
 	// Fill IP address combo box
 	//vector<string> addresses = WulforUtil::getLocalIPs();
@@ -1038,16 +1042,17 @@ void Settings::initAppearance_gui()
 		addOption_gui(appearanceStore, _("Use emoticons"), "emoticons-use");
 		addOption_gui(appearanceStore, _("Do not close the program, hide in the system tray"), "main-window-no-close");
 		addOption_gui(appearanceStore, _("Send PM when double clicked in the user list"), "pm");
-		addOption_gui(appearanceStore, _("Show CC in chat"), SettingsManager::USE_COUNTRY);
+		addOption_gui(appearanceStore, _("Show Country in chat"), SettingsManager::USE_COUNTRY);
 		addOption_gui(appearanceStore, _("Show IP in chat"), SettingsManager::USE_IP);
+		addOption_gui(appearanceStore, _("Show Country and Abrevation of it in chat"), "use-cc-name-ab");
 		addOption_gui(appearanceStore, _("Show Free Slots in Desc"), SettingsManager::SHOW_FREE_SLOTS_DESC);
 		addOption_gui(appearanceStore, _("Use Higliting"), "use-highliting");
 		addOption_gui(appearanceStore, _("Show Close Icon in Tab"), "show-close-butt");
-		addOption_gui(appearanceStore, _("Show send /commnads in status message"),"show-commnads");
+		addOption_gui(appearanceStore, _("Show send /commnads in status message"), "show-commnads");
 		addOption_gui(appearanceStore, _("Show Flags in main chat"), "use-flag");
 		addOption_gui(appearanceStore, _("Use DNS in Transfers"), "use-dns");
 		addOption_gui(appearanceStore, _("Only FavUsers PM"), "only-fav");
-		addOption_gui(appearanceStore, _("Log Ignored Messages as STATUS mess"),"log-messages");
+		addOption_gui(appearanceStore, _("Log Ignored Messages as STATUS mess"), "log-messages");
 		addOption_gui(appearanceStore, _("Enable Lua debug messages"), SettingsManager::ENB_LUA_DEBUG); 
 
 		/// @todo: Uncomment when implemented
@@ -1739,6 +1744,7 @@ void Settings::initAdvanced_gui()
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("autoRefreshSpinButton")), (double)SETTING(AUTO_REFRESH_TIME));
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("searchHistorySpinButton")), (double)SETTING(SEARCH_HISTORY));
 		gtk_entry_set_text(GTK_ENTRY(getWidget("bindAddressEntry")), SETTING(BIND_ADDRESS).c_str());
+		gtk_entry_set_text(GTK_ENTRY(getWidget("bind6AddressEntry")), SETTING(BIND_ADDRESS6).c_str());
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("socketReadSpinButton")), (double)SETTING(SOCKET_IN_BUFFER));
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("socketWriteSpinButton")), (double)SETTING(SOCKET_OUT_BUFFER));
 	}

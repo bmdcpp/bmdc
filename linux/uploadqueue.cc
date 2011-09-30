@@ -133,7 +133,8 @@ void UploadQueue::removeUser(string cid)
 	if(it != mapUsers.end())
 	{
 		iter = it->second;
-		gtk_list_store_remove(store,&iter);		
+		gtk_list_store_remove(store,&iter);	
+		mapUsers.erase(it);	
 
 	}
 }

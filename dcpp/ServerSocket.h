@@ -35,9 +35,10 @@ public:
 
 class ServerSocket : public Speaker<ServerSocketListener> {
 public:
-	ServerSocket() throw() { }
+	ServerSocket(): socket(Socket::TYPE_TCP) { }
+	~ServerSocket() throw();
 
-	void listen(uint16_t port) throw(SocketException);
+	void listen(uint16_t aPort);
 	void disconnect() throw() { socket.disconnect(); }
 
 	/** This is called by windows whenever an "FD_ACCEPT" is sent...doesn't work with unix... */
@@ -53,6 +54,7 @@ private:
 	friend class Socket;
 
 	Socket socket;
+	string port;
 };
 
 } // namespace dcpp

@@ -18,10 +18,11 @@ LIB_UPNP = 'libminiupnpc'
 BUILD_PATH = '#/build/'
 BUILD_LOCALE_PATH = BUILD_PATH + 'locale/'
 LIB_IS_UPNP = True
+LIB_IS_GEO = False
 
 # todo: remove -fpermissive and fix the errors
 BUILD_FLAGS = {
-	'common'  : ['-I#','-fpermissive','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib'],#fix for oneiric
+	'common'  : ['-I#','-fpermissive','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib'],#fix maybe for oneiric
 	'debug'   : ['-g', '-ggdb', '-Wall', '-D_DEBUG'], 
 	'release' : ['-O3', '-fomit-frame-pointer', '-DNDEBUG']
 }
@@ -297,7 +298,13 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	# MiniUPnPc for UPnP
 	if not conf.CheckLib('libminiupnpc'):
 		LIB_IS_UPNP = False
-
+	
+		
+	if conf.CheckHeader('GeoIP.h'):	
+		print 'Found GeoIP headers'
+		conf.env.Append(CPPDEFINES = 'HAVE_GEOIPLIB')
+		LIB_IS_GEO = True
+		
 	#	conf.CheckBZRRevision()
 	env = conf.Finish()
 
@@ -327,6 +334,11 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		conf.env.Append(CPPDEFINES = ('ICONV_CONST', 'const'))
 		env.Append(LIBS = ['socket', 'nsl'])
 		
+	if LIB_IS_GEO:
+		env.Append(LINKFLAGS = '-lGeoIP')
+		env.Append(LIBS = 'GeoIP')
+		
+	
 	#LUA
 	if conf.env.get('liblua'):
 		if env['HAVE_LUA_H_B'] == 0:
@@ -342,7 +354,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 			env.ParseConfig('pkg-config --cflags libgnome-2.0')
 			env.ParseConfig('pkg-config --libs libgnome-2.0')
 			conf.env.Append(CPPDEFINES = '-D_HAVEGNOME')
-
+	
 	if env.get('profile'):
 		env.Append(CXXFLAGS = '-pg')
 		env.Append(LINKFLAGS= '-pg')

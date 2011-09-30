@@ -47,6 +47,8 @@ const string AdcHub::SECURE_CLIENT_PROTOCOL_TEST("ADCS/0.10");
 const string AdcHub::ADCS_FEATURE("ADC0");
 const string AdcHub::TCP4_FEATURE("TCP4");
 const string AdcHub::UDP4_FEATURE("UDP4");
+const string AdcHub::TCP6_FEATURE("TCP6");
+const string AdcHub::UDP6_FEATURE("UDP6");
 const string AdcHub::NAT0_FEATURE("NAT0");
 const string AdcHub::SEGA_FEATURE("SEGA");
 const string AdcHub::BASE_SUPPORT("ADBASE");
@@ -58,7 +60,7 @@ const string AdcHub::ZLIF_SUPPORT("ADZLIF");
 
 const vector<StringList> AdcHub::searchExts;
 
-AdcHub::AdcHub(const string& aHubURL, bool secure) : Client(aHubURL, '\n', secure), oldPassword(false), sid(0) {
+AdcHub::AdcHub(const string& aHubURL, bool secure) : Client(aHubURL, '\n', secure), oldPassword(false), sid(0), udp(Socket::TYPE_UDP) {//ipv6
 	TimerManager::getInstance()->addListener(this);
 }
 
@@ -370,7 +372,7 @@ void AdcHub::handle(AdcCommand::CTM, AdcCommand& c) throw() {
 		return;
 	}
 
-	ConnectionManager::getInstance()->adcConnect(*u, static_cast<uint16_t>(Util::toInt(port)), token, secure);
+	ConnectionManager::getInstance()->adcConnect(*u, port, token, secure);
 }
 
 void AdcHub::handle(AdcCommand::RCM, AdcCommand& c) throw() {
@@ -440,7 +442,7 @@ void AdcHub::handle(AdcCommand::CMD, AdcCommand& c) throw() {
 void AdcHub::sendUDP(const AdcCommand& cmd) throw() {
 	string command;
 	string ip;
-	uint16_t port;
+	string port;
 	{
 		Lock l(cs);
 		SIDMap::const_iterator i = users.find(cmd.getTo());
@@ -453,7 +455,7 @@ void AdcHub::sendUDP(const AdcCommand& cmd) throw() {
 			return;
 		}
 		ip = ou.getIdentity().getIp();
-		port = static_cast<uint16_t>(Util::toInt(ou.getIdentity().getUdpPort()));
+		port = ou.getIdentity().getUdpPort();
 		command = cmd.toString(ou.getUser()->getCID());
 	}
 	try {
@@ -608,7 +610,6 @@ void AdcHub::handle(AdcCommand::NAT, AdcCommand& c) throw() {
 	const string& port = c.getParam(1);
 	const string& token = c.getParam(2);
 
-	// bool secure = secureAvail(c.getFrom(), protocol, token);
 	bool secure = false;
 	if(protocol == CLIENT_PROTOCOL) {
 		// Nothing special
@@ -618,14 +619,14 @@ void AdcHub::handle(AdcCommand::NAT, AdcCommand& c) throw() {
 		unknownProtocol(c.getFrom(), protocol, token);
 		return;
 	}
-
+	auto localPort = Util::toString(sock->getLocalPort());
 	// Trigger connection attempt sequence locally ...
 	dcdebug("triggering connecting attempt in NAT: remote port = %s, local IP = %s, local port = %d\n", port.c_str(), sock->getLocalIp().c_str(), sock->getLocalPort());
-	ConnectionManager::getInstance()->adcConnect(*u, static_cast<uint16_t>(Util::toInt(port)), sock->getLocalPort(), BufferedSocket::NAT_CLIENT, token, secure);
+	ConnectionManager::getInstance()->adcConnect(*u, port, localPort, BufferedSocket::NAT_CLIENT, token, secure);
 
 	// ... and signal other client to do likewise.
 	send(AdcCommand(AdcCommand::CMD_RNT, u->getIdentity().getSID(), AdcCommand::TYPE_DIRECT).addParam(protocol).
-		addParam(Util::toString(sock->getLocalPort())).addParam(token));
+		addParam(localPort).addParam(token));
 }
 
 void AdcHub::handle(AdcCommand::RNT, AdcCommand& c) throw() {
@@ -648,10 +649,10 @@ void AdcHub::handle(AdcCommand::RNT, AdcCommand& c) throw() {
 		unknownProtocol(c.getFrom(), protocol, token);
 		return;
 	}
-
+	auto localPort = Util::toString(sock->getLocalPort());
 	// Trigger connection attempt sequence locally
 	dcdebug("triggering connecting attempt in RNT: remote port = %s, local IP = %s, local port = %d\n", port.c_str(), sock->getLocalIp().c_str(), sock->getLocalPort());
-	ConnectionManager::getInstance()->adcConnect(*u, static_cast<uint16_t>(Util::toInt(port)), sock->getLocalPort(), BufferedSocket::NAT_SERVER, token, secure);
+	ConnectionManager::getInstance()->adcConnect(*u, port, localPort , BufferedSocket::NAT_SERVER, token, secure);
 }
 
 void AdcHub::handle(AdcCommand::ZON, AdcCommand& c) throw() {
@@ -1027,9 +1028,8 @@ void AdcHub::info(bool /*alwaysSend*/) {
 		addParam(lastInfoMap, c, "KP", "SHA256/" + Encoder::toBase32(&kp[0], kp.size()));
 	}
 
-#ifndef DISABLE_NAT_TRAVERSAL
 	if(BOOLSETTING(NO_IP_OVERRIDE) && !SETTING(EXTERNAL_IP).empty()) {
-		addParam(lastInfoMap, c, "I4", Socket::resolve(SETTING(EXTERNAL_IP)));
+		addParam(lastInfoMap, c, "I4", Socket::resolve(SETTING(EXTERNAL_IP), AF_INET));
 	} else {
 		addParam(lastInfoMap, c, "I4", "0.0.0.0");
 	}
@@ -1041,21 +1041,6 @@ void AdcHub::info(bool /*alwaysSend*/) {
 		addParam(lastInfoMap, c, "U4", "");
 		su += NAT0_FEATURE + ",";
 	}
-#else
-	if(ClientManager::getInstance()->isActive(getHubUrl())) {
-		if(BOOLSETTING(NO_IP_OVERRIDE) && !SETTING(EXTERNAL_IP).empty()) {
-			addParam(lastInfoMap, c, "I4", Socket::resolve(SETTING(EXTERNAL_IP)));
-		} else {
-			addParam(lastInfoMap, c, "I4", "0.0.0.0");
-		}
-		addParam(lastInfoMap, c, "U4", Util::toString(SearchManager::getInstance()->getPort()));
-		su += TCP4_FEATURE + ",";
-		su += UDP4_FEATURE + ",";
-	} else {
-		addParam(lastInfoMap, c, "I4", "");
-		addParam(lastInfoMap, c, "U4", "");
-	}
-#endif
 
 	if(!su.empty()) {
 		su.erase(su.size() - 1);

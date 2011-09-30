@@ -897,7 +897,7 @@ void Transfers::getParams_client(StringMap& params, Transfer* tr)
 	params["Target"] = tr->getPath();
 	params["Hub URL"] = tr->getUserConnection().getHubUrl();
 	params["TTH"] = tr->getTTH().toBase32();
-	params["CC"] = Util::getIpCountry(tr->getUserConnection().getRemoteIp());
+	params["CC"] = Util::getCountryAB(tr->getUserConnection().getRemoteIp());
 }
 
 void Transfers::on(DownloadManagerListener::Requesting, Download* dl) throw()
