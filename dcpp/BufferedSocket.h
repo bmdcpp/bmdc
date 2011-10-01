@@ -48,7 +48,7 @@ public:
 	 * @param sep Line separator
 	 * @return An unconnected socket
 	 */
-	static BufferedSocket* getSocket(char sep) throw(ThreadException) {
+	static BufferedSocket* getSocket(char sep) {
 		return new BufferedSocket(sep);
 	}
 
@@ -134,7 +134,7 @@ private:
 		InputStream* stream;
 	};
 
-	BufferedSocket(char aSeparator) throw(ThreadException);
+	BufferedSocket(char aSeparator);
 
 	virtual ~BufferedSocket() throw();
 

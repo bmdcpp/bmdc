@@ -3411,9 +3411,6 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
         params.insert(ParamMap::value_type("Country", Util::getCountryAB("0.0.0.0")));
 	#endif
 	//add
-//	params.insert(ParamMap::value_type("Version", id.get("VE")));
-//	params.insert(ParamMap::value_type("Mode", id.isTcpActive() ? "A" : "P"  ));
-
 	params.insert(ParamMap::value_type("SUP", id.get("PK")));
 	params.insert(ParamMap::value_type("Cheat", id.get("CS")));
 

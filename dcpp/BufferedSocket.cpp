@@ -31,11 +31,13 @@
 #include "ThrottleManager.h"
 
 namespace dcpp {
+using std::min;
+using std::max;	
 
 // Polling is used for tasks...should be fixed...
 #define POLL_TIMEOUT 250
 
-BufferedSocket::BufferedSocket(char aSeparator) throw(ThreadException) :
+BufferedSocket::BufferedSocket(char aSeparator) :
 separator(aSeparator), mode(MODE_LINE), dataBytes(0), rollback(0), state(STARTING),
 disconnecting(false)
 {
@@ -79,9 +81,6 @@ void BufferedSocket::setOptions()
 		sock->setSocketOpt(SO_RCVBUF, SETTING(SOCKET_IN_BUFFER));
 	if(SETTING(SOCKET_OUT_BUFFER) > 0)
 		sock->setSocketOpt(SO_SNDBUF, SETTING(SOCKET_OUT_BUFFER));
-	//s->setSocketOpt(SO_REUSEADDR, 1);	// NAT traversal
-
-	//inbuf.resize(s->getSocketOptInt(SO_RCVBUF));
 }
 
 void BufferedSocket::accept(const Socket& srv, bool secure, bool allowUntrusted) throw(SocketException) {
@@ -129,6 +128,7 @@ void BufferedSocket::threadConnect(const string& aAddr, string aPort, string loc
 		dcdebug("threadConnect attempt %s %s:%s\n", localPort.c_str(), aAddr.c_str(), aPort.c_str());
 		try {
 			setOptions();
+			
 			if(proxy) {
 				sock->socksConnect(aAddr, aPort, LONG_TIMEOUT);
 			} else {

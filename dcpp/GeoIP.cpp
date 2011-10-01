@@ -77,18 +77,13 @@ string GeoIP::getCountry(const string& ip) const {
 
 		auto id = (v6() ? GeoIP_id_by_addr_v6 : GeoIP_id_by_addr)(geo, ip.c_str());
 		if(id > 0) {
-
-			auto code = GeoIP_code_by_id(id);
-			auto name = GeoIP_country_name_by_id(geo, id);
-
-			if(code && name)
-				return str(F_("%1% - %2%") % code % name);
-
-			if(code && !name)
-				return code;
-
-			if(name && !code)
-				return name;
+			StringMap params;
+			params["2code"]    = GeoIP_code_by_id(id);
+			params["3code"]	   = GeoIP_code3_by_id(id);
+			params["name"]     = GeoIP_name_by_id(id);
+			params["continent"] = GeoIP_continent_by_id(id);
+				
+			return Util::formatParams(SETTING(COUNTRY_FORMAT), params, true);	
 		}
 	}
 

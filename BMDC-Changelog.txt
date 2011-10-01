@@ -183,7 +183,7 @@ Fix checker crash after run >30 m
 Fix Active/Pasive on yourself
 Add Button and Menu Item to Refresh Userlist
 -------r96
- dcpp r2398 : Prevent a remote crash triggered via malformed user commands (poy)
+dcpp r2398 : Prevent a remote crash triggered via malformed user commands (poy)
 delete option in Apearence with "Use Lua"
 Rewrote PopMenu (now can use diferent menu to User and Hub )
 Update Czech po and pot files
@@ -329,4 +329,5 @@ Add Upload Queue Tab
 Add VLC Spam script (curse)
 Fixed Upload Queue
 Ipv6 support
+Custom Country format
 

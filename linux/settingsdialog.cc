@@ -356,6 +356,7 @@ void Settings::saveSettings_client()
 
 		sm->set(SettingsManager::DEFAULT_AWAY_MESSAGE, string(gtk_entry_get_text(GTK_ENTRY(getWidget("awayMessageEntry")))));
 		sm->set(SettingsManager::TIME_STAMPS_FORMAT, string(gtk_entry_get_text(GTK_ENTRY(getWidget("timestampEntry")))));
+		sm->set(SettingsManager::COUNTRY_FORMAT, string(gtk_entry_get_text(GTK_ENTRY(getWidget("entryCountry")))));
 
 		{ // Tabs
 			saveOptionsView_gui(tabView, sm);
@@ -1064,6 +1065,7 @@ void Settings::initAppearance_gui()
 
 		gtk_entry_set_text(GTK_ENTRY(getWidget("awayMessageEntry")), SETTING(DEFAULT_AWAY_MESSAGE).c_str());
 		gtk_entry_set_text(GTK_ENTRY(getWidget("timestampEntry")), SETTING(TIME_STAMPS_FORMAT).c_str());
+		gtk_entry_set_text(GTK_ENTRY(getWidget("entryCountry")), SETTING(COUNTRY_FORMAT).c_str());
 	}
 
 	{ // Tabs

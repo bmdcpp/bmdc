@@ -44,7 +44,7 @@ const string SettingsManager::settingTags[] =
 	"FinishedULFilesOrder", "FinishedULFilesWidths", "FinishedULUsersOrder", "FinishedULUsersWidths",
 	"UsersFrameOrder", "UsersFrameWidths", "HttpProxy", "LogDirectory", "LogFormatPostDownload",
 	"LogFormatPostUpload", "LogFormatMainChat", "LogFormatPrivateChat",
-	"TempDownloadDirectory", "BindAddress", "BindAddress6" "SocksServer", "SocksUser", "SocksPassword", "ConfigVersion",
+	"TempDownloadDirectory", "BindAddress", "BindAddress6", "SocksServer", "SocksUser", "SocksPassword", "ConfigVersion",
 	"DefaultAwayMessage", "TimeStampsFormat", "ADLSearchFrameOrder", "ADLSearchFrameWidths",
 	"CID", "SpyFrameWidths", "SpyFrameOrder", "LogFileMainChat",
 	"LogFilePrivateChat", "LogFileStatus", "LogFileUpload", "LogFileDownload", "LogFileSystem",
@@ -52,7 +52,7 @@ const string SettingsManager::settingTags[] =
 	"TLSPrivateKeyFile", "TLSCertificateFile", "TLSTrustedCertificatesPath",
 	"Language", "DownloadsOrder", "DownloadsWidth", "Toolbar",
 	"SoundMainChat", "SoundPM", "SoundPMWindow", "LogFormatRaw", "LogFileRaw",
-	"ProtectedUser",
+	"ProtectedUser", "CountryFormat",
 	"SENTRY",
 	// Ints
 	"IncomingConnections", "InPort", "Slots", "AutoFollow", "ClearSearch",
@@ -315,6 +315,7 @@ SettingsManager::SettingsManager()
 	setDefault(BANDWIDTH_LIMIT_END, 1);
 	setDefault(SLOTS_ALTERNATE_LIMITING, 1);
 	setDefault(SLOTS_PRIMARY, 3);
+	setDefault(COUNTRY_FORMAT, "%[2code] - %[name]");
 	
 	setDefault(USE_IP, true);
 	setDefault(USE_COUNTRY, true);

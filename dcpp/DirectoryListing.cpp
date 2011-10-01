@@ -36,6 +36,7 @@
 #include "MerkleTree.h"
 #include "SimpleXMLReader.h"
 #include "File.h"
+#include <boost/regex.hpp>
 
 #ifdef ff
 #undef ff

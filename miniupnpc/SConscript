@@ -14,8 +14,6 @@ files = [
 	'upnperrors.c',
 	'upnpreplyparse.c']
 
-#Import('env')
-#env = env.Clone()
 ret = env.StaticLibrary(target = 'miniupnpc', source = files)
 
 Return('ret')
