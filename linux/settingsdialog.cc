@@ -1045,7 +1045,6 @@ void Settings::initAppearance_gui()
 		addOption_gui(appearanceStore, _("Send PM when double clicked in the user list"), "pm");
 		addOption_gui(appearanceStore, _("Show Country in chat"), SettingsManager::USE_COUNTRY);
 		addOption_gui(appearanceStore, _("Show IP in chat"), SettingsManager::USE_IP);
-		addOption_gui(appearanceStore, _("Show Country and Abrevation of it in chat"), "use-cc-name-ab");
 		addOption_gui(appearanceStore, _("Show Free Slots in Desc"), SettingsManager::SHOW_FREE_SLOTS_DESC);
 		addOption_gui(appearanceStore, _("Use Higliting"), "use-highliting");
 		addOption_gui(appearanceStore, _("Show Close Icon in Tab"), "show-close-butt");

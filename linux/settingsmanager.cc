@@ -147,7 +147,6 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("use-dns", 0));
 	defaultInt.insert(IntMap::value_type("only-fav", 0));
 	defaultInt.insert(IntMap::value_type("log-messages", 0));
-	defaultInt.insert(IntMap::value_type("use-cc-name-ab", 1));
 	/**/
 	defaultString.insert(StringMap::value_type("magnet-choose-dir", SETTING(DOWNLOAD_DIRECTORY)));
 	defaultString.insert(StringMap::value_type("downloadqueue-order", ""));

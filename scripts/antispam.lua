@@ -166,7 +166,7 @@ function( hub, message, ret )
 		--return nil
 	--end
 	local params = antispamcontrol.tokenize( message )
-	if params[1] == "/antispam" then
+	if params[1] == "/antispam" or params[1] == "/help" then
 		hub:addLine(" ")
 		hub:addLine("       ------------------------------------------------------------------------------------------------------------------------------------------------------", true)
 		hub:addLine("       Contorl Commands                                        Anti-spam filter v1.2", true)

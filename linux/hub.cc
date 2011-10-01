@@ -2301,25 +2301,37 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			WulforManager::get()->dispatchClientFunc(func);
 			hub->WaitingPassword = FALSE;
 		}
+		#ifdef _USELUA
+		else if(!dropMessage)
+		{
+		   return;
+        } 
+        #endif
+        else if (BOOLSETTING(SEND_UNKNOWN_COMMANDS))
+		{
+			func2 = new F2(hub, &Hub::sendMessage_client, text, false);
+			WulforManager::get()->dispatchClientFunc(func2);
+		}
+		else {	
+			hub->addStatusMessage_gui(_("Unknown command '") + text + _("': type /help for a list of available commands"), Msg::SYSTEM, Sound::NONE);
+		}		
 	}
 	else
-	{
-        #ifdef _USELUA
+	{	
+		#ifdef _USELUA
 		if(!dropMessage)
-		{
-		#endif
-            if(BOOLSETTING(SEND_UNKNOWN_COMMANDS))
-            {
-                func2 = new F2(hub, &Hub::sendMessage_client, text, false);
-                WulforManager::get()->dispatchClientFunc(func2);
-            }
-            else
-				hub->addStatusMessage_gui(_("Unknown command '") + text + _("': type /help for a list of available commands"), Msg::SYSTEM, Sound::NONE);
-        #ifdef _USELUA
-		}
-		else
-			hub->addStatusMessage_gui(_("Unknown command '") + text + _("': type /help for a list of available commands"), Msg::SYSTEM, Sound::NONE);
-		#endif
+         {
+		#endif	 
+		      func2 = new F2(hub, &Hub::sendMessage_client, text, false);
+			  WulforManager::get()->dispatchClientFunc(func2);
+		 
+		#ifdef _USELUA
+		 }
+		 else	
+		 {
+			  hub->addStatusMessage_gui(_("Unknown command '") + text + _("': type /help for a list of available commands"), Msg::SYSTEM, Sound::NONE);	 
+		 }
+		#endif 
 	}
 }
 
@@ -3721,19 +3733,15 @@ string Hub::formatAdditionalInfo(const string& aIp, bool sIp, bool sCC, bool isP
 		bool showIp = BOOLSETTING(USE_IP) || sIp;
 		bool showCc = (BOOLSETTING(USE_COUNTRY) || sCC) && !cc.empty();
 		bool useFlagIcons = (WGETB("use-flag") && !isPm && !cc.empty());
-		bool showNameandCC = (WGETB("use-cc-name-ab") && !countryn.empty());
-
+		
 		if(showIp) {
 			ret = "[ " + aIp + " ] ";
 		}
 		
 		if(showCc) {
-			ret += "[" + cc + "] ";
+			ret += "[" + countryn + "] ";
 		}
 		
-		if(showNameandCC && !showCc)	{
-			ret += "[" + countryn + "] ";	
-		}
 		if(useFlagIcons) {
 			ret += " [ccc]" + cc + "[/ccc] ";
 		}

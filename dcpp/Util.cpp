@@ -62,7 +62,6 @@ bool Util::manualAway = false;
 string Util::awayMsg;
 time_t Util::awayTime;
 int64_t Util::uptime = 0;
-Util::CountryList Util::countries;//TODO  maybe remove
 GeoIP geo6, geo4;
 
 string Util::paths[Util::PATH_LAST];
@@ -192,48 +191,6 @@ void Util::initialize() {
 	File::ensureDirectory(paths[PATH_USER_CONFIG]);
 	File::ensureDirectory(paths[PATH_USER_LOCAL]);
 
-	try {
-		// This product includes GeoIP data created by MaxMind, available from http://maxmind.com/
-		// Updates at http://www.maxmind.com/app/geoip_country
-		string file = getPath(PATH_USER_CONFIG) + "GeoIpCountryWhois.csv";
-		string data = File(file, File::READ, File::OPEN).read();
-
-		const char* start = data.c_str();
-		string::size_type linestart = 0;
-		string::size_type comma1 = 0;
-		string::size_type comma2 = 0;
-		string::size_type comma3 = 0;
-		string::size_type comma4 = 0;
-		string::size_type lineend = 0;
-		CountryIter last = countries.end();
-		uint32_t startIP = 0;
-		uint32_t endIP = 0, endIPprev = 0;
-
-		for(;;) {
-			comma1 = data.find(',', linestart);
-			if(comma1 == string::npos) break;
-			comma2 = data.find(',', comma1 + 1);
-			if(comma2 == string::npos) break;
-			comma3 = data.find(',', comma2 + 1);
-			if(comma3 == string::npos) break;
-			comma4 = data.find(',', comma3 + 1);
-			if(comma4 == string::npos) break;
-			lineend = data.find('\n', comma4);
-			if(lineend == string::npos) break;
-
-			startIP = Util::toUInt32(start + comma2 + 2);
-			endIP = Util::toUInt32(start + comma3 + 2);
-			uint16_t* country = (uint16_t*)(start + comma4 + 2);
-			if((startIP-1) != endIPprev)
-				last = countries.insert(last, make_pair((startIP-1), (uint16_t)16191));
-			last = countries.insert(last, make_pair(endIP, *country));
-
-			endIPprev = endIP;
-			linestart = lineend + 1;
-		}
-	} catch(const FileException&) {
-	}
-	
 	geo6.init(getPath(PATH_USER_CONFIG) + "GeoIPv6.dat");
 	geo4.init(getPath(PATH_USER_CONFIG) + "GeoIP.dat");
 	
@@ -984,33 +941,10 @@ uint32_t Util::rand() {
 }
 
 /*	getIpCountry
-	This function returns the country(Abbreviation) of an ip
-	for exemple: it returns "PT", whitch standards for "Portugal"
-	more info: http://www.maxmind.com/app/csv
-*//*
-string Util::getIpCountry (string IP) {
-	if (BOOLSETTING(USE_COUNTRY)) {
-		dcassert(count(IP.begin(), IP.end(), '.') == 3);
-
-		//e.g IP 23.24.25.26 : w=23, x=24, y=25, z=26
-		string::size_type a = IP.find('.');
-		string::size_type b = IP.find('.', a+1);
-		string::size_type c = IP.find('.', b+2);
-
-		uint32_t ipnum = (Util::toUInt32(IP.c_str()) << 24) |
-			(Util::toUInt32(IP.c_str() + a + 1) << 16) |
-			(Util::toUInt32(IP.c_str() + b + 1) << 8) |
-			(Util::toUInt32(IP.c_str() + c + 1) );
-				
-		CountryIter i = countries.lower_bound(ipnum);
-
-		if(i != countries.end()) {
-			return string((char*)&(i->second), 2);
-		}
-}
-	return Util::emptyString; //if doesn't returned anything already, something is wrong...
-}*/
-
+	This function returns the country of an ip
+	for exemple: it returns "PT" or Portugal - PT (as Country Format in Setting )"
+	more info: http://www.maxmind.com/app/c
+*/
 string Util::getCountry(const string& ip, int flags) {
 	if(BOOLSETTING(GET_USER_COUNTRY) && !ip.empty()) {
 
@@ -1027,6 +961,7 @@ string Util::getCountry(const string& ip, int flags) {
 
 	return emptyString;
 }
+/*return Abbreviation of Country*/
 string Util::getCountryAB(const string& ip) 
 { 
 	return geo4.getCountryAB(ip);
