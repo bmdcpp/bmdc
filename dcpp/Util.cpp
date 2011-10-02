@@ -191,8 +191,8 @@ void Util::initialize() {
 	File::ensureDirectory(paths[PATH_USER_CONFIG]);
 	File::ensureDirectory(paths[PATH_USER_LOCAL]);
 
-	geo6.init(getPath(PATH_USER_CONFIG) + "GeoIPv6.dat");
-	geo4.init(getPath(PATH_USER_CONFIG) + "GeoIP.dat");
+	geo6.init(getGeoPath(true));
+	geo4.init(getGeoPath(false));
 	
 }
 
@@ -966,7 +966,9 @@ string Util::getCountryAB(const string& ip)
 { 
 	return geo4.getCountryAB(ip);
 }//think about IPv6  here...
-
+string Util::getGeoPath(bool v6) {
+	return getPath(PATH_USER_CONFIG) + (v6 ? "GeoIPv6.dat" : "GeoIP.dat");
+}	
 string Util::getTimeString() {
 	char buf[64];
 	time_t _tt;

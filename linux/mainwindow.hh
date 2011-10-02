@@ -31,6 +31,7 @@
 #include <dcpp/TimerManager.h>
 #include <dcpp/UploadManager.h>
 #include <dcpp/UserCommand.h>
+#include <dcpp/HttpDownload.h>
 
 #include "wulformanager.hh"
 #include "entry.hh"
@@ -241,6 +242,9 @@ class MainWindow:
 		void addFileDownloadQueue_client(std::string name, int64_t size, std::string tth);
 		void getAway();
 		void EnbDsbLimit();
+		void checkUpdateofGeoIp(bool v6);
+		void updateGeoIp(bool v6);
+		void completeGeoIpUpdate(bool v6);
 
 		// Client callbacks
 		virtual void on(dcpp::LogManagerListener::Message, time_t t, const std::string &m) throw();
@@ -266,7 +270,14 @@ class MainWindow:
 		
 		static const int maxTooltipCount = 5;//TODO setting;
 		std::queue<std::string> statusTexts;
-
+		
+		enum
+		{
+			CONN_GEOIP_V4,
+			CONN_GEOIP_V6,
+			CONN_LAST
+		};
+		std::unique_ptr<dcpp::HttpDownload> conns[CONN_LAST];
 };
 
 #else

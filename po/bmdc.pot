@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-10-02 14:54+0200\n"
+"POT-Creation-Date: 2011-10-02 17:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -615,8 +615,8 @@ msgid "Choose a File"
 msgstr ""
 
 #: glade/search.glade:580 glade/settingsdialog.glade:8310
-#: glade/sharebrowser.glade:7 linux/hub.cc:2576 linux/mainwindow.cc:1408
-#: linux/mainwindow.cc:1535 linux/privatemessage.cc:1145
+#: glade/sharebrowser.glade:7 linux/hub.cc:2576 linux/mainwindow.cc:1414
+#: linux/mainwindow.cc:1541 linux/privatemessage.cc:1145
 msgid "Choose a directory"
 msgstr ""
 
@@ -1838,7 +1838,7 @@ msgstr ""
 msgid "Select Text Color"
 msgstr ""
 
-#: glade/mainwindow.glade:792 linux/mainwindow.cc:2102
+#: glade/mainwindow.glade:792 linux/mainwindow.cc:2108
 msgid "Select filelist to browse"
 msgstr ""
 
@@ -2469,8 +2469,8 @@ msgstr ""
 
 #: glade/settingsdialog.glade:2992 glade/settingsdialog.glade:3008
 #: glade/settingsdialog.glade:3050 linux/hashdialog.cc:79
-#: linux/mainwindow.cc:820 linux/mainwindow.cc:821 linux/mainwindow.cc:2479
-#: linux/mainwindow.cc:2481 linux/treeview.cc:209
+#: linux/mainwindow.cc:826 linux/mainwindow.cc:827 linux/mainwindow.cc:2485
+#: linux/mainwindow.cc:2487 linux/treeview.cc:209
 msgid "s"
 msgstr ""
 
@@ -2735,7 +2735,7 @@ msgstr ""
 msgid "<b>Under what name you see the directory</b>"
 msgstr ""
 
-#: linux/mainwindow.cc:2418
+#: linux/mainwindow.cc:2424
 msgid "<b>file:</b> "
 msgstr ""
 
@@ -2904,11 +2904,11 @@ msgid "Away mode message on/off"
 msgstr ""
 
 #: linux/WulforUtil.cc:751 linux/WulforUtil.cc:767 linux/hub.cc:2148
-#: linux/mainwindow.cc:479 linux/privatemessage.cc:901
+#: linux/mainwindow.cc:485 linux/privatemessage.cc:901
 msgid "Away mode off"
 msgstr ""
 
-#: linux/mainwindow.cc:486
+#: linux/mainwindow.cc:492
 msgid "Away mode on"
 msgstr ""
 
@@ -3171,7 +3171,7 @@ msgstr ""
 msgid "Download starting: "
 msgstr ""
 
-#: linux/mainwindow.cc:774
+#: linux/mainwindow.cc:780
 msgid "Download: "
 msgstr ""
 
@@ -3231,7 +3231,7 @@ msgstr ""
 msgid "Enable segmented downloads"
 msgstr ""
 
-#: linux/mainwindow.cc:1342
+#: linux/mainwindow.cc:1348
 msgid "Enter value for "
 msgstr ""
 
@@ -3358,7 +3358,7 @@ msgstr ""
 msgid "File not available"
 msgstr ""
 
-#: linux/mainwindow.cc:2327
+#: linux/mainwindow.cc:2333
 msgid ""
 "File transfers will not work correctly until you change settings or turn off "
 "any application that might be using the TCP/TLS port."
@@ -3608,7 +3608,7 @@ msgstr ""
 msgid "Load Lua file"
 msgstr ""
 
-#: linux/mainwindow.cc:2139
+#: linux/mainwindow.cc:2145
 msgid "Loading file list"
 msgstr ""
 
@@ -3628,11 +3628,11 @@ msgstr ""
 msgid "Lowest"
 msgstr ""
 
-#: linux/mainwindow.cc:1528
+#: linux/mainwindow.cc:1534
 msgid "Magnet Choice"
 msgstr ""
 
-#: linux/mainwindow.cc:1399
+#: linux/mainwindow.cc:1405
 msgid "Magnet Properties / Choice"
 msgstr ""
 
@@ -3927,13 +3927,13 @@ msgstr ""
 msgid "Searching too soon, retry in "
 msgstr ""
 
-#: linux/mainwindow.cc:2341
+#: linux/mainwindow.cc:2347
 msgid ""
 "Searching will not work correctly until you change settings or turn off any "
 "application that might be using the UDP port."
 msgstr ""
 
-#: linux/mainwindow.cc:1466
+#: linux/mainwindow.cc:1472
 msgid "Select file to Get TTH"
 msgstr ""
 
@@ -3985,7 +3985,7 @@ msgstr ""
 msgid "Shared"
 msgstr ""
 
-#: linux/mainwindow.cc:835 linux/mainwindow.cc:2361
+#: linux/mainwindow.cc:841 linux/mainwindow.cc:2367
 msgid "Shared: "
 msgstr ""
 
@@ -4103,7 +4103,7 @@ msgstr ""
 msgid "Slots"
 msgstr ""
 
-#: linux/mainwindow.cc:834
+#: linux/mainwindow.cc:840
 msgid "Slots:"
 msgstr ""
 
@@ -4184,15 +4184,24 @@ msgstr ""
 msgid "Tag"
 msgstr ""
 
+#: linux/mainwindow.cc:2562
+msgid "The GeoIP database could not be updated...v"
+msgstr ""
+
+#: linux/mainwindow.cc:2558
+msgid ""
+"The GeoIP database has been successfully updated; restart DC++ to apply....v"
+msgstr ""
+
 #: linux/favoritehubs.cc:1024
 msgid "The name and address fields are required"
 msgstr ""
 
-#: linux/mainwindow.cc:534
+#: linux/mainwindow.cc:540
 msgid "Throtle off"
 msgstr ""
 
-#: linux/mainwindow.cc:540
+#: linux/mainwindow.cc:546
 msgid "Throtle on"
 msgstr ""
 
@@ -4255,15 +4264,15 @@ msgstr ""
 msgid "Unable to load file list: "
 msgstr ""
 
-#: linux/mainwindow.cc:2127
+#: linux/mainwindow.cc:2133
 msgid "Unable to load file list: Invalid file list name"
 msgstr ""
 
-#: linux/mainwindow.cc:2326
+#: linux/mainwindow.cc:2332
 msgid "Unable to open TCP/TLS port"
 msgstr ""
 
-#: linux/mainwindow.cc:2340
+#: linux/mainwindow.cc:2346
 msgid "Unable to open UDP port"
 msgstr ""
 
@@ -4278,6 +4287,10 @@ msgstr ""
 
 #: linux/hub.cc:2163
 msgid "Update own file list"
+msgstr ""
+
+#: linux/mainwindow.cc:2545
+msgid "Updating the GeoIP database...v"
 msgstr ""
 
 #: linux/settingsdialog.cc:1384
@@ -4300,7 +4313,7 @@ msgstr ""
 msgid "Upload starting..."
 msgstr ""
 
-#: linux/mainwindow.cc:774
+#: linux/mainwindow.cc:780
 msgid "Upload: "
 msgstr ""
 
@@ -4634,7 +4647,7 @@ msgstr ""
 msgid "eMail"
 msgstr ""
 
-#: linux/mainwindow.cc:2394
+#: linux/mainwindow.cc:2400
 msgid "file list from "
 msgstr ""
 

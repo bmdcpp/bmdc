@@ -292,6 +292,12 @@ MainWindow::MainWindow():
 	//Fix
 	if (WGETI("main-window-maximized"))
 		gtk_window_maximize(window);
+		
+		
+	if(BOOLSETTING(GET_USER_COUNTRY)) {
+			checkUpdateofGeoIp(true);
+			checkUpdateofGeoIp(false);
+	}		
 
 	#ifdef _USELUA
 	 ScriptManager::getInstance()->load();
@@ -2518,3 +2524,41 @@ void MainWindow::onUploadQueue_gui( GtkWidget *widget , gpointer data)
 	mw->showUploadQueue();
 }
 
+void MainWindow::checkUpdateofGeoIp(bool v6)
+{
+	try {
+		File f(Util::getGeoPath(v6) + ".gz", File::READ, File::OPEN);
+		if(f.getSize() > 0 && f.getLastModified() > GET_TIME() - 3600 * 24 * 16) {
+			return;
+		}	
+	} catch(const FileException&) { }
+	updateGeoIp(v6);
+}
+
+void MainWindow::updateGeoIp(bool v6)
+{
+	string v6str = "http://geolite.maxmind.com/download/geoip/database/GeoIPv6.dat.gz";
+	string v4str = "http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz";
+	auto& conn = conns[v6 ? CONN_GEOIP_V6 : CONN_GEOIP_V4];
+	if(conn.get())
+		return;
+	LogManager::getInstance()->message(string(_("Updating the GeoIP database...v")) + (v6 ? "IPv6" : "IPv4"));	
+	conn.reset(new HttpDownload(v6 ? v6str : v4str, [this, v6] { completeGeoIpUpdate(v6); }, false));
+	
+}
+
+void MainWindow::completeGeoIpUpdate(bool v6)
+{
+	auto& conn = conns[v6 ? CONN_GEOIP_V6 : CONN_GEOIP_V4];
+	
+	if(!conn->buf.empty()) {
+		try {
+			File(Util::getGeoPath(v6) + ".gz", File::WRITE, File::CREATE | File::TRUNCATE).write(conn->buf);
+			File f(Util::getGeoPath(v6), File::WRITE, File::CREATE | File::TRUNCATE); // clear the previous db
+			LogManager::getInstance()->message(string(_("The GeoIP database has been successfully updated; restart DC++ to apply....v")) + (v6 ? "IPv6" : "IPv4"));
+			return;
+		} catch(const FileException&) {}
+	}
+	LogManager::getInstance()->message(string(_("The GeoIP database could not be updated...v")) + (v6 ? "IPv6" : "IPv4"));	
+	
+}

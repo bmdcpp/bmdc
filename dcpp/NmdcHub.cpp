@@ -1070,7 +1070,7 @@ void NmdcHub::password(const string& aPass) {
 		TigerHash th;
 		th.update(aPass.data(), aPass.length());
 		th.update(&buf[0], saltBytes);		
-		send("$MyPass " + Encoder::toBase32(th.finalize(), TigerHash::BYTES) + "|");
+		send("$MyPass " + fromUtf8(Encoder::toBase32(th.finalize(), TigerHash::BYTES)) + "|");
 		salt.clear();
 	} else {
 		send("$MyPass " + fromUtf8(aPass) + "|");

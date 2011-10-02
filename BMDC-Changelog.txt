@@ -333,4 +333,6 @@ Custom Country format
 Fix writing in chat when in Advanced untick Send Unknow commands
 Fix Sett. Man.
 Fix Behavior in Setting´s connection page
+BugFix of $SaltPass (iceman50)
+Add AutoUpdate of GeoIP along with HttpDownload helper´s struct
 
