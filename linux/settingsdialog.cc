@@ -3536,7 +3536,8 @@ void Settings::onOptionsViewToggled_gui(GtkCellRendererToggle *cell, gchar *path
 void Settings::onInDirect_gui(GtkToggleButton *button, gpointer data)
 {
 	Settings *s = (Settings *)data;
-	gtk_widget_set_sensitive(s->getWidget("ipComboboxEntry"), TRUE);
+	gtk_widget_set_sensitive(s->getWidget("entryipv6"), TRUE);
+	gtk_widget_set_sensitive(s->getWidget("entryIpExt"), TRUE);
 	gtk_widget_set_sensitive(s->getWidget("ipLabel"), TRUE);
 	gtk_widget_set_sensitive(s->getWidget("tcpEntry"), TRUE);
 	gtk_widget_set_sensitive(s->getWidget("tcpLabel"), TRUE);
@@ -3550,8 +3551,8 @@ void Settings::onInDirect_gui(GtkToggleButton *button, gpointer data)
 void Settings::onInFW_NAT_gui(GtkToggleButton *button, gpointer data)
 {
 	Settings *s = (Settings *)data;
-	//gtk_widget_set_sensitive(s->getWidget("ipEntry"), TRUE);
-	gtk_widget_set_sensitive(s->getWidget("ipComboboxEntry"), TRUE);
+	gtk_widget_set_sensitive(s->getWidget("entryipv6"), TRUE);
+	gtk_widget_set_sensitive(s->getWidget("entryIpExt"), TRUE);
 	gtk_widget_set_sensitive(s->getWidget("ipLabel"), TRUE);
 	gtk_widget_set_sensitive(s->getWidget("tcpEntry"), TRUE);
 	gtk_widget_set_sensitive(s->getWidget("tcpLabel"), TRUE);
@@ -3565,7 +3566,8 @@ void Settings::onInFW_NAT_gui(GtkToggleButton *button, gpointer data)
 void Settings::onInPassive_gui(GtkToggleButton *button, gpointer data)
 {
 	Settings *s = (Settings *)data;
-	gtk_widget_set_sensitive(s->getWidget("ipComboboxEntry"), FALSE);//ipEntry
+	gtk_widget_set_sensitive(s->getWidget("entryipv6"), FALSE);
+	gtk_widget_set_sensitive(s->getWidget("entryIpExt"), FALSE);//ipEntry
 	gtk_widget_set_sensitive(s->getWidget("ipLabel"), FALSE);
 	gtk_widget_set_sensitive(s->getWidget("tcpEntry"), FALSE);
 	gtk_widget_set_sensitive(s->getWidget("tcpLabel"), FALSE);
@@ -4338,7 +4340,7 @@ void Settings::generateCertificates_client()
 void Settings::onInFW_UPnP_gui(GtkToggleButton *button, gpointer data)//NOTE: core 0.762
 {
 	Settings *s = (Settings *)data;
-	gtk_widget_set_sensitive(s->getWidget("ipComboboxEntry"), TRUE);
+	gtk_widget_set_sensitive(s->getWidget("entryIpExt"), TRUE);
 	gtk_widget_set_sensitive(s->getWidget("ipLabel"), TRUE);
 	gtk_widget_set_sensitive(s->getWidget("tcpEntry"), TRUE);
 	gtk_widget_set_sensitive(s->getWidget("tcpLabel"), TRUE);

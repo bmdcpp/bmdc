@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-10-01 20:49+0200\n"
+"POT-Creation-Date: 2011-10-02 14:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -776,9 +776,9 @@ msgstr ""
 #: glade/settingsdialog.glade:6140 linux/UserCommandMenu.cc:67
 #: linux/search.cc:1688 linux/settingsdialog.cc:906
 #: linux/settingsdialog.cc:920 linux/settingsdialog.cc:1007
-#: linux/settingsdialog.cc:1403 linux/settingsdialog.cc:3776
-#: linux/settingsdialog.cc:3796 linux/settingsdialog.cc:3825
-#: linux/settingsdialog.cc:3839 linux/settingsdialog.cc:3894
+#: linux/settingsdialog.cc:1403 linux/settingsdialog.cc:3778
+#: linux/settingsdialog.cc:3798 linux/settingsdialog.cc:3827
+#: linux/settingsdialog.cc:3841 linux/settingsdialog.cc:3896
 #: linux/sharebrowser.cc:283
 msgid "Directory"
 msgstr ""
@@ -970,7 +970,7 @@ msgstr ""
 msgid "Favorite Users"
 msgstr ""
 
-#: glade/settingsdialog.glade:8498 linux/settingsdialog.cc:3758
+#: glade/settingsdialog.glade:8498 linux/settingsdialog.cc:3760
 msgid "Favorite name"
 msgstr ""
 
@@ -1455,9 +1455,9 @@ msgstr ""
 #: linux/settingsdialog.cc:3017 linux/settingsdialog.cc:3035
 #: linux/settingsdialog.cc:3061 linux/settingsdialog.cc:3066
 #: linux/settingsdialog.cc:3339 linux/settingsdialog.cc:3385
-#: linux/settingsdialog.cc:3459 linux/settingsdialog.cc:3997
-#: linux/settingsdialog.cc:4088 linux/settingsdialog.cc:4111
-#: linux/settingsdialog.cc:4130
+#: linux/settingsdialog.cc:3459 linux/settingsdialog.cc:3999
+#: linux/settingsdialog.cc:4090 linux/settingsdialog.cc:4113
+#: linux/settingsdialog.cc:4132
 msgid "Name"
 msgstr ""
 
@@ -1922,7 +1922,7 @@ msgstr ""
 #: linux/downloadqueue.cc:379 linux/search.cc:88 linux/search.cc:118
 #: linux/search.cc:636 linux/search.cc:727 linux/search.cc:853
 #: linux/settingsdialog.cc:1008 linux/settingsdialog.cc:1014
-#: linux/settingsdialog.cc:3826 linux/settingsdialog.cc:3895
+#: linux/settingsdialog.cc:3828 linux/settingsdialog.cc:3897
 #: linux/sharebrowser.cc:75 linux/sharebrowser.cc:95 linux/sharebrowser.cc:280
 #: linux/sharebrowser.cc:320 linux/transfers.cc:62 linux/transfers.cc:552
 #: linux/transfers.cc:634 linux/transfers.cc:720 linux/transfers.cc:735
@@ -1971,9 +1971,9 @@ msgid "Start a search for this file"
 msgstr ""
 
 #: glade/settingsdialog.glade:279 linux/settingsdialog.cc:1580
-#: linux/settingsdialog.cc:1610 linux/settingsdialog.cc:4411
-#: linux/settingsdialog.cc:4493 linux/settingsdialog.cc:4507
-#: linux/settingsdialog.cc:4646
+#: linux/settingsdialog.cc:1610 linux/settingsdialog.cc:4413
+#: linux/settingsdialog.cc:4495 linux/settingsdialog.cc:4509
+#: linux/settingsdialog.cc:4648
 msgid "String"
 msgstr ""
 
@@ -2731,7 +2731,7 @@ msgstr ""
 msgid "<b>New name</b>"
 msgstr ""
 
-#: linux/settingsdialog.cc:3760
+#: linux/settingsdialog.cc:3762
 msgid "<b>Under what name you see the directory</b>"
 msgstr ""
 
@@ -2834,7 +2834,7 @@ msgstr ""
 msgid "Are you sure you want to delete Entry \"%s\"?"
 msgstr ""
 
-#: linux/settingsdialog.cc:4497
+#: linux/settingsdialog.cc:4499
 #, c-format, boost-format
 msgid "Are you sure you want to delete Higliting \"%s\"?"
 msgstr ""
@@ -3101,7 +3101,7 @@ msgstr ""
 msgid "Detection Settings"
 msgstr ""
 
-#: linux/settingsdialog.cc:3781
+#: linux/settingsdialog.cc:3783
 msgid "Directory or favorite name already exists"
 msgstr ""
 
@@ -3305,7 +3305,7 @@ msgid "Favorite"
 msgstr ""
 
 #: linux/settingsdialog.cc:905 linux/settingsdialog.cc:919
-#: linux/settingsdialog.cc:3775
+#: linux/settingsdialog.cc:3777
 msgid "Favorite Name"
 msgstr ""
 
@@ -3462,8 +3462,8 @@ msgstr ""
 #: linux/search.cc:640 linux/search.cc:736 linux/search.cc:865
 #: linux/settingsdialog.cc:1710 linux/settingsdialog.cc:1720
 #: linux/settingsdialog.cc:3386 linux/settingsdialog.cc:3460
-#: linux/settingsdialog.cc:3998 linux/settingsdialog.cc:4089
-#: linux/settingsdialog.cc:4112 linux/settingsdialog.cc:4131
+#: linux/settingsdialog.cc:4000 linux/settingsdialog.cc:4091
+#: linux/settingsdialog.cc:4114 linux/settingsdialog.cc:4133
 msgid "Hub"
 msgstr ""
 
@@ -3691,11 +3691,11 @@ msgstr ""
 msgid "Name and command must not be empty"
 msgstr ""
 
-#: linux/settingsdialog.cc:4357 linux/settingsdialog.cc:4428
+#: linux/settingsdialog.cc:4359 linux/settingsdialog.cc:4430
 msgid "New Higliting Item"
 msgstr ""
 
-#: linux/publichubs.cc:376 linux/settingsdialog.cc:3683
+#: linux/publichubs.cc:376 linux/settingsdialog.cc:3685
 msgid "New list"
 msgstr ""
 
@@ -4231,7 +4231,7 @@ msgstr ""
 msgid "Topic: "
 msgstr ""
 
-#: linux/settingsdialog.cc:3900
+#: linux/settingsdialog.cc:3902
 msgid "Total size: "
 msgstr ""
 
@@ -4561,8 +4561,8 @@ msgstr ""
 msgid "View status messages in main chat"
 msgstr ""
 
-#: linux/settingsdialog.cc:1006 linux/settingsdialog.cc:3824
-#: linux/settingsdialog.cc:3893
+#: linux/settingsdialog.cc:1006 linux/settingsdialog.cc:3826
+#: linux/settingsdialog.cc:3895
 msgid "Virtual Name"
 msgstr ""
 
@@ -4602,7 +4602,7 @@ msgstr ""
 msgid "You must enter a name"
 msgstr ""
 
-#: linux/settingsdialog.cc:3886
+#: linux/settingsdialog.cc:3888
 msgid "[HIDDEN SHARE] "
 msgstr ""
 

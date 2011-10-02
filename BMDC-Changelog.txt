@@ -330,5 +330,7 @@ Add VLC Spam script (curse)
 Fixed Upload Queue
 Ipv6 support
 Custom Country format
-Fix writing in chat when in Adveced untick Send Unknow commands
+Fix writing in chat when in Advanced untick Send Unknow commands
+Fix Sett. Man.
+Fix Behavior in Setting´s connection page
 
