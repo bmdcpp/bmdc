@@ -1077,6 +1077,7 @@ void Settings::initAppearance_gui()
 		addOption_gui(tabStore, _("Private Message (also sets urgency hint)"), SettingsManager::BOLD_PM);
 		addOption_gui(tabStore, _("Search"), SettingsManager::BOLD_SEARCH);
 		addOption_gui(tabStore, _("Search Spy"), SettingsManager::BOLD_SEARCH_SPY);
+		addOption_gui(tabStore, _("Set Hub to Bold all time when change whats in it"), "bold-all");
 	}
 
 	{ // Sounds

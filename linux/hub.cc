@@ -3778,7 +3778,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 		extraInfo = Text::toT(Util::formatParams(client->getChatExtraInfo(), params, false));
 		info += extraInfo;
 
-	   line += info;
+	    line += info;
 	}
 
 	bool third = false;
@@ -3908,10 +3908,16 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 		typedef Func2<Hub, string, Msg::TypeMsg> F2;
 		F2 *func = new F2(this, &Hub::addMessage_gui, line, typemsg);
 		WulforManager::get()->dispatchGuiFunc(func);
-
+		
 		// Set urgency hint if message contains user's nick
 		if (BOOLSETTING(BOLD_HUB) && message.from->getIdentity().getUser() != client->getMyIdentity().getUser())
 		{
+			if(WGETB("bold-all"))
+			{
+					typedef Func0<Hub> F0;
+					F0 *func = new F0(this, &Hub::setUrgent_gui);
+					WulforManager::get()->dispatchGuiFunc(func);
+			}
 			if (message.text.find(client->getMyIdentity().getNick()) != string::npos)
 			{
 				typedef Func0<Hub> F0;
@@ -3919,6 +3925,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 				WulforManager::get()->dispatchGuiFunc(func);
 			}
 		}
+		
 	}
 } //NOTE: core 0.762
 
