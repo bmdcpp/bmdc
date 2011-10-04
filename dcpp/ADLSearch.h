@@ -36,7 +36,8 @@
 #include "DirectoryListing.h"
 
 //RSX++
-#include "RegexUtil.h"
+//#include "RegexUtil.h"
+#include "RegEx.h"
 #include "MerkleTree.h"
 //END
 

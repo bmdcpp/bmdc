@@ -2301,20 +2301,24 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			WulforManager::get()->dispatchClientFunc(func);
 			hub->WaitingPassword = FALSE;
 		}
-		#ifdef _USELUA
-		else if(!dropMessage)
+		else
 		{
-		   return;
-        } 
-        #endif
-        else if (BOOLSETTING(SEND_UNKNOWN_COMMANDS))
-		{
-			func2 = new F2(hub, &Hub::sendMessage_client, text, false);
-			WulforManager::get()->dispatchClientFunc(func2);
-		}
-		else {	
-			hub->addStatusMessage_gui(_("Unknown command '") + text + _("': type /help for a list of available commands"), Msg::SYSTEM, Sound::NONE);
-		}		
+			#ifdef _USELUA
+				if(!dropMessage) {
+			
+					if (BOOLSETTING(SEND_UNKNOWN_COMMANDS))
+					{
+						func2 = new F2(hub, &Hub::sendMessage_client, text, false);
+						WulforManager::get()->dispatchClientFunc(func2);
+					}
+					else {	
+			#endif		
+					hub->addStatusMessage_gui(_("Unknown command '") + text + _("': type /help for a list of available commands"), Msg::SYSTEM, Sound::NONE);
+			#ifdef _USELUA
+				}
+			}		
+			#endif		
+		}	
 	}
 	else
 	{	
@@ -2326,10 +2330,6 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			  WulforManager::get()->dispatchClientFunc(func2);
 		 
 		#ifdef _USELUA
-		 }
-		 else	
-		 {
-			  hub->addStatusMessage_gui(_("Unknown command '") + text + _("': type /help for a list of available commands"), Msg::SYSTEM, Sound::NONE);	 
 		 }
 		#endif 
 	}

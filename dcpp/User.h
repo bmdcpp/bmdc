@@ -28,7 +28,6 @@
 #include "typedefs.h"
 #include "forward.h"
 //RSX++
-#include "RegexUtil.h"
 #include "TimerManager.h"
 //RSX++
 

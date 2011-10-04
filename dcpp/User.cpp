@@ -18,7 +18,7 @@
 
 #include "stdinc.h"
 #include "DCPlusPlus.h"
-#include "RegexUtil.h" //RSX++
+#include "RegEx.h"
 #include "User.h"
 
 #include "AdcHub.h"
@@ -256,7 +256,7 @@ string Identity::getPkVersion() const {
 //RSX++ //Filelist Detector
 string Identity::checkFilelistGenerator(OnlineUser& ou) {
 	if((get("FG") == "DC++ 0.403")) {
-		if((dcpp::RegexUtil::match(getTag(), "^<StrgDC\\+\\+ V:1.00 RC([89]){1}")))  {
+		if((RegEx::match<string>(getTag(), "^<StrgDC\\+\\+ V:1.00 RC([89]){1}")))  {
 			string report = ou.setCheat("rmDC++ in StrongDC++ %[userVE] emulation mode" , true, false, true);
 			setClientType("rmDC++");
 			logDetect(true);
@@ -287,7 +287,7 @@ string Identity::checkFilelistGenerator(OnlineUser& ou) {
 	}
 
 
-	if((dcpp::RegexUtil::match(get("FG"), "^DC\\+\\+.*"))) {
+	if((RegEx::match<string>(get("FG"), "^DC\\+\\+.*"))) {
 		if(!get("VE").empty() && (get("VE") != getFilelistGeneratorVer())) {
 			string report = ou.setCheat("Filelist Version mis-match", false, true, BOOLSETTING(SHOW_FILELIST_VERSION_MISMATCH));
 			logDetect(true);
@@ -302,7 +302,7 @@ string Identity::checkFilelistGenerator(OnlineUser& ou) {
 //sumary detection
 void Identity::logDetect(bool successful) {
 	SettingsManager *sm=SettingsManager::getInstance();
-	if(sm!=NULL)
+	if(sm != NULL)
 	{
 		if(successful) {
 			int a = SETTING(DETECTT);
@@ -345,20 +345,20 @@ void Identity::getDetectionParams(StringMap& p) {
 	// convert all special chars to make regex happy
 	for(StringMap::iterator i = p.begin(); i != p.end(); ++i) {
 		// looks really bad... but do the job
-		Util::replace( "\\", "\\\\",i->second); // this one must be first
-		Util::replace( "[", "\\[",i->second); //little edit
-		Util::replace( "]", "\\]",i->second);
-		Util::replace( "^", "\\^",i->second);
-		Util::replace( "$", "\\$",i->second);
-		Util::replace( ".", "\\.",i->second);
-		Util::replace( "|", "\\|",i->second);
-		Util::replace( "?", "\\?",i->second);
-		Util::replace( "*", "\\*",i->second);
-		Util::replace( "+", "\\+",i->second);
-		Util::replace( "(", "\\(",i->second);
-		Util::replace( ")", "\\)",i->second);
-		Util::replace( "{", "\\{",i->second);
-		Util::replace( "}", "\\}",i->second);
+		Util::replace( "\\", "\\\\", i->second); // this one must be first
+		Util::replace( "[", "\\[", i->second); //little edit
+		Util::replace( "]", "\\]", i->second);
+		Util::replace( "^", "\\^", i->second);
+		Util::replace( "$", "\\$", i->second);
+		Util::replace( ".", "\\.", i->second);
+		Util::replace( "|", "\\|", i->second);
+		Util::replace( "?", "\\?", i->second);
+		Util::replace( "*", "\\*", i->second);
+		Util::replace( "+", "\\+", i->second);
+		Util::replace( "(", "\\(", i->second);
+		Util::replace( ")", "\\)", i->second);
+		Util::replace( "{", "\\{", i->second);
+		Util::replace( "}", "\\}", i->second);
 	}
 }
 
@@ -409,10 +409,10 @@ string Identity::myInfoDetect(OnlineUser& ou) {
 
 
 		for(DetectionEntry::INFMap::const_iterator j = INFList.begin(); j != INFList.end(); ++j) {
-			string aPattern = RegexUtil::formatRegExp(j->second, params);
+			string aPattern = Util::formatRegExp(j->second,params);
 			string aField = getDetectionField(j->first);
 			DETECTION_DEBUG("\t\tPattern: " + aPattern + " Field: " + aField);
-			if(!(RegexUtil::match(aField, aPattern))) {
+			if(!RegEx::match<string>(aField, aPattern)) {
 				_continue = true;
 				break;
 			}
@@ -456,7 +456,7 @@ string Identity::updateClientType(OnlineUser& ou) {
 				return report;
 			} else if(versionf > (float)0.699 && !get("TS").empty() && get("TS") != "GetListLength not supported") {
 				const string& report = ou.setCheat("DC++ emulation", true, false, BOOLSETTING(SHOW_DCPP_EMULATION_RAW));
-				ClientManager::getInstance()->sendAction(ou,SETTING(DCPP_EMULATION_RAW));
+				ClientManager::getInstance()->sendAction(ou, SETTING(DCPP_EMULATION_RAW));
 				logDetect(true);
 				return report;
 			}
@@ -493,10 +493,10 @@ string Identity::updateClientType(OnlineUser& ou) {
 		DETECTION_DEBUG("\tChecking profile: " + entry.name);
 
 		for(DetectionEntry::INFMap::const_iterator j = INFList.begin(); j != INFList.end(); ++j) {
-			string aPattern = RegexUtil::formatRegExp(j->second, params);
+			string aPattern = Util::formatRegExp(j->second, params);
 			string aField = getDetectionField(j->first);
 			DETECTION_DEBUG("\t\tPattern: " + aPattern + " Field: " + aField);
-			if(!RegexUtil::match(aField, aPattern)) {
+			if(!RegEx::match<string>(aField, aPattern)) {
 				_continue = true;
 				break;
 			}
@@ -557,7 +557,7 @@ bool OnlineUser::getChecked(bool filelist/* = false*/, bool checkComplete/* = tr
 //END
 string Identity::checkrmDC(OnlineUser& ou) {
 	string report = Util::emptyString;
-	if((RegexUtil::match(getVersion(), "^0.40([0123]){1}$"))) {
+	if((RegEx::match<string>(getVersion(), "^0.40([0123]){1}$"))) {
 		report = ou.setCheat("rmDC++ in DC++ %[userVE] emulation mode" , true, false, BOOLSETTING(SHOW_RMDC_RAW));
 		setClientType("rmDC++");
 		ClientManager::getInstance()->sendAction(ou, SETTING(RMDC_RAW));
@@ -664,15 +664,15 @@ bool Identity::isProtectedUser(const Client& c, bool OpBotHubCheck) const {
 	} else if(SETTING(FAV_USER_IS_PROTECTED_USER) && FavoriteManager::getInstance()->isFavoriteUser(getUser())) {
 		ret = true;
 	} else if(!RegProtect.empty()) {
-		/*if(RSXPP_BOOLSETTING(USE_WILDCARDS_TO_PROTECT)) {
-			if(Wildcard::patternMatch(getNick(), RegProtect, '|')) {
+		if(BOOLSETTING(USE_WILDCARDS_TO_PROTECT)) {
+			if(Wildcard::match<string>(getNick(), RegProtect, '|')) {
 				ret = true;
 			}
-		} else {*/
-			if(RegexUtil::match(getNick(), RegProtect, true)) {
+		} else {
+			if(RegEx::match<string>(getNick(), RegProtect, true)) {
 				ret = true;
 			}
-		/*}*/
+		}
 		return false;
 	}
 	if(ret == true) {
@@ -688,7 +688,8 @@ std::map<string, string> Identity::getInfo() const {
 			ret[string((char*)(&i->first), 2)] = i->second;
 	}
 	return ret;
-  }
+}
+
 string Identity::getApplication() const {
   auto application = get("AP");
   auto version = get("VE");

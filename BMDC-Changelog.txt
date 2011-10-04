@@ -337,4 +337,7 @@ BugFix of $SaltPass (iceman50)
 Add AutoUpdate of GeoIP along with HttpDownload helper´s struct
 Added option to Bold Hub Tab all times when changes what in it
 Bug Fix of $SaltPass (now working fine) (by iceman50)
+Finaly Fix isue with untick Unknow Command 
+Move to template for RegExp (and also add Wildcard Support to Protect Users) 
+
 

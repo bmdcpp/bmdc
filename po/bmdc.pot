@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-10-01 15:38+0200\n"
+"POT-Creation-Date: 2011-10-04 19:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-10-03 19:14+0200\n"
+"POT-Creation-Date: 2011-10-04 22:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2528,7 +2528,7 @@ msgid ""
 "Message: "
 msgstr ""
 
-#: linux/WulforUtil.cc:789 linux/WulforUtil.cc:791
+#: linux/WulforUtil.cc:791 linux/WulforUtil.cc:793
 msgid " ( Uploads: "
 msgstr ""
 
@@ -2637,7 +2637,7 @@ msgstr ""
 msgid "%) from "
 msgstr ""
 
-#: linux/hub.cc:2316 linux/hub.cc:2332
+#: linux/hub.cc:2316
 msgid "': type /help for a list of available commands"
 msgstr ""
 
@@ -2649,7 +2649,7 @@ msgstr ""
 msgid "*** Available commands:"
 msgstr ""
 
-#: linux/WulforUtil.cc:1083
+#: linux/WulforUtil.cc:1085
 msgid "*** Info on "
 msgstr ""
 
@@ -2657,11 +2657,11 @@ msgstr ""
 msgid "*** T E S T ***"
 msgstr ""
 
-#: linux/WulforUtil.cc:948
+#: linux/WulforUtil.cc:950
 msgid "---------- Cleaning the chat ----------"
 msgstr ""
 
-#: linux/WulforUtil.cc:950
+#: linux/WulforUtil.cc:952
 msgid "---------- The chat has been cleaned ----------"
 msgstr ""
 
@@ -2682,7 +2682,7 @@ msgstr ""
 msgid "...must not be empty"
 msgstr ""
 
-#: linux/WulforUtil.cc:789 linux/WulforUtil.cc:791
+#: linux/WulforUtil.cc:791 linux/WulforUtil.cc:793
 msgid "/ Downloads "
 msgstr ""
 
@@ -2803,7 +2803,7 @@ msgstr ""
 msgid "Alias add uname -a as A"
 msgstr ""
 
-#: linux/WulforUtil.cc:990
+#: linux/WulforUtil.cc:992
 msgid "Aliases not found."
 msgstr ""
 
@@ -2903,7 +2903,7 @@ msgstr ""
 msgid "Away mode message on/off"
 msgstr ""
 
-#: linux/WulforUtil.cc:751 linux/WulforUtil.cc:767 linux/hub.cc:2148
+#: linux/WulforUtil.cc:753 linux/WulforUtil.cc:769 linux/hub.cc:2148
 #: linux/mainwindow.cc:485 linux/privatemessage.cc:901
 msgid "Away mode off"
 msgstr ""
@@ -2912,7 +2912,7 @@ msgstr ""
 msgid "Away mode on"
 msgstr ""
 
-#: linux/WulforUtil.cc:759
+#: linux/WulforUtil.cc:761
 msgid "Away mode on: "
 msgstr ""
 
@@ -2933,27 +2933,27 @@ msgstr ""
 msgid "CMD"
 msgstr ""
 
-#: linux/WulforUtil.cc:268
+#: linux/WulforUtil.cc:270
 msgid "CP1250 (Central Europe)"
 msgstr ""
 
-#: linux/WulforUtil.cc:277
+#: linux/WulforUtil.cc:279
 msgid "CP1251 (Cyrillic)"
 msgstr ""
 
-#: linux/WulforUtil.cc:267
+#: linux/WulforUtil.cc:269
 msgid "CP1252 (Western Europe)"
 msgstr ""
 
-#: linux/WulforUtil.cc:278
+#: linux/WulforUtil.cc:280
 msgid "CP1256 (Arabic)"
 msgstr ""
 
-#: linux/WulforUtil.cc:279
+#: linux/WulforUtil.cc:281
 msgid "CP1257 (Baltic)"
 msgstr ""
 
-#: linux/WulforUtil.cc:275
+#: linux/WulforUtil.cc:277
 msgid "CP949 (Korean)"
 msgstr ""
 
@@ -3019,7 +3019,7 @@ msgstr ""
 msgid "Command name already exists"
 msgstr ""
 
-#: linux/WulforUtil.cc:740
+#: linux/WulforUtil.cc:742
 msgid "Command send: "
 msgstr ""
 
@@ -3291,11 +3291,11 @@ msgstr ""
 msgid "Extra Info"
 msgstr ""
 
-#: linux/WulforUtil.cc:307
+#: linux/WulforUtil.cc:309
 msgid "Failed to open URI: "
 msgstr ""
 
-#: linux/WulforUtil.cc:321
+#: linux/WulforUtil.cc:323
 msgid "Failed to open application: "
 msgstr ""
 
@@ -3409,7 +3409,7 @@ msgstr ""
 msgid "Full tree does not match TTH root"
 msgstr ""
 
-#: linux/WulforUtil.cc:280
+#: linux/WulforUtil.cc:282
 msgid "GB18030 (Chinese)"
 msgstr ""
 
@@ -3500,23 +3500,23 @@ msgstr ""
 msgid "IP address"
 msgstr ""
 
-#: linux/WulforUtil.cc:273
+#: linux/WulforUtil.cc:275
 msgid "ISO-2022-JP (Japanese)"
 msgstr ""
 
-#: linux/WulforUtil.cc:269
+#: linux/WulforUtil.cc:271
 msgid "ISO-8859-2 (Central Europe)"
 msgstr ""
 
-#: linux/WulforUtil.cc:270
+#: linux/WulforUtil.cc:272
 msgid "ISO-8859-7 (Greek)"
 msgstr ""
 
-#: linux/WulforUtil.cc:271
+#: linux/WulforUtil.cc:273
 msgid "ISO-8859-8 (Hebrew)"
 msgstr ""
 
-#: linux/WulforUtil.cc:272
+#: linux/WulforUtil.cc:274
 msgid "ISO-8859-9 (Turkish)"
 msgstr ""
 
@@ -3574,6 +3574,10 @@ msgstr ""
 msgid "Invalid extension: "
 msgstr ""
 
+#: linux/WulforUtil.cc:810
+msgid "Invalid number of slots"
+msgstr ""
+
 #: linux/downloadqueue.cc:230 linux/sharebrowser.cc:347
 msgid "Items: "
 msgstr ""
@@ -3582,7 +3586,7 @@ msgstr ""
 msgid "Items: 0"
 msgstr ""
 
-#: linux/WulforUtil.cc:276
+#: linux/WulforUtil.cc:278
 msgid "KOI8-R (Cyrillic)"
 msgstr ""
 
@@ -3714,10 +3718,6 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: linux/WulforUtil.cc:808
-msgid "No 0 Slots!!"
-msgstr ""
-
 #: linux/downloadqueue.cc:1363
 msgid "No errors"
 msgstr ""
@@ -3743,7 +3743,7 @@ msgstr ""
 msgid "Not found user: "
 msgstr ""
 
-#: linux/WulforUtil.cc:230
+#: linux/WulforUtil.cc:232
 msgid "Offline"
 msgstr ""
 
@@ -3844,7 +3844,7 @@ msgstr ""
 msgid "Rating"
 msgstr ""
 
-#: linux/WulforUtil.cc:789 linux/WulforUtil.cc:791
+#: linux/WulforUtil.cc:791 linux/WulforUtil.cc:793
 msgid "Ratio: "
 msgstr ""
 
@@ -3888,7 +3888,7 @@ msgstr ""
 msgid "Running..."
 msgstr ""
 
-#: linux/WulforUtil.cc:274
+#: linux/WulforUtil.cc:276
 msgid "SJIS (Japanese)"
 msgstr ""
 
@@ -3966,7 +3966,7 @@ msgstr ""
 msgid "Set Slots to n"
 msgstr ""
 
-#: linux/WulforUtil.cc:815
+#: linux/WulforUtil.cc:817
 msgid "Set Slots to:"
 msgstr ""
 
@@ -4172,7 +4172,7 @@ msgstr ""
 msgid "System Tab"
 msgstr ""
 
-#: linux/WulforUtil.cc:60
+#: linux/WulforUtil.cc:62
 msgid "System default"
 msgstr ""
 
@@ -4180,7 +4180,7 @@ msgstr ""
 msgid "System message"
 msgstr ""
 
-#: linux/WulforUtil.cc:281
+#: linux/WulforUtil.cc:283
 msgid "TIS-620 (Thai)"
 msgstr ""
 
@@ -4256,7 +4256,7 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
-#: linux/WulforUtil.cc:266
+#: linux/WulforUtil.cc:268
 msgid "UTF-8 (Unicode)"
 msgstr ""
 
@@ -4280,12 +4280,12 @@ msgstr ""
 msgid "Unable to open UDP port"
 msgstr ""
 
-#: linux/WulforUtil.cc:376 linux/WulforUtil.cc:378 linux/downloadqueue.cc:1289
+#: linux/WulforUtil.cc:378 linux/WulforUtil.cc:380 linux/downloadqueue.cc:1289
 #: linux/downloadqueue.cc:1290
 msgid "Unknown"
 msgstr ""
 
-#: linux/hub.cc:2316 linux/hub.cc:2332
+#: linux/hub.cc:2316
 msgid "Unknown command '"
 msgstr ""
 
@@ -4325,7 +4325,7 @@ msgstr ""
 msgid "Uploaded "
 msgstr ""
 
-#: linux/WulforUtil.cc:939
+#: linux/WulforUtil.cc:941
 msgid "Uptime: "
 msgstr ""
 
@@ -4655,7 +4655,7 @@ msgstr ""
 msgid "file list from "
 msgstr ""
 
-#: linux/WulforUtil.cc:776
+#: linux/WulforUtil.cc:778
 msgid "project home: "
 msgstr ""
 

@@ -54,6 +54,8 @@
 	#include <net/if.h>
 #endif
 
+#include <dcpp/RegEx.h>
+
 using namespace std;
 using namespace dcpp;
 
@@ -805,7 +807,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	else if ( cmd == "slots")
 	{
 		if (param == "0")
-					status = _("No 0 Slots!!");
+					status = _("Invalid number of slots");
 		else
 		{
 			SettingsManager *sm = SettingsManager::getInstance();
@@ -1092,13 +1094,7 @@ string WulforUtil::getReport(const Identity& identity)
 
 
 bool WulforUtil::matchRe(const std::string/*&*/ strToMatch, const std::string/*&*/ expression, bool caseSensative /*= true*/) {
-		try {
-			const boost::regex reg(expression, caseSensative ? 0 : boost::regex::icase);
-			return boost::regex_search(strToMatch.begin(), strToMatch.end(), reg);
-		} catch(...) {
-			//...
-		}
-		return false;
+		return RegEx::match<string>(strToMatch,expression, caseSensative);
 }
 ///From Crzdc
 string WulforUtil::generateLeech() {

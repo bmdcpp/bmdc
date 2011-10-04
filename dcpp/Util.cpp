@@ -1079,5 +1079,25 @@ bool Util::fileExists(const string aFile) {
   return blnReturn;
 }
 
+std::string Util::formatRegExp(const std::string& msg, dcpp::StringMap& params) {
+		std::string result = msg;
+		std::string::size_type i, j, k;
+		i = 0;
+		while (( j = result.find("%[", i)) != string::npos) {
+			if( (result.size() < j + 2) || ((k = result.find(']', j + 2)) == string::npos) ) {
+				break;
+			}
+			std::string name = result.substr(j + 2, k - j - 2);
+			StringMapIter smi = params.find(name);
+			if(smi != params.end()) {
+				result.replace(j, k-j + 1, smi->second);
+				i = j + smi->second.size();
+			} else {
+				i = k + 1;
+			}
+		}
+		return result;
+}
+
 
 } // namespace dcpp

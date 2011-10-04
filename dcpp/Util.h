@@ -445,6 +445,7 @@ public:
 	static bool fileExists(const string aFile);
 	static int64_t getUptime(){ return uptime; }
 	static void setUptime() { uptime++; }
+	static string formatRegExp(const string& msg, StringMap& params);
 
 private:
 	/** In local mode, all config and temp files are kept in the same dir as the executable */

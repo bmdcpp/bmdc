@@ -98,7 +98,7 @@ const string SettingsManager::settingTags[] =
 	"ListlenMismatchShow", "UseSdlKick", "SdlSpeed", "SdlTime", "SdlRaw",
 	"ShowSdlRaw", "ShowFakeShare", "ShowDisconnectRaw", "FavUserIsProtectedUser", "ShowFilelistVersionMismatch",
 	"ShowDcppEmulationRaw", "UncheckClientProtectedUser", "UncheckListProtectedUser", "ShowRmdcRaw", "DisplayCheatsInMainChat",
-	"ShowListenMisMatch", "ThrottleEnable", "LogFinishedDownload", "EnbLuaDebug", "TimeReccon", 
+	"ShowListenMisMatch", "ThrottleEnable", "LogFinishedDownload", "EnbLuaDebug", "TimeReccon", "UseWildcardsToProtect", 
 	"SENTRY",
 	// Int64
 	"TotalUpload", "TotalDownload",
@@ -368,6 +368,7 @@ SettingsManager::SettingsManager()
 	setDefault(UNCHECK_LIST_PROTECTED_USER, true);
 	setDefault(SHOW_RMDC_RAW, true);
 	setDefault(DISPLAY_CHEATS_IN_MAIN_CHAT, true);
+	setDefault(USE_WILDCARDS_TO_PROTECT, false);
 	
 	setDefault(ENB_LUA_DEBUG, false); 
 	setDefault(TIME_RECCON, 0);          

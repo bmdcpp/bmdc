@@ -32,7 +32,8 @@
 #include "CryptoManager.h"
 #include "ResourceManager.h"
 #include "User.h"
-#include "RegexUtil.h" //RSX++
+//#include "RegexUtil.h" //RSX++
+#include "RegEx.h"
 #include "MerkleTree.h"
 #include "SimpleXMLReader.h"
 #include "File.h"
@@ -381,7 +382,7 @@ void DirectoryListing::Directory::getHashList(DirectoryListing::Directory::TTHSe
 int64_t DirectoryListing::Directory::getTotalSize(bool adl) {
 	//RSX++
 	if(parent != NULL && parent->parent == NULL) {
-		if(RegexUtil::match(getName(), "([A-Z])")) {
+		if(RegEx::match<string>(getName(), "([A-Z])")) {
 			parent->rmDCdetected = true;
 		}
 	}

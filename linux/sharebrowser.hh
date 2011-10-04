@@ -36,7 +36,7 @@ class ShareBrowser:
 	public BookEntry
 {
 	public:
-		ShareBrowser(dcpp::UserPtr user, const std::string &file, const std::string &initialDirectory,int64_t speed);
+		ShareBrowser(dcpp::UserPtr user, const std::string &file, const std::string &initialDirectory, int64_t speed);
 		virtual ~ShareBrowser();
 		virtual void show();
 		virtual void popmenu();
