@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-10-03 15:18+0200\n"
+"POT-Creation-Date: 2011-10-03 19:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2995,7 +2995,7 @@ msgstr ""
 #: linux/finishedtransfers.cc:435 linux/hub.cc:3996 linux/ignoreusers.cc:577
 #: linux/notepad.cc:115 linux/privatemessage.cc:1288 linux/publichubs.cc:498
 #: linux/recenthub.cc:342 linux/search.cc:2016 linux/searchspy.cc:675
-#: linux/sharebrowser.cc:1090 linux/uploadqueue.cc:391
+#: linux/sharebrowser.cc:1090 linux/uploadqueue.cc:389
 msgid "Close"
 msgstr ""
 

@@ -335,4 +335,6 @@ Fix Sett. Man.
 Fix Behavior in Setting´s connection page
 BugFix of $SaltPass (iceman50)
 Add AutoUpdate of GeoIP along with HttpDownload helper´s struct
+Added option to Bold Hub Tab all times when changes what in it
+Bug Fix of $SaltPass (now working fine) (by iceman50)
 

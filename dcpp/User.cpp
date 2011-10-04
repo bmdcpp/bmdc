@@ -75,7 +75,6 @@ string Identity::getUdpPort() const {
 	if(getIp6().empty() || getUdp6Port().empty()) {
 		return getUdp4Port();
 	}
-
 	return getUdp6Port();
 }
 
@@ -137,7 +136,6 @@ void Identity::getParams(StringMap& sm, const string& prefix, bool compatibility
 string Identity::getCountry() const {
         bool v6 = !getIp6().empty();
         return Util::getCountry(v6 ? getIp6() : getIp4(), v6 ? Util::V6 : Util::V4);
-        //return Util::getCountry(getIp4());
 }        
 
 bool Identity::isClientType(ClientType ct) const {

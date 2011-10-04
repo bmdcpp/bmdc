@@ -966,9 +966,11 @@ string Util::getCountryAB(const string& ip)
 { 
 	return geo4.getCountryAB(ip);
 }//think about IPv6  here...
+
 string Util::getGeoPath(bool v6) {
 	return getPath(PATH_USER_CONFIG) + (v6 ? "GeoIPv6.dat" : "GeoIP.dat");
-}	
+}
+	
 string Util::getTimeString() {
 	char buf[64];
 	time_t _tt;

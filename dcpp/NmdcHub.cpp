@@ -1064,13 +1064,14 @@ void NmdcHub::refreshUserList(bool refreshOnly) {
 
 void NmdcHub::password(const string& aPass) {
 	if(!salt.empty()) {
+		string filteredPass = fromUtf8(aPass);
 		size_t saltBytes = salt.size() * 5 / 8;
 		boost::scoped_array<uint8_t> buf(new uint8_t[saltBytes]);
 		Encoder::fromBase32(salt.c_str(), &buf[0], saltBytes);
 		TigerHash th;
-		th.update(aPass.data(), aPass.length());
+		th.update(filteredPass.data(), filteredPass.length());
 		th.update(&buf[0], saltBytes);		
-		send("$MyPass " + fromUtf8(Encoder::toBase32(th.finalize(), TigerHash::BYTES)) + "|");
+		send("$MyPass " + Encoder::toBase32(th.finalize(), TigerHash::BYTES) + "|");
 		salt.clear();
 	} else {
 		send("$MyPass " + fromUtf8(aPass) + "|");

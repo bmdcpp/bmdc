@@ -26,16 +26,12 @@ namespace dcpp {
 class ColorSettings
 {
 public:
-	ColorSettings(): bTimestamps(false), bUsers(false), bMyNick(false), bUsingRegexp(false), 
-		strMatch(Util::emptyStringT), strSoundFile(Util::emptyStringT), bWholeWord(false), 
-		bWholeLine(false), bIncludeNick(false), bCaseSensitive(false), bPopup(false), bTab(false),
-		bPlaySound(false), bBold(false), bUnderline(false), bItalic(false), bStrikeout(false), 
-		bNoti(Util::emptyStringT), iMatchType(1), iBgColor(Util::emptyStringT), iFgColor(Util::emptyStringT), bHasBgColor(false),
+	ColorSettings(): bUsingRegexp(false), strMatch(Util::emptyString), strSoundFile(Util::emptyString), bIncludeNick(false), bCaseSensitive(false), bPopup(false), bTab(false),
+		bPlaySound(false), bBold(false), bUnderline(false), bItalic(false), 
+		bNoti(Util::emptyString), iMatchType(1), iBgColor(Util::emptyString), iFgColor(Util::emptyString), bHasBgColor(false),
 		bHasFgColor(false) {	}
-	~ColorSettings(){};
+	~ColorSettings(){ };
 
-	GETSET(bool, bWholeWord, WholeWord);
-	GETSET(bool, bWholeLine, WholeLine);
 	GETSET(bool, bIncludeNick, IncludeNick);
 	GETSET(bool, bCaseSensitive, CaseSensitive);
 	GETSET(bool, bPopup, Popup);
@@ -44,7 +40,6 @@ public:
 	GETSET(bool, bBold, Bold);
 	GETSET(bool, bUnderline, Underline);
 	GETSET(bool, bItalic, Italic);
-	GETSET(bool, bStrikeout, Strikeout);
 	GETSET(string, bNoti, Noti);
 	GETSET(int,  iMatchType, MatchType);
 	GETSET(string,  iBgColor, BgColor);
@@ -54,21 +49,11 @@ public:
 	GETSET(string, strSoundFile, SoundFile);
     	
 	void setMatch(string match){
-		if( match.compare(("$ts$")) == 0){
-			bTimestamps = true;
-		}else if(match.compare(("$users$")) == 0) {
-			bUsers = true;
-		}else if(match.find(("$mynick$")) != tstring::npos) {
-			bMyNick = true;
-		} else if(match.find(("$Re:")) == 0) {
+		if(match.find(("$Re:")) == 0) {
 			bUsingRegexp = true;
 		}
 		strMatch = match;
 	}
-
-	bool getUsers() { return bUsers; }
-	bool getTimestamps() { return bTimestamps; }
-	bool getMyNick() { return bMyNick; }
 	bool usingRegexp() { return bUsingRegexp; }
 
 	const string & getMatch() { return strMatch; }
@@ -77,9 +62,6 @@ private:
 	//string to match against
 	string strMatch;
 
-	bool bTimestamps;
-	bool bUsers;
-	bool bMyNick;
 	bool bUsingRegexp;
 
 };

@@ -350,8 +350,6 @@ void UploadQueue::getFileList_client(const std::string cid)
 			HintedUser hintedUser(uu, Util::emptyString);
 			QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW);//NOTE: core 0.762
 		}
-		
-	
 	}catch(...)
 	{ //... for now ignore it
 	}	

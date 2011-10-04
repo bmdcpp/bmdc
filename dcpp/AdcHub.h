@@ -127,27 +127,26 @@ private:
 
 	void clearUsers();
 
-	void handle(AdcCommand::SUP, AdcCommand& c) throw();
-	void handle(AdcCommand::SID, AdcCommand& c) throw();
-	void handle(AdcCommand::MSG, AdcCommand& c) throw();
-	void handle(AdcCommand::INF, AdcCommand& c) throw();
-	void handle(AdcCommand::GPA, AdcCommand& c) throw();
-	void handle(AdcCommand::QUI, AdcCommand& c) throw();
-	void handle(AdcCommand::CTM, AdcCommand& c) throw();
-	void handle(AdcCommand::RCM, AdcCommand& c) throw();
-	void handle(AdcCommand::STA, AdcCommand& c) throw();
-	void handle(AdcCommand::SCH, AdcCommand& c) throw();
-	void handle(AdcCommand::CMD, AdcCommand& c) throw();
-	void handle(AdcCommand::RES, AdcCommand& c) throw();
-	void handle(AdcCommand::GET, AdcCommand& c) throw();
-	void handle(AdcCommand::NAT, AdcCommand& c) throw();
-	void handle(AdcCommand::RNT, AdcCommand& c) throw();
-	void handle(AdcCommand::ZON, AdcCommand& c) throw();
-	//void handle(AdcCommand::ZOF, AdcCommand& c) throw();
-
+	void handle(AdcCommand::SUP, AdcCommand& c) noexcept;
+	void handle(AdcCommand::SID, AdcCommand& c) noexcept;
+	void handle(AdcCommand::MSG, AdcCommand& c) noexcept;
+	void handle(AdcCommand::INF, AdcCommand& c) noexcept;
+	void handle(AdcCommand::GPA, AdcCommand& c) noexcept;
+	void handle(AdcCommand::QUI, AdcCommand& c) noexcept;
+	void handle(AdcCommand::CTM, AdcCommand& c) noexcept;
+	void handle(AdcCommand::RCM, AdcCommand& c) noexcept;
+	void handle(AdcCommand::STA, AdcCommand& c) noexcept;
+	void handle(AdcCommand::SCH, AdcCommand& c) noexcept;
+	void handle(AdcCommand::CMD, AdcCommand& c) noexcept;
+	void handle(AdcCommand::RES, AdcCommand& c) noexcept;
+	void handle(AdcCommand::GET, AdcCommand& c) noexcept;
+	void handle(AdcCommand::NAT, AdcCommand& c) noexcept;
+	void handle(AdcCommand::RNT, AdcCommand& c) noexcept;
+	void handle(AdcCommand::ZON, AdcCommand& c) noexcept;
+	
 	template<typename T> void handle(T, AdcCommand&) { }
 
-	void sendUDP(const AdcCommand& cmd) throw();
+	void sendUDP(const AdcCommand& cmd) noexcept;
 	void unknownProtocol(uint32_t target, const string& protocol, const string& token);
 	bool secureAvail(uint32_t target, const string& protocol, const string& token);
 	void sendSearch(AdcCommand& c);

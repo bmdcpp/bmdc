@@ -18,6 +18,7 @@
 
 #ifndef DCPLUSPLUS_DCPP_CLIENT_H
 #define DCPLUSPLUS_DCPP_CLIENT_H
+
 #include "compiler.h"
 #include "forward.h"
 #include "Atomic.h"
@@ -157,7 +158,6 @@ public:
 	GETSET(bool, checkClients, CheckClients);
 	GETSET(bool, checkFilelists, CheckFilelists);
 	GETSET(bool, checkOnConnect, CheckOnConnect);
-//	GETSET(bool, checkMyInfo, CheckMyInfo);
 
 	GETSET(string, chatExtraInfo, ChatExtraInfo);
 	GETSET(string, favIp, FavIp);

@@ -1413,9 +1413,9 @@ bool WulforUtil::isHighlitingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, stri
 							"underline", tUnderline ? PANGO_UNDERLINE_DOUBLE : PANGO_UNDERLINE_NONE,
 							NULL);
 						}
-					TagsMap[Tag::TAG_HIGHL] = tag;//think about this  =P
-					ret = TRUE;
-					continue;
+						TagsMap[Tag::TAG_HIGHL] = tag;//think about this  =P
+						ret = TRUE;
+						continue;
 					}
 				}	
 			}

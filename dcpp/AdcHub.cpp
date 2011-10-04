@@ -33,7 +33,6 @@
 #include "CryptoManager.h"
 #include "LogManager.h"
 #include "ThrottleManager.h"
-
 #include "UploadManager.h"
 
 #include <math.h>
@@ -138,7 +137,7 @@ void AdcHub::clearUsers() {
 	}
 }
 
-void AdcHub::handle(AdcCommand::INF, AdcCommand& c) throw() {
+void AdcHub::handle(AdcCommand::INF, AdcCommand& c) noexcept {
 	if(c.getParameters().empty())
 		return;
 
@@ -220,7 +219,7 @@ void AdcHub::handle(AdcCommand::INF, AdcCommand& c) throw() {
 	}
 }
 
-void AdcHub::handle(AdcCommand::SUP, AdcCommand& c) throw() {
+void AdcHub::handle(AdcCommand::SUP, AdcCommand& c) noexcept {
 	if(state != STATE_PROTOCOL) /** @todo SUP changes */
 		return;
 	bool baseOk = false;
@@ -247,7 +246,7 @@ void AdcHub::handle(AdcCommand::SUP, AdcCommand& c) throw() {
 	}
 }
 
-void AdcHub::handle(AdcCommand::SID, AdcCommand& c) throw() {
+void AdcHub::handle(AdcCommand::SID, AdcCommand& c) noexcept {
 	if(state != STATE_PROTOCOL) {
 		dcdebug("Invalid state for SID\n");
 		return;
@@ -262,7 +261,7 @@ void AdcHub::handle(AdcCommand::SID, AdcCommand& c) throw() {
 	info(true);
 }
 
-void AdcHub::handle(AdcCommand::MSG, AdcCommand& c) throw() {
+void AdcHub::handle(AdcCommand::MSG, AdcCommand& c) noexcept {
 	if(c.getParameters().empty())
 		return;
 
@@ -290,7 +289,7 @@ void AdcHub::handle(AdcCommand::MSG, AdcCommand& c) throw() {
 	fire(ClientListener::Message(), this, message);
 }
 
-void AdcHub::handle(AdcCommand::GPA, AdcCommand& c) throw() {
+void AdcHub::handle(AdcCommand::GPA, AdcCommand& c) noexcept {
 	if(c.getParameters().empty())
 		return;
 	salt = c.getParam(0);
@@ -299,7 +298,7 @@ void AdcHub::handle(AdcCommand::GPA, AdcCommand& c) throw() {
 	fire(ClientListener::GetPassword(), this);
 }
 
-void AdcHub::handle(AdcCommand::QUI, AdcCommand& c) throw() {
+void AdcHub::handle(AdcCommand::QUI, AdcCommand& c) noexcept {
 	uint32_t s = AdcCommand::toSID(c.getParam(0));
 
 	OnlineUser* victim = findUser(s);
@@ -346,7 +345,7 @@ void AdcHub::handle(AdcCommand::QUI, AdcCommand& c) throw() {
 	}
 }
 
-void AdcHub::handle(AdcCommand::CTM, AdcCommand& c) throw() {
+void AdcHub::handle(AdcCommand::CTM, AdcCommand& c) noexcept {
 	OnlineUser* u = findUser(c.getFrom());
 	if(!u || u->getUser() == ClientManager::getInstance()->getMe())
 		return;
@@ -375,7 +374,7 @@ void AdcHub::handle(AdcCommand::CTM, AdcCommand& c) throw() {
 	ConnectionManager::getInstance()->adcConnect(*u, port, token, secure);
 }
 
-void AdcHub::handle(AdcCommand::RCM, AdcCommand& c) throw() {
+void AdcHub::handle(AdcCommand::RCM, AdcCommand& c) noexcept {
 	if(c.getParameters().size() < 2) {
 		return;
 	}
@@ -412,7 +411,7 @@ void AdcHub::handle(AdcCommand::RCM, AdcCommand& c) throw() {
 		addParam(protocol).addParam(Util::toString(sock->getLocalPort())).addParam(token));
 }
 
-void AdcHub::handle(AdcCommand::CMD, AdcCommand& c) throw() {
+void AdcHub::handle(AdcCommand::CMD, AdcCommand& c) noexcept {
 	if(c.getParameters().size() < 1)
 		return;
 	const string& name = c.getParam(0);
@@ -439,7 +438,7 @@ void AdcHub::handle(AdcCommand::CMD, AdcCommand& c) throw() {
 	fire(ClientListener::HubUserCommand(), this, (int)(once ? UserCommand::TYPE_RAW_ONCE : UserCommand::TYPE_RAW), ctx, name, txt);
 }
 
-void AdcHub::sendUDP(const AdcCommand& cmd) throw() {
+void AdcHub::sendUDP(const AdcCommand& cmd) noexcept {
 	string command;
 	string ip;
 	string port;
@@ -466,7 +465,7 @@ void AdcHub::sendUDP(const AdcCommand& cmd) throw() {
 	}
 }
 
-void AdcHub::handle(AdcCommand::STA, AdcCommand& c) throw() {
+void AdcHub::handle(AdcCommand::STA, AdcCommand& c) noexcept {
 	if(c.getParameters().size() < 2)
 		return;
 
@@ -516,7 +515,7 @@ void AdcHub::handle(AdcCommand::STA, AdcCommand& c) throw() {
 	fire(ClientListener::Message(), this, message);
 }
 
-void AdcHub::handle(AdcCommand::SCH, AdcCommand& c) throw() {
+void AdcHub::handle(AdcCommand::SCH, AdcCommand& c) noexcept {
 	if(getHideShare()) // Hide Share
 		return;
 
@@ -529,7 +528,7 @@ void AdcHub::handle(AdcCommand::SCH, AdcCommand& c) throw() {
 	fire(ClientListener::AdcSearch(), this, c, ou->getUser()->getCID());
 }
 
-void AdcHub::handle(AdcCommand::RES, AdcCommand& c) throw() {
+void AdcHub::handle(AdcCommand::RES, AdcCommand& c) noexcept {
 	OnlineUser* ou = findUser(c.getFrom());
 	if(!ou) {
 		dcdebug("Invalid user in AdcHub::onRES\n");
@@ -538,7 +537,7 @@ void AdcHub::handle(AdcCommand::RES, AdcCommand& c) throw() {
 	SearchManager::getInstance()->onRES(c, ou->getUser());
 }
 
-void AdcHub::handle(AdcCommand::GET, AdcCommand& c) throw() {
+void AdcHub::handle(AdcCommand::GET, AdcCommand& c) noexcept {
 	if(c.getParameters().size() < 5) {
 		if(c.getParameters().size() > 0) {
 			if(c.getParam(0) == "blom") {
@@ -601,7 +600,7 @@ void AdcHub::handle(AdcCommand::GET, AdcCommand& c) throw() {
 	}
 }
 
-void AdcHub::handle(AdcCommand::NAT, AdcCommand& c) throw() {
+void AdcHub::handle(AdcCommand::NAT, AdcCommand& c) noexcept {
 	OnlineUser* u = findUser(c.getFrom());
 	if(!u || u->getUser() == ClientManager::getInstance()->getMe() || c.getParameters().size() < 3)
 		return;
@@ -629,7 +628,7 @@ void AdcHub::handle(AdcCommand::NAT, AdcCommand& c) throw() {
 		addParam(localPort).addParam(token));
 }
 
-void AdcHub::handle(AdcCommand::RNT, AdcCommand& c) throw() {
+void AdcHub::handle(AdcCommand::RNT, AdcCommand& c) noexcept {
 	// Sent request for NAT traversal cooperation, which
 	// was acknowledged (with requisite local port information).
 	OnlineUser* u = findUser(c.getFrom());
@@ -655,22 +654,13 @@ void AdcHub::handle(AdcCommand::RNT, AdcCommand& c) throw() {
 	ConnectionManager::getInstance()->adcConnect(*u, port, localPort , BufferedSocket::NAT_SERVER, token, secure);
 }
 
-void AdcHub::handle(AdcCommand::ZON, AdcCommand& c) throw() {
+void AdcHub::handle(AdcCommand::ZON, AdcCommand& c) noexcept {
 	try {
 			sock->setMode(BufferedSocket::MODE_ZPIPE);
 		} catch (const Exception& e) {
 			dcdebug("AdcHub::handleZON failed with error: %s\n", e.getError().c_str());
 		}
 }
-/*
-void AdcHub::handle(AdcCommand::ZOF, AdcCommand& c) throw() {
-	try {
-			sock->setMode(BufferedSocket::MODE_LINE);
-		} catch (const Exception& e) {
-			dcdebug("AdcHub::handleZOF failed with error: %s\n", e.getError().c_str());
-		}
-}
-*/
 
 void AdcHub::connect(const OnlineUser& user, const string& token) {
 	connect(user, token, CryptoManager::getInstance()->TLSOk() && user.getUser()->isSet(User::TLS));

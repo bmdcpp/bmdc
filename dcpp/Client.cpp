@@ -96,13 +96,13 @@ void Client::reloadSettings(bool updateNick) {
 		}
 		if(!hub->getPassword().empty())
 			setPassword(hub->getPassword());
-		///REDM
+		///Hide
 		setHideShare(hub->getHideShare());
 		//RSX
 		setCheckClients(hub->getCheckClients());
 		setCheckFilelists(hub->getCheckFilelists());
 		setCheckOnConnect(hub->getCheckOnConnect());
-	//	setCheckMyInfo(hub->getCheckMyInfo());
+
 		setChatExtraInfo(hub->getChatExtraInfo());
 		
 		setFavIp(hub->getIp());
@@ -112,13 +112,12 @@ void Client::reloadSettings(bool updateNick) {
 			setCurrentNick(checkNick(SETTING(NICK)));
 		}
 		setCurrentDescription(SETTING(DESCRIPTION));
-		///REDM
+		///
 		setHideShare(false);
 		//RSX
 		setCheckClients(false);
 		setCheckFilelists(false);
 		setCheckOnConnect(false);
-//		setCheckMyInfo(true);
 		 
 		setChatExtraInfo(Util::emptyString);
 		setFavIp(Util::emptyString);
@@ -269,6 +268,7 @@ void Client::on(Second, uint64_t aTick) throw() {
 		// Try to reconnect...
 		connect();
 	}
+	
 	if(isConnected()){
 		cmdQueue.onSecond(aTick); //RSX+
 	}

@@ -18,6 +18,7 @@
 
 #ifndef DCPLUSPLUS_DCPP_EXCEPTION_H
 #define DCPLUSPLUS_DCPP_EXCEPTION_H
+#include <string>
 #include "debug.h"
 namespace dcpp {
 
@@ -39,8 +40,8 @@ protected:
 
 #define STANDARD_EXCEPTION(name) class name : public Exception { \
 public:\
-	name() throw() : Exception(#name) { } \
-	name(const string& aError) throw() : Exception(#name ": " + aError) { } \
+	name() : Exception(#name) { } \
+	name(const string& aError) : Exception(#name ": " + aError) { } \
 	virtual ~name() throw() { } \
 }
 
@@ -48,8 +49,8 @@ public:\
 
 #define STANDARD_EXCEPTION(name) class name : public Exception { \
 public:\
-	name() throw() : Exception() { } \
-	name(const string& aError) throw() : Exception(aError) { } \
+	name() : Exception() { } \
+	name(const string& aError) : Exception(aError) { } \
 	virtual ~name() throw() { } \
 }
 #endif
