@@ -35,7 +35,7 @@ BookEntry(Entry::RECENT,_("Recent Hubs"),"recenthub.glade")
 		// Configure the dialog
 		gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("DescriptionDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
 
-		// Initialize favorite users list treeview
+		// Initialize Recent Hub list treeview
 		recentView.setView(GTK_TREE_VIEW(getWidget("favoriteUserView")));
 		recentView.insertColumn(_("Name"), G_TYPE_STRING, TreeView::STRING, 100);
 		recentView.insertColumn(_("Server"), G_TYPE_STRING, TreeView::STRING, 200);
@@ -54,6 +54,7 @@ BookEntry(Entry::RECENT,_("Recent Hubs"),"recenthub.glade")
 		g_signal_connect(getWidget("connectItem"), "activate", G_CALLBACK(onConnectItemClicked_gui), (gpointer)this);
 		g_signal_connect(getWidget("removeItem"), "activate", G_CALLBACK(onRemoveItemClicked_gui), (gpointer)this);
 		g_signal_connect(getWidget("removeALLItem"), "activate", G_CALLBACK(onDeleteAll_gui), (gpointer)this);
+		
 		g_signal_connect(recentView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
 		g_signal_connect(recentView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 		g_signal_connect(recentView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
@@ -236,6 +237,7 @@ void RecentTab::onDeleteAll_gui(GtkWidget *widget, gpointer data)
 		string name = rt->recentView.getString(&iter, _("Name"));
 		F1 *func = new F1(rt, &RecentTab::removeRecent_client, name);
 		WulforManager::get()->dispatchClientFunc(func);
+		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(rt->recentStore),&iter);
 	}
 }
 

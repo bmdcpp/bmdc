@@ -96,14 +96,6 @@ const string& RsxUtil::getTestSURString() {
 	return tmpTestSur.empty() ? defaultTestSURName : tmpTestSur;
 }
 /*
-string RsxUtil::getUpdateFileNames(const int number) {
-	switch(number) {
-		case 1: return "UserInfoProfiles.xml";
-//		case 2: return "IPWatch.xml";
-		default: return "Profiles.xml";
-	}
-}*/
-/*
 bool RsxUtil::toBool(const string& aString) {
 	return (Util::toInt(aString) >= 1 ? true : false);
 }

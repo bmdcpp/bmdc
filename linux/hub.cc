@@ -2050,7 +2050,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 				hub->addStatusMessage_gui(status,Msg::SYSTEM,Sound::NONE);
 		}
 
-		if (command == "clear")
+		else if (command == "clear")
 		{
 			GtkTextIter startIter, endIter;
 			gtk_text_buffer_get_start_iter(hub->chatBuffer, &startIter);

@@ -339,5 +339,7 @@ Added option to Bold Hub Tab all times when changes what in it
 Bug Fix of $SaltPass (now working fine) (by iceman50)
 Finaly Fix isue with untick Unknow Command 
 Move to template for RegExp (and also add Wildcard Support to Protect Users) 
+Set a users IP address sooner during a connection attempt (dcpp r2624)
+Fix Remove All in RecentHubs
 
 

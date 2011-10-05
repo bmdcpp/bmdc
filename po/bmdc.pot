@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-10-04 22:54+0200\n"
+"POT-Creation-Date: 2011-10-05 17:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -752,8 +752,8 @@ msgstr ""
 #: linux/hub.cc:548 linux/ignoreusers.cc:47 linux/ignoreusers.cc:104
 #: linux/ignoreusers.cc:336 linux/ignoreusers.cc:361 linux/ignoreusers.cc:511
 #: linux/publichubs.cc:40 linux/publichubs.cc:168 linux/publichubs.cc:309
-#: linux/recenthub.cc:42 linux/recenthub.cc:81 linux/recenthub.cc:274
-#: linux/recenthub.cc:287
+#: linux/recenthub.cc:42 linux/recenthub.cc:82 linux/recenthub.cc:276
+#: linux/recenthub.cc:289
 msgid "Description"
 msgstr ""
 
@@ -1443,8 +1443,8 @@ msgstr ""
 #: linux/favoritehubs.cc:389 linux/favoritehubs.cc:428
 #: linux/favoritehubs.cc:565 linux/favoritehubs.cc:719 linux/publichubs.cc:39
 #: linux/publichubs.cc:167 linux/publichubs.cc:308 linux/recenthub.cc:40
-#: linux/recenthub.cc:79 linux/recenthub.cc:190 linux/recenthub.cc:236
-#: linux/recenthub.cc:275 linux/recenthub.cc:284 linux/search.cc:71
+#: linux/recenthub.cc:80 linux/recenthub.cc:191 linux/recenthub.cc:237
+#: linux/recenthub.cc:277 linux/recenthub.cc:286 linux/search.cc:71
 #: linux/search.cc:240 linux/search.cc:257 linux/search.cc:278
 #: linux/settingsdialog.cc:739 linux/settingsdialog.cc:748
 #: linux/settingsdialog.cc:927 linux/settingsdialog.cc:962
@@ -2171,8 +2171,8 @@ msgstr ""
 #: glade/mainwindow.glade:1317 linux/downloadqueue.cc:66
 #: linux/downloadqueue.cc:270 linux/downloadqueue.cc:377
 #: linux/publichubs.cc:41 linux/publichubs.cc:56 linux/publichubs.cc:57
-#: linux/publichubs.cc:169 linux/recenthub.cc:43 linux/recenthub.cc:82
-#: linux/recenthub.cc:277 linux/recenthub.cc:286
+#: linux/publichubs.cc:169 linux/recenthub.cc:43 linux/recenthub.cc:83
+#: linux/recenthub.cc:279 linux/recenthub.cc:288
 msgid "Users"
 msgstr ""
 
@@ -2856,7 +2856,7 @@ msgstr ""
 msgid "Are you sure you want to delete item?"
 msgstr ""
 
-#: linux/recenthub.cc:202
+#: linux/recenthub.cc:203
 msgid "Are you sure you want to delete recent hub(s)?"
 msgstr ""
 
@@ -2994,7 +2994,7 @@ msgstr ""
 #: linux/favoritehubs.cc:1260 linux/favoriteusers.cc:648
 #: linux/finishedtransfers.cc:435 linux/hub.cc:3996 linux/ignoreusers.cc:577
 #: linux/notepad.cc:115 linux/privatemessage.cc:1288 linux/publichubs.cc:498
-#: linux/recenthub.cc:342 linux/search.cc:2016 linux/searchspy.cc:675
+#: linux/recenthub.cc:344 linux/search.cc:2016 linux/searchspy.cc:675
 #: linux/sharebrowser.cc:1090 linux/uploadqueue.cc:389
 msgid "Close"
 msgstr ""
@@ -3949,8 +3949,8 @@ msgstr ""
 msgid "Send unknown /commands to the hub"
 msgstr ""
 
-#: linux/recenthub.cc:41 linux/recenthub.cc:80 linux/recenthub.cc:163
-#: linux/recenthub.cc:189 linux/recenthub.cc:285
+#: linux/recenthub.cc:41 linux/recenthub.cc:81 linux/recenthub.cc:164
+#: linux/recenthub.cc:190 linux/recenthub.cc:287
 msgid "Server"
 msgstr ""
 
@@ -3984,8 +3984,8 @@ msgstr ""
 
 #: linux/hub.cc:78 linux/hub.cc:483 linux/hub.cc:513 linux/hub.cc:547
 #: linux/hub.cc:610 linux/publichubs.cc:44 linux/publichubs.cc:172
-#: linux/recenthub.cc:44 linux/recenthub.cc:83 linux/recenthub.cc:276
-#: linux/recenthub.cc:288
+#: linux/recenthub.cc:44 linux/recenthub.cc:84 linux/recenthub.cc:278
+#: linux/recenthub.cc:290
 msgid "Shared"
 msgstr ""
 

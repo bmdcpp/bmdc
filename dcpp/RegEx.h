@@ -20,7 +20,6 @@
 #define REG_EX_H
 
 #include <boost/regex.hpp>
-
 #include "StringTokenizer.h"
 
 namespace dcpp {

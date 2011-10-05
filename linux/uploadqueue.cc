@@ -38,7 +38,7 @@ BookEntry(Entry::UPLOADQUEUE, _("Upload Queue"), "uploadqueue.glade")
 {
 	users.setView(GTK_TREE_VIEW(getWidget("viewUsers")));
 	users.insertColumn("User", G_TYPE_STRING, TreeView::STRING, 80);
-	users.insertColumn("File", G_TYPE_STRING, TreeView::STRING, 130);
+	users.insertColumn("File", G_TYPE_STRING, TreeView::STRING, 150);
 	users.insertColumn("Hub", G_TYPE_STRING, TreeView::STRING, 80);
 	users.insertColumn("CID", G_TYPE_STRING, TreeView::STRING, 80);
 	users.finalize();

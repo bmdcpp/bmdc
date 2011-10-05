@@ -940,7 +940,7 @@ uint32_t Util::rand() {
 	return y;
 }
 
-/*	getIpCountry
+/*	getCountry
 	This function returns the country of an ip
 	for exemple: it returns "PT" or Portugal - PT (as Country Format in Setting )"
 	more info: http://www.maxmind.com/app/c
@@ -964,8 +964,8 @@ string Util::getCountry(const string& ip, int flags) {
 /*return Abbreviation of Country*/
 string Util::getCountryAB(const string& ip) 
 { 
-	return geo4.getCountryAB(ip);
-}//think about IPv6  here...
+	return geo4.getCountryAB(ip);//think about IPv6  here...
+}
 
 string Util::getGeoPath(bool v6) {
 	return getPath(PATH_USER_CONFIG) + (v6 ? "GeoIPv6.dat" : "GeoIP.dat");
@@ -1079,7 +1079,7 @@ bool Util::fileExists(const string aFile) {
   return blnReturn;
 }
 
-std::string Util::formatRegExp(const std::string& msg, dcpp::StringMap& params) {
+std::string Util::formatRegExp(const string& msg, StringMap& params) {
 		std::string result = msg;
 		std::string::size_type i, j, k;
 		i = 0;

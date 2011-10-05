@@ -143,12 +143,12 @@ tstring RawManager::getNameActionId(int actionId) {
 
 Action* RawManager::addAction(int id, const std::string& name, bool enabled) throw(Exception) {
 	if(name.empty())
-		throw Exception("NO_NAME_SPECIFIED");
+		throw Exception("NO NAME SPECIFIED");
 
 	Lock l(cs);
 	for(Action::ActionList::const_iterator i = actions.begin(); i != actions.end(); ++i) {
 		if(Util::stricmp(name, (*i)->getName()) == 0)
-			throw Exception("ACTION_EXISTS");
+			throw Exception("ACTION EXISTS");
 	}
 
 	while(id == 0) {
@@ -171,7 +171,7 @@ void RawManager::editAction(Action* a, const std::string& name) throw(Exception)
 		Lock l(cs);
 		for(Action::ActionList::const_iterator i = actions.begin(); i != actions.end(); ++i) {
 			if(Util::stricmp(name, (*i)->getName()) == 0)
-				throw Exception("ACTION_EXISTS");
+				throw Exception("ACTION EXISTS");
 		}
 	}
 	a->setName(name);
@@ -211,12 +211,12 @@ Raw* RawManager::addRaw(Action* a, Raw& r) throw(Exception) {
 	if(a == NULL) return NULL; // nothing to do
 
 	if(r.getName().empty())
-		throw Exception("NO_NAME_SPECIFIED");
+		throw Exception("NO NAME SPECIFIED");
 
 	Lock l(cs);
 	for(Action::RawsList::const_iterator j = a->raw.begin(); j != a->raw.end(); ++j) {
 		if(Util::stricmp(j->getName(), r.getName()) == 0)
-			throw Exception("RAW_EXISTS");
+			throw Exception("RAW EXISTS");
 	}
 
 	while(r.getId() == 0) {
@@ -235,7 +235,7 @@ Raw* RawManager::addRaw(Action* a, Raw& r) throw(Exception) {
 
 void RawManager::editRaw(const Action* a, Raw* old, Raw _new) throw(Exception) {
 	if(_new.getName().empty())
-		throw Exception("NO_NAME_SPECIFIED");
+		throw Exception("NO NAME SPECIFIED");
 	if(Util::stricmp(old->getName(), _new.getName()) != 0) {
 		Lock l(cs);
 		for(Action::RawsList::const_iterator j = a->raw.begin(); j != a->raw.end(); ++j) {
