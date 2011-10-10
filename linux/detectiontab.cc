@@ -1606,7 +1606,7 @@ bool DetectionTab::showErrorDialog_gui(const string &description, DetectionTab *
 	return TRUE;
 }
 
-void DetectionTab::set_combo(GtkWidget *place, vector<pair<string,int> > act, int set, bool det,gpointer data)
+void DetectionTab::set_combo(GtkWidget *place, vector<pair<string,int> > act, int set, bool det, gpointer data)
 {
     DetectionTab *dt = (DetectionTab *)data;
     GtkListStore *store;

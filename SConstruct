@@ -19,6 +19,7 @@ BUILD_PATH = '#/build/'
 BUILD_LOCALE_PATH = BUILD_PATH + 'locale/'
 LIB_IS_UPNP = True
 LIB_IS_GEO = False
+LIB_IS_TAR = False
 
 # todo: remove -fpermissive and fix the errors
 BUILD_FLAGS = {
@@ -299,11 +300,20 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if not conf.CheckLib('libminiupnpc'):
 		LIB_IS_UPNP = False
 	
-		
+	#GeoIp	
 	if conf.CheckHeader('GeoIP.h'):	
 		print 'Found GeoIP headers'
 		conf.env.Append(CPPDEFINES = 'HAVE_GEOIPLIB')
 		LIB_IS_GEO = True
+	else:
+		print 'Dont Found GeoIP headers or libs'	
+	#tar for Backup/Restore man	
+	if conf.CheckHeader("libtar.h"):
+		print "Found Libtar"
+		conf.env.Append(CPPDEFINES = 'HAVE_LIBTAR')
+		LIB_IS_TAR = True
+	else:
+		print 'Dont Found libtar headers'	
 		
 	#	conf.CheckBZRRevision()
 	env = conf.Finish()
@@ -316,7 +326,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	env.MergeFlags(BUILD_FLAGS[env['mode']])
 
 	env.Append(CXXFLAGS = '-std=c++0x')
-	env.Append(LINKFLAGS = ['-lboost_thread','-lboost_regex','-L/usr/local/lib'])
+	env.Append(LINKFLAGS = ['-lboost_thread','-lboost_regex'])
 
 	env.ParseConfig('pkg-config --libs libglade-2.0')
 	env.ParseConfig('pkg-config --libs gthread-2.0')
@@ -337,6 +347,10 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if LIB_IS_GEO:
 		env.Append(LINKFLAGS = '-lGeoIP')
 		env.Append(LIBS = 'GeoIP')
+		
+	if LIB_IS_TAR:
+		env.Append(LINKFLAGS = '-ltar')
+		env.Append(LIBS = 'tar')	
 		
 	
 	#LUA

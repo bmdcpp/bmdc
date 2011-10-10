@@ -125,7 +125,6 @@ public:
 	Identity() : sid(0) { }
 	Identity(const UserPtr& ptr, uint32_t aSID) : user(ptr), sid(aSID) { }
 	Identity(const Identity& rhs) : /*Flags(),*/ sid(0) { *this = rhs; } // Use operator= since we have to lock before reading...
-	//Identity& operator=(const Identity& rhs) { FastLock l(cs); *static_cast<Flags*>(this) = rhs; user = rhs.user; sid = rhs.sid; info = rhs.info; return *this; }
 	Identity& operator=(const Identity& rhs) { FastLock l(cs); user = rhs.user; info = rhs.info; sid = rhs.sid; return *this; }
 	~Identity() { }
 

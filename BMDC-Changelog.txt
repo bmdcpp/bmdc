@@ -341,5 +341,8 @@ Finaly Fix isue with untick Unknow Command
 Move to template for RegExp (and also add Wildcard Support to Protect Users) 
 Set a users IP address sooner during a connection attempt (dcpp r2624)
 Fix Remove All in RecentHubs
+tar support
+Backup/Restore Manager
+
 
 

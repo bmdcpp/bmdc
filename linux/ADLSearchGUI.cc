@@ -1,6 +1,6 @@
 /*
  * Copyright © 2009-2011 freedcpp, http://code.google.com/p/freedcpp
- * Copyright 2011 of Parts (CMD supports) of Code BMDC++ , https://launchpad.net/bmdc++
+ * Copyright © 2011 of Parts (CMD supports) of Code BMDC++ , https://launchpad.net/bmdc++
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -584,19 +584,19 @@ int ADLSearchGUI::find_rawInt(int raw)
 void ADLSearchGUI::onToggleOveride(GtkWidget *widget,gpointer data) {
 	ADLSearchGUI *s = (ADLSearchGUI *)data;
 
-	gtk_widget_set_sensitive(s->getWidget("checkFromFav"),s->sens);
-	gtk_widget_set_sensitive(s->getWidget("entryKick"),s->sens);
-	gtk_widget_set_sensitive(s->getWidget("checkAction"),s->sens);
-	gtk_widget_set_sensitive(s->getWidget("comboboxAction"),FALSE);
+	gtk_widget_set_sensitive(s->getWidget("checkFromFav"), s->sens);
+	gtk_widget_set_sensitive(s->getWidget("entryKick"), s->sens);
+	gtk_widget_set_sensitive(s->getWidget("checkAction"), s->sens);
+	gtk_widget_set_sensitive(s->getWidget("comboboxAction"), FALSE);
 	s->sens = !s->sens;
 }
 
 void ADLSearchGUI::onToggleAct(GtkWidget *widget, gpointer data)
 {
 	ADLSearchGUI *s = (ADLSearchGUI *)data;
-	gtk_widget_set_sensitive(s->getWidget("comboboxAction"),s->acts);
-	gtk_widget_set_sensitive(s->getWidget("checkAction"),s->acts);
-	s->acts =!s->acts;
+	gtk_widget_set_sensitive(s->getWidget("comboboxAction"), s->acts);
+	gtk_widget_set_sensitive(s->getWidget("checkAction"), s->acts);
+	s->acts = !s->acts;
 }
 
 void ADLSearchGUI::onChangeCombo(GtkWidget *widget, gpointer data)
@@ -604,54 +604,62 @@ void ADLSearchGUI::onChangeCombo(GtkWidget *widget, gpointer data)
     ADLSearchGUI *s = (ADLSearchGUI *)data;
     gint type;
     type = gtk_combo_box_get_active(GTK_COMBO_BOX(widget));
-    if(!s->forbid && type ==0)
+    if(!s->forbid) {
+    switch(type) {
+    case 0:
         gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")),"Forbidden Files");
-    else if(!s->forbid && type == 1)
+        break;
+    case 1:
          gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")),"Forbidden Directories");
-    else if(!s->forbid && type == 2)
+         break;
+    case 2:
         gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")),"Forbidden Full Paths");
-    else if(!s->forbid && type == 3)
+        break;
+    case 3:
         gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")),"Forbidden TTHS");
-    else return;
+        break;
+    default: return;
+	}
+  }
 }
 
 void ADLSearchGUI::onToggleForb(GtkWidget *widget, gpointer data)
 {
 	ADLSearchGUI *s = (ADLSearchGUI *)data;
-    gchar *tmp;
+    const gchar *tmp;
     gint type;
 
 	gtk_widget_set_sensitive(s->getWidget("checkcasesensitive"), s->forbid);
 	gtk_widget_set_sensitive(s->getWidget("checkoveride1"), s->forbid);
 	gtk_widget_set_sensitive(s->getWidget("spinbuttonPoints"), s->forbid);
 
-	tmp=gtk_entry_get_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")));
+	tmp = gtk_entry_get_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")));
 	if( (tmp != "Forbidden Files") || (tmp != "Forbidden TTHS") || (tmp != "Forbidden Directories"))
 	{
         type = gtk_combo_box_get_active(GTK_COMBO_BOX(s->getWidget("sourceTypeComboBox")));
-        if(type == 0)
+        switch(type)
         {
+        case 0:
            gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")), "Forbidden Files");
            gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"), !s->forbid);
-        } else if (type == 1)
-        {
+           break;
+        case 1:
            gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")), "Forbidden Directories");
            gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"), !s->forbid);
-        }
-        else if(type == 2)
-        {
-            gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")),"Forbidden Full Paths");
-           gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"),!s->forbid);
-        }
-        else if(type == 3)
-        {
-            gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")), "Forbidden TTHS");
-           gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"),!s->forbid);
-        }
-        else gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"),!s->forbid);;
+           break;
+        case 2:
+           gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")),"Forbidden Full Paths");
+           gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"), !s->forbid);
+           break;
+        case 3:
+           gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")), "Forbidden TTHS");
+           gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"), !s->forbid);
+           break;
+        default: gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"), !s->forbid);;
+		}
 
 	}
-	else gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"),!s->forbid);
+	else gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"), !s->forbid);
 
 	s->forbid = !s->forbid;
 

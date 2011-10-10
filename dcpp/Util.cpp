@@ -162,6 +162,7 @@ void Util::initialize() {
 	string home = home_ ? Text::toUtf8(home_) : "/tmp/";
 
 	paths[PATH_USER_CONFIG] = home + "/.bmdc++/";/*BMDCDIR conf*/
+	paths[PATH_BACKUP] = paths[PATH_USER_CONFIG] + "Backups" PATH_SEPARATOR_STR;
 
 	loadBootConfig();
 
@@ -1097,6 +1098,17 @@ std::string Util::formatRegExp(const string& msg, StringMap& params) {
 			}
 		}
 		return result;
+}
+
+string Util::getBackupTimeString(time_t t) {
+ 		char buf[255];
+ 		tm* _tm = localtime(&t);
+ 		if(_tm == NULL) {
+ 			strcpy(buf, "xx:xx");
+ 		} else {
+ 			strftime(buf, 254, SETTING(BACKUP_TIMESTAMP).c_str(), _tm);
+ 		}
+ 		return Text::toUtf8(buf);
 }
 
 

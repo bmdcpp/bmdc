@@ -19,7 +19,6 @@
 #include "stdinc.h"
 #include "Client.h"
 #include "BufferedSocket.h"
-
 #include "FavoriteManager.h"
 #include "TimerManager.h"
 #include "ClientManager.h"

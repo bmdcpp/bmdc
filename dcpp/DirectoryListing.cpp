@@ -17,7 +17,6 @@
  */
 
 #include "stdinc.h"
-//#include "DCPlusPlus.h"
 #include "DirectoryListing.h"
 
 #include "QueueManager.h"
@@ -32,7 +31,6 @@
 #include "CryptoManager.h"
 #include "ResourceManager.h"
 #include "User.h"
-//#include "RegexUtil.h" //RSX++
 #include "RegEx.h"
 #include "MerkleTree.h"
 #include "SimpleXMLReader.h"

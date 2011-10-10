@@ -36,7 +36,7 @@ using std::vector;
 using std::wstring;
 using std::unordered_map;
 using std::unordered_set;
-using std::unordered_multimap;//thinking	 
+using std::unordered_multimap;//p
 
 typedef vector<string> StringList;
 typedef StringList::iterator StringIter;

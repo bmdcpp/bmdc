@@ -78,9 +78,9 @@ string GeoIP::getCountry(const string& ip) const {
 		auto id = (v6() ? GeoIP_id_by_addr_v6 : GeoIP_id_by_addr)(geo, ip.c_str());
 		if(id > 0) {
 			StringMap params;
-			params["2code"]    = GeoIP_code_by_id(id);
-			params["3code"]	   = GeoIP_code3_by_id(id);
-			params["name"]     = GeoIP_name_by_id(id);
+			params["2code"]     = GeoIP_code_by_id(id);
+			params["3code"]	    = GeoIP_code3_by_id(id);
+			params["name"]      = GeoIP_name_by_id(id);
 			params["continent"] = GeoIP_continent_by_id(id);
 				
 			return Util::formatParams(SETTING(COUNTRY_FORMAT), params, true);	

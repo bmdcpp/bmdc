@@ -52,7 +52,7 @@ const string SettingsManager::settingTags[] =
 	"TLSPrivateKeyFile", "TLSCertificateFile", "TLSTrustedCertificatesPath",
 	"Language", "DownloadsOrder", "DownloadsWidth", "Toolbar",
 	"SoundMainChat", "SoundPM", "SoundPMWindow", "LogFormatRaw", "LogFileRaw",
-	"ProtectedUser", "CountryFormat",
+	"ProtectedUser", "CountryFormat", "BackupTimestamp", "BackupFilePattern",
 	"SENTRY",
 	// Ints
 	"IncomingConnections", "InPort", "Slots", "AutoFollow", "ClearSearch",
@@ -98,7 +98,8 @@ const string SettingsManager::settingTags[] =
 	"ListlenMismatchShow", "UseSdlKick", "SdlSpeed", "SdlTime", "SdlRaw",
 	"ShowSdlRaw", "ShowFakeShare", "ShowDisconnectRaw", "FavUserIsProtectedUser", "ShowFilelistVersionMismatch",
 	"ShowDcppEmulationRaw", "UncheckClientProtectedUser", "UncheckListProtectedUser", "ShowRmdcRaw", "DisplayCheatsInMainChat",
-	"ShowListenMisMatch", "ThrottleEnable", "LogFinishedDownload", "EnbLuaDebug", "TimeReccon", "UseWildcardsToProtect", 
+	"ShowListenMisMatch", "ThrottleEnable", "LogFinishedDownload", "EnbLuaDebug", "TimeReccon", "UseWildcardsToProtect",
+	"AutobackupTime", "EnableBackup", 
 	"SENTRY",
 	// Int64
 	"TotalUpload", "TotalDownload",
@@ -315,8 +316,14 @@ SettingsManager::SettingsManager()
 	setDefault(BANDWIDTH_LIMIT_END, 1);
 	setDefault(SLOTS_ALTERNATE_LIMITING, 1);
 	setDefault(SLOTS_PRIMARY, 3);
-	setDefault(COUNTRY_FORMAT, "%[2code] - %[name]");
 	
+	setDefault(COUNTRY_FORMAT, "%[2code] - %[name]");
+	//Dice!
+	setDefault(BACKUP_TIMESTAMP, "%m .%d.%Y %H.%M");
+	setDefault(BACKUP_FILE_PATTERN, "*.xml;HashData.dat;profile.lck;Emptyfiles.xml.bz2;Users.xml");
+	setDefault(AUTOBACKUP_TIME, 360);
+	setDefault(ENABLE_AUTOBACKUP, true);
+	//end
 	setDefault(USE_IP, true);
 	setDefault(USE_COUNTRY, true);
 	setDefault(SHOW_FREE_SLOTS_DESC, false);

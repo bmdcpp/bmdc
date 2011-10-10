@@ -125,7 +125,7 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	// set default select tag (fix error show cursor in neutral space)
 	selectedTag = TagsMap[Tag::TAG_PRIVATE];
 	
-	readLog(SETTING(LOG_DIRECTORY)+SETTING(LOG_FILE_PRIVATE_CHAT),(unsigned int) SETTING(PM_LAST_LOG_LINES));
+	readLog(SETTING(LOG_DIRECTORY) + SETTING(LOG_FILE_PRIVATE_CHAT), (unsigned int)SETTING(PM_LAST_LOG_LINES));
 }
 
 PrivateMessage::~PrivateMessage()

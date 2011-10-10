@@ -28,6 +28,7 @@
 #include <dcpp/NmdcHub.h>
 #include <dcpp/ShareManager.h>
 #include <dcpp/StringTokenizer.h>
+#include <dcpp/BackupManager.h>
 #include "settingsmanager.hh"
 #include "sound.hh"
 #include "notify.hh"
@@ -542,6 +543,11 @@ void Settings::saveSettings_client()
 		sm->set(SettingsManager::TLS_TRUSTED_CERTIFICATES_PATH, path);
 
 		saveOptionsView_gui(certificatesView, sm);
+				
+		sm->set(SettingsManager::ENABLE_AUTOBACKUP,gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("enableBackup"))));
+		sm->set(SettingsManager::BACKUP_TIMESTAMP,string(gtk_entry_get_text(GTK_ENTRY(getWidget("backupTimestampEntry")))));
+		sm->set(SettingsManager::BACKUP_FILE_PATTERN, string(gtk_entry_get_text(GTK_ENTRY(getWidget("backupPatternEntry")))));
+		sm->set(SettingsManager::AUTOBACKUP_TIME, (int)gtk_spin_button_get_value(GTK_SPIN_BUTTON(getWidget("backupSpin"))));
 	}
 	//NOTE: core 0.762
 	{
@@ -1766,6 +1772,18 @@ void Settings::initAdvanced_gui()
 		addOption_gui(certificatesStore, _("Allow TLS connections to clients without trusted certificate"), SettingsManager::ALLOW_UNTRUSTED_CLIENTS);
 
 		g_signal_connect(getWidget("generateCertificatesButton"), "clicked", G_CALLBACK(onGenerateCertificatesClicked_gui), (gpointer)this);
+	}
+	{
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("enableBackup")), SETTING(ENABLE_AUTOBACKUP) == 1 ? TRUE : FALSE);
+		gtk_entry_set_text(GTK_ENTRY(getWidget("backupTimestampEntry")), SETTING(BACKUP_TIMESTAMP).c_str());
+		gtk_entry_set_text(GTK_ENTRY(getWidget("backupPatternEntry")), SETTING(BACKUP_FILE_PATTERN).c_str());
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("backupSpin")), (double)SETTING(AUTOBACKUP_TIME));
+		
+		g_signal_connect(getWidget("buttonRestore"), "clicked", G_CALLBACK([]() { RestoreManager::getInstance()->restoreBackup();}), (gpointer)this);
+		
+		
+		
+		
 	}
 }
 //NOTE: core 0.762

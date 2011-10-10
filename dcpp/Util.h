@@ -127,6 +127,7 @@ public:
 		PATH_HUB_LISTS,
 		/** Where the notepad file is stored */
 		PATH_NOTEPAD,
+		PATH_BACKUP,
 		PATH_LAST
 	};
 
@@ -157,6 +158,8 @@ public:
 	static string getNotepadFile() { return getPath(PATH_NOTEPAD); }
 	/** GeoIP database path */
 	static string getGeoPath(bool v6);
+	/**backup path**/
+	static string getBackupPath() { return getPath(PATH_BACKUP); }
 
 
 	static string translateError(int aError);
@@ -446,6 +449,7 @@ public:
 	static int64_t getUptime(){ return uptime; }
 	static void setUptime() { uptime++; }
 	static string formatRegExp(const string& msg, StringMap& params);
+	static string getBackupTimeString(time_t t = time(NULL));
 
 private:
 	/** In local mode, all config and temp files are kept in the same dir as the executable */

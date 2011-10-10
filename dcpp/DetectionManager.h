@@ -49,9 +49,6 @@ public:
 		UserInfoSave();
 	}
 
-	//const DetectionItems& reload(bool isUserInfo = false);
-	//const DetectionItems& reloadFromHttp(bool bz2 = false, bool isUserInfo = false);
-
 	void addDetectionItem(DetectionEntry& e, bool isUserInfo = false) throw(Exception);
 	void updateDetectionItem(const uint32_t aOrigId, const DetectionEntry& e, bool isUserInfo = false) throw(Exception);
 	void removeDetectionItem(const uint32_t id, bool isUserInfo = false) throw();
@@ -88,8 +85,7 @@ public:
 	GETSET(string, userInfoUrl, UserInfoUrl);
 
 private:
-	//void loadCompressedProfiles();
-
+	
 	DetectionItems det;
 	DetectionItems ui_det;
 

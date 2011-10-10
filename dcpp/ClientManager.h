@@ -151,7 +151,7 @@ public:
 	void saveUser(const CID& cid);
 	//RSX
 	void setGenerator(const UserPtr& p, const string& aGenerator, const string& aCID, const string& aBase);
-	// =P
+	// 
 	void sendAction(const UserPtr& p, const int aAction);
 	void sendAction(OnlineUser& ou, const int aAction);
 	void setPkLock(const UserPtr& p, const string& aPk, const string& aLock);

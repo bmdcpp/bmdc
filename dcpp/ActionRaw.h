@@ -56,5 +56,5 @@ struct Action {
 
 	RawsList raw;
 };
-}
+} //dcpp
 #endif

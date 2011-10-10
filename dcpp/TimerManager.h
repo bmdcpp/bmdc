@@ -23,6 +23,7 @@
 #include "Semaphore.h"
 #include "Speaker.h"
 #include "Singleton.h"
+#include "noexcept.h"
 
 #ifndef _WIN32
 	#include <sys/time.h>
@@ -39,8 +40,8 @@ public:
 	typedef X<1> Minute;
 
 	// We expect everyone to implement this...
-	virtual void on(Second, uint64_t) throw() { }
-	virtual void on(Minute, uint64_t) throw() { }
+	virtual void on(Second, uint64_t) noexcept { }
+	virtual void on(Minute, uint64_t) noexcept { }
 };
 
 class TimerManager : public Speaker<TimerManagerListener>, public Singleton<TimerManager>, public Thread

@@ -648,7 +648,7 @@ map<string, string> Identity::getReport() const {
 	return reportSet;
 }
 
-//RSX++ //Protected users
+////Protected users
 bool Identity::isProtectedUser(const Client& c, bool OpBotHubCheck) const {
 	if(isSet("PR") || getUser()->isSet(User::PROTECTED))
 		return true;

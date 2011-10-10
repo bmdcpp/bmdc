@@ -299,7 +299,7 @@ void ClientManager::putOnline(OnlineUser* ou) throw() {
 
 	if(!ou->getUser()->isOnline()) {
 		ou->getUser()->setFlag(User::ONLINE);
-		ou->initializeData();//.
+		ou->initializeData();//
 		fire(ClientManagerListener::UserConnected(), ou->getUser());
 	}
 }
@@ -701,7 +701,7 @@ void ClientManager::on(HubUserCommand, Client* client, int aType, int ctx, const
 //RSX
 void ClientManager::setGenerator(const UserPtr& p, const string& aGenerator, const string& aCID, const string& aBase) {
 	Client* c = 0;
-	string report; //= Util::emptyString;
+	string report; 
 	{
 		Lock l(cs);
 		OnlineUser* ou = findOnlineUser(p->getCID(),"",false);

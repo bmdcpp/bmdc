@@ -47,6 +47,7 @@
 #include "DebugManager.h"
 #include "RawManager.h"
 #include "RsxUtil.h"
+#include "BackupManager.h"
 
 #include "StringTokenizer.h"
 
@@ -87,16 +88,18 @@ void startup(void (*f)(void*, const string&), void* p) {
 	DownloadManager::newInstance();
 	UploadManager::newInstance();
 	ThrottleManager::newInstance();
-	RawManager::newInstance();//rsx++
+	RawManager::newInstance();//RSX++
 	QueueManager::newInstance();
 	ShareManager::newInstance();
 	FavoriteManager::newInstance();
 	FinishedManager::newInstance();
 	ADLSearchManager::newInstance();
-	UPnPManager::newInstance();//
+	UPnPManager::newInstance();//...
 	WindowManager::newInstance();
 
 	DebugManager::newInstance();
+	BackupManager::newInstance();//Dice!
+	RestoreManager::newInstance();//Dice!
 
 #ifdef _USELUA
      ScriptManager::newInstance();
@@ -142,6 +145,7 @@ void startup(void (*f)(void*, const string&), void* p) {
 
 	//RSX++
 	RsxUtil::init();
+	BackupManager::getInstance()->createBackup();//D
 }
 
 void shutdown() {
@@ -149,7 +153,8 @@ void shutdown() {
 #ifndef _WIN32 //*unix
     ThrottleManager::getInstance()->shutdown();
 #endif
-
+	BackupManager::deleteInstance();//Dice!
+	RestoreManager::deleteInstance();//Dice!
 	DebugManager::deleteInstance();
 
 #ifdef _USELUA

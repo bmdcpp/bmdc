@@ -35,7 +35,7 @@ using std::unordered_map;
 class ListLoader;
 //STANDARD_EXCEPTION(AbortException);
 
-class DirectoryListing : boost::noncopyable //public UserInfoBase
+class DirectoryListing : boost::noncopyable 
 {
 public:
 	class Directory;
