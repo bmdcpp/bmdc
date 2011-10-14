@@ -3764,9 +3764,9 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 
 		string info;
 		string extraInfo;
-		if((!(message.from->getUser() == client->getMyIdentity().getUser())) || client->getMyIdentity().isOp())
-			info = formatAdditionalInfo(message.from->getIdentity().getIp(), BOOLSETTING(USE_IP), BOOLSETTING(USE_COUNTRY), message.to && message.replyTo);
-		else info = "";
+		//if((!(message.from->getUser() == client->getMyIdentity().getUser())) || client->getMyIdentity().isOp())
+		info = formatAdditionalInfo(message.from->getIdentity().getIp(), BOOLSETTING(USE_IP), BOOLSETTING(USE_COUNTRY), message.to && message.replyTo);
+		//else info = "";
 
 		//Extra Info
 

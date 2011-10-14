@@ -156,7 +156,6 @@ void ConnectionManager::on(TimerManagerListener::Second, uint64_t aTick) throw()
 					continue;
 				} 
 
-				//if(cqi->getLastAttempt() == 0 || (((cqi->getLastAttempt() + 60*1000) < aTick) && !attemptDone)) {
 				if(cqi->getLastAttempt() == 0 || (!attemptDone &&
 					cqi->getLastAttempt() + 60 * 1000 * max(1, cqi->getErrors()) < aTick))
 				{
@@ -442,7 +441,6 @@ void ConnectionManager::on(UserConnectionListener::MyNick, UserConnection* aSour
 	dcassert(aNick.size() > 0);
 	dcdebug("ConnectionManager::onMyNick %p, %s\n", (void*)aSource, aNick.c_str());
 	dcassert(!aSource->getUser());
-
 	if(aSource->isSet(UserConnection::FLAG_INCOMING)) {
 		// Try to guess where this came from...
 		pair<string, string> i = expectedConnections.remove(aNick);
@@ -455,6 +453,7 @@ void ConnectionManager::on(UserConnectionListener::MyNick, UserConnection* aSour
 		aSource->setToken(i.first);
 		aSource->setHubUrl(i.second);
 		aSource->setEncoding(ClientManager::getInstance()->findHubEncoding(i.second));
+		
 	}
 
 	string nick = Text::toUtf8(aNick, aSource->getEncoding());
@@ -489,7 +488,8 @@ void ConnectionManager::on(UserConnectionListener::MyNick, UserConnection* aSour
 		// We don't need this connection for downloading...make it an upload connection instead...
 		aSource->setFlag(UserConnection::FLAG_UPLOAD);
 	}
-
+	
+	
 	if(ClientManager::getInstance()->isOp(aSource->getUser(), aSource->getHubUrl()))
 		aSource->setFlag(UserConnection::FLAG_OP);
 
@@ -785,7 +785,7 @@ void ConnectionManager::shutdown() {
 bool ConnectionManager::checkKeyprint(UserConnection *aSource) {
         dcassert(aSource->getUser());
 
-        /*vector<uint8_t>*/auto kp = aSource->getKeyprint();
+        auto kp = aSource->getKeyprint();
         if(kp.empty()) {
                 return true;
         }

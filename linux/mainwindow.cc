@@ -129,25 +129,25 @@ MainWindow::MainWindow():
 	gtk_menu_tool_button_set_menu(GTK_MENU_TOOL_BUTTON(getWidget("EnableLimit")), menu);
 	gtk_container_foreach(GTK_CONTAINER(menu), (GtkCallback)gtk_widget_destroy, NULL);
 	GtkWidget *upitem = gtk_menu_item_new_with_label(_("Upload Limit (disable)"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu),upitem);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), upitem);
 	g_object_set_data_full(G_OBJECT(upitem), "type", g_strdup("up"), g_free);
 	g_signal_connect(G_OBJECT(upitem), "activate", G_CALLBACK(onLimitingDisable), (gpointer)this);
 	GtkWidget *sep =  gtk_separator_menu_item_new();
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu),sep);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep);
 	///TODO @change to dynamic
 	for(int i = 10240; i<2097152; i = i*2+40960/2) {
 		string tmenu = Text::toT(Util::formatBytes(i)) + (_("/s"));
 		string tspeed = Util::toString(i);
 		GtkWidget *item = gtk_menu_item_new_with_label(tmenu.c_str());
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu),item);
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 		g_object_set_data_full(G_OBJECT(item), "speed", g_strdup(tspeed.c_str()), g_free);
 		g_object_set_data_full(G_OBJECT(item), "type", g_strdup("up"), g_free);
 		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(onLimitingMenuItem_gui), (gpointer)this);
 	}
 	GtkWidget *sep3 = gtk_separator_menu_item_new();
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu),sep3);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep3);
 	GtkWidget *dwitem = gtk_menu_item_new_with_label(_("Download Limit (disable)"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu),dwitem);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), dwitem);
 	g_object_set_data_full(G_OBJECT(dwitem), "type", g_strdup("dw"), g_free);
 	g_signal_connect(G_OBJECT(dwitem), "activate", G_CALLBACK(onLimitingDisable), (gpointer)this);
 	GtkWidget *sep2 = gtk_separator_menu_item_new();
@@ -157,11 +157,13 @@ MainWindow::MainWindow():
 		string tmenu = Text::toT(Util::formatBytes(j)) + (_("/s"));
 		string tspeed = Util::toString(j);
 		GtkWidget *item = gtk_menu_item_new_with_label(tmenu.c_str());
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu),item);
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 		g_object_set_data_full(G_OBJECT(item), "speed", g_strdup(tspeed.c_str()), g_free);
 		g_object_set_data_full(G_OBJECT(item), "type", g_strdup("dw"), g_free);
 		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(onLimitingMenuItem_gui), (gpointer)this);
 	}
+	
+	
 	gtk_widget_show_all(menu);
 
 	// colourstuff added by curse //add to BMDC++ by Mank
@@ -504,15 +506,30 @@ void MainWindow::onLimitingMenuItem_gui(GtkWidget *widget, gpointer data)
 		return;
 
 	bool isEnb = BOOLSETTING(THROTTLE_ENABLE);
-    SettingsManager::getInstance()->set(SettingsManager::THROTTLE_ENABLE,!isEnb);
+	
+	if(isEnb);else SettingsManager::getInstance()->set(SettingsManager::THROTTLE_ENABLE,!isEnb);
 
 	if(type == "up")
 	{
-		SettingsManager::getInstance()->set(ThrottleManager::getInstance()->getCurSetting(SettingsManager::MAX_UPLOAD_SPEED_MAIN), (Util::toInt(speed))/1024);
+		ThrottleManager::setSetting(SettingsManager::MAX_UPLOAD_SPEED_MAIN, Util::toInt(speed)/1024);
 	}
 	else if(type == "dw")
 	{
-		SettingsManager::getInstance()->set(ThrottleManager::getInstance()->getCurSetting(SettingsManager::MAX_DOWNLOAD_SPEED_MAIN), (Util::toInt(speed))/1024);
+		ThrottleManager::setSetting(SettingsManager::MAX_DOWNLOAD_SPEED_MAIN, Util::toInt(speed)/1024);
+	}
+	
+	GtkWidget *lim = mw->getWidget("EnableLimit");
+	
+	if(!isEnb)
+    {
+        mw->setMainStatus_gui(_("Throtle off"), time(NULL));
+        gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(lim),"bmdc-limiting");
+
+    }
+    else
+    {
+		mw->setMainStatus_gui(_("Throtle on"), time(NULL));
+		gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(lim),"bmdc-limiting-on");
 	}
 }
 
@@ -520,13 +537,16 @@ void MainWindow::onLimitingDisable(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 	string type = (gchar*)g_object_get_data(G_OBJECT(widget), "type");
+	
+	//SettingsManager::getInstance()->set(SettingsManager::THROTTLE_ENABLE,false);
+
 	if(type == "dw")
 	{
-		SettingsManager::getInstance()->set(ThrottleManager::getInstance()->getCurSetting(SettingsManager::MAX_DOWNLOAD_SPEED_MAIN), 0);
+		ThrottleManager::setSetting(SettingsManager::MAX_DOWNLOAD_SPEED_MAIN, 0);
 	}
 	else if(type == "up")
 	{
-		SettingsManager::getInstance()->set(ThrottleManager::getInstance()->getCurSetting(SettingsManager::MAX_UPLOAD_SPEED_MAIN), 0);
+		ThrottleManager::setSetting(SettingsManager::MAX_UPLOAD_SPEED_MAIN, 0);
 	}
 }
 
@@ -2447,7 +2467,9 @@ int MainWindow::FileListQueue::run() {
 				dl->loadFile(i->file);
 				ADLSearchManager::getInstance()->matchListing(*dl);
 				ClientManager::getInstance()->checkCheating(i->user, dl);
-			} catch(...) {
+			} catch(...) 
+			{ 
+				//...
 			}
 			delete dl;
 			//RSX++

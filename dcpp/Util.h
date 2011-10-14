@@ -25,6 +25,7 @@
 	#include <unistd.h>
 	#include <stdlib.h>
 #endif
+
 #include "compiler.h"
 #include "typedefs.h"
 #include "Text.h"
@@ -448,6 +449,7 @@ public:
 	static bool fileExists(const string aFile);
 	static int64_t getUptime(){ return uptime; }
 	static void setUptime() { uptime++; }
+	
 	static string formatRegExp(const string& msg, StringMap& params);
 	static string getBackupTimeString(time_t t = time(NULL));
 

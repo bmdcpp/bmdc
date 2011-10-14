@@ -22,7 +22,7 @@
 #include "version.h"
 
 #ifndef BMDC_REVISION
-#define BMDC_REVISION 70
+#define BMDC_REVISION 71
 #endif
 
 #define xstrver(s) strver(s)

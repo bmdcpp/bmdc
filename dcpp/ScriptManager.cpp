@@ -329,7 +329,7 @@ void ScriptManager::load() {
 	lua_register(L, "SendHubMessage",LuaManager::SendHubMessage);
 	lua_register(L, "SendClientMessage", LuaManager::SendClientMessage);
 	lua_register(L, "SendUDP", LuaManager::SendUDPPacket);
-	lua_register(L, "PrintDebug", LuaManager::GenerateDebugMessage);//ok
+	lua_register(L, "PrintDebug", LuaManager::GenerateDebugMessage);
 	lua_register(L, "GetClientIp", LuaManager::GetClientIp);
 	lua_register(L, "GetHubIpPort", LuaManager::GetHubIpPort);
 	lua_register(L, "GetHubUrl", LuaManager::GetHubUrl);
@@ -341,8 +341,8 @@ void ScriptManager::load() {
 	lua_register(L, "GetSetting", LuaManager::GetSetting);
 	lua_register(L, "ToUtf8", LuaManager::ToUtf8);
 	lua_register(L, "FromUtf8", LuaManager::FromUtf8);
-	lua_register(L, "GetAppPath", LuaManager::GetAppPath);//ok
-	lua_register(L, "GetConfigPath", LuaManager::GetConfigPath);//ok
+	lua_register(L, "GetAppPath", LuaManager::GetAppPath);
+	lua_register(L, "GetConfigPath", LuaManager::GetConfigPath);
 	lua_register(L, "DropUserConnection", LuaManager::DropUserConnection);
 	//findWin+PostMessage todo ??
 

@@ -304,7 +304,7 @@ void WulforUtil::openURI(const string &uri)
 
 	if (error != NULL)
 	{
-		//	cerr << "Failed to open URI: " << error->message << endl;
+		cerr << "Failed to open URI: " << error->message << endl;
 		//beter info about it to MainStatusbar for now...
 		WulforManager::get()->getMainWindow()->setMainStatus_gui(string(_("Failed to open URI: "))+string(error->message));
 		g_error_free(error);
@@ -319,7 +319,7 @@ void WulforUtil::openURItoApp(const string &cmd)
 
 	if (error != NULL)
 	{
-		//cerr << "Failed to open application: " << error->message << endl;
+		cerr << "Failed to open application: " << error->message << endl;
 		WulforManager::get()->getMainWindow()->setMainStatus_gui(string(_("Failed to open application: "))+string(error->message));
 		g_error_free(error);
 	}
@@ -549,7 +549,7 @@ void WulforUtil::copyValue_gui(GtkTreeStore *store, GtkTreeIter *fromIter, GtkTr
 
 /*
 * load Country Flag
-* param (CZ, SK,... ENG) 
+* param (CZ, SK,... US) 
 * return flag of country 
 */
 
@@ -842,13 +842,13 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			int dettotal = SETTING(DETECTT);
 			int detfail = SETTING(DETECTF);
 
-		message =   "\n-=Stats " + string(GUI_PACKAGE) + " " + string(GUI_VERSION_STRING) + "/" + dcpp::fullVersionString + "=-\n"
-					+ sys_name + " " + node_name + " " + rel + " " + mach + "\n"
-					+ "Uptime: " + Util::formatSeconds(Util::getUptime()) + "\n"
-					+ "Sys Uptime: " + Util::toString(udays) + " days," + Util::toString(uhour) + " Hours," + Util::toString(umin) + " min.\n"
-					+ "Time: " + Util::getShortTimeString() + "\n"
-					+ "Mem Usage (Free/Total):" + Util::toString(uram/megabyte) + " MB /" + Util::toString(toram/megabyte) + " MB \n"
-					+ "Detection (Failed/Successful) :" + Util::toString(detfail) + " /" + Util::toString(dettotal) + "\n";
+		message =   "\n-= Stats " + string(GUI_PACKAGE) + " " + string(GUI_VERSION_STRING) + "/" + dcpp::fullVersionString + " =-\n"
+					+ "-= "+sys_name + " " + node_name + " " + rel + " " + mach + " =-\n"
+					+ "-= Uptime: " + Util::formatSeconds(Util::getUptime()) + " =-\n"
+					+ "-= Sys Uptime: " + Util::toString(udays) + " days," + Util::toString(uhour) + " Hours," + Util::toString(umin) + " min. =-\n"
+					+ "-= Time: " + Util::getShortTimeString() + " =-\n"
+					+ "-= Mem Usage (Free/Total):" + Util::toString(uram/megabyte) + " MB /" + Util::toString(toram/megabyte) + " MB =-\n"
+					+ "-= Detection (Failed/Successful) :" + Util::toString(detfail) + " /" + Util::toString(dettotal) + " =-\n";
 
 	}
 	/// "Now Playing" spam // added by curse and Irene

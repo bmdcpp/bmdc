@@ -39,11 +39,11 @@
 	#include <ctype.h>
 	#include <string.h>
 #endif
+
 #include <locale.h>
 
 #include "CID.h"
 #include "ClientManager.h"
-
 #include "FastAlloc.h"
 #include "GeoIP.h"
 
@@ -161,7 +161,7 @@ void Util::initialize() {
 	const char* home_ = getenv("HOME");
 	string home = home_ ? Text::toUtf8(home_) : "/tmp/";
 
-	paths[PATH_USER_CONFIG] = home + "/.bmdc++/";/*BMDCDIR conf*/
+	paths[PATH_USER_CONFIG] = home + "/.bmdc++/";/*BMDC DIR conf*/
 	paths[PATH_BACKUP] = paths[PATH_USER_CONFIG] + "Backups" PATH_SEPARATOR_STR;
 
 	loadBootConfig();

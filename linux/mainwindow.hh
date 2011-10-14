@@ -65,7 +65,7 @@ class MainWindow:
 		void setTitle(const std::string& text);
 		void setUrgent_gui();
 		bool isActive_gui();
-		void removeBookEntry_gui(BookEntry *entry/*EntryItems *bEntry*/);
+		void removeBookEntry_gui(BookEntry *entry);
 		GtkWidget *currentPage_gui();
 		void raisePage_gui(GtkWidget *page);
 		static bool getUserCommandLines_gui(const std::string &command, dcpp::StringMap &ucParams);
@@ -84,7 +84,6 @@ class MainWindow:
 		void showADLSearch_gui(); //ADL Tab
 		void showNotepad_gui(); //Notepad Tab
 		void showRecentHub_gui(); //RecentHub Tab
-		//void showHigliting_gui(); //Higliting Tab
 		void showUploadQueue();
 		void showDetection_gui(); //Detection Tab
 		void showcmddebug_gui(); //CMD DEBUG Tab
@@ -100,6 +99,7 @@ class MainWindow:
 		void showNotification_gui(std::string head, std::string body, Notify::TypeNotify notify);
 		GtkWidget* getChooserDialog_gui();
 		void fileToDownload_gui(std::string magnet, std::string path);
+		
 		void setAwayIcon(bool isAway)
 		{  
 			if(isAway)

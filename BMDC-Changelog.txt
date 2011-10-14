@@ -343,6 +343,10 @@ Set a users IP address sooner during a connection attempt (dcpp r2624)
 Fix Remove All in RecentHubs
 tar support
 Backup/Restore Manager
+Fixed isue with bad *.sfv files with off check
+Remove Check if OP in Hub Messages for Additional Info
+Little Fix for Limiting´s GUI Part
+Little Tweak /stats
 
 
 

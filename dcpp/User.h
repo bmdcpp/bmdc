@@ -245,9 +245,11 @@ public:
 	/*inline */string setCheat(const string& aCheat, bool aBadClient, bool aBadFilelist = false, bool aDisplayCheat = true) {
 		return identity.setCheat(getClient(), aCheat, aBadClient, aBadFilelist, aDisplayCheat);
 	}
+	
 	/*inline */void setTestSURComplete() {
 		identity.setTestSURChecked(Util::toString(GET_TIME()));
 	}
+	
 	/*inline */void setFileListComplete() {
 		identity.setFileListChecked(Util::toString(GET_TIME()));
 	}
