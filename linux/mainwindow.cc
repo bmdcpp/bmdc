@@ -57,6 +57,7 @@
 #include "ignoreusers.hh"
 #include "recenthub.hh"
 
+#include <dcpp/version.h>
 #include <dcpp/HashManager.h>
 #include <dcpp/ThrottleManager.h>
 #include <dcpp/Util.h>
@@ -111,7 +112,7 @@ MainWindow::MainWindow():
 
 	// About dialog
 	gchar *comments = g_strdup_printf(_("DC++ Client based on the source code FreeDC++\nBMDC++ version: %s.%s\nCore version: %s"),
-		GUI_VERSION_STRING, GUI_VERSION_BUILD_STRING, VERSIONSTRING);
+		GUI_VERSION_STRING, BMDC_REVISION_STRING, VERSIONSTRING);
 	gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(getWidget("aboutDialog")), comments);
 	g_free(comments);
 

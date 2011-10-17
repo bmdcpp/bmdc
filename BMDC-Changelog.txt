@@ -347,6 +347,8 @@ Fixed isue with bad *.sfv files with off check
 Remove Check if OP in Hub Messages for Additional Info
 Little Fix for Limiting´s GUI Part
 Little Tweak /stats
-
+Save IP Address on connect to users (NMDC)
+Proper Audacius Script along with /rb for Rhytmobox
+Some change in startup (annouce)
 
 

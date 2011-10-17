@@ -489,6 +489,8 @@ void ConnectionManager::on(UserConnectionListener::MyNick, UserConnection* aSour
 		aSource->setFlag(UserConnection::FLAG_UPLOAD);
 	}
 	
+	ClientManager::getInstance()->setIpAddress(aSource->getUser(),aSource->getRemoteIp());
+	
 	
 	if(ClientManager::getInstance()->isOp(aSource->getUser(), aSource->getHubUrl()))
 		aSource->setFlag(UserConnection::FLAG_OP);
@@ -657,6 +659,8 @@ void ConnectionManager::on(AdcCommand::INF, UserConnection* aSource, const AdcCo
 		putConnection(aSource);
 		return;
 	}
+	
+	ClientManager::getInstance()->setIpAddress(aSource->getUser(), aSource->getRemoteIp());
 	
 	if(!checkKeyprint(aSource)) {
         putConnection(aSource);

@@ -53,8 +53,9 @@
 	#include <ifaddrs.h>
 	#include <net/if.h>
 #endif
-
+#include <boost/regex.hpp>
 #include <dcpp/RegEx.h>
+#include <dcpp/version.h>
 
 using namespace std;
 using namespace dcpp;
@@ -563,7 +564,7 @@ GdkPixbuf *WulforUtil::loadCountry(const string &country)
 	gchar *path = g_strdup_printf(_DATADIR "/country/%s.png",
 		                              (gchar *)country.c_str());
 	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_size(path,15,15,&error);
-	if (pixbuf == NULL)
+	if (error != NULL || pixbuf == NULL)
 			g_warning("Cannot open stock image: %s => %s", path, error->message);
 	g_free(path);
 	return pixbuf;
@@ -773,9 +774,9 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	} else if ( cmd == "bmdc" )
 	{
         if(param == "mc")
-            message = string(GUI_PACKAGE " " GUI_VERSION_STRING "." GUI_VERSION_BUILD_STRING "/" VERSIONSTRING " ");
+            message = string(GUI_PACKAGE " " GUI_VERSION_STRING "." BMDC_REVISION_STRING "/" VERSIONSTRING " ");
         else
-            status += string(GUI_PACKAGE " " GUI_VERSION_STRING "." GUI_VERSION_BUILD_STRING "/" VERSIONSTRING ", ") + _("project home: ") + "http://bmdc.no-ip.sk";
+            status += string(GUI_PACKAGE " " GUI_VERSION_STRING "." BMDC_REVISION_STRING "/" VERSIONSTRING ", ") + _("project home: ") + "http://launchpad.net/bmdc++";
 
 	} else if ( cmd == "ratio")
 	{
@@ -906,6 +907,26 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			thirdperson = s.isThirdPerson();
 		}
 	}
+	else if  (cmd == "rb")
+	{
+		ShellCommand s("rhytmobox-now-playing.sh");
+
+		if (strcmp(s.Output(),"Kaffeine is not running.")==0)
+		{
+			status += s.Output();
+		}
+		else if (strcmp(s.Output(),"Kaffeine is not playing.")==0)
+		{
+			status += s.Output();
+
+		}
+		else
+		{
+			message = s.Output();
+			status += s.ErrorMessage();
+			thirdperson = s.isThirdPerson();
+		}
+	}
 	else if (cmd == "vlc")
 	{
 		ShellCommand s("vlc-np.sh");
@@ -935,6 +956,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			message = s.Output();
 		else
 			status += s.Output();
+			
 	}
 	else if (cmd == "uptime")
 	{

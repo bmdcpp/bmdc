@@ -30,7 +30,7 @@
 //RSX++
 #include "TimerManager.h"
 //RSX++
-
+#include <boost/regex.hpp>
 namespace dcpp {
 
 /** A user connected to one or more hubs. */

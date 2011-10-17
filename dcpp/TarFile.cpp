@@ -14,7 +14,7 @@ void TarFile::CreateTarredFile(const string& _path, const StringPairList& files)
 	TAR *t;
 	const char *path = _path.c_str();
 	int e = tar_open(&t,path,NULL, O_WRONLY | O_CREAT, 0644, TAR_GNU);
-	if(e==-1){
+	if(e ==-1){
 		dcdebug("Error %s\n",strerror(e));
 		return;
 	}
@@ -33,7 +33,7 @@ void TarFile::DecompresTarredFile(const string& _file, const string& _prefix)
     TAR *t;
     const char *path = _file.c_str();
     int e = tar_open(&t,path,NULL, O_RDONLY, 0644, TAR_GNU);
-    if(e== -1)
+    if(e == -1)
     {	
 		dcdebug("Error %s\n",strerror(e));
 		return;

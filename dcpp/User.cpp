@@ -18,6 +18,7 @@
 
 #include "stdinc.h"
 #include "DCPlusPlus.h"
+#include <boost/regex.hpp>
 #include "RegEx.h"
 #include "User.h"
 

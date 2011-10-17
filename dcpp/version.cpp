@@ -18,15 +18,9 @@
 
 #include "stdinc.h"
 #include "DCPlusPlus.h"
-
-#include "version.h"
-
-#ifndef BMDC_REVISION
-#define BMDC_REVISION 71
-#endif
-
 #define xstrver(s) strver(s)
 #define strver(s) #s
+#include "version.h"
 
 namespace dcpp {
 const string fullVersionString(VERSIONSTRING " (r" xstrver(BMDC_REVISION) ")");

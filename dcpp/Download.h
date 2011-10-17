@@ -51,7 +51,7 @@ public:
 
 	GETSET(string, tempTarget, TempTarget);
 	GETSET(OutputStream*, file, File);
-	GETSET(uint64_t, lastTick, LastTick);//used this ??
+	GETSET(uint64_t, lastTick, LastTick);
 	GETSET(bool, treeValid, TreeValid);
 private:
 	Download(const Download&);

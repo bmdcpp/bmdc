@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2009 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2011 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,11 +31,12 @@
 #include "CryptoManager.h"
 #include "ResourceManager.h"
 #include "User.h"
+#include <boost/regex.hpp>
 #include "RegEx.h"
 #include "MerkleTree.h"
 #include "SimpleXMLReader.h"
 #include "File.h"
-#include <boost/regex.hpp>
+
 
 #ifdef ff
 #undef ff
@@ -156,7 +157,7 @@ static const string sTTH = "TTH";
 
 void ListLoader::startTag(const string& name, StringPairList& attribs, bool simple) {
 	if(list->getAbort()) {
-		throw /*Abort*/Exception();
+		throw AbortException();
 	}
 
 	if(inListing) {

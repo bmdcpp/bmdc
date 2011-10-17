@@ -1157,5 +1157,13 @@ string ClientManager::getField(const CID& cid, const string& hint, const char* f
     return Util::emptyString;
 }
 
+void ClientManager::setIpAddress(const UserPtr& p, const string& ip) {
+ Lock l(cs);
+	OnlineIterC i = onlineUsers.find(p->getCID());
+	if(i != onlineUsers.end()) {
+		i->second->getIdentity().set("I4", ip);
+	}
+}
+
 
 } // namespace dcpp

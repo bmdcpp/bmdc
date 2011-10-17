@@ -123,25 +123,26 @@ void startup(void (*f)(void*, const string&), void* p) {
 		// Apparently this is supposted to make gettext reload the message catalog...
 		_nl_msg_cat_cntr++;
 	}
-
+	
+	auto announce = [&f, &p](const string& str) {
+			if(f)
+				(*f)(p, str);
+	};	
+	announce(_("Users"));
 	FavoriteManager::getInstance()->load();
+	ClientManager::getInstance()->loadUsers();
+	
+	announce(_("Security certificates"));
 	CryptoManager::getInstance()->loadCertificates();
 
-	if(f != NULL)
-		(*f)(p, _("Hash database"));
+	announce(_("Hash database"));	
 	HashManager::getInstance()->startup();
 
-	if(f != NULL)
-		(*f)(p, _("Shared Files"));
+	announce(_("Shared Files"));	
 	ShareManager::getInstance()->refresh(true, false, true);
 
-	if(f != NULL)
-		(*f)(p, _("Download Queue"));
+	announce(_("Download Queue"));	
 	QueueManager::getInstance()->loadQueue();
-
-	if(f != NULL)
-		(*f)(p, _("Users"));
-	ClientManager::getInstance()->loadUsers();
 
 	//RSX++
 	RsxUtil::init();

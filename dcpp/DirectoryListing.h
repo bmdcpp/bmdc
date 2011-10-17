@@ -33,7 +33,7 @@ using std::unordered_set;
 using std::unordered_map;	 
 
 class ListLoader;
-//STANDARD_EXCEPTION(AbortException);
+STANDARD_EXCEPTION(AbortException);
 
 class DirectoryListing : boost::noncopyable 
 {

@@ -20,6 +20,11 @@
 #define VERSIONSTRING "0.785"
 #define VERSIONFLOAT 0.785
 
+#ifndef BMDC_REVISION
+#define BMDC_REVISION 72
+#endif
+#define BMDC_REVISION_STRING "72"
+
 namespace dcpp {
 extern const string fullVersionString;
 }

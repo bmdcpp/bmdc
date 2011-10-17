@@ -4,7 +4,7 @@ Version: 0.0.1
 Release: 1
 License: GNU GPL
 Group: Applications/Internet
-Source: http://bmdc.no-ip.sk/%{name}%{version}.tar.gz
+Source: http://launchpad.net/bmdc++/%{name}%{version}.tar.gz
 Buildroot: %{_tmppath}/%{name}-%{version}-buildroot
 BuildRequires:	glib2-devel >= 2.4
 BuildRequires:	gtk+2-devel >= 2.6
@@ -14,6 +14,7 @@ BuildRequires:	zlib-devel
 BuildRequires:  libgeoip-devel
 BuildRequires:	openssl-devel
 BuildRequires:	scons
+BuildRequires:  libtar-devel
 
 %description
 A BMDC++ Client Mod of FreeDC++.

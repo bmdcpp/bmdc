@@ -164,6 +164,8 @@ public:
 	void checkCheating(const UserPtr& p, DirectoryListing* dl);
 	void sendRawCommand(const UserPtr& user, const string& aRaw, bool checkProtection = false);
 	void addCheckToQueue(const HintedUser huser, bool filelist);
+	
+	void setIpAddress(const UserPtr& p, const string& ip);
 
 private:
 	typedef unordered_map<string, UserPtr> LegacyMap;

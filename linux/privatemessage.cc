@@ -906,22 +906,23 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			"/getlist\t\t\t\t - " 	 + _("Get file list") + "\n" +
 			"/grant\t\t\t\t - " 	 + _("Grant extra slot") + "\n" +
 			"/emoticons, /emot\t\t - " + _("Emoticons on/off") + "\n" +
-			"/help\t\t\t\t - " + _("Show help") + "\n" +
-			"/amar\t\t\t -  " +_("Media Spam")+ "\n" +
-			"/auda\t\t\t -  " +_("Media Spam")+ "\n" +
-			"/kaff\t\t\t -  "+_("Media Spam") + "\n" +
-			"/vlc\t\t\t -  "+_("Media Spam") + "\n" +
-			"/ratio (mc)\t\t\t - "+_("Show Ratio (mc)")+ "\n"+
-			"/refresh\t\t\\t  -"  +_("refresh share")+ "\n"+
-			"/rebuild\t\t\t\t  -"+ _("rebuild share")+ "\n"+
-			"/slots n\t\t\t   -"+ _("Set Slots to n")+ "\n"+
-			"/stats\t\t\t\t    -"+ _("Show stats")+ "\n"+
-			"/df (mc)\n\n\n    -"+ _("Show FreeSpace (mc)")+ "\n"+
-			"/uptime\n\n\n    -"+ _("Show uptime")+ "\n"+
-			"/alias list\t\t\t" +   _("Alias List")+ "\n"
-			"/alias purge ::A\t\t"+ _("Alias Remove A")+"\n"
-			"/alias A::uname -a" +  _("Alias add uname -a as A")+"\n"+
-			"/A\t\t\t\t\t\t\t\t\t" + _("Alias A executing")+"\n"
+			"/help\t\t\t\t - "       + _("Show help") + "\n" +
+			"/amar\t\t\t -  "        + _("Media Spam")+ "\n" +
+			"/auda\t\t\t -  "        + _("Media Spam")+ "\n" +
+			"/kaff\t\t\t -  "        + _("Media Spam") + "\n" +
+			"/vlc\t\t\t -  "         + _("Media Spam") + "\n" +
+			"/rb\t\t\t -  "          + _("Media Spam") + "\n" +
+			"/ratio (mc)\t\t\t - "   + _("Show Ratio (mc)")+ "\n"+
+			"/refresh\t\t\\t  -"     + _("refresh share")+ "\n"+
+			"/rebuild\t\t\t\t  -"    + _("rebuild share")+ "\n"+
+			"/slots n\t\t\t   -"     + _("Set Slots to n")+ "\n"+
+			"/stats\t\t\t\t    -"    + _("Show stats")+ "\n"+
+			"/df (mc)\n\n\n    -"    + _("Show FreeSpace (mc)")+ "\n"+
+			"/uptime\n\n\n    -"     + _("Show uptime")+ "\n"+
+			"/alias list\t\t\t"      + _("Alias List")+ "\n"
+			"/alias purge ::A\t\t"   + _("Alias Remove A")+"\n"
+			"/alias A::uname -a"     + _("Alias add uname -a as A")+"\n"+
+			"/A\t\t\t\t\t\t\t\t\t"   + _("Alias A executing")+"\n"
 			  );
 		}
 	}

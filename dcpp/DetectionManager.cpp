@@ -363,49 +363,7 @@ void DetectionManager::UserInfoSave() {
 		dcdebug("DetectionManager::save: %s\n", e.getError().c_str());
 	}
 }
-/*
-const DetectionManager::DetectionItems& DetectionManager::reload(bool isUserInfo ) {
-	Lock l(cs);
-	if(!isUserInfo) {
-		det.clear();
-		params.clear();
-		ProfilesLoad();
-		return det;
-	} else {
-		ui_det.clear();
-		UserInfoLoad();
-		return ui_det;
-	}
-}*/
-/*
-const DetectionManager::DetectionItems& DetectionManager::reloadFromHttp(bool bz2 , bool isUserInfo ) {
-	Lock l(cs);
-	if(bz2)
-		loadCompressedProfiles();
 
-	DetectionItems& list = isUserInfo ? ui_det : det;
-
-	DetectionManager::DetectionItems oldList = list;
-	list.clear();
-	params.clear();
-	load();
-	for(DetectionManager::DetectionItems::iterator j = list.begin(); j != list.end(); ++j) {
-		for(DetectionManager::DetectionItems::const_iterator k = oldList.begin(); k != oldList.end(); ++k) {
-			if(k->Id == j->Id) {
-				j->rawToSend = k->rawToSend;
-				if(BOOLSETTING(UPDATE_PROFILE_CHEATS))
-					j->cheat = k->cheat;
-				if(BOOLSETTING(UPDATE_PROFILE_COMMENTS))
-					j->comment = k->comment;
-				j->clientFlag = k->clientFlag;
-				j->isEnabled = k->isEnabled;
-			}
-		}
-	}
-
-	return list;
-}
-*/
 void DetectionManager::importProfiles(SimpleXML& xml) {
 	try {
 		xml.resetCurrentChild();
@@ -600,37 +558,7 @@ void DetectionManager::ProfilesSave() {
 		dcdebug("DetectionManager::save: %s\n", e.getError().c_str());
 	}
 }
-/*
-void DetectionManager::loadCompressedProfiles() {
-	string xml = Util::emptyString;
-	string file = Util::getPath(Util::PATH_USER_CONFIG) + "Profiles.xml";
-	if(!Util::fileExists(file + ".bz2"))
-		return;
-	try {
-		dcpp::File ff(file + ".bz2", dcpp::File::READ, dcpp::File::OPEN);
-		FilteredInputStream<UnBZFilter, false> f(&ff);
-		const size_t BUF_SIZE = 64*1024;
-		boost::scoped_array<char> buf(new char[BUF_SIZE]);
-		size_t len;
-		for(;;) {
-			size_t n = BUF_SIZE;
-			len = f.read(&buf[0], n);
-			xml.append(&buf[0], len);
-			if(len < BUF_SIZE)
-				break;
-		}
 
-		File newfile(file + ".tmp", File::WRITE, File::CREATE | File::TRUNCATE);
-		newfile.write(xml);
-		newfile.close();
-		File::deleteFile(file);
-		//File::deleteFile(file + ".bz2");
-		File::renameFile(file + ".tmp", file);
-	} catch(...) {
-		//
-	}
-}
-*/
 void DetectionManager::addDetectionItem(DetectionEntry& e, bool isUserInfo /*=false*/) throw(Exception) {
 	Lock l(cs);
 	DetectionItems& list = isUserInfo ? ui_det : det;

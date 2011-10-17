@@ -2170,7 +2170,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			#endif
 			"/uptime \t\t\t\t\t\t -  " 	+ _("Show Client Uptime") + "\n" +
 			"/df [mc] \t\t\t\t -  "		+ _("Show Free space (mainchat)") + "\n" +
-			"/w ,/auda, /kaff, /amar /vlc\t"	+ _("Media Spam") + "\n" +
+			"/w ,/auda, /kaff, /amar /vlc /rb\t"	+ _("Media Spam") + "\n" +
 			"/stats \t\t\t\t - " 		+ _("Stats Clients") + "\n" +
 			"/exec \t\t\t\t  - " 		+ _("Execute code (bash)") + "\n" +
 			"/slots [n]\t\t\t\t"		+ _("Set Uploads slots") + "\n" +
