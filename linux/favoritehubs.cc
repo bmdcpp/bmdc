@@ -1,5 +1,24 @@
-/* Parts of Code 2010-2011 (C) Mank <freedcpp@seznam.cz>*/
-/* Part of Code (C) 2010 troll.freedcpp*/
+/*
+ * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2011 Mank, freedcpp@seznam.cz
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * In addition, as a special exception, compiling, linking, and/or
+ * using OpenSSL with this program is allowed.
+ */
 #include "favoritehubs.hh"
 #include "settingsmanager.hh"
 #include "wulformanager.hh"
@@ -12,7 +31,7 @@ using namespace std;
 using namespace dcpp;
 
 FavoriteHubs::FavoriteHubs():
-    BookEntry(Entry::FAVORITE_HUBS,_("Favorite Hubs"),"favoritehubs.glade")
+    BookEntry(Entry::FAVORITE_HUBS,_("Favorite Hubs"), "favoritehubs.glade")
 {
     // Configure the dialog
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("favoriteHubsDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
@@ -20,10 +39,10 @@ FavoriteHubs::FavoriteHubs():
 	gtk_widget_set_sensitive(getWidget("entryUserDescription"), FALSE);
 	gtk_widget_set_sensitive(getWidget("comboboxCharset"), FALSE);
 	gtk_widget_set_sensitive(getWidget("buttonGroups"), TRUE);
-	
+
 	vector<string> &charsets = WulforUtil::getCharsets();
 	WulforUtil::drop_combo(getWidget("comboboxCharset"), charsets);
-	
+
 	favoriteView.setView(GTK_TREE_VIEW(getWidget("favoriteView")));
 	favoriteView.insertColumn(_("Name"), G_TYPE_STRING, TreeView::STRING, 200);
 	favoriteView.insertColumn(_("Address"), G_TYPE_STRING, TreeView::STRING, 100);
@@ -60,11 +79,11 @@ FavoriteHubs::FavoriteHubs():
     gtk_tree_view_set_model(actionView.get(),GTK_TREE_MODEL(actionStore));
     g_object_unref(actionStore);
     actionSel = gtk_tree_view_get_selection(actionView.get());
-    
+
     GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(actionView.get(), actionView.col(_("Enabled"))));
 	GtkCellRenderer *arenderer = (GtkCellRenderer *)g_list_nth_data(list, 0);
 	g_list_free(list);
-    
+
     // Initialize favorite hub groups list treeview
 	groupView.setView(GTK_TREE_VIEW(getWidget("treeviewgrp")));
 	groupView.insertColumn(_("Group name"), G_TYPE_STRING, TreeView::STRING, 150);
@@ -84,16 +103,16 @@ FavoriteHubs::FavoriteHubs():
     g_signal_connect(getWidget("buttonProperties"), "clicked", G_CALLBACK(onEditEntry_gui), (gpointer)this);
     g_signal_connect(getWidget("buttonRemove"), "clicked", G_CALLBACK(onRemoveEntry_gui), (gpointer)this);
     g_signal_connect(getWidget("buttonConnect"), "clicked", G_CALLBACK(onConnect_gui), (gpointer)this);
-    
+
     g_signal_connect(getWidget("addMenuItem"), "activate", G_CALLBACK(onAddEntry_gui), (gpointer)this);
 	g_signal_connect(getWidget("connectMenuItem"), "activate", G_CALLBACK(onConnect_gui), (gpointer)this);
 	g_signal_connect(getWidget("propertiesMenuItem"), "activate", G_CALLBACK(onEditEntry_gui), (gpointer)this);
 	g_signal_connect(getWidget("removeMenuItem"), "activate", G_CALLBACK(onRemoveEntry_gui), (gpointer)this);
-	
+
 	g_signal_connect(favoriteView.get(),"button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
 	g_signal_connect(favoriteView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 	g_signal_connect(favoriteView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
-	
+
 	///Fav Dialog
 	g_signal_connect(getWidget("checkbuttonEncoding"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("comboboxCharset"));
 	g_signal_connect(getWidget("checkbuttonNick"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("entryNick"));
@@ -111,7 +130,7 @@ FavoriteHubs::FavoriteHubs():
 	g_signal_connect(getWidget("buttonGroups"), "clicked", G_CALLBACK(onManageGroupsClicked_gui), (gpointer)this);
 	g_signal_connect(groupView.get(), "button-release-event", G_CALLBACK(onGroupsButtonReleased_gui), (gpointer)this);
 	g_signal_connect(groupView.get(), "key-release-event", G_CALLBACK(onGroupsKeyReleased_gui), (gpointer)this);
-	
+
 }
 
 FavoriteHubs::~FavoriteHubs()
@@ -131,7 +150,7 @@ void FavoriteHubs::initialze_client()
 
     GtkTreeIter iter,fiter;
     GtkListStore *store = GTK_LIST_STORE(gtk_combo_box_get_model(GTK_COMBO_BOX(getWidget("groupsComboBox"))));
-  
+
     for (FavHubGroups::const_iterator iq = favHubGroups.begin(); iq != favHubGroups.end(); ++iq)
 	{
 		// favorite hub properties combo box groups
@@ -146,7 +165,7 @@ void FavoriteHubs::initialze_client()
 
 		GtkTreeIter piter;
         const FavoriteHubEntryList& flist = FavoriteManager::getInstance()->getFavoriteHubs(iq->first);
-        
+
         for(FavoriteHubEntryList::const_iterator it=flist.begin();it!=flist.end();++it)
         {
 
@@ -171,6 +190,7 @@ void FavoriteHubs::initialze_client()
 								favoriteView.col("Mode"), (*it)->getMode(),
 								favoriteView.col("IP"), (*it)->getIp().c_str(),
 								favoriteView.col("HidePassword"), (*it)->getPassword().c_str(),
+                                favoriteView.col("Action"), 0,
 								-1);
 					Iters *iw = new Iters();
 					iw->main = fiter;
@@ -179,15 +199,15 @@ void FavoriteHubs::initialze_client()
         }
 
     }
-    
+
     const FavoriteHubEntryList& flist = FavoriteManager::getInstance()->getFavoriteHubs();
     for(FavoriteHubEntryList::const_iterator it = flist.begin();it!=flist.end();++it)
     {
 		if((*it)->getGroup() == "" || (*it)->getGroup() == _("Default") || (*it)->getGroup() == "Default")
 		{
-		
+
 			string pass= (*it)->getPassword().empty()  ? "" : string(8,'*');
-				
+
 			gtk_tree_store_append(favoriteStore,&fiter,NULL);
             gtk_tree_store_set(favoriteStore,&fiter,
                                 favoriteView.col(_("Name")), (*it)->getName().c_str(),
@@ -207,12 +227,13 @@ void FavoriteHubs::initialze_client()
 								favoriteView.col("Mode"), (*it)->getMode(),
 								favoriteView.col("IP"), (*it)->getIp().c_str(),
 								favoriteView.col("HidePassword"), (*it)->getPassword().c_str(),
+                                favoriteView.col("Action"), 0,
 								-1);
 			Iters *iw = new Iters();
 			iw->main = fiter;
-			
+
 			faviters.insert(FavIter::value_type((*it)->getServer(),iw));
-			
+
 		}
 	}
 }
@@ -220,15 +241,15 @@ void FavoriteHubs::initialze_client()
 void FavoriteHubs::initActions()
 {
 	GtkTreeIter toplevel;
-	
+
 	gtk_tree_store_clear(actionStore);
-	
+
 	const Action::ActionList& list = RawManager::getInstance()->getActions();
-	
+
 	for(Action::ActionList::const_iterator it = list.begin();it!= list.end();++it)
 	{
 		const string& name = (*it)->getName();
-		
+
 		gtk_tree_store_append(actionStore,&toplevel,NULL);
 		gtk_tree_store_set(actionStore,&toplevel,
 						actionView.col(_("Name")), name.c_str(),
@@ -236,20 +257,20 @@ void FavoriteHubs::initActions()
 						actionView.col("ISRAW"), FALSE,
 						actionView.col("ID"), (*it)->getId(),
 						-1);
-		
+
 		GtkTreeIter child;
-			
+
 		for(Action::RawsList::const_iterator i = (*it)->raw.begin(); i != (*it)->raw.end(); ++i)
 		{
 			string rname = (*i).getName();
 			gtk_tree_store_append(actionStore,&child,&toplevel);
 			gtk_tree_store_set(actionStore,&child,
-						actionView.col(_("Name")),rname.c_str(),
-						actionView.col(_("Enabled")),(*i).getEnabled() ? TRUE : FALSE,
-						actionView.col("ISRAW"),TRUE,
-						actionView.col("ID"),(*i).getId(),
+						actionView.col(_("Name")), rname.c_str(),
+						actionView.col(_("Enabled")), (*i).getEnabled() ? TRUE : FALSE,
+						actionView.col("ISRAW"), TRUE,
+						actionView.col("ID"), (*i).getId(),
 						-1);
-				
+
 		}
 	}
 }
@@ -288,7 +309,7 @@ void FavoriteHubs::addEntry_gui(StringMap params)
 void FavoriteHubs::editEntry_gui(StringMap &params, GtkTreeIter *iter)
 {
 	string password = params["Password"].empty() ? "" : string(8, '*');
-	
+
 	gtk_tree_store_set(favoriteStore, iter,
 		favoriteView.col(_("Name")), params["Name"].c_str(),
 		favoriteView.col(_("Description")), params["Description"].c_str(),
@@ -308,8 +329,8 @@ void FavoriteHubs::editEntry_gui(StringMap &params, GtkTreeIter *iter)
 		favoriteView.col("onConnects"), params["CHAT"].c_str(),
 		favoriteView.col("Mode"), Util::toInt(params["Mode"]),
 		favoriteView.col("IP"), params["IP"].c_str(),
+        favoriteView.col("Action"), 0,
 		-1);
-
 }
 
 void FavoriteHubs::removeEntry_gui(string address,string group)
@@ -320,7 +341,7 @@ void FavoriteHubs::removeEntry_gui(string address,string group)
 
 	while (valid)
 	{
-		
+
 		if(favoriteView.getString(&iter, "Group") == group)
 		{
 			GtkTreeIter child;
@@ -331,11 +352,11 @@ void FavoriteHubs::removeEntry_gui(string address,string group)
 					{
 						gtk_tree_store_remove(favoriteStore,&child);
 					}
-					
-				gvalid = gtk_tree_model_iter_next(m,&child);	
+
+				gvalid = gtk_tree_model_iter_next(m,&child);
 			}
 		}
-		
+
 		if (favoriteView.getString(&iter, _("Address")) == address)
 		{
 			gtk_tree_store_remove(favoriteStore, &iter);
@@ -349,7 +370,7 @@ void FavoriteHubs::onAddEntry_gui(GtkWidget *widget, gpointer data)
 {
 	FavoriteHubs *fh = (FavoriteHubs *)data;
 	const string emptyString = "";
-	
+
 	StringMap params;
 	params["Name"] = emptyString;
 	params["Address"] = emptyString;
@@ -367,14 +388,14 @@ void FavoriteHubs::onAddEntry_gui(GtkWidget *widget, gpointer data)
 	params["ExtraInfo"] = emptyString;
 	params["Mode"] = "0";
 	params["IP"] = "0.0.0.0";
-	
+
 	bool isOk = fh->showFavoriteHubDialog_gui(params,fh);
-	
+
 	if(isOk)
 	{
 		typedef Func1<FavoriteHubs,StringMap> F1;
 		F1 *func = new F1(fh,&FavoriteHubs::addEntry_client,params);
-		WulforManager::get()->dispatchClientFunc(func);	
+		WulforManager::get()->dispatchClientFunc(func);
 	}
 }
 
@@ -384,7 +405,7 @@ void FavoriteHubs::onEditEntry_gui(GtkWidget *widget, gpointer data)
 	GtkTreeIter iter;
 	if (!gtk_tree_selection_get_selected(fh->favoriteSel, NULL, &iter))
 		return;
-		
+
 	StringMap params;
 	params["Name"] = fh->favoriteView.getString(&iter, _("Name"));
 	params["Address"] = fh->favoriteView.getString(&iter, _("Address"));//trsl??
@@ -402,18 +423,16 @@ void FavoriteHubs::onEditEntry_gui(GtkWidget *widget, gpointer data)
 	params["ExtraInfo"] = fh->favoriteView.getString(&iter, _("Extra Info"));
 	params["Mode"] = Util::toString(fh->favoriteView.getValue<gint>(&iter, "Mode"));
 	params["IP"] = fh->favoriteView.getString(&iter, "IP");
-	
+
 	bool isOk = fh->showFavoriteHubDialog_gui(params,fh);
 	if(isOk)
 	{
 		string address = fh->favoriteView.getString(&iter, _("Address"));
 		fh->editEntry_gui(params,&iter);
-		
+
 		typedef Func2<FavoriteHubs,string, StringMap> F2;
 		F2 *func = new F2(fh,&FavoriteHubs::editEntry_client,address,params);
 		WulforManager::get()->dispatchClientFunc(func);
-		
-		
 	}
 }
 
@@ -473,7 +492,7 @@ gboolean FavoriteHubs::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *e
 {
 	FavoriteHubs *fh = (FavoriteHubs *)data;
 	GtkTreeIter iter;
-	
+
 	if (!gtk_tree_selection_get_selected(fh->favoriteSel, NULL, &iter))
 	{
 		gtk_widget_set_sensitive(fh->getWidget("buttonProperties"), FALSE);
@@ -567,7 +586,7 @@ void FavoriteHubs::onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path
 		fixed = !fixed;
 		gtk_tree_store_set(fh->actionStore, &iter, fh->actionView.col(_("Enabled")), fixed, -1);
 	}
-}	
+}
 
 void FavoriteHubs::onCheckButtonToggled_gui(GtkToggleButton *button, gpointer data)
 {
@@ -589,7 +608,7 @@ void FavoriteHubs::onToggledMode_a_gui(GtkToggleButton *widget, gpointer data)
 	fh->mode.isDef = FALSE;
 	fh->mode.active = tmp;
 	fh->mode.pasive = FALSE;
-	gtk_widget_set_sensitive(fh->getWidget("entryip1"),TRUE);
+	gtk_widget_set_sensitive(fh->getWidget("entryip1"), TRUE);
 	fh->mode.ip = string(gtk_entry_get_text(GTK_ENTRY(fh->getWidget("entryip1"))));
 }
 
@@ -681,12 +700,12 @@ void FavoriteHubs::onRemoveGroupClicked_gui(GtkWidget *widget, gpointer data)
 		if (response == GTK_RESPONSE_YES)
 		{
 			gtk_list_store_remove(fh->groupStore, &iter);
-//			fh->setFavoriteHubs_gui(TRUE, group);
+			fh->setFavoriteHubs_gui(TRUE, group);
 		}
 		else if (response == GTK_RESPONSE_NO)
 		{
 			gtk_list_store_remove(fh->groupStore, &iter);
-//			fh->setFavoriteHubs_gui(FALSE, group);
+			fh->setFavoriteHubs_gui(FALSE, group);
 		}
 		gtk_widget_destroy(dialog);
 	}
@@ -887,11 +906,11 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryUserDescription")), params["User Description"].c_str());
 	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("comboboxCharset")), params["Encoding"].c_str());
 	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryExtraInfo")), params["ExtraInfo"].c_str());
-	
+
 	//Modes
 	if(params["Mode"] == "0" || params["Mode"] == "-1")
 	{
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("radiobuttonmode1")),TRUE);    
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("radiobuttonmode1")),TRUE);
 		fh->mode.isDef = TRUE;
 		fh->mode.active = FALSE;
 		fh->mode.pasive = FALSE;
@@ -900,7 +919,7 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 	}
 	else if (params["Mode"] == "1")
 	{
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("radiobuttonmode2")),TRUE);    
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("radiobuttonmode2")),TRUE);
 		fh->mode.isDef = FALSE;
 		fh->mode.active = TRUE;
 		fh->mode.pasive = FALSE;
@@ -909,7 +928,7 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 	}
 	else if (params["Mode"] == "2")
 	{
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("radiobuttonmode3")),TRUE);    
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("radiobuttonmode3")),TRUE);
 		fh->mode.isDef = TRUE;
 		fh->mode.active = FALSE;
 		fh->mode.pasive = FALSE;
@@ -930,15 +949,15 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 	// for backwards compatability w/ 1.0.3. Should be removed at some point.
 	gboolean overrideEncoding = !(params["Encoding"].empty() || params["Encoding"] == "Global hub default");
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkbuttonEncoding")), overrideEncoding);
-	
+
 	// Set the override default nick checkbox
 	gboolean overrideNick = !(params["Nick"].empty() || params["Nick"] == SETTING(NICK));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkbuttonNick")), overrideNick);
-	
+
 	// Set the override default user description checkbox
 	gboolean overrideUserDescription = !(params["User Description"].empty() || params["User Description"] == SETTING(DESCRIPTION));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkbuttonUserDescription")), overrideUserDescription);
-	
+
 	// Set the HideShare checkbox
 	gboolean hides =(((params["HideShare"] == "1") ? TRUE : FALSE) || params["HideShare"].empty());
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkButtonHideShare")), hides);
@@ -957,16 +976,16 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 	// Set the at conections checkbox
 	gboolean atcon = (((params["CHAT"] == "1") ? TRUE : FALSE) || params["CHAT"].empty());
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkatconn")), atcon);
-	
+
 	fh->setRawActions_gui(fh,params);
-	
+
 	// Show the dialog
 	gint response = gtk_dialog_run(GTK_DIALOG(fh->getWidget("favoriteHubsDialog")));
-	
+
 	// Fix crash, if the dialog gets programmatically destroyed.
 	if (response == GTK_RESPONSE_NONE)
 		return FALSE;
-	
+
 	while(response == GTK_RESPONSE_OK)
 	{
 			params["Name"] = gtk_entry_get_text(GTK_ENTRY(fh->getWidget("entryName")));
@@ -980,21 +999,21 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 			params["CHAT"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkatconn"))) ? "1" : "0";
 			params["ExtraInfo"] = gtk_entry_get_text(GTK_ENTRY(fh->getWidget("entryExtraInfo")));
 			params["IP"] = gtk_entry_get_text(GTK_ENTRY(fh->getWidget("entryip1")));
-			
+
 			if(fh->mode.isDef)
 			{
-				params["Mode"] = "0";	
-				
+				params["Mode"] = "0";
+
 			}
 			else if(fh->mode.active)
 			{
-				params["Mode"] = "1";	
-				
+				params["Mode"] = "1";
+
 			}else if(fh->mode.pasive)
 			{
-				params["Mode"] = "2";	
+				params["Mode"] = "2";
 			}
-		
+
 			if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkbuttonNick"))))
 			{
 				params["Nick"] = gtk_entry_get_text(GTK_ENTRY(fh->getWidget("entryNick")));
@@ -1011,14 +1030,14 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 				params["Encoding"] = string(enco);
 				g_free(enco);
 			}
-			
+
 			/* groups */
 			gchar *group = gtk_combo_box_get_active_text(GTK_COMBO_BOX(fh->getWidget("groupsComboBox")));
 			params["Group"] = string(group);
 			g_free(group);
-			
+
 			fh->setRawActions_client(fh,params);
-			
+
 			if (params["Name"].empty() || params["Address"].empty())
 			{
 				if (showErrorDialog_gui(_("The name and address fields are required"), fh))
@@ -1045,19 +1064,19 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 
 void FavoriteHubs::setRawActions_gui(FavoriteHubs *fh,StringMap params)
 {
-	
+
 	GtkTreeIter iter;
-	
+
 	gboolean valid = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(fh->actionStore), &iter);//??
 	FavoriteHubEntry *entry = FavoriteManager::getInstance()->getFavoriteHubEntry(params["Address"]);
-	
+
 	while(valid)
 	{
 		gint ida = actionView.getValue<gint>(&iter, "ID");
 		gboolean isRaw = actionView.getValue<gboolean>(&iter, "ISRAW");
 		bool isActive = FavoriteManager::getInstance()->getEnabledAction(&(*entry), ida);
 		gtk_tree_store_set (actionStore, &iter,actionView.col(_("Enabled")), isActive, -1);
-		
+
 		if(!isRaw)
 		{
 			GtkTreeIter child;
@@ -1067,22 +1086,22 @@ void FavoriteHubs::setRawActions_gui(FavoriteHubs *fh,StringMap params)
 				gint idr = actionView.getValue<gint>(&child, "ID");
 				bool isActive = FavoriteManager::getInstance()->getEnabledRaw(&(*entry), ida, idr);
 				gtk_tree_store_set (fh->actionStore, &child,actionView.col(_("Enabled")), isActive, -1);
-				
+
 				cvalid = gtk_tree_model_iter_next(GTK_TREE_MODEL(fh->actionStore), &child);
 			}
 		}
 		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(fh->actionStore), &iter);
 	}
-	
-}	
+
+}
 
 void FavoriteHubs::setRawActions_client(FavoriteHubs *fh, StringMap params)
 {
 	GtkTreeIter iter;
-	
+
 	gboolean valid = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(fh->actionStore), &iter);
 	FavoriteHubEntry *entry = FavoriteManager::getInstance()->getFavoriteHubEntry(params["Address"]);
-	
+
 	while(valid)
 	{
 		gint ida = actionView.getValue<gint>(&iter, "ID");
@@ -1090,9 +1109,9 @@ void FavoriteHubs::setRawActions_client(FavoriteHubs *fh, StringMap params)
 		gboolean active = actionView.getValue<gboolean>(&iter, _("Enabled"));
 		if(active)
 		{
-			FavoriteManager::getInstance()->setEnabledAction(&(*entry), ida, true);	
+			FavoriteManager::getInstance()->setEnabledAction(&(*entry), ida, true);
 		}
-		
+
 		if(!isRaw)
 		{
 			GtkTreeIter child;
@@ -1128,16 +1147,43 @@ bool FavoriteHubs::showErrorDialog_gui(const string &description, FavoriteHubs *
 	return TRUE;
 }
 
+void FavoriteHubs::setFavoriteHubs_gui(bool remove, const string &group)
+{
+	GtkTreeIter iter;
+	GtkTreeModel *m = GTK_TREE_MODEL(favoriteStore);
+	gboolean valid = gtk_tree_model_get_iter_first(m, &iter);
+
+	while (valid)
+	{
+		string grp = favoriteView.getString(&iter, "Group");
+
+		if (group == grp)
+		{
+			if (remove)
+			{
+				// remove hub entry
+				gtk_tree_store_set(favoriteStore, &iter, favoriteView.col("Action"), 1, -1);
+			}
+			else
+			{
+				// moved hub entry to default group
+				gtk_tree_store_set(favoriteStore, &iter, favoriteView.col("Action"), 2, -1);
+			}
+		}
+		valid = gtk_tree_model_iter_next(m, &iter);
+	}
+}
+
 bool FavoriteHubs::findHub_gui(const string &server, GtkTreeIter *par, GtkTreeIter *child)
 {
 	FavIter::const_iterator it = faviters.find(server);
 
 	if (it != faviters.end())
 	{
-		
+
 		if(par)
 			*par = it->second->main;
-		
+
 		if (child)
 			*child = it->second->child;
 
@@ -1148,7 +1194,6 @@ bool FavoriteHubs::findHub_gui(const string &server, GtkTreeIter *par, GtkTreeIt
 }
 
 ///Clients Func
-
 void FavoriteHubs::addEntry_client(StringMap params)
 {
 		FavoriteHubEntry entry;
@@ -1234,24 +1279,25 @@ void FavoriteHubs::getParamsFav(const FavoriteHubEntry *entry,StringMap &params)
 
 }
 
-void FavoriteHubs::on(dcpp::FavoriteManagerListener::FavoriteAdded, const dcpp::FavoriteHubEntryPtr entry) throw() 
-{ 
+void FavoriteHubs::on(dcpp::FavoriteManagerListener::FavoriteAdded, const dcpp::FavoriteHubEntryPtr entry) throw()
+{
 	StringMap params;
 	getParamsFav(entry,params);
-	
+
 	typedef Func1<FavoriteHubs,StringMap> F1;
 	F1 *func = new F1(this,&FavoriteHubs::addEntry_gui,params);
-	WulforManager::get()->dispatchGuiFunc(func);	
+	WulforManager::get()->dispatchGuiFunc(func);
 }
+
 void FavoriteHubs::on(dcpp::FavoriteManagerListener::FavoriteRemoved, const dcpp::FavoriteHubEntryPtr entry) throw()
 {
 	string address = (*entry).getServer();
 	string group = (*entry).getGroup();
-	
+
 	typedef Func2<FavoriteHubs,string, string> F2;
 	F2 *func = new F2(this,&FavoriteHubs::removeEntry_gui, address, group);
 	WulforManager::get()->dispatchGuiFunc(func);
-	
+
 }
 
 /*this is a pop menu*/

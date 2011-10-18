@@ -56,7 +56,6 @@ See License.txt for details.
 Contact:
 --------
 Website: 
-	http://bmdc.no-ip.sk
 	https://launchpad.net/bmdc++
 	https://sourceforge.net/projects/freedcppmv/
 	

@@ -277,7 +277,7 @@ Added a build flag to enable/disable libnotify. (Francisco Blas Izquierdo Riera)
 -||- lua support (liblua)
 -||- libgnome supports (libgnome)
 Change Cheat message to show on hub´s mainchat
-Add hub client command /topic to show topic of Hub 
+Add hub client command /topic to show topic of Hub
 Move unordered-* out from tr1
 Add Ax => name to report in UserInfo
 SmallFix Det.Tab
@@ -288,7 +288,7 @@ Smallest Country Icons
 Fix Hublist loading.
 Add FS in ADC (and in UserInfo too as Free Slots)
 Updated czech,turkish translate
-Some cleanup code 
+Some cleanup code
 Add Hub´s menu Add Favorite
 Add PM´s menu Add Favorite
 Simplify load country
@@ -337,8 +337,8 @@ BugFix of $SaltPass (iceman50)
 Add AutoUpdate of GeoIP along with HttpDownload helper´s struct
 Added option to Bold Hub Tab all times when changes what in it
 Bug Fix of $SaltPass (now working fine) (by iceman50)
-Finaly Fix isue with untick Unknow Command 
-Move to template for RegExp (and also add Wildcard Support to Protect Users) 
+Finaly Fix isue with untick Unknow Command
+Move to template for RegExp (and also add Wildcard Support to Protect Users)
 Set a users IP address sooner during a connection attempt (dcpp r2624)
 Fix Remove All in RecentHubs
 tar support
@@ -350,5 +350,7 @@ Little Tweak /stats
 Save IP Address on connect to users (NMDC)
 Proper Audacius Script along with /rb for Rhytmobox
 Some change in startup (annouce)
+Better Error if same port for TCP and TLS
+Trying Fix some stuff in FavoriteHubs
 
 

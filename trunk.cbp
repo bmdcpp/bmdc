@@ -68,8 +68,11 @@
 		<Unit filename="dcpp/AdcCommand.h" />
 		<Unit filename="dcpp/AdcHub.cpp" />
 		<Unit filename="dcpp/AdcHub.h" />
+		<Unit filename="dcpp/Atomic.h" />
 		<Unit filename="dcpp/BZUtils.cpp" />
 		<Unit filename="dcpp/BZUtils.h" />
+		<Unit filename="dcpp/BackupManager.cpp" />
+		<Unit filename="dcpp/BackupManager.h" />
 		<Unit filename="dcpp/BitInputStream.h" />
 		<Unit filename="dcpp/BitOutputStream.h" />
 		<Unit filename="dcpp/BloomFilter.h" />
@@ -127,6 +130,8 @@
 		<Unit filename="dcpp/FinishedManager.h" />
 		<Unit filename="dcpp/FinishedManagerListener.h" />
 		<Unit filename="dcpp/Flags.h" />
+		<Unit filename="dcpp/GeoIP.cpp" />
+		<Unit filename="dcpp/GeoIP.h" />
 		<Unit filename="dcpp/HashBloom.cpp" />
 		<Unit filename="dcpp/HashBloom.h" />
 		<Unit filename="dcpp/HashManager.cpp" />
@@ -137,6 +142,8 @@
 		<Unit filename="dcpp/HighlightManager.h" />
 		<Unit filename="dcpp/HttpConnection.cpp" />
 		<Unit filename="dcpp/HttpConnection.h" />
+		<Unit filename="dcpp/HttpDownload.cpp" />
+		<Unit filename="dcpp/HttpDownload.h" />
 		<Unit filename="dcpp/HubEntry.h" />
 		<Unit filename="dcpp/HubUsersMap.h" />
 		<Unit filename="dcpp/LogManager.cpp" />
@@ -154,6 +161,7 @@
 		<Unit filename="dcpp/QueueManagerListener.h" />
 		<Unit filename="dcpp/RawManager.cpp" />
 		<Unit filename="dcpp/RawManager.h" />
+		<Unit filename="dcpp/RegEx.h" />
 		<Unit filename="dcpp/RegexUtil.cpp" />
 		<Unit filename="dcpp/RegexUtil.h" />
 		<Unit filename="dcpp/ResourceManager.cpp" />
@@ -193,6 +201,8 @@
 		<Unit filename="dcpp/StringSearch.h" />
 		<Unit filename="dcpp/StringTokenizer.cpp" />
 		<Unit filename="dcpp/StringTokenizer.h" />
+		<Unit filename="dcpp/TarFile.cpp" />
+		<Unit filename="dcpp/TarFile.h" />
 		<Unit filename="dcpp/TaskQueue.h" />
 		<Unit filename="dcpp/Text.cpp" />
 		<Unit filename="dcpp/Text.h" />
@@ -206,6 +216,10 @@
 		<Unit filename="dcpp/TimerManager.h" />
 		<Unit filename="dcpp/Transfer.cpp" />
 		<Unit filename="dcpp/Transfer.h" />
+		<Unit filename="dcpp/UPnP.cpp" />
+		<Unit filename="dcpp/UPnP.h" />
+		<Unit filename="dcpp/UPnPManager.cpp" />
+		<Unit filename="dcpp/UPnPManager.h" />
 		<Unit filename="dcpp/Upload.cpp" />
 		<Unit filename="dcpp/Upload.h" />
 		<Unit filename="dcpp/UploadManager.cpp" />
@@ -227,11 +241,17 @@
 		<Unit filename="dcpp/WindowManagerListener.h" />
 		<Unit filename="dcpp/ZUtils.cpp" />
 		<Unit filename="dcpp/ZUtils.h" />
+		<Unit filename="dcpp/compiler.h" />
+		<Unit filename="dcpp/debug.h" />
+		<Unit filename="dcpp/format.h" />
 		<Unit filename="dcpp/forward.h" />
+		<Unit filename="dcpp/noexcept.h" />
 		<Unit filename="dcpp/stdinc.cpp" />
 		<Unit filename="dcpp/stdinc.h" />
+		<Unit filename="dcpp/typedefs.h" />
 		<Unit filename="dcpp/version.cpp" />
 		<Unit filename="dcpp/version.h" />
+		<Unit filename="dcpp/w.h" />
 		<Unit filename="linux/ADLSearchGUI.cc" />
 		<Unit filename="linux/ADLSearchGUI.hh" />
 		<Unit filename="linux/ShellCommand.cc" />
@@ -304,6 +324,10 @@
 		<Unit filename="linux/transfers.hh" />
 		<Unit filename="linux/treeview.cc" />
 		<Unit filename="linux/treeview.hh" />
+		<Unit filename="linux/uploadqueue.cc" />
+		<Unit filename="linux/uploadqueue.hh" />
+		<Unit filename="linux/upnpc.cc" />
+		<Unit filename="linux/upnpc.hh" />
 		<Unit filename="linux/version.cc" />
 		<Unit filename="linux/version.hh" />
 		<Unit filename="linux/wulfor.cc" />

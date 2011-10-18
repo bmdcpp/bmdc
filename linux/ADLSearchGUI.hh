@@ -56,7 +56,7 @@ class ADLSearchGUI:
 		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static bool showPropertiesDialog_gui(dcpp::ADLSearch &search, bool edit, ADLSearchGUI *s);
 		static void onToggleOveride(GtkWidget *widget,gpointer data);
-		static void onToggleAct(GtkWidget *widget, gpointer data);
+		static void onToggleActions(GtkWidget *widget, gpointer data);
 		static void onToggleForb(GtkWidget *widget, gpointer data);
 		static void onChangeCombo(GtkWidget *widget, gpointer data);
 

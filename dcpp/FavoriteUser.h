@@ -42,6 +42,7 @@ public:
 	GETSET(string, url, Url);
 	GETSET(time_t, lastSeen, LastSeen);
 	GETSET(string, description, Description);
+
 };
 
 } // namespace dcpp

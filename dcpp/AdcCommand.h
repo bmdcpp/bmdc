@@ -110,7 +110,7 @@ public:
 	C(RNT, 'R','N','T');
 	// ZLIF - iceman50
 	C(ZON, 'Z','O','N');
-//	C(ZOF, 'Z','O','F');
+	C(ZOF, 'Z','O','F');
 #undef C
 
 	static const uint32_t HUB_SID = 0xffffffff;		// No client will have this sid
@@ -121,15 +121,15 @@ public:
 	explicit AdcCommand(uint32_t aCmd, char aType = TYPE_CLIENT);
 	explicit AdcCommand(uint32_t aCmd, const uint32_t aTarget, char aType);
 	explicit AdcCommand(Severity sev, Error err, const string& desc, char aType = TYPE_CLIENT);
-	explicit AdcCommand(const string& aLine, bool nmdc = false); 
-	void parse(const string& aLine, bool nmdc = false); 
+	explicit AdcCommand(const string& aLine, bool nmdc = false);
+	void parse(const string& aLine, bool nmdc = false);
 
 	uint32_t getCommand() const { return cmdInt; }
 	char getType() const { return type; }
 	void setType(char t) { type = t; }
 	string getFourCC() const { string tmp(4, 0); tmp[0] = type; tmp[1] = cmd[0]; tmp[2] = cmd[1]; tmp[3] = cmd[2]; return tmp; }
 
-	const string& getFeatures() const { return features; }	
+	const string& getFeatures() const { return features; }
 	AdcCommand& setFeatures(const string& feat) { features = feat; return *this; }
 
 	StringList& getParameters() { return parameters; }
@@ -208,6 +208,8 @@ public:
 				C(CMD);
 				C(NAT);
 				C(RNT);
+				C(ZON);
+				C(ZOF);
 			default:
 				dcdebug("Unknown ADC command: %.50s\n", aLine.c_str());
 				break;

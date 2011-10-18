@@ -51,7 +51,7 @@ Settings::Settings(GtkWindow* parent):
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("dirChooserDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("fileChooserDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
 	gtk_window_set_transient_for(GTK_WINDOW(getWidget("ExtensionsDialog")), GTK_WINDOW(getWidget("dialog")));//NOTE: core 0.770
-	
+
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
 	textStyleBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(getWidget("textViewPreviewStyles")));
 	gtk_text_view_set_buffer(GTK_TEXT_VIEW(getWidget("textViewPreviewStylesTheme")), textStyleBuffer);
@@ -159,13 +159,13 @@ Settings::Settings(GtkWindow* parent):
 	defaultStringTheme.insert(StringMap::value_type("text-op-fore-color", "#0000FF"));
 	defaultStringTheme.insert(StringMap::value_type("text-url-back-color", "#FFFFFF"));
 	defaultStringTheme.insert(StringMap::value_type("text-url-fore-color", "#0000FF"));
-	
+
 	defaultStringTheme.insert(StringMap::value_type("text-ip-fore-color", "#000000"));
 	defaultStringTheme.insert(StringMap::value_type("text-ip-back-color", "#FFFFFF"));
 	defaultStringTheme.insert(StringMap::value_type("text-cheat-fore-color", "#DE1515"));
 	defaultStringTheme.insert(StringMap::value_type("text-cheat-back-color", "#EEE7E7"));
-	
-	/*for UL color text*///NOTE BMDC++ 
+
+	/*for UL color text*///NOTE BMDC++
 	defaultStringTheme.insert(StringMap::value_type("userlist-text-operator", "#1E90FF"));
 	defaultStringTheme.insert(StringMap::value_type("userlist-text-pasive", "#747677"));
 	defaultStringTheme.insert(StringMap::value_type("userlist-text-protected", "#8B6914"));
@@ -193,7 +193,7 @@ Settings::Settings(GtkWindow* parent):
 	defaultIntTheme.insert(IntMap::value_type("text-op-italic", 0));
 	defaultIntTheme.insert(IntMap::value_type("text-url-bold", 0));
 	defaultIntTheme.insert(IntMap::value_type("text-url-italic", 0));
-	
+
 	defaultIntTheme.insert(IntMap::value_type("text-ip-bold", 0));
 	defaultIntTheme.insert(IntMap::value_type("text-ip-italic", 0));
 	defaultIntTheme.insert(IntMap::value_type("text-cheat-bold", 1));
@@ -273,7 +273,7 @@ void Settings::saveSettings_client()
 
 		sm->set(SettingsManager::EXTERNAL_IP, gtk_entry_get_text(GTK_ENTRY(getWidget("entryIpExt"))));//ipEntry
 		sm->set(SettingsManager::EXTERNAL_IP6, gtk_entry_get_text(GTK_ENTRY(getWidget("entryipv6"))));//ipEntry
-		
+
 		sm->set(SettingsManager::NO_IP_OVERRIDE, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("forceIPCheckButton"))));
 
 		int port = Util::toInt(gtk_entry_get_text(GTK_ENTRY(getWidget("tcpEntry"))));
@@ -304,8 +304,8 @@ void Settings::saveSettings_client()
 		port = Util::toInt(gtk_entry_get_text(GTK_ENTRY(getWidget("socksPortEntry"))));
 		if (port > 0 && port <= 65535)
 			sm->set(SettingsManager::SOCKS_PORT, port);
-			
-		sm->set(SettingsManager::TIME_RECCON, gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(getWidget("spinReconect"))));	
+
+		sm->set(SettingsManager::TIME_RECCON, gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(getWidget("spinReconect"))));
 	}
 
 	{ // Downloads
@@ -478,7 +478,7 @@ void Settings::saveSettings_client()
 			// Confirm dialog options
 			saveOptionsView_gui(windowView3, sm);
 		}
-		
+
 		{ // Colors UL
 
 			GtkTreeIter iter;
@@ -488,15 +488,15 @@ void Settings::saveSettings_client()
 			while (valid)
 			{
 				wsm->set(userListNames.getString(&iter, "Set"), userListNames.getString(&iter, "Color"));
-				
+
 				valid = gtk_tree_model_iter_next(m, &iter);
-			}	
-		
+			}
+
 		}
 	}
 	//Higliting
 	{
-		HighlightManager::getInstance()->replaceList(pList);	
+		HighlightManager::getInstance()->replaceList(pList);
 	}
 
 	{ // Logs
@@ -543,7 +543,7 @@ void Settings::saveSettings_client()
 		sm->set(SettingsManager::TLS_TRUSTED_CERTIFICATES_PATH, path);
 
 		saveOptionsView_gui(certificatesView, sm);
-				
+
 		sm->set(SettingsManager::ENABLE_AUTOBACKUP,gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("enableBackup"))));
 		sm->set(SettingsManager::BACKUP_TIMESTAMP,string(gtk_entry_get_text(GTK_ENTRY(getWidget("backupTimestampEntry")))));
 		sm->set(SettingsManager::BACKUP_FILE_PATTERN, string(gtk_entry_get_text(GTK_ENTRY(getWidget("backupPatternEntry")))));
@@ -815,7 +815,6 @@ void Settings::initConnection_gui()
 {
 	// Incoming
 	g_signal_connect(getWidget("activeRadioButton"), "toggled", G_CALLBACK(onInDirect_gui), (gpointer)this);
-	///@todo Uncomment when implemented
 	g_signal_connect(getWidget("upnpRadioButton"), "toggled", G_CALLBACK(onInFW_UPnP_gui), (gpointer)this);
 	g_signal_connect(getWidget("portForwardRadioButton"), "toggled", G_CALLBACK(onInFW_NAT_gui), (gpointer)this);
 	g_signal_connect(getWidget("passiveRadioButton"), "toggled", G_CALLBACK(onInPassive_gui), (gpointer)this);
@@ -867,7 +866,7 @@ void Settings::initConnection_gui()
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("socksRadioButton")), TRUE);
 			break;
 	}
-	
+
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("spinReconect")), SETTING(TIME_RECCON));
 }
 
@@ -1059,7 +1058,7 @@ void Settings::initAppearance_gui()
 		addOption_gui(appearanceStore, _("Use DNS in Transfers"), "use-dns");
 		addOption_gui(appearanceStore, _("Only FavUsers PM"), "only-fav");
 		addOption_gui(appearanceStore, _("Log Ignored Messages as STATUS mess"), "log-messages");
-		addOption_gui(appearanceStore, _("Enable Lua debug messages"), SettingsManager::ENB_LUA_DEBUG); 
+		addOption_gui(appearanceStore, _("Enable Lua debug messages"), SettingsManager::ENB_LUA_DEBUG);
 
 		/// @todo: Uncomment when implemented
 		//addOption_gui(appearanceStore, _("Minimize to tray"), SettingsManager::MINIMIZE_TRAY);
@@ -1168,16 +1167,16 @@ void Settings::initAppearance_gui()
 			"text-status-fore-color", "text-status-back-color", "text-status-bold", "text-status-italic");
 		//Cheat
 		addOption_gui(textStyleStore, wsm, _("Cheat message"),
-			"text-cheat-fore-color", "text-cheat-back-color", "text-cheat-bold", "text-cheat-italic");	
+			"text-cheat-fore-color", "text-cheat-back-color", "text-cheat-bold", "text-cheat-italic");
 
 		addOption_gui(textStyleStore, wsm, _("Timestamp"),
 			"text-timestamp-fore-color", "text-timestamp-back-color", "text-timestamp-bold", "text-timestamp-italic");
 
 		addOption_gui(textStyleStore, wsm, _("URL"),
 			"text-url-fore-color", "text-url-back-color", "text-url-bold", "text-url-italic");
-		//IP adr.		
+		//IP adr.
 		addOption_gui(textStyleStore, wsm, _("IP address"),
-			"text-ip-fore-color", "text-ip-back-color", "text-ip-bold", "text-ip-italic");	
+			"text-ip-fore-color", "text-ip-back-color", "text-ip-bold", "text-ip-italic");
 
 		addOption_gui(textStyleStore, wsm, _("Favorite User"),
 			"text-fav-fore-color", "text-fav-back-color", "text-fav-bold", "text-fav-italic");
@@ -1306,7 +1305,7 @@ void Settings::initAppearance_gui()
 			"notify-fuser-quit-icon", NOTIFY_URGENCY_NORMAL);
 		addOption_gui(notifyStore, wsm, _("Highliting string"),
 			"notify-higl-use", "notify-higl-title",
-			"notify-higl-icon", NOTIFY_URGENCY_LOW);	
+			"notify-higl-icon", NOTIFY_URGENCY_LOW);
 
 		#endif
 		g_signal_connect(getWidget("notifyTestButton"), "clicked", G_CALLBACK(onNotifyTestButton_gui), (gpointer)this);
@@ -1545,11 +1544,11 @@ void Settings::initAppearance_gui()
 		userListNames.insertHiddenColumn("Color", G_TYPE_STRING);
 		userListNames.insertHiddenColumn("Set", G_TYPE_STRING);
 		userListNames.finalize();
-	
+
 		userListStore1 = gtk_list_store_newv(userListNames.getColCount(), userListNames.getGTypes());
 		gtk_tree_view_set_model(userListNames.get(), GTK_TREE_MODEL(userListStore1));
 		g_object_unref(userListStore1);
-		
+
 		addOption_gui(userListStore1, _("Normal"), "userlist-text-normal", false);
 		addOption_gui(userListStore1, _("Operator"), "userlist-text-operator", false);
 		addOption_gui(userListStore1, _("Pasive"), "userlist-text-pasive", false);
@@ -1562,22 +1561,22 @@ void Settings::initAppearance_gui()
 		userListPreview.insertHiddenColumn("Icon", G_TYPE_STRING);
 		userListPreview.insertHiddenColumn("Color", G_TYPE_STRING);
 		userListPreview.finalize();
-		
+
 		userListStore2 = gtk_list_store_newv(userListPreview.getColCount(), userListPreview.getGTypes());
 		gtk_tree_view_set_model(userListPreview.get(), GTK_TREE_MODEL(userListStore2));
 		g_object_unref(userListStore2);
-		
+
 		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Normal"), WGETS("userlist-text-normal"), WGETS("icon-normal"));
 		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Operator"), WGETS("userlist-text-operator"), WGETS("icon-normal"));
 		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Pasive"), WGETS("userlist-text-pasive"), WGETS("icon-normal"));
 		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Favorite"), WGETS("userlist-text-favorite"), WGETS("icon-normal"));
 		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Protected"), WGETS("userlist-text-protected"), WGETS("icon-normal"));
 		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Ignored"), WGETS("userlist-text-ignored"), WGETS("icon-normal"));
-		
+
 		g_signal_connect(getWidget("buttonForeColorTextUL"), "clicked", G_CALLBACK(onTextColorForeULClicked_gui), (gpointer)this);
 		g_signal_connect(getWidget("buttonDefUL"), "clicked", G_CALLBACK(onTextColorDefaultULClicked_gui), (gpointer)this);
-	}	
-//NOTE: END	
+	}
+//NOTE: END
 }
 
 void Settings::initHigliting_gui()//NOTE: BMDC++
@@ -1600,18 +1599,18 @@ void Settings::initHigliting_gui()//NOTE: BMDC++
 	hView.insertHiddenColumn("Back Color", G_TYPE_STRING);
 	hView.insertHiddenColumn("Case sensitive", G_TYPE_STRING);
 	hView.finalize();
-	
+
 	hStore = gtk_list_store_newv(hView.getColCount(), hView.getGTypes());
 	gtk_tree_view_set_model(hView.get(), GTK_TREE_MODEL(hStore));
 	g_object_unref(hStore);
-	
+
 	selection = gtk_tree_view_get_selection(hView.get());
-	
+
 	ColorList* cList = HighlightManager::getInstance()->getList();
 		for(ColorIter i = cList->begin();i != cList->end(); ++i) {
 			ColorSettings *cs= &(*i);
 			pList.push_back((*i));
-			
+
 			gtk_list_store_append(hStore,&iter);
 			gtk_list_store_set(hStore,&iter,
 							hView.col(_("String")), cs->getMatch().c_str(),
@@ -1630,7 +1629,7 @@ void Settings::initHigliting_gui()//NOTE: BMDC++
 							hView.col("Back Color"), cs->getBgColor().c_str(),
 							hView.col("Case sensitive"), cs->usingRegexp() ? "1" : "0",
 							-1);
-	
+
 	}
 	//Main
 	g_signal_connect(getWidget("buttonHGADD"), "clicked", G_CALLBACK(onAddHigliting_gui), (gpointer)this);
@@ -1778,12 +1777,12 @@ void Settings::initAdvanced_gui()
 		gtk_entry_set_text(GTK_ENTRY(getWidget("backupTimestampEntry")), SETTING(BACKUP_TIMESTAMP).c_str());
 		gtk_entry_set_text(GTK_ENTRY(getWidget("backupPatternEntry")), SETTING(BACKUP_FILE_PATTERN).c_str());
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("backupSpin")), (double)SETTING(AUTOBACKUP_TIME));
-		
+
 		g_signal_connect(getWidget("buttonRestore"), "clicked", G_CALLBACK([]() { RestoreManager::getInstance()->restoreBackup();}), (gpointer)this);
-		
-		
-		
-		
+
+
+
+
 	}
 }
 //NOTE: core 0.762
@@ -1927,7 +1926,7 @@ void Settings::addPreviewUL_gui(GtkListStore *store, const std::string &name, co
 			1, icon.c_str(),
 			2, color.c_str(),
 			-1);
-	colorsIters.insert(ColorIters::value_type(name, iter));		
+	colorsIters.insert(ColorIters::value_type(name, iter));
 }
 
 void Settings::onAddSTButton_gui(GtkWidget *widget, gpointer data)
@@ -3108,7 +3107,7 @@ void Settings::onAddShare_gui(GtkWidget *widget, gpointer data)
 
 			if (path[path.length() - 1] != PATH_SEPARATOR)
 				path += PATH_SEPARATOR;
-			
+
 			GtkWidget *dialog = s->getWidget("nameDialog");
 			gtk_window_set_title(GTK_WINDOW(dialog), _("Virtual name"));
 			gtk_entry_set_text(GTK_ENTRY(s->getWidget("nameDialogEntry")), Util::getLastDir(path).c_str());
@@ -3305,16 +3304,16 @@ void Settings::selectTextStyle_gui(const int select)
 void Settings::onTextColorForeULClicked_gui(GtkWidget *widget, gpointer data)
 {
 	Settings *s = (Settings *)data;
-	s->setColorUL();	
+	s->setColorUL();
 }
 
 void Settings::onTextColorDefaultULClicked_gui(GtkWidget *widget, gpointer data)
 {
-	Settings *s = (Settings *)data;	
+	Settings *s = (Settings *)data;
 	GtkTreeIter iter;
-	
+
 	gboolean valid = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(s->userListStore1), &iter);
-	
+
 	if (!valid)
 	{
 		s->showErrorDialog(_("selected name failed"));
@@ -3329,13 +3328,13 @@ void Settings::onTextColorDefaultULClicked_gui(GtkWidget *widget, gpointer data)
 	if(valid)
 		s->setDefaultColor("#747677", _("Pasive"), &iter);
 		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(s->userListStore1), &iter);
-	if(valid)	
+	if(valid)
 		s->setDefaultColor("#FF0000", _("Favorite"), &iter);
 		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(s->userListStore1), &iter);
-	if(valid)	
+	if(valid)
 		s->setDefaultColor("#8B6914", _("Protected"), &iter);
 		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(s->userListStore1), &iter);
-	if(valid)	
+	if(valid)
 		s->setDefaultColor("#9AFFAF", _("Ignored"), &iter);
 }
 
@@ -3353,7 +3352,7 @@ void Settings::setColorUL()
 	GdkColor color;
 	string currentcolor = "", currname = "";
 	GtkColorSelection *colorsel = GTK_COLOR_SELECTION(getWidget("colorsel-color_selection"));
-	
+
 	currentcolor = userListNames.getString(&iter, "Color");
 	currname = userListNames.getString(&iter, _("Name"));
 	if (gdk_color_parse(currentcolor.c_str(), &color))
@@ -3367,13 +3366,13 @@ void Settings::setColorUL()
 		gtk_color_selection_get_current_color(colorsel, &color);
 
 		string strcolor = WulforUtil::colorToString(&color);
-		
+
 		ColorIters::const_iterator qp = colorsIters.find(_("User ") + currname);
 		GtkTreeIter qiter = qp->second;
-		
+
 		gtk_list_store_set(userListStore2, &qiter, userListPreview.col("Color"), strcolor.c_str(), -1);
 		gtk_list_store_set(userListStore1, &iter, userListNames.col("Color"), strcolor.c_str(), -1);
-	
+
 	}
 }
 
@@ -3381,9 +3380,9 @@ void Settings::setDefaultColor(string color, string name, GtkTreeIter *iter)
 {
 	ColorIters::const_iterator qp = colorsIters.find(_("User ") + name);
 	GtkTreeIter qiter = qp->second;
-		
+
 	gtk_list_store_set(userListStore2, &qiter, userListPreview.col("Color"), color.c_str(), -1);
-	gtk_list_store_set(userListStore1, iter, userListNames.col("Color"), color.c_str(), -1);	
+	gtk_list_store_set(userListStore1, iter, userListNames.col("Color"), color.c_str(), -1);
 
 }
 
@@ -4391,7 +4390,7 @@ void Settings::onAddHigliting_gui(GtkWidget *widget, gpointer data)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkbuttonHGNotify")), TRUE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGColor")), TRUE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGText")), TRUE);
-	
+
 	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 
 	if (response == GTK_RESPONSE_OK)
@@ -4413,7 +4412,7 @@ void Settings::onAddHigliting_gui(GtkWidget *widget, gpointer data)
 		params["Enable Sound"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGSound"))) ? "1" : "0";
 		params["Enable Background"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGColor"))) ? "1" : "0";
 		params["Enable Text"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGText"))) ? "1" : "0";
-		
+
 		s->saveHigliting(params,true);
 	}
 	else
@@ -4423,7 +4422,7 @@ void Settings::onAddHigliting_gui(GtkWidget *widget, gpointer data)
 void Settings::onEditHigliting_gui(GtkWidget *widget, gpointer data)
 {
 	Settings *s = (Settings *)data;
-	
+
 	GtkTreeIter iter;
 
 	if (gtk_tree_selection_get_selected(s->selection, NULL, &iter))
@@ -4444,7 +4443,7 @@ void Settings::onEditHigliting_gui(GtkWidget *widget, gpointer data)
 		params["Enable Sound"] = s->hView.getString(&iter, "Enable Sound");
 		params["Enable Background"] = s->hView.getString(&iter, "Enable Back Color");
 		params["Enable Text"] = s->hView.getString(&iter, "Enable Fore Color");
-		
+
 		GtkWidget *dialog = s->getWidget("HiglitingDialog");
 		gtk_window_set_title(GTK_WINDOW(dialog), _("New Higliting Item"));
 		gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGString")), params["String"].c_str());
@@ -4472,7 +4471,7 @@ void Settings::onEditHigliting_gui(GtkWidget *widget, gpointer data)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGColor")), isColor);
 		gboolean isText = params["Enable Text"] == "1" ? TRUE : FALSE;
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGText")), isText);
-	
+
 		gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 
 		if (response == GTK_RESPONSE_OK)
@@ -4494,11 +4493,11 @@ void Settings::onEditHigliting_gui(GtkWidget *widget, gpointer data)
 			params["Enable Sound"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGSound"))) ? "1" : "0";
 			params["Enable Background"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGColor"))) ? "1" : "0";
 			params["Enable Text"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGText"))) ? "1" : "0";
-		
+
 			s->saveHigliting(params,false,name);
 		}
 		else gtk_widget_hide(dialog);
-	
+
 	}
 }
 
@@ -4524,7 +4523,7 @@ void Settings::onRemoveHigliting_gui(GtkWidget *widget, gpointer data)
 			if (response != GTK_RESPONSE_YES)
 				return;
 		}
-		
+
 		string name = s->hView.getString(&iter,_("String"));
 		for(int i=0;i < s->pList.size() ;i++)
 		{
@@ -4550,7 +4549,7 @@ void Settings::onColorText_gui(GtkWidget *widget, gpointer data)
 	{
 		gtk_color_selection_get_current_color(colorsel, &color);
 		string strcolor = WulforUtil::colorToString(&color);
-		gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGColorText")), strcolor.c_str());	
+		gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGColorText")), strcolor.c_str());
 	}
 }
 
@@ -4569,14 +4568,14 @@ void Settings::onColorBack_gui(GtkWidget *widget, gpointer data)
 	{
 		gtk_color_selection_get_current_color(colorsel, &color);
 		string strcolor = WulforUtil::colorToString(&color);
-		gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGColorBack")), strcolor.c_str());	
+		gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGColorBack")), strcolor.c_str());
 	}
 }
 
 void Settings::onSound_gui(GtkWidget *widget, gpointer data)
 {
 	Settings *s = (Settings *)data;
-	
+
 	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(s->getWidget("fileChooserDialog")), GTK_FILE_CHOOSER_ACTION_OPEN);
 	gint response = gtk_dialog_run(GTK_DIALOG(s->getWidget("fileChooserDialog")));
 	gtk_widget_hide(s->getWidget("fileChooserDialog"));
@@ -4591,28 +4590,28 @@ void Settings::onSound_gui(GtkWidget *widget, gpointer data)
 /**/
 void Settings::onToggledHGText_gui(GtkWidget *widget, gpointer data)
 {
-	Settings *s = (Settings *)data;	
+	Settings *s = (Settings *)data;
 	gtk_widget_set_sensitive(s->getWidget("entryHGColorText"), s->isSensitiveHG[0]);
 	gtk_widget_set_sensitive(s->getWidget("buttonColorText"), s->isSensitiveHG[0]);
 	s->isSensitiveHG[0] = !s->isSensitiveHG[0];
 }
 void Settings::onToggledHGColor_gui(GtkWidget *widget, gpointer data)
 {
-	Settings *s = (Settings *)data;	
+	Settings *s = (Settings *)data;
 	gtk_widget_set_sensitive(s->getWidget("entryHGColorBack"), s->isSensitiveHG[1]);
 	gtk_widget_set_sensitive(s->getWidget("buttonBackground"), s->isSensitiveHG[1]);
 	s->isSensitiveHG[1] = !s->isSensitiveHG[1];
 }
 void Settings::onToggledHGSound_gui(GtkWidget *widget, gpointer data)
 {
-	Settings *s = (Settings *)data;	
+	Settings *s = (Settings *)data;
 	gtk_widget_set_sensitive(s->getWidget("entryHGSoundFile"), s->isSensitiveHG[2]);
 	gtk_widget_set_sensitive(s->getWidget("buttonSound"), s->isSensitiveHG[2]);
 	s->isSensitiveHG[2] = !s->isSensitiveHG[2];
 }
 void Settings::onToggledHGNotify_gui(GtkWidget *widget, gpointer data)
 {
-	Settings *s = (Settings *)data;	
+	Settings *s = (Settings *)data;
 	gtk_widget_set_sensitive(s->getWidget("entryHGPopup"), s->isSensitiveHG[3]);
 	s->isSensitiveHG[3] = !s->isSensitiveHG[3];
 }
@@ -4620,7 +4619,7 @@ void Settings::onToggledHGNotify_gui(GtkWidget *widget, gpointer data)
 void Settings::saveHigliting(dcpp::StringMap &params, bool add, const string &name /*""*/)
 {
 	ColorSettings cs;
-	
+
 	cs.setMatch(params["String"]);
 	cs.setPopup(Util::toInt(params["Enable Popup"]));
 	cs.setBold(Util::toInt(params["Bold"]));
@@ -4632,17 +4631,17 @@ void Settings::saveHigliting(dcpp::StringMap &params, bool add, const string &na
 	cs.setNoti(params["Popup Text"]);
 	cs.setPlaySound(Util::toInt(params["Enable Sound"]));
 	cs.setSoundFile(params["Sound File"]);
-	
+
 	cs.setHasBgColor(Util::toInt(params["Enable Background"]));
 	cs.setBgColor(params["Color Back"]);
-	
+
 	cs.setHasFgColor(Util::toInt(params["Enable Text"]));
 	cs.setFgColor(params["Color Text"]);
 	if(add)
-	{	
+	{
 		pList.push_back(cs);
 		addHigliting_to_gui(cs,true);
-		
+
 	}
 	else
 	{
@@ -4680,6 +4679,6 @@ void Settings::addHigliting_to_gui(ColorSettings &cs, bool add)
 				hView.col("Back Color"), cs.getBgColor().c_str(),
 				hView.col("Case sensitive"), cs.usingRegexp() ? "1" : "0",
 				-1);
-	
-	
+
+
 }

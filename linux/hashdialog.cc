@@ -27,7 +27,9 @@ using namespace std;
 using namespace dcpp;
 
 Hash::Hash(GtkWindow* parent):
-	DialogEntry(Entry::HASH_DIALOG, "hash.glade", parent)
+	DialogEntry(Entry::HASH_DIALOG, "hash.glade", parent),
+	startBytes(0),//add
+	startFiles(0)
 {
 	string tmp;
 	startTime = GET_TICK();

@@ -163,8 +163,8 @@ MainWindow::MainWindow():
 		g_object_set_data_full(G_OBJECT(item), "type", g_strdup("dw"), g_free);
 		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(onLimitingMenuItem_gui), (gpointer)this);
 	}
-	
-	
+
+
 	gtk_widget_show_all(menu);
 
 	// colourstuff added by curse //add to BMDC++ by Mank
@@ -235,7 +235,7 @@ MainWindow::MainWindow():
 	///CMD TAB
 	g_signal_connect(getWidget("cmdMenuItem1"), "activate", G_CALLBACK(onDebugCMD), (gpointer)this);
 	g_signal_connect(getWidget("uploadQueueItem"), "activate", G_CALLBACK(onUploadQueue_gui), (gpointer)this);
-	
+
 	g_signal_connect(getWidget("indexingProgressMenuItem"), "activate", G_CALLBACK(onHashClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("searchMenuItem"), "activate", G_CALLBACK(onSearchClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("searchSpyMenuItem"), "activate", G_CALLBACK(onSearchSpyClicked_gui), (gpointer)this);
@@ -295,12 +295,12 @@ MainWindow::MainWindow():
 	//Fix
 	if (WGETI("main-window-maximized"))
 		gtk_window_maximize(window);
-		
-		
+
+
 	if(BOOLSETTING(GET_USER_COUNTRY)) {
 			checkUpdateofGeoIp(true);
 			checkUpdateofGeoIp(false);
-	}		
+	}
 
 	#ifdef _USELUA
 	 ScriptManager::getInstance()->load();
@@ -316,7 +316,7 @@ MainWindow::~MainWindow()
 	TimerManager::getInstance()->removeListener(this);
 	LogManager::getInstance()->removeListener(this);
 
-	listQueue.shutdown(); 
+	listQueue.shutdown();
 
 	GList *list = (GList *)g_object_get_data(G_OBJECT(getWidget("book")), "page-rotation-list");
 	g_list_free(list);
@@ -507,7 +507,7 @@ void MainWindow::onLimitingMenuItem_gui(GtkWidget *widget, gpointer data)
 		return;
 
 	bool isEnb = BOOLSETTING(THROTTLE_ENABLE);
-	
+
 	if(isEnb);else SettingsManager::getInstance()->set(SettingsManager::THROTTLE_ENABLE,!isEnb);
 
 	if(type == "up")
@@ -518,9 +518,9 @@ void MainWindow::onLimitingMenuItem_gui(GtkWidget *widget, gpointer data)
 	{
 		ThrottleManager::setSetting(SettingsManager::MAX_DOWNLOAD_SPEED_MAIN, Util::toInt(speed)/1024);
 	}
-	
+
 	GtkWidget *lim = mw->getWidget("EnableLimit");
-	
+
 	if(!isEnb)
     {
         mw->setMainStatus_gui(_("Throtle off"), time(NULL));
@@ -538,7 +538,7 @@ void MainWindow::onLimitingDisable(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 	string type = (gchar*)g_object_get_data(G_OBJECT(widget), "type");
-	
+
 	//SettingsManager::getInstance()->set(SettingsManager::THROTTLE_ENABLE,false);
 
 	if(type == "dw")
@@ -649,13 +649,13 @@ void MainWindow::addBookEntry_gui(BookEntry *entry)
 	gtk_notebook_append_page(GTK_NOTEBOOK(getWidget("book")), page, label);
 
 	g_signal_connect(label, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
-	
+
 	if(WGETB("show-close-butt"))
 	{
 		g_signal_connect(closeButton, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
 		g_signal_connect(closeButton, "clicked", G_CALLBACK(onCloseBookEntry_gui), (gpointer)entry);
 	}
-	
+
 	gtk_widget_set_sensitive(getWidget("closeMenuItem"), TRUE);
 
 	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(getWidget("book")), page, TRUE);
@@ -808,7 +808,7 @@ void MainWindow::setMainStatus_gui(string text, time_t t)
 	{
 		text = "[" + Util::getShortTimeString(t) + "] " + text;
 		gtk_label_set_text(GTK_LABEL(getWidget("labelStatus")), text.c_str());
-		
+
 		if(statusTexts.size() > maxTooltipCount)
 		{
 			statusTexts.pop();
@@ -823,7 +823,7 @@ void MainWindow::setMainStatus_gui(string text, time_t t)
 		statusTexts.push(text);
 		statusTool+"\n"+text;
 		gtk_widget_set_tooltip_text (getWidget("labelStatus"),statusTool.c_str());
-		
+
 	}
 }
 
@@ -831,7 +831,7 @@ void MainWindow::showNotification_gui(string head, string body, Notify::TypeNoti
 {
 #ifdef HAVE_LIBNOTIFY
 	Notify::get()->showNotify(head, body, notify);
-#endif	
+#endif
 }
 
 void MainWindow::setStats_gui(string hubs, string downloadSpeed,
@@ -995,7 +995,7 @@ void MainWindow::showIgnore_gui()
 
 	if (entry == NULL)
 	{
-		entry = new ignoreusers();
+		entry = new IgnoreUsers();
 		addBookEntry_gui(entry);
 	}
 	raisePage_gui(entry->getContainer());
@@ -1119,14 +1119,14 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 				string::size_type j = message.size();
 			#ifdef HAVE_LIBNOTIFY
 				Notify::get()->showNotify("", message.substr(0, j - i) + "...", Notify::PRIVATE_MESSAGE);
-			#endif	
+			#endif
 			}
 			else
 			#ifdef HAVE_LIBNOTIFY
 				Notify::get()->showNotify("", message, Notify::PRIVATE_MESSAGE);
 			#else
 			;
-			#endif	
+			#endif
 		}
 	}
 
@@ -1524,10 +1524,10 @@ void MainWindow::onTTHFileButton_gui(GtkWidget *widget , gpointer data)
 		strcpy(&TTH[0], tth.getRoot().toBase32().c_str());
 		string magnetlink = "magnet:?xt=urn:tree:tiger:" + TTH + "&xl=" + Util::toString(f.getSize()) + "&dn=" + Util::encodeURI(Text::fromT(Util::getFileName(string(temp))));
 		f.close();
-		
+
 		gtk_entry_set_text(GTK_ENTRY(mw->getWidget("entrymagnet")), magnetlink.c_str());
 		gtk_entry_set_text(GTK_ENTRY(mw->getWidget("entrytthfileresult")), TTH.c_str());
-		
+
 		}
 		catch(...)
 		{ }
@@ -1934,6 +1934,7 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 
 	unsigned short tcpPort = (unsigned short)SETTING(TCP_PORT);
 	unsigned short udpPort = (unsigned short)SETTING(UDP_PORT);
+	unsigned short tlsPort = (unsigned short)SETTING(TLS_PORT);
 	int lastConn = SETTING(INCOMING_CONNECTIONS);
 
 	if (mw->useStatusIconBlink != WGETB("status-icon-blink-use"))
@@ -1944,7 +1945,16 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 
 	if (response == GTK_RESPONSE_OK)
 	{
-		if (SETTING(INCOMING_CONNECTIONS) != lastConn || SETTING(TCP_PORT) != tcpPort || SETTING(UDP_PORT) != udpPort)
+	    if(SETTING(TLS_PORT) == SETTING(TCP_PORT))
+	    {
+            mw->showMessageDialog_gui(_("Not Alowed same number of port for TLS and TCP"),
+                                  _("Not Alowed same number of port for TLS and TCP,please chose for one of it another port")
+                                  );
+            goto OTHER;
+	    }
+
+
+		if (SETTING(INCOMING_CONNECTIONS) != lastConn || SETTING(TCP_PORT) != tcpPort || SETTING(UDP_PORT) != udpPort || tlsPort != SETTING(TLS_PORT) )
 		{
 			//NOTE: core 0.762
 			if (SETTING(INCOMING_CONNECTIONS) == SettingsManager::INCOMING_FIREWALL_UPNP ||
@@ -1961,6 +1971,7 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 			// previous UPnP mappings had failed; try again
 			UPnPManager::getInstance()->open();
 		}
+		OTHER:
 
 		if (BOOLSETTING(ALWAYS_TRAY))
 			gtk_status_icon_set_visible(mw->statusIcon, TRUE);
@@ -2350,6 +2361,15 @@ void MainWindow::startSocket_client()
 		}
 		catch (const Exception &e)
 		{
+		    if(SETTING(TCP_PORT) == SETTING(TLS_PORT))
+		    {
+                string primText = _("The Same Port for TLS/TCP not Alowed");
+                string secondaryT = _("The Same Port for TLS/TCP not alowed please change setting one of it To Another port");
+                typedef Func2<MainWindow, string, string> F2;
+                F2 *func = new F2(this,&MainWindow::showMessageDialog_gui,primText, secondaryT);
+                WulforManager::get()->dispatchGuiFunc(func);
+                return;
+            }
 			string primaryText = _("Unable to open TCP/TLS port");
 			string secondaryText = _("File transfers will not work correctly until you change settings or turn off any application that might be using the TCP/TLS port.");
 			typedef Func2<MainWindow, string, string> F2;
@@ -2373,7 +2393,7 @@ void MainWindow::startSocket_client()
 		// must be done after listen calls; otherwise ports won't be set
 		if (SETTING(INCOMING_CONNECTIONS) == SettingsManager::INCOMING_FIREWALL_UPNP)// NOTE: core 0.762
 			UPnPManager::getInstance()->open();
-		
+
 	}
 
 	ClientManager::getInstance()->infoUpdated();
@@ -2468,8 +2488,8 @@ int MainWindow::FileListQueue::run() {
 				dl->loadFile(i->file);
 				ADLSearchManager::getInstance()->matchListing(*dl);
 				ClientManager::getInstance()->checkCheating(i->user, dl);
-			} catch(...) 
-			{ 
+			} catch(...)
+			{
 				//...
 			}
 			delete dl;
@@ -2532,17 +2552,17 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) throw()
 void MainWindow::showUploadQueue()
 {
 	BookEntry *entry = findBookEntry(Entry::UPLOADQUEUE);
-	
+
 	if( entry == NULL)
 	{
 		entry = new UploadQueue();
-		addBookEntry_gui(entry);	
-	}	
-	raisePage_gui(entry->getContainer());	
+		addBookEntry_gui(entry);
+	}
+	raisePage_gui(entry->getContainer());
 }
 
 void MainWindow::onUploadQueue_gui( GtkWidget *widget , gpointer data)
-{ 
+{
 	MainWindow *mw = (MainWindow *)data;
 	mw->showUploadQueue();
 }
@@ -2553,7 +2573,7 @@ void MainWindow::checkUpdateofGeoIp(bool v6)
 		File f(Util::getGeoPath(v6) + ".gz", File::READ, File::OPEN);
 		if(f.getSize() > 0 && f.getLastModified() > GET_TIME() - 3600 * 24 * 16) {
 			return;
-		}	
+		}
 	} catch(const FileException&) { }
 	updateGeoIp(v6);
 }
@@ -2565,15 +2585,15 @@ void MainWindow::updateGeoIp(bool v6)
 	auto& conn = conns[v6 ? CONN_GEOIP_V6 : CONN_GEOIP_V4];
 	if(conn.get())
 		return;
-	LogManager::getInstance()->message(string(_("Updating the GeoIP database...v")) + (v6 ? "IPv6" : "IPv4"));	
+	LogManager::getInstance()->message(string(_("Updating the GeoIP database...v")) + (v6 ? "IPv6" : "IPv4"));
 	conn.reset(new HttpDownload(v6 ? v6str : v4str, [this, v6] { completeGeoIpUpdate(v6); }, false));
-	
+
 }
 
 void MainWindow::completeGeoIpUpdate(bool v6)
 {
 	auto& conn = conns[v6 ? CONN_GEOIP_V6 : CONN_GEOIP_V4];
-	
+
 	if(!conn->buf.empty()) {
 		try {
 			File(Util::getGeoPath(v6) + ".gz", File::WRITE, File::CREATE | File::TRUNCATE).write(conn->buf);
@@ -2582,6 +2602,6 @@ void MainWindow::completeGeoIpUpdate(bool v6)
 			return;
 		} catch(const FileException&) {}
 	}
-	LogManager::getInstance()->message(string(_("The GeoIP database could not be updated...v")) + (v6 ? "IPv6" : "IPv4"));	
-	
+	LogManager::getInstance()->message(string(_("The GeoIP database could not be updated...v")) + (v6 ? "IPv6" : "IPv4"));
+
 }

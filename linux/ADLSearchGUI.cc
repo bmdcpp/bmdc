@@ -100,7 +100,7 @@ ADLSearchGUI::ADLSearchGUI():
 	g_signal_connect(searchADLView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 
 	g_signal_connect(getWidget("checkoveride1"), "toggled", G_CALLBACK(onToggleOveride), (gpointer)this);
-	g_signal_connect(getWidget("checkFromFav"), "toggled", G_CALLBACK(onToggleAct), (gpointer)this);
+	g_signal_connect(getWidget("checkFromFav"), "toggled", G_CALLBACK(onToggleActions), (gpointer)this);
 
 	g_signal_connect(getWidget("checkForbiden"), "toggled", G_CALLBACK(onToggleForb), (gpointer)this);
 
@@ -591,7 +591,7 @@ void ADLSearchGUI::onToggleOveride(GtkWidget *widget,gpointer data) {
 	s->sens = !s->sens;
 }
 
-void ADLSearchGUI::onToggleAct(GtkWidget *widget, gpointer data)
+void ADLSearchGUI::onToggleActions(GtkWidget *widget, gpointer data)
 {
 	ADLSearchGUI *s = (ADLSearchGUI *)data;
 	gtk_widget_set_sensitive(s->getWidget("comboboxAction"), s->acts);

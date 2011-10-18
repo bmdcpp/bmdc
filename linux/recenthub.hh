@@ -30,7 +30,6 @@
 #include "bookentry.hh"
 #include "treeview.hh"
 
-
 class RecentTab:
 	public BookEntry,
 	public dcpp::FavoriteManagerListener

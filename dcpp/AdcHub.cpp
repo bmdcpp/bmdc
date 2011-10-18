@@ -38,8 +38,8 @@
 #include <math.h>
 
 namespace dcpp {
-	
-using std::make_pair;	
+
+using std::make_pair;
 
 const string AdcHub::CLIENT_PROTOCOL("ADC/1.0");
 const string AdcHub::SECURE_CLIENT_PROTOCOL_TEST("ADCS/0.10");
@@ -194,8 +194,8 @@ void AdcHub::handle(AdcCommand::INF, AdcCommand& c) noexcept {
 		u->getIdentity().setConnection(str(F_("%1%/s") % Util::formatBytes(u->getIdentity().get("US"))));
 	}
 
-	//RSX++ 
-	if(getCheckedAtConnect()/* && getCheckMyInfo()*/) 
+	//RSX++
+	if(getCheckedAtConnect()/* && getCheckMyInfo()*/)
 	{
 		string report = u->getIdentity().myInfoDetect(*u);
 		if(!report.empty()) {
@@ -662,6 +662,14 @@ void AdcHub::handle(AdcCommand::ZON, AdcCommand& c) noexcept {
 		}
 }
 
+void AdcHub::handle(AdcCommand::ZOF, AdcCommand& c) noexcept {
+	try {
+			sock->setMode(BufferedSocket::MODE_LINE);
+		} catch (const Exception& e) {
+			dcdebug("AdcHub::handleZOF failed with error: %s\n", e.getError().c_str());
+		}
+}
+
 void AdcHub::connect(const OnlineUser& user, const string& token) {
 	connect(user, token, CryptoManager::getInstance()->TLSOk() && user.getUser()->isSet(User::TLS));
 }
@@ -744,11 +752,11 @@ void AdcHub::sendUserCmd(const UserCommand& command, const StringMap& params) {
 const vector<StringList>& AdcHub::getSearchExts() {
 	if(!searchExts.empty())
 		return searchExts;
-	
+
 	auto& xSearchExts = const_cast<vector<StringList>&>(searchExts);
-	
+
 	xSearchExts.resize(6);
-	
+
 	/// @todo simplify this as searchExts[0] = { "mp3", "etc" } when VC++ supports initializer lists
 
 	// these extensions *must* be sorted alphabetically!
@@ -822,7 +830,7 @@ void AdcHub::search(int aSizeMode, int64_t aSize, int aFileType, const string& a
 
 	if(!aToken.empty())
 		c.addParam("TO", aToken);
-	
+
 	if(aFileType == SearchManager::TYPE_TTH) {
 		c.addParam("TR", aString);
 	} else {
@@ -838,7 +846,7 @@ void AdcHub::search(int aSizeMode, int64_t aSize, int aFileType, const string& a
 		if(aFileType == SearchManager::TYPE_DIRECTORY) {
 			c.addParam("TY", "2");
 		}
-		
+
 		if(aExtList.size() > 2) {
 			StringList exts = aExtList;
 			sort(exts.begin(), exts.end());
@@ -993,7 +1001,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 	addParam(lastInfoMap, c, "HN", Util::toString(counts.normal));
 	addParam(lastInfoMap, c, "HR", Util::toString(counts.registered));
 	addParam(lastInfoMap, c, "HO", Util::toString(counts.op));
-	addParam(lastInfoMap, c, "AP", "++"); 
+	addParam(lastInfoMap, c, "AP", "++");
 	addParam(lastInfoMap, c, "VE", VERSIONSTRING);
 	addParam(lastInfoMap, c, "AW", Util::getAway() ? "1" : Util::emptyString);
 
@@ -1094,6 +1102,7 @@ void AdcHub::on(Connected c) throw() {
 	if(BOOLSETTING(SEND_BLOOM)) {
 		cmd.addParam(BLO0_SUPPORT);
 	}
+	cmd.addParam(ZLIF_SUPPORT);
 	send(cmd);
 }
 

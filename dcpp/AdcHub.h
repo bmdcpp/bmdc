@@ -29,7 +29,7 @@
 #include "HubUsersMap.h" //RSX++
 
 namespace dcpp {
-using std::unordered_map;	 
+using std::unordered_map;
 
 class ClientManager;
 #ifdef _USELUA
@@ -143,7 +143,8 @@ private:
 	void handle(AdcCommand::NAT, AdcCommand& c) noexcept;
 	void handle(AdcCommand::RNT, AdcCommand& c) noexcept;
 	void handle(AdcCommand::ZON, AdcCommand& c) noexcept;
-	
+	void handle(AdcCommand::ZOF, AdcCommand& c) noexcept;
+
 	template<typename T> void handle(T, AdcCommand&) { }
 
 	void sendUDP(const AdcCommand& cmd) noexcept;
@@ -170,7 +171,7 @@ private:
 	string startChecking(const string& aParams) { return users.startChecking(this, aParams); }//checker
 	void stopChecking()	{ users.stopCheck(); }
 	void stopMyINFOCheck() { users.stopMyINFOCheck(); }
-	
+
 	static const vector<StringList> searchExts;
 
 };

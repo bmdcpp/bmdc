@@ -30,13 +30,13 @@
 #include "bookentry.hh"
 #include "treeview.hh"
 
-class ignoreusers:
+class IgnoreUsers:
 	public BookEntry,
 	public dcpp::FavoriteManagerListener
 {
 	public:
-		ignoreusers();
-		virtual ~ignoreusers();
+		IgnoreUsers();
+		virtual ~IgnoreUsers();
 		virtual void show();
 		virtual void popmenu();
 

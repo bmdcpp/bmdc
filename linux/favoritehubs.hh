@@ -75,6 +75,7 @@ class FavoriteHubs:
 		static bool showErrorDialog_gui(const std::string &description, FavoriteHubs *fh);
 		void updateFavHubGroups_gui(bool updated);
 		void saveFavHubGroups();
+		void setFavoriteHubs_gui(bool remove, const std::string &group);
 
 		void setRawActions_gui(FavoriteHubs *fh,dcpp::StringMap params);
 		void setRawActions_client(FavoriteHubs *fh, dcpp::StringMap params);
