@@ -32,7 +32,7 @@ public:
 
 	DetectionManager() : profileVersion("N/A"), profileMessage("N/A"), profileUrl("N/A"), lastId(0),
 		userInfoVersion("N/A"), userInfoMessage("N/A"), userInfoUrl("N/A"), ui_lastId(0) { };
-	~DetectionManager() throw() { save(); det.clear(); };
+	~DetectionManager() noexcept { save(); det.clear(); };
 
 	void ProfilesLoad();
 	void ProfilesSave();
@@ -58,20 +58,21 @@ public:
 	bool moveDetectionItem(const uint32_t aId, int pos, bool isUserInfo = false);
 	void setItemEnabled(const uint32_t aId, bool enabled, bool isUserInfo = false) throw();
 
-	const DetectionItems& getProfiles(bool isUserInfo = false) throw() {
+	const DetectionItems& getProfiles(bool isUserInfo = false) noexcept {
 		Lock l(cs);
 		return isUserInfo ? ui_det : det;
 	}
 
-	const DetectionItems& getProfiles(StringMap& p, bool isUserInfo = false) throw() {
+	const DetectionItems& getProfiles(ParamMap& p, bool isUserInfo = false) noexcept {
 		Lock l(cs);
 		// don't override other params
-		for(StringMapIter i = params.begin(); i != params.end(); ++i)
+		for(ParamMap::iterator i = params.begin(); i != params.end(); ++i)
 			p[i->first] = i->second;
+
 		return isUserInfo ? ui_det : det;
 	}
 
-	StringMap& getParams() throw() {
+	ParamMap& getParams() noexcept {
 		Lock l(cs);
 		return params;
 	}
@@ -85,11 +86,11 @@ public:
 	GETSET(string, userInfoUrl, UserInfoUrl);
 
 private:
-	
+
 	DetectionItems det;
 	DetectionItems ui_det;
 
-	StringMap params;
+	ParamMap params;
 	uint32_t lastId;
 	uint32_t ui_lastId;
 

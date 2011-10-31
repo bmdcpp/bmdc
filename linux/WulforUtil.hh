@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,12 +23,12 @@
 #define WULFOR_UTIL_H
 
 #include <gtk/gtk.h>
-#include <fstream>
-
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
 #include <dcpp/CID.h>
 #include <dcpp/User.h>
+#include <dcpp/HintedUser.h>
+#include <dcpp/typedefs.h>
 
 #define C_EMPTY(x) ((x) == NULL || (x)[0] == '\0')
 
@@ -77,43 +77,35 @@ class WulforUtil
 		static GtkTreeIter copyRow_gui(GtkTreeStore *store, GtkTreeIter *fromIter, GtkTreeIter *parent = NULL, int position = -1);
 		static void copyValue_gui(GtkTreeStore* store, GtkTreeIter *fromIter, GtkTreeIter *toIter, int position);
 		static void registerIcons();
-		///Country Related func
-		static GdkPixbuf *loadCountry(const std::string &country);
-		static std::string getCC(std::string _countryname);
-		///comands ,UserInfo
-		static bool checkCommand(std::string& cmd,std::string& param, std::string& message,std::string& status,bool& thirdperson);
-		static std::string getReport(const dcpp::Identity& identity);
-
-		static bool matchRe(const std::string/*&*/ strToMatch, const std::string/*&*/ expression, bool caseSensative = true);//used this ??
-		/* This is fill comboboxentry */
+		//BMDC++
 		static void drop_combo(GtkWidget *widget, std::vector<std::pair<std::string,int> > CONTEUDO);
-		static void drop_combo(GtkWidget *widget, std::vector<std::string> CONTEUDO);
-		static std::vector<std::pair<std::string,int> >& getActions();
-		/* Load Icon of SH based on .ext */
-		static GdkPixbuf *loadIconSB(std::string ext);
-		/* remove events from widget */
-		static void my_gtk_widget_remove_events (GtkWidget *widget,gint events);
 		
-		/* Higliting´s words */
-		static bool isHighlitingWorld(GtkTextBuffer *buffer, GtkTextTag *tag, std::string word, bool &tTab, gpointer hub, GtkTextTag *TagsMap[]);
-				
+		static GdkPixbuf *LoadCountryPixbuf(const std::string& country);
+		static std::string getCountryCode(std::string _countryname);
+		
+		static GdkPixbuf *loadIconShare(std::string ext);
+		static void remove_signals_from_widget(GtkWidget *widget, gint events);
+		static std::string formatReport(const dcpp::Identity& identity);
+		static bool checkCommand(std::string& cmd, std::string& param, std::string& message, std::string& status, bool& thirdperson);
+		static bool isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, std::string word, bool &tTab, gpointer hub, GtkTextTag *TagsMap[]);
+
+		static std::vector<std::pair<std::string,int> > getActions();
+
 		static const std::string ENCODING_LOCALE;
+		static const std::string commands;
 
 	private:
+        static void remove_events_internal(GtkWidget *widget, gint events, GList *window_list);
+        static std::string generateLeech();
+        static void loadmimetypes();
+        static std::string StringToUpper(std::string myString);
+
 		static std::vector<std::string> charsets;
-		static std::vector<std::pair<std::string,int> > actions;
 		static const std::string magnetSignature;
 		static GtkIconFactory *iconFactory;
-		static GtkStockItem icons[];
+		static std::map<std::string,std::string> m_mimetyp;
 		static const char* CountryNames[];
 		static const char* CountryCodes[];
-		static std::map<std::string,std::string> m_mimetyp; //.avi - > mimetype
-		
-		static std::string StringToUpper(std::string myString);
-		static std::string generateLeech();
-		static void remove_events_internal (GtkWidget *widget, gint events, GList *window_list);
-		static void loadmimetypes();
-
 };
 
 #endif

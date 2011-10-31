@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
 #include <dcpp/Singleton.h>
@@ -32,7 +33,7 @@
 #define WGETI(key) WulforSettingsManager::getInstance()->getInt(key)
 #define WGETS(key) WulforSettingsManager::getInstance()->getString(key)
 #define WGETB(key) WulforSettingsManager::getInstance()->getBool(key)
-#define WSCMD(cmd) WulforSettingsManager::getInstance()->parseCmd(cmd);
+#define WSCMD(key) WulforSettingsManager::getInstance()->parseCmd(key)
 
 /* default font theme */
 #define TEXT_WEIGHT_NORMAL PANGO_WEIGHT_NORMAL
@@ -62,13 +63,14 @@ class WulforSettingsManager : public dcpp::Singleton<WulforSettingsManager>
 		WulforSettingsManager();
 		virtual ~WulforSettingsManager();
 
+		const std::string parseCmd(const std::string cmd);
+
 		int getInt(const std::string &key, bool useDefault = false);
 		bool getBool(const std::string &key, bool useDefault = false);
 		std::string getString(const std::string &key, bool useDefault = false);
 		void set(const std::string &key, int value);
 		void set(const std::string &key, bool value);
 		void set(const std::string &key, const std::string &value);
-		const std::string parseCmd(const std::string cmd);
 		void load();
 		void save();
 
@@ -91,7 +93,6 @@ class WulforSettingsManager : public dcpp::Singleton<WulforSettingsManager>
 		std::string configFile;
 
 		PreviewApp::List previewApps;
-
 };
 
 #else

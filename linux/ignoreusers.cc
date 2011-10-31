@@ -54,13 +54,13 @@ BookEntry(Entry::IGNORE_USERS, _("Ignore Users"), "ignoreeusers.glade")
 		g_object_unref(favoriteUserStore);
 		gtk_tree_view_set_fixed_height_mode(favoriteUserView.get(), TRUE);
 		favoriteUserSelection = gtk_tree_view_get_selection(favoriteUserView.get());
-		
+
 		// Treat "Nick" as the default col instead of "Auto Connect"
 		gtk_tree_view_set_search_column(favoriteUserView.get(), favoriteUserView.col(N_("Nick")));
 		GtkTreeViewColumn *column = gtk_tree_view_get_column(favoriteUserView.get(), favoriteUserView.col(N_("Nick")));
 		gtk_widget_grab_focus(column->button);
 
-		/*conect to signals*/
+		/* conect to signals */
 
 		g_signal_connect(getWidget("browseItem"), "activate", G_CALLBACK(onBrowseItemClicked_gui), (gpointer)this);
 		g_signal_connect(getWidget("matchQueueItem"), "activate", G_CALLBACK(onMatchQueueItemClicked_gui), (gpointer)this);
@@ -68,7 +68,7 @@ BookEntry(Entry::IGNORE_USERS, _("Ignore Users"), "ignoreeusers.glade")
 
 		g_signal_connect(getWidget("connectItem"), "activate", G_CALLBACK(onConnectItemClicked_gui), (gpointer)this);
 		g_signal_connect(getWidget("removeFromQueueItem"), "activate", G_CALLBACK(onRemoveFromQueueItemClicked_gui), (gpointer)this);
-		g_signal_connect(getWidget("descriptionItem"), "activate", G_CALLBACK(onDescriptionItemClicked_gui), (gpointer)this);
+//		g_signal_connect(getWidget("descriptionItem"), "activate", G_CALLBACK(onDescriptionItemClicked_gui), (gpointer)this);
 		g_signal_connect(getWidget("removeItem"), "activate", G_CALLBACK(onRemoveItemClicked_gui), (gpointer)this);
 		g_signal_connect(favoriteUserView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
 		g_signal_connect(favoriteUserView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
@@ -84,8 +84,8 @@ IgnoreUsers::~IgnoreUsers()
 
 void IgnoreUsers::show()
 {
-	FavoriteManager::IgnoredMap map = FavoriteManager::getInstance()->getIgnoredUsers();
-	FavoriteManager::IgnoredMap::const_iterator it;
+	FavoriteManager::FavoriteMap map = FavoriteManager::getInstance()->getIgnoreUsers();
+	FavoriteManager::FavoriteMap::const_iterator it;
 
 	for (it = map.begin(); it != map.end(); ++it)
 	{
@@ -316,7 +316,7 @@ void IgnoreUsers::onRemoveFromQueueItemClicked_gui(GtkMenuItem *item, gpointer d
 		g_list_free(list);
 	}
 }
-
+/*
 void IgnoreUsers::onDescriptionItemClicked_gui(GtkMenuItem *item, gpointer data)
 {
 	IgnoreUsers *fu = (IgnoreUsers *)data;
@@ -367,7 +367,7 @@ void IgnoreUsers::onDescriptionItemClicked_gui(GtkMenuItem *item, gpointer data)
 		}
 	}
 }
-
+*/
 void IgnoreUsers::onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data)
 {
 	IgnoreUsers *fu = (IgnoreUsers *)data;
@@ -466,7 +466,7 @@ void IgnoreUsers::removeFavoriteUser_client(const string cid)
 		FavoriteManager::getInstance()->removeIgnoredUser(user);
 	}
 }
-
+/*
 void IgnoreUsers::setUserDescription_client(const string cid, const string description)
 {
 	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
@@ -476,7 +476,7 @@ void IgnoreUsers::setUserDescription_client(const string cid, const string descr
 		FavoriteManager::getInstance()->setIgnUserDescription(user, description);
 	}
 }
-
+*/
 bool IgnoreUsers::findUser_gui(const string &cid, GtkTreeIter *iter)
 {
 	UserIters::const_iterator it = userIters.find(cid);
@@ -538,7 +538,7 @@ void IgnoreUsers::setStatus_gui(const string text)
 	}
 }
 
-void IgnoreUsers::on(FavoriteManagerListener::UserAdded, const FavoriteUser &user) throw()
+void IgnoreUsers::on(FavoriteManagerListener::IgnoreUserAdded, const FavoriteUser &user) throw()
 {
 	ParamMap params;
 	bool online = user.getUser()->isOnline();
@@ -553,14 +553,14 @@ void IgnoreUsers::on(FavoriteManagerListener::UserAdded, const FavoriteUser &use
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
-void IgnoreUsers::on(FavoriteManagerListener::UserRemoved, const FavoriteUser &user) throw()
+void IgnoreUsers::on(FavoriteManagerListener::IgnoreUserRemoved, const FavoriteUser &user) throw()
 {
 	Func1<IgnoreUsers, string> *func = new Func1<IgnoreUsers, string>(this, &IgnoreUsers::removeFavoriteUser_gui,
 		user.getUser()->getCID().toBase32());
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
-void IgnoreUsers::on(FavoriteManagerListener::StatusChanged, const FavoriteUser &user) throw()
+void IgnoreUsers::on(FavoriteManagerListener::IgnoreStatusChanges, const FavoriteUser &user) throw()
 {
 	ParamMap params;
 	string seen = user.getUser()->isOnline() ? N_("Online") : Util::formatTime("%Y-%m-%d %H:%M", user.getLastSeen());
@@ -569,19 +569,4 @@ void IgnoreUsers::on(FavoriteManagerListener::StatusChanged, const FavoriteUser 
 
 	Func1<IgnoreUsers, ParamMap> *func = new Func1<IgnoreUsers, ParamMap>(this, &IgnoreUsers::updateFavoriteUser_gui, params);
 	WulforManager::get()->dispatchGuiFunc(func);
-}
-
-/*this is a generic pop menu*/
-void IgnoreUsers::popmenu()
-{
-    GtkWidget *closeMenuItem = gtk_menu_item_new_with_label(_("Close"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(getNewTabMenu()),closeMenuItem);
-
-    g_signal_connect_swapped(closeMenuItem, "activate",G_CALLBACK(onCloseItem),this);
-}
-
-void IgnoreUsers::onCloseItem(gpointer data)
-{
-    BookEntry *entry = (BookEntry *)data;
-    WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
 }

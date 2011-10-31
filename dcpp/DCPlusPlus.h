@@ -19,22 +19,17 @@
 #ifndef DCPLUSPLUS_DCPP_DCPLUSPLUS_H
 #define DCPLUSPLUS_DCPP_DCPLUSPLUS_H
 
-#ifdef _WIN32
-#ifndef snprintf
-#define snprintf _snprintf
-#endif
-#endif
+#include "compiler.h"
 
-// Make sure we're using the templates from algorithm...
-#ifdef min
-#undef min
-#endif
-#ifdef max
-#undef max
-#endif
+#include <string>
 
 namespace dcpp {
+
+using std::string;
+
 extern void startup(void (*f)(void*, const string&), void* p);
 extern void shutdown();
+
 } // namespace dcpp
+
 #endif // !defined(DC_PLUS_PLUS_H)

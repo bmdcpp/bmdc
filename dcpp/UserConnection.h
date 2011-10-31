@@ -25,16 +25,15 @@
 #include "BufferedSocketListener.h"
 #include "BufferedSocket.h"
 #include "CriticalSection.h"
-#include "File.h"
-#include "User.h"
+#include "HintedUser.h"
 #include "AdcCommand.h"
 #include "MerkleTree.h"
-#include "AdcCommand.h"
 #ifdef _USELUA
-	#include "ScriptManager.h"
+    #include "ScriptManager.h"
 #endif
 
 namespace dcpp {
+class UserConnection;
 #ifdef _USELUA
 class UserConnectionScriptInstance : public ScriptInstance {
 protected:
@@ -42,12 +41,13 @@ protected:
 	bool onUserConnectionMessageOut(UserConnection* aConn, const string& aLine);
 };
 #endif
+
 class UserConnection : public Speaker<UserConnectionListener>,
 	private BufferedSocketListener, public Flags, private CommandHandler<UserConnection>,
 	private boost::noncopyable
-	#ifdef _USELUA
-	, public UserConnectionScriptInstance
-	#endif
+#ifdef _USELUA
+	,public UserConnectionScriptInstance
+#endif
 {
 public:
 	friend class ConnectionManager;
@@ -64,7 +64,6 @@ public:
 	static const string FEATURE_ADC_TIGR;
 
 	static const string FILE_NOT_AVAILABLE;
-	static const string GT_NOT_SUPPORTED;
 
 	enum Modes {
 		MODE_COMMAND = BufferedSocket::MODE_LINE,
@@ -86,8 +85,7 @@ public:
 		FLAG_SUPPORTS_ADCGET = FLAG_SUPPORTS_XML_BZLIST << 1,
 		FLAG_SUPPORTS_ZLIB_GET = FLAG_SUPPORTS_ADCGET << 1,
 		FLAG_SUPPORTS_TTHL = FLAG_SUPPORTS_ZLIB_GET << 1,
-		FLAG_SUPPORTS_TTHF = FLAG_SUPPORTS_TTHL << 1,
-		FLAG_TESTSURNA = FLAG_SUPPORTS_TTHF << 1
+		FLAG_SUPPORTS_TTHF = FLAG_SUPPORTS_TTHL << 1
 	};
 
 	enum States {
@@ -125,6 +123,7 @@ public:
 	void fileLength(const string& aLength) { send("$FileLength " + aLength + '|'); }
 	void error(const string& aError) { send("$Error " + aError + '|'); }
 	void listLen(const string& aLength) { send("$ListLen " + aLength + '|'); }
+	void getListLen() { send("$GetListLen|"); }
 	void maxedOut(size_t queue_position = 0) {
 		 bool sendPos = queue_position > 0;
 		 if(isSet(FLAG_NMDC)) {
@@ -137,10 +136,9 @@ public:
 			send(cmd);
 		 }
 	}
+
 	void fileNotAvail(const std::string& msg = FILE_NOT_AVAILABLE) { isSet(FLAG_NMDC) ? send("$Error " + msg + "|") : send(AdcCommand(AdcCommand::SEV_RECOVERABLE, AdcCommand::ERROR_FILE_NOT_AVAILABLE, msg)); }
 	void supports(const StringList& feat);
-
-	void getListLen() { send("$GetListLen|"); }
 
 	// ADC Stuff
 	void sup(const StringList& features);
@@ -152,8 +150,8 @@ public:
 	void setDataMode(int64_t aBytes = -1) { dcassert(socket); socket->setDataMode(aBytes); }
 	void setLineMode(size_t rollback) { dcassert(socket); socket->setLineMode(rollback); }
 
-	void connect(const string& aServer, string aPort, string localPort, const BufferedSocket::NatRoles natRole) throw(SocketException, ThreadException);
-	void accept(const Socket& aServer) throw(SocketException, ThreadException);
+	void connect(const string& aServer, const string& aPort, const string& localPort, const BufferedSocket::NatRoles natRole);
+	void accept(const Socket& aServer);
 
 	void updated() { if(socket) socket->updated(); }
 
@@ -172,8 +170,6 @@ public:
 	bool isSecure() const { return socket && socket->isSecure(); }
 	bool isTrusted() const { return socket && socket->isTrusted(); }
 	std::string getCipherName() const { return socket ? socket->getCipherName() : Util::emptyString; }
-	const string getPort() const { if(socket) return socket->getPort(); else return 0; }
-	
 	vector<uint8_t> getKeyprint() const { return socket ? socket->getKeyprint() : vector<uint8_t>(); }
 
 	string getRemoteIp() const { return socket->getIp(); }
@@ -186,7 +182,7 @@ public:
 	void handle(AdcCommand::INF t, const AdcCommand& c) { fire(t, this, c); }
 	void handle(AdcCommand::GET t, const AdcCommand& c) { fire(t, this, c); }
 	void handle(AdcCommand::SND t, const AdcCommand& c) { fire(t, this, c);	}
-	void handle(AdcCommand::STA t, const AdcCommand& c) ;
+	void handle(AdcCommand::STA t, const AdcCommand& c);
 	void handle(AdcCommand::RES t, const AdcCommand& c) { fire(t, this, c); }
 	void handle(AdcCommand::GFI t, const AdcCommand& c) { fire(t, this, c);	}
 
@@ -195,8 +191,8 @@ public:
 
 	int64_t getChunkSize() const { return chunkSize; }
 	void updateChunkSize(int64_t leafSize, int64_t lastChunk, uint64_t ticks);
-
-	void sendRaw(const string& raw) { send(raw); }//aded
+	//BMDC++
+	void sendRaw(const string& raw) { send(raw);}
 
 	GETSET(string, hubUrl, HubUrl);
 	GETSET(string, token, Token);
@@ -204,12 +200,6 @@ public:
 	GETSET(States, state, State);
 	GETSET(uint64_t, lastActivity, LastActivity);
 	GETSET(double, speed, Speed);
-
-	~UserConnection() throw() {
-		BufferedSocket::putSocket(socket);
-		dcassert(!download);
-	}
-
 private:
 	int64_t chunkSize;
 	BufferedSocket* socket;
@@ -224,8 +214,12 @@ private:
 	};
 
 	// We only want ConnectionManager to create this...
-	UserConnection(bool secure_) throw() : encoding(Text::systemCharset), state(STATE_UNCONNECTED),
+	UserConnection(bool secure_) noexcept : encoding(Text::systemCharset), state(STATE_UNCONNECTED),
 		lastActivity(0), speed(0), chunkSize(0), socket(0), secure(secure_), download(NULL) {
+	}
+
+	virtual ~UserConnection() {
+		BufferedSocket::putSocket(socket);
 	}
 
 	friend struct DeleteFunction;
@@ -234,29 +228,18 @@ private:
 		user = aUser;
 	}
 
-	void onLine(const string& aLine) throw();
+	void onLine(const string& aLine) noexcept;
 
-	void send(const string& aString) {
-		lastActivity = GET_TICK();
-		#ifdef _USELUA
-		if(onUserConnectionMessageOut(this, aString)) {
-		 #endif
-			disconnect(true);
-			return;
-		#ifdef _USELUA
-		}
-		#endif
-		socket->write(aString);
-	}
+	void send(const string& aString);
 
-	virtual void on(Connected) throw();
-	virtual void on(Line, const string&) throw();
-	virtual void on(Data, uint8_t* data, size_t len) throw();
-	virtual void on(BytesSent, size_t bytes, size_t actual) throw() ;
-	virtual void on(ModeChange) throw();
-	virtual void on(TransmitDone) throw();
-	virtual void on(Failed, const string&) throw();
-	virtual void on(Updated) throw();
+	virtual void on(Connected) noexcept;
+	virtual void on(Line, const string&) noexcept;
+	virtual void on(Data, uint8_t* data, size_t len) noexcept;
+	virtual void on(BytesSent, size_t bytes, size_t actual) noexcept ;
+	virtual void on(ModeChange) noexcept;
+	virtual void on(TransmitDone) noexcept;
+	virtual void on(Failed, const string&) noexcept;
+	virtual void on(Updated) noexcept;
 };
 
 } // namespace dcpp

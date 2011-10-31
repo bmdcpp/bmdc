@@ -28,7 +28,6 @@
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </widget>
               <packing>
@@ -46,7 +45,6 @@
                 <property name="can_default">True</property>
                 <property name="has_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </widget>
               <packing>
@@ -78,6 +76,10 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="tooltip" translatable="yes">Use separator extensions (doc;xls;ppt;docx;xlsx;pptx)</property>
+                    <property name="primary_icon_activatable">False</property>
+                    <property name="secondary_icon_activatable">False</property>
+                    <property name="primary_icon_sensitive">True</property>
+                    <property name="secondary_icon_sensitive">True</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -115,7 +117,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_stock">True</property>
                   </widget>
                   <packing>
@@ -130,7 +131,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_stock">True</property>
                   </widget>
                   <packing>
@@ -145,7 +145,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_stock">True</property>
                   </widget>
                   <packing>
@@ -160,7 +159,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_stock">True</property>
                   </widget>
                   <packing>
@@ -175,7 +173,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="use_stock">True</property>
                   </widget>
                   <packing>
@@ -201,7 +198,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="GtkDialog" id="HiglitingDialog">
+  <widget class="GtkDialog" id="HighlightingDialog">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
     <property name="type_hint">dialog</property>
@@ -222,7 +219,6 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </widget>
               <packing>
@@ -238,7 +234,6 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </widget>
               <packing>
@@ -284,6 +279,10 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="invisible_char">●</property>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
                       </widget>
                       <packing>
                         <property name="left_attach">1</property>
@@ -295,6 +294,10 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="invisible_char">●</property>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
                       </widget>
                       <packing>
                         <property name="left_attach">1</property>
@@ -308,6 +311,10 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="invisible_char">●</property>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
                       </widget>
                       <packing>
                         <property name="left_attach">1</property>
@@ -322,7 +329,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="use_action_appearance">False</property>
                       </widget>
                       <packing>
                         <property name="left_attach">2</property>
@@ -337,7 +343,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="use_action_appearance">False</property>
                       </widget>
                       <packing>
                         <property name="left_attach">2</property>
@@ -351,6 +356,10 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="invisible_char">●</property>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
                       </widget>
                       <packing>
                         <property name="left_attach">1</property>
@@ -365,7 +374,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="use_action_appearance">False</property>
                       </widget>
                       <packing>
                         <property name="left_attach">2</property>
@@ -380,7 +388,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="draw_indicator">True</property>
                       </widget>
                       <packing>
@@ -394,7 +401,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="draw_indicator">True</property>
                       </widget>
                       <packing>
@@ -408,7 +414,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="draw_indicator">True</property>
                       </widget>
                       <packing>
@@ -424,7 +429,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="draw_indicator">True</property>
                       </widget>
                       <packing>
@@ -440,7 +444,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="draw_indicator">True</property>
                       </widget>
                       <packing>
@@ -453,6 +456,10 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="invisible_char">●</property>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
                       </widget>
                       <packing>
                         <property name="left_attach">1</property>
@@ -467,7 +474,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="draw_indicator">True</property>
                       </widget>
                       <packing>
@@ -483,7 +489,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="draw_indicator">True</property>
                       </widget>
                       <packing>
@@ -497,7 +502,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="draw_indicator">True</property>
                       </widget>
                       <packing>
@@ -511,7 +515,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="draw_indicator">True</property>
                       </widget>
                       <packing>
@@ -525,7 +528,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="draw_indicator">True</property>
                       </widget>
                       <packing>
@@ -556,7 +558,7 @@
               <widget class="GtkLabel" id="label1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">&lt;b&gt;Item of Higliting&lt;/b&gt;</property>
+                <property name="label" translatable="yes">&lt;b&gt;Item of Highlighting&lt;/b&gt;</property>
                 <property name="use_markup">True</property>
               </widget>
               <packing>
@@ -598,7 +600,6 @@
         <property name="can_focus">True</property>
         <property name="can_default">True</property>
         <property name="receives_default">True</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_stock">True</property>
       </widget>
     </child>
@@ -609,7 +610,6 @@
         <property name="can_focus">True</property>
         <property name="can_default">True</property>
         <property name="receives_default">True</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_stock">True</property>
       </widget>
     </child>
@@ -621,7 +621,6 @@
         <property name="can_default">True</property>
         <property name="has_default">True</property>
         <property name="receives_default">True</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_stock">True</property>
       </widget>
     </child>
@@ -652,7 +651,6 @@
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </widget>
               <packing>
@@ -670,7 +668,6 @@
                 <property name="can_default">True</property>
                 <property name="has_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </widget>
               <packing>
@@ -711,7 +708,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">commandDialogSeparator</property>
@@ -728,7 +724,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">commandDialogSeparator</property>
@@ -747,7 +742,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">commandDialogSeparator</property>
@@ -764,7 +758,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="draw_indicator">True</property>
                       </widget>
@@ -810,7 +803,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="draw_indicator">True</property>
                       </widget>
@@ -826,7 +818,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="draw_indicator">True</property>
                       </widget>
@@ -842,7 +833,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="draw_indicator">True</property>
                       </widget>
@@ -860,7 +850,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="draw_indicator">True</property>
                       </widget>
@@ -921,6 +910,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="activates_default">True</property>
+                            <property name="primary_icon_activatable">False</property>
+                            <property name="secondary_icon_activatable">False</property>
+                            <property name="primary_icon_sensitive">True</property>
+                            <property name="secondary_icon_sensitive">True</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -957,6 +950,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="activates_default">True</property>
+                            <property name="primary_icon_activatable">False</property>
+                            <property name="secondary_icon_activatable">False</property>
+                            <property name="primary_icon_sensitive">True</property>
+                            <property name="secondary_icon_sensitive">True</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -993,6 +990,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="activates_default">True</property>
+                            <property name="primary_icon_activatable">False</property>
+                            <property name="secondary_icon_activatable">False</property>
+                            <property name="primary_icon_sensitive">True</property>
+                            <property name="secondary_icon_sensitive">True</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -1029,6 +1030,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="activates_default">True</property>
+                            <property name="primary_icon_activatable">False</property>
+                            <property name="secondary_icon_activatable">False</property>
+                            <property name="primary_icon_sensitive">True</property>
+                            <property name="secondary_icon_sensitive">True</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -1049,7 +1054,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="draw_indicator">True</property>
                       </widget>
@@ -1094,6 +1098,10 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="editable">False</property>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
                       </widget>
                       <packing>
                         <property name="expand">False</property>
@@ -1157,7 +1165,6 @@
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </widget>
               <packing>
@@ -1175,7 +1182,6 @@
                 <property name="can_default">True</property>
                 <property name="has_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </widget>
               <packing>
@@ -1238,6 +1244,10 @@
                           <widget class="GtkEntry" id="descriptionEntry">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="primary_icon_activatable">False</property>
+                            <property name="secondary_icon_activatable">False</property>
+                            <property name="primary_icon_sensitive">True</property>
+                            <property name="secondary_icon_sensitive">True</property>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -1251,6 +1261,10 @@
                           <widget class="GtkEntry" id="emailEntry">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="primary_icon_activatable">False</property>
+                            <property name="secondary_icon_activatable">False</property>
+                            <property name="primary_icon_sensitive">True</property>
+                            <property name="secondary_icon_sensitive">True</property>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -1264,6 +1278,10 @@
                           <widget class="GtkEntry" id="nickEntry">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="primary_icon_activatable">False</property>
+                            <property name="secondary_icon_activatable">False</property>
+                            <property name="primary_icon_sensitive">True</property>
+                            <property name="secondary_icon_sensitive">True</property>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -1349,6 +1367,10 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_ENTER_NOTIFY_MASK</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                             </child>
                           </widget>
@@ -1421,7 +1443,6 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="use_underline">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">portForwardRadioButton</property>
@@ -1455,6 +1476,10 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="invisible_char">●</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">3</property>
@@ -1471,6 +1496,10 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="invisible_char">●</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">3</property>
@@ -1487,6 +1516,10 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="invisible_char">●</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">3</property>
@@ -1550,7 +1583,6 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="use_underline">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">portForwardRadioButton</property>
@@ -1566,7 +1598,6 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="use_underline">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">portForwardRadioButton</property>
@@ -1600,7 +1631,6 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="use_underline">True</property>
                                 <property name="draw_indicator">True</property>
                               </widget>
@@ -1619,7 +1649,6 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="use_underline">True</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
@@ -1636,6 +1665,10 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="invisible_char">●</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1649,6 +1682,10 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="invisible_char">●</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">3</property>
@@ -1763,6 +1800,10 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="invisible_char">●</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -1778,6 +1819,10 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="invisible_char">●</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -1809,7 +1854,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="use_underline">True</property>
                                     <property name="draw_indicator">True</property>
                                   </widget>
@@ -1828,6 +1872,10 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="invisible_char">●</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">2</property>
@@ -1859,6 +1907,10 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="invisible_char">●</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">2</property>
@@ -1906,7 +1958,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="use_underline">True</property>
                                     <property name="draw_indicator">True</property>
                                     <property name="group">outDirectRadioButton</property>
@@ -1924,7 +1975,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="use_underline">True</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
@@ -2034,6 +2084,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="invisible_char">●</property>
+                            <property name="primary_icon_activatable">False</property>
+                            <property name="secondary_icon_activatable">False</property>
+                            <property name="primary_icon_sensitive">True</property>
+                            <property name="secondary_icon_sensitive">True</property>
                             <property name="adjustment">0 0 10000 1 10 0</property>
                             <property name="climb_rate">1</property>
                             <property name="numeric">True</property>
@@ -2135,6 +2189,10 @@
                                   <widget class="GtkEntry" id="finishedDownloadsEntry">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">True</property>
@@ -2148,7 +2206,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="use_underline">True</property>
                                   </widget>
                                   <packing>
@@ -2186,6 +2243,10 @@
                                   <widget class="GtkEntry" id="unfinishedDownloadsEntry">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">True</property>
@@ -2199,7 +2260,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="use_underline">True</property>
                                   </widget>
                                   <packing>
@@ -2288,6 +2348,10 @@
                                   <widget class="GtkSpinButton" id="newDownloadsSpinButton">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">1 0 10000 1 10 0</property>
                                     <property name="climb_rate">1</property>
                                   </widget>
@@ -2302,6 +2366,10 @@
                                   <widget class="GtkSpinButton" id="maxDownloadsSpinButton">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">0 0 1000 1 10 0</property>
                                     <property name="climb_rate">1</property>
                                   </widget>
@@ -2388,7 +2456,6 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="use_underline">True</property>
                                       </widget>
                                       <packing>
@@ -2435,6 +2502,10 @@
                                   <widget class="GtkEntry" id="proxyEntry">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -2540,7 +2611,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="use_stock">True</property>
                                   </widget>
                                   <packing>
@@ -2555,7 +2625,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="use_stock">True</property>
                                   </widget>
                                   <packing>
@@ -2631,6 +2700,10 @@
                               <widget class="GtkSpinButton" id="priorityHighestSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">1 0 10240 10 10 0</property>
                                 <property name="climb_rate">1</property>
                               </widget>
@@ -2645,6 +2718,10 @@
                               <widget class="GtkSpinButton" id="priorityLowSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">1 0 102400 10 100 0</property>
                                 <property name="climb_rate">1</property>
                               </widget>
@@ -2661,6 +2738,10 @@
                               <widget class="GtkSpinButton" id="priorityHighSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">1 0 102400 10 100 0</property>
                                 <property name="climb_rate">1</property>
                               </widget>
@@ -2735,6 +2816,10 @@
                               <widget class="GtkSpinButton" id="priorityNormalSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">1 0 102400 10 10 0</property>
                                 <property name="climb_rate">1</property>
                               </widget>
@@ -2848,6 +2933,10 @@
                               <widget class="GtkSpinButton" id="dropMinSourcesSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">1 0 100 1 10 0</property>
                                 <property name="climb_rate">1</property>
                               </widget>
@@ -2864,6 +2953,10 @@
                               <widget class="GtkSpinButton" id="dropElapsedSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">1 0 100 1 10 0</property>
                                 <property name="climb_rate">1</property>
                               </widget>
@@ -2880,6 +2973,10 @@
                               <widget class="GtkSpinButton" id="dropCheckSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">1 0 100 1 10 0</property>
                                 <property name="climb_rate">1</property>
                               </widget>
@@ -2894,6 +2991,10 @@
                               <widget class="GtkSpinButton" id="dropSizeSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">1 0 100 1 10 0</property>
                                 <property name="climb_rate">1</property>
                               </widget>
@@ -2910,6 +3011,10 @@
                               <widget class="GtkSpinButton" id="dropInactiveSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">1 0 100 1 10 0</property>
                                 <property name="climb_rate">1</property>
                               </widget>
@@ -3032,6 +3137,10 @@
                               <widget class="GtkSpinButton" id="dropSpeedSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">1 0 102400 100 10 0</property>
                                 <property name="climb_rate">1</property>
                               </widget>
@@ -3261,6 +3370,10 @@
                               <widget class="GtkEntry" id="previewNameEntry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -3285,6 +3398,10 @@
                               <widget class="GtkEntry" id="previewApplicationEntry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -3309,6 +3426,10 @@
                               <widget class="GtkEntry" id="previewExtensionsEntry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -3362,7 +3483,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_stock">True</property>
                           </widget>
                           <packing>
@@ -3377,7 +3497,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_stock">True</property>
                           </widget>
                           <packing>
@@ -3392,7 +3511,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_stock">True</property>
                           </widget>
                           <packing>
@@ -3521,7 +3639,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="use_underline">True</property>
                                     <property name="draw_indicator">True</property>
                                   </widget>
@@ -3537,7 +3654,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="use_underline">True</property>
                                     <property name="draw_indicator">True</property>
                                   </widget>
@@ -3553,7 +3669,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="use_stock">True</property>
                                   </widget>
                                   <packing>
@@ -3568,7 +3683,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="use_stock">True</property>
                                   </widget>
                                   <packing>
@@ -3639,6 +3753,10 @@
                           <widget class="GtkSpinButton" id="sharedExtraSlotSpinButton">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="primary_icon_activatable">False</property>
+                            <property name="secondary_icon_activatable">False</property>
+                            <property name="primary_icon_sensitive">True</property>
+                            <property name="secondary_icon_sensitive">True</property>
                             <property name="adjustment">0 0 256 1 10 0</property>
                             <property name="climb_rate">1</property>
                           </widget>
@@ -3677,6 +3795,10 @@
                           <widget class="GtkSpinButton" id="sharedUploadSlotsSpinButton">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="primary_icon_activatable">False</property>
+                            <property name="secondary_icon_activatable">False</property>
+                            <property name="primary_icon_sensitive">True</property>
+                            <property name="secondary_icon_sensitive">True</property>
                             <property name="adjustment">0 0 100 1 10 0</property>
                             <property name="climb_rate">1</property>
                           </widget>
@@ -3703,7 +3825,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_action_appearance">False</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -3939,6 +4060,10 @@ System default</property>
                                   <widget class="GtkEntry" id="awayMessageEntry">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">True</property>
@@ -3988,6 +4113,10 @@ System default</property>
 %% a literal '%' character.
 
 see man strftime for details.</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">True</property>
@@ -4031,6 +4160,10 @@ see man strftime for details.</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="invisible_char">●</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                 </child>
                               </widget>
@@ -4380,7 +4513,6 @@ see man strftime for details.</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_action_appearance">False</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -4408,7 +4540,6 @@ see man strftime for details.</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_action_appearance">False</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -4439,7 +4570,6 @@ see man strftime for details.</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="draw_indicator">True</property>
                               </widget>
                               <packing>
@@ -4454,7 +4584,6 @@ see man strftime for details.</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="draw_indicator">True</property>
                               </widget>
                               <packing>
@@ -4607,7 +4736,6 @@ see man strftime for details.</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="draw_indicator">True</property>
                           </widget>
@@ -4628,7 +4756,6 @@ see man strftime for details.</property>
                                 <property name="can_focus">True</property>
                                 <property name="can_default">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="use_underline">True</property>
                               </widget>
                               <packing>
@@ -4644,7 +4771,6 @@ see man strftime for details.</property>
                                 <property name="can_focus">True</property>
                                 <property name="can_default">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="use_underline">True</property>
                               </widget>
                               <packing>
@@ -4660,7 +4786,6 @@ see man strftime for details.</property>
                                 <property name="can_focus">True</property>
                                 <property name="can_default">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="use_underline">True</property>
                               </widget>
                               <packing>
@@ -4676,7 +4801,6 @@ see man strftime for details.</property>
                                 <property name="can_focus">True</property>
                                 <property name="can_default">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="use_underline">True</property>
                               </widget>
                               <packing>
@@ -4692,7 +4816,6 @@ see man strftime for details.</property>
                                 <property name="can_focus">True</property>
                                 <property name="can_default">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="use_underline">True</property>
                               </widget>
                               <packing>
@@ -4818,6 +4941,10 @@ see man strftime for details.</property>
                                       <widget class="GtkEntry" id="notifyTitleEntry">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
+                                        <property name="primary_icon_activatable">False</property>
+                                        <property name="secondary_icon_activatable">False</property>
+                                        <property name="primary_icon_sensitive">True</property>
+                                        <property name="secondary_icon_sensitive">True</property>
                                       </widget>
                                     </child>
                                     <child>
@@ -4893,7 +5020,6 @@ default</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
-                                    <property name="use_action_appearance">False</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -4907,7 +5033,6 @@ default</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
-                                    <property name="use_action_appearance">False</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -4921,7 +5046,6 @@ default</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
-                                    <property name="use_action_appearance">False</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -4949,7 +5073,6 @@ default</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
-                                    <property name="use_action_appearance">False</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -4963,7 +5086,6 @@ default</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
-                                    <property name="use_action_appearance">False</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -5016,6 +5138,10 @@ default</property>
                                           <widget class="GtkSpinButton" id="notifyPMLengthSpinButton">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
+                                            <property name="primary_icon_activatable">False</property>
+                                            <property name="secondary_icon_activatable">False</property>
+                                            <property name="primary_icon_sensitive">True</property>
+                                            <property name="secondary_icon_sensitive">True</property>
                                             <property name="adjustment">0 0 255 1 10 0</property>
                                           </widget>
                                           <packing>
@@ -5053,7 +5179,6 @@ default</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
-                                            <property name="use_action_appearance">False</property>
                                             <property name="draw_indicator">True</property>
                                           </widget>
                                           <packing>
@@ -5276,7 +5401,6 @@ default</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_action_appearance">False</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -5290,7 +5414,6 @@ default</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_action_appearance">False</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -5319,7 +5442,6 @@ default</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_action_appearance">False</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -5333,7 +5455,6 @@ default</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_action_appearance">False</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -5347,7 +5468,6 @@ default</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_action_appearance">False</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -5473,7 +5593,6 @@ default</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="color">#000000000000</property>
                                       </widget>
                                       <packing>
@@ -5511,7 +5630,6 @@ default</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="color">#000000000000</property>
                                       </widget>
                                       <packing>
@@ -5549,7 +5667,6 @@ default</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="color">#000000000000</property>
                                       </widget>
                                       <packing>
@@ -5587,7 +5704,6 @@ default</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="color">#000000000000</property>
                                       </widget>
                                       <packing>
@@ -5625,7 +5741,6 @@ default</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
-                                        <property name="use_action_appearance">False</property>
                                         <property name="color">#000000000000</property>
                                       </widget>
                                       <packing>
@@ -5677,7 +5792,6 @@ default</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
-                                        <property name="use_action_appearance">False</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
@@ -5734,6 +5848,10 @@ default</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="tooltip" translatable="yes">Frame size</property>
+                                        <property name="primary_icon_activatable">False</property>
+                                        <property name="secondary_icon_activatable">False</property>
+                                        <property name="primary_icon_sensitive">True</property>
+                                        <property name="secondary_icon_sensitive">True</property>
                                         <property name="adjustment">50 10 256 1 10 0</property>
                                       </widget>
                                       <packing>
@@ -5771,6 +5889,10 @@ default</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="tooltip" translatable="yes">Waiting time(sec)</property>
+                                        <property name="primary_icon_activatable">False</property>
+                                        <property name="secondary_icon_activatable">False</property>
+                                        <property name="primary_icon_sensitive">True</property>
+                                        <property name="secondary_icon_sensitive">True</property>
                                         <property name="adjustment">40 1 300 1 10 0</property>
                                       </widget>
                                       <packing>
@@ -5808,6 +5930,10 @@ default</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="tooltip" translatable="yes">Count matches</property>
+                                        <property name="primary_icon_activatable">False</property>
+                                        <property name="secondary_icon_activatable">False</property>
+                                        <property name="primary_icon_sensitive">True</property>
+                                        <property name="secondary_icon_sensitive">True</property>
                                         <property name="adjustment">2 2 100 1 10 0</property>
                                       </widget>
                                       <packing>
@@ -5859,7 +5985,6 @@ default</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
-                                        <property name="use_action_appearance">False</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
@@ -6040,7 +6165,6 @@ default</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
-                                <property name="use_action_appearance">False</property>
                               </widget>
                               <packing>
                                 <property name="expand">True</property>
@@ -6054,7 +6178,6 @@ default</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
-                                <property name="use_action_appearance">False</property>
                               </widget>
                               <packing>
                                 <property name="expand">True</property>
@@ -6150,6 +6273,10 @@ default</property>
                                 <property name="width_request">226</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">True</property>
@@ -6163,7 +6290,6 @@ default</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="use_underline">True</property>
                               </widget>
                               <packing>
@@ -6185,7 +6311,6 @@ default</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="draw_indicator">True</property>
                           </widget>
@@ -6220,6 +6345,10 @@ default</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">True</property>
@@ -6240,7 +6369,6 @@ default</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="draw_indicator">True</property>
                           </widget>
@@ -6275,6 +6403,10 @@ default</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">True</property>
@@ -6295,7 +6427,6 @@ default</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="draw_indicator">True</property>
                           </widget>
@@ -6330,6 +6461,10 @@ default</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">True</property>
@@ -6350,7 +6485,6 @@ default</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="draw_indicator">True</property>
                           </widget>
@@ -6385,6 +6519,10 @@ default</property>
                                 <property name="visible">True</property>
                                 <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">True</property>
@@ -6405,7 +6543,6 @@ default</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="draw_indicator">True</property>
                           </widget>
@@ -6421,7 +6558,6 @@ default</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="draw_indicator">True</property>
                           </widget>
@@ -6437,7 +6573,6 @@ default</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="draw_indicator">True</property>
                           </widget>
@@ -6445,6 +6580,48 @@ default</property>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
                             <property name="position">11</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkHBox" id="hbox46">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="homogeneous">True</property>
+                            <child>
+                              <widget class="GtkCheckButton" id="checkraws">
+                                <property name="label" translatable="yes">Log Raws commands</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="draw_indicator">True</property>
+                              </widget>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkEntry" id="entryraws">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="invisible_char">●</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
+                              </widget>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">12</property>
                           </packing>
                         </child>
                       </widget>
@@ -6566,7 +6743,6 @@ default</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_stock">True</property>
                           </widget>
                           <packing>
@@ -6581,7 +6757,6 @@ default</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_stock">True</property>
                           </widget>
                           <packing>
@@ -6596,7 +6771,6 @@ default</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_stock">True</property>
                           </widget>
                           <packing>
@@ -6611,7 +6785,6 @@ default</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_stock">True</property>
                           </widget>
                           <packing>
@@ -6626,7 +6799,6 @@ default</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_stock">True</property>
                           </widget>
                           <packing>
@@ -6761,6 +6933,10 @@ default</property>
                               <widget class="GtkSpinButton" id="hashSpeedSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">0 0 102400 1 64 0</property>
                                 <property name="climb_rate">1</property>
                                 <property name="numeric">True</property>
@@ -6775,6 +6951,10 @@ default</property>
                               <widget class="GtkSpinButton" id="pmHistorySpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">10 0 100 1 10 0</property>
                                 <property name="climb_rate">1</property>
                                 <property name="numeric">True</property>
@@ -6789,6 +6969,10 @@ default</property>
                               <widget class="GtkSpinButton" id="slotSizeSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">64 0 10240 1 10 0</property>
                                 <property name="climb_rate">1</property>
                                 <property name="numeric">True</property>
@@ -6803,6 +6987,10 @@ default</property>
                               <widget class="GtkSpinButton" id="maxListSizeSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">0 0 100 1 10 0</property>
                                 <property name="climb_rate">1</property>
                                 <property name="numeric">True</property>
@@ -6817,6 +7005,10 @@ default</property>
                               <widget class="GtkEntry" id="CIDEntry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -7024,6 +7216,10 @@ default</property>
                               <widget class="GtkSpinButton" id="writeBufferSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">0 0 1024 64 10 0</property>
                                 <property name="climb_rate">1</property>
                                 <property name="numeric">True</property>
@@ -7038,6 +7234,10 @@ default</property>
                               <widget class="GtkSpinButton" id="searchHistorySpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">10 0 100 1 10 0</property>
                                 <property name="climb_rate">1</property>
                                 <property name="numeric">True</property>
@@ -7052,6 +7252,10 @@ default</property>
                               <widget class="GtkEntry" id="bindAddressEntry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
@@ -7063,6 +7267,10 @@ default</property>
                               <widget class="GtkSpinButton" id="socketReadSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">0 0 102400 1 64 0</property>
                                 <property name="climb_rate">1</property>
                                 <property name="numeric">True</property>
@@ -7077,6 +7285,10 @@ default</property>
                               <widget class="GtkSpinButton" id="socketWriteSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">0 0 102400 1 64 0</property>
                                 <property name="climb_rate">1</property>
                                 <property name="numeric">True</property>
@@ -7091,6 +7303,10 @@ default</property>
                               <widget class="GtkSpinButton" id="autoRefreshSpinButton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">1 0 100 1 10 0</property>
                                 <property name="climb_rate">1</property>
                                 <property name="numeric">True</property>
@@ -7106,6 +7322,10 @@ default</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="invisible_char">●</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">True</property>
@@ -7255,7 +7475,6 @@ default</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">2</property>
@@ -7272,7 +7491,6 @@ default</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">2</property>
@@ -7289,7 +7507,6 @@ default</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">2</property>
@@ -7302,6 +7519,10 @@ default</property>
                                   <widget class="GtkEntry" id="trustedCertificatesPathEntry">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -7314,6 +7535,10 @@ default</property>
                                   <widget class="GtkEntry" id="certificateFileEntry">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -7326,6 +7551,10 @@ default</property>
                                   <widget class="GtkEntry" id="privateKeyEntry">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -7453,7 +7682,6 @@ default</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="xalign">1</property>
                           </widget>
                           <packing>
@@ -7513,7 +7741,6 @@ default</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="use_action_appearance">False</property>
                                 <property name="draw_indicator">True</property>
                               </widget>
                             </child>
@@ -7555,6 +7782,10 @@ default</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="invisible_char">●</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -7568,6 +7799,10 @@ default</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="invisible_char">●</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -7582,6 +7817,10 @@ default</property>
                                 <property name="can_focus">True</property>
                                 <property name="max_length">9000</property>
                                 <property name="invisible_char">●</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">0 0 100 1 10 0</property>
                                 <property name="climb_rate">1</property>
                                 <property name="numeric">True</property>
@@ -7599,7 +7838,6 @@ default</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
-                                <property name="use_action_appearance">False</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -7685,7 +7923,7 @@ default</property>
                             <property name="hscrollbar_policy">automatic</property>
                             <property name="vscrollbar_policy">automatic</property>
                             <child>
-                              <widget class="GtkTreeView" id="treeviewHigliting">
+                              <widget class="GtkTreeView" id="treeviewHighlighting">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                               </widget>
@@ -7708,7 +7946,6 @@ default</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
-                                <property name="use_action_appearance">False</property>
                               </widget>
                               <packing>
                                 <property name="expand">True</property>
@@ -7722,7 +7959,6 @@ default</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
-                                <property name="use_action_appearance">False</property>
                               </widget>
                               <packing>
                                 <property name="expand">True</property>
@@ -7736,7 +7972,6 @@ default</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
-                                <property name="use_action_appearance">False</property>
                               </widget>
                               <packing>
                                 <property name="expand">True</property>
@@ -7759,7 +7994,7 @@ default</property>
                   <widget class="GtkLabel" id="label72">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Higliting&lt;/b&gt;</property>
+                    <property name="label" translatable="yes">&lt;b&gt;Highlighting&lt;/b&gt;</property>
                     <property name="use_markup">True</property>
                   </widget>
                   <packing>
@@ -7775,7 +8010,7 @@ default</property>
               <widget class="GtkLabel" id="label71">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Higliting</property>
+                <property name="label" translatable="yes">Highlighting</property>
               </widget>
               <packing>
                 <property name="position">7</property>
@@ -7811,6 +8046,10 @@ default</property>
                               <widget class="GtkSpinButton" id="transferMaxUpload">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">0 0 10240 1 10 0</property>
                               </widget>
                               <packing>
@@ -7861,6 +8100,10 @@ default</property>
                               <widget class="GtkSpinButton" id="transferMaxDownload">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">0 0 10240 1 10 0</property>
                               </widget>
                               <packing>
@@ -7941,7 +8184,6 @@ default</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="draw_indicator">True</property>
                           </widget>
                           <packing>
@@ -8100,6 +8342,10 @@ Noon
                               <widget class="GtkSpinButton" id="secondaryMaxUpload">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">0 0 10240 1 10 0</property>
                               </widget>
                               <packing>
@@ -8150,6 +8396,10 @@ Noon
                               <widget class="GtkSpinButton" id="secondaryMaxDownload">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">0 0 10240 1 10 0</property>
                               </widget>
                               <packing>
@@ -8200,6 +8450,10 @@ Noon
                               <widget class="GtkSpinButton" id="secondaryUploadSlots">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="primary_icon_activatable">False</property>
+                                <property name="secondary_icon_activatable">False</property>
+                                <property name="primary_icon_sensitive">True</property>
+                                <property name="secondary_icon_sensitive">True</property>
                                 <property name="adjustment">0 0 64 1 10 0</property>
                               </widget>
                               <packing>
@@ -8338,7 +8592,6 @@ Limiting</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_action_appearance">False</property>
                           </widget>
                           <packing>
                             <property name="expand">True</property>
@@ -8352,7 +8605,6 @@ Limiting</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_action_appearance">False</property>
                           </widget>
                           <packing>
                             <property name="expand">True</property>
@@ -8366,7 +8618,6 @@ Limiting</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_action_appearance">False</property>
                           </widget>
                           <packing>
                             <property name="expand">True</property>
@@ -8380,7 +8631,6 @@ Limiting</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_action_appearance">False</property>
                           </widget>
                           <packing>
                             <property name="expand">True</property>
@@ -8394,7 +8644,6 @@ Limiting</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_action_appearance">False</property>
                           </widget>
                           <packing>
                             <property name="expand">True</property>
@@ -8488,7 +8737,6 @@ Limiting</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </widget>
               <packing>
@@ -8506,7 +8754,6 @@ Limiting</property>
                 <property name="can_default">True</property>
                 <property name="has_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </widget>
               <packing>
@@ -8555,7 +8802,6 @@ Limiting</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </widget>
               <packing>
@@ -8573,7 +8819,6 @@ Limiting</property>
                 <property name="can_default">True</property>
                 <property name="has_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </widget>
               <packing>
@@ -8622,7 +8867,6 @@ Limiting</property>
         <property name="can_focus">True</property>
         <property name="can_default">True</property>
         <property name="receives_default">True</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_stock">True</property>
       </widget>
     </child>
@@ -8633,7 +8877,6 @@ Limiting</property>
         <property name="can_focus">True</property>
         <property name="can_default">True</property>
         <property name="receives_default">True</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_stock">True</property>
       </widget>
     </child>
@@ -8645,7 +8888,6 @@ Limiting</property>
         <property name="can_default">True</property>
         <property name="has_default">True</property>
         <property name="receives_default">True</property>
-        <property name="use_action_appearance">False</property>
         <property name="use_stock">True</property>
       </widget>
     </child>
@@ -8672,7 +8914,6 @@ Limiting</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </widget>
               <packing>
@@ -8690,7 +8931,6 @@ Limiting</property>
                 <property name="can_default">True</property>
                 <property name="has_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </widget>
               <packing>
@@ -8723,6 +8963,10 @@ Limiting</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="activates_default">True</property>
+                    <property name="primary_icon_activatable">False</property>
+                    <property name="secondary_icon_activatable">False</property>
+                    <property name="primary_icon_sensitive">True</property>
+                    <property name="secondary_icon_sensitive">True</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -8776,7 +9020,6 @@ Limiting</property>
                 <property name="can_default">True</property>
                 <property name="has_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </widget>
               <packing>
@@ -8826,7 +9069,6 @@ Limiting</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="use_stock">True</property>
                       </widget>
                       <packing>
@@ -8841,7 +9083,6 @@ Limiting</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="use_stock">True</property>
                       </widget>
                       <packing>
@@ -8856,7 +9097,6 @@ Limiting</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="use_stock">True</property>
                       </widget>
                       <packing>
@@ -8871,7 +9111,6 @@ Limiting</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="use_stock">True</property>
                       </widget>
                       <packing>

@@ -382,17 +382,3 @@ void UploadQueue::on(dcpp::UploadManagerListener::WaitingRemoveUser, const Hinte
 	WulforManager::get()->dispatchGuiFunc(func);
 	
 }
-
-/*this is a pop menu*/
-void UploadQueue::popmenu()
-{
-    GtkWidget *closeMenuItem = gtk_menu_item_new_with_label(_("Close"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(getNewTabMenu()), closeMenuItem);
-    g_signal_connect_swapped(closeMenuItem, "activate", G_CALLBACK(onCloseItem),this);
-}
-
-void UploadQueue::onCloseItem(gpointer data)
-{
-    BookEntry *entry = (BookEntry *)data;
-    WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
-}

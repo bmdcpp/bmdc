@@ -34,16 +34,11 @@ class notepad:
 {
 	public:
 		notepad();
-		notepad(std::string aFile, bool aUseFile = false):
-		file(aFile), usefile(aUseFile)	{  }
 		virtual ~notepad();
 		virtual void show();
-		virtual void popmenu();
 
 	private:
-        //GUI
-        static void onCloseItem(gpointer data);
-
+        
 		void ini_client();
 
 		void add_gui(std::string file);

@@ -1,6 +1,5 @@
 /*
- * Copyright © 2009-2011 freedcpp, http://code.google.com/p/freedcpp
- * Copyright © 2011 BMDC++, http://launchpad.net/bmdc++ 
+ * Copyright © 2009-2010 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,5 +19,6 @@
  * using OpenSSL with this program is allowed.
  */
 
-#define GUI_PACKAGE "BMDC++" //bmdc
+#define GUI_PACKAGE "BMDC++"
 #define GUI_VERSION_STRING "0.0.1"
+

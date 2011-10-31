@@ -19,14 +19,17 @@
 #ifndef DCPLUSPLUS_DCPP_TRANSFER_H_
 #define DCPLUSPLUS_DCPP_TRANSFER_H_
 
+#include <deque>
+
 #include "forward.h"
 #include "MerkleTree.h"
-#include "TimerManager.h"
-#include "Util.h"
 #include "CriticalSection.h"
 #include "Segment.h"
+#include "Util.h"
 
 namespace dcpp {
+
+using std::deque;
 
 class Transfer : private boost::noncopyable {
 public:
@@ -35,7 +38,7 @@ public:
 		TYPE_FULL_LIST,
 		TYPE_PARTIAL_LIST,
 		TYPE_TREE,
-		TYPE_TESTSUR,
+		TYPE_CHECK_FILE_LIST,
 		TYPE_LAST
 	};
 
@@ -76,7 +79,7 @@ public:
 		return getSize() - getPos();
 	}
 
-	virtual void getParams(const UserConnection& aSource, StringMap& params);
+	virtual void getParams(const UserConnection& aSource, ParamMap& params);
 
 	UserPtr getUser();
 	const UserPtr getUser() const;
@@ -87,10 +90,6 @@ public:
 
 	UserConnection& getUserConnection() { return userConnection; }
 	const UserConnection& getUserConnection() const { return userConnection; }
-
-	bool getOverlapped() const { return getSegment().getOverlapped(); }
-	void setOverlapped(bool overlap) { segment.setOverlapped(overlap); }
-
 
 	GETSET(Segment, segment, Segment);
 	GETSET(Type, type, Type);

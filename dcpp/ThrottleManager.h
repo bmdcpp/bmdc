@@ -1,4 +1,4 @@
-/*
+/* 
  * Copyright (C) 2009-2011 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,6 @@
 
 #include "Singleton.h"
 #include "Socket.h"
-#include "Thread.h"
 #include "TimerManager.h"
 #include "SettingsManager.h"
 
@@ -43,32 +42,27 @@ namespace dcpp
 
 		/*
 		 * Throttles traffic and writes a packet to the network
-		 * Handle this a little bit differently than downloads due to OpenSSL stupidity
+		 * Handle this a little bit differently than downloads due to OpenSSL stupidity 
 		 */
 		int write(Socket* sock, void* buffer, size_t& len);
 
-		SettingsManager::IntSetting getCurSetting(SettingsManager::IntSetting setting);
-
-		int getUpLimit();
-		int getDownLimit();
-		
-		static void setSetting(SettingsManager::IntSetting setting, int value);
-		
-		static const unsigned MAX_LIMIT = 1024 * 1024; // 1 GiB/s
-		
 		void shutdown();
+
+		static SettingsManager::IntSetting getCurSetting(SettingsManager::IntSetting setting);
+
+		static int getUpLimit();
+		static int getDownLimit();
+
+		static void setSetting(SettingsManager::IntSetting setting, int value);
+
+		static const int MAX_LIMIT = 1024 * 1024; // 1 GiB/s
+
 	private:
 		// stack up throttled read & write threads
 		CriticalSection stateCS;
 		CriticalSection waitCS[2];
 		long activeWaiter;
 
-#ifndef _WIN32 //*nix
-
-		// shutdown wait
-		CriticalSection shutdownCS;
-		long n_lock, halt;
-#endif
 		// download limiter
 		CriticalSection	downCS;
 		int64_t			downTokens;
@@ -79,21 +73,18 @@ namespace dcpp
 
 		friend class Singleton<ThrottleManager>;
 
-		ThrottleManager(void) : activeWaiter(-1), downTokens(0), upTokens(0)
+		ThrottleManager() : activeWaiter(-1), downTokens(0), upTokens(0)
 		{
-#ifndef _WIN32 //*nix
-			n_lock = halt = 0;
-#endif
 			TimerManager::getInstance()->addListener(this);
 		}
 
-		~ThrottleManager(void);
+		virtual ~ThrottleManager();
 
 		bool getCurThrottling();
 		void waitToken();
 
 		// TimerManagerListener
-		void on(TimerManagerListener::Second, uint64_t /* aTick */) throw();
+		void on(TimerManagerListener::Second, uint64_t /* aTick */) noexcept;
 	};
 
 }	// namespace dcpp

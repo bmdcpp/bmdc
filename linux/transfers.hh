@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@
 class PreviewMenu;
 class UserCommandMenu;
 
-class Transfers:
+class Transfers: 
 	public dcpp::ConnectionManagerListener,
 	public dcpp::DownloadManagerListener,
 	public dcpp::QueueManagerListener,
@@ -55,7 +55,7 @@ class Transfers:
 		// GUI functions
 		void addConnection_gui(dcpp::StringMap params, bool download);
 		void removeConnection_gui(const std::string cid, bool download);
-
+		
 		void initTransfer_gui(dcpp::StringMap params);
 		void updateTransfer_gui(dcpp::StringMap params, bool download, Sound::TypeSound sound);
 		void updateFilePosition_gui(const std::string cid, int64_t filePosition);
@@ -79,7 +79,7 @@ class Transfers:
 		static void onRemoveUserFromQueueClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onForceAttemptClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onCloseConnectionClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onALtSearch(GtkMenuItem *tem, gpointer data);
+		static void onSearchAlternateClicked_gui(GtkMenuItem *item, gpointer data);
 
 		// Client functions
 		void getParams_client(dcpp::StringMap& params, dcpp::ConnectionQueueItem* cqi);

@@ -16,12 +16,10 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#if !defined(FAVORITE_USER_H)
-#define FAVORITE_USER_H
+#ifndef DCPLUSPLUS_DCPP_FAVORITE_USER_H
+#define DCPLUSPLUS_DCPP_FAVORITE_USER_H
 
-#include "FastAlloc.h"
-#include "User.h"
-#include "CID.h"
+#include "Flags.h"
 
 namespace dcpp {
 
@@ -42,7 +40,6 @@ public:
 	GETSET(string, url, Url);
 	GETSET(time_t, lastSeen, LastSeen);
 	GETSET(string, description, Description);
-
 };
 
 } // namespace dcpp

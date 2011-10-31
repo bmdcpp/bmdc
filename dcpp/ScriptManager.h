@@ -27,7 +27,7 @@ class ScriptManagerListener {
 		typedef List::iterator Iter;
 
 		enum Types {
-		DEBUG_MESSAGE,
+            DEBUG_MESSAGE,
 		};
 		virtual void onAction(Types, const string&) throw() = 0;
 	};
@@ -93,7 +93,7 @@ class ScriptInstance {
 	public:
 		void EvaluateFile(const string& fn);
 		void EvaluateChunk(const string& chunk);
-		  
+
 };
 
 class ScriptManager: public ScriptInstance, public Singleton<ScriptManager>, public Speaker<ScriptManagerListener>,
@@ -113,7 +113,7 @@ class ScriptManager: public ScriptInstance, public Singleton<ScriptManager>, pub
 
 		virtual void on(ClientConnected, Client* aClient) throw();
 		virtual void on(ClientDisconnected, Client* aClient) throw();
-		virtual void on(Second, uint64_t /* ticks */) throw();
+		virtual void on(Second, uint64_t /* ticks */) noexcept;
 
 };
 #endif

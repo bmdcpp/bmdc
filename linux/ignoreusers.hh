@@ -38,14 +38,12 @@ class IgnoreUsers:
 		IgnoreUsers();
 		virtual ~IgnoreUsers();
 		virtual void show();
-		virtual void popmenu();
 
 	private:
 		typedef std::map<std::string, std::string> ParamMap;
 		typedef std::unordered_map<std::string, GtkTreeIter> UserIters;
 
 		// GUI functions
-		static void onCloseItem(gpointer data);
 
 		bool findUser_gui(const std::string &cid, GtkTreeIter *iter);
 		void updateFavoriteUser_gui(ParamMap params);
@@ -58,7 +56,7 @@ class IgnoreUsers:
 		static void onSendPMItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onConnectItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onRemoveFromQueueItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onDescriptionItemClicked_gui(GtkMenuItem *item, gpointer data);
+//		static void onDescriptionItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
@@ -68,12 +66,12 @@ class IgnoreUsers:
 		void getFileList_client(const std::string cid, const std::string hubUrl, bool match);
 		void removeUserFromQueue_client(const std::string cid);
 		void removeFavoriteUser_client(const std::string cid);
-		void setUserDescription_client(const std::string cid, const std::string description);
+//		void setUserDescription_client(const std::string cid, const std::string description);
 
 		// Favorite callbacks
-		virtual void on(dcpp::FavoriteManagerListener::UserAdded, const dcpp::FavoriteUser &user) throw();
-		virtual void on(dcpp::FavoriteManagerListener::UserRemoved, const dcpp::FavoriteUser &user) throw();
-		virtual void on(dcpp::FavoriteManagerListener::StatusChanged, const dcpp::FavoriteUser &user) throw();
+		virtual void on(dcpp::FavoriteManagerListener::IgnoreUserAdded, const dcpp::FavoriteUser &user) throw();
+		virtual void on(dcpp::FavoriteManagerListener::IgnoreUserRemoved, const dcpp::FavoriteUser &user) throw();
+		virtual void on(dcpp::FavoriteManagerListener::IgnoreStatusChanges, const dcpp::FavoriteUser &user) throw();
 
 		UserIters userIters;
 		GdkEventType previous;

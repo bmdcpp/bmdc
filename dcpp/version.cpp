@@ -18,11 +18,21 @@
 
 #include "stdinc.h"
 #include "DCPlusPlus.h"
-#define xstrver(s) strver(s)
-#define strver(s) #s
+
 #include "version.h"
 
+#ifndef DCPP_REVISION
+#define DCPP_REVISION 2651
+#define DCPP_REVISION_STRING "2651"
+#endif
+#ifndef BMDC_REVISION
+#define BMDC_REVISION 74
+#endif
+#define BMDC_REVISION_STRING "74"
+#define xstrver(s) strver(s)
+#define strver(s) #s
+
 namespace dcpp {
-const string fullVersionString(VERSIONSTRING " (r" xstrver(BMDC_REVISION) ")");
+const string fullVersionString(APPNAME " v" VERSIONSTRING " (r" xstrver(DCPP_REVISION) ")");
 }
 

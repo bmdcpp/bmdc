@@ -177,7 +177,7 @@ void RawManager::editAction(Action* a, const std::string& name) throw(Exception)
 	a->setName(name);
 }
 
-bool RawManager::remAction(Action* a) throw() {
+bool RawManager::remAction(Action* a) noexcept {
 	Lock l(cs);
 	Action::ActionList::iterator i = std::find(actions.begin(), actions.end(), a);
 	if(i != actions.end()) {
@@ -189,7 +189,7 @@ bool RawManager::remAction(Action* a) throw() {
 	return false;
 }
 
-Action* RawManager::findAction(int id) throw() {
+Action* RawManager::findAction(int id) noexcept {
 	Lock l(cs);
 	for(Action::ActionList::iterator i = actions.begin(); i != actions.end(); ++i) {
 		if(id == (*i)->getId())
@@ -198,7 +198,7 @@ Action* RawManager::findAction(int id) throw() {
 	return NULL;
 }
 
-Action* RawManager::findAction(const std::string& name) throw() {
+Action* RawManager::findAction(const std::string& name) noexcept {
 	Lock l(cs);
 	for(Action::ActionList::iterator i = actions.begin(); i != actions.end(); ++i) {
 		if(Util::stricmp(name, (*i)->getName()) == 0)
@@ -247,14 +247,15 @@ void RawManager::editRaw(const Action* a, Raw* old, Raw _new) throw(Exception) {
 	*old = _new;
 }
 
-bool RawManager::remRaw(Action* a, Raw* r) throw() {
+bool RawManager::remRaw(Action* a, Raw* r) noexcept {
+	Lock l(cs);
 	for(Action::RawsList::iterator i = a->raw.begin(); i != a->raw.end(); ++i) {
 		if(&(*i) == r) { a->raw.erase(i); return true; }
 	}
 	return false;
 }
 
-void RawManager::on(SettingsManagerListener::Load, SimpleXML& xml) throw() {
+void RawManager::on(SettingsManagerListener::Load, SimpleXML& xml) noexcept {
 	if(xml.findChild("ADLSPoints")) {
 		xml.stepIn();
 		while(xml.findChild("PointsSetting")) {
@@ -273,7 +274,7 @@ void RawManager::on(SettingsManagerListener::Load, SimpleXML& xml) throw() {
 	}
 }
 
-void RawManager::on(SettingsManagerListener::Save, SimpleXML& xml) throw() {
+void RawManager::on(SettingsManagerListener::Save, SimpleXML& xml) noexcept {
 	xml.addTag("ADLSPoints");
 	xml.stepIn();
 	for(IntMap::const_iterator i = points.begin(); i != points.end(); ++i) {

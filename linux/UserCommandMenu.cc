@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -157,8 +157,8 @@ void UserCommandMenu::onUserCommandClick_gui(GtkMenuItem *item, gpointer data)
 {
 	UserCommandMenu *ucm = (UserCommandMenu *)data;
 	string command = (gchar *)g_object_get_data(G_OBJECT(item), "command");
-	StringMap params;
-	typedef Func4<UserCommandMenu, string, string, string, StringMap> F4;
+	ParamMap params;
+	typedef Func4<UserCommandMenu, string, string, string, ParamMap> F4;
 
 	if (MainWindow::getUserCommandLines_gui(command, params))
 	{
@@ -180,16 +180,14 @@ void UserCommandMenu::onUserCommandClick_gui(GtkMenuItem *item, gpointer data)
 	 			params["filesizeshort"] = params["fileSIshort"];
 	 			params["tth"] = params["fileTR"];
 			}
-
 			F4 *func = new F4(ucm, &UserCommandMenu::sendUserCommand_client,
 				i->cid, commandName, hub, params);
 			WulforManager::get()->dispatchClientFunc(func);
 		}
-
 	}
 }
 
-void UserCommandMenu::sendUserCommand_client(string cid, string commandName, string hub, StringMap params)
+void UserCommandMenu::sendUserCommand_client(string cid, string commandName, string hub, ParamMap params)
 {
 	if (!cid.empty() && !commandName.empty())
 	{
@@ -199,19 +197,14 @@ void UserCommandMenu::sendUserCommand_client(string cid, string commandName, str
 		if (id == -1 || !FavoriteManager::getInstance()->getUserCommand(id, uc))
 			return;
 
-		OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hubs.back(), true);
-		UserPtr user = ou->getUser();
-		if(user)
+		UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
+		if (user)
 		{
-			HintedUser hintedUser(user, hubs.back());
-		  #ifdef _USELUA
+          #ifdef _USELUA
             if(!ClientManager::ucExecuteLua(uc.getCommand(), params))
 		  #endif
-				ClientManager::getInstance()->userCommand(hintedUser, uc, params, true);//NOTE: core 0.762
-
+                ClientManager::getInstance()->userCommand(HintedUser(user, hub), uc, params, true);//NOTE: core 0.762
 		}
-
 	}
-
 }
 

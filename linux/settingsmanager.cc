@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,12 +28,13 @@
 #include "WulforUtil.hh"
 
 #include <glib/gi18n.h>
+#include <glib/gstdio.h>
 
 using namespace std;
 using namespace dcpp;
 
 WulforSettingsManager::WulforSettingsManager():
-	configFile(Util::getPath(Util::PATH_USER_CONFIG) + "BMDC++.xml")
+	configFile(Util::getPath(Util::PATH_USER_CONFIG) + "FreeDC++.xml")
 {
 	defaultInt.insert(IntMap::value_type("main-window-maximized", 0));
 	defaultInt.insert(IntMap::value_type("main-window-size-x", 875));
@@ -41,8 +42,8 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("main-window-pos-x", 100));
 	defaultInt.insert(IntMap::value_type("main-window-pos-y", 100));
 	defaultInt.insert(IntMap::value_type("main-window-no-close", 0));
-	defaultInt.insert(IntMap::value_type("transfer-pane-position", 482));
-	defaultInt.insert(IntMap::value_type("nick-pane-position", 500));
+	defaultInt.insert(IntMap::value_type("transfer-pane-position", 204));
+	defaultInt.insert(IntMap::value_type("nick-pane-position", 255));
 	defaultInt.insert(IntMap::value_type("downloadqueue-pane-position", 200));
 	defaultInt.insert(IntMap::value_type("sharebrowser-pane-position", 200));
 	defaultInt.insert(IntMap::value_type("tab-position", 0));
@@ -81,12 +82,6 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("text-op-italic", 0));
 	defaultInt.insert(IntMap::value_type("text-url-bold", 0));
 	defaultInt.insert(IntMap::value_type("text-url-italic", 0));
-	
-	defaultInt.insert(IntMap::value_type("text-ip-bold", 0));
-	defaultInt.insert(IntMap::value_type("text-ip-italic", 0));
-	defaultInt.insert(IntMap::value_type("text-cheat-bold", 1));
-	defaultInt.insert(IntMap::value_type("text-cheat-italic", 0));
-	
 	defaultInt.insert(IntMap::value_type("toolbar-button-connect", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-button-fav-hubs", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-button-fav-users", 1));
@@ -95,18 +90,12 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("toolbar-button-hash", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-button-search", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-button-search-spy", 1));
+	defaultInt.insert(IntMap::value_type("toolbar-button-search-adl", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-button-queue", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-button-quit", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-button-finished-downloads", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-button-finished-uploads", 1));
-    /*Me Toolbars*/
-	defaultInt.insert(IntMap::value_type("toolbar-button-notepad", 1));
-	defaultInt.insert(IntMap::value_type("toolbar-button-adlsearch", 1));
-	defaultInt.insert(IntMap::value_type("toolbar-button-system", 1));
-	defaultInt.insert(IntMap::value_type("toolbar-button-ignore", 1));
-	defaultInt.insert(IntMap::value_type("toolbar-button-away", 1));
-	defaultInt.insert(IntMap::value_type("toolbar-limit-bandwith", 0));
-
+	defaultInt.insert(IntMap::value_type("toolbar-button-ignore",1));
 	defaultInt.insert(IntMap::value_type("notify-download-finished-use", 0));
 	defaultInt.insert(IntMap::value_type("notify-download-finished-ul-use", 0));
 	defaultInt.insert(IntMap::value_type("notify-private-message-use", 0));
@@ -114,9 +103,6 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("notify-hub-connect-use", 0));
 	defaultInt.insert(IntMap::value_type("notify-fuser-join", 0));
 	defaultInt.insert(IntMap::value_type("notify-fuser-quit", 0));
-	/**/
-	defaultInt.insert(IntMap::value_type("notify-higl-use", 1));
-	/**/
 	defaultInt.insert(IntMap::value_type("notify-pm-length", 50));
 	defaultInt.insert(IntMap::value_type("notify-icon-size", 3));
 	defaultInt.insert(IntMap::value_type("notify-only-not-active", 0));
@@ -127,7 +113,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("search-spy-waiting", 40));
 	defaultInt.insert(IntMap::value_type("search-spy-top", 4));
 	defaultInt.insert(IntMap::value_type("magnet-action", -1));//default show magnet dialog
-	///[core 0.762
+///[core 0.762 NOTE:
 	defaultInt.insert(IntMap::value_type("open-public", 0));
 	defaultInt.insert(IntMap::value_type("open-favorite-hubs", 0));
 	defaultInt.insert(IntMap::value_type("open-queue", 0));
@@ -135,20 +121,36 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("open-finished-uploads", 0));
 	defaultInt.insert(IntMap::value_type("open-favorite-users", 0));
 	defaultInt.insert(IntMap::value_type("open-search-spy", 0));
+///core 0.762]
+	defaultInt.insert(IntMap::value_type("toolbar-position", 1));
+	defaultInt.insert(IntMap::value_type("toolbar-small", 1));
+	///[BMDC++
+	defaultInt.insert(IntMap::value_type("use-flag",1));
+	defaultInt.insert(IntMap::value_type("bold-all-tab",1));
+	defaultInt.insert(IntMap::value_type("use-close-button",0));
+	defaultInt.insert(IntMap::value_type("max-tooltips",10));
+	defaultInt.insert(IntMap::value_type("show-commands",0));
+	defaultInt.insert(IntMap::value_type("use-highlighting",0));
+	defaultInt.insert(IntMap::value_type("use-dns",0));
+	defaultInt.insert(IntMap::value_type("log-messages",0));
+	
+	defaultInt.insert(IntMap::value_type("text-cheat-bold",1));
+	defaultInt.insert(IntMap::value_type("text-cheat-italic",0));
+	defaultInt.insert(IntMap::value_type("text-ip-bold",0));
+	defaultInt.insert(IntMap::value_type("text-ip-italic",1));
+	
+	defaultInt.insert(IntMap::value_type("notify-higl-use",1));
+	defaultInt.insert(IntMap::value_type("toolbar-button-notepad",1));
+	defaultInt.insert(IntMap::value_type("toolbar-button-system",1));
+	defaultInt.insert(IntMap::value_type("toolbar-button-ignore",1));
+	defaultInt.insert(IntMap::value_type("toolbar-button-away",1));
+	defaultInt.insert(IntMap::value_type("toolbar-limit-bandwith",1));
+	defaultInt.insert(IntMap::value_type("toolbar-button-limiting",1));
 	defaultInt.insert(IntMap::value_type("open-notepad", 0));
-	defaultInt.insert(IntMap::value_type("open-system", 0));
+	defaultInt.insert(IntMap::value_type("open-system", 1));
 	defaultInt.insert(IntMap::value_type("open-ignore", 0));
-	/**/
-	defaultInt.insert(IntMap::value_type("use-highliting", 0));
-	defaultInt.insert(IntMap::value_type("show-close-butt", 1));
-	defaultInt.insert(IntMap::value_type("show-preferences-on-startup", 1));
-	defaultInt.insert(IntMap::value_type("show-commnads", 1));
-	defaultInt.insert(IntMap::value_type("use-flag", 1));
-	defaultInt.insert(IntMap::value_type("use-dns", 0));
-	defaultInt.insert(IntMap::value_type("only-fav", 0));
-	defaultInt.insert(IntMap::value_type("log-messages", 0));
-	defaultInt.insert(IntMap::value_type("bold-all", 1));
-	/**/
+    ///BMDC]
+
 	defaultString.insert(StringMap::value_type("magnet-choose-dir", SETTING(DOWNLOAD_DIRECTORY)));
 	defaultString.insert(StringMap::value_type("downloadqueue-order", ""));
 	defaultString.insert(StringMap::value_type("downloadqueue-width", ""));
@@ -174,6 +176,9 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("search-order", ""));
 	defaultString.insert(StringMap::value_type("search-width", ""));
 	defaultString.insert(StringMap::value_type("search-visibility", ""));
+	defaultString.insert(StringMap::value_type("searchadl-order", ""));
+	defaultString.insert(StringMap::value_type("searchadl-width", ""));
+	defaultString.insert(StringMap::value_type("searchadl-visibility", ""));
 	defaultString.insert(StringMap::value_type("searchspy-order", ""));
 	defaultString.insert(StringMap::value_type("searchspy-width", ""));
 	defaultString.insert(StringMap::value_type("searchspy-visibility", ""));
@@ -216,12 +221,6 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("search-spy-q-color", "#b0b0b0"));
 	defaultString.insert(StringMap::value_type("search-spy-c-color", "#b28600"));
 	defaultString.insert(StringMap::value_type("search-spy-r-color", "#6c85ca"));
-	
-	defaultString.insert(StringMap::value_type("text-ip-fore-color", "#000000"));
-	defaultString.insert(StringMap::value_type("text-ip-back-color", "#FFFFFF"));
-	defaultString.insert(StringMap::value_type("text-cheat-fore-color", "#DE1515"));
-	defaultString.insert(StringMap::value_type("text-cheat-back-color", "#EEE7E7"));
-	
 	defaultString.insert(StringMap::value_type("emoticons-pack", ""));
 	defaultString.insert(StringMap::value_type("emoticons-icon-size", "24x24"));
 	defaultString.insert(StringMap::value_type("notify-download-finished-title", _("Download finished")));
@@ -238,12 +237,15 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("notify-fuser-join-icon", ""));
 	defaultString.insert(StringMap::value_type("notify-fuser-quit-title", _("Favorite user quit")));
 	defaultString.insert(StringMap::value_type("notify-fuser-quit-icon", ""));
-	/**/
-	defaultString.insert(StringMap::value_type("notify-higl-title", _("Higliting string")));
-	defaultString.insert(StringMap::value_type("notify-higl-icon", ""));
-	/**/
 	defaultString.insert(StringMap::value_type("theme-name", "default"));
-	/**/
+	defaultString.insert(StringMap::value_type("icon-dc++", "bmdc-dc++"));
+	defaultString.insert(StringMap::value_type("icon-dc++-fw", "bmdc-dc++-fw"));
+	defaultString.insert(StringMap::value_type("icon-dc++-fw-op", "bmdc-dc++-fw-op"));
+	defaultString.insert(StringMap::value_type("icon-dc++-op", "bmdc-dc++-op"));
+	defaultString.insert(StringMap::value_type("icon-normal", "bmdc-normal"));
+	defaultString.insert(StringMap::value_type("icon-normal-fw", "bmdc-normal-fw"));
+	defaultString.insert(StringMap::value_type("icon-normal-fw-op", "bmdc-normal-fw-op"));
+	defaultString.insert(StringMap::value_type("icon-normal-op", "bmdc-normal-op"));
 	defaultString.insert(StringMap::value_type("icon-smile", "bmdc-smile"));
 	defaultString.insert(StringMap::value_type("icon-download", "bmdc-download"));
 	defaultString.insert(StringMap::value_type("icon-favorite-hubs", "bmdc-favorite-hubs"));
@@ -255,27 +257,26 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("icon-public-hubs", "bmdc-public-hubs"));
 	defaultString.insert(StringMap::value_type("icon-queue", "bmdc-queue"));
 	defaultString.insert(StringMap::value_type("icon-search", "bmdc-search"));
+	defaultString.insert(StringMap::value_type("icon-search-adl", "bmdc-search-adl"));
 	defaultString.insert(StringMap::value_type("icon-search-spy", "bmdc-search-spy"));
-	defaultString.insert(StringMap::value_type("icon-notepad", "bmdc-notepad"));
-	defaultString.insert(StringMap::value_type("icon-system", "bmdc-system"));
-	defaultString.insert(StringMap::value_type("icon-adlsearch", "bmdc-adlsearch"));
-	defaultString.insert(StringMap::value_type("icon-ignore", "bmdc-ignore-users"));
-	defaultString.insert(StringMap::value_type("icon-away", "bmdc-away"));
-	defaultString.insert(StringMap::value_type("icon-away-on", "bmdc-away-on"));
-	defaultString.insert(StringMap::value_type("icon-none", "bmdc-none"));
 	defaultString.insert(StringMap::value_type("icon-upload", "bmdc-upload"));
 	defaultString.insert(StringMap::value_type("icon-quit", "bmdc-quit"));
 	defaultString.insert(StringMap::value_type("icon-connect", "bmdc-connect"));
 	defaultString.insert(StringMap::value_type("icon-file", GTK_STOCK_FILE));
 	defaultString.insert(StringMap::value_type("icon-directory", GTK_STOCK_DIRECTORY));
-	/**/
-	defaultString.insert(StringMap::value_type("icon-pm-online","bmdc-pm-online"));
-	defaultString.insert(StringMap::value_type("icon-pm-offline","bmdc-pm-offline"));
-	defaultString.insert(StringMap::value_type("icon-hub-online","bmdc-hub-online"));
-	defaultString.insert(StringMap::value_type("icon-hub-offline","bmdc-hub-offline"));
-//	defaultString.insert(StringMap::value_type("icon-highlight","bmdc-highlight"));
+	defaultString.insert(StringMap::value_type("icon-pm-online", "bmdc-pm-online"));
+	defaultString.insert(StringMap::value_type("icon-pm-offline", "bmdc-pm-offline"));
+	defaultString.insert(StringMap::value_type("icon-hub-online", "bmdc-hub-online"));
+	defaultString.insert(StringMap::value_type("icon-hub-offline", "bmdc-hub-offline"));
+	//..[BMDC++
 	defaultString.insert(StringMap::value_type("icon-limiting","bmdc-limiting"));
 	defaultString.insert(StringMap::value_type("icon-limiting-on","bmdc-limiting-on"));
+	defaultString.insert(StringMap::value_type("icon-notepad","bmdc-notepad"));
+	defaultString.insert(StringMap::value_type("icon-ignore", "bmdc-ignore-users"));
+	defaultString.insert(StringMap::value_type("icon-away", "bmdc-away"));
+	defaultString.insert(StringMap::value_type("icon-away-on", "bmdc-away-on"));
+	defaultString.insert(StringMap::value_type("icon-system", "bmdc-system"));
+	defaultString.insert(StringMap::value_type("icon-highlight", "bmdc-highlight"));
 	
 	defaultString.insert(StringMap::value_type("icon-normal", "bmdc-normal"));
 	/*Icon of conn*/
@@ -326,14 +327,6 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("icon-zeroone-away-pasive", "bmdc-zeroone-away-pasive"));
 	defaultString.insert(StringMap::value_type("icon-zerozeroone-away-pasive", "bmdc-zerozeroone-away-pasive"));
 	defaultString.insert(StringMap::value_type("icon-other-away-pasive", "bmdc-other-away-pasive"));
-	//Sounds
-	defaultString.insert(StringMap::value_type("sound-command", "aplay -q"));
-	/**/
-	//customs aliasies
-	defaultString.insert(StringMap::value_type("custom-aliases", ""));
-	/*for ratio*/
-	defaultString.insert(StringMap::value_type("up-st", "0"));
-	defaultString.insert(StringMap::value_type("dw-st", "0"));
 	/*for UL color text*/
 	defaultString.insert(StringMap::value_type("userlist-text-operator", "#1E90FF"));
 	defaultString.insert(StringMap::value_type("userlist-text-pasive", "#747677"));
@@ -341,8 +334,25 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("userlist-text-favorite", "#ff0000"));
 	defaultString.insert(StringMap::value_type("userlist-text-ignored", "#9affaf"));
 	defaultString.insert(StringMap::value_type("userlist-text-normal", "#000000"));
+	defaultString.insert(StringMap::value_type("custom-aliases", ""));
+	
+	defaultString.insert(StringMap::value_type("text-cheat-fore-color","red"));
+	defaultString.insert(StringMap::value_type("text-cheat-back-color","white"));
+	defaultString.insert(StringMap::value_type("text-ip-fore-color", "black"));
+	defaultString.insert(StringMap::value_type("text-ip-back-color", "white"));
+	 
+	defaultString.insert(StringMap::value_type("notify-higl-title", _("Highliting"))); 
+	defaultString.insert(StringMap::value_type("notify-higl-icon", "bmdc-icon-highliting"));
+	
+	defaultString.insert(StringMap::value_type("share-shared","#1E90FF"));
+	defaultString.insert(StringMap::value_type("share-queue", "#E32020"));
+	defaultString.insert(StringMap::value_type("share-default", "black"));
+	defaultString.insert(StringMap::value_type("sound-command", "aplay -q"));
 	
 	load();
+
+	string path_image = Util::getPath(Util::PATH_USER_CONFIG) + "Images/";
+	g_mkdir_with_parents(path_image.c_str(), S_IRUSR | S_IWUSR | S_IXUSR);
 }
 
 WulforSettingsManager::~WulforSettingsManager()
@@ -554,7 +564,7 @@ bool WulforSettingsManager::getPreviewApp(string &name, PreviewApp::size &index)
 	return false;
 }
 
-const std::string WulforSettingsManager::parseCmd(const std::string cmd)
+const string WulforSettingsManager::parseCmd(const string cmd)
 {
     StringTokenizer<string> sl(cmd, ' ');
         if (sl.getTokens().size() == 2) {

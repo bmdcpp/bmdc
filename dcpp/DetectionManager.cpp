@@ -328,10 +328,10 @@ void DetectionManager::UserInfoSave() {
 		xml.addTag("Params");
 		xml.stepIn();
 		{
-			for(StringMap::const_iterator j = params.begin(); j != params.end(); ++j) {
+			for(ParamMap::const_iterator j = params.begin(); j != params.end(); ++j) {
 				xml.addTag("Param");
 				xml.addChildAttrib("Name", j->first);
-				xml.addChildAttrib("Pattern", j->second);
+				xml.addChildAttrib("Pattern",  boost::get<string>(j->second));
 			}
 		}
 		xml.stepOut();
@@ -523,10 +523,10 @@ void DetectionManager::ProfilesSave() {
 		xml.addTag("Params");
 		xml.stepIn();
 		{
-			for(StringMap::const_iterator j = params.begin(); j != params.end(); ++j) {
+			for(ParamMap::const_iterator j = params.begin(); j != params.end(); ++j) {
 				xml.addTag("Param");
 				xml.addChildAttrib("Name", j->first);
-				xml.addChildAttrib("Pattern", j->second);
+				xml.addChildAttrib("Pattern", boost::get<string>(j->second));
 			}
 		}
 		xml.stepOut();
@@ -686,7 +686,7 @@ bool DetectionManager::moveDetectionItem(const uint32_t aId, int pos, bool isUse
 	DetectionItems& list = isUserInfo ? ui_det : det;
 	for(DetectionItems::iterator i = list.begin(); i != list.end(); ++i) {
 		if(i->Id == aId) {
-			swap(*i, *(i + pos));
+			std::swap(*i, *(i + pos));
 			return true;
 		}
 	}

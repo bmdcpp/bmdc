@@ -1,5 +1,5 @@
-﻿/*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+/*
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,13 +25,14 @@
 #include <sstream>
 #include <iomanip>
 #include <iterator>
-#include <dcpp/FavoriteManager.h>
 #include <dcpp/ShareManager.h>
 #include <dcpp/Text.h>
 #include <dcpp/Upload.h>
 #include <dcpp/Download.h>
 #include <dcpp/ClientManager.h>
-#include <dcpp/UPnPManager.h> //NOTE: core 0.762
+#include <dcpp/UPnPManager.h>//NOTE: core 0.762
+#include <dcpp/GeoManager.h>
+#include <dcpp/HttpDownload.h>
 #include <dcpp/version.h>
 #include "downloadqueue.hh"
 #include "favoritehubs.hh"
@@ -42,6 +43,7 @@
 #include "privatemessage.hh"
 #include "publichubs.hh"
 #include "search.hh"
+#include "adlsearch.hh"
 #include "searchspy.hh"
 #include "settingsmanager.hh"
 #include "sharebrowser.hh"
@@ -50,24 +52,17 @@
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
 #include "version.hh"
-//Mank
-#include "System.hh"
-#include "notepad.hh"
-#include "ADLSearchGUI.hh"
-#include "ignoreusers.hh"
-#include "recenthub.hh"
-
-#include <dcpp/version.h>
-#include <dcpp/HashManager.h>
-#include <dcpp/ThrottleManager.h>
-#include <dcpp/Util.h>
 #ifdef _USELUA
 	#include <dcpp/ScriptManager.h>
 #endif
-#include "detectiontab.hh"
+#include <dcpp/ThrottleManager.h>
+#include "ignoreusers.hh"
+#include "System.hh"
 #include "cmddebug.hh"
+#include "notepad.hh"
 #include "uploadqueue.hh"
-//END
+#include "recenthub.hh"
+#include "detectiontab.hh"
 
 using namespace std;
 using namespace dcpp;
@@ -80,8 +75,7 @@ MainWindow::MainWindow():
 	lastDown(0),
 	minimized(FALSE),
 	timer(0),
-	statusFrame(1),
-	isLimiting(FALSE)
+	statusFrame(1)
 {
 	window = GTK_WINDOW(getWidget("mainWindow"));
 	gtk_window_set_role(window, getID().c_str());
@@ -96,38 +90,77 @@ MainWindow::MainWindow():
 	gtk_window_set_transient_for(GTK_WINDOW(getWidget("flistDialog")), window);
 	gtk_window_set_transient_for(GTK_WINDOW(getWidget("ucLineDialog")), window);
 
-	// magnet dialog
-	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("MagnetDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
-	gtk_window_set_transient_for(GTK_WINDOW(getWidget("MagnetDialog")), window);
-	setChooseMagnetDialog_gui();
-	g_signal_connect(getWidget("MagnetDialog"), "response", G_CALLBACK(onResponseMagnetDialog_gui), (gpointer) this);
-	g_signal_connect(getWidget("MagnetDialog"), "delete-event", G_CALLBACK(onDeleteEventMagnetDialog_gui), (gpointer) this);
-	// TTH file get dialog
-	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("TTHFileDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL,-1);
-	gtk_window_set_transient_for(GTK_WINDOW(getWidget("TTHFileDialog")),window);
-	///todo response
-	g_signal_connect(getWidget("TTHFileDialog"), "delete-event", G_CALLBACK(onDeleteEventMagnetDialog_gui), (gpointer)this);
+	setStatRate_gui();//NOTE: core 0.762
 
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("transferCheckButton")), TRUE);
+	// toolbar
+	setToolbarMenu_gui("connectMenuItemBar", "connect", "toolbar-button-connect");
+	setToolbarMenu_gui("favHubsMenuItemBar", "favHubs", "toolbar-button-fav-hubs");
+	setToolbarMenu_gui("favUsersMenuItemBar", "favUsers", "toolbar-button-fav-users");
+	setToolbarMenu_gui("publicHubsMenuItemBar", "publicHubs", "toolbar-button-public-hubs");
+	setToolbarMenu_gui("settingsMenuItemBar", "settings", "toolbar-button-settings");
+	setToolbarMenu_gui("hashMenuItemBar", "hash", "toolbar-button-hash");
+	setToolbarMenu_gui("searchMenuItemBar", "search", "toolbar-button-search");
+	setToolbarMenu_gui("searchADLMenuItemBar", "searchADL", "toolbar-button-search-adl");
+	setToolbarMenu_gui("searchSpyMenuItemBar", "searchSpy", "toolbar-button-search-spy");
+	setToolbarMenu_gui("queueMenuItemBar", "queue", "toolbar-button-queue");
+	setToolbarMenu_gui("finishedDownloadsMenuItemBar", "finishedDownloads", "toolbar-button-finished-downloads");
+	setToolbarMenu_gui("finishedUploadsMenuItemBar", "finishedUploads", "toolbar-button-finished-uploads");
+	setToolbarMenu_gui("quitMenuItemBar", "quit", "toolbar-button-quit");
+	//BMDC++
+	setToolbarMenu_gui("ignUserMenuItemBar", "ignUser", "toolbar-button-ignore");
+	setToolbarMenu_gui("checknotepad", "notepad", "toolbar-button-notepad");
+	setToolbarMenu_gui("checksystem", "system", "toolbar-button-system");
+	setToolbarMenu_gui("awaycitem","AwayIcon", "toolbar-button-away");
+	setToolbarMenu_gui("limitingcmenu","limitingButton", "toolbar-button-limiting");
 
-	// About dialog
-	gchar *comments = g_strdup_printf(_("DC++ Client based on the source code FreeDC++\nBMDC++ version: %s.%s\nCore version: %s"),
-		GUI_VERSION_STRING, BMDC_REVISION_STRING, VERSIONSTRING);
-	gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(getWidget("aboutDialog")), comments);
-	g_free(comments);
+	gint pos = 0;
+	ToolbarStyle = 0;
+	GtkBox *box = GTK_BOX(getWidget("hbox4"));
+	GtkWidget *child = getWidget("toolbar1");
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("leftToolbarItem")), FALSE);
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("hideToolbarItem")), (WGETI("toolbar-style") == 4) ? TRUE : FALSE);
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("sizeToolbarItem")), WGETB("toolbar-small"));
+	if (WGETB("toolbar-small"))
+		g_object_set(G_OBJECT(child), "icon-size", GTK_ICON_SIZE_SMALL_TOOLBAR, NULL);
 
-	// set logo 96x96
-	GtkIconTheme *iconTheme = gtk_icon_theme_get_default();
-	GdkPixbuf *logo = gtk_icon_theme_load_icon(iconTheme, g_get_prgname(), 96, GTK_ICON_LOOKUP_FORCE_SVG, NULL);
-
-	if (logo != NULL)
+	if (WGETI("toolbar-position") == 1)
 	{
-		gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(getWidget("aboutDialog")), logo);
-		g_object_unref(logo);
+		box = GTK_BOX(getWidget("vbox1"));
+		gtk_toolbar_set_orientation(GTK_TOOLBAR(child), GTK_ORIENTATION_HORIZONTAL);
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("topToolbarItem")), TRUE);
+		pos = 1;
 	}
-	///Limits menu
+	gtk_box_pack_start(box, child, FALSE, FALSE, 2);
+	gtk_box_reorder_child(box, child, pos);
+	g_object_unref(child);
+
+	g_signal_connect(G_OBJECT(getWidget("sizeToolbarItem")), "toggled", G_CALLBACK(onSizeToolbarToggled_gui), (gpointer)this);
+	g_signal_connect(G_OBJECT(getWidget("hideToolbarItem")), "toggled", G_CALLBACK(onHideToolbarToggled_gui), (gpointer)this);
+	g_signal_connect(G_OBJECT(getWidget("topToolbarItem")), "toggled", G_CALLBACK(onTopToolbarToggled_gui), (gpointer)this);
+	g_signal_connect(G_OBJECT(getWidget("leftToolbarItem")), "toggled", G_CALLBACK(onLeftToolbarToggled_gui), (gpointer)this);
+	g_signal_connect(G_OBJECT(getWidget("add")), "clicked", G_CALLBACK(onAddButtonClicked_gui), (gpointer)this);
+
 	GtkWidget *menu = gtk_menu_new();
-	gtk_menu_tool_button_set_menu(GTK_MENU_TOOL_BUTTON(getWidget("EnableLimit")), menu);
+	gtk_menu_tool_button_set_menu(GTK_MENU_TOOL_BUTTON(getWidget("favHubs")), menu);
+	const FavoriteHubEntryList &fh = FavoriteManager::getInstance()->getFavoriteHubs();
+	gtk_container_foreach(GTK_CONTAINER(menu), (GtkCallback)gtk_widget_destroy, NULL);
+
+	for (FavoriteHubEntryList::const_iterator it = fh.begin(); it != fh.end(); ++it)
+	{
+		FavoriteHubEntry *entry = *it;
+		string address = entry->getServer();
+		string encoding = entry->getEncoding();
+		GtkWidget *item = gtk_menu_item_new_with_label(address.c_str());
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+		g_object_set_data_full(G_OBJECT(item), "address", g_strdup(address.c_str()), g_free);
+		g_object_set_data_full(G_OBJECT(item), "encoding", g_strdup(encoding.c_str()), g_free);
+		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(onHubClicked_gui), (gpointer)this);
+	}
+	gtk_widget_show_all(menu);
+	
+	///Limits menu
+	menu = gtk_menu_new();
+	gtk_menu_tool_button_set_menu(GTK_MENU_TOOL_BUTTON(getWidget("limitingButton")), menu);
 	gtk_container_foreach(GTK_CONTAINER(menu), (GtkCallback)gtk_widget_destroy, NULL);
 	GtkWidget *upitem = gtk_menu_item_new_with_label(_("Upload Limit (disable)"));
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), upitem);
@@ -164,18 +197,41 @@ MainWindow::MainWindow():
 		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(onLimitingMenuItem_gui), (gpointer)this);
 	}
 
-
 	gtk_widget_show_all(menu);
 
-	// colourstuff added by curse //add to BMDC++ by Mank
-	string res = WulforManager::get()->getPath() + "/glade/resources.rc";
-	gtk_rc_parse(res.c_str());
-	// colourstuff end
+	// menu
+	g_object_ref_sink(getWidget("statusIconMenu"));
+	g_object_ref_sink(getWidget("toolbarMenu"));
+
+	// magnet dialog
+	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("MagnetDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
+	gtk_window_set_transient_for(GTK_WINDOW(getWidget("MagnetDialog")), window);
+	setChooseMagnetDialog_gui();
+	g_signal_connect(getWidget("MagnetDialog"), "response", G_CALLBACK(onResponseMagnetDialog_gui), (gpointer) this);
+	g_signal_connect(getWidget("MagnetDialog"), "delete-event", G_CALLBACK(onDeleteEventMagnetDialog_gui), (gpointer) this);
+
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("transferCheckButton")), TRUE);
+
+	// About dialog
+	gchar *comments = g_strdup_printf(_("DC++ Client based on the source code FreeDC++\n\nBMDC++ version: %s.%s\nCore version: %s"),
+		GUI_VERSION_STRING, BMDC_REVISION_STRING, VERSIONSTRING);
+	gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(getWidget("aboutDialog")), comments);
+	g_free(comments);
+
+	// set logo 96x96
+	GtkIconTheme *iconTheme = gtk_icon_theme_get_default();
+	GdkPixbuf *logo = gtk_icon_theme_load_icon(iconTheme, g_get_prgname(), 96, GTK_ICON_LOOKUP_FORCE_SVG, NULL);
+
+	if (logo != NULL)
+	{
+		gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(getWidget("aboutDialog")), logo);
+		g_object_unref(logo);
+	}
 
 	gtk_about_dialog_set_email_hook((GtkAboutDialogActivateLinkFunc)onAboutDialogActivateLink_gui, (gpointer)this, NULL);
 	gtk_about_dialog_set_url_hook((GtkAboutDialogActivateLinkFunc)onAboutDialogActivateLink_gui, (gpointer)this, NULL);
 	// This has to be set in code in order to activate the link
-	gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(getWidget("aboutDialog")), "http://bmdc.no-ip.sk");
+	gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(getWidget("aboutDialog")), "http://launchpad.net/bmdc++");
 	gtk_window_set_transient_for(GTK_WINDOW(getWidget("aboutDialog")), window);
 
 	// Set all windows to the default icon
@@ -197,20 +253,19 @@ MainWindow::MainWindow():
 	g_signal_connect(getWidget("connect"), "clicked", G_CALLBACK(onConnectClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("favHubs"), "clicked", G_CALLBACK(onFavoriteHubsClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("favUsers"), "clicked", G_CALLBACK(onFavoriteUsersClicked_gui), (gpointer)this);
+	g_signal_connect(getWidget("ignUser"), "clicked", G_CALLBACK(onIgnoreUserClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("publicHubs"), "clicked", G_CALLBACK(onPublicHubsClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("settings"), "clicked", G_CALLBACK(onPreferencesClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("hash"), "clicked", G_CALLBACK(onHashClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("search"), "clicked", G_CALLBACK(onSearchClicked_gui), (gpointer)this);
+	g_signal_connect(getWidget("searchADL"), "clicked", G_CALLBACK(onSearchADLClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("searchSpy"), "clicked", G_CALLBACK(onSearchSpyClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("queue"), "clicked", G_CALLBACK(onDownloadQueueClicked_gui), (gpointer)this);
-	// Toolbars
-	g_signal_connect(getWidget("ADLSearch"), "clicked", G_CALLBACK(onADLSearch_gui), (gpointer)this);
-	g_signal_connect(getWidget("System"), "clicked", G_CALLBACK(onSystem_gui), (gpointer)this);
-	g_signal_connect(getWidget("Notepad"), "clicked", G_CALLBACK(onNotepad_gui), (gpointer)this);
-	g_signal_connect(getWidget("IgnoreUsers"), "clicked", G_CALLBACK(onIgnore_gui), (gpointer)this);
-	g_signal_connect(getWidget("AwayIcon"), "clicked", G_CALLBACK(onAway_gui), (gpointer)this);
-	g_signal_connect(getWidget("EnableLimit"), "clicked", G_CALLBACK(onLimiting), (gpointer)this);
-	//end
+	/**/
+	g_signal_connect(getWidget("notepad"), "clicked", G_CALLBACK(onNotepadClicked_gui), (gpointer)this);
+	g_signal_connect(getWidget("system"), "clicked", G_CALLBACK(onSystemLogClicked_gui), (gpointer)this);
+	g_signal_connect(getWidget("AwayIcon"), "clicked", G_CALLBACK(onAwayClicked_gui), (gpointer)this);
+	/**/
 	g_signal_connect(getWidget("quit"), "clicked", G_CALLBACK(onQuitClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("finishedDownloads"), "clicked", G_CALLBACK(onFinishedDownloadsClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("finishedUploads"), "clicked", G_CALLBACK(onFinishedUploadsClicked_gui), (gpointer)this);
@@ -225,19 +280,17 @@ MainWindow::MainWindow():
 	g_signal_connect(getWidget("favoriteHubsMenuItem"), "activate", G_CALLBACK(onFavoriteHubsClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("favoriteUsersMenuItem"), "activate", G_CALLBACK(onFavoriteUsersClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("publicHubsMenuItem"), "activate", G_CALLBACK(onPublicHubsClicked_gui), (gpointer)this);
-	///RecentHubs
-	g_signal_connect(getWidget("recentHubsMenuItem"), "activate", G_CALLBACK(onRecent_gui), (gpointer)this);
-	///TTHFileDialog
-	g_signal_connect(getWidget("TTHFileMenu"), "activate", G_CALLBACK(onTTHFileDialog_gui), (gpointer)this);
-	g_signal_connect(getWidget("buttonfile"), "clicked", G_CALLBACK(onTTHFileButton_gui), (gpointer)this);
-	///Detection
-	g_signal_connect(getWidget("detectionMenuItem"), "activate", G_CALLBACK(onDetection), (gpointer)this);
-	///CMD TAB
-	g_signal_connect(getWidget("cmdMenuItem1"), "activate", G_CALLBACK(onDebugCMD), (gpointer)this);
-	g_signal_connect(getWidget("uploadQueueItem"), "activate", G_CALLBACK(onUploadQueue_gui), (gpointer)this);
-
 	g_signal_connect(getWidget("indexingProgressMenuItem"), "activate", G_CALLBACK(onHashClicked_gui), (gpointer)this);
+	/**/
+	g_signal_connect(getWidget("detitem"), "activate", G_CALLBACK(onDetectionClicked_gui), (gpointer)this);
+	g_signal_connect(getWidget("cmditem"), "activate", G_CALLBACK(onCmdDebugClicked_gui), (gpointer)this);
+	g_signal_connect(getWidget("uqueueitem"), "activate", G_CALLBACK(onUploadQueueClicked_gui), (gpointer)this);
+	g_signal_connect(getWidget("RecentHubMenuItem"), "activate", G_CALLBACK(onRecentHubClicked_gui), (gpointer)this);
+	g_signal_connect(getWidget("tthitem"), "activate", G_CALLBACK(onTTHFileDialog_gui), (gpointer)this);
+	g_signal_connect(getWidget("buttonfile"), "clicked", G_CALLBACK(onTTHFileButton_gui), (gpointer)this);
+	/**/
 	g_signal_connect(getWidget("searchMenuItem"), "activate", G_CALLBACK(onSearchClicked_gui), (gpointer)this);
+	g_signal_connect(getWidget("searchADLMenuItem"), "activate", G_CALLBACK(onSearchADLClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("searchSpyMenuItem"), "activate", G_CALLBACK(onSearchSpyClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("downloadQueueMenuItem"), "activate", G_CALLBACK(onDownloadQueueClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("finishedDownloadsMenuItem"), "activate", G_CALLBACK(onFinishedDownloadsClicked_gui), (gpointer)this);
@@ -251,18 +304,48 @@ MainWindow::MainWindow():
 	g_signal_connect(getWidget("searchRadioButton"), "toggled", G_CALLBACK(onSearchMagnetToggled_gui), (gpointer)this);
 	g_signal_connect(getWidget("showRadioButton"), "toggled", G_CALLBACK(onSearchMagnetToggled_gui), (gpointer)this);
 	g_signal_connect(getWidget("setMagnetChoiceItem"), "activate", G_CALLBACK(onSetMagnetChoiceDialog_gui), (gpointer)this);
-
+	/**/
 	g_signal_connect(getWidget("CloseTabHubAllMenuItem"), "activate", G_CALLBACK(onCloseAllHub_gui), (gpointer)this);
 	g_signal_connect(getWidget("CloseTabPMAllMenuItem"), "activate", G_CALLBACK(onCloseAllPM_gui), (gpointer)this);
 	g_signal_connect(getWidget("closeTabSearchAllMenuItem"), "activate", G_CALLBACK(onCloseAllSearch_gui), (gpointer)this);
 	g_signal_connect(getWidget("CloseTabPMOfflineItem"), "activate", G_CALLBACK(onCloseAlloffPM_gui), (gpointer)this);
+	g_signal_connect(getWidget("recontallitem"), "activate", G_CALLBACK(onReconectAllHub_gui), (gpointer)this);
 
 	// Help menu
 	g_object_set_data_full(G_OBJECT(getWidget("homeMenuItem")), "link",
-		g_strdup("http://bmdc.no-ip.sk"), g_free);
+		g_strdup("http://launchpad.net/bmdc++"), g_free);
 	g_signal_connect(getWidget("homeMenuItem"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
 
+	g_object_set_data_full(G_OBJECT(getWidget("sourceMenuItem")), "link",
+		g_strdup("http://code.launchpad.net/bmdc++"), g_free);
+	g_signal_connect(getWidget("sourceMenuItem"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
+
+	g_object_set_data_full(G_OBJECT(getWidget("issueMenuItem")), "link",
+		g_strdup("http://bugs.launchpad.net/bmdc++"), g_free);
+	g_signal_connect(getWidget("issueMenuItem"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
+
+	g_object_set_data_full(G_OBJECT(getWidget("forumDiscussionItem")), "link",
+		g_strdup("http://forum.ubuntu.ru/index.php?topic=81512.0"), g_free);
+	g_signal_connect(getWidget("forumDiscussionItem"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
+
+	g_object_set_data_full(G_OBJECT(getWidget("changeLogItem")), "link",
+		g_strdup((string(_DATADIR) + "/doc/bmdc/BMDC-Changelog.txt").c_str()), g_free);
+	g_signal_connect(getWidget("changeLogItem"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
+
+	g_object_set_data_full(G_OBJECT(getWidget("dowloadMenuItem1")), "link",
+		g_strdup("https://sourceforge.net/projects/freedcppmv/files/"), g_free);
+	g_signal_connect(getWidget("dowloadMenuItem1"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
+
+	g_object_set_data_full(G_OBJECT(getWidget("dowloadMenuItem2")), "link",
+		g_strdup("https://launchpad.net/~bmdc-team/+archive/ppa-stable"), g_free);
+	g_signal_connect(getWidget("dowloadMenuItem2"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
+
 	onQuit = FALSE;
+	
+	// colourstuff added by curse //add to BMDC++ by Mank
+	string res = WulforManager::get()->getPath() + "/glade/resources.rc";
+	gtk_rc_parse(res.c_str());
+	// colourstuff end
 
 	// Load window state and position from settings manager
 	gint posX = WGETI("main-window-pos-x");
@@ -272,6 +355,8 @@ MainWindow::MainWindow():
 
 	gtk_window_move(window, posX, posY);
 	gtk_window_resize(window, sizeX, sizeY);
+	if (WGETI("main-window-maximized"))
+		gtk_window_maximize(window);
 
 	setMainStatus_gui(_("Welcome to ") + string(g_get_application_name()));
 
@@ -292,17 +377,13 @@ MainWindow::MainWindow():
 	Sound::start();
 	Emoticons::start();
 	Notify::start();
-	//Fix
-	if (WGETI("main-window-maximized"))
-		gtk_window_maximize(window);
-
-
+	
 	if(BOOLSETTING(GET_USER_COUNTRY)) {
 			checkUpdateofGeoIp(true);
 			checkUpdateofGeoIp(false);
 	}
 
-	#ifdef _USELUA
+    #ifdef _USELUA
 	 ScriptManager::getInstance()->load();
 	 // Start as late as possible, as we might (formatting.lua) need to examine settings
 	 string defaultluascript = "startup.lua";
@@ -315,8 +396,6 @@ MainWindow::~MainWindow()
 	QueueManager::getInstance()->removeListener(this);
 	TimerManager::getInstance()->removeListener(this);
 	LogManager::getInstance()->removeListener(this);
-
-	listQueue.shutdown();
 
 	GList *list = (GList *)g_object_get_data(G_OBJECT(getWidget("book")), "page-rotation-list");
 	g_list_free(list);
@@ -332,12 +411,14 @@ MainWindow::~MainWindow()
 	transferPanePosition = sizeY - gtk_paned_get_position(GTK_PANED(getWidget("pane")));
 
 	if (!(gdkState & GDK_WINDOW_STATE_MAXIMIZED))
+	{
 		maximized = FALSE;
-
-	WSET("main-window-pos-x", posX);
-	WSET("main-window-pos-y", posY);
-	WSET("main-window-size-x", sizeX);
-	WSET("main-window-size-y", sizeY);
+		// The get pos/size functions return junk when window is maximized
+		WSET("main-window-pos-x", posX);
+		WSET("main-window-pos-y", posY);
+		WSET("main-window-size-x", sizeX);
+		WSET("main-window-size-y", sizeY);
+	}
 
 	WSET("main-window-maximized", maximized);
 	if (transferPanePosition > 10)
@@ -347,9 +428,10 @@ MainWindow::~MainWindow()
 		g_source_remove(timer);
 
 	WSET("status-icon-blink-use", useStatusIconBlink);
-
 	gtk_widget_destroy(GTK_WIDGET(window));
 	g_object_unref(statusIcon);
+	g_object_unref(getWidget("statusIconMenu"));
+	g_object_unref(getWidget("toolbarMenu"));
 
 	Sound::stop();
 	Emoticons::stop();
@@ -375,14 +457,6 @@ void MainWindow::show()
 	WulforManager::get()->dispatchClientFunc(f0);
 
 	autoOpen_gui();
-
-	if (WGETI("show-preferences-on-startup"))
-    {
-       onPreferencesClicked_gui(NULL, (gpointer)this);
-        WSET("show-preferences-on-startup", 0);
-    }
-    //think..
-    isLimiting = BOOLSETTING(THROTTLE_ENABLE);
 }
 
 void MainWindow::setTitle(const string& text)
@@ -434,23 +508,25 @@ void MainWindow::loadIcons_gui()
 	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("settings")), "bmdc-preferences");
 	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("hash")), "bmdc-hash");
 	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("search")), "bmdc-search");
+	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("searchADL")), "bmdc-search-adl");
 	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("searchSpy")), "bmdc-search-spy");
 	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("queue")), "bmdc-queue");
 	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("finishedDownloads")), "bmdc-finished-downloads");
 	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("finishedUploads")), "bmdc-finished-uploads");
 	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("quit")), "bmdc-quit");
 	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("connect")), "bmdc-connect");
-
-	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("Notepad")), "bmdc-notepad");
-	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("IgnoreUsers")), "bmdc-ignore-users");
-	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("System")), "bmdc-system");
-	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("ADLSearch")), "bmdc-adlsearch");
+	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("ignUser")), "bmdc-ignore-users");
+	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("system")), "bmdc-system");
+	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("notepad")), "bmdc-notepad");
 	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("AwayIcon")), "bmdc-away");
-	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("EnableLimit")), "bmdc-limiting");
-
+	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("limitingButton")), "bmdc-limiting");
+	
 	gtk_image_set_from_stock(GTK_IMAGE(getWidget("imageHubs")), "bmdc-public-hubs", GTK_ICON_SIZE_SMALL_TOOLBAR);
 	gtk_image_set_from_stock(GTK_IMAGE(getWidget("imageDownloadSpeed")), "bmdc-download", GTK_ICON_SIZE_SMALL_TOOLBAR);
 	gtk_image_set_from_stock(GTK_IMAGE(getWidget("imageUploadSpeed")), "bmdc-upload", GTK_ICON_SIZE_SMALL_TOOLBAR);
+//NOTE: core 0.762
+	gtk_image_set_from_stock(GTK_IMAGE(getWidget("imageDownloadRate")), "bmdc-download", GTK_ICON_SIZE_SMALL_TOOLBAR);
+	gtk_image_set_from_stock(GTK_IMAGE(getWidget("imageUploadRate")), "bmdc-upload", GTK_ICON_SIZE_SMALL_TOOLBAR);
 }
 
 void MainWindow::autoOpen_gui()
@@ -470,32 +546,7 @@ void MainWindow::autoOpen_gui()
 		showFinishedUploads_gui();
 	if (WGETB("open-search-spy"))
 		showSearchSpy_gui();
-	/**/
-	if (WGETB("open-notepad"))
-		showNotepad_gui();
-	if (WGETB("open-ignore"))
-		showIgnore_gui();
-	if (WGETB("open-system"))
-		showSystem_gui();
-}
-
-void MainWindow::getAway()
-{
-	if (Util::getAway())
-	{
-			Util::switchAway();
-			Util::setManualAway(false);
-			setMainStatus_gui(_("Away mode off"), time(NULL));
-			gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("AwayIcon")), "bmdc-away");
-	}
-	else
-	{
-			Util::switchAway();
-			Util::setManualAway(true);
-			setMainStatus_gui(_("Away mode on"),time(NULL));
-			gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("AwayIcon")), "bmdc-away-on");
-	}
-	ClientManager::getInstance()->infoUpdated();
+//NOTE: core 0.762
 }
 
 void MainWindow::onLimitingMenuItem_gui(GtkWidget *widget, gpointer data)
@@ -505,41 +556,28 @@ void MainWindow::onLimitingMenuItem_gui(GtkWidget *widget, gpointer data)
 	string type = (gchar *)g_object_get_data(G_OBJECT(widget), "type");
 	if(speed.empty())
 		return;
-
-	bool isEnb = BOOLSETTING(THROTTLE_ENABLE);
-
-	if(isEnb);else SettingsManager::getInstance()->set(SettingsManager::THROTTLE_ENABLE,!isEnb);
+	GtkWidget *lim = mw->getWidget("limitingButton");	
 
 	if(type == "up")
 	{
 		ThrottleManager::setSetting(SettingsManager::MAX_UPLOAD_SPEED_MAIN, Util::toInt(speed)/1024);
+		mw->setMainStatus_gui(_("Throtle on"), time(NULL));
+		gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(lim),"bmdc-limiting-on");
 	}
 	else if(type == "dw")
 	{
 		ThrottleManager::setSetting(SettingsManager::MAX_DOWNLOAD_SPEED_MAIN, Util::toInt(speed)/1024);
-	}
-
-	GtkWidget *lim = mw->getWidget("EnableLimit");
-
-	if(!isEnb)
-    {
-        mw->setMainStatus_gui(_("Throtle off"), time(NULL));
-        gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(lim),"bmdc-limiting");
-
-    }
-    else
-    {
 		mw->setMainStatus_gui(_("Throtle on"), time(NULL));
 		gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(lim),"bmdc-limiting-on");
 	}
+	mw->setStatRate_gui();
+	
 }
 
 void MainWindow::onLimitingDisable(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 	string type = (gchar*)g_object_get_data(G_OBJECT(widget), "type");
-
-	//SettingsManager::getInstance()->set(SettingsManager::THROTTLE_ENABLE,false);
 
 	if(type == "dw")
 	{
@@ -549,92 +587,22 @@ void MainWindow::onLimitingDisable(GtkWidget *widget, gpointer data)
 	{
 		ThrottleManager::setSetting(SettingsManager::MAX_UPLOAD_SPEED_MAIN, 0);
 	}
+	
+	GtkWidget *lim = mw->getWidget("limitingButton");
+    mw->setMainStatus_gui(_("Throtle off"), time(NULL));
+    gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(lim),"bmdc-limiting");
+    mw->setStatRate_gui();
 }
 
-void MainWindow::EnbDsbLimit()
+void MainWindow::setToolbarMenu_gui(const string &item_key, const string &button_key, const string &key)
 {
-    bool isEnb = BOOLSETTING(THROTTLE_ENABLE);
-    SettingsManager::getInstance()->set(SettingsManager::THROTTLE_ENABLE,!isEnb);
-    GtkWidget *widget = getWidget("EnableLimit");
-    if(!isEnb)
-    {
-        setMainStatus_gui(_("Throtle off"), time(NULL));
-        gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(widget),"bmdc-limiting");
-
-    }
-    else
-    {
-		setMainStatus_gui(_("Throtle on"), time(NULL));
-		gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(widget),"bmdc-limiting-on");
-	}
+	GtkWidget *item = getWidget(item_key);
+	GtkWidget *button = getWidget(button_key);
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), WGETB(key));
+	g_object_set_data_full(G_OBJECT(item), "key", g_strdup(key.c_str()), g_free);
+	g_signal_connect(G_OBJECT(item), "toggled", G_CALLBACK(onToolToggled_gui), (gpointer)button);
 }
 
-///close all
-///Hubs
-void MainWindow::onCloseAllHub_gui(GtkWidget *widget, gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-
-	for(vector<Hub*>::const_iterator i= mw->allhub.begin(); i != mw->allhub.end();++i)
-	{
-		WulforManager::get()->getMainWindow()->removeBookEntry_gui(*i);
-	}
-	mw->allhub.clear();
-}
-///PM
-void MainWindow::onCloseAllPM_gui(GtkWidget *widget, gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-
-	for(vector<PrivateMessage*>::const_iterator i= mw->allprivatemess.begin(); i != mw->allprivatemess.end();++i)
-	{
-		WulforManager::get()->getMainWindow()->removeBookEntry_gui(*i);
-	}
-	mw->allprivatemess.clear();
-}
-///Search
-void MainWindow::onCloseAllSearch_gui(GtkWidget *widget, gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-
-	for(vector<Search*>::const_iterator i= mw->allsearch.begin(); i != mw->allsearch.end();++i)
-	{
-		WulforManager::get()->getMainWindow()->removeBookEntry_gui(*i);//item
-	}
-	mw->allsearch.clear();
-}
-///ofline
-/*void MainWindow::onCloseAlloffHub_gui(GtkWidget *widget, gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-
-	for(vector<Hub*>::const_iterator i= mw->allhub.begin(); i != mw->allhub.end();++i)
-	{
-		WulforManager::get()->getMainWindow()->removeBookEntry_gui(*i);
-	}
-	mw->allhub.clear();
-}*/
-///PM
-void MainWindow::onCloseAlloffPM_gui(GtkWidget *widget, gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-	vector<PrivateMessage*> noff;
-
-	for(vector<PrivateMessage*>::const_iterator i= mw->allprivatemess.begin(); i != mw->allprivatemess.end();++i)
-	{
-		PrivateMessage *pm = dynamic_cast<PrivateMessage*>(*i);
-
-		if(pm->getOffline())
-		{
-			WulforManager::get()->getMainWindow()->removeBookEntry_gui(*i);
-
-		}else noff.push_back(*i);
-	}
-	mw->allprivatemess.clear();
-	mw->allprivatemess = noff;
-}
-
-///end
 void MainWindow::addBookEntry_gui(BookEntry *entry)
 {
 	addChild(entry);
@@ -649,13 +617,11 @@ void MainWindow::addBookEntry_gui(BookEntry *entry)
 	gtk_notebook_append_page(GTK_NOTEBOOK(getWidget("book")), page, label);
 
 	g_signal_connect(label, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
-
-	if(WGETB("show-close-butt"))
-	{
-		g_signal_connect(closeButton, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
-		g_signal_connect(closeButton, "clicked", G_CALLBACK(onCloseBookEntry_gui), (gpointer)entry);
-	}
-
+    if(WGETB("use-close-button"))
+    {
+        g_signal_connect(closeButton, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
+        g_signal_connect(closeButton, "clicked", G_CALLBACK(onCloseBookEntry_gui), (gpointer)entry);
+    }
 	gtk_widget_set_sensitive(getWidget("closeMenuItem"), TRUE);
 
 	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(getWidget("book")), page, TRUE);
@@ -685,6 +651,8 @@ void MainWindow::raisePage_gui(GtkWidget *page)
 void MainWindow::removeBookEntry_gui(BookEntry *entry)
 {
 	string entryID = entry->getID();
+	Entry::EntryType type = entry->getType();
+	removeItemFromList(type, entryID);
 
 	string::size_type pos = entryID.find(':');
 	if (pos != string::npos) entryID.erase(0, pos + 1);
@@ -725,7 +693,54 @@ void MainWindow::removeBookEntry_gui(BookEntry *entry)
 			gtk_widget_set_sensitive(getWidget("closeMenuItem"), FALSE);
 			setTitle(""); // Reset window title to default
 		}
+		
 	}
+}
+
+void MainWindow::removeItemFromList(Entry::EntryType type,string id)
+{
+	vector<Hub*> hubs;
+	vector<PrivateMessage*> pms;
+	vector<Search*> searchs;
+	switch(type)
+	{
+		case HUB:
+			if(Hubs.empty())break;
+			 for(vector<Hub*>::const_iterator it = Hubs.begin();it != Hubs.end();++it)
+			 {
+				 Hub *hub = *it;
+				 string hubId = (dynamic_cast<Entry*>(hub))->getID();
+				 if(hubId == id)
+					 continue;
+				hubs.push_back(*it);	 
+			 }
+			 Hubs = hubs;
+			 break;
+		case PRIVATE_MESSAGE:
+			if(privateMessage.empty())break;
+			for(vector<PrivateMessage*>::const_iterator it = privateMessage.begin();it != privateMessage.end();++it)
+			 {
+				 string pId = (dynamic_cast<Entry*>(*it))->getID();
+				 if(pId == id)
+					 continue;
+				pms.push_back(*it);	 
+			 }
+			 privateMessage = pms;
+			 break;
+		case SEARCH:
+			if(search.empty())break;
+			for(vector<Search*>::const_iterator it = search.begin();it != search.end();++it)
+			 {
+				 Search *s = *it;
+				 string sId = (dynamic_cast<Entry*>(s))->getID();
+				 if(sId == id)
+					 continue;
+				searchs.push_back(*it);	 
+			 }
+			 search = searchs;
+			 break;
+		default:break;
+	}	
 }
 
 void MainWindow::previousTab_gui()
@@ -808,60 +823,38 @@ void MainWindow::setMainStatus_gui(string text, time_t t)
 	{
 		text = "[" + Util::getShortTimeString(t) + "] " + text;
 		gtk_label_set_text(GTK_LABEL(getWidget("labelStatus")), text.c_str());
-
-		if(statusTexts.size() > maxTooltipCount)
-		{
-			statusTexts.pop();
-		}
-		queue<string> tmp = statusTexts;
-		string statusTool;
-		while(!tmp.empty())
-		{
-			statusTool+="\n"+tmp.front();
-			tmp.pop();
-		}
-		statusTexts.push(text);
-		statusTool+"\n"+text;
-		gtk_widget_set_tooltip_text (getWidget("labelStatus"),statusTool.c_str());
-
 	}
 }
 
 void MainWindow::showNotification_gui(string head, string body, Notify::TypeNotify notify)
 {
-#ifdef HAVE_LIBNOTIFY
 	Notify::get()->showNotify(head, body, notify);
-#endif
 }
 
 void MainWindow::setStats_gui(string hubs, string downloadSpeed,
 	string downloaded, string uploadSpeed, string uploaded)
 {
-
-	int uploadSpeedl = SETTING(MAX_UPLOAD_SPEED_MAIN);
-	int downloadSpeedl = SETTING(MAX_DOWNLOAD_SPEED_MAIN);
-	string uploadRate,downloadRate;
-
-	if(BOOLSETTING(THROTTLE_ENABLE))
-    {
-        uploadRate = uploadSpeedl ? Util::formatBytes(uploadSpeedl*1024) + "/" + _("s") : "";
-        downloadRate = downloadSpeedl ? Util::formatBytes(downloadSpeedl*1024) + "/" + _("s") : "";
-    }
-    else
-    {
-        uploadRate = "";
-        downloadRate = "";
-    }
 	gtk_label_set_text(GTK_LABEL(getWidget("labelHubs")), hubs.c_str());
-	gtk_label_set_text(GTK_LABEL(getWidget("labelDownloadSpeed")), (string("[") + downloadRate + string("]") + downloadSpeed).c_str());
+	gtk_label_set_text(GTK_LABEL(getWidget("labelDownloadSpeed")), downloadSpeed.c_str());
 	gtk_label_set_text(GTK_LABEL(getWidget("labelDownloaded")), downloaded.c_str());
-	gtk_label_set_text(GTK_LABEL(getWidget("labelUploadSpeed")), (string("[") + uploadRate+string("]") + uploadSpeed).c_str());
+	gtk_label_set_text(GTK_LABEL(getWidget("labelUploadSpeed")), uploadSpeed.c_str());
 	gtk_label_set_text(GTK_LABEL(getWidget("labelUploaded")), uploaded.c_str());
+	
 	string fslots = Util::toString(UploadManager::getInstance()->getFreeSlots());
-	string pslots = _("Slots:") + fslots + "/" + Util::toString(SETTING(SLOTS));
-	string text = _("Shared: ") + Util::formatBytes(ShareManager::getInstance()->getShareSize()) + " "+ pslots;
-	gtk_label_set_text(GTK_LABEL(getWidget("labelShare")), text.c_str());
+	string slots = _("Slots: ") + fslots + "/" + Util::toString(SETTING(SLOTS));
+	string shared = _("Shared: ") + Util::formatBytes(ShareManager::getInstance()->getShareSize());
+	gtk_label_set_text(GTK_LABEL(getWidget("labelShare")), shared.c_str());
+	gtk_label_set_text(GTK_LABEL(getWidget("labelSlots")), slots.c_str());
+}
 
+void MainWindow::setStatRate_gui()//NOTE: core 0.762
+{
+	int uploadSpeed = SETTING(MAX_UPLOAD_SPEED_MAIN);
+	int downloadSpeed = SETTING(MAX_DOWNLOAD_SPEED_MAIN);
+	string uploadRate = uploadSpeed ? Util::formatBytes(uploadSpeed*1024) + "/" + _("s") : "max";
+	string downloadRate = downloadSpeed ? Util::formatBytes(downloadSpeed*1024) + "/" + _("s") : "max";
+	gtk_label_set_text(GTK_LABEL(getWidget("labelDownloadRate")), downloadRate.c_str());
+	gtk_label_set_text(GTK_LABEL(getWidget("labelUploadRate")), uploadRate.c_str());
 }
 
 BookEntry* MainWindow::findBookEntry(const EntryType type, const string &id)
@@ -908,7 +901,93 @@ void MainWindow::showFavoriteUsers_gui()
 
 	raisePage_gui(entry->getContainer());
 }
+//BMDC++
+void MainWindow::showIgnoreUsers_gui()
+{
+	BookEntry *entry = findBookEntry(Entry::IGNORE_USERS);
 
+	if (entry == NULL)
+	{
+		entry = new IgnoreUsers();
+		addBookEntry_gui(entry);
+	}
+
+	raisePage_gui(entry->getContainer());
+}
+void MainWindow::showCmdDebug_gui()
+{
+	BookEntry *entry = findBookEntry(Entry::CMD);
+	
+	if(entry == NULL)
+	{
+		entry = new cmddebug();
+		addBookEntry_gui(entry);	
+	}	
+	raisePage_gui(entry->getContainer());
+}
+
+void MainWindow::showSystemLog_gui()
+{
+	BookEntry *entry = findBookEntry(Entry::SYSTEML);
+	
+	if(entry == NULL)
+	{
+		entry = new systemlog();
+		addBookEntry_gui(entry);	
+	}	
+	raisePage_gui(entry->getContainer());
+}
+
+void MainWindow::showNotepad_gui()
+{
+	BookEntry *entry = findBookEntry(Entry::NOTEPAD);
+	
+	if(entry == NULL)
+	{
+		entry = new notepad();
+		addBookEntry_gui(entry);	
+	}	
+	raisePage_gui(entry->getContainer());
+}
+
+void MainWindow::showUploadQueue_gui()
+{
+	BookEntry *entry = findBookEntry(Entry::UPLOADQUEUE);
+	
+	if(entry == NULL)
+	{
+		entry = new UploadQueue();
+		addBookEntry_gui(entry);	
+	}	
+	raisePage_gui(entry->getContainer());
+	
+}
+
+void MainWindow::showRecentHubs_gui()
+{
+	BookEntry *entry = findBookEntry(Entry::RECENT);
+	
+	if(entry == NULL)
+	{
+		entry = new RecentTab();
+		addBookEntry_gui(entry);
+	}	
+	raisePage_gui(entry->getContainer());
+}
+
+void MainWindow::showDetection_gui()
+{
+	BookEntry *entry = findBookEntry(Entry::DETECTION);
+	
+	if(entry == NULL)
+	{
+		entry = new DetectionTab();
+		addBookEntry_gui(entry);
+	}	
+	raisePage_gui(entry->getContainer());
+}
+
+//END
 void MainWindow::showFinishedDownloads_gui()
 {
 	BookEntry *entry = findBookEntry(Entry::FINISHED_DOWNLOADS);
@@ -945,8 +1024,7 @@ void MainWindow::showHub_gui(string address, string encoding)
 		addBookEntry_gui(entry);
 
 		EntryList.push_back(address);
-
-		allhub.push_back(dynamic_cast<Hub*>(entry));
+		Hubs.push_back(dynamic_cast<Hub*>(entry));
 	}
 
 	raisePage_gui(entry->getContainer());
@@ -964,88 +1042,17 @@ void MainWindow::showSearchSpy_gui()
 
 	raisePage_gui(entry->getContainer());
 }
-//ADLSearch
-void MainWindow::showADLSearch_gui()
+
+void MainWindow::showSearchADL_gui()
 {
-	BookEntry *entry = findBookEntry(Entry::ADL);
+	BookEntry *entry = findBookEntry(Entry::SEARCH_ADL);
 
 	if (entry == NULL)
 	{
-		entry = new ADLSearchGUI();
+		entry = new SearchADL();
 		addBookEntry_gui(entry);
 	}
-	raisePage_gui(entry->getContainer());
-}
-//Notepad
-void MainWindow::showNotepad_gui()
-{
-	BookEntry *entry = findBookEntry(Entry::NOTEPAD);
 
-	if (entry == NULL)
-	{
-		entry = new notepad();
-		addBookEntry_gui(entry);
-	}
-	raisePage_gui(entry->getContainer());
-}
-//Ignore
-void MainWindow::showIgnore_gui()
-{
-	BookEntry *entry = findBookEntry(Entry::IGNORE_USERS);
-
-	if (entry == NULL)
-	{
-		entry = new IgnoreUsers();
-		addBookEntry_gui(entry);
-	}
-	raisePage_gui(entry->getContainer());
-}
-//System
-void MainWindow::showSystem_gui()
-{
-	BookEntry *entry = findBookEntry(Entry::SYSTEML);
-
-	if (entry == NULL)
-	{
-		entry = new systemlog();
-		addBookEntry_gui(entry);
-	}
-	raisePage_gui(entry->getContainer());
-}
-//Recent
-void MainWindow::showRecentHub_gui()
-{
-	BookEntry *entry = findBookEntry(Entry::RECENT);
-
-	if (entry == NULL)
-	{
-		entry = new RecentTab();
-		addBookEntry_gui(entry);
-	}
-	raisePage_gui(entry->getContainer());
-}
-//Detection
-void MainWindow::showDetection_gui()
-{
-	BookEntry *entry = findBookEntry(Entry::DET);
-
-	if(entry == NULL)
-	{
-		entry = new DetectionTab();
-		addBookEntry_gui(entry);
-	}
-	raisePage_gui(entry->getContainer());
-}
-///CMD
-void MainWindow::showcmddebug_gui()
-{
-	BookEntry *entry = findBookEntry(Entry::CMD);
-
-	if(entry == NULL)
-	{
-		entry = new cmddebug();
-		addBookEntry_gui(entry);
-	}
 	raisePage_gui(entry->getContainer());
 }
 
@@ -1064,20 +1071,16 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 		addBookEntry_gui(entry);
 
 		EntryList.push_back(cid);
-
-		allprivatemess.push_back(dynamic_cast<PrivateMessage*>(entry));
-
+		privateMessage.push_back(dynamic_cast<PrivateMessage*>(entry));
 	}
-	//Start Patch
-
+	
 	if(!message.empty() && hubUrl.empty())
 	{
-		dynamic_cast<PrivateMessage*>(entry)->SendCL(message);
+		dynamic_cast<PrivateMessage*>(entry)->sendMessage_p(message);
 		if(raise)
 			raisePage_gui(entry->getContainer());
 		return;
 	}
-	 //END
 
 	if (!message.empty())
 	{
@@ -1117,16 +1120,11 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 
 				string::size_type i = string(p).size();
 				string::size_type j = message.size();
-			#ifdef HAVE_LIBNOTIFY
+
 				Notify::get()->showNotify("", message.substr(0, j - i) + "...", Notify::PRIVATE_MESSAGE);
-			#endif
 			}
 			else
-			#ifdef HAVE_LIBNOTIFY
 				Notify::get()->showNotify("", message, Notify::PRIVATE_MESSAGE);
-			#else
-			;
-			#endif
 		}
 	}
 
@@ -1165,16 +1163,15 @@ void MainWindow::showPublicHubs_gui()
 	raisePage_gui(entry->getContainer());
 }
 
-void MainWindow::showShareBrowser_gui(UserPtr user, string filename, string dir, bool useSetting, int64_t speed)
+void MainWindow::showShareBrowser_gui(UserPtr user, string filename, string dir, int64_t speed ,bool useSetting)
 {
 	bool raise = useSetting ? !BOOLSETTING(POPUNDER_FILELIST) : TRUE;
 	BookEntry *entry = findBookEntry(Entry::SHARE_BROWSER, user->getCID().toBase32());
 
 	if (entry == NULL)
 	{
-		entry = new ShareBrowser(user, filename, dir,speed);
+		entry = new ShareBrowser(user, filename, dir, speed);
 		addBookEntry_gui(entry);
-
 	}
 
 	if (raise)
@@ -1185,9 +1182,9 @@ Search *MainWindow::addSearch_gui()
 {
 	Search *entry = new Search();
 	addBookEntry_gui(entry);
-
 	raisePage_gui(entry->getContainer());
-	allsearch.push_back(entry);
+	
+	search.push_back(entry);
 	return entry;
 }
 
@@ -1256,6 +1253,49 @@ void MainWindow::actionMagnet_gui(string magnet)
 	}
 }
 
+void MainWindow::updateFavoriteHubMenu_client(const FavoriteHubEntryList &fh)
+{
+	ListParamPair list;
+	for (FavoriteHubEntryList::const_iterator it = fh.begin(); it != fh.end(); ++it)
+	{
+		ParamPair param;
+		FavoriteHubEntry *entry = *it;
+		param.first = entry->getServer();
+		param.second = entry->getEncoding();
+		list.push_back(param);
+	}
+
+	Func1<MainWindow, ListParamPair> *func = new Func1<MainWindow, ListParamPair>(this, &MainWindow::updateFavoriteHubMenu_gui, list);
+	WulforManager::get()->dispatchGuiFunc(func);
+}
+
+void MainWindow::updateFavoriteHubMenu_gui(ListParamPair list)
+{
+	GtkWidget *menu = gtk_menu_tool_button_get_menu(GTK_MENU_TOOL_BUTTON(getWidget("favHubs")));
+	gtk_container_foreach(GTK_CONTAINER(menu), (GtkCallback)gtk_widget_destroy, NULL);
+
+	for (ListParamPair::const_iterator it = list.begin(); it != list.end(); ++it)
+	{
+		const ParamPair &param = *it;
+		string address = param.first;
+		string encoding = param.second;
+		GtkWidget *item = gtk_menu_item_new_with_label(address.c_str());
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+		g_object_set_data_full(G_OBJECT(item), "address", g_strdup(address.c_str()), g_free);
+		g_object_set_data_full(G_OBJECT(item), "encoding", g_strdup(encoding.c_str()), g_free);
+		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(onHubClicked_gui), (gpointer)this);
+	}
+	gtk_widget_show_all(menu);
+}
+
+void MainWindow::onHubClicked_gui(GtkWidget *widget, gpointer data)
+{
+	MainWindow *mw = (MainWindow *)data;
+	string address = (gchar*)g_object_get_data(G_OBJECT(widget), "address");
+	string encoding = (gchar*)g_object_get_data(G_OBJECT(widget), "encoding");
+	mw->showHub_gui(address, encoding);
+}
+
 void MainWindow::setToolbarButton_gui()
 {
 	if (!WGETB("toolbar-button-connect"))
@@ -1274,6 +1314,8 @@ void MainWindow::setToolbarButton_gui()
 		gtk_widget_hide(getWidget("search"));
 	if (!WGETB("toolbar-button-search-spy"))
 		gtk_widget_hide(getWidget("searchSpy"));
+	if (!WGETB("toolbar-button-search-adl"))
+		gtk_widget_hide(getWidget("searchADL"));
 	if (!WGETB("toolbar-button-queue"))
 		gtk_widget_hide(getWidget("queue"));
 	if (!WGETB("toolbar-button-quit"))
@@ -1282,21 +1324,6 @@ void MainWindow::setToolbarButton_gui()
 		gtk_widget_hide(getWidget("finishedDownloads"));
 	if (!WGETB("toolbar-button-finished-uploads"))
 		gtk_widget_hide(getWidget("finishedUploads"));
-/**/
-	if(!WGETB("toolbar-button-notepad"))
-		gtk_widget_hide(getWidget("Notepad"));
-	if(!WGETB("toolbar-button-adlsearch"))
-		gtk_widget_hide(getWidget("ADLSearch"));
-	if(!WGETB("toolbar-button-system"))
-		gtk_widget_hide(getWidget("System"));
-	if(!WGETB("toolbar-button-ignore"))
-		gtk_widget_hide(getWidget("IgnoreUsers"));
-	if(!WGETB("toolbar-button-away"))
-		gtk_widget_hide(getWidget("AwayIcon"));
-	if(!WGETB("toolbar-limit-bandwith"))
-        gtk_widget_hide(getWidget("EnableLimit"));
-
- /**/
 }
 
 void MainWindow::setTabPosition_gui(int position)
@@ -1330,9 +1357,6 @@ void MainWindow::setToolbarStyle_gui(int style)
 
 	switch (style)
 	{
-		case 0:
-			toolbarStyle = GTK_TOOLBAR_ICONS;
-			break;
 		case 1:
 			toolbarStyle = GTK_TOOLBAR_TEXT;
 			break;
@@ -1344,11 +1368,10 @@ void MainWindow::setToolbarStyle_gui(int style)
 			break;
 		case 4:
 			gtk_widget_hide(getWidget("toolbar1"));
-			break;
-		case 5:
 			return;
+		case 0:
 		default:
-			toolbarStyle = GTK_TOOLBAR_BOTH;
+			toolbarStyle = GTK_TOOLBAR_ICONS;
 	}
 
 	if (style != 4)
@@ -1358,7 +1381,7 @@ void MainWindow::setToolbarStyle_gui(int style)
 	}
 }
 
-bool MainWindow::getUserCommandLines_gui(const string &command, StringMap &ucParams)
+bool MainWindow::getUserCommandLines_gui(const string &command, ParamMap &ucParams)
 {
 	string name;
 	string label;
@@ -1474,65 +1497,6 @@ void MainWindow::onBrowseMagnetButton_gui(GtkWidget *widget, gpointer data)
 		return;
 
 	gtk_widget_hide(dialog);
-}
-
-void MainWindow::onTTHFileDialog_gui(GtkWidget *widget, gpointer data)
-{
-	MainWindow *mw =(MainWindow *)data;
-	GtkWidget *dialog = mw->getWidget("TTHFileDialog");
-	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-	if(response == GTK_RESPONSE_NONE);
-
-	gtk_widget_hide(dialog);
-}
-
-void MainWindow::onTTHFileButton_gui(GtkWidget *widget , gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-	GtkWidget *chooser = mw->getChooserDialog_gui();
-	gtk_window_set_title(GTK_WINDOW(chooser), _("Select file to Get TTH"));
-	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(chooser), GTK_FILE_CHOOSER_ACTION_OPEN);
-	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(chooser), "/home/");
-
-	gint response = gtk_dialog_run(GTK_DIALOG(chooser));
-
-	// if the dialog gets programmatically destroyed.
-	if (response == GTK_RESPONSE_NONE)
-		return;
-
-	gtk_widget_hide(chooser);
-
-	if (response == GTK_RESPONSE_OK)
-	{
-		gchar *temp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
-		string TTH;
-		char *buf = new char[512*1024];
-		try {
-			File f(Text::fromT(string(temp)),File::READ, File::OPEN);
-			TigerTree tth(TigerTree::calcBlockSize(f.getSize(), 1));
-			if(f.getSize() > 0) {
-					size_t n = 512*1024;
-					while( (n = f.read(&buf[0], n)) > 0) {
-						tth.update(&buf[0], n);
-						n = 512*1024;
-					}
-			} else {
-				tth.update("", 0);
-		}
-		tth.finalize();
-
-		strcpy(&TTH[0], tth.getRoot().toBase32().c_str());
-		string magnetlink = "magnet:?xt=urn:tree:tiger:" + TTH + "&xl=" + Util::toString(f.getSize()) + "&dn=" + Util::encodeURI(Text::fromT(Util::getFileName(string(temp))));
-		f.close();
-
-		gtk_entry_set_text(GTK_ENTRY(mw->getWidget("entrymagnet")), magnetlink.c_str());
-		gtk_entry_set_text(GTK_ENTRY(mw->getWidget("entrytthfileresult")), TTH.c_str());
-
-		}
-		catch(...)
-		{ }
-	}
-
 }
 
 void MainWindow::onDowloadQueueToggled_gui(GtkWidget *widget, gpointer data)
@@ -1656,7 +1620,7 @@ void MainWindow::addFileDownloadQueue_client(string name, int64_t size, string t
 	{
 		if (!tth.empty())
 		{
-			QueueManager::getInstance()->add(name, size, TTHValue(tth));
+			QueueManager::getInstance()->add(name, size, TTHValue(tth) , HintedUser(new User(CID()),Util::emptyString));
 
 			// automatically search for alternative download locations
 			if (BOOLSETTING(AUTO_SEARCH))
@@ -1765,6 +1729,116 @@ gboolean MainWindow::onDeleteEventMagnetDialog_gui(GtkWidget *dialog, GdkEvent *
 	return TRUE;
 }
 
+void MainWindow::onTopToolbarToggled_gui(GtkWidget *widget, gpointer data)
+{
+	MainWindow *mw = (MainWindow *)data;
+
+	GtkWidget *parent = mw->getWidget("hbox4");
+	GtkWidget *child = mw->getWidget("toolbar1");
+	if (child->parent != GTK_WIDGET(parent))
+		return;
+	g_object_ref(child);
+	gtk_container_remove(GTK_CONTAINER(parent), child);
+	parent = mw->getWidget("vbox1");
+	gtk_toolbar_set_orientation(GTK_TOOLBAR(child), GTK_ORIENTATION_HORIZONTAL);
+	gtk_box_pack_start(GTK_BOX(parent), child, FALSE, FALSE, 2);
+	gtk_box_reorder_child(GTK_BOX(parent), child, 1);
+	g_object_unref(child);
+	WSET("toolbar-position", 0);
+}
+
+void MainWindow::onLeftToolbarToggled_gui(GtkWidget *widget, gpointer data)
+{
+	MainWindow *mw = (MainWindow *)data;
+
+	GtkWidget *parent = mw->getWidget("vbox1");
+	GtkWidget *child = mw->getWidget("toolbar1");
+	if (child->parent != GTK_WIDGET(parent))
+		return;
+	g_object_ref(child);
+	gtk_container_remove(GTK_CONTAINER(parent), child);
+	parent = mw->getWidget("hbox4");
+	gtk_toolbar_set_orientation(GTK_TOOLBAR(child), GTK_ORIENTATION_VERTICAL);
+	gtk_box_pack_start(GTK_BOX(parent), child, FALSE, FALSE, 2);
+	gtk_box_reorder_child(GTK_BOX(parent), child, 0);
+	g_object_unref(child);
+	WSET("toolbar-position", 1);
+}
+
+void MainWindow::onHideToolbarToggled_gui(GtkWidget *widget, gpointer data)
+{
+	MainWindow *mw = (MainWindow *)data;
+
+	gboolean active = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(mw->getWidget("hideToolbarItem")));
+	if (active)
+	{
+		gtk_widget_hide(mw->getWidget("toolbar1"));
+		mw->ToolbarStyle = WGETI("toolbar-style");
+		WSET("toolbar-style", 4);
+	}
+	else
+	{
+		gtk_widget_show(mw->getWidget("toolbar1"));
+		WSET("toolbar-style", mw->ToolbarStyle);
+	}
+}
+
+void MainWindow::onSizeToolbarToggled_gui(GtkWidget *widget, gpointer data)
+{
+	MainWindow *mw = (MainWindow *)data;
+
+	gboolean active = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(mw->getWidget("sizeToolbarItem")));
+	GtkWidget *toolbar = mw->getWidget("toolbar1");
+	GtkIconSize size;
+	if (active)
+	{
+		WSET("toolbar-small", TRUE);
+		size = GTK_ICON_SIZE_SMALL_TOOLBAR;
+	}
+	else
+	{
+		WSET("toolbar-small", FALSE);
+		size = GTK_ICON_SIZE_LARGE_TOOLBAR;
+	}
+	g_object_set(G_OBJECT(toolbar), "icon-size", size, NULL);
+}
+
+gboolean MainWindow::onAddButtonClicked_gui(GtkWidget *widget, gpointer data)
+{
+	MainWindow *mw = (MainWindow *)data;
+
+	gtk_menu_popup(GTK_MENU(mw->getWidget("toolbarMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+	return FALSE;
+}
+
+void MainWindow::onToolToggled_gui(GtkWidget *widget, gpointer data)
+{
+	string key = (gchar*) g_object_get_data(G_OBJECT(widget), "key");
+	GtkWidget *button = (GtkWidget*) data;
+	bool active = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget));
+	active ? gtk_widget_show(button) : gtk_widget_hide(button);
+	WSET(key, active);
+}
+
+void MainWindow::checkToolbarMenu_gui()
+{
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("connectMenuItemBar")), WGETB("toolbar-button-connect"));
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("favHubsMenuItemBar")), WGETB("toolbar-button-fav-hubs"));
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("favUsersMenuItemBar")), WGETB("toolbar-button-fav-users"));
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("publicHubsMenuItemBar")), WGETB("toolbar-button-public-hubs"));
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("settingsMenuItemBar")), WGETB("toolbar-button-settings"));
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("hashMenuItemBar")), WGETB("toolbar-button-hash"));
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("searchMenuItemBar")), WGETB("toolbar-button-search"));
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("searchSpyMenuItemBar")), WGETB("toolbar-button-search-spy"));
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("searchADLMenuItemBar")), WGETB("toolbar-button-search-adl"));
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("queueMenuItemBar")), WGETB("toolbar-button-queue"));
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("finishedDownloadsMenuItemBar")), WGETB("toolbar-button-finished-downloads"));
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("finishedUploadsMenuItemBar")), WGETB("toolbar-button-finished-uploads"));
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("quitMenuItemBar")), WGETB("toolbar-button-quit"));
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("ignUserMenuItemBar")),WGETB("toolbar-button-ignore"));
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("hideToolbarItem")), ((ToolbarStyle = WGETI("toolbar-style")) == 4) ? TRUE : FALSE);
+}
+
 gboolean MainWindow::onKeyPressed_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
@@ -1781,11 +1855,6 @@ gboolean MainWindow::onKeyPressed_gui(GtkWidget *widget, GdkEventKey *event, gpo
 			mw->nextTab_gui();
 			return TRUE;
 		}
-		else if (event->keyval == GDK_F4)
-		{
-			mw->onCloseClicked_gui(widget, data);
-			return TRUE;
-		}
 	}
 
 	return FALSE;
@@ -1800,25 +1869,11 @@ gboolean MainWindow::onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton *
 	if (event->button == 2 && event->x >= 0 && event->y >= 0
 		&& event->x < width && event->y < height)
 	{
-		BookEntry *bEntry = (BookEntry *)data;
-		WulforManager::get()->getMainWindow()->removeBookEntry_gui(bEntry);
-		return TRUE;
-	}
-	else if( event->button == 3 && event->x >= 0 && event->y >= 0
-			&& event->x < width && event->y < height)
-	{
-
 		BookEntry *entry = (BookEntry *)data;
-		entry->popmenu();
-        GtkWidget *tab = entry->getTabMenu();
-
-		gtk_widget_show_all(tab);
-
-		gtk_menu_popup (GTK_MENU (tab), NULL, NULL, NULL, NULL,
-                        event->button, event->time);
-
+		WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
 		return TRUE;
 	}
+
 	return FALSE;
 }
 
@@ -1905,7 +1960,7 @@ void MainWindow::onConnectClicked_gui(GtkWidget *widget, gpointer data)
 	if (response == GTK_RESPONSE_OK)
 	{
 		string address = gtk_entry_get_text(GTK_ENTRY(mw->getWidget("connectEntry")));
-		mw->showHub_gui(address,"UTF-8");
+		mw->showHub_gui(address);
 	}
 }
 
@@ -1920,6 +1975,48 @@ void MainWindow::onFavoriteUsersClicked_gui(GtkWidget *widget, gpointer data)
 	MainWindow *mw = (MainWindow *)data;
 	mw->showFavoriteUsers_gui();
 }
+//BMDC++
+void MainWindow::onIgnoreUserClicked_gui(GtkWidget *widget, gpointer data)
+{
+    MainWindow *mw = (MainWindow *)data;
+    mw->showIgnoreUsers_gui();
+}
+
+void MainWindow::onCmdDebugClicked_gui(GtkWidget *widget, gpointer data)
+{
+	MainWindow *mw = (MainWindow *)data;
+	mw->showCmdDebug_gui();
+}
+
+void MainWindow::onSystemLogClicked_gui(GtkWidget *widget, gpointer data)
+{
+	MainWindow *mw = (MainWindow *)data;
+	mw->showSystemLog_gui();
+}
+
+void MainWindow::onNotepadClicked_gui(GtkWidget *widget, gpointer data)
+{
+	MainWindow *mw = (MainWindow *)data;
+	mw->showNotepad_gui();	
+}
+
+void MainWindow::onUploadQueueClicked_gui(GtkWidget *widget , gpointer data)
+{
+	MainWindow *mw = (MainWindow *)data;
+	mw->showUploadQueue_gui();	
+}
+void MainWindow::onRecentHubClicked_gui(GtkWidget *widget, gpointer data)
+{
+	MainWindow *mw = (MainWindow *)data;
+	mw->showRecentHubs_gui();	
+}
+
+void MainWindow::onDetectionClicked_gui(GtkWidget *widget, gpointer data)
+{
+	MainWindow *mw = (MainWindow *)data;	
+	mw->showDetection_gui();
+}
+//]
 
 void MainWindow::onPublicHubsClicked_gui(GtkWidget *widget, gpointer data)
 {
@@ -1934,7 +2031,6 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 
 	unsigned short tcpPort = (unsigned short)SETTING(TCP_PORT);
 	unsigned short udpPort = (unsigned short)SETTING(UDP_PORT);
-	unsigned short tlsPort = (unsigned short)SETTING(TLS_PORT);
 	int lastConn = SETTING(INCOMING_CONNECTIONS);
 
 	if (mw->useStatusIconBlink != WGETB("status-icon-blink-use"))
@@ -1945,16 +2041,15 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 
 	if (response == GTK_RESPONSE_OK)
 	{
-	    if(SETTING(TLS_PORT) == SETTING(TCP_PORT))
+		if(SETTING(TLS_PORT) == SETTING(TCP_PORT))
 	    {
             mw->showMessageDialog_gui(_("Not Alowed same number of port for TLS and TCP"),
                                   _("Not Alowed same number of port for TLS and TCP,please chose for one of it another port")
                                   );
             goto OTHER;
 	    }
-
-
-		if (SETTING(INCOMING_CONNECTIONS) != lastConn || SETTING(TCP_PORT) != tcpPort || SETTING(UDP_PORT) != udpPort || tlsPort != SETTING(TLS_PORT) )
+		
+		if (SETTING(INCOMING_CONNECTIONS) != lastConn || SETTING(TCP_PORT) != tcpPort || SETTING(UDP_PORT) != udpPort)
 		{
 			//NOTE: core 0.762
 			if (SETTING(INCOMING_CONNECTIONS) == SettingsManager::INCOMING_FIREWALL_UPNP ||
@@ -1972,7 +2067,6 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 			UPnPManager::getInstance()->open();
 		}
 		OTHER:
-
 		if (BOOLSETTING(ALWAYS_TRAY))
 			gtk_status_icon_set_visible(mw->statusIcon, TRUE);
 		else
@@ -2014,8 +2108,28 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 			Emoticons::get()->reloadPack_gui();
 
 		// Toolbar
-		gtk_widget_show_all(mw->getWidget("toolbar1"));
-		mw->setToolbarButton_gui();
+		mw->checkToolbarMenu_gui();
+
+		// Rate
+		mw->setStatRate_gui();//NOTE: core 0.762
+	}
+}
+
+void MainWindow::onAwayClicked_gui(GtkWidget *widget, gpointer data)
+{
+	MainWindow *mw = (MainWindow *)data;
+	if(Util::getAway())
+	{
+		Util::switchAway();
+		Util::setManualAway(false);
+		mw->setMainStatus_gui(_("Away mode off"), time(NULL));
+		mw->setAwayIcon(false);
+	}else
+	{
+		Util::switchAway();
+		Util::setManualAway(true);
+		mw->setMainStatus_gui(_("Away mode on"), time(NULL));
+		mw->setAwayIcon(true);
 	}
 }
 
@@ -2046,59 +2160,11 @@ void MainWindow::onSearchSpyClicked_gui(GtkWidget *widget, gpointer data)
 	MainWindow *mw = (MainWindow *)data;
 	mw->showSearchSpy_gui();
 }
-//Notepad
-void MainWindow::onNotepad_gui(GtkWidget *widget, gpointer data)
+
+void MainWindow::onSearchADLClicked_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	mw->showNotepad_gui();
-}
-//ADL
-void MainWindow::onADLSearch_gui(GtkWidget *widget, gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-	mw->showADLSearch_gui();
-}
-//SYSTEMTAB
-void MainWindow::onSystem_gui(GtkWidget *widget, gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-	mw->showSystem_gui();
-}
-//Ignore
-void MainWindow::onIgnore_gui(GtkWidget *widget, gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-	mw->showIgnore_gui();
-}
-//RecentTab
-void MainWindow::onRecent_gui(GtkWidget *widget , gpointer data)
-{
-		MainWindow *mw = (MainWindow *)data;
-		mw->showRecentHub_gui();
-}
-//Detection
-void MainWindow::onDetection(GtkWidget *widget, gpointer data)
-{
-		MainWindow *mw = (MainWindow *)data;
-		mw->showDetection_gui();
-}
-///CMD
-void MainWindow::onDebugCMD(GtkWidget *widget, gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-	mw->showcmddebug_gui();
-}
-//Away Ico
-void MainWindow::onAway_gui(GtkWidget *widget, gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-	mw->getAway();
-}
-//Limiting Icon
-void MainWindow::onLimiting(GtkWidget *widget, gpointer data)
-{
-    MainWindow *mw = (MainWindow *)data;
-    mw->EnbDsbLimit();
+	mw->showSearchADL_gui();
 }
 
 void MainWindow::onDownloadQueueClicked_gui(GtkWidget *widget, gpointer data)
@@ -2160,7 +2226,7 @@ void MainWindow::onOpenFileListClicked_gui(GtkWidget *widget, gpointer data)
 
 			UserPtr user = DirectoryListing::getUserFromFilename(path);
 			if (user)
-				mw->showShareBrowser_gui(user, path, "", FALSE,(int64_t)0);
+				mw->showShareBrowser_gui(user, path, "",0, FALSE);
 			else
 				mw->setMainStatus_gui(_("Unable to load file list: Invalid file list name"));
 		}
@@ -2298,6 +2364,7 @@ void MainWindow::onStatusIconBlinkUseToggled_gui(GtkWidget *widget, gpointer dat
 	mw->removeTimerSource_gui();
 
 	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(mw->getWidget("statusIconBlinkUseItem"))))
+
 		mw->useStatusIconBlink = TRUE;
 	else
 		mw->useStatusIconBlink = FALSE;
@@ -2305,26 +2372,36 @@ void MainWindow::onStatusIconBlinkUseToggled_gui(GtkWidget *widget, gpointer dat
 
 void MainWindow::onLinkClicked_gui(GtkWidget *widget, gpointer data)
 {
-	string link = (gchar *)g_object_get_data(G_OBJECT(widget), "link");
+	string link = (gchar*) g_object_get_data(G_OBJECT(widget), "link");
 	WulforUtil::openURI(link);
 }
 
 void MainWindow::autoConnect_client()
 {
- 	typedef Func2<MainWindow, string, string> F2;
- 	F2 *func;
-	const FavHubGroups& FavGroups = FavoriteManager::getInstance()->getFavHubGroups();
+	const FavHubGroups &favHubGroups = FavoriteManager::getInstance()->getFavHubGroups();
+	const FavoriteHubEntryList &favoriteHubs = FavoriteManager::getInstance()->getFavoriteHubs();
 
-	for (dcpp::FavHubGroups::const_iterator i=FavGroups.begin();i!=FavGroups.end();++i)
+	for (FavoriteHubEntryList::const_iterator i = favoriteHubs.begin(); i != favoriteHubs.end(); ++i)
 	{
-		if(i->second.connect)
+		FavoriteHubEntry *hub = *i;
+		string group = hub->getGroup();
+		FavHubGroups::const_iterator it = favHubGroups.find(group);
+
+		if (it != favHubGroups.end())
 		{
-			FavoriteHubEntryList list= FavoriteManager::getInstance()->getFavoriteHubs(i->first);
-			for ( FavoriteHubEntryList::const_iterator p = list.begin(); p!=list.end(); ++p)
+			const FavHubGroupProperties &p = it->second;
+			if (p.connect)
 			{
-                    func = new F2(this, &MainWindow::showHub_gui, (*p)->getServer(), (*p)->getEncoding());
-                    WulforManager::get()->dispatchGuiFunc(func);
+				typedef Func2<MainWindow, string, string> F2;
+				F2 *func = new F2(this, &MainWindow::showHub_gui, hub->getServer(), hub->getEncoding());
+				WulforManager::get()->dispatchGuiFunc(func);
 			}
+		}
+		if(hub->getAutoConnect())
+		{
+			typedef Func2<MainWindow, string, string> F2;
+			F2 *func = new F2(this, &MainWindow::showHub_gui, hub->getServer(), hub->getEncoding());
+			WulforManager::get()->dispatchGuiFunc(func);		
 		}
 	}
 
@@ -2361,15 +2438,6 @@ void MainWindow::startSocket_client()
 		}
 		catch (const Exception &e)
 		{
-		    if(SETTING(TCP_PORT) == SETTING(TLS_PORT))
-		    {
-                string primText = _("The Same Port for TLS/TCP not Alowed");
-                string secondaryT = _("The Same Port for TLS/TCP not alowed please change setting one of it To Another port");
-                typedef Func2<MainWindow, string, string> F2;
-                F2 *func = new F2(this,&MainWindow::showMessageDialog_gui,primText, secondaryT);
-                WulforManager::get()->dispatchGuiFunc(func);
-                return;
-            }
 			string primaryText = _("Unable to open TCP/TLS port");
 			string secondaryText = _("File transfers will not work correctly until you change settings or turn off any application that might be using the TCP/TLS port.");
 			typedef Func2<MainWindow, string, string> F2;
@@ -2390,10 +2458,10 @@ void MainWindow::startSocket_client()
 			F2* func = new F2(this, &MainWindow::showMessageDialog_gui, primaryText, secondaryText);
 			WulforManager::get()->dispatchGuiFunc(func);
 		}
+
 		// must be done after listen calls; otherwise ports won't be set
 		if (SETTING(INCOMING_CONNECTIONS) == SettingsManager::INCOMING_FIREWALL_UPNP)// NOTE: core 0.762
 			UPnPManager::getInstance()->open();
-
 	}
 
 	ClientManager::getInstance()->infoUpdated();
@@ -2405,11 +2473,10 @@ void MainWindow::refreshFileList_client()
 	{
 		ShareManager::getInstance()->setDirty();
 		ShareManager::getInstance()->refresh(TRUE, TRUE, FALSE);
-		string text = _("Shared: ") + Util::formatBytes(ShareManager::getInstance()->getShareSize());
-		gtk_label_set_text(GTK_LABEL(getWidget("labelShare")), text.c_str());
 	}
 	catch (const ShareException&)
-	{	}
+	{
+	}
 }
 
 void MainWindow::openOwnList_client(bool useSetting)
@@ -2417,54 +2484,9 @@ void MainWindow::openOwnList_client(bool useSetting)
 	UserPtr user = ClientManager::getInstance()->getMe();
 	string path = ShareManager::getInstance()->getOwnListFile();
 
-	typedef Func5<MainWindow, UserPtr, string, string, bool,int64_t> F5;
-	F5 *func = new F5(this, &MainWindow::showShareBrowser_gui, user, path, "", useSetting, (int64_t)0);
+	typedef Func5<MainWindow, UserPtr, string, string, int64_t,bool> F5;
+	F5 *func = new F5(this, &MainWindow::showShareBrowser_gui, user, path, "",0, useSetting);
 	WulforManager::get()->dispatchGuiFunc(func);
-}
-
-void MainWindow::on(LogManagerListener::Message, time_t t, const string &message) throw()
-{
-	typedef Func2<MainWindow, string, time_t> F2;
-	F2 *func = new F2(this, &MainWindow::setMainStatus_gui, message, t);
-	WulforManager::get()->dispatchGuiFunc(func);
-}
-
-void MainWindow::on(QueueManagerListener::Finished, QueueItem *item, const string& dir, int64_t avSpeed) throw()
-{
-	typedef Func3<MainWindow, string, string, Notify::TypeNotify> F3;
-
-	if (item->isSet(QueueItem::FLAG_CLIENT_VIEW | QueueItem::FLAG_USER_LIST))
-	{
-		const HintedUser user = item->getDownloads()[0]->getHintedUser();//NOTE: core 0.762
-		string listName = item->getListName();
-
-		F3 *f3 = new F3(this, &MainWindow::showNotification_gui, _("file list from "), WulforUtil::getNicks(user),
-			Notify::DOWNLOAD_FINISHED_USER_LIST);
-
-		WulforManager::get()->dispatchGuiFunc(f3);
-
-		typedef Func5<MainWindow, UserPtr, string, string, bool,int64_t> F5;
-		F5 *func = new F5(this, &MainWindow::showShareBrowser_gui, user.user, listName, dir, TRUE, avSpeed);//NOTE: core 0.762
-		WulforManager::get()->dispatchGuiFunc(func);
-	}
-	else if(item->isSet(QueueItem::FLAG_USER_LIST) && item->isSet(QueueItem::FLAG_CHECK_FILE_LIST))
-	{
-        DirectoryListInfo* i = new DirectoryListInfo(item->getDownloads()[0]->getUser(), item->getListName(), dir, avSpeed);
-        if(listQueue.stop) {
-			listQueue.stop = false;
-			listQueue.start();
-		}
-		{
-			Lock l(listQueue.cs);
-			listQueue.fileLists.push_back(i);
-		}
-		listQueue.s.signal();
-	}
-	else if (!item->isSet(QueueItem::FLAG_XML_BZLIST))
-	{
-		F3 *f3 = new F3(this, &MainWindow::showNotification_gui, _("<b>file:</b> "), item->getTarget(), Notify::DOWNLOAD_FINISHED);
-		WulforManager::get()->dispatchGuiFunc(f3);
-	}
 }
 
 int MainWindow::FileListQueue::run() {
@@ -2493,11 +2515,6 @@ int MainWindow::FileListQueue::run() {
 				//...
 			}
 			delete dl;
-			//RSX++
-			/*if(RSXPP_BOOLSETTING(DELETE_CHECKED_FILELISTS)) {
-				File::deleteFile(Text::fromT(i->file));
-			}*/
-			//END
 		}
 		delete i;
 	}
@@ -2505,9 +2522,54 @@ int MainWindow::FileListQueue::run() {
 	return 0;
 }
 
-void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) throw()
+void MainWindow::on(LogManagerListener::Message, time_t t, const string &message) throw()
 {
-	Util::setUptime();//uptime
+	typedef Func2<MainWindow, string, time_t> F2;
+	F2 *func = new F2(this, &MainWindow::setMainStatus_gui, message, t);
+	WulforManager::get()->dispatchGuiFunc(func);
+}
+
+void MainWindow::on(QueueManagerListener::Finished, QueueItem *item, const string& dir, int64_t avSpeed) throw()
+{
+	typedef Func3<MainWindow, string, string, Notify::TypeNotify> F3;
+
+	if (item->isSet(QueueItem::FLAG_CLIENT_VIEW | QueueItem::FLAG_USER_LIST))
+	{
+		const HintedUser user = item->getDownloads()[0]->getHintedUser();//NOTE: core 0.762
+		string listName = item->getListName();
+
+		F3 *f3 = new F3(this, &MainWindow::showNotification_gui, _("file list from "), WulforUtil::getNicks(user),
+			Notify::DOWNLOAD_FINISHED_USER_LIST);
+
+		WulforManager::get()->dispatchGuiFunc(f3);
+
+		typedef Func5<MainWindow, UserPtr, string, string, int64_t ,bool> F5;
+		F5 *func = new F5(this, &MainWindow::showShareBrowser_gui, user.user, listName, dir,avSpeed, TRUE);//NOTE: core 0.762
+		WulforManager::get()->dispatchGuiFunc(func);
+	}
+	else if(item->isSet(QueueItem::FLAG_USER_LIST) && item->isSet(QueueItem::FLAG_CHECK_FILE_LIST))
+	{
+        DirectoryListInfo* i = new DirectoryListInfo(item->getDownloads()[0]->getHintedUser(), item->getListName(), dir, avSpeed);
+        if(listQueue.stop) {
+			listQueue.stop = false;
+			listQueue.start();
+		}
+		{
+			Lock l(listQueue.cs);
+			listQueue.fileLists.push_back(i);
+		}
+		listQueue.s.signal();
+	}
+	else if (!item->isSet(QueueItem::FLAG_XML_BZLIST))
+	{
+		F3 *f3 = new F3(this, &MainWindow::showNotification_gui, _("<b>file:</b> "), item->getTarget(), Notify::DOWNLOAD_FINISHED);
+		WulforManager::get()->dispatchGuiFunc(f3);
+	}
+}
+
+void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) noexcept
+{
+	Util::setUptime();
 	// Avoid calculating status update if it's not needed
 	if (!BOOLSETTING(ALWAYS_TRAY) && minimized)
 		return;
@@ -2534,9 +2596,6 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) throw()
 	lastUp = Socket::getTotalUp();
 	lastDown = Socket::getTotalDown();
 
-	WSET("up-st", Util::toString(Util::toInt64(WGETS("up-st"))+upBytes));
-	WSET("dw-st", Util::toString(Util::toInt64(WGETS("dw-st"))+downBytes));
-
 	typedef Func5<MainWindow, string, string, string, string, string> F5;
 	F5 *func = new F5(this, &MainWindow::setStats_gui, hubs, downloadSpeed, downloaded, uploadSpeed, uploaded);
 	WulforManager::get()->dispatchGuiFunc(func);
@@ -2549,28 +2608,68 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) throw()
 	}
 }
 
-void MainWindow::showUploadQueue()
+void MainWindow::onTTHFileDialog_gui(GtkWidget *widget, gpointer data)
 {
-	BookEntry *entry = findBookEntry(Entry::UPLOADQUEUE);
+	MainWindow *mw =(MainWindow *)data;
+	GtkWidget *dialog = mw->getWidget("TTHFileDialog");
+	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
+	if(response == GTK_RESPONSE_NONE);
 
-	if( entry == NULL)
-	{
-		entry = new UploadQueue();
-		addBookEntry_gui(entry);
-	}
-	raisePage_gui(entry->getContainer());
+	gtk_widget_hide(dialog);
 }
 
-void MainWindow::onUploadQueue_gui( GtkWidget *widget , gpointer data)
+void MainWindow::onTTHFileButton_gui(GtkWidget *widget , gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	mw->showUploadQueue();
+	GtkWidget *chooser = mw->getChooserDialog_gui();
+	gtk_window_set_title(GTK_WINDOW(chooser), _("Select file to Get TTH"));
+	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(chooser), GTK_FILE_CHOOSER_ACTION_OPEN);
+	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(chooser), "/home/");
+
+	gint response = gtk_dialog_run(GTK_DIALOG(chooser));
+
+	// if the dialog gets programmatically destroyed.
+	if (response == GTK_RESPONSE_NONE)
+		return;
+
+	gtk_widget_hide(chooser);
+
+	if (response == GTK_RESPONSE_OK)
+	{
+		gchar *temp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
+		string TTH;
+		char *buf = new char[512*1024];
+		try {
+			File f(Text::fromT(string(temp)),File::READ, File::OPEN);
+			TigerTree tth(TigerTree::calcBlockSize(f.getSize(), 1));
+			if(f.getSize() > 0) {
+					size_t n = 512*1024;
+					while( (n = f.read(&buf[0], n)) > 0) {
+						tth.update(&buf[0], n);
+						n = 512*1024;
+					}
+			} else {
+				tth.update("", 0);
+		}
+		tth.finalize();
+
+		strcpy(&TTH[0], tth.getRoot().toBase32().c_str());
+		string magnetlink = "magnet:?xt=urn:tree:tiger:" + TTH + "&xl=" + Util::toString(f.getSize()) + "&dn=" + Util::encodeURI(Text::fromT(Util::getFileName(string(temp))));
+		f.close();
+
+		gtk_entry_set_text(GTK_ENTRY(mw->getWidget("entrymagnet")), magnetlink.c_str());
+		gtk_entry_set_text(GTK_ENTRY(mw->getWidget("entrytthfileresult")), TTH.c_str());
+
+		}
+		catch(...)
+		{ }
+	}
 }
 
 void MainWindow::checkUpdateofGeoIp(bool v6)
 {
 	try {
-		File f(Util::getGeoPath(v6) + ".gz", File::READ, File::OPEN);
+		File f(GeoManager::getInstance()->getDbPath(v6) + ".gz", File::READ, File::OPEN);
 		if(f.getSize() > 0 && f.getLastModified() > GET_TIME() - 3600 * 24 * 16) {
 			return;
 		}
@@ -2596,12 +2695,92 @@ void MainWindow::completeGeoIpUpdate(bool v6)
 
 	if(!conn->buf.empty()) {
 		try {
-			File(Util::getGeoPath(v6) + ".gz", File::WRITE, File::CREATE | File::TRUNCATE).write(conn->buf);
-			File f(Util::getGeoPath(v6), File::WRITE, File::CREATE | File::TRUNCATE); // clear the previous db
+			File(GeoManager::getInstance()->getDbPath(v6) + ".gz", File::WRITE, File::CREATE | File::TRUNCATE).write(conn->buf);
+			File f(GeoManager::getInstance()->getDbPath(v6), File::WRITE, File::CREATE | File::TRUNCATE); // clear the previous db
 			LogManager::getInstance()->message(string(_("The GeoIP database has been successfully updated; restart DC++ to apply....v")) + (v6 ? "IPv6" : "IPv4"));
+			GeoManager::getInstance()->update(v6);
 			return;
 		} catch(const FileException&) {}
 	}
 	LogManager::getInstance()->message(string(_("The GeoIP database could not be updated...v")) + (v6 ? "IPv6" : "IPv4"));
 
 }
+///close all
+void MainWindow::onCloseAllHub_gui(GtkWidget *widget, gpointer data)
+{
+	MainWindow *mw = (MainWindow *)data;
+
+	while(!mw->Hubs.empty())
+	{
+		Hub *hub = mw->Hubs.back();
+		typedef Func1<MainWindow,BookEntry*> F1;
+		F1 *func = new F1(mw,&MainWindow::removeBookEntry_gui,hub);
+		WulforManager::get()->dispatchGuiFunc(func);
+
+		mw->Hubs.pop_back();	
+	}
+	mw->Hubs.clear();
+	
+}
+///PM
+void MainWindow::onCloseAllPM_gui(GtkWidget *widget, gpointer data)
+{
+	MainWindow *mw = (MainWindow *)data;
+	
+	for(vector<PrivateMessage*>::const_iterator i= mw->privateMessage.begin(); i != mw->privateMessage.end();++i)
+	{
+		PrivateMessage *pm = *i;
+		typedef Func1<MainWindow,BookEntry*> F1;
+		F1 *func = new F1(mw,&MainWindow::removeBookEntry_gui,pm);
+		WulforManager::get()->dispatchGuiFunc(func);
+	}
+	
+	mw->privateMessage.clear();
+}
+///Search
+void MainWindow::onCloseAllSearch_gui(GtkWidget *widget, gpointer data)
+{
+	MainWindow *mw = (MainWindow *)data;
+
+	for(vector<Search*>::const_iterator i= mw->search.begin(); i != mw->search.end();++i)
+	{
+		Search *s = *i;
+		typedef Func1<MainWindow,BookEntry*> F1;
+		F1 *func = new F1(mw,&MainWindow::removeBookEntry_gui,s);
+		WulforManager::get()->dispatchGuiFunc(func);
+	}
+	mw->search.clear();
+}
+///ofline
+void MainWindow::onReconectAllHub_gui(GtkWidget *widget, gpointer data)
+{
+	MainWindow *mw = (MainWindow *)data;
+
+	for(vector<Hub*>::const_iterator i= mw->Hubs.begin(); i != mw->Hubs.end();++i)
+	{
+		Hub * hub = *i;
+		hub->reconnect_p();
+	}
+}
+///PM
+void MainWindow::onCloseAlloffPM_gui(GtkWidget *widget, gpointer data)
+{
+	MainWindow *mw = (MainWindow *)data;
+	vector<PrivateMessage*> noff;
+
+	for(vector<PrivateMessage*>::const_iterator i= mw->privateMessage.begin(); i != mw->privateMessage.end();++i)
+	{
+		PrivateMessage *pm = dynamic_cast<PrivateMessage*>(*i);
+
+		if(pm->getIsOffline())
+		{
+			typedef Func1<MainWindow,BookEntry*> F1;
+			F1 *func = new F1(mw,&MainWindow::removeBookEntry_gui,pm);
+			WulforManager::get()->dispatchGuiFunc(func);
+
+		}else noff.push_back(*i);
+	}
+	mw->privateMessage.clear();
+	mw->privateMessage = noff;
+}
+

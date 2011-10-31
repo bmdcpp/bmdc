@@ -19,6 +19,8 @@
 #ifndef DCPLUSPLUS_DCPP_NMDC_HUB_H
 #define DCPLUSPLUS_DCPP_NMDC_HUB_H
 
+#include <list>
+
 #include "TimerManager.h"
 #include "SettingsManager.h"
 
@@ -26,22 +28,21 @@
 #include "CriticalSection.h"
 #include "Text.h"
 #include "Client.h"
-//add
-#include "BufferedSocket.h"
-#include "ClientManager.h"
 #ifdef _USELUA
-	#include "ScriptManager.h"
+    #include "ScriptManager.h"
 #endif
 
-#include "HubUsersMap.h"//rsx++
-//end
+#include "HubUsersMap.h"
+
 namespace dcpp {
+
+using std::list;
+class NmdcHub;
 #ifdef _USELUA
-struct NmdcHubScriptInstance : public ScriptInstance {
-	bool onClientMessage(NmdcHub* aClient, const string& aLine);
+struct NmdcHubScriptInstance: public ScriptInstance {
+    bool onClientMessage(NmdcHub* aClient, const string& aLine);
 };
 #endif
-class ClientManager;
 
 class NmdcHub : public Client, private Flags
 #ifdef _USELUA
@@ -52,37 +53,38 @@ public:
 	using Client::send;
 	using Client::connect;
 
-	void onLine(const string& aLine) throw();//change
 	virtual void connect(const OnlineUser& aUser, const string&);
 
 	virtual void hubMessage(const string& aMessage, bool /*thirdPerson*/ = false);
 	virtual void privateMessage(const OnlineUser& aUser, const string& aMessage, bool /*thirdPerson*/ = false);
-	virtual void sendUserCmd(const UserCommand& command, const StringMap& params);
+	virtual void sendUserCmd(const UserCommand& command, const ParamMap& params);
 	virtual void search(int aSizeType, int64_t aSize, int aFileType, const string& aString, const string& aToken, const StringList& aExtList);
 	virtual void password(const string& aPass);
 	virtual void info(bool force) { myInfo(force); }
-	void sendUserCmd(const string& aUserCmd) throw() { send(fromUtf8(aUserCmd)); }
 
 	virtual size_t getUserCount() const { Lock l(cs); return users.size(); }
 	virtual int64_t getAvailable() const;
-
-	void refreshUserList(bool);
-
-	virtual string escape(string const& str) const { return validateMessage(str, false); }
-	static string unescape(const string& str) { return validateMessage(str, true); }
-
-	virtual void send(const AdcCommand&) { dcassert(0); }
-
-	static string validateMessage(string tmp, bool reverse);
-	//add
+	
+	virtual void refreshuserlist(bool);
+	
 	void getUserList(OnlineUserList& list) const {
 		Lock l(cs);
 		for(NickIter i = users.begin(); i != users.end(); i++) {
 			list.push_back(i->second);
 		}
 	}
+	string startCheck(const string& params) { return users.startChecking(this,params);}
+	void startMyInfoCheck() { users.startMyINFOCheck(this);}
+	void stopMyInfoCheck() { users.stopMyINFOCheck();}
+	void stopChecking() {  users.stopCheck(); }
+	
 
+	static string escape(const string& str) { return validateMessage(str, false); }
+	static string unescape(const string& str) { return validateMessage(str, true); }
 
+	virtual void send(const AdcCommand&) { dcassert(0); }
+
+	static string validateMessage(string tmp, bool reverse);
 private:
 	friend class ClientManager;
 	enum SupportFlags {
@@ -93,19 +95,14 @@ private:
 
 	mutable CriticalSection cs;
 
-
 	/*typedef unordered_map<string, OnlineUser*, noCaseStringHash, noCaseStringEq> NickMap;
-	typedef HubUsersMap<false, NickMap> Nicks;
-	typedef NickMap::iterator NickIter;
-
-	Nicks users;
-	*/
+	typedef NickMap::iterator NickIter;*/
 	typedef unordered_map<string, OnlineUser*, noCaseStringHash, noCaseStringEq> NMDCMap;
 	typedef HubUsersMap<false, NMDCMap> NickMap;
 	typedef NickMap::const_iterator NickIter;
 
 	NickMap users;
-	//end
+
 	int supportFlags;
 
 	uint64_t lastUpdate;
@@ -119,20 +116,21 @@ private:
 	FloodMap seekers;
 	FloodMap flooders;
 
-	uint32_t lastProtectedIPsUpdate;
+	uint64_t lastProtectedIPsUpdate;
 	StringList protectedIPs;
-	
-	string salt;
 
-	NmdcHub(const string& aHubURL) throw();
-	virtual ~NmdcHub() throw();
+	NmdcHub(const string& aHubURL);
+	virtual ~NmdcHub();
 
+    string salt;
 	// Dummy
 	NmdcHub(const NmdcHub&);
 	NmdcHub& operator=(const NmdcHub&);
 
 	void clearUsers();
-
+public:
+	void onLine(const string& aLine) noexcept;
+private:
 	OnlineUser& getUser(const string& aNick);
 	OnlineUser* findUser(const string& aNick);
 	void putUser(const string& aNick);
@@ -155,18 +153,15 @@ private:
 	void updateFromTag(Identity& id, const string& tag);
 
 	virtual string checkNick(const string& aNick);
+	virtual bool v4only() const { return true; }
 
 	// TimerManagerListener
-	virtual void on(Second, uint64_t aTick) throw();
-	virtual void on(Minute, uint64_t aTick) throw();
+	virtual void on(Second, uint64_t aTick) noexcept;
+	virtual void on(Minute, uint64_t aTick) noexcept;
 
-	virtual void on(Connected) throw();
-	virtual void on(Line, const string& l) throw();//in cpp
-	virtual void on(Failed, const string&) throw();
-
-	string startChecking(const string& aParams) { return users.startChecking(this, aParams); }//ch
-	void stopChecking()	{ users.stopCheck(); }
-	void stopMyINFOCheck() { users.stopMyINFOCheck(); }
+	virtual void on(Connected) noexcept;
+	virtual void on(Line, const string& l) noexcept;
+	virtual void on(Failed, const string&) noexcept;
 
 };
 

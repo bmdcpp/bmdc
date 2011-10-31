@@ -17,8 +17,8 @@
  */
 
 #include "stdinc.h"
-
 #include "AdcCommand.h"
+
 #include "ClientManager.h"
 
 namespace dcpp {
@@ -26,7 +26,7 @@ namespace dcpp {
 AdcCommand::AdcCommand(uint32_t aCmd, char aType /* = TYPE_CLIENT */) : cmdInt(aCmd), from(0), type(aType) { }
 AdcCommand::AdcCommand(uint32_t aCmd, const uint32_t aTarget, char aType) : cmdInt(aCmd), from(0), to(aTarget), type(aType) { }
 AdcCommand::AdcCommand(Severity sev, Error err, const string& desc, char aType /* = TYPE_CLIENT */) : cmdInt(CMD_STA), from(0), type(aType) {
-	addParam((sev == SEV_SUCCESS) ? "000" :Util::toString(sev * 100 + err));
+	addParam((sev == SEV_SUCCESS) ? "000" : Util::toString(sev * 100 + err));
 	addParam(desc);
 }
 
@@ -34,7 +34,7 @@ AdcCommand::AdcCommand(const string& aLine, bool nmdc /* = false */) : cmdInt(0)
 	parse(aLine, nmdc);
 }
 
-void AdcCommand::parse(const string& aLine, bool nmdc /* = false */)  {
+void AdcCommand::parse(const string& aLine, bool nmdc /* = false */) {
 	string::size_type i = 5;
 
 	if(nmdc) {

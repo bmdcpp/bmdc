@@ -18,44 +18,35 @@
 
 #include "stdinc.h"
 #include "Client.h"
+
 #include "BufferedSocket.h"
+
 #include "FavoriteManager.h"
 #include "TimerManager.h"
 #include "ClientManager.h"
-
-#include "RawManager.h"
 #include "DebugManager.h"
 
 namespace dcpp {
 
-Client::Counts Client::counts;
+atomic<long> Client::counts[COUNT_UNCOUNTED];
 
 Client::Client(const string& hubURL, char separator_, bool secure_) :
 	myIdentity(ClientManager::getInstance()->getMe(), 0),
 	reconnDelay(120), lastActivity(GET_TICK()), registered(false), autoReconnect(false),
 	encoding(Text::systemCharset), state(STATE_DISCONNECTED), sock(0),
-	hubUrl(hubURL), separator(separator_),
+	hubUrl(hubURL),separator(separator_),
 	secure(secure_), countType(COUNT_UNCOUNTED)
 {
 	string file, proto, query, fragment;
 	Util::decodeUrl(hubURL, proto, address, port, file, query, fragment);
-	
-	if(!query.empty()) {
-		auto q = Util::decodeQuery(query);
-		auto kp = q.find("kp");
-		if(kp != q.end()) {
-			keyprint = kp->second;
-		}	
-	}		
+	keyprint = Util::decodeQuery(query)["kp"];
 
 	TimerManager::getInstance()->addListener(this);
 	/* RSX++ */
-	setCheckedAtConnect(false);
 	cmdQueue.setClientPtr(this);
-	/* RSX++ */
 }
 
-Client::~Client() throw() {
+Client::~Client() {
 	dcassert(!sock);
 
 	// In case we were deleted before we Failed
@@ -95,41 +86,43 @@ void Client::reloadSettings(bool updateNick) {
 		}
 		if(!hub->getPassword().empty())
 			setPassword(hub->getPassword());
-		///Hide
-		setHideShare(hub->getHideShare());
-		//RSX
-		setCheckClients(hub->getCheckClients());
-		setCheckFilelists(hub->getCheckFilelists());
-		setCheckOnConnect(hub->getCheckOnConnect());
+		//BMDC++
+            setHideShare(hub->getHideShare());
+            setFavIp(hub->getIp());
+            setChatExtraInfo(hub->getChatExtraInfo());
+            setProtectUser(hub->getProtectUsers());
+            setCheckAtConnect(hub->getCheckAtConn());
+            setCheckClients(hub->getCheckClients());
+            setCheckFilelists(hub->getCheckFilelists());
 
-		setChatExtraInfo(hub->getChatExtraInfo());
-		
-		setFavIp(hub->getIp());
 
 	} else {
 		if(updateNick) {
 			setCurrentNick(checkNick(SETTING(NICK)));
 		}
 		setCurrentDescription(SETTING(DESCRIPTION));
-		///
+		//BMDC++
 		setHideShare(false);
-		//RSX
-		setCheckClients(false);
-		setCheckFilelists(false);
-		setCheckOnConnect(false);
-		 
-		setChatExtraInfo(Util::emptyString);
 		setFavIp(Util::emptyString);
-
+		setChatExtraInfo(Util::emptyString);
+		setProtectUser(Util::emptyString);
+		setCheckAtConnect(false);
+		setCheckClients(false);
+        setCheckFilelists(false);
 	}
 }
 
 void Client::connect() {
-	if(sock)
+	if(sock) {
 		BufferedSocket::putSocket(sock);
+		sock = 0;
+	}
 
 	setAutoReconnect(true);
-	setReconnDelay((uint32_t)(SETTING(TIME_RECCON)));//Time for Reconect
+	if((uint32_t)SETTING(TIME_RECCON) > 10)
+        setReconnDelay((uint32_t)(SETTING(TIME_RECCON)));
+	else
+        setReconnDelay(10);
 	reloadSettings(true);
 	setRegistered(false);
 	setMyIdentity(Identity(ClientManager::getInstance()->getMe(), 0));
@@ -138,53 +131,52 @@ void Client::connect() {
 	state = STATE_CONNECTING;
 
 	try {
-		sock = BufferedSocket::getSocket(separator);
+		sock = BufferedSocket::getSocket(separator, v4only());
 		sock->addListener(this);
 		sock->connect(address, port, secure, BOOLSETTING(ALLOW_UNTRUSTED_HUBS), true);
 	} catch(const Exception& e) {
-		if(sock) {
-			BufferedSocket::putSocket(sock);
-			sock = 0;
-		}
+		state = STATE_DISCONNECTED;
 		fire(ClientListener::Failed(), this, e.getError());
 	}
 	updateActivity();
 }
 
 void Client::send(const char* aMessage, size_t aLen) {
-	dcassert(sock);
-	if(!sock)
+	if(!isReady()) {
+		dcassert(0);
 		return;
+	}
 	updateActivity();
 	sock->write(aMessage, aLen);
 	COMMAND_DEBUG(aMessage, DebugManager::HUB_OUT, getIpPort());
 }
 
-void Client::on(Connected) throw() {
+void Client::on(Connected) noexcept {
 	updateActivity();
 	ip = sock->getIp();
 	localIp = sock->getLocalIp();
+
 	if(sock->isSecure() && keyprint.compare(0, 7, "SHA256/") == 0) {
 		auto kp = sock->getKeyprint();
-		 if(!kp.empty()) {
-			 vector<uint8_t> kp2v(kp.size());
-			 Encoder::fromBase32(keyprint.c_str() + 7, &kp2v[0], kp2v.size());
-			 if(!std::equal(kp.begin(), kp.end(), kp2v.begin())) {
-				 state = STATE_DISCONNECTED;
-				 sock->removeListener(this);
-				 fire(ClientListener::Failed(), this, "Keyprint mismatch");
-				 return;
+		if(!kp.empty()) {
+			vector<uint8_t> kp2v(kp.size());
+			Encoder::fromBase32(keyprint.c_str() + 7, &kp2v[0], kp2v.size());
+			if(!std::equal(kp.begin(), kp.end(), kp2v.begin())) {
+				state = STATE_DISCONNECTED;
+				sock->removeListener(this);
+				fire(ClientListener::Failed(), this, "Keyprint mismatch");
+				return;
+			}
 		}
 	}
-}	
+
 	fire(ClientListener::Connected(), this);
 	state = STATE_PROTOCOL;
 }
 
-void Client::on(Failed, const string& aLine) throw() {
+void Client::on(Failed, const string& aLine) noexcept {
 	state = STATE_DISCONNECTED;
 	FavoriteManager::getInstance()->removeUserCommand(getHubUrl());
-	sock->removeListener(this);
 	fire(ClientListener::Failed(), this, aLine);
 }
 
@@ -194,53 +186,48 @@ void Client::disconnect(bool graceLess) {
 }
 
 bool Client::isSecure() const {
-	return sock && sock->isSecure();
+	return isReady() && sock->isSecure();
 }
 
 bool Client::isTrusted() const {
-	return sock && sock->isTrusted();
+	return isReady() && sock->isTrusted();
 }
 
 std::string Client::getCipherName() const {
-	return sock ? sock->getCipherName() : Util::emptyString;
+	return isReady() ? sock->getCipherName() : Util::emptyString;
 }
 
 vector<uint8_t> Client::getKeyprint() const {
- return isReady() ? sock->getKeyprint() : vector<uint8_t>();	
-}	
+	return isReady() ? sock->getKeyprint() : vector<uint8_t>();
+}
+
+bool Client::isActive() const {
+	return ClientManager::getInstance()->isActive(hubUrl);
+}
 
 void Client::updateCounts(bool aRemove) {
 	// We always remove the count and then add the correct one if requested...
-	if(countType == COUNT_NORMAL) {
-	    counts.normal.dec();
-	}    
-	else if (countType == COUNT_REGISTERED) {
-			counts.registered.dec();
-	} else if (countType == COUNT_OP) {
-	   	counts.op.dec();
-	}   	
-		
-	countType = COUNT_UNCOUNTED;	
-	
+	if(countType != COUNT_UNCOUNTED) {
+		--counts[countType];
+		countType = COUNT_UNCOUNTED;
+	}
+
 	if(!aRemove) {
 		if(getMyIdentity().isOp()) {
-			counts.op.inc();
 			countType = COUNT_OP;
 		} else if(getMyIdentity().isRegistered()) {
-			counts.registered.inc();
 			countType = COUNT_REGISTERED;
 		} else {
-			counts.normal.inc();
 			countType = COUNT_NORMAL;
 		}
+		++counts[countType];
 	}
 }
 
 string Client::getLocalIp() const {
-	// Favorite hub Ip
-	if(!getFavIp().empty())
-		return Socket::resolve(getFavIp());
-	
+    if(!getFavIp().empty()) {
+        return Socket::resolve(getFavIp());
+    }
 	// Best case - the server detected it
 	if((!BOOLSETTING(NO_IP_OVERRIDE) || SETTING(EXTERNAL_IP).empty()) && !getMyIdentity().getIp().empty()) {
 		return getMyIdentity().getIp();
@@ -257,24 +244,22 @@ string Client::getLocalIp() const {
 	return localIp;
 }
 
-void Client::on(Line, const string& aLine) throw() {
-	updateActivity();
-	COMMAND_DEBUG(aLine, DebugManager::HUB_IN, getIpPort());
+string Client::getCounts() {
+	char buf[128];
+	return string(buf, snprintf(buf, sizeof(buf), "%ld/%ld/%ld",
+		counts[COUNT_NORMAL].load(), counts[COUNT_REGISTERED].load(), counts[COUNT_OP].load()));
 }
 
-void Client::on(Second, uint64_t aTick) throw() {
+void Client::on(Line, const string& aLine) noexcept {
+	updateActivity();
+    COMMAND_DEBUG(aLine, DebugManager::HUB_IN, getIpPort());
+}
+
+void Client::on(Second, uint64_t aTick) noexcept {
 	if(state == STATE_DISCONNECTED && getAutoReconnect() && (aTick > (getLastActivity() + getReconnDelay() * 1000)) ) {
 		// Try to reconnect...
 		connect();
 	}
-	
-	if(isConnected()){
-		cmdQueue.onSecond(aTick); //RSX+
-	}
-}
-
-bool Client::isActive() const {
-	return ClientManager::getInstance()->isActive(hubUrl);
 }
 
 #ifdef _USELUA
@@ -297,7 +282,6 @@ bool ClientScriptInstance::onHubFrameEnter(Client* aClient, const string& aLine)
 	return GetLuaBool();
 }
 #endif
-
 void Client::sendActionCommand(const OnlineUser& ou, int actionId) {
 	if(!isConnected() /*|| (userCount < getUsersLimit())*/)
 		return;
@@ -309,5 +293,7 @@ bool Client::isActionActive(const int aAction) const {
 
 	return hub ? FavoriteManager::getInstance()->getEnabledAction(hub, aAction) : true;
 }
+
+
 
 } // namespace dcpp

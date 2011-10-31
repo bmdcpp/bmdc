@@ -18,16 +18,16 @@
 
 #include "stdinc.h"
 #include "UserConnection.h"
+
 #include "ClientManager.h"
-#include "ScriptManager.h"
 
 #include "StringTokenizer.h"
 #include "AdcCommand.h"
 #include "Transfer.h"
-#include "Download.h"
 #include "format.h"
-#include "DebugManager.h"
 #include "SettingsManager.h"
+#include "DebugManager.h"
+#include "Download.h"
 
 namespace dcpp {
 
@@ -43,17 +43,17 @@ const string UserConnection::FEATURE_ADC_BZIP = "BZIP";
 const string UserConnection::FEATURE_ADC_TIGR = "TIGR";
 
 const string UserConnection::FILE_NOT_AVAILABLE = "File Not Available";
-const string UserConnection::GT_NOT_SUPPORTED = "GetListLength not supported";
 
 const string UserConnection::UPLOAD = "Upload";
 const string UserConnection::DOWNLOAD = "Download";
 
-void UserConnection::on(BufferedSocketListener::Line, const string& aLine) throw () {
+void UserConnection::on(BufferedSocketListener::Line, const string& aLine) noexcept {
 
-	if(aLine.length() < 2)
-	{	fire(UserConnectionListener::ProtocolError(), this, _("Invalid data"));
-		return;	}
-		
+	if(aLine.length() < 2) {
+		fire(UserConnectionListener::ProtocolError(), this, _("Invalid data"));
+		return;
+	}
+
 	COMMAND_DEBUG(aLine, DebugManager::CLIENT_IN, getRemoteIp());
 
 	if(aLine[0] == 'C' && !isSet(FLAG_NMDC)) {
@@ -67,10 +67,9 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) throw
 		setFlag(FLAG_NMDC);
 	} else {
 		fire(UserConnectionListener::ProtocolError(), this, _("Invalid data"));
-		// We shouldn't be here?
-		dcdebug("Unknown UserConnection command: %.50s\n", aLine.c_str());
 		return;
 	}
+
 	string cmd;
 	string param;
 
@@ -99,33 +98,22 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) throw
 		}
 	} else if(cmd == "$Error") {
 		if(Util::stricmp(param.c_str(), FILE_NOT_AVAILABLE) == 0 ||
-			(param.rfind(/*path/file*/" no more exists") != string::npos) ||
-			(Util::stricmp(param.c_str(),GT_NOT_SUPPORTED) == 0))
-			{
-
-			if(Util::stricmp(param.c_str(),GT_NOT_SUPPORTED) == 0)
-				setFlag(FLAG_TESTSURNA);
+			param.rfind(/*path/file*/" no more exists") != string::npos) {
 			fire(UserConnectionListener::FileNotAvailable(), this);
-			disconnect (true);	 
+		} else {
+			fire(UserConnectionListener::ProtocolError(), this, param);
 		}
-		else
-		{
-			dcdebug("Unknown $Error %s\n", param.c_str());
-			fire(UserConnectionListener::Failed(), this, param);
-			disconnect(true);
-		}
-	}//rsx
-	 else if(cmd == "FileLength") {
-		if(!param.empty() && isSet(FLAG_DOWNLOAD) && download != NULL && getUser()) {
-			if(download->isSet(Download::FLAG_CHECK_FILE_LIST)) {
+	} else if(cmd == "$GetListLen") {
+		fire(UserConnectionListener::GetListLength(), this);
+	} //rsx
+	 else if(cmd == "$FileLength") {
+		if(!param.empty() && isSet(FLAG_DOWNLOAD) && getDownload() != NULL && getUser()) {
+			if(getDownload()->isSet(Download::FLAG_CHECK_FILE_LIST)) {
 				ClientManager::getInstance()->setListSize(getUser(), Util::toInt64(param), false);
 			}
 		}
 	//END
-	}
-	 else if(cmd == "$GetListLen") {
-		fire(UserConnectionListener::GetListLength(), this);
-	} else if(cmd == "$Get") {
+	}else if(cmd == "$Get") {
 		x = param.find('$');
 		if(x != string::npos) {
 			fire(UserConnectionListener::Get(), this, Text::toUtf8(param.substr(0, x), encoding), Util::toInt64(param.substr(x+1)) - (int64_t)1);
@@ -157,34 +145,22 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) throw
 		if(!param.empty()) {
 			fire(UserConnectionListener::Supports(), this, StringTokenizer<string>(param, ' ').getTokens());
 		}
-	} else if(cmd.compare(0, 4, "$ADC") == 0) {
-		dispatch(aLine, true);
-	} else if (cmd == "ListLen") {
+	} else if (cmd == "$ListLen") {
 		if(!param.empty()) {
 			fire(UserConnectionListener::ListLength(), this, param);
 		}
+	}	
+	else if(cmd.compare(0, 4, "$ADC") == 0) {
+		dispatch(aLine, true);
 	} else {
 		if(getUser() && aLine.length() < 255)
 			ClientManager::getInstance()->setUnknownCommand(getUser(), aLine);
-
 		fire(UserConnectionListener::ProtocolError(), this, _("Invalid data"));
 		dcdebug("Unknown NMDC command: %.50s\n", aLine.c_str());
 	}
 }
-#ifdef _USELUA
-bool UserConnectionScriptInstance::onUserConnectionMessageIn(UserConnection* aConn, const string& aLine) {
-	Lock l(cs);
-	MakeCall("dcpp", "UserDataIn", 1, aConn, aLine);
-	return GetLuaBool();
-}
 
-bool UserConnectionScriptInstance::onUserConnectionMessageOut(UserConnection* aConn, const string& aLine) {
-	Lock l(cs);
-	MakeCall("dcpp", "UserDataOut", 1, aConn, aLine);
-	return GetLuaBool();
-}
-#endif
-void UserConnection::connect(const string& aServer, string aPort, string localPort, BufferedSocket::NatRoles natRole) throw(SocketException, ThreadException) {
+void UserConnection::connect(const string& aServer, const string& aPort, const string& localPort, BufferedSocket::NatRoles natRole) {
 	dcassert(!socket);
 
 	socket = BufferedSocket::getSocket(0);
@@ -192,7 +168,7 @@ void UserConnection::connect(const string& aServer, string aPort, string localPo
 	socket->connect(aServer, aPort, localPort, natRole, secure, BOOLSETTING(ALLOW_UNTRUSTED_CLIENTS), true);
 }
 
-void UserConnection::accept(const Socket& aServer) throw(SocketException, ThreadException) {
+void UserConnection::accept(const Socket& aServer) {
 	dcassert(!socket);
 	socket = BufferedSocket::getSocket(0);
 	socket->addListener(this);
@@ -235,35 +211,35 @@ void UserConnection::handle(AdcCommand::STA t, const AdcCommand& c) {
 	fire(t, this, c);
 }
 
-void UserConnection::on(Connected) throw() {
+void UserConnection::on(Connected) noexcept {
 	lastActivity = GET_TICK();
 	fire(UserConnectionListener::Connected(), this);
 }
 
-void UserConnection::on(Data, uint8_t* data, size_t len) throw() {
+void UserConnection::on(Data, uint8_t* data, size_t len) noexcept {
 	lastActivity = GET_TICK();
 	fire(UserConnectionListener::Data(), this, data, len);
 }
 
-void UserConnection::on(BytesSent, size_t bytes, size_t actual) throw() {
+void UserConnection::on(BytesSent, size_t bytes, size_t actual) noexcept {
 	lastActivity = GET_TICK();
 	fire(UserConnectionListener::BytesSent(), this, bytes, actual);
 }
 
-void UserConnection::on(ModeChange) throw() {
+void UserConnection::on(ModeChange) noexcept {
 	lastActivity = GET_TICK();
 	fire(UserConnectionListener::ModeChange(), this);
 }
 
-void UserConnection::on(TransmitDone) throw() {
+void UserConnection::on(TransmitDone) noexcept {
 	fire(UserConnectionListener::TransmitDone(), this);
 }
 
-void UserConnection::on(Updated) throw() {
+void UserConnection::on(Updated) noexcept {
 	fire(UserConnectionListener::Updated(), this);
 }
 
-void UserConnection::on(Failed, const string& aLine) throw() {
+void UserConnection::on(Failed, const string& aLine) noexcept {
 	setState(STATE_UNCONNECTED);
 	fire(UserConnectionListener::Failed(), this, aLine);
 
@@ -272,12 +248,12 @@ void UserConnection::on(Failed, const string& aLine) throw() {
 
 // # ms we should aim for per segment
 static const int64_t SEGMENT_TIME = 120*1000;
-static const int64_t MIN_CHUNK_SIZE = 64*1024;
+static const int64_t MIN_CHUNK_SIZE = 256*1024;//r2647
 
 void UserConnection::updateChunkSize(int64_t leafSize, int64_t lastChunk, uint64_t ticks) {
 
 	if(chunkSize == 0) {
-		chunkSize = std::max((int64_t)64*1024, std::min(lastChunk, (int64_t)1024*1024));
+		chunkSize = std::max(/*(int64_t)64*1024*/MIN_CHUNK_SIZE, std::min(lastChunk, (int64_t)1024*1024));//r2648
 		return;
 	}
 
@@ -308,5 +284,30 @@ void UserConnection::updateChunkSize(int64_t leafSize, int64_t lastChunk, uint64
 
 	chunkSize = targetSize;
 }
+
+void UserConnection::send(const string& aString) {
+	lastActivity = GET_TICK();
+	#ifdef _USELUA
+	if(onUserConnectionMessageOut(this, aString)) {
+			disconnect(true);
+			return;
+		}
+	#endif
+	socket->write(aString);
+}
+
+#ifdef _USELUA
+bool UserConnectionScriptInstance::onUserConnectionMessageIn(UserConnection* aConn, const string& aLine) {
+	Lock l(cs);
+	MakeCall("dcpp", "UserDataIn", 1, aConn, aLine);
+	return GetLuaBool();
+}
+
+bool UserConnectionScriptInstance::onUserConnectionMessageOut(UserConnection* aConn, const string& aLine) {
+	Lock l(cs);
+	MakeCall("dcpp", "UserDataOut", 1, aConn, aLine);
+	return GetLuaBool();
+}
+#endif
 
 } // namespace dcpp

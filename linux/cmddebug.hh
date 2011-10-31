@@ -41,14 +41,12 @@ class cmddebug:
         cmddebug();
         virtual ~cmddebug();
         virtual void show();
-        virtual void popmenu();
         //GUI FCE
         void add_gui(time_t t, std::string file);
 
     private:
         //GUI
-        static void onCloseItem(gpointer data);
-        static void onClearButton(GtkWidget *widget, gpointer data);
+       static void onClearButton(GtkWidget *widget, gpointer data);
 
         // Client functions
         void ini_client();

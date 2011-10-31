@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2011 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2010 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,13 +36,16 @@ FavoriteUsers::FavoriteUsers():
 	// Configure the dialog
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("DescriptionDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
 
+	// menu
+	g_object_ref_sink(getWidget("menu"));
+
 	// Initialize favorite users list treeview
 	favoriteUserView.setView(GTK_TREE_VIEW(getWidget("favoriteUserView")), TRUE, "favoriteusers");
-	favoriteUserView.insertColumn(N_("Auto grant slot"), G_TYPE_BOOLEAN, TreeView::BOOL, 100);
-	favoriteUserView.insertColumn(N_("Nick"), G_TYPE_STRING, TreeView::ICON_STRING, 100, "Icon");
-	favoriteUserView.insertColumn(N_("Hub (last seen in, if offline)"), G_TYPE_STRING, TreeView::STRING, 200);
-	favoriteUserView.insertColumn(N_("Time last seen"), G_TYPE_STRING, TreeView::STRING, 120);
-	favoriteUserView.insertColumn(N_("Description"), G_TYPE_STRING, TreeView::STRING, 100);
+	favoriteUserView.insertColumn(_("Auto grant slot"), G_TYPE_BOOLEAN, TreeView::BOOL, 100);
+	favoriteUserView.insertColumn(_("Nick"), G_TYPE_STRING, TreeView::ICON_STRING, 100, "Icon");
+	favoriteUserView.insertColumn(_("Hub (last seen in, if offline)"), G_TYPE_STRING, TreeView::STRING, 200);
+	favoriteUserView.insertColumn(_("Time last seen"), G_TYPE_STRING, TreeView::STRING, 120);
+	favoriteUserView.insertColumn(_("Description"), G_TYPE_STRING, TreeView::STRING, 100);
 	favoriteUserView.insertColumn("CID", G_TYPE_STRING, TreeView::STRING, 350);
 	favoriteUserView.insertHiddenColumn("URL", G_TYPE_STRING);
 	favoriteUserView.insertHiddenColumn("Icon", G_TYPE_STRING);
@@ -54,12 +57,12 @@ FavoriteUsers::FavoriteUsers():
 
 	favoriteUserSelection = gtk_tree_view_get_selection(favoriteUserView.get());
 	gtk_tree_selection_set_mode(favoriteUserSelection, GTK_SELECTION_MULTIPLE);
-	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(favoriteUserStore), favoriteUserView.col(N_("Nick")), GTK_SORT_ASCENDING);
-	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(favoriteUserView.get(), favoriteUserView.col(N_("Nick"))), TRUE);
+	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(favoriteUserStore), favoriteUserView.col(_("Nick")), GTK_SORT_ASCENDING);
+	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(favoriteUserView.get(), favoriteUserView.col(_("Nick"))), TRUE);
 	gtk_tree_view_set_fixed_height_mode(favoriteUserView.get(), TRUE);
 
 	GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(favoriteUserView.get(),
-		favoriteUserView.col(N_("Auto grant slot"))));
+		favoriteUserView.col(_("Auto grant slot"))));
 	GObject *renderer = (GObject *)g_list_nth_data(list, 0);
 	g_signal_connect(renderer, "toggled", G_CALLBACK(onAutoGrantSlotToggled_gui), (gpointer)this);
 	g_list_free(list);
@@ -82,6 +85,7 @@ FavoriteUsers::~FavoriteUsers()
 	FavoriteManager::getInstance()->removeListener(this);
 
 	gtk_widget_destroy(getWidget("DescriptionDialog"));
+	g_object_unref(getWidget("menu"));
 }
 
 void FavoriteUsers::show()
@@ -101,11 +105,11 @@ void FavoriteUsers::show()
 
 		gtk_list_store_append(favoriteUserStore, &iter);
 		gtk_list_store_set(favoriteUserStore, &iter,
-			favoriteUserView.col(N_("Auto grant slot")), user.isSet(FavoriteUser::FLAG_GRANTSLOT) ? TRUE : FALSE,
-			favoriteUserView.col(N_("Nick")), user.getNick().c_str(),
-			favoriteUserView.col(N_("Hub (last seen in, if offline)")), hub.c_str(),
-			favoriteUserView.col(N_("Time last seen")), seen.c_str(),
-			favoriteUserView.col(N_("Description")), user.getDescription().c_str(),
+			favoriteUserView.col(_("Auto grant slot")), user.isSet(FavoriteUser::FLAG_GRANTSLOT) ? TRUE : FALSE,
+			favoriteUserView.col(_("Nick")), user.getNick().c_str(),
+			favoriteUserView.col(_("Hub (last seen in, if offline)")), hub.c_str(),
+			favoriteUserView.col(_("Time last seen")), seen.c_str(),
+			favoriteUserView.col(_("Description")), user.getDescription().c_str(),
 			favoriteUserView.col("CID"), cid.c_str(),
 			favoriteUserView.col("URL"), user.getUrl().c_str(),
 			favoriteUserView.col("Icon"), "bmdc-normal",
@@ -365,8 +369,8 @@ void FavoriteUsers::onDescriptionItemClicked_gui(GtkMenuItem *item, gpointer dat
 
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(fu->favoriteUserStore), &iter, path))
 			{
-				description = fu->favoriteUserView.getString(&iter, N_("Description"));
-				nick = fu->favoriteUserView.getString(&iter, N_("Nick"));
+				description = fu->favoriteUserView.getString(&iter, _("Description"));
+				nick = fu->favoriteUserView.getString(&iter, _("Nick"));
 				cid = fu->favoriteUserView.getString(&iter, "CID");
 			}
 			gtk_tree_path_free(path);
@@ -406,7 +410,7 @@ void FavoriteUsers::onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data)
 
 	if (gtk_tree_selection_count_selected_rows(fu->favoriteUserSelection) > 0)
 	{
-		ParamMap params;
+		vector<string> remove;
 		GtkTreeIter iter;
 		GtkTreePath *path;
 		typedef Func1<FavoriteUsers, string> F1;
@@ -418,8 +422,8 @@ void FavoriteUsers::onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data)
 
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(fu->favoriteUserStore), &iter, path))
 			{
-				params.insert(ParamMap::value_type(fu->favoriteUserView.getString(&iter, "CID"),
-					fu->favoriteUserView.getString(&iter, N_("Nick"))));
+				string cid = fu->favoriteUserView.getString(&iter, "CID");
+				remove.push_back(cid);
 			}
 			gtk_tree_path_free(path);
 		}
@@ -447,9 +451,9 @@ void FavoriteUsers::onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data)
 				return;
 		}
 
-		for (ParamMap::const_iterator it = params.begin(); it != params.end(); ++it)
+		for (vector<string>::const_iterator it = remove.begin(); it != remove.end(); it++)
 		{
-			F1 *func = new F1(fu, &FavoriteUsers::removeFavoriteUser_client, it->first);
+			F1 *func = new F1(fu, &FavoriteUsers::removeFavoriteUser_client, *it);
 			WulforManager::get()->dispatchClientFunc(func);
 		}
 	}
@@ -463,9 +467,9 @@ void FavoriteUsers::onAutoGrantSlotToggled_gui(GtkCellRendererToggle *cell, gcha
 	if (gtk_tree_model_get_iter_from_string(GTK_TREE_MODEL(fu->favoriteUserStore), &iter, path))
 	{
 		string cid = fu->favoriteUserView.getString(&iter, "CID");
-		gboolean grant = fu->favoriteUserView.getValue<gboolean>(&iter, N_("Auto grant slot"));
+		gboolean grant = fu->favoriteUserView.getValue<gboolean>(&iter, _("Auto grant slot"));
 		grant = !grant;
-		gtk_list_store_set(fu->favoriteUserStore, &iter, fu->favoriteUserView.col(N_("Auto grant slot")), grant, -1);
+		gtk_list_store_set(fu->favoriteUserStore, &iter, fu->favoriteUserView.col(_("Auto grant slot")), grant, -1);
 
 		typedef Func2<FavoriteUsers, string, bool> F2;
 		F2 *func = new F2(fu, &FavoriteUsers::setAutoGrantSlot_client, cid, grant);
@@ -483,6 +487,7 @@ void FavoriteUsers::getFileList_client(const string cid, const string hubUrl, bo
 		{
 			const HintedUser hintedUser(user, hubUrl);//NOTE: core 0.762
 			if (match)
+
 				QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_MATCH_QUEUE);//NOTE: core 0.762
 			else
 				QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW);//NOTE: core 0.762
@@ -576,10 +581,10 @@ void FavoriteUsers::updateFavoriteUser_gui(ParamMap params)
 	{
 		gtk_list_store_append(favoriteUserStore, &iter);
 		gtk_list_store_set(favoriteUserStore, &iter,
-			favoriteUserView.col(N_("Nick")), params["Nick"].c_str(),
-			favoriteUserView.col(N_("Hub (last seen in, if offline)")), params["Hub"].c_str(),
-			favoriteUserView.col(N_("Time last seen")), params["Time"].c_str(),
-			favoriteUserView.col(N_("Description")), params["Description"].c_str(),
+			favoriteUserView.col(_("Nick")), params["Nick"].c_str(),
+			favoriteUserView.col(_("Hub (last seen in, if offline)")), params["Hub"].c_str(),
+			favoriteUserView.col(_("Time last seen")), params["Time"].c_str(),
+			favoriteUserView.col(_("Description")), params["Description"].c_str(),
 			favoriteUserView.col("CID"), cid.c_str(),
 			favoriteUserView.col("URL"), params["URL"].c_str(),
 			favoriteUserView.col("Icon"), "bmdc-normal",
@@ -640,20 +645,4 @@ void FavoriteUsers::on(FavoriteManagerListener::StatusChanged, const FavoriteUse
 
 	Func1<FavoriteUsers, ParamMap> *func = new Func1<FavoriteUsers, ParamMap>(this, &FavoriteUsers::updateFavoriteUser_gui, params);
 	WulforManager::get()->dispatchGuiFunc(func);
-}
-
-/*this is a pop menu*/
-void FavoriteUsers::popmenu()
-{
-    GtkWidget *closeMenuItem = gtk_menu_item_new_with_label(_("Close"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(getNewTabMenu()),closeMenuItem);
-
-    g_signal_connect_swapped(closeMenuItem, "activate",G_CALLBACK(onCloseItem),this);
-
-}
-
-void FavoriteUsers::onCloseItem(gpointer data)
-{
-    BookEntry *entry = (BookEntry *)data;
-    WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
 }

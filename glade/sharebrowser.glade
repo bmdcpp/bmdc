@@ -27,7 +27,6 @@
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </widget>
               <packing>
@@ -45,7 +44,6 @@
                 <property name="can_default">True</property>
                 <property name="has_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </widget>
               <packing>
@@ -74,7 +72,6 @@
       <widget class="GtkMenuItem" id="dirDownloadItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">Download</property>
         <property name="use_underline">True</property>
       </widget>
@@ -83,7 +80,6 @@
       <widget class="GtkMenuItem" id="dirDownloadToItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">Download to...</property>
         <property name="use_underline">True</property>
         <child>
@@ -103,7 +99,6 @@
       <widget class="GtkMenuItem" id="dirUserCommandItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">User commands</property>
         <property name="use_underline">True</property>
         <child>
@@ -120,7 +115,6 @@
       <widget class="GtkMenuItem" id="fileDownloadItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">Download</property>
         <property name="use_underline">True</property>
       </widget>
@@ -129,7 +123,6 @@
       <widget class="GtkMenuItem" id="fileDownloadToItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">Download to...</property>
         <property name="use_underline">True</property>
         <child>
@@ -149,7 +142,6 @@
       <widget class="GtkMenuItem" id="searchForAlternatesItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">_Search for alternates</property>
         <property name="use_underline">True</property>
       </widget>
@@ -158,8 +150,15 @@
       <widget class="GtkMenuItem" id="copyMagnetItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">_Copy magnet</property>
+        <property name="use_underline">True</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkMenuItem" id="copyPictureItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">_Copy picture</property>
         <property name="use_underline">True</property>
       </widget>
     </child>
@@ -167,35 +166,10 @@
       <widget class="GtkMenuItem" id="fileUserCommandItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">User commands</property>
         <property name="use_underline">True</property>
         <child>
           <widget class="GtkMenu" id="fileUserCommandMenu">
-            <property name="can_focus">False</property>
-          </widget>
-        </child>
-      </widget>
-    </child>
-    <child>
-      <widget class="GtkMenuItem" id="getDirectory">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
-        <property name="label" translatable="yes">_Go To Dir</property>
-        <property name="use_underline">True</property>
-      </widget>
-    </child>
-    <child>
-      <widget class="GtkMenuItem" id="CopyMenu">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
-        <property name="label" translatable="yes">Copy</property>
-        <property name="use_underline">True</property>
-        <child>
-          <widget class="GtkMenu" id="CopyMenus">
-            <property name="visible">True</property>
             <property name="can_focus">False</property>
           </widget>
         </child>
@@ -226,7 +200,6 @@
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </widget>
               <packing>
@@ -244,7 +217,6 @@
                 <property name="can_default">True</property>
                 <property name="has_default">True</property>
                 <property name="receives_default">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
               </widget>
               <packing>
@@ -278,6 +250,10 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="activates_default">True</property>
+                    <property name="primary_icon_activatable">False</property>
+                    <property name="secondary_icon_activatable">False</property>
+                    <property name="primary_icon_sensitive">True</property>
+                    <property name="secondary_icon_sensitive">True</property>
                   </widget>
                 </child>
               </widget>
@@ -429,11 +405,10 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkStatusbar" id="ForbidFiles">
+          <widget class="GtkStatusbar" id="speedStatus">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">2</property>
-            <property name="has_resize_grip">False</property>
           </widget>
           <packing>
             <property name="expand">True</property>
@@ -442,25 +417,25 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkStatusbar" id="SpeedStats">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="spacing">2</property>
-            <property name="has_resize_grip">False</property>
-          </widget>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">6</property>
-          </packing>
-        </child>
-        <child>
           <widget class="GtkButton" id="matchButton">
             <property name="label" translatable="yes">Match Queue</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
-            <property name="use_action_appearance">False</property>
+            <property name="use_underline">True</property>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">6</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkButton" id="findButton">
+            <property name="label" translatable="yes">Find</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
             <property name="use_underline">True</property>
           </widget>
           <packing>
@@ -470,33 +445,17 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkButton" id="findButton">
-            <property name="label" translatable="yes">Find</property>
+          <widget class="GtkButton" id="nextButton">
+            <property name="label" translatable="yes">Next</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
-            <property name="use_action_appearance">False</property>
             <property name="use_underline">True</property>
           </widget>
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
             <property name="position">8</property>
-          </packing>
-        </child>
-        <child>
-          <widget class="GtkButton" id="nextButton">
-            <property name="label" translatable="yes">Next</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">False</property>
-            <property name="use_action_appearance">False</property>
-            <property name="use_underline">True</property>
-          </widget>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">9</property>
           </packing>
         </child>
       </widget>

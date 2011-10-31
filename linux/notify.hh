@@ -1,5 +1,5 @@
 /*
- * Copyright © 2011 Leliksan Floyd <leliksan@Quadrafon2>
+ * Copyright © 2009 Leliksan Floyd <leliksan@Quadrafon2>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
  * [08.11.09] исправлена ошибка, после выхода не закрывалось уведомление.
  * [08.11.09] исправлена ошибка, не обновлялась иконка.
  *
- * Copyright © 2009-2011, author patch: troll, freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2010, author patch: troll, freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,9 +38,7 @@
 #ifndef NOTIFY_HH
 #define NOTIFY_HH
 
-#ifdef HAVE_LIBNOTIFY
-	#include <libnotify/notify.h>
-#endif
+#include <libnotify/notify.h>
 
 class Notify
 {
@@ -54,7 +52,7 @@ class Notify
 			HUB_DISCONNECT,
 			FAVORITE_USER_JOIN,
 			FAVORITE_USER_QUIT,
-			HIGHLITING_E,
+			HIGHLITING,
 			NONE
 		};
 
@@ -64,12 +62,10 @@ class Notify
 
 		Notify() {init();}
 		~Notify() {finalize();}
-		#ifdef HAVE_LIBNOTIFY
-		void showNotify(const std::string &head, const std::string &body, TypeNotify notify);
 
+		void showNotify(const std::string &head, const std::string &body, TypeNotify notify);
 		void showNotify(const std::string &title, const std::string &head, const std::string &body,
 			const std::string &icon, const int iconSize, NotifyUrgency urgency);
-		#endif
 
 	private:
 		static Notify *notify;
@@ -83,14 +79,12 @@ class Notify
 		int icon_height;
 		int currIconSize;
 		#ifdef HAVE_LIBNOTIFY
-			NotifyNotification *notification;
+		NotifyNotification *notification;
 		#endif
 		bool action;
 
 		//GUI callback functions
-		#ifdef HAVE_LIBNOTIFY
-			static void onAction(NotifyNotification *notify, const char *action, gpointer data);
-		#endif
+		static void onAction(NotifyNotification *notify, const char *action, gpointer data);
 };
 
 #else

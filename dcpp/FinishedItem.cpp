@@ -17,10 +17,9 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
-
 #include "FinishedItem.h"
 
+#include "HintedUser.h"
 #include "User.h"
 
 namespace dcpp {
@@ -78,9 +77,9 @@ void FinishedFileItem::update(
 	)
 {
 	FinishedItemBase::update(transferred_, milliSeconds_, time_);
-	
-	actual += actual_;	
 
+	actual += actual_;
+	
 	if(crc32Checked_)
 		crc32Checked = true;
 

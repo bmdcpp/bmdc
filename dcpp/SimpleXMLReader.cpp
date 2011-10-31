@@ -1,9 +1,8 @@
-
 #include "stdinc.h"
-#include "DCPlusPlus.h"
-#include "typedefs.h"
 #include "SimpleXMLReader.h"
+
 #include "SimpleXML.h"
+
 #include "Text.h"
 #include "Streams.h"
 
@@ -23,7 +22,6 @@ static bool isNameStartChar(int c) {
 		|| c == '_'
 		|| inRange(c, 'a', 'z')
 		// Comment out some valid XML chars that we don't allow
-		|| c == '+' //NOTE: freedcpp
 /*		|| inRange(c, 0xC0, 0xD6)
 		|| inRange(c, 0xD8, 0xF6)
 		|| inRange(c, 0xF8, 0x2FF)

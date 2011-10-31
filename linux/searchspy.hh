@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2011 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2010 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,8 +39,6 @@ class SearchSpy:
 		SearchSpy();
 		virtual ~SearchSpy();
 		virtual void show();
-		virtual void popmenu();
-
 		void preferences_gui();
 
 	private:
@@ -48,8 +46,6 @@ class SearchSpy:
 		typedef SearchIters::size_type SearchType;
 
 		// GUI functions
-		static void onCloseItem(gpointer data);
-
 		bool updateFrameStatus_gui(GtkTreeIter *iter, uint64_t tick);
 		void updateFrameStatus_gui();
 		bool findIter_gui(const std::string &search, GtkTreeIter *iter);
@@ -76,7 +72,7 @@ class SearchSpy:
 
 		// Client callbacks
 		virtual void on(dcpp::ClientManagerListener::IncomingSearch, const std::string& s) throw();
-		virtual void on(dcpp::TimerManagerListener::Minute, uint64_t tick) throw();
+		virtual void on(dcpp::TimerManagerListener::Minute, uint32_t tick) throw();
 
 		SearchType FrameSize;
 		guint Waiting;

@@ -7,17 +7,63 @@
     <property name="border_width">4</property>
     <property name="spacing">4</property>
     <child>
-      <widget class="GtkScrolledWindow" id="viewWindowFile">
+      <widget class="GtkNotebook" id="finishedbook">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-        <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-        <property name="shadow_type">GTK_SHADOW_IN</property>
         <child>
-          <widget class="GtkTreeView" id="fileView">
+          <widget class="GtkScrolledWindow" id="viewWindowFile">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+            <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+            <property name="shadow_type">GTK_SHADOW_IN</property>
+            <child>
+              <widget class="GtkTreeView" id="fileView">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+              </widget>
+            </child>
           </widget>
+        </child>
+        <child>
+          <widget class="GtkLabel" id="lbl_grpfile">
+            <property name="visible">True</property>
+            <property name="label" translatable="yes">Grouped by Files</property>
+          </widget>
+          <packing>
+            <property name="type">tab</property>
+            <property name="tab_fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkScrolledWindow" id="viewWindowUser">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+            <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+            <property name="shadow_type">GTK_SHADOW_IN</property>
+            <child>
+              <widget class="GtkTreeView" id="userView">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="headers_clickable">True</property>
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkLabel" id="lbl_grpuser">
+            <property name="visible">True</property>
+            <property name="label" translatable="yes">Grouped by Users</property>
+          </widget>
+          <packing>
+            <property name="type">tab</property>
+            <property name="position">1</property>
+            <property name="tab_fill">False</property>
+          </packing>
         </child>
       </widget>
     </child>
@@ -27,6 +73,19 @@
         <property name="spacing">4</property>
         <child>
           <placeholder/>
+        </child>
+        <child>
+          <widget class="GtkCheckButton" id="showOnlyFullFilesCheckButton">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="label">Only show fully downloaded files</property>
+            <property name="response_id">0</property>
+            <property name="draw_indicator">True</property>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="position">4</property>
+          </packing>
         </child>
         <child>
           <widget class="GtkStatusbar" id="totalItems">
@@ -75,11 +134,14 @@
   </widget>
   <widget class="GtkMenu" id="menu">
     <child>
-      <widget class="GtkImageMenuItem" id="openItem">
+      <widget class="GtkMenuItem" id="appsPreviewItem">
         <property name="visible">True</property>
-        <property name="label">gtk-open</property>
+        <property name="label" translatable="yes">Preview</property>
         <property name="use_underline">True</property>
-        <property name="use_stock">True</property>
+        <child>
+          <widget class="GtkMenu" id="appsPreviewMenu">
+          </widget>
+        </child>
       </widget>
     </child>
     <child>

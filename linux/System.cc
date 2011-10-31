@@ -117,19 +117,3 @@ void systemlog::on(LogManagerListener::Message, time_t t, const string& message)
     F2 *func = new F2(this,&systemlog::add_gui, t, message);
     WulforManager::get()->dispatchGuiFunc(func);
 }
-
-/*this is a a pop menu*/
-void systemlog::popmenu()
-{
-    GtkWidget *closeMenuItem = gtk_menu_item_new_with_label(_("Close"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(getNewTabMenu()),closeMenuItem);
-
-    g_signal_connect_swapped(closeMenuItem, "activate",G_CALLBACK(onCloseItem),this);
-
-}
-
-void systemlog::onCloseItem(gpointer data)
-{
-    BookEntry *entry = (BookEntry *)data;
-    WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
-}

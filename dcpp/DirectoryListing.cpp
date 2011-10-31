@@ -20,23 +20,16 @@
 #include "DirectoryListing.h"
 
 #include "QueueManager.h"
-#include "SearchManager.h"
 #include "ClientManager.h"
-#include "ShareManager.h"
 
 #include "StringTokenizer.h"
 #include "SimpleXML.h"
 #include "FilteredFile.h"
 #include "BZUtils.h"
 #include "CryptoManager.h"
-#include "ResourceManager.h"
-#include "User.h"
-#include <boost/regex.hpp>
-#include "RegEx.h"
-#include "MerkleTree.h"
+#include "ShareManager.h"
 #include "SimpleXMLReader.h"
 #include "File.h"
-
 
 #ifdef ff
 #undef ff
@@ -44,16 +37,22 @@
 
 namespace dcpp {
 
+DirectoryListing::DirectoryListing(const HintedUser& aUser) :
+user(aUser),
+root(new Directory(NULL, Util::emptyString, false, false))
+{
+}
+
+DirectoryListing::~DirectoryListing() {
+	delete root;
+}
+
 UserPtr DirectoryListing::getUserFromFilename(const string& fileName) {
 	// General file list name format: [username].[CID].[xml|xml.bz2]
 
 	string name = Util::getFileName(fileName);
 
 	// Strip off any extensions
-	if(Util::stricmp(name.c_str() + name.length() - 6, ".DcLst") == 0) {
-		name.erase(name.length() - 6);
-	}
-
 	if(Util::stricmp(name.c_str() + name.length() - 4, ".bz2") == 0) {
 		name.erase(name.length() - 4);
 	}
@@ -80,74 +79,59 @@ UserPtr DirectoryListing::getUserFromFilename(const string& fileName) {
 	return ClientManager::getInstance()->getUser(cid);
 }
 
-void DirectoryListing::loadFile(const string& name) throw(Exception) {
+void DirectoryListing::loadFile(const string& name) {
 	string txt;
 
 	// For now, we detect type by ending...
 	string ext = Util::getFileExt(name);
 
+    dcpp::File ff(name, dcpp::File::READ, dcpp::File::OPEN);
 	if(Util::stricmp(ext, ".bz2") == 0) {
-		dcpp::File ff(name, dcpp::File::READ, dcpp::File::OPEN);
 		FilteredInputStream<UnBZFilter, false> f(&ff);
-		const size_t BUF_SIZE = 64*1024;
-		boost::scoped_array<char> buf(new char[BUF_SIZE]);
-		size_t len;
-		size_t bytesRead = 0;
-		for(;;) {
-			size_t n = BUF_SIZE;
-			len = f.read(&buf[0], n);
-			txt.append(&buf[0], len);
-			bytesRead += len;
-			if(SETTING(MAX_FILELIST_SIZE) && bytesRead > (size_t)SETTING(MAX_FILELIST_SIZE)*1024*1024)
-				throw FileException("Greater than maximum filelist size");
-			if(len < BUF_SIZE)
-				break;
-		}
+		loadXML(f, false);
 	} else if(Util::stricmp(ext, ".xml") == 0) {
-		int64_t sz = dcpp::File::getSize(name);
-		if(sz == -1 || sz >= static_cast<int64_t>(txt.max_size()))
-			throw FileException("(FILE_NOT_AVAILABLE)");
-
-		txt.resize((size_t) sz);
-		size_t n = txt.length();
-		dcpp::File(name, dcpp::File::READ, dcpp::File::OPEN).read(&txt[0], n);
+		loadXML(ff, false);
 	}
-
-	loadXML(txt, false);
 }
 
 class ListLoader : public SimpleXMLReader::CallBack {
 public:
-	ListLoader(DirectoryListing* aList, DirectoryListing::Directory* root, bool aUpdating, const UserPtr& aUser) : list(aList), cur(root), base("/"), inListing(false), updating(aUpdating), user(aUser) {
+	ListLoader(DirectoryListing::Directory* root, bool aUpdating, const HintedUser& user) : cur(root), base("/"), inListing(false), updating(aUpdating) , user(user) {
 	}
 
-	~ListLoader() { }
+	virtual ~ListLoader() { }
 
-	void startTag(const string& name, StringPairList& attribs, bool simple);
-	void endTag(const string& name, const string& data);
+	virtual void startTag(const string& name, StringPairList& attribs, bool simple);
+	virtual void endTag(const string& name, const string& data);
 
 	const string& getBase() const { return base; }
 private:
-	DirectoryListing* list;
 	DirectoryListing::Directory* cur;
-	UserPtr user;
 
 	StringMap params;
 	string base;
 	bool inListing;
 	bool updating;
+	HintedUser user;
 };
 
-string DirectoryListing::loadXML(const string& xml, bool updating) {
-	ListLoader ll(this, getRoot(), updating, getUser());
-	SimpleXMLReader(&ll).parse(xml.c_str(),xml.size(),true);/*fromXML(xml);*/
+string DirectoryListing::updateXML(const string& xml) {
+	MemoryInputStream mis(xml);
+	return loadXML(mis, true);
+}
+
+string DirectoryListing::loadXML(InputStream& is, bool updating) {
+	ListLoader ll(getRoot(), updating, getUser());
+
+	SimpleXMLReader(&ll).parse(is, SETTING(MAX_FILELIST_SIZE) ? (size_t)SETTING(MAX_FILELIST_SIZE)*1024*1024 : 0);
+
 	return ll.getBase();
 }
 
 static const string sFileListing = "FileListing";
 static const string sBase = "Base";
-static const string sGenerator = "Generator";
-static const string sCID = "CID"; //RSX++
+static const string sGenerator = "Generator";//
+static const string sCID = "CID"; //
 static const string sDirectory = "Directory";
 static const string sIncomplete = "Incomplete";
 static const string sFile = "File";
@@ -156,50 +140,49 @@ static const string sSize = "Size";
 static const string sTTH = "TTH";
 
 void ListLoader::startTag(const string& name, StringPairList& attribs, bool simple) {
-	if(list->getAbort()) {
-		throw AbortException();
-	}
-
 	if(inListing) {
 		if(name == sFile) {
 			const string& n = getAttrib(attribs, sName, 0);
 			if(n.empty())
 				return;
+
 			const string& s = getAttrib(attribs, sSize, 1);
 			if(s.empty())
 				return;
-            int64_t size = Util::toInt64(s);
+			auto size = Util::toInt64(s);
+
 			const string& h = getAttrib(attribs, sTTH, 2);
-			if(h.empty()) {
+			if(h.empty())
 				return;
+			TTHValue tth(h); /// @todo verify validity?
+
+			if(updating) {
+				// just update the current file if it is already there.
+				for(auto i = cur->files.cbegin(), iend = cur->files.cend(); i != iend; ++i) {
+					auto& file = **i;
+					/// @todo comparisons should be case-insensitive but it takes too long - add a cache
+					if(file.getTTH() == tth || file.getName() == n) {
+						file.setName(n);
+						file.setSize(size);
+						file.setTTH(tth);
+						return;
+					}
+				}
 			}
 
-				TTHValue tth(h);/// @todo verify validity
-				if(updating){
-					// just update the current file if it is already there.
-					for(DirectoryListing::File::Iter i = cur->files.begin(), iend = cur->files.end(); i != iend; ++i) {
-						DirectoryListing::File& file = **i;
-						/// @todo comparisons should be case-insensitive but it takes too long - add a cache
-						if(file.getTTH() == tth || file.getName() == n) {
-							file.setName(n);
-							file.setSize(size);
-							file.setTTH(tth);
-							return;
-						}
-                }
-            }
-
-			DirectoryListing::File* f = new DirectoryListing::File(cur, n, /*Util::toInt64(s)*/size, tth/*h*/);
+			DirectoryListing::File* f = new DirectoryListing::File(cur, n, size, tth);
 			cur->files.push_back(f);
+
 		} else if(name == sDirectory) {
 			const string& n = getAttrib(attribs, sName, 0);
 			if(n.empty()) {
-				throw SimpleXMLException("Directory missing name attribute");
+				throw SimpleXMLException(_("Directory missing name attribute"));
 			}
 			bool incomp = getAttrib(attribs, sIncomplete, 1) == "1";
 			DirectoryListing::Directory* d = NULL;
 			if(updating) {
-				for(DirectoryListing::Directory::Iter i  = cur->directories.begin(); i != cur->directories.end(); ++i) {
+				for(DirectoryListing::Directory::Iter i = cur->directories.begin(); i != cur->directories.end(); ++i) {
+					/// @todo comparisons should be case-insensitive but it takes too long - add a cache
 					if((*i)->getName() == n) {
 						d = *i;
 						if(!d->getComplete())
@@ -240,14 +223,12 @@ void ListLoader::startTag(const string& name, StringPairList& attribs, bool simp
 			cur = d;
 		}
 		cur->setComplete(true);
-
-		string generator = getAttrib(attribs, sGenerator, 2);
-		string fileCID = getAttrib(attribs, sCID, 3); //RSX++
-		string base = getAttrib(attribs, "Base", 4); //RSX++
-
-		ClientManager::getInstance()->setGenerator(user, generator, fileCID, base);
-
 		inListing = true;
+		//
+        string generator = getAttrib(attribs, sGenerator, 2);
+		string fileCID = getAttrib(attribs, sCID, 3);
+		string base = getAttrib(attribs, sBase, 4);
+		ClientManager::getInstance()->setGenerator(user, generator, fileCID, base);
 
 		if(simple) {
 			// To handle <Directory Name="..." />
@@ -284,14 +265,30 @@ string DirectoryListing::getPath(const Directory* d) const {
 	return dir;
 }
 
-void DirectoryListing::download(Directory* aDir, const string& aTarget, bool highPrio, QueueItem::Priority prio) {
+StringList DirectoryListing::getLocalPaths(const File* f) const {
+	try {
+		return ShareManager::getInstance()->getRealPaths(Util::toAdcFile(getPath(f) + f->getName()));
+	} catch(const ShareException&) {
+		return StringList();
+	}
+}
+
+StringList DirectoryListing::getLocalPaths(const Directory* d) const {
+	try {
+		return ShareManager::getInstance()->getRealPaths(Util::toAdcFile(getPath(d)));
+	} catch(const ShareException&) {
+		return StringList();
+	}
+}
+
+void DirectoryListing::download(Directory* aDir, const string& aTarget, bool highPrio) {
 	string tmp;
 	string target = (aDir == getRoot()) ? aTarget : aTarget + aDir->getName() + PATH_SEPARATOR;
 	// First, recurse over the directories
 	Directory::List& lst = aDir->directories;
 	sort(lst.begin(), lst.end(), Directory::DirSort());
 	for(Directory::Iter j = lst.begin(); j != lst.end(); ++j) {
-		download(*j, target, highPrio, prio);
+		download(*j, target, highPrio);
 	}
 	// Then add the files
 	File::List& l = aDir->files;
@@ -299,7 +296,7 @@ void DirectoryListing::download(Directory* aDir, const string& aTarget, bool hig
 	for(File::Iter i = aDir->files.begin(); i != aDir->files.end(); ++i) {
 		File* file = *i;
 		try {
-			download(file, target + file->getName(), false, highPrio, prio);
+			download(file, target + file->getName(), false, highPrio);
 		} catch(const QueueException&) {
 			// Catch it here to allow parts of directories to be added...
 		} catch(const FileException&) {
@@ -308,22 +305,21 @@ void DirectoryListing::download(Directory* aDir, const string& aTarget, bool hig
 	}
 }
 
-void DirectoryListing::download(const string& aDir, const string& aTarget, bool highPrio, QueueItem::Priority prio) {
+void DirectoryListing::download(const string& aDir, const string& aTarget, bool highPrio) {
 	dcassert(aDir.size() > 2);
 	dcassert(aDir[aDir.size() - 1] == '\\'); // This should not be PATH_SEPARATOR
 	Directory* d = find(aDir, getRoot());
 	if(d != NULL)
-		download(d, aTarget, highPrio, prio);
+		download(d, aTarget, highPrio);
 }
 
-void DirectoryListing::download(File* aFile, const string& aTarget, bool view, bool highPrio, QueueItem::Priority prio) {
-	Flags::MaskType flags = (Flags::MaskType)(view ? (QueueItem::FLAG_TEXT | QueueItem::FLAG_CLIENT_VIEW) : 0);
+void DirectoryListing::download(File* aFile, const string& aTarget, bool view, bool highPrio) {
+	int flags = (view ? (QueueItem::FLAG_TEXT | QueueItem::FLAG_CLIENT_VIEW) : 0);
 
-	// TODO hubHint?
-	QueueManager::getInstance()->add(aTarget, aFile->getSize(), aFile->getTTH(), HintedUser(getUser(), Util::emptyString), flags);
+	QueueManager::getInstance()->add(aTarget, aFile->getSize(), aFile->getTTH(), getUser(), flags);
 
-	if(highPrio || (prio != QueueItem::DEFAULT))
-		QueueManager::getInstance()->setPriority(aTarget, highPrio ? QueueItem::HIGHEST : prio);
+	if(highPrio)
+		QueueManager::getInstance()->setPriority(aTarget, QueueItem::HIGHEST);
 }
 
 DirectoryListing::Directory* DirectoryListing::find(const string& aName, Directory* current) {
@@ -359,6 +355,11 @@ struct DirectoryEmpty {
 	}
 };
 
+DirectoryListing::Directory::~Directory() {
+	for_each(directories.begin(), directories.end(), DeleteFunction());
+	for_each(files.begin(), files.end(), DeleteFunction());
+}
+
 void DirectoryListing::Directory::filterList(DirectoryListing& dirList) {
 		DirectoryListing::Directory* d = dirList.getRoot();
 
@@ -379,13 +380,6 @@ void DirectoryListing::Directory::getHashList(DirectoryListing::Directory::TTHSe
 }
 
 int64_t DirectoryListing::Directory::getTotalSize(bool adl) {
-	//RSX++
-	if(parent != NULL && parent->parent == NULL) {
-		if(RegEx::match<string>(getName(), "([A-Z])")) {
-			parent->rmDCdetected = true;
-		}
-	}
-	//END
 	int64_t x = getSize();
 	for(Iter i = directories.begin(); i != directories.end(); ++i) {
 		if(!(adl && (*i)->getAdls()))
@@ -402,7 +396,20 @@ size_t DirectoryListing::Directory::getTotalFileCount(bool adl) {
 	}
 	return x;
 }
-//RSX++
+
+DirectoryListing::Directory::List DirectoryListing::getForbiddenDirs() {
+	DirectoryListing::Directory::List forbiddenDirList;
+	for(DirectoryListing::Directory::Iter di = root->directories.begin() ; di != root->directories.end() ; di++) {
+		if((*di)->getName().find("Forbidden Directories") != string::npos) {
+			DirectoryListing::Directory::Iter fd;
+			for(fd = (*di)->directories.begin(); fd != (*di)->directories.end() ; fd++) {
+				forbiddenDirList.push_back(*fd);
+			}
+		}
+	}
+	return forbiddenDirList;
+}
+
 DirectoryListing::File::List DirectoryListing::getForbiddenFiles() {
 	DirectoryListing::File::List forbiddenList;
 	for(DirectoryListing::Directory::Iter di = root->directories.begin() ; di != root->directories.end() ; di++) {
@@ -418,39 +425,4 @@ DirectoryListing::File::List DirectoryListing::getForbiddenFiles() {
 	return forbiddenList;
 }
 
-string DirectoryListing::Directory::getFullPath() {
-	if(parent != NULL) {
-		return parent->getFullPath() + "//" + getName();
-	} else {
-		return getName();
-	}
-}
-
-string DirectoryListing::File::getFullFileName() {
-	string parentPath = "//";
-	if(parent != NULL) {
-		parentPath = parent->getFullPath() + parentPath;
-	}
-	return (parentPath + getName());
-}
-
-DirectoryListing::Directory::List DirectoryListing::getForbiddenDirs() {
-	DirectoryListing::Directory::List forbiddenDirList;
-	for(DirectoryListing::Directory::Iter di = root->directories.begin() ; di != root->directories.end() ; di++) {
-		if((*di)->getName().find("Forbidden Directories") != string::npos) {
-			DirectoryListing::Directory::Iter fd;
-			for(fd = (*di)->directories.begin(); fd != (*di)->directories.end() ; fd++) {
-				forbiddenDirList.push_back(*fd);
-			}
-		}
-	}
-	return forbiddenDirList;
-}
-//END
-
 } // namespace dcpp
-
-/**
- * @file
- * $Id: DirectoryListing.cpp 434 2009-03-29 11:09:33Z BigMuscle $
- */

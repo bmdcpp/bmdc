@@ -19,8 +19,12 @@
 #ifndef DCPLUSPLUS_DCPP_BUFFERED_SOCKET_H
 #define DCPLUSPLUS_DCPP_BUFFERED_SOCKET_H
 
-#include "Atomic.h"
+#include <atomic>
+#include <deque>
+#include <memory>
+
 #include "typedefs.h"
+
 #include "BufferedSocketListener.h"
 #include "Semaphore.h"
 #include "Thread.h"
@@ -28,6 +32,11 @@
 #include "Socket.h"
 
 namespace dcpp {
+
+using std::atomic;
+using std::deque;
+using std::pair;
+using std::unique_ptr;
 
 class BufferedSocket : public Speaker<BufferedSocketListener>, private Thread {
 public:
@@ -48,8 +57,8 @@ public:
 	 * @param sep Line separator
 	 * @return An unconnected socket
 	 */
-	static BufferedSocket* getSocket(char sep) {
-		return new BufferedSocket(sep);
+	static BufferedSocket* getSocket(char sep, bool v4only = false) {
+		return new BufferedSocket(sep, v4only);
 	}
 
 	static void putSocket(BufferedSocket* aSock) {
@@ -60,13 +69,13 @@ public:
 	}
 
 	static void waitShutdown() {
-		while(sockets)
+		while(sockets > 0)
 			Thread::sleep(100);
 	}
 
-	void accept(const Socket& srv, bool secure, bool allowUntrusted) throw(SocketException);
-	void connect(const string& aAddress, string aPort, bool secure, bool allowUntrusted, bool proxy) throw(SocketException);
-	void connect(const string& aAddress, string aPort, string localPort, NatRoles natRole, bool secure, bool allowUntrusted, bool proxy) throw(SocketException);
+	void accept(const Socket& srv, bool secure, bool allowUntrusted);
+	void connect(const string& aAddress, const string& aPort, bool secure, bool allowUntrusted, bool proxy);
+	void connect(const string& aAddress, const string& aPort, const string& localPort, NatRoles natRole, bool secure, bool allowUntrusted, bool proxy);
 
 	/** Sets data mode for aBytes bytes. Must be called within onLine. */
 	void setDataMode(int64_t aBytes = -1) { mode = MODE_DATA; dataBytes = aBytes; }
@@ -79,8 +88,6 @@ public:
 	void setMode(Modes mode, size_t aRollback = 0);
 	Modes getMode() const { return mode; }
 	const string& getIp() const { return sock->getIp(); }
-	//bool isConnected() const { return sock->isConnected(); }
-	const string getPort() const { return sock->getPort(); }
 
 	bool isSecure() const { return sock->isSecure(); }
 	bool isTrusted() const { return sock->isTrusted(); }
@@ -88,14 +95,14 @@ public:
 	vector<uint8_t> getKeyprint() const { return sock->getKeyprint(); }
 
 	void write(const string& aData) { write(aData.data(), aData.length()); }
-	void write(const char* aBuf, size_t aLen) throw();
+	void write(const char* aBuf, size_t aLen) noexcept;
 	/** Send the file f over this socket. */
 	void transmitFile(InputStream* f) { Lock l(cs); addTask(SEND_FILE, new SendFileInfo(f)); }
 
 	/** Send an updated signal to all listeners */
 	void updated() { Lock l(cs); addTask(UPDATED, 0); }
 
-	void disconnect(bool graceless = false) throw() { Lock l(cs); if(graceless) disconnecting = true; addTask(DISCONNECT, 0); }
+	void disconnect(bool graceless = false) noexcept { Lock l(cs); if(graceless) disconnecting = true; addTask(DISCONNECT, 0); }
 
 	string getLocalIp() const { return sock->getLocalIp(); }
 	uint16_t getLocalPort() const { return sock->getLocalPort(); }
@@ -134,17 +141,17 @@ private:
 		InputStream* stream;
 	};
 
-	BufferedSocket(char aSeparator);
+	BufferedSocket(char aSeparator, bool v4only);
 
-	virtual ~BufferedSocket() throw();
+	virtual ~BufferedSocket();
 
 	CriticalSection cs;
 
 	Semaphore taskSem;
-	deque<pair<Tasks, boost::shared_ptr<TaskData> > > tasks;
+	deque<pair<Tasks, unique_ptr<TaskData> > > tasks;
 
 	Modes mode;
-	std::auto_ptr<UnZFilter> filterIn;
+	std::unique_ptr<UnZFilter> filterIn;
 	int64_t dataBytes;
 	size_t rollback;
 	string line;
@@ -155,23 +162,23 @@ private:
 	std::unique_ptr<Socket> sock;
 	State state;
 	bool disconnecting;
+	bool v4only;
 
 	virtual int run();
 
-	void threadConnect(const string& aAddr, string aPort, string localPort, NatRoles natRole, bool proxy) throw(SocketException);
-	void threadAccept() throw(SocketException);
-	void threadRead() throw(Exception);
-	void threadSendFile(InputStream* is) throw(Exception);
-	void threadSendData() throw(Exception);
+	void threadConnect(const string& aAddr, const string& aPort, const string& localPort, NatRoles natRole, bool proxy);
+	void threadAccept();
+	void threadRead();
+	void threadSendFile(InputStream* is);
+	void threadSendData();
 
 	void fail(const string& aError);
-//	static volatile long sockets;
-	static Atomic<long,memory_ordering_strong> sockets;
+	static atomic<long> sockets;
 
-	bool checkEvents() throw(Exception);
-	void checkSocket() throw(Exception);
+	bool checkEvents();
+	void checkSocket();
 
-	void setSocket(std::unique_ptr<Socket> s);
+	void setSocket(std::unique_ptr<Socket>&& s);
 	void setOptions();
 	void shutdown();
 	void addTask(Tasks task, TaskData* data);

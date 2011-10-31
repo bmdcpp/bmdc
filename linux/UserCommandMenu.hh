@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ class UserCommandMenu : public Entry
 		static void onUserCommandClick_gui(GtkMenuItem *item, gpointer data);
 
 		// Client functions
-		void sendUserCommand_client(std::string cid, std::string commandName, std::string hub, dcpp::StringMap params);
+		void sendUserCommand_client(std::string cid, std::string commandName, std::string hub, dcpp::ParamMap params);
 
 		GtkWidget *userCommandMenu;
 		int ctx;

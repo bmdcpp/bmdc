@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,22 +30,19 @@
 #include <dcpp/QueueManager.h>
 #include <dcpp/TimerManager.h>
 #include <dcpp/UploadManager.h>
-#include <dcpp/UserCommand.h>
-#include <dcpp/HttpDownload.h>
+#include <dcpp/FavoriteManager.h>
 
-#include "wulformanager.hh"
 #include "entry.hh"
 #include "treeview.hh"
 #include "transfers.hh"
 #include "message.hh"
 #include "notify.hh"
-#include "privatemessage.hh"
-#include "hub.hh"
 
-#include <queue>
 
 class BookEntry;
 class Search;
+class PrivateMessage;
+class Hub;
 
 class MainWindow:
 	public Entry,
@@ -68,7 +65,7 @@ class MainWindow:
 		void removeBookEntry_gui(BookEntry *entry);
 		GtkWidget *currentPage_gui();
 		void raisePage_gui(GtkWidget *page);
-		static bool getUserCommandLines_gui(const std::string &command, dcpp::StringMap &ucParams);
+		static bool getUserCommandLines_gui(const std::string &command, dcpp::ParamMap &ucParams);
 		void propertiesMagnetDialog_gui(std::string magnet);
 		void showMessageDialog_gui(const std::string primaryText, const std::string secondaryText);
 		void showDownloadQueue_gui();
@@ -78,20 +75,20 @@ class MainWindow:
 		void showFinishedUploads_gui();
 		void showHub_gui(std::string address, std::string encoding = "");
 		void showSearchSpy_gui();
-		//Add
-		void showSystem_gui(); //System Tab
-		void showIgnore_gui(); //Ignore Tab
-		void showADLSearch_gui(); //ADL Tab
-		void showNotepad_gui(); //Notepad Tab
-		void showRecentHub_gui(); //RecentHub Tab
-		void showUploadQueue();
-		void showDetection_gui(); //Detection Tab
-		void showcmddebug_gui(); //CMD DEBUG Tab
-		//END
+		void showSearchADL_gui();
+		void showDetection_gui();
+		
+		void showIgnoreUsers_gui();
+		void showCmdDebug_gui();
+		void showSystemLog_gui();
+		void showNotepad_gui();
+		void showUploadQueue_gui();
+		void showRecentHubs_gui();
+		
 		void addPrivateMessage_gui(Msg::TypeMsg typemsg, std::string cid, std::string hubUrl = "", std::string message = "", bool useSetting = FALSE);
 		void addPrivateStatusMessage_gui(Msg::TypeMsg typemsg, std::string cid, std::string message = "");
 		void showPublicHubs_gui();
-		void showShareBrowser_gui(dcpp::UserPtr user, std::string file, std::string dir, bool useSetting,int64_t speed);//ch
+		void showShareBrowser_gui(dcpp::UserPtr user, std::string file, std::string dir, int64_t speed ,bool useSetting);
 		Search *addSearch_gui();
 		void addSearch_gui(std::string magnet);
 		void actionMagnet_gui(std::string magnet);
@@ -99,7 +96,11 @@ class MainWindow:
 		void showNotification_gui(std::string head, std::string body, Notify::TypeNotify notify);
 		GtkWidget* getChooserDialog_gui();
 		void fileToDownload_gui(std::string magnet, std::string path);
-		
+
+		// Client functions
+		void openOwnList_client(bool useSetting);
+		void updateFavoriteHubMenu_client(const dcpp::FavoriteHubEntryList &fh);
+		/**/
 		void setAwayIcon(bool isAway)
 		{  
 			if(isAway)
@@ -107,42 +108,10 @@ class MainWindow:
 			else	
 				gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("AwayIcon")), "bmdc-away");
 		}
-		// Client functions
-		void openOwnList_client(bool useSetting);
 
 	private:
-        //Checker
-        class DirectoryListInfo {
-            public:
-                DirectoryListInfo(const dcpp::UserPtr& aUser, const std::string& aFile, const std::string& aDir, int64_t aSpeed) : user(aUser), file(aFile), dir(aDir), speed(aSpeed) { }
-                dcpp::UserPtr user;
-                std::string file;
-                std::string dir;
-                int64_t speed;
-			};
-       /* class DirectoryBrowseInfo {
-            public:
-                DirectoryBrowseInfo(const dcpp::UserPtr& ptr, std::string aText) : user(ptr), text(aText) { }
-                dcpp::UserPtr user;
-                std::string text;
-        };*/
-        class FileListQueue: public dcpp::Thread {
-            public:
-                bool stop;
-                dcpp::Semaphore s;
-                dcpp::CriticalSection cs;
-				std::list<DirectoryListInfo*> fileLists;
-
-				FileListQueue() : stop(true) {}
-				~FileListQueue() throw() {
-					shutdown();
-				}
-            int run();
-            void shutdown() {
-                stop = true;
-                s.signal();
-            }
-        };
+		typedef std::pair<std::string, std::string> ParamPair;
+		typedef std::vector<ParamPair> ListParamPair;
 
 		// GUI functions
 		void loadIcons_gui();
@@ -165,6 +134,10 @@ class MainWindow:
 		void setChooseMagnetDialog_gui();
 		void showMagnetDialog_gui(const std::string &magnet, const std::string &name, const int64_t size,
 			const std::string &tth);
+		void setStatRate_gui();//NOTE: core 0.762
+		void setToolbarMenu_gui(const std::string &item_key, const std::string &button_key, const std::string &key);
+		void updateFavoriteHubMenu_gui(ListParamPair list);
+		void checkToolbarMenu_gui();
 
 		// GUI Callbacks
 		static gboolean onWindowState_gui(GtkWidget *widget, GdkEventWindowState *event, gpointer data);
@@ -179,38 +152,16 @@ class MainWindow:
 		static void onConnectClicked_gui(GtkWidget *widget, gpointer data);
 		static void onFavoriteHubsClicked_gui(GtkWidget *widget, gpointer data);
 		static void onFavoriteUsersClicked_gui(GtkWidget *widget, gpointer data);
+		static void onIgnoreUserClicked_gui(GtkWidget *widget , gpointer data);//BMDC++
 		static void onPublicHubsClicked_gui(GtkWidget *widget, gpointer data);
 		static void onPreferencesClicked_gui(GtkWidget *widget, gpointer data);
 		static void onHashClicked_gui(GtkWidget *widget, gpointer data);
 		static void onSearchClicked_gui(GtkWidget *widget, gpointer data);
+		static void onSearchADLClicked_gui(GtkWidget *widget, gpointer data);
 		static void onSearchSpyClicked_gui(GtkWidget *widget, gpointer data);
 		static void onDownloadQueueClicked_gui(GtkWidget *widget, gpointer data);
 		static void onFinishedDownloadsClicked_gui(GtkWidget *widget, gpointer data);
 		static void onFinishedUploadsClicked_gui(GtkWidget *widget, gpointer data);
-		//Add
-		static void onNotepad_gui(GtkWidget *widget, gpointer data);
-		static void onADLSearch_gui(GtkWidget *widget, gpointer data);
-		static void onSystem_gui(GtkWidget *widget, gpointer data);
-		static void onIgnore_gui(GtkWidget *widget, gpointer data);
-		static void onAway_gui(GtkWidget *widget, gpointer data);
-		static void onLimiting(GtkWidget *widget, gpointer data);
-		static void onRecent_gui(GtkWidget *widget, gpointer data);
-		static void onTTHFileDialog_gui(GtkWidget *widget, gpointer data);
-		static void onTTHFileButton_gui(GtkWidget *widget, gpointer data);
-		//static void onHighliting(GtkWidget *widget , gpointer data);
-		static void onUploadQueue_gui(GtkWidget *widget , gpointer data);
-		static void onDetection(GtkWidget *widget , gpointer data);
-		static void onDebugCMD(GtkWidget *widget, gpointer data);
-        /*Close**/
-		static void onCloseAllHub_gui(GtkWidget *widget, gpointer data);
-		static void onCloseAllPM_gui(GtkWidget *widget, gpointer data);
-		static void onCloseAllSearch_gui(GtkWidget *widget, gpointer data);
-		//static void onCloseAllOffHub_gui(GtkWidget *widget, gpointer data);
-		static void onCloseAlloffPM_gui(GtkWidget *widget, gpointer data);
-		///Limiting Icons
-		static void onLimitingMenuItem_gui(GtkWidget *widget, gpointer data);
-		static void onLimitingDisable(GtkWidget *widget, gpointer data);
-		//End
 		static void onQuitClicked_gui(GtkWidget *widget, gpointer data);
 		static void onOpenFileListClicked_gui(GtkWidget *widget, gpointer data);
 		static void onOpenOwnListClicked_gui(GtkWidget *widget, gpointer data);
@@ -234,22 +185,48 @@ class MainWindow:
 		static void onSetMagnetChoiceDialog_gui(GtkWidget *widget, gpointer data);
 		static void onResponseMagnetDialog_gui(GtkWidget *dialog, gint response, gpointer data);
 		static gboolean onDeleteEventMagnetDialog_gui(GtkWidget *dialog, GdkEvent *event, gpointer data);
+		static gboolean onMenuButtonClicked_gui(GtkWidget *widget, gpointer data);
+		static gboolean onAddButtonClicked_gui(GtkWidget *widget, gpointer data);
+		static void menuPosition_gui(GtkMenu *menu, gint *x, gint *y, gboolean *push, gpointer data);
+		static void onToolToggled_gui(GtkWidget *widget, gpointer data);
+		static void onTopToolbarToggled_gui(GtkWidget *widget, gpointer data);
+		static void onLeftToolbarToggled_gui(GtkWidget *widget, gpointer data);
+		static void onHideToolbarToggled_gui(GtkWidget *widget, gpointer data);
+		static void onSizeToolbarToggled_gui(GtkWidget *widget, gpointer data);
+		static void onHubClicked_gui(GtkWidget *widget, gpointer data);
+		/**/
+		static void onCmdDebugClicked_gui( GtkWidget *widget, gpointer data);
+		static void onSystemLogClicked_gui(GtkWidget *widget, gpointer data);
+		static void onNotepadClicked_gui(GtkWidget *widget, gpointer data);
+		static void onUploadQueueClicked_gui(GtkWidget *widget, gpointer data);
+		static void onDetectionClicked_gui(GtkWidget *widget, gpointer data);
+		static void onRecentHubClicked_gui(GtkWidget *widget, gpointer data);
+		static void onAwayClicked_gui(GtkWidget *widget, gpointer data);
+		static void onLimitingMenuItem_gui(GtkWidget *widget, gpointer data);
+		static void onLimitingDisable(GtkWidget *widget, gpointer data);
+		static void onTTHFileDialog_gui(GtkWidget *widget, gpointer data);
+		static void onTTHFileButton_gui(GtkWidget *widget, gpointer data);
+		/**/
+		static void onCloseAllHub_gui(GtkWidget *widget, gpointer data);
+		static void onCloseAllPM_gui(GtkWidget *widget, gpointer data);
+		static void onCloseAllSearch_gui(GtkWidget *widget, gpointer data);
+		static void onCloseAlloffPM_gui(GtkWidget *widget, gpointer data);
+		static void onReconectAllHub_gui(GtkWidget *widget, gpointer data);
 
 		// Client functions
 		void autoConnect_client();
 		void startSocket_client();
 		void refreshFileList_client();
 		void addFileDownloadQueue_client(std::string name, int64_t size, std::string tth);
-		void getAway();
-		void EnbDsbLimit();
 		void checkUpdateofGeoIp(bool v6);
 		void updateGeoIp(bool v6);
 		void completeGeoIpUpdate(bool v6);
+		void removeItemFromList(Entry::EntryType type, std::string id);
 
 		// Client callbacks
 		virtual void on(dcpp::LogManagerListener::Message, time_t t, const std::string &m) throw();
 		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) throw();
-		virtual void on(dcpp::TimerManagerListener::Second, uint64_t ticks) throw();
+		virtual void on(dcpp::TimerManagerListener::Second, uint64_t ticks) noexcept;
 
 		GtkWindow *window;
 		Transfers* transfers;
@@ -261,15 +238,35 @@ class MainWindow:
 		int statusFrame;
 		bool useStatusIconBlink;
 		bool onQuit;
-		bool isLimiting;
-		FileListQueue listQueue;
-
-		std::vector<PrivateMessage*> allprivatemess;
-		std::vector<Hub*> allhub;
-		std::vector<Search*> allsearch;
+		int ToolbarStyle;
 		
-		static const int maxTooltipCount = 5;//TODO setting;
-		std::queue<std::string> statusTexts;
+		class DirectoryListInfo {
+            public:
+                DirectoryListInfo(const dcpp::HintedUser& hintedUser, const std::string& aFile, const std::string& aDir, int64_t aSpeed) : user(hintedUser), file(aFile), dir(aDir), speed(aSpeed) { }
+                dcpp::HintedUser user;
+                std::string file;
+                std::string dir;
+                int64_t speed;
+		};
+		
+		class FileListQueue: public dcpp::Thread {
+            public:
+                bool stop;
+                dcpp::Semaphore s;
+                dcpp::CriticalSection cs;
+				std::list<DirectoryListInfo*> fileLists;
+
+				FileListQueue() : stop(true) {}
+				~FileListQueue() noexcept {
+					shutdown();
+				}
+            int run();
+            void shutdown() {
+                stop = true;
+                s.signal();
+            }
+        };
+		
 		
 		enum
 		{
@@ -278,6 +275,12 @@ class MainWindow:
 			CONN_LAST
 		};
 		std::unique_ptr<dcpp::HttpDownload> conns[CONN_LAST];
+		
+		std::vector<PrivateMessage*> privateMessage;
+		std::vector<Hub*> Hubs;
+		std::vector<Search*> search;
+		
+		FileListQueue listQueue;
 };
 
 #else

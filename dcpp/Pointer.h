@@ -20,15 +20,22 @@
 #define DCPLUSPLUS_DCPP_POINTER_H
 
 #include <boost/intrusive_ptr.hpp>
-#include "Thread.h"
+#include <boost/smart_ptr/detail/atomic_count.hpp>
+
+#include <memory>
+
+#include "noexcept.h"
 
 namespace dcpp {
+
+using std::unique_ptr;
+using std::forward;
 
 template<typename T>
 class intrusive_ptr_base
 {
 public:
-	//add
+    //add
 	void inc() throw() {
 		intrusive_ptr_add_ref(this);
 	}
@@ -36,27 +43,51 @@ public:
 	void dec() throw() {
 		intrusive_ptr_release(this);
 	}
+	//END
 
-	//end
-	bool unique() throw() {
+	bool unique() noexcept {
 		return (ref == 1);
 	}
 
 protected:
-	intrusive_ptr_base() throw() : ref(0) { }
+	intrusive_ptr_base() noexcept : ref(0) { }
 
 private:
-	friend void intrusive_ptr_add_ref(intrusive_ptr_base* p) { Thread::safeInc(p->ref); }
-	friend void intrusive_ptr_release(intrusive_ptr_base* p) { if(Thread::safeDec(p->ref) == 0) { delete static_cast<T*>(p); } }
+	friend void intrusive_ptr_add_ref(intrusive_ptr_base* p) { ++p->ref; }
+	friend void intrusive_ptr_release(intrusive_ptr_base* p) { if(--p->ref == 0) { delete static_cast<T*>(p); } }
 
-	volatile long ref;
+	boost::detail::atomic_count ref;
 };
-
 
 struct DeleteFunction {
 	template<typename T>
 	void operator()(const T& p) const { delete p; }
 };
+
+template<typename T>
+inline unique_ptr<T> make_unique()
+{
+    return unique_ptr<T>(new T);
+}
+
+template<typename T, typename A0>
+inline unique_ptr<T> make_unique(A0&& a0)
+{
+    return unique_ptr<T>(new T(forward<A0>(a0)));
+}
+
+template<typename T, typename A0, typename A1>
+inline unique_ptr<T> make_unique(A0 && a0, A1 && a1)
+{
+    return unique_ptr<T>(new T(forward<A0>(a0), forward<A1>(a1)));
+}
+
+template<typename T, typename A0, typename A1, typename A2>
+inline unique_ptr<T> make_unique(A0 && a0, A1 && a1, A2 && a2)
+{
+    return unique_ptr<T>(new T(forward<A0>(a0), forward<A1>(a1), forward<A2>(a2)));
+}
+
 
 } // namespace dcpp
 

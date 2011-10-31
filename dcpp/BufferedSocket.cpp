@@ -17,8 +17,10 @@
  */
 
 #include "stdinc.h"
-#include "format.h"
 #include "BufferedSocket.h"
+
+#include <algorithm>
+#include <boost/scoped_array.hpp>
 
 #include "TimerManager.h"
 #include "SettingsManager.h"
@@ -31,24 +33,26 @@
 #include "ThrottleManager.h"
 
 namespace dcpp {
+
 using std::min;
-using std::max;	
+using std::max;
 
 // Polling is used for tasks...should be fixed...
 #define POLL_TIMEOUT 250
 
-BufferedSocket::BufferedSocket(char aSeparator) :
+BufferedSocket::BufferedSocket(char aSeparator, bool v4only) :
 separator(aSeparator), mode(MODE_LINE), dataBytes(0), rollback(0), state(STARTING),
-disconnecting(false)
+disconnecting(false), v4only(v4only)
 {
 	start();
-	sockets.inc();
+
+	++sockets;
 }
 
-Atomic<long,memory_ordering_strong> BufferedSocket::sockets(0);
+atomic<long> BufferedSocket::sockets(0);
 
-BufferedSocket::~BufferedSocket() throw() {
-	sockets.dec();
+BufferedSocket::~BufferedSocket() {
+	--sockets;
 }
 
 void BufferedSocket::setMode (Modes aMode, size_t aRollback) {
@@ -62,7 +66,7 @@ void BufferedSocket::setMode (Modes aMode, size_t aRollback) {
 			rollback = aRollback;
 			break;
 		case MODE_ZPIPE:
-			filterIn = std::auto_ptr<UnZFilter>(new UnZFilter);
+			filterIn = std::unique_ptr<UnZFilter>(new UnZFilter);
 			break;
 		case MODE_DATA:
 			break;
@@ -70,23 +74,22 @@ void BufferedSocket::setMode (Modes aMode, size_t aRollback) {
 	mode = aMode;
 }
 
-void BufferedSocket::setSocket(std::unique_ptr<Socket> s) {
+void BufferedSocket::setSocket(unique_ptr<Socket>&& s) {
 	dcassert(!sock.get());
-		sock = move(s);
+	sock = move(s);
 }
 
-void BufferedSocket::setOptions()
-{
+void BufferedSocket::setOptions() {
 	if(SETTING(SOCKET_IN_BUFFER) > 0)
 		sock->setSocketOpt(SO_RCVBUF, SETTING(SOCKET_IN_BUFFER));
 	if(SETTING(SOCKET_OUT_BUFFER) > 0)
 		sock->setSocketOpt(SO_SNDBUF, SETTING(SOCKET_OUT_BUFFER));
 }
 
-void BufferedSocket::accept(const Socket& srv, bool secure, bool allowUntrusted) throw(SocketException) {
+void BufferedSocket::accept(const Socket& srv, bool secure, bool allowUntrusted) {
 	dcdebug("BufferedSocket::accept() %p\n", (void*)this);
 
-	std::unique_ptr<Socket> s(secure ? CryptoManager::getInstance()->getServerSocket(allowUntrusted) : new Socket(Socket::TYPE_TCP));
+	unique_ptr<Socket> s(secure ? CryptoManager::getInstance()->getServerSocket(allowUntrusted) : new Socket(Socket::TYPE_TCP));
 
 	s->accept(srv);
 
@@ -97,26 +100,26 @@ void BufferedSocket::accept(const Socket& srv, bool secure, bool allowUntrusted)
 	addTask(ACCEPTED, 0);
 }
 
-void BufferedSocket::connect(const string& aAddress, string aPort, bool secure, bool allowUntrusted, bool proxy) throw(SocketException) {
+void BufferedSocket::connect(const string& aAddress, const string& aPort, bool secure, bool allowUntrusted, bool proxy) {
 	connect(aAddress, aPort, Util::emptyString, NAT_NONE, secure, allowUntrusted, proxy);
 }
 
-void BufferedSocket::connect(const string& aAddress, string aPort, string localPort, NatRoles natRole, bool secure, bool allowUntrusted, bool proxy) throw(SocketException) {
+void BufferedSocket::connect(const string& aAddress, const string& aPort, const string& localPort, NatRoles natRole, bool secure, bool allowUntrusted, bool proxy) {
 	dcdebug("BufferedSocket::connect() %p\n", (void*)this);
-	std::unique_ptr<Socket> s(secure ? (natRole == NAT_SERVER ? CryptoManager::getInstance()->getServerSocket(allowUntrusted) : CryptoManager::getInstance()->getClientSocket(allowUntrusted)) : new Socket(Socket::TYPE_TCP));
+	unique_ptr<Socket> s(secure ? (natRole == NAT_SERVER ? CryptoManager::getInstance()->getServerSocket(allowUntrusted) : CryptoManager::getInstance()->getClientSocket(allowUntrusted)) : new Socket(Socket::TYPE_TCP));
 
 	s->setLocalIp4(SETTING(BIND_ADDRESS));
 	s->setLocalIp6(SETTING(BIND_ADDRESS6));
-	
+
 	setSocket(move(s));
-	
+
 	Lock l(cs);
 	addTask(CONNECT, new ConnectInfo(aAddress, aPort, localPort, natRole, proxy && (SETTING(OUTGOING_CONNECTIONS) == SettingsManager::OUTGOING_SOCKS5)));
 }
 
 #define LONG_TIMEOUT 30000
 #define SHORT_TIMEOUT 1000
-void BufferedSocket::threadConnect(const string& aAddr, string aPort, string localPort, NatRoles natRole, bool proxy) throw(SocketException) {
+void BufferedSocket::threadConnect(const string& aAddr, const string& aPort, const string& localPort, NatRoles natRole, bool proxy) {
 	dcassert(state == STARTING);
 
 	fire(BufferedSocketListener::Connecting());
@@ -127,8 +130,9 @@ void BufferedSocket::threadConnect(const string& aAddr, string aPort, string loc
 	while (GET_TICK() < endTime) {
 		dcdebug("threadConnect attempt %s %s:%s\n", localPort.c_str(), aAddr.c_str(), aPort.c_str());
 		try {
+
 			setOptions();
-			
+
 			if(proxy) {
 				sock->socksConnect(aAddr, aPort, LONG_TIMEOUT);
 			} else {
@@ -142,6 +146,7 @@ void BufferedSocket::threadConnect(const string& aAddr, string aPort, string loc
 
 			if (connSucceeded) {
 				inbuf.resize(sock->getSocketOptInt(SO_RCVBUF));
+
 				fire(BufferedSocketListener::Connected());
 				return;
 			}
@@ -158,12 +163,13 @@ void BufferedSocket::threadConnect(const string& aAddr, string aPort, string loc
 	throw SocketException(_("Connection timeout"));
 }
 
-void BufferedSocket::threadAccept() throw(SocketException) {
+void BufferedSocket::threadAccept() {
 	dcassert(state == STARTING);
 
 	dcdebug("threadAccept\n");
 
 	state = RUNNING;
+
 	inbuf.resize(sock->getSocketOptInt(SO_RCVBUF));
 
 	uint64_t startTime = GET_TICK();
@@ -177,7 +183,7 @@ void BufferedSocket::threadAccept() throw(SocketException) {
 	}
 }
 
-void BufferedSocket::threadRead() throw(Exception) {
+void BufferedSocket::threadRead() {
 	if(state != RUNNING)
 		return;
 
@@ -189,6 +195,7 @@ void BufferedSocket::threadRead() throw(Exception) {
 		// This socket has been closed...
 		throw SocketException(_("Connection closed"));
 	}
+
 	string::size_type pos = 0;
 	// always uncompressed data
 	string l;
@@ -249,7 +256,7 @@ void BufferedSocket::threadRead() throw(Exception) {
 						break;
 					}
 				}
-				if (pos == string::npos)
+				if (pos == string::npos) 
 					left = 0;
 				line = l;
 				break;
@@ -282,7 +289,7 @@ void BufferedSocket::threadRead() throw(Exception) {
 	}
 }
 
-void BufferedSocket::threadSendFile(InputStream* file) throw(Exception) {
+void BufferedSocket::threadSendFile(InputStream* file) {
 	if(state != RUNNING)
 		return;
 
@@ -332,15 +339,15 @@ void BufferedSocket::threadSendFile(InputStream* file) throw(Exception) {
 		while(writePos < writeBuf.size()) {
 			if(disconnecting)
 				return;
-
+			
 			if(written == -1) {
 				// workaround for OpenSSL (crashes when previous write failed and now retrying with different writeSize)
 				written = sock->write(&writeBuf[writePos], writeSize);
 			} else {
-				writeSize = min(sockSize / 2, writeBuf.size() - writePos);
+				writeSize = min(sockSize / 2, writeBuf.size() - writePos);	
 				written = ThrottleManager::getInstance()->write(sock.get(), &writeBuf[writePos], writeSize);
 			}
-
+			
 			if(written > 0) {
 				writePos += written;
 
@@ -377,7 +384,7 @@ void BufferedSocket::threadSendFile(InputStream* file) throw(Exception) {
 	}
 }
 
-void BufferedSocket::write(const char* aBuf, size_t aLen) throw() {
+void BufferedSocket::write(const char* aBuf, size_t aLen) noexcept {
 	if(!sock.get())
 		return;
 	Lock l(cs);
@@ -387,7 +394,7 @@ void BufferedSocket::write(const char* aBuf, size_t aLen) throw() {
 	writeBuf.insert(writeBuf.end(), aBuf, aBuf+aLen);
 }
 
-void BufferedSocket::threadSendData() throw(Exception) {
+void BufferedSocket::threadSendData() {
 	if(state != RUNNING)
 		return;
 
@@ -406,7 +413,7 @@ void BufferedSocket::threadSendData() throw(Exception) {
 			return;
 		}
 
-		auto w =  sock->wait(POLL_TIMEOUT, true, true);
+		auto w = sock->wait(POLL_TIMEOUT, true, true);
 
 		if(w.first) {
 			threadRead();
@@ -423,13 +430,13 @@ void BufferedSocket::threadSendData() throw(Exception) {
 	sendBuf.clear();
 }
 
-bool BufferedSocket::checkEvents() throw(Exception) {
+bool BufferedSocket::checkEvents() {
 	while(state == RUNNING ? taskSem.wait(0) : taskSem.wait()) {
-		pair<Tasks, boost::shared_ptr<TaskData> > p;
+		pair<Tasks, unique_ptr<TaskData> > p;
 		{
 			Lock l(cs);
 			dcassert(tasks.size() > 0);
-			p = tasks.front();
+			p = move(tasks.front());
 			tasks.erase(tasks.begin());
 		}
 
@@ -464,8 +471,8 @@ bool BufferedSocket::checkEvents() throw(Exception) {
 	return true;
 }
 
-void BufferedSocket::checkSocket() throw(Exception) {
-	 auto w = sock->wait(POLL_TIMEOUT, true, false);
+void BufferedSocket::checkSocket() {
+	auto w = sock->wait(POLL_TIMEOUT, true, false);
 
 	if(w.first) {
 		threadRead();
@@ -514,7 +521,7 @@ void BufferedSocket::shutdown() {
 
 void BufferedSocket::addTask(Tasks task, TaskData* data) {
 	dcassert(task == DISCONNECT || task == SHUTDOWN || task == UPDATED || sock.get());
-	tasks.push_back(make_pair(task, data)); taskSem.signal();
+	tasks.push_back(make_pair(task, unique_ptr<TaskData>(data))); taskSem.signal();
 }
 
 } // namespace dcpp

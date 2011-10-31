@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,6 +41,10 @@ DownloadQueue::DownloadQueue():
 	File::ensureDirectory(SETTING(DOWNLOAD_DIRECTORY));
 	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(getWidget("dirChooserDialog")), Text::fromUtf8(SETTING(DOWNLOAD_DIRECTORY)).c_str());
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("dirChooserDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
+
+	// menu
+	g_object_ref_sink(getWidget("dirMenu"));
+	g_object_ref_sink(getWidget("fileMenu"));
 
 	// Initialize directory treeview
 	dirView.setView(GTK_TREE_VIEW(getWidget("dirView")));
@@ -128,12 +132,15 @@ DownloadQueue::~DownloadQueue()
 		WSET("downloadqueue-pane-position", panePosition);
 
 	gtk_widget_destroy(getWidget("dirChooserDialog"));
+	g_object_unref(getWidget("dirMenu"));
+	g_object_unref(getWidget("fileMenu"));
 }
 
 void DownloadQueue::show()
 {
-	buildList_client();
-	QueueManager::getInstance()->addListener(this);
+	//buildList_client();
+	//QueueManager::getInstance()->addListener(this);
+	QueueManager::getInstance()->addListener(this, [this](const QueueItem::StringMap& qsm) { addQueueList(qsm); });
 }
 
 void DownloadQueue::buildDynamicMenu_gui()
@@ -476,6 +483,7 @@ void DownloadQueue::updateFileView_gui()
 		string dir = dirView.getString(&iter, "Path");
 		if (dir != currentDir)
 		{
+
 			gtk_list_store_clear(fileStore);
 			currentDir = dir;
 			currentItems = 0;
@@ -544,7 +552,7 @@ gboolean DownloadQueue::onDirKeyReleased_gui(GtkWidget *widget, GdkEventKey *eve
 		{
 			dq->updateFileView_gui();
 		}
-		else if (event->keyval == GDK_Return || event->keyval == GDK_KP_Enter || event->keyval == GDK_Right || event->keyval == GDK_Left)
+		else if (event->keyval == GDK_Return || event->keyval == GDK_KP_Enter)
 		{
 			GtkTreePath *path = gtk_tree_model_get_path(GTK_TREE_MODEL(dq->dirStore), &iter);
 			if (gtk_tree_view_row_expanded(dq->dirView.get(), path))
@@ -639,7 +647,7 @@ void DownloadQueue::onDirPriorityClicked_gui(GtkMenuItem *item, gpointer data)
 		else
 			priority = QueueItem::NORMAL;
 
-		typedef Func2<DownloadQueue, string, QueueItem::Priority> F2;
+		typedef Func2<DownloadQueue, string, QueueItem::Priority > F2;
 		F2 *func = new F2(dq, &DownloadQueue::setPriorityDir_client, path, priority);
 		WulforManager::get()->dispatchClientFunc(func);
 	}
@@ -691,7 +699,8 @@ void DownloadQueue::onDirRemoveClicked_gui(GtkMenuItem *menuitem, gpointer data)
 	if (gtk_tree_selection_get_selected(dq->dirSelection, NULL, &iter))
 	{
 		string path = dq->dirView.getString(&iter, "Path");
-		gtk_list_store_clear(dq->fileStore);
+
+        gtk_list_store_clear(dq->fileStore);
 
 		typedef Func1<DownloadQueue, string> F1;
 		F1 *func = new F1(dq, &DownloadQueue::removeDir_client, path);
@@ -1038,24 +1047,24 @@ void DownloadQueue::onFileRemoveClicked_gui(GtkMenuItem *menuitem, gpointer data
 	g_list_free(list);
 }
 
-void DownloadQueue::buildList_client()
+//void DownloadQueue::buildList_client()
+void DownloadQueue::addQueueList(const QueueItem::StringMap &ll)
 {
 	StringMap params;
 	typedef Func2<DownloadQueue, StringMap, bool> F2;
 	//F2 *func;
-	const QueueItem::StringMap &ll = QueueManager::getInstance()->lockQueue();
+	//const QueueItem::StringMap &ll = QueueManager::getInstance()->lockQueue();
 
 	for (QueueItem::StringMap::const_iterator it = ll.begin(); it != ll.end(); ++it)
 	{
 		params["Size Sort"] = Util::toString(it->second->getSize());
 		params["Path"] = Util::getFilePath(*it->first);
 
-        addFile_gui(params, TRUE);
+		addFile_gui(params, TRUE);
 		//func = new F2(this, &DownloadQueue::addFile_gui, params, TRUE);
 		//WulforManager::get()->dispatchGuiFunc(func);
 	}
 
-	QueueManager::getInstance()->unlockQueue();
 }
 
 void DownloadQueue::move_client(string source, string target)
@@ -1071,7 +1080,7 @@ void DownloadQueue::moveDir_client(string source, string target)
 		// Can't modify QueueItem::StringMap in the loop, so we have to queue them.
 		vector<string> targets;
 		string *file;
-		const QueueItem::StringMap &ll = QueueManager::getInstance()->lockQueue();
+		const QueueItem::StringMap &ll = QueueManager::getInstance()->getQueue();
 
 		for (QueueItem::StringMap::const_iterator it = ll.begin(); it != ll.end(); ++it)
 		{
@@ -1079,10 +1088,10 @@ void DownloadQueue::moveDir_client(string source, string target)
 			if (file->length() >= source.length() && file->substr(0, source.length()) == source)
 				targets.push_back(*file);
 		}
-		QueueManager::getInstance()->unlockQueue();
 
 		for (vector<string>::const_iterator it = targets.begin(); it != targets.end(); ++it)
 			QueueManager::getInstance()->move(*it, target + it->substr(source.length()));
+
 	}
 }
 
@@ -1097,7 +1106,7 @@ void DownloadQueue::setPriorityDir_client(string path, QueueItem::Priority p)
 	if (!path.empty() && path[path.length() - 1] == PATH_SEPARATOR)
 	{
 		string *file;
-		const QueueItem::StringMap &ll = QueueManager::getInstance()->lockQueue();
+		const QueueItem::StringMap &ll = QueueManager::getInstance()->getQueue();
 
 		for (QueueItem::StringMap::const_iterator it = ll.begin(); it != ll.end(); ++it)
 		{
@@ -1105,7 +1114,13 @@ void DownloadQueue::setPriorityDir_client(string path, QueueItem::Priority p)
 			if (file->length() >= path.length() && file->substr(0, path.length()) == path)
 				QueueManager::getInstance()->setPriority(*file, p);
 		}
-		QueueManager::getInstance()->unlockQueue();
+		//QueueManager::getInstance()->unlockQueue();
+		/*while(!vparam.empty())
+		{
+            string name = vparam.back();
+            QueueManager::getInstance()->setPriority(path+name,p);
+            vparam.pop_back();
+		}*/
 	}
 }
 
@@ -1209,7 +1224,7 @@ void DownloadQueue::removeDir_client(string path)
 	{
 		string *file;
 		vector<string> targets;
-		const QueueItem::StringMap &ll = QueueManager::getInstance()->lockQueue();
+		const QueueItem::StringMap &ll = QueueManager::getInstance()->getQueue();
 
 		for (QueueItem::StringMap::const_iterator it = ll.begin(); it != ll.end(); ++it)
 		{
@@ -1217,7 +1232,7 @@ void DownloadQueue::removeDir_client(string path)
 			if (file->length() >= path.length() && file->substr(0, path.length()) == path)
 				targets.push_back(*file);
 		}
-		QueueManager::getInstance()->unlockQueue();
+		//QueueManager::getInstance()->unlockQueue();
 
 		for (vector<string>::const_iterator it = targets.begin(); it != targets.end(); ++it)
 			QueueManager::getInstance()->remove(*it);
@@ -1229,7 +1244,7 @@ void DownloadQueue::updateFileView_client(string path)
 	if (!path.empty())
 	{
 		vector<StringMap> files;
-		const QueueItem::StringMap &ll = QueueManager::getInstance()->lockQueue();
+		const QueueItem::StringMap &ll = QueueManager::getInstance()->getQueue();
 
 		for (QueueItem::StringMap::const_iterator it = ll.begin(); it != ll.end(); ++it)
 		{
@@ -1240,7 +1255,7 @@ void DownloadQueue::updateFileView_client(string path)
 				files.push_back(params);
 			}
 		}
-		QueueManager::getInstance()->unlockQueue();
+		//QueueManager::getInstance()->unlockQueue();
 
 		// Updating gui is smoother if we do it in large chunks.
 		typedef Func2<DownloadQueue, vector<StringMap>, bool> F2;
@@ -1255,7 +1270,7 @@ void DownloadQueue::getQueueParams_client(QueueItem *item, StringMap &params)
 	map<string, string> source;
 	int online = 0;
 
-	params["Filename"] = Util::getFileName(item->getTarget());
+	params["Filename"] = item->getTargetFileName();
 	params["Path"] = Util::getFilePath(item->getTarget());
 	params["Target"] = item->getTarget();
 
@@ -1412,7 +1427,7 @@ void DownloadQueue::on(QueueManagerListener::SourcesUpdated, QueueItem *item) th
 	F1 *func = new F1(this, &DownloadQueue::updateFile_gui, params);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
-/**/
+
 void DownloadQueue::on(QueueManagerListener::StatusUpdated, QueueItem *item) throw()
 {
 	StringMap params;
@@ -1421,20 +1436,4 @@ void DownloadQueue::on(QueueManagerListener::StatusUpdated, QueueItem *item) thr
 	typedef Func1<DownloadQueue, StringMap> F1;
 	F1 *func = new F1(this, &DownloadQueue::updateFile_gui, params);
 	WulforManager::get()->dispatchGuiFunc(func);
-}
-
-/*this is a pop menu*/
-void DownloadQueue::popmenu()
-{
-    GtkWidget *closeMenuItem = gtk_menu_item_new_with_label(_("Close"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(getNewTabMenu()),closeMenuItem);
-
-    g_signal_connect_swapped(closeMenuItem, "activate",G_CALLBACK(onCloseItem),this);
-
-}
-
-void DownloadQueue::onCloseItem(gpointer data)
-{
-    BookEntry *entry = (BookEntry *)data;
-    WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
 }

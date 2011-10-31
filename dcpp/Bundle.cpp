@@ -16,45 +16,20 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#if !defined(BIT_OUTPUT_STREAM_H)
-#define BIT_OUTPUT_STREAM_H
+#include "stdinc.h"
+#include "Bundle.h"
+#include <boost/range/algorithm/for_each.hpp>
 
 namespace dcpp {
 
-class BitOutputStream
-{
-public:
-	BitOutputStream(string& aStream) : is(aStream), bitPos(0), next(0) { }
-	~BitOutputStream() { }
+using boost::for_each;
 
-	void put(const ByteVector& b) {
-		for(ByteVector::const_iterator i = b.begin(); i != b.end(); ++i) {
-			next |= (*i) << bitPos++;
+TTHValue Bundle::getHash() const {
+	TigerHash ret;
 
-			if(bitPos > 7) {
-				bitPos-=8;
-				is += next;
-				next = 0;
-			}
+	for_each(entries, [&](const Entry &e) { ret.update(e.tth.data, TTHValue::BYTES); });
 
-		}
-	}
+	return TTHValue(ret.finalize());
+}
 
-	void skipToByte() {
-		if(bitPos > 0) {
-			bitPos = 0;
-			is += next;
-			next = 0;
-		}
-	}
-
-private:
-	BitOutputStream& operator=(const BitOutputStream&);
-	string& is;
-	int bitPos;
-	uint8_t next;
-};
-
-} // namespace dcpp
-
-#endif // !defined(BIT_OUTPUT_STREAM_H)
+}

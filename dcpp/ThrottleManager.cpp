@@ -1,4 +1,4 @@
-/*
+/* 
  * Copyright (C) 2009-2011 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
@@ -40,7 +40,7 @@ int ThrottleManager::read(Socket* sock, void* buffer, size_t len)
 {
 	int64_t readSize = -1;
 	size_t downs = DownloadManager::getInstance()->getDownloadCount();
-	auto downLimit = getDownLimit(); //avoid even intra-func races
+	auto downLimit = getDownLimit(); // avoid even intra-function races
 	if(!getCurThrottling() || downLimit == 0 || downs == 0)
 		return sock->read(buffer, len);
 
@@ -72,13 +72,13 @@ int ThrottleManager::read(Socket* sock, void* buffer, size_t len)
 
 /*
  * Throttles traffic and writes a packet to the network
- * Handle this a little bit differently than downloads due to OpenSSL stupidity
+ * Handle this a little bit differently than downloads due to OpenSSL stupidity 
  */
 int ThrottleManager::write(Socket* sock, void* buffer, size_t& len)
 {
 	bool gotToken = false;
 	size_t ups = UploadManager::getInstance()->getUploadCount();
-	auto upLimit = getUpLimit(); //avoid...
+	auto upLimit = getUpLimit(); // avoid even intra-function races
 	if(!getCurThrottling() || upLimit == 0 || ups == 0)
 		return sock->write(buffer, len);
 
@@ -97,7 +97,7 @@ int ThrottleManager::write(Socket* sock, void* buffer, size_t& len)
 
 	if(gotToken)
 	{
-		// write to socket
+		// write to socket			
 		int sent = sock->write(buffer, len);
 
 		Thread::yield(); // give a chance to other transfers get a token
@@ -148,10 +148,9 @@ int ThrottleManager::getDownLimit() {
 	return SettingsManager::getInstance()->get(getCurSetting(SettingsManager::MAX_DOWNLOAD_SPEED_MAIN));
 }
 
-void ThrottleManager::setSetting(SettingsManager::IntSetting setting, int value)
-{
-		SettingsManager::getInstance()->set(setting,value);
-		ClientManager::getInstance()->infoUpdated();
+void ThrottleManager::setSetting(SettingsManager::IntSetting setting, int value) {
+	SettingsManager::getInstance()->set(setting, value);
+	ClientManager::getInstance()->infoUpdated();
 }
 
 bool ThrottleManager::getCurThrottling() {
@@ -181,90 +180,30 @@ ThrottleManager::~ThrottleManager(void)
 	TimerManager::getInstance()->removeListener(this);
 }
 
-#ifdef _WIN32
-
 void ThrottleManager::shutdown() {
 	Lock l(stateCS);
 	if (activeWaiter != -1) {
-		waitCS[activeWaiter].leave();
+		waitCS[activeWaiter].unlock();
 		activeWaiter = -1;
 	}
 }
-#else //*nix
-
-void ThrottleManager::shutdown()
-{
-	bool wait = false;
-	{
-		Lock l(stateCS);
-		if (activeWaiter != -1)
-		{
-			n_lock = activeWaiter;
-			activeWaiter = -1;
-			halt = 1;
-			wait = true;
-		}
-	}
-
-	// wait shutdown...
-	if (wait)
-	{
-		Lock l(shutdownCS);
-	}
-}
-#endif //*nix
 
 // TimerManagerListener
-void ThrottleManager::on(TimerManagerListener::Second, uint64_t /* aTick */) throw()
+void ThrottleManager::on(TimerManagerListener::Second, uint64_t /* aTick */) noexcept
 {
 	int newSlots = SettingsManager::getInstance()->get(getCurSetting(SettingsManager::SLOTS));
 	if(newSlots != SETTING(SLOTS)) {
-		//SettingsManager::getInstance()->set(SettingsManager::SLOTS, newSlots);
-		//ClientManager::getInstance()->infoUpdated();
 		setSetting(SettingsManager::SLOTS, newSlots);
 	}
 
 	{
 		Lock l(stateCS);
-
-#ifndef _WIN32 //*nix
-
-		if (halt == 1)
-		{
-			halt = -1;
-
-			// unlock shutdown and token wait
-			dcassert(n_lock == 0 || n_lock == 1);
-			waitCS[n_lock].leave();
-			shutdownCS.leave();
-
-			return;
-		}
-		else if (halt == -1)
-		{
-			return;
-		}
-#endif
 		if (activeWaiter == -1)
-		{
 			// This will create slight weirdness for the read/write calls between
 			// here and the first activeWaiter-toggle below.
-			waitCS[activeWaiter = 0].enter();
-
-#ifndef _WIN32 //*nix
-
-			// lock shutdown
-			shutdownCS.enter();
-#endif
-		}
+			waitCS[activeWaiter = 0].lock();
 	}
-	/*
-	int downLimit = getDownLimit();
-	int upLimit   = getUpLimit();
-    if(!BOOLSETTING(THROTTLE_ENABLE)) {
-        downLimit =0;
-        upLimit = 0;
-    }*/
+
 	// readd tokens
 	{
 		Lock l(downCS);
@@ -283,9 +222,9 @@ void ThrottleManager::on(TimerManagerListener::Second, uint64_t /* aTick */) thr
 		Lock l(stateCS);
 
 		dcassert(activeWaiter == 0 || activeWaiter == 1);
-		waitCS[1-activeWaiter].enter();
-		Thread::safeExchange(activeWaiter, 1-activeWaiter);
-		waitCS[1-activeWaiter].leave();
+		waitCS[1-activeWaiter].lock();
+		activeWaiter = 1-activeWaiter;
+		waitCS[1-activeWaiter].unlock();
 	}
 }
 

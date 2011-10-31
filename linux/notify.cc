@@ -1,5 +1,5 @@
 /*
- * Copyright © 2011 Leliksan Floyd <leliksan@Quadrafon2>
+ * Copyright © 2009 Leliksan Floyd <leliksan@Quadrafon2>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
  * [08.11.09] исправлена ошибка, после выхода не закрывалось уведомление.
  * [08.11.09] исправлена ошибка, не обновлялась иконка.
  *
- * Copyright © 2009-2011, author patch: troll, freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2010, author patch: troll, freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,6 +40,10 @@
 #include "settingsmanager.hh"
 #include <dcpp/Text.h>
 #include "notify.hh"
+
+#ifndef NOTIFY_CHECK_VERSION
+#define NOTIFY_CHECK_VERSION(major,minor,micro) 0
+#endif
 
 using namespace std;
 using namespace dcpp;
@@ -67,24 +71,25 @@ Notify* Notify::get()
 
 void Notify::init()
 {
-	#ifdef HAVE_LIBNOTIFY
+#ifdef HAVE_NOTIFY
 	notify_init(g_get_application_name());
-		#ifdef HAVE_LIBNOTIFY_0_7
-			notification = notify_notification_new("template", "template", g_get_prgname());
-		#else
-			notification = notify_notification_new("template", "template", NULL, NULL);
-		#endif	
+
+#if NOTIFY_CHECK_VERSION(0,7,0)
+	notification = notify_notification_new("template", "template", NULL);
+#else
+	notification = notify_notification_new("template", "template", NULL, NULL);
+#endif
 	action = FALSE;
-	#endif
+#endif	
 }
 
 void Notify::finalize()
 {
-	#ifdef HAVE_LIBNOTIFY
+#ifdef HAVE_NOTIFY	
 	notify_notification_close(notification, NULL);
 	g_object_unref(notification);
 	notify_uninit();
-	#endif
+#endif	
 }
 
 void Notify::setCurrIconSize(const int size)
@@ -130,10 +135,9 @@ void Notify::setCurrIconSize(const int size)
 			WSET("notify-icon-size", DEFAULT);
 	}
 }
-#ifdef HAVE_LIBNOTIFY
+
 void Notify::showNotify(const string &head, const string &body, TypeNotify notify)
 {
-
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
 
 	switch (notify)
@@ -158,7 +162,6 @@ void Notify::showNotify(const string &head, const string &body, TypeNotify notif
 					wsm->getString("notify-download-finished-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_NORMAL);
 
 				action = TRUE;
-
 			}
 
 			break;
@@ -204,18 +207,18 @@ void Notify::showNotify(const string &head, const string &body, TypeNotify notif
 			showNotify(wsm->getString("notify-fuser-quit-title"), head, body,
 				wsm->getString("notify-fuser-quit-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_NORMAL);
 			break;
-		case HIGHLITING_E://TODO settings
+		case HIGHLITING:
 			if (wsm->getInt("notify-higl-use"))	
 				showNotify(wsm->getString("notify-higl-title"), head , body,
-						wsm->getString("notify-higl-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_LOW);
+						wsm->getString("notify-higl-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_LOW);	
 			break;
 		default: break;
 	}
-
 }
 
 void Notify::showNotify(const string &title, const string &head, const string &body, const string &icon, const int iconSize, NotifyUrgency urgency)
 {
+	#ifdef HAVE_LIBNOTIFY
 	if (title.empty())
 		return;
 
@@ -265,15 +268,17 @@ void Notify::showNotify(const string &title, const string &head, const string &b
 	}
 
 	notify_notification_show(notification, NULL);
+	#endif
 }
 
 void Notify::onAction(NotifyNotification *notify, const char *action, gpointer data)
 {
+	#ifdef HAVE_LIBNOTIFY
 	string target = (gchar*)data;
 
 	if (!target.empty())
 		WulforUtil::openURI(target);
 
 	notify_notification_close(notify, NULL);
+	#endif
 }
-#endif

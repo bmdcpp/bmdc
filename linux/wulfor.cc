@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,19 +25,19 @@
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
-#include <dcpp/Util.h>
-#include <dcpp/UPnPManager.h> //NOTE: core 0.762
+#include <dcpp/UPnPManager.h>//NOTE: core 0.762
 
 #include "settingsmanager.hh"
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
+#include "Splash.hh"
 #include "version.hh"
-#include "IntlUtil.hh"
-#include "upnpc.hh" //NOTE: core 0.762
+#include "upnpc.hh"//NOTE: core 0.762
 #include <iostream>
 #include <signal.h>
 
 #define GUI_LOCALE_DIR _DATADIR PATH_SEPARATOR_STR "locale"
+
 
 void receiver(const char *link, gpointer data)
 {
@@ -47,30 +47,38 @@ void receiver(const char *link, gpointer data)
 
 void callBack(void* x, const std::string& a)
 {
-	std::cout << _("Loading: ") << a << std::endl;
+	std::cout << "Loading: " << a << std::endl;
+	Splash *sp = (Splash *)x;
+	sp->setText(a);
+	sp->update();
 }
 
 int main(int argc, char *argv[])
 {
+	// Initialize i18n support
+	bindtextdomain(GUI_PACKAGE, GUI_LOCALE_DIR);
+	textdomain(GUI_PACKAGE);
+	bind_textdomain_codeset(GUI_PACKAGE, "UTF-8");
+
 	// Check if profile is locked
 	if (WulforUtil::profileIsLocked())
 	{
-		std::cout << "No more that one instance" << std::endl;
+		cout << _("No More That one Instance");
 		return 1;
 	}
 
 	// Start the DC++ client core
-	dcpp::Util::initialize(); //NOTE: core 0.762
-	// Initialize i18n support
-	IntlUtil::initialize();
-	
-	dcpp::startup(callBack, NULL);
-	dcpp::UPnPManager::getInstance()->addImplementation(new UPnPc()); //NOTE: core 0.762
+	dcpp::Util::initialize();//NOTE: core 0.762
+	gtk_init(&argc, &argv);
+	Splash* sp = new Splash();
+	sp->show();
+	dcpp::startup(callBack, (void*)sp);
+	sp->destroy();
+	dcpp::UPnPManager::getInstance()->addImplementation(new UPnPc());//NOTE: core 0.762
 	dcpp::TimerManager::getInstance()->start();
 
 	g_thread_init(NULL);
 	gdk_threads_init();
-	gtk_init(&argc, &argv);
 	glade_init();
 	g_set_application_name("BMDC++");
 
@@ -80,14 +88,13 @@ int main(int argc, char *argv[])
 	WulforManager::start(argc, argv);
 	gdk_threads_enter();
 	gtk_main();
-
 	gdk_threads_leave();
 	WulforManager::stop();
 	WulforSettingsManager::deleteInstance();
 
-	std::cout << _("Shutting down...") << std::endl;
+	std::cout << _("Shutting down dcpp client...") << std::endl;
 	dcpp::shutdown();
-	std::cout << _("...Quit") << std::endl;
+	std::cout << _("Quit...") << std::endl;
 
 	return 0;
 }

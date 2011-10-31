@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,14 +24,9 @@
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
-#include <dcpp/typedefs.h>
-
-#include <dcpp/Client.h>
 #include <dcpp/ClientManager.h>
-#include <dcpp/ClientManagerListener.h>
-#include <dcpp/SearchResult.h>
 #include <dcpp/SearchManager.h>
-#include <dcpp/DirectoryListing.h>
+#include <dcpp/SearchResult.h>
 
 #include "bookentry.hh"
 #include "treeview.hh"
@@ -47,7 +42,6 @@ class Search:
 		Search();
 		virtual ~Search();
 		virtual void show();
-		virtual void popmenu();
 
 		void putValue_gui(const std::string &str, int64_t size, dcpp::SearchManager::SizeModes mode, dcpp::SearchManager::TypeModes type);
 
@@ -67,23 +61,19 @@ class Search:
 		} GroupType;
 
 		// GUI functions
-		static void onCloseItem(gpointer data);
-
 		void initHubs_gui();
-		void addHub_gui(std::string name, std::string url, bool isOp);//modifed
+		void addHub_gui(std::string name, std::string url);
 		void modifyHub_gui(std::string name, std::string url);
-		void modifyHubnOp_gui(std::string name, std::string url, bool op);
 		void removeHub_gui(std::string url);
 		void popupMenu_gui();
 		void setStatus_gui(std::string statusBar, std::string text);
 		void search_gui();
 		void addResult_gui(const dcpp::SearchResultPtr result);
 		void updateParentRow_gui(GtkTreeIter *parent, GtkTreeIter *child = NULL);
-		GtkTreeIter createParentRow_gui(GtkTreeIter *child, const std::string &groupStr, gint position = -1);
 		void ungroup_gui();
 		void regroup_gui();
 		std::string getGroupingColumn(GroupType groupBy);
-		void download_gui(const std::string &target);
+		void modifyHubOp_gui(std::string name, std::string url, bool op);
 
 		// GUI callbacks
 		static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);
@@ -135,7 +125,6 @@ class Search:
 		virtual void on(dcpp::ClientManagerListener::ClientDisconnected, dcpp::Client *client) throw();
 		virtual void on(dcpp::SearchManagerListener::SR, const dcpp::SearchResultPtr &result) throw();
 
-		//typedef std::unordered_map<std::string, std::string> SeMap;
 		TreeView hubView, resultView;
 		GtkListStore *hubStore;
 		GtkTreeStore *resultStore;

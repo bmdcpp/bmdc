@@ -1,6 +1,4 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
-Import('env')
 
 files = [
 	'connecthostport.c',
@@ -14,6 +12,8 @@ files = [
 	'upnperrors.c',
 	'upnpreplyparse.c']
 
+Import('env')
+env = env.Clone()
 ret = env.StaticLibrary(target = 'miniupnpc', source = files)
 
 Return('ret')

@@ -16,8 +16,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef RSXPLUSPLUS_HUB_USERS_MAP_H
-#define RSXPLUSPLUS_HUB_USERS_MAP_H
+#ifndef HUB_USERS_MAP_H
+#define HUB_USERS_MAP_H
 
 #include "QueueManager.h"
 #include "Client.h"
@@ -32,7 +32,7 @@ template<bool isADC, typename BaseMap>
 class HubUsersMap : public BaseMap {
 public:
 	HubUsersMap() : clientEngine(NULL) { };
-	~HubUsersMap() throw() {
+	~HubUsersMap() noexcept {
 		stopCheck();
 		stopMyINFOCheck();
 	}
@@ -44,8 +44,8 @@ public:
 	}
 
 	string startChecking(Client* c, const string& param) throw() {
-		if(!c->isOp())
-			return _("You are not an Operator on this hub");
+		//if(!c->isOp())
+		//	return _("You are not an Operator on this hub");
 		if(clientEngine != NULL) {
 			stopCheck();
 			return _("Checking stopped");
@@ -58,11 +58,11 @@ public:
 			cc = c->getCheckClients();
 			cf = c->getCheckFilelists();
 		} else {
-			if(Util::stricmp(param.c_str(), _("clients")) == 0 || Util::stricmp(param.c_str(), _("c")) == 0)
+			if(Util::stricmp(param.c_str(), "clients") == 0 || Util::stricmp(param.c_str(), "c") == 0)
 				cc = true;
-			else if(Util::stricmp(param.c_str(), _("filelists")) == 0 || Util::stricmp(param.c_str(), _("fl")) == 0 || Util::stricmp(param.c_str(), _("f")) == 0)
+			else if(Util::stricmp(param.c_str(), "filelists") == 0 || Util::stricmp(param.c_str(), "fl") == 0 || Util::stricmp(param.c_str(), "f") == 0)
 				cf = true;
-			else if(Util::stricmp(param.c_str(), _("all")) == 0)
+			else if(Util::stricmp(param.c_str(), "all") == 0)
 				cc = cf = true;
 			else
 				return _("Incorrect parameters!");
@@ -74,8 +74,8 @@ public:
 			clientEngine = new ThreadedCheck(this, c);
 			clientEngine->setCheckClients(cc);
 			clientEngine->setCheckFilelists(cf);
-			if(c->getCheckOnConnect())
-				clientEngine->setCheckOnConnect(true);
+			if(c->getCheckAtConnect())
+				clientEngine->setCheckAtConnect(true);
 			clientEngine->startCheck();
 
 			if(cc && !cf)
@@ -94,14 +94,14 @@ public:
 		}
 	}
 
-	void stopCheck() throw() {
+	void stopCheck() noexcept {
 		if(clientEngine != NULL) {
             delete clientEngine;
 			clientEngine = NULL;
 		}
 	}
 
-	bool isDetectorRunning() const {
+	bool isDetectorRunning() const {//is this need ?
 		return (clientEngine != NULL && clientEngine->isChecking());
 	}
 
@@ -125,7 +125,7 @@ private:
 			stop = false;
 			setThreadPriority(Thread::HIGH);
 			if(client && client->isConnected()) {
-				client->setCheckedAtConnect(true);
+				client->setCheckAtConnect(true);
 
 				OnlineUserList ul;
 				client->getUserList(ul);
@@ -159,7 +159,7 @@ private:
 	class ThreadedCheck : public Thread {
 	public:
 		ThreadedCheck(HubUsersMap* _u, Client* _c) : client(_c), users(_u),
-			keepChecking(false), canCheckFilelist(false), inThread(false), checkOnConnect(false) { };
+			keepChecking(false), canCheckFilelist(false), inThread(false), checkAtConnect(false) { };
 		~ThreadedCheck() {
 			keepChecking = inThread = false;
 
@@ -254,20 +254,17 @@ private:
 			keepChecking = true;
 			setThreadPriority(Thread::LOW);
 
-			if(checkOnConnect) {
+			if(checkAtConnect) {
 				if(checkClients && !checkFilelists)
-					//client->addHubLine("*** Checking started (Clients)", 3);
 					client->cheatMessage("*** Checking started (Clients)");
 				else if(!checkClients && checkFilelists)
-					//client->addHubLine("*** Checking started (FileLists)", 3);
 					client->cheatMessage("*** Checking started (FileLists)");
 				else if(checkClients && checkFilelists)
 					client->cheatMessage("*** Checking started (Clients & FileLists)");
-					//client->addHubLine("*** Checking started (Clients & FileLists)", 3);
 
 				sleep((SETTING(CHECK_DELAY) + 1000)/1000);
-				checkOnConnect = false;
-				client->setCheckOnConnect(false);
+				checkAtConnect = false;
+				client->setCheckAtConnect(false);
 			}
 
 			if(!client->isConnected()) {
@@ -285,23 +282,22 @@ private:
 					uint8_t f = 0;
 					{
 						Lock l(cs);
-						const QueueItem::StringMap& q = QueueManager::getInstance()->lockQueue();
+						const QueueItem::StringMap& q = QueueManager::getInstance()->getQueue();
 						for(QueueItem::StringMap::const_iterator i = q.begin(); i != q.end(); ++i) {
-							if(i->second->countOnlineUsers() == 0)
-								continue;
+							//if(i->second->countOnlineUsers() == 0)
+							//	continue;
 							if(i->second->isSet(QueueItem::FLAG_TESTSUR)) {
 								t++;
 							} else if(i->second->isSet(QueueItem::FLAG_CHECK_FILE_LIST)) {
 								f++;
 							}
 						}
-						QueueManager::getInstance()->unlockQueue();
 					}
 
 					OnlineUserPtr ou = NULL;
 					int action = 0;
 					{
-						Lock l(client->cs);
+						Lock l(cs);//client->
 						for(typename BaseMap::const_iterator i = users->begin(); i != users->end(); ++i) {
 							if(!inThread)
 								break;
@@ -340,7 +336,7 @@ private:
 							}
 							try {
 								QueueManager::getInstance()->remove(path);
-							}catch(...){ }
+							}catch(...){  }
 						}
 					}
 
@@ -354,7 +350,7 @@ private:
 			return 0;
 		}
 		GETSET(bool, keepChecking, KeepChecking);
-		GETSET(bool, checkOnConnect, CheckOnConnect);
+		GETSET(bool, checkAtConnect, CheckAtConnect);
 		GETSET(bool, checkFilelists, CheckFilelists);
 		GETSET(bool, checkClients, CheckClients);
 		bool canCheckFilelist;
@@ -366,7 +362,7 @@ private:
 };
 
 } // namespace dcpp
-#endif // RSXPLUSPLUS_HUB_USERS_MAP
+#endif // HUB_USERS_MAP
 
 /**
  * @file

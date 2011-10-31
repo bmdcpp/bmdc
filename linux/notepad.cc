@@ -27,9 +27,7 @@ using namespace dcpp;
 
 
 notepad::notepad():
-BookEntry(Entry::NOTEPAD,_("Notepad"),"notepad.glade"),
-usefile(false),
-file("")
+BookEntry(Entry::NOTEPAD,_("Notepad"),"notepad.glade")
 {
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("textview1")));
 }
@@ -51,15 +49,8 @@ notepad::~notepad()
 	stext.assign(text);
 
   try {
-	string configFile;
+	string configFile = dcpp::Util::getNotepadFile();
 	
-	if(!usefile)
-	{
-		configFile = dcpp::Util::getNotepadFile();
-	}
-	else
-		configFile = file;
-
 	File out(configFile + ".tmp", File::WRITE, File::CREATE | File::TRUNCATE);
 		out.write(stext);
 		out.flush();
@@ -82,21 +73,13 @@ void notepad::add_gui(string file)
 void notepad::ini_client()
 {
 	try {
-		string path;
-	
-		if(!usefile) {
-			path = dcpp::Util::getNotepadFile();
-		}
-		else
-			path=file;
-
+		string 	path = dcpp::Util::getNotepadFile();
 
 		File f(path,File::READ,File::OPEN);
 		//add to GUI
 		add_gui(f.read());
 
 		f.close();
-
 	}
 	catch (const Exception &e)
 	{
@@ -107,21 +90,4 @@ void notepad::ini_client()
 void notepad::show()
 {
     ini_client();
-}
-
-/*this is a pop menu*/
-void notepad::popmenu()
-{
-    GtkWidget *closeMenuItem = gtk_menu_item_new_with_label(_("Close"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(getNewTabMenu()), closeMenuItem);
-
-    g_signal_connect_swapped(closeMenuItem, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
-
-}
-
-void notepad::onCloseItem(gpointer data)
-{
-    BookEntry *entry = (BookEntry *)data;
-    WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
-
 }

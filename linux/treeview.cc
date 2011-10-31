@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 #include "treeview.hh"
 #include "settingsmanager.hh"
 #include "WulforUtil.hh"
+#include <dcpp/Util.h>
 #include <glib/gi18n.h>
 
 using namespace std;
@@ -40,6 +41,7 @@ TreeView::~TreeView()
 		saveSettings();
 	if (gtypes)
 		delete [] gtypes;
+	g_object_unref(menu);
 }
 
 void TreeView::setView(GtkTreeView *view)
@@ -128,6 +130,7 @@ void TreeView::finalize()
 	dcassert(count > 0);
 
 	menu = GTK_MENU(gtk_menu_new());
+	g_object_ref_sink(menu);
 	visibleColumns = columns.size();
 
 	if (!name.empty())
@@ -226,7 +229,7 @@ void TreeView::sizeDataFunc(GtkTreeViewColumn *col, GtkCellRenderer *renderer, G
 	g_object_set(renderer, "text", sizeString.c_str(), NULL);
 }
 
-void TreeView::sizeDataFuncE(GtkTreeViewColumn *col, GtkCellRenderer *renderer, GtkTreeModel *model, GtkTreeIter *iter, gpointer column)
+void TreeView::exactsizeDataFunc(GtkTreeViewColumn *col, GtkCellRenderer *renderer, GtkTreeModel *model, GtkTreeIter *iter, gpointer column)
 {
 	string sizeString;
 	int64_t size;
@@ -234,11 +237,12 @@ void TreeView::sizeDataFuncE(GtkTreeViewColumn *col, GtkCellRenderer *renderer, 
 
 	if (size >= 0)
 	{
-		sizeString = dcpp::Util::toString(size)+" B";
+		sizeString = dcpp::Util::toString(size);
 	}
 
 	g_object_set(renderer, "text", sizeString.c_str(), NULL);
 }
+
 
 void TreeView::timeLeftDataFunc(GtkTreeViewColumn *col, GtkCellRenderer *renderer, GtkTreeModel *model, GtkTreeIter *iter, gpointer column)
 {
@@ -331,14 +335,12 @@ void TreeView::addColumn_gui(Column& column)
 			gtk_tree_view_column_add_attribute(col, renderer, "text", column.pos);
 			gtk_tree_view_column_add_attribute(col, renderer, "foreground", TreeView::col(column.linkedTextColor));
 			break;
-		///add	
 		case PIXBUF_STRING_TEXT_COLOR:
-			// PIXBUF
+			// icon
 			renderer = gtk_cell_renderer_pixbuf_new();
 			col = gtk_tree_view_column_new();
 			gtk_tree_view_column_set_title(col, column.title.c_str());
-			gtk_tree_view_column_pack_start(col, renderer, false);//false
-			gtk_cell_renderer_set_fixed_size  (renderer,16,16);
+			gtk_tree_view_column_pack_start(col, renderer, false);
 			gtk_tree_view_column_add_attribute(col, renderer, "pixbuf", TreeView::col(column.linkedCol));
 			// text
 			renderer = gtk_cell_renderer_text_new();
@@ -346,7 +348,6 @@ void TreeView::addColumn_gui(Column& column)
 			gtk_tree_view_column_add_attribute(col, renderer, "text", column.pos);
 			gtk_tree_view_column_add_attribute(col, renderer, "foreground", TreeView::col(column.linkedTextColor));
 			break;	
-		///end	
 		case EDIT_STRING:
 			renderer = gtk_cell_renderer_text_new();
  			g_object_set(renderer, "editable", TRUE, NULL);
@@ -358,12 +359,12 @@ void TreeView::addColumn_gui(Column& column)
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(),
 				renderer, "text", column.pos, "value", TreeView::col(column.linkedCol), NULL);
 			break;
-		case ESIZE://Exact SHare
-			renderer = gtk_cell_renderer_text_new();
+		case EXSIZE:
+            renderer = gtk_cell_renderer_text_new();
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(),
 					renderer, "text", column.pos, NULL);
-			gtk_tree_view_column_set_cell_data_func(col, renderer, TreeView::sizeDataFuncE, &column, NULL);
-			break;
+			gtk_tree_view_column_set_cell_data_func(col, renderer, TreeView::exactsizeDataFunc, &column, NULL);
+            break;
 	}
 
 	if (!col)
@@ -390,8 +391,7 @@ void TreeView::addColumn_gui(Column& column)
 	gtk_tree_view_column_set_visible(col, column.visible);
 
 	gtk_tree_view_insert_column(view, col, column.pos);
-	g_object_set_data(G_OBJECT(col), "column", (gpointer)&column);
-
+    g_object_set_data(G_OBJECT(col), "column", (gpointer)&column);
 	/*
 	 * Breaks GTK+ API, but is the only way to attach a signal to a gtktreeview column header. See GTK bug #141937.
 	 * @todo: Replace when GTK adds a way to add a signal to the entire header (remove visibleColumns var, too).
@@ -545,22 +545,23 @@ void TreeView::saveSettings()
 		WSET(name + "-visibility", columnVisibility);
 	}
 }
+
 //Copy Menu =p
 void TreeView::buildCopyMenu(GtkWidget *wid)
 {
 	GtkWidget *menuItem;
 	GtkWidget *_menu = wid;
-	
+
 	gtk_container_foreach(GTK_CONTAINER(_menu), (GtkCallback)gtk_widget_destroy, NULL);
-	
+
 	menuItem = gtk_menu_item_new_with_label(_("Copy All"));
-	
+
 	g_signal_connect(menuItem, "activate", GCallback(onCopyRowClicked_gui), (gpointer)this);
-	
+
 	gtk_menu_shell_append(GTK_MENU_SHELL(_menu), menuItem);
 	menuItem = gtk_separator_menu_item_new();
 	gtk_menu_shell_append(GTK_MENU_SHELL(_menu), menuItem);
-	
+
 	for (size_t i = 0; i < getColCount(); i++)
     {
         GtkTreeViewColumn *col = gtk_tree_view_get_column(view, i);
@@ -578,7 +579,7 @@ void TreeView::buildCopyMenu(GtkWidget *wid)
 			gtk_menu_shell_append(GTK_MENU_SHELL(_menu), menuItem);
 	    }
     }
-}	
+}
 
 void TreeView::onCopyRowClicked_gui(GtkMenuItem *item, gpointer data)
 {
@@ -586,7 +587,7 @@ void TreeView::onCopyRowClicked_gui(GtkMenuItem *item, gpointer data)
 
 	if (gtk_tree_selection_count_selected_rows(tv->sel) > 0)
 	{
-		string data="\n";
+		string data = "\n";
 		GtkTreeIter iter;
 		GtkTreePath *path;
 		GList *list = gtk_tree_selection_get_selected_rows(tv->sel, NULL);
@@ -608,15 +609,15 @@ void TreeView::onCopyRowClicked_gui(GtkMenuItem *item, gpointer data)
                 {
 			        if (gtk_tree_model_get_iter(GTK_TREE_MODEL(gtk_tree_view_get_model(tv->view)), &iter, path))
 			        {
-			         //   GtkTreeModel *m = gtk_tree_view_get_model(tv->view);
+			            GtkTreeModel *m = gtk_tree_view_get_model(tv->view);
 						data += title + ": ";
 			            data += tv->getValueAsText(&iter, title) + "\n";
 			        }
 			    }
 	        }
-	        
+
 	        data += G_DIR_SEPARATOR;
-			
+
 			gtk_tree_path_free(path);
 		}
 		g_list_free(list);
@@ -645,13 +646,13 @@ void TreeView::onCopyDataItemClicked_gui(GtkMenuItem *item, gpointer data)
 		for (GList *i = list; i; i = i->next)
 		{
 			path = (GtkTreePath *)i->data;
-            
+
 	        if (gtk_tree_model_get_iter(GTK_TREE_MODEL(gtk_tree_view_get_model(tv->view)), &iter, path))
 	        {
                GtkTreeModel *m = gtk_tree_view_get_model(tv->view);
-                data += tv->getValueAsText(&iter, title) + G_DIR_SEPARATOR;//'\n';
+                data += tv->getValueAsText(&iter, title) + G_DIR_SEPARATOR;
 	        }
-			
+
 			gtk_tree_path_free(path);
 		}
 		g_list_free(list);
@@ -664,19 +665,19 @@ void TreeView::onCopyDataItemClicked_gui(GtkMenuItem *item, gpointer data)
  	}
 }
 
-string TreeView::getValueAsText(GtkTreeIter *i, const string &title) 
+string TreeView::getValueAsText(GtkTreeIter *i, const string &title)
 {
 	GtkTreeModel *m = gtk_tree_view_get_model(view);
 
 	GtkTreeViewColumn *col = NULL;
-	
+
 	if (!title.empty())
 	{
         col = gtk_tree_view_get_column(view, this->col(title));
 		if (col != NULL)
 		{
 		    Column *column = (Column*)g_object_get_data(G_OBJECT(col), "column");
-            
+
 	        switch (column->type)
 	        {
 		        case STRING:
@@ -684,11 +685,11 @@ string TreeView::getValueAsText(GtkTreeIter *i, const string &title)
 		        case ICON_STRING:
 		        case ICON_STRING_TEXT_COLOR:
 		        case PIXBUF_STRING:
-		        case PIXBUF_STRING_TEXT_COLOR:
+		        //case PIXBUF_STRING_TEXT_COLOR:
 		             return getString(i, title, m);
 		        case SIZE:
 		        case INT:
-		        case ESIZE:
+		        case EXSIZE:
 		        	char buf[512];
 	                int64_t size = getValue<int64_t>(i, title);
 		            snprintf(buf, sizeof(buf), "%.f", (double)(size));
@@ -696,6 +697,7 @@ string TreeView::getValueAsText(GtkTreeIter *i, const string &title)
 	        }
         }
     }
-    
+
     return dcpp::Util::emptyString;
 }
+

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2009 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2011 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,26 +16,22 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#if !defined(DIRECTORY_LISTING_H)
-#define DIRECTORY_LISTING_H
+#ifndef DCPLUSPLUS_DCPP_DIRECTORY_LISTING_H
+#define DCPLUSPLUS_DCPP_DIRECTORY_LISTING_H
 
-#include "User.h"
+#include "forward.h"
+#include "noexcept.h"
+
+#include "HintedUser.h"
 #include "FastAlloc.h"
-#include "TigerHash.h"
 #include "MerkleTree.h"
-#include "SimpleXML.h"
-#include "Streams.h"
-#include "QueueItem.h"
-#include "CID.h"
+#include "Util.h"
+
 namespace dcpp {
 
-using std::unordered_set;
-using std::unordered_map;	 
-
 class ListLoader;
-STANDARD_EXCEPTION(AbortException);
 
-class DirectoryListing : boost::noncopyable 
+class DirectoryListing : boost::noncopyable
 {
 public:
 	class Directory;
@@ -49,9 +45,9 @@ public:
 			}
 		};
 		typedef vector<Ptr> List;
-		typedef List::const_iterator Iter;
+		typedef List::iterator Iter;
 
-		File(Directory* aDir, const string& aName, int64_t aSize, const /*string&*/TTHValue aTTH) throw() :
+		File(Directory* aDir, const string& aName, int64_t aSize, const TTHValue& aTTH) noexcept :
 			name(aName), size(aSize), parent(aDir), tthRoot(aTTH), adls(false)
 		{
 		}
@@ -67,23 +63,21 @@ public:
 
 		~File() { }
 
-		GETSET(TTHValue, tthRoot, TTH);
 		GETSET(string, name, Name);
 		GETSET(int64_t, size, Size);
 		GETSET(Directory*, parent, Parent);
+		GETSET(TTHValue, tthRoot, TTH);
 		GETSET(bool, adls, Adls);
-		//RSX++
-		string getFullFileName();
-		GETSET(int, points, Points);
-		GETSET(string, adlsComment, AdlsComment);
-		GETSET(bool, overRidePoints, OverRidePoints);
-		GETSET(string, kickString, KickString);
+		GETSET(int , points, Points);
+		GETSET(bool, overRidePoints ,OverRidePoints);
+		GETSET(string, adlsComment ,AdlsComment);
 		GETSET(bool, fromFavs, FromFavs);
 		GETSET(int, adlsRaw, AdlsRaw);
-		//END
+		GETSET(string, kickString, KickString)
+		GETSET(string, fullFileName ,FullFileName);
 	};
 
-	class Directory : public FastAlloc<Directory> {
+	class Directory : public FastAlloc<Directory>, boost::noncopyable {
 	public:
 		typedef Directory* Ptr;
 		struct DirSort {
@@ -92,19 +86,17 @@ public:
 			}
 		};
 		typedef vector<Ptr> List;
-		typedef List::const_iterator Iter;
-		typedef std::unordered_set<TTHValue> TTHSet;
+		typedef List::iterator Iter;
+
+		typedef unordered_set<TTHValue> TTHSet;
 
 		List directories;
 		File::List files;
 
 		Directory(Directory* aParent, const string& aName, bool _adls, bool aComplete)
-			: name(aName), parent(aParent), adls(_adls), complete(aComplete), /*RSX++*/ rmDCdetected(false) { }
+			: name(aName), parent(aParent), adls(_adls), complete(aComplete) { }
 
-		virtual ~Directory() {
-			for_each(directories.begin(), directories.end(), DeleteFunction());
-			for_each(files.begin(), files.end(), DeleteFunction());
-		}
+		virtual ~Directory();
 
 		size_t getTotalFileCount(bool adls = false);
 		int64_t getTotalSize(bool adls = false);
@@ -126,21 +118,14 @@ public:
 		GETSET(Directory*, parent, Parent);
 		GETSET(bool, adls, Adls);
 		GETSET(bool, complete, Complete);
-		//RSX++
-		GETSET(bool, rmDCdetected, RMDCdetected);
-		string getFullPath();
-		GETSET(int, points, Points);
-		GETSET(string, adlsComment, AdlsComment);
-		GETSET(bool, overRidePoints, OverRidePoints);
-		GETSET(string, kickString, KickString);
+				
+		GETSET(int , points, Points);
+		GETSET(bool, overRidePoints ,OverRidePoints);
+		GETSET(string, adlsComment ,AdlsComment);
 		GETSET(bool, fromFavs, FromFavs);
 		GETSET(int, adlsRaw, AdlsRaw);
-		//END
-
-
-	private:
-		Directory(const Directory&);
-		Directory& operator=(const Directory&);
+		GETSET(string, kickString, KickString)
+		GETSET(string, fullFileName ,FullFileName);
 	};
 
 	class AdlDirectory : public Directory {
@@ -150,23 +135,25 @@ public:
 		GETSET(string, fullPath, FullPath);
 	};
 
-	DirectoryListing(const UserPtr& aUser) : user(aUser), abort(false), root(new Directory(NULL, Util::emptyString, false, false)) {
-	}
+	DirectoryListing(const HintedUser& aUser);
+	~DirectoryListing();
 
-	~DirectoryListing() {
-		delete root;
-	}
+	void loadFile(const string& name);
 
-	void loadFile(const string& name) throw(Exception);
+	string updateXML(const std::string&);
+	string loadXML(InputStream& xml, bool updating);
 
-	string loadXML(const string& xml, bool updating);
-
-	void download(const string& aDir, const string& aTarget, bool highPrio, QueueItem::Priority prio = QueueItem::DEFAULT);
-	void download(Directory* aDir, const string& aTarget, bool highPrio, QueueItem::Priority prio = QueueItem::DEFAULT);
-	void download(File* aFile, const string& aTarget, bool view, bool highPrio, QueueItem::Priority prio = QueueItem::DEFAULT);
+	void download(const string& aDir, const string& aTarget, bool highPrio);
+	void download(Directory* aDir, const string& aTarget, bool highPrio);
+	void download(File* aFile, const string& aTarget, bool view, bool highPrio);
 
 	string getPath(const Directory* d) const;
 	string getPath(const File* f) const { return getPath(f->getParent()); }
+
+	/** returns the local path of the file when browsing own file list */
+	StringList getLocalPaths(const File* f) const;
+	/** returns the local paths of the directory when browsing own file list */
+	StringList getLocalPaths(const Directory* d) const;
 
 	int64_t getTotalSize(bool adls = false) { return root->getTotalSize(adls); }
 	size_t getTotalFileCount(bool adls = false) { return root->getTotalFileCount(adls); }
@@ -175,24 +162,17 @@ public:
 	Directory* getRoot() { return root; }
 
 	static UserPtr getUserFromFilename(const string& fileName);
-	//RSX++
-	DirectoryListing::File::List getForbiddenFiles();
 	DirectoryListing::Directory::List getForbiddenDirs();
-	//END
+	DirectoryListing::File::List getForbiddenFiles();
 
-	GETSET(UserPtr, user, User);
-	GETSET(bool, abort, Abort);
+	GETSET(HintedUser, user, User);
 
 private:
 	friend class ListLoader;
 
-	DirectoryListing(const DirectoryListing&);
-	DirectoryListing& operator=(const DirectoryListing&);
-
 	Directory* root;
 
 	Directory* find(const string& aName, Directory* current);
-
 };
 
 inline bool operator==(DirectoryListing::Directory::Ptr a, const string& b) { return Util::stricmp(a->getName(), b) == 0; }
@@ -201,8 +181,3 @@ inline bool operator==(DirectoryListing::File::Ptr a, const string& b) { return 
 } // namespace dcpp
 
 #endif // !defined(DIRECTORY_LISTING_H)
-
-/**
- * @file
- * $Id: DirectoryListing.h 434 2009-03-29 11:09:33Z BigMuscle $
- */

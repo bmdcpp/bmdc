@@ -24,7 +24,6 @@
 #include "SettingsManager.h"
 #include "TarFile.h"
 
-
 namespace dcpp {
 
 int BackupManager::run() {
@@ -58,7 +57,7 @@ int BackupManager::run() {
 			zip.CreateTarredFile(zipFile,files);
 			LogManager::getInstance()->message(_("Settings have been backed up!"));
 			} catch (...){
-			dcdebug("Exception caught");
+				dcdebug("Exception caught");
 		}
 		stop = true;
 	}
@@ -73,7 +72,7 @@ void BackupManager::createBackup() {
 }
 
 void BackupManager::on(TimerManagerListener::Minute, uint64_t aTick) noexcept {
-	int backupTime = SETTING(AUTOBACKUP_TIME) * 60;
+	uint64_t backupTime = SETTING(AUTOBACKUP_TIME) * 60;
 	if(BOOLSETTING(ENABLE_AUTOBACKUP) && aTick > backupTime) {
 		stop = false;
 		start();

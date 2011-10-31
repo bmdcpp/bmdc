@@ -38,11 +38,9 @@ class systemlog:
 		systemlog();
 		virtual ~systemlog();
 		virtual void show();
-		virtual void popmenu();
 
 	private:
 		//GUI
-		static void onCloseItem(gpointer data);
 		static void onClearButton(GtkWidget *widget, gpointer data);
 		// Client functions
 		void ini_client();

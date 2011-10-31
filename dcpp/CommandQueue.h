@@ -16,12 +16,14 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef RSXPLUSPLUS_COMMAND_QUEUE
-#define RSXPLUSPLUS_COMMAND_QUEUE
-
+#ifndef COMMAND_QUEUE
+#define COMMAND_QUEUE
+#include "UserCommand.h"
 #include "CriticalSection.h"
+#include <list>
 
 namespace dcpp {
+using namespace std;
 class Client;
 class OnlineUser;
 class CommandQueue {
@@ -41,8 +43,10 @@ public:
 	void addCommand(const OnlineUser& ou, int actionId);
 private:
 	struct CommandItem {
-		string cmd;
+		//string cmd;
 		string name;
+		UserCommand uc;
+		const OnlineUser *ou;
 	};
 
 	typedef list<pair<uint64_t, CommandItem> > Commands;

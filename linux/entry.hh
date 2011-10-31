@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,9 +37,11 @@ class Entry
 			DOWNLOAD_QUEUE,
 			FAVORITE_HUBS,
 			FAVORITE_USERS,
+			IGNORE_USERS,
 			FINISHED_DOWNLOADS,
 			FINISHED_UPLOADS,
 			HASH_DIALOG,
+			CMD,
 			HUB,
 			MAIN_WINDOW,
 			PRIVATE_MESSAGE,
@@ -50,15 +52,12 @@ class Entry
 			TRANSFERS,
 			USER_COMMAND_MENU,
 			SEARCH_SPY,
-			ADL,
+			SEARCH_ADL,
 			NOTEPAD,
 			SYSTEML,
-			IGNORE_USERS,
+			UPLOADQUEUE,
 			RECENT,
-			HIGHL,
-			CMD,
-			DET,
-			UPLOADQUEUE
+			DETECTION
 		} EntryType;
 
 		Entry() : xml(NULL) {}

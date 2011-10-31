@@ -2,6 +2,98 @@
 <glade-interface>
   <!-- interface-requires gtk+ 2.6 -->
   <!-- interface-naming-policy toplevel-contextual -->
+  <widget class="GtkMenu" id="chatCommandsMenu">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <child>
+      <widget class="GtkMenuItem" id="awayCommandItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="tooltip" translatable="yes">Away mode message on/off</property>
+        <property name="label">/away &lt;message&gt;</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkMenuItem" id="backCommandItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="tooltip" translatable="yes">Away mode off</property>
+        <property name="label">/back</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkMenuItem" id="clearCommandItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="tooltip" translatable="yes">Clear chat</property>
+        <property name="label">/clear</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkMenuItem" id="favCommandItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="tooltip" translatable="yes">Add a hub to favorites</property>
+        <property name="label">/favorite</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkMenuItem" id="lsfuCommandItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="tooltip" translatable="yes">Show favorites list</property>
+        <property name="label">/listfu</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkMenuItem" id="helpCommandItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="tooltip" translatable="yes">Show help</property>
+        <property name="label">/help</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkMenuItem" id="joinCommandItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="tooltip" translatable="yes">Connect to the hub</property>
+        <property name="label">/join &lt;address&gt;</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkMenuItem" id="meCommandItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="tooltip" translatable="yes">Say a third person</property>
+        <property name="label">/me &lt;message&gt;</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkMenuItem" id="rebuildCommandItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="tooltip" translatable="yes">Rebuild hash</property>
+        <property name="label">/rebuild</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkMenuItem" id="limitimgCommandItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="tooltip" translatable="yes">Set download limit image</property>
+        <property name="label">/limg</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkMenuItem" id="versionCommandItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="tooltip" translatable="yes">Show version</property>
+        <property name="label">/bmdc</property>
+      </widget>
+    </child>
+  </widget>
   <widget class="GtkMenu" id="emotPacksMenu">
     <property name="can_focus">False</property>
   </widget>
@@ -11,7 +103,6 @@
       <widget class="GtkMenuItem" id="copyhubItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">_Copy link</property>
         <property name="use_underline">True</property>
       </widget>
@@ -20,9 +111,39 @@
       <widget class="GtkMenuItem" id="openhubItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">_Open hub</property>
         <property name="use_underline">True</property>
+      </widget>
+    </child>
+  </widget>
+  <widget class="GtkMenu" id="imageMenu">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <child>
+      <widget class="GtkMenuItem" id="downloadImageItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Download image</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkMenuItem" id="openImageItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Open image</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkSeparatorMenuItem" id="separator22">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkMenuItem" id="removeImageItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Remove image</property>
       </widget>
     </child>
   </widget>
@@ -30,20 +151,18 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <child>
-      <widget class="GtkMenuItem" id="copyItem">
+      <widget class="GtkMenuItem" id="copyipItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">Copy IP</property>
         <property name="use_underline">True</property>
       </widget>
     </child>
     <child>
-      <widget class="GtkMenuItem" id="ripeMenuItem">
+      <widget class="GtkMenuItem" id="ripeitem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
-        <property name="label" translatable="yes">Ripe DB</property>
+        <property name="label" translatable="yes">See IP in ripe DB</property>
         <property name="use_underline">True</property>
       </widget>
     </child>
@@ -54,7 +173,6 @@
       <widget class="GtkMenuItem" id="copyLinkItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">_Copy link</property>
         <property name="use_underline">True</property>
       </widget>
@@ -63,7 +181,6 @@
       <widget class="GtkMenuItem" id="openLinkItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">_Open link in default application</property>
         <property name="use_underline">True</property>
       </widget>
@@ -75,7 +192,6 @@
       <widget class="GtkMenuItem" id="searchMagnetItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">_Search magnet</property>
         <property name="use_underline">True</property>
       </widget>
@@ -84,7 +200,6 @@
       <widget class="GtkMenuItem" id="downloadItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">_Download</property>
         <property name="use_underline">True</property>
       </widget>
@@ -93,7 +208,6 @@
       <widget class="GtkMenuItem" id="downloadToItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">Download _to...</property>
         <property name="use_underline">True</property>
         <child>
@@ -103,7 +217,6 @@
               <widget class="GtkMenuItem" id="downloadBrowseItem">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="use_action_appearance">False</property>
                 <property name="label" translatable="yes">Browse...</property>
                 <property name="use_underline">True</property>
               </widget>
@@ -116,7 +229,6 @@
       <widget class="GtkMenuItem" id="copyMagnetItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">_Copy magnet</property>
         <property name="use_underline">True</property>
       </widget>
@@ -131,7 +243,6 @@
       <widget class="GtkMenuItem" id="magnetPropertiesItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">_Properties/Choice</property>
         <property name="use_underline">True</property>
       </widget>
@@ -200,6 +311,21 @@
         <property name="can_focus">False</property>
         <property name="spacing">4</property>
         <child>
+          <widget class="GtkButton" id="chatCommandsButton">
+            <property name="label">/</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="tooltip" translatable="yes">Chat Commands</property>
+            <property name="focus_on_click">False</property>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
           <widget class="GtkEntry" id="chatEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
@@ -220,7 +346,6 @@
             <property name="can_focus">False</property>
             <property name="receives_default">False</property>
             <property name="tooltip" translatable="yes">Emoticons</property>
-            <property name="use_action_appearance">False</property>
             <property name="focus_on_click">False</property>
             <child>
               <widget class="GtkImage" id="emotButtonImage">
@@ -250,6 +375,69 @@
         <property name="can_focus">False</property>
         <property name="spacing">5</property>
         <child>
+          <widget class="GtkButton" id="italicButton">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="receives_default">False</property>
+            <property name="focus_on_click">False</property>
+            <child>
+              <widget class="GtkImage" id="italicButtonImage">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="stock">gtk-italic</property>
+                <property name="icon-size">1</property>
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkButton" id="boldButton">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="receives_default">False</property>
+            <property name="focus_on_click">False</property>
+            <child>
+              <widget class="GtkImage" id="boldButtonImage">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="stock">gtk-bold</property>
+                <property name="icon-size">1</property>
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkButton" id="underlineButton">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="receives_default">False</property>
+            <property name="focus_on_click">False</property>
+            <child>
+              <widget class="GtkImage" id="underlineButtonImage">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="stock">gtk-underline</property>
+                <property name="icon-size">1</property>
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
           <widget class="GtkStatusbar" id="statusMain">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -258,7 +446,7 @@
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="position">0</property>
+            <property name="position">3</property>
           </packing>
         </child>
         <child>
@@ -271,7 +459,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="position">4</property>
           </packing>
         </child>
         <child>
@@ -284,7 +472,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">2</property>
+            <property name="position">5</property>
           </packing>
         </child>
         <child>
@@ -294,27 +482,25 @@
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
             <property name="tooltip" translatable="yes">Show/Hide user list</property>
-            <property name="use_action_appearance">False</property>
             <property name="draw_indicator">True</property>
           </widget>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">3</property>
+            <property name="position">6</property>
           </packing>
         </child>
         <child>
           <widget class="GtkButton" id="buttonrefresh">
-            <property name="label" translatable="yes">Refresh UL</property>
+            <property name="label" translatable="yes">Refresh</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
-            <property name="use_action_appearance">False</property>
           </widget>
           <packing>
             <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">4</property>
+            <property name="fill">False</property>
+            <property name="position">7</property>
           </packing>
         </child>
       </widget>
@@ -328,25 +514,33 @@
   <widget class="GtkMenu" id="nickMenu">
     <property name="can_focus">False</property>
     <child>
-      <widget class="GtkMenuItem" id="ShowNick">
+      <widget class="GtkMenuItem" id="nickItem">
         <property name="visible">True</property>
-        <property name="sensitive">False</property>
+        <property name="app_paintable">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
-        <property name="label" translatable="yes">NICK</property>
+        <property name="events">GDK_EXPOSURE_MASK | GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_MOTION_MASK | GDK_BUTTON1_MOTION_MASK | GDK_BUTTON2_MOTION_MASK | GDK_BUTTON3_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK | GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK | GDK_FOCUS_CHANGE_MASK | GDK_STRUCTURE_MASK | GDK_PROPERTY_CHANGE_MASK | GDK_VISIBILITY_NOTIFY_MASK | GDK_PROXIMITY_IN_MASK | GDK_PROXIMITY_OUT_MASK | GDK_SUBSTRUCTURE_MASK | GDK_SCROLL_MASK</property>
+        <property name="extension_events">cursor</property>
+        <property name="label">NICK</property>
       </widget>
     </child>
     <child>
-      <widget class="GtkSeparatorMenuItem" id="&lt;sepp2&gt;">
+      <widget class="GtkMenuItem" id="copyNickItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="label" translatable="yes">_Copy</property>
+        <property name="use_underline">True</property>
+        <child>
+          <widget class="GtkMenu" id="CopyMenu">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+          </widget>
+        </child>
       </widget>
     </child>
     <child>
       <widget class="GtkMenuItem" id="nickToChatItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">_Send public message</property>
         <property name="use_underline">True</property>
       </widget>
@@ -355,7 +549,6 @@
       <widget class="GtkMenuItem" id="browseItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">_Browse file list</property>
         <property name="use_underline">True</property>
       </widget>
@@ -364,7 +557,6 @@
       <widget class="GtkMenuItem" id="matchItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">_Match queue</property>
         <property name="use_underline">True</property>
       </widget>
@@ -373,7 +565,6 @@
       <widget class="GtkMenuItem" id="msgItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">_Private message</property>
         <property name="use_underline">True</property>
       </widget>
@@ -388,7 +579,6 @@
       <widget class="GtkMenuItem" id="favoriteUserItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">_Add to favorites</property>
         <property name="use_underline">True</property>
       </widget>
@@ -397,8 +587,29 @@
       <widget class="GtkMenuItem" id="removeFavoriteUserItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">_Remove from favorites</property>
+        <property name="use_underline">True</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkSeparatorMenuItem" id="separatormenuitem1">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkMenuItem" id="ignoreMenuItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Add Ignored User</property>
+        <property name="use_underline">True</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkMenuItem" id="removeIgnoreMenuItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Remove Ignored User</property>
         <property name="use_underline">True</property>
       </widget>
     </child>
@@ -412,7 +623,6 @@
       <widget class="GtkMenuItem" id="grantItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">_Grant slot</property>
         <property name="use_underline">True</property>
       </widget>
@@ -421,7 +631,6 @@
       <widget class="GtkMenuItem" id="removeUserItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">_Remove user from queue</property>
         <property name="use_underline">True</property>
       </widget>
@@ -430,7 +639,6 @@
       <widget class="GtkMenuItem" id="usercommandItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">_User commands</property>
         <property name="use_underline">True</property>
         <child>
@@ -441,88 +649,69 @@
       </widget>
     </child>
     <child>
-      <widget class="GtkMenuItem" id="copyitem">
+      <widget class="GtkSeparatorMenuItem" id="separatormenuitem2">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
-        <property name="label" translatable="yes">Copy</property>
-        <property name="use_underline">True</property>
-        <child>
-          <widget class="GtkMenu" id="CopyMenus">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-          </widget>
-        </child>
       </widget>
     </child>
     <child>
-      <widget class="GtkMenuItem" id="IgnoreUserItem">
+      <widget class="GtkMenuItem" id="reportItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
-        <property name="label" translatable="yes">_Ignore</property>
+        <property name="label" translatable="yes">Get UserInfo</property>
         <property name="use_underline">True</property>
       </widget>
     </child>
     <child>
-      <widget class="GtkMenuItem" id="unIgnoreUserItem">
+      <widget class="GtkMenuItem" id="checkItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
-        <property name="label" translatable="yes">_Un Ignore</property>
+        <property name="label" translatable="yes">Check Filelist</property>
         <property name="use_underline">True</property>
       </widget>
     </child>
     <child>
-      <widget class="GtkMenuItem" id="UserInfo">
+      <widget class="GtkMenuItem" id="testItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
-        <property name="label" translatable="yes">User _Info</property>
-        <property name="use_underline">True</property>
-      </widget>
-    </child>
-    <child>
-      <widget class="GtkMenuItem" id="TestSURItem">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
         <property name="label" translatable="yes">Get TestSUR</property>
         <property name="use_underline">True</property>
       </widget>
     </child>
     <child>
-      <widget class="GtkMenuItem" id="Protect">
+      <widget class="GtkSeparatorMenuItem" id="separatormenuitem3">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
-        <property name="label" translatable="yes">Protect_User</property>
       </widget>
     </child>
     <child>
-      <widget class="GtkMenuItem" id="UnProtect">
+      <widget class="GtkMenuItem" id="protectItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
-        <property name="label" translatable="yes">UnProtect User</property>
+        <property name="label" translatable="yes">Set Protected User</property>
         <property name="use_underline">True</property>
       </widget>
     </child>
     <child>
-      <widget class="GtkMenuItem" id="CheckUserItem">
+      <widget class="GtkMenuItem" id="UnProtectItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
-        <property name="label" translatable="yes">Check User FL</property>
+        <property name="label" translatable="yes">UnSet Protect User</property>
         <property name="use_underline">True</property>
       </widget>
     </child>
     <child>
-      <widget class="GtkMenuItem" id="userlistrefreshMenuItem">
+      <widget class="GtkSeparatorMenuItem" id="separatormenuitem4">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="use_action_appearance">False</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkMenuItem" id="menurefresh">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="label" translatable="yes">Refresh Userlist</property>
+        <property name="use_underline">True</property>
       </widget>
     </child>
   </widget>

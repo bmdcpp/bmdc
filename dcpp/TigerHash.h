@@ -7,7 +7,7 @@
  * b) The algorithm must correctly compute Tiger.
  * c) The algorithm's use must be legal.
  * d) The algorithm may not be exported to countries banned by law.
- * e) The authors of the C code are not responsible of this use of the code,
+ * e) The authors of the C code are not responsible of this use of the code, 
  *    the software or anything else.
  */
 
@@ -29,9 +29,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#if !defined(TIGER_HASH_H)
-#define TIGER_HASH_H
-#include "compiler.h"
+#ifndef DCPLUSPLUS_DCPP_TIGER_HASH_H
+#define DCPLUSPLUS_DCPP_TIGER_HASH_H
+
+#include <cstddef>
+#include <cstdint>
 
 namespace dcpp {
 

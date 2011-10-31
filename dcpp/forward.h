@@ -23,19 +23,22 @@
  * This file contains forward declarations for the various DC++ classes
  */
 
-#include "Pointer.h"
+#include <boost/intrusive_ptr.hpp>
 
 namespace dcpp {
 
 class AdcCommand;
 
+class ADLSearch;
+
 class BufferedSocket;
+
+class Bundle;
+typedef boost::intrusive_ptr<Bundle> BundlePtr;
 
 struct ChatMessage;
 
 class CID;
-
-typedef std::vector<uint16_t> PartsInfo;
 
 class Client;
 
@@ -43,13 +46,13 @@ class ClientManager;
 
 class ConnectionQueueItem;
 
+class CRC32Filter;
+
 class Download;
 typedef Download* DownloadPtr;
-typedef std::vector<DownloadPtr> DownloadList;
 
 class FavoriteHubEntry;
 typedef FavoriteHubEntry* FavoriteHubEntryPtr;
-typedef std::vector<FavoriteHubEntryPtr> FavoriteHubEntryList;
 
 class FavoriteUser;
 
@@ -63,11 +66,16 @@ typedef boost::intrusive_ptr<FinishedUserItem> FinishedUserItemPtr;
 
 class FinishedManager;
 
+template<class Hasher>
+struct HashValue;
+
 struct HintedUser;
-typedef std::vector<HintedUser> HintedUserList;
+
+class HttpConnection;
+
+struct HttpDownload;
 
 class HubEntry;
-typedef std::vector<HubEntry> HubEntryList;
 
 class Identity;
 
@@ -76,46 +84,43 @@ class InputStream;
 class LogManager;
 
 class OnlineUser;
-/*
 typedef OnlineUser* OnlineUserPtr;
-*/
-typedef boost::intrusive_ptr<OnlineUser> OnlineUserPtr;
-typedef std::vector<OnlineUserPtr> OnlineUserList;
+
+class OutputStream;
 
 class QueueItem;
-
-class RecentHubEntry;
+typedef QueueItem* QueueItemPtr;
 
 class SearchResult;
 typedef boost::intrusive_ptr<SearchResult> SearchResultPtr;
-typedef std::vector<SearchResultPtr> SearchResultList;
-
-class ServerSocket;
 
 class Socket;
 class SocketException;
 
 class StringSearch;
 
+class TigerHash;
+
 class Transfer;
+
+typedef HashValue<TigerHash> TTHValue;
 
 class UnZFilter;
 
 class Upload;
 typedef Upload* UploadPtr;
-typedef std::vector<UploadPtr> UploadList;
 
 class User;
 typedef boost::intrusive_ptr<User> UserPtr;
-typedef std::vector<UserPtr> UserList;
 
 class UserCommand;
 
 class UserConnection;
 typedef UserConnection* UserConnectionPtr;
-typedef std::vector<UserConnectionPtr> UserConnectionList;
 
 class WindowInfo;
+
+class RecentHubEntry;
 
 } // namespace dcpp
 

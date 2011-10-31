@@ -17,8 +17,9 @@
  */
 
 #include "stdinc.h"
+#include "DCPlusPlus.h"
+#include "typedefs.h"
 #include "format.h"
-
 #include "UPnPManager.h"
 
 #include "ConnectionManager.h"

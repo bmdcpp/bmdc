@@ -163,7 +163,7 @@ int LuaManager::SendUDPPacket(lua_State* L) {
 	/* arguments: ip:port, data */
 	if (lua_gettop(L) == 2 && lua_isstring(L, -2) && lua_isstring(L, -1)) {
 		StringList sl = StringTokenizer<string>(lua_tostring(L, -2), ':').getTokens();
-		ScriptManager::getInstance()->s.writeTo(sl[0], static_cast<short>(Util::toInt(sl[1])), lua_tostring(L, -1), lua_strlen(L, -1));
+		ScriptManager::getInstance()->s.writeTo(sl[0], sl[1], lua_tostring(L, -1), lua_strlen(L, -1));
 	}
 
 	return 0;
@@ -417,7 +417,7 @@ void ScriptManager::on(ClientConnected, Client* aClient) throw() {
 	MakeCall(GetClientType(aClient), "OnHubAdded", 0, aClient);
 }
 
-void ScriptManager::on(Second, uint64_t /* ticks */) throw() {
+void ScriptManager::on(Second, uint64_t /* ticks */) noexcept {
 	MakeCall("dcpp", "OnTimer", 0, 0);
 }
 
@@ -438,10 +438,10 @@ bool ScriptInstance::MakeCallRaw(const string& table, const string& method, int 
 		const char *msg = lua_tostring(L, -1);
 		string formatted_msg = (msg != NULL) ? string("LUA Error: ") + msg:string("LUA Error: (unknown)");
 		if(BOOLSETTING(ENB_LUA_DEBUG))
-		{	  
+		{
 			ScriptManager::getInstance()->SendDebugMessage(formatted_msg);
-		}	 
-			 
+		}
+
 		dcassert(lua_gettop(L) == 1);
 		lua_pop(L, 1);
 	} else {

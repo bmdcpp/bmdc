@@ -19,12 +19,15 @@
 #ifndef DCPLUSPLUS_DCPP_THREAD_H
 #define DCPLUSPLUS_DCPP_THREAD_H
 
-#ifndef _WIN32
+#ifdef _WIN32
+#include "w.h"
+#else
 #include <pthread.h>
 #include <sched.h>
 #include <sys/resource.h>
 #endif
 
+#include <boost/noncopyable.hpp>
 #include "Exception.h"
 
 namespace dcpp {
@@ -42,14 +45,14 @@ public:
 		HIGH = THREAD_PRIORITY_ABOVE_NORMAL
 	};
 
-	Thread() throw() : threadHandle(INVALID_HANDLE_VALUE), threadId(0){ }
+	Thread() : threadHandle(INVALID_HANDLE_VALUE), threadId(0) { }
 	virtual ~Thread() {
 		if(threadHandle != INVALID_HANDLE_VALUE)
 			CloseHandle(threadHandle);
 	}
 
-	void start() throw(ThreadException);
-	void join() throw(ThreadException) {
+	void start();
+	void join() {
 		if(threadHandle == INVALID_HANDLE_VALUE) {
 			return;
 		}
@@ -59,21 +62,10 @@ public:
 		threadHandle = INVALID_HANDLE_VALUE;
 	}
 
-	void setThreadPriority(Priority p) throw() { ::SetThreadPriority(threadHandle, p); }
+	void setThreadPriority(Priority p) { ::SetThreadPriority(threadHandle, p); }
 
 	static void sleep(uint32_t millis) { ::Sleep(millis); }
 	static void yield() { ::Sleep(0); }
-
-#ifdef __MINGW32__
-	static long safeInc(volatile long& v) { return InterlockedIncrement((long*)&v); }
-	static long safeDec(volatile long& v) { return InterlockedDecrement((long*)&v); }
-	static long safeExchange(volatile long& target, long value) { return InterlockedExchange((long*)&target, value); }
-
-#else
-	static long safeInc(volatile long& v) { return InterlockedIncrement(&v); }
-	static long safeDec(volatile long& v) { return InterlockedDecrement(&v); }
-	static long safeExchange(volatile long& target, long value) { return InterlockedExchange(&target, value); }
-#endif
 
 #else
 
@@ -83,14 +75,14 @@ public:
 		NORMAL = 0,
 		HIGH = -1
 	};
-	Thread() throw() : threadHandle(0) { }
+	Thread() : threadHandle(0) { }
 	virtual ~Thread() {
 		if(threadHandle != 0) {
 			pthread_detach(threadHandle);
 		}
 	}
-	void start() throw(ThreadException);
-	void join() throw() {
+	void start();
+	void join() {
 		if (threadHandle) {
 			pthread_join(threadHandle, 0);
 			threadHandle = 0;
@@ -100,25 +92,6 @@ public:
 	void setThreadPriority(Priority p) { setpriority(PRIO_PROCESS, 0, p); }
 	static void sleep(uint32_t millis) { ::usleep(millis*1000); }
 	static void yield() { ::sched_yield(); }
-	static long safeInc(volatile long& v) {
-		pthread_mutex_lock(&mtx);
-		long ret = ++v;
-		pthread_mutex_unlock(&mtx);
-		return ret;
-	}
-	static long safeDec(volatile long& v) {
-		pthread_mutex_lock(&mtx);
-		long ret = --v;
-		pthread_mutex_unlock(&mtx);
-		return ret;
-	}
-	static long safeExchange(volatile long& target, long value) {
-		pthread_mutex_lock(&mtx);
-		long ret = target;
-		target = value;
-		pthread_mutex_unlock(&mtx);
-		return ret;
-	}
 #endif
 
 protected:
@@ -133,7 +106,6 @@ protected:
 		return 0;
 	}
 #else
-	static pthread_mutex_t mtx;
 	pthread_t threadHandle;
 	static void* starter(void* p) {
 		Thread* t = (Thread*)p;

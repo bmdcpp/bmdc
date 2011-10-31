@@ -17,8 +17,8 @@
  */
 
 #include "stdinc.h"
-
 #include "Download.h"
+
 #include "UserConnection.h"
 #include "QueueItem.h"
 #include "HashManager.h"
@@ -26,31 +26,29 @@
 
 namespace dcpp {
 
-Download::Download(UserConnection& conn, QueueItem& qi, const string& path, bool supportsTrees) throw() : Transfer(conn, path, qi.getTTH()),
+Download::Download(UserConnection& conn, QueueItem& qi, const string& path, bool supportsTrees) noexcept : Transfer(conn, path, qi.getTTH()),
 	tempTarget(qi.getTempTarget()), file(0), treeValid(false)
 {
 	conn.setDownload(this);
-
-	QueueItem::SourceConstIter source = qi.getSource(getUser());
 
 	if(qi.isSet(QueueItem::FLAG_PARTIAL_LIST)) {
 		setType(TYPE_PARTIAL_LIST);
 	} else if(qi.isSet(QueueItem::FLAG_USER_LIST)) {
 		setType(TYPE_FULL_LIST);
-	} else if(qi.isSet(QueueItem::FLAG_TESTSUR)) {
-		setType(TYPE_TESTSUR);
 	}
-
+	else if(qi.isSet(QueueItem::FLAG_CHECK_FILE_LIST))
+		setType(TYPE_CHECK_FILE_LIST);
+	
+	
 	if(qi.isSet(QueueItem::FLAG_CHECK_FILE_LIST))
 		setFlag(FLAG_CHECK_FILE_LIST);
 	if(qi.isSet(QueueItem::FLAG_TESTSUR))
-		setFlag(FLAG_TESTSUR);
-
+		setFlag(FLAG_TESTSUR);	
 
 	if(qi.getSize() != -1) {
 		if(HashManager::getInstance()->getTree(getTTH(), getTigerTree())) {
 			setTreeValid(true);
-			setSegment(qi.getNextSegment(getTigerTree().getBlockSize(), conn.getChunkSize(), conn.getSpeed(), source->getPartialSource()));
+			setSegment(qi.getNextSegment(getTigerTree().getBlockSize(), conn.getChunkSize()));
 		} else if(supportsTrees && !qi.getSource(conn.getUser())->isSet(QueueItem::Source::FLAG_NO_TREE) && qi.getSize() > HashManager::MIN_BLOCK_SIZE) {
 			// Get the tree unless the file is small (for small files, we'd probably only get the root anyway)
 			setType(TYPE_TREE);
@@ -60,7 +58,7 @@ Download::Download(UserConnection& conn, QueueItem& qi, const string& path, bool
 			// Use the root as tree to get some sort of validation at least...
 			getTigerTree() = TigerTree(qi.getSize(), qi.getSize(), getTTH());
 			setTreeValid(true);
-			setSegment(qi.getNextSegment(getTigerTree().getBlockSize(), 0, 0, source->getPartialSource()));
+			setSegment(qi.getNextSegment(getTigerTree().getBlockSize(), 0));
 		}
 	}
 }
@@ -96,7 +94,7 @@ AdcCommand Download::getCommand(bool zlib) {
 	return cmd;
 }
 
-void Download::getParams(const UserConnection& aSource, StringMap& params) {
+void Download::getParams(const UserConnection& aSource, ParamMap& params) {
 	Transfer::getParams(aSource, params);
 	params["target"] = getPath();
 }

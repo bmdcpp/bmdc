@@ -30,14 +30,13 @@
 #include "bookentry.hh"
 #include "treeview.hh"
 
-class ADLSearchGUI:
+class SearchADL:
 	public BookEntry
 {
 	public:
-		ADLSearchGUI();
-		virtual ~ADLSearchGUI();
+		SearchADL();
+		virtual ~SearchADL();
 		virtual void show();
-		virtual void popmenu();
 	private:
 		typedef dcpp::ADLSearchManager::SearchCollection::size_type SearchType;
 
@@ -54,14 +53,13 @@ class ADLSearchGUI:
 		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
-		static bool showPropertiesDialog_gui(dcpp::ADLSearch &search, bool edit, ADLSearchGUI *s);
+		static bool showPropertiesDialog_gui(dcpp::ADLSearch &search, bool edit, SearchADL *s);
 		static void onToggleOveride(GtkWidget *widget,gpointer data);
 		static void onToggleActions(GtkWidget *widget, gpointer data);
 		static void onToggleForb(GtkWidget *widget, gpointer data);
 		static void onChangeCombo(GtkWidget *widget, gpointer data);
 
-        static void onCloseItem(gpointer data);
-		int find_raw(std::string rawString);
+        int find_raw(std::string rawString);
 		int find_rawInt(int raw);
 		
 		GdkEventType previous;

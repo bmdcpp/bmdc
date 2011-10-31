@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,13 +40,13 @@ class TreeView
 			PIXBUF_STRING,
 			ICON_STRING,
 			ICON_STRING_TEXT_COLOR,
+			PIXBUF_STRING_TEXT_COLOR,
 			EDIT_STRING,
 			PROGRESS,
 			SPEED,
 			SIZE,
-			TIME_LEFT,
-			ESIZE,
-			PIXBUF_STRING_TEXT_COLOR
+			EXSIZE,
+			TIME_LEFT
 		} columnType;
 
 		TreeView();
@@ -81,11 +81,9 @@ class TreeView
 		{
 			return static_cast<C>(getValue<T>(i, column, m));
 		}
-		///Copy Menu
+		void setSelection(GtkTreeSelection *&selection) { sel = selection;}
 		void buildCopyMenu(GtkWidget *wid);
-		void setSelection(GtkTreeSelection *&_selection) { sel = _selection;}
-		GtkTreeSelection * getSelection() { return sel;}
-		
+
 	private:
 		class Column
 		{
@@ -127,13 +125,12 @@ class TreeView
 		static void toggleColumnVisibility(GtkMenuItem *item, gpointer data);
 		static void speedDataFunc(GtkTreeViewColumn*, GtkCellRenderer*, GtkTreeModel*, GtkTreeIter*, gpointer);
 		static void sizeDataFunc(GtkTreeViewColumn*, GtkCellRenderer*, GtkTreeModel*, GtkTreeIter*, gpointer);
-		static void sizeDataFuncE(GtkTreeViewColumn*, GtkCellRenderer*, GtkTreeModel*, GtkTreeIter*, gpointer);//Patched
+		static void exactsizeDataFunc(GtkTreeViewColumn *col, GtkCellRenderer *renderer, GtkTreeModel *model, GtkTreeIter *iter, gpointer column);
 		static void timeLeftDataFunc(GtkTreeViewColumn*, GtkCellRenderer*, GtkTreeModel*, GtkTreeIter*, gpointer);
-		///Copy Menu
-		std::string getValueAsText(GtkTreeIter *i, const std::string &title);
-		static void onCopyDataItemClicked_gui(GtkMenuItem *item, gpointer data);
+		//BMDC++
 		static void onCopyRowClicked_gui(GtkMenuItem *item, gpointer data);
-		
+		static void onCopyDataItemClicked_gui(GtkMenuItem *item, gpointer data);
+		std::string getValueAsText(GtkTreeIter *i, const std::string &title);
 
 		GtkTreeView *view;
 		std::string name; // Used to save settings
@@ -152,6 +149,7 @@ class TreeView
 		SortedColMap sortedColumns;
 		ColMap hiddenColumns;
 		SortedColMap sortedHiddenColumns;
+		//BMDC++
 		GtkTreeSelection *sel;
 };
 

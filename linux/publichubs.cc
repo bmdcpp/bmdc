@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 
 #include "publichubs.hh"
 #include "wulformanager.hh"
-#include "WulforUtil.hh"// CC
+#include "WulforUtil.hh"
 
 using namespace std;
 using namespace dcpp;
@@ -34,20 +34,23 @@ PublicHubs::PublicHubs():
 	// Configure the dialog
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("configureDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
 
+	// menu
+	g_object_ref_sink(getWidget("menu"));
+
 	// Initialize public hub list treeview
 	hubView.setView(GTK_TREE_VIEW(getWidget("hubView")), true, "publichubs");
-	hubView.insertColumn(_("Name"), G_TYPE_STRING, TreeView::STRING, 200);
+	hubView.insertColumn(_("Name"), G_TYPE_STRING, TreeView::PIXBUF_STRING, 200, "Pixbuf");
 	hubView.insertColumn(_("Description"), G_TYPE_STRING, TreeView::STRING, 350);
 	hubView.insertColumn(_("Users"), G_TYPE_INT, TreeView::INT, 75);
 	hubView.insertColumn(_("Address"), G_TYPE_STRING, TreeView::STRING, 110);
-	hubView.insertColumn(_("Country"), G_TYPE_STRING, TreeView::PIXBUF_STRING, 100, "CountryPix");
+	hubView.insertColumn(_("Country"), G_TYPE_STRING, TreeView::STRING, 100);
 	hubView.insertColumn(_("Shared"), G_TYPE_INT64, TreeView::SIZE, 70);
 	hubView.insertColumn(_("Min Share"), G_TYPE_INT64, TreeView::SIZE, 80);
 	hubView.insertColumn(_("Min Slots"), G_TYPE_INT, TreeView::INT, 70);
 	hubView.insertColumn(_("Max Hubs"), G_TYPE_INT, TreeView::INT, 80);
 	hubView.insertColumn(_("Max Users"), G_TYPE_INT, TreeView::INT, 80);
 	hubView.insertColumn(_("Rating"), G_TYPE_STRING, TreeView::STRING, 70);
-	hubView.insertHiddenColumn("CountryPix",GDK_TYPE_PIXBUF);
+	hubView.insertHiddenColumn("Pixbuf", GDK_TYPE_PIXBUF);
 	hubView.finalize();
 	hubStore = gtk_list_store_newv(hubView.getColCount(), hubView.getGTypes());
 	gtk_tree_view_set_model(hubView.get(), GTK_TREE_MODEL(hubStore));
@@ -100,6 +103,7 @@ PublicHubs::~PublicHubs()
 {
 	FavoriteManager::getInstance()->removeListener(this);
 	gtk_widget_destroy(getWidget("configureDialog"));
+	g_object_unref(getWidget("menu"));
 }
 
 void PublicHubs::show()
@@ -116,7 +120,7 @@ void PublicHubs::buildHubList_gui()
 {
  	StringList list = FavoriteManager::getInstance()->getHubLists();
 	int selected = FavoriteManager::getInstance()->getSelectedHubList();
-
+ 
 	for (StringList::iterator it = list.begin(); it != list.end(); ++it)
 	{
 		GtkTreeIter iter;
@@ -149,33 +153,20 @@ void PublicHubs::updateList_gui()
 		if (filter.getPattern().empty() || filter.match(i->getName()) ||
 			filter.match(i->getDescription()) || filter.match(i->getServer()))
 		{
-			GdkPixbuf *buf = NULL;
-			string cc = Util::emptyString;
-			try {
-					if(i->getCountry().length() != 0 || !i->getCountry().length() < 0 )
-						cc = string(g_strdup(i->getCountry().c_str()));
-			}catch(...) { }
-			if(!cc.empty())
-			{
-				string tmp = WulforUtil::getCC(cc);
-				buf = WulforUtil::loadCountry(tmp);
-			}
-			
-
 			gtk_list_store_append(hubStore, &iter);
 			gtk_list_store_set(hubStore, &iter,
 				hubView.col(_("Name")), i->getName().c_str(),
 				hubView.col(_("Description")), i->getDescription().c_str(),
 				hubView.col(_("Users")), i->getUsers(),
 				hubView.col(_("Address")), i->getServer().c_str(),
-				hubView.col(_("Country")),g_strdup(i->getCountry().c_str()),
+				hubView.col(_("Country")), i->getCountry().c_str(),
 				hubView.col(_("Shared")), (int64_t)i->getShared(),
 				hubView.col(_("Min Share")), (int64_t)i->getMinShare(),
 				hubView.col(_("Min Slots")), i->getMinSlots(),
 				hubView.col(_("Max Hubs")), i->getMaxHubs(),
 				hubView.col(_("Max Users")), i->getMaxUsers(),
 				hubView.col(_("Rating")), i->getRating().c_str(),
-				hubView.col("CountryPix"), buf,
+				hubView.col("Pixbuf"), WulforUtil::LoadCountryPixbuf(WulforUtil::getCountryCode(i->getCountry())),
 				-1);
 
 			numUsers += i->getUsers();
@@ -291,10 +282,6 @@ void PublicHubs::onRefresh_gui(GtkWidget *widget, gpointer data)
 	typedef Func1<PublicHubs, int> F1;
 	F1 *func = new F1(ph, &PublicHubs::refresh_client, pos);
 	WulforManager::get()->dispatchClientFunc(func);
-
-	typedef Func0<PublicHubs> F0;
-	F0 *funcd = new F0(ph, &PublicHubs::updateList_gui);
-	WulforManager::get()->dispatchGuiFunc(funcd);
 }
 
 void PublicHubs::onAddFav_gui(GtkMenuItem *item, gpointer data)
@@ -466,9 +453,9 @@ void PublicHubs::on(FavoriteManagerListener::DownloadFailed, const string &file)
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
-void PublicHubs::on(FavoriteManagerListener::DownloadFinished, const string &file) throw()
+void PublicHubs::on(FavoriteManagerListener::DownloadFinished, const string &file, bool fromCoral) throw()
 {
-	string msg = _("Download finished: ") + file;
+	string msg = _("Download finished: ") + file + (fromCoral ? _(" from Coral") : "");
 	typedef Func2<PublicHubs, string, string> Func;
 	Func *f2 = new Func(this, &PublicHubs::setStatus_gui, "statusMain", msg);
 	WulforManager::get()->dispatchGuiFunc(f2);
@@ -477,33 +464,4 @@ void PublicHubs::on(FavoriteManagerListener::DownloadFinished, const string &fil
 
 	Func0<PublicHubs> *f0 = new Func0<PublicHubs>(this, &PublicHubs::updateList_gui);
 	WulforManager::get()->dispatchGuiFunc(f0);
-}
-
-void PublicHubs::on(FavoriteManagerListener::LoadedFromCache, const string &l,const string &d) throw()
-{
-	string msg = _("Cached Hublist loaded:") + l;
-	typedef Func2<PublicHubs, string, string> Func;
-	Func *f2 = new Func(this, &PublicHubs::setStatus_gui, "statusMain", msg);
-	WulforManager::get()->dispatchGuiFunc(f2);
-
-	//hubs = FavoriteManager::getInstance()->getPublicHubs();
-
-	Func0<PublicHubs> *f0 = new Func0<PublicHubs>(this, &PublicHubs::updateList_gui);
-	WulforManager::get()->dispatchGuiFunc(f0);
-}
-
-/*this is a pop menu*/
-void PublicHubs::popmenu()
-{
-    GtkWidget *closeMenuItem = gtk_menu_item_new_with_label(_("Close"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(getNewTabMenu()),closeMenuItem);
-
-    g_signal_connect_swapped(closeMenuItem, "activate",G_CALLBACK(onCloseItem),this);
-
-}
-
-void PublicHubs::onCloseItem(gpointer data)
-{
-    BookEntry *entry = (BookEntry *)data;
-    WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
 }

@@ -1,9 +1,10 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <glade-interface>
   <!-- interface-requires gtk+ 2.6 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <widget class="GtkVBox" id="mainBox">
     <property name="visible">True</property>
+    <property name="can_focus">False</property>
     <child>
       <widget class="GtkScrolledWindow" id="scrolledwindow1">
         <property name="visible">True</property>
@@ -19,14 +20,18 @@
         </child>
       </widget>
       <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
         <property name="position">0</property>
       </packing>
     </child>
   </widget>
   <widget class="GtkMenu" id="transferMenu">
+    <property name="can_focus">False</property>
     <child>
       <widget class="GtkMenuItem" id="getFileListItem">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="label" translatable="yes">_Browse file list</property>
         <property name="use_underline">True</property>
       </widget>
@@ -34,13 +39,23 @@
     <child>
       <widget class="GtkMenuItem" id="matchQueueItem">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="label" translatable="yes">_Match queue</property>
+        <property name="use_underline">True</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkMenuItem" id="SearchItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Search Alternate</property>
         <property name="use_underline">True</property>
       </widget>
     </child>
     <child>
       <widget class="GtkMenuItem" id="sendPrivateMessageItem">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="label" translatable="yes">_Send private message</property>
         <property name="use_underline">True</property>
       </widget>
@@ -48,6 +63,7 @@
     <child>
       <widget class="GtkMenuItem" id="addToFavoritesItem">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="label" translatable="yes">_Add to favorites</property>
         <property name="use_underline">True</property>
       </widget>
@@ -55,6 +71,7 @@
     <child>
       <widget class="GtkMenuItem" id="grantExtraSlotItem">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="label" translatable="yes">_Grant extra slot</property>
         <property name="use_underline">True</property>
       </widget>
@@ -62,6 +79,7 @@
     <child>
       <widget class="GtkMenuItem" id="removeUserItem">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="label" translatable="yes">_Remove user from queue</property>
         <property name="use_underline">True</property>
       </widget>
@@ -69,36 +87,45 @@
     <child>
       <widget class="GtkMenuItem" id="userCommandItem">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="label" translatable="yes">User commands</property>
         <property name="use_underline">True</property>
         <child>
-          <widget class="GtkMenu" id="userCommandMenu"/>
+          <widget class="GtkMenu" id="userCommandMenu">
+            <property name="can_focus">False</property>
+          </widget>
         </child>
       </widget>
     </child>
     <child>
       <widget class="GtkSeparatorMenuItem" id="separator3">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
       </widget>
     </child>
     <child>
       <widget class="GtkMenuItem" id="appsPreviewItem">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="label" translatable="yes">Preview</property>
         <property name="use_underline">True</property>
         <child>
-          <widget class="GtkMenu" id="appsPreviewMenu"/>
+          <widget class="GtkMenu" id="appsPreviewMenu">
+            <property name="can_focus">False</property>
+          </widget>
         </child>
       </widget>
     </child>
     <child>
       <widget class="GtkSeparatorMenuItem" id="separator4">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
       </widget>
     </child>
     <child>
       <widget class="GtkMenuItem" id="forceAttemptItem">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="label" translatable="yes">_Force attempt</property>
         <property name="use_underline">True</property>
       </widget>
@@ -106,19 +133,14 @@
     <child>
       <widget class="GtkSeparatorMenuItem" id="separator5">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
       </widget>
     </child>
     <child>
       <widget class="GtkMenuItem" id="closeConnectionItem">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="label" translatable="yes">_Close connection</property>
-        <property name="use_underline">True</property>
-      </widget>
-    </child>
-    <child>
-      <widget class="GtkMenuItem" id="getAlternateSearch">
-        <property name="visible">True</property>
-        <property name="label" translatable="yes">_Search Alternate</property>
         <property name="use_underline">True</property>
       </widget>
     </child>

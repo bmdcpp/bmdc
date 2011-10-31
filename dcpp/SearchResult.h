@@ -33,8 +33,7 @@ class SearchResult : public FastAlloc<SearchResult>, public intrusive_ptr_base<S
 public:
 	enum Types {
 		TYPE_FILE,
-		TYPE_DIRECTORY,
-		TYPE_PARTIAL
+		TYPE_DIRECTORY
 	};
 
 	SearchResult(Types aType, int64_t aSize, const string& name, const TTHValue& aTTH);

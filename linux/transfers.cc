@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,7 +36,9 @@
 #include <dcpp/ClientManager.h>
 #include <dcpp/TimerManager.h>
 #include <dcpp/FavoriteManager.h>
-#include <dcpp/Util.h>
+#include <dcpp/UserConnection.h>
+#include <dcpp/GeoManager.h>
+#include <dcpp/SearchManager.h>
 
 using namespace std;
 using namespace dcpp;
@@ -44,6 +46,9 @@ using namespace dcpp;
 Transfers::Transfers() :
 	Entry(Entry::TRANSFERS, "transfers.glade")
 {
+	// menu
+	g_object_ref_sink(getWidget("transferMenu"));
+
 	// Initialize the user command menu
 	userCommandMenu = new UserCommandMenu(getWidget("userCommandMenu"), ::UserCommand::CONTEXT_USER);//NOTE: core 0.762
 	addChild(userCommandMenu);
@@ -61,11 +66,10 @@ Transfers::Transfers() :
 	transferView.insertColumn(_("Filename"), G_TYPE_STRING, TreeView::STRING, 200);
 	transferView.insertColumn(_("Size"), G_TYPE_INT64, TreeView::SIZE, 125);
 	transferView.insertColumn(_("Path"), G_TYPE_STRING, TreeView::STRING, 200);
+	transferView.insertColumn("Country", G_TYPE_STRING, TreeView::PIXBUF_STRING, 80 , "Pixbuf");
 	transferView.insertColumn("IP", G_TYPE_STRING, TreeView::STRING, 175);
-	transferView.insertColumn("CC", G_TYPE_STRING, TreeView::PIXBUF_STRING, 80, "Country");
-	transferView.insertColumn("DNS", G_TYPE_STRING, TreeView::STRING, 175);
+	transferView.insertColumn("DNS", G_TYPE_STRING, TreeView::STRING, 180);
 	transferView.insertHiddenColumn("Icon", G_TYPE_STRING);
-	transferView.insertHiddenColumn("Country", GDK_TYPE_PIXBUF);
 	transferView.insertHiddenColumn("Progress", G_TYPE_INT);
 	transferView.insertHiddenColumn("Sort Order", G_TYPE_STRING);
 	transferView.insertHiddenColumn("CID", G_TYPE_STRING);
@@ -75,6 +79,7 @@ Transfers::Transfers() :
 	transferView.insertHiddenColumn("tmpTarget", G_TYPE_STRING);
 	transferView.insertHiddenColumn("Download", G_TYPE_BOOLEAN);
 	transferView.insertHiddenColumn("Hub URL", G_TYPE_STRING);
+	transferView.insertHiddenColumn("Pixbuf", GDK_TYPE_PIXBUF);
 	transferView.insertHiddenColumn("TTH", G_TYPE_STRING);
 	transferView.finalize();
 
@@ -98,8 +103,8 @@ Transfers::Transfers() :
 	g_signal_connect(getWidget("removeUserItem"), "activate", G_CALLBACK(onRemoveUserFromQueueClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("forceAttemptItem"), "activate", G_CALLBACK(onForceAttemptClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("closeConnectionItem"), "activate", G_CALLBACK(onCloseConnectionClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("getAlternateSearch"), "activate", G_CALLBACK(onALtSearch), (gpointer)this);
-
+	
+	g_signal_connect(getWidget("SearchItem"), "activate", G_CALLBACK(onSearchAlternateClicked_gui), (gpointer)this);
 }
 
 Transfers::~Transfers()
@@ -109,6 +114,7 @@ Transfers::~Transfers()
 	UploadManager::getInstance()->removeListener(this);
 	ConnectionManager::getInstance()->removeListener(this);
 
+	g_object_unref(getWidget("transferMenu"));
 	delete appsPreviewMenu;
 }
 
@@ -146,6 +152,7 @@ void Transfers::popupTransferMenu_gui()
 				string cid = transferView.getString(&iter, "CID");
 				string hubUrl = transferView.getString(&iter, "Hub URL");//NOTE: core 0.762
 				userCommandMenu->addUser(cid);
+// 				userCommandMenu->addHub(WulforUtil::getHubAddress(CID(cid)));
 				userCommandMenu->addHub(WulforUtil::getHubAddress(CID(cid), hubUrl));//NOTE: core 0.762
 			}
 			while (parent && WulforUtil::getNextIter_gui(GTK_TREE_MODEL(transferStore), &iter, TRUE, FALSE));
@@ -354,6 +361,40 @@ void Transfers::onRemoveUserFromQueueClicked_gui(GtkMenuItem *item, gpointer dat
 	g_list_free(list);
 }
 
+void Transfers::onSearchAlternateClicked_gui(GtkMenuItem *item, gpointer data)
+{
+	Transfers *tr = (Transfers *)data;
+	string tth;
+	int count=0;
+	GtkTreeIter iter;
+	GtkTreePath *path;
+	GList *list = gtk_tree_selection_get_selected_rows(tr->transferSelection, NULL);
+	for (GList *i = list; i; i = i->next)
+	{
+		path = (GtkTreePath *)i->data;
+		if (gtk_tree_model_get_iter(GTK_TREE_MODEL(tr->transferStore), &iter, path))
+		{
+			bool parent = gtk_tree_model_iter_has_child(GTK_TREE_MODEL(tr->transferStore), &iter);
+
+			do
+			{
+				if(count == 1)break;
+				tth = tr->transferView.getString(&iter, "TTH");
+				if (!tth.empty())
+				{
+					Search *s = WulforManager::get()->getMainWindow()->addSearch_gui();
+					s->putValue_gui(tth, 0, SearchManager::SIZE_DONTCARE, SearchManager::TYPE_TTH);
+				}
+				
+				count++;
+			}
+			while (parent && WulforUtil::getNextIter_gui(GTK_TREE_MODEL(tr->transferStore), &iter, TRUE, FALSE));
+		}
+		gtk_tree_path_free(path);
+	}
+	g_list_free(list);
+}
+
 void Transfers::onForceAttemptClicked_gui(GtkMenuItem *menuItem, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
@@ -492,7 +533,6 @@ void Transfers::addConnection_gui(StringMap params, bool download)
 	GtkTreeIter iter;
 	dcassert(params.find("CID") != params.end());
 	dcassert(findTransfer_gui(params["CID"], download, &iter) == FALSE);	// shouldn't fail, if it's already there we've forgot to remove it or dcpp core sends more than one Connection::Added
-	GdkPixbuf* buf = WulforUtil::loadCountry(params["CC"]);
 
 	gtk_tree_store_append(transferStore, &iter, NULL);
 	gtk_tree_store_set(transferStore, &iter,
@@ -500,12 +540,9 @@ void Transfers::addConnection_gui(StringMap params, bool download)
 		transferView.col(_("Hub Name")), params[_("Hub Name")].c_str(),
 		transferView.col(_("Status")), params[_("Status")].c_str(),
 		transferView.col("CID"), params["CID"].c_str(),
-		transferView.col("Country"), buf,
 		transferView.col("Icon"), download ? "bmdc-download" : "bmdc-upload",
 		transferView.col("Download"), download,
 		transferView.col("Hub URL"), params["Hub URL"].c_str(),
-		transferView.col("CC"), params["CC"].c_str(),
-		transferView.col("DNS"),params["DNS"].c_str(),
 		-1);
 }
 
@@ -577,16 +614,14 @@ void Transfers::updateParent_gui(GtkTreeIter* iter)
 		timeLeft = (totalSize - position) / speed;
 
 	stream << setiosflags(ios::fixed) << setprecision(1);
-	
 
 	if (transferView.getValue<gboolean>(iter, "Failed") == 0)
 	{
 		if (active)
 			stream << _("Downloaded ");
 		else
-		{
 			stream << _("Waiting for slot ");
-		}
+
 		stream << Util::formatBytes(position) << " (" << progress;
 		stream << _("%) from ") << active << "/" << gtk_tree_model_iter_n_children(GTK_TREE_MODEL(transferStore), iter) << _(" user(s)");
 	}
@@ -594,7 +629,7 @@ void Transfers::updateParent_gui(GtkTreeIter* iter)
 	{
 		stream << transferView.getString(iter, _("Status"));
 	}
-	
+
 	std::copy(hubs.begin(), hubs.end(), std::ostream_iterator<string>(tmpHubs, ", "));
 
 	gtk_tree_store_set(transferStore, iter,
@@ -702,13 +737,20 @@ void Transfers::initTransfer_gui(StringMap params)
 			}
 			else
 			{
+				//NOTE: set update parent status if removed download
+				if (transferView.getValue<int>(&newParent, "Failed"))
+				{
+					gtk_tree_store_set(transferStore, &newParent,
+						transferView.col("Failed"), FALSE,
+						-1);
+				}
+
 				oldParentValid = FALSE;	// Don't update the parentRow twice, since old and new are the same (and definately don't remove twice)
 			}
 		}
 		else
 		{
-			GdkPixbuf* buf = WulforUtil::loadCountry(params["CC"]);
-		
+			GdkPixbuf *buf = WulforUtil::LoadCountryPixbuf(GeoManager::getInstance()->getCountryAbbrevation(params["IP"]));
 			string filename = params[_("Filename")];
 			if (filename.find("TTH: ") != string::npos)
 				filename = filename.substr((string("TTH: ")).length());
@@ -718,12 +760,14 @@ void Transfers::initTransfer_gui(StringMap params)
 				transferView.col(_("Filename")), filename.c_str(),
 				transferView.col(_("Path")), params[_("Path")].c_str(),
 				transferView.col(_("Size")), Util::toInt64(params["File Size"]),
-				transferView.col("Country"), buf,
+				transferView.col("IP"), params["IP"].c_str(),
+				transferView.col("DNS"), WGETB("use-dns") ? Socket::getRemoteHost(params["IP"]).c_str() : Util::emptyString.c_str(),
 				transferView.col("Icon"), "bmdc-download",
-				transferView.col("CC"), params["CC"].c_str(),
-				transferView.col("DNS"), params["DNS"].c_str(),
 				transferView.col("Download"), TRUE,
 				transferView.col("Target"), params["Target"].c_str(),
+				transferView.col("Country"), GeoManager::getInstance()->getCountry(params["IP"]).c_str(),
+				transferView.col("Pixbuf"), buf,
+				transferView.col("TTH"), params["TTH"].c_str(),
 				-1);
 
 			newIter = WulforUtil::copyRow_gui(transferStore, &iter, &newParent);
@@ -892,12 +936,10 @@ void Transfers::getParams_client(StringMap& params, Transfer* tr)
 		percent = static_cast<double>(tr->getPos() * 100.0)/ tr->getSize();
 	params["Progress"] = Util::toString(static_cast<int>(percent));
 	params["IP"] = tr->getUserConnection().getRemoteIp();
-	params["DNS"] = WGETB("use-dns") ? Socket::getRemoteHost(tr->getUserConnection().getRemoteIp()) : Util::emptyString;
 	params[_("Time Left")] = tr->getSecondsLeft() > 0 ? Util::toString(tr->getSecondsLeft()) : "-1";
 	params["Target"] = tr->getPath();
 	params["Hub URL"] = tr->getUserConnection().getHubUrl();
 	params["TTH"] = tr->getTTH().toBase32();
-	params["CC"] = Util::getCountryAB(tr->getUserConnection().getRemoteIp());
 }
 
 void Transfers::on(DownloadManagerListener::Requesting, Download* dl) throw()
@@ -991,10 +1033,7 @@ void Transfers::on(DownloadManagerListener::Failed, Download* dl, const string& 
 	getParams_client(params, dl);
 	params[_("Status")] = reason;
 	params["Sort Order"] = "w" + params[_("User")];
-	if(dl->getType() == Transfer::TYPE_TESTSUR)
-		params["Failed"] = "-1";
-	else
-		params["Failed"] = "1";
+	params["Failed"] = "1";
 	params[_("Speed")] = "-1";
 	params[_("Time Left")] = "-1";
 
@@ -1173,42 +1212,3 @@ void Transfers::on(UploadManagerListener::Failed, Upload* ul, const string& reas
 	WulforManager::get()->dispatchGuiFunc(f3);
 }
 
-//Alt Search
-void Transfers::onALtSearch(GtkMenuItem *item, gpointer data)
-{
-
-	Transfers *tr = (Transfers *)data;
-	string tth;
-	GtkTreeIter iter;
-	GtkTreePath *path;
-	gint wi = 0;
-	GList *list = gtk_tree_selection_get_selected_rows(tr->transferSelection, NULL);
-
-	for (GList *i = list; i; i = i->next)
-	{
-		path = (GtkTreePath *)i->data;
-		if (gtk_tree_model_get_iter(GTK_TREE_MODEL(tr->transferStore), &iter, path))
-		{
-			bool parent = gtk_tree_model_iter_has_child(GTK_TREE_MODEL(tr->transferStore), &iter);
-
-			do
-			{
-				tth = tr->transferView.getString(&iter, "TTH");
-				if (!tth.empty())
-				{
-					Search *s = WulforManager::get()->getMainWindow()->addSearch_gui();
-					s->putValue_gui(tth, 0, SearchManager::SIZE_DONTCARE, SearchManager::TYPE_TTH);
-					wi++;
-					if(wi == 1)
-                        break;
-				}
-			}
-			while ( (parent && WulforUtil::getNextIter_gui(GTK_TREE_MODEL(tr->transferStore), &iter, TRUE, FALSE)));
-		}
-		gtk_tree_path_free(path);
-		if(wi == 1)
-            break;
-
-	}
-	g_list_free(list);
-}

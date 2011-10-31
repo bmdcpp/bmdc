@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -369,6 +369,21 @@ void WulforManager::deleteEntry_gui(Entry *entry)
 
 	delete entry;
 	entry = NULL;
+}
+
+bool WulforManager::isEntry_gui(Entry *entry)
+{
+	g_static_rw_lock_writer_lock(&entryMutex);
+
+	unordered_map<string, Entry *>::const_iterator it = find_if(entries.begin(), entries.end(),
+		CompareSecond<string, Entry *>(entry));
+
+	if (it == entries.end())
+		entry = NULL;
+
+	g_static_rw_lock_writer_unlock(&entryMutex);
+
+	return (entry != NULL);
 }
 
 DialogEntry* WulforManager::getDialogEntry_gui(const string &id)

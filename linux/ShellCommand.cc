@@ -1,6 +1,6 @@
 ﻿//Implementation of ShellCommand.hh
 //Author: Irene
-
+#include <cstring>
 #include "ShellCommand.hh"
 
 ShellCommand::ShellCommand(char* input, int len, bool shell)
@@ -69,7 +69,7 @@ ShellCommand::ShellCommand(char* input, int len, bool shell)
 	{
 		strcpy(command,input);
 	}
-	
+
 	if (error == 0)
 	{
 	        FILE* f;

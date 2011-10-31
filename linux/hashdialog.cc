@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,9 +27,7 @@ using namespace std;
 using namespace dcpp;
 
 Hash::Hash(GtkWindow* parent):
-	DialogEntry(Entry::HASH_DIALOG, "hash.glade", parent),
-	startBytes(0),//add
-	startFiles(0)
+	DialogEntry(Entry::HASH_DIALOG, "hash.glade", parent)
 {
 	string tmp;
 	startTime = GET_TICK();
@@ -46,7 +44,7 @@ Hash::Hash(GtkWindow* parent):
 		gtk_window_set_title(GTK_WINDOW(getContainer()), _("Indexing files..."));
 
 	g_signal_connect(getWidget("pauseHashingToggleButton"), "toggled", G_CALLBACK(onPauseHashing_gui), (gpointer)this);
-
+//NOTE: core 0.762]
 	TimerManager::getInstance()->addListener(this);
 }
 
@@ -56,7 +54,7 @@ Hash::~Hash()
 	TimerManager::getInstance()->removeListener(this);
 }
 
-void Hash::updateStats_gui(string file, int64_t bytes, size_t files, uint32_t tick)
+void Hash::updateStats_gui(string file, uint64_t bytes, size_t files, uint32_t tick)
 {
 	if (bytes > startBytes)
 		startBytes = bytes;
@@ -137,12 +135,12 @@ void Hash::onPauseHashing_gui(GtkWidget *widget, gpointer data)
 void Hash::on(TimerManagerListener::Second, uint32_t tics) throw()
 {
 	string file;
-	int64_t bytes = 0;
+	uint64_t bytes = 0;
 	size_t files = 0;
 
 	HashManager::getInstance()->getStats(file, bytes, files);
 
-	typedef Func4<Hash, string, int64_t, size_t, uint32_t> F4;
+	typedef Func4<Hash, string, uint64_t, size_t, uint32_t> F4;
 	F4 *func = new F4(this, &Hash::updateStats_gui, file, bytes, files, GET_TICK());
 	WulforManager::get()->dispatchGuiFunc(func);
 }

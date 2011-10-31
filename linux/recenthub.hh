@@ -38,14 +38,10 @@ class RecentTab:
 		RecentTab();
 		virtual ~RecentTab();
 		virtual void show();
-		virtual void popmenu();
-
+		
 	private:
 		typedef std::map<std::string, std::string> ParamMap;
 		typedef std::unordered_map<std::string, GtkTreeIter> RecIters;
-
-		// GUI functions
-		static void onCloseItem(gpointer data);
 
 		bool findRecent_gui(const std::string &cid, GtkTreeIter *iter);
 		void updateRecent_gui(ParamMap params);

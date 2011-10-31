@@ -22,13 +22,13 @@
 
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
-#include "ADLSearchGUI.hh"
+#include "adlsearch.hh"
 
 using namespace std;
 using namespace dcpp;
 
-ADLSearchGUI::ADLSearchGUI():
-	BookEntry(Entry::ADL, _("ADL Search"), "adlsearch.glade"),
+SearchADL::SearchADL():
+	BookEntry(Entry::SEARCH_ADL, _("ADL Search"), "adlsearch.glade"),
 	sens(TRUE),
 	acts(TRUE),
 	forbid(TRUE)
@@ -38,7 +38,7 @@ ADLSearchGUI::ADLSearchGUI():
 	g_object_ref_sink(getWidget("menu"));
 
 	// Fill drop down actions
-	vector<std::pair<std::string,int> > &action = WulforUtil::getActions();
+	vector<std::pair<std::string,int> > action = WulforUtil::getActions();
 	WulforUtil::drop_combo(getWidget("comboboxAction"),action);
 	
 	// Initialize search list treeview
@@ -115,14 +115,14 @@ ADLSearchGUI::ADLSearchGUI():
 	gtk_widget_set_sensitive(getWidget("checkcasesensitive"), FALSE);
 }
 
-ADLSearchGUI::~ADLSearchGUI()
+SearchADL::~SearchADL()
 {
-	ADLSearchManager::getInstance()->Save();
+	ADLSearchManager::getInstance()->save();
 	gtk_widget_destroy(getWidget("ADLSearchDialog"));
 	g_object_unref(getWidget("menu"));
 }
 
-void ADLSearchGUI::show()
+void SearchADL::show()
 {
 	// initialize searches list
 	string minSize, maxSize;
@@ -160,9 +160,9 @@ void ADLSearchGUI::show()
 	}
 }
 
-void ADLSearchGUI::onRemoveClicked_gui(GtkWidget *widget, gpointer data)
+void SearchADL::onRemoveClicked_gui(GtkWidget *widget, gpointer data)
 {
-	ADLSearchGUI *s = (ADLSearchGUI *)data;
+	SearchADL *s = (SearchADL *)data;
 
 	GtkTreeIter iter;
 	if (gtk_tree_selection_get_selected(s->searchADLSelection, NULL, &iter))
@@ -180,9 +180,9 @@ void ADLSearchGUI::onRemoveClicked_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void ADLSearchGUI::onAddClicked_gui(GtkWidget *widget, gpointer data)
+void SearchADL::onAddClicked_gui(GtkWidget *widget, gpointer data)
 {
-	ADLSearchGUI *s = (ADLSearchGUI *)data;
+	SearchADL *s = (SearchADL *)data;
 
 	ADLSearch search;
 	if (showPropertiesDialog_gui(search, false, s))
@@ -213,9 +213,9 @@ void ADLSearchGUI::onAddClicked_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void ADLSearchGUI::onPropertiesClicked_gui(GtkWidget *widget, gpointer data)
+void SearchADL::onPropertiesClicked_gui(GtkWidget *widget, gpointer data)
 {
-	ADLSearchGUI *s = (ADLSearchGUI *)data;
+	SearchADL *s = (SearchADL *)data;
 
 	GtkTreeIter iter;
 	if (gtk_tree_selection_get_selected(s->searchADLSelection, NULL, &iter))
@@ -237,7 +237,7 @@ void ADLSearchGUI::onPropertiesClicked_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void ADLSearchGUI::setSearch_gui(ADLSearch &search, GtkTreeIter *iter)
+void SearchADL::setSearch_gui(ADLSearch &search, GtkTreeIter *iter)
 {
 	string minSize = search.minFileSize >= 0 ? Util::toString(search.minFileSize) + " " +
 		search.SizeTypeToString(search.typeFileSize) : "";
@@ -266,7 +266,7 @@ void ADLSearchGUI::setSearch_gui(ADLSearch &search, GtkTreeIter *iter)
 		-1);
 }
 
-bool ADLSearchGUI::showPropertiesDialog_gui(ADLSearch &search, bool edit, ADLSearchGUI *s)
+bool SearchADL::showPropertiesDialog_gui(ADLSearch &search, bool edit, SearchADL *s)
 {
 	GtkTreeIter iter;
 	if (edit && !gtk_tree_selection_get_selected(s->searchADLSelection, NULL, &iter))
@@ -407,9 +407,9 @@ bool ADLSearchGUI::showPropertiesDialog_gui(ADLSearch &search, bool edit, ADLSea
 	return true;
 }
 
-void ADLSearchGUI::onMoveUpClicked_gui(GtkWidget *widget, gpointer data)
+void SearchADL::onMoveUpClicked_gui(GtkWidget *widget, gpointer data)
 {
-	ADLSearchGUI *s = (ADLSearchGUI *)data;
+	SearchADL *s = (SearchADL *)data;
 
 	GtkTreeIter prev, current;
 	GtkTreeModel *m = GTK_TREE_MODEL(s->searchADLStore);
@@ -439,9 +439,9 @@ void ADLSearchGUI::onMoveUpClicked_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void ADLSearchGUI::onMoveDownClicked_gui(GtkWidget *widget, gpointer data)
+void SearchADL::onMoveDownClicked_gui(GtkWidget *widget, gpointer data)
 {
-	ADLSearchGUI *s = (ADLSearchGUI *)data;
+	SearchADL *s = (SearchADL *)data;
 
 	GtkTreeIter current, next;
 	GtkTreeSelection *sel = gtk_tree_view_get_selection(s->searchADLView.get());
@@ -469,9 +469,9 @@ void ADLSearchGUI::onMoveDownClicked_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void ADLSearchGUI::onActiveToggled_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data)
+void SearchADL::onActiveToggled_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data)
 {
-	ADLSearchGUI *s = (ADLSearchGUI *)data;
+	SearchADL *s = (SearchADL *)data;
 	GtkTreeIter iter;
 
 	if (gtk_tree_model_get_iter_from_string(GTK_TREE_MODEL(s->searchADLStore), &iter, path))
@@ -494,9 +494,9 @@ void ADLSearchGUI::onActiveToggled_gui(GtkCellRendererToggle *cell, gchar *path,
 	}
 }
 
-gboolean ADLSearchGUI::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean SearchADL::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	ADLSearchGUI *s = (ADLSearchGUI *)data;
+	SearchADL *s = (SearchADL *)data;
 	s->previous = event->type;
 
 	if (event->button == 3)
@@ -515,9 +515,9 @@ gboolean ADLSearchGUI::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *ev
 	return FALSE;
 }
 
-gboolean ADLSearchGUI::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean SearchADL::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	ADLSearchGUI *s = (ADLSearchGUI *)data;
+	SearchADL *s = (SearchADL *)data;
 
 	if (gtk_tree_selection_get_selected(s->searchADLSelection, NULL, NULL))
 	{
@@ -536,9 +536,9 @@ gboolean ADLSearchGUI::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *e
 	return FALSE;
 }
 
-gboolean ADLSearchGUI::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
+gboolean SearchADL::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
-	ADLSearchGUI *s = (ADLSearchGUI *)data;
+	SearchADL *s = (SearchADL *)data;
 
 	if (gtk_tree_selection_get_selected(s->searchADLSelection, NULL, NULL))
 	{
@@ -555,10 +555,12 @@ gboolean ADLSearchGUI::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, 
 	return FALSE;
 }
 /* Util func */
-int ADLSearchGUI::find_raw(string rawString)
+int SearchADL::find_raw(string rawString)
 {
+	if(rawString.empty())
+		return 0;
 	int raw =0;
-	vector<std::pair<std::string,int> >& act = WulforUtil::getActions();
+	vector<std::pair<std::string,int> > act = WulforUtil::getActions();
 	for (vector<std::pair<std::string,int> >::const_iterator it = act.begin(); it != act.end(); ++it)
 	{
 		if(it->first == rawString)
@@ -567,11 +569,13 @@ int ADLSearchGUI::find_raw(string rawString)
   return raw;
 }
 
-int ADLSearchGUI::find_rawInt(int raw)
+int SearchADL::find_rawInt(int raw)
 {
+	if(raw == 0)
+		return 0;
 	int _raw =0;
 	int i=0;
-	vector<std::pair<std::string,int> >& act = WulforUtil::getActions();
+	vector<std::pair<std::string,int> > act = WulforUtil::getActions();
 	for (vector<std::pair<std::string,int> >::const_iterator it = act.begin(); it != act.end(); ++it)
 	{
 		i++;
@@ -581,8 +585,8 @@ int ADLSearchGUI::find_rawInt(int raw)
   return _raw;
 }
 
-void ADLSearchGUI::onToggleOveride(GtkWidget *widget,gpointer data) {
-	ADLSearchGUI *s = (ADLSearchGUI *)data;
+void SearchADL::onToggleOveride(GtkWidget *widget,gpointer data) {
+	SearchADL *s = (SearchADL *)data;
 
 	gtk_widget_set_sensitive(s->getWidget("checkFromFav"), s->sens);
 	gtk_widget_set_sensitive(s->getWidget("entryKick"), s->sens);
@@ -591,17 +595,17 @@ void ADLSearchGUI::onToggleOveride(GtkWidget *widget,gpointer data) {
 	s->sens = !s->sens;
 }
 
-void ADLSearchGUI::onToggleActions(GtkWidget *widget, gpointer data)
+void SearchADL::onToggleActions(GtkWidget *widget, gpointer data)
 {
-	ADLSearchGUI *s = (ADLSearchGUI *)data;
+	SearchADL *s = (SearchADL *)data;
 	gtk_widget_set_sensitive(s->getWidget("comboboxAction"), s->acts);
 	gtk_widget_set_sensitive(s->getWidget("checkAction"), s->acts);
 	s->acts = !s->acts;
 }
 
-void ADLSearchGUI::onChangeCombo(GtkWidget *widget, gpointer data)
+void SearchADL::onChangeCombo(GtkWidget *widget, gpointer data)
 {
-    ADLSearchGUI *s = (ADLSearchGUI *)data;
+    SearchADL *s = (SearchADL *)data;
     gint type;
     type = gtk_combo_box_get_active(GTK_COMBO_BOX(widget));
     if(!s->forbid) {
@@ -623,17 +627,17 @@ void ADLSearchGUI::onChangeCombo(GtkWidget *widget, gpointer data)
   }
 }
 
-void ADLSearchGUI::onToggleForb(GtkWidget *widget, gpointer data)
+void SearchADL::onToggleForb(GtkWidget *widget, gpointer data)
 {
-	ADLSearchGUI *s = (ADLSearchGUI *)data;
-    const gchar *tmp;
+	SearchADL *s = (SearchADL *)data;
+    string tmp;
     gint type;
 
 	gtk_widget_set_sensitive(s->getWidget("checkcasesensitive"), s->forbid);
 	gtk_widget_set_sensitive(s->getWidget("checkoveride1"), s->forbid);
 	gtk_widget_set_sensitive(s->getWidget("spinbuttonPoints"), s->forbid);
 
-	tmp = gtk_entry_get_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")));
+	tmp = string(gtk_entry_get_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry"))));
 	if( (tmp != "Forbidden Files") || (tmp != "Forbidden TTHS") || (tmp != "Forbidden Directories"))
 	{
         type = gtk_combo_box_get_active(GTK_COMBO_BOX(s->getWidget("sourceTypeComboBox")));
@@ -663,18 +667,4 @@ void ADLSearchGUI::onToggleForb(GtkWidget *widget, gpointer data)
 
 	s->forbid = !s->forbid;
 
-}
-
-/*this is a pop menu*/
-void ADLSearchGUI::popmenu()
-{
-    GtkWidget *closeMenuItem = gtk_menu_item_new_with_label(_("Close"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(getNewTabMenu()), closeMenuItem);
-    g_signal_connect_swapped(closeMenuItem, "activate", G_CALLBACK(onCloseItem),this);
-}
-
-void ADLSearchGUI::onCloseItem(gpointer data)
-{
-    BookEntry *entry = (BookEntry *)data;
-    WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
 }

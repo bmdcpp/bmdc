@@ -75,7 +75,7 @@ class Settings:
 		void initAdvanced_gui();
 		void initBandwidthLimiting_gui();//NOTE: core 0.762
 		void initSearchTypes_gui();//NOTE: core 0.770
-		void initHigliting_gui();//NOTE: BMDC++
+		void initHighlighting_gui();//NOTE: BMDC++
 		
 		void addShare_gui(std::string path, std::string name, int64_t size);
 		void selectTextColor_gui(const int select);
@@ -178,12 +178,13 @@ class Settings:
 		static void onDownExtensionButton_gui(GtkWidget *widget, gpointer data);//NOTE: core 0.770
 		static void onSTKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);//NOTE: core 0.770
 		static void onSTButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);//NOTE: core 0.770
+		static void onPictureShare_gui(GtkWidget *widget, gpointer data);
 		//BMDC++
 		static void onTextColorForeULClicked_gui(GtkWidget *widget, gpointer data);
 		static void onTextColorDefaultULClicked_gui(GtkWidget *widget, gpointer data);
-		static void onAddHigliting_gui(GtkWidget *widget, gpointer data);
-		static void onEditHigliting_gui(GtkWidget *widget, gpointer data);
-		static void onRemoveHigliting_gui(GtkWidget *widget, gpointer data);
+		static void onAddHighlighting_gui(GtkWidget *widget, gpointer data);
+		static void onEditHighlighting_gui(GtkWidget *widget, gpointer data);
+		static void onRemoveHighlighting_gui(GtkWidget *widget, gpointer data);
 		static void onColorText_gui(GtkWidget *widget, gpointer data);
 		static void onColorBack_gui(GtkWidget *widget, gpointer data);
 		static void onSound_gui(GtkWidget *widget, gpointer data);
@@ -191,6 +192,7 @@ class Settings:
 		static void onToggledHGSound_gui(GtkWidget *widget, gpointer data);
 		static void onToggledHGColor_gui(GtkWidget *widget, gpointer data);
 		static void onToggledHGNotify_gui(GtkWidget *widget, gpointer data);
+		static void onRawsClicked_gui(GtkToggleButton *button, gpointer data );
 		// Client functions
 		void saveSettings_client();
 		void shareHidden_client(bool show);
@@ -200,8 +202,8 @@ class Settings:
 		void generateCertificates_client();
 		void setColorUL();//BMDC++
 		void setDefaultColor(std::string color, std::string name, GtkTreeIter *iter);//BMDC++
-		void saveHigliting(dcpp::StringMap &params, bool add, const std::string &name = "");//BMDC++
-		void addHigliting_to_gui(dcpp::ColorSettings &cs, bool add);//BMDC++
+		void saveHighlighting(dcpp::StringMap &params, bool add, const std::string &name = "");//BMDC++
+		void addHighlighting_to_gui(dcpp::ColorSettings &cs, bool add);//BMDC++
 
 		GtkComboBox *connectionSpeedComboBox;
 		GtkListStore *downloadToStore, *publicListStore, *queueStore,

@@ -1,6 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011 Mank, freedcpp@seznam.cz
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,8 +19,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef FAVORITE_HUB_HH
-#define FAVORITE_HUB_HH
+#ifndef WULFOR_FAVORITE_HUBS_HH
+#define WULFOR_FAVORITE_HUBS_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
@@ -31,104 +30,70 @@
 #include "treeview.hh"
 
 class FavoriteHubs:
-		public BookEntry,
-		public dcpp::FavoriteManagerListener
+	public BookEntry,
+	public dcpp::FavoriteManagerListener
 {
-		public:
-				FavoriteHubs();
-				virtual ~FavoriteHubs();
-				virtual void show();
-				virtual void popmenu();
-		private:
-			typedef std::unordered_map<std::string, GtkTreeIter> FavHubGroupsIter;
+	public:
+		FavoriteHubs();
+		virtual ~FavoriteHubs();
+		virtual void show();
 
-		///GUI
-		static void onCloseItem(gpointer data);
+	private:
+		typedef std::unordered_map<std::string, GtkTreeIter> FavHubGroupsIter;
 
+		// GUI functions
 		void addEntry_gui(dcpp::StringMap params);
 		void editEntry_gui(dcpp::StringMap &params, GtkTreeIter *iter);
-		void removeEntry_gui(std::string address,std::string group);
+		void removeEntry_gui(std::string address);
+		void removeGroupComboBox_gui(const std::string &group);
+		void addGroupComboBox_gui(const std::string &group);
+		void setFavoriteHubs_gui(bool remove, const std::string &group);
+		void popupMenu_gui();
+		static bool showErrorDialog_gui(const std::string &description, FavoriteHubs *fh);
+		static bool showFavoriteHubDialog_gui(dcpp::StringMap &params, FavoriteHubs *fh);
+		void updateFavHubGroups_gui(bool updated);
+		void saveFavHubGroups();
+		void initFavHubGroupsDialog_gui();
+		bool checkEntry_gui(std::string address_old, std::string address_new);
+		void initActions();
+		void setRawActions_gui(FavoriteHubs *fh, dcpp::StringMap params);
+		void setRawActions_client(FavoriteHubs *fh, dcpp::StringMap params);
 
+		// GUI callbacks
+		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static void onAddEntry_gui(GtkWidget *widget, gpointer data);
 		static void onEditEntry_gui(GtkWidget *widget, gpointer data);
 		static void onRemoveEntry_gui(GtkWidget *widget, gpointer data);
 		static void onConnect_gui(GtkButton *widget, gpointer data);
-		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
-
-		static void onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
-		static void onToggledMode_a_gui(GtkToggleButton *widget, gpointer data);
-		static void onToggledMode_p_gui(GtkToggleButton *widget, gpointer data);
-		static void onToggledMode_d_gui(GtkToggleButton *widget, gpointer data);
-
+		static void onCheckButtonToggled_gui(GtkToggleButton *button, gpointer data);
 		static void onAddGroupClicked_gui(GtkWidget *widget, gpointer data);
 		static void onRemoveGroupClicked_gui(GtkWidget *widget, gpointer data);
-		static void onManageGroupsClicked_gui(GtkWidget *widget, gpointer data);
 		static void onUpdateGroupClicked_gui(GtkWidget *widget, gpointer data);
-		static gboolean onGroupsKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+		static void onManageGroupsClicked_gui(GtkWidget *widget, gpointer data);
 		static gboolean onGroupsButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		static gboolean onGroupsKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+		
+		static void onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
 
-		static void onCheckButtonToggled_gui(GtkToggleButton *button, gpointer data);
-
-		static bool showFavoriteHubDialog_gui(dcpp::StringMap &params, FavoriteHubs *fh);
-		static bool showErrorDialog_gui(const std::string &description, FavoriteHubs *fh);
-		void updateFavHubGroups_gui(bool updated);
-		void saveFavHubGroups();
-		void setFavoriteHubs_gui(bool remove, const std::string &group);
-
-		void setRawActions_gui(FavoriteHubs *fh,dcpp::StringMap params);
-		void setRawActions_client(FavoriteHubs *fh, dcpp::StringMap params);
-
-		void popupMenu_gui();
-
-		void initialze_client();
-		void initActions();
-		void initFavHubGroupsDialog_gui();
-
-		bool findHub_gui(const std::string &server, GtkTreeIter *par, GtkTreeIter *child);
-
+		// Client functions
+		void initializeList_client();
+		void getFavHubParams_client(const dcpp::FavoriteHubEntry *entry, dcpp::StringMap &params);
 		void addEntry_client(dcpp::StringMap params);
-		void editEntry_client(std::string address,dcpp::StringMap params);
+		void editEntry_client(std::string address, dcpp::StringMap params);
 		void removeEntry_client(std::string address);
-		void getParamsFav(const dcpp::FavoriteHubEntry *entry,dcpp::StringMap &params);
 
+		// Client callbacks
 		virtual void on(dcpp::FavoriteManagerListener::FavoriteAdded, const dcpp::FavoriteHubEntryPtr entry) throw();
 		virtual void on(dcpp::FavoriteManagerListener::FavoriteRemoved, const dcpp::FavoriteHubEntryPtr entry) throw();
 
-		TreeView favoriteView,actionView,groupView;
-		GtkTreeStore *favoriteStore,*actionStore;
-		GtkListStore *groupStore;
-		GtkTreeSelection *favoriteSel,*actionSel,*groupselection;
-		FavHubGroupsIter GroupsIter;
+		TreeView favoriteView, groupsView ,actionView;
+		GtkListStore *favoriteStore, *groupsStore;
+		GtkTreeStore *actionStore;
+		GtkTreeSelection *favoriteSelection, *groupsSelection, *actionSel;
 		GdkEventType previous;
-
-		struct Mode {
-			gboolean isDef;
-			gboolean active;
-			gboolean pasive;
-			std::string ip;
-		} mode;
-
-		struct Iters {
-				GtkTreeIter main;
-				GtkTreeIter child;
-		};
-
-		typedef std::unordered_map<std::string, Iters*> FavIter;
-		FavIter faviters;
-
-		struct Actions {
-			bool enabled;
-			GtkTreeIter citer;
-			GtkTreeIter iter;
-		};
-
-		typedef std::unordered_map<std::string, Actions*> ActionsIter;
-		ActionsIter praws,actions;
-		///Utils func@todo move to WulforUtil
-		void drop_combo(GtkWidget *DROP, std::vector<std::string> CONTEUDO);
-
+		FavHubGroupsIter GroupsIter;
 };
 
 #else

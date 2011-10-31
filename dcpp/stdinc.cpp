@@ -17,8 +17,3 @@
  */
 
 #include "stdinc.h"
-
-// Hm...version not updated it seems
-#if defined(HAVE_STLPORT) && (_STLPORT_VERSION < 0x513)
-#error "I use STLport 5.1.3. Remove this if you know what you're doing."
-#endif

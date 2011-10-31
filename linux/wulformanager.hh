@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,6 +49,7 @@ class WulforManager
 
 		void insertEntry_gui(Entry *entry);
 		void deleteEntry_gui(Entry *entry);
+		bool isEntry_gui(Entry *entry);
 
 		// DialogEntry functions
 		gint openHashDialog_gui();

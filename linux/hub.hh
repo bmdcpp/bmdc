@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +26,8 @@
 #include <dcpp/DCPlusPlus.h>
 #include <dcpp/Client.h>
 #include <dcpp/FavoriteManager.h>
-#include <dcpp/UserCommand.h>
+#include <dcpp/QueueManager.h>
+#include <dcpp/HttpDownload.h>
 
 #include "bookentry.hh"
 #include "treeview.hh"
@@ -43,27 +44,30 @@ class EmoticonsDialog;
 class Hub:
 	public BookEntry,
 	public dcpp::ClientListener,
-	public dcpp::FavoriteManagerListener
+	public dcpp::FavoriteManagerListener,
+	public dcpp::QueueManagerListener
 {
 	public:
 		Hub(const std::string &address, const std::string &encoding);
 		virtual ~Hub();
 		virtual void show();
-		virtual void popmenu();
-
+		
 		// Client functions
 		void reconnect_client();
 
 		// GUI functions
 		void preferences_gui();
-		std::string getAddress() const {return !address.empty() ? address : dcpp::Util::emptyString;}
-		bool findNick_gui_p(std::string &nick, GtkTreeIter iter) { return findNick_gui(nick,&iter);}
-	private:
-        //GUI
-        static void onCloseItem(gpointer data);
-        static void onCopyHubUrl(gpointer data);
-        static void onAddFavItem(gpointer data);
-/*
+
+		virtual GtkWidget *createmenu();
+		
+		bool findNick_gui_p(std::string &word)
+		{
+			GtkTreeIter iter;
+			return findNick_gui(word,&iter);
+		}
+		void reconnect_p() { reconnect_client();}
+		
+	private:/*
 		typedef enum
 		{
 			TAG_FIRST = 0,
@@ -72,21 +76,20 @@ class Hub:
 			TAG_SYSTEM,
 			TAG_STATUS,
 			TAG_TIMESTAMP,
-			TAG_CHEAT, 
-			/*-*/
-/*			TAG_HIGHL,
+			*
 			TAG_MYNICK,
 			TAG_NICK,
 			TAG_OPERATOR,
 			TAG_FAVORITE,
 			TAG_URL,
-			TAG_IPADR,
 			TAG_LAST
 		} TypeTag;
-*/
+        */
 		typedef std::map<std::string, std::string> ParamMap;
 		typedef std::unordered_map<std::string, std::string> UserMap;
 		typedef std::unordered_map<std::string, GtkTreeIter> UserIters;
+		typedef std::unordered_map<GtkWidget*, std::string> ImageList;
+		typedef std::pair<std::string, GtkWidget*> ImageLoad;
 
 		// GUI functions
 		void setStatus_gui(std::string statusBar, std::string text);
@@ -98,8 +101,9 @@ class Hub:
 		void clearNickList_gui();
 		void popupNickMenu_gui();
 		void getPassword_gui();
-		void addMessage_gui(std::string message, Msg::TypeMsg typemsg);
-		void applyTags_gui(const std::string &line);
+		void addMessage_gui(std::string cid, std::string message, Msg::TypeMsg typemsg);
+		void applyTags_gui(const std::string cid, const std::string &line);
+
 		void addStatusMessage_gui(std::string message, Msg::TypeMsg typemsg, Sound::TypeSound sound);
 		void applyEmoticons_gui();
 		void updateCursor_gui(GtkWidget *widget);
@@ -109,7 +113,18 @@ class Hub:
 		void nickToChat_gui(const std::string &nick);
 		void addFavoriteUser_gui(ParamMap params);
 		void removeFavoriteUser_gui(ParamMap params);
+		//BMDC++
+		void addPasive_gui(ParamMap params);
+		void addOperator_gui(ParamMap params);
+		void addProtected_gui(ParamMap params);
+		void addIgnore_gui(ParamMap params);
+
 		void addPrivateMessage_gui(Msg::TypeMsg typemsg, std::string nick, std::string cid, std::string url, std::string message, bool useSetting);
+		void loadImage_gui(std::string target, std::string tth);
+		void openImage_gui(std::string target);
+		void insertBBcodeEntry_gui(std::string ch);
+		//BMDC++
+		void set_Header_tooltip_gui();
 
 		// GUI callbacks
 		static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);
@@ -120,10 +135,7 @@ class Hub:
 		static gboolean onNickTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
 		static gboolean onLinkTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
 		static gboolean onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
-		static gboolean onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
 		static gboolean onMagnetTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
-
-static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gchar *key, GtkTreeIter *iter, gpointer data);
 		static gboolean onChatPointerMoved_gui(GtkWidget *widget, GdkEventMotion *event, gpointer data);
 		static gboolean onChatVisibilityChanged_gui(GtkWidget *widget, GdkEventVisibility *event, gpointer data);
 		static gboolean onEmotButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
@@ -131,11 +143,7 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		static void onChatResize_gui(GtkAdjustment *adjustment, gpointer data);
 		static void onSendMessage_gui(GtkEntry *entry, gpointer data);
 		static void onNickToChat_gui(GtkMenuItem *item, gpointer data);
-		
-		static gboolean onUserListTooltip_gui(GtkWidget  *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer data);
-		static void selection_changed_cb_gui (GtkTreeSelection *selection, GtkWidget        *tree_view);
-		void set_Header_tooltip();
-
+		static void onCopyNickItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onMatchItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onMsgItemClicked_gui(GtkMenuItem *item, gpointer data);
@@ -149,31 +157,39 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		static void onUserListToggled_gui(GtkWidget *widget, gpointer data);
 		static void onAddFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onRemoveFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data);
-		//Ignored Users
-		static void onAddIgnItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onRemoveIgnItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onUserInfo_gui(GtkMenuItem *item, gpointer data);
-		static void onTestSUR_gui(GtkMenuItem *item, gpointer data);
-		static void onCheckFL(GtkMenuItem *item , gpointer data);
-		static void onProtect(GtkMenuItem *item , gpointer data);
-		static void onUnProtect(GtkMenuItem *item , gpointer data);
-		//End
 		static void onPasswordDialog(GtkWidget *dialog, gint response, gpointer data);
 		static void onDownloadToClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onDownloadClicked_gui(GtkMenuItem *item, gpointer data);
+		static void onCommandClicked_gui(GtkWidget *widget, gpointer data);
+		static gboolean onChatCommandButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		static void onUseEmoticons_gui(GtkWidget *widget, gpointer data);
+		static void onImageDestroy_gui(GtkWidget *widget, gpointer data);
+		static void onDownloadImageClicked_gui(GtkMenuItem *item, gpointer data);
+		static void onRemoveImageClicked_gui(GtkMenuItem *item, gpointer data);
+		static void onOpenImageClicked_gui(GtkMenuItem *item, gpointer data);
+		static gboolean onImageEvent_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean expose(GtkWidget *widget, GdkEventExpose *event, gpointer data);
-		static void ripeIp(GtkWidget *wid, gpointer data);
-		static void copyIp(GtkWidget *wid, gpointer data);
-		void addStatusPrivateMessage_gui(std::string cid, std::string message);
-		/**/
-		void addOp(ParamMap params);
-		void addPasive(ParamMap params);
-		void addIgnore(ParamMap params);
-		void delOp(ParamMap params);
-		void delPasive(ParamMap params);
-		void delIgnore(ParamMap params);
-		void AddProtectUser(ParamMap params);
-		
+		static void onItalicButtonClicked_gui(GtkWidget *widget, gpointer data);
+		static void onBoldButtonClicked_gui(GtkWidget *widget, gpointer data);
+		static void onUnderlineButtonClicked_gui(GtkWidget *widget, gpointer data);
+		//BMDC++
+		static void onCloseItem(gpointer data);
+		static void onCopyHubUrl(gpointer data);
+		static void onAddFavItem(gpointer data);
+		static void onAddIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data);
+		static void onRemoveIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data);
+		static void onShowReportClicked_gui(GtkMenuItem *item, gpointer data);
+		static void selection_changed_userlist_gui(GtkTreeSelection *selection, GtkWidget *tree_view);
+		static gboolean onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer data);
+		static gboolean onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event , GtkTextIter *iter, gpointer data);
+		static void onCopyIpItem_gui(GtkWidget *wid, gpointer data);
+		static void onRipeDbItem_gui(GtkWidget *wid, gpointer data);
+		static void onTestSURItemClicked_gui(GtkMenuItem *item, gpointer data);
+		static void onCheckFLItemClicked_gui(GtkMenuItem *item , gpointer data);
+		static void onUnProtectUserClicked_gui(GtkMenuItem *item , gpointer data);
+		static void onProtectUserClicked_gui(GtkMenuItem *item , gpointer data);
+		static void onRefreshUserListClicked_gui(GtkWidget *wid, gpointer data);
+
 		// Client functions
 		void addFavoriteUser_client(const std::string cid);
 		void removeFavoriteUser_client(const std::string cid);
@@ -185,14 +201,19 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		void grantSlot_client(std::string cid);
 		void removeUserFromQueue_client(std::string cid);
 		void redirect_client(std::string address, bool follow);
-
+		void rebuildHashData_client();
+		void refreshFileList_client();
 		void addAsFavorite_client();
 		void getParams_client(ParamMap &user, dcpp::Identity &id);
-		//Utilized func
-		std::string formatAdditionalInfo(const std::string& aIp, bool sIp, bool sCC,bool isPm);
-		std::string getConn(const dcpp::Identity& id);
-		static void refreshul(GtkWidget *widget , gpointer data);
-		gboolean HitIP(std::string name, std::string &sIp);
+		void download_client(std::string target, int64_t size, std::string tth, std::string cid);
+		std::string realFile_client(std::string tth);
+		void openImage_client(std::string tth);
+		//BMDC++
+		std::string formatAdditionalInfo(const std::string& aIp, bool sIp, bool sCC, bool isPm);
+		gboolean HitIP(std::string &name, std::string& ip);
+		std::string getIcons(const dcpp::Identity& id);
+		void setHubIcon_gui(std::string url);
+		void updateIcons();
 
 		// Favorite callbacks
 		virtual void on(dcpp::FavoriteManagerListener::UserAdded, const dcpp::FavoriteUser &user) throw();
@@ -207,21 +228,23 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		virtual void on(dcpp::ClientListener::Redirect, dcpp::Client *, const std::string &address) throw();
 		virtual void on(dcpp::ClientListener::Failed, dcpp::Client *, const std::string &reason) throw();
 		virtual void on(dcpp::ClientListener::GetPassword, dcpp::Client *) throw();
-		virtual void on(dcpp::ClientListener::HubUpdated, dcpp::Client *) throw();
+		virtual void on(dcpp::ClientListener::HubUpdated, dcpp::Client *) noexcept;
 		virtual void on(dcpp::ClientListener::Message, dcpp::Client*, const dcpp::ChatMessage& message) throw();//NOTE: core 0.762
 		virtual void on(dcpp::ClientListener::StatusMessage, dcpp::Client *, const std::string &message, int flag) throw();
 		virtual void on(dcpp::ClientListener::NickTaken, dcpp::Client *) throw();
-		virtual void on(dcpp::ClientListener::SearchFlood, dcpp::Client *, const std::string &message) throw();
-		//RSX like
-		virtual void on(dcpp::ClientListener::CheatMessage, const dcpp::Client *,const std::string &message) throw();
+		virtual void on(dcpp::ClientListener::SearchFlood, dcpp::Client *, const std::string &message) noexcept;
+		virtual void on(dcpp::ClientListener::CheatMessage, dcpp::Client *, const std::string &msg) noexcept;
+		virtual void on(dcpp::ClientListener::HubTopic, dcpp::Client *, const std::string &top) noexcept;
+		virtual void on(dcpp::ClientListener::HubIcon, dcpp::Client *, const std::string &url) noexcept;
 
-		UserMap userMap;
+		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) throw();
+
+		UserMap userMap, userOpMap, userPasiveMap, userIgnoreMap, userProtectMap;
 		UserIters userIters;
 		UserMap userFavoriteMap;
-		UserMap userOPMap;
-		UserMap userPasiveMap;
-		UserMap userIgnoreMap;
-		UserMap userProtect;
+		ImageList imageList;
+		ImageLoad imageLoad;
+		dcpp::StringPair imageMagnet;
 		GtkTextTag *TagsMap[Tag::TAG_LAST];
 		std::string completionKey;
 		dcpp::Client *client;
@@ -239,24 +262,25 @@ static gboolean onNickListSearch_gui(GtkTreeModel *model, gint column, const gch
 		GdkCursor *handCursor;
 		GtkTextTag *selectedTag;
 		std::string selectedTagStr;
-		UserCommandMenu *userCommandMenu,*userCommandMenu1;
+		UserCommandMenu *userCommandMenu, *userCommandMenu1;
 		std::string address;
 		std::string encoding;
 		bool scrollToBottom;
 		static const std::string tagPrefix;
-		static const std::string tPrefix;
 		Tag::TypeTag tagMsg;
 		bool useEmoticons;
 		gint totalEmoticons;
 		EmoticonsDialog *emotdialog;
 		bool PasswordDialog;
 		bool WaitingPassword;
-		bool logChat;
+#if !GTK_CHECK_VERSION(2, 12, 0)
+		GtkTooltips *tips,*statusTips;
+#endif
+		int ImgLimit;
+		GtkTextTag *BoldTag, *UnderlineTag, *ItalicTag;
 		std::queue<std::string> statustext;
-		GtkTooltips *tooltip;
-		static const int maxtooltip = 10;//TODO setting ?
 		std::string ip;
-
+		std::unique_ptr<dcpp::HttpDownload> iconshttp;
 };
 
 #else

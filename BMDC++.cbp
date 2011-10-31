@@ -2,83 +2,54 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="trunk" />
-		<Option platforms="Windows;Unix;" />
+		<Option title="BMDC++" />
 		<Option makefile_is_custom="1" />
-		<Option execution_dir="../trunk" />
+		<Option execution_dir="/home/mankp/Apps/bmdc++new/BMDC.orig" />
 		<Option pch_mode="2" />
-		<Option default_target="Release" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="../../../BMDC/bin/bmdc" prefix_auto="1" extension_auto="0" />
+				<Option output="bin/Debug/BMDC++" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
-					<Add option="-fpermissive" />
-					<Add option="-D_DATADIR \=$(DATADIR)" />
-					<Add option="-D_PACKAGE \=$(PACKAGE)" />
-					<Add option="-D_LOCALEDIR \=$(LOCDIR)" />
-					<Add option="-DBUILDING_DCPP" />
 				</Compiler>
-				<MakeCommands>
-					<Build command="scons PREFIX=${HOME}/test2 debug=1 " />
-					<CompileFile command="$make -f $makefile $file" />
-					<Clean command="scons -c PREFIX=${HOME}/test2 debug=1 " />
-					<DistClean command="$make -f $makefile distclean$target" />
-					<AskRebuildNeeded command="$make -q -f $makefile $target" />
-					<SilentBuild command="$make -s -f $makefile $target" />
-				</MakeCommands>
 			</Target>
 			<Target title="Release">
-				<Option output="../../../BMDC/bin/bmdc" prefix_auto="1" extension_auto="0" />
+				<Option output="bin/Release/BMDC++" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
-				<Option host_application="/home/mank/freedcppmv/bin/freedcpp" />
 				<Compiler>
 					<Add option="-O2" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 				</Linker>
-				<MakeCommands>
-					<Build command="scons PREFIX=${HOME}/test2/ release=1 " />
-					<CompileFile command="$make -f $makefile $file" />
-					<Clean command="scons -c PREFIX=${HOME}/test2 release=1" />
-					<DistClean command="$make -f $makefile distclean$target" />
-					<AskRebuildNeeded command="$make -q -f $makefile $target" />
-					<SilentBuild command="$make -s -f $makefile $target" />
-				</MakeCommands>
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-std=c++0x" />
 			<Add option="-Wall" />
-			<Add option="`pkg-config gtk+-2.0 --cflags`" />
 		</Compiler>
-		<Linker>
-			<Add option="`pkg-config gtk+-2.0 --libs`" />
-		</Linker>
 		<Unit filename="dcpp/ADLSearch.cpp" />
 		<Unit filename="dcpp/ADLSearch.h" />
-		<Unit filename="dcpp/ActionRaw.h" />
 		<Unit filename="dcpp/AdcCommand.cpp" />
 		<Unit filename="dcpp/AdcCommand.h" />
 		<Unit filename="dcpp/AdcHub.cpp" />
 		<Unit filename="dcpp/AdcHub.h" />
-		<Unit filename="dcpp/Atomic.h" />
 		<Unit filename="dcpp/BZUtils.cpp" />
 		<Unit filename="dcpp/BZUtils.h" />
-		<Unit filename="dcpp/BackupManager.cpp" />
-		<Unit filename="dcpp/BackupManager.h" />
-		<Unit filename="dcpp/BitInputStream.h" />
-		<Unit filename="dcpp/BitOutputStream.h" />
 		<Unit filename="dcpp/BloomFilter.h" />
 		<Unit filename="dcpp/BufferedSocket.cpp" />
 		<Unit filename="dcpp/BufferedSocket.h" />
 		<Unit filename="dcpp/BufferedSocketListener.h" />
+		<Unit filename="dcpp/Bundle.cpp" />
+		<Unit filename="dcpp/Bundle.h" />
+		<Unit filename="dcpp/BundleItem.h" />
+		<Unit filename="dcpp/CID.cpp" />
 		<Unit filename="dcpp/CID.h" />
 		<Unit filename="dcpp/ChatMessage.cpp" />
 		<Unit filename="dcpp/ChatMessage.h" />
@@ -88,12 +59,13 @@
 		<Unit filename="dcpp/ClientManager.cpp" />
 		<Unit filename="dcpp/ClientManager.h" />
 		<Unit filename="dcpp/ClientManagerListener.h" />
-		<Unit filename="dcpp/ColorSettings.h" />
 		<Unit filename="dcpp/CommandQueue.cpp" />
 		<Unit filename="dcpp/CommandQueue.h" />
 		<Unit filename="dcpp/ConnectionManager.cpp" />
 		<Unit filename="dcpp/ConnectionManager.h" />
 		<Unit filename="dcpp/ConnectionManagerListener.h" />
+		<Unit filename="dcpp/ConnectivityManager.cpp" />
+		<Unit filename="dcpp/ConnectivityManager.h" />
 		<Unit filename="dcpp/CriticalSection.h" />
 		<Unit filename="dcpp/CryptoManager.cpp" />
 		<Unit filename="dcpp/CryptoManager.h" />
@@ -132,27 +104,34 @@
 		<Unit filename="dcpp/Flags.h" />
 		<Unit filename="dcpp/GeoIP.cpp" />
 		<Unit filename="dcpp/GeoIP.h" />
+		<Unit filename="dcpp/GeoManager.cpp" />
+		<Unit filename="dcpp/GeoManager.h" />
 		<Unit filename="dcpp/HashBloom.cpp" />
 		<Unit filename="dcpp/HashBloom.h" />
 		<Unit filename="dcpp/HashManager.cpp" />
 		<Unit filename="dcpp/HashManager.h" />
 		<Unit filename="dcpp/HashManagerListener.h" />
 		<Unit filename="dcpp/HashValue.h" />
-		<Unit filename="dcpp/HighlightManager.cpp" />
-		<Unit filename="dcpp/HighlightManager.h" />
+		<Unit filename="dcpp/HintedUser.h" />
 		<Unit filename="dcpp/HttpConnection.cpp" />
 		<Unit filename="dcpp/HttpConnection.h" />
+		<Unit filename="dcpp/HttpConnectionListener.h" />
 		<Unit filename="dcpp/HttpDownload.cpp" />
 		<Unit filename="dcpp/HttpDownload.h" />
 		<Unit filename="dcpp/HubEntry.h" />
-		<Unit filename="dcpp/HubUsersMap.h" />
 		<Unit filename="dcpp/LogManager.cpp" />
 		<Unit filename="dcpp/LogManager.h" />
 		<Unit filename="dcpp/LogManagerListener.h" />
+		<Unit filename="dcpp/MD5Hash.h" />
+		<Unit filename="dcpp/Mapper.cpp" />
+		<Unit filename="dcpp/Mapper.h" />
+		<Unit filename="dcpp/MappingManager.cpp" />
+		<Unit filename="dcpp/MappingManager.h" />
 		<Unit filename="dcpp/MerkleCheckOutputStream.h" />
 		<Unit filename="dcpp/MerkleTree.h" />
 		<Unit filename="dcpp/NmdcHub.cpp" />
 		<Unit filename="dcpp/NmdcHub.h" />
+		<Unit filename="dcpp/OnlineUser.h" />
 		<Unit filename="dcpp/Pointer.h" />
 		<Unit filename="dcpp/QueueItem.cpp" />
 		<Unit filename="dcpp/QueueItem.h" />
@@ -161,19 +140,16 @@
 		<Unit filename="dcpp/QueueManagerListener.h" />
 		<Unit filename="dcpp/RawManager.cpp" />
 		<Unit filename="dcpp/RawManager.h" />
-		<Unit filename="dcpp/RegEx.h" />
-		<Unit filename="dcpp/RegexUtil.cpp" />
-		<Unit filename="dcpp/RegexUtil.h" />
 		<Unit filename="dcpp/ResourceManager.cpp" />
 		<Unit filename="dcpp/ResourceManager.h" />
-		<Unit filename="dcpp/RsxUtil.cpp" />
-		<Unit filename="dcpp/RsxUtil.h" />
 		<Unit filename="dcpp/SFVReader.cpp" />
 		<Unit filename="dcpp/SFVReader.h" />
+		<Unit filename="dcpp/SHA1Hash.h" />
 		<Unit filename="dcpp/SSL.cpp" />
 		<Unit filename="dcpp/SSL.h" />
 		<Unit filename="dcpp/SSLSocket.cpp" />
 		<Unit filename="dcpp/SSLSocket.h" />
+		<Unit filename="dcpp/ScopedFunctor.h" />
 		<Unit filename="dcpp/ScriptManager.cpp" />
 		<Unit filename="dcpp/ScriptManager.h" />
 		<Unit filename="dcpp/SearchManager.cpp" />
@@ -183,12 +159,12 @@
 		<Unit filename="dcpp/SearchResult.h" />
 		<Unit filename="dcpp/Segment.h" />
 		<Unit filename="dcpp/Semaphore.h" />
-		<Unit filename="dcpp/ServerSocket.cpp" />
-		<Unit filename="dcpp/ServerSocket.h" />
 		<Unit filename="dcpp/SettingsManager.cpp" />
 		<Unit filename="dcpp/SettingsManager.h" />
 		<Unit filename="dcpp/ShareManager.cpp" />
 		<Unit filename="dcpp/ShareManager.h" />
+		<Unit filename="dcpp/SimpleBencodeReader.cpp" />
+		<Unit filename="dcpp/SimpleBencodeReader.h" />
 		<Unit filename="dcpp/SimpleXML.cpp" />
 		<Unit filename="dcpp/SimpleXML.h" />
 		<Unit filename="dcpp/SimpleXMLReader.cpp" />
@@ -201,8 +177,6 @@
 		<Unit filename="dcpp/StringSearch.h" />
 		<Unit filename="dcpp/StringTokenizer.cpp" />
 		<Unit filename="dcpp/StringTokenizer.h" />
-		<Unit filename="dcpp/TarFile.cpp" />
-		<Unit filename="dcpp/TarFile.h" />
 		<Unit filename="dcpp/TaskQueue.h" />
 		<Unit filename="dcpp/Text.cpp" />
 		<Unit filename="dcpp/Text.h" />
@@ -214,6 +188,8 @@
 		<Unit filename="dcpp/TigerHash.h" />
 		<Unit filename="dcpp/TimerManager.cpp" />
 		<Unit filename="dcpp/TimerManager.h" />
+		<Unit filename="dcpp/Torrent.cpp" />
+		<Unit filename="dcpp/Torrent.h" />
 		<Unit filename="dcpp/Transfer.cpp" />
 		<Unit filename="dcpp/Transfer.h" />
 		<Unit filename="dcpp/UPnP.cpp" />
@@ -238,7 +214,6 @@
 		<Unit filename="dcpp/WindowInfo.h" />
 		<Unit filename="dcpp/WindowManager.cpp" />
 		<Unit filename="dcpp/WindowManager.h" />
-		<Unit filename="dcpp/WindowManagerListener.h" />
 		<Unit filename="dcpp/ZUtils.cpp" />
 		<Unit filename="dcpp/ZUtils.h" />
 		<Unit filename="dcpp/compiler.h" />
@@ -246,28 +221,69 @@
 		<Unit filename="dcpp/format.h" />
 		<Unit filename="dcpp/forward.h" />
 		<Unit filename="dcpp/noexcept.h" />
+		<Unit filename="dcpp/po/ar.po" />
+		<Unit filename="dcpp/po/be.po" />
+		<Unit filename="dcpp/po/bg.po" />
+		<Unit filename="dcpp/po/bs.po" />
+		<Unit filename="dcpp/po/ca.po" />
+		<Unit filename="dcpp/po/cs.po" />
+		<Unit filename="dcpp/po/da.po" />
+		<Unit filename="dcpp/po/de.po" />
+		<Unit filename="dcpp/po/el.po" />
+		<Unit filename="dcpp/po/en_CA.po" />
+		<Unit filename="dcpp/po/en_GB.po" />
+		<Unit filename="dcpp/po/es.po" />
+		<Unit filename="dcpp/po/et.po" />
+		<Unit filename="dcpp/po/fi.po" />
+		<Unit filename="dcpp/po/fr.po" />
+		<Unit filename="dcpp/po/gl.po" />
+		<Unit filename="dcpp/po/gu.po" />
+		<Unit filename="dcpp/po/he.po" />
+		<Unit filename="dcpp/po/hr.po" />
+		<Unit filename="dcpp/po/hu.po" />
+		<Unit filename="dcpp/po/id.po" />
+		<Unit filename="dcpp/po/is.po" />
+		<Unit filename="dcpp/po/it.po" />
+		<Unit filename="dcpp/po/ja.po" />
+		<Unit filename="dcpp/po/km.po" />
+		<Unit filename="dcpp/po/ko.po" />
+		<Unit filename="dcpp/po/libdcpp.pot" />
+		<Unit filename="dcpp/po/lt.po" />
+		<Unit filename="dcpp/po/lv.po" />
+		<Unit filename="dcpp/po/mk.po" />
+		<Unit filename="dcpp/po/ml.po" />
+		<Unit filename="dcpp/po/ms.po" />
+		<Unit filename="dcpp/po/nb.po" />
+		<Unit filename="dcpp/po/nl.po" />
+		<Unit filename="dcpp/po/oc.po" />
+		<Unit filename="dcpp/po/pl.po" />
+		<Unit filename="dcpp/po/pt.po" />
+		<Unit filename="dcpp/po/pt_BR.po" />
+		<Unit filename="dcpp/po/ro.po" />
+		<Unit filename="dcpp/po/ru.po" />
+		<Unit filename="dcpp/po/sk.po" />
+		<Unit filename="dcpp/po/sl.po" />
+		<Unit filename="dcpp/po/sq.po" />
+		<Unit filename="dcpp/po/sr.po" />
+		<Unit filename="dcpp/po/sv.po" />
+		<Unit filename="dcpp/po/tr.po" />
+		<Unit filename="dcpp/po/uk.po" />
+		<Unit filename="dcpp/po/zh_CN.po" />
+		<Unit filename="dcpp/po/zh_TW.po" />
 		<Unit filename="dcpp/stdinc.cpp" />
 		<Unit filename="dcpp/stdinc.h" />
 		<Unit filename="dcpp/typedefs.h" />
 		<Unit filename="dcpp/version.cpp" />
 		<Unit filename="dcpp/version.h" />
 		<Unit filename="dcpp/w.h" />
-		<Unit filename="linux/ADLSearchGUI.cc" />
-		<Unit filename="linux/ADLSearchGUI.hh" />
-		<Unit filename="linux/ShellCommand.cc" />
-		<Unit filename="linux/ShellCommand.hh" />
-		<Unit filename="linux/System.cc" />
-		<Unit filename="linux/System.hh" />
 		<Unit filename="linux/UserCommandMenu.cc" />
 		<Unit filename="linux/UserCommandMenu.hh" />
 		<Unit filename="linux/WulforUtil.cc" />
 		<Unit filename="linux/WulforUtil.hh" />
+		<Unit filename="linux/adlsearch.cc" />
+		<Unit filename="linux/adlsearch.hh" />
 		<Unit filename="linux/bookentry.cc" />
 		<Unit filename="linux/bookentry.hh" />
-		<Unit filename="linux/cmddebug.cc" />
-		<Unit filename="linux/cmddebug.hh" />
-		<Unit filename="linux/detectiontab.cc" />
-		<Unit filename="linux/detectiontab.hh" />
 		<Unit filename="linux/dialogentry.cc" />
 		<Unit filename="linux/dialogentry.hh" />
 		<Unit filename="linux/downloadqueue.cc" />
@@ -287,8 +303,6 @@
 		<Unit filename="linux/func.hh" />
 		<Unit filename="linux/hashdialog.cc" />
 		<Unit filename="linux/hashdialog.hh" />
-		<Unit filename="linux/highliting.cc" />
-		<Unit filename="linux/highliting.hh" />
 		<Unit filename="linux/hub.cc" />
 		<Unit filename="linux/hub.hh" />
 		<Unit filename="linux/ignoreusers.cc" />
@@ -296,8 +310,6 @@
 		<Unit filename="linux/mainwindow.cc" />
 		<Unit filename="linux/mainwindow.hh" />
 		<Unit filename="linux/message.hh" />
-		<Unit filename="linux/notepad.cc" />
-		<Unit filename="linux/notepad.hh" />
 		<Unit filename="linux/notify.cc" />
 		<Unit filename="linux/notify.hh" />
 		<Unit filename="linux/previewmenu.cc" />
@@ -306,8 +318,6 @@
 		<Unit filename="linux/privatemessage.hh" />
 		<Unit filename="linux/publichubs.cc" />
 		<Unit filename="linux/publichubs.hh" />
-		<Unit filename="linux/recenthub.cc" />
-		<Unit filename="linux/recenthub.hh" />
 		<Unit filename="linux/search.cc" />
 		<Unit filename="linux/search.hh" />
 		<Unit filename="linux/searchspy.cc" />
@@ -324,19 +334,14 @@
 		<Unit filename="linux/transfers.hh" />
 		<Unit filename="linux/treeview.cc" />
 		<Unit filename="linux/treeview.hh" />
-		<Unit filename="linux/uploadqueue.cc" />
-		<Unit filename="linux/uploadqueue.hh" />
 		<Unit filename="linux/upnpc.cc" />
 		<Unit filename="linux/upnpc.hh" />
-		<Unit filename="linux/version.cc" />
 		<Unit filename="linux/version.hh" />
 		<Unit filename="linux/wulfor.cc" />
 		<Unit filename="linux/wulformanager.cc" />
 		<Unit filename="linux/wulformanager.hh" />
 		<Extensions>
 			<code_completion />
-			<envvars />
-			<lib_finder disable_auto="1" />
 			<debugger />
 		</Extensions>
 	</Project>

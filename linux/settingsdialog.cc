@@ -47,7 +47,7 @@ Settings::Settings(GtkWindow* parent):
 	// Configure the dialogs.
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("dialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("publicHubsDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
-	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("nameDialogEntry")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
+	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("nameDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);//
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("dirChooserDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("fileChooserDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
 	gtk_window_set_transient_for(GTK_WINDOW(getWidget("ExtensionsDialog")), GTK_WINDOW(getWidget("dialog")));//NOTE: core 0.770
@@ -83,7 +83,7 @@ Settings::Settings(GtkWindow* parent):
 	defaultStringTheme.insert(StringMap::value_type("icon-notepad", "bmdc-notepad"));
 	defaultStringTheme.insert(StringMap::value_type("icon-ignore", "bmdc-ignore-users"));
 	defaultStringTheme.insert(StringMap::value_type("icon-system", "bmdc-system"));
-	defaultStringTheme.insert(StringMap::value_type("icon-adlsearch", "bmdc-adlsearch"));
+	defaultStringTheme.insert(StringMap::value_type("icon-search-adl", "bmdc-adlsearch"));
 	defaultStringTheme.insert(StringMap::value_type("icon-away", "bmdc-away"));
 	defaultStringTheme.insert(StringMap::value_type("icon-none", "bmdc-none"));
 	defaultStringTheme.insert(StringMap::value_type("icon-limiting", "bmdc-limiting"));
@@ -198,7 +198,7 @@ Settings::Settings(GtkWindow* parent):
 	defaultIntTheme.insert(IntMap::value_type("text-ip-italic", 0));
 	defaultIntTheme.insert(IntMap::value_type("text-cheat-bold", 1));
 	defaultIntTheme.insert(IntMap::value_type("text-cheat-italic", 0));
-	//For Higliting...
+	//For Highlighting...
 	isSensitiveHG[0] = isSensitiveHG[1] = isSensitiveHG[2] = isSensitiveHG[3] = FALSE;
 	// Initialize the tabs in the GtkNotebook.
 	initPersonal_gui();
@@ -210,7 +210,7 @@ Settings::Settings(GtkWindow* parent):
 	initAdvanced_gui();
 	initBandwidthLimiting_gui(); //NOTE: core 0.762
 	initSearchTypes_gui(); //NOTE: core 0.770
-	initHigliting_gui();//NOTE: BMDC++
+	initHighlighting_gui();//NOTE: BMDC++
 }
 
 Settings::~Settings()
@@ -494,7 +494,7 @@ void Settings::saveSettings_client()
 
 		}
 	}
-	//Higliting
+	//Highlighting
 	{
 		HighlightManager::getInstance()->replaceList(pList);
 	}
@@ -515,6 +515,8 @@ void Settings::saveSettings_client()
 		sm->set(SettingsManager::LOG_SYSTEM, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("logSystemCheckButton"))));
 		sm->set(SettingsManager::LOG_STATUS_MESSAGES, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("logStatusCheckButton"))));
 		sm->set(SettingsManager::LOG_FILELIST_TRANSFERS, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("logFilelistTransfersCheckButton"))));
+		sm->set(SettingsManager::LOG_RAW_CMD, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkraws"))));
+		sm->set(SettingsManager::LOG_FORMAT_RAW, gtk_entry_get_text(GTK_ENTRY(getWidget("entryraws")))); 
 	}
 
 	{ // Advanced
@@ -1006,6 +1008,7 @@ void Settings::initSharing_gui()
 	g_signal_connect(getWidget("shareHiddenCheckButton"), "toggled", G_CALLBACK(onShareHiddenPressed_gui), (gpointer)this);
 	g_signal_connect(getWidget("sharedAddButton"), "clicked", G_CALLBACK(onAddShare_gui), (gpointer)this);
 	g_signal_connect(getWidget("sharedRemoveButton"), "clicked", G_CALLBACK(onRemoveShare_gui), (gpointer)this);
+	g_signal_connect(getWidget("pictureButton"), "clicked", G_CALLBACK(onPictureShare_gui), (gpointer)this);
 
 	shareView.setView(GTK_TREE_VIEW(getWidget("sharedTreeView")));
 	shareView.insertColumn(_("Virtual Name"), G_TYPE_STRING, TreeView::STRING, -1);
@@ -1025,7 +1028,7 @@ void Settings::initSharing_gui()
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("shareHiddenCheckButton")), BOOLSETTING(SHARE_HIDDEN));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("followLinksCheckButton")), BOOLSETTING(FOLLOW_LINKS));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("sharedExtraSlotSpinButton")), (double)SETTING(MIN_UPLOAD_SPEED));
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("sharedUploadSlotsSpinButton")), (int)SETTING(SLOTS));
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("sharedUploadSlotsSpinButton")), (int)SETTING(SLOTS_PRIMARY));
 }
 
 void Settings::initAppearance_gui()
@@ -1048,15 +1051,15 @@ void Settings::initAppearance_gui()
 		addOption_gui(appearanceStore, _("Use emoticons"), "emoticons-use");
 		addOption_gui(appearanceStore, _("Do not close the program, hide in the system tray"), "main-window-no-close");
 		addOption_gui(appearanceStore, _("Send PM when double clicked in the user list"), "pm");
-		addOption_gui(appearanceStore, _("Show Country in chat"), SettingsManager::USE_COUNTRY);
+		addOption_gui(appearanceStore, _("Show Country in chat"), SettingsManager::GET_USER_COUNTRY);
 		addOption_gui(appearanceStore, _("Show IP in chat"), SettingsManager::USE_IP);
 		addOption_gui(appearanceStore, _("Show Free Slots in Desc"), SettingsManager::SHOW_FREE_SLOTS_DESC);
-		addOption_gui(appearanceStore, _("Use Higliting"), "use-highliting");
-		addOption_gui(appearanceStore, _("Show Close Icon in Tab"), "show-close-butt");
-		addOption_gui(appearanceStore, _("Show send /commnads in status message"), "show-commnads");
+		addOption_gui(appearanceStore, _("Use Highlighting"), "use-highlighting");
+		addOption_gui(appearanceStore, _("Show Close Icon in Tab"), "use-close-button");
+		addOption_gui(appearanceStore, _("Show send /commnads in status message"), "show-commands");
 		addOption_gui(appearanceStore, _("Show Flags in main chat"), "use-flag");
 		addOption_gui(appearanceStore, _("Use DNS in Transfers"), "use-dns");
-		addOption_gui(appearanceStore, _("Only FavUsers PM"), "only-fav");
+		//addOption_gui(appearanceStore, _("Only FavUsers PM"), "only-fav");
 		addOption_gui(appearanceStore, _("Log Ignored Messages as STATUS mess"), "log-messages");
 		addOption_gui(appearanceStore, _("Enable Lua debug messages"), SettingsManager::ENB_LUA_DEBUG);
 
@@ -1082,7 +1085,7 @@ void Settings::initAppearance_gui()
 		addOption_gui(tabStore, _("Private Message (also sets urgency hint)"), SettingsManager::BOLD_PM);
 		addOption_gui(tabStore, _("Search"), SettingsManager::BOLD_SEARCH);
 		addOption_gui(tabStore, _("Search Spy"), SettingsManager::BOLD_SEARCH_SPY);
-		addOption_gui(tabStore, _("Set Hub to Bold all time when change whats in it"), "bold-all");
+		addOption_gui(tabStore, _("Set Hub to Bold all time when change whats in it"), "bold-all-tab");
 	}
 
 	{ // Sounds
@@ -1228,7 +1231,7 @@ void Settings::initAppearance_gui()
 			// apply text style
 			gtk_text_iter_backward_chars(&textStartIter, st_strlen + 1);
 
-			if (row_count != 6)
+			if (row_count != 7)
 				tag = gtk_text_buffer_create_tag(textStyleBuffer, style.c_str(),
 					"background", back.c_str(),
 					"foreground", fore.c_str(),
@@ -1303,7 +1306,7 @@ void Settings::initAppearance_gui()
 		addOption_gui(notifyStore, wsm, _("Favorite user quit"),
 			"notify-fuser-quit", "notify-fuser-quit-title",
 			"notify-fuser-quit-icon", NOTIFY_URGENCY_NORMAL);
-		addOption_gui(notifyStore, wsm, _("Highliting string"),
+		addOption_gui(notifyStore, wsm, _("Highlighting string"),
 			"notify-higl-use", "notify-higl-title",
 			"notify-higl-icon", NOTIFY_URGENCY_LOW);
 
@@ -1398,7 +1401,7 @@ void Settings::initAppearance_gui()
 		addOption_gui(themeIconsStore, wsm, iconTheme, _("Queue"), "icon-queue");
 		addOption_gui(themeIconsStore, wsm, iconTheme, _("Search"), "icon-search");
 		addOption_gui(themeIconsStore, wsm, iconTheme, _("Search Spy"), "icon-search-spy");
-		addOption_gui(themeIconsStore, wsm, iconTheme, _("ADL Search"), "icon-adlsearch");
+		addOption_gui(themeIconsStore, wsm, iconTheme, _("ADL Search"), "icon-search-adl");
 		addOption_gui(themeIconsStore, wsm, iconTheme, _("Notepad"), "icon-notepad");
 		addOption_gui(themeIconsStore, wsm, iconTheme, _("System Tab"), "icon-system");
 		addOption_gui(themeIconsStore, wsm, iconTheme, _("Ignore Users"), "icon-ignore");
@@ -1408,7 +1411,7 @@ void Settings::initAppearance_gui()
 		addOption_gui(themeIconsStore, wsm, iconTheme, _("File"), "icon-file");
 		addOption_gui(themeIconsStore, wsm, iconTheme, _("Directory"), "icon-directory");
 		addOption_gui(themeIconsStore, wsm, iconTheme, _("Limiting"),"icon-limiting");
-		addOption_gui(themeIconsStore, wsm, iconTheme, _("Higlitings"),"icon-highlight");
+		addOption_gui(themeIconsStore, wsm, iconTheme, _("Highlightings"),"icon-highlight");
 
 		g_signal_connect(getWidget("importThemeButton"), "clicked", G_CALLBACK(onImportThemeButton_gui), (gpointer)this);
 		g_signal_connect(getWidget("exportThemeButton"), "clicked", G_CALLBACK(onExportThemeButton_gui), (gpointer)this);
@@ -1439,6 +1442,8 @@ void Settings::initAppearance_gui()
 		GtkIconTheme *iconTheme = gtk_icon_theme_get_default();
 		addOption_gui(toolbarStore, wsm, iconTheme, _("Connect"), "toolbar-button-connect",
 			"icon-connect");
+	//	addOption_gui(toolbarStore, wsm, iconTheme, _("Reconnect"), "toolbar-button-reconnect",
+	//		"icon-connect");
 		addOption_gui(toolbarStore, wsm, iconTheme, _("Favorite Hubs"), "toolbar-button-fav-hubs",
 			"icon-favorite-hubs");
 		addOption_gui(toolbarStore, wsm, iconTheme, _("Favorite Users"), "toolbar-button-fav-users",
@@ -1464,8 +1469,8 @@ void Settings::initAppearance_gui()
         /**/
 		addOption_gui(toolbarStore, wsm, iconTheme, _("Notepad"), "toolbar-button-notepad",
 			"icon-notepad");
-		addOption_gui(toolbarStore, wsm, iconTheme, _("ADL Search"), "toolbar-button-adlsearch",
-			"icon-adlsearch");
+		addOption_gui(toolbarStore, wsm, iconTheme, _("ADL Search"), "toolbar-button-search-adl",
+			"icon-search-adl");
 		addOption_gui(toolbarStore, wsm, iconTheme, _("System Tab"), "toolbar-button-system",
 			"icon-system");
 		addOption_gui(toolbarStore, wsm, iconTheme, _("Ignore Users"), "toolbar-button-ignore",
@@ -1579,10 +1584,10 @@ void Settings::initAppearance_gui()
 //NOTE: END
 }
 
-void Settings::initHigliting_gui()//NOTE: BMDC++
+void Settings::initHighlighting_gui()//NOTE: BMDC++
 {
 	GtkTreeIter iter;
-	hView.setView(GTK_TREE_VIEW(getWidget("treeviewHigliting")));
+	hView.setView(GTK_TREE_VIEW(getWidget("treeviewHighlighting")));
 	hView.insertColumn(_("String"), G_TYPE_STRING, TreeView::STRING, 100);
 	hView.insertHiddenColumn("Bold", G_TYPE_STRING);
 	hView.insertHiddenColumn("Underline", G_TYPE_STRING);
@@ -1632,9 +1637,9 @@ void Settings::initHigliting_gui()//NOTE: BMDC++
 
 	}
 	//Main
-	g_signal_connect(getWidget("buttonHGADD"), "clicked", G_CALLBACK(onAddHigliting_gui), (gpointer)this);
-	g_signal_connect(getWidget("buttonHGED"), "clicked", G_CALLBACK(onEditHigliting_gui), (gpointer)this);
-	g_signal_connect(getWidget("buttonHGDEL"), "clicked", G_CALLBACK(onRemoveHigliting_gui), (gpointer)this);
+	g_signal_connect(getWidget("buttonHGADD"), "clicked", G_CALLBACK(onAddHighlighting_gui), (gpointer)this);
+	g_signal_connect(getWidget("buttonHGED"), "clicked", G_CALLBACK(onEditHighlighting_gui), (gpointer)this);
+	g_signal_connect(getWidget("buttonHGDEL"), "clicked", G_CALLBACK(onRemoveHighlighting_gui), (gpointer)this);
 	//Dialog
 	g_signal_connect(getWidget("buttonColorText"), "clicked", G_CALLBACK(onColorText_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonBackground"), "clicked", G_CALLBACK(onColorBack_gui), (gpointer)this);
@@ -1682,6 +1687,11 @@ void Settings::initLog_gui()
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("logSystemCheckButton")), BOOLSETTING(LOG_SYSTEM));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("logStatusCheckButton")), BOOLSETTING(LOG_STATUS_MESSAGES));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("logFilelistTransfersCheckButton")), BOOLSETTING(LOG_FILELIST_TRANSFERS));
+	//Raws
+	g_signal_connect(getWidget("checkraws"), "toggled", G_CALLBACK(onRawsClicked_gui), (gpointer)this);
+	gtk_widget_set_sensitive(getWidget("entryraws"), BOOLSETTING(LOG_RAW_CMD));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkraws")), BOOLSETTING(LOG_RAW_CMD));
+	gtk_entry_set_text(GTK_ENTRY(getWidget("entryraws")), SETTING(LOG_FORMAT_RAW).c_str());
 }
 
 void Settings::initAdvanced_gui()
@@ -1779,9 +1789,6 @@ void Settings::initAdvanced_gui()
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("backupSpin")), (double)SETTING(AUTOBACKUP_TIME));
 
 		g_signal_connect(getWidget("buttonRestore"), "clicked", G_CALLBACK([]() { RestoreManager::getInstance()->restoreBackup();}), (gpointer)this);
-
-
-
 
 	}
 }
@@ -3970,7 +3977,14 @@ void Settings::onLogUploadClicked_gui(GtkToggleButton *button, gpointer data)
 	gtk_widget_set_sensitive(s->getWidget("logUploadsLabel"), toggled);
 	gtk_widget_set_sensitive(s->getWidget("logUploadsEntry"), toggled);
 }
-
+//BMDC
+void Settings::onRawsClicked_gui(GtkToggleButton *button, gpointer data)
+{
+	Settings *s = (Settings *)data;
+	bool toggled = gtk_toggle_button_get_active(button);
+	gtk_widget_set_sensitive(s->getWidget("entryraws"),toggled);
+}
+//BMDC
 void Settings::onUserCommandAdd_gui(GtkWidget *widget, gpointer data)
 {
 	Settings *s = (Settings *)data;
@@ -4368,13 +4382,24 @@ void Settings::onInFW_UPnP_gui(GtkToggleButton *button, gpointer data)//NOTE: co
 	gtk_widget_set_sensitive(s->getWidget("tlsLabel"), TRUE);
 	gtk_widget_set_sensitive(s->getWidget("forceIPCheckButton"), TRUE);
 }
-//BMDC++
-void Settings::onAddHigliting_gui(GtkWidget *widget, gpointer data)
+void Settings::onPictureShare_gui(GtkWidget *widget, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
-	GtkWidget *dialog = s->getWidget("HiglitingDialog");
-	gtk_window_set_title(GTK_WINDOW(dialog), _("New Higliting Item"));
+	string name = "MAGNET-IMAGE";
+	string path = Util::getPath(Util::PATH_USER_CONFIG) + "Images/";
+	typedef Func2<Settings, string, string> F2;
+	F2 *func = new F2(s, &Settings::addShare_client, path, name);
+	WulforManager::get()->dispatchClientFunc(func);
+}
+
+//BMDC++
+void Settings::onAddHighlighting_gui(GtkWidget *widget, gpointer data)
+{
+	Settings *s = (Settings *)data;
+
+	GtkWidget *dialog = s->getWidget("HighlightingDialog");
+	gtk_window_set_title(GTK_WINDOW(dialog), _("New Highlighting Item"));
 	gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGString")), "Example");
 	gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGColorText")), "#000000");
 	gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGColorBack")), "#FFFFFF");
@@ -4413,13 +4438,13 @@ void Settings::onAddHigliting_gui(GtkWidget *widget, gpointer data)
 		params["Enable Background"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGColor"))) ? "1" : "0";
 		params["Enable Text"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGText"))) ? "1" : "0";
 
-		s->saveHigliting(params,true);
+		s->saveHighlighting(params,true);
 	}
 	else
 		gtk_widget_hide(dialog);
 }
 
-void Settings::onEditHigliting_gui(GtkWidget *widget, gpointer data)
+void Settings::onEditHighlighting_gui(GtkWidget *widget, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -4444,8 +4469,8 @@ void Settings::onEditHigliting_gui(GtkWidget *widget, gpointer data)
 		params["Enable Background"] = s->hView.getString(&iter, "Enable Back Color");
 		params["Enable Text"] = s->hView.getString(&iter, "Enable Fore Color");
 
-		GtkWidget *dialog = s->getWidget("HiglitingDialog");
-		gtk_window_set_title(GTK_WINDOW(dialog), _("New Higliting Item"));
+		GtkWidget *dialog = s->getWidget("HighlightingDialog");
+		gtk_window_set_title(GTK_WINDOW(dialog), _("New Highlighting Item"));
 		gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGString")), params["String"].c_str());
 		gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGColorText")), params["Color Text"].c_str());
 		gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGColorBack")), params["Color Back"].c_str());
@@ -4494,14 +4519,14 @@ void Settings::onEditHigliting_gui(GtkWidget *widget, gpointer data)
 			params["Enable Background"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGColor"))) ? "1" : "0";
 			params["Enable Text"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkHGText"))) ? "1" : "0";
 
-			s->saveHigliting(params,false,name);
+			s->saveHighlighting(params,false,name);
 		}
 		else gtk_widget_hide(dialog);
 
 	}
 }
 
-void Settings::onRemoveHigliting_gui(GtkWidget *widget, gpointer data)
+void Settings::onRemoveHighlighting_gui(GtkWidget *widget, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkTreeIter iter;
@@ -4514,7 +4539,7 @@ void Settings::onRemoveHigliting_gui(GtkWidget *widget, gpointer data)
 			GtkWindow* parent = GTK_WINDOW(s->getContainer());
 			GtkWidget* dialog = gtk_message_dialog_new(NULL,
 				GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
-				_("Are you sure you want to delete Higliting \"%s\"?"), name.c_str());
+				_("Are you sure you want to delete Highlighting \"%s\"?"), name.c_str());
 			gtk_dialog_add_buttons(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
 			gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_CANCEL, -1);
 			gint response = gtk_dialog_run(GTK_DIALOG(dialog));
@@ -4616,7 +4641,7 @@ void Settings::onToggledHGNotify_gui(GtkWidget *widget, gpointer data)
 	s->isSensitiveHG[3] = !s->isSensitiveHG[3];
 }
 /**/
-void Settings::saveHigliting(dcpp::StringMap &params, bool add, const string &name /*""*/)
+void Settings::saveHighlighting(dcpp::StringMap &params, bool add, const string &name /*""*/)
 {
 	ColorSettings cs;
 
@@ -4640,7 +4665,7 @@ void Settings::saveHigliting(dcpp::StringMap &params, bool add, const string &na
 	if(add)
 	{
 		pList.push_back(cs);
-		addHigliting_to_gui(cs,true);
+		addHighlighting_to_gui(cs,true);
 
 	}
 	else
@@ -4653,11 +4678,11 @@ void Settings::saveHigliting(dcpp::StringMap &params, bool add, const string &na
 				pList.insert(it,cs);
 			}
 		}
-		addHigliting_to_gui(cs, false);
+		addHighlighting_to_gui(cs, false);
 	}
 }
 
-void Settings::addHigliting_to_gui(ColorSettings &cs, bool add)
+void Settings::addHighlighting_to_gui(ColorSettings &cs, bool add)
 {
 	GtkTreeIter iter;
 	if(add)

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,15 +38,15 @@ class Hash:
 
 	private:
 		// GUI functions
-		void updateStats_gui(std::string file, int64_t bytes, size_t files, uint32_t tick);
+		void updateStats_gui(std::string file, uint64_t bytes, size_t files, uint32_t tick);
 
 		// Client callbacks
 		virtual void on(dcpp::TimerManagerListener::Second, uint32_t tics) throw();
 
 		// GUI callback
-		static void onPauseHashing_gui(GtkWidget *widget, gpointer data); //NOTE: core 0.762
+		static void onPauseHashing_gui(GtkWidget *widget, gpointer data);//NOTE: core 0.762
 
-		int64_t startBytes;
+		uint64_t startBytes;
 		size_t startFiles;
 		uint32_t startTime;
 };

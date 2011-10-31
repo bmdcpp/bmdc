@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,12 +24,11 @@
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
-#include <dcpp/ClientManager.h>
 #include <dcpp/ClientManagerListener.h>
-
 #include "bookentry.hh"
 #include "message.hh"
 #include "UserCommandMenu.hh"
+#include <vector>
 
 class WulforSettingsManager;
 class EmoticonsDialog;
@@ -42,21 +41,17 @@ class PrivateMessage:
 		PrivateMessage(const std::string &cid, const std::string &hubUrl);
 		virtual ~PrivateMessage();
 		virtual void show();
-        virtual void popmenu();
+		virtual GtkWidget *createmenu();
 
 		// GUI functions
 		void addMessage_gui(std::string message, Msg::TypeMsg typemsg);
 		void addStatusMessage_gui(std::string message, Msg::TypeMsg typemsg);
 		void preferences_gui();
-		
-		void SendCL(std::string mess) { sendMessage_client(mess); }
-		bool getOffline()
-		{
-			return offline;
-		}
+		void sendMessage_p(std::string message) { sendMessage_client(message);} 
+		bool getIsOffline() { return offline;}
 
-	private:
-/*		typedef enum
+	private:/*
+		typedef enum
 		{
 			TAG_FIRST = 0,
 			TAG_PRIVATE = TAG_FIRST,
@@ -64,21 +59,16 @@ class PrivateMessage:
 			TAG_SYSTEM,
 			TAG_STATUS,
 			TAG_TIMESTAMP,
-			/*-*/
-/*			TAG_MYNICK,
+		*
+			TAG_MYNICK,
 			TAG_NICK,
 			TAG_OPERATOR,
 			TAG_FAVORITE,
 			TAG_URL,
 			TAG_LAST
 		} TypeTag;
-*/
+        */
 		// GUI functions
-		static void onCloseItem(gpointer data);
-		static void onCopyNick(gpointer data);
-		static void onCopyCID(gpointer data);
-		static void onAddFav( gpointer data);
-        /// GUI
 		void setStatus_gui(std::string text);
 		void addLine_gui(Msg::TypeMsg typemsg, const std::string &line);
 		void applyTags_gui(const std::string &line);
@@ -86,10 +76,7 @@ class PrivateMessage:
 		void getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, std::string &fore, std::string &back, int &bold, int &italic);
 		GtkTextTag* createTag_gui(const std::string &tagname, Tag::TypeTag type);
 		void updateCursor(GtkWidget *widget);
-		/**/
 		void updateOnlineStatus_gui(bool online);
-		
-		void readLog(const std::string& logPath, const unsigned setting);
 
 		// GUI callbacks
 		static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);
@@ -110,6 +97,14 @@ class PrivateMessage:
 		static void onMagnetPropertiesClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onDownloadToClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onDownloadClicked_gui(GtkMenuItem *item, gpointer data);
+		static void onCommandClicked_gui(GtkWidget *widget, gpointer data);
+		static void onUseEmoticons_gui(GtkWidget *widget, gpointer data);
+		static gboolean onChatCommandButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		//BMDC++
+		static void onCloseItem(gpointer data);
+		static void onCopyCID(gpointer data);
+		static void onAddFavItem(gpointer data);
+		static gboolean expose(GtkWidget *widget, GdkEventExpose *event, gpointer data);
 
 		// Client functions
 		void sendMessage_client(std::string message);
@@ -117,6 +112,7 @@ class PrivateMessage:
 		void removeFavoriteUser_client();
 		void getFileList_client();
 		void grantSlot_client();
+
 		// client callback
 		virtual void on(dcpp::ClientManagerListener::UserConnected, const dcpp::UserPtr& aUser) throw();
 		virtual void on(dcpp::ClientManagerListener::UserDisconnected, const dcpp::UserPtr& aUser) throw();
@@ -140,9 +136,11 @@ class PrivateMessage:
 		bool useEmoticons;
 		gint totalEmoticons;
 		EmoticonsDialog *emotdialog;
-		bool offline;
 		UserCommandMenu *userCommandMenu;
-
+		#if !GTK_CHECK_VERSION(2, 12, 0)
+			GtkTooltips *tips;
+		#endif
+		bool offline;
 };
 
 #else

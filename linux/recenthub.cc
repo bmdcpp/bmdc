@@ -227,18 +227,9 @@ void RecentTab::onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data)
 void RecentTab::onDeleteAll_gui(GtkWidget *widget, gpointer data)
 {
 	RecentTab *rt = (RecentTab *)data;
-	GtkTreeIter iter;
-	typedef Func1<RecentTab, string> F1;
-
-	gboolean valid = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(rt->recentStore), &iter);
+	gtk_list_store_clear(rt->recentStore);
 	
-	while(valid)
-	{
-		string name = rt->recentView.getString(&iter, _("Name"));
-		F1 *func = new F1(rt, &RecentTab::removeRecent_client, name);
-		WulforManager::get()->dispatchClientFunc(func);
-		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(rt->recentStore),&iter);
-	}
+	FavoriteManager::getInstance()->removeallRecent();
 }
 
 void RecentTab::removeRecent_client(const string adr)
@@ -336,20 +327,4 @@ void RecentTab::on(FavoriteManagerListener::RecentAdded, const RecentHubEntry *e
 
 	Func1<RecentTab, ParamMap> *func = new Func1<RecentTab, ParamMap>(this, &RecentTab::updateRecent_gui, params);
 	WulforManager::get()->dispatchGuiFunc(func);
-}
-
-/*this is a pop menu*/
-void RecentTab::popmenu()
-{
-    GtkWidget *closeMenuItem = gtk_menu_item_new_with_label(_("Close"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(getNewTabMenu()),closeMenuItem);
-
-    g_signal_connect_swapped(closeMenuItem, "activate",G_CALLBACK(onCloseItem), this);
-
-}
-
-void RecentTab::onCloseItem(gpointer data)
-{
-    BookEntry *entry = (BookEntry *)data;
-    WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
 }

@@ -17,8 +17,10 @@
  */
 
 #include "stdinc.h"
-#include "format.h"
 #include "HashManager.h"
+
+#include <boost/scoped_array.hpp>
+
 #include "SimpleXML.h"
 #include "LogManager.h"
 #include "File.h"
@@ -26,12 +28,14 @@
 #include "SFVReader.h"
 
 #ifndef _WIN32
-	#include <sys/mman.h> // mmap, munmap, madvise
-	#include <signal.h>  // for handling read errors from previous trio
-	#include <setjmp.h>
+#include <sys/mman.h> // mmap, munmap, madvise
+#include <signal.h>  // for handling read errors from previous trio
+#include <setjmp.h>
 #endif
 
 namespace dcpp {
+
+using std::swap;
 
 #define HASH_FILE_VERSION_STRING "2"
 static const uint32_t HASH_FILE_VERSION = 2;
@@ -46,7 +50,7 @@ bool HashManager::checkTTH(const string& aFileName, int64_t aSize, uint32_t aTim
 	return true;
 }
 
-TTHValue HashManager::getTTH(const string& aFileName, int64_t aSize) throw(HashException) {
+TTHValue HashManager::getTTH(const string& aFileName, int64_t aSize) {
 	Lock l(cs);
 	const TTHValue* tth = store.getTTH(aFileName);
 	if (tth == NULL) {
@@ -105,7 +109,7 @@ void HashManager::HashStore::addFile(const string& aFileName, uint32_t aTimeStam
 	dirty = true;
 }
 
-void HashManager::HashStore::addTree(const TigerTree& tt) throw() {
+void HashManager::HashStore::addTree(const TigerTree& tt) noexcept {
 	if (treeIndex.find(tt.getRoot()) == treeIndex.end()) {
 		try {
 			File f(getDataFile(), File::READ | File::WRITE, File::OPEN);
@@ -118,7 +122,7 @@ void HashManager::HashStore::addTree(const TigerTree& tt) throw() {
 	}
 }
 
-int64_t HashManager::HashStore::saveTree(File& f, const TigerTree& tt) throw(FileException) {
+int64_t HashManager::HashStore::saveTree(File& f, const TigerTree& tt) {
 	if (tt.getLeaves().size() == 1)
 		return SMALL_TREE;
 
@@ -332,6 +336,9 @@ void HashManager::HashStore::save() {
 	}
 }
 
+string HashManager::HashStore::getIndexFile() { return Util::getPath(Util::PATH_USER_CONFIG) + "HashIndex.xml"; }
+string HashManager::HashStore::getDataFile() { return Util::getPath(Util::PATH_USER_CONFIG) + "HashData.dat"; }
+
 class HashLoader: public SimpleXMLReader::CallBack {
 public:
 	HashLoader(HashManager::HashStore& s) :
@@ -500,7 +507,7 @@ void HashManager::Hasher::stopHashing(const string& baseDir) {
 	}
 }
 
-void HashManager::Hasher::getStats(string& curFile, int64_t& bytesLeft, size_t& filesLeft) {
+void HashManager::Hasher::getStats(string& curFile, uint64_t& bytesLeft, size_t& filesLeft) const {
 	Lock l(cs);
 	curFile = currentFile;
 	filesLeft = w.size();
@@ -555,7 +562,7 @@ bool HashManager::Hasher::fastHash(const string& fname, uint8_t* buf, TigerTree&
 
 	bool ok = false;
 
-	uint32_t lastRead = GET_TICK();
+	uint64_t lastRead = GET_TICK();
 	if (!::ReadFile(h, hbuf, BUF_SIZE, &hn, &over)) {
 		if (GetLastError() == ERROR_HANDLE_EOF) {
 			hn = 0;
@@ -579,10 +586,10 @@ bool HashManager::Hasher::fastHash(const string& fname, uint8_t* buf, TigerTree&
 			// Start a new overlapped read
 			ResetEvent(over.hEvent);
 			if (SETTING(MAX_HASH_SPEED) > 0) {
-				uint32_t now = GET_TICK();
-				uint32_t minTime = hn * 1000LL / (SETTING(MAX_HASH_SPEED) * 1024LL * 1024LL);
+				uint64_t now = GET_TICK();
+				uint64_t minTime = hn * 1000LL / (SETTING(MAX_HASH_SPEED) * 1024LL * 1024LL);
 				if (lastRead + minTime > now) {
-					uint32_t diff = now - lastRead;
+					uint64_t diff = now - lastRead;
 					Thread::sleep(minTime - diff);
 				}
 				lastRead = lastRead + minTime;
@@ -662,7 +669,7 @@ bool HashManager::Hasher::fastHash(const string& filename, uint8_t* , TigerTree&
 	bool ok = false;
 
 	// Prepare and setup a signal handler in case of SIGBUS during mmapped file reads.
-	// SIGBUS can be sent when the file is truncated or in case of read errors.
+	// SIGBUS can be sent when the file is truncated or in case of read errors.	 
 	struct sigaction act, oldact;
 	sigset_t signalset;
 
@@ -796,7 +803,7 @@ int HashManager::Hasher::run() {
 			try {
 				File f(fname, File::READ, File::OPEN);
 				int64_t bs = max(TigerTree::calcBlockSize(f.getSize(), 10), MIN_BLOCK_SIZE);
-				uint32_t start = GET_TICK();
+				uint64_t start = GET_TICK();
 				uint32_t timestamp = f.getLastModified();
 				TigerTree slowTTH(bs);
 				TigerTree* tth = &slowTTH;
@@ -805,7 +812,7 @@ int HashManager::Hasher::run() {
 				SFVReader sfv(fname);
 				CRC32Filter* xcrc32 = 0;
 				if(sfv.hasCRC())
-				xcrc32 = &crc32;
+					xcrc32 = &crc32;
 
 				size_t n = 0;
 				TigerTree fastTTH(bs);
@@ -817,13 +824,13 @@ int HashManager::Hasher::run() {
 #endif
 					tth = &slowTTH;
 					crc32 = CRC32Filter();
-					uint32_t lastRead = GET_TICK();
+					uint64_t lastRead = GET_TICK();
 
 					do {
 						size_t bufSize = BUF_SIZE;
 						if(SETTING(MAX_HASH_SPEED)> 0) {
-							uint32_t now = GET_TICK();
-							uint32_t minTime = n * 1000LL / (SETTING(MAX_HASH_SPEED) * 1024LL * 1024LL);
+							uint64_t now = GET_TICK();
+							uint64_t minTime = n * 1000LL / (SETTING(MAX_HASH_SPEED) * 1024LL * 1024LL);
 							if(lastRead + minTime> now) {
 								Thread::sleep(minTime - (now - lastRead));
 							}
@@ -850,12 +857,12 @@ int HashManager::Hasher::run() {
 
 				f.close();
 				tth->finalize();
-				uint32_t end = GET_TICK();
+				uint64_t end = GET_TICK();
 				int64_t speed = 0;
-				if(end > start) {
+				if(end> start) {
 					speed = size * _LL(1000) / (end - start);
 				}
-				if(BOOLSETTING(SFV_CHECK) && ( xcrc32 && xcrc32->getValue() != sfv.getCRC())) {
+				if(xcrc32 && xcrc32->getValue() != sfv.getCRC()) {
 					LogManager::getInstance()->message(str(F_("%1% not shared; calculated CRC32 does not match the one found in SFV file.") % Util::addBrackets(fname)));
 				} else {
 					HashManager::getInstance()->hashDone(fname, timestamp, *tth, speed, size);

@@ -19,6 +19,11 @@
 #ifndef DCPLUSPLUS_WIN32_UPNP_H
 #define DCPLUSPLUS_WIN32_UPNP_H
 
+#include "forward.h"
+#include "Pointer.h"
+#include "FastAlloc.h"
+#include "CriticalSection.h"
+
 namespace dcpp {
 
 class UPnP : boost::noncopyable

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2011 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2010 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,6 +45,9 @@ SearchSpy::SearchSpy():
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("frameSpinButton")), (double)FrameSize);
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("waitingSpinButton")), (double)Waiting);
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("topSpinButton")), (double)Top);
+
+	// menu
+	g_object_ref_sink(getWidget("menu"));
 
 	// Initialize search list treeview
 	searchView.setView(GTK_TREE_VIEW(getWidget("searchSpyView")), TRUE, "searchspy");
@@ -108,6 +111,7 @@ SearchSpy::~SearchSpy()
 	WSET("search-spy-top", (int)gtk_spin_button_get_value(GTK_SPIN_BUTTON(getWidget("topSpinButton"))));
 
 	gtk_widget_destroy(getWidget("TopSearchDialog"));
+	g_object_unref(getWidget("menu"));
 
 	TimerManager::getInstance()->removeListener(this);
 	ClientManager::getInstance()->removeListener(this);
@@ -382,7 +386,7 @@ bool SearchSpy::updateFrameStatus_gui(GtkTreeIter *iter, uint64_t tick)
 void SearchSpy::updateFrameStatus_gui()
 {
 	updateFrameStatus_gui(NULL, uint64_t(0));
-	setStatus_gui(_("Update frame search"));
+	setStatus_gui(_("Updated frame search"));
 }
 
 void SearchSpy::setStatus_gui(const string text)
@@ -493,7 +497,7 @@ void SearchSpy::onClearFrameClicked_gui(GtkWidget *widget, gpointer data)
 
 	gtk_list_store_clear(s->searchStore);
 	s->searchIters.clear();
-	s->setStatus_gui(_("Clear frame search"));
+	s->setStatus_gui(_("Cleaned frame search"));
 }
 
 void SearchSpy::onUpdateFrameClicked_gui(GtkWidget *widget, gpointer data)
@@ -661,26 +665,9 @@ void SearchSpy::on(ClientManagerListener::IncomingSearch, const string& s) throw
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
-void SearchSpy::on(TimerManagerListener::Minute, uint64_t tick) throw()
+void SearchSpy::on(TimerManagerListener::Minute, uint32_t tick) throw()
 {
 	typedef Func0<SearchSpy> F0;
 	F0 *func = new F0(this, &SearchSpy::updateFrameStatus_gui);
 	WulforManager::get()->dispatchGuiFunc(func);
-}
-
-/*this is a  pop menu*/
-void SearchSpy::popmenu()
-{
-    //tabMenu = gtk_menu_new();
-    GtkWidget *closeMenuItem = gtk_menu_item_new_with_label(_("Close"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(getNewTabMenu()),closeMenuItem);
-
-    g_signal_connect_swapped(closeMenuItem, "activate",G_CALLBACK(onCloseItem),this);
-
-}
-
-void SearchSpy::onCloseItem(gpointer data)
-{
-    BookEntry *entry = (BookEntry *)data;
-    WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
 }

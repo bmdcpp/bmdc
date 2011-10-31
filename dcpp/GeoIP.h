@@ -18,27 +18,42 @@
 
 #ifndef DCPLUSPLUS_DCPP_GEOIP_H
 #define DCPLUSPLUS_DCPP_GEOIP_H
-#include <GeoIP.h>
+
+#include "CriticalSection.h"
+
 #include <string>
+#include <vector>
+
+typedef struct GeoIPTag GeoIP;
 
 namespace dcpp {
 
 using std::string;
+using std::vector;
 
-class GeoIP {
+class GeoIP : boost::noncopyable {
 public:
-	GeoIP();
+	explicit GeoIP(string&& path);
 	~GeoIP();
 
-	void init(const string& path);
-	string getCountry(const string& ip) const;
-	string getCountryAB(const string& ip) const;
+	const string& getCountry(const string& ip) const;
+	const string getCountryAB(const string& ip) const;
+	void update();
+	void rebuild();
 
 private:
+	bool decompress() const;
+	void open();
+	void close();
 	bool v6() const;
 
+	mutable CriticalSection cs;
 	::GeoIP* geo;
+
+	const string path;
+	vector<string> cache;
 };
 
 } // namespace dcpp
+
 #endif // !defined(DCPLUSPLUS_DCPP_GEOIP_H)

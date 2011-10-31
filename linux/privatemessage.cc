@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,6 @@
 
 #include <dcpp/ClientManager.h>
 #include <dcpp/FavoriteManager.h>
-#include <dcpp/StringTokenizer.h>
 #include "settingsmanager.hh"
 #include "emoticonsdialog.hh"
 #include "emoticons.hh"
@@ -32,13 +31,11 @@
 #include "search.hh"
 #include "sound.hh"
 
-#include "ShellCommand.hh"
-
 using namespace std;
 using namespace dcpp;
 
 PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
-	BookEntry(Entry::PRIVATE_MESSAGE, WulforUtil::getNicks(cid, hubUrl), "privatemessage.glade", cid),//NOTE: core 0.760
+	BookEntry(Entry::PRIVATE_MESSAGE, _("PM: ") + WulforUtil::getNicks(cid, hubUrl), "privatemessage.glade", cid),//NOTE: core 0.760
 	cid(cid),
 	hubUrl(hubUrl),
 	historyIndex(0),
@@ -71,16 +68,52 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	handCursor = gdk_cursor_new(GDK_HAND2);
 
 	GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("scroll")));
-    //UC
-    userCommandMenu = new UserCommandMenu(getNewTabMenu(), ::UserCommand::CONTEXT_USER);
-    addChild(userCommandMenu);
-    //END
+
+	// menu
+	g_object_ref_sink(getWidget("magnetMenu"));
+	g_object_ref_sink(getWidget("linkMenu"));
+	g_object_ref_sink(getWidget("hubMenu"));
+	g_object_ref_sink(getWidget("chatCommandsMenu"));
+
+	userCommandMenu = new UserCommandMenu(BookEntry::createmenu(), ::UserCommand::CONTEXT_USER);
+	addChild(userCommandMenu);
 
 	// Emoticons dialog
 	emotdialog = new EmoticonsDialog(getWidget("entry"), getWidget("emotButton"), getWidget("emotMenu"));
 	if (!WGETB("emoticons-use"))
 		gtk_widget_set_sensitive(getWidget("emotButton"), FALSE);
 	useEmoticons = TRUE;
+
+	// PM commands
+	g_object_set_data_full(G_OBJECT(getWidget("awayCommandItem")), "command", g_strdup("/away"), g_free);
+	g_signal_connect(getWidget("awayCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
+
+	g_object_set_data_full(G_OBJECT(getWidget("backCommandItem")), "command", g_strdup("/back"), g_free);
+	g_signal_connect(getWidget("backCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
+
+	g_object_set_data_full(G_OBJECT(getWidget("clearCommandItem")), "command", g_strdup("/clear"), g_free);
+	g_signal_connect(getWidget("clearCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
+
+	g_object_set_data_full(G_OBJECT(getWidget("closeCommandItem")), "command", g_strdup("/close"), g_free);
+	g_signal_connect(getWidget("closeCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
+
+	g_object_set_data_full(G_OBJECT(getWidget("fuserCommandItem")), "command", g_strdup("/fuser"), g_free);
+	g_signal_connect(getWidget("fuserCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
+
+	g_object_set_data_full(G_OBJECT(getWidget("rmfuCommandItem")), "command", g_strdup("/rmfu"), g_free);
+	g_signal_connect(getWidget("rmfuCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
+
+	g_object_set_data_full(G_OBJECT(getWidget("helpCommandItem")), "command", g_strdup("/help"), g_free);
+	g_signal_connect(getWidget("helpCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
+
+	g_object_set_data_full(G_OBJECT(getWidget("getlistCommandItem")), "command", g_strdup("/getlist"), g_free);
+	g_signal_connect(getWidget("getlistCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
+
+	g_object_set_data_full(G_OBJECT(getWidget("grantCommandItem")), "command", g_strdup("/grant"), g_free);
+	g_signal_connect(getWidget("grantCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
+
+	// chat commands button
+	g_signal_connect(getWidget("chatCommandsButton"), "button-release-event", G_CALLBACK(onChatCommandButtonRelease_gui), (gpointer)this);
 
 	// Connect the signals to their callback functions.
 	g_signal_connect(getContainer(), "focus-in-event", G_CALLBACK(onFocusIn_gui), (gpointer)this);
@@ -115,27 +148,32 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	TagsMap[Tag::TAG_STATUS] = createTag_gui("TAG_STATUS", Tag::TAG_STATUS);
 	TagsMap[Tag::TAG_TIMESTAMP] = createTag_gui("TAG_TIMESTAMP", Tag::TAG_TIMESTAMP);
 	/*-*/
-	TagsMap[Tag::TAG_HIGHL] = createTag_gui("TAG_HIGHL", Tag::TAG_HIGHL);
 	TagsMap[Tag::TAG_MYNICK] = createTag_gui("TAG_MYNICK", Tag::TAG_MYNICK);
 	TagsMap[Tag::TAG_NICK] = createTag_gui("TAG_NICK", Tag::TAG_NICK);
 	TagsMap[Tag::TAG_OPERATOR] = createTag_gui("TAG_OPERATOR", Tag::TAG_OPERATOR);
 	TagsMap[Tag::TAG_FAVORITE] = createTag_gui("TAG_FAVORITE", Tag::TAG_FAVORITE);
 	TagsMap[Tag::TAG_URL] = createTag_gui("TAG_URL", Tag::TAG_URL);
+	TagsMap[Tag::TAG_IPADR] = createTag_gui("TAG_IPADR", Tag::TAG_IPADR);
+	TagsMap[Tag::TAG_HIGHL] = createTag_gui("TAG_HIGHL", Tag::TAG_HIGHL);
 
 	// set default select tag (fix error show cursor in neutral space)
 	selectedTag = TagsMap[Tag::TAG_PRIVATE];
-	
-	readLog(SETTING(LOG_DIRECTORY) + SETTING(LOG_FILE_PRIVATE_CHAT), (unsigned int)SETTING(PM_LAST_LOG_LINES));
 }
 
 PrivateMessage::~PrivateMessage()
 {
 	ClientManager::getInstance()->removeListener(this);
+
 	if (handCursor)
 	{
 		gdk_cursor_unref(handCursor);
 		handCursor = NULL;
 	}
+
+	g_object_unref(getWidget("magnetMenu"));
+	g_object_unref(getWidget("linkMenu"));
+	g_object_unref(getWidget("hubMenu"));
+	g_object_unref(getWidget("chatCommandsMenu"));
 
 	delete emotdialog;
 }
@@ -151,7 +189,7 @@ void PrivateMessage::addMessage_gui(string message, Msg::TypeMsg typemsg)
 
 	if (BOOLSETTING(LOG_PRIVATE_CHAT))
 	{
-		StringMap params;
+		dcpp::ParamMap params;
 		params["message"] = message;
 		params["hubNI"] = WulforUtil::getHubNames(cid, hubUrl);//NOTE: core 0.762
 		params["hubURL"] = hubUrl;//NOTE: core 0.762
@@ -200,13 +238,17 @@ void PrivateMessage::preferences_gui()
 	string fore, back;
 	int bold, italic;
 
-	for (int i = Tag::TAG_PRIVATE; i < Tag::TAG_LAST; i++)
+	for (int i = Tag::TAG_FIRST; i < Tag::TAG_LAST; i++)
 	{
-		if(i == Tag::TAG_CHEAT)
+		if(i == Tag::TAG_GENERAL)
+            continue;
+        if(i == Tag::TAG_CHEAT)
 			continue;
-		if(i == Tag::TAG_IPADR )
+		if(i == Tag::TAG_IPADR)//TODO
+			continue;	
+		if(i = Tag::TAG_HIGHL)	
 			continue;
-		
+
 		getSettingTag_gui(wsm, (Tag::TypeTag)i, fore, back, bold, italic);
 
 		g_object_set(TagsMap[i],
@@ -356,7 +398,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 			gtk_text_iter_backward_chars(&nick_start_iter, g_utf8_strlen(line.c_str() + begin, -1));
 			gtk_text_iter_backward_chars(&nick_end_iter, g_utf8_strlen(line.c_str() + end, -1) - 1);
 
-			dcassert(tagNick >= Tag::TAG_MYNICK && tagNick < Tag::TAG_URL);
+			dcassert(tagNick >= Tag::TAG_MYNICK && tagNick < Tag::TAG_IPADR);
 			gtk_text_buffer_apply_tag(messageBuffer, TagsMap[tagNick], &nick_start_iter, &nick_end_iter);
 
 			start_iter = nick_end_iter;
@@ -404,15 +446,16 @@ void PrivateMessage::applyTags_gui(const string &line)
 
 		GCallback callback = NULL;
 		gchar *temp = gtk_text_iter_get_text(&tag_start_iter, &tag_end_iter);
+		string country_text;
+		bool isCountryFlag = FALSE;
 		
-		GtkTextTag *tag = gtk_text_tag_table_lookup(gtk_text_buffer_get_tag_table(messageBuffer), temp);
-		
-		if(WGETB("use-highliting"))
+		if(WGETB("use-highlighting"))
 		{
+			GtkTextTag *tag = gtk_text_tag_table_lookup(gtk_text_buffer_get_tag_table(messageBuffer), temp);
 			bool isTab = false;
-			if(WulforUtil::isHighlitingWorld(messageBuffer,tag,string(temp),isTab,(gpointer)NULL, TagsMap))
+			if(WulforUtil::isHighlightingWorld(messageBuffer,tag,string(temp),isTab,(gpointer)NULL, TagsMap))
 			{
-				gtk_text_buffer_apply_tag(messageBuffer, TagsMap[Tag::TAG_HIGHL]/*tag*/, &tag_start_iter, &tag_end_iter);
+				gtk_text_buffer_apply_tag(messageBuffer, TagsMap[Tag::TAG_HIGHL], &tag_start_iter, &tag_end_iter);
 				if(isTab)
 				{
 					typedef Func0<PrivateMessage> F0;
@@ -425,16 +468,70 @@ void PrivateMessage::applyTags_gui(const string &line)
 		if (!C_EMPTY(temp))
 		{
 			tagName = temp;
+			bool notlink = FALSE;
+						
+			if(g_ascii_strncasecmp(tagName.c_str(), "[ccc]", 5) == 0)
+            {
+                string::size_type i = tagName.rfind("[/ccc]");
+                if (i != string::npos)
+                {
+					country_text = tagName.substr(5, i - 5);
+					if(country_text.length() == 2 )
+					{
+							notlink = isCountryFlag = TRUE;
 
-			if (WulforUtil::isLink(tagName))
-				callback = G_CALLBACK(onLinkTagEvent_gui);
-			else if (WulforUtil::isHubURL(tagName))
-				callback = G_CALLBACK(onHubTagEvent_gui);
-			else if (WulforUtil::isMagnet(tagName))
-				callback = G_CALLBACK(onMagnetTagEvent_gui);
+					}
+                }
+            }
+			
+			if(!notlink)
+			{
+				if (WulforUtil::isLink(tagName))
+					callback = G_CALLBACK(onLinkTagEvent_gui);
+				else if (WulforUtil::isHubURL(tagName))
+					callback = G_CALLBACK(onHubTagEvent_gui);
+				else if (WulforUtil::isMagnet(tagName))
+					callback = G_CALLBACK(onMagnetTagEvent_gui);
+			}		
 		}
 
 		g_free(temp);
+		
+		if(isCountryFlag)
+		{
+            gtk_text_buffer_move_mark(messageBuffer, tag_mark, &tag_end_iter);
+            if(country_text.length() == 2)
+            {
+                GdkPixbuf *buffer = WulforUtil::LoadCountryPixbuf(country_text);
+                gtk_text_buffer_delete(messageBuffer, &tag_start_iter, &tag_end_iter);
+                GtkTextChildAnchor *anchor = gtk_text_buffer_create_child_anchor(messageBuffer, &tag_start_iter);
+                GtkWidget *event_box = gtk_event_box_new();
+                // Creating a visible window may cause artifacts that are visible to the user.
+                gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
+                GtkWidget *image = gtk_image_new_from_pixbuf(buffer);
+                gtk_container_add(GTK_CONTAINER(event_box),image);
+                gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW(getWidget("text")), event_box, anchor);
+                g_signal_connect(G_OBJECT(image), "expose-event", G_CALLBACK(expose), NULL);
+
+                gtk_widget_show_all(event_box);
+                #if GTK_CHECK_VERSION(2, 12, 0)
+                    gtk_widget_set_tooltip_text(event_box, country_text.c_str());
+                #else
+                    gtk_tooltips_set_tip(tips, event_box, country_text.c_str(), country_text.c_str());
+                #endif
+            }
+
+			applyEmoticons_gui();
+
+			gtk_text_buffer_get_iter_at_mark(messageBuffer, &start_iter, tag_mark);
+
+			if (gtk_text_iter_is_end(&start_iter))
+				return;
+
+			start = FALSE;
+
+			continue;
+		}
 
 		if (callback)
 		{
@@ -492,6 +589,12 @@ void PrivateMessage::applyTags_gui(const string &line)
 			gtk_text_buffer_move_mark(messageBuffer, end_mark, &tag_end_iter);
 		}
 	}
+}
+
+gboolean PrivateMessage::expose(GtkWidget *widget, GdkEventExpose *event, gpointer data)
+{
+	GTK_WIDGET_CLASS(GTK_WIDGET_GET_CLASS(widget))->expose_event(widget, event);
+	return true;
 }
 
 void PrivateMessage::applyEmoticons_gui()
@@ -695,6 +798,12 @@ void PrivateMessage::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag 
 			bold = wsm->getInt("text-url-bold");
 			italic = wsm->getInt("text-url-italic");
 		break;
+		
+		case Tag::TAG_HIGHL:
+			break;//ugly
+			
+		//case Tag::TAG_IPADR:
+		//	break;//ugly	
 
 		case Tag::TAG_NICK:
 
@@ -707,7 +816,6 @@ void PrivateMessage::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag 
 			else
 				bold = 0;
 		break;
-		case Tag::TAG_HIGHL:/*NOTE*/
 
 		case Tag::TAG_PRIVATE:
 
@@ -833,20 +941,42 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 	// Process special commands
 	if (text[0] == '/')
 	{
-		string command = text, param;
-		string mess , status;
-		bool thirdperson = false;
-
-		if(WulforUtil::checkCommand(command, param, mess , status , thirdperson))
+		string command, param;
+		string::size_type separator = text.find_first_of(' ');
+		if (separator != string::npos && text.size() > separator + 1)
 		{
-			if(!mess.empty())
-				pm->sendMessage_client(mess);
-
-			if(!status.empty())
-				pm->addStatusMessage_gui(status , Msg::SYSTEM);
+			command = text.substr(1, separator - 1);
+			param = text.substr(separator + 1);
 		}
+		else
+		{
+			command = text.substr(1);
+		}
+		std::transform(command.begin(), command.end(), command.begin(), (int(*)(int))tolower);
 
-		if (command == "clear")
+		if (command == "away")
+		{
+			if (Util::getAway() && param.empty())
+			{
+				Util::setAway(FALSE);
+				Util::setManualAway(FALSE);
+				pm->addStatusMessage_gui(_("Away mode off"), Msg::SYSTEM);
+				pm->sentAwayMessage = FALSE;
+			}
+			else
+			{
+				Util::setAway(TRUE);
+				Util::setManualAway(TRUE);
+				Util::setAwayMessage(param);
+				pm->addStatusMessage_gui(_("Away mode on: ") + Util::getAwayMessage(), Msg::SYSTEM);
+			}
+		}
+		else if (command == "back")
+		{
+			Util::setAway(FALSE);
+			pm->addStatusMessage_gui(_("Away mode off"), Msg::SYSTEM);
+		}
+		else if (command == "clear")
 		{
 			GtkTextIter startIter, endIter;
 			gtk_text_buffer_get_start_iter(pm->messageBuffer, &startIter);
@@ -898,32 +1028,19 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		{
 			pm->addLine_gui(Msg::SYSTEM, string(_("*** Available commands:")) + "\n\n" +
 			"/away <message>\t\t - " + _("Away mode message on/off") + "\n" +
-			"/back\t\t\t\t - " 		 + _("Away mode off") + "\n" +
-			"/clear\t\t\t\t - " 	 + _("Clear PM") + "\n" +
-			"/close\t\t\t\t - " 	 + _("Close PM") + "\n" +
+			"/back\t\t\t\t - " + _("Away mode off") + "\n" +
+			"/clear\t\t\t\t - " + _("Clear PM") + "\n" +
+			"/close\t\t\t\t - " + _("Close PM") + "\n" +
 			"/fuser, /fu\t\t\t\t - " + _("Add user to favorites list") + "\n" +
-			"/removefu, /rmfu\t\t - "+ _("Remove user favorite") + "\n" +
-			"/getlist\t\t\t\t - " 	 + _("Get file list") + "\n" +
-			"/grant\t\t\t\t - " 	 + _("Grant extra slot") + "\n" +
+			"/removefu, /rmfu\t\t - " + _("Remove user favorite") + "\n" +
+			"/getlist\t\t\t\t - " + _("Get file list") + "\n" +
+			"/grant\t\t\t\t - " + _("Grant extra slot") + "\n" +
 			"/emoticons, /emot\t\t - " + _("Emoticons on/off") + "\n" +
-			"/help\t\t\t\t - "       + _("Show help") + "\n" +
-			"/amar\t\t\t -  "        + _("Media Spam")+ "\n" +
-			"/auda\t\t\t -  "        + _("Media Spam")+ "\n" +
-			"/kaff\t\t\t -  "        + _("Media Spam") + "\n" +
-			"/vlc\t\t\t -  "         + _("Media Spam") + "\n" +
-			"/rb\t\t\t -  "          + _("Media Spam") + "\n" +
-			"/ratio (mc)\t\t\t - "   + _("Show Ratio (mc)")+ "\n"+
-			"/refresh\t\t\\t  -"     + _("refresh share")+ "\n"+
-			"/rebuild\t\t\t\t  -"    + _("rebuild share")+ "\n"+
-			"/slots n\t\t\t   -"     + _("Set Slots to n")+ "\n"+
-			"/stats\t\t\t\t    -"    + _("Show stats")+ "\n"+
-			"/df (mc)\n\n\n    -"    + _("Show FreeSpace (mc)")+ "\n"+
-			"/uptime\n\n\n    -"     + _("Show uptime")+ "\n"+
-			"/alias list\t\t\t"      + _("Alias List")+ "\n"
-			"/alias purge ::A\t\t"   + _("Alias Remove A")+"\n"
-			"/alias A::uname -a"     + _("Alias add uname -a as A")+"\n"+
-			"/A\t\t\t\t\t\t\t\t\t"   + _("Alias A executing")+"\n"
-			  );
+			"/help\t\t\t\t - " + _("Show help") + "\n");
+		}
+		else
+		{
+			pm->addStatusMessage_gui(_("Unknown command ") + text + _(": type /help for a list of available commands"), Msg::SYSTEM);
 		}
 	}
 	else
@@ -1070,18 +1187,31 @@ gboolean PrivateMessage::onEmotButtonRelease_gui(GtkWidget *widget, GdkEventButt
 
 		case 3: //show emoticons menu
 
-			pm->emotdialog->showEmotMenu_gui();
+			pm->emotdialog->buildEmotMenu_gui();
+
+			GtkWidget *check_item = NULL;
+			GtkWidget *emot_menu = pm->getWidget("emotMenu");
+
+			check_item = gtk_separator_menu_item_new();
+			gtk_menu_shell_append(GTK_MENU_SHELL(emot_menu), check_item);
+			gtk_widget_show(check_item);
+
+			check_item = gtk_check_menu_item_new_with_label(_("Use Emoticons"));
+			gtk_menu_shell_append(GTK_MENU_SHELL(emot_menu), check_item);
+
+			if (pm->useEmoticons)
+				gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(check_item), TRUE);
+
+			g_signal_connect(check_item, "activate", G_CALLBACK(onUseEmoticons_gui), data);
+
+			gtk_widget_show_all(emot_menu);
+			gtk_menu_popup(GTK_MENU(emot_menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 		break;
 	}
 
 	return FALSE;
 }
-/*icon*/
-void PrivateMessage::updateOnlineStatus_gui(bool online)
-{
-	setIcon_gui(online ? WGETS("icon-pm-online") : WGETS("icon-pm-offline"));
-}
-/**/
+
 void PrivateMessage::onChatScroll_gui(GtkAdjustment *adjustment, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
@@ -1174,6 +1304,45 @@ void PrivateMessage::onMagnetPropertiesClicked_gui(GtkMenuItem *item, gpointer d
 	WulforManager::get()->getMainWindow()->propertiesMagnetDialog_gui(pm->selectedTagStr);
 }
 
+void PrivateMessage::onCommandClicked_gui(GtkWidget *widget, gpointer data)
+{
+	PrivateMessage *pm = (PrivateMessage *)data;
+
+	string command = (gchar*) g_object_get_data(G_OBJECT(widget), "command");
+
+	gint pos = 0;
+	GtkWidget *entry = pm->getWidget("entry");
+	if (!gtk_widget_is_focus(entry))
+		gtk_widget_grab_focus(entry);
+	gtk_editable_delete_text(GTK_EDITABLE(entry), pos, -1);
+	gtk_editable_insert_text(GTK_EDITABLE(entry), command.c_str(), -1, &pos);
+	gtk_editable_set_position(GTK_EDITABLE(entry), pos);
+}
+
+gboolean PrivateMessage::onChatCommandButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+{
+	PrivateMessage *pm = (PrivateMessage *)data;
+
+	if (event->button == 1)
+	{
+		gtk_menu_popup(GTK_MENU(pm->getWidget("chatCommandsMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+	}
+
+	return FALSE;
+}
+
+void PrivateMessage::onUseEmoticons_gui(GtkWidget *widget, gpointer data)
+{
+	PrivateMessage *pm = (PrivateMessage *)data;
+
+	pm->useEmoticons = !pm->useEmoticons;
+}
+
+void PrivateMessage::updateOnlineStatus_gui(bool online)
+{
+	setIcon_gui(online ? WGETS("icon-pm-online") : WGETS("icon-pm-offline"));
+}
+
 void PrivateMessage::sendMessage_client(string message)
 {
 	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
@@ -1262,7 +1431,6 @@ void PrivateMessage::on(ClientManagerListener::UserConnected, const UserPtr& aUs
 		typedef Func1<PrivateMessage, bool> F1;
 		F1 *func = new F1(this, &PrivateMessage::updateOnlineStatus_gui, aUser->isOnline());
 		WulforManager::get()->dispatchGuiFunc(func);
-
 	}
 }
 
@@ -1277,8 +1445,8 @@ void PrivateMessage::on(ClientManagerListener::UserDisconnected, const UserPtr& 
 	}
 }
 
-/*this is a pop menu*/
-void PrivateMessage::popmenu()
+//custom popup menu
+GtkWidget *PrivateMessage::createmenu()
 {
     userCommandMenu->cleanMenu_gui();
     userCommandMenu->addUser(cid);
@@ -1286,86 +1454,40 @@ void PrivateMessage::popmenu()
     userCommandMenu->buildMenu_gui();
     GtkWidget *menu = userCommandMenu->getContainer();
 
-    GtkWidget *closeMenuItem = gtk_menu_item_new_with_label(_("Close"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), closeMenuItem);
+    GtkWidget *copyHubUrl = gtk_menu_item_new_with_label(_("Copy CID"));
+    GtkWidget *close = gtk_menu_item_new_with_label(_("Close"));
+    GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite hubs"));
 
-    GtkWidget *copyMenuItem = gtk_menu_item_new_with_label(_("Copy Nick"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), copyMenuItem);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu),close);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu),copyHubUrl);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu),addFav);
+    gtk_widget_show(close);
+    gtk_widget_show(copyHubUrl);
+    gtk_widget_show(addFav);
+    gtk_widget_show_all(userCommandMenu->getContainer());
 
-    GtkWidget *copyCIDMenuItem = gtk_menu_item_new_with_label(_("Copy CID"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), copyCIDMenuItem);
-    
-    GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), addFav);
-
-    g_signal_connect_swapped(closeMenuItem, "activate",G_CALLBACK(onCloseItem), this);
-    g_signal_connect_swapped(copyMenuItem, "activate", G_CALLBACK(onCopyNick), this);
-    g_signal_connect_swapped(copyCIDMenuItem, "activate", G_CALLBACK(onCopyCID), this);
-    g_signal_connect_swapped(addFav, "activate", G_CALLBACK(onAddFav), (gpointer)this);
+    g_signal_connect_swapped(copyHubUrl, "activate", G_CALLBACK(onCopyCID), (gpointer)this);
+    g_signal_connect_swapped(close, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
+    g_signal_connect_swapped(addFav, "activate", G_CALLBACK(onAddFavItem), (gpointer)this);
+    return menu;
 }
 
 void PrivateMessage::onCloseItem(gpointer data)
 {
-    BookEntry *entry = (BookEntry *)data;
-    WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
-}
-
-void PrivateMessage::onCopyNick(gpointer data)
-{
-    PrivateMessage *pm =(PrivateMessage *)data;
-    string nick = WulforUtil::getNicks(pm->cid,pm->hubUrl);
-    gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), nick.c_str(), nick.length());
+	PrivateMessage *entry = (PrivateMessage *)data;
+    WulforManager::get()->getMainWindow()->removeBookEntry_gui(dynamic_cast<BookEntry*>(entry));
 }
 
 void PrivateMessage::onCopyCID(gpointer data)
 {
-    PrivateMessage *pm =(PrivateMessage *)data;
+    PrivateMessage *pm = (PrivateMessage *)data;
     gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), pm->cid.c_str(), pm->cid.length());
 }
 
-void PrivateMessage::onAddFav( gpointer data)
+void PrivateMessage::onAddFavItem(gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
-	pm->addFavoriteUser_client();	
+	pm->addFavoriteUser_client();
 }
+//EnD
 
-void PrivateMessage::readLog(const string& logPath, const unsigned setting) {
-		if(setting == 0)
-			return;
-		if(logPath.empty())
-			return;	
-		//make %[] to it value...
-		StringMap params;
-		params["hubUrl"] = hubUrl;
-		OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hubUrl, false);
-		Client *client = &ou->getClient();
-		client->getHubIdentity().getParams(params, "hub", false);
-		client->getMyIdentity().getParams(params, "my", true);
-		Identity *id = &ou->getIdentity();
-		id->getParams(params, "user", true);
-		logPath = Util::formatParams(logPath, params, false);
-		//..
-		StringList lines;
-
-		try {
-			const int MAX_SIZE = 32 * 1024;
-
-			File f(logPath, File::READ, File::OPEN);
-			if(f.getSize() > MAX_SIZE) {
-				f.setEndPos(-MAX_SIZE + 1);
-			}
-
-			lines = StringTokenizer<string>(f.read(MAX_SIZE), "\r\n").getTokens();
-		} catch(const FileException&) { }
-
-		if(lines.empty())
-			return;
-
-		// the last line in the log file is an empty line; remove it
-		lines.pop_back();
-
-		const size_t linesCount = lines.size();
-		for(size_t i = ((linesCount > setting) ? (linesCount - setting) : 0); i < linesCount; ++i) {
-			addLine_gui(Msg::GENERAL, lines[i]);
-		}
-}

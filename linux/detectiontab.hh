@@ -25,7 +25,6 @@
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
-
 #include <dcpp/RawManager.h>
 #include <dcpp/DetectionManager.h>
 
@@ -39,12 +38,9 @@ class DetectionTab:
 		DetectionTab();
 		virtual ~DetectionTab();
 		virtual void show();
-		virtual void popmenu();
 	private:
-        ///GUI
-        static void onCloseItem(gpointer data);
 
-        static void onSwitchTab(GtkNotebook *notebook, GtkNotebookPage *page, guint num, gpointer data);
+        //static void onSwitchTab(GtkNotebook *notebook, GtkNotebookPage *page, guint num, gpointer data);
         static bool showErrorDialog_gui(const std::string &description, DetectionTab *dt);
 		///1page
 		typedef std::unordered_map<int, GtkTreeIter> ActRaw;
@@ -92,7 +88,7 @@ class DetectionTab:
 		static void onAddEntryDet(GtkWidget *widget, gpointer data);
 		static void ondModEntryDet(GtkWidget *widget, gpointer data);
 		static void onRemoveEntryDet(GtkWidget *widget, gpointer data);
-		static void onToggleDet(GtkCellRendererToggle *cell, gchar *pathStr, gpointer data);
+		static void onToggleDet(GtkCellRendererToggle *cell, gchar *path, gpointer data);
 		void addMap_gui(dcpp::StringMap params);
 		void editMap_gui(dcpp::StringMap &params,GtkTreeIter *iter);
 		bool showAddEntryDetDialog(dcpp::StringMap &params, DetectionTab *dt);
@@ -109,7 +105,6 @@ class DetectionTab:
 		GtkTreeSelection *detectionSelection;
 		dcpp::DetectionEntry::INFMap map,mapadc,mapnmdc;
 
-		void clear_all_col(TreeView tree);
 		int find_rawInt(int raw);
 		int find_raw(std::string rawString);
 		bool findProf_gui(const uint32_t &id, GtkTreeIter *iter);
@@ -149,6 +144,12 @@ class DetectionTab:
 		    TYPE_INT
 		};
 		std::map<int,std::string> tmpname;
+		
+		TreeView actionsSelectionsR;
+		GtkListStore *actionsSelectionsRStore;
+		GtkTreeSelection *actionSelectionRR;
+		static void onSelectAction(GtkWidget *wid , gpointer data );
+		void initDialogWithValues();
 
 };
 #else

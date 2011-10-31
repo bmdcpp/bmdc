@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2011 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2010 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 #include "settingsmanager.hh"
 #include "WulforUtil.hh"
 #include <glib/gi18n.h>
-
+#include <dcpp/Util.h>
 #include "previewmenu.hh"
 
 using namespace std;

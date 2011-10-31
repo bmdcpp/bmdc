@@ -298,7 +298,7 @@ uint16_t Socket::listen(const string& port) {
 			}
 		}
 
-		if(!sock6.valid() && a->ai_family == AF_INET6) {
+		if(!sock6.valid() && a->ai_family == AF_INET6 && !v4only) {
 			create(*a);
 			if(ret != 0) {
 				((sockaddr_in6*)a->ai_addr)->sin6_port = ret;
@@ -328,7 +328,7 @@ void Socket::connect(const string& aAddr, const string& aPort, const string& loc
 
 	for(auto ai = addr.get(); ai; ai = ai->ai_next) {
 		if((ai->ai_family == AF_INET && !sock4.valid()) ||
-			(ai->ai_family == AF_INET6 && !sock6.valid()))
+			(ai->ai_family == AF_INET6 && !sock6.valid() && !v4only))
 		{
 			auto sock = create(*ai);
 			auto &localIp = ai->ai_family == AF_INET ? getLocalIp4() : getLocalIp6();
@@ -759,6 +759,7 @@ Socket::addrinfo_p Socket::resolveAddr(const string& name, const string& port, i
 	addrinfo *result = 0;
 
 	auto err = ::getaddrinfo(name.empty() ? NULL : name.c_str(), port.empty() ? NULL : port.c_str(), &hints, &result);
+	 //auto err = ::getaddrinfo(name.c_str(), port.empty() ? NULL : port.c_str(), &hints, &result);
 	if(err) {
 		throw SocketException(err);
 	}
@@ -842,7 +843,7 @@ void Socket::socksUpdated() {
 
 			udpAddr.sa.sa_family = AF_INET;
 			udpAddr.sai.sin_port = *((uint16_t*)(&connStr[8]));
-			//udpAddr.sai.sin_addr.S_addr = *((long*)(&connStr[4]));
+			//udpAddr.sai.sin_addr.S_un.S_addr = *((long*)(&connStr[4]));
 			udpAddr.sai.sin_addr = *((in_addr*)(&connStr[4]));//change
 			udpAddrLen = sizeof(udpAddr.sai);
 		} catch(const SocketException&) {

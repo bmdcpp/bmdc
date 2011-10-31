@@ -17,8 +17,6 @@
  */
 
 #include "stdinc.h"
-//#include "DCPlusPlus.h"
-
 #include "FinishedManager.h"
 
 #include "FinishedItem.h"
@@ -34,20 +32,20 @@ namespace dcpp {
 FinishedManager::FinishedManager() {
 	DownloadManager::getInstance()->addListener(this);
 	UploadManager::getInstance()->addListener(this);
-//	QueueManager::getInstance()->addListener(this);
+	QueueManager::getInstance()->addListener(this);
 }
 
-FinishedManager::~FinishedManager() throw() {
+FinishedManager::~FinishedManager() {
 	DownloadManager::getInstance()->removeListener(this);
 	UploadManager::getInstance()->removeListener(this);
-//	QueueManager::getInstance()->removeListener(this);
+	QueueManager::getInstance()->removeListener(this);
 
 	clearDLs();
 	clearULs();
 }
 
 Lock FinishedManager::lockLists() {
-	return Lock(cs);//.enter();
+	return Lock(cs);
 }
 
 const FinishedManager::MapByFile& FinishedManager::getMapByFile(bool upload) const {
@@ -56,10 +54,6 @@ const FinishedManager::MapByFile& FinishedManager::getMapByFile(bool upload) con
 
 const FinishedManager::MapByUser& FinishedManager::getMapByUser(bool upload) const {
 	return upload ? ULByUser : DLByUser;
-}
-
-void FinishedManager::unLockLists() {
-	cs.leave();
 }
 
 void FinishedManager::remove(bool upload, const string& file) {
@@ -113,7 +107,7 @@ void FinishedManager::onComplete(Transfer* t, bool upload, bool crc32Checked) {
 		string file = t->getPath();
 		const HintedUser& user = t->getHintedUser();
 
-		int64_t milliSeconds = GET_TICK() - t->getStart();
+		uint64_t milliSeconds = GET_TICK() - t->getStart();
 		time_t time = GET_TIME();
 
 		int64_t size = 0;
@@ -153,7 +147,7 @@ void FinishedManager::onComplete(Transfer* t, bool upload, bool crc32Checked) {
 				fire(FinishedManagerListener::AddedFile(), upload, file, p);
 			} else {
 				it->second->update(
-					crc32Checked ? 0 : t->getPos(),
+					crc32Checked ? 0 : t->getPos(), // in case of a successful crc check at the end we want to update the status only
 					milliSeconds,
 					time,
 					t->getActual(),
@@ -190,61 +184,26 @@ void FinishedManager::onComplete(Transfer* t, bool upload, bool crc32Checked) {
 	}
 }
 
-void FinishedManager::on(QueueManagerListener::CRCChecked, Download* d) throw() {
-	onComplete(d, false, true);
+void FinishedManager::on(QueueManagerListener::CRCChecked, Download* d) noexcept {
+	onComplete(d, false, /*crc32Checked*/true);
 }
 
-void FinishedManager::on(DownloadManagerListener::Complete, Download* d) throw() {
-	onComplete(d, false );
+void FinishedManager::on(DownloadManagerListener::Complete, Download* d) noexcept {
+	onComplete(d, false);
 }
 
-void FinishedManager::on(DownloadManagerListener::Failed, Download* d, const string&) throw() {
+void FinishedManager::on(DownloadManagerListener::Failed, Download* d, const string&) noexcept {
 	if(d->getPos() > 0)
 		onComplete(d, false);
 }
 
-void FinishedManager::on(UploadManagerListener::Complete, Upload* u) throw() {
+void FinishedManager::on(UploadManagerListener::Complete, Upload* u) noexcept {
 	onComplete(u, true);
 }
 
-void FinishedManager::on(UploadManagerListener::Failed, Upload* u, const string&) throw() {
+void FinishedManager::on(UploadManagerListener::Failed, Upload* u, const string&) noexcept {
 	if(u->getPos() > 0)
 		onComplete(u, true);
-}
-
-string FinishedManager::getTarget(const string& aTTH){
-	if(aTTH.empty()) return Util::emptyString;
-
-	{
-		Lock l(cs);
-
-		for(FinishedItem::FinishedItemList::const_iterator i = downloads.begin(); i != downloads.end(); i++)
-		{
-			if((*i).getTTH() == aTTH)
-				return (*i).getTarget();
-		}
-	}
-
-	return Util::emptyString;
-}
-
-
-bool FinishedManager::handlePartialRequest(const TTHValue& tth, vector<uint16_t>& outPartialInfo)
-{
-	string target = getTarget(tth.toBase32());
-
-	if(target.empty()) return false;
-
-	int64_t fileSize = File::getSize(target);
-
-	if(fileSize < PARTIAL_SHARE_MIN_SIZE)
-		return false;
-
-	uint16_t len = TigerTree::calcBlocks(fileSize,(int)100);
-	outPartialInfo.push_back(0);
-	outPartialInfo.push_back(len);
-
-	return true;
 }
 
 } // namespace dcpp

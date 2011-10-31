@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,6 @@
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
 #include <dcpp/DirectoryListing.h>
-#include <dcpp/FastAlloc.h>
 
 #include "bookentry.hh"
 #include "treeview.hh"
@@ -39,13 +38,12 @@ class ShareBrowser:
 		ShareBrowser(dcpp::UserPtr user, const std::string &file, const std::string &initialDirectory, int64_t speed);
 		virtual ~ShareBrowser();
 		virtual void show();
-		virtual void popmenu();
+		virtual GtkWidget* createmenu();
 
 	private:
-		// GUI functions
 		static void onCloseItem(gpointer data);
-		static void onCopyNick(gpointer data);
-
+		static void onCopyCID(gpointer data);
+		// GUI functions
 		void buildList_gui();
 		void openDir_gui(const std::string &dir);
 		bool findDir_gui(const std::string &dir, GtkTreeIter *parent);
@@ -77,7 +75,7 @@ class ShareBrowser:
 		static void onDownloadFavoriteDirClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onSearchAlternatesClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onCopyMagnetClicked_gui(GtkMenuItem* item, gpointer data);
-		static void onDirGet(GtkMenuItem* item, gpointer data);
+		static void onCopyPictureClicked_gui(GtkMenuItem* item, gpointer data);
 
 		// Client functions
 		void downloadFile_client(dcpp::DirectoryListing::File *file, std::string target);
@@ -97,70 +95,14 @@ class ShareBrowser:
 		std::string search;
 		bool updateFileView;
 		int skipHits;
+		int64_t speed;
 		TreeView dirView, fileView;
 		GtkListStore *fileStore;
 		GtkTreeStore *dirStore;
 		GtkTreeSelection *fileSelection, *dirSelection;
 		UserCommandMenu *fileUserCommandMenu;
 		UserCommandMenu *dirUserCommandMenu;
-		int64_t speed;
-
-		enum {
-            COLUMN_FILENAME,
-            COLUMN_TYPE,
-            COLUMN_SIZE,
-            COLUMN_EXACTSIZE,
-            COLUMN_TTH,
-            COLUMN_LAST
-           };
-
-	class ItemInfo : public dcpp::FastAlloc<ItemInfo> {
-	public:
-		enum ItemType {
-			FILE,
-			DIRECTORY,
-			USER
-		} type;
-
-		union {
-			dcpp::DirectoryListing::File* file;
-			dcpp::DirectoryListing::Directory* dir;
-		};
-
-		ItemInfo(const std::string& nick, dcpp::DirectoryListing::Directory* d) : type(USER), dir(d) {
-			columns.insert(ParamMap::value_type("FILENAME",nick));
-		}
-
-		ItemInfo(dcpp::DirectoryListing::File* f) : type(FILE), file(f) {
-			columns.insert(ParamMap::value_type("FILENAME",f->getName()));
-			columns.insert(ParamMap::value_type("TYPE",dcpp::Util::getFileExt(columns["FILENAME"])));
-			columns["EXACTSIZE"] = dcpp::Text::toT(dcpp::Util::formatExactSize(f->getSize()));
-			columns["SIZE"] = dcpp::Text::toT(dcpp::Util::formatBytes(f->getSize()));
-			columns["TTH"] = dcpp::Text::toT(f->getTTH().toBase32());
-		}
-		ItemInfo(dcpp::DirectoryListing::Directory* d) : type(DIRECTORY), dir(d) {
-			columns.insert(ParamMap::value_type("FILENAME",d->getName()));
-			columns.insert(ParamMap::value_type("EXACTSIZE",d->getComplete() ? dcpp::Util::formatExactSize(d->getTotalSize()) : _("?")));
-			columns.insert(ParamMap::value_type("SIZE",d->getComplete() ? dcpp::Util::formatBytes(d->getTotalSize()) : _("?")));
-		}
-
-		int getImage()  const {return 0;};
-
-		int getSelectedImage() const {
-			return getImage();
-		}
-
-			struct TotalSize {
-				TotalSize() : total(0) { }
-				void operator()(ItemInfo* a) { total += a->type == DIRECTORY ? a->dir->getTotalSize() : a->file->getSize(); }
-				int64_t total;
-			};
-
-			static int compareItems(ItemInfo* a, ItemInfo* b, int col);
-		private:
-		   typedef std::map<std::string, std::string> ParamMap;
-			ParamMap columns;
-		};
+		UserCommandMenu *TabUserCommandMenu;
 };
 
 #else

@@ -17,28 +17,19 @@
  */
 
 #include "stdinc.h"
-//#include "DCPlusPlus.h"
-#include "format.h"
 #include "CryptoManager.h"
 
-#include "BitInputStream.h"
-#include "BitOutputStream.h"
+#include <boost/scoped_array.hpp>
+
 #include "File.h"
 #include "LogManager.h"
 #include "ClientManager.h"
 #include "version.h"
 
 #include <openssl/bn.h>
-
-#ifdef _WIN32
-	#include "../bzip2/bzlib.h"
-#else
-	#include <bzlib.h>
-#endif
+#include <bzlib.h>
 
 namespace dcpp {
-
-
 
 CryptoManager::CryptoManager()
 :
@@ -130,12 +121,11 @@ CryptoManager::CryptoManager()
 CryptoManager::~CryptoManager() {
 }
 
-bool CryptoManager::TLSOk() const throw() {
-	//return BOOLSETTING(USE_TLS) && certsLoaded;
-	 return BOOLSETTING(USE_TLS) && certsLoaded && !keyprint.empty();
+bool CryptoManager::TLSOk() const noexcept {
+	return BOOLSETTING(USE_TLS) && certsLoaded && !keyprint.empty();
 }
 
-void CryptoManager::generateCertificate() throw(CryptoException) {
+void CryptoManager::generateCertificate() {
 	// Generate certificate using OpenSSL
 	if(SETTING(TLS_PRIVATE_KEY_FILE).empty()) {
 		throw CryptoException(_("No private key file chosen"));
@@ -162,8 +152,6 @@ void CryptoManager::generateCertificate() throw(CryptoException) {
 #define CHECK(n) if(!(n)) { throw CryptoException(#n); }
 
 	// Generate key pair
-	ASN1_INTEGER_set(serial, (long)Util::rand());
-	CHECK((X509_set_serialNumber(x509ss, serial)))
 	CHECK((BN_set_word(bn, RSA_F4)))
 	CHECK((RSA_generate_key_ex(rsa, keylength, bn, NULL)))
 	CHECK((EVP_PKEY_set1_RSA(pkey, rsa)))
@@ -172,7 +160,10 @@ void CryptoManager::generateCertificate() throw(CryptoException) {
 	CHECK((X509_NAME_add_entry_by_txt(nm, "CN", MBSTRING_ASC,
 		(const unsigned char*)ClientManager::getInstance()->getMyCID().toBase32().c_str(), -1, -1, 0)))
 
+
 	// Prepare self-signed cert
+	ASN1_INTEGER_set(serial, (long)Util::rand());
+	CHECK((X509_set_serialNumber(x509ss, serial)))
 	CHECK((X509_set_issuer_name(x509ss, nm)))
 	CHECK((X509_set_subject_name(x509ss, nm)))
 	CHECK((X509_gmtime_adj(X509_get_notBefore(x509ss), 0)))
@@ -205,10 +196,10 @@ void CryptoManager::generateCertificate() throw(CryptoException) {
 	}
 }
 
-void CryptoManager::loadCertificates() throw() {
+void CryptoManager::loadCertificates() noexcept {
 	if(!BOOLSETTING(USE_TLS) || !clientContext || !clientVerContext || !serverContext || !serverVerContext)
 		return;
-	
+
 	keyprint.clear();
 	certsLoaded = false;
 
@@ -280,11 +271,13 @@ void CryptoManager::loadCertificates() throw() {
 			LogManager::getInstance()->message("Failed to load trusted certificate from " + *i);
 		}
 	}
+
 	loadKeyprint(cert.c_str());
+
 	certsLoaded = true;
 }
 
-bool CryptoManager::checkCertificate() throw() {
+bool CryptoManager::checkCertificate() noexcept {
 	FILE* f = fopen(SETTING(TLS_CERTIFICATE_FILE).c_str(), "r");
 	if(!f) {
 		return false;
@@ -299,12 +292,11 @@ bool CryptoManager::checkCertificate() throw() {
 	}
 	ssl::X509 x509(tmpx509);
 
-	// Check subject name
 	ASN1_INTEGER* sn = X509_get_serialNumber(x509);
 	if(!sn || !ASN1_INTEGER_get(sn)) {
 		return false;
-	}	
-	
+	}
+
 	X509_NAME* name = X509_get_subject_name(x509);
 	if(!name) {
 		return false;
@@ -340,38 +332,37 @@ bool CryptoManager::checkCertificate() throw() {
 	return true;
 }
 
-const vector<uint8_t>& CryptoManager::getKeyprint() const throw() {
-		return keyprint;
+const vector<uint8_t>& CryptoManager::getKeyprint() const noexcept {
+	return keyprint;
 }
 
-void CryptoManager::loadKeyprint(const string& file) throw() {
-        FILE* f = fopen(SETTING(TLS_CERTIFICATE_FILE).c_str(), "r");
-        if(!f) {
-                return;
-        }
+void CryptoManager::loadKeyprint(const string& file) noexcept {
+	FILE* f = fopen(SETTING(TLS_CERTIFICATE_FILE).c_str(), "r");
+	if(!f) {
+		return;
+	}
 
-        X509* tmpx509 = NULL;
-        PEM_read_X509(f, &tmpx509, NULL, NULL);
-        fclose(f);
+	X509* tmpx509 = NULL;
+	PEM_read_X509(f, &tmpx509, NULL, NULL);
+	fclose(f);
 
-        if(!tmpx509) {
-                return;
-        }
+	if(!tmpx509) {
+		return;
+	}
 
-        ssl::X509 x509(tmpx509);
+	ssl::X509 x509(tmpx509);
+	
+	keyprint = ssl::X509_digest(x509, EVP_sha256());
+}
 
-        keyprint = ssl::X509_digest(x509, EVP_sha256());
-}	
-
-SSLSocket* CryptoManager::getClientSocket(bool allowUntrusted) throw(SocketException) {
+SSLSocket* CryptoManager::getClientSocket(bool allowUntrusted) {
 	return new SSLSocket(allowUntrusted ? clientContext : clientVerContext);
 }
-SSLSocket* CryptoManager::getServerSocket(bool allowUntrusted) throw(SocketException) {
+SSLSocket* CryptoManager::getServerSocket(bool allowUntrusted) {
 	return new SSLSocket(allowUntrusted ? serverContext : serverVerContext);
 }
 
-
-void CryptoManager::decodeBZ2(const uint8_t* is, size_t sz, string& os) throw (CryptoException) {
+void CryptoManager::decodeBZ2(const uint8_t* is, size_t sz, string& os) {
 	bz_stream bs = { 0 };
 
 	if(BZ2_bzDecompressInit(&bs, 0, 0) != BZ_OK)

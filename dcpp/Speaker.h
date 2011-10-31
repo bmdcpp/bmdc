@@ -19,99 +19,110 @@
 #ifndef DCPLUSPLUS_DCPP_SPEAKER_H
 #define DCPLUSPLUS_DCPP_SPEAKER_H
 
+#include <boost/config.hpp>
+#include <boost/range.hpp>
+#include <boost/range/functions.hpp>
+#include <boost/range/iterator.hpp>
+#include <boost/range/difference_type.hpp>
+#include <boost/utility/enable_if.hpp>
+#include <boost/fusion/algorithm/query/find.hpp>
+#include <utility>
+#include <vector>
+
 #include "CriticalSection.h"
 
+#include "noexcept.h"
+
 namespace dcpp {
+
+using std::forward;
+using std::vector;
+using std::find;
+
 
 template<typename Listener>
 class Speaker {
 	typedef vector<Listener*> ListenerList;
-	typedef typename ListenerList::iterator ListenerIter;
 
 public:
-	Speaker() throw() { }
-	virtual ~Speaker() throw() { }
+	Speaker() noexcept { }
+	virtual ~Speaker() { }
+
+	/// @todo simplify when we have variadic templates
 
 	template<typename T0>
-	void fire(T0 type) throw() {
+	void fire(T0&& type) noexcept {
 		Lock l(listenerCS);
 		tmp = listeners;
-		for(ListenerIter i=tmp.begin(); i != tmp.end(); ++i ) {
-			(*i)->on(type);
+		for(auto i = tmp.begin(); i != tmp.end(); ++i) {
+			(*i)->on(forward<T0>(type));
 		}
 	}
 
-	template<typename T0, class T1>
-	void fire(T0 type, const T1& p1) throw() {
+	template<typename T0, typename T1>
+	void fire(T0&& type, T1&& p1) noexcept {
 		Lock l(listenerCS);
 		tmp = listeners;
-		for(ListenerIter i=tmp.begin(); i != tmp.end(); ++i ) {
-			(*i)->on(type, p1);
-		}
-	}
-	template<typename T0, class T1>
-	void fire(T0 type, T1& p1) throw() {
-		Lock l(listenerCS);
-		tmp = listeners;
-		for(ListenerIter i=tmp.begin(); i != tmp.end(); ++i ) {
-			(*i)->on(type, p1);
+		for(auto i = tmp.begin(); i != tmp.end(); ++i) {
+			(*i)->on(forward<T0>(type), forward<T1>(p1));
 		}
 	}
 
-	template<typename T0, class T1, class T2>
-	void fire(T0 type, const T1& p1, const T2& p2) throw() {
+	template<typename T0, typename T1, typename T2>
+	void fire(T0&& type, T1&& p1, T2&& p2) noexcept {
 		Lock l(listenerCS);
 		tmp = listeners;
-		for(ListenerIter i=tmp.begin(); i != tmp.end(); ++i ) {
-			(*i)->on(type, p1, p2);
+		for(auto i = tmp.begin(); i != tmp.end(); ++i) {
+			(*i)->on(forward<T0>(type), forward<T1>(p1), forward<T2>(p2));
 		}
 	}
 
-	template<typename T0, class T1, class T2, class T3>
-	void fire(T0 type, const T1& p1, const T2& p2, const T3& p3) throw() {
+	template<typename T0, typename T1, typename T2, typename T3>
+	void fire(T0&& type, T1&& p1, T2&& p2, T3&& p3) noexcept {
 		Lock l(listenerCS);
 		tmp = listeners;
-		for(ListenerIter i=tmp.begin(); i != tmp.end(); ++i ) {
-			(*i)->on(type, p1, p2, p3);
+		for(auto i = tmp.begin(); i != tmp.end(); ++i) {
+			(*i)->on(forward<T0>(type), forward<T1>(p1), forward<T2>(p2), forward<T3>(p3));
 		}
 	}
 
-	template<typename T0, class T1, class T2, class T3, class T4>
-	void fire(T0 type, const T1& p1, const T2& p2, const T3& p3, const T4& p4) throw() {
+	template<typename T0, typename T1, typename T2, typename T3, typename T4>
+	void fire(T0&& type, T1&& p1, T2&& p2, T3&& p3, T4&& p4) noexcept {
 		Lock l(listenerCS);
 		tmp = listeners;
-		for(ListenerIter i=tmp.begin(); i != tmp.end(); ++i ) {
-			(*i)->on(type, p1, p2, p3, p4);
+		for(auto i = tmp.begin(); i != tmp.end(); ++i) {
+			(*i)->on(forward<T0>(type), forward<T1>(p1), forward<T2>(p2), forward<T3>(p3), forward<T4>(p4));
 		}
 	}
 
-	template<typename T0, class T1, class T2, class T3, class T4, class T5>
-	void fire(T0 type, const T1& p1, const T2& p2, const T3& p3, const T4& p4, const T5& p5) throw() {
+	template<typename T0, typename T1, typename T2, typename T3, typename T4, typename T5>
+	void fire(T0&& type, T1&& p1, T2&& p2, T3&& p3, T4&& p4, T5&& p5) noexcept {
 		Lock l(listenerCS);
 		tmp = listeners;
-		for(ListenerIter i=tmp.begin(); i != tmp.end(); ++i ) {
-			(*i)->on(type, p1, p2, p3, p4, p5);
+		for(auto i = tmp.begin(); i != tmp.end(); ++i) {
+			(*i)->on(forward<T0>(type), forward<T1>(p1), forward<T2>(p2), forward<T3>(p3), forward<T4>(p4), forward<T5>(p5));
 		}
 	}
 
-	template<typename T0, class T1, class T2, class T3, class T4, class T5, class T6>
-	void fire(T0 type, const T1& p1, const T2& p2, const T3& p3, const T4& p4, const T5& p5, const T6& p6) throw() {
+	template<typename T0, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
+	void fire(T0&& type, T1&& p1, T2&& p2, T3&& p3, T4&& p4, T5&& p5, T6&& p6) noexcept {
 		Lock l(listenerCS);
 		tmp = listeners;
-		for(ListenerIter i=tmp.begin(); i != tmp.end(); ++i ) {
-			(*i)->on(type, p1, p2, p3, p4, p5, p6);
+		for(auto i = tmp.begin(); i != tmp.end(); ++i) {
+			(*i)->on(forward<T0>(type), forward<T1>(p1), forward<T2>(p2), forward<T3>(p3), forward<T4>(p4), forward<T5>(p5), forward<T6>(p6));
 		}
 	}
 
 	void addListener(Listener* aListener) {
 		Lock l(listenerCS);
+		//if(find(listeners, aListener) == listeners.end())
 		if(find(listeners.begin(), listeners.end(), aListener) == listeners.end())
 			listeners.push_back(aListener);
 	}
 
 	void removeListener(Listener* aListener) {
 		Lock l(listenerCS);
-		ListenerIter it = find(listeners.begin(), listeners.end(), aListener);
+		auto it = find(listeners.begin(), listeners.end(), aListener);//find(listeners, aListener);
 		if(it != listeners.end())
 			listeners.erase(it);
 	}

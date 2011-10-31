@@ -7,7 +7,7 @@
  * b) The algorithm must correctly compute Tiger.
  * c) The algorithm's use must be legal.
  * d) The algorithm may not be exported to countries banned by law.
- * e) The authors of the C code are not responsible of this use of the code,
+ * e) The authors of the C code are not responsible of this use of the code, 
  *    the software or anything else.
  */
 
@@ -30,27 +30,25 @@
  */
 
 #include "stdinc.h"
+#include "TigerHash.h"
+
+#include <algorithm>
+#include <cstring>
+#include <boost/detail/endian.hpp>
+
 #include "debug.h"
 
-#include "TigerHash.h"
+#ifdef BOOST_BIG_ENDIAN
+#define TIGER_BIG_ENDIAN
+#endif
+
+#if defined(_M_X64) || defined(__amd64__) || defined(__x86_64__) || defined(__alpha)
+#define TIGER_ARCH64
+#endif
 
 namespace dcpp {
 
-#ifdef _WIN32
-#if defined(_M_X64)
-#define TIGER_ARCH64
-#endif
-#if !(defined(_M_IX86) || defined(_M_X64))
-#define TIGER_BIG_ENDIAN
-#endif
-#else // _WIN32
-#if defined(__x86_64__) || defined(__alpha)
-#define TIGER_ARCH64
-#endif
-#if !(defined(__i386__) || defined(__x86_64__) || defined(__alpha))
-#define TIGER_BIG_ENDIAN
-#endif
-#endif // _WIN32
+using std::min;
 
 #define PASSES 3
 

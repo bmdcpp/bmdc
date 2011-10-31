@@ -18,12 +18,12 @@
 
 #ifndef DETECTION_ENTRY_H
 #define DETECTION_ENTRY_H
-
+#include <deque>
 namespace dcpp {
 
 class DetectionEntry {
 public:
-	typedef deque<pair<string, string> > INFMap;
+	typedef std::deque<pair<std::string, std::string> > INFMap;
 
 	enum {
 		GREEN = 1,

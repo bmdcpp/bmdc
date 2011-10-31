@@ -19,29 +19,27 @@
 #ifndef DCPLUSPLUS_DCPP_QUEUE_ITEM_H
 #define DCPLUSPLUS_DCPP_QUEUE_ITEM_H
 
+#include <list>
+#include <set>
+
 #include "User.h"
 #include "FastAlloc.h"
 #include "MerkleTree.h"
 #include "Flags.h"
 #include "forward.h"
 #include "Segment.h"
+#include "Util.h"
+#include "HintedUser.h"
 
 namespace dcpp {
 
+using std::set;
+
 class QueueManager;
 
-class QueueItem : public Flags, public FastAlloc<QueueItem> ,public intrusive_ptr_base<QueueItem> {
+class QueueItem : public Flags, public FastAlloc<QueueItem>, public intrusive_ptr_base<QueueItem> {
 public:
-	typedef QueueItem* Ptr;
-//	typedef std::list<Ptr> List;
-	typedef deque<Ptr> List;
-	typedef List::iterator Iter;
-	typedef unordered_map<string*, Ptr, noCaseStringHash, noCaseStringEq> StringMap;
-	typedef StringMap::iterator StringIter;
-	typedef unordered_map<UserPtr, Ptr, User::Hash> UserMap;
-	typedef UserMap::iterator UserIter;
-	typedef unordered_map<UserPtr, List, User::Hash> UserListMap;
-	typedef UserListMap::iterator UserListIter;
+	typedef unordered_map<string*, QueueItemPtr, noCaseStringHash, noCaseStringEq> StringMap;
 
 	enum Priority {
 		DEFAULT = -1,
@@ -69,36 +67,12 @@ public:
 		FLAG_MATCH_QUEUE = 0x80,
 		/** The file list downloaded was actually an .xml.bz2 list */
 		FLAG_XML_BZLIST = 0x100,
-		/** Only download a part of the filelist */
+		/** Only download a part of the file list */
 		FLAG_PARTIAL_LIST = 0x200,
-		/** Test user for slotlocker */
-		FLAG_TESTSUR = 0x300,
-		/** Test user's file list for fake share */
-		FLAG_CHECK_FILE_LIST = 0x400
+		//CMD
+		FLAG_TESTSUR = 0x800,
+		FLAG_CHECK_FILE_LIST = 0x900
 	};
-
-	/**
-	 * Source parts info
-	 * Meaningful only when Source::FLAG_PARTIAL is set
-	 */
-	class PartialSource : public FastAlloc<PartialSource>, public intrusive_ptr_base<PartialSource> {
-	public:
-		PartialSource(const string& aMyNick, const string& aHubIpPort, const string& aIp, uint16_t udp) :
-		  myNick(aMyNick), hubIpPort(aHubIpPort), ip(aIp), udpPort(udp), nextQueryTime(0), pendingQueryCount(0) { }
-
-		~PartialSource() { }
-
-		typedef boost::intrusive_ptr<PartialSource> Ptr;
-
-		GETSET(PartsInfo, partialInfo, PartialInfo);
-		GETSET(string, myNick, MyNick);			// for NMDC support only
-		GETSET(string, hubIpPort, HubIpPort);
-		GETSET(string, ip, Ip);
-		GETSET(uint64_t, nextQueryTime, NextQueryTime);
-		GETSET(uint16_t, udpPort, UdpPort);
-		GETSET(uint8_t, pendingQueryCount, PendingQueryCount);
-	};
-
 
 	class Source : public Flags {
 	public:
@@ -113,22 +87,18 @@ public:
 			FLAG_BAD_TREE = 0x40,
 			FLAG_NO_TREE = 0x80,
 			FLAG_SLOW_SOURCE = 0x100,
-			FLAG_NO_NEED_PARTS	= 0x250,
-			FLAG_PARTIAL	= 0x200,
-			FLAG_UNTRUSTED = 0x300,
+			FLAG_UNTRUSTED = 0x200,
 			FLAG_MASK = FLAG_FILE_NOT_AVAILABLE
 				| FLAG_PASSIVE | FLAG_REMOVED | FLAG_CRC_FAILED | FLAG_CRC_WARN
-				| FLAG_BAD_TREE | FLAG_NO_TREE | FLAG_SLOW_SOURCE |FLAG_UNTRUSTED  
+				| FLAG_BAD_TREE | FLAG_NO_TREE | FLAG_SLOW_SOURCE | FLAG_UNTRUSTED
 		};
 
 		Source(const HintedUser& aUser) : user(aUser) { }
-		Source(const Source& aSource) : Flags(aSource), user(aSource.user) { }
-
+		Source(const Source& aSource) : Flags(aSource), user(aSource.user) {  }
+		
 		bool operator==(const UserPtr& aUser) const { return user == aUser; }
-		PartialSource::Ptr& getPartialSource() { return partialSource; }
 
 		GETSET(HintedUser, user, User);
-		GETSET(PartialSource::Ptr, partialSource, PartialSource);
 	};
 
 	typedef std::vector<Source> SourceList;
@@ -139,23 +109,19 @@ public:
 	typedef SegmentSet::iterator SegmentIter;
 	typedef SegmentSet::const_iterator SegmentConstIter;
 
-	QueueItem(const string& aTarget, int64_t aSize, Priority aPriority, Flags::MaskType/*int*/ aFlag,
+	QueueItem(const string& aTarget, int64_t aSize, Priority aPriority, int aFlag,
 		time_t aAdded, const TTHValue& tth) :
 		Flags(aFlag), target(aTarget), size(aSize),
 		priority(aPriority), added(aAdded),	tthRoot(tth)
-	{ 
-		inc();
-	}
+	{ inc();}
 
 	QueueItem(const QueueItem& rhs) :
 		Flags(rhs), done(rhs.done), downloads(rhs.downloads), target(rhs.target),
 		size(rhs.size), priority(rhs.priority), added(rhs.added), tthRoot(rhs.tthRoot),
 		sources(rhs.sources), badSources(rhs.badSources), tempTarget(rhs.tempTarget)
-	{
-		inc();
-	}
+	{ inc();}
 
-	virtual ~QueueItem() {  }
+	virtual ~QueueItem() { }
 
 	int countOnlineUsers() const;
 	bool hasOnlineUsers() const { return countOnlineUsers() > 0; }
@@ -188,18 +154,7 @@ public:
 	DownloadList& getDownloads() { return downloads; }
 
 	/** Next segment that is not done and not being downloaded, zero-sized segment returned if there is none is found */
-	Segment getNextSegment(int64_t blockSize, int64_t wantedSize, int64_t lastSpeed, const PartialSource::Ptr partialSource) const;
-
-
-	/**
-	 * Is specified parts needed by this download?
-	 */
-	bool isSource(const PartsInfo& partsInfo, int64_t blockSize);
-
-	/**
-	 * Get shared parts info, max 255 parts range pairs
-	 */
-	void getPartialInfo(PartsInfo& partialInfo, int64_t blockSize) const;
+	Segment getNextSegment(int64_t blockSize, int64_t wantedSize) const;
 
 	void addSegment(const Segment& segment);
 	void resetDownloaded() { done.clear(); }
@@ -234,10 +189,9 @@ public:
 	GETSET(Priority, priority, Priority);
 	GETSET(time_t, added, Added);
 	GETSET(TTHValue, tthRoot, TTH);
-
 private:
 	QueueItem& operator=(const QueueItem&);
-	
+
 	friend class QueueManager;
 	SourceList sources;
 	SourceList badSources;

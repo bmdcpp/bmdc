@@ -17,32 +17,34 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
-#include <boost/regex.hpp>
-#include "RegEx.h"
 #include "User.h"
 
 #include "AdcHub.h"
 #include "FavoriteUser.h"
+#include "format.h"
+#include "GeoManager.h"
 #include "StringTokenizer.h"
+#include "RegEx.h"
 #include "ClientManager.h"
+//[BMDC++
+#include "SettingsManager.h"
 #include "FavoriteManager.h"
-#include "DetectionManager.h" //RSX++
 #include "DebugManager.h"
+#include "DetectionManager.h"
 
 namespace dcpp {
 
 FastCriticalSection Identity::cs;
 
 OnlineUser::OnlineUser(const UserPtr& ptr, Client& client_, uint32_t sid_) : identity(ptr, sid_), client(client_) {
-		identity.isProtectedUser(getClient(), true); // run init check
+    identity.isProtectedUser(getClient(), true); // run init check
 }
 
-bool Identity::isTcpActive(const Client* c) const {
+bool Identity::isTcpActive(const Client *c) const {
     if(c != NULL && user == ClientManager::getInstance()->getMe()) {
 		return c->isActive(); // userlist should display our real mode
 	} else {
-		return isTcp4Active() || isTcp6Active();
+        return isTcp4Active() || isTcp6Active();
 	}
 }
 
@@ -76,6 +78,7 @@ string Identity::getUdpPort() const {
 	if(getIp6().empty() || getUdp6Port().empty()) {
 		return getUdp4Port();
 	}
+
 	return getUdp6Port();
 }
 
@@ -83,61 +86,50 @@ string Identity::getIp() const {
 	return getIp6().empty() ? getIp4() : getIp6();
 }
 
-void Identity::getParams(StringMap& sm, const string& prefix, bool compatibility) const {
+void Identity::getParams(ParamMap& params, const string& prefix, bool compatibility) const {
 	{
 		FastLock l(cs);
 		for(InfMap::const_iterator i = info.begin(); i != info.end(); ++i) {
-			sm[prefix + string((char*)(&i->first), 2)] = i->second;
+			params[prefix + string((char*)(&i->first), 2)] = i->second;
 		}
 	}
 	if(user) {
-		sm[prefix + "SID"] = getSIDString();
-		sm[prefix + "CID"] = user->getCID().toBase32();
-		sm[prefix + "TAG"] = getTag();
-		sm[prefix + "SSshort"] = Util::formatBytes(get("SS"));
-
-		sm[prefix + "Cheat"] = get("CS");
-		sm[prefix + "RSshort"] = Util::formatBytes(get("RS"));
-		sm[prefix + "LSshort"] = Util::formatBytes(get("LS"));
+		params[prefix + "SID"] = [this] { return getSIDString(); };
+		params[prefix + "CID"] = [this] { return user->getCID().toBase32(); };
+		params[prefix + "TAG"] = [this] { return getTag(); };
+		params[prefix + "SSshort"] = [this] { return Util::formatBytes(get("SS")); };
 
 		if(compatibility) {
 			if(prefix == "my") {
-				sm["mynick"] = getNick();
-				sm["mycid"] = user->getCID().toBase32();
+				params["mynick"] = [this] { return getNick(); };
+				params["mycid"] = [this] { return user->getCID().toBase32(); };
 			} else {
-				sm["nick"] = getNick();
-				sm["cid"] = user->getCID().toBase32();
-				sm["ip"] = get("I4");
-				sm["tag"] = getTag();
-				sm["description"] = get("DE");
-				sm["email"] = get("EM");
-				sm["share"] = get("SS");
-				sm["shareshort"] = Util::formatBytes(get("SS"));
-
-				sm["ClientType"] = get("CL");
-				sm["Cheat"] = get("CS");
-				sm["listsize"] = Util::formatBytes(get("LS"));
-				sm["host"] =	get("HT");
-				//some simple names instead of Ax ;)
-				sm["adlFile"] =					get("A1");
-				sm["adlComment"] =				get("A2");
-				sm["adlFileSize"] =				get("A3");
-				sm["adlTTH"] =					get("A4");
-				sm["adlForbiddenSize"] =		get("A5");
-				sm["adlTotalPoints"] =			get("A6");
-				sm["adlFilesCount"] =			get("A7");
-				sm["adlFileSizeShort"] =		Util::formatBytes(get("A3"));
-				sm["adlForbiddenSizeShort"] =	Util::formatBytes(get("A5"));
-				//END
+				params["nick"] = [this] { return getNick(); };
+				params["cid"] = [this] { return user->getCID().toBase32(); };
+				params["ip"] = [this] { return get("I4"); };
+				params["tag"] = [this] { return getTag(); };
+				params["description"] = [this] { return get("DE"); };
+				params["email"] = [this] { return get("EM"); };
+				params["share"] = [this] { return get("SS"); };
+				params["shareshort"] = [this] { return Util::formatBytes(get("SS")); };
+                params["slots"] = [this] { return get("SL");};
+                /**/
+                params["mode"] = [this] { return string(isTcpActive() ? "A" : "P");  };
+                params["newhubs"] = [this] { return "H:" + get("HN") + "/" + get("HR") + "/" + get("HO");  };
+                //some simple names instead of Ax ;)
+				params["adlFile"] =	[this] { return get("A1"); };
+				params["adlComment"] = [this] { return get("A2");};
+				params["adlFileSize"] = [this] { return get("A3");};
+				params["adlTTH"] = [this] { return 	get("A4");};
+				params["adlForbiddenSize"] = [this] { return get("A5");};
+				params["adlTotalPoints"] = [this] { return get("A6");};
+				params["adlFilesCount"] = [this] { return get("A7");};
+				params["adlFileSizeShort"] = [this] { return Util::formatBytes(get("A3"));};
+				params["adlForbiddenSizeShort"] = [this] { return Util::formatBytes(get("A5"));};
 			}
 		}
 	}
 }
-
-string Identity::getCountry() const {
-        bool v6 = !getIp6().empty();
-        return Util::getCountry(v6 ? getIp6() : getIp4(), v6 ? Util::V6 : Util::V4);
-}        
 
 bool Identity::isClientType(ClientType ct) const {
 	int type = Util::toInt(get("CT"));
@@ -149,8 +141,36 @@ string Identity::getTag() const {
 		return get("TA");
 	if(get("VE").empty() || get("HN").empty() || get("HR").empty() ||get("HO").empty() || get("SL").empty())
 		return Util::emptyString;
-	return "<" + getApplication() + ",M:" + string(isTcpActive() ? "A" : "P") + ",H:" + get("HN") + "/" +
-		get("HR") + "/" + get("HO") + ",S:" + get("SL") + ">";
+	return "<" + getApplication() + ",M:" + string(isTcpActive() ? "A" : "P") +
+		",H:" + get("HN") + "/" + get("HR") + "/" + get("HO") + ",S:" + get("SL") + ">";
+}
+
+string Identity::getApplication() const {
+	auto application = get("AP");
+	auto version = get("VE");
+
+	if(version.empty()) {
+		return application;
+	}
+
+	if(application.empty()) {
+		// AP is an extension, so we can't guarantee that the other party supports it, so default to VE.
+		return version;
+	}
+
+	return application + ' ' + version;
+}
+
+string Identity::getConnection() const {
+	if(!get("US").empty())
+		return str(F_("%1%/s") % Util::formatBytes(get("US")));
+
+	return get("CO");
+}
+
+const string& Identity::getCountry() const {
+	bool v6 = !getIp6().empty();
+	return GeoManager::getInstance()->getCountry(v6 ? getIp6() : getIp4(), v6 ? GeoManager::V6 : GeoManager::V4);
 }
 
 string Identity::get(const char* name) const {
@@ -183,20 +203,32 @@ bool Identity::supports(const string& name) const {
 	return false;
 }
 
-void FavoriteUser::update(const OnlineUser& info) {
-	setNick(info.getIdentity().getNick());
-	setUrl(info.getClient().getHubUrl());
+std::map<string, string> Identity::getInfo() const {
+	std::map<string, string> ret;
+
+	FastLock l(cs);
+	for(auto i = info.begin(); i != info.end(); ++i) {
+		ret[string((char*)(&i->first), 2)] = i->second;
+	}
+
+	return ret;
 }
-//RSX
-string Identity::setCheat(const Client& c, string aCheatDescription, bool aBadClient, bool aBadFilelist /*=false*/, bool aDisplayCheat /*=true*/) {
-	//if(!c.isOp() || isOp()) {
-	//	return Util::emptyString;
-	//}
+//[BMDC++
+void Identity::checkTagState(OnlineUser& ou) {
+	string usrTag = getTag();
+	if(usrTag.empty()) return;
+	bool isActive = ou.getIdentity().isTcpActive();
 
-	StringMap ucParams;
-	getParams(ucParams, "user", true);
-	string cheat = Util::formatParams(aCheatDescription, ucParams, false);
-
+	if(isActive && (usrTag.find(",M:P,") != string::npos)) {
+		ou.getClient().cheatMessage("*** " + getNick() + " - Tag states passive mode, but user is using active mode");
+	} else if(!isActive && (usrTag.find(",M:A,") != string::npos)) {
+		ou.getClient().cheatMessage("*** " + getNick() + " - Tag states active mode, but user is using passive mode");
+	}
+}
+string Identity::setCheat(const Client& c, const string& aCheatDescription, bool aBadClient, bool aBadFilelist /*=false*/, bool aDisplayCheat /*=true*/) {
+	ParamMap ucParams;
+	getParams(ucParams, "user",true);
+	string cheat = Util::formatParams(aCheatDescription, ucParams);
 	string newCheat = Util::emptyString;
 
 	string currentCS = get("CS");
@@ -223,14 +255,12 @@ string Identity::setCheat(const Client& c, string aCheatDescription, bool aBadCl
 	return Util::emptyString;
 }
 
-string Identity::getVersion() const {
-	if(user->isSet(User::NMDC))
-		return get("VE");
-	string version = get("VE");
-	string::size_type i = version.find(' ');
-	if(i != string::npos)
-		return version.substr(i+1);
-	return version;
+string Identity::getPkVersion() const {
+	string pk = get("PK");
+	if(pk.find("DCPLUSPLUS") != string::npos && pk.find("ABCABC") != string::npos) {
+		return pk.substr(10, pk.length() - 16);
+	}
+	return Util::emptyString;
 }
 
 string Identity::getFilelistGeneratorVer() const {
@@ -246,23 +276,15 @@ string Identity::getFilelistGeneratorVer() const {
 	}
 }
 
-string Identity::getPkVersion() const {
-	string pk = get("PK");
-	if(pk.find("DCPLUSPLUS") != string::npos && pk.find("ABCABC") != string::npos) {
-		return pk.substr(10, pk.length() - 16);
-	}
-	return Util::emptyString;
-}
-
-//RSX++ //Filelist Detector
-string Identity::checkFilelistGenerator(OnlineUser& ou) {
-	if((get("FG") == "DC++ 0.403")) {
+string Identity::checkFilelistGenerator(OnlineUser& ou)
+{
+    if((get("FG") == "DC++ 0.403")) {
 		if((RegEx::match<string>(getTag(), "^<StrgDC\\+\\+ V:1.00 RC([89]){1}")))  {
 			string report = ou.setCheat("rmDC++ in StrongDC++ %[userVE] emulation mode" , true, false, true);
 			setClientType("rmDC++");
-			logDetect(true);
+			logDetection(true);
 			ou.getClient().updated(&ou);
-			ClientManager::getInstance()->sendAction(ou,SETTING(RMDC_RAW));
+			ClientManager::getInstance()->sendAction(ou, SETTING(RMDC_RAW));
 			return report;
 		}
 	}
@@ -271,7 +293,7 @@ string Identity::checkFilelistGenerator(OnlineUser& ou) {
 		if((Util::toFloat(get("VE")) > 0.668)) {
 			if(get("FI").empty() || get("FB").empty()) {
 				string report = ou.setCheat("DC++ emulation", true, false, true);
-				logDetect(true);
+				logDetection(true);
 				ou.getClient().updated(&ou);
 				ClientManager::getInstance()->sendAction(ou,SETTING(DCPP_EMULATION_RAW));
 				return report;
@@ -279,7 +301,7 @@ string Identity::checkFilelistGenerator(OnlineUser& ou) {
 		} else {
 			if(!get("FI").empty() || !get("FB").empty()) {
 				string report = ou.setCheat("DC++ emulation", true, false, true);
-				logDetect(true);
+				logDetection(true);
 				ou.getClient().updated(&ou);
 				ClientManager::getInstance()->sendAction(ou,SETTING(DCPP_EMULATION_RAW));
 				return report;
@@ -291,7 +313,7 @@ string Identity::checkFilelistGenerator(OnlineUser& ou) {
 	if((RegEx::match<string>(get("FG"), "^DC\\+\\+.*"))) {
 		if(!get("VE").empty() && (get("VE") != getFilelistGeneratorVer())) {
 			string report = ou.setCheat("Filelist Version mis-match", false, true, BOOLSETTING(SHOW_FILELIST_VERSION_MISMATCH));
-			logDetect(true);
+			logDetection(true);
 			ou.getClient().updated(&ou);
 			ClientManager::getInstance()->sendAction(ou, SETTING(FILELIST_VERSION_MISMATCH));
 			return report;
@@ -300,91 +322,14 @@ string Identity::checkFilelistGenerator(OnlineUser& ou) {
 
 	return Util::emptyString;
 }
-//sumary detection
-void Identity::logDetect(bool successful) {
-	SettingsManager *sm=SettingsManager::getInstance();
-	if(sm != NULL)
-	{
-		if(successful) {
-			int a = SETTING(DETECTT);
-			sm->set(SettingsManager::DETECTT ,a + 1);
-		} else {
-			int b = SETTING(DETECTF);
-			sm->set(SettingsManager::DETECTF ,b + 1);
-		}
-	}
-}
 
-void Identity::checkTagState(OnlineUser& ou) {
-	string usrTag = getTag();
-	if(usrTag.empty()) return;
-	bool isActive = ou.getIdentity().isTcpActive();
-
-	if(isActive && (usrTag.find(",M:P,") != string::npos)) {
-		ou.getClient().cheatMessage("*** " + getNick() + " - Tag states passive mode, but user is using active mode");
-	} else if(!isActive && (usrTag.find(",M:A,") != string::npos)) {
-		ou.getClient().cheatMessage("*** " + getNick() + " - Tag states active mode, but user is using passive mode");
-	}
-}
-
-void Identity::getDetectionParams(StringMap& p) {
-	getParams(p, Util::emptyString, true/*false*/);
-	p["PKVE"] = getPkVersion();
-	//p["VEformat"] = getVersion();
-
-	if(!user->isSet(User::NMDC)) {
-		string version = get("VE");
-		string::size_type i = version.find(" ");
-		if(i != string::npos)
-			p["VEformat"] = version.substr(i+1);
-		else
-			p["VEformat"] = version;
-	} else {
-		p["VEformat"] = get("VE");
-	}
-
-	// convert all special chars to make regex happy
-	for(StringMap::iterator i = p.begin(); i != p.end(); ++i) {
-		// looks really bad... but do the job
-		Util::replace( "\\", "\\\\", i->second); // this one must be first
-		Util::replace( "[", "\\[", i->second); //little edit
-		Util::replace( "]", "\\]", i->second);
-		Util::replace( "^", "\\^", i->second);
-		Util::replace( "$", "\\$", i->second);
-		Util::replace( ".", "\\.", i->second);
-		Util::replace( "|", "\\|", i->second);
-		Util::replace( "?", "\\?", i->second);
-		Util::replace( "*", "\\*", i->second);
-		Util::replace( "+", "\\+", i->second);
-		Util::replace( "(", "\\(", i->second);
-		Util::replace( ")", "\\)", i->second);
-		Util::replace( "{", "\\{", i->second);
-		Util::replace( "}", "\\}", i->second);
-	}
-}
-
-string Identity::getDetectionField(const string& aName) const {
-	if(aName.length() == 2) {
-		if(aName == "TA")
-			return getTag();
-		else if(aName == "CO")
-			return getConnection();
-		else
-			return get(aName.c_str());
-	} else {
-		if(aName == "PKVE") {
-			return getPkVersion();
-		}
-		return Util::emptyString;
-	}
-}
 
 string Identity::myInfoDetect(OnlineUser& ou) {
 	checkTagState(ou);
 
-	StringMap params;
+	ParamMap params;
 	getDetectionParams(params); // get identity fields and escape them, then get the rest and leave as-is
-	const DetectionManager::DetectionItems& profiles = DetectionManager::getInstance()->getProfiles(params, /*false*/true);
+	const DetectionManager::DetectionItems& profiles = DetectionManager::getInstance()->getProfiles(params);
 
 	for(DetectionManager::DetectionItems::const_iterator i = profiles.begin(); i != profiles.end(); ++i) {
 		const DetectionEntry& entry = *i;
@@ -410,13 +355,15 @@ string Identity::myInfoDetect(OnlineUser& ou) {
 
 
 		for(DetectionEntry::INFMap::const_iterator j = INFList.begin(); j != INFList.end(); ++j) {
-			string aPattern = Util::formatRegExp(j->second,params);
-			string aField = getDetectionField(j->first);
-			DETECTION_DEBUG("\t\tPattern: " + aPattern + " Field: " + aField);
-			if(!RegEx::match<string>(aField, aPattern)) {
-				_continue = true;
-				break;
-			}
+			try {
+				string aPattern = Util::formatRegExp(boost::get<string>(j->second),params);
+				string aField = getDetectionField(j->first);
+				DETECTION_DEBUG("\t\tPattern: " + aPattern + " Field: " + aField);
+				if(!RegEx::match<string>(aField, aPattern)) {
+					_continue = true;
+					break;
+				}
+			}catch(const boost::bad_get& ) { }	
 		}
 		if(_continue)
 			continue;
@@ -438,37 +385,11 @@ string Identity::myInfoDetect(OnlineUser& ou) {
 }
 
 string Identity::updateClientType(OnlineUser& ou) {
-	if(getUser()->isSet(User::DCPLUSPLUS)) {
-		const float versionf = Util::toFloat(getVersion());
-		if((get("LL") == "11") && (getBytesShared() > 0)) {
-			setClientType("DC++ Stealth");
-			const string& report = ou.setCheat("Fake FileList - ListLen = 11B", true, true, BOOLSETTING(SHOW_LISTLEN_MISMATCH));
-			ClientManager::getInstance()->sendAction(ou, SETTING(LISTLEN_MISMATCH));
-			logDetect(true);
-			return report;
-		} else if(strncmp(getTag().c_str(), "<++ V:", 6) == 0 && versionf < 1.001f && versionf >= 0.69f) {
-			//suppose to be dc++  >= 0.69
-			if(get("LL") != "42" && !get("LL").empty()) {
-				setClientType("Faked DC++");
-				set("CM", "Supports corrupted files...");
-				const string& report = ou.setCheat("ListLen mis-match (V:0.69+)", true, false, BOOLSETTING(SHOW_LISTLEN_MISMATCH));
-				ClientManager::getInstance()->sendAction(ou, SETTING(LISTLEN_MISMATCH));
-				logDetect(true);
-				return report;
-			} else if(versionf > (float)0.699 && !get("TS").empty() && get("TS") != "GetListLength not supported") {
-				const string& report = ou.setCheat("DC++ emulation", true, false, BOOLSETTING(SHOW_DCPP_EMULATION_RAW));
-				ClientManager::getInstance()->sendAction(ou, SETTING(DCPP_EMULATION_RAW));
-				logDetect(true);
-				return report;
-			}
-		}
-	}
-
 	uint64_t tick = GET_TICK();
 
-	StringMap params;
+	ParamMap params;
 	getDetectionParams(params); // get identity fields and escape them, then get the rest and leave as-is
-	const DetectionManager::DetectionItems& profiles = DetectionManager::getInstance()->getProfiles(params);//thinking//true
+	const DetectionManager::DetectionItems& profiles = DetectionManager::getInstance()->getProfiles(params, true);//thinking//true
 
 	for(DetectionManager::DetectionItems::const_iterator i = profiles.begin(); i != profiles.end(); ++i) {
 		const DetectionEntry& entry = *i;
@@ -494,13 +415,16 @@ string Identity::updateClientType(OnlineUser& ou) {
 		DETECTION_DEBUG("\tChecking profile: " + entry.name);
 
 		for(DetectionEntry::INFMap::const_iterator j = INFList.begin(); j != INFList.end(); ++j) {
-			string aPattern = Util::formatRegExp(j->second, params);
+			try {
+			
+			string aPattern = Util::formatRegExp(boost::get<string>(j->second), params);
 			string aField = getDetectionField(j->first);
 			DETECTION_DEBUG("\t\tPattern: " + aPattern + " Field: " + aField);
 			if(!RegEx::match<string>(aField, aPattern)) {
 				_continue = true;
 				break;
 			}
+			}catch(const boost::bad_get&) { }	
 		}
 		if(_continue)
 			continue;
@@ -509,13 +433,13 @@ string Identity::updateClientType(OnlineUser& ou) {
 
 		setClientType(entry.name);
 		set("CM", entry.comment);
-		set("CS", entry.cheat); 
+		set("CS", entry.cheat);
 		set("BC", entry.cheat.empty() ? Util::emptyString : "1");
-		logDetect(true);
+		logDetection(true);
 
-		if(entry.checkMismatch && getUser()->isSet(User::NMDC) &&  (params["VE"] != params["PKVE"])) {
+		if(entry.checkMismatch && getUser()->isSet(User::NMDC) &&  (boost::get<string>(params["VE"]) != boost::get<string>(params["PKVE"]))) {
 			setClientType(entry.name + " Version mis-match");
-			return ou.setCheat(entry.cheat + " Version mis-match", true, false, ou.getClient().isActionActive(SETTING(VERSION_MISMATCH)));
+			return ou.setCheat(entry.cheat + " Version mis-match", true, false, ou.getClient().isActionActive(SETTING(VERSION_MISMATCH_RAW)));
 		}
 
 		string report = Util::emptyString;
@@ -527,62 +451,81 @@ string Identity::updateClientType(OnlineUser& ou) {
 		return report;
 	}
 
-	logDetect(false);
+	logDetection(false);
 	setClientType("Unknown");
 	return Util::emptyString;
 }
 
-//RSX++ //checking stuff
-bool OnlineUser::getChecked(bool filelist/* = false*/, bool checkComplete/* = true*/) {
-	if(!identity.isTcpActive() && !getClient().isActive()) {
-		identity.setClientType("[Passive]");
-		setTestSURComplete();
-		setFileListComplete();
-		return true;
-	} else if(getUser()->isSet(User::OLD_CLIENT)) {
-		setTestSURComplete();
-		setFileListComplete();
-		return true;
-	} else if(isProtectedUser()) {
-		if((BOOLSETTING(UNCHECK_CLIENT_PROTECTED_USER) && !filelist) || (BOOLSETTING(UNCHECK_LIST_PROTECTED_USER) && filelist)) {
-			identity.setClientType("[Protected]");
-			setTestSURComplete();
-			setFileListComplete();
-			return true;
-		}
+void Identity::getDetectionParams(ParamMap& p) {
+	getParams(p, Util::emptyString, true);
+	p["PKVE"] = getPkVersion();
+
+	if(!user->isSet(User::NMDC)) {
+		string version = get("VE");
+		string::size_type i = version.find(" ");
+		if(i != string::npos)
+			p["VEformat"] = version.substr(i+1);
+		else
+			p["VEformat"] = version;
+	} else {
+		p["VEformat"] = get("VE");
 	}
-	if(checkComplete) //prevent double checking (shouldCheckClient/Filelist)
-		return filelist ? identity.isFileListChecked() : identity.isClientChecked();
-	return false;
-}
-//END
-string Identity::checkrmDC(OnlineUser& ou) {
-	string report = Util::emptyString;
-	if((RegEx::match<string>(getVersion(), "^0.40([0123]){1}$"))) {
-		report = ou.setCheat("rmDC++ in DC++ %[userVE] emulation mode" , true, false, BOOLSETTING(SHOW_RMDC_RAW));
-		setClientType("rmDC++");
-		ClientManager::getInstance()->sendAction(ou, SETTING(RMDC_RAW));
+   // convert all special chars to make regex happy
+	for(ParamMap::iterator i = p.begin(); i != p.end(); ++i) {
+		// looks really bad... but do the job
+		try {
+			Util::replace( "\\", "\\\\", boost::get<string>(i->second)); // this one must be first
+			Util::replace( "[", "\\[", boost::get<string>(i->second));
+			Util::replace( "]", "\\]", boost::get<string>(i->second));
+			Util::replace( "^", "\\^", boost::get<string>(i->second));
+			Util::replace( "$", "\\$", boost::get<string>(i->second));
+			Util::replace( ".", "\\.", boost::get<string>(i->second));
+			Util::replace( "|", "\\|", boost::get<string>(i->second));
+			Util::replace( "?", "\\?", boost::get<string>(i->second));
+			Util::replace( "*", "\\*", boost::get<string>(i->second));
+			Util::replace( "+", "\\+", boost::get<string>(i->second));
+			Util::replace( "(", "\\(", boost::get<string>(i->second));
+			Util::replace( ")", "\\)", boost::get<string>(i->second));
+			Util::replace( "{", "\\{", boost::get<string>(i->second));
+			Util::replace( "}", "\\}", boost::get<string>(i->second));
+			}catch(const boost::bad_get& ) { }
 	}
-	return report;
 }
 
-map<string, string> Identity::getReport() const {
-	map<string, string> reportSet;
+string Identity::getDetectionField(const string& aName) const {
+	if(aName.length() == 2) {
+		if(aName == "TA")
+			return getTag();
+		else if(aName == "CO")
+			return getConnection();
+		else
+			return get(aName.c_str());
+	} else {
+		if(aName == "PKVE") {
+			return getPkVersion();
+		}
+		return Util::emptyString;
+	}
+}
+
+map<string, string> Identity::getReport() const
+{
+    map<string, string> reportSet;
 	string sid = getSIDString();
 	{
 		FastLock l(cs);
-		for(InfIterC i = info.begin(); i != info.end(); ++i) {
+		for(auto i = info.begin(); i != info.end(); ++i) {
 			string name = string((char*)(&(i->first)), 2);
 			string value = i->second;
 
-    #define TAG(x,y) (x + (y << 8))
+            #define TAG(x,y) (x + (y << 8))
 
 			// TODO: translate known tags and format values to something more readable
 			switch(i->first) {
 				case TAG('A','W'): name = "Away mode"; break;
 				case TAG('A','P'): name = "Application"; break;
 				case TAG('B','O'): name = "Bot"; break;
-				case TAG('B','C'): name = "Bad Client";break;//
+				case TAG('B','C'): name = "Bad Client";break;
 				case TAG('B','F'): name = "Bad Filelist";break;
 				case TAG('C','L'): name = "Client name"; break;
 				case TAG('C','M'): name = "Comment"; break;
@@ -594,10 +537,10 @@ map<string, string> Identity::getReport() const {
 				case TAG('E','M'): name = "E-mail"; break;
 				case TAG('F','C'): name = "Fake Check status"; break;
 				case TAG('F','D'): name = "Filelist disconnects"; break;
-				case TAG('F','S'): name = "Free Slots"; break;//
+				case TAG('F','S'): name = "Free Slots"; break;
 				case TAG('G','E'): name = "Filelist generator"; break;
-				case TAG('F','B'): name = "Filelist Base";break;//
-				case TAG('F','I'): name = "Filelist CID";break;//
+				case TAG('F','B'): name = "Filelist Base";break;
+				case TAG('F','I'): name = "Filelist CID";break;
 				case TAG('H','N'): name = "Hubs Normal"; break;
 				case TAG('H','O'): name = "Hubs OP"; break;
 				case TAG('H','R'): name = "Hubs Registered"; break;
@@ -614,7 +557,6 @@ map<string, string> Identity::getReport() const {
 				case TAG('S','I'): name = "Session ID"; value = sid; break;
 				case TAG('S','L'): name = "Slots"; break;
 				case TAG('S','S'): name = "Shared bytes - reported"; value = Text::fromT(Util::formatExactSize(Util::toInt64(value))); break;
-				//case TAG('S','T'): name = "NMDC Status"; value = Util::formatStatus(Util::toInt(value)); break;
 				case TAG('S','U'): name = "Supports"; break;
 				case TAG('T','A'): name = "Tag"; break;
 				case TAG('T','O'): name = "Timeouts"; break;
@@ -623,7 +565,7 @@ map<string, string> Identity::getReport() const {
 				case TAG('U','S'): name = "Upload speed"; value = Util::formatBytes(value) + "/s"; break;
 				case TAG('V','E'): name = "Client version"; break;
 				case TAG('L','T'): name = "Login time"; break;
-				case TAG('L','S'): name = "FileList size"; break; //
+				case TAG('L','S'): name = "FileList size"; break; 
 				case TAG('M','T'): name = "UserInfo"; break;
 				case TAG('M','C'): name = "UserInfo count"; break;
 				case TAG('T','S'): name = "TestSUR"; break;
@@ -631,11 +573,11 @@ map<string, string> Identity::getReport() const {
 				case TAG('A','1'): name = "ADL result File";break;
 				case TAG('A','2'): name = "ADL result comment";break;
 				case TAG('A','3'): name = "ADL result file size";break;
-				case TAG('A','4'): name = "ADL result TTH";break; 
+				case TAG('A','4'): name = "ADL result TTH";break;
 				case TAG('A','5'): name = "ADL result forbiden size";break;
-				case TAG('A','6'): name = "ADL result total points";break; 
-				case TAG('A','7'): name = "ADL result no. files";break; 
-				case TAG('U','C'): name = "Commands";break;//
+				case TAG('A','6'): name = "ADL result total points";break;
+				case TAG('A','7'): name = "ADL result no. files";break;
+				case TAG('U','C'): name = "Commands";break;
 				case TAG('I','C'): name = ""; break;
 				case TAG('W','O'): name = ""; break;	// for GUI purposes
 				default: name += " (unknown)";
@@ -649,15 +591,77 @@ map<string, string> Identity::getReport() const {
 	return reportSet;
 }
 
+//sumary detection
+void Identity::logDetection(bool successful) {
+	SettingsManager *sm = SettingsManager::getInstance();
+	if(sm != NULL)
+	{
+		if(successful) {
+			int a = SETTING(DETECTIONS);
+			sm->set(SettingsManager::DETECTIONS ,a + 1);
+		} else {
+			int b = SETTING(DETECTIONF);
+			sm->set(SettingsManager::DETECTIONF ,b + 1);
+		}
+	}
+}
+
+void FavoriteUser::update(const OnlineUser& info) {
+	setNick(info.getIdentity().getNick());
+	setUrl(info.getClient().getHubUrl());
+}
+
+bool OnlineUser::isCheckable(uint32_t delay /* = 0*/)
+{
+	if(identity.isBot() || getUser()->isSet(User::BOT))
+		return false;
+	if(identity.isHub())
+		return false;
+	if(identity.isHidden())
+		return false;
+	if(delay == 0)
+		return true;
+	return (GET_TICK() - identity.getLoggedIn()) > delay;
+}
+
+//RSX++ //checking stuff
+bool OnlineUser::getChecked(bool filelist/* = false*/, bool checkComplete/* = true*/) {
+	if(!identity.isTcpActive() && !getClient().isActive()) {
+		identity.setClientType("[Passive]");
+		//setTestSURComplete();
+		//setFileListComplete();
+		identity.setTestSURChecked("1");
+		identity.setFileListChecked("1");
+		return true;
+	} else if(getUser()->isSet(User::OLD_CLIENT)) {
+		/*setTestSURComplete();
+		setFileListComplete();*/
+		identity.setTestSURChecked("1");
+		identity.setFileListChecked("1");
+		return true;
+	} else if(isProtectedUser()) {
+		if((BOOLSETTING(UNCHECK_CLIENT_PROTECTED_USER) && !filelist) || (BOOLSETTING(UNCHECK_LIST_PROTECTED_USER) && filelist)) {
+			identity.setClientType("[Protected]");
+			/*setTestSURComplete();
+			setFileListComplete();*/
+			identity.setTestSURChecked("1");
+			identity.setFileListChecked("1");
+			return true;
+		}
+	}
+	if(checkComplete) //prevent double checking (shouldCheckClient/Filelist)
+		return filelist ? identity.isFileListChecked() : identity.isClientChecked();
+	return false;
+}
 ////Protected users
 bool Identity::isProtectedUser(const Client& c, bool OpBotHubCheck) const {
-	if(isSet("PR") || getUser()->isSet(User::PROTECTED))
+	if(isSet("PR") || getUser()->isSet(User::PROTECT))
 		return true;
 
 	string RegProtect = SETTING(PROTECTED_USERS);
-	/*if(!c.getUserProtected().empty()) {
-		RegProtect = c.getUserProtected();
-	}*/
+	if(!c.getProtectUser().empty()) {
+		RegProtect += c.getProtectUser();
+	}
 
 	bool ret = false;
 	if(OpBotHubCheck && (isOp() || isBot() || isHub())) {
@@ -682,26 +686,4 @@ bool Identity::isProtectedUser(const Client& c, bool OpBotHubCheck) const {
 	return ret;
 }
 
-std::map<string, string> Identity::getInfo() const {
-		std::map<string, string> ret;
-		FastLock l(cs);
-		for(InfIterC i = info.begin(); i != info.end(); ++i) {
-			ret[string((char*)(&i->first), 2)] = i->second;
-	}
-	return ret;
-}
-
-string Identity::getApplication() const {
-  auto application = get("AP");
-  auto version = get("VE");
-  if(version.empty()) {
-         return application;
-  }
-  if(application.empty()) {
-     // AP is an extension, so we can't guarantee that the other party supports it, so default to VE.
-       return version;
-  }
-  return application + ' ' + version; 
-}   
-  
 } // namespace dcpp

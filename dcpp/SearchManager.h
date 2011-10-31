@@ -22,16 +22,11 @@
 #include "SettingsManager.h"
 
 #include "Socket.h"
-#include "User.h"
 #include "Thread.h"
-#include "Client.h"
 #include "Singleton.h"
 
 #include "SearchManagerListener.h"
 #include "TimerManager.h"
-#include "AdcCommand.h"
-#include "ClientManager.h"
-#include "ResourceManager.h"
 
 namespace dcpp {
 
@@ -59,7 +54,9 @@ public:
 		TYPE_TTH,
 		TYPE_LAST
 	};
-
+private:
+	static const char* types[TYPE_LAST];
+public:
 	static const char* getTypeStr(int type);
 
 	void search(const string& aName, int64_t aSize, TypeModes aTypeMode, SizeModes aSizeMode, const string& aToken);
@@ -67,22 +64,20 @@ public:
 		search(aName, Util::toInt64(aSize), aTypeMode, aSizeMode, aToken);
 	}
 
-	void search(StringList& who, const string& aName, const string& aSize, TypeModes aTypeMode, SizeModes aSizeMode, const string& aToken) {
-		search(who, aName, Util::toInt64(aSize), aTypeMode, aSizeMode, aToken);
+	void search(StringList& who, const string& aName, int64_t aSize, TypeModes aTypeMode, SizeModes aSizeMode, const string& aToken, const StringList& aExtList);
+	void search(StringList& who, const string& aName, const string& aSize, TypeModes aTypeMode, SizeModes aSizeMode, const string& aToken, const StringList& aExtList) {
+		search(who, aName, Util::toInt64(aSize), aTypeMode, aSizeMode, aToken, aExtList);
 	}
 
-	void search(StringList& who, const string& aName, int64_t aSize  , TypeModes aTypeMode  , SizeModes aSizeMode  , const string& aToken , const StringList& aExtList); 
-
-
-	void respond(const AdcCommand& cmd, const CID& cid,  bool isUdpActive, const string& hubIpPort);
+	void respond(const AdcCommand& cmd, const CID& cid,  bool isUdpActive);
 
 	uint16_t getPort()
 	{
 		return port;
 	}
 
-	void listen() throw(SocketException);
-	void disconnect() throw();
+	void listen();
+	void disconnect() noexcept;
 	void onSearchResult(const string& aLine) {
 		onData((const uint8_t*)aLine.data(), aLine.length(), Util::emptyString);
 	}
@@ -90,45 +85,16 @@ public:
 	void onRES(const AdcCommand& cmd, const UserPtr& from, const string& removeIp = Util::emptyString);
 
 	int32_t timeToSearch() {
-		return 5 - (static_cast<int32_t>(GET_TICK() - lastSearch) / 1000);
+		return 5 - (static_cast<int64_t>(GET_TICK() - lastSearch) / 1000);
 	}
 
 	bool okToSearch() {
 		return timeToSearch() <= 0;
 	}
-	void onPSR(const AdcCommand& cmd, UserPtr from, const string& remoteIp = Util::emptyString);
-	AdcCommand toPSR(bool wantResponse, const string& myNick, const string& hubIpPort, const string& tth, const vector<uint16_t>& partialInfo) const;
+
 private:
-    static const char* types[TYPE_LAST];
-/*
-	class UdpQueue: public Thread {
-	public:
-		UdpQueue() : stop(false) {}
-		~UdpQueue() throw() { shutdown(); }
 
-		int run();
-		void shutdown() {
-			stop = true;
-			s.signal();
-		}
-		void addResult(const string& buf, const string& ip) {
-			{
-				Lock l(cs);
-				resultList.push_back(make_pair(buf, ip));
-			}
-			s.signal();
-		}
-
-	private:
-		CriticalSection cs;
-		Semaphore s;
-
-		deque<pair<string, string> > resultList;
-
-		bool stop;
-	} queue;*/
-
-	std::auto_ptr<Socket> socket;
+	std::unique_ptr<Socket> socket;
 	uint16_t port;
 	bool stop;
 	uint64_t lastSearch;
@@ -138,9 +104,8 @@ private:
 
 	static std::string normalizeWhitespace(const std::string& aString);
 	virtual int run();
-	string getPartsString(const PartsInfo& partsInfo) const;
 
-	virtual ~SearchManager() throw();
+	virtual ~SearchManager();
 	void onData(const uint8_t* buf, size_t aLen, const string& address);
 };
 

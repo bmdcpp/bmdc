@@ -18,39 +18,35 @@
 
 #include "stdinc.h"
 #include "DCPlusPlus.h"
-#include "compiler.h"
-#include "typedefs.h"
-#include "format.h"
-#include "ConnectionManager.h"
-#include "DownloadManager.h"
-#include "UploadManager.h"
-#include "CryptoManager.h"
-#include "ShareManager.h"
-#include "SearchManager.h"
-#include "QueueManager.h"
+
+#include "ADLSearch.h"
 #include "ClientManager.h"
+#include "ConnectionManager.h"
+#include "ConnectivityManager.h"
+#include "CryptoManager.h"
+#include "DownloadManager.h"
+#include "FavoriteManager.h"
+#include "FinishedManager.h"
+#include "GeoManager.h"
 #include "HashManager.h"
 #include "LogManager.h"
-#include "FavoriteManager.h"
-#include "SettingsManager.h"
-#include "FinishedManager.h"
+#include "MappingManager.h"
+#include "QueueManager.h"
 #include "ResourceManager.h"
-#include "ADLSearch.h"
+#include "SearchManager.h"
+#include "SettingsManager.h"
+#include "ShareManager.h"
+#include "ThrottleManager.h"
+#include "UploadManager.h"
 #include "WindowManager.h"
 #include "UPnPManager.h"
-#include "ThrottleManager.h"
-#ifdef _USELUA
-	#include "ScriptManager.h"
-#endif
-#include "HighlightManager.h"
-#include "DetectionManager.h"
 #include "DebugManager.h"
+#include "ScriptManager.h"
+#include "DetectionManager.h"
 #include "RawManager.h"
-#include "RsxUtil.h"
 #include "BackupManager.h"
-
-#include "StringTokenizer.h"
-
+#include "HighlightManager.h"
+#include "RsxUtil.h"
 #ifdef _STLP_DEBUG
 void __stl_debug_terminate() {
 	int* x = 0;
@@ -74,6 +70,7 @@ void startup(void (*f)(void*, const string&), void* p) {
 #endif
 
 	bindtextdomain(PACKAGE, LOCALEDIR);
+	bind_textdomain_codeset(PACKAGE, "UTF-8");
 
 	ResourceManager::newInstance();
 	SettingsManager::newInstance();
@@ -88,91 +85,78 @@ void startup(void (*f)(void*, const string&), void* p) {
 	DownloadManager::newInstance();
 	UploadManager::newInstance();
 	ThrottleManager::newInstance();
-	RawManager::newInstance();//RSX++
 	QueueManager::newInstance();
 	ShareManager::newInstance();
 	FavoriteManager::newInstance();
 	FinishedManager::newInstance();
+	RawManager::newInstance();//
 	ADLSearchManager::newInstance();
-	UPnPManager::newInstance();//...
+	ConnectivityManager::newInstance();
+	MappingManager::newInstance();
+	GeoManager::newInstance();
 	WindowManager::newInstance();
-
 	DebugManager::newInstance();
-	BackupManager::newInstance();//Dice!
-	RestoreManager::newInstance();//Dice!
-
-#ifdef _USELUA
-     ScriptManager::newInstance();
-#endif
-
-	HighlightManager::newInstance();
-
+	UPnPManager::newInstance();
+	ScriptManager::newInstance();
+	
 	DetectionManager::newInstance();
+	HighlightManager::newInstance();
+	BackupManager::newInstance();
+	RestoreManager::newInstance();
 
 	SettingsManager::getInstance()->load();
 
-	DetectionManager::getInstance()->load();
-
-	if(!SETTING(LANGUAGE).empty()) {
 #ifdef _WIN32
+	if(!SETTING(LANGUAGE).empty()) {
 		string language = "LANGUAGE=" + SETTING(LANGUAGE);
 		putenv(language.c_str());
-#else
-		setenv("LANGUAGE", SETTING(LANGUAGE).c_str(), true);
-#endif
+
 		// Apparently this is supposted to make gettext reload the message catalog...
 		_nl_msg_cat_cntr++;
 	}
-	
+#endif
+
 	auto announce = [&f, &p](const string& str) {
-			if(f)
-				(*f)(p, str);
-	};	
+		if(f)
+			(*f)(p, str);
+	};
+
 	announce(_("Users"));
-	FavoriteManager::getInstance()->load();
 	ClientManager::getInstance()->loadUsers();
-	
+	FavoriteManager::getInstance()->load();
+
 	announce(_("Security certificates"));
 	CryptoManager::getInstance()->loadCertificates();
 
-	announce(_("Hash database"));	
+	announce(_("Hash database"));
 	HashManager::getInstance()->startup();
 
-	announce(_("Shared Files"));	
+	announce(_("Shared Files"));
 	ShareManager::getInstance()->refresh(true, false, true);
 
-	announce(_("Download Queue"));	
+	announce(_("Download Queue"));
 	QueueManager::getInstance()->loadQueue();
 
-	//RSX++
+	if(BOOLSETTING(GET_USER_COUNTRY)) {
+		announce(_("Country information"));
+		GeoManager::getInstance()->init();
+	}
+	announce(_("Detections"));
+	DetectionManager::getInstance()->load();
+	
 	RsxUtil::init();
-	BackupManager::getInstance()->createBackup();//D
+	if(BOOLSETTING(ENABLE_AUTOBACKUP)) {
+		BackupManager::getInstance()->createBackup();
+	}	
 }
 
 void shutdown() {
-
-#ifndef _WIN32 //*unix
-    ThrottleManager::getInstance()->shutdown();
-#endif
-	BackupManager::deleteInstance();//Dice!
-	RestoreManager::deleteInstance();//Dice!
-	DebugManager::deleteInstance();
-
-#ifdef _USELUA
-    ScriptManager::deleteInstance();
-#endif
-
-	DetectionManager::deleteInstance();
-
 	TimerManager::getInstance()->shutdown();
 	HashManager::getInstance()->shutdown();
-
-#ifdef _WIN32
-    ThrottleManager::getInstance()->shutdown();
-#endif
-
+	ThrottleManager::getInstance()->shutdown();
 	ConnectionManager::getInstance()->shutdown();
-	UPnPManager::getInstance()->close();
+	MappingManager::getInstance()->close();
+	GeoManager::getInstance()->close();
 	BufferedSocket::waitShutdown();
 
 	WindowManager::getInstance()->prepareSave();
@@ -180,17 +164,27 @@ void shutdown() {
 	ClientManager::getInstance()->saveUsers();
 	SettingsManager::getInstance()->save();
 
-	HighlightManager::deleteInstance();
+    RestoreManager::deleteInstance();
+    BackupManager::deleteInstance();
+    HighlightManager::deleteInstance();
+    DetectionManager::deleteInstance();
+    ScriptManager::deleteInstance();
+    UPnPManager::deleteInstance();
+    DebugManager::deleteInstance();
+	
+
 	WindowManager::deleteInstance();
-	UPnPManager::deleteInstance();
+	GeoManager::deleteInstance();
+	MappingManager::deleteInstance();
+	ConnectivityManager::deleteInstance();
 	ADLSearchManager::deleteInstance();
+	RawManager::deleteInstance();//.
 	FinishedManager::deleteInstance();
 	ShareManager::deleteInstance();
 	CryptoManager::deleteInstance();
 	ThrottleManager::deleteInstance();
 	DownloadManager::deleteInstance();
 	UploadManager::deleteInstance();
-	RawManager::deleteInstance();//rsx++
 	QueueManager::deleteInstance();
 	ConnectionManager::deleteInstance();
 	SearchManager::deleteInstance();

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,12 +38,9 @@ class PublicHubs:
 		PublicHubs();
 		virtual ~PublicHubs();
 		virtual void show();
-		virtual void popmenu();
 
 	private:
 		// GUI functions
-		static void onCloseItem(gpointer data);
-
 		void buildHubList_gui();
 		void updateList_gui();
 		void setStatus_gui(std::string statusBar, std::string text);
@@ -72,8 +69,7 @@ class PublicHubs:
 		// Client callbacks
 		virtual void on(dcpp::FavoriteManagerListener::DownloadStarting, const std::string &file) throw();
 		virtual void on(dcpp::FavoriteManagerListener::DownloadFailed, const std::string &file) throw();
-		virtual void on(dcpp::FavoriteManagerListener::DownloadFinished, const std::string &file) throw();
-		virtual void on(dcpp::FavoriteManagerListener::LoadedFromCache, const std::string& l,const std::string& d) throw();
+		virtual void on(dcpp::FavoriteManagerListener::DownloadFinished, const std::string &file, bool fromCoral) throw();
 
 		dcpp::HubEntryList hubs;
 		dcpp::StringSearch filter;

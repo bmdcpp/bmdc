@@ -19,19 +19,26 @@
 #ifndef DCPLUSPLUS_DCPP_UPLOAD_MANAGER_H
 #define DCPLUSPLUS_DCPP_UPLOAD_MANAGER_H
 
+#include <algorithm>
+#include <list>
+#include <set>
+#include <unordered_map>
+
 #include "forward.h"
 #include "UserConnectionListener.h"
 #include "Singleton.h"
 #include "UploadManagerListener.h"
 #include "ClientManagerListener.h"
-#include "MerkleTree.h"
 #include "User.h"
-#include "Util.h"
 #include "TimerManager.h"
 #include "Speaker.h"
-#include "UserConnection.h"
+#include "SettingsManager.h"
+#include "HintedUser.h"
 
 namespace dcpp {
+
+using std::max;
+using std::list;
 using std::set;
 using std::unordered_map;
 
@@ -75,16 +82,15 @@ public:
 	HintedUserList getWaitingUsers() const;
 	bool isWaiting(const UserPtr &) const;
 	FileSet getWaitingUserFiles(const UserPtr&) const;
-	
+
 	/** @internal */
 	void addConnection(UserConnectionPtr conn);
 
 	GETSET(int, running, Running);
 	GETSET(int, extra, Extra);
 	GETSET(uint64_t, lastGrant, LastGrant);
-
+	
 private:
-
 	UploadList uploads;
 	mutable CriticalSection cs;
 
@@ -98,39 +104,44 @@ private:
 
 	int lastFreeSlots; /// amount of free slots at the previous minute
 
+	//typedef pair<HintedUser, uint64_t> WaitingUser;
 	typedef list<WaitingUser> WaitingUserList;
 
+	/*struct WaitingUserFresh {
+		bool operator()(const WaitingUser& wu) { return wu.second > GET_TICK() - 5*60*1000; }
+	};
+	*/
 	//functions for manipulating waitingFiles and waitingUsers
 	WaitingUserList waitingUsers;		//this one merely lists the users waiting for slots
 	FilesMap waitingFiles;		//set of files which this user has asked for
 	size_t addFailedUpload(const UserConnection& source, string filename);
-    void notifyQueuedUsers();
+	void notifyQueuedUsers();
 
 	friend class Singleton<UploadManager>;
-	UploadManager() throw();
-	virtual ~UploadManager() throw();
+	UploadManager() noexcept;
+	virtual ~UploadManager();
 
 	bool getAutoSlot();
 	void removeConnection(UserConnection* aConn);
 	void removeUpload(Upload* aUpload);
 
 	// ClientManagerListener
-	virtual void on(ClientManagerListener::UserDisconnected, const UserPtr& aUser) throw();
+	virtual void on(ClientManagerListener::UserDisconnected, const UserPtr& aUser) noexcept;
 
 	// TimerManagerListener
-	virtual void on(Second, uint64_t aTick) throw();
-	virtual void on(Minute, uint64_t aTick) throw();
+	virtual void on(Second, uint64_t aTick) noexcept;
+	virtual void on(Minute, uint64_t aTick) noexcept;
 
 	// UserConnectionListener
-	virtual void on(BytesSent, UserConnection*, size_t, size_t) throw();
-	virtual void on(Failed, UserConnection*, const string&) throw();
-	virtual void on(Get, UserConnection*, const string&, int64_t) throw();
-	virtual void on(Send, UserConnection*) throw();
-	virtual void on(GetListLength, UserConnection* conn) throw();
-	virtual void on(TransmitDone, UserConnection*) throw();
+	virtual void on(BytesSent, UserConnection*, size_t, size_t) noexcept;
+	virtual void on(Failed, UserConnection*, const string&) noexcept;
+	virtual void on(Get, UserConnection*, const string&, int64_t) noexcept;
+	virtual void on(Send, UserConnection*) noexcept;
+	virtual void on(GetListLength, UserConnection* conn) noexcept;
+	virtual void on(TransmitDone, UserConnection*) noexcept;
 
-	virtual void on(AdcCommand::GET, UserConnection*, const AdcCommand&) throw();
-	virtual void on(AdcCommand::GFI, UserConnection*, const AdcCommand&) throw();
+	virtual void on(AdcCommand::GET, UserConnection*, const AdcCommand&) noexcept;
+	virtual void on(AdcCommand::GFI, UserConnection*, const AdcCommand&) noexcept;
 
 	bool prepareFile(UserConnection& aSource, const string& aType, const string& aFile, int64_t aResume, int64_t aBytes, bool listRecursive = false);
 };

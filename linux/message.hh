@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2011 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2010 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,17 +32,17 @@ class Msg
 			MYOWN,
 			SYSTEM,
 			STATUS,
+			CHEAT,
 			FAVORITE,
 			OPERATOR,
-			CHEAT, //ch 
 			UNKNOWN
 		} TypeMsg;
 };
-/**/
+
 class Tag
 {
-	public:
-		typedef enum
+    public:
+        typedef enum
 		{
 			TAG_FIRST = 0,
 			TAG_GENERAL = TAG_FIRST,
@@ -50,8 +50,8 @@ class Tag
 			TAG_MYOWN,
 			TAG_SYSTEM,
 			TAG_STATUS,
+			TAG_CHEAT,
 			TAG_TIMESTAMP,
-			TAG_CHEAT, 
 			/*-*/
 			TAG_HIGHL,
 			TAG_MYNICK,
@@ -61,8 +61,7 @@ class Tag
 			TAG_URL,
 			TAG_IPADR,
 			TAG_LAST
-		} TypeTag;	
-
+		} TypeTag;
 };
 
 #endif

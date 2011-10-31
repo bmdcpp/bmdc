@@ -9,6 +9,7 @@ Package: bmdc
 Architecture: any
 Installed-Size: ${Installed-Size}
 Depends: ${shlibs:Depends}
+Suggests: bmdc-emoticons
 Homepage: http://launchpad.net/bmdc++
 Description: BMDC++ by Mank and branec
  DC++ Client with Ignore User ,Lua Support, Media Spam and many others.

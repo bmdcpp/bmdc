@@ -17,16 +17,23 @@
  */
 
 #define APPNAME "BMDC++"
+
+// don't forget to update the .rc file as well!
 #define VERSIONSTRING "0.785"
 #define VERSIONFLOAT 0.785
 
-#ifndef BMDC_REVISION
-#define BMDC_REVISION 73
+#ifndef DCPP_REVISION
+	#define DCPP_REVISION 2651
+	#define DCPP_REVISION_STRING "2651"
 #endif
-#define BMDC_REVISION_STRING "73"
+#ifndef BMDC_REVISION
+	#define BMDC_REVISION 74
+#endif
+
+#define BMDC_REVISION_STRING "74"
+#define xstrver(s) strver(s)
+#define strver(s) #s
 
 namespace dcpp {
 extern const string fullVersionString;
 }
-
-/* Update the .rc file as well... */

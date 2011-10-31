@@ -19,10 +19,28 @@
 #ifndef DCPLUSPLUS_DCPP_COMPILER_H
 #define DCPLUSPLUS_DCPP_COMPILER_H
 
+#if defined(__GNUC__)
+#if __GNUC__ < 4 || (__GNUC__ == 4 && __GNUC_MINOR__ < 5)
+#error GCC 4.5 is required
+
+#endif
+
+#elif defined(_MSC_VER)
+#if _MSC_VER < 1600
+#error MSVC 10 (2010) is required
+#endif
+
 //disable the deprecated warnings for the CRT functions.
 #define _CRT_SECURE_NO_DEPRECATE 1
 #define _ATL_SECURE_NO_DEPRECATE 1
 #define _CRT_NON_CONFORMING_SWPRINTFS 1
+
+#define strtoll _strtoi64
+
+#else
+#error No supported compiler found
+
+#endif
 
 #if defined(_MSC_VER) || defined(__MINGW32__)
 #define _LL(x) x##ll
@@ -44,6 +62,36 @@
 
 #ifndef _REENTRANT
 # define _REENTRANT 1
+#endif
+
+#ifdef _WIN32
+
+#ifndef _WIN32_WINNT
+# define _WIN32_WINNT 0x0502
+#elif _WIN32_WINNT < 0x0502
+#error Version too low
+#endif
+
+#ifndef _WIN32_IE
+# define _WIN32_IE	0x0501
+#endif
+
+#ifndef WINVER
+# define WINVER 0x501
+#endif
+
+#ifndef STRICT
+#define STRICT 1
+#endif
+
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+
+#ifndef NOMINMAX
+#define NOMINMAX 1
+#endif
+
 #endif
 
 #endif // DCPLUSPLUS_DCPP_COMPILER_H

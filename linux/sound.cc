@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2011 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2010 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,10 +19,7 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifdef _HAVEGNOME
-	#include <libgnome/gnome-sound.h>
-#endif
-
+#include <libgnome/gnome-sound.h>
 #include "settingsmanager.hh"
 #include <dcpp/Text.h>
 #include "sound.hh"
@@ -54,8 +51,8 @@ Sound* Sound::get()
 void Sound::sound_init()
 {
 	#ifdef _HAVEGNOME
-		gnome_sound_init(NULL);
-		dcdebug("Sound::sound_init: Esound connection %d...\n", gnome_sound_connection_get());
+	gnome_sound_init(NULL);
+	dcdebug("Sound::sound_init: Esound connection %d...\n", gnome_sound_connection_get());
 	#endif
 }
 
@@ -67,7 +64,7 @@ void Sound::playSound(TypeSound sound)
 	{
 //		TODO: download begins, uncomment when implemented
 //		case DOWNLOAD_BEGINS:
-//
+// 
 //			if (wsm->getInt("sound-download-begins-use"))
 //				playSound(wsm->getString("sound-download-begins"));
 //		break;
@@ -126,17 +123,17 @@ void Sound::playSound(TypeSound sound)
 
 void Sound::playSound(const string &target)
 {
-	#ifdef HAVEGNOME
-		gnome_sound_play(Text::fromUtf8(target).c_str());
+	#ifdef _HAVEGNOME
+	gnome_sound_play(Text::fromUtf8(target).c_str());
 	#else
-		FILE *pipe = popen((WulforSettingsManager::getInstance()->getString("sound-command") + " \"" +target+"\" &" ).c_str(), "w" );
-		pclose(pipe);
+	FILE *pipe = popen((WulforSettingsManager::getInstance()->getString("sound-command") + " \"" +target+"\" &" ).c_str(), "w" );
+	pclose(pipe);
 	#endif
 }
 
 void Sound::sound_finalize()
 {
-	#ifdef HAVEGNOME
-		gnome_sound_shutdown();
+	#ifdef _HAVEGNOME
+	gnome_sound_shutdown();
 	#endif
 }

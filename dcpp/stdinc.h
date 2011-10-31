@@ -19,101 +19,71 @@
 #ifndef DCPLUSPLUS_DCPP_STDINC_H
 #define DCPLUSPLUS_DCPP_STDINC_H
 
-// This enables stlport's debug mode (and slows it down to a crawl...)
-//#define _STLP_DEBUG 1
-//#define _STLP_USE_NEWALLOC 1
-
-// --- Shouldn't have to change anything under here...
+#include "compiler.h"
 
 #ifndef BZ_NO_STDIO
 #define BZ_NO_STDIO 1
 #endif
 
-#ifdef _MSC_VER
+#ifdef HAS_PCH
 
-//disable the deprecated warnings for the CRT functions.
-#define _CRT_SECURE_NO_DEPRECATE 1
-#define _ATL_SECURE_NO_DEPRECATE 1
-#define _CRT_NON_CONFORMING_SWPRINTFS 1
-
-typedef signed __int8 int8_t;
-typedef signed __int16 int16_t;
-typedef signed __int32 int32_t;
-typedef signed __int64 int64_t;
-
-typedef unsigned __int8 uint8_t;
-typedef unsigned __int16 uint16_t;
-typedef unsigned __int32 uint32_t;
-typedef unsigned __int64 uint64_t;
-
-# ifndef CDECL
-#  define CDECL _cdecl
-# endif
-
-#else // _MSC_VER
-
-# ifndef CDECL
-#  define CDECL
-# endif
-
-#endif // _MSC_VER
-
-#include <unistd.h>
-
-#ifdef _MSC_VER
-	#include <crtdbg.h>
+#ifdef _WIN32
+#include "w.h"
 #else
-	#include <assert.h>
+#include <arpa/inet.h>
+#include <dirent.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <fnmatch.h>
+#include <netdb.h>
+#include <netinet/in.h>
+#include <pthread.h>
+#include <sched.h>
+#include <semaphore.h>
+#include <sys/ioctl.h>
+#include <sys/resource.h>
+#include <sys/socket.h>
+#include <sys/stat.h>
+#include <sys/time.h>
+#include <unistd.h>
 #endif
 
-#include <ctype.h>
-#include <stdio.h>
-#include <stdarg.h>
-#include <memory.h>
-#include <sys/types.h>
-#include <time.h>
-#include <locale.h>
-#ifndef _MSC_VER
-	#include <stdint.h>
-#endif
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
 
 #include <algorithm>
-#include <vector>
-#include <string>
-#include <map>
-#include <set>
+#include <atomic>
 #include <deque>
-#include <list>
-#include <utility>
 #include <functional>
+#include <list>
+#include <map>
 #include <memory>
-#include <numeric>
-#include <limits>
-#include <libintl.h>
+#include <set>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
+#include <utility>
+#include <vector>
 
-#include <boost/format.hpp>
-#include <boost/scoped_array.hpp>
-#include <boost/smart_ptr/scoped_array.hpp>
-#include <boost/smart_ptr/shared_ptr.hpp>
+#include <boost/intrusive_ptr.hpp>
 #include <boost/noncopyable.hpp>
-//RegExp
-//#include <boost/regex.hpp>
-/*
-#if defined(_MSC_VER) || defined(_STLPORT_VERSION)
+#include <boost/optional.hpp>
+#include <boost/range/algorithm/find_if.hpp>
+#include <boost/range/algorithm/find.hpp>
+#include <boost/regex.hpp>
+#include <boost/scoped_array.hpp>
+#include <boost/smart_ptr/detail/atomic_count.hpp>
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/recursive_mutex.hpp>
+#include <boost/variant.hpp>
 
-#include <unordered_map>
-#include <unordered_set>
+#include <bzlib.h>
 
-#elif defined(__GLIBCPP__) || defined(__GLIBCXX__)  // Using GNU C++ library?
-*/
-#include <unordered_set>
-#include <unordered_map>
+#include <openssl/ssl.h>
 
-//#else
-//#error "Unknown STL, please configure accordingly"
-//#endif
-namespace dcpp {
-using namespace std;
-}
+#endif
 
 #endif // !defined(STDINC_H)

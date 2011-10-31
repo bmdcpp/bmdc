@@ -30,12 +30,12 @@ class SimpleXML;
 class RawManager : public Singleton<RawManager>, private SettingsManagerListener {
 public:
 	// remember to unlock, if locked before. use when changing sth in action/raw content
-	void lock() { cs.enter(); }
-	void unlock() { cs.leave(); }
+	//void lock() { Lock(cs); }
+	//void unlock() { cs.leave(); }
 
 	Action::ActionList& getActions() { Lock l(cs); return actions; }
-	Action* findAction(int id) throw();
-	Action* findAction(const std::string& name) throw();
+	Action* findAction(int id) noexcept;
+	Action* findAction(const std::string& name) noexcept;
 
 	Action* addAction(int id, const std::string& name, bool enabled) throw(Exception);
 	void editAction(Action* a, const std::string& name) throw(Exception);
@@ -43,7 +43,7 @@ public:
 
 	Raw* addRaw(Action* a, Raw& r) throw(Exception);
 	void editRaw(const Action* a, Raw* old, Raw _new) throw(Exception);
-	bool remRaw(Action* a, Raw* r) throw();
+	bool remRaw(Action* a, Raw* r) noexcept;
 
 	void loadActionRaws();
 	void saveActionRaws();
@@ -67,8 +67,8 @@ private:
 
 	void loadActionRaws(SimpleXML& aXml);
 
-	void on(SettingsManagerListener::Load, SimpleXML& xml) throw();
-	void on(SettingsManagerListener::Save, SimpleXML& xml) throw();
+	void on(SettingsManagerListener::Load, SimpleXML& xml) noexcept;
+	void on(SettingsManagerListener::Save, SimpleXML& xml) noexcept;
 
 	Action::ActionList actions;
 

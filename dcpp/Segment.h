@@ -19,14 +19,10 @@
 #ifndef DCPLUSPLUS_DCPP_SEGMENT_H_
 #define DCPLUSPLUS_DCPP_SEGMENT_H_
 
-namespace dcpp {
-
-#define PARTIAL_SHARE_MIN_SIZE 20971520
 class Segment {
 public:
 	Segment() : start(0), size(-1) { }
-	Segment(int64_t start_, int64_t size_, bool overlapped_ = false) : start(start_), size(size_) { }
-
+	Segment(int64_t start_, int64_t size_) : start(start_), size(size_) { }
 
 	int64_t getStart() const { return start; }
 	int64_t getSize() const { return size; }
@@ -64,12 +60,9 @@ public:
 	bool operator<(const Segment& rhs) const {
 		return (getStart() < rhs.getStart()) || (getStart() == rhs.getStart() && getSize() < rhs.getSize());
 	}
-
 private:
 	int64_t start;
 	int64_t size;
-	GETSET(bool, overlapped, Overlapped);
+};
 
-};
-};
 #endif /*SEGMENT_H_*/

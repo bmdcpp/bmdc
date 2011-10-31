@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,53 +20,65 @@
  */
 
 #include "WulforUtil.hh"
-
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <dcpp/ClientManager.h>
 #include <dcpp/Util.h>
+#include <dcpp/version.h>
+#include <dcpp/ShareManager.h>
+#include <dcpp/HashManager.h>
+#include <dcpp/StringTokenizer.h>
+#include <dcpp/RegEx.h>
+#include <dcpp/HighlightManager.h>
+#include <dcpp/RawManager.h>
 #include <iostream>
 #include <arpa/inet.h>
 #include <fcntl.h>
-#include <locale.h>
-#include <string>
 #include "settingsmanager.hh"
-#include "version.hh"
-
-#include <dcpp/HashManager.h>
-#include <dcpp/ShareManager.h>
-#include <dcpp/version.h>
-#include <dcpp/StringTokenizer.h>
-#include <dcpp/UploadManager.h>
-#include <dcpp/DownloadManager.h>
-#include <dcpp/RawManager.h>
-#include <dcpp/HighlightManager.h>
-
-#include <sys/utsname.h>
-#include <sys/sysinfo.h>
-
+#include "wulformanager.hh"
 #include "ShellCommand.hh"
 #include "hub.hh"
-#include "wulformanager.hh"
-
+#include "version.hh"
 #ifdef HAVE_IFADDRS_H
-	#include <ifaddrs.h>
-	#include <net/if.h>
+#include <ifaddrs.h>
+#include <net/if.h>
 #endif
-#include <boost/regex.hpp>
-#include <dcpp/RegEx.h>
-#include <dcpp/version.h>
+#include <sys/utsname.h>
+#include <sys/sysinfo.h>
 
 using namespace std;
 using namespace dcpp;
 
 const string WulforUtil::ENCODING_LOCALE = _("System default");
 vector<string> WulforUtil::charsets;
-vector<std::pair<std::string,int> > WulforUtil::actions;
 const string WulforUtil::magnetSignature = "magnet:?xt=urn:tree:tiger:";
 GtkIconFactory* WulforUtil::iconFactory = NULL;
-
-std::map<std::string,std::string> WulforUtil::m_mimetyp; //.avi - > mimetype
+std::map<std::string,std::string> WulforUtil::m_mimetyp;
+const string WulforUtil::commands =
+string("/away\t\t\t\t")+_("Set away mode\n")+
++"/back\t\t\t"+_("Set normal mode\n")+
++"/bmdc [mc]\t\t\t"+_("Show version\n")+
++"/ratio [mc]\t\t\t\t"+_("Show ratio\n")+
++"/refresh\t\t\t"+_("Refresh share\n")+
++"/slots [n]\t\t\t"+_("Set Slots to n\n")+
++"/stats\t\t\t"+_("Show stats\n")+
++"/amar\t\t\t"+_("Media Spam\n")+
++"/auda,/w\t\t"+_("Media Spam\n")+
++"/kaff\t\t\t"+_("Media Spam\n")+
++"/rb\t\t\t"+_("Media Spam\n")+
++"/vlc\t\t\t"+_("Media Spam\n")+
++"/df\t\t\t"+_("Show df of disk(s)\n")+
++"/uptime\t\t\t"+_("Show uptime\n")+
++"/rebuild\t\t"+_("Rebuild Share\n")+
++"/cleanmc\t\t"+_("Clean Mainchat\n")+
++"/leech [mc]\t\t"+_("Show Leech stats\n")+
++"/ws [set] [value]" + _("set GUI settings\n")+
++"/dcpp [set] [value] "+_("set dcpp settings\n")+
++"/alias list \t\t"+_("List Aliases\n")+
++"/alias purge ::A\t\t"+ _("remove Aliases A\n")+
++"/alias A::uname -a\t\t"+_("add alias A with uname -a exec\n")+
++"/A\t\t\t\t"+_("Execution of alias A\n")
+;
 
 const char* WulforUtil::CountryNames[] = { 
 "ANDORRA", "UNITED ARAB EMIRATES", "AFGHANISTAN", "ANTIGUA AND BARBUDA", 
@@ -260,7 +272,75 @@ string WulforUtil::getTextFromMenu(GtkMenuItem *item)
 
 	return text;
 }
+//BMDC++
+/* taken from http://svn.xiph.org/trunk/sushivision/gtksucks.c */
+void WulforUtil::remove_signals_from_widget(GtkWidget *widget, gint events)
+{
 
+  g_return_if_fail (GTK_IS_WIDGET (widget));
+
+  GQuark quark_event_mask = g_quark_from_static_string ("gtk-event-mask");
+  gint *eventp = (gint *)g_object_get_qdata (G_OBJECT (widget), quark_event_mask);
+  gint original_events = events;
+
+  if (!eventp){
+    eventp = g_slice_new (gint);
+    *eventp = 0;
+  }
+
+  events = ~events;
+  events &= *eventp;
+
+  if(events)
+  {
+    *eventp = events;
+    g_object_set_qdata (G_OBJECT (widget), quark_event_mask, eventp);
+  }
+  else
+  {
+    g_slice_free (gint, eventp);
+    g_object_set_qdata (G_OBJECT (widget), quark_event_mask, NULL);
+  }
+
+  if (GTK_WIDGET_REALIZED (widget))
+  {
+    GList *window_list;
+
+    if (GTK_WIDGET_NO_WINDOW (widget))
+      window_list = gdk_window_get_children (widget->window);
+    else
+      window_list = g_list_prepend (NULL, widget->window);
+
+    remove_events_internal (widget, original_events, window_list);
+
+    g_list_free (window_list);
+  }
+
+  g_object_notify (G_OBJECT (widget), "events");
+}
+
+void WulforUtil::remove_events_internal (GtkWidget *widget, gint events, GList *window_list)
+{
+  GList *l;
+
+  for (l = window_list; l != NULL; l = l->next)
+  {
+    GdkWindow *window = (GdkWindow *)l->data;
+    gpointer user_data;
+
+    gdk_window_get_user_data (window, &user_data);
+    if (user_data == widget){
+      GList *children;
+
+      gdk_window_set_events (window, (GdkEventMask) (gdk_window_get_events(window) & (~events)));
+
+      children = gdk_window_get_children (window);
+      remove_events_internal (widget, events, children);
+      g_list_free (children);
+    }
+  }
+}
+//END
 vector<string>& WulforUtil::getCharsets()
 {
 	if (charsets.size() == 0)
@@ -306,8 +386,6 @@ void WulforUtil::openURI(const string &uri)
 	if (error != NULL)
 	{
 		cerr << "Failed to open URI: " << error->message << endl;
-		//beter info about it to MainStatusbar for now...
-		WulforManager::get()->getMainWindow()->setMainStatus_gui(string(_("Failed to open URI: "))+string(error->message));
 		g_error_free(error);
 	}
 }
@@ -321,7 +399,6 @@ void WulforUtil::openURItoApp(const string &cmd)
 	if (error != NULL)
 	{
 		cerr << "Failed to open application: " << error->message << endl;
-		WulforManager::get()->getMainWindow()->setMainStatus_gui(string(_("Failed to open application: "))+string(error->message));
 		g_error_free(error);
 	}
 }
@@ -477,6 +554,7 @@ bool WulforUtil::profileIsLocked()
 	return profileIsLocked;
 }
 
+
 gboolean WulforUtil::getNextIter_gui(GtkTreeModel *model, GtkTreeIter *iter, bool children /* = TRUE */, bool parent /* = TRUE */)
 {
 	gboolean valid = FALSE;
@@ -549,58 +627,6 @@ void WulforUtil::copyValue_gui(GtkTreeStore *store, GtkTreeIter *fromIter, GtkTr
 }
 
 /*
-* load Country Flag
-* param (CZ, SK,... US) 
-* return flag of country 
-*/
-
-GdkPixbuf *WulforUtil::loadCountry(const string &country)
-{
-	GError *error = NULL;
-	if(country.empty())
-	{
-		return NULL;
-	}
-	gchar *path = g_strdup_printf(_DATADIR "/country/%s.png",
-		                              (gchar *)country.c_str());
-	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_size(path,15,15,&error);
-	if (error != NULL || pixbuf == NULL)
-			g_warning("Cannot open stock image: %s => %s", path, error->message);
-	g_free(path);
-	return pixbuf;
-}
-
-std::string WulforUtil::StringToUpper(std::string myString)
-{
-	const int length = myString.length();
-	if(myString.length() == 0)
-		return Util::emptyString;
-	locale loc;				
-	for(int i=0; i != length; ++i)
-	{
-		myString[i] = toupper(myString[i],loc);
-	}
-	
-	return myString;
-}
-
-string WulforUtil::getCC(string _countryname)
-{
-	string _cc = StringToUpper(_countryname);
-	
-	if(_cc.empty())
-		return Util::emptyString;
-	
-	for(uint8_t q = 0; q < (sizeof(CountryNames) / sizeof(CountryNames[0])); q++)
-	{
-		if(_cc == CountryNames[q])
-				return CountryCodes[q];
-
-	}
-	return Util::emptyString;
-}
-
-/*
  * Registers either the custom icons or the GTK+ icons as stock icons in
  * GtkIconFactory according to the user's preference. If the icons have
  * previously been loaded, they are removed and re-added.
@@ -612,6 +638,14 @@ void WulforUtil::registerIcons()
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
 	map<string, string> icons;
 	icons["bmdc"] = "bmdc";
+	icons["bmdc-dc++"] = wsm->getString("icon-dc++");
+	icons["bmdc-dc++-fw"] = wsm->getString("icon-dc++-fw");
+	icons["bmdc-dc++-fw-op"] = wsm->getString("icon-dc++-fw-op");
+	icons["bmdc-dc++-op"] = wsm->getString("icon-dc++-op");
+	icons["bmdc-normal"] = wsm->getString("icon-normal");
+	icons["bmdc-normal-fw"] = wsm->getString("icon-normal-fw");
+	icons["bmdc-normal-fw-op"] = wsm->getString("icon-normal-fw-op");
+	icons["bmdc-normal-op"] = wsm->getString("icon-normal-op");
 	icons["bmdc-smile"] = wsm->getString("icon-smile");
 	icons["bmdc-download"] = wsm->getString("icon-download");
 	icons["bmdc-favorite-hubs"] = wsm->getString("icon-favorite-hubs");
@@ -623,17 +657,25 @@ void WulforUtil::registerIcons()
 	icons["bmdc-public-hubs"] = wsm->getString("icon-public-hubs");
 	icons["bmdc-queue"] = wsm->getString("icon-queue");
 	icons["bmdc-search"] = wsm->getString("icon-search");
+	icons["bmdc-search-adl"] = wsm->getString("icon-search-adl");
 	icons["bmdc-search-spy"] = wsm->getString("icon-search-spy");
 	icons["bmdc-upload"] = wsm->getString("icon-upload");
 	icons["bmdc-quit"] = wsm->getString("icon-quit");
 	icons["bmdc-connect"] = wsm->getString("icon-connect");
+	icons["bmdc-file"] = wsm->getString("icon-file");
+	icons["bmdc-directory"] = wsm->getString("icon-directory");
+	icons["bmdc-pm-online"] = wsm->getString("icon-pm-online");
+	icons["bmdc-pm-offline"] = wsm->getString("icon-pm-offline");
+	icons["bmdc-hub-online"] = wsm->getString("icon-hub-online");
+	icons["bmdc-hub-offline"] = wsm->getString("icon-hub-offline");
+	/**/
 	icons["bmdc-notepad"] = wsm->getString("icon-notepad");
-	icons["bmdc-adlsearch"] = wsm->getString("icon-adlsearch");
+	//icons["bmdc-adlsearch"] = wsm->getString("icon-adlsearch");
 	icons["bmdc-ignore-users"] = wsm->getString("icon-ignore");
 	icons["bmdc-system"] = wsm->getString("icon-system");
 	icons["bmdc-away"] = wsm->getString("icon-away");
 	icons["bmdc-away-on"] = wsm->getString("icon-away-on");
-	icons["bmdc-none"] = wsm->getString("icon-none");
+//	icons["bmdc-none"] = wsm->getString("icon-none");
 	icons["bmdc-limiting"] = wsm->getString("icon-limiting");
 	icons["bmdc-limiting-on"] = wsm->getString("icon-limiting-on");
 	/**/
@@ -717,13 +759,83 @@ void WulforUtil::registerIcons()
 
 	gtk_icon_factory_add_default(iconFactory);
 	g_object_unref(iconFactory);
+}
 
+GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
+{
+	GError *error = NULL;
+	if(country.empty())
+	{
+		return NULL;
+	}
+	gchar *path = g_strdup_printf(_DATADIR "/country/%s.png",
+		                              (gchar *)country.c_str());
+	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_size(path,15,15,&error);
+	if (error != NULL || pixbuf == NULL)
+			g_warning("Cannot open stock image: %s => %s", path, error->message);
+	g_free(path);
+	return pixbuf;
+}
+
+std::string WulforUtil::StringToUpper(std::string myString)
+{
+	const int length = myString.length();
+	if(myString.length() == 0)
+		return Util::emptyString;
+	locale loc;				
+	for(int i=0; i != length; ++i)
+	{
+		myString[i] = toupper(myString[i],loc);
+	}
+	
+	return myString;
+}
+
+string WulforUtil::getCountryCode(string _countryname)
+{
+	string _cc = StringToUpper(_countryname);
+	
+	if(_cc.empty())
+		return Util::emptyString;
+	
+	for(uint8_t q = 0; q < (sizeof(CountryNames) / sizeof(CountryNames[0])); q++)
+	{
+		if(_cc == CountryNames[q])
+				return CountryCodes[q];
+
+	}
+	return Util::emptyString;
+}
+
+string WulforUtil::formatReport(const Identity& identity)
+{
+	map<string, string> reportMap = identity.getReport();
+
+	string report = _("*** Info on " )+ identity.getNick() + " ***" + "\n";
+
+	for(map<string, string>::const_iterator i = reportMap.begin(); i != reportMap.end(); ++i)
+	{
+		report += "\n" + i->first + ": " +  i->second;
+	}
+
+	return report + "\n";
+}
+///From Crzdc
+string WulforUtil::generateLeech() {
+
+	char buf[650];
+	snprintf(buf, sizeof(buf), "\n\t [ BMDC++ %s %s Leech Stats ]\r\n [ Downloaded:\t\t\t %s ]\r\n [ Uploaded:\t\t\t %s ]\r\n [ Total Download:\t\t %s ]\r\n [ Total Upload:\t\t\t %s ]\r\n [ Ratio: \t\t\t\t %s ]\r\n [ Current Uploads:\t\t %s Running Upload(s) ]\r\n [ Current Upload Speed: \t\t %s/s ]\r\n [ Current Downloads:\t\t %s Running Download(s) ]\r\n [ Current Download Speed: \t %s/s ]",
+		VERSIONSTRING, GUI_VERSION_STRING, Util::formatBytes(Socket::getTotalDown()).c_str(), Util::formatBytes(Socket::getTotalUp()).c_str(),
+		Util::formatBytes(Util::toDouble(WGETS("dw-st"))).c_str(), Util::formatBytes(Util::toDouble(WGETS("up-st"))).c_str(),
+		Util::toString((((double)Util::toDouble(WGETS("up-st"))) / ((double)Util::toDouble(WGETS("dw-st"))))).c_str(),
+		Util::toString(UploadManager::getInstance()->getUploadCount()).c_str(), Util::formatBytes(UploadManager::getInstance()->getRunningAverage()).c_str(),
+		Util::toString(DownloadManager::getInstance()->getDownloadCount()).c_str(), Util::formatBytes(DownloadManager::getInstance()->getRunningAverage()).c_str());
+	return buf;
 }
 
 bool WulforUtil::checkCommand(string& cmd, string& param, string& message, string& status, bool& thirdperson)
 {
 	string tmp = cmd;
-	bool isCMDSend = false;
 	string::size_type separator = cmd.find_first_of(' ');
 
 	if(separator != string::npos && cmd.size() > separator +1)
@@ -738,7 +850,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 
 	std::transform(cmd.begin(), cmd.end(), cmd.begin(), (int(*)(int))tolower);
 	/* commnads */
-	if(WGETB("show-commnads"))
+	if(WGETB("show-commands"))
 	{
 	    status = _("Command send: ");
 	    status += tmp;
@@ -776,13 +888,13 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
         if(param == "mc")
             message = string(GUI_PACKAGE " " GUI_VERSION_STRING "." BMDC_REVISION_STRING "/" VERSIONSTRING " ");
         else
-            status += string(GUI_PACKAGE " " GUI_VERSION_STRING "." BMDC_REVISION_STRING "/" VERSIONSTRING ", ") + _("project home: ") + "http://launchpad.net/bmdc++";
-
+            status += string(GUI_PACKAGE " " GUI_VERSION_STRING "." BMDC_REVISION_STRING "/" VERSIONSTRING "/" DCPP_REVISION_STRING ", ") + _("project home: ") + "http://launchpad.net/bmdc++";
+    
 	} else if ( cmd == "ratio")
 	{
 			double ratio;
-			double up =Util::toInt64(WGETS("up-st"));
-			double dw =Util::toInt64(WGETS("dw-st"));
+			double dw =  static_cast<double>(SETTING(TOTAL_DOWNLOAD));//Util::toInt64(WGETS("up-st"));
+			double up = static_cast<double>(SETTING(TOTAL_UPLOAD));//Util::toInt64(WGETS("dw-st"));
 			if(dw > 0)
 				ratio = up / dw;
 			else
@@ -840,8 +952,8 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			long umin = (upt % hour) / minute;
 			const unsigned long megabyte = 1024;
 			/**/
-			int dettotal = SETTING(DETECTT);
-			int detfail = SETTING(DETECTF);
+			int dettotal = SETTING(DETECTIONS);
+			int detfail = SETTING(DETECTIONF);
 
 		message =   "\n-= Stats " + string(GUI_PACKAGE) + " " + string(GUI_VERSION_STRING) + "/" + dcpp::fullVersionString + " =-\n"
 					+ "-= "+sys_name + " " + node_name + " " + rel + " " + mach + " =-\n"
@@ -855,7 +967,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	/// "Now Playing" spam // added by curse and Irene
 	else if (cmd == "amar")
 	{
-		ShellCommand s("amarok-now-playing.sh");
+		ShellCommand s((char *)"amarok-now-playing.sh");
 		//test if script is in the right directory and set executable and if so run it
 		if (strcmp(s.Output(),"Amarok is not running.")==0)
 		{
@@ -956,7 +1068,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			message = s.Output();
 		else
 			status += s.Output();
-			
+
 	}
 	else if (cmd == "uptime")
 	{
@@ -983,7 +1095,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	}
 	else if ( cmd == "ws")
 	{
-		status += WSCMD(param);	
+		status += WSCMD(param);
 	}
 	else if ( cmd == "dcpps" )
 	{
@@ -1100,41 +1212,165 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 return true;
 }
 
-string WulforUtil::getReport(const Identity& identity)
+bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, string word, bool &tTab, gpointer hub, GtkTextTag *TagsMap[])
 {
-	map<string, string> reportMap = identity.getReport();
+		//GtkTreeIter q;
 
-	string report = _("*** Info on " )+ identity.getNick() + " ***" + "\n";
+		string sMsgLower;
+		sMsgLower.resize(word.size()+1);
+		std::transform(word.begin(), word.end(), sMsgLower.begin(), _tolower);
+		gboolean ret = FALSE;
 
-	for(map<string, string>::const_iterator i = reportMap.begin(); i != reportMap.end(); ++i)
-	{
-		report += "\n" + i->first + ": " +  i->second;
+		ColorList* cList = HighlightManager::getInstance()->getList();
+		for(ColorIter i = cList->begin();i != cList->end(); ++i) {
+			ColorSettings* cs= &(*i);
+			bool tBold = false;
+			bool tItalic = false;
+			bool tUnderline = false;
+			bool tPopup = false;
+			bool tSound = false;
+			string fore("");
+			string back("");
+
+			if(cs->getBold())
+				tBold = true;
+			if(cs->getItalic())
+				tItalic = true;
+			if(cs->getUnderline())
+				tUnderline = true;
+
+			if(cs->getHasBgColor())
+				back = cs->getBgColor();
+			else
+				back = "#FFFFFF";
+
+			if(cs->getHasFgColor())
+				fore = cs->getFgColor();
+			else
+				fore = "#000000";
+
+			if(cs->getPopup())
+				tPopup = true;
+			if(cs->getTab())
+				tTab = true;
+			if(cs->getPlaySound())
+				tSound = true;
+
+			string _w = cs->getMatch();
+			string _sW;
+			_sW.resize(_w.size()+1);
+			std::transform(_w.begin(), _w.end(), _sW.begin(), _tolower);
+			
+			int ffound = sMsgLower.compare(_sW);
+			
+			if(!ffound) {
+				if((Hub *)hub)
+				{
+					Hub *p = (Hub *)hub;
+					if(((cs->getIncludeNick()) && p->findNick_gui_p(word)))
+					{
+						if(!tag) {
+
+							tag = gtk_text_buffer_create_tag(buffer, word.c_str(),
+							"foreground", fore.c_str(),
+							"background", back.c_str(),
+							"weight", tBold ? TEXT_WEIGHT_BOLD : TEXT_WEIGHT_NORMAL,
+							"style", tItalic ? TEXT_STYLE_ITALIC : TEXT_STYLE_NORMAL,
+							"underline", tUnderline ? PANGO_UNDERLINE_DOUBLE : PANGO_UNDERLINE_NONE,
+							NULL);
+						}
+						TagsMap[Tag::TAG_HIGHL] = tag;//think about this  =P
+						ret = TRUE;
+						continue;
+					}
+				}	
+			}
+
+			string w = cs->getMatch();
+			string sW;
+			sW.resize(w.size()+1);
+			std::transform(w.begin(), w.end(), sW.begin(), _tolower);
+			
+			if(cs->usingRegexp())
+			{
+				string q = cs->getMatch().substr(4);
+				int rematch = 0;
+				
+				rematch = dcpp::RegEx::match<string>(word,q,cs->getCaseSensitive());
+				
+				if(!rematch)
+					ret = FALSE;
+				else
+				{
+					if(!tag) {
+						tag = gtk_text_buffer_create_tag(buffer, word.c_str(),
+						"foreground", fore.c_str(),
+						"background", back.c_str(),
+						"weight", tBold ? TEXT_WEIGHT_BOLD : TEXT_WEIGHT_NORMAL,
+						"style", tItalic ? TEXT_STYLE_ITALIC : TEXT_STYLE_NORMAL,
+						"underline", tUnderline ? PANGO_UNDERLINE_DOUBLE : PANGO_UNDERLINE_NONE,
+						NULL);
+					}
+
+					TagsMap[Tag::TAG_HIGHL] = tag;//think about this  =P
+					ret = TRUE;
+					continue;
+				}
+			}
+
+			int found = sMsgLower.compare(sW);
+			if(!found) {
+
+				if(!tag)
+				{
+				tag = gtk_text_buffer_create_tag(buffer, word.c_str(),
+					"foreground", fore.c_str(),
+					"background", back.c_str(),
+					"weight", tBold ? TEXT_WEIGHT_BOLD : TEXT_WEIGHT_NORMAL,
+					"style", tItalic ? TEXT_STYLE_ITALIC : TEXT_STYLE_NORMAL,
+					"underline", tUnderline ? PANGO_UNDERLINE_DOUBLE : PANGO_UNDERLINE_NONE,
+					NULL);
+
+				}
+				TagsMap[Tag::TAG_HIGHL] = tag;//think about this  =P
+
+
+				if(tPopup)
+					WulforManager::get()->getMainWindow()->showNotification_gui(cs->getNoti()+":", word, Notify::HIGHLITING);
+
+				if(tSound)
+				{
+					Sound::get()->playSound(cs->getSoundFile());
+				}
+
+				ret = TRUE;
+				break;
+			}
+			else
+			{
+				ret = FALSE;
+				continue;
+			}
 	}
-
-	return report + "\n";
+	return ret;	
 }
-
-
-bool WulforUtil::matchRe(const std::string/*&*/ strToMatch, const std::string/*&*/ expression, bool caseSensative /*= true*/) {
-		return RegEx::match<string>(strToMatch,expression, caseSensative);
-}
-///From Crzdc
-string WulforUtil::generateLeech() {
-
-	char buf[650];
-	snprintf(buf, sizeof(buf), "\n\t [ BMDC++ %s %s Leech Stats ]\r\n [ Downloaded:\t\t\t %s ]\r\n [ Uploaded:\t\t\t %s ]\r\n [ Total Download:\t\t %s ]\r\n [ Total Upload:\t\t\t %s ]\r\n [ Ratio: \t\t\t\t %s ]\r\n [ Current Uploads:\t\t %s Running Upload(s) ]\r\n [ Current Upload Speed: \t\t %s/s ]\r\n [ Current Downloads:\t\t %s Running Download(s) ]\r\n [ Current Download Speed: \t %s/s ]",
-		VERSIONSTRING, GUI_VERSION_STRING, Util::formatBytes(Socket::getTotalDown()).c_str(), Util::formatBytes(Socket::getTotalUp()).c_str(),
-		Util::formatBytes(Util::toDouble(WGETS("dw-st"))).c_str(), Util::formatBytes(Util::toDouble(WGETS("up-st"))).c_str(),
-		Util::toString((((double)Util::toDouble(WGETS("up-st"))) / ((double)Util::toDouble(WGETS("dw-st"))))).c_str(),
-		Util::toString(UploadManager::getInstance()->getUploadCount()).c_str(), Util::formatBytes(UploadManager::getInstance()->getRunningAverage()).c_str(),
-		Util::toString(DownloadManager::getInstance()->getDownloadCount()).c_str(), Util::formatBytes(DownloadManager::getInstance()->getRunningAverage()).c_str());
-	return buf;
+vector<std::pair<std::string,int> > WulforUtil::getActions()
+{
+	vector<std::pair<std::string,int> > actions;
+	const dcpp::Action::ActionList& a = dcpp::RawManager::getInstance()->getActions();
+		for(dcpp::Action::ActionList::const_iterator i = a.begin(); i != a.end(); ++i) {
+				const std::string name = (*i)->getName();
+				const int Id = (*i)->getId();
+				if((*i)->getEnabled())
+						actions.push_back(make_pair(name,Id));
+		}
+	return actions;
 }
 
 void WulforUtil::drop_combo(GtkWidget *widget, vector<pair<std::string,int> > CONTEUDO)
 {
 	gtk_cell_layout_clear(GTK_CELL_LAYOUT(widget));
-	int cont;
+	unsigned int cont;
 	GtkListStore *list_store;
 	GtkCellRenderer *renderer;
 	GtkTreeIter iter;
@@ -1157,48 +1393,6 @@ void WulforUtil::drop_combo(GtkWidget *widget, vector<pair<std::string,int> > CO
 
    gtk_combo_box_set_active(GTK_COMBO_BOX(widget),  0);
 
-}
-
-void WulforUtil::drop_combo(GtkWidget *widget, vector<string> CONTEUDO)
-{
-	gtk_cell_layout_clear(GTK_CELL_LAYOUT(widget));
-	int cont;
-	GtkListStore *list_store;
-	GtkCellRenderer *renderer;
-	GtkTreeIter iter;
-
-	list_store = gtk_list_store_new(1,G_TYPE_STRING);
-
-	for (cont=0; cont < CONTEUDO.size();cont++)
-	{
-		char conteude[130];
-		sprintf(conteude,"%s",CONTEUDO.at(cont).c_str());
-		gtk_list_store_append(list_store,&iter);
-		gtk_list_store_set(list_store,&iter,0,conteude,-1);
-	}
-
-	gtk_combo_box_set_model(GTK_COMBO_BOX(widget),GTK_TREE_MODEL(list_store));
-
-	renderer = gtk_cell_renderer_text_new();
-	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(widget),renderer,TRUE);
-	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(widget),renderer,"text",0,NULL);
-
-    gtk_combo_box_entry_set_text_column(GTK_COMBO_BOX_ENTRY(widget),0);
-
-}
-
-vector<std::pair<std::string,int> >& WulforUtil::getActions()
-{
-			if(actions.size() == 0) {
-				const dcpp::Action::ActionList& a = dcpp::RawManager::getInstance()->getActions();
-				for(dcpp::Action::ActionList::const_iterator i = a.begin(); i != a.end(); ++i) {
-					const std::string name = (*i)->getName();
-					const int Id = (*i)->getId();
-					if((*i)->getEnabled())
-						actions.push_back(make_pair(name,Id));
-				}
-			}
-			return actions;
 }
 
 void WulforUtil::loadmimetypes()
@@ -1268,7 +1462,7 @@ void WulforUtil::loadmimetypes()
 
 }
 
-GdkPixbuf *WulforUtil::loadIconSB(std::string ext)
+GdkPixbuf *WulforUtil::loadIconShare(string ext)
 {
 	if(ext == "directory" || ext.empty())
 	{
@@ -1296,216 +1490,3 @@ GdkPixbuf *WulforUtil::loadIconSB(std::string ext)
 
 }
 
-/* taken from http://svn.xiph.org/trunk/sushivision/gtksucks.c */
-void WulforUtil::my_gtk_widget_remove_events (GtkWidget *widget,gint events)
-{
-
-  g_return_if_fail (GTK_IS_WIDGET (widget));
-
-  GQuark quark_event_mask = g_quark_from_static_string ("gtk-event-mask");
-  gint *eventp = (gint *)g_object_get_qdata (G_OBJECT (widget), quark_event_mask);
-  gint original_events = events;
-
-  if (!eventp){
-    eventp = g_slice_new (gint);
-    *eventp = 0;
-  }
-
-  events = ~events;
-  events &= *eventp;
-
-  if(events)
-  {
-    *eventp = events;
-    g_object_set_qdata (G_OBJECT (widget), quark_event_mask, eventp);
-  }
-  else
-  {
-    g_slice_free (gint, eventp);
-    g_object_set_qdata (G_OBJECT (widget), quark_event_mask, NULL);
-  }
-
-  if (GTK_WIDGET_REALIZED (widget))
-  {
-    GList *window_list;
-
-    if (GTK_WIDGET_NO_WINDOW (widget))
-      window_list = gdk_window_get_children (widget->window);
-    else
-      window_list = g_list_prepend (NULL, widget->window);
-
-    remove_events_internal (widget, original_events, window_list);
-
-    g_list_free (window_list);
-  }
-
-  g_object_notify (G_OBJECT (widget), "events");
-}
-
-void WulforUtil::remove_events_internal (GtkWidget *widget, gint events, GList     *window_list)
-{
-  GList *l;
-
-  for (l = window_list; l != NULL; l = l->next)
-  {
-    GdkWindow *window = (GdkWindow *)l->data;
-    gpointer user_data;
-
-    gdk_window_get_user_data (window, &user_data);
-    if (user_data == widget){
-      GList *children;
-
-      gdk_window_set_events (window, (GdkEventMask) (gdk_window_get_events(window) & (~events)));
-
-      children = gdk_window_get_children (window);
-      remove_events_internal (widget, events, children);
-      g_list_free (children);
-    }
-  }
-}
-
-bool WulforUtil::isHighlitingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, string word, bool &tTab, gpointer hub, GtkTextTag *TagsMap[])
-{
-		GtkTreeIter q;
-
-		string sMsgLower;
-		sMsgLower.resize(word.size()+1);
-		std::transform(word.begin(), word.end(), sMsgLower.begin(), _tolower);
-		gboolean ret = FALSE;
-
-		ColorList* cList = HighlightManager::getInstance()->getList();
-		for(ColorIter i = cList->begin();i != cList->end(); ++i) {
-			ColorSettings* cs= &(*i);
-			bool tBold = false;
-			bool tItalic = false;
-			bool tUnderline = false;
-			bool tPopup = false;
-			bool tSound = false;
-			string fore("");
-			string back("");
-
-			if(cs->getBold())
-				tBold = true;
-			if(cs->getItalic())
-				tItalic = true;
-			if(cs->getUnderline())
-				tUnderline = true;
-
-			if(cs->getHasBgColor())
-				back = cs->getBgColor();
-			else
-				back = "#FFFFFF";
-
-			if(cs->getHasFgColor())
-				fore = cs->getFgColor();
-			else
-				fore = "#000000";
-
-			if(cs->getPopup())
-				tPopup = true;
-			if(cs->getTab())
-				tTab = true;
-			if(cs->getPlaySound())
-				tSound = true;
-
-			string _w = cs->getMatch();
-			string _sW;
-			_sW.resize(_w.size()+1);
-			std::transform(_w.begin(), _w.end(), _sW.begin(), _tolower);
-			
-			int ffound = sMsgLower.compare(_sW);
-			
-			if(!ffound) {
-				if((Hub *)hub)
-				{
-					Hub *p = (Hub *)hub;
-					if(((cs->getIncludeNick()) && p->findNick_gui_p(word,q)))
-					{
-						if(!tag) {
-
-							tag = gtk_text_buffer_create_tag(buffer, word.c_str(),
-							"foreground", fore.c_str(),
-							"background", back.c_str(),
-							"weight", tBold ? TEXT_WEIGHT_BOLD : TEXT_WEIGHT_NORMAL,
-							"style", tItalic ? TEXT_STYLE_ITALIC : TEXT_STYLE_NORMAL,
-							"underline", tUnderline ? PANGO_UNDERLINE_DOUBLE : PANGO_UNDERLINE_NONE,
-							NULL);
-						}
-						TagsMap[Tag::TAG_HIGHL] = tag;//think about this  =P
-						ret = TRUE;
-						continue;
-					}
-				}	
-			}
-
-			string w = cs->getMatch();
-			string sW;
-			sW.resize(w.size()+1);
-			std::transform(w.begin(), w.end(), sW.begin(), _tolower);
-			
-			if(cs->usingRegexp())
-			{
-				string q = cs->getMatch().substr(4);
-				int rematch = 0;
-				if(cs->getCaseSensitive())
-					rematch = matchRe(word,q,true);
-				else
-					rematch = matchRe(word,q,false);
-
-				if(!rematch)
-					ret = FALSE;
-				else
-				{
-					if(!tag) {
-						tag = gtk_text_buffer_create_tag(buffer, word.c_str(),
-						"foreground", fore.c_str(),
-						"background", back.c_str(),
-						"weight", tBold ? TEXT_WEIGHT_BOLD : TEXT_WEIGHT_NORMAL,
-						"style", tItalic ? TEXT_STYLE_ITALIC : TEXT_STYLE_NORMAL,
-						"underline", tUnderline ? PANGO_UNDERLINE_DOUBLE : PANGO_UNDERLINE_NONE,
-						NULL);
-					}
-
-					TagsMap[Tag::TAG_HIGHL] = tag;//think about this  =P
-					ret = TRUE;
-					continue;
-				}
-			}
-
-			int found = sMsgLower.compare(sW);
-			if(!found) {
-
-				if(!tag)
-				{
-				tag = gtk_text_buffer_create_tag(buffer, word.c_str(),
-					"foreground", fore.c_str(),
-					"background", back.c_str(),
-					"weight", tBold ? TEXT_WEIGHT_BOLD : TEXT_WEIGHT_NORMAL,
-					"style", tItalic ? TEXT_STYLE_ITALIC : TEXT_STYLE_NORMAL,
-					"underline", tUnderline ? PANGO_UNDERLINE_DOUBLE : PANGO_UNDERLINE_NONE,
-					NULL);
-
-				}
-				TagsMap[Tag::TAG_HIGHL] = tag;//think about this  =P
-
-
-				if(tPopup)
-					WulforManager::get()->getMainWindow()->showNotification_gui(cs->getNoti()+":", word, Notify::HIGHLITING_E);
-
-				if(tSound)
-				{
-					Sound::get()->playSound(cs->getSoundFile());
-				}
-
-				ret = TRUE;
-				break;
-			}
-			else
-			{
-				ret = FALSE;
-				continue;
-			}
-	}
-	return ret;	
-
-}

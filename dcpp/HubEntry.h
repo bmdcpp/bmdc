@@ -19,11 +19,20 @@
 #ifndef DCPLUSPLUS_DCPP_HUBENTRY_H_
 #define DCPLUSPLUS_DCPP_HUBENTRY_H_
 
+#include <string>
+
+#include "SettingsManager.h"
+#include "Util.h"
+#include "ActionRaw.h"
+#include <list>
+
 namespace dcpp {
+
+using std::string;
 
 class HubEntry {
 public:
-	HubEntry(const string& aName, const string& aServer, const string& aDescription, const string& aUsers) throw() :
+	HubEntry(const string& aName, const string& aServer, const string& aDescription, const string& aUsers) :
 	name(aName), server(aServer), description(aDescription), country(Util::emptyString),
 	rating(Util::emptyString), reliability(0.0), shared(0), minShare(0), users(Util::toInt(aUsers)), minSlots(0), maxHubs(0), maxUsers(0) { }
 
@@ -36,12 +45,12 @@ public:
 
 	}
 
-	HubEntry() throw() { }
-	HubEntry(const HubEntry& rhs) throw() : name(rhs.name), server(rhs.server), description(rhs.description), country(rhs.country),
+	HubEntry() { }
+	HubEntry(const HubEntry& rhs) : name(rhs.name), server(rhs.server), description(rhs.description), country(rhs.country),
 		rating(rhs.rating), reliability(rhs.reliability), shared(rhs.shared), minShare(rhs.minShare), users(rhs.users), minSlots(rhs.minSlots),
 		maxHubs(rhs.maxHubs), maxUsers(rhs.maxUsers) { }
 
-	~HubEntry() throw() { }
+	~HubEntry() { }
 
 	GETSET(string, name, Name);
 	GETSET(string, server, Server);
@@ -59,19 +68,13 @@ public:
 
 class FavoriteHubEntry {
 public:
-	//RSX++
-	typedef FavoriteHubEntry* Ptr;
-	typedef vector<Ptr> List;
-	typedef List::const_iterator Iter;
-	///END
-
-	FavoriteHubEntry() throw() : encoding(Text::systemCharset), hideShare(false), logChat(false) , mode(0), chatExtraInfo(Util::emptyString) { }
-	FavoriteHubEntry(const HubEntry& rhs) throw() : name(rhs.getName()), server(rhs.getServer()),
-		description(rhs.getDescription()), encoding(Text::systemCharset), hideShare(false), logChat(false) , mode(0), chatExtraInfo(Util::emptyString) { }
-	FavoriteHubEntry(const FavoriteHubEntry& rhs) throw() : userdescription(rhs.userdescription),
+	FavoriteHubEntry() : encoding(Text::systemCharset) { }
+	FavoriteHubEntry(const HubEntry& rhs) : name(rhs.getName()), server(rhs.getServer()),
+		description(rhs.getDescription()), encoding(Text::systemCharset) { }
+	FavoriteHubEntry(const FavoriteHubEntry& rhs) : userdescription(rhs.userdescription),
 		name(rhs.getName()), server(rhs.getServer()), description(rhs.getDescription()),
-		password(rhs.getPassword()), encoding(rhs.getEncoding()), group(rhs.getGroup()), nick(rhs.nick), hideShare(rhs.hideShare), logChat(rhs.hideShare), mode(rhs.mode), chatExtraInfo(rhs.chatExtraInfo) { }
-	~FavoriteHubEntry() throw() { }
+		password(rhs.getPassword()), encoding(rhs.getEncoding()), group(rhs.getGroup()), nick(rhs.nick) { }
+	~FavoriteHubEntry() { }
 
 	const string& getNick(bool useDefault = true) const {
 		return (!nick.empty() || !useDefault) ? nick : SETTING(NICK);
@@ -84,46 +87,44 @@ public:
 	GETSET(string, server, Server);
 	GETSET(string, description, Description);
 	GETSET(string, password, Password);
-	GETSET(bool, hideShare, HideShare);
 	GETSET(string, encoding, Encoding);
+	GETSET(bool, hideShare, HideShare);//BMDC++
 	GETSET(string, group, Group);
-	GETSET(bool, logChat, LogChat);
-
-	GETSET(int, mode, Mode); // 0 = default, 1 = active, 2 = passive
-	GETSET(string, ip, Ip);	
-	
-	
+	//BMDC++
+	GETSET(bool, autoConnect,AutoConnect)
+	GETSET(string, ip, Ip);
+	GETSET(int, mode, Mode);
+	GETSET(string, chatExtraInfo, ChatExtraInfo);
+	GETSET(string, protectUsers, ProtectUsers);
+	GETSET(bool, checkAtConn, CheckAtConn);
 	GETSET(bool, checkClients, CheckClients);
 	GETSET(bool, checkFilelists, CheckFilelists);
-	GETSET(bool, checkOnConnect,CheckOnConnect);
 	GETSET(bool, checkMyInfo,CheckMyInfo);
-	GETSET(string, time, Time);
-	GETSET(string, chatExtraInfo, ChatExtraInfo);
 
-	//RSX++ //Raw Manager
+	 //Raw Manager
 	struct FavAction {
 		typedef unordered_map<int, FavAction*> List;
 
-		FavAction(bool _enabled, string _raw = Util::emptyString, int id = 0) throw();
+		FavAction(bool _enabled, string _raw = Util::emptyString, int id = 0) noexcept;
 
 		GETSET(bool, enabled, Enabled);
 		std::list<int> raws;
 	};
 
 	FavAction::List action;
-	//END
+
 
 private:
 	string nick;
 };
-/* think about this class*/
+
 class RecentHubEntry {
 public:
 		typedef RecentHubEntry* Ptr;
 		typedef vector<Ptr> List;
 		typedef List::const_iterator Iter;
 
-		~RecentHubEntry() throw() { }
+		~RecentHubEntry() noexcept { }
 
 		GETSET(string, name, Name);
 		GETSET(string, server, Server);

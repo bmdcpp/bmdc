@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2011 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2010 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
 #include <dcpp/Text.h>
-#include <dcpp/SimpleXML.h> //NOTE: core 0.762
+#include <dcpp/SimpleXML.h>//NOTE: core 0.762
 #include "emoticons.hh"
 
 using namespace std;

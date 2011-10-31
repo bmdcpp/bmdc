@@ -17,37 +17,38 @@
  */
 
 #include "stdinc.h"
-#include "format.h"
-#include "compiler.h"
-#include "w.h"
 #include "Util.h"
-#include "File.h"
 
-#include "StringTokenizer.h"
-#include "SettingsManager.h"
-#include "LogManager.h"
-#include "version.h"
-#include "File.h"
-#include "SimpleXML.h"
+#ifdef _WIN32
 
-#ifndef _WIN32
-	#include <sys/socket.h>
-	#include <netinet/in.h>
-	#include <arpa/inet.h>
-	#include <netdb.h>
-	#include <sys/utsname.h>
-	#include <ctype.h>
-	#include <string.h>
+#include "w.h"
+#include "shlobj.h"
+
 #endif
-
-#include <locale.h>
 
 #include "CID.h"
 #include "ClientManager.h"
 #include "FastAlloc.h"
-#include "GeoIP.h"
+#include "File.h"
+#include "LogManager.h"
+#include "SettingsManager.h"
+#include "SimpleXML.h"
+#include "version.h"
+
+#ifndef _WIN32
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+#include <sys/utsname.h>
+#include <cctype>
+#include <cstring>
+#endif
+#include <clocale>
 
 namespace dcpp {
+
+using std::make_pair;
 
 #ifndef _DEBUG
 FastCriticalSection FastAllocBase::cs;
@@ -61,8 +62,7 @@ bool Util::away = false;
 bool Util::manualAway = false;
 string Util::awayMsg;
 time_t Util::awayTime;
-int64_t Util::uptime = 0;
-GeoIP geo6, geo4;
+uint64_t Util::uptime = 0;
 
 string Util::paths[Util::PATH_LAST];
 
@@ -107,7 +107,7 @@ static string getDownloadsPath(const string& def) {
 
 #endif
 
-void Util::initialize() {
+void Util::initialize(PathsMap pathOverrides) {
 	Text::initialize();
 
 	sgenrand((unsigned long)time(NULL));
@@ -161,8 +161,7 @@ void Util::initialize() {
 	const char* home_ = getenv("HOME");
 	string home = home_ ? Text::toUtf8(home_) : "/tmp/";
 
-	paths[PATH_USER_CONFIG] = home + "/.bmdc++/";/*BMDC DIR conf*/
-	paths[PATH_BACKUP] = paths[PATH_USER_CONFIG] + "Backups" PATH_SEPARATOR_STR;
+	paths[PATH_USER_CONFIG] = home + "/.bmdc++/";
 
 	loadBootConfig();
 
@@ -177,24 +176,25 @@ void Util::initialize() {
 	}
 
 	paths[PATH_USER_LOCAL] = paths[PATH_USER_CONFIG];
-
-	// @todo paths[PATH_RESOURCES] = <replace from sconscript?>;
-	// @todo paths[PATH_LOCALE] = <replace from sconscript?>;
-
-	paths[PATH_LOCALE] = LOCALEDIR;//NOTE: freedcpp
+	paths[PATH_RESOURCES] = "/usr/share/";
+	paths[PATH_LOCALE] = paths[PATH_RESOURCES] + "locale/";
 	paths[PATH_DOWNLOADS] = home + "/Downloads/";
 #endif
 
 	paths[PATH_FILE_LISTS] = paths[PATH_USER_LOCAL] + "FileLists" PATH_SEPARATOR_STR;
 	paths[PATH_HUB_LISTS] = paths[PATH_USER_LOCAL] + "HubLists" PATH_SEPARATOR_STR;
 	paths[PATH_NOTEPAD] = paths[PATH_USER_CONFIG] + "Notepad.txt";
+	paths[PATH_BACKUP] = paths[PATH_USER_CONFIG] + "Backups" PATH_SEPARATOR_STR;
+
+	// Override core generated paths
+	for (PathsMap::const_iterator it = pathOverrides.begin(); it != pathOverrides.end(); ++it)
+	{
+		if (!it->second.empty())
+			paths[it->first] = it->second;
+	}
 
 	File::ensureDirectory(paths[PATH_USER_CONFIG]);
 	File::ensureDirectory(paths[PATH_USER_LOCAL]);
-
-	geo6.init(getGeoPath(true));
-	geo4.init(getGeoPath(false));
-	
 }
 
 void Util::migrate(const string& file) {
@@ -227,15 +227,19 @@ void Util::loadBootConfig() {
 		}
 
 		if(boot.findChild("ConfigPath")) {
-			StringMap params;
+			ParamMap params;
 #ifdef _WIN32
-			// @todo load environment variables instead? would make it more useful on *nix
-			TCHAR path[MAX_PATH];
-
-			params["APPDATA"] = Text::fromT((::SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, SHGFP_TYPE_CURRENT, path), path));
-			params["PERSONAL"] = Text::fromT((::SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, path), path));
+			/// @todo load environment variables instead? would make it more useful on *nix
+			params["APPDATA"] = []() -> string {
+				TCHAR path[MAX_PATH];
+				return Text::fromT((::SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, SHGFP_TYPE_CURRENT, path), path));
+			};
+			params["PERSONAL"] = []() -> string {
+				TCHAR path[MAX_PATH];
+				return Text::fromT((::SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, path), path));
+			};
 #endif
-			paths[PATH_USER_CONFIG] = Util::formatParams(boot.getChildData(), params, false);
+			paths[PATH_USER_CONFIG] = Util::formatParams(boot.getChildData(), params);
 		}
 	} catch(const Exception& ) {
 		// Unable to load boot settings...
@@ -333,13 +337,25 @@ string Util::validateFileName(string tmp) {
 	return tmp;
 }
 
-string Util::cleanPathChars(string aNick) {
-	string::size_type i = 0;
-
-	while( (i = aNick.find_first_of("/.\\", i)) != string::npos) {
-		aNick[i] = '_';
+bool Util::checkExtension(const string& tmp) {
+	for(size_t i = 0, n = tmp.size(); i < n; ++i) {
+		if (tmp[i] < 0 || tmp[i] == 32 || tmp[i] == ':') {
+			return false;
+		}
 	}
-	return aNick;
+	if(tmp.find_first_of(badChars, 0) != string::npos) {
+		return false;
+	}
+	return true;
+}
+
+string Util::cleanPathChars(const string& str) {
+	string ret(str);
+	string::size_type i = 0;
+	while((i = ret.find_first_of("/.\\", i)) != string::npos) {
+		ret[i] = '_';
+	}
+	return ret;
 }
 
 string Util::addBrackets(const string& s) {
@@ -364,7 +380,7 @@ string Util::getShortTimeString(time_t t) {
  * dchub:// -> port 411
  */
 void Util::decodeUrl(const string& url, string& protocol, string& host, string& port, string& path, string& query, string& fragment) {
-        auto fragmentEnd = url.size();
+	auto fragmentEnd = url.size();
 	auto fragmentStart = url.rfind('#');
 
 	size_t queryEnd;
@@ -456,34 +472,35 @@ void Util::decodeUrl(const string& url, string& protocol, string& host, string& 
 }
 
 map<string, string> Util::decodeQuery(const string& query) {
-        map<string, string> ret;
-        size_t start = 0;
-        while(start < query.size()) {
-                size_t eq = query.find('=', start);
-                if(eq == string::npos) {
-                        break;
-                }
+	map<string, string> ret;
+	size_t start = 0;
+	while(start < query.size()) {
+		auto eq = query.find('=', start);
+		if(eq == string::npos) {
+			break;
+		}
 
-                size_t param = eq + 1;
-                size_t end = query.find('&', param);
+		auto param = eq + 1;
+		auto end = query.find('&', param);
 
-                if(end == string::npos) {
-                        end = query.size();
-                }
+		if(end == string::npos) {
+			end = query.size();
+		}
 
-                if(eq > start && end > param) {
-                        ret[query.substr(start, eq-start)] = query.substr(param, end - param);
-                }
+		if(eq > start && end > param) {
+			ret[query.substr(start, eq-start)] = query.substr(param, end - param);
+		}
 
-                start = end + 1;
-        }
+		start = end + 1;
+	}
 
-        return ret;
+	return ret;
 }
 
 string Util::getAwayMessage() {
 	return (formatTime(awayMsg.empty() ? SETTING(DEFAULT_AWAY_MESSAGE) : awayMsg, awayTime)) + " <" APPNAME " v" VERSIONSTRING ">";
 }
+
 string Util::formatBytes(int64_t aBytes) {
 	char buf[128];
 	if(aBytes < 1024) {
@@ -537,6 +554,10 @@ string Util::formatExactSize(int64_t aBytes) {
 }
 
 string Util::getLocalIp() {
+	if(!SettingsManager::getInstance()->isDefault(SettingsManager::BIND_ADDRESS)) {
+		return SETTING(BIND_ADDRESS);
+	}
+
 	string tmp;
 
 	char buf[256];
@@ -619,31 +640,15 @@ static wchar_t utf8ToLC(ccp& str) {
 	return Text::toLower(c);
 }
 
-string Util::toString(const string& sep, const StringList& lst) {
-	string ret;
-	for(StringList::const_iterator i = lst.begin(), iend = lst.end(); i != iend; ++i) {
-		ret += *i;
-		if(i + 1 != iend)
-			ret += sep;
-	}
-	return ret;
-}
-
 string Util::toString(const StringList& lst) {
+	if(lst.empty())
+		return emptyString;
 	if(lst.size() == 1)
 		return lst[0];
-	string tmp("[");
-	for(StringList::const_iterator i = lst.begin(), iend = lst.end(); i != iend; ++i) {
-		tmp += *i + ',';
-	}
-	if(tmp.length() == 1)
-		tmp.push_back(']');
-	else
-		tmp[tmp.length()-1] = ']';
-	return tmp;
+	return '[' + toString(",", lst) + ']';
 }
 
-string::size_type Util::findSubString(const string& aString, const string& aSubString, string::size_type start) throw() {
+string::size_type Util::findSubString(const string& aString, const string& aSubString, string::size_type start) noexcept {
 	if(aString.length() < start)
 		return (string::size_type)string::npos;
 
@@ -679,7 +684,7 @@ string::size_type Util::findSubString(const string& aString, const string& aSubS
 	return (string::size_type)string::npos;
 }
 
-wstring::size_type Util::findSubString(const wstring& aString, const wstring& aSubString, wstring::size_type pos) throw() {
+wstring::size_type Util::findSubString(const wstring& aString, const wstring& aSubString, wstring::size_type pos) noexcept {
 	if(aString.length() < pos)
 		return static_cast<wstring::size_type>(wstring::npos);
 
@@ -784,6 +789,12 @@ string Util::encodeURI(const string& aString, bool reverse) {
 	return tmp;
 }
 
+// used to parse the boost::variant params of the formatParams function.
+struct GetString : boost::static_visitor<string> {
+	string operator()(const string& s) const { return s; }
+	string operator()(const std::function<string ()>& f) const { return f(); }
+};
+
 /**
  * This function takes a string and a set of parameters and transforms them according to
  * a simple formatting rule, similar to strftime. In the message, every parameter should be
@@ -792,7 +803,7 @@ string Util::encodeURI(const string& aString, bool reverse) {
  * date/time and then finally written to the log file. If the parameter is not present at all,
  * it is removed from the string completely...
  */
-string Util::formatParams(const string& msg, const StringMap& params, bool filter) {
+string Util::formatParams(const string& msg, const ParamMap& params, FilterF filter) {
 	string result = msg;
 
 	string::size_type i, j, k;
@@ -801,33 +812,25 @@ string Util::formatParams(const string& msg, const StringMap& params, bool filte
 		if( (result.size() < j + 2) || ((k = result.find(']', j + 2)) == string::npos) ) {
 			break;
 		}
-		string name = result.substr(j + 2, k - j - 2);
-		StringMap::const_iterator smi = params.find(name);
-		if(smi == params.end()) {
-			result.erase(j, k-j + 1);
-			i = j;
-		} else {
-			if(smi->second.find_first_of("%\\./") != string::npos) {
-				string tmp = smi->second;	// replace all % in params with %% for strftime
-				string::size_type m = 0;
-				while(( m = tmp.find('%', m)) != string::npos) {
-					tmp.replace(m, 1, "%%");
-					m+=2;
-				}
-				if(filter) {
-					// Filter chars that produce bad effects on file systems
-					m = 0;
-					while(( m = tmp.find_first_of("\\./", m)) != string::npos) {
-						tmp[m] = '_';
-					}
-				}
 
-				result.replace(j, k-j + 1, tmp);
-				i = j + tmp.size();
-			} else {
-				result.replace(j, k-j + 1, smi->second);
-				i = j + smi->second.size();
+		auto param = params.find(result.substr(j + 2, k - j - 2));
+
+		if(param == params.end()) {
+			result.erase(j, k - j + 1);
+			i = j;
+
+		} else {
+			auto replacement = boost::apply_visitor(GetString(), param->second);
+
+			// replace all % in params with %% for strftime
+			replace("%", "%%", replacement);
+
+			if(filter) {
+				replacement = filter(replacement);
 			}
+
+			result.replace(j, k - j + 1, replacement);
+			i = j + replacement.size();
 		}
 	}
 
@@ -837,15 +840,13 @@ string Util::formatParams(const string& msg, const StringMap& params, bool filte
 }
 
 string Util::formatTime(const string &msg, const time_t t) {
-	if (!msg.empty()) {
-		struct tm* loc = localtime(&t);
-
+	if(!msg.empty()) {
+		tm* loc = localtime(&t);
 		if(!loc) {
 			return Util::emptyString;
 		}
 
 		size_t bufsize = msg.size() + 256;
-
 		string buf(bufsize, 0);
 
 		errno = 0;
@@ -853,8 +854,9 @@ string Util::formatTime(const string &msg, const time_t t) {
 		buf.resize(strftime(&buf[0], bufsize-1, msg.c_str(), loc));
 
 		while(buf.empty()) {
-		    if(errno == EINVAL)
-                return Util::emptyString;
+			if(errno == EINVAL)
+				return Util::emptyString;
+
 			bufsize+=64;
 			buf.resize(bufsize);
 			buf.resize(strftime(&buf[0], bufsize-1, msg.c_str(), loc));
@@ -941,37 +943,6 @@ uint32_t Util::rand() {
 	return y;
 }
 
-/*	getCountry
-	This function returns the country of an ip
-	for exemple: it returns "PT" or Portugal - PT (as Country Format in Setting )"
-	more info: http://www.maxmind.com/app/c
-*/
-string Util::getCountry(const string& ip, int flags) {
-	if(BOOLSETTING(GET_USER_COUNTRY) && !ip.empty()) {
-
-		if(flags & V6) {
-			string ret = geo6.getCountry(ip);
-			if(!ret.empty())
-				return ret;
-		}
-
-		if(flags & V4) {
-			return geo4.getCountry(ip);
-		}
-	}
-
-	return emptyString;
-}
-/*return Abbreviation of Country*/
-string Util::getCountryAB(const string& ip) 
-{ 
-	return geo4.getCountryAB(ip);//think about IPv6  here...
-}
-
-string Util::getGeoPath(bool v6) {
-	return getPath(PATH_USER_CONFIG) + (v6 ? "GeoIPv6.dat" : "GeoIP.dat");
-}
-	
 string Util::getTimeString() {
 	char buf[64];
 	time_t _tt;
@@ -1044,16 +1015,53 @@ string Util::translateError(int aError) {
 #endif // _WIN32
 }
 
-bool Util::checkExtension(const string& tmp) {
-	for(int i = 0; i < tmp.length(); i++) {
-		if (tmp[i] < 0 || tmp[i] == 32 || tmp[i] == ':') {
-			return false;
+bool Util::getAway() {
+	return away;
+}
+
+void Util::setAway(bool aAway) {
+	bool changed = aAway != away;
+
+	away = aAway;
+	if(away)
+		awayTime = time(NULL);
+
+	if(changed)
+		ClientManager::getInstance()->infoUpdated();
+}
+
+void Util::switchAway() {
+	setAway(!away);
+}
+
+string Util::getTempPath() {
+#ifdef _WIN32
+	TCHAR buf[MAX_PATH + 1];
+	DWORD x = GetTempPath(MAX_PATH, buf);
+	return Text::fromT(tstring(buf, x));
+#else
+	return "/tmp/";
+#endif
+}
+
+std::string Util::formatRegExp(const string& msg, ParamMap& params) {
+		std::string result = msg;
+		std::string::size_type i, j, k;
+		i = 0;
+		while (( j = result.find("%[", i)) != string::npos) {
+			if( (result.size() < j + 2) || ((k = result.find(']', j + 2)) == string::npos) ) {
+				break;
+			}
+			std::string name = result.substr(j + 2, k - j - 2);
+			ParamMap::iterator smi = params.find(name);
+			if(smi != params.end()) {
+				result.replace(j, k-j + 1, boost::get<string>(smi->second));
+				i = j + boost::get<string>(smi->second).size();
+			} else {
+				i = k + 1;
+			}
 		}
-	}
-	if(tmp.find_first_of(badChars, 0) != string::npos) {
-		return false;
-	}
-	return true;
+		return result;
 }
 
 bool Util::fileExists(const string aFile) {
@@ -1080,27 +1088,7 @@ bool Util::fileExists(const string aFile) {
   return blnReturn;
 }
 
-std::string Util::formatRegExp(const string& msg, StringMap& params) {
-		std::string result = msg;
-		std::string::size_type i, j, k;
-		i = 0;
-		while (( j = result.find("%[", i)) != string::npos) {
-			if( (result.size() < j + 2) || ((k = result.find(']', j + 2)) == string::npos) ) {
-				break;
-			}
-			std::string name = result.substr(j + 2, k - j - 2);
-			StringMapIter smi = params.find(name);
-			if(smi != params.end()) {
-				result.replace(j, k-j + 1, smi->second);
-				i = j + smi->second.size();
-			} else {
-				i = k + 1;
-			}
-		}
-		return result;
-}
-
-string Util::getBackupTimeString(time_t t) {
+string Util::getBackupTimeString(time_t t /*= time(NULL) */ ) {
  		char buf[255];
  		tm* _tm = localtime(&t);
  		if(_tm == NULL) {
@@ -1110,6 +1098,5 @@ string Util::getBackupTimeString(time_t t) {
  		}
  		return Text::toUtf8(buf);
 }
-
 
 } // namespace dcpp

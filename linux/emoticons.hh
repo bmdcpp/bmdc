@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2011 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2010 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,8 @@
 #define EMOTICONS_HH
 
 #include <gtk/gtk.h>
-
+#include <map>
+#include <set>
 #define EMOTICONS_MAX 48
 
 class Emot

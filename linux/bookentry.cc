@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,7 +37,8 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	eventBox = gtk_event_box_new();
 	gtk_event_box_set_above_child(GTK_EVENT_BOX(eventBox), TRUE);
 	gtk_event_box_set_visible_window(GTK_EVENT_BOX(eventBox), FALSE);
-	/*icon*/
+
+	// icon
 	icon = gtk_image_new();
 	gtk_box_pack_start(GTK_BOX(labelBox), icon, FALSE, FALSE, 0);
 
@@ -49,28 +50,32 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 
 	// Align text to the left (x = 0) and in the vertical center (0.5)
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+    if(WGETB("use-close-button"))
+    {
+    	closeButton = gtk_button_new();
+        gtk_button_set_relief(GTK_BUTTON(closeButton), GTK_RELIEF_NONE);
+        gtk_button_set_focus_on_click(GTK_BUTTON(closeButton), FALSE);
 
-	if(WGETB("show-close-butt"))
-	{
-		closeButton = gtk_button_new();
-		gtk_button_set_relief(GTK_BUTTON(closeButton), GTK_RELIEF_NONE);
-		gtk_button_set_focus_on_click(GTK_BUTTON(closeButton), FALSE);
+        // Shrink the padding around the close button
+        GtkRcStyle *rcstyle = gtk_rc_style_new();
+        rcstyle->xthickness = rcstyle->ythickness = 0;
+        gtk_widget_modify_style(closeButton, rcstyle);
+        gtk_rc_style_unref(rcstyle);
 
-		// Shrink the padding around the close button
-		GtkRcStyle *rcstyle = gtk_rc_style_new();
-		rcstyle->xthickness = rcstyle->ythickness = 0;
-		gtk_widget_modify_style(closeButton, rcstyle);
-		gtk_rc_style_unref(rcstyle);
+        // Add the stock icon to the close button
+        GtkWidget *image = gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
+        gtk_container_add(GTK_CONTAINER(closeButton), image);
+        gtk_box_pack_start(GTK_BOX(labelBox), closeButton, FALSE, FALSE, 0);
 
-		// Add the stock icon to the close button
-		GtkWidget *image = gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
-		gtk_container_add(GTK_CONTAINER(closeButton), image);
-		gtk_box_pack_start(GTK_BOX(labelBox), closeButton, FALSE, FALSE, 0);
-
-		tips = gtk_tooltips_new();
-		gtk_tooltips_enable(tips);
-		gtk_tooltips_set_tip(tips, closeButton, _("Close tab"), NULL);
-	}
+    #if GTK_CHECK_VERSION(2, 12, 0)
+        gtk_widget_set_tooltip_text(closeButton, _("Close tab"));
+    #else
+        tips = gtk_tooltips_new();
+        g_object_ref_sink(tips);
+        gtk_tooltips_enable(tips);
+        gtk_tooltips_set_tip(tips, closeButton, _("Close tab"), NULL);
+    #endif
+    }
 	gtk_widget_show_all(labelBox);
 
 	tabMenuItem = gtk_radio_menu_item_new_with_label(group, text.c_str());
@@ -82,6 +87,8 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	// Associates entry to the widget for later retrieval in MainWindow::switchPage_gui()
 	g_object_set_data(G_OBJECT(getContainer()), "entry", (gpointer)this);
 
+    g_signal_connect(getLabelBox(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
+	g_signal_connect(getLabelBox(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 }
 
 GtkWidget* BookEntry::getContainer()
@@ -96,20 +103,19 @@ void BookEntry::setIcon_gui(const EntryType type)
 	{
 		case Entry::FAVORITE_HUBS : stock = WGETS("icon-favorite-hubs"); break;
 		case Entry::FAVORITE_USERS : stock = WGETS("icon-favorite-users"); break;
+		case Entry::IGNORE_USERS : stock = WGETS("icon-ignore"); break;
 		case Entry::PUBLIC_HUBS : stock = WGETS("icon-public-hubs"); break;
 		case Entry::DOWNLOAD_QUEUE : stock = WGETS("icon-queue"); break;
 		case Entry::SEARCH : stock = WGETS("icon-search"); break;
-		case Entry::ADL : stock = WGETS("icon-adlsearch"); break;
+		case Entry::SEARCH_ADL : stock = WGETS("icon-search-adl"); break;
 		case Entry::SEARCH_SPY : stock = WGETS("icon-search-spy"); break;
 		case Entry::FINISHED_DOWNLOADS : stock = WGETS("icon-finished-downloads"); break;
 		case Entry::FINISHED_UPLOADS : stock = WGETS("icon-finished-uploads"); break;
-		case Entry::NOTEPAD : stock = WGETS("icon-notepad"); break;
-		case Entry::SYSTEML : stock = WGETS("icon-system"); break;
-		case Entry::IGNORE_USERS : stock = WGETS("icon-ignore"); break;
-		case Entry::SHARE_BROWSER : stock = WGETS("icon-directory"); break;
 		case Entry::PRIVATE_MESSAGE : stock = WGETS("icon-pm-online"); break;
 		case Entry::HUB : stock = WGETS("icon-hub-offline"); break;
-		case Entry::HIGHL: stock = WGETS("icon-highlight"); break;
+		case Entry::SHARE_BROWSER : stock = WGETS("icon-directory"); break;
+		case Entry::NOTEPAD : stock = WGETS("icon-notepad"); break;
+		case Entry::SYSTEML : stock = WGETS("icon-system"); break;
 		default: ;
 	}
 	gtk_image_set_from_stock(GTK_IMAGE(icon), stock.c_str(), GTK_ICON_SIZE_BUTTON);
@@ -120,19 +126,28 @@ void BookEntry::setIcon_gui(const std::string stock)
 	gtk_image_set_from_stock(GTK_IMAGE(icon), stock.c_str(), GTK_ICON_SIZE_BUTTON);
 }
 
+void BookEntry::setIconPixbufs_gui(const std::string iconspath)
+{
+ GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_size(iconspath.c_str(),15,15,NULL);	
+ 
+ gtk_image_set_from_pixbuf(GTK_IMAGE(icon),pixbuf); 	
+}
+
 void BookEntry::setLabel_gui(string text)
 {
 	// Update the tab menu item label
 	GtkWidget *child = gtk_bin_get_child(GTK_BIN(tabMenuItem));
 	if (child && GTK_IS_LABEL(child))
 		gtk_label_set_text(GTK_LABEL(child), text.c_str());
-
-	// Update the notebook tab label
-	if(WGETB("show-close-butt"))
-	{
-		gtk_tooltips_set_tip(tips, eventBox, text.c_str(), text.c_str());
-	}
-	
+    if(WGETB("use-close-button"))
+    {
+        // Update the notebook tab label
+        #if GTK_CHECK_VERSION(2, 12, 0)
+            gtk_widget_set_tooltip_text(eventBox, text.c_str());
+        #else
+            gtk_tooltips_set_tip(tips, eventBox, text.c_str(), text.c_str());
+        #endif
+    }
 	glong len = g_utf8_strlen(text.c_str(), -1);
 
 	// Truncate the label text
@@ -219,3 +234,49 @@ const string& BookEntry::getLabelText()
 {
 	return labelText;
 }
+//BMDC++
+void BookEntry::onCloseItem(gpointer data)
+{
+    BookEntry *book = (BookEntry *)data;
+	book->removeBooK_GUI();
+}
+
+void BookEntry::removeBooK_GUI()
+{
+	WulforManager::get()->getMainWindow()->removeBookEntry_gui(this);
+}
+
+GtkWidget *BookEntry::createmenu()
+{
+    GtkWidget *closeTabMenuItem;
+    popTabMenuItem = gtk_menu_new();
+    closeTabMenuItem = gtk_menu_item_new_with_label(_("Close"));
+    gtk_menu_shell_append(GTK_MENU_SHELL(popTabMenuItem),closeTabMenuItem);
+    gtk_widget_show(closeTabMenuItem);
+    g_signal_connect_swapped(closeTabMenuItem, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
+    return popTabMenuItem;
+}
+
+gboolean BookEntry::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+{
+	BookEntry *book = (BookEntry *)data;
+	book->previous = event->type;
+	return FALSE;
+}
+
+gboolean BookEntry::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+{
+	BookEntry *book = (BookEntry *)data;
+
+	if (event->button == 3 && event->type == GDK_BUTTON_RELEASE)
+	{
+		// show menu
+		book->createmenu();
+		gtk_widget_show(book->popTabMenuItem);
+		g_object_ref_sink(book->popTabMenuItem);
+        gtk_menu_popup(GTK_MENU(book->popTabMenuItem),NULL, NULL, NULL,NULL,0,0);
+	}
+	return FALSE;
+}
+
+

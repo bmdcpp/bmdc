@@ -43,7 +43,6 @@ const int INVALID_SOCKET = -1;
 
 #include "Util.h"
 #include "Exception.h"
-#include "noexcept.h"
 
 #include <boost/noncopyable.hpp>
 #include <memory>
@@ -89,7 +88,7 @@ public:
 		TYPE_UDP = IPPROTO_UDP
 	};
 
-	explicit Socket(SocketType type) : type(type) { }
+	explicit Socket(SocketType type, bool v4only = false) : type(type), v4only(v4only) { }
 
 	virtual ~Socket() { }
 
@@ -176,13 +175,13 @@ public:
 	virtual bool isTrusted() const noexcept { return false; }
 	virtual std::string getCipherName() const noexcept { return Util::emptyString; }
 	virtual vector<uint8_t> getKeyprint() const noexcept { return vector<uint8_t>(); }
+	
+	static string getRemoteHost(const string& aIp); 
 
 	/** When socks settings are updated, this has to be called... */
 	static void socksUpdated();
-	static string getRemoteHost(const string& aIp);
 
 	GETSET(string, ip, Ip);
-	GETSET(string, port, Port);
 	GETSET(string, localIp4, LocalIp4);
 	GETSET(string, localIp6, LocalIp6);
 protected:
@@ -199,6 +198,8 @@ protected:
 	mutable SocketHandle sock6;
 
 	SocketType type;
+
+	bool v4only;
 
 	class Stats {
 	public:

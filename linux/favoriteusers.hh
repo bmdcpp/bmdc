@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2011 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2010 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,12 +37,8 @@ class FavoriteUsers:
 		FavoriteUsers();
 		virtual ~FavoriteUsers();
 		virtual void show();
-		virtual void popmenu();
 
 	private:
-        ///GUI
-        static void onCloseItem(gpointer data);
-
 		typedef std::map<std::string, std::string> ParamMap;
 		typedef std::unordered_map<std::string, GtkTreeIter> UserIters;
 

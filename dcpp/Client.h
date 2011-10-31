@@ -20,60 +20,60 @@
 #define DCPLUSPLUS_DCPP_CLIENT_H
 
 #include "compiler.h"
+
+#include <atomic>
+
 #include "forward.h"
-#include "Atomic.h"
-#include "User.h"
+
 #include "Speaker.h"
 #include "BufferedSocketListener.h"
 #include "TimerManager.h"
 #include "ClientListener.h"
+#include "OnlineUser.h"
 #ifdef _USELUA
-	#include "ScriptManager.h"
+    #include "ScriptManager.h"
 #endif
 #include "CommandQueue.h"
 
 namespace dcpp {
 
+using std::atomic;
 #ifdef _USELUA
-struct ClientScriptInstance : public ScriptInstance {
-	bool onHubFrameEnter(Client* aClient, const string& aLine);
-	string formatChatMessage(const string& aLine);
+struct ClientScriptInstance: public ScriptInstance
+{
+    bool onHubFrameEnter(Client* aClient, const string& aLine);
+    string formatChatMessage(const string& aLine);
 };
 #endif
 /** Yes, this should probably be called a Hub */
 class Client : public Speaker<ClientListener>, public BufferedSocketListener, protected TimerManagerListener
 #ifdef _USELUA
-, public ClientScriptInstance
+,public ClientScriptInstance
 #endif
 {
 public:
-	typedef Client* Ptr;
-
 	virtual void connect();
 	virtual void disconnect(bool graceless);
 
 	virtual void connect(const OnlineUser& user, const string& token) = 0;
 	virtual void hubMessage(const string& aMessage, bool thirdPerson = false) = 0;
 	virtual void privateMessage(const OnlineUser& user, const string& aMessage, bool thirdPerson = false) = 0;
-	virtual void sendUserCmd(const UserCommand& command, const StringMap& params) = 0;
+	virtual void sendUserCmd(const UserCommand& command, const ParamMap& params) = 0;
 	virtual void search(int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken, const StringList& aExtList) = 0;
 	virtual void password(const string& pwd) = 0;
 	virtual void info(bool force) = 0;
-//checking&ref UL
-	virtual void refreshUserList(bool) = 0;
-	virtual void getUserList(OnlineUserList& list) const = 0;
-	virtual string startChecking(const string& aParams) = 0;
-	virtual void stopChecking() = 0;
-	virtual void stopMyINFOCheck() = 0;
-	virtual void sendUserCmd(const string& aUserCmd) = 0;
-//end
 
 	virtual size_t getUserCount() const = 0;
 	virtual int64_t getAvailable() const = 0;
+	virtual void getUserList(OnlineUserList& list) const = 0;
+	virtual void refreshuserlist(bool) = 0;
+	
+	virtual string startCheck(const string &params) = 0;
+	virtual void startMyInfoCheck() = 0;
+	virtual void stopMyInfoCheck() = 0;
+	virtual void stopChecking() = 0;
 
 	virtual void send(const AdcCommand& command) = 0;
-
-	virtual string escape(string const& str) const { return str; }
 
 	bool isConnected() const { return state != STATE_DISCONNECTED; }
 	bool isReady() const { return state != STATE_CONNECTING && state != STATE_DISCONNECTED; }
@@ -84,41 +84,27 @@ public:
 
 	bool isOp() const { return getMyIdentity().isOp(); }
 
-	string getPort() const { return port; }
+	const string& getPort() const { return port; }
 	const string& getAddress() const { return address; }
 
 	const string& getIp() const { return ip; }
 	string getIpPort() const { return getIp() + ':' + port; }
 	string getLocalIp() const;
 
-	void updated(const OnlineUserPtr& aUser)  {
-		fire(ClientListener::UserUpdated(), this, aUser);
-	 }
+	void updated(const OnlineUser *aUser) { fire(ClientListener::UserUpdated(), this, (*aUser)); }
+	void updated(const OnlineUser& aUser) { fire(ClientListener::UserUpdated(), this, aUser); }
 
-	void updated(const OnlineUser& aUser) {
-		fire(ClientListener::UserUpdated(), this, aUser);
-	}
+	void cheatMessage(const string& message) { fire(ClientListener::CheatMessage(), this, message); }
 
-	static string getCounts() {
-		char buf[128];
-		return string(buf, snprintf(buf, sizeof(buf), "%ld/%ld/%ld",
-				static_cast<long>(counts.normal),
-				static_cast<long>(counts.registered),
-				static_cast<long>(counts.op)));
-	}
-
-	StringMap& escapeParams(StringMap& sm) {
-		for(StringMapIter i = sm.begin(); i != sm.end(); ++i) {
-			i->second = escape(i->second);
-		}
-		return sm;
-	}
+	static string getCounts();
 
 	void reconnect();
 	void shutdown();
 
 	void send(const string& aMessage) { send(aMessage.c_str(), aMessage.length()); }
 	void send(const char* aMessage, size_t aLen);
+	void sendActionCommand(const OnlineUser& ou, int actionId);
+	bool isActionActive(const int aAction) const;
 
 	string getMyNick() const { return getMyIdentity().getNick(); }
 	string getHubName() const { return getHubIdentity().getNick().empty() ? getHubUrl() : getHubIdentity().getNick(); }
@@ -127,18 +113,8 @@ public:
 	Identity& getHubIdentity() { return hubIdentity; }
 
 	const string& getHubUrl() const { return hubUrl; }
-
-	//RSX++
-	bool isActionActive(const int aAction) const;
-
-	void cheatMessage(const string& msg) {
-		fire(ClientListener::CheatMessage(), this, msg);
-	}
-	void sendActionCommand(const OnlineUser& ou, int actionId);
-
 	bool isActive() const;
-	
-	void putDetectors() { stopMyINFOCheck(); stopChecking(); setCheckedAtConnect(false); }
+	void putDetectors() { stopMyInfoCheck(); stopChecking();  }
 
 	GETSET(Identity, myIdentity, MyIdentity);
 	GETSET(Identity, hubIdentity, HubIdentity);
@@ -148,43 +124,32 @@ public:
 	GETSET(uint64_t, lastActivity, LastActivity);
 	GETSET(bool, registered, Registered);
 	GETSET(bool, autoReconnect, AutoReconnect);
-	GETSET(bool, hideShare, HideShare);
-	GETSET(bool, checkedAtConnect, CheckedAtConnect);
 	GETSET(string, encoding, Encoding);
 
 	GETSET(string, currentNick, CurrentNick);
 	GETSET(string, currentDescription, CurrentDescription);
-	//RSX++
+	//BMDC++
+	GETSET(bool, hideShare, HideShare);
+	GETSET(string, favIp, FavIp);
+	GETSET(string, chatExtraInfo, ChatExtraInfo);
+	GETSET(string, protectUser, ProtectUser);
+
+	GETSET(bool, checkAtConnect, CheckAtConnect);
 	GETSET(bool, checkClients, CheckClients);
 	GETSET(bool, checkFilelists, CheckFilelists);
-	GETSET(bool, checkOnConnect, CheckOnConnect);
-
-	GETSET(string, chatExtraInfo, ChatExtraInfo);
-	GETSET(string, favIp, FavIp);
-
-	mutable CriticalSection cs; //RSX++
-	virtual ~Client() throw();
 protected:
 	friend class ClientManager;
 	Client(const string& hubURL, char separator, bool secure_);
-	
+	virtual ~Client();
+
 	enum CountType {
 		COUNT_NORMAL,
 		COUNT_REGISTERED,
 		COUNT_OP,
 		COUNT_UNCOUNTED,
 	};
-	
-	struct Counts {
-		private:
-			typedef Atomic<boost::int32_t,memory_ordering_weak> atomic_counter_t;
-		public:
-			typedef boost::int32_t value_type;
-			Counts(value_type n = 0, value_type r = 0, value_type o = 0) : normal(n), registered(r), op(o) { }
-			atomic_counter_t normal;
-			atomic_counter_t registered;
-			atomic_counter_t op;
-	};
+
+	static atomic<long> counts[COUNT_UNCOUNTED];
 
 	enum States {
 		STATE_CONNECTING,	///< Waiting for socket to connect
@@ -195,10 +160,7 @@ protected:
 		STATE_DISCONNECTED,	///< Nothing in particular
 	} state;
 
-	BufferedSocket* sock;
-
-	static Counts counts;
-	Counts lastCounts;
+	BufferedSocket *sock;
 
 	void updateCounts(bool aRemove);
 	void updateActivity() { lastActivity = GET_TICK(); }
@@ -209,29 +171,30 @@ protected:
 	virtual string checkNick(const string& nick) = 0;
 
 	// TimerManagerListener
-	virtual void on(Second, uint64_t aTick) throw();
+	virtual void on(Second, uint64_t aTick) noexcept;
 	// BufferedSocketListener
-	virtual void on(Connecting) throw() { fire(ClientListener::Connecting(), this); }
-	virtual void on(Connected) throw();
-	virtual void on(Line, const string& aLine) throw();
-	virtual void on(Failed, const string&) throw();
+	virtual void on(Connecting) noexcept { fire(ClientListener::Connecting(), this); }
+	virtual void on(Connected) noexcept;
+	virtual void on(Line, const string& aLine) noexcept;
+	virtual void on(Failed, const string&) noexcept;
 
+	virtual bool v4only() const = 0;
 private:
-	//RSX++
-	CommandQueue cmdQueue;
 
 	Client(const Client&);
 	Client& operator=(const Client&);
 
-	string keyprint;
 	string hubUrl;
 	string address;
 	string ip;
 	string localIp;
+	string keyprint;
 	string port;
 	char separator;
 	bool secure;
 	CountType countType;
+
+	CommandQueue cmdQueue;
 };
 
 } // namespace dcpp

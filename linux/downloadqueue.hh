@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2011 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,7 +37,6 @@ class DownloadQueue:
 		DownloadQueue();
 		virtual ~DownloadQueue();
 		virtual void show();
-		virtual void popmenu();
 
 	private:
 		// GUI functions
@@ -74,11 +73,9 @@ class DownloadQueue:
 		static void onFileRemoveUserFromQueueClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onFileRemoveClicked_gui(GtkMenuItem *menuitem, gpointer data);
 
-		//GUI
-		static void onCloseItem(gpointer data);
-
 		// Client functions
-		void buildList_client();
+		//void buildList_client();
+		void addQueueList(const dcpp::QueueItem::StringMap& ll);
 		void move_client(std::string source, std::string target);
 		void moveDir_client(std::string source, std::string target);
 		void setPriority_client(std::string target, dcpp::QueueItem::Priority p);
@@ -98,7 +95,6 @@ class DownloadQueue:
 		virtual void on(dcpp::QueueManagerListener::Moved, dcpp::QueueItem *item, const std::string &oldTarget) throw();
 		virtual void on(dcpp::QueueManagerListener::Removed, dcpp::QueueItem *item) throw();
 		virtual void on(dcpp::QueueManagerListener::SourcesUpdated, dcpp::QueueItem *item) throw();
-		/**/
 		virtual void on(dcpp::QueueManagerListener::StatusUpdated, dcpp::QueueItem *item) throw();
 
 		// Private variables
