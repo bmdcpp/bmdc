@@ -826,8 +826,8 @@ string WulforUtil::generateLeech() {
 	char buf[650];
 	snprintf(buf, sizeof(buf), "\n\t [ BMDC++ %s %s Leech Stats ]\r\n [ Downloaded:\t\t\t %s ]\r\n [ Uploaded:\t\t\t %s ]\r\n [ Total Download:\t\t %s ]\r\n [ Total Upload:\t\t\t %s ]\r\n [ Ratio: \t\t\t\t %s ]\r\n [ Current Uploads:\t\t %s Running Upload(s) ]\r\n [ Current Upload Speed: \t\t %s/s ]\r\n [ Current Downloads:\t\t %s Running Download(s) ]\r\n [ Current Download Speed: \t %s/s ]",
 		VERSIONSTRING, GUI_VERSION_STRING, Util::formatBytes(Socket::getTotalDown()).c_str(), Util::formatBytes(Socket::getTotalUp()).c_str(),
-		Util::formatBytes(Util::toDouble(WGETS("dw-st"))).c_str(), Util::formatBytes(Util::toDouble(WGETS("up-st"))).c_str(),
-		Util::toString((((double)Util::toDouble(WGETS("up-st"))) / ((double)Util::toDouble(WGETS("dw-st"))))).c_str(),
+		Util::formatBytes(static_cast<double>(SETTING(TOTAL_DOWNLOAD))).c_str(), Util::formatBytes(static_cast<double>(SETTING(TOTAL_UPLOAD))).c_str(),
+		Util::toString(((static_cast<double>(SETTING(TOTAL_UPLOAD)))) / static_cast<double>(SETTING(TOTAL_DOWNLOAD))).c_str(),
 		Util::toString(UploadManager::getInstance()->getUploadCount()).c_str(), Util::formatBytes(UploadManager::getInstance()->getRunningAverage()).c_str(),
 		Util::toString(DownloadManager::getInstance()->getDownloadCount()).c_str(), Util::formatBytes(DownloadManager::getInstance()->getRunningAverage()).c_str());
 	return buf;
@@ -893,8 +893,8 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	} else if ( cmd == "ratio")
 	{
 			double ratio;
-			double dw =  static_cast<double>(SETTING(TOTAL_DOWNLOAD));//Util::toInt64(WGETS("up-st"));
-			double up = static_cast<double>(SETTING(TOTAL_UPLOAD));//Util::toInt64(WGETS("dw-st"));
+			double dw =  static_cast<double>(SETTING(TOTAL_DOWNLOAD));
+			double up = static_cast<double>(SETTING(TOTAL_UPLOAD));
 			if(dw > 0)
 				ratio = up / dw;
 			else
@@ -955,7 +955,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			int dettotal = SETTING(DETECTIONS);
 			int detfail = SETTING(DETECTIONF);
 
-		message =   "\n-= Stats " + string(GUI_PACKAGE) + " " + string(GUI_VERSION_STRING) + "/" + dcpp::fullVersionString + " =-\n"
+		message =   "\n-= Stats " + dcpp::fullVersionString + " =-\n"
 					+ "-= "+sys_name + " " + node_name + " " + rel + " " + mach + " =-\n"
 					+ "-= Uptime: " + Util::formatSeconds(Util::getUptime()) + " =-\n"
 					+ "-= Sys Uptime: " + Util::toString(udays) + " days," + Util::toString(uhour) + " Hours," + Util::toString(umin) + " min. =-\n"

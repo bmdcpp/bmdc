@@ -116,11 +116,11 @@ string ShareManager::findRealRoot(const string& virtualRoot, const string& virtu
 		if(Util::stricmp(i->second, virtualRoot) == 0) {
 			std::string name = i->first + virtualPath;
 			dcdebug("Matching %s\n", name.c_str());
-			if(FileFindIter(name) != FileFindIter()) {
+		//	if(FileFindIter(name) != FileFindIter()) {
+			if (File::getSize(name) != -1)//NOTE: see core 0.750
 				return name;
 			}
 		}
-	}
 
 	throw ShareException(UserConnection::FILE_NOT_AVAILABLE);
 }
@@ -191,7 +191,7 @@ StringList ShareManager::getRealPaths(const string& virtualPath) {
 
 	} else {
 		// file
-		ret.push_back(toReal(virtualPath,false));
+		ret.push_back(toReal(virtualPath,true));
 	}
 
 	return ret;

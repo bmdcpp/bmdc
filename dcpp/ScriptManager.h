@@ -64,7 +64,7 @@ struct LuaManager  {
 };
 
 class ScriptInstance {
-		bool MakeCallRaw(const string& table, const string& method , int args, int ret) throw();
+		bool MakeCallRaw(const string& table, const string& method , int args, int ret) noexcept;
 	protected:
 		virtual ~ScriptInstance() { }
 		static lua_State* L;
@@ -102,7 +102,7 @@ class ScriptManager: public ScriptInstance, public Singleton<ScriptManager>, pub
 		Socket s;
 		friend class Singleton<ScriptManager>;
 		ScriptManager();
-		virtual ~ScriptManager() throw() {     lua_close(L); if(timerEnabled) TimerManager::getInstance()->removeListener(this);  }
+		virtual ~ScriptManager() noexcept {     lua_close(L); if(timerEnabled) TimerManager::getInstance()->removeListener(this);  }
 	public:
 		void load();
 		void  SendDebugMessage(const string& s);
@@ -111,8 +111,8 @@ class ScriptManager: public ScriptInstance, public Singleton<ScriptManager>, pub
 		friend struct LuaManager;
 		friend class ScriptInstance;
 
-		virtual void on(ClientConnected, Client* aClient) throw();
-		virtual void on(ClientDisconnected, Client* aClient) throw();
+		virtual void on(ClientConnected, Client* aClient) noexcept;
+		virtual void on(ClientDisconnected, Client* aClient) noexcept;
 		virtual void on(Second, uint64_t /* ticks */) noexcept;
 
 };

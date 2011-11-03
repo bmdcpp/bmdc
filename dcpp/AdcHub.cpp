@@ -688,7 +688,7 @@ void AdcHub::connect(const OnlineUser& user, string const& token, bool secure) {
 		proto = &CLIENT_PROTOCOL;
 	}
 
-	if(ClientManager::getInstance()->isActive()) {
+	if(ClientManager::getInstance()->isActive(getHubUrl())) {
 		uint16_t port = secure ? ConnectionManager::getInstance()->getSecurePort() : ConnectionManager::getInstance()->getPort();
 		if(port == 0) {
 			// Oops?
@@ -923,7 +923,7 @@ void AdcHub::search(int aSizeMode, int64_t aSize, int aFileType, const string& a
 }
 
 void AdcHub::sendSearch(AdcCommand& c) {
-	if(ClientManager::getInstance()->isActive()) {
+	if(ClientManager::getInstance()->isActive(getHubUrl())) {
 		send(c);
 	} else {
 		c.setType(AdcCommand::TYPE_FEATURE);
@@ -1031,7 +1031,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 	} else {
 		addParam(lastInfoMap, c, "I4", "0.0.0.0");
 	}
-	if(ClientManager::getInstance()->isActive()) {
+	if(ClientManager::getInstance()->isActive(getHubUrl())) {
 		addParam(lastInfoMap, c, "U4", Util::toString(SearchManager::getInstance()->getPort()));
 		su += "," + TCP4_FEATURE;
 		su += "," + UDP4_FEATURE;

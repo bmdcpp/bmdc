@@ -133,17 +133,15 @@ public:
 	void saveUsers() const;
 	void saveUser(const CID& cid);
 
-	bool getSharingHub(const UserPtr& p, const string& hubHint = Util::emptyString) {
-		Client* c = 0;
-		{
-			Lock l(cs);
-			OnlineUser* ou = findOnlineUser(p->getCID(), hubHint, false);
-			if(!ou)
-				return false;
-			c = &ou->getClient();
-		}
-		return c ? c->getHideShare() : false;
+	bool getSharingHub(const HintedUser& p) {
+		Lock l(cs);
+		OnlineUser* ou = findOnlineUserHint(p.user->getCID(), p.hint);
+		if(ou)
+			return (!ou->getClient().getHideShare());
+		return true;
 	}
+	
+	
 	int getMode(const string& aHubUrl) const;
 	bool isActive(const string& aHubUrl = Util::emptyString) const;
 	//CMD

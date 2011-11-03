@@ -2300,6 +2300,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			"/luafile <file>\t\t - " 	+ _("Load Lua file") + "\n" +
 			"/lua <chunk>\t\t\t -  " 	+ _("Execute Lua Chunk") + "\n" +
 			#endif
+			"/exec <cmd>-\t\t\t    "    + _("Execute Bash chunk") + "\n"+
 			"/userlist\t\t\t\t - " + _("User list show/hide") + "\n" +
 			"/limitimg <n>, limg <n>\t - " + _("Download limit image: 0 - disable, n < 0 - unlimit, empty - info") + "\n" +
 			"/freedcpp\t\t\t\t - " + _("Show version") + "\n" +
@@ -2326,6 +2327,10 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		{
 			func2 = new F2(hub, &Hub::sendMessage_client, params, true);
 			WulforManager::get()->dispatchClientFunc(func2);
+		}
+		else if (command == "topic")
+		{
+			hub->addMessage_gui("",_("Topic: ")+hub->client->getHubDescription(), Msg::SYSTEM);
 		}
 		else if (command == "pm")
 		{
@@ -2361,6 +2366,23 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			ScriptManager::getInstance()->EvaluateFile(Text::fromT(params));
 		} 
 		#endif
+		///
+		else if (command == "exec")
+		{
+			FILE *pipe = popen( param.c_str(), "r" );
+			gchar *command_res;
+			gsize command_length;
+			GIOChannel* gio_chanel = g_io_channel_unix_new( fileno( pipe ) );
+			GIOStatus gio_status = g_io_channel_read_to_end( gio_chanel, &command_res, &command_length, NULL );
+			if( gio_status == G_IO_STATUS_NORMAL )
+			{
+				F2 *func = new F2( hub, &Hub::sendMessage_client, string(command_res), false );
+				WulforManager::get()->dispatchClientFunc(func);
+			}
+			g_io_channel_close( gio_chanel );
+			g_free( command_res );
+			pclose( pipe );
+		}
 		else if (command == "sc")
 		{
 			hub->addStatusMessage_gui(hub->client->startCheck(params),Msg::SYSTEM,Sound::NONE);

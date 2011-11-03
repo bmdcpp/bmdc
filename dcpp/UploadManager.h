@@ -104,13 +104,8 @@ private:
 
 	int lastFreeSlots; /// amount of free slots at the previous minute
 
-	//typedef pair<HintedUser, uint64_t> WaitingUser;
 	typedef list<WaitingUser> WaitingUserList;
-
-	/*struct WaitingUserFresh {
-		bool operator()(const WaitingUser& wu) { return wu.second > GET_TICK() - 5*60*1000; }
-	};
-	*/
+	
 	//functions for manipulating waitingFiles and waitingUsers
 	WaitingUserList waitingUsers;		//this one merely lists the users waiting for slots
 	FilesMap waitingFiles;		//set of files which this user has asked for

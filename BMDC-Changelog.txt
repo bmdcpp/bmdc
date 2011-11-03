@@ -361,5 +361,7 @@ Fixed Remove All RecentHubs
 Add Reconect all in File menu item 
 Trying add support of $SetIcon
 
+Add Forgoten /exec cmd
+add Forgoten /topic cmd
 
 

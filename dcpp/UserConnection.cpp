@@ -289,9 +289,9 @@ void UserConnection::send(const string& aString) {
 	lastActivity = GET_TICK();
 	#ifdef _USELUA
 	if(onUserConnectionMessageOut(this, aString)) {
-			disconnect(true);
-			return;
-		}
+	 	disconnect(true);
+		return;
+	}
 	#endif
 	socket->write(aString);
 }

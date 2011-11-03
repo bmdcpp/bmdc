@@ -33,7 +33,7 @@
 #endif
 
 namespace dcpp {
-class UserConnection;
+//class UserConnection;
 #ifdef _USELUA
 class UserConnectionScriptInstance : public ScriptInstance {
 protected:
@@ -41,7 +41,6 @@ protected:
 	bool onUserConnectionMessageOut(UserConnection* aConn, const string& aLine);
 };
 #endif
-
 class UserConnection : public Speaker<UserConnectionListener>,
 	private BufferedSocketListener, public Flags, private CommandHandler<UserConnection>,
 	private boost::noncopyable
@@ -124,7 +123,7 @@ public:
 	void error(const string& aError) { send("$Error " + aError + '|'); }
 	void listLen(const string& aLength) { send("$ListLen " + aLength + '|'); }
 	void getListLen() { send("$GetListLen|"); }
-	void maxedOut(size_t queue_position = 0) {
+	void maxedOut(size_t queue_position) {
 		 bool sendPos = queue_position > 0;
 		 if(isSet(FLAG_NMDC)) {
 			send("$MaxedOut" + (sendPos ? (" " + Util::toString(queue_position)) : Util::emptyString) + "|"); 

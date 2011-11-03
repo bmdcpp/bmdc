@@ -409,11 +409,11 @@ string ScriptInstance::GetClientType(Client* aClient) {
 	return dynamic_cast<AdcHub *>(aClient)?"adch":"nmdch";
 }
 
-void ScriptManager::on(ClientDisconnected, Client* aClient) throw() {
+void ScriptManager::on(ClientDisconnected, Client* aClient) noexcept {
 	MakeCall(GetClientType(aClient), "OnHubRemoved", 0, aClient);
 }
 
-void ScriptManager::on(ClientConnected, Client* aClient) throw() {
+void ScriptManager::on(ClientConnected, Client* aClient) noexcept {
 	MakeCall(GetClientType(aClient), "OnHubAdded", 0, aClient);
 }
 
@@ -424,7 +424,7 @@ void ScriptManager::on(Second, uint64_t /* ticks */) noexcept {
 void ScriptInstance::LuaPush(int i) { lua_pushnumber(L, i); }
 void ScriptInstance::LuaPush(const string& s) { lua_pushlstring(L, s.data(), s.size()); }
 
-bool ScriptInstance::MakeCallRaw(const string& table, const string& method, int args, int ret) throw() {
+bool ScriptInstance::MakeCallRaw(const string& table, const string& method, int args, int ret) noexcept {
 	lua_getglobal(L, table.c_str());		// args + 1
 	lua_pushstring(L, method.c_str());		// args + 2
 	if (lua_istable(L, -2)) {
@@ -436,7 +436,8 @@ bool ScriptInstance::MakeCallRaw(const string& table, const string& method, int 
 			return true;
 		}
 		const char *msg = lua_tostring(L, -1);
-		string formatted_msg = (msg != NULL) ? string("LUA Error: ") + msg:string("LUA Error: (unknown)");
+		string formatted_msg = (msg != NULL) ? string("LUA Error: ") + msg : string("LUA Error: (unknown)");
+		
 		if(BOOLSETTING(ENB_LUA_DEBUG))
 		{
 			ScriptManager::getInstance()->SendDebugMessage(formatted_msg);

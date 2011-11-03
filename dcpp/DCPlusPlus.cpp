@@ -97,8 +97,9 @@ void startup(void (*f)(void*, const string&), void* p) {
 	WindowManager::newInstance();
 	DebugManager::newInstance();
 	UPnPManager::newInstance();
+#ifdef _USELUA	 
 	ScriptManager::newInstance();
-	
+#endif	
 	DetectionManager::newInstance();
 	HighlightManager::newInstance();
 	BackupManager::newInstance();
@@ -168,7 +169,11 @@ void shutdown() {
     BackupManager::deleteInstance();
     HighlightManager::deleteInstance();
     DetectionManager::deleteInstance();
+    
+   #ifdef _USELUA 
     ScriptManager::deleteInstance();
+   #endif 
+    
     UPnPManager::deleteInstance();
     DebugManager::deleteInstance();
 	

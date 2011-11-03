@@ -73,7 +73,10 @@ public:
 		description(rhs.getDescription()), encoding(Text::systemCharset) { }
 	FavoriteHubEntry(const FavoriteHubEntry& rhs) : userdescription(rhs.userdescription),
 		name(rhs.getName()), server(rhs.getServer()), description(rhs.getDescription()),
-		password(rhs.getPassword()), encoding(rhs.getEncoding()), group(rhs.getGroup()), nick(rhs.nick) { }
+		password(rhs.getPassword()), encoding(rhs.getEncoding()), group(rhs.getGroup()), nick(rhs.nick), hideShare(false),
+		autoConnect(false), ip(Util::emptyString), mode(0), chatExtraInfo(Util::emptyString),
+		checkAtConn(false), checkClients(false), checkFilelists(false),  checkMyInfo(false)
+		 { }
 	~FavoriteHubEntry() { }
 
 	const string& getNick(bool useDefault = true) const {

@@ -478,7 +478,8 @@ void DownloadManager::on(AdcCommand::STA, UserConnection* aSource, const AdcComm
 			fileNotAvailable(aSource);
 			return;
 		case AdcCommand::ERROR_SLOTS_FULL:
-			noSlots(aSource);
+			string param;
+			noSlots(aSource, cmd.getParam("QP", 0, param) ? param : Util::emptyString);
 			return;
 		}
 	case AdcCommand::SEV_SUCCESS:

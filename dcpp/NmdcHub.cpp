@@ -54,7 +54,7 @@ NmdcHub::~NmdcHub() {
 void NmdcHub::connect(const OnlineUser& aUser, const string&) {
 	checkstate();
 	dcdebug("NmdcHub::connect %s\n", aUser.getIdentity().getNick().c_str());
-	if(ClientManager::getInstance()->isActive()) {
+	if(ClientManager::getInstance()->isActive(getHubUrl())) {
 		connectToMe(aUser);
 	} else {
 		revConnectToMe(aUser);
@@ -463,7 +463,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		if(u == NULL)
 			return;
 
-		if(ClientManager::getInstance()->isActive()) {
+		if(ClientManager::getInstance()->isActive(getHubUrl())) {
 			connectToMe(*u);
 		} else {
 			if(!u->getUser()->isSet(User::PASSIVE)) {
@@ -584,7 +584,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			OnlineUser& u = getUser(param);
 
 			if(u.getUser() == getMyIdentity().getUser()) {
-				if(ClientManager::getInstance()->isActive())
+				if(ClientManager::getInstance()->isActive(getHubUrl()))
 					u.getUser()->unsetFlag(User::PASSIVE);
 				else
 					u.getUser()->setFlag(User::PASSIVE);
@@ -817,7 +817,7 @@ void NmdcHub::myInfo(bool alwaysSend) {
 	char modeChar = '?';
 	if(SETTING(OUTGOING_CONNECTIONS) == SettingsManager::OUTGOING_SOCKS5)
 		modeChar = '5';
-	else if(ClientManager::getInstance()->isActive())
+	else if(ClientManager::getInstance()->isActive(getHubUrl()))
 		modeChar = 'A';
 	else
 		modeChar = 'P';
@@ -865,7 +865,7 @@ void NmdcHub::search(int aSizeType, int64_t aSize, int aFileType, const string& 
 		tmp[i] = '$';
 	}
 	string tmp2;
-	if(ClientManager::getInstance()->isActive()) {
+	if(ClientManager::getInstance()->isActive(getHubUrl())) {
 		tmp2 = getLocalIp() + ':' + Util::toString(SearchManager::getInstance()->getPort());
 	} else {
 		tmp2 = "Hub:" + fromUtf8(getMyNick());
@@ -1061,7 +1061,7 @@ void NmdcHub::refreshuserlist(bool refreshOnly) {
 
 #ifdef _USELUA
 bool NmdcHubScriptInstance::onClientMessage(NmdcHub* aClient, const string& aLine) {
-	//Lock l(cs);
+	Lock l(cs);
 	MakeCall("nmdch", "DataArrival", 1, aClient, aLine);
 	return GetLuaBool();
 
