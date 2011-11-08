@@ -38,6 +38,8 @@ Download::Download(UserConnection& conn, QueueItem& qi, const string& path, bool
 	}
 	else if(qi.isSet(QueueItem::FLAG_CHECK_FILE_LIST))
 		setType(TYPE_CHECK_FILE_LIST);
+	else if(qi.isSet(QueueItem::FLAG_TESTSUR))
+		setType(TYPE_TESTSUR);	
 	
 	
 	if(qi.isSet(QueueItem::FLAG_CHECK_FILE_LIST))

@@ -17,6 +17,7 @@ libbz2
 libssl
 libboost
 libGeoIP >= 1.4.7
+libtar
 --------------
 optional:
  libgnome 

@@ -44,4 +44,4 @@ void TarFile::DecompresTarredFile(const string& _file, const string& _prefix)
 	close(tar_fd(t));
 }
 
-}//dcpp;
+}//Namespace dcpp

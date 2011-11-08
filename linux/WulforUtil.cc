@@ -1470,6 +1470,7 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 		GdkPixbuf *buf = gtk_widget_render_icon(iwid, GTK_STOCK_DIRECTORY, GTK_ICON_SIZE_MENU, NULL);
 		return buf;
 	}
+	std::transform(ext.begin(), ext.end(), ext.begin(), (int(*)(int))tolower);
 
 	loadmimetypes();
 

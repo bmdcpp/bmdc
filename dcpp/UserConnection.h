@@ -33,7 +33,6 @@
 #endif
 
 namespace dcpp {
-//class UserConnection;
 #ifdef _USELUA
 class UserConnectionScriptInstance : public ScriptInstance {
 protected:

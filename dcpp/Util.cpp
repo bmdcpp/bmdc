@@ -20,10 +20,8 @@
 #include "Util.h"
 
 #ifdef _WIN32
-
-#include "w.h"
-#include "shlobj.h"
-
+	#include "shlobj.h"
+	#include "w.h"
 #endif
 
 #include "CID.h"
@@ -36,13 +34,13 @@
 #include "version.h"
 
 #ifndef _WIN32
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#include <sys/utsname.h>
-#include <cctype>
-#include <cstring>
+	#include <sys/socket.h>
+	#include <netinet/in.h>
+	#include <arpa/inet.h>
+	#include <netdb.h>
+	#include <sys/utsname.h>
+	#include <cctype>
+	#include <cstring>
 #endif
 #include <clocale>
 

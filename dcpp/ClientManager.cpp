@@ -591,10 +591,6 @@ UserPtr& ClientManager::getMe() {
 	return me;
 }
 
-/*bool ClientManager::isActive() const {
-	return SETTING(INCOMING_CONNECTIONS) != SettingsManager::INCOMING_FIREWALL_PASSIVE;
-}
-*/
 const CID& ClientManager::getMyPID() {
 	if(pid.isZero())
 		pid = CID(SETTING(PRIVATE_ID));
@@ -694,7 +690,9 @@ int ClientManager::getMode(const string& aHubUrl) const {
 }
 
 bool ClientManager::isActive(const string& aHubUrl /*= Util::emptyString*/) const
-{ return getMode(aHubUrl) != SettingsManager::INCOMING_FIREWALL_PASSIVE; }
+{ 
+	return getMode(aHubUrl) != SettingsManager::INCOMING_FIREWALL_PASSIVE; 
+}
 
 void ClientManager::setIpAddress(const UserPtr& p, const string& ip) {
     Lock l(cs);
@@ -885,7 +883,7 @@ void ClientManager::on(HubUserCommand, Client* client, int aType, int ctx, const
 }
 
 void ClientManager::checkCheating(const HintedUser& p, DirectoryListing* dl) {
-	string report;// = Util::emptyString;
+	string report;
 	OnlineUser* ou = NULL;
 
 	{
@@ -1040,7 +1038,7 @@ void ClientManager::sendRawCommand(const UserPtr& user, const string& aRaw, bool
 void ClientManager::setCheating(const UserPtr& p, const string& _ccResponse, const string& _cheatString, int _actionId, bool _displayCheat,
 		bool _badClient, bool _badFileList, bool _clientCheckComplete, bool _fileListCheckComplete) {
 	OnlineUser* ou = NULL;
-	string report;// = Util::emptyString;
+	string report;
 	{
 		Lock l(cs);
 		ou = findOnlineUser(p->getCID(), "", false);
@@ -1125,7 +1123,7 @@ void ClientManager::setListLength(const UserPtr& p, const string& listLen) {
 
 void ClientManager::setListSize(const UserPtr& p, int64_t aFileLength, bool adc) {
 	OnlineUser* ou = NULL;
-	string report;// = Util::emptyString;
+	string report;
 	{
 		Lock l(cs);
 		ou = findOnlineUser(p->getCID(), "", false);

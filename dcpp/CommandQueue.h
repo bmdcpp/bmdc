@@ -18,6 +18,7 @@
 
 #ifndef COMMAND_QUEUE
 #define COMMAND_QUEUE
+
 #include "UserCommand.h"
 #include "CriticalSection.h"
 #include <list>
@@ -43,7 +44,6 @@ public:
 	void addCommand(const OnlineUser& ou, int actionId);
 private:
 	struct CommandItem {
-		//string cmd;
 		string name;
 		UserCommand uc;
 		const OnlineUser *ou;

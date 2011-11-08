@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
 	// Check if profile is locked
 	if (WulforUtil::profileIsLocked())
 	{
-		cout << _("No More That one Instance");
+		cout << _("No More That one Instance\n");
 		return 1;
 	}
 

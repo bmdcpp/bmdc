@@ -99,7 +99,6 @@ void QueueManager::FileQueue::remove(QueueItem* qi) {
 	if(lastInsert != queue.end() && Util::stricmp(*lastInsert->first, qi->getTarget()) == 0)
 		++lastInsert;
 	queue.erase(const_cast<string*>(&qi->getTarget()));
-	//delete qi;
 	qi->dec();
 }
 
@@ -522,7 +521,7 @@ void QueueManager::on(TimerManagerListener::Minute, uint64_t aTick) noexcept {
 	string fn;
 	string searchString;
 	bool online = false;
-	StringList offlineChecks; //
+	StringList offlineChecks; //BMDC/RSXlike
 
 	{
 		Lock l(cs);
@@ -1120,8 +1119,8 @@ void QueueManager::putDownload(Download* aDownload, bool finished, bool reportFi
 
 		delete aDownload->getFile();
 		aDownload->setFile(0);
-
-		if(aDownload->getType() == Transfer::TYPE_PARTIAL_LIST) {
+		
+		if(aDownload->getType() == Transfer::TYPE_PARTIAL_LIST ) {
 			QueueItem* q = fileQueue.find(getListPath(aDownload->getHintedUser()));
 			if(q) {
 				if(finished) {
@@ -1181,7 +1180,7 @@ void QueueManager::putDownload(Download* aDownload, bool finished, bool reportFi
 
 						if(aDownload->getType() != Transfer::TYPE_FILE || q->isFinished()) {
 							// Check if we need to move the file
-							if( aDownload->getType() == Transfer::TYPE_FILE && !aDownload->getTempTarget().empty() && (Util::stricmp(aDownload->getPath().c_str(), aDownload->getTempTarget().c_str()) != 0) ) {
+							if( (aDownload->getType() == Transfer::TYPE_FILE && !aDownload->getTempTarget().empty() && (Util::stricmp(aDownload->getPath().c_str(), aDownload->getTempTarget().c_str()) != 0 )) )  {
 								moveFile(aDownload->getTempTarget(), aDownload->getPath());
 							}
 

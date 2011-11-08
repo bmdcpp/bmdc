@@ -4670,14 +4670,20 @@ void Settings::saveHighlighting(dcpp::StringMap &params, bool add, const string 
 	}
 	else
 	{
-		for(dcpp::ColorIter it = pList.begin(); it != pList.end(); ++it)
+		/*for(dcpp::ColorIter it = pList.begin(); it != pList.end(); ++it)
 		{
 			if((*it).getMatch() == name)
 			{
 				pList.erase(it);
 				pList.insert(it,cs);
+				
 			}
+		}*/
+		for(unsigned int it = 0;it < pList.size();it++)
+		{
+			pList[it] = cs;
 		}
+		
 		addHighlighting_to_gui(cs, false);
 	}
 }

@@ -355,7 +355,7 @@ MainWindow::MainWindow():
 
 	gtk_window_move(window, posX, posY);
 	gtk_window_resize(window, sizeX, sizeY);
-	if (WGETI("main-window-maximized"))
+	if (WGETI("main-window-maximized") == 1)
 		gtk_window_maximize(window);
 
 	setMainStatus_gui(_("Welcome to ") + string(g_get_application_name()));
@@ -397,6 +397,8 @@ MainWindow::~MainWindow()
 	TimerManager::getInstance()->removeListener(this);
 	LogManager::getInstance()->removeListener(this);
 
+	listQueue.shutdown();
+
 	GList *list = (GList *)g_object_get_data(G_OBJECT(getWidget("book")), "page-rotation-list");
 	g_list_free(list);
 
@@ -411,16 +413,14 @@ MainWindow::~MainWindow()
 	transferPanePosition = sizeY - gtk_paned_get_position(GTK_PANED(getWidget("pane")));
 
 	if (!(gdkState & GDK_WINDOW_STATE_MAXIMIZED))
-	{
 		maximized = FALSE;
-		// The get pos/size functions return junk when window is maximized
+		
 		WSET("main-window-pos-x", posX);
 		WSET("main-window-pos-y", posY);
 		WSET("main-window-size-x", sizeX);
 		WSET("main-window-size-y", sizeY);
-	}
 
-	WSET("main-window-maximized", maximized);
+	WSET("main-window-maximized", (int)maximized);
 	if (transferPanePosition > 10)
 		WSET("transfer-pane-position", transferPanePosition);
 
@@ -2577,11 +2577,11 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) noexcept
 	int64_t diff = (int64_t)((lastUpdate == 0) ? ticks - 1000 : ticks - lastUpdate);
 	int64_t downBytes = 0;
 	int64_t upBytes = 0;
+	int64_t downDiff = Socket::getTotalDown() - lastDown;
+	int64_t upDiff = Socket::getTotalUp() - lastUp;
 
 	if (diff > 0)
 	{
-		int64_t downDiff = Socket::getTotalDown() - lastDown;
-		int64_t upDiff = Socket::getTotalUp() - lastUp;
 		downBytes = (downDiff * 1000) / diff;
 		upBytes = (upDiff * 1000) / diff;
 	}
@@ -2591,7 +2591,11 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) noexcept
 	string downloaded = Util::formatBytes(Socket::getTotalDown());
 	string uploadSpeed = Util::formatBytes(upBytes) + "/" + _("s");
 	string uploaded = Util::formatBytes(Socket::getTotalUp());
-
+	
+	SettingsManager *sm = SettingsManager::getInstance();
+	sm->set(SettingsManager::TOTAL_UPLOAD,   SETTING(TOTAL_UPLOAD)   + upDiff);
+	sm->set(SettingsManager::TOTAL_DOWNLOAD, SETTING(TOTAL_DOWNLOAD) + downDiff);
+	
 	lastUpdate = ticks;
 	lastUp = Socket::getTotalUp();
 	lastDown = Socket::getTotalDown();

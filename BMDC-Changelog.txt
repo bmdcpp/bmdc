@@ -352,7 +352,6 @@ Proper Audacius Script along with /rb for Rhytmobox
 Some change in startup (annouce)
 Better Error if same port for TCP and TLS
 Trying Fix some stuff in FavoriteHubs
-
 Fix Highliting typo
 Add Splash class
 Some more up-to-date core.
@@ -360,8 +359,10 @@ Some more up-to-date-to FreeDC++
 Fixed Remove All RecentHubs
 Add Reconect all in File menu item 
 Trying add support of $SetIcon
-
 Add Forgoten /exec cmd
 add Forgoten /topic cmd
+
+Fix TestSUR
+Fix ratio
 
 

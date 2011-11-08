@@ -26,13 +26,13 @@
 #define DCPP_REVISION_STRING "2651"
 #endif
 #ifndef BMDC_REVISION
-#define BMDC_REVISION 75
+#define BMDC_REVISION 76
 #endif
-#define BMDC_REVISION_STRING "75"
+#define BMDC_REVISION_STRING "76"
 #define xstrver(s) strver(s)
 #define strver(s) #s
 
 namespace dcpp {
-const string fullVersionString(APPNAME xstrver(BMDC_REVISION) "/ v" VERSIONSTRING " (r" xstrver(DCPP_REVISION) ")");
+const string fullVersionString(APPNAME "r" xstrver(BMDC_REVISION) "/ v" VERSIONSTRING " (r" xstrver(DCPP_REVISION) ")");
 }
 

@@ -152,9 +152,10 @@ void startup(void (*f)(void*, const string&), void* p) {
 }
 
 void shutdown() {
+	ThrottleManager::getInstance()->shutdown();//..
 	TimerManager::getInstance()->shutdown();
 	HashManager::getInstance()->shutdown();
-	ThrottleManager::getInstance()->shutdown();
+	
 	ConnectionManager::getInstance()->shutdown();
 	MappingManager::getInstance()->close();
 	GeoManager::getInstance()->close();

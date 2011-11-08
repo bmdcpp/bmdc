@@ -783,7 +783,7 @@ void DetectionTab::editRaw_client(dcpp::StringMap params)
     const Action *action = RawManager::getInstance()->findAction(a);
     if(action != NULL)
     {
-        Raw *old;
+        Raw *old = NULL;
         for(Action::RawsList::const_iterator j = action->raw.begin(); j != action->raw.end(); ++j) {
 			if(j->getId() == ids)
             {
