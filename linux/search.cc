@@ -43,11 +43,12 @@ Search::Search():
 	previousGrouping(NOGROUPING)
 {
 	// Initialize the search entries combo box
-	if (searchEntriesModel == NULL)
-		searchEntriesModel = gtk_combo_box_get_model(GTK_COMBO_BOX(getWidget("comboboxentrySearch")));
-	gtk_combo_box_set_model(GTK_COMBO_BOX(getWidget("comboboxentrySearch")), searchEntriesModel);
-	searchEntry = gtk_bin_get_child(GTK_BIN(getWidget("comboboxentrySearch")));
-	gtk_widget_grab_focus(getWidget("comboboxentrySearch"));
+	//if (searchEntriesModel == NULL)
+	//	searchEntriesModel = gtk_combo_box_get_model(GTK_COMBO_BOX(getWidget("comboboxentrySearch")));
+	//gtk_combo_box_set_model(GTK_COMBO_BOX(getWidget("comboboxentrySearch")), searchEntriesModel);
+	//searchEntry = gtk_bin_get_child(GTK_BIN(getWidget("comboboxentrySearch")));
+	//gtk_widget_grab_focus(getWidget("comboboxentrySearch"));
+	gtk_widget_grab_focus(getWidget("SearchEntry"));
 
 	// Configure the dialog
 	File::ensureDirectory(SETTING(DOWNLOAD_DIRECTORY));
@@ -122,6 +123,10 @@ Search::Search():
 	resultView.setSortColumn_gui(_("Slots"), "Slots Order");
 	resultView.setSortColumn_gui(_("Filename"), "File Order");
 	gtk_tree_view_set_fixed_height_mode(resultView.get(), TRUE);
+	
+	//
+	resultView.setSelection(selection);
+	resultView.buildCopyMenu(getWidget("CopyMenu"));
 
 	// Initialize the user command menu
 	userCommandMenu = new UserCommandMenu(getWidget("usercommandMenu"), ::UserCommand::CONTEXT_SEARCH);
@@ -178,7 +183,7 @@ Search::Search():
 	g_signal_connect(getWidget("removeUserFromQueueItem"), "activate", G_CALLBACK(onRemoveUserFromQueueClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("removeItem"), "activate", G_CALLBACK(onRemoveClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("comboboxSize"), "changed", G_CALLBACK(onComboBoxChanged_gui), (gpointer)this);
-	g_signal_connect(getWidget("comboboxentrySearch"), "changed", G_CALLBACK(onComboBoxChanged_gui), (gpointer)this);
+//	g_signal_connect(getWidget("comboboxentrySearch"), "changed", G_CALLBACK(onComboBoxChanged_gui), (gpointer)this);
 	g_signal_connect(getWidget("comboboxUnit"), "changed", G_CALLBACK(onComboBoxChanged_gui), (gpointer)this);
 	g_signal_connect(getWidget("comboboxFile"), "changed", G_CALLBACK(onComboBoxChanged_gui), (gpointer)this);
 	g_signal_connect(getWidget("comboboxGroupBy"), "changed", G_CALLBACK(onGroupByComboBoxChanged_gui), (gpointer)this);
@@ -857,7 +862,8 @@ gboolean Search::onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer
 {
 	Search *s = (Search *)data;
 
-	gtk_widget_grab_focus(s->getWidget("comboboxentrySearch"));
+	//gtk_widget_grab_focus(s->getWidget("comboboxentrySearch"));
+	gtk_widget_grab_focus(s->getWidget("SearchEntry"));
 
 	return TRUE;
 }
@@ -931,8 +937,8 @@ gboolean Search::onSearchEntryKeyPressed_gui(GtkWidget *widget, GdkEventKey *eve
 	}
 	else if (event->keyval == GDK_Down || event->keyval == GDK_KP_Down)
 	{
-		gtk_combo_box_popup(GTK_COMBO_BOX(s->getWidget("comboboxentrySearch")));
-		return TRUE;
+		//gtk_combo_box_popup(GTK_COMBO_BOX(s->getWidget("comboboxentrySearch")));
+		//return TRUE;
 	}
 
 	return FALSE;

@@ -361,8 +361,12 @@ Add Reconect all in File menu item
 Trying add support of $SetIcon
 Add Forgoten /exec cmd
 add Forgoten /topic cmd
-
 Fix TestSUR
-Fix ratio
+Fix Ratio
+
+Add Rember checked button in CMD Debug Tab
+Class RecentTab => RecentHubs
+Some small changes in main Sconscripts
+Added Archs PKGBUILD
 
 

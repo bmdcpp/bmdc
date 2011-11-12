@@ -91,7 +91,7 @@ public:
 	GETSET(string, description, Description);
 	GETSET(string, password, Password);
 	GETSET(string, encoding, Encoding);
-	GETSET(bool, hideShare, HideShare);//BMDC++
+	GETSET(bool, hideShare, HideShare); //BMDC++
 	GETSET(string, group, Group);
 	//BMDC++
 	GETSET(bool, autoConnect,AutoConnect)

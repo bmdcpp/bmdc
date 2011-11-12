@@ -99,24 +99,17 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkComboBoxEntry" id="comboboxentrySearch">
-                    <property name="width_request">200</property>
+                  <widget class="GtkEntry" id="SearchEntry">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="items" translatable="yes"></property>
-                    <child internal-child="entry">
-                      <widget class="GtkEntry" id="comboboxentry-entry1">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="primary_icon_activatable">False</property>
-                        <property name="secondary_icon_activatable">False</property>
-                        <property name="primary_icon_sensitive">True</property>
-                        <property name="secondary_icon_sensitive">True</property>
-                      </widget>
-                    </child>
+                    <property name="can_focus">True</property>
+                    <property name="invisible_char">●</property>
+                    <property name="primary_icon_activatable">False</property>
+                    <property name="secondary_icon_activatable">False</property>
+                    <property name="primary_icon_sensitive">True</property>
+                    <property name="secondary_icon_sensitive">True</property>
                   </widget>
                   <packing>
-                    <property name="expand">False</property>
+                    <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
@@ -602,6 +595,20 @@ File type
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">_Download</property>
         <property name="use_underline">True</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkMenuItem" id="menuitem1">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Copy</property>
+        <property name="use_underline">True</property>
+        <child>
+          <widget class="GtkMenu" id="CopyMenu">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+          </widget>
+        </child>
       </widget>
     </child>
     <child>

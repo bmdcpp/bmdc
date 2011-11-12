@@ -366,7 +366,7 @@ void UploadQueue::addFavoriteUser_client(const string cid)
 	}
 }
 
-void UploadQueue::on(dcpp::UploadManagerListener::WaitingAddFile, const HintedUser& hUser, string file) throw()
+void UploadQueue::on(dcpp::UploadManagerListener::WaitingAddFile, const HintedUser& hUser, string file) noexcept
 {
 	StringMap params;
 	getParams(file,hUser.user,params);
@@ -375,10 +375,9 @@ void UploadQueue::on(dcpp::UploadManagerListener::WaitingAddFile, const HintedUs
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
-void UploadQueue::on(dcpp::UploadManagerListener::WaitingRemoveUser, const HintedUser& user) throw()
+void UploadQueue::on(dcpp::UploadManagerListener::WaitingRemoveUser, const HintedUser& user) noexcept
 {
 	typedef Func1<UploadQueue, string> F1;
 	F1 *func = new F1(this, &UploadQueue::removeUser,user.user->getCID().toBase32());
 	WulforManager::get()->dispatchGuiFunc(func);
-	
 }

@@ -40,8 +40,8 @@
 #include "hub.hh"
 #include "version.hh"
 #ifdef HAVE_IFADDRS_H
-#include <ifaddrs.h>
-#include <net/if.h>
+	#include <ifaddrs.h>
+	#include <net/if.h>
 #endif
 #include <sys/utsname.h>
 #include <sys/sysinfo.h>
@@ -1459,7 +1459,9 @@ void WulforUtil::loadmimetypes()
 	m_mimetyp.insert( std::pair<std::string, std::string>(".wav", "audio/x-wav"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".cue", "application/x-cue"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".rm", "application/vnd.rn-realmedia"));
-
+	m_mimetyp.insert( std::pair<std::string, std::string>(".flv", "video/x-flv"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".mpg", "audio/mpeg"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".mpeg", "audio/mpeg"));
 }
 
 GdkPixbuf *WulforUtil::loadIconShare(string ext)
@@ -1490,4 +1492,3 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 	return icon_d;
 
 }
-

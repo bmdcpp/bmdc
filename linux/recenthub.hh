@@ -19,8 +19,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef RECENT_TAB_HH
-#define RECENT_TAB_HH
+#ifndef RECENT_HUBS_HH
+#define RECENT_HUBS_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
@@ -30,13 +30,13 @@
 #include "bookentry.hh"
 #include "treeview.hh"
 
-class RecentTab:
+class RecentHubs:
 	public BookEntry,
 	public dcpp::FavoriteManagerListener
 {
 	public:
-		RecentTab();
-		virtual ~RecentTab();
+		RecentHubs();
+		virtual ~RecentHubs();
 		virtual void show();
 		
 	private:
@@ -58,9 +58,9 @@ class RecentTab:
 		void removeRecent_client(const std::string adr);
 
 		// Favorite callbacks
-		virtual void on(dcpp::FavoriteManagerListener::RecentUpdated, const dcpp::RecentHubEntry *entry) throw();
-		virtual void on(dcpp::FavoriteManagerListener::RecentRemoved, const dcpp::RecentHubEntry *entry) throw();
-		virtual void on(dcpp::FavoriteManagerListener::RecentAdded, const dcpp::RecentHubEntry *entry) throw();
+		virtual void on(dcpp::FavoriteManagerListener::RecentUpdated, const dcpp::RecentHubEntry *entry) noexcept;
+		virtual void on(dcpp::FavoriteManagerListener::RecentRemoved, const dcpp::RecentHubEntry *entry) noexcept;
+		virtual void on(dcpp::FavoriteManagerListener::RecentAdded, const dcpp::RecentHubEntry *entry) noexcept;
 
 		RecIters recIters;
 		GdkEventType previous;
@@ -70,5 +70,5 @@ class RecentTab:
 };
 
 #else
-class RecentTab;
+class RecentHubs;
 #endif

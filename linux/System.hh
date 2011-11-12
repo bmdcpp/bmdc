@@ -50,7 +50,7 @@ class systemlog:
 		static void onResize_gui(GtkAdjustment *adjustment, gpointer data);
 
 		// LogManagerListener
-		virtual void on(dcpp::LogManagerListener::Message, time_t t, const std::string& message) throw();
+		virtual void on(dcpp::LogManagerListener::Message, time_t t, const std::string& message) noexcept;
 
 		GtkTextBuffer *buffer;
 		GtkTextIter iter;

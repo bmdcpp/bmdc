@@ -325,7 +325,7 @@ MainWindow::MainWindow():
 	g_signal_connect(getWidget("issueMenuItem"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
 
 	g_object_set_data_full(G_OBJECT(getWidget("forumDiscussionItem")), "link",
-		g_strdup("http://forum.ubuntu.ru/index.php?topic=81512.0"), g_free);
+		g_strdup("http://answers.launchpad.net/bmdc++"), g_free);
 	g_signal_connect(getWidget("forumDiscussionItem"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
 
 	g_object_set_data_full(G_OBJECT(getWidget("changeLogItem")), "link",
@@ -355,7 +355,7 @@ MainWindow::MainWindow():
 
 	gtk_window_move(window, posX, posY);
 	gtk_window_resize(window, sizeX, sizeY);
-	if (WGETI("main-window-maximized") == 1)
+	if (WGETI("main-window-maximized"))
 		gtk_window_maximize(window);
 
 	setMainStatus_gui(_("Welcome to ") + string(g_get_application_name()));
@@ -969,7 +969,7 @@ void MainWindow::showRecentHubs_gui()
 	
 	if(entry == NULL)
 	{
-		entry = new RecentTab();
+		entry = new RecentHubs();
 		addBookEntry_gui(entry);
 	}	
 	raisePage_gui(entry->getContainer());

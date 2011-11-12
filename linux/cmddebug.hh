@@ -58,7 +58,7 @@ class cmddebug:
 
         int run() {
             setThreadPriority(dcpp::Thread::LOW);
-            std::string x ;//= dcpp::Util::emptyString;
+            std::string x;
             stop = false;
 
             while(true) {
@@ -101,12 +101,12 @@ class cmddebug:
     }
 
     //DebugManager
-    void on(dcpp::DebugManagerListener::DebugDetection, const std::string& com) throw()
+    void on(dcpp::DebugManagerListener::DebugDetection, const std::string& com) noexcept
     {
 		if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("detection_button"))) == TRUE)
 			addCmd(std::string("[Detection] ") + com,"");
     }
-    void on(dcpp::DebugManagerListener::DebugCommand, const std::string& mess, int typedir, const std::string& ip) throw();
+    void on(dcpp::DebugManagerListener::DebugCommand, const std::string& mess, int typedir, const std::string& ip) noexcept;
 
     static void onScroll_gui(GtkAdjustment *adjustment, gpointer data);
     static void onResize_gui(GtkAdjustment *adjustment, gpointer data);

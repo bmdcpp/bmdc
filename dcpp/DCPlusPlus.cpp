@@ -152,12 +152,15 @@ void startup(void (*f)(void*, const string&), void* p) {
 }
 
 void shutdown() {
+	RsxUtil::uinit();
+	
 	ThrottleManager::getInstance()->shutdown();//..
 	TimerManager::getInstance()->shutdown();
 	HashManager::getInstance()->shutdown();
 	
 	ConnectionManager::getInstance()->shutdown();
 	MappingManager::getInstance()->close();
+	UPnPManager::getInstance()->close();//add
 	GeoManager::getInstance()->close();
 	BufferedSocket::waitShutdown();
 

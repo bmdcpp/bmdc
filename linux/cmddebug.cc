@@ -23,6 +23,7 @@
 #include "cmddebug.hh"
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
+#include "settingsmanager.hh"
 #include <dcpp/DebugManager.h>
 
 using namespace std;
@@ -35,10 +36,17 @@ stop(false)
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("cmdtextview")));
     gtk_text_buffer_get_end_iter(buffer, &iter);
     cmdMark = gtk_text_buffer_create_mark(buffer, NULL, &iter, FALSE);
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("hub_in_button")) , TRUE);
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("hub_out_button")) , TRUE);
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("client_in_button")) , TRUE);
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("client_out_button")) , TRUE);
+    gboolean hubin = WGETB("cmd-debug-hub-in");
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("hub_in_button")) , hubin);//TRUE
+    gboolean hubout = WGETB("cmd-debug-hub-out");
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("hub_out_button")) , hubout);//TRUE
+    gboolean clientin = WGETB("cmd-debug-client-in");
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("client_in_button")) , clientin);//TRUE
+    gboolean clientout = WGETB("cmd-debug-client-out");
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("client_out_button")) , clientout);//TRUE
+    gboolean detection = WGETB("cmd-debug-detection");
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("detection_button")) , detection);//FALSE
+    
     GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("cmdscroll")));
     g_signal_connect(adjustment, "value_changed", G_CALLBACK(onScroll_gui), (gpointer)this);
     g_signal_connect(adjustment, "changed", G_CALLBACK(onResize_gui), (gpointer)this);
@@ -48,6 +56,12 @@ stop(false)
 
 cmddebug::~cmddebug()
 {
+    WSET("cmd-debug-hub-out", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget("hub_out_button"))));
+    WSET("cmd-debug-hub-in", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget("hub_in_button"))));
+    WSET("cmd-debug-client-out", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget("client_out_button"))));
+    WSET("cmd-debug-client-in", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget("client_in_button"))));
+    WSET("cmd-debug-detection", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget("detection_button"))));
+    
     DebugManager::getInstance()->removeListener(this);
 }
 
@@ -86,7 +100,7 @@ void cmddebug::show()
     ini_client();
 }
 
-void cmddebug::on(dcpp::DebugManagerListener::DebugCommand, const std::string& mess, int typedir, const std::string& ip) throw()
+void cmddebug::on(dcpp::DebugManagerListener::DebugCommand, const std::string& mess, int typedir, const std::string& ip) noexcept
 {
         switch(typedir) {
             case dcpp::DebugManager::HUB_IN :

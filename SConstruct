@@ -5,11 +5,6 @@ import os
 import commands
 import string
 
-#try:
-#	from bzrlib import branch
-#except ImportError:
-#	print "bzrlib not installed"
-
 EnsureSConsVersion(0, 98, 1)
 
 PACKAGE = 'bmdc'
@@ -20,10 +15,10 @@ BUILD_LOCALE_PATH = BUILD_PATH + 'locale/'
 LIB_IS_UPNP = True
 LIB_IS_GEO = False
 LIB_IS_TAR = False
-
+#'-DBOOST_THREAD_POSIX' add
 # todo: remove -fpermissive and fix the errors
 BUILD_FLAGS = {
-	'common'  : ['-I#','-fpermissive','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib'],#fix maybe for oneiric
+	'common'  : ['-I#','-fpermissive','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib', '-DBOOST_THREAD_POSIX'],
 	'debug'   : ['-g', '-ggdb', '-Wall', '-D_DEBUG'], 
 	'release' : ['-O3', '-fomit-frame-pointer', '-DNDEBUG']
 }
@@ -58,20 +53,6 @@ def check_cxx_version(context, name, major, minor):
 
 	context.Result(retval)
 	return retval
-
-#def check_bzr_revision(context):
-#	context.Message("Checking bzr revision...")
-#	revision = ''
-
-#	try:
-#		b = branch.Branch.open('.')
-#		revision = str(b.revno())
-#	except:
-#		print "failed"
-
-#	context.env['BZR_REVISION'] = revision
-#	context.Result(revision)
-#	return revision
 #
 # Recursively installs all files within the source folder to target. Optionally,
 # a filter function can be provided to prevent installation of certain files.
@@ -178,7 +159,6 @@ conf = env.Configure(
 		'CheckPKGConfig' : check_pkg_config,
 		'CheckPKG' : check_pkg,
 		'CheckCXXVersion' : check_cxx_version,
-#		'CheckBZRRevision' : check_bzr_revision
 	},
 	conf_dir = 'build/sconf',
 	log_file = 'build/sconf/config.log')
@@ -306,14 +286,16 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		conf.env.Append(CPPDEFINES = 'HAVE_GEOIPLIB')
 		LIB_IS_GEO = True
 	else:
-		print 'Dont Found GeoIP headers or libs'	
-	#tar for Backup/Restore man	
+		print 'Dont Found GeoIP headers or libs'
+		Exit(1)	
+	#tar for Backup/Restore man.	
 	if conf.CheckHeader("libtar.h"):
 		print "Found Libtar"
 		conf.env.Append(CPPDEFINES = 'HAVE_LIBTAR')
 		LIB_IS_TAR = True
 	else:
-		print 'Dont Found libtar headers'	
+		print 'Dont Found libtar headers'
+		Exit(1)	
 		
 	#	conf.CheckBZRRevision()
 	env = conf.Finish()

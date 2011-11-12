@@ -61,22 +61,20 @@ void CommandQueue::addCommand(const OnlineUser& ou, int actionId) {
 
 		if(a != NULL) {
 			if(FavoriteManager::getInstance()->getEnabledAction(hub, actionId)) {
-				//RawManager::getInstance()->lock();
-
+				
 				uint64_t delayTime = GET_TICK();
 				for(Action::RawsList::const_iterator i = a->raw.begin(); i != a->raw.end(); ++i) {
 					if(i->getEnabled() && !(i->getRaw().empty())) {
 						if(FavoriteManager::getInstance()->getEnabledRaw(hub, actionId, i->getId())) {
 							ParamMap params;
 							const UserCommand uc = UserCommand(0, 0, 0, 0, "", i->getRaw(),"", "");
+						
 							ou.getIdentity().getParams(params, "user", true);
 							clientPtr->getHubIdentity().getParams(params, "hub", false);
 							clientPtr->getMyIdentity().getParams(params, "my", true);
-						//	clientPtr->escapeParams(params);
 							string formattedCmd = Util::formatParams(uc.getCommand(), params);
 
 							CommandItem item;
-							//item.cmd = formattedCmd;
 							item.name = i->getName();
 							item.uc = uc;
 							item.ou = &ou;
@@ -94,7 +92,7 @@ void CommandQueue::addCommand(const OnlineUser& ou, int actionId) {
 						}
 					}
 				}
-				//RawManager::getInstance()->unlock();
+				
 			}
 		}
 	}

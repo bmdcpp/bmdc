@@ -1540,7 +1540,7 @@ Contributors:
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="aboutMenuItem">
-                        <property name="label" translatable="yes">About FreeDC++</property>
+                        <property name="label" translatable="yes">About BMDC++</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>

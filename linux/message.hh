@@ -1,5 +1,6 @@
 /*
  * Copyright © 2009-2010 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2011 BMDC++ http://launchpad.net/bmdc++
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +19,10 @@
  * In addition, as a special exception, compiling, linking, and/or
  * using OpenSSL with this program is allowed.
  */
+ /*
+  * Changelog BMDC++:
+  * Added class Tag
+  * */
 
 #ifndef MSG_TYPE_HH
 #define MSG_TYPE_HH

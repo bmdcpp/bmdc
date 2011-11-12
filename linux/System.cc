@@ -111,7 +111,7 @@ void systemlog::show()
     ini_client();
 }
 
-void systemlog::on(LogManagerListener::Message, time_t t, const string& message) throw()
+void systemlog::on(LogManagerListener::Message, time_t t, const string& message) noexcept
 {
     typedef Func2<systemlog,time_t,std::string> F2;
     F2 *func = new F2(this,&systemlog::add_gui, t, message);

@@ -1,5 +1,4 @@
 /*
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -56,7 +55,6 @@ class IgnoreUsers:
 		static void onSendPMItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onConnectItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onRemoveFromQueueItemClicked_gui(GtkMenuItem *item, gpointer data);
-//		static void onDescriptionItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
@@ -66,7 +64,6 @@ class IgnoreUsers:
 		void getFileList_client(const std::string cid, const std::string hubUrl, bool match);
 		void removeUserFromQueue_client(const std::string cid);
 		void removeFavoriteUser_client(const std::string cid);
-//		void setUserDescription_client(const std::string cid, const std::string description);
 
 		// Favorite callbacks
 		virtual void on(dcpp::FavoriteManagerListener::IgnoreUserAdded, const dcpp::FavoriteUser &user) throw();

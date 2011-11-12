@@ -49,9 +49,9 @@ notepad::~notepad()
 	stext.assign(text);
 
   try {
-	string configFile = dcpp::Util::getNotepadFile();
+		string configFile = dcpp::Util::getNotepadFile();
 	
-	File out(configFile + ".tmp", File::WRITE, File::CREATE | File::TRUNCATE);
+		File out(configFile + ".tmp", File::WRITE, File::CREATE | File::TRUNCATE);
 		out.write(stext);
 		out.flush();
 		out.close();

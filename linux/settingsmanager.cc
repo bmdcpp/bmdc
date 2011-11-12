@@ -149,6 +149,11 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("open-notepad", 0));
 	defaultInt.insert(IntMap::value_type("open-system", 1));
 	defaultInt.insert(IntMap::value_type("open-ignore", 0));
+	defaultInt.insert(IntMap::value_type("cmd-debug-hub-in", 1));
+	defaultInt.insert(IntMap::value_type("cmd-debug-hub-out", 1));
+	defaultInt.insert(IntMap::value_type("cmd-debug-client-out", 1));
+	defaultInt.insert(IntMap::value_type("cmd-debug-client-in", 1));
+	defaultInt.insert(IntMap::value_type("cmd-debug-detection", 0));
     ///BMDC]
 
 	defaultString.insert(StringMap::value_type("magnet-choose-dir", SETTING(DOWNLOAD_DIRECTORY)));

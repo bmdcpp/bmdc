@@ -1,3 +1,4 @@
+/*(C) Mank <Mank1 at seznam dot cz */
 #ifndef SPLASH_HH
 #define SPLASH_HH
 using namespace std;

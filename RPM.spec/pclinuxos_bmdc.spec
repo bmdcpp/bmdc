@@ -49,4 +49,3 @@ scons FAKE_ROOT=$RPM_BUILD_ROOT release=1 install
 * Sat Mar 24 2011 Mank <mank1@seznam.cz> 0.0.2-3
 - intial version of spec file
  	
-

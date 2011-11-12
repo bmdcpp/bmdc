@@ -70,4 +70,3 @@ class UserCommandMenu : public Entry
 #else
 class UserCommandMenu;
 #endif
-

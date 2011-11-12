@@ -38,7 +38,6 @@
 
 #define GUI_LOCALE_DIR _DATADIR PATH_SEPARATOR_STR "locale"
 
-
 void receiver(const char *link, gpointer data)
 {
 	g_return_if_fail(link != NULL);
@@ -63,7 +62,7 @@ int main(int argc, char *argv[])
 	// Check if profile is locked
 	if (WulforUtil::profileIsLocked())
 	{
-		cout << _("No More That one Instance\n");
+		cout << _("No More That one Instance") << std::endl;
 		return 1;
 	}
 
