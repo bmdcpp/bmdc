@@ -16,9 +16,9 @@ LIB_IS_UPNP = True
 LIB_IS_GEO = False
 LIB_IS_TAR = False
 #'-DBOOST_THREAD_POSIX' add
-# todo: remove -fpermissive and fix the errors
+# removed -fpermissive 
 BUILD_FLAGS = {
-	'common'  : ['-I#','-fpermissive','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib', '-DBOOST_THREAD_POSIX'],
+	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib','-Wall','-Wextra','-Wno-unused-parameter','-Wno-unused-value','-Wno-missing-field-initializers', '-Wno-address', '-fexceptions','-pipe','-g3'],
 	'debug'   : ['-g', '-ggdb', '-Wall', '-D_DEBUG'], 
 	'release' : ['-O3', '-fomit-frame-pointer', '-DNDEBUG']
 }
@@ -253,7 +253,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 				print '\tNote: You might have the lib but not the headers'
 			else:
 				conf.env.Append(CPPDEFINES = 'HAVE_LIBNOTIFY')
-				conf.env.ParseConfig('pkg-config --libs libnotify')
+				conf.env.ParseConfig('pkg-config --libs --cflags libnotify')
 				if conf.CheckPKG('libnotify >= 0.7'):
 					conf.env.Append(CPPDEFINES = 'HAVE_LIBNOTIFY_0_7')
 	

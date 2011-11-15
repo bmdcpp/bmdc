@@ -115,25 +115,6 @@ int LuaManager::InjectHubMessageADC(lua_State* L) {
 
 	return 0;
 }
-/*
-int LuaManager::PostMessage(lua_State* L) {
-	if (lua_gettop(L) == 4 && lua_islightuserdata(L, -4) && lua_isnumber(L, -3) &&
-			lua_islightuserdata(L, -2) && lua_islightuserdata(L, -1)) {
-		::SendMessage(reinterpret_cast<HWND>(lua_touserdata(L, -4)), static_cast<UINT>(lua_tonumber(L, -3)),
-			reinterpret_cast<WPARAM>(lua_touserdata(L, -2)), reinterpret_cast<LPARAM>(lua_touserdata(L, -1)));
-	}
-
-	return 0;
-}
-*//*
-int LuaManager::FindWindow(lua_State* L) {
-	if (lua_gettop(L) == 2 && lua_isstring(L, -2) && lua_isstring(L, -1)) {
-		lua_pushlightuserdata(L, ::FindWindow(Text::toT(string(lua_tostring(L, -2))).c_str(), Text::toT(string(lua_tostring(L, -1))).c_str()));
-		return 1;
-	}
-
-	return 0;
-}*/
 
 int LuaManager::SendClientMessage(lua_State* L) {
 	if (lua_gettop(L) == 2 && lua_islightuserdata(L, -2) && lua_isstring(L, -1)) {
@@ -271,7 +252,7 @@ int LuaManager::GetHubUrl(lua_State* L) {
 int LuaManager::RunTimer(lua_State* L) {
 	/* arguments: bool:on/off */
 	if(lua_gettop(L) == 1 && lua_isnumber(L, -1)) {
-		bool on = lua_tonumber(L, 1); //!= 0;	//shut VC++ up
+		bool on = lua_tonumber(L, 1) != 0; 
 		ScriptManager* sm = ScriptManager::getInstance();
 		if(on != sm->getTimerEnabled()) {
 			if(on)

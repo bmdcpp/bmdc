@@ -32,8 +32,8 @@ typedef ColorList::iterator ColorIter;
 class HighlightManager : public Singleton<HighlightManager>, private SettingsManagerListener
 {
 public:
-	HighlightManager(void);
-	~HighlightManager(void);
+	HighlightManager();
+	~HighlightManager();
 
 	ColorList* getList() {
 		return &colorSettings;
@@ -51,8 +51,8 @@ private:
 	void load(SimpleXML& aXml);
 	void save(SimpleXML& aXml);
 
-	virtual void on(SettingsManagerListener::Load, SimpleXML& xml) throw();
-	virtual void on(SettingsManagerListener::Save, SimpleXML& xml) throw();
+	virtual void on(SettingsManagerListener::Load, SimpleXML& xml) noexcept;
+	virtual void on(SettingsManagerListener::Save, SimpleXML& xml) noexcept;
 };
 }
 #endif

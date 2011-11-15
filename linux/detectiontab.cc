@@ -147,43 +147,43 @@ BookEntry(Entry::DETECTION,_("Detection Settings"), "detection.glade")
 	SettingsManager *sm = SettingsManager::getInstance();
 	g_signal_connect(getWidget("buttonFake"), "clicked", G_CALLBACK(onSelectAction), (gpointer)this);
 	g_object_set_data(G_OBJECT(getWidget("buttonFake")),"wid",getWidget("entryFake"));
-	g_object_set_data(G_OBJECT(getWidget("buttonFake")), "set", (gint)sm->get(SettingsManager::IntSetting::FAKESHARE_RAW));
+	g_object_set_data(G_OBJECT(getWidget("buttonFake")), "set", (void *)(gint)sm->get(SettingsManager::IntSetting::FAKESHARE_RAW));
 	
 	g_signal_connect(getWidget("buttonRM"), "clicked", G_CALLBACK(onSelectAction), (gpointer)this);
 	g_object_set_data(G_OBJECT(getWidget("buttonRM")),"wid",getWidget("entryRM"));
-	g_object_set_data(G_OBJECT(getWidget("buttonRM")), "set",sm->get(SettingsManager::IntSetting::RMDC_RAW));
+	g_object_set_data(G_OBJECT(getWidget("buttonRM")), "set",(void *)(gint)sm->get(SettingsManager::IntSetting::RMDC_RAW));
 	
 	g_signal_connect(getWidget("buttonEM"), "clicked", G_CALLBACK(onSelectAction), (gpointer)this);
 	g_object_set_data(G_OBJECT(getWidget("buttonEM")),"wid",getWidget("entryEM"));
-	g_object_set_data(G_OBJECT(getWidget("buttonEM")), "set",sm->get(SettingsManager::IntSetting::DCPP_EMULATION_RAW));
+	g_object_set_data(G_OBJECT(getWidget("buttonEM")), "set",(void *)(gint)sm->get(SettingsManager::IntSetting::DCPP_EMULATION_RAW));
 	
 	g_signal_connect(getWidget("buttonmis"), "clicked", G_CALLBACK(onSelectAction), (gpointer)this);
 	g_object_set_data(G_OBJECT(getWidget("buttonmis")),"wid",getWidget("entrymis"));
-	g_object_set_data(G_OBJECT(getWidget("buttonmis")), "set",sm->get(SettingsManager::IntSetting::FILELIST_VERSION_MISMATCH));
+	g_object_set_data(G_OBJECT(getWidget("buttonmis")), "set",(void *)(gint)sm->get(SettingsManager::IntSetting::FILELIST_VERSION_MISMATCH));
 	
 	g_signal_connect(getWidget("buttonlis"), "clicked", G_CALLBACK(onSelectAction), (gpointer)this);
 	g_object_set_data(G_OBJECT(getWidget("buttonlis")),"wid",getWidget("entrylis"));
-	g_object_set_data(G_OBJECT(getWidget("buttonlis")), "set",sm->get(SettingsManager::IntSetting::LISTLEN_MISMATCH));
+	g_object_set_data(G_OBJECT(getWidget("buttonlis")), "set",(void *)(gint)sm->get(SettingsManager::IntSetting::LISTLEN_MISMATCH));
 	
 	g_signal_connect(getWidget("buttonvermis"), "clicked", G_CALLBACK(onSelectAction), (gpointer)this);
 	g_object_set_data(G_OBJECT(getWidget("buttonvermis")),"wid",getWidget("entryvermis"));
-	g_object_set_data(G_OBJECT(getWidget("buttonvermis")), "set",sm->get(SettingsManager::IntSetting::VERSION_MISMATCH));
+	g_object_set_data(G_OBJECT(getWidget("buttonvermis")), "set",(void *)(gint)sm->get(SettingsManager::IntSetting::VERSION_MISMATCH));
 	
 	g_signal_connect(getWidget("buttondis"), "clicked", G_CALLBACK(onSelectAction), (gpointer)this);
 	g_object_set_data(G_OBJECT(getWidget("buttondis")),"wid",getWidget("entrydis"));
-	g_object_set_data(G_OBJECT(getWidget("buttondis")), "set",sm->get(SettingsManager::IntSetting::DISCONNECT_RAW));
+	g_object_set_data(G_OBJECT(getWidget("buttondis")), "set",(void *)(gint)sm->get(SettingsManager::IntSetting::DISCONNECT_RAW));
 	
 	g_signal_connect(getWidget("buttontbsfl"), "clicked", G_CALLBACK(onSelectAction), (gpointer)this);
 	g_object_set_data(G_OBJECT(getWidget("buttontbsfl")),"wid",getWidget("entrytbsfl"));
-	g_object_set_data(G_OBJECT(getWidget("buttontbsfl")), "set",sm->get(SettingsManager::IntSetting::FILELIST_TOO_SMALL_BIG_RAW));
+	g_object_set_data(G_OBJECT(getWidget("buttontbsfl")), "set",(void *)(gint)sm->get(SettingsManager::IntSetting::FILELIST_TOO_SMALL_BIG_RAW));
 	
 	g_signal_connect(getWidget("buttonspeed"), "clicked", G_CALLBACK(onSelectAction), (gpointer)this);
 	g_object_set_data(G_OBJECT(getWidget("buttonspeed")),"wid",getWidget("entryspeed"));
-	g_object_set_data(G_OBJECT(getWidget("buttonspeed")), "set",sm->get(SettingsManager::IntSetting::SDL_RAW));
+	g_object_set_data(G_OBJECT(getWidget("buttonspeed")), "set",(void *)(gint)sm->get(SettingsManager::IntSetting::SDL_RAW));
 	
 	g_signal_connect(getWidget("buttonadl"), "clicked", G_CALLBACK(onSelectAction), (gpointer)this);
 	g_object_set_data(G_OBJECT(getWidget("buttonadl")),"wid",getWidget("entryadl"));
-	g_object_set_data(G_OBJECT(getWidget("buttonadl")), "set",sm->get(SettingsManager::IntSetting::ADL_RAW));
+	g_object_set_data(G_OBJECT(getWidget("buttonadl")), "set",(void *)(gint)sm->get(SettingsManager::IntSetting::ADL_RAW));
 	
 	g_signal_connect(getWidget("button7Save"), "clicked", G_CALLBACK(onSave), (gpointer)this);
 	g_signal_connect(getWidget("buttonadlsp7"), "clicked", G_CALLBACK(onADLPoints), (gpointer)this);
@@ -275,7 +275,7 @@ void DetectionTab::show() {
 	int sdltime = SETTING(SDL_TIME);
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("spintimesd")), sdltime);
 	///Protect Users
-	gchar * protectuser = SETTING(PROTECTED_USERS).c_str();
+	gchar * protectuser = const_cast<char*>(SETTING(PROTECTED_USERS).c_str());
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entryProtectPatern")), protectuser);
 	/**/
 	SettingsManager *sm = SettingsManager::getInstance();
@@ -783,11 +783,11 @@ void DetectionTab::editRaw_client(dcpp::StringMap params)
     const Action *action = RawManager::getInstance()->findAction(a);
     if(action != NULL)
     {
-        Raw *old = NULL;
+        Raw *old = nullptr;
         for(Action::RawsList::const_iterator j = action->raw.begin(); j != action->raw.end(); ++j) {
 			if(j->getId() == ids)
             {
-                old = &(*j);
+                old = const_cast<Raw*>(&(*j));
                 break;
             }
         }
@@ -813,7 +813,7 @@ void DetectionTab::removeRaw_client(int id)
 	  Action::RawsList *r = &(a->raw);
 		for(Action::RawsList::const_iterator qt = r->begin(); qt!= r->end(); ++qt)
 		{
-			Raw *raws = &(*qt);
+			Raw *raws = const_cast<Raw*>(&(*qt));
 			if(raws->getId() == id)
 			{
 				if(RawManager::getInstance()->remRaw(a,raws))

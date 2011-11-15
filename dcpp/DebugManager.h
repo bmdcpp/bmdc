@@ -28,10 +28,10 @@ public:
 template<int I>	struct X { enum { TYPE = I };  };
 
 	typedef X<0> DebugCommand;
-	typedef X<0> DebugDetection;	
+	typedef X<1> DebugDetection;	
 
-	virtual void on(DebugCommand, const string&) throw() { }
-	virtual void on(DebugDetection, const string&, int, const string&) throw() { }
+	virtual void on(DebugDetection, const string&) noexcept { }
+	virtual void on(DebugCommand, const string&, int, const string&) noexcept { }
 };
 
 class DebugManager : public Singleton<DebugManager>, public Speaker<DebugManagerListener> {
@@ -48,8 +48,8 @@ public:
 
 private:
 	friend class Singleton<DebugManager>;
-	DebugManager() throw() { };
-	~DebugManager() throw() { };
+	DebugManager()  { };
+	~DebugManager() { };
 };
 #define COMMAND_DEBUG(a,b,c) DebugManager::getInstance()->SendCommandMessage(a,b,c);
 #define DETECTION_DEBUG(m) DebugManager::getInstance()->SendDetectionMessage(m);

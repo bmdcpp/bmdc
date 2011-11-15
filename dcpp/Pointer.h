@@ -36,11 +36,11 @@ class intrusive_ptr_base
 {
 public:
     //add
-	void inc() throw() {
+	void inc() noexcept {
 		intrusive_ptr_add_ref(this);
 	}
 
-	void dec() throw() {
+	void dec() noexcept {
 		intrusive_ptr_release(this);
 	}
 	//END

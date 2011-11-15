@@ -28,7 +28,7 @@
 #include "WulforUtil.hh"
 
 #include <glib/gi18n.h>
-#include <glib/gstdio.h>
+//#include <glib/gstdio.h>
 
 using namespace std;
 using namespace dcpp;
@@ -42,8 +42,8 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("main-window-pos-x", 100));
 	defaultInt.insert(IntMap::value_type("main-window-pos-y", 100));
 	defaultInt.insert(IntMap::value_type("main-window-no-close", 0));
-	defaultInt.insert(IntMap::value_type("transfer-pane-position", 204));
-	defaultInt.insert(IntMap::value_type("nick-pane-position", 255));
+	defaultInt.insert(IntMap::value_type("transfer-pane-position", 482));
+	defaultInt.insert(IntMap::value_type("nick-pane-position", 500));
 	defaultInt.insert(IntMap::value_type("downloadqueue-pane-position", 200));
 	defaultInt.insert(IntMap::value_type("sharebrowser-pane-position", 200));
 	defaultInt.insert(IntMap::value_type("tab-position", 0));
@@ -341,8 +341,8 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("userlist-text-normal", "#000000"));
 	defaultString.insert(StringMap::value_type("custom-aliases", ""));
 	
-	defaultString.insert(StringMap::value_type("text-cheat-fore-color","red"));
-	defaultString.insert(StringMap::value_type("text-cheat-back-color","white"));
+	defaultString.insert(StringMap::value_type("text-cheat-fore-color", "red"));
+	defaultString.insert(StringMap::value_type("text-cheat-back-color", "white"));
 	defaultString.insert(StringMap::value_type("text-ip-fore-color", "black"));
 	defaultString.insert(StringMap::value_type("text-ip-back-color", "white"));
 	 
@@ -353,6 +353,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("share-queue", "#E32020"));
 	defaultString.insert(StringMap::value_type("share-default", "black"));
 	defaultString.insert(StringMap::value_type("sound-command", "aplay -q"));
+	defaultString.insert(StringMap::value_type("last-searchs", ".mp3;.avi"));
 	
 	load();
 
@@ -423,7 +424,7 @@ void WulforSettingsManager::load()
 		xml.fromXML(File(configFile, File::READ, File::OPEN).read());
 		xml.resetCurrentChild();
 		xml.stepIn();
-
+		
 		if (xml.findChild("Settings"))
 		{
 			xml.stepIn();
@@ -465,7 +466,7 @@ void WulforSettingsManager::load()
 void WulforSettingsManager::save()
 {
 	SimpleXML xml;
-	xml.addTag(g_get_application_name());
+	xml.addTag("BMDCPlusPlus");//prg name
 	xml.stepIn();
 	xml.addTag("Settings");
 	xml.stepIn();
@@ -512,6 +513,7 @@ void WulforSettingsManager::save()
 	}
 	catch (const FileException &)
 	{
+		
 	}
 }
 
@@ -572,7 +574,7 @@ bool WulforSettingsManager::getPreviewApp(string &name, PreviewApp::size &index)
 const string WulforSettingsManager::parseCmd(const string cmd)
 {
     StringTokenizer<string> sl(cmd, ' ');
-        if (sl.getTokens().size() == 2) {
+    if (sl.getTokens().size() == 2) {
             if (intMap.find(sl.getTokens().at(0)) != intMap.end() && defaultInt.find(sl.getTokens().at(0)) != defaultInt.end()) {
                 int i = atoi(sl.getTokens().at(1).c_str());
                 WSET(sl.getTokens().at(0), i);

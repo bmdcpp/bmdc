@@ -32,11 +32,12 @@
 #include "UserCommandMenu.hh"
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
+#include "settingsmanager.hh"
 
 using namespace std;
 using namespace dcpp;
 
-GtkTreeModel* Search::searchEntriesModel = NULL;
+//GtkTreeModel* Search::searchEntriesModel = NULL;
 
 Search::Search():
 	BookEntry(Entry::SEARCH, _("Search: "), "search.glade", generateID()),
@@ -49,6 +50,23 @@ Search::Search():
 	//searchEntry = gtk_bin_get_child(GTK_BIN(getWidget("comboboxentrySearch")));
 	//gtk_widget_grab_focus(getWidget("comboboxentrySearch"));
 	gtk_widget_grab_focus(getWidget("SearchEntry"));
+	/* set up completion */
+	completion = gtk_entry_completion_new();
+	gtk_entry_completion_set_text_column(completion, EN_STRING);
+	gtk_entry_set_completion(GTK_ENTRY(getWidget("SearchEntry")), completion);
+	g_signal_connect(G_OBJECT (completion), "match-selected", G_CALLBACK (on_match_select_entry), (gpointer)this);
+
+	/* Create the ListStore set it as the model of the entrycompletion */
+	emodel = gtk_list_store_new(1, G_TYPE_STRING);
+	StringTokenizer<string> st(WGETS("last-searchs"),';');
+	GtkTreeIter eiter;
+	for(StringIter i = st.getTokens().begin(); i != st.getTokens().end(); ++i)
+	{
+		gtk_list_store_append(emodel, &eiter);
+		gtk_list_store_set(emodel, &eiter, EN_STRING, i->c_str(), -1);
+	}
+	
+	gtk_entry_completion_set_model(completion, GTK_TREE_MODEL(emodel));
 
 	// Configure the dialog
 	File::ensureDirectory(SETTING(DOWNLOAD_DIRECTORY));
@@ -167,8 +185,10 @@ Search::Search():
 	g_signal_connect(resultView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
 	g_signal_connect(resultView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 	g_signal_connect(resultView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
-	g_signal_connect(searchEntry, "key-press-event", G_CALLBACK(onSearchEntryKeyPressed_gui), (gpointer)this);
-	g_signal_connect(searchEntry, "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
+//	g_signal_connect(searchEntry, "key-press-event", G_CALLBACK(onSearchEntryKeyPressed_gui), (gpointer)this);
+//  g_signal_connect(searchEntry, "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
+	g_signal_connect(getWidget("SearchEntry"), "key-press-event", G_CALLBACK(onSearchEntryKeyPressed_gui), (gpointer)this);
+	g_signal_connect(getWidget("SearchEntry"), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 	g_signal_connect(getWidget("entrySize"), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonSearch"), "clicked", G_CALLBACK(onSearchButtonClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("downloadItem"), "activate", G_CALLBACK(onDownloadClicked_gui), (gpointer)this);
@@ -209,7 +229,7 @@ void Search::show()
 
 void Search::putValue_gui(const string &str, int64_t size, SearchManager::SizeModes mode, SearchManager::TypeModes type)
 {
-	gtk_entry_set_text(GTK_ENTRY(searchEntry), str.c_str());
+	gtk_entry_set_text(GTK_ENTRY(/*searchEntry*/getWidget("SearchEntry")), str.c_str());
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entrySize")), Util::toString(size).c_str());
 	gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxSize")), (int)mode);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxFile")), (int)type);
@@ -429,9 +449,17 @@ void Search::search_gui()
 	StringList clients;
 	GtkTreeIter iter;
 
-	string text = gtk_entry_get_text(GTK_ENTRY(searchEntry));
+	string text = gtk_entry_get_text(GTK_ENTRY(/*searchEntry*/getWidget("SearchEntry")));
 	if (text.empty())
 		return;
+		
+	WSET("last-searchs",WGETS("last-searchs")+";"+text);
+	GtkTreeIter eiter;
+	gtk_list_store_append(emodel,&eiter);
+	gtk_list_store_set(emodel,&eiter,
+							EN_STRING,text.c_str(),
+							-1);
+		
 
 	gboolean valid = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(hubStore), &iter);
  	while (valid)
@@ -514,7 +542,7 @@ void Search::search_gui()
 	isHash = (ftype == SearchManager::TYPE_TTH);
 
 	// Add new searches to the dropdown list
-	GtkListStore *store = GTK_LIST_STORE(searchEntriesModel);
+	/*GtkListStore *store = GTK_LIST_STORE(searchEntriesModel);
 	size_t max = std::max(SETTING(SEARCH_HISTORY) - 1, 0);
 	size_t count = 0;
 	gchar *entry;
@@ -532,7 +560,7 @@ void Search::search_gui()
 
 	gtk_list_store_prepend(store, &iter);
 	gtk_list_store_set(store, &iter, 0, text.c_str(), -1);
-
+	*/
 	droppedResult = 0;
 	searchHits = 0;
 	setStatus_gui("statusbar1", _("Searching for ") + text + " ...");
@@ -546,7 +574,7 @@ void Search::search_gui()
 		SearchManager::getInstance()->search(clients, text, llsize, (SearchManager::TypeModes)ftype, mode, "manual", exts);//NOTE: core 0.770
 
 		if (BOOLSETTING(CLEAR_SEARCH)) // Only clear if the search was sent.
-			gtk_entry_set_text(GTK_ENTRY(searchEntry), "");
+			gtk_entry_set_text(GTK_ENTRY(/*searchEntry*/getWidget("SearchEntry")), "");
 	}
 	else
 	{
@@ -2000,7 +2028,7 @@ gboolean Search::searchFilterFunc_gui(GtkTreeModel *model, GtkTreeIter *iter, gp
 		return FALSE;
 
 	// Filter based on search terms.
-	string filter = Text::toLower(gtk_entry_get_text(GTK_ENTRY(s->searchEntry)));
+	string filter = Text::toLower(gtk_entry_get_text(GTK_ENTRY(s->getWidget("SearchEntry")/*searchEntry*/)));
 	TStringList filterList = StringTokenizer<tstring>(filter, ' ').getTokens();
 	string filename = Text::toLower(s->resultView.getString(iter, _("Filename"), model));
 	string path = Text::toLower(s->resultView.getString(iter, _("Path"), model));
@@ -2059,3 +2087,11 @@ gboolean Search::searchFilterFunc_gui(GtkTreeModel *model, GtkTreeIter *iter, gp
 	return TRUE;
 }
 
+gboolean Search::on_match_select_entry(GtkEntryCompletion *widget,GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
+{
+GValue value = {0,};
+gtk_tree_model_get_value(model, iter, EN_STRING, &value);
+fprintf(stdout, "You have selected %s\n", g_value_get_string(&value));
+g_value_unset(&value);
+return FALSE;
+}

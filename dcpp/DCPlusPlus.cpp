@@ -39,6 +39,7 @@
 #include "ThrottleManager.h"
 #include "UploadManager.h"
 #include "WindowManager.h"
+
 #include "UPnPManager.h"
 #include "DebugManager.h"
 #include "ScriptManager.h"
@@ -47,6 +48,7 @@
 #include "BackupManager.h"
 #include "HighlightManager.h"
 #include "RsxUtil.h"
+
 #ifdef _STLP_DEBUG
 void __stl_debug_terminate() {
 	int* x = 0;
@@ -85,11 +87,11 @@ void startup(void (*f)(void*, const string&), void* p) {
 	DownloadManager::newInstance();
 	UploadManager::newInstance();
 	ThrottleManager::newInstance();
+	RawManager::newInstance();//
 	QueueManager::newInstance();
 	ShareManager::newInstance();
 	FavoriteManager::newInstance();
 	FinishedManager::newInstance();
-	RawManager::newInstance();//
 	ADLSearchManager::newInstance();
 	ConnectivityManager::newInstance();
 	MappingManager::newInstance();
@@ -146,16 +148,21 @@ void startup(void (*f)(void*, const string&), void* p) {
 	DetectionManager::getInstance()->load();
 	
 	RsxUtil::init();
+
 	if(BOOLSETTING(ENABLE_AUTOBACKUP)) {
 		BackupManager::getInstance()->createBackup();
-	}	
+	}
+		
 }
 
 void shutdown() {
 	RsxUtil::uinit();
-	
-	ThrottleManager::getInstance()->shutdown();//..
+	RestoreManager::deleteInstance();
+    BackupManager::deleteInstance();
+    DebugManager::deleteInstance();
 	TimerManager::getInstance()->shutdown();
+	ThrottleManager::getInstance()->shutdown();//..
+	
 	HashManager::getInstance()->shutdown();
 	
 	ConnectionManager::getInstance()->shutdown();
@@ -169,8 +176,7 @@ void shutdown() {
 	ClientManager::getInstance()->saveUsers();
 	SettingsManager::getInstance()->save();
 
-    RestoreManager::deleteInstance();
-    BackupManager::deleteInstance();
+    
     HighlightManager::deleteInstance();
     DetectionManager::deleteInstance();
     
@@ -178,13 +184,10 @@ void shutdown() {
     ScriptManager::deleteInstance();
    #endif 
     
-    UPnPManager::deleteInstance();
-    DebugManager::deleteInstance();
-	
-
 	WindowManager::deleteInstance();
 	GeoManager::deleteInstance();
 	MappingManager::deleteInstance();
+	UPnPManager::deleteInstance();
 	ConnectivityManager::deleteInstance();
 	ADLSearchManager::deleteInstance();
 	RawManager::deleteInstance();//.

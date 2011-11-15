@@ -2,6 +2,7 @@
 #ifndef SPLASH_HH
 #define SPLASH_HH
 using namespace std;
+
 class Splash
 {
 	public:
@@ -35,7 +36,7 @@ class Splash
 						gtk_label_set_text(GTK_LABEL(label),("Loading ..."+Text).c_str()); 
 						 while (gtk_events_pending ())
 							gtk_main_iteration_do (FALSE);
-						::sleep(2);	
+						::sleep(1);	
 				 }
 	void destroy() {gtk_widget_destroy(win);}
 	private: 

@@ -363,10 +363,13 @@ Add Forgoten /exec cmd
 add Forgoten /topic cmd
 Fix TestSUR
 Fix Ratio
-
 Add Rember checked button in CMD Debug Tab
 Class RecentTab => RecentHubs
 Some small changes in main Sconscripts
 Added Archs PKGBUILD
+
+Build without -fpermisive
+GtkEntry with GtkCompletion in Search
+Fix The Settings
 
 

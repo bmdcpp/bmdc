@@ -106,6 +106,7 @@ class Search:
 		static void onRemoveUserFromQueueClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onRemoveClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onCheckOp_gui(GtkToggleButton *button, gpointer data);
+		static gboolean on_match_select_entry(GtkEntryCompletion *widget,GtkTreeModel *model, GtkTreeIter *iter, gpointer data);
 
 		// GUI functions
 		void parseSearchResult_gui(dcpp::SearchResultPtr result, dcpp::StringMap &resultMap);
@@ -132,9 +133,9 @@ class Search:
 		GtkTreeModel *sortedFilterModel;
 		GtkTreeSelection *selection;
 		GdkEventType oldEventType;
-		GtkWidget *searchEntry;
+//		GtkWidget *searchEntry;
 		dcpp::TStringList searchlist;
-		static GtkTreeModel *searchEntriesModel;
+//		static GtkTreeModel *searchEntriesModel;
 		int droppedResult;
 		int searchHits;
 		bool isHash;
@@ -142,6 +143,14 @@ class Search:
 		UserCommandMenu *userCommandMenu;
 		GroupType previousGrouping;
 		std::unordered_map<std::string, std::vector<dcpp::SearchResultPtr> > results;
+		
+		enum
+		{
+			EN_STRING,	
+		};
+		
+		GtkEntryCompletion *completion;
+		GtkListStore *emodel;
 };
 
 #else

@@ -35,13 +35,14 @@ TimerManager::~TimerManager() {
 }
 
 void TimerManager::shutdown() {
+	
 	mtx.unlock();
 	join();
 }
 
 int TimerManager::run() {
 	int nextMin = 0;
-
+	
 	ptime now = microsec_clock::universal_time();
 	ptime nextSecond = now + seconds(1);
 
@@ -59,7 +60,6 @@ int TimerManager::run() {
 			nextMin = 0;
 		}
 	}
-
 	dcdebug("TimerManager done\n");
 	return 0;
 }

@@ -2046,8 +2046,7 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
             mw->showMessageDialog_gui(_("Not Alowed same number of port for TLS and TCP"),
                                   _("Not Alowed same number of port for TLS and TCP,please chose for one of it another port")
                                   );
-            goto OTHER;
-	    }
+		}
 		
 		if (SETTING(INCOMING_CONNECTIONS) != lastConn || SETTING(TCP_PORT) != tcpPort || SETTING(UDP_PORT) != udpPort)
 		{
@@ -2066,7 +2065,7 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 			// previous UPnP mappings had failed; try again
 			UPnPManager::getInstance()->open();
 		}
-		OTHER:
+		
 		if (BOOLSETTING(ALWAYS_TRAY))
 			gtk_status_icon_set_visible(mw->statusIcon, TRUE);
 		else
@@ -2531,6 +2530,8 @@ void MainWindow::on(LogManagerListener::Message, time_t t, const string &message
 
 void MainWindow::on(QueueManagerListener::Finished, QueueItem *item, const string& dir, int64_t avSpeed) throw()
 {
+	if(item->isSet(QueueItem::FLAG_TESTSUR)) return;
+	
 	typedef Func3<MainWindow, string, string, Notify::TypeNotify> F3;
 
 	if (item->isSet(QueueItem::FLAG_CLIENT_VIEW | QueueItem::FLAG_USER_LIST))

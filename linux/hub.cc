@@ -83,7 +83,6 @@ Hub::Hub(const string &address, const string &encoding):
 	//BMDC++
 	nickView.insertHiddenColumn("Icon", G_TYPE_STRING);
 	nickView.insertHiddenColumn("Nick Order", G_TYPE_STRING);
-//	nickView.insertHiddenColumn("Favorite", G_TYPE_STRING);
 	nickView.insertHiddenColumn("CID", G_TYPE_STRING);
 	nickView.insertHiddenColumn("NickColor", G_TYPE_STRING);
 	//BMDC++
@@ -445,8 +444,6 @@ void Hub::set_Header_tooltip_gui()//How beter ?
 
 gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer data)
 {
-  //Hub *hub = (Hub *)data;
-
   GtkTreeIter iter;
   GtkTreeView *tree_view = GTK_TREE_VIEW (widget);
   GtkTreeModel *model = gtk_tree_view_get_model (tree_view);

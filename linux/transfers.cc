@@ -34,7 +34,7 @@
 #include <dcpp/Download.h>
 #include <dcpp/Upload.h>
 #include <dcpp/ClientManager.h>
-#include <dcpp/TimerManager.h>
+//#include <dcpp/TimerManager.h>
 #include <dcpp/FavoriteManager.h>
 #include <dcpp/UserConnection.h>
 #include <dcpp/GeoManager.h>
@@ -152,7 +152,6 @@ void Transfers::popupTransferMenu_gui()
 				string cid = transferView.getString(&iter, "CID");
 				string hubUrl = transferView.getString(&iter, "Hub URL");//NOTE: core 0.762
 				userCommandMenu->addUser(cid);
-// 				userCommandMenu->addHub(WulforUtil::getHubAddress(CID(cid)));
 				userCommandMenu->addHub(WulforUtil::getHubAddress(CID(cid), hubUrl));//NOTE: core 0.762
 			}
 			while (parent && WulforUtil::getNextIter_gui(GTK_TREE_MODEL(transferStore), &iter, TRUE, FALSE));

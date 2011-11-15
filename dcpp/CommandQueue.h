@@ -29,14 +29,14 @@ class Client;
 class OnlineUser;
 class CommandQueue {
 public:
-	CommandQueue() throw() : clientPtr(NULL) { }
+	CommandQueue() : clientPtr(NULL) { }
 
 	void setClientPtr(Client* c) {
 		clientPtr = c;
 	}
 
-	void onSecond(uint64_t tick) throw();
-	void clear() throw() {
+	void onSecond(uint64_t tick);
+	void clear() {
 		Lock l(cs);
 		queue.clear();
 		clientPtr = NULL;
@@ -51,8 +51,8 @@ private:
 
 	typedef list<pair<uint64_t, CommandItem> > Commands;
 
-	void addCommandDelayed(uint64_t delay, const CommandItem& item) throw();
-	void execCommand(const CommandItem& item) throw();
+	void addCommandDelayed(uint64_t delay, const CommandItem& item);
+	void execCommand(const CommandItem& item);
 
 	Client* clientPtr;
 	CriticalSection cs;

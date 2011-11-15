@@ -1732,13 +1732,16 @@ void QueueManager::on(ClientManagerListener::UserDisconnected, const UserPtr& aU
 	for(int i = 0; i < QueueItem::LAST; ++i) {
 		auto j = userQueue.getList(i).find(aUser);
 		if(j != userQueue.getList(i).end()) {
-			for(auto m = j->second.begin(); m != j->second.end(); ++m)
+			for(auto m = j->second.begin(); m != j->second.end(); ++m) {
 				if((*m)->isSet(QueueItem::FLAG_TESTSUR))  hasTestSURinQueue = true;
 				fire(QueueManagerListener::StatusUpdated(), *m);
 		}
 	}
 	if(hasTestSURinQueue)
 		removeTestSUR(HintedUser(aUser, Util::emptyString)); 
+	
+}	
+	
 }
 
 void QueueManager::on(TimerManagerListener::Second, uint64_t aTick) noexcept {

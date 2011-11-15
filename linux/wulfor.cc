@@ -38,12 +38,6 @@
 
 #define GUI_LOCALE_DIR _DATADIR PATH_SEPARATOR_STR "locale"
 
-void receiver(const char *link, gpointer data)
-{
-	g_return_if_fail(link != NULL);
-	WulforManager::get()->onReceived_gui(link);
-}
-
 void callBack(void* x, const std::string& a)
 {
 	std::cout << "Loading: " << a << std::endl;
@@ -68,11 +62,14 @@ int main(int argc, char *argv[])
 
 	// Start the DC++ client core
 	dcpp::Util::initialize();//NOTE: core 0.762
+
 	gtk_init(&argc, &argv);
+	
 	Splash* sp = new Splash();
 	sp->show();
 	dcpp::startup(callBack, (void*)sp);
 	sp->destroy();
+	delete sp;
 	dcpp::UPnPManager::getInstance()->addImplementation(new UPnPc());//NOTE: core 0.762
 	dcpp::TimerManager::getInstance()->start();
 
@@ -80,10 +77,10 @@ int main(int argc, char *argv[])
 	gdk_threads_init();
 	glade_init();
 	g_set_application_name("BMDC++");
-
+	WulforSettingsManager::newInstance();
 	signal(SIGPIPE, SIG_IGN);
 
-	WulforSettingsManager::newInstance();
+	//WulforSettingsManager::newInstance();
 	WulforManager::start(argc, argv);
 	gdk_threads_enter();
 	gtk_main();

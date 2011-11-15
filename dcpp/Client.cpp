@@ -260,6 +260,10 @@ void Client::on(Second, uint64_t aTick) noexcept {
 		// Try to reconnect...
 		connect();
 	}
+	
+	if(isConnected()){
+		cmdQueue.onSecond(aTick); //RSX+
+	}
 }
 
 #ifdef _USELUA

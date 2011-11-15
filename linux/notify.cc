@@ -138,6 +138,7 @@ void Notify::setCurrIconSize(const int size)
 
 void Notify::showNotify(const string &head, const string &body, TypeNotify notify)
 {
+#ifdef HAVE_LIBNOTIFY
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
 
 	switch (notify)
@@ -214,6 +215,7 @@ void Notify::showNotify(const string &head, const string &body, TypeNotify notif
 			break;
 		default: break;
 	}
+	#endif	
 }
 
 void Notify::showNotify(const string &title, const string &head, const string &body, const string &icon, const int iconSize, NotifyUrgency urgency)
@@ -266,7 +268,6 @@ void Notify::showNotify(const string &title, const string &head, const string &b
 		notify_notification_clear_actions(notification);
 		action = FALSE;
 	}
-
 	notify_notification_show(notification, NULL);
 	#endif
 }

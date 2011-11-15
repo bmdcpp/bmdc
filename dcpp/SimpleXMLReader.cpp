@@ -22,7 +22,7 @@ static bool isNameStartChar(int c) {
 		|| c == '_'
 		|| inRange(c, 'a', 'z')
 		// Comment out some valid XML chars that we don't allow
-/*		|| inRange(c, 0xC0, 0xD6)
+		|| inRange(c, 0xC0, 0xD6)
 		|| inRange(c, 0xD8, 0xF6)
 		|| inRange(c, 0xF8, 0x2FF)
 		|| inRange(c, 0x370, 0x37D)
@@ -33,7 +33,7 @@ static bool isNameStartChar(int c) {
 		|| inRange(c, 0x3001, 0xD7FF)
 		|| inRange(c, 0xF900, 0xFDCF)
 		|| inRange(c, 0xFDF0, 0xFFFD)
-		|| inRange(c, 0x10000, 0xEFFFF) */
+		|| inRange(c, 0x10000, 0xEFFFF) 
 		;
 }
 
@@ -43,9 +43,9 @@ static bool isNameChar(int c) {
 		|| c == '.'
 		|| inRange(c, '0', '9')
 		// Again, real XML is more permissive
-/*		|| c == 0xB7
+		|| c == 0xB7
 		|| inRange(c, 0x0300, 0x036F)
-		|| inRange(c, 0x203F, 0x2040) */
+		|| inRange(c, 0x203F, 0x2040) 
 		;
 }
 

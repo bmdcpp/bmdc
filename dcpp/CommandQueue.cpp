@@ -27,7 +27,7 @@
 
 namespace dcpp {
 
-void CommandQueue::onSecond(uint64_t tick) throw() {
+void CommandQueue::onSecond(uint64_t tick) {
 	Lock l(cs);
 	if(clientPtr == NULL)
 		return;
@@ -40,12 +40,12 @@ void CommandQueue::onSecond(uint64_t tick) throw() {
 	}
 }
 
-void CommandQueue::addCommandDelayed(uint64_t delay, const CommandItem& item) throw() {
+void CommandQueue::addCommandDelayed(uint64_t delay, const CommandItem& item)  {
 	Lock l(cs);
 	queue.push_back(make_pair(delay, item));
 }
 
-void CommandQueue::execCommand(const CommandItem& item) throw() {
+void CommandQueue::execCommand(const CommandItem& item)  {
         ParamMap params;
         item.ou->getIdentity().getParams(params, "user", true);
 		clientPtr->getHubIdentity().getParams(params, "hub", false);

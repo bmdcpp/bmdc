@@ -581,6 +581,7 @@ void Settings::saveSettings_client()
 	//NOTE: core 0.762
 
 	sm->save();
+	wsm->save();
 }
 
 /* Adds a core option */

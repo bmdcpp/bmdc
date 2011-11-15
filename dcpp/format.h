@@ -19,7 +19,6 @@
 #ifndef DCPLUSPLUS_DCPP_FORMAT_H_
 #define DCPLUSPLUS_DCPP_FORMAT_H_
 
-//#include <intl/libintl.h>
 #include <boost/format.hpp>
 
 #ifdef BUILDING_DCPP

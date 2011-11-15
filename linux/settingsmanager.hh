@@ -86,6 +86,7 @@ class WulforSettingsManager : public dcpp::Singleton<WulforSettingsManager>
 		typedef std::map<std::string, int> IntMap;
 		typedef std::map<std::string, std::string> StringMap;
 
+		friend class dcpp::Singleton<WulforSettingsManager>;
 		IntMap intMap;
 		StringMap stringMap;
 		IntMap defaultInt;
