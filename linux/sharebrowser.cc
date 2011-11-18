@@ -74,10 +74,15 @@ ShareBrowser::ShareBrowser(UserPtr user, const string &file, const string &initi
 	// Initialize the file TreeView
 	fileView.setView(GTK_TREE_VIEW(getWidget("fileView")), true, "sharebrowser");
 	fileView.insertColumn(_("Filename"), G_TYPE_STRING, TreeView::PIXBUF_STRING_TEXT_COLOR, 400, "Icon", "Color");
-	fileView.insertColumn(_("Size"), G_TYPE_STRING, TreeView::STRINGR, 80);
+	fileView.insertColumn(_("Size"), G_TYPE_STRING, TreeView::STRING, 80);
 	fileView.insertColumn(_("Type"), G_TYPE_STRING, TreeView::STRING, 50);
 	fileView.insertColumn("TTH", G_TYPE_STRING, TreeView::STRING, 150);
-	fileView.insertColumn(_("Exact Size"), G_TYPE_STRING, TreeView::STRINGR, 105);
+	fileView.insertColumn(_("Exact Size"), G_TYPE_STRING, TreeView::STRING, 105);
+	fileView.insertColumn(_("Date"), G_TYPE_STRING, TreeView::STRING, 50);
+	fileView.insertColumn(_("Bitrate"), G_TYPE_STRING, TreeView::STRING, 50);
+	fileView.insertColumn(_("Resolution"), G_TYPE_STRING, TreeView::STRING, 50);
+	fileView.insertColumn(_("Video"), G_TYPE_STRING, TreeView::STRING, 50);
+	fileView.insertColumn(_("Audio"), G_TYPE_STRING, TreeView::STRING, 50);
 	fileView.insertHiddenColumn("DL File", G_TYPE_POINTER);
 	fileView.insertHiddenColumn("Icon", GDK_TYPE_PIXBUF);
 	fileView.insertHiddenColumn("Size Order", G_TYPE_INT64);
@@ -323,10 +328,20 @@ void ShareBrowser::updateFiles_gui(DirectoryListing::Directory *dir)
 			shcolor = dcpp::ShareManager::getInstance()->isTTHShared((*it_file)->getTTH()) ? WGETS("share-shared") : WGETS("share-default");	
 		GdkPixbuf *buf = WulforUtil::loadIconShare(dcpp::Util::getFileExt((*it_file)->getName()));
 		size = (*it_file)->getSize();
+		
+		
+			
+		
+		
 		gtk_list_store_set(fileStore, &iter,
 			fileView.col("Icon"), buf,
 			fileView.col(_("Size")), Util::formatBytes(size).c_str(),
 			fileView.col(_("Exact Size")), Util::formatExactSize(size).c_str(),
+			fileView.col(_("Date")), (*it_file)->getTS() ? Util::formatTime("%Y-%m-%d %H:%M", (*it_file)->getTS()).c_str() : Util::emptyString.c_str(),
+			fileView.col(_("Bitrate")),((*it_file)->m_media.m_bitrate) ? (Util::toString((*it_file)->m_media.m_bitrate) + " Kbps").c_str() : Util::emptyString.c_str(),
+			fileView.col(_("Resolution")),((*it_file)->m_media.m_mediaX || (*it_file)->m_media.m_mediaY) ? (Util::toString((*it_file)->m_media.m_mediaX) + "x" + Util::toString((*it_file)->m_media.m_mediaY)).c_str() : Util::emptyString.c_str(),
+			fileView.col(_("Video")), (*it_file)->m_media.m_video.c_str(),
+			fileView.col(_("Audio")), (*it_file)->m_media.m_audio.c_str(),
 			fileView.col("Size Order"), size,
 			fileView.col("DL File"), (gpointer)(*it_file),
 			fileView.col("TTH"), (*it_file)->getTTH().toBase32().c_str(),

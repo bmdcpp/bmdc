@@ -823,6 +823,25 @@ void MainWindow::setMainStatus_gui(string text, time_t t)
 	{
 		text = "[" + Util::getShortTimeString(t) + "] " + text;
 		gtk_label_set_text(GTK_LABEL(getWidget("labelStatus")), text.c_str());
+		
+		if(statustext.size() > (uint32_t)WGETI("max-tooltips"))
+		{
+			    statustext.pop();
+		}
+        queue<string> tmp = statustext;
+        string statusTextOnToolTip;
+        while(!tmp.empty())
+        {
+           statusTextOnToolTip += "\n" + tmp.front();
+           tmp.pop();
+        }
+        statustext.push(text);
+        
+         #if !GTK_CHECK_VERSION(2, 12, 0)
+                gtk_tooltips_set_tip (statusTips, getWidget("labelStatus"), statusTextOnToolTip.c_str(), NULL);
+         #else
+                gtk_widget_set_tooltip_text(getWidget("labelStatus"), statusTextOnToolTip.c_str());
+         #endif
 	}
 }
 

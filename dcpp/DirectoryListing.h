@@ -26,6 +26,7 @@
 #include "FastAlloc.h"
 #include "MerkleTree.h"
 #include "Util.h"
+#include "MediaInfo.h"
 
 namespace dcpp {
 
@@ -45,19 +46,22 @@ public:
 			}
 		};
 		typedef vector<Ptr> List;
-		typedef List::iterator Iter;
+		//typedef List::iterator Iter;
+		typedef List::const_iterator Iter;
 
-		File(Directory* aDir, const string& aName, int64_t aSize, const TTHValue& aTTH) noexcept :
-			name(aName), size(aSize), parent(aDir), tthRoot(aTTH), adls(false)
+		File(Directory* aDir, const string& aName, int64_t aSize, const TTHValue& aTTH, uint32_t p_ts, const MediaInfo& p_media) noexcept :
+			name(aName), size(aSize), parent(aDir), tthRoot(aTTH), adls(false), ts(p_ts), m_media(p_media)
 		{
 		}
 
-		File(const File& rhs, bool _adls = false) : name(rhs.name), size(rhs.size), parent(rhs.parent), tthRoot(rhs.tthRoot), adls(_adls)
+		File(const File& rhs, bool _adls = false) : name(rhs.name), size(rhs.size), parent(rhs.parent), tthRoot(rhs.tthRoot), adls(_adls), ts(rhs.ts), m_media(rhs.m_media)
 		{
 		}
 
 		File& operator=(const File& rhs) {
 			name = rhs.name; size = rhs.size; parent = rhs.parent; tthRoot = rhs.tthRoot;
+			ts = rhs.ts;
+			m_media = rhs.m_media;
 			return *this;
 		}
 
@@ -75,6 +79,10 @@ public:
 		GETSET(int, adlsRaw, AdlsRaw);
 		GETSET(string, kickString, KickString)
 		GETSET(string, fullFileName ,FullFileName);
+		
+		GETSET(uint32_t, ts, TS);
+		MediaInfo m_media;
+		
 	};
 
 	class Directory : public FastAlloc<Directory>, boost::noncopyable {
@@ -105,11 +113,33 @@ public:
 		void getHashList(TTHSet& l);
 
 		size_t getFileCount() { return files.size(); }
+		
+		uint32_t getTotalTS() const;
+		uint16_t getTotalBitrate() const;
 
 		int64_t getSize() {
 			int64_t x = 0;
 			for(File::Iter i = files.begin(); i != files.end(); ++i) {
 				x+=(*i)->getSize();
+			}
+			return x;
+		}
+		//FL
+		uint16_t getBitrate() const
+		{
+			uint16_t x = 0;
+			for (File::Iter i = files.begin(); i != files.end(); ++i)
+			{
+				x = std::max((*i)->m_media.m_bitrate, x);
+			}
+			return x;
+		}
+		uint32_t getTS() const
+		{
+			uint32_t x = 0;
+			for (File::Iter i = files.begin(); i != files.end(); ++i)
+			{
+				x = std::max((*i)->getTS(), x);
 			}
 			return x;
 		}

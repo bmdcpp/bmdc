@@ -38,6 +38,8 @@
 #include "message.hh"
 #include "notify.hh"
 
+#include <queue>
+
 
 class BookEntry;
 class Search;
@@ -232,6 +234,9 @@ class MainWindow:
 		GtkWindow *window;
 		Transfers* transfers;
 		GtkStatusIcon *statusIcon;
+		#if !GTK_CHECK_VERSION(2, 12, 0)
+		GtkTooltips *statusTips;
+		#endif
 		int64_t lastUpdate, lastUp, lastDown;
 		bool minimized;
 		dcpp::StringList EntryList;
@@ -282,6 +287,8 @@ class MainWindow:
 		std::vector<Search*> search;
 		
 		FileListQueue listQueue;
+		
+		std::queue<std::string> statustext;
 };
 
 #else

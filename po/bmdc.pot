@@ -5,21 +5,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-11-15 18:38+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
-"Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  linux.pot  #-#-#-#-#\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-11-15 23:40+0100\n"
+"POT-Creation-Date: 2011-11-18 11:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -524,7 +512,7 @@ msgid "Away mode message on/off"
 msgstr ""
 
 #: glade/hub.glade:20 glade/privatemessage.glade:190 linux/WulforUtil.cc:866
-#: linux/WulforUtil.cc:882 linux/mainwindow.cc:2124
+#: linux/WulforUtil.cc:882 linux/mainwindow.cc:2143
 #: linux/privatemessage.cc:963 linux/privatemessage.cc:977
 #: linux/privatemessage.cc:1031
 msgid "Away mode off"
@@ -602,8 +590,8 @@ msgstr ""
 #: glade/settingsdialog.glade:2259 glade/settingsdialog.glade:4539
 #: glade/settingsdialog.glade:6289 glade/settingsdialog.glade:7474
 #: glade/settingsdialog.glade:7490 glade/settingsdialog.glade:7506
-#: linux/search.cc:360 linux/search.cc:430 linux/sharebrowser.cc:494
-#: linux/sharebrowser.cc:546
+#: linux/search.cc:360 linux/search.cc:430 linux/sharebrowser.cc:509
+#: linux/sharebrowser.cc:561
 msgid "Browse..."
 msgstr ""
 
@@ -683,8 +671,8 @@ msgid "Choose a File"
 msgstr ""
 
 #: glade/search.glade:7 glade/settingsdialog.glade:8716
-#: glade/sharebrowser.glade:7 linux/hub.cc:2713 linux/mainwindow.cc:1458
-#: linux/mainwindow.cc:1526 linux/privatemessage.cc:1276
+#: glade/sharebrowser.glade:7 linux/hub.cc:2713 linux/mainwindow.cc:1477
+#: linux/mainwindow.cc:1545 linux/privatemessage.cc:1276
 msgid "Choose a directory"
 msgstr ""
 
@@ -882,7 +870,7 @@ msgstr ""
 #: linux/settingsdialog.cc:1413 linux/settingsdialog.cc:3804
 #: linux/settingsdialog.cc:3824 linux/settingsdialog.cc:3853
 #: linux/settingsdialog.cc:3867 linux/settingsdialog.cc:3922
-#: linux/sharebrowser.cc:292
+#: linux/sharebrowser.cc:297
 msgid "Directory"
 msgstr ""
 
@@ -2043,7 +2031,7 @@ msgstr ""
 msgid "Select Text Color"
 msgstr ""
 
-#: glade/mainwindow.glade:772 linux/mainwindow.cc:2205
+#: glade/mainwindow.glade:772 linux/mainwindow.cc:2224
 msgid "Select filelist to browse"
 msgstr ""
 
@@ -2146,8 +2134,8 @@ msgstr ""
 #: linux/search.cc:1760 linux/search.cc:1778 linux/settingsdialog.cc:1017
 #: linux/settingsdialog.cc:1023 linux/settingsdialog.cc:3854
 #: linux/settingsdialog.cc:3923 linux/sharebrowser.cc:77
-#: linux/sharebrowser.cc:96 linux/sharebrowser.cc:289
-#: linux/sharebrowser.cc:328 linux/transfers.cc:67 linux/transfers.cc:588
+#: linux/sharebrowser.cc:101 linux/sharebrowser.cc:294
+#: linux/sharebrowser.cc:338 linux/transfers.cc:67 linux/transfers.cc:588
 #: linux/transfers.cc:668 linux/transfers.cc:761 linux/transfers.cc:778
 #: linux/transfers.cc:931
 msgid "Size"
@@ -2315,8 +2303,8 @@ msgstr ""
 #: glade/detection.glade:257 glade/detection.glade:904 linux/search.cc:108
 #: linux/search.cc:664 linux/search.cc:741 linux/search.cc:879
 #: linux/search.cc:1757 linux/search.cc:1758 linux/search.cc:1759
-#: linux/search.cc:1773 linux/sharebrowser.cc:78 linux/sharebrowser.cc:292
-#: linux/sharebrowser.cc:313
+#: linux/search.cc:1773 linux/sharebrowser.cc:78 linux/sharebrowser.cc:297
+#: linux/sharebrowser.cc:318
 msgid "Type"
 msgstr ""
 
@@ -2712,8 +2700,8 @@ msgstr ""
 
 #: glade/settingsdialog.glade:3097 glade/settingsdialog.glade:3113
 #: glade/settingsdialog.glade:3159 linux/hashdialog.cc:79
-#: linux/mainwindow.cc:854 linux/mainwindow.cc:855 linux/mainwindow.cc:2591
-#: linux/mainwindow.cc:2593 linux/treeview.cc:212
+#: linux/mainwindow.cc:873 linux/mainwindow.cc:874 linux/mainwindow.cc:2610
+#: linux/mainwindow.cc:2612 linux/treeview.cc:212
 msgid "s"
 msgstr ""
 
@@ -2772,7 +2760,7 @@ msgstr ""
 msgid " empty..."
 msgstr ""
 
-#: linux/finishedtransfers.cc:258 linux/sharebrowser.cc:1052
+#: linux/finishedtransfers.cc:258 linux/sharebrowser.cc:1067
 msgid " files"
 msgstr ""
 
@@ -2937,7 +2925,7 @@ msgstr ""
 msgid "<b>Under what name you see the directory</b>"
 msgstr ""
 
-#: linux/mainwindow.cc:2566
+#: linux/mainwindow.cc:2585
 msgid "<b>file:</b> "
 msgstr ""
 
@@ -3030,6 +3018,10 @@ msgstr ""
 msgid "Are you sure you want to delete this item \"%s\"?"
 msgstr ""
 
+#: linux/sharebrowser.cc:85 linux/sharebrowser.cc:344
+msgid "Audio"
+msgstr ""
+
 #: linux/favoriteusers.cc:44 linux/favoriteusers.cc:65
 #: linux/favoriteusers.cc:108 linux/favoriteusers.cc:470
 #: linux/favoriteusers.cc:472
@@ -3064,12 +3056,16 @@ msgstr ""
 msgid "Away Icon"
 msgstr ""
 
-#: linux/mainwindow.cc:2130
+#: linux/mainwindow.cc:2149
 msgid "Away mode on"
 msgstr ""
 
 #: linux/WulforUtil.cc:874 linux/privatemessage.cc:971
 msgid "Away mode on: "
+msgstr ""
+
+#: linux/sharebrowser.cc:82 linux/sharebrowser.cc:341
+msgid "Bitrate"
 msgstr ""
 
 #: linux/settingsdialog.cc:1392
@@ -3137,7 +3133,7 @@ msgid "Clear search box after each search"
 msgstr ""
 
 #: linux/bookentry.cc:252 linux/hub.cc:4327 linux/privatemessage.cc:1458
-#: linux/sharebrowser.cc:1070
+#: linux/sharebrowser.cc:1085
 msgid "Close"
 msgstr ""
 
@@ -3197,7 +3193,7 @@ msgstr ""
 msgid "Copy All"
 msgstr ""
 
-#: linux/privatemessage.cc:1457 linux/sharebrowser.cc:1069
+#: linux/privatemessage.cc:1457 linux/sharebrowser.cc:1084
 msgid "Copy CID"
 msgstr ""
 
@@ -3222,6 +3218,10 @@ msgid ""
 "\n"
 "BMDC++ version: %s.%s\n"
 "Core version: %s"
+msgstr ""
+
+#: linux/sharebrowser.cc:81 linux/sharebrowser.cc:340
+msgid "Date"
 msgstr ""
 
 #: linux/adlsearch.cc:49 linux/adlsearch.cc:78 linux/adlsearch.cc:144
@@ -3386,7 +3386,7 @@ msgstr ""
 msgid "Encoding"
 msgstr ""
 
-#: linux/mainwindow.cc:1392
+#: linux/mainwindow.cc:1411
 msgid "Enter value for "
 msgstr ""
 
@@ -3415,8 +3415,8 @@ msgstr ""
 #: linux/downloadqueue.cc:72 linux/downloadqueue.cc:87
 #: linux/downloadqueue.cc:280 linux/downloadqueue.cc:387 linux/search.cc:114
 #: linux/search.cc:140 linux/search.cc:667 linux/search.cc:720
-#: linux/sharebrowser.cc:80 linux/sharebrowser.cc:97 linux/sharebrowser.cc:290
-#: linux/sharebrowser.cc:329
+#: linux/sharebrowser.cc:80 linux/sharebrowser.cc:102
+#: linux/sharebrowser.cc:295 linux/sharebrowser.cc:339
 msgid "Exact Size"
 msgstr ""
 
@@ -3495,7 +3495,7 @@ msgstr ""
 msgid "File list"
 msgstr ""
 
-#: linux/sharebrowser.cc:155
+#: linux/sharebrowser.cc:160
 msgid "File list loaded"
 msgstr ""
 
@@ -3503,7 +3503,7 @@ msgstr ""
 msgid "File not available"
 msgstr ""
 
-#: linux/mainwindow.cc:2441
+#: linux/mainwindow.cc:2460
 msgid ""
 "File transfers will not work correctly until you change settings or turn off "
 "any application that might be using the TCP/TLS port."
@@ -3521,12 +3521,12 @@ msgstr ""
 #: linux/search.cc:1680 linux/search.cc:1748 linux/search.cc:1752
 #: linux/search.cc:1756 linux/search.cc:1757 linux/search.cc:1768
 #: linux/search.cc:1772 linux/search.cc:2033 linux/sharebrowser.cc:76
-#: linux/sharebrowser.cc:93 linux/sharebrowser.cc:95 linux/sharebrowser.cc:282
-#: linux/sharebrowser.cc:312 linux/sharebrowser.cc:511
-#: linux/sharebrowser.cc:603 linux/sharebrowser.cc:966
-#: linux/sharebrowser.cc:1000 linux/transfers.cc:66 linux/transfers.cc:714
-#: linux/transfers.cc:753 linux/transfers.cc:759 linux/transfers.cc:923
-#: linux/transfers.cc:925 linux/transfers.cc:927
+#: linux/sharebrowser.cc:98 linux/sharebrowser.cc:100
+#: linux/sharebrowser.cc:287 linux/sharebrowser.cc:317
+#: linux/sharebrowser.cc:526 linux/sharebrowser.cc:618
+#: linux/sharebrowser.cc:981 linux/sharebrowser.cc:1015 linux/transfers.cc:66
+#: linux/transfers.cc:714 linux/transfers.cc:753 linux/transfers.cc:759
+#: linux/transfers.cc:923 linux/transfers.cc:925 linux/transfers.cc:927
 msgid "Filename"
 msgstr ""
 
@@ -3534,7 +3534,7 @@ msgstr ""
 msgid "Files"
 msgstr ""
 
-#: linux/downloadqueue.cc:239 linux/sharebrowser.cc:349
+#: linux/downloadqueue.cc:239 linux/sharebrowser.cc:364
 msgid "Files: "
 msgstr ""
 
@@ -3553,7 +3553,7 @@ msgstr ""
 msgid "Forbiden File"
 msgstr ""
 
-#: linux/sharebrowser.cc:625 linux/sharebrowser.cc:668
+#: linux/sharebrowser.cc:640 linux/sharebrowser.cc:683
 msgid "Found a match"
 msgstr ""
 
@@ -3725,11 +3725,11 @@ msgstr ""
 msgid "Invalid number of slots"
 msgstr ""
 
-#: linux/downloadqueue.cc:237 linux/sharebrowser.cc:354
+#: linux/downloadqueue.cc:237 linux/sharebrowser.cc:369
 msgid "Items: "
 msgstr ""
 
-#: linux/sharebrowser.cc:359
+#: linux/sharebrowser.cc:374
 msgid "Items: 0"
 msgstr ""
 
@@ -3759,7 +3759,7 @@ msgstr ""
 msgid "Load Lua file"
 msgstr ""
 
-#: linux/mainwindow.cc:2242
+#: linux/mainwindow.cc:2261
 msgid "Loading file list"
 msgstr ""
 
@@ -3775,15 +3775,15 @@ msgstr ""
 msgid "Lowest"
 msgstr ""
 
-#: linux/mainwindow.cc:1519
+#: linux/mainwindow.cc:1538
 msgid "Magnet Choice"
 msgstr ""
 
-#: linux/mainwindow.cc:1449
+#: linux/mainwindow.cc:1468
 msgid "Magnet Properties / Choice"
 msgstr ""
 
-#: linux/sharebrowser.cc:1052
+#: linux/sharebrowser.cc:1067
 msgid "Matched "
 msgstr ""
 
@@ -3873,11 +3873,11 @@ msgstr ""
 msgid "No errors"
 msgstr ""
 
-#: linux/sharebrowser.cc:637 linux/sharebrowser.cc:829
+#: linux/sharebrowser.cc:652 linux/sharebrowser.cc:844
 msgid "No matches"
 msgstr ""
 
-#: linux/sharebrowser.cc:840
+#: linux/sharebrowser.cc:855
 msgid "No search text entered"
 msgstr ""
 
@@ -3890,11 +3890,11 @@ msgstr ""
 msgid "Normal"
 msgstr ""
 
-#: linux/mainwindow.cc:2046
+#: linux/mainwindow.cc:2065
 msgid "Not Alowed same number of port for TLS and TCP"
 msgstr ""
 
-#: linux/mainwindow.cc:2047
+#: linux/mainwindow.cc:2066
 msgid ""
 "Not Alowed same number of port for TLS and TCP,please chose for one of it "
 "another port"
@@ -4058,6 +4058,10 @@ msgstr ""
 msgid "Requesting"
 msgstr ""
 
+#: linux/sharebrowser.cc:83 linux/sharebrowser.cc:342
+msgid "Resolution"
+msgstr ""
+
 #: linux/downloadqueue.cc:1298
 msgid "Running..."
 msgstr ""
@@ -4097,13 +4101,13 @@ msgstr ""
 msgid "Searching too soon, retry in "
 msgstr ""
 
-#: linux/mainwindow.cc:2455
+#: linux/mainwindow.cc:2474
 msgid ""
 "Searching will not work correctly until you change settings or turn off any "
 "application that might be using the UDP port."
 msgstr ""
 
-#: linux/mainwindow.cc:2630
+#: linux/mainwindow.cc:2649
 msgid "Select file to Get TTH"
 msgstr ""
 
@@ -4159,7 +4163,7 @@ msgstr ""
 msgid "Shared"
 msgstr ""
 
-#: linux/mainwindow.cc:845
+#: linux/mainwindow.cc:864
 msgid "Shared: "
 msgstr ""
 
@@ -4228,11 +4232,11 @@ msgid "Shutting down dcpp client..."
 msgstr ""
 
 #: linux/downloadqueue.cc:238 linux/downloadqueue.cc:240
-#: linux/sharebrowser.cc:355
+#: linux/sharebrowser.cc:370
 msgid "Size: "
 msgstr ""
 
-#: linux/sharebrowser.cc:360
+#: linux/sharebrowser.cc:375
 msgid "Size: 0 B"
 msgstr ""
 
@@ -4253,7 +4257,7 @@ msgstr ""
 msgid "Slots"
 msgstr ""
 
-#: linux/mainwindow.cc:844
+#: linux/mainwindow.cc:863
 msgid "Slots: "
 msgstr ""
 
@@ -4279,7 +4283,7 @@ msgstr ""
 msgid "Speed"
 msgstr ""
 
-#: linux/sharebrowser.cc:367
+#: linux/sharebrowser.cc:382
 msgid "Speed: "
 msgstr ""
 
@@ -4336,11 +4340,11 @@ msgstr ""
 msgid "Tag"
 msgstr ""
 
-#: linux/mainwindow.cc:2710
+#: linux/mainwindow.cc:2729
 msgid "The GeoIP database could not be updated...v"
 msgstr ""
 
-#: linux/mainwindow.cc:2705
+#: linux/mainwindow.cc:2724
 msgid ""
 "The GeoIP database has been successfully updated; restart DC++ to apply....v"
 msgstr ""
@@ -4404,7 +4408,7 @@ msgstr ""
 msgid "Total size: "
 msgstr ""
 
-#: linux/sharebrowser.cc:350
+#: linux/sharebrowser.cc:365
 msgid "Total: "
 msgstr ""
 
@@ -4426,19 +4430,19 @@ msgstr ""
 msgid "Unable to connect: already connected to the requested hub"
 msgstr ""
 
-#: linux/sharebrowser.cc:176
+#: linux/sharebrowser.cc:181
 msgid "Unable to load file list: "
 msgstr ""
 
-#: linux/mainwindow.cc:2230
+#: linux/mainwindow.cc:2249
 msgid "Unable to load file list: Invalid file list name"
 msgstr ""
 
-#: linux/mainwindow.cc:2440
+#: linux/mainwindow.cc:2459
 msgid "Unable to open TCP/TLS port"
 msgstr ""
 
-#: linux/mainwindow.cc:2454
+#: linux/mainwindow.cc:2473
 msgid "Unable to open UDP port"
 msgstr ""
 
@@ -4459,7 +4463,7 @@ msgstr ""
 msgid "Updated frame search"
 msgstr ""
 
-#: linux/mainwindow.cc:2692
+#: linux/mainwindow.cc:2711
 msgid "Updating the GeoIP database...v"
 msgstr ""
 
@@ -4749,6 +4753,10 @@ msgstr ""
 msgid "Users: "
 msgstr ""
 
+#: linux/sharebrowser.cc:84 linux/sharebrowser.cc:343
+msgid "Video"
+msgstr ""
+
 #: linux/settingsdialog.cc:1045
 msgid "View status messages in main chat"
 msgstr ""
@@ -4834,7 +4842,7 @@ msgstr ""
 msgid "eMail"
 msgstr ""
 
-#: linux/mainwindow.cc:2542
+#: linux/mainwindow.cc:2561
 msgid "file list from "
 msgstr ""
 

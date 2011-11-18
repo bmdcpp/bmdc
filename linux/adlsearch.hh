@@ -70,5 +70,5 @@ class SearchADL:
 };
 
 #else
-class ADLSearchGUI;
+class SearchADL;
 #endif

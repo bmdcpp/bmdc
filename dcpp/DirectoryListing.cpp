@@ -30,6 +30,7 @@
 #include "ShareManager.h"
 #include "SimpleXMLReader.h"
 #include "File.h"
+#include "MediaInfo.h"
 
 #ifdef ff
 #undef ff
@@ -138,6 +139,13 @@ static const string sFile = "File";
 static const string sName = "Name";
 static const string sSize = "Size";
 static const string sTTH = "TTH";
+///...
+static const string sTS = "TS";
+static const string sBR = "BR";
+static const string sWH = "WH";
+static const string sMVideo = "MV";
+static const string sMAudio = "MA";
+
 
 void ListLoader::startTag(const string& name, StringPairList& attribs, bool simple) {
 	if(inListing) {
@@ -169,8 +177,21 @@ void ListLoader::startTag(const string& name, StringPairList& attribs, bool simp
 					}
 				}
 			}
+			string l_br;
+			MediaInfo l_mediaXY;
+			const string& l_ts = getAttrib(attribs, sTS, 3);
+			if(l_ts.size()) // Extended tags - exists only FlylinkDC++ or StrongDC++ sqlite or clones
+			{
+			 l_br = getAttrib(attribs, sBR, 4);
+			 l_mediaXY.init(getAttrib(attribs, sWH, 3), atoi(l_br.c_str()));
+			 l_mediaXY.m_audio = getAttrib(attribs, sMAudio, 3);
+	         l_mediaXY.m_video = getAttrib(attribs, sMVideo, 3);
+			}
 
-			DirectoryListing::File* f = new DirectoryListing::File(cur, n, size, tth);
+			//DirectoryListing::File* f = new DirectoryListing::File(cur, n, size, tth);
+			DirectoryListing::File* f = new DirectoryListing::File(cur, n, size, tth,atoi(l_ts.c_str()),l_mediaXY);
+			
+			
 			cur->files.push_back(f);
 
 		} else if(name == sDirectory) {
@@ -423,6 +444,24 @@ DirectoryListing::File::List DirectoryListing::getForbiddenFiles() {
 		}
 	}
 	return forbiddenList;
+}
+
+uint32_t DirectoryListing::Directory::getTotalTS() const
+{ 
+	uint32_t x = getTS();
+ for (auto i = directories.begin(); i != directories.end(); ++i)
+ {
+	x = std::max((*i)->getTS(), x);
+  }return x;
+}
+uint16_t DirectoryListing::Directory::getTotalBitrate() const
+{
+   uint16_t x = getBitrate();
+   for (auto i = directories.begin(); i != directories.end(); ++i)
+   {
+	x = std::max((*i)->getBitrate(), x);
+	}
+return x;
 }
 
 } // namespace dcpp

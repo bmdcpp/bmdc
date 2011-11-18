@@ -3,7 +3,7 @@
 #include <cstring>
 #include "ShellCommand.hh"
 
-ShellCommand::ShellCommand(char* input, int len, bool shell)
+ShellCommand::ShellCommand(char* input, int len, int shell)
 {
 	thirdPerson = false;
 	resultsize = len;
