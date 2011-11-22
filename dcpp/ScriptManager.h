@@ -45,8 +45,6 @@ struct LuaManager  {
 	static int InjectHubMessageADC(lua_State* L);
 	static int InjectHubMessageNMDC(lua_State* L);
 
-//	int FindWindow(lua_State *L);
-//	int PostMessage(lua_State *L);
 	static int DropUserConnection(lua_State* L);
 //*/*/*/*/
 	static int CreateClient(lua_State* L);

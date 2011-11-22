@@ -173,7 +173,7 @@ public:
 
 	void noDeleteFileList(const string& path);
 
-    const QueueItem::StringMap getQueue() {return fileQueue.getQueue();}
+    const QueueItem::StringMap getQueue() { Lock l(cs);return fileQueue.getQueue();}
 
 	GETSET(uint64_t, lastSave, LastSave);
 	GETSET(string, queueFile, QueueFile);

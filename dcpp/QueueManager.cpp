@@ -1729,18 +1729,22 @@ void QueueManager::on(ClientManagerListener::UserConnected, const UserPtr& aUser
 void QueueManager::on(ClientManagerListener::UserDisconnected, const UserPtr& aUser) noexcept {
 	bool hasTestSURinQueue = false;
 	Lock l(cs);
+{
 	for(int i = 0; i < QueueItem::LAST; ++i) {
 		auto j = userQueue.getList(i).find(aUser);
 		if(j != userQueue.getList(i).end()) {
 			for(auto m = j->second.begin(); m != j->second.end(); ++m) {
 				if((*m)->isSet(QueueItem::FLAG_TESTSUR))  hasTestSURinQueue = true;
 				fire(QueueManagerListener::StatusUpdated(), *m);
+			}
 		}
-	}
+
+	}	
+}
 	if(hasTestSURinQueue)
 		removeTestSUR(HintedUser(aUser, Util::emptyString)); 
 	
-}	
+
 	
 }
 

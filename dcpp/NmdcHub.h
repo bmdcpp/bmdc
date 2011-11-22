@@ -37,6 +37,7 @@
 namespace dcpp {
 
 using std::list;
+	
 class NmdcHub;
 #ifdef _USELUA
 struct NmdcHubScriptInstance: public ScriptInstance {

@@ -358,7 +358,7 @@ SettingsManager::SettingsManager()
     setDefault(ADLSEARCH_DEFAULT_ACTION, 0);
     setDefault(MIN_POINTS_TO_DISPLAY_CHEAT, 0);
     setDefault(SHOW_ADLSEARCH_DEFAULT_ACTION, true);
-    setDefault(PERCENT_FAKE_SHARE_TOLERATED,10);
+    setDefault(PERCENT_FAKE_SHARE_TOLERATED, 10);
 
     setDefault(DCPP_EMULATION_RAW, 0);
     setDefault(FILELIST_VERSION_MISMATCH, 0);
@@ -401,7 +401,7 @@ SettingsManager::SettingsManager()
     setDefault(ENABLE_AUTOBACKUP, false);
     setDefault(SHOW_FREE_SLOTS_DESC, false);
     
-    setDefault(FILELIST_NA_RAW,0);
+    setDefault(FILELIST_NA_RAW, 0);
     setDefault(SHOW_FILELIST_NA, true);
 
 	//]

@@ -160,6 +160,7 @@ private:
 	public:
 		ThreadedCheck(HubUsersMap* _u, Client* _c) : client(_c), users(_u),
 			keepChecking(false), canCheckFilelist(false), inThread(false), checkAtConnect(false) { };
+
 		~ThreadedCheck() {
 			keepChecking = inThread = false;
 
@@ -282,10 +283,11 @@ private:
 					uint8_t f = 0;
 					{
 						Lock l(cs);
-						const QueueItem::StringMap& q = QueueManager::getInstance()->getQueue();
+						const QueueItem::StringMap q = QueueManager::getInstance()->getQueue();
 						for(QueueItem::StringMap::const_iterator i = q.begin(); i != q.end(); ++i) {
-							//if(i->second->countOnlineUsers() == 0)
-							//	continue;
+							i->second->inc();
+							if(i->second->countOnlineUsers() == 0)
+								continue;
 							if(i->second->isSet(QueueItem::FLAG_TESTSUR)) {
 								t++;
 							} else if(i->second->isSet(QueueItem::FLAG_CHECK_FILE_LIST)) {
@@ -316,7 +318,7 @@ private:
 							try {
 								string fname = QueueManager::getInstance()->addClientCheck(ou->getUser(), client->getHubUrl());
 								if(!fname.empty())
-									ou->getIdentity().setTestSURQueued(fname);
+									ou->getIdentity().setTestSURQueued("1");
 							} catch(...) {
 								//
 							}
@@ -325,7 +327,7 @@ private:
 							try {
 								fname = QueueManager::getInstance()->addFileListCheck(ou->getUser(), client->getHubUrl());
 								if(!fname.empty())
-									ou->getIdentity().setFileListQueued(fname);
+									ou->getIdentity().setFileListQueued("1");
 							} catch(...) {
 							
 							}

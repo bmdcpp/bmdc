@@ -370,7 +370,8 @@ Added Archs PKGBUILD
 Build without -fpermisive
 GtkEntry with GtkCompletion in Search
 Fix The Settings
-
 Fixed tooltip on main status bar
 Add MediaInfo
+
+Fix Crash on checker when con-timeout is
 
