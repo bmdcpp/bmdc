@@ -37,18 +37,10 @@
 using namespace std;
 using namespace dcpp;
 
-//GtkTreeModel* Search::searchEntriesModel = NULL;
-
 Search::Search():
 	BookEntry(Entry::SEARCH, _("Search: "), "search.glade", generateID()),
 	previousGrouping(NOGROUPING)
 {
-	// Initialize the search entries combo box
-	//if (searchEntriesModel == NULL)
-	//	searchEntriesModel = gtk_combo_box_get_model(GTK_COMBO_BOX(getWidget("comboboxentrySearch")));
-	//gtk_combo_box_set_model(GTK_COMBO_BOX(getWidget("comboboxentrySearch")), searchEntriesModel);
-	//searchEntry = gtk_bin_get_child(GTK_BIN(getWidget("comboboxentrySearch")));
-	//gtk_widget_grab_focus(getWidget("comboboxentrySearch"));
 	gtk_widget_grab_focus(getWidget("SearchEntry"));
 	/* set up completion */
 	completion = gtk_entry_completion_new();
@@ -145,6 +137,12 @@ Search::Search():
 	//
 	resultView.setSelection(selection);
 	resultView.buildCopyMenu(getWidget("CopyMenu"));
+	//..
+	g_object_set(G_OBJECT(resultView.get()),"has-tooltip", TRUE, NULL);
+	g_signal_connect(resultView.get(), "query-tooltip", G_CALLBACK(onResultView_gui), (gpointer)this);
+	g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (resultView.get())), "changed", G_CALLBACK (selection_changed_result_gui), GTK_WIDGET(resultView.get()));
+	/* Set a tooltip on the column */
+	set_Header_tooltip_gui();
 
 	// Initialize the user command menu
 	userCommandMenu = new UserCommandMenu(getWidget("usercommandMenu"), ::UserCommand::CONTEXT_SEARCH);
@@ -185,8 +183,6 @@ Search::Search():
 	g_signal_connect(resultView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
 	g_signal_connect(resultView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 	g_signal_connect(resultView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
-//	g_signal_connect(searchEntry, "key-press-event", G_CALLBACK(onSearchEntryKeyPressed_gui), (gpointer)this);
-//  g_signal_connect(searchEntry, "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 	g_signal_connect(getWidget("SearchEntry"), "key-press-event", G_CALLBACK(onSearchEntryKeyPressed_gui), (gpointer)this);
 	g_signal_connect(getWidget("SearchEntry"), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 	g_signal_connect(getWidget("entrySize"), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
@@ -203,7 +199,6 @@ Search::Search():
 	g_signal_connect(getWidget("removeUserFromQueueItem"), "activate", G_CALLBACK(onRemoveUserFromQueueClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("removeItem"), "activate", G_CALLBACK(onRemoveClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("comboboxSize"), "changed", G_CALLBACK(onComboBoxChanged_gui), (gpointer)this);
-//	g_signal_connect(getWidget("comboboxentrySearch"), "changed", G_CALLBACK(onComboBoxChanged_gui), (gpointer)this);
 	g_signal_connect(getWidget("comboboxUnit"), "changed", G_CALLBACK(onComboBoxChanged_gui), (gpointer)this);
 	g_signal_connect(getWidget("comboboxFile"), "changed", G_CALLBACK(onComboBoxChanged_gui), (gpointer)this);
 	g_signal_connect(getWidget("comboboxGroupBy"), "changed", G_CALLBACK(onGroupByComboBoxChanged_gui), (gpointer)this);
@@ -229,7 +224,7 @@ void Search::show()
 
 void Search::putValue_gui(const string &str, int64_t size, SearchManager::SizeModes mode, SearchManager::TypeModes type)
 {
-	gtk_entry_set_text(GTK_ENTRY(/*searchEntry*/getWidget("SearchEntry")), str.c_str());
+	gtk_entry_set_text(GTK_ENTRY(getWidget("SearchEntry")), str.c_str());
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entrySize")), Util::toString(size).c_str());
 	gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxSize")), (int)mode);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxFile")), (int)type);
@@ -250,8 +245,6 @@ void Search::initHubs_gui()
 		if (client->isConnected())
 			addHub_gui(client->getHubName(), client->getHubUrl());
 	}
-
-	//ClientManager::getInstance()->unlock();
 }
 
 void Search::addHub_gui(string name, string url)
@@ -449,7 +442,7 @@ void Search::search_gui()
 	StringList clients;
 	GtkTreeIter iter;
 
-	string text = gtk_entry_get_text(GTK_ENTRY(/*searchEntry*/getWidget("SearchEntry")));
+	string text = gtk_entry_get_text(GTK_ENTRY(getWidget("SearchEntry")));
 	if (text.empty())
 		return;
 		
@@ -574,7 +567,7 @@ void Search::search_gui()
 		SearchManager::getInstance()->search(clients, text, llsize, (SearchManager::TypeModes)ftype, mode, "manual", exts);//NOTE: core 0.770
 
 		if (BOOLSETTING(CLEAR_SEARCH)) // Only clear if the search was sent.
-			gtk_entry_set_text(GTK_ENTRY(/*searchEntry*/getWidget("SearchEntry")), "");
+			gtk_entry_set_text(GTK_ENTRY(getWidget("SearchEntry")), "");
 	}
 	else
 	{
@@ -889,8 +882,6 @@ string Search::getGroupingColumn(GroupType groupBy)
 gboolean Search::onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data)
 {
 	Search *s = (Search *)data;
-
-	//gtk_widget_grab_focus(s->getWidget("comboboxentrySearch"));
 	gtk_widget_grab_focus(s->getWidget("SearchEntry"));
 
 	return TRUE;
@@ -963,12 +954,7 @@ gboolean Search::onSearchEntryKeyPressed_gui(GtkWidget *widget, GdkEventKey *eve
 	{
 		s->search_gui();
 	}
-	else if (event->keyval == GDK_Down || event->keyval == GDK_KP_Down)
-	{
-		//gtk_combo_box_popup(GTK_COMBO_BOX(s->getWidget("comboboxentrySearch")));
-		//return TRUE;
-	}
-
+	
 	return FALSE;
 }
 
@@ -1780,7 +1766,6 @@ void Search::parseSearchResult_gui(SearchResultPtr result, StringMap &resultMap)
 		}
 	}
 
-// 	resultMap[_("Nick")] = WulforUtil::getNicks(result->getUser());
 	resultMap[_("Nick")] = WulforUtil::getNicks(result->getUser(), result->getHubURL());//NOTE: core 0.762
 	resultMap["CID"] = result->getUser()->getCID().toBase32();
 	resultMap["Slots"] = result->getSlotString();
@@ -2089,9 +2074,113 @@ gboolean Search::searchFilterFunc_gui(GtkTreeModel *model, GtkTreeIter *iter, gp
 
 gboolean Search::on_match_select_entry(GtkEntryCompletion *widget,GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
 {
-GValue value = {0,};
-gtk_tree_model_get_value(model, iter, EN_STRING, &value);
-fprintf(stdout, "You have selected %s\n", g_value_get_string(&value));
-g_value_unset(&value);
-return FALSE;
+	GValue value = {0,};
+	gtk_tree_model_get_value(model, iter, EN_STRING, &value);
+	fprintf(stdout, "You have selected %s\n", g_value_get_string(&value));
+	g_value_unset(&value);
+	return FALSE;
 }
+
+gboolean Search::onResultView_gui(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer data)
+{
+	GtkTreeIter iter;
+	GtkTreeView *view = GTK_TREE_VIEW(widget);
+	GtkTreeModel *model = gtk_tree_view_get_model (view);
+	GtkTreePath *path = NULL;
+	gchar *filename,*nick,*type,*size,*ppath,*slots,*con,*hub,*exsize,*country,*ip,*tth,*cid;
+	char buffer[1000];
+
+	if(!gtk_tree_view_get_tooltip_context (view, &x, &y,
+					  keyboard_tip,
+					  &model, &path, &iter))
+		return FALSE;
+
+	gtk_tree_model_get (model,&iter,
+	                    0,&filename,
+	                    1,&nick,
+	                    2,&type,
+	                    3,&size,
+	                    4,&ppath,
+	                    5,&slots,
+	                    6,&con,
+	                    7,&hub,
+	                    8,&exsize,
+	                    9,&country,
+	                    10,&ip,
+	                    11,&tth,
+						-1);
+
+	g_snprintf(buffer,1000," Filename: %s\n Nick: %s\n Type: %s\n Size: %s\n Path: %s\n Slots: %s\n Connection: %s\n Hub: %s\n Exact Size: %s\n Country: %s\n IP: %s\n TTH: %s\n",
+					filename, nick,type,size,ppath,slots,con,hub,exsize,country,ip,tth);
+
+	gtk_tooltip_set_text (_tooltip, buffer);
+
+	gtk_tree_view_set_tooltip_row (view, _tooltip, path);
+
+	gtk_tree_path_free (path);
+
+	return TRUE;
+}
+
+void Search::selection_changed_result_gui(GtkTreeSelection *selection, GtkWidget *tree_view)
+{
+  gtk_widget_trigger_tooltip_query (tree_view);
+}
+
+void Search::set_Header_tooltip_gui()//How beter ?
+{
+	GtkTreeViewColumn *column = gtk_tree_view_get_column (resultView.get(), 0);
+	gtk_tree_view_column_set_clickable (column, TRUE);
+	g_object_set (column->button, "tooltip-text", "Filename", NULL);
+
+	GtkTreeViewColumn *column1 = gtk_tree_view_get_column (resultView.get(), 1);
+	gtk_tree_view_column_set_clickable (column1, TRUE);
+	g_object_set (column1->button, "tooltip-text", "Nick", NULL);
+
+	GtkTreeViewColumn *column2 = gtk_tree_view_get_column (resultView.get(), 2);
+	gtk_tree_view_column_set_clickable (column2, TRUE);
+	g_object_set (column2->button, "tooltip-text", "Type", NULL);
+
+	GtkTreeViewColumn *column3 = gtk_tree_view_get_column (resultView.get(), 3);
+	gtk_tree_view_column_set_clickable (column3, TRUE);
+	g_object_set (column3->button, "tooltip-text", "Size", NULL);
+
+	GtkTreeViewColumn *column4 = gtk_tree_view_get_column (resultView.get(), 4);
+	gtk_tree_view_column_set_clickable (column4, TRUE);
+	g_object_set (column4->button, "tooltip-text", "Path", NULL);
+
+	GtkTreeViewColumn *column5 = gtk_tree_view_get_column (resultView.get(), 5);
+	gtk_tree_view_column_set_clickable (column5, TRUE);
+	g_object_set (column5->button, "tooltip-text", "Slots", NULL);
+
+	GtkTreeViewColumn *column6 = gtk_tree_view_get_column (resultView.get(), 6);
+	gtk_tree_view_column_set_clickable (column6, TRUE);
+	g_object_set (column6->button, "tooltip-text", "Connection", NULL);
+
+	GtkTreeViewColumn *column7 = gtk_tree_view_get_column (resultView.get(), 7);
+	gtk_tree_view_column_set_clickable (column7, TRUE);
+	g_object_set (column7->button, "tooltip-text", "Hub", NULL);
+
+	GtkTreeViewColumn *column8 = gtk_tree_view_get_column (resultView.get(), 8);
+	gtk_tree_view_column_set_clickable (column8, TRUE);
+	g_object_set (column8->button, "tooltip-text", "Filename", NULL);
+
+	GtkTreeViewColumn *column9 = gtk_tree_view_get_column (resultView.get(), 9);
+	gtk_tree_view_column_set_clickable (column9, TRUE);
+	g_object_set (column9->button, "tooltip-text", "Exact Size", NULL);
+
+	GtkTreeViewColumn *column10 = gtk_tree_view_get_column (resultView.get(), 10);
+	gtk_tree_view_column_set_clickable (column10, TRUE);
+	g_object_set (column10->button, "tooltip-text", "Country", NULL);
+
+	GtkTreeViewColumn *column11 = gtk_tree_view_get_column (resultView.get(), 11);
+	gtk_tree_view_column_set_clickable (column11, TRUE);
+	g_object_set (column11->button, "tooltip-text", "IP", NULL);
+
+	GtkTreeViewColumn *column12 = gtk_tree_view_get_column (resultView.get(), 12);
+	gtk_tree_view_column_set_clickable (column12, TRUE);
+	g_object_set (column12->button, "tooltip-text", "TTH", NULL);
+	
+	
+}	
+

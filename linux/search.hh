@@ -74,6 +74,7 @@ class Search:
 		void regroup_gui();
 		std::string getGroupingColumn(GroupType groupBy);
 		void modifyHubOp_gui(std::string name, std::string url, bool op);
+		void set_Header_tooltip_gui();
 
 		// GUI callbacks
 		static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);
@@ -107,6 +108,8 @@ class Search:
 		static void onRemoveClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onCheckOp_gui(GtkToggleButton *button, gpointer data);
 		static gboolean on_match_select_entry(GtkEntryCompletion *widget,GtkTreeModel *model, GtkTreeIter *iter, gpointer data);
+		static gboolean onResultView_gui(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer data);
+		static void selection_changed_result_gui(GtkTreeSelection *selection, GtkWidget *tree_view);
 
 		// GUI functions
 		void parseSearchResult_gui(dcpp::SearchResultPtr result, dcpp::StringMap &resultMap);
@@ -133,9 +136,7 @@ class Search:
 		GtkTreeModel *sortedFilterModel;
 		GtkTreeSelection *selection;
 		GdkEventType oldEventType;
-//		GtkWidget *searchEntry;
 		dcpp::TStringList searchlist;
-//		static GtkTreeModel *searchEntriesModel;
 		int droppedResult;
 		int searchHits;
 		bool isHash;
