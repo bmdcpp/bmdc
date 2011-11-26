@@ -373,6 +373,6 @@ Fix The Settings
 Fixed tooltip on main status bar
 Add MediaInfo
 Fix Crash on checker when con-timeout is
-
 Add tooltips to Search TreeView
 
+Add System-wide Icons to Queue/Search Tab too (for files)

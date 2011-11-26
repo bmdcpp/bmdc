@@ -95,7 +95,7 @@ Search::Search():
 
 	// Initialize search result treeview
 	resultView.setView(GTK_TREE_VIEW(getWidget("treeviewResult")), TRUE, "search");
-	resultView.insertColumn(_("Filename"), G_TYPE_STRING, TreeView::ICON_STRING, 250, "Icon");
+	resultView.insertColumn(_("Filename"), G_TYPE_STRING, TreeView::PIXBUF_STRING, 250, "Icon");
 	resultView.insertColumn(_("Nick"), G_TYPE_STRING, TreeView::STRING, 100);
 	resultView.insertColumn(_("Type"), G_TYPE_STRING, TreeView::STRING, 65);
 	resultView.insertColumn(_("Size"), G_TYPE_STRING, TreeView::STRING, 80);
@@ -107,7 +107,7 @@ Search::Search():
 	resultView.insertColumn("Country", G_TYPE_STRING, TreeView::PIXBUF_STRING, 100, "Pixbuf");
 	resultView.insertColumn("IP", G_TYPE_STRING, TreeView::STRING, 100);
 	resultView.insertColumn("TTH", G_TYPE_STRING, TreeView::STRING, 125);
-	resultView.insertHiddenColumn("Icon", G_TYPE_STRING);
+	resultView.insertHiddenColumn("Icon", GDK_TYPE_PIXBUF);
 	resultView.insertHiddenColumn("Real Size", G_TYPE_INT64);
 	resultView.insertHiddenColumn("Slots Order", G_TYPE_INT);
 	resultView.insertHiddenColumn("File Order", G_TYPE_STRING);
@@ -635,9 +635,11 @@ void Search::addResult_gui(const SearchResultPtr result)
 	// tree until after the duplication check.
 	if (createParent)
 	{
+		GtkWidget *iwid = gtk_invisible_new ();
+		GdkPixbuf *buf = gtk_widget_render_icon(iwid, GTK_STOCK_DND_MULTIPLE, GTK_ICON_SIZE_MENU, NULL);
 		// Insert the new parent row
 		gtk_tree_store_insert_with_values(resultStore, &parent, NULL, -1,
-				resultView.col("Icon"), GTK_STOCK_DND_MULTIPLE,
+				resultView.col("Icon"),buf ,
 				resultView.col("Grouping String"), groupStr.c_str(),
 				-1);
 
@@ -661,7 +663,7 @@ void Search::addResult_gui(const SearchResultPtr result)
 		resultView.col("Country"), GeoManager::getInstance()->getCountry(resultMap["IP"]).c_str(),
 		resultView.col("IP"), resultMap["IP"].c_str(),
 		resultView.col("TTH"), resultMap["TTH"].c_str(),
-		resultView.col("Icon"), resultMap["Icon"].c_str(),
+		resultView.col("Icon"), WulforUtil::loadIconShare(resultMap["Icon"]),
 		resultView.col("File Order"), resultMap["File Order"].c_str(),
 		resultView.col("Real Size"), Util::toInt64(resultMap["Real Size"]),
 		resultView.col("Slots Order"), Util::toInt(resultMap["Slots Order"]),
@@ -813,8 +815,11 @@ void Search::regroup_gui()
 			// If this is the first child to be appended, create a new parent row.
 			if (!gtk_tree_model_iter_has_child(GTK_TREE_MODEL(resultStore), &groupParent))
 			{
+				GtkWidget *iwid = gtk_invisible_new ();
+				GdkPixbuf *buf = gtk_widget_render_icon(iwid, GTK_STOCK_DND_MULTIPLE, GTK_ICON_SIZE_MENU, NULL);
+
 				gtk_tree_store_insert_with_values(resultStore, &parent, NULL, position,
-					resultView.col("Icon"), GTK_STOCK_DND_MULTIPLE,
+					resultView.col("Icon"), buf,
 					resultView.col("Grouping String"), groupStr.c_str(),
 					-1);
 
@@ -1745,7 +1750,7 @@ void Search::parseSearchResult_gui(SearchResultPtr result, StringMap &resultMap)
 			resultMap[_("Type")].erase(0, 1);
 		resultMap[_("Size")] = Util::formatBytes(result->getSize());
 		resultMap["Exact Size"] = Util::formatExactSize(result->getSize());
-		resultMap["Icon"] = "bmdc-file";
+		resultMap["Icon"] = Util::getFileExt(file);//"bmdc-file";
 		resultMap["Shared"] = Util::toString(ShareManager::getInstance()->isTTHShared(result->getTTH()));
 	}
 	else
@@ -1757,7 +1762,7 @@ void Search::parseSearchResult_gui(SearchResultPtr result, StringMap &resultMap)
 			resultMap[_("Path")] = "";
 		resultMap["File Order"] = "d" + resultMap[_("Filename")];
 		resultMap[_("Type")] = _("Directory");
-		resultMap["Icon"] = "bmdc-directory";
+		resultMap["Icon"] = "directory";//bmdc-
 		resultMap["Shared"] = "0";
 		if (result->getSize() > 0)
 		{
@@ -2180,7 +2185,6 @@ void Search::set_Header_tooltip_gui()//How beter ?
 	GtkTreeViewColumn *column12 = gtk_tree_view_get_column (resultView.get(), 12);
 	gtk_tree_view_column_set_clickable (column12, TRUE);
 	g_object_set (column12->button, "tooltip-text", "TTH", NULL);
-	
 	
 }	
 

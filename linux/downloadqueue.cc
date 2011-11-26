@@ -62,7 +62,7 @@ DownloadQueue::DownloadQueue():
 
 	// Initialize file treeview
 	fileView.setView(GTK_TREE_VIEW(getWidget("fileView")), TRUE, "downloadqueue");
-	fileView.insertColumn(_("Filename"), G_TYPE_STRING, TreeView::ICON_STRING, 200, "Icon");
+	fileView.insertColumn(_("Filename"), G_TYPE_STRING, TreeView::PIXBUF_STRING, 200, "Icon");
 	fileView.insertColumn(_("Status"), G_TYPE_STRING, TreeView::STRING, 100);
 	fileView.insertColumn(_("Size"), G_TYPE_STRING, TreeView::STRING, 100);
 	fileView.insertColumn(_("Downloaded"), G_TYPE_STRING, TreeView::STRING, 150);
@@ -76,7 +76,7 @@ DownloadQueue::DownloadQueue():
 	fileView.insertHiddenColumn("Size Sort", G_TYPE_INT64);
 	fileView.insertHiddenColumn("Downloaded Sort", G_TYPE_INT64);
 	fileView.insertHiddenColumn("Target", G_TYPE_STRING);
-	fileView.insertHiddenColumn("Icon", G_TYPE_STRING);
+	fileView.insertHiddenColumn("Icon", GDK_TYPE_PIXBUF);
 	fileView.finalize();
 	fileStore = gtk_list_store_newv(fileView.getColCount(), fileView.getGTypes());
 	gtk_tree_view_set_model(fileView.get(), GTK_TREE_MODEL(fileStore));
@@ -287,7 +287,7 @@ void DownloadQueue::addFile_gui(StringMap params, bool updateDirs)
 			fileView.col(_("Added")), params["Added"].c_str(),
 			fileView.col("TTH"), params["TTH"].c_str(),
 			fileView.col("Target"), params["Target"].c_str(),
-			fileView.col("Icon"), "bmdc-file",
+			fileView.col("Icon"), /*"bmdc-file"*/WulforUtil::loadIconShare(Util::getFileExt(params["Filename"])),
 			-1);
 
 		if (BOOLSETTING(BOLD_QUEUE))
@@ -394,7 +394,7 @@ void DownloadQueue::updateFile_gui(StringMap params)
 					fileView.col(_("Added")), params["Added"].c_str(),
 					fileView.col("TTH"), params["TTH"].c_str(),
 					fileView.col("Target"), params["Target"].c_str(),
-					fileView.col("Icon"), "bmdc-file",
+					fileView.col("Icon"), /*"bmdc-file"*/WulforUtil::loadIconShare(Util::getFileExt(params["Filename"])),
 					-1);
 				return;
 			}

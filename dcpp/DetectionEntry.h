@@ -18,7 +18,9 @@
 
 #ifndef DETECTION_ENTRY_H
 #define DETECTION_ENTRY_H
+
 #include <deque>
+
 namespace dcpp {
 
 class DetectionEntry {

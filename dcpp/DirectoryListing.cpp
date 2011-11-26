@@ -449,10 +449,11 @@ DirectoryListing::File::List DirectoryListing::getForbiddenFiles() {
 uint32_t DirectoryListing::Directory::getTotalTS() const
 { 
 	uint32_t x = getTS();
- for (auto i = directories.begin(); i != directories.end(); ++i)
- {
-	x = std::max((*i)->getTS(), x);
-  }return x;
+ 	for (auto i = directories.begin(); i != directories.end(); ++i)
+ 	{
+		x = std::max((*i)->getTS(), x);
+  	}
+	return x;
 }
 uint16_t DirectoryListing::Directory::getTotalBitrate() const
 {
@@ -460,8 +461,8 @@ uint16_t DirectoryListing::Directory::getTotalBitrate() const
    for (auto i = directories.begin(); i != directories.end(); ++i)
    {
 	x = std::max((*i)->getBitrate(), x);
-	}
-return x;
+   }
+	return x;
 }
 
 } // namespace dcpp
