@@ -628,22 +628,16 @@ bool OnlineUser::isCheckable(uint32_t delay /* = 0*/)
 bool OnlineUser::getChecked(bool filelist/* = false*/, bool checkComplete/* = true*/) {
 	if(!identity.isTcpActive() && !getClient().isActive()) {
 		identity.setClientType("[Passive]");
-		//setTestSURComplete();
-		//setFileListComplete();
 		identity.setTestSURChecked("1");
 		identity.setFileListChecked("1");
 		return true;
 	} else if(getUser()->isSet(User::OLD_CLIENT)) {
-		/*setTestSURComplete();
-		setFileListComplete();*/
 		identity.setTestSURChecked("1");
 		identity.setFileListChecked("1");
 		return true;
 	} else if(isProtectedUser()) {
 		if((BOOLSETTING(UNCHECK_CLIENT_PROTECTED_USER) && !filelist) || (BOOLSETTING(UNCHECK_LIST_PROTECTED_USER) && filelist)) {
 			identity.setClientType("[Protected]");
-			/*setTestSURComplete();
-			setFileListComplete();*/
 			identity.setTestSURChecked("1");
 			identity.setFileListChecked("1");
 			return true;

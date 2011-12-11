@@ -288,6 +288,7 @@ private:
 							i->second->inc();
 							if(i->second->countOnlineUsers() == 0)
 								continue;
+															
 							if(i->second->isSet(QueueItem::FLAG_TESTSUR)) {
 								t++;
 							} else if(i->second->isSet(QueueItem::FLAG_CHECK_FILE_LIST)) {
@@ -317,7 +318,7 @@ private:
 						if(action & ADD_CLIENT_CHECK) {
 							try {
 								string fname = QueueManager::getInstance()->addClientCheck(ou->getUser(), client->getHubUrl());
-								if(!fname.empty())
+								//if(!fname.empty())
 									ou->getIdentity().setTestSURQueued("1");
 							} catch(...) {
 								//
@@ -335,6 +336,7 @@ private:
 							string path = Util::getPath(Util::PATH_USER_CONFIG) + "TestSURs//"+ ou->getIdentity().getTestSURQueued();
 							if(!Util::fileExists(path)) {
 								ou->getIdentity().setTestSURQueued(Util::emptyString);
+								ou->getIdentity().setTestSURChecked("1");
 							}
 							try {
 								QueueManager::getInstance()->remove(path);
@@ -357,7 +359,7 @@ private:
 		GETSET(bool, checkClients, CheckClients);
 		bool canCheckFilelist;
 		bool inThread;
-
+				
 		Client* client;
 		HubUsersMap* users;
 	}*clientEngine;

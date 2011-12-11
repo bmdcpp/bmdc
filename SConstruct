@@ -416,6 +416,7 @@ else:
 	env.RecursiveInstall('icons/hicolor', os.path.join(prefix, 'share', 'icons'), app_icon_filter)
 	env.RecursiveInstall('icons/hicolor', os.path.join(prefix, 'share', PACKAGE, 'icons'), regular_icon_filter)
 	env.RecursiveInstall(BUILD_LOCALE_PATH, os.path.join(prefix, 'share', 'locale'))
+	env.RecursiveInstall('emoticons', os.path.join(prefix, 'share', PACKAGE))
 
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'glade'), source = glade_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', 'doc', PACKAGE), source = text_files))

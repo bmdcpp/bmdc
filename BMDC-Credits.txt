@@ -1,5 +1,5 @@
-Some Code from CrZDC and CZDC
+Some Code from CrZDC
 Alias Patch from leliksan
 Many Code from RSX (adrian_007)
 Patch for ZLIF and Salted/Hashes passwords from iceman50
-branec and Mank
+branec (icons,logo) and Mank
