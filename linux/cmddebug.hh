@@ -26,6 +26,7 @@
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
 #include <dcpp/DebugManager.h>
+#include <dcpp/ClientManager.h>
 #include <dcpp/Util.h>
 
 #include "bookentry.hh"
@@ -35,6 +36,7 @@
 class cmddebug:
     public BookEntry,
     private dcpp::DebugManagerListener,
+    private dcpp::ClientManagerListener,
     public dcpp::Thread
 {
     public:
@@ -45,6 +47,7 @@ class cmddebug:
         void add_gui(time_t t, std::string file);
 
     private:
+		typedef std::unordered_map<std::string, GtkTreeIter> Iters;
         //GUI
        static void onClearButton(GtkWidget *widget, gpointer data);
 
@@ -90,8 +93,17 @@ class cmddebug:
         {
             dcpp::Lock l(cs);
             if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("by_ip_button"))) == TRUE) {
-                if (strcmp(gtk_entry_get_text(GTK_ENTRY(getWidget("entrybyip"))),ip.c_str()) == 0)
-                    cmdList.push_back(cmd);
+                GtkTreeIter piter;
+                GtkTreeModel *model = NULL;
+                gchar *string;
+                if( gtk_combo_box_get_active_iter( GTK_COMBO_BOX(getWidget("comboboxadr")), &piter ) ) {
+					 model = gtk_combo_box_get_model( GTK_COMBO_BOX(getWidget("comboboxadr")) );
+					 gtk_tree_model_get( model, &piter, 0, &string, -1 );
+					 if(strcmp(string,ip.c_str()) == 0)
+                //if (strcmp(gtk_entry_get_text(GTK_ENTRY(getWidget("entrybyip"))),ip.c_str()) == 0)
+						cmdList.push_back(cmd);
+                    
+               }     
             }
             else
                 cmdList.push_back(cmd);
@@ -107,15 +119,21 @@ class cmddebug:
 			addCmd(std::string("[Detection] ") + com,"");
     }
     void on(dcpp::DebugManagerListener::DebugCommand, const std::string& mess, int typedir, const std::string& ip) noexcept;
+    //ClientManager
+    void on(dcpp::ClientManagerListener::ClientConnected, dcpp::Client* c) noexcept;
+    void on(dcpp::ClientManagerListener::ClientDisconnected, dcpp::Client* c) noexcept;
 
     static void onScroll_gui(GtkAdjustment *adjustment, gpointer data);
     static void onResize_gui(GtkAdjustment *adjustment, gpointer data);
+	void UpdateCombo(dcpp::Client* c, bool add);
 
     GtkTextBuffer *buffer;
     static const int maxLines = 1000;
     GtkTextIter iter;
     bool scrollToBottom;
     GtkTextMark *cmdMark;
+    GtkListStore *store;
+    Iters iters;
 
 };
 

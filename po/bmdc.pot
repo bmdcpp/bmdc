@@ -5,9 +5,21 @@
 #, fuzzy
 msgid ""
 msgstr ""
+"#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-12-10 20:43+0100\n"
+"POT-Creation-Date: 2011-12-13 18:23+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"#-#-#-#-#  linux.pot  #-#-#-#-#\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
+"POT-Creation-Date: 2011-12-14 00:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -512,7 +524,7 @@ msgid "Away mode message on/off"
 msgstr ""
 
 #: glade/hub.glade:20 glade/privatemessage.glade:190 linux/WulforUtil.cc:866
-#: linux/WulforUtil.cc:882 linux/mainwindow.cc:2143
+#: linux/WulforUtil.cc:882 linux/mainwindow.cc:2150
 #: linux/privatemessage.cc:963 linux/privatemessage.cc:977
 #: linux/privatemessage.cc:1031
 msgid "Away mode off"
@@ -595,11 +607,11 @@ msgstr ""
 msgid "Browse..."
 msgstr ""
 
-#: glade/cmddebug.glade:64
+#: glade/cmddebug.glade:67
 msgid "CLIENT IN"
 msgstr ""
 
-#: glade/cmddebug.glade:78
+#: glade/cmddebug.glade:81
 msgid "CLIENT OUT"
 msgstr ""
 
@@ -671,12 +683,12 @@ msgid "Choose a File"
 msgstr ""
 
 #: glade/search.glade:7 glade/settingsdialog.glade:8716
-#: glade/sharebrowser.glade:7 linux/hub.cc:2713 linux/mainwindow.cc:1477
-#: linux/mainwindow.cc:1545 linux/privatemessage.cc:1276
+#: glade/sharebrowser.glade:7 linux/hub.cc:2713 linux/mainwindow.cc:1484
+#: linux/mainwindow.cc:1552 linux/privatemessage.cc:1276
 msgid "Choose a directory"
 msgstr ""
 
-#: glade/cmddebug.glade:132 glade/searchspy.glade:136
+#: glade/cmddebug.glade:134 glade/searchspy.glade:136
 #: glade/searchspy.glade:277 glade/system.glade:60
 msgid "Clear"
 msgstr ""
@@ -793,7 +805,7 @@ msgstr ""
 msgid "Count matches"
 msgstr ""
 
-#: glade/cmddebug.glade:92
+#: glade/cmddebug.glade:95
 msgid "DETECTION"
 msgstr ""
 
@@ -1089,7 +1101,7 @@ msgid ""
 "TTH"
 msgstr ""
 
-#: glade/cmddebug.glade:106
+#: glade/cmddebug.glade:109
 msgid "Filter by IP"
 msgstr ""
 
@@ -1206,11 +1218,11 @@ msgstr ""
 msgid "HTTP Proxy (for hublist only)"
 msgstr ""
 
-#: glade/cmddebug.glade:36
+#: glade/cmddebug.glade:39
 msgid "HUB IN"
 msgstr ""
 
-#: glade/cmddebug.glade:50
+#: glade/cmddebug.glade:53
 msgid "HUB OUT"
 msgstr ""
 
@@ -2031,7 +2043,7 @@ msgstr ""
 msgid "Select Text Color"
 msgstr ""
 
-#: glade/mainwindow.glade:772 linux/mainwindow.cc:2224
+#: glade/mainwindow.glade:772 linux/mainwindow.cc:2231
 msgid "Select filelist to browse"
 msgstr ""
 
@@ -2700,8 +2712,8 @@ msgstr ""
 
 #: glade/settingsdialog.glade:3097 glade/settingsdialog.glade:3113
 #: glade/settingsdialog.glade:3159 linux/hashdialog.cc:79
-#: linux/mainwindow.cc:873 linux/mainwindow.cc:874 linux/mainwindow.cc:2610
-#: linux/mainwindow.cc:2612 linux/treeview.cc:212
+#: linux/mainwindow.cc:880 linux/mainwindow.cc:881 linux/mainwindow.cc:2617
+#: linux/mainwindow.cc:2619 linux/treeview.cc:212
 msgid "s"
 msgstr ""
 
@@ -2812,7 +2824,7 @@ msgstr ""
 msgid " removed from favorites list"
 msgstr ""
 
-#: linux/settingsmanager.cc:588
+#: linux/settingsmanager.cc:589
 msgid " to "
 msgstr ""
 
@@ -2925,7 +2937,7 @@ msgstr ""
 msgid "<b>Under what name you see the directory</b>"
 msgstr ""
 
-#: linux/mainwindow.cc:2585
+#: linux/mainwindow.cc:2592
 msgid "<b>file:</b> "
 msgstr ""
 
@@ -2937,7 +2949,7 @@ msgstr ""
 msgid "Add finished files to share instantly (if shared)"
 msgstr ""
 
-#: linux/hub.cc:4328 linux/privatemessage.cc:1459
+#: linux/hub.cc:4326 linux/privatemessage.cc:1459
 msgid "Add to Favorite hubs"
 msgstr ""
 
@@ -3056,7 +3068,7 @@ msgstr ""
 msgid "Away Icon"
 msgstr ""
 
-#: linux/mainwindow.cc:2149
+#: linux/mainwindow.cc:2156
 msgid "Away mode on"
 msgstr ""
 
@@ -3112,7 +3124,7 @@ msgstr ""
 msgid "CRC32 inconsistency (SFV-Check)"
 msgstr ""
 
-#: linux/settingsmanager.cc:588
+#: linux/settingsmanager.cc:589
 msgid "Change setting "
 msgstr ""
 
@@ -3132,7 +3144,7 @@ msgstr ""
 msgid "Clear search box after each search"
 msgstr ""
 
-#: linux/bookentry.cc:252 linux/hub.cc:4327 linux/privatemessage.cc:1458
+#: linux/bookentry.cc:252 linux/hub.cc:4325 linux/privatemessage.cc:1458
 #: linux/sharebrowser.cc:1085
 msgid "Close"
 msgstr ""
@@ -3197,7 +3209,7 @@ msgstr ""
 msgid "Copy CID"
 msgstr ""
 
-#: linux/hub.cc:4326
+#: linux/hub.cc:4324
 msgid "Copy URL"
 msgstr ""
 
@@ -3278,12 +3290,12 @@ msgid "Download failed: "
 msgstr ""
 
 #: linux/settingsdialog.cc:1115 linux/settingsdialog.cc:1283
-#: linux/settingsmanager.cc:231 linux/transfers.cc:1126
+#: linux/settingsmanager.cc:232 linux/transfers.cc:1126
 msgid "Download finished"
 msgstr ""
 
 #: linux/settingsdialog.cc:1116 linux/settingsdialog.cc:1287
-#: linux/settingsmanager.cc:233
+#: linux/settingsmanager.cc:234
 msgid "Download finished file list"
 msgstr ""
 
@@ -3319,7 +3331,7 @@ msgstr ""
 msgid "Download starting: "
 msgstr ""
 
-#: linux/mainwindow.cc:816
+#: linux/mainwindow.cc:823
 msgid "Download: "
 msgstr ""
 
@@ -3386,7 +3398,7 @@ msgstr ""
 msgid "Encoding"
 msgstr ""
 
-#: linux/mainwindow.cc:1411
+#: linux/mainwindow.cc:1418
 msgid "Enter value for "
 msgstr ""
 
@@ -3395,11 +3407,11 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: linux/settingsmanager.cc:591
+#: linux/settingsmanager.cc:592
 msgid "Error: params have been not 2!"
 msgstr ""
 
-#: linux/settingsmanager.cc:587
+#: linux/settingsmanager.cc:588
 msgid "Error: setting not found!"
 msgstr ""
 
@@ -3467,12 +3479,12 @@ msgid "Favorite hub already exists"
 msgstr ""
 
 #: linux/settingsdialog.cc:1121 linux/settingsdialog.cc:1303
-#: linux/settingsmanager.cc:241
+#: linux/settingsmanager.cc:242
 msgid "Favorite user joined"
 msgstr ""
 
 #: linux/settingsdialog.cc:1122 linux/settingsdialog.cc:1307
-#: linux/settingsmanager.cc:243
+#: linux/settingsmanager.cc:244
 msgid "Favorite user quit"
 msgstr ""
 
@@ -3503,7 +3515,7 @@ msgstr ""
 msgid "File not available"
 msgstr ""
 
-#: linux/mainwindow.cc:2460
+#: linux/mainwindow.cc:2467
 msgid ""
 "File transfers will not work correctly until you change settings or turn off "
 "any application that might be using the TCP/TLS port."
@@ -3602,7 +3614,7 @@ msgstr ""
 msgid "Highlightings"
 msgstr ""
 
-#: linux/settingsmanager.cc:349
+#: linux/settingsmanager.cc:350
 msgid "Highliting"
 msgstr ""
 
@@ -3634,12 +3646,12 @@ msgid "Hub Name"
 msgstr ""
 
 #: linux/settingsdialog.cc:1119 linux/settingsdialog.cc:1295
-#: linux/settingsmanager.cc:239
+#: linux/settingsmanager.cc:240
 msgid "Hub connected"
 msgstr ""
 
 #: linux/settingsdialog.cc:1120 linux/settingsdialog.cc:1299
-#: linux/settingsmanager.cc:237
+#: linux/settingsmanager.cc:238
 msgid "Hub disconnected"
 msgstr ""
 
@@ -3759,7 +3771,7 @@ msgstr ""
 msgid "Load Lua file"
 msgstr ""
 
-#: linux/mainwindow.cc:2261
+#: linux/mainwindow.cc:2268
 msgid "Loading file list"
 msgstr ""
 
@@ -3775,11 +3787,11 @@ msgstr ""
 msgid "Lowest"
 msgstr ""
 
-#: linux/mainwindow.cc:1538
+#: linux/mainwindow.cc:1545
 msgid "Magnet Choice"
 msgstr ""
 
-#: linux/mainwindow.cc:1468
+#: linux/mainwindow.cc:1475
 msgid "Magnet Properties / Choice"
 msgstr ""
 
@@ -3890,11 +3902,11 @@ msgstr ""
 msgid "Normal"
 msgstr ""
 
-#: linux/mainwindow.cc:2065
+#: linux/mainwindow.cc:2072
 msgid "Not Alowed same number of port for TLS and TCP"
 msgstr ""
 
-#: linux/mainwindow.cc:2066
+#: linux/mainwindow.cc:2073
 msgid ""
 "Not Alowed same number of port for TLS and TCP,please chose for one of it "
 "another port"
@@ -4001,7 +4013,7 @@ msgid "Private Message (also sets urgency hint)"
 msgstr ""
 
 #: linux/hub.cc:2295 linux/settingsdialog.cc:1118 linux/settingsdialog.cc:1164
-#: linux/settingsdialog.cc:1291 linux/settingsmanager.cc:235
+#: linux/settingsdialog.cc:1291 linux/settingsmanager.cc:236
 msgid "Private message"
 msgstr ""
 
@@ -4101,13 +4113,13 @@ msgstr ""
 msgid "Searching too soon, retry in "
 msgstr ""
 
-#: linux/mainwindow.cc:2474
+#: linux/mainwindow.cc:2481
 msgid ""
 "Searching will not work correctly until you change settings or turn off any "
 "application that might be using the UDP port."
 msgstr ""
 
-#: linux/mainwindow.cc:2649
+#: linux/mainwindow.cc:2656
 msgid "Select file to Get TTH"
 msgstr ""
 
@@ -4163,7 +4175,7 @@ msgstr ""
 msgid "Shared"
 msgstr ""
 
-#: linux/mainwindow.cc:864
+#: linux/mainwindow.cc:871
 msgid "Shared: "
 msgstr ""
 
@@ -4257,7 +4269,7 @@ msgstr ""
 msgid "Slots"
 msgstr ""
 
-#: linux/mainwindow.cc:863
+#: linux/mainwindow.cc:870
 msgid "Slots: "
 msgstr ""
 
@@ -4340,11 +4352,11 @@ msgstr ""
 msgid "Tag"
 msgstr ""
 
-#: linux/mainwindow.cc:2729
+#: linux/mainwindow.cc:2736
 msgid "The GeoIP database could not be updated...v"
 msgstr ""
 
-#: linux/mainwindow.cc:2724
+#: linux/mainwindow.cc:2731
 msgid ""
 "The GeoIP database has been successfully updated; restart DC++ to apply....v"
 msgstr ""
@@ -4353,11 +4365,11 @@ msgstr ""
 msgid "The name and address fields are required"
 msgstr ""
 
-#: linux/mainwindow.cc:592
+#: linux/mainwindow.cc:599
 msgid "Throtle off"
 msgstr ""
 
-#: linux/mainwindow.cc:564 linux/mainwindow.cc:570
+#: linux/mainwindow.cc:571 linux/mainwindow.cc:577
 msgid "Throtle on"
 msgstr ""
 
@@ -4434,15 +4446,15 @@ msgstr ""
 msgid "Unable to load file list: "
 msgstr ""
 
-#: linux/mainwindow.cc:2249
+#: linux/mainwindow.cc:2256
 msgid "Unable to load file list: Invalid file list name"
 msgstr ""
 
-#: linux/mainwindow.cc:2459
+#: linux/mainwindow.cc:2466
 msgid "Unable to open TCP/TLS port"
 msgstr ""
 
-#: linux/mainwindow.cc:2473
+#: linux/mainwindow.cc:2480
 msgid "Unable to open UDP port"
 msgstr ""
 
@@ -4463,7 +4475,7 @@ msgstr ""
 msgid "Updated frame search"
 msgstr ""
 
-#: linux/mainwindow.cc:2711
+#: linux/mainwindow.cc:2718
 msgid "Updating the GeoIP database...v"
 msgstr ""
 
@@ -4473,6 +4485,10 @@ msgstr ""
 
 #: linux/mainwindow.cc:165
 msgid "Upload Limit (disable)"
+msgstr ""
+
+#: linux/settingsdialog.cc:1527
+msgid "Upload Queue Tab"
 msgstr ""
 
 #: linux/transfers.cc:1190
@@ -4487,7 +4503,7 @@ msgstr ""
 msgid "Upload starting..."
 msgstr ""
 
-#: linux/mainwindow.cc:816
+#: linux/mainwindow.cc:823
 msgid "Upload: "
 msgstr ""
 
@@ -4842,7 +4858,7 @@ msgstr ""
 msgid "eMail"
 msgstr ""
 
-#: linux/mainwindow.cc:2561
+#: linux/mainwindow.cc:2568
 msgid "file list from "
 msgstr ""
 

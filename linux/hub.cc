@@ -613,7 +613,7 @@ void Hub::updateUser_gui(ParamMap params)
 			nickView.col("Nick Order"), nickOrder.c_str(),
 			//nickView.col("Favorite"), favorite? ("f" + nickOrder).c_str() : nickOrder.c_str(),
 			nickView.col("CID"), cid.c_str(),
-			nickView.col("NickColor"), /*favorite? "#ff0000" : "#000000"*/nickColor.c_str(),
+			nickView.col("NickColor"), nickColor.c_str(),
             nickView.col("Pixbuf"), pixbuf,
             nickView.col("Client Type"), params["Type"].c_str(),
 			-1);
@@ -643,7 +643,7 @@ void Hub::updateUser_gui(ParamMap params)
 			nickView.col("Nick Order"), nickOrder.c_str(),
 //			nickView.col("Favorite"), favorite? ("f" + nickOrder).c_str() : nickOrder.c_str(),
 			nickView.col("CID"), cid.c_str(),
-			nickView.col("NickColor"), /*favorite? "#ff0000" : "#000000"*/nickColor.c_str(),
+			nickView.col("NickColor"), nickColor.c_str(),
             nickView.col("Pixbuf"), pixbuf,
             nickView.col("Client Type"), params["Type"].c_str(),
 			-1);
@@ -4312,8 +4312,6 @@ void Hub::updateIcons()
 	setIconPixbufs_gui(path);
 	}
 }
-
-//]
 //custom popup menu
 GtkWidget *Hub::createmenu()
 {

@@ -376,3 +376,5 @@ Fix Crash on checker when con-timeout is
 Add tooltips to Search TreeView
 Add System-wide Icons to Queue/Search Tab too (for files)
 Add emoticon to install
+Change IPBox In CMDDEBUG´s tab to combobox
+Fixed Open Notepad&System&Ignore Tab on startup and add to Upload Queue on startup

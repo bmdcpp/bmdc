@@ -1524,7 +1524,7 @@ void Settings::initAppearance_gui()
 		addOption_gui(windowStore1, _("Notepad"), "open-notepad");
 		addOption_gui(windowStore1, _("Ignore User"), "open-ignore");
 		addOption_gui(windowStore1, _("System Tab"), "open-system");
-///core 0.762]
+		addOption_gui(windowStore1, _("Upload Queue Tab"), "open-upload-queue");
 		// Window options
 		createOptionsView_gui(windowView2, windowStore2, "windowsOptionsTreeView");
 

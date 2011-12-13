@@ -546,7 +546,14 @@ void MainWindow::autoOpen_gui()
 		showFinishedUploads_gui();
 	if (WGETB("open-search-spy"))
 		showSearchSpy_gui();
-//NOTE: core 0.762
+	if (WGETB("open-system"))
+		showSystemLog_gui();
+	if (WGETB("open-notepad"))
+		showNotepad_gui();
+	if (WGETB("open-ignore"))
+		showIgnoreUsers_gui();
+	if (WGETB("open-upload-queue"))
+		showUploadQueue_gui();				
 }
 
 void MainWindow::onLimitingMenuItem_gui(GtkWidget *widget, gpointer data)
