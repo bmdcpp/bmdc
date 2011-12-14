@@ -25,7 +25,7 @@
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
-#include <dcpp/UPnPManager.h>//NOTE: core 0.762
+#include <dcpp/UPnPManager.h>//NOTE: core 0.762//TODO Change to Mapper or remove it
 
 #include "settingsmanager.hh"
 #include "wulformanager.hh"
@@ -80,7 +80,6 @@ int main(int argc, char *argv[])
 	WulforSettingsManager::newInstance();
 	signal(SIGPIPE, SIG_IGN);
 
-	//WulforSettingsManager::newInstance();
 	WulforManager::start(argc, argv);
 	gdk_threads_enter();
 	gtk_main();

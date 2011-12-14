@@ -326,7 +326,7 @@ void WulforManager::insertEntry_gui(Entry *entry)
 void WulforManager::deleteEntry_gui(Entry *entry)
 {
 	const string &id = entry->getID();
-	vector<FuncBase *>::iterator fIt;
+	deque<FuncBase *>::iterator fIt;
 
 	g_mutex_lock(clientCallMutex);
 

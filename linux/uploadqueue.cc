@@ -19,7 +19,6 @@
 //      
 //      
 
-
 #include "uploadqueue.hh"
 #include <dcpp/DCPlusPlus.h>
 #include <dcpp/Client.h>
@@ -37,10 +36,11 @@ UploadQueue::UploadQueue():
 BookEntry(Entry::UPLOADQUEUE, _("Upload Queue"), "uploadqueue.glade")
 {
 	users.setView(GTK_TREE_VIEW(getWidget("viewUsers")));
-	users.insertColumn("User", G_TYPE_STRING, TreeView::STRING, 80);
+	users.insertColumn("User", G_TYPE_STRING, TreeView::ICON_STRING, 80, "Icon");
 	users.insertColumn("File", G_TYPE_STRING, TreeView::STRING, 150);
 	users.insertColumn("Hub", G_TYPE_STRING, TreeView::STRING, 80);
 	users.insertColumn("CID", G_TYPE_STRING, TreeView::STRING, 80);
+	users.insertHiddenColumn("Icon", G_TYPE_STRING);
 	users.finalize();
 	
 	store = gtk_list_store_newv(users.getColCount(),users.getGTypes());
@@ -106,6 +106,7 @@ void UploadQueue::addFile(StringMap &params,GtkTreeIter *iter)
 				users.col("File"),params["file"].c_str(),
 				users.col("Hub") , params["hub"].c_str(),
 				users.col("CID"), params["CID"].c_str(),
+				users.col("Icon"), "bmdc-normal",
 				-1);	
 	mapUsers.insert(MapUsers::value_type(params["CID"], *iter));
 }

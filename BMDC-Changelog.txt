@@ -51,6 +51,7 @@
 * Added Setting of time to reconnect
 * Added Raw and Detection Supports
 * Added ShellCommand support (used for media spam and df)
+* Added read log in PM´s
 * Added Country icon to PublicHub tab
 * Fixed scons on Arch,..
 * Fixed Handling /me comand

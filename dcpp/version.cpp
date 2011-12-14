@@ -28,7 +28,7 @@
 #ifndef BMDC_REVISION
 	#define BMDC_REVISION 83
 #endif
-	#define BMDC_REVISION_STRING "83"
+	#define BMDC_REVISION_STRING "86"
 	
 #define xstrver(s) strver(s)
 #define strver(s) #s

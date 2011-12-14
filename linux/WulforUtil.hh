@@ -87,6 +87,7 @@ class WulforUtil
 		static void remove_signals_from_widget(GtkWidget *widget, gint events);
 		static std::string formatReport(const dcpp::Identity& identity);
 		static bool checkCommand(std::string& cmd, std::string& param, std::string& message, std::string& status, bool& thirdperson);
+		
 		static bool isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, std::string word, bool &tTab, gpointer hub, GtkTextTag *TagsMap[]);
 
 		static std::vector<std::pair<std::string,int> > getActions();

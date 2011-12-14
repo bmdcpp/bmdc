@@ -50,24 +50,7 @@ class PrivateMessage:
 		void sendMessage_p(std::string message) { sendMessage_client(message);} 
 		bool getIsOffline() { return offline;}
 
-	private:/*
-		typedef enum
-		{
-			TAG_FIRST = 0,
-			TAG_PRIVATE = TAG_FIRST,
-			TAG_MYOWN,
-			TAG_SYSTEM,
-			TAG_STATUS,
-			TAG_TIMESTAMP,
-		*
-			TAG_MYNICK,
-			TAG_NICK,
-			TAG_OPERATOR,
-			TAG_FAVORITE,
-			TAG_URL,
-			TAG_LAST
-		} TypeTag;
-        */
+	private:
 		// GUI functions
 		void setStatus_gui(std::string text);
 		void addLine_gui(Msg::TypeMsg typemsg, const std::string &line);
@@ -77,6 +60,7 @@ class PrivateMessage:
 		GtkTextTag* createTag_gui(const std::string &tagname, Tag::TypeTag type);
 		void updateCursor(GtkWidget *widget);
 		void updateOnlineStatus_gui(bool online);
+		void readLog(const std::string& logPath, const unsigned setting);
 
 		// GUI callbacks
 		static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);

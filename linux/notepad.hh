@@ -35,9 +35,7 @@ class notepad:
 		virtual void show();
 
 	private:
-        
 		void ini_client();
-
 		void add_gui(std::string file);
 
 		GtkTextBuffer *buffer;

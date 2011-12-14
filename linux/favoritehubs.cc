@@ -150,7 +150,6 @@ FavoriteHubs::~FavoriteHubs()
 void FavoriteHubs::show()
 {
 	initializeList_client();
-	//WulforManager::get()->dispatchClientFunc(new Func0<FavoriteHubs>(this, &FavoriteHubs::initializeList_client));
 	FavoriteManager::getInstance()->addListener(this);
 }
 
@@ -1052,8 +1051,6 @@ void FavoriteHubs::initializeList_client()
 	{
 		getFavHubParams_client(*it, params);
 		addEntry_gui(params);
-		//func = new F1(this, &FavoriteHubs::addEntry_gui, params);
-		//WulforManager::get()->dispatchGuiFunc(func);
 	}
 }
 

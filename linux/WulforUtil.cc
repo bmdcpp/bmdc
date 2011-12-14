@@ -55,28 +55,28 @@ const string WulforUtil::magnetSignature = "magnet:?xt=urn:tree:tiger:";
 GtkIconFactory* WulforUtil::iconFactory = NULL;
 std::map<std::string,std::string> WulforUtil::m_mimetyp;
 const string WulforUtil::commands =
-string("/away\t\t\t\t")+_("Set away mode\n")+
-+"/back\t\t\t"+_("Set normal mode\n")+
-+"/bmdc [mc]\t\t\t"+_("Show version\n")+
-+"/ratio [mc]\t\t\t\t"+_("Show ratio\n")+
-+"/refresh\t\t\t"+_("Refresh share\n")+
-+"/slots [n]\t\t\t"+_("Set Slots to n\n")+
-+"/stats\t\t\t"+_("Show stats\n")+
-+"/amar\t\t\t"+_("Media Spam\n")+
-+"/auda,/w\t\t"+_("Media Spam\n")+
-+"/kaff\t\t\t"+_("Media Spam\n")+
-+"/rb\t\t\t"+_("Media Spam\n")+
-+"/vlc\t\t\t"+_("Media Spam\n")+
-+"/df\t\t\t"+_("Show df of disk(s)\n")+
-+"/uptime\t\t\t"+_("Show uptime\n")+
-+"/rebuild\t\t"+_("Rebuild Share\n")+
-+"/cleanmc\t\t"+_("Clean Mainchat\n")+
-+"/leech [mc]\t\t"+_("Show Leech stats\n")+
-+"/ws [set] [value]" + _("set GUI settings\n")+
-+"/dcpp [set] [value] "+_("set dcpp settings\n")+
-+"/alias list \t\t"+_("List Aliases\n")+
-+"/alias purge ::A\t\t"+ _("remove Aliases A\n")+
-+"/alias A::uname -a\t\t"+_("add alias A with uname -a exec\n")+
+string("/away\t\t\t\t") + _("Set away mode\n") +
++"/back\t\t\t" + _("Set normal mode\n") +
++"/bmdc [mc]\t\t\t" + _("Show version\n") +
++"/ratio [mc]\t\t\t\t" + _("Show ratio\n") +
++"/refresh\t\t\t" + _("Refresh share\n") +
++"/slots [n]\t\t\t" + _("Set Slots to n\n") +
++"/stats\t\t\t" + _("Show stats\n") +
++"/amar\t\t\t" + _("Media Spam\n") +
++"/auda,/w\t\t" + _("Media Spam\n") +
++"/kaff\t\t\t" + _("Media Spam\n") +
++"/rb\t\t\t" + _("Media Spam\n") +
++"/vlc\t\t\t" + _("Media Spam\n") +
++"/df\t\t\t" + _("Show df of disk(s)\n") +
++"/uptime\t\t\t" + _("Show uptime\n") +
++"/rebuild\t\t" + _("Rebuild Share\n") +
++"/cleanmc\t\t" + _("Clean Mainchat\n") +
++"/leech [mc]\t\t" + _("Show Leech stats\n") +
++"/ws [set] [value]" + _("set GUI settings\n") +
++"/dcpp [set] [value] " + _("set dcpp settings\n") +
++"/alias list \t\t" + _("List Aliases\n") +
++"/alias purge ::A\t\t" + _("remove Aliases A\n") +
++"/alias A::uname -a\t\t" + _("add alias A with uname -a exec\n") +
 +"/A\t\t\t\t"+_("Execution of alias A\n")
 ;
 
@@ -670,12 +670,11 @@ void WulforUtil::registerIcons()
 	icons["bmdc-hub-offline"] = wsm->getString("icon-hub-offline");
 	/**/
 	icons["bmdc-notepad"] = wsm->getString("icon-notepad");
-	//icons["bmdc-adlsearch"] = wsm->getString("icon-adlsearch");
 	icons["bmdc-ignore-users"] = wsm->getString("icon-ignore");
 	icons["bmdc-system"] = wsm->getString("icon-system");
 	icons["bmdc-away"] = wsm->getString("icon-away");
 	icons["bmdc-away-on"] = wsm->getString("icon-away-on");
-//	icons["bmdc-none"] = wsm->getString("icon-none");
+
 	icons["bmdc-limiting"] = wsm->getString("icon-limiting");
 	icons["bmdc-limiting-on"] = wsm->getString("icon-limiting-on");
 	/**/

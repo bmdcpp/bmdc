@@ -378,3 +378,5 @@ Add System-wide Icons to Queue/Search Tab too (for files)
 Add emoticon to install
 Change IPBox In CMDDEBUG´s tab to combobox
 Fixed Open Notepad&System&Ignore Tab on startup and add to Upload Queue on startup
+Add Icon of User to Upload Queue Tab
+Add readlog on PMs if set more that zero line in settings

@@ -67,24 +67,7 @@ class Hub:
 		}
 		void reconnect_p() { reconnect_client();}
 		
-	private:/*
-		typedef enum
-		{
-			TAG_FIRST = 0,
-			TAG_GENERAL = TAG_FIRST,
-			TAG_MYOWN,
-			TAG_SYSTEM,
-			TAG_STATUS,
-			TAG_TIMESTAMP,
-			*
-			TAG_MYNICK,
-			TAG_NICK,
-			TAG_OPERATOR,
-			TAG_FAVORITE,
-			TAG_URL,
-			TAG_LAST
-		} TypeTag;
-        */
+	private:
 		typedef std::map<std::string, std::string> ParamMap;
 		typedef std::unordered_map<std::string, std::string> UserMap;
 		typedef std::unordered_map<std::string, GtkTreeIter> UserIters;

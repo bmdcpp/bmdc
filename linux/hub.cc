@@ -4307,9 +4307,9 @@ void Hub::updateIcons()
 {
 	if(!iconshttp->buf.empty())
 	{
-	string path = Util::getPath(Util::PATH_USER_CONFIG) + "/icons/" + Util::toString(Util::rand(0,2147483647))+".png";	
-	File(path,File::WRITE, File::CREATE | File::TRUNCATE).write(iconshttp->buf);	
-	setIconPixbufs_gui(path);
+		string path = Util::getPath(Util::PATH_USER_CONFIG) + "/icons/" + Util::toString(Util::rand(0,2147483647))+".png";	
+		File(path,File::WRITE, File::CREATE | File::TRUNCATE).write(iconshttp->buf);	
+		setIconPixbufs_gui(path);
 	}
 }
 //custom popup menu
@@ -4356,5 +4356,3 @@ void Hub::onAddFavItem(gpointer data)
 	Hub *hub = (Hub *)data;
 	hub->addAsFavorite_client();
 }
-//EnD
-

@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-12-13 18:23+0100\n"
+"POT-Creation-Date: 2011-12-14 22:50+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-12-14 00:25+0100\n"
+"POT-Creation-Date: 2011-12-14 23:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -523,8 +523,8 @@ msgstr ""
 msgid "Away mode message on/off"
 msgstr ""
 
-#: glade/hub.glade:20 glade/privatemessage.glade:190 linux/WulforUtil.cc:866
-#: linux/WulforUtil.cc:882 linux/mainwindow.cc:2150
+#: glade/hub.glade:20 glade/privatemessage.glade:190 linux/WulforUtil.cc:865
+#: linux/WulforUtil.cc:881 linux/mainwindow.cc:2150
 #: linux/privatemessage.cc:963 linux/privatemessage.cc:977
 #: linux/privatemessage.cc:1031
 msgid "Away mode off"
@@ -763,8 +763,8 @@ msgid "Configure hub lists"
 msgstr ""
 
 #: glade/mainwindow.glade:2093 glade/mainwindow.glade:2369
-#: linux/favoritehubs.cc:88 linux/favoritehubs.cc:686
-#: linux/favoritehubs.cc:787 linux/favoritehubs.cc:965
+#: linux/favoritehubs.cc:88 linux/favoritehubs.cc:685
+#: linux/favoritehubs.cc:786 linux/favoritehubs.cc:964
 #: linux/settingsdialog.cc:1411 linux/settingsdialog.cc:1444
 msgid "Connect"
 msgstr ""
@@ -812,7 +812,7 @@ msgstr ""
 #: glade/favoritehubs.glade:615 glade/settingsdialog.glade:5085
 #: glade/settingsdialog.glade:5791 glade/settingsdialog.glade:5984
 #: glade/settingsdialog.glade:8643 linux/emoticonsdialog.cc:106
-#: linux/favoritehubs.cc:894 linux/previewmenu.cc:88
+#: linux/favoritehubs.cc:893 linux/previewmenu.cc:88
 msgid "Default"
 msgstr ""
 
@@ -849,8 +849,8 @@ msgstr ""
 
 #: glade/favoriteusers.glade:81 glade/ignoreeusers.glade:201
 #: glade/settingsdialog.glade:1311 linux/favoritehubs.cc:58
-#: linux/favoritehubs.cc:170 linux/favoritehubs.cc:354
-#: linux/favoritehubs.cc:857 linux/favoriteusers.cc:48
+#: linux/favoritehubs.cc:169 linux/favoritehubs.cc:353
+#: linux/favoritehubs.cc:856 linux/favoriteusers.cc:48
 #: linux/favoriteusers.cc:112 linux/favoriteusers.cc:372
 #: linux/favoriteusers.cc:397 linux/favoriteusers.cc:587 linux/hub.cc:69
 #: linux/hub.cc:599 linux/hub.cc:629 linux/ignoreusers.cc:47
@@ -1006,10 +1006,10 @@ msgstr ""
 #: linux/adlsearch.cc:83 linux/adlsearch.cc:141 linux/adlsearch.cc:248
 #: linux/adlsearch.cc:293 linux/adlsearch.cc:486 linux/adlsearch.cc:488
 #: linux/favoritehubs.cc:103 linux/favoritehubs.cc:112
-#: linux/favoritehubs.cc:423 linux/favoritehubs.cc:436
-#: linux/favoritehubs.cc:458 linux/favoritehubs.cc:468
-#: linux/favoritehubs.cc:489 linux/favoritehubs.cc:502
-#: linux/favoritehubs.cc:1026 linux/favoritehubs.cc:1028
+#: linux/favoritehubs.cc:422 linux/favoritehubs.cc:435
+#: linux/favoritehubs.cc:457 linux/favoritehubs.cc:467
+#: linux/favoritehubs.cc:488 linux/favoritehubs.cc:501
+#: linux/favoritehubs.cc:1025 linux/favoritehubs.cc:1027
 msgid "Enabled"
 msgstr ""
 
@@ -1591,10 +1591,10 @@ msgstr ""
 #: linux/detectiontab.cc:718 linux/detectiontab.cc:865
 #: linux/detectiontab.cc:893 linux/detectiontab.cc:934
 #: linux/detectiontab.cc:950 linux/favoritehubs.cc:57 linux/favoritehubs.cc:82
-#: linux/favoritehubs.cc:102 linux/favoritehubs.cc:169
-#: linux/favoritehubs.cc:352 linux/favoritehubs.cc:422
-#: linux/favoritehubs.cc:435 linux/favoritehubs.cc:702
-#: linux/favoritehubs.cc:855 linux/favoritehubs.cc:1025 linux/publichubs.cc:42
+#: linux/favoritehubs.cc:102 linux/favoritehubs.cc:168
+#: linux/favoritehubs.cc:351 linux/favoritehubs.cc:421
+#: linux/favoritehubs.cc:434 linux/favoritehubs.cc:701
+#: linux/favoritehubs.cc:854 linux/favoritehubs.cc:1024 linux/publichubs.cc:42
 #: linux/publichubs.cc:158 linux/publichubs.cc:295 linux/recenthub.cc:41
 #: linux/recenthub.cc:81 linux/recenthub.cc:192 linux/recenthub.cc:269
 #: linux/recenthub.cc:278 linux/search.cc:1706 linux/settingsdialog.cc:748
@@ -1625,8 +1625,8 @@ msgid "Next"
 msgstr ""
 
 #: glade/settingsdialog.glade:1339 linux/favoritehubs.cc:60
-#: linux/favoritehubs.cc:171 linux/favoritehubs.cc:355
-#: linux/favoritehubs.cc:858 linux/favoriteusers.cc:45
+#: linux/favoritehubs.cc:170 linux/favoritehubs.cc:354
+#: linux/favoritehubs.cc:857 linux/favoriteusers.cc:45
 #: linux/favoriteusers.cc:60 linux/favoriteusers.cc:61
 #: linux/favoriteusers.cc:109 linux/favoriteusers.cc:373
 #: linux/favoriteusers.cc:584 linux/finishedtransfers.cc:77
@@ -1748,7 +1748,7 @@ msgid "Packages in PPA"
 msgstr ""
 
 #: glade/settingsdialog.glade:1893 linux/favoritehubs.cc:61
-#: linux/favoritehubs.cc:172
+#: linux/favoritehubs.cc:171
 msgid "Password"
 msgstr ""
 
@@ -2348,7 +2348,7 @@ msgstr ""
 msgid "Update frame search"
 msgstr ""
 
-#: glade/mainwindow.glade:1226 linux/uploadqueue.cc:37
+#: glade/mainwindow.glade:1226 linux/uploadqueue.cc:36
 msgid "Upload Queue"
 msgstr ""
 
@@ -2735,7 +2735,7 @@ msgid ""
 "Message: "
 msgstr ""
 
-#: linux/WulforUtil.cc:904 linux/WulforUtil.cc:906
+#: linux/WulforUtil.cc:903 linux/WulforUtil.cc:905
 msgid " ( Uploads: "
 msgstr ""
 
@@ -2852,7 +2852,7 @@ msgstr ""
 msgid "*** Available commands:"
 msgstr ""
 
-#: linux/WulforUtil.cc:814
+#: linux/WulforUtil.cc:813
 msgid "*** Info on "
 msgstr ""
 
@@ -2860,11 +2860,11 @@ msgstr ""
 msgid "*** T E S T ***"
 msgstr ""
 
-#: linux/WulforUtil.cc:1084
+#: linux/WulforUtil.cc:1083
 msgid "---------- Cleaning the chat ----------"
 msgstr ""
 
-#: linux/WulforUtil.cc:1086
+#: linux/WulforUtil.cc:1085
 msgid "---------- The chat has been cleaned ----------"
 msgstr ""
 
@@ -2881,7 +2881,7 @@ msgstr ""
 msgid "...must not be empty"
 msgstr ""
 
-#: linux/WulforUtil.cc:904 linux/WulforUtil.cc:906
+#: linux/WulforUtil.cc:903 linux/WulforUtil.cc:905
 msgid "/ Downloads "
 msgstr ""
 
@@ -2958,17 +2958,17 @@ msgstr ""
 msgid "Added"
 msgstr ""
 
-#: linux/favoritehubs.cc:59 linux/favoritehubs.cc:174
-#: linux/favoritehubs.cc:199 linux/favoritehubs.cc:272
-#: linux/favoritehubs.cc:294 linux/favoritehubs.cc:353
-#: linux/favoritehubs.cc:373 linux/favoritehubs.cc:398
-#: linux/favoritehubs.cc:720 linux/favoritehubs.cc:735
-#: linux/favoritehubs.cc:841 linux/publichubs.cc:45 linux/publichubs.cc:161
+#: linux/favoritehubs.cc:59 linux/favoritehubs.cc:173
+#: linux/favoritehubs.cc:198 linux/favoritehubs.cc:271
+#: linux/favoritehubs.cc:293 linux/favoritehubs.cc:352
+#: linux/favoritehubs.cc:372 linux/favoritehubs.cc:397
+#: linux/favoritehubs.cc:719 linux/favoritehubs.cc:734
+#: linux/favoritehubs.cc:840 linux/publichubs.cc:45 linux/publichubs.cc:161
 #: linux/publichubs.cc:272 linux/publichubs.cc:297
 msgid "Address"
 msgstr ""
 
-#: linux/WulforUtil.cc:1126
+#: linux/WulforUtil.cc:1125
 msgid "Aliases not found."
 msgstr ""
 
@@ -2984,7 +2984,7 @@ msgstr ""
 msgid "Amarok player"
 msgstr ""
 
-#: linux/favoritehubs.cc:774
+#: linux/favoritehubs.cc:773
 msgid "Another group with the name already exists"
 msgstr ""
 
@@ -3004,7 +3004,7 @@ msgstr ""
 msgid "Are you sure you want to delete Highlighting \"%s\"?"
 msgstr ""
 
-#: linux/favoritehubs.cc:706
+#: linux/favoritehubs.cc:705
 #, c-format, boost-format
 msgid "Are you sure you want to delete favorite hub \"%s\"?"
 msgstr ""
@@ -3072,7 +3072,7 @@ msgstr ""
 msgid "Away mode on"
 msgstr ""
 
-#: linux/WulforUtil.cc:874 linux/privatemessage.cc:971
+#: linux/WulforUtil.cc:873 linux/privatemessage.cc:971
 msgid "Away mode on: "
 msgstr ""
 
@@ -3165,7 +3165,7 @@ msgstr ""
 msgid "Command name already exists"
 msgstr ""
 
-#: linux/WulforUtil.cc:855
+#: linux/WulforUtil.cc:854
 msgid "Command send: "
 msgstr ""
 
@@ -3391,10 +3391,10 @@ msgstr ""
 msgid "Enable segmented downloads"
 msgstr ""
 
-#: linux/favoritehubs.cc:63 linux/favoritehubs.cc:176
-#: linux/favoritehubs.cc:273 linux/favoritehubs.cc:295
-#: linux/favoritehubs.cc:358 linux/favoritehubs.cc:736
-#: linux/favoritehubs.cc:861
+#: linux/favoritehubs.cc:63 linux/favoritehubs.cc:175
+#: linux/favoritehubs.cc:272 linux/favoritehubs.cc:294
+#: linux/favoritehubs.cc:357 linux/favoritehubs.cc:735
+#: linux/favoritehubs.cc:860
 msgid "Encoding"
 msgstr ""
 
@@ -3585,16 +3585,16 @@ msgstr ""
 msgid "Generator"
 msgstr ""
 
-#: linux/favoritehubs.cc:64 linux/favoritehubs.cc:177
-#: linux/favoritehubs.cc:359 linux/favoritehubs.cc:931
+#: linux/favoritehubs.cc:64 linux/favoritehubs.cc:176
+#: linux/favoritehubs.cc:358 linux/favoritehubs.cc:930
 msgid "Group"
 msgstr ""
 
-#: linux/favoritehubs.cc:86 linux/favoritehubs.cc:97 linux/favoritehubs.cc:684
-#: linux/favoritehubs.cc:770 linux/favoritehubs.cc:785
-#: linux/favoritehubs.cc:800 linux/favoritehubs.cc:901
-#: linux/favoritehubs.cc:963 linux/favoritehubs.cc:981
-#: linux/favoritehubs.cc:1006
+#: linux/favoritehubs.cc:86 linux/favoritehubs.cc:97 linux/favoritehubs.cc:683
+#: linux/favoritehubs.cc:769 linux/favoritehubs.cc:784
+#: linux/favoritehubs.cc:799 linux/favoritehubs.cc:900
+#: linux/favoritehubs.cc:962 linux/favoritehubs.cc:980
+#: linux/favoritehubs.cc:1005
 msgid "Group name"
 msgstr ""
 
@@ -3693,7 +3693,7 @@ msgstr ""
 msgid "Icon size"
 msgstr ""
 
-#: linux/favoritehubs.cc:806
+#: linux/favoritehubs.cc:805
 msgid ""
 "If you select 'Yes', all of these hubs are going to be deleted!\n"
 "If you select 'No', these hubs will simply be moved to the main default "
@@ -3733,7 +3733,7 @@ msgstr ""
 msgid "Invalid extension: "
 msgstr ""
 
-#: linux/WulforUtil.cc:923
+#: linux/WulforUtil.cc:922
 msgid "Invalid number of slots"
 msgstr ""
 
@@ -3870,9 +3870,9 @@ msgstr ""
 msgid "Nicks"
 msgstr ""
 
-#: linux/favoritehubs.cc:685 linux/favoritehubs.cc:686
-#: linux/favoritehubs.cc:786 linux/favoritehubs.cc:787
-#: linux/favoritehubs.cc:964 linux/favoritehubs.cc:965
+#: linux/favoritehubs.cc:684 linux/favoritehubs.cc:685
+#: linux/favoritehubs.cc:785 linux/favoritehubs.cc:786
+#: linux/favoritehubs.cc:963 linux/favoritehubs.cc:964
 #: linux/finishedtransfers.cc:675
 msgid "No"
 msgstr ""
@@ -4003,8 +4003,8 @@ msgstr ""
 msgid "Priority"
 msgstr ""
 
-#: linux/favoritehubs.cc:87 linux/favoritehubs.cc:685
-#: linux/favoritehubs.cc:786 linux/favoritehubs.cc:964
+#: linux/favoritehubs.cc:87 linux/favoritehubs.cc:684
+#: linux/favoritehubs.cc:785 linux/favoritehubs.cc:963
 msgid "Private"
 msgstr ""
 
@@ -4022,7 +4022,7 @@ msgstr ""
 msgid "Protected"
 msgstr ""
 
-#: linux/wulfor.cc:93
+#: linux/wulfor.cc:92
 msgid "Quit..."
 msgstr ""
 
@@ -4030,7 +4030,7 @@ msgstr ""
 msgid "Rating"
 msgstr ""
 
-#: linux/WulforUtil.cc:904 linux/WulforUtil.cc:906
+#: linux/WulforUtil.cc:903 linux/WulforUtil.cc:905
 msgid "Ratio: "
 msgstr ""
 
@@ -4148,7 +4148,7 @@ msgstr ""
 msgid "Set Slots to n\n"
 msgstr ""
 
-#: linux/WulforUtil.cc:930
+#: linux/WulforUtil.cc:929
 msgid "Set Slots to:"
 msgstr ""
 
@@ -4239,7 +4239,7 @@ msgstr ""
 msgid "Show version\n"
 msgstr ""
 
-#: linux/wulfor.cc:91
+#: linux/wulfor.cc:90
 msgid "Shutting down dcpp client..."
 msgstr ""
 
@@ -4361,7 +4361,7 @@ msgid ""
 "The GeoIP database has been successfully updated; restart DC++ to apply....v"
 msgstr ""
 
-#: linux/favoritehubs.cc:624
+#: linux/favoritehubs.cc:623
 msgid "The name and address fields are required"
 msgstr ""
 
@@ -4511,7 +4511,7 @@ msgstr ""
 msgid "Uploaded "
 msgstr ""
 
-#: linux/WulforUtil.cc:1075
+#: linux/WulforUtil.cc:1074
 msgid "Uptime: "
 msgstr ""
 
@@ -4576,8 +4576,8 @@ msgstr ""
 msgid "User "
 msgstr ""
 
-#: linux/favoritehubs.cc:62 linux/favoritehubs.cc:175
-#: linux/favoritehubs.cc:357 linux/favoritehubs.cc:860
+#: linux/favoritehubs.cc:62 linux/favoritehubs.cc:174
+#: linux/favoritehubs.cc:356 linux/favoritehubs.cc:859
 msgid "User Description"
 msgstr ""
 
@@ -4807,14 +4807,14 @@ msgstr ""
 msgid "Xine player"
 msgstr ""
 
-#: linux/favoritehubs.cc:685 linux/favoritehubs.cc:686
-#: linux/favoritehubs.cc:786 linux/favoritehubs.cc:787
-#: linux/favoritehubs.cc:964 linux/favoritehubs.cc:965
+#: linux/favoritehubs.cc:684 linux/favoritehubs.cc:685
+#: linux/favoritehubs.cc:785 linux/favoritehubs.cc:786
+#: linux/favoritehubs.cc:963 linux/favoritehubs.cc:964
 #: linux/finishedtransfers.cc:675
 msgid "Yes"
 msgstr ""
 
-#: linux/favoritehubs.cc:760
+#: linux/favoritehubs.cc:759
 msgid "You must enter a name"
 msgstr ""
 
@@ -4866,7 +4866,7 @@ msgstr ""
 msgid "loading error"
 msgstr ""
 
-#: linux/WulforUtil.cc:891
+#: linux/WulforUtil.cc:890
 msgid "project home: "
 msgstr ""
 
