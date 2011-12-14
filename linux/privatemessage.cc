@@ -23,6 +23,7 @@
 
 #include <dcpp/ClientManager.h>
 #include <dcpp/FavoriteManager.h>
+#include <dcpp/StringTokenizer.h>
 #include "settingsmanager.hh"
 #include "emoticonsdialog.hh"
 #include "emoticons.hh"
@@ -1460,7 +1461,7 @@ void PrivateMessage::readLog(const string& logPath, const unsigned setting) {
 		client->getHubIdentity().getParams(params, "hub", false);
 		client->getMyIdentity().getParams(params, "my", true);
 		Identity *id = &ou->getIdentity();
-		id->getParams(params, "user", true);
+		id->getParams(params, "user");
 		logPath = Util::formatParams(logPath, params, false);
 		//..
 		StringList lines;
