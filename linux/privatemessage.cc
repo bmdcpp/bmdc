@@ -1454,15 +1454,15 @@ void PrivateMessage::readLog(const string& logPath, const unsigned setting) {
 		if(logPath.empty())
 			return;	
 		//make %[] to it value...
-		ParamMap params;
+		dcpp::ParamMap params;
 		params["hubUrl"] = hubUrl;
 		OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hubUrl, false);
 		Client *client = &ou->getClient();
 		client->getHubIdentity().getParams(params, "hub", false);
 		client->getMyIdentity().getParams(params, "my", true);
 		Identity *id = &ou->getIdentity();
-		id->getParams(params, "user");
-		logPath = Util::formatParams(logPath, params, false);
+		id->getParams(params, "user", true);
+		Util::formatParams(logPath, params);
 		//..
 		StringList lines;
 
