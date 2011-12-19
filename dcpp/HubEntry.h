@@ -73,9 +73,9 @@ public:
 		description(rhs.getDescription()), encoding(Text::systemCharset) { }
 	FavoriteHubEntry(const FavoriteHubEntry& rhs) : userdescription(rhs.userdescription),
 		name(rhs.getName()), server(rhs.getServer()), description(rhs.getDescription()),
-		password(rhs.getPassword()), encoding(rhs.getEncoding()), group(rhs.getGroup()), nick(rhs.nick), hideShare(false),
-		autoConnect(false), ip(Util::emptyString), mode(0), chatExtraInfo(Util::emptyString),
-		checkAtConn(false), checkClients(false), checkFilelists(false),  checkMyInfo(false)
+		password(rhs.getPassword()), encoding(rhs.getEncoding()), group(rhs.getGroup()), nick(rhs.nick), hideShare(rhs.hideShare),
+		autoConnect(rhs.autoConnect), ip(rhs.ip), mode(rhs.mode), chatExtraInfo(rhs.chatExtraInfo),
+		checkAtConn(rhs.checkAtConn), checkClients(rhs.checkClients), checkFilelists(rhs.checkFilelists),  checkMyInfo(rhs.checkMyInfo)
 		 { }
 	~FavoriteHubEntry() { }
 
