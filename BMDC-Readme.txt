@@ -22,7 +22,7 @@ libtar
 optional:
  libgnome 
  libnotify >= 0.4.1
- lua5.1
+ lua5.1 >= 5.0 or lua >= 5.0
 
 Compiling:
 ----------

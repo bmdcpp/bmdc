@@ -381,3 +381,6 @@ Fixed Open Notepad&System&Ignore Tab on startup and add to Upload Queue on start
 Add Icon of User to Upload Queue Tab
 Add readlog on PMs if set more that zero line in settings
 Some Fixies
+Update Copyright
+[LP#908039] Fixed Hash Dialog
+Add C++0x GetSet

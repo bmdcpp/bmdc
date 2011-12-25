@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -641,7 +641,6 @@ void Hub::updateUser_gui(ParamMap params)
             nickView.col(_("Support")), params["Support"].c_str(),
 			nickView.col("Icon"), icon.c_str(),
 			nickView.col("Nick Order"), nickOrder.c_str(),
-//			nickView.col("Favorite"), favorite? ("f" + nickOrder).c_str() : nickOrder.c_str(),
 			nickView.col("CID"), cid.c_str(),
 			nickView.col("NickColor"), nickColor.c_str(),
             nickView.col("Pixbuf"), pixbuf,

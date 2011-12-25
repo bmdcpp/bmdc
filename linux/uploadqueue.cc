@@ -1,6 +1,6 @@
 //      uploadqueue.cc
 //      
-//      Copyright 2011 Mank <Mank1@seznam.cz>
+//      Copyright 2011 - 2012Mank <Mank1@seznam.cz>
 //      
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ BookEntry(Entry::UPLOADQUEUE, _("Upload Queue"), "uploadqueue.glade")
 {
 	users.setView(GTK_TREE_VIEW(getWidget("viewUsers")));
 	users.insertColumn("User", G_TYPE_STRING, TreeView::ICON_STRING, 80, "Icon");
-	users.insertColumn("File", G_TYPE_STRING, TreeView::STRING, 150);
+	users.insertColumn("File", G_TYPE_STRING, TreeView::STRING, 200);
 	users.insertColumn("Hub", G_TYPE_STRING, TreeView::STRING, 80);
 	users.insertColumn("CID", G_TYPE_STRING, TreeView::STRING, 80);
 	users.insertHiddenColumn("Icon", G_TYPE_STRING);

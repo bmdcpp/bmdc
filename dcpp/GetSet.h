@@ -16,44 +16,17 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef DCPLUSPLUS_DCPP_GEOIP_H
-#define DCPLUSPLUS_DCPP_GEOIP_H
+#ifndef DCPLUSPLUS_DCPP_GET_SET_H
+#define DCPLUSPLUS_DCPP_GET_SET_H
 
-#include "CriticalSection.h"
+#include <boost/mpl/if.hpp>
+#include <type_traits>
 
-#include <string>
-#include <vector>
+#define REF_OR_COPY(t) boost::mpl::if_c<std::is_class<t>::value, const t&, t>::type
 
-typedef struct GeoIPTag GeoIP;
+#define GETSET(type, name, name2) \
+private: type name; \
+public: REF_OR_COPY(type) get##name2() const { return name; } \
+	void set##name2(REF_OR_COPY(type) name) { this->name = name; }
 
-namespace dcpp {
-
-using std::string;
-using std::vector;
-
-class GeoIP : boost::noncopyable {
-public:
-	explicit GeoIP(string&& path);
-	~GeoIP();
-
-	const string& getCountry(const string& ip) const;
-	const string getCountryAB(const string& ip) const;
-	void update();
-	void rebuild();
-
-private:
-	bool decompress() const;
-	void open();
-	void close();
-	bool v6() const;
-
-	mutable CriticalSection cs;
-	::GeoIP* geo;
-
-	const string path;
-	vector<string> cache;
-};
-
-} // namespace dcpp
-
-#endif // !defined(DCPLUSPLUS_DCPP_GEOIP_H)
+#endif /* GETSET_H_ */

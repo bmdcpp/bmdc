@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +34,6 @@ Hash::Hash(GtkWindow* parent):
 	HashManager::getInstance()->getStats(tmp, startBytes, startFiles);
 	HashManager::getInstance()->setPriority(Thread::NORMAL);
 	updateStats_gui("", 0, 0, 0);
-//NOTE: [core 0.762
 	bool paused = HashManager::getInstance()->isHashingPaused();
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("pauseHashingToggleButton")), paused);
 
@@ -44,7 +43,6 @@ Hash::Hash(GtkWindow* parent):
 		gtk_window_set_title(GTK_WINDOW(getContainer()), _("Indexing files..."));
 
 	g_signal_connect(getWidget("pauseHashingToggleButton"), "toggled", G_CALLBACK(onPauseHashing_gui), (gpointer)this);
-//NOTE: core 0.762]
 	TimerManager::getInstance()->addListener(this);
 }
 
@@ -132,7 +130,7 @@ void Hash::onPauseHashing_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Hash::on(TimerManagerListener::Second, uint32_t tics) throw()
+void Hash::on(TimerManagerListener::Second, uint64_t tics) throw()
 {
 	string file;
 	uint64_t bytes = 0;

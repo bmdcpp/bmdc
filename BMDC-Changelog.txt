@@ -55,6 +55,7 @@
 * Added Country icon to PublicHub tab
 * Fixed scons on Arch,..
 * Fixed Handling /me comand
+* [LP#908039] Fixed Hash Dialog
 * Change GtkComboxBoxEntry to Entry with GtkCompletion in Search Tab
 * Change to better info when TCP and TLS port is The same
 * Change url etc to BMDC project

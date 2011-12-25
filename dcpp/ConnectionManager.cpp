@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2011 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2012 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -363,10 +363,6 @@ void ConnectionManager::on(AdcCommand::SUP, UserConnection* aSource, const AdcCo
 			string feat = i->substr(2);
 			if(feat == UserConnection::FEATURE_ADC_BASE || feat == UserConnection::FEATURE_ADC_BAS0) {
 				baseOk = true;
-				// For bas0 tiger is implicit
-				/*if(feat == UserConnection::FEATURE_ADC_BAS0) {
-					tigrOk = true;
-				}*/
 				// ADC clients must support all these...
 				aSource->setFlag(UserConnection::FLAG_SUPPORTS_ADCGET);
 				aSource->setFlag(UserConnection::FLAG_SUPPORTS_MINISLOTS);
@@ -378,9 +374,7 @@ void ConnectionManager::on(AdcCommand::SUP, UserConnection* aSource, const AdcCo
 				aSource->setFlag(UserConnection::FLAG_SUPPORTS_ZLIB_GET);
 			} else if(feat == UserConnection::FEATURE_ADC_BZIP) {
 				aSource->setFlag(UserConnection::FLAG_SUPPORTS_XML_BZLIST);
-			} /*else if(feat == UserConnection::FEATURE_ADC_TIGR) {
-				tigrOk = true;
-			}*/
+			} 
 		}
 	}
 

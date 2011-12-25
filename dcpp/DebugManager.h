@@ -20,6 +20,7 @@
 #include "DCPlusPlus.h"
 #include "Singleton.h"
 #include "TimerManager.h"
+#include "LogManager.h"
 
 namespace dcpp {
 

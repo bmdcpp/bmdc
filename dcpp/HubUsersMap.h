@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2008 adrian_007, adrian-007 on o2 point pl
+ * Copyright (C) 2007-2012 adrian_007, adrian-007 on o2 point pl
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -318,8 +318,8 @@ private:
 						if(action & ADD_CLIENT_CHECK) {
 							try {
 								string fname = QueueManager::getInstance()->addClientCheck(ou->getUser(), client->getHubUrl());
-								//if(!fname.empty())
-									ou->getIdentity().setTestSURQueued("1");
+								if(!fname.empty())
+									ou->getIdentity().setTestSURQueued(fname);
 							} catch(...) {
 								//
 							}
@@ -333,7 +333,7 @@ private:
 							
 							}
 						} else if(action & REMOVE_CLIENT_CHECK) {
-							string path = Util::getPath(Util::PATH_USER_CONFIG) + "TestSURs//"+ ou->getIdentity().getTestSURQueued();
+							string path = Util::getPath(Util::PATH_USER_CONFIG) + "TestSURs//" + ou->getIdentity().getTestSURQueued();
 							if(!Util::fileExists(path)) {
 								ou->getIdentity().setTestSURQueued(Util::emptyString);
 								ou->getIdentity().setTestSURChecked("1");

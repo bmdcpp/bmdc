@@ -1,5 +1,5 @@
 /*
- * Copyright © 2010-2011 Mank <freedcpp@seznam.cz>
+ * Copyright © 2010-2012 Mank <freedcpp@seznam.cz>
  * Copyright © 2010-2011 Eugene Petrov <dhamp@ya.ru>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -183,8 +183,8 @@ void cmddebug::UpdateCombo(Client* c, bool add)
 		gtk_list_store_set( _store, &piter, 0,c->getIpPort().c_str() ,-1);
 		iters.insert(Iters::value_type(c->getIpPort(), piter));		
 		}
-	}else {/*TODO
-		if(c == NULL)
+	}else {
+	/*	if(c == NULL)
 		      return; 
 		string url = c->getIpPort();   
 		auto it = iters.find(url);

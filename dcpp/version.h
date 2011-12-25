@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2011 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2012 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,9 +27,9 @@
 	#define DCPP_REVISION_STRING "2651"
 #endif
 #ifndef BMDC_REVISION
-	#define BMDC_REVISION 89
+	#define BMDC_REVISION 90
 #endif
-	#define BMDC_REVISION_STRING "89"
+	#define BMDC_REVISION_STRING "90"
 #define xstrver(s) strver(s)
 #define strver(s) #s
 

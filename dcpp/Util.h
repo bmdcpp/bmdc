@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2011 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2012 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,6 +46,7 @@
 #endif
 
 #include "Text.h"
+#include "GetSet.h"
 
 namespace dcpp {
 
@@ -72,12 +73,12 @@ template<typename T> struct TypeTraits {
 	typedef ReferenceSelector<T, ((ClassType::Result == 1) || (sizeof(T) > sizeof(char*)) ) > Selector;
 	typedef typename Selector::ResultType ParameterType;
 };
-
+/*
 #define GETSET(type, name, name2) \
 private: type name; \
 public: TypeTraits<type>::ParameterType get##name2() const { return name; } \
 	void set##name2(TypeTraits<type>::ParameterType a##name2) { name = a##name2; }
-
+*/
 #define LIT(x) x, (sizeof(x)-1)
 
 /** Evaluates op(pair<T1, T2>.first, compareTo) */
@@ -454,7 +455,7 @@ public:
 	static bool fileExists(const string aFile);
 	static string formatRegExp(const string& msg, ParamMap& params);
 	static uint64_t getUptime() { return uptime;}
-	static void setUptime() { uptime++;}
+	static void setUptime() { uptime++; }
 
 private:
 	/** In local mode, all config and temp files are kept in the same dir as the executable */

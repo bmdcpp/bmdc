@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2010 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +34,6 @@
 #include <dcpp/Download.h>
 #include <dcpp/Upload.h>
 #include <dcpp/ClientManager.h>
-//#include <dcpp/TimerManager.h>
 #include <dcpp/FavoriteManager.h>
 #include <dcpp/UserConnection.h>
 #include <dcpp/GeoManager.h>

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2011 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2012 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 #define DCPLUSPLUS_DCPP_SEMAPHORE_H
 
 #ifdef _WIN32
-#include "w.h"
+	#include "w.h"
 #else
 #include <errno.h>
 #include <semaphore.h>
