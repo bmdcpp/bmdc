@@ -253,8 +253,8 @@ Hub::Hub(const string &address, const string &encoding):
 	g_signal_connect(getWidget("buttonrefresh"), "clicked", G_CALLBACK(onRefreshUserListClicked_gui), (gpointer)this);
 	/**/
     g_signal_connect(getWidget("ripeitem"), "activate", G_CALLBACK(onRipeDbItem_gui),(gpointer)this);
-    g_signal_connect(getWidget("copyipItem"), "activate", G_CALLBACK(onCopyIpItem_gui),(gpointer)this);		
-	
+    g_signal_connect(getWidget("copyipItem"), "activate", G_CALLBACK(onCopyIpItem_gui),(gpointer)this);
+
 	//end
 	g_signal_connect(getWidget("downloadBrowseItem"), "activate", G_CALLBACK(onDownloadToClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("downloadItem"), "activate", G_CALLBACK(onDownloadClicked_gui), (gpointer)this);
@@ -310,7 +310,7 @@ Hub::Hub(const string &address, const string &encoding):
 
 	// set default select tag (fix error show cursor in neutral space).
 	selectedTag = TagsMap[Tag::TAG_GENERAL];
-	
+
 	RecentHubEntry entry;
 	entry.setName("*");
 	entry.setDescription("***");
@@ -320,7 +320,7 @@ Hub::Hub(const string &address, const string &encoding):
 	RecentHubEntry* r = FavoriteManager::getInstance()->getRecentHubEntry(address);
 	if(r == NULL)
 		FavoriteManager::getInstance()->addRecent(entry);
-		
+
 }
 
 Hub::~Hub()
@@ -335,7 +335,7 @@ Hub::~Hub()
 		r->setShared(Util::toString(client->getAvailable()));
 		FavoriteManager::getInstance()->updateRecent(r);
 	}
-	
+
 	disconnect_client();
 
 	// Save the pane position
@@ -922,7 +922,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 			break;
 		case Msg::CHEAT:
 			tagMsg = Tag::TAG_CHEAT;
-			break;	
+			break;
 		case Msg::GENERAL:
 
 		default:
@@ -953,7 +953,7 @@ gboolean Hub::HitIP(string& name, string &sIp)
 			return FALSE;
 		}
 	}
-	
+
 	name += ".";
 	size_t begin = 0, pos = string::npos,end = 0;
 	bool isOk = true;
@@ -970,11 +970,11 @@ gboolean Hub::HitIP(string& name, string &sIp)
 		}
 		begin = pos + 1;
 	}
-	
+
 	if(isOk)
 	{
 		sIp = name.substr(0,pos);
-		
+
 	}
 	return isOk;
 }
@@ -1052,7 +1052,7 @@ void Hub::applyTags_gui(const string cid, const string &line)
 		bool countryTag = FALSE;
 		string image_magnet, bold_text, italic_text, underline_text, country_text;
 		gchar *temp = gtk_text_iter_get_text(&tag_start_iter, &tag_end_iter);
-		
+
 		if(WGETB("use-highlighting"))
 		{
 			GtkTextTag *tag = gtk_text_tag_table_lookup(gtk_text_buffer_get_tag_table(chatBuffer), temp);
@@ -1064,8 +1064,8 @@ void Hub::applyTags_gui(const string cid, const string &line)
 				{
 					typedef Func0<Hub> F0;
 					F0 *func = new F0(this, &Hub::setUrgent_gui);
-					WulforManager::get()->dispatchGuiFunc(func);	
-					
+					WulforManager::get()->dispatchGuiFunc(func);
+
 				}
 			}
 		}
@@ -1170,13 +1170,13 @@ void Hub::applyTags_gui(const string cid, const string &line)
 
 					tagStyle = Tag::TAG_URL;
 				}
-				
+
 				if(HitIP(tagName,ip))
 				{
 					callback = G_CALLBACK(onIpTagEvent_gui);
 					tagStyle = Tag::TAG_IPADR;
 					isIp = true;
-				}	
+				}
 			}
 		}
 
@@ -1632,14 +1632,14 @@ void Hub::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, strin
 			bold = wsm->getInt("text-timestamp-bold");
 			italic = wsm->getInt("text-timestamp-italic");
 		break;
-		
+
 		case Tag::TAG_CHEAT:
 			fore = wsm->getString("text-cheat-fore-color");
 			back = wsm->getString("text-cheat-back-color");
 			bold = wsm->getInt("text-cheat-bold");
 			italic = wsm->getInt("text-cheat-italic");
 			break;
-		break;	  
+		break;
 
 		case Tag::TAG_HIGHL:
 			break;//ugly
@@ -1995,23 +1995,23 @@ gboolean Hub::onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *eve
 {
 	Hub *hub = (Hub *)data;
 	hub->ip = tag->name; //think
-	
+
 	if(event->type == GDK_BUTTON_PRESS)
 	{
 		if(event->button.button == 3)
 		{
 			gtk_widget_show_all(hub->getWidget("ipMenu"));
 			gtk_menu_popup(GTK_MENU(hub->getWidget("ipMenu")), NULL,NULL,NULL,NULL, 0,gtk_get_current_event_time());
-			return TRUE;	
+			return TRUE;
 		}
 	}
-	return FALSE;	
+	return FALSE;
 }
 
 void Hub::onCopyIpItem_gui(GtkWidget *wid, gpointer data)
 {
 	Hub *hub = (Hub *)data;
-	gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), hub->ip.c_str(), hub->ip.length());	
+	gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), hub->ip.c_str(), hub->ip.length());
 }
 
 void Hub::onRipeDbItem_gui(GtkWidget *wid, gpointer data)
@@ -2156,7 +2156,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		{
 			params = text.substr(separator + 1);
 		}
-		
+
         if(WulforUtil::checkCommand(command,param,mess,status,thirdPerson))
         {
             if(!mess.empty())
@@ -2337,10 +2337,10 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			  string mess  = params.substr(j+1);
 			  UserPtr ui = ClientManager::getInstance()->getUser(nick,hub->client->getHubUrl());
 			  if(ui)
-			  {		  
+			  {
 			  		WulforManager::get()->getMainWindow()->addPrivateMessage_gui(Msg::PRIVATE, ui->getCID().toBase32(), "",mess,true);
-			  		
-			  }		
+
+			  }
 			}
 			else if (hub->userMap.find(params) != hub->userMap.end())
 				WulforManager::get()->getMainWindow()->addPrivateMessage_gui(Msg::UNKNOWN, hub->userMap[params], hub->client->getHubUrl());
@@ -2360,7 +2360,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if( command == "luafile") {
 			ScriptManager::getInstance()->EvaluateFile(Text::fromT(params));
-		} 
+		}
 		#endif
 		///
 		else if (command == "exec")
@@ -2387,11 +2387,11 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		{
 			if(params == "stop") {
 				hub->client->stopMyInfoCheck();
-				hub->addStatusMessage_gui("Stop MyInfo check", Msg::SYSTEM, Sound::NONE);	
-			} else	{	
+				hub->addStatusMessage_gui("Stop MyInfo check", Msg::SYSTEM, Sound::NONE);
+			} else	{
 				hub->client->startMyInfoCheck();
 				hub->addStatusMessage_gui("Started MyInfo check", Msg::SYSTEM, Sound::NONE);
-			}	
+			}
 		}
 		// protect command
 		else if (command == "password")
@@ -3003,9 +3003,11 @@ void Hub::onTestSURItemClicked_gui(GtkMenuItem *item, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
-	if (gtk_tree_selection_count_selected_rows(hub->nickSelection) == 1)
+
+	if (gtk_tree_selection_count_selected_rows(hub->nickSelection) >= 1)
 	{
-		string nick;
+		//string nick;
+		std::queue<std::string> nicks;
 		GtkTreeIter iter;
 		GtkTreePath *path;
 		GList *list = gtk_tree_selection_get_selected_rows(hub->nickSelection, NULL);
@@ -3015,23 +3017,26 @@ void Hub::onTestSURItemClicked_gui(GtkMenuItem *item, gpointer data)
 			path = (GtkTreePath *)i->data;
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(hub->nickStore), &iter, path))
 			{
-				nick = hub->nickView.getString(&iter, _("CID"));
+				nicks.push(hub->nickView.getString(&iter, "CID"));
 			}
 			gtk_tree_path_free(path);
 		}
 		g_list_free(list);
 
-		if (!nick.empty())
+		while (!nicks.empty())
 		{
-			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(nick),hub->address,false);
+		    string nick = Util::emptyString;
+			nick += nicks.front();
+			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser( CID(nick),hub->address,false);
 			if(ou != NULL)
-			{	  
+			{
 				try {
-					HintedUser hintedUser(ou->getUser(), hub->address); 
+					HintedUser hintedUser(ou->getUser(), hub->address);
 					ClientManager::getInstance()->addCheckToQueue(hintedUser, false);
 				}catch(...)
 				{ }
-			}	 
+			}
+			nicks.pop();
 		}
 	}
 }
@@ -3062,14 +3067,14 @@ void Hub::onCheckFLItemClicked_gui(GtkMenuItem *item , gpointer data)
 		{
 			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(nick),hub->address,false);
 			if(ou != NULL)
-			{	  
+			{
 				try {
 					 HintedUser hintedUser(ou->getUser(), hub->address);
 					 ClientManager::getInstance()->addCheckToQueue(hintedUser, true);
 				}
 				 catch(...)
 				{ }
-			}	 
+			}
 		}
 	}
 }
@@ -3079,7 +3084,7 @@ void Hub::onRefreshUserListClicked_gui(GtkWidget *wid, gpointer data)
 	Hub *hub = (Hub *)data;
 	hub->clearNickList_gui();
 	hub->client->refreshuserlist(true);
-	
+
 }
 
 void Hub::addFavoriteUser_gui(ParamMap params)
@@ -3439,7 +3444,7 @@ void Hub::addAsFavorite_client()
 		if(!client->getPassword().empty())
 			entry.setPassword(client->getPassword());
 		else
-			entry.setPassword(Util::emptyString);	
+			entry.setPassword(Util::emptyString);
 		entry.setGroup(Util::emptyString);
 
 		FavoriteManager::getInstance()->addFavorite(entry);
@@ -3546,8 +3551,8 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 	params.insert(ParamMap::value_type("Generator", id.get("GE")));
 	params.insert(ParamMap::value_type("Support", id.get("SU")));
 	if(id.getUser()->isSet(User::PASSIVE))
-			addPasive_gui(params);	
-	
+			addPasive_gui(params);
+
 	if(id.isBot() || id.isHub()) {
         params.insert(ParamMap::value_type("Type", "A" + id.getNick()));
         addOperator_gui(params);
@@ -3561,7 +3566,7 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 
 	if(FavoriteManager::getInstance()->isFavoriteUser(id.getUser()))
 		addFavoriteUser_gui(params);
-        
+
     if(FavoriteManager::getInstance()->isIgnoredUser(id.getUser()))
 		addIgnore_gui(params);
 
@@ -4294,20 +4299,20 @@ void Hub::on(ClientListener::HubIcon, Client *, const string &url) noexcept
 
 void Hub::setHubIcon_gui(string url)
 {
-		
+
 	if(g_ascii_strncasecmp(url.c_str(), "http://", 7) == 0 ||
 		g_ascii_strncasecmp(url.c_str(), "https://", 8) == 0 ||
 		g_ascii_strncasecmp(url.c_str(), "www.", 4) == 0)
 	{
-	   iconshttp.reset(new HttpDownload(url,[this] { updateIcons(); }, false));	
+	   iconshttp.reset(new HttpDownload(url,[this] { updateIcons(); }, false));
 	}
 }
 void Hub::updateIcons()
 {
 	if(!iconshttp->buf.empty())
 	{
-		string path = Util::getPath(Util::PATH_USER_CONFIG) + "/icons/" + Util::toString(Util::rand(0,2147483647))+".png";	
-		File(path,File::WRITE, File::CREATE | File::TRUNCATE).write(iconshttp->buf);	
+		string path = Util::getPath(Util::PATH_USER_CONFIG) + "/icons/" + Util::toString(Util::rand(0,2147483647))+".png";
+		File(path,File::WRITE, File::CREATE | File::TRUNCATE).write(iconshttp->buf);
 		setIconPixbufs_gui(path);
 	}
 }

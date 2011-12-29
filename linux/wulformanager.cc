@@ -201,10 +201,11 @@ void WulforManager::processGuiQueue()
 		gdk_threads_enter();
 
 		g_mutex_lock(guiQueueMutex);
-		while (guiFuncs.size() > 0)
+		while (!guiFuncs.empty())
 		{
 			func = guiFuncs.front();
-			guiFuncs.erase(guiFuncs.begin());
+			guiFuncs.pop_front();
+			//guiFuncs.erase(guiFuncs.begin());
 			g_mutex_unlock(guiQueueMutex);
 
 			func->call();
@@ -237,10 +238,11 @@ void WulforManager::processClientQueue()
 
 		g_mutex_lock(clientCallMutex);
 		g_mutex_lock(clientQueueMutex);
-		while (clientFuncs.size() > 0)
+		while (!clientFuncs.empty())
 		{
 			func = clientFuncs.front();
-			clientFuncs.erase(clientFuncs.begin());
+			clientFuncs.pop_front();
+			//clientFuncs.erase(clientFuncs.begin());
 			g_mutex_unlock(clientQueueMutex);
 
 			func->call();
@@ -338,7 +340,7 @@ void WulforManager::deleteEntry_gui(Entry *entry)
 		if ((*fIt)->getID() == id)
 		{
 			delete *fIt;
-			clientFuncs.erase(fIt);
+			fIt = clientFuncs.erase(fIt);
 		}
 		else
 			++fIt;
@@ -352,7 +354,7 @@ void WulforManager::deleteEntry_gui(Entry *entry)
 		if ((*fIt)->getID() == id)
 		{
 			delete *fIt;
-			guiFuncs.erase(fIt);
+			fIt = guiFuncs.erase(fIt);
 		}
 		else
 			++fIt;

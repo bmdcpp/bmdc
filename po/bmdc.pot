@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-12-23 17:47+0100\n"
+"POT-Creation-Date: 2011-12-29 00:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-12-24 21:49+0100\n"
+"POT-Creation-Date: 2011-12-29 19:35+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2729,14 +2729,10 @@ msgstr ""
 msgid "to"
 msgstr ""
 
-#: linux/hub.cc:4124
+#: linux/hub.cc:4129
 msgid ""
 "\n"
 "Message: "
-msgstr ""
-
-#: linux/WulforUtil.cc:903 linux/WulforUtil.cc:905
-msgid " ( Uploads: "
 msgstr ""
 
 #: linux/hub.cc:1394 linux/hub.cc:1473 linux/privatemessage.cc:632
@@ -2760,7 +2756,7 @@ msgstr ""
 msgid " Users"
 msgstr ""
 
-#: linux/hub.cc:3105
+#: linux/hub.cc:3110
 msgid " added to favorites list"
 msgstr ""
 
@@ -2820,11 +2816,11 @@ msgstr ""
 msgid " of "
 msgstr ""
 
-#: linux/hub.cc:3132
+#: linux/hub.cc:3137
 msgid " removed from favorites list"
 msgstr ""
 
-#: linux/settingsmanager.cc:589
+#: linux/settingsmanager.cc:588
 msgid " to "
 msgstr ""
 
@@ -2860,14 +2856,6 @@ msgstr ""
 msgid "*** T E S T ***"
 msgstr ""
 
-#: linux/WulforUtil.cc:1083
-msgid "---------- Cleaning the chat ----------"
-msgstr ""
-
-#: linux/WulforUtil.cc:1085
-msgid "---------- The chat has been cleaned ----------"
-msgstr ""
-
 #: linux/hashdialog.cc:69 linux/hashdialog.cc:81
 msgid "-:--:-- left"
 msgstr ""
@@ -2879,10 +2867,6 @@ msgstr ""
 #: linux/settingsdialog.cc:2459 linux/settingsdialog.cc:2488
 #: linux/settingsdialog.cc:2525
 msgid "...must not be empty"
-msgstr ""
-
-#: linux/WulforUtil.cc:903 linux/WulforUtil.cc:905
-msgid "/ Downloads "
 msgstr ""
 
 #: linux/mainwindow.cc:173 linux/mainwindow.cc:191
@@ -2949,7 +2933,7 @@ msgstr ""
 msgid "Add finished files to share instantly (if shared)"
 msgstr ""
 
-#: linux/hub.cc:4325 linux/privatemessage.cc:1503
+#: linux/hub.cc:4330 linux/privatemessage.cc:1503
 msgid "Add to Favorite hubs"
 msgstr ""
 
@@ -3084,7 +3068,7 @@ msgstr ""
 msgid "Button smile"
 msgstr ""
 
-#: linux/hub.cc:2922 linux/hub.cc:2955 linux/hub.cc:3018 linux/hub.cc:3055
+#: linux/hub.cc:2922 linux/hub.cc:2955 linux/hub.cc:3060
 msgid "CID"
 msgstr ""
 
@@ -3124,7 +3108,7 @@ msgstr ""
 msgid "CRC32 inconsistency (SFV-Check)"
 msgstr ""
 
-#: linux/settingsmanager.cc:589
+#: linux/settingsmanager.cc:588
 msgid "Change setting "
 msgstr ""
 
@@ -3144,7 +3128,7 @@ msgstr ""
 msgid "Clear search box after each search"
 msgstr ""
 
-#: linux/bookentry.cc:252 linux/hub.cc:4324 linux/privatemessage.cc:1502
+#: linux/bookentry.cc:252 linux/hub.cc:4329 linux/privatemessage.cc:1502
 #: linux/sharebrowser.cc:1085
 msgid "Close"
 msgstr ""
@@ -3177,11 +3161,11 @@ msgstr ""
 msgid "Confirm favorite hub removal"
 msgstr ""
 
-#: linux/hub.cc:4004
+#: linux/hub.cc:4009
 msgid "Connect failed: "
 msgstr ""
 
-#: linux/hub.cc:3931 linux/transfers.cc:1064
+#: linux/hub.cc:3936 linux/transfers.cc:1064
 msgid "Connected"
 msgstr ""
 
@@ -3193,7 +3177,7 @@ msgstr ""
 msgid "Connecting (forced)..."
 msgstr ""
 
-#: linux/hub.cc:3924
+#: linux/hub.cc:3929
 msgid "Connecting to "
 msgstr ""
 
@@ -3209,7 +3193,7 @@ msgstr ""
 msgid "Copy CID"
 msgstr ""
 
-#: linux/hub.cc:4323
+#: linux/hub.cc:4328
 msgid "Copy URL"
 msgstr ""
 
@@ -3290,12 +3274,12 @@ msgid "Download failed: "
 msgstr ""
 
 #: linux/settingsdialog.cc:1115 linux/settingsdialog.cc:1283
-#: linux/settingsmanager.cc:232 linux/transfers.cc:1125
+#: linux/settingsmanager.cc:231 linux/transfers.cc:1125
 msgid "Download finished"
 msgstr ""
 
 #: linux/settingsdialog.cc:1116 linux/settingsdialog.cc:1287
-#: linux/settingsmanager.cc:234
+#: linux/settingsmanager.cc:233
 msgid "Download finished file list"
 msgstr ""
 
@@ -3407,11 +3391,11 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: linux/settingsmanager.cc:592
+#: linux/settingsmanager.cc:591
 msgid "Error: params have been not 2!"
 msgstr ""
 
-#: linux/settingsmanager.cc:588
+#: linux/settingsmanager.cc:587
 msgid "Error: setting not found!"
 msgstr ""
 
@@ -3470,21 +3454,21 @@ msgstr ""
 msgid "Favorite User"
 msgstr ""
 
-#: linux/hub.cc:3450
+#: linux/hub.cc:3455
 msgid "Favorite hub added"
 msgstr ""
 
-#: linux/hub.cc:3455
+#: linux/hub.cc:3460
 msgid "Favorite hub already exists"
 msgstr ""
 
 #: linux/settingsdialog.cc:1121 linux/settingsdialog.cc:1303
-#: linux/settingsmanager.cc:242
+#: linux/settingsmanager.cc:241
 msgid "Favorite user joined"
 msgstr ""
 
 #: linux/settingsdialog.cc:1122 linux/settingsdialog.cc:1307
-#: linux/settingsmanager.cc:244
+#: linux/settingsmanager.cc:243
 msgid "Favorite user quit"
 msgstr ""
 
@@ -3614,7 +3598,7 @@ msgstr ""
 msgid "Highlightings"
 msgstr ""
 
-#: linux/settingsmanager.cc:350
+#: linux/settingsmanager.cc:349
 msgid "Highliting"
 msgstr ""
 
@@ -3646,12 +3630,12 @@ msgid "Hub Name"
 msgstr ""
 
 #: linux/settingsdialog.cc:1119 linux/settingsdialog.cc:1295
-#: linux/settingsmanager.cc:240
+#: linux/settingsmanager.cc:239
 msgid "Hub connected"
 msgstr ""
 
 #: linux/settingsdialog.cc:1120 linux/settingsdialog.cc:1299
-#: linux/settingsmanager.cc:238
+#: linux/settingsmanager.cc:237
 msgid "Hub disconnected"
 msgstr ""
 
@@ -3717,15 +3701,15 @@ msgstr ""
 msgid "Ignored"
 msgstr ""
 
-#: linux/hub.cc:4123
+#: linux/hub.cc:4128
 msgid "Ignored message from User "
 msgstr ""
 
-#: linux/hub.cc:4159
+#: linux/hub.cc:4164
 msgid "Ignored private message from bot "
 msgstr ""
 
-#: linux/hub.cc:4152
+#: linux/hub.cc:4157
 msgid "Ignored private message from hub"
 msgstr ""
 
@@ -3862,7 +3846,7 @@ msgstr ""
 msgid "New search type"
 msgstr ""
 
-#: linux/hub.cc:4264
+#: linux/hub.cc:4269
 msgid "Nick already taken"
 msgstr ""
 
@@ -4013,7 +3997,7 @@ msgid "Private Message (also sets urgency hint)"
 msgstr ""
 
 #: linux/hub.cc:2294 linux/settingsdialog.cc:1118 linux/settingsdialog.cc:1164
-#: linux/settingsdialog.cc:1291 linux/settingsmanager.cc:236
+#: linux/settingsdialog.cc:1291 linux/settingsmanager.cc:235
 msgid "Private message"
 msgstr ""
 
@@ -4028,10 +4012,6 @@ msgstr ""
 
 #: linux/publichubs.cc:52 linux/publichubs.cc:168
 msgid "Rating"
-msgstr ""
-
-#: linux/WulforUtil.cc:903 linux/WulforUtil.cc:905
-msgid "Ratio: "
 msgstr ""
 
 #: linux/WulforUtil.cc:72
@@ -4091,7 +4071,7 @@ msgstr ""
 msgid "Search String"
 msgstr ""
 
-#: linux/hub.cc:4271
+#: linux/hub.cc:4276
 msgid "Search spam detected from "
 msgstr ""
 
@@ -4127,7 +4107,7 @@ msgstr ""
 msgid "Send PM when double clicked in the user list"
 msgstr ""
 
-#: linux/hub.cc:4014
+#: linux/hub.cc:4019
 msgid "Send Stored password. "
 msgstr ""
 
@@ -4260,7 +4240,7 @@ msgstr ""
 msgid "Slot granted"
 msgstr ""
 
-#: linux/favoriteusers.cc:511 linux/hub.cc:3362
+#: linux/favoriteusers.cc:511 linux/hub.cc:3367
 msgid "Slot granted to "
 msgstr ""
 
@@ -4408,7 +4388,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: linux/hub.cc:4284
+#: linux/hub.cc:4289
 msgid "Topic:"
 msgstr ""
 
@@ -4438,7 +4418,7 @@ msgstr ""
 msgid "UTF-8 (Unicode)"
 msgstr ""
 
-#: linux/hub.cc:3387
+#: linux/hub.cc:3392
 msgid "Unable to connect: already connected to the requested hub"
 msgstr ""
 
@@ -4509,10 +4489,6 @@ msgstr ""
 
 #: linux/transfers.cc:1174
 msgid "Uploaded "
-msgstr ""
-
-#: linux/WulforUtil.cc:1074
-msgid "Uptime: "
 msgstr ""
 
 #: linux/settingsdialog.cc:373 linux/settingsdialog.cc:409
@@ -4593,7 +4569,7 @@ msgstr ""
 msgid "User list show/hide"
 msgstr ""
 
-#: linux/hub.cc:3333 linux/hub.cc:3353
+#: linux/hub.cc:3338 linux/hub.cc:3358
 msgid "User not found"
 msgstr ""
 
@@ -4842,7 +4818,7 @@ msgstr ""
 msgid "add alias A with uname -a exec\n"
 msgstr ""
 
-#: linux/hub.cc:3649
+#: linux/hub.cc:3654
 msgid "bad image"
 msgstr ""
 
@@ -4862,7 +4838,7 @@ msgstr ""
 msgid "file list from "
 msgstr ""
 
-#: linux/hub.cc:3636
+#: linux/hub.cc:3641
 msgid "loading error"
 msgstr ""
 

@@ -384,3 +384,6 @@ Some Fixies
 Update Copyright
 [LP#908039] Fixed Hash Dialog
 Add C++0x GetSet
+Fixed innvalid iterators in WUlforManager
+Change GetTestSur in hub tab to load more that from one users
+some changes in WulforManger as size() > 0 to empty()

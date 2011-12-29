@@ -28,7 +28,6 @@
 #include "WulforUtil.hh"
 
 #include <glib/gi18n.h>
-//#include <glib/gstdio.h>
 
 using namespace std;
 using namespace dcpp;

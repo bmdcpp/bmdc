@@ -51,7 +51,7 @@ class Hub:
 		Hub(const std::string &address, const std::string &encoding);
 		virtual ~Hub();
 		virtual void show();
-		
+
 		// Client functions
 		void reconnect_client();
 
@@ -59,14 +59,14 @@ class Hub:
 		void preferences_gui();
 
 		virtual GtkWidget *createmenu();
-		
+
 		bool findNick_gui_p(std::string &word)
 		{
 			GtkTreeIter iter;
 			return findNick_gui(word,&iter);
 		}
-		void reconnect_p() { reconnect_client();}
-		
+		void reconnect_p() { reconnect_client(); }
+
 	private:
 		typedef std::map<std::string, std::string> ParamMap;
 		typedef std::unordered_map<std::string, std::string> UserMap;
