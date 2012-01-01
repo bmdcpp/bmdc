@@ -197,10 +197,13 @@ class Hub:
 		std::string getIcons(const dcpp::Identity& id);
 		void setHubIcon_gui(std::string url);
 		void updateIcons();
+		void removeIgnore_gui(ParamMap params);
 
 		// Favorite callbacks
 		virtual void on(dcpp::FavoriteManagerListener::UserAdded, const dcpp::FavoriteUser &user) throw();
 		virtual void on(dcpp::FavoriteManagerListener::UserRemoved, const dcpp::FavoriteUser &user) throw();
+		virtual void on(dcpp::FavoriteManagerListener::IgnoreUserAdded, const dcpp::FavoriteUser &user) noexcept;
+		virtual void on(dcpp::FavoriteManagerListener::IgnoreUserRemoved, const dcpp::FavoriteUser &user) noexcept;
 
 		// Client callbacks
 		virtual void on(dcpp::ClientListener::Connecting, dcpp::Client *) throw();

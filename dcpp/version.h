@@ -27,9 +27,9 @@
 	#define DCPP_REVISION_STRING "2651"
 #endif
 #ifndef BMDC_REVISION
-	#define BMDC_REVISION 90
+	#define BMDC_REVISION 92
 #endif
-	#define BMDC_REVISION_STRING "90"
+	#define BMDC_REVISION_STRING "92"
 #define xstrver(s) strver(s)
 #define strver(s) #s
 

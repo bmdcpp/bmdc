@@ -1033,7 +1033,7 @@ static bool checkType(const string& aString, int aType) {
 	switch(aType) {
 	case SearchManager::TYPE_AUDIO:
 		{
-			for(size_t i = 0; i < (sizeof(typeAudio) / sizeof(typeAudio[0])); i++) {
+			for(size_t i = 0; i < (sizeof(typeAudio) / sizeof(typeAudio[0])); ++i) {
 				if(IS_TYPE(typeAudio[i])) {
 					return true;
 				}
@@ -1061,7 +1061,7 @@ static bool checkType(const string& aString, int aType) {
 		break;
 	case SearchManager::TYPE_PICTURE:
 		{
-			for(size_t i = 0; i < (sizeof(typePicture) / sizeof(typePicture[0])); i++) {
+			for(size_t i = 0; i < (sizeof(typePicture) / sizeof(typePicture[0])); ++i) {
 				if(IS_TYPE(typePicture[i])) {
 					return true;
 				}
@@ -1073,7 +1073,7 @@ static bool checkType(const string& aString, int aType) {
 		break;
 	case SearchManager::TYPE_VIDEO:
 		{
-			for(size_t i = 0; i < (sizeof(typeVideo) / sizeof(typeVideo[0])); i++) {
+			for(size_t i = 0; i < (sizeof(typeVideo) / sizeof(typeVideo[0])); ++i) {
 				if(IS_TYPE(typeVideo[i])) {
 					return true;
 				}
@@ -1405,7 +1405,7 @@ void ShareManager::on(QueueManagerListener::FileMoved, const string& n) noexcept
 	if(BOOLSETTING(ADD_FINISHED_INSTANTLY)) {
 		// Check if finished download is supposed to be shared
 		Lock l(cs);
-		for(StringMapIter i = shares.begin(); i != shares.end(); i++) {
+		for(StringMapIter i = shares.begin(); i != shares.end(); ++i) {
 			if(Util::strnicmp(i->first, n, i->first.size()) == 0 && n[i->first.size() - 1] == PATH_SEPARATOR) {
 				try {
 					// Schedule for hashing, it'll be added automatically later on...

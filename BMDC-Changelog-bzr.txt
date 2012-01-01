@@ -387,3 +387,5 @@ Add C++0x GetSet
 Fixed innvalid iterators in WUlforManager
 Change GetTestSur in hub tab to load more that from one users
 some changes in WulforManger as size() > 0 to empty()
+Fix Higliting Ignore in UserList
+remove Fast Hash option (DC++ r2781) with add FileReader

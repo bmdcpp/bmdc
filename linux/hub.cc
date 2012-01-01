@@ -254,7 +254,6 @@ Hub::Hub(const string &address, const string &encoding):
 	/**/
     g_signal_connect(getWidget("ripeitem"), "activate", G_CALLBACK(onRipeDbItem_gui),(gpointer)this);
     g_signal_connect(getWidget("copyipItem"), "activate", G_CALLBACK(onCopyIpItem_gui),(gpointer)this);
-
 	//end
 	g_signal_connect(getWidget("downloadBrowseItem"), "activate", G_CALLBACK(onDownloadToClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("downloadItem"), "activate", G_CALLBACK(onDownloadClicked_gui), (gpointer)this);
@@ -513,7 +512,6 @@ void Hub::setStatus_gui(string statusBar, string text)
             #else
                 gtk_widget_set_tooltip_text(getWidget("statusMain"), statusTextOnToolTip.c_str());
             #endif
-
 		}
 
 		gtk_statusbar_pop(GTK_STATUSBAR(getWidget(statusBar)), 0);
@@ -611,7 +609,6 @@ void Hub::updateUser_gui(ParamMap params)
             nickView.col(_("Support")), params["Support"].c_str(),
 			nickView.col("Icon"), icon.c_str(),
 			nickView.col("Nick Order"), nickOrder.c_str(),
-			//nickView.col("Favorite"), favorite? ("f" + nickOrder).c_str() : nickOrder.c_str(),
 			nickView.col("CID"), cid.c_str(),
 			nickView.col("NickColor"), nickColor.c_str(),
             nickView.col("Pixbuf"), pixbuf,
@@ -680,7 +677,7 @@ void Hub::removeUser_gui(string cid)
 
 	if (findUser_gui(cid, &iter))
 	{
-		order = nickView.getString(&iter, /*"Favorite"*/"Client Type");
+		order = nickView.getString(&iter, "Client Type");//F
 		nick = nickView.getString(&iter, _("Nick"));
 		totalShared -= nickView.getValue<int64_t>(&iter, _("Shared"));
 		gtk_list_store_remove(nickStore, &iter);
@@ -2017,7 +2014,7 @@ void Hub::onCopyIpItem_gui(GtkWidget *wid, gpointer data)
 void Hub::onRipeDbItem_gui(GtkWidget *wid, gpointer data)
 {
 	Hub *hub = (Hub *)data;
-	WulforUtil::openURI("http://www.db.ripe.net/whois?searchtext="+hub->ip+"&searchSubmit=search");
+	WulforUtil::openURI("http://www.db.ripe.net/whois?searchtext=" + hub->ip + "&searchSubmit=search");
 }
 
 gboolean Hub::onMagnetTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data)
@@ -2770,7 +2767,7 @@ void Hub::onAddFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data)
 			{
 				cid = hub->nickView.getString(&iter, "CID");
 				nick = hub->nickView.getString(&iter, _("Nick"));
-				order = hub->nickView.getString(&iter, /*"Favorite"*/"Client Type");
+				order = hub->nickView.getString(&iter, "Client Type");//F
 
 				if (!cid.empty() && nick != hub->client->getMyNick())
 				{
@@ -2809,7 +2806,7 @@ void Hub::onRemoveFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data)
 			{
 				cid = hub->nickView.getString(&iter, "CID");
 				nick = hub->nickView.getString(&iter, _("Nick"));
-				order = hub->nickView.getString(&iter, /*"Favorite"*/"Client Type");
+				order = hub->nickView.getString(&iter, "Client Type");//F
 
 				if (!cid.empty() && nick != hub->client->getMyNick())
 				{
@@ -3224,7 +3221,21 @@ void Hub::addIgnore_gui(ParamMap params)
 	}
 }
 
-
+void Hub::removeIgnore_gui(ParamMap params)
+{
+    const string &cid = params["CID"];
+    if(userIgnoreMap.find(cid)!= userIgnoreMap.end())
+    {
+       GtkTreeIter iter;
+        if(findUser_gui(cid,&iter))
+        {
+            userIgnoreMap.erase(cid);
+            gtk_list_store_set(nickStore,&iter,
+                               nickView.col("NickColor"), WGETS("userlist-text-normal").c_str(),
+                               -1);
+        }
+    }
+}
 void Hub::addPrivateMessage_gui(Msg::TypeMsg typemsg, string CID, string cid, string url, string message, bool useSetting)
 {
 	if (userFavoriteMap.find(CID) != userFavoriteMap.end())
@@ -3494,6 +3505,7 @@ string Hub::getIcons(const Identity& id)
 				size_t n = 0;
 				if( (n =conn.find("/s")) != string::npos)
 					conn.erase(n, string::npos);
+
 				double us = conn.empty() ? (8 * Util::toInt64(id.get("US")) / 1024 / 1024): Util::toDouble(conn);
 				if(us >= 10) {
 					tmp = "ten";
@@ -3923,6 +3935,31 @@ void Hub::on(FavoriteManagerListener::UserRemoved, const FavoriteUser &user) thr
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
+void Hub::on(FavoriteManagerListener::IgnoreUserAdded, const FavoriteUser &user) noexcept
+{
+    if(user.getUrl() != client->getHubUrl())
+        return;
+    ParamMap params;
+    params.insert(ParamMap::value_type("Nick", user.getNick()));
+	params.insert(ParamMap::value_type("CID", user.getUser()->getCID().toBase32()));
+
+    Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::addIgnore_gui, params);
+    WulforManager::get()->dispatchGuiFunc(func);
+}
+
+void Hub::on(FavoriteManagerListener::IgnoreUserRemoved, const FavoriteUser &user) noexcept
+{
+    if (user.getUrl() != client->getHubUrl())
+		return;
+
+	ParamMap params;
+	params.insert(ParamMap::value_type("Nick", user.getNick()));
+	params.insert(ParamMap::value_type("CID", user.getUser()->getCID().toBase32()));
+
+    Func1<Hub, ParamMap> * func = new Func1<Hub, ParamMap> (this, &Hub::removeIgnore_gui, params);
+    WulforManager::get()->dispatchGuiFunc(func);
+}
+
 void Hub::on(ClientListener::Connecting, Client *) throw()
 {
 	typedef Func3<Hub, string, Msg::TypeMsg, Sound::TypeSound> F3;
@@ -3945,8 +3982,6 @@ void Hub::on(ClientListener::UserUpdated, Client *, const OnlineUser &user) thro
 	{
 		ParamMap params;
 		getParams_client(params, id);
-		Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::updateUser_gui, params);
-		WulforManager::get()->dispatchGuiFunc(func);
 		//BMDC++
 		if(user.getIdentity().getUser()->isSet(User::PASSIVE))
 		{
@@ -3963,7 +3998,9 @@ void Hub::on(ClientListener::UserUpdated, Client *, const OnlineUser &user) thro
 		   Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::addProtected_gui, params);
            WulforManager::get()->dispatchGuiFunc(func);
 		}
-
+        //end
+		Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::updateUser_gui, params);
+		WulforManager::get()->dispatchGuiFunc(func);
 	}
 }
 
@@ -4109,7 +4146,6 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 		 {
 
 			size_t nt = message.text.find_first_of(" ",nestle);
-			//size_t nend = message.text.find_last_of (" ",nestle);
 			if( message.text.compare(0,nt,"/me") == 0) {
 				 	third = true;
 					mess.replace(0,nt+1,"");
@@ -4283,6 +4319,7 @@ void Hub::on(ClientListener::CheatMessage, Client *, const string &msg) noexcept
 	F3 *func = new F3(this, &Hub::addStatusMessage_gui, msg, Msg::CHEAT, Sound::NONE);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
+
 void Hub::on(ClientListener::HubTopic, Client *, const string &top) noexcept
 {
     typedef Func3<Hub, string, Msg::TypeMsg, Sound::TypeSound> F3;
@@ -4299,7 +4336,6 @@ void Hub::on(ClientListener::HubIcon, Client *, const string &url) noexcept
 
 void Hub::setHubIcon_gui(string url)
 {
-
 	if(g_ascii_strncasecmp(url.c_str(), "http://", 7) == 0 ||
 		g_ascii_strncasecmp(url.c_str(), "https://", 8) == 0 ||
 		g_ascii_strncasecmp(url.c_str(), "www.", 4) == 0)
