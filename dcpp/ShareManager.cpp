@@ -1423,7 +1423,7 @@ void ShareManager::on(HashManagerListener::TTHDone, const string& fname, const T
 	Lock l(cs);
 	Directory::Ptr d = getDirectory(fname);
 	if(d) {
-		Directory::File::Set::const_iterator i = d->findFile(Util::getFileName(fname));
+		auto i = d->findFile(Util::getFileName(fname));
 		if(i != d->files.end()) {
 			if(root != i->getTTH())
 				tthIndex.erase(i->getTTH());

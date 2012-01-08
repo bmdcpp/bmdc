@@ -22,7 +22,7 @@
 #include <boost/mpl/if.hpp>
 #include <type_traits>
 
-#define REF_OR_COPY(t) boost::mpl::if_c<std::is_class<t>::value, const t&, t>::type
+#define REF_OR_COPY(t) std::conditional<std::is_class<t>::value, const t&, t>::type
 
 #define GETSET(type, name, name2) \
 private: type name; \

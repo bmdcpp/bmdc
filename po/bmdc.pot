@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2011-12-31 17:58+0100\n"
+"POT-Creation-Date: 2011-12-28 19:57+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-01-01 15:59+0100\n"
+"POT-Creation-Date: 2012-01-07 20:50+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2729,7 +2729,7 @@ msgstr ""
 msgid "to"
 msgstr ""
 
-#: linux/hub.cc:4165
+#: linux/hub.cc:4183
 msgid ""
 "\n"
 "Message: "
@@ -2933,7 +2933,7 @@ msgstr ""
 msgid "Add finished files to share instantly (if shared)"
 msgstr ""
 
-#: linux/hub.cc:4366 linux/privatemessage.cc:1503
+#: linux/hub.cc:4384 linux/privatemessage.cc:1503
 msgid "Add to Favorite hubs"
 msgstr ""
 
@@ -3128,7 +3128,7 @@ msgstr ""
 msgid "Clear search box after each search"
 msgstr ""
 
-#: linux/bookentry.cc:252 linux/hub.cc:4365 linux/privatemessage.cc:1502
+#: linux/bookentry.cc:252 linux/hub.cc:4383 linux/privatemessage.cc:1502
 #: linux/sharebrowser.cc:1085
 msgid "Close"
 msgstr ""
@@ -3161,11 +3161,11 @@ msgstr ""
 msgid "Confirm favorite hub removal"
 msgstr ""
 
-#: linux/hub.cc:4046
+#: linux/hub.cc:4066
 msgid "Connect failed: "
 msgstr ""
 
-#: linux/hub.cc:3973 linux/transfers.cc:1064
+#: linux/hub.cc:3993 linux/transfers.cc:1064
 msgid "Connected"
 msgstr ""
 
@@ -3177,7 +3177,7 @@ msgstr ""
 msgid "Connecting (forced)..."
 msgstr ""
 
-#: linux/hub.cc:3966
+#: linux/hub.cc:3986
 msgid "Connecting to "
 msgstr ""
 
@@ -3193,7 +3193,7 @@ msgstr ""
 msgid "Copy CID"
 msgstr ""
 
-#: linux/hub.cc:4364
+#: linux/hub.cc:4382
 msgid "Copy URL"
 msgstr ""
 
@@ -3462,6 +3462,10 @@ msgstr ""
 msgid "Favorite hub already exists"
 msgstr ""
 
+#: linux/hub.cc:3486
+msgid "Favorite hub removed"
+msgstr ""
+
 #: linux/settingsdialog.cc:1121 linux/settingsdialog.cc:1303
 #: linux/settingsmanager.cc:241
 msgid "Favorite user joined"
@@ -3701,15 +3705,15 @@ msgstr ""
 msgid "Ignored"
 msgstr ""
 
-#: linux/hub.cc:4164
+#: linux/hub.cc:4182
 msgid "Ignored message from User "
 msgstr ""
 
-#: linux/hub.cc:4200
+#: linux/hub.cc:4218
 msgid "Ignored private message from bot "
 msgstr ""
 
-#: linux/hub.cc:4193
+#: linux/hub.cc:4211
 msgid "Ignored private message from hub"
 msgstr ""
 
@@ -3846,7 +3850,7 @@ msgstr ""
 msgid "New search type"
 msgstr ""
 
-#: linux/hub.cc:4305
+#: linux/hub.cc:4323
 msgid "Nick already taken"
 msgstr ""
 
@@ -4038,6 +4042,10 @@ msgstr ""
 msgid "Remote client does not fully support TTH - cannot download"
 msgstr ""
 
+#: linux/hub.cc:4385
+msgid "Remove from Favorite hubs"
+msgstr ""
+
 #: linux/settingsdialog.cc:997
 msgid "Remove slow filelists"
 msgstr ""
@@ -4071,7 +4079,7 @@ msgstr ""
 msgid "Search String"
 msgstr ""
 
-#: linux/hub.cc:4312
+#: linux/hub.cc:4330
 msgid "Search spam detected from "
 msgstr ""
 
@@ -4107,7 +4115,7 @@ msgstr ""
 msgid "Send PM when double clicked in the user list"
 msgstr ""
 
-#: linux/hub.cc:4056
+#: linux/hub.cc:4076
 msgid "Send Stored password. "
 msgstr ""
 
@@ -4345,6 +4353,10 @@ msgstr ""
 msgid "The name and address fields are required"
 msgstr ""
 
+#: linux/hub.cc:3491
+msgid "This hub is not a favorite hub"
+msgstr ""
+
 #: linux/mainwindow.cc:599
 msgid "Throtle off"
 msgstr ""
@@ -4388,7 +4400,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: linux/hub.cc:4326
+#: linux/hub.cc:4344
 msgid "Topic:"
 msgstr ""
 
@@ -4814,7 +4826,7 @@ msgstr ""
 msgid "add alias A with uname -a exec\n"
 msgstr ""
 
-#: linux/hub.cc:3666
+#: linux/hub.cc:3686
 msgid "bad image"
 msgstr ""
 
@@ -4834,7 +4846,7 @@ msgstr ""
 msgid "file list from "
 msgstr ""
 
-#: linux/hub.cc:3653
+#: linux/hub.cc:3673
 msgid "loading error"
 msgstr ""
 

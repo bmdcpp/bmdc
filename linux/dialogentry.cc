@@ -65,4 +65,3 @@ gint DialogEntry::getResponseID()
 {
 	return responseID;
 }
-

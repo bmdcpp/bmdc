@@ -128,8 +128,8 @@ void BookEntry::setIcon_gui(const std::string stock)
 
 void BookEntry::setIconPixbufs_gui(const std::string iconspath)
 {
- GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_size(iconspath.c_str(),15,15,NULL);	
- gtk_image_set_from_pixbuf(GTK_IMAGE(icon),pixbuf); 	
+    GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_size(iconspath.c_str(),15,15,NULL);
+    gtk_image_set_from_pixbuf(GTK_IMAGE(icon),pixbuf);
 }
 
 void BookEntry::setLabel_gui(string text)

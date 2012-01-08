@@ -159,6 +159,7 @@ class Hub:
 		static void onCloseItem(gpointer data);
 		static void onCopyHubUrl(gpointer data);
 		static void onAddFavItem(gpointer data);
+		static void onRemoveFavHub(gpointer data);
 		static void onAddIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onRemoveIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onShowReportClicked_gui(GtkMenuItem *item, gpointer data);
@@ -187,6 +188,8 @@ class Hub:
 		void rebuildHashData_client();
 		void refreshFileList_client();
 		void addAsFavorite_client();
+		void removeAsFavorite_client();
+
 		void getParams_client(ParamMap &user, dcpp::Identity &id);
 		void download_client(std::string target, int64_t size, std::string tth, std::string cid);
 		std::string realFile_client(std::string tth);
@@ -195,6 +198,7 @@ class Hub:
 		std::string formatAdditionalInfo(const std::string& aIp, bool sIp, bool sCC, bool isPm);
 		gboolean HitIP(std::string &name, std::string& ip);
 		std::string getIcons(const dcpp::Identity& id);
+
 		void setHubIcon_gui(std::string url);
 		void updateIcons();
 		void removeIgnore_gui(ParamMap params);

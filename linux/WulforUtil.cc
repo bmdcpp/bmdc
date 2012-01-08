@@ -776,7 +776,7 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
 	return pixbuf;
 }
 
-std::string WulforUtil::StringToUpper(std::string myString)
+string WulforUtil::StringToUpper(std::string myString)
 {
 	const int length = myString.length();
 	if(myString.length() == 0)

@@ -252,7 +252,7 @@ size_t FileReader::readMapped(const string& filename, const DataCallback& callba
 	}
 
 	int64_t pos = 0;
-	auto size =0;
+	auto size = 0;
 
 	// Prepare and setup a signal handler in case of SIGBUS during mmapped file reads.
 	// SIGBUS can be sent when the file is truncated or in case of read errors.

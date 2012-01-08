@@ -42,6 +42,8 @@
 		<Unit filename="dcpp/AdcHub.h" />
 		<Unit filename="dcpp/BZUtils.cpp" />
 		<Unit filename="dcpp/BZUtils.h" />
+		<Unit filename="dcpp/BackupManager.cpp" />
+		<Unit filename="dcpp/BackupManager.h" />
 		<Unit filename="dcpp/BloomFilter.h" />
 		<Unit filename="dcpp/BufferedSocket.cpp" />
 		<Unit filename="dcpp/BufferedSocket.h" />

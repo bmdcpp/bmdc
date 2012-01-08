@@ -3473,6 +3473,26 @@ void Hub::addAsFavorite_client()
 	}
 }
 
+void Hub::removeAsFavorite_client()
+{
+    typedef Func3<Hub, string, Msg::TypeMsg, Sound::TypeSound> F3;
+	F3 *func;
+    FavoriteHubEntry *existingHub = FavoriteManager::getInstance()->getFavoriteHubEntry(client->getHubUrl());
+
+	if (existingHub)
+	{
+        FavoriteManager::getInstance()->removeFavorite(existingHub);
+
+        func = new F3(this, &Hub::addStatusMessage_gui, _("Favorite hub removed"), Msg::STATUS, Sound::NONE);
+        WulforManager::get()->dispatchGuiFunc(func);
+	}
+	else
+	{
+        func = new F3(this, &Hub::addStatusMessage_gui, _("This hub is not a favorite hub"), Msg::STATUS, Sound::NONE);
+        WulforManager::get()->dispatchGuiFunc(func);
+	}
+}
+
 void Hub::reconnect_client()
 {
 	Func0<Hub> *func = new Func0<Hub>(this, &Hub::clearNickList_gui);
@@ -4106,7 +4126,6 @@ string Hub::formatAdditionalInfo(const string& aIp, bool sIp, bool sCC, bool isP
 	}
 	return Text::toT(ret);
 }
-/* END */
 
 void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw() //NOTE: core 0.762
 {
@@ -4150,7 +4169,6 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 				 	third = true;
 					mess.replace(0,nt+1,"");
 			}
-
 		}
 	}
 
@@ -4364,18 +4382,22 @@ GtkWidget *Hub::createmenu()
     GtkWidget *copyHubUrl = gtk_menu_item_new_with_label(_("Copy URL"));
     GtkWidget *close = gtk_menu_item_new_with_label(_("Close"));
     GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite hubs"));
+    GtkWidget *remfav = gtk_menu_item_new_with_label(_("Remove from Favorite hubs"));
 
     gtk_menu_shell_append(GTK_MENU_SHELL(menu),close);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu),copyHubUrl);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu),addFav);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu),remfav);
     gtk_widget_show(close);
     gtk_widget_show(copyHubUrl);
     gtk_widget_show(addFav);
+    gtk_widget_show(remfav);
     gtk_widget_show_all(userCommandMenu1->getContainer());
 
     g_signal_connect_swapped(copyHubUrl, "activate", G_CALLBACK(onCopyHubUrl), (gpointer)this);
     g_signal_connect_swapped(close, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
     g_signal_connect_swapped(addFav, "activate", G_CALLBACK(onAddFavItem), (gpointer)this);
+    g_signal_connect_swapped(remfav, "activate", G_CALLBACK(onRemoveFavHub), (gpointer)this);
     return menu;
 }
 
@@ -4395,4 +4417,10 @@ void Hub::onAddFavItem(gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	hub->addAsFavorite_client();
+}
+
+void Hub::onRemoveFavHub(gpointer data)
+{
+    Hub *hub = (Hub *)data;
+    hub->removeAsFavorite_client();
 }

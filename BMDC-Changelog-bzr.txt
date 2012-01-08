@@ -357,7 +357,7 @@ Add Splash class
 Some more up-to-date core.
 Some more up-to-date-to FreeDC++
 Fixed Remove All RecentHubs
-Add Reconect all in File menu item 
+Add Reconect all in File menu item
 Trying add support of $SetIcon
 Add Forgoten /exec cmd
 add Forgoten /topic cmd
@@ -389,3 +389,4 @@ Change GetTestSur in hub tab to load more that from one users
 some changes in WulforManger as size() > 0 to empty()
 Fix Higliting Ignore in UserList
 remove Fast Hash option (DC++ r2781) with add FileReader
+Add remove FavoriteHub to right click on Hub tab
