@@ -1428,13 +1428,13 @@ void ShareManager::on(HashManagerListener::TTHDone, const string& fname, const T
 			if(root != i->getTTH())
 				tthIndex.erase(i->getTTH());
 			// Get rid of false constness...
-			Directory::File* f = const_cast<Directory::File*>(&(*i));
+			auto f = const_cast<Directory::File*>(&(*i));
 			f->setTTH(root);
 			tthIndex.insert(make_pair(f->getTTH(), i));
 		} else {
 			string name = Util::getFileName(fname);
 			int64_t size = File::getSize(fname);
-			Directory::File::Set::iterator it = d->files.insert(Directory::File(name, size, d, root)).first;
+			auto it = d->files.insert(Directory::File(name, size, d, root)).first;
 			updateIndices(*d, it);
 		}
 		setDirty();

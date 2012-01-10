@@ -329,10 +329,6 @@ void ShareBrowser::updateFiles_gui(DirectoryListing::Directory *dir)
 		GdkPixbuf *buf = WulforUtil::loadIconShare(dcpp::Util::getFileExt((*it_file)->getName()));
 		size = (*it_file)->getSize();
 		
-		
-			
-		
-		
 		gtk_list_store_set(fileStore, &iter,
 			fileView.col("Icon"), buf,
 			fileView.col(_("Size")), Util::formatBytes(size).c_str(),

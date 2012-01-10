@@ -767,7 +767,7 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
 	{
 		return NULL;
 	}
-	gchar *path = g_strdup_printf(_DATADIR "/country/%s.png",
+	gchar *path = g_strdup_printf(_DATADIR PATH_SEPARATOR_STR "bmdc/country/%s.png",
 		                              (gchar *)country.c_str());
 	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_size(path,15,15,&error);
 	if (error != NULL || pixbuf == NULL)

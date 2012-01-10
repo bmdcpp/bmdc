@@ -390,3 +390,5 @@ some changes in WulforManger as size() > 0 to empty()
 Fix Higliting Ignore in UserList
 remove Fast Hash option (DC++ r2781) with add FileReader
 Add remove FavoriteHub to right click on Hub tab
+Move country folder to [prefix]/share/bmdc
+Fix FileReader (dcpp rev2808)
