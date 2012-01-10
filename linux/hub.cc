@@ -952,7 +952,7 @@ gboolean Hub::HitIP(string& name, string &sIp)
 	}
 
 	name += ".";
-	size_t begin = 0, pos = string::npos,end = 0;
+	size_t begin = 0, pos = string::npos, end = 0;
 	bool isOk = true;
 	for(int i = 0; i < 4; i++) {
 		pos = name.find('.', begin);
@@ -971,7 +971,6 @@ gboolean Hub::HitIP(string& name, string &sIp)
 	if(isOk)
 	{
 		sIp = name.substr(0,pos);
-
 	}
 	return isOk;
 }
@@ -1631,15 +1630,20 @@ void Hub::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, strin
 		break;
 
 		case Tag::TAG_CHEAT:
+			
 			fore = wsm->getString("text-cheat-fore-color");
 			back = wsm->getString("text-cheat-back-color");
 			bold = wsm->getInt("text-cheat-bold");
 			italic = wsm->getInt("text-cheat-italic");
-			break;
 		break;
 
 		case Tag::TAG_HIGHL:
-			break;//ugly
+			
+			fore = wsm->getString("text-high-fore-color");
+			back = wsm->getString("text-high-back-color");
+			bold = wsm->getInt("text-high-bold");
+			italic = wsm->getInt("text-high-italic");
+		break;
 
 		case Tag::TAG_MYNICK:
 

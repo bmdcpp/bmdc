@@ -132,19 +132,20 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("use-highlighting",0));
 	defaultInt.insert(IntMap::value_type("use-dns",0));
 	defaultInt.insert(IntMap::value_type("log-messages",0));
+	defaultInt.insert(IntMap::value_type("text-cheat-bold", 1));
+	defaultInt.insert(IntMap::value_type("text-cheat-italic", 0));
+	defaultInt.insert(IntMap::value_type("text-ip-bold", 0));
+	defaultInt.insert(IntMap::value_type("text-ip-italic", 1));
+	defaultInt.insert(IntMap::value_type("text-high-bold", 0));
+	defaultInt.insert(IntMap::value_type("text-high-italic", 1));
 	
-	defaultInt.insert(IntMap::value_type("text-cheat-bold",1));
-	defaultInt.insert(IntMap::value_type("text-cheat-italic",0));
-	defaultInt.insert(IntMap::value_type("text-ip-bold",0));
-	defaultInt.insert(IntMap::value_type("text-ip-italic",1));
-	
-	defaultInt.insert(IntMap::value_type("notify-higl-use",1));
-	defaultInt.insert(IntMap::value_type("toolbar-button-notepad",1));
-	defaultInt.insert(IntMap::value_type("toolbar-button-system",1));
-	defaultInt.insert(IntMap::value_type("toolbar-button-ignore",1));
-	defaultInt.insert(IntMap::value_type("toolbar-button-away",1));
-	defaultInt.insert(IntMap::value_type("toolbar-limit-bandwith",1));
-	defaultInt.insert(IntMap::value_type("toolbar-button-limiting",1));
+	defaultInt.insert(IntMap::value_type("notify-high-use", 1));
+	defaultInt.insert(IntMap::value_type("toolbar-button-notepad", 1));
+	defaultInt.insert(IntMap::value_type("toolbar-button-system", 1));
+	defaultInt.insert(IntMap::value_type("toolbar-button-ignore", 1));
+	defaultInt.insert(IntMap::value_type("toolbar-button-away", 1));
+	defaultInt.insert(IntMap::value_type("toolbar-limit-bandwith", 1));
+	defaultInt.insert(IntMap::value_type("toolbar-button-limiting", 1));
 	defaultInt.insert(IntMap::value_type("open-notepad", 0));
 	defaultInt.insert(IntMap::value_type("open-system", 1));
 	defaultInt.insert(IntMap::value_type("open-ignore", 0));
@@ -155,7 +156,6 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("cmd-debug-client-in", 1));
 	defaultInt.insert(IntMap::value_type("cmd-debug-detection", 0));
     ///BMDC]
-
 	defaultString.insert(StringMap::value_type("magnet-choose-dir", SETTING(DOWNLOAD_DIRECTORY)));
 	defaultString.insert(StringMap::value_type("downloadqueue-order", ""));
 	defaultString.insert(StringMap::value_type("downloadqueue-width", ""));
@@ -339,21 +339,24 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("userlist-text-favorite", "#ff0000"));
 	defaultString.insert(StringMap::value_type("userlist-text-ignored", "#9affaf"));
 	defaultString.insert(StringMap::value_type("userlist-text-normal", "#000000"));
+	
 	defaultString.insert(StringMap::value_type("custom-aliases", ""));
 	
 	defaultString.insert(StringMap::value_type("text-cheat-fore-color", "red"));
 	defaultString.insert(StringMap::value_type("text-cheat-back-color", "white"));
 	defaultString.insert(StringMap::value_type("text-ip-fore-color", "black"));
 	defaultString.insert(StringMap::value_type("text-ip-back-color", "white"));
+	defaultString.insert(StringMap::value_type("text-high-fore-color", "black"));
+	defaultString.insert(StringMap::value_type("text-high-back-color", "white"));
 	 
-	defaultString.insert(StringMap::value_type("notify-higl-title", _("Highliting"))); 
-	defaultString.insert(StringMap::value_type("notify-higl-icon", "bmdc-icon-highliting"));
+	defaultString.insert(StringMap::value_type("notify-high-title", _("Highliting"))); 
+	defaultString.insert(StringMap::value_type("notify-high-icon", "bmdc-icon-highliting"));
 	
 	defaultString.insert(StringMap::value_type("share-shared","#1E90FF"));
 	defaultString.insert(StringMap::value_type("share-queue", "#E32020"));
 	defaultString.insert(StringMap::value_type("share-default", "black"));
 	defaultString.insert(StringMap::value_type("sound-command", "aplay -q"));
-	defaultString.insert(StringMap::value_type("last-searchs", ".mp3;.avi"));
+	defaultString.insert(StringMap::value_type("last-searchs", "."));
 	
 	load();
 

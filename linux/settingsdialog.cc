@@ -164,6 +164,8 @@ Settings::Settings(GtkWindow* parent):
 	defaultStringTheme.insert(StringMap::value_type("text-ip-back-color", "#FFFFFF"));
 	defaultStringTheme.insert(StringMap::value_type("text-cheat-fore-color", "#DE1515"));
 	defaultStringTheme.insert(StringMap::value_type("text-cheat-back-color", "#EEE7E7"));
+	defaultStringTheme.insert(StringMap::value_type("text-high-fore-color", "black"));
+	defaultStringTheme.insert(StringMap::value_type("text-high-back-color", "white"));
 
 	/*for UL color text*///NOTE BMDC++
 	defaultStringTheme.insert(StringMap::value_type("userlist-text-operator", "#1E90FF"));
@@ -193,11 +195,12 @@ Settings::Settings(GtkWindow* parent):
 	defaultIntTheme.insert(IntMap::value_type("text-op-italic", 0));
 	defaultIntTheme.insert(IntMap::value_type("text-url-bold", 0));
 	defaultIntTheme.insert(IntMap::value_type("text-url-italic", 0));
-
 	defaultIntTheme.insert(IntMap::value_type("text-ip-bold", 0));
 	defaultIntTheme.insert(IntMap::value_type("text-ip-italic", 0));
 	defaultIntTheme.insert(IntMap::value_type("text-cheat-bold", 1));
 	defaultIntTheme.insert(IntMap::value_type("text-cheat-italic", 0));
+	defaultIntTheme.insert(IntMap::value_type("text-high-bold", 1));
+	defaultIntTheme.insert(IntMap::value_type("text-high-italic", 0));
 	//For Highlighting...
 	isSensitiveHG[0] = isSensitiveHG[1] = isSensitiveHG[2] = isSensitiveHG[3] = FALSE;
 	// Initialize the tabs in the GtkNotebook.
@@ -1308,8 +1311,8 @@ void Settings::initAppearance_gui()
 			"notify-fuser-quit", "notify-fuser-quit-title",
 			"notify-fuser-quit-icon", NOTIFY_URGENCY_NORMAL);
 		addOption_gui(notifyStore, wsm, _("Highlighting string"),
-			"notify-higl-use", "notify-higl-title",
-			"notify-higl-icon", NOTIFY_URGENCY_LOW);
+			"notify-high-use", "notify-high-title",
+			"notify-high-icon", NOTIFY_URGENCY_LOW);
 
 		#endif
 		g_signal_connect(getWidget("notifyTestButton"), "clicked", G_CALLBACK(onNotifyTestButton_gui), (gpointer)this);

@@ -803,7 +803,11 @@ void PrivateMessage::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag 
 		break;
 		
 		case Tag::TAG_HIGHL:
-			break;//ugly
+			fore = wsm->getString("text-high-fore-color");
+			back = wsm->getString("text-high-back-color");
+			bold = wsm->getInt("text-high-bold");
+			italic = wsm->getInt("text-high-italic");
+			break;
 			
 		//case Tag::TAG_IPADR:
 		//	break;//ugly	
@@ -1465,7 +1469,6 @@ void PrivateMessage::readLog(const string& logPath, const unsigned setting) {
 		Util::formatParams(logPath, params);
 		//..
 		StringList lines;
-
 		try {
 			const int MAX_SIZE = 32 * 1024;
 
@@ -1487,7 +1490,6 @@ void PrivateMessage::readLog(const string& logPath, const unsigned setting) {
 			addLine_gui(Msg::PRIVATE, lines[i]);
 		}
 }
-
 
 //custom popup menu
 GtkWidget *PrivateMessage::createmenu()
@@ -1534,4 +1536,3 @@ void PrivateMessage::onAddFavItem(gpointer data)
 	pm->addFavoriteUser_client();
 }
 //EnD
-
