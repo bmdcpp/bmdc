@@ -24,12 +24,10 @@
 
 #include "TimerManager.h"
 #include "SettingsManager.h"
-
 #include "Streams.h"
 #include "SSLSocket.h"
 #include "CryptoManager.h"
 #include "ZUtils.h"
-
 #include "ThrottleManager.h"
 
 namespace dcpp {

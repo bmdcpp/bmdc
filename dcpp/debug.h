@@ -22,12 +22,9 @@
 #include <cstdio>
 
 #ifdef _DEBUG
-
 #include <cassert>
-
 #define dcdebug printf
 #ifdef _MSC_VER
-
 #include <crtdbg.h>
 
 #define dcassert(exp) \

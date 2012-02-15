@@ -20,7 +20,6 @@
 #define DCPLUSPLUS_DCPP_CHAT_MESSAGE_H
 
 #include "forward.h"
-
 #include <string>
 
 namespace dcpp {

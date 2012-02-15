@@ -31,7 +31,8 @@
 #include <dcpp/TimerManager.h>
 #include <dcpp/UploadManager.h>
 #include <dcpp/FavoriteManager.h>
-
+#include <dcpp/UserCommand.h>
+#include <dcpp/StringTokenizer.h>
 #include "entry.hh"
 #include "treeview.hh"
 #include "transfers.hh"
@@ -39,7 +40,6 @@
 #include "notify.hh"
 
 #include <queue>
-
 
 class BookEntry;
 class Search;
@@ -67,9 +67,13 @@ class MainWindow:
 		void removeBookEntry_gui(BookEntry *entry);
 		GtkWidget *currentPage_gui();
 		void raisePage_gui(GtkWidget *page);
-		static bool getUserCommandLines_gui(const std::string &command, dcpp::ParamMap &ucParams);
+		static bool getUserCommandLines_gui(const std::string &commands, dcpp::ParamMap &ucParams);
 		void propertiesMagnetDialog_gui(std::string magnet);
 		void showMessageDialog_gui(const std::string primaryText, const std::string secondaryText);
+
+		template<typename T, typename B>
+		void showBook(const T& type, const B& book);
+		
 		void showDownloadQueue_gui();
 		void showFavoriteHubs_gui();
 		void showFavoriteUsers_gui();
@@ -79,14 +83,13 @@ class MainWindow:
 		void showSearchSpy_gui();
 		void showSearchADL_gui();
 		void showDetection_gui();
-		
 		void showIgnoreUsers_gui();
 		void showCmdDebug_gui();
 		void showSystemLog_gui();
 		void showNotepad_gui();
 		void showUploadQueue_gui();
 		void showRecentHubs_gui();
-		
+
 		void addPrivateMessage_gui(Msg::TypeMsg typemsg, std::string cid, std::string hubUrl = "", std::string message = "", bool useSetting = FALSE);
 		void addPrivateStatusMessage_gui(Msg::TypeMsg typemsg, std::string cid, std::string message = "");
 		void showPublicHubs_gui();
@@ -223,9 +226,8 @@ class MainWindow:
 		void checkUpdateofGeoIp(bool v6);
 		void updateGeoIp(bool v6);
 		void completeGeoIpUpdate(bool v6);
-		
 		void removeItemFromList(Entry::EntryType type, std::string id);
-
+		
 		// Client callbacks
 		virtual void on(dcpp::LogManagerListener::Message, time_t t, const std::string &m) noexcept;
 		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) noexcept;
@@ -273,13 +275,21 @@ class MainWindow:
             }
         };
 		
-		
 		enum
 		{
 			CONN_GEOIP_V4,
 			CONN_GEOIP_V6,
 			CONN_LAST
 		};
+		
+		struct Widgets 
+		{
+		  public:	
+			Widgets() : widget(NULL), label(NULL) { }
+			GtkWidget *widget;
+			GtkWidget *label;	
+		};
+		
 		std::unique_ptr<dcpp::HttpDownload> conns[CONN_LAST];
 		
 		std::vector<PrivateMessage*> privateMessage;

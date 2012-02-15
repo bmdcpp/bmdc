@@ -25,8 +25,8 @@
 namespace dcpp {
 
 class DebugManagerListener {
-public:
-template<int I>	struct X { enum { TYPE = I };  };
+ public:
+	template<int I>	struct X { enum { TYPE = I };  };
 
 	typedef X<0> DebugCommand;
 	typedef X<1> DebugDetection;	
@@ -36,7 +36,7 @@ template<int I>	struct X { enum { TYPE = I };  };
 };
 
 class DebugManager : public Singleton<DebugManager>, public Speaker<DebugManagerListener> {
-public:
+ public:
 	void SendCommandMessage(const string& mess, int typeDir, const string& ip) {
 		fire(DebugManagerListener::DebugCommand(), mess, typeDir, ip);
 	}
@@ -52,9 +52,9 @@ private:
 	DebugManager()  { };
 	~DebugManager() { };
 };
+
 #define COMMAND_DEBUG(a,b,c) DebugManager::getInstance()->SendCommandMessage(a,b,c);
 #define DETECTION_DEBUG(m) DebugManager::getInstance()->SendDetectionMessage(m);
 
 } // namespace dcpp
-
 #endif

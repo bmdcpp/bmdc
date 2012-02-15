@@ -29,7 +29,7 @@
 #ifndef BMDC_REVISION
 	#define BMDC_REVISION 95
 #endif
-	#define BMDC_REVISION_STRING "95"
+	#define BMDC_REVISION_STRING "95 with plugin"
 #define xstrver(s) strver(s)
 #define strver(s) #s
 

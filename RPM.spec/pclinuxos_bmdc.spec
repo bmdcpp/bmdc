@@ -11,10 +11,10 @@ BuildRequires:	gtk+2-devel >= 2.6
 BuildRequires:	libglade2.0-devel >= 2.4
 BuildRequires:	bzip2-devel
 BuildRequires:	zlib-devel
-BuildRequires:  libgeoip-devel
+BuildRequires: libgeoip-devel
 BuildRequires:	openssl-devel
 BuildRequires:	scons
-BuildRequires:  libtar-devel
+BuildRequires: libtar-devel
 
 %description
 A BMDC++ Client Mod of FreeDC++.
@@ -46,6 +46,6 @@ scons FAKE_ROOT=$RPM_BUILD_ROOT release=1 install
 %{_datadir}/locale/*
 
 %changelog
-* Sat Mar 24 2011 Mank <mank1@seznam.cz> 0.0.2-3
+* Sat Mar 24 2011 Mank <mank1@seznam.cz> 0.0.1-96
 - intial version of spec file
  	

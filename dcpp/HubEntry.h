@@ -70,12 +70,13 @@ class FavoriteHubEntry {
 public:
 	FavoriteHubEntry() : encoding(Text::systemCharset) { }
 	FavoriteHubEntry(const HubEntry& rhs) : name(rhs.getName()), server(rhs.getServer()),
-		description(rhs.getDescription()), encoding(Text::systemCharset) { }
+		description(rhs.getDescription()), encoding(Text::systemCharset) , tabText(Util::emptyString) , tabIconStr(Util::emptyString){ }
 	FavoriteHubEntry(const FavoriteHubEntry& rhs) : userdescription(rhs.userdescription),
 		name(rhs.getName()), server(rhs.getServer()), description(rhs.getDescription()),
 		password(rhs.getPassword()), encoding(rhs.getEncoding()), group(rhs.getGroup()), nick(rhs.nick), hideShare(rhs.hideShare),
 		autoConnect(rhs.autoConnect), ip(rhs.ip), mode(rhs.mode), chatExtraInfo(rhs.chatExtraInfo),
-		checkAtConn(rhs.checkAtConn), checkClients(rhs.checkClients), checkFilelists(rhs.checkFilelists),  checkMyInfo(rhs.checkMyInfo)
+		checkAtConn(rhs.checkAtConn), checkClients(rhs.checkClients), checkFilelists(rhs.checkFilelists),  checkMyInfo(rhs.checkMyInfo),
+		tabText(rhs.tabText), tabIconStr(rhs.tabIconStr)
 		 { }
 	~FavoriteHubEntry() { }
 
@@ -103,6 +104,9 @@ public:
 	GETSET(bool, checkClients, CheckClients);
 	GETSET(bool, checkFilelists, CheckFilelists);
 	GETSET(bool, checkMyInfo,CheckMyInfo);
+	
+	GETSET(string, tabText, TabText);
+	GETSET(string, tabIconStr, TabIconStr);
 
 	 //Raw Manager
 	struct FavAction {
@@ -115,7 +119,6 @@ public:
 	};
 
 	FavAction::List action;
-
 
 private:
 	string nick;

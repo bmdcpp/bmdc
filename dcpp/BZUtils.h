@@ -18,6 +18,7 @@
 
 #ifndef DCPLUSPLUS_DCPP_BZUTILS_H
 #define DCPLUSPLUS_DCPP_BZUTILS_H
+
 #include "typedefs.h"
 #include <bzlib.h>
 

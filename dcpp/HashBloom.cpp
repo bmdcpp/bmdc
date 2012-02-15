@@ -18,9 +18,7 @@
 
 #include "stdinc.h"
 #include "HashBloom.h"
-
 #include <cmath>
-
 #include "MerkleTree.h"
 
 namespace dcpp {
@@ -94,6 +92,5 @@ void HashBloom::copy_to(ByteVector& v) const {
 	for(size_t i = 0; i < bloom.size(); ++i) {
 		v[i/8] |= bloom[i] << (i % 8);
 	}
-}
-
+   }
 }

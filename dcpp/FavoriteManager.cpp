@@ -486,6 +486,8 @@ void FavoriteManager::save() {
 			xml.addChildAttrib("CheckClients", (*i)->getCheckClients());
 			xml.addChildAttrib("CheckFilelists", (*i)->getCheckFilelists());
 			xml.addChildAttrib("Protects", (*i)->getProtectUsers());
+			xml.addChildAttrib("TabText", (*i)->getTabText());
+			xml.addChildAttrib("TabIcon", (*i)->getTabIconStr());
 			//RSX++
 			xml.stepIn();
 			for(FavoriteHubEntry::FavAction::List::const_iterator a = (*i)->action.begin(); a != (*i)->action.end(); ++a) {
@@ -689,6 +691,8 @@ void FavoriteManager::load(SimpleXML& aXml) {
 			e->setCheckClients(Util::toInt(aXml.getChildAttrib("CheckClients")));
 			e->setCheckFilelists(Util::toInt(aXml.getChildAttrib("CheckFilelists")));
 			e->setProtectUsers(aXml.getChildAttrib("Protects"));
+			e->setTabText(aXml.getChildAttrib("TabText"));
+			e->setTabIconStr(aXml.getChildAttrib("TabIcon"));
 			favoriteHubs.push_back(e);
 
 			if(aXml.getBoolChildAttrib("Connect")) {

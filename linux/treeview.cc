@@ -685,7 +685,7 @@ string TreeView::getValueAsText(GtkTreeIter *i, const string &title)
 		        case ICON_STRING:
 		        case ICON_STRING_TEXT_COLOR:
 		        case PIXBUF_STRING:
-		        //case PIXBUF_STRING_TEXT_COLOR:
+		        case PIXBUF_STRING_TEXT_COLOR:
 		             return getString(i, title, m);
 		        case SIZE:
 		        case INT:

@@ -18,13 +18,12 @@
 
 #include "stdinc.h"
 #include "Client.h"
-
 #include "BufferedSocket.h"
-
 #include "FavoriteManager.h"
 #include "TimerManager.h"
 #include "ClientManager.h"
 #include "DebugManager.h"
+#include "PluginManager.h"
 
 namespace dcpp {
 
@@ -94,6 +93,9 @@ void Client::reloadSettings(bool updateNick) {
             setCheckAtConnect(hub->getCheckAtConn());
             setCheckClients(hub->getCheckClients());
             setCheckFilelists(hub->getCheckFilelists());
+            
+            setTabText(hub->getTabText());
+            setTabIconStr(hub->getTabIconStr());
 
 
 	} else {
@@ -108,7 +110,10 @@ void Client::reloadSettings(bool updateNick) {
 		setProtectUser(Util::emptyString);
 		setCheckAtConnect(false);
 		setCheckClients(false);
-        setCheckFilelists(false);
+          setCheckFilelists(false);
+        
+          setTabText(Util::emptyString);
+          setTabIconStr(Util::emptyString);
 	}
 }
 
@@ -142,7 +147,7 @@ void Client::connect() {
 }
 
 void Client::send(const char* aMessage, size_t aLen) {
-	if(!isReady()) {
+	if(!isReady() || PluginManager::getInstance()->onOutgoingHubData(this, aMessage)) {
 		dcassert(0);
 		return;
 	}

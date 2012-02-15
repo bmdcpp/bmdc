@@ -160,7 +160,7 @@ void UserCommandMenu::onUserCommandClick_gui(GtkMenuItem *item, gpointer data)
 	ParamMap params;
 	typedef Func4<UserCommandMenu, string, string, string, ParamMap> F4;
 
-	if (MainWindow::getUserCommandLines_gui(command, params))
+	if (MainWindow::getUserCommandLines_gui(command/*uc*/, params))
 	{
 		string commandName = (gchar *)g_object_get_data(G_OBJECT(item), "name");
 		string hub = (gchar *)g_object_get_data(G_OBJECT(item), "hub");

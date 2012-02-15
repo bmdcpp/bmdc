@@ -101,21 +101,6 @@ void DownloadManager::on(TimerManagerListener::Second, uint64_t aTick) noexcept 
 						dropTargets.push_back(make_pair(d->getPath(), d->getUser()));
 					}
 				}
-				///checkers
-				if (d->getType() == Transfer::TYPE_TESTSUR)
-				{
-					if(d->isSet(Download::FLAG_TESTSUR))
-					{
-						if(((aTick - d->getUserConnection().getLastActivity())/1000) > (uint32_t)SETTING(SDL_TIME))	
-						{
-
-							dropTargets.push_back(make_pair(d->getPath(),d->getUser()));
-
-						}
-					}
-				}	
-				
-					
 			}
 		}
 	}
@@ -422,11 +407,12 @@ void DownloadManager::failDownload(UserConnection* aSource, const string& reason
 	if(d) {
 		removeDownload(d);
 		fire(DownloadManagerListener::Failed(), d, reason);
-		/*...*/
-		if (d->getType() == Transfer::TYPE_FULL_LIST && (reason.find(_("Disconnected")) != string::npos) ) {
+		/**/
+		if (d->getType() == Transfer::TYPE_FULL_LIST && /*reason == _("disconnect")*/(reason.find(_("Disconnected")) != string::npos) ) {
 			ClientManager::getInstance()->fileListDisconnected(aSource->getUser());
 		} else if( d->isSet(Download::FLAG_TESTSUR) ) {
 			if(reason.find(_("No slots available")) != string::npos)
+			//if(reason == _("No slots available"))
 				ClientManager::getInstance()->setCheating(aSource->getUser(), "MaxedOut", "No slots for TestSUR - SlotLocker", -1, true, true, false, true, false);
 			else
 				ClientManager::getInstance()->setCheating(aSource->getUser(), reason, "", -1, false, true, false, true, false);
@@ -544,7 +530,7 @@ void DownloadManager::fileNotAvailable(UserConnection* aSource) {
 		checkDownloads(aSource);
 		return;
 	}
-	//end
+	//end//
 	fire(DownloadManagerListener::Failed(), d, str(F_("%1%: File not available") % d->getTargetFileName()));
 
 	QueueManager::getInstance()->removeSource(d->getPath(), aSource->getUser(), d->getType() == Transfer::TYPE_TREE ? QueueItem::Source::FLAG_NO_TREE : QueueItem::Source::FLAG_FILE_NOT_AVAILABLE, false);

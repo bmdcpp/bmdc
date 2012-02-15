@@ -64,7 +64,7 @@ void ConnectionManager::listen() {
  * @param aUser The user to connect to.
  */
 void ConnectionManager::getDownloadConnection(const HintedUser& aUser) {
-	dcassert((bool)aUser.user);
+	dcassert(aUser.user != NULL);
 	{
 		Lock l(cs);
 		ConnectionQueueItem::Iter i = find(downloads.begin(), downloads.end(), aUser.user);

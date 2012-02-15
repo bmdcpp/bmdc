@@ -91,6 +91,7 @@ class WulforUtil
 		static bool isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, std::string word, bool &tTab, gpointer hub, GtkTextTag *TagsMap[]);
 
 		static std::vector<std::pair<std::string,int> > getActions();
+		static std::string StringToUpper(std::string myString);
 		
 		static const std::string ENCODING_LOCALE;
 		static const std::string commands;
@@ -99,7 +100,7 @@ class WulforUtil
         static void remove_events_internal(GtkWidget *widget, gint events, GList *window_list);
         static std::string generateLeech();
         static void loadmimetypes();
-        static std::string StringToUpper(std::string myString);
+        
 
 		static std::vector<std::string> charsets;
 		static const std::string magnetSignature;

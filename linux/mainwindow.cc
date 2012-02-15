@@ -30,6 +30,7 @@
 #include <dcpp/Upload.h>
 #include <dcpp/Download.h>
 #include <dcpp/ClientManager.h>
+#include <dcpp/MappingManager.h>
 #include <dcpp/UPnPManager.h>//NOTE: core 0.762
 #include <dcpp/GeoManager.h>
 #include <dcpp/HttpDownload.h>
@@ -63,6 +64,8 @@
 #include "uploadqueue.hh"
 #include "recenthub.hh"
 #include "detectiontab.hh"
+
+#include <dcpp/PluginManager.h>
 
 using namespace std;
 using namespace dcpp;
@@ -110,8 +113,8 @@ MainWindow::MainWindow():
 	setToolbarMenu_gui("ignUserMenuItemBar", "ignUser", "toolbar-button-ignore");
 	setToolbarMenu_gui("checknotepad", "notepad", "toolbar-button-notepad");
 	setToolbarMenu_gui("checksystem", "system", "toolbar-button-system");
-	setToolbarMenu_gui("awaycitem","AwayIcon", "toolbar-button-away");
-	setToolbarMenu_gui("limitingcmenu","limitingButton", "toolbar-button-limiting");
+	setToolbarMenu_gui("awaycitem", "AwayIcon", "toolbar-button-away");
+	setToolbarMenu_gui("limitingcmenu", "limitingButton", "toolbar-button-limiting");
 
 	gint pos = 0;
 	ToolbarStyle = 0;
@@ -389,6 +392,7 @@ MainWindow::MainWindow():
 	 string defaultluascript = "startup.lua";
 	 ScriptManager::getInstance()->EvaluateFile(defaultluascript);
 	#endif
+	PluginManager::getInstance()->callHook(HOOK_UI, UI_CREATED, getContainer());
 }
 
 MainWindow::~MainWindow()
@@ -524,14 +528,12 @@ void MainWindow::loadIcons_gui()
 	gtk_image_set_from_stock(GTK_IMAGE(getWidget("imageHubs")), "bmdc-public-hubs", GTK_ICON_SIZE_SMALL_TOOLBAR);
 	gtk_image_set_from_stock(GTK_IMAGE(getWidget("imageDownloadSpeed")), "bmdc-download", GTK_ICON_SIZE_SMALL_TOOLBAR);
 	gtk_image_set_from_stock(GTK_IMAGE(getWidget("imageUploadSpeed")), "bmdc-upload", GTK_ICON_SIZE_SMALL_TOOLBAR);
-//NOTE: core 0.762
 	gtk_image_set_from_stock(GTK_IMAGE(getWidget("imageDownloadRate")), "bmdc-download", GTK_ICON_SIZE_SMALL_TOOLBAR);
 	gtk_image_set_from_stock(GTK_IMAGE(getWidget("imageUploadRate")), "bmdc-upload", GTK_ICON_SIZE_SMALL_TOOLBAR);
 }
 
 void MainWindow::autoOpen_gui()
 {
-//NOTE: core 0.762
 	if (WGETB("open-public"))
 		showPublicHubs_gui();
 	if (WGETB("open-queue"))
@@ -567,13 +569,13 @@ void MainWindow::onLimitingMenuItem_gui(GtkWidget *widget, gpointer data)
 
 	if(type == "up")
 	{
-		ThrottleManager::setSetting(SettingsManager::MAX_UPLOAD_SPEED_MAIN, Util::toInt(speed)/1024);
+		ThrottleManager::setSetting(SettingsManager::MAX_UPLOAD_SPEED_MAIN, Util::toInt(speed)/1024 );
 		mw->setMainStatus_gui(_("Throtle on"), time(NULL));
 		gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(lim),"bmdc-limiting-on");
 	}
 	else if(type == "dw")
 	{
-		ThrottleManager::setSetting(SettingsManager::MAX_DOWNLOAD_SPEED_MAIN, Util::toInt(speed)/1024);
+		ThrottleManager::setSetting(SettingsManager::MAX_DOWNLOAD_SPEED_MAIN, Util::toInt(speed)/1024 );
 		mw->setMainStatus_gui(_("Throtle on"), time(NULL));
 		gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(lim),"bmdc-limiting-on");
 	}
@@ -597,7 +599,7 @@ void MainWindow::onLimitingDisable(GtkWidget *widget, gpointer data)
 	
 	GtkWidget *lim = mw->getWidget("limitingButton");
     mw->setMainStatus_gui(_("Throtle off"), time(NULL));
-    gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(lim),"bmdc-limiting");
+    gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(lim), "bmdc-limiting");
     mw->setStatRate_gui();
 }
 
@@ -704,7 +706,7 @@ void MainWindow::removeBookEntry_gui(BookEntry *entry)
 	}
 }
 
-void MainWindow::removeItemFromList(Entry::EntryType type,string id)
+void MainWindow::removeItemFromList(Entry::EntryType type, string id)
 {
 	vector<Hub*> hubs;
 	vector<PrivateMessage*> pms;
@@ -712,7 +714,7 @@ void MainWindow::removeItemFromList(Entry::EntryType type,string id)
 	switch(type)
 	{
 		case HUB:
-			if(Hubs.empty())break;
+			if(Hubs.empty()) break;
 			 for(vector<Hub*>::const_iterator it = Hubs.begin();it != Hubs.end();++it)
 			 {
 				 Hub *hub = *it;
@@ -724,7 +726,7 @@ void MainWindow::removeItemFromList(Entry::EntryType type,string id)
 			 Hubs = hubs;
 			 break;
 		case PRIVATE_MESSAGE:
-			if(privateMessage.empty())break;
+			if(privateMessage.empty()) break;
 			for(vector<PrivateMessage*>::const_iterator it = privateMessage.begin();it != privateMessage.end();++it)
 			 {
 				 string pId = (dynamic_cast<Entry*>(*it))->getID();
@@ -735,7 +737,7 @@ void MainWindow::removeItemFromList(Entry::EntryType type,string id)
 			 privateMessage = pms;
 			 break;
 		case SEARCH:
-			if(search.empty())break;
+			if(search.empty()) break;
 			for(vector<Search*>::const_iterator it = search.begin();it != search.end();++it)
 			 {
 				 Search *s = *it;
@@ -889,155 +891,77 @@ BookEntry* MainWindow::findBookEntry(const EntryType type, const string &id)
 	return dynamic_cast<BookEntry*>(entry);
 }
 
+template<typename T, typename B>
+void MainWindow::showBook(const T& type, const B& book)
+{ 
+	BookEntry *entry = findBookEntry(type);
+	
+	if(entry == NULL)
+	{
+			entry = book;
+			addBookEntry_gui(entry);	
+	}
+	raisePage_gui(entry->getContainer());
+}
+
 void MainWindow::showDownloadQueue_gui()
 {
-	BookEntry *entry = findBookEntry(Entry::DOWNLOAD_QUEUE);
-
-	if (entry == NULL)
-	{
-		entry = new DownloadQueue();
-		addBookEntry_gui(entry);
-	}
-
-	raisePage_gui(entry->getContainer());
+	showBook<Entry::EntryType,BookEntry *>(Entry::DOWNLOAD_QUEUE,new DownloadQueue());
 }
 
 void MainWindow::showFavoriteHubs_gui()
 {
-	BookEntry *entry = findBookEntry(Entry::FAVORITE_HUBS);
-
-	if (entry == NULL)
-	{
-		entry = new FavoriteHubs();
-		addBookEntry_gui(entry);
-	}
-
-	raisePage_gui(entry->getContainer());
+	showBook<Entry::EntryType, BookEntry *>(Entry::FAVORITE_HUBS, new FavoriteHubs());
 }
 
 void MainWindow::showFavoriteUsers_gui()
 {
-	BookEntry *entry = findBookEntry(Entry::FAVORITE_USERS);
-
-	if (entry == NULL)
-	{
-		entry = new FavoriteUsers();
-		addBookEntry_gui(entry);
-	}
-
-	raisePage_gui(entry->getContainer());
+	showBook<Entry::EntryType, BookEntry *>(Entry::FAVORITE_USERS, new FavoriteUsers());
 }
 //BMDC++
 void MainWindow::showIgnoreUsers_gui()
 {
-	BookEntry *entry = findBookEntry(Entry::IGNORE_USERS);
-
-	if (entry == NULL)
-	{
-		entry = new IgnoreUsers();
-		addBookEntry_gui(entry);
-	}
-
-	raisePage_gui(entry->getContainer());
+	showBook<Entry::EntryType, BookEntry *>(Entry::IGNORE_USERS, new IgnoreUsers());
 }
+
 void MainWindow::showCmdDebug_gui()
 {
-	BookEntry *entry = findBookEntry(Entry::CMD);
-	
-	if(entry == NULL)
-	{
-		entry = new cmddebug();
-		addBookEntry_gui(entry);	
-	}	
-	raisePage_gui(entry->getContainer());
+	showBook<Entry::EntryType, BookEntry *>(Entry::CMD, new cmddebug());
 }
 
 void MainWindow::showSystemLog_gui()
 {
-	BookEntry *entry = findBookEntry(Entry::SYSTEML);
-	
-	if(entry == NULL)
-	{
-		entry = new systemlog();
-		addBookEntry_gui(entry);	
-	}	
-	raisePage_gui(entry->getContainer());
+	showBook<Entry::EntryType, BookEntry *>(Entry::SYSTEML, new systemlog());
 }
 
 void MainWindow::showNotepad_gui()
 {
-	BookEntry *entry = findBookEntry(Entry::NOTEPAD);
-	
-	if(entry == NULL)
-	{
-		entry = new notepad();
-		addBookEntry_gui(entry);	
-	}	
-	raisePage_gui(entry->getContainer());
+	showBook<Entry::EntryType, BookEntry *>(Entry::NOTEPAD, new notepad());
 }
 
 void MainWindow::showUploadQueue_gui()
 {
-	BookEntry *entry = findBookEntry(Entry::UPLOADQUEUE);
-	
-	if(entry == NULL)
-	{
-		entry = new UploadQueue();
-		addBookEntry_gui(entry);	
-	}	
-	raisePage_gui(entry->getContainer());
-	
+	showBook<Entry::EntryType, BookEntry *>(Entry::UPLOADQUEUE, new UploadQueue());
 }
 
 void MainWindow::showRecentHubs_gui()
 {
-	BookEntry *entry = findBookEntry(Entry::RECENT);
-	
-	if(entry == NULL)
-	{
-		entry = new RecentHubs();
-		addBookEntry_gui(entry);
-	}	
-	raisePage_gui(entry->getContainer());
+	showBook<Entry::EntryType, BookEntry *>(Entry::RECENT, new RecentHubs());
 }
 
 void MainWindow::showDetection_gui()
 {
-	BookEntry *entry = findBookEntry(Entry::DETECTION);
-	
-	if(entry == NULL)
-	{
-		entry = new DetectionTab();
-		addBookEntry_gui(entry);
-	}	
-	raisePage_gui(entry->getContainer());
+	showBook<Entry::EntryType, BookEntry *>(Entry::DETECTION, new DetectionTab());
 }
 
-//END
 void MainWindow::showFinishedDownloads_gui()
 {
-	BookEntry *entry = findBookEntry(Entry::FINISHED_DOWNLOADS);
-
-	if (entry == NULL)
-	{
-		entry = FinishedTransfers::createFinishedDownloads();
-		addBookEntry_gui(entry);
-	}
-
-	raisePage_gui(entry->getContainer());
+	showBook<Entry::EntryType, BookEntry *>(Entry::FINISHED_DOWNLOADS, FinishedTransfers::createFinishedDownloads());
 }
 
 void MainWindow::showFinishedUploads_gui()
 {
-	BookEntry *entry = findBookEntry(Entry::FINISHED_UPLOADS);
-
-	if (entry == NULL)
-	{
-		entry = FinishedTransfers::createFinishedUploads();
-		addBookEntry_gui(entry);
-	}
-
-	raisePage_gui(entry->getContainer());
+	showBook<Entry::EntryType, BookEntry *>(Entry::FINISHED_UPLOADS, FinishedTransfers::createFinishedUploads());
 }
 
 void MainWindow::showHub_gui(string address, string encoding)
@@ -1058,28 +982,12 @@ void MainWindow::showHub_gui(string address, string encoding)
 
 void MainWindow::showSearchSpy_gui()
 {
-	BookEntry *entry = findBookEntry(Entry::SEARCH_SPY);
-
-	if (entry == NULL)
-	{
-		entry = new SearchSpy();
-		addBookEntry_gui(entry);
-	}
-
-	raisePage_gui(entry->getContainer());
+	showBook<Entry::EntryType, BookEntry *>(Entry::SEARCH_SPY, new SearchSpy());
 }
 
 void MainWindow::showSearchADL_gui()
 {
-	BookEntry *entry = findBookEntry(Entry::SEARCH_ADL);
-
-	if (entry == NULL)
-	{
-		entry = new SearchADL();
-		addBookEntry_gui(entry);
-	}
-
-	raisePage_gui(entry->getContainer());
+	showBook<Entry::EntryType, BookEntry *>(Entry::SEARCH_ADL, new SearchADL());
 }
 
 void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string hubUrl, string message, bool useSetting)
@@ -1178,15 +1086,7 @@ void MainWindow::addPrivateStatusMessage_gui(Msg::TypeMsg typemsg, string cid, s
 
 void MainWindow::showPublicHubs_gui()
 {
-	BookEntry *entry = findBookEntry(Entry::PUBLIC_HUBS);
-
-	if (entry == NULL)
-	{
-		entry = new PublicHubs();
-		addBookEntry_gui(entry);
-	}
-
-	raisePage_gui(entry->getContainer());
+	showBook<Entry::EntryType, BookEntry *>(Entry::PUBLIC_HUBS, new PublicHubs());
 }
 
 void MainWindow::showShareBrowser_gui(UserPtr user, string filename, string dir, int64_t speed ,bool useSetting)
@@ -1407,8 +1307,154 @@ void MainWindow::setToolbarStyle_gui(int style)
 	}
 }
 
-bool MainWindow::getUserCommandLines_gui(const string &command, ParamMap &ucParams)
+bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucParams)
 {
+	MainWindow *mw = WulforManager::get()->getMainWindow();
+	GtkDialog *dialog =  GTK_DIALOG(gtk_dialog_new_with_buttons ("User Commands Dialog",
+                                         GTK_WINDOW(mw->getContainer()),
+                                         GTK_DIALOG_DESTROY_WITH_PARENT,
+                                         GTK_STOCK_OK,
+                                         GTK_RESPONSE_OK,
+                                         GTK_STOCK_CANCEL,
+                                         GTK_RESPONSE_CANCEL,
+                                         NULL));
+     GtkWidget *content_area = gtk_dialog_get_content_area (dialog);
+     GtkWidget *table = gtk_table_new(1,2,FALSE);
+     gtk_container_add(GTK_CONTAINER(content_area), table);                                                                                 
+
+	string::size_type i = 0;
+	StringList names;
+	
+	vector<Widgets*> WidgList;
+	while((i = commands.find("%[line:", i)) != string::npos) {
+		i += 7;
+		string::size_type j = commands.find(']', i);
+		if(j == string::npos)
+			break;
+		if(j == string::npos && i == string::npos)
+			break;	
+
+		const string name = commands.substr(i, j - i);
+		if(find(names.begin(), names.end(), name) == names.end()) {
+			string caption = name;
+			/*if(uc->adc()) {
+				Util::replace("\\\\", "\\", caption);
+				Util::replace("\\s", " ", caption);
+			}
+		*/
+			// let's break between slashes (while ignoring double-slashes) to see if it's a combo
+			int combo_sel = -1;
+			string combo_caption = caption;
+			Util::replace("//", "\t", combo_caption);
+			StringList combo_values = StringTokenizer<string>(combo_caption, '/').getTokens();
+			if(combo_values.size() > 2) { // must contain at least: caption, default sel, 1 value
+
+				auto first = combo_values.begin();
+				combo_caption = *first;
+				combo_values.erase(first);
+
+				auto sec = combo_values.begin();
+				combo_sel = Util::toInt(Text::fromT(*sec)); 
+				if(combo_values.empty())
+				{ combo_sel = -1; }
+				
+				combo_values.erase(first);
+				if(static_cast<size_t>(combo_sel) >= combo_values.size())
+					combo_sel = -1; // default selection value too high
+			}
+
+			if(combo_sel >= 0) {
+				for(auto i = combo_values.begin(), iend = combo_values.end(); i != iend; ++i)
+					Util::replace("\t", "/", *i);
+
+				// if the combo has already been displayed before, retrieve the prev value and bypass combo_sel
+				auto prev = find(combo_values.begin(), combo_values.end(), boost::get<string>(ucParams["line:" + name]));
+				if(prev != combo_values.end())
+					combo_sel = prev - combo_values.begin();
+					
+				GtkWidget *comboBox = gtk_combo_box_new_text();
+				
+				while(!combo_values.empty()) {
+					gtk_combo_box_append_text(GTK_COMBO_BOX(comboBox), combo_values.back().c_str() );
+					combo_values.pop_back();
+				}
+				gtk_combo_box_set_active(GTK_COMBO_BOX(comboBox),combo_sel);
+				GtkWidget *label =  gtk_label_new(combo_caption.c_str());
+				Widgets *wid = new Widgets();
+				wid->widget = comboBox;
+				wid->label = label;
+				WidgList.push_back(wid);
+				guint row = 0; guint acolums = 0;
+				gtk_table_get_size(GTK_TABLE(table),&row,&acolums);
+				if(row > 1 && acolums > 1)
+					gtk_table_resize(GTK_TABLE(table),row+1,acolums+1);
+				gtk_table_attach_defaults(GTK_TABLE(table),label, acolums, acolums+1,row,row+1);
+				gtk_table_attach_defaults(GTK_TABLE(table),comboBox, acolums+1, acolums+2,row,row+1);
+				gtk_widget_show(label);
+				gtk_widget_show(comboBox);
+				
+		  } else {
+				GtkWidget *label = gtk_label_new(caption.c_str());
+				GtkWidget *entry = gtk_entry_new();
+				gtk_entry_set_text(GTK_ENTRY(entry),boost::get<string>(ucParams["line:"+ name]).c_str());
+				Widgets *wid = new Widgets();
+				wid->widget = entry;
+				wid->label = label;
+				WidgList.push_back(wid);
+				guint row = 0;guint acolums= 0;
+				gtk_table_get_size(GTK_TABLE(table),&row,&acolums);
+				if(row > 1 && acolums > 1)
+					gtk_table_resize(GTK_TABLE(table),row+1,acolums+1);
+				gtk_table_attach_defaults(GTK_TABLE(table),label,acolums,acolums+1,row,row+1);
+				gtk_table_attach_defaults(GTK_TABLE(table),entry,acolums+1,acolums+2,row,row+1);	
+								
+				gtk_widget_show(label);
+				gtk_widget_show(entry);
+			}
+			gtk_widget_show_all(table);
+			names.push_back(name);
+		}
+		i = j + 1;
+	}
+
+	if(names.empty())
+		return true;
+	gint response = gtk_dialog_run(dialog);
+
+   // Fix crash, if the dialog gets programmatically destroyed.
+	if (response == GTK_RESPONSE_NONE)
+		return false;
+	if (response == GTK_RESPONSE_OK)
+	{
+		for(size_t i = 0, iend = WidgList.size(); i < iend; ++i) 
+		{
+			Widgets *wid = WidgList[i];
+			
+			if(wid->label != NULL)
+				const gchar * name = gtk_label_get_text(GTK_LABEL(wid->label));
+			else continue;
+		   if(wid->widget == NULL)
+				continue;					
+			if(GTK_IS_COMBO_BOX(wid->widget))
+			{
+				const gchar *value = gtk_combo_box_get_active_text(GTK_COMBO_BOX(wid->widget));	
+				ucParams["line:"+names[i]] = string (value);
+			}
+			else if( GTK_IS_ENTRY(wid->widget))
+			{
+				const gchar *value = gtk_entry_get_text(GTK_ENTRY(wid->widget));
+				ucParams["line:"+names[i]] = string(value);
+			}
+			else { return true;}
+			
+			WidgList.pop_back();
+		}
+		gtk_widget_destroy(GTK_WIDGET(dialog));
+		return true;
+	}
+	gtk_widget_destroy(GTK_WIDGET(dialog));
+	return false;
+	/*
 	string name;
 	string label;
 	string line;
@@ -1426,6 +1472,8 @@ bool MainWindow::getUserCommandLines_gui(const string &command, ParamMap &ucPara
 			break;
 
 		name = command.substr(i, j - i);
+		
+		
 		if (done.find(name) == done.end())
 		{
 			line.clear();
@@ -1456,8 +1504,8 @@ bool MainWindow::getUserCommandLines_gui(const string &command, ParamMap &ucPara
 		}
 		i = j + 1;
 	}
-
-	return true;
+*/
+//	return true;
 }
 
 void MainWindow::propertiesMagnetDialog_gui(string magnet)
@@ -1751,7 +1799,6 @@ gboolean MainWindow::onCloseWindow_gui(GtkWidget *widget, GdkEvent *event, gpoin
 gboolean MainWindow::onDeleteEventMagnetDialog_gui(GtkWidget *dialog, GdkEvent *event, gpointer data)
 {
 	gtk_widget_hide(dialog);
-
 	return TRUE;
 }
 
@@ -2043,7 +2090,6 @@ void MainWindow::onDetectionClicked_gui(GtkWidget *widget, gpointer data)
 	mw->showDetection_gui();
 }
 //]
-
 void MainWindow::onPublicHubsClicked_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
@@ -2067,11 +2113,12 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 
 	if (response == GTK_RESPONSE_OK)
 	{
-		if(SETTING(TLS_PORT) == SETTING(TCP_PORT))
+		if(SETTING(TLS_PORT) == SETTING(TCP_PORT) && SETTING(INCOMING_CONNECTIONS) != SettingsManager::INCOMING_FIREWALL_PASSIVE)
 	    {
             mw->showMessageDialog_gui(_("Not Alowed same number of port for TLS and TCP"),
                                   _("Not Alowed same number of port for TLS and TCP,please chose for one of it another port")
                                   );
+            return;                      
 		}
 		
 		if (SETTING(INCOMING_CONNECTIONS) != lastConn || SETTING(TCP_PORT) != tcpPort || SETTING(UDP_PORT) != udpPort)
@@ -2789,7 +2836,7 @@ void MainWindow::onReconectAllHub_gui(GtkWidget *widget, gpointer data)
 
 	for(vector<Hub*>::const_iterator i= mw->Hubs.begin(); i != mw->Hubs.end();++i)
 	{
-		Hub * hub = *i;
+		Hub *hub = *i;
 		hub->reconnect_p();
 	}
 }
@@ -2814,4 +2861,3 @@ void MainWindow::onCloseAlloffPM_gui(GtkWidget *widget, gpointer data)
 	mw->privateMessage.clear();
 	mw->privateMessage = noff;
 }
-

@@ -29,6 +29,7 @@
 #include <dcpp/ShareManager.h>
 #include <dcpp/StringTokenizer.h>
 #include <dcpp/BackupManager.h>
+#include <dcpp/PluginManager.h>
 #include "settingsmanager.hh"
 #include "sound.hh"
 #include "notify.hh"
@@ -214,6 +215,7 @@ Settings::Settings(GtkWindow* parent):
 	initBandwidthLimiting_gui(); //NOTE: core 0.762
 	initSearchTypes_gui(); //NOTE: core 0.770
 	initHighlighting_gui();//NOTE: BMDC++
+	initPlugins_gui();
 }
 
 Settings::~Settings()
@@ -1659,6 +1661,114 @@ void Settings::initHighlighting_gui()//NOTE: BMDC++
 	onToggledHGSound_gui(NULL, (gpointer)this);
 	onToggledHGText_gui(NULL, (gpointer)this);
 }
+
+void Settings::initPlugins_gui()
+{
+	GtkTreeIter iter;
+	plView.setView(GTK_TREE_VIEW(getWidget("PluginsTree")));
+	plView.insertColumn("Name", G_TYPE_STRING, TreeView::STRING, 100);
+	plView.insertColumn("Description", G_TYPE_STRING, TreeView::STRING, 100);
+	plView.insertColumn("Version", G_TYPE_STRING, TreeView::STRING, 100);
+	plView.insertHiddenColumn("Index", G_TYPE_STRING);
+	plView.finalize();
+	
+	plStore = gtk_list_store_newv(plView.getColCount(), plView.getGTypes());
+	gtk_tree_view_set_model(plView.get(), GTK_TREE_MODEL(plStore));
+	g_object_unref(plStore);
+
+	plselection = gtk_tree_view_get_selection(plView.get());
+	
+	const auto& list = PluginManager::getInstance()->getPluginList();
+	int j = 0;
+    for(auto i = list.cbegin(), iend = list.cend() ; i != iend; ++i) {
+       const MetaData& info = (*i)->getInfo();
+
+		gtk_list_store_append(plStore,&iter);
+			gtk_list_store_set(plStore,&iter,
+				     plView.col("Name"),info.name,
+					 plView.col("Description"),info.description,
+					 plView.col("Version"), Util::toString(info.version).c_str(),
+					 plView.col("Index"), Util::toString(j++).c_str() ,
+					-1);
+	}
+	
+	g_signal_connect(getWidget("buttonPLAdd"), "clicked", G_CALLBACK(onAddPluginTo_gui), (gpointer)this);
+	g_signal_connect(getWidget("buttonPLrem"), "clicked", G_CALLBACK(onRemPluginFrom_gui), (gpointer)this);
+	g_signal_connect(getWidget("buttonPLConfig"), "clicked", G_CALLBACK(onConfigurePlugin_gui), (gpointer)this);
+	
+}
+
+void Settings::onAddPluginTo_gui(GtkWidget *widget, gpointer data)
+{
+	Settings *s = (Settings *)data;
+	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(s->getWidget("fileChooserDialog")), GTK_FILE_CHOOSER_ACTION_OPEN);
+	gint response = gtk_dialog_run(GTK_DIALOG(s->getWidget("fileChooserDialog")));
+	gtk_widget_hide(s->getWidget("fileChooserDialog"));
+
+	if (response == GTK_RESPONSE_OK)
+	{
+		gchar *path = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(s->getWidget("fileChooserDialog")));
+
+		if (path)
+		{
+			size_t idx = PluginManager::getInstance()->getPluginList().size();
+			if(PluginManager::getInstance()->loadPlugin(string(path), true)) {
+				const MetaData& info = PluginManager::getInstance()->getPlugin(idx)->getInfo();
+				s->addToGuiPlg(info);
+	
+			}
+		}
+	}		
+}
+
+void Settings::onRemPluginFrom_gui(GtkWidget *widget, gpointer data)
+{
+	Settings *s = (Settings *)data;
+	GtkTreeIter iter;
+	if (gtk_tree_selection_get_selected(s->plselection, NULL, &iter))
+	{	
+		gint sel = Util::toInt(s->plView.getString(&iter, "Index"));
+		typedef Func1<Settings, int> F1;
+		F1	*func = new F1(s,&Settings::RemovePlg_client,sel);
+		WulforManager::get()->dispatchClientFunc(func);
+	}
+}
+void Settings::RemovePlg_client(int sel)
+{PluginManager::getInstance()->unloadPlugin(sel);}
+
+void Settings::onConfigurePlugin_gui(GtkWidget *widget, gpointer data)
+{
+	Settings *s = (Settings *)data;
+	GtkTreeIter iter;
+	if(gtk_tree_selection_get_selected(s->plselection, NULL, &iter))
+	{
+		gint sel = Util::toInt(s->plView.getString(&iter, "Index"));
+		const PluginInfo *p = PluginManager::getInstance()->getPlugin(sel);
+		if(!p->mainHook(ON_CONFIGURE, s->getContainer())) {
+			GtkDialog *dialog =  GTK_DIALOG(gtk_message_dialog_new (GTK_WINDOW(s->getContainer()),
+                                 GTK_DIALOG_DESTROY_WITH_PARENT,
+                                 GTK_MESSAGE_ERROR,
+                                 GTK_BUTTONS_CLOSE,
+                                 "%s Plugin doesnt need configuration", string(p->getInfo().name).c_str()));
+					
+			gtk_dialog_run(dialog);	
+			gtk_widget_destroy(GTK_WIDGET(dialog));											
+		}
+	}
+}
+
+void Settings::addToGuiPlg(const MetaData &info)
+{
+	GtkTreeIter iter;
+	gtk_list_store_append(plStore,&iter);
+				gtk_list_store_set(plStore,&iter,
+				     plView.col("Name"),info.name,
+					 plView.col("Description"),info.description,
+					 plView.col("Version"), Util::toString(info.version).c_str(),
+					-1);	
+}
+
+
 void Settings::initLog_gui()
 {
 	g_signal_connect(getWidget("logBrowseButton"), "clicked", G_CALLBACK(onLogBrowseClicked_gui), (gpointer)this);

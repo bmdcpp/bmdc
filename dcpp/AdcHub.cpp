@@ -36,7 +36,7 @@
 #include "ThrottleManager.h"
 #include "UploadManager.h"
 #include "format.h"
-
+#include "PluginManager.h"
 #include <cmath>
 
 namespace dcpp {
@@ -274,9 +274,11 @@ void AdcHub::handle(AdcCommand::MSG, AdcCommand& c) noexcept {
 			return;
 
 		message.replyTo = findUser(AdcCommand::toSID(temp));
-		if(!message.replyTo)
+		if(!message.replyTo|| PluginManager::getInstance()->onIncomingPM(message.replyTo, message.text))
 			return;
-	}
+			
+	}else if(PluginManager::getInstance()->onIncomingChat(this, message.text))
+		return;
 
 	message.thirdPerson = c.hasFlag("ME", 1);
 
@@ -653,17 +655,17 @@ void AdcHub::handle(AdcCommand::RNT, AdcCommand& c) noexcept {
 void AdcHub::handle(AdcCommand::ZON, AdcCommand& c) noexcept {
 	try {
 			sock->setMode(BufferedSocket::MODE_ZPIPE);
-		} catch (const Exception& e) {
+	} catch (const Exception& e) {
 			dcdebug("AdcHub::handleZON failed with error: %s\n", e.getError().c_str());
-		}
+	}
 }
 
 void AdcHub::handle(AdcCommand::ZOF, AdcCommand& c) noexcept {
 	try {
 			sock->setMode(BufferedSocket::MODE_LINE);
-		} catch (const Exception& e) {
+	} catch (const Exception& e) {
 			dcdebug("AdcHub::handleZOF failed with error: %s\n", e.getError().c_str());
-		}
+	}
 }
 
 void AdcHub::connect(const OnlineUser& user, const string& token) {
@@ -703,7 +705,7 @@ void AdcHub::connect(const OnlineUser& user, string const& token, bool secure) {
 }
 
 void AdcHub::hubMessage(const string& aMessage, bool thirdPerson) {
-	if(state != STATE_NORMAL)
+	if(state != STATE_NORMAL || PluginManager::getInstance()->onOutgoingChat(this, aMessage))
 		return;
 	AdcCommand c(AdcCommand::CMD_MSG, AdcCommand::TYPE_BROADCAST);
 	c.addParam(aMessage);
@@ -713,7 +715,7 @@ void AdcHub::hubMessage(const string& aMessage, bool thirdPerson) {
 }
 
 void AdcHub::privateMessage(const OnlineUser& user, const string& aMessage, bool thirdPerson) {
-	if(state != STATE_NORMAL)
+	if(state != STATE_NORMAL || PluginManager::getInstance()->onOutgoingPM(user, aMessage))
 		return;
 	AdcCommand c(AdcCommand::CMD_MSG, user.getIdentity().getSID(), AdcCommand::TYPE_ECHO);
 	c.addParam(aMessage);
@@ -986,13 +988,13 @@ void AdcHub::info(bool /*alwaysSend*/) {
 		updateCounts(false);
 	}
 	
-	bool gslotf = BOOLSETTING(SHOW_FREE_SLOTS_DESC);
-    string gslot = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
+	bool isfreeslots = BOOLSETTING(SHOW_FREE_SLOTS_DESC);
+     string fslots = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
 
 	addParam(lastInfoMap, c, "ID", ClientManager::getInstance()->getMyCID().toBase32());
 	addParam(lastInfoMap, c, "PD", ClientManager::getInstance()->getMyPID().toBase32());
 	addParam(lastInfoMap, c, "NI", getCurrentNick());
-	addParam(lastInfoMap, c, "DE", gslotf ? gslot + " " + getCurrentDescription() : getCurrentDescription());
+	addParam(lastInfoMap, c, "DE", isfreeslots ? fslots + " " + getCurrentDescription() : getCurrentDescription());
 	addParam(lastInfoMap, c, "SL", Util::toString(SETTING(SLOTS)));
 	addParam(lastInfoMap, c, "FS", Util::toString(UploadManager::getInstance()->getFreeSlots()));
 	addParam(lastInfoMap, c, "SS", getHideShare() ? "0" : ShareManager::getInstance()->getShareSizeString());
@@ -1117,6 +1119,8 @@ void AdcHub::on(Line l, const string& aLine) noexcept {
 		// @todo report to user?
 		return;
 	}
+	if(PluginManager::getInstance()->onIncomingHubData(this, aLine))
+		return;
 
 	if(BOOLSETTING(ADC_DEBUG)) {
 		fire(ClientListener::StatusMessage(), this, "<ADC>" + aLine + "</ADC>");

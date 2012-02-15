@@ -31,6 +31,7 @@
 #ifdef _USELUA
     #include "ScriptManager.h"
 #endif
+#include "PluginManager.h"
 
 namespace dcpp {
 #ifdef _USELUA
@@ -169,7 +170,7 @@ public:
 	bool isTrusted() const { return socket && socket->isTrusted(); }
 	std::string getCipherName() const { return socket ? socket->getCipherName() : Util::emptyString; }
 	vector<uint8_t> getKeyprint() const { return socket ? socket->getKeyprint() : vector<uint8_t>(); }
-
+	const string getPort() const { if(socket) return socket->getPort(); else return 0; }
 	string getRemoteIp() const { return socket->getIp(); }
 	Download* getDownload() { dcassert(isSet(FLAG_DOWNLOAD)); return download; }
 	void setDownload(Download* d) { dcassert(isSet(FLAG_DOWNLOAD)); download = d; }

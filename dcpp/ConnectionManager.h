@@ -40,10 +40,10 @@ public:
 	typedef List::iterator Iter;
 
 	enum State {
-		CONNECTING,					// Recently sent request to connect
+		CONNECTING,				// Recently sent request to connect
 		WAITING,					// Waiting to send request to connect
 		NO_DOWNLOAD_SLOTS,			// Not needed right now
-		ACTIVE						// In one up/downmanager
+		ACTIVE					// In one up/downmanager
 	};
 
 	ConnectionQueueItem(const HintedUser& aUser, bool aDownload) : token(Util::toString(Util::rand())),

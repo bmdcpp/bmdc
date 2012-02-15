@@ -25,7 +25,7 @@
 namespace dcpp {
 class ColorSettings
 {
-public:
+  public:
 	ColorSettings(): bUsingRegexp(false), strMatch(Util::emptyString), strSoundFile(Util::emptyString), bIncludeNick(false), bCaseSensitive(false), bPopup(false), bTab(false),
 		bPlaySound(false), bBold(false), bUnderline(false), bItalic(false), 
 		bNoti(Util::emptyString), iMatchType(1), iBgColor(Util::emptyString), iFgColor(Util::emptyString), bHasBgColor(false),
@@ -64,6 +64,6 @@ private:
 
 	bool bUsingRegexp;
 
-};
+   };
 }
 #endif

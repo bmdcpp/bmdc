@@ -2,7 +2,7 @@ This work was packaged for Debian by:
 
     Mank <freedcpp@seznam.cz> 
 
-It was downloaded from <http://bmdc.no-ip.sk>
+It was downloaded from <http://launchpad.net/bmdc++>
 
 Upstream Author(s):
 
@@ -10,12 +10,12 @@ Upstream Author(s):
 
 Copyright:
 
-    <Copyright (C) 2010 Mank>
+    <Copyright (C) 2010-2012 Mank>
     <Copyright (C) branec>
 
 License:
 
-    <   GPLv3  >
+    <GPLv3>
 
 The Debian packaging is:
 

@@ -37,7 +37,6 @@
 namespace dcpp {
 
 using std::list;
-	
 class NmdcHub;
 #ifdef _USELUA
 struct NmdcHubScriptInstance: public ScriptInstance {
@@ -66,6 +65,7 @@ public:
 	virtual size_t getUserCount() const { Lock l(cs); return users.size(); }
 	virtual int64_t getAvailable() const;
 	
+	virtual void emulateCommand(const string& cmd) { onLine(cmd); }
 	virtual void refreshuserlist(bool);
 	
 	void getUserList(OnlineUserList& list) const {

@@ -47,6 +47,7 @@
 #include "RawManager.h"
 #include "BackupManager.h"
 #include "HighlightManager.h"
+#include "PluginManager.h"
 #include "RsxUtil.h"
 
 #ifdef _STLP_DEBUG
@@ -97,6 +98,7 @@ void startup(void (*f)(void*, const string&), void* p) {
 	MappingManager::newInstance();
 	GeoManager::newInstance();
 	WindowManager::newInstance();
+	PluginManager::newInstance();
 	DebugManager::newInstance();
 	UPnPManager::newInstance();
 #ifdef _USELUA	 
@@ -140,6 +142,8 @@ void startup(void (*f)(void*, const string&), void* p) {
 	announce(_("Download Queue"));
 	QueueManager::getInstance()->loadQueue();
 
+	PluginManager::getInstance()->loadPlugins(f, p);
+
 	if(BOOLSETTING(GET_USER_COUNTRY)) {
 		announce(_("Country information"));
 		GeoManager::getInstance()->init();
@@ -158,8 +162,9 @@ void startup(void (*f)(void*, const string&), void* p) {
 void shutdown() {
 	RsxUtil::uinit();
 	RestoreManager::deleteInstance();
-    BackupManager::deleteInstance();
-    DebugManager::deleteInstance();
+     BackupManager::deleteInstance();
+     DebugManager::deleteInstance();
+     PluginManager::getInstance()->unloadPlugins();
 	TimerManager::getInstance()->shutdown();
 	ThrottleManager::getInstance()->shutdown();//..
 	

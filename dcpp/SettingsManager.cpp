@@ -377,7 +377,7 @@ SettingsManager::SettingsManager()
     
     setDefault(USE_SDL_KICK, true);
     
-    setDefault(CHECK_DELAY, 10);
+    setDefault(CHECK_DELAY, 60);
     setDefault(MAX_TESTSURS, 20);
     setDefault(MAX_FILELISTS, 20);
     setDefault(MAX_DISCONNECTS, 50);
@@ -403,9 +403,7 @@ SettingsManager::SettingsManager()
     
     setDefault(FILELIST_NA_RAW, 0);
     setDefault(SHOW_FILELIST_NA, true);
-
 	//]
-
 	setSearchTypeDefaults();
 
 #ifdef _WIN32
@@ -701,7 +699,7 @@ SettingsManager::SearchTypesIter SettingsManager::getSearchType(const string& na
 	return ret;
 }
 
-bool SettingsManager::getType(const char* name, int& n, int& type) const {
+bool SettingsManager::getType(const char* name, int& n, Types& type) const {
 	for(n = 0; n < INT64_LAST; n++) {
 
 		if(strcmp(settingTags[n].c_str(), name) == 0) {
@@ -725,7 +723,8 @@ bool SettingsManager::getType(const char* name, int& n, int& type) const {
 const string SettingsManager::parseCoreCmd(const string cmd) {
 	StringTokenizer<string> sl(cmd, ' ');
 	if (sl.getTokens().size() == 2) {
-			int n,type;
+			int n;
+			SettingsManager::Types type;
 			getType(sl.getTokens().at(0).c_str(),n,type);
            if (type == SettingsManager::TYPE_INT) {
                 int i = atoi(sl.getTokens().at(1).c_str());

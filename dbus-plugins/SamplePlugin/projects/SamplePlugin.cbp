@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="SamplePlugin" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug Win32">
+				<Option output="../../compiled/SamplePlugin/SamplePlugin" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../../tmp.out/Win32/MinGW/Debug/SamplePlugin" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option host_application="../../../compiled/ApexDC.exe" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-pedantic" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-O0" />
+					<Add option="-shared" />
+					<Add option="-DWIN32" />
+					<Add option="-D_DEBUG" />
+					<Add option="-DUNICODE" />
+					<Add option="-D_UNICODE" />
+					<Add directory="../../include" />
+				</Compiler>
+				<Linker>
+					<Add option="-Wl" />
+				</Linker>
+			</Target>
+			<Target title="Release Win32">
+				<Option output="../../compiled/SamplePlugin/SamplePlugin" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../../tmp.out/Win32/MinGW/Release/SamplePlugin" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-O3" />
+					<Add option="-Wall" />
+					<Add option="-shared" />
+					<Add option="-DWIN32" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DUNICODE" />
+					<Add option="-D_UNICODE" />
+					<Add directory="../../include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-Wl,-fPIC" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="../Plugin.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../Plugin.h" />
+		<Unit filename="../SamplePlugin.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Unit filename="../main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../resource.h" />
+		<Unit filename="../stdafx.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../stdafx.h" />
+		<Unit filename="../version.h" />
+		<Extensions>
+			<code_completion />
+			<debugger>
+				<search_path add="..\..\include" />
+				<search_path add="..\..\compiled\SamplePlugin" />
+			</debugger>
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

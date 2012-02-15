@@ -46,9 +46,11 @@ public:
 	typedef X<16> SearchFlood;
 	typedef X<17> NmdcSearch;
 	typedef X<18> AdcSearch;
+	//...
 	typedef X<19> CheatMessage;
 	typedef X<20> HubTopic;
 	typedef X<22> HubIcon;
+	typedef X<23> ClientLine;
 
 	enum StatusFlags {
 		FLAG_NORMAL = 0x00,
@@ -75,6 +77,7 @@ public:
 	virtual void on(CheatMessage, Client*, const string&) noexcept { }
 	virtual void on(HubTopic, Client*, const string&) noexcept { }
 	virtual void on(HubIcon, Client*, const string&) noexcept { }//$SetIcon
+	virtual void on(ClientLine, Client*, const string&, unsigned int&) noexcept { }//PlgInfo
 };
 
 } // namespace dcpp

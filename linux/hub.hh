@@ -160,6 +160,7 @@ class Hub:
 		static void onCopyHubUrl(gpointer data);
 		static void onAddFavItem(gpointer data);
 		static void onRemoveFavHub(gpointer data);
+		static void onSetTabText(gpointer data);
 		static void onAddIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onRemoveIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onShowReportClicked_gui(GtkMenuItem *item, gpointer data);
@@ -173,6 +174,9 @@ class Hub:
 		static void onUnProtectUserClicked_gui(GtkMenuItem *item , gpointer data);
 		static void onProtectUserClicked_gui(GtkMenuItem *item , gpointer data);
 		static void onRefreshUserListClicked_gui(GtkWidget *wid, gpointer data);
+		
+		static void on_setImage_tab(GtkButton *widget, gpointer data);
+		static void onToglleButtonIcon(GtkToggleButton *button, gpointer data);
 
 		// Client functions
 		void addFavoriteUser_client(const std::string cid);
@@ -202,6 +206,7 @@ class Hub:
 		void setHubIcon_gui(std::string url);
 		void updateIcons();
 		void removeIgnore_gui(ParamMap params);
+		void SetTabText(gpointer data);
 
 		// Favorite callbacks
 		virtual void on(dcpp::FavoriteManagerListener::UserAdded, const dcpp::FavoriteUser &user) throw();
@@ -226,7 +231,7 @@ class Hub:
 		virtual void on(dcpp::ClientListener::CheatMessage, dcpp::Client *, const std::string &msg) noexcept;
 		virtual void on(dcpp::ClientListener::HubTopic, dcpp::Client *, const std::string &top) noexcept;
 		virtual void on(dcpp::ClientListener::HubIcon, dcpp::Client *, const std::string &url) noexcept;
-
+		virtual void on(dcpp::ClientListener::ClientLine, dcpp::Client* , const std::string &mess, unsigned int &type) noexcept;
 		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) throw();
 
 		UserMap userMap, userOpMap, userPasiveMap, userIgnoreMap, userProtectMap;
@@ -271,8 +276,10 @@ class Hub:
 		std::queue<std::string> statustext;
 		std::string ip;
 		std::unique_ptr<dcpp::HttpDownload> iconshttp;
-};
-
+		GtkWidget *tab_image;
+		GtkWidget *tab_button;
+		
+};		
 #else
 class Hub;
 #endif

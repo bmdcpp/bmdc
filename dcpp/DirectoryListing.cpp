@@ -180,17 +180,16 @@ void ListLoader::startTag(const string& name, StringPairList& attribs, bool simp
 			string l_br;
 			MediaInfo l_mediaXY;
 			const string& l_ts = getAttrib(attribs, sTS, 3);
+			
 			if(l_ts.size()) // Extended tags - exists only FlylinkDC++ or StrongDC++ sqlite or clones
 			{
-			 l_br = getAttrib(attribs, sBR, 4);
-			 l_mediaXY.init(getAttrib(attribs, sWH, 3), atoi(l_br.c_str()));
-			 l_mediaXY.m_audio = getAttrib(attribs, sMAudio, 3);
-	         l_mediaXY.m_video = getAttrib(attribs, sMVideo, 3);
+				l_br = getAttrib(attribs, sBR, 4);
+				l_mediaXY.init(getAttrib(attribs, sWH, 3), atoi(l_br.c_str()));
+				l_mediaXY.m_audio = getAttrib(attribs, sMAudio, 3);
+				l_mediaXY.m_video = getAttrib(attribs, sMVideo, 3);
 			}
 
-			//DirectoryListing::File* f = new DirectoryListing::File(cur, n, size, tth);
 			DirectoryListing::File* f = new DirectoryListing::File(cur, n, size, tth,atoi(l_ts.c_str()),l_mediaXY);
-			
 			
 			cur->files.push_back(f);
 
@@ -246,7 +245,7 @@ void ListLoader::startTag(const string& name, StringPairList& attribs, bool simp
 		cur->setComplete(true);
 		inListing = true;
 		//
-        string generator = getAttrib(attribs, sGenerator, 2);
+          string generator = getAttrib(attribs, sGenerator, 2);
 		string fileCID = getAttrib(attribs, sCID, 3);
 		string base = getAttrib(attribs, sBase, 4);
 		ClientManager::getInstance()->setGenerator(user, generator, fileCID, base);

@@ -32,7 +32,7 @@ class CID {
 public:
 	enum { SIZE = 192 / 8 };
 
-	CID() { memset(cid, 0, sizeof(cid)); }
+	CID() { memset(cid, (uint8_t)0, sizeof(cid)); }
 	explicit CID(const uint8_t* data) { memcpy(cid, data, sizeof(cid)); }
 	explicit CID(const string& base32) { Encoder::fromBase32(base32.c_str(), cid, sizeof(cid)); }
 

@@ -33,6 +33,7 @@
 #include "UserCommand.h"
 #include "StringTokenizer.h"
 #include "format.h"
+#include "PluginManager.h"
 
 namespace dcpp {
 
@@ -42,7 +43,6 @@ supportFlags(0),
 lastUpdate(0),
 lastProtectedIPsUpdate(0)
 {
-	
 }
 
 NmdcHub::~NmdcHub() {
@@ -226,7 +226,10 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 
 			chatMessage.from = &o;
 		}
-
+		
+		if(PluginManager::getInstance()->onIncomingChat(this, chatMessage.text))
+			return;
+			
 		fire(ClientListener::Message(), this, chatMessage);
 		return;
 	}
@@ -740,6 +743,9 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			message.replyTo = findUser(rtNick);
 			message.from = findUser(fromNick);
 		}
+		
+		if(PluginManager::getInstance()->onIncomingPM(message.replyTo, message.text))
+			return;
 
 		fire(ClientListener::Message(), this, message);
 	} else if(cmd == "$GetPass") {
@@ -794,7 +800,8 @@ void NmdcHub::revConnectToMe(const OnlineUser& aUser) {
 
 void NmdcHub::hubMessage(const string& aMessage, bool thirdPerson) {
 	checkstate();
-	send(fromUtf8( "<" + getMyNick() + "> " + escape(thirdPerson ? "/me " + aMessage : aMessage) + "|" ) );
+	if(!PluginManager::getInstance()->onOutgoingChat(this, aMessage))
+		send(fromUtf8( "<" + getMyNick() + "> " + escape(thirdPerson ? "/me " + aMessage : aMessage) + "|" ) );
 }
 
 void NmdcHub::myInfo(bool alwaysSend) {
@@ -928,6 +935,9 @@ void NmdcHub::privateMessage(const string& nick, const string& message) {
 
 void NmdcHub::privateMessage(const OnlineUser& aUser, const string& aMessage, bool /*thirdPerson*/) {
 	checkstate();
+	
+	if(PluginManager::getInstance()->onOutgoingPM(aUser, aMessage))
+		return;
 
 	privateMessage(aUser.getIdentity().getNick(), aMessage);
 	// Emulate a returning message...
@@ -987,6 +997,8 @@ void NmdcHub::on(Connected) noexcept {
 }
 
 void NmdcHub::on(Line, const string& aLine) noexcept {
+    if(PluginManager::getInstance()->onIncomingHubData(this, validateMessage(aLine, true)))
+		return;
     #ifdef _USELUA
 		if (onClientMessage(this, validateMessage(aLine, true)))
 			return;

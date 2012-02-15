@@ -118,7 +118,7 @@ public:
 	void privateMessage(const HintedUser& user, const string& msg, bool thirdPerson);
 	void userCommand(const HintedUser& user, const UserCommand& uc, ParamMap& params, bool compatibility);
   #ifdef _USELUA
-	  static bool ucExecuteLua(const string& cmd,ParamMap& params);
+	static bool ucExecuteLua(const string& cmd,ParamMap& params);
   #endif
 	//bool isActive() const;
 	Lock lock() { return Lock(cs); }

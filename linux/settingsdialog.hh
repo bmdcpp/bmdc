@@ -27,6 +27,8 @@
 #include <dcpp/SettingsManager.h>
 #include <dcpp/UserCommand.h>
 #include <dcpp/HighlightManager.h>
+#include <dcpp/PluginDefs.h>
+#include <dcpp/PluginManager.h>
 
 #include "dialogentry.hh"
 #include "treeview.hh"
@@ -76,6 +78,7 @@ class Settings:
 		void initBandwidthLimiting_gui();//NOTE: core 0.762
 		void initSearchTypes_gui();//NOTE: core 0.770
 		void initHighlighting_gui();//NOTE: BMDC++
+		void initPlugins_gui();
 		
 		void addShare_gui(std::string path, std::string name, int64_t size);
 		void selectTextColor_gui(const int select);
@@ -94,7 +97,6 @@ class Settings:
 		// GUI callbacks
 		static void onOptionsViewToggled_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
 		static void onInDirect_gui(GtkToggleButton *button, gpointer data);
-		///@todo Uncomment when implemented
 		static void onInFW_UPnP_gui(GtkToggleButton *button, gpointer data);
 		static void onInPassive_gui(GtkToggleButton *button, gpointer data);
 		static void onInFW_NAT_gui(GtkToggleButton *button, gpointer data);
@@ -193,6 +195,10 @@ class Settings:
 		static void onToggledHGColor_gui(GtkWidget *widget, gpointer data);
 		static void onToggledHGNotify_gui(GtkWidget *widget, gpointer data);
 		static void onRawsClicked_gui(GtkToggleButton *button, gpointer data );
+		//PLG
+		static void onAddPluginTo_gui(GtkWidget *widget, gpointer data);
+		static void onRemPluginFrom_gui(GtkWidget *widget, gpointer data);
+		static void onConfigurePlugin_gui(GtkWidget *widget, gpointer data);
 		// Client functions
 		void saveSettings_client();
 		void shareHidden_client(bool show);
@@ -204,20 +210,23 @@ class Settings:
 		void setDefaultColor(std::string color, std::string name, GtkTreeIter *iter);//BMDC++
 		void saveHighlighting(dcpp::StringMap &params, bool add, const std::string &name = "");//BMDC++
 		void addHighlighting_to_gui(dcpp::ColorSettings &cs, bool add);//BMDC++
+		//PLg
+		void addToGuiPlg(const MetaData &info);
+		void RemovePlg_client(int sel);
 
 		GtkComboBox *connectionSpeedComboBox;
 		GtkListStore *downloadToStore, *publicListStore, *queueStore,
 			*shareStore, *appearanceStore, *tabStore, *windowStore1,
 			*windowStore2, *windowStore3, *advancedStore, *certificatesStore, *userCommandStore,
 			*previewAppToStore, *soundStore, *textStyleStore, *notifyStore, *themeIconsStore,
-			*toolbarStore, *extensionStore, *searchTypeStore, *userListStore1, *userListStore2, *hStore;
+			*toolbarStore, *extensionStore, *searchTypeStore, *userListStore1, *userListStore2, *hStore, *plStore;
 		TreeView downloadToView, publicListView, queueView, shareView,
 			appearanceView, tabView, windowView1, windowView2,
 			windowView3, advancedView, certificatesView, userCommandView,
 			previewAppView, soundView, textStyleView, notifyView, themeIconsView,
-			toolbarView, extensionView, searchTypeView, userListNames, userListPreview, hView;
+			toolbarView, extensionView, searchTypeView, userListNames, userListPreview, hView, plView;
 		GtkTextBuffer *textStyleBuffer;
-		GtkTreeSelection *selection;
+		GtkTreeSelection *selection,*plselection;
 		
 		typedef std::map<std::string, int> IntMap;
 		typedef std::map<std::string, std::string> StringMap;

@@ -61,6 +61,8 @@ public:
 	virtual size_t getUserCount() const { Lock l(cs); return users.size(); }
 	virtual int64_t getAvailable() const;
 	virtual void refreshuserlist(bool);
+	//PLG
+	virtual void emulateCommand(const string& cmd) { dispatch(cmd); }
 	
 	void getUserList(OnlineUserList& list) const {
 		Lock l(cs);

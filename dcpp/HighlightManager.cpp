@@ -22,12 +22,12 @@
 #include "HighlightManager.h"
 
 namespace dcpp {
-HighlightManager::HighlightManager(void)
+HighlightManager::HighlightManager()
 {
 	SettingsManager::getInstance()->addListener(this);
 }
 
-HighlightManager::~HighlightManager(void)
+HighlightManager::~HighlightManager()
 {
 	SettingsManager::getInstance()->removeListener(this);
 }

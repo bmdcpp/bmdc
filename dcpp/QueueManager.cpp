@@ -613,7 +613,7 @@ void QueueManager::add(const string& aTarget, int64_t aSize, const TTHValue& roo
 		Lock l(cs);
 
 		// This will be pretty slow on large queues...
-		if(BOOLSETTING(DONT_DL_ALREADY_QUEUED) && !(aFlags & QueueItem::FLAG_USER_LIST)) {
+		if(BOOLSETTING(DONT_DL_ALREADY_QUEUED) && (!(aFlags & QueueItem::FLAG_USER_LIST) || !(aFlags & QueueItem::FLAG_TESTSUR))) {//FL TESTSUR
 			auto ql = fileQueue.find(root);
 			if (ql.size() > 0) {
 				// Found one or more existing queue items, lets see if we can add the source to them
@@ -652,7 +652,7 @@ void QueueManager::add(const string& aTarget, int64_t aSize, const TTHValue& roo
 				throw QueueException(_("A file with a different size already exists in the queue"));
 			}
 			if(!(root == q->getTTH())) {
-				throw QueueException(_("A file with a different TTH root already exists in the queue"));
+				throw QueueException(_("A file with a different TTH root already exists in the queue")+target);
 			}
 
 			if(q->isFinished()) {
@@ -914,7 +914,7 @@ StringList QueueManager::getTargets(const TTHValue& tth) {
 	}
 	return sl;
 }
-
+/*
 void QueueManager::addListener(QueueManagerListener* ql, const function<void (const QueueItem::StringMap&)>& currentQueue) {
 	Lock l(cs);
 	Speaker<QueueManagerListener>::addListener(ql);
@@ -922,7 +922,7 @@ void QueueManager::addListener(QueueManagerListener* ql, const function<void (co
 		currentQueue(fileQueue.getQueue());
 	}
 }
-
+*/
 Download* QueueManager::getDownload(UserConnection& aSource, bool supportsTrees) noexcept {
 	Lock l(cs);
 
@@ -1729,22 +1729,18 @@ void QueueManager::on(ClientManagerListener::UserConnected, const UserPtr& aUser
 void QueueManager::on(ClientManagerListener::UserDisconnected, const UserPtr& aUser) noexcept {
 	bool hasTestSURinQueue = false;
 	Lock l(cs);
-{
 	for(int i = 0; i < QueueItem::LAST; ++i) {
 		auto j = userQueue.getList(i).find(aUser);
 		if(j != userQueue.getList(i).end()) {
 			for(auto m = j->second.begin(); m != j->second.end(); ++m) {
 				if((*m)->isSet(QueueItem::FLAG_TESTSUR))  hasTestSURinQueue = true;
 				fire(QueueManagerListener::StatusUpdated(), *m);
-			}
 		}
-
-	}	
-}
+	}
 	if(hasTestSURinQueue)
 		removeTestSUR(HintedUser(aUser, Util::emptyString)); 
 	
-
+}	
 	
 }
 
@@ -1887,4 +1883,9 @@ string QueueManager::addFileListCheck(UserPtr aUser, const string& hubHint) noex
 	return fname;
 }
 //END
+//PLG..
+void QueueManager::lockedOperation(const function<void (const QueueItem::StringMap&)>& currentQueue) {
+	Lock l(cs);
+	if(currentQueue) currentQueue(fileQueue.getQueue());
+}
 } // namespace dcpp

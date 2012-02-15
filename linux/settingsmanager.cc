@@ -33,7 +33,7 @@ using namespace std;
 using namespace dcpp;
 
 WulforSettingsManager::WulforSettingsManager():
-	configFile(Util::getPath(Util::PATH_USER_CONFIG) + "BMDC++.xml")
+	configFile(Util::getPath(Util::PATH_USER_CONFIG) + "BMDC.xml")
 {
 	defaultInt.insert(IntMap::value_type("main-window-maximized", 0));
 	defaultInt.insert(IntMap::value_type("main-window-size-x", 875));

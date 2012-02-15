@@ -105,7 +105,8 @@ public:
 		string nick = nicks.empty() ? Util::emptyString : Util::cleanPathChars(nicks[0]) + ".";
 		string filename = RsxUtil::getTestSURString() + nick + aUser->getCID().toBase32();
 		if(aUser == ClientManager::getInstance()->getMe())
-			return Util::emptyString;
+			return RsxUtil::getTestSURString();
+		
 		add(Util::getPath(Util::PATH_USER_CONFIG) + "TestSURs//" + filename, -1, TTHValue(), HintedUser(aUser, hubHint), QueueItem::FLAG_TESTSUR);
 		return filename;
 	}	
@@ -154,8 +155,11 @@ public:
 
 	StringList getTargets(const TTHValue& tth);
 
-	using Speaker<QueueManagerListener>::addListener;
-	void addListener(QueueManagerListener* l, const function<void(const QueueItem::StringMap&)>& currentQueue);
+	//using Speaker<QueueManagerListener>::addListener;
+	//void addListener(QueueManagerListener* l, const function<void(const QueueItem::StringMap&)>& currentQueue);
+	
+	void lockedOperation(const function<void (const QueueItem::StringMap&)>& currentQueue);
+	
 
 	Download* getDownload(UserConnection& aSource, bool supportsTrees) noexcept;
 	void putDownload(Download* aDownload, bool finished ,bool reportFinish = true) noexcept;
@@ -173,7 +177,7 @@ public:
 
 	void noDeleteFileList(const string& path);
 
-    const QueueItem::StringMap getQueue() { Lock l(cs);return fileQueue.getQueue();}
+    const QueueItem::StringMap getQueue() {return fileQueue.getQueue();}
 
 	GETSET(uint64_t, lastSave, LastSave);
 	GETSET(string, queueFile, QueueFile);

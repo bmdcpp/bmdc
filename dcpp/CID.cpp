@@ -18,7 +18,6 @@
 
 #include "stdinc.h"
 #include "CID.h"
-
 #include "Util.h"
 
 namespace dcpp {
@@ -29,6 +28,5 @@ CID CID::generate() {
 		data[i] = (uint8_t)Util::rand();
 	}
 	return CID(data);
-}
-
+  }
 }

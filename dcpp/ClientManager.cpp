@@ -713,7 +713,7 @@ void ClientManager::setSupports(const UserPtr& p, const string& aSupports) {
 }
 
 void ClientManager::setGenerator(const HintedUser& p, const string& aGenerator, const string& aCID, const string& aBase) {
-	Client* c;// = 0;
+	Client* c;
 	string report;
 	{
 		Lock l(cs);

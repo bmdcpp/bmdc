@@ -24,7 +24,6 @@
 #include <memory>
 
 #include "typedefs.h"
-
 #include "BufferedSocketListener.h"
 #include "Semaphore.h"
 #include "Thread.h"
@@ -88,7 +87,7 @@ public:
 	void setMode(Modes mode, size_t aRollback = 0);
 	Modes getMode() const { return mode; }
 	const string& getIp() const { return sock->getIp(); }
-
+	const string getPort() const { return sock->getPort(); }
 	bool isSecure() const { return sock->isSecure(); }
 	bool isTrusted() const { return sock->isTrusted(); }
 	std::string getCipherName() const { return sock->getCipherName(); }

@@ -65,6 +65,7 @@ class UserCommandMenu : public Entry
  			std::string type;
  		};
  		std::vector<UCParam> ucParams;
+ 		
 };
 
 #else

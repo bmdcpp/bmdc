@@ -43,7 +43,7 @@ public:
 		}
 	}
 
-	string startChecking(Client* c, const string& param) throw() {
+	string startChecking(Client* c, const string& param) noexcept {
 		//if(!c->isOp())
 		//	return _("You are not an Operator on this hub");
 		if(clientEngine != NULL) {
@@ -300,7 +300,7 @@ private:
 					OnlineUserPtr ou = NULL;
 					int action = 0;
 					{
-						Lock l(cs);//client->
+						Lock l(client->cs);
 						for(typename BaseMap::const_iterator i = users->begin(); i != users->end(); ++i) {
 							if(!inThread)
 								break;
@@ -328,7 +328,7 @@ private:
 							try {
 								fname = QueueManager::getInstance()->addFileListCheck(ou->getUser(), client->getHubUrl());
 								if(!fname.empty())
-									ou->getIdentity().setFileListQueued("1");
+									ou->getIdentity().setFileListQueued(fname);
 							} catch(...) {
 							
 							}

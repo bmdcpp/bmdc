@@ -24,8 +24,8 @@
 #include <atomic>
 
 #include "forward.h"
-
 #include "Speaker.h"
+
 #include "BufferedSocketListener.h"
 #include "TimerManager.h"
 #include "ClientListener.h"
@@ -63,6 +63,7 @@ public:
 	virtual void password(const string& pwd) = 0;
 	virtual void info(bool force) = 0;
 
+	virtual void emulateCommand(const string& cmd) = 0;
 	virtual size_t getUserCount() const = 0;
 	virtual int64_t getAvailable() const = 0;
 	virtual void getUserList(OnlineUserList& list) const = 0;
@@ -133,10 +134,14 @@ public:
 	GETSET(string, favIp, FavIp);
 	GETSET(string, chatExtraInfo, ChatExtraInfo);
 	GETSET(string, protectUser, ProtectUser);
+	GETSET(string, tabText, TabText);
+	GETSET(string, tabIconStr, TabIconStr);
 
 	GETSET(bool, checkAtConnect, CheckAtConnect);
 	GETSET(bool, checkClients, CheckClients);
 	GETSET(bool, checkFilelists, CheckFilelists);
+	
+	mutable CriticalSection cs; //BMDC++//RSX++
 protected:
 	friend class ClientManager;
 	Client(const string& hubURL, char separator, bool secure_);

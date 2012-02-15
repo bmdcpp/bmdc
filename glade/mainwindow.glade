@@ -537,6 +537,9 @@
             <property name="position">2</property>
           </packing>
         </child>
+        <child>
+          <placeholder/>
+        </child>
       </widget>
     </child>
   </widget>
@@ -1418,7 +1421,7 @@ Contributors:
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="sourceMenuItem">
-                        <property name="label" translatable="yes">Source(svn)</property>
+                        <property name="label" translatable="yes">Source(bzr)</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>

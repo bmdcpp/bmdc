@@ -1,0 +1,36 @@
+# depslib dependency file v1.0
+1313687656 source:/home/mank/Apps/plugins/SamplePlugin/Plugin.c
+	"stdafx.h"
+	"Plugin.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	"resource.h"
+
+1274890899 /home/mank/Apps/plugins/SamplePlugin/stdafx.h
+	<windows.h>
+	<tchar.h>
+	<unistd.h>
+	<stdint.h>
+	<PluginDefs.h>
+
+1312301786 /home/mank/Apps/plugins/include/PluginDefs.h
+	<stdint.h>
+
+1274890899 /home/mank/Apps/plugins/SamplePlugin/Plugin.h
+	"version.h"
+
+1274890899 /home/mank/Apps/plugins/SamplePlugin/version.h
+
+1274890899 /home/mank/Apps/plugins/SamplePlugin/resource.h
+
+1274890899 source:/home/mank/Apps/plugins/SamplePlugin/main.c
+	"stdafx.h"
+	"Plugin.h"
+
+1274890899 source:/home/mank/Apps/plugins/SamplePlugin/stdafx.c
+	"stdafx.h"
+

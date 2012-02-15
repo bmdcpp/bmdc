@@ -103,6 +103,7 @@ class ShareBrowser:
 		UserCommandMenu *fileUserCommandMenu;
 		UserCommandMenu *dirUserCommandMenu;
 		UserCommandMenu *TabUserCommandMenu;
+	
 };
 
 #else

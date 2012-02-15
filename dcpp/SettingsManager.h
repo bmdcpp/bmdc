@@ -259,7 +259,7 @@ public:
 		TYPE_INT64,
 	};
 	//aded end
-	bool getType(const char* name, int& n, int& type) const;
+	bool getType(const char* name, int& n, Types& type) const;
 	const string parseCoreCmd(const string cmd);
 
 	// Search types

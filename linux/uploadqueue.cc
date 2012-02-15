@@ -1,6 +1,6 @@
 //      uploadqueue.cc
 //      
-//      Copyright 2011 - 2012Mank <Mank1@seznam.cz>
+//      Copyright 2011 - 2012 Mank <Mank1@seznam.cz>
 //      
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -20,12 +20,14 @@
 //      
 
 #include "uploadqueue.hh"
+
 #include <dcpp/DCPlusPlus.h>
 #include <dcpp/Client.h>
 #include <dcpp/ClientManager.h>
 #include <dcpp/FavoriteManager.h>
 #include <dcpp/QueueManager.h>
 #include <dcpp/UploadManager.h>
+
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
 

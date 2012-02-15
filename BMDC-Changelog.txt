@@ -43,7 +43,7 @@
 * Added Backup/Restore Manager and GUI for it
 * Added option always Bold Tab on change in it
 * Added Save IP on connect to it
-* Addes Splash class
+* Added Splash class
 * Added MediaInfo
 * Added emoticon to install
 * Added System-wide Icons to Queue/Search Tab too (for files)
@@ -53,8 +53,12 @@
 * Added ShellCommand support (used for media spam and df)
 * Added read log in PM´s
 * Added Country icon to PublicHub tab
-* Fixed scons on Arch,..
+* Added Plugins supports
+* Added Custom Hub Tab Text&Icon
+* Added ComboBox-like UserCommands (%[line:caption/default/val0/val1])
+* Fixed scons on Arch
 * Fixed Handling /me comand
+* Fixed magnet Handling
 * [LP#908039] Fixed Hash Dialog
 * Change GtkComboxBoxEntry to Entry with GtkCompletion in Search Tab
 * Change to better info when TCP and TLS port is The same

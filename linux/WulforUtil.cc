@@ -77,7 +77,7 @@ string("/away\t\t\t\t") + _("Set away mode\n") +
 +"/alias list \t\t" + _("List Aliases\n") +
 +"/alias purge ::A\t\t" + _("remove Aliases A\n") +
 +"/alias A::uname -a\t\t" + _("add alias A with uname -a exec\n") +
-+"/A\t\t\t\t"+_("Execution of alias A\n")
++"/A\t\t\t\t"+ _("Execution of alias A\n")
 ;
 
 const char* WulforUtil::CountryNames[] = {
@@ -166,6 +166,7 @@ string WulforUtil::windowsSeparator(const string &ps)
 			(*it) = '\\';
 	return str;
 }
+
 //Is This function usefull ?
 vector<string> WulforUtil::getLocalIPs()
 {
@@ -261,6 +262,7 @@ StringList WulforUtil::getHubAddress(const UserPtr& user, const string& hintUrl)
 {
 	return getHubAddress(user->getCID(), hintUrl);
 }
+
 //NOTE: core 0.762
 string WulforUtil::getTextFromMenu(GtkMenuItem *item)
 {
@@ -340,7 +342,7 @@ void WulforUtil::remove_events_internal (GtkWidget *widget, gint events, GList *
     }
   }
 }
-//END
+
 vector<string>& WulforUtil::getCharsets()
 {
 	if (charsets.size() == 0)
@@ -553,7 +555,6 @@ bool WulforUtil::profileIsLocked()
 
 	return profileIsLocked;
 }
-
 
 gboolean WulforUtil::getNextIter_gui(GtkTreeModel *model, GtkTreeIter *iter, bool children /* = TRUE */, bool parent /* = TRUE */)
 {
@@ -779,7 +780,7 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
 string WulforUtil::StringToUpper(std::string myString)
 {
 	const int length = myString.length();
-	if(myString.length() == 0)
+	if(myString.empty())
 		return Util::emptyString;
 	locale loc;
 	for(int i=0; i != length; ++i)
@@ -1208,7 +1209,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
            return false;
  		}
 
-return true;
+  return true;
 }
 
 bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, string word, bool &tTab, gpointer hub, GtkTextTag *TagsMap[])
@@ -1487,5 +1488,4 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 	GdkPixbuf *icon_d = gtk_icon_info_load_icon (info, NULL);
 	g_object_unref(icon);
 	return icon_d;
-
 }

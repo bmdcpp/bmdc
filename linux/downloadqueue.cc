@@ -139,8 +139,8 @@ DownloadQueue::~DownloadQueue()
 void DownloadQueue::show()
 {
 	//buildList_client();
-	//QueueManager::getInstance()->addListener(this);
-	QueueManager::getInstance()->addListener(this, [this](const QueueItem::StringMap& qsm) { addQueueList(qsm); });
+	QueueManager::getInstance()->addListener(this);
+	QueueManager::getInstance()->lockedOperation([this](const QueueItem::StringMap& qsm) { addQueueList(qsm); });
 }
 
 void DownloadQueue::buildDynamicMenu_gui()

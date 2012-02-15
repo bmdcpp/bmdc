@@ -55,6 +55,9 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 	}
 
 	COMMAND_DEBUG(aLine, DebugManager::CLIENT_IN, getRemoteIp());
+	
+	if(PluginManager::getInstance()->onIncomingConnectionData(this, aLine))
+		return;
 
 	if(aLine[0] == 'C' && !isSet(FLAG_NMDC)) {
 		if(!Text::validateUtf8(aLine)) {
@@ -287,12 +290,15 @@ void UserConnection::updateChunkSize(int64_t leafSize, int64_t lastChunk, uint64
 
 void UserConnection::send(const string& aString) {
 	lastActivity = GET_TICK();
+	if(PluginManager::getInstance()->onOutgoingConnectionData(this, aString))
+			return;
 	#ifdef _USELUA
 	if(onUserConnectionMessageOut(this, aString)) {
 	 	disconnect(true);
 		return;
 	}
 	#endif
+	COMMAND_DEBUG(aString, DebugManager::CLIENT_OUT, getRemoteIp());
 	socket->write(aString);
 }
 

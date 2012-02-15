@@ -26,7 +26,8 @@
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
 #include <dcpp/UPnPManager.h>//NOTE: core 0.762//TODO Change to Mapper or remove it
-
+//#include <dcpp/MappingManager.h>
+#include "bacon-message-connection.hh"
 #include "settingsmanager.hh"
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
@@ -35,8 +36,17 @@
 #include "upnpc.hh"//NOTE: core 0.762
 #include <iostream>
 #include <signal.h>
+#include "stacktrace.h"
 
 #define GUI_LOCALE_DIR _DATADIR PATH_SEPARATOR_STR "locale"
+
+BaconMessageConnection *connection = NULL;
+
+void receiver(const char *link, gpointer data)
+{
+	g_return_if_fail(link != NULL);
+	WulforManager::get()->onReceived_gui(link);
+}
 
 void callBack(void* x, const std::string& a)
 {
@@ -52,12 +62,42 @@ int main(int argc, char *argv[])
 	bindtextdomain(GUI_PACKAGE, GUI_LOCALE_DIR);
 	textdomain(GUI_PACKAGE);
 	bind_textdomain_codeset(GUI_PACKAGE, "UTF-8");
+	
+	connection = bacon_message_connection_new(GUI_PACKAGE);
+
+	if (connection != NULL)
+		dcdebug("freedcpp: connection yes...\n");
+	else
+		dcdebug("freedcpp: connection no...\n");
 
 	// Check if profile is locked
 	if (WulforUtil::profileIsLocked())
 	{
-		cout << _("No More That one Instance") << std::endl;
-		return 1;
+		//cout << _("No More That one Instance") << std::endl;
+		if (!bacon_message_connection_get_is_server(connection))
+		{
+			dcdebug("freedcpp: is client...\n");
+
+			if (argc > 1)
+			{
+				dcdebug("freedcpp: send %s\n", argv[1]);
+				bacon_message_connection_send(connection, argv[1]);
+			}
+		}
+
+		bacon_message_connection_free(connection);
+
+		return 0;
+		
+		
+		
+	//	return 1;
+	}
+	
+	if (bacon_message_connection_get_is_server(connection))
+	{
+		dcdebug("freedcpp: is server...\n");
+		bacon_message_connection_set_callback(connection, receiver, NULL);
 	}
 
 	// Start the DC++ client core
@@ -71,6 +111,8 @@ int main(int argc, char *argv[])
 	sp->destroy();
 	delete sp;
 	dcpp::UPnPManager::getInstance()->addImplementation(new UPnPc());//NOTE: core 0.762
+	//dcpp::MappingManager::getInstance()->addMapper<Mapper_NATPMP>();
+	//dcpp::MappingManager::getInstance()->addMapper<Mapper_MiniUPnPc>();
 	dcpp::TimerManager::getInstance()->start();
 
 	g_thread_init(NULL);
@@ -79,10 +121,12 @@ int main(int argc, char *argv[])
 	g_set_application_name("BMDC++");
 	WulforSettingsManager::newInstance();
 	signal(SIGPIPE, SIG_IGN);
-
+	signal(SIGSEGV, printBacktrace);
+	
 	WulforManager::start(argc, argv);
 	gdk_threads_enter();
 	gtk_main();
+	bacon_message_connection_free(connection);
 	gdk_threads_leave();
 	WulforManager::stop();
 	WulforSettingsManager::deleteInstance();

@@ -100,6 +100,15 @@ public:
 	}
 
 	bool findChild(const string& aName) noexcept;
+	//plg..
+	StringMap getCurrentChildren() {
+		dcassert(current != NULL);
+		StringMap d;
+		for(Tag::Iter i = current->children.begin(); i != current->children.end(); ++i) {
+			d[(*i)->name] = (*i)->data;
+		}
+		return d;
+	}
 
 	const string& getChildData() const {
 		checkChildSelected();

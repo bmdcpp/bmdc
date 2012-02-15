@@ -28,9 +28,7 @@
 #include <boost/variant.hpp>
 
 #include "Util.h"
-
 #include "SettingsManager.h"
-
 #include "StringSearch.h"
 #include "Singleton.h"
 #include "DirectoryListing.h"

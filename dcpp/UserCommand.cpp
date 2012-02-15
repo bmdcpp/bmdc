@@ -24,7 +24,7 @@
 namespace dcpp {
 
 bool UserCommand::adc(const string& h) {
-	return h.compare(0, 6, "adc://") == 0 || h.compare(0, 7, "adcs://") == 0;
+	return !h.empty() ?  h.compare(0, 6, "adc://") == 0 || h.compare(0, 7, "adcs://") == 0 : false;
 }
 
 const StringList& UserCommand::getDisplayName() const {

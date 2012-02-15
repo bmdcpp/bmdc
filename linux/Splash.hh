@@ -1,7 +1,7 @@
 /*
  * Splash.hh
  *
- * Copyright (C) 2011 - 2012 - Mank 
+ * Copyright (C) 2011 - 2012 - Mank - Mank1 at seznam dot cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-/*(C) Mank <Mank1 at seznam dot cz */
 #ifndef SPLASH_HH
 #define SPLASH_HH
 using namespace std;
@@ -56,6 +55,7 @@ class Splash
 							gtk_main_iteration_do (FALSE);
 				 }
 	void destroy() {gtk_widget_destroy(win);}
+	
 	private: 
 		string Text;
 		GtkWidget *win;
