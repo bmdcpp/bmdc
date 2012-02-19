@@ -29,6 +29,7 @@
 #include <dcpp/User.h>
 #include <dcpp/HintedUser.h>
 #include <dcpp/typedefs.h>
+#include <dcpp/Util.h>
 
 #define C_EMPTY(x) ((x) == NULL || (x)[0] == '\0')
 
@@ -56,7 +57,7 @@ class WulforUtil
 //NOTE: core 0.762
 		static std::string getTextFromMenu(GtkMenuItem *item);
 		static std::vector<std::string>& getCharsets();
-		static void openURI(const std::string &uri);
+		static void openURI(const std::string &uri, std::string &_error = dcpp::Util::emptyString);
 		static void openURItoApp(const std::string &cmd);
 		static std::string colorToString(const GdkColor *color); /* gdk < 2.12 */
 		static GdkPixbuf* scalePixbuf(const GdkPixbuf *pixbuf,

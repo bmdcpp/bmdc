@@ -680,4 +680,17 @@ bool Identity::isProtectedUser(const Client& c, bool OpBotHubCheck) const {
 	return ret;
 }
 
+UserData* OnlineUser::getPluginObject() noexcept {
+	resetEntity();
+
+	pod.nick = pluginString(getIdentity().getNick());
+	pod.hubHint = pluginString(getClient().getHubUrl());
+	pod.cid = pluginString(getUser()->getCID().toBase32());
+	pod.sid = getIdentity().getSID();
+	pod.protocol = getUser()->isNMDC() ? PROTOCOL_NMDC : PROTOCOL_ADC;
+	pod.isOp = getIdentity().isOp() ? True : False;
+
+	return &pod;
+}
+
 } // namespace dcpp

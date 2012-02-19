@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2001-2010 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2012 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,386 +19,642 @@
 /**
  * The PluginApiImpl class contains implementations of certain callback functions,
  * they are simply separated here.
+ *
+ * Notes:
+ *	- Current implementation does not correctly run HOOK_CHAT_PM_OUT for PM's sent as a result of Client::sendUserCmd
+ *	- dcpp may run HOOK_HUB_OFFLINE for hubs that never ran HOOK_HUB_ONLINE before (if socket creation fails in Client::connect)
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
+#include "PluginApiImpl.h"
+
+#include "File.h"
 
 #include "PluginManager.h"
 #include "ConnectionManager.h"
 #include "FavoriteManager.h"
+#include "QueueManager.h"
+#include "ClientManager.h"
 
-#include "AdcHub.h"
 #include "UserConnection.h"
+#include "Client.h"
 
 namespace dcpp {
 
+#define IMPL_HOOKS_COUNT 19
+
+static const char* hookGuids[IMPL_HOOKS_COUNT] = {
+	HOOK_CHAT_IN,
+	HOOK_CHAT_OUT,
+	HOOK_CHAT_PM_IN,
+	HOOK_CHAT_PM_OUT,
+
+	HOOK_TIMER_SECOND,
+	HOOK_TIMER_MINUTE,
+
+	HOOK_HUB_ONLINE,
+	HOOK_HUB_OFFLINE,
+
+	HOOK_NETWORK_HUB_IN,
+	HOOK_NETWORK_HUB_OUT,
+	HOOK_NETWORK_CONN_IN,
+	HOOK_NETWORK_CONN_OUT,
+
+	HOOK_QUEUE_ADD,
+	HOOK_QUEUE_MOVE,
+	HOOK_QUEUE_REMOVE,
+	HOOK_QUEUE_FINISHED,
+
+	HOOK_UI_CREATED,
+	HOOK_UI_CHAT_DISPLAY,
+	HOOK_UI_PROCESS_CHAT_CMD		
+};
+
+// lambdas are not used because certain compiler is being a pain about it (for now)
+DCHooks PluginApiImpl::dcHooks = {
+	DCINTF_HOOKS_VER,
+
+	&PluginApiImpl::createHook,
+	&PluginApiImpl::destroyHook,
+
+	&PluginApiImpl::bindHook,
+	&PluginApiImpl::runHook,
+	&PluginApiImpl::releaseHook
+};
+
+DCConfig PluginApiImpl::dcConfig = {
+	DCINTF_CONFIG_VER,
+
+	&PluginApiImpl::getPath,
+
+	&PluginApiImpl::setConfig,
+	&PluginApiImpl::getConfig,
+
+	&PluginApiImpl::copyData,
+	&PluginApiImpl::releaseData
+};
+
+DCLog PluginApiImpl::dcLog = {
+	DCINTF_LOGGING_VER,
+
+	&PluginApiImpl::log
+};
+
+DCConnection PluginApiImpl::dcConnection = {
+	DCINTF_DCPP_CONNECTIONS_VER,
+
+	&PluginApiImpl::sendUdpData,
+	&PluginApiImpl::sendProtocolCmd,
+	&PluginApiImpl::terminateConnection
+};
+
+DCHub PluginApiImpl::dcHub = {
+	DCINTF_DCPP_HUBS_VER,
+
+	&PluginApiImpl::addHub,
+	&PluginApiImpl::findHub,
+	&PluginApiImpl::removeHub,
+
+	&PluginApiImpl::emulateProtocolCmd,
+	&PluginApiImpl::sendProtocolCmd,
+
+	&PluginApiImpl::sendHubMessage,
+	&PluginApiImpl::sendLocalMessage,
+	&PluginApiImpl::sendPrivateMessage,
+
+	&PluginApiImpl::findUser,
+	&PluginApiImpl::copyData,
+	&PluginApiImpl::releaseData,
+
+	&PluginApiImpl::copyData,
+	&PluginApiImpl::releaseData
+};
+
+DCQueue PluginApiImpl::dcQueue = {
+	DCINTF_DCPP_QUEUE_VER,
+
+	&PluginApiImpl::addList,
+	&PluginApiImpl::addDownload,
+	&PluginApiImpl::findDownload,
+	&PluginApiImpl::removeDownload,
+
+	&PluginApiImpl::setPriority,
+
+	&PluginApiImpl::copyData,
+	&PluginApiImpl::releaseData
+};
+
+DCUtils PluginApiImpl::dcUtils = {
+	DCINTF_DCPP_UTILS_VER,
+
+	&PluginApiImpl::toUtf8,
+	&PluginApiImpl::fromUtf8,
+
+	&PluginApiImpl::Utf8toWide,
+	&PluginApiImpl::WidetoUtf8,
+
+	&PluginApiImpl::toBase32,
+	&PluginApiImpl::fromBase32
+};
+
 Socket PluginApiImpl::apiSocket(Socket::TYPE_UDP);
 
-hookHandle PluginApiImpl::initAPI(DCCore& dcCore) {
-	dcCore.apiVersion = DCAPI_VER;
+void PluginApiImpl::initAPI(DCCore& dcCore) {
+	dcCore.apiVersion = DCAPI_CORE_VER;
 
-	// Hook creation
-	dcCore.create_hook = &PluginApiImpl::createHook;
-	dcCore.destroy_hook = &PluginApiImpl::destroyHook;
+	// Interface registry
+	dcCore.register_interface = &PluginApiImpl::registerInterface;
+	dcCore.query_interface = &PluginApiImpl::queryInterface;
+	dcCore.release_interface = &PluginApiImpl::releaseInterface;
 
-	// Hook interaction
-	dcCore.set_hook = &PluginApiImpl::setHook;
-	dcCore.call_hook = &PluginApiImpl::callHook;
-	dcCore.un_hook = &PluginApiImpl::unHook;
+	// Interfaces (since these outlast any plugin they don't need to be explictly released)
+	dcCore.register_interface(DCINTF_HOOKS, &dcHooks);
+	dcCore.register_interface(DCINTF_CONFIG, &dcConfig);
+	dcCore.register_interface(DCINTF_LOGGING, &dcLog);
 
-	// Message regitster
-	dcCore.register_message = &PluginApiImpl::registerMessage;
-	dcCore.register_range = &PluginApiImpl::registerRange;
-	dcCore.seek_message = &PluginApiImpl::seekMessage;
+	dcCore.register_interface(DCINTF_DCPP_CONNECTIONS, &dcConnection);
+	dcCore.register_interface(DCINTF_DCPP_HUBS, &dcHub);
+	dcCore.register_interface(DCINTF_DCPP_QUEUE, &dcQueue);
+	dcCore.register_interface(DCINTF_DCPP_UTILS, &dcUtils);
 
-	// Setting management
-	dcCore.set_cfg = &PluginApiImpl::setConfig;
-	dcCore.get_cfg = &PluginApiImpl::getConfig;
-
-	dcCore.memalloc = &PluginApiImpl::memalloc;
-	dcCore.strconv = &PluginApiImpl::strconv;
-
-	return PluginManager::getInstance()->createHook(CALLBACK_BASE, HOOK_CALLBACK, &PluginApiImpl::coreCallback);
+	// Create provided hooks (since these outlast any plugin they don't need to be explictly released)
+	for(int i = 0; i < IMPL_HOOKS_COUNT; ++i)
+		dcHooks.create_hook(hookGuids[i], NULL);
 }
 
-void PluginApiImpl::releaseAPI(hookHandle hHook) {
-	PluginManager::getInstance()->destroyHook(hHook);
+void PluginApiImpl::releaseAPI() {
 	apiSocket.disconnect();
 }
 
 // Functions for DCCore
-hookHandle PluginApiImpl::createHook(HookID hookId, HookType hookType, DCHOOK defProc) {
-	return PluginManager::getInstance()->createHook(hookId, hookType, defProc);
+intfHandle PluginApiImpl::registerInterface(const char* guid, dcptr_t pInterface) {
+	return PluginManager::getInstance()->registerInterface(guid, pInterface);
 }
 
-void PluginApiImpl::destroyHook(hookHandle hHook) {
-	PluginManager::getInstance()->destroyHook(hHook);
+DCInterfacePtr PluginApiImpl::queryInterface(const char* guid, uint32_t version) {
+	// we only return the registered interface if it is same or newer than requested
+	DCInterface* dci = (DCInterface*)PluginManager::getInstance()->queryInterface(guid);
+	return (!dci || dci->apiVersion >= version) ? dci : NULL;
+}
+
+Bool PluginApiImpl::releaseInterface(intfHandle hInterface) {
+	return PluginManager::getInstance()->releaseInterface(hInterface) ? True : False;
+}
+
+// Functions for DCHook
+hookHandle PluginApiImpl::createHook(const char* guid, DCHOOK defProc) {
+	return PluginManager::getInstance()->createHook(guid, defProc);
+}
+
+Bool PluginApiImpl::destroyHook(hookHandle hHook) {
+	Bool bRes = PluginManager::getInstance()->destroyHook(reinterpret_cast<PluginHook*>(hHook)) ? True : False;
 	hHook = NULL;
+	return bRes;
 }
 
-subsHandle PluginApiImpl::setHook(HookID hookId, DCHOOK hookProc, void* pCommon) {
-	return PluginManager::getInstance()->setHook(hookId, hookProc, pCommon);
+subsHandle PluginApiImpl::bindHook(const char* guid, DCHOOK hookProc, void* pCommon) {
+	return PluginManager::getInstance()->bindHook(guid, hookProc, pCommon);
 }
 
-Bool PluginApiImpl::callHook(HookID hookId, uint32_t eventId, dcptr_t pData) {
-	return PluginManager::getInstance()->callHook(hookId, eventId, pData) ? True : False;
+Bool PluginApiImpl::runHook(hookHandle hHook, dcptr_t pObject, dcptr_t pData) {
+	return PluginManager::getInstance()->runHook(reinterpret_cast<PluginHook*>(hHook), pObject, pData) ? True : False;
 }
 
-size_t PluginApiImpl::unHook(subsHandle hHook) {
-	return PluginManager::getInstance()->unHook(hHook);
+size_t PluginApiImpl::releaseHook(subsHandle hHook) {
+	return PluginManager::getInstance()->releaseHook(reinterpret_cast<HookSubscriber*>(hHook));
 }
 
-uint32_t PluginApiImpl::registerMessage(HookType type, const char* name) {
-	return PluginManager::getInstance()->registerMessage(type, name);
-}
-
-uint32_t PluginApiImpl::registerRange(HookType type, const char* name, uint32_t count) {
-	return PluginManager::getInstance()->registerRange(type, name, count);
-}
-
-uint32_t PluginApiImpl::seekMessage(const char* name) {
-	return PluginManager::getInstance()->seekMessage(name);
+// Functions for DCConfig
+const char* DCAPI PluginApiImpl::getPath(PathType type) {
+	return Util::getPath(static_cast<Util::Paths>(type)).c_str();
 }
 
 void PluginApiImpl::setConfig(const char* guid, const char* setting, ConfigValuePtr val) {
 	PluginManager* pm = PluginManager::getInstance();
 	switch(val->type) {
 		case CFG_TYPE_REMOVE:
-			pm->removeSetting(guid, setting);
+			pm->removePluginSetting(guid, setting);
 			break;
-		case CFG_TYPE_STRING:
-			if(val->value.str)
-				pm->setSetting(guid, setting, val->value.str);
+		case CFG_TYPE_STRING: {
+			auto str = (ConfigStrPtr)val;
+			pm->setPluginSetting(guid, setting, str->value ? str->value : "");
 			break;
-		case CFG_TYPE_INT:
-			pm->setSetting(guid, setting, Util::toString(val->value.int32));
+		}
+		case CFG_TYPE_INT: {
+			auto num = (ConfigIntPtr)val;
+			pm->setPluginSetting(guid, setting, Util::toString(num->value));
 			break;
-		case CFG_TYPE_INT64:
-			pm->setSetting(guid, setting, Util::toString(val->value.int64));
+		}
+		case CFG_TYPE_INT64: {
+			auto num = (ConfigInt64Ptr)val;
+			pm->setPluginSetting(guid, setting, Util::toString(num->value));
 			break;
+		}
 		default:
 			dcassert(0);
 	}
 }
 
-Bool PluginApiImpl::getConfig(const char* guid, const char* setting, ConfigValuePtr val) {
+ConfigValuePtr PluginApiImpl::getConfig(const char* guid, const char* setting, ConfigType type) {
 	// Attempt to retrieve core setting...
 	if(strcmp(guid, "CoreSetup") == 0) {
 		int n;
 		SettingsManager::Types type;
 		if(SettingsManager::getInstance()->getType(setting, n, type)) {
 			switch(type) {
-				case SettingsManager::TYPE_STRING:
-					val->value.str = SettingsManager::getInstance()->get(static_cast<SettingsManager::StrSetting>(n)).c_str();
-					break;
-				case SettingsManager::TYPE_INT:
-					val->value.int32 = SettingsManager::getInstance()->get(static_cast<SettingsManager::IntSetting>(n));
-					break;
-				case SettingsManager::TYPE_INT64:
-					val->value.int64 = SettingsManager::getInstance()->get(static_cast<SettingsManager::Int64Setting>(n));
-					break;
+				case SettingsManager::TYPE_STRING: {
+					string settingValue = SettingsManager::getInstance()->get(static_cast<SettingsManager::StrSetting>(n));
+					ConfigStr value = { CFG_TYPE_STRING, settingValue.c_str() };
+
+					return copyData((ConfigValuePtr)&value);
+				}
+				case SettingsManager::TYPE_INT: {
+					ConfigInt value = { CFG_TYPE_INT, SettingsManager::getInstance()->get(static_cast<SettingsManager::IntSetting>(n)) };
+					return copyData((ConfigValuePtr)&value);
+				}
+				case SettingsManager::TYPE_INT64: {
+					ConfigInt64 value = { CFG_TYPE_INT64, SettingsManager::getInstance()->get(static_cast<SettingsManager::Int64Setting>(n)) };
+					return copyData((ConfigValuePtr)&value);
+				}
 				default:
 					dcassert(0);
 			}
-			val->type = static_cast<ConfigType>(type);
-			return True;
+
+			return NULL;
 		}
 	}
 
 	PluginManager* pm = PluginManager::getInstance();
-	switch(val->type) {
-		case CFG_TYPE_STRING:
-			val->value.str = pm->getSetting(guid, setting).c_str();
-			break;
-		case CFG_TYPE_INT:
-			val->value.int32 = Util::toInt(pm->getSetting(guid, setting));
-			break;
-		case CFG_TYPE_INT64:
-			val->value.int64 = Util::toInt64(pm->getSetting(guid, setting));
-			break;
+	switch(type) {
+		case CFG_TYPE_STRING: {
+			ConfigStr value = { type, pm->getPluginSetting(guid, setting).c_str() };
+			return copyData((ConfigValuePtr)&value);
+		}
+		case CFG_TYPE_INT: {
+			ConfigInt value = { type, Util::toInt(pm->getPluginSetting(guid, setting)) };
+			return copyData((ConfigValuePtr)&value);
+		}
+		case CFG_TYPE_INT64: {
+			ConfigInt64 value = { type, Util::toInt64(pm->getPluginSetting(guid, setting)) };
+			return copyData((ConfigValuePtr)&value);
+		}
 		default:
 			dcassert(0);
 	}
-	return True;
-}
 
-void* PluginApiImpl::memalloc(void* ptr, size_t bytes) {
-	if(ptr != NULL && bytes > 0) {
-		return realloc(ptr, bytes);
-	} else if(ptr != NULL) {
-		free(ptr);
-	} else if(bytes > 0) {
-		return malloc(bytes);
-	}
 	return NULL;
 }
 
-size_t PluginApiImpl::strconv(ConversionType type, void* dst, void* src, size_t len) {
-	switch(type) {
-		case CONV_TO_UTF8: {
-			string sSrc(Text::toUtf8(reinterpret_cast<char*>(src)));
-			char* cDst = static_cast<char*>(dst);
-			len = (sSrc.size() < len) ? sSrc.size() : len;
-			strncpy(cDst, sSrc.c_str(), len);
-			return len;
+ConfigValuePtr PluginApiImpl::copyData(const ConfigValuePtr val) {
+	switch(val->type) {
+		case CFG_TYPE_STRING: {
+			auto str = (ConfigStrPtr)val;
+			auto copy = (ConfigStrPtr)malloc(sizeof(ConfigStr));
+			memcpy(copy, str, sizeof(ConfigStr));
+
+			size_t bufLen = strlen(str->value) + 1;
+			copy->value = (char*)malloc(bufLen);
+			strncpy((char*)copy->value, str->value, bufLen);
+
+			return (ConfigValuePtr)copy;
 		}
-		case CONV_FROM_UTF8: {
-			string sSrc(Text::fromUtf8(reinterpret_cast<char*>(src)));
-			char* cDst = static_cast<char*>(dst);
-			len = (sSrc.size() < len) ? sSrc.size() : len;
-			strncpy(cDst, sSrc.c_str(), len);
-			return len;
+		case CFG_TYPE_INT: {
+			auto num = (ConfigIntPtr)val;
+			auto copy = (ConfigIntPtr)malloc(sizeof(ConfigInt));
+			memcpy(copy, num, sizeof(ConfigInt));
+
+			return (ConfigValuePtr)copy;
 		}
-		case CONV_UTF8_TO_WIDE: {
-			wstring sSrc(Text::utf8ToWide(reinterpret_cast<char*>(src)));
-			wchar_t* cDst = static_cast<wchar_t*>(dst);
-			len = (sSrc.size() < len) ? sSrc.size() : len;
-			wcsncpy(cDst, sSrc.c_str(), len);
-			return len;
+		case CFG_TYPE_INT64: {
+			auto num = (ConfigInt64Ptr)val;
+			auto copy = (ConfigInt64Ptr)malloc(sizeof(ConfigInt64));
+			memcpy(copy, num, sizeof(ConfigInt64));
+
+			return (ConfigValuePtr)copy;
 		}
-		case CONV_WIDE_TO_UTF8: {
-			string sSrc(Text::wideToUtf8(reinterpret_cast<wchar_t*>(src)));
-			char* cDst = static_cast<char*>(dst);
-			len = (sSrc.size() < len) ? sSrc.size() : len;
-			strncpy(cDst, sSrc.c_str(), len);
-			return len;
-		}
-		case CONV_TO_BASE32: {
-			string sSrc(Encoder::toBase32(reinterpret_cast<uint8_t*>(src), len));
-			char* cDst = static_cast<char*>(dst);
-			len = (sSrc.size() < len) ? sSrc.size() : len;
-			strncpy(cDst, sSrc.c_str(), len);
-			return len;
-		}
-		case CONV_FROM_BASE32:
-			Encoder::fromBase32(reinterpret_cast<char*>(src), reinterpret_cast<uint8_t*>(dst), len);
-			return 0;
 		default:
-			// No value is better than the other
-			return string::npos;
+			dcassert(0);
 	}
+
+	return NULL;
 }
 
-// Default callback for hook CALLBACK_BASE
-Bool PluginApiImpl::coreCallback(uint32_t eventId, dcptr_t pData) {
-	switch(eventId) {
-		case DBG_MESSAGE:
-		case LOG_MESSAGE:
-			LogManager::getInstance()->message(reinterpret_cast<const char*>(pData));
-			break;
-		case GET_PATHS: {
-			TextDataCondPtr args = reinterpret_cast<TextDataCondPtr>(pData);
-			args->res = const_cast<char*>(Util::getPath(static_cast<Util::Paths>(args->cond)).c_str());
+void PluginApiImpl::releaseData(ConfigValuePtr val) {
+	switch(val->type) {
+		case CFG_TYPE_STRING: {
+			auto str = (ConfigStrPtr)val;
+			free((char*)str->value);
+			free(str);
 			break;
 		}
-		case PROTOCOL_SEND_UDP: {
-			TextDataCondPtr args = reinterpret_cast<TextDataCondPtr>(pData);
-			try { apiSocket.writeTo(args->data, Util::toString(args->cond), args->res); }
-			catch(const Exception& e) { dcdebug("CoreCallback, PROTOCOL_SEND_UDP: %s\n", e.getError().c_str()); }
+		case CFG_TYPE_INT: {
+			auto num = (ConfigIntPtr)val;
+			free(num);
 			break;
 		}
-		case PROTOCOL_HUB_EMULATE_CMD: {
-			TextArgsResPtr args = reinterpret_cast<TextArgsResPtr>(pData);
-			if(args->object) reinterpret_cast<Client*>(args->object)->emulateCommand(args->data);
-			break;
-		}
-		case PROTOCOL_HUB_SEND_CMD: {
-			TextArgsResPtr args = reinterpret_cast<TextArgsResPtr>(pData);
-			if(args->object) reinterpret_cast<Client*>(args->object)->send(args->data);
-			break;
-		}
-		case PROTOCOL_CONN_SEND_CMD: {
-			TextArgsResPtr args = reinterpret_cast<TextArgsResPtr>(pData);
-			if(args->object) reinterpret_cast<UserConnection*>(args->object)->sendRaw(args->data);
-			break;
-		}
-		case PROTOCOL_CONN_TERMINATE: {
-			TextArgsCondPtr args = reinterpret_cast<TextArgsCondPtr>(pData);
-			if(args->object) reinterpret_cast<UserConnection*>(args->object)->disconnect(args->cond != False);
-			break;
-		}
-		case HUBS_CREATE_HUB: {
-			TextArgsResPtr args = reinterpret_cast<TextArgsResPtr>(pData);
-			return newClient(args->data, reinterpret_cast<ClientDataPtr>(args->res));
-		}
-		case HUBS_DESTROY_HUB:
-			if(pData) ClientManager::getInstance()->putClient(reinterpret_cast<Client*>(pData));
-			break;
-		case HUBS_FIND_HUB: {
-			TextArgsResPtr args = reinterpret_cast<TextArgsResPtr>(pData);
-			return findOnlineHub(args->data, reinterpret_cast<ClientDataPtr>(args->res));
-		}
-		case HUBS_SEND_CHAT: {
-			TextArgsCondPtr args = reinterpret_cast<TextArgsCondPtr>(pData);
-			sendHubMessage(reinterpret_cast<Client*>(args->object), args->data, args->cond != False);
-			break;
-		}
-		case HUBS_SEND_PM: {
-			TextArgsCondPtr args = reinterpret_cast<TextArgsCondPtr>(pData);
-			sendPrivateMessage(reinterpret_cast<OnlineUser*>(args->object), args->data, args->cond != False);
-			break;
-		}
-		case HUBS_SEND_LOCAL: {
-			TextArgsCondPtr args = reinterpret_cast<TextArgsCondPtr>(pData);
-			Client* client = reinterpret_cast<Client*>(args->object);
-			if(client) client->fire(ClientListener::ClientLine(), client, args->data, args->cond);
-			break;
-		}
-		case QUEUE_ADD_DL: {
-			QueueArgsPtr args = reinterpret_cast<QueueArgsPtr>(pData);
-			return addDownload(args->target, args->size, args->hash, args->res);
-		}
-		case QUEUE_REMOVE_DL:
-			QueueManager::getInstance()->remove(reinterpret_cast<const char*>(pData));
-			break;
-		case QUEUE_SET_PRIORITY: {
-			TextArgsCondPtr args = reinterpret_cast<TextArgsCondPtr>(pData);
-			if(args->object) reinterpret_cast<QueueItem*>(args->object)->setPriority(static_cast<QueueItem::Priority>(args->cond));
+		case CFG_TYPE_INT64: {
+			auto num = (ConfigInt64Ptr)val;
+			free(num);
 			break;
 		}
 		default:
-			return False;
+			dcassert(0);
 	}
-	return True;
 }
 
-// Queue functions
-Bool PluginApiImpl::addDownload(const string& fname, int64_t fsize, const string& fhash, QueueDataPtr data) {
-	Bool bRes = False;
+// Functions for DCLog
+void PluginApiImpl::log(const char* msg) {
+	LogManager::getInstance()->message(msg);
+}
 
+// Functions for DCConnection
+void PluginApiImpl::sendProtocolCmd(ConnectionDataPtr conn, const char* cmd) {
+	reinterpret_cast<UserConnection*>(conn->object)->sendRaw(cmd);
+}
+
+void PluginApiImpl::terminateConnection(ConnectionDataPtr conn, Bool graceless) {
+	reinterpret_cast<UserConnection*>(conn->object)->disconnect(graceless != False);
+}
+
+void PluginApiImpl::sendUdpData(const char* ip, uint32_t port, dcptr_t data, size_t n) {
+	apiSocket.writeTo(ip, Util::toString(port), data, n);
+}
+
+// Functions for DCUtils
+size_t PluginApiImpl::toUtf8(char* dst, const char* src, size_t n) {
+	string sSrc(Text::toUtf8(src));
+	n = (sSrc.size() < n) ? sSrc.size() : n;
+	strncpy(dst, sSrc.c_str(), n);
+	return n;
+}
+
+size_t PluginApiImpl::fromUtf8(char* dst, const char* src, size_t n) {
+	string sSrc(Text::fromUtf8(src));
+	n = (sSrc.size() < n) ? sSrc.size() : n;
+	strncpy(dst, sSrc.c_str(), n);
+	return n;
+}
+
+size_t PluginApiImpl::Utf8toWide(wchar_t* dst, const char* src, size_t n) {
+	wstring sSrc(Text::utf8ToWide(src));
+	n = (sSrc.size() < n) ? sSrc.size() : n;
+	wcsncpy(dst, sSrc.c_str(), n);
+	return n;
+}
+
+size_t PluginApiImpl::WidetoUtf8(char* dst, const wchar_t* src, size_t n) {
+	string sSrc(Text::wideToUtf8(src));
+	n = (sSrc.size() < n) ? sSrc.size() : n;
+	strncpy(dst, sSrc.c_str(), n);
+	return n;
+}
+
+size_t PluginApiImpl::toBase32(char* dst, const uint8_t* src, size_t n) {
+	string sSrc(Encoder::toBase32(src, n));
+	n = (sSrc.size() < n) ? sSrc.size() : n;
+	strncpy(dst, sSrc.c_str(), n);
+	return n;
+}
+
+size_t PluginApiImpl::fromBase32(uint8_t* dst, const char* src, size_t n) {
+	Encoder::fromBase32(src, dst, n);
+	return n;
+}
+
+// Functions for DCQueue
+QueueDataPtr PluginApiImpl::addList(UserDataPtr user, Bool silent) {
+	auto u = ClientManager::getInstance()->findUser(CID(user->cid));
+	if(!u) return NULL;
+
+	QueueData* data = NULL;
 	try {
-		string target = File::isAbsolute(fname) ? fname : SETTING(DOWNLOAD_DIRECTORY) + fname;
-		QueueManager::getInstance()->add(target, fsize, TTHValue(fhash), HintedUser(UserPtr(), Util::emptyString));
-
-		QueueManager::getInstance()->lockedOperation([data, &target, &bRes](const QueueItem::StringMap& lst) {
-			QueueItem::StringMap::const_iterator i;
-			if ((i = lst.find(&target)) != lst.end()) {
-				QueueItem* qi = i->second;
-				data->file = qi->getTargetFileName().c_str();
-				data->target = qi->getTarget().c_str();
-				data->location = qi->getTempTarget().c_str();
-				data->hash = qi->getTTH().data;
-				data->object = qi;
-				data->size = qi->getSize();
-				data->isFileList = qi->isSet(QueueItem::FLAG_USER_LIST) ? True : False;
-				bRes = True;
-			}
-		});
+		QueueManager::getInstance()->addList(HintedUser(u, user->hubHint), silent ? 0 : QueueItem::FLAG_CLIENT_VIEW);
+		data = findDownload(QueueManager::getInstance()->getListPath(HintedUser(u, user->hubHint)).c_str());
 	} catch(const Exception& e) {
 		LogManager::getInstance()->message(e.getError());
 	}
 
-	return bRes;
+	return data;
 }
 
-// Hub functions
-Bool PluginApiImpl::findOnlineHub(string hubUrl, ClientDataPtr data) {
-	auto& clients = ClientManager::getInstance()->getClients();
+QueueDataPtr PluginApiImpl::addDownload(const char* hash, uint64_t size, const char* target) {
+	QueueData* data = NULL;
+	try {
+		string sTarget = File::isAbsolute(target) ? target : SETTING(DOWNLOAD_DIRECTORY) + target;
+		QueueManager::getInstance()->add(sTarget, size, TTHValue(hash), HintedUser(UserPtr(), Util::emptyString));
+		data = findDownload(sTarget.c_str());
+	} catch(const Exception& e) {
+		LogManager::getInstance()->message(e.getError());
+	}
 
-	for(auto i = clients.begin(); i != clients.end(); ++i) {
-		if(((*i)->getHubUrl() == hubUrl) && (*i)->isConnected()) {
-			Client* client = *i;
-			data->url = client->getHubUrl().c_str();
-			data->ip = client->getIp().c_str();
-			data->object = client;
-			Util::toString(data->port) = client->getPort();
-			data->protocol = dynamic_cast<AdcHub*>(client) ? PROTOCOL_ADC : PROTOCOL_NMDC;
-			data->isOp = client->isOp() ? True : False;
-			data->isSecure = client->isSecure() ? True : False;
-			return True;
+	return data;
+}
+
+QueueDataPtr PluginApiImpl::findDownload(const char* target) {
+	QueueData* data = NULL;
+	QueueManager::getInstance()->lockedOperation([&data, target](const QueueItem::StringMap& lst) {
+		string sTarget = target;
+		auto i = lst.find(&sTarget);
+		if (i != lst.end()) {
+			data = i->second->copyPluginObject();
+		}
+	});
+
+	return data;
+}
+
+void PluginApiImpl::removeDownload(QueueDataPtr qi) {
+	QueueManager::getInstance()->remove(qi->target);
+}
+
+void PluginApiImpl::setPriority(QueueDataPtr qi, QueuePrio priority) {
+	reinterpret_cast<QueueItem*>(qi->object)->setPriority(static_cast<QueueItem::Priority>(priority));
+}
+
+QueueDataPtr PluginApiImpl::copyData(const QueueDataPtr qi) {
+	QueueDataPtr copy = (QueueDataPtr)malloc(sizeof(QueueData));
+	memcpy(copy, qi, sizeof(QueueData));
+
+	size_t bufLen = strlen(qi->target) + 1;
+	copy->target = (char*)malloc(bufLen);
+	strncpy((char*)copy->target, qi->target, bufLen);
+
+	bufLen = strlen(qi->location) + 1;
+	copy->location = (char*)malloc(bufLen);
+	strncpy((char*)copy->location, qi->location, bufLen);
+
+	bufLen = strlen(qi->hash) + 1;
+	copy->hash = (char*)malloc(bufLen);
+	strncpy((char*)copy->hash, qi->hash, bufLen);
+
+	copy->isManaged = False;
+	return copy;
+}
+
+void PluginApiImpl::releaseData(QueueDataPtr qi) {
+	if(qi->isManaged) {
+		LogManager::getInstance()->message("Plugin trying to free a managed object !");
+		return;
+	}
+
+	free((char*)qi->target);
+	free((char*)qi->location);
+	free((char*)qi->hash);
+
+	free(qi);
+}
+
+// Functions for DCHub
+HubDataPtr PluginApiImpl::addHub(const char* url, const char* nick, const char* password) {
+	HubData* data = findHub(url);
+
+	if(data == NULL && !SETTING(NICK).empty()) {
+		Client* client = ClientManager::getInstance()->getClient(url);
+		client->connect();
+		client->setPassword(password);
+		client->setCurrentNick(nick);
+
+		// check that socket is waitting for connection...
+		if(client->isConnected()) {
+			return client->copyPluginObject();
 		}
 	}
 
-	return False;
+	return data;
 }
 
-Bool PluginApiImpl::newClient(const string& hubUrl, ClientDataPtr data) {
-	if(!SETTING(NICK).empty()) {
-		// Note, it is no use specifying any other info here...
-		Client* client = ClientManager::getInstance()->getClient(hubUrl);
-		client->setPassword(Util::emptyString);
-		client->connect();
+HubDataPtr PluginApiImpl::findHub(const char* url) {
+	auto lock = ClientManager::getInstance()->lock();
+	const auto& list = ClientManager::getInstance()->getClients();
 
-		data->url = client->getHubUrl().c_str();
-		data->ip = client->getIp().c_str();
-		data->object = client;
-		Util::toString(data->port) = client->getPort();
-		data->protocol = dynamic_cast<AdcHub*>(client) ? PROTOCOL_ADC : PROTOCOL_NMDC;
-		data->isOp = False;
-		data->isSecure = client->isSecure() ? True : False;
-		return True;
+	for(auto i = list.begin(); i != list.end(); ++i) {
+		if(((*i)->getHubUrl() == url) && (*i)->isConnected())
+			 return (*i)->copyPluginObject();
 	}
 
-	return False;
+	return NULL;
 }
 
-void PluginApiImpl::sendHubMessage(Client* client, const string& message, bool thirdPerson) {
-	if(client) {
+void PluginApiImpl::removeHub(HubDataPtr hub) {
+	ClientManager::getInstance()->putClient(reinterpret_cast<Client*>(hub->object));
+}
+
+void PluginApiImpl::emulateProtocolCmd(HubDataPtr hub, const char* cmd) {
+	reinterpret_cast<Client*>(hub->object)->emulateCommand(cmd);
+}
+
+void PluginApiImpl::sendProtocolCmd(HubDataPtr hub, const char* cmd) {
+	reinterpret_cast<Client*>(hub->object)->send(cmd);
+}
+
+void PluginApiImpl::sendHubMessage(HubDataPtr hub, const char* message, Bool thirdPerson) {
+	if(hub && hub->object) {
+		Client* client = reinterpret_cast<Client*>(hub->object);
+
 		// Lets make plugins life easier...
 		ParamMap params;
 		client->getMyIdentity().getParams(params, "my", true);
 		client->getHubIdentity().getParams(params, "hub", false);
 
-		client->hubMessage(Util::formatParams(message, params, false), thirdPerson);
+		client->hubMessage(Util::formatParams(message, params), thirdPerson != False);
 	}
 }
 
-void PluginApiImpl::sendPrivateMessage(OnlineUserPtr ou, const string& message, bool thirdPerson) {
-	if(ou) {
+void PluginApiImpl::sendLocalMessage(HubDataPtr hub, const char* msg, MsgType type) {
+	Client* client = reinterpret_cast<Client*>(hub->object);
+	client->fire(ClientListener::ClientLine(), client, msg, (int)type);
+}
+
+Bool PluginApiImpl::sendPrivateMessage(UserDataPtr user, const char* message, Bool thirdPerson) {
+	if(user) {
+		auto lock = ClientManager::getInstance()->lock();
+		OnlineUser* ou = ClientManager::getInstance()->findOnlineUser(CID(user->cid), user->hubHint, true);
+		if(!ou) return False;
+
 		// Lets make plugins life easier...
 		ParamMap params;
 		ou->getIdentity().getParams(params, "user", true);
 		ou->getClient().getMyIdentity().getParams(params, "my", true);
 		ou->getClient().getHubIdentity().getParams(params, "hub", false);
 
-		ou->getClient().privateMessage(*ou, Util::formatParams(message, params, false), thirdPerson);
+		// plugins do not get notified about this... todo: fix note 1.
+		ou->getClient().privateMessage(*ou, Util::formatParams(message, params), thirdPerson != False);
+		return True;
 	}
+	return False;
+}
+
+HubDataPtr PluginApiImpl::copyData(const HubDataPtr hub) {
+	HubDataPtr copy = (HubDataPtr)malloc(sizeof(HubData));
+	memcpy(copy, hub, sizeof(HubData));
+
+	size_t bufLen = strlen(hub->url) + 1;
+	copy->url = (char*)malloc(bufLen);
+	strncpy((char*)copy->url, hub->url, bufLen);
+
+	bufLen = strlen(hub->ip) + 1;
+	copy->ip = (char*)malloc(bufLen);
+	strncpy((char*)copy->ip, hub->url, bufLen);
+
+	copy->isManaged = False;
+	return copy;
+}
+
+void PluginApiImpl::releaseData(HubDataPtr hub) {
+	if(hub->isManaged) {
+		LogManager::getInstance()->message("Plugin trying to free a managed object !");
+		return;
+	}
+
+	free((char*)hub->url);
+	free((char*)hub->ip);
+
+	free(hub);
+}
+
+UserDataPtr PluginApiImpl::findUser(const char* cid, const char* hubUrl) {
+	auto lock = ClientManager::getInstance()->lock();
+	OnlineUser* ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hubUrl, true);
+	if(!ou) return NULL;
+	return ou->copyPluginObject();
+}
+
+UserDataPtr PluginApiImpl::copyData(const UserDataPtr user) {
+	UserDataPtr copy = (UserDataPtr)malloc(sizeof(UserData));
+	memcpy(copy, user, sizeof(UserData));
+
+	size_t bufLen = strlen(user->nick) + 1;
+	copy->nick = (char*)malloc(bufLen);
+	strncpy((char*)copy->nick, user->nick, bufLen);
+
+	bufLen = strlen(user->hubHint) + 1;
+	copy->hubHint = (char*)malloc(bufLen);
+	strncpy((char*)copy->hubHint, user->hubHint, bufLen);
+
+	bufLen = strlen(user->cid) + 1;
+	copy->cid = (char*)malloc(bufLen);
+	strncpy((char*)copy->cid, user->cid, bufLen);
+
+	copy->isManaged = False;
+	return copy;
+}
+
+void PluginApiImpl::releaseData(UserDataPtr user) {
+	if(user->isManaged) {
+		LogManager::getInstance()->message("Plugin trying to free a managed object !");
+		return;
+	}
+
+	free((char*)user->nick);
+	free((char*)user->hubHint);
+	free((char*)user->cid);
+
+	free(user);
 }
 
 } // namespace dcpp
 
 /**
  * @file
- * $Id: PluginApiImpl.cpp 722 2010-10-09 11:51:36Z crise $
+ * $Id: PluginApiImpl.cpp 1248 2012-01-22 01:49:30Z crise $
  */

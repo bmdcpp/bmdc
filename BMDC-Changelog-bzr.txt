@@ -401,3 +401,9 @@ Add Support of ComboBox-like UC (need more testing)
 Fixed Terminal magnet parametr
 Little updated ArchLinux PKGBUILD
 Add stacktrace
+--r97
+Update Plugin API to latest version
+Update examples of Plugin
+Add possible settings of Chat Color Background
+Fixed Showing/Hiding toolbars icons
+Fixed some commands not working on PrivateMessage

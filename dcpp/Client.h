@@ -34,6 +34,7 @@
     #include "ScriptManager.h"
 #endif
 #include "CommandQueue.h"
+#include "PluginEntity.h"
 
 namespace dcpp {
 
@@ -46,7 +47,7 @@ struct ClientScriptInstance: public ScriptInstance
 };
 #endif
 /** Yes, this should probably be called a Hub */
-class Client : public Speaker<ClientListener>, public BufferedSocketListener, protected TimerManagerListener
+class Client : public PluginEntity<HubData>, public Speaker<ClientListener>, public BufferedSocketListener, protected TimerManagerListener
 #ifdef _USELUA
 ,public ClientScriptInstance
 #endif
@@ -82,6 +83,8 @@ public:
 	bool isTrusted() const;
 	std::string getCipherName() const;
 	vector<uint8_t> getKeyprint() const;
+	
+	virtual bool isAdc() { return false; }
 
 	bool isOp() const { return getMyIdentity().isOp(); }
 
@@ -114,8 +117,11 @@ public:
 	Identity& getHubIdentity() { return hubIdentity; }
 
 	const string& getHubUrl() const { return hubUrl; }
+	
 	bool isActive() const;
 	void putDetectors() { stopMyInfoCheck(); stopChecking();  }
+	
+	HubData* getPluginObject() noexcept;
 
 	GETSET(Identity, myIdentity, MyIdentity);
 	GETSET(Identity, hubIdentity, HubIdentity);

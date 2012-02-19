@@ -64,7 +64,6 @@
 #include "uploadqueue.hh"
 #include "recenthub.hh"
 #include "detectiontab.hh"
-
 #include <dcpp/PluginManager.h>
 
 using namespace std;
@@ -392,7 +391,7 @@ MainWindow::MainWindow():
 	 string defaultluascript = "startup.lua";
 	 ScriptManager::getInstance()->EvaluateFile(defaultluascript);
 	#endif
-	PluginManager::getInstance()->callHook(HOOK_UI, UI_CREATED, getContainer());
+	PluginManager::getInstance()->runHook(HOOK_UI_CREATED, getContainer(), NULL);
 }
 
 MainWindow::~MainWindow()
@@ -846,11 +845,11 @@ void MainWindow::setMainStatus_gui(string text, time_t t)
         }
         statustext.push(text);
         
-         #if !GTK_CHECK_VERSION(2, 12, 0)
-                gtk_tooltips_set_tip (statusTips, getWidget("labelStatus"), statusTextOnToolTip.c_str(), NULL);
-         #else
-                gtk_widget_set_tooltip_text(getWidget("labelStatus"), statusTextOnToolTip.c_str());
-         #endif
+       #if !GTK_CHECK_VERSION(2, 12, 0)
+             gtk_tooltips_set_tip (statusTips, getWidget("labelStatus"), statusTextOnToolTip.c_str(), NULL);
+       #else
+             gtk_widget_set_tooltip_text(getWidget("labelStatus"), statusTextOnToolTip.c_str());
+       #endif
 	}
 }
 
@@ -1250,6 +1249,18 @@ void MainWindow::setToolbarButton_gui()
 		gtk_widget_hide(getWidget("finishedDownloads"));
 	if (!WGETB("toolbar-button-finished-uploads"))
 		gtk_widget_hide(getWidget("finishedUploads"));
+	//[BMDC
+	if (!WGETB("toolbar-button-ignore"))
+		gtk_widget_hide(getWidget("ignUser"));
+	if (!WGETB("toolbar-button-notebook"))
+		gtk_widget_hide(getWidget("notepad"));
+	if (!WGETB("toolbar-button-system"))
+		gtk_widget_hide(getWidget("system"));
+	if (!WGETB("toolbar-button-away"))
+		gtk_widget_hide(getWidget("AwayIcon"));
+	if (!WGETB("toolbar-button-limiting"))
+		gtk_widget_hide(getWidget("limitingButton"));		
+	//]	
 }
 
 void MainWindow::setTabPosition_gui(int position)
@@ -1318,6 +1329,7 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
                                          GTK_STOCK_CANCEL,
                                          GTK_RESPONSE_CANCEL,
                                          NULL));
+                                         
      GtkWidget *content_area = gtk_dialog_get_content_area (dialog);
      GtkWidget *table = gtk_table_new(1,2,FALSE);
      gtk_container_add(GTK_CONTAINER(content_area), table);                                                                                 
@@ -2078,6 +2090,7 @@ void MainWindow::onUploadQueueClicked_gui(GtkWidget *widget , gpointer data)
 	MainWindow *mw = (MainWindow *)data;
 	mw->showUploadQueue_gui();	
 }
+
 void MainWindow::onRecentHubClicked_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
@@ -2379,7 +2392,10 @@ void MainWindow::onAboutClicked_gui(GtkWidget *widget, gpointer data)
 
 void MainWindow::onAboutDialogActivateLink_gui(GtkAboutDialog *dialog, const gchar *link, gpointer data)
 {
-	WulforUtil::openURI(link);
+	MainWindow *mw =(MainWindow *)data;
+	string error = Util::emptyString;
+	WulforUtil::openURI(link,error);
+	mw->setMainStatus_gui(error, time(NULL));
 }
 
 void MainWindow::onCloseBookEntry_gui(GtkWidget *widget, gpointer data)
@@ -2576,6 +2592,7 @@ int MainWindow::FileListQueue::run() {
 			i = fileLists.front();
 			fileLists.pop_front();
 		}
+		
 		if(Util::fileExists(i->file)) {
 			DirectoryListing* dl = new DirectoryListing(i->user);
 			try {

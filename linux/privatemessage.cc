@@ -24,6 +24,7 @@
 #include <dcpp/ClientManager.h>
 #include <dcpp/FavoriteManager.h>
 #include <dcpp/StringTokenizer.h>
+#include <dcpp/PluginManager.h>
 #include "settingsmanager.hh"
 #include "emoticonsdialog.hh"
 #include "emoticons.hh"
@@ -52,6 +53,16 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 		gtk_widget_modify_font(getWidget("text"), fontDesc);
 		pango_font_description_free(fontDesc);
 	}
+	
+	//..set Colors
+	string strcolor = WGETS("background-color-chat");
+	GdkColor color;
+	gdk_color_parse(strcolor.c_str(),&color);
+	gtk_widget_modify_base(getWidget("text"),GTK_STATE_NORMAL,&color);
+	gtk_widget_modify_base(getWidget("text"),GTK_STATE_PRELIGHT,&color);
+	gtk_widget_modify_base(getWidget("text"),GTK_STATE_ACTIVE,&color);
+	gtk_widget_modify_base(getWidget("text"),GTK_STATE_SELECTED,&color);
+	gtk_widget_modify_base(getWidget("text"),GTK_STATE_INSENSITIVE,&color);
 
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
 	messageBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(getWidget("text")));
@@ -274,6 +285,15 @@ void PrivateMessage::preferences_gui()
 	{
 		gtk_widget_set_sensitive(getWidget("emotButton"), TRUE);
 	}
+	
+	string strcolor = WGETS("background-color-chat");
+	GdkColor color;
+	gdk_color_parse(strcolor.c_str(),&color);
+	gtk_widget_modify_base(getWidget("text"),GTK_STATE_NORMAL,&color);
+	gtk_widget_modify_base(getWidget("text"),GTK_STATE_PRELIGHT,&color);
+	gtk_widget_modify_base(getWidget("text"),GTK_STATE_ACTIVE,&color);
+	gtk_widget_modify_base(getWidget("text"),GTK_STATE_SELECTED,&color);
+	gtk_widget_modify_base(getWidget("text"),GTK_STATE_INSENSITIVE,&color);
 }
 
 void PrivateMessage::setStatus_gui(string text)
@@ -503,6 +523,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 		if(isCountryFlag)
 		{
             gtk_text_buffer_move_mark(messageBuffer, tag_mark, &tag_end_iter);
+            
             if(country_text.length() == 2)
             {
                 GdkPixbuf *buffer = WulforUtil::LoadCountryPixbuf(country_text);
@@ -948,8 +969,8 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 	// Process special commands
 	if (text[0] == '/')
 	{
-		string command, param;
-		string::size_type separator = text.find_first_of(' ');
+		string command = text, param;
+		/*string::size_type separator = text.find_first_of(' ');
 		if (separator != string::npos && text.size() > separator + 1)
 		{
 			command = text.substr(1, separator - 1);
@@ -959,9 +980,22 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		{
 			command = text.substr(1);
 		}
-		std::transform(command.begin(), command.end(), command.begin(), (int(*)(int))tolower);
-
-		if (command == "away")
+		std::transform(command.begin(), command.end(), command.begin(), (int(*)(int))tolower);*/
+		bool isThirdPerson = false;
+		string message, status;
+		if(PluginManager::getInstance()->onChatCommandPM(HintedUser(new User(CID(pm->cid)),pm->hubUrl),command,false )) {
+			// Plugins, chat commands
+		  return;
+	    }	
+		
+		if(WulforUtil::checkCommand(command,param,message, status, isThirdPerson))
+		{
+			if(!message.empty())
+				pm->addMessage_gui(message,Msg::MYOWN);
+			if(!status.empty())	
+				pm->addStatusMessage_gui(status, Msg::STATUS);
+		}/*
+		else if (command == "away")
 		{
 			if (Util::getAway() && param.empty())
 			{
@@ -982,7 +1016,7 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		{
 			Util::setAway(FALSE);
 			pm->addStatusMessage_gui(_("Away mode off"), Msg::SYSTEM);
-		}
+		}*/
 		else if (command == "clear")
 		{
 			GtkTextIter startIter, endIter;
@@ -1043,7 +1077,8 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			"/getlist\t\t\t\t - " + _("Get file list") + "\n" +
 			"/grant\t\t\t\t - " + _("Grant extra slot") + "\n" +
 			"/emoticons, /emot\t\t - " + _("Emoticons on/off") + "\n" +
-			"/help\t\t\t\t - " + _("Show help") + "\n");
+			"/help\t\t\t\t - " + _("Show help") + "\n" +
+			WulforUtil::commands	) ;
 		}
 		else
 		{
@@ -1251,8 +1286,9 @@ void PrivateMessage::onCopyURIClicked_gui(GtkMenuItem *item, gpointer data)
 void PrivateMessage::onOpenLinkClicked_gui(GtkMenuItem *item, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
-
-	WulforUtil::openURI(pm->selectedTagStr);
+	string error = Util::emptyString;
+	WulforUtil::openURI(pm->selectedTagStr, error);
+	pm->addStatusMessage_gui(error,Msg::STATUS);
 }
 
 void PrivateMessage::onOpenHubClicked_gui(GtkMenuItem *item, gpointer data)
@@ -1315,7 +1351,7 @@ void PrivateMessage::onCommandClicked_gui(GtkWidget *widget, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 
-	string command = (gchar*) g_object_get_data(G_OBJECT(widget), "command");
+	string command = (gchar*)g_object_get_data(G_OBJECT(widget), "command");
 
 	gint pos = 0;
 	GtkWidget *entry = pm->getWidget("entry");
@@ -1452,24 +1488,25 @@ void PrivateMessage::on(ClientManagerListener::UserDisconnected, const UserPtr& 
 	}
 }
 
-void PrivateMessage::readLog(const string& logPath, const unsigned setting) {
-		if(setting == 0)
-			return;
-		if(logPath.empty())
-			return;	
-		//make %[] to it value...
-		dcpp::ParamMap params;
-		params["hubUrl"] = hubUrl;
-		OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hubUrl, false);
-		Client *client = &ou->getClient();
-		client->getHubIdentity().getParams(params, "hub", false);
-		client->getMyIdentity().getParams(params, "my", true);
-		Identity *id = &ou->getIdentity();
-		id->getParams(params, "user", true);
-		Util::formatParams(logPath, params);
-		//..
-		StringList lines;
-		try {
+void PrivateMessage::readLog(const string& logPath, const unsigned setting) 
+{
+	if(setting == 0)
+		return;
+	if(logPath.empty())
+		return;	
+	//make %[] value...
+	dcpp::ParamMap params;
+	params["hubUrl"] = hubUrl;
+	OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hubUrl, false);
+	Client *client = &ou->getClient();
+	client->getHubIdentity().getParams(params, "hub", false);
+	client->getMyIdentity().getParams(params, "my", true);
+	Identity *id = &ou->getIdentity();
+	id->getParams(params, "user", true);
+	Util::formatParams(logPath, params);
+	//..
+	StringList lines;
+	try {
 			const int MAX_SIZE = 32 * 1024;
 
 			File f(logPath, File::READ, File::OPEN);

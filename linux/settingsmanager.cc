@@ -357,6 +357,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("share-default", "black"));
 	defaultString.insert(StringMap::value_type("sound-command", "aplay -q"));
 	defaultString.insert(StringMap::value_type("last-searchs", "."));
+	defaultString.insert(StringMap::value_type("background-color-chat", "#7F7F7F"));
 	
 	load();
 

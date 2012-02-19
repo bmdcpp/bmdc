@@ -41,7 +41,7 @@ protected:
 	bool onUserConnectionMessageOut(UserConnection* aConn, const string& aLine);
 };
 #endif
-class UserConnection : public Speaker<UserConnectionListener>,
+class UserConnection : public PluginEntity<ConnectionData> , public Speaker<UserConnectionListener>,
 	private BufferedSocketListener, public Flags, private CommandHandler<UserConnection>,
 	private boost::noncopyable
 #ifdef _USELUA
@@ -192,6 +192,7 @@ public:
 	void updateChunkSize(int64_t leafSize, int64_t lastChunk, uint64_t ticks);
 	//BMDC++
 	void sendRaw(const string& raw) { send(raw);}
+	ConnectionData* getPluginObject() noexcept;
 
 	GETSET(string, hubUrl, HubUrl);
 	GETSET(string, token, Token);

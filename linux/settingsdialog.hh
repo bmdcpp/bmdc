@@ -189,6 +189,7 @@ class Settings:
 		static void onRemoveHighlighting_gui(GtkWidget *widget, gpointer data);
 		static void onColorText_gui(GtkWidget *widget, gpointer data);
 		static void onColorBack_gui(GtkWidget *widget, gpointer data);
+		static void onSetBackGroundChat(GtkWidget *widget , gpointer data);
 		static void onSound_gui(GtkWidget *widget, gpointer data);
 		static void onToggledHGText_gui(GtkWidget *widget, gpointer data);
 		static void onToggledHGSound_gui(GtkWidget *widget, gpointer data);

@@ -274,10 +274,10 @@ void AdcHub::handle(AdcCommand::MSG, AdcCommand& c) noexcept {
 			return;
 
 		message.replyTo = findUser(AdcCommand::toSID(temp));
-		if(!message.replyTo|| PluginManager::getInstance()->onIncomingPM(message.replyTo, message.text))
+		if(!message.replyTo || PluginManager::getInstance()->runHook(HOOK_CHAT_PM_IN, (dcptr_t)message.replyTo , (dcptr_t)&message.text))
 			return;
 			
-	}else if(PluginManager::getInstance()->onIncomingChat(this, message.text))
+	}else if(PluginManager::getInstance()->runHook(HOOK_CHAT_IN, (dcptr_t)this, (dcptr_t)&message.text))
 		return;
 
 	message.thirdPerson = c.hasFlag("ME", 1);
@@ -705,8 +705,12 @@ void AdcHub::connect(const OnlineUser& user, string const& token, bool secure) {
 }
 
 void AdcHub::hubMessage(const string& aMessage, bool thirdPerson) {
-	if(state != STATE_NORMAL || PluginManager::getInstance()->onOutgoingChat(this, aMessage))
+	if(state != STATE_NORMAL)
 		return;
+	
+	if(PluginManager::getInstance()->runHook(HOOK_CHAT_OUT, (dcptr_t)this, (dcptr_t)&aMessage))
+		return;	
+		
 	AdcCommand c(AdcCommand::CMD_MSG, AdcCommand::TYPE_BROADCAST);
 	c.addParam(aMessage);
 	if(thirdPerson)
@@ -715,8 +719,12 @@ void AdcHub::hubMessage(const string& aMessage, bool thirdPerson) {
 }
 
 void AdcHub::privateMessage(const OnlineUser& user, const string& aMessage, bool thirdPerson) {
-	if(state != STATE_NORMAL || PluginManager::getInstance()->onOutgoingPM(user, aMessage))
+	if(state != STATE_NORMAL)
 		return;
+	
+	if(PluginManager::getInstance()->runHook(HOOK_CHAT_PM_OUT,(dcptr_t)&user , (dcptr_t)&aMessage))
+		return;		
+		
 	AdcCommand c(AdcCommand::CMD_MSG, user.getIdentity().getSID(), AdcCommand::TYPE_ECHO);
 	c.addParam(aMessage);
 	if(thirdPerson)
@@ -1119,7 +1127,7 @@ void AdcHub::on(Line l, const string& aLine) noexcept {
 		// @todo report to user?
 		return;
 	}
-	if(PluginManager::getInstance()->onIncomingHubData(this, aLine))
+	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_IN,(dcptr_t)this,(dcptr_t)&aLine))
 		return;
 
 	if(BOOLSETTING(ADC_DEBUG)) {

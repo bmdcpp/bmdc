@@ -35,20 +35,28 @@
 #  define snprintf _snprintf
 #  define snwprintf _snwprintf
 # endif
+#elif __GNUC__
+# define stricmp strcasecmp
+# define strnicmp strncasecmp
+#else
+# error No supported compiler found
 #endif
-
+//custom headers
 #include <gtk/gtk.h>
 #include <gio/gio.h>
 #include <string>
 #include <map>
 #include <vector>
 
-#define stricmp strcasecmp
-#define strnicmp strncasecmp
-
 /* Variables */
 DCCorePtr dcpp;
-subsHandle hooks[2];
+
+DCHooksPtr hooks;
+DCConfigPtr config;
+DCLogPtr logging;
+
+DCHubPtr hub;
+DCUtilsPtr utils = NULL;
 GDBusProxy *proxy = NULL;
 
 using namespace std;
@@ -58,22 +66,54 @@ typedef StringMap::const_iterator StringMapIter;
 typedef std::vector<std::string> StringList;
 typedef StringList::const_iterator StringIter;
 
+/* Hook subscription store */
+#define HOOKS_SUBSCRIBED 2
+
+const char* hookGuids[HOOKS_SUBSCRIBED] = {
+	HOOK_UI_PROCESS_CHAT_CMD,
+	HOOK_HUB_ONLINE
+};
+
+DCHOOK hookFuncs[HOOKS_SUBSCRIBED] = {
+	&onHubEnter,
+	&onHubOnline
+};
+
+subsHandle subs[HOOKS_SUBSCRIBED];
+
 Bool onLoad(uint32_t eventId, DCCorePtr core) {
+	uint32_t i = 0;
 	dcpp = core;
+
+	hooks = (DCHooksPtr)core->query_interface(DCINTF_HOOKS, DCINTF_HOOKS_VER);
+	config = (DCConfigPtr)core->query_interface(DCINTF_CONFIG, DCINTF_CONFIG_VER);
+	logging = (DCLogPtr)core->query_interface(DCINTF_LOGGING, DCINTF_LOGGING_VER);
+
+	hub = (DCHubPtr)core->query_interface(DCINTF_DCPP_HUBS, DCINTF_DCPP_HUBS_VER);
+#ifdef _WIN32
+	utils = (DCUtilsPtr)core->query_interface(DCINTF_DCPP_UTILS, DCINTF_DCPP_UTILS_VER);
+#endif
+
 	if(eventId == ON_INSTALL) {
 		/* Default settings */
+		set_cfg("SendSuffix", "<DC++ Plugins Test>");
 		set_cfg("MediaPlayerFormat", "playing %[artist] - %[album] - %[title]");
 	}
 
-	hooks[0] = dcpp->set_hook(HOOK_CHAT, &pluginProc, NULL);
-	//hooks[1] = dcpp->set_hook(HOOK_HUBS, &pluginProc, NULL);
-	
+	while(i < HOOKS_SUBSCRIBED) {
+		subs[i] = hooks->bind_hook(hookGuids[i], hookFuncs[i], NULL);
+		++i;
+	}
+
 	return True;
 }
 
-Bool onUnload(uint32_t eventId) {
-	//if(hooks[1]) dcpp->un_hook(hooks[1]);
-	if(hooks[0]) dcpp->un_hook(hooks[0]);
+Bool onUnload() {
+	uint32_t i = 0;
+	while(i < HOOKS_SUBSCRIBED) {
+		if(subs[i]) hooks->release_hook(subs[i]);
+		++i;
+	}
 	return True;
 }
 
@@ -190,105 +230,98 @@ static gchar *parse(GVariant *var)
         }
       g_variant_iter_free (iter);
 	}
-   const char *format = get_cfg("MediaPlayerFormat");
+   const char *format = get_cfg("MediaPlayerFormat")->value;
    string f(format);
    return const_cast<gchar *>(formatParams(f,params).c_str());
 }
 
-Bool onHubEnter(dcptr_t client, const char* message) {
-	if(message[0] == '/') {
-		char* cmd = NULL;
-		char* param = NULL;
-		char* delim = strchr((char*)message, ' ');
-		size_t len = (delim != NULL) ? strlen(delim) : 0;
-		if(len > 1) {
-			cmd = (char*)memset(malloc(delim - message), 0, delim - message);
-			cmd = strncpy(cmd, &message[1], (delim - message) - 1);
-			param = (char*)memset(malloc(len), 0, len);
-			param = strcpy(param, &delim[1]);
+/* Event handlers */
+Bool DCAPI onHubEnter(dcptr_t pObject, dcptr_t pData, Bool* bBreak) {
+	HubDataPtr hHub = (HubDataPtr)pObject;
+	CommandDataPtr cmd = (CommandDataPtr)pData;
+
+	if(cmd->isPrivate)
+		return False;
+
+	if(stricmp(cmd->command, "help") == 0 && stricmp(cmd->params, "plugins") == 0) {
+		const char* help =
+			"\t\t\t Help: SamplePlugin \t\t\t\n"
+			"\t /pluginhelp \t\t\t Prints info about the purpose of this plugin\n"
+			"\t /plugininfo \t\t\t Prints info about the sample plugin\n"
+			"\t /unhook <index> \t\t Hooks test\n"
+			"\t /rehook <index> \t\t Hooks test\n"
+			"\t /send <text> \t\t\t Chat message test\n"
+			"\t /np \t\t\t Now Playing with formating";
+
+		hub->local_message(hHub, help, MSG_SYSTEM);
+		return True;
+	} else if(stricmp(cmd->command, "pluginhelp") == 0) {
+		const char* pluginhelp =
+			"\t\t\t Plugin Help: SamplePlugin \t\t\t\n"
+			"\t The sample plugin project is intended to both demostrate the use and test the implementation of the API\n"
+			"\t as such the plugin itself does nothing useful but it can be used to verify whether an implementation works\n"
+			"\t with the API or not, however, it is by no means intended to be a comprehensive testing tool for the API.\n";
+
+		hub->local_message(hHub, pluginhelp, MSG_SYSTEM);
+		return True;
+	} else if(stricmp(cmd->command, "plugininfo") == 0) {
+		const char* info =
+			"\t\t\t Plugin Info: SamplePlugin \t\t\t\n"
+			"\t Name: \t\t\t\t" PLUGIN_NAME "\n"
+			"\t Author: \t\t\t" PLUGIN_AUTHOR "\n"
+			"\t Version: \t\t\t" STRINGIZE(PLUGIN_VERSION) "\n"
+			"\t Description: \t\t\t" PLUGIN_DESC "\n"
+			"\t GUID/UUID: \t\t\t" PLUGIN_GUID "\n";
+
+		hub->local_message(hHub, info, MSG_SYSTEM);
+		return True;
+	} else if(stricmp(cmd->command, "unhook") == 0) {
+		/* Unhook test */
+		if(strlen(cmd->params) == 0) {
+			hub->local_message(hHub, "You must supply a parameter!", MSG_SYSTEM);
 		} else {
-			len = strlen(message);
-			cmd = (char*)memset(malloc(len), 0, len);
-			cmd = strcpy(cmd, &message[1]);
+			uint32_t subIdx = atoi(cmd->params);
+			if((subIdx < HOOKS_SUBSCRIBED) && subs[subIdx]) {
+				hooks->release_hook(subs[subIdx]);
+				subs[subIdx] = 0;
+				hub->local_message(hHub, "Hooking changed...", MSG_SYSTEM);
+			}
 		}
-
-		if(stricmp(cmd, "help") == 0 && (param && stricmp(param, "plugins") == 0)) {
-			const char* help =
-				"\t\t\t Help: SamplePlugin \t\t\t\n"
-				"\t /pluginhelp \t\t\t Prints info about the purpose of this plugin\n"
-				"\t /plugininfo \t\t\t Prints info about the sample plugin\n"
-				"\t /unhook <type> \t\t Hooks test\n"
-				"\t /rehook <type> \t\t\t Hooks test\n"
-				"\t /msgreg \t\t\t Message register test\n"
-				"\t /send <text> \t\t\t Chat message test\n"
-				"\t /np \t\t\t Now Playing with formating";
-
-			BASE_HUB_SEND_LOCAL(dcpp, MSG_SYSTEM, client, help);
-			return True;
-		} else if(stricmp(cmd, "pluginhelp") == 0) {
-			const char* pluginhelp =
-				"\t\t\t Plugin Help: DBus-like Media Plugin \t\t\t\n"
-				"\t The sample plugin project is intended to both demostrate the use and test the implementation of the API\n"
-				"\t as such the plugin itself does nothing useful but it can be used to verify whether an implementation works\n"
-				"\t with the API or not, however, it is by no means intended to be a comprehensive testing tool for the API.\n";
-
-			BASE_HUB_SEND_LOCAL(dcpp, MSG_SYSTEM, client, pluginhelp);
-			return True;
-		} else if(stricmp(cmd, "plugininfo") == 0) {
-			const char* info =
-				"\t\t\t Plugin Info: DBus-Like Plugin \t\t\t\n"
-				"\t Name: \t\t\t\t" PLUGIN_NAME "\n"
-				"\t Author: \t\t\t" PLUGIN_AUTHOR "\n"
-				"\t Version: \t\t\t" STRINGIZE(PLUGIN_VERSION) "\n"
-				"\t Description: \t\t\t" PLUGIN_DESC "\n"
-				"\t GUID/UUID: \t\t\t" PLUGIN_GUID "\n";
-
-			BASE_HUB_SEND_LOCAL(dcpp, MSG_SYSTEM, client, info);
-			return True;
-		} else if(stricmp(cmd, "msgreg") == 0) {
-			char result[256];
-
-			/* Test values */
-			const uint32_t testMsg = dcpp->register_message(HOOK_EVENT, "testMsg");
-			const uint32_t testRange = dcpp->register_range(HOOK_EVENT, "testRange", 5);
-			const uint32_t testMsg2 = dcpp->register_message(HOOK_EVENT, "testMsg2");
-
-			memset(&result, 0, sizeof(result));
-			if(testMsg != dcpp->seek_message("testMsg")) {
-				snprintf(result, sizeof(result), "Result: FAILED! (Test 1, testMsg: %u, testRange: %u, testMsg2: %u)", testMsg, testRange, testMsg2);
-				BASE_HUB_SEND_LOCAL(dcpp, MSG_SYSTEM, client, result);
-				return True;
-			} else if(testRange != dcpp->seek_message("testRange")) {
-				snprintf(result, sizeof(result), "Result: FAILED! (Test 2, testMsg: %u, testRange: %u, testMsg2: %u)", testMsg, testRange, testMsg2);
-				BASE_HUB_SEND_LOCAL(dcpp, MSG_SYSTEM, client, result);
-				return True;
-			} else if(testMsg2 != (testRange + 5)) {
-				snprintf(result, sizeof(result), "Result: FAILED! (Test 3, testMsg: %u, testRange: %u, testMsg2: %u)", testMsg, testRange, testMsg2);
-				BASE_HUB_SEND_LOCAL(dcpp, MSG_SYSTEM, client, result);
-				return True;
+		return True;
+	} else if(stricmp(cmd->command, "rehook") == 0) {
+		/* Rehook test */
+		if(strlen(cmd->params) == 0) {
+			hub->local_message(hHub, "You must supply a parameter!", MSG_SYSTEM);
+		} else {
+			uint32_t subIdx = atoi(cmd->params);
+			if((subIdx < HOOKS_SUBSCRIBED) && !subs[subIdx]) {
+				subs[subIdx] = hooks->bind_hook(hookGuids[subIdx], hookFuncs[subIdx], NULL);
+				hub->local_message(hHub, "Hooking changed...", MSG_SYSTEM);
 			}
+		}
+		return True;
+	} else if(stricmp(cmd->command, "send") == 0) {
+		size_t len = strlen(cmd->params);
+		if(len > 0) {
+			ConfigStrPtr suffix = get_cfg("SendSuffix");
+			size_t msgLen = len + strlen(suffix->value) + 2;
+			char* text = (char*)memset(malloc(msgLen), 0, msgLen);
 
-			snprintf(result, sizeof(result), "Result: OK! (testMsg: %u, testRange: %u, testMsg2: %u)", testMsg, testRange, testMsg2);
-			BASE_HUB_SEND_LOCAL(dcpp, MSG_SYSTEM, client, result);
-			return True;
-		} else if(stricmp(cmd, "send") == 0) {
-			if(param != NULL) {
-				const char* suffix = get_cfg("SendSuffix");
-				size_t msgLen = len + strlen(suffix) + 1;
-				char* text = (char*)memset(malloc(msgLen), 0, msgLen);
+			strcat(text, cmd->params);
+			text[len] = ' ';
+			strcat(text, suffix->value);
 
-				strcat(text, param);
-				text[len-1] = ' ';
-				strcat(text, suffix);
+			hub->send_message(hHub, text, (strnicmp(text, "/me ", 4) == 0) ? True : False);
 
-				BASE_HUB_SEND_CHAT(dcpp, client, text, (strnicmp(text, "/me ", 4) == 0) ? True : False);
-				free(text);
-			} else {
-				BASE_HUB_SEND_LOCAL(dcpp, MSG_SYSTEM, client, "You must supply a parameter!");
-			}
-			return True;
-		} else if (stricmp(cmd, "np") == 0)
-		{
+			free(text);
+			config->release((ConfigValuePtr)suffix);
+		} else {
+			hub->local_message(hHub, "You must supply a parameter!", MSG_SYSTEM);
+		}
+		return True;
+	}
+	else if (stricmp(cmd->command, "np") == 0)
+	{
 			GError *error = NULL;
 			GDBusProxyFlags flags = G_DBUS_PROXY_FLAGS_NONE;
 			proxy = g_dbus_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
@@ -303,7 +336,7 @@ Bool onHubEnter(dcptr_t client, const char* message) {
 			if (proxy == NULL || error != NULL)
 			{
 				g_printerr ("Error creating proxy: %s\n", error->message);
-				BASE_HUB_SEND_LOCAL(dcpp, MSG_SYSTEM, client, error->message);
+				hub->local_message(hHub,error->message, MSG_SYSTEM);
 				g_error_free (error);
 				return True;
 			}
@@ -321,30 +354,41 @@ Bool onHubEnter(dcptr_t client, const char* message) {
 			if( (var == NULL) && error != NULL)
 			{
 				g_printerr ("Error call on proxy: %s\n", error->message);
-				BASE_HUB_SEND_LOCAL(dcpp, MSG_SYSTEM, client, error->message);
+				hub->local_message(hHub,error->message, MSG_SYSTEM);
 				g_error_free (error);
 				return True;
 			}
 			gchar *pr = parse(var);
 			
-			BASE_HUB_SEND_CHAT(dcpp, client, pr, (strnicmp(pr, "/me ", 4) == 0) ? True : False);
+			hub->send_message(hHub, pr, (strnicmp(pr, "/me ", 4) == 0) ? True : False);
 			g_variant_unref(var);
 		return True;	
-		}
-
-		free(param);
-		free(cmd);
 	}
+	return False;
+}
+
+Bool DCAPI onHubOnline(dcptr_t pObject, dcptr_t pData, Bool* bBreak) {
+	HubDataPtr hHub = (HubDataPtr)pObject;
+
+	char* buf = (char*)memset(malloc(256), 0, 256);
+	snprintf(buf, 256, "*** %s connected! (%s)", hHub->url, (hHub->protocol == PROTOCOL_ADC ? "adc" : "nmdc"));
+
+	logging->log(buf);
+	free(buf);
+
 	return False;
 }
 
 #ifdef _WIN32
 /* Config dialog stuff */
 BOOL onConfigInit(HWND hWnd) {
-	char* value = (char*)get_cfg("SendSuffix");
-	size_t len = strlen(value) + 1;
+	ConfigStrPtr value = get_cfg("SendSuffix");
+	size_t len = strlen(value->value) + 1;
 	TCHAR* buf = (TCHAR*)memset(malloc(len * sizeof(TCHAR)), 0, len * sizeof(TCHAR));
-	dcpp->strconv(CONV_UTF8_TO_WIDE, buf, value, len);
+
+	utils->utf8_to_wcs(buf, value->value, len);
+	config->release((ConfigValuePtr)value);
+	value = NULL;
 
 	SetDlgItemText(hWnd, IDC_SUFFIX, buf);
 	SetWindowText(hWnd, _T(PLUGIN_NAME) _T(" Settings"));
@@ -357,13 +401,13 @@ BOOL onConfigClose(HWND hWnd, UINT wID) {
 	if(wID == IDOK) {
 		int len = GetWindowTextLength(GetDlgItem(hWnd, IDC_SUFFIX)) + 1;
 		TCHAR* wbuf = (TCHAR*)memset(malloc(len * sizeof(TCHAR)), 0, len * sizeof(TCHAR));
-		char* abuf = (char*)memset(malloc(len), 0, len);
+		char* value = (char*)memset(malloc(len), 0, len);
 
 		GetWindowText(GetDlgItem(hWnd, IDC_SUFFIX), wbuf, len);
-		dcpp->strconv(CONV_WIDE_TO_UTF8, abuf, wbuf, len);
-		set_cfg("SendSuffix", abuf);
+		utils->wcs_to_utf8(value, wbuf, len);
+		set_cfg("SendSuffix", value);
 
-		free(abuf);
+		free(value);
 		free(wbuf);
 	}
 
@@ -372,6 +416,7 @@ BOOL onConfigClose(HWND hWnd, UINT wID) {
 }
 
 BOOL CALLBACK configProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+	UNREFERENCED_PARAMETER(lParam);
 	switch(uMsg) {
 		case WM_INITDIALOG:
 			return onConfigInit(hWnd);
@@ -387,10 +432,17 @@ BOOL CALLBACK configProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	return FALSE;
 }
 #endif
+#ifdef _WIN32
+Bool onConfig(dcptr_t hWnd) {
+
+	DialogBox(hInst, MAKEINTRESOURCE(IDD_PLUGINDLG), (HWND)hWnd, (DLGPROC)&configProc);
+	return True;
+}
+#endif
 #ifndef _WIN32
-Bool onConfig(GtkWidget *widget) {
+Bool onConfig(dcptr_t widget) {
 	GtkDialog *dialog =  GTK_DIALOG(gtk_dialog_new_with_buttons ("Setting for a Plugin",
-                                         GTK_WINDOW(widget),
+                                         GTK_WINDOW((GtkWidget*)widget),
                                          GTK_DIALOG_DESTROY_WITH_PARENT,
                                          GTK_STOCK_OK,
                                          GTK_RESPONSE_OK,
@@ -404,13 +456,13 @@ Bool onConfig(GtkWidget *widget) {
    gtk_container_add(GTK_CONTAINER(content_area), entry);
    gtk_widget_show(entry); 
    gtk_widget_show(label);
-   gtk_entry_set_text(GTK_ENTRY(entry) , get_cfg("MediaPlayerFormat"));                               
+   gtk_entry_set_text(GTK_ENTRY(entry) , get_cfg("MediaPlayerFormat")->value);                               
     gint response  = gtk_dialog_run(dialog);
    
     if(response == GTK_RESPONSE_OK)
     {
 		const gchar *format = gtk_entry_get_text(GTK_ENTRY(entry));
-		set_cfg("MediaPlayerFormat", format);	
+		set_cfg("MediaPlayerFormat", (char*)format);	
 		
 	}
     gtk_widget_destroy(GTK_WIDGET(dialog));                              
@@ -419,78 +471,56 @@ Bool onConfig(GtkWidget *widget) {
 #endif
 
 /* Settings helpers */
-const char* DCAPI get_cfg(const char* name) {
-	ConfigValue val;
-	memset(&val, 0, sizeof(ConfigValue));
-
-	val.type = CFG_TYPE_STRING;
-	dcpp->get_cfg(PLUGIN_GUID, name, &val);
-	return val.value.str;
+ConfigStrPtr DCAPI get_cfg(const char* name) {
+	return (ConfigStrPtr)config->get_cfg(PLUGIN_GUID, name, CFG_TYPE_STRING);
 }
 
-int32_t DCAPI get_cfg_int32(const char* name) {
-	ConfigValue val;
-	memset(&val, 0, sizeof(ConfigValue));
-
-	val.type = CFG_TYPE_INT;
-	dcpp->get_cfg(PLUGIN_GUID, name, &val);
-	return val.value.int32;
+ConfigIntPtr DCAPI get_cfg_int(const char* name) {
+	return (ConfigIntPtr)config->get_cfg(PLUGIN_GUID, name, CFG_TYPE_INT);
 }
 
-int64_t DCAPI get_cfg_int64(const char* name) {
-	ConfigValue val;
-	memset(&val, 0, sizeof(ConfigValue));
-
-	val.type = CFG_TYPE_INT64;
-	dcpp->get_cfg(PLUGIN_GUID, name, &val);
-	return val.value.int64;
+ConfigInt64Ptr DCAPI get_cfg_int64(const char* name) {
+	return (ConfigInt64Ptr)config->get_cfg(PLUGIN_GUID, name, CFG_TYPE_INT64);
 }
 
 void DCAPI set_cfg(const char* name, const char* value) {
-	ConfigValue val;
-	memset(&val, 0, sizeof(ConfigValue));
+	ConfigStr val;
+	memset(&val, 0, sizeof(ConfigStr));
 
 	val.type = CFG_TYPE_STRING;
-	val.value.str = value;
-	dcpp->set_cfg(PLUGIN_GUID, name, &val);
+	val.value = value;
+	config->set_cfg(PLUGIN_GUID, name, (ConfigValuePtr)&val);
 }
 
-void DCAPI set_cfg_int32(const char* name, int32_t value) {
-	ConfigValue val;
-	memset(&val, 0, sizeof(ConfigValue));
+void DCAPI set_cfg_int(const char* name, int32_t value) {
+	ConfigInt val;
+	memset(&val, 0, sizeof(ConfigInt));
 
 	val.type = CFG_TYPE_INT;
-	val.value.int32 = value;
-	dcpp->set_cfg(PLUGIN_GUID, name, &val);
+	val.value = value;
+	config->set_cfg(PLUGIN_GUID, name, (ConfigValuePtr)&val);
 }
 
 void DCAPI set_cfg_int64(const char* name, int64_t value) {
-	ConfigValue val;
-	memset(&val, 0, sizeof(ConfigValue));
+	ConfigInt64 val;
+	memset(&val, 0, sizeof(ConfigInt64));
 
-	val.type = CFG_TYPE_INT;
-	val.value.int64 = value;
-	dcpp->set_cfg(PLUGIN_GUID, name, &val);
+	val.type = CFG_TYPE_INT64;
+	val.value = value;
+	config->set_cfg(PLUGIN_GUID, name, (ConfigValuePtr)&val);
 }
 
-/* Plugin event processing (listeners could have own functions) */
-Bool DCAPI pluginProc(uint32_t eventId, dcptr_t pData) {
-	switch(eventId) {
+/* Plugin main function */
+Bool DCAPI pluginMain(PluginState state, DCCorePtr core, dcptr_t pData) {
+	switch(state) {
 		case ON_INSTALL:
 		case ON_LOAD:
-			return onLoad(eventId, (DCCorePtr)pData);
+			return onLoad(state, core);
 		case ON_UNINSTALL:
 		case ON_UNLOAD:
-			return onUnload(eventId);
-		case HUB_ONLINE:
-			return False;
-		case CHAT_OUT:
-		{
-			ClientDataPtr cmd = (ClientDataPtr)pData;
-			return onHubEnter(cmd->object, cmd->data);
-		}
+			return onUnload();
 		case ON_CONFIGURE:
-			return onConfig((GtkWidget*)pData);
+			return onConfig(pData);
 		default: return False;
 	}
 }

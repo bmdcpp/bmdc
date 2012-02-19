@@ -147,13 +147,30 @@ void Client::connect() {
 }
 
 void Client::send(const char* aMessage, size_t aLen) {
-	if(!isReady() || PluginManager::getInstance()->onOutgoingHubData(this, aMessage)) {
+	if(!isReady()) {
 		dcassert(0);
 		return;
 	}
+	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_OUT, (dcptr_t)this,(dcptr_t)&aMessage))
+		return;
+	
 	updateActivity();
 	sock->write(aMessage, aLen);
 	COMMAND_DEBUG(aMessage, DebugManager::HUB_OUT, getIpPort());
+}
+
+HubData* Client::getPluginObject() noexcept {
+	resetEntity();
+
+	pod.url = pluginString(hubUrl);
+	pod.ip = pluginString(ip);
+	pod.object = this;
+	pod.port = Util::toInt(port);
+	pod.protocol = isAdc() ? PROTOCOL_ADC : PROTOCOL_NMDC;
+	pod.isOp = isOp() ? True : False;
+	pod.isSecure = isSecure() ? True : False;
+
+	return &pod;
 }
 
 void Client::on(Connected) noexcept {

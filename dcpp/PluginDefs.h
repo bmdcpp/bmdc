@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2001-2010 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2012 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,71 +16,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-/**
- *						API Stuff (just to put some things down)
- *
- * API Terms:
- *	1. Node: User of the plugin API (both plugins and the host itself).
- *	2. Hook: Generic term for message based channel between two nodes. Hook can be either inbound
- *			 (called) our outboud (listened). Inbound hooks are referred as callbacks but their
- *			 mechanics are mostly identical.
- *				- Main hook: a special hook which notifies plugins about changes in the API and
- *				  its state (separate of the hooks system).
- *				- Default hook procedure: called after subscribers have been processed, if available. 
- *
- * Host node implementation:
- *	1§ Host is expected to implement all functions pointed directly by DCCore struct, with the
- *	   notable exception of "strconv" which should be implemented to be platform, useage and
- *	   environment relevant.
- *
- *	2§ set_hook and un_hook implementations must automatically create (if missing) and free hooks from
- *	   HookID range [1, HOOK_USER] respectively. The type of any automatically created hooks should be
- *	   HOOK_EVENT.
- *
- *	3§ Host node must create the callback CALLBACK_BASE, which is the only guaranteed callback between
- *	   host node and (all of) the plugin nodes (this callback should be a hook of type HOOK_CALLBACK).
- *
- *	4§ Host is expected to implement at least one of the "common" outbound hooks, rest are optional.
- *
- *	5§ Hooks the host node chooses implement are expected to be complete or complemented, to a satisfactory
- *	   degree, by plugin for the host.
- *
- *	6§ Host is required to implement only the callback events relevant to the implemented outbound hooks.
- *	   Alternatively a plugin may complement (complete) the hosts supply of these by the means of
- *	   callback overloading.
- *
- *	7§ Any completely platform specific callbacks or hooks are considered completely optional and
- *	   plugins can be expected to handle this accordingly.
- *
- * Plugin node implementation:
- *	1§ Plugin is required to export function pluginInit which must return pointer to a hook procedure
- *	   that can handle main hook events (basic DCHOOK). Unless plugin explictly sets the common data
- *	   when subscribing to a hook or a callback all hook procedures are of the simple variant.
- *
- *	2§ Most hooks are simple blocking type, however, even an event blocked by one node will get sent
- *	   to any remaining nodes (sending process is linear, based on subscription order) though they can't
- *	   unblock the event.
- *
- *	3§ Callback hooks are overloadable and differ slightly from above. They suppport both terminating the
- *	   sending of the current event to remaining nodes as well as changing the blocking state on the fly.
- *	   This allows callbacks to be overloaded by plugins. Example: host node uses default hook procedure
- *	   to provide callbacks. Plugin subscribes to the hook and catches the event it needs then terminates
- *	   so the default hook procedure won't get processed (callbacks can be implemented by all nodes, see below).
- *
- *	4§ Plugins can also intercommunicate and depend on each other because everyone can create and call hooks freely
- *	   this also allows plugins to complement the hosts implementations of the API (as noted under Host node
- *	   implementation). However, plugin intercom is something largely independant of the host and the API itself.
- *	   To put it simply plugins have to "know each other", the API only allows for basic checking of dependencies
- *	   based on plugin GUIDs.
- *
- * Misc implementation
- *	§1 Implementations that add additional messages or types to any of the groups of constants must always aim to
- *	   preserve the existing constants and their values so that backwards compatibility is maintained.
- *
- *	§2 Any constants should not exceed the absolute minium size requirements for an integer (ie. 16bit, [-32767, 32767])
- *	   even though on most architectures today integer can be larger.
- */
-
 #ifndef DCPLUSPLUS_DCPP_PLUGIN_DEFS_H
 #define DCPLUSPLUS_DCPP_PLUGIN_DEFS_H
 
@@ -88,181 +23,115 @@
 extern "C" {
 #endif
 
-/* Version of the plugin api (must change every time the API has changed) */
-#define DCAPI_VER				0.50
-
-/* The earliest version of the API that this version is backwards compatible with */
-#define DCAPI_COMPATIBLE_VER	0.50
+/* Version of the plugin api (must change if old plugins simply can't be seen as viably working) */
+#define DCAPI_CORE_VER				3
 
 #ifdef _WIN32
-	#define DCAPI __stdcall
-	#define DCEXP __declspec(dllexport)
-	#ifdef DCAPI_HOST
-	#define DCIMP __declspec(dllexport)
-	#else
-	#define DCIMP __declspec(dllimport)
-	#endif
+# define DCAPI __stdcall
+# define DCEXP __declspec(dllexport)
+# ifdef DCAPI_HOST
+#  define DCIMP __declspec(dllexport)
+# else
+#  define DCIMP __declspec(dllimport)
+# endif
 #else
-	#define STDCALL
-	//...
-	#define DCAPI_HOST
-	#define DCAPI STDCALL
-	#define DCEXP __attribute__ ((visibility("default")))
-	#define DCIMP __attribute__ ((visibility("default")))
+# ifdef STDCALL
+#  define DCAPI STDCALL
+# else
+#  define DCAPI
+# endif
+# define DCEXP __attribute__ ((visibility("default")))
+# define DCIMP __attribute__ ((visibility("default")))
 #endif
 
-#ifndef DCAPI_HOST
-/* current STLPort GIT implements this */
-#if _MSC_VER <= 1500 && (!defined(_STLPORT_VERSION) || (_STLPORT_VERSION < 0x600))
-typedef signed __int8 int8_t;
-typedef signed __int16 int16_t;
-typedef signed __int32 int32_t;
-typedef signed __int64 int64_t;
+/* Hooks (events) system - required interface! */
+#define DCINTF_HOOKS				"generic.plugins.DCHooks"
+#define DCINTF_HOOKS_VER			DCAPI_CORE_VER
 
-typedef unsigned __int8 uint8_t;
-typedef unsigned __int16 uint16_t;
-typedef unsigned __int32 uint32_t;
-typedef unsigned __int64 uint64_t;
-#else
-		#include <stdint.h>
-#endif
-#endif
+/* Recommended interfaces */
+#define DCINTF_CONFIG				"generic.plugins.DCConfig"	/* Config management */
+#define DCINTF_CONFIG_VER			1
 
-/* Hook types */
-typedef enum tagHookType {
-	HOOK_ID = 0,									/* Used by the message register functions, to register new hooks */
-	HOOK_CALLBACK,									/* Callback (inbound) hook */
-	HOOK_EVENT										/* Regular (outbound) hook */
-} HookType;
+#define DCINTF_LOGGING				"generic.plugins.DCLog"		/* Logging functions */
+#define DCINTF_LOGGING_VER			1
 
-/* Hook IDs */
-typedef enum tagHookID {
-	/* Mandatory callback hook */
-	CALLBACK_BASE = 0,
+/* Optional interfaces */
+#define DCINTF_DCPP_CONNECTIONS		"dcpp.network.DCConnection"	/* Peer connections */
+#define DCINTF_DCPP_CONNECTIONS_VER	1
 
-	/* Common hooks (none manadatory, however, one required) */
-	HOOK_PROTOCOL = 500,
-	HOOK_CHAT,
-	HOOK_HUBS,
-	HOOK_TIMER,
-	HOOK_QUEUE,
-	HOOK_UI,
+#define DCINTF_DCPP_HUBS			"dcpp.network.DCHub"		/* Hubs */
+#define DCINTF_DCPP_HUBS_VER		1
 
-	/* Plugin created hooks and callbacks (HOOK_USER + n) */
-	HOOK_USER = 1000
-} HookID;
+#define DCINTF_DCPP_QUEUE			"dcpp.queue.DCQueue"		/* Download Queue (TODO: expand) */
+#define DCINTF_DCPP_QUEUE_VER		1
 
-typedef enum tagCallbackEvent {
-	/* Generic callback events */
-	DBG_MESSAGE = 0,
-	LOG_MESSAGE,
-	GET_PATHS,
+#define DCINTF_DCPP_UTILS			"dcpp.utils.DCUtils"		/* Utility and convenience functions */
+#define DCINTF_DCPP_UTILS_VER		1
 
-	/* Protocol callback events */
-	PROTOCOL_SEND_UDP = 500,
-	PROTOCOL_HUB_EMULATE_CMD,
-	PROTOCOL_HUB_SEND_CMD,
-	PROTOCOL_CONN_SEND_CMD,
-	PROTOCOL_CONN_TERMINATE,
+/* Hook GUID's for Hooks (events) system */
+#define HOOK_CHAT_IN				"dcpp.chat.onIncomingChat"	/* Incoming chat from hub (obj: HubData) */
+#define HOOK_CHAT_OUT				"dcpp.chat.onOutgoingChat"	/* Outgoing chat (obj: HubData) */
+#define HOOK_CHAT_PM_IN				"dcpp.chat.onIncomingPM"	/* Incoming private message (obj: UserData) */
+#define HOOK_CHAT_PM_OUT			"dcpp.chat.onOutgoingPM"	/* Outgoing private message (obj: UserData) */
 
-	/* Hub callback events */
-	HUBS_CREATE_HUB = 1000,
-	HUBS_DESTROY_HUB,
-	HUBS_FIND_HUB,
-	HUBS_SEND_CHAT,
-	HUBS_SEND_PM,
-	HUBS_SEND_LOCAL,
+#define HOOK_TIMER_SECOND			"dcpp.timer.onSecond"		/* Timer event fired once per second (data: tick value) */
+#define HOOK_TIMER_MINUTE			"dcpp.timer.onMinute"		/* Timer event fired once per minute (data: tick value) */
 
-	/* Queue callback events */
-	QUEUE_ADD_DL = 1500,
-	QUEUE_REMOVE_DL,
-	QUEUE_SET_PRIORITY,
+#define HOOK_HUB_ONLINE				"dcpp.hubs.onOnline"		/* (New) hub has just gone online (obj: HubData) */
+#define HOOK_HUB_OFFLINE			"dcpp.hubs.onOffline"		/* Hub has just gone offline (obj: HubData) */
+#define HOOK_USER_ONLINE			"dcpp.users.onOnline"		/* User is online (obj: UserData) */
+#define HOOK_USER_OFFLINE			"dcpp.users.onOffline"		/* User is offline (obj: UserData) */
 
-	/* [2000, 2499] Reserved for UI callback events */ 
+#define HOOK_NETWORK_HUB_IN			"dcpp.network.onHubDataIn"		/* Incoming protocol messages from hub (obj: HubData) */
+#define HOOK_NETWORK_HUB_OUT		"dcpp.network.onHubDataOut"		/* Outgoing protocol message to hub (obj: HubData) */
+#define HOOK_NETWORK_CONN_IN		"dcpp.network.onClientDataIn"	/* Incoming client<->client protocol message (obj: ConnectionData) */
+#define HOOK_NETWORK_CONN_OUT		"dcpp.network.onClientDataOut"	/* Outgoing client<->client protocol message (obj: ConnectionData) */
 
-	/* Plugin created callback events (CALLBACK_USER + n) */
-	CALLBACK_USER = 2500
-} CallbackEvent;
+#define HOOK_QUEUE_ADD				"dcpp.queue.onAdd"			/* (New) item has been added to download queue (obj: QueueData) */
+#define HOOK_QUEUE_MOVE				"dcpp.queue.onMove"			/* Download queue item has been moved to new location (obj: QueueData) */
+#define HOOK_QUEUE_REMOVE			"dcpp.queue.onRemove"		/* Item has just been removed from download queue (obj: QueueData) */
+#define HOOK_QUEUE_FINISHED			"dcpp.queue.onFinished"		/* Item has just finished downloading (obj: QueueData) */
 
-typedef enum tagHookEvent {
-	/* Main hook events (returned by pluginInit) */
-	ON_INSTALL = 0,									/* Replaces ON_LOAD for the very first loading of the plugin */
-	ON_UNINSTALL,									/* Replaces ON_UNLOAD when plugin is being uninstalled */
-	ON_LOAD,										/* Sent after successful call to pluginInit */
-	ON_UNLOAD,										/* Sent right before plugin is unloaded (no params) */
-	ON_CONFIGURE,									/* Sent when user wants to configure the plugin (obj: obj: impl. dependant or NULL) */
+#define HOOK_UI_CREATED				"dcpp.ui.onCreated"			/* Host application UI has been created (obj: if any, impl. dependant) */
+#define HOOK_UI_CHAT_DISPLAY		"dcpp.ui.onChatDisplay"		/* Chat messages before displayed in chat (obj: if any, HubData; data: StringData) */
+#define HOOK_UI_PROCESS_CHAT_CMD	"dcpp.ui.onProcessCmd"		/* Client side commands in chat (obj: HubData/UserData; data: CommandData) */
 
-	/* Chat hook events (HOOK_CHAT) */
-	CHAT_IN = 500,									/* Incoming chat from hub (obj: ClientData) */
-	CHAT_OUT,										/* Outgoing chat (obj: ClientData) */
-	CHAT_PM_IN,										/* Incoming private message (obj: UserData) */
-	CHAT_PM_OUT,									/* Outgoing private message (obj: UserData) */
+/* Main hook events (returned by pluginInit) */
+typedef enum tagPluginState {
+	ON_INSTALL = 0,												/* Replaces ON_LOAD for the very first loading of the plugin */
+	ON_UNINSTALL,												/* Replaces ON_UNLOAD when plugin is being uninstalled */
+	ON_LOAD,													/* Sent after successful call to pluginInit (obj: DCCore) */
+	ON_UNLOAD,													/* Sent right before plugin is unloaded (no params) */
+	ON_CONFIGURE												/* Sent when user wants to configure the plugin (obj: DCCore, data: impl. dependant) */
+} PluginState;
 
-	/* Timer hook events (HOOK_TIMER) */
-	TIMER_SECOND = 1000,							/* Timer event fired once per second (tick value) */
-	TIMER_MINUTE,									/* Timer event fired once per minute (tick value) */
-
-	/* Hubs hook events (HOOK_HUBS) */
-	HUB_OFFLINE = 1500,								/* Hub has just gone offline (obj: ClientData) */
-	HUB_ONLINE,										/* (New) hub has just gone online (obj: ClientData) */
-
-	/* Connections hook events (HOOK_PROTOCOL) */
-	HUB_IN = 2000,									/* Incoming protocol messages from hub (obj: ClientData) */
-	HUB_OUT,										/* Outgoing protocol message to hub (obj: ClientData) */
-	CONN_IN,										/* Incoming client<->client protocol message (obj: ConnectionData) */
-	CONN_OUT,										/* Outgoing client<->client protocol message (obj: ConnectionData) */
-
-	/* Queue hook events (HOOK_QUEUE) */
-	QUEUE_ADD = 2500,								/* (New) item has been added to download queue (obj: QueueData) */
-	QUEUE_MOVE,										/* Download queue item has been moved to new location (obj: QueueData) */
-	QUEUE_REMOVE,									/* Item has just been removed from download queue (obj: QueueData) */
-	QUEUE_FINISHED,									/* Item has just finished downloading (obj: QueueData) */
-
-	/* UI hook events (HOOK_UI) */
-	UI_CREATED = 3000,								/* Host node UI has been created (if any, obj: impl. dependant) */
-	UI_CHAT_DISPLAY,								/* Chat messages before displayed in chat (obj: StringData) */
-	UI_PROCESS_CHAT_CMD,							/* Client side commands in chat (obj: CommandData) */
-
-	/* Plugin created hook events (EVENT_USER + n) */
-	EVENT_USER = 3500
-} HookEvent;
-
-/* Conversion functions */
-typedef enum tagConversionType {
-	CONV_TO_UTF8 = 0,								/* Convert string to UTF-8 */
-	CONV_FROM_UTF8,									/* Reverse of CONV_TO_UTF8 */
-	CONV_UTF8_TO_WIDE,								/* Convert UTF-8 string to wide character string */
-	CONV_WIDE_TO_UTF8,								/* Reverse of CONV_UTF8_TO_WIDE */
-	CONV_TO_BASE32,									/* Convert unsigned short data (uint8_t*, array) to string */
-	CONV_FROM_BASE32								/* Reverse of CONV_TO_BASE32 */
-} ConversionType;
-
+/* Argument types */
 typedef enum tagConfigType {
-	CFG_TYPE_REMOVE = -1,							/* Config value will be removed */
-	CFG_TYPE_STRING,								/* Config value is string */
-	CFG_TYPE_INT,									/* Config value is 32bit integer */
-	CFG_TYPE_INT64									/* Config value is 64bit integer */
+	CFG_TYPE_UNKNOWN = -2,										/* Can be used when querying core settings with magic guid: "CoreSetup" */
+	CFG_TYPE_REMOVE,											/* Config value will be removed */
+	CFG_TYPE_STRING,											/* Config value is string */
+	CFG_TYPE_INT,												/* Config value is 32bit integer */
+	CFG_TYPE_INT64												/* Config value is 64bit integer */
 } ConfigType;
 
 typedef enum tagProtocolType {
-	PROTOCOL_ADC = 0,								/* Protocol used ís ADC */
-	PROTOCOL_NMDC,									/* Protocol used is NMDC */
-	PROTOCOL_DHT									/* DHT node (not used, reserved) */
+	PROTOCOL_ADC = 0,											/* Protocol used ís ADC */
+	PROTOCOL_NMDC,												/* Protocol used is NMDC */
+	PROTOCOL_DHT												/* DHT node (not used, reserved) */
 } ProtocolType;
 
 typedef enum tagPathType {
-	PATH_GLOBAL_CONFIG = 0,							/* Global configuration */
-	PATH_USER_CONFIG,								/* Per-user configuration (queue, favorites, ...) */
-	PATH_USER_LOCAL,								/* Per-user local data (cache, temp files, ...)	*/					
-	PATH_RESOURCES,									/* Various resources (help files etc) */
-	PATH_LOCALE										/* Translations */
+	PATH_GLOBAL_CONFIG = 0,										/* Global configuration */
+	PATH_USER_CONFIG,											/* Per-user configuration (queue, favorites, ...) */
+	PATH_USER_LOCAL,											/* Per-user local data (cache, temp files, ...)	*/					
+	PATH_RESOURCES,												/* Various resources (help files etc) */
+	PATH_LOCALE													/* Translations */
 } PathType;
 
 typedef enum tagMsgType {
-	MSG_CLIENT = 0,									/* General text style */
-	MSG_STATUS,										/* Message in status bar */
-	MSG_SYSTEM,										/* Message with system message format */
-	MSG_CHEAT										/* Message with cheat message format */
+	MSG_CLIENT = 0,												/* General text style */
+	MSG_STATUS,													/* Message in status bar */
+	MSG_SYSTEM													/* Message with system message format */
 } MsgType;
 
 typedef enum tagQueuePrio {
@@ -275,8 +144,8 @@ typedef enum tagQueuePrio {
 	PRIO_HIGHEST
 } QueuePrio;
 
-/* Types */
-typedef void *hookHandle, *dcptr_t, *subsHandle;
+/* Data types */
+typedef void *hookHandle, *subsHandle, *intfHandle, *dcptr_t;
 typedef enum tagDCBool { dcFalse = 0, dcTrue } dcBool;
 
 /* Workaround for other bool defs */
@@ -284,283 +153,232 @@ typedef enum tagDCBool { dcFalse = 0, dcTrue } dcBool;
 #define True dcTrue
 #define False dcFalse
 
-/* Hook function prototypes */
-typedef Bool (DCAPI *DCHOOK)		(uint32_t eventId, dcptr_t pData);
-typedef Bool (DCAPI* DCHOOKEX)		(uint32_t eventId, dcptr_t pData, Bool* bBreak);
-typedef Bool (DCAPI* DCHOOKCOMMON)	(uint32_t eventId, dcptr_t pData, void* pCommon);
-typedef Bool (DCAPI* DCHOOKCOMMONEX)(uint32_t eventId, dcptr_t pData, void* pCommon, Bool* bBreak);
-
-/* Config Value (for get_cfg/set_cfg) */
+/* Config Value */
 typedef struct tagConfigValue {
-	ConfigType type;								/* Indicates which type value holds */
-	union {
-		const char* str;
-		int32_t int32;
-		int64_t int64;
-	} value;
+	ConfigType type;											/* Indicates which type of value this is */
 } ConfigValue, *ConfigValuePtr;
+
+/* Config Value: string */
+typedef struct tagConfigStr {
+	ConfigType type;											/* Indicates which type of value this is */
+	const char* value;
+} ConfigStr, *ConfigStrPtr;
+
+/* Config Value: integer */
+typedef struct tagConfigInt {
+	ConfigType type;											/* Indicates which type of value this is */
+	int32_t value;
+} ConfigInt, *ConfigIntPtr;
+
+/* Config Value: integer (64bit) */
+typedef struct tagConfigInt64 {
+	ConfigType type;											/* Indicates which type the value holds */
+	int64_t value;
+} ConfigInt64, *ConfigInt64Ptr;
 
 /* String Data (for substitutions) */
 typedef struct tagStringData {
-	dcptr_t object;									/* Any related object (internal, may be omitted) */
-	const char* in;									/* Incoming string */
-	char* out;										/* Resulting new string (allocated with DCCore::memalloc) */
+	const char* in;												/* Incoming string */
+	char* out;													/* Resulting new string (take care to free!) */
 } StringData, *StringDataPtr;
 
 /* Client side chat commands */
 typedef struct tagCommandData {
-	dcptr_t object;									/* UserData or ClientData based on isPrivate */
-	const char* command;							/* Command name */
-	const char* params;								/* Command parameters passed */
-	Bool isPrivate;									/* Used in a private context (private messages) */
+	const char* command;										/* Command name */
+	const char* params;											/* Command parameters passed */
+	Bool isPrivate;												/* Used in a private context (private messages) */
 } CommandData, *CommandDataPtr;
 
 /* Users */
 typedef struct tagUserData {
-	const char* data;								/* Data sent/received */
-	const char* hubHint;							/* Contains hub url to find the user from */
-	const uint8_t* cid;								/* User CID (raw data, size: 192 / 8) */
-	dcptr_t object;									/* The source/destination for the data */
-	ProtocolType protocol;							/* The protocol used */
-	Bool isOp;										/* Whether user has a key or not */
-	union {
-		char nick[36];								/* Users nick (only valid in NMDC) */
-		uint32_t sid;								/* Users SID (only valid in ADC) */
-	} uid;
+	const char* nick;											/* Users nick (only quaranteed to not be empty in NMDC environment) */
+	const char* hubHint;										/* Contains hub url to find the user from */
+	const char* cid;											/* User CID */
+	dcptr_t object;												/* The source/destination for the data (may be null) */
+	uint32_t sid;												/* Users SID in hubHint hub (only valid in ADC environment) */
+	ProtocolType protocol;										/* The protocol used */
+	Bool isOp;													/* Whether user has a key or not */
+	Bool isManaged;												/* False if plugin has to call release_user(...) for this object */
 } UserData, *UserDataPtr;
 
-/* Hubs (clients) */
-typedef struct tagClientData {
-	const char* data;								/* Data sent/received */
-	const char* url;								/* Hub url address */
-	const char* ip;									/* Hub ip address */
-	dcptr_t object;									/* The source/destination for the data */
-	uint16_t port;									/* Hub port */
-	ProtocolType protocol;							/* The protocol used */
-	Bool isOp;										/* Whether we have a key on this hub or not */
-	Bool isSecure;									/* True for TLS encrypted connections */
-} ClientData, *ClientDataPtr;
+/* Hubs */
+typedef struct tagHubData {
+	const char* url;											/* Hub url address */
+	const char* ip;												/* Hub ip address */
+	dcptr_t object;												/* The source/destination for the data  (may be null) */
+	uint16_t port;												/* Hub port */
+	ProtocolType protocol;										/* The protocol used */
+	Bool isOp;													/* Whether we have a key on this hub or not */
+	Bool isSecure;												/* True for TLS encrypted connections */
+	Bool isManaged;												/* False if plugin has to call release(...) for this object */
+} HubData, *HubDataPtr;
 
-/* Client<->client connections */
+/* Peer connections */
 typedef struct tagConnectionData {
-	const char* data;								/* The data sent/received */
-	const char* ip;									/* The ip address (remote) for this connection */
-	dcptr_t object;									/* The source/destination for the data */
-	uint16_t port;									/* The port for this connection */
-	ProtocolType protocol;							/* The protocol used */
-	Bool isOp;										/* Whether user has a key or not */
-	Bool isSecure;									/* True for TLS encrypted connections */
+	const char* ip;												/* The ip address (remote) for this connection */
+	dcptr_t object;												/* The source/destination for the data (may be null) */
+	uint16_t port;												/* The port for this connection */
+	ProtocolType protocol;										/* The protocol used */
+	Bool isOp;													/* Whether user has a key or not */
+	Bool isSecure;												/* True for TLS encrypted connections */
+	Bool isManaged;												/* Always True (Plugins can not lookup, or track the scope of, a specific P2P connection) */
 } ConnectionData, *ConnectionDataPtr;
 
 /* Queue items and files */
 typedef struct tagQueueData {
-	const char* file;								/* File name */
-	const char* target;								/* The *final* location for the file */
-	const char* location;							/* The *current* location for the file (may be same as target) */
-	const uint8_t* hash;							/* TTH hash of the file (raw data, size: 192 / 8) */
-	dcptr_t object;									/* The source/destination for the data */
-	uint64_t size;									/* File size (bytes) */
-	Bool isFileList;								/* FileList download */
+	const char* target;											/* The *final* location for the file */
+	const char* location;										/* The *current* location for the file (may be same as target) */
+	const char* hash;											/* TTH hash of the file */
+	dcptr_t object;												/* The source/destination for the data (may be null) */
+	uint64_t size;												/* File size (bytes) */
+	Bool isFileList;											/* FileList download */
+	Bool isManaged;												/* False if plugin has to call release(...) for this object */
 } QueueData, *QueueDataPtr;
 
 /* Plugin meta data */
 typedef struct tagMetaData { 
-	const char* name;								/* Name of the plugin */
-	const char* author;								/* Name/Nick of the plugin author */
-	const char* description;						/* *Short* description of plugin functionality (may be multiple lines) */
-	const char* web;								/* Authors website if any */
-	const char* guid;								/* Plugins unique GUID */
-	const char** dependencies;						/* Array of plugin dependencies */
-	uint32_t numDependencies;						/* Number of plugin GUIDs in dependencies array */
-	double version;									/* Plugin version */
-	double apiVersion;								/* API version the plugin was compiled against */
-	double compatibleVersion;						/* Earliest API version the plugin can be used with */
+	const char* name;											/* Name of the plugin */
+	const char* author;											/* Name/Nick of the plugin author */
+	const char* description;									/* *Short* description of plugin functionality (may be multiple lines) */
+	const char* web;											/* Authors website if any */
+	const char* guid;											/* Plugins unique GUID */
+	const char** dependencies;									/* Array of plugin dependencies */
+	uint32_t numDependencies;									/* Number of plugin GUIDs in dependencies array */
+	uint32_t apiVersion;										/* Base (DCCore) API version the plugin was compiled against */
+	double version;												/* Plugin version */
 } MetaData, *MetaDataPtr;
 
-/* Interaction layer */
+/* Generic interface dummy */
+typedef struct tagDCInterface {
+	/* The version of the interface */
+	uint32_t apiVersion;
+} DCInterface, *DCInterfacePtr;
+
+/* Core plugin system */
 typedef struct tagDCCore {
 	/* Core API version */
-	double apiVersion;
+	uint32_t apiVersion;
 
-	/* Hook creation */
-	hookHandle	(DCAPI *create_hook)		(HookID hookId, HookType hookType, DCHOOK defProc);
-	void		(DCAPI *destroy_hook)		(hookHandle hHook);
-
-	/* Hook interaction */
-	subsHandle	(DCAPI *set_hook)			(HookID hookId, DCHOOK hookProc, void* pCommon);
-	Bool		(DCAPI *call_hook)			(HookID hookId, uint32_t eventId, dcptr_t pData);
-	size_t		(DCAPI *un_hook)			(subsHandle hHook);
-
-	/* Message regitster */
-	uint32_t	(DCAPI *register_message)	(HookType type, const char* name);
-	uint32_t	(DCAPI *register_range)		(HookType type, const char* name, uint32_t count);
-	uint32_t	(DCAPI *seek_message)		(const char* name);
-
-	/* Settings management */
-	void		(DCAPI *set_cfg)			(const char* guid, const char* setting, ConfigValuePtr val);
-	Bool		(DCAPI *get_cfg)			(const char* guid, const char* setting, ConfigValuePtr val);
-
-	/* General */
-	void*		(DCAPI *memalloc)			(void* ptr, size_t bytes);
-	size_t		(DCAPI *strconv)			(ConversionType type, void* dst, void* src, size_t len);
+	/* Interface registry */
+	intfHandle			(DCAPI *register_interface)	(const char* guid, dcptr_t pInterface);
+	DCInterfacePtr		(DCAPI *query_interface)	(const char* guid, uint32_t version);
+	Bool				(DCAPI *release_interface)	(intfHandle hInterface);
 } DCCore, *DCCorePtr;
 
-/* For callback function arguments (after long thinking and with much regret) */
-typedef struct tagTextDataCond {
-	const char* data;
-	uint32_t cond;
-	char* res;
-} TextDataCond, *TextDataCondPtr;
+/* Plugin main function */
+typedef Bool (DCAPI* DCMAIN)		(PluginState pluginState, DCCorePtr core, dcptr_t pData);
 
-typedef struct tagTextArgsRes {
-	dcptr_t object;
-	const char* data;
-	dcptr_t res;
-} TextArgsRes, *TextArgsResPtr;
+/* Hooks (events) system - required interface! */
 
-typedef struct tagTextArgsCond {
-	dcptr_t object;
-	const char* data;
-	uint32_t cond;
-} TextArgsCond, *TextArgsCondPtr;
+/* Hook function prototypes */
+typedef Bool (DCAPI* DCHOOK)		(dcptr_t pObject, dcptr_t pData, Bool* bBreak);
+typedef Bool (DCAPI* DCHOOKCOMMON)	(dcptr_t pObject, dcptr_t pData, void* pCommon, Bool* bBreak);
 
-typedef struct tagQueueArgs {
-	const char* target;
-	int64_t size;
-	const char* hash;
-	QueueDataPtr res;
-} QueueArgs, *QueueArgsPtr;
+/* Hook system functions */
+typedef struct tagDCHooks {
+	/* Hooks API version */
+	uint32_t apiVersion;
 
-#ifndef DCAPI_HOST
-/* And then some macros so no-one has to figure out what goes where above */
-#define BASE_DBG_MESSAGE(core, aMsg)		{ core->call_hook(CALLBACK_BASE, DBG_MESSAGE, (dcptr_t)aMsg); }
-#define BASE_LOG_MESSAGE(core, aMsg)		{ core->call_hook(CALLBACK_BASE, LOG_MESSAGE, (dcptr_t)aMsg); }
-#define BASE_DESTROY_HUB(core, client)		{ core->call_hook(CALLBACK_BASE, HUBS_DESTROY_HUB, client); }
-#define BASE_QUEUE_REMOVE_DL(core, aTarget)	{ core->call_hook(CALLBACK_BASE, QUEUE_REMOVE_DL, (dcptr_t)aTarget); }
+	/* Hook creation */
+	hookHandle			(DCAPI *create_hook)		(const char* guid, DCHOOK defProc);
+	Bool				(DCAPI *destroy_hook)		(hookHandle hHook);
 
-#define BASE_GET_PATHS(core, type, aData) \
-{ \
-	TextDataCond args; \
-	memset(&args, 0, sizeof(TextDataCond)); \
-	args.cond = type; \
-	core->call_hook(CALLBACK_BASE, GET_PATHS, &args); \
-	aData = args.res; \
-}
+	/* Hook interaction */
+	subsHandle			(DCAPI *bind_hook)			(const char* guid, DCHOOK hookProc, void* pCommon);
+	Bool				(DCAPI *run_hook)			(hookHandle hHook, dcptr_t pObject, dcptr_t pData);
+	size_t				(DCAPI *release_hook)		(subsHandle hHook);
+} DCHooks, *DCHooksPtr;
 
-#define BASE_SEND_UDP(core, aIP, aPort, aData) \
-{ \
-	TextDataCond args; \
-	memset(&args, 0, sizeof(TextDataCond)); \
-	args.data = aIP; \
-	args.cond = aPort; \
-	args.res = (char*)aData; \
-	core->call_hook(CALLBACK_BASE, PROTOCOL_SEND_UDP, &args); \
-}
+/* Recommended interfaces */
 
-#define BASE_HUB_EMULATE_CMD(core, client, cmd) \
-{ \
-	TextArgsRes args; \
-	memset(&args, 0, sizeof(TextArgsRes)); \
-	args.object = client; \
-	args.data = cmd; \
-	core->call_hook(CALLBACK_BASE, PROTOCOL_HUB_EMULATE_CMD, &args); \
-}
+/* Config management */
+typedef struct tagDCConfig {
+	/* Config API version */
+	uint32_t apiVersion;
 
-#define BASE_HUB_SEND_CMD(core, client, cmd) \
-{ \
-	TextArgsRes args; \
-	memset(&args, 0, sizeof(TextArgsRes)); \
-	args.object = client; \
-	args.data = cmd; \
-	core->call_hook(CALLBACK_BASE, PROTOCOL_HUB_SEND_CMD, &args); \
-}
+	const char*			(DCAPI *get_path)			(PathType type);
 
-#define BASE_CONN_SEND_CMD(core, uc, cmd) \
-{ \
-	TextArgsRes args; \
-	memset(&args, 0, sizeof(TextArgsRes)); \
-	args.object = uc; \
-	args.data = cmd; \
-	core->call_hook(CALLBACK_BASE, PROTOCOL_CONN_SEND_CMD, &args); \
-}
+	void				(DCAPI *set_cfg)			(const char* guid, const char* setting, ConfigValuePtr val);
+	ConfigValuePtr		(DCAPI *get_cfg)			(const char* guid, const char* setting, ConfigType type);
 
-#define BASE_CONN_TERMINATE(core, uc, graceless) \
-{ \
-	TextArgsCond args; \
-	memset(&args, 0, sizeof(TextArgsCond)); \
-	args.object = uc; \
-	args.cond = graceless; \
-	core->call_hook(CALLBACK_BASE, PROTOCOL_CONN_TERMINATE, &args); \
-}
+	ConfigValuePtr		(DCAPI *copy)				(const ConfigValuePtr val);
+	void				(DCAPI *release)			(ConfigValuePtr val);
+} DCConfig, *DCConfigPtr;
 
-#define BASE_CREATE_HUB(core, aUrl, aData) \
-{ \
-	TextArgsRes args; \
-	memset(&args, 0, sizeof(TextArgsRes)); \
-	args.data = aUrl; \
-	args.res = aData; \
-	core->call_hook(CALLBACK_BASE, HUBS_CREATE_HUB, &args); \
-}
+/* Logging functions */
+typedef struct tagDCLog {
+	/* Logging API version */
+	uint32_t apiVersion;
 
-#define BASE_FIND_HUB(core, aUrl, aData) \
-{ \
-	TextArgsRes args; \
-	memset(&args, 0, sizeof(TextArgsRes)); \
-	args.data = aUrl; \
-	args.res = aData; \
-	core->call_hook(CALLBACK_BASE, HUBS_FIND_HUB, &args); \
-}
+	void		(DCAPI *log)						(const char* msg);
+} DCLog, *DCLogPtr;
 
-#define BASE_HUB_SEND_CHAT(core, client, aMsg, third_person) \
-{ \
-	TextArgsCond args; \
-	memset(&args, 0, sizeof(TextArgsCond)); \
-	args.object = client; \
-	args.data = aMsg; \
-	args.cond = third_person; \
-	core->call_hook(CALLBACK_BASE, HUBS_SEND_CHAT, &args); \
-}
+/* Optional interfaces */
 
-#define BASE_HUB_SEND_PM(core, ou, aMsg, third_person) \
-{ \
-	TextArgsCond args; \
-	memset(&args, 0, sizeof(TextArgsCond)); \
-	args.object = ou; \
-	args.data = aMsg; \
-	args.cond = third_person; \
-	core->call_hook(CALLBACK_BASE, HUBS_SEND_PM, &args); \
-}
+/* Peer connection */
+typedef struct tagDCConnection {
+	/* Connection API version */
+	uint32_t apiVersion;
 
-#define BASE_HUB_SEND_LOCAL(core, type, client, aMsg) \
-{ \
-	TextArgsCond args; \
-	memset(&args, 0, sizeof(TextArgsCond)); \
-	args.object = client; \
-	args.data = aMsg; \
-	args.cond = type; \
-	core->call_hook(CALLBACK_BASE, HUBS_SEND_LOCAL, &args); \
-}
+	void			(DCAPI *send_udp_data)			(const char* ip, uint32_t port, dcptr_t data, size_t n);
+	void			(DCAPI *send_protocol_cmd)		(ConnectionDataPtr hConn, const char* cmd);
+	void			(DCAPI *terminate_conn)			(ConnectionDataPtr hConn, Bool graceless);
+} DCConnection, *DCConnectionPtr;
 
-#define BASE_QUEUE_ADD_DL(core, aTarget, aSize, aHash, aFlags, aData) \
-{ \
-	QueueArgs args; \
-	memset(&args, 0, sizeof(QueueArgs)); \
-	args.target = aTarget; \
-	args.size = aSize; \
-	args.hash = aHash; \
-	args.res = aData; \
-	core->call_hook(CALLBACK_BASE, QUEUE_ADD_DL, &args); \
-}
+/* Hubs */
+typedef struct tagDCHub {
+	/* Hubs API version */
+	uint32_t apiVersion;
 
-#define BASE_QUEUE_SET_PRIO(core, qi, aPrio) \
-{ \
-	TextArgsCond args; \
-	memset(&args, 0, sizeof(TextArgsCond)); \
-	args.object = qi; \
-	args.cond = aPrio; \
-	core->call_hook(CALLBACK_BASE, QUEUE_SET_PRIO, &args); \
-}
-#endif
+	HubDataPtr		(DCAPI *add_hub)				(const char* url, const char* nick, const char* password);
+	HubDataPtr		(DCAPI *find_hub)				(const char* url);
+	void			(DCAPI *remove_hub)				(HubDataPtr hHub);
+
+	void			(DCAPI *emulate_protocol_cmd)	(HubDataPtr hHub, const char* cmd);
+	void			(DCAPI *send_protocol_cmd)		(HubDataPtr hHub, const char* cmd);
+
+	void			(DCAPI *send_message)			(HubDataPtr hHub, const char* msg, Bool thirdPerson);
+	void			(DCAPI *local_message)			(HubDataPtr hHub, const char* msg, MsgType type);
+	Bool			(DCAPI *send_private_message)	(UserDataPtr hUser, const char* msg, Bool thirdPerson);
+
+	UserDataPtr		(DCAPI *find_user)				(const char* cid, const char* hubUrl);
+	UserDataPtr		(DCAPI *copy_user)				(const UserDataPtr hUser);
+	void			(DCAPI *release_user)			(UserDataPtr hCopy);
+
+	HubDataPtr		(DCAPI *copy)					(const HubDataPtr hHub);
+	void			(DCAPI *release)				(HubDataPtr hCopy);
+} DCHub, *DCHubPtr;
+
+/* Download Queue (TODO: expand) */
+typedef struct tagDCQueue {
+	/* Queue API version */
+	uint32_t apiVersion;
+
+	QueueDataPtr	(DCAPI *add_list)				(UserDataPtr hUser, Bool silent);
+	QueueDataPtr	(DCAPI *add_download)			(const char* hash, uint64_t size, const char* target);
+	QueueDataPtr	(DCAPI *find_download)			(const char* target);
+	void			(DCAPI *remove_download)		(QueueDataPtr hItem);
+
+	void			(DCAPI *set_priority)			(QueueDataPtr hItem, QueuePrio priority);
+
+	QueueDataPtr	(DCAPI *copy)					(const QueueDataPtr hItem);
+	void			(DCAPI *release)				(QueueDataPtr hCopy);
+} DCQueue, *DCQueuePtr;
+
+/* Utility and convenience functions */
+typedef struct tagDCUtils {
+	/* Utility API version */
+	uint32_t apiVersion;
+
+	size_t		(DCAPI *to_utf8)					(char* dst, const char* src, size_t n);
+	size_t		(DCAPI *from_utf8)					(char* dst, const char* src, size_t n);
+
+	size_t		(DCAPI *utf8_to_wcs)				(wchar_t* dst, const char* src, size_t n);
+	size_t		(DCAPI *wcs_to_utf8)				(char* dst, const wchar_t* src, size_t n);
+
+	size_t		(DCAPI *to_base32)					(char* dst, const uint8_t* src, size_t n);
+	size_t		(DCAPI *from_base32)				(uint8_t* dst, const char* src, size_t n);
+} DCUtils, *DCUtilsPtr;
 
 #ifdef __cplusplus
 }
@@ -570,5 +388,5 @@ typedef struct tagQueueArgs {
 
 /**
  * @file
- * $Id: PluginDefs.h 715 2010-09-09 12:13:53Z crise $
+ * $Id: PluginDefs.h 1248 2012-01-22 01:49:30Z crise $
  */

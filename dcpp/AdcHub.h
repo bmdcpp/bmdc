@@ -81,6 +81,8 @@ public:
 	virtual void send(const AdcCommand& cmd);
 
 	string getMySID() { return AdcCommand::fromSID(sid); }
+	
+	virtual bool isAdc() { return true; }
 
 	static const vector<StringList>& getSearchExts();
 	static StringList parseSearchExts(int flag);

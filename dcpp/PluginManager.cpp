@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2001-2010 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2012 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,13 +17,18 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
-
 #include "PluginManager.h"
+
+#include <utility>
+
 #include "ConnectionManager.h"
+#include "QueueManager.h"
+#include "ClientManager.h"
 #include "StringTokenizer.h"
 #include "SimpleXML.h"
-#include "AdcHub.h"
+
+#include "UserConnection.h"
+#include "Client.h"
 
 #ifdef _WIN32
 # define PLUGIN_EXT "*.dll"
@@ -44,11 +49,11 @@
 
 namespace dcpp {
 
-uint32_t PluginManager::msgMaps[3] = { HOOK_USER, CALLBACK_USER, EVENT_USER };
+using std::swap;
 
 PluginInfo::~PluginInfo() {
 	bool isSafe = true;
-	if(mainHook((PluginManager::getInstance()->getShutdown() ? ON_UNLOAD : ON_UNINSTALL), NULL) == False) {
+	if(dcMain((PluginManager::getInstance()->getShutdown() ? ON_UNLOAD : ON_UNINSTALL), NULL, NULL) == False) {
 		// Plugin performs operation critical tasks (runtime unload not possible)
 		isSafe = !PluginManager::getInstance()->addInactivePlugin(handle);
 	} if(isSafe && handle != NULL) {
@@ -58,9 +63,13 @@ PluginInfo::~PluginInfo() {
 }
 
 void PluginManager::loadPlugins(void (*f)(void*, const string&), void* p) {
-	coreHook = PluginApiImpl::initAPI(dcCore);
+	PluginApiImpl::initAPI(dcCore);
 
-	StringTokenizer<string> st(getSetting("CoreSetup", "Plugins"), ";");
+	TimerManager::getInstance()->addListener(this);
+	ClientManager::getInstance()->addListener(this);
+	QueueManager::getInstance()->addListener(this);
+
+	StringTokenizer<string> st(getPluginSetting("CoreSetup", "Plugins"), ";");
 	for(StringIter i = st.getTokens().begin(); i != st.getTokens().end(); ++i) {
 		if(!loadPlugin(*i) || !f) continue;
 		(*f)(p, Util::getFileName(*i));
@@ -69,9 +78,12 @@ void PluginManager::loadPlugins(void (*f)(void*, const string&), void* p) {
 
 bool PluginManager::loadPlugin(const string& fileName, bool isInstall /*= false*/) {
 	Lock l(cs);
+
+	dcassert(dcCore.apiVersion != 0);
+
 	pluginHandle hr = LOAD_LIBRARY(fileName);
 	if(!hr) {
-		LogManager::getInstance()->message("Error loading " + Util::getFileName(fileName) + ": " + GET_ERROR());
+		LogManager::getInstance()->message(str(F_("Error loading %1%: %2%") % Util::getFileName(fileName) % GET_ERROR()));
 		return false;
 	}
 
@@ -79,13 +91,13 @@ bool PluginManager::loadPlugin(const string& fileName, bool isInstall /*= false*
 
 	if(pluginInfo != NULL) {
 		MetaData info;
-		memset(&info, 0, sizeof(MetaData));
+		memset(&info,0, sizeof(MetaData));
 
-		DCHOOK mainHook;
-		if((mainHook = pluginInfo(&info)) != NULL) {
+		DCMAIN dcMain;
+		if((dcMain = pluginInfo(&info)) != NULL) {
 			if(checkPlugin(info)) {
-				if(mainHook((isInstall ? ON_INSTALL : ON_LOAD), &dcCore) != False) {
-					plugins.push_back(new PluginInfo(fileName, hr, info, mainHook));
+				if(dcMain((isInstall ? ON_INSTALL : ON_LOAD), &dcCore, NULL) != False) {
+					plugins.push_back(new PluginInfo(fileName, hr, info, dcMain));
 					return true;
 				}
 			}
@@ -96,21 +108,30 @@ bool PluginManager::loadPlugin(const string& fileName, bool isInstall /*= false*
 	return false;
 }
 
+bool PluginManager::isLoaded(const string& guid) {
+	auto pluginComp = [&guid](const PluginInfo* p) -> bool const { return strcmp(p->getInfo().guid, guid.c_str()) == 0; };
+	auto i = std::find_if(plugins.begin(), plugins.end(), pluginComp);
+	return (i != plugins.end());
+}
+
 bool PluginManager::checkPlugin(const MetaData& info) {
 	// Check if user is trying to load a duplicate
-	pluginList::const_iterator iter = std::find_if(plugins.begin(), plugins.end(), PluginCompare(info.guid));
-	if(iter != plugins.end())
+	if(isLoaded(info.guid)) {
+		LogManager::getInstance()->message(str(F_("%1% is already installed") % info.name));
 		return false;
+	}
 
-	// Check API compatibility
-	if(info.apiVersion < DCAPI_COMPATIBLE_VER || info.compatibleVersion > DCAPI_VER)
+	// Check API compatibility (this should only block on absolutely wrecking api changes, which generally should not happen)
+	if(info.apiVersion < DCAPI_CORE_VER) {
+		LogManager::getInstance()->message(str(F_("%1% is too old, contact the plugin author for an update") % info.name));
 		return false;
+	}
 
 	// Check that all dependencies are loaded
 	if(info.numDependencies != 0) {
 		for(size_t i = 0; i < info.numDependencies; ++i) {
-			if((iter = std::find_if(plugins.begin(), plugins.end(), PluginCompare(info.dependencies[i]))) == plugins.end()) {
-				// TODO: report to user
+			if(!isLoaded(info.dependencies[i])) {
+				LogManager::getInstance()->message(str(F_("Missing dependencies for %1%") % info.name));
 				return false;
 			}
 		}
@@ -133,30 +154,28 @@ void PluginManager::unloadPlugins() {
 	}
 
 	// Update plugin order
-	setSetting("CoreSetup", "Plugins", installed);
+	setPluginSetting("CoreSetup", "Plugins", installed);
 
 	// Really unload plugins that have been flagged inactive (ON_UNLOAD returns False)
-	for(inactiveList::iterator i = inactive.begin(); i != inactive.end(); ++i)
+	for(auto i = inactive.begin(); i != inactive.end(); ++i)
 		FREE_LIBRARY(*i);
 
-	if(hooks.size() > 1) {
+	if(!hooks.empty()) {
 		// Destroy all hooks not freed correctly
-		for(hookList::iterator i = hooks.begin(); hooks.size() > 1;) {
-			if(i->second != coreHook) {
-				PluginHook* hook = i->second;
-				for_each(hook->subscribers.begin(), hook->subscribers.end(), DeleteFunction());
-				hook->subscribers.clear();
-				hooks.erase(i++);
-				delete hook;
-			} else ++i;
+		for(auto i = hooks.begin(); !hooks.empty();) {
+			PluginHook* hook = i->second;
+			for_each(hook->subscribers.begin(), hook->subscribers.end(), DeleteFunction());
+			hook->subscribers.clear();
+			hooks.erase(i++);
+			delete hook;
 		}
-
-		TimerManager::getInstance()->removeListener(this);
-		ClientManager::getInstance()->removeListener(this);
-		QueueManager::getInstance()->removeListener(this);
 	}
 
-	PluginApiImpl::releaseAPI(coreHook);
+	TimerManager::getInstance()->removeListener(this);
+	ClientManager::getInstance()->removeListener(this);
+	QueueManager::getInstance()->removeListener(this);
+
+	PluginApiImpl::releaseAPI();
 }
 
 void PluginManager::unloadPlugin(int index) {
@@ -175,30 +194,25 @@ bool PluginManager::addInactivePlugin(pluginHandle h) {
 	return false;
 }
 
-void PluginManager::movePlugin(uint32_t index, int pos) {
+void PluginManager::movePlugin(size_t index, int pos) {
 	Lock l(cs);
 	pluginList::iterator i = (plugins.begin() + index);
 	swap(*i, *(i + pos));
 }
 
 // Functions that call the plugin
-bool PluginManager::onChatDisplay(Client* client, string line) {
-	hookList::iterator i = hooks.find(HOOK_UI);
-	if(i == hooks.end()) return false;
-
+bool PluginManager::onChatDisplay(Client* client, string& line) {
 	StringData data;
-	memset(&data, 0, sizeof(StringData));
+	memset(&data,0, sizeof(StringData));
 
 	string tmpLine;
-	data.object = (client && client->isConnected()) ? client : NULL;
 	data.in = Text::fromT(line, tmpLine).c_str();
 
-	if(callHook(i->second, UI_CHAT_DISPLAY, &data) && data.out != NULL) {
-		line.clear();
-		Text::toT(data.out, line);
-
-		// NOTE: Here we rely on plugins using DCCore::memalloc
-		free(data.out);
+	bool handled = client ? runHook(HOOK_UI_CHAT_DISPLAY, client, &data) : runHook(HOOK_UI_CHAT_DISPLAY, NULL, &data);
+	if(handled && data.out != NULL) {
+		//line.clear();
+		//Text::toT(data.out, line);
+		line = data.out;
 		return true;
 	}
 
@@ -206,11 +220,8 @@ bool PluginManager::onChatDisplay(Client* client, string line) {
 }
 
 bool PluginManager::onChatCommand(Client* client, const string& line) {
-	hookList::iterator i = hooks.find(HOOK_UI);
-	if(i == hooks.end()) return false;
-
 	CommandData data;
-	memset(&data, 0, sizeof(CommandData));
+	memset(&data,0, sizeof(CommandData));
 
 	string cmd, param;
 	string::size_type si = line.find(' ');
@@ -221,30 +232,14 @@ bool PluginManager::onChatCommand(Client* client, const string& line) {
 		cmd = line.substr(1);
 	}
 
-	ClientData object;
-	memset(&object, 0, sizeof(ClientData));
-
-	object.data = line.c_str();
-	object.url = client->getHubUrl().c_str();
-	object.ip = client->getIp().c_str();
-	object.object = client;
-	Util::toString(object.port) = client->getPort();
-	object.protocol = dynamic_cast<AdcHub*>(client) ? PROTOCOL_ADC : PROTOCOL_NMDC;
-	object.isOp = client->isOp() ? True : False;
-	object.isSecure = client->isSecure() ? True : False;
-
-	data.object = &object;
 	data.command = cmd.c_str();
 	data.params = param.c_str();
 	data.isPrivate = False;
 
-	return callHook(i->second, UI_PROCESS_CHAT_CMD, &data);
+	return runHook(HOOK_UI_PROCESS_CHAT_CMD, client, &data);
 }
 
 bool PluginManager::onChatCommandPM(const HintedUser& user, const string& line, bool isPriv) {
-	hookList::iterator i = hooks.find(HOOK_UI);
-	if(i == hooks.end()) return false;
-
 	// Hopefully this is safe...
 	bool res = false;
 	auto lock = ClientManager::getInstance()->lock();
@@ -252,7 +247,7 @@ bool PluginManager::onChatCommandPM(const HintedUser& user, const string& line, 
 
 	if(ou) {
 		CommandData data;
-		memset(&data, 0, sizeof(CommandData));
+		memset(&data,0, sizeof(CommandData));
 
 		string cmd, param;
 		string::size_type si = line.find(' ');
@@ -263,411 +258,207 @@ bool PluginManager::onChatCommandPM(const HintedUser& user, const string& line, 
 			cmd = line.substr(1);
 		}
 
-		UserData object;
-		memset(&object, 0, sizeof(UserData));
-
-		object.data = line.c_str();
-		object.hubHint = ou->getClient().getHubUrl().c_str();
-		object.cid = ou->getUser()->getCID().data();
-		object.object = (dcptr_t)ou;
-		object.isOp = ou->getIdentity().isOp() ? True : False;
-		if(ou->getUser()->isNMDC()) {
-			object.protocol = PROTOCOL_NMDC;
-			strncpy(object.uid.nick, ou->getIdentity().getNick().c_str(), 35);
-		} else {
-			object.protocol = PROTOCOL_ADC;
-			object.uid.sid = ou->getIdentity().getSID();
-		}
-
-		data.object = &object;
 		data.command = cmd.c_str();
 		data.params = param.c_str();
 		data.isPrivate = True;
 
-		res = callHook(i->second, UI_PROCESS_CHAT_CMD, &data);
+		res = runHook(HOOK_UI_PROCESS_CHAT_CMD, ou, &data);
 	}
 
 	return res;
 }
 
-bool PluginManager::onOutgoingChat(Client* client, const string& message) {
-	hookList::iterator i = hooks.find(HOOK_CHAT);
-	if(i == hooks.end()) return false;
-
-	ClientData data;
-	memset(&data, 0, sizeof(ClientData));
-
-	data.data = message.c_str();
-	data.url = client->getHubUrl().c_str();
-	data.ip = client->getIp().c_str();
-	data.object = client;
-	Util::toString(data.port) = client->getPort();
-	data.protocol = dynamic_cast<AdcHub*>(client) ? PROTOCOL_ADC : PROTOCOL_NMDC;
-	data.isOp = client->isOp() ? True : False;
-	data.isSecure = client->isSecure() ? True : False;
-
-	return callHook(i->second, CHAT_OUT, &data);
+// Plugin interface registry
+intfHandle PluginManager::registerInterface(const string& guid, dcptr_t funcs) {
+	if(interfaces.find(guid) == interfaces.end())
+		interfaces.insert(make_pair(guid, funcs));
+	// Following ensures that only the original provider may remove this
+	return reinterpret_cast<intfHandle>((uintptr_t)funcs ^ secNum);
 }
 
-bool PluginManager::onOutgoingPM(const OnlineUser& user, const string& message) {
-	hookList::iterator i = hooks.find(HOOK_CHAT);
-	if(i == hooks.end()) return false;
+dcptr_t PluginManager::queryInterface(const string& guid) {
+	auto i = interfaces.find(guid);
+	if(i != interfaces.end()) {
+		return i->second;
+	} else return NULL;
+}
 
-	UserData data;
-	memset(&data, 0, sizeof(UserData));
-
-	data.data = message.c_str();
-	data.hubHint = user.getClient().getHubUrl().c_str();
-	data.cid = user.getUser()->getCID().data();
-	data.object = (dcptr_t)&user;
-	data.isOp = user.getIdentity().isOp() ? True : False;
-	if(user.getUser()->isNMDC()) {
-		data.protocol = PROTOCOL_NMDC;
-		strncpy(data.uid.nick, user.getIdentity().getNick().c_str(), 35);
-	} else {
-		data.protocol = PROTOCOL_ADC;
-		data.uid.sid = user.getIdentity().getSID();
+bool PluginManager::releaseInterface(intfHandle hInterface) {
+	// Following ensures that only the original provider may remove this
+	dcptr_t funcs = reinterpret_cast<dcptr_t>((uintptr_t)hInterface ^ secNum);
+	for(auto i = interfaces.begin(); i != interfaces.end(); ++i) {
+		if(i->second == funcs) {
+			interfaces.erase(i);
+			return true;
+		}
 	}
-
-	return callHook(i->second, CHAT_PM_OUT, &data);
+	return false;
 }
 
-bool PluginManager::onIncomingChat(Client* client, const string& message) {
-	hookList::iterator i = hooks.find(HOOK_CHAT);
-	if(i == hooks.end()) return false;
+// Plugin Hook system
+PluginHook* PluginManager::createHook(const string& guid, DCHOOK defProc) {
+	Lock l(csHook);
 
-	ClientData data;
-	memset(&data, 0, sizeof(ClientData));
-
-	data.data = message.c_str();
-	data.url = client->getHubUrl().c_str();
-	data.ip = client->getIp().c_str();
-	data.object = client;
-	Util::toString(data.port) = client->getPort();
-	data.protocol = dynamic_cast<AdcHub*>(client) ? PROTOCOL_ADC : PROTOCOL_NMDC;
-	data.isOp = client->isOp() ? True : False;
-	data.isSecure = client->isSecure() ? True : False;
-
-	return callHook(i->second, CHAT_IN, &data);
-}
-
-bool PluginManager::onIncomingPM(const OnlineUser* user, const string& message) {
-	hookList::iterator i = hooks.find(HOOK_CHAT);
-	if(i == hooks.end()) return false;
-
-	UserData data;
-	memset(&data, 0, sizeof(UserData));
-
-	data.data = message.c_str();
-	data.hubHint = user->getClient().getHubUrl().c_str();
-	data.cid = user->getUser()->getCID().data();
-	data.object = (dcptr_t)user;
-	data.isOp = user->getIdentity().isOp() ? True : False;
-	if(user->getUser()->isNMDC()) {
-		data.protocol = PROTOCOL_NMDC;
-		strncpy(data.uid.nick, user->getIdentity().getNick().c_str(), 35);
-	} else {
-		data.protocol = PROTOCOL_ADC;
-		data.uid.sid = user->getIdentity().getSID();
-	}
-
-	return callHook(i->second, CHAT_PM_IN, &data);
-}
-
-bool PluginManager::onIncomingHubData(Client* client, const string& message) {
-	hookList::iterator i = hooks.find(HOOK_PROTOCOL);
-	if(i == hooks.end()) return false;
-
-	ClientData data;
-	memset(&data, 0, sizeof(ClientData));
-
-	data.data = message.c_str();
-	data.url = client->getHubUrl().c_str();
-	data.ip = client->getIp().c_str();
-	data.object = client;
-	Util::toString(data.port) = client->getPort();
-	data.protocol = dynamic_cast<AdcHub*>(client) ? PROTOCOL_ADC : PROTOCOL_NMDC;
-	data.isOp = client->isOp() ? True : False;
-	data.isSecure = client->isSecure() ? True : False;
-
-	return callHook(i->second, HUB_IN, &data);
-}
-
-bool PluginManager::onOutgoingHubData(Client* client, const string& message) {
-	hookList::iterator i =  hooks.find(HOOK_PROTOCOL);
-	if(i == hooks.end()) return false;
-
-	ClientData data;
-	memset(&data, 0, sizeof(ClientData));
-
-	data.data = message.c_str();
-	data.url = client->getHubUrl().c_str();
-	data.ip = client->getIp().c_str();
-	data.object = client;
-	Util::toString(data.port) = client->getPort();
-	data.protocol = dynamic_cast<AdcHub*>(client) ? PROTOCOL_ADC : PROTOCOL_NMDC;
-	data.isOp = client->isOp() ? True : False;
-	data.isSecure = client->isSecure() ? True : False;
-
-	return callHook(i->second, HUB_OUT, &data);
-}
-
-bool PluginManager::onIncomingConnectionData(UserConnection* uc, const string& message) {
-	hookList::iterator i =  hooks.find(HOOK_PROTOCOL);
-	if(i == hooks.end()) return false;
-
-	ConnectionData data;
-	memset(&data, 0, sizeof(ConnectionData));
-
-	data.data = message.c_str();
-	data.ip = uc->getRemoteIp().c_str();
-	data.object = uc;
-	Util::toString(data.port) = uc->getPort();
-	data.protocol = (message[0] == '$') ? PROTOCOL_NMDC : PROTOCOL_ADC;
-	data.isOp = uc->isSet(UserConnection::FLAG_OP) ? True : False;
-	data.isSecure = uc->isSecure() ? True : False;
-
-	return callHook(i->second, CONN_IN, &data);
-}
-
-bool PluginManager::onOutgoingConnectionData(UserConnection* uc, const string& message) {
-	hookList::iterator i = hooks.find(HOOK_PROTOCOL);
-	if(i == hooks.end()) return false;
-
-	ConnectionData data;
-	memset(&data, 0, sizeof(ConnectionData));
-
-	data.data = message.c_str();
-	data.ip = uc->getRemoteIp().c_str();
-	data.object = uc;
-	Util::toString(data.port) = uc->getPort();
-	data.protocol = (message[0] == '$') ? PROTOCOL_NMDC : PROTOCOL_ADC;
-	data.isOp = uc->isSet(UserConnection::FLAG_OP) ? True : False;
-	data.isSecure = uc->isSecure() ? True : False;
-
-	return callHook(i->second, CONN_OUT, &data);
-}
-
-// Hook functions
-hookHandle PluginManager::createHook(HookID hookId, HookType hookType, DCHOOK defProc) {
-	Lock l((hookType == HOOK_EVENT) ? csHook : csCb);
-
-	hookList::iterator i = hooks.find(hookId);
+	auto i = hooks.find(guid);
 	if(i != hooks.end()) return NULL;
 
 	PluginHook* hook = new PluginHook();
-	hook->id = hookId;
-	hook->type = hookType;
+	hook->guid = guid;
 	hook->defProc = defProc;
-	hooks[hookId] = hook;
+	hooks[guid] = hook;
 	return hook;
 }
 
-void PluginManager::destroyHook(hookHandle hHook) {
-	PluginHook* hook = (PluginHook*)hHook;
-	hookList::iterator i;
+bool PluginManager::destroyHook(PluginHook* hook) {
+	Lock l(csHook);
 
-	Lock l((hook->type == HOOK_EVENT) ? csHook : csCb);
-
-	if((i = hooks.find(hook->id)) != hooks.end()) {
+	auto i = hooks.find(hook->guid);
+	if(i != hooks.end()) {
 		for_each(hook->subscribers.begin(), hook->subscribers.end(), DeleteFunction());
 		hook->subscribers.clear();
 		hooks.erase(i);
 		delete hook;
-	}
+		return true;
+	} else return false;
 }
 
-subsHandle PluginManager::setHook(HookID hookId, DCHOOK hookProc, void* pCommon) {
+HookSubscriber* PluginManager::bindHook(const string& guid, DCHOOK hookProc, void* pCommon) {
+	Lock l(csHook);
+
 	PluginHook* hook;
-	hookList::iterator i = hooks.find(hookId);
+	auto i = hooks.find(guid);
 
-	// Handle "common" hooks
 	if(i == hooks.end()) {
-		if(hookId < HOOK_USER) {
-			hook = (PluginHook*)createHook(hookId, HOOK_EVENT, NULL);
-			switch(hookId) {
-				case HOOK_TIMER: TimerManager::getInstance()->addListener(this); break;
-				case HOOK_HUBS: ClientManager::getInstance()->addListener(this); break;
-				case HOOK_QUEUE: QueueManager::getInstance()->addListener(this); break;
-				default: /* do nothing - except silence mingw */ break;
-			}
-		} else return NULL;
+		return NULL;
 	} else hook = i->second;
-
-	Lock l((hook->type == HOOK_EVENT) ? csHook : csCb);
 
 	HookSubscriber* subscribtion = new HookSubscriber();
 	subscribtion->hookProc = hookProc;
 	subscribtion->common = pCommon;
-	subscribtion->owner = hookId;
+	subscribtion->owner = hook->guid;
 	hook->subscribers.push_back(subscribtion);
 
 	return subscribtion;
 }
 
-bool PluginManager::callHook(PluginHook* hook, uint32_t eventId, dcptr_t pData) {
-	Lock l((hook->type == HOOK_EVENT) ? csHook : csCb);
+bool PluginManager::runHook(PluginHook* hook, dcptr_t pObject, dcptr_t pData) {
+	dcassert(hook);
+
+	// Using shared lock (csHook) might be a tad safer, but it is also slower and I prefer not to teach plugins to rely on the effect it creates
+	Lock l(hook->cs);
 
 	Bool bBreak = False;
 	Bool bRes = False;
-	for(PluginHook::subsList::const_iterator i = hook->subscribers.begin(); i != hook->subscribers.end(); ++i) {
+	for(auto i = hook->subscribers.cbegin(); i != hook->subscribers.cend(); ++i) {
 		HookSubscriber* sub = *i;
-		switch(hook->type) {
-			case HOOK_CALLBACK:
-				bRes = (sub->common ? sub->hookProcCommonEx(eventId, pData, sub->common, &bBreak) : sub->hookProcEx(eventId, pData, &bBreak));
-				if(bBreak)
-					return (bRes != False);
-				break;
-			case HOOK_EVENT:
-				if(sub->common ? sub->hookProcCommon(eventId, pData, sub->common) : sub->hookProc(eventId, pData))
-					bRes = True;
-				break;
-			default:
-				dcassert(0);
-		}
+		if(sub->common ? sub->hookProcCommon(pObject, pData, sub->common, &bBreak) : sub->hookProc(pObject, pData, &bBreak))
+			bRes = True;
+		if(bBreak) return (bRes != False);
 	}
 
-	// Call default hook procedure for all unused hooks and overloadables
-	if(hook->defProc && (hook->subscribers.empty() || hook->type == HOOK_CALLBACK)) {
-		if(hook->defProc(eventId, pData))
+	// Call default hook procedure for all unused hooks
+	if(hook->defProc && hook->subscribers.empty()) {
+		if(hook->defProc(pObject, pData, &bBreak))
 			bRes = True;
 	}
 
 	return (bRes != False);
 }
 
-size_t PluginManager::unHook(subsHandle hHook) {
-	if(hHook == NULL)
+size_t PluginManager::releaseHook(HookSubscriber* subscription) {
+	Lock l(csHook);
+
+	if(subscription == NULL)
 		return 0;
 
-	hookList::iterator i;
 	PluginHook* hook = NULL;
-	HookSubscriber* subscription = reinterpret_cast<HookSubscriber*>(hHook);
 
-	if((i = hooks.find(subscription->owner)) != hooks.end())
+	auto i = hooks.find(subscription->owner);
+	if(i != hooks.end())
 		hook = i->second;
 
 	if(hook == NULL)
 		return 0;
 
-	Lock l((hook->type == HOOK_EVENT) ? csHook : csCb);
-
 	hook->subscribers.erase(std::remove(hook->subscribers.begin(), hook->subscribers.end(), subscription), hook->subscribers.end());
 	delete subscription;
-
-	// Handle "common" hooks
-	if(hook->subscribers.empty() && hook->id < HOOK_USER) {
-		switch(hook->id) {
-			case HOOK_TIMER: TimerManager::getInstance()->removeListener(this); break;
-			case HOOK_HUBS: ClientManager::getInstance()->removeListener(this); break;
-			case HOOK_QUEUE: QueueManager::getInstance()->removeListener(this); break;
-			default: /* do nothing - except silence mingw */ break;
-		}
-		hooks.erase(i);
-		delete hook; return 0;
-	}
 
 	return hook->subscribers.size();
 }
 
+// Plugin configuration
+bool PluginManager::hasSettings(const string& pluginName) {
+	Lock l(cs);
+
+	auto i = settings.find(pluginName);
+	if(i != settings.end())
+		return (!i->second.empty());
+	return false;
+}
+
+void PluginManager::processSettings(const string& pluginName, const function<void (StringMap&)>& currentSettings) {
+	Lock l(cs);
+
+	auto i = settings.find(pluginName);
+	if(i != settings.end() && currentSettings)
+		currentSettings(i->second);
+}
+
+void PluginManager::setPluginSetting(const string& pluginName, const string& setting, const string& value) {
+	Lock l(cs);
+	settings[pluginName][setting] = value;
+}
+
+const string& PluginManager::getPluginSetting(const string& pluginName, const string& setting) {
+	Lock l(cs);
+
+	auto i = settings.find(pluginName);
+	if(i != settings.end()) {
+		auto j = i->second.find(setting);
+		if(j != i->second.end())
+			return j->second;
+	}
+	return Util::emptyString;
+}
+
+void PluginManager::removePluginSetting(const string& pluginName, const string& setting) {
+	Lock l(cs);
+
+	auto i = settings.find(pluginName);
+	if(i != settings.end()) {
+		auto j = i->second.find(setting);
+		if(j != i->second.end())
+			i->second.erase(j);
+	}
+}
+
 // Listeners
-void PluginManager::on(TimerManagerListener::Second, uint64_t ticks) throw() {
-	callHook(hooks.find(HOOK_TIMER)->second, TIMER_SECOND, &ticks);
+void PluginManager::on(ClientManagerListener::ClientConnected, Client* aClient) noexcept {
+	runHook(HOOK_HUB_ONLINE, aClient);
 }
 
-void PluginManager::on(TimerManagerListener::Minute, uint64_t ticks) throw() {
-	callHook(hooks.find(HOOK_TIMER)->second, TIMER_MINUTE, &ticks);
+void PluginManager::on(ClientManagerListener::ClientDisconnected, Client* aClient) noexcept {
+	runHook(HOOK_HUB_OFFLINE, aClient);
 }
 
-void PluginManager::on(ClientManagerListener::ClientDisconnected, Client* aClient) throw() {
-	ClientData data;
-	memset(&data, 0, sizeof(ClientData));
-
-	data.url = aClient->getHubUrl().c_str();
-	data.object = aClient;
-	data.protocol = dynamic_cast<AdcHub*>(aClient) ? PROTOCOL_ADC : PROTOCOL_NMDC;
-
-	callHook(hooks.find(HOOK_HUBS)->second, HUB_OFFLINE, &data);
+void PluginManager::on(QueueManagerListener::Added, QueueItem* qi) noexcept {
+	runHook(HOOK_QUEUE_ADD, qi);
 }
 
-void PluginManager::on(ClientManagerListener::ClientConnected, Client* aClient) throw() {
-	ClientData data;
-	memset(&data, 0, sizeof(ClientData));
-
-	data.url = aClient->getHubUrl().c_str();
-	data.ip = aClient->getIp().c_str();
-	data.object = aClient;
-	Util::toString(data.port) = aClient->getPort();
-	data.protocol = dynamic_cast<AdcHub*>(aClient) ? PROTOCOL_ADC : PROTOCOL_NMDC;
-	data.isOp = aClient->isOp() ? True : False;
-	data.isSecure = aClient->isSecure() ? True : False;
-
-	callHook(hooks.find(HOOK_HUBS)->second, HUB_ONLINE, &data);
+void PluginManager::on(QueueManagerListener::Moved, QueueItem* qi, const string& /*aSource*/) noexcept {
+	runHook(HOOK_QUEUE_MOVE, qi);
 }
 
-void PluginManager::on(QueueManagerListener::Added, QueueItem* qi) throw() {
-	QueueData data;
-	memset(&data, 0, sizeof(QueueData));
-
-	data.file = qi->getTargetFileName().c_str();
-	data.target = qi->getTarget().c_str();
-	data.location = qi->isFinished() ? data.target : qi->getTempTarget().c_str();
-	data.hash = qi->getTTH().data;
-	data.object = qi;
-	data.size = qi->getSize();
-	data.isFileList = qi->isSet(QueueItem::FLAG_USER_LIST) ? True : False;
-
-	callHook(hooks.find(HOOK_QUEUE)->second, QUEUE_ADD, &data);
+void PluginManager::on(QueueManagerListener::Removed, QueueItem* qi) noexcept {
+	runHook(HOOK_QUEUE_REMOVE, qi);
 }
 
-void PluginManager::on(QueueManagerListener::Moved, QueueItem* qi, const string&) throw() {
-	QueueData data;
-	memset(&data, 0, sizeof(QueueData));
-
-	data.file = qi->getTargetFileName().c_str();
-	data.target = qi->getTarget().c_str();
-	data.location = qi->isFinished() ? data.target : qi->getTempTarget().c_str();
-	data.hash = qi->getTTH().data;
-	data.object = qi;
-	data.size = qi->getSize();
-	data.isFileList = qi->isSet(QueueItem::FLAG_USER_LIST) ? True : False;
-
-	callHook(hooks.find(HOOK_QUEUE)->second, QUEUE_MOVE, &data);
-}
-
-void PluginManager::on(QueueManagerListener::Removed, QueueItem* qi) throw() {
-	QueueData data;
-	memset(&data, 0, sizeof(QueueData));
-
-	data.file = qi->getTargetFileName().c_str();
-	data.target = qi->getTarget().c_str();
-	data.location = qi->isFinished() ? data.target : qi->getTempTarget().c_str();
-	data.hash = qi->getTTH().data;
-	data.object = qi;
-	data.size = qi->getSize();
-	data.isFileList = qi->isSet(QueueItem::FLAG_USER_LIST) ? True : False;
-
-	callHook(hooks.find(HOOK_QUEUE)->second, QUEUE_REMOVE, &data);
-}
-
-// Finished items are no longer quaranteed to be removed right away
-void PluginManager::on(QueueManagerListener::Finished, QueueItem* qi, const string&, int64_t) throw() {
-	QueueData data;
-	memset(&data, 0, sizeof(QueueData));
-
-	data.file = qi->getTargetFileName().c_str();
-	data.target = qi->getTarget().c_str();
-	data.location = qi->isFinished() ? data.target : qi->getTempTarget().c_str();
-	data.hash = qi->getTTH().data;
-	data.object = qi;
-	data.size = qi->getSize();
-	data.isFileList = qi->isSet(QueueItem::FLAG_USER_LIST) ? True : False;
-
-	callHook(hooks.find(HOOK_QUEUE)->second, QUEUE_FINISHED, &data);
+void PluginManager::on(QueueManagerListener::Finished, QueueItem* qi, const string& /*dir*/, int64_t /*speed*/) noexcept {
+	runHook(HOOK_QUEUE_FINISHED, qi);
 }
 
 // Load / Save settings
-void PluginManager::on(SettingsManagerListener::Load, SimpleXML& /*xml*/) throw() {
+void PluginManager::on(SettingsManagerListener::Load, SimpleXML& /*xml*/) noexcept {
 	Lock l(cs);
 
 	try {
@@ -680,9 +471,9 @@ void PluginManager::on(SettingsManagerListener::Load, SimpleXML& /*xml*/) throw(
 			while(xml.findChild("Plugin")) {
 				const string& pluginGuid = xml.getChildAttrib("Guid");
 				xml.stepIn();
-				StringMap settings = xml.getCurrentChildren();
-				for(StringMapIter j = settings.begin(); j != settings.end(); ++j) {
-					setSetting(pluginGuid, j->first, j->second);
+				auto settings = xml.getCurrentChildren();
+				for(auto j = settings.cbegin(); j != settings.cend(); ++j) {
+					setPluginSetting(pluginGuid, j->first, j->second);
 				}
 				xml.stepOut();
 			}
@@ -693,18 +484,18 @@ void PluginManager::on(SettingsManagerListener::Load, SimpleXML& /*xml*/) throw(
 	}
  }
 
-void PluginManager::on(SettingsManagerListener::Save, SimpleXML& /*xml*/) throw() {
+void PluginManager::on(SettingsManagerListener::Save, SimpleXML& /*xml*/) noexcept {
 	Lock l(cs);
 
 	try {
 		SimpleXML xml;
 		xml.addTag("Plugins");
 		xml.stepIn();
-		for(settingsMap::const_iterator i = settings.begin(); i != settings.end(); ++i){
+		for(auto i = settings.begin(); i != settings.end(); ++i){
 			xml.addTag("Plugin");
 			xml.stepIn();
-			for(StringMap::const_iterator j = i->second.begin(); j != i->second.end(); ++j) {
-				xml.addTag(j->first, j->second);			
+			for(auto j = i->second.cbegin(); j != i->second.cend(); ++j) {
+				xml.addTag(j->first, j->second);
 			}
 			xml.stepOut();
 			xml.addChildAttrib("Guid", i->first);
@@ -727,5 +518,5 @@ void PluginManager::on(SettingsManagerListener::Save, SimpleXML& /*xml*/) throw(
 
 /**
  * @file
- * $Id: PluginManager.cpp 712 2010-09-07 14:46:45Z crise $
+ * $Id: PluginManager.cpp 1245 2012-01-21 15:09:54Z crise $
  */

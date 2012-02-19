@@ -22,6 +22,7 @@
 #include "WulforUtil.hh"
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
+
 #include <dcpp/ClientManager.h>
 #include <dcpp/Util.h>
 #include <dcpp/version.h>
@@ -368,7 +369,7 @@ vector<string>& WulforUtil::getCharsets()
 	return charsets;
 }
 
-void WulforUtil::openURI(const string &uri)
+void WulforUtil::openURI(const string &uri, string &_error)
 {
 	GError* error = NULL;
 	gchar *argv[3];
@@ -388,6 +389,7 @@ void WulforUtil::openURI(const string &uri)
 	if (error != NULL)
 	{
 		cerr << "Failed to open URI: " << error->message << endl;
+		_error = error->message;
 		g_error_free(error);
 	}
 }

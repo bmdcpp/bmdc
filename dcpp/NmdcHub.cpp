@@ -227,7 +227,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			chatMessage.from = &o;
 		}
 		
-		if(PluginManager::getInstance()->onIncomingChat(this, chatMessage.text))
+		if(PluginManager::getInstance()->runHook(HOOK_CHAT_IN, (dcptr_t)this, (dcptr_t)&message))
 			return;
 			
 		fire(ClientListener::Message(), this, chatMessage);
@@ -744,7 +744,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			message.from = findUser(fromNick);
 		}
 		
-		if(PluginManager::getInstance()->onIncomingPM(message.replyTo, message.text))
+		if(PluginManager::getInstance()->runHook(HOOK_CHAT_PM_IN, (dcptr_t)message.replyTo, (dcptr_t)&message.text))
 			return;
 
 		fire(ClientListener::Message(), this, message);
@@ -800,7 +800,7 @@ void NmdcHub::revConnectToMe(const OnlineUser& aUser) {
 
 void NmdcHub::hubMessage(const string& aMessage, bool thirdPerson) {
 	checkstate();
-	if(!PluginManager::getInstance()->onOutgoingChat(this, aMessage))
+	if(!PluginManager::getInstance()->runHook(HOOK_CHAT_OUT, (dcptr_t)this, (dcptr_t)&aMessage))
 		send(fromUtf8( "<" + getMyNick() + "> " + escape(thirdPerson ? "/me " + aMessage : aMessage) + "|" ) );
 }
 
@@ -936,7 +936,7 @@ void NmdcHub::privateMessage(const string& nick, const string& message) {
 void NmdcHub::privateMessage(const OnlineUser& aUser, const string& aMessage, bool /*thirdPerson*/) {
 	checkstate();
 	
-	if(PluginManager::getInstance()->onOutgoingPM(aUser, aMessage))
+	if(PluginManager::getInstance()->runHook(HOOK_CHAT_PM_OUT, (dcptr_t)&aUser, (dcptr_t)&aMessage))
 		return;
 
 	privateMessage(aUser.getIdentity().getNick(), aMessage);
@@ -997,7 +997,7 @@ void NmdcHub::on(Connected) noexcept {
 }
 
 void NmdcHub::on(Line, const string& aLine) noexcept {
-    if(PluginManager::getInstance()->onIncomingHubData(this, validateMessage(aLine, true)))
+    if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_IN, (dcptr_t)this, (dcptr_t)&aLine))
 		return;
     #ifdef _USELUA
 		if (onClientMessage(this, validateMessage(aLine, true)))

@@ -1065,7 +1065,6 @@ void Settings::initAppearance_gui()
 		addOption_gui(appearanceStore, _("Show send /commnads in status message"), "show-commands");
 		addOption_gui(appearanceStore, _("Show Flags in main chat"), "use-flag");
 		addOption_gui(appearanceStore, _("Use DNS in Transfers"), "use-dns");
-		//addOption_gui(appearanceStore, _("Only FavUsers PM"), "only-fav");
 		addOption_gui(appearanceStore, _("Log Ignored Messages as STATUS mess"), "log-messages");
 		addOption_gui(appearanceStore, _("Enable Lua debug messages"), SettingsManager::ENB_LUA_DEBUG);
 
@@ -1258,8 +1257,19 @@ void Settings::initAppearance_gui()
 
 			valid = gtk_tree_model_iter_next(m, &treeIter);
 		}
-
+		
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkBoldAuthors")), WGETB("text-bold-autors"));
+		//[BMDC
+		string strcolor = WGETS("background-color-chat");
+		GdkColor color;
+		gdk_color_parse(strcolor.c_str(),&color);
+		gtk_widget_modify_base(getWidget("textViewPreviewStyles"),GTK_STATE_NORMAL,&color);
+		gtk_widget_modify_base(getWidget("textViewPreviewStyles"),GTK_STATE_PRELIGHT,&color);
+		gtk_widget_modify_base(getWidget("textViewPreviewStyles"),GTK_STATE_ACTIVE,&color);
+		gtk_widget_modify_base(getWidget("textViewPreviewStyles"),GTK_STATE_SELECTED,&color);
+		gtk_widget_modify_base(getWidget("textViewPreviewStyles"),GTK_STATE_INSENSITIVE,&color);
+		g_signal_connect(getWidget("setBackGroundChatWin"), "clicked", G_CALLBACK(onSetBackGroundChat), (gpointer)this);
+		//]
 	}
 
 	{ // Notify
@@ -1316,7 +1326,7 @@ void Settings::initAppearance_gui()
 			"notify-high-use", "notify-high-title",
 			"notify-high-icon", NOTIFY_URGENCY_LOW);
 
-		#endif
+	#endif
 		g_signal_connect(getWidget("notifyTestButton"), "clicked", G_CALLBACK(onNotifyTestButton_gui), (gpointer)this);
 		g_signal_connect(getWidget("notifyIconFileBrowseButton"), "clicked", G_CALLBACK(onNotifyIconFileBrowseClicked_gui), (gpointer)this);
 		g_signal_connect(getWidget("notifyOKButton"), "clicked", G_CALLBACK(onNotifyOKClicked_gui), (gpointer)this);
@@ -1587,7 +1597,31 @@ void Settings::initAppearance_gui()
 		g_signal_connect(getWidget("buttonForeColorTextUL"), "clicked", G_CALLBACK(onTextColorForeULClicked_gui), (gpointer)this);
 		g_signal_connect(getWidget("buttonDefUL"), "clicked", G_CALLBACK(onTextColorDefaultULClicked_gui), (gpointer)this);
 	}
-//NOTE: END
+}
+
+void Settings::onSetBackGroundChat(GtkWidget *widget , gpointer data)
+{
+	Settings *s = (Settings *)data;
+	GtkColorSelection *colorsel = GTK_COLOR_SELECTION(s->getWidget("colorsel-color_selection"));
+	GdkColor color;
+	if (gdk_color_parse(WGETS("background-color-chat").c_str(), &color))
+		gtk_color_selection_set_current_color(colorsel, &color);
+
+	gint response = gtk_dialog_run(GTK_DIALOG(s->getWidget("colorSelectionDialog")));
+	gtk_widget_hide(s->getWidget("colorSelectionDialog"));
+
+	if (response == GTK_RESPONSE_OK)
+	{
+		gtk_color_selection_get_current_color(colorsel, &color);
+		string strcolor = WulforUtil::colorToString(&color);
+		WSET("background-color-chat", strcolor);
+	
+		gtk_widget_modify_base(s->getWidget("textViewPreviewStyles"),GTK_STATE_NORMAL,&color);
+		gtk_widget_modify_base(s->getWidget("textViewPreviewStyles"),GTK_STATE_PRELIGHT,&color);
+		gtk_widget_modify_base(s->getWidget("textViewPreviewStyles"),GTK_STATE_ACTIVE,&color);
+		gtk_widget_modify_base(s->getWidget("textViewPreviewStyles"),GTK_STATE_SELECTED,&color);
+		gtk_widget_modify_base(s->getWidget("textViewPreviewStyles"),GTK_STATE_INSENSITIVE,&color);
+	}
 }
 
 void Settings::initHighlighting_gui()//NOTE: BMDC++
@@ -1744,7 +1778,8 @@ void Settings::onConfigurePlugin_gui(GtkWidget *widget, gpointer data)
 	{
 		gint sel = Util::toInt(s->plView.getString(&iter, "Index"));
 		const PluginInfo *p = PluginManager::getInstance()->getPlugin(sel);
-		if(!p->mainHook(ON_CONFIGURE, s->getContainer())) {
+		//if(!p->mainHook(ON_CONFIGURE, s->getContainer())) {
+		if(!p->dcMain(ON_CONFIGURE, PluginManager::getInstance()->getCore(),s->getContainer())) {
 			GtkDialog *dialog =  GTK_DIALOG(gtk_message_dialog_new (GTK_WINDOW(s->getContainer()),
                                  GTK_DIALOG_DESTROY_WITH_PARENT,
                                  GTK_MESSAGE_ERROR,

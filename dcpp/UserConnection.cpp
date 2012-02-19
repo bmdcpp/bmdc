@@ -56,7 +56,7 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 
 	COMMAND_DEBUG(aLine, DebugManager::CLIENT_IN, getRemoteIp());
 	
-	if(PluginManager::getInstance()->onIncomingConnectionData(this, aLine))
+	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_CONN_IN, this, aLine))
 		return;
 
 	if(aLine[0] == 'C' && !isSet(FLAG_NMDC)) {
@@ -288,10 +288,23 @@ void UserConnection::updateChunkSize(int64_t leafSize, int64_t lastChunk, uint64
 	chunkSize = targetSize;
 }
 
+ConnectionData* UserConnection::getPluginObject() noexcept {
+	resetEntity();
+
+	pod.ip = pluginString(getRemoteIp());
+	pod.object = this;
+	pod.port = Util::toInt(getPort());
+	pod.protocol = isSet(UserConnection::FLAG_NMDC) ? PROTOCOL_NMDC : PROTOCOL_ADC;
+	pod.isOp = isSet(UserConnection::FLAG_OP) ? True : False;
+	pod.isSecure = isSecure() ? True : False;
+
+	return &pod;
+}
+
 void UserConnection::send(const string& aString) {
 	lastActivity = GET_TICK();
-	if(PluginManager::getInstance()->onOutgoingConnectionData(this, aString))
-			return;
+	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_CONN_OUT, (dcptr_t)this, (dcptr_t)&aString))
+		return;
 	#ifdef _USELUA
 	if(onUserConnectionMessageOut(this, aString)) {
 	 	disconnect(true);

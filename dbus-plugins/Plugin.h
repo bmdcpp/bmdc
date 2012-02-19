@@ -16,38 +16,32 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#ifndef PLUGIN_H
+#define PLUGIN_H
+
+#include "version.h"
+//..
 #include "stdafx.h"
-#include "Plugin.h"
+
 
 #ifdef _WIN32
-HINSTANCE hInst = NULL;
-
-BOOL APIENTRY DllMain(HANDLE hModule, DWORD reason, LPVOID lpReserved) {
-	UNREFERENCED_PARAMETER(reason);
-	UNREFERENCED_PARAMETER(lpReserved);
-	hInst = (HINSTANCE)hModule;
-	return TRUE;
-}
+extern HINSTANCE hInst;
 #endif
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+/* Settings helpers */
+ConfigStrPtr DCAPI get_cfg(const char* name);
+ConfigIntPtr DCAPI get_cfg_int(const char* name);
+ConfigInt64Ptr DCAPI get_cfg_int64(const char* name);
 
-	/* Plugin loader */
-	DCEXP DCHOOK DCAPI pluginInit(MetaDataPtr info) {
-		info->name = PLUGIN_NAME;
-		info->author = PLUGIN_AUTHOR;
-		info->description = PLUGIN_DESC;
-		info->version = PLUGIN_VERSION;
-		info->web = PLUGIN_WEB;
-		info->apiVersion = DCAPI_VER;
-		info->guid = PLUGIN_GUID;
-		/* Modify icon if you wish to change it */
+void DCAPI set_cfg(const char* name, const char* value);
+void DCAPI set_cfg_int(const char* name, int32_t value);
+void DCAPI set_cfg_int64(const char* name, int64_t value);
 
-		return &pluginProc;
-	}
+/* Event handlers */
+Bool DCAPI onHubEnter(dcptr_t pObject, dcptr_t pData, Bool* bBreak);
+Bool DCAPI onHubOnline(dcptr_t pObject, dcptr_t pData, Bool* bBreak);
 
-#ifdef __cplusplus
-}
-#endif
+/* Plugin main function */
+Bool DCAPI pluginMain(PluginState state, DCCorePtr core, dcptr_t pData);
+
+#endif /* PLUGIN_H */

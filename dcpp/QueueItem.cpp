@@ -200,4 +200,17 @@ void QueueItem::addSegment(const Segment& segment) {
 	}
 }
 
+QueueData* QueueItem::getPluginObject() noexcept {
+	resetEntity();
+
+	pod.target = pluginString(getTarget());
+	pod.location = isFinished() ? pod.target : pluginString(getTempTarget());
+	pod.hash = pluginString(tthRoot.toBase32());
+	pod.object = this;
+	pod.size = size;
+	pod.isFileList = isSet(QueueItem::FLAG_USER_LIST) ? True : False;
+
+	return &pod;
+}
+
 }

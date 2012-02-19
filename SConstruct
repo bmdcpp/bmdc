@@ -266,7 +266,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 			print '\tNote: You might have the lib but not the headers'
 		else:
 			conf.env['HAVE_GNOME_LIB'] = 1
-	#lua	
+	# lua	
 	if conf.env.get('liblua'):
 		conf.env['HAVE_LUA_H_B'] = 0
 		conf.env['HAVE_LUA_H_51_B'] = 0
@@ -281,7 +281,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if not conf.CheckLib('libminiupnpc'):
 		LIB_IS_UPNP = False
 	
-	#GeoIp	
+	# GeoIp	
 	if conf.CheckHeader('GeoIP.h'):	
 		print 'Found GeoIP headers'
 		conf.env.Append(CPPDEFINES = 'HAVE_GEOIPLIB')
@@ -290,7 +290,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		print 'Dont Found GeoIP headers or libs'
 		Exit(1)	
 
-	#tar for Backup/Restore man.	
+	# tar for Backup/Restore man.	
 	if conf.CheckHeader("libtar.h"):
 		print "Found Libtar"
 		conf.env.Append(CPPDEFINES = 'HAVE_LIBTAR')

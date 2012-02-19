@@ -27,15 +27,6 @@
 
 #define STRICT
 #define WIN32_LEAN_AND_MEAN
-#define _WTL_NO_CSTRING
-#define _ATL_NO_OPENGL
-#define _ATL_NO_MSIMG
-#define _ATL_NO_HOSTING
-#define _ATL_NO_COM
-#define _ATL_NO_OLD_NAMES
-#define _ATL_NO_COM_SUPPORT
-#define _ATL_NO_PERF_SUPPORT
-#define _ATL_NO_SERVICE
 
 #ifdef _MSC_VER
 
@@ -57,13 +48,13 @@
 
 #else
 #include <unistd.h>
-#include <stdint.h>
 #endif
 
 /* This can make a #define value to string (from boost) */
 #define STRINGIZE(X) DO_STRINGIZE(X)
 #define DO_STRINGIZE(X) #X
 
+#include <stdint.h>
 #include <PluginDefs.h>
 
 #endif /* PLUGIN_STDAFX_H */

@@ -30,6 +30,7 @@
 #include "Segment.h"
 #include "Util.h"
 #include "HintedUser.h"
+#include "PluginEntity.h"
 
 namespace dcpp {
 
@@ -37,7 +38,7 @@ using std::set;
 
 class QueueManager;
 
-class QueueItem : public Flags, public FastAlloc<QueueItem>, public intrusive_ptr_base<QueueItem> {
+class QueueItem : public Flags, public FastAlloc<QueueItem>, public intrusive_ptr_base<QueueItem>, public PluginEntity<QueueData> {
 public:
 	typedef unordered_map<string*, QueueItemPtr, noCaseStringHash, noCaseStringEq> StringMap;
 
@@ -181,6 +182,8 @@ public:
 
 	const string& getTempTarget();
 	void setTempTarget(const string& aTempTarget) { tempTarget = aTempTarget; }
+	
+	QueueData* getPluginObject() noexcept;
 
 	GETSET(SegmentSet, done, Done);
 	GETSET(DownloadList, downloads, Downloads);

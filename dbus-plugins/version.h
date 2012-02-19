@@ -19,12 +19,12 @@
 #ifndef VERSION_H
 #define VERSION_H
 
-#define PLUGIN_GUID "{b1823616-5339-4d1b-9973-30a3b4bf8e88}"	/* UUID/GUID for this plugin project */
+#define PLUGIN_GUID "{5fa64766-bb6e-4d79-8439-dad40fda9738}"	/* UUID/GUID for this plugin project */
 
 #define PLUGIN_NAME "DBus Plugin"								/* Name of the plugin */
 #define PLUGIN_AUTHOR "bmdc-team"							/* Author of the plugin */
-#define PLUGIN_DESC "DBus plugin"						/* Short description about the plugin */
+#define PLUGIN_DESC "DBus plugin project"						/* Short description about the plugin */
 #define PLUGIN_VERSION 0.01										/* Version of the plugin (note: not api version) */
-#define PLUGIN_WEB "http://launchpad.net/bmdc++"			/* Plugin website, set to "N/A" if none */
+#define PLUGIN_WEB "http://launcpad.net/bmdc++"			/* Plugin website, set to "N/A" if none */
 
 #endif /* VERSION_H */

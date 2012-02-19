@@ -231,7 +231,7 @@ class Hub:
 		virtual void on(dcpp::ClientListener::CheatMessage, dcpp::Client *, const std::string &msg) noexcept;
 		virtual void on(dcpp::ClientListener::HubTopic, dcpp::Client *, const std::string &top) noexcept;
 		virtual void on(dcpp::ClientListener::HubIcon, dcpp::Client *, const std::string &url) noexcept;
-		virtual void on(dcpp::ClientListener::ClientLine, dcpp::Client* , const std::string &mess, unsigned int &type) noexcept;
+		virtual void on(dcpp::ClientListener::ClientLine, dcpp::Client* , const std::string &mess, int type) noexcept;
 		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) throw();
 
 		UserMap userMap, userOpMap, userPasiveMap, userIgnoreMap, userProtectMap;

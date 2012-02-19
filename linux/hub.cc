@@ -77,12 +77,12 @@ Hub::Hub(const string &address, const string &encoding):
 	//BMDC++
 	nickView.insertColumn(_("Country"), G_TYPE_STRING, TreeView::PIXBUF_STRING, 70, "Pixbuf");
 	nickView.insertColumn(_("Exact Share"), G_TYPE_INT64, TreeView::EXSIZE, 100);
-    nickView.insertColumn(_("Slots"), G_TYPE_STRING, TreeView::STRING, 50);
-    nickView.insertColumn(_("Hubs"), G_TYPE_STRING, TreeView::STRING, 50);
-    nickView.insertColumn("PK", G_TYPE_STRING, TreeView::STRING, 80);
-    nickView.insertColumn(_("Cheat"), G_TYPE_STRING, TreeView::STRING, 80);
-    nickView.insertColumn(_("Generator"), G_TYPE_STRING, TreeView::STRING, 80);
-    nickView.insertColumn(_("Support"), G_TYPE_STRING, TreeView::STRING, 80);
+     nickView.insertColumn(_("Slots"), G_TYPE_STRING, TreeView::STRING, 50);
+     nickView.insertColumn(_("Hubs"), G_TYPE_STRING, TreeView::STRING, 50);
+     nickView.insertColumn("PK", G_TYPE_STRING, TreeView::STRING, 80);
+     nickView.insertColumn(_("Cheat"), G_TYPE_STRING, TreeView::STRING, 80);
+     nickView.insertColumn(_("Generator"), G_TYPE_STRING, TreeView::STRING, 80);
+     nickView.insertColumn(_("Support"), G_TYPE_STRING, TreeView::STRING, 80);
 	//BMDC++
 	nickView.insertHiddenColumn("Icon", G_TYPE_STRING);
 	nickView.insertHiddenColumn("Nick Order", G_TYPE_STRING);
@@ -121,6 +121,16 @@ Hub::Hub(const string &address, const string &encoding):
 		gtk_widget_modify_font(getWidget("chatText"), fontDesc);
 		pango_font_description_free(fontDesc);
 	}
+	//..set Colors
+	string strcolor = WGETS("background-color-chat");
+	GdkColor color;
+	gdk_color_parse(strcolor.c_str(),&color);
+	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_NORMAL,&color);
+	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_PRELIGHT,&color);
+	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_ACTIVE,&color);
+	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_SELECTED,&color);
+	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_INSENSITIVE,&color);
+	
 
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
 	chatBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(getWidget("chatText")));
@@ -1597,6 +1607,15 @@ void Hub::preferences_gui()
 	string sort = BOOLSETTING(SORT_FAVUSERS_FIRST)? /*"Favorite"*/"Client Type" : "Nick Order";
 	nickView.setSortColumn_gui(_("Nick"), sort);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);
+	
+	string strcolor = WGETS("background-color-chat");
+	GdkColor color;
+	gdk_color_parse(strcolor.c_str(),&color);
+	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_NORMAL,&color);
+	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_PRELIGHT,&color);
+	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_ACTIVE,&color);
+	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_SELECTED,&color);
+	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_INSENSITIVE,&color);
 }
 
 void Hub::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, string &fore, string &back, int &bold, int &italic)
@@ -2024,7 +2043,9 @@ void Hub::onCopyIpItem_gui(GtkWidget *wid, gpointer data)
 void Hub::onRipeDbItem_gui(GtkWidget *wid, gpointer data)
 {
 	Hub *hub = (Hub *)data;
-	WulforUtil::openURI("http://www.db.ripe.net/whois?searchtext=" + hub->ip + "&searchSubmit=search");
+	string error;
+	WulforUtil::openURI("http://www.db.ripe.net/whois?searchtext=" + hub->ip + "&searchSubmit=search", error);
+	hub->setStatus_gui("statusMain",error);
 }
 
 gboolean Hub::onMagnetTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data)
@@ -2163,6 +2184,11 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		{
 			params = text.substr(separator + 1);
 		}
+		
+	   if(PluginManager::getInstance()->onChatCommand(hub->client,command )) {
+			// Plugins, chat commands
+		  return;
+	    }	
 
         if(WulforUtil::checkCommand(command,param,mess,status,thirdPerson))
         {
@@ -2672,8 +2698,9 @@ void Hub::onCopyURIClicked_gui(GtkMenuItem *item, gpointer data)
 void Hub::onOpenLinkClicked_gui(GtkMenuItem *item, gpointer data)
 {
 	Hub *hub = (Hub *)data;
-
-	WulforUtil::openURI(hub->selectedTagStr);
+	string error = Util::emptyString;
+	WulforUtil::openURI(hub->selectedTagStr,error);
+	hub->setStatus_gui("statusMain", error);
 }
 
 void Hub::onOpenHubClicked_gui(GtkMenuItem *item, gpointer data)
@@ -4177,7 +4204,8 @@ string Hub::formatAdditionalInfo(const string& aIp, bool sIp, bool sCC, bool isP
 
 void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw() //NOTE: core 0.762
 {
-	if(PluginManager::getInstance()->onChatDisplay(client, message.text))
+	string txt = message.text;
+	if(PluginManager::getInstance()->onChatDisplay(client, txt))
 		return;
 	
 	if (message.text.empty())
@@ -4396,7 +4424,7 @@ void Hub::on(ClientListener::HubTopic, Client *, const string &top) noexcept
     WulforManager::get()->dispatchGuiFunc(func);
 }
 
-void Hub::on(ClientListener::ClientLine, Client* , const string &mess, unsigned int &type) noexcept
+void Hub::on(ClientListener::ClientLine, Client* , const string &mess, int type) noexcept
 {
 	typedef Func3<Hub, string, Msg::TypeMsg, Sound::TypeSound> F3;
 	F3 *func = new F3(this, &Hub::addStatusMessage_gui, mess, Msg::STATUS, Sound::NONE);

@@ -178,6 +178,7 @@ public:
 	void noDeleteFileList(const string& path);
 
     const QueueItem::StringMap getQueue() {return fileQueue.getQueue();}
+    string getListPath(const HintedUser& user);
 
 	GETSET(uint64_t, lastSave, LastSave);
 	GETSET(string, queueFile, QueueFile);
@@ -310,7 +311,7 @@ private:
 
 	void setDirty();
 
-	string getListPath(const HintedUser& user);
+	//string getListPath(const HintedUser& user);
 
 	bool checkSfv(QueueItem* qi, Download* d);
 	uint32_t calcCrc32(const string& file);

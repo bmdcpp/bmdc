@@ -28,7 +28,7 @@
 #include "FastAlloc.h"
 #include "Util.h"
 #include "User.h"
-
+#include "PluginEntity.h"
 #include "TimerManager.h"
 
 namespace dcpp {
@@ -149,7 +149,7 @@ private:
 	void getDetectionParams(ParamMap& p);
 };
 
-class OnlineUser : public FastAlloc<OnlineUser>, public intrusive_ptr_base<OnlineUser>, private boost::noncopyable {
+class OnlineUser : public FastAlloc<OnlineUser>, public intrusive_ptr_base<OnlineUser>, private boost::noncopyable, public PluginEntity<UserData> {
 public:
 	typedef vector<OnlineUser*> List;
 	typedef List::iterator Iter;
@@ -192,7 +192,7 @@ public:
 	
 	bool getChecked(bool filelist = false, bool checkComplete = true);
 
-
+	UserData* getPluginObject() noexcept;
 	GETSET(Identity, identity, Identity);
 private:
 	friend class NmdcHub;

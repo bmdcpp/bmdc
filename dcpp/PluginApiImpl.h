@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2001-2010 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2012 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,44 +24,98 @@
 #ifndef DCPLUSPLUS_DCPP_PLUGIN_API_IMPL_H
 #define DCPLUSPLUS_DCPP_PLUGIN_API_IMPL_H
 
+#include <cstdint>
+
+#include "typedefs.h"
+#include "PluginDefs.h"
+
 namespace dcpp {
 
 class PluginApiImpl
 {
 public:
-	static hookHandle initAPI(DCCore& dcCore);
-	static void releaseAPI(hookHandle hHook);
+	static void initAPI(DCCore& dcCore);
+	static void releaseAPI();
+
+	static HubDataPtr DCAPI copyData(const HubDataPtr hub);
+	static void DCAPI releaseData(HubDataPtr hub);
+
+	static UserDataPtr DCAPI copyData(const UserDataPtr user);
+	static void DCAPI releaseData(UserDataPtr user);
+
+	static QueueDataPtr DCAPI copyData(const QueueDataPtr qi);
+	static void DCAPI releaseData(QueueDataPtr qi);
+
+	static ConfigValuePtr DCAPI copyData(const ConfigValuePtr val);
+	static void DCAPI releaseData(ConfigValuePtr val);
 
 private:
 	// Functions for DCCore
-	static hookHandle DCAPI createHook(HookID hookId, HookType hookType, DCHOOK defProc);
-	static void DCAPI destroyHook(hookHandle hHook);
+	static intfHandle DCAPI registerInterface(const char* guid, dcptr_t funcs);
+	static DCInterfacePtr DCAPI queryInterface(const char* guid, uint32_t version);
+	static Bool DCAPI releaseInterface(intfHandle hInterface);
 
-	static subsHandle DCAPI setHook(HookID hookId, DCHOOK hookProc, void* pCommon);
-	static Bool DCAPI callHook(HookID hookId, uint32_t eventId, dcptr_t pData);
-	static size_t DCAPI unHook(subsHandle hHook);
+	// Functions for DCHooks
+	static hookHandle DCAPI createHook(const char* guid, DCHOOK defProc);
+	static Bool DCAPI destroyHook(hookHandle hHook);
 
-	static uint32_t DCAPI registerMessage(HookType type, const char* name);
-	static uint32_t DCAPI registerRange(HookType type, const char* name, uint32_t count);
-	static uint32_t DCAPI seekMessage(const char* name);
+	static subsHandle DCAPI bindHook(const char* guid, DCHOOK hookProc, void* pCommon);
+	static Bool DCAPI runHook(hookHandle hHook, dcptr_t pObject, dcptr_t pData);
+	static size_t DCAPI releaseHook(subsHandle hHook);
 
+	// Functions For DCConfig
+	static const char* DCAPI getPath(PathType type);
 	static void DCAPI setConfig(const char* guid, const char* setting, ConfigValuePtr val);
-	static Bool DCAPI getConfig(const char* guid, const char* setting, ConfigValuePtr val);
+	static ConfigValuePtr DCAPI getConfig(const char* guid, const char* setting, ConfigType type);
 
-	static void* DCAPI memalloc(void* ptr, size_t bytes);
-	static size_t DCAPI strconv(ConversionType type, void* dst, void* src, size_t len);
+	// Functions for DCLog
+	static void DCAPI log(const char* msg);
 
-	// Default callback for hook CALLBACK_BASE
-	static Bool DCAPI coreCallback(uint32_t eventId, dcptr_t pData);
+	// Functions for DCConnection
+	static void DCAPI sendProtocolCmd(ConnectionDataPtr conn, const char* cmd);
+	static void DCAPI terminateConnection(ConnectionDataPtr conn, Bool graceless);
+	static void DCAPI sendUdpData(const char* ip, uint32_t port, dcptr_t data, size_t n);
 
-	// Queue functions
-	static Bool addDownload(const string& fname, int64_t fsize, const string& fhash, QueueDataPtr data);
+	// Functions for DCUtils
+	static size_t DCAPI toUtf8(char* dst, const char* src, size_t n);
+	static size_t DCAPI fromUtf8(char* dst, const char* src, size_t n);
 
-	// Hub functions
-	static Bool findOnlineHub(string hubUrl, ClientDataPtr data);
-	static Bool newClient(const string& hubUrl, ClientDataPtr data);
-	static void sendHubMessage(Client* client, const string& message, bool thirdPerson);
-	static void sendPrivateMessage(OnlineUserPtr ou, const string& message, bool thirdPerson);
+	static size_t DCAPI Utf8toWide(wchar_t* dst, const char* src, size_t n);
+	static size_t DCAPI WidetoUtf8(char* dst, const wchar_t* src, size_t n);
+
+	static size_t DCAPI toBase32(char* dst, const uint8_t* src, size_t n);
+	static size_t DCAPI fromBase32(uint8_t* dst, const char* src, size_t n);
+
+	// Functions for DCQueue
+	static QueueDataPtr DCAPI addList(UserDataPtr user, Bool silent);
+	static QueueDataPtr DCAPI addDownload(const char* hash, uint64_t size, const char* target);
+	static QueueDataPtr DCAPI findDownload(const char* target);
+	static void DCAPI removeDownload(QueueDataPtr qi);
+
+	static void DCAPI setPriority(QueueDataPtr qi, QueuePrio priority);
+
+	// Functions for DCHub
+	static HubDataPtr DCAPI addHub(const char* url, const char* nick, const char* password);
+	static HubDataPtr DCAPI findHub(const char* url);
+	static void DCAPI removeHub(HubDataPtr hub);
+
+	static void DCAPI emulateProtocolCmd(HubDataPtr hub, const char* cmd);
+	static void DCAPI sendProtocolCmd(HubDataPtr hub, const char* cmd);
+
+	static void DCAPI sendHubMessage(HubDataPtr hub, const char* message, Bool thirdPerson);
+	static void DCAPI sendLocalMessage(HubDataPtr hub, const char* msg, MsgType type);
+	static Bool DCAPI sendPrivateMessage(UserDataPtr user, const char* message, Bool thirdPerson);
+
+	static UserDataPtr DCAPI findUser(const char* cid, const char* hubUrl);
+
+	static DCHooks dcHooks;
+	static DCConfig dcConfig;
+	static DCLog dcLog;
+
+	static DCConnection dcConnection;
+	static DCHub dcHub;
+	static DCQueue dcQueue;
+	static DCUtils dcUtils;
 
 	static Socket apiSocket;
 };
@@ -72,5 +126,5 @@ private:
 
 /**
  * @file
- * $Id: PluginApiImpl.h 707 2010-09-03 15:40:16Z crise $
+ * $Id: PluginApiImpl.h 1248 2012-01-22 01:49:30Z crise $
  */
