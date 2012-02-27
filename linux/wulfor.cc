@@ -66,9 +66,9 @@ int main(int argc, char *argv[])
 	connection = bacon_message_connection_new(GUI_PACKAGE);
 
 	if (connection != NULL)
-		dcdebug("freedcpp: connection yes...\n");
+		dcdebug("bmdc: connection yes...\n");
 	else
-		dcdebug("freedcpp: connection no...\n");
+		dcdebug("bmdc: connection no...\n");
 
 	// Check if profile is locked
 	if (WulforUtil::profileIsLocked())
@@ -76,11 +76,11 @@ int main(int argc, char *argv[])
 		//cout << _("No More That one Instance") << std::endl;
 		if (!bacon_message_connection_get_is_server(connection))
 		{
-			dcdebug("freedcpp: is client...\n");
+			dcdebug("bmdc: is client...\n");
 
 			if (argc > 1)
 			{
-				dcdebug("freedcpp: send %s\n", argv[1]);
+				dcdebug("bmdc: send %s\n", argv[1]);
 				bacon_message_connection_send(connection, argv[1]);
 			}
 		}
@@ -88,15 +88,11 @@ int main(int argc, char *argv[])
 		bacon_message_connection_free(connection);
 
 		return 0;
-		
-		
-		
-	//	return 1;
 	}
 	
 	if (bacon_message_connection_get_is_server(connection))
 	{
-		dcdebug("freedcpp: is server...\n");
+		dcdebug("bmdc: is server...\n");
 		bacon_message_connection_set_callback(connection, receiver, NULL);
 	}
 
@@ -121,7 +117,7 @@ int main(int argc, char *argv[])
 	g_set_application_name("BMDC++");
 	WulforSettingsManager::newInstance();
 	signal(SIGPIPE, SIG_IGN);
-	signal(SIGSEGV, printBacktrace);
+	//signal(SIGSEGV, printBacktrace);
 	
 	WulforManager::start(argc, argv);
 	gdk_threads_enter();

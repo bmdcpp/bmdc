@@ -206,7 +206,7 @@ string formatParams(const string& format, StringMap& params) {
 	return result;
 }
 
-static gchar *parse(GVariant *var)
+static gchar *parse(GVariant *var,ConfigStrPtr suffix)
 {
 	StringMap params;
 	if (g_variant_n_children (var) > 0)
@@ -230,9 +230,7 @@ static gchar *parse(GVariant *var)
         }
       g_variant_iter_free (iter);
 	}
-   const char *format = get_cfg("MediaPlayerFormat")->value;
-   string f(format);
-   return const_cast<gchar *>(formatParams(f,params).c_str());
+   return const_cast<gchar *>(g_strdup(formatParams(string(suffix->value),params).c_str()));
 }
 
 /* Event handlers */
@@ -358,10 +356,12 @@ Bool DCAPI onHubEnter(dcptr_t pObject, dcptr_t pData, Bool* bBreak) {
 				g_error_free (error);
 				return True;
 			}
-			gchar *pr = parse(var);
+			ConfigStrPtr suffix = get_cfg("MediaPlayerFormat");	
+			gchar *pr = g_strdup(parse(var,suffix));
 			
 			hub->send_message(hHub, pr, (strnicmp(pr, "/me ", 4) == 0) ? True : False);
 			g_variant_unref(var);
+			config->release((ConfigValuePtr)suffix);
 		return True;	
 	}
 	return False;

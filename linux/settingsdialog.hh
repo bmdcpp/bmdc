@@ -54,8 +54,8 @@ class Settings:
 			const std::string &key3, const int key4);
 		void addOption_gui(GtkListStore *store, const std::string &name, const std::string &setting);
 		//NOTE BMDC++
-		void addOption_gui(GtkListStore *store, const std::string &name, const std::string &setting, bool q/*not used*/);
-		void addPreviewUL_gui(GtkListStore *store, const std::string &name, const std::string &color, const std::string &icon);
+		void addOption_gui(GtkListStore *store, const std::string &name, const std::string &setting, const std::string &backSetting);
+		void addPreviewUL_gui(GtkListStore *store, const std::string &name, const std::string &color, const std::string &icon, const std::string &back);
 		//end
 		void addOption_gui(GtkListStore *store, WulforSettingsManager *wsm, const std::string &name,
 			const std::string &key1, const std::string &key2);
@@ -93,6 +93,7 @@ class Settings:
 		void modSearchType_gui();//NOTE: core 0.770
 		void addExtension_gui(const std::string ext);//NOTE: core 0.770
 		void showExtensionDialog_gui(bool add);//NOTE: core 0.770
+		void setBgColorUserList();
 
 		// GUI callbacks
 		static void onOptionsViewToggled_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
@@ -184,6 +185,7 @@ class Settings:
 		//BMDC++
 		static void onTextColorForeULClicked_gui(GtkWidget *widget, gpointer data);
 		static void onTextColorDefaultULClicked_gui(GtkWidget *widget, gpointer data);
+		static void onBgColorULClicked_gui(GtkWidget *widget, gpointer data);
 		static void onAddHighlighting_gui(GtkWidget *widget, gpointer data);
 		static void onEditHighlighting_gui(GtkWidget *widget, gpointer data);
 		static void onRemoveHighlighting_gui(GtkWidget *widget, gpointer data);
@@ -200,6 +202,8 @@ class Settings:
 		static void onAddPluginTo_gui(GtkWidget *widget, gpointer data);
 		static void onRemPluginFrom_gui(GtkWidget *widget, gpointer data);
 		static void onConfigurePlugin_gui(GtkWidget *widget, gpointer data);
+		//BMDC
+		static void makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data);
 		// Client functions
 		void saveSettings_client();
 		void shareHidden_client(bool show);
@@ -252,6 +256,7 @@ class Settings:
 		
 		dcpp::ColorList pList;
 		gboolean isSensitiveHG[3];
+		void setColorRow(std::string cell);
 };
 
 #else

@@ -339,7 +339,17 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("userlist-text-favorite", "#ff0000"));
 	defaultString.insert(StringMap::value_type("userlist-text-ignored", "#9affaf"));
 	defaultString.insert(StringMap::value_type("userlist-text-normal", "#000000"));
+	defaultString.insert(StringMap::value_type("userlist-text-bot-hub", "#1E90FF"));
+	/*for UserList BG*/
+	defaultString.insert(StringMap::value_type("userlist-bg-operator", "#1E90FF"));
+	defaultString.insert(StringMap::value_type("userlist-bg-bot-hub", "#000000"));
+	defaultString.insert(StringMap::value_type("userlist-bg-favorite", "#00FF00"));
+	defaultString.insert(StringMap::value_type("userlist-bg-normal", "#BFBFBF"));
+	defaultString.insert(StringMap::value_type("userlist-bg-pasive", "#BFBFBF"));
+	defaultString.insert(StringMap::value_type("userlist-bg-protected", "#BFBFBF"));
+	defaultString.insert(StringMap::value_type("userlist-bg-ignored", "#BFBFBF"));
 	
+	/**/
 	defaultString.insert(StringMap::value_type("custom-aliases", ""));
 	
 	defaultString.insert(StringMap::value_type("text-cheat-fore-color", "red"));

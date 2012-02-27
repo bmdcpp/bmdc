@@ -1252,7 +1252,7 @@ void MainWindow::setToolbarButton_gui()
 	//[BMDC
 	if (!WGETB("toolbar-button-ignore"))
 		gtk_widget_hide(getWidget("ignUser"));
-	if (!WGETB("toolbar-button-notebook"))
+	if (!WGETB("toolbar-button-notepad"))
 		gtk_widget_hide(getWidget("notepad"));
 	if (!WGETB("toolbar-button-system"))
 		gtk_widget_hide(getWidget("system"));

@@ -267,26 +267,31 @@ void TreeView::addColumn_gui(Column& column)
 	{
 		case INT:
 		case STRING:
+			renderer = gtk_cell_renderer_text_new();
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(),
-				gtk_cell_renderer_text_new(), "text", column.pos, NULL);
+				renderer, "text", column.pos, NULL);
+			column.renderer2 = renderer;
 			break;
 		case SIZE:
 			renderer = gtk_cell_renderer_text_new();
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(),
 					renderer, "text", column.pos, NULL);
 			gtk_tree_view_column_set_cell_data_func(col, renderer, TreeView::sizeDataFunc, &column, NULL);
+			column.renderer2 = renderer;
 			break;
 		case SPEED:
 			renderer = gtk_cell_renderer_text_new();
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(),
 					renderer, "text", column.pos, NULL);
 			gtk_tree_view_column_set_cell_data_func(col, renderer, TreeView::speedDataFunc, &column, NULL);
+			column.renderer2 = renderer;
 			break;
 		case TIME_LEFT:
 			renderer = gtk_cell_renderer_text_new();
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(),
 					renderer, "text", column.pos, NULL);
 			gtk_tree_view_column_set_cell_data_func(col, renderer, TreeView::timeLeftDataFunc, &column, NULL);
+			column.renderer2 = renderer;
 			break;
 		case STRINGR:
 			renderer = gtk_cell_renderer_text_new();
@@ -299,8 +304,10 @@ void TreeView::addColumn_gui(Column& column)
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(), renderer, "active", column.pos, NULL);
 			break;
 		case PIXBUF:
+			renderer = gtk_cell_renderer_pixbuf_new();
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(),
-				gtk_cell_renderer_pixbuf_new(), "pixbuf", column.pos, NULL);
+				renderer, "pixbuf", column.pos, NULL);
+			column.renderer2 = renderer;	
 			break;
 		case PIXBUF_STRING:
 			renderer = gtk_cell_renderer_pixbuf_new();
@@ -308,6 +315,7 @@ void TreeView::addColumn_gui(Column& column)
 			gtk_tree_view_column_set_title(col, column.title.c_str());
 			gtk_tree_view_column_pack_start(col, renderer, false);
 			gtk_tree_view_column_add_attribute(col, renderer, "pixbuf", TreeView::col(column.linkedCol));
+			column.renderer2 = renderer;
 			renderer = gtk_cell_renderer_text_new();
 			gtk_tree_view_column_pack_start(col, renderer, true);
 			gtk_tree_view_column_add_attribute(col, renderer, "text", column.pos);
@@ -318,6 +326,7 @@ void TreeView::addColumn_gui(Column& column)
 			gtk_tree_view_column_set_title(col, column.title.c_str());
 			gtk_tree_view_column_pack_start(col, renderer, false);
 			gtk_tree_view_column_add_attribute(col, renderer, "stock-id", TreeView::col(column.linkedCol));
+			column.renderer2 = renderer;
 			renderer = gtk_cell_renderer_text_new();
 			gtk_tree_view_column_pack_start(col, renderer, true);
 			gtk_tree_view_column_add_attribute(col, renderer, "text", column.pos);
@@ -329,6 +338,7 @@ void TreeView::addColumn_gui(Column& column)
 			gtk_tree_view_column_set_title(col, column.title.c_str());
 			gtk_tree_view_column_pack_start(col, renderer, false);
 			gtk_tree_view_column_add_attribute(col, renderer, "stock-id", TreeView::col(column.linkedCol));
+			column.renderer2 = renderer;
 			// text
 			renderer = gtk_cell_renderer_text_new();
 			gtk_tree_view_column_pack_start(col, renderer, true);
@@ -342,6 +352,7 @@ void TreeView::addColumn_gui(Column& column)
 			gtk_tree_view_column_set_title(col, column.title.c_str());
 			gtk_tree_view_column_pack_start(col, renderer, false);
 			gtk_tree_view_column_add_attribute(col, renderer, "pixbuf", TreeView::col(column.linkedCol));
+			column.renderer2 = renderer;
 			// text
 			renderer = gtk_cell_renderer_text_new();
 			gtk_tree_view_column_pack_start(col, renderer, true);
@@ -360,10 +371,11 @@ void TreeView::addColumn_gui(Column& column)
 				renderer, "text", column.pos, "value", TreeView::col(column.linkedCol), NULL);
 			break;
 		case EXSIZE:
-            renderer = gtk_cell_renderer_text_new();
+               renderer = gtk_cell_renderer_text_new();
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(),
 					renderer, "text", column.pos, NULL);
 			gtk_tree_view_column_set_cell_data_func(col, renderer, TreeView::exactsizeDataFunc, &column, NULL);
+			column.renderer2 = renderer; 
             break;
 	}
 
@@ -391,7 +403,9 @@ void TreeView::addColumn_gui(Column& column)
 	gtk_tree_view_column_set_visible(col, column.visible);
 
 	gtk_tree_view_insert_column(view, col, column.pos);
-    g_object_set_data(G_OBJECT(col), "column", (gpointer)&column);
+	column.renderer = renderer;//think;
+	column.column = col;
+     g_object_set_data(G_OBJECT(col), "column", (gpointer)&column);
 	/*
 	 * Breaks GTK+ API, but is the only way to attach a signal to a gtktreeview column header. See GTK bug #141937.
 	 * @todo: Replace when GTK adds a way to add a signal to the entire header (remove visibleColumns var, too).
@@ -418,6 +432,13 @@ int TreeView::col(const string &title)
 
 	dcassert(retval >= 0 && (retval < count));
 	return retval;
+}
+
+GtkTreeViewColumn *TreeView::getColumn(const std::string &title)
+{
+	dcassert(!title.empty());
+	dcassert(columns.find(title) != columns.end() || hiddenColumns.find(title) != hiddenColumns.end());
+	return columns[title].column;
 }
 
 gboolean TreeView::popupMenu_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
@@ -701,3 +722,30 @@ string TreeView::getValueAsText(GtkTreeIter *i, const string &title)
     return dcpp::Util::emptyString;
 }
 
+GtkCellRenderer *TreeView::getCellRenderOf(const string &title)
+{
+	dcassert(!title.empty());
+	dcassert(columns.find(title) != columns.end() || hiddenColumns.find(title) != hiddenColumns.end());
+	GtkCellRenderer *render = NULL;
+	if (columns.find(title) != columns.end())
+		render = columns[title].renderer;
+	else
+		render = hiddenColumns[title].renderer;
+
+	dcassert(render != NULL);
+	return render;	
+}
+
+GtkCellRenderer *TreeView::getCellRenderOf2(const string &title)
+{
+	dcassert(!title.empty());
+	dcassert(columns.find(title) != columns.end() || hiddenColumns.find(title) != hiddenColumns.end());
+	GtkCellRenderer *render = NULL;
+	if (columns.find(title) != columns.end())
+		render = columns[title].renderer2;
+	else
+		render = hiddenColumns[title].renderer2;
+
+	dcassert(render != NULL);
+	return render;	
+}

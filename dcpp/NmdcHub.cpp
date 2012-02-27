@@ -98,6 +98,7 @@ OnlineUser& NmdcHub::getUser(const string& aNick) {
 		}
 		
 	}
+	/**/
 
 	ClientManager::getInstance()->putOnline(u);
 	return *u;

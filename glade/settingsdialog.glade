@@ -4826,7 +4826,7 @@ see man strftime for details.</property>
                             </child>
                             <child>
                               <widget class="GtkButton" id="setBackGroundChatWin">
-                                <property name="label" translatable="yes">BackGround Color</property>
+                                <property name="label" translatable="yes">Background Color</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
@@ -6196,6 +6196,19 @@ default</property>
                                 <property name="expand">True</property>
                                 <property name="fill">True</property>
                                 <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkButton" id="buttonULBGCL">
+                                <property name="label" translatable="yes">Set Background Color</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                              </widget>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
                               </packing>
                             </child>
                           </widget>

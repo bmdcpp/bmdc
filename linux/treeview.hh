@@ -83,12 +83,14 @@ class TreeView
 		}
 		void setSelection(GtkTreeSelection *&selection) { sel = selection;}
 		void buildCopyMenu(GtkWidget *wid);
-
+		GtkCellRenderer *getCellRenderOf(const std::string &title);
+		GtkCellRenderer *getCellRenderOf2(const std::string &title);
+		GtkTreeViewColumn *getColumn(const std::string &title);
 	private:
 		class Column
 		{
 			public:
-				Column() {};
+				Column() { };
 				Column(const std::string &title, int id, GType gtype, TreeView::columnType type, int width, const std::string &linkedCol = "") :
 					title(title), id(id), gtype(gtype), type(type), width(width), pos(id), linkedCol(linkedCol), visible(true) {};
 				Column(const std::string &title, int id, GType gtype, TreeView::columnType type, int width,
@@ -117,6 +119,9 @@ class TreeView
 				{
 					return pos < right.pos;
 				}
+				GtkCellRenderer *renderer;
+				GtkCellRenderer *renderer2;
+				GtkTreeViewColumn *column;
 		};
 
 		void addColumn_gui(Column& column);

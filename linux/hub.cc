@@ -77,13 +77,13 @@ Hub::Hub(const string &address, const string &encoding):
 	//BMDC++
 	nickView.insertColumn(_("Country"), G_TYPE_STRING, TreeView::PIXBUF_STRING, 70, "Pixbuf");
 	nickView.insertColumn(_("Exact Share"), G_TYPE_INT64, TreeView::EXSIZE, 100);
-     nickView.insertColumn(_("Slots"), G_TYPE_STRING, TreeView::STRING, 50);
+	nickView.insertColumn(_("Slots"), G_TYPE_STRING, TreeView::STRING, 50);
      nickView.insertColumn(_("Hubs"), G_TYPE_STRING, TreeView::STRING, 50);
      nickView.insertColumn("PK", G_TYPE_STRING, TreeView::STRING, 80);
      nickView.insertColumn(_("Cheat"), G_TYPE_STRING, TreeView::STRING, 80);
      nickView.insertColumn(_("Generator"), G_TYPE_STRING, TreeView::STRING, 80);
      nickView.insertColumn(_("Support"), G_TYPE_STRING, TreeView::STRING, 80);
-	//BMDC++
+     //BMDC++
 	nickView.insertHiddenColumn("Icon", G_TYPE_STRING);
 	nickView.insertHiddenColumn("Nick Order", G_TYPE_STRING);
 	nickView.insertHiddenColumn("CID", G_TYPE_STRING);
@@ -95,7 +95,7 @@ Hub::Hub(const string &address, const string &encoding):
 	nickStore = gtk_list_store_newv(nickView.getColCount(), nickView.getGTypes());
 	gtk_tree_view_set_model(nickView.get(), GTK_TREE_MODEL(nickStore));
 	g_object_unref(nickStore);
-
+	
 	nickSelection = gtk_tree_view_get_selection(nickView.get());
 	gtk_tree_selection_set_mode(gtk_tree_view_get_selection(nickView.get()), GTK_SELECTION_MULTIPLE);
 	string sort = BOOLSETTING(SORT_FAVUSERS_FIRST)? /*"Favorite"*/"Client Type" : "Nick Order";
@@ -107,8 +107,8 @@ Hub::Hub(const string &address, const string &encoding):
 	nickView.setSelection(nickSelection);
 	nickView.buildCopyMenu(getWidget("CopyMenu"));
 
-    g_object_set(G_OBJECT(nickView.get()), "has-tooltip", TRUE, NULL);
-    g_signal_connect(nickView.get(), "query-tooltip", G_CALLBACK(onUserListTooltip_gui), (gpointer)this);
+     g_object_set(G_OBJECT(nickView.get()), "has-tooltip", TRUE, NULL);
+     g_signal_connect(nickView.get(), "query-tooltip", G_CALLBACK(onUserListTooltip_gui), (gpointer)this);
 	g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (nickView.get())), "changed", G_CALLBACK (selection_changed_userlist_gui), GTK_WIDGET(nickView.get()));
 	/* Set a tooltip on the column */
 	set_Header_tooltip_gui();
@@ -332,7 +332,105 @@ Hub::Hub(const string &address, const string &encoding):
 	RecentHubEntry* r = FavoriteManager::getInstance()->getRecentHubEntry(address);
 	if(r == NULL)
 		FavoriteManager::getInstance()->addRecent(entry);
+}
 
+void Hub::setColorsRows()
+{
+	setColorRow(_("Nick"));
+	setColorRow(_("Shared"));
+	setColorRow(_("Description"));
+	setColorRow(_("Tag"));
+	setColorRow(_("Connection"));
+	setColorRow("IP");
+	setColorRow(_("eMail"));
+	setColorRow(_("Country"));
+	setColorRow(_("Exact Share"));
+	setColorRow(_("Slots"));
+	setColorRow(_("Hubs"));
+	setColorRow("PK");
+	setColorRow(_("Cheat"));
+	setColorRow(_("Generator"));
+	setColorRow(_("Support"));
+}
+
+void Hub::setColorRow(string cell)
+{
+
+	GtkTreeModel * model = gtk_tree_view_get_model(nickView.get());
+	gtk_tree_view_column_set_cell_data_func(nickView.getColumn(cell),
+								nickView.getCellRenderOf(cell),
+								Hub::makeColor,
+								(gpointer)this,
+								NULL);
+	if(nickView.getCellRenderOf2(cell) != NULL)							
+	gtk_tree_view_column_set_cell_data_func(nickView.getColumn(cell),
+								nickView.getCellRenderOf2(cell),
+								Hub::makeColor,
+								(gpointer)this,
+								NULL);							
+}
+
+void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data)
+{
+		Hub *hub = (Hub *)data;
+		string color = "#A52A2A";
+		gchar *cltype;
+		int64_t size;
+		string sizeString;
+		if(model == NULL)
+			return;
+		if(iter == NULL)
+			return;	
+		
+		gtk_tree_model_get(model,iter,
+		                     1, &size,
+						20,&cltype,
+						-1);
+		gchar *a = hub->g_substr(cltype,0,0);
+		//Hub&Bot
+		if ( strcmp(a,"A") == 0)
+		{ 
+		  color = WGETS("userlist-bg-bot-hub");
+		}//Op
+		else if ( strcmp(a,"B") == 0)
+		{ 
+			color = WGETS("userlist-bg-operator");
+		}//Fav
+		else if ( strcmp(a,"C") == 0) 
+		{ 
+     	   color = WGETS("userlist-bg-favorite");
+		}//ignored
+		else if ( strcmp(a, "I") == 0)
+		{
+		   color = WGETS("userlist-bg-ignored");		
+		}//protected
+		else if ( strcmp(a,"R") == 0)
+		{
+		   color	= WGETS("userlist-bg-protected");
+		}//pasive
+		else if (strcmp(a,"P") == 0)
+		{
+		   color = WGETS("userlist-bg-pasive");		
+		}
+		else if ( strcmp(a,"F") == 0)
+		{
+			color = WGETS("userlist-bg-favorite");
+		}
+		else {
+		  color = WGETS("userlist-bg-normal");
+		}
+			
+		g_object_set(cell,"cell-background-set",TRUE,"cell-background",color.c_str(),NULL); 
+		const gchar *title = gtk_tree_view_column_get_title(column);
+		
+		if(strcmp(title,_("Shared")) == 0)
+		{
+			if (size >= 0)
+			{
+				sizeString = dcpp::Util::formatBytes(size);
+			}
+			g_object_set(cell, "text", sizeString.c_str(), NULL);
+		}	
 }
 
 Hub::~Hub()
@@ -678,7 +776,7 @@ void Hub::updateUser_gui(ParamMap params)
 			Notify::get()->showNotify("", message, Notify::FAVORITE_USER_JOIN);
 		}
 	}
-
+	setColorsRows();
 	setStatus_gui("statusUsers", Util::toString(userMap.size()) + _(" Users"));
 	setStatus_gui("statusShared", Util::formatBytes(totalShared));
 }
@@ -1616,6 +1714,7 @@ void Hub::preferences_gui()
 	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_ACTIVE,&color);
 	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_SELECTED,&color);
 	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_INSENSITIVE,&color);
+	setColorsRows();
 }
 
 void Hub::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, string &fore, string &back, int &bold, int &italic)
@@ -3154,7 +3253,8 @@ void Hub::addFavoriteUser_gui(ParamMap params)
 		if (findUser_gui(cid, &iter))
 		{
 			gtk_list_store_set(nickStore, &iter,
-				nickView.col("Client Type"), ("f" + params["Order"] + nick).c_str(),
+				//nickView.col("Client Type"), ("f" + params["Order"] + nick).c_str(),
+				nickView.col("Client Type"), params["Type"].c_str(),
 				nickView.col("NickColor"), WGETS("userlist-text-favorite").c_str(),
 				-1);
 			removeTag_gui(nick);
@@ -3179,9 +3279,10 @@ void Hub::removeFavoriteUser_gui(ParamMap params)
 		// resort users
 		if (findUser_gui(cid, &iter))
 		{
-			string nickOrder = nickView.getString(&iter, "Nick Order");
+			//string nickOrder = nickView.getString(&iter, "Nick Order");
 			gtk_list_store_set(nickStore, &iter,
-				nickView.col(/*"Favorite"*/"Client Type"), nickOrder.c_str(),
+				//nickView.col("Client Type"), nickOrder.c_str(),
+				nickView.col("Client Type"), WGETS("userlist-bg-normal").c_str(),
 				nickView.col("NickColor"), WGETS("userlist-text-normal").c_str(),
 				-1);
 			removeTag_gui(nick);
@@ -3208,6 +3309,7 @@ void Hub::addPasive_gui(ParamMap params)
 		{
 			gtk_list_store_set(nickStore, &iter,
                     nickView.col("NickColor"), WGETS("userlist-text-pasive").c_str(),
+                    nickView.col("Client Type"), params["Type"].c_str(),
 				-1);
 			removeTag_gui(nick);
 		}
@@ -3229,6 +3331,7 @@ void Hub::addOperator_gui(ParamMap params)
 		{
 			gtk_list_store_set(nickStore, &iter,
                     nickView.col("NickColor"), WGETS("userlist-text-operator").c_str(),
+                    nickView.col("Client Type"), params["Type"].c_str(),
 				-1);
 			removeTag_gui(nick);
 		}
@@ -3250,6 +3353,7 @@ void Hub::addProtected_gui(ParamMap params)
 		{
 			gtk_list_store_set(nickStore, &iter,
                     nickView.col("NickColor"), WGETS("userlist-text-protected").c_str(),
+                    nickView.col("Client Type"), params["Type"].c_str(),
 				-1);
 			removeTag_gui(nick);
 		}
@@ -3271,6 +3375,7 @@ void Hub::addIgnore_gui(ParamMap params)
 		{
 			gtk_list_store_set(nickStore, &iter,
                     nickView.col("NickColor"), WGETS("userlist-text-ignored").c_str(),
+                    nickView.col("Client Type"), params["Type"].c_str(),
 				-1);
 			removeTag_gui(nick);
 		}
@@ -3288,6 +3393,7 @@ void Hub::removeIgnore_gui(ParamMap params)
             userIgnoreMap.erase(cid);
             gtk_list_store_set(nickStore,&iter,
                                nickView.col("NickColor"), WGETS("userlist-text-normal").c_str(),
+                               nickView.col("Client Type"), WGETS("userlist-bg-normal").c_str(),
                                -1);
         }
     }
@@ -3638,9 +3744,7 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 	params.insert(ParamMap::value_type("Cheat", id.get("CS")));
 	params.insert(ParamMap::value_type("Generator", id.get("GE")));
 	params.insert(ParamMap::value_type("Support", id.get("SU")));
-	if(id.getUser()->isSet(User::PASSIVE))
-			addPasive_gui(params);
-
+		
 	if(id.isBot() || id.isHub()) {
         params.insert(ParamMap::value_type("Type", "A" + id.getNick()));
         addOperator_gui(params);
@@ -3649,15 +3753,31 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
         addOperator_gui(params);
     } else if(FavoriteManager::getInstance()->isFavoriteUser(id.getUser())) {
 		params.insert(ParamMap::value_type("Type", "C" + id.getNick()));
-	} else //think about ignore here
+	} else 
         params.insert(ParamMap::value_type("Type", "U" + id.getNick()));
+	if(id.getUser()->isSet(User::PASSIVE))
+	{
+		params.insert(ParamMap::value_type("Type","P"+id.getNick()));
+		addPasive_gui(params);
+	}
+
 
 	if(FavoriteManager::getInstance()->isFavoriteUser(id.getUser()))
+	{
+		params.insert(ParamMap::value_type("Type", "F" + id.getNick()));
 		addFavoriteUser_gui(params);
-
-    if(FavoriteManager::getInstance()->isIgnoredUser(id.getUser()))
+	}
+     if(FavoriteManager::getInstance()->isIgnoredUser(id.getUser()))
+     {
+		params.insert(ParamMap::value_type("Type", "I" + id.getNick()));
 		addIgnore_gui(params);
-
+	}
+	
+	if(id.getUser()->isSet(User::PROTECT))
+	{
+		params.insert(ParamMap::value_type("Type", "R" + id.getNick()));
+	}	
+	
 }
 
 void Hub::download_client(string target, int64_t size, string tth, string cid)
@@ -3993,6 +4113,7 @@ void Hub::on(FavoriteManagerListener::UserAdded, const FavoriteUser &user) throw
 	params.insert(ParamMap::value_type("Nick", user.getNick()));
 	params.insert(ParamMap::value_type("CID", user.getUser()->getCID().toBase32()));
 	params.insert(ParamMap::value_type("Order", ClientManager::getInstance()->isOp(user.getUser(), user.getUrl()) ? "o" : "u"));
+	params.insert(ParamMap::value_type("Type", "C" + user.getNick()));
 
 	Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::addFavoriteUser_gui, params);
 	WulforManager::get()->dispatchGuiFunc(func);

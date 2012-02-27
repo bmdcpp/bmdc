@@ -177,6 +177,8 @@ class Hub:
 		
 		static void on_setImage_tab(GtkButton *widget, gpointer data);
 		static void onToglleButtonIcon(GtkToggleButton *button, gpointer data);
+		//colorize userlist
+		static void makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data);
 
 		// Client functions
 		void addFavoriteUser_client(const std::string cid);
@@ -207,6 +209,9 @@ class Hub:
 		void updateIcons();
 		void removeIgnore_gui(ParamMap params);
 		void SetTabText(gpointer data);
+		
+		void setColorRow(std::string cell);
+		void setColorsRows();
 
 		// Favorite callbacks
 		virtual void on(dcpp::FavoriteManagerListener::UserAdded, const dcpp::FavoriteUser &user) throw();
@@ -278,6 +283,15 @@ class Hub:
 		std::unique_ptr<dcpp::HttpDownload> iconshttp;
 		GtkWidget *tab_image;
 		GtkWidget *tab_button;
+		//maybe add to WUtil
+		gchar * g_substr (const gchar* string,
+          gint         start,
+          gint         end)
+		{
+			gsize len = (end - start + 1);
+			gchar *output = (gchar *)g_malloc0 (len + 1);
+			return g_utf8_strncpy (output, &string[start], len);
+		}
 		
 };		
 #else

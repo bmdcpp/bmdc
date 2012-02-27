@@ -85,6 +85,7 @@ OnlineUser& AdcHub::getUser(const uint32_t aSID, const CID& aCID) {
 		ou->inc();
 		ou->initializeData();
 	}
+	/**/
 
 	if(aSID != AdcCommand::HUB_SID)
 		ClientManager::getInstance()->putOnline(ou);

@@ -168,13 +168,18 @@ Settings::Settings(GtkWindow* parent):
 	defaultStringTheme.insert(StringMap::value_type("text-high-fore-color", "black"));
 	defaultStringTheme.insert(StringMap::value_type("text-high-back-color", "white"));
 
-	/*for UL color text*///NOTE BMDC++
+	/*for UL color text&bg*///NOTE BMDC++
 	defaultStringTheme.insert(StringMap::value_type("userlist-text-operator", "#1E90FF"));
 	defaultStringTheme.insert(StringMap::value_type("userlist-text-pasive", "#747677"));
 	defaultStringTheme.insert(StringMap::value_type("userlist-text-protected", "#8B6914"));
 	defaultStringTheme.insert(StringMap::value_type("userlist-text-favorite", "#ff0000"));
 	defaultStringTheme.insert(StringMap::value_type("userlist-text-ignored", "#9affaf"));
 	defaultStringTheme.insert(StringMap::value_type("userlist-text-normal", "#000000"));
+	//.bg
+	defaultStringTheme.insert(StringMap::value_type("userlist-bg-operator", "#1E90FF"));
+	defaultStringTheme.insert(StringMap::value_type("userlist-bg-bot-hub", "#000000"));
+	defaultStringTheme.insert(StringMap::value_type("userlist-bg-favorite", "#00FF00"));
+	defaultStringTheme.insert(StringMap::value_type("userlist-bg-normal", "#BFBFBF"));
 	//NOTE: END
 	defaultIntTheme.insert(IntMap::value_type("text-general-bold", 0));
 	defaultIntTheme.insert(IntMap::value_type("text-general-italic", 0));
@@ -493,7 +498,7 @@ void Settings::saveSettings_client()
 			while (valid)
 			{
 				wsm->set(userListNames.getString(&iter, "Set"), userListNames.getString(&iter, "Color"));
-
+				wsm->set(userListNames.getString(&iter, "Back"), userListNames.getString(&iter, "BackSet"));
 				valid = gtk_tree_model_iter_next(m, &iter);
 			}
 
@@ -616,15 +621,17 @@ void Settings::addOption_gui(GtkListStore *store, const string &name, const stri
 		3, setting.c_str(),
 		-1);
 }
-//NOTE BMDC
-void Settings::addOption_gui(GtkListStore *store, const string &name, const string &setting, bool q/*not used*/)
+//NOTE BMDC//Adds Option UL
+void Settings::addOption_gui(GtkListStore *store, const string &name, const string &setting, const string &backSetting)
 {
 	GtkTreeIter iter;
 	gtk_list_store_append(store, &iter);
 	gtk_list_store_set(store, &iter,
 		0, name.c_str(),
 		1, WGETS(setting).c_str(),
-		2, setting.c_str(),
+		2, backSetting.c_str(),
+		3, setting.c_str(),
+		4, WGETS(backSetting).c_str(),
 		-1);
 }
 //END
@@ -1563,40 +1570,117 @@ void Settings::initAppearance_gui()
 		userListNames.setView(GTK_TREE_VIEW(getWidget("treeviewNames")));
 		userListNames.insertColumn(_("Name"), G_TYPE_STRING, TreeView::STRING, -1);
 		userListNames.insertHiddenColumn("Color", G_TYPE_STRING);
+		userListNames.insertHiddenColumn("Back", G_TYPE_STRING);
 		userListNames.insertHiddenColumn("Set", G_TYPE_STRING);
+		userListNames.insertHiddenColumn("BackSet", G_TYPE_STRING);
 		userListNames.finalize();
 
 		userListStore1 = gtk_list_store_newv(userListNames.getColCount(), userListNames.getGTypes());
 		gtk_tree_view_set_model(userListNames.get(), GTK_TREE_MODEL(userListStore1));
 		g_object_unref(userListStore1);
 
-		addOption_gui(userListStore1, _("Normal"), "userlist-text-normal", false);
-		addOption_gui(userListStore1, _("Operator"), "userlist-text-operator", false);
-		addOption_gui(userListStore1, _("Pasive"), "userlist-text-pasive", false);
-		addOption_gui(userListStore1, _("Favorite"), "userlist-text-favorite", false);
-		addOption_gui(userListStore1, _("Protected"), "userlist-text-protected", false);
-		addOption_gui(userListStore1, _("Ignored"), "userlist-text-ignored", false);
+		addOption_gui(userListStore1, _("Normal"), "userlist-text-normal", "userlist-bg-normal");
+		addOption_gui(userListStore1, _("Operator"), "userlist-text-operator", "userlist-bg-operator");
+		addOption_gui(userListStore1, _("Pasive"), "userlist-text-pasive", "userlist-bg-pasive");
+		addOption_gui(userListStore1, _("Favorite"), "userlist-text-favorite", "userlist-bg-favorite");
+		addOption_gui(userListStore1, _("Protected"), "userlist-text-protected", "userlist-bg-protected");
+		addOption_gui(userListStore1, _("Ignored"), "userlist-text-ignored", "userlist-bg-ignored");
+		addOption_gui(userListStore1, _("Hub or Bot (adc(s) only)"), "userlist-text-bot-hub", "userlist-bg-bot-hub");
 		/**/
 		userListPreview.setView(GTK_TREE_VIEW(getWidget("treeviewUserListPreview")));
 		userListPreview.insertColumn(_("Name"), G_TYPE_STRING, TreeView::ICON_STRING_TEXT_COLOR,-1, "Icon", "Color");
 		userListPreview.insertHiddenColumn("Icon", G_TYPE_STRING);
 		userListPreview.insertHiddenColumn("Color", G_TYPE_STRING);
+		userListPreview.insertHiddenColumn("Back", G_TYPE_STRING);
 		userListPreview.finalize();
 
 		userListStore2 = gtk_list_store_newv(userListPreview.getColCount(), userListPreview.getGTypes());
 		gtk_tree_view_set_model(userListPreview.get(), GTK_TREE_MODEL(userListStore2));
 		g_object_unref(userListStore2);
 
-		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Normal"), WGETS("userlist-text-normal"), WGETS("icon-normal"));
-		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Operator"), WGETS("userlist-text-operator"), WGETS("icon-normal"));
-		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Pasive"), WGETS("userlist-text-pasive"), WGETS("icon-normal"));
-		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Favorite"), WGETS("userlist-text-favorite"), WGETS("icon-normal"));
-		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Protected"), WGETS("userlist-text-protected"), WGETS("icon-normal"));
-		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Ignored"), WGETS("userlist-text-ignored"), WGETS("icon-normal"));
+		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Normal"), WGETS("userlist-text-normal"), WGETS("icon-normal"),"n");
+		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Operator"), WGETS("userlist-text-operator"), WGETS("icon-normal"),"o");
+		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Pasive"), WGETS("userlist-text-pasive"), WGETS("icon-normal"),"p");
+		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Favorite"), WGETS("userlist-text-favorite"), WGETS("icon-normal"),"f");
+		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Protected"), WGETS("userlist-text-protected"), WGETS("icon-normal"),"r");
+		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Ignored"), WGETS("userlist-text-ignored"), WGETS("icon-normal"),"i");
+		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Bot or Hub (adc(s) only)"), WGETS("userlist-text-bot-hub"), WGETS("icon-normal"), "a");
 
 		g_signal_connect(getWidget("buttonForeColorTextUL"), "clicked", G_CALLBACK(onTextColorForeULClicked_gui), (gpointer)this);
 		g_signal_connect(getWidget("buttonDefUL"), "clicked", G_CALLBACK(onTextColorDefaultULClicked_gui), (gpointer)this);
+		g_signal_connect(getWidget("buttonULBGCL"), "clicked", G_CALLBACK(onBgColorULClicked_gui), (gpointer)this);
+		setColorRow(_("Name"));
 	}
+}
+
+void Settings::setColorRow(string cell)
+{
+
+	//GtkTreeModel * model = gtk_tree_view_get_model(nickView.get());
+	gtk_tree_view_column_set_cell_data_func(userListPreview.getColumn(cell),
+								userListPreview.getCellRenderOf(cell),
+								Settings::makeColor,
+								(gpointer)this,
+								NULL);
+	if(userListPreview.getCellRenderOf2(cell) != NULL)							
+	gtk_tree_view_column_set_cell_data_func(userListPreview.getColumn(cell),
+								userListPreview.getCellRenderOf2(cell),
+								Settings::makeColor,
+								(gpointer)this,
+								NULL);							
+}
+
+void Settings::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data)
+{
+		Settings *s = (Settings *)data;
+		string color = "#A52A2A";
+		gchar *cltype;
+		int64_t size;
+		if(model == NULL)
+			return;
+		if(iter == NULL)
+			return;	
+		
+		gtk_tree_model_get(model,iter,
+		                     3,&cltype,
+						-1);
+		//g_print("Test %s",cltype);				
+		gchar *a = cltype;
+		//Hub&Bot
+		if ( strcmp(a,"a") == 0)
+		{ 
+		  color = WGETS("userlist-bg-bot-hub");
+		}//Op
+		else if ( strcmp(a,"o") == 0)
+		{ 
+			color = WGETS("userlist-bg-operator");
+		}//Fav
+		else if ( strcmp(a,"f") == 0) 
+		{ 
+     	   color = WGETS("userlist-bg-favorite");
+		}
+		//normal
+		else if ( strcmp(a,"n") == 0)
+		{
+			color = WGETS("userlist-bg-normal");	
+		}
+		else if ( strcmp(a,"p") == 0)
+		{
+			color = WGETS("userlist-bg-pasive");	
+		}
+		else if (strcmp(a,"r") == 0)
+		{
+			color = WGETS("userlist-bg-protected");	
+		}
+		else if (strcmp(a,"i") == 0)
+		{
+		    color = WGETS("userlist-bg-ignored");	
+		}
+		else {
+		  color = WGETS("userlist-bg-normal");
+		}
+			
+		g_object_set(cell,"cell-background-set",TRUE,"cell-background",color.c_str(),NULL); 
 }
 
 void Settings::onSetBackGroundChat(GtkWidget *widget , gpointer data)
@@ -2073,7 +2157,7 @@ void Settings::addOption_gui(GtkListStore *store, const string &type, const Stri
 		-1);
 }
 
-void Settings::addPreviewUL_gui(GtkListStore *store, const std::string &name, const std::string &color, const std::string &icon)
+void Settings::addPreviewUL_gui(GtkListStore *store, const std::string &name, const std::string &color, const std::string &icon, const string &back)
 {
 	GtkTreeIter iter;
 	gtk_list_store_append(store, &iter);
@@ -2081,6 +2165,7 @@ void Settings::addPreviewUL_gui(GtkListStore *store, const std::string &name, co
 			0, name.c_str(),
 			1, icon.c_str(),
 			2, color.c_str(),
+			3, back.c_str(),
 			-1);
 	colorsIters.insert(ColorIters::value_type(name, iter));
 }
@@ -3461,6 +3546,66 @@ void Settings::onTextColorForeULClicked_gui(GtkWidget *widget, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	s->setColorUL();
+}
+
+void Settings::onBgColorULClicked_gui(GtkWidget *widget, gpointer data)
+{
+	Settings *s = (Settings *)data;	
+	s->setBgColorUserList();
+}
+
+void Settings::setBgColorUserList()
+{
+	GtkTreeIter iter;
+	GtkTreeSelection *selections = gtk_tree_view_get_selection(userListNames.get());
+
+	if (!gtk_tree_selection_get_selected(selections, NULL, &iter))
+	{
+		showErrorDialog(_("selected color failed"));
+		return;
+	}
+		
+	GdkColor color;
+	string currentcolor = "", currname = "";
+	GtkColorSelection *colorsel = GTK_COLOR_SELECTION(getWidget("colorsel-color_selection"));
+
+	currentcolor = userListNames.getString(&iter, "Back");
+	currname = userListNames.getString(&iter, _("Name"));
+	if (gdk_color_parse(currentcolor.c_str(), &color))
+		gtk_color_selection_set_current_color(colorsel, &color);
+
+	gint response = gtk_dialog_run(GTK_DIALOG(getWidget("colorSelectionDialog")));
+	gtk_widget_hide(getWidget("colorSelectionDialog"));
+
+	if (response == GTK_RESPONSE_OK)
+	{
+		gtk_color_selection_get_current_color(colorsel, &color);
+
+		string strcolor = WulforUtil::colorToString(&color);
+		
+		ColorIters::const_iterator qp = colorsIters.find(_("User ") + currname);
+		GtkTreeIter qiter = qp->second;
+
+		//gtk_list_store_set(userListStore2, &qiter, userListPreview.col("Back"), strcolor.c_str(), -1);
+		gtk_list_store_set(userListStore1, &iter, userListNames.col("BackSet"), strcolor.c_str(), -1);
+		if(currname.find(_("Normal")) != string::npos)
+			WSET("userlist-bg-normal",strcolor);
+		else if(currname.find(_("Operator")) != string::npos)
+			WSET("userlist-bg-operator",strcolor);
+		else if (currname.find(_("Bot")) != string::npos)
+			WSET("userlist-bg-bot-hub",strcolor);
+		else if (currname.find(_("Protect")) != string::npos)
+			WSET("userlist-bg-protected",strcolor);
+		else if (currname.find(_("Pasive")) != string::npos)				
+			WSET("userlist-bg-pasive",strcolor);
+		else if (currname.find(_("Favorite")) != string::npos)
+			WSET("userlist-bg-favorite",strcolor);
+		else if (currname.find(_("Ignored")) != string::npos)		
+			WSET("userlist-bg-ignored",strcolor);
+		else;
+		WulforSettingsManager::getInstance()->save();
+		setColorRow(_("Name"));
+	}	
 }
 
 void Settings::onTextColorDefaultULClicked_gui(GtkWidget *widget, gpointer data)
