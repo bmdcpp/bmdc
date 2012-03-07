@@ -46,6 +46,7 @@ DialogEntry::DialogEntry(const EntryType type, const string &glade, GtkWindow* p
 DialogEntry::~DialogEntry()
 {
 	gtk_widget_destroy(getContainer());
+	
 }
 
 GtkWidget* DialogEntry::getContainer()

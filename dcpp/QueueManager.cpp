@@ -1739,9 +1739,7 @@ void QueueManager::on(ClientManagerListener::UserDisconnected, const UserPtr& aU
 	}
 	if(hasTestSURinQueue)
 		removeTestSUR(HintedUser(aUser, Util::emptyString)); 
-	
-}	
-	
+  }	
 }
 
 void QueueManager::on(TimerManagerListener::Second, uint64_t aTick) noexcept {

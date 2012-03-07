@@ -693,13 +693,13 @@ void AdcHub::connect(const OnlineUser& user, string const& token, bool secure) {
 	}
 
 	if(ClientManager::getInstance()->isActive(getHubUrl())) {
-		uint16_t port = secure ? ConnectionManager::getInstance()->getSecurePort() : ConnectionManager::getInstance()->getPort();
-		if(port == 0) {
+		string port = secure ? ConnectionManager::getInstance()->getSecurePort() : ConnectionManager::getInstance()->getPort();
+		if(port.empty()) {
 			// Oops?
 			LogManager::getInstance()->message(str(F_("Not listening for connections - please restart %1%") % APPNAME));
 			return;
 		}
-		send(AdcCommand(AdcCommand::CMD_CTM, user.getIdentity().getSID(), AdcCommand::TYPE_DIRECT).addParam(*proto).addParam(Util::toString(port)).addParam(token));
+		send(AdcCommand(AdcCommand::CMD_CTM, user.getIdentity().getSID(), AdcCommand::TYPE_DIRECT).addParam(*proto).addParam(port).addParam(token));
 	} else {
 		send(AdcCommand(AdcCommand::CMD_RCM, user.getIdentity().getSID(), AdcCommand::TYPE_DIRECT).addParam(*proto).addParam(token));
 	}
@@ -1044,7 +1044,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 		addParam(lastInfoMap, c, "I4", "0.0.0.0");
 	}
 	if(ClientManager::getInstance()->isActive(getHubUrl())) {
-		addParam(lastInfoMap, c, "U4", Util::toString(SearchManager::getInstance()->getPort()));
+		addParam(lastInfoMap, c, "U4", SearchManager::getInstance()->getPort());
 		su += "," + TCP4_FEATURE;
 		su += "," + UDP4_FEATURE;
 	} else {

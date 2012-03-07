@@ -259,7 +259,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 
 		// Filter own searches
 		if(ClientManager::getInstance()->isActive(getHubUrl())) {
-			if(seeker == (getLocalIp() + ":" + Util::toString(SearchManager::getInstance()->getPort()))) {
+			if(seeker == (getLocalIp() + ":" + SearchManager::getInstance()->getPort())) {
 				return;
 			}
 		} else {
@@ -790,7 +790,7 @@ void NmdcHub::connectToMe(const OnlineUser& aUser) {
 	dcdebug("NmdcHub::connectToMe %s\n", aUser.getIdentity().getNick().c_str());
 	string nick = fromUtf8(aUser.getIdentity().getNick());
 	ConnectionManager::getInstance()->nmdcExpect(nick, getMyNick(), getHubUrl());
-	send("$ConnectToMe " + nick + " " + getLocalIp() + ":" + Util::toString(ConnectionManager::getInstance()->getPort()) + "|");
+	send("$ConnectToMe " + nick + " " + getLocalIp() + ":" + ConnectionManager::getInstance()->getPort() + "|");
 }
 
 void NmdcHub::revConnectToMe(const OnlineUser& aUser) {
@@ -875,7 +875,7 @@ void NmdcHub::search(int aSizeType, int64_t aSize, int aFileType, const string& 
 	}
 	string tmp2;
 	if(ClientManager::getInstance()->isActive(getHubUrl())) {
-		tmp2 = getLocalIp() + ':' + Util::toString(SearchManager::getInstance()->getPort());
+		tmp2 = getLocalIp() + ':' + SearchManager::getInstance()->getPort();
 	} else {
 		tmp2 = "Hub:" + fromUtf8(getMyNick());
 	}

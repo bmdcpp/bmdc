@@ -16,51 +16,38 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef DCPLUSPLUS_DCPP_UPNP_MANAGER_H
-#define DCPLUSPLUS_DCPP_UPNP_MANAGER_H
+#ifndef DCPLUSPLUS_DCPP_MAPPER_NATPMP_H
+#define DCPLUSPLUS_DCPP_MAPPER_NATPMP_H
 
-#include "forward.h"
-#include "Singleton.h"
-#include "Thread.h"
-#include "UPnP.h"
-
-#include <boost/ptr_container/ptr_vector.hpp>
+#include <dcpp/Mapper.h>
 
 namespace dcpp {
 
-class UPnPManager :
-	public Singleton<UPnPManager>,
-	private Thread
+class Mapper_NATPMP : public Mapper
 {
 public:
-	/**
-	* add an implementation, derived from the base UPnP class.
-	* must be allocated on the heap; its deletion will be managed by UPnPManager.
-	* first added impl will be tried first.
-	*/
-	void addImplementation(UPnP* impl);
-	void open();
-	void close();
+	Mapper_NATPMP(string&& localIp);
 
-	bool getOpened() const { return opened; }
+	static const string name;
 
 private:
-	friend class Singleton<UPnPManager>;
+	bool init();
+	void uninit();
 
-	typedef boost::ptr_vector<UPnP> Impls;
-	Impls impls;
+	bool add(const string& port, const Protocol protocol, const string& description);
+	bool remove(const string& port, const Protocol protocol);
 
-	bool opened;
+	uint32_t renewal() const { return lifetime / 2; }
 
-	UPnPManager() : opened(false) { }
-	virtual ~UPnPManager() throw() { join(); }
+	string getDeviceName();
+	string getExternalIP();
 
-	int run();
+	const string& getName() const { return name; }
 
-	void close(UPnP& impl);
-	void log(const string& message);
+	string gateway;
+	uint32_t lifetime;
 };
 
-} // namespace dcpp
+} // dcpp namespace
 
 #endif

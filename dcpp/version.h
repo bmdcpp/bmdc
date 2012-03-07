@@ -19,17 +19,17 @@
 #define APPNAME "BMDC++"
 
 // don't forget to update the .rc file as well!
-#define VERSIONSTRING "0.785"
-#define VERSIONFLOAT 0.785
+#define VERSIONSTRING "0.791"
+#define VERSIONFLOAT 0.791
 
 #ifndef DCPP_REVISION
-	#define DCPP_REVISION 2651
-	#define DCPP_REVISION_STRING "2651"
+	#define DCPP_REVISION 2869
+	#define DCPP_REVISION_STRING "2869p"
 #endif
 #ifndef BMDC_REVISION
-	#define BMDC_REVISION 98
+	#define BMDC_REVISION 99
 #endif
-	#define BMDC_REVISION_STRING "98"
+	#define BMDC_REVISION_STRING "99"
 #define xstrver(s) strver(s)
 #define strver(s) #s
 

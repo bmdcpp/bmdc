@@ -1,13 +1,15 @@
-/* $Id: connecthostport.c,v 1.2 2010/04/05 00:08:15 nanard Exp $ */
+/* $Id: connecthostport.c,v 1.5 2011/04/09 08:49:50 nanard Exp $ */
 /* Project : miniupnp
  * Author : Thomas Bernard
- * Copyright (c) 2010 Thomas Bernard
+ * Copyright (c) 2010-2011 Thomas Bernard
  * This software is subject to the conditions detailed in the
  * LICENCE file provided in this distribution. */
 
 /* use getaddrinfo() or gethostbyname()
  * uncomment the following line in order to use gethostbyname() */
-/* #define USE_GETHOSTBYNAME */
+#ifdef NO_GETADDRINFO
+#define USE_GETHOSTBYNAME
+#endif
 
 #include <string.h>
 #include <stdio.h>
@@ -15,11 +17,13 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <io.h>
+#define MAXHOSTNAMELEN 64
 #define snprintf _snprintf
 #define herror
 #define socklen_t int
 #else /* #ifdef WIN32 */
 #include <unistd.h>
+#include <sys/param.h>
 #include <errno.h>
 #define closesocket close
 #include <netdb.h>
@@ -55,6 +59,7 @@ int connecthostport(const char * host, unsigned short port)
 	struct sockaddr_in dest;
 	struct hostent *hp;
 #else /* #ifdef USE_GETHOSTBYNAME */
+	char tmp_host[MAXHOSTNAMELEN+1];
 	char port_str[8];
 	struct addrinfo *ai, *p;
 	struct addrinfo hints;
@@ -137,7 +142,22 @@ int connecthostport(const char * host, unsigned short port)
 	hints.ai_family = AF_UNSPEC; /* AF_INET, AF_INET6 or AF_UNSPEC */
 	/* hints.ai_protocol = IPPROTO_TCP; */
 	snprintf(port_str, sizeof(port_str), "%hu", port);
-	n = getaddrinfo(host, port_str, &hints, &ai);
+	if(host[0] == '[')
+	{
+		/* literal ip v6 address */
+		int i;
+		for(i = 0; host[i+1] && (host[i+1] != ']') && i < MAXHOSTNAMELEN; i++)
+		{
+			tmp_host[i] = host[i+1];
+		}
+		tmp_host[i] = '\0';
+	}
+	else
+	{
+		strncpy(tmp_host, host, MAXHOSTNAMELEN);
+	}
+	tmp_host[MAXHOSTNAMELEN] = '\0';
+	n = getaddrinfo(tmp_host, port_str, &hints, &ai);
 	if(n != 0)
 	{
 #ifdef WIN32

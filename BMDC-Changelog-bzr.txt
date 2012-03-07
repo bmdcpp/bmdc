@@ -410,3 +410,7 @@ Fixed some commands not working on PrivateMessage
 --r98
 Fixed dbus plugin
 Add Colorize Background in Userlist
+--r99
+Add Support NATPMP
+Remove UPnPManager
+Fix myspell in PrivateMessage´ right click menu 

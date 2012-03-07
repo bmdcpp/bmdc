@@ -7,3 +7,5 @@ BMDC++.layout
 BMDC++.cbp.save
 BMDC++.layout.save
 .anjuta
+dbus-plugins/compiled
+dbus-plugins/tmp.out

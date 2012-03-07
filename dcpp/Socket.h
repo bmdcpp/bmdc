@@ -41,6 +41,7 @@ const int INVALID_SOCKET = -1;
 #define SOCKET_ERROR -1
 #endif
 
+#include "GetSet.h"
 #include "Util.h"
 #include "Exception.h"
 
@@ -153,7 +154,7 @@ public:
 	virtual std::pair<bool, bool> wait(uint32_t millis, bool checkRead, bool checkWrite);
 
 	typedef std::unique_ptr<addrinfo, decltype(&freeaddrinfo)> addrinfo_p;
-	static string resolve(const string& aDns, int af = AF_UNSPEC);
+	static string resolve(const string& aDns, int af = AF_UNSPEC) noexcept;
 	addrinfo_p resolveAddr(const string& name, const string& port, int family = AF_UNSPEC, int flags = 0);
 
 	static uint64_t getTotalDown() { return stats.totalDown; }
@@ -165,7 +166,7 @@ public:
 	uint16_t getLocalPort() noexcept;
 
 	/** Binds a socket to a certain local port and possibly IP. */
-	virtual uint16_t listen(const string& port);
+	virtual string listen(const string& port);
 	virtual void accept(const Socket& listeningSocket);
 
 	int getSocketOptInt(int option);

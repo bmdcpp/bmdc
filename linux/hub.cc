@@ -125,13 +125,13 @@ Hub::Hub(const string &address, const string &encoding):
 	string strcolor = WGETS("background-color-chat");
 	GdkColor color;
 	gdk_color_parse(strcolor.c_str(),&color);
+	
 	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_NORMAL,&color);
 	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_PRELIGHT,&color);
 	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_ACTIVE,&color);
 	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_SELECTED,&color);
 	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_INSENSITIVE,&color);
 	
-
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
 	chatBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(getWidget("chatText")));
 
@@ -265,8 +265,8 @@ Hub::Hub(const string &address, const string &encoding):
 	g_signal_connect(getWidget("menurefresh"), "activate", G_CALLBACK(onRefreshUserListClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonrefresh"), "clicked", G_CALLBACK(onRefreshUserListClicked_gui), (gpointer)this);
 	/**/
-    g_signal_connect(getWidget("ripeitem"), "activate", G_CALLBACK(onRipeDbItem_gui),(gpointer)this);
-    g_signal_connect(getWidget("copyipItem"), "activate", G_CALLBACK(onCopyIpItem_gui),(gpointer)this);
+     g_signal_connect(getWidget("ripeitem"), "activate", G_CALLBACK(onRipeDbItem_gui),(gpointer)this);
+     g_signal_connect(getWidget("copyipItem"), "activate", G_CALLBACK(onCopyIpItem_gui),(gpointer)this);
 	//end
 	g_signal_connect(getWidget("downloadBrowseItem"), "activate", G_CALLBACK(onDownloadToClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("downloadItem"), "activate", G_CALLBACK(onDownloadClicked_gui), (gpointer)this);

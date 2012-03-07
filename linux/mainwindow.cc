@@ -31,7 +31,7 @@
 #include <dcpp/Download.h>
 #include <dcpp/ClientManager.h>
 #include <dcpp/MappingManager.h>
-#include <dcpp/UPnPManager.h>//NOTE: core 0.762
+//#include <dcpp/UPnPManager.h>//NOTE: core 0.762
 #include <dcpp/GeoManager.h>
 #include <dcpp/HttpDownload.h>
 #include <dcpp/version.h>
@@ -2140,16 +2140,16 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 			if (SETTING(INCOMING_CONNECTIONS) == SettingsManager::INCOMING_FIREWALL_UPNP ||
 				lastConn == SettingsManager::INCOMING_FIREWALL_UPNP)
 			{
-				UPnPManager::getInstance()->close();
+				MappingManager::getInstance()->close();
 			}
 
 			F0 *func = new F0(mw, &MainWindow::startSocket_client);
 			WulforManager::get()->dispatchClientFunc(func);
 		}
-		else if (SETTING(INCOMING_CONNECTIONS) == SettingsManager::INCOMING_FIREWALL_UPNP && !UPnPManager::getInstance()->getOpened())//NOTE: core 0.762
+		else if (SETTING(INCOMING_CONNECTIONS) == SettingsManager::INCOMING_FIREWALL_UPNP && !MappingManager::getInstance()->getOpened())//NOTE: core 0.762
 		{
 			// previous UPnP mappings had failed; try again
-			UPnPManager::getInstance()->open();
+			MappingManager::getInstance()->open();
 		}
 		
 		if (BOOLSETTING(ALWAYS_TRAY))
@@ -2549,7 +2549,7 @@ void MainWindow::startSocket_client()
 
 		// must be done after listen calls; otherwise ports won't be set
 		if (SETTING(INCOMING_CONNECTIONS) == SettingsManager::INCOMING_FIREWALL_UPNP)// NOTE: core 0.762
-			UPnPManager::getInstance()->open();
+			MappingManager::getInstance()->open();
 	}
 
 	ClientManager::getInstance()->infoUpdated();

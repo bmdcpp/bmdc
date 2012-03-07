@@ -31,7 +31,7 @@ using std::string;
 class Mapper : boost::noncopyable
 {
 public:
-	Mapper() { }
+	Mapper(string&& localIp);
 	virtual ~Mapper() { }
 
 	enum Protocol {
@@ -47,7 +47,7 @@ public:
 	/** end the initialization phase. called regardless of the return value of init(). */
 	virtual void uninit() = 0;
 
-	bool open(const unsigned short port, const Protocol protocol, const string& description);
+	bool open(const string& port, const Protocol protocol, const string& description);
 	bool close();
 	bool hasRules() const;
 
@@ -63,13 +63,16 @@ public:
 	/** user-friendly name for this implementation. */
 	virtual const string& getName() const = 0;
 
+protected:
+	const string localIp;
+
 private:
 	/** add a port mapping rule. */
-	virtual bool add(const unsigned short port, const Protocol protocol, const string& description) = 0;
+	virtual bool add(const string& port, const Protocol protocol, const string& description) = 0;
 	/** remove a port mapping rule. */
-	virtual bool remove(const unsigned short port, const Protocol protocol) = 0;
+	virtual bool remove(const string& port, const Protocol protocol) = 0;
 
-	std::vector<std::pair<unsigned short, Protocol>> rules;
+	std::vector<std::pair<string, Protocol>> rules;
 };
 
 } // namespace dcpp

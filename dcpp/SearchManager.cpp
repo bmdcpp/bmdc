@@ -21,6 +21,10 @@
 
 #include <boost/scoped_array.hpp>
 
+#include "ClientManager.h"
+#include "ConnectivityManager.h"
+#include "format.h"
+#include "LogManager.h"
 #include "UploadManager.h"
 #include "format.h"
 #include "ClientManager.h"
@@ -46,7 +50,7 @@ const char* SearchManager::getTypeStr(int type) {
 }
 
 SearchManager::SearchManager() :
-	port(0),
+	//port(0),
 	stop(false),
 	lastSearch(GET_TICK())
 {
@@ -92,8 +96,9 @@ void SearchManager::listen() {
 
 	try {
 		socket.reset(new Socket(Socket::TYPE_UDP));
-		socket->setLocalIp4(SETTING(BIND_ADDRESS));
-		port = socket->listen(Util::toString(SETTING(UDP_PORT)));
+		socket->setLocalIp4(CONNSETTING(BIND_ADDRESS));
+		socket->setLocalIp6(CONNSETTING(BIND_ADDRESS6));
+		port = socket->listen(Util::toString(CONNSETTING(UDP_PORT)));
 		start();
 	} catch(...) {
 		socket.reset();
@@ -105,7 +110,7 @@ void SearchManager::disconnect() noexcept {
 	if(socket.get()) {
 		stop = true;
 		socket->disconnect();
-		port = 0;
+		port.clear();
 
 		join();
 
@@ -139,7 +144,7 @@ int SearchManager::run() {
 		while(!stop) {
 			try {
 				socket->disconnect();
-				port = socket->listen(Util::toString(SETTING(UDP_PORT)));
+				port = socket->listen(Util::toString(CONNSETTING(UDP_PORT)));
 				if(failed) {
 					LogManager::getInstance()->message(_("Search enabled again"));
 					failed = false;
@@ -154,7 +159,7 @@ int SearchManager::run() {
 				}
 
 				// Spin for 60 seconds
-				for(int i = 0; i < 60 && !stop; ++i) {
+				for(auto i = 0; i < 60 && !stop; ++i) {
 					Thread::sleep(1000);
 				}
 			}
@@ -295,7 +300,7 @@ void SearchManager::onRES(const AdcCommand& cmd, const UserPtr& from, const stri
 	string tth;
 	string token;
 
-	for(StringIterC i = cmd.getParameters().begin(); i != cmd.getParameters().end(); ++i) {
+	for(auto i = cmd.getParameters().begin(); i != cmd.getParameters().end(); ++i) {
 		const string& str = *i;
 		if(str.compare(0, 2, "FN") == 0) {
 			file = Util::toNmdcFile(str.substr(2));
@@ -347,7 +352,7 @@ void SearchManager::respond(const AdcCommand& adc, const CID& from,  bool isUdpA
 	if(results.empty())
 		return;
 
-	for(SearchResultList::const_iterator i = results.begin(); i != results.end(); ++i) {
+	for(auto i = results.begin(); i != results.end(); ++i) {
 		AdcCommand cmd = (*i)->toRES(AdcCommand::TYPE_UDP);
 		if(!token.empty())
 			cmd.addParam("TO", token);

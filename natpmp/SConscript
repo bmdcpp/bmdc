@@ -1,0 +1,8 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+Import('env')
+env = env.Clone()
+files = env.Glob('*.c')
+env.Append(CPPDEFINES = ['STATICLIB'])
+ret = env.StaticLibrary(target = 'natpmp', source = files)
+Return('ret')

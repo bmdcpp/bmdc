@@ -14,9 +14,9 @@ LIB_NATPMP = 'libnatpmp'
 BUILD_PATH = '#/build/'
 BUILD_LOCALE_PATH = BUILD_PATH + 'locale/'
 LIB_IS_UPNP = True
+LIB_IS_NATPMP = True
 LIB_IS_GEO = False
 LIB_IS_TAR = False
-#'-DBOOST_THREAD_POSIX' add
 # removed -fpermissive 
 BUILD_FLAGS = {
 	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib','-Wall','-Wextra','-Wno-unused-parameter','-Wno-unused-value','-Wno-missing-field-initializers', '-Wno-address', '-fexceptions','-pipe','-g3', '-ldl'],
@@ -280,6 +280,9 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	# MiniUPnPc for UPnP
 	if not conf.CheckLib('libminiupnpc'):
 		LIB_IS_UPNP = False
+	# Check for natpmp
+	if not conf.CheckLib("libnatpmp"):
+		LIB_IS_NATPMP = False	
 	
 	# GeoIp	
 	if conf.CheckHeader('GeoIP.h'):	
@@ -312,7 +315,13 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	env.Append(CXXFLAGS = '-std=c++0x')
 	env.Append(LIBS = 'boost_regex')
 	env.Append(LINKFLAGS = ['-lboost_thread','-lboost_regex'])
-
+	
+	env.Append(CPPDEFINES = ['STATICLIB'])
+	env.Append(CPPPATH = '#/natpmp')
+	env.Append(LIBS = 'natpmp')
+	env.Append(CPPPATH = '#/miniupnp')
+	env.Append(LIBS = 'miniupnpc')
+	
 	env.ParseConfig('pkg-config --libs libglade-2.0')
 	env.ParseConfig('pkg-config --libs gthread-2.0')
 
@@ -361,6 +370,10 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if not LIB_IS_UPNP:
 		env.Append(LIBPATH = [BUILD_PATH + LIB_UPNP])
 		env.Prepend(LIBS = [LIB_UPNP])
+	if not LIB_IS_NATPMP:
+		env.Append(LIBPATH = [BUILD_PATH + LIB_NATPMP])
+		env.Prepend(LIBS = [LIB_NATPMP])	
+		
 		
 	if env.get('PREFIX'):
 		data_dir = '\'\"%s/share\"\'' % env['PREFIX']
@@ -374,9 +387,9 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if not LIB_IS_UPNP:
 		mini_env = env.Clone(package = LIB_UPNP)
 		upnp = SConscript(dirs = 'miniupnpc', variant_dir = BUILD_PATH + LIB_UPNP, duplicate = 0, exports = {'env': mini_env})
-	
-	#natpmp_env = env.Clone(package = LIB_NATPMP)
-	#pmp = SConscript(dirs = 'natpmp', variant_dir = BUILD_PATH + LIB_NATPMP, duplicate = 0, exports = { 'env': natpmp_env })
+	if not LIB_IS_NATPMP:
+		natpmp_env = env.Clone(package = LIB_NATPMP)
+		pmp = SConscript(dirs = 'natpmp', variant_dir = BUILD_PATH + LIB_NATPMP, duplicate = 0, exports = { 'env': natpmp_env })
 	
 	# Build the dcpp library
 	dcpp_env = env.Clone(package = CORE_PACKAGE)
@@ -389,8 +402,12 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	(linux_pot_file, obj_files) = SConscript(dirs = 'linux', variant_dir = env['build_path'] + 'gui', duplicate = 0, exports = {'env': ui_env})
 
 	# Create the executable
-	if not LIB_IS_UPNP:
-		env.Program(target = PACKAGE, source = [libdcpp, upnp,  obj_files])
+	if not LIB_IS_UPNP and not LIB_IS_NATPMP:
+		env.Program(target = PACKAGE, source = [libdcpp, upnp, pmp,  obj_files])
+	elif not LIB_IS_UPNP:
+		env.Program(target = PACKAGE, source = [libdcpp, upnp, obj_files])
+	elif not LIB_IS_NATPMP:
+		env.Program(target = PACKAGE, source = [libdcpp, pmp, obj_files])
 	else:
 		env.Program(target = PACKAGE, source = [libdcpp, obj_files])		
 

@@ -1539,7 +1539,7 @@ GtkWidget *PrivateMessage::createmenu()
 
     GtkWidget *copyHubUrl = gtk_menu_item_new_with_label(_("Copy CID"));
     GtkWidget *close = gtk_menu_item_new_with_label(_("Close"));
-    GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite hubs"));
+    GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite Users"));
 
     gtk_menu_shell_append(GTK_MENU_SHELL(menu),close);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu),copyHubUrl);
@@ -1557,7 +1557,7 @@ GtkWidget *PrivateMessage::createmenu()
 
 void PrivateMessage::onCloseItem(gpointer data)
 {
-	PrivateMessage *entry = (PrivateMessage *)data;
+    PrivateMessage *entry = (PrivateMessage *)data;
     WulforManager::get()->getMainWindow()->removeBookEntry_gui(dynamic_cast<BookEntry*>(entry));
 }
 
