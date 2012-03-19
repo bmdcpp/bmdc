@@ -95,7 +95,7 @@ Hub::Hub(const string &address, const string &encoding):
 	nickStore = gtk_list_store_newv(nickView.getColCount(), nickView.getGTypes());
 	gtk_tree_view_set_model(nickView.get(), GTK_TREE_MODEL(nickStore));
 	g_object_unref(nickStore);
-	
+
 	nickSelection = gtk_tree_view_get_selection(nickView.get());
 	gtk_tree_selection_set_mode(gtk_tree_view_get_selection(nickView.get()), GTK_SELECTION_MULTIPLE);
 	string sort = BOOLSETTING(SORT_FAVUSERS_FIRST)? /*"Favorite"*/"Client Type" : "Nick Order";
@@ -125,13 +125,13 @@ Hub::Hub(const string &address, const string &encoding):
 	string strcolor = WGETS("background-color-chat");
 	GdkColor color;
 	gdk_color_parse(strcolor.c_str(),&color);
-	
+
 	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_NORMAL,&color);
 	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_PRELIGHT,&color);
 	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_ACTIVE,&color);
-	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_SELECTED,&color);
+	//gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_SELECTED,&color);
 	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_INSENSITIVE,&color);
-	
+
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
 	chatBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(getWidget("chatText")));
 
@@ -356,18 +356,17 @@ void Hub::setColorsRows()
 void Hub::setColorRow(string cell)
 {
 
-	GtkTreeModel * model = gtk_tree_view_get_model(nickView.get());
 	gtk_tree_view_column_set_cell_data_func(nickView.getColumn(cell),
 								nickView.getCellRenderOf(cell),
 								Hub::makeColor,
 								(gpointer)this,
 								NULL);
-	if(nickView.getCellRenderOf2(cell) != NULL)							
+	if(nickView.getCellRenderOf2(cell) != NULL)
 	gtk_tree_view_column_set_cell_data_func(nickView.getColumn(cell),
 								nickView.getCellRenderOf2(cell),
 								Hub::makeColor,
 								(gpointer)this,
-								NULL);							
+								NULL);
 }
 
 void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data)
@@ -380,8 +379,8 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		if(model == NULL)
 			return;
 		if(iter == NULL)
-			return;	
-		
+			return;
+
 		gtk_tree_model_get(model,iter,
 		                     1, &size,
 						20,&cltype,
@@ -389,20 +388,20 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		gchar *a = hub->g_substr(cltype,0,0);
 		//Hub&Bot
 		if ( strcmp(a,"A") == 0)
-		{ 
+		{
 		  color = WGETS("userlist-bg-bot-hub");
 		}//Op
 		else if ( strcmp(a,"B") == 0)
-		{ 
+		{
 			color = WGETS("userlist-bg-operator");
 		}//Fav
-		else if ( strcmp(a,"C") == 0) 
-		{ 
+		else if ( strcmp(a,"C") == 0)
+		{
      	   color = WGETS("userlist-bg-favorite");
 		}//ignored
 		else if ( strcmp(a, "I") == 0)
 		{
-		   color = WGETS("userlist-bg-ignored");		
+		   color = WGETS("userlist-bg-ignored");
 		}//protected
 		else if ( strcmp(a,"R") == 0)
 		{
@@ -410,7 +409,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		}//pasive
 		else if (strcmp(a,"P") == 0)
 		{
-		   color = WGETS("userlist-bg-pasive");		
+		   color = WGETS("userlist-bg-pasive");
 		}
 		else if ( strcmp(a,"F") == 0)
 		{
@@ -419,10 +418,10 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		else {
 		  color = WGETS("userlist-bg-normal");
 		}
-			
-		g_object_set(cell,"cell-background-set",TRUE,"cell-background",color.c_str(),NULL); 
+
+		g_object_set(cell,"cell-background-set",TRUE,"cell-background",color.c_str(),NULL);
 		const gchar *title = gtk_tree_view_column_get_title(column);
-		
+
 		if(strcmp(title,_("Shared")) == 0)
 		{
 			if (size >= 0)
@@ -430,7 +429,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 				sizeString = dcpp::Util::formatBytes(size);
 			}
 			g_object_set(cell, "text", sizeString.c_str(), NULL);
-		}	
+		}
 }
 
 Hub::~Hub()
@@ -1002,7 +1001,7 @@ void Hub::nickToChat_gui(const string &nick)
 void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 {
 	PluginManager::getInstance()->onChatDisplay(client, message);
-	
+
 	if (message.empty())
 		return;
 
@@ -1086,7 +1085,7 @@ gboolean Hub::HitIP(string& name, string &sIp)
 		sIp = name.substr(0,pos);
 	}
 	return isOk;
-	
+
 }
 
 void Hub::applyTags_gui(const string cid, const string &line)
@@ -1705,7 +1704,7 @@ void Hub::preferences_gui()
 	string sort = BOOLSETTING(SORT_FAVUSERS_FIRST)? /*"Favorite"*/"Client Type" : "Nick Order";
 	nickView.setSortColumn_gui(_("Nick"), sort);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);
-	
+
 	string strcolor = WGETS("background-color-chat");
 	GdkColor color;
 	gdk_color_parse(strcolor.c_str(),&color);
@@ -1754,7 +1753,7 @@ void Hub::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, strin
 		break;
 
 		case Tag::TAG_CHEAT:
-			
+
 			fore = wsm->getString("text-cheat-fore-color");
 			back = wsm->getString("text-cheat-back-color");
 			bold = wsm->getInt("text-cheat-bold");
@@ -1762,7 +1761,7 @@ void Hub::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, strin
 		break;
 
 		case Tag::TAG_HIGHL:
-			
+
 			fore = wsm->getString("text-high-fore-color");
 			back = wsm->getString("text-high-back-color");
 			bold = wsm->getInt("text-high-bold");
@@ -2283,11 +2282,11 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		{
 			params = text.substr(separator + 1);
 		}
-		
+
 	   if(PluginManager::getInstance()->onChatCommand(hub->client,command )) {
 			// Plugins, chat commands
 		  return;
-	    }	
+	    }
 
         if(WulforUtil::checkCommand(command,param,mess,status,thirdPerson))
         {
@@ -2442,7 +2441,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			size_t idx = PluginManager::getInstance()->getPluginList().size();
 			if(PluginManager::getInstance()->loadPlugin(Text::fromT(param), true)) {
 				const MetaData& info = PluginManager::getInstance()->getPlugin(idx)->getInfo();
-			hub->addMessage_gui("",string("Done, Info **\nName")+string(info.name)+string("\nDesc")+string(info.description)+string("\nVersion")+Util::toString(info.version)+string("\n"),Msg::SYSTEM);	
+			hub->addMessage_gui("",string("Done, Info **\nName")+string(info.name)+string("\nDesc")+string(info.description)+string("\nVersion")+Util::toString(info.version)+string("\n"),Msg::SYSTEM);
 			}
 		}
 		else if(command == "plist") {
@@ -2452,7 +2451,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		for(PluginManager::pluginList::const_iterator i = list.begin(); i != list.end(); ++i, ++idx) {
 			const MetaData& info = (*i)->getInfo();
 		  status += Util::toString(idx) + " - " + string(info.name) + " - " + Util::toString(info.version) + "\n";
-		  
+
 		}
 			hub->addMessage_gui("",status,Msg::SYSTEM);
 		}
@@ -3744,7 +3743,7 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 	params.insert(ParamMap::value_type("Cheat", id.get("CS")));
 	params.insert(ParamMap::value_type("Generator", id.get("GE")));
 	params.insert(ParamMap::value_type("Support", id.get("SU")));
-		
+
 	if(id.isBot() || id.isHub()) {
         params.insert(ParamMap::value_type("Type", "A" + id.getNick()));
         addOperator_gui(params);
@@ -3753,7 +3752,7 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
         addOperator_gui(params);
     } else if(FavoriteManager::getInstance()->isFavoriteUser(id.getUser())) {
 		params.insert(ParamMap::value_type("Type", "C" + id.getNick()));
-	} else 
+	} else
         params.insert(ParamMap::value_type("Type", "U" + id.getNick()));
 	if(id.getUser()->isSet(User::PASSIVE))
 	{
@@ -3772,12 +3771,12 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 		params.insert(ParamMap::value_type("Type", "I" + id.getNick()));
 		addIgnore_gui(params);
 	}
-	
+
 	if(id.getUser()->isSet(User::PROTECT))
 	{
 		params.insert(ParamMap::value_type("Type", "R" + id.getNick()));
-	}	
-	
+	}
+
 }
 
 void Hub::download_client(string target, int64_t size, string tth, string cid)
@@ -4266,23 +4265,23 @@ void Hub::on(ClientListener::HubUpdated, Client *) noexcept
 	string hubName = Util::emptyString;
 	string hubText = client->getTabText();
 	string iconPath = client->getTabIconStr();
-	
+
 	if(!iconPath.empty())
 	{
-		F1 *f = new F1(this, &BookEntry::setIconPixbufs_gui,iconPath);	
+		F1 *f = new F1(this, &BookEntry::setIconPixbufs_gui,iconPath);
 		WulforManager::get()->dispatchGuiFunc(f);
 	} else
 	{
 		F1 *f = new F1(this, &BookEntry::setIcon_gui,"bmdc-hub-online");
 		WulforManager::get()->dispatchGuiFunc(f);
 	}
-	
+
 	if(!hubText.empty())
 	{
-		F1 *f = new F1(this, &BookEntry::setLabel_gui, hubText);	
+		F1 *f = new F1(this, &BookEntry::setLabel_gui, hubText);
 		WulforManager::get()->dispatchGuiFunc(f);
 		return;
-	}	
+	}
 
 	if (client->getHubName().empty())
 		hubName += client->getAddress() + ":" + client->getPort();
@@ -4328,7 +4327,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 	string txt = message.text;
 	if(PluginManager::getInstance()->onChatDisplay(client, txt))
 		return;
-	
+
 	if (message.text.empty())
 		return;
 
@@ -4468,11 +4467,12 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 		// Set urgency hint if message contains user's nick
 		if (BOOLSETTING(BOLD_HUB) && message.from->getIdentity().getUser() != client->getMyIdentity().getUser())
 		{
-            if( !isActive_gui() && WGETB("bold-all-tab"))
+              if( !isActive_gui() && WGETB("bold-all-tab"))
 			{
 					typedef Func0<Hub> F0;
 					F0 *func = new F0(this, &Hub::setUrgent_gui);
 					WulforManager::get()->dispatchGuiFunc(func);
+					return;//thinking
 			}
 
 			if (message.text.find(client->getMyIdentity().getNick()) != string::npos)
@@ -4664,17 +4664,17 @@ void Hub::on_setImage_tab(GtkButton *widget, gpointer data)
 			fav->setTabIconStr(hub->client->getTabIconStr());
 			FavoriteManager::getInstance()->save();
 		}
-		
+
 		}
 		g_free (filename);
-		
+
 	}
 	gtk_widget_destroy (dialog);
-	
+
 }
 
 void Hub::onSetTabText(gpointer data)
-{ ((Hub*)data)->SetTabText(data);}
+{ ((Hub*)data)->SetTabText(data); }
 
 void Hub::SetTabText(gpointer data)
 {
@@ -4687,37 +4687,37 @@ void Hub::SetTabText(gpointer data)
                                          GTK_STOCK_CANCEL,
                                          GTK_RESPONSE_CANCEL,
                                          NULL));
-   GtkWidget *content_area = gtk_dialog_get_content_area (dialog);                              
+   GtkWidget *content_area = gtk_dialog_get_content_area (dialog);
    GtkWidget *entry = gtk_entry_new();
    GtkWidget *label = gtk_label_new("Text: ");
    GtkWidget *hbox = gtk_hbox_new(TRUE,0);
    GtkWidget *check = gtk_toggle_button_new_with_label("Set Icon Aviable");
    GdkPixbuf *pixbuf =	gdk_pixbuf_new_from_file_at_scale(hub->client->getTabIconStr().c_str(),15,15,FALSE,NULL);
-   
+
    hub->tab_image = gtk_image_new_from_pixbuf(pixbuf);
    hub->tab_button = gtk_button_new_with_label("Set Icon: ");
-   
+
    g_signal_connect(GTK_BUTTON(hub->tab_button), "clicked", G_CALLBACK(on_setImage_tab), hub);
    g_signal_connect(GTK_TOGGLE_BUTTON(check), "toggled", G_CALLBACK(onToglleButtonIcon),hub);
-   
+
    gtk_box_pack_start(GTK_BOX(hbox),check, FALSE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(hbox), hub->tab_button, FALSE, TRUE, 0);
    gtk_box_pack_start(GTK_BOX(hbox), hub->tab_image, FALSE, TRUE, 0);
    gtk_container_add(GTK_CONTAINER(content_area), label);
    gtk_container_add(GTK_CONTAINER(content_area), entry);
    gtk_container_add(GTK_CONTAINER(content_area), hbox);
-   
-   
+
+
    gtk_widget_show(hub->tab_button);
    gtk_widget_show(hub->tab_image);
-   gtk_widget_show(entry); 
+   gtk_widget_show(entry);
    gtk_widget_show(label);
    gtk_widget_show(hbox);
    gtk_widget_show(check);
-   gtk_entry_set_text(GTK_ENTRY(entry) , hub->client->getTabText().c_str()); 
-   
+   gtk_entry_set_text(GTK_ENTRY(entry) , hub->client->getTabText().c_str());
+
    gint response  = gtk_dialog_run(dialog);
-   
+
    if(response == GTK_RESPONSE_OK)
     {
 		const gchar *text = gtk_entry_get_text(GTK_ENTRY(entry));
@@ -4730,7 +4730,7 @@ void Hub::SetTabText(gpointer data)
 			FavoriteManager::getInstance()->save();
 		}
 	}
-	gtk_widget_destroy(GTK_WIDGET(dialog));	
+	gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
 void Hub::onToglleButtonIcon(GtkToggleButton *button, gpointer data)

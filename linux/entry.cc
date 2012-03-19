@@ -83,6 +83,14 @@ GtkWidget *Entry::getWidget(const string &name)
 	return widget;
 }
 
+GtkWidget *Entry::getWidget(string* name)
+{
+    dcassert(xml && !name->empty());
+    GtkWidget *widget = glade_xml_get_widget(xml , g_strdup(name->c_str()));
+    dcassert(widget);
+    return widget;
+}
+
 void Entry::addChild(Entry *entry)
 {
 	children.insert(make_pair(entry->getID(), entry));

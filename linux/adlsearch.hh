@@ -60,9 +60,9 @@ class SearchADL:
 		static void onToggleForb(GtkWidget *widget, gpointer data);
 		static void onChangeCombo(GtkWidget *widget, gpointer data);
 
-        int find_raw(std::string rawString);
+          int find_raw(std::string rawString);
 		int find_rawInt(int raw);
-		
+
 		GdkEventType previous;
 		TreeView searchADLView;
 		GtkListStore *searchADLStore;

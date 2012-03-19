@@ -27,7 +27,8 @@
 
 using namespace std;
 
-TreeView::TreeView()
+TreeView::TreeView():
+menu(NULL), sel(NULL)
 {
 	view = NULL;
 	count = 0;
@@ -307,7 +308,7 @@ void TreeView::addColumn_gui(Column& column)
 			renderer = gtk_cell_renderer_pixbuf_new();
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(),
 				renderer, "pixbuf", column.pos, NULL);
-			column.renderer2 = renderer;	
+			column.renderer2 = renderer;
 			break;
 		case PIXBUF_STRING:
 			renderer = gtk_cell_renderer_pixbuf_new();
@@ -358,7 +359,7 @@ void TreeView::addColumn_gui(Column& column)
 			gtk_tree_view_column_pack_start(col, renderer, true);
 			gtk_tree_view_column_add_attribute(col, renderer, "text", column.pos);
 			gtk_tree_view_column_add_attribute(col, renderer, "foreground", TreeView::col(column.linkedTextColor));
-			break;	
+			break;
 		case EDIT_STRING:
 			renderer = gtk_cell_renderer_text_new();
  			g_object_set(renderer, "editable", TRUE, NULL);
@@ -375,7 +376,7 @@ void TreeView::addColumn_gui(Column& column)
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(),
 					renderer, "text", column.pos, NULL);
 			gtk_tree_view_column_set_cell_data_func(col, renderer, TreeView::exactsizeDataFunc, &column, NULL);
-			column.renderer2 = renderer; 
+			column.renderer2 = renderer;
             break;
 	}
 
@@ -733,7 +734,7 @@ GtkCellRenderer *TreeView::getCellRenderOf(const string &title)
 		render = hiddenColumns[title].renderer;
 
 	dcassert(render != NULL);
-	return render;	
+	return render;
 }
 
 GtkCellRenderer *TreeView::getCellRenderOf2(const string &title)
@@ -747,5 +748,5 @@ GtkCellRenderer *TreeView::getCellRenderOf2(const string &title)
 		render = hiddenColumns[title].renderer2;
 
 	dcassert(render != NULL);
-	return render;	
+	return render;
 }

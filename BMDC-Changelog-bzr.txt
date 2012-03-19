@@ -414,3 +414,9 @@ Add Colorize Background in Userlist
 Add Support NATPMP
 Remove UPnPManager
 Fix myspell in PrivateMessage´ right click menu 
+--r100
+added nullptr.h (fixed buidl with gcc 4.5.2)
+Add clicked status of some buttons in toolbar
+Fixed Selections in chats
+Some Others small changes
+Added Pragha Media spam script 

@@ -25,7 +25,6 @@
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
-//#include <dcpp/UPnPManager.h>//NOTE: core 0.762//TODO Change to Mapper or remove it
 #include <dcpp/MappingManager.h>
 #include "bacon-message-connection.hh"
 #include "settingsmanager.hh"
@@ -33,7 +32,6 @@
 #include "WulforUtil.hh"
 #include "Splash.hh"
 #include "version.hh"
-//#include "upnpc.hh"//NOTE: core 0.762
 #include <iostream>
 #include <signal.h>
 #include "stacktrace.h"
@@ -106,9 +104,6 @@ int main(int argc, char *argv[])
 	dcpp::startup(callBack, (void*)sp);
 	sp->destroy();
 	delete sp;
-	//dcpp::UPnPManager::getInstance()->addImplementation(new UPnPc());//NOTE: core 0.762
-	//dcpp::MappingManager::getInstance()->addMapper<Mapper_NATPMP>();
-	//dcpp::MappingManager::getInstance()->addMapper<Mapper_MiniUPnPc>();
 	dcpp::TimerManager::getInstance()->start();
 
 	g_thread_init(NULL);
@@ -117,7 +112,7 @@ int main(int argc, char *argv[])
 	g_set_application_name("BMDC++");
 	WulforSettingsManager::newInstance();
 	signal(SIGPIPE, SIG_IGN);
-	signal(SIGSEGV, printBacktrace);
+	//signal(SIGSEGV, printBacktrace);
 	
 	WulforManager::start(argc, argv);
 	gdk_threads_enter();

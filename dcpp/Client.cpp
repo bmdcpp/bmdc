@@ -41,7 +41,8 @@ Client::Client(const string& hubURL, char separator_, bool secure_) :
 	keyprint = Util::decodeQuery(query)["kp"];
 
 	TimerManager::getInstance()->addListener(this);
-	/* RSX++ */
+	//RSX++
+	setCheckAtConnect(false);
 	cmdQueue.setClientPtr(this);
 }
 

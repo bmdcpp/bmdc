@@ -60,7 +60,7 @@ class Entry
 			DETECTION
 		} EntryType;
 
-		Entry() : xml(NULL) {}
+		Entry() : xml(NULL), type((EntryType)0) {}
 		Entry(const EntryType type, const std::string &glade, const std::string &id = "");
 		virtual ~Entry();
 
@@ -68,11 +68,12 @@ class Entry
 		const std::string& getID();
 		virtual GtkWidget *getContainer() = 0;
 		void remove();
-		virtual void show() {};
+		virtual void show() { };
 
 	protected:
 		std::string generateID();
 		GtkWidget *getWidget(const std::string &name);
+		GtkWidget *getWidget(std::string* name);
 		void addChild(Entry *entry);
 		Entry *getChild(const EntryType childType, const std::string &childId);
 		void removeChild(const EntryType childType, const std::string &childId);

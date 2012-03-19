@@ -1,5 +1,5 @@
 ﻿//
-//      Copyright 2011 -2012 Mank <freedcpp@seznam.cz>
+//      Copyright 2011 -2012 Mank <freedcpp at seznam dot cz>
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -28,10 +28,10 @@ BookEntry(Entry::DETECTION,_("Detection Settings"), "detection.glade")
 {
 	gtk_window_set_transient_for(GTK_WINDOW(getWidget("ActRawDialog")), GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()));
 	gtk_window_set_destroy_with_parent(GTK_WINDOW(getWidget("ActRawDialog")), TRUE);
-	
+
 	gtk_window_set_transient_for(GTK_WINDOW(getWidget("dialogitemPoints")), GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()));
 	gtk_window_set_destroy_with_parent(GTK_WINDOW(getWidget("dialogitemPoints")), TRUE);
-	
+
 	gtk_window_set_transient_for(GTK_WINDOW(getWidget("dialogpointitem1")), GTK_WINDOW(getWidget("dialogitemPoints")));
 	gtk_window_set_destroy_with_parent(GTK_WINDOW(getWidget("dialogpointitem1")), TRUE);
 
@@ -138,53 +138,53 @@ BookEntry(Entry::DETECTION,_("Detection Settings"), "detection.glade")
 	actionsSelectionsR.insertColumn("Number", G_TYPE_INT, TreeView::INT, 100);
 	actionsSelectionsR.insertColumn("Name", G_TYPE_STRING, TreeView::STRING, 100);
 	actionsSelectionsR.finalize();
-	
+
 	actionsSelectionsRStore = gtk_list_store_newv(actionsSelectionsR.getColCount(), actionsSelectionsR.getGTypes());
 	gtk_tree_view_set_model(actionsSelectionsR.get(), GTK_TREE_MODEL(actionsSelectionsRStore));
 	g_object_unref(actionsSelectionsRStore);
-	
+
 	actionSelectionRR = gtk_tree_view_get_selection(actionsSelectionsR.get());
 	SettingsManager *sm = SettingsManager::getInstance();
 	g_signal_connect(getWidget("buttonFake"), "clicked", G_CALLBACK(onSelectAction), (gpointer)this);
 	g_object_set_data(G_OBJECT(getWidget("buttonFake")),"wid",getWidget("entryFake"));
 	g_object_set_data(G_OBJECT(getWidget("buttonFake")), "set", (void *)(gint)sm->get(SettingsManager::IntSetting::FAKESHARE_RAW));
-	
+
 	g_signal_connect(getWidget("buttonRM"), "clicked", G_CALLBACK(onSelectAction), (gpointer)this);
 	g_object_set_data(G_OBJECT(getWidget("buttonRM")),"wid",getWidget("entryRM"));
 	g_object_set_data(G_OBJECT(getWidget("buttonRM")), "set",(void *)(gint)sm->get(SettingsManager::IntSetting::RMDC_RAW));
-	
+
 	g_signal_connect(getWidget("buttonEM"), "clicked", G_CALLBACK(onSelectAction), (gpointer)this);
 	g_object_set_data(G_OBJECT(getWidget("buttonEM")),"wid",getWidget("entryEM"));
 	g_object_set_data(G_OBJECT(getWidget("buttonEM")), "set",(void *)(gint)sm->get(SettingsManager::IntSetting::DCPP_EMULATION_RAW));
-	
+
 	g_signal_connect(getWidget("buttonmis"), "clicked", G_CALLBACK(onSelectAction), (gpointer)this);
 	g_object_set_data(G_OBJECT(getWidget("buttonmis")),"wid",getWidget("entrymis"));
 	g_object_set_data(G_OBJECT(getWidget("buttonmis")), "set",(void *)(gint)sm->get(SettingsManager::IntSetting::FILELIST_VERSION_MISMATCH));
-	
+
 	g_signal_connect(getWidget("buttonlis"), "clicked", G_CALLBACK(onSelectAction), (gpointer)this);
 	g_object_set_data(G_OBJECT(getWidget("buttonlis")),"wid",getWidget("entrylis"));
 	g_object_set_data(G_OBJECT(getWidget("buttonlis")), "set",(void *)(gint)sm->get(SettingsManager::IntSetting::LISTLEN_MISMATCH));
-	
+
 	g_signal_connect(getWidget("buttonvermis"), "clicked", G_CALLBACK(onSelectAction), (gpointer)this);
 	g_object_set_data(G_OBJECT(getWidget("buttonvermis")),"wid",getWidget("entryvermis"));
 	g_object_set_data(G_OBJECT(getWidget("buttonvermis")), "set",(void *)(gint)sm->get(SettingsManager::IntSetting::VERSION_MISMATCH));
-	
+
 	g_signal_connect(getWidget("buttondis"), "clicked", G_CALLBACK(onSelectAction), (gpointer)this);
 	g_object_set_data(G_OBJECT(getWidget("buttondis")),"wid",getWidget("entrydis"));
 	g_object_set_data(G_OBJECT(getWidget("buttondis")), "set",(void *)(gint)sm->get(SettingsManager::IntSetting::DISCONNECT_RAW));
-	
+
 	g_signal_connect(getWidget("buttontbsfl"), "clicked", G_CALLBACK(onSelectAction), (gpointer)this);
 	g_object_set_data(G_OBJECT(getWidget("buttontbsfl")),"wid",getWidget("entrytbsfl"));
 	g_object_set_data(G_OBJECT(getWidget("buttontbsfl")), "set",(void *)(gint)sm->get(SettingsManager::IntSetting::FILELIST_TOO_SMALL_BIG_RAW));
-	
+
 	g_signal_connect(getWidget("buttonspeed"), "clicked", G_CALLBACK(onSelectAction), (gpointer)this);
 	g_object_set_data(G_OBJECT(getWidget("buttonspeed")),"wid",getWidget("entryspeed"));
 	g_object_set_data(G_OBJECT(getWidget("buttonspeed")), "set",(void *)(gint)sm->get(SettingsManager::IntSetting::SDL_RAW));
-	
+
 	g_signal_connect(getWidget("buttonadl"), "clicked", G_CALLBACK(onSelectAction), (gpointer)this);
 	g_object_set_data(G_OBJECT(getWidget("buttonadl")),"wid",getWidget("entryadl"));
 	g_object_set_data(G_OBJECT(getWidget("buttonadl")), "set",(void *)(gint)sm->get(SettingsManager::IntSetting::ADL_RAW));
-	
+
 	g_signal_connect(getWidget("button7Save"), "clicked", G_CALLBACK(onSave), (gpointer)this);
 	g_signal_connect(getWidget("buttonadlsp7"), "clicked", G_CALLBACK(onADLPoints), (gpointer)this);
 
@@ -231,16 +231,16 @@ void DetectionTab::show() {
 	///ADLA
 	gboolean showadla = BOOLSETTING(SHOW_ADLSEARCH_DEFAULT_ACTION) ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkADLACtionShow")), showadla);
-	
+
 	showadla = BOOLSETTING(SHOW_RMDC) ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkRmdc1")), showadla);
-	
+
 	showadla = BOOLSETTING(FILELIST_TOO_SMALL_BIG) ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkbutton1")), showadla);
-	
+
 	showadla = BOOLSETTING(VERSION_MISMATCH) ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkVmismatch1")), showadla);
-	
+
 	///Min FL SIZE
 	int minflsize = SETTING(MIN_FL_SIZE);
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("spinFLMINSIZE")), (gdouble)minflsize);
@@ -281,34 +281,34 @@ void DetectionTab::show() {
 	SettingsManager *sm = SettingsManager::getInstance();
 	int fake = sm->get(SettingsManager::IntSetting::FAKESHARE_RAW);
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entryFake")), Util::toString(fake).c_str());
-	
+
 	fake = sm->get(SettingsManager::IntSetting::DCPP_EMULATION_RAW);
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entryEM")), Util::toString(fake).c_str());
-	
+
 	fake = sm->get(SettingsManager::IntSetting::FILELIST_VERSION_MISMATCH);
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entrymis")), Util::toString(fake).c_str());
-	
+
 	fake = sm->get(SettingsManager::IntSetting::RMDC_RAW);
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entryRM")), Util::toString(fake).c_str());
-	
+
 	fake = sm->get(SettingsManager::IntSetting::LISTLEN_MISMATCH);
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entrylis")), Util::toString(fake).c_str());
-	
+
 	fake = sm->get(SettingsManager::IntSetting::VERSION_MISMATCH);
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entryvermis")), Util::toString(fake).c_str());
-	
+
 	fake = sm->get(SettingsManager::IntSetting::DISCONNECT_RAW);
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entrydis")), Util::toString(fake).c_str());
-	
+
 	fake = sm->get(SettingsManager::IntSetting::FILELIST_TOO_SMALL_BIG_RAW);
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entrytbsfl")), Util::toString(fake).c_str());
-	
+
 	fake = sm->get(SettingsManager::IntSetting::SDL_RAW);
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entryspeed")), Util::toString(fake).c_str());
-	
+
 	fake = sm->get(SettingsManager::IntSetting::ADL_RAW);
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entryadl")), Util::toString(fake).c_str());
-	
+
 	create_profiles();
 	create_actions_raws();
 }
@@ -333,7 +333,7 @@ void DetectionTab::create_actions_raws() {
 		actions.insert(ActRaw::value_type( ((*i)->getId()),topi));
 	//	actionsn.push_back(make_pair(name, (*i)->getId()));
 	}
-	
+
 }
 /* 2Page */
 void DetectionTab::create_profiles()
@@ -358,39 +358,17 @@ void DetectionTab::create_profiles()
 		profiles.insert(Prof::value_type(de.Id,iter));
 	}
 }
-/*
-void DetectionTab::onSwitchTab(GtkNotebook *notebook, GtkNotebookPage *page, guint num, gpointer data)
-{
-    DetectionTab *dt = (DetectionTab *)data;
 
-    if(num == 2 || num == 1)
-    {
-        vector<std::pair<std::string,int> > act = (dt->actionsn);
-        if(act.empty())
-			act = WulforUtil::getActions();
-        
-       // dt->loadAgain(dt->getWidget("comboboxentry1Fake"), act, (int)SETTING(FAKESHARE_RAW), dt);
-        dt->loadAgain(dt->getWidget("comboboxentry1emul"), act, (int)SETTING(DCPP_EMULATION_RAW)  , dt);
-        dt->loadAgain(dt->getWidget("comboboxentry1mis"), act, (int)SETTING(FILELIST_VERSION_MISMATCH), dt);
-        dt->loadAgain(dt->getWidget("comboboxentry1listlen"), act, (int)SETTING(LISTLEN_MISMATCH), dt);
-        dt->loadAgain(dt->getWidget("comboboxentry1vermis"), act, (int)SETTING(VERSION_MISMATCH), dt);
-        dt->loadAgain(dt->getWidget("comboboxentry1disc"), act, (int)SETTING(DISCONNECT_RAW), dt);
-        dt->loadAgain(dt->getWidget("comboboxentry1BigSmall"), act, (int)SETTING(FILELIST_TOO_SMALL_BIG_RAW), dt);
-        dt->loadAgain(dt->getWidget("comboboxentry1slwsp"), act, (int)SETTING(SDL_RAW), dt);
-        dt->loadAgain(dt->getWidget("comboboxentry1ADLA"), act, (int)SETTING(ADLSEARCH_DEFAULT_ACTION), dt);
-    }
-}
-*/
 gboolean DetectionTab::onActButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	DetectionTab *dt = (DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	dt->actPrevious = event->type;
 	return FALSE;
 }
 
 gboolean DetectionTab::onActButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	DetectionTab *dt = (DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 
 	if (dt->actPrevious == GDK_BUTTON_PRESS && gtk_tree_selection_get_selected(dt->actionSelection, NULL, NULL))
 	{
@@ -408,7 +386,7 @@ gboolean DetectionTab::onActButtonReleased_gui(GtkWidget *widget, GdkEventButton
 
 gboolean DetectionTab::onActKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
-	DetectionTab *dt = (DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter iter;
 
 	if (gtk_tree_selection_get_selected(dt->actionSelection, NULL, &iter))
@@ -430,14 +408,14 @@ void DetectionTab::updateRawView_gui()
 	if (gtk_tree_selection_get_selected(actionSelection, NULL, &iter))
 	{
 		if(!raws.empty())
-            raws.clear();
+             raws.clear();
 		gint aid = actionView.getValue<gint>(&iter, N_("ID"));
 		gtk_list_store_clear(RawStore);
 		Action *action = RawManager::getInstance()->findAction((int)aid);
-        GtkTreeIter child;
-        if( (action != NULL) && (!action->raw.empty()) )
-        {
-           for(Action::RawsList::const_iterator p = (action)->raw.begin();p!=((action)->raw.end()); ++p)
+          GtkTreeIter child;
+          if( (action != NULL) && (!action->raw.empty()) )
+          {
+            for(Action::RawsList::const_iterator p = (action)->raw.begin();p!=((action)->raw.end()); ++p)
             {
                 gtk_list_store_append(RawStore,&child);
                 gtk_list_store_set(RawStore, &child,
@@ -456,7 +434,7 @@ void DetectionTab::updateRawView_gui()
 }
 void DetectionTab::onAddAct(GtkWidget *widget,gpointer data)
 {
-	DetectionTab *dt = (DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	const string emptyStr = "";
 	StringMap params;
 	params["Name"] = emptyStr;
@@ -471,7 +449,6 @@ void DetectionTab::onAddAct(GtkWidget *widget,gpointer data)
 
 	if(isOk)
 	{
-
 		dt->addAct_gui(params);
 		typedef Func1<DetectionTab,StringMap> F1;
 		F1 *func = new F1(dt,&DetectionTab::addAct_client, params);
@@ -482,7 +459,7 @@ void DetectionTab::onAddAct(GtkWidget *widget,gpointer data)
 
 void DetectionTab::onAddRaw(GtkWidget *widget , gpointer data)
 {
-    DetectionTab *dt = (DetectionTab *)data;
+     DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	const string emptyStr = "";
 	StringMap params;
 	params["Name"] = emptyStr;
@@ -507,7 +484,7 @@ void DetectionTab::onAddRaw(GtkWidget *widget , gpointer data)
 }
 void DetectionTab::onEditAct(GtkWidget *widget, gpointer data)
 {
-	DetectionTab *dt = (DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter	iter;
 
 	if (!gtk_tree_selection_get_selected(dt->actionSelection,NULL, &iter))
@@ -531,7 +508,7 @@ void DetectionTab::onEditAct(GtkWidget *widget, gpointer data)
 
 void DetectionTab::onEditRaw(GtkWidget *widget,gpointer data)
 {
-	DetectionTab *dt = (DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter	iter;
 
 	if (!gtk_tree_selection_get_selected(dt->RawSelection,NULL, &iter))
@@ -557,7 +534,7 @@ void DetectionTab::onEditRaw(GtkWidget *widget,gpointer data)
 
 void DetectionTab::onRemoveAct(GtkWidget *widget , gpointer data)
 {
-	DetectionTab *dt = (DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter iter;
 
 	if (gtk_tree_selection_get_selected(dt->actionSelection, NULL, &iter))
@@ -580,7 +557,7 @@ void DetectionTab::onRemoveAct(GtkWidget *widget , gpointer data)
 		}
 
 		gint id = dt->actionView.getValue<gint>(&iter, N_("ID"));
-        dt->removeAction_gui(Util::toString((int)id),name);
+          dt->removeAction_gui(Util::toString((int)id),name);
 		typedef Func1<DetectionTab, int> F1;
 		F1 *func = new F1(dt, &DetectionTab::removeAct_client, (int)id);
 		WulforManager::get()->dispatchClientFunc(func);
@@ -589,7 +566,7 @@ void DetectionTab::onRemoveAct(GtkWidget *widget , gpointer data)
 
 void DetectionTab::onRemoveRaw(GtkWidget *widget , gpointer data)
 {
-	DetectionTab *dt = (DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter iter;
 
 	if (gtk_tree_selection_get_selected(dt->RawSelection, NULL, &iter))
@@ -665,7 +642,7 @@ bool DetectionTab::showAddActRawDialog(StringMap &params,DetectionTab *dt)
 				return TRUE;
 			}
 		}
-    gtk_widget_hide(dt->getWidget("ActRawDialog"));
+      gtk_widget_hide(dt->getWidget("ActRawDialog"));
 	return FALSE;
 }
 
@@ -829,7 +806,7 @@ void DetectionTab::removeRaw_client(int id)
 /* 2page */
 void DetectionTab::onAddEntryDet(GtkWidget *widget, gpointer data)
 {
-	DetectionTab *dt = (DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	StringMap params;
 	const string emptyStr = "";
 	params["Name"] = "< Name >";
@@ -854,7 +831,7 @@ void DetectionTab::onAddEntryDet(GtkWidget *widget, gpointer data)
 }
 void DetectionTab::ondModEntryDet(GtkWidget *widget, gpointer data)
 {
-	DetectionTab *dt = (DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter iter;
 
 	if (!gtk_tree_selection_get_selected(dt->detectionSelection, NULL, &iter))
@@ -878,14 +855,13 @@ void DetectionTab::ondModEntryDet(GtkWidget *widget, gpointer data)
 			typedef Func2<DetectionTab,int,StringMap> F2;
 			F2 *func = new F2(dt,&DetectionTab::editEntryDet_client, dcpp::Util::toInt(params["ID"]), params);
 			WulforManager::get()->dispatchClientFunc(func);
-
 	}
 }
 
 
 void DetectionTab::onRemoveEntryDet(GtkWidget *widget, gpointer data)
 {
-	DetectionTab *dt = (DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter iter;
 
 	if (gtk_tree_selection_get_selected(dt->detectionSelection, NULL, &iter))
@@ -925,10 +901,10 @@ void DetectionTab::removeEntryDet_gui(uint32_t _id)
 
 void DetectionTab::addEntryDet_gui(dcpp::StringMap params)
 {
-		uint32_t id = Util::toUInt32(params["ID"]);
-		GtkTreeIter iter;
-		if(findProf_gui(id,&iter))
-		{
+	uint32_t id = Util::toUInt32(params["ID"]);
+	GtkTreeIter iter;
+	if(findProf_gui(id,&iter))
+	{
 			gtk_list_store_set(detectionStore,&iter,
 												detectionView.col(N_("Enable")),Util::toInt(params["Enabled"]),
 												detectionView.col(N_("Name")),params["Name"].c_str(),
@@ -941,9 +917,9 @@ void DetectionTab::addEntryDet_gui(dcpp::StringMap params)
 												-1);
 
 
-		}
-		else
-		{
+	}
+	else
+	{
 				gtk_list_store_append(detectionStore,&iter);
 				gtk_list_store_set(detectionStore,&iter,
 												detectionView.col(N_("Enable")),Util::toInt(params["Enabled"]),
@@ -956,7 +932,7 @@ void DetectionTab::addEntryDet_gui(dcpp::StringMap params)
 												detectionView.col(N_("MisMatch")),Util::toInt(params["MisMatch"]),
 												-1);
 				profiles.insert(Prof::value_type(id,iter));
-		}
+	}
 }
 
 void DetectionTab::addEntryDet_client(dcpp::StringMap params){
@@ -1008,14 +984,14 @@ void DetectionTab::removeEntryDet_client(int id)
 
 gboolean DetectionTab::onButtonItemPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	DetectionTab *dt = (DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	dt->previous = event->type;
 	return FALSE;
 }
 
 gboolean DetectionTab::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	DetectionTab *dt = (DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter iter;
 	GtkTreeModel *tmodel;
 	if (!gtk_tree_selection_get_selected(dt->itemselection, &tmodel, &iter))
@@ -1042,7 +1018,7 @@ void DetectionTab::popupMenu_gui()
 
 void DetectionTab::onAddItemDlg_gui(GtkWidget *widget, gpointer data)
 {
-	DetectionTab *dt = (DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	StringMap params;
 	params["Name"] = "";
 	params["Value"] = "";
@@ -1055,7 +1031,7 @@ void DetectionTab::onAddItemDlg_gui(GtkWidget *widget, gpointer data)
 }
 void DetectionTab::onModItemDlg_gui(GtkWidget *widget, gpointer data)
 {
-	DetectionTab *dt = (DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter iter;
 	if(!gtk_tree_selection_get_selected(dt->itemselection, NULL, &iter))
 		return;
@@ -1078,7 +1054,7 @@ void DetectionTab::onModItemDlg_gui(GtkWidget *widget, gpointer data)
 
 void DetectionTab::onRemItemDlg_gui(GtkWidget *widget, gpointer data)
 {
-	DetectionTab *dt = (DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter iter;
 	if(!gtk_tree_selection_get_selected(dt->itemselection, NULL, &iter))
 		return;
@@ -1110,29 +1086,16 @@ void DetectionTab::onRemItemDlg_gui(GtkWidget *widget, gpointer data)
 
 void DetectionTab::onToggleDet(GtkCellRendererToggle *cell, gchar *path, gpointer data)
 {
-	DetectionTab *dt = (DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter iter;
-	/*bool enabled;
-	gint id;
-	GtkTreePath path = gtk_tree_path_new_from_string(pathStr);
-    gtk_tree_model_get_iter(GTK_TREE_MODEL (data), &iter, &path);
-    gtk_tree_model_get(GTK_TREE_MODEL (data), &iter,
-						dt->detectionView.col(N_("Enable")),&enabled,
-						dt->detectionView.col(N_("ID")),&id,-1);
-	
-   DetectionManager::getInstance()->setItemEnabled(id,!enabled,false);
-
-   enabled = !enabled;
-   gtk_list_store_set(GTK_LIST_STORE (data), &iter, dt->detectionView.col("Enable"), enabled, -1);*/
-   if (gtk_tree_model_get_iter_from_string(GTK_TREE_MODEL(dt->detectionStore), &iter, path))
-   {
+    if (gtk_tree_model_get_iter_from_string(GTK_TREE_MODEL(dt->detectionStore), &iter, path))
+    {
 		gint id = dt->detectionView.getValue<gint>(&iter, _("ID"));
 		bool fixed = dt->detectionView.getValue<gboolean>(&iter, _("Enable"));
 		fixed = !fixed;
-		gtk_list_store_set(dt->detectionStore, &iter, dt->detectionView.col("Enable"),fixed,-1); 
-	    DetectionManager::getInstance()->setItemEnabled(id,fixed,false);
-	   
-   }
+		gtk_list_store_set(dt->detectionStore, &iter, dt->detectionView.col("Enable"),fixed,-1);
+	     DetectionManager::getInstance()->setItemEnabled(id,fixed,false);
+    }
 }
 
 bool DetectionTab::runDialogItem(StringMap &params,DetectionTab *dt)
@@ -1161,7 +1124,7 @@ bool DetectionTab::runDialogItem(StringMap &params,DetectionTab *dt)
 			gtk_widget_hide(dt->getWidget("dialogItem1"));
 			return TRUE;
 		}
-	gtk_widget_hide(dt->getWidget("dialogItem1"));	
+	gtk_widget_hide(dt->getWidget("dialogItem1"));
 	return FALSE;
 }
 
@@ -1401,7 +1364,7 @@ void DetectionTab::editPoints_gui(StringMap& params,GtkTreeIter *iter)
 
 void DetectionTab::onADLPoints(GtkWidget *widget, gpointer data)
 {
-	DetectionTab *dt = (DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	bool isOk = dt->showADLPoints(dt);
 	if(isOk)
 		RawManager::getInstance()->updateADLPoints(dt->imap);
@@ -1469,7 +1432,7 @@ bool DetectionTab::showAddPointsDialog(StringMap &params,DetectionTab *dt)
 
 void DetectionTab::onADSLPointsADD(GtkWidget *widget, gpointer data)
 {
-	DetectionTab *dt = (DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	StringMap params;
 	params["Points"] = "0";
 	params["Action"] = "0";
@@ -1482,7 +1445,7 @@ void DetectionTab::onADSLPointsADD(GtkWidget *widget, gpointer data)
 
 void DetectionTab::onADSLPointsMOD(GtkWidget *widget, gpointer data)
 {
-	DetectionTab *dt =(DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	StringMap params;
 	GtkTreeIter iter;
 	if(!gtk_tree_selection_get_selected(dt->pointselect, NULL, &iter))
@@ -1498,13 +1461,13 @@ void DetectionTab::onADSLPointsMOD(GtkWidget *widget, gpointer data)
 }
 void DetectionTab::onADSLPointsDEL(GtkWidget *widget, gpointer data)
 {
-	DetectionTab *dt = (DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter iter;
 	if(!gtk_tree_selection_get_selected(dt->pointselect, NULL, &iter))
 		return;
 
 	 if (BOOLSETTING(CONFIRM_USER_REMOVAL))
-	{
+	 {
 					GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 						GTK_DIALOG_DESTROY_WITH_PARENT,
 						GTK_MESSAGE_QUESTION,
@@ -1530,7 +1493,7 @@ void DetectionTab::onADSLPointsDEL(GtkWidget *widget, gpointer data)
 /**/
 void DetectionTab::onSave(GtkWidget *widget , gpointer data)
 {
-	DetectionTab *dt = (DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	SettingsManager *st = SettingsManager::getInstance();
 	///Fake
 	bool afake = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(dt->getWidget("checkFake1")));
@@ -1565,7 +1528,7 @@ void DetectionTab::onSave(GtkWidget *widget , gpointer data)
 	st->set(SettingsManager::FILELIST_TOO_SMALL_BIG,asmbig);
 
     st->set(SettingsManager::FILELIST_TOO_SMALL_BIG_RAW, Util::toInt(gtk_entry_get_text(GTK_ENTRY(dt->getWidget("entrytbsfl")))));
-    
+
     st->set(SettingsManager::ADL_RAW, Util::toInt(gtk_entry_get_text(GTK_ENTRY(dt->getWidget("entryadl")))));
 	///SDL
 	bool asdl = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(dt->getWidget("checkbutton2slw")));
@@ -1579,9 +1542,9 @@ void DetectionTab::onSave(GtkWidget *widget , gpointer data)
 	bool showadla = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(dt->getWidget("checkADLACtionShow")));
 	st->set(SettingsManager::SHOW_ADLSEARCH_DEFAULT_ACTION,showadla);
 
-    
-    
-	st->set(SettingsManager::ADLSEARCH_DEFAULT_ACTION,Util::toInt(gtk_entry_get_text(GTK_ENTRY(dt->getWidget("entryadl"))))); 
+
+
+	st->set(SettingsManager::ADLSEARCH_DEFAULT_ACTION,Util::toInt(gtk_entry_get_text(GTK_ENTRY(dt->getWidget("entryadl")))));
 	///MINFLSIZE
 	int minflsize = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(dt->getWidget("spinFLMINSIZE")));
 	st->set(SettingsManager::MIN_FL_SIZE,minflsize);
@@ -1641,16 +1604,16 @@ bool DetectionTab::showErrorDialog_gui(const string &description, DetectionTab *
 
 void DetectionTab::onSelectAction(GtkWidget *widget, gpointer data)
 {
-	DetectionTab *dt = (DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkWidget *entry = (GtkWidget *)g_object_get_data(G_OBJECT(widget), "wid");
 	GtkTreeIter iter;
 	dt->initDialogWithValues();
 	gint response = gtk_dialog_run(GTK_DIALOG(dt->getWidget("dialogActionsSelection")));
-	
+
 	// Fix crash, if the dialog gets programmatically destroyed.
 	if (response == GTK_RESPONSE_NONE)
 		return;
-	
+
 	if( response == GTK_RESPONSE_OK)
 	{
 		 if(gtk_tree_selection_count_selected_rows(dt->actionSelectionRR) == 1)
@@ -1678,12 +1641,12 @@ void DetectionTab::initDialogWithValues()
                             actionsSelectionsR.col("Name") , it->first.c_str(),
                             -1 );
     }
-	
+
 }
 
 void DetectionTab::set_combo(GtkWidget *place, vector<pair<string,int> > act, int set, bool det, gpointer data)
 {
-    DetectionTab *dt = (DetectionTab *)data;
+    DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
     GtkListStore *store;
     GtkComboBox *box;
     GtkTreeIter iter,*piter = NULL;
@@ -1699,8 +1662,8 @@ void DetectionTab::set_combo(GtkWidget *place, vector<pair<string,int> > act, in
                             -1 );
         if(it->second == set)
             piter = gtk_tree_iter_copy(&iter);
-        
-        dt->tmpname.insert ( pair<int,std::string>(it->second,it->first));    
+
+        dt->tmpname.insert ( pair<int,std::string>(it->second,it->first));
 
     }
 
@@ -1725,7 +1688,7 @@ void DetectionTab::set_combo(GtkWidget *place, vector<pair<string,int> > act, in
 	gtk_widget_show_all(GTK_WIDGET(box));
 
 	gtk_combo_box_set_active_iter(box,piter);
-	
+
 	gtk_widget_set_sensitive(GTK_WIDGET(box),TRUE);
 }
 
@@ -1753,7 +1716,7 @@ int DetectionTab::save_combo(GtkWidget *widget)
 
 void DetectionTab::loadAgain(GtkWidget *widget, vector<pair<string,int> > act, int set, gpointer data)
 {
-	DetectionTab *dt = (DetectionTab *)data;
+	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GList *list;
 	list = gtk_container_get_children(GTK_CONTAINER(widget));
 	GtkWidget *combo = GTK_WIDGET(g_list_first(list)->data);
@@ -1762,10 +1725,10 @@ void DetectionTab::loadAgain(GtkWidget *widget, vector<pair<string,int> > act, i
 	if(!GTK_IS_COMBO_BOX(combo))
 		return;
 	std::map<int,string> tmpmaps;
-			
+
 	for(vector<pair<string,int> >::const_iterator q = act.begin();q!=act.end();q++)
 			tmpmaps.insert( pair<int, std::string>(q->second,q->first) );
-	
+
 	/* Obtain data model from combo box. */
     model = gtk_combo_box_get_model( GTK_COMBO_BOX(combo) );
     if(gtk_tree_model_get_iter_first(model,&iter))
@@ -1782,17 +1745,17 @@ void DetectionTab::loadAgain(GtkWidget *widget, vector<pair<string,int> > act, i
                             TYPE_INT, it->first,
                             -1 );
                   if(it->first == set)
-						piter = gtk_tree_iter_copy(&iter);		
-			
+						piter = gtk_tree_iter_copy(&iter);
+
 			}
 		}
-	
+
 	}
 	 gtk_combo_box_set_model (GTK_COMBO_BOX(combo), model);
 	 gtk_widget_show_all(combo);
-	 
+
  	gtk_combo_box_set_active_iter(GTK_COMBO_BOX(combo),piter);
- 	
+
  	gtk_widget_set_sensitive(GTK_WIDGET(combo), TRUE);
-	 
+
 }

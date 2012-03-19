@@ -495,6 +495,8 @@ QueueManager::~QueueManager() {
 	TimerManager::getInstance()->removeListener(this);
 	ClientManager::getInstance()->removeListener(this);
 
+	saveQueue();
+
 	if(!BOOLSETTING(KEEP_LISTS)) {
 		string path = Util::getListPath();
 

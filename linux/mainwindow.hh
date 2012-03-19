@@ -19,8 +19,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef WULFOR_MAIN_WINDOW_HH
-#define WULFOR_MAIN_WINDOW_HH
+#ifndef BMDC_MAIN_WINDOW_HH
+#define BMDC_MAIN_WINDOW_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
@@ -33,6 +33,7 @@
 #include <dcpp/FavoriteManager.h>
 #include <dcpp/UserCommand.h>
 #include <dcpp/StringTokenizer.h>
+
 #include "entry.hh"
 #include "treeview.hh"
 #include "transfers.hh"
@@ -73,7 +74,7 @@ class MainWindow:
 
 		template<typename T, typename B>
 		void showBook(const T& type, const B& book);
-		
+
 		void showDownloadQueue_gui();
 		void showFavoriteHubs_gui();
 		void showFavoriteUsers_gui();
@@ -106,12 +107,35 @@ class MainWindow:
 		void openOwnList_client(bool useSetting);
 		void updateFavoriteHubMenu_client(const dcpp::FavoriteHubEntryList &fh);
 		/**/
+		typedef enum {
+			QUICKCON = 0,
+			FAVORITE_HUBS,
+			FAVORITE_USERS,
+			IGNORE_USERS,
+			PUBLIC_HUBS,
+			SEARCH_ADL,
+			SEARCH_SPY,
+			QUEUE,
+			FDOWNLOADS,
+			FUPLOADS,
+			NOTEPAD,
+			SYSTEM,
+			AWAY,
+			END
+		} IconsToolbar;
+		static void* icons[(MainWindow::IconsToolbar)END][4];
+
+		void setStatusOfIcons(IconsToolbar type, bool isClicked)
+		{
+			if(isClicked)
+				gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget(std::string(reinterpret_cast<char *>(icons[type][3])))),(reinterpret_cast<char *>(icons[type][2])));
+			else
+				gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget(std::string(reinterpret_cast<char *>(icons[type][3])))),(reinterpret_cast<char *>(icons[type][1])));
+		}
+
 		void setAwayIcon(bool isAway)
-		{  
-			if(isAway)
-				gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("AwayIcon")), "bmdc-away-on");
-			else	
-				gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("AwayIcon")), "bmdc-away");
+		{
+			setStatusOfIcons(AWAY,isAway);
 		}
 
 	private:
@@ -227,7 +251,7 @@ class MainWindow:
 		void updateGeoIp(bool v6);
 		void completeGeoIpUpdate(bool v6);
 		void removeItemFromList(Entry::EntryType type, std::string id);
-		
+
 		// Client callbacks
 		virtual void on(dcpp::LogManagerListener::Message, time_t t, const std::string &m) noexcept;
 		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) noexcept;
@@ -247,7 +271,7 @@ class MainWindow:
 		bool useStatusIconBlink;
 		bool onQuit;
 		int ToolbarStyle;
-		
+
 		class DirectoryListInfo {
             public:
                 DirectoryListInfo(const dcpp::HintedUser& hintedUser, const std::string& aFile, const std::string& aDir, int64_t aSpeed) : user(hintedUser), file(aFile), dir(aDir), speed(aSpeed) { }
@@ -256,7 +280,7 @@ class MainWindow:
                 std::string dir;
                 int64_t speed;
 		};
-		
+
 		class FileListQueue: public dcpp::Thread {
             public:
                 bool stop;
@@ -274,30 +298,30 @@ class MainWindow:
                 s.signal();
             }
         };
-		
+
 		enum
 		{
 			CONN_GEOIP_V4,
 			CONN_GEOIP_V6,
 			CONN_LAST
 		};
-		
-		struct Widgets 
+
+		struct Widgets
 		{
-		  public:	
+		  public:
 			Widgets() : widget(NULL), label(NULL) { }
 			GtkWidget *widget;
-			GtkWidget *label;	
+			GtkWidget *label;
 		};
-		
+
 		std::unique_ptr<dcpp::HttpDownload> conns[CONN_LAST];
-		
+
 		std::vector<PrivateMessage*> privateMessage;
 		std::vector<Hub*> Hubs;
 		std::vector<Search*> search;
-		
+
 		FileListQueue listQueue;
-		
+
 		std::queue<std::string> statustext;
 };
 

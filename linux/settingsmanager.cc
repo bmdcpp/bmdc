@@ -254,16 +254,24 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("icon-smile", "bmdc-smile"));
 	defaultString.insert(StringMap::value_type("icon-download", "bmdc-download"));
 	defaultString.insert(StringMap::value_type("icon-favorite-hubs", "bmdc-favorite-hubs"));
+	defaultString.insert(StringMap::value_type("icon-favorite-hubs-on", "bmdc-favorite-hubs-on"));
 	defaultString.insert(StringMap::value_type("icon-favorite-users", "bmdc-favorite-users"));
+	defaultString.insert(StringMap::value_type("icon-favorite-users-on", "bmdc-favorite-users-on"));
 	defaultString.insert(StringMap::value_type("icon-finished-downloads", "bmdc-finished-downloads"));
+	defaultString.insert(StringMap::value_type("icon-finished-downloads-on", "bmdc-finished-downloads-on"));
 	defaultString.insert(StringMap::value_type("icon-finished-uploads", "bmdc-finished-uploads"));
+	defaultString.insert(StringMap::value_type("icon-finished-uploads-on", "bmdc-finished-uploads-on"));
 	defaultString.insert(StringMap::value_type("icon-hash", "bmdc-hash"));
 	defaultString.insert(StringMap::value_type("icon-preferences", "bmdc-preferences"));
 	defaultString.insert(StringMap::value_type("icon-public-hubs", "bmdc-public-hubs"));
+	defaultString.insert(StringMap::value_type("icon-public-hubs-on", "bmdc-public-hubs-on"));
 	defaultString.insert(StringMap::value_type("icon-queue", "bmdc-queue"));
+	defaultString.insert(StringMap::value_type("icon-queue-on", "bmdc-queue-on"));
 	defaultString.insert(StringMap::value_type("icon-search", "bmdc-search"));
 	defaultString.insert(StringMap::value_type("icon-search-adl", "bmdc-search-adl"));
+	defaultString.insert(StringMap::value_type("icon-search-adl-on", "bmdc-search-adl-on"));
 	defaultString.insert(StringMap::value_type("icon-search-spy", "bmdc-search-spy"));
+	defaultString.insert(StringMap::value_type("icon-search-spy-on", "bmdc-search-spy-on"));
 	defaultString.insert(StringMap::value_type("icon-upload", "bmdc-upload"));
 	defaultString.insert(StringMap::value_type("icon-quit", "bmdc-quit"));
 	defaultString.insert(StringMap::value_type("icon-connect", "bmdc-connect"));
@@ -277,12 +285,15 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("icon-limiting","bmdc-limiting"));
 	defaultString.insert(StringMap::value_type("icon-limiting-on","bmdc-limiting-on"));
 	defaultString.insert(StringMap::value_type("icon-notepad","bmdc-notepad"));
+	defaultString.insert(StringMap::value_type("icon-notepad-on","bmdc-notepad-on"));
 	defaultString.insert(StringMap::value_type("icon-ignore", "bmdc-ignore-users"));
+	defaultString.insert(StringMap::value_type("icon-ignore-on", "bmdc-ignore-users-on"));
 	defaultString.insert(StringMap::value_type("icon-away", "bmdc-away"));
 	defaultString.insert(StringMap::value_type("icon-away-on", "bmdc-away-on"));
 	defaultString.insert(StringMap::value_type("icon-system", "bmdc-system"));
+	defaultString.insert(StringMap::value_type("icon-system-on", "bmdc-system-on"));
 	defaultString.insert(StringMap::value_type("icon-highlight", "bmdc-highlight"));
-	
+	/**/
 	defaultString.insert(StringMap::value_type("icon-normal", "bmdc-normal"));
 	/*Icon of conn*/
 	defaultString.insert(StringMap::value_type("icon-op", "bmdc-op"));

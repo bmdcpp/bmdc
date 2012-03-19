@@ -1,7 +1,7 @@
 //Class to take care of communication with the shell
 //Author: Irene
 //
-//      Copyright 2011 - 2012 Mank <Mank1@seznam.cz>
+//      Copyright 2011 - 2012 Mank <Mank1 at seznam dot cz>
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //      MA 02110-1301, USA.
 
-#ifndef SHELL_COMMAND_HH
-#define SHELL_COMMAND_HH
+#ifndef BMDC_SHELL_COMMAND_HH
+#define BMDC_SHELL_COMMAND_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>

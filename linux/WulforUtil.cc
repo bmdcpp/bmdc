@@ -346,7 +346,7 @@ void WulforUtil::remove_events_internal (GtkWidget *widget, gint events, GList *
 
 vector<string>& WulforUtil::getCharsets()
 {
-	if (charsets.size() == 0)
+	if (charsets.empty())
 	{
 		charsets.push_back(ENCODING_LOCALE);
 		charsets.push_back(_("UTF-8 (Unicode)"));
@@ -652,16 +652,24 @@ void WulforUtil::registerIcons()
 	icons["bmdc-smile"] = wsm->getString("icon-smile");
 	icons["bmdc-download"] = wsm->getString("icon-download");
 	icons["bmdc-favorite-hubs"] = wsm->getString("icon-favorite-hubs");
+	icons["bmdc-favorite-hubs-on"] = wsm->getString("icon-favorite-hubs-on");
 	icons["bmdc-favorite-users"] = wsm->getString("icon-favorite-users");
+	icons["bmdc-favorite-users-on"] = wsm->getString("icon-favorite-users-on");
 	icons["bmdc-finished-downloads"] = wsm->getString("icon-finished-downloads");
+	icons["bmdc-finished-downloads-on"] = wsm->getString("icon-finished-downloads-on");
 	icons["bmdc-finished-uploads"] = wsm->getString("icon-finished-uploads");
+	icons["bmdc-finished-uploads-on"] = wsm->getString("icon-finished-uploads-on");
 	icons["bmdc-hash"] = wsm->getString("icon-hash");
 	icons["bmdc-preferences"] = wsm->getString("icon-preferences");
 	icons["bmdc-public-hubs"] = wsm->getString("icon-public-hubs");
+	icons["bmdc-public-hubs-on"] = wsm->getString("icon-public-hubs-on");
 	icons["bmdc-queue"] = wsm->getString("icon-queue");
+	icons["bmdc-queue-on"] = wsm->getString("icon-queue-on");
 	icons["bmdc-search"] = wsm->getString("icon-search");
 	icons["bmdc-search-adl"] = wsm->getString("icon-search-adl");
+	icons["bmdc-search-adl-on"] = wsm->getString("icon-search-adl-on");
 	icons["bmdc-search-spy"] = wsm->getString("icon-search-spy");
+	icons["bmdc-search-spy-on"] = wsm->getString("icon-search-spy-on");
 	icons["bmdc-upload"] = wsm->getString("icon-upload");
 	icons["bmdc-quit"] = wsm->getString("icon-quit");
 	icons["bmdc-connect"] = wsm->getString("icon-connect");
@@ -673,8 +681,11 @@ void WulforUtil::registerIcons()
 	icons["bmdc-hub-offline"] = wsm->getString("icon-hub-offline");
 	/**/
 	icons["bmdc-notepad"] = wsm->getString("icon-notepad");
+	icons["bmdc-notepad-on"] = wsm->getString("icon-notepad-on");
 	icons["bmdc-ignore-users"] = wsm->getString("icon-ignore");
+	icons["bmdc-ignore-users-on"] = wsm->getString("icon-ignore-on");
 	icons["bmdc-system"] = wsm->getString("icon-system");
+	icons["bmdc-system-on"] = wsm->getString("icon-system-on");
 	icons["bmdc-away"] = wsm->getString("icon-away");
 	icons["bmdc-away-on"] = wsm->getString("icon-away-on");
 
@@ -934,7 +945,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	}
 	else if (cmd == "stats")
 	{
-			int z,y;
+			int z = 0 ,y = 0;
 			struct utsname u_name;//instance of utsname
 			z = uname(&u_name);
 			string sys_name(u_name.sysname);

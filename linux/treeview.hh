@@ -90,9 +90,11 @@ class TreeView
 		class Column
 		{
 			public:
-				Column() { };
+				Column(): renderer(NULL), renderer2(NULL) , column(NULL), id(0), gtype(G_TYPE_INVALID), type((TreeView::columnType)0), 
+						width(0) ,pos(0) , linkedCol(""), linkedTextColor(""), visible(true) { };
 				Column(const std::string &title, int id, GType gtype, TreeView::columnType type, int width, const std::string &linkedCol = "") :
-					title(title), id(id), gtype(gtype), type(type), width(width), pos(id), linkedCol(linkedCol), visible(true) {};
+					title(title), id(id), gtype(gtype), type(type), width(width), pos(id), linkedCol(linkedCol), visible(true),
+					renderer(NULL), renderer2(NULL) , column(NULL), linkedTextColor("") {};
 				Column(const std::string &title, int id, GType gtype, TreeView::columnType type, int width,
 					const std::string &linkedCol, const std::string &linkedTextColor) :
 					title(title),
@@ -103,9 +105,13 @@ class TreeView
 					pos(id),
 					linkedCol(linkedCol),
 					linkedTextColor(linkedTextColor),
-					visible(true) {};
+					visible(true),
+					column(NULL),
+					renderer(NULL),
+					renderer2(NULL) {};
 				Column(const std::string &title, int id, GType gtype) :
-					title(title), id(id), gtype(gtype), pos(id) {};
+					title(title), id(id), gtype(gtype), pos(id), type((TreeView::columnType)0),
+					column(NULL), renderer(NULL), renderer2(NULL), visible(true), width(0) {};
 				std::string title;
 				int id;
 				GType gtype;

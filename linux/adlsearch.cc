@@ -162,7 +162,7 @@ void SearchADL::show()
 
 void SearchADL::onRemoveClicked_gui(GtkWidget *widget, gpointer data)
 {
-	SearchADL *s = (SearchADL *)data;
+	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 
 	GtkTreeIter iter;
 	if (gtk_tree_selection_get_selected(s->searchADLSelection, NULL, &iter))
@@ -182,7 +182,7 @@ void SearchADL::onRemoveClicked_gui(GtkWidget *widget, gpointer data)
 
 void SearchADL::onAddClicked_gui(GtkWidget *widget, gpointer data)
 {
-	SearchADL *s = (SearchADL *)data;
+	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 
 	ADLSearch search;
 	if (showPropertiesDialog_gui(search, false, s))
@@ -215,7 +215,7 @@ void SearchADL::onAddClicked_gui(GtkWidget *widget, gpointer data)
 
 void SearchADL::onPropertiesClicked_gui(GtkWidget *widget, gpointer data)
 {
-	SearchADL *s = (SearchADL *)data;
+	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 
 	GtkTreeIter iter;
 	if (gtk_tree_selection_get_selected(s->searchADLSelection, NULL, &iter))
@@ -409,7 +409,7 @@ bool SearchADL::showPropertiesDialog_gui(ADLSearch &search, bool edit, SearchADL
 
 void SearchADL::onMoveUpClicked_gui(GtkWidget *widget, gpointer data)
 {
-	SearchADL *s = (SearchADL *)data;
+	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 
 	GtkTreeIter prev, current;
 	GtkTreeModel *m = GTK_TREE_MODEL(s->searchADLStore);
@@ -441,7 +441,7 @@ void SearchADL::onMoveUpClicked_gui(GtkWidget *widget, gpointer data)
 
 void SearchADL::onMoveDownClicked_gui(GtkWidget *widget, gpointer data)
 {
-	SearchADL *s = (SearchADL *)data;
+	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 
 	GtkTreeIter current, next;
 	GtkTreeSelection *sel = gtk_tree_view_get_selection(s->searchADLView.get());
@@ -471,7 +471,7 @@ void SearchADL::onMoveDownClicked_gui(GtkWidget *widget, gpointer data)
 
 void SearchADL::onActiveToggled_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data)
 {
-	SearchADL *s = (SearchADL *)data;
+	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 	GtkTreeIter iter;
 
 	if (gtk_tree_model_get_iter_from_string(GTK_TREE_MODEL(s->searchADLStore), &iter, path))
@@ -496,7 +496,7 @@ void SearchADL::onActiveToggled_gui(GtkCellRendererToggle *cell, gchar *path, gp
 
 gboolean SearchADL::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	SearchADL *s = (SearchADL *)data;
+	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 	s->previous = event->type;
 
 	if (event->button == 3)
@@ -517,7 +517,7 @@ gboolean SearchADL::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event
 
 gboolean SearchADL::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	SearchADL *s = (SearchADL *)data;
+	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 
 	if (gtk_tree_selection_get_selected(s->searchADLSelection, NULL, NULL))
 	{
@@ -538,7 +538,7 @@ gboolean SearchADL::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *even
 
 gboolean SearchADL::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
-	SearchADL *s = (SearchADL *)data;
+	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 
 	if (gtk_tree_selection_get_selected(s->searchADLSelection, NULL, NULL))
 	{
@@ -585,8 +585,10 @@ int SearchADL::find_rawInt(int raw)
   return _raw;
 }
 
-void SearchADL::onToggleOveride(GtkWidget *widget,gpointer data) {
-	SearchADL *s = (SearchADL *)data;
+void SearchADL::onToggleOveride(GtkWidget *widget, gpointer data) 
+{
+	
+	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 
 	gtk_widget_set_sensitive(s->getWidget("checkFromFav"), s->sens);
 	gtk_widget_set_sensitive(s->getWidget("entryKick"), s->sens);
@@ -597,7 +599,7 @@ void SearchADL::onToggleOveride(GtkWidget *widget,gpointer data) {
 
 void SearchADL::onToggleActions(GtkWidget *widget, gpointer data)
 {
-	SearchADL *s = (SearchADL *)data;
+	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 	gtk_widget_set_sensitive(s->getWidget("comboboxAction"), s->acts);
 	gtk_widget_set_sensitive(s->getWidget("checkAction"), s->acts);
 	s->acts = !s->acts;
@@ -605,7 +607,7 @@ void SearchADL::onToggleActions(GtkWidget *widget, gpointer data)
 
 void SearchADL::onChangeCombo(GtkWidget *widget, gpointer data)
 {
-    SearchADL *s = (SearchADL *)data;
+    SearchADL *s = reinterpret_cast<SearchADL *>(data);
     gint type;
     type = gtk_combo_box_get_active(GTK_COMBO_BOX(widget));
     if(!s->forbid) {
@@ -629,9 +631,9 @@ void SearchADL::onChangeCombo(GtkWidget *widget, gpointer data)
 
 void SearchADL::onToggleForb(GtkWidget *widget, gpointer data)
 {
-	SearchADL *s = (SearchADL *)data;
-    string tmp;
-    gint type;
+	SearchADL *s = reinterpret_cast<SearchADL *>(data);
+	string tmp;
+	gint type;
 
 	gtk_widget_set_sensitive(s->getWidget("checkcasesensitive"), s->forbid);
 	gtk_widget_set_sensitive(s->getWidget("checkoveride1"), s->forbid);

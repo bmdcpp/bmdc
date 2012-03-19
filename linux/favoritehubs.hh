@@ -19,8 +19,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef WULFOR_FAVORITE_HUBS_HH
-#define WULFOR_FAVORITE_HUBS_HH
+#ifndef FAVORITE_HUBS_HH
+#define FAVORITE_HUBS_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
@@ -74,7 +74,7 @@ class FavoriteHubs:
 		static void onManageGroupsClicked_gui(GtkWidget *widget, gpointer data);
 		static gboolean onGroupsButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onGroupsKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
-		
+
 		static void onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
 
 		// Client functions

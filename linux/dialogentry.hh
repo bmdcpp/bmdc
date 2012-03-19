@@ -27,7 +27,7 @@
 class DialogEntry : public Entry
 {
 	public:
-		DialogEntry() {}
+		DialogEntry() : parent(NULL) {}
 		DialogEntry(const EntryType type, const std::string &glade, GtkWindow* parent = NULL);
 		virtual ~DialogEntry();
 

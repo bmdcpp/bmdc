@@ -337,6 +337,7 @@ void ClientManager::putOnline(OnlineUser* ou) noexcept {
 
 	if(!ou->getUser()->isOnline()) {
 		ou->getUser()->setFlag(User::ONLINE);
+		ou->initializeData(); //RSX++-like
 		fire(ClientManagerListener::UserConnected(), ou->getUser());
 	}
 }
@@ -360,6 +361,7 @@ void ClientManager::putOffline(OnlineUser* ou, bool disconnect) noexcept {
 	if(lastUser) {
 		UserPtr& u = ou->getUser();
 		u->unsetFlag(User::ONLINE);
+		u->unsetFlag(User::PROTECT);
 		if(disconnect)
 			ConnectionManager::getInstance()->disconnect(u);
 		fire(ClientManagerListener::UserDisconnected(), u);

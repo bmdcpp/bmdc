@@ -17,8 +17,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef IGNORE_USERS_HH
-#define IGNORE_USERS_HH
+#ifndef BMDC_IGNORE_USERS_HH
+#define BMDC_IGNORE_USERS_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
@@ -43,7 +43,6 @@ class IgnoreUsers:
 		typedef std::unordered_map<std::string, GtkTreeIter> UserIters;
 
 		// GUI functions
-
 		bool findUser_gui(const std::string &cid, GtkTreeIter *iter);
 		void updateFavoriteUser_gui(ParamMap params);
 		void removeFavoriteUser_gui(const std::string cid);

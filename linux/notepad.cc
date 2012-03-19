@@ -1,6 +1,6 @@
 //      notepad.cc
 //
-//      Copyright 2011 - 2012 Mank <Mank1@seznam.cz>
+//      Copyright 2011 - 2012 Mank <Mank1 at seznam dot cz>
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ notepad::~notepad()
 {
 	GtkTextIter start;
 	GtkTextIter end;
-	
+
 	gchar *text;
 	/* Obtain iters for the start and end of points of the buffer */
 	gtk_text_buffer_get_start_iter (buffer, &start);
@@ -46,9 +46,9 @@ notepad::~notepad()
 	std::string stext ;
 	stext.assign(text);
 
-  try {
+    try {
 		string configFile = dcpp::Util::getNotepadFile();
-	
+
 		File out(configFile + ".tmp", File::WRITE, File::CREATE | File::TRUNCATE);
 		out.write(stext);
 		out.flush();
@@ -71,7 +71,7 @@ void notepad::add_gui(string file)
 void notepad::ini_client()
 {
 	try {
-		string 	path = dcpp::Util::getNotepadFile();
+		string path = dcpp::Util::getNotepadFile();
 
 		File f(path,File::READ,File::OPEN);
 		//add to GUI

@@ -16,14 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef SPLASH_HH
-#define SPLASH_HH
+#ifndef BMDC_SPLASH_HH
+#define BMDC_SPLASH_HH
+
 using namespace std;
 
 class Splash
 {
 	public:
-		Splash() { }
+		Splash() : win(NULL), label(NULL), box(NULL), image(NULL) { }
 		void show() {
 			win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 			gtk_window_set_decorated(GTK_WINDOW(win),FALSE);
@@ -41,28 +42,28 @@ class Splash
 			gtk_widget_show_now(label);
 			gtk_widget_show_now(box);
 			gtk_widget_show_now(win);
-			update();	
+			update();
 		}
 		~Splash() {	}
-	
+
 	void setText(const string &text) { if(text.empty())return;
 								Text = text;
 							}
-	
-	void update() { 	
-						gtk_label_set_text(GTK_LABEL(label),("Loading ..."+Text).c_str()); 
+
+	void update() {
+						gtk_label_set_text(GTK_LABEL(label),("Loading ..."+Text).c_str());
 						 while (gtk_events_pending ())
 							gtk_main_iteration_do (FALSE);
 				 }
 	void destroy() {gtk_widget_destroy(win);}
-	
-	private: 
+
+	private:
 		string Text;
 		GtkWidget *win;
 		GtkWidget *label;
 		GtkWidget *box;
 		GtkWidget *image;
-		
+
 };
 #else
 class Splash;

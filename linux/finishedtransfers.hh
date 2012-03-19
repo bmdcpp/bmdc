@@ -67,7 +67,6 @@ class FinishedTransfers:
 		// Client functions
 		void initializeList_client();
 		void getFinishedParams_client(const dcpp::FinishedFileItemPtr &item, const std::string &file,  dcpp::StringMap &params);
-// 		void getFinishedParams_client(const dcpp::FinishedUserItemPtr &item, const dcpp::UserPtr &user,  dcpp::StringMap &params);
 		void getFinishedParams_client(const dcpp::FinishedUserItemPtr &item, const dcpp::HintedUser &user,
 			dcpp::StringMap &params);//NOTE: core 0.762
 		void removeFile_client(std::string target);
@@ -86,12 +85,9 @@ class FinishedTransfers:
 
 		// Client callbacks
 		virtual void on(dcpp::FinishedManagerListener::AddedFile, bool upload, const std::string &file, const dcpp::FinishedFileItemPtr &item) throw();
-// 		virtual void on(dcpp::FinishedManagerListener::AddedUser, bool upload, const dcpp::UserPtr &user, const dcpp::FinishedUserItemPtr &item) throw();
 		virtual void on(dcpp::FinishedManagerListener::AddedUser, bool upload, const dcpp::HintedUser &user, const dcpp::FinishedUserItemPtr &item) throw();//NOTE: core 0.762
 		virtual void on(dcpp::FinishedManagerListener::UpdatedFile, bool upload, const std::string &file, const dcpp::FinishedFileItemPtr &item) throw();
 		virtual void on(dcpp::FinishedManagerListener::RemovedFile, bool upload, const std::string &file) throw();
-// 		virtual void on(dcpp::FinishedManagerListener::UpdatedUser, bool upload, const dcpp::UserPtr &user) throw();
-// 		virtual void on(dcpp::FinishedManagerListener::RemovedUser, bool upload, const dcpp::UserPtr &user) throw();
 		virtual void on(dcpp::FinishedManagerListener::UpdatedUser, bool upload, const dcpp::HintedUser &user) throw();//NOTE: core 0.762
 		virtual void on(dcpp::FinishedManagerListener::RemovedUser, bool upload, const dcpp::HintedUser &user) throw();//NOTE: core 0.762
 		/* virtual void on(dcpp::FinishedManagerListener::RemoveAll, bool upload) throw();  Implement? */

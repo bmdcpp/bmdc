@@ -200,14 +200,14 @@ void cmddebug::UpdateCombo(Client* c, bool add)
 		
 void cmddebug::onScroll_gui(GtkAdjustment *adjustment, gpointer data)
 {
-    cmddebug *cmd = (cmddebug *)data;
+    cmddebug *cmd = reinterpret_cast<cmddebug *>(data);
     gdouble value = gtk_adjustment_get_value(adjustment);
     cmd->scrollToBottom = value >= (adjustment->upper-adjustment->page_size);
 }
 
 void cmddebug::onResize_gui(GtkAdjustment *adjustment, gpointer data)
 {
-    cmddebug *cmd = (cmddebug *)data;
+    cmddebug *cmd = reinterpret_cast<cmddebug *>(data);
     gdouble value = gtk_adjustment_get_value(adjustment);
 
     if (cmd->scrollToBottom && value < (adjustment->upper-adjustment->page_size))
@@ -221,7 +221,7 @@ void cmddebug::onResize_gui(GtkAdjustment *adjustment, gpointer data)
 
 void cmddebug::onClearButton(GtkWidget *widget, gpointer data)
 {
-	cmddebug *cmd = (cmddebug *)data;
+	cmddebug *cmd = reinterpret_cast<cmddebug *>(data);
 	GtkTextIter startIter, endIter;
 	gtk_text_buffer_get_start_iter(cmd->buffer, &startIter);
 	gtk_text_buffer_get_end_iter(cmd->buffer, &endIter);

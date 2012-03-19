@@ -74,7 +74,6 @@ class DownloadQueue:
 		static void onFileRemoveClicked_gui(GtkMenuItem *menuitem, gpointer data);
 
 		// Client functions
-		//void buildList_client();
 		void addQueueList(const dcpp::QueueItem::StringMap& ll);
 		void move_client(std::string source, std::string target);
 		void moveDir_client(std::string source, std::string target);

@@ -255,7 +255,7 @@ class Settings:
 		void applyTextTheme(bool useDefault = FALSE);
 		
 		dcpp::ColorList pList;
-		gboolean isSensitiveHG[3];
+		gboolean isSensitiveHG[4];
 		void setColorRow(std::string cell);
 };
 

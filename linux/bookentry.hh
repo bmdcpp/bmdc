@@ -19,15 +19,17 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef WULFOR_BOOK_ENTRY_HH
-#define WULFOR_BOOK_ENTRY_HH
+#ifndef BMDC_BOOK_ENTRY_HH
+#define BMDC_BOOK_ENTRY_HH
 
 #include "entry.hh"
 
 class BookEntry : public Entry
 {
 	public:
-		BookEntry() {}
+		BookEntry(): bold(false), urgent(false), eventBox(NULL),
+				labelBox(NULL), tabMenuItem(NULL),	closeButton(NULL),
+				label(NULL),popTabMenuItem(NULL), icon(NULL) { }
 		BookEntry(const EntryType type, const std::string &text, const std::string &glade, const std::string &id = "");
 		virtual ~BookEntry()
 		{

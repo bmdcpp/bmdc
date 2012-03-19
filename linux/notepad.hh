@@ -1,6 +1,6 @@
 //      notepad.cc
 //
-//      Copyright 2011 - 2012 Mank <Mank1@seznam.cz>
+//      Copyright 2011 - 2012 Mank <Mank1 at seznam dot cz>
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //      MA 02110-1301, USA.
 
-#ifndef NOTEPAD_HH
-#define NOTEPAD_HH
+#ifndef BMDC_NOTEPAD_HH
+#define BMDC_NOTEPAD_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
@@ -40,7 +40,6 @@ class notepad:
 
 		GtkTextBuffer *buffer;
 		std::string file;
-		bool usefile;
 };
 
 #else

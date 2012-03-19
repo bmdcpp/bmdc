@@ -129,7 +129,7 @@ accept_new_connection (BaconMessageConnection *server_conn)
 static gboolean
 server_cb (GIOChannel *source, GIOCondition condition, gpointer data)
 {
-	BaconMessageConnection *conn = (BaconMessageConnection *)data;
+	BaconMessageConnection *conn = reinterpret_cast<BaconMessageConnection *>(data);
 	char *message, *subs, buf;
 	int cd, rc, offset;
 	gboolean finished;
@@ -337,7 +337,7 @@ bacon_message_connection_free (BaconMessageConnection *conn)
 
 	child_conn = conn->accepted_connections;
 	while (child_conn != NULL) {
-		bacon_message_connection_free ((BaconMessageConnection*)child_conn->data);
+		bacon_message_connection_free (reinterpret_cast<BaconMessageConnection *>(child_conn->data));
 		child_conn = g_slist_next (child_conn);
 	}
 	g_slist_free (conn->accepted_connections);

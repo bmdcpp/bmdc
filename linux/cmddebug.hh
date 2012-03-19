@@ -1,5 +1,5 @@
 /*
- * Copyright © 2010-2012 Mank <freedcpp@seznam.cz>
+ * Copyright © 2010-2012 Mank <freedcpp at seznam dot cz>
  * Copyright © 2010-2011 Eugene Petrov <dhamp@ya.ru>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -102,8 +102,8 @@ class cmddebug:
 					 if(strcmp(string,ip.c_str()) == 0)
                 //if (strcmp(gtk_entry_get_text(GTK_ENTRY(getWidget("entrybyip"))),ip.c_str()) == 0)
 						cmdList.push_back(cmd);
-                    
-               }     
+
+               }
             }
             else
                 cmdList.push_back(cmd);

@@ -29,8 +29,16 @@ GSList* BookEntry::group = NULL;
 
 BookEntry::BookEntry(const EntryType type, const string &text, const string &glade, const string &id):
 	Entry(type, glade, id),
-	bold(FALSE),
-	urgent(FALSE)
+	bold(false),
+	urgent(false),
+	eventBox(NULL),
+	labelBox(NULL),
+	tabMenuItem(NULL),
+	closeButton(NULL),
+	label(NULL),
+	popTabMenuItem(NULL),
+	icon(NULL)
+	
 {
 	labelBox = gtk_hbox_new(FALSE, 5);
 
@@ -50,9 +58,9 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 
 	// Align text to the left (x = 0) and in the vertical center (0.5)
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-    if(WGETB("use-close-button"))
-    {
-    	closeButton = gtk_button_new();
+     if(WGETB("use-close-button"))
+     {
+	   closeButton = gtk_button_new();
         gtk_button_set_relief(GTK_BUTTON(closeButton), GTK_RELIEF_NONE);
         gtk_button_set_focus_on_click(GTK_BUTTON(closeButton), FALSE);
 
@@ -87,7 +95,7 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	// Associates entry to the widget for later retrieval in MainWindow::switchPage_gui()
 	g_object_set_data(G_OBJECT(getContainer()), "entry", (gpointer)this);
 
-    g_signal_connect(getLabelBox(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
+     g_signal_connect(getLabelBox(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
 	g_signal_connect(getLabelBox(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 }
 
@@ -236,7 +244,7 @@ const string& BookEntry::getLabelText()
 //BMDC++
 void BookEntry::onCloseItem(gpointer data)
 {
-    BookEntry *book = (BookEntry *)data;
+     BookEntry *book = reinterpret_cast<BookEntry *>(data);
 	book->removeBooK_GUI();
 }
 
@@ -258,14 +266,14 @@ GtkWidget *BookEntry::createmenu()
 
 gboolean BookEntry::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	BookEntry *book = (BookEntry *)data;
+	BookEntry *book = reinterpret_cast<BookEntry *>(data);
 	book->previous = event->type;
 	return FALSE;
 }
 
 gboolean BookEntry::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	BookEntry *book = (BookEntry *)data;
+	BookEntry *book = reinterpret_cast<BookEntry *>(data);
 
 	if (event->button == 3 && event->type == GDK_BUTTON_RELEASE)
 	{
@@ -273,7 +281,7 @@ gboolean BookEntry::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *even
 		book->createmenu();
 		gtk_widget_show(book->popTabMenuItem);
 		g_object_ref_sink(book->popTabMenuItem);
-        gtk_menu_popup(GTK_MENU(book->popTabMenuItem),NULL, NULL, NULL,NULL,0,0);
+          gtk_menu_popup(GTK_MENU(book->popTabMenuItem),NULL, NULL, NULL,NULL,0,0);
 	}
 	return FALSE;
 }

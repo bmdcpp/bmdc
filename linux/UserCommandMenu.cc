@@ -155,7 +155,7 @@ void UserCommandMenu::createSubMenu_gui(GtkWidget *&menu, string &command)
 
 void UserCommandMenu::onUserCommandClick_gui(GtkMenuItem *item, gpointer data)
 {
-	UserCommandMenu *ucm = (UserCommandMenu *)data;
+	UserCommandMenu *ucm = reinterpret_cast<UserCommandMenu *>(data);
 	string command = (gchar *)g_object_get_data(G_OBJECT(item), "command");
 	ParamMap params;
 	typedef Func4<UserCommandMenu, string, string, string, ParamMap> F4;

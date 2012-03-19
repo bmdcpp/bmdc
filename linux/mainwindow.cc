@@ -31,10 +31,13 @@
 #include <dcpp/Download.h>
 #include <dcpp/ClientManager.h>
 #include <dcpp/MappingManager.h>
-//#include <dcpp/UPnPManager.h>//NOTE: core 0.762
 #include <dcpp/GeoManager.h>
 #include <dcpp/HttpDownload.h>
 #include <dcpp/version.h>
+#include <dcpp/ThrottleManager.h>
+#ifdef _USELUA
+	#include <dcpp/ScriptManager.h>
+#endif
 #include "downloadqueue.hh"
 #include "favoritehubs.hh"
 #include "favoriteusers.hh"
@@ -53,10 +56,6 @@
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
 #include "version.hh"
-#ifdef _USELUA
-	#include <dcpp/ScriptManager.h>
-#endif
-#include <dcpp/ThrottleManager.h>
 #include "ignoreusers.hh"
 #include "System.hh"
 #include "cmddebug.hh"
@@ -68,6 +67,23 @@
 
 using namespace std;
 using namespace dcpp;
+
+void* MainWindow::icons[(MainWindow::IconsToolbar)END][4] =
+{
+{ ((void*)(MainWindow::IconsToolbar)MainWindow::QUICKCON),(void*)"bmdc-connect",(void*)"bmdc-connect-on",(void*)"connect"},
+{ ((void*)(MainWindow::IconsToolbar)MainWindow::FAVORITE_HUBS), (void*)"bmdc-favorite-hubs",(void*)"bmdc-favorite-hubs-on",(void*)"favHubs"},
+{ ((void*)(MainWindow::IconsToolbar)MainWindow::FAVORITE_USERS), (void*)"bmdc-favorite-users",(void*)"bmdc-favorite-users-on",(void*)"favUsers"},
+{ ((void*)(MainWindow::IconsToolbar)MainWindow::IGNORE_USERS), (void*)"bmdc-ignore-users",(void*)"bmdc-ignore-users-on",(void*)"ignUser"},
+{ ((void*)(MainWindow::IconsToolbar)MainWindow::PUBLIC_HUBS), (void*)"bmdc-public-hubs",(void*)"bmdc-public-hubs-on",(void*)"publicHubs"},
+{ ((void*)(MainWindow::IconsToolbar)MainWindow::SEARCH_ADL), (void*)"bmdc-search-adl",(void*)"bmdc-search-adl-on",(void*)"searchADL"},
+{ ((void*)(MainWindow::IconsToolbar)MainWindow::SEARCH_SPY), (void*)"bmdc-search-spy",(void*)"bmdc-search-spy-on",(void*)"searchSpy"},
+{ ((void*)(MainWindow::IconsToolbar)MainWindow::QUEUE), (void*)"bmdc-queue",(void*)"bmdc-queue-on",(void*)"queue"},
+{ ((void*)(MainWindow::IconsToolbar)MainWindow::FDOWNLOADS), (void*)"bmdc-finished-downloads",(void*)"bmdc-finished-downloads-on",(void*)"finishedDownloads"},
+{ ((void*)(MainWindow::IconsToolbar)MainWindow::FUPLOADS), (void*)"bmdc-finished-uploads",(void*)"bmdc-finished-uploads-on",(void*)"finishedUploads"},
+{ ((void*)(MainWindow::IconsToolbar)MainWindow::NOTEPAD), (void*)"bmdc-notepad",(void*)"bmdc-notepad-on",(void*)"notepad"},
+{ ((void*)(MainWindow::IconsToolbar)MainWindow::SYSTEM), (void*)"bmdc-system",(void*)"bmdc-system-on",(void*)"system"},
+{ ((void*)(MainWindow::IconsToolbar)MainWindow::AWAY), (void*)"bmdc-away",(void*)"bmdc-away-on",(void*)"AwayIcon"}
+};
 
 MainWindow::MainWindow():
 	Entry(Entry::MAIN_WINDOW, "mainwindow.glade"),
@@ -712,7 +728,40 @@ void MainWindow::removeItemFromList(Entry::EntryType type, string id)
 	vector<Search*> searchs;
 	switch(type)
 	{
-		case HUB:
+		case Entry::FAVORITE_HUBS:
+			setStatusOfIcons(FAVORITE_HUBS,false);
+			break;	
+		case Entry::FAVORITE_USERS:
+			setStatusOfIcons(FAVORITE_USERS,false);
+			break;
+		case Entry::IGNORE_USERS:
+			setStatusOfIcons(IGNORE_USERS,false);
+			break;
+		case Entry::PUBLIC_HUBS:
+			setStatusOfIcons(PUBLIC_HUBS,false);
+			break;
+		case Entry::NOTEPAD:
+			setStatusOfIcons(NOTEPAD,false);
+			break;
+		case Entry::SYSTEML:
+			setStatusOfIcons(SYSTEM,false);
+			break;
+		case Entry::FINISHED_DOWNLOADS:
+			setStatusOfIcons(FDOWNLOADS,false);
+			break;
+		case Entry::FINISHED_UPLOADS:
+			setStatusOfIcons(FUPLOADS,false);
+			break;
+		case Entry::SEARCH_ADL:
+			setStatusOfIcons(SEARCH_ADL,false);
+			break;
+		case Entry::SEARCH_SPY:
+			setStatusOfIcons(SEARCH_SPY,false);
+			break;
+		case Entry::DOWNLOAD_QUEUE:
+			setStatusOfIcons(QUEUE,false);
+			break;	
+		case Entry::HUB:
 			if(Hubs.empty()) break;
 			 for(vector<Hub*>::const_iterator it = Hubs.begin();it != Hubs.end();++it)
 			 {
@@ -724,7 +773,7 @@ void MainWindow::removeItemFromList(Entry::EntryType type, string id)
 			 }
 			 Hubs = hubs;
 			 break;
-		case PRIVATE_MESSAGE:
+		case Entry::PRIVATE_MESSAGE:
 			if(privateMessage.empty()) break;
 			for(vector<PrivateMessage*>::const_iterator it = privateMessage.begin();it != privateMessage.end();++it)
 			 {
@@ -735,7 +784,7 @@ void MainWindow::removeItemFromList(Entry::EntryType type, string id)
 			 }
 			 privateMessage = pms;
 			 break;
-		case SEARCH:
+		case Entry::SEARCH:
 			if(search.empty()) break;
 			for(vector<Search*>::const_iterator it = search.begin();it != search.end();++it)
 			 {
@@ -906,21 +955,25 @@ void MainWindow::showBook(const T& type, const B& book)
 void MainWindow::showDownloadQueue_gui()
 {
 	showBook<Entry::EntryType,BookEntry *>(Entry::DOWNLOAD_QUEUE,new DownloadQueue());
+	setStatusOfIcons(QUEUE,true);
 }
 
 void MainWindow::showFavoriteHubs_gui()
 {
 	showBook<Entry::EntryType, BookEntry *>(Entry::FAVORITE_HUBS, new FavoriteHubs());
+	setStatusOfIcons(FAVORITE_HUBS,true);
 }
 
 void MainWindow::showFavoriteUsers_gui()
 {
 	showBook<Entry::EntryType, BookEntry *>(Entry::FAVORITE_USERS, new FavoriteUsers());
+	setStatusOfIcons(FAVORITE_USERS,true);
 }
 //BMDC++
 void MainWindow::showIgnoreUsers_gui()
 {
 	showBook<Entry::EntryType, BookEntry *>(Entry::IGNORE_USERS, new IgnoreUsers());
+	setStatusOfIcons(IGNORE_USERS,true);
 }
 
 void MainWindow::showCmdDebug_gui()
@@ -931,11 +984,13 @@ void MainWindow::showCmdDebug_gui()
 void MainWindow::showSystemLog_gui()
 {
 	showBook<Entry::EntryType, BookEntry *>(Entry::SYSTEML, new systemlog());
+	setStatusOfIcons(SYSTEM,true);
 }
 
 void MainWindow::showNotepad_gui()
 {
 	showBook<Entry::EntryType, BookEntry *>(Entry::NOTEPAD, new notepad());
+	setStatusOfIcons(NOTEPAD,true);
 }
 
 void MainWindow::showUploadQueue_gui()
@@ -956,11 +1011,13 @@ void MainWindow::showDetection_gui()
 void MainWindow::showFinishedDownloads_gui()
 {
 	showBook<Entry::EntryType, BookEntry *>(Entry::FINISHED_DOWNLOADS, FinishedTransfers::createFinishedDownloads());
+	setStatusOfIcons(FDOWNLOADS,true);
 }
 
 void MainWindow::showFinishedUploads_gui()
 {
 	showBook<Entry::EntryType, BookEntry *>(Entry::FINISHED_UPLOADS, FinishedTransfers::createFinishedUploads());
+	setStatusOfIcons(FUPLOADS,true);
 }
 
 void MainWindow::showHub_gui(string address, string encoding)
@@ -982,11 +1039,13 @@ void MainWindow::showHub_gui(string address, string encoding)
 void MainWindow::showSearchSpy_gui()
 {
 	showBook<Entry::EntryType, BookEntry *>(Entry::SEARCH_SPY, new SearchSpy());
+	setStatusOfIcons(SEARCH_SPY,true);
 }
 
 void MainWindow::showSearchADL_gui()
 {
 	showBook<Entry::EntryType, BookEntry *>(Entry::SEARCH_ADL, new SearchADL());
+	setStatusOfIcons(SEARCH_ADL,true);
 }
 
 void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string hubUrl, string message, bool useSetting)
@@ -1086,6 +1145,7 @@ void MainWindow::addPrivateStatusMessage_gui(Msg::TypeMsg typemsg, string cid, s
 void MainWindow::showPublicHubs_gui()
 {
 	showBook<Entry::EntryType, BookEntry *>(Entry::PUBLIC_HUBS, new PublicHubs());
+	setStatusOfIcons(PUBLIC_HUBS,true);
 }
 
 void MainWindow::showShareBrowser_gui(UserPtr user, string filename, string dir, int64_t speed ,bool useSetting)
@@ -2203,18 +2263,23 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 void MainWindow::onAwayClicked_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
+	typedef Func1<MainWindow, bool> F1;
 	if(Util::getAway())
 	{
 		Util::switchAway();
 		Util::setManualAway(false);
 		mw->setMainStatus_gui(_("Away mode off"), time(NULL));
-		mw->setAwayIcon(false);
+		
+		F1 *func = new F1(mw,&MainWindow::setAwayIcon,false);
+		WulforManager::get()->dispatchGuiFunc(func);
+		
 	}else
 	{
 		Util::switchAway();
 		Util::setManualAway(true);
 		mw->setMainStatus_gui(_("Away mode on"), time(NULL));
-		mw->setAwayIcon(true);
+		F1 *func = new F1(mw,&MainWindow::setAwayIcon,true);
+		WulforManager::get()->dispatchGuiFunc(func);
 	}
 }
 

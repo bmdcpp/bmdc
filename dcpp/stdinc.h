@@ -20,6 +20,7 @@
 #define DCPLUSPLUS_DCPP_STDINC_H
 
 #include "compiler.h"
+#include "nullptr.h"
 
 #ifndef BZ_NO_STDIO
 #define BZ_NO_STDIO 1
