@@ -261,7 +261,7 @@ class MainWindow:
 		Transfers* transfers;
 		GtkStatusIcon *statusIcon;
 		#if !GTK_CHECK_VERSION(2, 12, 0)
-		GtkTooltips *statusTips;
+			GtkTooltips *statusTips;
 		#endif
 		int64_t lastUpdate, lastUp, lastDown;
 		bool minimized;
@@ -298,6 +298,28 @@ class MainWindow:
                 s.signal();
             }
         };
+        
+        void back(std::string TTH, std::string filename, int64_t size);
+        void progress(bool progress);
+        struct TTHHash: public dcpp::Thread
+        {
+			public:
+				bool stop;
+				dcpp::Semaphore s;
+				dcpp::CriticalSection cs;
+				std::string filename;
+				MainWindow *mw;
+				TTHHash(): stop(true) { }
+				~TTHHash() noexcept
+				{ shutdown();}
+				void shutdown()
+				{
+					stop = true;
+					s.signal();	
+				}
+				int run();
+		};
+		TTHHash hasht;
 
 		enum
 		{

@@ -2797,7 +2797,7 @@ void MainWindow::onTTHFileButton_gui(GtkWidget *widget , gpointer data)
 	if (response == GTK_RESPONSE_OK)
 	{
 		gchar *temp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
-		string TTH;
+		/*string TTH;
 		char *buf = new char[512*1024];
 		try {
 			File f(Text::fromT(string(temp)),File::READ, File::OPEN);
@@ -2822,9 +2822,84 @@ void MainWindow::onTTHFileButton_gui(GtkWidget *widget , gpointer data)
 
 		}
 		catch(...)
-		{ }
+		{ }*/
+		gtk_widget_set_sensitive(mw->getWidget("buttonok"),FALSE);
+		if(mw->hasht.stop)
+		{
+			mw->hasht.stop = false;
+			Lock l(mw->hasht.cs);
+			mw->hasht.mw = mw;
+			mw->hasht.filename = temp;
+			mw->hasht.start();
+			mw->hasht.s.signal();
+		}
 	}
 }
+
+void MainWindow::back(string TTH, string filename, int64_t size)
+{
+	string magnetlink = "magnet:?xt=urn:tree:tiger:" + TTH + "&xl=" + Util::toString(size) + "&dn=" + Util::encodeURI(Text::fromT(Util::getFileName(filename)));
+	gtk_entry_set_text(GTK_ENTRY(getWidget("entrymagnet")), magnetlink.c_str());
+	gtk_entry_set_text(GTK_ENTRY(getWidget("entrytthfileresult")), TTH.c_str());	
+}
+
+void MainWindow::progress(bool progress)
+{
+	if(progress)
+		gtk_progress_bar_pulse (GTK_PROGRESS_BAR (getWidget("progressbar")));
+	else 
+	{
+		gtk_widget_set_sensitive(getWidget("buttonok"),TRUE);	
+		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(getWidget("progressbar")),"Done");	
+	}
+}
+
+int MainWindow::TTHHash::run()
+{
+		setThreadPriority(Thread::LOW);
+		while(true) {
+				s.wait(15000);
+				if(stop)
+						break;
+				string TTH;
+				char *buf = new char[512*1024];
+				int64_t sized = 0;
+				try {
+						File f(Text::fromT(filename),dcpp::File::READ, dcpp::File::OPEN);
+						TigerTree tth(TigerTree::calcBlockSize(f.getSize(), 1));
+						sized = f.getSize();
+						if(f.getSize() > 0) {
+						size_t n = 512*1024;
+						while( (n = f.read(&buf[0], n)) > 0) {
+							tth.update(&buf[0], n);
+							n = 512*1024;
+							typedef Func1<MainWindow, bool> F1;
+							F1 *func = new F1(mw,&MainWindow::progress,true);
+							WulforManager::get()->dispatchGuiFunc(func);
+							
+						}
+					} else {
+					tth.update("", 0);
+				}
+					tth.finalize();
+					f.close();
+				strcpy(&TTH[0], tth.getRoot().toBase32().c_str());
+				
+				typedef Func3<MainWindow, std::string, std::string, int64_t> F3;
+				F3 *func = new F3(mw,&MainWindow::back,TTH,filename,sized);
+				WulforManager::get()->dispatchGuiFunc(func);
+				typedef Func1<MainWindow, bool> F1;
+				F1 *func1 = new F1(mw,&MainWindow::progress,false);
+				WulforManager::get()->dispatchGuiFunc(func1);
+			
+			LogManager::getInstance()->message("TTH:" +TTH+"filename: "+filename+"sized: "+dcpp::Util::toString(sized));
+			stop = true;
+		} catch(...) { }	
+	}
+				
+	stop = true;
+	return 0;
+}	
 
 void MainWindow::checkUpdateofGeoIp(bool v6)
 {

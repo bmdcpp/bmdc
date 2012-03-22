@@ -538,6 +538,17 @@
           </packing>
         </child>
         <child>
+          <widget class="GtkProgressBar" id="progressbar">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+          </widget>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">4</property>
+          </packing>
+        </child>
+        <child>
           <placeholder/>
         </child>
       </widget>

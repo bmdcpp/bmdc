@@ -129,7 +129,6 @@ Hub::Hub(const string &address, const string &encoding):
 	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_NORMAL,&color);
 	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_PRELIGHT,&color);
 	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_ACTIVE,&color);
-	//gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_SELECTED,&color);
 	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_INSENSITIVE,&color);
 
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
