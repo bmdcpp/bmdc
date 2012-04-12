@@ -292,7 +292,6 @@ void PrivateMessage::preferences_gui()
 	gtk_widget_modify_base(getWidget("text"),GTK_STATE_NORMAL,&color);
 	gtk_widget_modify_base(getWidget("text"),GTK_STATE_PRELIGHT,&color);
 	gtk_widget_modify_base(getWidget("text"),GTK_STATE_ACTIVE,&color);
-	gtk_widget_modify_base(getWidget("text"),GTK_STATE_SELECTED,&color);
 	gtk_widget_modify_base(getWidget("text"),GTK_STATE_INSENSITIVE,&color);
 }
 

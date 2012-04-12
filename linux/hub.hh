@@ -178,7 +178,7 @@ class Hub:
 		static void on_setImage_tab(GtkButton *widget, gpointer data);
 		static void onToglleButtonIcon(GtkToggleButton *button, gpointer data);
 		//colorize userlist
-		static void makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data);
+		static void makeColor(GtkTreeViewColumn *column, GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data);
 
 		// Client functions
 		void addFavoriteUser_client(const std::string cid);
@@ -218,7 +218,9 @@ class Hub:
 		virtual void on(dcpp::FavoriteManagerListener::UserRemoved, const dcpp::FavoriteUser &user) throw();
 		virtual void on(dcpp::FavoriteManagerListener::IgnoreUserAdded, const dcpp::FavoriteUser &user) noexcept;
 		virtual void on(dcpp::FavoriteManagerListener::IgnoreUserRemoved, const dcpp::FavoriteUser &user) noexcept;
-
+		
+		virtual void on(dcpp::FavoriteManagerListener::FavoriteIAdded, const std::string &nick, dcpp::FavoriteIUser* &user) noexcept;
+		virtual void on(dcpp::FavoriteManagerListener::FavoriteIRemoved, const std::string &nick, dcpp::FavoriteIUser* &user) noexcept;
 		// Client callbacks
 		virtual void on(dcpp::ClientListener::Connecting, dcpp::Client *) throw();
 		virtual void on(dcpp::ClientListener::Connected, dcpp::Client *) throw();

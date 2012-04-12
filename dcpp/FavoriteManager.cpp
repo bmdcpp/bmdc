@@ -39,7 +39,7 @@ using std::make_pair;
 using std::swap;
 
 //RSX++
-FavoriteHubEntry::FavAction::FavAction(bool _enabled, string _raw /*= Util::emptyString*/, int id /*=0*/) noexcept : enabled(_enabled) {
+FavoriteHubEntry::FavAction::FavAction(bool _enabled, string _raw /*= Util::emptyString*/, int id /*=0*/) noexcept: enabled(_enabled) {
 	if(_raw.empty()) return;
 	StringTokenizer<string> tok(_raw, ',');
 	const Action* a = RawManager::getInstance()->findAction(id);
@@ -54,7 +54,7 @@ FavoriteHubEntry::FavAction::FavAction(bool _enabled, string _raw /*= Util::empt
 			}
 		}
 	}
-};
+}
 //END
 
 FavoriteManager::FavoriteManager() : lastId(0), useHttp(false), running(false), c(NULL), lastServer(0), listType(TYPE_NORMAL), dontSave(false) {
@@ -337,7 +337,6 @@ bool FavoriteManager::renameFavoriteDir(const string& aName, const string& anoth
 	return false;
 }
 
-
 void FavoriteManager::addRecent(const RecentHubEntry& aEntry) {
 	RecentHubEntry::Iter i = getRecentHub(aEntry.getServer());
 	if(i != recentHubs.end()) {
@@ -521,7 +520,9 @@ void FavoriteManager::save() {
 			xml.addChildAttrib("Nick", i->second.getNick());
 			xml.addChildAttrib("URL", i->second.getUrl());
 			xml.addChildAttrib("CID", i->first.toBase32());
+			xml.addChildAttrib("HistoryNicks", i->second.getNicks());
 		}
+		
 		xml.stepOut();
 		xml.addTag("IgnoredUsers");
 		xml.stepIn();
@@ -559,7 +560,20 @@ void FavoriteManager::save() {
 			xml.addChildAttrib("Name", i->second);
 		}
 		xml.stepOut();
-
+		
+		xml.addTag("FavoriteIUsers");
+		xml.stepIn();
+		for(auto it = favoritesNoCid.begin();it!= favoritesNoCid.end();++it)
+		{
+			xml.addTag("FavoriteIUser");
+			xml.addChildAttrib("Nick",it->first);
+			xml.addChildAttrib("LastSeen",it->second->getLastSeen());
+			xml.addChildAttrib("Description",it->second->getDescription());
+			xml.addChildAttrib("GrantSlot", it->second->isSet(FavoriteIUser::FLAG_GRANTSLOT));
+		}
+		
+		xml.stepOut();
+		
 		xml.stepOut();
 
 		string fname = getConfigFile();
@@ -756,6 +770,9 @@ void FavoriteManager::load(SimpleXML& aXml) {
 
 			i->second.setLastSeen((uint32_t)aXml.getIntChildAttrib("LastSeen"));
 			i->second.setDescription(aXml.getChildAttrib("UserDescription"));
+			string f = aXml.getChildAttrib("HistoryNicks");
+			StringTokenizer<string> sl(f, ";");
+			i->second.setNicks(sl.getTokens());
 
 		}
 		aXml.stepOut();
@@ -805,6 +822,25 @@ void FavoriteManager::load(SimpleXML& aXml) {
 		}
 		aXml.stepOut();
 	}
+	//Idenpent Fav
+	aXml.resetCurrentChild();
+	if(aXml.findChild("FavoriteIUsers"))
+	{
+		aXml.stepIn();	
+		while(aXml.findChild("FavoriteIUser")) {
+			string nick = aXml.getChildAttrib("Nick");
+			time_t lastSeen = (time_t)aXml.getIntChildAttrib("LastSeen");
+			string desc = aXml.getChildAttrib("Description");
+			addFavoriteIUser(nick,lastSeen, desc);
+			auto iif = favoritesNoCid.find(nick);
+			if(aXml.getBoolChildAttrib("GrantSlot"))
+			{	
+				if(iif != favoritesNoCid.end())
+					iif->second->setFlag(FavoriteUser::FLAG_GRANTSLOT);
+			}
+		}	
+		aXml.stepOut();
+	}	
 
 	dontSave = false;
 	if(needSave)
@@ -835,8 +871,17 @@ void FavoriteManager::userUpdated(const OnlineUser& info) {
 		FavoriteUser& fu = i->second;
 		fu.update(info);
 		fire(FavoriteManagerListener::UserUpdated(), i->second);
-		save();
 	}
+	//Idnepent Fav
+	auto it = favoritesNoCid.find(info.getIdentity().getNick());
+	if(it != favoritesNoCid.end())
+	{
+		FavoriteIUser* fiu = it->second;	
+		fiu->update(info);
+		fire(FavoriteManagerListener::FavoriteIUpdate(), info.getIdentity().getNick(), fiu);
+	}	
+	save();
+	
 }
 
 FavoriteHubEntryPtr FavoriteManager::getFavoriteHubEntry(const string& aServer) const {
@@ -1073,7 +1118,7 @@ UserCommand::List FavoriteManager::getUserCommands(int ctx, const StringList& hu
 
 //Raw Manager
 bool FavoriteManager::getEnabledAction(FavoriteHubEntry* entry, int actionId) {
-	/*FavoriteHubEntry::Iter*/auto h = find(favoriteHubs.begin(), favoriteHubs.end(), entry);
+	auto h = find(favoriteHubs.begin(), favoriteHubs.end(), entry);
 	if(h == favoriteHubs.end())
 		return false;
 
@@ -1087,7 +1132,7 @@ bool FavoriteManager::getEnabledAction(FavoriteHubEntry* entry, int actionId) {
 }
 
 void FavoriteManager::setEnabledAction(FavoriteHubEntry* entry, int actionId, bool enabled) {
-	/*FavoriteHubEntry::Iter*/auto h = find(favoriteHubs.begin(), favoriteHubs.end(), entry);
+	auto h = find(favoriteHubs.begin(), favoriteHubs.end(), entry);
 	if(h == favoriteHubs.end())
 		return;
 
@@ -1101,7 +1146,7 @@ void FavoriteManager::setEnabledAction(FavoriteHubEntry* entry, int actionId, bo
 }
 
 bool FavoriteManager::getEnabledRaw(FavoriteHubEntry* entry, int actionId, int rawId) {
-	/*FavoriteHubEntry::Iter*/auto h = find(favoriteHubs.begin(), favoriteHubs.end(), entry);
+	auto h = find(favoriteHubs.begin(), favoriteHubs.end(), entry);
 	if(h == favoriteHubs.end())
 		return false;
 
@@ -1117,7 +1162,7 @@ bool FavoriteManager::getEnabledRaw(FavoriteHubEntry* entry, int actionId, int r
 }
 
 void FavoriteManager::setEnabledRaw(FavoriteHubEntry* entry, int actionId, int rawId, bool enabled) {
-	/*FavoriteHubEntry::Iter*/auto h = find(favoriteHubs.begin(), favoriteHubs.end(), entry);
+	auto h = find(favoriteHubs.begin(), favoriteHubs.end(), entry);
 	if(h == favoriteHubs.end())
 		return;
 
@@ -1196,16 +1241,15 @@ void FavoriteManager::on(UserDisconnected, const UserPtr& user) noexcept {
 		if(i != users.end()) {
 			i->second.setLastSeen(GET_TIME());
 			fire(FavoriteManagerListener::StatusChanged(), i->second);
-			save();
+			
 		}
 		if(it != ignored_users.end())
 		{
             it->second.setLastSeen(GET_TIME());
             fire(FavoriteManagerListener::IgnoreStatusChanges(),it->second);
-            save();
 		}
+		save();
 	}
-
 }
 
 void FavoriteManager::on(UserConnected, const UserPtr& user) noexcept {
@@ -1220,6 +1264,18 @@ void FavoriteManager::on(UserConnected, const UserPtr& user) noexcept {
 		{
               fire(FavoriteManagerListener::IgnoreStatusChanges(),it->second);
 		}
+		//Idepetn Favorites
+		ClientManager::getInstance()->lock();
+		OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(HintedUser(user,Util::emptyString),false);
+		Identity id = ou->getIdentity();
+		string nick = id.getNick();
+		auto idt =favoritesNoCid.find(nick);
+		if(idt != favoritesNoCid.end())
+		{
+			idt->second->update(ou);
+			fire(FavoriteManagerListener::FavoriteIUpdate(), nick, idt->second);
+		}
+		save();
 	}
 }
 

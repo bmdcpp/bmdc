@@ -20,12 +20,16 @@
 #define DCPLUSPLUS_DCPP_FAVORITE_USER_H
 
 #include "Flags.h"
+#include "FastAlloc.h"
 
 namespace dcpp {
 
 class FavoriteUser : public Flags {
 public:
-	FavoriteUser(const UserPtr& user_, const string& nick_, const string& hubUrl_) : user(user_), nick(nick_), url(hubUrl_), lastSeen(0) { }
+	FavoriteUser(const UserPtr& user_, const string& nick_, const string& hubUrl_) : user(user_), url(hubUrl_), lastSeen(0), nick(nick_) 
+	{ 
+			nicks.insert(make_pair(nick,true));
+	}
 
 	enum Flags {
 		FLAG_GRANTSLOT = 1 << 0
@@ -36,10 +40,61 @@ public:
 	void update(const OnlineUser& info);
 
 	GETSET(UserPtr, user, User);
-	GETSET(string, nick, Nick);
+	//GETSET(string, nick, Nick);
 	GETSET(string, url, Url);
 	GETSET(time_t, lastSeen, LastSeen);
 	GETSET(string, description, Description);
+	
+	void setNick(string _nick)
+	{
+		if(!(nicks.count(_nick) > 1))
+			nicks.insert(make_pair(_nick,true));
+		nick = _nick;
+	}
+	string getNick() const 
+	{ return nick; }
+	
+	string getNicks() const { 
+			string _nicks = Util::emptyString;
+			int num = 0;
+			for(auto it = nicks.begin();it!= nicks.end();++it)
+			{
+					if(num == 0) {
+						_nicks+= it->first;
+					} else {
+						_nicks+= ";"+it->first;
+					}
+				num++;	
+			 }
+				
+		return _nicks+";";
+	}
+	void setNicks(vector<string> _nicks) { 
+			for(auto it = _nicks.begin();it!=_nicks.end();++it)
+		                 nicks.insert(make_pair(*it,true));
+		
+	}
+private:	
+	map<string,bool> nicks;
+	string nick;
+};
+
+class FavoriteIUser : public Flags
+{
+public:
+		
+	enum Flags {
+		FLAG_GRANTSLOT = 1 << 0
+	};
+
+	GETSET(string, description, Description);
+	GETSET(time_t, lastSeen, LastSeen);
+	GETSET(string, cid, Cid);
+	FavoriteIUser() : lastSeen(time(NULL)) { }
+	~FavoriteIUser() { }
+	void update(OnlineUser* ou);
+	void update(const OnlineUser& ou);
+	
 };
 
 } // namespace dcpp

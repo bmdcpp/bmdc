@@ -724,7 +724,7 @@ const string SettingsManager::parseCoreCmd(const string cmd) {
 	StringTokenizer<string> sl(cmd, ' ');
 	if (sl.getTokens().size() == 2) {
 			int n;
-			SettingsManager::Types type;
+			SettingsManager::Types type = SettingsManager::TYPE_NONE;
 			getType(sl.getTokens().at(0).c_str(),n,type);
            if (type == SettingsManager::TYPE_INT) {
                 int i = atoi(sl.getTokens().at(1).c_str());

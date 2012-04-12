@@ -2881,8 +2881,8 @@ int MainWindow::TTHHash::run()
 					} else {
 					tth.update("", 0);
 				}
-					tth.finalize();
-					f.close();
+				tth.finalize();
+				f.close();
 				strcpy(&TTH[0], tth.getRoot().toBase32().c_str());
 				
 				typedef Func3<MainWindow, std::string, std::string, int64_t> F3;
@@ -2892,7 +2892,7 @@ int MainWindow::TTHHash::run()
 				F1 *func1 = new F1(mw,&MainWindow::progress,false);
 				WulforManager::get()->dispatchGuiFunc(func1);
 			
-			LogManager::getInstance()->message("TTH:" +TTH+"filename: "+filename+"sized: "+dcpp::Util::toString(sized));
+			LogManager::getInstance()->message("TTH: " +TTH+"filename: "+filename+"sized: "+dcpp::Util::toString(sized));
 			stop = true;
 		} catch(...) { }	
 	}

@@ -948,12 +948,17 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			int z = 0 ,y = 0;
 			struct utsname u_name;//instance of utsname
 			z = uname(&u_name);
+			if (z == -1)
+				dcdebug("Failed on uname");
 			string sys_name(u_name.sysname);
 			string node_name(u_name.nodename);
 			string rel(u_name.release);
 			string mach(u_name.machine);
 			struct sysinfo sys;//instance of acct;
-			y=sysinfo(&sys);
+			y = sysinfo(&sys);
+			if(y!= 0)
+				dcdebug("Failed on sysinfo");
+			
 			unsigned long toram = sys.totalram * sys.mem_unit/1024;
 			unsigned long uram = sys.freeram * sys.mem_unit/1024;
 			const long minute = 60;
@@ -1234,7 +1239,7 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, st
 
 		ColorList* cList = HighlightManager::getInstance()->getList();
 		for(ColorIter i = cList->begin();i != cList->end(); ++i) {
-			ColorSettings* cs= &(*i);
+			ColorSettings* cs = &(*i);
 			bool tBold = false;
 			bool tItalic = false;
 			bool tUnderline = false;

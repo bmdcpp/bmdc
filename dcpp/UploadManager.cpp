@@ -168,7 +168,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 
 	if(!aSource.isSet(UserConnection::FLAG_HASSLOT)) {
 		bool hasReserved = (reservedSlots.find(aSource.getUser()) != reservedSlots.end());
-		bool isFavorite = FavoriteManager::getInstance()->hasSlot(aSource.getUser());
+		bool isFavorite = FavoriteManager::getInstance()->hasSlot(aSource.getUser()) || FavoriteManager::getInstance()->hasSlotI(ClientManager::getInstance()->getNicks((*aSource.getUser()),"")[0]);//IdepentFav
 		bool hasFreeSlot = (getFreeSlots() > 0) && ((waitingFiles.empty() && connectingUsers.empty()) || isConnecting(aSource.getUser()));
 
 		if(!(hasReserved || isFavorite || getAutoSlot() || hasFreeSlot)) {

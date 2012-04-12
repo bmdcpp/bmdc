@@ -44,8 +44,11 @@ class FavoriteUsers:
 
 		// GUI functions
 		bool findUser_gui(const std::string &cid, GtkTreeIter *iter);
+		bool findNicks_gui(const std::string &nick, GtkTreeIter *iter);
 		void updateFavoriteUser_gui(ParamMap params);
+		void updateFavoriteNicks_gui(ParamMap params);
 		void removeFavoriteUser_gui(const std::string cid);
+		void removeFavoriteNicks_gui(const std::string nick);
 		void setStatus_gui(const std::string text);
 
 		// GUI callbacks
@@ -64,18 +67,25 @@ class FavoriteUsers:
 
 		// Client functions
 		void getFileList_client(const std::string cid, const std::string hubUrl, bool match);
+		void getFileListNick_client(const std::string nick, bool match);
 		void grantSlot_client(const std::string cid, const std::string hubUrl);
 		void removeUserFromQueue_client(const std::string cid);
 		void removeFavoriteUser_client(const std::string cid);
 		void setAutoGrantSlot_client(const std::string cid, bool grant);
 		void setUserDescription_client(const std::string cid, const std::string description);
+		void setDesc_client(const std::string nick, const std::string desc);
 
 		// Favorite callbacks
 		virtual void on(dcpp::FavoriteManagerListener::UserAdded, const dcpp::FavoriteUser &user) throw();
 		virtual void on(dcpp::FavoriteManagerListener::UserRemoved, const dcpp::FavoriteUser &user) throw();
 		virtual void on(dcpp::FavoriteManagerListener::StatusChanged, const dcpp::FavoriteUser &user) throw();
+		//Idepent
+		virtual void on(dcpp::FavoriteManagerListener::FavoriteIAdded, const std::string &nick, dcpp::FavoriteIUser* &user) noexcept;
+		virtual void on(dcpp::FavoriteManagerListener::FavoriteIRemoved, const std::string &nick, dcpp::FavoriteIUser* &user) noexcept;
+		virtual void on(dcpp::FavoriteManagerListener::FavoriteIUpdate, const std::string &nick , dcpp::FavoriteIUser* &user) noexcept;
 
 		UserIters userIters;
+		UserIters nicksIters;
 		GdkEventType previous;
 		TreeView favoriteUserView;
 		GtkListStore *favoriteUserStore;

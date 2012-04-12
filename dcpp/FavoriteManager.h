@@ -33,6 +33,7 @@
 #include "HubEntry.h"
 #include "FavHubGroup.h"
 #include "User.h"
+#include "OnlineUser.h"
 
 namespace dcpp {
 
@@ -88,7 +89,48 @@ public:
     bool isIgnoredUser(const UserPtr& aUser) const;
     void removeIgnoredUser(const UserPtr& aUser);
     optional<FavoriteUser> getIgnoreUser(const UserPtr& aUser) const;
-
+// Indepent Favorites on CID
+	typedef map<string, FavoriteIUser*> FavoriteIMap;
+	FavoriteIMap favoritesNoCid;
+	FavoriteIMap getFavoritesIndepentOnCid() { Lock l(cs); return favoritesNoCid; }
+	FavoriteIUser* getIndepentFavorite(const string& nick)
+	{
+		auto fit = favoritesNoCid.find(nick);
+		if(fit!= favoritesNoCid.end())
+		{
+			return fit->second;
+		}
+		return NULL;
+	}
+	bool hasSlotI(const string& nick) { 
+		FavoriteIUser* u = getIndepentFavorite(nick); 
+		return (u != NULL) ? (u->isSet(FavoriteIUser::FLAG_GRANTSLOT)) : false;
+	}
+	bool isFavoriteIUser(string nick) { return favoritesNoCid.find(nick) != favoritesNoCid.end(); }
+	void addFavoriteIUser(const string& nick, const time_t lastSeen = 0, const string& desc = Util::emptyString)
+	{
+		Lock l(cs);
+		if ( favoritesNoCid.find(nick) == favoritesNoCid.end() )
+		{
+			FavoriteIUser *f = new FavoriteIUser();
+			f->setDescription(desc);
+			f->setLastSeen(lastSeen);
+			fire(FavoriteManagerListener::FavoriteIAdded(),nick,f);
+			favoritesNoCid.insert(make_pair(nick,f));
+			save();
+		}
+	}
+	void removeFavoriteIUser(const string& nick)
+	{
+		Lock l(cs);	
+		auto it = favoritesNoCid.find(nick); 
+		if(it!= favoritesNoCid.end())
+		{
+			fire(FavoriteManagerListener::FavoriteIRemoved(),nick,it->second);
+			favoritesNoCid.erase(it);
+			save();
+		}	
+	}
 // Favorite Hubs
 	const FavoriteHubEntryList& getFavoriteHubs() const { return favoriteHubs; }
 	FavoriteHubEntryList& getFavoriteHubs() { return favoriteHubs; }

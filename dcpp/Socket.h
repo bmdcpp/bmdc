@@ -22,7 +22,6 @@
 #ifdef _WIN32
 
 #include "w.h"
-
 typedef int socklen_t;
 typedef SOCKET socket_t;
 

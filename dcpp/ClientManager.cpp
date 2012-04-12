@@ -728,6 +728,7 @@ void ClientManager::setGenerator(const HintedUser& p, const string& aGenerator, 
 		report = ou->getIdentity().checkFilelistGenerator(*ou);
 		c = &ou->getClient();
 	}
+	
 	if(c && !report.empty()) {
 		c->cheatMessage(report);
 	}

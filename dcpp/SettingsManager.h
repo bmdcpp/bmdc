@@ -265,6 +265,7 @@ public:
 		TYPE_STRING,
 		TYPE_INT,
 		TYPE_INT64,
+		TYPE_NONE
 	};
 	//aded end
 	bool getType(const char* name, int& n, Types& type) const;

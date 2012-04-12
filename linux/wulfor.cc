@@ -63,11 +63,11 @@ int main(int argc, char *argv[])
 	
 	connection = bacon_message_connection_new(GUI_PACKAGE);
 
-	if (connection != NULL)
+	if (connection != NULL) {
 		dcdebug("bmdc: connection yes...\n");
-	else
+	}else {
 		dcdebug("bmdc: connection no...\n");
-
+	}
 	// Check if profile is locked
 	if (WulforUtil::profileIsLocked())
 	{

@@ -420,6 +420,15 @@ Add clicked status of some buttons in toolbar
 Fixed Selections in chats
 Some Others small changes
 Added Pragha Media spam script 
-0.0.2
+===0.0.2===
 ---r101 
 Threaded Get TTH from file
+---r102
+Possible set custom font size in BookEntry class (/ws custom-font-size 1/0 for enable/disable and /ws book-font-size for settings itself)
+Possible Higlitingng IPv6 (with it callback as ipv4 have)
+Add Favorites indepent on CID & History of Favorite with CID
+Add DC++ bot fix by [LP##966339]
+Small speed-up fix on load Filelist
+Fixed CRC when disabled still used it.
+Possible Fixed Settings of BG of Userlist
+---

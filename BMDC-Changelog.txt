@@ -59,6 +59,8 @@
 * Added Colorize of background UserList
 * Added Support NATPMP
 * Added clicked-like status of button on Toolbar
+* Added Favorite Users indepent on CID
+* Fixed Highliting IP (and add IPv6 support too)
 * Fixed scons on Arch
 * Fixed Handling /me comand
 * Fixed magnet Handling

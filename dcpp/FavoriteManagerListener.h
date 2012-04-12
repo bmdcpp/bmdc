@@ -46,7 +46,11 @@ public:
     typedef X<14> RecentAdded;
     typedef X<15> RecentRemoved;
     typedef X<16> RecentUpdated;
-
+	//Idepent Fav
+	typedef X<17> FavoriteIAdded;
+	typedef X<18> FavoriteIRemoved;
+	typedef X<19> FavoriteIUpdate;
+	
 	virtual void on(DownloadStarting, const string&) noexcept { }
 	virtual void on(DownloadFailed, const string&) noexcept { }
 	virtual void on(DownloadFinished, const string&, bool) noexcept { }
@@ -65,6 +69,10 @@ public:
 	virtual void on(RecentAdded, const RecentHubEntry* ) noexcept { }
 	virtual void on(RecentRemoved, const RecentHubEntry* ) noexcept { }
 	virtual void on(RecentUpdated, const RecentHubEntry* ) noexcept { }
+	
+	virtual void on(FavoriteIUpdate, const string&, FavoriteIUser*&) noexcept { }
+	virtual void on(FavoriteIAdded, const string&, FavoriteIUser*&) noexcept { }
+	virtual void on(FavoriteIRemoved, const string&, FavoriteIUser*&) noexcept { }
 };
 
 } // namespace dcpp

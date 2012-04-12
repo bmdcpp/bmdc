@@ -610,7 +610,18 @@ void FavoriteUser::update(const OnlineUser& info) {
 	setNick(info.getIdentity().getNick());
 	setUrl(info.getClient().getHubUrl());
 }
-
+//Idepent Fav
+void FavoriteIUser::update(OnlineUser* ou) 
+{
+	setLastSeen(time(NULL));
+	setCid(ou->getUser()->getCID().toBase32());
+}
+void FavoriteIUser::update(const OnlineUser& ou) 
+{
+	setLastSeen(time(NULL));
+	setCid(ou.getUser()->getCID().toBase32());
+}
+//end
 bool OnlineUser::isCheckable(uint32_t delay /* = 0*/)
 {
 	if(identity.isBot() || getUser()->isSet(User::BOT))

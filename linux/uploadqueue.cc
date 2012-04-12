@@ -91,7 +91,7 @@ void UploadQueue::intilaize_client()
 	}	
 }
 
-void UploadQueue::getParams(const string file, UserPtr user, StringMap &params)
+void UploadQueue::getParams(const string& file, UserPtr user, StringMap &params)
 {
 	params["file"]  = file;
 	params["Nick"]  = WulforUtil::getNicks(user->getCID(), Util::emptyString);
@@ -160,7 +160,7 @@ void UploadQueue::onGrantSlotItemClicked_gui(GtkMenuItem *item, gpointer data)
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(qp->store), &iter, path))
 			{
 				F2 *func = new F2(qp, &UploadQueue::grantSlot_client,
-					qp->users.getString(&iter, "CID"));
+					(qp->users.getString(&iter, "CID")));
 				WulforManager::get()->dispatchClientFunc(func);
 			}
 			gtk_tree_path_free(path);
@@ -344,7 +344,7 @@ void UploadQueue::removeUploadFromQueue(const string cid)
     }
 }
 
-void UploadQueue::getFileList_client(const std::string cid)
+void UploadQueue::getFileList_client(const string cid)
 {
 	try {	
 		UserPtr uu = ClientManager::getInstance()->findUser(CID(cid));

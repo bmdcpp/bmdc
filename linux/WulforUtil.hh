@@ -93,7 +93,7 @@ class WulforUtil
 
 		static std::vector<std::pair<std::string,int> > getActions();
 		static std::string StringToUpper(std::string myString);
-
+		
 		static const std::string ENCODING_LOCALE;
 		static const std::string commands;
 

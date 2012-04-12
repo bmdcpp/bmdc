@@ -1273,7 +1273,6 @@ void Settings::initAppearance_gui()
 		gtk_widget_modify_base(getWidget("textViewPreviewStyles"),GTK_STATE_NORMAL,&color);
 		gtk_widget_modify_base(getWidget("textViewPreviewStyles"),GTK_STATE_PRELIGHT,&color);
 		gtk_widget_modify_base(getWidget("textViewPreviewStyles"),GTK_STATE_ACTIVE,&color);
-		gtk_widget_modify_base(getWidget("textViewPreviewStyles"),GTK_STATE_SELECTED,&color);
 		gtk_widget_modify_base(getWidget("textViewPreviewStyles"),GTK_STATE_INSENSITIVE,&color);
 		g_signal_connect(getWidget("setBackGroundChatWin"), "clicked", G_CALLBACK(onSetBackGroundChat), (gpointer)this);
 		//]
@@ -1585,7 +1584,7 @@ void Settings::initAppearance_gui()
 		addOption_gui(userListStore1, _("Favorite"), "userlist-text-favorite", "userlist-bg-favorite");
 		addOption_gui(userListStore1, _("Protected"), "userlist-text-protected", "userlist-bg-protected");
 		addOption_gui(userListStore1, _("Ignored"), "userlist-text-ignored", "userlist-bg-ignored");
-		addOption_gui(userListStore1, _("Hub or Bot (adc(s) only)"), "userlist-text-bot-hub", "userlist-bg-bot-hub");
+		addOption_gui(userListStore1, _("Hub or Bot"), "userlist-text-bot-hub", "userlist-bg-bot-hub");
 		/**/
 		userListPreview.setView(GTK_TREE_VIEW(getWidget("treeviewUserListPreview")));
 		userListPreview.insertColumn(_("Name"), G_TYPE_STRING, TreeView::ICON_STRING_TEXT_COLOR,-1, "Icon", "Color");
@@ -1598,12 +1597,12 @@ void Settings::initAppearance_gui()
 		gtk_tree_view_set_model(userListPreview.get(), GTK_TREE_MODEL(userListStore2));
 		g_object_unref(userListStore2);
 
-		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Normal"), WGETS("userlist-text-normal"), WGETS("icon-normal"),"n");
-		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Operator"), WGETS("userlist-text-operator"), WGETS("icon-normal"),"o");
-		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Pasive"), WGETS("userlist-text-pasive"), WGETS("icon-normal"),"p");
-		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Favorite"), WGETS("userlist-text-favorite"), WGETS("icon-normal"),"f");
-		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Protected"), WGETS("userlist-text-protected"), WGETS("icon-normal"),"r");
-		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Ignored"), WGETS("userlist-text-ignored"), WGETS("icon-normal"),"i");
+		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Normal"), WGETS("userlist-text-normal"), WGETS("icon-normal"), "n");
+		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Operator"), WGETS("userlist-text-operator"), WGETS("icon-normal"), "o");
+		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Pasive"), WGETS("userlist-text-pasive"), WGETS("icon-normal"), "p");
+		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Favorite"), WGETS("userlist-text-favorite"), WGETS("icon-normal"), "f");
+		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Protected"), WGETS("userlist-text-protected"), WGETS("icon-normal"), "r");
+		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Ignored"), WGETS("userlist-text-ignored"), WGETS("icon-normal"), "i");
 		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Bot or Hub (adc(s) only)"), WGETS("userlist-text-bot-hub"), WGETS("icon-normal"), "a");
 
 		g_signal_connect(getWidget("buttonForeColorTextUL"), "clicked", G_CALLBACK(onTextColorForeULClicked_gui), (gpointer)this);
@@ -1616,21 +1615,16 @@ void Settings::initAppearance_gui()
 void Settings::setColorRow(string cell)
 {
 
-	//GtkTreeModel * model = gtk_tree_view_get_model(nickView.get());
+	if(userListPreview.getCellRenderOf(cell) != NULL)
 	gtk_tree_view_column_set_cell_data_func(userListPreview.getColumn(cell),
 								userListPreview.getCellRenderOf(cell),
 								Settings::makeColor,
 								(gpointer)this,
 								NULL);
-	if(userListPreview.getCellRenderOf2(cell) != NULL)							
-	gtk_tree_view_column_set_cell_data_func(userListPreview.getColumn(cell),
-								userListPreview.getCellRenderOf2(cell),
-								Settings::makeColor,
-								(gpointer)this,
-								NULL);							
+	
 }
 
-void Settings::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data)
+void Settings::makeColor(GtkTreeViewColumn *column, GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
 {
 		Settings *s = (Settings *)data;
 		string color = "#A52A2A";
@@ -1640,11 +1634,14 @@ void Settings::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTre
 			return;
 		if(iter == NULL)
 			return;	
+		if( cell == NULL)
+			return;
+		if(column == NULL)
+			return;
 		
 		gtk_tree_model_get(model,iter,
 		                     3,&cltype,
 						-1);
-		//g_print("Test %s",cltype);				
 		gchar *a = cltype;
 		//Hub&Bot
 		if ( strcmp(a,"a") == 0)
@@ -1677,10 +1674,11 @@ void Settings::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTre
 		    color = WGETS("userlist-bg-ignored");	
 		}
 		else {
-		  color = WGETS("userlist-bg-normal");
+			color = WGETS("userlist-bg-normal");
 		}
 			
 		g_object_set(cell,"cell-background-set",TRUE,"cell-background",color.c_str(),NULL); 
+		g_free(a);
 }
 
 void Settings::onSetBackGroundChat(GtkWidget *widget , gpointer data)
@@ -1703,7 +1701,6 @@ void Settings::onSetBackGroundChat(GtkWidget *widget , gpointer data)
 		gtk_widget_modify_base(s->getWidget("textViewPreviewStyles"),GTK_STATE_NORMAL,&color);
 		gtk_widget_modify_base(s->getWidget("textViewPreviewStyles"),GTK_STATE_PRELIGHT,&color);
 		gtk_widget_modify_base(s->getWidget("textViewPreviewStyles"),GTK_STATE_ACTIVE,&color);
-		gtk_widget_modify_base(s->getWidget("textViewPreviewStyles"),GTK_STATE_SELECTED,&color);
 		gtk_widget_modify_base(s->getWidget("textViewPreviewStyles"),GTK_STATE_INSENSITIVE,&color);
 	}
 }
@@ -1852,7 +1849,7 @@ void Settings::onRemPluginFrom_gui(GtkWidget *widget, gpointer data)
 	}
 }
 void Settings::RemovePlg_client(int sel)
-{PluginManager::getInstance()->unloadPlugin(sel);}
+{ PluginManager::getInstance()->unloadPlugin(sel); }
 
 void Settings::onConfigurePlugin_gui(GtkWidget *widget, gpointer data)
 {
@@ -1862,7 +1859,6 @@ void Settings::onConfigurePlugin_gui(GtkWidget *widget, gpointer data)
 	{
 		gint sel = Util::toInt(s->plView.getString(&iter, "Index"));
 		const PluginInfo *p = PluginManager::getInstance()->getPlugin(sel);
-		//if(!p->mainHook(ON_CONFIGURE, s->getContainer())) {
 		if(!p->dcMain(ON_CONFIGURE, PluginManager::getInstance()->getCore(),s->getContainer())) {
 			GtkDialog *dialog =  GTK_DIALOG(gtk_message_dialog_new (GTK_WINDOW(s->getContainer()),
                                  GTK_DIALOG_DESTROY_WITH_PARENT,

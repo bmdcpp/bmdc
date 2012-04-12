@@ -58,7 +58,7 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 
 	// Align text to the left (x = 0) and in the vertical center (0.5)
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-     if(WGETB("use-close-button"))
+    if(WGETB("use-close-button"))
      {
 	   closeButton = gtk_button_new();
         gtk_button_set_relief(GTK_BUTTON(closeButton), GTK_RELIEF_NONE);
@@ -95,7 +95,7 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	// Associates entry to the widget for later retrieval in MainWindow::switchPage_gui()
 	g_object_set_data(G_OBJECT(getContainer()), "entry", (gpointer)this);
 
-     g_signal_connect(getLabelBox(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
+    g_signal_connect(getLabelBox(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
 	g_signal_connect(getLabelBox(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 }
 
@@ -155,6 +155,21 @@ void BookEntry::setLabel_gui(string text)
             gtk_tooltips_set_tip(tips, eventBox, text.c_str(), text.c_str());
         #endif
     }
+    
+    if(WGETB("custom-font-size"))
+    {
+		GtkStyle *style = gtk_widget_get_default_style();
+		PangoFontDescription *desc = pango_font_description_copy(style->font_desc);
+		gint font_sized = pango_font_description_get_size (desc);
+		if(font_sized != (gint)WGETI("book-font-size"))
+		{
+			gint fsize = (gint)WGETI("book-font-size")*10*PANGO_SCALE;
+			if(fsize >=1)
+				pango_font_description_set_size (desc, fsize);
+		}
+		gtk_widget_modify_font (GTK_WIDGET(label),desc);
+    }
+    
 	glong len = g_utf8_strlen(text.c_str(), -1);
 
 	// Truncate the label text
@@ -235,6 +250,7 @@ void BookEntry::updateLabel_gui()
 	char *markup = g_markup_printf_escaped(format, truncatedLabelText.c_str());
 	gtk_label_set_markup(label, markup);
 	g_free(markup);
+	
 }
 
 const string& BookEntry::getLabelText()
@@ -244,7 +260,7 @@ const string& BookEntry::getLabelText()
 //BMDC++
 void BookEntry::onCloseItem(gpointer data)
 {
-     BookEntry *book = reinterpret_cast<BookEntry *>(data);
+    BookEntry *book = reinterpret_cast<BookEntry *>(data);
 	book->removeBooK_GUI();
 }
 

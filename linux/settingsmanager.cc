@@ -124,21 +124,20 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("toolbar-position", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-small", 1));
 	///[BMDC++
-	defaultInt.insert(IntMap::value_type("use-flag",1));
-	defaultInt.insert(IntMap::value_type("bold-all-tab",1));
-	defaultInt.insert(IntMap::value_type("use-close-button",0));
-	defaultInt.insert(IntMap::value_type("max-tooltips",10));
-	defaultInt.insert(IntMap::value_type("show-commands",0));
-	defaultInt.insert(IntMap::value_type("use-highlighting",0));
-	defaultInt.insert(IntMap::value_type("use-dns",0));
-	defaultInt.insert(IntMap::value_type("log-messages",0));
+	defaultInt.insert(IntMap::value_type("use-flag", 1));
+	defaultInt.insert(IntMap::value_type("bold-all-tab", 1));
+	defaultInt.insert(IntMap::value_type("use-close-button", 0));
+	defaultInt.insert(IntMap::value_type("max-tooltips", 10));
+	defaultInt.insert(IntMap::value_type("show-commands", 0));
+	defaultInt.insert(IntMap::value_type("use-highlighting", 0));
+	defaultInt.insert(IntMap::value_type("use-dns", 0));
+	defaultInt.insert(IntMap::value_type("log-messages", 0));
 	defaultInt.insert(IntMap::value_type("text-cheat-bold", 1));
 	defaultInt.insert(IntMap::value_type("text-cheat-italic", 0));
 	defaultInt.insert(IntMap::value_type("text-ip-bold", 0));
 	defaultInt.insert(IntMap::value_type("text-ip-italic", 1));
 	defaultInt.insert(IntMap::value_type("text-high-bold", 0));
 	defaultInt.insert(IntMap::value_type("text-high-italic", 1));
-	
 	defaultInt.insert(IntMap::value_type("notify-high-use", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-button-notepad", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-button-system", 1));
@@ -155,6 +154,9 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("cmd-debug-client-out", 1));
 	defaultInt.insert(IntMap::value_type("cmd-debug-client-in", 1));
 	defaultInt.insert(IntMap::value_type("cmd-debug-detection", 0));
+	
+	defaultInt.insert(IntMap::value_type("custom-font-size", 0));
+	defaultInt.insert(IntMap::value_type("book-font-size",0.1));
     ///BMDC]
 	defaultString.insert(StringMap::value_type("magnet-choose-dir", SETTING(DOWNLOAD_DIRECTORY)));
 	defaultString.insert(StringMap::value_type("downloadqueue-order", ""));

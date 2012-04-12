@@ -17,16 +17,18 @@
 //      along with this program; if not, write to the Free Software
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //      MA 02110-1301, USA.
-
+#include <dcpp/stdinc.h>
+#include <dcpp/Util.h>
 #include <cstring>
 #include "ShellCommand.hh"
 
-ShellCommand::ShellCommand(char* input, int len, int shell)
+ShellCommand::ShellCommand(char* input, int len, int shell): output(dcpp::Util::emptyString)
 {
 	thirdPerson = false;
 	resultsize = len;
-	output = new char[resultsize];
-	strcpy(output,"");
+	//output = new char[resultsize];
+	output.resize(resultsize);
+	//strcpy(output,"");
 	errormessage = new char[strlen(input)+100];
 	strcpy(errormessage,"");
 	error = 0;
@@ -90,24 +92,28 @@ ShellCommand::ShellCommand(char* input, int len, int shell)
 
 	if (error == 0)
 	{
-	     FILE* f;
+			FILE* f;
+			char *out = new char[resultsize];
         	f=popen(command,"r");
-        	fgets(output,resultsize,f);
+        	fgets(out,resultsize,f);
+			output = out;
+			delete out;
         	pclose(f);
         	//remove trailing newline
-		output[strlen(output)-1]='\0';
+			//output[strlen(output)-1]='\0';
 
-			if(strncmp(output,"/me",3) ==0)
+			if(dcpp::Util::strnicmp(output,"/me",3) ==0)
 			{
 				thirdPerson = true;
-				output = substr(output,4,strlen(output)+1);
+				output = output.substr(4,std::string::npos);//substr(output.c_str(),4,output.size()+1);
 			}
 	}
 }
 
 ShellCommand::~ShellCommand()
 {
-	delete[] output;
+	//delete[] output;
+	//output = NULL;
 	delete[] errormessage;
 }
 
@@ -118,7 +124,7 @@ bool ShellCommand::Error()
 
 char* ShellCommand::Output()
 {
-	return output;
+	return const_cast<char*>(output.c_str());
 }
 
 char* ShellCommand::ErrorMessage()

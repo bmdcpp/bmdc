@@ -309,9 +309,9 @@ class MainWindow:
 				dcpp::CriticalSection cs;
 				std::string filename;
 				MainWindow *mw;
-				TTHHash(): stop(true) { }
+				TTHHash(): stop(true), mw(NULL) { }
 				~TTHHash() noexcept
-				{ shutdown();}
+				{ shutdown(); }
 				void shutdown()
 				{
 					stop = true;
