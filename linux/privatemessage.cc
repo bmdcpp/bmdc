@@ -1077,7 +1077,7 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			"/grant\t\t\t\t - " + _("Grant extra slot") + "\n" +
 			"/emoticons, /emot\t\t - " + _("Emoticons on/off") + "\n" +
 			"/help\t\t\t\t - " + _("Show help") + "\n" +
-			WulforUtil::commands	) ;
+			WulforUtil::commands) ;
 		}
 		else
 		{
@@ -1539,18 +1539,22 @@ GtkWidget *PrivateMessage::createmenu()
     GtkWidget *copyHubUrl = gtk_menu_item_new_with_label(_("Copy CID"));
     GtkWidget *close = gtk_menu_item_new_with_label(_("Close"));
     GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite Users"));
+	GtkWidget *copyNicks = gtk_menu_item_new_with_label(_("Copy Nick(s)"));
 
     gtk_menu_shell_append(GTK_MENU_SHELL(menu),close);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu),copyHubUrl);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu),addFav);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu),copyNicks);
     gtk_widget_show(close);
     gtk_widget_show(copyHubUrl);
     gtk_widget_show(addFav);
+	gtk_widget_show(copyNicks);
     gtk_widget_show_all(userCommandMenu->getContainer());
 
     g_signal_connect_swapped(copyHubUrl, "activate", G_CALLBACK(onCopyCID), (gpointer)this);
     g_signal_connect_swapped(close, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
     g_signal_connect_swapped(addFav, "activate", G_CALLBACK(onAddFavItem), (gpointer)this);
+	g_signal_connect_swapped(copyNicks, "activate", G_CALLBACK(onCopyNicks), (gpointer)this);
     return menu;
 }
 
@@ -1564,6 +1568,13 @@ void PrivateMessage::onCopyCID(gpointer data)
 {
     PrivateMessage *pm = (PrivateMessage *)data;
     gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), pm->cid.c_str(), pm->cid.length());
+}
+
+void PrivateMessage::onCopyNicks(gpointer data)
+{
+	PrivateMessage *pm = (PrivateMessage *)data;
+	string nicks = WulforUtil::getNicks(pm->cid, pm->hubUrl);
+	gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), nicks.c_str(), nicks.length());
 }
 
 void PrivateMessage::onAddFavItem(gpointer data)

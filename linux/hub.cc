@@ -355,13 +355,14 @@ void Hub::setColorsRows()
 void Hub::setColorRow(string cell)
 {
 
-	gtk_tree_view_column_set_cell_data_func(nickView.getColumn(cell),
+	if(nickView.getCellRenderOf(cell) != NULL)
+		gtk_tree_view_column_set_cell_data_func(nickView.getColumn(cell),
 								nickView.getCellRenderOf(cell),
 								Hub::makeColor,
 								(gpointer)this,
 								NULL);
 	if(nickView.getCellRenderOf2(cell) != NULL)
-	  gtk_tree_view_column_set_cell_data_func(nickView.getColumn(cell),
+		gtk_tree_view_column_set_cell_data_func(nickView.getColumn(cell),
 								nickView.getCellRenderOf2(cell),
 								Hub::makeColor,
 								(gpointer)this,
@@ -379,7 +380,6 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 			return;
 		if(iter == NULL)
 			return;
-		/**/	
 		if(column == NULL)
 			return;
 		if(cell == NULL)
@@ -610,14 +610,17 @@ void Hub::setStatus_gui(string statusBar, string text)
 			{
 			    statustext.pop();
 			}
-            queue<string> tmp = statustext;
+            
+			queue<string> tmp = statustext;
             string statusTextOnToolTip;
-            while(!tmp.empty())
+            
+			while(!tmp.empty())
             {
                 statusTextOnToolTip += "\n" + tmp.front();
                 tmp.pop();
             }
-            statustext.push(text);
+            
+			statustext.push(text);
             statusTextOnToolTip += "\n" + text;
             #if !GTK_CHECK_VERSION(2, 12, 0)
                 gtk_tooltips_set_tip (statusTips, getWidget("statusMain"), statusTextOnToolTip.c_str(), NULL);
@@ -2297,13 +2300,13 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		  return;
 	    }
 
-        if(WulforUtil::checkCommand(command,param,mess,status,thirdPerson))
+        if(WulforUtil::checkCommand(command, param, mess, status, thirdPerson))
         {
             if(!mess.empty())
-				hub->sendMessage_client(mess,thirdPerson);
+				hub->sendMessage_client(mess, thirdPerson);
 
 			if(!status.empty())
-				hub->addStatusMessage_gui(status,Msg::SYSTEM,Sound::NONE);
+				hub->addStatusMessage_gui(status, Msg::SYSTEM, Sound::NONE);
         }
 		else if (command == "clear")
 		{
@@ -4124,7 +4127,7 @@ void Hub::on(FavoriteManagerListener::UserAdded, const FavoriteUser &user) throw
 	ParamMap params;
 	params.insert(ParamMap::value_type("Nick", user.getNick()));
 	params.insert(ParamMap::value_type("CID", user.getUser()->getCID().toBase32()));
-	params.insert(ParamMap::value_type("Order", ClientManager::getInstance()->isOp(user.getUser(), user.getUrl()) ? "o" : "u"));
+	params.insert(ParamMap::value_type("Order", ClientManager::getInstance()->isOp(user.getUser(), user.getUrl()) ? "O" : "U"));
 	params.insert(ParamMap::value_type("Type", "C" + user.getNick()));
 
 	Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::addFavoriteUser_gui, params);

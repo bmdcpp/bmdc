@@ -125,16 +125,16 @@ void Sound::playSound(TypeSound sound)
 void Sound::playSound(const string &target)
 {
 	#ifdef _HAVEGNOME
-	gnome_sound_play(Text::fromUtf8(target).c_str());
+		gnome_sound_play(Text::fromUtf8(target).c_str());
 	#else
-	FILE *pipe = popen((WulforSettingsManager::getInstance()->getString("sound-command") + " \"" +target+"\" &" ).c_str(), "w" );
-	pclose(pipe);
+		FILE *pipe = popen((WulforSettingsManager::getInstance()->getString("sound-command") + " \"" +target+"\" &" ).c_str(), "w" );
+		pclose(pipe);
 	#endif
 }
 
 void Sound::sound_finalize()
 {
 	#ifdef _HAVEGNOME
-	gnome_sound_shutdown();
+		gnome_sound_shutdown();
 	#endif
 }

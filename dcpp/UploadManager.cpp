@@ -490,6 +490,10 @@ void UploadManager::on(TimerManagerListener::Minute, uint64_t  aTick ) noexcept 
 				if(BOOLSETTING(AUTO_KICK_NO_FAVS) && FavoriteManager::getInstance()->isFavoriteUser(u->getUser())) {
 					continue;
 				}
+				
+				if(BOOLSETTING(AUTO_KICK_NO_FAVS) && FavoriteManager::getInstance()->isFavoriteIUser(ClientManager::getInstance()->getNicks(u->getUser()->getCID(), Util::emptyString)[0])) {
+					continue;
+				}
 
 				u->setFlag(Upload::FLAG_PENDING_KICK);
 			}

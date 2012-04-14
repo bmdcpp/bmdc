@@ -88,6 +88,7 @@ class PrivateMessage:
 		static void onCloseItem(gpointer data);
 		static void onCopyCID(gpointer data);
 		static void onAddFavItem(gpointer data);
+		static void onCopyNicks(gpointer data);
 		static gboolean expose(GtkWidget *widget, GdkEventExpose *event, gpointer data);
 
 		// Client functions

@@ -25,7 +25,7 @@ using namespace std;
 using namespace dcpp;
 
 notepad::notepad():
-BookEntry(Entry::NOTEPAD,_("Notepad"),"notepad.glade")
+BookEntry(Entry::NOTEPAD, _("Notepad"), "notepad.glade")
 {
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("textview1")));
 }
@@ -43,7 +43,7 @@ notepad::~notepad()
 	/* Get the entire buffer text. */
 
 	text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
-	std::string stext ;
+	std::string stext;
 	stext.assign(text);
 
     try {
