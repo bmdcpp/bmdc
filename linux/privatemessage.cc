@@ -148,8 +148,8 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 
 	gtk_widget_grab_focus(getWidget("entry"));
 	history.push_back("");
-	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
-	isBot = user ? user->isSet(User::BOT) : FALSE;
+	OnlineUser* user = ClientManager::getInstance()->findOnlineUser(CID(cid), hubUrl, false);
+	isBot = user ? user->getIdentity().isBot() : FALSE;
 
 	setLabel_gui(WulforUtil::getNicks(cid, hubUrl) + " [" + WulforUtil::getHubNames(cid, hubUrl) + "]");//NOTE: core 0.762
 

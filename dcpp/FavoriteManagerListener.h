@@ -65,11 +65,11 @@ public:
 	virtual void on(IgnoreStatusChanges, const FavoriteUser&) noexcept { }//BMDC
 	virtual void on(LoadedFromCache, const string&, const string&) noexcept { }
 	virtual void on(Corrupted, const string&) noexcept { }
-	
+	//Recent hubs
 	virtual void on(RecentAdded, const RecentHubEntry* ) noexcept { }
 	virtual void on(RecentRemoved, const RecentHubEntry* ) noexcept { }
 	virtual void on(RecentUpdated, const RecentHubEntry* ) noexcept { }
-	
+	//Idenpen Fav
 	virtual void on(FavoriteIUpdate, const string&, FavoriteIUser*&) noexcept { }
 	virtual void on(FavoriteIAdded, const string&, FavoriteIUser*&) noexcept { }
 	virtual void on(FavoriteIRemoved, const string&, FavoriteIUser*&) noexcept { }

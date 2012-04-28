@@ -20,8 +20,9 @@
 #include "Util.h"
 
 namespace dcpp {
+	
 struct Raw {
-	Raw() : id(0), time(0), enabled(false) { };
+	Raw() : id(0),name(Util::emptyString),raw(Util::emptyString), time(0), enabled(false) { };
 	Raw(int _id, const std::string& _name, const std::string& _raw, int _time, bool _enabled)
 		throw() : id(_id), name(_name), raw(_raw), time(_time), enabled(_enabled) { };
 	Raw(const Raw& rhs) : id(rhs.id), name(rhs.name), raw(rhs.raw), time(rhs.time), enabled(rhs.enabled) { }
@@ -46,7 +47,7 @@ struct Action {
 	typedef vector<Raw> RawsList;
 	typedef std::vector<Action*> ActionList;
 
-	Action() : id(0) { };
+	Action() : id(0), name(Util::emptyString), enabled(false) { };
 	Action(int _id, const std::string& _name, bool _enabled) throw() : id(_id), name(_name), enabled(_enabled) { };
 	~Action() { raw.clear(); };
 

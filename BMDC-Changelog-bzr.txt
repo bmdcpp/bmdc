@@ -435,3 +435,9 @@ Possible Fixed Settings of BG of Userlist
 Add Copy Nicks to PM
 Fixed UL Colors
 Fixed build with gcc 4.7.0 (tested on ArchLinux)
+---r104
+Fixed deufualt setting of colors in userlist
+Removed /freedcpp command from help
+Bot Fix by dcpp style
+Some Small cleanup
+---

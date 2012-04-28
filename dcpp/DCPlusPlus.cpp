@@ -40,7 +40,6 @@
 #include "UploadManager.h"
 #include "WindowManager.h"
 
-//#include "UPnPManager.h"
 #include "DebugManager.h"
 #include "ScriptManager.h"
 #include "DetectionManager.h"
@@ -100,7 +99,6 @@ void startup(void (*f)(void*, const string&), void* p) {
 	WindowManager::newInstance();
 	PluginManager::newInstance();
 	DebugManager::newInstance();
-//	UPnPManager::newInstance();
 #ifdef _USELUA	 
 	ScriptManager::newInstance();
 #endif	
@@ -172,7 +170,6 @@ void shutdown() {
 	
 	ConnectionManager::getInstance()->shutdown();
 	MappingManager::getInstance()->close();
-	//UPnPManager::getInstance()->close();//add
 	GeoManager::getInstance()->close();
 	BufferedSocket::waitShutdown();
 
@@ -181,7 +178,6 @@ void shutdown() {
 	ClientManager::getInstance()->saveUsers();
 	SettingsManager::getInstance()->save();
 
-    
     HighlightManager::deleteInstance();
     DetectionManager::deleteInstance();
     
@@ -192,7 +188,6 @@ void shutdown() {
 	WindowManager::deleteInstance();
 	GeoManager::deleteInstance();
 	MappingManager::deleteInstance();
-	//UPnPManager::deleteInstance();
 	ConnectivityManager::deleteInstance();
 	ADLSearchManager::deleteInstance();
 	RawManager::deleteInstance();//.

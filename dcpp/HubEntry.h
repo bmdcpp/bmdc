@@ -69,8 +69,10 @@ public:
 class FavoriteHubEntry {
 public:
 	FavoriteHubEntry() : encoding(Text::systemCharset) { }
+	
 	FavoriteHubEntry(const HubEntry& rhs) : name(rhs.getName()), server(rhs.getServer()),
-		description(rhs.getDescription()), encoding(Text::systemCharset) , tabText(Util::emptyString) , tabIconStr(Util::emptyString){ }
+		description(rhs.getDescription()), encoding(Text::systemCharset) , tabText(Util::emptyString) , tabIconStr(Util::emptyString), autoConnect(false) { }
+	
 	FavoriteHubEntry(const FavoriteHubEntry& rhs) : userdescription(rhs.userdescription),
 		name(rhs.getName()), server(rhs.getServer()), description(rhs.getDescription()),
 		password(rhs.getPassword()), encoding(rhs.getEncoding()), group(rhs.getGroup()), nick(rhs.nick), hideShare(rhs.hideShare),

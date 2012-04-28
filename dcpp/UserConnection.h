@@ -34,6 +34,7 @@
 #include "PluginManager.h"
 
 namespace dcpp {
+	
 #ifdef _USELUA
 class UserConnectionScriptInstance : public ScriptInstance {
 protected:

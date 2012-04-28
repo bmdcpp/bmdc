@@ -51,7 +51,7 @@ void CommandQueue::execCommand(const CommandItem& item)  {
 		clientPtr->getHubIdentity().getParams(params, "hub", false);
 		clientPtr->getMyIdentity().getParams(params, "my", true);
 		string formattedCmd = Util::formatParams(item.uc.getCommand(), params);
-		clientPtr->sendUserCmd(item.uc,params);
+		clientPtr->sendUserCmd(item.uc, params);
 }
 
 void CommandQueue::addCommand(const OnlineUser& ou, int actionId) {

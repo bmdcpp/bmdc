@@ -17,9 +17,9 @@ LIB_IS_UPNP = True
 LIB_IS_NATPMP = True
 LIB_IS_GEO = False
 LIB_IS_TAR = False
-# -fpermissive 
+# -fpermissive
 BUILD_FLAGS = {
-	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib','-Wall','-Wextra','-Wno-unused-parameter','-Wno-unused-value','-Wno-missing-field-initializers', '-Wno-address', '-fexceptions','-pipe','-g3', '-ldl' ],
+	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib','-Wall','-Wextra','-Wno-unused-parameter','-Wno-unused-value','-Wno-missing-field-initializers', '-Wno-address', '-fexceptions','-pipe','-g3', '-ldl'],
 	'debug'   : ['-g', '-ggdb', '-Wall', '-D_DEBUG'], 
 	'release' : ['-O3', '-fomit-frame-pointer', '-DNDEBUG']
 }

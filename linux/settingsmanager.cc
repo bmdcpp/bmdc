@@ -346,7 +346,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("icon-zerozeroone-away-pasive", "bmdc-zerozeroone-away-pasive"));
 	defaultString.insert(StringMap::value_type("icon-other-away-pasive", "bmdc-other-away-pasive"));
 	/*for UL color text*/
-	defaultString.insert(StringMap::value_type("userlist-text-operator", "#1E90FF"));
+	defaultString.insert(StringMap::value_type("userlist-text-operator", "#000000"));
 	defaultString.insert(StringMap::value_type("userlist-text-pasive", "#747677"));
 	defaultString.insert(StringMap::value_type("userlist-text-protected", "#8B6914"));
 	defaultString.insert(StringMap::value_type("userlist-text-favorite", "#ff0000"));

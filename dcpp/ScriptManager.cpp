@@ -357,7 +357,6 @@ void ScriptManager::load() {
 
 	lua_dostring(L, function.c_str());
 
-
 	lua_pop(L, lua_gettop(L));		//hm. starts at 8 or so for me. I have no idea why...
 
 	ClientManager::getInstance()->addListener(this);

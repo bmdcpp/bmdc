@@ -4601,7 +4601,7 @@ void Settings::shareHidden_client(bool show)
 {
 	SettingsManager::getInstance()->set(SettingsManager::SHARE_HIDDEN, show);
 	ShareManager::getInstance()->setDirty();
-	ShareManager::getInstance()->refresh(TRUE, FALSE, TRUE);
+	ShareManager::getInstance()->refresh(TRUE, FALSE, FALSE);//3TRUE
 
 	//NOTE: updated share ui core 0.762
 	Func0<Settings> *func = new Func0<Settings>(this, &Settings::updateShares_gui);

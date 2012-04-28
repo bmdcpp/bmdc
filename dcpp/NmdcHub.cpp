@@ -379,15 +379,15 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			return;
 
 		string connection = param.substr(i, j-i-1);
-		if(connection.empty()) {
+		/*if(connection.empty()) {
 			// No connection = bot...
 			u.getUser()->setFlag(User::BOT);
 			u.getIdentity().setHub(false);
 		} else {
 			u.getUser()->unsetFlag(User::BOT);
 			u.getIdentity().setBot(false);
-		}
-
+		}*/
+		u.getIdentity().setBot(connection.empty()); // No connection = bot...
 		u.getIdentity().setHub(false);
 
 		u.getIdentity().set("CO", connection);
@@ -576,13 +576,15 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				feat.push_back("TTHSearch");
 				feat.push_back("ZPipe0");
 				feat.push_back("SaltPass");
+			//	feat.push_back("BotINFO");//test it
 				
 				supports(feat);
 			}
-
+			//send("$BotINFO "+getCurrentNick()+"|");
 			key(CryptoManager::getInstance()->makeKey(lock));
 			OnlineUser& ou = getUser(getCurrentNick());
 			validateNick(ou.getIdentity().getNick());
+			
 		}
 	} else if(cmd == "$Hello") {
 		if(!param.empty()) {

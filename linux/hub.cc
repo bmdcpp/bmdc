@@ -1095,7 +1095,7 @@ gboolean Hub::HitIP(string& name, string &sIp)
 
 	if(isOk)
 	{
-		sIp = name.substr(0,pos);
+		sIp = name.substr(0,pos-1);
 	}
 	return isOk;
 
@@ -2442,7 +2442,6 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			"/exec <cmd>-\t\t\t    "    + _("Execute Bash chunk") + "\n"+
 			"/userlist\t\t\t\t - " + _("User list show/hide") + "\n" +
 			"/limitimg <n>, limg <n>\t - " + _("Download limit image: 0 - disable, n < 0 - unlimit, empty - info") + "\n" +
-			"/freedcpp\t\t\t\t - " + _("Show version") + "\n" +
 			"/emoticons, /emot\t\t - " + _("Emoticons on/off") + "\n" +
 			"/sc\t\t\t" + _("Start/Stop checkers") + "\n" +
              WulforUtil::commands
@@ -3514,7 +3513,8 @@ void Hub::getFileList_client(string cid, bool match)
 				}
 				else
 				{
-					QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW);//NOTE: core 0.762
+					QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW | QueueItem::FLAG_PARTIAL_LIST);
+					//QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW);//NOTE: core 0.762
 				}
 			}
 			else

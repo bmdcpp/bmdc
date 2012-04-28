@@ -24,9 +24,11 @@
 #include <list>
 
 namespace dcpp {
+	
 using namespace std;
 class Client;
 class OnlineUser;
+
 class CommandQueue {
 public:
 	CommandQueue() : clientPtr(NULL) { }

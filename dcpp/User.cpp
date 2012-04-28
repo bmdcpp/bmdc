@@ -624,7 +624,7 @@ void FavoriteIUser::update(const OnlineUser& ou)
 //end
 bool OnlineUser::isCheckable(uint32_t delay /* = 0*/)
 {
-	if(identity.isBot() || getUser()->isSet(User::BOT))
+	if(identity.isBot())
 		return false;
 	if(identity.isHub())
 		return false;

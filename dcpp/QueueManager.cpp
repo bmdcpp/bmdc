@@ -593,9 +593,9 @@ void QueueManager::add(const string& aTarget, int64_t aSize, const TTHValue& roo
 		}
 	}
 
-	string target;
-	string tempTarget;
-	if((aFlags & QueueItem::FLAG_USER_LIST) == QueueItem::FLAG_USER_LIST) {
+	string target = Util::emptyString;
+	string tempTarget = Util::emptyString;
+	if( ((aFlags & QueueItem::FLAG_USER_LIST) == QueueItem::FLAG_USER_LIST) )   {
 		target = getListPath(aUser);
 		tempTarget = aTarget;
 	} else {
@@ -627,6 +627,7 @@ void QueueManager::add(const string& aTarget, int64_t aSize, const TTHValue& roo
 							sourceAdded = true;
 						} catch(...) { }
 					}
+					
 				}
 
 				if(!sourceAdded) {
@@ -916,15 +917,7 @@ StringList QueueManager::getTargets(const TTHValue& tth) {
 	}
 	return sl;
 }
-/*
-void QueueManager::addListener(QueueManagerListener* ql, const function<void (const QueueItem::StringMap&)>& currentQueue) {
-	Lock l(cs);
-	Speaker<QueueManagerListener>::addListener(ql);
-	if(currentQueue) {
-		currentQueue(fileQueue.getQueue());
-	}
-}
-*/
+
 Download* QueueManager::getDownload(UserConnection& aSource, bool supportsTrees) noexcept {
 	Lock l(cs);
 
@@ -963,7 +956,7 @@ Download* QueueManager::getDownload(UserConnection& aSource, bool supportsTrees)
 		}
 	}
 
-	Download* d = new Download(aSource, *q, q->isSet(QueueItem::FLAG_PARTIAL_LIST) ? q->getTempTarget() : q->getTarget(), supportsTrees);
+	Download* d = new Download(aSource, *q, /*q->isSet(QueueItem::FLAG_PARTIAL_LIST) ? q->getTempTarget() :*/ q->getTarget(), supportsTrees);
 
 	userQueue.addDownload(q, d);
 
@@ -1123,7 +1116,7 @@ void QueueManager::putDownload(Download* aDownload, bool finished, bool reportFi
 		aDownload->setFile(0);
 		
 		if(aDownload->getType() == Transfer::TYPE_PARTIAL_LIST ) {
-			QueueItem* q = fileQueue.find(getListPath(aDownload->getHintedUser()));
+			QueueItem* q = fileQueue.find(/*getListPath(aDownload->getHintedUser())*/aDownload->getPath());
 			if(q) {
 				if(finished) {
 					fire(QueueManagerListener::PartialList(), aDownload->getHintedUser(), aDownload->getPFS());

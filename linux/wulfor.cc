@@ -71,7 +71,6 @@ int main(int argc, char *argv[])
 	// Check if profile is locked
 	if (WulforUtil::profileIsLocked())
 	{
-		//cout << _("No More That one Instance") << std::endl;
 		if (!bacon_message_connection_get_is_server(connection))
 		{
 			dcdebug("bmdc: is client...\n");

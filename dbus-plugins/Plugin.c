@@ -98,6 +98,9 @@ Bool onLoad(uint32_t eventId, DCCorePtr core) {
 		/* Default settings */
 		set_cfg("SendSuffix", "<DC++ Plugins Test>");
 		set_cfg("MediaPlayerFormat", "playing %[artist] - %[album] - %[title]");
+		//set_cfg("Destination","org.mpris.guayadeque");
+		//set_cfg("Method","GetMetadata");
+		
 	}
 
 	while(i < HOOKS_SUBSCRIBED) {
