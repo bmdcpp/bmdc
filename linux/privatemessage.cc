@@ -968,54 +968,28 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 	// Process special commands
 	if (text[0] == '/')
 	{
-		string command = text, param;
-		/*string::size_type separator = text.find_first_of(' ');
+		string command = text, param, params;
+		string::size_type separator = text.find_first_of(' ');
 		if (separator != string::npos && text.size() > separator + 1)
 		{
 			command = text.substr(1, separator - 1);
-			param = text.substr(separator + 1);
+			params = text.substr(separator + 1);
 		}
-		else
-		{
-			command = text.substr(1);
-		}
-		std::transform(command.begin(), command.end(), command.begin(), (int(*)(int))tolower);*/
 		bool isThirdPerson = false;
-		string message, status;
+		string message = Util::emptyString, status = Util::emptyString;
 		if(PluginManager::getInstance()->onChatCommandPM(HintedUser(new User(CID(pm->cid)),pm->hubUrl),command,false )) {
 			// Plugins, chat commands
 		  return;
 	    }	
 		
-		if(WulforUtil::checkCommand(command,param,message, status, isThirdPerson))
+		if(WulforUtil::checkCommand(command, param, message, status, isThirdPerson))
 		{
 			if(!message.empty())
 				pm->addMessage_gui(message,Msg::MYOWN);
+			
 			if(!status.empty())	
 				pm->addStatusMessage_gui(status, Msg::STATUS);
-		}/*
-		else if (command == "away")
-		{
-			if (Util::getAway() && param.empty())
-			{
-				Util::setAway(FALSE);
-				Util::setManualAway(FALSE);
-				pm->addStatusMessage_gui(_("Away mode off"), Msg::SYSTEM);
-				pm->sentAwayMessage = FALSE;
-			}
-			else
-			{
-				Util::setAway(TRUE);
-				Util::setManualAway(TRUE);
-				Util::setAwayMessage(param);
-				pm->addStatusMessage_gui(_("Away mode on: ") + Util::getAwayMessage(), Msg::SYSTEM);
-			}
 		}
-		else if (command == "back")
-		{
-			Util::setAway(FALSE);
-			pm->addStatusMessage_gui(_("Away mode off"), Msg::SYSTEM);
-		}*/
 		else if (command == "clear")
 		{
 			GtkTextIter startIter, endIter;

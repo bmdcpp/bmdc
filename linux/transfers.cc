@@ -748,7 +748,7 @@ void Transfers::initTransfer_gui(StringMap params)
 		}
 		else
 		{
-			GdkPixbuf *buf = WulforUtil::LoadCountryPixbuf(GeoManager::getInstance()->getCountryAbbrevation(params["IP"]));
+			GdkPixbuf *buf = WulforUtil::LoadCountryPixbuf((BOOLSETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountryAbbrevation(params["IP"]) : Util::emptyString);
 			string filename = params[_("Filename")];
 			if (filename.find("TTH: ") != string::npos)
 				filename = filename.substr((string("TTH: ")).length());

@@ -487,7 +487,7 @@ void Hub::show()
 
 void Hub::selection_changed_userlist_gui(GtkTreeSelection *selection, GtkWidget *tree_view)
 {
-  gtk_widget_trigger_tooltip_query (tree_view);
+	gtk_widget_trigger_tooltip_query (tree_view);
 }
 
 void Hub::set_Header_tooltip_gui()//How beter ?
@@ -668,7 +668,7 @@ void Hub::updateUser_gui(ParamMap params)
 	const string &Nick = params["Nick"];
 	const string &nickOrder = params["Nick Order"];
 	bool favorite = userFavoriteMap.find(cid) != userFavoriteMap.end();
-	//BMDC++
+	//[BMDC++
 	bool isPasive = userPasiveMap.find(cid) != userPasiveMap.end();
 	bool isOperator = userOpMap.find(cid) != userOpMap.end();
 	bool isIgnore = userIgnoreMap.find(cid) != userIgnoreMap.end();
@@ -1081,7 +1081,7 @@ gboolean Hub::HitIP(string& name, string &sIp)
 	bool isOk = true;
 	for(int i = 0; i < 4; i++) {
 		pos = name.find('.', begin);
-		if(pos == tstring::npos) {
+		if(pos == string::npos) {
 			isOk = false;
 			break;
 		}
@@ -1310,7 +1310,9 @@ void Hub::applyTags_gui(const string cid, const string &line)
             if(country_text.length() == 2)
             {
                 GdkPixbuf *buffer = WulforUtil::LoadCountryPixbuf(country_text);
-                gtk_text_buffer_delete(chatBuffer, &tag_start_iter, &tag_end_iter);
+                if(buffer != NULL)
+				{	
+				gtk_text_buffer_delete(chatBuffer, &tag_start_iter, &tag_end_iter);
                 GtkTextChildAnchor *anchor = gtk_text_buffer_create_child_anchor(chatBuffer, &tag_start_iter);
                 GtkWidget *event_box = gtk_event_box_new();
                 // Creating a visible window may cause artifacts that are visible to the user.
@@ -1326,6 +1328,8 @@ void Hub::applyTags_gui(const string cid, const string &line)
                 #else
                     gtk_tooltips_set_tip(tips, event_box, country_text.c_str(), country_text.c_str());
                 #endif
+				
+				}
             }
 
 		}
@@ -2287,7 +2291,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 	// Process special commands
 	if (text[0] == '/')
 	{
-		string command = text, param ,mess, status, params;
+		string command = text, param ,mess = Util::emptyString, status = Util::emptyString, params;
 		bool thirdPerson = false;
 		string::size_type separator = text.find_first_of(' ');
 		if (separator != string::npos && text.size() > separator + 1)
@@ -2295,7 +2299,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			params = text.substr(separator + 1);
 		}
 
-	   if(PluginManager::getInstance()->onChatCommand(hub->client,command )) {
+	   if(PluginManager::getInstance()->onChatCommand(hub->client, command )) {
 			// Plugins, chat commands
 		  return;
 	    }
@@ -3746,8 +3750,8 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 	params.insert(ParamMap::value_type("eMail", id.getEmail()));
 	params.insert(ParamMap::value_type("CID", id.getUser()->getCID().toBase32()));
 	//BMDC++
-	params.insert(ParamMap::value_type("Country", GeoManager::getInstance()->getCountry(id.getIp(),GeoManager::V4)));
-	params.insert(ParamMap::value_type("Abbrevation", GeoManager::getInstance()->getCountryAbbrevation(id.getIp())));
+	params.insert(ParamMap::value_type("Country", (BOOLSETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountry(id.getIp(),GeoManager::V4): Util::emptyString ));
+	params.insert(ParamMap::value_type("Abbrevation", (BOOLSETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountryAbbrevation(id.getIp()): Util::emptyString ));
 	params.insert(ParamMap::value_type("Slots", id.get("SL")));
 	const string hubs = Util::toString(Util::toInt(id.get("HN")) + Util::toInt(id.get("HR")) + Util::toInt(id.get("HO")));//hubs
 	params.insert(ParamMap::value_type("Hubs", hubs));
@@ -4335,8 +4339,8 @@ string Hub::formatAdditionalInfo(const string& aIp, bool sIp, bool sCC, bool isP
 	string ret = Util::emptyString;
 
 	if(!aIp.empty()) {
-		string cc = GeoManager::getInstance()->getCountryAbbrevation(aIp);
-		string countryn = GeoManager::getInstance()->getCountry(aIp);
+		string cc = (BOOLSETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountryAbbrevation(aIp) : Util::emptyString;
+		string countryn = (BOOLSETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountry(aIp) : Util::emptyString;
 		bool showIp = BOOLSETTING(USE_IP) || sIp;
 		bool showCc = (BOOLSETTING(GET_USER_COUNTRY) || sCC) && !cc.empty();
 		bool useFlagIcons = (WGETB("use-flag") && !cc.empty());
