@@ -1504,7 +1504,11 @@ void PrivateMessage::readLog(const string& logPath, const unsigned setting)
 //custom popup menu
 GtkWidget *PrivateMessage::createmenu()
 {
-    userCommandMenu->cleanMenu_gui();
+    string nicks = WulforUtil::getNicks(this->cid, this->hubUrl);
+	GtkWidget *item = getFItem();
+	gtk_menu_item_set_label(GTK_MENU_ITEM(item), nicks.c_str());
+	
+	userCommandMenu->cleanMenu_gui();
     userCommandMenu->addUser(cid);
     userCommandMenu->addHub(hubUrl);
     userCommandMenu->buildMenu_gui();

@@ -3175,7 +3175,6 @@ void Hub::onTestSURItemClicked_gui(GtkMenuItem *item, gpointer data)
 
 	if (gtk_tree_selection_count_selected_rows(hub->nickSelection) >= 1)
 	{
-		//string nick;
 		std::queue<std::string> nicks;
 		GtkTreeIter iter;
 		GtkTreePath *path;
@@ -3517,8 +3516,8 @@ void Hub::getFileList_client(string cid, bool match)
 				}
 				else
 				{
-					QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW | QueueItem::FLAG_PARTIAL_LIST);
-					//QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW);//NOTE: core 0.762
+					//QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW | QueueItem::FLAG_PARTIAL_LIST);
+					QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW);//NOTE: core 0.762
 				}
 			}
 			else
@@ -4620,7 +4619,10 @@ void Hub::updateIcons()
 //custom popup menu
 GtkWidget *Hub::createmenu()
 {
-    userCommandMenu1->cleanMenu_gui();
+    GtkWidget *item = getFItem();
+	gtk_menu_item_set_label(GTK_MENU_ITEM(item),address.c_str());
+	
+	userCommandMenu1->cleanMenu_gui();
     userCommandMenu1->addUser(client->getMyIdentity().getUser()->getCID().toBase32());
     userCommandMenu1->addHub(client->getHubUrl());
     userCommandMenu1->buildMenu_gui();

@@ -1,3 +1,11 @@
+0.0.2
+ ======
+* Add Copy Nicks to PM
+* Add Favorites indepent on CID & History of Favorite with CID
+* Possible set custom font size in BookEntry class (/ws custom-font-size 1/0 for enable/disable and /ws book-font-size for settings itself)
+* Possible Higliting IPv6 (with it callback as ipv4 have)
+* Add Icon to menu on right click on Tabs
+ ======
 0.0.1
  ======
 * Added System Log Tab
@@ -59,8 +67,6 @@
 * Added Colorize of background UserList
 * Added Support NATPMP
 * Added clicked-like status of button on Toolbar
-* Added Favorite Users indepent on CID
-* Fixed Highliting IP (and add IPv6 support too)
 * Fixed scons on Arch
 * Fixed Handling /me comand
 * Fixed magnet Handling

@@ -29,7 +29,7 @@ class BookEntry : public Entry
 	public:
 		BookEntry(): bold(false), urgent(false), eventBox(NULL),
 				labelBox(NULL), tabMenuItem(NULL),	closeButton(NULL),
-				label(NULL),popTabMenuItem(NULL), icon(NULL) { }
+				label(NULL),popTabMenuItem(NULL), icon(NULL) , fItem(NULL), type((EntryType)0) { }
 		BookEntry(const EntryType type, const std::string &text, const std::string &glade, const std::string &id = "");
 		virtual ~BookEntry()
 		{
@@ -53,14 +53,14 @@ class BookEntry : public Entry
 		bool isActive_gui();
 		virtual void show() = 0;
 		virtual GtkWidget *createmenu();
-
+		GtkWidget *getFItem() { return fItem;}
 	private:
 		void updateLabel_gui();
 		static void onCloseItem(gpointer data);
 		void removeBooK_GUI();
 		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-
+		GtkWidget *createItemFirstMenu();
 		std::string labelText;
 		std::string truncatedLabelText;
 		GtkWidget *eventBox;
@@ -68,6 +68,7 @@ class BookEntry : public Entry
 		GtkWidget *tabMenuItem;
 		GtkWidget *closeButton;
 		GtkLabel *label;
+		GtkWidget *fItem;
 
 #if !GTK_CHECK_VERSION(2, 12, 0)
 		GtkTooltips *tips;
@@ -80,6 +81,7 @@ class BookEntry : public Entry
 		//BMDC++
 		GdkEventType previous;
 		GtkWidget *popTabMenuItem;
+		const EntryType type;
 };
 
 #else

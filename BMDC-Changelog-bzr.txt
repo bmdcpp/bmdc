@@ -440,4 +440,8 @@ Fixed deufualt setting of colors in userlist
 Removed /freedcpp command from help
 Bot Fix by dcpp style
 Some Small cleanup
+---r105
+Fixed crash when Geo/Country disabled
+---r106
+Add Icon to menu on right click on Tabs
 ---

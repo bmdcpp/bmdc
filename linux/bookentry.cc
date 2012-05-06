@@ -22,6 +22,7 @@
 #include "bookentry.hh"
 #include "wulformanager.hh"
 #include "settingsmanager.hh"
+#include "WulforUtil.hh"
 
 using namespace std;
 
@@ -37,8 +38,9 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	closeButton(NULL),
 	label(NULL),
 	popTabMenuItem(NULL),
-	icon(NULL)
-	
+	icon(NULL),
+	fItem(NULL),
+	type(type)
 {
 	labelBox = gtk_hbox_new(FALSE, 5);
 
@@ -293,11 +295,89 @@ gboolean BookEntry::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *even
 
 	if (event->button == 3 && event->type == GDK_BUTTON_RELEASE)
 	{
+		book->fItem = (book->createItemFirstMenu()); //gtk_image_menu_item_new_from_stock(WGETS("icon-hub-offline").c_str(),NULL);
 		// show menu
 		book->createmenu();
+		WulforUtil::remove_signals_from_widget(book->fItem,GDK_ALL_EVENTS_MASK);
+		gtk_menu_shell_prepend(GTK_MENU_SHELL(book->popTabMenuItem),book->fItem);
+		gtk_widget_show(book->fItem);
 		gtk_widget_show(book->popTabMenuItem);
 		g_object_ref_sink(book->popTabMenuItem);
           gtk_menu_popup(GTK_MENU(book->popTabMenuItem),NULL, NULL, NULL,NULL,0,0);
 	}
 	return FALSE;
+}
+
+GtkWidget *BookEntry::createItemFirstMenu()
+{
+	GtkWidget *item = NULL;
+	string stock, info;
+	switch (this->type)
+	{
+		case Entry::FAVORITE_HUBS : 
+					stock = WGETS("icon-favorite-hubs"); 
+					info = _("Favorite Hubs");
+					break;
+		case Entry::FAVORITE_USERS : 
+					stock = WGETS("icon-favorite-users");
+					info = _("Favorite Users");
+					break;
+		case Entry::IGNORE_USERS : 
+					stock = WGETS("icon-ignore"); 
+					info = _("Ignore Users");
+					break;
+		case Entry::PUBLIC_HUBS : 
+					stock = WGETS("icon-public-hubs");
+					info = _("Public Hubs");
+					break;
+		case Entry::DOWNLOAD_QUEUE : 
+					stock = WGETS("icon-queue");
+					info = _("Download Queue");
+					break;
+		case Entry::SEARCH :
+					stock = WGETS("icon-search");
+					info = _("Search");
+					break;
+		case Entry::SEARCH_ADL : 
+					stock = WGETS("icon-search-adl");
+					info = _("ADL Search");
+					break;
+		case Entry::SEARCH_SPY :
+					stock = WGETS("icon-search-spy"); 
+					info = _("Spy Search");
+					break;
+		case Entry::FINISHED_DOWNLOADS : 
+					stock = WGETS("icon-finished-downloads");
+					info = _("Finished Downloads");
+					break;
+		case Entry::FINISHED_UPLOADS :
+					stock = WGETS("icon-finished-uploads");
+					info = _("Finished Uploads");
+					break;
+		case Entry::PRIVATE_MESSAGE :
+					stock = WGETS("icon-pm-online"); 
+					info = _("Private Message");
+					break;
+		case Entry::HUB : 
+					stock = WGETS("icon-hub-offline"); 
+					info = _("Hub");
+					break;
+		case Entry::SHARE_BROWSER :
+					stock = WGETS("icon-directory"); 
+					info = _("Share Browser");
+					break;
+		case Entry::NOTEPAD :
+					stock = WGETS("icon-notepad");
+					info = _("Notepad");
+					break;
+		case Entry::SYSTEML :
+					stock = WGETS("icon-system"); 
+					info = _("System Log");
+					break;
+		default: ;
+	}
+	
+	item = gtk_image_menu_item_new_from_stock(stock.c_str(),NULL);	
+	gtk_menu_item_set_label(GTK_MENU_ITEM(item),info.c_str());
+	return item;
 }
