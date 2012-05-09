@@ -1077,7 +1077,7 @@ void NmdcHub::refreshuserlist(bool refreshOnly) {
 
 #ifdef _USELUA
 bool NmdcHubScriptInstance::onClientMessage(NmdcHub* aClient, const string& aLine) {
-	Lock l(cs);
+	Lock l(scs);
 	MakeCall("nmdch", "DataArrival", 1, aClient, aLine);
 	return GetLuaBool();
 

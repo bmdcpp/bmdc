@@ -1167,7 +1167,7 @@ void AdcHub::refreshuserlist(bool) {
 
 #ifdef _USELUA
 bool AdcScriptInstance::onClientMessage(AdcHub* aClient, const string& aLine) {
-	Lock l(cs);
+	Lock l(scs);
 	MakeCall("adch", "DataArrival", 1, aClient, aLine);
 	return GetLuaBool();
 }
