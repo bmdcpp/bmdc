@@ -271,7 +271,7 @@ int LuaManager::RunTimer(lua_State* L) {
 }
 
 lua_State* ScriptInstance::L = 0;		//filled in by scriptmanager.
-CriticalSection ScriptInstance::cs;
+CriticalSection ScriptInstance::scs;
 
 ScriptManager::ScriptManager() : timerEnabled(false), s(Socket::TYPE_UDP) {
 }
@@ -328,8 +328,6 @@ void ScriptManager::load() {
 	lua_register(L, "DropUserConnection", LuaManager::DropUserConnection);
 	//findWin+PostMessage todo ??
 
-//	Lunar<LuaManager>::Register(L);
-
 	//create default text formatting function, in case startup.lua or formatting.lua isn't present.
 	uint32_t color = SETTING(TEXT_COLOR);
 	//this create a dcpp namespace. However, if startup.lua executes, if first clobbers this.
@@ -363,12 +361,12 @@ void ScriptManager::load() {
 }
 
 void ScriptInstance::EvaluateChunk(const string& chunk) {
-	Lock l(cs);
+	Lock l(scs);
 	lua_dostring(L, chunk.c_str());
 }
 
 void ScriptInstance::EvaluateFile(const string& fn) {
-	Lock l(cs);
+	Lock l(scs);
 	lua_dofile(L, (Text::utf8ToAcp(Util::getPath(Util::PATH_USER_CONFIG)) + "scripts"+PATH_SEPARATOR + fn).c_str());//User
 }
 
