@@ -35,6 +35,7 @@
 #include <dcpp/HttpDownload.h>
 #include <dcpp/version.h>
 #include <dcpp/ThrottleManager.h>
+#include <dcpp/PluginManager.h>
 #ifdef _USELUA
 	#include <dcpp/ScriptManager.h>
 #endif
@@ -63,7 +64,7 @@
 #include "uploadqueue.hh"
 #include "recenthub.hh"
 #include "detectiontab.hh"
-#include <dcpp/PluginManager.h>
+
 
 using namespace std;
 using namespace dcpp;
@@ -391,7 +392,7 @@ MainWindow::MainWindow():
 	setToolbarStyle_gui(WGETI("toolbar-style"));
 
 	createStatusIcon_gui();
-
+	setInitThrotles();
 	Sound::start();
 	Emoticons::start();
 	Notify::start();
@@ -451,7 +452,6 @@ MainWindow::~MainWindow()
 	g_object_unref(statusIcon);
 	g_object_unref(getWidget("statusIconMenu"));
 	g_object_unref(getWidget("toolbarMenu"));
-
 	Sound::stop();
 	Emoticons::stop();
 	Notify::stop();
@@ -601,7 +601,7 @@ void MainWindow::onLimitingMenuItem_gui(GtkWidget *widget, gpointer data)
 void MainWindow::onLimitingDisable(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	string type = (gchar*)g_object_get_data(G_OBJECT(widget), "type");
+	string type = (gchar *)g_object_get_data(G_OBJECT(widget), "type");
 
 	if(type == "dw")
 	{
@@ -616,6 +616,31 @@ void MainWindow::onLimitingDisable(GtkWidget *widget, gpointer data)
     mw->setMainStatus_gui(_("Throtle off"), time(NULL));
     gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(lim), "bmdc-limiting");
     mw->setStatRate_gui();
+}
+
+void MainWindow::setInitThrotles()
+{
+	int up = ThrottleManager::getUpLimit();
+	int down = ThrottleManager::getDownLimit();
+	GtkWidget *widget = gtk_menu_item_new();
+	if(up > 0) {
+		g_object_set_data_full(G_OBJECT(widget), "speed", g_strdup(Util::toString(up).c_str()), g_free);
+		g_object_set_data_full(G_OBJECT(widget), "type", g_strdup("up"), g_free);	
+		onLimitingMenuItem_gui(widget ,(gpointer)this);	
+	}
+	if(down > 0) {
+		g_object_set_data_full(G_OBJECT(widget), "speed", g_strdup(Util::toString(down).c_str()), g_free);
+		g_object_set_data_full(G_OBJECT(widget), "type", g_strdup("dw"), g_free);	
+		onLimitingMenuItem_gui(widget ,(gpointer)this);
+	}
+	if(up == 0) {
+		g_object_set_data_full(G_OBJECT(widget), "type", g_strdup("up"), g_free);	
+		onLimitingDisable(widget, (gpointer)this);
+	}
+	if(down == 0) {
+		g_object_set_data_full(G_OBJECT(widget), "type", g_strdup("dw"), g_free);	
+		onLimitingDisable(widget, (gpointer)this);
+	}
 }
 
 void MainWindow::setToolbarMenu_gui(const string &item_key, const string &button_key, const string &key)
@@ -1889,7 +1914,7 @@ void MainWindow::onTopToolbarToggled_gui(GtkWidget *widget, gpointer data)
 	gtk_box_pack_start(GTK_BOX(parent), child, FALSE, FALSE, 2);
 	gtk_box_reorder_child(GTK_BOX(parent), child, 1);
 	g_object_unref(child);
-	WSET("toolbar-position", 0);
+	WSET("toolbar-position", 1);//0
 }
 
 void MainWindow::onLeftToolbarToggled_gui(GtkWidget *widget, gpointer data)
@@ -1907,7 +1932,7 @@ void MainWindow::onLeftToolbarToggled_gui(GtkWidget *widget, gpointer data)
 	gtk_box_pack_start(GTK_BOX(parent), child, FALSE, FALSE, 2);
 	gtk_box_reorder_child(GTK_BOX(parent), child, 0);
 	g_object_unref(child);
-	WSET("toolbar-position", 1);
+	WSET("toolbar-position", 0);//1
 }
 
 void MainWindow::onHideToolbarToggled_gui(GtkWidget *widget, gpointer data)
@@ -2270,7 +2295,7 @@ void MainWindow::onAwayClicked_gui(GtkWidget *widget, gpointer data)
 		Util::setManualAway(false);
 		mw->setMainStatus_gui(_("Away mode off"), time(NULL));
 		
-		F1 *func = new F1(mw,&MainWindow::setAwayIcon,false);
+		F1 *func = new F1(mw,&MainWindow::setAwayIcon, false);
 		WulforManager::get()->dispatchGuiFunc(func);
 		
 	}else
@@ -2278,7 +2303,7 @@ void MainWindow::onAwayClicked_gui(GtkWidget *widget, gpointer data)
 		Util::switchAway();
 		Util::setManualAway(true);
 		mw->setMainStatus_gui(_("Away mode on"), time(NULL));
-		F1 *func = new F1(mw,&MainWindow::setAwayIcon,true);
+		F1 *func = new F1(mw,&MainWindow::setAwayIcon, true);
 		WulforManager::get()->dispatchGuiFunc(func);
 	}
 }
@@ -2376,7 +2401,7 @@ void MainWindow::onOpenFileListClicked_gui(GtkWidget *widget, gpointer data)
 
 			UserPtr user = DirectoryListing::getUserFromFilename(path);
 			if (user)
-				mw->showShareBrowser_gui(user, path, "",0, FALSE);
+				mw->showShareBrowser_gui(user, path, "", 0, FALSE);
 			else
 				mw->setMainStatus_gui(_("Unable to load file list: Invalid file list name"));
 		}
@@ -2390,7 +2415,7 @@ void MainWindow::onOpenOwnListClicked_gui(GtkWidget *widget, gpointer data)
 	F1 *func = new F1(mw, &MainWindow::openOwnList_client, FALSE);
 	WulforManager::get()->dispatchClientFunc(func);
 
-	mw->setMainStatus_gui(_("Loading file list"));
+	mw->setMainStatus_gui(_("Loading Own file list"));
 }
 
 void MainWindow::onRefreshFileListClicked_gui(GtkWidget *widget, gpointer data)
@@ -2773,8 +2798,8 @@ void MainWindow::onTTHFileDialog_gui(GtkWidget *widget, gpointer data)
 	MainWindow *mw =(MainWindow *)data;
 	GtkWidget *dialog = mw->getWidget("TTHFileDialog");
 	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-	if(response == GTK_RESPONSE_NONE);
-
+	if(response == GTK_RESPONSE_NONE)
+	{ ; }
 	gtk_widget_hide(dialog);
 }
 
@@ -2797,32 +2822,6 @@ void MainWindow::onTTHFileButton_gui(GtkWidget *widget , gpointer data)
 	if (response == GTK_RESPONSE_OK)
 	{
 		gchar *temp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
-		/*string TTH;
-		char *buf = new char[512*1024];
-		try {
-			File f(Text::fromT(string(temp)),File::READ, File::OPEN);
-			TigerTree tth(TigerTree::calcBlockSize(f.getSize(), 1));
-			if(f.getSize() > 0) {
-					size_t n = 512*1024;
-					while( (n = f.read(&buf[0], n)) > 0) {
-						tth.update(&buf[0], n);
-						n = 512*1024;
-					}
-			} else {
-				tth.update("", 0);
-		}
-		tth.finalize();
-
-		strcpy(&TTH[0], tth.getRoot().toBase32().c_str());
-		string magnetlink = "magnet:?xt=urn:tree:tiger:" + TTH + "&xl=" + Util::toString(f.getSize()) + "&dn=" + Util::encodeURI(Text::fromT(Util::getFileName(string(temp))));
-		f.close();
-
-		gtk_entry_set_text(GTK_ENTRY(mw->getWidget("entrymagnet")), magnetlink.c_str());
-		gtk_entry_set_text(GTK_ENTRY(mw->getWidget("entrytthfileresult")), TTH.c_str());
-
-		}
-		catch(...)
-		{ }*/
 		gtk_widget_set_sensitive(mw->getWidget("buttonok"),FALSE);
 		if(mw->hasht.stop)
 		{
@@ -2892,7 +2891,7 @@ int MainWindow::TTHHash::run()
 				F1 *func1 = new F1(mw,&MainWindow::progress,false);
 				WulforManager::get()->dispatchGuiFunc(func1);
 			
-			LogManager::getInstance()->message("TTH: " +TTH+"filename: "+filename+"sized: "+dcpp::Util::toString(sized));
+			LogManager::getInstance()->message("TTH: " + TTH + "filename: " + filename + "sized: " + dcpp::Util::toString(sized));
 			stop = true;
 		} catch(...) { }	
 	}
@@ -2921,7 +2920,6 @@ void MainWindow::updateGeoIp(bool v6)
 		return;
 	LogManager::getInstance()->message(string(_("Updating the GeoIP database...v")) + (v6 ? "IPv6" : "IPv4"));
 	conn.reset(new HttpDownload(v6 ? v6str : v4str, [this, v6] { completeGeoIpUpdate(v6); }, false));
-
 }
 
 void MainWindow::completeGeoIpUpdate(bool v6)
@@ -2955,7 +2953,6 @@ void MainWindow::onCloseAllHub_gui(GtkWidget *widget, gpointer data)
 		mw->Hubs.pop_back();	
 	}
 	mw->Hubs.clear();
-	
 }
 ///PM
 void MainWindow::onCloseAllPM_gui(GtkWidget *widget, gpointer data)

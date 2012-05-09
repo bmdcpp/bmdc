@@ -229,6 +229,8 @@ private:
 				}
 			}
 			Identity& i = ou->getIdentity();
+			if(i.isHidden())
+				return CONTINUE;
 			if(getCheckClients() && clientItems < SETTING(MAX_TESTSURS)) {
 				if(ou->shouldCheckClient()) {
 					if(!ou->getChecked(false, false)) {
@@ -297,7 +299,7 @@ private:
 						}
 					}
 
-					OnlineUserPtr ou = NULL;
+					OnlineUser* ou = NULL;
 					int action = 0;
 					{
 						Lock l(client->cs);
@@ -305,10 +307,12 @@ private:
 							if(!inThread)
 								break;
 							action = preformUserCheck(i->second, t, f);
-							if(action & CONTINUE)
+							if(action & CONTINUE) {
 								continue;
+							}
 							if(action & BREAK) {
 								ou = i->second;
+								ou->inc();
 								break;
 							}
 						}
@@ -340,7 +344,7 @@ private:
 							}
 							try {
 								QueueManager::getInstance()->remove(path);
-							}catch(...){  }
+							} catch(...){  }
 						}
 					}
 

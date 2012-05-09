@@ -93,9 +93,7 @@ private:
 		SUPPORTS_NOGETINFO = 0x02,
 		SUPPORTS_USERIP2 = 0x04
 	};
-
-	mutable CriticalSection cs;
-
+	
 	/*typedef unordered_map<string, OnlineUser*, noCaseStringHash, noCaseStringEq> NickMap;
 	typedef NickMap::iterator NickIter;*/
 	typedef unordered_map<string, OnlineUser*, noCaseStringHash, noCaseStringEq> NMDCMap;

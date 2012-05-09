@@ -137,6 +137,7 @@ class MainWindow:
 		{
 			setStatusOfIcons(AWAY,isAway);
 		}
+		
 
 	private:
 		typedef std::pair<std::string, std::string> ParamPair;
@@ -251,6 +252,9 @@ class MainWindow:
 		void updateGeoIp(bool v6);
 		void completeGeoIpUpdate(bool v6);
 		void removeItemFromList(Entry::EntryType type, std::string id);
+		//[BMDC++
+		void setInitThrotles();
+		//]
 
 		// Client callbacks
 		virtual void on(dcpp::LogManagerListener::Message, time_t t, const std::string &m) noexcept;

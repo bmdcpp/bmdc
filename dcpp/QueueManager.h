@@ -100,7 +100,7 @@ public:
 	void addDirectory(const string& aDir, const HintedUser& aUser, const string& aTarget,
 		QueueItem::Priority p = QueueItem::DEFAULT) noexcept;
 		
-	string addClientCheck(UserPtr aUser, const string& hubHint) noexcept {
+	string addClientCheck(UserPtr aUser, const string& hubHint) {
 		StringList nicks = ClientManager::getInstance()->getNicks(*aUser,hubHint);
 		string nick = nicks.empty() ? Util::emptyString : Util::cleanPathChars(nicks[0]) + ".";
 		string filename = RsxUtil::getTestSURString() + nick + aUser->getCID().toBase32();

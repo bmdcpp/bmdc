@@ -61,7 +61,6 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	gtk_widget_modify_base(getWidget("text"),GTK_STATE_NORMAL,&color);
 	gtk_widget_modify_base(getWidget("text"),GTK_STATE_PRELIGHT,&color);
 	gtk_widget_modify_base(getWidget("text"),GTK_STATE_ACTIVE,&color);
-	//gtk_widget_modify_base(getWidget("text"),GTK_STATE_SELECTED,&color);
 	gtk_widget_modify_base(getWidget("text"),GTK_STATE_INSENSITIVE,&color);
 
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
@@ -258,11 +257,10 @@ void PrivateMessage::preferences_gui()
             continue;
         if(i == Tag::TAG_CHEAT)
 			continue;
-		if(i == Tag::TAG_IPADR)//TODO
+		//Todo	
+		if(i == Tag::TAG_IPADR)
 			continue;	
-		if(i = Tag::TAG_HIGHL)	
-			continue;
-
+		
 		getSettingTag_gui(wsm, (Tag::TypeTag)i, fore, back, bold, italic);
 
 		g_object_set(TagsMap[i],
@@ -985,7 +983,7 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		if(WulforUtil::checkCommand(command, param, message, status, isThirdPerson))
 		{
 			if(!message.empty())
-				pm->addMessage_gui(message,Msg::MYOWN);
+				pm->addMessage_gui(message, Msg::MYOWN);
 			
 			if(!status.empty())	
 				pm->addStatusMessage_gui(status, Msg::STATUS);
@@ -1261,7 +1259,8 @@ void PrivateMessage::onOpenLinkClicked_gui(GtkMenuItem *item, gpointer data)
 	PrivateMessage *pm = (PrivateMessage *)data;
 	string error = Util::emptyString;
 	WulforUtil::openURI(pm->selectedTagStr, error);
-	pm->addStatusMessage_gui(error,Msg::STATUS);
+	if(!error.empty())
+		pm->setStatus_gui(error);
 }
 
 void PrivateMessage::onOpenHubClicked_gui(GtkMenuItem *item, gpointer data)

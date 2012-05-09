@@ -125,7 +125,6 @@ private:
 	Socket udp;
 	SIDMap users;
 	StringMap lastInfoMap;
-	mutable CriticalSection cs;
 
 	string salt;
 	uint32_t sid;

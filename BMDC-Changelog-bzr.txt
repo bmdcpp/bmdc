@@ -444,4 +444,8 @@ Some Small cleanup
 Fixed crash when Geo/Country disabled
 ---r106
 Add Icon to menu on right click on Tabs
----
+---r107
+Maybe Fix checker(/sc) isue..
+Fix PM after click on Link.
+Guesing Fix bad version icon on Starup (Limiting)
+
