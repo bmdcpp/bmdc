@@ -6187,7 +6187,7 @@ default</property>
                             </child>
                             <child>
                               <widget class="GtkButton" id="buttonDefUL">
-                                <property name="label" translatable="yes">Deufault</property>
+                                <property name="label" translatable="yes">Default</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>

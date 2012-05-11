@@ -17,10 +17,12 @@
 //      along with this program; if not, write to the Free Software
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //      MA 02110-1301, USA.
+
 #include <dcpp/stdinc.h>
 #include <dcpp/Util.h>
 #include <cstring>
 #include "ShellCommand.hh"
+#include "wulformanager.hh"
 
 ShellCommand::ShellCommand(char* input, int len, int shell): output(dcpp::Util::emptyString)
 {
@@ -36,7 +38,7 @@ ShellCommand::ShellCommand(char* input, int len, int shell): output(dcpp::Util::
 	if (shell == 0)
 	{
 		char testscript[strlen(input)+28];
-	    strcpy(testscript,"test -e extensions/Scripts/");
+	    strcpy(testscript,("test -e "+ WulforManager::get()->getPath() + "/extensions/Scripts/").c_str());
         strcat(testscript,input);
 		//test if script exists
 		if (system(testscript)!=0)
@@ -49,7 +51,7 @@ ShellCommand::ShellCommand(char* input, int len, int shell): output(dcpp::Util::
 		else
 		{
 			//test if script is an executable
-			strcpy(testscript,"test -x extensions/Scripts/");
+			strcpy(testscript,("test -e "+ WulforManager::get()->getPath() + "/extensions/Scripts/").c_str());
         		strcat(testscript,input);
 			if (system(testscript)!=0)
 			{
@@ -57,6 +59,7 @@ ShellCommand::ShellCommand(char* input, int len, int shell): output(dcpp::Util::
 				//if(BOOLSETTING(SCRIPT_EXECUTABLES))
 				//{
 					char com[strlen(command)+29];
+					strcpy(com,("chmod +x "+ WulforManager::get()->getPath() + "/extensions/Scripts/").c_str());
 					strcpy(com,"chmod +x extensions/Scripts/");
 					strcat(com,input);
 					if (system(com)==0)
@@ -81,7 +84,7 @@ ShellCommand::ShellCommand(char* input, int len, int shell): output(dcpp::Util::
 		}
 		if (error == 0)
 		{
-    			strcpy(command,"./extensions/Scripts/");
+    			strcpy(command, (WulforManager::get()->getPath() + "/extensions/Scripts/").c_str());
     			strcat(command,input);
 		}
 	}
@@ -94,7 +97,7 @@ ShellCommand::ShellCommand(char* input, int len, int shell): output(dcpp::Util::
 	{
 			FILE* f;
 			char *out = new char[resultsize];
-        	f=popen(command,"r");
+        	f = popen(command,"r");
         	fgets(out,resultsize,f);
 			output = out;
 			delete out;

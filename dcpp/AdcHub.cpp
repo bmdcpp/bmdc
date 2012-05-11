@@ -183,12 +183,6 @@ void AdcHub::handle(AdcCommand::INF, AdcCommand& c) noexcept {
 		u->getIdentity().set(i->c_str(), i->substr(2));
 	}
 
-	/*if(u->getIdentity().isBot()) {
-		u->getUser()->setFlag(User::BOT);
-	} else {
-		u->getUser()->unsetFlag(User::BOT);
-	}*/
-
 	if(u->getIdentity().supports(ADCS_FEATURE)) {
 		u->getUser()->setFlag(User::TLS);
 	}
@@ -473,7 +467,6 @@ void AdcHub::handle(AdcCommand::STA, AdcCommand& c) noexcept {
 	if(!u)
 		return;
 
-	//int severity = Util::toInt(c.getParam(0).substr(0, 1));
 	if(c.getParam(0).size() != 3) {
 		return;
 	}
@@ -1015,6 +1008,8 @@ void AdcHub::info(bool /*alwaysSend*/) {
 	addParam(lastInfoMap, c, "AP", "++");
 	addParam(lastInfoMap, c, "VE", VERSIONSTRING);
 	addParam(lastInfoMap, c, "AW", Util::getAway() ? "1" : Util::emptyString);
+	//trying RF = ref addres from connected
+	addParam(lastInfoMap, c, "RF", getAddress()+":"+getPort());
 
 	int limit = ThrottleManager::getInstance()->getDownLimit();
 	if (limit > 0) {

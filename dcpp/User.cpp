@@ -552,6 +552,7 @@ map<string, string> Identity::getReport() const
 				case TAG('N','I'): name = "Nick"; break;
 				case TAG('O','P'): name = "Operator"; break;
 				case TAG('P','K'): name = "NMDC Pk"; break;
+				case TAG('R','F'): name = "Refferer url"; break;
 				case TAG('R','S'): name = "Shared bytes - real"; value = Text::fromT(Util::formatExactSize(Util::toInt64(value))); break;
 				case TAG('S','F'): name = "Shared files"; break;
 				case TAG('S','I'): name = "Session ID"; value = sid; break;

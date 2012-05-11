@@ -82,7 +82,7 @@ class Entry
 
 	private:
 		GladeXML *xml;
-		EntryType type;
+		const EntryType type;
 		std::string id;
 		std::map<std::string, Entry *> children;
 };

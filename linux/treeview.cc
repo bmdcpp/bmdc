@@ -262,7 +262,7 @@ void TreeView::timeLeftDataFunc(GtkTreeViewColumn *col, GtkCellRenderer *rendere
 void TreeView::addColumn_gui(Column& column)
 {
 	GtkTreeViewColumn *col = NULL;
-	GtkCellRenderer *renderer;
+	GtkCellRenderer *renderer = NULL;
 
 	switch (column.type)
 	{
@@ -584,7 +584,7 @@ void TreeView::buildCopyMenu(GtkWidget *wid)
 	menuItem = gtk_separator_menu_item_new();
 	gtk_menu_shell_append(GTK_MENU_SHELL(_menu), menuItem);
 
-	for (size_t i = 0; i < getColCount(); i++)
+	for (int i = 0; i < getColCount(); i++)
     {
         GtkTreeViewColumn *col = gtk_tree_view_get_column(view, i);
         if (col == NULL)
@@ -618,7 +618,7 @@ void TreeView::onCopyRowClicked_gui(GtkMenuItem *item, gpointer data)
 		{
 			path = (GtkTreePath *)i->data;
 
-	        for (size_t j = 0; j < tv->getColCount(); j++)
+	        for (int j = 0; j < tv->getColCount(); j++)
 	        {
 		        GtkTreeViewColumn *col = gtk_tree_view_get_column(tv->view, j);
 		        if (col == NULL)
@@ -631,7 +631,7 @@ void TreeView::onCopyRowClicked_gui(GtkMenuItem *item, gpointer data)
                 {
 			        if (gtk_tree_model_get_iter(GTK_TREE_MODEL(gtk_tree_view_get_model(tv->view)), &iter, path))
 			        {
-			            GtkTreeModel *m = gtk_tree_view_get_model(tv->view);
+			           // GtkTreeModel *m = gtk_tree_view_get_model(tv->view);
 						data += title + ": ";
 			            data += tv->getValueAsText(&iter, title) + "\n";
 			        }
@@ -671,7 +671,7 @@ void TreeView::onCopyDataItemClicked_gui(GtkMenuItem *item, gpointer data)
 
 	        if (gtk_tree_model_get_iter(GTK_TREE_MODEL(gtk_tree_view_get_model(tv->view)), &iter, path))
 	        {
-               GtkTreeModel *m = gtk_tree_view_get_model(tv->view);
+              // GtkTreeModel *m = gtk_tree_view_get_model(tv->view);
                 data += tv->getValueAsText(&iter, title) + G_DIR_SEPARATOR;
 	        }
 
@@ -690,9 +690,8 @@ void TreeView::onCopyDataItemClicked_gui(GtkMenuItem *item, gpointer data)
 string TreeView::getValueAsText(GtkTreeIter *i, const string &title)
 {
 	GtkTreeModel *m = gtk_tree_view_get_model(view);
-
 	GtkTreeViewColumn *col = NULL;
-
+	int64_t size = 0;
 	if (!title.empty())
 	{
         col = gtk_tree_view_get_column(view, this->col(title));
@@ -713,9 +712,10 @@ string TreeView::getValueAsText(GtkTreeIter *i, const string &title)
 		        case INT:
 		        case EXSIZE:
 		        	char buf[512];
-	                int64_t size = getValue<int64_t>(i, title);
+	                size = getValue<int64_t>(i, title);
 		            snprintf(buf, sizeof(buf), "%.f", (double)(size));
 		            return buf;
+				default: ;	
 	        }
         }
     }

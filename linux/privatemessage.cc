@@ -170,7 +170,15 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	// set default select tag (fix error show cursor in neutral space)
 	selectedTag = TagsMap[Tag::TAG_PRIVATE];
 	
-	readLog(SETTING(LOG_DIRECTORY) + SETTING(LOG_FILE_PRIVATE_CHAT), (unsigned int)SETTING(PM_LAST_LOG_LINES));
+	dcpp::ParamMap params;
+	params["hubNI"] = WulforUtil::getHubNames(cid, hubUrl);//NOTE: core 0.762
+	params["hubURL"] = hubUrl;//NOTE: core 0.762
+	params["userCID"] = cid;
+	params["userNI"] = ClientManager::getInstance()->getNicks(CID(cid), hubUrl)[0];//NOTE: core 0.762
+	params["myCID"] = ClientManager::getInstance()->getMe()->getCID().toBase32();
+	
+	readLog(LogManager::getInstance()->getPath(LogManager::PM, params)
+		,(unsigned int)SETTING(PM_LAST_LOG_LINES));
 }
 
 PrivateMessage::~PrivateMessage()
@@ -1466,16 +1474,6 @@ void PrivateMessage::readLog(const string& logPath, const unsigned setting)
 		return;
 	if(logPath.empty())
 		return;	
-	//make %[] value...
-	dcpp::ParamMap params;
-	params["hubUrl"] = hubUrl;
-	OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hubUrl, false);
-	Client *client = &ou->getClient();
-	client->getHubIdentity().getParams(params, "hub", false);
-	client->getMyIdentity().getParams(params, "my", true);
-	Identity *id = &ou->getIdentity();
-	id->getParams(params, "user", true);
-	Util::formatParams(logPath, params);
 	//..
 	StringList lines;
 	try {

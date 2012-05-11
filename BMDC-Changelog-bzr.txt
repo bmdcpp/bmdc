@@ -448,4 +448,8 @@ Add Icon to menu on right click on Tabs
 Maybe Fix checker(/sc) isue..
 Fix PM after click on Link.
 Guesing Fix bad version icon on Starup (Limiting)
-
+---r111
+Fix PM show log
+Add RF on ADC(s) (http://adc.sourceforge.net/ADC-EXT.html#_rf_referrer_notification) but in B/C INF,
+Fix ShellCommand on LXDE (and may others DE/WM)
+Fix some of warnings (remove -Wextra from build flags) and remove some of unused values
