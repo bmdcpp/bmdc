@@ -47,7 +47,8 @@
 #include <string>
 #include <map>
 #include <vector>
-
+#include "fsusage.h"
+#include "freespace.h"
 /* Variables */
 DCCorePtr dcpp;
 
@@ -100,6 +101,7 @@ Bool onLoad(uint32_t eventId, DCCorePtr core) {
 		set_cfg("MediaPlayerFormat", "playing %[artist] - %[album] - %[title]");
 		//set_cfg("Destination","org.mpris.guayadeque");
 		//set_cfg("Method","GetMetadata");
+		set_cfg("DFPath","/");
 		
 	}
 
@@ -209,6 +211,25 @@ string formatParams(const string& format, StringMap& params) {
 	return result;
 }
 
+string formatBytes(int64_t aBytes) {
+    char buf[128];
+    if(aBytes < 1024) {
+        snprintf(buf, sizeof(buf), "%d B", (int)(aBytes&0xffffffff));
+    } else if(aBytes < 1024*1024) {
+        snprintf(buf, sizeof(buf), "%.02f KiB", (double)aBytes/(1024.0));
+    } else if(aBytes < 1024*1024*1024) {
+        snprintf(buf, sizeof(buf), "%.02f MiB", (double)aBytes/(1024.0*1024.0));
+    } else if(aBytes < (int64_t)1024*1024*1024*1024) {
+        snprintf(buf, sizeof(buf), "%.02f GiB", (double)aBytes/(1024.0*1024.0*1024.0));
+    } else if(aBytes < (int64_t)1024*1024*1024*1024*1024) {
+        snprintf(buf, sizeof(buf), "%.02f TiB", (double)aBytes/(1024.0*1024.0*1024.0*1024.0));
+    } else {
+        snprintf(buf, sizeof(buf), "%.02f PiB", (double)aBytes/(1024.0*1024.0*1024.0*1024.0*1024.0));
+    }
+
+    return buf;
+}
+
 static gchar *parse(GVariant *var,ConfigStrPtr suffix)
 {
 	StringMap params;
@@ -234,6 +255,12 @@ static gchar *parse(GVariant *var,ConfigStrPtr suffix)
       g_variant_iter_free (iter);
 	}
    return const_cast<gchar *>(g_strdup(formatParams(string(suffix->value),params).c_str()));
+}
+
+string toString(double val) {
+		char buf[16];
+		snprintf(buf, sizeof(buf), "%0.2f", val);
+		return buf;
 }
 
 /* Event handlers */
@@ -366,6 +393,23 @@ Bool DCAPI onHubEnter(dcptr_t pObject, dcptr_t pData, Bool* bBreak) {
 			g_variant_unref(var);
 			config->release((ConfigValuePtr)suffix);
 		return True;	
+	} else if (stricmp(cmd->command, "fspace") == 0)
+	{
+		ConfigStrPtr s = get_cfg("DFPath");
+		const char *value = s->value;
+		unsigned long long available = 0;
+		unsigned long long total = 0;
+		if ( value != NULL) {
+			if (FreeSpace::FreeDiscSpace(value, &available, &total) == false) {
+				available = 0;
+				total = 0;
+			}
+		}
+		float freepercent = 1.0f*(total-available)/total;
+		string freespace = "Free " + formatBytes(available) + " "+toString(freepercent) +"%";
+		hub->send_message(hHub, freespace.c_str(), (strnicmp(freespace.c_str(), "/me ", 4) == 0) ? True : False);
+		config->release((ConfigValuePtr)s);
+		return True;
 	}
 	return False;
 }

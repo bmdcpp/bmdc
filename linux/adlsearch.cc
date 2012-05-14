@@ -559,7 +559,7 @@ int SearchADL::find_raw(string rawString)
 {
 	if(rawString.empty())
 		return 0;
-	int raw =0;
+	int raw = 0;
 	vector<std::pair<std::string,int> > act = WulforUtil::getActions();
 	for (vector<std::pair<std::string,int> >::const_iterator it = act.begin(); it != act.end(); ++it)
 	{
@@ -573,8 +573,8 @@ int SearchADL::find_rawInt(int raw)
 {
 	if(raw == 0)
 		return 0;
-	int _raw =0;
-	int i=0;
+	int _raw = 0;
+	int i = 0;
 	vector<std::pair<std::string,int> > act = WulforUtil::getActions();
 	for (vector<std::pair<std::string,int> >::const_iterator it = act.begin(); it != act.end(); ++it)
 	{

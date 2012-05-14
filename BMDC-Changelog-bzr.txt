@@ -453,3 +453,12 @@ Fix PM show log
 Add RF on ADC(s) (http://adc.sourceforge.net/ADC-EXT.html#_rf_referrer_notification) but in B/C INF,
 Fix ShellCommand on LXDE (and may others DE/WM)
 Fix some of warnings (remove -Wextra from build flags) and remove some of unused values
+---r112
+Add AC Tab
+Fix CMD Debug Tab
+Fix reparated messages about loading emoticons
+Change Next/Prev tab to ctrl + right  and ctrl + left keys
+Fix About Dialog
+Add "Normal" Stats about mem to /stats and remove Time
+Add fsusage/freespace to dbus plugin ..
+---

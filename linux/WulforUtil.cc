@@ -964,9 +964,9 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			const long minute = 60;
 			const long hour = minute * 60;
 			const long day = hour * 24;
-			long upt=sys.uptime;
-			long udays=upt/day;
-			long uhour= (upt % day) / hour;
+			long upt = sys.uptime;
+			long udays = upt/day;
+			long uhour = (upt % day) / hour;
 			long umin = (upt % hour) / minute;
 			const unsigned long megabyte = 1024;
 			/**/
@@ -974,12 +974,12 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			int detfail = SETTING(DETECTIONF);
 
 		message =   "\n-= Stats " + dcpp::fullVersionString + " =-\n"
-					+ "-= "+sys_name + " " + node_name + " " + rel + " " + mach + " =-\n"
+					+ "-= " + sys_name + " " + node_name + " " + rel + " " + mach + " =-\n"
 					+ "-= Uptime: " + Util::formatSeconds(Util::getUptime()) + " =-\n"
 					+ "-= Sys Uptime: " + Util::toString(udays) + " days," + Util::toString(uhour) + " Hours," + Util::toString(umin) + " min. =-\n"
-					+ "-= Time: " + Util::getShortTimeString() + " =-\n"
 					+ "-= Mem Usage (Free/Total):" + Util::toString(uram/megabyte) + " MB /" + Util::toString(toram/megabyte) + " MB =-\n"
-					+ "-= Detection (Failed/Successful) :" + Util::toString(detfail) + " /" + Util::toString(dettotal) + " =-\n";
+					+ "-= Detection (Failed/Successful) :" + Util::toString(detfail) + " /" + Util::toString(dettotal) + " =-\n"
+					+ "-= "+ getStatsForMem()+" =-\n";
 
 	}
 	/// "Now Playing" spam // added by curse and Irene
@@ -1507,3 +1507,72 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 	g_object_unref(icon);
 	return icon_d;
 }
+
+string WulforUtil::getStatsForMem() {
+	//main poit of this code is from ?? PtoXa
+	string tmp = Util::emptyString;
+	FILE *fp = fopen("/proc/self/status", "r");
+				if(fp != NULL) {
+					string memrss, memhwm, memvms, memvmp, memstk, memlib;
+					char buf[1024];
+					while(fgets(buf, 1024, fp) != NULL) {
+						if(strncmp(buf, "VmRSS:", 6) == 0) {
+							char * tmp = buf+6;
+							while(isspace(*tmp) && *tmp) {
+								tmp++;
+							}
+							memrss = string(tmp, strlen(tmp)-1);
+						} else if(strncmp(buf, "VmHWM:", 6) == 0) {
+							char * tmp = buf+6;
+							while(isspace(*tmp) && *tmp) {
+								tmp++;
+							}
+							memhwm = string(tmp, strlen(tmp)-1);
+						} else if(strncmp(buf, "VmSize:", 7) == 0) {
+							char * tmp = buf+7;
+							while(isspace(*tmp) && *tmp) {
+								tmp++;
+							}
+							memvms = string(tmp, strlen(tmp)-1);
+						} else if(strncmp(buf, "VmPeak:", 7) == 0) {
+							char * tmp = buf+7;
+							while(isspace(*tmp) && *tmp) {
+								tmp++;
+							}
+							memvmp = string(tmp, strlen(tmp)-1);
+						} else if(strncmp(buf, "VmStk:", 6) == 0) {
+							char * tmp = buf+6;
+							while(isspace(*tmp) && *tmp) {
+								tmp++;
+							}
+							memstk = string(tmp, strlen(tmp)-1);
+						} else if(strncmp(buf, "VmLib:", 6) == 0) {
+							char * tmp = buf+6;
+							while(isspace(*tmp) && *tmp) {
+								tmp++;
+							}
+							memlib = string(tmp, strlen(tmp)-1);
+						}
+					}
+
+					fclose(fp);
+					
+					if(memhwm.size() != 0 && memrss.size() != 0) {
+						tmp+="-= Mem usage (Peak): "+memrss+ " ("+memhwm+") =-\n";
+					} else if(memrss.size() != 0) {
+						tmp+="-= Mem usage: "+memrss+"\n =-";
+					}
+
+					if(memvmp.size() != 0 && memvms.size() != 0) {
+						tmp+="-= VM size (Peak): "+memvms+ " ("+memvmp+")\n =-";
+					} else if(memrss.size() != 0) {
+						tmp+="-= VM size: "+memvms+"\n =-";
+					}
+
+					if(memstk.size() != 0 && memlib.size() != 0) {
+						tmp+="-= Stack size / Libs size: "+memstk+ " / "+memlib+"\n";
+					}
+			}
+			return tmp;
+}			
+

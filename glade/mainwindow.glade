@@ -571,12 +571,14 @@ In addition, as a special exception, compiling, linking, and/or using OpenSSL wi
 This program uses the MiniUPnP client library by Thomas Bernard http://miniupnp.tuxfamily.org http://miniupnp.free.fr
 </property>
     <property name="authors">Developers:
+Mank
+Developers of FreeDC++:
   troll
 
 Contributors:
   Leliksan Floyd
 </property>
-    <property name="artists">troll (icons: users, logo)</property>
+    <property name="artists">branec (icons: users, logo)</property>
     <property name="wrap_license">True</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox3">
@@ -1324,7 +1326,7 @@ Contributors:
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">_Previous Tab</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="Page_Up" signal="activate" modifiers="GDK_CONTROL_MASK | GDK_MOD1_MASK"/>
+                        <accelerator key="Left" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </widget>
                     </child>
                     <child>
@@ -1334,7 +1336,7 @@ Contributors:
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">_Next Tab</property>
                         <property name="use_underline">True</property>
-                        <accelerator key="Page_Down" signal="activate" modifiers="GDK_CONTROL_MASK | GDK_MOD1_MASK"/>
+                        <accelerator key="Right" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </widget>
                     </child>
                     <child>
@@ -1398,6 +1400,14 @@ Contributors:
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Hide</property>
+                        <property name="use_underline">True</property>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkMenuItem" id="AboutConfigItem">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">AboutConfig</property>
                         <property name="use_underline">True</property>
                       </widget>
                     </child>

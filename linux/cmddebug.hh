@@ -47,7 +47,7 @@ class cmddebug:
         void add_gui(time_t t, std::string file);
 
     private:
-		typedef std::unordered_map<std::string, GtkTreeIter> Iters;
+		typedef std::unordered_map<std::string, int> Iters;
         //GUI
        static void onClearButton(GtkWidget *widget, gpointer data);
 

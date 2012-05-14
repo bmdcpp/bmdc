@@ -52,31 +52,21 @@ stop(false)
     g_signal_connect(adjustment, "changed", G_CALLBACK(onResize_gui), (gpointer)this);
     g_signal_connect(getWidget("buttonClear"), "clicked", G_CALLBACK(onClearButton), (gpointer)this);
     
-    store = gtk_list_store_new(1, G_TYPE_STRING);
     ClientManager *clientMgr = ClientManager::getInstance();
-    GtkTreeIter iter;
     {
 		auto lock = clientMgr->lock();
 		clientMgr->addListener(this);
 		auto& clients = clientMgr->getClients();
+		int i = 0;
 		for(auto it = clients.begin(); it != clients.end(); ++it) {
 			Client* client = *it;
 			if(!client->isConnected())
 				continue;
-			gtk_list_store_append( store, &iter );
-			gtk_list_store_set( store, &iter, 0,client->getIpPort().c_str() ,-1);
-			iters.insert(Iters::value_type(client->getIpPort(), iter));	
-			
+			gtk_combo_box_append_text(GTK_COMBO_BOX(getWidget("comboboxadr")),client->getHubUrl().c_str());
+			iters.insert(Iters::value_type(client->getHubUrl(), i));	
+			i++;
 		}		
 	}
-	gtk_combo_box_set_model(GTK_COMBO_BOX(getWidget("comboboxadr")),GTK_TREE_MODEL( store ) );
-	g_object_unref(G_OBJECT(store));
-	/* Create cell renderer. */
-    GtkCellRenderer *cell = gtk_cell_renderer_text_new();
-     /* Pack it into the combo box. */
-    gtk_cell_layout_pack_start( GTK_CELL_LAYOUT( getWidget("comboboxadr") ), cell, TRUE );
-    /* Connect renderer to data source. */
-    gtk_cell_layout_set_attributes( GTK_CELL_LAYOUT( getWidget("comboboxadr") ), cell, "text", 0, NULL );
 }
 
 cmddebug::~cmddebug()
@@ -168,34 +158,33 @@ void cmddebug::on(ClientDisconnected, Client* c) noexcept {
 	F2 *func = new F2(this,&cmddebug::UpdateCombo,c, false);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
+
 void cmddebug::UpdateCombo(Client* c, bool add)
 {
-	GtkListStore *_store = GTK_LIST_STORE(gtk_combo_box_get_model(GTK_COMBO_BOX(getWidget("comboboxadr"))));
-	
-	GtkTreeIter piter;
+	GtkWidget *widget = getWidget("comboboxadr");
+	int i = 0;
 	if(add)
 	{ 	
-		if(iters.find(c->getIpPort()) == iters.end())
+		if(iters.find(c->getHubUrl()) == iters.end())
 		{
-		if(!c->isConnected())
-			return;
-		gtk_list_store_append( _store, &piter );
-		gtk_list_store_set( _store, &piter, 0,c->getIpPort().c_str() ,-1);
-		iters.insert(Iters::value_type(c->getIpPort(), piter));		
+			if(!c->isConnected())
+				return;
+			gtk_combo_box_append_text(GTK_COMBO_BOX(widget),c->getHubUrl().c_str());
+			i = iters.size()+1;
+			iters.insert(Iters::value_type(c->getHubUrl(),i));		
 		}
 	}else {
-	/*	if(c == NULL)
-		      return; 
-		string url = c->getIpPort();   
+		if(c == NULL)
+			return;
+		string url = c->getHubUrl();   
 		auto it = iters.find(url);
 		if(it != iters.end())
 		{
-			piter = it->second;
-			gtk_list_store_remove(_store,&piter);
+			i = it->second;
+			gtk_combo_box_remove_text(GTK_COMBO_BOX(widget),i);
 			iters.erase(url);	
-		}*/
+		}
 	}
-	gtk_combo_box_set_model(GTK_COMBO_BOX(getWidget("comboboxadr")),GTK_TREE_MODEL( _store ) );
 }
 		
 void cmddebug::onScroll_gui(GtkAdjustment *adjustment, gpointer data)

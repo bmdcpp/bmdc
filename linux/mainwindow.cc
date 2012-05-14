@@ -64,7 +64,7 @@
 #include "uploadqueue.hh"
 #include "recenthub.hh"
 #include "detectiontab.hh"
-
+#include "AboutConfig.hh"
 
 using namespace std;
 using namespace dcpp;
@@ -329,7 +329,8 @@ MainWindow::MainWindow():
 	g_signal_connect(getWidget("closeTabSearchAllMenuItem"), "activate", G_CALLBACK(onCloseAllSearch_gui), (gpointer)this);
 	g_signal_connect(getWidget("CloseTabPMOfflineItem"), "activate", G_CALLBACK(onCloseAlloffPM_gui), (gpointer)this);
 	g_signal_connect(getWidget("recontallitem"), "activate", G_CALLBACK(onReconectAllHub_gui), (gpointer)this);
-
+	/**/
+	g_signal_connect(getWidget("AboutConfigItem"), "activate", G_CALLBACK(onAboutConfigClicked_gui), (gpointer)this);
 	// Help menu
 	g_object_set_data_full(G_OBJECT(getWidget("homeMenuItem")), "link",
 		g_strdup("http://launchpad.net/bmdc++"), g_free);
@@ -975,6 +976,12 @@ void MainWindow::showBook(const T& type, const B& book)
 			addBookEntry_gui(entry);	
 	}
 	raisePage_gui(entry->getContainer());
+}
+
+void MainWindow::onAboutConfigClicked_gui(GtkWidget *widget, gpointer data)
+{
+	MainWindow *mw = (MainWindow *)data;	
+	mw->showBook<Entry::EntryType,BookEntry *>(Entry::ABOUT_CONFIG,new AboutConfig());
 }
 
 void MainWindow::showDownloadQueue_gui()

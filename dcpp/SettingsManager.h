@@ -265,6 +265,7 @@ public:
 		TYPE_STRING,
 		TYPE_INT,
 		TYPE_INT64,
+		TYPE_FLOAT,
 		TYPE_NONE
 	};
 	//aded end
@@ -283,6 +284,10 @@ public:
 		return searchTypes;
 	}
 	const StringList& getExtensions(const string& name);
+	//[BMDC++/DiCe!++
+	const string (&getSettingTags() const)[SETTINGS_LAST+1] {
+		return settingTags;
+	}
 
 private:
 	friend class Singleton<SettingsManager>;

@@ -1,6 +1,8 @@
 all:
 	mkdir -p ../tmp.out/gcc/Release/SamplePlugin/
 	mkdir -p ../compiled/SamplePlugin/
+	gcc -fPIC -O3 -Wall -DNDEBUG -DUNICODE -D_UNICODE `pkg-config --libs --cflags gtk+-2.0` -I../include -c ../fsusage.c -o ../tmp.out/gcc/Release/SamplePlugin/fsusage.o
+	g++ -fPIC -O3 -Wall -DNDEBUG -DUNICODE -D_UNICODE `pkg-config --libs --cflags gtk+-2.0` -I../include -c ../freespace.cpp -o ../tmp.out/gcc/Release/SamplePlugin/freespace.o
 	g++ -fPIC -O3 -Wall -DNDEBUG -DUNICODE -D_UNICODE `pkg-config --libs --cflags gtk+-2.0` -I../include -c ../main.c -o ../tmp.out/gcc/Release/SamplePlugin/main.o
 	g++ -fPIC -O3 -Wall -DNDEBUG -DUNICODE -D_UNICODE `pkg-config --libs --cflags gtk+-2.0` -I../include -c ../stdafx.c -o ../tmp.out/gcc/Release/SamplePlugin/stdafx.o
 	g++ -fPIC -O3 -Wall -DNDEBUG -DUNICODE -D_UNICODE `pkg-config --libs --cflags gtk+-2.0` -I../include -c ../Plugin.c -o ../tmp.out/gcc/Release/SamplePlugin/Plugin.o

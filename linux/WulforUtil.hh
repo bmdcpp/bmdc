@@ -101,6 +101,7 @@ class WulforUtil
         static void remove_events_internal(GtkWidget *widget, gint events, GList *window_list);
         static std::string generateLeech();
         static void loadmimetypes();
+        static std::string getStatsForMem();
 
 		static std::vector<std::string> charsets;
 		static const std::string magnetSignature;
@@ -108,6 +109,7 @@ class WulforUtil
 		static std::map<std::string,std::string> m_mimetyp;
 		static const char* CountryNames[];
 		static const char* CountryCodes[];
+		
 };
 
 #endif

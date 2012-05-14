@@ -27,9 +27,8 @@
 class BookEntry : public Entry
 {
 	public:
-		BookEntry(): bold(false), urgent(false), eventBox(NULL),
-				labelBox(NULL), tabMenuItem(NULL),	closeButton(NULL),
-				label(NULL),popTabMenuItem(NULL), icon(NULL) , fItem(NULL), type((EntryType)0) { }
+		BookEntry(): eventBox(NULL), labelBox(NULL), tabMenuItem(NULL),	closeButton(NULL),
+				label(NULL), fItem(NULL), bold(false), urgent(false), icon(NULL) , popTabMenuItem(NULL), type((EntryType)0) { }
 		BookEntry(const EntryType type, const std::string &text, const std::string &glade, const std::string &id = "");
 		virtual ~BookEntry()
 		{
@@ -78,7 +77,7 @@ class BookEntry : public Entry
 		bool urgent;
 		static const glong labelSize = 20; ///@todo: make a preference?
 		GtkWidget *icon;
-		//BMDC++
+		//[BMDC++
 		GdkEventType previous;
 		GtkWidget *popTabMenuItem;
 		const EntryType type;

@@ -122,6 +122,8 @@
           <widget class="GtkComboBox" id="comboboxadr">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="items" translatable="yes" comments="Do Not Transalate"> 
+</property>
           </widget>
           <packing>
             <property name="expand">True</property>

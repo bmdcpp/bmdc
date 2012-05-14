@@ -242,7 +242,8 @@ class MainWindow:
 		static void onCloseAllSearch_gui(GtkWidget *widget, gpointer data);
 		static void onCloseAlloffPM_gui(GtkWidget *widget, gpointer data);
 		static void onReconectAllHub_gui(GtkWidget *widget, gpointer data);
-
+		/**/
+		static void onAboutConfigClicked_gui(GtkWidget *widget, gpointer data);
 		// Client functions
 		void autoConnect_client();
 		void startSocket_client();

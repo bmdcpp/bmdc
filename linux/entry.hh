@@ -57,7 +57,8 @@ class Entry
 			SYSTEML,
 			UPLOADQUEUE,
 			RECENT,
-			DETECTION
+			DETECTION,
+			ABOUT_CONFIG
 		} EntryType;
 
 		Entry() : xml(NULL), type((EntryType)0) {}

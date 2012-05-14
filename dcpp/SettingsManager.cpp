@@ -700,7 +700,7 @@ SettingsManager::SearchTypesIter SettingsManager::getSearchType(const string& na
 }
 
 bool SettingsManager::getType(const char* name, int& n, Types& type) const {
-	for(n = 0; n < INT64_LAST; n++) {
+	for(n = 0; n < FLOAT_LAST; n++) {
 
 		if(strcmp(settingTags[n].c_str(), name) == 0) {
 				if(n < STR_LAST) {
@@ -709,11 +709,15 @@ bool SettingsManager::getType(const char* name, int& n, Types& type) const {
                 } else if(n < INT_LAST) {
                     type = TYPE_INT;
                     return true;
-                } else
+                } else if( n < INT64_LAST)
                 {
                     type = TYPE_INT64;
                     return true;
-                }
+                }else
+				{
+					type = TYPE_FLOAT;	
+					return true;
+				}	
 		}
 	}
     return false;

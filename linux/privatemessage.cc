@@ -645,7 +645,8 @@ void PrivateMessage::applyEmoticons_gui()
 	}
 	else if (!Emoticons::get()->useEmoticons_gui())
 	{
-		setStatus_gui(_(" *** Emoticons not loaded"));
+		if (WGETB("emoticons-use"))
+			setStatus_gui(_(" *** Emoticons not loaded"));
 		return;
 	}
 	else if (!useEmoticons)

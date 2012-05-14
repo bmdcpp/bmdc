@@ -28,7 +28,6 @@ ShellCommand::ShellCommand(char* input, int len, int shell): output(dcpp::Util::
 {
 	thirdPerson = false;
 	resultsize = len;
-	//output = new char[resultsize];
 	output.resize(resultsize);
 	//strcpy(output,"");
 	errormessage = new char[strlen(input)+100];
@@ -115,8 +114,6 @@ ShellCommand::ShellCommand(char* input, int len, int shell): output(dcpp::Util::
 
 ShellCommand::~ShellCommand()
 {
-	//delete[] output;
-	//output = NULL;
 	delete[] errormessage;
 }
 
