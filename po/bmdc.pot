@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-05-14 17:11+0200\n"
+"POT-Creation-Date: 2012-05-15 11:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-05-14 17:17+0200\n"
+"POT-Creation-Date: 2012-05-15 15:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -832,8 +832,9 @@ msgstr ""
 #: glade/favoritehubs.glade:615 glade/settingsdialog.glade:5098
 #: glade/settingsdialog.glade:5804 glade/settingsdialog.glade:5997
 #: glade/settingsdialog.glade:6190 glade/settingsdialog.glade:8789
-#: linux/AboutConfig.cc:47 linux/emoticonsdialog.cc:106
-#: linux/favoritehubs.cc:893 linux/previewmenu.cc:88
+#: linux/AboutConfig.cc:49 linux/AboutConfig.cc:88 linux/AboutConfig.cc:98
+#: linux/emoticonsdialog.cc:106 linux/favoritehubs.cc:893
+#: linux/previewmenu.cc:88
 msgid "Default"
 msgstr ""
 
@@ -1606,24 +1607,25 @@ msgstr ""
 
 #: glade/detection.glade:122 glade/detection.glade:559
 #: glade/detection.glade:886 glade/favoritehubs.glade:85
-#: glade/settingsdialog.glade:900 linux/AboutConfig.cc:13
-#: linux/AboutConfig.cc:84 linux/AboutConfig.cc:141 linux/detectiontab.cc:41
-#: linux/detectiontab.cc:60 linux/detectiontab.cc:71 linux/detectiontab.cc:328
-#: linux/detectiontab.cc:350 linux/detectiontab.cc:422
-#: linux/detectiontab.cc:472 linux/detectiontab.cc:494
-#: linux/detectiontab.cc:518 linux/detectiontab.cc:542
-#: linux/detectiontab.cc:574 linux/detectiontab.cc:657
-#: linux/detectiontab.cc:666 linux/detectiontab.cc:683
-#: linux/detectiontab.cc:695 linux/detectiontab.cc:842
-#: linux/detectiontab.cc:869 linux/detectiontab.cc:910
-#: linux/detectiontab.cc:926 linux/favoritehubs.cc:57 linux/favoritehubs.cc:82
-#: linux/favoritehubs.cc:102 linux/favoritehubs.cc:168
-#: linux/favoritehubs.cc:351 linux/favoritehubs.cc:421
-#: linux/favoritehubs.cc:434 linux/favoritehubs.cc:701
-#: linux/favoritehubs.cc:854 linux/favoritehubs.cc:1024 linux/publichubs.cc:42
-#: linux/publichubs.cc:158 linux/publichubs.cc:295 linux/recenthub.cc:41
-#: linux/recenthub.cc:81 linux/recenthub.cc:192 linux/recenthub.cc:269
-#: linux/recenthub.cc:278 linux/search.cc:1706 linux/settingsdialog.cc:760
+#: glade/settingsdialog.glade:900 linux/AboutConfig.cc:14
+#: linux/AboutConfig.cc:108 linux/AboutConfig.cc:123 linux/AboutConfig.cc:195
+#: linux/detectiontab.cc:41 linux/detectiontab.cc:60 linux/detectiontab.cc:71
+#: linux/detectiontab.cc:328 linux/detectiontab.cc:350
+#: linux/detectiontab.cc:422 linux/detectiontab.cc:472
+#: linux/detectiontab.cc:494 linux/detectiontab.cc:518
+#: linux/detectiontab.cc:542 linux/detectiontab.cc:574
+#: linux/detectiontab.cc:657 linux/detectiontab.cc:666
+#: linux/detectiontab.cc:683 linux/detectiontab.cc:695
+#: linux/detectiontab.cc:842 linux/detectiontab.cc:869
+#: linux/detectiontab.cc:910 linux/detectiontab.cc:926
+#: linux/favoritehubs.cc:57 linux/favoritehubs.cc:82 linux/favoritehubs.cc:102
+#: linux/favoritehubs.cc:168 linux/favoritehubs.cc:351
+#: linux/favoritehubs.cc:421 linux/favoritehubs.cc:434
+#: linux/favoritehubs.cc:701 linux/favoritehubs.cc:854
+#: linux/favoritehubs.cc:1024 linux/publichubs.cc:42 linux/publichubs.cc:158
+#: linux/publichubs.cc:295 linux/recenthub.cc:41 linux/recenthub.cc:81
+#: linux/recenthub.cc:192 linux/recenthub.cc:269 linux/recenthub.cc:278
+#: linux/search.cc:1706 linux/settingsdialog.cc:760
 #: linux/settingsdialog.cc:769 linux/settingsdialog.cc:947
 #: linux/settingsdialog.cc:982 linux/settingsdialog.cc:1351
 #: linux/settingsdialog.cc:1450 linux/settingsdialog.cc:1570
@@ -2245,10 +2247,11 @@ msgstr ""
 msgid "Start a search for this file"
 msgstr ""
 
-#: glade/settingsdialog.glade:274 linux/AboutConfig.cc:52
-#: linux/settingsdialog.cc:1712 linux/settingsdialog.cc:1742
-#: linux/settingsdialog.cc:4746 linux/settingsdialog.cc:4828
-#: linux/settingsdialog.cc:4842 linux/settingsdialog.cc:4987
+#: glade/settingsdialog.glade:274 linux/AboutConfig.cc:54
+#: linux/AboutConfig.cc:86 linux/settingsdialog.cc:1712
+#: linux/settingsdialog.cc:1742 linux/settingsdialog.cc:4746
+#: linux/settingsdialog.cc:4828 linux/settingsdialog.cc:4842
+#: linux/settingsdialog.cc:4987
 msgid "String"
 msgstr ""
 
@@ -2353,8 +2356,8 @@ msgstr ""
 msgid "Trusted certificates path"
 msgstr ""
 
-#: glade/detection.glade:257 glade/detection.glade:904 linux/AboutConfig.cc:15
-#: linux/AboutConfig.cc:86 linux/search.cc:100 linux/search.cc:659
+#: glade/detection.glade:257 glade/detection.glade:904 linux/AboutConfig.cc:16
+#: linux/AboutConfig.cc:110 linux/search.cc:100 linux/search.cc:659
 #: linux/search.cc:736 linux/search.cc:877 linux/search.cc:1748
 #: linux/search.cc:1749 linux/search.cc:1750 linux/search.cc:1764
 #: linux/sharebrowser.cc:78 linux/sharebrowser.cc:297
@@ -2465,8 +2468,8 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: glade/detection.glade:893 linux/AboutConfig.cc:16 linux/AboutConfig.cc:87
-#: linux/AboutConfig.cc:142 linux/detectiontab.cc:110
+#: glade/detection.glade:893 linux/AboutConfig.cc:17 linux/AboutConfig.cc:111
+#: linux/AboutConfig.cc:124 linux/AboutConfig.cc:196 linux/detectiontab.cc:110
 #: linux/detectiontab.cc:1040 linux/detectiontab.cc:1141
 #: linux/detectiontab.cc:1240
 msgid "Value"
@@ -2972,7 +2975,7 @@ msgstr ""
 msgid "<b>file:</b> "
 msgstr ""
 
-#: linux/AboutConfig.cc:9
+#: linux/AboutConfig.cc:10
 msgid "About:config"
 msgstr ""
 
@@ -3607,7 +3610,7 @@ msgstr ""
 msgid "Flag"
 msgstr ""
 
-#: linux/AboutConfig.cc:66
+#: linux/AboutConfig.cc:68
 msgid "Float"
 msgstr ""
 
@@ -3785,11 +3788,11 @@ msgstr ""
 msgid "Ignored private message from hub"
 msgstr ""
 
-#: linux/AboutConfig.cc:61
+#: linux/AboutConfig.cc:63
 msgid "Int64"
 msgstr ""
 
-#: linux/AboutConfig.cc:56
+#: linux/AboutConfig.cc:58 linux/AboutConfig.cc:96
 msgid "Integer"
 msgstr ""
 
@@ -4393,7 +4396,7 @@ msgstr ""
 msgid "Start/Stop checkers"
 msgstr ""
 
-#: linux/AboutConfig.cc:14 linux/AboutConfig.cc:85 linux/downloadqueue.cc:65
+#: linux/AboutConfig.cc:15 linux/AboutConfig.cc:109 linux/downloadqueue.cc:65
 #: linux/downloadqueue.cc:276 linux/downloadqueue.cc:383 linux/searchspy.cc:57
 #: linux/searchspy.cc:295 linux/searchspy.cc:377 linux/transfers.cc:62
 #: linux/transfers.cc:412 linux/transfers.cc:445 linux/transfers.cc:539
@@ -4697,7 +4700,7 @@ msgstr ""
 msgid "User operator (pasive) "
 msgstr ""
 
-#: linux/AboutConfig.cc:47
+#: linux/AboutConfig.cc:49 linux/AboutConfig.cc:88 linux/AboutConfig.cc:98
 msgid "User set"
 msgstr ""
 

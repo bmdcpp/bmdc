@@ -124,6 +124,7 @@ public:
 	bool runHook(const string& guid, dcptr_t pObject, dcptr_t pData) {
 		auto i = hooks.find(guid);
 		dcassert(i != hooks.end());
+		if(shutdown) return false;
 		return runHook(i->second, pObject, pData);
 	}
 

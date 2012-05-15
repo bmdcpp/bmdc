@@ -295,57 +295,57 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("icon-system", "bmdc-system"));
 	defaultString.insert(StringMap::value_type("icon-system-on", "bmdc-system-on"));
 	defaultString.insert(StringMap::value_type("icon-highlight", "bmdc-highlight"));
-	/**/
+	/* * */
 	defaultString.insert(StringMap::value_type("icon-normal", "bmdc-normal"));
-	/*Icon of conn*/
+	/* Icon of conn */
 	defaultString.insert(StringMap::value_type("icon-op", "bmdc-op"));
 	defaultString.insert(StringMap::value_type("icon-modem", "bmdc-modem"));
 	defaultString.insert(StringMap::value_type("icon-wireless", "bmdc-wireless"));
 	defaultString.insert(StringMap::value_type("icon-dsl", "bmdc-dsl"));
 	defaultString.insert(StringMap::value_type("icon-lan", "bmdc-lan"));
 	defaultString.insert(StringMap::value_type("icon-netlimiter", "bmdc-netlimiter"));
-	/***/
+	/* * */
 	defaultString.insert(StringMap::value_type("icon-ten", "bmdc-ten"));
 	defaultString.insert(StringMap::value_type("icon-zeroone", "bmdc-zeroone"));
 	defaultString.insert(StringMap::value_type("icon-zerozeroone", "bmdc-zerozeroone"));
 	defaultString.insert(StringMap::value_type("icon-other", "bmdc-other"));
-	/*aways*/
+	/* aways */
 	defaultString.insert(StringMap::value_type("icon-op-away", "bmdc-op-away"));
 	defaultString.insert(StringMap::value_type("icon-modem-away", "bmdc-modem-away"));
 	defaultString.insert(StringMap::value_type("icon-wireless-away", "bmdc-wireless-away"));
 	defaultString.insert(StringMap::value_type("icon-dsl-away", "bmdc-dsl-away"));
 	defaultString.insert(StringMap::value_type("icon-lan-away", "bmdc-lan-away"));
 	defaultString.insert(StringMap::value_type("icon-netlimiter-away", "bmdc-netlimiter-away"));
-	/***/
+	/* * */
 	defaultString.insert(StringMap::value_type("icon-ten-away", "bmdc-ten-away"));
 	defaultString.insert(StringMap::value_type("icon-zeroone-away", "bmdc-zeroone-away"));
 	defaultString.insert(StringMap::value_type("icon-zerozeroone-away", "bmdc-zerozeroone-away"));
 	defaultString.insert(StringMap::value_type("icon-other-away", "bmdc-other-away"));
-	/*pasive**/
+	/* pasive */
 	defaultString.insert(StringMap::value_type("icon-op-pasive", "bmdc-op-pasive"));
 	defaultString.insert(StringMap::value_type("icon-modem-pasive", "bmdc-modem-pasive"));
 	defaultString.insert(StringMap::value_type("icon-wireless-pasive", "bmdc-wireless-pasive"));
 	defaultString.insert(StringMap::value_type("icon-dsl-pasive", "bmdc-dsl-pasive"));
 	defaultString.insert(StringMap::value_type("icon-lan-pasive", "bmdc-lan-pasive"));
 	defaultString.insert(StringMap::value_type("icon-netlimiter-pasive", "bmdc-netlimiter-pasive"));
-	/***/
+	/* * */
 	defaultString.insert(StringMap::value_type("icon-ten-pasive", "bmdc-ten-pasive"));
 	defaultString.insert(StringMap::value_type("icon-zeroone-pasive", "bmdc-zeroone-pasive"));
 	defaultString.insert(StringMap::value_type("icon-zerozeroone-pasive", "bmdc-zerozeroone-pasive"));
 	defaultString.insert(StringMap::value_type("icon-other-pasive", "bmdc-other-pasive"));
-	/*aways*/
+	/* aways */
 	defaultString.insert(StringMap::value_type("icon-op-away-pasive", "bmdc-op-away-pasive"));
 	defaultString.insert(StringMap::value_type("icon-modem-away-pasive", "bmdc-modem-away-pasive"));
 	defaultString.insert(StringMap::value_type("icon-wireless-away-pasive", "bmdc-wireless-awayv"));
 	defaultString.insert(StringMap::value_type("icon-dsl-away-pasive", "bmdc-dsl-away-pasive"));
 	defaultString.insert(StringMap::value_type("icon-lan-away-pasive", "bmdc-lan-away-pasive"));
 	defaultString.insert(StringMap::value_type("icon-netlimiter-away-pasive", "bmdc-netlimiter-away-pasive"));
-	/***/
+	/* * */
 	defaultString.insert(StringMap::value_type("icon-ten-away-pasive", "bmdc-ten-away-pasive"));
 	defaultString.insert(StringMap::value_type("icon-zeroone-away-pasive", "bmdc-zeroone-away-pasive"));
 	defaultString.insert(StringMap::value_type("icon-zerozeroone-away-pasive", "bmdc-zerozeroone-away-pasive"));
 	defaultString.insert(StringMap::value_type("icon-other-away-pasive", "bmdc-other-away-pasive"));
-	/*for UL color text*/
+	/* for UL color text */
 	defaultString.insert(StringMap::value_type("userlist-text-operator", "#000000"));
 	defaultString.insert(StringMap::value_type("userlist-text-pasive", "#747677"));
 	defaultString.insert(StringMap::value_type("userlist-text-protected", "#8B6914"));
@@ -353,7 +353,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("userlist-text-ignored", "#9affaf"));
 	defaultString.insert(StringMap::value_type("userlist-text-normal", "#000000"));
 	defaultString.insert(StringMap::value_type("userlist-text-bot-hub", "#1E90FF"));
-	/*for UserList BG*/
+	/* for UserList Background*/
 	defaultString.insert(StringMap::value_type("userlist-bg-operator", "#1E90FF"));
 	defaultString.insert(StringMap::value_type("userlist-bg-bot-hub", "#000000"));
 	defaultString.insert(StringMap::value_type("userlist-bg-favorite", "#00FF00"));
@@ -361,10 +361,9 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("userlist-bg-pasive", "#BFBFBF"));
 	defaultString.insert(StringMap::value_type("userlist-bg-protected", "#BFBFBF"));
 	defaultString.insert(StringMap::value_type("userlist-bg-ignored", "#BFBFBF"));
-	
 	/**/
 	defaultString.insert(StringMap::value_type("custom-aliases", ""));
-	
+	/* Extended text color*/
 	defaultString.insert(StringMap::value_type("text-cheat-fore-color", "red"));
 	defaultString.insert(StringMap::value_type("text-cheat-back-color", "white"));
 	defaultString.insert(StringMap::value_type("text-ip-fore-color", "black"));

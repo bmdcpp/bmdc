@@ -60,6 +60,9 @@ class PreviewApp
 class WulforSettingsManager : public dcpp::Singleton<WulforSettingsManager>
 {
 	public:
+		typedef std::map<std::string, int> IntMap;
+		typedef std::map<std::string, std::string> StringMap;
+		
 		WulforSettingsManager();
 		virtual ~WulforSettingsManager();
 
@@ -81,10 +84,28 @@ class WulforSettingsManager : public dcpp::Singleton<WulforSettingsManager>
 		bool removePreviewApp(std::string &name);
 
 		const PreviewApp::List& getPreviewApps() const {return previewApps;}
-
+		//[BMDC
+		IntMap getIntMap() { return intMap; }
+		StringMap getStringMap() { return stringMap; }
+		bool isDefaultString(std::string name){
+			auto a = stringMap.find(name);
+			auto d = defaultString.find(name);
+			if(d->second == a->second)
+				return true;
+			return false;	
+		}
+		bool isDefaultInt(std::string name){
+			auto a = intMap.find(name);
+			auto d = defaultInt.find(name);
+			if(d->second == a->second)
+				return true;
+			return false;	
+		}
+		bool isInt(std::string name) { return defaultInt.find(name) != defaultInt.end(); }
+		bool isString(std::string name) { return defaultString.find(name) != defaultString.end(); }
 	private:
-		typedef std::map<std::string, int> IntMap;
-		typedef std::map<std::string, std::string> StringMap;
+		//typedef std::map<std::string, int> IntMap;
+		//typedef std::map<std::string, std::string> StringMap;
 
 		friend class dcpp::Singleton<WulforSettingsManager>;
 		IntMap intMap;

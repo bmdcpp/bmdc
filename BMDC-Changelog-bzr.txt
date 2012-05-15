@@ -461,4 +461,7 @@ Change Next/Prev tab to ctrl + right  and ctrl + left keys
 Fix About Dialog
 Add "Normal" Stats about mem to /stats and remove Time
 Add fsusage/freespace to dbus plugin ..
+---r113
+Fixed AC Tab&add WSetting to it too
+Small fix in Plugin API on shutdown 
 ---

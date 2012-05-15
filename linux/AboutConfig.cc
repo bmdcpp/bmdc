@@ -1,6 +1,7 @@
 #include <dcpp/stdinc.h>
 #include <dcpp/SettingsManager.h>
 #include "AboutConfig.hh"
+#include "settingsmanager.hh"
 
 using namespace std;
 using namespace dcpp;
@@ -14,6 +15,7 @@ BookEntry(Entry::ABOUT_CONFIG, _("About:config"), "config.glade")
 	aboutView.insertColumn(_("Status"), G_TYPE_STRING, TreeView::STRING, 100);
 	aboutView.insertColumn(_("Type"), G_TYPE_STRING, TreeView::STRING, 60);
 	aboutView.insertColumn(_("Value"), G_TYPE_STRING, TreeView::STRING, 100);
+	aboutView.insertHiddenColumn("WS", G_TYPE_STRING);
 	aboutView.finalize();
 	aboutStore = gtk_list_store_newv(aboutView.getColCount(), aboutView.getGTypes());
 	gtk_tree_view_set_model(aboutView.get(), GTK_TREE_MODEL(aboutStore));
@@ -74,9 +76,31 @@ void AboutConfig::show()
 			
 		}
 	}
+	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
+	WulforSettingsManager::StringMap map = wsm->getStringMap();
+	string types = Util::emptyString;
+	string value = Util::emptyString;
+	for(auto i = map.begin();i!= map.end();++i)
+	{
+		string rowname = i->first;
+		types = _("String");
+		value = i->second;
+		string isdefault = wsm->isDefaultString(rowname) ? _("Default") : _("User set");
+		addItem_gui(rowname, isdefault, types, value, true);
+	}
+	
+	WulforSettingsManager::IntMap imap = wsm->getIntMap();
+	for(auto i = imap.begin();i!= imap.end();++i)
+	{
+		string rowname = i->first;
+		types = _("Integer");
+		value = Util::toString(i->second);
+		string isdefault = wsm->isDefaultInt(rowname) ? _("Default") : _("User set");
+		addItem_gui(rowname, isdefault, types, value, true);
+	}
 }
 
-void AboutConfig::addItem_gui(string rowname, string isdefault, string types, string value)
+void AboutConfig::addItem_gui(string rowname, string isdefault, string types, string value, bool isWulf)
 {
 	GtkTreeIter iter;
 	gtk_list_store_append(aboutStore,&iter);
@@ -85,7 +109,37 @@ void AboutConfig::addItem_gui(string rowname, string isdefault, string types, st
 				aboutView.col(_("Status")), isdefault.c_str(),
 				aboutView.col(_("Type")), types.c_str(),
 				aboutView.col(_("Value")), value.c_str(),
-	-1);	
+				aboutView.col("WS"), isWulf ? "1" : "0", 
+	-1);
+	aboutIters.insert(AboutIters::value_type(rowname,iter));
+	
+}
+
+void AboutConfig::updateItem_gui(string rowname, string value)
+{
+	GtkTreeIter iter;
+	if(findAboutItem_gui(rowname,&iter)){
+		gtk_list_store_set(aboutStore,&iter,
+				aboutView.col(_("Name")),rowname.c_str(),
+				aboutView.col(_("Value")), value.c_str(),
+		-1);
+	
+	}	
+}
+
+bool AboutConfig::findAboutItem_gui(const string &about, GtkTreeIter *iter)
+{
+	AboutIters::const_iterator it = aboutIters.find(about);
+
+	if (it != aboutIters.end())
+	{
+		if (iter)
+			*iter = it->second;
+
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 gboolean AboutConfig::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
@@ -140,11 +194,23 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget *widget, gpointer data)
 	{
 		string i = s->aboutView.getString(&iter,_("Name"));
 		string value = s->aboutView.getString(&iter, _("Value"));
+		bool isWsm = s->aboutView.getString(&iter, "WS") == "1" ? TRUE : FALSE;
 		int n;
 		auto sm = SettingsManager::getInstance();
 		bool run = s->getDialog(i,value,data);
 		if(!run)
 			return;
+		if(isWsm)
+		{
+			auto wsm = WulforSettingsManager::getInstance();	
+			if(wsm->isString(i))
+				wsm->set(i,value);
+			if(wsm->isInt(i))
+				wsm->set(i,Util::toInt(value));
+				s->updateItem_gui(i,value);
+			return;	
+		}
+			
 		
 		SettingsManager::Types type;		
 		sm->getType(i.c_str(), n, type);
@@ -164,6 +230,7 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget *widget, gpointer data)
 				break;
 			default:;
 		}
+		s->updateItem_gui(i,value);
 	}
 }
 
