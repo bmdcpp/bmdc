@@ -2817,7 +2817,8 @@ void Hub::onOpenLinkClicked_gui(GtkMenuItem *item, gpointer data)
 	Hub *hub = (Hub *)data;
 	string error = Util::emptyString;
 	WulforUtil::openURI(hub->selectedTagStr,error);
-	hub->setStatus_gui("statusMain", error);
+	if(!error.empty())
+		hub->setStatus_gui("statusMain", error);
 }
 
 void Hub::onOpenHubClicked_gui(GtkMenuItem *item, gpointer data)

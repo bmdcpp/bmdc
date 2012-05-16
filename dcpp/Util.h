@@ -73,12 +73,7 @@ template<typename T> struct TypeTraits {
 	typedef ReferenceSelector<T, ((ClassType::Result == 1) || (sizeof(T) > sizeof(char*)) ) > Selector;
 	typedef typename Selector::ResultType ParameterType;
 };
-/*
-#define GETSET(type, name, name2) \
-private: type name; \
-public: TypeTraits<type>::ParameterType get##name2() const { return name; } \
-	void set##name2(TypeTraits<type>::ParameterType a##name2) { name = a##name2; }
-*/
+
 #define LIT(x) x, (sizeof(x)-1)
 
 /** Evaluates op(pair<T1, T2>.first, compareTo) */
@@ -451,7 +446,7 @@ public:
 	static uint32_t rand(uint32_t high) { return rand() % high; }
 	static uint32_t rand(uint32_t low, uint32_t high) { return rand(high-low) + low; }
 	static double randd() { return ((double)rand()) / ((double)0xffffffff); }
-	//BMDC++
+	//[BMDC++
 	static bool fileExists(const string aFile);
 	static string formatRegExp(const string& msg, ParamMap& params);
 	static uint64_t getUptime() { return uptime;}

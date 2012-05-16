@@ -1,3 +1,21 @@
+﻿//
+//      Copyright 2011 -2012 Mank <freedcpp at seznam dot cz>
+//
+//      This program is free software; you can redistribute it and/or modify
+//      it under the terms of the GNU General Public License as published by
+//      the Free Software Foundation; either version 2 of the License, or
+//      (at your option) any later version.
+//
+//      This program is distributed in the hope that it will be useful,
+//      but WITHOUT ANY WARRANTY; without even the implied warranty of
+//      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//      GNU General Public License for more details.
+//
+//      You should have received a copy of the GNU General Public License
+//      along with this program; if not, write to the Free Software
+//      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+//      MA 02110-1301, USA.
+
 #include <dcpp/stdinc.h>
 #include <dcpp/SettingsManager.h>
 #include "AboutConfig.hh"
@@ -19,6 +37,10 @@ BookEntry(Entry::ABOUT_CONFIG, _("About:config"), "config.glade")
 	aboutView.finalize();
 	aboutStore = gtk_list_store_newv(aboutView.getColCount(), aboutView.getGTypes());
 	gtk_tree_view_set_model(aboutView.get(), GTK_TREE_MODEL(aboutStore));
+	string sort = _("Type");
+	aboutView.setSortColumn_gui(_("Name"), sort);
+	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(aboutStore), aboutView.col(sort), GTK_SORT_ASCENDING);
+	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(aboutView.get(), aboutView.col(_("Name"))), TRUE);
 	g_object_unref(aboutStore);
 
 	aboutSelection = gtk_tree_view_get_selection(aboutView.get());

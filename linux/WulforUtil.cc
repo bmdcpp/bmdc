@@ -1564,13 +1564,13 @@ string WulforUtil::getStatsForMem() {
 					}
 
 					if(memvmp.size() != 0 && memvms.size() != 0) {
-						tmp+="-= VM size (Peak): "+memvms+ " ("+memvmp+")\n =-";
+						tmp+="-= VM size (Peak): "+memvms+ " ("+memvmp+") =-\n";
 					} else if(memrss.size() != 0) {
-						tmp+="-= VM size: "+memvms+"\n =-";
+						tmp+="-= VM size: "+memvms+" =-\n";
 					}
 
 					if(memstk.size() != 0 && memlib.size() != 0) {
-						tmp+="-= Stack size / Libs size: "+memstk+ " / "+memlib+"\n";
+						tmp+="-= Stack size / Libs size: "+memstk+ " / "+memlib+" ";
 					}
 			}
 			return tmp;

@@ -108,7 +108,7 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 		}
 	} else if(cmd == "$GetListLen") {
 		fire(UserConnectionListener::GetListLength(), this);
-	} //rsx
+	} //[rsx
 	 else if(cmd == "$FileLength") {
 		if(!param.empty() && isSet(FLAG_DOWNLOAD) && getDownload() != NULL && getUser()) {
 			if(getDownload()->isSet(Download::FLAG_CHECK_FILE_LIST)) {

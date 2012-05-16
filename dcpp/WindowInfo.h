@@ -31,7 +31,6 @@ struct WindowParam : Flags {
 
 	enum {
 		FLAG_IDENTIFIES = 1 << 1, /// this WindowParam determines the uniqueness of the WindowInfo holding it.
-
 		FLAG_CID = 1 << 2, /// this WindowParam indicates a CID for an user whose information shall be saved on exit.
 		FLAG_FILELIST = 1 << 3 /// this WindowParam specifies the path to a file list that must not be deleted on exit.
 	};

@@ -191,7 +191,7 @@ public:
 
 	int64_t getChunkSize() const { return chunkSize; }
 	void updateChunkSize(int64_t leafSize, int64_t lastChunk, uint64_t ticks);
-	//BMDC++
+	//[BMDC++
 	void sendRaw(const string& raw) { send(raw);}
 	ConnectionData* getPluginObject() noexcept;
 
