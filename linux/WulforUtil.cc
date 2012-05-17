@@ -1558,7 +1558,7 @@ string WulforUtil::getStatsForMem() {
 					fclose(fp);
 					
 					if(memhwm.size() != 0 && memrss.size() != 0) {
-						tmp+="-= Mem usage (Peak): "+memrss+ " ("+memhwm+") =-\n";
+						tmp+=" Mem usage (Peak): "+memrss+ " ("+memhwm+") =-\n";
 					} else if(memrss.size() != 0) {
 						tmp+="-= Mem usage: "+memrss+"\n =-";
 					}

@@ -126,6 +126,7 @@ void BookEntry::setIcon_gui(const EntryType type)
 		case Entry::SHARE_BROWSER : stock = WGETS("icon-directory"); break;
 		case Entry::NOTEPAD : stock = WGETS("icon-notepad"); break;
 		case Entry::SYSTEML : stock = WGETS("icon-system"); break;
+		case Entry::ABOUT_CONFIG : stock = WGETS("icon-system"); break;//for now
 		default: ;
 	}
 	gtk_image_set_from_stock(GTK_IMAGE(icon), stock.c_str(), GTK_ICON_SIZE_BUTTON);
@@ -373,6 +374,10 @@ GtkWidget *BookEntry::createItemFirstMenu()
 		case Entry::SYSTEML :
 					stock = WGETS("icon-system"); 
 					info = _("System Log");
+					break;
+		case Entry::ABOUT_CONFIG:
+					stock = WGETS("icon-system"); //for now
+					info = _("About:Config");
 					break;
 		default: ;
 	}

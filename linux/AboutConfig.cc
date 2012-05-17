@@ -48,7 +48,8 @@ BookEntry(Entry::ABOUT_CONFIG, _("About:config"), "config.glade")
 	g_signal_connect(aboutView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
 	g_signal_connect(aboutView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 	g_signal_connect(aboutView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
-	g_signal_connect(getWidget("propteriesItem"), "activate", G_CALLBACK(onPropertiesClicked_gui),(gpointer)this);
+	g_signal_connect(getWidget("propteriesItem"), "activate", G_CALLBACK(onPropertiesClicked_gui), (gpointer)this);
+	g_signal_connect(getWidget("DefaultItem"), "activate", G_CALLBACK(onSetDefault), (gpointer)this);
 
 }
 
@@ -164,6 +165,12 @@ bool AboutConfig::findAboutItem_gui(const string &about, GtkTreeIter *iter)
 	return FALSE;
 }
 
+void AboutConfig::setStatus(string msg)
+{
+	gtk_statusbar_pop(GTK_STATUSBAR(getWidget("status")), 0);
+	gtk_statusbar_push(GTK_STATUSBAR(getWidget("status")), 0, msg.c_str());
+}
+
 gboolean AboutConfig::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
 	AboutConfig *s = reinterpret_cast<AboutConfig *>(data);
@@ -253,6 +260,64 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget *widget, gpointer data)
 			default:;
 		}
 		s->updateItem_gui(i,value);
+	}
+}
+
+void AboutConfig::onSetDefault(GtkWidget *widget, gpointer data)
+{
+	AboutConfig *s = (AboutConfig *)data;
+	
+	GtkTreeIter iter;
+	if (gtk_tree_selection_get_selected(s->aboutSelection, NULL, &iter))
+	{
+		string i = s->aboutView.getString(&iter,_("Name"));
+		string value = Util::emptyString;
+		bool isWsm = s->aboutView.getString(&iter, "WS") == "1" ? TRUE : FALSE;
+		
+		if(isWsm)
+		{
+			auto wsm = WulforSettingsManager::getInstance();
+			string value = Util::emptyString;
+			if(wsm->isString(i)) {
+				wsm->SetStringDef(i);
+				value = wsm->getString(i);
+			} if(wsm->isInt(i)) {
+				wsm->SetIntDef(i);
+				value = Util::toString(wsm->getInt(i));
+			}
+			s->updateItem_gui(i,value);
+			s->setStatus("Value"+i+"Setted to Default"+value);
+			return;		
+		}
+		auto sm = SettingsManager::getInstance();
+		int n ;
+		SettingsManager::Types type;
+		if (sm->getType(Text::fromT(i).c_str(), n, type))
+		{
+			sm->unset(n);
+			string value = Util::emptyString;
+			switch(type) {
+				case SettingsManager::TYPE_STRING:
+					value = Text::toT(sm->get(static_cast<SettingsManager::StrSetting>(n)));
+					break;
+
+				case SettingsManager::TYPE_INT:
+					value = Text::toT(Util::toString(sm->get(static_cast<SettingsManager::IntSetting>(n))));
+				break;
+
+				case SettingsManager::TYPE_INT64:
+					value = Text::toT(Util::toString(sm->get(static_cast<SettingsManager::Int64Setting>(n))));
+					break;
+
+				case SettingsManager::TYPE_FLOAT:
+					value = Text::toT(Util::toString(sm->get(static_cast<SettingsManager::FloatSetting>(n))));
+					break;
+				default:
+					dcassert(0);
+			}
+			s->updateItem_gui(i,value);
+			s->setStatus("Value"+i+"Setted to Default"+value);
+		}
 	}
 }
 

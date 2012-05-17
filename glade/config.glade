@@ -158,5 +158,13 @@
         <property name="use_underline">True</property>
       </widget>
     </child>
+    <child>
+      <widget class="GtkMenuItem" id="DefaultItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Set Default</property>
+        <property name="use_underline">True</property>
+      </widget>
+    </child>
   </widget>
 </glade-interface>

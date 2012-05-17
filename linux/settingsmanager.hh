@@ -101,6 +101,21 @@ class WulforSettingsManager : public dcpp::Singleton<WulforSettingsManager>
 				return true;
 			return false;	
 		}
+		
+		void SetIntDef(std::string name)
+		{
+			auto d = defaultInt.find(name);
+			auto i = intMap.find(name);
+			intMap.erase(i);
+			intMap.insert(IntMap::value_type(name,d->second));
+		}
+		void SetStringDef(std::string name)
+		{
+			auto d = defaultString.find(name);
+			auto i = stringMap.find(name);
+			stringMap.erase(i);
+			stringMap.insert(StringMap::value_type(name,d->second));
+		}
 		bool isInt(std::string name) { return defaultInt.find(name) != defaultInt.end(); }
 		bool isString(std::string name) { return defaultString.find(name) != defaultString.end(); }
 	private:

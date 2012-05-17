@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-05-14 17:11+0200\n"
+"POT-Creation-Date: 2012-05-16 21:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-05-15 21:37+0200\n"
+"POT-Creation-Date: 2012-05-17 18:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -386,7 +386,7 @@ msgstr ""
 msgid "ADL Action"
 msgstr ""
 
-#: glade/mainwindow.glade:2232 linux/adlsearch.cc:31 linux/bookentry.cc:343
+#: glade/mainwindow.glade:2232 linux/adlsearch.cc:31 linux/bookentry.cc:344
 #: linux/settingsdialog.cc:1426 linux/settingsdialog.cc:1494
 msgid "ADL Search"
 msgstr ""
@@ -832,7 +832,7 @@ msgstr ""
 #: glade/favoritehubs.glade:615 glade/settingsdialog.glade:5098
 #: glade/settingsdialog.glade:5804 glade/settingsdialog.glade:5997
 #: glade/settingsdialog.glade:6190 glade/settingsdialog.glade:8789
-#: linux/AboutConfig.cc:71 linux/AboutConfig.cc:110 linux/AboutConfig.cc:120
+#: linux/AboutConfig.cc:72 linux/AboutConfig.cc:111 linux/AboutConfig.cc:121
 #: linux/emoticonsdialog.cc:106 linux/favoritehubs.cc:893
 #: linux/previewmenu.cc:88
 msgid "Default"
@@ -931,7 +931,7 @@ msgstr ""
 msgid "Download Matches"
 msgstr ""
 
-#: glade/mainwindow.glade:1188 linux/bookentry.cc:335
+#: glade/mainwindow.glade:1188 linux/bookentry.cc:336
 #: linux/downloadqueue.cc:33 linux/settingsdialog.cc:1095
 #: linux/settingsdialog.cc:1540
 msgid "Download Queue"
@@ -1087,14 +1087,14 @@ msgid "Favorite Hub Properties"
 msgstr ""
 
 #: glade/mainwindow.glade:1061 glade/mainwindow.glade:2130
-#: linux/bookentry.cc:319 linux/favoritehubs.cc:33
+#: linux/bookentry.cc:320 linux/favoritehubs.cc:33
 #: linux/settingsdialog.cc:1416 linux/settingsdialog.cc:1469
 #: linux/settingsdialog.cc:1539
 msgid "Favorite Hubs"
 msgstr ""
 
 #: glade/mainwindow.glade:1079 glade/mainwindow.glade:2144
-#: linux/bookentry.cc:323 linux/favoriteusers.cc:38
+#: linux/bookentry.cc:324 linux/favoriteusers.cc:38
 #: linux/settingsdialog.cc:1417 linux/settingsdialog.cc:1471
 #: linux/settingsdialog.cc:1543
 msgid "Favorite Users"
@@ -1141,7 +1141,7 @@ msgid "Find files"
 msgstr ""
 
 #: glade/mainwindow.glade:1206 glade/mainwindow.glade:2279
-#: glade/mainwindow.glade:2481 linux/bookentry.cc:351
+#: glade/mainwindow.glade:2481 linux/bookentry.cc:352
 #: linux/finishedtransfers.cc:34 linux/settingsdialog.cc:1093
 #: linux/settingsdialog.cc:1418 linux/settingsdialog.cc:1485
 #: linux/settingsdialog.cc:1541
@@ -1149,7 +1149,7 @@ msgid "Finished Downloads"
 msgstr ""
 
 #: glade/mainwindow.glade:1223 glade/mainwindow.glade:2294
-#: glade/mainwindow.glade:2489 linux/bookentry.cc:355
+#: glade/mainwindow.glade:2489 linux/bookentry.cc:356
 #: linux/finishedtransfers.cc:39 linux/settingsdialog.cc:1094
 #: linux/settingsdialog.cc:1419 linux/settingsdialog.cc:1487
 #: linux/settingsdialog.cc:1542
@@ -1341,7 +1341,7 @@ msgstr ""
 msgid "Ignore TTH search"
 msgstr ""
 
-#: glade/mainwindow.glade:2417 linux/bookentry.cc:327 linux/ignoreusers.cc:37
+#: glade/mainwindow.glade:2417 linux/bookentry.cc:328 linux/ignoreusers.cc:37
 #: linux/settingsdialog.cc:1429 linux/settingsdialog.cc:1498
 msgid "Ignore Users"
 msgstr ""
@@ -1608,24 +1608,25 @@ msgstr ""
 #: glade/detection.glade:122 glade/detection.glade:559
 #: glade/detection.glade:886 glade/favoritehubs.glade:85
 #: glade/settingsdialog.glade:900 linux/AboutConfig.cc:32
-#: linux/AboutConfig.cc:41 linux/AboutConfig.cc:43 linux/AboutConfig.cc:130
-#: linux/AboutConfig.cc:145 linux/AboutConfig.cc:217 linux/detectiontab.cc:41
-#: linux/detectiontab.cc:60 linux/detectiontab.cc:71 linux/detectiontab.cc:328
-#: linux/detectiontab.cc:350 linux/detectiontab.cc:422
-#: linux/detectiontab.cc:472 linux/detectiontab.cc:494
-#: linux/detectiontab.cc:518 linux/detectiontab.cc:542
-#: linux/detectiontab.cc:574 linux/detectiontab.cc:657
-#: linux/detectiontab.cc:666 linux/detectiontab.cc:683
-#: linux/detectiontab.cc:695 linux/detectiontab.cc:842
-#: linux/detectiontab.cc:869 linux/detectiontab.cc:910
-#: linux/detectiontab.cc:926 linux/favoritehubs.cc:57 linux/favoritehubs.cc:82
-#: linux/favoritehubs.cc:102 linux/favoritehubs.cc:168
-#: linux/favoritehubs.cc:351 linux/favoritehubs.cc:421
-#: linux/favoritehubs.cc:434 linux/favoritehubs.cc:701
-#: linux/favoritehubs.cc:854 linux/favoritehubs.cc:1024 linux/publichubs.cc:42
-#: linux/publichubs.cc:158 linux/publichubs.cc:295 linux/recenthub.cc:41
-#: linux/recenthub.cc:81 linux/recenthub.cc:192 linux/recenthub.cc:269
-#: linux/recenthub.cc:278 linux/search.cc:1706 linux/settingsdialog.cc:760
+#: linux/AboutConfig.cc:41 linux/AboutConfig.cc:43 linux/AboutConfig.cc:131
+#: linux/AboutConfig.cc:146 linux/AboutConfig.cc:224 linux/AboutConfig.cc:273
+#: linux/detectiontab.cc:41 linux/detectiontab.cc:60 linux/detectiontab.cc:71
+#: linux/detectiontab.cc:328 linux/detectiontab.cc:350
+#: linux/detectiontab.cc:422 linux/detectiontab.cc:472
+#: linux/detectiontab.cc:494 linux/detectiontab.cc:518
+#: linux/detectiontab.cc:542 linux/detectiontab.cc:574
+#: linux/detectiontab.cc:657 linux/detectiontab.cc:666
+#: linux/detectiontab.cc:683 linux/detectiontab.cc:695
+#: linux/detectiontab.cc:842 linux/detectiontab.cc:869
+#: linux/detectiontab.cc:910 linux/detectiontab.cc:926
+#: linux/favoritehubs.cc:57 linux/favoritehubs.cc:82 linux/favoritehubs.cc:102
+#: linux/favoritehubs.cc:168 linux/favoritehubs.cc:351
+#: linux/favoritehubs.cc:421 linux/favoritehubs.cc:434
+#: linux/favoritehubs.cc:701 linux/favoritehubs.cc:854
+#: linux/favoritehubs.cc:1024 linux/publichubs.cc:42 linux/publichubs.cc:158
+#: linux/publichubs.cc:295 linux/recenthub.cc:41 linux/recenthub.cc:81
+#: linux/recenthub.cc:192 linux/recenthub.cc:269 linux/recenthub.cc:278
+#: linux/search.cc:1706 linux/settingsdialog.cc:760
 #: linux/settingsdialog.cc:769 linux/settingsdialog.cc:947
 #: linux/settingsdialog.cc:982 linux/settingsdialog.cc:1351
 #: linux/settingsdialog.cc:1450 linux/settingsdialog.cc:1570
@@ -1724,7 +1725,7 @@ msgid "Note; because of changing download speeds, this is not 100% accurate..."
 msgstr ""
 
 #: glade/mainwindow.glade:2307 glade/mainwindow.glade:2497
-#: linux/bookentry.cc:371 linux/notepad.cc:28 linux/settingsdialog.cc:1427
+#: linux/bookentry.cc:372 linux/notepad.cc:28 linux/settingsdialog.cc:1427
 #: linux/settingsdialog.cc:1492 linux/settingsdialog.cc:1545
 msgid "Notepad"
 msgstr ""
@@ -1856,7 +1857,7 @@ msgid "Protected Users"
 msgstr ""
 
 #: glade/mainwindow.glade:1097 glade/mainwindow.glade:2174
-#: glade/mainwindow.glade:2425 linux/bookentry.cc:331 linux/publichubs.cc:30
+#: glade/mainwindow.glade:2425 linux/bookentry.cc:332 linux/publichubs.cc:30
 #: linux/settingsdialog.cc:1422 linux/settingsdialog.cc:1473
 #: linux/settingsdialog.cc:1538
 msgid "Public Hubs"
@@ -1997,7 +1998,7 @@ msgstr ""
 #: glade/mainwindow.glade:1129 glade/mainwindow.glade:2219
 #: glade/mainwindow.glade:2449 glade/searchspy.glade:184
 #: glade/searchspy.glade:249 glade/settingsdialog.glade:8842
-#: linux/bookentry.cc:339 linux/search.cc:1705 linux/settingsdialog.cc:1098
+#: linux/bookentry.cc:340 linux/search.cc:1705 linux/settingsdialog.cc:1098
 #: linux/settingsdialog.cc:1424 linux/settingsdialog.cc:1479
 msgid "Search"
 msgstr ""
@@ -2103,6 +2104,10 @@ msgstr ""
 
 #: glade/settingsdialog.glade:6203
 msgid "Set Background Color"
+msgstr ""
+
+#: glade/config.glade:165
+msgid "Set Default"
 msgstr ""
 
 #: glade/downloadqueue.glade:118 glade/downloadqueue.glade:223
@@ -2247,8 +2252,8 @@ msgstr ""
 msgid "Start a search for this file"
 msgstr ""
 
-#: glade/settingsdialog.glade:274 linux/AboutConfig.cc:76
-#: linux/AboutConfig.cc:108 linux/settingsdialog.cc:1712
+#: glade/settingsdialog.glade:274 linux/AboutConfig.cc:77
+#: linux/AboutConfig.cc:109 linux/settingsdialog.cc:1712
 #: linux/settingsdialog.cc:1742 linux/settingsdialog.cc:4746
 #: linux/settingsdialog.cc:4828 linux/settingsdialog.cc:4842
 #: linux/settingsdialog.cc:4987
@@ -2256,7 +2261,7 @@ msgid "String"
 msgstr ""
 
 #: glade/mainwindow.glade:2320 glade/mainwindow.glade:2505 linux/System.cc:30
-#: linux/bookentry.cc:375
+#: linux/bookentry.cc:376
 msgid "System Log"
 msgstr ""
 
@@ -2357,7 +2362,7 @@ msgid "Trusted certificates path"
 msgstr ""
 
 #: glade/detection.glade:257 glade/detection.glade:904 linux/AboutConfig.cc:34
-#: linux/AboutConfig.cc:40 linux/AboutConfig.cc:132 linux/search.cc:100
+#: linux/AboutConfig.cc:40 linux/AboutConfig.cc:133 linux/search.cc:100
 #: linux/search.cc:659 linux/search.cc:736 linux/search.cc:877
 #: linux/search.cc:1748 linux/search.cc:1749 linux/search.cc:1750
 #: linux/search.cc:1764 linux/sharebrowser.cc:78 linux/sharebrowser.cc:297
@@ -2468,8 +2473,8 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: glade/detection.glade:893 linux/AboutConfig.cc:35 linux/AboutConfig.cc:133
-#: linux/AboutConfig.cc:146 linux/AboutConfig.cc:218 linux/detectiontab.cc:110
+#: glade/detection.glade:893 linux/AboutConfig.cc:35 linux/AboutConfig.cc:134
+#: linux/AboutConfig.cc:147 linux/AboutConfig.cc:225 linux/detectiontab.cc:110
 #: linux/detectiontab.cc:1040 linux/detectiontab.cc:1141
 #: linux/detectiontab.cc:1240
 msgid "Value"
@@ -2975,6 +2980,10 @@ msgstr ""
 msgid "<b>file:</b> "
 msgstr ""
 
+#: linux/bookentry.cc:380
+msgid "About:Config"
+msgstr ""
+
 #: linux/AboutConfig.cc:28
 msgid "About:config"
 msgstr ""
@@ -3190,7 +3199,7 @@ msgstr ""
 msgid "Clear search box after each search"
 msgstr ""
 
-#: linux/bookentry.cc:278 linux/hub.cc:4634 linux/privatemessage.cc:1516
+#: linux/bookentry.cc:279 linux/hub.cc:4634 linux/privatemessage.cc:1516
 #: linux/sharebrowser.cc:1081
 msgid "Close"
 msgstr ""
@@ -3610,7 +3619,7 @@ msgstr ""
 msgid "Flag"
 msgstr ""
 
-#: linux/AboutConfig.cc:90
+#: linux/AboutConfig.cc:91
 msgid "Float"
 msgstr ""
 
@@ -3672,7 +3681,7 @@ msgstr ""
 msgid "Highliting"
 msgstr ""
 
-#: linux/bookentry.cc:363 linux/detectiontab.cc:111 linux/detectiontab.cc:1041
+#: linux/bookentry.cc:364 linux/detectiontab.cc:111 linux/detectiontab.cc:1041
 #: linux/detectiontab.cc:1142 linux/detectiontab.cc:1241
 #: linux/finishedtransfers.cc:78 linux/finishedtransfers.cc:187
 #: linux/search.cc:105 linux/search.cc:661 linux/search.cc:731
@@ -3788,11 +3797,11 @@ msgstr ""
 msgid "Ignored private message from hub"
 msgstr ""
 
-#: linux/AboutConfig.cc:85
+#: linux/AboutConfig.cc:86
 msgid "Int64"
 msgstr ""
 
-#: linux/AboutConfig.cc:80 linux/AboutConfig.cc:118
+#: linux/AboutConfig.cc:81 linux/AboutConfig.cc:119
 msgid "Integer"
 msgstr ""
 
@@ -4081,7 +4090,7 @@ msgstr ""
 msgid "Private"
 msgstr ""
 
-#: linux/bookentry.cc:359
+#: linux/bookentry.cc:360
 msgid "Private Message"
 msgstr ""
 
@@ -4253,7 +4262,7 @@ msgstr ""
 msgid "Set normal mode\n"
 msgstr ""
 
-#: linux/bookentry.cc:367
+#: linux/bookentry.cc:368
 msgid "Share Browser"
 msgstr ""
 
@@ -4388,7 +4397,7 @@ msgstr ""
 msgid "Speed: "
 msgstr ""
 
-#: linux/bookentry.cc:347
+#: linux/bookentry.cc:348
 msgid "Spy Search"
 msgstr ""
 
@@ -4396,7 +4405,7 @@ msgstr ""
 msgid "Start/Stop checkers"
 msgstr ""
 
-#: linux/AboutConfig.cc:33 linux/AboutConfig.cc:131 linux/downloadqueue.cc:65
+#: linux/AboutConfig.cc:33 linux/AboutConfig.cc:132 linux/downloadqueue.cc:65
 #: linux/downloadqueue.cc:276 linux/downloadqueue.cc:383 linux/searchspy.cc:57
 #: linux/searchspy.cc:295 linux/searchspy.cc:377 linux/transfers.cc:62
 #: linux/transfers.cc:412 linux/transfers.cc:445 linux/transfers.cc:539
@@ -4700,7 +4709,7 @@ msgstr ""
 msgid "User operator (pasive) "
 msgstr ""
 
-#: linux/AboutConfig.cc:71 linux/AboutConfig.cc:110 linux/AboutConfig.cc:120
+#: linux/AboutConfig.cc:72 linux/AboutConfig.cc:111 linux/AboutConfig.cc:121
 msgid "User set"
 msgstr ""
 
