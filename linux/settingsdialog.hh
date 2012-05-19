@@ -137,6 +137,7 @@ class Settings:
 		static void onUserCommandTypeRaw_gui(GtkWidget *widget, gpointer data);
 		static void onUserCommandTypeChat_gui(GtkWidget *widget, gpointer data);
 		static void onUserCommandTypePM_gui(GtkWidget *widget, gpointer data);
+				
 		static gboolean onUserCommandKeyPress_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static void onCertificatesPrivateBrowseClicked_gui(GtkWidget *widget, gpointer data);
 		static void onCertificatesFileBrowseClicked_gui(GtkWidget *widget, gpointer data);

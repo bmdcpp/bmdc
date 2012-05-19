@@ -55,6 +55,12 @@ void UserCommandMenu::addUser(const string &cid)
 	ucParams.push_back(u);
 }
 
+void UserCommandMenu::addIp(const string &ip)
+{
+	ips.clear();
+	ips.push_back(ip);	
+}
+
 void UserCommandMenu::addFile(const string &cid, const string &name,
 	const int64_t &size, const string &tth)
 {
@@ -180,8 +186,17 @@ void UserCommandMenu::onUserCommandClick_gui(GtkMenuItem *item, gpointer data)
 	 			params["filesizeshort"] = params["fileSIshort"];
 	 			params["tth"] = params["fileTR"];
 			}
+			
 			F4 *func = new F4(ucm, &UserCommandMenu::sendUserCommand_client,
 				i->cid, commandName, hub, params);
+			WulforManager::get()->dispatchClientFunc(func);
+		}
+		for(auto i= ucm->ips.begin();i!= ucm->ips.end();++i)
+		{
+			string cid = ClientManager::getInstance()->getMe()->getCID().toBase32();
+			params["cmdIP"] = *i;
+			F4 *func = new F4(ucm, &UserCommandMenu::sendUserCommand_client,
+				cid, commandName, hub, params);
 			WulforManager::get()->dispatchClientFunc(func);
 		}
 	}

@@ -5,6 +5,10 @@
 * Possible set custom font size in BookEntry class (/ws custom-font-size 1/0 for enable/disable and /ws book-font-size for settings itself)
 * Possible Higliting IPv6 (with it callback as ipv4 have)
 * Add Icon to menu on right click on Tabs
+* Add ACTab
+* Add UC to IPs
+* Change Next/Prev tab to ctrl + right  and ctrl + left keys
+* Fixed repareted message about emoticon if its disabled
  ======
 0.0.1
  ======

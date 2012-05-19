@@ -1008,7 +1008,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 	addParam(lastInfoMap, c, "AP", "++");
 	addParam(lastInfoMap, c, "VE", VERSIONSTRING);
 	addParam(lastInfoMap, c, "AW", Util::getAway() ? "1" : Util::emptyString);
-	//trying RF = ref addres from connected
+	// RF = ref addres from connected
 	addParam(lastInfoMap, c, "RF", getAddress()+":"+getPort());
 
 	int limit = ThrottleManager::getInstance()->getDownLimit();

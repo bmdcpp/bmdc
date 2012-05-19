@@ -470,4 +470,6 @@ Add Search by type to ACTab
 ---r115
 Add SetDefault to ACTab
 Add Icon to ACTab (same as System log for now)
+---r116
+Add UC to right click on IPs
 ---

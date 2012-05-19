@@ -155,7 +155,7 @@ class Hub:
 		static void onItalicButtonClicked_gui(GtkWidget *widget, gpointer data);
 		static void onBoldButtonClicked_gui(GtkWidget *widget, gpointer data);
 		static void onUnderlineButtonClicked_gui(GtkWidget *widget, gpointer data);
-		//BMDC++
+		//[BMDC++
 		static void onCloseItem(gpointer data);
 		static void onCopyHubUrl(gpointer data);
 		static void onAddFavItem(gpointer data);
@@ -177,7 +177,7 @@ class Hub:
 		
 		static void on_setImage_tab(GtkButton *widget, gpointer data);
 		static void onToglleButtonIcon(GtkToggleButton *button, gpointer data);
-		//colorize userlist
+		//[colorize userlist
 		static void makeColor(GtkTreeViewColumn *column, GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data);
 
 		// Client functions
@@ -218,7 +218,6 @@ class Hub:
 		virtual void on(dcpp::FavoriteManagerListener::UserRemoved, const dcpp::FavoriteUser &user) throw();
 		virtual void on(dcpp::FavoriteManagerListener::IgnoreUserAdded, const dcpp::FavoriteUser &user) noexcept;
 		virtual void on(dcpp::FavoriteManagerListener::IgnoreUserRemoved, const dcpp::FavoriteUser &user) noexcept;
-		
 		virtual void on(dcpp::FavoriteManagerListener::FavoriteIAdded, const std::string &nick, dcpp::FavoriteIUser* &user) noexcept;
 		virtual void on(dcpp::FavoriteManagerListener::FavoriteIRemoved, const std::string &nick, dcpp::FavoriteIUser* &user) noexcept;
 		// Client callbacks
@@ -228,7 +227,7 @@ class Hub:
 		virtual void on(dcpp::ClientListener::UsersUpdated, dcpp::Client *, const dcpp::OnlineUserList &list) throw();
 		virtual void on(dcpp::ClientListener::UserRemoved, dcpp::Client *, const dcpp::OnlineUser &user) throw();
 		virtual void on(dcpp::ClientListener::Redirect, dcpp::Client *, const std::string &address) throw();
-		virtual void on(dcpp::ClientListener::Failed, dcpp::Client *, const std::string &reason) throw();
+		virtual void on(dcpp::ClientListener::Failed, dcpp::Client *, const std::string &reason) noexcept;
 		virtual void on(dcpp::ClientListener::GetPassword, dcpp::Client *) throw();
 		virtual void on(dcpp::ClientListener::HubUpdated, dcpp::Client *) noexcept;
 		virtual void on(dcpp::ClientListener::Message, dcpp::Client*, const dcpp::ChatMessage& message) throw();//NOTE: core 0.762
@@ -264,7 +263,7 @@ class Hub:
 		GdkCursor *handCursor;
 		GtkTextTag *selectedTag;
 		std::string selectedTagStr;
-		UserCommandMenu *userCommandMenu, *userCommandMenu1;
+		UserCommandMenu *userCommandMenu, *userCommandMenu1, *userCommandMenu2;
 		std::string address;
 		std::string encoding;
 		bool scrollToBottom;

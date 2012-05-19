@@ -170,9 +170,12 @@ Hub::Hub(const string &address, const string &encoding):
 	// Initialize the user command menu
 	userCommandMenu = new UserCommandMenu(getWidget("usercommandMenu"), ::UserCommand::CONTEXT_USER);//NOTE: core 0.762
 	addChild(userCommandMenu);
-    // Hub ..
+    // Hub ...
     userCommandMenu1 = new UserCommandMenu(BookEntry::createmenu(), ::UserCommand::CONTEXT_HUB);
     addChild(userCommandMenu1);
+	// Ip ...
+	userCommandMenu2 = new UserCommandMenu(getWidget("ipmenu"), ::UserCommand::CONTEXT_IP);
+	addChild(userCommandMenu2);
 
 	// Emoticons dialog
 	emotdialog = new EmoticonsDialog(getWidget("chatEntry"), getWidget("emotButton"), getWidget("emotPacksMenu"));
@@ -1298,6 +1301,11 @@ void Hub::applyTags_gui(const string cid, const string &line)
 					callback = G_CALLBACK(onIpTagEvent_gui);
 					tagStyle = Tag::TAG_IPADR;
 					isIp = true;
+					userCommandMenu2->cleanMenu_gui();
+					userCommandMenu2->addIp(ip);
+					userCommandMenu2->addHub(address);
+					userCommandMenu2->buildMenu_gui();
+					gtk_widget_show_all(userCommandMenu2->getContainer());
 				}
 			}
 		}
@@ -4273,7 +4281,7 @@ void Hub::on(ClientListener::Redirect, Client *, const string &address) throw()
 	WulforManager::get()->dispatchClientFunc(func);
 }
 
-void Hub::on(ClientListener::Failed, Client *, const string &reason) throw()
+void Hub::on(ClientListener::Failed, Client *, const string &reason) noexcept
 {
 	Func0<Hub> *f0 = new Func0<Hub>(this, &Hub::clearNickList_gui);
 	WulforManager::get()->dispatchGuiFunc(f0);
@@ -4716,7 +4724,7 @@ void Hub::on_setImage_tab(GtkButton *widget, gpointer data)
 }
 
 void Hub::onSetTabText(gpointer data)
-{ ((Hub*)data)->SetTabText(data); }
+{ ((Hub *)data)->SetTabText(data); }
 
 void Hub::SetTabText(gpointer data)
 {

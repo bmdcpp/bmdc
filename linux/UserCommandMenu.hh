@@ -40,6 +40,7 @@ class UserCommandMenu : public Entry
 		void addUser(const std::string &cid);
 		void addFile(const std::string &cid, const std::string &name,
 			const int64_t &size, const std::string &tth);
+		void addIp(const std::string& ip);	
 		void cleanMenu_gui();
 		void buildMenu_gui();
 
@@ -65,6 +66,7 @@ class UserCommandMenu : public Entry
  			std::string type;
  		};
  		std::vector<UCParam> ucParams;
+ 		std::vector<std::string> ips;
  		
 };
 

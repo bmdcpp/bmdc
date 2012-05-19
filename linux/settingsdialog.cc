@@ -1941,7 +1941,6 @@ void Settings::initAdvanced_gui()
 		addOption_gui(advancedStore, _("Send unknown /commands to the hub"), SettingsManager::SEND_UNKNOWN_COMMANDS);
 		addOption_gui(advancedStore, _("Add finished files to share instantly (if shared)"), SettingsManager::ADD_FINISHED_INSTANTLY);
 		addOption_gui(advancedStore, _("Don't send the away message to bots"), SettingsManager::NO_AWAYMSG_TO_BOTS);
-//		addOption_gui(advancedStore, _("Use fast hashing method (disable if you have problems with hashing)"), SettingsManager::FAST_HASH);
 		addOption_gui(advancedStore, _("Register with the OS to handle dchub:// and adc:// URL links"), SettingsManager::URL_HANDLER);
 		addOption_gui(advancedStore, _("Register with the OS to handle magnet: URL links"), SettingsManager::MAGNET_REGISTER);
 		addOption_gui(advancedStore, _("Enable debug ADC"), SettingsManager::ADC_DEBUG);
@@ -3720,7 +3719,12 @@ void Settings::saveUserCommand(UserCommand *uc)
 		ctx |= UserCommand::CONTEXT_SEARCH;
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("commandDialogFilelistMenu"))))
 		ctx |= UserCommand::CONTEXT_FILELIST;
-
+	
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("commandDialogIpMenu"))))
+		ctx |= UserCommand::CONTEXT_IP;	
+	
+	string to = Util::emptyString;
+	
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("commandDialogSeparator"))))
 	{
 		name = _("Separator");
@@ -3731,14 +3735,14 @@ void Settings::saveUserCommand(UserCommand *uc)
 		name = gtk_entry_get_text(GTK_ENTRY(getWidget("commandDialogName")));
 		command = gtk_entry_get_text(GTK_ENTRY(getWidget("commandDialogCommand")));
 		hub = gtk_entry_get_text(GTK_ENTRY(getWidget("commandDialogHub")));
-
+		
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("commandDialogChat"))))
 		{
 			command = "<%[myNI]> " + NmdcHub::validateMessage(command, FALSE) + "|";
 		}
 		else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("commandDialogPM"))))
 		{
-			string to = gtk_entry_get_text(GTK_ENTRY(getWidget("commandDialogTo")));
+			to = gtk_entry_get_text(GTK_ENTRY(getWidget("commandDialogTo")));
 			if (to.length() == 0)
 				to = "%[userNI]";
 
@@ -3753,7 +3757,7 @@ void Settings::saveUserCommand(UserCommand *uc)
 
 	if (uc == NULL)
 	{
-		FavoriteManager::getInstance()->addUserCommand(type, ctx, 0, name, command, ""/*to*/, hub);//NOTE: core 0.762
+		FavoriteManager::getInstance()->addUserCommand(type, ctx, 0, name, command, to, hub);//NOTE: core 0.762
 		gtk_list_store_append(userCommandStore, &iter);
 	}
 	else
@@ -3776,7 +3780,6 @@ void Settings::saveUserCommand(UserCommand *uc)
 		userCommandView.col(_("Command")), command.c_str(),
 		-1);
 }
-
 
 void Settings::updateUserCommandTextSent_gui()
 {
@@ -4331,11 +4334,13 @@ void Settings::onUserCommandEdit_gui(GtkWidget *widget, gpointer data)
 		bool user = uc.getCtx() & UserCommand::CONTEXT_USER;//NOTE: core 0.762
 		bool search = uc.getCtx() & UserCommand::CONTEXT_SEARCH;
 		bool filelist = uc.getCtx() & UserCommand::CONTEXT_FILELIST;
-
+		bool ipItem = uc.getCtx() & UserCommand::CONTEXT_IP;
+		
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("commandDialogHubMenu")), hub);
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("commandDialogUserMenu")), user);
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("commandDialogSearchMenu")), search);
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("commandDialogFilelistMenu")), filelist);
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("commandDialogIpMenu")), ipItem);
 
 		if (uc.getType() == UserCommand::TYPE_SEPARATOR)
 		{
@@ -4910,6 +4915,7 @@ void Settings::onToggledHGText_gui(GtkWidget *widget, gpointer data)
 	gtk_widget_set_sensitive(s->getWidget("buttonColorText"), s->isSensitiveHG[0]);
 	s->isSensitiveHG[0] = !s->isSensitiveHG[0];
 }
+
 void Settings::onToggledHGColor_gui(GtkWidget *widget, gpointer data)
 {
 	Settings *s = (Settings *)data;
@@ -4917,6 +4923,7 @@ void Settings::onToggledHGColor_gui(GtkWidget *widget, gpointer data)
 	gtk_widget_set_sensitive(s->getWidget("buttonBackground"), s->isSensitiveHG[1]);
 	s->isSensitiveHG[1] = !s->isSensitiveHG[1];
 }
+
 void Settings::onToggledHGSound_gui(GtkWidget *widget, gpointer data)
 {
 	Settings *s = (Settings *)data;
@@ -4924,6 +4931,7 @@ void Settings::onToggledHGSound_gui(GtkWidget *widget, gpointer data)
 	gtk_widget_set_sensitive(s->getWidget("buttonSound"), s->isSensitiveHG[2]);
 	s->isSensitiveHG[2] = !s->isSensitiveHG[2];
 }
+
 void Settings::onToggledHGNotify_gui(GtkWidget *widget, gpointer data)
 {
 	Settings *s = (Settings *)data;

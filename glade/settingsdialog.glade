@@ -795,7 +795,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="border_width">8</property>
-                    <property name="n_rows">2</property>
+                    <property name="n_rows">3</property>
                     <property name="n_columns">2</property>
                     <child>
                       <widget class="GtkCheckButton" id="commandDialogSearchMenu">
@@ -855,6 +855,22 @@
                       </widget>
                       <packing>
                         <property name="y_options"></property>
+                      </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <widget class="GtkCheckButton" id="commandDialogIpMenu">
+                        <property name="label" translatable="yes">IP Address</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="draw_indicator">True</property>
+                      </widget>
+                      <packing>
+                        <property name="top_attach">2</property>
+                        <property name="bottom_attach">3</property>
                       </packing>
                     </child>
                   </widget>
@@ -8670,7 +8686,7 @@ Limiting</property>
                   <widget class="GtkLabel" id="label100">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;b&gt;frame22&lt;/b&gt;</property>
+                    <property name="label" translatable="yes">&lt;b&gt;Plugins&lt;/b&gt;</property>
                     <property name="use_markup">True</property>
                   </widget>
                   <packing>

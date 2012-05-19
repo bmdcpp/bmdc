@@ -29,7 +29,7 @@ BookEntry(Entry::ABOUT_CONFIG, _("About:config"), "config.glade")
 {
 
 	aboutView.setView(GTK_TREE_VIEW(getWidget("aboutTree")));
-	aboutView.insertColumn(_("Name"), G_TYPE_STRING, TreeView::STRING, 100);
+	aboutView.insertColumn(_("Name"), G_TYPE_STRING, TreeView::STRING, 120);
 	aboutView.insertColumn(_("Status"), G_TYPE_STRING, TreeView::STRING, 100);
 	aboutView.insertColumn(_("Type"), G_TYPE_STRING, TreeView::STRING, 60);
 	aboutView.insertColumn(_("Value"), G_TYPE_STRING, TreeView::STRING, 100);
