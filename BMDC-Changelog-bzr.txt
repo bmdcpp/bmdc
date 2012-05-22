@@ -476,3 +476,6 @@ Add UC to right click on IPs
 add missing commands to help
 Partial update to rev 2923 of dcpp
 GUI for Per-hub/group settings with exteding with Log this /group Chat(s)
+---r118
+Fix UserDescription in Fav´s Hubs
+----

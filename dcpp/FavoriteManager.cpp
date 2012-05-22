@@ -467,11 +467,9 @@ void FavoriteManager::save() {
 		for(FavoriteHubEntryList::const_iterator i = favoriteHubs.begin(), iend = favoriteHubs.end(); i != iend; ++i) {
 			xml.addTag("Hub");
 			xml.addChildAttrib("Name", (*i)->getName());
-//			xml.addChildAttrib("Description", (*i)->getDescription());
-//			xml.addChildAttrib("Nick", (*i)->getNick(false));
+			xml.addChildAttrib("Description", (*i)->getHubDescription());
 			xml.addChildAttrib("Password", (*i)->getPassword());
 			xml.addChildAttrib("Server", (*i)->getServer());
-//			xml.addChildAttrib("UserDescription", (*i)->getUserDescription());
 			xml.addChildAttrib("Encoding", (*i)->getEncoding());
 			//BMDC++
 			xml.addChildAttrib("HideShare", (*i)->getHideShare());
@@ -692,11 +690,9 @@ void FavoriteManager::load(SimpleXML& aXml) {
 		while(aXml.findChild("Hub")) {
 			FavoriteHubEntry* e = new FavoriteHubEntry();
 			e->setName(aXml.getChildAttrib("Name"));
-			e->setDescription(aXml.getChildAttrib("Description"));
-			//e->setNick(aXml.getChildAttrib("Nick"));
+			e->setHubDescription(aXml.getChildAttrib("Description"));
 			e->setPassword(aXml.getChildAttrib("Password"));
 			e->setServer(aXml.getChildAttrib("Server"));
-			//e->setUserDescription(aXml.getChildAttrib("UserDescription"));
 			e->setEncoding(aXml.getChildAttrib("Encoding"));
 			//BMDC++
 			e->setHideShare(Util::toInt(aXml.getChildAttrib("HideShare")));

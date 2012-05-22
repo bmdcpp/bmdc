@@ -704,7 +704,7 @@ void ClientManager::setIpAddress(const UserPtr& p, const string& ip) {
 
 void ClientManager::setSupports(const UserPtr& p, const string& aSupports) {
 	Lock l(cs);
-	OnlineUser* ou = findOnlineUser(p->getCID(),"", false);
+	OnlineUser* ou = findOnlineUser(p->getCID(), "", false);
 	if(!ou)
 		return;
 	ou->getIdentity().set("SU", aSupports);

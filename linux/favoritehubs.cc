@@ -1146,11 +1146,11 @@ void FavoriteHubs::initializeList_client()
 void FavoriteHubs::getFavHubParams_client(const FavoriteHubEntry *entry, StringMap &params)
 {
 	params["Name"] = entry->getName();
-	params["Description"] = entry->getDescription();
+	params["Description"] = entry->getHubDescription();
 	params["Nick"] = entry->getNick(); 
 	params["Password"] = entry->getPassword();
 	params["Address"] = entry->getServer();
-	params["User Description"] = entry->getUserDescription();
+	params["User Description"] = entry->getDescription();
 	params["Encoding"] = entry->getEncoding();
 	params["Group"] = entry->getGroup();
 	params["Filelists"] = entry->getCheckFilelists() ? "1" : "0";
@@ -1174,10 +1174,10 @@ void FavoriteHubs::addEntry_client(StringMap params)
 	FavoriteHubEntry entry;
 	entry.setName(params["Name"]);
 	entry.setServer(params["Address"]);
-	entry.setDescription(params["Description"]);
+	entry.setHubDescription(params["Description"]);
 	entry.setNick(params["Nick"]);
 	entry.setPassword(params["Password"]);
-	entry.setUserDescription(params["User Description"]);
+	entry.setDescription(params["User Description"]);
 	entry.setEncoding(params["Encoding"]);
 	entry.setGroup(params["Group"]);
 	entry.setHideShare(Util::toInt(params["Hide"]));
@@ -1210,10 +1210,10 @@ void FavoriteHubs::editEntry_client(string address, StringMap params)
 	{
 		entry->setName(params["Name"]);
 		entry->setServer(params["Address"]);
-		entry->setDescription(params["Description"]);
+		entry->setHubDescription(params["Description"]);
 		entry->setNick(params["Nick"]);
 		entry->setPassword(params["Password"]);
-		entry->setUserDescription(params["User Description"]);
+		entry->setDescription(params["User Description"]);
 		entry->setEncoding(params["Encoding"]);
 		entry->setGroup(params["Group"]);
 		entry->setMode(Util::toInt(params["Mode"]));

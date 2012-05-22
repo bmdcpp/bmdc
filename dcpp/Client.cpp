@@ -105,7 +105,6 @@ void Client::reloadSettings(bool updateNick) {
 		setCheckAtConnect(false);
 		setCheckClients(false);
         setCheckFilelists(false);
-        
         setTabText(Util::emptyString);
         setTabIconStr(Util::emptyString);
         //]
