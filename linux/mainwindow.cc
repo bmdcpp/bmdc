@@ -2574,8 +2574,8 @@ void MainWindow::autoConnect_client()
 
 		if (it != favHubGroups.end())
 		{
-			const FavHubGroupProperties &p = it->second;
-			if (p.connect)
+			HubSettings p = it->second;
+			if (p.getConnect())
 			{
 				typedef Func2<MainWindow, string, string> F2;
 				F2 *func = new F2(this, &MainWindow::showHub_gui, hub->getServer(), hub->getEncoding());
@@ -2599,7 +2599,7 @@ void MainWindow::autoConnect_client()
 
 	if (WulforUtil::isHubURL(link) && BOOLSETTING(URL_HANDLER))
 	{
-		typedef Func2<MainWindow, string, string> F2;//TODO: core 0.762
+		typedef Func2<MainWindow, string, string> F2;
 		F2 *func = new F2(this, &MainWindow::showHub_gui, link, "");//TODO: core 0.762
 		WulforManager::get()->dispatchGuiFunc(func);
 	}

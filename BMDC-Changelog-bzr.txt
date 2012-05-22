@@ -472,4 +472,7 @@ Add SetDefault to ACTab
 Add Icon to ACTab (same as System log for now)
 ---r116
 Add UC to right click on IPs
----
+---r117
+add missing commands to help
+Partial update to rev 2923 of dcpp
+GUI for Per-hub/group settings with exteding with Log this /group Chat(s)

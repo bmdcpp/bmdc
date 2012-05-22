@@ -1,5 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2010-2012 Mank
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -812,7 +813,7 @@ void Hub::removeUser_gui(string cid)
 		setStatus_gui("statusUsers", Util::toString(userMap.size()) + _(" Users"));
 		setStatus_gui("statusShared", Util::formatBytes(totalShared));
 
-		if (BOOLSETTING(SHOW_JOINS))
+		if (client->settings.showJoins/*BOOLSETTING(SHOW_JOINS)*/  )
 		{
 			// Show parts in chat by default
 			string message = nick + _(" has quit hub ") + client->getHubName();
@@ -822,7 +823,7 @@ void Hub::removeUser_gui(string cid)
 			if (order[0] == 'C')//f
 				Notify::get()->showNotify("", message, Notify::FAVORITE_USER_QUIT);
 		}
-		else if (BOOLSETTING(FAV_SHOW_JOINS) && order[0] == 'C')//f
+		else if (client->settings.favShowJoins/*BOOLSETTING(FAV_SHOW_JOINS)*/ && order[0] == 'C')//f
 		{
 			// Only show parts for favorite users
 			string message = nick + _(" has quit hub ") + client->getHubName();
@@ -2457,6 +2458,13 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			"/limitimg <n>, limg <n>\t - " + _("Download limit image: 0 - disable, n < 0 - unlimit, empty - info") + "\n" +
 			"/emoticons, /emot\t\t - " + _("Emoticons on/off") + "\n" +
 			"/sc\t\t\t" + _("Start/Stop checkers") + "\n" +
+			"/scmyinfo\t\t\t" + _("Start/Stop checkers myinfo") + "\n" +
+			"/showjoins\t\t\t" + _("Join/Parts on/off") + "\n" +
+			"/showfavjoins\t\t\t" + _("Fav Joins/Parts on/off") + "\n" +
+			"/plgadd\t\t\t" + _("Add Plugin") + "\n" +
+			"/plist\t\t\t" + _("List Plugins") + "\n" +
+			"/addfavorite\t\t\t" + _("Add Idepent Fav") + "\n" +
+			"/topic\t\t\t" + _("Show topic") + "\n" +
              WulforUtil::commands
              , Msg::SYSTEM);
 		}
@@ -2569,6 +2577,23 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 				hub->client->startMyInfoCheck();
 				hub->addStatusMessage_gui("Started MyInfo check", Msg::SYSTEM, Sound::NONE);
 			}
+		} else if ( command == "showjoins")
+		{
+			hub->client->settings.showJoins = !hub->client->settings.showJoins;
+            if(hub->client->settings.showJoins) {
+                 hub->addStatusMessage_gui("Join/part showing on", Msg::SYSTEM, Sound::NONE);
+            } else {
+                 hub->addStatusMessage_gui("Join/part showing off", Msg::SYSTEM, Sound::NONE);
+            }		
+		}
+		else if ( command == "showfavjoins")
+		{
+			hub->client->settings.favShowJoins = !hub->client->settings.favShowJoins;
+            if(hub->client->settings.favShowJoins) {
+                 hub->addStatusMessage_gui("Join/part for Fav showing on", Msg::SYSTEM, Sound::NONE);
+            } else {
+                 hub->addStatusMessage_gui("Join/part for fav showing off", Msg::SYSTEM, Sound::NONE);
+            }		
 		}
 		// protect command
 		else if (command == "password")
@@ -4433,7 +4458,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 		dcpp::ParamMap params;
 		params["message"] = error;
 
-		if(WGETB("log-messages"))
+		if(WGETB("log-messages") )
             LOG(LogManager::SYSTEM, params);
 
 		typedef Func3<Hub, string, Msg::TypeMsg, Sound::TypeSound> F3;
@@ -4499,7 +4524,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 			}
 		}
 
-		if (BOOLSETTING(LOG_MAIN_CHAT))
+		if (client->settings.getLogChat())
 		{
 			dcpp::ParamMap params;
 			params["message"] = tmp_text;//line

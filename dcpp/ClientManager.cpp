@@ -82,15 +82,15 @@ size_t ClientManager::getUserCount() const {
 }
 
 StringList ClientManager::getHubs(const CID& cid, const string& hintUrl) {
-	return getHubs(cid, hintUrl, FavoriteManager::getInstance()->isPrivate(hintUrl));
+	return getHubs(cid, hintUrl, false);
 }
 
 StringList ClientManager::getHubNames(const CID& cid, const string& hintUrl) {
-	return getHubNames(cid, hintUrl, FavoriteManager::getInstance()->isPrivate(hintUrl));
+	return getHubNames(cid, hintUrl, false);
 }
 
 StringList ClientManager::getNicks(const CID& cid, const string& hintUrl) {
-	return getNicks(cid, hintUrl, FavoriteManager::getInstance()->isPrivate(hintUrl));
+	return getNicks(cid, hintUrl, false);
 }
 
 StringList ClientManager::getHubs(const CID& cid, const string& hintUrl, bool priv) {
@@ -407,10 +407,8 @@ OnlineUser* ClientManager::findOnlineUser(const CID& cid, const string& hintUrl,
 }
 
 void ClientManager::connect(const HintedUser& user, const string& token) {
-	bool priv = FavoriteManager::getInstance()->isPrivate(user.hint);
-
 	Lock l(cs);
-	OnlineUser* u = findOnlineUser(user, priv);
+	OnlineUser* u = findOnlineUser(user, false);
 
 	if(u) {
 		u->getClient().connect(*u, token);
@@ -418,10 +416,8 @@ void ClientManager::connect(const HintedUser& user, const string& token) {
 }
 
 void ClientManager::privateMessage(const HintedUser& user, const string& msg, bool thirdPerson) {
-	bool priv = FavoriteManager::getInstance()->isPrivate(user.hint);
-
 	Lock l(cs);
-	OnlineUser* u = findOnlineUser(user, priv);
+	OnlineUser* u = findOnlineUser(user, false);
 
 	if(u) {
 		u->getClient().privateMessage(*u, msg, thirdPerson);

@@ -459,18 +459,19 @@ void FavoriteManager::save() {
 		for(FavHubGroups::const_iterator i = favHubGroups.begin(), iend = favHubGroups.end(); i != iend; ++i) {
 			xml.addTag("Group");
 			xml.addChildAttrib("Name", i->first);
-			xml.addChildAttrib("Private", i->second.priv);
-			xml.addChildAttrib("Connect", i->second.connect);
+			//xml.addChildAttrib("Private", i->second.priv);
+			//xml.addChildAttrib("Connect", i->second.connect);
+			i->second.save(xml);
 		}
 
 		for(FavoriteHubEntryList::const_iterator i = favoriteHubs.begin(), iend = favoriteHubs.end(); i != iend; ++i) {
 			xml.addTag("Hub");
 			xml.addChildAttrib("Name", (*i)->getName());
-			xml.addChildAttrib("Description", (*i)->getDescription());
-			xml.addChildAttrib("Nick", (*i)->getNick(false));
+//			xml.addChildAttrib("Description", (*i)->getDescription());
+//			xml.addChildAttrib("Nick", (*i)->getNick(false));
 			xml.addChildAttrib("Password", (*i)->getPassword());
 			xml.addChildAttrib("Server", (*i)->getServer());
-			xml.addChildAttrib("UserDescription", (*i)->getUserDescription());
+//			xml.addChildAttrib("UserDescription", (*i)->getUserDescription());
 			xml.addChildAttrib("Encoding", (*i)->getEncoding());
 			//BMDC++
 			xml.addChildAttrib("HideShare", (*i)->getHideShare());
@@ -487,6 +488,7 @@ void FavoriteManager::save() {
 			xml.addChildAttrib("Protects", (*i)->getProtectUsers());
 			xml.addChildAttrib("TabText", (*i)->getTabText());
 			xml.addChildAttrib("TabIcon", (*i)->getTabIconStr());
+			(*i)->save(xml);
 			//RSX++
 			xml.stepIn();
 			for(FavoriteHubEntry::FavAction::List::const_iterator a = (*i)->action.begin(); a != (*i)->action.end(); ++a) {
@@ -679,8 +681,11 @@ void FavoriteManager::load(SimpleXML& aXml) {
 			string name = aXml.getChildAttrib("Name");
 			if(name.empty())
 				continue;
-			FavHubGroupProperties props = { aXml.getBoolChildAttrib("Private"), aXml.getBoolChildAttrib("Connect") };
-			favHubGroups[name] = props;
+			//FavHubGroupProperties props = { aXml.getBoolChildAttrib("Private"), aXml.getBoolChildAttrib("Connect") };
+			//favHubGroups[name] = props;
+			HubSettings settings;
+            settings.load(aXml);
+            favHubGroups[name] = std::move(settings);
 		}
 
 		aXml.resetCurrentChild();
@@ -688,10 +693,10 @@ void FavoriteManager::load(SimpleXML& aXml) {
 			FavoriteHubEntry* e = new FavoriteHubEntry();
 			e->setName(aXml.getChildAttrib("Name"));
 			e->setDescription(aXml.getChildAttrib("Description"));
-			e->setNick(aXml.getChildAttrib("Nick"));
+			//e->setNick(aXml.getChildAttrib("Nick"));
 			e->setPassword(aXml.getChildAttrib("Password"));
 			e->setServer(aXml.getChildAttrib("Server"));
-			e->setUserDescription(aXml.getChildAttrib("UserDescription"));
+			//e->setUserDescription(aXml.getChildAttrib("UserDescription"));
 			e->setEncoding(aXml.getChildAttrib("Encoding"));
 			//BMDC++
 			e->setHideShare(Util::toInt(aXml.getChildAttrib("HideShare")));
@@ -707,9 +712,10 @@ void FavoriteManager::load(SimpleXML& aXml) {
 			e->setProtectUsers(aXml.getChildAttrib("Protects"));
 			e->setTabText(aXml.getChildAttrib("TabText"));
 			e->setTabIconStr(aXml.getChildAttrib("TabIcon"));
+			e->load(aXml);
 			favoriteHubs.push_back(e);
 
-			if(aXml.getBoolChildAttrib("Connect")) {
+			/*if(aXml.getBoolChildAttrib("Connect")) {
 				// this entry dates from before the window manager & fav hub groups; convert it.
 				const string name = _("Auto-connect group (converted)");
 				if(favHubGroups.find(name) == favHubGroups.end()) {
@@ -718,7 +724,7 @@ void FavoriteManager::load(SimpleXML& aXml) {
 				}
 				e->setGroup(name);
 				needSave = true;
-			}
+			}*/
 			aXml.stepIn();
 			while(aXml.findChild("Action")) {
 				int actionId = aXml.getIntChildAttrib("ID");
@@ -734,7 +740,7 @@ void FavoriteManager::load(SimpleXML& aXml) {
 	}
 
 	// parse groups that have the "Connect" param and send their hubs to WindowManager
-	for(FavHubGroups::const_iterator i = favHubGroups.begin(), iend = favHubGroups.end(); i != iend; ++i) {
+/*	for(FavHubGroups::const_iterator i = favHubGroups.begin(), iend = favHubGroups.end(); i != iend; ++i) {
 		if(i->second.connect) {
 			FavoriteHubEntryList hubs = getFavoriteHubs(i->first);
 			for(FavoriteHubEntryList::const_iterator hub = hubs.begin(), hub_end = hubs.end(); hub != hub_end; ++hub) {
@@ -744,7 +750,7 @@ void FavoriteManager::load(SimpleXML& aXml) {
 			}
 		}
 	}
-
+*/
 	aXml.resetCurrentChild();
 	if(aXml.findChild("Users")) {
 		aXml.stepIn();
@@ -778,6 +784,7 @@ void FavoriteManager::load(SimpleXML& aXml) {
 		aXml.stepOut();
 	}
 	aXml.resetCurrentChild();
+	
 	if(aXml.findChild("IgnoredUsers")) {
 		aXml.stepIn();
 		while(aXml.findChild("IgnoredUser")) {
@@ -901,7 +908,7 @@ FavoriteHubEntryList FavoriteManager::getFavoriteHubs(const string& group) const
 			ret.push_back(*i);
 	return ret;
 }
-
+/*
 bool FavoriteManager::isPrivate(const string& url) const {
 	if(url.empty())
 		return false;
@@ -917,7 +924,7 @@ bool FavoriteManager::isPrivate(const string& url) const {
 	}
 	return false;
 }
-
+*/
 optional<FavoriteUser> FavoriteManager::getFavoriteUser(const UserPtr &aUser) const {
 	Lock l(cs);
 	auto i = users.find(aUser->getCID());
@@ -1277,6 +1284,18 @@ void FavoriteManager::on(UserConnected, const UserPtr& user) noexcept {
 		}
 		save();
 	}
+}
+
+void FavoriteManager::mergeHubSettings(const FavoriteHubEntry& entry, HubSettings& settings) const {
+        // apply group settings first.
+        const string& name = entry.getGroup();
+        if(!name.empty()) {
+                auto group = favHubGroups.find(name);
+             if(group != favHubGroups.end())
+              settings.merge(group->second);
+        }
+        // apply fav entry settings next.
+        settings.merge(entry);
 }
 
 } // namespace dcpp

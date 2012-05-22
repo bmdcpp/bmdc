@@ -25,7 +25,7 @@
 #include "Util.h"
 #include "ActionRaw.h"
 #include <list>
-
+#include "HubSettings.h"
 namespace dcpp {
 
 using std::string;
@@ -66,27 +66,21 @@ public:
 	GETSET(int, maxUsers, MaxUsers);
 };
 
-class FavoriteHubEntry {
+class FavoriteHubEntry: public HubSettings {
 public:
 	FavoriteHubEntry() : encoding(Text::systemCharset) { }
 	
 	FavoriteHubEntry(const HubEntry& rhs) : name(rhs.getName()), server(rhs.getServer()),
 		description(rhs.getDescription()), encoding(Text::systemCharset) , tabText(Util::emptyString) , tabIconStr(Util::emptyString), autoConnect(false) { }
 	
-	FavoriteHubEntry(const FavoriteHubEntry& rhs) : userdescription(rhs.userdescription),
+	FavoriteHubEntry(const FavoriteHubEntry& rhs) : 
 		name(rhs.getName()), server(rhs.getServer()), description(rhs.getDescription()),
-		password(rhs.getPassword()), encoding(rhs.getEncoding()), group(rhs.getGroup()), nick(rhs.nick), hideShare(rhs.hideShare),
+		password(rhs.getPassword()), encoding(rhs.getEncoding()), group(rhs.getGroup()), hideShare(rhs.hideShare),
 		autoConnect(rhs.autoConnect), ip(rhs.ip), mode(rhs.mode), chatExtraInfo(rhs.chatExtraInfo),
 		checkAtConn(rhs.checkAtConn), checkClients(rhs.checkClients), checkFilelists(rhs.checkFilelists),  checkMyInfo(rhs.checkMyInfo),
 		tabText(rhs.tabText), tabIconStr(rhs.tabIconStr)
 		 { }
 	~FavoriteHubEntry() { }
-
-	const string& getNick(bool useDefault = true) const {
-		return (!nick.empty() || !useDefault) ? nick : SETTING(NICK);
-	}
-
-	void setNick(const string& aNick) { nick = aNick; }
 
 	GETSET(string, userdescription, UserDescription);
 	GETSET(string, name, Name);
@@ -110,7 +104,7 @@ public:
 	GETSET(string, tabText, TabText);
 	GETSET(string, tabIconStr, TabIconStr);
 
-	 //Raw Manager
+	//Raw Manager
 	struct FavAction {
 		typedef unordered_map<int, FavAction*> List;
 
@@ -121,9 +115,6 @@ public:
 	};
 
 	FavAction::List action;
-
-private:
-	string nick;
 };
 
 class RecentHubEntry {

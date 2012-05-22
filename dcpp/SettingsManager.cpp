@@ -745,4 +745,17 @@ const string SettingsManager::parseCoreCmd(const string cmd) {
     return _("Error: params have been not 2!");
 }
 
+HubSettings SettingsManager::getHubSettings() const {
+        HubSettings ret;
+        ret.setNick(get(NICK));
+        ret.setDescription(get(DESCRIPTION));
+		ret.setEmail(get(EMAIL));
+        ret.showJoins = getBool(SHOW_JOINS);
+        ret.favShowJoins = getBool(FAV_SHOW_JOINS);
+		//[BMDC++
+		ret.setLogChat(getBool(LOG_MAIN_CHAT));
+		//]
+        return ret;
+}
+
 } // namespace dcpp

@@ -22,8 +22,9 @@
 #include "version.h"
 
 #ifndef DCPP_REVISION
-#define DCPP_REVISION 2869
-#define DCPP_REVISION_STRING "2869p"
+//#define DCPP_REVISION 2869
+#define DCPP_REVISION 2923
+#define DCPP_REVISION_STRING "2923p"
 #endif
 #ifndef BMDC_REVISION
 	#define BMDC_REVISION 116

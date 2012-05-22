@@ -23,6 +23,7 @@
 #include "Speaker.h"
 #include "Singleton.h"
 #include "Exception.h"
+#include "HubSettings.h"
 
 namespace dcpp {
 
@@ -288,7 +289,7 @@ public:
 	const string (&getSettingTags() const)[SETTINGS_LAST+1] {
 		return settingTags;
 	}
-
+	HubSettings getHubSettings() const;
 private:
 	friend class Singleton<SettingsManager>;
 	SettingsManager();

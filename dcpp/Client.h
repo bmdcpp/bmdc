@@ -35,6 +35,7 @@
 #endif
 #include "CommandQueue.h"
 #include "PluginEntity.h"
+#include "HubSettings.h"
 
 namespace dcpp {
 
@@ -122,6 +123,8 @@ public:
 	void putDetectors() { stopMyInfoCheck(); stopChecking();  }
 	
 	HubData* getPluginObject() noexcept;
+	
+	HubSettings settings;
 
 	GETSET(Identity, myIdentity, MyIdentity);
 	GETSET(Identity, hubIdentity, HubIdentity);
@@ -133,8 +136,6 @@ public:
 	GETSET(bool, autoReconnect, AutoReconnect);
 	GETSET(string, encoding, Encoding);
 
-	GETSET(string, currentNick, CurrentNick);
-	GETSET(string, currentDescription, CurrentDescription);
 	//BMDC++
 	GETSET(bool, hideShare, HideShare);
 	GETSET(string, favIp, FavIp);
@@ -179,7 +180,7 @@ protected:
 	/** Reload details from favmanager or settings */
 	void reloadSettings(bool updateNick);
 
-	virtual string checkNick(const string& nick) = 0;
+	virtual void checkNick(string& nick) = 0;
 
 	// TimerManagerListener
 	virtual void on(Second, uint64_t aTick) noexcept;

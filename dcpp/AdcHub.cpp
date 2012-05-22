@@ -995,13 +995,13 @@ void AdcHub::info(bool /*alwaysSend*/) {
 
 	addParam(lastInfoMap, c, "ID", ClientManager::getInstance()->getMyCID().toBase32());
 	addParam(lastInfoMap, c, "PD", ClientManager::getInstance()->getMyPID().toBase32());
-	addParam(lastInfoMap, c, "NI", getCurrentNick());
-	addParam(lastInfoMap, c, "DE", isfreeslots ? fslots + " " + getCurrentDescription() : getCurrentDescription());
+	addParam(lastInfoMap, c, "NI", settings.getNick());
+	addParam(lastInfoMap, c, "DE", isfreeslots ? fslots + " " + settings.getDescription() : settings.getDescription());
 	addParam(lastInfoMap, c, "SL", Util::toString(SETTING(SLOTS)));
 	addParam(lastInfoMap, c, "FS", Util::toString(UploadManager::getInstance()->getFreeSlots()));
 	addParam(lastInfoMap, c, "SS", getHideShare() ? "0" : ShareManager::getInstance()->getShareSizeString());
 	addParam(lastInfoMap, c, "SF", getHideShare() ? "0" : Util::toString(ShareManager::getInstance()->getSharedFiles()));
-	addParam(lastInfoMap, c, "EM", SETTING(EMAIL));
+	addParam(lastInfoMap, c, "EM", settings.getEmail());
 	addParam(lastInfoMap, c, "HN", Util::toString(counts[COUNT_NORMAL]));
 	addParam(lastInfoMap, c, "HR", Util::toString(counts[COUNT_REGISTERED]));
 	addParam(lastInfoMap, c, "HO", Util::toString(counts[COUNT_OP]));
@@ -1063,15 +1063,13 @@ int64_t AdcHub::getAvailable() const {
 	return x;
 }
 
-string AdcHub::checkNick(const string& aNick) {
-	string tmp = aNick;
-	for(size_t i = 0; i < aNick.size(); ++i) {
-		if(static_cast<uint8_t>(tmp[i]) <= 32) {
-			tmp[i] = '_';
-		}
+void AdcHub::checkNick(string& nick) {
+	for(size_t i = 0, n = nick.size(); i < n; ++i) {
+          if(static_cast<uint8_t>(nick[i]) <= 32) {
+                nick[i] = '_';
+           }     
 	}
-	return tmp;
-}
+}		
 
 void AdcHub::send(const AdcCommand& cmd) {
 	if(forbiddenCommands.find(AdcCommand::toFourCC(cmd.getFourCC().c_str())) == forbiddenCommands.end()) {

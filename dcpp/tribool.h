@@ -16,14 +16,18 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef DCPLUSPLUS_DCPP_FAVHUBGROUP_H
-#define DCPLUSPLUS_DCPP_FAVHUBGROUP_H
+#ifndef DCPLUSPLUS_DCPP_TRIBOOL_H
+#define DCPLUSPLUS_DCPP_TRIBOOL_H
 
-#include <unordered_map>
-#include "HubSettings.h"
-namespace dcpp {
-typedef std::unordered_map<string, HubSettings> FavHubGroups;
-typedef FavHubGroups::value_type FavHubGroup;
-} // namespace dcpp
+#include <boost/logic/tribool.hpp>
+
+using boost::indeterminate;
+using boost::tribool;
+
+// conversions between tribools and ints, with 0 being the indeterminate value
+namespace {
+	inline tribool to3bool(int x) { if(x) { return tribool(x == 1); } return tribool(indeterminate); }
+	inline int toInt(tribool x) { return x ? 1 : !x ? 2 : 0; }
+}
 
 #endif

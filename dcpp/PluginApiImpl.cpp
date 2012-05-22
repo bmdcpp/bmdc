@@ -512,7 +512,7 @@ HubDataPtr PluginApiImpl::addHub(const char* url, const char* nick, const char* 
 		Client* client = ClientManager::getInstance()->getClient(url);
 		client->connect();
 		client->setPassword(password);
-		client->setCurrentNick(nick);
+		client->settings.setNick(nick);
 
 		// check that socket is waitting for connection...
 		if(client->isConnected()) {

@@ -296,7 +296,7 @@ gboolean BookEntry::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *even
 
 	if (event->button == 3 && event->type == GDK_BUTTON_RELEASE)
 	{
-		book->fItem = (book->createItemFirstMenu()); //gtk_image_menu_item_new_from_stock(WGETS("icon-hub-offline").c_str(),NULL);
+		book->fItem = (book->createItemFirstMenu());
 		// show menu
 		book->createmenu();
 		WulforUtil::remove_signals_from_widget(book->fItem,GDK_ALL_EVENTS_MASK);
@@ -304,7 +304,7 @@ gboolean BookEntry::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *even
 		gtk_widget_show(book->fItem);
 		gtk_widget_show(book->popTabMenuItem);
 		g_object_ref_sink(book->popTabMenuItem);
-          gtk_menu_popup(GTK_MENU(book->popTabMenuItem),NULL, NULL, NULL,NULL,0,0);
+        gtk_menu_popup(GTK_MENU(book->popTabMenuItem),NULL, NULL, NULL,NULL,0,0);
 	}
 	return FALSE;
 }

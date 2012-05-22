@@ -145,7 +145,6 @@ public:
 	void setFavHubGroups(const FavHubGroups& favHubGroups_) { favHubGroups = favHubGroups_; }
 
 	FavoriteHubEntryList getFavoriteHubs(const string& group) const;
-	bool isPrivate(const string& url) const;
 // Recent Hubs
 	void addRecent(const RecentHubEntry& aEntry);
 	void removeRecent(const RecentHubEntry* entry);
@@ -191,7 +190,9 @@ public:
 		recentHubs.clear();
 		recentsave();
 	}
-
+	//
+	void mergeHubSettings(const FavoriteHubEntry& entry, HubSettings& settings) const;
+	
 private:
 	FavoriteHubEntryList favoriteHubs;
 	RecentHubEntry::List recentHubs;

@@ -73,38 +73,31 @@ void Client::shutdown() {
 }
 
 void Client::reloadSettings(bool updateNick) {
-	FavoriteHubEntry* hub = FavoriteManager::getInstance()->getFavoriteHubEntry(getHubUrl());
-	if(hub) {
-		if(updateNick) {
-			setCurrentNick(checkNick(hub->getNick(true)));
-		}
-
-		if(!hub->getUserDescription().empty()) {
-			setCurrentDescription(hub->getUserDescription());
-		} else {
-			setCurrentDescription(SETTING(DESCRIPTION));
-		}
-		if(!hub->getPassword().empty())
-			setPassword(hub->getPassword());
-		//BMDC++
-            setHideShare(hub->getHideShare());
-            setFavIp(hub->getIp());
-            setChatExtraInfo(hub->getChatExtraInfo());
-            setProtectUser(hub->getProtectUsers());
-            setCheckAtConnect(hub->getCheckAtConn());
-            setCheckClients(hub->getCheckClients());
-            setCheckFilelists(hub->getCheckFilelists());
-            
-            setTabText(hub->getTabText());
-            setTabIconStr(hub->getTabIconStr());
-
-
-	} else {
-		if(updateNick) {
-			setCurrentNick(checkNick(SETTING(NICK)));
-		}
-		setCurrentDescription(SETTING(DESCRIPTION));
-		//BMDC++
+	/// @todo update the nick in ADC hubs?
+	string prevNick = Util::emptyString;
+	if(!updateNick)
+		prevNick = settings.getNick();
+	settings = SettingsManager::getInstance()->getHubSettings();
+	
+	auto fav = FavoriteManager::getInstance()->getFavoriteHubEntry(getHubUrl());
+	if(fav)
+	{
+		FavoriteManager::getInstance()->mergeHubSettings(*fav, settings);
+		if(!fav->getPassword().empty())
+			setPassword(fav->getPassword());
+		//[BMDC
+		setHideShare(fav->getHideShare());
+		setFavIp(fav->getIp());
+		setChatExtraInfo(fav->getChatExtraInfo());
+		setProtectUser(fav->getProtectUsers());
+		setCheckAtConnect(fav->getCheckAtConn());
+		setCheckClients(fav->getCheckClients());
+		setCheckFilelists(fav->getCheckFilelists());
+		setTabText(fav->getTabText());
+		setTabIconStr(fav->getTabIconStr());
+		//]
+	}else{
+		//[BMDC++
 		setHideShare(false);
 		setFavIp(Util::emptyString);
 		setChatExtraInfo(Util::emptyString);
@@ -115,7 +108,12 @@ void Client::reloadSettings(bool updateNick) {
         
         setTabText(Util::emptyString);
         setTabIconStr(Util::emptyString);
+        //]
 	}
+	if(updateNick)
+        checkNick(settings.nick);
+    else
+       settings.setNick(prevNick);
 }
 
 void Client::connect() {
@@ -248,6 +246,7 @@ void Client::updateCounts(bool aRemove) {
 }
 
 string Client::getLocalIp() const {
+    
     if(!getFavIp().empty()) {
         return Socket::resolve(getFavIp());
     }
@@ -309,6 +308,7 @@ bool ClientScriptInstance::onHubFrameEnter(Client* aClient, const string& aLine)
 	return GetLuaBool();
 }
 #endif
+
 void Client::sendActionCommand(const OnlineUser& ou, int actionId) {
 	if(!isConnected() /*|| (userCount < getUsersLimit())*/)
 		return;

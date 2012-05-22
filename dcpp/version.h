@@ -22,13 +22,13 @@
 #define VERSIONFLOAT 0.791
 
 #ifndef DCPP_REVISION
-	#define DCPP_REVISION 2869
-	#define DCPP_REVISION_STRING "2869p"
+	#define DCPP_REVISION 2923
+	#define DCPP_REVISION_STRING "2923p"
 #endif
 #ifndef BMDC_REVISION
-	#define BMDC_REVISION 116
+	#define BMDC_REVISION 117
 #endif
-	#define BMDC_REVISION_STRING "116"
+	#define BMDC_REVISION_STRING "117"
 #define xstrver(s) strver(s)
 #define strver(s) #s
 
