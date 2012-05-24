@@ -1968,7 +1968,8 @@ gboolean Hub::onEntryKeyPress_gui(GtkWidget *entry, GdkEventKey *event, gpointer
 {
 	Hub *hub = (Hub *)data;
 
-	if (event->keyval == GDK_Up || event->keyval == GDK_KP_Up)
+	if ( (( WGETB("key-hub-with-ctrl") && ((event->keyval == GDK_Up || event->keyval == GDK_KP_Up) && (event->state & GDK_CONTROL_MASK ) )) )
+			|| ( !WGETB("key-hub-with-ctrl") && (event->keyval == GDK_Up || event->keyval == GDK_KP_Up) ))
 	{
 		size_t index = hub->historyIndex - 1;
 		if (index >= 0 && index < hub->history.size())
@@ -1978,7 +1979,9 @@ gboolean Hub::onEntryKeyPress_gui(GtkWidget *entry, GdkEventKey *event, gpointer
 		}
 		return TRUE;
 	}
-	else if (event->keyval == GDK_Down || event->keyval == GDK_KP_Down)
+	else if (
+			( WGETB("key-hub-with-ctrl") && ((event->keyval == GDK_Down || event->keyval == GDK_KP_Down) && (event->state & GDK_CONTROL_MASK) ))
+			|| ( !WGETB("key-hub-with-ctrl") && (event->keyval == GDK_Down || event->keyval == GDK_KP_Down)) )
 	{
 		size_t index = hub->historyIndex + 1;
 		if (index >= 0 && index < hub->history.size())
@@ -1988,6 +1991,7 @@ gboolean Hub::onEntryKeyPress_gui(GtkWidget *entry, GdkEventKey *event, gpointer
 		}
 		return TRUE;
 	}
+	
 	else if (event->keyval == GDK_Tab || event->keyval == GDK_ISO_Left_Tab)
 	{
 		string current;

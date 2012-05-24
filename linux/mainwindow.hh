@@ -121,6 +121,7 @@ class MainWindow:
 			NOTEPAD,
 			SYSTEM,
 			AWAY,
+			LIMITING,
 			END
 		} IconsToolbar;
 		static void* icons[(MainWindow::IconsToolbar)END][4];
@@ -132,6 +133,7 @@ class MainWindow:
 			else
 				gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget(std::string(reinterpret_cast<char *>(icons[type][3])))),(reinterpret_cast<char *>(icons[type][1])));
 		}
+		void setLimitingIcon(bool Limited);
 
 		void setAwayIcon(bool isAway)
 		{

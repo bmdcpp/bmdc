@@ -9,6 +9,10 @@
 * Add UC to IPs
 * Change Next/Prev tab to ctrl + right  and ctrl + left keys
 * Fixed repareted message about emoticon if its disabled
+* Possible do nothing on middle button on Tabs
+* Possible use ctrl + arrow only to chat history
+* Fix Limiting Icon
+* Update to 2923 dcpp
  ======
 0.0.1
  ======

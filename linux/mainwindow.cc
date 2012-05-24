@@ -83,7 +83,8 @@ void* MainWindow::icons[(MainWindow::IconsToolbar)END][4] =
 { ((void*)(MainWindow::IconsToolbar)MainWindow::FUPLOADS), (void*)"bmdc-finished-uploads",(void*)"bmdc-finished-uploads-on",(void*)"finishedUploads"},
 { ((void*)(MainWindow::IconsToolbar)MainWindow::NOTEPAD), (void*)"bmdc-notepad",(void*)"bmdc-notepad-on",(void*)"notepad"},
 { ((void*)(MainWindow::IconsToolbar)MainWindow::SYSTEM), (void*)"bmdc-system",(void*)"bmdc-system-on",(void*)"system"},
-{ ((void*)(MainWindow::IconsToolbar)MainWindow::AWAY), (void*)"bmdc-away",(void*)"bmdc-away-on",(void*)"AwayIcon"}
+{ ((void*)(MainWindow::IconsToolbar)MainWindow::AWAY), (void*)"bmdc-away",(void*)"bmdc-away-on",(void*)"AwayIcon"},
+{ ((void*)(MainWindow::IconsToolbar)MainWindow::LIMITING), (void*)"bmdc-limiting",(void*)"bmdc-limiting-on",(void*)"limitingButton"}
 };
 
 MainWindow::MainWindow():
@@ -405,7 +406,7 @@ MainWindow::MainWindow():
 
     #ifdef _USELUA
 	 ScriptManager::getInstance()->load();
-	 // Start as late as possible, as we might (formatting.lua) need to examine settings
+	 // Start as late as possible
 	 string defaultluascript = "startup.lua";
 	 ScriptManager::getInstance()->EvaluateFile(defaultluascript);
 	#endif
@@ -581,22 +582,26 @@ void MainWindow::onLimitingMenuItem_gui(GtkWidget *widget, gpointer data)
 	string type = (gchar *)g_object_get_data(G_OBJECT(widget), "type");
 	if(speed.empty())
 		return;
-	GtkWidget *lim = mw->getWidget("limitingButton");	
 
 	if(type == "up")
 	{
 		ThrottleManager::setSetting(SettingsManager::MAX_UPLOAD_SPEED_MAIN, Util::toInt(speed)/1024 );
-		mw->setMainStatus_gui(_("Throtle on"), time(NULL));
-		gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(lim),"bmdc-limiting-on");
+		mw->setLimitingIcon(true);
 	}
 	else if(type == "dw")
 	{
 		ThrottleManager::setSetting(SettingsManager::MAX_DOWNLOAD_SPEED_MAIN, Util::toInt(speed)/1024 );
-		mw->setMainStatus_gui(_("Throtle on"), time(NULL));
-		gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(lim),"bmdc-limiting-on");
+		mw->setLimitingIcon(true);
 	}
+	SettingsManager::getInstance()->set(SettingsManager::THROTTLE_ENABLE, true);
 	mw->setStatRate_gui();
 	
+}
+
+void MainWindow::setLimitingIcon(bool Limited)
+{
+	setMainStatus_gui(_("Throtle ") + Limited ? "on" : "off", time(NULL));
+	setStatusOfIcons(LIMITING,Limited);
 }
 
 void MainWindow::onLimitingDisable(GtkWidget *widget, gpointer data)
@@ -612,35 +617,34 @@ void MainWindow::onLimitingDisable(GtkWidget *widget, gpointer data)
 	{
 		ThrottleManager::setSetting(SettingsManager::MAX_UPLOAD_SPEED_MAIN, 0);
 	}
+	SettingsManager::getInstance()->set(SettingsManager::THROTTLE_ENABLE, false);
 	
-	GtkWidget *lim = mw->getWidget("limitingButton");
-    mw->setMainStatus_gui(_("Throtle off"), time(NULL));
-    gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(lim), "bmdc-limiting");
+    mw->setLimitingIcon(false);
     mw->setStatRate_gui();
 }
 
 void MainWindow::setInitThrotles()
 {
-	int up = ThrottleManager::getUpLimit();
-	int down = ThrottleManager::getDownLimit();
-	GtkWidget *widget = gtk_menu_item_new();
-	if(up > 0) {
-		g_object_set_data_full(G_OBJECT(widget), "speed", g_strdup(Util::toString(up).c_str()), g_free);
-		g_object_set_data_full(G_OBJECT(widget), "type", g_strdup("up"), g_free);	
-		onLimitingMenuItem_gui(widget ,(gpointer)this);	
+	int up = SETTING(MAX_UPLOAD_SPEED_MAIN);
+	int down = SETTING(MAX_DOWNLOAD_SPEED_MAIN);
+	GtkWidget *dummy = gtk_menu_item_new();
+	bool enabled = SETTING(THROTTLE_ENABLE);
+	if(enabled && (up > 0) ) {
+		setLimitingIcon(true);
+		return;
 	}
-	if(down > 0) {
-		g_object_set_data_full(G_OBJECT(widget), "speed", g_strdup(Util::toString(down).c_str()), g_free);
-		g_object_set_data_full(G_OBJECT(widget), "type", g_strdup("dw"), g_free);	
-		onLimitingMenuItem_gui(widget ,(gpointer)this);
+	if(enabled && (down > 0)) {
+		setLimitingIcon(true);
+		return;
 	}
-	if(up == 0) {
-		g_object_set_data_full(G_OBJECT(widget), "type", g_strdup("up"), g_free);	
-		onLimitingDisable(widget, (gpointer)this);
+	
+	if(!enabled && (up == 0)) {
+		setLimitingIcon(false);
+		return;
 	}
-	if(down == 0) {
-		g_object_set_data_full(G_OBJECT(widget), "type", g_strdup("dw"), g_free);	
-		onLimitingDisable(widget, (gpointer)this);
+	if(!enabled && (down == 0)) {
+		setLimitingIcon(false);
+		return;
 	}
 }
 
@@ -2043,8 +2047,9 @@ gboolean MainWindow::onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton *
 	gdk_drawable_get_size(event->window, &width, &height);
 
 	// If middle mouse button was released when hovering over tab label
-	if (event->button == 2 && event->x >= 0 && event->y >= 0
-		&& event->x < width && event->y < height)
+	// with setting to it
+	if ( (!WGETB("book-three-button-disable")) &&  (event->button == 2 && event->x >= 0 && event->y >= 0
+		&& event->x < width && event->y < height))
 	{
 		BookEntry *entry = (BookEntry *)data;
 		WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);

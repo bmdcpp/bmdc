@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-05-22 15:54+0200\n"
+"POT-Creation-Date: 2012-05-24 17:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -387,7 +387,7 @@ msgid "ADL Action"
 msgstr ""
 
 #: glade/mainwindow.glade:2232 linux/adlsearch.cc:31 linux/bookentry.cc:344
-#: linux/settingsdialog.cc:1426 linux/settingsdialog.cc:1494
+#: linux/settingsdialog.cc:1428 linux/settingsdialog.cc:1496
 msgid "ADL Search"
 msgstr ""
 
@@ -457,7 +457,7 @@ msgstr ""
 msgid "Add Raw"
 msgstr ""
 
-#: glade/hub.glade:36 linux/hub.cc:2442
+#: glade/hub.glade:36 linux/hub.cc:2446
 msgid "Add a hub to favorites"
 msgstr ""
 
@@ -469,7 +469,7 @@ msgstr ""
 msgid "Add this file to your download queue"
 msgstr ""
 
-#: glade/uploadqueue.glade:60 linux/privatemessage.cc:1517
+#: glade/uploadqueue.glade:60 linux/privatemessage.cc:1521
 msgid "Add to Favorite Users"
 msgstr ""
 
@@ -481,7 +481,7 @@ msgstr ""
 msgid "Add to the list"
 msgstr ""
 
-#: glade/privatemessage.glade:211 linux/hub.cc:2443
+#: glade/privatemessage.glade:211 linux/hub.cc:2447
 #: linux/privatemessage.cc:1055
 msgid "Add user to favorites list"
 msgstr ""
@@ -537,7 +537,7 @@ msgid "Away mode message on/off"
 msgstr ""
 
 #: glade/hub.glade:20 glade/privatemessage.glade:190 linux/WulforUtil.cc:879
-#: linux/WulforUtil.cc:895 linux/mainwindow.cc:2303
+#: linux/WulforUtil.cc:895 linux/mainwindow.cc:2308
 #: linux/privatemessage.cc:1052
 msgid "Away mode off"
 msgstr ""
@@ -699,8 +699,8 @@ msgid "Choose a File"
 msgstr ""
 
 #: glade/search.glade:7 glade/settingsdialog.glade:8878
-#: glade/sharebrowser.glade:7 linux/hub.cc:2916 linux/mainwindow.cc:1636
-#: linux/mainwindow.cc:1704 linux/privatemessage.cc:1300
+#: glade/sharebrowser.glade:7 linux/hub.cc:2920 linux/mainwindow.cc:1640
+#: linux/mainwindow.cc:1708 linux/privatemessage.cc:1304
 msgid "Choose a directory"
 msgstr ""
 
@@ -713,7 +713,7 @@ msgstr ""
 msgid "Clear PM"
 msgstr ""
 
-#: glade/hub.glade:28 linux/hub.cc:2440
+#: glade/hub.glade:28 linux/hub.cc:2444
 msgid "Clear chat"
 msgstr ""
 
@@ -753,9 +753,9 @@ msgstr ""
 msgid "Colors & Fonts"
 msgstr ""
 
-#: glade/settingsdialog.glade:956 linux/settingsdialog.cc:1955
-#: linux/settingsdialog.cc:1963 linux/settingsdialog.cc:3701
-#: linux/settingsdialog.cc:3780
+#: glade/settingsdialog.glade:956 linux/settingsdialog.cc:1957
+#: linux/settingsdialog.cc:1965 linux/settingsdialog.cc:3703
+#: linux/settingsdialog.cc:3782
 msgid "Command"
 msgstr ""
 
@@ -785,7 +785,7 @@ msgstr ""
 #: glade/mainwindow.glade:2117 glade/mainwindow.glade:2393
 #: linux/favoritehubs.cc:92 linux/favoritehubs.cc:716
 #: linux/favoritehubs.cc:827 linux/favoritehubs.cc:1027
-#: linux/settingsdialog.cc:1432 linux/settingsdialog.cc:1465
+#: linux/settingsdialog.cc:1434 linux/settingsdialog.cc:1467
 msgid "Connect"
 msgstr ""
 
@@ -802,7 +802,7 @@ msgstr ""
 msgid "Connect to hub"
 msgstr ""
 
-#: glade/hub.glade:60 linux/hub.cc:2449
+#: glade/hub.glade:60 linux/hub.cc:2453
 msgid "Connect to the hub"
 msgstr ""
 
@@ -907,9 +907,9 @@ msgstr ""
 #: glade/settingsdialog.glade:6305 linux/UserCommandMenu.cc:73
 #: linux/search.cc:1764 linux/settingsdialog.cc:926
 #: linux/settingsdialog.cc:940 linux/settingsdialog.cc:1028
-#: linux/settingsdialog.cc:1434 linux/settingsdialog.cc:4096
-#: linux/settingsdialog.cc:4116 linux/settingsdialog.cc:4145
-#: linux/settingsdialog.cc:4159 linux/settingsdialog.cc:4214
+#: linux/settingsdialog.cc:1436 linux/settingsdialog.cc:4098
+#: linux/settingsdialog.cc:4118 linux/settingsdialog.cc:4147
+#: linux/settingsdialog.cc:4161 linux/settingsdialog.cc:4216
 #: linux/sharebrowser.cc:297
 msgid "Directory"
 msgstr ""
@@ -931,7 +931,7 @@ msgid "Don't allow hub/UPnP to override"
 msgstr ""
 
 #: glade/sharebrowser.glade:75 glade/sharebrowser.glade:118
-#: linux/settingsdialog.cc:1414
+#: linux/settingsdialog.cc:1416
 msgid "Download"
 msgstr ""
 
@@ -940,8 +940,8 @@ msgid "Download Matches"
 msgstr ""
 
 #: glade/mainwindow.glade:1188 linux/bookentry.cc:336
-#: linux/downloadqueue.cc:33 linux/settingsdialog.cc:1095
-#: linux/settingsdialog.cc:1540
+#: linux/downloadqueue.cc:33 linux/settingsdialog.cc:1097
+#: linux/settingsdialog.cc:1542
 msgid "Download Queue"
 msgstr ""
 
@@ -1096,19 +1096,19 @@ msgstr ""
 
 #: glade/mainwindow.glade:1061 glade/mainwindow.glade:2130
 #: linux/bookentry.cc:320 linux/favoritehubs.cc:33
-#: linux/settingsdialog.cc:1416 linux/settingsdialog.cc:1469
-#: linux/settingsdialog.cc:1539
+#: linux/settingsdialog.cc:1418 linux/settingsdialog.cc:1471
+#: linux/settingsdialog.cc:1541
 msgid "Favorite Hubs"
 msgstr ""
 
 #: glade/mainwindow.glade:1079 glade/mainwindow.glade:2144
 #: linux/bookentry.cc:324 linux/favoriteusers.cc:38
-#: linux/settingsdialog.cc:1417 linux/settingsdialog.cc:1471
-#: linux/settingsdialog.cc:1543
+#: linux/settingsdialog.cc:1419 linux/settingsdialog.cc:1473
+#: linux/settingsdialog.cc:1545
 msgid "Favorite Users"
 msgstr ""
 
-#: glade/settingsdialog.glade:9059 linux/settingsdialog.cc:4078
+#: glade/settingsdialog.glade:9059 linux/settingsdialog.cc:4080
 msgid "Favorite name"
 msgstr ""
 
@@ -1150,17 +1150,17 @@ msgstr ""
 
 #: glade/mainwindow.glade:1206 glade/mainwindow.glade:2279
 #: glade/mainwindow.glade:2481 linux/bookentry.cc:352
-#: linux/finishedtransfers.cc:34 linux/settingsdialog.cc:1093
-#: linux/settingsdialog.cc:1418 linux/settingsdialog.cc:1485
-#: linux/settingsdialog.cc:1541
+#: linux/finishedtransfers.cc:34 linux/settingsdialog.cc:1095
+#: linux/settingsdialog.cc:1420 linux/settingsdialog.cc:1487
+#: linux/settingsdialog.cc:1543
 msgid "Finished Downloads"
 msgstr ""
 
 #: glade/mainwindow.glade:1223 glade/mainwindow.glade:2294
 #: glade/mainwindow.glade:2489 linux/bookentry.cc:356
-#: linux/finishedtransfers.cc:39 linux/settingsdialog.cc:1094
-#: linux/settingsdialog.cc:1419 linux/settingsdialog.cc:1487
-#: linux/settingsdialog.cc:1542
+#: linux/finishedtransfers.cc:39 linux/settingsdialog.cc:1096
+#: linux/settingsdialog.cc:1421 linux/settingsdialog.cc:1489
+#: linux/settingsdialog.cc:1544
 msgid "Finished Uploads"
 msgstr ""
 
@@ -1221,7 +1221,7 @@ msgstr ""
 msgid "Get UserInfo"
 msgstr ""
 
-#: glade/privatemessage.glade:225 linux/hub.cc:2446
+#: glade/privatemessage.glade:225 linux/hub.cc:2450
 #: linux/privatemessage.cc:1057
 msgid "Get file list"
 msgstr ""
@@ -1230,7 +1230,7 @@ msgstr ""
 msgid "Grant Slot"
 msgstr ""
 
-#: glade/privatemessage.glade:232 linux/hub.cc:2447
+#: glade/privatemessage.glade:232 linux/hub.cc:2451
 #: linux/privatemessage.cc:1058
 msgid "Grant extra slot"
 msgstr ""
@@ -1264,7 +1264,7 @@ msgid "H_igh"
 msgstr ""
 
 #: glade/mainwindow.glade:2204 glade/mainwindow.glade:2441
-#: linux/settingsdialog.cc:1420 linux/settingsdialog.cc:1477
+#: linux/settingsdialog.cc:1422 linux/settingsdialog.cc:1479
 msgid "Hash"
 msgstr ""
 
@@ -1354,7 +1354,7 @@ msgid "Ignore TTH search"
 msgstr ""
 
 #: glade/mainwindow.glade:2417 linux/bookentry.cc:328 linux/ignoreusers.cc:37
-#: linux/settingsdialog.cc:1429 linux/settingsdialog.cc:1498
+#: linux/settingsdialog.cc:1431 linux/settingsdialog.cc:1500
 msgid "Ignore Users"
 msgstr ""
 
@@ -1398,7 +1398,7 @@ msgid "Left"
 msgstr ""
 
 #: glade/mainwindow.glade:2346 glade/mainwindow.glade:2513
-#: linux/settingsdialog.cc:1435 linux/settingsdialog.cc:1502
+#: linux/settingsdialog.cc:1437 linux/settingsdialog.cc:1504
 msgid "Limiting"
 msgstr ""
 
@@ -1644,18 +1644,18 @@ msgstr ""
 #: linux/recenthub.cc:192 linux/recenthub.cc:269 linux/recenthub.cc:278
 #: linux/search.cc:1706 linux/settingsdialog.cc:760
 #: linux/settingsdialog.cc:769 linux/settingsdialog.cc:947
-#: linux/settingsdialog.cc:982 linux/settingsdialog.cc:1351
-#: linux/settingsdialog.cc:1450 linux/settingsdialog.cc:1570
-#: linux/settingsdialog.cc:1590 linux/settingsdialog.cc:1611
-#: linux/settingsdialog.cc:1953 linux/settingsdialog.cc:1962
-#: linux/settingsdialog.cc:3237 linux/settingsdialog.cc:3253
-#: linux/settingsdialog.cc:3271 linux/settingsdialog.cc:3289
-#: linux/settingsdialog.cc:3315 linux/settingsdialog.cc:3320
-#: linux/settingsdialog.cc:3568 linux/settingsdialog.cc:3602
-#: linux/settingsdialog.cc:3653 linux/settingsdialog.cc:3699
-#: linux/settingsdialog.cc:3778 linux/settingsdialog.cc:4324
-#: linux/settingsdialog.cc:4417 linux/settingsdialog.cc:4440
-#: linux/settingsdialog.cc:4459
+#: linux/settingsdialog.cc:982 linux/settingsdialog.cc:1353
+#: linux/settingsdialog.cc:1452 linux/settingsdialog.cc:1572
+#: linux/settingsdialog.cc:1592 linux/settingsdialog.cc:1613
+#: linux/settingsdialog.cc:1955 linux/settingsdialog.cc:1964
+#: linux/settingsdialog.cc:3239 linux/settingsdialog.cc:3255
+#: linux/settingsdialog.cc:3273 linux/settingsdialog.cc:3291
+#: linux/settingsdialog.cc:3317 linux/settingsdialog.cc:3322
+#: linux/settingsdialog.cc:3570 linux/settingsdialog.cc:3604
+#: linux/settingsdialog.cc:3655 linux/settingsdialog.cc:3701
+#: linux/settingsdialog.cc:3780 linux/settingsdialog.cc:4326
+#: linux/settingsdialog.cc:4419 linux/settingsdialog.cc:4442
+#: linux/settingsdialog.cc:4461
 msgid "Name"
 msgstr ""
 
@@ -1684,8 +1684,8 @@ msgstr ""
 #: linux/finishedtransfers.cc:186 linux/hub.cc:71 linux/hub.cc:103
 #: linux/hub.cc:105 linux/hub.cc:342 linux/hub.cc:691 linux/hub.cc:714
 #: linux/hub.cc:743 linux/hub.cc:800 linux/hub.cc:885 linux/hub.cc:1732
-#: linux/hub.cc:2033 linux/hub.cc:2086 linux/hub.cc:2658 linux/hub.cc:2689
-#: linux/hub.cc:2976 linux/hub.cc:3015 linux/ignoreusers.cc:44
+#: linux/hub.cc:2037 linux/hub.cc:2090 linux/hub.cc:2662 linux/hub.cc:2693
+#: linux/hub.cc:2980 linux/hub.cc:3019 linux/ignoreusers.cc:44
 #: linux/ignoreusers.cc:59 linux/ignoreusers.cc:60 linux/ignoreusers.cc:100
 #: linux/ignoreusers.cc:389 linux/ignoreusers.cc:507 linux/search.cc:99
 #: linux/search.cc:654 linux/search.cc:727 linux/search.cc:871
@@ -1742,12 +1742,12 @@ msgid "Note; because of changing download speeds, this is not 100% accurate..."
 msgstr ""
 
 #: glade/mainwindow.glade:2307 glade/mainwindow.glade:2497
-#: linux/bookentry.cc:372 linux/notepad.cc:28 linux/settingsdialog.cc:1427
-#: linux/settingsdialog.cc:1492 linux/settingsdialog.cc:1545
+#: linux/bookentry.cc:372 linux/notepad.cc:28 linux/settingsdialog.cc:1429
+#: linux/settingsdialog.cc:1494 linux/settingsdialog.cc:1547
 msgid "Notepad"
 msgstr ""
 
-#: glade/settingsdialog.glade:5279 linux/settingsdialog.cc:1284
+#: glade/settingsdialog.glade:5279 linux/settingsdialog.cc:1286
 msgid "Notify"
 msgstr ""
 
@@ -1847,8 +1847,8 @@ msgid "Ports"
 msgstr ""
 
 #: glade/mainwindow.glade:2189 glade/mainwindow.glade:2433
-#: glade/settingsdialog.glade:1163 linux/settingsdialog.cc:1421
-#: linux/settingsdialog.cc:1475
+#: glade/settingsdialog.glade:1163 linux/settingsdialog.cc:1423
+#: linux/settingsdialog.cc:1477
 msgid "Preferences"
 msgstr ""
 
@@ -1875,8 +1875,8 @@ msgstr ""
 
 #: glade/mainwindow.glade:1097 glade/mainwindow.glade:2174
 #: glade/mainwindow.glade:2425 linux/bookentry.cc:332 linux/publichubs.cc:30
-#: linux/settingsdialog.cc:1422 linux/settingsdialog.cc:1473
-#: linux/settingsdialog.cc:1538
+#: linux/settingsdialog.cc:1424 linux/settingsdialog.cc:1475
+#: linux/settingsdialog.cc:1540
 msgid "Public Hubs"
 msgstr ""
 
@@ -1885,8 +1885,8 @@ msgid "Public Hubs list URL"
 msgstr ""
 
 #: glade/mainwindow.glade:2264 glade/mainwindow.glade:2473
-#: glade/settingsdialog.glade:3308 linux/settingsdialog.cc:1423
-#: linux/settingsdialog.cc:1483
+#: glade/settingsdialog.glade:3308 linux/settingsdialog.cc:1425
+#: linux/settingsdialog.cc:1485
 msgid "Queue"
 msgstr ""
 
@@ -1895,7 +1895,7 @@ msgid "Quick connect to a hub"
 msgstr ""
 
 #: glade/mainwindow.glade:2361 glade/mainwindow.glade:2529
-#: linux/settingsdialog.cc:1431 linux/settingsdialog.cc:1489
+#: linux/settingsdialog.cc:1433 linux/settingsdialog.cc:1491
 msgid "Quit"
 msgstr ""
 
@@ -1979,7 +1979,7 @@ msgstr ""
 msgid "Remove image"
 msgstr ""
 
-#: glade/privatemessage.glade:218 linux/hub.cc:2444
+#: glade/privatemessage.glade:218 linux/hub.cc:2448
 #: linux/privatemessage.cc:1056
 msgid "Remove user favorite"
 msgstr ""
@@ -2008,15 +2008,15 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: glade/hub.glade:68 linux/hub.cc:2450
+#: glade/hub.glade:68 linux/hub.cc:2454
 msgid "Say a third person"
 msgstr ""
 
 #: glade/mainwindow.glade:1129 glade/mainwindow.glade:2219
 #: glade/mainwindow.glade:2449 glade/searchspy.glade:184
 #: glade/searchspy.glade:249 glade/settingsdialog.glade:8858
-#: linux/bookentry.cc:340 linux/search.cc:1705 linux/settingsdialog.cc:1098
-#: linux/settingsdialog.cc:1424 linux/settingsdialog.cc:1479
+#: linux/bookentry.cc:340 linux/search.cc:1705 linux/settingsdialog.cc:1100
+#: linux/settingsdialog.cc:1426 linux/settingsdialog.cc:1481
 msgid "Search"
 msgstr ""
 
@@ -2034,8 +2034,8 @@ msgstr ""
 
 #: glade/mainwindow.glade:1164 glade/mainwindow.glade:2247
 #: glade/settingsdialog.glade:6067 linux/searchspy.cc:36
-#: linux/settingsdialog.cc:1099 linux/settingsdialog.cc:1425
-#: linux/settingsdialog.cc:1481 linux/settingsdialog.cc:1544
+#: linux/settingsdialog.cc:1101 linux/settingsdialog.cc:1427
+#: linux/settingsdialog.cc:1483 linux/settingsdialog.cc:1546
 msgid "Search Spy"
 msgstr ""
 
@@ -2099,7 +2099,7 @@ msgstr ""
 msgid "Select Text Color"
 msgstr ""
 
-#: glade/mainwindow.glade:788 linux/mainwindow.cc:2388
+#: glade/mainwindow.glade:788 linux/mainwindow.cc:2393
 msgid "Select filelist to browse"
 msgstr ""
 
@@ -2115,7 +2115,7 @@ msgstr ""
 msgid "Send once per nick"
 msgstr ""
 
-#: glade/settingsdialog.glade:757 linux/settingsdialog.cc:3730
+#: glade/settingsdialog.glade:757 linux/settingsdialog.cc:3732
 msgid "Separator"
 msgstr ""
 
@@ -2179,11 +2179,11 @@ msgstr ""
 msgid "Show Join/parts in chat for Favorite Users"
 msgstr ""
 
-#: glade/hub.glade:44 linux/hub.cc:2445
+#: glade/hub.glade:44 linux/hub.cc:2449
 msgid "Show favorites list"
 msgstr ""
 
-#: glade/hub.glade:52 glade/privatemessage.glade:239 linux/hub.cc:2448
+#: glade/hub.glade:52 glade/privatemessage.glade:239 linux/hub.cc:2452
 #: linux/privatemessage.cc:1060
 msgid "Show help"
 msgstr ""
@@ -2224,8 +2224,8 @@ msgstr ""
 #: linux/downloadqueue.cc:384 linux/search.cc:101 linux/search.cc:131
 #: linux/search.cc:657 linux/search.cc:716 linux/search.cc:862
 #: linux/search.cc:1751 linux/search.cc:1769 linux/settingsdialog.cc:1029
-#: linux/settingsdialog.cc:1035 linux/settingsdialog.cc:4146
-#: linux/settingsdialog.cc:4215 linux/sharebrowser.cc:77
+#: linux/settingsdialog.cc:1035 linux/settingsdialog.cc:4148
+#: linux/settingsdialog.cc:4217 linux/sharebrowser.cc:77
 #: linux/sharebrowser.cc:101 linux/sharebrowser.cc:294
 #: linux/sharebrowser.cc:334 linux/transfers.cc:66 linux/transfers.cc:587
 #: linux/transfers.cc:667 linux/transfers.cc:760 linux/transfers.cc:777
@@ -2269,7 +2269,7 @@ msgstr ""
 msgid "Socks IP"
 msgstr ""
 
-#: glade/settingsdialog.glade:4640 linux/settingsdialog.cc:1109
+#: glade/settingsdialog.glade:4640 linux/settingsdialog.cc:1111
 msgid "Sounds"
 msgstr ""
 
@@ -2286,10 +2286,10 @@ msgid "Start a search for this file"
 msgstr ""
 
 #: glade/settingsdialog.glade:274 linux/AboutConfig.cc:77
-#: linux/AboutConfig.cc:109 linux/settingsdialog.cc:1712
-#: linux/settingsdialog.cc:1742 linux/settingsdialog.cc:4751
-#: linux/settingsdialog.cc:4833 linux/settingsdialog.cc:4847
-#: linux/settingsdialog.cc:4995
+#: linux/AboutConfig.cc:109 linux/settingsdialog.cc:1714
+#: linux/settingsdialog.cc:1744 linux/settingsdialog.cc:4753
+#: linux/settingsdialog.cc:4835 linux/settingsdialog.cc:4849
+#: linux/settingsdialog.cc:4997
 msgid "String"
 msgstr ""
 
@@ -2805,8 +2805,8 @@ msgstr ""
 
 #: glade/settingsdialog.glade:3113 glade/settingsdialog.glade:3129
 #: glade/settingsdialog.glade:3175 linux/hashdialog.cc:77
-#: linux/mainwindow.cc:956 linux/mainwindow.cc:957 linux/mainwindow.cc:2778
-#: linux/mainwindow.cc:2780 linux/treeview.cc:213
+#: linux/mainwindow.cc:960 linux/mainwindow.cc:961 linux/mainwindow.cc:2783
+#: linux/mainwindow.cc:2785 linux/treeview.cc:213
 msgid "s"
 msgstr ""
 
@@ -2822,11 +2822,11 @@ msgstr ""
 msgid "to"
 msgstr ""
 
-#: linux/hub.cc:2481
+#: linux/hub.cc:2485
 msgid "\n"
 msgstr ""
 
-#: linux/hub.cc:4456
+#: linux/hub.cc:4460
 msgid ""
 "\n"
 "Message: "
@@ -2845,7 +2845,7 @@ msgstr ""
 msgid " *** Emoticons not loaded"
 msgstr ""
 
-#: linux/settingsdialog.cc:2832
+#: linux/settingsdialog.cc:2834
 msgid " + system icons"
 msgstr ""
 
@@ -2853,7 +2853,7 @@ msgstr ""
 msgid " Users"
 msgstr ""
 
-#: linux/hub.cc:3312
+#: linux/hub.cc:3316
 msgid " added to favorites list"
 msgstr ""
 
@@ -2861,7 +2861,7 @@ msgstr ""
 msgid " dropped"
 msgstr ""
 
-#: linux/hub.cc:2381
+#: linux/hub.cc:2385
 msgid " empty..."
 msgstr ""
 
@@ -2893,11 +2893,11 @@ msgstr ""
 msgid " has quit hub "
 msgstr ""
 
-#: linux/hub.cc:2354 linux/hub.cc:2987 linux/privatemessage.cc:1393
+#: linux/hub.cc:2358 linux/hub.cc:2991 linux/privatemessage.cc:1397
 msgid " is favorite user"
 msgstr ""
 
-#: linux/hub.cc:2372 linux/hub.cc:3026 linux/privatemessage.cc:1414
+#: linux/hub.cc:2376 linux/hub.cc:3030 linux/privatemessage.cc:1418
 msgid " is not favorite user"
 msgstr ""
 
@@ -2913,11 +2913,11 @@ msgstr ""
 msgid " of "
 msgstr ""
 
-#: linux/hub.cc:3338
+#: linux/hub.cc:3342
 msgid " removed from favorites list"
 msgstr ""
 
-#: linux/settingsmanager.cc:614
+#: linux/settingsmanager.cc:616
 msgid " to "
 msgstr ""
 
@@ -2937,11 +2937,11 @@ msgstr ""
 msgid "%) from "
 msgstr ""
 
-#: linux/hub.cc:2620
+#: linux/hub.cc:2624
 msgid "': type /help for a list of available commands"
 msgstr ""
 
-#: linux/hub.cc:2439 linux/privatemessage.cc:1050
+#: linux/hub.cc:2443 linux/privatemessage.cc:1050
 msgid "*** Available commands:"
 msgstr ""
 
@@ -2949,7 +2949,7 @@ msgstr ""
 msgid "*** Info on "
 msgstr ""
 
-#: linux/settingsdialog.cc:2604
+#: linux/settingsdialog.cc:2606
 msgid "*** T E S T ***"
 msgstr ""
 
@@ -2957,16 +2957,16 @@ msgstr ""
 msgid "-:--:-- left"
 msgstr ""
 
-#: linux/settingsdialog.cc:2784 linux/settingsdialog.cc:2808
+#: linux/settingsdialog.cc:2786 linux/settingsdialog.cc:2810
 msgid "...must be *.theme"
 msgstr ""
 
-#: linux/settingsdialog.cc:2687 linux/settingsdialog.cc:2716
-#: linux/settingsdialog.cc:2753
+#: linux/settingsdialog.cc:2689 linux/settingsdialog.cc:2718
+#: linux/settingsdialog.cc:2755
 msgid "...must not be empty"
 msgstr ""
 
-#: linux/mainwindow.cc:192 linux/mainwindow.cc:210
+#: linux/mainwindow.cc:193 linux/mainwindow.cc:211
 msgid "/s"
 msgstr ""
 
@@ -2998,27 +2998,27 @@ msgstr ""
 msgid "<b>Enter your password</b>"
 msgstr ""
 
-#: linux/settingsdialog.cc:2528
+#: linux/settingsdialog.cc:2530
 msgid "<b>Extension</b>"
 msgstr ""
 
-#: linux/settingsdialog.cc:2175
+#: linux/settingsdialog.cc:2177
 msgid "<b>Name of the new search type</b>"
 msgstr ""
 
-#: linux/settingsdialog.cc:3351
+#: linux/settingsdialog.cc:3353
 msgid "<b>Name under which the others see the directory</b>"
 msgstr ""
 
-#: linux/settingsdialog.cc:2428
+#: linux/settingsdialog.cc:2430
 msgid "<b>New name</b>"
 msgstr ""
 
-#: linux/settingsdialog.cc:4080
+#: linux/settingsdialog.cc:4082
 msgid "<b>Under what name you see the directory</b>"
 msgstr ""
 
-#: linux/mainwindow.cc:2753
+#: linux/mainwindow.cc:2758
 msgid "<b>file:</b> "
 msgstr ""
 
@@ -3030,23 +3030,23 @@ msgstr ""
 msgid "About:config"
 msgstr ""
 
-#: linux/settingsdialog.cc:1940
+#: linux/settingsdialog.cc:1942
 msgid "Accept custom user commands from hub"
 msgstr ""
 
-#: linux/hub.cc:2466
+#: linux/hub.cc:2470
 msgid "Add Idepent Fav"
 msgstr ""
 
-#: linux/hub.cc:2464
+#: linux/hub.cc:2468
 msgid "Add Plugin"
 msgstr ""
 
-#: linux/settingsdialog.cc:1942
+#: linux/settingsdialog.cc:1944
 msgid "Add finished files to share instantly (if shared)"
 msgstr ""
 
-#: linux/hub.cc:4668
+#: linux/hub.cc:4672
 msgid "Add to Favorite hubs"
 msgstr ""
 
@@ -3069,11 +3069,11 @@ msgstr ""
 msgid "Aliases not found."
 msgstr ""
 
-#: linux/settingsdialog.cc:2009
+#: linux/settingsdialog.cc:2011
 msgid "Allow TLS connections to clients without trusted certificate"
 msgstr ""
 
-#: linux/settingsdialog.cc:2008
+#: linux/settingsdialog.cc:2010
 msgid "Allow TLS connections to hubs without trusted certificate"
 msgstr ""
 
@@ -3086,8 +3086,8 @@ msgid "Another group with the name already exists"
 msgstr ""
 
 #: linux/settingsdialog.cc:948 linux/settingsdialog.cc:983
-#: linux/settingsdialog.cc:3238 linux/settingsdialog.cc:3272
-#: linux/settingsdialog.cc:3290 linux/settingsdialog.cc:3321
+#: linux/settingsdialog.cc:3240 linux/settingsdialog.cc:3274
+#: linux/settingsdialog.cc:3292 linux/settingsdialog.cc:3323
 msgid "Application"
 msgstr ""
 
@@ -3096,7 +3096,7 @@ msgstr ""
 msgid "Are you sure you want to delete Entry \"%s\"?"
 msgstr ""
 
-#: linux/settingsdialog.cc:4837
+#: linux/settingsdialog.cc:4839
 #, c-format, boost-format
 msgid "Are you sure you want to delete Highlighting \"%s\"?"
 msgstr ""
@@ -3137,7 +3137,7 @@ msgstr ""
 msgid "Auto grant slot"
 msgstr ""
 
-#: linux/settingsdialog.cc:1931
+#: linux/settingsdialog.cc:1933
 msgid "Auto-away on minimize (and back on restore)"
 msgstr ""
 
@@ -3145,11 +3145,11 @@ msgstr ""
 msgid "Auto-drop slow sources for all queue items (except filelists)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1936
+#: linux/settingsdialog.cc:1938
 msgid "Automatically disconnect users who leave the hub"
 msgstr ""
 
-#: linux/settingsdialog.cc:1932
+#: linux/settingsdialog.cc:1934
 msgid "Automatically follow redirects"
 msgstr ""
 
@@ -3161,11 +3161,11 @@ msgstr ""
 msgid "Automatically search for alternative download locations"
 msgstr ""
 
-#: linux/settingsdialog.cc:1430 linux/settingsdialog.cc:1500
+#: linux/settingsdialog.cc:1432 linux/settingsdialog.cc:1502
 msgid "Away Icon"
 msgstr ""
 
-#: linux/mainwindow.cc:2312
+#: linux/mainwindow.cc:2317
 msgid "Away mode on"
 msgstr ""
 
@@ -3177,19 +3177,19 @@ msgstr ""
 msgid "Bitrate"
 msgstr ""
 
-#: linux/settingsdialog.cc:3590
+#: linux/settingsdialog.cc:3592
 msgid "Bot"
 msgstr ""
 
-#: linux/settingsdialog.cc:1606
+#: linux/settingsdialog.cc:1608
 msgid "Bot or Hub (adc(s) only)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1413
+#: linux/settingsdialog.cc:1415
 msgid "Button smile"
 msgstr ""
 
-#: linux/hub.cc:3126 linux/hub.cc:3159 linux/hub.cc:3263
+#: linux/hub.cc:3130 linux/hub.cc:3163 linux/hub.cc:3267
 msgid "CID"
 msgstr ""
 
@@ -3229,11 +3229,11 @@ msgstr ""
 msgid "CRC32 inconsistency (SFV-Check)"
 msgstr ""
 
-#: linux/settingsmanager.cc:614
+#: linux/settingsmanager.cc:616
 msgid "Change setting "
 msgstr ""
 
-#: linux/settingsdialog.cc:1184
+#: linux/settingsdialog.cc:1186
 msgid "Cheat message"
 msgstr ""
 
@@ -3245,16 +3245,16 @@ msgstr ""
 msgid "Cleaned frame search"
 msgstr ""
 
-#: linux/settingsdialog.cc:1933
+#: linux/settingsdialog.cc:1935
 msgid "Clear search box after each search"
 msgstr ""
 
-#: linux/bookentry.cc:279 linux/hub.cc:4667 linux/privatemessage.cc:1516
+#: linux/bookentry.cc:279 linux/hub.cc:4671 linux/privatemessage.cc:1520
 #: linux/sharebrowser.cc:1081
 msgid "Close"
 msgstr ""
 
-#: linux/hub.cc:2441
+#: linux/hub.cc:2445
 msgid "Close chat"
 msgstr ""
 
@@ -3266,7 +3266,7 @@ msgstr ""
 msgid "Closing connection..."
 msgstr ""
 
-#: linux/settingsdialog.cc:3823
+#: linux/settingsdialog.cc:3825
 msgid "Command name already exists"
 msgstr ""
 
@@ -3274,19 +3274,19 @@ msgstr ""
 msgid "Command send: "
 msgstr ""
 
-#: linux/settingsdialog.cc:1562
+#: linux/settingsdialog.cc:1564
 msgid "Confirm application exit"
 msgstr ""
 
-#: linux/settingsdialog.cc:1563
+#: linux/settingsdialog.cc:1565
 msgid "Confirm favorite hub removal"
 msgstr ""
 
-#: linux/hub.cc:4315
+#: linux/hub.cc:4319
 msgid "Connect failed: "
 msgstr ""
 
-#: linux/hub.cc:4242 linux/transfers.cc:1064
+#: linux/hub.cc:4246 linux/transfers.cc:1064
 msgid "Connected"
 msgstr ""
 
@@ -3298,7 +3298,7 @@ msgstr ""
 msgid "Connecting (forced)..."
 msgstr ""
 
-#: linux/hub.cc:4235
+#: linux/hub.cc:4239
 msgid "Connecting to "
 msgstr ""
 
@@ -3310,15 +3310,15 @@ msgstr ""
 msgid "Copy All"
 msgstr ""
 
-#: linux/privatemessage.cc:1515 linux/sharebrowser.cc:1080
+#: linux/privatemessage.cc:1519 linux/sharebrowser.cc:1080
 msgid "Copy CID"
 msgstr ""
 
-#: linux/privatemessage.cc:1518
+#: linux/privatemessage.cc:1522
 msgid "Copy Nick(s)"
 msgstr ""
 
-#: linux/hub.cc:4666
+#: linux/hub.cc:4670
 msgid "Copy URL"
 msgstr ""
 
@@ -3332,7 +3332,7 @@ msgstr ""
 msgid "Country"
 msgstr ""
 
-#: linux/mainwindow.cc:235
+#: linux/mainwindow.cc:236
 #, c-format, boost-format
 msgid ""
 "DC++ Client based on the source code FreeDC++\n"
@@ -3354,15 +3354,19 @@ msgstr ""
 msgid "Detection Settings"
 msgstr ""
 
-#: linux/settingsdialog.cc:4101
+#: linux/settingsdialog.cc:4103
 msgid "Directory or favorite name already exists"
+msgstr ""
+
+#: linux/settingsdialog.cc:1077
+msgid "Do not close Tab on middle button (wheel)"
 msgstr ""
 
 #: linux/settingsdialog.cc:1065
 msgid "Do not close the program, hide in the system tray"
 msgstr ""
 
-#: linux/settingsdialog.cc:1935
+#: linux/settingsdialog.cc:1937
 msgid "Don't delete file lists when exiting"
 msgstr ""
 
@@ -3378,7 +3382,7 @@ msgstr ""
 msgid "Don't remove the source when auto-dropping, only disconnect"
 msgstr ""
 
-#: linux/settingsdialog.cc:1943
+#: linux/settingsdialog.cc:1945
 msgid "Don't send the away message to bots"
 msgstr ""
 
@@ -3386,7 +3390,7 @@ msgstr ""
 msgid "Done"
 msgstr ""
 
-#: linux/mainwindow.cc:202
+#: linux/mainwindow.cc:203
 msgid "Download Limit (disable)"
 msgstr ""
 
@@ -3398,13 +3402,13 @@ msgstr ""
 msgid "Download failed: "
 msgstr ""
 
-#: linux/settingsdialog.cc:1126 linux/settingsdialog.cc:1304
-#: linux/settingsmanager.cc:233 linux/transfers.cc:1125
+#: linux/settingsdialog.cc:1128 linux/settingsdialog.cc:1306
+#: linux/settingsmanager.cc:235 linux/transfers.cc:1125
 msgid "Download finished"
 msgstr ""
 
-#: linux/settingsdialog.cc:1127 linux/settingsdialog.cc:1308
-#: linux/settingsmanager.cc:235
+#: linux/settingsdialog.cc:1129 linux/settingsdialog.cc:1310
+#: linux/settingsmanager.cc:237
 msgid "Download finished file list"
 msgstr ""
 
@@ -3412,19 +3416,19 @@ msgstr ""
 msgid "Download finished: "
 msgstr ""
 
-#: linux/hub.cc:2424
+#: linux/hub.cc:2428
 msgid "Download image: disable"
 msgstr ""
 
-#: linux/hub.cc:2426
+#: linux/hub.cc:2430
 msgid "Download image: unlimit"
 msgstr ""
 
-#: linux/hub.cc:2428
+#: linux/hub.cc:2432
 msgid "Download limit image: "
 msgstr ""
 
-#: linux/hub.cc:2458
+#: linux/hub.cc:2462
 msgid "Download limit image: 0 - disable, n < 0 - unlimit, empty - info"
 msgstr ""
 
@@ -3440,7 +3444,7 @@ msgstr ""
 msgid "Download starting: "
 msgstr ""
 
-#: linux/mainwindow.cc:899
+#: linux/mainwindow.cc:903
 msgid "Download: "
 msgstr ""
 
@@ -3453,15 +3457,15 @@ msgstr ""
 msgid "Downloaded "
 msgstr ""
 
-#: linux/hub.cc:2408 linux/privatemessage.cc:1040
+#: linux/hub.cc:2412 linux/privatemessage.cc:1040
 msgid "Emoticons mode off"
 msgstr ""
 
-#: linux/hub.cc:2413 linux/privatemessage.cc:1045
+#: linux/hub.cc:2417 linux/privatemessage.cc:1045
 msgid "Emoticons mode on"
 msgstr ""
 
-#: linux/hub.cc:2459 linux/privatemessage.cc:1059
+#: linux/hub.cc:2463 linux/privatemessage.cc:1059
 msgid "Emoticons on/off"
 msgstr ""
 
@@ -3484,19 +3488,19 @@ msgstr ""
 msgid "Enable Lua debug messages"
 msgstr ""
 
-#: linux/settingsdialog.cc:1938
+#: linux/settingsdialog.cc:1940
 msgid "Enable automatic SFV checking"
 msgstr ""
 
-#: linux/settingsdialog.cc:1946
+#: linux/settingsdialog.cc:1948
 msgid "Enable debug ADC"
 msgstr ""
 
-#: linux/settingsdialog.cc:1939
+#: linux/settingsdialog.cc:1941
 msgid "Enable safe and compressed transfers"
 msgstr ""
 
-#: linux/settingsdialog.cc:1937
+#: linux/settingsdialog.cc:1939
 msgid "Enable segmented downloads"
 msgstr ""
 
@@ -3507,16 +3511,16 @@ msgstr ""
 msgid "Encoding"
 msgstr ""
 
-#: linux/settingsdialog.cc:2236 linux/settingsdialog.cc:2280
-#: linux/settingsdialog.cc:3228
+#: linux/settingsdialog.cc:2238 linux/settingsdialog.cc:2282
+#: linux/settingsdialog.cc:3230
 msgid "Error"
 msgstr ""
 
-#: linux/settingsmanager.cc:617
+#: linux/settingsmanager.cc:619
 msgid "Error: params have been not 2!"
 msgstr ""
 
-#: linux/settingsmanager.cc:613
+#: linux/settingsmanager.cc:615
 msgid "Error: setting not found!"
 msgstr ""
 
@@ -3537,11 +3541,11 @@ msgstr ""
 msgid "Exact Size"
 msgstr ""
 
-#: linux/hub.cc:2456
+#: linux/hub.cc:2460
 msgid "Execute Bash chunk"
 msgstr ""
 
-#: linux/hub.cc:2454
+#: linux/hub.cc:2458
 msgid "Execute Lua Chunk"
 msgstr ""
 
@@ -3549,55 +3553,55 @@ msgstr ""
 msgid "Execution of alias A\n"
 msgstr ""
 
-#: linux/settingsdialog.cc:2527
+#: linux/settingsdialog.cc:2529
 msgid "Extension edition"
 msgstr ""
 
 #: linux/settingsdialog.cc:949 linux/settingsdialog.cc:984
-#: linux/settingsdialog.cc:2051 linux/settingsdialog.cc:2203
-#: linux/settingsdialog.cc:2254 linux/settingsdialog.cc:2309
-#: linux/settingsdialog.cc:3239 linux/settingsdialog.cc:3273
-#: linux/settingsdialog.cc:3291 linux/settingsdialog.cc:3322
+#: linux/settingsdialog.cc:2053 linux/settingsdialog.cc:2205
+#: linux/settingsdialog.cc:2256 linux/settingsdialog.cc:2311
+#: linux/settingsdialog.cc:3241 linux/settingsdialog.cc:3275
+#: linux/settingsdialog.cc:3293 linux/settingsdialog.cc:3324
 msgid "Extensions"
 msgstr ""
 
-#: linux/hub.cc:2463
+#: linux/hub.cc:2467
 msgid "Fav Joins/Parts on/off"
 msgstr ""
 
-#: linux/settingsdialog.cc:1584 linux/settingsdialog.cc:1603
-#: linux/settingsdialog.cc:3596 linux/settingsdialog.cc:3628
+#: linux/settingsdialog.cc:1586 linux/settingsdialog.cc:1605
+#: linux/settingsdialog.cc:3598 linux/settingsdialog.cc:3630
 msgid "Favorite"
 msgstr ""
 
 #: linux/settingsdialog.cc:925 linux/settingsdialog.cc:939
-#: linux/settingsdialog.cc:4095
+#: linux/settingsdialog.cc:4097
 msgid "Favorite Name"
 msgstr ""
 
-#: linux/settingsdialog.cc:1196
+#: linux/settingsdialog.cc:1198
 msgid "Favorite User"
 msgstr ""
 
-#: linux/hub.cc:3677
+#: linux/hub.cc:3681
 msgid "Favorite hub added"
 msgstr ""
 
-#: linux/hub.cc:3682
+#: linux/hub.cc:3686
 msgid "Favorite hub already exists"
 msgstr ""
 
-#: linux/hub.cc:3697
+#: linux/hub.cc:3701
 msgid "Favorite hub removed"
 msgstr ""
 
-#: linux/settingsdialog.cc:1132 linux/settingsdialog.cc:1324
-#: linux/settingsmanager.cc:243
+#: linux/settingsdialog.cc:1134 linux/settingsdialog.cc:1326
+#: linux/settingsmanager.cc:245
 msgid "Favorite user joined"
 msgstr ""
 
-#: linux/settingsdialog.cc:1133 linux/settingsdialog.cc:1328
-#: linux/settingsmanager.cc:245
+#: linux/settingsdialog.cc:1135 linux/settingsdialog.cc:1330
+#: linux/settingsmanager.cc:247
 msgid "Favorite user quit"
 msgstr ""
 
@@ -3611,8 +3615,8 @@ msgid "Fields Name, ID and detection fields are required"
 msgstr ""
 
 #: linux/UserCommandMenu.cc:75 linux/settingsdialog.cc:384
-#: linux/settingsdialog.cc:1110 linux/settingsdialog.cc:1433
-#: linux/settingsdialog.cc:3159 linux/settingsdialog.cc:3175
+#: linux/settingsdialog.cc:1112 linux/settingsdialog.cc:1435
+#: linux/settingsdialog.cc:3161 linux/settingsdialog.cc:3177
 msgid "File"
 msgstr ""
 
@@ -3628,7 +3632,7 @@ msgstr ""
 msgid "File not available"
 msgstr ""
 
-#: linux/mainwindow.cc:2627
+#: linux/mainwindow.cc:2632
 msgid ""
 "File transfers will not work correctly until you change settings or turn off "
 "any application that might be using the TCP/TLS port."
@@ -3694,7 +3698,7 @@ msgstr ""
 msgid "GB18030 (Chinese)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1166
+#: linux/settingsdialog.cc:1168
 msgid "General text"
 msgstr ""
 
@@ -3723,15 +3727,15 @@ msgstr ""
 msgid "Highest"
 msgstr ""
 
-#: linux/settingsdialog.cc:1331
+#: linux/settingsdialog.cc:1333
 msgid "Highlighting string"
 msgstr ""
 
-#: linux/settingsdialog.cc:1436
+#: linux/settingsdialog.cc:1438
 msgid "Highlightings"
 msgstr ""
 
-#: linux/settingsmanager.cc:374
+#: linux/settingsmanager.cc:376
 msgid "Highliting"
 msgstr ""
 
@@ -3739,15 +3743,15 @@ msgstr ""
 #: linux/detectiontab.cc:1142 linux/detectiontab.cc:1241
 #: linux/finishedtransfers.cc:78 linux/finishedtransfers.cc:187
 #: linux/search.cc:105 linux/search.cc:661 linux/search.cc:731
-#: linux/search.cc:874 linux/search.cc:1778 linux/settingsdialog.cc:1954
-#: linux/settingsdialog.cc:1964 linux/settingsdialog.cc:3700
-#: linux/settingsdialog.cc:3779 linux/settingsdialog.cc:4325
-#: linux/settingsdialog.cc:4418 linux/settingsdialog.cc:4441
-#: linux/settingsdialog.cc:4460
+#: linux/search.cc:874 linux/search.cc:1778 linux/settingsdialog.cc:1956
+#: linux/settingsdialog.cc:1966 linux/settingsdialog.cc:3702
+#: linux/settingsdialog.cc:3781 linux/settingsdialog.cc:4327
+#: linux/settingsdialog.cc:4420 linux/settingsdialog.cc:4443
+#: linux/settingsdialog.cc:4462
 msgid "Hub"
 msgstr ""
 
-#: linux/settingsdialog.cc:1096
+#: linux/settingsdialog.cc:1098
 msgid "Hub (also sets urgency hint)"
 msgstr ""
 
@@ -3763,17 +3767,17 @@ msgstr ""
 msgid "Hub Name"
 msgstr ""
 
-#: linux/settingsdialog.cc:1130 linux/settingsdialog.cc:1316
-#: linux/settingsmanager.cc:241
+#: linux/settingsdialog.cc:1132 linux/settingsdialog.cc:1318
+#: linux/settingsmanager.cc:243
 msgid "Hub connected"
 msgstr ""
 
-#: linux/settingsdialog.cc:1131 linux/settingsdialog.cc:1320
-#: linux/settingsmanager.cc:239
+#: linux/settingsdialog.cc:1133 linux/settingsdialog.cc:1322
+#: linux/settingsmanager.cc:241
 msgid "Hub disconnected"
 msgstr ""
 
-#: linux/settingsdialog.cc:1587
+#: linux/settingsdialog.cc:1589
 msgid "Hub or Bot"
 msgstr ""
 
@@ -3781,7 +3785,7 @@ msgstr ""
 msgid "Hubs: "
 msgstr ""
 
-#: linux/settingsdialog.cc:1193
+#: linux/settingsdialog.cc:1195
 msgid "IP address"
 msgstr ""
 
@@ -3805,9 +3809,9 @@ msgstr ""
 msgid "ISO-8859-9 (Turkish)"
 msgstr ""
 
-#: linux/settingsdialog.cc:421 linux/settingsdialog.cc:1286
-#: linux/settingsdialog.cc:2601 linux/settingsdialog.cc:2637
-#: linux/settingsdialog.cc:2714 linux/settingsdialog.cc:2750
+#: linux/settingsdialog.cc:421 linux/settingsdialog.cc:1288
+#: linux/settingsdialog.cc:2603 linux/settingsdialog.cc:2639
+#: linux/settingsdialog.cc:2716 linux/settingsdialog.cc:2752
 msgid "Icon"
 msgstr ""
 
@@ -3822,32 +3826,32 @@ msgid ""
 "group."
 msgstr ""
 
-#: linux/settingsdialog.cc:1546
+#: linux/settingsdialog.cc:1548
 msgid "Ignore User"
 msgstr ""
 
-#: linux/settingsdialog.cc:1556
+#: linux/settingsdialog.cc:1558
 msgid "Ignore private messages from bots"
 msgstr ""
 
-#: linux/settingsdialog.cc:1555
+#: linux/settingsdialog.cc:1557
 msgid "Ignore private messages from the hub"
 msgstr ""
 
-#: linux/settingsdialog.cc:1586 linux/settingsdialog.cc:1605
-#: linux/settingsdialog.cc:3598 linux/settingsdialog.cc:3634
+#: linux/settingsdialog.cc:1588 linux/settingsdialog.cc:1607
+#: linux/settingsdialog.cc:3600 linux/settingsdialog.cc:3636
 msgid "Ignored"
 msgstr ""
 
-#: linux/hub.cc:4455
+#: linux/hub.cc:4459
 msgid "Ignored message from User "
 msgstr ""
 
-#: linux/hub.cc:4491
+#: linux/hub.cc:4495
 msgid "Ignored private message from bot "
 msgstr ""
 
-#: linux/hub.cc:4484
+#: linux/hub.cc:4488
 msgid "Ignored private message from hub"
 msgstr ""
 
@@ -3859,7 +3863,7 @@ msgstr ""
 msgid "Integer"
 msgstr ""
 
-#: linux/settingsdialog.cc:2356 linux/settingsdialog.cc:2543
+#: linux/settingsdialog.cc:2358 linux/settingsdialog.cc:2545
 msgid "Invalid extension: "
 msgstr ""
 
@@ -3875,7 +3879,7 @@ msgstr ""
 msgid "Items: 0"
 msgstr ""
 
-#: linux/hub.cc:2462
+#: linux/hub.cc:2466
 msgid "Join/Parts on/off"
 msgstr ""
 
@@ -3887,7 +3891,7 @@ msgstr ""
 msgid "Kaffeine player"
 msgstr ""
 
-#: linux/settingsdialog.cc:1934
+#: linux/settingsdialog.cc:1936
 msgid ""
 "Keep duplicate files in your file list (duplicates never count towards your "
 "share size)"
@@ -3897,7 +3901,7 @@ msgstr ""
 msgid "List Aliases\n"
 msgstr ""
 
-#: linux/hub.cc:2465
+#: linux/hub.cc:2469
 msgid "List Plugins"
 msgstr ""
 
@@ -3905,15 +3909,15 @@ msgstr ""
 msgid "List: "
 msgstr ""
 
-#: linux/hub.cc:2453
+#: linux/hub.cc:2457
 msgid "Load Lua file"
 msgstr ""
 
-#: linux/hub.cc:2481
+#: linux/hub.cc:2485
 msgid "Loaded plugins:"
 msgstr ""
 
-#: linux/mainwindow.cc:2425
+#: linux/mainwindow.cc:2430
 msgid "Loading Own file list"
 msgstr ""
 
@@ -3929,11 +3933,11 @@ msgstr ""
 msgid "Lowest"
 msgstr ""
 
-#: linux/mainwindow.cc:1697
+#: linux/mainwindow.cc:1701
 msgid "Magnet Choice"
 msgstr ""
 
-#: linux/mainwindow.cc:1627
+#: linux/mainwindow.cc:1631
 msgid "Magnet Properties / Choice"
 msgstr ""
 
@@ -3976,35 +3980,35 @@ msgstr ""
 msgid "Mplayer player"
 msgstr ""
 
-#: linux/settingsdialog.cc:3220 linux/settingsdialog.cc:3306
+#: linux/settingsdialog.cc:3222 linux/settingsdialog.cc:3308
 msgid "Must not be empty..."
 msgstr ""
 
-#: linux/settingsdialog.cc:1169
+#: linux/settingsdialog.cc:1171
 msgid "My nick"
 msgstr ""
 
-#: linux/settingsdialog.cc:1172
+#: linux/settingsdialog.cc:1174
 msgid "My own message"
 msgstr ""
 
-#: linux/settingsdialog.cc:3817
+#: linux/settingsdialog.cc:3819
 msgid "Name and command must not be empty"
 msgstr ""
 
-#: linux/settingsdialog.cc:4697 linux/settingsdialog.cc:4768
+#: linux/settingsdialog.cc:4699 linux/settingsdialog.cc:4770
 msgid "New Highlighting Item"
 msgstr ""
 
-#: linux/publichubs.cc:363 linux/settingsdialog.cc:4003
+#: linux/publichubs.cc:363 linux/settingsdialog.cc:4005
 msgid "New list"
 msgstr ""
 
-#: linux/settingsdialog.cc:2174
+#: linux/settingsdialog.cc:2176
 msgid "New search type"
 msgstr ""
 
-#: linux/hub.cc:4597
+#: linux/hub.cc:4601
 msgid "Nick already taken"
 msgstr ""
 
@@ -4037,23 +4041,23 @@ msgstr ""
 msgid "No users"
 msgstr ""
 
-#: linux/downloadqueue.cc:1342 linux/settingsdialog.cc:1581
-#: linux/settingsdialog.cc:1600 linux/settingsdialog.cc:3586
-#: linux/settingsdialog.cc:3619
+#: linux/downloadqueue.cc:1342 linux/settingsdialog.cc:1583
+#: linux/settingsdialog.cc:1602 linux/settingsdialog.cc:3588
+#: linux/settingsdialog.cc:3621
 msgid "Normal"
 msgstr ""
 
-#: linux/mainwindow.cc:2223
+#: linux/mainwindow.cc:2228
 msgid "Not Alowed same number of port for TLS and TCP"
 msgstr ""
 
-#: linux/mainwindow.cc:2224
+#: linux/mainwindow.cc:2229
 msgid ""
 "Not Alowed same number of port for TLS and TCP,please chose for one of it "
 "another port"
 msgstr ""
 
-#: linux/hub.cc:2356 linux/hub.cc:2391 linux/hub.cc:2401 linux/hub.cc:2529
+#: linux/hub.cc:2360 linux/hub.cc:2395 linux/hub.cc:2405 linux/hub.cc:2533
 msgid "Not found user: "
 msgstr ""
 
@@ -4075,7 +4079,7 @@ msgstr ""
 msgid "Open file"
 msgstr ""
 
-#: linux/settingsdialog.cc:1552
+#: linux/settingsdialog.cc:1554
 msgid "Open file list window in the background"
 msgstr ""
 
@@ -4083,17 +4087,17 @@ msgstr ""
 msgid "Open folder"
 msgstr ""
 
-#: linux/settingsdialog.cc:1553
+#: linux/settingsdialog.cc:1555
 msgid "Open new private messages from other users in the background"
 msgstr ""
 
-#: linux/settingsdialog.cc:1554
+#: linux/settingsdialog.cc:1556
 msgid "Open new window when using /join"
 msgstr ""
 
-#: linux/settingsdialog.cc:1199 linux/settingsdialog.cc:1582
-#: linux/settingsdialog.cc:1601 linux/settingsdialog.cc:3588
-#: linux/settingsdialog.cc:3622
+#: linux/settingsdialog.cc:1201 linux/settingsdialog.cc:1584
+#: linux/settingsdialog.cc:1603 linux/settingsdialog.cc:3590
+#: linux/settingsdialog.cc:3624
 msgid "Operator"
 msgstr ""
 
@@ -4101,8 +4105,8 @@ msgstr ""
 msgid "PM: "
 msgstr ""
 
-#: linux/settingsdialog.cc:1583 linux/settingsdialog.cc:1602
-#: linux/settingsdialog.cc:3594 linux/settingsdialog.cc:3625
+#: linux/settingsdialog.cc:1585 linux/settingsdialog.cc:1604
+#: linux/settingsdialog.cc:3596 linux/settingsdialog.cc:3627
 msgid "Pasive"
 msgstr ""
 
@@ -4131,12 +4135,12 @@ msgstr ""
 msgid "Paused..."
 msgstr ""
 
-#: linux/settingsdialog.cc:1557
+#: linux/settingsdialog.cc:1559
 msgid "Popup box to input password for hubs"
 msgstr ""
 
-#: linux/settingsdialog.cc:2050 linux/settingsdialog.cc:2149
-#: linux/settingsdialog.cc:2253
+#: linux/settingsdialog.cc:2052 linux/settingsdialog.cc:2151
+#: linux/settingsdialog.cc:2255
 msgid "Predefined"
 msgstr ""
 
@@ -4149,21 +4153,21 @@ msgstr ""
 msgid "Private Message"
 msgstr ""
 
-#: linux/settingsdialog.cc:1097
+#: linux/settingsdialog.cc:1099
 msgid "Private Message (also sets urgency hint)"
 msgstr ""
 
-#: linux/hub.cc:2451 linux/settingsdialog.cc:1129 linux/settingsdialog.cc:1175
-#: linux/settingsdialog.cc:1312 linux/settingsmanager.cc:237
+#: linux/hub.cc:2455 linux/settingsdialog.cc:1131 linux/settingsdialog.cc:1177
+#: linux/settingsdialog.cc:1314 linux/settingsmanager.cc:239
 msgid "Private message"
 msgstr ""
 
-#: linux/settingsdialog.cc:3592
+#: linux/settingsdialog.cc:3594
 msgid "Protect"
 msgstr ""
 
-#: linux/settingsdialog.cc:1585 linux/settingsdialog.cc:1604
-#: linux/settingsdialog.cc:3631
+#: linux/settingsdialog.cc:1587 linux/settingsdialog.cc:1606
+#: linux/settingsdialog.cc:3633
 msgid "Protected"
 msgstr ""
 
@@ -4187,11 +4191,11 @@ msgstr ""
 msgid "Refresh share\n"
 msgstr ""
 
-#: linux/settingsdialog.cc:1944
+#: linux/settingsdialog.cc:1946
 msgid "Register with the OS to handle dchub:// and adc:// URL links"
 msgstr ""
 
-#: linux/settingsdialog.cc:1945
+#: linux/settingsdialog.cc:1947
 msgid "Register with the OS to handle magnet: URL links"
 msgstr ""
 
@@ -4199,7 +4203,7 @@ msgstr ""
 msgid "Remote client does not fully support TTH - cannot download"
 msgstr ""
 
-#: linux/hub.cc:4669
+#: linux/hub.cc:4673
 msgid "Remove from Favorite hubs"
 msgstr ""
 
@@ -4207,7 +4211,7 @@ msgstr ""
 msgid "Remove slow filelists"
 msgstr ""
 
-#: linux/settingsdialog.cc:2427
+#: linux/settingsdialog.cc:2429
 msgid "Rename a search type"
 msgstr ""
 
@@ -4236,13 +4240,13 @@ msgstr ""
 msgid "Search String"
 msgstr ""
 
-#: linux/hub.cc:4604
+#: linux/hub.cc:4608
 msgid "Search spam detected from "
 msgstr ""
 
-#: linux/settingsdialog.cc:2049 linux/settingsdialog.cc:2252
-#: linux/settingsdialog.cc:2285 linux/settingsdialog.cc:2371
-#: linux/settingsdialog.cc:2420 linux/settingsdialog.cc:2468
+#: linux/settingsdialog.cc:2051 linux/settingsdialog.cc:2254
+#: linux/settingsdialog.cc:2287 linux/settingsdialog.cc:2373
+#: linux/settingsdialog.cc:2422 linux/settingsdialog.cc:2470
 msgid "Search type"
 msgstr ""
 
@@ -4258,13 +4262,13 @@ msgstr ""
 msgid "Searching too soon, retry in "
 msgstr ""
 
-#: linux/mainwindow.cc:2641
+#: linux/mainwindow.cc:2646
 msgid ""
 "Searching will not work correctly until you change settings or turn off any "
 "application that might be using the UDP port."
 msgstr ""
 
-#: linux/mainwindow.cc:2817
+#: linux/mainwindow.cc:2822
 msgid "Select file to Get TTH"
 msgstr ""
 
@@ -4272,11 +4276,11 @@ msgstr ""
 msgid "Send PM when double clicked in the user list"
 msgstr ""
 
-#: linux/hub.cc:4325
+#: linux/hub.cc:4329
 msgid "Send Stored password... "
 msgstr ""
 
-#: linux/settingsdialog.cc:1941
+#: linux/settingsdialog.cc:1943
 msgid "Send unknown /commands to the hub"
 msgstr ""
 
@@ -4285,7 +4289,7 @@ msgstr ""
 msgid "Server"
 msgstr ""
 
-#: linux/settingsdialog.cc:1100
+#: linux/settingsdialog.cc:1102
 msgid "Set Hub to Bold all time when change whats in it"
 msgstr ""
 
@@ -4297,7 +4301,7 @@ msgstr ""
 msgid "Set Slots to:"
 msgstr ""
 
-#: linux/hub.cc:4670
+#: linux/hub.cc:4674
 msgid "Set Tab Name"
 msgstr ""
 
@@ -4305,7 +4309,7 @@ msgstr ""
 msgid "Set away mode\n"
 msgstr ""
 
-#: linux/hub.cc:2434
+#: linux/hub.cc:2438
 msgid "Set download limit image: "
 msgstr ""
 
@@ -4328,7 +4332,7 @@ msgstr ""
 msgid "Shared"
 msgstr ""
 
-#: linux/mainwindow.cc:947
+#: linux/mainwindow.cc:951
 msgid "Shared: "
 msgstr ""
 
@@ -4384,7 +4388,7 @@ msgstr ""
 msgid "Show timestamps in chat by default"
 msgstr ""
 
-#: linux/hub.cc:2467
+#: linux/hub.cc:2471
 msgid "Show topic"
 msgstr ""
 
@@ -4413,11 +4417,11 @@ msgstr ""
 msgid "Skip zero-byte files"
 msgstr ""
 
-#: linux/privatemessage.cc:1446
+#: linux/privatemessage.cc:1450
 msgid "Slot granted"
 msgstr ""
 
-#: linux/favoriteusers.cc:621 linux/hub.cc:3589
+#: linux/favoriteusers.cc:621 linux/hub.cc:3593
 msgid "Slot granted to "
 msgstr ""
 
@@ -4426,7 +4430,7 @@ msgstr ""
 msgid "Slots"
 msgstr ""
 
-#: linux/mainwindow.cc:946
+#: linux/mainwindow.cc:950
 msgid "Slots: "
 msgstr ""
 
@@ -4460,11 +4464,11 @@ msgstr ""
 msgid "Spy Search"
 msgstr ""
 
-#: linux/hub.cc:2460
+#: linux/hub.cc:2464
 msgid "Start/Stop checkers"
 msgstr ""
 
-#: linux/hub.cc:2461
+#: linux/hub.cc:2465
 msgid "Start/Stop checkers myinfo"
 msgstr ""
 
@@ -4481,14 +4485,14 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: linux/settingsdialog.cc:1181
+#: linux/settingsdialog.cc:1183
 msgid "Status message"
 msgstr ""
 
-#: linux/settingsdialog.cc:1150 linux/settingsdialog.cc:1229
-#: linux/settingsdialog.cc:2955 linux/settingsdialog.cc:3386
-#: linux/settingsdialog.cc:3429 linux/settingsdialog.cc:3470
-#: linux/settingsdialog.cc:3525
+#: linux/settingsdialog.cc:1152 linux/settingsdialog.cc:1231
+#: linux/settingsdialog.cc:2957 linux/settingsdialog.cc:3388
+#: linux/settingsdialog.cc:3431 linux/settingsdialog.cc:3472
+#: linux/settingsdialog.cc:3527
 msgid "Style"
 msgstr ""
 
@@ -4496,8 +4500,8 @@ msgstr ""
 msgid "Support"
 msgstr ""
 
-#: linux/settingsdialog.cc:1428 linux/settingsdialog.cc:1496
-#: linux/settingsdialog.cc:1547
+#: linux/settingsdialog.cc:1430 linux/settingsdialog.cc:1498
+#: linux/settingsdialog.cc:1549
 msgid "System Tab"
 msgstr ""
 
@@ -4505,7 +4509,7 @@ msgstr ""
 msgid "System default"
 msgstr ""
 
-#: linux/settingsdialog.cc:1178
+#: linux/settingsdialog.cc:1180
 msgid "System message"
 msgstr ""
 
@@ -4517,11 +4521,11 @@ msgstr ""
 msgid "Tag"
 msgstr ""
 
-#: linux/mainwindow.cc:2945
+#: linux/mainwindow.cc:2950
 msgid "The GeoIP database could not be updated...v"
 msgstr ""
 
-#: linux/mainwindow.cc:2940
+#: linux/mainwindow.cc:2945
 msgid ""
 "The GeoIP database has been successfully updated; restart DC++ to apply....v"
 msgstr ""
@@ -4530,16 +4534,12 @@ msgstr ""
 msgid "The name and address fields are required"
 msgstr ""
 
-#: linux/hub.cc:3702
+#: linux/hub.cc:3706
 msgid "This hub is not a favorite hub"
 msgstr ""
 
-#: linux/mainwindow.cc:617
-msgid "Throtle off"
-msgstr ""
-
-#: linux/mainwindow.cc:589 linux/mainwindow.cc:595
-msgid "Throtle on"
+#: linux/mainwindow.cc:603
+msgid "Throtle "
 msgstr ""
 
 #: linux/detectiontab.cc:73 linux/detectiontab.cc:424
@@ -4567,22 +4567,22 @@ msgstr ""
 msgid "Time last seen"
 msgstr ""
 
-#: linux/settingsdialog.cc:1187 linux/settingsdialog.cc:1218
+#: linux/settingsdialog.cc:1189 linux/settingsdialog.cc:1220
 msgid "Timestamp"
 msgstr ""
 
-#: linux/settingsdialog.cc:420 linux/settingsdialog.cc:1285
-#: linux/settingsdialog.cc:2600 linux/settingsdialog.cc:2658
-#: linux/settingsdialog.cc:2674 linux/settingsdialog.cc:2696
-#: linux/settingsdialog.cc:2700 linux/settingsdialog.cc:2750
+#: linux/settingsdialog.cc:420 linux/settingsdialog.cc:1287
+#: linux/settingsdialog.cc:2602 linux/settingsdialog.cc:2660
+#: linux/settingsdialog.cc:2676 linux/settingsdialog.cc:2698
+#: linux/settingsdialog.cc:2702 linux/settingsdialog.cc:2752
 msgid "Title"
 msgstr ""
 
-#: linux/hub.cc:2510 linux/hub.cc:4618
+#: linux/hub.cc:2514 linux/hub.cc:4622
 msgid "Topic: "
 msgstr ""
 
-#: linux/settingsdialog.cc:4220
+#: linux/settingsdialog.cc:4222
 msgid "Total size: "
 msgstr ""
 
@@ -4596,7 +4596,7 @@ msgstr ""
 msgid "Transferred"
 msgstr ""
 
-#: linux/settingsdialog.cc:1190
+#: linux/settingsdialog.cc:1192
 msgid "URL"
 msgstr ""
 
@@ -4604,7 +4604,7 @@ msgstr ""
 msgid "UTF-8 (Unicode)"
 msgstr ""
 
-#: linux/hub.cc:3614
+#: linux/hub.cc:3618
 msgid "Unable to connect: already connected to the requested hub"
 msgstr ""
 
@@ -4612,15 +4612,15 @@ msgstr ""
 msgid "Unable to load file list: "
 msgstr ""
 
-#: linux/mainwindow.cc:2413
+#: linux/mainwindow.cc:2418
 msgid "Unable to load file list: Invalid file list name"
 msgstr ""
 
-#: linux/mainwindow.cc:2626
+#: linux/mainwindow.cc:2631
 msgid "Unable to open TCP/TLS port"
 msgstr ""
 
-#: linux/mainwindow.cc:2640
+#: linux/mainwindow.cc:2645
 msgid "Unable to open UDP port"
 msgstr ""
 
@@ -4633,7 +4633,7 @@ msgstr ""
 msgid "Unknown command "
 msgstr ""
 
-#: linux/hub.cc:2620
+#: linux/hub.cc:2624
 msgid "Unknown command '"
 msgstr ""
 
@@ -4641,19 +4641,19 @@ msgstr ""
 msgid "Updated frame search"
 msgstr ""
 
-#: linux/mainwindow.cc:2928
+#: linux/mainwindow.cc:2933
 msgid "Updating the GeoIP database...v"
 msgstr ""
 
-#: linux/settingsdialog.cc:1415
+#: linux/settingsdialog.cc:1417
 msgid "Upload"
 msgstr ""
 
-#: linux/mainwindow.cc:184
+#: linux/mainwindow.cc:185
 msgid "Upload Limit (disable)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1548
+#: linux/settingsdialog.cc:1550
 msgid "Upload Queue Tab"
 msgstr ""
 
@@ -4661,7 +4661,7 @@ msgstr ""
 msgid "Upload complete..."
 msgstr ""
 
-#: linux/settingsdialog.cc:1128
+#: linux/settingsdialog.cc:1130
 msgid "Upload finished"
 msgstr ""
 
@@ -4669,7 +4669,7 @@ msgstr ""
 msgid "Upload starting..."
 msgstr ""
 
-#: linux/mainwindow.cc:899
+#: linux/mainwindow.cc:903
 msgid "Upload: "
 msgstr ""
 
@@ -4680,9 +4680,9 @@ msgstr ""
 #: linux/settingsdialog.cc:383 linux/settingsdialog.cc:419
 #: linux/settingsdialog.cc:453 linux/settingsdialog.cc:759
 #: linux/settingsdialog.cc:772 linux/settingsdialog.cc:788
-#: linux/settingsdialog.cc:1108 linux/settingsdialog.cc:1119
-#: linux/settingsdialog.cc:1283 linux/settingsdialog.cc:1298
-#: linux/settingsdialog.cc:1449 linux/settingsdialog.cc:1459
+#: linux/settingsdialog.cc:1110 linux/settingsdialog.cc:1121
+#: linux/settingsdialog.cc:1285 linux/settingsdialog.cc:1300
+#: linux/settingsdialog.cc:1451 linux/settingsdialog.cc:1461
 msgid "Use"
 msgstr ""
 
@@ -4690,7 +4690,7 @@ msgstr ""
 msgid "Use DNS in Transfers"
 msgstr ""
 
-#: linux/hub.cc:2238 linux/privatemessage.cc:1221
+#: linux/hub.cc:2242 linux/privatemessage.cc:1225
 msgid "Use Emoticons"
 msgstr ""
 
@@ -4702,12 +4702,16 @@ msgstr ""
 msgid "Use OEM monospaced font for chat windows"
 msgstr ""
 
-#: linux/settingsdialog.cc:2007
+#: linux/settingsdialog.cc:2009
 msgid "Use TLS when remote client supports it"
 msgstr ""
 
 #: linux/settingsdialog.cc:1063
 msgid "Use blinking status icon"
+msgstr ""
+
+#: linux/settingsdialog.cc:1078
+msgid "Use ctrl for histori in chat Books"
 msgstr ""
 
 #: linux/settingsdialog.cc:1064
@@ -4727,11 +4731,11 @@ msgstr ""
 msgid "User"
 msgstr ""
 
-#: linux/settingsdialog.cc:1600 linux/settingsdialog.cc:1601
 #: linux/settingsdialog.cc:1602 linux/settingsdialog.cc:1603
 #: linux/settingsdialog.cc:1604 linux/settingsdialog.cc:1605
-#: linux/settingsdialog.cc:1606 linux/settingsdialog.cc:3581
-#: linux/settingsdialog.cc:3666 linux/settingsdialog.cc:3677
+#: linux/settingsdialog.cc:1606 linux/settingsdialog.cc:1607
+#: linux/settingsdialog.cc:1608 linux/settingsdialog.cc:3583
+#: linux/settingsdialog.cc:3668 linux/settingsdialog.cc:3679
 msgid "User "
 msgstr ""
 
@@ -4740,35 +4744,35 @@ msgstr ""
 msgid "User Description"
 msgstr ""
 
-#: linux/hub.cc:3059
+#: linux/hub.cc:3063
 msgid "User Ignored "
 msgstr ""
 
-#: linux/hub.cc:2381
+#: linux/hub.cc:2385
 msgid "User favorite list:"
 msgstr ""
 
-#: linux/hub.cc:2457
+#: linux/hub.cc:2461
 msgid "User list show/hide"
 msgstr ""
 
-#: linux/hub.cc:3560 linux/hub.cc:3580
+#: linux/hub.cc:3564 linux/hub.cc:3584
 msgid "User not found"
 msgstr ""
 
-#: linux/settingsdialog.cc:1363
+#: linux/settingsdialog.cc:1365
 msgid "User operator "
 msgstr ""
 
-#: linux/settingsdialog.cc:1364
+#: linux/settingsdialog.cc:1366
 msgid "User operator (away) "
 msgstr ""
 
-#: linux/settingsdialog.cc:1366
+#: linux/settingsdialog.cc:1368
 msgid "User operator (pasive&away) "
 msgstr ""
 
-#: linux/settingsdialog.cc:1365
+#: linux/settingsdialog.cc:1367
 msgid "User operator (pasive) "
 msgstr ""
 
@@ -4776,155 +4780,155 @@ msgstr ""
 msgid "User set"
 msgstr ""
 
-#: linux/hub.cc:3098
+#: linux/hub.cc:3102
 msgid "User unIgnored "
 msgstr ""
 
-#: linux/privatemessage.cc:1381
+#: linux/privatemessage.cc:1385
 msgid "User went offline"
 msgstr ""
 
-#: linux/settingsdialog.cc:1403
+#: linux/settingsdialog.cc:1405
 msgid "User with connection type 0.0x or low"
 msgstr ""
 
-#: linux/settingsdialog.cc:1404
+#: linux/settingsdialog.cc:1406
 msgid "User with connection type 0.0x or low (away)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1406
+#: linux/settingsdialog.cc:1408
 msgid "User with connection type 0.0x or low (pasive&away)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1405
+#: linux/settingsdialog.cc:1407
 msgid "User with connection type 0.0x or low (pasive)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1398
+#: linux/settingsdialog.cc:1400
 msgid "User with connection type 0.x"
 msgstr ""
 
-#: linux/settingsdialog.cc:1399
+#: linux/settingsdialog.cc:1401
 msgid "User with connection type 0.x (away)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1401
+#: linux/settingsdialog.cc:1403
 msgid "User with connection type 0.x (pasive&away)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1400
+#: linux/settingsdialog.cc:1402
 msgid "User with connection type 0.x (pasive)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1393
+#: linux/settingsdialog.cc:1395
 msgid "User with connection type 10 or more "
 msgstr ""
 
-#: linux/settingsdialog.cc:1394
+#: linux/settingsdialog.cc:1396
 msgid "User with connection type 10 or more (away)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1396
+#: linux/settingsdialog.cc:1398
 msgid "User with connection type 10 or more (pasive&away)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1395
+#: linux/settingsdialog.cc:1397
 msgid "User with connection type 10 or more (pasive)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1383
+#: linux/settingsdialog.cc:1385
 msgid "User with connection type LAN "
 msgstr ""
 
-#: linux/settingsdialog.cc:1384
+#: linux/settingsdialog.cc:1386
 msgid "User with connection type LAN (away)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1386
+#: linux/settingsdialog.cc:1388
 msgid "User with connection type LAN (pasive&away)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1385
+#: linux/settingsdialog.cc:1387
 msgid "User with connection type LAN (pasive)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1388
+#: linux/settingsdialog.cc:1390
 msgid "User with connection type Netlimiter "
 msgstr ""
 
-#: linux/settingsdialog.cc:1389
+#: linux/settingsdialog.cc:1391
 msgid "User with connection type Netlimiter (away)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1391
+#: linux/settingsdialog.cc:1393
 msgid "User with connection type Netlimiter (pasive&away)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1390
+#: linux/settingsdialog.cc:1392
 msgid "User with connection type Netlimiter (pasive)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1378
+#: linux/settingsdialog.cc:1380
 msgid "User with connection type dsl "
 msgstr ""
 
-#: linux/settingsdialog.cc:1379
+#: linux/settingsdialog.cc:1381
 msgid "User with connection type dsl (away)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1381
+#: linux/settingsdialog.cc:1383
 msgid "User with connection type dsl (pasive&away)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1380
+#: linux/settingsdialog.cc:1382
 msgid "User with connection type dsl (pasive)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1368
+#: linux/settingsdialog.cc:1370
 msgid "User with connection type modem "
 msgstr ""
 
-#: linux/settingsdialog.cc:1369
+#: linux/settingsdialog.cc:1371
 msgid "User with connection type modem (away)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1371
+#: linux/settingsdialog.cc:1373
 msgid "User with connection type modem (pasive&away)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1370
+#: linux/settingsdialog.cc:1372
 msgid "User with connection type modem (pasive)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1373
+#: linux/settingsdialog.cc:1375
 msgid "User with connection type wireless "
 msgstr ""
 
-#: linux/settingsdialog.cc:1374
+#: linux/settingsdialog.cc:1376
 msgid "User with connection type wireless (away)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1376
+#: linux/settingsdialog.cc:1378
 msgid "User with connection type wireless (pasive&away)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1375
+#: linux/settingsdialog.cc:1377
 msgid "User with connection type wireless (pasive)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1408
+#: linux/settingsdialog.cc:1410
 msgid "User with other connection type or unknown"
 msgstr ""
 
-#: linux/settingsdialog.cc:1409
+#: linux/settingsdialog.cc:1411
 msgid "User with other connection type or unknown (away)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1411
+#: linux/settingsdialog.cc:1413
 msgid "User with other connection type or unknown (pasive&away)"
 msgstr ""
 
-#: linux/settingsdialog.cc:1410
+#: linux/settingsdialog.cc:1412
 msgid "User with other connection type or unknown (pasive)"
 msgstr ""
 
@@ -4940,12 +4944,12 @@ msgstr ""
 msgid "View status messages in main chat"
 msgstr ""
 
-#: linux/settingsdialog.cc:1027 linux/settingsdialog.cc:4144
-#: linux/settingsdialog.cc:4213
+#: linux/settingsdialog.cc:1027 linux/settingsdialog.cc:4146
+#: linux/settingsdialog.cc:4215
 msgid "Virtual Name"
 msgstr ""
 
-#: linux/settingsdialog.cc:3348
+#: linux/settingsdialog.cc:3350
 msgid "Virtual name"
 msgstr ""
 
@@ -4962,7 +4966,7 @@ msgstr ""
 msgid "Waiting to retry"
 msgstr ""
 
-#: linux/mainwindow.cc:381
+#: linux/mainwindow.cc:382
 msgid "Welcome to "
 msgstr ""
 
@@ -4979,7 +4983,7 @@ msgstr ""
 msgid "You must enter a name"
 msgstr ""
 
-#: linux/settingsdialog.cc:4206
+#: linux/settingsdialog.cc:4208
 msgid "[HIDDEN SHARE] "
 msgstr ""
 
@@ -5003,23 +5007,23 @@ msgstr ""
 msgid "add alias A with uname -a exec\n"
 msgstr ""
 
-#: linux/hub.cc:3915
+#: linux/hub.cc:3919
 msgid "bad image"
 msgstr ""
 
-#: linux/settingsdialog.cc:2823
+#: linux/settingsdialog.cc:2825
 msgid "default icons"
 msgstr ""
 
-#: linux/settingsdialog.cc:2861
+#: linux/settingsdialog.cc:2863
 msgid "default theme"
 msgstr ""
 
-#: linux/mainwindow.cc:2729
+#: linux/mainwindow.cc:2734
 msgid "file list from "
 msgstr ""
 
-#: linux/hub.cc:3902
+#: linux/hub.cc:3906
 msgid "loading error"
 msgstr ""
 
@@ -5031,15 +5035,15 @@ msgstr ""
 msgid "remove Aliases A\n"
 msgstr ""
 
-#: linux/settingsdialog.cc:3559 linux/settingsdialog.cc:3644
+#: linux/settingsdialog.cc:3561 linux/settingsdialog.cc:3646
 msgid "selected color failed"
 msgstr ""
 
-#: linux/settingsdialog.cc:3615
+#: linux/settingsdialog.cc:3617
 msgid "selected name failed"
 msgstr ""
 
-#: linux/settingsdialog.cc:3404 linux/settingsdialog.cc:3505
+#: linux/settingsdialog.cc:3406 linux/settingsdialog.cc:3507
 msgid "selected style failed"
 msgstr ""
 

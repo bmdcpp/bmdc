@@ -478,4 +478,8 @@ Partial update to rev 2923 of dcpp
 GUI for Per-hub/group settings with exteding with Log this /group Chat(s)
 ---r118
 Fix UserDescription in Fav´s Hubs
+----r119
+Add Possible do nothing on middle button in Books
+Add Possible only ctrl + arow for history
+Fix Limiting Icon/On Startup/
 ----

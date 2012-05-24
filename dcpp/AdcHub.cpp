@@ -1009,7 +1009,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 	addParam(lastInfoMap, c, "VE", VERSIONSTRING);
 	addParam(lastInfoMap, c, "AW", Util::getAway() ? "1" : Util::emptyString);
 	// RF = ref address from connected
-	addParam(lastInfoMap, c, "RF", getAddress() + ":" + getPort());
+	 addParam(lastInfoMap, c, "RF", getIpPort());
 
 	int limit = ThrottleManager::getInstance()->getDownLimit();
 	if (limit > 0) {

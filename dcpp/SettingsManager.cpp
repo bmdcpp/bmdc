@@ -108,7 +108,7 @@ const string SettingsManager::settingTags[] =
 	"SdlRaw", "ShowDcppEmulation", "ListlenMismatchShow",
 	"ShowDisconnect", "UseSdlKick", "MaxDisconnects",
 	"SdlSpeed", "SdlTime", "RmdcRaw", "FilelistTooSmallBig", "ShowRmdc",
-	"AdlRaw", "FilelistNaRaw", "ShowFilelistNa",
+	"AdlRaw", "FilelistNaRaw", "ShowFilelistNa", "ThrottleEnable", 
 	//]
 	"SENTRY",
 	// Int64
@@ -297,7 +297,7 @@ SettingsManager::SettingsManager()
 	setDefault(MAX_COMMAND_LENGTH, 16*1024*1024);
 	setDefault(ALLOW_UNTRUSTED_HUBS, true);
 	setDefault(ALLOW_UNTRUSTED_CLIENTS, true);
-//	setDefault(FAST_HASH, true);
+
 	setDefault(SORT_FAVUSERS_FIRST, false);
 	setDefault(SEGMENTED_DL, true);
 	setDefault(FOLLOW_LINKS, false);
@@ -343,6 +343,7 @@ SettingsManager::SettingsManager()
 	setDefault(BIND_ADDRESS, "0.0.0.0");
 	setDefault(BIND_ADDRESS6, "::");
 	//[BMDC++
+	setDefault(THROTTLE_ENABLE, false);
     setDefault(LOG_FILE_RAW, "raws.log");
     setDefault(LOG_FORMAT_RAW, "%H %M %Y %[message]");
     

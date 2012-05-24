@@ -1079,7 +1079,9 @@ gboolean PrivateMessage::onKeyPress_gui(GtkWidget *widget, GdkEventKey *event, g
 	string text;
 	size_t index;
 
-	if (event->keyval == GDK_Up || event->keyval == GDK_KP_Up)
+	if ( ( WGETB("key-hub-with-ctrl") && 
+		(event->keyval == GDK_Up || event->keyval == GDK_KP_Up && (event->state & GDK_CONTROL_MASK )  )) 
+		|| (!WGETB("key-hub-with-ctrl") && (event->keyval == GDK_Up || event->keyval == GDK_KP_Up)) )
 	{
 		index = pm->historyIndex - 1;
 		if (index >= 0 && index < pm->history.size())
@@ -1090,7 +1092,9 @@ gboolean PrivateMessage::onKeyPress_gui(GtkWidget *widget, GdkEventKey *event, g
 		}
 		return TRUE;
 	}
-	else if (event->keyval == GDK_Down || event->keyval == GDK_KP_Down)
+	else if ((
+		WGETB("key-hub-with-ctrl") && ((event->keyval == GDK_Down || event->keyval == GDK_KP_Down) && (event->state & GDK_CONTROL_MASK ) ))
+		|| ( !WGETB("key-hub-with-ctrl") && (event->keyval == GDK_Down || event->keyval == GDK_KP_Down)))
 	{
 		index = pm->historyIndex + 1;
 		if (index >= 0 && index < pm->history.size())
