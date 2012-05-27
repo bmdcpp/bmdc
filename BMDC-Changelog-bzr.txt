@@ -482,4 +482,5 @@ Fix UserDescription in Fav´s Hubs
 Add Possible do nothing on middle button in Books
 Add Possible only ctrl + arow for history
 Fix Limiting Icon/On Startup/
-----
+----r120
+Add Basic Browse for Partialy Filelist

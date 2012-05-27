@@ -34,7 +34,7 @@
 using namespace std;
 using namespace dcpp;
 
-ShareBrowser::ShareBrowser(UserPtr user, const string &file, const string &initialDirectory, int64_t speed):
+ShareBrowser::ShareBrowser(UserPtr user, const string &file, const string &initialDirectory, int64_t speed, bool full):
 	BookEntry(Entry::SHARE_BROWSER, _("List: ") + WulforUtil::getNicks(user, ""), "sharebrowser.glade", user->getCID().toBase32()),//NOTE: core 0.762
 	user(user),
 	file(file),
@@ -46,7 +46,8 @@ ShareBrowser::ShareBrowser(UserPtr user, const string &file, const string &initi
 	currentItems(0),
 	updateFileView(TRUE),
 	skipHits(0),
-	speed(speed)
+	speed(speed),
+	fullfl(full)
 {
 	// Use the nick from the file name in case the user is offline and core only returns CID
 	nick = WulforUtil::getNicks(user, "");//NOTE: core 0.762
@@ -137,6 +138,9 @@ ShareBrowser::ShareBrowser(UserPtr user, const string &file, const string &initi
 	g_signal_connect(getWidget("searchForAlternatesItem"), "activate", G_CALLBACK(onSearchAlternatesClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("copyMagnetItem"), "activate", G_CALLBACK(onCopyMagnetClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("copyPictureItem"), "activate", G_CALLBACK(onCopyPictureClicked_gui), (gpointer)this);
+	
+	g_signal_connect(getWidget("downloadPartialFile"), "activate", G_CALLBACK(onClickedPartial), (gpointer)this);
+	g_signal_connect(getWidget("downloadPartialDir"), "activate", G_CALLBACK(onClickedPartial), (gpointer)this);
 }
 
 ShareBrowser::~ShareBrowser()
@@ -165,16 +169,24 @@ void ShareBrowser::buildList_gui()
 	// Load the xml file containing the share list.
 	try
 	{
-		listing.loadFile(file);
-
 		// Set name of root entry to user nick.
 		listing.getRoot()->setName(nick);
+		
+		if(fullfl) {
+		listing.loadFile(file);
 
 		// Search ADL
 		ADLSearchManager::getInstance()->matchListing(listing);
-
+		
 		// Add entries to dir tree view starting with the root entry.
 		buildDirs_gui(listing.getRoot(), NULL);
+		}
+		else
+		{
+			buildDirs_gui(listing.getRoot(), NULL);
+			
+		}
+		
 	}
 	catch (const Exception &e)
 	{
@@ -1103,3 +1115,73 @@ void ShareBrowser::onCopyCID(gpointer data)
     gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), sb->user->getCID().toBase32().c_str(), sb->user->getCID().toBase32().length());
 }
 //]
+/**/
+void ShareBrowser::loadXML(string txt) { 
+		
+		typedef Func1<ShareBrowser,string> F1;
+		F1 *func = new F1(this,&ShareBrowser::load,txt);
+		WulforManager::get()->dispatchGuiFunc(func);	
+}
+/**/
+void ShareBrowser::load(string xml)
+{
+	// Set name of root entry to user nick.
+	listing.getRoot()->setName(nick);
+	
+	GtkTreeIter iter;
+	DirectoryListing::Directory *dirList;
+	string path,path2;
+	GtkTreePath *treepath;
+	if (gtk_tree_selection_get_selected(dirSelection, NULL, &iter))	
+	{
+		dirList = (DirectoryListing::Directory *)dirView.getValue<gpointer>(&iter,"DL Dir");
+		path2 = dirList->getName();
+		treepath = gtk_tree_path_copy(gtk_tree_model_get_path (GTK_TREE_MODEL(dirStore) ,gtk_tree_iter_copy(&iter)));
+	
+	path = QueueManager::getInstance()->getListPath(listing.getUser()) + ".xml";
+	if(File::getSize(path) != -1) {
+		// load the cached list.
+		listing.updateXML(File(path, File::READ, File::OPEN).read());
+	}
+	auto base = listing.updateXML(xml);
+	//listing.save(path);
+	ADLSearchManager::getInstance()->matchListing(listing);
+	gtk_tree_store_clear(dirStore);
+	gtk_list_store_clear(fileStore);
+	buildDirs_gui(listing.getRoot(),NULL);
+	gtk_tree_view_expand_to_path(dirView.get(), treepath);
+	gtk_tree_view_scroll_to_cell(dirView.get(),treepath,NULL,FALSE,0,0);
+	gtk_tree_selection_select_path(dirSelection,treepath);
+	updateFiles_gui(dirList); 
+   }
+}
+
+void ShareBrowser::onClickedPartial(GtkWidget *widget, gpointer data)
+{
+	ShareBrowser *sb = (ShareBrowser *)data;
+	GtkTreeIter iter;
+	DirectoryListing::Directory *dirList;
+	if (gtk_tree_selection_get_selected(sb->dirSelection, NULL, &iter))	
+	{
+		dirList = (DirectoryListing::Directory *)sb->dirView.getValue<gpointer>(&iter,"DL Dir");
+	}
+	typedef Func1<ShareBrowser, DirectoryListing::Directory*> F1;
+	F1 *func = new F1(sb,&ShareBrowser::downloadChangedDir,dirList);
+	WulforManager::get()->dispatchClientFunc(func);
+}
+
+void ShareBrowser::downloadChangedDir(DirectoryListing::Directory* d) {
+	if(!d->getComplete()) {
+		dcdebug("Directory %s incomplete, downloading...\n", d->getName().c_str());
+		if(listing.getUser().user->isOnline()) {
+			try {
+				QueueManager::getInstance()->addList(listing.getUser(), QueueItem::FLAG_PARTIAL_LIST, listing.getPath(d));
+			} catch(const QueueException& e) {
+				;
+			}
+		} else {
+			setStatus_gui("mainStatus","User went offline");
+		}
+	}
+}
+

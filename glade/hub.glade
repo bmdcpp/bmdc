@@ -568,6 +568,14 @@
       </widget>
     </child>
     <child>
+      <widget class="GtkMenuItem" id="openPartial">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Open Partial FileList</property>
+        <property name="use_underline">True</property>
+      </widget>
+    </child>
+    <child>
       <widget class="GtkMenuItem" id="matchItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>

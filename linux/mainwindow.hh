@@ -257,12 +257,15 @@ class MainWindow:
 		void removeItemFromList(Entry::EntryType type, std::string id);
 		//[BMDC++
 		void setInitThrotles();
+		void parsePartial(dcpp::HintedUser aUser, std::string txt);
 		//]
 
 		// Client callbacks
 		virtual void on(dcpp::LogManagerListener::Message, time_t t, const std::string &m) noexcept;
 		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) noexcept;
 		virtual void on(dcpp::TimerManagerListener::Second, uint64_t ticks) noexcept;
+		//partial
+		virtual void on(dcpp::QueueManagerListener::PartialList, const dcpp::HintedUser& aUser, const std::string& text) noexcept;
 
 		GtkWindow *window;
 		Transfers* transfers;

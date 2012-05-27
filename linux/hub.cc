@@ -242,6 +242,9 @@ Hub::Hub(const string &address, const string &encoding):
 	g_signal_connect(getWidget("nickToChatItem"), "activate", G_CALLBACK(onNickToChat_gui), (gpointer)this);
 	g_signal_connect(getWidget("copyNickItem"), "activate", G_CALLBACK(onCopyNickItemClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("browseItem"), "activate", G_CALLBACK(onBrowseItemClicked_gui), (gpointer)this);
+	
+	g_signal_connect(getWidget("openPartial"), "activate", G_CALLBACK(onPartialFileListOpen_gui), (gpointer)this);
+	
 	g_signal_connect(getWidget("matchItem"), "activate", G_CALLBACK(onMatchItemClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("msgItem"), "activate", G_CALLBACK(onMsgItemClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("grantItem"), "activate", G_CALLBACK(onGrantItemClicked_gui), (gpointer)this);
@@ -1991,7 +1994,6 @@ gboolean Hub::onEntryKeyPress_gui(GtkWidget *entry, GdkEventKey *event, gpointer
 		}
 		return TRUE;
 	}
-	
 	else if (event->keyval == GDK_Tab || event->keyval == GDK_ISO_Left_Tab)
 	{
 		string current;
@@ -2724,6 +2726,34 @@ void Hub::onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data)
 			{
 				cid = hub->nickView.getString(&iter, "CID");
 				func = new F2(hub, &Hub::getFileList_client, cid, FALSE);
+				WulforManager::get()->dispatchClientFunc(func);
+			}
+			gtk_tree_path_free(path);
+		}
+		g_list_free(list);
+	}
+}
+
+void Hub::onPartialFileListOpen_gui(GtkMenuItem *item, gpointer data)
+{
+	Hub *hub = (Hub *)data;
+
+	if (gtk_tree_selection_count_selected_rows(hub->nickSelection) > 0)
+	{
+		string cid;
+		GtkTreeIter iter;
+		GtkTreePath *path;
+		typedef Func1<Hub, string> F1;
+		F1 *func;
+		GList *list = gtk_tree_selection_get_selected_rows(hub->nickSelection, NULL);
+
+		for (GList *i = list; i; i = i->next)
+		{
+			path = (GtkTreePath *)i->data;
+			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(hub->nickStore), &iter, path))
+			{
+				cid = hub->nickView.getString(&iter, "CID");
+				func = new F1(hub, &Hub::getPartialFileList_client, cid);
 				WulforManager::get()->dispatchClientFunc(func);
 			}
 			gtk_tree_path_free(path);
@@ -3577,6 +3607,50 @@ void Hub::getFileList_client(string cid, bool match)
 		F3 *func = new F3(this, &Hub::addStatusMessage_gui, message, Msg::SYSTEM, Sound::NONE);
 		WulforManager::get()->dispatchGuiFunc(func);
 	}
+}
+
+void Hub::getPartialFileList_client(string cid)
+{
+	string message = Util::emptyString;
+	if(!cid.empty())
+	{
+		try
+		{
+			UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
+			if (user)
+			{
+				const HintedUser hintedUser(user, client->getHubUrl());//NOTE: core 0.762
+
+				if (user == ClientManager::getInstance()->getMe())
+				{
+					// Don't download file list, open locally instead
+					WulforManager::get()->getMainWindow()->openOwnList_client(TRUE);
+				}
+				else
+				{
+					QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW | QueueItem::FLAG_PARTIAL_LIST);
+				//	QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW);//NOTE: core 0.762
+				}
+			}
+			else
+			{
+				message = _("User not found");
+			}
+		}
+		catch (const Exception &e)
+		{
+			message = e.getError();
+			LogManager::getInstance()->message(message);
+		}
+	}
+	
+	if (!message.empty())
+	{
+		typedef Func3<Hub, string, Msg::TypeMsg, Sound::TypeSound> F3;
+		F3 *func = new F3(this, &Hub::addStatusMessage_gui, message, Msg::SYSTEM, Sound::NONE);
+		WulforManager::get()->dispatchGuiFunc(func);
+	}
+	
 }
 
 void Hub::grantSlot_client(string cid)

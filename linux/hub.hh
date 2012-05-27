@@ -156,6 +156,7 @@ class Hub:
 		static void onBoldButtonClicked_gui(GtkWidget *widget, gpointer data);
 		static void onUnderlineButtonClicked_gui(GtkWidget *widget, gpointer data);
 		//[BMDC++
+		static void onPartialFileListOpen_gui(GtkMenuItem *item, gpointer data);
 		static void onCloseItem(gpointer data);
 		static void onCopyHubUrl(gpointer data);
 		static void onAddFavItem(gpointer data);
@@ -204,6 +205,8 @@ class Hub:
 		std::string formatAdditionalInfo(const std::string& aIp, bool sIp, bool sCC, bool isPm);
 		gboolean HitIP(std::string &name, std::string& ip);
 		std::string getIcons(const dcpp::Identity& id);
+		
+		void getPartialFileList_client(std::string cid);
 
 		void setHubIcon_gui(std::string url);
 		void updateIcons();

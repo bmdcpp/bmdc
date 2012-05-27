@@ -3027,3 +3027,36 @@ void MainWindow::onCloseAlloffPM_gui(GtkWidget *widget, gpointer data)
 	mw->privateMessage.clear();
 	mw->privateMessage = noff;
 }
+/**/
+/**/
+/*partial*/
+void MainWindow::parsePartial(HintedUser aUser, string txt)
+{
+	const string cid = aUser.user->getCID().toBase32();
+	bool raise = !BOOLSETTING(POPUNDER_FILELIST);
+	BookEntry *entry = findBookEntry(Entry::SHARE_BROWSER, cid);
+	string path = QueueManager::getInstance()->getListPath(aUser) + ".xml.bz2";
+	
+	if(entry != NULL)
+	{
+	  dynamic_cast<ShareBrowser*>(entry)->loadXML(txt);
+	}
+	else
+	{
+		if ( (entry == NULL) && !path.empty())
+		{
+			entry = new ShareBrowser(aUser.user, path, "/",0,false);
+			addBookEntry_gui(entry);
+			dynamic_cast<ShareBrowser*>(entry)->loadXML(txt);		
+		}
+	}
+	if (raise)
+		raisePage_gui(entry->getContainer());
+}
+
+/**/
+void MainWindow::on(QueueManagerListener::PartialList, const HintedUser& aUser, const string& text) noexcept {
+	typedef Func2<MainWindow, HintedUser, string> F2;
+	F2 *func = new F2(this,&MainWindow::parsePartial,aUser,text);
+	WulforManager::get()->dispatchGuiFunc(func);
+}

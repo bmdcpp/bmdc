@@ -35,11 +35,11 @@ class ShareBrowser:
 	public BookEntry
 {
 	public:
-		ShareBrowser(dcpp::UserPtr user, const std::string &file, const std::string &initialDirectory, int64_t speed);
+		ShareBrowser(dcpp::UserPtr user, const std::string &file, const std::string &initialDirectory, int64_t speed, bool full = true);
 		virtual ~ShareBrowser();
 		virtual void show();
 		virtual GtkWidget* createmenu();
-
+		void loadXML(std::string txt);
 	private:
 		static void onCloseItem(gpointer data);
 		static void onCopyCID(gpointer data);
@@ -57,6 +57,7 @@ class ShareBrowser:
 		void popupFileMenu_gui();
 		void popupDirMenu_gui();
 		void find_gui();
+		void load(std::string xml);
 
 		// GUI callbacks
 		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
@@ -76,11 +77,13 @@ class ShareBrowser:
 		static void onSearchAlternatesClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onCopyMagnetClicked_gui(GtkMenuItem* item, gpointer data);
 		static void onCopyPictureClicked_gui(GtkMenuItem* item, gpointer data);
+		static void onClickedPartial(GtkWidget *widget, gpointer data);
 
 		// Client functions
 		void downloadFile_client(dcpp::DirectoryListing::File *file, std::string target);
 		void downloadDir_client(dcpp::DirectoryListing::Directory *dir, std::string target);
 		void matchQueue_client();
+		void downloadChangedDir(dcpp::DirectoryListing::Directory* d);
 
 		GdkEventType oldType;
 		dcpp::UserPtr user;
@@ -103,6 +106,7 @@ class ShareBrowser:
 		UserCommandMenu *fileUserCommandMenu;
 		UserCommandMenu *dirUserCommandMenu;
 		UserCommandMenu *TabUserCommandMenu;
+		bool fullfl;
 	
 };
 
