@@ -484,3 +484,10 @@ Add Possible only ctrl + arow for history
 Fix Limiting Icon/On Startup/
 ----r120
 Add Basic Browse for Partialy Filelist
+----r121
+updated UploadManager from dcpp (r2929)
+   (fix double-locking when creating an upload&
+    don't bother loading files on upload requests when there's no slot&remove old defs)
+Fix svn → bzr in One Help menu Item
+Fix FreeDC++ → BMDC++ in Dialog on Close
+-----

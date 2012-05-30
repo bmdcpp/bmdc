@@ -39,8 +39,6 @@
 
 namespace dcpp {
 
-static const string DOWNLOAD_AREA = "Downloads";
-
 DownloadManager::DownloadManager() {
 	TimerManager::getInstance()->addListener(this);
 }
@@ -124,7 +122,7 @@ void DownloadManager::addConnection(UserConnectionPtr conn) {
 	if(!conn->isSet(UserConnection::FLAG_SUPPORTS_TTHL) || !conn->isSet(UserConnection::FLAG_SUPPORTS_ADCGET)) {//BMDC TTHF->TTHL
 		// Can't download from these...
 		// No TTHL/ADCGET support///BMDC++ L->F
-		ClientManager::getInstance()->setCheating(conn->getUser(), "", "No TTHL/ADCGET support", 0,true /*RSXPP_BOOLSETTING(SHOW_NO_TTHF)*/, true, true, true, true);//add settings NO_TTHF
+		ClientManager::getInstance()->setCheating(conn->getUser(), "", "No TTHL/ADCGET support", 0,true /*RSXPP_BOOLSETTING(SHOW_NO_TTHF)*/, true, true, true, true);//TODO: add settings NO_TTHF
 		//END
 		conn->getUser()->setFlag(User::OLD_CLIENT);
 		QueueManager::getInstance()->removeSource(conn->getUser(), QueueItem::Source::FLAG_NO_TTHF);
@@ -412,7 +410,6 @@ void DownloadManager::failDownload(UserConnection* aSource, const string& reason
 			ClientManager::getInstance()->fileListDisconnected(aSource->getUser());
 		} else if( d->isSet(Download::FLAG_TESTSUR) ) {
 			if(reason.find(_("No slots available")) != string::npos)
-			//if(reason == _("No slots available"))
 				ClientManager::getInstance()->setCheating(aSource->getUser(), "MaxedOut", "No slots for TestSUR - SlotLocker", -1, true, true, false, true, false);
 			else
 				ClientManager::getInstance()->setCheating(aSource->getUser(), reason, "", -1, false, true, false, true, false);
@@ -420,7 +417,6 @@ void DownloadManager::failDownload(UserConnection* aSource, const string& reason
 			removeConnection(aSource);
 			return;
 		}
-		
 
 		QueueManager::getInstance()->putDownload(d, false);
 	}

@@ -116,6 +116,7 @@ private:
 	UploadManager() noexcept;
 	virtual ~UploadManager();
 
+	bool hasReservedSlot(const UserPtr& user) const;
 	bool getAutoSlot();
 	void removeConnection(UserConnection* aConn);
 	void removeUpload(Upload* aUpload);

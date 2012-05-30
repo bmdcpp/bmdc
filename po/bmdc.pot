@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-05-27 16:09+0200\n"
+"POT-Creation-Date: 2012-05-30 18:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-05-27 18:50+0200\n"
+"POT-Creation-Date: 2012-05-29 21:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -648,7 +648,7 @@ msgid "Change"
 msgstr ""
 
 #: glade/mainwindow.glade:1502
-msgid "Changelog(svn)"
+msgid "Changelog(bzr)"
 msgstr ""
 
 #: glade/settingsdialog.glade:741
@@ -1059,7 +1059,7 @@ msgid "Exact size"
 msgstr ""
 
 #: glade/mainwindow.glade:717
-msgid "Exit FreeDC++?"
+msgid "Exit BMDC++?"
 msgstr ""
 
 #: glade/settingsdialog.glade:7486

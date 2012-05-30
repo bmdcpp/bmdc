@@ -60,8 +60,8 @@ class Notify
 		static void start();
 		static void stop();
 
-		Notify() {init();}
-		~Notify() {finalize();}
+		Notify() { init(); }
+		~Notify() { finalize(); }
 
 		void showNotify(const std::string &head, const std::string &body, TypeNotify notify);
 		void showNotify(const std::string &title, const std::string &head, const std::string &body,

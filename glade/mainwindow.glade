@@ -714,7 +714,7 @@ Contributors:
   </widget>
   <widget class="GtkDialog" id="exitDialog">
     <property name="can_focus">False</property>
-    <property name="title" translatable="yes">Exit FreeDC++?</property>
+    <property name="title" translatable="yes">Exit BMDC++?</property>
     <property name="resizable">False</property>
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
@@ -1499,7 +1499,7 @@ Contributors:
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="changeLogItem">
-                        <property name="label" translatable="yes">Changelog(svn)</property>
+                        <property name="label" translatable="yes">Changelog(bzr)</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
