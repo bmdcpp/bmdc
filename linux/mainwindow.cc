@@ -66,6 +66,8 @@
 #include "detectiontab.hh"
 #include "AboutConfig.hh"
 
+#include <boost/algorithm/string/trim.hpp>
+
 using namespace std;
 using namespace dcpp;
 
@@ -1005,7 +1007,7 @@ void MainWindow::showFavoriteUsers_gui()
 	showBook<Entry::EntryType, BookEntry *>(Entry::FAVORITE_USERS, new FavoriteUsers());
 	setStatusOfIcons(FAVORITE_USERS,true);
 }
-//BMDC++
+//[BMDC++
 void MainWindow::showIgnoreUsers_gui()
 {
 	showBook<Entry::EntryType, BookEntry *>(Entry::IGNORE_USERS, new IgnoreUsers());
@@ -1020,13 +1022,13 @@ void MainWindow::showCmdDebug_gui()
 void MainWindow::showSystemLog_gui()
 {
 	showBook<Entry::EntryType, BookEntry *>(Entry::SYSTEML, new systemlog());
-	setStatusOfIcons(SYSTEM,true);
+	setStatusOfIcons(SYSTEM, true);
 }
 
 void MainWindow::showNotepad_gui()
 {
 	showBook<Entry::EntryType, BookEntry *>(Entry::NOTEPAD, new notepad());
-	setStatusOfIcons(NOTEPAD,true);
+	setStatusOfIcons(NOTEPAD, true);
 }
 
 void MainWindow::showUploadQueue_gui()
@@ -1047,17 +1049,23 @@ void MainWindow::showDetection_gui()
 void MainWindow::showFinishedDownloads_gui()
 {
 	showBook<Entry::EntryType, BookEntry *>(Entry::FINISHED_DOWNLOADS, FinishedTransfers::createFinishedDownloads());
-	setStatusOfIcons(FDOWNLOADS,true);
+	setStatusOfIcons(FDOWNLOADS, true);
 }
 
 void MainWindow::showFinishedUploads_gui()
 {
 	showBook<Entry::EntryType, BookEntry *>(Entry::FINISHED_UPLOADS, FinishedTransfers::createFinishedUploads());
-	setStatusOfIcons(FUPLOADS,true);
+	setStatusOfIcons(FUPLOADS, true);
 }
 
 void MainWindow::showHub_gui(string address, string encoding)
 {
+	boost::algorithm::trim(address);
+	if(address.empty())
+	{
+		showMessageDialog_gui("Empty hub address specified","Empty hub address specified");
+		return;
+	}
 	BookEntry *entry = findBookEntry(Entry::HUB, address);
 
 	if (entry == NULL)
@@ -1066,7 +1074,7 @@ void MainWindow::showHub_gui(string address, string encoding)
 		addBookEntry_gui(entry);
 
 		EntryList.push_back(address);
-		Hubs.push_back(dynamic_cast<Hub*>(entry));
+		Hubs.push_back(dynamic_cast<Hub *>(entry));
 	}
 
 	raisePage_gui(entry->getContainer());
@@ -1312,8 +1320,8 @@ void MainWindow::updateFavoriteHubMenu_gui(ListParamPair list)
 void MainWindow::onHubClicked_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	string address = (gchar*)g_object_get_data(G_OBJECT(widget), "address");
-	string encoding = (gchar*)g_object_get_data(G_OBJECT(widget), "encoding");
+	string address = (gchar *)g_object_get_data(G_OBJECT(widget), "address");
+	string encoding = (gchar *)g_object_get_data(G_OBJECT(widget), "encoding");
 	mw->showHub_gui(address, encoding);
 }
 
@@ -2562,7 +2570,7 @@ void MainWindow::onStatusIconBlinkUseToggled_gui(GtkWidget *widget, gpointer dat
 
 void MainWindow::onLinkClicked_gui(GtkWidget *widget, gpointer data)
 {
-	string link = (gchar*) g_object_get_data(G_OBJECT(widget), "link");
+	string link = (gchar *)g_object_get_data(G_OBJECT(widget), "link");
 	WulforUtil::openURI(link);
 }
 
@@ -3027,9 +3035,7 @@ void MainWindow::onCloseAlloffPM_gui(GtkWidget *widget, gpointer data)
 	mw->privateMessage.clear();
 	mw->privateMessage = noff;
 }
-/**/
-/**/
-/*partial*/
+/* partial */
 void MainWindow::parsePartial(HintedUser aUser, string txt)
 {
 	const string cid = aUser.user->getCID().toBase32();
@@ -3053,7 +3059,6 @@ void MainWindow::parsePartial(HintedUser aUser, string txt)
 	if (raise)
 		raisePage_gui(entry->getContainer());
 }
-
 /**/
 void MainWindow::on(QueueManagerListener::PartialList, const HintedUser& aUser, const string& text) noexcept {
 	typedef Func2<MainWindow, HintedUser, string> F2;

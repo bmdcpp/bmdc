@@ -490,4 +490,9 @@ updated UploadManager from dcpp (r2929)
     don't bother loading files on upload requests when there's no slot&remove old defs)
 Fix svn → bzr in One Help menu Item
 Fix FreeDC++ → BMDC++ in Dialog on Close
+-----r122
+(dcpp rev2935) Fix a mixup between IPs and hostnames leading to wrong search results
+trim hub address.
+Fix compactibily with gcc 4.5.2
 -----
+

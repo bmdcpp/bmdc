@@ -347,7 +347,8 @@ void Socket::connect(const string& aAddr, const string& aPort, const string& loc
 			}
 
 			check([&] { return ::connect(sock, ai->ai_addr, ai->ai_addrlen); }, true);
-			setIp(aAddr);
+			//setIp(aAddr);
+			setIp(resolveName(ai->ai_addr, ai->ai_addrlen));
 		}
 	}
 }

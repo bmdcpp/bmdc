@@ -272,8 +272,8 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 int64_t UploadManager::getRunningAverage() {
 	Lock l(cs);
 	int64_t avg = 0;
-	for(auto u: uploads) {
-		avg += u->getAverageSpeed();
+	for(auto u = uploads.begin();u!= uploads.end();++u) {
+		avg += (*u)->getAverageSpeed();
 	}
 	return avg;
 }
