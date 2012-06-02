@@ -141,6 +141,10 @@ ShareBrowser::ShareBrowser(UserPtr user, const string &file, const string &initi
 	
 	g_signal_connect(getWidget("downloadPartialFile"), "activate", G_CALLBACK(onClickedPartial), (gpointer)this);
 	g_signal_connect(getWidget("downloadPartialDir"), "activate", G_CALLBACK(onClickedPartial), (gpointer)this);
+	
+	GError *error = NULL;
+	g_thread_create(threadLoad_list, (gpointer)this, FALSE, &error);
+	if (error) g_error_free(error);
 }
 
 ShareBrowser::~ShareBrowser()
@@ -158,10 +162,19 @@ ShareBrowser::~ShareBrowser()
 
 void ShareBrowser::show()
 {
-	buildList_gui();
-	openDir_gui(initialDirectory);
+	//buildList_gui();
+	//openDir_gui(initialDirectory);
 	updateStatus_gui();
 	WulforManager::get()->getMainWindow()->setMainStatus_gui(_("File list loaded"));
+}
+
+gpointer ShareBrowser::threadLoad_list(gpointer data)
+{
+    ShareBrowser *man = (ShareBrowser *)data;
+    man->setStatus_gui("mainStatus", _("Parse and build tree....waiting"));
+    man->buildList_gui();
+    man->setStatus_gui("mainStatus", _("Done"));
+    return NULL;
 }
 
 void ShareBrowser::buildList_gui()
@@ -173,13 +186,14 @@ void ShareBrowser::buildList_gui()
 		listing.getRoot()->setName(nick);
 		
 		if(fullfl) {
-		listing.loadFile(file);
+			listing.loadFile(file);
 
-		// Search ADL
-		ADLSearchManager::getInstance()->matchListing(listing);
+			// Search ADL
+			ADLSearchManager::getInstance()->matchListing(listing);
 		
-		// Add entries to dir tree view starting with the root entry.
-		buildDirs_gui(listing.getRoot(), NULL);
+			// Add entries to dir tree view starting with the root entry.
+			buildDirs_gui(listing.getRoot(), NULL);
+			openDir_gui(initialDirectory);
 		}
 		else
 		{

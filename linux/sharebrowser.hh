@@ -78,6 +78,8 @@ class ShareBrowser:
 		static void onCopyMagnetClicked_gui(GtkMenuItem* item, gpointer data);
 		static void onCopyPictureClicked_gui(GtkMenuItem* item, gpointer data);
 		static void onClickedPartial(GtkWidget *widget, gpointer data);
+		
+		static gpointer threadLoad_list(gpointer data);
 
 		// Client functions
 		void downloadFile_client(dcpp::DirectoryListing::File *file, std::string target);

@@ -494,5 +494,7 @@ Fix FreeDC++ → BMDC++ in Dialog on Close
 (dcpp rev2935) Fix a mixup between IPs and hostnames leading to wrong search results
 trim hub address.
 Fix compactibily with gcc 4.5.2
+-----r123
+Threaded Loading of FileList (eiskaltdcpp (dhamp))
 -----
 
