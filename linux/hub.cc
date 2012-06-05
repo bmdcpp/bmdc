@@ -1102,7 +1102,9 @@ gboolean Hub::HitIP(string& name, string &sIp)
 
 	if(isOk)
 	{
-		sIp = name.substr(0,pos-1);
+		auto nedle = name.find_last_of(".");
+		name = name.substr(0,nedle);
+		sIp = name.substr(0,pos);
 	}
 	return isOk;
 
@@ -2511,9 +2513,27 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			func2 = new F2(hub, &Hub::sendMessage_client, params, true);
 			WulforManager::get()->dispatchClientFunc(func2);
 		}
-		else if (command == "topic")
+		else if (command == "topic" )
 		{
 			hub->addMessage_gui("",_("Topic: ")+hub->client->getHubDescription(), Msg::SYSTEM);
+		}
+		else if ( command == "info" )
+		{
+			 map<string, string> info;
+             info[_("Hub address")] = hub->address;
+             info[_("Hub IP & port")] = hub->client->getIpPort();
+             info[_("Online users")] = Util::toString(hub->client->getUserCount()-1);
+             info[_("Shared")] = Util::formatBytes(hub->client->getAvailable());
+             info[_("Nick")] = hub->client->settings.getNick();
+             info[_("Description")] = hub->client->settings.getDescription();
+             info[_("Email")] = hub->client->settings.getEmail();
+             info[_("External / WAN IP")] = hub->client->getFavIp();
+             info[_("Encoding")] =  hub->client->getEncoding();
+             string text;
+             for(auto i = info.begin();i!=info.end();++i) {
+                  text += _("\n") + (*i).first + _(": ") + Text::toT((*i).second);
+             }
+           hub->addMessage_gui("",text,Msg::SYSTEM);
 		}
 		else if (command == "pm")
 		{

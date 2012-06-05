@@ -518,9 +518,16 @@ bool WulforUtil::isLink(const string &text)
 
 bool WulforUtil::isHubURL(const string &text)
 {
-	return g_ascii_strncasecmp(text.c_str(), "dchub://", 8) == 0 ||
-		g_ascii_strncasecmp(text.c_str(), "adc://", 6) == 0 ||
-		g_ascii_strncasecmp(text.c_str(), "adcs://", 7) == 0;
+	//return g_ascii_strncasecmp(text.c_str(), "dchub://", 8) == 0 ||
+	//	g_ascii_strncasecmp(text.c_str(), "adc://", 6) == 0 ||
+	//	g_ascii_strncasecmp(text.c_str(), "adcs://", 7) == 0;
+	string re = "dchub://.+";
+	bool  isDcHub = dcpp::RegEx::match<string>(text,re,true);
+	re = "adc://.+";
+	bool  isAdc = dcpp::RegEx::match<string>(text,re,true);
+	re = "adcs://.+";
+	bool  isAdcs = dcpp::RegEx::match<string>(text,re,true);
+	return isDcHub || isAdc || isAdcs;
 }
 
 bool WulforUtil::profileIsLocked()

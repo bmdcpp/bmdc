@@ -36,6 +36,7 @@
 #include "message.hh"
 
 #include <queue>
+#include <map>
 
 class UserCommandMenu;
 class WulforSettingsManager;

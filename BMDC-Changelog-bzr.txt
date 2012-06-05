@@ -496,5 +496,8 @@ trim hub address.
 Fix compactibily with gcc 4.5.2
 -----r123
 Threaded Loading of FileList (eiskaltdcpp (dhamp))
------
+-----r124
+Fixed . after ip copy etc
+Better dchub adc(s) link (eg not handle dchub://)
+Fix CMD Debug Frame
 
