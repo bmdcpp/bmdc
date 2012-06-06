@@ -78,7 +78,7 @@ class Settings:
 		void initBandwidthLimiting_gui();//NOTE: core 0.762
 		void initSearchTypes_gui();//NOTE: core 0.770
 		void initHighlighting_gui();//NOTE: BMDC++
-		void initPlugins_gui();
+		void initPlugins_gui();//NOTE: BMDC++
 		
 		void addShare_gui(std::string path, std::string name, int64_t size);
 		void selectTextColor_gui(const int select);
@@ -199,10 +199,11 @@ class Settings:
 		static void onToggledHGColor_gui(GtkWidget *widget, gpointer data);
 		static void onToggledHGNotify_gui(GtkWidget *widget, gpointer data);
 		static void onRawsClicked_gui(GtkToggleButton *button, gpointer data );
-		//PLG
+		//Plugins
 		static void onAddPluginTo_gui(GtkWidget *widget, gpointer data);
 		static void onRemPluginFrom_gui(GtkWidget *widget, gpointer data);
 		static void onConfigurePlugin_gui(GtkWidget *widget, gpointer data);
+		static void onAboutPlugin_gui(GtkWidget *widget, gpointer data);
 		//BMDC
 		static void makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data);
 		// Client functions

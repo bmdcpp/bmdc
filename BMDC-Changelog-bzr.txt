@@ -500,4 +500,9 @@ Threaded Loading of FileList (eiskaltdcpp (dhamp))
 Fixed . after ip copy etc
 Better dchub adc(s) link (eg not handle dchub://)
 Fix CMD Debug Frame
+-----r125
+Added /info cmd
+Added /raw cmd
+Added in Plugins Tab in Settings About Dialog..
+-----
 

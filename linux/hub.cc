@@ -2473,6 +2473,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			"/plist\t\t\t" + _("List Plugins") + "\n" +
 			"/addfavorite\t\t\t" + _("Add Idepent Fav") + "\n" +
 			"/topic\t\t\t" + _("Show topic") + "\n" +
+			"/raw\t\t\t" + _("Send Raw data") + "\n"+
              WulforUtil::commands
              , Msg::SYSTEM);
 		}
@@ -2515,7 +2516,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if (command == "topic" )
 		{
-			hub->addMessage_gui("",_("Topic: ")+hub->client->getHubDescription(), Msg::SYSTEM);
+			hub->addMessage_gui("", _("Topic: ")+hub->client->getHubDescription(), Msg::SYSTEM);
 		}
 		else if ( command == "info" )
 		{
@@ -2593,23 +2594,28 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		else if(command == "addfavorite")
 		{
 			FavoriteManager::getInstance()->addFavoriteIUser(params);
+			hub->addStatusMessage_gui(_("Added Indepent Fav ")+params, Msg::SYSTEM, Sound::NONE);
 		}	
 		else if (command == "scmyinfo")
 		{
 			if(params == "stop") {
 				hub->client->stopMyInfoCheck();
-				hub->addStatusMessage_gui("Stop MyInfo check", Msg::SYSTEM, Sound::NONE);
+				hub->addStatusMessage_gui(_("Stop MyInfo check"), Msg::SYSTEM, Sound::NONE);
 			} else	{
 				hub->client->startMyInfoCheck();
-				hub->addStatusMessage_gui("Started MyInfo check", Msg::SYSTEM, Sound::NONE);
+				hub->addStatusMessage_gui(_("Started MyInfo check"), Msg::SYSTEM, Sound::NONE);
 			}
-		} else if ( command == "showjoins")
+		} else if (command == "raw" )
+		{
+			hub->client->send(Util::convertCEscapes(param));
+		}
+		else if ( command == "showjoins")
 		{
 			hub->client->settings.showJoins = !hub->client->settings.showJoins;
             if(hub->client->settings.showJoins) {
-                 hub->addStatusMessage_gui("Join/part showing on", Msg::SYSTEM, Sound::NONE);
+                 hub->addStatusMessage_gui(_("Join/part showing on"), Msg::SYSTEM, Sound::NONE);
             } else {
-                 hub->addStatusMessage_gui("Join/part showing off", Msg::SYSTEM, Sound::NONE);
+                 hub->addStatusMessage_gui(_("Join/part showing off"), Msg::SYSTEM, Sound::NONE);
             }		
 		}
 		else if ( command == "showfavjoins")

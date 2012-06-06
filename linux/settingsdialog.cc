@@ -1812,6 +1812,7 @@ void Settings::initPlugins_gui()
 	g_signal_connect(getWidget("buttonPLAdd"), "clicked", G_CALLBACK(onAddPluginTo_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonPLrem"), "clicked", G_CALLBACK(onRemPluginFrom_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonPLConfig"), "clicked", G_CALLBACK(onConfigurePlugin_gui), (gpointer)this);
+	g_signal_connect(getWidget("buttonAbout"), "clicked", G_CALLBACK(onAboutPlugin_gui), (gpointer)this);
 	
 }
 
@@ -1874,15 +1875,40 @@ void Settings::onConfigurePlugin_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
+void Settings::onAboutPlugin_gui(GtkWidget *widget, gpointer data)
+{
+	Settings *s = (Settings *)data;	
+	GtkTreeIter iter;
+	if(gtk_tree_selection_get_selected(s->plselection, NULL,&iter))	
+	{
+		gint sel = Util::toInt(s->plView.getString(&iter, "Index"));
+		const PluginInfo *p = PluginManager::getInstance()->getPlugin(sel);	
+		const MetaData& meta = p->getInfo();
+		string about = Util::emptyString;
+		about += "Name: " + string(meta.name) + "\n";
+		about += "Author: " + string(meta.author) + "\n";
+		about += "Description: " + string(meta.description) + "\n";
+		about += "Web: " + string(meta.web) + "\n";
+		GtkDialog *dialog;
+		dialog = GTK_DIALOG(gtk_message_dialog_new_with_markup(GTK_WINDOW(s->getContainer()),
+		GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_MESSAGE_INFO,
+		GTK_BUTTONS_CLOSE,
+		about.c_str()));
+		gtk_dialog_run(dialog);
+		gtk_widget_hide(GTK_WIDGET(dialog));	
+	}
+}
+
 void Settings::addToGuiPlg(const MetaData &info)
 {
 	GtkTreeIter iter;
 	gtk_list_store_append(plStore,&iter);
-				gtk_list_store_set(plStore,&iter,
-				     plView.col("Name"),info.name,
-					 plView.col("Description"),info.description,
-					 plView.col("Version"), Util::toString(info.version).c_str(),
-					-1);	
+		gtk_list_store_set(plStore,&iter,
+			     plView.col("Name"),info.name,
+				 plView.col("Description"),info.description,
+				 plView.col("Version"), Util::toString(info.version).c_str(),
+				-1);	
 }
 
 
@@ -4993,6 +5019,7 @@ void Settings::addHighlighting_to_gui(ColorSettings &cs, bool add)
 	GtkTreeIter iter;
 	if(add)
 		gtk_list_store_append(hStore,&iter);
+	
 	gtk_list_store_set(hStore,&iter,
 				hView.col(_("String")), cs.getMatch().c_str(),
 				hView.col("Bold"), cs.getBold() ? "1" : "0",
@@ -5010,6 +5037,5 @@ void Settings::addHighlighting_to_gui(ColorSettings &cs, bool add)
 				hView.col("Back Color"), cs.getBgColor().c_str(),
 				hView.col("Case sensitive"), cs.usingRegexp() ? "1" : "0",
 				-1);
-
 
 }

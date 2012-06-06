@@ -154,7 +154,11 @@ void Client::send(const char* aMessage, size_t aLen) {
 	
 	updateActivity();
 	sock->write(aMessage, aLen);
-	COMMAND_DEBUG(aMessage, DebugManager::HUB_OUT, getIpPort());
+	{
+		Lock l(cs);
+		COMMAND_DEBUG(aMessage, DebugManager::HUB_OUT, getIpPort());
+		
+	}	
 }
 
 HubData* Client::getPluginObject() noexcept {
@@ -273,7 +277,11 @@ string Client::getCounts() {
 
 void Client::on(Line, const string& aLine) noexcept {
 	updateActivity();
-    COMMAND_DEBUG(aLine, DebugManager::HUB_IN, getIpPort());
+	
+	{
+		Lock l(cs);
+		COMMAND_DEBUG(aLine, DebugManager::HUB_IN, getIpPort());
+	}	
 }
 
 void Client::on(Second, uint64_t aTick) noexcept {
@@ -316,7 +324,6 @@ void Client::sendActionCommand(const OnlineUser& ou, int actionId) {
 
 bool Client::isActionActive(const int aAction) const {
 	FavoriteHubEntry* hub = FavoriteManager::getInstance()->getFavoriteHubEntry(getHubUrl());
-
 	return hub ? FavoriteManager::getInstance()->getEnabledAction(hub, aAction) : true;
 }
 

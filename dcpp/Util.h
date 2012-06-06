@@ -451,6 +451,7 @@ public:
 	static string formatRegExp(const string& msg, ParamMap& params);
 	static uint64_t getUptime() { return uptime;}
 	static void setUptime() { uptime++; }
+	static string convertCEscapes(string tmp);
 
 private:
 	/** In local mode, all config and temp files are kept in the same dir as the executable */

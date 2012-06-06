@@ -858,9 +858,6 @@
                       </packing>
                     </child>
                     <child>
-                      <placeholder/>
-                    </child>
-                    <child>
                       <widget class="GtkCheckButton" id="commandDialogIpMenu">
                         <property name="label" translatable="yes">IP Address</property>
                         <property name="visible">True</property>
@@ -872,6 +869,9 @@
                         <property name="top_attach">2</property>
                         <property name="bottom_attach">3</property>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                   </widget>
                 </child>
@@ -8669,7 +8669,18 @@ Limiting</property>
                               </packing>
                             </child>
                             <child>
-                              <placeholder/>
+                              <widget class="GtkButton" id="buttonAbout">
+                                <property name="label">gtk-about</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="use_stock">True</property>
+                              </widget>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">3</property>
+                              </packing>
                             </child>
                           </widget>
                           <packing>
