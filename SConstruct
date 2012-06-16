@@ -21,7 +21,7 @@ LIB_IS_TAR = False
 # , '-Werror' ,'-Wfatal-errors'
 # ,'-Wextra'
 BUILD_FLAGS = {
-	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib','-Wno-unused-parameter','-Wno-unused-value','-Wno-missing-field-initializers', '-Wno-address', '-fexceptions','-g3', '-ldl'],
+	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib','-Wno-unused-parameter','-Wno-unused-value','-Wno-missing-field-initializers', '-Wno-address', '-fexceptions','-g3', '-ldl' ],
 	'debug'   : ['-g', '-ggdb', '-Wall', '-D_DEBUG'], 
 	'release' : ['-O3', '-fomit-frame-pointer', '-DNDEBUG']
 }

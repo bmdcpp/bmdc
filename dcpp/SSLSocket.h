@@ -21,7 +21,7 @@
 
 #include "Socket.h"
 #include "Singleton.h"
-
+#include <openssl/err.h>
 #include "SSL.h"
 
 #ifndef SSL_SUCCESS
@@ -45,7 +45,7 @@ class CryptoManager;
 
 class SSLSocket : public Socket {
 public:
-	virtual ~SSLSocket() { }
+	virtual ~SSLSocket() { ERR_remove_state(0);}
 
 	virtual void accept(const Socket& listeningSocket);
 	virtual void connect(const string& aIp, const string& aPort);

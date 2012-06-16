@@ -18,7 +18,7 @@
 
 #include "stdinc.h"
 #include "Socket.h"
-
+#include <signal.h>
 #include "ConnectivityManager.h"
 #include "format.h"
 #include "SettingsManager.h"
@@ -89,7 +89,9 @@ inline auto check(F f, bool blockOk = false) -> decltype(f()) {
 		if(blockOk && (error == EWOULDBLOCK || error == ENOBUFS || error == EINPROGRESS || error == EAGAIN)) {
 			return -1;
 		}
-
+		if(error == EFAULT ||  error == ECONNRESET || error == EDESTADDRREQ || error == ENOTCONN)
+			throw SocketException(error);
+		
 		if(error != EINTR) {
 			throw SocketException(error);
 		}
@@ -347,7 +349,6 @@ void Socket::connect(const string& aAddr, const string& aPort, const string& loc
 			}
 
 			check([&] { return ::connect(sock, ai->ai_addr, ai->ai_addrlen); }, true);
-			//setIp(aAddr);
 			setIp(resolveName(ai->ai_addr, ai->ai_addrlen));
 		}
 	}
@@ -566,7 +567,10 @@ void Socket::writeAll(const void* aBuffer, int aLen, uint32_t timeout) {
 }
 
 int Socket::write(const void* aBuffer, int aLen) {
-	auto sent = check([&] { return ::send(getSock(), (const char*)aBuffer, aLen, 0); }, true);
+	if(aBuffer == NULL)
+		return 0;
+	
+	auto sent = check([&] { return ::send(getSock(), /*(const char*)*/aBuffer, aLen, 0); }, true);
 	if(sent > 0) {
 		stats.totalUp += sent;
 	}

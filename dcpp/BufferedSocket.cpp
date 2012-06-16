@@ -43,7 +43,6 @@ separator(aSeparator), mode(MODE_LINE), dataBytes(0), rollback(0), state(STARTIN
 disconnecting(false), v4only(v4only)
 {
 	start();
-
 	++sockets;
 }
 

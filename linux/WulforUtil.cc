@@ -275,7 +275,7 @@ string WulforUtil::getTextFromMenu(GtkMenuItem *item)
 
 	return text;
 }
-//BMDC++
+//[BMDC++
 /* taken from http://svn.xiph.org/trunk/sushivision/gtksucks.c */
 void WulforUtil::remove_signals_from_widget(GtkWidget *widget, gint events)
 {
@@ -840,7 +840,7 @@ string WulforUtil::formatReport(const Identity& identity)
 
 	return report + "\n";
 }
-///From Crzdc
+///From CrzDC++
 string WulforUtil::generateLeech() {
 
 	char buf[650];
@@ -963,7 +963,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			string mach(u_name.machine);
 			struct sysinfo sys;//instance of acct;
 			y = sysinfo(&sys);
-			if(y!= 0)
+			if(y != 0)
 				dcdebug("Failed on sysinfo");
 			
 			unsigned long toram = sys.totalram * sys.mem_unit/1024;
@@ -1346,7 +1346,7 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, st
 
 				if(!tag)
 				{
-				tag = gtk_text_buffer_create_tag(buffer, word.c_str(),
+				 tag = gtk_text_buffer_create_tag(buffer, word.c_str(),
 					"foreground", fore.c_str(),
 					"background", back.c_str(),
 					"weight", tBold ? TEXT_WEIGHT_BOLD : TEXT_WEIGHT_NORMAL,
@@ -1356,7 +1356,6 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, st
 
 				}
 				TagsMap[Tag::TAG_HIGHL] = tag;//think about this  =P
-
 
 				if(tPopup)
 					WulforManager::get()->getMainWindow()->showNotification_gui(cs->getNoti()+":", word, Notify::HIGHLITING);
@@ -1389,7 +1388,7 @@ vector<std::pair<std::string,int> > WulforUtil::getActions()
 		}
 	return actions;
 }
-
+// TODO: remove if not used...
 void WulforUtil::drop_combo(GtkWidget *widget, vector<pair<std::string,int> > CONTEUDO)
 {
 	gtk_cell_layout_clear(GTK_CELL_LAYOUT(widget));
@@ -1414,7 +1413,7 @@ void WulforUtil::drop_combo(GtkWidget *widget, vector<pair<std::string,int> > CO
 	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(widget), renderer, TRUE);
 	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(widget),renderer, "text", 0, NULL);
 
-   gtk_combo_box_set_active(GTK_COMBO_BOX(widget),  0);
+    gtk_combo_box_set_active(GTK_COMBO_BOX(widget),  0);
 
 }
 
@@ -1582,4 +1581,3 @@ string WulforUtil::getStatsForMem() {
 			}
 			return tmp;
 }			
-

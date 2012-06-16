@@ -1063,7 +1063,7 @@ void MainWindow::showHub_gui(string address, string encoding)
 	boost::algorithm::trim(address);
 	if(address.empty())
 	{
-		showMessageDialog_gui("Empty hub address specified","Empty hub address specified");
+		showMessageDialog_gui(_("Empty hub address specified"),_("Empty hub address specified"));
 		return;
 	}
 	BookEntry *entry = findBookEntry(Entry::HUB, address);
@@ -2309,6 +2309,7 @@ void MainWindow::onAwayClicked_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 	typedef Func1<MainWindow, bool> F1;
+	
 	if(Util::getAway())
 	{
 		Util::switchAway();
@@ -2505,7 +2506,8 @@ void MainWindow::onAboutDialogActivateLink_gui(GtkAboutDialog *dialog, const gch
 	MainWindow *mw =(MainWindow *)data;
 	string error = Util::emptyString;
 	WulforUtil::openURI(link,error);
-	mw->setMainStatus_gui(error, time(NULL));
+	if(!error.empty())
+	    mw->setMainStatus_gui(error, time(NULL));
 }
 
 void MainWindow::onCloseBookEntry_gui(GtkWidget *widget, gpointer data)
@@ -2562,7 +2564,6 @@ void MainWindow::onStatusIconBlinkUseToggled_gui(GtkWidget *widget, gpointer dat
 	mw->removeTimerSource_gui();
 
 	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(mw->getWidget("statusIconBlinkUseItem"))))
-
 		mw->useStatusIconBlink = TRUE;
 	else
 		mw->useStatusIconBlink = FALSE;
@@ -2595,6 +2596,7 @@ void MainWindow::autoConnect_client()
 				WulforManager::get()->dispatchGuiFunc(func);
 			}
 		}
+		
 		if(hub->getAutoConnect())
 		{
 			typedef Func2<MainWindow, string, string> F2;
@@ -3059,7 +3061,7 @@ void MainWindow::parsePartial(HintedUser aUser, string txt)
 	if (raise)
 		raisePage_gui(entry->getContainer());
 }
-/**/
+/*..*/
 void MainWindow::on(QueueManagerListener::PartialList, const HintedUser& aUser, const string& text) noexcept {
 	typedef Func2<MainWindow, HintedUser, string> F2;
 	F2 *func = new F2(this,&MainWindow::parsePartial,aUser,text);
