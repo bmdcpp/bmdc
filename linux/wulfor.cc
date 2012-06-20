@@ -105,7 +105,6 @@ int main(int argc, char *argv[])
 	delete sp;
 	dcpp::TimerManager::getInstance()->start();
 
-	g_thread_init(NULL);
 	gdk_threads_init();
 	glade_init();
 	g_set_application_name("BMDC++");

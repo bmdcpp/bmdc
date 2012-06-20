@@ -504,5 +504,11 @@ Fix CMD Debug Frame
 Added /info cmd
 Added /raw cmd
 Added in Plugins Tab in Settings About Dialog..
+-----r126
+Fix leak in OpenSSL...
+-----r127
+Now New glib API Thread used (this relique at least glib 2.32)
+Maybe Fix SIGPIPE if few upload...
 -----
+
 

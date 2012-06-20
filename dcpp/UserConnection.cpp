@@ -251,12 +251,12 @@ void UserConnection::on(Failed, const string& aLine) noexcept {
 
 // # ms we should aim for per segment
 static const int64_t SEGMENT_TIME = 120*1000;
-static const int64_t MIN_CHUNK_SIZE = 256*1024;//r2647
+static const int64_t MIN_CHUNK_SIZE = 64*1024;
 
 void UserConnection::updateChunkSize(int64_t leafSize, int64_t lastChunk, uint64_t ticks) {
 
 	if(chunkSize == 0) {
-		chunkSize = std::max(/*(int64_t)64*1024*/MIN_CHUNK_SIZE, std::min(lastChunk, (int64_t)1024*1024));//r2648
+		chunkSize = std::max(MIN_CHUNK_SIZE, std::min(lastChunk, (int64_t)1024*1024));//r2648
 		return;
 	}
 

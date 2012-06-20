@@ -287,7 +287,7 @@ private:
 						Lock l(cs);
 						const QueueItem::StringMap q = QueueManager::getInstance()->getQueue();
 						for(QueueItem::StringMap::const_iterator i = q.begin(); i != q.end(); ++i) {
-							//i->second->inc();
+							i->second->inc();
 							if(i->second->countOnlineUsers() == 0)
 								continue;
 															

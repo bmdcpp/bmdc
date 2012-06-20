@@ -570,7 +570,7 @@ int Socket::write(const void* aBuffer, int aLen) {
 	if(aBuffer == NULL)
 		return 0;
 	
-	auto sent = check([&] { return ::send(getSock(), /*(const char*)*/aBuffer, aLen, 0); }, true);
+	auto sent = check([&] { return ::send(getSock(), (const char*)aBuffer, aLen, 0); }, true);
 	if(sent > 0) {
 		stats.totalUp += sent;
 	}

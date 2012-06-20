@@ -2585,7 +2585,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 				F2 *func = new F2( hub, &Hub::sendMessage_client, string(command_res), false );
 				WulforManager::get()->dispatchClientFunc(func);
 			}
-			g_io_channel_close( gio_chanel );
+			g_io_channel_shutdown( gio_chanel ,FALSE, NULL );
 			g_free( command_res );
 			pclose( pipe );
 		}

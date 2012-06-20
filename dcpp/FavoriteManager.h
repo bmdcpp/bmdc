@@ -102,6 +102,7 @@ public:
 		}
 		return NULL;
 	}
+	
 	bool hasSlotI(const string& nick) { 
 		FavoriteIUser* u = getIndepentFavorite(nick); 
 		return (u != NULL) ? (u->isSet(FavoriteIUser::FLAG_GRANTSLOT)) : false;
