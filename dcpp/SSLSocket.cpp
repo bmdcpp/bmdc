@@ -68,7 +68,7 @@ bool SSLSocket::waitConnected(uint32_t millis) {
 void SSLSocket::accept(const Socket& listeningSocket) {
 	Socket::accept(listeningSocket);
 
-	waitAccepted(0);
+	//waitAccepted(0);
 }
 
 bool SSLSocket::waitAccepted(uint32_t millis) {
@@ -220,10 +220,11 @@ void SSLSocket::shutdown() noexcept {
 }
 
 void SSLSocket::close() noexcept {
+	ERR_remove_state(0);
 	if(ssl) {
 		ssl.reset();
 	}
-	ERR_remove_state(0);
+	
 	Socket::shutdown();
 	Socket::close();
 }

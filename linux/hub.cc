@@ -35,6 +35,7 @@
 	#include <dcpp/ScriptManager.h>
 #endif
 #include <dcpp/PluginManager.h>
+#include <dcpp/ConnectivityManager.h>
 
 #include "privatemessage.hh"
 #include "search.hh"
@@ -64,7 +65,7 @@ Hub::Hub(const string &address, const string &encoding):
 	ImgLimit(0)
 {
 	// Configure the dialog
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")), TRUE);
+	//gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")), TRUE);
 
 	// Initialize nick treeview
 	nickView.setView(GTK_TREE_VIEW(getWidget("nickView")), true, "hub");
@@ -338,6 +339,13 @@ Hub::Hub(const string &address, const string &encoding):
 	RecentHubEntry* r = FavoriteManager::getInstance()->getRecentHubEntry(address);
 	if(r == NULL)
 		FavoriteManager::getInstance()->addRecent(entry);
+	
+	auto faventry =  FavoriteManager::getInstance()->getFavoriteHubEntry(address);
+	if(faventry)
+	{
+		bool showUserList = faventry->getShowUserList();
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")), showUserList);
+	}	
 }
 
 void Hub::setColorsRows()
@@ -453,6 +461,11 @@ Hub::~Hub()
 		r->setShared(Util::toString(client->getAvailable()));
 		FavoriteManager::getInstance()->updateRecent(r);
 	}
+	
+	bool showUL = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")));
+	auto entry = FavoriteManager::getInstance()->getFavoriteHubEntry(address);
+	entry->setShowUserList(showUL);
+	FavoriteManager::getInstance()->save();
 
 	disconnect_client();
 
@@ -2537,8 +2550,11 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
                   text += _("\n") + (*i).first + _(": ") + Text::toT((*i).second);
              }
            hub->addMessage_gui("",text,Msg::SYSTEM);
-		}
-		else if (command == "pm")
+		} else if ( command == "conn"){
+			auto info = ConnectivityManager::getInstance()->getInformation();
+			hub->addMessage_gui("",info, Msg::SYSTEM);
+		
+		}else if (command == "pm")
 		{
 			size_t j = params.find(" ");
 			if(j != string::npos)
@@ -2559,10 +2575,11 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if (command == "userlist")
 		{
-			if (GTK_WIDGET_VISIBLE(hub->getWidget("scrolledwindow2")))
+			if (GTK_WIDGET_VISIBLE(hub->getWidget("scrolledwindow2"))) {
 				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(hub->getWidget("userListCheckButton")), FALSE);
-			else
+			} else {
 				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(hub->getWidget("userListCheckButton")), TRUE);
+			}
 		}
 		#ifdef _USELUA
 		else if (command == "lua" ) {
@@ -3009,11 +3026,12 @@ void Hub::onMagnetPropertiesClicked_gui(GtkMenuItem *item, gpointer data)
 void Hub::onUserListToggled_gui(GtkWidget *widget, gpointer data)
 {
 	Hub *hub = (Hub *)data;
-
-	if (GTK_WIDGET_VISIBLE(hub->getWidget("scrolledwindow2")))
+	
+	if (GTK_WIDGET_VISIBLE(hub->getWidget("scrolledwindow2"))) {
 		gtk_widget_hide(hub->getWidget("scrolledwindow2"));
-	else
+	} else {
 		gtk_widget_show_all(hub->getWidget("scrolledwindow2"));
+	}
 }
 
 void Hub::onAddFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data)

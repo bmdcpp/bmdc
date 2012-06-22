@@ -509,6 +509,9 @@ Fix leak in OpenSSL...
 -----r127
 Now New glib API Thread used (this relique at least glib 2.32)
 Maybe Fix SIGPIPE if few upload...
------
-
-
+-----r128
+Fix PubHubsTab stuck disabled after a download attempt from an invalid URL and few sync with dcpp
+Add Color of Text on Tabs
+Add Remeber of Checkbox of Userlist
+add command /conn
+Fix SIGPIPE finaly...

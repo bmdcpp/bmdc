@@ -115,9 +115,7 @@ void ConnectivityManager::detectConnection() {
 	autoSettings[SettingsManager::INCOMING_CONNECTIONS] = SettingsManager::INCOMING_FIREWALL_UPNP;
 	log(_("Local network with possible NAT detected, trying to map the ports..."));
 
-	if(!MappingManager::getInstance()->open()) {
-		running = false;
-	}
+	startMapping();
 }
 
 void ConnectivityManager::setup(bool settingsChanged) {
@@ -134,9 +132,9 @@ void ConnectivityManager::setup(bool settingsChanged) {
 				MappingManager::getInstance()->close();
 			}
 			startSocket();
-		} else if(SETTING(INCOMING_CONNECTIONS) == SettingsManager::INCOMING_FIREWALL_UPNP && !MappingManager::getInstance()->getOpened()) {
+		} else if(SETTING(INCOMING_CONNECTIONS) == SettingsManager::INCOMING_FIREWALL_UPNP && !running) {
 			// previous mappings had failed; try again
-			MappingManager::getInstance()->open();
+			startMapping();
 		}
 	}
 }
@@ -158,6 +156,10 @@ void ConnectivityManager::editAutoSettings() {
 }
 
 string ConnectivityManager::getInformation() const {
+	if(running) {
+		return _("Connectivity settings are being configured; try again later");
+	}
+
 	string autoStatus = ok() ? str(F_("enabled - %1%") % getStatus()) : _("disabled");
 
 	string mode;
@@ -170,7 +172,8 @@ string ConnectivityManager::getInformation() const {
 		}
 	case SettingsManager::INCOMING_FIREWALL_UPNP:
 		{
-			mode = str(F_("Connection behind a router that %1% has configured with %2%") % APPNAME % SETTING(MAPPER));
+			mode = str(F_("Active mode behind a router that %1% can configure; port mapping status: %2%") %
+				APPNAME % MappingManager::getInstance()->getStatus());
 			break;
 		}
 	case SettingsManager::INCOMING_FIREWALL_NAT:
@@ -185,20 +188,30 @@ string ConnectivityManager::getInformation() const {
 		}
 	}
 
-	string ip = CONNSETTING(EXTERNAL_IP);
-	if(ip.empty()) {
-		ip = _("undefined");
-	}
+	auto field = [](const string& s) { return s.empty() ? _("undefined") : s; };
 
 	return str(F_(
 		"Connectivity information:\n\n"
 		"Automatic connectivity setup is: %1%\n\n"
 		"\t%2%\n"
-		"\tExternal IP: %3%\n"
-		"\tTransfer port: %4%\n"
-		"\tEncrypted transfer port: %5%\n"
-		"\tSearch port: %6%") % autoStatus % mode % ip % ConnectionManager::getInstance()->getPort() %
-		ConnectionManager::getInstance()->getSecurePort() % SearchManager::getInstance()->getPort());
+		"\tExternal IP (v4): %3%\n"
+		"\tExternal IP (v6): %4%\n"
+		"\tBound interface (v4): %5%\n"
+		"\tBound interface (v6): %6%\n"
+		"\tTransfer port: %7%\n"
+		"\tEncrypted transfer port: %8%\n"
+		"\tSearch port: %9%") % autoStatus % mode %
+		field(CONNSETTING(EXTERNAL_IP)) % field(CONNSETTING(EXTERNAL_IP6)) %
+		field(CONNSETTING(BIND_ADDRESS)) % field(CONNSETTING(BIND_ADDRESS6)) %
+		field(ConnectionManager::getInstance()->getPort()) % field(ConnectionManager::getInstance()->getSecurePort()) %
+		field(SearchManager::getInstance()->getPort()));
+}
+
+void ConnectivityManager::startMapping() {
+	running = true;
+	if(!MappingManager::getInstance()->open()) {
+		running = false;
+	}
 }
 
 void ConnectivityManager::mappingFinished(const string& mapper) {
@@ -218,7 +231,7 @@ void ConnectivityManager::mappingFinished(const string& mapper) {
 
 void ConnectivityManager::log(string&& message) {
 	if(BOOLSETTING(AUTO_DETECT_CONNECTION)) {
-		status = forward<string>(message);
+		status = move(message);
 		LogManager::getInstance()->message(_("Connectivity: ") + status);
 		fire(ConnectivityManagerListener::Message(), status);
 	} else {
@@ -235,8 +248,8 @@ void ConnectivityManager::startSocket() {
 		listen();
 
 		// must be done after listen calls; otherwise ports won't be set
-		if(SETTING(INCOMING_CONNECTIONS) == SettingsManager::INCOMING_FIREWALL_UPNP)
-			MappingManager::getInstance()->open();
+		if(SETTING(INCOMING_CONNECTIONS) == SettingsManager::INCOMING_FIREWALL_UPNP && !running)
+			startMapping();
 	}
 }
 
@@ -258,15 +271,5 @@ void ConnectivityManager::disconnect() {
 	SearchManager::getInstance()->disconnect();
 	ConnectionManager::getInstance()->disconnect();
 }
-/*
-void ConnectivityManager::log(string&& message) {
-	if(BOOLSETTING(AUTO_DETECT_CONNECTION)) {
-		status = forward<string>(message);
-		LogManager::getInstance()->message(_("Connectivity: ") + status);
-		fire(ConnectivityManagerListener::Message(), status);
-	} else {
-		LogManager::getInstance()->message(message);
-	}
-}*/
 
 } // namespace dcpp

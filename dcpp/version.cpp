@@ -24,13 +24,14 @@
 #ifndef DCPP_REVISION
 //#define DCPP_REVISION 2869
 //#define DCPP_REVISION 2923
-#define DCPP_REVISION 2929
-#define DCPP_REVISION_STRING "2929p"
+//#define DCPP_REVISION 2929
+#define DCPP_REVISION 2958
+#define DCPP_REVISION_STRING "2958p"
 #endif
 #ifndef BMDC_REVISION
-	#define BMDC_REVISION 127
+	#define BMDC_REVISION 128
 #endif
-	#define BMDC_REVISION_STRING "127"
+	#define BMDC_REVISION_STRING "128"
 
 #define xstrver(s) strver(s)
 #define strver(s) #s

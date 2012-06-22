@@ -84,8 +84,14 @@ inline auto check(F f, bool blockOk = false) -> decltype(f()) {
 		if(ret != static_cast<decltype(ret)>(-1)) {
 			return ret;
 		}
+		dcdebug("\n");
+		perror("Chyba");
+		dcdebug("\n");
 
 		auto error = getLastError();
+		
+		if (error == ENOMEM) return 0;
+		
 		if(blockOk && (error == EWOULDBLOCK || error == ENOBUFS || error == EINPROGRESS || error == EAGAIN)) {
 			return -1;
 		}
@@ -95,6 +101,8 @@ inline auto check(F f, bool blockOk = false) -> decltype(f()) {
 		if(error != EINTR) {
 			throw SocketException(error);
 		}
+		
+		
 	}
 }
 
@@ -240,11 +248,12 @@ socket_t Socket::getSock() const {
 			// TODO Neither connected - but this will become a race if the IPv4 socket connects while
 			// we're still using the IPv6 one...
 		}
-
+		
 		return sock6;
 	}
-
-	return sock4;
+	if(isConnected(sock4))
+		return sock4;
+	else return INVALID_SOCKET;	
 }
 
 void Socket::setBlocking(bool block) noexcept {
@@ -567,7 +576,7 @@ void Socket::writeAll(const void* aBuffer, int aLen, uint32_t timeout) {
 }
 
 int Socket::write(const void* aBuffer, int aLen) {
-	if(aBuffer == NULL)
+	if(aBuffer == NULL || aLen == 0)
 		return 0;
 	
 	auto sent = check([&] { return ::send(getSock(), (const char*)aBuffer, aLen, 0); }, true);
@@ -776,7 +785,6 @@ Socket::addrinfo_p Socket::resolveAddr(const string& name, const string& port, i
 	addrinfo *result = 0;
 
 	auto err = ::getaddrinfo(name.empty() ? NULL : name.c_str(), port.empty() ? NULL : port.c_str(), &hints, &result);
-	 //auto err = ::getaddrinfo(name.c_str(), port.empty() ? NULL : port.c_str(), &hints, &result);
 	if(err) {
 		throw SocketException(err);
 	}
@@ -872,8 +880,18 @@ void Socket::socksUpdated() {
 }
 
 void Socket::shutdown() noexcept {
-	if(sock4.valid()) ::shutdown(sock4, 2);
-	if(sock6.valid()) ::shutdown(sock6, 2);
+	int ret = 0, ret6 = 0;
+	if(sock4.valid()) {
+	  ret =	::shutdown(sock4, SHUT_RDWR);
+	 } 
+	if(sock6.valid()) {
+	   ret6	= ::shutdown(sock6, SHUT_RDWR);
+	} 
+		
+	if(ret == -1 || ret6 == -1)	{
+		dcdebug ("Not succesfull shutdown of Socket %d - %d - %d\n",ret,ret6, errno);
+		perror("Go Away!");
+	}	
 }
 
 void Socket::close() noexcept {

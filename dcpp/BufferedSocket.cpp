@@ -21,7 +21,7 @@
 
 #include <algorithm>
 #include <boost/scoped_array.hpp>
-
+#include "ConnectivityManager.h"
 #include "TimerManager.h"
 #include "SettingsManager.h"
 #include "Streams.h"
@@ -43,6 +43,7 @@ separator(aSeparator), mode(MODE_LINE), dataBytes(0), rollback(0), state(STARTIN
 disconnecting(false), v4only(v4only)
 {
 	start();
+
 	++sockets;
 }
 
@@ -74,6 +75,7 @@ void BufferedSocket::setMode (Modes aMode, size_t aRollback) {
 void BufferedSocket::setSocket(unique_ptr<Socket>&& s) {
 	dcassert(!sock.get());
 	sock = move(s);
+	sock->setV4only(v4only);
 }
 
 void BufferedSocket::setOptions() {
@@ -103,15 +105,16 @@ void BufferedSocket::connect(const string& aAddress, const string& aPort, bool s
 
 void BufferedSocket::connect(const string& aAddress, const string& aPort, const string& localPort, NatRoles natRole, bool secure, bool allowUntrusted, bool proxy) {
 	dcdebug("BufferedSocket::connect() %p\n", (void*)this);
-	unique_ptr<Socket> s(secure ? (natRole == NAT_SERVER ? CryptoManager::getInstance()->getServerSocket(allowUntrusted) : CryptoManager::getInstance()->getClientSocket(allowUntrusted)) : new Socket(Socket::TYPE_TCP));
+	unique_ptr<Socket> s(secure ? (natRole == NAT_SERVER ? CryptoManager::getInstance()->getServerSocket(allowUntrusted) :
+		CryptoManager::getInstance()->getClientSocket(allowUntrusted)) : new Socket(Socket::TYPE_TCP));
 
-	s->setLocalIp4(SETTING(BIND_ADDRESS));
-	s->setLocalIp6(SETTING(BIND_ADDRESS6));
+	s->setLocalIp4(CONNSETTING(BIND_ADDRESS));
+	s->setLocalIp6(CONNSETTING(BIND_ADDRESS6));
 
 	setSocket(move(s));
 
 	Lock l(cs);
-	addTask(CONNECT, new ConnectInfo(aAddress, aPort, localPort, natRole, proxy && (SETTING(OUTGOING_CONNECTIONS) == SettingsManager::OUTGOING_SOCKS5)));
+	addTask(CONNECT, new ConnectInfo(aAddress, aPort, localPort, natRole, proxy && (CONNSETTING(OUTGOING_CONNECTIONS) == SettingsManager::OUTGOING_SOCKS5)));
 }
 
 #define LONG_TIMEOUT 30000
@@ -128,13 +131,13 @@ void BufferedSocket::threadConnect(const string& aAddr, const string& aPort, con
 		dcdebug("threadConnect attempt %s %s:%s\n", localPort.c_str(), aAddr.c_str(), aPort.c_str());
 		try {
 
-			setOptions();
-
 			if(proxy) {
 				sock->socksConnect(aAddr, aPort, LONG_TIMEOUT);
 			} else {
 				sock->connect(aAddr, aPort, localPort);
 			}
+
+			setOptions();
 
 			bool connSucceeded;
 			while(!(connSucceeded = sock->waitConnected(POLL_TIMEOUT)) && endTime >= GET_TICK()) {
@@ -432,7 +435,7 @@ bool BufferedSocket::checkEvents() {
 		pair<Tasks, unique_ptr<TaskData> > p;
 		{
 			Lock l(cs);
-			dcassert(tasks.size() > 0);
+			dcassert(!tasks.empty());
 			p = move(tasks.front());
 			tasks.erase(tasks.begin());
 		}

@@ -21,6 +21,7 @@
 
 #include <unordered_map>
 #include "HubSettings.h"
+
 namespace dcpp {
 typedef std::unordered_map<string, HubSettings> FavHubGroups;
 typedef FavHubGroups::value_type FavHubGroup;

@@ -459,8 +459,6 @@ void FavoriteManager::save() {
 		for(FavHubGroups::const_iterator i = favHubGroups.begin(), iend = favHubGroups.end(); i != iend; ++i) {
 			xml.addTag("Group");
 			xml.addChildAttrib("Name", i->first);
-			//xml.addChildAttrib("Private", i->second.priv);
-			//xml.addChildAttrib("Connect", i->second.connect);
 			i->second.save(xml);
 		}
 
@@ -486,6 +484,7 @@ void FavoriteManager::save() {
 			xml.addChildAttrib("Protects", (*i)->getProtectUsers());
 			xml.addChildAttrib("TabText", (*i)->getTabText());
 			xml.addChildAttrib("TabIcon", (*i)->getTabIconStr());
+			xml.addChildAttrib("UserListToggle", (*i)->getShowUserList());
 			(*i)->save(xml);
 			//RSX++
 			xml.stepIn();
@@ -679,8 +678,6 @@ void FavoriteManager::load(SimpleXML& aXml) {
 			string name = aXml.getChildAttrib("Name");
 			if(name.empty())
 				continue;
-			//FavHubGroupProperties props = { aXml.getBoolChildAttrib("Private"), aXml.getBoolChildAttrib("Connect") };
-			//favHubGroups[name] = props;
 			HubSettings settings;
             settings.load(aXml);
             favHubGroups[name] = std::move(settings);
@@ -708,19 +705,10 @@ void FavoriteManager::load(SimpleXML& aXml) {
 			e->setProtectUsers(aXml.getChildAttrib("Protects"));
 			e->setTabText(aXml.getChildAttrib("TabText"));
 			e->setTabIconStr(aXml.getChildAttrib("TabIcon"));
+			e->setShowUserList(Util::toInt(aXml.getChildAttrib("UserListToggle")));
 			e->load(aXml);
 			favoriteHubs.push_back(e);
 
-			/*if(aXml.getBoolChildAttrib("Connect")) {
-				// this entry dates from before the window manager & fav hub groups; convert it.
-				const string name = _("Auto-connect group (converted)");
-				if(favHubGroups.find(name) == favHubGroups.end()) {
-					FavHubGroupProperties props = { false, true };
-					favHubGroups[name] = props;
-				}
-				e->setGroup(name);
-				needSave = true;
-			}*/
 			aXml.stepIn();
 			while(aXml.findChild("Action")) {
 				int actionId = aXml.getIntChildAttrib("ID");
@@ -904,23 +892,7 @@ FavoriteHubEntryList FavoriteManager::getFavoriteHubs(const string& group) const
 			ret.push_back(*i);
 	return ret;
 }
-/*
-bool FavoriteManager::isPrivate(const string& url) const {
-	if(url.empty())
-		return false;
 
-	FavoriteHubEntry* fav = getFavoriteHubEntry(url);
-	if(fav) {
-		const string& name = fav->getGroup();
-		if(!name.empty()) {
-			FavHubGroups::const_iterator group = favHubGroups.find(name);
-			if(group != favHubGroups.end())
-				return group->second.priv;
-		}
-	}
-	return false;
-}
-*/
 optional<FavoriteUser> FavoriteManager::getFavoriteUser(const UserPtr &aUser) const {
 	Lock l(cs);
 	auto i = users.find(aUser->getCID());
@@ -1023,11 +995,14 @@ void FavoriteManager::setHubList(int aHubList) {
 
 void FavoriteManager::refresh(bool forceDownload /* = false */) {
 	StringList sl = getHubLists();
-	if(sl.empty())
+	if(sl.empty()) {
+		fire(FavoriteManagerListener::DownloadFailed(), Util::emptyString);
 		return;
+	}	
 	publicListServer = sl[(lastServer) % sl.size()];
 	if(Util::strnicmp(publicListServer.c_str(), "http://", 7) != 0) {
 		lastServer++;
+		fire(FavoriteManagerListener::DownloadFailed(), str(F_("Invalid URL: %1%") % Util::addBrackets(publicListServer)));
 		return;
 	}
 

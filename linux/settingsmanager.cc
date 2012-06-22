@@ -159,6 +159,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("book-font-size",0.1));
 	defaultInt.insert(IntMap::value_type("book-three-button-disable",0));
 	defaultInt.insert(IntMap::value_type("key-hub-with-ctrl",0));
+	defaultInt.insert(IntMap::value_type("colorize-tab-text",1));
     ///BMDC]
 	defaultString.insert(StringMap::value_type("magnet-choose-dir", SETTING(DOWNLOAD_DIRECTORY)));
 	defaultString.insert(StringMap::value_type("downloadqueue-order", ""));
@@ -382,6 +383,9 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("sound-command", "aplay -q"));
 	defaultString.insert(StringMap::value_type("last-searchs", "."));
 	defaultString.insert(StringMap::value_type("background-color-chat", "#7F7F7F"));
+	
+	defaultString.insert(StringMap::value_type("color-tab-text-bold", "blue"));
+	defaultString.insert(StringMap::value_type("color-tab-text-urgent", "blue"));
 	
 	load();
 

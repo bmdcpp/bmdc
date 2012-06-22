@@ -207,6 +207,11 @@ Settings::Settings(GtkWindow* parent):
 	defaultIntTheme.insert(IntMap::value_type("text-cheat-italic", 0));
 	defaultIntTheme.insert(IntMap::value_type("text-high-bold", 1));
 	defaultIntTheme.insert(IntMap::value_type("text-high-italic", 0));
+	//Tab
+	defaultStringTheme.insert(StringMap::value_type("color-tab-text-bold", "blue"));
+	defaultStringTheme.insert(StringMap::value_type("color-tab-text-urgent", "blue"));
+	defaultIntTheme.insert(IntMap::value_type("colorize-tab-text",1));
+	
 	//For Highlighting...
 	isSensitiveHG[0] = isSensitiveHG[1] = isSensitiveHG[2] = isSensitiveHG[3] = FALSE;
 	// Initialize the tabs in the GtkNotebook.

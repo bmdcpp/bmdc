@@ -1,4 +1,5 @@
-Mank,branec (icons)
+Mank
+branec (icons)
 iceman50 (ZLIF & hash password on NMDC)
 curse (ShellCommand&custom rc styles)
 troll.freedcpp (FreeDC++ code)

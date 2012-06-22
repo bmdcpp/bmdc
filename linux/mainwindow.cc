@@ -2255,7 +2255,8 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 		{
 			// previous UPnP mappings had failed; try again
 			MappingManager::getInstance()->open();
-		}
+		}else if(SETTING(OUTGOING_CONNECTIONS) == SettingsManager::OUTGOING_SOCKS5)
+			Socket::socksUpdated();
 		
 		if (BOOLSETTING(ALWAYS_TRAY))
 			gtk_status_icon_set_visible(mw->statusIcon, TRUE);

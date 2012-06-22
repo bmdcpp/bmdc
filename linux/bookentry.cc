@@ -244,11 +244,15 @@ bool BookEntry::isActive_gui()
 void BookEntry::updateLabel_gui()
 {
 	const char *format = "%s";
+	bool color = WGETB("colorize-tab-text");
+	string colortext = "<span foreground=\"";
+	colortext +=   urgent ? WGETS("color-tab-text-urgent") : WGETS("color-tab-text-bold");
+	colortext += "\">%s</span>";
 
 	if (urgent)
-		format = "<i><b>%s</b></i>";
+		format = color ? colortext.c_str() : "<i><b>%s</b></i>";
 	else if (bold)
-		format = "<b>%s</b>";
+		format = color ? colortext.c_str() : "<b>%s</b>";
 
 	char *markup = g_markup_printf_escaped(format, truncatedLabelText.c_str());
 	gtk_label_set_markup(label, markup);
