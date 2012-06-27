@@ -629,7 +629,6 @@ void MainWindow::setInitThrotles()
 {
 	int up = SETTING(MAX_UPLOAD_SPEED_MAIN);
 	int down = SETTING(MAX_DOWNLOAD_SPEED_MAIN);
-	GtkWidget *dummy = gtk_menu_item_new();
 	bool enabled = SETTING(THROTTLE_ENABLE);
 	if(enabled && (up > 0) ) {
 		setLimitingIcon(true);
@@ -1061,11 +1060,13 @@ void MainWindow::showFinishedUploads_gui()
 void MainWindow::showHub_gui(string address, string encoding)
 {
 	boost::algorithm::trim(address);
+	
 	if(address.empty())
 	{
 		showMessageDialog_gui(_("Empty hub address specified"),_("Empty hub address specified"));
 		return;
 	}
+	
 	BookEntry *entry = findBookEntry(Entry::HUB, address);
 
 	if (entry == NULL)

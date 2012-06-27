@@ -96,7 +96,7 @@ public:
 	string getIpPort() const { return getIp() + ':' + port; }
 	string getLocalIp() const;
 
-	void updated(const OnlineUser *aUser) { fire(ClientListener::UserUpdated(), this, (*aUser)); }
+	//void updated(const OnlineUser *aUser) { fire(ClientListener::UserUpdated(), this, (*aUser)); }
 	void updated(const OnlineUser& aUser) { fire(ClientListener::UserUpdated(), this, aUser); }
 
 	void cheatMessage(const string& message) { fire(ClientListener::CheatMessage(), this, message); }

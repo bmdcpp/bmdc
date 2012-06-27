@@ -405,7 +405,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
             {
                 string report = u.getIdentity().myInfoDetect(u);
                 if(!report.empty()) {
-                    updated(&u);
+                    updated(u);
                     cheatMessage(report);
                 }
             }

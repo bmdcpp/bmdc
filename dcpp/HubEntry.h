@@ -68,10 +68,10 @@ public:
 
 class FavoriteHubEntry: public HubSettings {
 public:
-	FavoriteHubEntry() : encoding(Text::systemCharset) { }
+	FavoriteHubEntry() : encoding(Text::systemCharset), showUserList(false) { }
 	
 	FavoriteHubEntry(const HubEntry& rhs) : name(rhs.getName()), server(rhs.getServer()),
-		hubDescription(rhs.getDescription()), encoding(Text::systemCharset) , tabText(Util::emptyString) , tabIconStr(Util::emptyString), autoConnect(false), showUserList(true) { }
+		hubDescription(rhs.getDescription()), encoding(Text::systemCharset) , tabText(Util::emptyString) , tabIconStr(Util::emptyString), autoConnect(false), showUserList(false) { }
 	
 	FavoriteHubEntry(const FavoriteHubEntry& rhs) : 
 		name(rhs.getName()), server(rhs.getServer()), hubDescription(rhs.getDescription()),

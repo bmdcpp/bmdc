@@ -192,7 +192,7 @@ void AdcHub::handle(AdcCommand::INF, AdcCommand& c) noexcept {
 		string report = u->getIdentity().myInfoDetect(*u);
 		if(!report.empty()) {
 			cheatMessage(report);
-			updated(u);
+			updated(*u);
 		}
 	}
 

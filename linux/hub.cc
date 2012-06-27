@@ -464,9 +464,10 @@ Hub::~Hub()
 	
 	bool showUL = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")));
 	auto entry = FavoriteManager::getInstance()->getFavoriteHubEntry(address);
-	entry->setShowUserList(showUL);
-	FavoriteManager::getInstance()->save();
-
+	if(entry) {
+		entry->setShowUserList(showUL);
+		FavoriteManager::getInstance()->save();
+	}
 	disconnect_client();
 
 	// Save the pane position

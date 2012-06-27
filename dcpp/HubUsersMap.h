@@ -136,12 +136,12 @@ private:
 						break;
 					}
 					{
-						OnlineUserPtr ou = *i;
-						if(ou->isCheckable()) {
-							string report = ou->getIdentity().myInfoDetect(*ou);
+						OnlineUser& ou = *(*i);
+						if(ou.isCheckable()) {
+							string report = ou.getIdentity().myInfoDetect(*(&(ou)));
 							if(!report.empty()) {
-								ou->getClient().cheatMessage(report);
-								ou->getClient().updated(ou);
+								ou.getClient().cheatMessage(report);
+								ou.getClient().updated(ou);
 							}
 						}
 					}
@@ -213,27 +213,27 @@ private:
 			BREAK = 0x20
 		};
 
-		int preformUserCheck(OnlineUser* ou, const uint8_t clientItems, const uint8_t filelistItems) {
-			if(!ou->isCheckable((uint16_t)SETTING(CHECK_DELAY)))
+		int preformUserCheck(OnlineUser& ou, const uint8_t clientItems, const uint8_t filelistItems) {
+			if(!ou.isCheckable((uint16_t)SETTING(CHECK_DELAY)))
 				return CONTINUE;
 			if(isADC) {
-				if((ou->getUser()->isSet(User::NO_ADC_1_0_PROTOCOL_BIT) || ou->getUser()->isSet(User::NO_ADCS_0_10_PROTOCOL_BIT)) &&
-					!(ou->getIdentity().isClientChecked() || ou->getIdentity().isFileListChecked())) {
+				if((ou.getUser()->isSet(User::NO_ADC_1_0_PROTOCOL_BIT) || ou.getUser()->isSet(User::NO_ADCS_0_10_PROTOCOL_BIT)) &&
+					!(ou.getIdentity().isClientChecked() || ou.getIdentity().isFileListChecked())) {
 					//nasty...
-					ou->getIdentity().setTestSURChecked(Util::toString(GET_TIME()));
-					ou->getIdentity().setFileListChecked(Util::toString(GET_TIME()));
-					string report = ou->setCheat("No ADC 1.0/0.10 support", true, false, false);
+					ou.getIdentity().setTestSURChecked(Util::toString(GET_TIME()));
+					ou.getIdentity().setFileListChecked(Util::toString(GET_TIME()));
+					string report = ou.setCheat("No ADC 1.0/0.10 support", true, false, false);
 					client->updated(ou);
 					client->cheatMessage(report);
 					return BREAK;
 				}
 			}
-			Identity& i = ou->getIdentity();
+			Identity& i = ou.getIdentity();
 			if(i.isHidden())
 				return CONTINUE;
 			if(getCheckClients() && clientItems < SETTING(MAX_TESTSURS)) {
-				if(ou->shouldCheckClient()) {
-					if(!ou->getChecked(false, false)) {
+				if(ou.shouldCheckClient()) {
+					if(!ou.getChecked(false, false)) {
 						return ADD_CLIENT_CHECK | BREAK;
 					}
 				} else if(i.isClientQueued() && i.isClientChecked()) {
@@ -242,8 +242,8 @@ private:
 			}
 			if(getCheckFilelists() && filelistItems < SETTING(MAX_FILELISTS)) {
 				if(canCheckFilelist) {
-					if(ou->shouldCheckFileList()) {
-						if(!ou->getChecked(true, false)) {
+					if(ou.shouldCheckFileList()) {
+						if(!ou.getChecked(true, false)) {
 							return ADD_FILELIST_CHECK | BREAK;
 						}
 					}
@@ -306,7 +306,7 @@ private:
 						for(typename BaseMap::const_iterator i = users->begin(); i != users->end(); ++i) {
 							if(!inThread)
 								break;
-							action = preformUserCheck(i->second, t, f);
+							action = preformUserCheck((*(i->second)), t, f);
 							if(action & CONTINUE) {
 								continue;
 							}

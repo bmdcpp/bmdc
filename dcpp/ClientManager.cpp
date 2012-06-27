@@ -1007,7 +1007,7 @@ void ClientManager::checkCheating(const HintedUser& p, DirectoryListing* dl) {
 	if(ou) {
 		ou->getIdentity().setFileListComplete("1");
 		ou->getIdentity().setFileListQueued("0");
-		ou->getClient().updated(ou);
+		ou->getClient().updated(*ou);
 		if(!report.empty()) {
 			ou->getClient().cheatMessage(report);
 		}
@@ -1059,7 +1059,7 @@ void ClientManager::setCheating(const UserPtr& p, const string& _ccResponse, con
 	}
 	
 	if(ou) {
-		ou->getClient().updated(ou);
+		ou->getClient().updated(*ou);
 		if(!report.empty())
 			ou->getClient().cheatMessage(report);
 	}
@@ -1149,7 +1149,7 @@ void ClientManager::setListSize(const UserPtr& p, int64_t aFileLength, bool adc)
 	}
 	 
 	if(ou) {
-		ou->getClient().updated(ou);
+		ou->getClient().updated(*ou);
 		if(!report.empty())
 			ou->getClient().cheatMessage(report);
 	}

@@ -143,7 +143,7 @@ ShareBrowser::ShareBrowser(UserPtr user, const string &file, const string &initi
 	g_signal_connect(getWidget("downloadPartialDir"), "activate", G_CALLBACK(onClickedPartial), (gpointer)this);
 	
 	GError *error = NULL;
-	g_thread_create(threadLoad_list, (gpointer)this, FALSE, &error);
+	g_thread_try_new("share_browser",threadLoad_list, (gpointer)this, &error);
 	if (error) g_error_free(error);
 }
 
@@ -162,8 +162,6 @@ ShareBrowser::~ShareBrowser()
 
 void ShareBrowser::show()
 {
-	//buildList_gui();
-	//openDir_gui(initialDirectory);
 	updateStatus_gui();
 	WulforManager::get()->getMainWindow()->setMainStatus_gui(_("File list loaded"));
 }

@@ -283,7 +283,7 @@ string Identity::checkFilelistGenerator(OnlineUser& ou)
 			string report = ou.setCheat("rmDC++ in StrongDC++ %[userVE] emulation mode" , true, false, true);
 			setClientType("rmDC++");
 			logDetection(true);
-			ou.getClient().updated(&ou);
+			ou.getClient().updated(ou);
 			ClientManager::getInstance()->sendAction(ou, SETTING(RMDC_RAW));
 			return report;
 		}
@@ -294,7 +294,7 @@ string Identity::checkFilelistGenerator(OnlineUser& ou)
 			if(get("FI").empty() || get("FB").empty()) {
 				string report = ou.setCheat("DC++ emulation", true, false, true);
 				logDetection(true);
-				ou.getClient().updated(&ou);
+				ou.getClient().updated(ou);
 				ClientManager::getInstance()->sendAction(ou,SETTING(DCPP_EMULATION_RAW));
 				return report;
 			}
@@ -302,7 +302,7 @@ string Identity::checkFilelistGenerator(OnlineUser& ou)
 			if(!get("FI").empty() || !get("FB").empty()) {
 				string report = ou.setCheat("DC++ emulation", true, false, true);
 				logDetection(true);
-				ou.getClient().updated(&ou);
+				ou.getClient().updated(ou);
 				ClientManager::getInstance()->sendAction(ou,SETTING(DCPP_EMULATION_RAW));
 				return report;
 			}
@@ -314,7 +314,7 @@ string Identity::checkFilelistGenerator(OnlineUser& ou)
 		if(!get("VE").empty() && (get("VE") != getFilelistGeneratorVer())) {
 			string report = ou.setCheat("Filelist Version mis-match", false, true, BOOLSETTING(SHOW_FILELIST_VERSION_MISMATCH));
 			logDetection(true);
-			ou.getClient().updated(&ou);
+			ou.getClient().updated(ou);
 			ClientManager::getInstance()->sendAction(ou, SETTING(FILELIST_VERSION_MISMATCH));
 			return report;
 		}
