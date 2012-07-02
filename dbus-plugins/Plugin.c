@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2012 Mank (GTK/Linux stuff)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -478,8 +479,6 @@ BOOL CALLBACK configProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	}
 	return FALSE;
 }
-#endif
-#ifdef _WIN32
 Bool onConfig(dcptr_t hWnd) {
 
 	DialogBox(hInst, MAKEINTRESOURCE(IDD_PLUGINDLG), (HWND)hWnd, (DLGPROC)&configProc);
@@ -497,19 +496,38 @@ Bool onConfig(dcptr_t widget) {
                                          GTK_RESPONSE_CANCEL,
                                          NULL));
    GtkWidget *content_area = gtk_dialog_get_content_area (dialog);                              
-   GtkWidget *entry = gtk_entry_new();
-   GtkWidget *label = gtk_label_new("Format string: ");
-   gtk_container_add(GTK_CONTAINER(content_area),label);
-   gtk_container_add(GTK_CONTAINER(content_area), entry);
-   gtk_widget_show(entry); 
-   gtk_widget_show(label);
-   gtk_entry_set_text(GTK_ENTRY(entry) , get_cfg("MediaPlayerFormat")->value);                               
-    gint response  = gtk_dialog_run(dialog);
    
-    if(response == GTK_RESPONSE_OK)
+   GtkWidget *entryformat = gtk_entry_new();
+   GtkWidget *labelformat = gtk_label_new("Format string: ");
+   
+   GtkWidget *entryspace = gtk_entry_new();
+   GtkWidget *labelspace = gtk_label_new("Space Path: ");
+   
+   gtk_container_add(GTK_CONTAINER(content_area), labelformat);
+   gtk_container_add(GTK_CONTAINER(content_area), entryformat);
+   
+   gtk_container_add(GTK_CONTAINER(content_area), labelspace);
+   gtk_container_add(GTK_CONTAINER(content_area), entryspace);
+   
+   gtk_widget_show(entryformat); 
+   gtk_widget_show(labelformat);
+   
+   gtk_widget_show(entryspace);
+   gtk_widget_show(labelspace);
+   
+   gtk_entry_set_text(GTK_ENTRY(entryformat), get_cfg("MediaPlayerFormat")->value);                               
+   gtk_entry_set_text(GTK_ENTRY(entryspace), get_cfg("DFPath")->value);
+   
+   gint response  = gtk_dialog_run(dialog);
+   
+   
+   if(response == GTK_RESPONSE_OK)
     {
-		const gchar *format = gtk_entry_get_text(GTK_ENTRY(entry));
-		set_cfg("MediaPlayerFormat", (char*)format);	
+		const gchar* format = gtk_entry_get_text(GTK_ENTRY(entryformat));
+		set_cfg("MediaPlayerFormat", (char *)format);
+		
+		const gchar* spacedir = gtk_entry_get_text(GTK_ENTRY(entryspace));
+		set_cfg("DFPath", (char *)spacedir);	
 		
 	}
     gtk_widget_destroy(GTK_WIDGET(dialog));                              

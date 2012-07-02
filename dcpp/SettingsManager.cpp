@@ -220,7 +220,7 @@ SettingsManager::SettingsManager()
 	setDefault(SFV_CHECK, true);
 	setDefault(AUTO_AWAY, false);
 	setDefault(DEFAULT_AWAY_MESSAGE, "I'm away. State your business and I might answer later if you're lucky.");
-	setDefault(TIME_STAMPS_FORMAT, "%H:%M");
+	setDefault(TIME_STAMPS_FORMAT, "%H:%M:%S");
 	setDefault(COUNTRY_FORMAT, "%[2code] - %[name]");
 	setDefault(MAX_COMPRESSION, 6);
 	setDefault(NO_AWAYMSG_TO_BOTS, true);

@@ -1,5 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2010-2012 Mank
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -246,7 +247,7 @@ void BookEntry::updateLabel_gui()
 	const char *format = "%s";
 	bool color = WGETB("colorize-tab-text");
 	string colortext = "<span foreground=\"";
-	colortext +=   urgent ? WGETS("color-tab-text-urgent") : WGETS("color-tab-text-bold");
+	colortext +=  urgent ? WGETS("color-tab-text-urgent") : WGETS("color-tab-text-bold");
 	colortext += "\">%s</span>";
 
 	if (urgent)

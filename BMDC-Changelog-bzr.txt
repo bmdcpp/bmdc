@@ -518,4 +518,9 @@ Fix SIGPIPE finaly...
 -----r129
 Small Fixies
 Fix closing of Non-Fav Hub
+-----r130
+[dcpp sync r2967] Greatly improve user command removal time when closing a hub
+[dcpp sync r2972] Don't block addition of permanent items if a temporary one exists; Rise some defaults to keep up with the times
+[dbus-plugin] add GUI for config value to /fspace
+[GUI] Use ConnectivityManager
 -----

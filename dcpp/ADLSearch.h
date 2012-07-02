@@ -90,7 +90,7 @@ public:
 	bool isRegEx() const;
 	void setRegEx(bool b);
 	///@BMDC++
-	/*Forbiden*/
+	/* Forbiden */
 	bool isForbidden;
 	bool overRidePoints;
 	int adlsRaw;
@@ -132,7 +132,7 @@ public:
 		DirectoryListing::Directory* dir;
 		DirectoryListing::Directory* subdir;
 		bool fileAdded;
-		DestDir() : name(""), dir(NULL), subdir(NULL) {}
+		DestDir() : name(""), dir(NULL), subdir(NULL), fileAdded(false) {}
 	};
 	typedef vector<DestDir> DestDirList;
 

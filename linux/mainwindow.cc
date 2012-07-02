@@ -39,6 +39,8 @@
 #ifdef _USELUA
 	#include <dcpp/ScriptManager.h>
 #endif
+#include <dcpp/ConnectivityManager.h>
+
 #include "downloadqueue.hh"
 #include "favoritehubs.hh"
 #include "favoriteusers.hh"
@@ -2219,10 +2221,16 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 	typedef Func0<MainWindow> F0;
+	
+	auto prevTCP = SETTING(TCP_PORT);
+	auto prevUDP = SETTING(UDP_PORT);
+	auto prevTLS = SETTING(TLS_PORT);
 
-	unsigned short tcpPort = (unsigned short)SETTING(TCP_PORT);
-	unsigned short udpPort = (unsigned short)SETTING(UDP_PORT);
-	int lastConn = SETTING(INCOMING_CONNECTIONS);
+	auto prevConn = SETTING(INCOMING_CONNECTIONS);
+	auto prevMapper = SETTING(MAPPER);
+	auto prevBind = SETTING(BIND_ADDRESS);
+	auto prevBind6 = SETTING(BIND_ADDRESS6);
+	auto prevProxy = CONNSETTING(OUTGOING_CONNECTIONS);
 
 	if (mw->useStatusIconBlink != WGETB("status-icon-blink-use"))
 		WSET("status-icon-blink-use", mw->useStatusIconBlink);
@@ -2232,32 +2240,20 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 
 	if (response == GTK_RESPONSE_OK)
 	{
-		if(SETTING(TLS_PORT) == SETTING(TCP_PORT) && SETTING(INCOMING_CONNECTIONS) != SettingsManager::INCOMING_FIREWALL_PASSIVE)
-	    {
-            mw->showMessageDialog_gui(_("Not Alowed same number of port for TLS and TCP"),
-                                  _("Not Alowed same number of port for TLS and TCP,please chose for one of it another port")
-                                  );
-            return;                      
+		//NOTE BMDC >=0.785+
+		try {
+			ConnectivityManager::getInstance()->setup(SETTING(INCOMING_CONNECTIONS) != prevConn ||
+				SETTING(TCP_PORT) != prevTCP || SETTING(UDP_PORT) != prevUDP || SETTING(TLS_PORT) != prevTLS ||
+				SETTING(MAPPER) != prevMapper || SETTING(BIND_ADDRESS) != prevBind || SETTING(BIND_ADDRESS6) != prevBind6);
+		} catch (const Exception& e) {
+			mw->showMessageDialog_gui(e.getError(),e.getError());
 		}
-		
-		if (SETTING(INCOMING_CONNECTIONS) != lastConn || SETTING(TCP_PORT) != tcpPort || SETTING(UDP_PORT) != udpPort)
-		{
-			//NOTE: core 0.762
-			if (SETTING(INCOMING_CONNECTIONS) == SettingsManager::INCOMING_FIREWALL_UPNP ||
-				lastConn == SettingsManager::INCOMING_FIREWALL_UPNP)
-			{
-				MappingManager::getInstance()->close();
-			}
 
-			F0 *func = new F0(mw, &MainWindow::startSocket_client);
-			WulforManager::get()->dispatchClientFunc(func);
-		}
-		else if (SETTING(INCOMING_CONNECTIONS) == SettingsManager::INCOMING_FIREWALL_UPNP && !MappingManager::getInstance()->getOpened())//NOTE: core 0.762
-		{
-			// previous UPnP mappings had failed; try again
-			MappingManager::getInstance()->open();
-		}else if(SETTING(OUTGOING_CONNECTIONS) == SettingsManager::OUTGOING_SOCKS5)
+		auto outConns = CONNSETTING(OUTGOING_CONNECTIONS);
+		if(outConns != prevProxy || outConns == SettingsManager::OUTGOING_SOCKS5) {
 			Socket::socksUpdated();
+		}
+		//END
 		
 		if (BOOLSETTING(ALWAYS_TRAY))
 			gtk_status_icon_set_visible(mw->statusIcon, TRUE);
@@ -2631,39 +2627,14 @@ void MainWindow::startSocket_client()
 {
 	SearchManager::getInstance()->disconnect();
 	ConnectionManager::getInstance()->disconnect();
-
-	if (ClientManager::getInstance()->isActive())
-	{
-		try
-		{
-			ConnectionManager::getInstance()->listen();
-		}
-		catch (const Exception &e)
-		{
-			string primaryText = _("Unable to open TCP/TLS port");
-			string secondaryText = _("File transfers will not work correctly until you change settings or turn off any application that might be using the TCP/TLS port.");
-			typedef Func2<MainWindow, string, string> F2;
-			F2* func = new F2(this, &MainWindow::showMessageDialog_gui, primaryText, secondaryText);
-			WulforManager::get()->dispatchGuiFunc(func);
-
-		}
-
-		try
-		{
-			SearchManager::getInstance()->listen();
-		}
-		catch (const Exception &e)
-		{
-			string primaryText = _("Unable to open UDP port");
-			string secondaryText = _("Searching will not work correctly until you change settings or turn off any application that might be using the UDP port.");
-			typedef Func2<MainWindow, string, string> F2;
-			F2* func = new F2(this, &MainWindow::showMessageDialog_gui, primaryText, secondaryText);
-			WulforManager::get()->dispatchGuiFunc(func);
-		}
-
-		// must be done after listen calls; otherwise ports won't be set
-		if (SETTING(INCOMING_CONNECTIONS) == SettingsManager::INCOMING_FIREWALL_UPNP)// NOTE: core 0.762
-			MappingManager::getInstance()->open();
+	
+	try {
+		ConnectivityManager::getInstance()->setup(true);
+	} catch (const Exception& e) {
+		string error = e.getError();
+		typedef Func2<MainWindow, string, string> F2;
+		F2 *func = new F2(this, &MainWindow::showMessageDialog_gui, error, error);
+		WulforManager::get()->dispatchGuiFunc(func);
 	}
 
 	ClientManager::getInstance()->infoUpdated();
@@ -3063,9 +3034,10 @@ void MainWindow::parsePartial(HintedUser aUser, string txt)
 	if (raise)
 		raisePage_gui(entry->getContainer());
 }
-/*..*/
+
 void MainWindow::on(QueueManagerListener::PartialList, const HintedUser& aUser, const string& text) noexcept {
 	typedef Func2<MainWindow, HintedUser, string> F2;
 	F2 *func = new F2(this,&MainWindow::parsePartial,aUser,text);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
+/**/

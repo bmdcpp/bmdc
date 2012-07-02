@@ -30,6 +30,7 @@
 #include <dcpp/StringTokenizer.h>
 #include <dcpp/BackupManager.h>
 #include <dcpp/PluginManager.h>
+#include <dcpp/ConnectivityManager.h>
 #include "settingsmanager.hh"
 #include "sound.hh"
 #include "notify.hh"
@@ -841,11 +842,6 @@ void Settings::initConnection_gui()
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entryIpExt")), SETTING(EXTERNAL_IP).c_str());//ipEntry
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entryipv6")), SETTING(EXTERNAL_IP6).c_str());//ipEntry
 
-	// Fill IP address combo box
-	//vector<string> addresses = WulforUtil::getLocalIPs();
-	//for (vector<string>::const_iterator it = addresses.begin(); it != addresses.end(); ++it)
-	//	gtk_combo_box_append_text(GTK_COMBO_BOX(getWidget("ipComboboxEntry")), it->c_str());
-
 	gtk_entry_set_text(GTK_ENTRY(getWidget("tcpEntry")), Util::toString(SETTING(TCP_PORT)).c_str());
 	gtk_entry_set_text(GTK_ENTRY(getWidget("udpEntry")), Util::toString(SETTING(UDP_PORT)).c_str());
 	gtk_entry_set_text(GTK_ENTRY(getWidget("tlsEntry")), Util::toString(SETTING(TLS_PORT)).c_str());
@@ -886,8 +882,22 @@ void Settings::initConnection_gui()
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("socksRadioButton")), TRUE);
 			break;
 	}
-
+	
+	g_signal_connect(getWidget("checkautodet"), "toggled", G_CALLBACK(onToggleAutoDetection), (gpointer)this);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkautodet")), SETTING(AUTO_DETECT_CONNECTION));
+	
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("spinReconect")), SETTING(TIME_RECCON));
+	
+}
+
+void Settings::onToggleAutoDetection(GtkWidget *widget, gpointer data)
+{
+	Settings *s = (Settings *)data;
+	// apply immediately so that ConnectivityManager updates.
+	SettingsManager::getInstance()->set(SettingsManager::AUTO_DETECT_CONNECTION, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)) );
+	ConnectivityManager::getInstance()->fire(ConnectivityManagerListener::SettingChanged());
+	
+	gtk_widget_set_sensitive(s->getWidget("table19"),!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
 }
 
 void Settings::initDownloads_gui()

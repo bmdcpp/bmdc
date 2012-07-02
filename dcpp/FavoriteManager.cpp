@@ -22,8 +22,9 @@
 #include "ClientManager.h"
 #include "CryptoManager.h"
 #include "WindowManager.h"
+//[BMDC
 #include "RawManager.h"
-
+//]
 #include "HttpConnection.h"
 #include "StringTokenizer.h"
 #include "SimpleXML.h"
@@ -38,7 +39,7 @@ namespace dcpp {
 using std::make_pair;
 using std::swap;
 
-//RSX++
+//RSX++//BMDC++
 FavoriteHubEntry::FavAction::FavAction(bool _enabled, string _raw /*= Util::emptyString*/, int id /*=0*/) noexcept: enabled(_enabled) {
 	if(_raw.empty()) return;
 	StringTokenizer<string> tok(_raw, ',');
@@ -156,29 +157,23 @@ void FavoriteManager::removeUserCommand(int cid) {
 			break;
 		}
 	}
-	if(!nosave)
+	if(!nosave) {
+		l.unlock();
 		save();
+	}	
 }
 void FavoriteManager::removeUserCommand(const string& srv) {
 	Lock l(cs);
-	for(UserCommand::List::iterator i = userCommands.begin(); i != userCommands.end(); ) {
-		if((i->getHub() == srv) && i->isSet(UserCommand::FLAG_NOSAVE)) {
-			i = userCommands.erase(i);
-		} else {
-			++i;
-		}
-	}
+	std::remove_if(userCommands.begin(), userCommands.end(), [&](const UserCommand& uc) -> bool {
+                 return uc.getHub() == srv && uc.isSet(UserCommand::FLAG_NOSAVE);
+        });
 }
 
 void FavoriteManager::removeHubUserCommands(int ctx, const string& hub) {
 	Lock l(cs);
-	for(UserCommand::List::iterator i = userCommands.begin(); i != userCommands.end(); ) {
-		if(i->getHub() == hub && i->isSet(UserCommand::FLAG_NOSAVE) && i->getCtx() & ctx) {
-			i = userCommands.erase(i);
-		} else {
-			++i;
-		}
-	}
+	std::remove_if(userCommands.begin(), userCommands.end(), [&](const UserCommand& uc) -> bool {
+                 return uc.getHub() == hub && uc.isSet(UserCommand::FLAG_NOSAVE) && uc.getCtx() == ctx;
+        });
 }
 
 void FavoriteManager::addFavoriteUser(const UserPtr& aUser) {

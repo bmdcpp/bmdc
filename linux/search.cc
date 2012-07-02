@@ -133,7 +133,6 @@ Search::Search():
 	resultView.setSortColumn_gui(_("Slots"), "Slots Order");
 	resultView.setSortColumn_gui(_("Filename"), "File Order");
 	gtk_tree_view_set_fixed_height_mode(resultView.get(), TRUE);
-	
 	//
 	resultView.setSelection(selection);
 	resultView.buildCopyMenu(getWidget("CopyMenu"));
@@ -202,7 +201,7 @@ Search::Search():
 	g_signal_connect(getWidget("comboboxUnit"), "changed", G_CALLBACK(onComboBoxChanged_gui), (gpointer)this);
 	g_signal_connect(getWidget("comboboxFile"), "changed", G_CALLBACK(onComboBoxChanged_gui), (gpointer)this);
 	g_signal_connect(getWidget("comboboxGroupBy"), "changed", G_CALLBACK(onGroupByComboBoxChanged_gui), (gpointer)this);
-	/**/
+	/*...*/
 	g_signal_connect(getWidget("checkop"), "toggled", G_CALLBACK(onCheckOp_gui), (gpointer)this);
 }
 
@@ -446,14 +445,13 @@ void Search::search_gui()
 	if (text.empty())
 		return;
 		
-	WSET("last-searchs",WGETS("last-searchs")+";"+text);
+	WSET("last-searchs", WGETS("last-searchs") + ";" + text );
 	GtkTreeIter eiter;
-	gtk_list_store_append(emodel,&eiter);
-	gtk_list_store_set(emodel,&eiter,
-							EN_STRING,text.c_str(),
+	gtk_list_store_append(emodel, &eiter);
+	gtk_list_store_set(emodel, &eiter,
+							EN_STRING, text.c_str(),
 							-1);
 		
-
 	gboolean valid = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(hubStore), &iter);
  	while (valid)
  	{
@@ -1750,7 +1748,7 @@ void Search::parseSearchResult_gui(SearchResultPtr result, StringMap &resultMap)
 			resultMap[_("Type")].erase(0, 1);
 		resultMap[_("Size")] = Util::formatBytes(result->getSize());
 		resultMap["Exact Size"] = Util::formatExactSize(result->getSize());
-		resultMap["Icon"] = Util::getFileExt(file);//"bmdc-file";
+		resultMap["Icon"] = Util::getFileExt(file);
 		resultMap["Shared"] = Util::toString(ShareManager::getInstance()->isTTHShared(result->getTTH()));
 	}
 	else
@@ -1762,7 +1760,7 @@ void Search::parseSearchResult_gui(SearchResultPtr result, StringMap &resultMap)
 			resultMap[_("Path")] = "";
 		resultMap["File Order"] = "d" + resultMap[_("Filename")];
 		resultMap[_("Type")] = _("Directory");
-		resultMap["Icon"] = "directory";//bmdc-
+		resultMap["Icon"] = "directory";
 		resultMap["Shared"] = "0";
 		if (result->getSize() > 0)
 		{
@@ -2092,7 +2090,7 @@ gboolean Search::onResultView_gui(GtkWidget *widget, gint x, gint y, gboolean ke
 	GtkTreeView *view = GTK_TREE_VIEW(widget);
 	GtkTreeModel *model = gtk_tree_view_get_model (view);
 	GtkTreePath *path = NULL;
-	gchar *filename,*nick,*type,*size,*ppath,*slots,*con,*hub,*exsize,*country,*ip,*tth,*cid;
+	gchar *filename,*nick,*type,*size,*ppath,*slots,*con,*hub,*exsize,*country,*ip,*tth;
 	char buffer[1000];
 
 	if(!gtk_tree_view_get_tooltip_context (view, &x, &y,
@@ -2129,7 +2127,7 @@ gboolean Search::onResultView_gui(GtkWidget *widget, gint x, gint y, gboolean ke
 
 void Search::selection_changed_result_gui(GtkTreeSelection *selection, GtkWidget *tree_view)
 {
-  gtk_widget_trigger_tooltip_query (tree_view);
+	gtk_widget_trigger_tooltip_query (tree_view);
 }
 
 void Search::set_Header_tooltip_gui()//How beter ?

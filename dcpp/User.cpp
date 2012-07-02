@@ -323,7 +323,6 @@ string Identity::checkFilelistGenerator(OnlineUser& ou)
 	return Util::emptyString;
 }
 
-
 string Identity::myInfoDetect(OnlineUser& ou) {
 	checkTagState(ou);
 
@@ -488,7 +487,11 @@ void Identity::getDetectionParams(ParamMap& p) {
 			Util::replace( ")", "\\)", boost::get<string>(i->second));
 			Util::replace( "{", "\\{", boost::get<string>(i->second));
 			Util::replace( "}", "\\}", boost::get<string>(i->second));
-			}catch(const boost::bad_get& ) { }
+			}
+			catch(const boost::bad_get& )
+			{ 
+				//..
+			}
 	}
 }
 
@@ -611,7 +614,7 @@ void FavoriteUser::update(const OnlineUser& info) {
 	setNick(info.getIdentity().getNick());
 	setUrl(info.getClient().getHubUrl());
 }
-//Idepent Fav
+//Indepent Fav
 void FavoriteIUser::update(OnlineUser* ou) 
 {
 	setLastSeen(time(NULL));

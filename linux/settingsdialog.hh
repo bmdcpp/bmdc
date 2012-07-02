@@ -103,6 +103,7 @@ class Settings:
 		static void onInFW_NAT_gui(GtkToggleButton *button, gpointer data);
 		static void onOutDirect_gui(GtkToggleButton *button, gpointer data);
 		static void onSocks5_gui(GtkToggleButton *button, gpointer data);
+		static void onToggleAutoDetection(GtkWidget *widget, gpointer data);
 		static void onBrowseFinished_gui(GtkWidget *widget, gpointer data);
 		static void onBrowseUnfinished_gui(GtkWidget *widget, gpointer data);
 		static void onPublicHubs_gui(GtkWidget *widget, gpointer data);

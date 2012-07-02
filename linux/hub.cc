@@ -64,8 +64,6 @@ Hub::Hub(const string &address, const string &encoding):
 	WaitingPassword(FALSE),
 	ImgLimit(0)
 {
-	// Configure the dialog
-	//gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")), TRUE);
 
 	// Initialize nick treeview
 	nickView.setView(GTK_TREE_VIEW(getWidget("nickView")), true, "hub");
@@ -243,7 +241,7 @@ Hub::Hub(const string &address, const string &encoding):
 	g_signal_connect(getWidget("nickToChatItem"), "activate", G_CALLBACK(onNickToChat_gui), (gpointer)this);
 	g_signal_connect(getWidget("copyNickItem"), "activate", G_CALLBACK(onCopyNickItemClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("browseItem"), "activate", G_CALLBACK(onBrowseItemClicked_gui), (gpointer)this);
-	//Partial
+	//[Partial FL
 	g_signal_connect(getWidget("openPartial"), "activate", G_CALLBACK(onPartialFileListOpen_gui), (gpointer)this);
 	/**/
 	g_signal_connect(getWidget("matchItem"), "activate", G_CALLBACK(onMatchItemClicked_gui), (gpointer)this);
@@ -468,6 +466,7 @@ Hub::~Hub()
 		entry->setShowUserList(showUL);
 		FavoriteManager::getInstance()->save();
 	}
+	
 	disconnect_client();
 
 	// Save the pane position
@@ -2000,8 +1999,7 @@ gboolean Hub::onEntryKeyPress_gui(GtkWidget *entry, GdkEventKey *event, gpointer
 		}
 		return TRUE;
 	}
-	else if (
-			( WGETB("key-hub-with-ctrl") && ((event->keyval == GDK_Down || event->keyval == GDK_KP_Down) && (event->state & GDK_CONTROL_MASK) ))
+	else if ( ( WGETB("key-hub-with-ctrl") && ((event->keyval == GDK_Down || event->keyval == GDK_KP_Down) && (event->state & GDK_CONTROL_MASK) ))
 			|| ( !WGETB("key-hub-with-ctrl") && (event->keyval == GDK_Down || event->keyval == GDK_KP_Down)) )
 	{
 		size_t index = hub->historyIndex + 1;
@@ -2175,7 +2173,7 @@ gboolean Hub::onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *eve
 		if(event->button.button == 3)
 		{
 			gtk_widget_show_all(hub->getWidget("ipMenu"));
-			gtk_menu_popup(GTK_MENU(hub->getWidget("ipMenu")), NULL,NULL,NULL,NULL, 0,gtk_get_current_event_time());
+			gtk_menu_popup(GTK_MENU(hub->getWidget("ipMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 			return TRUE;
 		}
 	}
@@ -2333,7 +2331,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			params = text.substr(separator + 1);
 		}
 
-	   if(PluginManager::getInstance()->onChatCommand(hub->client, command )) {
+	    if(PluginManager::getInstance()->onChatCommand(hub->client, command )) {
 			// Plugins, chat commands
 		  return;
 	    }
@@ -2497,8 +2495,10 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		{
 			size_t idx = PluginManager::getInstance()->getPluginList().size();
 			if(PluginManager::getInstance()->loadPlugin(Text::fromT(param), true)) {
+			
 				const MetaData& info = PluginManager::getInstance()->getPlugin(idx)->getInfo();
-			hub->addMessage_gui("",string("Done, Info **\nName")+string(info.name)+string("\nDesc")+string(info.description)+string("\nVersion")+Util::toString(info.version)+string("\n"),Msg::SYSTEM);
+					hub->addMessage_gui("", string("Done, Info **\nName") + string(info.name) + string("\nDesc") + string(info.description) + string("\nVersion") + Util::toString(info.version) + string("\n"), Msg::SYSTEM);
+			
 			}
 		}
 		else if(command == "plist") {
@@ -2550,10 +2550,10 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
              for(auto i = info.begin();i!=info.end();++i) {
                   text += _("\n") + (*i).first + _(": ") + Text::toT((*i).second);
              }
-           hub->addMessage_gui("",text,Msg::SYSTEM);
+             hub->addMessage_gui("",text,Msg::SYSTEM);
 		} else if ( command == "conn"){
 			auto info = ConnectivityManager::getInstance()->getInformation();
-			hub->addMessage_gui("",info, Msg::SYSTEM);
+			hub->addMessage_gui("", info, Msg::SYSTEM);
 		
 		}else if (command == "pm")
 		{
@@ -2618,7 +2618,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}	
 		else if (command == "scmyinfo")
 		{
-			if(params == "stop") {
+			if(param == "stop") {
 				hub->client->stopMyInfoCheck();
 				hub->addStatusMessage_gui(_("Stop MyInfo check"), Msg::SYSTEM, Sound::NONE);
 			} else	{
@@ -3212,7 +3212,7 @@ void Hub::onProtectUserClicked_gui(GtkMenuItem *item , gpointer data)
 
 		if (!cid.empty())
 		{
-			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), Util::emptyString, false);
+			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hub->client->getHubUrl(), false);
 			if(ou->getUser() && !ou->getUser()->isSet(User::PROTECT))
 				const_cast<UserPtr&>(ou->getUser())->setFlag(User::PROTECT);
 			ParamMap params;
@@ -3245,7 +3245,7 @@ void Hub::onUnProtectUserClicked_gui(GtkMenuItem *item , gpointer data)
 
 		if (!cid.empty())
 		{
-			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), Util::emptyString, false);
+			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hub->client->getHubUrl(), false);
 			if(ou->getUser() && !ou->getUser()->isSet(User::PROTECT))
 				const_cast<UserPtr&>(ou->getUser())->unsetFlag(User::PROTECT);
 			ParamMap params;
@@ -3311,11 +3311,11 @@ void Hub::onTestSURItemClicked_gui(GtkMenuItem *item, gpointer data)
 		{
 		    string nick = Util::emptyString;
 			nick += nicks.front();
-			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser( CID(nick),hub->address,false);
+			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser( CID(nick),hub->client->getHubUrl(),false);
 			if(ou != NULL)
 			{
 				try {
-					HintedUser hintedUser(ou->getUser(), hub->address);
+					HintedUser hintedUser(ou->getUser(), hub->client->getHubUrl());
 					ClientManager::getInstance()->addCheckToQueue(hintedUser, false);
 				}catch(...)
 				{ }
@@ -3349,11 +3349,11 @@ void Hub::onCheckFLItemClicked_gui(GtkMenuItem *item , gpointer data)
 
 		if (!nick.empty())
 		{
-			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(nick),hub->address,false);
+			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(nick),hub->client->getHubUrl(),false);
 			if(ou != NULL)
 			{
 				try {
-					 HintedUser hintedUser(ou->getUser(), hub->address);
+					 HintedUser hintedUser(ou->getUser(), hub->client->getHubUrl());
 					 ClientManager::getInstance()->addCheckToQueue(hintedUser, true);
 				}
 				 catch(...)
@@ -3632,7 +3632,6 @@ void Hub::getFileList_client(string cid, bool match)
 				}
 				else
 				{
-					//QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW | QueueItem::FLAG_PARTIAL_LIST);
 					QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW);//NOTE: core 0.762
 				}
 			}
@@ -3676,7 +3675,6 @@ void Hub::getPartialFileList_client(string cid)
 				else
 				{
 					QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW | QueueItem::FLAG_PARTIAL_LIST);
-				//	QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW);//NOTE: core 0.762
 				}
 			}
 			else
@@ -3756,23 +3754,6 @@ void Hub::redirect_client(string address, bool follow)
 	}
 }
 
-void Hub::rebuildHashData_client()
-{
-	HashManager::getInstance()->rebuild();
-}
-
-void Hub::refreshFileList_client()
-{
-	try
-	{
-		ShareManager::getInstance()->setDirty();
-		ShareManager::getInstance()->refresh(true);
-	}
-	catch (const ShareException& e)
-	{
-	}
-}
-
 void Hub::addAsFavorite_client()
 {
 	typedef Func3<Hub, string, Msg::TypeMsg, Sound::TypeSound> F3;
@@ -3792,6 +3773,7 @@ void Hub::addAsFavorite_client()
 			entry.setPassword(client->getPassword());
 		else
 			entry.setPassword(Util::emptyString);
+		
 		entry.setGroup(Util::emptyString);
 
 		FavoriteManager::getInstance()->addFavorite(entry);
@@ -3838,7 +3820,7 @@ void Hub::reconnect_client()
 		client->reconnect();
 }
 
-/*Inspipred by code UserInfoBase getImageIndex*/
+/* Inspipred by code UserInfoBase getImageIndex */
 string Hub::getIcons(const Identity& id)
 {
 	string tmp = "other";
@@ -3859,10 +3841,11 @@ string Hub::getIcons(const Identity& id)
 				tmp = "netlimiter";
 			} else {
 				size_t n = 0;
-				if( (n =conn.find("/s")) != string::npos)
+				if( (n = conn.find("/s")) != string::npos)
 					conn.erase(n, string::npos);
 
 				double us = conn.empty() ? (8 * Util::toInt64(id.get("US")) / 1024 / 1024): Util::toDouble(conn);
+				
 				if(us >= 10) {
 					tmp = "ten";
 				} else if(us > 0.1) {
@@ -4004,6 +3987,9 @@ string Hub::realFile_client(string tth)
 
 void Hub::on(QueueManagerListener::Finished, QueueItem *item, const string& dir, int64_t avSpeed) throw()
 {
+	if(item->isSet(QueueItem::FLAG_TESTSUR))
+		return;
+		
 	typedef Func2<Hub, string, string> F2;
 	string tth = item->getTTH().toBase32();
 
@@ -4652,7 +4638,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 		if (client->settings.getLogChat())
 		{
 			dcpp::ParamMap params;
-			params["message"] = tmp_text;//line
+			params["message"] = tmp_text;
 			client->getHubIdentity().getParams(params, "hub", false);
 			params["hubURL"] = client->getHubUrl();
 			client->getMyIdentity().getParams(params, "my", true);

@@ -1,5 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2010-2012 Mank
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -193,8 +194,6 @@ class Hub:
 		void grantSlot_client(std::string cid);
 		void removeUserFromQueue_client(std::string cid);
 		void redirect_client(std::string address, bool follow);
-		void rebuildHashData_client();
-		void refreshFileList_client();
 		void addAsFavorite_client();
 		void removeAsFavorite_client();
 
