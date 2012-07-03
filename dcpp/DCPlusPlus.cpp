@@ -41,7 +41,6 @@
 #include "WindowManager.h"
 
 #include "DebugManager.h"
-#include "ScriptManager.h"
 #include "DetectionManager.h"
 #include "RawManager.h"
 #include "BackupManager.h"
@@ -99,9 +98,7 @@ void startup(void (*f)(void*, const string&), void* p) {
 	WindowManager::newInstance();
 	PluginManager::newInstance();
 	DebugManager::newInstance();
-#ifdef _USELUA	 
-	ScriptManager::newInstance();
-#endif	
+
 	DetectionManager::newInstance();
 	HighlightManager::newInstance();
 	BackupManager::newInstance();
@@ -180,10 +177,6 @@ void shutdown() {
 
     HighlightManager::deleteInstance();
     DetectionManager::deleteInstance();
-    
-   #ifdef _USELUA 
-    ScriptManager::deleteInstance();
-   #endif 
     
 	WindowManager::deleteInstance();
 	GeoManager::deleteInstance();

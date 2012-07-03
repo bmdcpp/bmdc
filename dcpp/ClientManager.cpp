@@ -764,51 +764,6 @@ void ClientManager::sendAction(OnlineUser& ou, const int aAction) {
     }
 }
 
-#ifdef _USELUA
-bool ClientManager::ucExecuteLua(const string& cmd,ParamMap& params)
-{
-	bool executelua = false;
-	string::size_type i,j,k;
-	i = j = k = 0;
-	string tmp = cmd;
-	 while( (i = tmp.find("%[lua:",i)) != string::npos)
-	 {
-		i+=6;
-		j = tmp.find("]",i);
-		if(j == string::npos)
-			break;
-		string chunk = tmp.substr(i,j-i);
-		// for making possible using %[nick] and similar parameters too
-		// !%!{nick!}
-		k = 0;
-		while(( k = chunk.find("!%")) != string::npos)
-		{
-				chunk.erase(k,2);
-				chunk.insert(k,"%");
-		}
-		k = 0;
-		while(( k = chunk.find("!{")) != string::npos)
-		{
-				chunk.erase(k,2);
-				chunk.insert(k,"[");
-		}
-		k = 0;
-		while(( k = chunk.find("!}")) != string::npos)
-		{
-				chunk.erase(k,2);
-				chunk.insert(k,"]");
-		}
-		//@todo: use filter? I opted for no here, but this means Lua has to be careful about
-		//filtering if it cares.
-
-		ScriptManager::getInstance()->EvaluateChunk(Util::formatParams(chunk, params));
-		executelua = true;
-		i = j +1;
-
-	 }
-	 return executelua;
-}
-#endif
 void ClientManager::addCheckToQueue(const HintedUser hintedUser, bool filelist) {
 	OnlineUser* ou = NULL;
 	bool addCheck = false;

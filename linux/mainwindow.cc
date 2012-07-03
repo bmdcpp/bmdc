@@ -36,9 +36,6 @@
 #include <dcpp/version.h>
 #include <dcpp/ThrottleManager.h>
 #include <dcpp/PluginManager.h>
-#ifdef _USELUA
-	#include <dcpp/ScriptManager.h>
-#endif
 #include <dcpp/ConnectivityManager.h>
 
 #include "downloadqueue.hh"
@@ -408,12 +405,6 @@ MainWindow::MainWindow():
 			checkUpdateofGeoIp(false);
 	}
 
-    #ifdef _USELUA
-	 ScriptManager::getInstance()->load();
-	 // Start as late as possible
-	 string defaultluascript = "startup.lua";
-	 ScriptManager::getInstance()->EvaluateFile(defaultluascript);
-	#endif
 	PluginManager::getInstance()->runHook(HOOK_UI_CREATED, getContainer(), NULL);
 }
 

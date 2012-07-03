@@ -523,4 +523,8 @@ Fix closing of Non-Fav Hub
 [dcpp sync r2972] Don't block addition of permanent items if a temporary one exists; Rise some defaults to keep up with the times
 [dbus-plugin] add GUI for config value to /fspace
 [GUI] Use ConnectivityManager
+-----r131
+[GUI&Core] Remove Internal Lua
+[Lua] Add Plugin for it
+[Plugins] Few Fixes around it
 -----

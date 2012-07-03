@@ -269,10 +269,10 @@ void AdcHub::handle(AdcCommand::MSG, AdcCommand& c) noexcept {
 			return;
 
 		message.replyTo = findUser(AdcCommand::toSID(temp));
-		if(!message.replyTo || PluginManager::getInstance()->runHook(HOOK_CHAT_PM_IN, (dcptr_t)message.replyTo , (dcptr_t)&message.text))
+		if(!message.replyTo || PluginManager::getInstance()->runHook(HOOK_CHAT_PM_IN, &(message.replyTo) , &(message.text)))
 			return;
 			
-	}else if(PluginManager::getInstance()->runHook(HOOK_CHAT_IN, (dcptr_t)this, (dcptr_t)&message.text))
+	}else if(PluginManager::getInstance()->runHook(HOOK_CHAT_IN, this, message.text))
 		return;
 
 	message.thirdPerson = c.hasFlag("ME", 1);
@@ -702,7 +702,7 @@ void AdcHub::hubMessage(const string& aMessage, bool thirdPerson) {
 	if(state != STATE_NORMAL)
 		return;
 	
-	if(PluginManager::getInstance()->runHook(HOOK_CHAT_OUT, (dcptr_t)this, (dcptr_t)&aMessage))
+	if(PluginManager::getInstance()->runHook(HOOK_CHAT_OUT, this, aMessage))
 		return;	
 		
 	AdcCommand c(AdcCommand::CMD_MSG, AdcCommand::TYPE_BROADCAST);
@@ -716,8 +716,8 @@ void AdcHub::privateMessage(const OnlineUser& user, const string& aMessage, bool
 	if(state != STATE_NORMAL)
 		return;
 	
-	if(PluginManager::getInstance()->runHook(HOOK_CHAT_PM_OUT,(dcptr_t)&user , (dcptr_t)&aMessage))
-		return;		
+	//if(PluginManager::getInstance()->runHook(HOOK_CHAT_PM_OUT, user , aMessage))
+	//	return;		
 		
 	AdcCommand c(AdcCommand::CMD_MSG, user.getIdentity().getSID(), AdcCommand::TYPE_ECHO);
 	c.addParam(aMessage);
@@ -1121,16 +1121,12 @@ void AdcHub::on(Line l, const string& aLine) noexcept {
 		// @todo report to user?
 		return;
 	}
-	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_IN,(dcptr_t)this,(dcptr_t)&aLine))
+	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_IN, this, aLine))
 		return;
 
 	if(BOOLSETTING(ADC_DEBUG)) {
 		fire(ClientListener::StatusMessage(), this, "<ADC>" + aLine + "</ADC>");
 	}
-	#ifdef _USELUA
-	if (onClientMessage(this, aLine))
-		return;
-	#endif
 	dispatch(aLine);
 }
 
@@ -1157,12 +1153,4 @@ void AdcHub::refreshuserlist(bool) {
 	}
 	fire(ClientListener::UsersUpdated(), this, v);
 }
-
-#ifdef _USELUA
-bool AdcScriptInstance::onClientMessage(AdcHub* aClient, const string& aLine) {
-	Lock l(scs);
-	MakeCall("adch", "DataArrival", 1, aClient, aLine);
-	return GetLuaBool();
-}
-#endif
 } // namespace dcpp

@@ -31,9 +31,6 @@
 #include <dcpp/ChatMessage.h> //NOTE: core 0.762
 #include <dcpp/GeoManager.h>
 #include <dcpp/RegEx.h>
-#ifdef _USELUA
-	#include <dcpp/ScriptManager.h>
-#endif
 #include <dcpp/PluginManager.h>
 #include <dcpp/ConnectivityManager.h>
 
@@ -2316,10 +2313,6 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 	if (hub->history.size() > maxHistory + 1)
 		hub->history.erase(hub->history.begin());
 
-	#ifdef _USELUA
-    bool dropMessage = hub->client->onHubFrameEnter(hub->client, Text::fromT(text));
-	#endif
-
 	// Process special commands
 	if (text[0] == '/')
 	{
@@ -2330,13 +2323,13 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		{
 			params = text.substr(separator + 1);
 		}
-
-	    if(PluginManager::getInstance()->onChatCommand(hub->client, command )) {
+		
+		if(PluginManager::getInstance()->onChatCommand(hub->client, text )) {
 			// Plugins, chat commands
 		  return;
-	    }
+		}
 
-        if(WulforUtil::checkCommand(command, param, mess, status, thirdPerson))
+	    else if(WulforUtil::checkCommand(command, param, mess, status, thirdPerson))
         {
             if(!mess.empty())
 				hub->sendMessage_client(mess, thirdPerson);
@@ -2471,10 +2464,6 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			"/join <address>\t\t - " + _("Connect to the hub") + "\n" +
 			"/me <message>\t\t - " + _("Say a third person") + "\n" +
 			"/pm <nick>\t\t\t - " + _("Private message") + "\n" +
-			#ifdef _USELUA
-			"/luafile <file>\t\t - " 	+ _("Load Lua file") + "\n" +
-			"/lua <chunk>\t\t\t -  " 	+ _("Execute Lua Chunk") + "\n" +
-			#endif
 			"/exec <cmd>-\t\t\t    "    + _("Execute Bash chunk") + "\n"+
 			"/userlist\t\t\t\t - " + _("User list show/hide") + "\n" +
 			"/limitimg <n>, limg <n>\t - " + _("Download limit image: 0 - disable, n < 0 - unlimit, empty - info") + "\n" +
@@ -2495,7 +2484,6 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		{
 			size_t idx = PluginManager::getInstance()->getPluginList().size();
 			if(PluginManager::getInstance()->loadPlugin(Text::fromT(param), true)) {
-			
 				const MetaData& info = PluginManager::getInstance()->getPlugin(idx)->getInfo();
 					hub->addMessage_gui("", string("Done, Info **\nName") + string(info.name) + string("\nDesc") + string(info.description) + string("\nVersion") + Util::toString(info.version) + string("\n"), Msg::SYSTEM);
 			
@@ -2503,11 +2491,11 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if(command == "plist") {
 			size_t idx = 0;
-			string status = string(_("Loaded plugins:")) + _("\n");
+			string status = string(_("Loaded plugins: ")) + _("\n");
 			const PluginManager::pluginList& list = PluginManager::getInstance()->getPluginList();
 			for(PluginManager::pluginList::const_iterator i = list.begin(); i != list.end(); ++i, ++idx) {
 				const MetaData& info = (*i)->getInfo();
-			status += Util::toString(idx) + " - " + string(info.name) + " - " + Util::toString(info.version) + "\n";
+				status += Util::toString(idx) + " - " + string(info.name) + " - " + Util::toString(info.version) + "\n";
 			}
 			hub->addMessage_gui("",status,Msg::SYSTEM);
 		}
@@ -2582,15 +2570,6 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(hub->getWidget("userListCheckButton")), TRUE);
 			}
 		}
-		#ifdef _USELUA
-		else if (command == "lua" ) {
-			ScriptManager::getInstance()->EvaluateChunk(Text::fromT(params));
-		}
-		else if( command == "luafile") {
-			ScriptManager::getInstance()->EvaluateFile(Text::fromT(params));
-		}
-		#endif
-		///
 		else if (command == "exec")
 		{
 			FILE *pipe = popen( param.c_str(), "r" );
@@ -2659,35 +2638,22 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else
 		{
-			#ifdef _USELUA
-				if(!dropMessage) {
-
-					if (BOOLSETTING(SEND_UNKNOWN_COMMANDS))
-					{
-						func2 = new F2(hub, &Hub::sendMessage_client, text, false);
-						WulforManager::get()->dispatchClientFunc(func2);
-					}
-					else {
-			#endif
-					hub->addStatusMessage_gui(_("Unknown command '") + text + _("': type /help for a list of available commands"), Msg::SYSTEM, Sound::NONE);
-			#ifdef _USELUA
-				}
+			if (BOOLSETTING(SEND_UNKNOWN_COMMANDS))
+			{
+					func2 = new F2(hub, &Hub::sendMessage_client, text, false);
+					WulforManager::get()->dispatchClientFunc(func2);
 			}
-			#endif
+			else {
+				hub->addStatusMessage_gui(_("Unknown command '") + text + _("': type /help for a list of available commands"), Msg::SYSTEM, Sound::NONE);
+			}
+			
 		}
 
 	}
 	else
 	{
-		#ifdef _USELUA
-		if(!dropMessage)
-         {
-		#endif
-            func2 = new F2(hub, &Hub::sendMessage_client, text, false);
-            WulforManager::get()->dispatchClientFunc(func2);
-        #ifdef _USELUA
-         }
-        #endif
+		func2 = new F2(hub, &Hub::sendMessage_client, text, false);
+        WulforManager::get()->dispatchClientFunc(func2);
 	}
 }
 

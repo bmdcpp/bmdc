@@ -30,9 +30,6 @@
 #include "TimerManager.h"
 #include "ClientListener.h"
 #include "OnlineUser.h"
-#ifdef _USELUA
-    #include "ScriptManager.h"
-#endif
 #include "CommandQueue.h"
 #include "PluginEntity.h"
 #include "HubSettings.h"
@@ -40,18 +37,8 @@
 namespace dcpp {
 
 using std::atomic;
-#ifdef _USELUA
-struct ClientScriptInstance: public ScriptInstance
-{
-    bool onHubFrameEnter(Client* aClient, const string& aLine);
-    string formatChatMessage(const string& aLine);
-};
-#endif
 /** Yes, this should probably be called a Hub */
 class Client : public PluginEntity<HubData>, public Speaker<ClientListener>, public BufferedSocketListener, protected TimerManagerListener
-#ifdef _USELUA
-,public ClientScriptInstance
-#endif
 {
 public:
 	virtual void connect();

@@ -1894,7 +1894,7 @@ void Settings::onAboutPlugin_gui(GtkWidget *widget, gpointer data)
 {
 	Settings *s = (Settings *)data;	
 	GtkTreeIter iter;
-	if(gtk_tree_selection_get_selected(s->plselection, NULL,&iter))	
+	if(gtk_tree_selection_get_selected(s->plselection, NULL, &iter))	
 	{
 		gint sel = Util::toInt(s->plView.getString(&iter, "Index"));
 		const PluginInfo *p = PluginManager::getInstance()->getPlugin(sel);	

@@ -28,26 +28,13 @@
 #include "HintedUser.h"
 #include "AdcCommand.h"
 #include "MerkleTree.h"
-#ifdef _USELUA
-    #include "ScriptManager.h"
-#endif
 #include "PluginManager.h"
 
 namespace dcpp {
-	
-#ifdef _USELUA
-class UserConnectionScriptInstance : public ScriptInstance {
-protected:
-	bool onUserConnectionMessageIn(UserConnection* aConn, const string& aLine);
-	bool onUserConnectionMessageOut(UserConnection* aConn, const string& aLine);
-};
-#endif
+
 class UserConnection : public PluginEntity<ConnectionData> , public Speaker<UserConnectionListener>,
 	private BufferedSocketListener, public Flags, private CommandHandler<UserConnection>,
 	private boost::noncopyable
-#ifdef _USELUA
-	,public UserConnectionScriptInstance
-#endif
 {
 public:
 	friend class ConnectionManager;

@@ -96,7 +96,6 @@ vars.AddVariables(
 	BoolVariable('release', 'Compile the program with optimizations', 0),
 	BoolVariable('profile', 'Compile the program with profiling information', 0),
 	BoolVariable('libnotify', 'Enable notifications through libnotify', 1),
-	BoolVariable('liblua', 'Enable Lua scripting', 1),
 	BoolVariable('libgnome', 'Enable Gnome Libs', 1),
 	PathVariable('PREFIX', 'Compile the program with PREFIX as the root for installation', '/usr/local', PathVariable.PathIsDir),
 	('FAKE_ROOT', 'Make scons install the program under a fake root', '')
@@ -268,16 +267,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 			print '\tNote: You might have the lib but not the headers'
 		else:
 			conf.env['HAVE_GNOME_LIB'] = 1
-	# lua	
-	if conf.env.get('liblua'):
-		conf.env['HAVE_LUA_H_B'] = 0
-		conf.env['HAVE_LUA_H_51_B'] = 0
-		if not conf.CheckPKG('lua > 5.0'):
-			print '\tLua library not found'
-			conf.env['HAVE_LUA_H_B'] = 1
-		if not conf.CheckPKG('lua5.1 > 5.0'):
-			print '\tLua5.1 library not found'
-			conf.env['HAVE_LUA_H_51_B'] = 1
 	
 	# MiniUPnPc for UPnP
 	if not conf.CheckLib('libminiupnpc'):
@@ -347,16 +336,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if LIB_IS_TAR:
 		env.Append(LINKFLAGS = '-ltar')
 		env.Append(LIBS = 'tar')	
-		
-	
-	#LUA
-	if conf.env.get('liblua'):
-		if env['HAVE_LUA_H_B'] == 0:
-			env.ParseConfig('pkg-config --cflags --libs lua')
-			conf.env.Append(CPPDEFINES = ('-D_USELUA'))
-		if env['HAVE_LUA_H_51_B'] == 0:
-			env.ParseConfig('pkg-config --cflags --libs lua5.1')
-			conf.env.Append(CPPDEFINES = ('-D_USELUA'))
 
 	#gnome libs
 	if conf.env.get('libgnome'):
@@ -375,7 +354,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if not LIB_IS_NATPMP:
 		env.Append(LIBPATH = [BUILD_PATH + LIB_NATPMP])
 		env.Prepend(LIBS = [LIB_NATPMP])	
-		
 		
 	if env.get('PREFIX'):
 		data_dir = '\'\"%s/share\"\'' % env['PREFIX']

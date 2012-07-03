@@ -228,7 +228,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			chatMessage.from = &o;
 		}
 		
-		if(PluginManager::getInstance()->runHook(HOOK_CHAT_IN, (dcptr_t)this, (dcptr_t)&message))
+		if(PluginManager::getInstance()->runHook(HOOK_CHAT_IN, this, message))
 			return;
 			
 		fire(ClientListener::Message(), this, chatMessage);
@@ -739,7 +739,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			message.from = findUser(fromNick);
 		}
 		
-		if(PluginManager::getInstance()->runHook(HOOK_CHAT_PM_IN, (dcptr_t)message.replyTo, (dcptr_t)&message.text))
+		if(PluginManager::getInstance()->runHook(HOOK_CHAT_PM_IN, &(message.replyTo), &(message.text)))
 			return;
 
 		fire(ClientListener::Message(), this, message);
@@ -793,7 +793,7 @@ void NmdcHub::revConnectToMe(const OnlineUser& aUser) {
 
 void NmdcHub::hubMessage(const string& aMessage, bool thirdPerson) {
 	checkstate();
-	if(!PluginManager::getInstance()->runHook(HOOK_CHAT_OUT, (dcptr_t)this, (dcptr_t)&aMessage))
+	if(!PluginManager::getInstance()->runHook(HOOK_CHAT_OUT, this, aMessage))
 		send(fromUtf8( "<" + getMyNick() + "> " + escape(thirdPerson ? "/me " + aMessage : aMessage) + "|" ) );
 }
 
@@ -929,7 +929,7 @@ void NmdcHub::privateMessage(const string& nick, const string& message) {
 void NmdcHub::privateMessage(const OnlineUser& aUser, const string& aMessage, bool /*thirdPerson*/) {
 	checkstate();
 	
-	if(PluginManager::getInstance()->runHook(HOOK_CHAT_PM_OUT, (dcptr_t)&aUser, (dcptr_t)&aMessage))
+	if(PluginManager::getInstance()->runHook(HOOK_CHAT_PM_OUT, (void*)&(aUser), (void*)&(aMessage)))
 		return;
 
 	privateMessage(aUser.getIdentity().getNick(), aMessage);
@@ -990,12 +990,8 @@ void NmdcHub::on(Connected) noexcept {
 }
 
 void NmdcHub::on(Line, const string& aLine) noexcept {
-    if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_IN, (dcptr_t)this, (dcptr_t)&aLine))
+    if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_IN, this, aLine))
 		return;
-    #ifdef _USELUA
-		if (onClientMessage(this, validateMessage(aLine, true)))
-			return;
-	#endif
 	Client::on(Line(), aLine);
 	onLine(aLine);
 }
@@ -1064,14 +1060,5 @@ void NmdcHub::refreshuserlist(bool refreshOnly) {
 		getNickList();
 	}
 }
-
-#ifdef _USELUA
-bool NmdcHubScriptInstance::onClientMessage(NmdcHub* aClient, const string& aLine) {
-	Lock l(scs);
-	MakeCall("nmdch", "DataArrival", 1, aClient, aLine);
-	return GetLuaBool();
-
-}
-#endif
 
 } // namespace dcpp

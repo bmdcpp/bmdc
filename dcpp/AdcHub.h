@@ -24,25 +24,13 @@
 #include "Client.h"
 #include "AdcCommand.h"
 #include "Socket.h"
-#ifdef _USELUA
-    #include "ScriptManager.h"
-#endif
 #include "HubUsersMap.h"
 
 namespace dcpp {
 
 class ClientManager;
-class AdcHub;
-#ifdef _USELUA
-struct AdcScriptInstance : public ScriptInstance {
-	bool onClientMessage(AdcHub* aClient, const string& aLine);
-};
-#endif
 
 class AdcHub : public Client, public CommandHandler<AdcHub>
-#ifdef _USELUA
-, public AdcScriptInstance
-#endif
 {
 public:
 	using Client::send;

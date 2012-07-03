@@ -77,12 +77,12 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 	string param;
 
 	string::size_type x;
-	#ifdef _USELUA
+/*	#ifdef _USELUA
 		if(onUserConnectionMessageIn(this, aLine)) {
 			disconnect(true);
 			return;
 		}
-	#endif
+	#endif*/
 
 	if( (x = aLine.find(' ')) == string::npos) {
 		cmd = aLine;
@@ -303,30 +303,10 @@ ConnectionData* UserConnection::getPluginObject() noexcept {
 
 void UserConnection::send(const string& aString) {
 	lastActivity = GET_TICK();
-	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_CONN_OUT, (dcptr_t)this, (dcptr_t)&aString))
+	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_CONN_OUT, this, aString))
 		return;
-	#ifdef _USELUA
-	if(onUserConnectionMessageOut(this, aString)) {
-	 	disconnect(true);
-		return;
-	}
-	#endif
 	COMMAND_DEBUG(aString, DebugManager::CLIENT_OUT, getRemoteIp());
 	socket->write(aString);
 }
-
-#ifdef _USELUA
-bool UserConnectionScriptInstance::onUserConnectionMessageIn(UserConnection* aConn, const string& aLine) {
-	Lock l(scs);
-	MakeCall("dcpp", "UserDataIn", 1, aConn, aLine);
-	return GetLuaBool();
-}
-
-bool UserConnectionScriptInstance::onUserConnectionMessageOut(UserConnection* aConn, const string& aLine) {
-	Lock l(scs);
-	MakeCall("dcpp", "UserDataOut", 1, aConn, aLine);
-	return GetLuaBool();
-}
-#endif
 
 } // namespace dcpp

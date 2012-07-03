@@ -28,26 +28,13 @@
 #include "CriticalSection.h"
 #include "Text.h"
 #include "Client.h"
-#ifdef _USELUA
-    #include "ScriptManager.h"
-#endif
-
 #include "HubUsersMap.h"
 
 namespace dcpp {
 
 using std::list;
-class NmdcHub;
-#ifdef _USELUA
-struct NmdcHubScriptInstance: public ScriptInstance {
-    bool onClientMessage(NmdcHub* aClient, const string& aLine);
-};
-#endif
 
 class NmdcHub : public Client, private Flags
-#ifdef _USELUA
-, public NmdcHubScriptInstance
-#endif
 {
 public:
 	using Client::send;

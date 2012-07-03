@@ -1,0 +1,4 @@
+LIBRARY	"LuaPlugin"
+
+EXPORTS
+	pluginInit = _pluginInit@4 @1
