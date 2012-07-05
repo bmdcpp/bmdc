@@ -493,7 +493,7 @@ Fix FreeDC++ → BMDC++ in Dialog on Close
 -----r122
 (dcpp rev2935) Fix a mixup between IPs and hostnames leading to wrong search results
 trim hub address.
-Fix compactibily with gcc 4.5.2
+Fix compactibility with gcc 4.5.2
 -----r123
 Threaded Loading of FileList (eiskaltdcpp (dhamp))
 -----r124
@@ -527,4 +527,5 @@ Fix closing of Non-Fav Hub
 [GUI&Core] Remove Internal Lua
 [Lua] Add Plugin for it
 [Plugins] Few Fixes around it
------
+-----r132
+Fix loading icon from http in Hub Tab

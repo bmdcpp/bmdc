@@ -210,8 +210,6 @@ bool PluginManager::onChatDisplay(Client* client, string& line) {
 
 	bool handled = client ? runHook(HOOK_UI_CHAT_DISPLAY, client, &data) : runHook(HOOK_UI_CHAT_DISPLAY, NULL, &data);
 	if(handled && data.out != NULL) {
-		//line.clear();
-		//Text::toT(data.out, line);
 		line = data.out;
 		return true;
 	}
@@ -221,7 +219,7 @@ bool PluginManager::onChatDisplay(Client* client, string& line) {
 
 bool PluginManager::onChatCommand(Client* client, const string& line) {
 	CommandData data;
-	memset(&data,0, sizeof(CommandData));
+	memset(&data, 0, sizeof(CommandData));
 
 	string cmd, param;
 	string::size_type si = line.find(' ');

@@ -98,7 +98,6 @@ OnlineUser& NmdcHub::getUser(const string& aNick) {
 		}
 		
 	}
-	/**/
 
 	ClientManager::getInstance()->putOnline(u);
 	return *u;
@@ -568,11 +567,11 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				feat.push_back("TTHSearch");
 				feat.push_back("ZPipe0");
 				feat.push_back("SaltPass");
-			//	feat.push_back("BotINFO");//test it
+				feat.push_back("BotINFO");//test it
 				
 				supports(feat);
 			}
-			//send("$BotINFO "+getCurrentNick()+"|");
+			send("$BotINFO "+ settings.getNick() +"|");
 			key(CryptoManager::getInstance()->makeKey(lock));
 			OnlineUser& ou = getUser( settings.getNick());
 			validateNick(ou.getIdentity().getNick());

@@ -7,7 +7,7 @@ arch=('i686' 'x86_64')
 url="http://launchpad.net/bmdc++"
 license=('GPL')
 depends=('boost' 'bzip2' 'gtk2>=2.0' 'libglade' 'libgnome>=2.0' 
-'libnotify>=0.4.1' 'openssl' 'lua' 'geoip' 'libtar' )
+'libnotify>=0.4.1' 'openssl' 'geoip' 'libtar' )
 makedepends=('pkgconfig' 'bzr' 'scons' 'gcc')
 provides=(bmdc)
 conflicts=('linuxdcpp' 'linuxdcpp-bzr' 'linuxdcpp-bzr-i18n' 'freedcpp')

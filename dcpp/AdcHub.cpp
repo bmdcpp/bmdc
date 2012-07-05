@@ -85,7 +85,6 @@ OnlineUser& AdcHub::getUser(const uint32_t aSID, const CID& aCID) {
 		ou->inc();
 		ou->initializeData();
 	}
-	/**/
 
 	if(aSID != AdcCommand::HUB_SID)
 		ClientManager::getInstance()->putOnline(ou);
@@ -135,9 +134,10 @@ void AdcHub::clearUsers() {
 	}
 
 	for(SIDIter i = tmp.begin(); i != tmp.end(); ++i) {
-		if(i->first != AdcCommand::HUB_SID)
+		if(i->first != AdcCommand::HUB_SID) {
 			ClientManager::getInstance()->putOffline(i->second);
 		    i->second->dec();
+		}    
 	}
 }
 
@@ -716,9 +716,6 @@ void AdcHub::privateMessage(const OnlineUser& user, const string& aMessage, bool
 	if(state != STATE_NORMAL)
 		return;
 	
-	//if(PluginManager::getInstance()->runHook(HOOK_CHAT_PM_OUT, user , aMessage))
-	//	return;		
-		
 	AdcCommand c(AdcCommand::CMD_MSG, user.getIdentity().getSID(), AdcCommand::TYPE_ECHO);
 	c.addParam(aMessage);
 	if(thirdPerson)
@@ -1009,7 +1006,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 	addParam(lastInfoMap, c, "VE", VERSIONSTRING);
 	addParam(lastInfoMap, c, "AW", Util::getAway() ? "1" : Util::emptyString);
 	// RF = ref address from connected
-	 addParam(lastInfoMap, c, "RF", getIpPort());
+	addParam(lastInfoMap, c, "RF", getIpPort());
 
 	int limit = ThrottleManager::getInstance()->getDownLimit();
 	if (limit > 0) {
@@ -1046,7 +1043,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 		addParam(lastInfoMap, c, "U4", "");
 		su += "," + NAT0_FEATURE;
 	}
-
+	
 	addParam(lastInfoMap, c, "SU", su);
 
 	if(c.getParameters().size() > 0) {
@@ -1112,6 +1109,8 @@ void AdcHub::on(Connected c) noexcept {
 	cmd.addParam(ZLIF_SUPPORT);
 
 	send(cmd);
+	
+	
 }
 
 void AdcHub::on(Line l, const string& aLine) noexcept {

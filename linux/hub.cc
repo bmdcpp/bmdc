@@ -4716,6 +4716,9 @@ void Hub::setHubIcon_gui(string url)
 		g_ascii_strncasecmp(url.c_str(), "https://", 8) == 0 ||
 		g_ascii_strncasecmp(url.c_str(), "www.", 4) == 0)
 	{
+	   if(iconshttp.get())
+			return;
+	   
 	   iconshttp.reset(new HttpDownload(url,[this] { updateIcons(); }, false));
 	}
 }
@@ -4723,9 +4726,13 @@ void Hub::updateIcons()
 {
 	if(!iconshttp->buf.empty())
 	{
-		string path = Util::getPath(Util::PATH_USER_CONFIG) + "/icons/" + Util::toString(Util::rand(0,2147483647))+".png";
+		try {
+		string path = Util::getPath(Util::PATH_USER_CONFIG) + "/Images/" + Util::toString(Util::rand(0,2147483647))+".png";
 		File(path,File::WRITE, File::CREATE | File::TRUNCATE).write(iconshttp->buf);
 		setIconPixbufs_gui(path);
+		}catch(const FileException& e)
+		{ g_print("%s",e.what());}
+		
 	}
 }
 //custom popup menu

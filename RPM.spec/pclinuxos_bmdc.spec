@@ -15,7 +15,6 @@ BuildRequires:  libgeoip-devel
 BuildRequires:	openssl-devel
 BuildRequires:	scons
 BuildRequires:  libtar-devel
-BuildRequires:  liblua-devel
 
 %description
 A BMDC++ Client Mod of FreeDC++.

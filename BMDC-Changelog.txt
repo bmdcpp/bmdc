@@ -12,6 +12,13 @@
 * Possible do nothing on middle button on Tabs
 * Possible use ctrl + arrow only to chat history
 * Fix Limiting Icon
+* Removed Internal Lua Scripting
+* User ConnectivityManager and AutoConfigure Connection 
+* Add commands /conn and /info and /raw
+* Remove /lua and /luafile from GUI
+* Fixed . after copy IP
+* Threaded Loading of FileList (eiskaltdcpp (dhamp))
+* partialy update to 2972
 * Update to 2923 dcpp
  ======
 0.0.1

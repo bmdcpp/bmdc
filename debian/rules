@@ -56,7 +56,7 @@ binary-arch: install
 	dh_gconf
 	dh_icons
 	dh_link
-	dh_strip
+#	dh_strip
 	dh_compress
 #	dh_fixperms -a
 #	dh_perl

@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-07-02 22:54+0200\n"
+"POT-Creation-Date: 2012-07-04 17:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-07-03 18:05+0200\n"
+"POT-Creation-Date: 2012-07-05 15:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3063,7 +3063,7 @@ msgstr ""
 msgid "Add finished files to share instantly (if shared)"
 msgstr ""
 
-#: linux/hub.cc:4745
+#: linux/hub.cc:4752
 msgid "Add to Favorite hubs"
 msgstr ""
 
@@ -3270,7 +3270,7 @@ msgstr ""
 msgid "Clear search box after each search"
 msgstr ""
 
-#: linux/bookentry.cc:284 linux/hub.cc:4744 linux/privatemessage.cc:1520
+#: linux/bookentry.cc:284 linux/hub.cc:4751 linux/privatemessage.cc:1520
 #: linux/sharebrowser.cc:1105
 msgid "Close"
 msgstr ""
@@ -3339,7 +3339,7 @@ msgstr ""
 msgid "Copy Nick(s)"
 msgstr ""
 
-#: linux/hub.cc:4743
+#: linux/hub.cc:4750
 msgid "Copy URL"
 msgstr ""
 
@@ -4232,7 +4232,7 @@ msgstr ""
 msgid "Remote client does not fully support TTH - cannot download"
 msgstr ""
 
-#: linux/hub.cc:4746
+#: linux/hub.cc:4753
 msgid "Remove from Favorite hubs"
 msgstr ""
 
@@ -4328,7 +4328,7 @@ msgstr ""
 msgid "Set Slots to:"
 msgstr ""
 
-#: linux/hub.cc:4747
+#: linux/hub.cc:4754
 msgid "Set Tab Name"
 msgstr ""
 

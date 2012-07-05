@@ -3,16 +3,15 @@ Section: net
 Version: 0.0.1-96
 Priority: optional
 Maintainer: Mank <freedcpp@seznam.cz>
-Build-Depends: debhelper (>= 4.2.0), scons, libbz2-dev, zlib1g-dev, libgtk2.0-dev, libglade2-dev, libssl-dev, libboost-regex1.46-dev, libboost-thread1.46-dev, libnotify-dev, liblua5.1-0-dev, libgnome2-dev, libgeoip-dev,  libtar-dev
+Build-Depends: debhelper (>= 4.2.0), scons, libbz2-dev, zlib1g-dev, libgtk2.0-dev, libglade2-dev, libssl-dev, libboost-regex1.46-dev, libboost-thread1.46-dev, libnotify-dev, libgnome2-dev, libgeoip-dev,  libtar-dev
 
 Package: bmdc
 Architecture: any
 Installed-Size: ${Installed-Size}
 Depends: ${shlibs:Depends}
-Suggests: bmdc-emoticons
 Homepage: http://launchpad.net/bmdc++
 Description: BMDC++ by Mank and branec
- DC++ Client with Ignore User ,Lua Support, Media Spam and many others.
+ DC++ Client with Ignore User , Media Spam and many others.
  ...
  .
- http://bmdc.no-ip.sk
+ http://freedcppmv.sourceforge.net/
