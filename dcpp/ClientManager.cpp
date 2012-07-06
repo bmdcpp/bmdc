@@ -823,7 +823,7 @@ void ClientManager::on(Failed, Client* client, const string&) noexcept {
 }
 
 void ClientManager::on(HubUserCommand, Client* client, int aType, int ctx, const string& name, const string& command) noexcept {
-	if(BOOLSETTING(HUB_USER_COMMANDS)) {
+	if(SETTING(HUB_USER_COMMANDS)) {
 		if(aType == UserCommand::TYPE_REMOVE) {
 			int cmd = FavoriteManager::getInstance()->findUserCommand(name, client->getHubUrl());
 			if(cmd != -1)
@@ -870,7 +870,7 @@ void ClientManager::checkCheating(const HintedUser& p, DirectoryListing* dl) {
 				cheatStr = str(boost::format("Mismatched share size - filelist was inflated %1% times, stated size = %[userSSshort], real size = %[userRSshort]")
 					% qwe);
 			}
-			report = ou->setCheat(cheatStr, false, true, BOOLSETTING(SHOW_FAKESHARE_RAW));
+			report = ou->setCheat(cheatStr, false, true, SETTING(SHOW_FAKESHARE_RAW));
 			sendAction(*ou, SETTING(FAKESHARE_RAW));
 		} else {
 			//RSX++ //ADLS Forbidden files
@@ -1037,7 +1037,7 @@ void ClientManager::fileListDisconnected(const UserPtr& p) {
 
 		if(fileListDisconnects == SETTING(MAX_DISCONNECTS)) {
 			c = &ou->getClient();
-			report += ou->setCheat("Disconnected file list %[userFD] times", false, true, BOOLSETTING(SHOW_DISCONNECT));
+			report += ou->setCheat("Disconnected file list %[userFD] times", false, true, SETTING(SHOW_DISCONNECT));
 			if(ou->getIdentity().isFileListQueued()) {
 				ou->getIdentity().setFileListComplete("1");
 				ou->getIdentity().setFileListQueued("0");
@@ -1087,17 +1087,17 @@ void ClientManager::setListSize(const UserPtr& p, int64_t aFileLength, bool adc)
 		ou->getIdentity().set("LS", Util::toString(aFileLength));
 
 		if(ou->getIdentity().getBytesShared() > 0) {
-			if((SETTING(MAX_FILELIST_SIZE) > 0) && (aFileLength > SETTING(MAX_FILELIST_SIZE)) && BOOLSETTING(FILELIST_TOO_SMALL_BIG)) {
-				report = ou->setCheat("Too large filelist - %[userLSshort] for the specified share of %[userSSshort]", false, true, BOOLSETTING(FILELIST_TOO_SMALL_BIG));
+			if((SETTING(MAX_FILELIST_SIZE) > 0) && (aFileLength > SETTING(MAX_FILELIST_SIZE)) && SETTING(FILELIST_TOO_SMALL_BIG)) {
+				report = ou->setCheat("Too large filelist - %[userLSshort] for the specified share of %[userSSshort]", false, true, SETTING(FILELIST_TOO_SMALL_BIG));
 				sendAction(*ou, SETTING(FILELIST_TOO_SMALL_BIG_RAW));
-			} else if((aFileLength < SETTING(MIN_FL_SIZE) && BOOLSETTING(FILELIST_TOO_SMALL_BIG)) || (aFileLength < 100)) {
-				report = ou->setCheat("Too small filelist - %[userLSshort] for the specified share of %[userSSshort]", false, true, BOOLSETTING(FILELIST_TOO_SMALL_BIG));
+			} else if((aFileLength < SETTING(MIN_FL_SIZE) && SETTING(FILELIST_TOO_SMALL_BIG)) || (aFileLength < 100)) {
+				report = ou->setCheat("Too small filelist - %[userLSshort] for the specified share of %[userSSshort]", false, true, SETTING(FILELIST_TOO_SMALL_BIG));
 				sendAction(*ou, SETTING(FILELIST_TOO_SMALL_BIG_RAW));
 			}
 		} else if(adc == false) {
 			int64_t listLength = (!ou->getIdentity().get("LL").empty()) ? Util::toInt64(ou->getIdentity().get("LL")) : -1;
 			if((listLength != -1) && (listLength * 3 < aFileLength) && (ou->getIdentity().getBytesShared() > 0)) {
-				report = ou->setCheat("Fake file list - ListLen = %[userLL], FileLength = %[userLS]", false, true, BOOLSETTING(LISTLEN_MISMATCH_SHOW));
+				report = ou->setCheat("Fake file list - ListLen = %[userLL], FileLength = %[userLS]", false, true, SETTING(LISTLEN_MISMATCH_SHOW));
 				sendAction(*ou, SETTING(LISTLEN_MISMATCH));
 			}
 		}

@@ -300,9 +300,9 @@ void RawManager::calcADLAction(int aPoints, int& a, bool& d) {
 
 	int min_p = SETTING(MIN_POINTS_TO_DISPLAY_CHEAT);
 	if(min_p > 0) {
-		d = (aPoints >= min_p) && BOOLSETTING(SHOW_ADLSEARCH_DEFAULT_ACTION);
+		d = (aPoints >= min_p) && SETTING(SHOW_ADLSEARCH_DEFAULT_ACTION);
 	} else {
-		d = BOOLSETTING(SHOW_ADLSEARCH_DEFAULT_ACTION);
+		d = SETTING(SHOW_ADLSEARCH_DEFAULT_ACTION);
 	}
 }
 

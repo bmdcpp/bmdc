@@ -288,7 +288,7 @@ void DownloadQueue::addFile_gui(StringMap params, bool updateDirs)
 			fileView.col("Icon"), /*"bmdc-file"*/WulforUtil::loadIconShare(Util::getFileExt(params["Filename"])),
 			-1);
 
-		if (BOOLSETTING(BOLD_QUEUE))
+		if (SETTING(BOLD_QUEUE))
 			setBold_gui();
 	}
 
@@ -427,7 +427,7 @@ void DownloadQueue::removeFile_gui(string target, int64_t size)
 
 	updateStatus_gui();
 
-	if (BOOLSETTING(BOLD_QUEUE))
+	if (SETTING(BOLD_QUEUE))
 		setBold_gui();
 }
 

@@ -614,6 +614,21 @@ void Settings::addOption_gui(GtkListStore *store, const string &name, SettingsMa
 		-1);
 }
 
+void Settings::addOption_gui(GtkListStore *store, char *name, dcpp::SettingsManager::BoolSetting setting)
+{ 
+	GtkTreeIter iter;
+	gtk_list_store_append(store, &iter);
+	gtk_list_store_set(store, &iter,
+		0, SettingsManager::getInstance()->get(setting),
+		1, name,
+		2, (int)setting,
+		3, "",
+		-1);
+	
+	
+}
+
+
 /* Adds a custom UI specific option */
 
 void Settings::addOption_gui(GtkListStore *store, const string &name, const string &setting)
@@ -797,7 +812,7 @@ void Settings::saveOptionsView_gui(TreeView &treeView, SettingsManager *sm)
 		// If core setting has been set to a valid value
 		if (coreSetting >= 0)
 		{
-			sm->set((SettingsManager::IntSetting)coreSetting, toggled);
+			sm->set((SettingsManager::BoolSetting)coreSetting, toggled);
 		}
 		else
 		{
@@ -1053,8 +1068,8 @@ void Settings::initSharing_gui()
 
 	updateShares_gui();//NOTE: core 0.762
 
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("shareHiddenCheckButton")), BOOLSETTING(SHARE_HIDDEN));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("followLinksCheckButton")), BOOLSETTING(FOLLOW_LINKS));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("shareHiddenCheckButton")), SETTING(SHARE_HIDDEN));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("followLinksCheckButton")), SETTING(FOLLOW_LINKS));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("sharedExtraSlotSpinButton")), (double)SETTING(MIN_UPLOAD_SPEED));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("sharedUploadSlotsSpinButton")), (int)SETTING(SLOTS_PRIMARY));
 }
@@ -1088,7 +1103,6 @@ void Settings::initAppearance_gui()
 		addOption_gui(appearanceStore, _("Show Flags in main chat"), "use-flag");
 		addOption_gui(appearanceStore, _("Use DNS in Transfers"), "use-dns");
 		addOption_gui(appearanceStore, _("Log Ignored Messages as STATUS mess"), "log-messages");
-		addOption_gui(appearanceStore, _("Enable Lua debug messages"), SettingsManager::ENB_LUA_DEBUG);
 		addOption_gui(appearanceStore, _("Do not close Tab on middle button (wheel)"), "book-three-button-disable");
 		addOption_gui(appearanceStore, _("Use ctrl for histori in chat Books"), "key-hub-with-ctrl");
 
@@ -1933,36 +1947,36 @@ void Settings::initLog_gui()
 	gtk_entry_set_text(GTK_ENTRY(getWidget("logDirectoryEntry")), SETTING(LOG_DIRECTORY).c_str());
 
 	g_signal_connect(getWidget("logMainCheckButton"), "toggled", G_CALLBACK(onLogMainClicked_gui), (gpointer)this);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("logMainCheckButton")), BOOLSETTING(LOG_MAIN_CHAT));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("logMainCheckButton")), SETTING(LOG_MAIN_CHAT));
 	gtk_entry_set_text(GTK_ENTRY(getWidget("logMainEntry")), SETTING(LOG_FORMAT_MAIN_CHAT).c_str());
-	gtk_widget_set_sensitive(getWidget("logMainLabel"), BOOLSETTING(LOG_MAIN_CHAT));
-	gtk_widget_set_sensitive(getWidget("logMainEntry"), BOOLSETTING(LOG_MAIN_CHAT));
+	gtk_widget_set_sensitive(getWidget("logMainLabel"), SETTING(LOG_MAIN_CHAT));
+	gtk_widget_set_sensitive(getWidget("logMainEntry"), SETTING(LOG_MAIN_CHAT));
 
 	g_signal_connect(getWidget("logPrivateCheckButton"), "toggled", G_CALLBACK(onLogPrivateClicked_gui), (gpointer)this);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("logPrivateCheckButton")), BOOLSETTING(LOG_PRIVATE_CHAT));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("logPrivateCheckButton")), SETTING(LOG_PRIVATE_CHAT));
 	gtk_entry_set_text(GTK_ENTRY(getWidget("logPrivateEntry")), SETTING(LOG_FORMAT_PRIVATE_CHAT).c_str());
-	gtk_widget_set_sensitive(getWidget("logPrivateLabel"), BOOLSETTING(LOG_PRIVATE_CHAT));
-	gtk_widget_set_sensitive(getWidget("logPrivateEntry"), BOOLSETTING(LOG_PRIVATE_CHAT));
+	gtk_widget_set_sensitive(getWidget("logPrivateLabel"), SETTING(LOG_PRIVATE_CHAT));
+	gtk_widget_set_sensitive(getWidget("logPrivateEntry"), SETTING(LOG_PRIVATE_CHAT));
 
 	g_signal_connect(getWidget("logDownloadsCheckButton"), "toggled", G_CALLBACK(onLogDownloadClicked_gui), (gpointer)this);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("logDownloadsCheckButton")), BOOLSETTING(LOG_DOWNLOADS));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("logDownloadsCheckButton")), SETTING(LOG_DOWNLOADS));
 	gtk_entry_set_text(GTK_ENTRY(getWidget("logDownloadsEntry")), SETTING(LOG_FORMAT_POST_DOWNLOAD).c_str());
-	gtk_widget_set_sensitive(getWidget("logDownloadsLabel"), BOOLSETTING(LOG_DOWNLOADS));
-	gtk_widget_set_sensitive(getWidget("logDownloadsEntry"), BOOLSETTING(LOG_DOWNLOADS));
+	gtk_widget_set_sensitive(getWidget("logDownloadsLabel"), SETTING(LOG_DOWNLOADS));
+	gtk_widget_set_sensitive(getWidget("logDownloadsEntry"), SETTING(LOG_DOWNLOADS));
 
 	g_signal_connect(getWidget("logUploadsCheckButton"), "toggled", G_CALLBACK(onLogUploadClicked_gui), (gpointer)this);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("logUploadsCheckButton")), BOOLSETTING(LOG_UPLOADS));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("logUploadsCheckButton")), SETTING(LOG_UPLOADS));
 	gtk_entry_set_text(GTK_ENTRY(getWidget("logUploadsEntry")), SETTING(LOG_FORMAT_POST_UPLOAD).c_str());
-	gtk_widget_set_sensitive(getWidget("logUploadsLabel"), BOOLSETTING(LOG_UPLOADS));
-	gtk_widget_set_sensitive(getWidget("logUploadsEntry"), BOOLSETTING(LOG_UPLOADS));
+	gtk_widget_set_sensitive(getWidget("logUploadsLabel"), SETTING(LOG_UPLOADS));
+	gtk_widget_set_sensitive(getWidget("logUploadsEntry"), SETTING(LOG_UPLOADS));
 
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("logSystemCheckButton")), BOOLSETTING(LOG_SYSTEM));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("logStatusCheckButton")), BOOLSETTING(LOG_STATUS_MESSAGES));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("logFilelistTransfersCheckButton")), BOOLSETTING(LOG_FILELIST_TRANSFERS));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("logSystemCheckButton")), SETTING(LOG_SYSTEM));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("logStatusCheckButton")), SETTING(LOG_STATUS_MESSAGES));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("logFilelistTransfersCheckButton")), SETTING(LOG_FILELIST_TRANSFERS));
 	//Raws
 	g_signal_connect(getWidget("checkraws"), "toggled", G_CALLBACK(onRawsClicked_gui), (gpointer)this);
-	gtk_widget_set_sensitive(getWidget("entryraws"), BOOLSETTING(LOG_RAW_CMD));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkraws")), BOOLSETTING(LOG_RAW_CMD));
+	gtk_widget_set_sensitive(getWidget("entryraws"), SETTING(LOG_RAW_CMD));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkraws")), SETTING(LOG_RAW_CMD));
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entryraws")), SETTING(LOG_FORMAT_RAW).c_str());
 }
 
@@ -1986,9 +2000,6 @@ void Settings::initAdvanced_gui()
 		addOption_gui(advancedStore, _("Don't send the away message to bots"), SettingsManager::NO_AWAYMSG_TO_BOTS);
 		addOption_gui(advancedStore, _("Register with the OS to handle dchub:// and adc:// URL links"), SettingsManager::URL_HANDLER);
 		addOption_gui(advancedStore, _("Register with the OS to handle magnet: URL links"), SettingsManager::MAGNET_REGISTER);
-		addOption_gui(advancedStore, _("Enable debug ADC"), SettingsManager::ADC_DEBUG);
-		/// @todo: Uncomment when implemented
-		//addOption_gui(advancedStore, _("Use CTRL for line history"), SettingsManager::USE_CTRL_FOR_LINE_HISTORY);
 	}
 
 	{ // User Commands
@@ -2047,7 +2058,7 @@ void Settings::initAdvanced_gui()
 
 		createOptionsView_gui(certificatesView, certificatesStore, "certificatesTreeView");
 
-		addOption_gui(certificatesStore, _("Use TLS when remote client supports it"), SettingsManager::USE_TLS);
+		addOption_gui(certificatesStore, _("Use TLS when remote client supports it"), SettingsManager::REQUIRE_TLS);
 		addOption_gui(certificatesStore, _("Allow TLS connections to hubs without trusted certificate"), SettingsManager::ALLOW_UNTRUSTED_HUBS);
 		addOption_gui(certificatesStore, _("Allow TLS connections to clients without trusted certificate"), SettingsManager::ALLOW_UNTRUSTED_CLIENTS);
 
@@ -2079,7 +2090,7 @@ void Settings::initBandwidthLimiting_gui()
 	gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("limitsFromCombobox")), SETTING(BANDWIDTH_LIMIT_START));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("limitsToCombobox")), SETTING(BANDWIDTH_LIMIT_END));
 
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("useLimitSecondCheckButton")), BOOLSETTING(TIME_DEPENDENT_THROTTLE));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("useLimitSecondCheckButton")), SETTING(TIME_DEPENDENT_THROTTLE));
 
 	onLimitSecondToggled_gui(NULL, (gpointer)this);
 	g_signal_connect(getWidget("useLimitSecondCheckButton"), "toggled", G_CALLBACK(onLimitSecondToggled_gui), (gpointer)this);
@@ -2110,7 +2121,7 @@ void Settings::initSearchTypes_gui()
 
 	// search types
 	const SettingsManager::SearchTypes &searchTypes = SettingsManager::getInstance()->getSearchTypes();
-	for (SettingsManager::SearchTypesIterC i = searchTypes.begin(), iend = searchTypes.end(); i != iend; ++i)
+	for (auto i = searchTypes.begin(), iend = searchTypes.end(); i != iend; ++i)
 	{
 		string type = i->first;
 		bool predefined = false;
@@ -2534,7 +2545,7 @@ void Settings::onDefaultSTButton_gui(GtkWidget *widget, gpointer data)
 
 	// search types
 	const SettingsManager::SearchTypes &searchTypes = SettingsManager::getInstance()->getSearchTypes();
-	for (SettingsManager::SearchTypesIterC i = searchTypes.begin(), j = searchTypes.end(); i != j; ++i)
+	for (auto i = searchTypes.begin(), j = searchTypes.end(); i != j; ++i)
 	{
 		string type = i->first;
 		bool predefined = false;
@@ -4244,7 +4255,7 @@ void Settings::updateShares_gui()
 	{
 		size = ShareManager::getInstance()->getShareSize(it->second);
 
-		if (size == -1 && !BOOLSETTING(SHARE_HIDDEN))
+		if (size == -1 && !SETTING(SHARE_HIDDEN))
 		{
 			vname = _("[HIDDEN SHARE] ") + it->first;
 			size = 0;
@@ -4871,7 +4882,7 @@ void Settings::onRemoveHighlighting_gui(GtkWidget *widget, gpointer data)
 
 	if (gtk_tree_selection_get_selected(s->selection, NULL, &iter))
 	{
-		if (BOOLSETTING(CONFIRM_HUB_REMOVAL))
+		if (SETTING(CONFIRM_HUB_REMOVAL))
 		{
 			string name = s->hView.getString(&iter, _("String"));
 			GtkWindow* parent = GTK_WINDOW(s->getContainer());

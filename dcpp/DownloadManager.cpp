@@ -90,10 +90,10 @@ void DownloadManager::on(TimerManagerListener::Second, uint64_t aTick) noexcept 
 				bool onlineSourcesOk = isUserList ?
 					true : QueueManager::getInstance()->countOnlineSources(d->getPath()) >= SETTING(AUTODROP_MINSOURCES);
 				bool filesizeOk = !isUserList && d->getSize() >= ((int64_t)SETTING(AUTODROP_FILESIZE)) * 1024;
-				bool dropIt = (isUserList && BOOLSETTING(AUTODROP_FILELISTS)) ||
-					(filesizeOk && BOOLSETTING(AUTODROP_ALL));
+				bool dropIt = (isUserList && SETTING(AUTODROP_FILELISTS)) ||
+					(filesizeOk && SETTING(AUTODROP_ALL));
 				if(speedTooLow && onlineSourcesOk && dropIt) {
-					if(BOOLSETTING(AUTODROP_DISCONNECT) && isUserList) {
+					if(SETTING(AUTODROP_DISCONNECT) && isUserList) {
 						d->getUserConnection().disconnect();
 					} else {
 						dropTargets.push_back(make_pair(d->getPath(), d->getUser()));
@@ -122,7 +122,7 @@ void DownloadManager::addConnection(UserConnectionPtr conn) {
 	if(!conn->isSet(UserConnection::FLAG_SUPPORTS_TTHL) || !conn->isSet(UserConnection::FLAG_SUPPORTS_ADCGET)) {//BMDC TTHF->TTHL
 		// Can't download from these...
 		// No TTHL/ADCGET support///BMDC++ L->F
-		ClientManager::getInstance()->setCheating(conn->getUser(), "", "No TTHL/ADCGET support", 0,true /*RSXPP_BOOLSETTING(SHOW_NO_TTHF)*/, true, true, true, true);//TODO: add settings NO_TTHF
+		ClientManager::getInstance()->setCheating(conn->getUser(), "", "No TTHL/ADCGET support", 0,true , true, true, true, true);//TODO: add settings NO_TTHF
 		//END
 		conn->getUser()->setFlag(User::OLD_CLIENT);
 		QueueManager::getInstance()->removeSource(conn->getUser(), QueueItem::Source::FLAG_NO_TTHF);
@@ -345,7 +345,7 @@ void DownloadManager::endData(UserConnection* aSource) {
 
 		dcdebug("Download finished: %s, size " I64_FMT ", downloaded " I64_FMT "\n", d->getPath().c_str(), d->getSize(), d->getPos());
 
-		if(BOOLSETTING(LOG_DOWNLOADS) && (BOOLSETTING(LOG_FILELIST_TRANSFERS) || d->getType() == Transfer::TYPE_FILE)) {
+		if(SETTING(LOG_DOWNLOADS) && (SETTING(LOG_FILELIST_TRANSFERS) || d->getType() == Transfer::TYPE_FILE)) {
 			logDownload(aSource, d);
 		}
 	}
@@ -514,7 +514,7 @@ void DownloadManager::fileNotAvailable(UserConnection* aSource) {
 	//BMDC//RSX++
 	if (d->getType() == Transfer::TYPE_FULL_LIST) {
 		fire(DownloadManagerListener::Failed(), d, "Check complete, idle");
-		ClientManager::getInstance()->setCheating(aSource->getUser(), "", "Filelist Not Available", SETTING(FILELIST_NA_RAW), BOOLSETTING(SHOW_FILELIST_NA), false, true, false, true);
+		ClientManager::getInstance()->setCheating(aSource->getUser(), "", "Filelist Not Available", SETTING(FILELIST_NA_RAW), SETTING(SHOW_FILELIST_NA), false, true, false, true);
 		QueueManager::getInstance()->putDownload(d, true);
 		removeConnection(aSource);
 		return;

@@ -167,7 +167,7 @@ BookEntry(Entry::DETECTION, _("Detection Settings"), "detection.glade")
 
 	g_signal_connect(getWidget("buttonvermis"), "clicked", G_CALLBACK(onSelectAction), (gpointer)this);
 	g_object_set_data(G_OBJECT(getWidget("buttonvermis")),"wid",getWidget("entryvermis"));
-	g_object_set_data(G_OBJECT(getWidget("buttonvermis")), "set",(void *)(gint)sm->get(SettingsManager::IntSetting::VERSION_MISMATCH));
+	g_object_set_data(G_OBJECT(getWidget("buttonvermis")), "set",(void *)(gint)sm->get(SettingsManager::BoolSetting::VERSION_MISMATCH));
 
 	g_signal_connect(getWidget("buttondis"), "clicked", G_CALLBACK(onSelectAction), (gpointer)this);
 	g_object_set_data(G_OBJECT(getWidget("buttondis")),"wid",getWidget("entrydis"));
@@ -208,37 +208,37 @@ DetectionTab::~DetectionTab() { }
 
 void DetectionTab::show() {
 	//Fake
-	gboolean afake = BOOLSETTING(SHOW_FAKESHARE_RAW) ? TRUE : FALSE;
+	gboolean afake =SETTING(SHOW_FAKESHARE_RAW) ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkFake1")), afake);
 	//EMULation
-	gboolean emul = BOOLSETTING(SHOW_DCPP_EMULATION) ? TRUE : FALSE;
+	gboolean emul = SETTING(SHOW_DCPP_EMULATION) ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkemul1")), emul);
 	///FLVMISMATCH
-	gboolean ver= BOOLSETTING(SHOW_FILELIST_VERSION_MISMATCH) ? TRUE : FALSE;
+	gboolean ver= SETTING(SHOW_FILELIST_VERSION_MISMATCH) ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkVmismatch1")), ver);
 	///ListlenMMatch
-	gboolean listlen = BOOLSETTING(LISTLEN_MISMATCH_SHOW) ? TRUE : FALSE;
+	gboolean listlen = SETTING(LISTLEN_MISMATCH_SHOW) ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checklistlen")), listlen);
 	///Diconnect
-	gboolean disc = BOOLSETTING(SHOW_DISCONNECT) ? TRUE : FALSE;
+	gboolean disc = SETTING(SHOW_DISCONNECT) ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkdiscon7")), disc);
 	///SLSP
-	gboolean useslw = BOOLSETTING(USE_SDL_KICK) ? TRUE : FALSE;
+	gboolean useslw = SETTING(USE_SDL_KICK) ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkbutton2slw")), useslw);
 	///Show Cheats
-	gboolean showcheat = BOOLSETTING(DISPLAY_CHEATS_IN_MAIN_CHAT) ? TRUE : FALSE;
+	gboolean showcheat = SETTING(DISPLAY_CHEATS_IN_MAIN_CHAT) ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkShowCheat")), showcheat);
 	///ADLA
-	gboolean showadla = BOOLSETTING(SHOW_ADLSEARCH_DEFAULT_ACTION) ? TRUE : FALSE;
+	gboolean showadla = SETTING(SHOW_ADLSEARCH_DEFAULT_ACTION) ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkADLACtionShow")), showadla);
 
-	showadla = BOOLSETTING(SHOW_RMDC) ? TRUE : FALSE;
+	showadla = SETTING(SHOW_RMDC) ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkRmdc1")), showadla);
 
-	showadla = BOOLSETTING(FILELIST_TOO_SMALL_BIG) ? TRUE : FALSE;
+	showadla = SETTING(FILELIST_TOO_SMALL_BIG) ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkbutton1")), showadla);
 
-	showadla = BOOLSETTING(VERSION_MISMATCH) ? TRUE : FALSE;
+	showadla = SETTING(VERSION_MISMATCH) ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkVmismatch1")), showadla);
 
 	///Min FL SIZE
@@ -254,7 +254,7 @@ void DetectionTab::show() {
 	int maxfilelist = SETTING(MAX_FILELISTS);
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("spinFileLists")), (gdouble)maxfilelist);
 	///ClientsCheckBeforeFL
-	gboolean chclbeffl = BOOLSETTING(CHECK_ALL_CLIENTS_BEFORE_FILELISTS) ? TRUE : FALSE;
+	gboolean chclbeffl = SETTING(CHECK_ALL_CLIENTS_BEFORE_FILELISTS) ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkCLBFFL")), chclbeffl);
 	///SleepTime
 	int sleept = SETTING(SLEEP_TIME);
@@ -294,7 +294,7 @@ void DetectionTab::show() {
 	fake = sm->get(SettingsManager::IntSetting::LISTLEN_MISMATCH);
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entrylis")), Util::toString(fake).c_str());
 
-	fake = sm->get(SettingsManager::IntSetting::VERSION_MISMATCH);
+	fake = (int)sm->get(SettingsManager::BoolSetting::VERSION_MISMATCH);
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entryvermis")), Util::toString(fake).c_str());
 
 	fake = sm->get(SettingsManager::IntSetting::DISCONNECT_RAW);
@@ -541,7 +541,7 @@ void DetectionTab::onRemoveAct(GtkWidget *widget , gpointer data)
 	{
 		string name = dt->actionView.getString(&iter, N_("Name"));
 
-		if(BOOLSETTING(CONFIRM_HUB_REMOVAL))
+		if(SETTING(CONFIRM_HUB_REMOVAL))
 		{
 			GtkWindow* parent = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
 			GtkWidget* dialog = gtk_message_dialog_new(parent,
@@ -573,7 +573,7 @@ void DetectionTab::onRemoveRaw(GtkWidget *widget , gpointer data)
 	{
 		string name = dt->RawView.getString(&iter, N_("Name"));
 
-		if(BOOLSETTING(CONFIRM_HUB_REMOVAL))
+		if(SETTING(CONFIRM_HUB_REMOVAL))
 		{
 			GtkWindow* parent = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
 			GtkWidget* dialog = gtk_message_dialog_new(parent,
@@ -869,7 +869,7 @@ void DetectionTab::onRemoveEntryDet(GtkWidget *widget, gpointer data)
 		string name = dt->detectionView.getString(&iter,N_("Name"));
 		gint id = dt->detectionView.getValue<gint>(&iter, N_("ID"));
 
-				if(BOOLSETTING(CONFIRM_HUB_REMOVAL))
+				if(SETTING(CONFIRM_HUB_REMOVAL))
 				{
 					GtkWindow* parent = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
 					GtkWidget* dialog = gtk_message_dialog_new(parent,
@@ -1059,7 +1059,7 @@ void DetectionTab::onRemItemDlg_gui(GtkWidget *widget, gpointer data)
 	if(!gtk_tree_selection_get_selected(dt->itemselection, NULL, &iter))
 		return;
 
-	if (BOOLSETTING(CONFIRM_USER_REMOVAL))
+	if (SETTING(CONFIRM_USER_REMOVAL))
 	{
 			GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 					GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -1466,7 +1466,7 @@ void DetectionTab::onADSLPointsDEL(GtkWidget *widget, gpointer data)
 	if(!gtk_tree_selection_get_selected(dt->pointselect, NULL, &iter))
 		return;
 
-	 if (BOOLSETTING(CONFIRM_USER_REMOVAL))
+	 if (SETTING(CONFIRM_USER_REMOVAL))
 	 {
 					GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 						GTK_DIALOG_DESTROY_WITH_PARENT,

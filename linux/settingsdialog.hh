@@ -47,6 +47,7 @@ class Settings:
 	private:
 		// GUI functions
 		void addOption_gui(GtkListStore *store, const std::string &name, dcpp::SettingsManager::IntSetting setting);
+		void addOption_gui(GtkListStore *store, char *name, dcpp::SettingsManager::BoolSetting setting);
 		void addOption_gui(GtkListStore *store, WulforSettingsManager *wsm, const std::string &name,
 			const std::string &key1, const std::string &key2, const std::string &key3, const std::string &key4);
 		void addOption_gui(GtkListStore *store, WulforSettingsManager *wsm,

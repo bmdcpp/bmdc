@@ -72,7 +72,7 @@ class BookEntry : public Entry
 #if !GTK_CHECK_VERSION(2, 12, 0)
 		GtkTooltips *tips;
 #endif
-		static GSList *group;
+//		static GSList *group;
 		bool bold;
 		bool urgent;
 		static const glong labelSize = 20; ///@todo: make a preference?

@@ -139,7 +139,7 @@ void startup(void (*f)(void*, const string&), void* p) {
 
 	PluginManager::getInstance()->loadPlugins(f, p);
 
-	if(BOOLSETTING(GET_USER_COUNTRY)) {
+	if(SETTING(GET_USER_COUNTRY)) {
 		announce(_("Country information"));
 		GeoManager::getInstance()->init();
 	}
@@ -148,7 +148,7 @@ void startup(void (*f)(void*, const string&), void* p) {
 	
 	RsxUtil::init();
 
-	if(BOOLSETTING(ENABLE_AUTOBACKUP)) {
+	if(SETTING(ENABLE_AUTOBACKUP)) {
 		BackupManager::getInstance()->createBackup();
 	}
 		
@@ -157,9 +157,9 @@ void startup(void (*f)(void*, const string&), void* p) {
 void shutdown() {
 	RsxUtil::uinit();
 	RestoreManager::deleteInstance();
-     BackupManager::deleteInstance();
-     DebugManager::deleteInstance();
-     PluginManager::getInstance()->unloadPlugins();
+    BackupManager::deleteInstance();
+    DebugManager::deleteInstance();
+    PluginManager::getInstance()->unloadPlugins();
 	TimerManager::getInstance()->shutdown();
 	ThrottleManager::getInstance()->shutdown();//..
 	

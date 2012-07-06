@@ -529,3 +529,8 @@ Fix closing of Non-Fav Hub
 [Plugins] Few Fixes around it
 -----r132
 Fix loading icon from http in Hub Tab
+-----r133
+Merge BoolSetting from dcpp
+Few Fixes since BoolSetting
+Removed ADC Debug , Few LUA_DEBUG from core
+----

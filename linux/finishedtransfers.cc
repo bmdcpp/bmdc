@@ -106,7 +106,7 @@ FinishedTransfers::FinishedTransfers(const EntryType type, const string &title, 
 	g_signal_connect(userView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 	g_signal_connect_after(getWidget("finishedbook"), "switch-page", G_CALLBACK(onPageSwitched_gui), (gpointer)this);
 
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("showOnlyFullFilesCheckButton")), BOOLSETTING(FINISHED_DL_ONLY_FULL));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("showOnlyFullFilesCheckButton")), SETTING(FINISHED_DL_ONLY_FULL));
 
 	if (type == Entry::FINISHED_DOWNLOADS)
 		g_signal_connect(getWidget("showOnlyFullFilesCheckButton"), "toggled", G_CALLBACK(onShowOnlyFullFilesToggled_gui), (gpointer)this);
@@ -199,8 +199,8 @@ void FinishedTransfers::addUser_gui(StringMap params, bool update)
 	{
 		updateStatus_gui();
 
-		if ((!isUpload && BOOLSETTING(BOLD_FINISHED_DOWNLOADS)) ||
-		     (isUpload && BOOLSETTING(BOLD_FINISHED_UPLOADS)))
+		if ((!isUpload && SETTING(BOLD_FINISHED_DOWNLOADS)) ||
+		     (isUpload && SETTING(BOLD_FINISHED_UPLOADS)))
 		{
 			setBold_gui();
 		}
@@ -241,8 +241,8 @@ void FinishedTransfers::addFile_gui(StringMap params, bool update)
 	{
 		updateStatus_gui();
 
-		if ((!isUpload && BOOLSETTING(BOLD_FINISHED_DOWNLOADS)) ||
-		     (isUpload && BOOLSETTING(BOLD_FINISHED_UPLOADS)))
+		if ((!isUpload && SETTING(BOLD_FINISHED_DOWNLOADS)) ||
+		     (isUpload && SETTING(BOLD_FINISHED_UPLOADS)))
 		{
 			setBold_gui();
 		}

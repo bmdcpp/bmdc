@@ -404,10 +404,10 @@ void WulforManager::onReceived_gui(const string link)
 {
 	dcassert(mainWin);
 
-	if (WulforUtil::isHubURL(link) && BOOLSETTING(URL_HANDLER))
+	if (WulforUtil::isHubURL(link) && SETTING(URL_HANDLER))
 		mainWin->showHub_gui(link);
 
-	else if (WulforUtil::isMagnet(link) && BOOLSETTING(MAGNET_REGISTER))
+	else if (WulforUtil::isMagnet(link) && SETTING(MAGNET_REGISTER))
 		mainWin->actionMagnet_gui(link);
 }
 

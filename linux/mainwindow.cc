@@ -401,7 +401,7 @@ MainWindow::MainWindow():
 	Emoticons::start();
 	Notify::start();
 	
-	if(BOOLSETTING(GET_USER_COUNTRY)) {
+	if(SETTING(GET_USER_COUNTRY)) {
 			checkUpdateofGeoIp(true);
 			checkUpdateofGeoIp(false);
 	}
@@ -886,7 +886,7 @@ void MainWindow::createStatusIcon_gui()
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("statusIconBlinkUseItem")), useStatusIconBlink);
 	g_signal_connect(getWidget("statusIconBlinkUseItem"), "toggled", G_CALLBACK(onStatusIconBlinkUseToggled_gui), (gpointer)this);
 
-	if (BOOLSETTING(ALWAYS_TRAY))
+	if (SETTING(ALWAYS_TRAY))
 		gtk_status_icon_set_visible(statusIcon, TRUE);
 	else
 		gtk_status_icon_set_visible(statusIcon, FALSE);
@@ -1094,7 +1094,7 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 
 	// If PM is initiated by another user, use setting except if tab is already open.
 	if (useSetting)
-		raise = (entry == NULL) ? !BOOLSETTING(POPUNDER_PM) : FALSE;
+		raise = (entry == NULL) ? !SETTING(POPUNDER_PM) : FALSE;
 
 	if (entry == NULL)
 	{
@@ -1189,7 +1189,7 @@ void MainWindow::showPublicHubs_gui()
 
 void MainWindow::showShareBrowser_gui(UserPtr user, string filename, string dir, int64_t speed ,bool useSetting)
 {
-	bool raise = useSetting ? !BOOLSETTING(POPUNDER_FILELIST) : TRUE;
+	bool raise = useSetting ? !SETTING(POPUNDER_FILELIST) : TRUE;
 	BookEntry *entry = findBookEntry(Entry::SHARE_BROWSER, user->getCID().toBase32());
 
 	if (entry == NULL)
@@ -1808,7 +1808,7 @@ void MainWindow::addFileDownloadQueue_client(string name, int64_t size, string t
 			QueueManager::getInstance()->add(name, size, TTHValue(tth) , HintedUser(new User(CID()),Util::emptyString));
 
 			// automatically search for alternative download locations
-			if (BOOLSETTING(AUTO_SEARCH))
+			if (SETTING(AUTO_SEARCH))
 				SearchManager::getInstance()->search(tth, 0, SearchManager::TYPE_TTH, SearchManager::SIZE_DONTCARE,
 					Util::emptyString);
 		}
@@ -1845,14 +1845,14 @@ gboolean MainWindow::onWindowState_gui(GtkWidget *widget, GdkEventWindowState *e
 	if (!mw->minimized && event->new_window_state & (GDK_WINDOW_STATE_ICONIFIED | GDK_WINDOW_STATE_WITHDRAWN))
 	{
 		mw->minimized = TRUE;
-		if (BOOLSETTING(SettingsManager::AUTO_AWAY) && !Util::getAway())
+		if (SETTING(SettingsManager::AUTO_AWAY) && !Util::getAway())
 			Util::setAway(TRUE);
 	}
 	else if (mw->minimized && (event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED ||
 		event->new_window_state == 0))
 	{
 		mw->minimized = FALSE;
-		if (BOOLSETTING(SettingsManager::AUTO_AWAY) && !Util::getManualAway())
+		if (SETTING(SettingsManager::AUTO_AWAY) && !Util::getManualAway())
 			Util::setAway(FALSE);
 	}
 
@@ -1882,14 +1882,14 @@ gboolean MainWindow::onCloseWindow_gui(GtkWidget *widget, GdkEvent *event, gpoin
 	{
 		mw->onQuit = FALSE;
 	}
-	else if (WGETB("main-window-no-close") && BOOLSETTING(ALWAYS_TRAY))
+	else if (WGETB("main-window-no-close") && SETTING(ALWAYS_TRAY))
 	{
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(mw->getWidget("statusIconShowInterfaceItem")), FALSE);
 
 		return TRUE;
 	}
 
-	if (!BOOLSETTING(CONFIRM_EXIT))
+	if (!SETTING(CONFIRM_EXIT))
 	{
 		WulforManager::get()->deleteMainWindow();
 		return FALSE;
@@ -2247,7 +2247,7 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 		}
 		//END
 		
-		if (BOOLSETTING(ALWAYS_TRAY))
+		if (SETTING(ALWAYS_TRAY))
 			gtk_status_icon_set_visible(mw->statusIcon, TRUE);
 		else
 			gtk_status_icon_set_visible(mw->statusIcon, FALSE);
@@ -2602,13 +2602,13 @@ void MainWindow::autoConnect_client()
 	typedef Func1<MainWindow, string> F1;
 	F1 *func1;
 
-	if (WulforUtil::isHubURL(link) && BOOLSETTING(URL_HANDLER))
+	if (WulforUtil::isHubURL(link) && SETTING(URL_HANDLER))
 	{
 		typedef Func2<MainWindow, string, string> F2;
 		F2 *func = new F2(this, &MainWindow::showHub_gui, link, "");//TODO: core 0.762
 		WulforManager::get()->dispatchGuiFunc(func);
 	}
-	else if (WulforUtil::isMagnet(link) && BOOLSETTING(MAGNET_REGISTER))
+	else if (WulforUtil::isMagnet(link) && SETTING(MAGNET_REGISTER))
 	{
 		func1 = new F1(this, &MainWindow::actionMagnet_gui, link);
 		WulforManager::get()->dispatchGuiFunc(func1);
@@ -2739,7 +2739,7 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) noexcept
 {
 	Util::setUptime();
 	// Avoid calculating status update if it's not needed
-	if (!BOOLSETTING(ALWAYS_TRAY) && minimized)
+	if (!SETTING(ALWAYS_TRAY) && minimized)
 		return;
 
 	int64_t diff = (int64_t)((lastUpdate == 0) ? ticks - 1000 : ticks - lastUpdate);
@@ -2772,7 +2772,7 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) noexcept
 	F5 *func = new F5(this, &MainWindow::setStats_gui, hubs, downloadSpeed, downloaded, uploadSpeed, uploaded);
 	WulforManager::get()->dispatchGuiFunc(func);
 
-	if (BOOLSETTING(ALWAYS_TRAY) && !downloadSpeed.empty() && !uploadSpeed.empty())
+	if (SETTING(ALWAYS_TRAY) && !downloadSpeed.empty() && !uploadSpeed.empty())
 	{
 		typedef Func2<MainWindow, string, string> F2;
 		F2 *f2 = new F2(this, &MainWindow::updateStatusIconTooltip_gui, downloadSpeed, uploadSpeed);
@@ -3006,7 +3006,7 @@ void MainWindow::onCloseAlloffPM_gui(GtkWidget *widget, gpointer data)
 void MainWindow::parsePartial(HintedUser aUser, string txt)
 {
 	const string cid = aUser.user->getCID().toBase32();
-	bool raise = !BOOLSETTING(POPUNDER_FILELIST);
+	bool raise = !SETTING(POPUNDER_FILELIST);
 	BookEntry *entry = findBookEntry(Entry::SHARE_BROWSER, cid);
 	string path = QueueManager::getInstance()->getListPath(aUser) + ".xml.bz2";
 	

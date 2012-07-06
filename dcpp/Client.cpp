@@ -136,7 +136,7 @@ void Client::connect() {
 	try {
 		sock = BufferedSocket::getSocket(separator, v4only());
 		sock->addListener(this);
-		sock->connect(address, port, secure, BOOLSETTING(ALLOW_UNTRUSTED_HUBS), true);
+		sock->connect(address, port, secure, SETTING(ALLOW_UNTRUSTED_HUBS), true);
 	} catch(const Exception& e) {
 		state = STATE_DISCONNECTED;
 		fire(ClientListener::Failed(), this, e.getError());
@@ -254,7 +254,7 @@ string Client::getLocalIp() const {
         return Socket::resolve(getFavIp());
     }
 	// Best case - the server detected it
-	if((!BOOLSETTING(NO_IP_OVERRIDE) || SETTING(EXTERNAL_IP).empty()) && !getMyIdentity().getIp().empty()) {
+	if((!SETTING(NO_IP_OVERRIDE) || SETTING(EXTERNAL_IP).empty()) && !getMyIdentity().getIp().empty()) {
 		return getMyIdentity().getIp();
 	}
 

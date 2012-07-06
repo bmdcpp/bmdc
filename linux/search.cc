@@ -69,7 +69,7 @@ Search::Search():
 	g_object_ref_sink(getWidget("mainMenu"));
 
 	// Initialize check button options.
-	onlyFree = BOOLSETTING(SEARCH_ONLY_FREE_SLOTS);
+	onlyFree = SETTING(SEARCH_ONLY_FREE_SLOTS);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonSlots")), onlyFree);
 	gtk_widget_set_sensitive(GTK_WIDGET(getWidget("checkbuttonSlots")), FALSE);
 	gtk_widget_set_sensitive(GTK_WIDGET(getWidget("checkbuttonShared")), FALSE);
@@ -162,7 +162,7 @@ Search::Search():
 	}
 
 	// Customs
-	for (SettingsManager::SearchTypesIterC i = searchTypes.begin(), iend = searchTypes.end(); i != iend; ++i)
+	for (auto i = searchTypes.begin(), iend = searchTypes.end(); i != iend; ++i)
 	{
 		string type = i->first;
 		if (!(type.size() == 1 && type[0] >= '0' && type[0] <= '6'))
@@ -564,7 +564,7 @@ void Search::search_gui()
 		dcdebug("Sent ADC extensions : %s\n",Util::toString(";", exts).c_str());//NOTE: core 0.770
 		SearchManager::getInstance()->search(clients, text, llsize, (SearchManager::TypeModes)ftype, mode, "manual", exts);//NOTE: core 0.770
 
-		if (BOOLSETTING(CLEAR_SEARCH)) // Only clear if the search was sent.
+		if (SETTING(CLEAR_SEARCH)) // Only clear if the search was sent.
 			gtk_entry_set_text(GTK_ENTRY(getWidget("SearchEntry")), "");
 	}
 	else
@@ -679,7 +679,7 @@ void Search::addResult_gui(const SearchResultPtr result)
 	++searchHits;
 	setStatus_gui("statusbar2", Util::toString(searchHits) + _(" items"));
 
-	if (BOOLSETTING(BOLD_SEARCH))
+	if (SETTING(BOLD_SEARCH))
 		setBold_gui();
 }
 
@@ -1028,7 +1028,7 @@ void Search::onSlotsButtonToggled_gui(GtkToggleButton *button, gpointer data)
 	Search *s = (Search *)data;
 
 	s->onlyFree = gtk_toggle_button_get_active(button);
-	if (s->onlyFree != BOOLSETTING(SEARCH_ONLY_FREE_SLOTS))
+	if (s->onlyFree != SETTING(SEARCH_ONLY_FREE_SLOTS))
 		SettingsManager::getInstance()->set(SettingsManager::SEARCH_ONLY_FREE_SLOTS, s->onlyFree);
 
 	// Refilter current view only if "Search within local results" is enabled

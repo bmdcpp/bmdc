@@ -274,7 +274,7 @@ private:
 				keepChecking = false;
 			}
 
-			canCheckFilelist = !checkClients || !BOOLSETTING(CHECK_ALL_CLIENTS_BEFORE_FILELISTS);
+			canCheckFilelist = !checkClients || !SETTING(CHECK_ALL_CLIENTS_BEFORE_FILELISTS);
 			const uint64_t sleepTime = static_cast<uint64_t>(SETTING(SLEEP_TIME))/1000;
 
 

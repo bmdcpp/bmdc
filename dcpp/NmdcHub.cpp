@@ -830,7 +830,7 @@ void NmdcHub::myInfo(bool alwaysSend) {
 		uploadSpeed = SETTING(UPLOAD_SPEED);
 	}
 	
-	bool gslotf = BOOLSETTING(SHOW_FREE_SLOTS_DESC);
+	bool gslotf = SETTING(SHOW_FREE_SLOTS_DESC);
     string gslot = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
 
 	string uMin = (SETTING(MIN_UPLOAD_SPEED) == 0) ? Util::emptyString : tmp5 + Util::toString(SETTING(MIN_UPLOAD_SPEED));

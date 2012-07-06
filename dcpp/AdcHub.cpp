@@ -987,7 +987,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 		updateCounts(false);
 	}
 	
-	bool isfreeslots = BOOLSETTING(SHOW_FREE_SLOTS_DESC);
+	bool isfreeslots = SETTING(SHOW_FREE_SLOTS_DESC);
      string fslots = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
 
 	addParam(lastInfoMap, c, "ID", ClientManager::getInstance()->getMyCID().toBase32());
@@ -1006,7 +1006,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 	addParam(lastInfoMap, c, "VE", VERSIONSTRING);
 	addParam(lastInfoMap, c, "AW", Util::getAway() ? "1" : Util::emptyString);
 	// RF = ref address from connected
-	addParam(lastInfoMap, c, "RF", getIpPort());
+	addParam(lastInfoMap, c, "RF", getHubUrl());
 
 	int limit = ThrottleManager::getInstance()->getDownLimit();
 	if (limit > 0) {
@@ -1030,7 +1030,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 		addParam(lastInfoMap, c, "KP", "SHA256/" + Encoder::toBase32(&kp[0], kp.size()));
 	}
 
-	if(BOOLSETTING(NO_IP_OVERRIDE) && !SETTING(EXTERNAL_IP).empty()) {
+	if(SETTING(NO_IP_OVERRIDE) && !SETTING(EXTERNAL_IP).empty()) {
 		addParam(lastInfoMap, c, "I4", Socket::resolve(SETTING(EXTERNAL_IP), AF_INET));
 	} else {
 		addParam(lastInfoMap, c, "I4", "0.0.0.0");
@@ -1099,17 +1099,16 @@ void AdcHub::on(Connected c) noexcept {
 	AdcCommand cmd(AdcCommand::CMD_SUP, AdcCommand::TYPE_HUB);
 	cmd.addParam(BAS0_SUPPORT).addParam(BASE_SUPPORT).addParam(TIGR_SUPPORT);
 
-	if(BOOLSETTING(HUB_USER_COMMANDS)) {
+	if(SETTING(HUB_USER_COMMANDS)) {
 		cmd.addParam(UCM0_SUPPORT);
 	}
-	if(BOOLSETTING(SEND_BLOOM)) {
+	if(SETTING(SEND_BLOOM)) {
 		cmd.addParam(BLO0_SUPPORT);
 	}
 
 	cmd.addParam(ZLIF_SUPPORT);
 
 	send(cmd);
-	
 	
 }
 
@@ -1123,9 +1122,9 @@ void AdcHub::on(Line l, const string& aLine) noexcept {
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_IN, this, aLine))
 		return;
 
-	if(BOOLSETTING(ADC_DEBUG)) {
-		fire(ClientListener::StatusMessage(), this, "<ADC>" + aLine + "</ADC>");
-	}
+//	if(SETTING(ADC_DEBUG)) {
+//		fire(ClientListener::StatusMessage(), this, "<ADC>" + aLine + "</ADC>");
+//	}
 	dispatch(aLine);
 }
 

@@ -248,7 +248,7 @@ string Identity::setCheat(const Client& c, const string& aCheatDescription, bool
 	if(aBadFilelist)
  		set("BF", "1");
 
-	if(BOOLSETTING(DISPLAY_CHEATS_IN_MAIN_CHAT) && aDisplayCheat) {
+	if(SETTING(DISPLAY_CHEATS_IN_MAIN_CHAT) && aDisplayCheat) {
 		string report = "*** *** " +  getNick() + " - " + newCheat;
 		return report;
 	}
@@ -312,7 +312,7 @@ string Identity::checkFilelistGenerator(OnlineUser& ou)
 
 	if((RegEx::match<string>(get("FG"), "^DC\\+\\+.*"))) {
 		if(!get("VE").empty() && (get("VE") != getFilelistGeneratorVer())) {
-			string report = ou.setCheat("Filelist Version mis-match", false, true, BOOLSETTING(SHOW_FILELIST_VERSION_MISMATCH));
+			string report = ou.setCheat("Filelist Version mis-match", false, true, SETTING(SHOW_FILELIST_VERSION_MISMATCH));
 			logDetection(true);
 			ou.getClient().updated(ou);
 			ClientManager::getInstance()->sendAction(ou, SETTING(FILELIST_VERSION_MISMATCH));
@@ -651,7 +651,7 @@ bool OnlineUser::getChecked(bool filelist/* = false*/, bool checkComplete/* = tr
 		identity.setFileListChecked("1");
 		return true;
 	} else if(isProtectedUser()) {
-		if((BOOLSETTING(UNCHECK_CLIENT_PROTECTED_USER) && !filelist) || (BOOLSETTING(UNCHECK_LIST_PROTECTED_USER) && filelist)) {
+		if((SETTING(UNCHECK_CLIENT_PROTECTED_USER) && !filelist) || (SETTING(UNCHECK_LIST_PROTECTED_USER) && filelist)) {
 			identity.setClientType("[Protected]");
 			identity.setTestSURChecked("1");
 			identity.setFileListChecked("1");
@@ -678,7 +678,7 @@ bool Identity::isProtectedUser(const Client& c, bool OpBotHubCheck) const {
 	} else if(SETTING(FAV_USER_IS_PROTECTED_USER) && FavoriteManager::getInstance()->isFavoriteUser(getUser())) {
 		ret = true;
 	} else if(!RegProtect.empty()) {
-		if(BOOLSETTING(USE_WILDCARDS_TO_PROTECT)) {
+		if(SETTING(USE_WILDCARDS_TO_PROTECT)) {
 			if(Wildcard::match<string>(getNick(), RegProtect, '|')) {
 				ret = true;
 			}

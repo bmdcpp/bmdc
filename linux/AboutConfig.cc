@@ -69,29 +69,36 @@ void AboutConfig::show()
 		if (b == "SENTRY") continue;
 		if (sm->getType(b.c_str(), n, type)) {
 			string rowname = b;
-			string isdefault = sm->isDefault(n) ? _("Default") : _("User set");
+			string isdefault = Util::emptyString;
 			string types = Util::emptyString;
 			string value = Util::emptyString;
 			switch(type) {
 				case SettingsManager::TYPE_STRING:
 					types =  _("String");
-					value = Text::toT(sm->get(static_cast<SettingsManager::StrSetting>(n)));
+					value = sm->get(static_cast<SettingsManager::StrSetting>(n));
+					isdefault = sm->isDefault(static_cast<SettingsManager::StrSetting>(n)) ? _("Default") : _("User set");
 					break;
 				case SettingsManager::TYPE_INT:
 					types = _("Integer");
 					value = Util::toString(sm->get(static_cast<SettingsManager::IntSetting>(n)));
+					isdefault = sm->isDefault(static_cast<SettingsManager::IntSetting>(n)) ? _("Default") : _("User set");
 					break;
-
 				case SettingsManager::TYPE_INT64:
 					types = _("Int64");
 					value = Util::toString(sm->get(static_cast<SettingsManager::Int64Setting>(n)));
+					isdefault = sm->isDefault(static_cast<SettingsManager::Int64Setting>(n)) ? _("Default") : _("User set");
 					break;
 
 				case SettingsManager::TYPE_FLOAT:
 					types = _("Float");
 					value = Util::toString(sm->get(static_cast<SettingsManager::FloatSetting>(n)));
+					isdefault = sm->isDefault(static_cast<SettingsManager::FloatSetting>(n)) ? _("Default") : _("User set");
 					break;
-
+				case SettingsManager::TYPE_BOOL:
+					types = _("Bool");
+					value = Util::toString((int)sm->get(static_cast<SettingsManager::BoolSetting>(n)));
+					isdefault = sm->isDefault(static_cast<SettingsManager::BoolSetting>(n)) ? _("Default") : _("User set");
+					break;
 				default:
 					dcassert(0);
 			}
@@ -239,7 +246,6 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget *widget, gpointer data)
 				s->updateItem_gui(i,value);
 			return;	
 		}
-			
 		
 		SettingsManager::Types type;		
 		sm->getType(i.c_str(), n, type);
@@ -257,6 +263,9 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget *widget, gpointer data)
 			case SettingsManager::TYPE_FLOAT:
 				sm->set((SettingsManager::FloatSetting)n,Util::toFloat(value));
 				break;
+			case SettingsManager::TYPE_BOOL:
+				sm->set((SettingsManager::BoolSetting)n, Util::toInt(value));
+				break;	
 			default:;
 		}
 		s->updateItem_gui(i,value);
@@ -312,11 +321,14 @@ void AboutConfig::onSetDefault(GtkWidget *widget, gpointer data)
 				case SettingsManager::TYPE_FLOAT:
 					value = Text::toT(Util::toString(sm->get(static_cast<SettingsManager::FloatSetting>(n))));
 					break;
+				case SettingsManager::TYPE_BOOL:
+					value = Text::toT(Util::toString((int)sm->get(static_cast<SettingsManager::BoolSetting>(n))));
+					break;	
 				default:
 					dcassert(0);
 			}
-			s->updateItem_gui(i,value);
-			s->setStatus("Value"+i+"Setted to Default"+value);
+			s->updateItem_gui(i, value);
+			s->setStatus("Value" + i + "Setted to Default" + value);
 		}
 	}
 }

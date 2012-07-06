@@ -208,7 +208,7 @@ void PrivateMessage::addMessage_gui(string message, Msg::TypeMsg typemsg)
 {
 	addLine_gui(typemsg, message);
 
-	if (BOOLSETTING(LOG_PRIVATE_CHAT))
+	if (SETTING(LOG_PRIVATE_CHAT))
 	{
 		dcpp::ParamMap params;
 		params["message"] = message;
@@ -220,7 +220,7 @@ void PrivateMessage::addMessage_gui(string message, Msg::TypeMsg typemsg)
 		LOG(LogManager::PM, params);
 	}
 
-	if (BOOLSETTING(BOLD_PM))
+	if (SETTING(BOLD_PM))
 		setUrgent_gui();
 
 	// Send an away message, but only the first time after setting away mode.
@@ -228,7 +228,7 @@ void PrivateMessage::addMessage_gui(string message, Msg::TypeMsg typemsg)
 	{
 		sentAwayMessage = FALSE;
 	}
-	else if (!sentAwayMessage && !(BOOLSETTING(NO_AWAYMSG_TO_BOTS) && isBot))
+	else if (!sentAwayMessage && !(SETTING(NO_AWAYMSG_TO_BOTS) && isBot))
 	{
 		sentAwayMessage = TRUE;
 		typedef Func1<PrivateMessage, string> F1;
@@ -319,7 +319,7 @@ void PrivateMessage::addLine_gui(Msg::TypeMsg typemsg, const string &message)
 	GtkTextIter iter;
 	string line = "";
 
-	if (BOOLSETTING(TIME_STAMPS))
+	if (SETTING(TIME_STAMPS))
 		line += "[" + Util::getShortTimeString() + "] ";
 
 	line += message + "\n";
@@ -391,7 +391,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 	string::size_type begin = 0;
 
 	// apply timestamp tag
-	if (BOOLSETTING(TIME_STAMPS))
+	if (SETTING(TIME_STAMPS))
 	{
 		string ts = Util::getShortTimeString();
 		gtk_text_iter_backward_chars(&start_iter, g_utf8_strlen(line.c_str(), -1) - g_utf8_strlen(ts.c_str(), -1) - 2);

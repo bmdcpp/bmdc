@@ -79,7 +79,7 @@ void CommandQueue::addCommand(const OnlineUser& ou, int actionId) {
 							item.uc = uc;
 							item.ou = &ou;
 
-							if(BOOLSETTING(USE_SEND_DELAYED_RAW)) {
+							if(SETTING(USE_SEND_DELAYED_RAW)) {
 								delayTime += (i->getTime() * 1000) + 1;
 								addCommandDelayed(delayTime, item);
 							} else {

@@ -511,7 +511,7 @@ void FavoriteUsers::onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data)
 		}
 		g_list_free(list);
 
-		if (BOOLSETTING(CONFIRM_USER_REMOVAL))
+		if (SETTING(CONFIRM_USER_REMOVAL))
 		{
 			GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 				GTK_DIALOG_DESTROY_WITH_PARENT,

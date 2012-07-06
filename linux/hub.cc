@@ -95,7 +95,7 @@ Hub::Hub(const string &address, const string &encoding):
 
 	nickSelection = gtk_tree_view_get_selection(nickView.get());
 	gtk_tree_selection_set_mode(gtk_tree_view_get_selection(nickView.get()), GTK_SELECTION_MULTIPLE);
-	string sort = BOOLSETTING(SORT_FAVUSERS_FIRST)? "Client Type" : "Nick Order";
+	string sort = SETTING(SORT_FAVUSERS_FIRST) ? "Client Type" : "Nick Order";
 	nickView.setSortColumn_gui(_("Nick"), sort);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(nickView.get(), nickView.col(_("Nick"))), TRUE);
@@ -111,7 +111,7 @@ Hub::Hub(const string &address, const string &encoding):
 	set_Header_tooltip_gui();
 
 	// Initialize the chat window
-	if (BOOLSETTING(USE_OEM_MONOFONT))
+	if (SETTING(USE_OEM_MONOFONT))
 	{
 		PangoFontDescription *fontDesc = pango_font_description_new();
 		pango_font_description_set_family(fontDesc, "Mono");
@@ -778,7 +778,7 @@ void Hub::updateUser_gui(ParamMap params)
 
 		userIters.insert(UserIters::value_type(cid, iter));
 
-		if (BOOLSETTING(SHOW_JOINS))
+		if (SETTING(SHOW_JOINS))
 		{
 			// Show joins in chat by default
 			addStatusMessage_gui(Nick + _(" has joined"), Msg::STATUS, favorite? Sound::FAVORITE_USER_JOIN : Sound::NONE);
@@ -788,7 +788,7 @@ void Hub::updateUser_gui(ParamMap params)
 			if (favorite)
 				Notify::get()->showNotify("", message, Notify::FAVORITE_USER_JOIN);
 		}
-		else if (BOOLSETTING(FAV_SHOW_JOINS) && favorite)
+		else if (SETTING(FAV_SHOW_JOINS) && favorite)
 		{
 			// Only show joins for favorite users
 			string message = Nick + _(" has joined hub ") + client->getHubName();
@@ -826,7 +826,7 @@ void Hub::removeUser_gui(string cid)
 		setStatus_gui("statusUsers", Util::toString(userMap.size()) + _(" Users"));
 		setStatus_gui("statusShared", Util::formatBytes(totalShared));
 
-		if (client->settings.showJoins/*BOOLSETTING(SHOW_JOINS)*/  )
+		if (client->settings.showJoins)
 		{
 			// Show parts in chat by default
 			string message = nick + _(" has quit hub ") + client->getHubName();
@@ -836,7 +836,7 @@ void Hub::removeUser_gui(string cid)
 			if (order[0] == 'C')//f
 				Notify::get()->showNotify("", message, Notify::FAVORITE_USER_QUIT);
 		}
-		else if (client->settings.favShowJoins/*BOOLSETTING(FAV_SHOW_JOINS)*/ && order[0] == 'C')//f
+		else if (client->settings.favShowJoins && order[0] == 'C')//f
 		{
 			// Only show parts for favorite users
 			string message = nick + _(" has quit hub ") + client->getHubName();
@@ -917,7 +917,7 @@ void Hub::popupNickMenu_gui()
 
 void Hub::getPassword_gui()
 {
-	if(!BOOLSETTING(PROMPT_PASSWORD))
+	if(!SETTING(PROMPT_PASSWORD))
 	{
 		addStatusMessage_gui(_("Waiting for input password (don't remove /password before your password)"), Msg::STATUS, Sound::NONE);
 
@@ -1002,7 +1002,7 @@ void Hub::addStatusMessage_gui(string message, Msg::TypeMsg typemsg, Sound::Type
 
 		setStatus_gui("statusMain", message);
 
-		if (BOOLSETTING(STATUS_IN_CHAT))
+		if (SETTING(STATUS_IN_CHAT))
 		{
 			string line = "*** " + message;
 			addMessage_gui("", line, typemsg);
@@ -1032,7 +1032,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 	GtkTextIter iter;
 	string line = "";
 
-	if (BOOLSETTING(TIME_STAMPS))
+	if (SETTING(TIME_STAMPS))
 		line += "[" + Util::getShortTimeString() + "] ";
 
 	line += message + "\n";
@@ -1128,7 +1128,7 @@ void Hub::applyTags_gui(const string cid, const string &line)
 	gtk_text_buffer_get_end_iter(chatBuffer, &start_iter);
 
 	// apply timestamp tag
-	if (BOOLSETTING(TIME_STAMPS))
+	if (SETTING(TIME_STAMPS))
 	{
 		gtk_text_iter_backward_chars(&start_iter,
 			g_utf8_strlen(line.c_str(), -1) - g_utf8_strlen(Util::getShortTimeString().c_str(), -1) - 2);
@@ -1745,7 +1745,7 @@ void Hub::preferences_gui()
 	}
 
 	// resort users
-	string sort = BOOLSETTING(SORT_FAVUSERS_FIRST) ? "Client Type" : "Nick Order";
+	string sort = SETTING(SORT_FAVUSERS_FIRST) ? "Client Type" : "Nick Order";
 	nickView.setSortColumn_gui(_("Nick"), sort);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);
 
@@ -2501,7 +2501,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if (command == "join" && !param.empty())
 		{
-			if (BOOLSETTING(JOIN_OPEN_NEW_WINDOW))
+			if (SETTING(JOIN_OPEN_NEW_WINDOW))
 			{
 				// Assumption: new hub is same encoding as current hub.
 				WulforManager::get()->getMainWindow()->showHub_gui(param, hub->encoding);
@@ -2638,7 +2638,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else
 		{
-			if (BOOLSETTING(SEND_UNKNOWN_COMMANDS))
+			if (SETTING(SEND_UNKNOWN_COMMANDS))
 			{
 					func2 = new F2(hub, &Hub::sendMessage_client, text, false);
 					WulforManager::get()->dispatchClientFunc(func2);
@@ -3858,8 +3858,8 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 	params.insert(ParamMap::value_type("eMail", id.getEmail()));
 	params.insert(ParamMap::value_type("CID", id.getUser()->getCID().toBase32()));
 	//BMDC++
-	params.insert(ParamMap::value_type("Country", (BOOLSETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountry(id.getIp(),GeoManager::V4): Util::emptyString ));
-	params.insert(ParamMap::value_type("Abbrevation", (BOOLSETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountryAbbrevation(id.getIp()): Util::emptyString ));
+	params.insert(ParamMap::value_type("Country", (SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountry(id.getIp(),GeoManager::V4): Util::emptyString ));
+	params.insert(ParamMap::value_type("Abbrevation", (SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountryAbbrevation(id.getIp()): Util::emptyString ));
 	params.insert(ParamMap::value_type("Slots", id.get("SL")));
 	const string hubs = Util::toString(Util::toInt(id.get("HN")) + Util::toInt(id.get("HR")) + Util::toInt(id.get("HO")));//hubs
 	params.insert(ParamMap::value_type("Hubs", hubs));
@@ -4379,7 +4379,7 @@ void Hub::on(ClientListener::Redirect, Client *, const string &address) throw()
 {
 	// redirect_client() crashes unless I put it into the dispatcher (why?)
 	typedef Func2<Hub, string, bool> F2;
-	F2 *func = new F2(this, &Hub::redirect_client, address, BOOLSETTING(AUTO_FOLLOW));
+	F2 *func = new F2(this, &Hub::redirect_client, address, SETTING(AUTO_FOLLOW));
 	WulforManager::get()->dispatchClientFunc(func);
 }
 
@@ -4450,10 +4450,10 @@ string Hub::formatAdditionalInfo(const string& aIp, bool sIp, bool sCC, bool isP
 	string ret = Util::emptyString;
 
 	if(!aIp.empty()) {
-		string cc = (BOOLSETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountryAbbrevation(aIp) : Util::emptyString;
-		string countryn = (BOOLSETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountry(aIp) : Util::emptyString;
-		bool showIp = BOOLSETTING(USE_IP) || sIp;
-		bool showCc = (BOOLSETTING(GET_USER_COUNTRY) || sCC) && !cc.empty();
+		string cc = (SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountryAbbrevation(aIp) : Util::emptyString;
+		string countryn = (SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountry(aIp) : Util::emptyString;
+		bool showIp = SETTING(USE_IP) || sIp;
+		bool showCc = (SETTING(GET_USER_COUNTRY) || sCC) && !cc.empty();
 		bool useFlagIcons = (WGETB("use-flag") && !cc.empty());
 
 		if(showIp) {
@@ -4490,7 +4490,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 
 		string info;
 		string extraInfo;
-		info = formatAdditionalInfo(message.from->getIdentity().getIp(), BOOLSETTING(USE_IP), BOOLSETTING(GET_USER_COUNTRY), message.to && message.replyTo);
+		info = formatAdditionalInfo(message.from->getIdentity().getIp(), SETTING(USE_IP), SETTING(GET_USER_COUNTRY), message.to && message.replyTo);
 
 		//Extra Info
 		dcpp::ParamMap params;
@@ -4556,14 +4556,14 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 		else if (message.from->getUser() == client->getMyIdentity().getUser()) typemsg = Msg::MYOWN;
 		else typemsg = Msg::PRIVATE;
 
-		if (user->getIdentity().isHub() && BOOLSETTING(IGNORE_HUB_PMS))
+		if (user->getIdentity().isHub() && SETTING(IGNORE_HUB_PMS))
 		{
 			error = _("Ignored private message from hub");
 			typedef Func3<Hub, string, Msg::TypeMsg, Sound::TypeSound> F3;
 			F3 *func = new F3(this, &Hub::addStatusMessage_gui, error, Msg::STATUS, Sound::NONE);
 			WulforManager::get()->dispatchGuiFunc(func);
 		}
-		else if (user->getIdentity().isBot() && BOOLSETTING(IGNORE_BOT_PMS))
+		else if (user->getIdentity().isBot() && SETTING(IGNORE_BOT_PMS))
 		{
 			error = _("Ignored private message from bot ") + user->getIdentity().getNick();
 			typedef Func3<Hub, string, Msg::TypeMsg, Sound::TypeSound> F3;
@@ -4587,7 +4587,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 		else if (message.from->getUser() == client->getMyIdentity().getUser()) typemsg = Msg::MYOWN;
 		else typemsg = Msg::GENERAL;
 
-		if (BOOLSETTING(FILTER_MESSAGES))
+		if (SETTING(FILTER_MESSAGES))
 		{
 			if ((message.text.find("Hub-Security") != string::npos &&
 				message.text.find("was kicked by") != string::npos) ||
@@ -4616,7 +4616,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 		WulforManager::get()->dispatchGuiFunc(func);
 
 		// Set urgency hint if message contains user's nick
-		if (BOOLSETTING(BOLD_HUB) && message.from->getIdentity().getUser() != client->getMyIdentity().getUser())
+		if (SETTING(BOLD_HUB) && message.from->getIdentity().getUser() != client->getMyIdentity().getUser())
 		{
               if( !isActive_gui() && WGETB("bold-all-tab"))
 			{
@@ -4640,7 +4640,7 @@ void Hub::on(ClientListener::StatusMessage, Client *, const string &message, int
 {
 	if (!message.empty())
 	{
-		if (BOOLSETTING(FILTER_MESSAGES))
+		if (SETTING(FILTER_MESSAGES))
 		{
 			if ((message.find("Hub-Security") != string::npos && message.find("was kicked by") != string::npos) ||
 				(message.find("is kicking") != string::npos && message.find("because:") != string::npos))
@@ -4652,7 +4652,7 @@ void Hub::on(ClientListener::StatusMessage, Client *, const string &message, int
 			}
 		}
 
-		if (BOOLSETTING(LOG_STATUS_MESSAGES))
+		if (SETTING(LOG_STATUS_MESSAGES))
 		{
 			dcpp::ParamMap params;
 			client->getHubIdentity().getParams(params, "hub", FALSE);
