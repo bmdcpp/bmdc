@@ -593,7 +593,7 @@ void PluginApiImpl::sendLocalMessage(HubDataPtr hub, const char* msg, MsgType ty
 Bool PluginApiImpl::sendPrivateMessage(UserDataPtr user, const char* message, Bool thirdPerson) {
 	if(user) {
 		auto lock = ClientManager::getInstance()->lock();
-		OnlineUser* ou = ClientManager::getInstance()->findOnlineUser(CID(user->cid), user->hubHint, true);
+		OnlineUser* ou = ClientManager::getInstance()->findOnlineUser(CID(user->cid), user->hubHint);
 		if(!ou) return False;
 
 		// Lets make plugins life easier...
@@ -639,7 +639,7 @@ void PluginApiImpl::releaseData(HubDataPtr hub) {
 
 UserDataPtr PluginApiImpl::findUser(const char* cid, const char* hubUrl) {
 	auto lock = ClientManager::getInstance()->lock();
-	OnlineUser* ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hubUrl, true);
+	OnlineUser* ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hubUrl);
 	if(!ou) return NULL;
 	return ou->copyPluginObject();
 }

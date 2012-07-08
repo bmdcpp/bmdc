@@ -69,7 +69,7 @@ Download::~Download() {
 	getUserConnection().setDownload(0);
 }
 
-AdcCommand Download::getCommand(bool zlib) {
+AdcCommand Download::getCommand(bool zlib, const string& mySID) {
 	AdcCommand cmd(AdcCommand::CMD_GET);
 
 	cmd.addParam(Transfer::names[getType()]);
@@ -89,6 +89,9 @@ AdcCommand Download::getCommand(bool zlib) {
 
 	cmd.addParam(Util::toString(getStartPos()));
 	cmd.addParam(Util::toString(getSize()));
+	
+	if(!mySID.empty()) //add the Reguesters SID (mySID) to the filelist reguest, so he can find the hub we are calling from.
+			cmd.addParam("ID", mySID); 
 
 	if(zlib && SETTING(COMPRESS_TRANSFERS)) {
 		cmd.addParam("ZL1");

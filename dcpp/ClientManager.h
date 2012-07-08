@@ -77,11 +77,12 @@ public:
 	bool isConnected(const string& aUrl) const;
 
 	void search(int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken);
-	void search(StringList& who, int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken, const StringList& aExtList);
+	void search(string& who, int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken, const StringList& aExtList);
 	void infoUpdated();
 
 	UserPtr getUser(const string& aNick, const string& aHubUrl) noexcept;
 	UserPtr getUser(const CID& cid) noexcept;
+	string findMySID(const HintedUser& p);
 
 	string findHub(const string& ipPort) const;
 	string findHubEncoding(const string& aUrl) const;
@@ -90,8 +91,8 @@ public:
 	* @param priv discard any user that doesn't match the hint.
 	* @return OnlineUser* found by CID and hint; might be only by CID if priv is false.
 	*/
-	OnlineUser* findOnlineUser(const HintedUser& user, bool priv);
-	OnlineUser* findOnlineUser(const CID& cid, const string& hintUrl, bool priv);
+	OnlineUser* findOnlineUser(const HintedUser& user);
+	OnlineUser* findOnlineUser(const CID& cid, const string& hintUrl);
 
 	UserPtr findUser(const string& aNick, const string& aHubUrl) const noexcept { return findUser(makeCid(aNick, aHubUrl)); }
 	UserPtr findUser(const CID& cid) const noexcept;
@@ -117,11 +118,11 @@ public:
 	void connect(const HintedUser& user, const string& token);
 	void privateMessage(const HintedUser& user, const string& msg, bool thirdPerson);
 	void userCommand(const HintedUser& user, const UserCommand& uc, ParamMap& params, bool compatibility);
-	//bool isActive() const;
 	Lock lock() { return Lock(cs); }
 
 	const ClientList& getClients() const { return clients; }
 	const UserMap& getUsers() const { return users; }
+	void getOnlineClients(StringList& onlineClients);
 
 	CID getMyCID();
 	const CID& getMyPID();

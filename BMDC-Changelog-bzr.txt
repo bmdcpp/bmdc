@@ -537,4 +537,6 @@ Removed ADC Debug , Few LUA_DEBUG from core
 update Lua Scripts
 Bool Settings to Plugins API
 Remove Send $BotInfo for now...
------
+-----r135
+Remove priv fron ClientManager´s findOnlineUser func
+Add Patch from (Search) https://bugs.launchpad.net/dcplusplus/+bug/689460

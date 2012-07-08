@@ -241,7 +241,7 @@ bool PluginManager::onChatCommandPM(const HintedUser& user, const string& line, 
 	// Hopefully this is safe...
 	bool res = false;
 	auto lock = ClientManager::getInstance()->lock();
-	OnlineUser* ou = ClientManager::getInstance()->findOnlineUser(user.user->getCID(), user.hint, isPriv);
+	OnlineUser* ou = ClientManager::getInstance()->findOnlineUser(user.user->getCID(), user.hint);
 
 	if(ou) {
 		CommandData data;

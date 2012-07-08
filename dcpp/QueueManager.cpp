@@ -1823,7 +1823,7 @@ void QueueManager::logFinishedDownload(QueueItem* qi, Download* d, bool crcError
 
 					ip.clear();
 					if (i->user->isOnline()) {
-						OnlineUser* u = ClientManager::getInstance()->findOnlineUser(*i, false);
+						OnlineUser* u = ClientManager::getInstance()->findOnlineUser(*i);
 						if (u) {
 							ip = u->getIdentity().getIp();
 						}

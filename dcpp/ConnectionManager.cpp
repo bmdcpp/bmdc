@@ -75,7 +75,7 @@ void ConnectionManager::getDownloadConnection(const HintedUser& aUser) {
 		if(i == downloads.end()) {
 			getCQI(aUser, true);
 		} else {
-			DownloadManager::getInstance()->checkIdle(aUser.user);
+			DownloadManager::getInstance()->checkIdle(aUser);
 		}
 	}
 }
@@ -574,6 +574,7 @@ void ConnectionManager::addDownloadConnection(UserConnection* uc) {
 			if(cqi->getState() == ConnectionQueueItem::WAITING || cqi->getState() == ConnectionQueueItem::CONNECTING) {
 				cqi->setState(ConnectionQueueItem::ACTIVE);
 				uc->setFlag(UserConnection::FLAG_ASSOCIATED);
+				uc->setHubUrl(cqi->getUser().hint); //set the correct hint for the uc, it might not even have a hint at first.
 
 				fire(ConnectionManagerListener::Connected(), cqi);
 

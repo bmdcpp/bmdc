@@ -43,7 +43,7 @@ public:
 
 	/** @internal */
 	void addConnection(UserConnectionPtr conn);
-	void checkIdle(const UserPtr& user);
+	void checkIdle(const HintedUser& user);
 
 	/** @return Running average download speed in Bytes/s */
 	int64_t getRunningAverage();

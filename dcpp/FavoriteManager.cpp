@@ -1239,7 +1239,7 @@ void FavoriteManager::on(UserConnected, const UserPtr& user) noexcept {
 		}
 		//Idepetn Favorites
 		ClientManager::getInstance()->lock();
-		OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(HintedUser(user,Util::emptyString),false);
+		OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(HintedUser(user,Util::emptyString));
 		Identity id = ou->getIdentity();
 		string nick = id.getNick();
 		auto idt =favoritesNoCid.find(nick);

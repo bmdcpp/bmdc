@@ -18,7 +18,7 @@
 
 #include "stdinc.h"
 #include "DownloadManager.h"
-
+#include "ClientManager.h"
 #include "QueueManager.h"
 #include "Download.h"
 #include "LogManager.h"
@@ -107,16 +107,19 @@ void DownloadManager::on(TimerManagerListener::Second, uint64_t aTick) noexcept 
 	}
 }
 
-void DownloadManager::checkIdle(const UserPtr& user) {
+void DownloadManager::checkIdle(const HintedUser& user) {
 	Lock l(cs);
 	for(UserConnectionList::iterator i = idlers.begin(); i != idlers.end(); ++i) {
 		UserConnection* uc = *i;
-		if(uc->getUser() == user) {
+		if(uc->getUser() == user.user) {
+			if(Util::stricmp(uc->getHubUrl(), user.hint) != 0) {
+				uc->setHubUrl(user.hint);
 			uc->updated();
 			return;
 		}
 	}
-}
+  }
+}  
 
 void DownloadManager::addConnection(UserConnectionPtr conn) {
 	if(!conn->isSet(UserConnection::FLAG_SUPPORTS_TTHL) || !conn->isSet(UserConnection::FLAG_SUPPORTS_ADCGET)) {//BMDC TTHF->TTHL
@@ -190,8 +193,18 @@ void DownloadManager::checkDownloads(UserConnection* aConn) {
 	fire(DownloadManagerListener::Requesting(), d);
 
 	dcdebug("Requesting " I64_FMT "/" I64_FMT "\n", d->getStartPos(), d->getSize());
+	
+	/*
+	find mySID, better ways to get the correct one transferred here?
+	the hinturl of the connection is updated to the hub where the connection reguest is coming from,
+	so we should be able to find our own SID by finding the hub where the user is at (if we have a hint).
+	*/
+	string mySID = Util::emptyString;
+	if(!aConn->getUser()->isNMDC() && (d->getType() == Transfer::TYPE_FULL_LIST || d->getType() == Transfer::TYPE_PARTIAL_LIST))
+		mySID = ClientManager::getInstance()->findMySID(aConn->getHintedUser());
 
-	aConn->send(d->getCommand(aConn->isSet(UserConnection::FLAG_SUPPORTS_ZLIB_GET)));
+
+	aConn->send(d->getCommand(aConn->isSet(UserConnection::FLAG_SUPPORTS_ZLIB_GET),mySID));
 }
 
 void DownloadManager::on(AdcCommand::SND, UserConnection* aSource, const AdcCommand& cmd) noexcept {

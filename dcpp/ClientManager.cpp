@@ -385,11 +385,11 @@ OnlineUser* ClientManager::findOnlineUserHint(const CID& cid, const string& hint
 	return 0;
 }
 
-OnlineUser* ClientManager::findOnlineUser(const HintedUser& user, bool priv) {
-	return findOnlineUser(user.user->getCID(), user.hint, priv);
+OnlineUser* ClientManager::findOnlineUser(const HintedUser& user) {
+	return findOnlineUser(user.user->getCID(), user.hint);
 }
 
-OnlineUser* ClientManager::findOnlineUser(const CID& cid, const string& hintUrl, bool priv) {
+OnlineUser* ClientManager::findOnlineUser(const CID& cid, const string& hintUrl) {
 	OnlinePairC p;
 	OnlineUser* u = findOnlineUserHint(cid, hintUrl, p);
 	if(u) // found an exact match (CID + hint).
@@ -398,17 +398,25 @@ OnlineUser* ClientManager::findOnlineUser(const CID& cid, const string& hintUrl,
 	if(p.first == p.second) // no user found with the given CID.
 		return 0;
 
-	// if the hint hub is private, don't allow connecting to the same user from another hub.
-	if(priv)
-		return 0;
-
 	// ok, hub not private, return a random user that matches the given CID but not the hint.
 	return p.first->second;
 }
+//...@TODO
+string ClientManager::findMySID(const HintedUser& p) {
+	//this could also be done by just finding in the client list... better?
+	if(p.hint.empty()) // we cannot find the correct SID without a hubUrl
+		return Util::emptyString;
 
+	OnlineUser* u = findOnlineUser(p.user->getCID(), p.hint);
+	if(u)
+		return (&u->getClient())->getMyIdentity().getSIDString();
+
+	return Util::emptyString;
+}
+///...
 void ClientManager::connect(const HintedUser& user, const string& token) {
 	Lock l(cs);
-	OnlineUser* u = findOnlineUser(user, false);
+	OnlineUser* u = findOnlineUser(user);
 
 	if(u) {
 		u->getClient().connect(*u, token);
@@ -417,7 +425,7 @@ void ClientManager::connect(const HintedUser& user, const string& token) {
 
 void ClientManager::privateMessage(const HintedUser& user, const string& msg, bool thirdPerson) {
 	Lock l(cs);
-	OnlineUser* u = findOnlineUser(user, false);
+	OnlineUser* u = findOnlineUser(user);
 
 	if(u) {
 		u->getClient().privateMessage(*u, msg, thirdPerson);
@@ -431,7 +439,7 @@ void ClientManager::userCommand(const HintedUser& user, const UserCommand& uc, P
 	 * SearchManager::onRES(const AdcCommand& cmd, ...). when that is done, and SearchResults are
 	 * switched to storing only reliable HintedUsers (found with the token of the ADC command),
 	 * change this call to findOnlineUserHint. */
-	OnlineUser* ou = findOnlineUser(user.user->getCID(), user.hint.empty() ? uc.getHub() : user.hint, false);
+	OnlineUser* ou = findOnlineUser(user.user->getCID(), user.hint.empty() ? uc.getHub() : user.hint);
 	if(!ou)
 		return;
 
@@ -546,17 +554,22 @@ void ClientManager::search(int aSizeMode, int64_t aSize, int aFileType, const st
 	}
 }
 
-void ClientManager::search(StringList& who, int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken, const StringList& aExtList) {
+void ClientManager::search(string& who, int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken, const StringList& aExtList) {
 	Lock l(cs);
 
-	for(StringIter it = who.begin(); it != who.end(); ++it) {
-		string& client = *it;
-		for(auto j = clients.begin(); j != clients.end(); ++j) {
-			Client* c = *j;
-			if(c->isConnected() && c->getHubUrl() == client) {
-				c->search(aSizeMode, aSize, aFileType, aString, aToken, aExtList);
-			}
+	for(auto i = clients.begin(); i != clients.end(); ++i) { //change clients set to map<string*(hubUrl), Client*> for better lookup with .find
+		if(((*i)->getHubUrl() == who) && (*i)->isConnected()) {
+			(*i)->search(aSizeMode, aSize, aFileType, aString, aToken, aExtList);
+			break;	
 		}
+	}
+}
+
+void ClientManager::getOnlineClients(StringList& onlineClients) {
+	Lock l (cs);
+	for(auto i = clients.begin(); i != clients.end(); ++i) {
+		if((*i)->isConnected())
+			onlineClients.push_back((*i)->getHubUrl());
 	}
 }
 
@@ -704,7 +717,7 @@ void ClientManager::setIpAddress(const UserPtr& p, const string& ip) {
 
 void ClientManager::setSupports(const UserPtr& p, const string& aSupports) {
 	Lock l(cs);
-	OnlineUser* ou = findOnlineUser(p->getCID(), "", false);
+	OnlineUser* ou = findOnlineUser(p->getCID(), "");
 	if(!ou)
 		return;
 	ou->getIdentity().set("SU", aSupports);
@@ -715,7 +728,7 @@ void ClientManager::setGenerator(const HintedUser& p, const string& aGenerator, 
 	string report;
 	{
 		Lock l(cs);
-		OnlineUser* ou = findOnlineUser(p,false);
+		OnlineUser* ou = findOnlineUser(p);
 		if(!ou)
 			return;
 		ou->getIdentity().set("GE", aGenerator);
@@ -732,7 +745,7 @@ void ClientManager::setGenerator(const HintedUser& p, const string& aGenerator, 
 
 void ClientManager::setPkLock(const HintedUser& p, const string& aPk, const string& aLock) {
 	Lock l(cs);
-	OnlineUser* ou = findOnlineUser(p,false);
+	OnlineUser* ou = findOnlineUser(p);
 	if(!ou)
 		return;
 
@@ -769,7 +782,7 @@ void ClientManager::addCheckToQueue(const HintedUser hintedUser, bool filelist) 
 	bool addCheck = false;
 	{
 		Lock l(cs);
-		ou = findOnlineUser(hintedUser,false);
+		ou = findOnlineUser(hintedUser);
 		if(!ou) return;
 
 		if(ou->isCheckable()) {
@@ -843,7 +856,7 @@ void ClientManager::checkCheating(const HintedUser& p, DirectoryListing* dl) {
 	{
 		Lock l(cs);
 
-		ou = findOnlineUser(p, false);
+		ou = findOnlineUser(p);
 		if(!ou) return;
 
 		int64_t statedSize = ou->getIdentity().getBytesShared();
@@ -974,7 +987,7 @@ void ClientManager::sendRawCommand(const UserPtr& user, const string& aRaw, bool
 		bool skipRaw = false;
 		Lock l(cs);
 		if(checkProtection) {
-			OnlineUser* ou = findOnlineUser(user->getCID(), Util::emptyString, false);
+			OnlineUser* ou = findOnlineUser(user->getCID(), Util::emptyString);
 			if(!ou) return;
 			skipRaw = ou->isProtectedUser();
 		}
@@ -995,7 +1008,7 @@ void ClientManager::setCheating(const UserPtr& p, const string& _ccResponse, con
 	string report;
 	{
 		Lock l(cs);
-		ou = findOnlineUser(p->getCID(), "", false);
+		ou = findOnlineUser(p->getCID(), "");
 		if(!ou)
 			return;
 
@@ -1029,7 +1042,7 @@ void ClientManager::fileListDisconnected(const UserPtr& p) {
 	Client* c = NULL;
 	{
 		Lock l(cs);
-		OnlineUser* ou = findOnlineUser(p->getCID(),"", false);
+		OnlineUser* ou = findOnlineUser(p->getCID(),"");
 		if(!ou) return;
 
 		int fileListDisconnects = Util::toInt(ou->getIdentity().get("FD")) + 1;
@@ -1061,7 +1074,7 @@ void ClientManager::fileListDisconnected(const UserPtr& p) {
 
 void ClientManager::setUnknownCommand(const UserPtr& p, const string& aUnknownCommand) {
 	Lock l(cs);
-	OnlineUser* ou = findOnlineUser(p->getCID(),"", false);
+	OnlineUser* ou = findOnlineUser(p->getCID(),"");
 	if(!ou)
 		return;
 	ou->getIdentity().set("UC", aUnknownCommand);
@@ -1069,7 +1082,7 @@ void ClientManager::setUnknownCommand(const UserPtr& p, const string& aUnknownCo
 
 void ClientManager::setListLength(const UserPtr& p, const string& listLen) {
 	Lock l(cs);
-	OnlineUser* ou = findOnlineUser(p->getCID(), Util::emptyString, false);
+	OnlineUser* ou = findOnlineUser(p->getCID(), Util::emptyString);
 	if(ou) {
 		ou->getIdentity().set("LL", listLen);
 	}
@@ -1080,7 +1093,7 @@ void ClientManager::setListSize(const UserPtr& p, int64_t aFileLength, bool adc)
 	string report;
 	{
 		Lock l(cs);
-		ou = findOnlineUser(p->getCID(), "", false);
+		ou = findOnlineUser(p->getCID(), "");
 		if(!ou)
 			return;
 

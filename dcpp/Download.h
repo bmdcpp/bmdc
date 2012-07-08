@@ -63,7 +63,7 @@ public:
 	TigerTree& getTigerTree() { return tt; }
 	string& getPFS() { return pfs; }
 	/** @internal */
-	AdcCommand getCommand(bool zlib);
+	AdcCommand getCommand(bool zlib, const string& mySID);
 
 	GETSET(string, tempTarget, TempTarget);
 	GETSET(OutputStream*, file, File);

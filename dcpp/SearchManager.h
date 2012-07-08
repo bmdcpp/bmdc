@@ -20,7 +20,7 @@
 #define DCPLUSPLUS_DCPP_SEARCH_MANAGER_H
 
 #include "SettingsManager.h"
-
+#include <tuple>
 #include "Socket.h"
 #include "Thread.h"
 #include "Singleton.h"
@@ -56,6 +56,17 @@ public:
 	};
 private:
 	static const char* types[TYPE_LAST];
+	enum ItemT {
+		SEARCHTIME		= 0,
+		LOCALTOKEN		= 1,
+		HUBURL			= 2,
+	};
+
+	typedef std::tuple<uint64_t, string, string> SearchItem;
+	std::unordered_map<string, SearchItem> searches;
+	
+	CriticalSection cs;
+	
 public:
 	static const char* getTypeStr(int type);
 
@@ -104,6 +115,8 @@ private:
 
 	virtual ~SearchManager();
 	void onData(const uint8_t* buf, size_t aLen, const string& address);
+	
+	void on(TimerManagerListener::Minute, uint64_t aTick) noexcept;
 };
 
 } // namespace dcpp

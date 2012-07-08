@@ -3178,7 +3178,7 @@ void Hub::onProtectUserClicked_gui(GtkMenuItem *item , gpointer data)
 
 		if (!cid.empty())
 		{
-			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hub->client->getHubUrl(), false);
+			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hub->client->getHubUrl());
 			if(ou->getUser() && !ou->getUser()->isSet(User::PROTECT))
 				const_cast<UserPtr&>(ou->getUser())->setFlag(User::PROTECT);
 			ParamMap params;
@@ -3211,7 +3211,7 @@ void Hub::onUnProtectUserClicked_gui(GtkMenuItem *item , gpointer data)
 
 		if (!cid.empty())
 		{
-			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hub->client->getHubUrl(), false);
+			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hub->client->getHubUrl());
 			if(ou->getUser() && !ou->getUser()->isSet(User::PROTECT))
 				const_cast<UserPtr&>(ou->getUser())->unsetFlag(User::PROTECT);
 			ParamMap params;
@@ -3242,7 +3242,7 @@ void Hub::onShowReportClicked_gui(GtkMenuItem *item , gpointer data)
 		}
 		g_list_free(list);
 
-		OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hub->client->getHubUrl(), false);
+		OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hub->client->getHubUrl());
 		Identity id = ou->getIdentity();
 
 		hub->addMessage_gui("", WulforUtil::formatReport(id), Msg::CHEAT);
@@ -3277,7 +3277,7 @@ void Hub::onTestSURItemClicked_gui(GtkMenuItem *item, gpointer data)
 		{
 		    string nick = Util::emptyString;
 			nick += nicks.front();
-			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser( CID(nick),hub->client->getHubUrl(),false);
+			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser( CID(nick),hub->client->getHubUrl());
 			if(ou != NULL)
 			{
 				try {
@@ -3315,7 +3315,7 @@ void Hub::onCheckFLItemClicked_gui(GtkMenuItem *item , gpointer data)
 
 		if (!nick.empty())
 		{
-			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(nick),hub->client->getHubUrl(),false);
+			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(nick),hub->client->getHubUrl());
 			if(ou != NULL)
 			{
 				try {
