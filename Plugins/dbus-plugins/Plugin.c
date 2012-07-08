@@ -100,10 +100,7 @@ Bool onLoad(uint32_t eventId, DCCorePtr core) {
 		/* Default settings */
 		set_cfg("SendSuffix", "<DC++ Plugins Test>");
 		set_cfg("MediaPlayerFormat", "playing %[artist] - %[album] - %[title]");
-		//set_cfg("Destination","org.mpris.guayadeque");
-		//set_cfg("Method","GetMetadata");
 		set_cfg("DFPath","/");
-		
 	}
 
 	while(i < HOOKS_SUBSCRIBED) {
@@ -280,7 +277,7 @@ Bool DCAPI onHubEnter(dcptr_t pObject, dcptr_t pData, Bool* bBreak) {
 			"\t /unhook <index> \t\t Hooks test\n"
 			"\t /rehook <index> \t\t Hooks test\n"
 			"\t /send <text> \t\t\t Chat message test\n"
-			"\t /np \t\t\t Now Playing with formating";
+			"\t /np \t\t\t Now Playing";
 
 		hub->local_message(hHub, help, MSG_SYSTEM);
 		return True;

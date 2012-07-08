@@ -62,4 +62,4 @@ dcpp:setListener( "adcOwnChat", "monologue",
 	end
 )
 
-PrintDebug( "  ** Loaded monologue.lua **" )
+DC():PrintDebug( "  ** Loaded monologue.lua **" )

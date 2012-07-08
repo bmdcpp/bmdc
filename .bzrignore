@@ -11,3 +11,5 @@ dbus-plugins/compiled
 dbus-plugins/tmp.out
 Plugins/LuaPlugin/tmp.out
 Plugins/LuaPlugin/compiled
+Plugins/dbus-plugins/compiled
+Plugins/dbus-plugins/tmp.out

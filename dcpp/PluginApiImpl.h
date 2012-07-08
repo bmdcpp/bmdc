@@ -26,6 +26,7 @@
 
 #include <cstdint>
 
+#include "forward.h"
 #include "typedefs.h"
 #include "PluginDefs.h"
 

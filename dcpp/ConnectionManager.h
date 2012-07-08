@@ -139,7 +139,6 @@ private:
 		bool secure;
 		bool die;
 	};
-
 	friend class Server;
 
 	CriticalSection cs;

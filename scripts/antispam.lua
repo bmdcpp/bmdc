@@ -12,12 +12,12 @@ local nick
 local nick
 local nicks
 local action
-filterfile = GetConfigPath() .. "scripts/Filter.txt"
-settingsfile = GetConfigPath() .. "scripts/Filtersettings.txt"
-spamsfile = GetConfigPath() .. "scripts/Filterspams.txt"
-nicksfile = GetConfigPath() .. "scripts/Filternicks.txt"
-ignorelistfile = GetConfigPath() .. "DCPlusPlus.xml"
-historyfile = GetConfigPath() .. "scripts/Filterhistory.txt"
+filterfile = DC():GetConfigPath() .. "scripts/Filter.txt"
+settingsfile = DC():GetConfigPath() .. "scripts/Filtersettings.txt"
+spamsfile = DC():GetConfigPath() .. "scripts/Filterspams.txt"
+nicksfile = DC():GetConfigPath() .. "scripts/Filternicks.txt"
+ignorelistfile = DC():GetConfigPath() .. "DCPlusPlus.xml"
+historyfile = DC():GetConfigPath() .. "scripts/Filterhistory.txt"
 --reneuwing and (or) loading reneuwing the needed files
 f = io.open(spamsfile, "w+")
 if f then
@@ -25,7 +25,7 @@ if f then
 	f:write("\n Ez a fájl tartalmazza a spamek szövegét. Antispam filter v1.2 \n\n")	
 	f:close()
 else
-	PrintDebug("Scripts/Filterspams.txt not accessible")
+	DC():PrintDebug("Scripts/Filterspams.txt not accessible")
 end
 
 f = io.open(historyfile, "w+")
@@ -33,7 +33,7 @@ if f then
 	f:write("Script actions history:")
 	f:close()
 else
-	PrintDebug("Scripts\Filterhistory.txt not accessible")
+	DC():PrintDebug("Scripts\Filterhistory.txt not accessible")
 end
 
 f = io.open(filterfile, "r")
@@ -48,7 +48,7 @@ else
 	f:write("\nhttp://")
 	f:write("\nflood")
 	f:close()
-	PrintDebug("Scripts/Filter.txt is generated")
+	DC():PrintDebug("Scripts/Filter.txt is generated")
 end
 
 f = io.open(settingsfile, "r")
@@ -72,7 +72,7 @@ else
 	f:write("\n	nickfilteringvalue='1'")
 	f:write("\n/nickfiltering")
 	f:close()
-	PrintDebug("Scripts/Filtersettings.txt is generated")
+	DC():PrintDebug("Scripts/Filtersettings.txt is generated")
 end
 
 f = io.open(nicksfile, "r")
@@ -84,25 +84,25 @@ else
 	f:write("\nbot")
 	f:write("\nBOT")
 	f:close()
-	PrintDebug("Scripts/Filternicks.txt is generated")
+	DC():PrintDebug("Scripts/Filternicks.txt is generated")
 end
 	
 --determinating witch client running, looking for Favorites.xml
 Favorites = io.open(GetConfigPath() .. "/Favorites.xml")
 if not Favorites then
-	Favorites = GetConfigPath() .. "/Favorites.xml"
-	ignorelistfile = GetConfigPath() .. "/DCPlusPlus.xml"
-	Favorites = io.open(GetConfigPath() .. "/Favorites.xml")
+	Favorites = DC():GetConfigPath() .. "/Favorites.xml"
+	ignorelistfile = DC():GetConfigPath() .. "/DCPlusPlus.xml"
+	Favorites = io.open(DC():GetConfigPath() .. "/Favorites.xml")
 	if not Favorites then
 		fav = 0
 	else
-		Favorites = GetConfigPath() .. "/Favorites.xml"
+		Favorites = DC():GetConfigPath() .. "/Favorites.xml"
 		fav = 1
 	end	
 else
 	Favorites:close()
-	Favorites = GetConfigPath() .. "/Favorites.xml"
-	ignorelistfile = GetConfigPath() .. "/DCPlusPlus.xml"
+	Favorites = DC():GetConfigPath() .. "/Favorites.xml"
+	ignorelistfile = DC():GetConfigPath() .. "/DCPlusPlus.xml"
 	fav = 1
 end
 
@@ -279,7 +279,7 @@ function( hub, message, ret )
 			else
 				hub:addLine("       Antispam filtering ONLINE - default", true)
 				spamfilter = 1
-				PrintDebug( "  Anti-spam filter back online")
+				DC():PrintDebug( "  Anti-spam filter back online")
 				return 1
 			end	
 		end
@@ -287,7 +287,7 @@ function( hub, message, ret )
 			if spamfilter == 1 then
 				hub:addLine("       Antispam filtering OFFLINE", true)
 				spamfilter = 0
-				PrintDebug( "  Anti-spam filter temporaly offline")
+				DC:():PrintDebug( "  Anti-spam filter temporaly offline")
 				return 1
 			else
 				hub:addLine("       Antispam filtering already OFFLINE", true)
@@ -301,7 +301,7 @@ function( hub, message, ret )
 			else
 				hub:addLine("       Spam text to main chat function temporaly ONLINE", true)
 				copytext = 1
-				PrintDebug( "  Spam text to main chat function temporaly online")
+				DC():PrintDebug( "  Spam text to main chat function temporaly online")
 				return 1
 			end	
 		end	
@@ -322,7 +322,7 @@ function( hub, message, ret )
 				return 1
 			end	
 			spamnumber = params[3]
-			local f = io.open(GetConfigPath() .. "scripts/Filterspams.txt", "r")
+			local f = io.open(DC():GetConfigPath() .. "scripts/Filterspams.txt", "r")
 			if f then
 				local line = f:read()
 				for line in f:lines() do
@@ -373,7 +373,7 @@ function antispam.historywrite()
 		f:write(nick)
 		f:close()
 	else
-		PrintDebug("Filterhistory.txt is not accessible")
+		DC():PrintDebug("Filterhistory.txt is not accessible")
 	end	
 end
 
@@ -498,7 +498,7 @@ if not pmTable[nick] then
 				if string.find(text1, line ) then
 					pmcount = pmcount + 1
 					totalpmcount = totalpmcount + 1
-					PrintDebug( "  ** " .. "PM " .. pmcount .. " blocked *SPAM* from: "  .. nick .." **" )
+					DC():PrintDebug( "  ** " .. "PM " .. pmcount .. " blocked *SPAM* from: "  .. nick .." **" )
 					action = 1
 					antispam.historywrite()
 					antispam.spamsfilewrite()
@@ -512,7 +512,7 @@ if not pmTable[nick] then
 			antispam.lenght()	
 		end
 	else
-		PrintDebug( "  ** Filter.txt is not present in /acripts folder or not acessible!!! **" )
+		DC():PrintDebug( "  ** Filter.txt is not present in /acripts folder or not acessible!!! **" )
 	end
 else		
 	totalpmcount = totalpmcount + 1
@@ -583,4 +583,4 @@ if spamfilter == 1 then
 	end
 end	
 )
-PrintDebug("  ** Loaded anti-spam filter v1.2 **") 
+DC():PrintDebug("  ** Loaded anti-spam filter v1.2 **") 

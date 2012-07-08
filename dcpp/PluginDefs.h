@@ -109,9 +109,10 @@ typedef enum tagPluginState {
 typedef enum tagConfigType {
 	CFG_TYPE_UNKNOWN = -2,										/* Can be used when querying core settings with magic guid: "CoreSetup" */
 	CFG_TYPE_REMOVE,											/* Config value will be removed */
-	CFG_TYPE_STRING,											/* Config value is string */
-	CFG_TYPE_INT,												/* Config value is 32bit integer */
-	CFG_TYPE_INT64												/* Config value is 64bit integer */
+	CFG_TYPE_STRING,											/* Config value is a string */
+	CFG_TYPE_INT,												/* Config value is a 32bit integer */
+	CFG_TYPE_BOOL,												/* Config value is a bool */
+	CFG_TYPE_INT64												/* Config value is a 64bit integer */
 } ConfigType;
 
 typedef enum tagProtocolType {
@@ -147,6 +148,7 @@ typedef enum tagQueuePrio {
 /* Data types */
 typedef void *hookHandle, *subsHandle, *intfHandle, *dcptr_t;
 typedef enum tagDCBool { dcFalse = 0, dcTrue } dcBool;
+typedef uint64_t dctime_t;
 
 /* Workaround for other bool defs */
 #define Bool dcBool
@@ -169,6 +171,12 @@ typedef struct tagConfigInt {
 	ConfigType type;											/* Indicates which type of value this is */
 	int32_t value;
 } ConfigInt, *ConfigIntPtr;
+
+/* Config Value: boolean */
+typedef struct tagConfigBool {
+	ConfigType type;											/* Indicates which type of value this is */
+	Bool value;
+} ConfigBool, *ConfigBoolPtr;
 
 /* Config Value: integer (64bit) */
 typedef struct tagConfigInt64 {

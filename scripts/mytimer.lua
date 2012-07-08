@@ -30,4 +30,4 @@ dcpp:setListener( "timer", "myTimer",
 	end																			
 )
 
-PrintDebug( "  ** Loaded mytimer.lua **" )
+DC():PrintDebug( "  ** Loaded mytimer.lua **" )

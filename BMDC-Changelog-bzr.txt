@@ -533,4 +533,8 @@ Fix loading icon from http in Hub Tab
 Merge BoolSetting from dcpp
 Few Fixes since BoolSetting
 Removed ADC Debug , Few LUA_DEBUG from core
-----
+-----r134
+update Lua Scripts
+Bool Settings to Plugins API
+Remove Send $BotInfo for now...
+-----

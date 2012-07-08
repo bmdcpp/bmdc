@@ -470,7 +470,12 @@ void AdcHub::handle(AdcCommand::STA, AdcCommand& c) noexcept {
 	if(c.getParam(0).size() != 3) {
 		return;
 	}
-
+	/*
+	string rf = Util::emptyString;
+	c.getParam("RF",1,rf);
+	u->getIdentity().set("RF",rf);
+	dcdebug("RF %s",rf.c_str());
+*/
 	switch(Util::toInt(c.getParam(0).substr(1))) {
 
 	case AdcCommand::ERROR_BAD_PASSWORD:
@@ -503,7 +508,7 @@ void AdcHub::handle(AdcCommand::STA, AdcCommand& c) noexcept {
 			return;
 		}
 	}
-
+	
 	ChatMessage message = { c.getParam(1), u };
 	fire(ClientListener::Message(), this, message);
 }

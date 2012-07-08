@@ -245,6 +245,11 @@ void PluginApiImpl::setConfig(const char* guid, const char* setting, ConfigValue
 			pm->setPluginSetting(guid, setting, Util::toString(num->value));
 			break;
 		}
+		case CFG_TYPE_BOOL: {
+			auto num = (ConfigBoolPtr)val;
+			pm->setPluginSetting(guid, setting, Util::toString(num->value));
+			break;
+		}
 		case CFG_TYPE_INT64: {
 			auto num = (ConfigInt64Ptr)val;
 			pm->setPluginSetting(guid, setting, Util::toString(num->value));
@@ -272,6 +277,10 @@ ConfigValuePtr PluginApiImpl::getConfig(const char* guid, const char* setting, C
 					ConfigInt value = { CFG_TYPE_INT, SettingsManager::getInstance()->get(static_cast<SettingsManager::IntSetting>(n)) };
 					return copyData((ConfigValuePtr)&value);
 				}
+				case SettingsManager::TYPE_BOOL: {
+					ConfigBool value = { CFG_TYPE_BOOL, SettingsManager::getInstance()->get(static_cast<SettingsManager::BoolSetting>(n)) ? True : False };
+					return copyData((ConfigValuePtr)&value);
+				}
 				case SettingsManager::TYPE_INT64: {
 					ConfigInt64 value = { CFG_TYPE_INT64, SettingsManager::getInstance()->get(static_cast<SettingsManager::Int64Setting>(n)) };
 					return copyData((ConfigValuePtr)&value);
@@ -292,6 +301,10 @@ ConfigValuePtr PluginApiImpl::getConfig(const char* guid, const char* setting, C
 		}
 		case CFG_TYPE_INT: {
 			ConfigInt value = { type, Util::toInt(pm->getPluginSetting(guid, setting)) };
+			return copyData((ConfigValuePtr)&value);
+		}
+		case CFG_TYPE_BOOL: {
+			ConfigBool value = { type, pm->getPluginSetting(guid, setting) != "0" ? True : False };
 			return copyData((ConfigValuePtr)&value);
 		}
 		case CFG_TYPE_INT64: {
@@ -325,6 +338,13 @@ ConfigValuePtr PluginApiImpl::copyData(const ConfigValuePtr val) {
 
 			return (ConfigValuePtr)copy;
 		}
+		case CFG_TYPE_BOOL: {
+			auto num = (ConfigBoolPtr)val;
+			auto copy = (ConfigBoolPtr)malloc(sizeof(ConfigBool));
+			memcpy(copy, num, sizeof(ConfigBool));
+			
+			return (ConfigValuePtr)copy;
+		}
 		case CFG_TYPE_INT64: {
 			auto num = (ConfigInt64Ptr)val;
 			auto copy = (ConfigInt64Ptr)malloc(sizeof(ConfigInt64));
@@ -349,6 +369,11 @@ void PluginApiImpl::releaseData(ConfigValuePtr val) {
 		}
 		case CFG_TYPE_INT: {
 			auto num = (ConfigIntPtr)val;
+			free(num);
+			break;
+		}
+		case CFG_TYPE_BOOL: {
+			auto num = (ConfigBoolPtr)val;
 			free(num);
 			break;
 		}

@@ -170,7 +170,6 @@ function loadTrigger()
 end
 
 
-
 function saveTrigger()
 	local f = io.open( triggerFile, "w" )
 	for i = 1,#trigger.call do
@@ -665,8 +664,8 @@ interval = 20*60
 last = os.time()+interval
 
 trigger = {}
-triggerFile = GetConfigPath() .. "/scripts/stalker_triggers.txt"
-stalkerpalFile = GetConfigPath() .. "/scripts/stalker_nicklist.txt"
+triggerFile = DC():GetConfigPath() .. "/scripts/stalker_triggers.txt"
+stalkerpalFile = DC():GetConfigPath() .. "/scripts/stalker_nicklist.txt"
 
 CheckFile(triggerFile,"<endoftriggers>")
 CheckFile(stalkerpalFile,"")
@@ -846,4 +845,4 @@ dcpp:setListener( "userMyInfo", "myinfo",
 )
 
 
-PrintDebug( "** Loaded stalker.lua version 1.0 English**" )
+DC():PrintDebug( "** Loaded stalker.lua version 1.0 English**" )

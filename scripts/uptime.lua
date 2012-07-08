@@ -31,4 +31,4 @@ dcpp:setListener( "ownChatOut", "up",
 	end
 )
 
-PrintDebug( "  ** Loaded uptime.lua **" )
+DC():PrintDebug( "  ** Loaded uptime.lua **" )
