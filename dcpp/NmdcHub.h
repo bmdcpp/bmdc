@@ -29,6 +29,7 @@
 #include "Text.h"
 #include "Client.h"
 #include "HubUsersMap.h"
+#include "RegEx.h"
 
 namespace dcpp {
 

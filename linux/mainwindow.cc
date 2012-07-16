@@ -1541,9 +1541,11 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 		{
 			Widgets *wid = WidgList[i];
 			
-			if(wid->label != NULL)
-				const gchar * name = gtk_label_get_text(GTK_LABEL(wid->label));
-			else continue;
+			if(wid->label == NULL)
+				continue;
+				//const gchar * name = gtk_label_get_text(GTK_LABEL(wid->label));
+			//else continue;
+		   
 		   if(wid->widget == NULL)
 				continue;					
 			if(GTK_IS_COMBO_BOX(wid->widget))
@@ -2891,7 +2893,7 @@ void MainWindow::checkUpdateofGeoIp(bool v6)
 {
 	try {
 		File f(GeoManager::getInstance()->getDbPath(v6) + ".gz", File::READ, File::OPEN);
-		if(f.getSize() > 0 && f.getLastModified() > GET_TIME() - 3600 * 24 * 16) {
+		if(f.getSize() > 0 && static_cast<time_t>(f.getLastModified()) > GET_TIME() - 3600 * 24 * 16) {
 			return;
 		}
 	} catch(const FileException&) { }

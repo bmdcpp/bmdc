@@ -68,17 +68,17 @@ public:
 
 class FavoriteHubEntry: public HubSettings {
 public:
-	FavoriteHubEntry() : encoding(Text::systemCharset), showUserList(false) { }
+	FavoriteHubEntry() : encoding(Text::systemCharset), showUserList(true) { }
 	
 	FavoriteHubEntry(const HubEntry& rhs) : name(rhs.getName()), server(rhs.getServer()),
-		hubDescription(rhs.getDescription()), encoding(Text::systemCharset) , tabText(Util::emptyString) , tabIconStr(Util::emptyString), autoConnect(false), showUserList(false) { }
+		hubDescription(rhs.getDescription()), encoding(Text::systemCharset), autoConnect(false), showUserList(true),tabText(Util::emptyString) , tabIconStr(Util::emptyString) { }
 	
 	FavoriteHubEntry(const FavoriteHubEntry& rhs) : 
 		name(rhs.getName()), server(rhs.getServer()), hubDescription(rhs.getDescription()),
 		password(rhs.getPassword()), encoding(rhs.getEncoding()), group(rhs.getGroup()), hideShare(rhs.hideShare),
 		autoConnect(rhs.autoConnect), ip(rhs.ip), mode(rhs.mode), chatExtraInfo(rhs.chatExtraInfo),
-		checkAtConn(rhs.checkAtConn), checkClients(rhs.checkClients), checkFilelists(rhs.checkFilelists),  checkMyInfo(rhs.checkMyInfo),
-		tabText(rhs.tabText), tabIconStr(rhs.tabIconStr), showUserList(rhs.showUserList)
+		protectUsers(rhs.protectUsers),	checkAtConn(rhs.checkAtConn), checkClients(rhs.checkClients), checkFilelists(rhs.checkFilelists),  checkMyInfo(rhs.checkMyInfo),
+		showUserList(rhs.showUserList), tabText(rhs.tabText), tabIconStr(rhs.tabIconStr)
 		 { }
 	~FavoriteHubEntry() { }
 
@@ -87,9 +87,9 @@ public:
 	GETSET(string, hubDescription, HubDescription);
 	GETSET(string, password, Password);
 	GETSET(string, encoding, Encoding);
-	GETSET(bool, hideShare, HideShare); //BMDC++
 	GETSET(string, group, Group);
 	//BMDC++
+	GETSET(bool, hideShare, HideShare);
 	GETSET(bool, autoConnect, AutoConnect)
 	GETSET(string, ip, Ip);
 	GETSET(int, mode, Mode);

@@ -207,8 +207,8 @@ Action* RawManager::findAction(const std::string& name) noexcept {
 	return NULL;
 }
 
-Raw* RawManager::addRaw(Action* a, Raw& r) throw(Exception) {
-	if(a == NULL) return NULL; // nothing to do
+/*Raw**/void RawManager::addRaw(Action* a, Raw& r) throw(Exception) {
+	if(a == NULL) return;//; NULL; // nothing to do
 
 	if(r.getName().empty())
 		throw Exception("NO NAME SPECIFIED");
@@ -230,7 +230,7 @@ Raw* RawManager::addRaw(Action* a, Raw& r) throw(Exception) {
 	}
 
 	a->raw.push_back(r);
-	return &a->raw.back();
+	//return &a->raw.back();
 }
 
 void RawManager::editRaw(const Action* a, Raw* old, Raw _new) throw(Exception) {

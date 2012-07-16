@@ -709,9 +709,9 @@ void ClientManager::setIpAddress(const UserPtr& p, const string& ip) {
     Lock l(cs);
 	OnlineIterC i = onlineUsers.find(p->getCID());
 	if(i != onlineUsers.end()) {
-		i->second->inc();
+//		i->second->inc();
 		i->second->getIdentity().set("I4", ip);
-		i->second->dec();
+//		i->second->dec();
 	}
 }
 
@@ -789,7 +789,7 @@ void ClientManager::addCheckToQueue(const HintedUser hintedUser, bool filelist) 
 			if(!ou->getChecked(filelist)) {
 				if((filelist && ou->shouldCheckFileList()) || (!filelist && ou->shouldCheckClient())) {
 					addCheck = true;
-					ou->inc();
+//					ou->inc();
 				}
 			}
 		}
@@ -807,7 +807,7 @@ void ClientManager::addCheckToQueue(const HintedUser hintedUser, bool filelist) 
 		} catch(...) {
 			//...
 		}
-		ou->dec();
+//		ou->dec();
 	}
 }
 

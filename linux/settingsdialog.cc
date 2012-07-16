@@ -1657,10 +1657,9 @@ void Settings::setColorRow(string cell)
 
 void Settings::makeColor(GtkTreeViewColumn *column, GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
 {
-		Settings *s = (Settings *)data;
 		string color = "#A52A2A";
 		gchar *cltype;
-		int64_t size;
+
 		if(model == NULL)
 			return;
 		if(iter == NULL)
@@ -1678,28 +1677,28 @@ void Settings::makeColor(GtkTreeViewColumn *column, GtkCellRenderer *cell, GtkTr
 		if ( strcmp(a,"a") == 0)
 		{ 
 		  color = WGETS("userlist-bg-bot-hub");
-		}//Op
+		}//Ops
 		else if ( strcmp(a,"o") == 0)
 		{ 
 			color = WGETS("userlist-bg-operator");
-		}//Fav
+		}//Favorite
 		else if ( strcmp(a,"f") == 0) 
 		{ 
      	   color = WGETS("userlist-bg-favorite");
 		}
-		//normal
+		//Normal
 		else if ( strcmp(a,"n") == 0)
 		{
 			color = WGETS("userlist-bg-normal");	
-		}
+		}//Pasive
 		else if ( strcmp(a,"p") == 0)
 		{
 			color = WGETS("userlist-bg-pasive");	
-		}
+		}//Protected
 		else if (strcmp(a,"r") == 0)
 		{
 			color = WGETS("userlist-bg-protected");	
-		}
+		}//Ignored
 		else if (strcmp(a,"i") == 0)
 		{
 		    color = WGETS("userlist-bg-ignored");	
@@ -3633,7 +3632,7 @@ void Settings::setBgColorUserList()
 		string strcolor = WulforUtil::colorToString(&color);
 		
 		ColorIters::const_iterator qp = colorsIters.find(_("User ") + currname);
-		GtkTreeIter qiter = qp->second;
+//		GtkTreeIter qiter = qp->second;
 
 		//gtk_list_store_set(userListStore2, &qiter, userListPreview.col("Back"), strcolor.c_str(), -1);
 		gtk_list_store_set(userListStore1, &iter, userListNames.col("BackSet"), strcolor.c_str(), -1);
@@ -4886,7 +4885,7 @@ void Settings::onRemoveHighlighting_gui(GtkWidget *widget, gpointer data)
 		{
 			string name = s->hView.getString(&iter, _("String"));
 			GtkWindow* parent = GTK_WINDOW(s->getContainer());
-			GtkWidget* dialog = gtk_message_dialog_new(NULL,
+			GtkWidget* dialog = gtk_message_dialog_new(parent,
 				GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
 				_("Are you sure you want to delete Highlighting \"%s\"?"), name.c_str());
 			gtk_dialog_add_buttons(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
@@ -4899,7 +4898,7 @@ void Settings::onRemoveHighlighting_gui(GtkWidget *widget, gpointer data)
 		}
 
 		string name = s->hView.getString(&iter,_("String"));
-		for(int i=0;i < s->pList.size() ;i++)
+		for(unsigned int i=0;i < s->pList.size() ;i++)
 		{
 			if(s->pList[i].getMatch() == name)
 				s->pList.erase(s->pList.begin() + i);

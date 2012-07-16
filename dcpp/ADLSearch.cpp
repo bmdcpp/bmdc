@@ -231,7 +231,7 @@ bool ADLSearch::searchAll(const string& s) {
 	return boost::apply_visitor(SearchAll(s), v);
 }
 
-ADLSearchManager::ADLSearchManager() : user(UserPtr(), Util::emptyString) ,breakOnFirst(false) {
+ADLSearchManager::ADLSearchManager() : breakOnFirst(false), user(UserPtr(), Util::emptyString)  {
 	load();
 }
 

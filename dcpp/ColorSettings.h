@@ -1,5 +1,5 @@
 /* 
-* Copyright (C) 2003-2012 Pär Björklund, per.bjorklund@gmail.com
+* Copyright (C) 2003-2012 PÃ¤r BjÃ¶rklund, per.bjorklund@gmail.com
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -26,10 +26,10 @@ namespace dcpp {
 class ColorSettings
 {
   public:
-	ColorSettings(): bUsingRegexp(false), strMatch(Util::emptyString), strSoundFile(Util::emptyString), bIncludeNick(false), bCaseSensitive(false), bPopup(false), bTab(false),
+	ColorSettings(): bIncludeNick(false), bCaseSensitive(false), bPopup(false), bTab(false),
 		bPlaySound(false), bBold(false), bUnderline(false), bItalic(false), 
 		bNoti(Util::emptyString), iMatchType(1), iBgColor(Util::emptyString), iFgColor(Util::emptyString), bHasBgColor(false),
-		bHasFgColor(false) {	}
+		bHasFgColor(false) , strSoundFile(Util::emptyString), strMatch(Util::emptyString), bUsingRegexp(false)  {	}
 	~ColorSettings(){ };
 
 	GETSET(bool, bIncludeNick, IncludeNick);

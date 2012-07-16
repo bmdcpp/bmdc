@@ -1013,7 +1013,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	}
  	else if (cmd == "auda" || cmd == "w")
 	{
-		ShellCommand s("audacious-now-playing.sh");
+		ShellCommand s((char *)"audacious-now-playing.sh");
 		if (strcmp(s.Output(),"Audacious is not running.")==0)
 		{
 			status += s.Output();
@@ -1027,7 +1027,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	}
 	else if (cmd == "kaff")
 	{
-		ShellCommand s("kaffeine-now-playing.sh");
+		ShellCommand s((char *)"kaffeine-now-playing.sh");
 
 		if (strcmp(s.Output(),"Kaffeine is not running.")==0)
 		{
@@ -1047,7 +1047,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	}
 	else if  (cmd == "rb")
 	{
-		ShellCommand s("rhytmobox-now-playing.sh");
+		ShellCommand s((char *)"rhytmobox-now-playing.sh");
 
 		if (strcmp(s.Output(),"Kaffeine is not running.")==0)
 		{
@@ -1067,7 +1067,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	}
 	else if (cmd == "vlc")
 	{
-		ShellCommand s("vlc-np.sh");
+		ShellCommand s((char *)"vlc-np.sh");
 		//test if script is in the right directory and set executable and if so run it
 		if (strcmp(s.Output(),"VLC is not running.") == 0)
 		{
@@ -1088,7 +1088,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	// End of "Now Playing"
 	else if ( cmd == "df" )
 	{
-        ShellCommand s("df.sh");
+        ShellCommand s((char *)"df.sh");
 
 		if (param == "mc")
 			message = s.Output();

@@ -30,8 +30,8 @@ class DetectionManager : public Singleton<DetectionManager> {
 public:
 	typedef vector<DetectionEntry> DetectionItems;
 
-	DetectionManager() : profileVersion("N/A"), profileMessage("N/A"), profileUrl("N/A"), lastId(0),
-		userInfoVersion("N/A"), userInfoMessage("N/A"), userInfoUrl("N/A"), ui_lastId(0) { };
+	DetectionManager() : profileVersion("N/A"), profileMessage("N/A"), profileUrl("N/A"), 
+		userInfoVersion("N/A"), userInfoMessage("N/A"), userInfoUrl("N/A"),lastId(0), ui_lastId(0) { };
 	~DetectionManager() noexcept { save(); det.clear(); };
 
 	void ProfilesLoad();

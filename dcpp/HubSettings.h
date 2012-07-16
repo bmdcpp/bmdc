@@ -33,7 +33,7 @@ using std::string;
 favorite hub group; per favorite hub entry. */
 struct HubSettings
 {
-	HubSettings () : showJoins(indeterminate), favShowJoins(indeterminate), connect(false), logChat(false)
+	HubSettings () : connect(false), logChat(false), showJoins(indeterminate), favShowJoins(indeterminate)
 	 { }
 
 	/** Apply a set of sub-settings that may override current ones. Strings are overridden when not

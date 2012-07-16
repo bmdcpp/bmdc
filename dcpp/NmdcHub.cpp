@@ -91,7 +91,7 @@ OnlineUser& NmdcHub::getUser(const string& aNick) {
 		Lock l(cs);
 		u = users.insert(make_pair(aNick, new OnlineUser(p, *this, 0))).first->second;
 		u->inc();
-		u->initializeData();
+//		u->initializeData();
 		u->getIdentity().setNick(aNick);
 		if(u->getUser() == getMyIdentity().getUser()) {
 			setMyIdentity(u->getIdentity());
@@ -715,7 +715,8 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		if(param.size() < j + 2) {
 			return;
 		}
-		ChatMessage message = { unescape(param.substr(j + 2)), findUser(fromNick), &getUser(getMyNick()), findUser(rtNick) };
+		
+		ChatMessage message = { unescape(param.substr(j + 2)), findUser(fromNick) , &getUser(getMyNick()), findUser(rtNick) };
 
 		if(!message.replyTo || !message.from) {
 			if(!message.replyTo) {

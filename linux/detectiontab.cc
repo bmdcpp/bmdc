@@ -723,7 +723,7 @@ void DetectionTab::removeRaw_gui(string Id, string name)
 
 void DetectionTab::addAct_client(StringMap params)
 {
-	Action* a = RawManager::getInstance()->addAction(Util::toInt(params["ID"]),params["Name"],Util::toInt(params["Enabled"]));
+	/*Action* a =*/ RawManager::getInstance()->addAction(Util::toInt(params["ID"]),params["Name"],Util::toInt(params["Enabled"]));
 	RawManager::getInstance()->saveActionRaws();
 }
 
@@ -735,7 +735,7 @@ void DetectionTab::addRaw_client(StringMap params)
 	raw->setRaw(params["RAW"]);
 	raw->setTime(Util::toInt(params["Time"]));
 	raw->setEnabled(true);
-	Raw* r = RawManager::getInstance()->addRaw(a,*raw);
+	/*Raw* r = */RawManager::getInstance()->addRaw(a,*raw);
 	RawManager::getInstance()->saveActionRaws();
 }
 
@@ -778,7 +778,8 @@ void DetectionTab::removeAct_client(int id)
 {
 	Action* action = RawManager::getInstance()->findAction(id);
 	bool rem = RawManager::getInstance()->remAction(action);
-	RawManager::getInstance()->saveActionRaws();
+	if(rem)
+		RawManager::getInstance()->saveActionRaws();
 }
 
 void DetectionTab::removeRaw_client(int id)

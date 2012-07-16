@@ -153,7 +153,8 @@ const string SettingsManager::settingTags[] =
 	"ShowFileListVersionMismatch",
 	"UseWildCardProtectUsers",
 	"DisplayCheatsInMainChat",
-	"UseOemFont",
+	"UseOemFont", 
+	"DontAlowChatrooms",
 	"SENTRY",
 	// Int64
 	"TotalUpload", "TotalDownload",
@@ -395,6 +396,8 @@ SettingsManager::SettingsManager()
 	setDefault(AC_DISCLAIM, true);
 	setDefault(GLOBAL_HS, false);
 	setDefault(GLOBAL_EM, false);
+	
+	setDefault(DONT_ALOW_CHATROOMS, true);
 
 	setSearchTypeDefaults();
 

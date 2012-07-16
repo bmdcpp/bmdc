@@ -693,7 +693,7 @@ void Hub::updateUser_gui(ParamMap params)
 
 	GdkPixbuf *pixbuf = WulforUtil::LoadCountryPixbuf(params["Abbrevation"]);
 	if(pixbuf != NULL)
-        gdk_pixbuf_ref(pixbuf);
+        g_object_ref(pixbuf);
 
 	//Color of OP,Pasive, Fav, Ignore, Protect
 	string nickColor = (isProtected ? WGETS("userlist-text-protected") :(isOperator ? WGETS("userlist-text-operator") : (isPasive ? WGETS("userlist-text-pasive") :(favorite ? WGETS("userlist-text-favorite") : ( isIgnore ? WGETS("userlist-text-ignored") : WGETS("userlist-text-normal"))))));
@@ -2492,8 +2492,8 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		else if(command == "plist") {
 			size_t idx = 0;
 			string status = string(_("Loaded plugins: ")) + _("\n");
-			const PluginManager::pluginList& list = PluginManager::getInstance()->getPluginList();
-			for(PluginManager::pluginList::const_iterator i = list.begin(); i != list.end(); ++i, ++idx) {
+			const auto list = PluginManager::getInstance()->getPluginList();
+			for(auto i = list.begin(); i != list.end(); ++i, ++idx) {
 				const MetaData& info = (*i)->getInfo();
 				status += Util::toString(idx) + " - " + string(info.name) + " - " + Util::toString(info.version) + "\n";
 			}

@@ -145,7 +145,7 @@ void GZ::decompress(const string& source, const string& target) {
 		if(read > 0) {
 			f.write(&buf[0], read);
 		}
-		if(read < BUF_SIZE) {
+		if( (static_cast<size_t>(read)) < BUF_SIZE) {
 			break;
 		}
 	}

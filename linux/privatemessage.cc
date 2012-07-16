@@ -1080,7 +1080,7 @@ gboolean PrivateMessage::onKeyPress_gui(GtkWidget *widget, GdkEventKey *event, g
 	size_t index;
 
 	if ( ( WGETB("key-hub-with-ctrl") && 
-		(event->keyval == GDK_Up || event->keyval == GDK_KP_Up && (event->state & GDK_CONTROL_MASK )  )) 
+		((event->keyval == GDK_Up) || (event->keyval == GDK_KP_Up)) && (event->state & GDK_CONTROL_MASK ) ) 
 		|| (!WGETB("key-hub-with-ctrl") && (event->keyval == GDK_Up || event->keyval == GDK_KP_Up)) )
 	{
 		index = pm->historyIndex - 1;

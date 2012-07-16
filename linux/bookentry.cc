@@ -31,17 +31,18 @@ using namespace std;
 
 BookEntry::BookEntry(const EntryType type, const string &text, const string &glade, const string &id):
 	Entry(type, glade, id),
-	bold(false),
-	urgent(false),
 	eventBox(NULL),
 	labelBox(NULL),
 	tabMenuItem(NULL),
 	closeButton(NULL),
 	label(NULL),
-	popTabMenuItem(NULL),
-	icon(NULL),
 	fItem(NULL),
+	bold(false),
+	urgent(false),
+	icon(NULL),
+	popTabMenuItem(NULL),
 	type(type)
+
 {
 	GSList *group = NULL;
 	labelBox = gtk_hbox_new(FALSE, 5);

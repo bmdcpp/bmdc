@@ -209,6 +209,8 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 				is = mis;
 				break;
 			}
+		case Transfer::TYPE_CHECK_FILE_LIST:
+		case Transfer::TYPE_TESTSUR:
 		case Transfer::TYPE_LAST: break;
 		}
 
