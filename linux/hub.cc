@@ -2368,7 +2368,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 				} else
 					hub->addStatusMessage_gui(param + _(" is favorite user"), Msg::STATUS, Sound::NONE);
 			} else
-				hub->addStatusMessage_gui(_("Not found user: ") + params, Msg::SYSTEM, Sound::NONE);
+				hub->addStatusMessage_gui(_("User not found: ") + params, Msg::SYSTEM, Sound::NONE);
 		}
 		else if (command == "removefu" || command == "rmfu")
 		{
@@ -2403,7 +2403,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 				WulforManager::get()->dispatchClientFunc(func2);
 			}
 			else
-				hub->addStatusMessage_gui(_("Not found user: ") + param, Msg::SYSTEM, Sound::NONE);
+				hub->addStatusMessage_gui(_("User not found: ") + param, Msg::SYSTEM, Sound::NONE);
 		}
 		else if (command == "grant")
 		{
@@ -2560,7 +2560,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			else if (hub->userMap.find(params) != hub->userMap.end())
 				WulforManager::get()->getMainWindow()->addPrivateMessage_gui(Msg::UNKNOWN, hub->userMap[params], hub->client->getHubUrl());
 			else
-				hub->addStatusMessage_gui(_("Not found user: ") + param, Msg::SYSTEM, Sound::NONE);
+				hub->addStatusMessage_gui(_("User not found:: ") + param, Msg::SYSTEM, Sound::NONE);
 		}
 		else if (command == "userlist")
 		{

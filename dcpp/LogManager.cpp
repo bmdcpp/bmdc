@@ -97,6 +97,8 @@ LogManager::LogManager() {
 	options[STATUS][FORMAT]		= SettingsManager::LOG_FORMAT_STATUS;
 	options[RAW][FILE]          = SettingsManager::LOG_FILE_RAW;
 	options[RAW][FORMAT]        = SettingsManager::LOG_FORMAT_RAW;
+	options[CHECK_USER][FILE]	= SettingsManager::LOG_FILE_RAW;//TODO
+	options[CHECK_USER][FORMAT]		= SettingsManager::LOG_FORMAT_RAW;//TODO
 }
 
 LogManager::~LogManager() {

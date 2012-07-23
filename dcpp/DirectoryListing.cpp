@@ -40,6 +40,7 @@ namespace dcpp {
 
 DirectoryListing::DirectoryListing(const HintedUser& aUser) :
 user(aUser),
+abort(false),
 root(new Directory(NULL, Util::emptyString, false, false))
 {
 }
@@ -97,7 +98,7 @@ void DirectoryListing::loadFile(const string& name) {
 
 class ListLoader : public SimpleXMLReader::CallBack {
 public:
-	ListLoader(DirectoryListing::Directory* root, bool aUpdating, const HintedUser& user) : cur(root), base("/"), inListing(false), updating(aUpdating) , user(user) {
+	ListLoader(DirectoryListing* list,DirectoryListing::Directory* root, bool aUpdating, const HintedUser& user) : list(list), cur(root), base("/"), inListing(false), updating(aUpdating) , user(user) {
 	}
 
 	virtual ~ListLoader() { }
@@ -107,6 +108,7 @@ public:
 
 	const string& getBase() const { return base; }
 private:
+	DirectoryListing* list;
 	DirectoryListing::Directory* cur;
 
 	StringMap params;
@@ -122,7 +124,7 @@ string DirectoryListing::updateXML(const string& xml) {
 }
 
 string DirectoryListing::loadXML(InputStream& is, bool updating) {
-	ListLoader ll(getRoot(), updating, getUser());
+	ListLoader ll(this,getRoot(), updating, getUser());
 
 	SimpleXMLReader(&ll).parse(is, SETTING(MAX_FILELIST_SIZE) ? (size_t)SETTING(MAX_FILELIST_SIZE)*1024*1024 : 0);
 
@@ -148,6 +150,8 @@ static const string sMAudio = "MA";
 
 
 void ListLoader::startTag(const string& name, StringPairList& attribs, bool simple) {
+	if(list->getAbort()) { throw Exception(); }
+
 	if(inListing) {
 		if(name == sFile) {
 			const string& n = getAttrib(attribs, sName, 0);
@@ -306,7 +310,7 @@ void DirectoryListing::download(Directory* aDir, const string& aTarget, bool hig
 	string target = (aDir == getRoot()) ? aTarget : aTarget + aDir->getName() + PATH_SEPARATOR;
 	// First, recurse over the directories
 	Directory::List& lst = aDir->directories;
-	sort(lst.begin(), lst.end(), Directory::DirSort());
+	sort(lst.begin(), lst.end(), Directory::Sort());
 	for(Directory::Iter j = lst.begin(); j != lst.end(); ++j) {
 		download(*j, target, highPrio);
 	}
@@ -342,7 +346,7 @@ void DirectoryListing::download(File* aFile, const string& aTarget, bool view, b
 		QueueManager::getInstance()->setPriority(aTarget, QueueItem::HIGHEST);
 }
 
-DirectoryListing::Directory* DirectoryListing::find(const string& aName, Directory* current) {
+DirectoryListing::Directory* DirectoryListing::find(const string& aName, Directory* current) const {
 	string::size_type end = aName.find('\\');
 	dcassert(end != string::npos);
 	string name = aName.substr(0, end);
@@ -462,6 +466,27 @@ uint16_t DirectoryListing::Directory::getTotalBitrate() const
 	x = std::max((*i)->getBitrate(), x);
    }
 	return x;
+}
+
+
+void DirectoryListing::sortDirs() {
+	root->sortDirs();
+}
+
+void DirectoryListing::Directory::sortDirs() {
+	for(auto d = directories.begin();d!= directories.end();++d)
+	{
+		(*d)->sortDirs();
+	}
+	sort(directories.begin(), directories.end(), Directory::Sort());
+}
+
+bool DirectoryListing::Directory::Sort::operator()(const Ptr& a, const Ptr& b) const {
+	return compare(a->getName(), b->getName()) < 0;
+}
+
+bool DirectoryListing::File::Sort::operator()(const Ptr& a, const Ptr& b) const {
+	return compare(a->getName(), b->getName()) < 0;
 }
 
 } // namespace dcpp

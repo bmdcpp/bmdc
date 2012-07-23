@@ -54,8 +54,6 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 		return;
 	}
 
-	COMMAND_DEBUG(aLine, DebugManager::CLIENT_IN, getRemoteIp());
-	
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_CONN_IN, this, aLine))
 		return;
 
@@ -77,12 +75,6 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 	string param;
 
 	string::size_type x;
-/*	#ifdef _USELUA
-		if(onUserConnectionMessageIn(this, aLine)) {
-			disconnect(true);
-			return;
-		}
-	#endif*/
 
 	if( (x = aLine.find(' ')) == string::npos) {
 		cmd = aLine;
@@ -305,7 +297,6 @@ void UserConnection::send(const string& aString) {
 	lastActivity = GET_TICK();
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_CONN_OUT, this, aString))
 		return;
-	COMMAND_DEBUG(aString, DebugManager::CLIENT_OUT, getRemoteIp());
 	socket->write(aString);
 }
 

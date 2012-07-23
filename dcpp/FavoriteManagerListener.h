@@ -70,7 +70,7 @@ public:
 	virtual void on(RecentRemoved, const RecentHubEntry* ) noexcept { }
 	virtual void on(RecentUpdated, const RecentHubEntry* ) noexcept { }
 	//Idenpen Fav
-	virtual void on(FavoriteIUpdate, const string&, FavoriteIUser*&) noexcept { }
+	virtual void on(FavoriteIUpdate, const string&, FavoriteIUser&) noexcept { }
 	virtual void on(FavoriteIAdded, const string&, FavoriteIUser*&) noexcept { }
 	virtual void on(FavoriteIRemoved, const string&, FavoriteIUser*&) noexcept { }
 };

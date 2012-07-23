@@ -542,3 +542,9 @@ Remove priv fron ClientManager´s findOnlineUser func
 Add Patch from (Search) https://bugs.launchpad.net/dcplusplus/+bug/689460
 -----r136
 Fix few of -Wreorder , -Wdeprecated ,...
+-----r137
+Remove Debug Manager;using to it Plugin Manager iternal;
+Few update from dcpps
+Few fixies
+------
+

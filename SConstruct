@@ -305,7 +305,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 
 	env.Append(CXXFLAGS = '-std=c++0x')
 	env.Append(LIBS = 'boost_regex')
-	env.Append(LINKFLAGS = ['-lboost_thread','-lboost_regex'])
+	env.Append(LINKFLAGS = ['-lboost_system','-lboost_thread','-lboost_regex'])
 	
 	env.Append(CPPDEFINES = ['STATICLIB'])
 	env.Append(CPPPATH = '#/natpmp')

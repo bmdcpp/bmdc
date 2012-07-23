@@ -67,6 +67,8 @@ public:
 
 		~File() { }
 
+		struct Sort { bool operator()(const Ptr& a, const Ptr& b) const; };
+
 		GETSET(string, name, Name);
 		GETSET(int64_t, size, Size);
 		GETSET(Directory*, parent, Parent);
@@ -88,11 +90,11 @@ public:
 	class Directory : /*public FastAlloc<Directory>,*/ boost::noncopyable {
 	public:
 		typedef Directory* Ptr;
-		struct DirSort {
+		/*struct DirSort {
 			bool operator()(const Ptr& a, const Ptr& b) const {
 				return Util::stricmp(a->getName().c_str(), b->getName().c_str()) < 0;
 			}
-		};
+		};*/
 		typedef vector<Ptr> List;
 		typedef List::iterator Iter;
 
@@ -111,13 +113,15 @@ public:
 		void filterList(DirectoryListing& dirList);
 		void filterList(TTHSet& l);
 		void getHashList(TTHSet& l);
+		void sortDirs();
 
-		size_t getFileCount() { return files.size(); }
+		size_t getFileCount() const { return files.size(); }
 		
 		uint32_t getTotalTS() const;
 		uint16_t getTotalBitrate() const;
+		struct Sort { bool operator()(const Ptr& a, const Ptr& b) const; };
 
-		int64_t getSize() {
+		int64_t getSize() const {
 			int64_t x = 0;
 			for(File::Iter i = files.begin(); i != files.end(); ++i) {
 				x+=(*i)->getSize();
@@ -168,10 +172,12 @@ public:
 	DirectoryListing(const HintedUser& aUser);
 	~DirectoryListing();
 
-	void loadFile(const string& name);
+	void loadFile(const string& path);
 
 	string updateXML(const std::string&);
 	string loadXML(InputStream& xml, bool updating);
+	/** sort directories and sub-directories recursively (case-insensitive). */
+	void sortDirs();
 
 	void download(const string& aDir, const string& aTarget, bool highPrio);
 	void download(Directory* aDir, const string& aTarget, bool highPrio);
@@ -196,13 +202,15 @@ public:
 	DirectoryListing::File::List getForbiddenFiles();
 
 	GETSET(HintedUser, user, User);
+	GETSET(bool, abort, Abort);
 
 private:
 	friend class ListLoader;
 
 	Directory* root;
+	string base;
 
-	Directory* find(const string& aName, Directory* current);
+	Directory* find(const string& aName, Directory* current) const;
 };
 
 inline bool operator==(DirectoryListing::Directory::Ptr a, const string& b) { return Util::stricmp(a->getName(), b) == 0; }

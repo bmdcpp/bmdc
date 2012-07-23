@@ -67,6 +67,10 @@ stop(false)
 			i++;
 		}		
 	}
+	hubIn = PluginManager::getInstance()->bindHook(HOOK_NETWORK_HUB_IN, (DCHOOK)&cmddebug::netHubInEvent, this);
+	hubOut = PluginManager::getInstance()->bindHook(HOOK_NETWORK_HUB_OUT, (DCHOOK)&cmddebug::netHubOutEvent, this);
+	clientIn = PluginManager::getInstance()->bindHook(HOOK_NETWORK_CONN_IN, (DCHOOK)&cmddebug::netConnInEvent, this);
+	clientOut = PluginManager::getInstance()->bindHook(HOOK_NETWORK_CONN_OUT, (DCHOOK)&cmddebug::netConnOutEvent, this);
 }
 
 cmddebug::~cmddebug()
@@ -77,7 +81,10 @@ cmddebug::~cmddebug()
     WSET("cmd-debug-client-in", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget("client_in_button"))));
     WSET("cmd-debug-detection", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget("detection_button"))));
     ClientManager::getInstance()->removeListener(this);
-    DebugManager::getInstance()->removeListener(this);
+    PluginManager::getInstance()->releaseHook(hubIn);
+	PluginManager::getInstance()->releaseHook(hubOut);
+	PluginManager::getInstance()->releaseHook(clientIn);
+	PluginManager::getInstance()->releaseHook(clientOut);
 }
 
 void cmddebug::add_gui(time_t t, string file)
@@ -107,43 +114,11 @@ void cmddebug::add_gui(time_t t, string file)
 void cmddebug::ini_client()
 {
     start();
-    DebugManager::getInstance()->addListener(this);
 }
 
 void cmddebug::show()
 {
     ini_client();
-}
-
-void cmddebug::on(dcpp::DebugManagerListener::DebugCommand, const std::string& mess, int typedir, const std::string& ip) noexcept
-{
-        switch(typedir) {
-            case dcpp::DebugManager::HUB_IN :
-                if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("hub_in_button"))) == TRUE)
-                {
-                    addCmd("Hub:\t[Incoming][ "+ip+" ] "+mess, ip);
-                }
-                break;
-            case dcpp::DebugManager::HUB_OUT :
-                if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("hub_out_button"))) == TRUE)
-                {
-                    addCmd("Hub:\t[Outgoing][ "+ip+" ] "+mess, ip);
-                }
-                break;
-            case dcpp::DebugManager::CLIENT_IN:
-                if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("client_in_button"))) == TRUE)
-                {
-                    addCmd("Client:\t[Incoming][ "+ip+" ] "+mess, ip);
-                }
-                break;
-            case dcpp::DebugManager::CLIENT_OUT:
-                if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("client_out_button"))) == TRUE)
-                {
-                    addCmd("Client:\t[Outgoing][ "+ip+" ] "+mess, ip);
-                }
-                break;
-            default: dcassert(0);
-        }
 }
 
 void cmddebug::on(ClientConnected, Client* c) noexcept {
@@ -217,3 +192,106 @@ void cmddebug::onClearButton(GtkWidget *widget, gpointer data)
 	gtk_text_buffer_delete(cmd->buffer, &startIter, &endIter);
 	
 }
+
+Bool cmddebug::onHubDataIn(HubDataPtr iHub, const char* message, dcptr_t pCommon) {
+	auto cmd = reinterpret_cast<cmddebug*>(pCommon);
+	
+	gchar *fUrl = "";
+	GtkTreeIter piter;
+    GtkTreeModel *model = NULL;
+    if( gtk_combo_box_get_active_iter( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")), &piter ) ) {
+		model = gtk_combo_box_get_model( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")) );
+		gtk_tree_model_get( model, &piter, 0, &fUrl, -1 );
+	}	
+	
+	string url = iHub->url;
+	string ipPort = (string)iHub->ip + ":" + Util::toString(iHub->port);
+	string msg = message;	
+	
+	if(!(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cmd->getWidget("hub_in_button"))) == TRUE))
+		return False;
+		
+	if(!(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cmd->getWidget("by_ip_button"))) == TRUE) || Text::toT(ipPort) == fUrl) {
+		cmd->addCmd(" From Hub:\t\t<" + ipPort+ ">\t \t" + msg);
+		return True;
+	} else {
+		return False;
+	}	
+}
+
+Bool cmddebug::onHubDataOut(HubDataPtr oHub, const char* message, dcptr_t pCommon) {
+	auto cmd = reinterpret_cast<cmddebug*>(pCommon);
+	
+	gchar *fUrl = "";
+	GtkTreeIter piter;
+    GtkTreeModel *model = NULL;
+    if( gtk_combo_box_get_active_iter( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")), &piter ) ) {
+		model = gtk_combo_box_get_model( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")) );
+		gtk_tree_model_get( model, &piter, 0, &fUrl, -1 );
+	}	
+	
+	string url = oHub->url;
+	string ipPort = (string)oHub->ip + ":" + Util::toString(oHub->port);
+	string msg = message;	
+	
+	if(!(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cmd->getWidget("hub_out_button"))) == TRUE))
+		return False;
+		
+	if(!(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cmd->getWidget("by_ip_button"))) == TRUE) || Text::toT(ipPort) == fUrl) {
+		cmd->addCmd(" To Hub:\t\t<" + ipPort+ ">\t \t" + msg);
+		return True;
+	} else {
+		return False;
+	}	
+}
+
+Bool cmddebug::onConnDataIn(ConnectionDataPtr iConn, const char* message, dcptr_t pCommon) {
+	auto cmd = reinterpret_cast<cmddebug*>(pCommon);
+	gchar *fUrl = "";
+	GtkTreeIter piter;
+    GtkTreeModel *model = NULL;
+    if( gtk_combo_box_get_active_iter( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")), &piter ) ) {
+		model = gtk_combo_box_get_model( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")) );
+		gtk_tree_model_get( model, &piter, 0, &fUrl, -1 );
+	}	
+	
+	string ipPort = (string)iConn->ip + ":" + Util::toString(iConn->port);
+	string msg = message;	
+	
+	if(!(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cmd->getWidget("client_in_button"))) == TRUE))
+		return False;
+		
+	if(!(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cmd->getWidget("by_ip_button"))) == TRUE) || Text::toT(ipPort) == fUrl) {
+		cmd->addCmd(" From Client:\t\t<" + ipPort+ ">\t \t" + msg); 
+		return True;
+	} else {
+		return False;
+	}	
+}
+
+Bool cmddebug::onConnDataOut(ConnectionDataPtr oConn, const char* message, dcptr_t pCommon) {
+	auto cmd = reinterpret_cast<cmddebug*>(pCommon);
+	
+	gchar *fUrl = "";
+	GtkTreeIter piter;
+    GtkTreeModel *model = NULL;
+    if( gtk_combo_box_get_active_iter( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")), &piter ) ) {
+		model = gtk_combo_box_get_model( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")) );
+		gtk_tree_model_get( model, &piter, 0, &fUrl, -1 );
+	}	
+	
+	string ipPort = (string)oConn->ip + ":" + Util::toString(oConn->port);
+	string msg = message;	
+	
+	if(!(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cmd->getWidget("client_out_button"))) == TRUE))
+		return False;
+		
+	if(!(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cmd->getWidget("by_ip_button"))) == TRUE) || Text::toT(ipPort) == fUrl) {
+		cmd->addCmd(" To Client:\t\t<" + ipPort+ ">\t \t" + msg);
+		return True;
+	} else {
+		return False;
+	}
+	return False;	
+}
+

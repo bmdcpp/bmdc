@@ -92,7 +92,6 @@ public:
 	GETSET(string, cid, Cid);
 	FavoriteIUser() : lastSeen(time(NULL)) { }
 	~FavoriteIUser() { }
-	void update(OnlineUser* ou);
 	void update(const OnlineUser& ou);
 	
 };

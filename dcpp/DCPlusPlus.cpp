@@ -40,7 +40,6 @@
 #include "UploadManager.h"
 #include "WindowManager.h"
 
-#include "DebugManager.h"
 #include "DetectionManager.h"
 #include "RawManager.h"
 #include "BackupManager.h"
@@ -97,7 +96,6 @@ void startup(void (*f)(void*, const string&), void* p) {
 	GeoManager::newInstance();
 	WindowManager::newInstance();
 	PluginManager::newInstance();
-	DebugManager::newInstance();
 
 	DetectionManager::newInstance();
 	HighlightManager::newInstance();
@@ -158,7 +156,6 @@ void shutdown() {
 	RsxUtil::uinit();
 	RestoreManager::deleteInstance();
     BackupManager::deleteInstance();
-    DebugManager::deleteInstance();
     PluginManager::getInstance()->unloadPlugins();
 	TimerManager::getInstance()->shutdown();
 	ThrottleManager::getInstance()->shutdown();//..

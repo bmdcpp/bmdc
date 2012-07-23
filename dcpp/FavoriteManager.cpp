@@ -857,16 +857,18 @@ void FavoriteManager::userUpdated(const OnlineUser& info) {
 		FavoriteUser& fu = i->second;
 		fu.update(info);
 		fire(FavoriteManagerListener::UserUpdated(), i->second);
+		save();
 	}
 	//Idnepent Fav
 	auto it = favoritesNoCid.find(info.getIdentity().getNick());
 	if(it != favoritesNoCid.end())
 	{
-		FavoriteIUser* fiu = it->second;	
-		fiu->update(info);
+		FavoriteIUser& fiu = *(it->second);	
+		fiu.update(info);
 		fire(FavoriteManagerListener::FavoriteIUpdate(), info.getIdentity().getNick(), fiu);
+		save();
 	}	
-	save();
+	
 	
 }
 
@@ -1232,10 +1234,12 @@ void FavoriteManager::on(UserConnected, const UserPtr& user) noexcept {
 		FavoriteMap::iterator it = ignored_users.find(user->getCID());
 		if(i != users.end()) {
 		     fire(FavoriteManagerListener::StatusChanged(), i->second);
+		     save();
 		}
 		if(it != ignored_users.end())
 		{
               fire(FavoriteManagerListener::IgnoreStatusChanges(),it->second);
+              save();
 		}
 		//Idepetn Favorites
 		ClientManager::getInstance()->lock();
@@ -1245,10 +1249,11 @@ void FavoriteManager::on(UserConnected, const UserPtr& user) noexcept {
 		auto idt =favoritesNoCid.find(nick);
 		if(idt != favoritesNoCid.end())
 		{
-			idt->second->update(ou);
-			fire(FavoriteManagerListener::FavoriteIUpdate(), nick, idt->second);
+			idt->second->update(*ou);
+			fire(FavoriteManagerListener::FavoriteIUpdate(), nick, *(idt->second));
+			save();
 		}
-		save();
+		
 	}
 }
 

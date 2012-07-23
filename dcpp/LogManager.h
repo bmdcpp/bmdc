@@ -40,8 +40,15 @@ public:
 	typedef pair<time_t, string> Pair;
 	typedef deque<Pair> List;
 
-	enum Area { CHAT, PM, DOWNLOAD, FINISHED_DOWNLOAD, UPLOAD, SYSTEM, STATUS, RAW , LAST };
+	enum Area { CHAT, PM, DOWNLOAD, FINISHED_DOWNLOAD, UPLOAD, SYSTEM, STATUS, RAW , CHECK_USER ,LAST };
 	enum { FILE, FORMAT };
+	
+	void log(Area area,const string &message)
+	{
+		ParamMap params;
+		params["message"] = message;
+		log(area,params);
+	}
 
 	void log(Area area, ParamMap& params) noexcept;
 	void message(const string& msg);

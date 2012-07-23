@@ -615,11 +615,6 @@ void FavoriteUser::update(const OnlineUser& info) {
 	setUrl(info.getClient().getHubUrl());
 }
 //Indepent Fav
-void FavoriteIUser::update(OnlineUser* ou) 
-{
-	setLastSeen(time(NULL));
-	setCid(ou->getUser()->getCID().toBase32());
-}
 void FavoriteIUser::update(const OnlineUser& ou) 
 {
 	setLastSeen(time(NULL));

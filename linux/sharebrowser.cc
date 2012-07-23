@@ -185,6 +185,7 @@ void ShareBrowser::buildList_gui()
 		
 		if(fullfl) {
 			listing.loadFile(file);
+			listing.sortDirs();
 
 			// Search ADL
 			ADLSearchManager::getInstance()->matchListing(listing);
@@ -279,7 +280,7 @@ void ShareBrowser::buildDirs_gui(DirectoryListing::Directory *dir, GtkTreeIter *
 	}
 
 	// Recursive call for all subdirs of current dir.
-	std::sort(dir->directories.begin(), dir->directories.end(), DirectoryListing::Directory::DirSort());
+	std::sort(dir->directories.begin(), dir->directories.end(), DirectoryListing::Directory::Sort());
 	for (it = dir->directories.begin(); it != dir->directories.end(); ++it)
 		buildDirs_gui(*it, &newIter);
 }

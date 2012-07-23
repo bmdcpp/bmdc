@@ -25,9 +25,9 @@
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
-#include <dcpp/DebugManager.h>
 #include <dcpp/ClientManager.h>
 #include <dcpp/Util.h>
+#include <dcpp/PluginManager.h>
 
 #include "bookentry.hh"
 #include "treeview.hh"
@@ -35,7 +35,6 @@
 
 class cmddebug:
     public BookEntry,
-    private dcpp::DebugManagerListener,
     private dcpp::ClientManagerListener,
     public dcpp::Thread
 {
@@ -89,37 +88,13 @@ class cmddebug:
         return 0;
     }
 
-    void addCmd(const std::string& cmd,const std::string& ip) {
-        {
+    void addCmd(const std::string& cmd) {
             dcpp::Lock l(cs);
-            if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("by_ip_button"))) == TRUE) {
-                GtkTreeIter piter;
-                GtkTreeModel *model = NULL;
-                gchar *string;
-                if( gtk_combo_box_get_active_iter( GTK_COMBO_BOX(getWidget("comboboxadr")), &piter ) ) {
-					 model = gtk_combo_box_get_model( GTK_COMBO_BOX(getWidget("comboboxadr")) );
-					 gtk_tree_model_get( model, &piter, 0, &string, -1 );
-					 if(strcmp(string,ip.c_str()) == 0)
-                //if (strcmp(gtk_entry_get_text(GTK_ENTRY(getWidget("entrybyip"))),ip.c_str()) == 0)
-						cmdList.push_back(cmd);
-
-               }
-            }
-            else
-                cmdList.push_back(cmd);
-        }
-
-        s.signal();
+            cmdList.push_back(cmd);
+			s.signal();
     }
 
-    //DebugManager
-    void on(dcpp::DebugManagerListener::DebugDetection, const std::string& com) noexcept
-    {
-		if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("detection_button"))) == TRUE)
-			addCmd(std::string("[Detection] ") + com,"");
-    }
-    void on(dcpp::DebugManagerListener::DebugCommand, const std::string& mess, int typedir, const std::string& ip) noexcept;
-    //ClientManager
+    //ClientManager*/
     void on(dcpp::ClientManagerListener::ClientConnected, dcpp::Client* c) noexcept;
     void on(dcpp::ClientManagerListener::ClientDisconnected, dcpp::Client* c) noexcept;
 
@@ -134,6 +109,21 @@ class cmddebug:
     GtkTextMark *cmdMark;
     GtkListStore *store;
     Iters iters;
+    dcpp::HookSubscriber *hubIn, *hubOut, *clientIn, *clientOut;
+   
+	/* HubData */
+	static Bool onHubDataIn(HubDataPtr iHub, const char* message, dcptr_t pCommon);
+	static Bool DCAPI netHubInEvent(dcptr_t pObject, dcptr_t pData, dcptr_t pCommon, Bool* /*bBreak*/) { return cmddebug::onHubDataIn((HubDataPtr)pObject, (char*)pData, pCommon); }
+	
+	static Bool onHubDataOut(HubDataPtr oHub, const char* message, dcptr_t pCommon);
+	static Bool DCAPI netHubOutEvent(dcptr_t pObject, dcptr_t pData, dcptr_t pCommon, Bool* /*bBreak*/) { return cmddebug::onHubDataOut((HubDataPtr)pObject, (char*)pData, pCommon); }
+	
+	/* ClientData */
+	static Bool onConnDataIn(ConnectionDataPtr iConn, const char* message, dcptr_t pCommon);
+	static Bool DCAPI netConnInEvent(dcptr_t pObject, dcptr_t pData, dcptr_t pCommon, Bool* /*bBreak*/) { return cmddebug::onConnDataIn((ConnectionDataPtr)pObject, (char*)pData, pCommon); }
+	
+	static Bool onConnDataOut(ConnectionDataPtr oConn, const char* message, dcptr_t pCommon);
+	static Bool DCAPI netConnOutEvent(dcptr_t pObject, dcptr_t pData, dcptr_t pCommon, Bool* /*bBreak*/) { return cmddebug::onConnDataOut((ConnectionDataPtr)pObject, (char*)pData, pCommon); }
 
 };
 
