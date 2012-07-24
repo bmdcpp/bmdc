@@ -29,7 +29,6 @@ ShellCommand::ShellCommand(char* input, int len, int shell): output(dcpp::Util::
 	thirdPerson = false;
 	resultsize = len;
 	output.resize(resultsize);
-	//strcpy(output,"");
 	errormessage = new char[strlen(input)+100];
 	strcpy(errormessage,"");
 	error = 0;
@@ -107,7 +106,7 @@ ShellCommand::ShellCommand(char* input, int len, int shell): output(dcpp::Util::
 			if(dcpp::Util::strnicmp(output,"/me",3) ==0)
 			{
 				thirdPerson = true;
-				output = output.substr(4,std::string::npos);//substr(output.c_str(),4,output.size()+1);
+				output = output.substr(4,std::string::npos);
 			}
 	}
 }

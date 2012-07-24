@@ -532,26 +532,6 @@ void Search::search_gui()
 
 	isHash = (ftype == SearchManager::TYPE_TTH);
 
-	// Add new searches to the dropdown list
-	/*GtkListStore *store = GTK_LIST_STORE(searchEntriesModel);
-	size_t max = std::max(SETTING(SEARCH_HISTORY) - 1, 0);
-	size_t count = 0;
-	gchar *entry;
-	valid = gtk_tree_model_get_iter_first(searchEntriesModel, &iter);
-	while (valid)
-	{
-		gtk_tree_model_get(searchEntriesModel, &iter, 0, &entry, -1);
-		if (text == string(entry) || count >= max)
-			valid = gtk_list_store_remove(store, &iter);
-		else
-			valid = gtk_tree_model_iter_next(searchEntriesModel, &iter);
-		count++;
-		g_free(entry);
-	}
-
-	gtk_list_store_prepend(store, &iter);
-	gtk_list_store_set(store, &iter, 0, text.c_str(), -1);
-	*/
 	droppedResult = 0;
 	searchHits = 0;
 	setStatus_gui("statusbar1", _("Searching for ") + text + " ...");
@@ -2185,4 +2165,3 @@ void Search::set_Header_tooltip_gui()//How beter ?
 	g_object_set (column12->button, "tooltip-text", "TTH", NULL);
 	
 }	
-

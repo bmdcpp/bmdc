@@ -1045,13 +1045,11 @@ void DownloadQueue::onFileRemoveClicked_gui(GtkMenuItem *menuitem, gpointer data
 	g_list_free(list);
 }
 
-//void DownloadQueue::buildList_client()
 void DownloadQueue::addQueueList(const QueueItem::StringMap &ll)
 {
 	StringMap params;
 	typedef Func2<DownloadQueue, StringMap, bool> F2;
 	//F2 *func;
-	//const QueueItem::StringMap &ll = QueueManager::getInstance()->lockQueue();
 
 	for (QueueItem::StringMap::const_iterator it = ll.begin(); it != ll.end(); ++it)
 	{
@@ -1112,13 +1110,6 @@ void DownloadQueue::setPriorityDir_client(string path, QueueItem::Priority p)
 			if (file->length() >= path.length() && file->substr(0, path.length()) == path)
 				QueueManager::getInstance()->setPriority(*file, p);
 		}
-		//QueueManager::getInstance()->unlockQueue();
-		/*while(!vparam.empty())
-		{
-            string name = vparam.back();
-            QueueManager::getInstance()->setPriority(path+name,p);
-            vparam.pop_back();
-		}*/
 	}
 }
 
@@ -1230,7 +1221,6 @@ void DownloadQueue::removeDir_client(string path)
 			if (file->length() >= path.length() && file->substr(0, path.length()) == path)
 				targets.push_back(*file);
 		}
-		//QueueManager::getInstance()->unlockQueue();
 
 		for (vector<string>::const_iterator it = targets.begin(); it != targets.end(); ++it)
 			QueueManager::getInstance()->remove(*it);
@@ -1253,7 +1243,6 @@ void DownloadQueue::updateFileView_client(string path)
 				files.push_back(params);
 			}
 		}
-		//QueueManager::getInstance()->unlockQueue();
 
 		// Updating gui is smoother if we do it in large chunks.
 		typedef Func2<DownloadQueue, vector<StringMap>, bool> F2;

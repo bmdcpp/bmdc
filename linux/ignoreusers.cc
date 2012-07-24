@@ -315,58 +315,7 @@ void IgnoreUsers::onRemoveFromQueueItemClicked_gui(GtkMenuItem *item, gpointer d
 		g_list_free(list);
 	}
 }
-/*
-void IgnoreUsers::onDescriptionItemClicked_gui(GtkMenuItem *item, gpointer data)
-{
-	IgnoreUsers *fu = (IgnoreUsers *)data;
 
-	if (gtk_tree_selection_count_selected_rows(fu->favoriteUserSelection) == 1)
-	{
-		GList *list = gtk_tree_selection_get_selected_rows(fu->favoriteUserSelection, NULL);
-
-		if (list != NULL)
-		{
-			GtkTreeIter iter;
-			GtkTreePath *path = (GtkTreePath *) list->data;
-			string description, nick, cid;
-
-			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(fu->favoriteUserStore), &iter, path))
-			{
-				description = fu->favoriteUserView.getString(&iter, N_("Description"));
-				nick = fu->favoriteUserView.getString(&iter, N_("Nick"));
-				cid = fu->favoriteUserView.getString(&iter, "CID");
-			}
-			gtk_tree_path_free(path);
-			g_list_free(list);
-
-			gtk_window_set_title(GTK_WINDOW(fu->getWidget("DescriptionDialog")), nick.c_str());
-			gtk_entry_set_text(GTK_ENTRY(fu->getWidget("descriptionEntry")), description.c_str());
-			gint response = gtk_dialog_run(GTK_DIALOG(fu->getWidget("DescriptionDialog")));
-
-			// Fix crash, if the dialog gets programmatically destroyed.
-			if (response == GTK_RESPONSE_NONE)
-			{
-				return;
-			}
-
-			gtk_widget_hide(fu->getWidget("DescriptionDialog"));
-
-			if (response != GTK_RESPONSE_OK)
-				return;
-
-			if (fu->findUser_gui(cid, &iter))
-			{
-				description = gtk_entry_get_text(GTK_ENTRY(fu->getWidget("descriptionEntry")));
-				gtk_list_store_set(fu->favoriteUserStore, &iter, fu->favoriteUserView.col(N_("Description")), description.c_str(), -1);
-
-				typedef Func2<IgnoreUsers, string, string> F2;
-				F2 *func = new F2(fu, &IgnoreUsers::setUserDescription_client, cid, description);
-				WulforManager::get()->dispatchClientFunc(func);
-			}
-		}
-	}
-}
-*/
 void IgnoreUsers::onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data)
 {
 	IgnoreUsers *fu = (IgnoreUsers *)data;
@@ -430,12 +379,12 @@ void IgnoreUsers::getFileList_client(const string cid, const string hubUrl, bool
 
 		if (user)
 		{
-			const HintedUser hintedUser(user, hubUrl);//NOTE: core 0.762
+			const HintedUser hintedUser(user, hubUrl);
 			if (match)
 
-				QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_MATCH_QUEUE);//NOTE: core 0.762
+				QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_MATCH_QUEUE);
 			else
-				QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW);//NOTE: core 0.762
+				QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW);
 		}
 	}
 	catch (const Exception& e)
@@ -465,17 +414,7 @@ void IgnoreUsers::removeFavoriteUser_client(const string cid)
 		FavoriteManager::getInstance()->removeIgnoredUser(user);
 	}
 }
-/*
-void IgnoreUsers::setUserDescription_client(const string cid, const string description)
-{
-	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
 
-	if (user)
-	{
-		FavoriteManager::getInstance()->setIgnUserDescription(user, description);
-	}
-}
-*/
 bool IgnoreUsers::findUser_gui(const string &cid, GtkTreeIter *iter)
 {
 	UserIters::const_iterator it = userIters.find(cid);

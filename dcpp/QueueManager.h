@@ -307,8 +307,6 @@ private:
 
 	void setDirty();
 
-	//string getListPath(const HintedUser& user);
-
 	bool checkSfv(QueueItem* qi, Download* d);
 	uint32_t calcCrc32(const string& file);
 

@@ -449,7 +449,6 @@ void FinishedTransfers::onShowOnlyFullFilesToggled_gui(GtkWidget *widget, gpoint
 		ft->addFile_gui(params, FALSE);
 	}
 
-	//FinishedManager::getInstance()->unLockLists();
 }
 
 void FinishedTransfers::onOpen_gui(GtkMenuItem *item, gpointer data)
@@ -646,8 +645,6 @@ void FinishedTransfers::initializeList_client()
 		//func = new F2(this, &FinishedTransfers::addItem_gui, params, FALSE);
 		//WulforManager::get()->dispatchGuiFunc(func);
 	}
-
-//	FinishedManager::getInstance()->unLockLists();
 
 	updateStatus_gui();
 	//WulforManager::get()->dispatchGuiFunc(new Func0<FinishedTransfers>(this, &FinishedTransfers::updateStatus_gui));

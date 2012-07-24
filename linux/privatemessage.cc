@@ -835,9 +835,6 @@ void PrivateMessage::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag 
 			bold = wsm->getInt("text-high-bold");
 			italic = wsm->getInt("text-high-italic");
 			break;
-			
-		//case Tag::TAG_IPADR:
-		//	break;//ugly	
 
 		case Tag::TAG_NICK:
 

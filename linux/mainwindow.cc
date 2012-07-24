@@ -65,7 +65,6 @@
 #include "recenthub.hh"
 #include "detectiontab.hh"
 #include "AboutConfig.hh"
-
 #include <boost/algorithm/string/trim.hpp>
 
 using namespace std;
@@ -430,14 +429,13 @@ MainWindow::~MainWindow()
 	gdkState = gdk_window_get_state(GTK_WIDGET(window)->window);
 	transferPanePosition = sizeY - gtk_paned_get_position(GTK_PANED(getWidget("pane")));
 
-	if (!(gdkState & GDK_WINDOW_STATE_MAXIMIZED))
+	if (!(gdkState & GDK_WINDOW_STATE_MAXIMIZED)) {
 		maximized = FALSE;
-		
 		WSET("main-window-pos-x", posX);
 		WSET("main-window-pos-y", posY);
 		WSET("main-window-size-x", sizeX);
 		WSET("main-window-size-y", sizeY);
-
+	}
 	WSET("main-window-maximized", (int)maximized);
 	if (transferPanePosition > 10)
 		WSET("transfer-pane-position", transferPanePosition);
@@ -948,7 +946,7 @@ void MainWindow::setStats_gui(string hubs, string downloadSpeed,
 	gtk_label_set_text(GTK_LABEL(getWidget("labelSlots")), slots.c_str());
 }
 
-void MainWindow::setStatRate_gui()//NOTE: core 0.762
+void MainWindow::setStatRate_gui()
 {
 	int uploadSpeed = SETTING(MAX_UPLOAD_SPEED_MAIN);
 	int downloadSpeed = SETTING(MAX_DOWNLOAD_SPEED_MAIN);
@@ -1543,8 +1541,6 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 			
 			if(wid->label == NULL)
 				continue;
-				//const gchar * name = gtk_label_get_text(GTK_LABEL(wid->label));
-			//else continue;
 		   
 		   if(wid->widget == NULL)
 				continue;					
@@ -2234,7 +2230,7 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 
 	if (response == GTK_RESPONSE_OK)
 	{
-		//NOTE BMDC >=0.785+
+		//NOTE: BMDC
 		try {
 			ConnectivityManager::getInstance()->setup(SETTING(INCOMING_CONNECTIONS) != prevConn ||
 				SETTING(TCP_PORT) != prevTCP || SETTING(UDP_PORT) != prevUDP || SETTING(TLS_PORT) != prevTLS ||
@@ -2293,7 +2289,7 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 		mw->checkToolbarMenu_gui();
 
 		// Rate
-		mw->setStatRate_gui();//NOTE: core 0.762
+		mw->setStatRate_gui();
 	}
 }
 

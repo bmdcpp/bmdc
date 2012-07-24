@@ -79,7 +79,7 @@ class FavoriteUsers:
 		virtual void on(dcpp::FavoriteManagerListener::UserAdded, const dcpp::FavoriteUser &user) throw();
 		virtual void on(dcpp::FavoriteManagerListener::UserRemoved, const dcpp::FavoriteUser &user) throw();
 		virtual void on(dcpp::FavoriteManagerListener::StatusChanged, const dcpp::FavoriteUser &user) throw();
-		//Idepent
+		//Indepent
 		virtual void on(dcpp::FavoriteManagerListener::FavoriteIAdded, const std::string &nick, dcpp::FavoriteIUser* &user) noexcept;
 		virtual void on(dcpp::FavoriteManagerListener::FavoriteIRemoved, const std::string &nick, dcpp::FavoriteIUser* &user) noexcept;
 		virtual void on(dcpp::FavoriteManagerListener::FavoriteIUpdate, const std::string &nick , dcpp::FavoriteIUser* &user) noexcept;

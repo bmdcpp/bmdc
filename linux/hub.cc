@@ -2474,7 +2474,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			"/showfavjoins\t\t\t" + _("Fav Joins/Parts on/off") + "\n" +
 			"/plgadd\t\t\t" + _("Add Plugin") + "\n" +
 			"/plist\t\t\t" + _("List Plugins") + "\n" +
-			"/addfavorite\t\t\t" + _("Add Idepent Fav") + "\n" +
+			"/addfavorite\t\t\t" + _("Add Indepent Fav") + "\n" +
 			"/topic\t\t\t" + _("Show topic") + "\n" +
 			"/raw\t\t\t" + _("Send Raw data") + "\n"+
              WulforUtil::commands
@@ -4286,7 +4286,7 @@ void Hub::on(FavoriteManagerListener::IgnoreUserRemoved, const FavoriteUser &use
     Func1<Hub, ParamMap> * func = new Func1<Hub, ParamMap> (this, &Hub::removeIgnore_gui, params);
     WulforManager::get()->dispatchGuiFunc(func);
 }
-//Idenpetn Fav
+//Indepent Fav
 void Hub::on(FavoriteManagerListener::FavoriteIAdded, const string &nick, FavoriteIUser* &user) noexcept
 {
 	ParamMap params;

@@ -718,18 +718,6 @@ void FavoriteManager::load(SimpleXML& aXml) {
 		aXml.stepOut();
 	}
 
-	// parse groups that have the "Connect" param and send their hubs to WindowManager
-/*	for(FavHubGroups::const_iterator i = favHubGroups.begin(), iend = favHubGroups.end(); i != iend; ++i) {
-		if(i->second.connect) {
-			FavoriteHubEntryList hubs = getFavoriteHubs(i->first);
-			for(FavoriteHubEntryList::const_iterator hub = hubs.begin(), hub_end = hubs.end(); hub != hub_end; ++hub) {
-				WindowParams params;
-				params[WindowInfo::address] = WindowParam((*hub)->getServer(), WindowParam::FLAG_IDENTIFIES);
-				WindowManager::getInstance()->add(WindowManager::hub(), params);
-			}
-		}
-	}
-*/
 	aXml.resetCurrentChild();
 	if(aXml.findChild("Users")) {
 		aXml.stepIn();
@@ -1261,7 +1249,7 @@ void FavoriteManager::mergeHubSettings(const FavoriteHubEntry& entry, HubSetting
         // apply group settings first.
         const string& name = entry.getGroup();
         if(!name.empty()) {
-                auto group = favHubGroups.find(name);
+             auto group = favHubGroups.find(name);
              if(group != favHubGroups.end())
               settings.merge(group->second);
         }

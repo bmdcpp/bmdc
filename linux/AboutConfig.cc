@@ -106,6 +106,7 @@ void AboutConfig::show()
 			
 		}
 	}
+	
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
 	WulforSettingsManager::StringMap map = wsm->getStringMap();
 	string types = Util::emptyString;

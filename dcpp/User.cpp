@@ -684,7 +684,7 @@ bool Identity::isProtectedUser(const Client& c, bool OpBotHubCheck) const {
 		}
 		return false;
 	}
-	if(ret == true) {
+	if(ret) {
 		const_cast<Identity&>(*this).set("PR", "1");
 	}
 	return ret;

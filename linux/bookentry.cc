@@ -27,8 +27,6 @@
 
 using namespace std;
 
-//GSList* BookEntry::group = NULL;
-
 BookEntry::BookEntry(const EntryType type, const string &text, const string &glade, const string &id):
 	Entry(type, glade, id),
 	eventBox(NULL),

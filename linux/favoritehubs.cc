@@ -88,9 +88,7 @@ FavoriteHubs::FavoriteHubs():
 	// Initialize favorite hub groups list treeview
 	groupsView.setView(GTK_TREE_VIEW(getWidget("groupsTreeView")));
 	groupsView.insertColumn(_("Group name"), G_TYPE_STRING, TreeView::STRING, 150);
-//	groupsView.insertColumn(_("Private"), G_TYPE_STRING, TreeView::STRING, 100);
 	groupsView.insertColumn(_("Connect"), G_TYPE_STRING, TreeView::STRING, 100);
-//	groupsView.insertHiddenColumn("Private hub", G_TYPE_INT);
 	groupsView.insertHiddenColumn("Nick", G_TYPE_STRING);
 	groupsView.insertHiddenColumn("eMail", G_TYPE_STRING);
 	groupsView.insertHiddenColumn("Desc", G_TYPE_STRING);
@@ -960,8 +958,6 @@ void FavoriteHubs::saveFavHubGroups()
 		tribool showJoins = to3bool(Util::toInt(groupsView.getString(&iter,"Parts")));
 
 		HubSettings p;
-		//p.connect = connect_hub;
-		//p.priv = private_hub;
 		p.setNick(nick);
 		p.setEmail(email);
 		p.setDescription(desc);

@@ -50,7 +50,7 @@ ShareBrowser::ShareBrowser(UserPtr user, const string &file, const string &initi
 	fullfl(full)
 {
 	// Use the nick from the file name in case the user is offline and core only returns CID
-	nick = WulforUtil::getNicks(user, "");//NOTE: core 0.762
+	nick = WulforUtil::getNicks(user, "");
 	if (nick.find(user->getCID().toBase32(), 1) != string::npos)
 	{
 		string name = Util::getFileName(file);
@@ -168,10 +168,10 @@ void ShareBrowser::show()
 
 gpointer ShareBrowser::threadLoad_list(gpointer data)
 {
-    ShareBrowser *man = (ShareBrowser *)data;
-    man->setStatus_gui("mainStatus", _("Parse and build tree....waiting"));
-    man->buildList_gui();
-    man->setStatus_gui("mainStatus", _("Done"));
+    ShareBrowser *sb = (ShareBrowser *)data;
+    sb->setStatus_gui("mainStatus", _("Parse and build tree....waiting"));
+    sb->buildList_gui();
+    sb->setStatus_gui("mainStatus", _("Done"));
     return NULL;
 }
 
