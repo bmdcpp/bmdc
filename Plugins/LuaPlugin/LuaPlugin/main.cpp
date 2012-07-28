@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2010 Crise, crise<at>mail.berlios.de
+ * Copyright (C) 2012 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,49 +17,28 @@
  */
 
 #include "stdafx.h"
-#include "LuaPlugin.h"
-
-// Plugin main function
-Bool DCAPI pluginMain(PluginState state, DCCorePtr core, dcptr_t /*pData*/) {
-	switch(state) {
-		case ON_INSTALL:
-		case ON_LOAD: {
-			Bool res = True;
-			LuaPlugin::newInstance();
-			LuaPlugin::getInstance()->onLoad(core, (state == ON_INSTALL), res);
-			return res;
-		}
-
-		case ON_UNINSTALL:
-		case ON_UNLOAD: {
-			LuaPlugin::deleteInstance();
-			return True;
-		}
-
-		default:
-			return False;
-	}
-}
+#include "Plugin.h"
+#include "version.h"
 
 extern "C" {
 
-	// Plugin loader
-	DCEXP DCMAIN DCAPI pluginInit(MetaDataPtr info) {
-		info->name = PLUGIN_NAME;
-		info->author = PLUGIN_AUTHOR;
-		info->description = PLUGIN_DESC;
-		info->web = PLUGIN_WEB;
-		info->version = PLUGIN_VERSION;
-		info->apiVersion = DCAPI_CORE_VER;
-		info->guid = PLUGIN_GUID;
+// Plugin loader
+DCEXP DCMAIN DCAPI pluginInit(MetaDataPtr info) {
+	info->name = PLUGIN_NAME;
+	info->author = PLUGIN_AUTHOR;
+	info->description = PLUGIN_DESC;
+	info->web = PLUGIN_WEB;
+	info->version = PLUGIN_VERSION;
+	info->apiVersion = DCAPI_CORE_VER;
+	info->guid = PLUGIN_GUID;
 
-		return &pluginMain;
-	}
-
+	return &Plugin::main;
 }
 
 #ifdef _WIN32
-BOOL APIENTRY DllMain(HANDLE /*hModule*/, DWORD /*reason*/, LPVOID /*lpReserved*/) {
+BOOL APIENTRY DllMain(HINSTANCE /*hinstDLL*/, DWORD /*fdwReason*/, LPVOID /*lpvReserved*/) {
 	return TRUE;
 }
 #endif
+
+}

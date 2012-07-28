@@ -124,7 +124,7 @@ void DownloadManager::checkIdle(const HintedUser& user) {
 void DownloadManager::addConnection(UserConnectionPtr conn) {
 	if(!conn->isSet(UserConnection::FLAG_SUPPORTS_TTHL) || !conn->isSet(UserConnection::FLAG_SUPPORTS_ADCGET)) {//BMDC TTHF->TTHL
 		// Can't download from these...
-		// No TTHL/ADCGET support///BMDC++ L->F
+		// No TTHL/ADCGET support///BMDC++ F->L
 		ClientManager::getInstance()->setCheating(conn->getUser(), "", "No TTHL/ADCGET support", 0,true , true, true, true, true);//TODO: add settings NO_TTHF
 		//END
 		conn->getUser()->setFlag(User::OLD_CLIENT);
@@ -419,7 +419,7 @@ void DownloadManager::failDownload(UserConnection* aSource, const string& reason
 		removeDownload(d);
 		fire(DownloadManagerListener::Failed(), d, reason);
 		/**/
-		if (d->getType() == Transfer::TYPE_FULL_LIST && /*reason == _("disconnect")*/(reason.find(_("Disconnected")) != string::npos) ) {
+		if (d->getType() == Transfer::TYPE_FULL_LIST && (reason.find(_("Disconnected")) != string::npos) ) {
 			ClientManager::getInstance()->fileListDisconnected(aSource->getUser());
 		} else if( d->isSet(Download::FLAG_TESTSUR) ) {
 			if(reason.find(_("No slots available")) != string::npos)

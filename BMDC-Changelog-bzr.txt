@@ -546,5 +546,7 @@ Fix few of -Wreorder , -Wdeprecated ,...
 Remove Debug Manager;using to it Plugin Manager iternal;
 Few update from dcpps
 Few fixies
+------r139
+Partial Updated Plugins API&Plugins Updated
+Few cleanup , May Fix odd behavior in Tab (and speed of repaint of Tab)
 ------
-

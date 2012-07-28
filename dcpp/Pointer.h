@@ -23,7 +23,6 @@
 #include <boost/smart_ptr/detail/atomic_count.hpp>
 
 #include <memory>
-
 #include "noexcept.h"
 
 namespace dcpp {

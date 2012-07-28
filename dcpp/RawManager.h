@@ -29,9 +29,6 @@ namespace dcpp {
 class SimpleXML;
 class RawManager : public Singleton<RawManager>, private SettingsManagerListener {
 public:
-	// remember to unlock, if locked before. use when changing sth in action/raw content
-	//void lock() { Lock(cs); }
-	//void unlock() { cs.leave(); }
 
 	Action::ActionList& getActions() { Lock l(cs); return actions; }
 	Action* findAction(int id) noexcept;
@@ -41,7 +38,7 @@ public:
 	void editAction(Action* a, const std::string& name) throw(Exception);
 	bool remAction(Action* a) throw();
 
-	/*Raw**/void addRaw(Action* a, Raw& r) throw(Exception);
+	void addRaw(Action* a, Raw& r) throw(Exception);
 	void editRaw(const Action* a, Raw* old, Raw _new) throw(Exception);
 	bool remRaw(Action* a, Raw* r) noexcept;
 

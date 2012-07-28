@@ -26,6 +26,7 @@
 #include "ActionRaw.h"
 #include <list>
 #include "HubSettings.h"
+
 namespace dcpp {
 
 using std::string;

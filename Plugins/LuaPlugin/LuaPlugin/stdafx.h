@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2010 Crise, crise<at>mail.berlios.de
+ * Copyright (C) 2012 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,55 +21,31 @@
 
 #ifdef _WIN32
 
-#ifndef _WIN32_WINNT              
-#define _WIN32_WINNT 0x0501
-#endif
-
-#define STRICT
-#define WIN32_LEAN_AND_MEAN
-
-#ifdef _MSC_VER
-
-//disable the deprecated warnings for the CRT functions.
-#define _CRT_SECURE_NO_DEPRECATE 1
-#define _ATL_SECURE_NO_DEPRECATE 1
-#define _CRT_NON_CONFORMING_SWPRINTFS 1
-
-#if _MSC_VER == 1400 || _MSC_VER == 1500
-#define _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES 1
-//disable the deprecated warnings for the crt functions.
-#pragma warning(disable: 4996)
-#endif
-#endif
-
 #include <windows.h>
 #include <tchar.h>
 
 #else
+
 #include <unistd.h>
+
 #endif
 
 // This can make a #define value to string (from boost)
 #define STRINGIZE(X) DO_STRINGIZE(X)
 #define DO_STRINGIZE(X) #X
 
+#include <cstdio>
+#include <cstdint>
 #include <string>
 
-#include <cstdint>
 #include <PluginDefs.h>
 
-#ifdef UNICODE
+#ifdef _UNICODE
 typedef std::wstring tstring;
 #else
 typedef std::string tstring;
 #endif
 
-#ifdef WITH_BOOST_CS
-# define BOOST_ALL_NO_LIB
-# ifdef _WIN32
-#  define BOOST_USE_WINDOWS_H
-# endif
-#endif
 
 #ifndef __cplusplus
 # include <stdio.h>
@@ -80,6 +56,5 @@ typedef std::string tstring;
 # include <cstdlib>
 # include <cstring>
 #endif
-
 
 #endif // LUA_PLUGIN_STDAFX_H

@@ -24,7 +24,7 @@ extern "C" {
 #endif
 
 /* Version of the plugin api (must change if old plugins simply can't be seen as viably working) */
-#define DCAPI_CORE_VER				3
+#define DCAPI_CORE_VER				4
 
 #ifdef _WIN32
 # define DCAPI __stdcall
@@ -279,8 +279,7 @@ typedef Bool (DCAPI* DCMAIN)		(PluginState pluginState, DCCorePtr core, dcptr_t 
 /* Hooks (events) system - required interface! */
 
 /* Hook function prototypes */
-typedef Bool (DCAPI* DCHOOK)		(dcptr_t pObject, dcptr_t pData, Bool* bBreak);
-typedef Bool (DCAPI* DCHOOKCOMMON)	(dcptr_t pObject, dcptr_t pData, void* pCommon, Bool* bBreak);
+typedef Bool (DCAPI* DCHOOK)		(dcptr_t pObject, dcptr_t pData,dcptr_t pCommon, Bool* bBreak);
 
 /* Hook system functions */
 typedef struct tagDCHooks {

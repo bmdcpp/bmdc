@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2010 Crise, crise<at>mail.berlios.de
+ * Copyright (C) 2012 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,12 +31,22 @@
 # define LUA_DIST LUA_RELEASE
 #endif
 
-#define PLUGIN_GUID REVISION_GUID											// UUID/GUID for this plugin project
+/* UUID/GUID for this plugin project */
+#define PLUGIN_GUID REVISION_GUID
 
-#define PLUGIN_NAME "Clientside Lua Scripting" LUAJIT						// Name of the plugin
-#define PLUGIN_AUTHOR "Crise (Lua API: BCDC++ Team)"						// Author of the plugin
-#define PLUGIN_DESC "Adds BCDC++ like clientside lua support." LUAJIT_LONG	// Short description about the plugin
-#define PLUGIN_VERSION 2.1													// Version of the plugin (note: not api version)
-#define PLUGIN_WEB "N/A"													// Plugin website, set to "N/A" if none
+/* Name of the plugin */
+#define PLUGIN_NAME "Scripting plugin" LUAJIT
+
+/* Author of the plugin */
+#define PLUGIN_AUTHOR "DC++"
+
+/* Short description of the plugin */
+#define PLUGIN_DESC "Adds scripting support (supported languages: Lua)."
+
+/* Version of the plugin (note: not API version) */
+#define PLUGIN_VERSION 1.0
+
+/* Plugin website, set to "N/A" if none */
+#define PLUGIN_WEB "http://dcplusplus.sourceforge.net/"
 
 #endif // VERSION_H

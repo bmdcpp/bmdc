@@ -25,7 +25,6 @@
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
-#include <dcpp/MappingManager.h>
 #include "bacon-message-connection.hh"
 #include "settingsmanager.hh"
 #include "wulformanager.hh"

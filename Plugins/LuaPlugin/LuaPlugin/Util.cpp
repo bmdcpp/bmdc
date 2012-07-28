@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2010 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2012 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,9 +21,9 @@
 
 #include "version.h"
 
-DCUtilsPtr Util::utils = NULL;
-DCConfigPtr Util::config = NULL;
-DCLogPtr Util::logger = NULL;
+DCUtilsPtr Util::utils = nullptr;
+DCConfigPtr Util::config = nullptr;
+DCLogPtr Util::logger = nullptr;
 
 string Util::formatBytes(double val) {
 	int i = 0;

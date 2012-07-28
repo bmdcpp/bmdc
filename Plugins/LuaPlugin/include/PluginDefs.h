@@ -24,7 +24,7 @@ extern "C" {
 #endif
 
 /* Version of the plugin api (must change if old plugins simply can't be seen as viably working) */
-#define DCAPI_CORE_VER				3
+#define DCAPI_CORE_VER				4
 
 #ifdef _WIN32
 # define DCAPI __stdcall
@@ -109,9 +109,10 @@ typedef enum tagPluginState {
 typedef enum tagConfigType {
 	CFG_TYPE_UNKNOWN = -2,										/* Can be used when querying core settings with magic guid: "CoreSetup" */
 	CFG_TYPE_REMOVE,											/* Config value will be removed */
-	CFG_TYPE_STRING,											/* Config value is string */
-	CFG_TYPE_INT,												/* Config value is 32bit integer */
-	CFG_TYPE_INT64												/* Config value is 64bit integer */
+	CFG_TYPE_STRING,											/* Config value is a string */
+	CFG_TYPE_INT,												/* Config value is a 32bit integer */
+	CFG_TYPE_BOOL,												/* Config value is a bool */
+	CFG_TYPE_INT64												/* Config value is a 64bit integer */
 } ConfigType;
 
 typedef enum tagProtocolType {
@@ -147,6 +148,7 @@ typedef enum tagQueuePrio {
 /* Data types */
 typedef void *hookHandle, *subsHandle, *intfHandle, *dcptr_t;
 typedef enum tagDCBool { dcFalse = 0, dcTrue } dcBool;
+typedef uint64_t dctime_t;
 
 /* Workaround for other bool defs */
 #define Bool dcBool
@@ -169,6 +171,12 @@ typedef struct tagConfigInt {
 	ConfigType type;											/* Indicates which type of value this is */
 	int32_t value;
 } ConfigInt, *ConfigIntPtr;
+
+/* Config Value: boolean */
+typedef struct tagConfigBool {
+	ConfigType type;											/* Indicates which type of value this is */
+	Bool value;
+} ConfigBool, *ConfigBoolPtr;
 
 /* Config Value: integer (64bit) */
 typedef struct tagConfigInt64 {
@@ -271,8 +279,8 @@ typedef Bool (DCAPI* DCMAIN)		(PluginState pluginState, DCCorePtr core, dcptr_t 
 /* Hooks (events) system - required interface! */
 
 /* Hook function prototypes */
-typedef Bool (DCAPI* DCHOOK)		(dcptr_t pObject, dcptr_t pData, Bool* bBreak);
-typedef Bool (DCAPI* DCHOOKCOMMON)	(dcptr_t pObject, dcptr_t pData, void* pCommon, Bool* bBreak);
+typedef Bool (DCAPI* DCHOOK)		(dcptr_t pObject, dcptr_t pData,dcptr_t pCommon, Bool* bBreak);
+//typedef Bool (DCAPI* DCHOOKCOMMON)	(dcptr_t pObject, dcptr_t pData, void* pCommon, Bool* bBreak);
 
 /* Hook system functions */
 typedef struct tagDCHooks {

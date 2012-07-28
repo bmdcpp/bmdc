@@ -83,7 +83,6 @@ OnlineUser& AdcHub::getUser(const uint32_t aSID, const CID& aCID) {
 		Lock l(cs);
 		ou = users.insert(make_pair(aSID, new OnlineUser(p, *this, aSID))).first->second;
 		ou->inc();
-//		ou->initializeData();
 	}
 
 	if(aSID != AdcCommand::HUB_SID)
@@ -470,12 +469,7 @@ void AdcHub::handle(AdcCommand::STA, AdcCommand& c) noexcept {
 	if(c.getParam(0).size() != 3) {
 		return;
 	}
-	/*
-	string rf = Util::emptyString;
-	c.getParam("RF",1,rf);
-	u->getIdentity().set("RF",rf);
-	dcdebug("RF %s",rf.c_str());
-*/
+
 	switch(Util::toInt(c.getParam(0).substr(1))) {
 
 	case AdcCommand::ERROR_BAD_PASSWORD:
@@ -1127,9 +1121,6 @@ void AdcHub::on(Line l, const string& aLine) noexcept {
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_IN, this, aLine))
 		return;
 
-//	if(SETTING(ADC_DEBUG)) {
-//		fire(ClientListener::StatusMessage(), this, "<ADC>" + aLine + "</ADC>");
-//	}
 	dispatch(aLine);
 }
 

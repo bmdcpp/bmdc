@@ -46,10 +46,7 @@ using std::function;
 
 // Represents a plugin in hook context
 struct HookSubscriber {
-	union {
-		DCHOOK hookProc;
-		DCHOOKCOMMON hookProcCommon;
-	};
+	DCHOOK hookProc;
 	void* common;
 	string owner;
 };

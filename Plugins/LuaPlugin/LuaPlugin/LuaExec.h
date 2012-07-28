@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 cologic, cologic@parsoma.net
+ * Copyright (C) 2012 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ static void callalert (lua_State *L, int status) {
 			lua_call(L, 1, 0);
 		}
 		else {  /* no _ALERT function; print it on stderr */
-			Util::logMessage(Util::toUtf8(string("LUA ERROR: ") + lua_tostring(L, -2)));
+			Util::logMessage(Util::toUtf8(string("Lua ERROR: ") + lua_tostring(L, -2)));
 			lua_pop(L, 2);  /* remove error message and _ALERT */
 		}
 	}

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 cologic, cologic@parsoma.net
+ * Copyright (C) 2012 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,9 +19,8 @@
 #include "stdafx.h"
 #include "LuaManager.h"
 
+#include "Plugin.h"
 #include "Util.h"
-#include "LuaPlugin.h"
-#include <stdlib.h>
 
 const char LuaManager::className[] = "DC";
 Lunar<LuaManager>::RegType LuaManager::methods[] = {
@@ -53,7 +52,7 @@ Lunar<LuaManager>::RegType LuaManager::methods[] = {
 
 int LuaManager::SendHubMessage(lua_State* L) {
 	if (lua_gettop(L) == 2 && lua_islightuserdata(L, -2) && lua_isstring(L, -1)) {
-		LuaPlugin::getInstance()->sendHubCommand(reinterpret_cast<HubDataPtr>(lua_touserdata(L, -2)), lua_tostring(L, -1));
+		Plugin::getInstance()->sendHubCommand(reinterpret_cast<HubDataPtr>(lua_touserdata(L, -2)), lua_tostring(L, -1));
 	}
 
 	return 0;
@@ -61,7 +60,7 @@ int LuaManager::SendHubMessage(lua_State* L) {
 
 int LuaManager::SendClientMessage(lua_State* L) {
 	if (lua_gettop(L) == 2 && lua_islightuserdata(L, -2) && lua_isstring(L, -1)) {
-		LuaPlugin::getInstance()->sendClientCommand(static_cast<ConnectionDataPtr>(lua_touserdata(L, -2)), lua_tostring(L, -1));
+		Plugin::getInstance()->sendClientCommand(static_cast<ConnectionDataPtr>(lua_touserdata(L, -2)), lua_tostring(L, -1));
 	}
 
 	return 0;
@@ -72,7 +71,7 @@ int LuaManager::SendUDPPacket(lua_State* L) {
 		// TODO: ipv6 awareness
 		string dest = lua_tostring(L, -2);
 		string::size_type i = dest.find(":");
-		LuaPlugin::getInstance()->sendUdpPacket(dest.substr(0, i-1).c_str(), static_cast<uint32_t>(atoi(dest.substr(i+1).c_str())), lua_tostring(L, -1));
+		Plugin::getInstance()->sendUdpPacket(dest.substr(0, i-1).c_str(), static_cast<uint32_t>(atoi(dest.substr(i+1).c_str())), lua_tostring(L, -1));
 	}
 
 	return 0;
@@ -131,7 +130,7 @@ int LuaManager::InjectHubMessage(lua_State* L) {
 		} else if(message.find("CMD") != string::npos) {
 			message = Util::ucLuaConvert(message, true);
 		}
-		LuaPlugin::getInstance()->injectHubCommand(reinterpret_cast<HubDataPtr>(lua_touserdata(L, -2)), message.c_str());
+		Plugin::getInstance()->injectHubCommand(reinterpret_cast<HubDataPtr>(lua_touserdata(L, -2)), message.c_str());
 	}
 
 	return 0;
@@ -140,7 +139,7 @@ int LuaManager::InjectHubMessage(lua_State* L) {
 int LuaManager::CreateClient(lua_State* L) {
 	if (lua_gettop(L) == 2 && lua_isstring(L, -2) && lua_isstring(L, -1)){
 		HubDataPtr client = NULL;
-		if((client = LuaPlugin::getInstance()->createHub(lua_tostring(L, -2), lua_tostring(L, -1), "")) != NULL) {
+		if((client = Plugin::getInstance()->createHub(lua_tostring(L, -2), lua_tostring(L, -1), "")) != NULL) {
 			lua_pushlightuserdata(L, client);
 			return 1;
 		}
@@ -153,7 +152,7 @@ int LuaManager::CreateClient(lua_State* L) {
 
 int LuaManager::DeleteClient(lua_State* L) {
 	if (lua_gettop(L) == 1 && lua_islightuserdata(L, -1)){
-		LuaPlugin::getInstance()->destroyHub(reinterpret_cast<HubDataPtr>(lua_touserdata(L, -1)));
+		Plugin::getInstance()->destroyHub(reinterpret_cast<HubDataPtr>(lua_touserdata(L, -1)));
 	}
 
 	return 0;
@@ -162,7 +161,7 @@ int LuaManager::DeleteClient(lua_State* L) {
 int LuaManager::RunTimer(lua_State* L) {
 	/* arguments: bool: on/off */
 	if(lua_gettop(L) == 1 && lua_isnumber(L, -1)) {
-		LuaPlugin::getInstance()->setTimer(lua_tonumber(L, 1) != 0);
+		Plugin::getInstance()->setTimer(lua_tonumber(L, 1) != 0);
 		return 1;
 	}
 
@@ -244,7 +243,7 @@ int LuaManager::GetScriptPath(lua_State* L) {
 int LuaManager::DropUserConnection(lua_State* L) {
 	/* arguments: userconnection to drop */
 	if (lua_gettop(L) == 1 && lua_islightuserdata(L, -1)) {
-		LuaPlugin::getInstance()->dropClientConnection(static_cast<ConnectionDataPtr>(lua_touserdata(L, -1)), False);
+		Plugin::getInstance()->dropClientConnection(static_cast<ConnectionDataPtr>(lua_touserdata(L, -1)), False);
 	}
 
 	return 0;

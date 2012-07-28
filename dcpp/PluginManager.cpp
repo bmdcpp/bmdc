@@ -349,14 +349,16 @@ bool PluginManager::runHook(PluginHook* hook, dcptr_t pObject, dcptr_t pData) {
 	Bool bRes = False;
 	for(auto i = hook->subscribers.cbegin(); i != hook->subscribers.cend(); ++i) {
 		HookSubscriber* sub = *i;
-		if(sub->common ? sub->hookProcCommon(pObject, pData, sub->common, &bBreak) : sub->hookProc(pObject, pData, &bBreak))
+		//if(sub->common ? sub->hookProcCommon(pObject, pData, sub->common, &bBreak) : sub->hookProc(pObject, pData, &bBreak))
+		if(sub->hookProc(pObject, pData, sub->common, &bBreak))
 			bRes = True;
 		if(bBreak) return (bRes != False);
 	}
 
 	// Call default hook procedure for all unused hooks
 	if(hook->defProc && hook->subscribers.empty()) {
-		if(hook->defProc(pObject, pData, &bBreak))
+		//if(hook->defProc(pObject, pData, &bBreak))
+		if(hook->defProc(pObject, pData, NULL, &bBreak))
 			bRes = True;
 	}
 

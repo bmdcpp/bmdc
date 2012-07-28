@@ -192,12 +192,12 @@ void WulforManager::processGuiQueue()
 
 	while (!abort)
 	{
-		g_mutex_lock(&guiCondMutex);
+		/*g_mutex_lock(&guiCondMutex);
 		while (guiCondValue < 1)
 			g_cond_wait(&guiCond, &guiCondMutex);
 		guiCondValue--;
 		g_mutex_unlock(&guiCondMutex);
-
+		*/
 		// This must be taken before the queuelock to avoid deadlock.
 		gdk_threads_enter();
 
@@ -218,7 +218,7 @@ void WulforManager::processGuiQueue()
 
 		// Don't call gdk_flush() since it actually calls XSync, which can
 		// block waiting on events
-		XFlush(GDK_DISPLAY_XDISPLAY(gdk_display_get_default()));
+		//XFlush(GDK_DISPLAY_XDISPLAY(gdk_display_get_default()));
 		gdk_threads_leave();
 	}
 
@@ -231,12 +231,12 @@ void WulforManager::processClientQueue()
 
 	while (!abort)
 	{
-		g_mutex_lock(&clientCondMutex);
+		/*g_mutex_lock(&clientCondMutex);
 		while (clientCondValue < 1)
 			g_cond_wait(&clientCond, &clientCondMutex);
 		clientCondValue--;
 		g_mutex_unlock(&clientCondMutex);
-
+		*/
 		g_mutex_lock(&clientCallMutex);
 		g_mutex_lock(&clientQueueMutex);
 		while (!clientFuncs.empty())

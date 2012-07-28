@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 cologic, cologic@parsoma.net
+ * Copyright (C) 2012 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,8 +19,10 @@
 #ifndef SCRIPT_INSTANCE_H
 #define SCRIPT_INSTANCE_H
 
-#include "LuaManager.h"
 #include "CriticalSection.h"
+#include <debug.h>
+
+#include "LuaManager.h"
 
 using dcpp::CriticalSection;
 using dcpp::Lock;
@@ -40,7 +42,6 @@ protected:
 	template <typename T>
 	bool MakeCall(const string& table, const string& method, int ret, const T& t) throw() {
 		Lock l(cs);
-		dcassert(lua_gettop(L) == 0);
 		LuaPush(t);
 		return MakeCallRaw(table, method, 1, ret);
 	}
@@ -48,7 +49,6 @@ protected:
 	template <typename T, typename T2>
 	bool MakeCall(const string& table, const string& method, int ret, const T& t, const T2& t2) throw() {
 		Lock l(cs);
-		dcassert(lua_gettop(L) == 0);
 		LuaPush(t);
 		LuaPush(t2);
 		return MakeCallRaw(table, method, 2, ret);

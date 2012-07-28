@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 cologic, cologic@parsoma.net
+ * Copyright (C) 2012 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 # define lualib_h
 #endif
 
-#include <lunar.h>
+#include "lunar.h"
 
 class LuaManager 
 {

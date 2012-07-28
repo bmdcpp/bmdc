@@ -249,7 +249,7 @@ void ListLoader::startTag(const string& name, StringPairList& attribs, bool simp
 		cur->setComplete(true);
 		inListing = true;
 		//
-          string generator = getAttrib(attribs, sGenerator, 2);
+        string generator = getAttrib(attribs, sGenerator, 2);
 		string fileCID = getAttrib(attribs, sCID, 3);
 		string base = getAttrib(attribs, sBase, 4);
 		ClientManager::getInstance()->setGenerator(user, generator, fileCID, base);
@@ -458,6 +458,7 @@ uint32_t DirectoryListing::Directory::getTotalTS() const
   	}
 	return x;
 }
+
 uint16_t DirectoryListing::Directory::getTotalBitrate() const
 {
    uint16_t x = getBitrate();
@@ -467,7 +468,6 @@ uint16_t DirectoryListing::Directory::getTotalBitrate() const
    }
 	return x;
 }
-
 
 void DirectoryListing::sortDirs() {
 	root->sortDirs();

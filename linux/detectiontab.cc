@@ -65,7 +65,7 @@ BookEntry(Entry::DETECTION, _("Detection Settings"), "detection.glade")
 	gtk_tree_view_set_model(actionView.get(),GTK_TREE_MODEL(actionStore));
 	g_object_unref(actionStore);
 	actionSelection = gtk_tree_view_get_selection(actionView.get());
-	///raws
+	///Raws
 	RawView.setView(GTK_TREE_VIEW(getWidget("treeviewRaw")));
 	RawView.insertColumn(N_("Enable"), G_TYPE_BOOLEAN, TreeView::BOOL, 100);//checkbox
 	RawView.insertColumn(N_("Name"), G_TYPE_STRING, TreeView::STRING, 100);

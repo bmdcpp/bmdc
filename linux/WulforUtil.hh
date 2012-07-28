@@ -78,7 +78,7 @@ class WulforUtil
 		static GtkTreeIter copyRow_gui(GtkTreeStore *store, GtkTreeIter *fromIter, GtkTreeIter *parent = NULL, int position = -1);
 		static void copyValue_gui(GtkTreeStore* store, GtkTreeIter *fromIter, GtkTreeIter *toIter, int position);
 		static void registerIcons();
-		//NOTE:BMDC++
+		//NOTE: BMDC++
 		static void drop_combo(GtkWidget *widget, std::vector<std::pair<std::string,int> > CONTEUDO);
 
 		static GdkPixbuf *LoadCountryPixbuf(const std::string& country);
