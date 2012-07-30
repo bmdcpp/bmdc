@@ -256,17 +256,14 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 
 		if(gotFullSlot) {
 			clearUserFiles(aSource.getUser());	// this user is using a full slot, nix them.
-		}
-
-		// remove file from upload queue
-		clearUserFiles(aSource.getUser());
 		
 		// remove user from connecting list
 		auto cu = connectingUsers.find(aSource.getUser());
 		if(cu != connectingUsers.end()) {
 			connectingUsers.erase(cu);
 		}
-	}
+	 }	
+  }
 
 	return true;
 }
@@ -303,8 +300,12 @@ void UploadManager::reserveSlot(const HintedUser& aUser) {
 		Lock l(cs);
 		reservedSlots.insert(aUser);
 	}
-	if(aUser.user->isOnline())
-		ClientManager::getInstance()->connect(aUser, Util::toString(Util::rand()));
+	if(aUser.user->isOnline()) {
+		auto it = find_if(waitingUsers.begin(), waitingUsers.end(), [&](const UserPtr& u) { return u == aUser.user; });
+		if(it != waitingUsers.cend()) {
+			ClientManager::getInstance()->connect(aUser, it->token);
+		}	
+	}	
 }
 
 bool UploadManager::hasReservedSlot(const UserPtr& user) const {
@@ -486,16 +487,23 @@ void UploadManager::removeConnection(UserConnection* aSource) {
 void UploadManager::notifyQueuedUsers() {
 	if (waitingUsers.empty()) return;		//no users to notify
 
-	int freeslots = getFreeSlots();
-	freeslots -= connectingUsers.size();
-	if(!waitingUsers.empty() && freeslots > 0) {
-		// let's keep him in the connectingList until he asks for a file
-		WaitingUser queuedUser = waitingUsers.front();
-		clearUserFiles(queuedUser.user);			
-		connectingUsers[queuedUser.user] = GET_TICK();
-		ClientManager::getInstance()->connect(queuedUser.user, queuedUser.token);
-		freeslots--;
-	}
+	int freeSlots = getFreeSlots();
+	if(freeSlots > 0) {
+		freeSlots -= connectingUsers.size();
+		while(!waitingUsers.empty() && freeSlots > 0) {
+            // let's keep him in the connectingList until he asks for a file
+           WaitingUser queuedUser = waitingUsers.front();
+           auto isOnline = queuedUser.user.user->isOnline();
+           if(isOnline) {
+                 clearUserFiles(queuedUser.user);
+                 connectingUsers[queuedUser.user] = GET_TICK();
+                 ClientManager::getInstance()->connect(queuedUser.user, queuedUser.token);
+                 freeSlots--;
+            } else {
+                 clearUserFiles(queuedUser.user);
+            }
+         }
+	}	
 }
 
 void UploadManager::on(TimerManagerListener::Minute, uint64_t  aTick ) noexcept {

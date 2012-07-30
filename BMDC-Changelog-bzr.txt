@@ -549,4 +549,6 @@ Few fixies
 ------r139
 Partial Updated Plugins API&Plugins Updated
 Few cleanup , May Fix odd behavior in Tab (and speed of repaint of Tab)
+------r140
+Update QP code,Fix hangout connection on Upload on granting slots.
 ------

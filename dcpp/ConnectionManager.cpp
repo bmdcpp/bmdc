@@ -690,6 +690,17 @@ void ConnectionManager::on(AdcCommand::INF, UserConnection* aSource, const AdcCo
 				down = true;
 			}
 		}
+		
+		auto ul = find(uploads.begin(), uploads.end(), aSource->getUser());
+		
+		if(ul != uploads.end()) {
+			(*ul)->setErrors(0);
+			
+			const string& to = (*ul)->getToken();
+			
+			if(to.empty())
+				(*ul)->setToken(Util::toString(Util::rand()));				
+		}
 		/** @todo check tokens for upload connections */
 	}
 
