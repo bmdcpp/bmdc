@@ -20,7 +20,7 @@
  */
 /*
  * Changelog of Changes of BMDC:
- * Added Idepent Favorites
+ * Added Indepent Favorites
  * 
  */
 #include "favoriteusers.hh"

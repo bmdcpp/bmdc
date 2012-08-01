@@ -149,6 +149,10 @@ private:
 
 	/** All active connections */
 	UserConnectionList userConnections;
+	
+	typedef unordered_map<string, uint64_t> delayMap;
+    typedef delayMap::iterator delayIter;
+    delayMap delayedTokens;
 
 	StringList features;
 	StringList adcFeatures;

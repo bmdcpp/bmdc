@@ -1,6 +1,6 @@
 //      uploadqueue.cc
 //      
-//      Copyright 2011 - 2012 Mank <Mank1@seznam.cz>
+//      Copyright 2011 - 2012 Mank <freedcpp@seznam.cz>
 //      
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -38,9 +38,9 @@ UploadQueue::UploadQueue():
 BookEntry(Entry::UPLOADQUEUE, _("Upload Queue"), "uploadqueue.glade")
 {
 	users.setView(GTK_TREE_VIEW(getWidget("viewUsers")));
-	users.insertColumn("User", G_TYPE_STRING, TreeView::ICON_STRING, 80, "Icon");
-	users.insertColumn("File", G_TYPE_STRING, TreeView::STRING, 200);
-	users.insertColumn("Hub", G_TYPE_STRING, TreeView::STRING, 80);
+	users.insertColumn("User", G_TYPE_STRING, TreeView::ICON_STRING, 100, "Icon");
+	users.insertColumn("File", G_TYPE_STRING, TreeView::STRING, 300);
+	users.insertColumn("Hub", G_TYPE_STRING, TreeView::STRING, 90);
 	users.insertColumn("CID", G_TYPE_STRING, TreeView::STRING, 80);
 	users.insertHiddenColumn("Icon", G_TYPE_STRING);
 	users.finalize();
@@ -76,10 +76,10 @@ void UploadQueue::show()
 void UploadQueue::intilaize_client()
 {
 // Load queue
-	const dcpp::HintedUserList _users = UploadManager::getInstance()->getWaitingUsers();
+	const HintedUserList _users = UploadManager::getInstance()->getWaitingUsers();
 	UploadManager *up = UploadManager::getInstance();
-	for(dcpp::HintedUserList::const_iterator uit = _users.begin(); uit != _users.end(); ++uit) {
-		const dcpp::UploadManager::FileSet f = up->getWaitingUserFiles(((*uit).user));
+	for(HintedUserList::const_iterator uit = _users.begin(); uit != _users.end(); ++uit) {
+		const UploadManager::FileSet f = up->getWaitingUserFiles(((*uit).user));
 		StringMap params;
 		for(auto fit = f.begin(); fit!= f.end();++fit)
 		{
@@ -331,30 +331,31 @@ void UploadQueue::grantSlot_client(const string cid)
 	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
 	if (user)
 	{
-		UploadManager::getInstance()->reserveSlot(HintedUser(user, Util::emptyString));//NOTE: core 0.762
+		UploadManager::getInstance()->reserveSlot(HintedUser(user, Util::emptyString));
 	}
 }
 
 void UploadQueue::removeUploadFromQueue(const string cid)
 {
-	UserPtr uu = ClientManager::getInstance()->findUser(CID(cid));
-    if (uu)
+	UserPtr ui = ClientManager::getInstance()->findUser(CID(cid));
+    if (ui)
     {
-          UploadManager::getInstance()->clearUserFiles(uu);
+          UploadManager::getInstance()->clearUserFiles(ui);
     }
 }
 
 void UploadQueue::getFileList_client(const string cid)
 {
 	try {	
-		UserPtr uu = ClientManager::getInstance()->findUser(CID(cid));
-		if(uu)
+		UserPtr ui = ClientManager::getInstance()->findUser(CID(cid));
+		if(ui)
 		{
-			HintedUser hintedUser(uu, Util::emptyString);
-			QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW);//NOTE: core 0.762
+			HintedUser hintedUser(ui, Util::emptyString);
+			QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW);
 		}
 	}catch(...)
 	{ //... for now ignore it
+	
 	}	
 	
 }

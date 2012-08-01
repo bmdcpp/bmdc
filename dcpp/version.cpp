@@ -21,16 +21,6 @@
 
 #include "version.h"
 
-#ifndef DCPP_REVISION
-	#define DCPP_REVISION 2972
-	#define DCPP_REVISION_STRING "2972p"
-#endif
-#ifndef BMDC_REVISION
-	#define BMDC_REVISION 140
-#endif
-#ifndef BMDC_REVISION_STRING
-	#define BMDC_REVISION_STRING "140"
-#endif
 #define xstrver(s) strver(s)
 #define strver(s) #s
 

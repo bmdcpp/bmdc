@@ -1,5 +1,5 @@
 /*
- * Copyright © 2010-2012 Mank <freedcpp@seznam.cz>
+ * Copyright © 2010-2012 Mank <freedcpp at seznam.cz>
  * Copyright © 2010-2011 Eugene Petrov <dhamp@ya.ru>
  *
  * This program is free software; you can redistribute it and/or modify

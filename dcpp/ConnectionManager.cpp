@@ -99,6 +99,7 @@ void ConnectionManager::putCQI(ConnectionQueueItem* cqi) {
 	if(cqi->getDownload()) {
 		dcassert(find(downloads.begin(), downloads.end(), cqi) != downloads.end());
 		downloads.erase(remove(downloads.begin(), downloads.end(), cqi), downloads.end());
+		delayedTokens[cqi->getToken()] = GET_TICK();
 	} else {
 		dcassert(find(uploads.begin(), uploads.end(), cqi) != uploads.end());
 		uploads.erase(remove(uploads.begin(), uploads.end(), cqi), uploads.end());
@@ -132,6 +133,14 @@ void ConnectionManager::on(TimerManagerListener::Second, uint64_t aTick) noexcep
 
 	{
 		Lock l(cs);
+		
+		for(auto i = delayedTokens.begin(); i != delayedTokens.end();) {
+           if((i->second + (90 * 1000)) < aTick) {
+                 delayedTokens.erase(i++);
+           } else {
+                  ++i;
+           }
+        }
 
 		bool attemptDone = false;
 
@@ -676,39 +685,24 @@ void ConnectionManager::on(AdcCommand::INF, UserConnection* aSource, const AdcCo
 		token = aSource->getToken();
 	}
 
-	bool down = false;
+	dcassert(!token.empty());
 	{
 		Lock l(cs);
 		auto i = find(downloads.begin(), downloads.end(), aSource->getUser());
 
 		if(i != downloads.end()) {
-			(*i)->setErrors(0);
-
-			const string& to = (*i)->getToken();
-
-			if(to == token) {
-				down = true;
-			}
+			ConnectionQueueItem* cqi = *i;
+			cqi->setErrors(0);
+			aSource->setFlag(UserConnection::FLAG_DOWNLOAD);
+        } else if (delayedTokens.find(token) == delayedTokens.end()) {
+         aSource->setFlag(UserConnection::FLAG_UPLOAD);
 		}
-		
-		auto ul = find(uploads.begin(), uploads.end(), aSource->getUser());
-		
-		if(ul != uploads.end()) {
-			(*ul)->setErrors(0);
-			
-			const string& to = (*ul)->getToken();
-			
-			if(to.empty())
-				(*ul)->setToken(Util::toString(Util::rand()));				
-		}
-		/** @todo check tokens for upload connections */
 	}
-
-	if(down) {
-		aSource->setFlag(UserConnection::FLAG_DOWNLOAD);
+	aSource->setToken(token);
+	
+	if(aSource->isSet(UserConnection::FLAG_DOWNLOAD)) {
 		addDownloadConnection(aSource);
-	} else {
-		aSource->setFlag(UserConnection::FLAG_UPLOAD);
+	} else if(aSource->isSet(UserConnection::FLAG_UPLOAD)) {
 		addUploadConnection(aSource);
 	}
 }
