@@ -554,3 +554,8 @@ Update QP code,Fix hangout connection on Upload on granting slots.
 ------r141
 Small Fix of QP&Granting slots on ADC(s)
 Cleanup
+------r142
+Mutexed The QP's code
+May Fix Invalid File type..
+unfriend OnlineUser and Nmdc class
+Lock Plugins

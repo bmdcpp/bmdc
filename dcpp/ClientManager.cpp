@@ -704,14 +704,12 @@ bool ClientManager::isActive(const string& aHubUrl /*= Util::emptyString*/) cons
 { 
 	return getMode(aHubUrl) != SettingsManager::INCOMING_FIREWALL_PASSIVE; 
 }
-
+//..
 void ClientManager::setIpAddress(const UserPtr& p, const string& ip) {
     Lock l(cs);
 	OnlineIterC i = onlineUsers.find(p->getCID());
 	if(i != onlineUsers.end()) {
-//		i->second->inc();
 		i->second->getIdentity().set("I4", ip);
-//		i->second->dec();
 	}
 }
 

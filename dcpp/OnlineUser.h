@@ -197,7 +197,7 @@ public:
 	UserData* getPluginObject() noexcept;
 	GETSET(Identity, identity, Identity);
 private:
-	friend class NmdcHub;
+	//friend class NmdcHub;
 
 	Client& client;
 };

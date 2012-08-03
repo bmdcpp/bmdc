@@ -329,7 +329,7 @@ HookSubscriber* PluginManager::bindHook(const string& guid, DCHOOK hookProc, voi
 	if(i == hooks.end()) {
 		return NULL;
 	} else hook = i->second;
-
+	Lock ll(hook->cs);
 	HookSubscriber* subscribtion = new HookSubscriber();
 	subscribtion->hookProc = hookProc;
 	subscribtion->common = pCommon;
@@ -379,7 +379,7 @@ size_t PluginManager::releaseHook(HookSubscriber* subscription) {
 
 	if(hook == NULL)
 		return 0;
-
+	Lock ll(hook->cs);
 	hook->subscribers.erase(std::remove(hook->subscribers.begin(), hook->subscribers.end(), subscription), hook->subscribers.end());
 	delete subscription;
 

@@ -296,10 +296,10 @@ void UploadManager::removeUpload(Upload* aUpload) {
 }
 
 void UploadManager::reserveSlot(const HintedUser& aUser) {
-	{
-		Lock l(cs);
-		reservedSlots.insert(aUser);
-	}
+	Lock l(cs);
+	
+	reservedSlots.insert(aUser);
+	
 	if(aUser.user->isOnline()) {
 		auto it = find_if(waitingUsers.begin(), waitingUsers.end(), [&](const UserPtr& u) { return u == aUser.user; });
 		if(it != waitingUsers.cend()) {
@@ -485,6 +485,7 @@ void UploadManager::removeConnection(UserConnection* aSource) {
 }
 
 void UploadManager::notifyQueuedUsers() {
+	Lock l(cs);
 	if (waitingUsers.empty()) return;		//no users to notify
 
 	int freeSlots = getFreeSlots();

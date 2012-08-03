@@ -358,7 +358,7 @@ void DownloadManager::endData(UserConnection* aSource) {
 
 		dcdebug("Download finished: %s, size " I64_FMT ", downloaded " I64_FMT "\n", d->getPath().c_str(), d->getSize(), d->getPos());
 
-		if(SETTING(LOG_DOWNLOADS) && (SETTING(LOG_FILELIST_TRANSFERS) || d->getType() == Transfer::TYPE_FILE)) {
+		if(SETTING(LOG_DOWNLOADS) && (SETTING(LOG_FILELIST_TRANSFERS) || d->getType() == Transfer::TYPE_FILE) ) {
 			logDownload(aSource, d);
 		}
 	}

@@ -65,7 +65,7 @@ int64_t NmdcHub::getAvailable() const {
 	Lock l(cs);
 	int64_t x = 0;
 	for(NickMap::const_iterator i = users.begin(); i != users.end(); ++i) {
-		x+=i->second->getIdentity().getBytesShared();
+		x += i->second->getIdentity().getBytesShared();
 	}
 	return x;
 }

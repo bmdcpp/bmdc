@@ -257,6 +257,8 @@ SettingsManager::SettingsManager()
 	setDefault(LOG_FILE_DOWNLOAD, "Downloads.log");
 	setDefault(LOG_FILE_FINISHED_DOWNLOAD, "Finished_downloads.log");
 	setDefault(LOG_FILE_SYSTEM, "system.log");
+	setDefault(LOG_FILE_RAW, "raws.logs");//BMDC
+	setDefault(LOG_FORMAT_RAW, "%[message]");//BMDC
 	setDefault(GET_USER_INFO, true);
 	setDefault(URL_HANDLER, false);
 	setDefault(SETTINGS_WIDTH, 700);
