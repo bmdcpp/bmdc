@@ -63,7 +63,8 @@ WulforManager *WulforManager::get()
 	return manager;
 }
 
-WulforManager::WulforManager()
+WulforManager::WulforManager():
+mainWin(NULL),guiThread(NULL),clientThread(NULL)
 {
 	abort = FALSE;
 
@@ -192,12 +193,12 @@ void WulforManager::processGuiQueue()
 
 	while (!abort)
 	{
-		/*g_mutex_lock(&guiCondMutex);
+		g_mutex_lock(&guiCondMutex);
 		while (guiCondValue < 1)
 			g_cond_wait(&guiCond, &guiCondMutex);
 		guiCondValue--;
 		g_mutex_unlock(&guiCondMutex);
-		*/
+		
 		// This must be taken before the queuelock to avoid deadlock.
 		gdk_threads_enter();
 
@@ -231,12 +232,12 @@ void WulforManager::processClientQueue()
 
 	while (!abort)
 	{
-		/*g_mutex_lock(&clientCondMutex);
+		g_mutex_lock(&clientCondMutex);
 		while (clientCondValue < 1)
 			g_cond_wait(&clientCond, &clientCondMutex);
 		clientCondValue--;
 		g_mutex_unlock(&clientCondMutex);
-		*/
+		
 		g_mutex_lock(&clientCallMutex);
 		g_mutex_lock(&clientQueueMutex);
 		while (!clientFuncs.empty())
@@ -400,7 +401,7 @@ DialogEntry* WulforManager::getDialogEntry_gui(const string &id)
 	return ret;
 }
 
-void WulforManager::onReceived_gui(const string link)
+void WulforManager::onReceived_gui(const string& link)
 {
 	dcassert(mainWin);
 

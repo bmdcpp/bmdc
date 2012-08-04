@@ -787,7 +787,6 @@ void ClientManager::addCheckToQueue(const HintedUser hintedUser, bool filelist) 
 			if(!ou->getChecked(filelist)) {
 				if((filelist && ou->shouldCheckFileList()) || (!filelist && ou->shouldCheckClient())) {
 					addCheck = true;
-//					ou->inc();
 				}
 			}
 		}
@@ -805,7 +804,6 @@ void ClientManager::addCheckToQueue(const HintedUser hintedUser, bool filelist) 
 		} catch(...) {
 			//...
 		}
-//		ou->dec();
 	}
 }
 
@@ -846,7 +844,7 @@ void ClientManager::on(HubUserCommand, Client* client, int aType, int ctx, const
  		}
 	}
 }
-
+//..
 void ClientManager::checkCheating(const HintedUser& p, DirectoryListing* dl) {
 	string report;
 	OnlineUser* ou = NULL;
@@ -1105,7 +1103,7 @@ void ClientManager::setListSize(const UserPtr& p, int64_t aFileLength, bool adc)
 				report = ou->setCheat("Too small filelist - %[userLSshort] for the specified share of %[userSSshort]", false, true, SETTING(FILELIST_TOO_SMALL_BIG));
 				sendAction(*ou, SETTING(FILELIST_TOO_SMALL_BIG_RAW));
 			}
-		} else if(adc == false) {
+		} else if(!adc) {///false
 			int64_t listLength = (!ou->getIdentity().get("LL").empty()) ? Util::toInt64(ou->getIdentity().get("LL")) : -1;
 			if((listLength != -1) && (listLength * 3 < aFileLength) && (ou->getIdentity().getBytesShared() > 0)) {
 				report = ou->setCheat("Fake file list - ListLen = %[userLL], FileLength = %[userLS]", false, true, SETTING(LISTLEN_MISMATCH_SHOW));

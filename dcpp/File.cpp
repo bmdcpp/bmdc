@@ -221,7 +221,7 @@ File::File(const string& aFileName, int access, int mode) {
 
 	struct stat s;
 	if(lstat(filename.c_str(), &s) != -1) {
-		if(!S_ISREG(s.st_mode) && !S_ISLNK(s.st_mode));
+		if(!S_ISREG(s.st_mode) && !S_ISLNK(s.st_mode))
 			throw FileException("Invalid file type");
 	}
 

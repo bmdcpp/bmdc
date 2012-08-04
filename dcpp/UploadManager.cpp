@@ -115,7 +115,8 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 	if(!aSource.isSet(UserConnection::FLAG_HASSLOT)) {
 		bool hasReserved = hasReservedSlot(aSource.getUser());
 		bool isFavorite = FavoriteManager::getInstance()->hasSlot(aSource.getUser());
-		bool hasFreeSlot = (getFreeSlots() > 0) && ((waitingFiles.empty() && connectingUsers.empty()) || isConnecting(aSource.getUser()));
+		//bool hasFreeSlot = (getFreeSlots() > 0) && ((waitingFiles.empty() && connectingUsers.empty()) || isConnecting(aSource.getUser()));
+		bool hasFreeSlot = [&]() -> bool { Lock l(cs); return (getFreeSlots() > 0) && ((waitingFiles.empty() && connectingUsers.empty()) || isConnecting(aSource.getUser())); }();
 
 		if(!(hasReserved || isFavorite || getAutoSlot() || hasFreeSlot)) {
 			bool supportsMini = aSource.isSet(UserConnection::FLAG_SUPPORTS_MINISLOTS);
@@ -296,10 +297,11 @@ void UploadManager::removeUpload(Upload* aUpload) {
 }
 
 void UploadManager::reserveSlot(const HintedUser& aUser) {
+	{
 	Lock l(cs);
-	
+
 	reservedSlots.insert(aUser);
-	
+	}	
 	if(aUser.user->isOnline()) {
 		auto it = find_if(waitingUsers.begin(), waitingUsers.end(), [&](const UserPtr& u) { return u == aUser.user; });
 		if(it != waitingUsers.cend()) {

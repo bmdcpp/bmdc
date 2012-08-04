@@ -76,9 +76,10 @@ public:
 	virtual void on(AdcSearch, Client*, const AdcCommand&, const CID&) noexcept { }
 	virtual void on(CheatMessage, Client*, const string&) noexcept { }
 	virtual void on(HubTopic, Client*, const string&) noexcept { }
+	
 	virtual void on(HubIcon, Client*, const string&) noexcept { }//$SetIcon
 	
-	virtual void on(ClientLine, Client*, const string&, int) noexcept { }//PlgInfo
+	virtual void on(ClientLine, Client*, const string&, int) noexcept { }//PluginInfo
 };
 
 } // namespace dcpp

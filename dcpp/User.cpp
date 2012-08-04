@@ -227,7 +227,7 @@ void Identity::checkTagState(OnlineUser& ou) {
 }
 string Identity::setCheat(const Client& c, const string& aCheatDescription, bool aBadClient, bool aBadFilelist /*=false*/, bool aDisplayCheat /*=true*/) {
 	ParamMap ucParams;
-	getParams(ucParams, "user",true);
+	getParams(ucParams, "user", true);
 	string cheat = Util::formatParams(aCheatDescription, ucParams);
 	string newCheat = Util::emptyString;
 
@@ -509,6 +509,7 @@ string Identity::getDetectionField(const string& aName) const {
 		}
 		return Util::emptyString;
 	}
+	return Util::emptyString;
 }
 
 map<string, string> Identity::getReport() const
@@ -602,10 +603,10 @@ void Identity::logDetection(bool successful) {
 	{
 		if(successful) {
 			int a = SETTING(DETECTIONS);
-			sm->set(SettingsManager::DETECTIONS ,a + 1);
+			sm->set(SettingsManager::DETECTIONS , a + 1);
 		} else {
 			int b = SETTING(DETECTIONF);
-			sm->set(SettingsManager::DETECTIONF ,b + 1);
+			sm->set(SettingsManager::DETECTIONF , b + 1);
 		}
 	}
 }

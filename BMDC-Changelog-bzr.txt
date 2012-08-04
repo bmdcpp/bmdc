@@ -548,7 +548,7 @@ Few update from dcpps
 Few fixies
 ------r139
 Partial Updated Plugins API&Plugins Updated
-Few cleanup , May Fix odd behavior in Tab (and speed of repaint of Tab)
+Few cleanup
 ------r140
 Update QP code,Fix hangout connection on Upload on granting slots.
 ------r141
@@ -559,3 +559,7 @@ Mutexed The QP's code
 May Fix Invalid File type..
 unfriend OnlineUser and Nmdc class
 Lock Plugins
+-----r143
+Fix High CPU usage..
+Small Update of QP code..
+----

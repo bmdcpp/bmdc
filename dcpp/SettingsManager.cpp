@@ -250,6 +250,7 @@ SettingsManager::SettingsManager()
 	setDefault(LOG_FORMAT_PRIVATE_CHAT, "[%Y-%m-%d %H:%M] %[message]");
 	setDefault(LOG_FORMAT_STATUS, "[%Y-%m-%d %H:%M] %[message]");
 	setDefault(LOG_FORMAT_SYSTEM, "[%Y-%m-%d %H:%M] %[message]");
+	setDefault(LOG_FORMAT_RAW, "%[message]");//BMDC
 	setDefault(LOG_FILE_MAIN_CHAT, "%[hubURL].log");
 	setDefault(LOG_FILE_STATUS, "%[hubURL]_status.log");
 	setDefault(LOG_FILE_PRIVATE_CHAT, "%[userNI].%[userCID].log");
@@ -257,8 +258,7 @@ SettingsManager::SettingsManager()
 	setDefault(LOG_FILE_DOWNLOAD, "Downloads.log");
 	setDefault(LOG_FILE_FINISHED_DOWNLOAD, "Finished_downloads.log");
 	setDefault(LOG_FILE_SYSTEM, "system.log");
-	setDefault(LOG_FILE_RAW, "raws.logs");//BMDC
-	setDefault(LOG_FORMAT_RAW, "%[message]");//BMDC
+	setDefault(LOG_FILE_RAW, "raws.log");//BMDC
 	setDefault(GET_USER_INFO, true);
 	setDefault(URL_HANDLER, false);
 	setDefault(SETTINGS_WIDTH, 700);
