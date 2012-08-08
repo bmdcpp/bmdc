@@ -58,7 +58,8 @@ class Entry
 			UPLOADQUEUE,
 			RECENT,
 			DETECTION,
-			ABOUT_CONFIG
+			ABOUT_CONFIG,
+			EXPORT_DIALOG
 		} EntryType;
 
 		Entry() : xml(NULL), type((EntryType)0) {}

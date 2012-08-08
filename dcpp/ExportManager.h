@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2010-2012 Mank
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,39 +18,42 @@
  * In addition, as a special exception, compiling, linking, and/or
  * using OpenSSL with this program is allowed.
  */
+ 
+#ifndef _EXPORT_MANAGER_HH
+#define _EXPORT_MANAGER_HH
+#include "stdinc.h"
+#include "Singleton.h"
+#include "LogManager.h"
+#include "TarFile.h"
+#include "Util.h"
+#include "format.h"
+#include "RegEx.h"
+#include "SettingsManager.h"
+#include "Semaphore.h"
+#include "Thread.h"
+#include <deque>
 
-#ifndef _HASH_HH
-#define _HASH_HH
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/TimerManager.h>
-
-#include "dialogentry.hh"
-
-class Hash:
-	public DialogEntry,
-	public dcpp::TimerManagerListener
+namespace dcpp {
+	
+class ExportManager:
+		public Singleton<ExportManager>,
+		private Thread
 {
-	public:
-		Hash(GtkWindow* parent = NULL);
-		~Hash();
+public:
+	ExportManager(): stop(false) { start();}
+	virtual ~ExportManager(){}
+	void export_(const string &to, StringList &paths);
+private:
+	
+	CriticalSection cs;
+	Semaphore s;
 
-	private:
-		// GUI functions
-		void updateStats_gui(std::string file, uint64_t bytes, size_t files, uint32_t tick);
-
-		// Client callbacks
-		virtual void on(dcpp::TimerManagerListener::Second, uint64_t tics) throw();
-
-		// GUI callback
-		static void onPauseHashing_gui(GtkWidget *widget, gpointer data);
-
-		uint64_t startBytes;
-		size_t startFiles;
-		uint32_t startTime;
-};
-
-#else
-class Hash;
-#endif
+	int run();
+	void 	exportData(const string &path, StringList &paths);
+	string	importData(const string &from);
+	deque< map<string, StringList> > ofexporteddata;
+	bool stop;	
+};	
+}
+#endif			

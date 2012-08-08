@@ -47,6 +47,8 @@
 #include "PluginManager.h"
 #include "RsxUtil.h"
 
+#include "ExportManager.h"
+
 #ifdef _STLP_DEBUG
 void __stl_debug_terminate() {
 	int* x = 0;
@@ -97,6 +99,7 @@ void startup(void (*f)(void*, const string&), void* p) {
 	WindowManager::newInstance();
 	PluginManager::newInstance();
 
+	ExportManager::newInstance();
 	DetectionManager::newInstance();
 	HighlightManager::newInstance();
 	BackupManager::newInstance();
@@ -154,6 +157,8 @@ void startup(void (*f)(void*, const string&), void* p) {
 
 void shutdown() {
 	RsxUtil::uinit();
+	
+	ExportManager::deleteInstance();
 	RestoreManager::deleteInstance();
     BackupManager::deleteInstance();
     PluginManager::getInstance()->unloadPlugins();

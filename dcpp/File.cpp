@@ -443,8 +443,8 @@ StringList File::findFiles(const string& path, const string& pattern) {
 			if (fnmatch(pattern.c_str(), ent->d_name, 0) == 0) {
 				struct stat s;
 				stat(ent->d_name, &s);
-				const char* extra = (s.st_mode & S_IFDIR) ? "/" : "";
-				ret.push_back(path + Text::toUtf8(ent->d_name) + extra);
+				//const char* extra = (s.st_mode & S_IFDIR) ? "/" : "";
+				ret.push_back(path + Text::toUtf8(ent->d_name) /*+ extra*/);
 			}
 		}
 		closedir(dir);

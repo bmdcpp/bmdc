@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2010-2012 Mank
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,38 +19,31 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef _HASH_HH
-#define _HASH_HH
+#ifndef _EXPORT_DIALOG_HH
+#define _EXPORT_DIALOG_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
-#include <dcpp/TimerManager.h>
-
+#include <dcpp/RegEx.h>
+#include "treeview.hh"
 #include "dialogentry.hh"
 
-class Hash:
-	public DialogEntry,
-	public dcpp::TimerManagerListener
+class ExportDialog:
+	public DialogEntry
 {
 	public:
-		Hash(GtkWindow* parent = NULL);
-		~Hash();
-
+		ExportDialog(GtkWindow *parent);
+		~ExportDialog();
+	
 	private:
-		// GUI functions
-		void updateStats_gui(std::string file, uint64_t bytes, size_t files, uint32_t tick);
-
-		// Client callbacks
-		virtual void on(dcpp::TimerManagerListener::Second, uint64_t tics) throw();
-
-		// GUI callback
-		static void onPauseHashing_gui(GtkWidget *widget, gpointer data);
-
-		uint64_t startBytes;
-		size_t startFiles;
-		uint32_t startTime;
+		TreeView exportView;
+		GtkListStore* exportStore;
+		GtkTreeSelection *exportSelection;
+		static void onButtonExportedClicked(GtkWidget *widget, gpointer data);
+		static void onGetPathGui(GtkWidget *widget, gpointer data);
+		static void onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
+	
 };
-
 #else
-class Hash;
+class ExportDialog;
 #endif

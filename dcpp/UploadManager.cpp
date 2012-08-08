@@ -298,17 +298,23 @@ void UploadManager::removeUpload(Upload* aUpload) {
 
 void UploadManager::reserveSlot(const HintedUser& aUser) {
 	{
-	Lock l(cs);
-
-	reservedSlots.insert(aUser);
-	}	
+		Lock l(cs); 
+		reservedSlots.insert(aUser); 
+	}
+	
 	if(aUser.user->isOnline()) {
-		auto it = find_if(waitingUsers.begin(), waitingUsers.end(), [&](const UserPtr& u) { return u == aUser.user; });
-		if(it != waitingUsers.cend()) {
-			ClientManager::getInstance()->connect(aUser, it->token);
-		}	
+		auto userToken = [&] () -> const string
+		{
+			Lock l(cs);
+			auto it = find_if(waitingUsers.cbegin(), waitingUsers.cend(), [&](const UserPtr& u) { return u == aUser.user; });
+			return (it != waitingUsers.cend()) ? it->token : Util::emptyString;
+		};
+		string token;
+		if((token = userToken()) != Util::emptyString)
+			ClientManager::getInstance()->connect(aUser,token);
 	}	
-}
+}	
+
 
 bool UploadManager::hasReservedSlot(const UserPtr& user) const {
 	Lock l(cs);
@@ -487,26 +493,30 @@ void UploadManager::removeConnection(UserConnection* aSource) {
 }
 
 void UploadManager::notifyQueuedUsers() {
-	Lock l(cs);
-	if (waitingUsers.empty()) return;		//no users to notify
+	 vector<WaitingUser> notifyList;
+	  {
+                Lock l(cs);
+                if (waitingUsers.empty()) return;               //no users to notify
+                int freeslots = getFreeSlots();
+                if(freeslots > 0)
+                {
+                        freeslots -= connectingUsers.size();
+                        while(!waitingUsers.empty() && freeslots > 0) {
+                                // let's keep him in the connectingList until he asks for a file
+                                WaitingUser wu = waitingUsers.front();
+                                clearUserFiles(wu.user);
 
-	int freeSlots = getFreeSlots();
-	if(freeSlots > 0) {
-		freeSlots -= connectingUsers.size();
-		while(!waitingUsers.empty() && freeSlots > 0) {
-            // let's keep him in the connectingList until he asks for a file
-           WaitingUser queuedUser = waitingUsers.front();
-           auto isOnline = queuedUser.user.user->isOnline();
-           if(isOnline) {
-                 clearUserFiles(queuedUser.user);
-                 connectingUsers[queuedUser.user] = GET_TICK();
-                 ClientManager::getInstance()->connect(queuedUser.user, queuedUser.token);
-                 freeSlots--;
-            } else {
-                 clearUserFiles(queuedUser.user);
-            }
-         }
-	}	
+                                if(wu.user.user->isOnline()) {
+                                        connectingUsers[wu.user] = GET_TICK();
+                                        notifyList.push_back(wu);
+                                        freeslots--;
+                                }
+                        }
+                }
+
+        }
+        for(auto it = notifyList.cbegin(); it != notifyList.cend(); ++it)
+                ClientManager::getInstance()->connect((*it).user, (*it).token);
 }
 
 void UploadManager::on(TimerManagerListener::Minute, uint64_t  aTick ) noexcept {

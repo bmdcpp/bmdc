@@ -65,6 +65,8 @@
 #include "recenthub.hh"
 #include "detectiontab.hh"
 #include "AboutConfig.hh"
+#include "exportimport.hh"
+
 #include <boost/algorithm/string/trim.hpp>
 
 using namespace std;
@@ -309,6 +311,8 @@ MainWindow::MainWindow():
 	g_signal_connect(getWidget("RecentHubMenuItem"), "activate", G_CALLBACK(onRecentHubClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("tthitem"), "activate", G_CALLBACK(onTTHFileDialog_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonfile"), "clicked", G_CALLBACK(onTTHFileButton_gui), (gpointer)this);
+	g_signal_connect(getWidget("exportitem"), "activate", G_CALLBACK(onExportItemClicked_gui), (gpointer)this);
+	
 	/**/
 	g_signal_connect(getWidget("searchMenuItem"), "activate", G_CALLBACK(onSearchClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("searchADLMenuItem"), "activate", G_CALLBACK(onSearchADLClicked_gui), (gpointer)this);
@@ -2331,6 +2335,13 @@ void MainWindow::onTransferToggled_gui(GtkWidget *widget, gpointer data)
 void MainWindow::onHashClicked_gui(GtkWidget *widget, gpointer data)
 {
 	WulforManager::get()->openHashDialog_gui();
+}
+
+void MainWindow::onExportItemClicked_gui(GtkWidget *widget, gpointer data)
+{
+	MainWindow *mw = (MainWindow *)data;
+	ExportDialog *h = new ExportDialog(GTK_WINDOW(mw->getContainer()));
+	gint response = h->run();	
 }
 
 void MainWindow::onSearchClicked_gui(GtkWidget *widget, gpointer data)

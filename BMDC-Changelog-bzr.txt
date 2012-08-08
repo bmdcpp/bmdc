@@ -562,4 +562,8 @@ Lock Plugins
 -----r143
 Fix High CPU usage..
 Small Update of QP code..
-----
+----r144
+Update QP,
+Add Export Dialog (under Tools in Menu)
+
+
