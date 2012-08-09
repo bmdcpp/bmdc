@@ -19,8 +19,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef WULFOR_TREE_VIEW_HH
-#define WULFOR_TREE_VIEW_HH
+#ifndef _TREE_VIEW_HH
+#define _TREE_VIEW_HH
 
 #include <gtk/gtk.h>
 #include <cassert>
@@ -90,13 +90,13 @@ class TreeView
 		class Column
 		{
 			public:
-				Column(): title("") ,id(0), gtype(G_TYPE_INVALID), type((TreeView::columnType)0), 
+				Column(): title("") ,id(0), gtype(G_TYPE_INVALID), type((TreeView::columnType)0),
 						width(0) , pos(0) , linkedCol(""), linkedTextColor(""), visible(true), renderer(NULL), renderer2(NULL) , column(NULL) { };
-				
+
 				Column(const std::string &title, int id, GType gtype, TreeView::columnType type, int width, const std::string &linkedCol = "") :
 					title(title), id(id), gtype(gtype), type(type), width(width), pos(id), linkedCol(linkedCol),linkedTextColor(""), visible(true),
 					renderer(NULL), renderer2(NULL) , column(NULL)  {};
-				
+
 				Column(const std::string &title, int id, GType gtype, TreeView::columnType type, int width,
 					const std::string &linkedCol, const std::string &linkedTextColor) :
 					title(title),

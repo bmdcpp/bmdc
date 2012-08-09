@@ -313,7 +313,7 @@ void ADLSearchManager::load() {
 					//END
 
 					// Add search to collection
-					if(search.searchString.size() > 0) {
+					if(!search.searchString.empty()) {
 						collection.push_back(search);
 					}
 
@@ -566,25 +566,31 @@ void ADLSearchManager::matchListing(DirectoryListing& aDirList) {
 
 	setUser(aDirList.getUser());
 
+	auto root = aDirList.getRoot();
+
 	DestDirList destDirs;
 	prepareDestinationDirectories(destDirs, aDirList.getRoot(), params);
 	setBreakOnFirst(SETTING(ADLS_BREAK_ON_FIRST));
 
-	string path(aDirList.getRoot()->getName());
-	matchRecurse(destDirs, aDirList.getRoot(), path);
+	string path(root->getName());
+	matchRecurse(destDirs, aDirList, root, path);
 
-	finalizeDestinationDirectories(destDirs, aDirList.getRoot());
+	finalizeDestinationDirectories(destDirs, root);
 }
 
-void ADLSearchManager::matchRecurse(DestDirList &aDestList, DirectoryListing::Directory* aDir, string &aPath) {
-	for(DirectoryListing::Directory::Iter dirIt = aDir->directories.begin(); dirIt != aDir->directories.end(); ++dirIt) {
+void ADLSearchManager::matchRecurse(DestDirList& aDestList, DirectoryListing& filelist, DirectoryListing::Directory* aDir, string& aPath) {
+	for(auto dirIt = aDir->directories.begin();dirIt != aDir->directories.end();++dirIt) {
+		if(filelist.getAbort()) { throw Exception(); }
 		string tmpPath = aPath + "\\" + (*dirIt)->getName();
-		matchesDirectory(aDestList, *dirIt, tmpPath);
-		matchRecurse(aDestList, *dirIt, tmpPath);
+		matchesDirectory(aDestList, (*dirIt), tmpPath);
+		matchRecurse(aDestList, filelist,(*dirIt), tmpPath);
 	}
-	for(DirectoryListing::File::Iter fileIt = aDir->files.begin(); fileIt != aDir->files.end(); ++fileIt) {
-		matchesFile(aDestList, *fileIt, aPath);
+
+	for(auto fileIt= aDir->files.begin();fileIt !=aDir->files.end();++fileIt) {
+		if(filelist.getAbort()) { throw Exception(); }
+		matchesFile(aDestList,(*fileIt), aPath);
 	}
+
 	stepUpDirectory(aDestList);
 }
 

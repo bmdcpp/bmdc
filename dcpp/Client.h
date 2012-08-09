@@ -72,7 +72,7 @@ public:
 	std::string getCipherName() const;
 	vector<uint8_t> getKeyprint() const;
 	
-	virtual bool isAdc() { return false; }
+	//virtual bool isAdc() { return false; }
 
 	bool isOp() const { return getMyIdentity().isOp(); }
 
@@ -179,8 +179,8 @@ protected:
 	virtual bool v4only() const = 0;
 private:
 
-	Client(const Client&);
-	Client& operator=(const Client&);
+	//Client(const Client&);
+	//Client& operator=(const Client&);
 
 	string hubUrl;
 	string address;

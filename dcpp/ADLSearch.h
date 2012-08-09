@@ -151,12 +151,12 @@ public:
 	GETSET(bool, breakOnFirst, BreakOnFirst)
 	GETSET(HintedUser, user, User)
 
-	// @remarks Used to add ADLSearch directories to an existing DirectoryListing
-	void matchListing(DirectoryListing& /*aDirList*/);
+	/// @remarks Used to add ADLSearch directories to an existing DirectoryListing
+	void matchListing(DirectoryListing& aDirList);
 
 private:
-	// @internal
-	void matchRecurse(DestDirList& /*aDestList*/, DirectoryListing::Directory* /*aDir*/, string& /*aPath*/);
+	// Recurse through the directories and files of a directory.
+	void matchRecurse(DestDirList& aDestList, DirectoryListing& filelist, DirectoryListing::Directory* aDir, string& aPath);
 	// Search for file match
 	void matchesFile(DestDirList& destDirVector, DirectoryListing::File *currentFile, string& fullPath);
 	// Search for directory match
@@ -165,9 +165,9 @@ private:
 	void stepUpDirectory(DestDirList& destDirVector);
 
 	// Prepare destination directory indexing
-	void prepareDestinationDirectories(DestDirList& destDirVector, DirectoryListing::Directory* root, ParamMap& params);
+	void prepareDestinationDirectories(DestDirList& destDirs, DirectoryListing::Directory* root, ParamMap& params);
 	// Finalize destination directories
-	void finalizeDestinationDirectories(DestDirList& destDirVector, DirectoryListing::Directory* root);
+	void finalizeDestinationDirectories(DestDirList& destDirs, DirectoryListing::Directory* root);
 
 	static string getConfigFile();
 };

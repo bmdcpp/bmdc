@@ -35,8 +35,8 @@ ShellCommand::ShellCommand(char* input, int len, int shell): output(dcpp::Util::
 	char command[strlen(input)+11];//declaration for the final command that will be executed
 	if (shell == 0)
 	{
-		char testscript[strlen(input)+28];
-	    strcpy(testscript,("test -e "+ WulforManager::get()->getPath() + "/extensions/Scripts/").c_str());
+	char testscript[strlen(input)+28];
+	strcpy(testscript,("test -e "+ WulforManager::get()->getPath() + "/extensions/Scripts/").c_str());
         strcat(testscript,input);
 		//test if script exists
 		if (system(testscript)!=0)
@@ -93,21 +93,21 @@ ShellCommand::ShellCommand(char* input, int len, int shell): output(dcpp::Util::
 
 	if (error == 0)
 	{
-			FILE* f;
-			char *out = new char[resultsize];
+		FILE* f;
+		char *out = new char[resultsize];
         	f = popen(command,"r");
         	fgets(out,resultsize,f);
-			output = out;
-			delete out;
+		output = out;
+		delete out;
         	pclose(f);
         	//remove trailing newline
-			//output[strlen(output)-1]='\0';
+		//output[strlen(output)-1]='\0';
 
-			if(dcpp::Util::strnicmp(output,"/me",3) ==0)
-			{
-				thirdPerson = true;
-				output = output.substr(4,std::string::npos);
-			}
+		if(dcpp::Util::strnicmp(output,"/me",3) ==0)
+		{
+			thirdPerson = true;
+			output = output.substr(4,std::string::npos);
+		}
 	}
 }
 

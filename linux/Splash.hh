@@ -1,7 +1,7 @@
 /*
  * Splash.hh
  *
- * Copyright (C) 2011 - 2012 - Mank - Mank1 at seznam dot cz
+ * Copyright (C) 2011 - 2012 - Mank - freedcpp at seznam dot cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 #ifndef BMDC_SPLASH_HH
 #define BMDC_SPLASH_HH
 
@@ -24,7 +25,7 @@ using namespace std;
 class Splash
 {
 	public:
-		Splash() : win(NULL), label(NULL), box(NULL), image(NULL) { }
+		Splash() : Text("") ,win(NULL), label(NULL), box(NULL), image(NULL) { }
 		void show() {
 			win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 			gtk_window_set_decorated(GTK_WINDOW(win),FALSE);
@@ -46,16 +47,17 @@ class Splash
 		}
 		~Splash() {	}
 
-	void setText(const string &text) { if(text.empty())return;
-								Text = text;
-							}
+	void setText(const string &text) { if(text.empty()) return;
+						Text = text;
+						cout << "Loading: " << text << endl;
+					}
 
 	void update() {
 						gtk_label_set_text(GTK_LABEL(label),("Loading ..."+Text).c_str());
 						 while (gtk_events_pending ())
 							gtk_main_iteration_do (FALSE);
-				 }
-	void destroy() {gtk_widget_destroy(win);}
+			 }
+	void destroy() { gtk_widget_destroy(win); }
 
 	private:
 		string Text;

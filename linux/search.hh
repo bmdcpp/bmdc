@@ -19,8 +19,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef WULFOR_SEARCH_HH
-#define WULFOR_SEARCH_HH
+#ifndef _SEARCH_HH
+#define _SEARCH_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
@@ -63,7 +63,7 @@ class Search:
 		// GUI functions
 		void initHubs_gui();
 		void addHub_gui(std::string name, std::string url);
-		void modifyHub_gui(std::string name, std::string url);
+		void modifyHub_gui(std::string name, std::string url, bool op = TRUE);
 		void removeHub_gui(std::string url);
 		void popupMenu_gui();
 		void setStatus_gui(std::string statusBar, std::string text);
@@ -73,8 +73,9 @@ class Search:
 		void ungroup_gui();
 		void regroup_gui();
 		std::string getGroupingColumn(GroupType groupBy);
-		void modifyHubOp_gui(std::string name, std::string url, bool op);
+
 		void set_Header_tooltip_gui();
+		void columnHeader(int num, std::string name);
 
 		// GUI callbacks
 		static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);
@@ -144,12 +145,12 @@ class Search:
 		UserCommandMenu *userCommandMenu;
 		GroupType previousGrouping;
 		std::unordered_map<std::string, std::vector<dcpp::SearchResultPtr> > results;
-		
+
 		enum
 		{
-			EN_STRING,	
+			EN_STRING,
 		};
-		
+
 		GtkEntryCompletion *completion;
 		GtkListStore *emodel;
 };

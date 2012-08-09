@@ -1,23 +1,23 @@
 //      uploadqueue.cc
-//      
+//
 //      Copyright 2011 - 2012 Mank <freedcpp@seznam.cz>
-//      
+//
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
 //      the Free Software Foundation; either version 2 of the License, or
 //      (at your option) any later version.
-//      
+//
 //      This program is distributed in the hope that it will be useful,
 //      but WITHOUT ANY WARRANTY; without even the implied warranty of
 //      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //      GNU General Public License for more details.
-//      
+//
 //      You should have received a copy of the GNU General Public License
 //      along with this program; if not, write to the Free Software
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //      MA 02110-1301, USA.
-//      
-//      
+//
+//
 
 #include "uploadqueue.hh"
 
@@ -35,8 +35,10 @@ using namespace std;
 using namespace dcpp;
 
 UploadQueue::UploadQueue():
-BookEntry(Entry::UPLOADQUEUE, _("Upload Queue"), "uploadqueue.glade")
+BookEntry(Entry::UPLOADQUEUE, _("Upload Queue"), "uploadqueue.glade"),
+store(NULL), selection(NULL)
 {
+
 	users.setView(GTK_TREE_VIEW(getWidget("viewUsers")));
 	users.insertColumn("User", G_TYPE_STRING, TreeView::ICON_STRING, 100, "Icon");
 	users.insertColumn("File", G_TYPE_STRING, TreeView::STRING, 300);
@@ -44,19 +46,19 @@ BookEntry(Entry::UPLOADQUEUE, _("Upload Queue"), "uploadqueue.glade")
 	users.insertColumn("CID", G_TYPE_STRING, TreeView::STRING, 80);
 	users.insertHiddenColumn("Icon", G_TYPE_STRING);
 	users.finalize();
-	
+
 	store = gtk_list_store_newv(users.getColCount(),users.getGTypes());
 	gtk_tree_view_set_model(users.get(), GTK_TREE_MODEL(store));
 	g_object_unref(store);
-	
+
 	selection = gtk_tree_view_get_selection(users.get());
-	
+
 	g_signal_connect(getWidget("GranSlotItem"), "activate", G_CALLBACK(onGrantSlotItemClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("removeItem"), "activate", G_CALLBACK(onRemoveItem_gui), (gpointer)this);
 	g_signal_connect(getWidget("pmItem"), "activate", G_CALLBACK(onSendPMItemClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("BrowseItem"), "activate", G_CALLBACK(onBrowseItemClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("favoriteItem"), "activate", G_CALLBACK(onFavoriteUserAddItemClicked_gui), (gpointer)this);
-	
+
 	g_signal_connect(users.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
 	g_signal_connect(users.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 	g_signal_connect(users.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
@@ -70,7 +72,7 @@ UploadQueue::~UploadQueue()
 void UploadQueue::show()
 {
 	UploadManager::getInstance()->addListener(this);
-	intilaize_client();	
+	intilaize_client();
 }
 
 void UploadQueue::intilaize_client()
@@ -87,8 +89,8 @@ void UploadQueue::intilaize_client()
 			getParams(*fit,(*uit).user, params);
 			addFile(params, &iter);
 		}
-		
-	}	
+
+	}
 }
 
 void UploadQueue::getParams(const string& file, UserPtr user, StringMap &params)
@@ -109,7 +111,7 @@ void UploadQueue::addFile(StringMap &params,GtkTreeIter *iter)
 				users.col("Hub") , params["hub"].c_str(),
 				users.col("CID"), params["CID"].c_str(),
 				users.col("Icon"), "bmdc-normal",
-				-1);	
+				-1);
 	mapUsers.insert(MapUsers::value_type(params["CID"], *iter));
 }
 
@@ -124,8 +126,8 @@ void UploadQueue::AddFile_gui(StringMap params)
 		gtk_tree_model_get(GTK_TREE_MODEL(store),&iter,
 								1,&file,-1);
 		params["file"] += string(file);
-	
-	}	
+
+	}
 	addFile(params,&iter);
 }
 
@@ -136,8 +138,8 @@ void UploadQueue::removeUser(string cid)
 	if(it != mapUsers.end())
 	{
 		iter = it->second;
-		gtk_list_store_remove(store,&iter);	
-		mapUsers.erase(it);	
+		gtk_list_store_remove(store,&iter);
+		mapUsers.erase(it);
 
 	}
 }
@@ -346,7 +348,7 @@ void UploadQueue::removeUploadFromQueue(const string cid)
 
 void UploadQueue::getFileList_client(const string cid)
 {
-	try {	
+	try {
 		UserPtr ui = ClientManager::getInstance()->findUser(CID(cid));
 		if(ui)
 		{
@@ -355,9 +357,9 @@ void UploadQueue::getFileList_client(const string cid)
 		}
 	}catch(...)
 	{ //... for now ignore it
-	
-	}	
-	
+
+	}
+
 }
 
 void UploadQueue::addFavoriteUser_client(const string cid)

@@ -70,7 +70,7 @@ public:
 
 	string getMySID() { return AdcCommand::fromSID(sid); }
 	
-	virtual bool isAdc() { return true; }
+	//virtual bool isAdc() { return true; }
 
 	static const vector<StringList>& getSearchExts();
 	static StringList parseSearchExts(int flag);
@@ -98,8 +98,8 @@ private:
 
 	AdcHub(const string& aHubURL, bool secure);
 
-	AdcHub(const AdcHub&);
-	AdcHub& operator=(const AdcHub&);
+	//AdcHub(const AdcHub&);
+	//AdcHub& operator=(const AdcHub&);
 	virtual ~AdcHub();
 
 	/** Map session id to OnlineUser */

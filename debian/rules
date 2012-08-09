@@ -12,16 +12,16 @@ build: build-stamp
 build-stamp:
 	dh_testdir
 #	Change to release=1 and uncomment dh_strip below for a release
-	scons release=1 PREFIX=/usr FAKE_ROOT=debian/$(package)
+	scons release=0 PREFIX=/usr FAKE_ROOT=debian/$(package)
 	touch $@
 
-clean: 
+clean:
 	dh_testdir
 	dh_testroot
 	rm -f build-stamp
 	scons -c
 	rm -rf build
-	dh_clean 
+	dh_clean
 
 install: build
 	dh_testdir
@@ -70,4 +70,3 @@ binary-arch: install
 binary: binary-indep binary-arch
 
 .PHONY: build clean binary-indep binary-arch binary install
-

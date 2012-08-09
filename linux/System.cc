@@ -1,5 +1,5 @@
-//		System.cc
-//      Copyright 2011-2012 Mank <Mank1 at seznam dot cz>
+//	System.cc
+//      Copyright 2011-2012 Mank <freedcpp at seznam dot cz>
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -27,21 +27,23 @@ using namespace std;
 using namespace dcpp;
 
 systemlog::systemlog():
-BookEntry(Entry::SYSTEML,_("System Log"),"system.glade")
+BookEntry(Entry::SYSTEML,_("System Log"),"system.glade"),
+sysMark(NULL), buffer(NULL)
 {
-    buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("systextview")));
-    gtk_text_buffer_get_end_iter(buffer, &iter);
-    sysMark = gtk_text_buffer_create_mark(buffer, NULL, &iter, FALSE);
+	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("systextview")));
+	gtk_text_buffer_get_end_iter(buffer, &iter);
+	sysMark = gtk_text_buffer_create_mark(buffer, NULL, &iter, FALSE);
 
-    GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("sysscroll")));
-    g_signal_connect(adjustment, "value_changed", G_CALLBACK(onScroll_gui), (gpointer)this);
-    g_signal_connect(adjustment, "changed", G_CALLBACK(onResize_gui), (gpointer)this);
-    g_signal_connect(getWidget("buttonClear"), "clicked", G_CALLBACK(onClearButton), (gpointer)this);
+	GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("sysscroll")));
+
+	g_signal_connect(adjustment, "value_changed", G_CALLBACK(onScroll_gui), (gpointer)this);
+	g_signal_connect(adjustment, "changed", G_CALLBACK(onResize_gui), (gpointer)this);
+	g_signal_connect(getWidget("buttonClear"), "clicked", G_CALLBACK(onClearButton), (gpointer)this);
 }
 
 systemlog::~systemlog()
 {
-    LogManager::getInstance()->removeListener(this);
+	LogManager::getInstance()->removeListener(this);
 }
 
 void systemlog::add_gui(time_t t,string file)

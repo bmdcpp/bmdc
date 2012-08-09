@@ -1,5 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2010-2012 Mank , freedcpp at seznam dot cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,7 +59,7 @@ void UserCommandMenu::addUser(const string &cid)
 void UserCommandMenu::addIp(const string &ip)
 {
 	ips.clear();
-	ips.push_back(ip);	
+	ips.push_back(ip);
 }
 
 void UserCommandMenu::addFile(const string &cid, const string &name,
@@ -186,7 +187,7 @@ void UserCommandMenu::onUserCommandClick_gui(GtkMenuItem *item, gpointer data)
 	 			params["filesizeshort"] = params["fileSIshort"];
 	 			params["tth"] = params["fileTR"];
 			}
-			
+
 			F4 *func = new F4(ucm, &UserCommandMenu::sendUserCommand_client,
 				i->cid, commandName, hub, params);
 			WulforManager::get()->dispatchClientFunc(func);
@@ -215,11 +216,7 @@ void UserCommandMenu::sendUserCommand_client(string cid, string commandName, str
 		UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
 		if (user)
 		{
-          #ifdef _USELUA
-            if(!ClientManager::ucExecuteLua(uc.getCommand(), params))
-		  #endif
-                ClientManager::getInstance()->userCommand(HintedUser(user, hub), uc, params, true);//NOTE: core 0.762
+                	ClientManager::getInstance()->userCommand(HintedUser(user, hub), uc, params, true);
 		}
 	}
 }
-

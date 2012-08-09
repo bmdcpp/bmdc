@@ -413,15 +413,15 @@ Add Colorize Background in Userlist
 --r99
 Add Support NATPMP
 Remove UPnPManager
-Fix myspell in PrivateMessage´ right click menu 
+Fix myspell in PrivateMessage´ right click menu
 --r100
 added nullptr.h (fixed buidl with gcc 4.5.2)
 Add clicked status of some buttons in toolbar
 Fixed Selections in chats
 Some Others small changes
-Added Pragha Media spam script 
+Added Pragha Media spam script
 ===0.0.2===
----r101 
+---r101
 Threaded Get TTH from file
 ---r102
 Possible set custom font size in BookEntry class (/ws custom-font-size 1/0 for enable/disable and /ws book-font-size for settings itself)
@@ -565,5 +565,7 @@ Small Update of QP code..
 ----r144
 Update QP,
 Add Export Dialog (under Tools in Menu)
-
-
+----r145
+small sync with dcpps
+Another Fixies,
+May Fix one crash

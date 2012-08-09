@@ -343,28 +343,30 @@ void ClientManager::putOnline(OnlineUser* ou) noexcept {
 }
 
 void ClientManager::putOffline(OnlineUser* ou, bool disconnect) noexcept {
-	bool lastUser = false;
+	OnlineIter::difference_type diff = 0;
 	{
 		Lock l(cs);
-		OnlinePair op = onlineUsers.equal_range(ou->getUser()->getCID());
+		auto op = onlineUsers.equal_range(ou->getUser()->getCID());
 		dcassert(op.first != op.second);
-		for(OnlineIter i = op.first; i != op.second; ++i) {
-			OnlineUser* ou2 = i->second;
+		for(auto i = op.first; i != op.second; ++i) {
+			auto ou2 = i->second;
 			if(ou == ou2) {
-				lastUser = (distance(op.first, op.second) == 1);
+				diff = distance(op.first, op.second);
 				onlineUsers.erase(i);
 				break;
 			}
 		}
 	}
 
-	if(lastUser) {
+	if(diff == 1) { //last user
 		UserPtr& u = ou->getUser();
 		u->unsetFlag(User::ONLINE);
 		u->unsetFlag(User::PROTECT);
 		if(disconnect)
 			ConnectionManager::getInstance()->disconnect(u);
 		fire(ClientManagerListener::UserDisconnected(), u);
+	} else if(diff > 1) {
+			fire(ClientManagerListener::UserUpdated(), *ou);
 	}
 }
 
@@ -398,7 +400,7 @@ OnlineUser* ClientManager::findOnlineUser(const CID& cid, const string& hintUrl)
 	if(p.first == p.second) // no user found with the given CID.
 		return 0;
 
-	// ok, hub not private, return a random user that matches the given CID but not the hint.
+	// return a random user that matches the given CID but not the hint.
 	return p.first->second;
 }
 //...@TODO
@@ -451,7 +453,7 @@ void ClientManager::userCommand(const HintedUser& user, const UserCommand& uc, P
 
 void ClientManager::send(AdcCommand& cmd, const CID& cid) {
 	Lock l(cs);
-	OnlineIter i = onlineUsers.find(cid);
+	auto i = onlineUsers.find(cid);
 	if(i != onlineUsers.end()) {
 		OnlineUser& u = *i->second;
 		if(cmd.getType() == AdcCommand::TYPE_UDP && !u.getIdentity().isUdpActive()) {
@@ -492,7 +494,7 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 	SearchResultList l;
 	ShareManager::getInstance()->search(l, aString, aSearchType, aSize, aFileType, aClient, isPassive ? 5 : 10);
 //		dcdebug("Found %d items (%s)\n", l.size(), aString.c_str());
-	if(l.size() > 0) {
+	if(!l.empty()) {
 		if(isPassive) {
 			string name = aSeeker.substr(4);
 			// Good, we have a passive seeker, those are easier...
@@ -505,7 +507,7 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				str += '|';
 			}
 
-			if(str.size() > 0)
+			if(!str.empty())
 				aClient->send(str);
 
 		} else {
@@ -534,7 +536,7 @@ void ClientManager::on(AdcSearch, Client*, const AdcCommand& adc, const CID& fro
 	{
 		Lock l(cs);
 
-		OnlineIter i = onlineUsers.find(from);
+		auto i = onlineUsers.find(from);
 		if(i != onlineUsers.end()) {
 			OnlineUser& u = *i->second;
 			isUdpActive = u.getIdentity().isUdpActive();
@@ -577,7 +579,7 @@ void ClientManager::on(TimerManagerListener::Minute, uint64_t /* aTick */) noexc
 	Lock l(cs);
 
 	// Collect some garbage...
-	UserIter i = users.begin();
+	auto i = users.begin();
 	while(i != users.end()) {
 		if(i->second->unique()) {
 			users.erase(i++);
@@ -787,6 +789,7 @@ void ClientManager::addCheckToQueue(const HintedUser hintedUser, bool filelist) 
 			if(!ou->getChecked(filelist)) {
 				if((filelist && ou->shouldCheckFileList()) || (!filelist && ou->shouldCheckClient())) {
 					addCheck = true;
+					ou->inc();
 				}
 			}
 		}
@@ -804,6 +807,7 @@ void ClientManager::addCheckToQueue(const HintedUser hintedUser, bool filelist) 
 		} catch(...) {
 			//...
 		}
+		ou->dec();
 	}
 }
 

@@ -25,6 +25,8 @@
 #include "DebugManager.h"
 #include "PluginManager.h"
 
+#include "AdcHub.h" // for dynamic_cast
+
 namespace dcpp {
 
 atomic<long> Client::counts[COUNT_UNCOUNTED];
@@ -163,7 +165,7 @@ HubData* Client::getPluginObject() noexcept {
 	pod.ip = pluginString(ip);
 	pod.object = this;
 	pod.port = Util::toInt(port);
-	pod.protocol = isAdc() ? PROTOCOL_ADC : PROTOCOL_NMDC;
+	pod.protocol = dynamic_cast<AdcHub*>(this) ? PROTOCOL_ADC : PROTOCOL_NMDC; // TODO: dynamic_cast not practical if more than two protocols
 	pod.isOp = isOp() ? True : False;
 	pod.isSecure = isSecure() ? True : False;
 

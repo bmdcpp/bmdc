@@ -111,8 +111,8 @@ private:
 
     string salt;
 	// Dummy
-	NmdcHub(const NmdcHub&);
-	NmdcHub& operator=(const NmdcHub&);
+	//NmdcHub(const NmdcHub&);
+	//NmdcHub& operator=(const NmdcHub&);
 
 	void clearUsers();
 public:

@@ -1,5 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2010-2012 Mank , freedcpp at seznam dot cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +45,7 @@ void receiver(const char *link, gpointer data)
 	g_return_if_fail(link != NULL);
 	WulforManager::get()->onReceived_gui(link);
 }
-
+/*
 void callBack(void* x, const std::string& a)
 {
 	std::cout << "Loading: " << a << std::endl;
@@ -52,14 +53,14 @@ void callBack(void* x, const std::string& a)
 	sp->setText(a);
 	sp->update();
 }
-
+*/
 int main(int argc, char *argv[])
 {
 	// Initialize i18n support
 	bindtextdomain(GUI_PACKAGE, GUI_LOCALE_DIR);
 	textdomain(GUI_PACKAGE);
 	bind_textdomain_codeset(GUI_PACKAGE, "UTF-8");
-	
+
 	connection = bacon_message_connection_new(GUI_PACKAGE);
 
 	if (connection != NULL) {
@@ -85,7 +86,7 @@ int main(int argc, char *argv[])
 
 		return 0;
 	}
-	
+
 	if (bacon_message_connection_get_is_server(connection))
 	{
 		dcdebug("bmdc: is server...\n");
@@ -93,13 +94,13 @@ int main(int argc, char *argv[])
 	}
 
 	// Start the DC++ client core
-	dcpp::Util::initialize();//NOTE: core 0.762
+	dcpp::Util::initialize();
 
 	gtk_init(&argc, &argv);
-	
+
 	Splash* sp = new Splash();
 	sp->show();
-	dcpp::startup(callBack, (void*)sp);
+	dcpp::startup([sp](const string& str){ sp->setText(str); sp->update(); } );
 	sp->destroy();
 	delete sp;
 	dcpp::TimerManager::getInstance()->start();
@@ -110,7 +111,7 @@ int main(int argc, char *argv[])
 	WulforSettingsManager::newInstance();
 	signal(SIGPIPE, SIG_IGN);
 	signal(SIGSEGV, printBacktrace);
-	
+
 	WulforManager::start(argc, argv);
 	gdk_threads_enter();
 	gtk_main();
@@ -125,4 +126,3 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
-

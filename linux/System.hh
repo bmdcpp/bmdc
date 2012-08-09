@@ -1,6 +1,6 @@
 //      System.hh
 //
-//      Copyright 2011-2012 Mank <Mank1 at seznam dot cz>
+//      Copyright 2011-2012 Mank <fredcpp at seznam dot cz>
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -39,15 +39,13 @@ class systemlog:
 		virtual void show();
 
 	private:
-		//GUI
-		static void onClearButton(GtkWidget *widget, gpointer data);
 		// Client functions
 		void ini_client();
-		//GUI FCE
+		//Gui functions
 		void add_gui(time_t t,std::string file);
 		static void onScroll_gui(GtkAdjustment *adjustment, gpointer data);
 		static void onResize_gui(GtkAdjustment *adjustment, gpointer data);
-
+		static void onClearButton(GtkWidget *widget, gpointer data);
 		// LogManagerListener
 		virtual void on(dcpp::LogManagerListener::Message, time_t t, const std::string& message) noexcept;
 

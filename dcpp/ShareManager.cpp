@@ -121,7 +121,6 @@ string ShareManager::findRealRoot(const string& virtualRoot, const string& virtu
 				return name;
 			}
 		}
-
 	throw ShareException(UserConnection::FILE_NOT_AVAILABLE);
 }
 
@@ -165,7 +164,7 @@ pair<string, int64_t> ShareManager::toRealWithSize(const string& virtualFile, bo
 		if (!isInSharingHub) {
 			string emptyList = Util::getPath(Util::PATH_USER_CONFIG) + "Emptyfiles.xml.bz2";
 			return make_pair(emptyList, 0);
-		} 
+		}
 		return make_pair(getBZXmlFile(), 0);
 	}
 

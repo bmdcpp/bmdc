@@ -52,12 +52,13 @@ Search::Search():
 	emodel = gtk_list_store_new(1, G_TYPE_STRING);
 	StringTokenizer<string> st(WGETS("last-searchs"),';');
 	GtkTreeIter eiter;
+
 	for(StringIter i = st.getTokens().begin(); i != st.getTokens().end(); ++i)
 	{
 		gtk_list_store_append(emodel, &eiter);
 		gtk_list_store_set(emodel, &eiter, EN_STRING, i->c_str(), -1);
 	}
-	
+
 	gtk_entry_completion_set_model(completion, GTK_TREE_MODEL(emodel));
 
 	// Configure the dialog
@@ -257,7 +258,7 @@ void Search::addHub_gui(string name, string url)
 		-1);
 }
 
-void Search::modifyHub_gui(string name, string url)
+void Search::modifyHub_gui(string name, string url, bool op /*= true*/)
 {
 	GtkTreeIter iter;
 	GtkTreeModel *m = GTK_TREE_MODEL(hubStore);
@@ -268,6 +269,7 @@ void Search::modifyHub_gui(string name, string url)
 		if (url == hubView.getString(&iter, "Url"))
 		{
 			gtk_list_store_set(hubStore, &iter,
+				hubView.col("Search"), op,
 				hubView.col("Name"), name.empty() ? url.c_str() : name.c_str(),
 				hubView.col("Url"), url.c_str(),
 				-1);
@@ -444,14 +446,14 @@ void Search::search_gui()
 	string text = gtk_entry_get_text(GTK_ENTRY(getWidget("SearchEntry")));
 	if (text.empty())
 		return;
-		
+
 	WSET("last-searchs", WGETS("last-searchs") + ";" + text );
 	GtkTreeIter eiter;
 	gtk_list_store_append(emodel, &eiter);
 	gtk_list_store_set(emodel, &eiter,
 							EN_STRING, text.c_str(),
 							-1);
-		
+
 	gboolean valid = gtk_tree_model_get_iter_first(GTK_TREE_MODEL(hubStore), &iter);
  	while (valid)
  	{
@@ -937,7 +939,7 @@ gboolean Search::onSearchEntryKeyPressed_gui(GtkWidget *widget, GdkEventKey *eve
 	{
 		s->search_gui();
 	}
-	
+
 	return FALSE;
 }
 
@@ -1668,7 +1670,7 @@ void Search::onCopyMagnetClicked_gui(GtkMenuItem* item, gpointer data)
 			gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), magnets.c_str(), magnets.length());
 	}
 }
-
+/*
 void Search::modifyHubOp_gui(string name, string url, bool op)
 {
 	GtkTreeIter iter;
@@ -1688,21 +1690,21 @@ void Search::modifyHubOp_gui(string name, string url, bool op)
 		valid = gtk_tree_model_iter_next(m, &iter);
 	}
 }
-
+*/
 void Search::onCheckOp_gui(GtkToggleButton *button, gpointer data)
 {
 	Search *s = (Search *)data;
 	ClientManager::getInstance()->lock();
-	
+
 	ClientManager::ClientList clients = ClientManager::getInstance()->getClients();
-	
+
 	Client *client = NULL;
 	for (auto it = clients.begin(); it != clients.end(); ++it)
 	{
 		client = *it;
 		if (client->isConnected())
 		{
-			s->modifyHubOp_gui(client->getHubName(),client->getHubUrl(),client->getMyIdentity().isOp());
+			s->modifyHub_gui(client->getHubName(),client->getHubUrl(),client->getMyIdentity().isOp());
 		}
 	}
 }
@@ -1902,8 +1904,8 @@ void Search::on(ClientManagerListener::ClientUpdated, Client *client) throw()
 {
 	if (client)
 	{
-		typedef Func2<Search, string, string> F2;
-		F2 *func = new F2(this, &Search::modifyHub_gui, client->getHubName(), client->getHubUrl());
+		typedef Func3<Search, string, string,bool> F3;
+		F3 *func = new F3(this, &Search::modifyHub_gui, client->getHubName(), client->getHubUrl(),TRUE);
 		WulforManager::get()->dispatchGuiFunc(func);
 	}
 }
@@ -2110,9 +2112,29 @@ void Search::selection_changed_result_gui(GtkTreeSelection *selection, GtkWidget
 	gtk_widget_trigger_tooltip_query (tree_view);
 }
 
+void Search::columnHeader(int num, string name)
+{
+	GtkTreeViewColumn *col = gtk_tree_view_get_column (resultView.get(), num);
+	gtk_tree_view_column_set_clickable (col, TRUE);
+	g_object_set (col->button, "tooltip-text", name.c_str(), NULL);
+}
+
 void Search::set_Header_tooltip_gui()//How beter ?
 {
-	GtkTreeViewColumn *column = gtk_tree_view_get_column (resultView.get(), 0);
+	columnHeader(0, "Filename");
+	columnHeader(1, "Nick");
+	columnHeader(2, "Type");
+	columnHeader(3, "Size");
+	columnHeader(4, "Path");
+	columnHeader(5, "Slots");
+	columnHeader(6, "Connection");
+	columnHeader(7, "Hub");
+	columnHeader(8, "Filename");
+	columnHeader(9, "Exact Size");
+	columnHeader(10, "Country");
+	columnHeader(11, "IP");
+	columnHeader(12, "TTH");
+	/*GtkTreeViewColumn *column = gtk_tree_view_get_column (resultView.get(), 0);
 	gtk_tree_view_column_set_clickable (column, TRUE);
 	g_object_set (column->button, "tooltip-text", "Filename", NULL);
 
@@ -2162,6 +2184,6 @@ void Search::set_Header_tooltip_gui()//How beter ?
 
 	GtkTreeViewColumn *column12 = gtk_tree_view_get_column (resultView.get(), 12);
 	gtk_tree_view_column_set_clickable (column12, TRUE);
-	g_object_set (column12->button, "tooltip-text", "TTH", NULL);
-	
-}	
+	g_object_set (column12->button, "tooltip-text", "TTH", NULL);*/
+
+}

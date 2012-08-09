@@ -437,7 +437,7 @@ void AdcHub::sendUDP(const AdcCommand& cmd) noexcept {
 	string port;
 	{
 		Lock l(cs);
-		SIDMap::const_iterator i = users.find(cmd.getTo());
+		auto i = users.find(cmd.getTo());
 		if(i == users.end()) {
 			dcdebug("AdcHub::sendUDP: invalid user\n");
 			return;
@@ -530,7 +530,7 @@ void AdcHub::handle(AdcCommand::RES, AdcCommand& c) noexcept {
 
 void AdcHub::handle(AdcCommand::GET, AdcCommand& c) noexcept {
 	if(c.getParameters().size() < 5) {
-		if(c.getParameters().size() > 0) {
+		if(!c.getParameters().empty()) {
 			if(c.getParam(0) == "blom") {
 				send(AdcCommand(AdcCommand::SEV_FATAL, AdcCommand::ERROR_PROTOCOL_GENERIC,
 					"Too few parameters for blom", AdcCommand::TYPE_HUB));
@@ -957,7 +957,7 @@ void AdcHub::password(const string& pwd) {
 }
 
 static void addParam(StringMap& lastInfoMap, AdcCommand& c, const string& var, const string& value) {
-	StringMapIter i = lastInfoMap.find(var);
+	auto i = lastInfoMap.find(var);
 
 	if(i != lastInfoMap.end()) {
 		if(i->second != value) {

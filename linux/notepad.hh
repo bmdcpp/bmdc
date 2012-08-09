@@ -39,7 +39,6 @@ class notepad:
 		void add_gui(std::string file);
 
 		GtkTextBuffer *buffer;
-		std::string file;
 };
 
 #else

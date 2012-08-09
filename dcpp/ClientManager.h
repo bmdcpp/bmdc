@@ -87,9 +87,8 @@ public:
 	string findHub(const string& ipPort) const;
 	string findHubEncoding(const string& aUrl) const;
 
-	/**
-	* @param priv discard any user that doesn't match the hint.
-	* @return OnlineUser* found by CID and hint; might be only by CID if priv is false.
+	/** Get an OnlineUser object - lock it with lock()!
+	* @return OnlineUser* found by CID, using the hub URL as a hint.
 	*/
 	OnlineUser* findOnlineUser(const HintedUser& user);
 	OnlineUser* findOnlineUser(const CID& cid, const string& hintUrl);

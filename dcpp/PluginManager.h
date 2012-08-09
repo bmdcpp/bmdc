@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2001-2012 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
@@ -96,7 +96,7 @@ public:
 		SettingsManager::getInstance()->removeListener(this);
 	}
 
-	void loadPlugins(void (*f)(void*, const string&), void* p);
+	void loadPlugins(function<void (const string&)> f);
 	bool loadPlugin(const string& fileName, bool isInstall = false);
 	bool isLoaded(const string& guid);
 

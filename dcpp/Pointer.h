@@ -21,7 +21,7 @@
 
 #include <boost/intrusive_ptr.hpp>
 #include <boost/smart_ptr/detail/atomic_count.hpp>
-
+#include <atomic>
 #include <memory>
 #include "noexcept.h"
 
@@ -44,18 +44,22 @@ public:
 	}
 	//END
 
-	bool unique() noexcept {
+	/*bool unique() noexcept {
 		return (ref == 1);
+	}*/
+	bool unique(int val = 1) const noexcept {
+		return (ref.load() <= val);
 	}
 
 protected:
 	intrusive_ptr_base() noexcept : ref(0) { }
-
+	virtual ~intrusive_ptr_base(){ }
 private:
 	friend void intrusive_ptr_add_ref(intrusive_ptr_base* p) { ++p->ref; }
 	friend void intrusive_ptr_release(intrusive_ptr_base* p) { if(--p->ref == 0) { delete static_cast<T*>(p); } }
 
-	boost::detail::atomic_count ref;
+	//boost::detail::atomic_count ref;
+	atomic<long> ref;
 };
 
 struct DeleteFunction {

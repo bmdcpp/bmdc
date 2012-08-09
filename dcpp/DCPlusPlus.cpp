@@ -60,7 +60,7 @@ extern "C" int _nl_msg_cat_cntr;
 
 namespace dcpp {
 
-void startup(void (*f)(void*, const string&), void* p) {
+void startup(function<void (const string&)> f) {
 	// "Dedicated to the near-memory of Nev. Let's start remembering people while they're still alive."
 	// Nev's great contribution to dc++
 	while(1) break;
@@ -117,9 +117,9 @@ void startup(void (*f)(void*, const string&), void* p) {
 	}
 #endif
 
-	auto announce = [&f, &p](const string& str) {
+	auto announce = [&f](const string& str) {
 		if(f)
-			(*f)(p, str);
+			f(str);
 	};
 
 	announce(_("Users"));
@@ -138,35 +138,36 @@ void startup(void (*f)(void*, const string&), void* p) {
 	announce(_("Download Queue"));
 	QueueManager::getInstance()->loadQueue();
 
-	PluginManager::getInstance()->loadPlugins(f, p);
+	PluginManager::getInstance()->loadPlugins(f);
 
 	if(SETTING(GET_USER_COUNTRY)) {
 		announce(_("Country information"));
 		GeoManager::getInstance()->init();
 	}
+
 	announce(_("Detections"));
 	DetectionManager::getInstance()->load();
-	
+
 	RsxUtil::init();
 
 	if(SETTING(ENABLE_AUTOBACKUP)) {
 		BackupManager::getInstance()->createBackup();
 	}
-		
+
 }
 
 void shutdown() {
 	RsxUtil::uinit();
-	
+
 	ExportManager::deleteInstance();
 	RestoreManager::deleteInstance();
-    BackupManager::deleteInstance();
-    PluginManager::getInstance()->unloadPlugins();
+	BackupManager::deleteInstance();
+	PluginManager::getInstance()->unloadPlugins();
 	TimerManager::getInstance()->shutdown();
 	ThrottleManager::getInstance()->shutdown();//..
-	
+
 	HashManager::getInstance()->shutdown();
-	
+
 	ConnectionManager::getInstance()->shutdown();
 	MappingManager::getInstance()->close();
 	GeoManager::getInstance()->close();
@@ -177,9 +178,9 @@ void shutdown() {
 	ClientManager::getInstance()->saveUsers();
 	SettingsManager::getInstance()->save();
 
-    HighlightManager::deleteInstance();
-    DetectionManager::deleteInstance();
-    
+	HighlightManager::deleteInstance();
+	DetectionManager::deleteInstance();
+
 	WindowManager::deleteInstance();
 	GeoManager::deleteInstance();
 	MappingManager::deleteInstance();

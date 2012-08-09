@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2001-2012 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
@@ -62,7 +62,7 @@ PluginInfo::~PluginInfo() {
 	}
 }
 
-void PluginManager::loadPlugins(void (*f)(void*, const string&), void* p) {
+void PluginManager::loadPlugins(function<void (const string&)> f ) {
 	PluginApiImpl::initAPI(dcCore);
 
 	TimerManager::getInstance()->addListener(this);
@@ -72,7 +72,7 @@ void PluginManager::loadPlugins(void (*f)(void*, const string&), void* p) {
 	StringTokenizer<string> st(getPluginSetting("CoreSetup", "Plugins"), ";");
 	for(StringIter i = st.getTokens().begin(); i != st.getTokens().end(); ++i) {
 		if(!loadPlugin(*i) || !f) continue;
-		(*f)(p, Util::getFileName(*i));
+		f(Util::getFileName(*i));
 	}
 }
 
@@ -148,7 +148,7 @@ void PluginManager::unloadPlugins() {
 	string installed;
 	for(pluginList::reverse_iterator i = plugins.rbegin(); i != plugins.rend();) {
 		PluginInfo* plugin = *i;
-		installed.size() ? installed = plugin->getFile() + ";" + installed : installed = plugin->getFile(); 
+		installed.size() ? installed = plugin->getFile() + ";" + installed : installed = plugin->getFile();
 		i = pluginList::reverse_iterator(plugins.erase(i.base()-1));
 		delete plugin;
 	}

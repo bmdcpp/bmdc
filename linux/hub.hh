@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2012 Mank
+ * Copyright © 2010-2012 Mank freedcpp at seznam dot cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef WULFOR_HUB_HH
-#define WULFOR_HUB_HH
+#ifndef BMDC_HUB_HH
+#define BMDC_HUB_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
@@ -110,6 +110,7 @@ class Hub:
 		void insertBBcodeEntry_gui(std::string ch);
 		//BMDC++
 		void set_Header_tooltip_gui();
+		void columnHeader(int num, std::string name);
 
 		// GUI callbacks
 		static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);
@@ -177,7 +178,7 @@ class Hub:
 		static void onUnProtectUserClicked_gui(GtkMenuItem *item , gpointer data);
 		static void onProtectUserClicked_gui(GtkMenuItem *item , gpointer data);
 		static void onRefreshUserListClicked_gui(GtkWidget *wid, gpointer data);
-		
+
 		static void on_setImage_tab(GtkButton *widget, gpointer data);
 		static void onToglleButtonIcon(GtkToggleButton *button, gpointer data);
 		//[colorize userlist
@@ -205,14 +206,14 @@ class Hub:
 		std::string formatAdditionalInfo(const std::string& aIp, bool sIp, bool sCC, bool isPm);
 		gboolean HitIP(std::string &name, std::string& ip);
 		std::string getIcons(const dcpp::Identity& id);
-		
+
 		void getPartialFileList_client(std::string cid);
 
 		void setHubIcon_gui(std::string url);
 		void updateIcons();
 		void removeIgnore_gui(ParamMap params);
 		void SetTabText(gpointer data);
-		
+
 		void setColorRow(std::string cell);
 		void setColorsRows();
 
@@ -296,8 +297,8 @@ class Hub:
 			gchar *output = (gchar *)g_malloc0 (len + 1);
 			return g_utf8_strncpy (output, &string[start], len);
 		}
-		
-};		
+
+};
 #else
 class Hub;
 #endif

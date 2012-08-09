@@ -53,7 +53,7 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 		gtk_widget_modify_font(getWidget("text"), fontDesc);
 		pango_font_description_free(fontDesc);
 	}
-	
+
 	//..set Colors
 	string strcolor = WGETS("background-color-chat");
 	GdkColor color;
@@ -169,14 +169,14 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 
 	// set default select tag (fix error show cursor in neutral space)
 	selectedTag = TagsMap[Tag::TAG_PRIVATE];
-	
+
 	dcpp::ParamMap params;
 	params["hubNI"] = WulforUtil::getHubNames(cid, hubUrl);//NOTE: core 0.762
 	params["hubURL"] = hubUrl;//NOTE: core 0.762
 	params["userCID"] = cid;
 	params["userNI"] = ClientManager::getInstance()->getNicks(CID(cid), hubUrl)[0];//NOTE: core 0.762
 	params["myCID"] = ClientManager::getInstance()->getMe()->getCID().toBase32();
-	
+
 	readLog(LogManager::getInstance()->getPath(LogManager::PM, params)
 		,(unsigned int)SETTING(PM_LAST_LOG_LINES));
 }
@@ -262,13 +262,13 @@ void PrivateMessage::preferences_gui()
 	for (int i = Tag::TAG_FIRST; i < Tag::TAG_LAST; i++)
 	{
 		if(i == Tag::TAG_GENERAL)
-            continue;
-        if(i == Tag::TAG_CHEAT)
+            		continue;
+        	if(i == Tag::TAG_CHEAT)
 			continue;
-		//Todo	
+		//Todo
 		if(i == Tag::TAG_IPADR)
-			continue;	
-		
+			continue;
+
 		getSettingTag_gui(wsm, (Tag::TypeTag)i, fore, back, bold, italic);
 
 		g_object_set(TagsMap[i],
@@ -291,7 +291,7 @@ void PrivateMessage::preferences_gui()
 	{
 		gtk_widget_set_sensitive(getWidget("emotButton"), TRUE);
 	}
-	
+
 	string strcolor = WGETS("background-color-chat");
 	GdkColor color;
 	gdk_color_parse(strcolor.c_str(),&color);
@@ -476,7 +476,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 		gchar *temp = gtk_text_iter_get_text(&tag_start_iter, &tag_end_iter);
 		string country_text;
 		bool isCountryFlag = FALSE;
-		
+
 		if(WGETB("use-highlighting"))
 		{
 			GtkTextTag *tag = gtk_text_tag_table_lookup(gtk_text_buffer_get_tag_table(messageBuffer), temp);
@@ -497,7 +497,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 		{
 			tagName = temp;
 			bool notlink = FALSE;
-						
+
 			if(g_ascii_strncasecmp(tagName.c_str(), "[ccc]", 5) == 0)
             {
                 string::size_type i = tagName.rfind("[/ccc]");
@@ -511,7 +511,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 					}
                 }
             }
-			
+
 			if(!notlink)
 			{
 				if (WulforUtil::isLink(tagName))
@@ -520,15 +520,15 @@ void PrivateMessage::applyTags_gui(const string &line)
 					callback = G_CALLBACK(onHubTagEvent_gui);
 				else if (WulforUtil::isMagnet(tagName))
 					callback = G_CALLBACK(onMagnetTagEvent_gui);
-			}		
+			}
 		}
 
 		g_free(temp);
-		
+
 		if(isCountryFlag)
 		{
             gtk_text_buffer_move_mark(messageBuffer, tag_mark, &tag_end_iter);
-            
+
             if(country_text.length() == 2)
             {
                 GdkPixbuf *buffer = WulforUtil::LoadCountryPixbuf(country_text);
@@ -828,7 +828,7 @@ void PrivateMessage::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag 
 			bold = wsm->getInt("text-url-bold");
 			italic = wsm->getInt("text-url-italic");
 		break;
-		
+
 		case Tag::TAG_HIGHL:
 			fore = wsm->getString("text-high-fore-color");
 			back = wsm->getString("text-high-back-color");
@@ -984,14 +984,14 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		if(PluginManager::getInstance()->onChatCommandPM(HintedUser(new User(CID(pm->cid)),pm->hubUrl),command,false )) {
 			// Plugins, chat commands
 		  return;
-	    }	
-		
+	    }
+
 		if(WulforUtil::checkCommand(command, param, message, status, isThirdPerson))
 		{
 			if(!message.empty())
 				pm->addMessage_gui(message, Msg::MYOWN);
-			
-			if(!status.empty())	
+
+			if(!status.empty())
 				pm->addStatusMessage_gui(status, Msg::STATUS);
 		}
 		else if (command == "clear")
@@ -1076,8 +1076,8 @@ gboolean PrivateMessage::onKeyPress_gui(GtkWidget *widget, GdkEventKey *event, g
 	string text;
 	size_t index;
 
-	if ( ( WGETB("key-hub-with-ctrl") && 
-		((event->keyval == GDK_Up) || (event->keyval == GDK_KP_Up)) && (event->state & GDK_CONTROL_MASK ) ) 
+	if ( ( WGETB("key-hub-with-ctrl") &&
+		((event->keyval == GDK_Up) || (event->keyval == GDK_KP_Up)) && (event->state & GDK_CONTROL_MASK ) )
 		|| (!WGETB("key-hub-with-ctrl") && (event->keyval == GDK_Up || event->keyval == GDK_KP_Up)) )
 	{
 		index = pm->historyIndex - 1;
@@ -1470,12 +1470,12 @@ void PrivateMessage::on(ClientManagerListener::UserDisconnected, const UserPtr& 
 	}
 }
 
-void PrivateMessage::readLog(const string& logPath, const unsigned setting) 
+void PrivateMessage::readLog(const string& logPath, const unsigned setting)
 {
 	if(setting == 0)
 		return;
 	if(logPath.empty())
-		return;	
+		return;
 	//..
 	StringList lines;
 	try {
@@ -1506,7 +1506,7 @@ GtkWidget *PrivateMessage::createmenu()
     string nicks = WulforUtil::getNicks(this->cid, this->hubUrl);
 	GtkWidget *item = getFItem();
 	gtk_menu_item_set_label(GTK_MENU_ITEM(item), nicks.c_str());
-	
+
 	userCommandMenu->cleanMenu_gui();
     userCommandMenu->addUser(cid);
     userCommandMenu->addHub(hubUrl);

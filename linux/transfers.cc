@@ -43,7 +43,8 @@ using namespace std;
 using namespace dcpp;
 
 Transfers::Transfers() :
-	Entry(Entry::TRANSFERS, "transfers.glade")
+	Entry(Entry::TRANSFERS, "transfers.glade"),
+	transferStore(NULL), transferSelection(NULL),  appsPreviewMenu(NULL)
 {
 	// menu
 	g_object_ref_sink(getWidget("transferMenu"));
@@ -102,7 +103,7 @@ Transfers::Transfers() :
 	g_signal_connect(getWidget("removeUserItem"), "activate", G_CALLBACK(onRemoveUserFromQueueClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("forceAttemptItem"), "activate", G_CALLBACK(onForceAttemptClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("closeConnectionItem"), "activate", G_CALLBACK(onCloseConnectionClicked_gui), (gpointer)this);
-	
+
 	g_signal_connect(getWidget("SearchItem"), "activate", G_CALLBACK(onSearchAlternateClicked_gui), (gpointer)this);
 }
 
@@ -383,7 +384,7 @@ void Transfers::onSearchAlternateClicked_gui(GtkMenuItem *item, gpointer data)
 					Search *s = WulforManager::get()->getMainWindow()->addSearch_gui();
 					s->putValue_gui(tth, 0, SearchManager::SIZE_DONTCARE, SearchManager::TYPE_TTH);
 				}
-				
+
 				count++;
 			}
 			while (parent && WulforUtil::getNextIter_gui(GTK_TREE_MODEL(tr->transferStore), &iter, TRUE, FALSE));
@@ -1209,4 +1210,3 @@ void Transfers::on(UploadManagerListener::Failed, Upload* ul, const string& reas
 	F3* f3 = new F3(this, &Transfers::updateTransfer_gui, params, FALSE, Sound::NONE);
 	WulforManager::get()->dispatchGuiFunc(f3);
 }
-

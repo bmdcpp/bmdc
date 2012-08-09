@@ -212,7 +212,7 @@ Settings::Settings(GtkWindow* parent):
 	defaultStringTheme.insert(StringMap::value_type("color-tab-text-bold", "blue"));
 	defaultStringTheme.insert(StringMap::value_type("color-tab-text-urgent", "blue"));
 	defaultIntTheme.insert(IntMap::value_type("colorize-tab-text",1));
-	
+
 	//For Highlighting...
 	isSensitiveHG[0] = isSensitiveHG[1] = isSensitiveHG[2] = isSensitiveHG[3] = FALSE;
 	// Initialize the tabs in the GtkNotebook.
@@ -226,7 +226,7 @@ Settings::Settings(GtkWindow* parent):
 	initBandwidthLimiting_gui(); //NOTE: core 0.762
 	initSearchTypes_gui(); //NOTE: core 0.770
 	initHighlighting_gui();//NOTE: BMDC++
-	initPlugins_gui();
+	initPlugins_gui();//NOTE: BMDC++
 }
 
 Settings::~Settings()
@@ -532,7 +532,7 @@ void Settings::saveSettings_client()
 		sm->set(SettingsManager::LOG_STATUS_MESSAGES, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("logStatusCheckButton"))));
 		sm->set(SettingsManager::LOG_FILELIST_TRANSFERS, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("logFilelistTransfersCheckButton"))));
 		sm->set(SettingsManager::LOG_RAW_CMD, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkraws"))));
-		sm->set(SettingsManager::LOG_FORMAT_RAW, gtk_entry_get_text(GTK_ENTRY(getWidget("entryraws")))); 
+		sm->set(SettingsManager::LOG_FORMAT_RAW, gtk_entry_get_text(GTK_ENTRY(getWidget("entryraws"))));
 	}
 
 	{ // Advanced
@@ -615,7 +615,7 @@ void Settings::addOption_gui(GtkListStore *store, const string &name, SettingsMa
 }
 
 void Settings::addOption_gui(GtkListStore *store, char *name, dcpp::SettingsManager::BoolSetting setting)
-{ 
+{
 	GtkTreeIter iter;
 	gtk_list_store_append(store, &iter);
 	gtk_list_store_set(store, &iter,
@@ -624,8 +624,8 @@ void Settings::addOption_gui(GtkListStore *store, char *name, dcpp::SettingsMana
 		2, (int)setting,
 		3, "",
 		-1);
-	
-	
+
+
 }
 
 
@@ -897,12 +897,12 @@ void Settings::initConnection_gui()
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("socksRadioButton")), TRUE);
 			break;
 	}
-	
+
 	g_signal_connect(getWidget("checkautodet"), "toggled", G_CALLBACK(onToggleAutoDetection), (gpointer)this);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkautodet")), SETTING(AUTO_DETECT_CONNECTION));
-	
+
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("spinReconect")), SETTING(TIME_RECCON));
-	
+
 }
 
 void Settings::onToggleAutoDetection(GtkWidget *widget, gpointer data)
@@ -911,7 +911,7 @@ void Settings::onToggleAutoDetection(GtkWidget *widget, gpointer data)
 	// apply immediately so that ConnectivityManager updates.
 	SettingsManager::getInstance()->set(SettingsManager::AUTO_DETECT_CONNECTION, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)) );
 	ConnectivityManager::getInstance()->fire(ConnectivityManagerListener::SettingChanged());
-	
+
 	gtk_widget_set_sensitive(s->getWidget("table19"),!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
 }
 
@@ -1295,7 +1295,7 @@ void Settings::initAppearance_gui()
 
 			valid = gtk_tree_model_iter_next(m, &treeIter);
 		}
-		
+
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkBoldAuthors")), WGETB("text-bold-autors"));
 		//[BMDC
 		string strcolor = WGETS("background-color-chat");
@@ -1652,7 +1652,7 @@ void Settings::setColorRow(string cell)
 								Settings::makeColor,
 								(gpointer)this,
 								NULL);
-	
+
 }
 
 void Settings::makeColor(GtkTreeViewColumn *column, GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
@@ -1663,51 +1663,51 @@ void Settings::makeColor(GtkTreeViewColumn *column, GtkCellRenderer *cell, GtkTr
 		if(model == NULL)
 			return;
 		if(iter == NULL)
-			return;	
+			return;
 		if( cell == NULL)
 			return;
 		if(column == NULL)
 			return;
-		
+
 		gtk_tree_model_get(model,iter,
 		                     3,&cltype,
 						-1);
 		gchar *a = cltype;
 		//Hub&Bot
 		if ( strcmp(a,"a") == 0)
-		{ 
+		{
 		  color = WGETS("userlist-bg-bot-hub");
 		}//Ops
 		else if ( strcmp(a,"o") == 0)
-		{ 
+		{
 			color = WGETS("userlist-bg-operator");
 		}//Favorite
-		else if ( strcmp(a,"f") == 0) 
-		{ 
+		else if ( strcmp(a,"f") == 0)
+		{
      	   color = WGETS("userlist-bg-favorite");
 		}
 		//Normal
 		else if ( strcmp(a,"n") == 0)
 		{
-			color = WGETS("userlist-bg-normal");	
+			color = WGETS("userlist-bg-normal");
 		}//Pasive
 		else if ( strcmp(a,"p") == 0)
 		{
-			color = WGETS("userlist-bg-pasive");	
+			color = WGETS("userlist-bg-pasive");
 		}//Protected
 		else if (strcmp(a,"r") == 0)
 		{
-			color = WGETS("userlist-bg-protected");	
+			color = WGETS("userlist-bg-protected");
 		}//Ignored
 		else if (strcmp(a,"i") == 0)
 		{
-		    color = WGETS("userlist-bg-ignored");	
+		    color = WGETS("userlist-bg-ignored");
 		}
 		else {
 			color = WGETS("userlist-bg-normal");
 		}
-			
-		g_object_set(cell,"cell-background-set",TRUE,"cell-background",color.c_str(),NULL); 
+
+		g_object_set(cell,"cell-background-set",TRUE,"cell-background",color.c_str(),NULL);
 		g_free(a);
 }
 
@@ -1727,7 +1727,7 @@ void Settings::onSetBackGroundChat(GtkWidget *widget , gpointer data)
 		gtk_color_selection_get_current_color(colorsel, &color);
 		string strcolor = WulforUtil::colorToString(&color);
 		WSET("background-color-chat", strcolor);
-	
+
 		gtk_widget_modify_base(s->getWidget("textViewPreviewStyles"),GTK_STATE_NORMAL,&color);
 		gtk_widget_modify_base(s->getWidget("textViewPreviewStyles"),GTK_STATE_PRELIGHT,&color);
 		gtk_widget_modify_base(s->getWidget("textViewPreviewStyles"),GTK_STATE_ACTIVE,&color);
@@ -1816,13 +1816,13 @@ void Settings::initPlugins_gui()
 	plView.insertColumn("Version", G_TYPE_STRING, TreeView::STRING, 100);
 	plView.insertHiddenColumn("Index", G_TYPE_STRING);
 	plView.finalize();
-	
+
 	plStore = gtk_list_store_newv(plView.getColCount(), plView.getGTypes());
 	gtk_tree_view_set_model(plView.get(), GTK_TREE_MODEL(plStore));
 	g_object_unref(plStore);
 
 	plselection = gtk_tree_view_get_selection(plView.get());
-	
+
 	const auto& list = PluginManager::getInstance()->getPluginList();
 	int j = 0;
     for(auto i = list.cbegin(), iend = list.cend() ; i != iend; ++i) {
@@ -1836,12 +1836,12 @@ void Settings::initPlugins_gui()
 					 plView.col("Index"), Util::toString(j++).c_str() ,
 					-1);
 	}
-	
+
 	g_signal_connect(getWidget("buttonPLAdd"), "clicked", G_CALLBACK(onAddPluginTo_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonPLrem"), "clicked", G_CALLBACK(onRemPluginFrom_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonPLConfig"), "clicked", G_CALLBACK(onConfigurePlugin_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonAbout"), "clicked", G_CALLBACK(onAboutPlugin_gui), (gpointer)this);
-	
+
 }
 
 void Settings::onAddPluginTo_gui(GtkWidget *widget, gpointer data)
@@ -1861,10 +1861,10 @@ void Settings::onAddPluginTo_gui(GtkWidget *widget, gpointer data)
 			if(PluginManager::getInstance()->loadPlugin(string(path), true)) {
 				const MetaData& info = PluginManager::getInstance()->getPlugin(idx)->getInfo();
 				s->addToGuiPlg(info);
-	
+
 			}
 		}
-	}		
+	}
 }
 
 void Settings::onRemPluginFrom_gui(GtkWidget *widget, gpointer data)
@@ -1872,7 +1872,7 @@ void Settings::onRemPluginFrom_gui(GtkWidget *widget, gpointer data)
 	Settings *s = (Settings *)data;
 	GtkTreeIter iter;
 	if (gtk_tree_selection_get_selected(s->plselection, NULL, &iter))
-	{	
+	{
 		gint sel = Util::toInt(s->plView.getString(&iter, "Index"));
 		typedef Func1<Settings, int> F1;
 		F1	*func = new F1(s,&Settings::RemovePlg_client,sel);
@@ -1896,21 +1896,21 @@ void Settings::onConfigurePlugin_gui(GtkWidget *widget, gpointer data)
                                  GTK_MESSAGE_ERROR,
                                  GTK_BUTTONS_CLOSE,
                                  "%s Plugin doesnt need configuration", string(p->getInfo().name).c_str()));
-					
-			gtk_dialog_run(dialog);	
-			gtk_widget_destroy(GTK_WIDGET(dialog));											
+
+			gtk_dialog_run(dialog);
+			gtk_widget_destroy(GTK_WIDGET(dialog));
 		}
 	}
 }
 
 void Settings::onAboutPlugin_gui(GtkWidget *widget, gpointer data)
 {
-	Settings *s = (Settings *)data;	
+	Settings *s = (Settings *)data;
 	GtkTreeIter iter;
-	if(gtk_tree_selection_get_selected(s->plselection, NULL, &iter))	
+	if(gtk_tree_selection_get_selected(s->plselection, NULL, &iter))
 	{
 		gint sel = Util::toInt(s->plView.getString(&iter, "Index"));
-		const PluginInfo *p = PluginManager::getInstance()->getPlugin(sel);	
+		const PluginInfo *p = PluginManager::getInstance()->getPlugin(sel);
 		const MetaData& meta = p->getInfo();
 		string about = Util::emptyString;
 		about += "Name: " + string(meta.name) + "\n";
@@ -1924,7 +1924,7 @@ void Settings::onAboutPlugin_gui(GtkWidget *widget, gpointer data)
 		GTK_BUTTONS_CLOSE,
 		about.c_str()));
 		gtk_dialog_run(dialog);
-		gtk_widget_hide(GTK_WIDGET(dialog));	
+		gtk_widget_hide(GTK_WIDGET(dialog));
 	}
 }
 
@@ -1936,7 +1936,7 @@ void Settings::addToGuiPlg(const MetaData &info)
 			     plView.col("Name"),info.name,
 				 plView.col("Description"),info.description,
 				 plView.col("Version"), Util::toString(info.version).c_str(),
-				-1);	
+				-1);
 }
 
 
@@ -3598,7 +3598,7 @@ void Settings::onTextColorForeULClicked_gui(GtkWidget *widget, gpointer data)
 
 void Settings::onBgColorULClicked_gui(GtkWidget *widget, gpointer data)
 {
-	Settings *s = (Settings *)data;	
+	Settings *s = (Settings *)data;
 	s->setBgColorUserList();
 }
 
@@ -3612,7 +3612,7 @@ void Settings::setBgColorUserList()
 		showErrorDialog(_("selected color failed"));
 		return;
 	}
-		
+
 	GdkColor color;
 	string currentcolor = "", currname = "";
 	GtkColorSelection *colorsel = GTK_COLOR_SELECTION(getWidget("colorsel-color_selection"));
@@ -3630,7 +3630,7 @@ void Settings::setBgColorUserList()
 		gtk_color_selection_get_current_color(colorsel, &color);
 
 		string strcolor = WulforUtil::colorToString(&color);
-		
+
 		ColorIters::const_iterator qp = colorsIters.find(_("User ") + currname);
 //		GtkTreeIter qiter = qp->second;
 
@@ -3644,16 +3644,16 @@ void Settings::setBgColorUserList()
 			WSET("userlist-bg-bot-hub",strcolor);
 		else if (currname.find(_("Protect")) != string::npos)
 			WSET("userlist-bg-protected",strcolor);
-		else if (currname.find(_("Pasive")) != string::npos)				
+		else if (currname.find(_("Pasive")) != string::npos)
 			WSET("userlist-bg-pasive",strcolor);
 		else if (currname.find(_("Favorite")) != string::npos)
 			WSET("userlist-bg-favorite",strcolor);
-		else if (currname.find(_("Ignored")) != string::npos)		
+		else if (currname.find(_("Ignored")) != string::npos)
 			WSET("userlist-bg-ignored",strcolor);
 		else;
 		WulforSettingsManager::getInstance()->save();
 		setColorRow(_("Name"));
-	}	
+	}
 }
 
 void Settings::onTextColorDefaultULClicked_gui(GtkWidget *widget, gpointer data)
@@ -3772,12 +3772,12 @@ void Settings::saveUserCommand(UserCommand *uc)
 		ctx |= UserCommand::CONTEXT_SEARCH;
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("commandDialogFilelistMenu"))))
 		ctx |= UserCommand::CONTEXT_FILELIST;
-	
+
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("commandDialogIpMenu"))))
-		ctx |= UserCommand::CONTEXT_IP;	
-	
+		ctx |= UserCommand::CONTEXT_IP;
+
 	string to = Util::emptyString;
-	
+
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("commandDialogSeparator"))))
 	{
 		name = _("Separator");
@@ -3788,7 +3788,7 @@ void Settings::saveUserCommand(UserCommand *uc)
 		name = gtk_entry_get_text(GTK_ENTRY(getWidget("commandDialogName")));
 		command = gtk_entry_get_text(GTK_ENTRY(getWidget("commandDialogCommand")));
 		hub = gtk_entry_get_text(GTK_ENTRY(getWidget("commandDialogHub")));
-		
+
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("commandDialogChat"))))
 		{
 			command = "<%[myNI]> " + NmdcHub::validateMessage(command, FALSE) + "|";
@@ -4388,7 +4388,7 @@ void Settings::onUserCommandEdit_gui(GtkWidget *widget, gpointer data)
 		bool search = uc.getCtx() & UserCommand::CONTEXT_SEARCH;
 		bool filelist = uc.getCtx() & UserCommand::CONTEXT_FILELIST;
 		bool ipItem = uc.getCtx() & UserCommand::CONTEXT_IP;
-		
+
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("commandDialogHubMenu")), hub);
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("commandDialogUserMenu")), user);
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("commandDialogSearchMenu")), search);
@@ -5027,14 +5027,14 @@ void Settings::saveHighlighting(dcpp::StringMap &params, bool add, const string 
 			{
 				pList.erase(it);
 				pList.insert(it,cs);
-				
+
 			}
 		}*/
 		for(unsigned int it = 0;it < pList.size();it++)
 		{
 			pList[it] = cs;
 		}
-		
+
 		addHighlighting_to_gui(cs, false);
 	}
 }
@@ -5044,7 +5044,7 @@ void Settings::addHighlighting_to_gui(ColorSettings &cs, bool add)
 	GtkTreeIter iter;
 	if(add)
 		gtk_list_store_append(hStore,&iter);
-	
+
 	gtk_list_store_set(hStore,&iter,
 				hView.col(_("String")), cs.getMatch().c_str(),
 				hView.col("Bold"), cs.getBold() ? "1" : "0",

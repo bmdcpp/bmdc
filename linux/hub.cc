@@ -334,13 +334,13 @@ Hub::Hub(const string &address, const string &encoding):
 	RecentHubEntry* r = FavoriteManager::getInstance()->getRecentHubEntry(address);
 	if(r == NULL)
 		FavoriteManager::getInstance()->addRecent(entry);
-	
+
 	auto faventry =  FavoriteManager::getInstance()->getFavoriteHubEntry(address);
 	if(faventry)
 	{
 		bool showUserList = faventry->getShowUserList();
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")), showUserList);
-	}	
+	}
 }
 
 void Hub::setColorsRows()
@@ -456,14 +456,14 @@ Hub::~Hub()
 		r->setShared(Util::toString(client->getAvailable()));
 		FavoriteManager::getInstance()->updateRecent(r);
 	}
-	
+
 	bool showUL = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")));
 	auto entry = FavoriteManager::getInstance()->getFavoriteHubEntry(address);
 	if(entry) {
 		entry->setShowUserList(showUL);
 		FavoriteManager::getInstance()->save();
 	}
-	
+
 	disconnect_client();
 
 	// Save the pane position
@@ -507,9 +507,34 @@ void Hub::selection_changed_userlist_gui(GtkTreeSelection *selection, GtkWidget 
 	gtk_widget_trigger_tooltip_query (tree_view);
 }
 
+
+void Hub::columnHeader(int num, string name)
+{
+	GtkTreeViewColumn *col = gtk_tree_view_get_column (nickView.get(), num);
+	gtk_tree_view_column_set_clickable (col, TRUE);
+	g_object_set (col->button, "tooltip-text", name.c_str(), NULL);
+}
+
+
 void Hub::set_Header_tooltip_gui()//How beter ?
 {
-	GtkTreeViewColumn *column = gtk_tree_view_get_column (nickView.get(), 0);
+	columnHeader(0, "Nick");
+	columnHeader(1, "Shared");
+	columnHeader(2, "Description");
+	columnHeader(3, "Tag");
+	columnHeader(4, "Conection");
+	columnHeader(5, "IP");
+	columnHeader(6, "eMail");
+	columnHeader(7, "Country");
+	columnHeader(8, "Exact Share");
+	columnHeader(9, "Slots");
+	columnHeader(10,"Hubs");
+	columnHeader(11,"PK");
+	columnHeader(12,"Cheat");
+	columnHeader(13,"Generator");
+	columnHeader(14,"Support");
+
+	/*GtkTreeViewColumn *column = gtk_tree_view_get_column (nickView.get(), 0);
 	gtk_tree_view_column_set_clickable (column, TRUE);
 	g_object_set (column->button, "tooltip-text", "Nick", NULL);
 
@@ -567,7 +592,7 @@ void Hub::set_Header_tooltip_gui()//How beter ?
 
 	GtkTreeViewColumn *column14 = gtk_tree_view_get_column (nickView.get(), 14);
 	gtk_tree_view_column_set_clickable (column14, TRUE);
-	g_object_set (column14->button, "tooltip-text", "Support", NULL);
+	g_object_set (column14->button, "tooltip-text", "Support", NULL);*/
 }
 
 gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer data)
@@ -627,16 +652,16 @@ void Hub::setStatus_gui(string statusBar, string text)
 			{
 			    statustext.pop();
 			}
-            
+
 			queue<string> tmp = statustext;
             string statusTextOnToolTip;
-            
+
 			while(!tmp.empty())
             {
                 statusTextOnToolTip += "\n" + tmp.front();
                 tmp.pop();
             }
-            
+
 			statustext.push(text);
             statusTextOnToolTip += "\n" + text;
             #if !GTK_CHECK_VERSION(2, 12, 0)
@@ -1023,7 +1048,7 @@ void Hub::nickToChat_gui(const string &nick)
 void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 {
 	PluginManager::getInstance()->onChatDisplay(client, message);
-	
+
 	//see linuxdcpp
 	message = message.c_str();
 	if (message.empty())
@@ -1083,11 +1108,11 @@ gboolean Hub::HitIP(string& name, string &sIp)
     string re = "^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(%.+)?\s*$";
 	bool isOkIpV6 = RegEx::match<string>(name,re);
 	if(isOkIpV6)
-	{	
+	{
 		sIp = name;
 		return isOkIpV6;
 	}
-	
+
 	for(uint32_t i = 0;i < name.length(); i++)
 	{
 		if(!((name[i] == 0) || (name[i] == '.') || ((name[i] >= '0') && (name[i] <= '9')))) {
@@ -1337,7 +1362,7 @@ void Hub::applyTags_gui(const string cid, const string &line)
             {
                 GdkPixbuf *buffer = WulforUtil::LoadCountryPixbuf(country_text);
                 if(buffer != NULL)
-				{	
+				{
 				gtk_text_buffer_delete(chatBuffer, &tag_start_iter, &tag_end_iter);
                 GtkTextChildAnchor *anchor = gtk_text_buffer_create_child_anchor(chatBuffer, &tag_start_iter);
                 GtkWidget *event_box = gtk_event_box_new();
@@ -1354,7 +1379,7 @@ void Hub::applyTags_gui(const string cid, const string &line)
                 #else
                     gtk_tooltips_set_tip(tips, event_box, country_text.c_str(), country_text.c_str());
                 #endif
-				
+
 				}
             }
 
@@ -2323,7 +2348,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		{
 			params = text.substr(separator + 1);
 		}
-		
+
 		if(PluginManager::getInstance()->onChatCommand(hub->client, text )) {
 			// Plugins, chat commands
 		  return;
@@ -2486,7 +2511,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			if(PluginManager::getInstance()->loadPlugin(Text::fromT(param), true)) {
 				const MetaData& info = PluginManager::getInstance()->getPlugin(idx)->getInfo();
 					hub->addMessage_gui("", string("Done, Info **\nName") + string(info.name) + string("\nDesc") + string(info.description) + string("\nVersion") + Util::toString(info.version) + string("\n"), Msg::SYSTEM);
-			
+
 			}
 		}
 		else if(command == "plist") {
@@ -2542,7 +2567,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		} else if ( command == "conn"){
 			auto info = ConnectivityManager::getInstance()->getInformation();
 			hub->addMessage_gui("", info, Msg::SYSTEM);
-		
+
 		}else if (command == "pm")
 		{
 			size_t j = params.find(" ");
@@ -2594,7 +2619,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		{
 			FavoriteManager::getInstance()->addFavoriteIUser(params);
 			hub->addStatusMessage_gui(_("Added Indepent Fav ")+params, Msg::SYSTEM, Sound::NONE);
-		}	
+		}
 		else if (command == "scmyinfo")
 		{
 			if(param == "stop") {
@@ -2615,7 +2640,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
                  hub->addStatusMessage_gui(_("Join/part showing on"), Msg::SYSTEM, Sound::NONE);
             } else {
                  hub->addStatusMessage_gui(_("Join/part showing off"), Msg::SYSTEM, Sound::NONE);
-            }		
+            }
 		}
 		else if ( command == "showfavjoins")
 		{
@@ -2624,7 +2649,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
                  hub->addStatusMessage_gui("Join/part for Fav showing on", Msg::SYSTEM, Sound::NONE);
             } else {
                  hub->addStatusMessage_gui("Join/part for fav showing off", Msg::SYSTEM, Sound::NONE);
-            }		
+            }
 		}
 		// protect command
 		else if (command == "password")
@@ -2646,7 +2671,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			else {
 				hub->addStatusMessage_gui(_("Unknown command '") + text + _("': type /help for a list of available commands"), Msg::SYSTEM, Sound::NONE);
 			}
-			
+
 		}
 
 	}
@@ -2993,7 +3018,7 @@ void Hub::onMagnetPropertiesClicked_gui(GtkMenuItem *item, gpointer data)
 void Hub::onUserListToggled_gui(GtkWidget *widget, gpointer data)
 {
 	Hub *hub = (Hub *)data;
-	
+
 	if (GTK_WIDGET_VISIBLE(hub->getWidget("scrolledwindow2"))) {
 		gtk_widget_hide(hub->getWidget("scrolledwindow2"));
 	} else {
@@ -3359,7 +3384,7 @@ void Hub::addFavoriteUser_gui(ParamMap params)
 		string message = nick + _(" added to favorites list");
 		addStatusMessage_gui(message, Msg::STATUS, Sound::NONE);
 		WulforManager::get()->getMainWindow()->addPrivateStatusMessage_gui(Msg::STATUS, cid, message);
-	
+
 	}
 }
 
@@ -3491,7 +3516,7 @@ void Hub::removeIgnore_gui(ParamMap params)
                                -1);
         }
     }
-	
+
 }
 void Hub::addPrivateMessage_gui(Msg::TypeMsg typemsg, string CID, string cid, string url, string message, bool useSetting)
 {
@@ -3654,14 +3679,14 @@ void Hub::getPartialFileList_client(string cid)
 			LogManager::getInstance()->message(message);
 		}
 	}
-	
+
 	if (!message.empty())
 	{
 		typedef Func3<Hub, string, Msg::TypeMsg, Sound::TypeSound> F3;
 		F3 *func = new F3(this, &Hub::addStatusMessage_gui, message, Msg::SYSTEM, Sound::NONE);
 		WulforManager::get()->dispatchGuiFunc(func);
 	}
-	
+
 }
 
 void Hub::grantSlot_client(string cid)
@@ -3739,7 +3764,7 @@ void Hub::addAsFavorite_client()
 			entry.setPassword(client->getPassword());
 		else
 			entry.setPassword(Util::emptyString);
-		
+
 		entry.setGroup(Util::emptyString);
 
 		FavoriteManager::getInstance()->addFavorite(entry);
@@ -3811,7 +3836,7 @@ string Hub::getIcons(const Identity& id)
 					conn.erase(n, string::npos);
 
 				double us = conn.empty() ? (8 * Util::toInt64(id.get("US")) / 1024 / 1024): Util::toDouble(conn);
-				
+
 				if(us >= 10) {
 					tmp = "ten";
 				} else if(us > 0.1) {
@@ -3876,7 +3901,7 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
         addOperator_gui(params);
     } else
         params.insert(ParamMap::value_type("Type", "U" + id.getNick()));
-	
+
 	if(id.getUser()->isSet(User::PASSIVE))
 	{
 		params.insert(ParamMap::value_type("Type", "P" + id.getNick()));
@@ -3891,8 +3916,8 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 	{
 		params.insert(ParamMap::value_type("Type", "C" + id.getNick()));
 		addFavoriteUser_gui(params);
-	}	
-	
+	}
+
 	if(FavoriteManager::getInstance()->isIgnoredUser(id.getUser()))
      {
 		params.insert(ParamMap::value_type("Type", "I" + id.getNick()));
@@ -3955,7 +3980,7 @@ void Hub::on(QueueManagerListener::Finished, QueueItem *item, const string& dir,
 {
 	if(item->isSet(QueueItem::FLAG_TESTSUR))
 		return;
-		
+
 	typedef Func2<Hub, string, string> F2;
 	string tth = item->getTTH().toBase32();
 
@@ -4290,7 +4315,7 @@ void Hub::on(FavoriteManagerListener::IgnoreUserRemoved, const FavoriteUser &use
 void Hub::on(FavoriteManagerListener::FavoriteIAdded, const string &nick, FavoriteIUser* &user) noexcept
 {
 	ParamMap params;
-	params.insert(ParamMap::value_type("CID", user->getCid()));	
+	params.insert(ParamMap::value_type("CID", user->getCid()));
 	params.insert(ParamMap::value_type("Nick", nick));
 	params.insert(ParamMap::value_type("Type", "C" + nick));
 	Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this,&Hub::addFavoriteUser_gui,params);
@@ -4718,7 +4743,7 @@ void Hub::setHubIcon_gui(string url)
 	{
 	   if(iconshttp.get())
 			return;
-	   
+
 	   iconshttp.reset(new HttpDownload(url,[this] { updateIcons(); }, false));
 	}
 }
@@ -4732,7 +4757,7 @@ void Hub::updateIcons()
 		setIconPixbufs_gui(path);
 		}catch(const FileException& e)
 		{ g_print("%s",e.what());}
-		
+
 	}
 }
 //custom popup menu
@@ -4740,7 +4765,7 @@ GtkWidget *Hub::createmenu()
 {
     GtkWidget *item = getFItem();
 	gtk_menu_item_set_label(GTK_MENU_ITEM(item),address.c_str());
-	
+
 	userCommandMenu1->cleanMenu_gui();
     userCommandMenu1->addUser(client->getMyIdentity().getUser()->getCID().toBase32());
     userCommandMenu1->addHub(client->getHubUrl());

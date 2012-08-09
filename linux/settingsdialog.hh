@@ -54,7 +54,7 @@ class Settings:
 			const std::string &name, const std::string &key1, const std::string &key2,
 			const std::string &key3, const int key4);
 		void addOption_gui(GtkListStore *store, const std::string &name, const std::string &setting);
-		//NOTE BMDC++
+		//NOTE: BMDC++
 		void addOption_gui(GtkListStore *store, const std::string &name, const std::string &setting, const std::string &backSetting);
 		void addPreviewUL_gui(GtkListStore *store, const std::string &name, const std::string &color, const std::string &icon, const std::string &back);
 		//end
@@ -68,7 +68,7 @@ class Settings:
 			bool predefined, const int key);//NOTE: core 0.770
 		void createOptionsView_gui(TreeView &treeView, GtkListStore *&store, const std::string &widgetName);
 		void saveOptionsView_gui(TreeView &treeView, dcpp::SettingsManager *sm);
-		
+
 		void initPersonal_gui();
 		void initConnection_gui();
 		void initDownloads_gui();
@@ -80,7 +80,7 @@ class Settings:
 		void initSearchTypes_gui();//NOTE: core 0.770
 		void initHighlighting_gui();//NOTE: BMDC++
 		void initPlugins_gui();//NOTE: BMDC++
-		
+
 		void addShare_gui(std::string path, std::string name, int64_t size);
 		void selectTextColor_gui(const int select);
 		void selectTextStyle_gui(const int select);
@@ -94,7 +94,7 @@ class Settings:
 		void modSearchType_gui();//NOTE: core 0.770
 		void addExtension_gui(const std::string ext);//NOTE: core 0.770
 		void showExtensionDialog_gui(bool add);//NOTE: core 0.770
-		void setBgColorUserList();
+		void setBgColorUserList();//NOTE: BMDC++
 
 		// GUI callbacks
 		static void onOptionsViewToggled_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
@@ -139,7 +139,7 @@ class Settings:
 		static void onUserCommandTypeRaw_gui(GtkWidget *widget, gpointer data);
 		static void onUserCommandTypeChat_gui(GtkWidget *widget, gpointer data);
 		static void onUserCommandTypePM_gui(GtkWidget *widget, gpointer data);
-				
+
 		static gboolean onUserCommandKeyPress_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static void onCertificatesPrivateBrowseClicked_gui(GtkWidget *widget, gpointer data);
 		static void onCertificatesFileBrowseClicked_gui(GtkWidget *widget, gpointer data);
@@ -236,7 +236,7 @@ class Settings:
 			toolbarView, extensionView, searchTypeView, userListNames, userListPreview, hView, plView;
 		GtkTextBuffer *textStyleBuffer;
 		GtkTreeSelection *selection,*plselection;
-		
+
 		typedef std::map<std::string, int> IntMap;
 		typedef std::map<std::string, std::string> StringMap;
 		typedef std::map<std::string, GtkTreeIter> ColorIters;
@@ -257,7 +257,7 @@ class Settings:
 		void set(const std::string &key, const std::string &value);
 		void applyIconsTheme(bool useDefault = FALSE);
 		void applyTextTheme(bool useDefault = FALSE);
-		
+
 		dcpp::ColorList pList;
 		gboolean isSensitiveHG[4];
 		void setColorRow(std::string cell);
