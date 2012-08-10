@@ -569,3 +569,6 @@ Add Export Dialog (under Tools in Menu)
 small sync with dcpps
 Another Fixies,
 May Fix one crash
+----r146
+Add /imdb [param] and /g /google [param] for search in default browser/application on Google/imdb
+Few sync with dcpp

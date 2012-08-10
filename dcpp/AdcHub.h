@@ -51,7 +51,7 @@ public:
 	virtual void refreshuserlist(bool);
 	//Plugins...
 	virtual void emulateCommand(const string& cmd) { dispatch(cmd); }
-	
+
 	void getUserList(OnlineUserList& list) const {
 		Lock l(cs);
 		for(SIDMap::const_iterator i = users.begin(); i != users.end(); i++) {
@@ -69,8 +69,6 @@ public:
 	virtual void send(const AdcCommand& cmd);
 
 	string getMySID() { return AdcCommand::fromSID(sid); }
-	
-	//virtual bool isAdc() { return true; }
 
 	static const vector<StringList>& getSearchExts();
 	static StringList parseSearchExts(int flag);
@@ -98,8 +96,6 @@ private:
 
 	AdcHub(const string& aHubURL, bool secure);
 
-	//AdcHub(const AdcHub&);
-	//AdcHub& operator=(const AdcHub&);
 	virtual ~AdcHub();
 
 	/** Map session id to OnlineUser */

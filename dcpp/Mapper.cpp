@@ -31,7 +31,7 @@ const char* Mapper::protocols[PROTOCOL_LAST] = {
 };
 
 Mapper::Mapper(string&& localIp) :
-localIp(std::forward<string>(localIp))
+localIp(move(localIp))
 {
 }
 

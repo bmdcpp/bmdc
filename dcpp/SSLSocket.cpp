@@ -68,7 +68,7 @@ bool SSLSocket::waitConnected(uint32_t millis) {
 void SSLSocket::accept(const Socket& listeningSocket) {
 	Socket::accept(listeningSocket);
 
-	//waitAccepted(0);
+	waitAccepted(0);
 }
 
 bool SSLSocket::waitAccepted(uint32_t millis) {

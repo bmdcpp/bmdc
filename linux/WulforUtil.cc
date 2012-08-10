@@ -79,7 +79,10 @@ string("/away\t\t\t\t") + _("Set away mode\n") +
 +"/alias list \t\t" + _("List Aliases\n") +
 +"/alias purge ::A\t\t" + _("remove Aliases A\n") +
 +"/alias A::uname -a\t\t" + _("add alias A with uname -a exec\n") +
-+"/A\t\t\t\t"+ _("Execution of alias A\n")
++"/A\t\t\t\t"+ _("Execution of alias A\n") +
++"/g\t\t\t\t"+ _("Search on Google\n")+
++"/google\t"+ _("Search on Google\n")+
++"/imdb\t\t\t\t"+ _("Search on imdb\n")
 ;
 
 const char* WulforUtil::CountryNames[] = {
@@ -966,7 +969,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			y = sysinfo(&sys);
 			if(y != 0)
 				dcdebug("Failed on sysinfo");
-			
+
 			unsigned long toram = sys.totalram * sys.mem_unit/1024;
 			unsigned long uram = sys.freeram * sys.mem_unit/1024;
 			const long minute = 60;
@@ -990,8 +993,18 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 					+ "-="+ getStatsForMem()+" =-\n";
 
 	}
+	else if ( cmd == "g" || cmd == "google"){
+	  if(param.empty())
+		status = _("Specify a search string");
+	   else
+		openURI("http://www.google.com/search?q=" + param);
+	}else if ( cmd == "imdb"){
+	  if(param.empty())
+		status = _("Specify a search string");
+	   else
+		openURI("http://www.imdb.com/find?q=" + param);
 	/// "Now Playing" spam // added by curse and Irene
-	else if (cmd == "amar")
+	}else if (cmd == "amar")
 	{
 		ShellCommand s((char *)"amarok-now-playing.sh");
 		//test if script is in the right directory and set executable and if so run it
@@ -1563,7 +1576,7 @@ string WulforUtil::getStatsForMem() {
 					}
 
 					fclose(fp);
-					
+
 					if(memhwm.size() != 0 && memrss.size() != 0) {
 						tmp+=" Mem usage (Peak): "+memrss+ " ("+memhwm+") =-\n";
 					} else if(memrss.size() != 0) {
@@ -1581,4 +1594,4 @@ string WulforUtil::getStatsForMem() {
 					}
 			}
 			return tmp;
-}			
+}

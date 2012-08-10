@@ -48,7 +48,7 @@ public:
 	template<typename T> void addMapper() {
 #ifndef _MSC_VER
 		mappers.emplace_back(T::name, [](string&& localIp) {
-			return new T(std::forward<string>(localIp));
+			return new T(move(localIp));
 		});
 #else
 		// the rvalue ref deal is too smart for MSVC; resort to a string copy...

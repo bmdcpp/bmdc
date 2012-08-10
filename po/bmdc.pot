@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-08-09 19:37+0200\n"
+"POT-Creation-Date: 2012-08-10 13:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -544,8 +544,8 @@ msgstr ""
 msgid "Away mode message on/off"
 msgstr ""
 
-#: glade/hub.glade:20 glade/privatemessage.glade:190 linux/WulforUtil.cc:887
-#: linux/WulforUtil.cc:903 linux/mainwindow.cc:2309
+#: glade/hub.glade:20 glade/privatemessage.glade:190 linux/WulforUtil.cc:890
+#: linux/WulforUtil.cc:906 linux/mainwindow.cc:2309
 #: linux/privatemessage.cc:1049
 msgid "Away mode off"
 msgstr ""
@@ -2984,7 +2984,7 @@ msgstr ""
 msgid "*** Available commands:"
 msgstr ""
 
-#: linux/WulforUtil.cc:835
+#: linux/WulforUtil.cc:838
 msgid "*** Info on "
 msgstr ""
 
@@ -3112,7 +3112,7 @@ msgstr ""
 msgid "Address"
 msgstr ""
 
-#: linux/WulforUtil.cc:1152
+#: linux/WulforUtil.cc:1165
 msgid "Aliases not found."
 msgstr ""
 
@@ -3216,7 +3216,7 @@ msgstr ""
 msgid "Away mode on"
 msgstr ""
 
-#: linux/WulforUtil.cc:895
+#: linux/WulforUtil.cc:898
 msgid "Away mode on: "
 msgstr ""
 
@@ -3248,27 +3248,27 @@ msgstr ""
 msgid "CMD"
 msgstr ""
 
-#: linux/WulforUtil.cc:355
+#: linux/WulforUtil.cc:358
 msgid "CP1250 (Central Europe)"
 msgstr ""
 
-#: linux/WulforUtil.cc:364
+#: linux/WulforUtil.cc:367
 msgid "CP1251 (Cyrillic)"
 msgstr ""
 
-#: linux/WulforUtil.cc:354
+#: linux/WulforUtil.cc:357
 msgid "CP1252 (Western Europe)"
 msgstr ""
 
-#: linux/WulforUtil.cc:365
+#: linux/WulforUtil.cc:368
 msgid "CP1256 (Arabic)"
 msgstr ""
 
-#: linux/WulforUtil.cc:366
+#: linux/WulforUtil.cc:369
 msgid "CP1257 (Baltic)"
 msgstr ""
 
-#: linux/WulforUtil.cc:362
+#: linux/WulforUtil.cc:365
 msgid "CP949 (Korean)"
 msgstr ""
 
@@ -3321,7 +3321,7 @@ msgstr ""
 msgid "Command name already exists"
 msgstr ""
 
-#: linux/WulforUtil.cc:876
+#: linux/WulforUtil.cc:879
 msgid "Command send: "
 msgstr ""
 
@@ -3735,7 +3735,7 @@ msgstr ""
 msgid "Full tree does not match TTH root"
 msgstr ""
 
-#: linux/WulforUtil.cc:367
+#: linux/WulforUtil.cc:370
 msgid "GB18030 (Chinese)"
 msgstr ""
 
@@ -3838,23 +3838,23 @@ msgstr ""
 msgid "IP address"
 msgstr ""
 
-#: linux/WulforUtil.cc:360
+#: linux/WulforUtil.cc:363
 msgid "ISO-2022-JP (Japanese)"
 msgstr ""
 
-#: linux/WulforUtil.cc:356
+#: linux/WulforUtil.cc:359
 msgid "ISO-8859-2 (Central Europe)"
 msgstr ""
 
-#: linux/WulforUtil.cc:357
+#: linux/WulforUtil.cc:360
 msgid "ISO-8859-7 (Greek)"
 msgstr ""
 
-#: linux/WulforUtil.cc:358
+#: linux/WulforUtil.cc:361
 msgid "ISO-8859-8 (Hebrew)"
 msgstr ""
 
-#: linux/WulforUtil.cc:359
+#: linux/WulforUtil.cc:362
 msgid "ISO-8859-9 (Turkish)"
 msgstr ""
 
@@ -3916,7 +3916,7 @@ msgstr ""
 msgid "Invalid extension: "
 msgstr ""
 
-#: linux/WulforUtil.cc:944
+#: linux/WulforUtil.cc:947
 msgid "Invalid number of slots"
 msgstr ""
 
@@ -3940,7 +3940,7 @@ msgstr ""
 msgid "Join/part showing on"
 msgstr ""
 
-#: linux/WulforUtil.cc:363
+#: linux/WulforUtil.cc:366
 msgid "KOI8-R (Cyrillic)"
 msgstr ""
 
@@ -4104,7 +4104,7 @@ msgstr ""
 msgid "Not found user: "
 msgstr ""
 
-#: linux/WulforUtil.cc:248
+#: linux/WulforUtil.cc:251
 msgid "Offline"
 msgstr ""
 
@@ -4278,7 +4278,7 @@ msgstr ""
 msgid "Running..."
 msgstr ""
 
-#: linux/WulforUtil.cc:361
+#: linux/WulforUtil.cc:364
 msgid "SJIS (Japanese)"
 msgstr ""
 
@@ -4289,6 +4289,14 @@ msgstr ""
 #: linux/searchspy.cc:292 linux/searchspy.cc:308 linux/searchspy.cc:467
 #: linux/searchspy.cc:532 linux/searchspy.cc:565
 msgid "Search String"
+msgstr ""
+
+#: linux/WulforUtil.cc:83 linux/WulforUtil.cc:84
+msgid "Search on Google\n"
+msgstr ""
+
+#: linux/WulforUtil.cc:85
+msgid "Search on imdb\n"
 msgstr ""
 
 #: linux/hub.cc:4706
@@ -4346,7 +4354,7 @@ msgstr ""
 msgid "Set Slots to n\n"
 msgstr ""
 
-#: linux/WulforUtil.cc:951
+#: linux/WulforUtil.cc:954
 msgid "Set Slots to:"
 msgstr ""
 
@@ -4496,6 +4504,10 @@ msgstr ""
 msgid "Source too slow"
 msgstr ""
 
+#: linux/WulforUtil.cc:998 linux/WulforUtil.cc:1003
+msgid "Specify a search string"
+msgstr ""
+
 #: linux/finishedtransfers.cc:60 linux/finishedtransfers.cc:81
 #: linux/finishedtransfers.cc:190 linux/finishedtransfers.cc:234
 #: linux/transfers.cc:65 linux/transfers.cc:601 linux/transfers.cc:637
@@ -4570,7 +4582,7 @@ msgstr ""
 msgid "System message"
 msgstr ""
 
-#: linux/WulforUtil.cc:368
+#: linux/WulforUtil.cc:371
 msgid "TIS-620 (Thai)"
 msgstr ""
 
@@ -4657,7 +4669,7 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
-#: linux/WulforUtil.cc:353
+#: linux/WulforUtil.cc:356
 msgid "UTF-8 (Unicode)"
 msgstr ""
 
@@ -4673,7 +4685,7 @@ msgstr ""
 msgid "Unable to load file list: Invalid file list name"
 msgstr ""
 
-#: linux/WulforUtil.cc:461 linux/WulforUtil.cc:463 linux/downloadqueue.cc:1291
+#: linux/WulforUtil.cc:464 linux/WulforUtil.cc:466 linux/downloadqueue.cc:1291
 #: linux/downloadqueue.cc:1292
 msgid "Unknown"
 msgstr ""
@@ -5086,7 +5098,7 @@ msgstr ""
 msgid "loading error"
 msgstr ""
 
-#: linux/WulforUtil.cc:912
+#: linux/WulforUtil.cc:915
 msgid "project home: "
 msgstr ""
 
