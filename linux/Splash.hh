@@ -19,6 +19,8 @@
 
 #ifndef BMDC_SPLASH_HH
 #define BMDC_SPLASH_HH
+#include <iostream>
+#include <gtk/gtk.h>
 
 using namespace std;
 

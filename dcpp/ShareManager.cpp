@@ -601,7 +601,7 @@ ShareManager::DirList::const_iterator ShareManager::getByVirtual(const string& v
 
 int64_t ShareManager::getShareSize(const string& realPath) const noexcept {
 	Lock l(cs);
- 	dcassert(realPath.size()>0);
+ 	//dcassert(realPath.size()>0);
 	StringMap::const_iterator i = shares.find(realPath);
 
 	if(i != shares.end()) {

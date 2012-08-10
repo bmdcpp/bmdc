@@ -3391,7 +3391,7 @@ void Settings::onAddShare_gui(GtkWidget *widget, gpointer data)
 		gchar *temp = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(s->getWidget("dirChooserDialog")));
 		if (temp)
 		{
-			string path = Text::toUtf8(temp);
+			string path = temp;
 			g_free(temp);
 
 			if (path[path.length() - 1] != PATH_SEPARATOR)
