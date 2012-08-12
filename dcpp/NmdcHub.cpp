@@ -81,7 +81,7 @@ OnlineUser& NmdcHub::getUser(const string& aNick) {
 	}
 
 	UserPtr p;
-	if(aNick == settings.getNick()) {
+	if(aNick == get(Nick)) {
 		p = ClientManager::getInstance()->getMe();
 	} else {
 		p = ClientManager::getInstance()->getUser(aNick, getHubUrl());
@@ -95,7 +95,7 @@ OnlineUser& NmdcHub::getUser(const string& aNick) {
 		if(u->getUser() == getMyIdentity().getUser()) {
 			setMyIdentity(u->getIdentity());
 		}
-		
+
 	}
 
 	ClientManager::getInstance()->putOnline(u);
@@ -225,10 +225,10 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 
 			chatMessage.from = &o;
 		}
-		
+
 		if(PluginManager::getInstance()->runHook(HOOK_CHAT_IN, this, message))
 			return;
-			
+
 		fire(ClientListener::Message(), this, chatMessage);
 		return;
 	}
@@ -566,15 +566,15 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				feat.push_back("TTHSearch");
 				feat.push_back("ZPipe0");
 				feat.push_back("SaltPass");
-				//feat.push_back("BotINFO");//test it 
-				
+				//feat.push_back("BotINFO");//test it
+
 				supports(feat);
 			}
 			//send("$BotINFO "+ settings.getNick() +"|");
 			key(CryptoManager::getInstance()->makeKey(lock));
-			OnlineUser& ou = getUser( settings.getNick());
+			OnlineUser& ou = getUser( get(Nick));
 			validateNick(ou.getIdentity().getNick());
-			
+
 		}
 	} else if(cmd == "$Hello") {
 		if(!param.empty()) {
@@ -714,7 +714,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		if(param.size() < j + 2) {
 			return;
 		}
-		
+
 		ChatMessage message = { unescape(param.substr(j + 2)), findUser(fromNick) , &getUser(getMyNick()), findUser(rtNick) };
 
 		if(!message.replyTo || !message.from) {
@@ -737,7 +737,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			message.replyTo = findUser(rtNick);
 			message.from = findUser(fromNick);
 		}
-		
+
 		if(PluginManager::getInstance()->runHook(HOOK_CHAT_PM_IN, &(message.replyTo), &(message.text)))
 			return;
 
@@ -774,7 +774,7 @@ void NmdcHub::checkNick(string& nick) {
                 nick[i] = '_';
 		}
 	}
-}		
+}
 
 void NmdcHub::connectToMe(const OnlineUser& aUser) {
 	checkstate();
@@ -829,17 +829,17 @@ void NmdcHub::myInfo(bool alwaysSend) {
 	} else {
 		uploadSpeed = SETTING(UPLOAD_SPEED);
 	}
-	
+
 	bool gslotf = SETTING(SHOW_FREE_SLOTS_DESC);
     string gslot = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
 
 	string uMin = (SETTING(MIN_UPLOAD_SPEED) == 0) ? Util::emptyString : tmp5 + Util::toString(SETTING(MIN_UPLOAD_SPEED));
 	string myInfoA =
-		"$MyINFO $ALL " + fromUtf8(settings.getNick()) + " " + fromUtf8(escape(gslotf ? gslot + settings.getDescription() : settings.getDescription())) +
+		"$MyINFO $ALL " + fromUtf8(get(Nick)) + " " + fromUtf8(escape(gslotf ? gslot + get(Description) : get(Description))) +
 		tmp1 + VERSIONSTRING + tmp2 + modeChar + tmp3 + getCounts();
 	string myInfoB = tmp4 + Util::toString(SETTING(SLOTS));
 	string myInfoC = uMin +
-		">$ $" + uploadSpeed + "\x01$" + fromUtf8(escape(settings.getEmail())) + '$';
+		">$ $" + uploadSpeed + "\x01$" + fromUtf8(escape(get(Email))) + '$';
 	string share = getHideShare() ? "0" : ShareManager::getInstance()->getShareSizeString();//no share NMDC
 	string myInfoD = share + "$|";
 	// we always send A and C; however, B (slots) and D (share size) can frequently change so we delay them if needed
@@ -927,7 +927,7 @@ void NmdcHub::privateMessage(const string& nick, const string& message) {
 
 void NmdcHub::privateMessage(const OnlineUser& aUser, const string& aMessage, bool /*thirdPerson*/) {
 	checkstate();
-	
+
 	if(PluginManager::getInstance()->runHook(HOOK_CHAT_PM_OUT, (void*)&(aUser), (void*)&(aMessage)))
 		return;
 

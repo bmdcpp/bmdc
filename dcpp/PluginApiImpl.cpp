@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2001-2012 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
@@ -35,7 +35,7 @@
 #include "FavoriteManager.h"
 #include "QueueManager.h"
 #include "ClientManager.h"
-
+#include "HubSettings.h"
 #include "UserConnection.h"
 #include "Client.h"
 
@@ -67,7 +67,7 @@ static const char* hookGuids[IMPL_HOOKS_COUNT] = {
 
 	HOOK_UI_CREATED,
 	HOOK_UI_CHAT_DISPLAY,
-	HOOK_UI_PROCESS_CHAT_CMD		
+	HOOK_UI_PROCESS_CHAT_CMD
 };
 
 // lambdas are not used because certain compiler is being a pain about it (for now)
@@ -342,7 +342,7 @@ ConfigValuePtr PluginApiImpl::copyData(const ConfigValuePtr val) {
 			auto num = (ConfigBoolPtr)val;
 			auto copy = (ConfigBoolPtr)malloc(sizeof(ConfigBool));
 			memcpy(copy, num, sizeof(ConfigBool));
-			
+
 			return (ConfigValuePtr)copy;
 		}
 		case CFG_TYPE_INT64: {
@@ -537,7 +537,7 @@ HubDataPtr PluginApiImpl::addHub(const char* url, const char* nick, const char* 
 		Client* client = ClientManager::getInstance()->getClient(url);
 		client->connect();
 		client->setPassword(password);
-		client->settings.setNick(nick);
+		client->get(HubSettings::Nick) = string(nick);
 
 		// check that socket is waitting for connection...
 		if(client->isConnected()) {

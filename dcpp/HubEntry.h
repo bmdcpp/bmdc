@@ -70,17 +70,18 @@ public:
 class FavoriteHubEntry: public HubSettings {
 public:
 	FavoriteHubEntry() : encoding(Text::systemCharset), showUserList(true) { }
-	
+
 	FavoriteHubEntry(const HubEntry& rhs) : name(rhs.getName()), server(rhs.getServer()),
 		hubDescription(rhs.getDescription()), encoding(Text::systemCharset), autoConnect(false), showUserList(true),tabText(Util::emptyString) , tabIconStr(Util::emptyString) { }
-	
-	FavoriteHubEntry(const FavoriteHubEntry& rhs) : 
-		name(rhs.getName()), server(rhs.getServer()), hubDescription(rhs.getDescription()),
+
+	FavoriteHubEntry(const FavoriteHubEntry& rhs) :
+		name(rhs.getName()), server(rhs.getServer()), hubDescription(rhs.getHubDescription()),
 		password(rhs.getPassword()), encoding(rhs.getEncoding()), group(rhs.getGroup()), hideShare(rhs.hideShare),
 		autoConnect(rhs.autoConnect), ip(rhs.ip), mode(rhs.mode), chatExtraInfo(rhs.chatExtraInfo),
 		protectUsers(rhs.protectUsers),	checkAtConn(rhs.checkAtConn), checkClients(rhs.checkClients), checkFilelists(rhs.checkFilelists),  checkMyInfo(rhs.checkMyInfo),
 		showUserList(rhs.showUserList), tabText(rhs.tabText), tabIconStr(rhs.tabIconStr)
 		 { }
+
 	~FavoriteHubEntry() { }
 
 	GETSET(string, name, Name);
@@ -100,9 +101,9 @@ public:
 	GETSET(bool, checkClients, CheckClients);
 	GETSET(bool, checkFilelists, CheckFilelists);
 	GETSET(bool, checkMyInfo,CheckMyInfo);
-	
+
 	GETSET(bool, showUserList , ShowUserList);
-	
+
 	GETSET(string, tabText, TabText);
 	GETSET(string, tabIconStr, TabIconStr);
 

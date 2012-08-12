@@ -21,37 +21,75 @@
 
 namespace dcpp {
 
+const string HubSettings::stringNames[StringCount] = {
+	"Nick", "UserDescription", "Email", "UserIp" // not "Description" for compat with prev fav hub lists
+};
+const string HubSettings::boolNames[BoolCount] = {
+	"ShowJoins", "FavShowJoins", "LogChat", "Connect"
+};
+
+namespace {
+inline bool defined(const string& s) { return !s.empty(); }
+inline bool defined(tribool b) { return !indeterminate(b); }
+}
+
+HubSettings::HubSettings() {
+	// tribools default to false; init them to an indeterminate value.
+	for(int i = (int)ShowJoins; i>Connect; ++i) {
+		bools[i] = indeterminate;
+	}
+}
+
+const string& HubSettings::get(HubStrSetting setting) const {
+	return strings[setting - HubStrFirst];
+}
+
+const tribool& HubSettings::get(HubBoolSetting setting) const {
+	return bools[setting - HubBoolFirst];
+}
+
+string& HubSettings::get(HubStrSetting setting) {
+	return strings[setting - HubStrFirst];
+}
+
+tribool& HubSettings::get(HubBoolSetting setting) {
+	return bools[setting - HubBoolFirst];
+}
+
 void HubSettings::merge(const HubSettings& sub) {
-	if(!sub.nick.empty()) { nick = sub.nick; }
-	if(!sub.description.empty()) { description = sub.description; }
-	if(!sub.email.empty()) { email = sub.email; }
-	if(!indeterminate(sub.showJoins)) { showJoins = sub.showJoins; }
-	if(!indeterminate(sub.favShowJoins)) { favShowJoins = sub.favShowJoins; }
-	//[BMDC++
-	connect = sub.connect;
-	logChat = sub.logChat;
+	for(uint8_t i = 0; i < StringCount; ++i) {
+		if(defined(sub.strings[i])) {
+			strings[i] = sub.strings[i];
+		}
+	}
+	for(uint8_t i = 0; i < BoolCount; ++i) {
+		if(defined(sub.bools[i])) {
+			bools[i] = sub.bools[i];
+		}
+	}
 }
 
 void HubSettings::load(SimpleXML& xml) {
-	nick = xml.getChildAttrib("Nick");
-	description = xml.getChildAttrib("UserDescription"); // not "Description" for compat with prev fav hub lists
-	email = xml.getChildAttrib("Email");
-	showJoins = to3bool(xml.getIntChildAttrib("ShowJoins"));
-	favShowJoins = to3bool(xml.getIntChildAttrib("FavShowJoins"));
-	//[BMDC++
-	connect = xml.getBoolChildAttrib("Connect");
-	logChat = xml.getBoolChildAttrib("LogChat");
+	for(uint8_t i = 0; i < StringCount; ++i) {
+		strings[i] = xml.getChildAttrib(stringNames[i]);
+	}
+	for(uint8_t i = 0; i < BoolCount; ++i) {
+		bools[i] = to3bool(xml.getIntChildAttrib(boolNames[i]));
+	}
+
 }
 
 void HubSettings::save(SimpleXML& xml) const {
-	xml.addChildAttrib("Nick", nick);
-	xml.addChildAttrib("UserDescription", description);
-	xml.addChildAttrib("Email", email);
-	xml.addChildAttrib("ShowJoins", toInt(showJoins));
-	xml.addChildAttrib("FavShowJoins", toInt(favShowJoins));
-	//[BMDC]
-	xml.addChildAttrib("Connect", connect);
-	xml.addChildAttrib("LogChat", logChat);
+	for(uint8_t i = 0; i < StringCount; ++i) {
+		if(defined(strings[i])) {
+			xml.addChildAttrib(stringNames[i], strings[i]);
+		}
+	}
+	for(uint8_t i = 0; i < BoolCount; ++i) {
+		if(defined(bools[i])) {
+			xml.addChildAttrib(boolNames[i], toInt(bools[i]));
+		}
+	}
 }
 
 } // namespace dcpp

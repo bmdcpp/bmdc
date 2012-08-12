@@ -120,7 +120,7 @@ void PublicHubs::buildHubList_gui()
 {
  	StringList list = FavoriteManager::getInstance()->getHubLists();
 	int selected = FavoriteManager::getInstance()->getSelectedHubList();
- 
+
 	for (StringList::iterator it = list.begin(); it != list.end(); ++it)
 	{
 		GtkTreeIter iter;
@@ -299,9 +299,9 @@ void PublicHubs::onAddFav_gui(GtkMenuItem *item, gpointer data)
 		entry.setName(name);
 		entry.setServer(address);
 		entry.setHubDescription(description);
-		entry.setNick(SETTING(NICK));
+		entry.get(HubSettings::Nick) = SETTING(NICK);
 		entry.setPassword("");
-		entry.setDescription(SETTING(DESCRIPTION));
+		entry.get(HubSettings::Description) = SETTING(DESCRIPTION);
 
 		typedef Func1<PublicHubs, FavoriteHubEntry> F1;
 		F1 *func = new F1(ph, &PublicHubs::addFav_client, entry);

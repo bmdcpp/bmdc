@@ -851,7 +851,7 @@ void Hub::removeUser_gui(string cid)
 		setStatus_gui("statusUsers", Util::toString(userMap.size()) + _(" Users"));
 		setStatus_gui("statusShared", Util::formatBytes(totalShared));
 
-		if (client->settings.showJoins)
+		if (client->get(HubSettings::ShowJoins))
 		{
 			// Show parts in chat by default
 			string message = nick + _(" has quit hub ") + client->getHubName();
@@ -861,7 +861,7 @@ void Hub::removeUser_gui(string cid)
 			if (order[0] == 'C')//f
 				Notify::get()->showNotify("", message, Notify::FAVORITE_USER_QUIT);
 		}
-		else if (client->settings.favShowJoins && order[0] == 'C')//f
+		else if (client->get(HubSettings::FavShowJoins) && order[0] == 'C')//f
 		{
 			// Only show parts for favorite users
 			string message = nick + _(" has quit hub ") + client->getHubName();
@@ -2554,9 +2554,9 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
              info[_("Hub IP & port")] = hub->client->getIpPort();
              info[_("Online users")] = Util::toString(hub->client->getUserCount()-1);
              info[_("Shared")] = Util::formatBytes(hub->client->getAvailable());
-             info[_("Nick")] = hub->client->settings.getNick();
-             info[_("Description")] = hub->client->settings.getDescription();
-             info[_("Email")] = hub->client->settings.getEmail();
+             info[_("Nick")] = hub->client->get(HubSettings::Nick);
+             info[_("Description")] = hub->client->get(HubSettings::Description);
+             info[_("Email")] = hub->client->get(HubSettings::Email);
              info[_("External / WAN IP")] = hub->client->getFavIp();
              info[_("Encoding")] =  hub->client->getEncoding();
              string text;
@@ -2635,17 +2635,17 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if ( command == "showjoins")
 		{
-			hub->client->settings.showJoins = !hub->client->settings.showJoins;
-            if(hub->client->settings.showJoins) {
-                 hub->addStatusMessage_gui(_("Join/part showing on"), Msg::SYSTEM, Sound::NONE);
-            } else {
-                 hub->addStatusMessage_gui(_("Join/part showing off"), Msg::SYSTEM, Sound::NONE);
-            }
+			hub->client->get(HubSettings::ShowJoins) = !hub->client->get(HubSettings::ShowJoins);
+	            if(hub->client->get(HubSettings::ShowJoins)) {
+        	         hub->addStatusMessage_gui(_("Join/part showing on"), Msg::SYSTEM, Sound::NONE);
+	            } else {
+        	         hub->addStatusMessage_gui(_("Join/part showing off"), Msg::SYSTEM, Sound::NONE);
+       		     }
 		}
 		else if ( command == "showfavjoins")
 		{
-			hub->client->settings.favShowJoins = !hub->client->settings.favShowJoins;
-            if(hub->client->settings.favShowJoins) {
+			hub->client->get(HubSettings::FavShowJoins) = !hub->client->get(HubSettings::FavShowJoins);
+            if(hub->client->get(HubSettings::FavShowJoins)) {
                  hub->addStatusMessage_gui("Join/part for Fav showing on", Msg::SYSTEM, Sound::NONE);
             } else {
                  hub->addStatusMessage_gui("Join/part for fav showing off", Msg::SYSTEM, Sound::NONE);
@@ -3757,8 +3757,8 @@ void Hub::addAsFavorite_client()
 		FavoriteHubEntry entry;
 		entry.setServer(client->getHubUrl());
 		entry.setName(client->getHubName());
-		entry.setDescription(client->getHubDescription());
-		entry.setNick(client->getMyNick());
+		entry.get(HubSettings::Description) = client->getHubDescription();
+		entry.get(HubSettings::Nick) = client->getMyNick();
 		entry.setEncoding(encoding);
 		if(!client->getPassword().empty())
 			entry.setPassword(client->getPassword());
@@ -4626,7 +4626,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 			}
 		}
 
-		if (client->settings.getLogChat())
+		if (client->settings.get(HubSettings::LogChat))
 		{
 			dcpp::ParamMap params;
 			params["message"] = tmp_text;

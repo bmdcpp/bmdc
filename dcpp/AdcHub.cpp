@@ -136,7 +136,7 @@ void AdcHub::clearUsers() {
 		if(i->first != AdcCommand::HUB_SID) {
 			ClientManager::getInstance()->putOffline(i->second);
 		    i->second->dec();
-		}    
+		}
 	}
 }
 
@@ -185,7 +185,7 @@ void AdcHub::handle(AdcCommand::INF, AdcCommand& c) noexcept {
 	if(u->getIdentity().supports(ADCS_FEATURE)) {
 		u->getUser()->setFlag(User::TLS);
 	}
-	
+
 	if(getCheckAtConnect())
 	{
 		string report = u->getIdentity().myInfoDetect(*u);
@@ -270,7 +270,7 @@ void AdcHub::handle(AdcCommand::MSG, AdcCommand& c) noexcept {
 		message.replyTo = findUser(AdcCommand::toSID(temp));
 		if(!message.replyTo || PluginManager::getInstance()->runHook(HOOK_CHAT_PM_IN, &(message.replyTo) , &(message.text)))
 			return;
-			
+
 	}else if(PluginManager::getInstance()->runHook(HOOK_CHAT_IN, this, message.text))
 		return;
 
@@ -502,7 +502,7 @@ void AdcHub::handle(AdcCommand::STA, AdcCommand& c) noexcept {
 			return;
 		}
 	}
-	
+
 	ChatMessage message = { c.getParam(1), u };
 	fire(ClientListener::Message(), this, message);
 }
@@ -700,10 +700,10 @@ void AdcHub::connect(const OnlineUser& user, string const& token, bool secure) {
 void AdcHub::hubMessage(const string& aMessage, bool thirdPerson) {
 	if(state != STATE_NORMAL)
 		return;
-	
+
 	if(PluginManager::getInstance()->runHook(HOOK_CHAT_OUT, this, aMessage))
-		return;	
-		
+		return;
+
 	AdcCommand c(AdcCommand::CMD_MSG, AdcCommand::TYPE_BROADCAST);
 	c.addParam(aMessage);
 	if(thirdPerson)
@@ -714,7 +714,7 @@ void AdcHub::hubMessage(const string& aMessage, bool thirdPerson) {
 void AdcHub::privateMessage(const OnlineUser& user, const string& aMessage, bool thirdPerson) {
 	if(state != STATE_NORMAL)
 		return;
-	
+
 	AdcCommand c(AdcCommand::CMD_MSG, user.getIdentity().getSID(), AdcCommand::TYPE_ECHO);
 	c.addParam(aMessage);
 	if(thirdPerson)
@@ -985,19 +985,19 @@ void AdcHub::info(bool /*alwaysSend*/) {
 	if (state == STATE_NORMAL) {
 		updateCounts(false);
 	}
-	
+
 	bool isfreeslots = SETTING(SHOW_FREE_SLOTS_DESC);
-     string fslots = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
+	string fslots = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
 
 	addParam(lastInfoMap, c, "ID", ClientManager::getInstance()->getMyCID().toBase32());
 	addParam(lastInfoMap, c, "PD", ClientManager::getInstance()->getMyPID().toBase32());
-	addParam(lastInfoMap, c, "NI", settings.getNick());
-	addParam(lastInfoMap, c, "DE", isfreeslots ? fslots + " " + settings.getDescription() : settings.getDescription());
+	addParam(lastInfoMap, c, "NI", get(Nick));
+	addParam(lastInfoMap, c, "DE", isfreeslots ? fslots + " " + get(Description) : get(Description) );
 	addParam(lastInfoMap, c, "SL", Util::toString(SETTING(SLOTS)));
 	addParam(lastInfoMap, c, "FS", Util::toString(UploadManager::getInstance()->getFreeSlots()));
 	addParam(lastInfoMap, c, "SS", getHideShare() ? "0" : ShareManager::getInstance()->getShareSizeString());
 	addParam(lastInfoMap, c, "SF", getHideShare() ? "0" : Util::toString(ShareManager::getInstance()->getSharedFiles()));
-	addParam(lastInfoMap, c, "EM", settings.getEmail());
+	addParam(lastInfoMap, c, "EM", get(Email));
 	addParam(lastInfoMap, c, "HN", Util::toString(counts[COUNT_NORMAL]));
 	addParam(lastInfoMap, c, "HR", Util::toString(counts[COUNT_REGISTERED]));
 	addParam(lastInfoMap, c, "HO", Util::toString(counts[COUNT_OP]));
@@ -1042,7 +1042,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 		addParam(lastInfoMap, c, "U4", "");
 		su += "," + NAT0_FEATURE;
 	}
-	
+
 	addParam(lastInfoMap, c, "SU", su);
 
 	if(c.getParameters().size() > 0) {
@@ -1063,9 +1063,9 @@ void AdcHub::checkNick(string& nick) {
 	for(size_t i = 0, n = nick.size(); i < n; ++i) {
           if(static_cast<uint8_t>(nick[i]) <= 32) {
                 nick[i] = '_';
-           }     
+           }
 	}
-}		
+}
 
 void AdcHub::send(const AdcCommand& cmd) {
 	if(forbiddenCommands.find(AdcCommand::toFourCC(cmd.getFourCC().c_str())) == forbiddenCommands.end()) {
@@ -1108,7 +1108,7 @@ void AdcHub::on(Connected c) noexcept {
 	cmd.addParam(ZLIF_SUPPORT);
 
 	send(cmd);
-	
+
 }
 
 void AdcHub::on(Line l, const string& aLine) noexcept {

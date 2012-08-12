@@ -32,7 +32,7 @@ namespace dcpp {
  * from its super class, Transfer. The listener functions should send Transfer
  * objects instead.
  *
- * Changing this will will cause a problem with Download::List which is used
+ * Changing this will  cause a problem with Download::List which is used
  * in the on Tick function. One solution is reimplement on Tick to call once
  * for every Downloads, sending one Download at a time. But maybe updating the
  * GUI is not DownloadManagers problem at all???

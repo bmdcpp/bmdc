@@ -29,7 +29,7 @@
 
 namespace dcpp {
 
-GeoIP::GeoIP(string&& path) : geo(0), path(forward<string>(path)) {
+GeoIP::GeoIP(string&& path) : geo(0), path(move(path)) {
 	if(File::getSize(path) > 0 || decompress()) {
 		open();
 	}
@@ -43,8 +43,8 @@ GeoIP::~GeoIP() {
 const string& GeoIP::getCountry(const string& ip) const {
 	Lock l(cs);
 	if(geo) {
-		unsigned int id = (v6() ? GeoIP_id_by_addr_v6 : GeoIP_id_by_addr)(geo, ip.c_str());
-		if(id > 0 && id < cache.size()) {
+		auto id = (v6() ? GeoIP_id_by_addr_v6 : GeoIP_id_by_addr)(geo, ip.c_str());
+		if(id > 0 && static_cast<size_t>(id) < cache.size()) {
 			return cache[id];
 		}
 	}

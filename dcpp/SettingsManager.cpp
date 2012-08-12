@@ -99,11 +99,11 @@ const string SettingsManager::settingTags[] =
 	"VersionMisMatchRaw",
 	"SlowRaw",
 	"SlowSpeed",
-	"SlowTime", 
+	"SlowTime",
 	"RmdcRaw",
 	"FileListVersionMisMatch",
 	"AdlRaw",
-	
+
 	"SENTRY",
 	// Bools
 	"AddFinishedInstantly", "AdlsBreakOnFirst", "AltSortOrder",
@@ -130,15 +130,15 @@ const string SettingsManager::settingTags[] =
 	"UsersFilterFavorite", "UsersFilterOnline", "UsersFilterQueue", "UsersFilterWaiting",
 	"ACDisclaimer", "GlobalHS", "GlobalEM",
 	//BMDC++
-	"CheckAllClientsBeforeList", 
-	"ShowFreeSlotsInDesc", 
+	"CheckAllClientsBeforeList",
+	"ShowFreeSlotsInDesc",
 	"EnableBackup",
-	"ShowFakeRaw", 
-	"LogRawCmd", 
+	"ShowFakeRaw",
+	"LogRawCmd",
 	"ShowDisconnect",
 	"FileListToBig",
 	"ListLenMatchShow",
-	"UseSendDelayedRaw", 
+	"UseSendDelayedRaw",
 	"ShowNAFileList",
 	"ShowAdlSearchDefAction",
 	"ThrotleEnable",
@@ -146,14 +146,14 @@ const string SettingsManager::settingTags[] =
 	"FavIsProtectedUser",
 	"ShowDCPPEmulation",
 	"VersionMisMatch",
-	"ShowRMDC", 
+	"ShowRMDC",
 	"UseSlowKick",
 	"DontCheckProtectedUsersClient",
 	"DontCheckProtectedUsersFileList",
 	"ShowFileListVersionMismatch",
 	"UseWildCardProtectUsers",
 	"DisplayCheatsInMainChat",
-	"UseOemFont", 
+	"UseOemFont",
 	"DontAlowChatrooms",
 	"SENTRY",
 	// Int64
@@ -398,7 +398,7 @@ SettingsManager::SettingsManager()
 	setDefault(AC_DISCLAIM, true);
 	setDefault(GLOBAL_HS, false);
 	setDefault(GLOBAL_EM, false);
-	
+
 	setDefault(DONT_ALOW_CHATROOMS, true);
 
 	setSearchTypeDefaults();
@@ -626,7 +626,7 @@ void SettingsManager::save(string const& aFileName) {
 		}
 	}
 	xml.stepOut();
-	
+
 	xml.addTag("SearchTypes");
 	xml.stepIn();
 	for(auto i = searchTypes.begin(); i!= searchTypes.end();++i) {
@@ -652,18 +652,17 @@ void SettingsManager::save(string const& aFileName) {
 }
 
 HubSettings SettingsManager::getHubSettings() const {
-		HubSettings ret;
-        ret.setNick(get(NICK));
-        ret.setDescription(get(DESCRIPTION));
-		ret.setEmail(get(EMAIL));
-        ret.showJoins = get(SHOW_JOINS);
-        ret.favShowJoins = get(FAV_SHOW_JOINS);
-		//[BMDC++
-		ret.setLogChat(get(LOG_MAIN_CHAT));
-		//]
+	HubSettings ret;
+        ret.get(HubSettings::Nick) = get(NICK);
+        ret.get(HubSettings::Description) = get(DESCRIPTION);
+	ret.get(HubSettings::Email) = get(EMAIL);
+        ret.get(HubSettings::ShowJoins) = get(SHOW_JOINS);
+        ret.get(HubSettings::FavShowJoins) = get(FAV_SHOW_JOINS);
+	//[BMDC++
+	ret.get(HubSettings::LogChat) = get(LOG_MAIN_CHAT);
+	//]
         return ret;
-	
-	return ret;
+
 }
 
 void SettingsManager::validateSearchTypeName(const string& name) const {

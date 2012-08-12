@@ -78,13 +78,13 @@ void Client::reloadSettings(bool updateNick) {
 	/// @todo update the nick in ADC hubs?
 	string prevNick = Util::emptyString;
 	if(!updateNick)
-		prevNick = settings.getNick();
-	settings = SettingsManager::getInstance()->getHubSettings();
-	
+		prevNick = get(Nick);
+	*static_cast<HubSettings*>(this) = SettingsManager::getInstance()->getHubSettings();
+
 	auto fav = FavoriteManager::getInstance()->getFavoriteHubEntry(getHubUrl());
 	if(fav)
 	{
-		FavoriteManager::getInstance()->mergeHubSettings(*fav, settings);
+		FavoriteManager::getInstance()->mergeHubSettings(*fav, *this);
 		if(!fav->getPassword().empty())
 			setPassword(fav->getPassword());
 		//[BMDC
@@ -106,15 +106,15 @@ void Client::reloadSettings(bool updateNick) {
 		setProtectUser(Util::emptyString);
 		setCheckAtConnect(false);
 		setCheckClients(false);
-        setCheckFilelists(false);
-        setTabText(Util::emptyString);
-        setTabIconStr(Util::emptyString);
-        //]
+		setCheckFilelists(false);
+        	setTabText(Util::emptyString);
+	        setTabIconStr(Util::emptyString);
+        	//]
 	}
 	if(updateNick)
-        checkNick(settings.nick);
-    else
-       settings.setNick(prevNick);
+        	checkNick(get(Nick));
+	else
+		get(Nick) = prevNick;
 }
 
 void Client::connect() {
@@ -153,7 +153,7 @@ void Client::send(const char* aMessage, size_t aLen) {
 	}
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_OUT, this, aMessage))
 		return;
-	
+
 	updateActivity();
 	sock->write(aMessage, aLen);
 }
@@ -246,7 +246,7 @@ void Client::updateCounts(bool aRemove) {
 }
 
 string Client::getLocalIp() const {
-    
+
     if(!getFavIp().empty()) {
         return Socket::resolve(getFavIp());
     }
@@ -281,7 +281,7 @@ void Client::on(Second, uint64_t aTick) noexcept {
 		// Try to reconnect...
 		connect();
 	}
-	
+
 	if(isConnected()){
 		cmdQueue.onSecond(aTick); //RSX++/BMDC++
 	}

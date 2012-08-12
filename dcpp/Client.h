@@ -34,11 +34,19 @@
 #include "PluginEntity.h"
 #include "HubSettings.h"
 
+#include <boost/noncopyable.hpp>
+
 namespace dcpp {
 
 using std::atomic;
 /** Yes, this should probably be called a Hub */
-class Client : public PluginEntity<HubData>, public Speaker<ClientListener>, public BufferedSocketListener, protected TimerManagerListener
+class Client :
+	public PluginEntity<HubData>,
+	public Speaker<ClientListener>,
+	public BufferedSocketListener,
+	protected TimerManagerListener,
+	public HubSettings,
+	private boost::noncopyable
 {
 public:
 	virtual void connect();
@@ -57,7 +65,7 @@ public:
 	virtual int64_t getAvailable() const = 0;
 	virtual void getUserList(OnlineUserList& list) const = 0;
 	virtual void refreshuserlist(bool) = 0;
-	
+
 	virtual string startCheck(const string &params) = 0;
 	virtual void startMyInfoCheck() = 0;
 	virtual void stopMyInfoCheck() = 0;
@@ -71,7 +79,7 @@ public:
 	bool isTrusted() const;
 	std::string getCipherName() const;
 	vector<uint8_t> getKeyprint() const;
-	
+
 	//virtual bool isAdc() { return false; }
 
 	bool isOp() const { return getMyIdentity().isOp(); }
@@ -104,12 +112,12 @@ public:
 	Identity& getHubIdentity() { return hubIdentity; }
 
 	const string& getHubUrl() const { return hubUrl; }
-	
+
 	bool isActive() const;
 	void putDetectors() { stopMyInfoCheck(); stopChecking();  }
-	
+
 	HubData* getPluginObject() noexcept;
-	
+
 	HubSettings settings;
 
 	GETSET(Identity, myIdentity, MyIdentity);
@@ -133,7 +141,7 @@ public:
 	GETSET(bool, checkAtConnect, CheckAtConnect);
 	GETSET(bool, checkClients, CheckClients);
 	GETSET(bool, checkFilelists, CheckFilelists);
-	
+
 	mutable CriticalSection cs; //BMDC++//RSX++
 protected:
 	friend class ClientManager;
@@ -178,9 +186,6 @@ protected:
 
 	virtual bool v4only() const = 0;
 private:
-
-	//Client(const Client&);
-	//Client& operator=(const Client&);
 
 	string hubUrl;
 	string address;

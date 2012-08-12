@@ -104,7 +104,7 @@ FavoriteHubs::FavoriteHubs():
 	gtk_tree_view_set_fixed_height_mode(groupsView.get(), TRUE);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(groupsStore), groupsView.col(_("Group name")), GTK_SORT_ASCENDING);
 	groupsSelection = gtk_tree_view_get_selection(groupsView.get());
-	
+
 	///Actions
     actionView.setView(GTK_TREE_VIEW(getWidget("rawview")));
     actionView.insertColumn(_("Name"), G_TYPE_STRING,TreeView::STRING,100);
@@ -142,7 +142,7 @@ FavoriteHubs::FavoriteHubs():
 	g_signal_connect(getWidget("manageGroupsButton"), "clicked", G_CALLBACK(onManageGroupsClicked_gui), (gpointer)this);
 	g_signal_connect(groupsView.get(), "button-release-event", G_CALLBACK(onGroupsButtonReleased_gui), (gpointer)this);
 	g_signal_connect(groupsView.get(), "key-release-event", G_CALLBACK(onGroupsKeyReleased_gui), (gpointer)this);
-	
+
 	g_signal_connect(arenderer, "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
 }
 
@@ -543,9 +543,9 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryExtraInfo")), params["ExtraInfo"].c_str());
 	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryprotected")), params["Protected"].c_str());
 	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryeMail")), params["eMail"].c_str());
-	
+
 	gtk_combo_box_set_active(GTK_COMBO_BOX(fh->getWidget("comboboxMode")), Util::toInt64(params["Mode"]));
-	
+
 	gtk_combo_box_set_active(GTK_COMBO_BOX(fh->getWidget("comboboxParts")), Util::toInt64(params["Parts"]));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(fh->getWidget("comboboxFavParts")), Util::toInt64(params["FavParts"]));
 
@@ -570,26 +570,26 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 	// Set the override default user description checkbox
 	gboolean overrideUserDescription = !(params["User Description"].empty() || params["User Description"] == SETTING(DESCRIPTION));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkbuttonUserDescription")), overrideUserDescription);
-	
+
 	// Set the auto connect checkbox
 	gboolean autoConnect = params["Auto Connect"] == "1" ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkButtonAutoConnect")), autoConnect);
 	/*/*/
 	gboolean hide = params["Hide"] == "1" ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkHide")), hide);
-	
+
 	gboolean fl = params["Filelists"] == "1" ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkFilelist")), fl);
-	
+
 	gboolean cl = params["Clients"] == "1" ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkClients")), cl);
-	
+
 	gboolean con = params["OnConnect"] == "1" ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkoncon")), con);
-	
+
 	gboolean log = params["LogChat"] == "1" ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkLog")), log);
-	
+
 	fh->setRawActions_gui(fh,params);
 	// Show the dialog
 	gint response = gtk_dialog_run(GTK_DIALOG(fh->getWidget("favoriteHubsDialog")));
@@ -609,12 +609,12 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 		params["ExtraInfo"] = gtk_entry_get_text(GTK_ENTRY(fh->getWidget("entryExtraInfo")));
 		params["IP"] = gtk_entry_get_text(GTK_ENTRY(fh->getWidget("entryIp")));
 		params["Protected"] = gtk_entry_get_text(GTK_ENTRY(fh->getWidget("entryprotected")));
-		
+
 		params["Mode"] = Util::toString(gtk_combo_box_get_active(GTK_COMBO_BOX(fh->getWidget("comboboxMode"))));
 		params["Auto Connect"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkButtonAutoConnect"))) ? "1" : "0";
-		
+
 		params["LogChat"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkLog"))) ? "1" : "0";
-		
+
 		params["Hide"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkHide"))) ? "1" : "0";
 		params["OnConnect"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkoncon"))) ? "1" : "0";
 		params["Filelists"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkFilelist"))) ? "1" : "0";
@@ -622,7 +622,7 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 		params["eMail"] = gtk_entry_get_text(GTK_ENTRY(fh->getWidget("entryeMail")));
 		params["Parts"] = Util::toString(gtk_combo_box_get_active(GTK_COMBO_BOX(fh->getWidget("comboboxParts"))));
 		params["FavParts"] = Util::toString(gtk_combo_box_get_active(GTK_COMBO_BOX(fh->getWidget("comboboxFavParts"))));
-		
+
 		if (gtk_combo_box_get_active(GTK_COMBO_BOX(fh->getWidget("groupsComboBox"))) != 0)
 		{
 			gchar *group = gtk_combo_box_get_active_text(GTK_COMBO_BOX(fh->getWidget("groupsComboBox")));
@@ -646,7 +646,7 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 		{
 			params["User Description"] = gtk_entry_get_text(GTK_ENTRY(fh->getWidget("entryUserDescription")));
 		}
-		
+
 		fh->setRawActions_client(fh,params);
 
 		if (params["Name"].empty() || params["Address"].empty())
@@ -711,14 +711,14 @@ void FavoriteHubs::initFavHubGroupsDialog_gui()
 		gtk_list_store_append(groupsStore, &iter);
 		gtk_list_store_set(groupsStore, &iter,
 			groupsView.col(_("Group name")), i->first.c_str(),
-			groupsView.col(_("Connect")), i->second.getConnect() ? _("Yes") : _("No"),
-			groupsView.col("Nick"), i->second.getNick().c_str(),
-			groupsView.col("eMail"), i->second.getEmail().c_str(),
-			groupsView.col("Desc"), i->second.getDescription().c_str(),
-			groupsView.col("Parts"), toInt(i->second.showJoins) == 1 ? "1" : (toInt(i->second.showJoins) >= 2 ? "2" : "0"),
-			groupsView.col("FavParts"), toInt(i->second.favShowJoins) == 1 ? "1" : (toInt(i->second.showJoins) >= 2 ? "2" : "0" ),
-			groupsView.col("Connect hub"), i->second.getConnect(),
-			groupsView.col("LogChat"), i->second.getLogChat() ? "1" : "0",
+			groupsView.col(_("Connect")), i->second.get(HubSettings::Connect) ? _("Yes") : _("No"),
+			groupsView.col("Nick"), i->second.get(HubSettings::Nick).c_str(),
+			groupsView.col("eMail"), i->second.get(HubSettings::Email).c_str(),
+			groupsView.col("Desc"), i->second.get(HubSettings::Description).c_str(),
+			groupsView.col("Parts"), (toInt(i->second.get(HubSettings::ShowJoins)) == 1 ? "1" : (toInt(i->second.get(HubSettings::ShowJoins) )>= 2 ? "2" : "0")),
+			groupsView.col("FavParts"), (toInt(i->second.get(HubSettings::FavShowJoins)) == 1 ? "1" : (toInt(i->second.get(HubSettings::FavShowJoins))) >= 2 ? "2" : "0" ),
+			groupsView.col("Connect hub"), toInt(i->second.get(HubSettings::Connect)) ? "1" : "0",
+			groupsView.col("LogChat"), toInt(i->second.get(HubSettings::LogChat)) ? "1" : "0",
 			-1);
 			//Parts 1 = Enable 2 = disable 0 = def
 	}
@@ -949,7 +949,7 @@ void FavoriteHubs::saveFavHubGroups()
 		gtk_list_store_set(store, &it, 0, group.c_str(), -1);
 		GroupsIter.insert(FavHubGroupsIter::value_type(group, it));
 
-		bool log_hub = groupsView.getString(&iter, "LogChat") == "1" ? TRUE : FALSE; 
+		bool log_hub = groupsView.getString(&iter, "LogChat") == "1" ? TRUE : FALSE;
 		bool connect_hub = groupsView.getValue<int>(&iter, "Connect hub");
 		string nick = groupsView.getString(&iter, "Nick");
 		string email = groupsView.getString(&iter, "eMail");
@@ -958,14 +958,14 @@ void FavoriteHubs::saveFavHubGroups()
 		tribool showJoins = to3bool(Util::toInt(groupsView.getString(&iter,"Parts")));
 
 		HubSettings p;
-		p.setNick(nick);
-		p.setEmail(email);
-		p.setDescription(desc);
-		p.favShowJoins = favShowJoins;
-		p.showJoins = showJoins;
-		p.setLogChat(log_hub);
-		p.setConnect(connect_hub);
-		
+		p.get(HubSettings::Nick) = nick;
+		p.get(HubSettings::Email) = email;
+		p.get(HubSettings::Description) = desc;
+		p.get(HubSettings::FavShowJoins) = favShowJoins;
+		p.get(HubSettings::ShowJoins) = showJoins;
+		p.get(HubSettings::LogChat)= log_hub;
+		p.get(HubSettings::Connect) = connect_hub;
+
 		favHubGroups.insert(FavHubGroup(group, p));
 
 		valid = gtk_tree_model_iter_next(m, &iter);
@@ -1017,7 +1017,7 @@ void FavoriteHubs::onUpdateGroupClicked_gui(GtkWidget *widget, gpointer data)
 		string desc = gtk_entry_get_text(GTK_ENTRY(fh->getWidget("entryDescGroup")));
 		int favShowJoins = gtk_combo_box_get_active(GTK_COMBO_BOX(fh->getWidget("comboboxJoinFav")));
 		int ShowJoins = gtk_combo_box_get_active(GTK_COMBO_BOX(fh->getWidget("comboboxJoin")));
-		
+
 		gtk_list_store_set(fh->groupsStore, &iter,
 			fh->groupsView.col(_("Group name")), group.c_str(),
 			fh->groupsView.col(_("Connect")), connect_hub ? _("Yes") : _("No"),
@@ -1053,7 +1053,7 @@ gboolean FavoriteHubs::onGroupsKeyReleased_gui(GtkWidget *widget, GdkEventKey *e
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("connectAllHubsCheckButton")), con);
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("LogCheckButton")), log_chat);
 			gtk_entry_set_text(GTK_ENTRY(fh->getWidget("nameGroupEntry")), group.c_str());
-			
+
 			gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryNickGroup")),nick.c_str());
 			gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryDescGroup")),desc.c_str());
 			gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryEmailGroup")),email.c_str());
@@ -1085,11 +1085,11 @@ gboolean FavoriteHubs::onGroupsButtonReleased_gui(GtkWidget *widget, GdkEventBut
 			string email = fh->groupsView.getString(&iter, "eMail");
 			string parts = fh->groupsView.getString(&iter, "Parts");
 			string favParts = fh->groupsView.getString(&iter, "FavParts");
-			
+
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("LogCheckButton")), log_chat);
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("connectAllHubsCheckButton")), con);
 			gtk_entry_set_text(GTK_ENTRY(fh->getWidget("nameGroupEntry")), group.c_str());
-			
+
 			gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryNickGroup")),nick.c_str());
 			gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryDescGroup")),desc.c_str());
 			gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryEmailGroup")),email.c_str());
@@ -1143,10 +1143,10 @@ void FavoriteHubs::getFavHubParams_client(const FavoriteHubEntry *entry, StringM
 {
 	params["Name"] = entry->getName();
 	params["Description"] = entry->getHubDescription();
-	params["Nick"] = entry->getNick(); 
+	params["Nick"] = entry->get(HubSettings::Nick);
 	params["Password"] = entry->getPassword();
 	params["Address"] = entry->getServer();
-	params["User Description"] = entry->getDescription();
+	params["User Description"] = entry->get(HubSettings::Description);
 	params["Encoding"] = entry->getEncoding();
 	params["Group"] = entry->getGroup();
 	params["Filelists"] = entry->getCheckFilelists() ? "1" : "0";
@@ -1158,11 +1158,11 @@ void FavoriteHubs::getFavHubParams_client(const FavoriteHubEntry *entry, StringM
 	params["Hide"] = entry->getHideShare() ? "1" : "0";
 	params["Auto Connect"] = entry->getAutoConnect() ? "1" : "0";
 	params["Protected"] = entry->getProtectUsers();
-	params["eMail"] = entry->getEmail();
-	params["Parts"] = toInt(entry->showJoins) == 1 ? "1" : (toInt(entry->showJoins) >= 2 ? "2" : "0");
-	params["FavParts"] = toInt(entry->favShowJoins) == 1 ? "1" : (toInt(entry->favShowJoins) >= 2 ? "2" : "0");
-	params["LogChat"] = entry->getLogChat() ? "1" : "0";
-	
+	params["eMail"] = entry->get(HubSettings::Email);
+	params["Parts"] = toInt(entry->get(HubSettings::ShowJoins)) == 1 ? "1" : (toInt(entry->get(HubSettings::ShowJoins)) >= 2 ? "2" : "0");
+	params["FavParts"] = (toInt(entry->get(HubSettings::FavShowJoins)) == 1 ? "1" : (toInt(entry->get(HubSettings::FavShowJoins))) >= 2 ? "2" : "0");
+	params["LogChat"] = toInt(entry->get(HubSettings::LogChat)) ? "1" : "0";
+
 }
 
 void FavoriteHubs::addEntry_client(StringMap params)
@@ -1171,26 +1171,26 @@ void FavoriteHubs::addEntry_client(StringMap params)
 	entry.setName(params["Name"]);
 	entry.setServer(params["Address"]);
 	entry.setHubDescription(params["Description"]);
-	entry.setNick(params["Nick"]);
+	entry.get(HubSettings::Nick) = params["Nick"];
 	entry.setPassword(params["Password"]);
-	entry.setDescription(params["User Description"]);
+	entry.get(HubSettings::Description) = params["User Description"];
 	entry.setEncoding(params["Encoding"]);
 	entry.setGroup(params["Group"]);
 	entry.setHideShare(Util::toInt(params["Hide"]));
 	entry.setMode(Util::toInt(params["Mode"]));
 	entry.setIp(params["IP"]);
-	entry.setEmail(params["eMail"]);
-	entry.showJoins = to3bool(Util::toInt(params["Parts"]));
-	entry.favShowJoins = to3bool(Util::toInt(params["FavParts"]));
-	
+	entry.get(HubSettings::Email) = params["eMail"];
+	entry.get(HubSettings::ShowJoins) = to3bool(Util::toInt(params["Parts"]));
+	entry.get(HubSettings::FavShowJoins) = to3bool(Util::toInt(params["FavParts"]));
+
 	entry.setCheckClients(Util::toInt(params["Clients"]));
 	entry.setCheckFilelists(Util::toInt(params["Filelists"]));
 	entry.setCheckAtConn(Util::toInt(params["OnConnect"]));
 	entry.setChatExtraInfo(params["ExtraInfo"]);
 	entry.setAutoConnect(Util::toInt(params["Auto Connect"]));
 	entry.setProtectUsers(params["Protected"]);
-	
-	entry.setLogChat(Util::toInt(params["LogChat"]));
+
+	entry.get(HubSettings::LogChat) = Util::toInt(params["LogChat"]);
 
 	FavoriteManager::getInstance()->addFavorite(entry);
 
@@ -1207,29 +1207,29 @@ void FavoriteHubs::editEntry_client(string address, StringMap params)
 		entry->setName(params["Name"]);
 		entry->setServer(params["Address"]);
 		entry->setHubDescription(params["Description"]);
-		entry->setNick(params["Nick"]);
+		entry->get(HubSettings::Nick) = params["Nick"];
 		entry->setPassword(params["Password"]);
-		entry->setDescription(params["User Description"]);
+		entry->get(HubSettings::Description) = params["User Description"];
 		entry->setEncoding(params["Encoding"]);
 		entry->setGroup(params["Group"]);
 		entry->setMode(Util::toInt(params["Mode"]));
 		entry->setIp(params["IP"]);
 		entry->setHideShare(Util::toInt(params["Hide"]));
-		
-		entry->setEmail(params["eMail"]);
+
+		entry->get(HubSettings::Email) = params["eMail"];
 		tribool showjoin = to3bool(Util::toInt(params["Parts"]));
-		entry->showJoins = showjoin;
+		entry->get(HubSettings::ShowJoins) = showjoin;
 		tribool favJoin = to3bool(Util::toInt(params["FavParts"]));
-		entry->favShowJoins = favJoin;
-		
+		entry->get(HubSettings::FavShowJoins) = favJoin;
+
 		entry->setCheckClients(Util::toInt(params["Clients"]));
 		entry->setCheckFilelists(Util::toInt(params["Filelists"]));
 		entry->setCheckAtConn(Util::toInt(params["OnConnect"]));
 		entry->setChatExtraInfo(params["ExtraInfo"]);
 		entry->setAutoConnect(Util::toInt(params["Auto Connect"]));
 		entry->setProtectUsers(params["Protected"]);
-		
-		entry->setLogChat(Util::toInt(params["LogChat"]));
+
+		entry->get(HubSettings::LogChat) = Util::toInt(params["LogChat"]);
 
 		FavoriteManager::getInstance()->save();
 
