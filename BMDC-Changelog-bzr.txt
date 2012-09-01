@@ -575,4 +575,5 @@ Few sync with dcpp
 ----r148
 Update HubSettings from dcpp
 Fixies
-----
+----149
+May Fix Checker...

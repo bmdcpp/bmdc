@@ -96,7 +96,7 @@ public:
 
 	void stopCheck() noexcept {
 		if(clientEngine != NULL) {
-            delete clientEngine;
+            		delete clientEngine;
 			clientEngine = NULL;
 		}
 	}
@@ -283,40 +283,50 @@ private:
 				if(client->isConnected()) {
 					uint8_t t = 0;
 					uint8_t f = 0;
-					{
+
+					QueueManager::getInstance()->lockedOperation([&f,&t](const QueueItem::StringMap& queue) {
+					for(auto i = queue.cbegin(); i != queue.cend(); ++i) {
+							if(i->second->isSet(QueueItem::FLAG_TESTSUR)) {
+								t++;
+							} else if(i->second->isSet(QueueItem::FLAG_CHECK_FILE_LIST)) {
+								f++;
+							}
+					}});
+
+					/*{
 						Lock l(cs);
 						const QueueItem::StringMap q = QueueManager::getInstance()->getQueue();
 						for(QueueItem::StringMap::const_iterator i = q.begin(); i != q.end(); ++i) {
 							//i->second->inc();
 							if(i->second->countOnlineUsers() == 0)
 								continue;
-															
+
 							if(i->second->isSet(QueueItem::FLAG_TESTSUR)) {
 								t++;
 							} else if(i->second->isSet(QueueItem::FLAG_CHECK_FILE_LIST)) {
 								f++;
 							}
 						}
-					}
+					}*/
 
 					OnlineUser* ou = NULL;
 					int action = 0;
 					{
 						Lock l(client->cs);
 						for(typename BaseMap::const_iterator i = users->begin(); i != users->end(); ++i) {
-							if(!inThread)
-								break;
+							if(!client->isConnected() || !inThread) break;
+
 							action = preformUserCheck((*(i->second)), t, f);
 							if(action & CONTINUE) {
 								continue;
 							}
 							if(action & BREAK) {
 								ou = i->second;
-								//ou->inc();
 								break;
 							}
 						}
 					}
+
 					if(ou != NULL) {
 						Lock l(cs);
 						if(action & ADD_CLIENT_CHECK) {
@@ -334,7 +344,7 @@ private:
 								if(!fname.empty())
 									ou->getIdentity().setFileListQueued(fname);
 							} catch(...) {
-							
+
 							}
 						} else if(action & REMOVE_CLIENT_CHECK) {
 							string path = Util::getPath(Util::PATH_USER_CONFIG) + "TestSURs//" + ou->getIdentity().getTestSURQueued();
@@ -363,7 +373,7 @@ private:
 		GETSET(bool, checkClients, CheckClients);
 		bool canCheckFilelist;
 		bool inThread;
-				
+
 		Client* client;
 		HubUsersMap* users;
 	}*clientEngine;
