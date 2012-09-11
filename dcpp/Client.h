@@ -80,8 +80,6 @@ public:
 	std::string getCipherName() const;
 	vector<uint8_t> getKeyprint() const;
 
-	//virtual bool isAdc() { return false; }
-
 	bool isOp() const { return getMyIdentity().isOp(); }
 
 	const string& getPort() const { return port; }

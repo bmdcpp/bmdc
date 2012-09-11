@@ -498,9 +498,20 @@ map<string, string> Util::decodeQuery(const string& query) {
 
 	return ret;
 }
-
+/*
 string Util::getAwayMessage() {
 	return (formatTime(awayMsg.empty() ? SETTING(DEFAULT_AWAY_MESSAGE) : awayMsg, awayTime)) + " <" APPNAME " v" VERSIONSTRING ">";
+}*/
+
+string Util::getAwayMessage(ParamMap& params) {
+	time_t currentTime;
+	time(&currentTime);
+	int currentHour = localtime(&currentTime)->tm_hour;
+
+	params["idleTI"] = Text::fromT(formatSeconds(time(NULL) - awayTime));
+	params["time"] = Util::toString(awayTime);
+	return formatParams((awayMsg.empty() ? SETTING(DEFAULT_AWAY_MESSAGE) : awayMsg), params);
+
 }
 
 string Util::formatBytes(int64_t aBytes) {

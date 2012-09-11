@@ -102,9 +102,9 @@ public:
 		}
 		return NULL;
 	}
-	
-	bool hasSlotI(const string& nick) { 
-		FavoriteIUser* u = getIndepentFavorite(nick); 
+
+	bool hasSlotI(const string& nick) {
+		FavoriteIUser* u = getIndepentFavorite(nick);
 		return (u != NULL) ? (u->isSet(FavoriteIUser::FLAG_GRANTSLOT)) : false;
 	}
 	bool isFavoriteIUser(string nick) { return favoritesNoCid.find(nick) != favoritesNoCid.end(); }
@@ -123,14 +123,14 @@ public:
 	}
 	void removeFavoriteIUser(const string& nick)
 	{
-		Lock l(cs);	
-		auto it = favoritesNoCid.find(nick); 
+		Lock l(cs);
+		auto it = favoritesNoCid.find(nick);
 		if(it!= favoritesNoCid.end())
 		{
 			fire(FavoriteManagerListener::FavoriteIRemoved(),nick,it->second);
 			favoritesNoCid.erase(it);
 			save();
-		}	
+		}
 	}
 // Favorite Hubs
 	const FavoriteHubEntryList& getFavoriteHubs() const { return favoriteHubs; }
@@ -140,6 +140,7 @@ public:
 	void removeFavorite(FavoriteHubEntry* entry);
 	bool isFavoriteHub(const std::string& aUrl);
 	FavoriteHubEntryPtr getFavoriteHubEntry(const string& aServer) const;
+	string getAwayMessage(const string& aServer, ParamMap& params);
 
 // Favorite hub groups
 	const FavHubGroups& getFavHubGroups() const { return favHubGroups; }
@@ -186,14 +187,14 @@ public:
 
 	void load();
 	void save();
-	
+
 	void removeallRecent() {
 		recentHubs.clear();
 		recentsave();
 	}
 	//
 	void mergeHubSettings(const FavoriteHubEntry& entry, HubSettings& settings) const;
-	
+
 private:
 	FavoriteHubEntryList favoriteHubs;
 	RecentHubEntry::List recentHubs;

@@ -439,7 +439,7 @@ public:
 	static bool getManualAway() { return manualAway; }
 	static void setManualAway(bool aManualAway) { manualAway = aManualAway;	}
 
-	static string getAwayMessage();
+	static string getAwayMessage(ParamMap& params );//BMDC@add ParamMap&
 	static void setAwayMessage(const string& aMsg) { awayMsg = aMsg; }
 
 	static uint32_t rand();

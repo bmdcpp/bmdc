@@ -895,7 +895,10 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 				Util::setAway(TRUE);
 				Util::setManualAway(TRUE);
 				Util::setAwayMessage(param);
-				status += _("Away mode on: ") + Util::getAwayMessage();
+				ParamMap p;
+				p["message"] = param;
+
+				status += _("Away mode on: ") + Util::getAwayMessage(p);
 				WulforManager::get()->getMainWindow()->setAwayIcon(true);
 		}
 		ClientManager::getInstance()->infoUpdated();

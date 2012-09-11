@@ -135,7 +135,7 @@ void AdcHub::clearUsers() {
 	for(SIDIter i = tmp.begin(); i != tmp.end(); ++i) {
 		if(i->first != AdcCommand::HUB_SID) {
 			ClientManager::getInstance()->putOffline(i->second);
-		    i->second->dec();
+			i->second->dec();
 		}
 	}
 }
@@ -510,6 +510,7 @@ void AdcHub::handle(AdcCommand::STA, AdcCommand& c) noexcept {
 void AdcHub::handle(AdcCommand::SCH, AdcCommand& c) noexcept {
 	if(getHideShare()) // Hide Share
 		return;
+
 	OnlineUser* ou = findUser(c.getFrom());
 	if(!ou) {
 		dcdebug("Invalid user in AdcHub::onSCH\n");
@@ -986,7 +987,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 		updateCounts(false);
 	}
 
-	bool isfreeslots = SETTING(SHOW_FREE_SLOTS_DESC);
+	bool isfreeslots = SETTING(SHOW_FREE_SLOTS_DESC);//TODO: is good per Fav ?
 	string fslots = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
 
 	addParam(lastInfoMap, c, "ID", ClientManager::getInstance()->getMyCID().toBase32());

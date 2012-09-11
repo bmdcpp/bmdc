@@ -160,7 +160,7 @@ void FavoriteManager::removeUserCommand(int cid) {
 	if(!nosave) {
 		l.unlock();
 		save();
-	}	
+	}
 }
 void FavoriteManager::removeUserCommand(const string& srv) {
 	Lock l(cs);
@@ -516,7 +516,7 @@ void FavoriteManager::save() {
 			xml.addChildAttrib("CID", i->first.toBase32());
 			xml.addChildAttrib("HistoryNicks", i->second.getNicks());
 		}
-		
+
 		xml.stepOut();
 		xml.addTag("IgnoredUsers");
 		xml.stepIn();
@@ -554,7 +554,7 @@ void FavoriteManager::save() {
 			xml.addChildAttrib("Name", i->second);
 		}
 		xml.stepOut();
-		
+
 		xml.addTag("FavoriteIUsers");
 		xml.stepIn();
 		for(auto it = favoritesNoCid.begin();it!= favoritesNoCid.end();++it)
@@ -565,9 +565,9 @@ void FavoriteManager::save() {
 			xml.addChildAttrib("Description",it->second->getDescription());
 			xml.addChildAttrib("GrantSlot", it->second->isSet(FavoriteIUser::FLAG_GRANTSLOT));
 		}
-		
+
 		xml.stepOut();
-		
+
 		xml.stepOut();
 
 		string fname = getConfigFile();
@@ -644,7 +644,7 @@ void FavoriteManager::load() {
 	} catch(const Exception& e) {
 		dcdebug("FavoriteManager::load: %s\n", e.getError().c_str());
 	}
-	
+
 	try {
 		Util::migrate(Util::getPath(Util::PATH_USER_CONFIG) + "Recents.xml");
 
@@ -751,7 +751,7 @@ void FavoriteManager::load(SimpleXML& aXml) {
 		aXml.stepOut();
 	}
 	aXml.resetCurrentChild();
-	
+
 	if(aXml.findChild("IgnoredUsers")) {
 		aXml.stepIn();
 		while(aXml.findChild("IgnoredUser")) {
@@ -800,7 +800,7 @@ void FavoriteManager::load(SimpleXML& aXml) {
 	aXml.resetCurrentChild();
 	if(aXml.findChild("FavoriteIUsers"))
 	{
-		aXml.stepIn();	
+		aXml.stepIn();
 		while(aXml.findChild("FavoriteIUser")) {
 			string nick = aXml.getChildAttrib("Nick");
 			time_t lastSeen = (time_t)aXml.getIntChildAttrib("LastSeen");
@@ -808,13 +808,13 @@ void FavoriteManager::load(SimpleXML& aXml) {
 			addFavoriteIUser(nick,lastSeen, desc);
 			auto iif = favoritesNoCid.find(nick);
 			if(aXml.getBoolChildAttrib("GrantSlot"))
-			{	
+			{
 				if(iif != favoritesNoCid.end())
 					iif->second->setFlag(FavoriteUser::FLAG_GRANTSLOT);
 			}
-		}	
+		}
 		aXml.stepOut();
-	}	
+	}
 
 	dontSave = false;
 	if(needSave)
@@ -851,13 +851,13 @@ void FavoriteManager::userUpdated(const OnlineUser& info) {
 	auto it = favoritesNoCid.find(info.getIdentity().getNick());
 	if(it != favoritesNoCid.end())
 	{
-		FavoriteIUser& fiu = *(it->second);	
+		FavoriteIUser& fiu = *(it->second);
 		fiu.update(info);
 		fire(FavoriteManagerListener::FavoriteIUpdate(), info.getIdentity().getNick(), fiu);
 		save();
-	}	
-	
-	
+	}
+
+
 }
 
 FavoriteHubEntryPtr FavoriteManager::getFavoriteHubEntry(const string& aServer) const {
@@ -983,7 +983,7 @@ void FavoriteManager::refresh(bool forceDownload /* = false */) {
 	if(sl.empty()) {
 		fire(FavoriteManagerListener::DownloadFailed(), Util::emptyString);
 		return;
-	}	
+	}
 	publicListServer = sl[(lastServer) % sl.size()];
 	if(Util::strnicmp(publicListServer.c_str(), "http://", 7) != 0) {
 		lastServer++;
@@ -1204,7 +1204,7 @@ void FavoriteManager::on(UserDisconnected, const UserPtr& user) noexcept {
 		if(i != users.end()) {
 			i->second.setLastSeen(GET_TIME());
 			fire(FavoriteManagerListener::StatusChanged(), i->second);
-			
+
 		}
 		if(it != ignored_users.end())
 		{
@@ -1241,7 +1241,7 @@ void FavoriteManager::on(UserConnected, const UserPtr& user) noexcept {
 			fire(FavoriteManagerListener::FavoriteIUpdate(), nick, *(idt->second));
 			save();
 		}
-		
+
 	}
 }
 
@@ -1255,6 +1255,19 @@ void FavoriteManager::mergeHubSettings(const FavoriteHubEntry& entry, HubSetting
         }
         // apply fav entry settings next.
         settings.merge(entry);
+}
+
+string FavoriteManager::getAwayMessage(const string& aServer, ParamMap& params) {
+	auto hub = getFavoriteHubEntry(aServer);
+	auto name = hub->getGroup();
+	auto group = favHubGroups.find(name);
+	if(group != favHubGroups.end())
+		return (group->second.get(HubSettings::AwayMessage).empty() ?
+			(hub ?
+			( hub->get(HubSettings::AwayMessage).empty() ?
+			Util::getAwayMessage(params) : Util::formatParams(hub->get(HubSettings::AwayMessage), params) ) : Util::getAwayMessage(params) ) : Util::formatParams(group->second.get(HubSettings::AwayMessage), params));
+
+	return Util::getAwayMessage(params);
 }
 
 } // namespace dcpp

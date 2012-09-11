@@ -40,7 +40,7 @@ struct HubSettings
 		Email,
 		UserIp,
 		// don't forget to edit stringNames in HubSettings.cpp when adding a def here!
-
+		AwayMessage,
 		HubStrLast
 	};
 

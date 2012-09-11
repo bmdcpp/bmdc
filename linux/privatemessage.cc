@@ -230,9 +230,25 @@ void PrivateMessage::addMessage_gui(string message, Msg::TypeMsg typemsg)
 	}
 	else if (!sentAwayMessage && !(SETTING(NO_AWAYMSG_TO_BOTS) && isBot))
 	{
+		/**/
+		auto what = [this](ParamMap& params) -> std::string {
+				string defAway = Util::getAwayMessage(params);
+				if(hubUrl.empty())
+					return defAway;
+			return FavoriteManager::getInstance()->getAwayMessage(hubUrl, params);
+		};
+		ParamMap params;
+		params["message"] = message;
+		params["hubNI"] = WulforUtil::getHubNames(cid, hubUrl);//NOTE: core 0.762
+		params["hubURL"] = hubUrl;//NOTE: core 0.762
+		params["userCID"] = cid;
+		params["userNI"] = ClientManager::getInstance()->getNicks(CID(cid), hubUrl)[0];//NOTE: core 0.762
+		params["myCID"] = ClientManager::getInstance()->getMe()->getCID().toBase32();
+		/**/
+
 		sentAwayMessage = TRUE;
 		typedef Func1<PrivateMessage, string> F1;
-		F1 *func = new F1(this, &PrivateMessage::sendMessage_client, Util::getAwayMessage());
+		F1 *func = new F1(this, &PrivateMessage::sendMessage_client, /*Util::getAwayMessage(*/ what(params)/* )*/);
 		WulforManager::get()->dispatchClientFunc(func);
 	}
 
