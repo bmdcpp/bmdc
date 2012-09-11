@@ -712,7 +712,7 @@ void DownloadQueue::onFileSearchAlternatesClicked_gui(GtkMenuItem *item, gpointe
 	string tth;
 	GtkTreePath *path;
 	GtkTreeIter iter;
-	Search *s;
+	SearchEntry *s;
 	GList *list = gtk_tree_selection_get_selected_rows(dq->fileSelection, NULL);
 
 	for (GList *i = list; i; i = i->next)

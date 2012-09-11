@@ -66,6 +66,7 @@
 #include "detectiontab.hh"
 #include "AboutConfig.hh"
 #include "exportimport.hh"
+#include "SearchEntry.hh"
 
 #include <boost/algorithm/string/trim.hpp>
 
@@ -332,7 +333,6 @@ MainWindow::MainWindow():
 	/**/
 	g_signal_connect(getWidget("CloseTabHubAllMenuItem"), "activate", G_CALLBACK(onCloseAllHub_gui), (gpointer)this);
 	g_signal_connect(getWidget("CloseTabPMAllMenuItem"), "activate", G_CALLBACK(onCloseAllPM_gui), (gpointer)this);
-	g_signal_connect(getWidget("closeTabSearchAllMenuItem"), "activate", G_CALLBACK(onCloseAllSearch_gui), (gpointer)this);
 	g_signal_connect(getWidget("CloseTabPMOfflineItem"), "activate", G_CALLBACK(onCloseAlloffPM_gui), (gpointer)this);
 	g_signal_connect(getWidget("recontallitem"), "activate", G_CALLBACK(onReconectAllHub_gui), (gpointer)this);
 	/**/
@@ -811,18 +811,7 @@ void MainWindow::removeItemFromList(Entry::EntryType type, string id)
 			 }
 			 privateMessage = pms;
 			 break;
-		case Entry::SEARCH:
-			if(search.empty()) break;
-			for(vector<Search*>::const_iterator it = search.begin();it != search.end();++it)
-			 {
-				 Search *s = *it;
-				 string sId = (dynamic_cast<Entry*>(s))->getID();
-				 if(sId == id)
-					 continue;
-				searchs.push_back(*it);
-			 }
-			 search = searchs;
-			 break;
+		case Entry::SEARCHS:
 		default:break;
 	}
 }
@@ -1204,13 +1193,14 @@ void MainWindow::showShareBrowser_gui(UserPtr user, string filename, string dir,
 		raisePage_gui(entry->getContainer());
 }
 
-Search *MainWindow::addSearch_gui()
+SearchEntry *MainWindow::addSearch_gui()
 {
-	Search *entry = new Search();
-	addBookEntry_gui(entry);
+	SearchEntry *entry =  dynamic_cast<SearchEntry*>(findBookEntry(Entry::SEARCHS));
+	if(entry == NULL) {
+		entry = new SearchEntry();
+		addBookEntry_gui(entry);
+	}
 	raisePage_gui(entry->getContainer());
-
-	search.push_back(entry);
 	return entry;
 }
 
@@ -1222,7 +1212,7 @@ void MainWindow::addSearch_gui(string magnet)
 
 	if (WulforUtil::splitMagnet(magnet, name, size, tth))
 	{
-		Search *s = addSearch_gui();
+		SearchEntry *s = addSearch_gui();
 		s->putValue_gui(tth, 0, SearchManager::SIZE_DONTCARE, SearchManager::TYPE_TTH);
 	}
 }
@@ -1259,7 +1249,7 @@ void MainWindow::actionMagnet_gui(string magnet)
 
 	if (action == 0 && split)
 	{
-		Search *s = addSearch_gui();
+		SearchEntry *s = addSearch_gui();
 		s->putValue_gui(tth, 0, SearchManager::SIZE_DONTCARE, SearchManager::TYPE_TTH);
 	}
 	else if (action == 1 && split)
@@ -1791,7 +1781,7 @@ void MainWindow::onResponseMagnetDialog_gui(GtkWidget *dialog, gint response, gp
 				WSET("magnet-action", 0);
 
 			// start a search for this file
-			Search *s = mw->addSearch_gui();
+			SearchEntry *s = mw->addSearch_gui();
 			s->putValue_gui(tth, 0, SearchManager::SIZE_DONTCARE, SearchManager::TYPE_TTH);
 		}
 		else if (set)
@@ -2964,20 +2954,6 @@ void MainWindow::onCloseAllPM_gui(GtkWidget *widget, gpointer data)
 	}
 
 	mw->privateMessage.clear();
-}
-///Search
-void MainWindow::onCloseAllSearch_gui(GtkWidget *widget, gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-
-	for(vector<Search*>::const_iterator i= mw->search.begin(); i != mw->search.end();++i)
-	{
-		Search *s = *i;
-		typedef Func1<MainWindow,BookEntry*> F1;
-		F1 *func = new F1(mw,&MainWindow::removeBookEntry_gui,s);
-		WulforManager::get()->dispatchGuiFunc(func);
-	}
-	mw->search.clear();
 }
 ///ofline
 void MainWindow::onReconectAllHub_gui(GtkWidget *widget, gpointer data)

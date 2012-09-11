@@ -59,7 +59,8 @@ class Entry
 			RECENT,
 			DETECTION,
 			ABOUT_CONFIG,
-			EXPORT_DIALOG
+			EXPORT_DIALOG,
+			SEARCHS
 		} EntryType;
 
 		Entry() : xml(NULL), type((EntryType)0) {}

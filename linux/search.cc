@@ -37,10 +37,11 @@
 using namespace std;
 using namespace dcpp;
 
-Search::Search():
-	BookEntry(Entry::SEARCH, _("Search: "), "search.glade", generateID()),
+Search::Search(const string& str):
+	BookEntry(Entry::SEARCH, _("Search: "), "search.glade", str.empty() ? generateID() : str),
 	previousGrouping(NOGROUPING)
 {
+	setSearchButtons(true);
 	gtk_widget_grab_focus(getWidget("SearchEntry"));
 	/* set up completion */
 	completion = gtk_entry_completion_new();
@@ -1378,7 +1379,7 @@ void Search::onSearchByTTHClicked_gui(GtkMenuItem *item, gpointer data)
 				string tth = s->resultView.getString(&iter, "TTH");
 				if (!tth.empty())
 				{
-					Search *ns = WulforManager::get()->getMainWindow()->addSearch_gui();
+					SearchEntry *ns = WulforManager::get()->getMainWindow()->addSearch_gui();
 					ns->putValue_gui(tth, 0, SearchManager::SIZE_DONTCARE, SearchManager::TYPE_TTH);
 				}
 			}
@@ -1670,27 +1671,7 @@ void Search::onCopyMagnetClicked_gui(GtkMenuItem* item, gpointer data)
 			gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), magnets.c_str(), magnets.length());
 	}
 }
-/*
-void Search::modifyHubOp_gui(string name, string url, bool op)
-{
-	GtkTreeIter iter;
-	GtkTreeModel *m = GTK_TREE_MODEL(hubStore);
-	gboolean valid = gtk_tree_model_get_iter_first(m, &iter);
 
-	while (valid)
-	{
-		if (url == hubView.getString(&iter, "Url"))
-		{
-			gtk_list_store_set(hubStore, &iter,
-				hubView.col(N_("Search")), op,
-				hubView.col(N_("Name")), name.empty() ? url.c_str() : name.c_str(),
-				-1);
-			return;
-		}
-		valid = gtk_tree_model_iter_next(m, &iter);
-	}
-}
-*/
 void Search::onCheckOp_gui(GtkToggleButton *button, gpointer data)
 {
 	Search *s = (Search *)data;

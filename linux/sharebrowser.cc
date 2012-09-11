@@ -138,10 +138,10 @@ ShareBrowser::ShareBrowser(UserPtr user, const string &file, const string &initi
 	g_signal_connect(getWidget("searchForAlternatesItem"), "activate", G_CALLBACK(onSearchAlternatesClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("copyMagnetItem"), "activate", G_CALLBACK(onCopyMagnetClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("copyPictureItem"), "activate", G_CALLBACK(onCopyPictureClicked_gui), (gpointer)this);
-	
+
 	g_signal_connect(getWidget("downloadPartialFile"), "activate", G_CALLBACK(onClickedPartial), (gpointer)this);
 	g_signal_connect(getWidget("downloadPartialDir"), "activate", G_CALLBACK(onClickedPartial), (gpointer)this);
-	
+
 	GError *error = NULL;
 	g_thread_try_new("share_browser",threadLoad_list, (gpointer)this, &error);
 	if (error) g_error_free(error);
@@ -182,14 +182,14 @@ void ShareBrowser::buildList_gui()
 	{
 		// Set name of root entry to user nick.
 		listing.getRoot()->setName(nick);
-		
+
 		if(fullfl) {
 			listing.loadFile(file);
 			listing.sortDirs();
 
 			// Search ADL
 			ADLSearchManager::getInstance()->matchListing(listing);
-		
+
 			// Add entries to dir tree view starting with the root entry.
 			buildDirs_gui(listing.getRoot(), NULL);
 			openDir_gui(initialDirectory);
@@ -197,9 +197,9 @@ void ShareBrowser::buildList_gui()
 		else
 		{
 			buildDirs_gui(listing.getRoot(), NULL);
-			
+
 		}
-		
+
 	}
 	catch (const Exception &e)
 	{
@@ -343,17 +343,17 @@ void ShareBrowser::updateFiles_gui(DirectoryListing::Directory *dir)
 			fileView.col(_("Type")), ext.c_str(),
 			fileView.col("File Order"), Util::getFileName("f"+(*it_file)->getName()).c_str(),
 			-1);
-			
+
 		StringList targets;
 		string shcolor;
 		targets = QueueManager::getInstance()->getTargets((*it_file)->getTTH());
 		if(targets.size() > 0)
 			shcolor = WGETS("share-queue");
 		else
-			shcolor = dcpp::ShareManager::getInstance()->isTTHShared((*it_file)->getTTH()) ? WGETS("share-shared") : WGETS("share-default");	
+			shcolor = dcpp::ShareManager::getInstance()->isTTHShared((*it_file)->getTTH()) ? WGETS("share-shared") : WGETS("share-default");
 		GdkPixbuf *buf = WulforUtil::loadIconShare(dcpp::Util::getFileExt((*it_file)->getName()));
 		size = (*it_file)->getSize();
-		
+
 		gtk_list_store_set(fileStore, &iter,
 			fileView.col("Icon"), buf,
 			fileView.col(_("Size")), Util::formatBytes(size).c_str(),
@@ -962,7 +962,7 @@ void ShareBrowser::onSearchAlternatesClicked_gui(GtkMenuItem *item, gpointer dat
 	GtkTreeIter iter;
 	GtkTreePath *path;
 	string fileOrder;
-	Search *s;
+	SearchEntry *s;
 	DirectoryListing::File *file;
 	GList *list = gtk_tree_selection_get_selected_rows(sb->fileSelection, NULL);
 
@@ -1104,7 +1104,7 @@ GtkWidget *ShareBrowser::createmenu()
 
     GtkWidget *copyHubUrl = gtk_menu_item_new_with_label(_("Copy CID"));
     GtkWidget *close = gtk_menu_item_new_with_label(_("Close"));
-    
+
     gtk_menu_shell_append(GTK_MENU_SHELL(menu),close);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu),copyHubUrl);
     gtk_widget_show(close);
@@ -1129,28 +1129,28 @@ void ShareBrowser::onCopyCID(gpointer data)
 }
 //]
 /**/
-void ShareBrowser::loadXML(string txt) { 
-		
+void ShareBrowser::loadXML(string txt) {
+
 		typedef Func1<ShareBrowser,string> F1;
 		F1 *func = new F1(this,&ShareBrowser::load,txt);
-		WulforManager::get()->dispatchGuiFunc(func);	
+		WulforManager::get()->dispatchGuiFunc(func);
 }
 /**/
 void ShareBrowser::load(string xml)
 {
 	// Set name of root entry to user nick.
 	listing.getRoot()->setName(nick);
-	
+
 	GtkTreeIter iter;
 	DirectoryListing::Directory *dirList;
 	string path,path2;
 	GtkTreePath *treepath;
-	if (gtk_tree_selection_get_selected(dirSelection, NULL, &iter))	
+	if (gtk_tree_selection_get_selected(dirSelection, NULL, &iter))
 	{
 		dirList = (DirectoryListing::Directory *)dirView.getValue<gpointer>(&iter,"DL Dir");
 		path2 = dirList->getName();
 		treepath = gtk_tree_path_copy(gtk_tree_model_get_path (GTK_TREE_MODEL(dirStore) ,gtk_tree_iter_copy(&iter)));
-	
+
 	path = QueueManager::getInstance()->getListPath(listing.getUser()) + ".xml";
 	if(File::getSize(path) != -1) {
 		// load the cached list.
@@ -1165,7 +1165,7 @@ void ShareBrowser::load(string xml)
 	gtk_tree_view_expand_to_path(dirView.get(), treepath);
 	gtk_tree_view_scroll_to_cell(dirView.get(),treepath,NULL,FALSE,0,0);
 	gtk_tree_selection_select_path(dirSelection,treepath);
-	updateFiles_gui(dirList); 
+	updateFiles_gui(dirList);
    }
 }
 
@@ -1174,7 +1174,7 @@ void ShareBrowser::onClickedPartial(GtkWidget *widget, gpointer data)
 	ShareBrowser *sb = (ShareBrowser *)data;
 	GtkTreeIter iter;
 	DirectoryListing::Directory *dirList;
-	if (gtk_tree_selection_get_selected(sb->dirSelection, NULL, &iter))	
+	if (gtk_tree_selection_get_selected(sb->dirSelection, NULL, &iter))
 	{
 		dirList = (DirectoryListing::Directory *)sb->dirView.getValue<gpointer>(&iter,"DL Dir");
 	}

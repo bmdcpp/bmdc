@@ -61,7 +61,7 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 
 	// Align text to the left (x = 0) and in the vertical center (0.5)
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-    if(WGETB("use-close-button"))
+    if(search || WGETB("use-close-button"))
      {
 	   closeButton = gtk_button_new();
         gtk_button_set_relief(GTK_BUTTON(closeButton), GTK_RELIEF_NONE);
@@ -117,6 +117,7 @@ void BookEntry::setIcon_gui(const EntryType type)
 		case Entry::IGNORE_USERS : stock = WGETS("icon-ignore"); break;
 		case Entry::PUBLIC_HUBS : stock = WGETS("icon-public-hubs"); break;
 		case Entry::DOWNLOAD_QUEUE : stock = WGETS("icon-queue"); break;
+		case Entry::SEARCHS:
 		case Entry::SEARCH : stock = WGETS("icon-search"); break;
 		case Entry::SEARCH_ADL : stock = WGETS("icon-search-adl"); break;
 		case Entry::SEARCH_SPY : stock = WGETS("icon-search-spy"); break;
@@ -150,7 +151,7 @@ void BookEntry::setLabel_gui(string text)
 	GtkWidget *child = gtk_bin_get_child(GTK_BIN(tabMenuItem));
 	if (child && GTK_IS_LABEL(child))
 		gtk_label_set_text(GTK_LABEL(child), text.c_str());
-    if(WGETB("use-close-button"))
+    if(search || WGETB("use-close-button"))
     {
         // Update the notebook tab label
         #if GTK_CHECK_VERSION(2, 12, 0)
@@ -159,7 +160,7 @@ void BookEntry::setLabel_gui(string text)
             gtk_tooltips_set_tip(tips, eventBox, text.c_str(), text.c_str());
         #endif
     }
-    
+
     if(WGETB("custom-font-size"))
     {
 		GtkStyle *style = gtk_widget_get_default_style();
@@ -173,7 +174,7 @@ void BookEntry::setLabel_gui(string text)
 		}
 		gtk_widget_modify_font (GTK_WIDGET(label),desc);
     }
-    
+
 	glong len = g_utf8_strlen(text.c_str(), -1);
 
 	// Truncate the label text
@@ -258,7 +259,7 @@ void BookEntry::updateLabel_gui()
 	char *markup = g_markup_printf_escaped(format, truncatedLabelText.c_str());
 	gtk_label_set_markup(label, markup);
 	g_free(markup);
-	
+
 }
 
 const string& BookEntry::getLabelText()
@@ -320,23 +321,23 @@ GtkWidget *BookEntry::createItemFirstMenu()
 	string stock, info;
 	switch (this->type)
 	{
-		case Entry::FAVORITE_HUBS : 
-					stock = WGETS("icon-favorite-hubs"); 
+		case Entry::FAVORITE_HUBS :
+					stock = WGETS("icon-favorite-hubs");
 					info = _("Favorite Hubs");
 					break;
-		case Entry::FAVORITE_USERS : 
+		case Entry::FAVORITE_USERS :
 					stock = WGETS("icon-favorite-users");
 					info = _("Favorite Users");
 					break;
-		case Entry::IGNORE_USERS : 
-					stock = WGETS("icon-ignore"); 
+		case Entry::IGNORE_USERS :
+					stock = WGETS("icon-ignore");
 					info = _("Ignore Users");
 					break;
-		case Entry::PUBLIC_HUBS : 
+		case Entry::PUBLIC_HUBS :
 					stock = WGETS("icon-public-hubs");
 					info = _("Public Hubs");
 					break;
-		case Entry::DOWNLOAD_QUEUE : 
+		case Entry::DOWNLOAD_QUEUE :
 					stock = WGETS("icon-queue");
 					info = _("Download Queue");
 					break;
@@ -344,15 +345,15 @@ GtkWidget *BookEntry::createItemFirstMenu()
 					stock = WGETS("icon-search");
 					info = _("Search");
 					break;
-		case Entry::SEARCH_ADL : 
+		case Entry::SEARCH_ADL :
 					stock = WGETS("icon-search-adl");
 					info = _("ADL Search");
 					break;
 		case Entry::SEARCH_SPY :
-					stock = WGETS("icon-search-spy"); 
+					stock = WGETS("icon-search-spy");
 					info = _("Spy Search");
 					break;
-		case Entry::FINISHED_DOWNLOADS : 
+		case Entry::FINISHED_DOWNLOADS :
 					stock = WGETS("icon-finished-downloads");
 					info = _("Finished Downloads");
 					break;
@@ -361,15 +362,15 @@ GtkWidget *BookEntry::createItemFirstMenu()
 					info = _("Finished Uploads");
 					break;
 		case Entry::PRIVATE_MESSAGE :
-					stock = WGETS("icon-pm-online"); 
+					stock = WGETS("icon-pm-online");
 					info = _("Private Message");
 					break;
-		case Entry::HUB : 
-					stock = WGETS("icon-hub-offline"); 
+		case Entry::HUB :
+					stock = WGETS("icon-hub-offline");
 					info = _("Hub");
 					break;
 		case Entry::SHARE_BROWSER :
-					stock = WGETS("icon-directory"); 
+					stock = WGETS("icon-directory");
 					info = _("Share Browser");
 					break;
 		case Entry::NOTEPAD :
@@ -377,7 +378,7 @@ GtkWidget *BookEntry::createItemFirstMenu()
 					info = _("Notepad");
 					break;
 		case Entry::SYSTEML :
-					stock = WGETS("icon-system"); 
+					stock = WGETS("icon-system");
 					info = _("System Log");
 					break;
 		case Entry::ABOUT_CONFIG:
@@ -386,8 +387,8 @@ GtkWidget *BookEntry::createItemFirstMenu()
 					break;
 		default: ;
 	}
-	
-	item = gtk_image_menu_item_new_from_stock(stock.c_str(),NULL);	
+
+	item = gtk_image_menu_item_new_from_stock(stock.c_str(),NULL);
 	gtk_menu_item_set_label(GTK_MENU_ITEM(item),info.c_str());
 	return item;
 }

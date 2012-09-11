@@ -39,7 +39,7 @@ class Search:
 	public dcpp::ClientManagerListener
 {
 	public:
-		Search();
+		Search(const std::string& str);
 		virtual ~Search();
 		virtual void show();
 

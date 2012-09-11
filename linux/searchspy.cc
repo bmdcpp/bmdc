@@ -465,7 +465,7 @@ void SearchSpy::onSearchTopClicked_gui(GtkWidget *widget, gpointer data)
 	{
 		string type = s->topView.getString(&iter, "type");
 		string search = s->topView.getString(&iter, _("Search String"));
-		Search *ss = WulforManager::get()->getMainWindow()->addSearch_gui();
+		SearchEntry *ss = WulforManager::get()->getMainWindow()->addSearch_gui();
 
 		if (type[0] == 't')
 		{
@@ -563,7 +563,7 @@ void SearchSpy::onSearchItemClicked_gui(GtkMenuItem *item, gpointer data)
 			{
 				string type = s->searchView.getString(&iter, "type");
 				string search = s->searchView.getString(&iter, _("Search String"));
-				Search *ss = WulforManager::get()->getMainWindow()->addSearch_gui();
+				SearchEntry *ss = WulforManager::get()->getMainWindow()->addSearch_gui();
 
 				if (type[0] == 't')
 				{

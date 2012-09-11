@@ -381,7 +381,7 @@ void Transfers::onSearchAlternateClicked_gui(GtkMenuItem *item, gpointer data)
 				tth = tr->transferView.getString(&iter, "TTH");
 				if (!tth.empty())
 				{
-					Search *s = WulforManager::get()->getMainWindow()->addSearch_gui();
+					SearchEntry *s = WulforManager::get()->getMainWindow()->addSearch_gui();
 					s->putValue_gui(tth, 0, SearchManager::SIZE_DONTCARE, SearchManager::TYPE_TTH);
 				}
 

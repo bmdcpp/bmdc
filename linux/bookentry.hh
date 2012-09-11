@@ -54,6 +54,7 @@ class BookEntry : public Entry
 		virtual void show() = 0;
 		virtual GtkWidget *createmenu();
 		GtkWidget *getFItem() { return fItem;}
+		void setSearchButtons(bool s) {search  = s;}
 	private:
 		void updateLabel_gui();
 		static void onCloseItem(gpointer data);
@@ -81,6 +82,7 @@ class BookEntry : public Entry
 		GdkEventType previous;
 		GtkWidget *popTabMenuItem;
 		const EntryType type;
+		bool search;
 };
 
 #else

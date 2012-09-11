@@ -40,6 +40,7 @@
 #include "transfers.hh"
 #include "message.hh"
 #include "notify.hh"
+#include "SearchEntry.hh"
 
 #include <queue>
 
@@ -96,7 +97,7 @@ class MainWindow:
 		void addPrivateStatusMessage_gui(Msg::TypeMsg typemsg, std::string cid, std::string message = "");
 		void showPublicHubs_gui();
 		void showShareBrowser_gui(dcpp::UserPtr user, std::string file, std::string dir, int64_t speed ,bool useSetting);
-		Search *addSearch_gui();
+		SearchEntry *addSearch_gui();
 		void addSearch_gui(std::string magnet);
 		void actionMagnet_gui(std::string magnet);
 		void setMainStatus_gui(std::string text, time_t t = time(NULL));
@@ -140,7 +141,7 @@ class MainWindow:
 		{
 			setStatusOfIcons(AWAY,isAway);
 		}
-		
+		SearchEntry *getSearchEntry () { return dynamic_cast<SearchEntry*>(findBookEntry(Entry::SEARCHS));}
 
 	private:
 		typedef std::pair<std::string, std::string> ParamPair;
@@ -242,7 +243,6 @@ class MainWindow:
 		/**/
 		static void onCloseAllHub_gui(GtkWidget *widget, gpointer data);
 		static void onCloseAllPM_gui(GtkWidget *widget, gpointer data);
-		static void onCloseAllSearch_gui(GtkWidget *widget, gpointer data);
 		static void onCloseAlloffPM_gui(GtkWidget *widget, gpointer data);
 		static void onReconectAllHub_gui(GtkWidget *widget, gpointer data);
 		/**/
@@ -310,7 +310,7 @@ class MainWindow:
                 s.signal();
             }
         };
-        
+
         void back(std::string TTH, std::string filename, int64_t size);
         void progress(bool progress);
         struct TTHHash: public dcpp::Thread
@@ -327,7 +327,7 @@ class MainWindow:
 				void shutdown()
 				{
 					stop = true;
-					s.signal();	
+					s.signal();
 				}
 				int run();
 		};
