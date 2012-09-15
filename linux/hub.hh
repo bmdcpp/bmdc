@@ -297,6 +297,9 @@ class Hub:
 			gchar *output = (gchar *)g_malloc0 (len + 1);
 			return g_utf8_strncpy (output, &string[start], len);
 		}
+		bool notify;
+		static void onToggleNotify (GtkWidget *item, gpointer data);
+		//GtkWidget *toggleNotify;
 
 };
 #else

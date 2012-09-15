@@ -39,7 +39,8 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	urgent(false),
 	icon(NULL),
 	popTabMenuItem(NULL),
-	type(type)
+	type(type),
+	search(false)
 
 {
 	GSList *group = NULL;

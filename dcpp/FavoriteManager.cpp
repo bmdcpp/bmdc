@@ -480,6 +480,7 @@ void FavoriteManager::save() {
 			xml.addChildAttrib("TabText", (*i)->getTabText());
 			xml.addChildAttrib("TabIcon", (*i)->getTabIconStr());
 			xml.addChildAttrib("UserListToggle", (*i)->getShowUserList());
+			xml.addChildAttrib("NotifyToggle", (*i)->getNotify());
 			(*i)->save(xml);
 			//RSX++
 			xml.stepIn();
@@ -701,6 +702,7 @@ void FavoriteManager::load(SimpleXML& aXml) {
 			e->setTabText(aXml.getChildAttrib("TabText"));
 			e->setTabIconStr(aXml.getChildAttrib("TabIcon"));
 			e->setShowUserList(Util::toInt(aXml.getChildAttrib("UserListToggle")));
+			e->setNotify(Util::toInt(aXml.getChildAttrib("NotifyToggle")));
 			e->load(aXml);
 			favoriteHubs.push_back(e);
 

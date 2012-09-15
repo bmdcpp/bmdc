@@ -22,7 +22,7 @@ LIB_IS_TAR = False
 # ,'-Wextra'
 BUILD_FLAGS = {
 	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib','-Wno-unused-parameter','-Wno-unused-value','-Wno-missing-field-initializers', '-Wno-address','-fexceptions','-g3', '-ldl', '-pipe' ],
-	'debug'   : ['-g', '-ggdb', '-Wall', '-D_DEBUG'], 
+	'debug'   : ['-g', '-ggdb', '-Wall', '-D_DEBUG'],
 	'release' : ['-O3', '-fomit-frame-pointer', '-DNDEBUG']
 }
 
@@ -194,7 +194,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		print '\tNote: You might have the lib but not the headers'
 		Exit(1)
 
-	
+
 	if not conf.CheckCXXHeader('boost/version.hpp', '<>'):
 		print '\tboost not found.'
 		print '\tNote: You might have the lib but not the headers'
@@ -254,11 +254,11 @@ if not 'install' in COMMAND_LINE_TARGETS:
 				print '\tlibnotify >= 0.4.1 not found, disabling notifications.'
 				print '\tNote: You might have the lib but not the headers'
 			else:
-				conf.env.Append(CPPDEFINES = 'HAVE_LIBNOTIFY')
+				conf.env.Append(CPPDEFINES = 'HAVE_NOTIFY')
 				conf.env.ParseConfig('pkg-config --libs --cflags libnotify')
 				if conf.CheckPKG('libnotify >= 0.7'):
 					conf.env.Append(CPPDEFINES = 'HAVE_LIBNOTIFY_0_7')
-	
+
 	#GNOME LIBs (use to Sounds)
 	if conf.env.get('libgnome'):
 		conf.env['HAVE_GNOME_LIB'] = 0
@@ -267,32 +267,32 @@ if not 'install' in COMMAND_LINE_TARGETS:
 			print '\tNote: You might have the lib but not the headers'
 		else:
 			conf.env['HAVE_GNOME_LIB'] = 1
-	
+
 	# MiniUPnPc for UPnP
 	if not conf.CheckLib('libminiupnpc'):
 		LIB_IS_UPNP = False
 	# Check for natpmp
 	if not conf.CheckLib("libnatpmp"):
-		LIB_IS_NATPMP = False	
-	
-	# GeoIp	
-	if conf.CheckHeader('GeoIP.h'):	
+		LIB_IS_NATPMP = False
+
+	# GeoIp
+	if conf.CheckHeader('GeoIP.h'):
 		print 'Found GeoIP headers'
 		conf.env.Append(CPPDEFINES = 'HAVE_GEOIPLIB')
 		LIB_IS_GEO = True
 	else:
 		print 'Dont Found GeoIP headers or libs'
-		Exit(1)	
+		Exit(1)
 
-	# tar for Backup/Restore man...	
+	# tar for Backup/Restore man...
 	if conf.CheckHeader("libtar.h"):
 		print "Found Libtar"
 		conf.env.Append(CPPDEFINES = 'HAVE_LIBTAR')
 		LIB_IS_TAR = True
 	else:
 		print 'Dont Found libtar headers'
-		Exit(1)	
-		
+		Exit(1)
+
 	#	conf.CheckBZRRevision()
 	env = conf.Finish()
 
@@ -306,13 +306,13 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	env.Append(CXXFLAGS = '-std=c++0x')
 	env.Append(LIBS = 'boost_regex')
 	env.Append(LINKFLAGS = ['-lboost_system','-lboost_thread','-lboost_regex'])
-	
+
 	env.Append(CPPDEFINES = ['STATICLIB'])
 	env.Append(CPPPATH = '#/natpmp')
 	env.Append(LIBS = 'natpmp')
 	env.Append(CPPPATH = '#/miniupnp')
 	env.Append(LIBS = 'miniupnpc')
-	
+
 	env.ParseConfig('pkg-config --libs libglade-2.0')
 	env.ParseConfig('pkg-config --libs gthread-2.0')
 
@@ -328,14 +328,14 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if os.sys.platform == 'sunos5':
 		conf.env.Append(CPPDEFINES = ('ICONV_CONST', 'const'))
 		env.Append(LIBS = ['socket', 'nsl'])
-		
+
 	if LIB_IS_GEO:
 		env.Append(LINKFLAGS = '-lGeoIP')
 		env.Append(LIBS = 'GeoIP')
-		
+
 	if LIB_IS_TAR:
 		env.Append(LINKFLAGS = '-ltar')
-		env.Append(LIBS = 'tar')	
+		env.Append(LIBS = 'tar')
 
 	#gnome libs
 	if conf.env.get('libgnome'):
@@ -343,18 +343,18 @@ if not 'install' in COMMAND_LINE_TARGETS:
 			env.ParseConfig('pkg-config --cflags libgnome-2.0')
 			env.ParseConfig('pkg-config --libs libgnome-2.0')
 			conf.env.Append(CPPDEFINES = '-D_HAVEGNOME')
-	
+
 	if env.get('profile'):
 		env.Append(CXXFLAGS = '-pg')
 		env.Append(LINKFLAGS= '-pg')
-	
+
 	if not LIB_IS_UPNP:
 		env.Append(LIBPATH = [BUILD_PATH + LIB_UPNP])
 		env.Prepend(LIBS = [LIB_UPNP])
 	if not LIB_IS_NATPMP:
 		env.Append(LIBPATH = [BUILD_PATH + LIB_NATPMP])
-		env.Prepend(LIBS = [LIB_NATPMP])	
-		
+		env.Prepend(LIBS = [LIB_NATPMP])
+
 	if env.get('PREFIX'):
 		data_dir = '\'\"%s/share\"\'' % env['PREFIX']
 		env.Append(CPPDEFINES = ('_DATADIR', data_dir))
@@ -370,7 +370,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if not LIB_IS_NATPMP:
 		natpmp_env = env.Clone(package = LIB_NATPMP)
 		pmp = SConscript(dirs = 'natpmp', variant_dir = BUILD_PATH + LIB_NATPMP, duplicate = 0, exports = { 'env': natpmp_env })
-	
+
 	# Build the dcpp library
 	dcpp_env = env.Clone(package = CORE_PACKAGE)
 	libdcpp = SConscript(dirs = 'dcpp', variant_dir = env['build_path'] + CORE_PACKAGE, duplicate = 0, exports = {'env': dcpp_env})
@@ -389,7 +389,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	elif not LIB_IS_NATPMP:
 		env.Program(target = PACKAGE, source = [libdcpp, pmp, obj_files])
 	else:
-		env.Program(target = PACKAGE, source = [libdcpp, obj_files])		
+		env.Program(target = PACKAGE, source = [libdcpp, obj_files])
 
 	# i18n
 	env.MergePotFiles(source = [glade_pot_file, linux_pot_file], target = 'po/%s.pot' % PACKAGE)
@@ -427,4 +427,4 @@ else:
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'extensions/Scripts'), source = pythfil))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'country'), source = country))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'bin'), source = PACKAGE))
-	 
+

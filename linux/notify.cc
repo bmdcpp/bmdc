@@ -74,22 +74,22 @@ void Notify::init()
 #ifdef HAVE_NOTIFY
 	notify_init(g_get_application_name());
 
-#if NOTIFY_CHECK_VERSION(0,7,0)
-	notification = notify_notification_new("template", "template", NULL);
-#else
-	notification = notify_notification_new("template", "template", NULL, NULL);
+	#if NOTIFY_CHECK_VERSION(0,7,0)
+		notification = notify_notification_new("template", "template", NULL);
+	#else
+		notification = notify_notification_new("template", "template", NULL, NULL);
+	#endif
+		action = FALSE;
 #endif
-	action = FALSE;
-#endif	
 }
 
 void Notify::finalize()
 {
-#ifdef HAVE_NOTIFY	
+#ifdef HAVE_NOTIFY
 	notify_notification_close(notification, NULL);
 	g_object_unref(notification);
 	notify_uninit();
-#endif	
+#endif
 }
 
 void Notify::setCurrIconSize(const int size)
@@ -138,7 +138,7 @@ void Notify::setCurrIconSize(const int size)
 
 void Notify::showNotify(const string &head, const string &body, TypeNotify notify)
 {
-#ifdef HAVE_LIBNOTIFY
+#ifdef HAVE_NOTIFY
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
 
 	switch (notify)
@@ -209,26 +209,31 @@ void Notify::showNotify(const string &head, const string &body, TypeNotify notif
 				wsm->getString("notify-fuser-quit-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_NORMAL);
 			break;
 		case HIGHLITING:
-			if (wsm->getInt("notify-higl-use"))	
+			if (wsm->getInt("notify-higl-use"))
 				showNotify(wsm->getString("notify-higl-title"), head , body,
-						wsm->getString("notify-higl-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_LOW);	
+						wsm->getString("notify-higl-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_LOW);
+			break;
+		case HUB_CHAT:
+			if (wsm->getInt("notify-hub-chat-use"))
+				showNotify(wsm->getString("notify-hub-chat-title"), head , body,
+						wsm->getString("notify-hub-chat-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_NORMAL);
 			break;
 		default: break;
 	}
-	#endif	
+	#endif
 }
 
 void Notify::showNotify(const string &title, const string &head, const string &body, const string &icon, const int iconSize, NotifyUrgency urgency)
 {
-	#ifdef HAVE_LIBNOTIFY
-	if (title.empty())
+	#ifdef HAVE_NOTIFY
+	if (title.empty() || notification == NULL || head.empty() || body.empty() || urgency < 1)
 		return;
 
 	gchar *esc_title = g_markup_escape_text(title.c_str(), -1);
 	gchar *esc_body = g_markup_escape_text(body.c_str(), -1);
 	string message = head + esc_body;
 
-	notify_notification_close(notification, NULL);
+	notify_notification_close(notification,NULL);
 	notify_notification_clear_hints(notification);
 	notify_notification_update(notification, esc_title, message.c_str(), NULL);
 	notify_notification_set_urgency(notification, urgency);
@@ -268,14 +273,15 @@ void Notify::showNotify(const string &title, const string &head, const string &b
 		notify_notification_clear_actions(notification);
 		action = FALSE;
 	}
+
 	notify_notification_show(notification, NULL);
 	#endif
 }
 
 void Notify::onAction(NotifyNotification *notify, const char *action, gpointer data)
 {
-	#ifdef HAVE_LIBNOTIFY
-	string target = (gchar*)data;
+	#ifdef HAVE_NOTIFY
+	string target = (gchar *)data;
 
 	if (!target.empty())
 		WulforUtil::openURI(target);

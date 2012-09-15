@@ -53,6 +53,7 @@ class Notify
 			FAVORITE_USER_JOIN,
 			FAVORITE_USER_QUIT,
 			HIGHLITING,
+			HUB_CHAT,
 			NONE
 		};
 
@@ -60,7 +61,7 @@ class Notify
 		static void start();
 		static void stop();
 
-		Notify() { init(); }
+		Notify() : action(FALSE) { init(); }
 		~Notify() { finalize(); }
 
 		void showNotify(const std::string &head, const std::string &body, TypeNotify notify);
@@ -78,7 +79,7 @@ class Notify
 		int icon_width;
 		int icon_height;
 		int currIconSize;
-		#ifdef HAVE_LIBNOTIFY
+		#ifdef HAVE_NOTIFY
 		NotifyNotification *notification;
 		#endif
 		bool action;

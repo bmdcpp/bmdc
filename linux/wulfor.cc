@@ -45,15 +45,7 @@ void receiver(const char *link, gpointer data)
 	g_return_if_fail(link != NULL);
 	WulforManager::get()->onReceived_gui(link);
 }
-/*
-void callBack(void* x, const std::string& a)
-{
-	std::cout << "Loading: " << a << std::endl;
-	Splash *sp = (Splash *)x;
-	sp->setText(a);
-	sp->update();
-}
-*/
+
 int main(int argc, char *argv[])
 {
 	// Initialize i18n support
@@ -110,7 +102,7 @@ int main(int argc, char *argv[])
 	g_set_application_name("BMDC++");
 	WulforSettingsManager::newInstance();
 	signal(SIGPIPE, SIG_IGN);
-	signal(SIGSEGV, printBacktrace);
+	//signal(SIGSEGV, printBacktrace);
 
 	WulforManager::start(argc, argv);
 	gdk_threads_enter();

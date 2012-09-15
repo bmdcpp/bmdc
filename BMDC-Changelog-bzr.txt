@@ -575,4 +575,9 @@ Few sync with dcpp
 ----r148
 Update HubSettings from dcpp
 Fixies
+----151
+Add Tabbed Searches
+----152
+Fix Tabbed Searches
+Add Notify to Mainchat messages arrived
 ----

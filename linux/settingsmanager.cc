@@ -139,6 +139,8 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("text-high-bold", 0));
 	defaultInt.insert(IntMap::value_type("text-high-italic", 1));
 	defaultInt.insert(IntMap::value_type("notify-high-use", 1));
+	defaultInt.insert(IntMap::value_type("notify-hub-chat-use", 1));
+
 	defaultInt.insert(IntMap::value_type("toolbar-button-notepad", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-button-system", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-button-ignore", 1));
@@ -154,7 +156,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("cmd-debug-client-out", 1));
 	defaultInt.insert(IntMap::value_type("cmd-debug-client-in", 1));
 	defaultInt.insert(IntMap::value_type("cmd-debug-detection", 0));
-	
+
 	defaultInt.insert(IntMap::value_type("custom-font-size", 0));
 	defaultInt.insert(IntMap::value_type("book-font-size", 0.1));
 	defaultInt.insert(IntMap::value_type("book-three-button-disable", 0));
@@ -373,20 +375,23 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("text-ip-back-color", "white"));
 	defaultString.insert(StringMap::value_type("text-high-fore-color", "black"));
 	defaultString.insert(StringMap::value_type("text-high-back-color", "white"));
-	 
-	defaultString.insert(StringMap::value_type("notify-high-title", _("Highliting"))); 
+
+	defaultString.insert(StringMap::value_type("notify-high-title", _("Highliting")));
 	defaultString.insert(StringMap::value_type("notify-high-icon", "bmdc-icon-highliting"));
-	
+
+	defaultString.insert(StringMap::value_type("notify-hub-chat-title", _("Hub Chat")));
+	defaultString.insert(StringMap::value_type("notify-hub-chat-icon", "bmdc-hub-online"));
+
 	defaultString.insert(StringMap::value_type("share-shared","#1E90FF"));
 	defaultString.insert(StringMap::value_type("share-queue", "#E32020"));
 	defaultString.insert(StringMap::value_type("share-default", "black"));
 	defaultString.insert(StringMap::value_type("sound-command", "aplay -q"));
 	defaultString.insert(StringMap::value_type("last-searchs", "."));
 	defaultString.insert(StringMap::value_type("background-color-chat", "#7F7F7F"));
-	
+
 	defaultString.insert(StringMap::value_type("color-tab-text-bold", "blue"));
 	defaultString.insert(StringMap::value_type("color-tab-text-urgent", "blue"));
-	
+
 	load();
 
 	string path_image = Util::getPath(Util::PATH_USER_CONFIG) + "Images/";
@@ -456,7 +461,7 @@ void WulforSettingsManager::load()
 		xml.fromXML(File(configFile, File::READ, File::OPEN).read());
 		xml.resetCurrentChild();
 		xml.stepIn();
-		
+
 		if (xml.findChild("Settings"))
 		{
 			xml.stepIn();
@@ -545,7 +550,7 @@ void WulforSettingsManager::save()
 	}
 	catch (const FileException &)
 	{
-		
+
 	}
 }
 

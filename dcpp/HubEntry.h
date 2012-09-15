@@ -106,6 +106,7 @@ public:
 
 	GETSET(string, tabText, TabText);
 	GETSET(string, tabIconStr, TabIconStr);
+	GETSET(bool, notify , Notify );
 
 	//Raw Manager
 	struct FavAction {

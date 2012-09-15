@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2012 Mank
+ * Copyright © 2010-2012 Mank, freedcpp@seznam.cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -59,7 +59,9 @@ Hub::Hub(const string &address, const string &encoding):
 	scrollToBottom(TRUE),
 	PasswordDialog(FALSE),
 	WaitingPassword(FALSE),
-	ImgLimit(0)
+	ImgLimit(0),
+	notify(false)/*,
+	toggleNotify(NULL)*/
 {
 
 	// Initialize nick treeview
@@ -75,11 +77,11 @@ Hub::Hub(const string &address, const string &encoding):
 	nickView.insertColumn(_("Country"), G_TYPE_STRING, TreeView::PIXBUF_STRING, 70, "Pixbuf");
 	nickView.insertColumn(_("Exact Share"), G_TYPE_INT64, TreeView::EXSIZE, 100);
 	nickView.insertColumn(_("Slots"), G_TYPE_STRING, TreeView::STRING, 50);
-    nickView.insertColumn(_("Hubs"), G_TYPE_STRING, TreeView::STRING, 50);
-    nickView.insertColumn("PK", G_TYPE_STRING, TreeView::STRING, 80);
-    nickView.insertColumn(_("Cheat"), G_TYPE_STRING, TreeView::STRING, 80);
-    nickView.insertColumn(_("Generator"), G_TYPE_STRING, TreeView::STRING, 80);
-    nickView.insertColumn(_("Support"), G_TYPE_STRING, TreeView::STRING, 80);
+	nickView.insertColumn(_("Hubs"), G_TYPE_STRING, TreeView::STRING, 50);
+	nickView.insertColumn("PK", G_TYPE_STRING, TreeView::STRING, 80);
+	nickView.insertColumn(_("Cheat"), G_TYPE_STRING, TreeView::STRING, 80);
+	nickView.insertColumn(_("Generator"), G_TYPE_STRING, TreeView::STRING, 80);
+	nickView.insertColumn(_("Support"), G_TYPE_STRING, TreeView::STRING, 80);
      //BMDC++
 	nickView.insertHiddenColumn("Icon", G_TYPE_STRING);
 	nickView.insertHiddenColumn("Nick Order", G_TYPE_STRING);
@@ -104,8 +106,8 @@ Hub::Hub(const string &address, const string &encoding):
 	nickView.setSelection(nickSelection);
 	nickView.buildCopyMenu(getWidget("CopyMenu"));
 
-    g_object_set(G_OBJECT(nickView.get()), "has-tooltip", TRUE, NULL);
-    g_signal_connect(nickView.get(), "query-tooltip", G_CALLBACK(onUserListTooltip_gui), (gpointer)this);
+	g_object_set(G_OBJECT(nickView.get()), "has-tooltip", TRUE, NULL);
+	g_signal_connect(nickView.get(), "query-tooltip", G_CALLBACK(onUserListTooltip_gui), (gpointer)this);
 	g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (nickView.get())), "changed", G_CALLBACK (selection_changed_userlist_gui), GTK_WIDGET(nickView.get()));
 	/* Set a tooltip on the column */
 	set_Header_tooltip_gui();
@@ -168,8 +170,8 @@ Hub::Hub(const string &address, const string &encoding):
 	userCommandMenu = new UserCommandMenu(getWidget("usercommandMenu"), ::UserCommand::CONTEXT_USER);//NOTE: core 0.762
 	addChild(userCommandMenu);
     // Hub ...
-    userCommandMenu1 = new UserCommandMenu(BookEntry::createmenu(), ::UserCommand::CONTEXT_HUB);
-    addChild(userCommandMenu1);
+	userCommandMenu1 = new UserCommandMenu(BookEntry::createmenu(), ::UserCommand::CONTEXT_HUB);
+	addChild(userCommandMenu1);
 	// Ip ...
 	userCommandMenu2 = new UserCommandMenu(getWidget("ipmenu"), ::UserCommand::CONTEXT_IP);
 	addChild(userCommandMenu2);
@@ -267,8 +269,8 @@ Hub::Hub(const string &address, const string &encoding):
 	g_signal_connect(getWidget("menurefresh"), "activate", G_CALLBACK(onRefreshUserListClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonrefresh"), "clicked", G_CALLBACK(onRefreshUserListClicked_gui), (gpointer)this);
 	/**/
-    g_signal_connect(getWidget("ripeitem"), "activate", G_CALLBACK(onRipeDbItem_gui),(gpointer)this);
-    g_signal_connect(getWidget("copyipItem"), "activate", G_CALLBACK(onCopyIpItem_gui),(gpointer)this);
+	g_signal_connect(getWidget("ripeitem"), "activate", G_CALLBACK(onRipeDbItem_gui),(gpointer)this);
+	g_signal_connect(getWidget("copyipItem"), "activate", G_CALLBACK(onCopyIpItem_gui),(gpointer)this);
 	//end
 	g_signal_connect(getWidget("downloadBrowseItem"), "activate", G_CALLBACK(onDownloadToClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("downloadItem"), "activate", G_CALLBACK(onDownloadClicked_gui), (gpointer)this);
@@ -336,6 +338,7 @@ Hub::Hub(const string &address, const string &encoding):
 		FavoriteManager::getInstance()->addRecent(entry);
 
 	auto faventry =  FavoriteManager::getInstance()->getFavoriteHubEntry(address);
+
 	if(faventry)
 	{
 		bool showUserList = faventry->getShowUserList();
@@ -399,6 +402,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		                     1, &size,
 						20,&cltype,
 						-1);
+
 		gchar *a = hub->g_substr(cltype,0,0);
 		//Hub&Bot
 		if ( strcmp(a,"A") == 0)
@@ -459,8 +463,10 @@ Hub::~Hub()
 
 	bool showUL = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")));
 	auto entry = FavoriteManager::getInstance()->getFavoriteHubEntry(address);
+
 	if(entry) {
 		entry->setShowUserList(showUL);
+		entry->setNotify(notify);
 		FavoriteManager::getInstance()->save();
 	}
 
@@ -534,65 +540,6 @@ void Hub::set_Header_tooltip_gui()//How beter ?
 	columnHeader(13,"Generator");
 	columnHeader(14,"Support");
 
-	/*GtkTreeViewColumn *column = gtk_tree_view_get_column (nickView.get(), 0);
-	gtk_tree_view_column_set_clickable (column, TRUE);
-	g_object_set (column->button, "tooltip-text", "Nick", NULL);
-
-	GtkTreeViewColumn *column1 = gtk_tree_view_get_column (nickView.get(), 1);
-	gtk_tree_view_column_set_clickable (column1, TRUE);
-	g_object_set (column1->button, "tooltip-text", "Shared", NULL);
-
-	GtkTreeViewColumn *column2 = gtk_tree_view_get_column (nickView.get(), 2);
-	gtk_tree_view_column_set_clickable (column2, TRUE);
-	g_object_set (column2->button, "tooltip-text", "Description", NULL);
-
-	GtkTreeViewColumn *column3 = gtk_tree_view_get_column (nickView.get(), 3);
-	gtk_tree_view_column_set_clickable (column3, TRUE);
-	g_object_set (column3->button, "tooltip-text", "Tag", NULL);
-
-	GtkTreeViewColumn *column4 = gtk_tree_view_get_column (nickView.get(), 4);
-	gtk_tree_view_column_set_clickable (column4, TRUE);
-	g_object_set (column4->button, "tooltip-text", "Conection", NULL);
-
-	GtkTreeViewColumn *column5 = gtk_tree_view_get_column (nickView.get(), 5);
-	gtk_tree_view_column_set_clickable (column5, TRUE);
-	g_object_set (column5->button, "tooltip-text", "IP", NULL);
-
-	GtkTreeViewColumn *column6 = gtk_tree_view_get_column (nickView.get(), 6);
-	gtk_tree_view_column_set_clickable (column6, TRUE);
-	g_object_set (column6->button, "tooltip-text", "eMail", NULL);
-
-	GtkTreeViewColumn *column7 = gtk_tree_view_get_column (nickView.get(), 7);
-	gtk_tree_view_column_set_clickable (column7, TRUE);
-	g_object_set (column7->button, "tooltip-text", "Country", NULL);
-
-	GtkTreeViewColumn *column8 = gtk_tree_view_get_column (nickView.get(), 8);
-	gtk_tree_view_column_set_clickable (column8, TRUE);
-	g_object_set (column8->button, "tooltip-text", "Exact Share", NULL);
-
-	GtkTreeViewColumn *column9 = gtk_tree_view_get_column (nickView.get(), 9);
-	gtk_tree_view_column_set_clickable (column9, TRUE);
-	g_object_set (column9->button, "tooltip-text", "Slots", NULL);
-
-	GtkTreeViewColumn *column10 = gtk_tree_view_get_column (nickView.get(), 10);
-	gtk_tree_view_column_set_clickable (column10, TRUE);
-	g_object_set (column10->button, "tooltip-text", "Hubs", NULL);
-
-	GtkTreeViewColumn *column11 = gtk_tree_view_get_column (nickView.get(), 11);
-	gtk_tree_view_column_set_clickable (column11, TRUE);
-	g_object_set (column11->button, "tooltip-text", "PK", NULL);
-
-	GtkTreeViewColumn *column12 = gtk_tree_view_get_column (nickView.get(), 12);
-	gtk_tree_view_column_set_clickable (column12, TRUE);
-	g_object_set (column12->button, "tooltip-text", "Cheat", NULL);
-
-	GtkTreeViewColumn *column13 = gtk_tree_view_get_column (nickView.get(), 13);
-	gtk_tree_view_column_set_clickable (column13, TRUE);
-	g_object_set (column13->button, "tooltip-text", "Generator", NULL);
-
-	GtkTreeViewColumn *column14 = gtk_tree_view_get_column (nickView.get(), 14);
-	gtk_tree_view_column_set_clickable (column14, TRUE);
-	g_object_set (column14->button, "tooltip-text", "Support", NULL);*/
 }
 
 gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer data)
@@ -664,6 +611,7 @@ void Hub::setStatus_gui(string statusBar, string text)
 
 			statustext.push(text);
             statusTextOnToolTip += "\n" + text;
+
             #if !GTK_CHECK_VERSION(2, 12, 0)
                 gtk_tooltips_set_tip (statusTips, getWidget("statusMain"), statusTextOnToolTip.c_str(), NULL);
             #else
@@ -1047,13 +995,23 @@ void Hub::nickToChat_gui(const string &nick)
 
 void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 {
+	auto gotNotify = [this](std::string hub) -> bool { if(notify) return true; else if(!hub.empty())
+							return FavoriteManager::getInstance()->getFavoriteHubEntry(hub) != NULL ? FavoriteManager::getInstance()->getFavoriteHubEntry(hub)->getNotify() : notify; else return WGETI("notify-hub-chat-use");  };
+
 	PluginManager::getInstance()->onChatDisplay(client, message);
 
 	//see linuxdcpp
 	message = message.c_str();
 	if (message.empty())
 		return;
-
+/*
+	if(gotNotify(client->getHubUrl()) && checkType(typemsg)) {
+		MainWindow *mw = WulforManager::get()->getMainWindow();
+		typedef Func3<MainWindow, string, string, Notify::TypeNotify> F3;
+		F3 *func = new F3(mw,&MainWindow::showNotification_gui,client->getHubName() ,message, Notify::HUB_CHAT);
+		WulforManager::get()->dispatchGuiFunc(func);
+	}
+*/
 	GtkTextIter iter;
 	string line = "";
 
@@ -1085,6 +1043,13 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 
 		default:
 			tagMsg = Tag::TAG_GENERAL;
+
+			if(gotNotify(client->getHubUrl())) {
+				MainWindow *mw = WulforManager::get()->getMainWindow();
+				typedef Func3<MainWindow, string, string, Notify::TypeNotify> F3;
+				F3 *func = new F3(mw,&MainWindow::showNotification_gui,client->getHubName() ,message, Notify::HUB_CHAT);
+				WulforManager::get()->dispatchGuiFunc(func);
+			}
 	}
 
 	totalEmoticons = 0;
@@ -1102,6 +1067,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 		gtk_text_buffer_delete(chatBuffer, &iter, &next);
 	}
 }
+
 /* Inspired by StrongDC catch code ips */
 gboolean Hub::HitIP(string& name, string &sIp)
 {
@@ -4635,7 +4601,13 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 			client->getMyIdentity().getParams(params, "my", true);
 			LOG(LogManager::CHAT, params);
 		}
-
+		/*TODO:
+		if(gotNotify(client->getHubUrl())) {
+			MainWindow *mw = WulforManager::get()->getMainWindow();
+			typedef Func3<MainWindow, string, string, Notify::TypeNotify> F3;
+			F3 *func = new F3(mw,&MainWindow::showNotification_gui,client->getHubName() ,tmp_text, Notify::HUB_CHAT);
+			WulforManager::get()->dispatchGuiFunc(func);
+		}*/
 		typedef Func3<Hub, string, string, Msg::TypeMsg> F3;
 		F3 *func = new F3(this, &Hub::addMessage_gui, cid, line, typemsg);
 		WulforManager::get()->dispatchGuiFunc(func);
@@ -4763,31 +4735,34 @@ void Hub::updateIcons()
 //custom popup menu
 GtkWidget *Hub::createmenu()
 {
-    GtkWidget *item = getFItem();
+	GtkWidget *item = getFItem();
 	gtk_menu_item_set_label(GTK_MENU_ITEM(item),address.c_str());
 
 	userCommandMenu1->cleanMenu_gui();
-    userCommandMenu1->addUser(client->getMyIdentity().getUser()->getCID().toBase32());
-    userCommandMenu1->addHub(client->getHubUrl());
-    userCommandMenu1->buildMenu_gui();
-    GtkWidget *menu = userCommandMenu1->getContainer();
+	userCommandMenu1->addUser(client->getMyIdentity().getUser()->getCID().toBase32());
+	userCommandMenu1->addHub(client->getHubUrl());
+	userCommandMenu1->buildMenu_gui();
+	GtkWidget *menu = userCommandMenu1->getContainer();
 
-    GtkWidget *copyHubUrl = gtk_menu_item_new_with_label(_("Copy URL"));
-    GtkWidget *close = gtk_menu_item_new_with_label(_("Close"));
-    GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite hubs"));
-    GtkWidget *remfav = gtk_menu_item_new_with_label(_("Remove from Favorite hubs"));
-    GtkWidget *setTab = gtk_menu_item_new_with_label(_("Set Tab Name"));
+	GtkWidget *copyHubUrl = gtk_menu_item_new_with_label(_("Copy URL"));
+	GtkWidget *close = gtk_menu_item_new_with_label(_("Close"));
+	GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite hubs"));
+	GtkWidget *remfav = gtk_menu_item_new_with_label(_("Remove from Favorite hubs"));
+	GtkWidget *setTab = gtk_menu_item_new_with_label(_("Set Tab Name"));
+	GtkWidget *toggleNotify = gtk_check_menu_item_new_with_label("Use Chat Notify");
 
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu),close);
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu),copyHubUrl);
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu),addFav);
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu),remfav);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), close);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), copyHubUrl);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), addFav);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), remfav);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), setTab);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), toggleNotify);
     gtk_widget_show(close);
     gtk_widget_show(copyHubUrl);
     gtk_widget_show(addFav);
     gtk_widget_show(remfav);
     gtk_widget_show(setTab);
+    gtk_widget_show_all(toggleNotify);
     gtk_widget_show_all(userCommandMenu1->getContainer());
 
     g_signal_connect_swapped(copyHubUrl, "activate", G_CALLBACK(onCopyHubUrl), (gpointer)this);
@@ -4795,7 +4770,18 @@ GtkWidget *Hub::createmenu()
     g_signal_connect_swapped(addFav, "activate", G_CALLBACK(onAddFavItem), (gpointer)this);
     g_signal_connect_swapped(remfav, "activate", G_CALLBACK(onRemoveFavHub), (gpointer)this);
     g_signal_connect_swapped(setTab, "activate", G_CALLBACK(onSetTabText), (gpointer)this);
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(toggleNotify), TRUE);
+	g_signal_connect_swapped(toggleNotify, "toggled", G_CALLBACK(onToggleNotify) , (gpointer)this);
+
     return menu;
+}
+
+void Hub::onToggleNotify (GtkWidget *item, gpointer data) {
+	Hub *hub = (Hub *)data;
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM( item )) )
+		hub->notify = TRUE;
+	else
+		hub->notify = FALSE;
 }
 
 void Hub::onCloseItem(gpointer data)

@@ -1331,7 +1331,7 @@ void Settings::initAppearance_gui()
 		g_signal_connect(renderer, "toggled", G_CALLBACK(onOptionsViewToggled_gui), (gpointer)notifyStore);
 		g_list_free(list);
 
-	#ifdef HAVE_LIBNOTIFY
+	#ifdef HAVE_NOTIFY
 		addOption_gui(notifyStore, wsm, _("Download finished"),
 			"notify-download-finished-use", "notify-download-finished-title",
 			"notify-download-finished-icon", NOTIFY_URGENCY_NORMAL);
@@ -1362,6 +1362,10 @@ void Settings::initAppearance_gui()
 		addOption_gui(notifyStore, wsm, _("Highlighting string"),
 			"notify-high-use", "notify-high-title",
 			"notify-high-icon", NOTIFY_URGENCY_LOW);
+
+		addOption_gui(notifyStore, wsm, _("Chat Hub message"),
+			"notify-hub-chat-use", "notify-hub-chat-title",
+			"notify-hub-chat-icon", NOTIFY_URGENCY_NORMAL);
 
 	#endif
 		g_signal_connect(getWidget("notifyTestButton"), "clicked", G_CALLBACK(onNotifyTestButton_gui), (gpointer)this);
@@ -2652,7 +2656,7 @@ void Settings::onNotifyTestButton_gui(GtkWidget *widget, gpointer data)
 	{
 		string title = s->notifyView.getString(&iter, _("Title"));
 		string icon = s->notifyView.getString(&iter, _("Icon"));
-		#ifdef HAVE_LIBNOTIFY
+		#ifdef HAVE_NOTIFY
 		NotifyUrgency urgency = (NotifyUrgency)s->notifyView.getValue<int>(&iter, "Urgency");
 		Notify::get()->showNotify(title, "<span weight=\"bold\" size=\"larger\">" + string(_("*** T E S T ***")) + "</span>",
 			"", icon, gtk_combo_box_get_active(GTK_COMBO_BOX(s->getWidget("notifyIconSizeComboBox"))), urgency);
