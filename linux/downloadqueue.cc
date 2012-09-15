@@ -22,6 +22,7 @@
 #include "downloadqueue.hh"
 
 #include "search.hh"
+#include "SearchEntry.hh"
 #include "settingsmanager.hh"
 #include "wulformanager.hh"
 #include "WulforUtil.hh"

@@ -31,6 +31,7 @@
 #include "previewmenu.hh"
 #include "UserCommandMenu.hh"
 #include "search.hh"
+#include "SearchEntry.hh"
 #include <dcpp/Download.h>
 #include <dcpp/Upload.h>
 #include <dcpp/ClientManager.h>

@@ -5,9 +5,21 @@
 #, fuzzy
 msgid ""
 msgstr ""
+"#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
 "POT-Creation-Date: 2012-09-15 17:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"#-#-#-#-#  linux.pot  #-#-#-#-#\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
+"POT-Creation-Date: 2012-09-15 20:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -950,7 +962,7 @@ msgid "Download Matches"
 msgstr ""
 
 #: glade/mainwindow.glade:1188 linux/bookentry.cc:343
-#: linux/downloadqueue.cc:33 linux/settingsdialog.cc:1126
+#: linux/downloadqueue.cc:34 linux/settingsdialog.cc:1126
 #: linux/settingsdialog.cc:1575
 msgid "Download Queue"
 msgstr ""
@@ -2254,17 +2266,17 @@ msgstr ""
 msgid "Show/Hide user list"
 msgstr ""
 
-#: glade/mainwindow.glade:118 glade/search.glade:133 linux/downloadqueue.cc:66
-#: linux/downloadqueue.cc:85 linux/downloadqueue.cc:277
-#: linux/downloadqueue.cc:384 linux/search.cc:103 linux/search.cc:133
+#: glade/mainwindow.glade:118 glade/search.glade:133 linux/downloadqueue.cc:67
+#: linux/downloadqueue.cc:86 linux/downloadqueue.cc:278
+#: linux/downloadqueue.cc:385 linux/search.cc:103 linux/search.cc:133
 #: linux/search.cc:638 linux/search.cc:697 linux/search.cc:843
 #: linux/search.cc:1712 linux/search.cc:1730 linux/settingsdialog.cc:1059
 #: linux/settingsdialog.cc:1065 linux/settingsdialog.cc:4203
 #: linux/settingsdialog.cc:4272 linux/sharebrowser.cc:78
 #: linux/sharebrowser.cc:102 linux/sharebrowser.cc:319
-#: linux/sharebrowser.cc:359 linux/transfers.cc:67 linux/transfers.cc:588
-#: linux/transfers.cc:668 linux/transfers.cc:761 linux/transfers.cc:778
-#: linux/transfers.cc:931
+#: linux/sharebrowser.cc:359 linux/transfers.cc:68 linux/transfers.cc:589
+#: linux/transfers.cc:669 linux/transfers.cc:762 linux/transfers.cc:779
+#: linux/transfers.cc:932
 msgid "Size"
 msgstr ""
 
@@ -2534,8 +2546,8 @@ msgid "Username"
 msgstr ""
 
 #: glade/mainwindow.glade:2154 glade/mainwindow.glade:2417
-#: linux/downloadqueue.cc:69 linux/downloadqueue.cc:275
-#: linux/downloadqueue.cc:382 linux/publichubs.cc:44 linux/publichubs.cc:59
+#: linux/downloadqueue.cc:70 linux/downloadqueue.cc:276
+#: linux/downloadqueue.cc:383 linux/publichubs.cc:44 linux/publichubs.cc:59
 #: linux/publichubs.cc:60 linux/publichubs.cc:160 linux/recenthub.cc:44
 #: linux/recenthub.cc:84 linux/recenthub.cc:271 linux/recenthub.cc:280
 msgid "Users"
@@ -2944,7 +2956,7 @@ msgstr ""
 msgid " left"
 msgstr ""
 
-#: linux/downloadqueue.cc:1283
+#: linux/downloadqueue.cc:1284
 msgid " of "
 msgstr ""
 
@@ -2956,11 +2968,11 @@ msgstr ""
 msgid " to "
 msgstr ""
 
-#: linux/transfers.cc:625
+#: linux/transfers.cc:626
 msgid " user(s)"
 msgstr ""
 
-#: linux/downloadqueue.cc:1283
+#: linux/downloadqueue.cc:1284
 msgid " user(s) online"
 msgstr ""
 
@@ -2968,7 +2980,7 @@ msgstr ""
 msgid " users"
 msgstr ""
 
-#: linux/transfers.cc:625
+#: linux/transfers.cc:626
 msgid "%) from "
 msgstr ""
 
@@ -3089,8 +3101,8 @@ msgstr ""
 msgid "Add to Favorite hubs"
 msgstr ""
 
-#: linux/downloadqueue.cc:73 linux/downloadqueue.cc:285
-#: linux/downloadqueue.cc:392
+#: linux/downloadqueue.cc:74 linux/downloadqueue.cc:286
+#: linux/downloadqueue.cc:393
 msgid "Added"
 msgstr ""
 
@@ -3272,7 +3284,7 @@ msgstr ""
 msgid "CRC Checked"
 msgstr ""
 
-#: linux/downloadqueue.cc:1353
+#: linux/downloadqueue.cc:1354
 msgid "CRC32 inconsistency (SFV-Check)"
 msgstr ""
 
@@ -3313,7 +3325,7 @@ msgstr ""
 msgid "Close tab"
 msgstr ""
 
-#: linux/transfers.cc:446
+#: linux/transfers.cc:447
 msgid "Closing connection..."
 msgstr ""
 
@@ -3337,15 +3349,15 @@ msgstr ""
 msgid "Connect failed: "
 msgstr ""
 
-#: linux/hub.cc:4310 linux/transfers.cc:1065
+#: linux/hub.cc:4310 linux/transfers.cc:1066
 msgid "Connected"
 msgstr ""
 
-#: linux/transfers.cc:1101
+#: linux/transfers.cc:1102
 msgid "Connecting"
 msgstr ""
 
-#: linux/transfers.cc:413
+#: linux/transfers.cc:414
 msgid "Connecting (forced)..."
 msgstr ""
 
@@ -3353,7 +3365,7 @@ msgstr ""
 msgid "Connecting to "
 msgstr ""
 
-#: linux/transfers.cc:1054
+#: linux/transfers.cc:1055
 msgid "Connecting..."
 msgstr ""
 
@@ -3445,7 +3457,7 @@ msgstr ""
 msgid "Download Limit (disable)"
 msgstr ""
 
-#: linux/transfers.cc:1014
+#: linux/transfers.cc:1015
 msgid "Download complete..."
 msgstr ""
 
@@ -3454,7 +3466,7 @@ msgid "Download failed: "
 msgstr ""
 
 #: linux/settingsdialog.cc:1157 linux/settingsdialog.cc:1335
-#: linux/settingsmanager.cc:238 linux/transfers.cc:1126
+#: linux/settingsmanager.cc:238 linux/transfers.cc:1127
 msgid "Download finished"
 msgstr ""
 
@@ -3483,11 +3495,11 @@ msgstr ""
 msgid "Download limit image: 0 - disable, n < 0 - unlimit, empty - info"
 msgstr ""
 
-#: linux/transfers.cc:1135
+#: linux/transfers.cc:1136
 msgid "Download removed"
 msgstr ""
 
-#: linux/transfers.cc:966
+#: linux/transfers.cc:967
 msgid "Download starting..."
 msgstr ""
 
@@ -3499,12 +3511,12 @@ msgstr ""
 msgid "Download: "
 msgstr ""
 
-#: linux/downloadqueue.cc:67 linux/downloadqueue.cc:87
-#: linux/downloadqueue.cc:280 linux/downloadqueue.cc:387
+#: linux/downloadqueue.cc:68 linux/downloadqueue.cc:88
+#: linux/downloadqueue.cc:281 linux/downloadqueue.cc:388
 msgid "Downloaded"
 msgstr ""
 
-#: linux/transfers.cc:620 linux/transfers.cc:999
+#: linux/transfers.cc:621 linux/transfers.cc:1000
 msgid "Downloaded "
 msgstr ""
 
@@ -3575,8 +3587,8 @@ msgstr ""
 msgid "Error: setting not found!"
 msgstr ""
 
-#: linux/downloadqueue.cc:72 linux/downloadqueue.cc:284
-#: linux/downloadqueue.cc:391
+#: linux/downloadqueue.cc:73 linux/downloadqueue.cc:285
+#: linux/downloadqueue.cc:392
 msgid "Errors"
 msgstr ""
 
@@ -3584,8 +3596,8 @@ msgstr ""
 msgid "Exact Share"
 msgstr ""
 
-#: linux/downloadqueue.cc:71 linux/downloadqueue.cc:86
-#: linux/downloadqueue.cc:278 linux/downloadqueue.cc:385 linux/search.cc:108
+#: linux/downloadqueue.cc:72 linux/downloadqueue.cc:87
+#: linux/downloadqueue.cc:279 linux/downloadqueue.cc:386 linux/search.cc:108
 #: linux/search.cc:134 linux/search.cc:643 linux/search.cc:696
 #: linux/sharebrowser.cc:81 linux/sharebrowser.cc:103
 #: linux/sharebrowser.cc:320 linux/sharebrowser.cc:360
@@ -3667,7 +3679,7 @@ msgstr ""
 msgid "File"
 msgstr ""
 
-#: linux/transfers.cc:714 linux/transfers.cc:923
+#: linux/transfers.cc:715 linux/transfers.cc:924
 msgid "File list"
 msgstr ""
 
@@ -3675,14 +3687,14 @@ msgstr ""
 msgid "File list loaded"
 msgstr ""
 
-#: linux/downloadqueue.cc:1349
+#: linux/downloadqueue.cc:1350
 msgid "File not available"
 msgstr ""
 
-#: linux/downloadqueue.cc:64 linux/downloadqueue.cc:88
-#: linux/downloadqueue.cc:89 linux/downloadqueue.cc:274
-#: linux/downloadqueue.cc:381 linux/downloadqueue.cc:749
-#: linux/downloadqueue.cc:792 linux/downloadqueue.cc:843
+#: linux/downloadqueue.cc:65 linux/downloadqueue.cc:89
+#: linux/downloadqueue.cc:90 linux/downloadqueue.cc:275
+#: linux/downloadqueue.cc:382 linux/downloadqueue.cc:750
+#: linux/downloadqueue.cc:793 linux/downloadqueue.cc:844
 #: linux/finishedtransfers.cc:56 linux/finishedtransfers.cc:230
 #: linux/search.cc:100 linux/search.cc:136 linux/search.cc:370
 #: linux/search.cc:636 linux/search.cc:677 linux/search.cc:837
@@ -3694,9 +3706,9 @@ msgstr ""
 #: linux/sharebrowser.cc:99 linux/sharebrowser.cc:101
 #: linux/sharebrowser.cc:312 linux/sharebrowser.cc:342
 #: linux/sharebrowser.cc:547 linux/sharebrowser.cc:639
-#: linux/sharebrowser.cc:1002 linux/sharebrowser.cc:1036 linux/transfers.cc:66
-#: linux/transfers.cc:714 linux/transfers.cc:753 linux/transfers.cc:759
-#: linux/transfers.cc:923 linux/transfers.cc:925 linux/transfers.cc:927
+#: linux/sharebrowser.cc:1002 linux/sharebrowser.cc:1036 linux/transfers.cc:67
+#: linux/transfers.cc:715 linux/transfers.cc:754 linux/transfers.cc:760
+#: linux/transfers.cc:924 linux/transfers.cc:926 linux/transfers.cc:928
 msgid "Filename"
 msgstr ""
 
@@ -3704,7 +3716,7 @@ msgstr ""
 msgid "Files"
 msgstr ""
 
-#: linux/downloadqueue.cc:237 linux/sharebrowser.cc:385
+#: linux/downloadqueue.cc:238 linux/sharebrowser.cc:385
 msgid "Files: "
 msgstr ""
 
@@ -3731,7 +3743,7 @@ msgstr ""
 msgid "Found a match"
 msgstr ""
 
-#: linux/downloadqueue.cc:1355
+#: linux/downloadqueue.cc:1356
 msgid "Full tree does not match TTH root"
 msgstr ""
 
@@ -3760,11 +3772,11 @@ msgstr ""
 msgid "Group name"
 msgstr ""
 
-#: linux/downloadqueue.cc:1325
+#: linux/downloadqueue.cc:1326
 msgid "High"
 msgstr ""
 
-#: linux/downloadqueue.cc:1328
+#: linux/downloadqueue.cc:1329
 msgid "Highest"
 msgstr ""
 
@@ -3811,8 +3823,8 @@ msgstr ""
 msgid "Hub IP & port"
 msgstr ""
 
-#: linux/transfers.cc:62 linux/transfers.cc:539 linux/transfers.cc:605
-#: linux/transfers.cc:636 linux/transfers.cc:911 linux/transfers.cc:929
+#: linux/transfers.cc:63 linux/transfers.cc:540 linux/transfers.cc:606
+#: linux/transfers.cc:637 linux/transfers.cc:912 linux/transfers.cc:930
 msgid "Hub Name"
 msgstr ""
 
@@ -3924,7 +3936,7 @@ msgstr ""
 msgid "Invalid number of slots"
 msgstr ""
 
-#: linux/downloadqueue.cc:235 linux/sharebrowser.cc:390
+#: linux/downloadqueue.cc:236 linux/sharebrowser.cc:390
 msgid "Items: "
 msgstr ""
 
@@ -3982,11 +3994,11 @@ msgstr ""
 msgid "Log Ignored Messages as STATUS mess"
 msgstr ""
 
-#: linux/downloadqueue.cc:1322
+#: linux/downloadqueue.cc:1323
 msgid "Low"
 msgstr ""
 
-#: linux/downloadqueue.cc:1319
+#: linux/downloadqueue.cc:1320
 msgid "Lowest"
 msgstr ""
 
@@ -4082,7 +4094,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: linux/downloadqueue.cc:1365
+#: linux/downloadqueue.cc:1366
 msgid "No errors"
 msgstr ""
 
@@ -4094,11 +4106,11 @@ msgstr ""
 msgid "No search text entered"
 msgstr ""
 
-#: linux/downloadqueue.cc:1278
+#: linux/downloadqueue.cc:1279
 msgid "No users"
 msgstr ""
 
-#: linux/downloadqueue.cc:1331 linux/settingsdialog.cc:1616
+#: linux/downloadqueue.cc:1332 linux/settingsdialog.cc:1616
 #: linux/settingsdialog.cc:1635 linux/settingsdialog.cc:3643
 #: linux/settingsdialog.cc:3676
 msgid "Normal"
@@ -4165,24 +4177,24 @@ msgstr ""
 msgid "Pasive"
 msgstr ""
 
-#: linux/downloadqueue.cc:1351
+#: linux/downloadqueue.cc:1352
 msgid "Passive user"
 msgstr ""
 
-#: linux/downloadqueue.cc:70 linux/downloadqueue.cc:283
-#: linux/downloadqueue.cc:390 linux/finishedtransfers.cc:57
+#: linux/downloadqueue.cc:71 linux/downloadqueue.cc:284
+#: linux/downloadqueue.cc:391 linux/finishedtransfers.cc:57
 #: linux/finishedtransfers.cc:231 linux/finishedtransfers.cc:502
 #: linux/search.cc:104 linux/search.cc:639 linux/search.cc:692
 #: linux/search.cc:840 linux/search.cc:1071 linux/search.cc:1112
 #: linux/search.cc:1171 linux/search.cc:1252 linux/search.cc:1291
 #: linux/search.cc:1348 linux/search.cc:1413 linux/search.cc:1705
 #: linux/search.cc:1721 linux/search.cc:1722 linux/search.cc:1723
-#: linux/search.cc:1985 linux/transfers.cc:68 linux/transfers.cc:760
-#: linux/transfers.cc:930
+#: linux/search.cc:1985 linux/transfers.cc:69 linux/transfers.cc:761
+#: linux/transfers.cc:931
 msgid "Path"
 msgstr ""
 
-#: linux/downloadqueue.cc:1316
+#: linux/downloadqueue.cc:1317
 msgid "Paused"
 msgstr ""
 
@@ -4199,8 +4211,8 @@ msgstr ""
 msgid "Predefined"
 msgstr ""
 
-#: linux/downloadqueue.cc:68 linux/downloadqueue.cc:282
-#: linux/downloadqueue.cc:389
+#: linux/downloadqueue.cc:69 linux/downloadqueue.cc:283
+#: linux/downloadqueue.cc:390
 msgid "Priority"
 msgstr ""
 
@@ -4254,7 +4266,7 @@ msgstr ""
 msgid "Register with the OS to handle magnet: URL links"
 msgstr ""
 
-#: linux/downloadqueue.cc:1359
+#: linux/downloadqueue.cc:1360
 msgid "Remote client does not fully support TTH - cannot download"
 msgstr ""
 
@@ -4270,7 +4282,7 @@ msgstr ""
 msgid "Rename a search type"
 msgstr ""
 
-#: linux/transfers.cc:953
+#: linux/transfers.cc:954
 msgid "Requesting"
 msgstr ""
 
@@ -4278,7 +4290,7 @@ msgstr ""
 msgid "Resolution"
 msgstr ""
 
-#: linux/downloadqueue.cc:1285
+#: linux/downloadqueue.cc:1286
 msgid "Running..."
 msgstr ""
 
@@ -4465,7 +4477,7 @@ msgstr ""
 msgid "Shutting down dcpp client..."
 msgstr ""
 
-#: linux/downloadqueue.cc:236 linux/downloadqueue.cc:238
+#: linux/downloadqueue.cc:237 linux/downloadqueue.cc:239
 #: linux/sharebrowser.cc:391
 msgid "Size: "
 msgstr ""
@@ -4504,7 +4516,7 @@ msgstr ""
 msgid "Source Type"
 msgstr ""
 
-#: linux/downloadqueue.cc:1357
+#: linux/downloadqueue.cc:1358
 msgid "Source too slow"
 msgstr ""
 
@@ -4514,10 +4526,10 @@ msgstr ""
 
 #: linux/finishedtransfers.cc:60 linux/finishedtransfers.cc:81
 #: linux/finishedtransfers.cc:190 linux/finishedtransfers.cc:234
-#: linux/transfers.cc:65 linux/transfers.cc:601 linux/transfers.cc:637
-#: linux/transfers.cc:668 linux/transfers.cc:815 linux/transfers.cc:933
-#: linux/transfers.cc:1016 linux/transfers.cc:1036 linux/transfers.cc:1087
-#: linux/transfers.cc:1192 linux/transfers.cc:1206
+#: linux/transfers.cc:66 linux/transfers.cc:602 linux/transfers.cc:638
+#: linux/transfers.cc:669 linux/transfers.cc:816 linux/transfers.cc:934
+#: linux/transfers.cc:1017 linux/transfers.cc:1037 linux/transfers.cc:1088
+#: linux/transfers.cc:1193 linux/transfers.cc:1207
 msgid "Speed"
 msgstr ""
 
@@ -4541,16 +4553,16 @@ msgstr ""
 msgid "Started MyInfo check"
 msgstr ""
 
-#: linux/AboutConfig.cc:33 linux/AboutConfig.cc:140 linux/downloadqueue.cc:65
-#: linux/downloadqueue.cc:276 linux/downloadqueue.cc:383 linux/searchspy.cc:57
-#: linux/searchspy.cc:295 linux/searchspy.cc:377 linux/transfers.cc:63
-#: linux/transfers.cc:413 linux/transfers.cc:446 linux/transfers.cc:540
-#: linux/transfers.cc:629 linux/transfers.cc:639 linux/transfers.cc:813
-#: linux/transfers.cc:953 linux/transfers.cc:966 linux/transfers.cc:1001
-#: linux/transfers.cc:1014 linux/transfers.cc:1033 linux/transfers.cc:1054
-#: linux/transfers.cc:1065 linux/transfers.cc:1084 linux/transfers.cc:1101
-#: linux/transfers.cc:1103 linux/transfers.cc:1144 linux/transfers.cc:1177
-#: linux/transfers.cc:1190 linux/transfers.cc:1203
+#: linux/AboutConfig.cc:33 linux/AboutConfig.cc:140 linux/downloadqueue.cc:66
+#: linux/downloadqueue.cc:277 linux/downloadqueue.cc:384 linux/searchspy.cc:57
+#: linux/searchspy.cc:295 linux/searchspy.cc:377 linux/transfers.cc:64
+#: linux/transfers.cc:414 linux/transfers.cc:447 linux/transfers.cc:541
+#: linux/transfers.cc:630 linux/transfers.cc:640 linux/transfers.cc:814
+#: linux/transfers.cc:954 linux/transfers.cc:967 linux/transfers.cc:1002
+#: linux/transfers.cc:1015 linux/transfers.cc:1034 linux/transfers.cc:1055
+#: linux/transfers.cc:1066 linux/transfers.cc:1085 linux/transfers.cc:1102
+#: linux/transfers.cc:1104 linux/transfers.cc:1145 linux/transfers.cc:1178
+#: linux/transfers.cc:1191 linux/transfers.cc:1204
 msgid "Status"
 msgstr ""
 
@@ -4626,9 +4638,9 @@ msgstr ""
 msgid "Time"
 msgstr ""
 
-#: linux/transfers.cc:64 linux/transfers.cc:638 linux/transfers.cc:668
-#: linux/transfers.cc:938 linux/transfers.cc:1037 linux/transfers.cc:1088
-#: linux/transfers.cc:1207
+#: linux/transfers.cc:65 linux/transfers.cc:639 linux/transfers.cc:669
+#: linux/transfers.cc:939 linux/transfers.cc:1038 linux/transfers.cc:1089
+#: linux/transfers.cc:1208
 msgid "Time Left"
 msgstr ""
 
@@ -4689,8 +4701,8 @@ msgstr ""
 msgid "Unable to load file list: Invalid file list name"
 msgstr ""
 
-#: linux/WulforUtil.cc:464 linux/WulforUtil.cc:466 linux/downloadqueue.cc:1291
-#: linux/downloadqueue.cc:1292
+#: linux/WulforUtil.cc:464 linux/WulforUtil.cc:466 linux/downloadqueue.cc:1292
+#: linux/downloadqueue.cc:1293
 msgid "Unknown"
 msgstr ""
 
@@ -4722,7 +4734,7 @@ msgstr ""
 msgid "Upload Queue Tab"
 msgstr ""
 
-#: linux/transfers.cc:1190
+#: linux/transfers.cc:1191
 msgid "Upload complete..."
 msgstr ""
 
@@ -4730,7 +4742,7 @@ msgstr ""
 msgid "Upload finished"
 msgstr ""
 
-#: linux/transfers.cc:1144
+#: linux/transfers.cc:1145
 msgid "Upload starting..."
 msgstr ""
 
@@ -4738,7 +4750,7 @@ msgstr ""
 msgid "Upload: "
 msgstr ""
 
-#: linux/transfers.cc:1175
+#: linux/transfers.cc:1176
 msgid "Uploaded "
 msgstr ""
 
@@ -4787,12 +4799,12 @@ msgstr ""
 msgid "Use magnet split"
 msgstr ""
 
-#: linux/transfers.cc:61 linux/transfers.cc:91 linux/transfers.cc:93
-#: linux/transfers.cc:538 linux/transfers.cc:604 linux/transfers.cc:635
-#: linux/transfers.cc:910 linux/transfers.cc:928 linux/transfers.cc:952
-#: linux/transfers.cc:967 linux/transfers.cc:1015 linux/transfers.cc:1034
-#: linux/transfers.cc:1086 linux/transfers.cc:1104 linux/transfers.cc:1145
-#: linux/transfers.cc:1191 linux/transfers.cc:1204
+#: linux/transfers.cc:62 linux/transfers.cc:92 linux/transfers.cc:94
+#: linux/transfers.cc:539 linux/transfers.cc:605 linux/transfers.cc:636
+#: linux/transfers.cc:911 linux/transfers.cc:929 linux/transfers.cc:953
+#: linux/transfers.cc:968 linux/transfers.cc:1016 linux/transfers.cc:1035
+#: linux/transfers.cc:1087 linux/transfers.cc:1105 linux/transfers.cc:1146
+#: linux/transfers.cc:1192 linux/transfers.cc:1205
 msgid "User"
 msgstr ""
 
@@ -5033,11 +5045,11 @@ msgid ""
 "Waiting for input password (don't remove /password before your password)"
 msgstr ""
 
-#: linux/transfers.cc:622
+#: linux/transfers.cc:623
 msgid "Waiting for slot "
 msgstr ""
 
-#: linux/transfers.cc:1103
+#: linux/transfers.cc:1104
 msgid "Waiting to retry"
 msgstr ""
 
@@ -5062,19 +5074,19 @@ msgstr ""
 msgid "[HIDDEN SHARE] "
 msgstr ""
 
-#: linux/transfers.cc:989 linux/transfers.cc:1167
+#: linux/transfers.cc:990 linux/transfers.cc:1168
 msgid "[S]"
 msgstr ""
 
-#: linux/transfers.cc:994
+#: linux/transfers.cc:995
 msgid "[T]"
 msgstr ""
 
-#: linux/transfers.cc:991 linux/transfers.cc:1169
+#: linux/transfers.cc:992 linux/transfers.cc:1170
 msgid "[U]"
 msgstr ""
 
-#: linux/transfers.cc:996 linux/transfers.cc:1172
+#: linux/transfers.cc:997 linux/transfers.cc:1173
 msgid "[Z]"
 msgstr ""
 

@@ -119,7 +119,7 @@ void DownloadManager::checkIdle(const HintedUser& user) {
 		}
 	}
   }
-}  
+}
 
 void DownloadManager::addConnection(UserConnectionPtr conn) {
 	if(!conn->isSet(UserConnection::FLAG_SUPPORTS_TTHL) || !conn->isSet(UserConnection::FLAG_SUPPORTS_ADCGET)) {//BMDC TTHF->TTHL
@@ -175,7 +175,7 @@ void DownloadManager::checkDownloads(UserConnection* aConn) {
 		idlers.push_back(aConn);
 		return;
 	}
-	
+
 	if(d->isSet(Download::FLAG_TESTSUR) && aConn->isSet(UserConnection::FLAG_NMDC)) {
 		aConn->getListLen();
 	}
@@ -193,7 +193,7 @@ void DownloadManager::checkDownloads(UserConnection* aConn) {
 	fire(DownloadManagerListener::Requesting(), d);
 
 	dcdebug("Requesting " I64_FMT "/" I64_FMT "\n", d->getStartPos(), d->getSize());
-	
+
 	/*
 	find mySID, better ways to get the correct one transferred here?
 	the hinturl of the connection is updated to the hub where the connection reguest is coming from,
@@ -216,7 +216,7 @@ void DownloadManager::on(AdcCommand::SND, UserConnection* aSource, const AdcComm
 	const string& type = cmd.getParam(0);
 	int64_t start = Util::toInt64(cmd.getParam(2));
 	int64_t bytes = Util::toInt64(cmd.getParam(3));
-	
+
 	//RSX++ // set filelist size
 	const DownloadPtr download = aSource->getDownload();
 	if(download && download->getPos() == 0 && download->isSet(Download::FLAG_CHECK_FILE_LIST)) {
@@ -301,6 +301,8 @@ void DownloadManager::startData(UserConnection* aSource, int64_t start, int64_t 
 void DownloadManager::on(UserConnectionListener::Data, UserConnection* aSource, const uint8_t* aData, size_t aLen) noexcept {
 	Download* d = aSource->getDownload();
 	dcassert(d != NULL);
+
+
 
 	try {
 		d->addPos(d->getFile()->write(aData, aLen), aLen);
@@ -397,7 +399,7 @@ void DownloadManager::noSlots(UserConnection* aSource, string param) {
 		aSource->disconnect();
 		return;
 	}
-	
+
 	string extra = param.empty() ? Util::emptyString : _(" - Queued: ") + param;
 	dcdebug("DM:noSlots No slot aviable %s",extra.c_str());
 	failDownload(aSource, _("No slots available") + extra);

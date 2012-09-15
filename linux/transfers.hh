@@ -34,10 +34,11 @@
 #include "entry.hh"
 #include "sound.hh"
 
+class SearchEntry;
 class PreviewMenu;
 class UserCommandMenu;
 
-class Transfers: 
+class Transfers:
 	public dcpp::ConnectionManagerListener,
 	public dcpp::DownloadManagerListener,
 	public dcpp::QueueManagerListener,
@@ -55,7 +56,7 @@ class Transfers:
 		// GUI functions
 		void addConnection_gui(dcpp::StringMap params, bool download);
 		void removeConnection_gui(const std::string cid, bool download);
-		
+
 		void initTransfer_gui(dcpp::StringMap params);
 		void updateTransfer_gui(dcpp::StringMap params, bool download, Sound::TypeSound sound);
 		void updateFilePosition_gui(const std::string cid, int64_t filePosition);

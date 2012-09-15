@@ -125,7 +125,7 @@ public:
 		if(flushed)
 			throw Exception("No filtered writes after flush");
 
-		uint8_t* wb = (uint8_t*)wbuf;
+		uint8_t* wb = (uint8_t *)wbuf;
 		size_t written = 0;
 		while(len > 0) {
 			size_t n = BUF_SIZE;

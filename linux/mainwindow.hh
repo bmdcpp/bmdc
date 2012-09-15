@@ -45,6 +45,7 @@
 #include <queue>
 
 class BookEntry;
+class SearchEntry;
 class Search;
 class PrivateMessage;
 class Hub;
