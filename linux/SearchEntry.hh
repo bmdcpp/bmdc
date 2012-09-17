@@ -31,8 +31,9 @@
 class SearchEntry: public BookEntry
 {
 	private:
-		template<typename T, typename B>
-		void showBook(const T& type, const B& book);
+		//template<typename T, typename B>
+		//void showBook(const T& type, const B& book);
+		void showBook(Entry::EntryType type, BookEntry *entry);
 	public:
 		SearchEntry();
 		virtual ~SearchEntry();
@@ -45,14 +46,18 @@ class SearchEntry: public BookEntry
 					Search *s = dynamic_cast<Search*>(findBookEntry(Entry::SEARCH,str));	
 					if(s == NULL) {
 						s = new Search(str);
-						showBook<Entry::EntryType, BookEntry*>(Entry::SEARCH,s);
+						//showBook<Entry::EntryType, BookEntry*>(Entry::SEARCH,s);
+						showBook(Entry::SEARCH,s);
 						s->putValue_gui(str,size,mode, type);
 					}
 					raisePage_gui(s->getContainer());	
 					return this;
 		}
 		
-		virtual void show() { showBook<Entry::EntryType,BookEntry*>(Entry::SEARCH,new Search(dcpp::Util::emptyString)); }
+		virtual void show() { 
+		//	showBook<Entry::EntryType,BookEntry*>(Entry::SEARCH,new Search(dcpp::Util::emptyString)); 
+			showBook(Entry::SEARCH, new Search(dcpp::Util::emptyString));
+		}
 		void setTabPosition_gui(GtkPositionType pos)
 		{ gtk_notebook_set_tab_pos(GTK_NOTEBOOK(getWidget("sebook")), pos);}
 	private:

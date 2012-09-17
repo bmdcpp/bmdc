@@ -120,8 +120,9 @@ BookEntry* SearchEntry::findBookEntry(const EntryType type, const string &id)
 	return dynamic_cast<BookEntry*>(entry);
 }
 
-template<typename T, typename B>
-void SearchEntry::showBook(const T& type, const B& book)
+//template<typename T, typename B>
+//void SearchEntry::showBook(const T& type, const B& book)
+void SearchEntry::showBook(Entry::EntryType type,BookEntry *book)
 {
 	BookEntry *entry = findBookEntry(type);
 
