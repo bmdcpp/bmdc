@@ -38,6 +38,7 @@
 #include "format.h"
 #include "PluginManager.h"
 #include <cmath>
+#include "BufferedSocket.h"
 
 namespace dcpp {
 

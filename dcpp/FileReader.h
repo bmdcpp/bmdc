@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2011 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2012 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef DCPLUSPLUS_DCPP_CONNECTION_MANAGER_H
-#define DCPLUSPLUS_DCPP_CONNECTION_MANAGER_H
+#ifndef DCPLUSPLUS_DCPP_FILE_READER_H
+#define DCPLUSPLUS_DCPP_FILE_READER_H
 
 #include <functional>
 #include <string>
@@ -62,7 +62,7 @@ public:
 	size_t read(const string& file, const DataCallback& callback);
 
 private:
-	static const size_t DEFAULT_BLOCK_SIZE = 64*1024;
+	static const size_t DEFAULT_BLOCK_SIZE = 256*1024;
 	static const size_t DEFAULT_MMAP_SIZE = 64*1024*1024;
 
 	string file;

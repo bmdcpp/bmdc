@@ -20,7 +20,7 @@
 #define DCPLUSPLUS_DCPP_ADC_HUB_H
 
 #include "typedefs.h"
-
+#include "ConnectionManager.h"
 #include "Client.h"
 #include "AdcCommand.h"
 #include "Socket.h"

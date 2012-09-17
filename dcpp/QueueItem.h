@@ -89,9 +89,11 @@ public:
 			FLAG_NO_TREE = 0x80,
 			FLAG_SLOW_SOURCE = 0x100,
 			FLAG_UNTRUSTED = 0x200,
+			FLAG_UNENCRYPTED = 0x400,
 			FLAG_MASK = FLAG_FILE_NOT_AVAILABLE
 				| FLAG_PASSIVE | FLAG_REMOVED | FLAG_CRC_FAILED | FLAG_CRC_WARN
 				| FLAG_BAD_TREE | FLAG_NO_TREE | FLAG_SLOW_SOURCE | FLAG_UNTRUSTED
+				| FLAG_UNENCRYPTED
 		};
 
 		Source(const HintedUser& aUser) : user(aUser) { }
@@ -143,7 +145,7 @@ public:
 	bool isSource(const UserPtr& aUser) const { return getSource(aUser) != sources.end(); }
 	bool isBadSource(const UserPtr& aUser) const { return getBadSource(aUser) != badSources.end(); }
 	bool isBadSourceExcept(const UserPtr& aUser, Flags::MaskType exceptions) const {
-		SourceConstIter i = getBadSource(aUser);
+		auto i = getBadSource(aUser);
 		if(i != badSources.end())
 			return i->isAnySet(exceptions^Source::FLAG_MASK);
 		return false;

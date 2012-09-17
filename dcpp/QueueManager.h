@@ -23,7 +23,7 @@
 #include <unordered_map>
 
 #include "TimerManager.h"
-
+#include "ConnectionManager.h"
 #include "CriticalSection.h"
 #include "Exception.h"
 #include "User.h"
@@ -32,7 +32,7 @@
 #include "Singleton.h"
 #include "DirectoryListing.h"
 #include "MerkleTree.h"
-
+#include "FileReader.h"
 #include "QueueManagerListener.h"
 #include "SearchManagerListener.h"
 #include "ClientManagerListener.h"
@@ -99,18 +99,18 @@ public:
 	/** Add a directory to the queue (downloads filelist and matches the directory). */
 	void addDirectory(const string& aDir, const HintedUser& aUser, const string& aTarget,
 		QueueItem::Priority p = QueueItem::DEFAULT) noexcept;
-		
+
 	string addClientCheck(UserPtr aUser, const string& hubHint) {
 		StringList nicks = ClientManager::getInstance()->getNicks(*aUser,hubHint);
 		string nick = nicks.empty() ? Util::emptyString : Util::cleanPathChars(nicks[0]) + ".";
 		string filename = RsxUtil::getTestSURString() + nick + aUser->getCID().toBase32();
 		if(aUser == ClientManager::getInstance()->getMe())
 			return RsxUtil::getTestSURString();
-		
+
 		add(Util::getPath(Util::PATH_USER_CONFIG) + "TestSURs//" + filename, -1, TTHValue(), HintedUser(aUser, hubHint), QueueItem::FLAG_TESTSUR);
 		return filename;
-	}	
-	
+	}
+
 	string addFileListCheck(UserPtr aUser, const string& hubHint) noexcept;
 	void removeTestSUR(HintedUser hintedUser)
 	{
@@ -124,7 +124,7 @@ public:
 			// exception
 		}
 	}
-	
+
 	void removeFileListCheck(UserPtr aUser) noexcept {
 		Lock l(cs);
 		for(auto i = fileQueue.getQueue().begin(); i != fileQueue.getQueue().end(); ++i) {
@@ -175,6 +175,7 @@ public:
 
     const QueueItem::StringMap getQueue() {return fileQueue.getQueue();}
     string getListPath(const HintedUser& user);
+	void getSizeInfo(int64_t& size, int64_t& pos, const string& target) noexcept;
 
 	GETSET(uint64_t, lastSave, LastSave);
 	GETSET(string, queueFile, QueueFile);

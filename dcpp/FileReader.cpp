@@ -1,7 +1,26 @@
+/*
+ * Copyright (C) 2001-2012 Jacek Sieka, arnetheduck on gmail point com
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ */
+
 #include "stdinc.h"
 #include "TimerManager.h"
 #include "FileReader.h"
 
+#include "debug.h"
 #include "File.h"
 #include "Text.h"
 #include "Util.h"
@@ -19,13 +38,16 @@ size_t FileReader::read(const string& file, const DataCallback& callback) {
 	size_t ret = READ_FAILED;
 
 	if(direct) {
+		dcdebug("Reading [overlapped] %s\n", file.c_str());
 		ret = readDirect(file, callback);
 	}
 
 	if(ret == READ_FAILED) {
+		dcdebug("Reading [mapped] %s\n", file.c_str());
 		ret = readMapped(file, callback);
 
 		if(ret == READ_FAILED) {
+			dcdebug("Reading [full] %s\n", file.c_str());
 			ret = readCached(file, callback);
 		}
 	}
@@ -118,6 +140,7 @@ size_t FileReader::readDirect(const string& file, const DataCallback& callback) 
 			dcdebug("First overlapped read failed: %s\n", Util::translateError(::GetLastError()).c_str());
 			return READ_FAILED;
 		}
+
 		return 0;
 	}
 
@@ -173,6 +196,18 @@ size_t FileReader::readDirect(const string& file, const DataCallback& callback) 
 }
 
 size_t FileReader::readMapped(const string& file, const DataCallback& callback) {
+	/** @todo mapped reads can fail on Windows by throwing an exception that may only be caught by
+	SEH. MinGW doesn't have that, thus making this method of reading prone to unrecoverable
+	failures. disabling this for now should be fine as DC++ always tries overlapped reads first
+	(at the moment this file reader is only used in places where overlapped reads make the most
+	sense).
+	more info:
+	<http://msdn.microsoft.com/en-us/library/aa366801(VS.85).aspx>
+	<http://stackoverflow.com/q/7244645> */
+#if 1
+	return READ_FAILED;
+#else
+
 	auto tfile = Text::toT(file);
 
 	auto tmp = ::CreateFile(tfile.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING,
@@ -223,6 +258,7 @@ size_t FileReader::readMapped(const string& file, const DataCallback& callback) 
 	}
 
 	return total.QuadPart;
+#endif
 }
 
 #else
@@ -233,6 +269,7 @@ size_t FileReader::readMapped(const string& file, const DataCallback& callback) 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+
 
 size_t FileReader::readDirect(const string& file, const DataCallback& callback) {
 	return READ_FAILED;
@@ -254,7 +291,7 @@ size_t FileReader::readMapped(const string& filename, const DataCallback& callba
 		dcdebug("Error opening file %s: %s\n", filename.c_str(), Util::translateError(errno).c_str());
 		return READ_FAILED;
 	}
-	
+
 	struct stat statbuf;
 	if (fstat(fd, &statbuf) == -1) {
 		dcdebug("Error opening file %s: %s\n", filename.c_str(), Util::translateError(errno).c_str());

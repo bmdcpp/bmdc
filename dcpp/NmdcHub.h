@@ -23,7 +23,7 @@
 
 #include "TimerManager.h"
 #include "SettingsManager.h"
-
+#include "ConnectionManager.h"
 #include "forward.h"
 #include "CriticalSection.h"
 #include "Text.h"

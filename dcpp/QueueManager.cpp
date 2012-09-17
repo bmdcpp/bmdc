@@ -20,7 +20,7 @@
 #include "QueueManager.h"
 #include <boost/range/adaptor/map.hpp>
 #include <boost/range/algorithm/for_each.hpp>
-
+#include <boost/range/algorithm_ext/for_each.hpp>
 #include "ClientManager.h"
 #include "ConnectionManager.h"
 #include "Download.h"
@@ -38,6 +38,7 @@
 #include "UserConnection.h"
 #include "version.h"
 #include "ZUtils.h"
+#include "FileReader.h"
 
 #if !defined(_WIN32) && !defined(PATH_MAX) // Extra PATH_MAX check for Mac OS X
 	#include <sys/syslimits.h>
@@ -341,7 +342,7 @@ int QueueManager::Rechecker::run() {
 		string file;
 		{
 			Lock l(cs);
-			StringIter i = files.begin();
+			auto i = files.begin();
 			if(i == files.end()) {
 				active = false;
 				return 0;
@@ -412,47 +413,14 @@ int QueueManager::Rechecker::run() {
 			tempTarget = q->getTempTarget();
 		}
 
-		//Merklecheck
-		int64_t startPos=0;
-		DummyOutputStream dummy;
-		int64_t blockSize = tt.getBlockSize();
-		bool hasBadBlocks = false;
+		TigerTree ttFile(tt.getBlockSize());
 
-		vector<uint8_t> buf((size_t)min((int64_t)1024*1024, blockSize));
-
-		typedef pair<int64_t, int64_t> SizePair;
-		typedef vector<SizePair> Sizes;
-		Sizes sizes;
-
-		{
-			File inFile(tempTarget, File::READ, File::OPEN);
-
-			while(startPos < tempSize) {
-				try {
-					MerkleCheckOutputStream<TigerTree, false> check(tt, &dummy, startPos);
-
-					inFile.setPos(startPos);
-					int64_t bytesLeft = min((tempSize - startPos),blockSize); //Take care of the last incomplete block
-					int64_t segmentSize = bytesLeft;
-					while(bytesLeft > 0) {
-						size_t n = (size_t)min((int64_t)buf.size(), bytesLeft);
-						size_t nr = inFile.read(&buf[0], n);
-						check.write(&buf[0], nr);
-						bytesLeft -= nr;
-						if(bytesLeft > 0 && nr == 0) {
-							// Huh??
-							throw Exception();
-						}
-					}
-					check.flush();
-
-					sizes.push_back(make_pair(startPos, segmentSize));
-				} catch(const Exception&) {
-					hasBadBlocks = true;
-					dcdebug("Found bad block at " I64_FMT "\n", startPos);
-				}
-				startPos += blockSize;
-			}
+		try {
+			FileReader(true).read(tempTarget, [&](const void* x, size_t n) {
+				return ttFile.update(x, n), true;
+			});
+		} catch(const FileException & e) {
+			dcdebug("Error while reading file: %s\n", e.what());
 		}
 
 		Lock l(qm->cs);
@@ -462,17 +430,26 @@ int QueueManager::Rechecker::run() {
 		if(!q)
 			continue;
 
-		//If no bad blocks then the file probably got stuck in the temp folder for some reason
-		if(!hasBadBlocks) {
+		ttFile.finalize();
+
+		if(ttFile.getRoot() == tth) {
+			//If no bad blocks then the file probably got stuck in the temp folder for some reason
 			qm->moveStuckFile(q);
 			continue;
 		}
 
-		for(Sizes::const_iterator i = sizes.begin(); i != sizes.end(); ++i)
-			q->addSegment(Segment(i->first, i->second));
+		size_t pos = 0;
+		boost::for_each(tt.getLeaves(), ttFile.getLeaves(), [&](const TTHValue& our, const TTHValue& file) {
+			if(our == file) {
+				q->addSegment(Segment(pos, tt.getBlockSize()));
+			}
+
+			pos += tt.getBlockSize();
+		});
 
 		qm->rechecked(q);
 	}
+
 	return 0;
 }
 
@@ -502,7 +479,7 @@ QueueManager::~QueueManager() {
 
 		std::sort(protectedFileLists.begin(), protectedFileLists.end());
 
-		StringList filelists = File::findFiles(path, "*.xml.bz2");
+		auto filelists = File::findFiles(path, "*.xml*");
 		std::sort(filelists.begin(), filelists.end());
 		std::for_each(filelists.begin(), std::set_difference(filelists.begin(), filelists.end(),
 			protectedFileLists.begin(), protectedFileLists.end(), filelists.begin()), &File::deleteFile);
@@ -542,7 +519,7 @@ void QueueManager::on(TimerManagerListener::Minute, uint64_t aTick) noexcept {
 				nextSearch = aTick + (online ? 120000 : 300000);
 			}
 		}
-		
+
 		for(auto i = fileQueue.getQueue().begin(); i != fileQueue.getQueue().end(); ++i) {
 			if(i->second->isSet(QueueItem::FLAG_TESTSUR) || i->second->isSet(QueueItem::FLAG_CHECK_FILE_LIST)) {
 				if(i->second->countOnlineUsers() == 0) {
@@ -550,9 +527,9 @@ void QueueManager::on(TimerManagerListener::Minute, uint64_t aTick) noexcept {
 				}
 			}
 		}
-		
+
 	}
-	
+
 	for(StringIter i = offlineChecks.begin(); i != offlineChecks.end(); ++i) {
 		try {
 			remove(*i);
@@ -610,15 +587,17 @@ void QueueManager::add(const string& aTarget, int64_t aSize, const TTHValue& roo
 		}
 		return;
 	}
-	
+
 	{
 		Lock l(cs);
 
 		// This will be pretty slow on large queues...
 		if(SETTING(DONT_DL_ALREADY_QUEUED) && (!(aFlags & QueueItem::FLAG_USER_LIST) || !(aFlags & QueueItem::FLAG_TESTSUR))) {//FL TESTSUR
 			auto ql = fileQueue.find(root);
-			if (ql.size() > 0) {
+			if (!ql.empty()) {
 				// Found one or more existing queue items, lets see if we can add the source to them
+				// Check if any of the existing queue items are for permanent downloads; if so then no addition
+				// If all existing queue items are for pending temporary downloads then add a new queue item or the source
 				bool sourceAdded = false, permanentExists = false;
 				for(auto i = ql.begin(); i != ql.end(); ++i) {
 					if(!(*i)->isSource(aUser)) {
@@ -630,7 +609,7 @@ void QueueManager::add(const string& aTarget, int64_t aSize, const TTHValue& roo
 					if (!(*i)->isSet(QueueItem::FLAG_CLIENT_VIEW)) {
 						permanentExists = true;
 					}
-					
+
 				}
 
 				if(!sourceAdded && permanentExists) {
@@ -649,7 +628,7 @@ void QueueManager::add(const string& aTarget, int64_t aSize, const TTHValue& roo
 				q = ql.front();
 			}
 		}
-		
+
 		if(q == NULL) {
 			q = fileQueue.add(target, aSize, aFlags, QueueItem::DEFAULT, tempTarget, GET_TIME(), root);
 			fire(QueueManagerListener::Added(), q);
@@ -768,9 +747,9 @@ void QueueManager::addDirectory(const string& aDir, const HintedUser& aUser, con
 	{
 		Lock l(cs);
 
-		DirectoryItem::DirectoryPair dp = directories.equal_range(aUser);
+		auto dp = directories.equal_range(aUser);
 
-		for(DirectoryItem::DirectoryIter i = dp.first; i != dp.second; ++i) {
+		for(auto i = dp.first; i != dp.second; ++i) {
 			if(Util::stricmp(aTarget.c_str(), i->second->getName().c_str()) == 0)
 				return;
 		}
@@ -863,6 +842,17 @@ int64_t QueueManager::getSize(const string& target) noexcept {
 		return qi->getSize();
 	}
 	return -1;
+}
+
+void QueueManager::getSizeInfo(int64_t& size, int64_t& pos, const string& target) noexcept {
+	Lock l(cs);
+	QueueItem* qi = fileQueue.find(target);
+	if(qi) {
+		size = qi->getSize();
+		pos = qi->getDownloadedBytes();
+	} else {
+		size = -1;
+	}
 }
 
 
@@ -1117,7 +1107,7 @@ void QueueManager::putDownload(Download* aDownload, bool finished, bool reportFi
 
 		delete aDownload->getFile();
 		aDownload->setFile(0);
-		
+
 		if(aDownload->getType() == Transfer::TYPE_PARTIAL_LIST ) {
 			QueueItem* q = fileQueue.find(/*getListPath(aDownload->getHintedUser())*/aDownload->getPath());
 			if(q) {
@@ -1200,7 +1190,7 @@ void QueueManager::putDownload(Download* aDownload, bool finished, bool reportFi
 							userQueue.removeDownload(q, aDownload->getUser());
 							if(aDownload->getType() != Transfer::TYPE_FILE || (reportFinish && q->isWaiting())) {
 								fire(QueueManagerListener::StatusUpdated(), q);
-							}	
+							}
 						}
 						setDirty();
 					}
@@ -1213,7 +1203,7 @@ void QueueManager::putDownload(Download* aDownload, bool finished, bool reportFi
 							// Blah...no use keeping an unfinished file list...
 							File::deleteFile(q->getListName());
 						}
-												
+
 						if(aDownload->getType() == Transfer::TYPE_FILE) {
 							// mark partially downloaded chunk, but align it to block size
 							int64_t downloaded = aDownload->getPos();
@@ -1238,6 +1228,8 @@ void QueueManager::putDownload(Download* aDownload, bool finished, bool reportFi
 					File::deleteFile(aDownload->getTempTarget());
 				}
 			}
+
+			setDirty();
 		}
 		delete aDownload;
 	}
@@ -1327,6 +1319,8 @@ void QueueManager::remove(const string& aTarget) noexcept {
 	}
 }
 
+#define MAX_SIZE_WO_TREE 20*1024*1024
+
 void QueueManager::removeSource(const string& aTarget, const UserPtr& aUser, int reason, bool removeConn /* = true */) noexcept {
 	bool isRunning = false;
 	bool removeCompletely = false;
@@ -1346,7 +1340,9 @@ void QueueManager::removeSource(const string& aTarget, const UserPtr& aUser, int
 
 		if(reason == QueueItem::Source::FLAG_NO_TREE) {
 			q->getSource(aUser)->setFlag(reason);
-			return;
+			if (q->getSize() < MAX_SIZE_WO_TREE) {
+				return;
+			}
 		}
 
 		if(q->isRunning() && userQueue.getRunning(aUser) == q) {
@@ -1561,6 +1557,7 @@ int QueueManager::countOnlineSources(const string& aTarget) {
 	return onlineSources;
 }
 
+static const string sDownloads = "Downloads";
 static const string sDownload = "Download";
 static const string sTempTarget = "TempTarget";
 static const string sTarget = "Target";
@@ -1579,7 +1576,7 @@ static const string sStart = "Start";
 
 void QueueLoader::startTag(const string& name, StringPairList& attribs, bool simple) {
 	QueueManager* qm = QueueManager::getInstance();
-	if(!inDownloads && name == "Downloads") {
+	if(!inDownloads && name == sDownloads) {
 		inDownloads = true;
 	} else if(inDownloads) {
 		if(cur == NULL && name == sDownload) {
@@ -1651,7 +1648,7 @@ void QueueLoader::endTag(const string& name, const string&) {
 	if(inDownloads) {
 		if(name == sDownload) {
 			cur = NULL;
-		} else if(name == "Downloads") {
+		} else if(name == sDownloads) {
 			inDownloads = false;
 		}
 	}
@@ -1676,7 +1673,7 @@ void QueueManager::on(SearchManagerListener::SR, const SearchResultPtr& sr) noex
 			QueueItem* qi = *i;
 
 			// Size compare to avoid popular spoof
-			if(qi->getSize() == sr->getSize() && !qi->isSource(sr->getUser())) {
+			if(qi->getSize() == sr->getSize() && !qi->isSource(sr->getUser()) && !qi->isBadSource(sr->getUser())) {
 				try {
 					if(!SETTING(AUTO_SEARCH_AUTO_MATCH))
 						wantConnection = addSource(qi, HintedUser(sr->getUser(), sr->getHubURL()), 0);
@@ -1736,8 +1733,8 @@ void QueueManager::on(ClientManagerListener::UserDisconnected, const UserPtr& aU
 		}
 	}
 	if(hasTestSURinQueue)
-		removeTestSUR(HintedUser(aUser, Util::emptyString)); 
-  }	
+		removeTestSUR(HintedUser(aUser, Util::emptyString));
+  }
 }
 
 void QueueManager::on(TimerManagerListener::Second, uint64_t aTick) noexcept {
@@ -1775,36 +1772,31 @@ bool QueueManager::checkSfv(QueueItem* qi, Download* d) {
 			}
 
 			fire(QueueManagerListener::CRCFailed(), d, _("CRC32 inconsistency (SFV-Check)"));
-			return true;
+		} else {
+			dcdebug("QueueManager: CRC32 match for %s\n", qi->getTarget().c_str());
+			fire(QueueManagerListener::CRCChecked(), d);
 		}
-
-		dcdebug("QueueManager: CRC32 match for %s\n", qi->getTarget().c_str());
-		fire(QueueManagerListener::CRCChecked(), d);
+		return true;
 	}
 	return false;
 }
 
 uint32_t QueueManager::calcCrc32(const string& file) {
-	File ff(file, File::READ, File::OPEN);
-	CalcInputStream<CRC32Filter, false> f(&ff);
-
-	const size_t BUF_SIZE = 1024*1024;
-	boost::scoped_array<uint8_t> b(new uint8_t[BUF_SIZE]);
-	size_t n = BUF_SIZE;
-	while(f.read(&b[0], n) > 0)
-		;		// Keep on looping...
-
-	return f.getFilter().getValue();
+	CRC32Filter crc32;
+	FileReader(true).read(file, [&](const void* x, size_t n) {
+		return crc32(x, n), true;
+	});
+	return crc32.getValue();
 }
 
-void QueueManager::logFinishedDownload(QueueItem* qi, Download* d, bool crcError)
+void QueueManager::logFinishedDownload(QueueItem* qi, Download* d, bool crcChecked)
 {
 	ParamMap params;
 	params["target"] = qi->getTarget();
 	params["fileSI"] = Util::toString(qi->getSize());
 	params["fileSIshort"] = Util::formatBytes(qi->getSize());
 	params["fileTR"] = qi->getTTH().toBase32();
-	params["sfv"] = Util::toString(crcError ? 1 : 0);
+	params["sfv"] = Util::toString(crcChecked ? 1 : 0);
 
 	{
 		auto lock = FinishedManager::getInstance()->lockLists();
@@ -1871,7 +1863,7 @@ string QueueManager::addFileListCheck(UserPtr aUser, const string& hubHint) noex
 	StringList nicks = ClientManager::getInstance()->getNicks(HintedUser(aUser,hubHint));
 	string nick = nicks.empty() ? Util::emptyString : Util::cleanPathChars(nicks[0]) + ".";
 	string fname = nick + aUser->getCID().toBase32();
-	
+
 	if(aUser == ClientManager::getInstance()->getMe())
 		return Util::emptyString;
 
@@ -1879,7 +1871,6 @@ string QueueManager::addFileListCheck(UserPtr aUser, const string& hubHint) noex
 	return fname;
 }
 //END
-//PLG..
 void QueueManager::lockedOperation(const function<void (const QueueItem::StringMap&)>& currentQueue) {
 	Lock l(cs);
 	if(currentQueue) currentQueue(fileQueue.getQueue());
