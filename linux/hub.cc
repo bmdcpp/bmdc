@@ -1096,7 +1096,7 @@ gboolean Hub::HitIP(string& name, string &sIp)
 			break;
 		}
 		end = atoi(Text::fromT(name.substr(begin)).c_str());
-		if((end < 0) || (end > 255)) {
+		if(end > 255) {
 			isOk = false;
 			break;
 		}
@@ -1113,7 +1113,7 @@ gboolean Hub::HitIP(string& name, string &sIp)
 
 }
 
-void Hub::applyTags_gui(const string cid, const string &line)
+void Hub::applyTags_gui(const string &cid, const string &line)
 {
 	GtkTextIter start_iter;
 	gtk_text_buffer_get_end_iter(chatBuffer, &start_iter);
@@ -1980,7 +1980,7 @@ gboolean Hub::onEntryKeyPress_gui(GtkWidget *entry, GdkEventKey *event, gpointer
 			|| ( !WGETB("key-hub-with-ctrl") && (event->keyval == GDK_Up || event->keyval == GDK_KP_Up) ))
 	{
 		size_t index = hub->historyIndex - 1;
-		if (index >= 0 && index < hub->history.size())
+		if (index < hub->history.size())
 		{
 			hub->historyIndex = index;
 			gtk_entry_set_text(GTK_ENTRY(entry), hub->history[index].c_str());
@@ -1991,7 +1991,7 @@ gboolean Hub::onEntryKeyPress_gui(GtkWidget *entry, GdkEventKey *event, gpointer
 			|| ( !WGETB("key-hub-with-ctrl") && (event->keyval == GDK_Down || event->keyval == GDK_KP_Down)) )
 	{
 		size_t index = hub->historyIndex + 1;
-		if (index >= 0 && index < hub->history.size())
+		if (index < hub->history.size())
 		{
 			hub->historyIndex = index;
 			gtk_entry_set_text(GTK_ENTRY(entry), hub->history[index].c_str());
@@ -2351,10 +2351,10 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 
 			if (hub->userMap.find(param) != hub->userMap.end())
 			{
-				string &cid = hub->userMap[params];
+				string cid = hub->userMap[params];
 				if (hub->userFavoriteMap.find(cid) == hub->userFavoriteMap.end())
 				{
-					Func1<Hub, string> *func = new Func1<Hub, string>(hub, &Hub::addFavoriteUser_client, cid);
+					Func1<Hub, const string&> *func = new Func1<Hub,const string&>(hub, &Hub::addFavoriteUser_client, cid);
 					WulforManager::get()->dispatchClientFunc(func);
 				} else
 					hub->addStatusMessage_gui(param + _(" is favorite user"), Msg::STATUS, Sound::NONE);
@@ -2371,7 +2371,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 
 			if (it != hub->userFavoriteMap.end())
 			{
-				Func1<Hub, string> *func = new Func1<Hub, string>(hub, &Hub::removeFavoriteUser_client, it->first);
+				Func1<Hub, const string&> *func = new Func1<Hub,const string&>(hub, &Hub::removeFavoriteUser_client, it->first);
 				WulforManager::get()->dispatchClientFunc(func);
 			}
 			else
@@ -2499,7 +2499,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			}
 			else
 			{
-				typedef Func2<Hub, string, bool> F2;
+//				typedef Func2<Hub, string, bool> F2;
 				F2 *func = new F2(hub, &Hub::redirect_client, param, TRUE);
 				WulforManager::get()->dispatchClientFunc(func);
 			}
@@ -3001,7 +3001,7 @@ void Hub::onAddFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data)
 		string cid, nick, order;
 		GtkTreeIter iter;
 		GtkTreePath *path;
-		typedef Func1<Hub, string> F1;
+		typedef Func1<Hub, const string&> F1;
 		GList *list = gtk_tree_selection_get_selected_rows(hub->nickSelection, NULL);
 
 		for (GList *i = list; i; i = i->next)
@@ -3040,7 +3040,7 @@ void Hub::onRemoveFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data)
 		string cid, nick, order;
 		GtkTreeIter iter;
 		GtkTreePath *path;
-		typedef Func1<Hub, string> F1;
+		typedef Func1<Hub, const string&> F1;
 		GList *list = gtk_tree_selection_get_selected_rows(hub->nickSelection, NULL);
 
 		for (GList *i = list; i; i = i->next)
@@ -3492,7 +3492,7 @@ void Hub::addPrivateMessage_gui(Msg::TypeMsg typemsg, string CID, string cid, st
 	WulforManager::get()->getMainWindow()->addPrivateMessage_gui(typemsg, cid, url, message, useSetting);
 }
 
-void Hub::addFavoriteUser_client(const string cid)
+void Hub::addFavoriteUser_client(const string& cid)
 {
 	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
 
@@ -3502,7 +3502,7 @@ void Hub::addFavoriteUser_client(const string cid)
 	}
 }
 
-void Hub::removeFavoriteUser_client(const string cid)
+void Hub::removeFavoriteUser_client(const string &cid)
 {
 	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
 
@@ -4601,13 +4601,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 			client->getMyIdentity().getParams(params, "my", true);
 			LOG(LogManager::CHAT, params);
 		}
-		/*TODO:
-		if(gotNotify(client->getHubUrl())) {
-			MainWindow *mw = WulforManager::get()->getMainWindow();
-			typedef Func3<MainWindow, string, string, Notify::TypeNotify> F3;
-			F3 *func = new F3(mw,&MainWindow::showNotification_gui,client->getHubName() ,tmp_text, Notify::HUB_CHAT);
-			WulforManager::get()->dispatchGuiFunc(func);
-		}*/
+
 		typedef Func3<Hub, string, string, Msg::TypeMsg> F3;
 		F3 *func = new F3(this, &Hub::addMessage_gui, cid, line, typemsg);
 		WulforManager::get()->dispatchGuiFunc(func);

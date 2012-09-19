@@ -238,7 +238,7 @@ uint32_t File::getLastModified() noexcept {
 	return (uint32_t)s.st_mtime;
 }
 
-bool File::isOpen() noexcept {
+bool File::isOpen() const noexcept {
 	return h != -1;
 }
 

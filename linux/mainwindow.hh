@@ -73,7 +73,7 @@ class MainWindow:
 		void raisePage_gui(GtkWidget *page);
 		static bool getUserCommandLines_gui(const std::string &commands, dcpp::ParamMap &ucParams);
 		void propertiesMagnetDialog_gui(std::string magnet);
-		void showMessageDialog_gui(const std::string primaryText, const std::string secondaryText);
+		void showMessageDialog_gui(const std::string &primaryText, const std::string &secondaryText);
 
 		template<typename T, typename B>
 		void showBook(const T& type, const B& book);

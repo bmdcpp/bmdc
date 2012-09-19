@@ -30,7 +30,6 @@
 class Emot
 {
 	public:
-//		enum {SIZE_LIST = 255}; FIXME limit emotions
 		enum {SIZE_NAME = 24};
 		typedef std::vector<Emot *> List;
 		typedef List::const_iterator Iter;
@@ -39,9 +38,9 @@ class Emot
 			names(names), file(file), pixbuf(pixbuf) {}
 		~Emot() {}
 
-		GList* getNames() {return names;}
-		std::string getFile() {return file;}
-		GdkPixbuf* getPixbuf() {return pixbuf;}
+		GList* getNames() { return names;}
+		std::string getFile() const {return file;}
+		GdkPixbuf* getPixbuf() const { return pixbuf;}
 
 	private:
 		GList *names;
@@ -61,10 +60,10 @@ class Emoticons
 
 		// GUI functions
 		Emot::List& getPack_gui() {return pack;}
-		int getCountFile_gui() {return countfile;}
-		bool useEmoticons_gui() {return useEmotions;}
-		std::string getCurrPackName_gui() {return currPackName;}
-		void setCurrPackName_gui(const std::string &name) {currPackName = name;}
+		int getCountFile_gui() const {return countfile;}
+		bool useEmoticons_gui() const {return useEmotions;}
+		std::string getCurrPackName_gui() const {return currPackName;}
+		void setCurrPackName_gui(const std::string &name) { currPackName = name;}
 		void reloadPack_gui() {create();}
 
 	private:

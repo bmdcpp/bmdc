@@ -35,7 +35,7 @@ SearchEntry::SearchEntry():
 	g_object_set_data(G_OBJECT(getWidget("sebook")), "page-rotation-list", NULL);
 
 	g_signal_connect(getWidget("sebook"), "switch-page", G_CALLBACK(onPageSwitched_gui), (gpointer)this);
-	
+
 }
 
 SearchEntry::~SearchEntry()
@@ -56,7 +56,7 @@ void SearchEntry::addBookEntry_gui(BookEntry *entry)
 	GtkWidget *closeButton = entry->getCloseButton();
 
 	gtk_notebook_append_page(GTK_NOTEBOOK(getWidget("sebook")), page, label);
-	
+
 	g_signal_connect(closeButton, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
 	g_signal_connect(closeButton, "clicked", G_CALLBACK(onCloseBookEntry_gui), (gpointer)entry);
 
@@ -120,8 +120,6 @@ BookEntry* SearchEntry::findBookEntry(const EntryType type, const string &id)
 	return dynamic_cast<BookEntry*>(entry);
 }
 
-//template<typename T, typename B>
-//void SearchEntry::showBook(const T& type, const B& book)
 void SearchEntry::showBook(Entry::EntryType type,BookEntry *book)
 {
 	BookEntry *entry = findBookEntry(type);

@@ -67,7 +67,7 @@ public:
 
 	File(const string& aFileName, int access, int mode);
 
-	bool isOpen() noexcept;
+	bool isOpen() const noexcept;
 	virtual void close() noexcept;
 	virtual int64_t getSize() noexcept;
 	virtual void setSize(int64_t newSize);

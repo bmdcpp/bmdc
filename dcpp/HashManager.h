@@ -163,7 +163,7 @@ private:
 		const TTHValue* getTTH(const string& aFileName);
 		bool getTree(const TTHValue& root, TigerTree& tth);
 		size_t getBlockSize(const TTHValue& root) const;
-		bool isDirty() { return dirty; }
+		bool isDirty() const { return dirty; }
 	private:
 		/** Root -> tree mapping info, we assume there's only one tree for each root (a collision would mean we've broken tiger...) */
 		struct TreeInfo {
@@ -183,7 +183,7 @@ private:
 			FileInfo(const string& aFileName, const TTHValue& aRoot, uint32_t aTimeStamp, bool aUsed) :
 				fileName(aFileName), root(aRoot), timeStamp(aTimeStamp), used(aUsed) { }
 
-			bool operator==(const string& name) { return name == fileName; }
+			bool operator==(const string& name) const { return name == fileName; }
 
 			GETSET(string, fileName, FileName);
 			GETSET(TTHValue, root, Root);

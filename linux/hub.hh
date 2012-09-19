@@ -87,7 +87,7 @@ class Hub:
 		void popupNickMenu_gui();
 		void getPassword_gui();
 		void addMessage_gui(std::string cid, std::string message, Msg::TypeMsg typemsg);
-		void applyTags_gui(const std::string cid, const std::string &line);
+		void applyTags_gui(const std::string &cid, const std::string &line);
 
 		void addStatusMessage_gui(std::string message, Msg::TypeMsg typemsg, Sound::TypeSound sound);
 		void applyEmoticons_gui();
@@ -185,8 +185,8 @@ class Hub:
 		static void makeColor(GtkTreeViewColumn *column, GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data);
 
 		// Client functions
-		void addFavoriteUser_client(const std::string cid);
-		void removeFavoriteUser_client(const std::string cid);
+		void addFavoriteUser_client(const std::string& cid);
+		void removeFavoriteUser_client(const std::string& cid);
 		void connectClient_client(std::string address, std::string encoding);
 		void disconnect_client();
 		void setPassword_client(std::string password);
@@ -260,7 +260,7 @@ class Hub:
 		GtkTextMark *chatMark, *start_mark, *end_mark, *tag_mark, *emot_mark;
 		gint oldType;
 		std::vector<std::string> history;
-		int historyIndex;
+		unsigned int historyIndex;
 		static const int maxLines = 1000;
 		static const int maxHistory = 20;
 		int64_t totalShared;

@@ -20,6 +20,7 @@
 
 #ifndef BMDC_SEARCH_ENTRY_HH
 #define BMDC_SEARCH_ENTRY_HH
+
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
 #include "entry.hh"
@@ -31,31 +32,28 @@
 class SearchEntry: public BookEntry
 {
 	private:
-		//template<typename T, typename B>
-		//void showBook(const T& type, const B& book);
 		void showBook(Entry::EntryType type, BookEntry *entry);
 	public:
 		SearchEntry();
 		virtual ~SearchEntry();
-		
-		SearchEntry* putValue_gui(const std::string &str, 
+
+		SearchEntry* putValue_gui(const std::string &str,
 					int64_t size,
-					dcpp::SearchManager::SizeModes mode, 
+					dcpp::SearchManager::SizeModes mode,
 					dcpp::SearchManager::TypeModes type) {
-						
-					Search *s = dynamic_cast<Search*>(findBookEntry(Entry::SEARCH,str));	
+
+					Search *s = dynamic_cast<Search*>(findBookEntry(Entry::SEARCH,str));
 					if(s == NULL) {
 						s = new Search(str);
 						//showBook<Entry::EntryType, BookEntry*>(Entry::SEARCH,s);
 						showBook(Entry::SEARCH,s);
 						s->putValue_gui(str,size,mode, type);
 					}
-					raisePage_gui(s->getContainer());	
+					raisePage_gui(s->getContainer());
 					return this;
 		}
-		
-		virtual void show() { 
-		//	showBook<Entry::EntryType,BookEntry*>(Entry::SEARCH,new Search(dcpp::Util::emptyString)); 
+
+		virtual void show() {
 			showBook(Entry::SEARCH, new Search(dcpp::Util::emptyString));
 		}
 		void setTabPosition_gui(GtkPositionType pos)

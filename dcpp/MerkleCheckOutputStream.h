@@ -29,7 +29,7 @@ class MerkleCheckOutputStream : public OutputStream {
 public:
 	MerkleCheckOutputStream(const TreeType& aTree, OutputStream* aStream, int64_t start) : s(aStream), real(aTree), cur(aTree.getBlockSize()), verified(0), bufPos(0) {
 		// Only start at block boundaries
-		dcassert(start % aTree.getBlockSize() == 0);
+		//dcassert(start % aTree.getBlockSize() == 0);
 		cur.setFileSize(start);
 
 		size_t nBlocks = static_cast<size_t>(start / aTree.getBlockSize());

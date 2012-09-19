@@ -110,20 +110,20 @@ class cmddebug:
     GtkListStore *store;
     Iters iters;
     dcpp::HookSubscriber *hubIn, *hubOut, *clientIn, *clientOut;
-   
+
 	/* HubData */
 	static Bool onHubDataIn(HubDataPtr iHub, const char* message, dcptr_t pCommon);
-	static Bool DCAPI netHubInEvent(dcptr_t pObject, dcptr_t pData, dcptr_t pCommon, Bool* /*bBreak*/) { return cmddebug::onHubDataIn((HubDataPtr)pObject, (char*)pData, pCommon); }
-	
+	static Bool DCAPI netHubInEvent(dcptr_t pObject, dcptr_t pData, dcptr_t pCommon, Bool* /*bBreak*/) { return onHubDataIn((HubDataPtr)pObject, (char*)pData, pCommon); }
+
 	static Bool onHubDataOut(HubDataPtr oHub, const char* message, dcptr_t pCommon);
-	static Bool DCAPI netHubOutEvent(dcptr_t pObject, dcptr_t pData, dcptr_t pCommon, Bool* /*bBreak*/) { return cmddebug::onHubDataOut((HubDataPtr)pObject, (char*)pData, pCommon); }
-	
+	static Bool DCAPI netHubOutEvent(dcptr_t pObject, dcptr_t pData, dcptr_t pCommon, Bool* /*bBreak*/) { return onHubDataOut((HubDataPtr)pObject, (char*)pData, pCommon); }
+
 	/* ClientData */
 	static Bool onConnDataIn(ConnectionDataPtr iConn, const char* message, dcptr_t pCommon);
-	static Bool DCAPI netConnInEvent(dcptr_t pObject, dcptr_t pData, dcptr_t pCommon, Bool* /*bBreak*/) { return cmddebug::onConnDataIn((ConnectionDataPtr)pObject, (char*)pData, pCommon); }
-	
+	static Bool DCAPI netConnInEvent(dcptr_t pObject, dcptr_t pData, dcptr_t pCommon, Bool* /*bBreak*/) { return onConnDataIn((ConnectionDataPtr)pObject, (char*)pData, pCommon); }
+
 	static Bool onConnDataOut(ConnectionDataPtr oConn, const char* message, dcptr_t pCommon);
-	static Bool DCAPI netConnOutEvent(dcptr_t pObject, dcptr_t pData, dcptr_t pCommon, Bool* /*bBreak*/) { return cmddebug::onConnDataOut((ConnectionDataPtr)pObject, (char*)pData, pCommon); }
+	static Bool DCAPI netConnOutEvent(dcptr_t pObject, dcptr_t pData, dcptr_t pCommon, Bool* /*bBreak*/) { return onConnDataOut((ConnectionDataPtr)pObject, (char*)pData, pCommon); }
 
 };
 

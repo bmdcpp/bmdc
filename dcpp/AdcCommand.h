@@ -155,7 +155,7 @@ public:
 	bool hasFlag(const char* name, size_t start) const;
 	static uint16_t toCode(const char* x) { return *((uint16_t*)x); }
 
-	bool operator==(uint32_t aCmd) { return cmdInt == aCmd; }
+	bool operator==(uint32_t aCmd) const { return cmdInt == aCmd; }
 
 	static string escape(const string& str, bool old);
 	uint32_t getTo() const { return to; }

@@ -54,7 +54,7 @@ public:
 
 	void getUserList(OnlineUserList& list) const {
 		Lock l(cs);
-		for(SIDMap::const_iterator i = users.begin(); i != users.end(); i++) {
+		for(SIDMap::const_iterator i = users.begin(); i != users.end(); ++i) {
 			if(i->first != AdcCommand::HUB_SID) {
 				list.push_back(i->second);
 			}

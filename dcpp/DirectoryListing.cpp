@@ -184,7 +184,7 @@ void ListLoader::startTag(const string& name, StringPairList& attribs, bool simp
 			string l_br;
 			MediaInfo l_mediaXY;
 			const string& l_ts = getAttrib(attribs, sTS, 3);
-			
+
 			if(l_ts.size()) // Extended tags - exists only FlylinkDC++ or StrongDC++ sqlite or clones
 			{
 				l_br = getAttrib(attribs, sBR, 4);
@@ -194,7 +194,7 @@ void ListLoader::startTag(const string& name, StringPairList& attribs, bool simp
 			}
 
 			DirectoryListing::File* f = new DirectoryListing::File(cur, n, size, tth,atoi(l_ts.c_str()),l_mediaXY);
-			
+
 			cur->files.push_back(f);
 
 		} else if(name == sDirectory) {
@@ -423,7 +423,7 @@ size_t DirectoryListing::Directory::getTotalFileCount(bool adl) {
 
 DirectoryListing::Directory::List DirectoryListing::getForbiddenDirs() {
 	DirectoryListing::Directory::List forbiddenDirList;
-	for(DirectoryListing::Directory::Iter di = root->directories.begin() ; di != root->directories.end() ; di++) {
+	for(DirectoryListing::Directory::Iter di = root->directories.begin() ; di != root->directories.end() ; ++di) {
 		if((*di)->getName().find("Forbidden Directories") != string::npos) {
 			DirectoryListing::Directory::Iter fd;
 			for(fd = (*di)->directories.begin(); fd != (*di)->directories.end() ; fd++) {
@@ -436,12 +436,12 @@ DirectoryListing::Directory::List DirectoryListing::getForbiddenDirs() {
 
 DirectoryListing::File::List DirectoryListing::getForbiddenFiles() {
 	DirectoryListing::File::List forbiddenList;
-	for(DirectoryListing::Directory::Iter di = root->directories.begin() ; di != root->directories.end() ; di++) {
+	for(DirectoryListing::Directory::Iter di = root->directories.begin() ; di != root->directories.end() ; ++di) {
 		if((*di)->getName().find("Forbidden Files") != string::npos ||
 			(*di)->getName().find("Forbidden Full Path") != string::npos ||
 			(*di)->getName().find("Forbidden TTHS") != string::npos) {
 			DirectoryListing::File::Iter fi;
-			for(fi = (*di)->files.begin() ; fi != (*di)->files.end() ; fi++) {
+			for(fi = (*di)->files.begin() ; fi != (*di)->files.end() ; ++fi) {
 				forbiddenList.push_back(*fi);
 			}
 		}
@@ -450,7 +450,7 @@ DirectoryListing::File::List DirectoryListing::getForbiddenFiles() {
 }
 
 uint32_t DirectoryListing::Directory::getTotalTS() const
-{ 
+{
 	uint32_t x = getTS();
  	for (auto i = directories.begin(); i != directories.end(); ++i)
  	{

@@ -38,7 +38,7 @@ public:
 	explicit scoped_handle(T* t_ = nullptr) : t(t_) { }
 	~scoped_handle() { if(t) { Release(t); } }
 
-	operator T*() { return t; }
+	operator T*() const  { return t; }
 	operator const T*() const { return t; }
 
 	operator bool() const { return t; }

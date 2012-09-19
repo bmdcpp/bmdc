@@ -132,7 +132,7 @@ public:
 			a.first = combine(a.first, b.first);
 			blocks.pop_back();
 		}
-		dcassert(blocks.size() == 0 || blocks.size() == 1);
+		dcassert(blocks.empty() || blocks.size() == 1);
 		if(!blocks.empty()) {
 			leaves.push_back(blocks[0].first);
 		}
@@ -183,7 +183,7 @@ private:
 	int64_t blockSize;
 
 	MerkleValue getHash(int64_t start, int64_t length) {
-		dcassert((start % blockSize) == 0);
+		//dcassert((start % blockSize) == 0);
 		if(length <= blockSize) {
 			dcassert((start / blockSize) < (int64_t)leaves.size());
 			return leaves[(uint32_t)(start / blockSize)];

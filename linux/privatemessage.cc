@@ -1097,7 +1097,7 @@ gboolean PrivateMessage::onKeyPress_gui(GtkWidget *widget, GdkEventKey *event, g
 		|| (!WGETB("key-hub-with-ctrl") && (event->keyval == GDK_Up || event->keyval == GDK_KP_Up)) )
 	{
 		index = pm->historyIndex - 1;
-		if (index >= 0 && index < pm->history.size())
+		if (index < pm->history.size())
 		{
 			text = pm->history[index];
 			pm->historyIndex = index;
@@ -1110,7 +1110,7 @@ gboolean PrivateMessage::onKeyPress_gui(GtkWidget *widget, GdkEventKey *event, g
 		|| ( !WGETB("key-hub-with-ctrl") && (event->keyval == GDK_Down || event->keyval == GDK_KP_Down)))
 	{
 		index = pm->historyIndex + 1;
-		if (index >= 0 && index < pm->history.size())
+		if (index < pm->history.size())
 		{
 			text = pm->history[index];
 			pm->historyIndex = index;

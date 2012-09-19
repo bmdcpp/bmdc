@@ -50,7 +50,7 @@ void CommandQueue::execCommand(const CommandItem& item)  {
         item.ou->getIdentity().getParams(params, "user", true);
 		clientPtr->getHubIdentity().getParams(params, "hub", false);
 		clientPtr->getMyIdentity().getParams(params, "my", true);
-		string formattedCmd = Util::formatParams(item.uc.getCommand(), params);
+		/*string formattedCmd = */Util::formatParams(item.uc.getCommand(), params);
 		clientPtr->sendUserCmd(item.uc, params);
 }
 
@@ -61,14 +61,14 @@ void CommandQueue::addCommand(const OnlineUser& ou, int actionId) {
 
 		if(a != NULL) {
 			if(FavoriteManager::getInstance()->getEnabledAction(hub, actionId)) {
-				
+
 				uint64_t delayTime = GET_TICK();
 				for(Action::RawsList::const_iterator i = a->raw.begin(); i != a->raw.end(); ++i) {
 					if(i->getEnabled() && !(i->getRaw().empty())) {
 						if(FavoriteManager::getInstance()->getEnabledRaw(hub, actionId, i->getId())) {
 							ParamMap params;
 							const UserCommand uc = UserCommand(0, 0, 0, 0, "", i->getRaw(),"", "");
-						
+
 							ou.getIdentity().getParams(params, "user", true);
 							clientPtr->getHubIdentity().getParams(params, "hub", false);
 							clientPtr->getMyIdentity().getParams(params, "my", true);
@@ -92,7 +92,7 @@ void CommandQueue::addCommand(const OnlineUser& ou, int actionId) {
 						}
 					}
 				}
-				
+
 			}
 		}
 	}

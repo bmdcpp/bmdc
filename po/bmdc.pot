@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-09-16 22:20+0200\n"
+"POT-Creation-Date: 2012-09-18 23:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-09-17 18:56+0200\n"
+"POT-Creation-Date: 2012-09-19 19:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3097,7 +3097,7 @@ msgstr ""
 msgid "Add finished files to share instantly (if shared)"
 msgstr ""
 
-#: linux/hub.cc:4749
+#: linux/hub.cc:4743
 msgid "Add to Favorite hubs"
 msgstr ""
 
@@ -3312,7 +3312,7 @@ msgstr ""
 msgid "Clear search box after each search"
 msgstr ""
 
-#: linux/bookentry.cc:286 linux/hub.cc:4748 linux/privatemessage.cc:1533
+#: linux/bookentry.cc:286 linux/hub.cc:4742 linux/privatemessage.cc:1533
 #: linux/sharebrowser.cc:1106
 msgid "Close"
 msgstr ""
@@ -3381,7 +3381,7 @@ msgstr ""
 msgid "Copy Nick(s)"
 msgstr ""
 
-#: linux/hub.cc:4747
+#: linux/hub.cc:4741
 msgid "Copy URL"
 msgstr ""
 
@@ -4077,7 +4077,7 @@ msgstr ""
 msgid "New search type"
 msgstr ""
 
-#: linux/hub.cc:4671
+#: linux/hub.cc:4665
 msgid "Nick already taken"
 msgstr ""
 
@@ -4270,7 +4270,7 @@ msgstr ""
 msgid "Remote client does not fully support TTH - cannot download"
 msgstr ""
 
-#: linux/hub.cc:4750
+#: linux/hub.cc:4744
 msgid "Remove from Favorite hubs"
 msgstr ""
 
@@ -4315,7 +4315,7 @@ msgstr ""
 msgid "Search on imdb\n"
 msgstr ""
 
-#: linux/hub.cc:4678
+#: linux/hub.cc:4672
 msgid "Search spam detected from "
 msgstr ""
 
@@ -4374,7 +4374,7 @@ msgstr ""
 msgid "Set Slots to:"
 msgstr ""
 
-#: linux/hub.cc:4751
+#: linux/hub.cc:4745
 msgid "Set Tab Name"
 msgstr ""
 
@@ -4663,7 +4663,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: linux/hub.cc:2514 linux/hub.cc:4692
+#: linux/hub.cc:2514 linux/hub.cc:4686
 msgid "Topic: "
 msgstr ""
 

@@ -1,7 +1,7 @@
 ﻿//Implementation of ShellCommand.hh
 //Author: Irene
 //
-//      Copyright 2011 - 2012 Mank <Mank1 at seznam dot cz>
+//      Copyright 2011 - 2012 Mank <freedcpp at seznam dot cz>
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -33,10 +33,13 @@ ShellCommand::ShellCommand(char* input, int len, int shell): output(dcpp::Util::
 	strcpy(errormessage,"");
 	error = 0;
 	char command[strlen(input)+11];//declaration for the final command that will be executed
+	for(unsigned int i=0;i>strlen(input)+11;++i)
+			command[i] = ' ';
+
 	if (shell == 0)
 	{
-	char testscript[strlen(input)+28];
-	strcpy(testscript,("test -e "+ WulforManager::get()->getPath() + "/extensions/Scripts/").c_str());
+		char testscript[strlen(input)+28];
+		strcpy(testscript,("test -e "+ WulforManager::get()->getPath() + "/extensions/Scripts/").c_str());
         strcat(testscript,input);
 		//test if script exists
 		if (system(testscript)!=0)
@@ -50,7 +53,7 @@ ShellCommand::ShellCommand(char* input, int len, int shell): output(dcpp::Util::
 		{
 			//test if script is an executable
 			strcpy(testscript,("test -e "+ WulforManager::get()->getPath() + "/extensions/Scripts/").c_str());
-        		strcat(testscript,input);
+        	strcat(testscript,input);
 			if (system(testscript)!=0)
 			{
 				error = 1;
@@ -95,13 +98,12 @@ ShellCommand::ShellCommand(char* input, int len, int shell): output(dcpp::Util::
 	{
 		FILE* f;
 		char *out = new char[resultsize];
-        	f = popen(command,"r");
-        	fgets(out,resultsize,f);
+        f = popen(command,"r");
+        fgets(out,resultsize,f);
 		output = out;
-		delete out;
-        	pclose(f);
-        	//remove trailing newline
-		//output[strlen(output)-1]='\0';
+		delete[] out;
+        pclose(f);
+        //remove trailing newline
 
 		if(dcpp::Util::strnicmp(output,"/me",3) ==0)
 		{
@@ -116,7 +118,7 @@ ShellCommand::~ShellCommand()
 	delete[] errormessage;
 }
 
-bool ShellCommand::Error()
+bool ShellCommand::Error() const
 {
 	return error;
 }
@@ -131,12 +133,12 @@ char* ShellCommand::ErrorMessage()
 	return errormessage;
 }
 
-int ShellCommand::GetResultSize()
+int ShellCommand::GetResultSize() const
 {
 	return resultsize;
 }
 
-bool ShellCommand::isThirdPerson()
+bool ShellCommand::isThirdPerson() const
 {
 	return thirdPerson;
 }

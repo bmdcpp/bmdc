@@ -81,7 +81,7 @@ template<class T1, class T2, class op = std::equal_to<T1> >
 class CompareFirst {
 public:
 	CompareFirst(const T1& compareTo) : a(compareTo) { }
-	bool operator()(const pair<T1, T2>& p) { return op()(p.first, a); }
+	bool operator() (const pair<T1, T2>& p) const { return op()(p.first, a); }
 private:
 	CompareFirst& operator=(const CompareFirst&);
 	const T1& a;
@@ -92,7 +92,7 @@ template<class T1, class T2, class op = std::equal_to<T2> >
 class CompareSecond {
 public:
 	CompareSecond(const T2& compareTo) : a(compareTo) { }
-	bool operator()(const pair<T1, T2>& p) { return op()(p.second, a); }
+	bool operator() (const pair<T1, T2>& p) const { return op()(p.second, a); }
 private:
 	CompareSecond& operator=(const CompareSecond&);
 	const T2& a;
@@ -386,7 +386,7 @@ public:
 	}
 	static char fromHexEscape(const string aString) {
 		unsigned int res = 0;
-		sscanf(aString.c_str(), "%X", &res);
+		sscanf(aString.c_str(), "%3X", &res);
 		return static_cast<char>(res);
 	}
 

@@ -598,7 +598,7 @@ void MainWindow::onLimitingMenuItem_gui(GtkWidget *widget, gpointer data)
 
 void MainWindow::setLimitingIcon(bool Limited)
 {
-	setMainStatus_gui(_("Throtle ") + Limited ? "on" : "off", time(NULL));
+	setMainStatus_gui(string(_("Throtle ")) + ( Limited ? string("on") : string("off")), time(NULL));
 	setStatusOfIcons(LIMITING,Limited);
 }
 
@@ -1814,7 +1814,7 @@ void MainWindow::addFileDownloadQueue_client(string name, int64_t size, string t
 	}
 }
 
-void MainWindow::showMessageDialog_gui(const string primaryText, const string secondaryText)
+void MainWindow::showMessageDialog_gui(const string &primaryText, const string &secondaryText)
 {
 	if (primaryText.empty())
 		return;
@@ -2331,7 +2331,7 @@ void MainWindow::onExportItemClicked_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 	ExportDialog *h = new ExportDialog(GTK_WINDOW(mw->getContainer()));
-	gint response = h->run();
+/*	gint response = */h->run();
 }
 
 void MainWindow::onSearchClicked_gui(GtkWidget *widget, gpointer data)
@@ -2623,7 +2623,7 @@ void MainWindow::startSocket_client()
 		ConnectivityManager::getInstance()->setup(true);
 	} catch (const Exception& e) {
 		string error = e.getError();
-		typedef Func2<MainWindow, string, string> F2;
+		typedef Func2<MainWindow,const string&, const string&> F2;
 		F2 *func = new F2(this, &MainWindow::showMessageDialog_gui, error, error);
 		WulforManager::get()->dispatchGuiFunc(func);
 	}

@@ -1,4 +1,4 @@
-/* 
+/*
 * Copyright (C) 2003-2012 Pär Björklund, per.bjorklund@gmail.com
 *
 * This program is free software; you can redistribute it and/or modify
@@ -27,7 +27,7 @@ class ColorSettings
 {
   public:
 	ColorSettings(): bIncludeNick(false), bCaseSensitive(false), bPopup(false), bTab(false),
-		bPlaySound(false), bBold(false), bUnderline(false), bItalic(false), 
+		bPlaySound(false), bBold(false), bUnderline(false), bItalic(false),
 		bNoti(Util::emptyString), iMatchType(1), iBgColor(Util::emptyString), iFgColor(Util::emptyString), bHasBgColor(false),
 		bHasFgColor(false) , strSoundFile(Util::emptyString), strMatch(Util::emptyString), bUsingRegexp(false)  {	}
 	~ColorSettings(){ };
@@ -47,17 +47,17 @@ class ColorSettings
 	GETSET(bool, bHasBgColor, HasBgColor);
 	GETSET(bool, bHasFgColor, HasFgColor);
 	GETSET(string, strSoundFile, SoundFile);
-    	
+
 	void setMatch(string match){
 		if(match.find(("$Re:")) == 0) {
 			bUsingRegexp = true;
 		}
 		strMatch = match;
 	}
-	bool usingRegexp() { return bUsingRegexp; }
+	bool usingRegexp() const { return bUsingRegexp; }
 
-	const string & getMatch() { return strMatch; }
-	
+	const string & getMatch() const { return strMatch; }
+
 private:
 	//string to match against
 	string strMatch;

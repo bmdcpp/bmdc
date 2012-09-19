@@ -29,7 +29,7 @@ class BookEntry : public Entry
 {
 	public:
 		BookEntry(): eventBox(NULL), labelBox(NULL), tabMenuItem(NULL),	closeButton(NULL),
-				label(NULL), fItem(NULL), bold(false), urgent(false), icon(NULL) , popTabMenuItem(NULL), type((EntryType)0) { }
+				label(NULL), fItem(NULL), bold(false), urgent(false), icon(NULL) , popTabMenuItem(NULL), type((EntryType)0) , search(true) { }
 		BookEntry(const EntryType type, const std::string &text, const std::string &glade, const std::string &id = "");
 		virtual ~BookEntry()
 		{

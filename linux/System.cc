@@ -28,7 +28,7 @@ using namespace dcpp;
 
 systemlog::systemlog():
 BookEntry(Entry::SYSTEML,_("System Log"),"system.glade"),
-sysMark(NULL), buffer(NULL)
+ buffer(NULL),sysMark(NULL)
 {
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("systextview")));
 	gtk_text_buffer_get_end_iter(buffer, &iter);
