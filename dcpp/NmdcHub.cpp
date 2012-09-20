@@ -547,7 +547,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			string lock, pk;
 			if( j != string::npos ) {
 				lock = param.substr(0, j);
-				pk = param.substr(j + 4);
+				//pk = param.substr(j + 4);
 			} else {
 				// Workaround for faulty linux hubs...
 				j = param.find(" ");
@@ -566,11 +566,9 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				feat.push_back("TTHSearch");
 				feat.push_back("ZPipe0");
 				feat.push_back("SaltPass");
-				//feat.push_back("BotINFO");//test it
 
 				supports(feat);
 			}
-			//send("$BotINFO "+ settings.getNick() +"|");
 			key(CryptoManager::getInstance()->makeKey(lock));
 			OnlineUser& ou = getUser( get(Nick));
 			validateNick(ou.getIdentity().getNick());
@@ -1021,7 +1019,7 @@ void NmdcHub::on(Minute, uint64_t aTick) noexcept {
 			if(Util::isPrivateIp(*i))
 				i = protectedIPs.erase(i);
 			else
-				i++;
+				++i;
 		}
 
 		lastProtectedIPsUpdate = aTick;

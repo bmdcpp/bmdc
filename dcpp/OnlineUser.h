@@ -121,22 +121,22 @@ public:
     string setCheat(const Client& c,const string& aCheat, bool aBadClient, bool aBadFilelist = false, bool aDisplayCheat = true);
     string checkFilelistGenerator(OnlineUser& ou);
     bool isProtectedUser(const Client& c, bool OpBotHubCheck) const;
-    void checkTagState(OnlineUser& ou);
+    void checkTagState(OnlineUser& ou) const;
     string getDetectionField(const string& aName) const;
     string myInfoDetect(OnlineUser& ou);
     string updateClientType(OnlineUser& ou);
     map<string, string> getReport() const;
-    
+
     bool isFileListQueued() const { return isSet("FQ"); }
 	bool isClientChecked() const { return isSet("TC"); }
 	bool isFileListChecked() const { return isSet("FC"); }
 	bool isClientQueued() const { return isSet("TQ"); }
-    
+
 	void getParams(ParamMap& params, const string& prefix, bool compatibility) const;
 	UserPtr& getUser() { return user; }
 	GETSET(UserPtr, user, User);
 	GETSET(uint32_t, sid, SID);
-	GETSET(uint64_t, loggedIn, LoggedIn); 
+	GETSET(uint64_t, loggedIn, LoggedIn);
 private:
 	typedef std::unordered_map<short, string> InfMap;
 	typedef InfMap::iterator InfIter;
@@ -169,13 +169,13 @@ public:
 	{
         return identity.setCheat(getClient(),aCheat,aBadClient, aBadFilelist, aDisplayCheat);
 	}
-	
+
 	inline bool isProtectedUser(bool checkOp = true) const {
 		return identity.isProtectedUser(getClient(), checkOp);
 	}
-	
+
 	bool isCheckable(uint32_t delay = 0);
-	
+
 	inline bool shouldCheckClient() const {
 		if(identity.isClientChecked() || identity.isClientQueued())
 			return false;
@@ -186,12 +186,12 @@ public:
 			return false;
 		return (GET_TIME() - Util::toInt64(identity.getTestSURChecked()) > 10);
 	}
-	
+
 	inline void initializeData() {
 		identity.setLoggedIn(GET_TICK());
 		identity.set("LT", Util::formatTime("%d-%m %H:%M", GET_TIME()));
 	}
-	
+
 	bool getChecked(bool filelist = false, bool checkComplete = true);
 
 	UserData* getPluginObject() noexcept;

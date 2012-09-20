@@ -59,7 +59,7 @@ public:
 	bool allMatched() const;
 
 	vector<File>& getFiles() { return files; }
-	const vector<SHA1Value> getPieces() { return pieces; }
+	const vector<SHA1Value> getPieces() const { return pieces; }
 
 private:
 	friend class TorrentReader;

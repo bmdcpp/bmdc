@@ -214,7 +214,7 @@ std::map<string, string> Identity::getInfo() const {
 	return ret;
 }
 //[BMDC++
-void Identity::checkTagState(OnlineUser& ou) {
+void Identity::checkTagState(OnlineUser& ou) const {
 	string usrTag = getTag();
 	if(usrTag.empty()) return;
 	bool isActive = ou.getIdentity().isTcpActive();
@@ -362,7 +362,7 @@ string Identity::myInfoDetect(OnlineUser& ou) {
 					_continue = true;
 					break;
 				}
-			}catch(const boost::bad_get& ) { }	
+			}catch(const boost::bad_get& ) { }
 		}
 		if(_continue)
 			continue;
@@ -415,7 +415,7 @@ string Identity::updateClientType(OnlineUser& ou) {
 
 		for(DetectionEntry::INFMap::const_iterator j = INFList.begin(); j != INFList.end(); ++j) {
 			try {
-			
+
 			string aPattern = Util::formatRegExp(boost::get<string>(j->second), params);
 			string aField = getDetectionField(j->first);
 			DETECTION_DEBUG("\t\tPattern: " + aPattern + " Field: " + aField);
@@ -423,7 +423,7 @@ string Identity::updateClientType(OnlineUser& ou) {
 				_continue = true;
 				break;
 			}
-			}catch(const boost::bad_get&) { }	
+			}catch(const boost::bad_get&) { }
 		}
 		if(_continue)
 			continue;
@@ -489,7 +489,7 @@ void Identity::getDetectionParams(ParamMap& p) {
 			Util::replace( "}", "\\}", boost::get<string>(i->second));
 			}
 			catch(const boost::bad_get& )
-			{ 
+			{
 				//..
 			}
 	}
@@ -570,7 +570,7 @@ map<string, string> Identity::getReport() const
 				case TAG('U','S'): name = "Upload speed"; value = Util::formatBytes(value) + "/s"; break;
 				case TAG('V','E'): name = "Client version"; break;
 				case TAG('L','T'): name = "Login time"; break;
-				case TAG('L','S'): name = "FileList size"; break; 
+				case TAG('L','S'): name = "FileList size"; break;
 				case TAG('M','T'): name = "UserInfo"; break;
 				case TAG('M','C'): name = "UserInfo count"; break;
 				case TAG('T','S'): name = "TestSUR"; break;
@@ -616,7 +616,7 @@ void FavoriteUser::update(const OnlineUser& info) {
 	setUrl(info.getClient().getHubUrl());
 }
 //Indepent Fav
-void FavoriteIUser::update(const OnlineUser& ou) 
+void FavoriteIUser::update(const OnlineUser& ou)
 {
 	setLastSeen(time(NULL));
 	setCid(ou.getUser()->getCID().toBase32());

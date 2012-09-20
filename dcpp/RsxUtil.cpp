@@ -21,7 +21,6 @@
 #include "RsxUtil.h"
 #include "Util.h"
 #include "Text.h"
-#include "ResourceManager.h"
 
 namespace dcpp {
 

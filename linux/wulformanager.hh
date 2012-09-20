@@ -41,7 +41,7 @@ class WulforManager
 		~WulforManager();
 
 		std::string getURL();
-		std::string getPath();
+		std::string getPath() const;
 		MainWindow *getMainWindow();
 		void deleteMainWindow();
 		void dispatchGuiFunc(FuncBase *func);

@@ -504,9 +504,9 @@ string Util::getAwayMessage() {
 }*/
 
 string Util::getAwayMessage(ParamMap& params) {
-	time_t currentTime;
-	time(&currentTime);
-	int currentHour = localtime(&currentTime)->tm_hour;
+	//time_t currentTime;
+	//time(&currentTime);
+	//int currentHour = localtime(&currentTime)->tm_hour;
 
 	params["idleTI"] = Text::fromT(formatSeconds(time(NULL) - awayTime));
 	params["time"] = Util::toString(awayTime);

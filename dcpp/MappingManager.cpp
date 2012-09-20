@@ -25,12 +25,9 @@
 #include "LogManager.h"
 #include "Mapper_MiniUPnPc.h"
 #include "Mapper_NATPMP.h"
-//#include "Mapper_WinUPnP.h"
 #include "ScopedFunctor.h"
 #include "SearchManager.h"
-//#include "ScopedFunctor.h"
 #include "version.h"
-//#include "format.h"
 
 namespace dcpp {
 

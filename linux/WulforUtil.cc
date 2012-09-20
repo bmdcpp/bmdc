@@ -465,7 +465,7 @@ bool WulforUtil::splitMagnet(const string &magnet, string &name, int64_t &size, 
 	size = 0;
 	tth = _("Unknown");
 
-	if (!isMagnet(magnet.c_str()) || magnet.size() <= magnetSignature.length())
+	if (!isMagnet(magnet) || magnet.size() <= magnetSignature.length())
 		return FALSE;
 
 	string::size_type nextpos = 0;

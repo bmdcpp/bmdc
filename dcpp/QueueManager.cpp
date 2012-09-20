@@ -497,7 +497,7 @@ bool QueueManager::getTTH(const string& name, TTHValue& tth) noexcept {
 }
 
 void QueueManager::on(TimerManagerListener::Minute, uint64_t aTick) noexcept {
-	string fn;
+//	string fn;
 	string searchString;
 	bool online = false;
 	StringList offlineChecks; //BMDC/RSXlike

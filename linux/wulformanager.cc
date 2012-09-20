@@ -73,7 +73,7 @@ mainWin(NULL),guiThread(NULL),clientThread(NULL)
 	clientCondValue = 0;
 	g_cond_init(&guiCond);
 	g_cond_init(&clientCond);
-	
+
 	g_mutex_init(&guiCondMutex);
 	g_mutex_init(&clientCondMutex);
 
@@ -198,7 +198,7 @@ void WulforManager::processGuiQueue()
 			g_cond_wait(&guiCond, &guiCondMutex);
 		guiCondValue--;
 		g_mutex_unlock(&guiCondMutex);
-		
+
 		// This must be taken before the queuelock to avoid deadlock.
 		gdk_threads_enter();
 
@@ -207,7 +207,7 @@ void WulforManager::processGuiQueue()
 		{
 			func = guiFuncs.front();
 			guiFuncs.pop_front();
-			
+
 			g_mutex_unlock(&guiQueueMutex);
 
 			func->call();
@@ -237,7 +237,7 @@ void WulforManager::processClientQueue()
 			g_cond_wait(&clientCond, &clientCondMutex);
 		clientCondValue--;
 		g_mutex_unlock(&clientCondMutex);
-		
+
 		g_mutex_lock(&clientCallMutex);
 		g_mutex_lock(&clientQueueMutex);
 		while (!clientFuncs.empty())
@@ -313,7 +313,7 @@ string WulforManager::getURL()
 	return argv1;
 }
 
-string WulforManager::getPath()
+string WulforManager::getPath() const
 {
 	return path;
 }

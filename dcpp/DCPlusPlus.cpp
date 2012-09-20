@@ -32,7 +32,7 @@
 #include "LogManager.h"
 #include "MappingManager.h"
 #include "QueueManager.h"
-#include "ResourceManager.h"
+//#include "ResourceManager.h"
 #include "SearchManager.h"
 #include "SettingsManager.h"
 #include "ShareManager.h"
@@ -74,7 +74,7 @@ void startup(function<void (const string&)> f) {
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset(PACKAGE, "UTF-8");
 
-	ResourceManager::newInstance();
+	//ResourceManager::newInstance();
 	SettingsManager::newInstance();
 
 	LogManager::newInstance();
@@ -202,7 +202,7 @@ void shutdown() {
 	LogManager::deleteInstance();
 	SettingsManager::deleteInstance();
 	TimerManager::deleteInstance();
-	ResourceManager::deleteInstance();
+	//ResourceManager::deleteInstance();
 
 #ifdef _WIN32
 	::WSACleanup();

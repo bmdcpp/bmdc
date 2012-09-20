@@ -37,7 +37,7 @@
 
 namespace dcpp {
 
-UploadManager::UploadManager() noexcept : running(0), extra(0), lastGrant(0), lastFreeSlots(-1) {
+UploadManager::UploadManager() : running(0), extra(0), lastGrant(0), lastFreeSlots(-1) {
 	ClientManager::getInstance()->addListener(this);
 	TimerManager::getInstance()->addListener(this);
 }
@@ -71,7 +71,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 	access. we want to know the type of the upload to see if the user deserves a mini-slot. */
 
 	bool miniSlot;
-	
+
 	bool isInSharingHub = true;
 
 	if(aSource.getUser()) {
@@ -257,13 +257,13 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 
 		if(gotFullSlot) {
 			clearUserFiles(aSource.getUser());	// this user is using a full slot, nix them.
-		
+
 		// remove user from connecting list
 		auto cu = connectingUsers.find(aSource.getUser());
 		if(cu != connectingUsers.end()) {
 			connectingUsers.erase(cu);
 		}
-	 }	
+	 }
   }
 
 	return true;
@@ -298,10 +298,10 @@ void UploadManager::removeUpload(Upload* aUpload) {
 
 void UploadManager::reserveSlot(const HintedUser& aUser) {
 	{
-		Lock l(cs); 
-		reservedSlots.insert(aUser); 
+		Lock l(cs);
+		reservedSlots.insert(aUser);
 	}
-	
+
 	if(aUser.user->isOnline()) {
 		auto userToken = [&] () -> const string
 		{
@@ -312,8 +312,8 @@ void UploadManager::reserveSlot(const HintedUser& aUser) {
 		string token;
 		if((token = userToken()) != Util::emptyString)
 			ClientManager::getInstance()->connect(aUser,token);
-	}	
-}	
+	}
+}
 
 
 bool UploadManager::hasReservedSlot(const UserPtr& user) const {
@@ -431,7 +431,7 @@ size_t UploadManager::addFailedUpload(const UserConnection& source, string filen
 		if (it==waitingUsers.end()) {
 			waitingUsers.emplace_back(source.getHintedUser(), source.getToken());
 		}
-		waitingFiles[source.getUser()].insert(filename);		//files for which user's asked		
+		waitingFiles[source.getUser()].insert(filename);		//files for which user's asked
 	}
 	fire(UploadManagerListener::WaitingAddFile(), source.getHintedUser(), filename);
 	return queue_position;
@@ -531,7 +531,7 @@ void UploadManager::on(TimerManagerListener::Minute, uint64_t  aTick ) noexcept 
 			} else {
 				++i;
 			}
-		}	
+		}
 
 		if(SETTING(AUTO_KICK)) {
 			for(UploadList::iterator u = uploads.begin(); u != uploads.end(); ++u) {
@@ -611,7 +611,7 @@ void UploadManager::on(TimerManagerListener::Second, uint64_t) noexcept {
 
 	if(!uploads.empty())
 		fire(UploadManagerListener::Tick(), UploadList(uploads));
-		
+
 	notifyQueuedUsers();
 }
 

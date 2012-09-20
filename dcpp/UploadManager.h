@@ -45,9 +45,9 @@ using std::unordered_map;
 struct WaitingUser {
 	HintedUser user;
 	string token;
-	
+
 	WaitingUser(const HintedUser& _user, const std::string& _token) : user(_user), token(_token) { }
-	
+
 	operator const UserPtr&() const { return user.user; }
 };
 
@@ -73,7 +73,7 @@ public:
 
 	/** @param aUser Reserve an upload slot for this user and connect. */
 	void reserveSlot(const HintedUser& aUser);
-	
+
 	bool isConnecting(const UserPtr& aUser) const { return connectingUsers.find(aUser) != connectingUsers.end(); }
 
 	typedef set<string> FileSet;
@@ -89,7 +89,7 @@ public:
 	GETSET(int, running, Running);
 	GETSET(int, extra, Extra);
 	GETSET(uint64_t, lastGrant, LastGrant);
-	
+
 private:
 	UploadList uploads;
 	mutable CriticalSection cs;
@@ -97,7 +97,7 @@ private:
 	typedef unordered_set<UserPtr, User::Hash> SlotSet;
 	typedef SlotSet::iterator SlotIter;
 	SlotSet reservedSlots;
-	
+
 	typedef unordered_map<UserPtr, uint64_t, User::Hash> SlotMap;
 	typedef SlotMap::iterator SlotMapIter;
 	SlotMap connectingUsers;
@@ -105,7 +105,7 @@ private:
 	int lastFreeSlots; /// amount of free slots at the previous minute
 
 	typedef list<WaitingUser> WaitingUserList;
-		
+
 	//functions for manipulating waitingFiles and waitingUsers
 	WaitingUserList waitingUsers;		//this one merely lists the users waiting for slots
 	FilesMap waitingFiles;		//set of files which this user has asked for
@@ -113,7 +113,7 @@ private:
 	void notifyQueuedUsers();
 
 	friend class Singleton<UploadManager>;
-	UploadManager() noexcept;
+	UploadManager() ;
 	virtual ~UploadManager();
 
 	bool hasReservedSlot(const UserPtr& user) const;

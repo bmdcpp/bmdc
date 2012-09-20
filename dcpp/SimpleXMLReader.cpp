@@ -1,5 +1,5 @@
 /* *
- * 
+ *
  * Copyright (C) 2001-2011 Jacek Sieka, arnetheduck on gmail point com
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ static bool isNameStartChar(int c) {
 		|| inRange(c, 0x3001, 0xD7FF)
 		|| inRange(c, 0xF900, 0xFDCF)
 		|| inRange(c, 0xFDF0, 0xFFFD)
-		|| inRange(c, 0x10000, 0xEFFFF) 
+		|| inRange(c, 0x10000, 0xEFFFF)
 		;
 }
 
@@ -63,7 +63,7 @@ static bool isNameChar(int c) {
 		// Again, real XML is more permissive
 		|| c == 0xB7
 		|| inRange(c, 0x0300, 0x036F)
-		|| inRange(c, 0x203F, 0x2040) 
+		|| inRange(c, 0x203F, 0x2040)
 		;
 }
 
@@ -421,7 +421,7 @@ bool SimpleXMLReader::entref(string& d) {
 			d.append(1, '\'');
 			advancePos(6);
 			return true;
-			
+
 		// Ignore &#00000 decimal and &#x0000 hex values to avoid error, they wouldn't be parsed anyway
 		} else if(charAt(1) == '#' && isdigit(charAt(2)) && charAt(3) == ';') {
 			advancePos(4);
@@ -438,7 +438,7 @@ bool SimpleXMLReader::entref(string& d) {
 		} else if(charAt(1) == '#' && isdigit(charAt(2)) && isdigit(charAt(3)) && isdigit(charAt(4)) && isdigit(charAt(5)) && isdigit(charAt(6)) && charAt(7) == ';') {
 			advancePos(8);
 			return true;
-			
+
 		} else if(charAt(1) == '#' && (charAt(2) == 'x' ||  charAt(2) == 'X') && isxdigit(charAt(3)) && charAt(4) == ';') {
 			advancePos(5);
 			return true;
@@ -556,11 +556,11 @@ void SimpleXMLReader::parse(InputStream& stream, size_t maxSize) {
 		size_t n = buf.size() - old;
 		size_t len = stream.read(&buf[old], n);
 
-		if(maxSize > 0 && (bytesRead + len) > maxSize) 
+		if(maxSize > 0 && (bytesRead + len) > maxSize)
 			error("Greater than maximum allowed size");
 
 		if(len == 0) {
-			if(elements.size() == 0) {
+			if(elements.empty()) {
 				// Fine...
 				return;
 			}

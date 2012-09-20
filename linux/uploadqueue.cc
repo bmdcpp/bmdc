@@ -131,7 +131,7 @@ void UploadQueue::AddFile_gui(StringMap params)
 	addFile(params,&iter);
 }
 
-void UploadQueue::removeUser(string cid)
+void UploadQueue::removeUser(const string &cid)
 {
 	GtkTreeIter iter;
 	map<string, GtkTreeIter>::iterator it = mapUsers.find(cid);
@@ -153,7 +153,7 @@ void UploadQueue::onGrantSlotItemClicked_gui(GtkMenuItem *item, gpointer data)
 		GtkTreeIter iter;
 		GtkTreePath *path;
 		GList *list = gtk_tree_selection_get_selected_rows(qp->selection, NULL);
-		typedef Func1<UploadQueue, string> F2;
+		typedef Func1<UploadQueue, const string&> F2;
 
 		for (GList *i = list; i; i = i->next)
 		{
@@ -180,7 +180,7 @@ void UploadQueue::onRemoveItem_gui(GtkMenuItem *item, gpointer data)
 		GtkTreeIter iter;
 		GtkTreePath *path;
 		GList *list = gtk_tree_selection_get_selected_rows(qp->selection, NULL);
-		typedef Func1<UploadQueue, string> F2;
+		typedef Func1<UploadQueue, const string&> F2;
 
 		for (GList *i = list; i; i = i->next)
 		{
@@ -232,7 +232,7 @@ void UploadQueue::onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data)
 		GtkTreeIter iter;
 		GtkTreePath *path;
 		GList *list = gtk_tree_selection_get_selected_rows(qp->selection, NULL);
-		typedef Func1<UploadQueue, string> F1;
+		typedef Func1<UploadQueue, const string&> F1;
 
 		for (GList *i = list; i; i = i->next)
 		{
@@ -259,7 +259,7 @@ void UploadQueue::onFavoriteUserAddItemClicked_gui(GtkMenuItem *item, gpointer d
 		GtkTreeIter iter;
 		GtkTreePath *path;
 		GList *list = gtk_tree_selection_get_selected_rows(qp->selection, NULL);
-		typedef Func1<UploadQueue, string> F2;
+		typedef Func1<UploadQueue, const string&> F2;
 
 		for (GList *i = list; i; i = i->next)
 		{
@@ -328,7 +328,7 @@ gboolean UploadQueue::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *ev
 	return FALSE;
 }
 
-void UploadQueue::grantSlot_client(const string cid)
+void UploadQueue::grantSlot_client(const string &cid)
 {
 	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
 	if (user)
@@ -337,7 +337,7 @@ void UploadQueue::grantSlot_client(const string cid)
 	}
 }
 
-void UploadQueue::removeUploadFromQueue(const string cid)
+void UploadQueue::removeUploadFromQueue(const string &cid)
 {
 	UserPtr ui = ClientManager::getInstance()->findUser(CID(cid));
     if (ui)
@@ -346,7 +346,7 @@ void UploadQueue::removeUploadFromQueue(const string cid)
     }
 }
 
-void UploadQueue::getFileList_client(const string cid)
+void UploadQueue::getFileList_client(const string &cid)
 {
 	try {
 		UserPtr ui = ClientManager::getInstance()->findUser(CID(cid));
@@ -362,7 +362,7 @@ void UploadQueue::getFileList_client(const string cid)
 
 }
 
-void UploadQueue::addFavoriteUser_client(const string cid)
+void UploadQueue::addFavoriteUser_client(const string &cid)
 {
 	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
 
@@ -383,7 +383,7 @@ void UploadQueue::on(dcpp::UploadManagerListener::WaitingAddFile, const HintedUs
 
 void UploadQueue::on(dcpp::UploadManagerListener::WaitingRemoveUser, const HintedUser& user) noexcept
 {
-	typedef Func1<UploadQueue, string> F1;
+	typedef Func1<UploadQueue, const string& > F1;
 	F1 *func = new F1(this, &UploadQueue::removeUser,user.user->getCID().toBase32());
 	WulforManager::get()->dispatchGuiFunc(func);
 }
