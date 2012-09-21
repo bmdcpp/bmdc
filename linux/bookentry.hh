@@ -46,7 +46,7 @@ class BookEntry : public Entry
 		void setIcon_gui(const std::string stock);
 		void setIconPixbufs_gui(const std::string iconspath);
 		void setLabel_gui(std::string text);
-		const std::string& getLabelText();
+		const std::string& getLabelText() const;
 		void setBold_gui();
 		void setUrgent_gui();
 		void setActive_gui();

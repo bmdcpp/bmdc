@@ -4402,7 +4402,8 @@ void Hub::on(ClientListener::GetPassword, Client *) throw()
 
 void Hub::on(ClientListener::HubUpdated, Client *) noexcept
 {
-	typedef Func1<Hub, string> F1;
+	typedef Func1<Hub, const string> F1;
+	typedef Func1<Hub, string> FX;
 	string hubName = Util::emptyString;
 	string hubText = client->getTabText();
 	string iconPath = client->getTabIconStr();
@@ -4419,7 +4420,7 @@ void Hub::on(ClientListener::HubUpdated, Client *) noexcept
 
 	if(!hubText.empty())
 	{
-		F1 *f = new F1(this, &BookEntry::setLabel_gui, hubText);
+		FX *f = new FX(this, &BookEntry::setLabel_gui, hubText);
 		WulforManager::get()->dispatchGuiFunc(f);
 		return;
 	}
@@ -4432,7 +4433,7 @@ void Hub::on(ClientListener::HubUpdated, Client *) noexcept
 	if (!client->getHubDescription().empty())
 		hubName += " - " + client->getHubDescription();
 
-	F1 *func1 = new F1(this, &BookEntry::setLabel_gui, hubName);
+	FX *func1 = new FX(this, &BookEntry::setLabel_gui, hubName);
 	WulforManager::get()->dispatchGuiFunc(func1);
 }
 

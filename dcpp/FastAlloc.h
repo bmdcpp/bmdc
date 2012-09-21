@@ -86,12 +86,12 @@ private:
 		// We want to grow by approximately 128kb at a time...
 		size_t items = ((128*1024 + sizeof(T) - 1)/sizeof(T));
 		freeList = new uint8_t[sizeof(T)*items];
-		//uint8_t* tmp = (uint8_t*)freeList;
+		uint8_t* tmp = (uint8_t*)freeList;
 		for(size_t i = 0; i < items - 1; i++) {
 			*(void**)tmp = tmp + sizeof(T);
 			tmp += sizeof(T);
 		}
-		//*(void**)tmp = NULL;
+		*(void**)tmp = NULL;
 	}
 };
 template<class T> void* FastAlloc<T>::freeList = NULL;

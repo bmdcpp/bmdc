@@ -5,9 +5,21 @@
 #, fuzzy
 msgid ""
 msgstr ""
+"#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-09-20 20:03+0200\n"
+"POT-Creation-Date: 2012-09-21 19:21+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"#-#-#-#-#  linux.pot  #-#-#-#-#\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
+"POT-Creation-Date: 2012-09-21 20:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2861,7 +2873,7 @@ msgstr ""
 msgid "\n"
 msgstr ""
 
-#: linux/hub.cc:4524
+#: linux/hub.cc:4525
 msgid ""
 "\n"
 "Message: "
@@ -3085,7 +3097,7 @@ msgstr ""
 msgid "Add finished files to share instantly (if shared)"
 msgstr ""
 
-#: linux/hub.cc:4743
+#: linux/hub.cc:4744
 msgid "Add to Favorite hubs"
 msgstr ""
 
@@ -3300,7 +3312,7 @@ msgstr ""
 msgid "Clear search box after each search"
 msgstr ""
 
-#: linux/bookentry.cc:286 linux/hub.cc:4742 linux/privatemessage.cc:1533
+#: linux/bookentry.cc:286 linux/hub.cc:4743 linux/privatemessage.cc:1533
 #: linux/sharebrowser.cc:1106
 msgid "Close"
 msgstr ""
@@ -3369,7 +3381,7 @@ msgstr ""
 msgid "Copy Nick(s)"
 msgstr ""
 
-#: linux/hub.cc:4741
+#: linux/hub.cc:4742
 msgid "Copy URL"
 msgstr ""
 
@@ -3896,15 +3908,15 @@ msgstr ""
 msgid "Ignored"
 msgstr ""
 
-#: linux/hub.cc:4523
+#: linux/hub.cc:4524
 msgid "Ignored message from User "
 msgstr ""
 
-#: linux/hub.cc:4559
+#: linux/hub.cc:4560
 msgid "Ignored private message from bot "
 msgstr ""
 
-#: linux/hub.cc:4552
+#: linux/hub.cc:4553
 msgid "Ignored private message from hub"
 msgstr ""
 
@@ -4065,7 +4077,7 @@ msgstr ""
 msgid "New search type"
 msgstr ""
 
-#: linux/hub.cc:4665
+#: linux/hub.cc:4666
 msgid "Nick already taken"
 msgstr ""
 
@@ -4258,7 +4270,7 @@ msgstr ""
 msgid "Remote client does not fully support TTH - cannot download"
 msgstr ""
 
-#: linux/hub.cc:4744
+#: linux/hub.cc:4745
 msgid "Remove from Favorite hubs"
 msgstr ""
 
@@ -4303,7 +4315,7 @@ msgstr ""
 msgid "Search on imdb\n"
 msgstr ""
 
-#: linux/hub.cc:4672
+#: linux/hub.cc:4673
 msgid "Search spam detected from "
 msgstr ""
 
@@ -4362,7 +4374,7 @@ msgstr ""
 msgid "Set Slots to:"
 msgstr ""
 
-#: linux/hub.cc:4745
+#: linux/hub.cc:4746
 msgid "Set Tab Name"
 msgstr ""
 
@@ -4651,7 +4663,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: linux/hub.cc:2514 linux/hub.cc:4686
+#: linux/hub.cc:2514 linux/hub.cc:4687
 msgid "Topic: "
 msgstr ""
 

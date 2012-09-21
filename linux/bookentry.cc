@@ -132,12 +132,12 @@ void BookEntry::setIcon_gui(const EntryType type)
 		case Entry::ABOUT_CONFIG : stock = WGETS("icon-system"); break;//for now
 		default: ;
 	}
-	gtk_image_set_from_stock(GTK_IMAGE(icon), stock.c_str(), GTK_ICON_SIZE_BUTTON);
+	gtk_image_set_from_stock(GTK_IMAGE(icon), stock.c_str(), GTK_ICON_SIZE_MENU);//BUTTON
 }
 
 void BookEntry::setIcon_gui(const std::string stock)
 {
-	gtk_image_set_from_stock(GTK_IMAGE(icon), stock.c_str(), GTK_ICON_SIZE_BUTTON);
+	gtk_image_set_from_stock(GTK_IMAGE(icon), stock.c_str(), GTK_ICON_SIZE_MENU);//BUTTON
 }
 
 void BookEntry::setIconPixbufs_gui(const std::string iconspath)
@@ -263,7 +263,7 @@ void BookEntry::updateLabel_gui()
 
 }
 
-const string& BookEntry::getLabelText()
+const string& BookEntry::getLabelText() const
 {
 	return labelText;
 }

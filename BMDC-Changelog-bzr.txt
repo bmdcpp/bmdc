@@ -584,3 +584,6 @@ Add Notify to Mainchat messages arrived
 Few Fixed, Few updates...
 ----r156
 Some fixies
+----r157
+Some Fixies..
+GTK_ICON_SIZE_BUTTON -> GTK_ICON_SIZE_MENU in stock/icon in BookEntry
