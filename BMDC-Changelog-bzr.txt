@@ -587,3 +587,6 @@ Some fixies
 ----r157
 Some Fixies..
 GTK_ICON_SIZE_BUTTON -> GTK_ICON_SIZE_MENU in stock/icon in BookEntry
+----r159
+Few updates from dcpp
+Add random funny message to /bmdc

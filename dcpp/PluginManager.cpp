@@ -356,7 +356,6 @@ bool PluginManager::runHook(PluginHook* hook, dcptr_t pObject, dcptr_t pData) {
 
 	// Call default hook procedure for all unused hooks
 	if(hook->defProc && hook->subscribers.empty()) {
-		//if(hook->defProc(pObject, pData, &bBreak))
 		if(hook->defProc(pObject, pData, NULL, &bBreak))
 			bRes = True;
 	}

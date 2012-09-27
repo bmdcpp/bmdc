@@ -46,7 +46,7 @@ systemlog::~systemlog()
 	LogManager::getInstance()->removeListener(this);
 }
 
-void systemlog::add_gui(time_t t,string file)
+void systemlog::add_gui(time_t t, string file)
 {
 	string line;
 	line = "";

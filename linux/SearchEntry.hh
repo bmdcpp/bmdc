@@ -45,7 +45,6 @@ class SearchEntry: public BookEntry
 					Search *s = dynamic_cast<Search*>(findBookEntry(Entry::SEARCH,str));
 					if(s == NULL) {
 						s = new Search(str);
-						//showBook<Entry::EntryType, BookEntry*>(Entry::SEARCH,s);
 						showBook(Entry::SEARCH,s);
 						s->putValue_gui(str,size,mode, type);
 					}

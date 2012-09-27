@@ -42,8 +42,8 @@ public:
 
 	enum Area { CHAT, PM, DOWNLOAD, FINISHED_DOWNLOAD, UPLOAD, SYSTEM, STATUS, RAW , CHECK_USER ,LAST };
 	enum { FILE, FORMAT };
-	
-	void log(Area area,const string &message)
+
+	void log(Area area, const string &message)
 	{
 		ParamMap params;
 		params["message"] = message;

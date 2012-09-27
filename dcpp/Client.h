@@ -73,8 +73,7 @@ public:
 
 	virtual void send(const AdcCommand& command) = 0;
 
-	bool isConnected() const { return state != STATE_DISCONNECTED; }
-	bool isReady() const { return state != STATE_CONNECTING && state != STATE_DISCONNECTED; }
+	bool isConnected() const { return state != STATE_CONNECTING && state != STATE_DISCONNECTED; }
 	bool isSecure() const;
 	bool isTrusted() const;
 	std::string getCipherName() const;
@@ -87,7 +86,6 @@ public:
 
 	const string& getIp() const { return ip; }
 	string getIpPort() const { return getIp() + ':' + port; }
-	string getLocalIp() const;
 
 	void updated(const OnlineUser& aUser) { fire(ClientListener::UserUpdated(), this, aUser); }
 
@@ -171,6 +169,8 @@ protected:
 
 	/** Reload details from favmanager or settings */
 	void reloadSettings(bool updateNick);
+	/// Get the external IP the user has defined for this hub, if any.
+	const string& getUserIp() const;
 
 	virtual void checkNick(string& nick) = 0;
 
@@ -188,7 +188,7 @@ private:
 	string hubUrl;
 	string address;
 	string ip;
-	string localIp;
+	//string localIp;
 	string keyprint;
 	string port;
 	char separator;

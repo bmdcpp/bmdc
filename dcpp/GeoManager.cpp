@@ -66,13 +66,20 @@ const string& GeoManager::getCountry(const string& ip, int flags) {
 	return Util::emptyString;
 }
 
-const string GeoManager::getCountryAbbrevation(const string& ip)
+const string GeoManager::getCountryAbbrevation(const string& ip, int flags)
 {
-   if(!ip.empty())
-   {
-        return geo4->getCountryAB(ip);
-    }
-    return Util::emptyString;
+	if(!ip.empty())
+	{
+		if((flags & V6) && geo6.get()) {
+		const auto& ret = geo6->getCountryAB(ip);
+		if(!ret.empty())
+			return ret;
+		}
+		if((flags & V4) && geo4.get()) {
+			return geo4->getCountryAB(ip);
+		}
+	}
+	return Util::emptyString;
 }
 
 string GeoManager::getDbPath(bool v6) {

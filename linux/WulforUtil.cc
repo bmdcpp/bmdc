@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2012 Mank
+ * Copyright © 2010-2012 Mank <freedcpp at seznam dot cz>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -134,6 +134,22 @@ const char* WulforUtil::CountryCodes[] = {
  "RW", "SA", "SB", "SC", "SD", "SE", "SG", "SH", "SI", "SJ", "SK", "SL", "SM", "SN", "SO", "SR", "ST", "SV", "SY",
  "SZ", "TC", "TD", "TF", "TG", "TH", "TJ", "TK", "TL", "TM", "TN", "TO", "TR", "TT", "TV", "TW", "TZ", "UA", "UG",
  "UM", "US", "UY", "UZ", "VA", "VC", "VE", "VG", "VI", "VN", "VU", "WF", "WS", "YE", "YT", "YU", "ZA", "ZM", "ZW" };
+
+#define LINE2 "-- http://launchpad.net/bmdc++ <BMDC++ " GUI_VERSION_STRING ">"
+const char* WulforUtil::msgs_dc[] = {
+		"\r\n-- I'm a happy DC++ user. You could be happy too.\r\n" LINE2,
+		"\r\n-- Neo-...what? Nope...never heard of it...\r\n" LINE2,
+		"\r\n-- Evolution of species: Ape --> Man\r\n-- Evolution of science: \"The Earth is Flat\" --> \"The Earth is Round\"\r\n-- Evolution of DC: NMDC --> ADC\r\n" LINE2,
+		"\r\n-- I share, therefore I am.\r\n" LINE2,
+		"\r\n-- I came, I searched, I found...\r\n" LINE2,
+		"\r\n-- I came, I shared, I sent...\r\n" LINE2,
+		"\r\n-- I don't have to see any ads, do you?\r\n" LINE2,
+		"\r\n-- My client supports passive-passive downloads, does yours?\r\n" LINE2,
+		"\r\n-- My client automatically detects the connection, does yours?\r\n" LINE2,
+		"\r\n-- These addies are pretty annoying, aren't they? Get revenge by sending them yourself!\r\n" LINE2,
+		"\r\n-- My client supports grouping favorite hubs, does yours?\r\n" LINE2,
+		"\r\n-- My client supports segmented downloading, does yours?\r\n" LINE2 };
+#define MSGS 12
 
 vector<int> WulforUtil::splitString(const string &str, const string &delimiter)
 {
@@ -912,10 +928,13 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 
 	} else if ( cmd == "bmdc" )
 	{
-        if(param == "mc")
-            message = string(GUI_PACKAGE " " GUI_VERSION_STRING "." BMDC_REVISION_STRING "/" VERSIONSTRING " ");
-        else
-            status += string(GUI_PACKAGE " " GUI_VERSION_STRING "." BMDC_REVISION_STRING "/" VERSIONSTRING "/" DCPP_REVISION_STRING ", ") + _("project home: ") + "http://launchpad.net/bmdc++";
+		string msg = string(msgs_dc[GET_TICK() % MSGS]);
+
+        if(param == "mc") {
+            message += msg;
+            message += string(GUI_PACKAGE " " GUI_VERSION_STRING "." BMDC_REVISION_STRING "/" VERSIONSTRING " ");
+        } else
+            status  += string(GUI_PACKAGE " " GUI_VERSION_STRING "." BMDC_REVISION_STRING "/" VERSIONSTRING "/" DCPP_REVISION_STRING ", ") + _("project home: ") + "http://launchpad.net/bmdc++";
 
 	} else if ( cmd == "ratio")
 	{

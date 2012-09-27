@@ -97,6 +97,7 @@ private:
 	string lastMyInfoB;
 	string lastMyInfoC;
 	string lastMyInfoD;
+	string localIp;
 
 	typedef list<pair<string, uint32_t> > FloodMap;
 	typedef FloodMap::iterator FloodIter;
@@ -138,6 +139,7 @@ private:
 	bool isProtectedIP(const string& ip);
 
 	void updateFromTag(Identity& id, const string& tag);
+	void refreshLocalIp() noexcept;
 
 	virtual void checkNick(string& aNick);
 	virtual bool v4only() const { return true; }

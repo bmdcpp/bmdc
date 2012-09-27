@@ -93,7 +93,7 @@ class WulforUtil
 
 		static std::vector<std::pair<std::string,int> > getActions();
 		static std::string StringToUpper(std::string myString);
-		
+
 		static const std::string ENCODING_LOCALE;
 		static const std::string commands;
 
@@ -109,7 +109,8 @@ class WulforUtil
 		static std::map<std::string,std::string> m_mimetyp;
 		static const char* CountryNames[];
 		static const char* CountryCodes[];
-		
+		static const char* msgs_dc[];
+
 };
 
 #endif

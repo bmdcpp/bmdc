@@ -39,7 +39,7 @@
 #include "PluginManager.h"
 #include <cmath>
 #include "BufferedSocket.h"
-
+#include "ConnectivityManager.h"
 namespace dcpp {
 
 using std::make_pair;
@@ -467,6 +467,7 @@ void AdcHub::handle(AdcCommand::STA, AdcCommand& c) noexcept {
 	if(!u)
 		return;
 
+	//int severity = Util::toInt(c.getParam(0).substr(0, 1));
 	if(c.getParam(0).size() != 3) {
 		return;
 	}
@@ -613,7 +614,7 @@ void AdcHub::handle(AdcCommand::NAT, AdcCommand& c) noexcept {
 
 	// Trigger connection attempt sequence locally ...
 	auto localPort = Util::toString(sock->getLocalPort());
-	dcdebug("triggering connecting attempt in NAT: remote port = %s, local IP = %s, local port = %d\n", port.c_str(), sock->getLocalIp().c_str(), sock->getLocalPort());
+	dcdebug("triggering connecting attempt in NAT: remote port = %s, local port = %d\n", port.c_str(), sock->getLocalPort());
 	ConnectionManager::getInstance()->adcConnect(*u, port, localPort, BufferedSocket::NAT_CLIENT, token, secure);
 
 	// ... and signal other client to do likewise.
@@ -643,7 +644,7 @@ void AdcHub::handle(AdcCommand::RNT, AdcCommand& c) noexcept {
 	}
 
 	// Trigger connection attempt sequence locally
-	dcdebug("triggering connecting attempt in RNT: remote port = %s, local IP = %s, local port = %d\n", port.c_str(), sock->getLocalIp().c_str(), sock->getLocalPort());
+	dcdebug("triggering connecting attempt in RNT: remote port = %s, local port = %d\n", port.c_str(), sock->getLocalPort());
 	ConnectionManager::getInstance()->adcConnect(*u, port, Util::toString(sock->getLocalPort()), BufferedSocket::NAT_SERVER, token, secure);
 }
 
@@ -687,7 +688,7 @@ void AdcHub::connect(const OnlineUser& user, string const& token, bool secure) {
 	}
 
 	if(ClientManager::getInstance()->isActive(getHubUrl())) {
-		string port = secure ? ConnectionManager::getInstance()->getSecurePort() : ConnectionManager::getInstance()->getPort();
+		const string& port = secure ? ConnectionManager::getInstance()->getSecurePort() : ConnectionManager::getInstance()->getPort();
 		if(port.empty()) {
 			// Oops?
 			LogManager::getInstance()->message(str(F_("Not listening for connections - please restart %1%") % APPNAME));
@@ -1031,8 +1032,8 @@ void AdcHub::info(bool /*alwaysSend*/) {
 		addParam(lastInfoMap, c, "KP", "SHA256/" + Encoder::toBase32(&kp[0], kp.size()));
 	}
 
-	if(SETTING(NO_IP_OVERRIDE) && !SETTING(EXTERNAL_IP).empty()) {
-		addParam(lastInfoMap, c, "I4", Socket::resolve(SETTING(EXTERNAL_IP), AF_INET));
+	if(CONNSETTING(NO_IP_OVERRIDE) && !getUserIp().empty()) {
+		addParam(lastInfoMap, c, "I4", Socket::resolve(getUserIp(), AF_INET));
 	} else {
 		addParam(lastInfoMap, c, "I4", "0.0.0.0");
 	}
@@ -1047,7 +1048,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 
 	addParam(lastInfoMap, c, "SU", su);
 
-	if(c.getParameters().size() > 0) {
+	if(!c.getParameters().empty()) {
 		send(c);
 	}
 }
@@ -1106,9 +1107,9 @@ void AdcHub::on(Connected c) noexcept {
 	if(SETTING(SEND_BLOOM)) {
 		cmd.addParam(BLO0_SUPPORT);
 	}
-
+	
 	cmd.addParam(ZLIF_SUPPORT);
-
+	
 	send(cmd);
 
 }
@@ -1120,6 +1121,7 @@ void AdcHub::on(Line l, const string& aLine) noexcept {
 		// @todo report to user?
 		return;
 	}
+
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_IN, this, aLine))
 		return;
 

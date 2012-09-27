@@ -23,6 +23,7 @@
 #include "ClientManager.h"
 #include "SearchManager.h"
 #include "ShareManager.h"
+#include "ConnectivityManager.h"
 #include "CryptoManager.h"
 #include "ConnectionManager.h"
 #include "ThrottleManager.h"
@@ -48,6 +49,7 @@ lastProtectedIPsUpdate(0)
 NmdcHub::~NmdcHub() {
 	clearUsers();
 }
+
 
 #define checkstate() if(state != STATE_NORMAL) return
 
@@ -257,7 +259,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 
 		// Filter own searches
 		if(ClientManager::getInstance()->isActive(getHubUrl())) {
-			if(seeker == (getLocalIp() + ":" + SearchManager::getInstance()->getPort())) {
+			if(seeker == localIp + ":" + SearchManager::getInstance()->getPort()) {
 				return;
 			}
 		} else {
@@ -318,7 +320,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		i = j + 1;
 		string terms = unescape(param.substr(i));
 
-		if(terms.size() > 0) {
+		if(!terms.empty()) {
 			if(seeker.compare(0, 4, "Hub:") == 0) {
 				OnlineUser* u = findUser(seeker.substr(4));
 
@@ -361,7 +363,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 
 		string tmpDesc = unescape(param.substr(i, j-i));
 		// Look for a tag...
-		if(tmpDesc.size() > 0 && tmpDesc[tmpDesc.size()-1] == '>') {
+		if(!tmpDesc.empty() && tmpDesc[tmpDesc.size()-1] == '>') {
 			x = tmpDesc.rfind('<');
 			if(x != string::npos) {
 				// Hm, we have something...disassemble it...
@@ -377,6 +379,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			return;
 
 		string connection = param.substr(i, j-i-1);
+
 		u.getIdentity().setBot(connection.empty()); // No connection = bot...
 		u.getIdentity().setHub(false);
 
@@ -624,6 +627,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				u->getIdentity().setIp4(it->substr(j+1));
 				if(u->getUser() == getMyIdentity().getUser()) {
 					setMyIdentity(u->getIdentity());
+					refreshLocalIp();
 				}
 				v.push_back(u);
 			}
@@ -779,7 +783,7 @@ void NmdcHub::connectToMe(const OnlineUser& aUser) {
 	dcdebug("NmdcHub::connectToMe %s\n", aUser.getIdentity().getNick().c_str());
 	string nick = fromUtf8(aUser.getIdentity().getNick());
 	ConnectionManager::getInstance()->nmdcExpect(nick, getMyNick(), getHubUrl());
-	send("$ConnectToMe " + nick + " " + getLocalIp() + ":" + ConnectionManager::getInstance()->getPort() + "|");
+	send("$ConnectToMe " + nick + " " + localIp + ":" + ConnectionManager::getInstance()->getPort() + "|");
 }
 
 void NmdcHub::revConnectToMe(const OnlineUser& aUser) {
@@ -813,7 +817,7 @@ void NmdcHub::myInfo(bool alwaysSend) {
 		tmp2[i]++; tmp3[i]++; tmp4[i]++; tmp5[i]++;
 	}
 	char modeChar = '?';
-	if(SETTING(OUTGOING_CONNECTIONS) == SettingsManager::OUTGOING_SOCKS5)
+	if(CONNSETTING(OUTGOING_CONNECTIONS) == SettingsManager::OUTGOING_SOCKS5)
 		modeChar = '5';
 	else if(ClientManager::getInstance()->isActive(getHubUrl()))
 		modeChar = 'A';
@@ -864,7 +868,7 @@ void NmdcHub::search(int aSizeType, int64_t aSize, int aFileType, const string& 
 	}
 	string tmp2;
 	if(ClientManager::getInstance()->isActive(getHubUrl())) {
-		tmp2 = getLocalIp() + ':' + SearchManager::getInstance()->getPort();
+		tmp2 = localIp + ':' + SearchManager::getInstance()->getPort();
 	} else {
 		tmp2 = "Hub:" + fromUtf8(getMyNick());
 	}
@@ -971,6 +975,27 @@ bool NmdcHub::isProtectedIP(const string& ip) {
 	return false;
 }
 
+void NmdcHub::refreshLocalIp() noexcept {
+	if((!CONNSETTING(NO_IP_OVERRIDE) || getUserIp().empty()) && !getMyIdentity().getIp().empty()) {
+		// Best case - the server detected it
+		localIp = getMyIdentity().getIp();
+	} else {
+		localIp.clear();
+	}
+	if(localIp.empty()) {
+		localIp = getUserIp();
+		if(!localIp.empty()) {
+			localIp = Socket::resolve(localIp, AF_INET);
+		}
+		if(localIp.empty()) {
+			localIp = sock->getLocalIp();
+			if(localIp.empty()) {
+				localIp = Util::getLocalIp();
+			}
+		}
+	}
+}
+
 void NmdcHub::on(Connected) noexcept {
 	Client::on(Connected());
 
@@ -984,12 +1009,17 @@ void NmdcHub::on(Connected) noexcept {
 	lastMyInfoC.clear();
 	lastMyInfoD.clear();
 	lastUpdate = 0;
+	refreshLocalIp();
 }
 
 void NmdcHub::on(Line, const string& aLine) noexcept {
-    if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_IN, this, aLine))
-		return;
+   // if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_IN, this, aLine))
+	//	return;
 	Client::on(Line(), aLine);
+
+	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_IN, this, validateMessage(aLine, true)))
+		return;
+
 	onLine(aLine);
 }
 
@@ -1007,6 +1037,8 @@ void NmdcHub::on(Second, uint64_t aTick) noexcept {
 }
 
 void NmdcHub::on(Minute, uint64_t aTick) noexcept {
+	refreshLocalIp();
+
 	if(aTick > (lastProtectedIPsUpdate + 24*3600*1000)) {
 		protectedIPs.clear();
 

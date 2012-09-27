@@ -24,7 +24,7 @@
 #include "ClientManager.h"
 #include "DebugManager.h"
 #include "PluginManager.h"
-
+#include "ConnectivityManager.h"
 #include "AdcHub.h" // for dynamic_cast
 
 namespace dcpp {
@@ -79,6 +79,7 @@ void Client::reloadSettings(bool updateNick) {
 	string prevNick = Util::emptyString;
 	if(!updateNick)
 		prevNick = get(Nick);
+
 	*static_cast<HubSettings*>(this) = SettingsManager::getInstance()->getHubSettings();
 
 	auto fav = FavoriteManager::getInstance()->getFavoriteHubEntry(getHubUrl());
@@ -107,14 +108,21 @@ void Client::reloadSettings(bool updateNick) {
 		setCheckAtConnect(false);
 		setCheckClients(false);
 		setCheckFilelists(false);
-        	setTabText(Util::emptyString);
-	        setTabIconStr(Util::emptyString);
-        	//]
+        setTabText(Util::emptyString);
+	    setTabIconStr(Util::emptyString);
+        //]
 	}
 	if(updateNick)
         	checkNick(get(Nick));
 	else
 		get(Nick) = prevNick;
+}
+
+const string& Client::getUserIp() const {
+	if(!get(UserIp).empty()) {
+		return get(UserIp);
+	}
+	return CONNSETTING(EXTERNAL_IP);
 }
 
 void Client::connect() {
@@ -147,10 +155,11 @@ void Client::connect() {
 }
 
 void Client::send(const char* aMessage, size_t aLen) {
-	if(!isReady()) {
+	if(!isConnected()) {
 		dcassert(0);
 		return;
 	}
+
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_OUT, this, aMessage))
 		return;
 
@@ -175,7 +184,6 @@ HubData* Client::getPluginObject() noexcept {
 void Client::on(Connected) noexcept {
 	updateActivity();
 	ip = sock->getIp();
-	localIp = sock->getLocalIp();
 
 	if(sock->isSecure() && keyprint.compare(0, 7, "SHA256/") == 0) {
 		auto kp = sock->getKeyprint();
@@ -207,19 +215,19 @@ void Client::disconnect(bool graceLess) {
 }
 
 bool Client::isSecure() const {
-	return isReady() && sock->isSecure();
+	return isConnected() && sock->isSecure();
 }
 
 bool Client::isTrusted() const {
-	return isReady() && sock->isTrusted();
+	return isConnected() && sock->isTrusted();
 }
 
 std::string Client::getCipherName() const {
-	return isReady() ? sock->getCipherName() : Util::emptyString;
+	return isConnected() ? sock->getCipherName() : Util::emptyString;
 }
 
 vector<uint8_t> Client::getKeyprint() const {
-	return isReady() ? sock->getKeyprint() : vector<uint8_t>();
+	return isConnected() ? sock->getKeyprint() : vector<uint8_t>();
 }
 
 bool Client::isActive() const {
@@ -243,27 +251,6 @@ void Client::updateCounts(bool aRemove) {
 		}
 		++counts[countType];
 	}
-}
-
-string Client::getLocalIp() const {
-
-    if(!getFavIp().empty()) {
-        return Socket::resolve(getFavIp());
-    }
-	// Best case - the server detected it
-	if((!SETTING(NO_IP_OVERRIDE) || SETTING(EXTERNAL_IP).empty()) && !getMyIdentity().getIp().empty()) {
-		return getMyIdentity().getIp();
-	}
-
-	if(!SETTING(EXTERNAL_IP).empty()) {
-		return Socket::resolve(SETTING(EXTERNAL_IP), AF_INET);
-	}
-
-	if(localIp.empty()) {
-		return Util::getLocalIp();
-	}
-
-	return localIp;
 }
 
 string Client::getCounts() {

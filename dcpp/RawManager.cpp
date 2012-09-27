@@ -21,7 +21,6 @@
 
 #include "RawManager.h"
 
-//#include "ResourceManager.h"
 #include "SimpleXML.h"
 #include "ClientManager.h"
 

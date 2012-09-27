@@ -54,7 +54,7 @@ const string GeoIP::getCountryAB(const string& ip) const {
     Lock l(cs);
     if(geo)
     {
-        auto id = GeoIP_id_by_addr(geo,ip.c_str());
+        auto id = v6() ? GeoIP_id_by_addr_v6(geo,ip.c_str()) : GeoIP_id_by_addr(geo,ip.c_str());
         if(id > 0)
         {
             string code = GeoIP_code_by_id(id);
