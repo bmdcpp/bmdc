@@ -447,7 +447,7 @@ public:
 	static uint32_t rand(uint32_t low, uint32_t high) { return rand(high-low) + low; }
 	static double randd() { return ((double)rand()) / ((double)0xffffffff); }
 	//[BMDC++
-	static bool fileExists(const string aFile);
+	static bool fileExists(const string aFile);// true if File exist otherwise false
 	static string formatRegExp(const string& msg, ParamMap& params);
 	static uint64_t getUptime() { return uptime;}
 	static void setUptime() { uptime++; }

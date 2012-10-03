@@ -33,16 +33,17 @@ ShellCommand::ShellCommand(char* input, int len, int shell): output(dcpp::Util::
 	strcpy(errormessage,"");
 	error = 0;
 	char command[strlen(input)+11];//declaration for the final command that will be executed
-	for(unsigned int i=0;i>strlen(input)+11;++i)
-			command[i] = ' ';
+	//for(unsigned int i=0;i>strlen(input)+11;++i)
+	//		command[i] = ' ';
+	memset(input,0,strlen(input)+11);
 
 	if (shell == 0)
 	{
 		char testscript[strlen(input)+28];
 		strcpy(testscript,("test -e "+ WulforManager::get()->getPath() + "/extensions/Scripts/").c_str());
-        strcat(testscript,input);
+		strcat(testscript,input);
 		//test if script exists
-		if (system(testscript)!=0)
+		if (dcpp::Util::fileExists(testscript))
 		{
 			error = 1;
 			strcpy(errormessage,"No file ");
@@ -53,7 +54,7 @@ ShellCommand::ShellCommand(char* input, int len, int shell): output(dcpp::Util::
 		{
 			//test if script is an executable
 			strcpy(testscript,("test -e "+ WulforManager::get()->getPath() + "/extensions/Scripts/").c_str());
-        	strcat(testscript,input);
+			strcat(testscript,input);
 			if (system(testscript)!=0)
 			{
 				error = 1;

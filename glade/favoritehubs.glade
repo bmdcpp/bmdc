@@ -972,12 +972,6 @@ Disable</property>
                   </packing>
                 </child>
                 <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
                   <widget class="GtkHBox" id="hbox2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
@@ -1016,6 +1010,12 @@ Disable</property>
                     <property name="top_attach">15</property>
                     <property name="bottom_attach">16</property>
                   </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
               </widget>
             </child>
@@ -1445,6 +1445,14 @@ Pasive</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkMenuItem" id="menucopy">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Copy Address</property>
+        <property name="use_underline">True</property>
       </widget>
     </child>
   </widget>

@@ -590,3 +590,7 @@ GTK_ICON_SIZE_BUTTON -> GTK_ICON_SIZE_MENU in stock/icon in BookEntry
 ----r159
 Few updates from dcpp
 Add random funny message to /bmdc
+----r161
+Add Copy Menu Item to FavoriteHubs's right click..
+May Fix some isues with ShellCommand class...
+Removed double versions in /bmdc++

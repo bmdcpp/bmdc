@@ -67,6 +67,7 @@ class FavoriteHubs:
 		static void onEditEntry_gui(GtkWidget *widget, gpointer data);
 		static void onRemoveEntry_gui(GtkWidget *widget, gpointer data);
 		static void onConnect_gui(GtkButton *widget, gpointer data);
+		static void onCopyAddress(GtkWidget *item, gpointer data);
 		static void onCheckButtonToggled_gui(GtkToggleButton *button, gpointer data);
 		static void onAddGroupClicked_gui(GtkWidget *widget, gpointer data);
 		static void onRemoveGroupClicked_gui(GtkWidget *widget, gpointer data);

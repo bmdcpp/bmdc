@@ -135,7 +135,7 @@ const char* WulforUtil::CountryCodes[] = {
  "SZ", "TC", "TD", "TF", "TG", "TH", "TJ", "TK", "TL", "TM", "TN", "TO", "TR", "TT", "TV", "TW", "TZ", "UA", "UG",
  "UM", "US", "UY", "UZ", "VA", "VC", "VE", "VG", "VI", "VN", "VU", "WF", "WS", "YE", "YT", "YU", "ZA", "ZM", "ZW" };
 
-#define LINE2 "-- http://launchpad.net/bmdc++ <BMDC++ " GUI_VERSION_STRING ">"
+#define LINE2 "-- http://launchpad.net/bmdc++ <BMDC++ " GUI_VERSION_STRING BMDC_REVISION_STRING ">"
 const char* WulforUtil::msgs_dc[] = {
 		"\r\n-- I'm a happy DC++ user. You could be happy too.\r\n" LINE2,
 		"\r\n-- Neo-...what? Nope...never heard of it...\r\n" LINE2,
@@ -932,7 +932,6 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 
         if(param == "mc") {
             message += msg;
-            message += string(GUI_PACKAGE " " GUI_VERSION_STRING "." BMDC_REVISION_STRING "/" VERSIONSTRING " ");
         } else
             status  += string(GUI_PACKAGE " " GUI_VERSION_STRING "." BMDC_REVISION_STRING "/" VERSIONSTRING "/" DCPP_REVISION_STRING ", ") + _("project home: ") + "http://launchpad.net/bmdc++";
 

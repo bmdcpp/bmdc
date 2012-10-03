@@ -132,6 +132,7 @@ FavoriteHubs::FavoriteHubs():
 	g_signal_connect(getWidget("connectMenuItem"), "activate", G_CALLBACK(onConnect_gui), (gpointer)this);
 	g_signal_connect(getWidget("propertiesMenuItem"), "activate", G_CALLBACK(onEditEntry_gui), (gpointer)this);
 	g_signal_connect(getWidget("removeMenuItem"), "activate", G_CALLBACK(onRemoveEntry_gui), (gpointer)this);
+	g_signal_connect(getWidget("menucopy"), "activate", G_CALLBACK(onCopyAddress), (gpointer)this);
 	g_signal_connect(favoriteView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
 	g_signal_connect(favoriteView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 	g_signal_connect(favoriteView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
@@ -766,6 +767,18 @@ void FavoriteHubs::onRemoveEntry_gui(GtkWidget *widget, gpointer data)
 		typedef Func1<FavoriteHubs, string> F1;
 		F1 *func = new F1(fh, &FavoriteHubs::removeEntry_client, address);
 		WulforManager::get()->dispatchClientFunc(func);
+	}
+}
+
+void FavoriteHubs::onCopyAddress(GtkWidget *item, gpointer data)
+{
+	FavoriteHubs *fh = (FavoriteHubs *)data;
+	GtkTreeIter iter;
+
+	if (gtk_tree_selection_get_selected(fh->favoriteSelection, NULL, &iter))
+	{
+		string address = fh->favoriteView.getString(&iter, _("Address"));
+		gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), address.c_str(), address.length());
 	}
 }
 
