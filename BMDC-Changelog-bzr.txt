@@ -594,3 +594,6 @@ Add random funny message to /bmdc
 Add Copy Menu Item to FavoriteHubs's right click..
 May Fix some isues with ShellCommand class...
 Removed double versions in /bmdc++
+----r162
+does libtar as optional dependies
+Few updates from dcpps

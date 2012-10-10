@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2012 Jacek Sieka, arnetheduck on gmail point com
- * Copyright (C) 2012 Mank (GTK/Linux stuff)
+ * Copyright (C) 2012 Mank (GTK+/Linux stuff)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -231,6 +230,7 @@ string formatBytes(int64_t aBytes) {
 static gchar *parse(GVariant *var,ConfigStrPtr suffix)
 {
 	StringMap params;
+	
 	if (g_variant_n_children (var) > 0)
 	{
 		 GVariantIter *iter;

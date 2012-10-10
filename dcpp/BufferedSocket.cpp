@@ -20,15 +20,17 @@
 #include "BufferedSocket.h"
 
 #include <algorithm>
+
 #include <boost/scoped_array.hpp>
+
 #include "ConnectivityManager.h"
-#include "TimerManager.h"
-#include "SettingsManager.h"
-#include "Streams.h"
-#include "SSLSocket.h"
 #include "CryptoManager.h"
-#include "ZUtils.h"
+#include "SettingsManager.h"
+#include "SSLSocket.h"
+#include "Streams.h"
 #include "ThrottleManager.h"
+#include "TimerManager.h"
+#include "ZUtils.h"
 
 namespace dcpp {
 
@@ -442,8 +444,8 @@ bool BufferedSocket::checkEvents() {
 
 		if(p.first == SHUTDOWN) {
 			return false;
-		} else if(p.first == UPDATED) {
-			fire(BufferedSocketListener::Updated());
+		} else if(p.first == ASYNC_CALL) {
+			static_cast<CallData*>(p.second.get())->f();
 			continue;
 		}
 
@@ -520,7 +522,7 @@ void BufferedSocket::shutdown() {
 }
 
 void BufferedSocket::addTask(Tasks task, TaskData* data) {
-	dcassert(task == DISCONNECT || task == SHUTDOWN || task == UPDATED || sock.get());
+	dcassert(task == DISCONNECT || task == SHUTDOWN || sock.get());
 	tasks.push_back(make_pair(task, unique_ptr<TaskData>(data))); taskSem.signal();
 }
 

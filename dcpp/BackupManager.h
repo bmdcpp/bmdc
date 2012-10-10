@@ -15,6 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
+#ifdef HAVE_LIBTAR
  
 #ifndef DCPLUSPLUS_DCPP_BACKUP_MANAGER_H
 #define DCPLUSPLUS_DCPP_BACKUP_MANAGER_H
@@ -81,5 +82,7 @@ private:
 };
 
 } //namespace dcpp
+
+#endif
 
 #endif

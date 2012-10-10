@@ -18,7 +18,7 @@
  * In addition, as a special exception, compiling, linking, and/or
  * using OpenSSL with this program is allowed.
  */
-
+#ifdef HAVE_LIBTAR
 
 #include "ExportManager.h"
 namespace dcpp {
@@ -83,3 +83,4 @@ int ExportManager::run()
 }
 
 }//dcpp
+#endif

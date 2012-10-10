@@ -248,7 +248,9 @@ class MainWindow:
 		static void onReconectAllHub_gui(GtkWidget *widget, gpointer data);
 		/**/
 		static void onAboutConfigClicked_gui(GtkWidget *widget, gpointer data);
+		#ifdef HAVE_LIBTAR
 		static void onExportItemClicked_gui(GtkWidget *widget, gpointer data);
+		#endif
 		// Client functions
 		void autoConnect_client();
 		void startSocket_client();

@@ -78,6 +78,7 @@ private:
 	virtual ~DownloadManager();
 
 	void checkDownloads(UserConnection* aConn);
+	void revive(UserConnection* uc);
 	void startData(UserConnection* aSource, int64_t start, int64_t newSize, bool z);
 	void endData(UserConnection* aSource);
 

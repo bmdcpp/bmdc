@@ -32,7 +32,6 @@
 #include "LogManager.h"
 #include "MappingManager.h"
 #include "QueueManager.h"
-//#include "ResourceManager.h"
 #include "SearchManager.h"
 #include "SettingsManager.h"
 #include "ShareManager.h"
@@ -42,12 +41,15 @@
 
 #include "DetectionManager.h"
 #include "RawManager.h"
-#include "BackupManager.h"
+#ifdef HAVE_LIBTAR
+	#include "BackupManager.h"
+	#include "ExportManager.h"
+#endif
 #include "HighlightManager.h"
 #include "PluginManager.h"
 #include "RsxUtil.h"
 
-#include "ExportManager.h"
+
 
 #ifdef _STLP_DEBUG
 void __stl_debug_terminate() {
@@ -98,13 +100,15 @@ void startup(function<void (const string&)> f) {
 	GeoManager::newInstance();
 	WindowManager::newInstance();
 	PluginManager::newInstance();
-
+#ifdef HAVE_LIBTAR
 	ExportManager::newInstance();
+#endif	
 	DetectionManager::newInstance();
 	HighlightManager::newInstance();
+#ifdef HAVE_LIBTAR	
 	BackupManager::newInstance();
 	RestoreManager::newInstance();
-
+#endif
 	SettingsManager::getInstance()->load();
 
 #ifdef _WIN32
@@ -149,19 +153,20 @@ void startup(function<void (const string&)> f) {
 	DetectionManager::getInstance()->load();
 
 	RsxUtil::init();
-
+#ifdef HAVE_LIBTAR
 	if(SETTING(ENABLE_AUTOBACKUP)) {
 		BackupManager::getInstance()->createBackup();
 	}
-
+#endif
 }
 
 void shutdown() {
 	RsxUtil::uinit();
-
+#ifdef HAVE_LIBTAR
 	ExportManager::deleteInstance();
 	RestoreManager::deleteInstance();
 	BackupManager::deleteInstance();
+#endif	
 	PluginManager::getInstance()->unloadPlugins();
 	TimerManager::getInstance()->shutdown();
 	ThrottleManager::getInstance()->shutdown();//..
@@ -202,7 +207,6 @@ void shutdown() {
 	LogManager::deleteInstance();
 	SettingsManager::deleteInstance();
 	TimerManager::deleteInstance();
-	//ResourceManager::deleteInstance();
 
 #ifdef _WIN32
 	::WSACleanup();

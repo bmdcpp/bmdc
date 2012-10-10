@@ -114,11 +114,23 @@ void DownloadManager::checkIdle(const HintedUser& user) {
 		if(uc->getUser() == user.user) {
 			if(Util::stricmp(uc->getHubUrl(), user.hint) != 0) {
 				uc->setHubUrl(user.hint);
-			uc->updated();
+				uc->callAsync([this, uc] { revive(uc); });
 			return;
 		}
 	}
   }
+}
+
+void DownloadManager::revive(UserConnection* uc) {
+	{
+		Lock l(cs);
+		auto i = find(idlers.begin(), idlers.end(), uc);
+		if(i == idlers.end())
+			return;
+		idlers.erase(i);
+	}
+
+	checkDownloads(uc);
 }
 
 void DownloadManager::addConnection(UserConnectionPtr conn) {

@@ -229,10 +229,10 @@ void UserConnection::on(ModeChange) noexcept {
 void UserConnection::on(TransmitDone) noexcept {
 	fire(UserConnectionListener::TransmitDone(), this);
 }
-
+/*
 void UserConnection::on(Updated) noexcept {
 	fire(UserConnectionListener::Updated(), this);
-}
+}*/
 
 void UserConnection::on(Failed, const string& aLine) noexcept {
 	setState(STATE_UNCONNECTED);

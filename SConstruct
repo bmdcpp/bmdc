@@ -97,6 +97,7 @@ vars.AddVariables(
 	BoolVariable('profile', 'Compile the program with profiling information', 0),
 	BoolVariable('libnotify', 'Enable notifications through libnotify', 1),
 	BoolVariable('libgnome', 'Enable Gnome Libs', 1),
+	BoolVariable("libtar", 'Enable Backuping&Exporting with libtar', 1),
 	PathVariable('PREFIX', 'Compile the program with PREFIX as the root for installation', '/usr/local', PathVariable.PathIsDir),
 	('FAKE_ROOT', 'Make scons install the program under a fake root', '')
 )
@@ -285,13 +286,14 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		Exit(1)
 
 	# tar for Backup/Restore man...
-	if conf.CheckHeader("libtar.h"):
-		print "Found Libtar"
-		conf.env.Append(CPPDEFINES = 'HAVE_LIBTAR')
-		LIB_IS_TAR = True
-	else:
-		print 'Dont Found libtar headers'
-		Exit(1)
+	if conf.env.get('libtar'):
+		if conf.CheckHeader("libtar.h"):
+			print "Found Libtar"
+			conf.env.Append(CPPDEFINES = 'HAVE_LIBTAR')
+			LIB_IS_TAR = True
+		else:
+			print 'Dont Found libtar headers'
+			LIB_IS_TAR = False
 
 	#	conf.CheckBZRRevision()
 	env = conf.Finish()
@@ -351,6 +353,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if not LIB_IS_UPNP:
 		env.Append(LIBPATH = [BUILD_PATH + LIB_UPNP])
 		env.Prepend(LIBS = [LIB_UPNP])
+	
 	if not LIB_IS_NATPMP:
 		env.Append(LIBPATH = [BUILD_PATH + LIB_NATPMP])
 		env.Prepend(LIBS = [LIB_NATPMP])

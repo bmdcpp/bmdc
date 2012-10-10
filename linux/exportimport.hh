@@ -18,6 +18,7 @@
  * In addition, as a special exception, compiling, linking, and/or
  * using OpenSSL with this program is allowed.
  */
+#ifdef HAVE_LIBTAR
 
 #ifndef _EXPORT_DIALOG_HH
 #define _EXPORT_DIALOG_HH
@@ -46,4 +47,6 @@ class ExportDialog:
 };
 #else
 class ExportDialog;
+#endif
+
 #endif

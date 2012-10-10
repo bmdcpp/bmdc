@@ -135,7 +135,7 @@ const char* WulforUtil::CountryCodes[] = {
  "SZ", "TC", "TD", "TF", "TG", "TH", "TJ", "TK", "TL", "TM", "TN", "TO", "TR", "TT", "TV", "TW", "TZ", "UA", "UG",
  "UM", "US", "UY", "UZ", "VA", "VC", "VE", "VG", "VI", "VN", "VU", "WF", "WS", "YE", "YT", "YU", "ZA", "ZM", "ZW" };
 
-#define LINE2 "-- http://launchpad.net/bmdc++ <BMDC++ " GUI_VERSION_STRING BMDC_REVISION_STRING ">"
+#define LINE2 "-- http://launchpad.net/bmdc++ <BMDC++ " GUI_VERSION_STRING "." BMDC_REVISION_STRING ">"
 const char* WulforUtil::msgs_dc[] = {
 		"\r\n-- I'm a happy DC++ user. You could be happy too.\r\n" LINE2,
 		"\r\n-- Neo-...what? Nope...never heard of it...\r\n" LINE2,
@@ -538,9 +538,6 @@ bool WulforUtil::isLink(const string &text)
 
 bool WulforUtil::isHubURL(const string &text)
 {
-	//return g_ascii_strncasecmp(text.c_str(), "dchub://", 8) == 0 ||
-	//	g_ascii_strncasecmp(text.c_str(), "adc://", 6) == 0 ||
-	//	g_ascii_strncasecmp(text.c_str(), "adcs://", 7) == 0;
 	string re = "dchub://.+";
 	bool  isDcHub = dcpp::RegEx::match<string>(text,re,true);
 	re = "adc://.+";
@@ -982,8 +979,6 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			z = uname(&u_name);
 			if (z == -1)
 				dcdebug("Failed on uname");
-			string sys_name(u_name.sysname);
-			string node_name(u_name.nodename);
 			string rel(u_name.release);
 			string mach(u_name.machine);
 			struct sysinfo sys;//instance of acct;
@@ -991,8 +986,6 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			if(y != 0)
 				dcdebug("Failed on sysinfo");
 
-			unsigned long toram = sys.totalram * sys.mem_unit/1024;
-			unsigned long uram = sys.freeram * sys.mem_unit/1024;
 			const long minute = 60;
 			const long hour = minute * 60;
 			const long day = hour * 24;
@@ -1000,18 +993,16 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			long udays = upt/day;
 			long uhour = (upt % day) / hour;
 			long umin = (upt % hour) / minute;
-			const unsigned long megabyte = 1024;
 			/**/
 			int dettotal = SETTING(DETECTIONS);
 			int detfail = SETTING(DETECTIONF);
 
 		message =   "\n-= Stats " + dcpp::fullVersionString + " =-\n"
-					+ "-= " + sys_name + " " + node_name + " " + rel + " " + mach + " =-\n"
+					+ "-= " + rel + " " + mach + " =-\n"
 					+ "-= Uptime: " + Util::formatSeconds(Util::getUptime()) + " =-\n"
 					+ "-= Sys Uptime: " + Util::toString(udays) + " days," + Util::toString(uhour) + " Hours," + Util::toString(umin) + " min. =-\n"
-					+ "-= Mem Usage (Free/Total):" + Util::toString(uram/megabyte) + " MB /" + Util::toString(toram/megabyte) + " MB =-\n"
 					+ "-= Detection (Failed/Successful) :" + Util::toString(detfail) + " /" + Util::toString(dettotal) + " =-\n"
-					+ "-="+ getStatsForMem()+" =-\n";
+					+ "-=" + getStatsForMem() + " =-\n";
 
 	}
 	else if ( cmd == "g" || cmd == "google"){
