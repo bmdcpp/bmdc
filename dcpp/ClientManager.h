@@ -137,8 +137,8 @@ public:
 			return (!ou->getClient().getHideShare());
 		return true;
 	}
-	
-	
+
+
 	int getMode(const string& aHubUrl) const;
 	bool isActive(const string& aHubUrl = Util::emptyString) const;
 	//CMD
@@ -153,13 +153,13 @@ public:
 	void sendAction(const UserPtr& p, const int aAction);
 	void sendAction(OnlineUser& ou, const int aAction);
 	void sendRawCommand(const UserPtr& user, const string& aRaw, bool checkProtection = false);
-	
+
 	void addCheckToQueue(const HintedUser hintedUser, bool filelist);
 	void checkCheating(const HintedUser& p, DirectoryListing* dl);
 	void setCheating(const UserPtr& p, const string& _ccResponse, const string& _cheatString, int _actionId, bool _displayCheat,
 		bool _badClient, bool _badFileList, bool _clientCheckComplete, bool _fileListCheckComplete);
 	void fileListDisconnected(const UserPtr& p);
-	
+
 private:
 	typedef unordered_map<string, UserPtr> LegacyMap;
 	typedef LegacyMap::iterator LegacyIter;

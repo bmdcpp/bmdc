@@ -133,7 +133,7 @@ void ConnectionManager::on(TimerManagerListener::Second, uint64_t aTick) noexcep
 
 	{
 		Lock l(cs);
-		
+
 		for(auto i = delayedTokens.begin(); i != delayedTokens.end();) {
            if((i->second + (90 * 1000)) < aTick) {
                  delayedTokens.erase(i++);
@@ -330,6 +330,7 @@ void ConnectionManager::nmdcConnect(const string& aServer, const string& aPort, 
 	uc->setEncoding(encoding);
 	uc->setState(UserConnection::STATE_CONNECT);
 	uc->setFlag(UserConnection::FLAG_NMDC);
+
 	try {
 		uc->connect(aServer, aPort, Util::emptyString, BufferedSocket::NAT_NONE);
 	} catch(const Exception&) {
@@ -415,8 +416,20 @@ void ConnectionManager::on(AdcCommand::SUP, UserConnection* aSource, const AdcCo
 	aSource->setState(UserConnection::STATE_INF);
 }
 
-void ConnectionManager::on(AdcCommand::STA, UserConnection*, const AdcCommand& cmd) noexcept {
+void ConnectionManager::on(AdcCommand::STA, UserConnection* uc, const AdcCommand& cmd) noexcept {
+	/*string ref;
+	if(!cmd.getParam("RF", 0, ref))
+		return;
 
+	ClientManager* CMgr = ClientManager::getInstance();
+	auto lock = CMgr->lock();
+	auto ou = CMgr->findOnlineUser(uc->getUser()->getCID(), uc->getHubUrl());
+	if(!ou)
+		return;
+
+	cmd.getParam("RF", 0, ref);
+	ou->getIdentity().set("RF", move(ref));
+	CMgr->fire(ClientManagerListener::UserUpdated(), dynamic_cast<const OnlineUser&>(*ou));  */
 }
 
 void ConnectionManager::on(UserConnectionListener::Connected, UserConnection* aSource) noexcept {
@@ -492,7 +505,7 @@ void ConnectionManager::on(UserConnectionListener::MyNick, UserConnection* aSour
 		}
 	}
 
-	
+
 	if(!aSource->getUser()) {
 		// Make sure we know who it is, i e that he/she is connected...
 
@@ -507,7 +520,7 @@ void ConnectionManager::on(UserConnectionListener::MyNick, UserConnection* aSour
 	}
 
 	ClientManager::getInstance()->setIpAddress(aSource->getUser(),aSource->getRemoteIp());
-	
+
 	if(ClientManager::getInstance()->isOp(aSource->getUser(), aSource->getHubUrl()))
 		aSource->setFlag(UserConnection::FLAG_OP);
 
@@ -540,7 +553,7 @@ void ConnectionManager::on(UserConnectionListener::CLock, UserConnection* aSourc
 //detection ..Pk String/Lock string
 	if(aSource->getHintedUser().user)
 		ClientManager::getInstance()->setPkLock(aSource->getHintedUser(), aPk, aLock);
-	
+
 }
 
 void ConnectionManager::on(UserConnectionListener::Direction, UserConnection* aSource, const string& dir, const string& num) noexcept {
@@ -705,7 +718,7 @@ void ConnectionManager::on(AdcCommand::INF, UserConnection* aSource, const AdcCo
 		}
 	}
 	aSource->setToken(token);
-	
+
 	if(aSource->isSet(UserConnection::FLAG_DOWNLOAD)) {
 		addDownloadConnection(aSource);
 	} else if(aSource->isSet(UserConnection::FLAG_UPLOAD)) {

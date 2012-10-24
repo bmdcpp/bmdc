@@ -20,6 +20,12 @@
 * Threaded Loading of FileList (eiskaltdcpp (dhamp))
 * partialy update to 2972
 * Update to 2923 dcpp
+* Add Export Dialog
+* Made libtar optional depedience
+* Make /bmdc++ mc with random messages
+* GTK_ICON_SIZE_BUTTON -> GTK_ICON_SIZE_MENU in stock/icon in BookEntry
+* Made Tabbed Searches
+* Add /imdb [param] and /g /google [param] for search in default browser/application on Google/imdb
  ======
 0.0.1
  ======

@@ -4,6 +4,8 @@
 import os
 import commands
 import string
+import re
+#import subst 
 
 EnsureSConsVersion(0, 98, 1)
 
@@ -19,7 +21,6 @@ LIB_IS_GEO = False
 LIB_IS_TAR = False
 # -fpermissive
 # , '-Werror' ,'-Wfatal-errors'
-# ,'-Wextra'
 BUILD_FLAGS = {
 	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib','-fno-stack-protector','-Wno-unused-parameter','-Wno-unused-value','-Wno-missing-field-initializers', '-Wno-address','-fexceptions','-g3', '-ldl', '-pipe' ],
 	'debug'   : ['-g', '-ggdb', '-Wall', '-D_DEBUG'],
@@ -80,6 +81,13 @@ def generate_message_catalogs(env):
 		env.MoBuild(source = po_file, target = mo_file)
 
 	return None
+
+#def generate_desktop_file(env):
+#	TOOL_SUBST(env)
+#	env["DISPLAY_NAME"] = "BMDC++"
+#	env["DESCRIPTION"] = "DC++ Client"
+#	env.Substfile("data/bmdc.desktop","bmdc.in")
+
 
 # ----------------------------------------------------------------------
 # Command-line options
@@ -397,6 +405,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	# i18n
 	env.MergePotFiles(source = [glade_pot_file, linux_pot_file], target = 'po/%s.pot' % PACKAGE)
 	env.GenerateMessageCatalogs()
+#	generate_desktop_file(env)
 
 	# Build source files followed by everything else
 	Default(PACKAGE, '.')

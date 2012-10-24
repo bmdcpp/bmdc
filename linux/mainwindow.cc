@@ -2338,6 +2338,7 @@ void MainWindow::onExportItemClicked_gui(GtkWidget *widget, gpointer data)
 	MainWindow *mw = (MainWindow *)data;
 	ExportDialog *h = new ExportDialog(GTK_WINDOW(mw->getContainer()));
 	h->run();
+	delete h;
 }
 #endif
 void MainWindow::onSearchClicked_gui(GtkWidget *widget, gpointer data)

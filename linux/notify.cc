@@ -83,7 +83,7 @@ void Notify::init()
 #endif
 }
 
-void Notify::finalize()
+void Notify::finalize() 
 {
 #ifdef HAVE_NOTIFY
 	notify_notification_close(notification, NULL);

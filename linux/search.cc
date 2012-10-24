@@ -571,7 +571,7 @@ void Search::addResult_gui(const SearchResultPtr result)
 	bool createParent = FALSE;
 
 	vector<SearchResultPtr> &existingResults = results[result->getUser()->getCID().toBase32()];
-	for (vector<SearchResultPtr>::iterator it = existingResults.begin(); it != existingResults.end(); it++)
+	for (vector<SearchResultPtr>::iterator it = existingResults.begin(); it != existingResults.end(); ++it)
 	{
 		// Check if it's a duplicate
 		if (result->getFile() == (*it)->getFile())
@@ -1620,7 +1620,7 @@ void Search::onRemoveClicked_gui(GtkMenuItem *item, gpointer data)
 		g_list_free(list);
 
 		// удаляем
-		for (vector<GtkTreeIter>::const_iterator it = remove.begin(); it != remove.end(); it++)
+		for (vector<GtkTreeIter>::const_iterator it = remove.begin(); it != remove.end(); ++it)
 		{
 			iter = *it;
 			gtk_tree_store_remove(s->resultStore, &iter);

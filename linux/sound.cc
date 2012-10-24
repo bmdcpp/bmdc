@@ -49,7 +49,7 @@ Sound* Sound::get()
 	return pSound;
 }
 
-void Sound::sound_init()
+void Sound::sound_init() const
 {
 	#ifdef _HAVEGNOME
 	gnome_sound_init(NULL);
@@ -132,7 +132,7 @@ void Sound::playSound(const string &target)
 	#endif
 }
 
-void Sound::sound_finalize()
+void Sound::sound_finalize() const
 {
 	#ifdef _HAVEGNOME
 		gnome_sound_shutdown();

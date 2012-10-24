@@ -2577,7 +2577,7 @@ void Settings::onEditExtensionButton_gui(GtkWidget *widget, gpointer data)
 
 	GtkTreeIter iter;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection(s->extensionView.get());
-	string old_ext, new_ext;
+	string old_ext;
 
 	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
@@ -2596,6 +2596,7 @@ void Settings::onEditExtensionButton_gui(GtkWidget *widget, gpointer data)
 
 	if (response == GTK_RESPONSE_OK)
 	{
+		string new_ext;
 		new_ext = gtk_entry_get_text(GTK_ENTRY(entry));
 		if (new_ext.find(";") == string::npos && Util::checkExtension(new_ext))
 		{

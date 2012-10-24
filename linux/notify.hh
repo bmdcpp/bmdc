@@ -61,7 +61,7 @@ class Notify
 		static void start();
 		static void stop();
 
-		Notify() : action(FALSE) { init(); }
+		Notify() : icon_width(0), icon_height(0), currIconSize(32) ,action(FALSE) { init(); }
 		~Notify() { finalize(); }
 
 		void showNotify(const std::string &head, const std::string &body, TypeNotify notify);
@@ -73,7 +73,7 @@ class Notify
 		enum {x16, x22, x24, x32, x36, x48, x64, DEFAULT};
 
 		void init();
-		void finalize();
+		void finalize() ;
 		void setCurrIconSize(const int size);
 
 		int icon_width;

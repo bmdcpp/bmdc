@@ -693,11 +693,11 @@ string TreeView::getValueAsText(GtkTreeIter *i, const string &title)
 
 	if (!title.empty())
 	{
-		int64_t size = 0;
 		GtkTreeViewColumn *col = NULL;
         col = gtk_tree_view_get_column(view, this->col(title));
 		if (col != NULL)
 		{
+			int64_t size = 0;
 		    Column *column = (Column*)g_object_get_data(G_OBJECT(col), "column");
 
 	        switch (column->type)

@@ -576,7 +576,6 @@ void Transfers::updateParent_gui(GtkTreeIter* iter)
 	GtkTreeIter child;
 	string users;
 	set<string> hubs;
-	bool valid;
 	int64_t speed = 0;
 	int64_t position = 0;
 	int64_t totalSize = 0;
@@ -591,6 +590,7 @@ void Transfers::updateParent_gui(GtkTreeIter* iter)
 	// Get Totals
 	if (gtk_tree_model_iter_has_child(GTK_TREE_MODEL(transferStore), iter))
 	{
+		bool valid;
 		child = *iter;
 		valid = WulforUtil::getNextIter_gui(GTK_TREE_MODEL(transferStore), &child, TRUE, FALSE);
 		while (valid)

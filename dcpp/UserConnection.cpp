@@ -144,7 +144,7 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 		if(!param.empty()) {
 			fire(UserConnectionListener::ListLength(), this, param);
 		}
-	}	
+	}
 	else if(cmd.compare(0, 4, "$ADC") == 0) {
 		dispatch(aLine, true);
 	} else {

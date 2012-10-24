@@ -562,7 +562,7 @@ void ClientManager::search(string& who, int aSizeMode, int64_t aSize, int aFileT
 	for(auto i = clients.begin(); i != clients.end(); ++i) { //change clients set to map<string*(hubUrl), Client*> for better lookup with .find
 		if(((*i)->getHubUrl() == who) && (*i)->isConnected()) {
 			(*i)->search(aSizeMode, aSize, aFileType, aString, aToken, aExtList);
-			break;	
+			break;
 		}
 	}
 }
@@ -703,8 +703,8 @@ int ClientManager::getMode(const string& aHubUrl) const {
 }
 
 bool ClientManager::isActive(const string& aHubUrl /*= Util::emptyString*/) const
-{ 
-	return getMode(aHubUrl) != SettingsManager::INCOMING_FIREWALL_PASSIVE; 
+{
+	return getMode(aHubUrl) != SettingsManager::INCOMING_FIREWALL_PASSIVE;
 }
 //..
 void ClientManager::setIpAddress(const UserPtr& p, const string& ip) {
@@ -712,7 +712,9 @@ void ClientManager::setIpAddress(const UserPtr& p, const string& ip) {
 	OnlineIterC i = onlineUsers.find(p->getCID());
 	if(i != onlineUsers.end()) {
 		i->second->getIdentity().set("I4", ip);
+		fire(ClientManagerListener::UserUpdated(),(dynamic_cast<const OnlineUser&>(*i->second)));
 	}
+
 }
 
 void ClientManager::setSupports(const UserPtr& p, const string& aSupports) {
@@ -737,7 +739,7 @@ void ClientManager::setGenerator(const HintedUser& p, const string& aGenerator, 
 		report = ou->getIdentity().checkFilelistGenerator(*ou);
 		c = &ou->getClient();
 	}
-	
+
 	if(c && !report.empty()) {
 		c->cheatMessage(report);
 	}
@@ -966,7 +968,7 @@ void ClientManager::checkCheating(const HintedUser& p, DirectoryListing* dl) {
 					RawManager::getInstance()->calcADLAction(totalPoints, rawToSend, show);
 					report = ou->setCheat(s, false, true, show);
 					sendAction(*ou, rawToSend);
-				} 
+				}
 			}
 		}
 		//END
@@ -1025,7 +1027,7 @@ void ClientManager::setCheating(const UserPtr& p, const string& _ccResponse, con
 			report += ou->setCheat(_cheatString, _badClient, _badFileList, _displayCheat);
 		sendAction(*ou, _actionId);
 	}
-	
+
 	if(ou) {
 		ou->getClient().updated(*ou);
 		if(!report.empty())
@@ -1115,7 +1117,7 @@ void ClientManager::setListSize(const UserPtr& p, int64_t aFileLength, bool adc)
 			}
 		}
 	}
-	 
+
 	if(ou) {
 		ou->getClient().updated(*ou);
 		if(!report.empty())

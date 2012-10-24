@@ -18,9 +18,9 @@ libbz2
 libssl
 libboost
 libGeoIP >= 1.4.7
-libtar
 --------------
 optional:
+ libtar 
  libgnome 
  libnotify >= 0.4.1
  lua5.1 >= 5.0 or lua >= 5.0

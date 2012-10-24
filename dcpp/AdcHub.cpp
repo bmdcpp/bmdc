@@ -127,7 +127,7 @@ void AdcHub::putUser(const uint32_t aSID, bool disconnect) {
 
 void AdcHub::clearUsers() {
 	SIDMap tmp;
-	stopMyInfoCheck();//BMDC/RSX++
+	stopMyInfoCheck();//BMDC++//RSX-like
 	{
 		Lock l(cs);
 		users.swap(tmp);
@@ -176,7 +176,7 @@ void AdcHub::handle(AdcCommand::INF, AdcCommand& c) noexcept {
 		return;
 	}
 
-	for(StringIterC i = c.getParameters().begin(); i != c.getParameters().end(); ++i) {
+	for(auto i = c.getParameters().begin(); i != c.getParameters().end(); ++i) {
 		if(i->length() < 2)
 			continue;
 
@@ -467,7 +467,6 @@ void AdcHub::handle(AdcCommand::STA, AdcCommand& c) noexcept {
 	if(!u)
 		return;
 
-	//int severity = Util::toInt(c.getParam(0).substr(0, 1));
 	if(c.getParam(0).size() != 3) {
 		return;
 	}
@@ -569,8 +568,8 @@ void AdcHub::handle(AdcCommand::GET, AdcCommand& c) noexcept {
 
 		size_t n = ShareManager::getInstance()->getSharedFiles();
 
-		// Ideal size for m is n * k / ln(2), but we allow some slack
-		if(m > (5 * Util::roundUp((int64_t)(n * k / log(2.)), (int64_t)64)) || m > static_cast<size_t>(1 << h)) {
+		// When h >= 32, m can't go above 2^h anyway since it's stored in a size_t.
+           if(m > (5 * Util::roundUp((int64_t)(n * k / log(2.)), (int64_t)64)) || (h < 32 && m > static_cast<size_t>(1U << h))) {
 			send(AdcCommand(AdcCommand::SEV_FATAL, AdcCommand::ERROR_TRANSFER_GENERIC,
 				"Unsupported m", AdcCommand::TYPE_HUB));
 			return;
@@ -1107,9 +1106,9 @@ void AdcHub::on(Connected c) noexcept {
 	if(SETTING(SEND_BLOOM)) {
 		cmd.addParam(BLO0_SUPPORT);
 	}
-	
+
 	cmd.addParam(ZLIF_SUPPORT);
-	
+
 	send(cmd);
 
 }

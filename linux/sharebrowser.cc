@@ -411,8 +411,6 @@ void ShareBrowser::setStatus_gui(string statusBar, string msg)
 
 void ShareBrowser::fileViewSelected_gui()
 {
-	gpointer ptr;
-	string fileOrder;
 	GtkTreeIter iter, parentIter;
 	GtkTreeModel *m = GTK_TREE_MODEL(fileStore);
 	GList *list = gtk_tree_selection_get_selected_rows(fileSelection, NULL);
@@ -420,6 +418,8 @@ void ShareBrowser::fileViewSelected_gui()
 
 	if (gtk_tree_model_get_iter(m, &iter, path))
 	{
+		gpointer ptr;
+		string fileOrder;
 		ptr = fileView.getValue<gpointer>(&iter, "DL File");
 		fileOrder = fileView.getString(&iter, "File Order");
 
@@ -1143,29 +1143,29 @@ void ShareBrowser::load(string xml)
 
 	GtkTreeIter iter;
 	DirectoryListing::Directory *dirList;
-	string path,path2;
 	GtkTreePath *treepath;
 	if (gtk_tree_selection_get_selected(dirSelection, NULL, &iter))
 	{
+		string path,path2;
 		dirList = (DirectoryListing::Directory *)dirView.getValue<gpointer>(&iter,"DL Dir");
 		path2 = dirList->getName();
 		treepath = gtk_tree_path_copy(gtk_tree_model_get_path (GTK_TREE_MODEL(dirStore) ,gtk_tree_iter_copy(&iter)));
 
-	path = QueueManager::getInstance()->getListPath(listing.getUser()) + ".xml";
-	if(File::getSize(path) != -1) {
-		// load the cached list.
-		listing.updateXML(File(path, File::READ, File::OPEN).read());
-	}
-	auto base = listing.updateXML(xml);
-	//listing.save(path);
-	ADLSearchManager::getInstance()->matchListing(listing);
-	gtk_tree_store_clear(dirStore);
-	gtk_list_store_clear(fileStore);
-	buildDirs_gui(listing.getRoot(),NULL);
-	gtk_tree_view_expand_to_path(dirView.get(), treepath);
-	gtk_tree_view_scroll_to_cell(dirView.get(),treepath,NULL,FALSE,0,0);
-	gtk_tree_selection_select_path(dirSelection,treepath);
-	updateFiles_gui(dirList);
+		path = QueueManager::getInstance()->getListPath(listing.getUser()) + ".xml";
+		if(File::getSize(path) != -1) {
+			// load the cached list.
+			listing.updateXML(File(path, File::READ, File::OPEN).read());
+		}
+		auto base = listing.updateXML(xml);
+		//listing.save(path);
+		ADLSearchManager::getInstance()->matchListing(listing);
+		gtk_tree_store_clear(dirStore);
+		gtk_list_store_clear(fileStore);
+		buildDirs_gui(listing.getRoot(),NULL);
+		gtk_tree_view_expand_to_path(dirView.get(), treepath);
+		gtk_tree_view_scroll_to_cell(dirView.get(),treepath,NULL,FALSE,0,0);
+		gtk_tree_selection_select_path(dirSelection,treepath);
+		updateFiles_gui(dirList);
    }
 }
 
