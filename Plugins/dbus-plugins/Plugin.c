@@ -58,6 +58,8 @@ DCLogPtr logging;
 
 DCHubPtr hub;
 DCUtilsPtr utils = NULL;
+DCUIPtr ui;
+
 GDBusProxy *proxy = NULL;
 
 using namespace std;

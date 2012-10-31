@@ -40,6 +40,7 @@
 #include <cmath>
 #include "BufferedSocket.h"
 #include "ConnectivityManager.h"
+
 namespace dcpp {
 
 using std::make_pair;
@@ -133,7 +134,7 @@ void AdcHub::clearUsers() {
 		users.swap(tmp);
 	}
 
-	for(SIDIter i = tmp.begin(); i != tmp.end(); ++i) {
+	for(auto i = tmp.begin(); i != tmp.end(); ++i) {
 		if(i->first != AdcCommand::HUB_SID) {
 			ClientManager::getInstance()->putOffline(i->second);
 			i->second->dec();

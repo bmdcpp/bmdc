@@ -188,7 +188,6 @@ private:
 	string hubUrl;
 	string address;
 	string ip;
-	//string localIp;
 	string keyprint;
 	string port;
 	char separator;

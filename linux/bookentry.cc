@@ -40,7 +40,7 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	icon(NULL),
 	popTabMenuItem(NULL),
 	type(type),
-	search(false)
+	IsCloseButton(false)
 
 {
 	GSList *group = NULL;
@@ -62,7 +62,7 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 
 	// Align text to the left (x = 0) and in the vertical center (0.5)
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-    if(search || WGETB("use-close-button"))
+    if(IsCloseButton || WGETB("use-close-button"))
      {
 	   closeButton = gtk_button_new();
         gtk_button_set_relief(GTK_BUTTON(closeButton), GTK_RELIEF_NONE);
@@ -99,7 +99,7 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	// Associates entry to the widget for later retrieval in MainWindow::switchPage_gui()
 	g_object_set_data(G_OBJECT(getContainer()), "entry", (gpointer)this);
 
-    g_signal_connect(getLabelBox(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
+	g_signal_connect(getLabelBox(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
 	g_signal_connect(getLabelBox(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 }
 
@@ -152,7 +152,8 @@ void BookEntry::setLabel_gui(string text)
 	GtkWidget *child = gtk_bin_get_child(GTK_BIN(tabMenuItem));
 	if (child && GTK_IS_LABEL(child))
 		gtk_label_set_text(GTK_LABEL(child), text.c_str());
-    if(search || WGETB("use-close-button"))
+    
+	if(IsCloseButton || WGETB("use-close-button"))
     {
         // Update the notebook tab label
         #if GTK_CHECK_VERSION(2, 12, 0)
@@ -270,7 +271,7 @@ const string& BookEntry::getLabelText() const
 //BMDC++
 void BookEntry::onCloseItem(gpointer data)
 {
-    BookEntry *book = reinterpret_cast<BookEntry *>(data);
+	BookEntry *book = reinterpret_cast<BookEntry *>(data);
 	book->removeBooK_GUI();
 }
 
@@ -311,7 +312,7 @@ gboolean BookEntry::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *even
 		gtk_widget_show(book->fItem);
 		gtk_widget_show(book->popTabMenuItem);
 		g_object_ref_sink(book->popTabMenuItem);
-        gtk_menu_popup(GTK_MENU(book->popTabMenuItem),NULL, NULL, NULL,NULL,0,0);
+		gtk_menu_popup(GTK_MENU(book->popTabMenuItem),NULL, NULL, NULL,NULL,0,0);
 	}
 	return FALSE;
 }
@@ -320,6 +321,7 @@ GtkWidget *BookEntry::createItemFirstMenu()
 {
 	GtkWidget *item = NULL;
 	string stock, info;
+	
 	switch (this->type)
 	{
 		case Entry::FAVORITE_HUBS :

@@ -61,9 +61,11 @@ AboutConfig::~AboutConfig()
 void AboutConfig::show()
 {
 	SettingsManager::getInstance()->addListener(this);	
+	
 	int n;
 	SettingsManager::Types type;
 	auto sm = SettingsManager::getInstance();
+	
 	for(int i = 0;i < SettingsManager::SETTINGS_LAST ; i++ ) {
 		string b = sm->getSettingTags()[i];
 		if (b == "SENTRY") continue;
@@ -111,6 +113,7 @@ void AboutConfig::show()
 	WulforSettingsManager::StringMap map = wsm->getStringMap();
 	string types = Util::emptyString;
 	string value = Util::emptyString;
+	
 	for(auto i = map.begin();i!= map.end();++i)
 	{
 		string rowname = i->first;
@@ -121,6 +124,7 @@ void AboutConfig::show()
 	}
 	
 	WulforSettingsManager::IntMap imap = wsm->getIntMap();
+	
 	for(auto i = imap.begin();i!= imap.end();++i)
 	{
 		string rowname = i->first;
@@ -134,6 +138,7 @@ void AboutConfig::show()
 void AboutConfig::addItem_gui(string rowname, string isdefault, string types, string value, bool isWulf)
 {
 	GtkTreeIter iter;
+	
 	gtk_list_store_append(aboutStore,&iter);
 	gtk_list_store_set(aboutStore,&iter,
 				aboutView.col(_("Name")),rowname.c_str(),
@@ -142,6 +147,7 @@ void AboutConfig::addItem_gui(string rowname, string isdefault, string types, st
 				aboutView.col(_("Value")), value.c_str(),
 				aboutView.col("WS"), isWulf ? "1" : "0", 
 	-1);
+	
 	aboutIters.insert(AboutIters::value_type(rowname,iter));
 	
 }
@@ -149,7 +155,9 @@ void AboutConfig::addItem_gui(string rowname, string isdefault, string types, st
 void AboutConfig::updateItem_gui(string rowname, string value)
 {
 	GtkTreeIter iter;
+	
 	if(findAboutItem_gui(rowname,&iter)){
+		
 		gtk_list_store_set(aboutStore,&iter,
 				aboutView.col(_("Name")),rowname.c_str(),
 				aboutView.col(_("Value")), value.c_str(),
@@ -229,27 +237,28 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget *widget, gpointer data)
 	GtkTreeIter iter;
 	if (gtk_tree_selection_get_selected(s->aboutSelection, NULL, &iter))
 	{
-		string i = s->aboutView.getString(&iter,_("Name"));
+		string name = s->aboutView.getString(&iter,_("Name"));
 		string value = s->aboutView.getString(&iter, _("Value"));
 		bool isWsm = s->aboutView.getString(&iter, "WS") == "1" ? TRUE : FALSE;
 		int n;
 		auto sm = SettingsManager::getInstance();
-		bool run = s->getDialog(i,value,data);
+		bool run = s->getDialog(name, value, data);
 		if(!run)
 			return;
+		
 		if(isWsm)
 		{
 			auto wsm = WulforSettingsManager::getInstance();	
-			if(wsm->isString(i))
-				wsm->set(i,value);
-			if(wsm->isInt(i))
-				wsm->set(i,Util::toInt(value));
-				s->updateItem_gui(i,value);
+			if(wsm->isString(name))
+				wsm->set(name,value);
+			if(wsm->isInt(name))
+				wsm->set(name,Util::toInt(value));
+				s->updateItem_gui(name,value);
 			return;	
 		}
 		
 		SettingsManager::Types type;		
-		sm->getType(i.c_str(), n, type);
+		sm->getType(name.c_str(), n, type);
 		switch(type)
 		{
 			case SettingsManager::TYPE_STRING:
@@ -269,7 +278,7 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget *widget, gpointer data)
 				break;	
 			default:;
 		}
-		s->updateItem_gui(i,value);
+		s->updateItem_gui(name,value);
 	}
 }
 
@@ -278,6 +287,7 @@ void AboutConfig::onSetDefault(GtkWidget *widget, gpointer data)
 	AboutConfig *s = (AboutConfig *)data;
 	
 	GtkTreeIter iter;
+	
 	if (gtk_tree_selection_get_selected(s->aboutSelection, NULL, &iter))
 	{
 		string i = s->aboutView.getString(&iter,_("Name"));
@@ -299,9 +309,11 @@ void AboutConfig::onSetDefault(GtkWidget *widget, gpointer data)
 			s->setStatus("Value"+i+"Setted to Default"+value);
 			return;		
 		}
+		
 		auto sm = SettingsManager::getInstance();
 		int n ;
 		SettingsManager::Types type;
+		
 		if (sm->getType(Text::fromT(i).c_str(), n, type))
 		{
 			sm->unset(n);
@@ -334,10 +346,10 @@ void AboutConfig::onSetDefault(GtkWidget *widget, gpointer data)
 	}
 }
 
-bool AboutConfig::getDialog(string i, string& value , gpointer data)
+bool AboutConfig::getDialog(string name, string& value , gpointer data)
 {
 	AboutConfig *s = (AboutConfig *)data;
-	gtk_label_set_text(GTK_LABEL(s->getWidget("label")), i.c_str());
+	gtk_label_set_text(GTK_LABEL(s->getWidget("label")), name.c_str());
 	gtk_entry_set_text(GTK_ENTRY(s->getWidget("entry")), value.c_str());
 	int response = gtk_dialog_run(GTK_DIALOG(s->getWidget("dialog")));
 	

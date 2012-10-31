@@ -95,6 +95,8 @@ class FavoriteHubs:
 		GtkTreeSelection *favoriteSelection, *groupsSelection, *actionSel;
 		GdkEventType previous;
 		FavHubGroupsIter GroupsIter;
+		
+		bool checkAddys(std::string url);//True if not find in FavList
 };
 
 #else

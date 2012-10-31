@@ -3717,8 +3717,12 @@ void Hub::addAsFavorite_client()
 	F3 *func;
 
 	FavoriteHubEntry *existingHub = FavoriteManager::getInstance()->getFavoriteHubEntry(client->getHubUrl());
-
-	if (!existingHub)
+	FavoriteHubEntry *exHub = NULL;
+	auto tmp = client->getHubUrl();
+	auto i = tmp.find("dchub://");
+	if(i != string::npos) exHub = FavoriteManager::getInstance()->getFavoriteHubEntry(tmp.substr(i+1));
+	
+	if (!exHub || !existingHub)
 	{
 		FavoriteHubEntry entry;
 		entry.setServer(client->getHubUrl());

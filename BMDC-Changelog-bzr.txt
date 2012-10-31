@@ -597,3 +597,7 @@ Removed double versions in /bmdc++
 ----r162
 does libtar as optional dependies
 Few updates from dcpps
+----r164
+Added Sound Callback to PluginApi
+Some small cleanup
+Fix Build Without libtar

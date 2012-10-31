@@ -68,6 +68,9 @@ extern "C" {
 #define DCINTF_DCPP_UTILS			"dcpp.utils.DCUtils"		/* Utility and convenience functions */
 #define DCINTF_DCPP_UTILS_VER		1
 
+#define DCINTF_DCPP_UI                          "dcpp.ui.DCUI"                          /* User interface */
+#define DCINTF_DCPP_UI_VER                      1
+
 /* Hook GUID's for Hooks (events) system */
 #define HOOK_CHAT_IN				"dcpp.chat.onIncomingChat"	/* Incoming chat from hub (obj: HubData) */
 #define HOOK_CHAT_OUT				"dcpp.chat.onOutgoingChat"	/* Outgoing chat (obj: HubData) */
@@ -386,6 +389,13 @@ typedef struct tagDCUtils {
 	size_t		(DCAPI *to_base32)					(char* dst, const uint8_t* src, size_t n);
 	size_t		(DCAPI *from_base32)				(uint8_t* dst, const char* src, size_t n);
 } DCUtils, *DCUtilsPtr;
+
+/* User interface */
+typedef struct DCUI {
+        /* User interface API version */
+        uint32_t apiVersion;
+        void    (DCAPI *play_sound)					(const char* path);
+} DCUI, *DCUIPtr;
 
 #ifdef __cplusplus
 }

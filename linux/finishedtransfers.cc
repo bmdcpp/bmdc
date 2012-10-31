@@ -647,7 +647,6 @@ void FinishedTransfers::initializeList_client()
 	}
 
 	updateStatus_gui();
-	//WulforManager::get()->dispatchGuiFunc(new Func0<FinishedTransfers>(this, &FinishedTransfers::updateStatus_gui));
 }
 
 /** finished file */
@@ -703,7 +702,7 @@ void FinishedTransfers::removeUser_client(string cid)
 
 	if (user)
 		// ignore the hint url user...
-		FinishedManager::getInstance()->remove(isUpload, HintedUser(user, ""));//NOTE: core 0.762
+		FinishedManager::getInstance()->remove(isUpload, HintedUser(user, ""));
 }
 
 void FinishedTransfers::removeFile_client(string target)
@@ -719,7 +718,7 @@ void FinishedTransfers::removeAll_client()
 	FinishedManager::getInstance()->removeAll(isUpload);
 }
 
-void FinishedTransfers::on(FinishedManagerListener::AddedFile, bool upload, const string& file, const FinishedFileItemPtr& item) throw()
+void FinishedTransfers::on(FinishedManagerListener::AddedFile, bool upload, const string& file, const FinishedFileItemPtr& item) noexcept
 {
 	if (isUpload == upload)
 	{
@@ -733,7 +732,7 @@ void FinishedTransfers::on(FinishedManagerListener::AddedFile, bool upload, cons
 }
 
 //NOTE: core 0.762
-void FinishedTransfers::on(FinishedManagerListener::AddedUser, bool upload, const HintedUser &user, const FinishedUserItemPtr &item) throw()
+void FinishedTransfers::on(FinishedManagerListener::AddedUser, bool upload, const HintedUser &user, const FinishedUserItemPtr &item) noexcept
 {
 	if (isUpload == upload)
 	{
@@ -744,9 +743,9 @@ void FinishedTransfers::on(FinishedManagerListener::AddedUser, bool upload, cons
 		F2 *func = new F2(this, &FinishedTransfers::addUser_gui, params, TRUE);
 		WulforManager::get()->dispatchGuiFunc(func);
 	}
-}//NOTE: core 0.762
+}
 
-void FinishedTransfers::on(FinishedManagerListener::UpdatedFile, bool upload, const string& file, const FinishedFileItemPtr& item) throw()
+void FinishedTransfers::on(FinishedManagerListener::UpdatedFile, bool upload, const string& file, const FinishedFileItemPtr& item) noexcept
 {
 	if (isUpload == upload)
 	{
@@ -759,7 +758,7 @@ void FinishedTransfers::on(FinishedManagerListener::UpdatedFile, bool upload, co
 	}
 }
 
-void FinishedTransfers::on(FinishedManagerListener::UpdatedUser, bool upload, const HintedUser &user) throw()//NOTE: core 0.762
+void FinishedTransfers::on(FinishedManagerListener::UpdatedUser, bool upload, const HintedUser &user) noexcept
 {
 	if (isUpload == upload)
 	{
@@ -779,7 +778,7 @@ void FinishedTransfers::on(FinishedManagerListener::UpdatedUser, bool upload, co
 	}
 }
 
-void FinishedTransfers::on(FinishedManagerListener::RemovedFile, bool upload, const string& item) throw()
+void FinishedTransfers::on(FinishedManagerListener::RemovedFile, bool upload, const string& item) noexcept
 {
 	if (isUpload == upload)
 	{
@@ -789,12 +788,12 @@ void FinishedTransfers::on(FinishedManagerListener::RemovedFile, bool upload, co
 	}
 }
 
-void FinishedTransfers::on(FinishedManagerListener::RemovedUser, bool upload, const HintedUser &user) throw()//NOTE: core 0.762
+void FinishedTransfers::on(FinishedManagerListener::RemovedUser, bool upload, const HintedUser &user) noexcept
 {
 	if (isUpload == upload)
 	{
 		typedef Func1<FinishedTransfers, string> F1;
-		F1 *func = new F1(this, &FinishedTransfers::removeUser_gui, user.user->getCID().toBase32());//NOTE: core 0.762
+		F1 *func = new F1(this, &FinishedTransfers::removeUser_gui, user.user->getCID().toBase32());
 		WulforManager::get()->dispatchGuiFunc(func);
 	}
 }

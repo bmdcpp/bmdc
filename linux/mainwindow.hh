@@ -143,7 +143,7 @@ class MainWindow:
 			setStatusOfIcons(AWAY,isAway);
 		}
 		SearchEntry *getSearchEntry () { return dynamic_cast<SearchEntry*>(findBookEntry(Entry::SEARCHS));}
-
+		
 	private:
 		typedef std::pair<std::string, std::string> ParamPair;
 		typedef std::vector<ParamPair> ListParamPair;

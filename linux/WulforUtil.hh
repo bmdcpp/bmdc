@@ -98,10 +98,10 @@ class WulforUtil
 		static const std::string commands;
 
 	private:
-        static void remove_events_internal(GtkWidget *widget, gint events, GList *window_list);
-        static std::string generateLeech();
-        static void loadmimetypes();
-        static std::string getStatsForMem();
+		static void remove_events_internal(GtkWidget *widget, gint events, GList *window_list);
+		static std::string generateLeech();
+		static void loadmimetypes();
+		static std::string getStatsForMem();
 
 		static std::vector<std::string> charsets;
 		static const std::string magnetSignature;

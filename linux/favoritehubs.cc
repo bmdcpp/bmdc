@@ -351,6 +351,12 @@ void FavoriteHubs::onAddEntry_gui(GtkWidget *widget, gpointer data)
 	params["Away"] = Util::emptyString;
 
 	bool updatedEntry = fh->showFavoriteHubDialog_gui(params, fh);
+	if(!(fh->checkAddys(string(params["Address"]))))
+	{
+		fh->showErrorDialog_gui("Do Not duplicty",fh);
+		return;	
+	}
+
 
 	if (updatedEntry)
 	{
@@ -358,6 +364,29 @@ void FavoriteHubs::onAddEntry_gui(GtkWidget *widget, gpointer data)
 		F1 *func = new F1(fh, &FavoriteHubs::addEntry_client, params);
 		WulforManager::get()->dispatchClientFunc(func);
 	}
+}
+
+bool FavoriteHubs::checkAddys(string url)
+{
+	string tmp = url;
+	auto i = tmp.find("dchub://");
+	if(i == string::npos)
+		return TRUE;
+	auto newhubaddy = tmp.substr(i+1);
+	
+	GtkTreeIter iter;
+	GtkTreeModel *m = GTK_TREE_MODEL(favoriteStore);
+	bool valid = gtk_tree_model_get_iter_first(m, &iter);
+
+	while (valid)
+	{
+		if (favoriteView.getString(&iter, _("Address")) == newhubaddy)
+		{
+			return FALSE;//not add to client
+		}
+		valid = gtk_tree_model_iter_next(m, &iter);
+	}
+	return TRUE;
 }
 
 void FavoriteHubs::onEditEntry_gui(GtkWidget *widget, gpointer data)

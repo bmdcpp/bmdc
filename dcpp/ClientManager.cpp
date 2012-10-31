@@ -188,7 +188,7 @@ string ClientManager::getField(const CID& cid, const string& hint, const char* f
 
 string ClientManager::getConnection(const CID& cid) const {
 	Lock l(cs);
-	OnlineIterC i = onlineUsers.find(cid);
+	auto i = onlineUsers.find(cid);
 	if(i != onlineUsers.end()) {
 		return i->second->getIdentity().getConnection();
 	}
@@ -310,7 +310,7 @@ UserPtr ClientManager::findUser(const CID& cid) const noexcept {
 
 bool ClientManager::isOp(const UserPtr& user, const string& aHubUrl) const {
 	Lock l(cs);
-	OnlinePairC p = onlineUsers.equal_range(user->getCID());
+	auto p = onlineUsers.equal_range(user->getCID());
 	for(OnlineIterC i = p.first; i != p.second; ++i) {
 		if(i->second->getClient().getHubUrl() == aHubUrl) {
 			return i->second->getIdentity().isOp();

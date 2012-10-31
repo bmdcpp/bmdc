@@ -107,7 +107,7 @@ void UploadQueue::addFile(StringMap &params,GtkTreeIter *iter)
 	gtk_list_store_append(store,iter);
 	gtk_list_store_set(store, iter,
 				users.col("User"), params["Nick"].c_str(),
-				users.col("File"),params["file"].c_str(),
+				users.col("File"), params["file"].c_str(),
 				users.col("Hub") , params["hub"].c_str(),
 				users.col("CID"), params["CID"].c_str(),
 				users.col("Icon"), "bmdc-normal",
@@ -340,10 +340,10 @@ void UploadQueue::grantSlot_client(const string &cid)
 void UploadQueue::removeUploadFromQueue(const string &cid)
 {
 	UserPtr ui = ClientManager::getInstance()->findUser(CID(cid));
-    if (ui)
-    {
+	if (ui)
+	{
           UploadManager::getInstance()->clearUserFiles(ui);
-    }
+	}
 }
 
 void UploadQueue::getFileList_client(const string &cid)

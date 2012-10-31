@@ -417,8 +417,9 @@ void ConnectionManager::on(AdcCommand::SUP, UserConnection* aSource, const AdcCo
 }
 
 void ConnectionManager::on(AdcCommand::STA, UserConnection* uc, const AdcCommand& cmd) noexcept {
-	/*string ref;
-	if(!cmd.getParam("RF", 0, ref))
+	dcdebug("Calllllllllll\n\n\n");
+	string ref;
+	if(!cmd.getParam("RF", 1, ref))
 		return;
 
 	ClientManager* CMgr = ClientManager::getInstance();
@@ -426,10 +427,10 @@ void ConnectionManager::on(AdcCommand::STA, UserConnection* uc, const AdcCommand
 	auto ou = CMgr->findOnlineUser(uc->getUser()->getCID(), uc->getHubUrl());
 	if(!ou)
 		return;
-
-	cmd.getParam("RF", 0, ref);
+	dcdebug("flip-flop-falp");
+	cmd.getParam("RF", 1, ref);
 	ou->getIdentity().set("RF", move(ref));
-	CMgr->fire(ClientManagerListener::UserUpdated(), dynamic_cast<const OnlineUser&>(*ou));  */
+	CMgr->fire(ClientManagerListener::UserUpdated(), dynamic_cast<const OnlineUser&>(*ou)); 
 }
 
 void ConnectionManager::on(UserConnectionListener::Connected, UserConnection* aSource) noexcept {

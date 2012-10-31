@@ -37,12 +37,13 @@ class ExportDialog:
 		~ExportDialog();
 	
 	private:
-		TreeView exportView;
-		GtkListStore* exportStore;
-		GtkTreeSelection *exportSelection;
 		static void onButtonExportedClicked(GtkWidget *widget, gpointer data);
 		static void onGetPathGui(GtkWidget *widget, gpointer data);
 		static void onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
+		
+		TreeView exportView;
+		GtkListStore* exportStore;
+		GtkTreeSelection *exportSelection;
 	
 };
 #else

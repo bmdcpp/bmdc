@@ -127,6 +127,7 @@ void SearchADL::show()
 	// initialize searches list
 	string minSize, maxSize;
 	ADLSearchManager::SearchCollection &collection = ADLSearchManager::getInstance()->collection;
+	
 	for (ADLSearchManager::SearchCollection::iterator i = collection.begin(); i != collection.end(); ++i)
 	{
 		GtkTreeIter iter;
@@ -165,6 +166,7 @@ void SearchADL::onRemoveClicked_gui(GtkWidget *widget, gpointer data)
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 
 	GtkTreeIter iter;
+	
 	if (gtk_tree_selection_get_selected(s->searchADLSelection, NULL, &iter))
 	{
 		gchar *p = gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(s->searchADLStore), &iter);
@@ -185,6 +187,7 @@ void SearchADL::onAddClicked_gui(GtkWidget *widget, gpointer data)
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 
 	ADLSearch search;
+	
 	if (showPropertiesDialog_gui(search, false, s))
 	{
 		GtkTreeIter iter;
@@ -218,9 +221,11 @@ void SearchADL::onPropertiesClicked_gui(GtkWidget *widget, gpointer data)
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 
 	GtkTreeIter iter;
+	
 	if (gtk_tree_selection_get_selected(s->searchADLSelection, NULL, &iter))
 	{
 		ADLSearch search;
+		
 		if (showPropertiesDialog_gui(search, true, s))
 		{
 			gchar *p = gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(s->searchADLStore), &iter);
@@ -561,7 +566,7 @@ int SearchADL::find_raw(string rawString)
 		return 0;
 	int raw = 0;
 	vector<std::pair<std::string,int> > act = WulforUtil::getActions();
-	for (vector<std::pair<std::string,int> >::const_iterator it = act.begin(); it != act.end(); ++it)
+	for (auto it = act.begin(); it != act.end(); ++it)
 	{
 		if(it->first == rawString)
 			raw = it->second;
@@ -573,14 +578,15 @@ int SearchADL::find_rawInt(int raw)
 {
 	if(raw == 0)
 		return 0;
+		
 	int _raw = 0;
 	int i = 0;
 	vector<std::pair<std::string,int> > act = WulforUtil::getActions();
-	for (vector<std::pair<std::string,int> >::const_iterator it = act.begin(); it != act.end(); ++it)
+	for (auto it = act.begin(); it != act.end(); ++it)
 	{
 		i++;
 		if(it->second == raw)
-		{_raw =(i+(-1));}
+		{ _raw =(i-1);break; }
 	}
   return _raw;
 }
@@ -610,7 +616,9 @@ void SearchADL::onChangeCombo(GtkWidget *widget, gpointer data)
     SearchADL *s = reinterpret_cast<SearchADL *>(data);
     gint type;
     type = gtk_combo_box_get_active(GTK_COMBO_BOX(widget));
+    
     if(!s->forbid) {
+	    
     switch(type) {
     case 0:
         gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")),"Forbidden Files");
@@ -626,7 +634,9 @@ void SearchADL::onChangeCombo(GtkWidget *widget, gpointer data)
         break;
     default: return;
 	}
+	
   }
+  
 }
 
 void SearchADL::onToggleForb(GtkWidget *widget, gpointer data)

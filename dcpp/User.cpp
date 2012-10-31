@@ -26,7 +26,7 @@
 #include "StringTokenizer.h"
 #include "RegEx.h"
 #include "ClientManager.h"
-//[BMDC++
+// [BMDC++
 #include "SettingsManager.h"
 #include "FavoriteManager.h"
 #include "DebugManager.h"

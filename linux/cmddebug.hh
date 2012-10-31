@@ -47,69 +47,67 @@ class cmddebug:
 
     private:
 		typedef std::unordered_map<std::string, int> Iters;
-        //GUI
-       static void onClearButton(GtkWidget *widget, gpointer data);
+		//GUI
+		static void onClearButton(GtkWidget *widget, gpointer data);
 
-        // Client functions
-        void ini_client();
-        bool stop;
+		// Client functions
+		void ini_client();
+		bool stop;
 
-        dcpp::CriticalSection cs;
-        dcpp::Semaphore s;
-        std::deque<std::string> cmdList;
+		dcpp::CriticalSection cs;
+		dcpp::Semaphore s;
+		std::deque<std::string> cmdList;
 
-        int run() {
-            setThreadPriority(dcpp::Thread::LOW);
-            std::string x;
-            stop = false;
+		int run() {
+			setThreadPriority(dcpp::Thread::LOW);
+			std::string x;
+			stop = false;
 
-            while(true) {
-                s.wait();
+			while(true) {
+				s.wait();
 
-                if(stop)
-                    break;
+				if(stop)
+					break;
+				{
+					dcpp::Lock l(cs);
 
-                {
-                    dcpp::Lock l(cs);
+					if(cmdList.empty()) continue;
 
-                    if(cmdList.empty()) continue;
+					x = cmdList.front();
+					cmdList.pop_front();
+				}
+			typedef Func2<cmddebug,time_t,std::string> F2;
+			//time_t tt = time(NULL);
+			F2 *func = new F2(this, &cmddebug::add_gui, time(NULL), x);
+			WulforManager::get()->dispatchGuiFunc(func);
+			}
 
-                    x = cmdList.front();
-                    cmdList.pop_front();
+			stop = false;
+			return 0;
+	}
 
-                }
-            typedef Func2<cmddebug,time_t,std::string> F2;
-            time_t tt = time(NULL);
-            F2 *func = new F2(this, &cmddebug::add_gui, tt, x);
-            WulforManager::get()->dispatchGuiFunc(func);
-        }
+	void addCmd(const std::string& cmd) {
+          dcpp::Lock l(cs);
+          cmdList.push_back(cmd);
+		s.signal();
+	}
 
-        stop = false;
-        return 0;
-    }
+	//ClientManager*/
+	void on(dcpp::ClientManagerListener::ClientConnected, dcpp::Client* c) noexcept;
+	void on(dcpp::ClientManagerListener::ClientDisconnected, dcpp::Client* c) noexcept;
 
-    void addCmd(const std::string& cmd) {
-            dcpp::Lock l(cs);
-            cmdList.push_back(cmd);
-			s.signal();
-    }
-
-    //ClientManager*/
-    void on(dcpp::ClientManagerListener::ClientConnected, dcpp::Client* c) noexcept;
-    void on(dcpp::ClientManagerListener::ClientDisconnected, dcpp::Client* c) noexcept;
-
-    static void onScroll_gui(GtkAdjustment *adjustment, gpointer data);
-    static void onResize_gui(GtkAdjustment *adjustment, gpointer data);
+	static void onScroll_gui(GtkAdjustment *adjustment, gpointer data);
+	static void onResize_gui(GtkAdjustment *adjustment, gpointer data);
 	void UpdateCombo(dcpp::Client* c, bool add);
 
-    GtkTextBuffer *buffer;
-    static const int maxLines = 1000;
-    GtkTextIter iter;
-    bool scrollToBottom;
-    GtkTextMark *cmdMark;
-    GtkListStore *store;
-    Iters iters;
-    dcpp::HookSubscriber *hubIn, *hubOut, *clientIn, *clientOut;
+	GtkTextBuffer *buffer;
+	static const int maxLines = 1000;
+	GtkTextIter iter;
+	bool scrollToBottom;
+	GtkTextMark *cmdMark;
+	GtkListStore *store;
+	Iters iters;
+	dcpp::HookSubscriber *hubIn, *hubOut, *clientIn, *clientOut;
 
 	/* HubData */
 	static Bool onHubDataIn(HubDataPtr iHub, const char* message, dcptr_t pCommon);

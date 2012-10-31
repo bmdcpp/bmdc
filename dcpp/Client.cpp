@@ -108,8 +108,8 @@ void Client::reloadSettings(bool updateNick) {
 		setCheckAtConnect(false);
 		setCheckClients(false);
 		setCheckFilelists(false);
-        setTabText(Util::emptyString);
-	    setTabIconStr(Util::emptyString);
+		setTabText(Util::emptyString);
+		setTabIconStr(Util::emptyString);
         //]
 	}
 	if(updateNick)
@@ -132,10 +132,12 @@ void Client::connect() {
 	}
 
 	setAutoReconnect(true);
+	
 	if((uint32_t)SETTING(TIME_RECCON) > 10)
         setReconnDelay((uint32_t)(SETTING(TIME_RECCON)));
 	else
         setReconnDelay(20);
+	
 	reloadSettings(true);
 	setRegistered(false);
 	setMyIdentity(Identity(ClientManager::getInstance()->getMe(), 0));

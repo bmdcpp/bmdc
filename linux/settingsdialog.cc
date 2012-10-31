@@ -2079,7 +2079,7 @@ void Settings::initAdvanced_gui()
 
 		g_signal_connect(getWidget("buttonRestore"), "clicked", G_CALLBACK([]() { RestoreManager::getInstance()->restoreBackup();}), (gpointer)this);
 	#else
-		gtk_toggle_action_set_active(GTK_TOGGLE_BUTTON(getWidget("enableBackup")), FALSE);
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("enableBackup")), FALSE);
 		gtk_widget_set_sensitive(getWidget("enableBackup"), FALSE);
 	#endif
 	}

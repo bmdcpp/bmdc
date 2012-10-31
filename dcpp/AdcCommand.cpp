@@ -79,7 +79,7 @@ void AdcCommand::parse(const string& aLine, bool nmdc /* = false */) {
 			++i;
 			if(i == len)
 				throw ParseException("Escape at eol");
-			if(buf[i] == 's')
+			/*if(buf[i] == 's')
 				cur += ' ';
 			else if(buf[i] == 'n')
 				cur += '\n';
@@ -88,7 +88,25 @@ void AdcCommand::parse(const string& aLine, bool nmdc /* = false */) {
 			else if(buf[i] == ' ' && nmdc)	// $ADCGET escaping, leftover from old specs
 				cur += ' ';
 			else
-				throw ParseException("Unknown escape");
+				throw ParseException("Unknown escape");*/
+			switch(buf[i]){	
+				case 's':
+					cur += ' ';
+					break;
+				case 'n':
+					cur += '\n';
+					break;
+				case '\\':
+					cur += '\\';
+					break;
+				case ' ':
+					if (nmdc)
+						cur += ' ';
+					break;
+				default:
+					throw ParseException("Unknown escape");
+					break;
+			}
 			break;
 		case ' ':
 			// New parameter...

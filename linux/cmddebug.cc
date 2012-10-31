@@ -75,13 +75,15 @@ stop(false)
 
 cmddebug::~cmddebug()
 {
-    WSET("cmd-debug-hub-out", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget("hub_out_button"))));
-    WSET("cmd-debug-hub-in", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget("hub_in_button"))));
-    WSET("cmd-debug-client-out", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget("client_out_button"))));
-    WSET("cmd-debug-client-in", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget("client_in_button"))));
-    WSET("cmd-debug-detection", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget("detection_button"))));
-    ClientManager::getInstance()->removeListener(this);
-    PluginManager::getInstance()->releaseHook(hubIn);
+
+	WSET("cmd-debug-hub-out", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget("hub_out_button"))));
+	WSET("cmd-debug-hub-in", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget("hub_in_button"))));
+	WSET("cmd-debug-client-out", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget("client_out_button"))));
+	WSET("cmd-debug-client-in", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget("client_in_button"))));
+	WSET("cmd-debug-detection", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget("detection_button"))));
+
+	ClientManager::getInstance()->removeListener(this);
+	PluginManager::getInstance()->releaseHook(hubIn);
 	PluginManager::getInstance()->releaseHook(hubOut);
 	PluginManager::getInstance()->releaseHook(clientIn);
 	PluginManager::getInstance()->releaseHook(clientOut);
@@ -196,10 +198,11 @@ void cmddebug::onClearButton(GtkWidget *widget, gpointer data)
 Bool cmddebug::onHubDataIn(HubDataPtr iHub, const char* message, dcptr_t pCommon) {
 	auto cmd = reinterpret_cast<cmddebug*>(pCommon);
 	
-	gchar *fUrl = "";
+	gchar *fUrl = const_cast<gchar*>("");
 	GtkTreeIter piter;
-    GtkTreeModel *model = NULL;
-    if( gtk_combo_box_get_active_iter( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")), &piter ) ) {
+	GtkTreeModel *model = NULL;
+	
+	if( gtk_combo_box_get_active_iter( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")), &piter ) ) {
 		model = gtk_combo_box_get_model( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")) );
 		gtk_tree_model_get( model, &piter, 0, &fUrl, -1 );
 	}	
@@ -222,10 +225,11 @@ Bool cmddebug::onHubDataIn(HubDataPtr iHub, const char* message, dcptr_t pCommon
 Bool cmddebug::onHubDataOut(HubDataPtr oHub, const char* message, dcptr_t pCommon) {
 	auto cmd = reinterpret_cast<cmddebug*>(pCommon);
 	
-	gchar *fUrl = "";
+	gchar *fUrl = const_cast<gchar*>("");
 	GtkTreeIter piter;
-    GtkTreeModel *model = NULL;
-    if( gtk_combo_box_get_active_iter( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")), &piter ) ) {
+	GtkTreeModel *model = NULL;
+	
+	if( gtk_combo_box_get_active_iter( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")), &piter ) ) {
 		model = gtk_combo_box_get_model( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")) );
 		gtk_tree_model_get( model, &piter, 0, &fUrl, -1 );
 	}	
@@ -247,10 +251,11 @@ Bool cmddebug::onHubDataOut(HubDataPtr oHub, const char* message, dcptr_t pCommo
 
 Bool cmddebug::onConnDataIn(ConnectionDataPtr iConn, const char* message, dcptr_t pCommon) {
 	auto cmd = reinterpret_cast<cmddebug*>(pCommon);
-	gchar *fUrl = "";
+	gchar *fUrl = const_cast<gchar*>("");
 	GtkTreeIter piter;
-    GtkTreeModel *model = NULL;
-    if( gtk_combo_box_get_active_iter( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")), &piter ) ) {
+	GtkTreeModel *model = NULL;
+	
+	if( gtk_combo_box_get_active_iter( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")), &piter ) ) {
 		model = gtk_combo_box_get_model( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")) );
 		gtk_tree_model_get( model, &piter, 0, &fUrl, -1 );
 	}	
@@ -272,10 +277,11 @@ Bool cmddebug::onConnDataIn(ConnectionDataPtr iConn, const char* message, dcptr_
 Bool cmddebug::onConnDataOut(ConnectionDataPtr oConn, const char* message, dcptr_t pCommon) {
 	auto cmd = reinterpret_cast<cmddebug*>(pCommon);
 	
-	gchar *fUrl = "";
+	gchar *fUrl = const_cast<gchar*>("");
 	GtkTreeIter piter;
-    GtkTreeModel *model = NULL;
-    if( gtk_combo_box_get_active_iter( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")), &piter ) ) {
+	GtkTreeModel *model = NULL;
+	
+	if( gtk_combo_box_get_active_iter( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")), &piter ) ) {
 		model = gtk_combo_box_get_model( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")) );
 		gtk_tree_model_get( model, &piter, 0, &fUrl, -1 );
 	}	

@@ -86,6 +86,10 @@ private:
 
 	static size_t DCAPI toBase32(char* dst, const uint8_t* src, size_t n);
 	static size_t DCAPI fromBase32(uint8_t* dst, const char* src, size_t n);
+	
+	// Functions for DCUI - the host has to define these
+	static void DCAPI playSound(const char* path);
+
 
 	// Functions for DCQueue
 	static QueueDataPtr DCAPI addList(UserDataPtr user, Bool silent);
@@ -117,6 +121,8 @@ private:
 	static DCHub dcHub;
 	static DCQueue dcQueue;
 	static DCUtils dcUtils;
+	
+	static DCUI dcUI;
 
 	static Socket apiSocket;
 };

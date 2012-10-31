@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2012 Mank, Mank1 at seznam dot cz
+ * Copyright (C) 2011-2012 Mank, freedcpp at seznam dot cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 #ifdef HAVE_LIBTAR
+
 #include "stdinc.h"
 #include "format.h"
 #include "DCPlusPlus.h"
@@ -25,6 +26,7 @@
 #include "File.h"
 #include "TarFile.h"
 #include <libtar.h>
+
 namespace dcpp {
 	
 void TarFile::CreateTarredFile(const string _path, const StringPairList& files)
