@@ -3090,7 +3090,8 @@ void Hub::onAddIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data)
 
 				if (user)
 				{
-					FavoriteManager::getInstance()->addIgnoredUser(user);
+					FavoriteManager::getInstance()->addFavoriteUser(user);
+					FavoriteManager::getInstance()->setIgnore(user,true);	
 				}
 				else
 				{
@@ -3126,9 +3127,10 @@ void Hub::onRemoveIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data)
 
 				if (user)
 				{
-					if(FavoriteManager::getInstance()->isIgnoredUser(user))
+					if( FavoriteManager::getInstance()->isFavoriteUser(user) && FavoriteManager::getInstance()->getFavoriteUser(user)->isSet(FavoriteUser::FLAG_IGNORE) )
 					{
-						FavoriteManager::getInstance()->removeIgnoredUser(user);
+						FavoriteManager::getInstance()->setIgnore(user,false);
+					
 					}
 				}
 				else
@@ -3888,7 +3890,7 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 		addFavoriteUser_gui(params);
 	}
 
-	if(FavoriteManager::getInstance()->isIgnoredUser(id.getUser()))
+	if(FavoriteManager::getInstance()->isFavoriteUser(id.getUser()) && FavoriteManager::getInstance()->getFavoriteUser(id.getUser())->isSet(FavoriteUser::FLAG_IGNORE))
      {
 		params.insert(ParamMap::value_type("Type", "I" + id.getNick()));
 		addIgnore_gui(params);
@@ -4282,7 +4284,7 @@ void Hub::on(FavoriteManagerListener::IgnoreUserRemoved, const FavoriteUser &use
     WulforManager::get()->dispatchGuiFunc(func);
 }
 //Indepent Fav
-void Hub::on(FavoriteManagerListener::FavoriteIAdded, const string &nick, FavoriteIUser* &user) noexcept
+void Hub::on(FavoriteManagerListener::FavoriteIAdded, const string &nick, FavoriteUser* &user) noexcept
 {
 	ParamMap params;
 	params.insert(ParamMap::value_type("CID", user->getCid()));
@@ -4292,7 +4294,7 @@ void Hub::on(FavoriteManagerListener::FavoriteIAdded, const string &nick, Favori
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
-void Hub::on(FavoriteManagerListener::FavoriteIRemoved, const string &nick, FavoriteIUser* &user) noexcept
+void Hub::on(FavoriteManagerListener::FavoriteIRemoved, const string &nick, FavoriteUser* &user) noexcept
 {
 	ParamMap params;
 	params.insert(ParamMap::value_type("Nick", nick));
@@ -4523,7 +4525,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 	else
 		line += "<" + message.from->getIdentity().getNick() + "> " + message.text;
 
-    if(FavoriteManager::getInstance()->isIgnoredUser(message.from->getIdentity().getUser()))
+	    if(FavoriteManager::getInstance()->getFavoriteUser(message.from->getIdentity().getUser()) && FavoriteManager::getInstance()->getFavoriteUser(message.from->getIdentity().getUser())->isSet(FavoriteUser::FLAG_IGNORE))
 	{
 		string error = _("Ignored message from User ") + message.from->getIdentity().getNick() + " from " + ((message.to && message.replyTo) ? "PM" : "Mainchat");
 		error += _("\nMessage: ") + message.text + "\n";
@@ -4532,7 +4534,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 		params["message"] = error;
 
 		if(WGETB("log-messages") )
-            LOG(LogManager::SYSTEM, params);
+			LOG(LogManager::SYSTEM, params);
 
 		typedef Func3<Hub, string, Msg::TypeMsg, Sound::TypeSound> F3;
 		F3 *func = new F3(this, &Hub::addStatusMessage_gui, error, Msg::STATUS, Sound::NONE);

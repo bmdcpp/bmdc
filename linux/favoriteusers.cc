@@ -51,9 +51,11 @@ FavoriteUsers::FavoriteUsers():
 	favoriteUserView.insertColumn(_("Time last seen"), G_TYPE_STRING, TreeView::STRING, 120);
 	favoriteUserView.insertColumn(_("Description"), G_TYPE_STRING, TreeView::STRING, 100);
 	favoriteUserView.insertColumn(_("Nicks History (if it have CID)"), G_TYPE_STRING, TreeView::STRING, 100);
+	favoriteUserView.insertColumn(_("Ignore"), G_TYPE_STRING, TreeView::STRING, 20);
 	favoriteUserView.insertColumn("CID", G_TYPE_STRING, TreeView::STRING, 350);
 	favoriteUserView.insertHiddenColumn("URL", G_TYPE_STRING);
 	favoriteUserView.insertHiddenColumn("Icon", G_TYPE_STRING);
+	favoriteUserView.insertHiddenColumn("Ign", G_TYPE_STRING);
 	favoriteUserView.finalize();
 
 	favoriteUserStore = gtk_list_store_newv(favoriteUserView.getColCount(), favoriteUserView.getGTypes());
@@ -80,6 +82,7 @@ FavoriteUsers::FavoriteUsers():
 	g_signal_connect(getWidget("removeFromQueueItem"), "activate", G_CALLBACK(onRemoveFromQueueItemClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("descriptionItem"), "activate", G_CALLBACK(onDescriptionItemClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("removeItem"), "activate", G_CALLBACK(onRemoveItemClicked_gui), (gpointer)this);
+	g_signal_connect(getWidget("ignoreItem"), "activate", G_CALLBACK(onIgnoreSetUserClicked_gui), (gpointer)this);
 	g_signal_connect(favoriteUserView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
 	g_signal_connect(favoriteUserView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 	g_signal_connect(favoriteUserView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
@@ -107,6 +110,7 @@ void FavoriteUsers::show()
 		string hub = online ? WulforUtil::getHubNames(user.getUser(), user.getUrl()) : user.getUrl();//NOTE: core 0.762
 		string seen = online ? _("Online") : Util::formatTime("%Y-%m-%d %H:%M", user.getLastSeen());
 		string cid = user.getUser()->getCID().toBase32();
+		string ignore = user.isSet(FavoriteUser::FLAG_IGNORE) ? _("Yes") : _("No");
 
 		gtk_list_store_append(favoriteUserStore, &iter);
 		gtk_list_store_set(favoriteUserStore, &iter,
@@ -116,9 +120,11 @@ void FavoriteUsers::show()
 			favoriteUserView.col(_("Time last seen")), seen.c_str(),
 			favoriteUserView.col(_("Description")), user.getDescription().c_str(),
 			favoriteUserView.col(_("Nicks History (if it have CID)")), user.getNicks().c_str(),
+			favoriteUserView.col(_("Ignore")), ignore.c_str(),
 			favoriteUserView.col("CID"), cid.c_str(),
 			favoriteUserView.col("URL"), user.getUrl().c_str(),
 			favoriteUserView.col("Icon"), "bmdc-normal",
+			favoriteUserView.col("Ign"), string(user.isSet(FavoriteUser::FLAG_IGNORE) ? "1" : "0").c_str(),
 			-1);
 
 		userIters.insert(UserIters::value_type(cid, iter));
@@ -128,12 +134,12 @@ void FavoriteUsers::show()
 	for(auto nt = nickmap.begin();nt!= nickmap.end();++nt)
 	{
 		GtkTreeIter iter;
-		FavoriteIUser* u = nt->second; 
+		FavoriteUser* u = nt->second; 
 		string seen = Util::formatTime("%Y-%m-%d %H:%M", u->getLastSeen());
 		
 		gtk_list_store_append(favoriteUserStore,&iter);
 		gtk_list_store_set(favoriteUserStore, &iter,
-			favoriteUserView.col(_("Auto grant slot")), u->isSet(FavoriteIUser::FLAG_GRANTSLOT) ? TRUE : FALSE,
+			favoriteUserView.col(_("Auto grant slot")), u->isSet(FavoriteUser::FLAG_GRANTSLOT) ? TRUE : FALSE,
 			favoriteUserView.col(_("Nick")), nt->first.c_str(),	
 			favoriteUserView.col(_("Hub (last seen in, if offline)")), Util::emptyString.c_str(),
 			favoriteUserView.col(_("Time last seen")), seen.c_str(),
@@ -350,8 +356,8 @@ void FavoriteUsers::onGrantSlotItemClicked_gui(GtkMenuItem *item, gpointer data)
 				string nick = fu->favoriteUserView.getString(&iter, _("Nick"));
 				if(cidn == "n/a")
 				{
-					FavoriteIUser* f = FavoriteManager::getInstance()->getIndepentFavorite(nick);
-					f->setFlag(FavoriteIUser::FLAG_GRANTSLOT);
+					FavoriteUser* f = FavoriteManager::getInstance()->getIndepentFavorite(nick);
+					f->setFlag(FavoriteUser::FLAG_GRANTSLOT);
 					return;	
 				}
 				
@@ -555,10 +561,12 @@ void FavoriteUsers::onAutoGrantSlotToggled_gui(GtkCellRendererToggle *cell, gcha
 
 		if(cid == "n/a")
 		{
-			FavoriteIUser* u = FavoriteManager::getInstance()->getIndepentFavorite(fu->favoriteUserView.getString(&iter,_("Nick")));
-			if(u!= NULL)
-				u->setFlag(FavoriteIUser::FLAG_GRANTSLOT);
-				return;	
+			FavoriteUser* u = FavoriteManager::getInstance()->getIndepentFavorite(fu->favoriteUserView.getString(&iter,_("Nick")));
+			if(u != NULL) {
+				u->setFlag(FavoriteUser::FLAG_GRANTSLOT);
+				FavoriteManager::getInstance()->save();
+				return;
+			}	
 		}
 		typedef Func2<FavoriteUsers, string, bool> F2;
 		F2 *func = new F2(fu, &FavoriteUsers::setAutoGrantSlot_client, cid, grant);
@@ -665,7 +673,7 @@ void FavoriteUsers::setUserDescription_client(const string cid, const string des
 
 void FavoriteUsers::setDesc_client(const string nick, const string desc)
 {
-	FavoriteIUser* u = FavoriteManager::getInstance()->getIndepentFavorite(nick);
+	FavoriteUser* u = FavoriteManager::getInstance()->getIndepentFavorite(nick);
 	if(u!= NULL)
 	{
 		u->setDescription(desc);	
@@ -717,9 +725,11 @@ void FavoriteUsers::updateFavoriteUser_gui(ParamMap params)
 			favoriteUserView.col(_("Hub (last seen in, if offline)")), params["Hub"].c_str(),
 			favoriteUserView.col(_("Time last seen")), params["Time"].c_str(),
 			favoriteUserView.col(_("Description")), params["Description"].c_str(),
+			favoriteUserView.col(_("Ignore")), params["ignore"].c_str(),
 			favoriteUserView.col("CID"), cid.c_str(),
 			favoriteUserView.col("URL"), params["URL"].c_str(),
 			favoriteUserView.col("Icon"), "bmdc-normal",
+			favoriteUserView.col("Ign"), params["ign"].c_str(),
 			-1);
 
 		userIters.insert(UserIters::value_type(cid, iter));
@@ -792,6 +802,8 @@ void FavoriteUsers::on(FavoriteManagerListener::UserAdded, const FavoriteUser &u
 	params.insert(ParamMap::value_type("Description", user.getDescription()));
 	params.insert(ParamMap::value_type("CID", user.getUser()->getCID().toBase32()));
 	params.insert(ParamMap::value_type("URL", user.getUrl()));
+	params.insert(ParamMap::value_type("ignore", user.isSet(FavoriteUser::FLAG_IGNORE) ? _("Yes") : _("No")));
+	params.insert(ParamMap::value_type("ign", user.isSet(FavoriteUser::FLAG_IGNORE) ? "1" : "0"));
 
 	Func1<FavoriteUsers, ParamMap> *func = new Func1<FavoriteUsers, ParamMap>(this, &FavoriteUsers::updateFavoriteUser_gui, params);
 	WulforManager::get()->dispatchGuiFunc(func);
@@ -810,12 +822,14 @@ void FavoriteUsers::on(FavoriteManagerListener::StatusChanged, const FavoriteUse
 	string seen = user.getUser()->isOnline() ? _("Online") : Util::formatTime("%Y-%m-%d %H:%M", user.getLastSeen());
 	params.insert(ParamMap::value_type("Time", seen));
 	params.insert(ParamMap::value_type("CID", user.getUser()->getCID().toBase32()));
+	params.insert(ParamMap::value_type("ignore", user.isSet(FavoriteUser::FLAG_IGNORE) ? _("Yes") : _("No")));
+	params.insert(ParamMap::value_type("ign", user.isSet(FavoriteUser::FLAG_IGNORE) ? "1" : "0"));
 
 	Func1<FavoriteUsers, ParamMap> *func = new Func1<FavoriteUsers, ParamMap>(this, &FavoriteUsers::updateFavoriteUser_gui, params);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
-//Idenpet
-void FavoriteUsers::on(FavoriteManagerListener::FavoriteIAdded, const string &nick, FavoriteIUser* &user) noexcept
+//Indepent
+void FavoriteUsers::on(FavoriteManagerListener::FavoriteIAdded, const string &nick, FavoriteUser* &user) noexcept
 {
 	ParamMap params;
 	params.insert(ParamMap::value_type("Nick", nick));
@@ -829,14 +843,14 @@ void FavoriteUsers::on(FavoriteManagerListener::FavoriteIAdded, const string &ni
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
-void FavoriteUsers::on(FavoriteManagerListener::FavoriteIRemoved, const string &nick, FavoriteIUser* &user) noexcept
+void FavoriteUsers::on(FavoriteManagerListener::FavoriteIRemoved, const string &nick, FavoriteUser* &user) noexcept
 {
 	Func1<FavoriteUsers, string> *func = new Func1<FavoriteUsers, string>(this, &FavoriteUsers::removeFavoriteNicks_gui,
 		nick);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
-void FavoriteUsers::on(FavoriteManagerListener::FavoriteIUpdate, const string &nick , FavoriteIUser* &user) noexcept 
+void FavoriteUsers::on(FavoriteManagerListener::FavoriteIUpdate, const string &nick , FavoriteUser* &user) noexcept 
 { 
 	ParamMap params;
 	string seen = Util::formatTime("%Y-%m-%d %H:%M", user->getLastSeen());
@@ -847,4 +861,61 @@ void FavoriteUsers::on(FavoriteManagerListener::FavoriteIUpdate, const string &n
 	Func1<FavoriteUsers, ParamMap> *func = new Func1<FavoriteUsers, ParamMap>(this, &FavoriteUsers::updateFavoriteNicks_gui, params);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
+
+void FavoriteUsers::onIgnoreSetUserClicked_gui(GtkWidget *widget, gpointer data)
+{
+	FavoriteUsers *fu = (FavoriteUsers *)data;
+
+	if (gtk_tree_selection_count_selected_rows(fu->favoriteUserSelection) > 0)
+	{
+		GtkTreeIter iter;
+		GtkTreePath *path;
+		GList *list = gtk_tree_selection_get_selected_rows(fu->favoriteUserSelection, NULL);
+		//typedef Func3<FavoriteUsers, string, string, bool> F3;
+		typedef Func2<FavoriteUsers, string, bool> F2;
+
+		for (GList *i = list; i; i = i->next)
+		{
+			path = (GtkTreePath *)i->data;
+
+			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(fu->favoriteUserStore), &iter, path))
+			{
+				string cid = fu->favoriteUserView.getString(&iter, "CID");
+				//string nick = fu->favoriteUserView.getString(&iter, _("Nick"));
+				bool ign = fu->favoriteUserView.getString(&iter, "Ign") == "1" ? true : false ;
+				if(cid == "n/a")return;
+
+				F2 *func = new F2(fu,&FavoriteUsers::setIgnore,cid,ign);
+				WulforManager::get()->dispatchClientFunc(func);
+			}
+			gtk_tree_path_free(path);
+		}
+		g_list_free(list);
+	}
+}
+
+void FavoriteUsers::setIgnore(const string cid, bool ignore)
+{
+	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
+
+	if (user)
+	{
+		FavoriteManager::getInstance()->addFavoriteUser(user);
+		if(ignore)
+			FavoriteManager::getInstance()->setIgnore(user, true);
+		else 	FavoriteManager::getInstance()->setIgnore(user, false);
+	
+
+	typedef Func1<FavoriteUsers, string> F1;
+	F1 *func = new F1(this, &FavoriteUsers::setStatus_gui, _("Ignored User ") + WulforUtil::getNicks(user, Util::emptyString));
+	WulforManager::get()->dispatchGuiFunc(func);
+	}
+}
+
+
+
+
+
+
+
 

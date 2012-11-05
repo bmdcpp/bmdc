@@ -42,10 +42,10 @@ public:
 	typedef X<10> Corrupted;
 	typedef X<11> IgnoreUserAdded;
 	typedef X<12> IgnoreUserRemoved;
-    typedef X<13> IgnoreStatusChanges;
-    typedef X<14> RecentAdded;
-    typedef X<15> RecentRemoved;
-    typedef X<16> RecentUpdated;
+	typedef X<13> IgnoreStatusChanges;
+	typedef X<14> RecentAdded;
+	typedef X<15> RecentRemoved;
+	typedef X<16> RecentUpdated;
 	//Idepent Fav
 	typedef X<17> FavoriteIAdded;
 	typedef X<18> FavoriteIRemoved;
@@ -70,9 +70,9 @@ public:
 	virtual void on(RecentRemoved, const RecentHubEntry* ) noexcept { }
 	virtual void on(RecentUpdated, const RecentHubEntry* ) noexcept { }
 	//Idenpen Fav
-	virtual void on(FavoriteIUpdate, const string&, FavoriteIUser&) noexcept { }
-	virtual void on(FavoriteIAdded, const string&, FavoriteIUser*&) noexcept { }
-	virtual void on(FavoriteIRemoved, const string&, FavoriteIUser*&) noexcept { }
+	virtual void on(FavoriteIUpdate, const string&, FavoriteUser&) noexcept { }
+	virtual void on(FavoriteIAdded, const string&, FavoriteUser*&) noexcept { }
+	virtual void on(FavoriteIRemoved, const string&, FavoriteUser*&) noexcept { }
 };
 
 } // namespace dcpp

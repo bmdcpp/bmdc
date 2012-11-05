@@ -64,6 +64,7 @@ class FavoriteUsers:
 		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		static void onIgnoreSetUserClicked_gui(GtkWidget *widget, gpointer data);
 
 		// Client functions
 		void getFileList_client(const std::string cid, const std::string hubUrl, bool match);
@@ -74,15 +75,16 @@ class FavoriteUsers:
 		void setAutoGrantSlot_client(const std::string cid, bool grant);
 		void setUserDescription_client(const std::string cid, const std::string description);
 		void setDesc_client(const std::string nick, const std::string desc);
+		void setIgnore(const std::string cid , const bool set);
 
 		// Favorite callbacks
 		virtual void on(dcpp::FavoriteManagerListener::UserAdded, const dcpp::FavoriteUser &user) throw();
 		virtual void on(dcpp::FavoriteManagerListener::UserRemoved, const dcpp::FavoriteUser &user) throw();
 		virtual void on(dcpp::FavoriteManagerListener::StatusChanged, const dcpp::FavoriteUser &user) throw();
 		//Indepent
-		virtual void on(dcpp::FavoriteManagerListener::FavoriteIAdded, const std::string &nick, dcpp::FavoriteIUser* &user) noexcept;
-		virtual void on(dcpp::FavoriteManagerListener::FavoriteIRemoved, const std::string &nick, dcpp::FavoriteIUser* &user) noexcept;
-		virtual void on(dcpp::FavoriteManagerListener::FavoriteIUpdate, const std::string &nick , dcpp::FavoriteIUser* &user) noexcept;
+		virtual void on(dcpp::FavoriteManagerListener::FavoriteIAdded, const std::string &nick, dcpp::FavoriteUser* &user) noexcept;
+		virtual void on(dcpp::FavoriteManagerListener::FavoriteIRemoved, const std::string &nick, dcpp::FavoriteUser* &user) noexcept;
+		virtual void on(dcpp::FavoriteManagerListener::FavoriteIUpdate, const std::string &nick , dcpp::FavoriteUser* &user) noexcept;
 
 		UserIters userIters;
 		UserIters nicksIters;

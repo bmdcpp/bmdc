@@ -83,17 +83,12 @@ public:
 	void userUpdated(const OnlineUser& info);
 	time_t getLastSeen(const UserPtr& aUser) const;
 	std::string getUserURL(const UserPtr& aUser) const;
-// Ignore Users
-    FavoriteMap getIgnoreUsers() { Lock l(cs); return ignored_users; }
-    void addIgnoredUser(const UserPtr& aUser);
-    bool isIgnoredUser(const UserPtr& aUser) const;
-    void removeIgnoredUser(const UserPtr& aUser);
-    optional<FavoriteUser> getIgnoreUser(const UserPtr& aUser) const;
+	void setIgnore(const UserPtr& aUser, bool ignore);
 // Indepent Favorites on CID
-	typedef map<string, FavoriteIUser*> FavoriteIMap;
+	typedef map<string, FavoriteUser*> FavoriteIMap;
 	FavoriteIMap favoritesNoCid;
 	FavoriteIMap getFavoritesIndepentOnCid() { Lock l(cs); return favoritesNoCid; }
-	FavoriteIUser* getIndepentFavorite(const string& nick)
+	FavoriteUser* getIndepentFavorite(const string& nick)
 	{
 		auto fit = favoritesNoCid.find(nick);
 		if(fit!= favoritesNoCid.end())
@@ -104,8 +99,8 @@ public:
 	}
 
 	bool hasSlotI(const string& nick) {
-		FavoriteIUser* u = getIndepentFavorite(nick);
-		return (u != NULL) ? (u->isSet(FavoriteIUser::FLAG_GRANTSLOT)) : false;
+		FavoriteUser* u = getIndepentFavorite(nick);
+		return (u != NULL) ? (u->isSet(FavoriteUser::FLAG_GRANTSLOT)) : false;
 	}
 	bool isFavoriteIUser(string nick) { return favoritesNoCid.find(nick) != favoritesNoCid.end(); }
 	void addFavoriteIUser(const string& nick, const time_t lastSeen = 0, const string& desc = Util::emptyString)
@@ -113,11 +108,11 @@ public:
 		Lock l(cs);
 		if ( favoritesNoCid.find(nick) == favoritesNoCid.end() )
 		{
-			FavoriteIUser *f = new FavoriteIUser();
-			f->setDescription(desc);
-			f->setLastSeen(lastSeen);
-			fire(FavoriteManagerListener::FavoriteIAdded(),nick,f);
-			favoritesNoCid.insert(make_pair(nick,f));
+			FavoriteUser *fav = new FavoriteUser();
+			fav->setDescription(desc);
+			fav->setLastSeen(lastSeen);
+			fire(FavoriteManagerListener::FavoriteIAdded(),nick,fav);
+			favoritesNoCid.insert(make_pair(nick,fav));
 			save();
 		}
 	}
@@ -127,7 +122,7 @@ public:
 		auto it = favoritesNoCid.find(nick);
 		if(it!= favoritesNoCid.end())
 		{
-			fire(FavoriteManagerListener::FavoriteIRemoved(),nick,it->second);
+			fire(FavoriteManagerListener::FavoriteIRemoved(),nick, it->second);
 			favoritesNoCid.erase(it);
 			save();
 		}
@@ -203,7 +198,7 @@ private:
 	UserCommand::List userCommands;
 	int lastId;
 
-	FavoriteMap users, ignored_users;
+	FavoriteMap users;
 
 	mutable CriticalSection cs;
 

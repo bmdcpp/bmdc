@@ -85,7 +85,7 @@ Settings::Settings(GtkWindow* parent):
 	defaultStringTheme.insert(StringMap::value_type("icon-connect", "bmdc-connect"));
 	/**/
 	defaultStringTheme.insert(StringMap::value_type("icon-notepad", "bmdc-notepad"));
-	defaultStringTheme.insert(StringMap::value_type("icon-ignore", "bmdc-ignore-users"));
+//	defaultStringTheme.insert(StringMap::value_type("icon-ignore", "bmdc-ignore-users"));
 	defaultStringTheme.insert(StringMap::value_type("icon-system", "bmdc-system"));
 	defaultStringTheme.insert(StringMap::value_type("icon-search-adl", "bmdc-adlsearch"));
 	defaultStringTheme.insert(StringMap::value_type("icon-away", "bmdc-away"));
@@ -1464,7 +1464,7 @@ void Settings::initAppearance_gui()
 		addOption_gui(themeIconsStore, wsm, iconTheme, _("ADL Search"), "icon-search-adl");
 		addOption_gui(themeIconsStore, wsm, iconTheme, _("Notepad"), "icon-notepad");
 		addOption_gui(themeIconsStore, wsm, iconTheme, _("System Tab"), "icon-system");
-		addOption_gui(themeIconsStore, wsm, iconTheme, _("Ignore Users"), "icon-ignore");
+//		addOption_gui(themeIconsStore, wsm, iconTheme, _("Ignore Users"), "icon-ignore");
 		addOption_gui(themeIconsStore, wsm, iconTheme, _("Away Icon"), "icon-away");
 		addOption_gui(themeIconsStore, wsm, iconTheme, _("Quit"), "icon-quit");
 		addOption_gui(themeIconsStore, wsm, iconTheme, _("Connect"), "icon-connect");
@@ -1533,8 +1533,8 @@ void Settings::initAppearance_gui()
 			"icon-search-adl");
 		addOption_gui(toolbarStore, wsm, iconTheme, _("System Tab"), "toolbar-button-system",
 			"icon-system");
-		addOption_gui(toolbarStore, wsm, iconTheme, _("Ignore Users"), "toolbar-button-ignore",
-			"icon-ignore");
+//		addOption_gui(toolbarStore, wsm, iconTheme, _("Ignore Users"), "toolbar-button-ignore",
+//			"icon-ignore");
 		addOption_gui(toolbarStore, wsm, iconTheme, _("Away Icon"), "toolbar-button-away",
 			"icon-away");
 		addOption_gui(toolbarStore, wsm, iconTheme, _("Limiting"), "toolbar-limit-bandwith",
@@ -1581,7 +1581,7 @@ void Settings::initAppearance_gui()
 		addOption_gui(windowStore1, _("Favorite Users"), "open-favorite-users");
 		addOption_gui(windowStore1, _("Search Spy"), "open-search-spy");
 		addOption_gui(windowStore1, _("Notepad"), "open-notepad");
-		addOption_gui(windowStore1, _("Ignore User"), "open-ignore");
+//		addOption_gui(windowStore1, _("Ignore User"), "open-ignore");
 		addOption_gui(windowStore1, _("System Tab"), "open-system");
 		addOption_gui(windowStore1, _("Upload Queue Tab"), "open-upload-queue");
 		// Window options

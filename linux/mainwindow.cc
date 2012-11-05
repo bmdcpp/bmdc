@@ -57,7 +57,7 @@
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
 #include "version.hh"
-#include "ignoreusers.hh"
+//#include "ignoreusers.hh"
 #include "System.hh"
 #include "cmddebug.hh"
 #include "notepad.hh"
@@ -80,7 +80,7 @@ void* MainWindow::icons[(MainWindow::IconsToolbar)END][4] =
 { ((void*)(MainWindow::IconsToolbar)MainWindow::QUICKCON),(void*)"bmdc-connect",(void*)"bmdc-connect-on",(void*)"connect"},
 { ((void*)(MainWindow::IconsToolbar)MainWindow::FAVORITE_HUBS), (void*)"bmdc-favorite-hubs",(void*)"bmdc-favorite-hubs-on",(void*)"favHubs"},
 { ((void*)(MainWindow::IconsToolbar)MainWindow::FAVORITE_USERS), (void*)"bmdc-favorite-users",(void*)"bmdc-favorite-users-on",(void*)"favUsers"},
-{ ((void*)(MainWindow::IconsToolbar)MainWindow::IGNORE_USERS), (void*)"bmdc-ignore-users",(void*)"bmdc-ignore-users-on",(void*)"ignUser"},
+//{ ((void*)(MainWindow::IconsToolbar)MainWindow::IGNORE_USERS), (void*)"bmdc-ignore-users",(void*)"bmdc-ignore-users-on",(void*)"ignUser"},
 { ((void*)(MainWindow::IconsToolbar)MainWindow::PUBLIC_HUBS), (void*)"bmdc-public-hubs",(void*)"bmdc-public-hubs-on",(void*)"publicHubs"},
 { ((void*)(MainWindow::IconsToolbar)MainWindow::SEARCH_ADL), (void*)"bmdc-search-adl",(void*)"bmdc-search-adl-on",(void*)"searchADL"},
 { ((void*)(MainWindow::IconsToolbar)MainWindow::SEARCH_SPY), (void*)"bmdc-search-spy",(void*)"bmdc-search-spy-on",(void*)"searchSpy"},
@@ -133,7 +133,7 @@ MainWindow::MainWindow():
 	setToolbarMenu_gui("finishedUploadsMenuItemBar", "finishedUploads", "toolbar-button-finished-uploads");
 	setToolbarMenu_gui("quitMenuItemBar", "quit", "toolbar-button-quit");
 	//BMDC++
-	setToolbarMenu_gui("ignUserMenuItemBar", "ignUser", "toolbar-button-ignore");
+//	setToolbarMenu_gui("ignUserMenuItemBar", "ignUser", "toolbar-button-ignore");
 	setToolbarMenu_gui("checknotepad", "notepad", "toolbar-button-notepad");
 	setToolbarMenu_gui("checksystem", "system", "toolbar-button-system");
 	setToolbarMenu_gui("awaycitem", "AwayIcon", "toolbar-button-away");
@@ -279,7 +279,7 @@ MainWindow::MainWindow():
 	g_signal_connect(getWidget("connect"), "clicked", G_CALLBACK(onConnectClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("favHubs"), "clicked", G_CALLBACK(onFavoriteHubsClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("favUsers"), "clicked", G_CALLBACK(onFavoriteUsersClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("ignUser"), "clicked", G_CALLBACK(onIgnoreUserClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("ignUser"), "clicked", G_CALLBACK(onIgnoreUserClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("publicHubs"), "clicked", G_CALLBACK(onPublicHubsClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("settings"), "clicked", G_CALLBACK(onPreferencesClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("hash"), "clicked", G_CALLBACK(onHashClicked_gui), (gpointer)this);
@@ -540,7 +540,7 @@ void MainWindow::loadIcons_gui()
 	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("finishedUploads")), "bmdc-finished-uploads");
 	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("quit")), "bmdc-quit");
 	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("connect")), "bmdc-connect");
-	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("ignUser")), "bmdc-ignore-users");
+//	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("ignUser")), "bmdc-ignore-users");
 	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("system")), "bmdc-system");
 	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("notepad")), "bmdc-notepad");
 	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("AwayIcon")), "bmdc-away");
@@ -573,8 +573,8 @@ void MainWindow::autoOpen_gui()
 		showSystemLog_gui();
 	if (WGETB("open-notepad"))
 		showNotepad_gui();
-	if (WGETB("open-ignore"))
-		showIgnoreUsers_gui();
+//	if (WGETB("open-ignore"))
+//		showIgnoreUsers_gui();
 	if (WGETB("open-upload-queue"))
 		showUploadQueue_gui();
 }
@@ -767,9 +767,9 @@ void MainWindow::removeItemFromList(Entry::EntryType type, string id)
 		case Entry::FAVORITE_USERS:
 			setStatusOfIcons(FAVORITE_USERS,false);
 			break;
-		case Entry::IGNORE_USERS:
-			setStatusOfIcons(IGNORE_USERS,false);
-			break;
+//		case Entry::IGNORE_USERS:
+//			setStatusOfIcons(IGNORE_USERS,false);
+//			break;
 		case Entry::PUBLIC_HUBS:
 			setStatusOfIcons(PUBLIC_HUBS,false);
 			break;
@@ -998,12 +998,12 @@ void MainWindow::showFavoriteUsers_gui()
 	setStatusOfIcons(FAVORITE_USERS,true);
 }
 //[BMDC++
-void MainWindow::showIgnoreUsers_gui()
+/*void MainWindow::showIgnoreUsers_gui()
 {
 	showBook<Entry::EntryType, BookEntry *>(Entry::IGNORE_USERS, new IgnoreUsers());
 	setStatusOfIcons(IGNORE_USERS,true);
 }
-
+*/
 void MainWindow::showCmdDebug_gui()
 {
 	showBook<Entry::EntryType, BookEntry *>(Entry::CMD, new cmddebug());
@@ -1347,8 +1347,8 @@ void MainWindow::setToolbarButton_gui()
 	if (!WGETB("toolbar-button-finished-uploads"))
 		gtk_widget_hide(getWidget("finishedUploads"));
 	//[BMDC
-	if (!WGETB("toolbar-button-ignore"))
-		gtk_widget_hide(getWidget("ignUser"));
+	//if (!WGETB("toolbar-button-ignore"))
+	//	gtk_widget_hide(getWidget("ignUser"));
 	if (!WGETB("toolbar-button-notepad"))
 		gtk_widget_hide(getWidget("notepad"));
 	if (!WGETB("toolbar-button-system"))
@@ -2017,7 +2017,7 @@ void MainWindow::checkToolbarMenu_gui()
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("finishedDownloadsMenuItemBar")), WGETB("toolbar-button-finished-downloads"));
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("finishedUploadsMenuItemBar")), WGETB("toolbar-button-finished-uploads"));
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("quitMenuItemBar")), WGETB("toolbar-button-quit"));
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("ignUserMenuItemBar")),WGETB("toolbar-button-ignore"));
+//	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("ignUserMenuItemBar")),WGETB("toolbar-button-ignore"));
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("hideToolbarItem")), ((ToolbarStyle = WGETI("toolbar-style")) == 4) ? TRUE : FALSE);
 }
 
@@ -2158,13 +2158,13 @@ void MainWindow::onFavoriteUsersClicked_gui(GtkWidget *widget, gpointer data)
 	MainWindow *mw = (MainWindow *)data;
 	mw->showFavoriteUsers_gui();
 }
-//BMDC++
-void MainWindow::onIgnoreUserClicked_gui(GtkWidget *widget, gpointer data)
+//BMDC++/*
+/*void MainWindow::onIgnoreUserClicked_gui(GtkWidget *widget, gpointer data)
 {
     MainWindow *mw = (MainWindow *)data;
     mw->showIgnoreUsers_gui();
 }
-
+*/
 void MainWindow::onCmdDebugClicked_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;

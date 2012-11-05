@@ -1,6 +1,6 @@
 # Contributor: freedcpp at seznam dot cz
 pkgname=bmdc-bzr
-pkgver=163
+pkgver=165
 pkgrel=3
 pkgdesc="DC + + client based on the source code FreeDC + + with Ignore Users."
 arch=('i686' 'x86_64')
@@ -35,5 +35,5 @@ build() {
 
 package() {
 	cd ${srcdir}/${_bzrmod}/
-    scons PREFIX=/usr LIBDIR=/usr/share install FAKE_ROOT=$startdir/pkg || return 1	
+	scons PREFIX=/usr LIBDIR=/usr/share install FAKE_ROOT=$startdir/pkg || return 1	
 }

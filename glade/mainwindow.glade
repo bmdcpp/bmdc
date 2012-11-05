@@ -2161,19 +2161,6 @@ Contributors:
       </packing>
     </child>
     <child>
-      <widget class="GtkToolButton" id="ignUser">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Ignored Users</property>
-        <property name="use_underline">True</property>
-        <property name="stock_id">bmdc-ignore-users</property>
-      </widget>
-      <packing>
-        <property name="expand">False</property>
-        <property name="homogeneous">True</property>
-      </packing>
-    </child>
-    <child>
       <widget class="GtkToolButton" id="publicHubs">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
@@ -2415,14 +2402,6 @@ Contributors:
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">Users</property>
-        <property name="use_underline">True</property>
-      </widget>
-    </child>
-    <child>
-      <widget class="GtkCheckMenuItem" id="ignUserMenuItemBar">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Ignore Users</property>
         <property name="use_underline">True</property>
       </widget>
     </child>

@@ -26,13 +26,15 @@ namespace dcpp {
 
 class FavoriteUser : public Flags {
 public:
+	FavoriteUser() : lastSeen(time(NULL)) { }
 	FavoriteUser(const UserPtr& user_, const string& nick_, const string& hubUrl_) : user(user_), url(hubUrl_), lastSeen(0), nick(nick_) 
 	{ 
 			nicks.insert(make_pair(nick,true));
 	}
 
 	enum Flags {
-		FLAG_GRANTSLOT = 1 << 0
+		FLAG_GRANTSLOT = 1 << 0,
+		FLAG_IGNORE = 2 << 0
 	};
 
 	UserPtr& getUser() { return user; }
@@ -44,6 +46,7 @@ public:
 	GETSET(string, url, Url);
 	GETSET(time_t, lastSeen, LastSeen);
 	GETSET(string, description, Description);
+	GETSET(string, cid, Cid);
 	
 	void setNick(string _nick)
 	{
@@ -55,17 +58,17 @@ public:
 	{ return nick; }
 	
 	string getNicks() const { 
-			string _nicks = Util::emptyString;
-			int num = 0;
-			for(auto it = nicks.begin();it!= nicks.end();++it)
-			{
-					if(num == 0) {
-						_nicks+= it->first;
-					} else {
-						_nicks+= ";"+it->first;
-					}
-				num++;	
-			 }
+		string _nicks = Util::emptyString;
+		int num = 0;
+		for(auto it = nicks.begin();it!= nicks.end();++it)
+		{
+			if(num == 0) {
+				_nicks+= it->first;
+			} else {
+				_nicks+= ";"+it->first;
+			}
+			num++;	
+		 }
 				
 		return _nicks+";";
 	}
@@ -77,23 +80,6 @@ public:
 private:	
 	map<string,bool> nicks;
 	string nick;
-};
-
-class FavoriteIUser : public Flags
-{
-public:
-		
-	enum Flags {
-		FLAG_GRANTSLOT = 1 << 0
-	};
-
-	GETSET(string, description, Description);
-	GETSET(time_t, lastSeen, LastSeen);
-	GETSET(string, cid, Cid);
-	FavoriteIUser() : lastSeen(time(NULL)) { }
-	~FavoriteIUser() { }
-	void update(const OnlineUser& ou);
-	
 };
 
 } // namespace dcpp

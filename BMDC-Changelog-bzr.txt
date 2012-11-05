@@ -601,3 +601,5 @@ Few updates from dcpps
 Added Sound Callback to PluginApi
 Some small cleanup
 Fix Build Without libtar
+----r166
+Move Ignore Users as Flag of FavoriteUsers and Split Indepent FavoriteUser Class with FavoriteUser class

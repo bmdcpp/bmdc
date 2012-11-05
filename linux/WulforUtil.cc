@@ -706,8 +706,8 @@ void WulforUtil::registerIcons()
 	/**/
 	icons["bmdc-notepad"] = wsm->getString("icon-notepad");
 	icons["bmdc-notepad-on"] = wsm->getString("icon-notepad-on");
-	icons["bmdc-ignore-users"] = wsm->getString("icon-ignore");
-	icons["bmdc-ignore-users-on"] = wsm->getString("icon-ignore-on");
+//	icons["bmdc-ignore-users"] = wsm->getString("icon-ignore");
+//	icons["bmdc-ignore-users-on"] = wsm->getString("icon-ignore-on");
 	icons["bmdc-system"] = wsm->getString("icon-system");
 	icons["bmdc-system-on"] = wsm->getString("icon-system-on");
 	icons["bmdc-away"] = wsm->getString("icon-away");

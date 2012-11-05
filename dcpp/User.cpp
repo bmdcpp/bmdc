@@ -614,13 +614,15 @@ void Identity::logDetection(bool successful) {
 void FavoriteUser::update(const OnlineUser& info) {
 	setNick(info.getIdentity().getNick());
 	setUrl(info.getClient().getHubUrl());
+	setLastSeen(time(NULL));
+	setCid(info.getUser()->getCID().toBase32());
 }
 //Indepent Fav
-void FavoriteIUser::update(const OnlineUser& ou)
+/*void FavoriteIUser::update(const OnlineUser& ou)
 {
 	setLastSeen(time(NULL));
 	setCid(ou.getUser()->getCID().toBase32());
-}
+}*/
 //end
 bool OnlineUser::isCheckable(uint32_t delay /* = 0*/)
 {

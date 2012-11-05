@@ -207,42 +207,8 @@ void FavoriteManager::removeFavoriteUser(const UserPtr& aUser) {
 		save();
 	}
 }
-//Ignore
-void FavoriteManager::addIgnoredUser(const UserPtr& aUser) {
-	Lock l(cs);
-	if(ignored_users.find(aUser->getCID()) == ignored_users.end()) {
-		StringList urls = ClientManager::getInstance()->getHubs(aUser->getCID(), Util::emptyString);
-		StringList nicks = ClientManager::getInstance()->getNicks(aUser->getCID(), Util::emptyString);
 
-		/// @todo make this an error probably...
-		if(urls.empty())
-			urls.push_back(Util::emptyString);
-		if(nicks.empty())
-			nicks.push_back(Util::emptyString);
-
-		FavoriteMap::iterator i = ignored_users.insert(make_pair(aUser->getCID(), FavoriteUser(aUser, nicks[0], urls[0]))).first;
-		fire(FavoriteManagerListener::IgnoreUserAdded(), i->second);
-		save();
-	}
-}
-
-void FavoriteManager::removeIgnoredUser(const UserPtr& aUser) {
-	Lock l(cs);
-	FavoriteMap::iterator i = ignored_users.find(aUser->getCID());
-	if(i != ignored_users.end()) {
-		fire(FavoriteManagerListener::IgnoreUserRemoved(), i->second);
-		ignored_users.erase(i);
-		save();
-	}
-}
-
-bool FavoriteManager::isIgnoredUser(const UserPtr& aUser) const
-{
-    Lock l(cs);
-    return ignored_users.find(aUser->getCID()) != ignored_users.end();
-}
-
-std::string FavoriteManager::getUserURL(const UserPtr& aUser) const {
+string FavoriteManager::getUserURL(const UserPtr& aUser) const {
 	Lock l(cs);
 	FavoriteMap::const_iterator i = users.find(aUser->getCID());
 	if(i != users.end()) {
@@ -511,6 +477,7 @@ void FavoriteManager::save() {
 			xml.addTag("User");
 			xml.addChildAttrib("LastSeen", i->second.getLastSeen());
 			xml.addChildAttrib("GrantSlot", i->second.isSet(FavoriteUser::FLAG_GRANTSLOT));
+			xml.addChildAttrib("Ignore", i->second.isSet(FavoriteUser::FLAG_IGNORE));
 			xml.addChildAttrib("UserDescription", i->second.getDescription());
 			xml.addChildAttrib("Nick", i->second.getNick());
 			xml.addChildAttrib("URL", i->second.getUrl());
@@ -519,7 +486,7 @@ void FavoriteManager::save() {
 		}
 
 		xml.stepOut();
-		xml.addTag("IgnoredUsers");
+		/*xml.addTag("IgnoredUsers");
 		xml.stepIn();
 		for(FavoriteMap::iterator j = ignored_users.begin(); j != ignored_users.end(); ++j) {
 			xml.addTag("IgnoredUser");
@@ -530,7 +497,7 @@ void FavoriteManager::save() {
 			xml.addChildAttrib("CID", j->first.toBase32());
 		}
 		xml.stepOut();
-
+		*/
 		xml.addTag("UserCommands");
 		xml.stepIn();
 		for(UserCommand::List::const_iterator i = userCommands.begin(), iend = userCommands.end(); i != iend; ++i) {
@@ -564,7 +531,7 @@ void FavoriteManager::save() {
 			xml.addChildAttrib("Nick",it->first);
 			xml.addChildAttrib("LastSeen",it->second->getLastSeen());
 			xml.addChildAttrib("Description",it->second->getDescription());
-			xml.addChildAttrib("GrantSlot", it->second->isSet(FavoriteIUser::FLAG_GRANTSLOT));
+			xml.addChildAttrib("GrantSlot", it->second->isSet(FavoriteUser::FLAG_GRANTSLOT));
 		}
 
 		xml.stepOut();
@@ -742,6 +709,8 @@ void FavoriteManager::load(SimpleXML& aXml) {
 
 			if(aXml.getBoolChildAttrib("GrantSlot"))
 				i->second.setFlag(FavoriteUser::FLAG_GRANTSLOT);
+			if(aXml.getBoolChildAttrib("Ignore"))
+				i->second.setFlag(FavoriteUser::FLAG_IGNORE);
 
 			i->second.setLastSeen((uint32_t)aXml.getIntChildAttrib("LastSeen"));
 			i->second.setDescription(aXml.getChildAttrib("UserDescription"));
@@ -754,7 +723,7 @@ void FavoriteManager::load(SimpleXML& aXml) {
 	}
 	aXml.resetCurrentChild();
 
-	if(aXml.findChild("IgnoredUsers")) {
+	/*if(aXml.findChild("IgnoredUsers")) {
 		aXml.stepIn();
 		while(aXml.findChild("IgnoredUser")) {
 			UserPtr u;
@@ -776,7 +745,7 @@ void FavoriteManager::load(SimpleXML& aXml) {
 		}
 		aXml.stepOut();
 	}
-
+*/
 	aXml.resetCurrentChild();
 	if(aXml.findChild("UserCommands")) {
 		aXml.stepIn();
@@ -853,7 +822,7 @@ void FavoriteManager::userUpdated(const OnlineUser& info) {
 	auto it = favoritesNoCid.find(info.getIdentity().getNick());
 	if(it != favoritesNoCid.end())
 	{
-		FavoriteIUser& fiu = *(it->second);
+		FavoriteUser& fiu = *(it->second);
 		fiu.update(info);
 		fire(FavoriteManagerListener::FavoriteIUpdate(), info.getIdentity().getNick(), fiu);
 		save();
@@ -886,12 +855,6 @@ optional<FavoriteUser> FavoriteManager::getFavoriteUser(const UserPtr &aUser) co
 	return i == users.end() ? optional<FavoriteUser>() : i->second;
 }
 
-optional<FavoriteUser> FavoriteManager::getIgnoreUser(const UserPtr &aUser) const {
-	Lock l(cs);
-	auto i = ignored_users.find(aUser->getCID());
-	return i == ignored_users.end() ? optional<FavoriteUser>() : i->second;
-}
-
 bool FavoriteManager::hasSlot(const UserPtr& aUser) const {
 	Lock l(cs);
 	FavoriteMap::const_iterator i = users.find(aUser->getCID());
@@ -922,6 +885,22 @@ void FavoriteManager::setAutoGrant(const UserPtr& aUser, bool grant) {
 
 	save();
 }
+
+void FavoriteManager::setIgnore(const UserPtr& aUser, bool ignore) {
+	Lock l(cs);
+	FavoriteMap::iterator i = users.find(aUser->getCID());
+	if(i == users.end())
+		return;
+	if(ignore)
+		i->second.setFlag(FavoriteUser::FLAG_IGNORE);
+	else
+		i->second.unsetFlag(FavoriteUser::FLAG_IGNORE);
+
+	fire(FavoriteManagerListener::UserUpdated(), i->second);
+
+	save();
+}
+
 void FavoriteManager::setUserDescription(const UserPtr& aUser, const string& description) {
 	Lock l(cs);
 	FavoriteMap::iterator i = users.find(aUser->getCID());
@@ -1202,16 +1181,9 @@ void FavoriteManager::on(UserDisconnected, const UserPtr& user) noexcept {
 	{
 		Lock l(cs);
 		FavoriteMap::iterator i = users.find(user->getCID());
-		FavoriteMap::iterator it = ignored_users.find(user->getCID());
 		if(i != users.end()) {
 			i->second.setLastSeen(GET_TIME());
 			fire(FavoriteManagerListener::StatusChanged(), i->second);
-
-		}
-		if(it != ignored_users.end())
-		{
-            it->second.setLastSeen(GET_TIME());
-            fire(FavoriteManagerListener::IgnoreStatusChanges(),it->second);
 		}
 		save();
 	}
@@ -1221,22 +1193,16 @@ void FavoriteManager::on(UserConnected, const UserPtr& user) noexcept {
 	{
 		Lock l(cs);
 		FavoriteMap::iterator i = users.find(user->getCID());
-		FavoriteMap::iterator it = ignored_users.find(user->getCID());
 		if(i != users.end()) {
-		     fire(FavoriteManagerListener::StatusChanged(), i->second);
-		     save();
-		}
-		if(it != ignored_users.end())
-		{
-              fire(FavoriteManagerListener::IgnoreStatusChanges(),it->second);
-              save();
+			fire(FavoriteManagerListener::StatusChanged(), i->second);
+			save();
 		}
 		//Idepetn Favorites
 		ClientManager::getInstance()->lock();
 		OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(HintedUser(user,Util::emptyString));
 		Identity id = ou->getIdentity();
 		string nick = id.getNick();
-		auto idt =favoritesNoCid.find(nick);
+		auto idt = favoritesNoCid.find(nick);
 		if(idt != favoritesNoCid.end())
 		{
 			idt->second->update(*ou);
