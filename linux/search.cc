@@ -90,10 +90,10 @@ Search::Search(const string& str):
 	hubStore = gtk_list_store_newv(hubView.getColCount(), hubView.getGTypes());
 	gtk_tree_view_set_model(hubView.get(), GTK_TREE_MODEL(hubStore));
 	g_object_unref(hubStore);
-	GtkTreeViewColumn *col = gtk_tree_view_get_column(hubView.get(), hubView.col("Search"));
+	/*GtkTreeViewColumn *col = gtk_tree_view_get_column(hubView.get(), hubView.col("Search"));
 	GList *list = gtk_tree_view_column_get_cell_renderers(col);
 	GtkCellRenderer *renderer = (GtkCellRenderer *)g_list_nth_data(list, 0);
-	g_list_free(list);
+	g_list_free(list);*/
 
 	// Initialize search result treeview
 	resultView.setView(GTK_TREE_VIEW(getWidget("treeviewResult")), TRUE, "search");
@@ -180,7 +180,7 @@ Search::Search(const string& str):
 	g_signal_connect(getWidget("checkbuttonFilter"), "toggled", G_CALLBACK(onFilterButtonToggled_gui), (gpointer)this);
 	g_signal_connect(getWidget("checkbuttonSlots"), "toggled", G_CALLBACK(onSlotsButtonToggled_gui), (gpointer)this);
 	g_signal_connect(getWidget("checkbuttonShared"), "toggled", G_CALLBACK(onSharedButtonToggled_gui), (gpointer)this);
-	g_signal_connect(renderer, "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
+	g_signal_connect(hubView.getCellRenderOf("Search"), "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
 	g_signal_connect(resultView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
 	g_signal_connect(resultView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 	g_signal_connect(resultView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
@@ -507,7 +507,7 @@ void Search::search_gui()
 	}
 	else
 	{
-		gchar *tmp = gtk_combo_box_get_active_text(GTK_COMBO_BOX(getWidget("comboboxFile")));
+		gchar *tmp = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxFile")));
 		ftypeStr = tmp;
 		g_free(tmp);
 		ftype = SearchManager::TYPE_ANY;

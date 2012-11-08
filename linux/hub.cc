@@ -1727,10 +1727,10 @@ void Hub::preferences_gui()
 
 	if (!WGETB("emoticons-use"))
 	{
-		if (GTK_WIDGET_IS_SENSITIVE(getWidget("emotButton")))
+		if (gtk_widget_is_sensitive(getWidget("emotButton")))
 			gtk_widget_set_sensitive(getWidget("emotButton"), FALSE);
 	}
-	else if (!GTK_WIDGET_IS_SENSITIVE(getWidget("emotButton")))
+	else if (!gtk_widget_is_sensitive(getWidget("emotButton")))
 	{
 		gtk_widget_set_sensitive(getWidget("emotButton"), TRUE);
 	}
@@ -2291,8 +2291,6 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 
 	gtk_entry_set_text(entry, "");
 	Hub *hub = (Hub *)data;
-	typedef Func1<Hub, string> F1;
-	F1 *func;
 	typedef Func2<Hub, string, bool> F2;
 	F2 *func2;
 
@@ -2307,6 +2305,8 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 	// Process special commands
 	if (text[0] == '/')
 	{
+		typedef Func1<Hub, string> F1;
+		F1 *func;
 		string command = text, param ,mess = Util::emptyString, status = Util::emptyString, params;
 		bool thirdPerson = false;
 		string::size_type separator = text.find_first_of(' ');
@@ -2468,7 +2468,8 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			"/addfavorite\t\t\t" + _("Add Indepent Fav") + "\n" +
 			"/topic\t\t\t" + _("Show topic") + "\n" +
 			"/raw\t\t\t" + _("Send Raw data") + "\n"+
-             WulforUtil::commands
+			"/conn" + _("Show Conection Setup Info")+
+			WulforUtil::commands
              , Msg::SYSTEM);
 		}
 		else if(command == "plgadd")
@@ -2499,7 +2500,6 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			}
 			else
 			{
-//				typedef Func2<Hub, string, bool> F2;
 				F2 *func = new F2(hub, &Hub::redirect_client, param, TRUE);
 				WulforManager::get()->dispatchClientFunc(func);
 			}
@@ -2511,25 +2511,27 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if (command == "topic" )
 		{
-			hub->addMessage_gui("", _("Topic: ")+hub->client->getHubDescription(), Msg::SYSTEM);
+			hub->addMessage_gui("", _("Topic: ") + hub->client->getHubDescription(), Msg::SYSTEM);
 		}
 		else if ( command == "info" )
 		{
-			 map<string, string> info;
-             info[_("Hub address")] = hub->address;
-             info[_("Hub IP & port")] = hub->client->getIpPort();
-             info[_("Online users")] = Util::toString(hub->client->getUserCount()-1);
-             info[_("Shared")] = Util::formatBytes(hub->client->getAvailable());
-             info[_("Nick")] = hub->client->get(HubSettings::Nick);
-             info[_("Description")] = hub->client->get(HubSettings::Description);
-             info[_("Email")] = hub->client->get(HubSettings::Email);
-             info[_("External / WAN IP")] = hub->client->getFavIp();
-             info[_("Encoding")] =  hub->client->getEncoding();
-             string text;
-             for(auto i = info.begin();i!=info.end();++i) {
-                  text += _("\n") + (*i).first + _(": ") + Text::toT((*i).second);
-             }
-             hub->addMessage_gui("",text,Msg::SYSTEM);
+			map<string, string> info;
+             	info[_("Hub address")] = hub->address;
+			info[_("Hub IP & port")] = hub->client->getIpPort();
+			info[_("Online users")] = Util::toString(hub->client->getUserCount()-1);
+			info[_("Shared")] = Util::formatBytes(hub->client->getAvailable());
+			info[_("Nick")] = hub->client->get(HubSettings::Nick);
+			info[_("Description")] = hub->client->get(HubSettings::Description);
+			info[_("Email")] = hub->client->get(HubSettings::Email);
+			info[_("External / WAN IP")] = hub->client->getFavIp();
+			info[_("Encoding")] =  hub->client->getEncoding();
+             	string text;
+             	for(auto i = info.begin();i!=info.end();++i) {
+                  	text += _("\n") + (*i).first + _(": ") + Text::toT((*i).second);
+             	}
+             	
+			hub->addMessage_gui("",text,Msg::SYSTEM);
+
 		} else if ( command == "conn"){
 			auto info = ConnectivityManager::getInstance()->getInformation();
 			hub->addMessage_gui("", info, Msg::SYSTEM);
@@ -2555,7 +2557,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if (command == "userlist")
 		{
-			if (GTK_WIDGET_VISIBLE(hub->getWidget("scrolledwindow2"))) {
+			if (gtk_widget_get_visible(hub->getWidget("scrolledwindow2"))) {
 				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(hub->getWidget("userListCheckButton")), FALSE);
 			} else {
 				gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(hub->getWidget("userListCheckButton")), TRUE);
@@ -2644,7 +2646,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 	else
 	{
 		func2 = new F2(hub, &Hub::sendMessage_client, text, false);
-        WulforManager::get()->dispatchClientFunc(func2);
+        	WulforManager::get()->dispatchClientFunc(func2);
 	}
 }
 
@@ -2985,7 +2987,7 @@ void Hub::onUserListToggled_gui(GtkWidget *widget, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
-	if (GTK_WIDGET_VISIBLE(hub->getWidget("scrolledwindow2"))) {
+	if (gtk_widget_is_sensitive(hub->getWidget("scrolledwindow2"))) {
 		gtk_widget_hide(hub->getWidget("scrolledwindow2"));
 	} else {
 		gtk_widget_show_all(hub->getWidget("scrolledwindow2"));
@@ -3268,10 +3270,10 @@ void Hub::onTestSURItemClicked_gui(GtkMenuItem *item, gpointer data)
 
 		while (!nicks.empty())
 		{
-		    string nick = Util::emptyString;
+		   	string nick = Util::emptyString;
 			nick += nicks.front();
 			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser( CID(nick),hub->client->getHubUrl());
-			if(ou != NULL)
+			if(ou)
 			{
 				try {
 					HintedUser hintedUser(ou->getUser(), hub->client->getHubUrl());
@@ -3666,9 +3668,9 @@ void Hub::grantSlot_client(string cid)
 		UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
 		if (user)
 		{
-			const string hubUrl = client->getHubUrl();//NOTE: core 0.762
-			UploadManager::getInstance()->reserveSlot(HintedUser(user, hubUrl));//NOTE: core 0.762
-			message = _("Slot granted to ") + WulforUtil::getNicks(user, hubUrl);//NOTE: core 0.762
+			const string hubUrl = client->getHubUrl();
+			UploadManager::getInstance()->reserveSlot(HintedUser(user, hubUrl));
+			message = _("Slot granted to ") + WulforUtil::getNicks(user, hubUrl);
 		}
 	}
 
@@ -4258,7 +4260,7 @@ void Hub::on(FavoriteManagerListener::UserRemoved, const FavoriteUser &user) thr
 	Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::removeFavoriteUser_gui, params);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
-
+/*
 void Hub::on(FavoriteManagerListener::IgnoreUserAdded, const FavoriteUser &user) noexcept
 {
     if(user.getUrl() != client->getHubUrl())
@@ -4282,7 +4284,7 @@ void Hub::on(FavoriteManagerListener::IgnoreUserRemoved, const FavoriteUser &use
 
     Func1<Hub, ParamMap> * func = new Func1<Hub, ParamMap> (this, &Hub::removeIgnore_gui, params);
     WulforManager::get()->dispatchGuiFunc(func);
-}
+}*/
 //Indepent Fav
 void Hub::on(FavoriteManagerListener::FavoriteIAdded, const string &nick, FavoriteUser* &user) noexcept
 {

@@ -68,11 +68,11 @@ FavoriteUsers::FavoriteUsers():
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(favoriteUserView.get(), favoriteUserView.col(_("Nick"))), TRUE);
 	gtk_tree_view_set_fixed_height_mode(favoriteUserView.get(), TRUE);
 
-	GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(favoriteUserView.get(),
-		favoriteUserView.col(_("Auto grant slot"))));
-	GObject *renderer = (GObject *)g_list_nth_data(list, 0);
-	g_signal_connect(renderer, "toggled", G_CALLBACK(onAutoGrantSlotToggled_gui), (gpointer)this);
-	g_list_free(list);
+//	GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(favoriteUserView.get(),
+//		favoriteUserView.col(_("Auto grant slot"))));
+//	GObject *renderer = (GObject *)g_list_nth_data(list, 0);
+	g_signal_connect(favoriteUserView.getCellRenderOf(_("Auto grant slot")), "toggled", G_CALLBACK(onAutoGrantSlotToggled_gui), (gpointer)this);
+//	g_list_free(list);
 
 	g_signal_connect(getWidget("browseItem"), "activate", G_CALLBACK(onBrowseItemClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("matchQueueItem"), "activate", G_CALLBACK(onMatchQueueItemClicked_gui), (gpointer)this);
@@ -725,7 +725,7 @@ void FavoriteUsers::updateFavoriteUser_gui(ParamMap params)
 			favoriteUserView.col(_("Hub (last seen in, if offline)")), params["Hub"].c_str(),
 			favoriteUserView.col(_("Time last seen")), params["Time"].c_str(),
 			favoriteUserView.col(_("Description")), params["Description"].c_str(),
-			favoriteUserView.col(_("Ignore")), params["ignore"].c_str(),
+			favoriteUserView.col(_("Ignore")), params["Ignore"].c_str(),
 			favoriteUserView.col("CID"), cid.c_str(),
 			favoriteUserView.col("URL"), params["URL"].c_str(),
 			favoriteUserView.col("Icon"), "bmdc-normal",
@@ -792,7 +792,7 @@ void FavoriteUsers::setStatus_gui(const string text)
 	}
 }
 
-void FavoriteUsers::on(FavoriteManagerListener::UserAdded, const FavoriteUser &user) throw()
+void FavoriteUsers::on(FavoriteManagerListener::UserAdded, const FavoriteUser &user) noexcept
 {
 	ParamMap params;
 	bool online = user.getUser()->isOnline();
@@ -802,27 +802,27 @@ void FavoriteUsers::on(FavoriteManagerListener::UserAdded, const FavoriteUser &u
 	params.insert(ParamMap::value_type("Description", user.getDescription()));
 	params.insert(ParamMap::value_type("CID", user.getUser()->getCID().toBase32()));
 	params.insert(ParamMap::value_type("URL", user.getUrl()));
-	params.insert(ParamMap::value_type("ignore", user.isSet(FavoriteUser::FLAG_IGNORE) ? _("Yes") : _("No")));
+	params.insert(ParamMap::value_type("Ignore", user.isSet(FavoriteUser::FLAG_IGNORE) ? _("Yes") : _("No")));
 	params.insert(ParamMap::value_type("ign", user.isSet(FavoriteUser::FLAG_IGNORE) ? "1" : "0"));
 
 	Func1<FavoriteUsers, ParamMap> *func = new Func1<FavoriteUsers, ParamMap>(this, &FavoriteUsers::updateFavoriteUser_gui, params);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
-void FavoriteUsers::on(FavoriteManagerListener::UserRemoved, const FavoriteUser &user) throw()
+void FavoriteUsers::on(FavoriteManagerListener::UserRemoved, const FavoriteUser &user) noexcept
 {
 	Func1<FavoriteUsers, string> *func = new Func1<FavoriteUsers, string>(this, &FavoriteUsers::removeFavoriteUser_gui,
 		user.getUser()->getCID().toBase32());
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
-void FavoriteUsers::on(FavoriteManagerListener::StatusChanged, const FavoriteUser &user) throw()
+void FavoriteUsers::on(FavoriteManagerListener::StatusChanged, const FavoriteUser &user) noexcept
 {
 	ParamMap params;
 	string seen = user.getUser()->isOnline() ? _("Online") : Util::formatTime("%Y-%m-%d %H:%M", user.getLastSeen());
 	params.insert(ParamMap::value_type("Time", seen));
 	params.insert(ParamMap::value_type("CID", user.getUser()->getCID().toBase32()));
-	params.insert(ParamMap::value_type("ignore", user.isSet(FavoriteUser::FLAG_IGNORE) ? _("Yes") : _("No")));
+	params.insert(ParamMap::value_type("Ignore", user.isSet(FavoriteUser::FLAG_IGNORE) ? _("Yes") : _("No")));
 	params.insert(ParamMap::value_type("ign", user.isSet(FavoriteUser::FLAG_IGNORE) ? "1" : "0"));
 
 	Func1<FavoriteUsers, ParamMap> *func = new Func1<FavoriteUsers, ParamMap>(this, &FavoriteUsers::updateFavoriteUser_gui, params);
@@ -906,9 +906,9 @@ void FavoriteUsers::setIgnore(const string cid, bool ignore)
 		else 	FavoriteManager::getInstance()->setIgnore(user, false);
 	
 
-	typedef Func1<FavoriteUsers, string> F1;
-	F1 *func = new F1(this, &FavoriteUsers::setStatus_gui, _("Ignored User ") + WulforUtil::getNicks(user, Util::emptyString));
-	WulforManager::get()->dispatchGuiFunc(func);
+		typedef Func1<FavoriteUsers, string> F1;
+		F1 *func = new F1(this, &FavoriteUsers::setStatus_gui, _("Ignored User ") + WulforUtil::getNicks(user, Util::emptyString));
+		WulforManager::get()->dispatchGuiFunc(func);
 	}
 }
 

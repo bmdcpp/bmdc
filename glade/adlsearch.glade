@@ -452,7 +452,7 @@ GiB</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkComboBoxEntry" id="comboboxAction">
+                  <widget class="GtkComboBoxText" id="comboboxAction">
                     <property name="visible">True</property>
                   </widget>
                   <packing>

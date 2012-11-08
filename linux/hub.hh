@@ -220,8 +220,6 @@ class Hub:
 		// Favorite callbacks
 		virtual void on(dcpp::FavoriteManagerListener::UserAdded, const dcpp::FavoriteUser &user) noexcept;
 		virtual void on(dcpp::FavoriteManagerListener::UserRemoved, const dcpp::FavoriteUser &user) noexcept;
-		virtual void on(dcpp::FavoriteManagerListener::IgnoreUserAdded, const dcpp::FavoriteUser &user) noexcept;
-		virtual void on(dcpp::FavoriteManagerListener::IgnoreUserRemoved, const dcpp::FavoriteUser &user) noexcept;
 		virtual void on(dcpp::FavoriteManagerListener::FavoriteIAdded, const std::string &nick, dcpp::FavoriteUser* &user) noexcept;
 		virtual void on(dcpp::FavoriteManagerListener::FavoriteIRemoved, const std::string &nick, dcpp::FavoriteUser* &user) noexcept;
 		// Client callbacks
@@ -297,6 +295,7 @@ class Hub:
 			gchar *output = (gchar *)g_malloc0 (len + 1);
 			return g_utf8_strncpy (output, &string[start], len);
 		}
+
 		bool notify;
 		static void onToggleNotify (GtkWidget *item, gpointer data);
 		//GtkWidget *toggleNotify;

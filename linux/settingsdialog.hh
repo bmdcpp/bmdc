@@ -223,7 +223,7 @@ class Settings:
 		void addToGuiPlg(const MetaData &info);
 		void RemovePlg_client(int sel);
 
-		GtkComboBox *connectionSpeedComboBox;
+		GtkComboBoxText *connectionSpeedComboBox;
 		GtkListStore *downloadToStore, *publicListStore, *queueStore,
 			*shareStore, *appearanceStore, *tabStore, *windowStore1,
 			*windowStore2, *windowStore3, *advancedStore, *certificatesStore, *userCommandStore,

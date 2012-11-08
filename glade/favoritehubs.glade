@@ -647,7 +647,7 @@ Disable</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkComboBoxEntry" id="comboboxCharset">
+                  <widget class="GtkComboBoxText" id="comboboxCharset">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="items"/>
@@ -849,7 +849,7 @@ Disable</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkComboBox" id="groupsComboBox">
+                  <widget class="GtkComboBoxText" id="groupsComboBox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="items" translatable="yes">Default</property>

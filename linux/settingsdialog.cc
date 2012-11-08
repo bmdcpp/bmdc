@@ -85,7 +85,6 @@ Settings::Settings(GtkWindow* parent):
 	defaultStringTheme.insert(StringMap::value_type("icon-connect", "bmdc-connect"));
 	/**/
 	defaultStringTheme.insert(StringMap::value_type("icon-notepad", "bmdc-notepad"));
-//	defaultStringTheme.insert(StringMap::value_type("icon-ignore", "bmdc-ignore-users"));
 	defaultStringTheme.insert(StringMap::value_type("icon-system", "bmdc-system"));
 	defaultStringTheme.insert(StringMap::value_type("icon-search-adl", "bmdc-adlsearch"));
 	defaultStringTheme.insert(StringMap::value_type("icon-away", "bmdc-away"));
@@ -271,11 +270,14 @@ void Settings::saveSettings_client()
 		sm->set(SettingsManager::NICK, gtk_entry_get_text(GTK_ENTRY(getWidget("nickEntry"))));
 		sm->set(SettingsManager::EMAIL, gtk_entry_get_text(GTK_ENTRY(getWidget("emailEntry"))));
 		sm->set(SettingsManager::DESCRIPTION, gtk_entry_get_text(GTK_ENTRY(getWidget("descriptionEntry"))));
-		sm->set(SettingsManager::UPLOAD_SPEED, SettingsManager::connectionSpeeds[gtk_combo_box_get_active(connectionSpeedComboBox)]);
+		sm->set(SettingsManager::UPLOAD_SPEED, SettingsManager::connectionSpeeds[gtk_combo_box_get_active(GTK_COMBO_BOX(connectionSpeedComboBox))]);
 
-		gchar *encoding = gtk_combo_box_get_active_text(GTK_COMBO_BOX(getWidget("comboboxCharset")));
-		WSET("default-charset", string(encoding));
-		g_free(encoding);
+		gchar *encoding = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxCharset")));
+		if(encoding) {
+			WSET("default-charset", string(encoding));
+			g_free(encoding);
+		}
+
 	}
 
 	{ // Connection
@@ -631,7 +633,6 @@ void Settings::addOption_gui(GtkListStore *store, char *name, dcpp::SettingsMana
 
 }
 
-
 /* Adds a custom UI specific option */
 
 void Settings::addOption_gui(GtkListStore *store, const string &name, const string &setting)
@@ -793,10 +794,10 @@ void Settings::createOptionsView_gui(TreeView &treeView, GtkListStore *&store, c
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(store), treeView.col(_("Name")), GTK_SORT_ASCENDING);
 
 	// Connect the signal handlers
-	GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(treeView.get(), treeView.col(_("Use"))));
-	GObject *renderer = (GObject *)g_list_nth_data(list, 0);
-	g_signal_connect(renderer, "toggled", G_CALLBACK(onOptionsViewToggled_gui), (gpointer)store);
-	g_list_free(list);
+	//GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(treeView.get(), treeView.col(_("Use"))));
+	//GObject *renderer = (GObject *)g_list_nth_data(list, 0);
+	g_signal_connect(treeView.getCellRenderOf(_("Use")), "toggled", G_CALLBACK(onOptionsViewToggled_gui), (gpointer)store);
+	//g_list_free(list);
 }
 
 /* Saves the core or UI values stored in the options GtkTreeView */
@@ -831,23 +832,25 @@ void Settings::initPersonal_gui()
 	gtk_entry_set_text(GTK_ENTRY(getWidget("nickEntry")), SETTING(NICK).c_str());
 	gtk_entry_set_text(GTK_ENTRY(getWidget("emailEntry")), SETTING(EMAIL).c_str());
 	gtk_entry_set_text(GTK_ENTRY(getWidget("descriptionEntry")), SETTING(DESCRIPTION).c_str());
-	connectionSpeedComboBox = GTK_COMBO_BOX(gtk_combo_box_new_text());
+	connectionSpeedComboBox = GTK_COMBO_BOX_TEXT(gtk_combo_box_text_new());
 	gtk_box_pack_start(GTK_BOX(getWidget("connectionBox")), GTK_WIDGET(connectionSpeedComboBox), FALSE, TRUE, 0);
 	gtk_widget_show_all(GTK_WIDGET(connectionSpeedComboBox));
 
 	for (StringIter i = SettingsManager::connectionSpeeds.begin(); i != SettingsManager::connectionSpeeds.end(); ++i)
 	{
-		gtk_combo_box_append_text(connectionSpeedComboBox, (*i).c_str());
+		gtk_combo_box_text_append_text(connectionSpeedComboBox, (*i).c_str());
 		if (SETTING(UPLOAD_SPEED) == *i)
-			gtk_combo_box_set_active(connectionSpeedComboBox, i - SettingsManager::connectionSpeeds.begin());
+			gtk_combo_box_set_active(GTK_COMBO_BOX(connectionSpeedComboBox), i - SettingsManager::connectionSpeeds.begin());
 	}
 
 	// Fill charset drop-down list
-	vector<string> &charsets = WulforUtil::getCharsets();
-	for (vector<string>::const_iterator it = charsets.begin(); it != charsets.end(); ++it)
-		gtk_combo_box_append_text(GTK_COMBO_BOX(getWidget("comboboxCharset")), it->c_str());
+	auto& charsets = WulforUtil::getCharsets();
+	for (auto it = charsets.begin(); it != charsets.end(); ++it)
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxCharset")), (*it).first.c_str());
 
-	gtk_entry_set_text(GTK_ENTRY(getWidget("comboboxentryCharset")), WGETS("default-charset").c_str());
+	auto ii = charsets.find(WGETS("default-charset"));
+	gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxCharset")),(*ii).second);
+//	gtk_entry_set_text(GTK_ENTRY(getWidget("comboboxentryCharset")), WGETS("default-charset").c_str());
 }
 
 void Settings::initConnection_gui()
@@ -944,11 +947,11 @@ void Settings::initDownloads_gui()
 		gtk_tree_view_set_model(publicListView.get(), GTK_TREE_MODEL(publicListStore));
 		g_object_unref(publicListStore);
 		gtk_tree_view_set_headers_visible(publicListView.get(), FALSE);
-		GtkTreeViewColumn *col = gtk_tree_view_get_column(publicListView.get(), 0);
+/*		GtkTreeViewColumn *col = gtk_tree_view_get_column(publicListView.get(), 0);
 		GList *list = gtk_tree_view_column_get_cell_renderers(col);
 		GObject *editRenderer = G_OBJECT(g_list_nth_data(list, 0));
-		g_list_free(list);
-		g_signal_connect(editRenderer, "edited", G_CALLBACK(onPublicEdit_gui), (gpointer)this);
+		g_list_free(list);*/
+		g_signal_connect(publicListView.getCellRenderOf("List"), "edited", G_CALLBACK(onPublicEdit_gui), (gpointer)this);
 	}
 
 	{ // Download to
@@ -1150,10 +1153,10 @@ void Settings::initAppearance_gui()
 		gtk_tree_view_set_model(soundView.get(), GTK_TREE_MODEL(soundStore));
 		g_object_unref(soundStore);
 
-		GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(soundView.get(), soundView.col(_("Use"))));
-		GObject *renderer = (GObject *)g_list_nth_data(list, 0);
-		g_signal_connect(renderer, "toggled", G_CALLBACK(onOptionsViewToggled_gui), (gpointer)soundStore);
-		g_list_free(list);
+	/*	GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(soundView.get(), soundView.col(_("Use"))));
+		GObject *renderer = (GObject *)g_list_nth_data(list, 0);*/
+		g_signal_connect(soundView.getCellRenderOf(_("Use")), "toggled", G_CALLBACK(onOptionsViewToggled_gui), (gpointer)soundStore);
+//		g_list_free(list);
 
 //		TODO: download begins, uncomment when implemented
 //		addOption_gui(soundStore, wsm, _("Download begins"), "sound-download-begins-use", "sound-download-begins");
@@ -1329,11 +1332,11 @@ void Settings::initAppearance_gui()
 		gtk_tree_view_set_model(notifyView.get(), GTK_TREE_MODEL(notifyStore));
 		g_object_unref(notifyStore);
 
-		GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(notifyView.get(), notifyView.col(_("Use"))));
-		GObject *renderer = (GObject *)g_list_nth_data(list, 0);
-		g_signal_connect(renderer, "toggled", G_CALLBACK(onOptionsViewToggled_gui), (gpointer)notifyStore);
-		g_list_free(list);
-
+		/*GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(notifyView.get(), notifyView.col(_("Use"))));
+		GObject *renderer = (GObject *)g_list_nth_data(list, 0);*/
+		g_signal_connect(notifyView.getCellRenderOf(_("Use")), "toggled", G_CALLBACK(onOptionsViewToggled_gui), (gpointer)notifyStore);
+/*		g_list_free(list);
+*/
 	#ifdef HAVE_NOTIFY
 		addOption_gui(notifyStore, wsm, _("Download finished"),
 			"notify-download-finished-use", "notify-download-finished-title",
@@ -1494,10 +1497,10 @@ void Settings::initAppearance_gui()
 		gtk_tree_view_set_model(toolbarView.get(), GTK_TREE_MODEL(toolbarStore));
 		g_object_unref(toolbarStore);
 
-		GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(toolbarView.get(), toolbarView.col(_("Use"))));
-		GObject *renderer = (GObject *)g_list_nth_data(list, 0);
-		g_signal_connect(renderer, "toggled", G_CALLBACK(onOptionsViewToggled_gui), (gpointer)toolbarStore);
-		g_list_free(list);
+/*		GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(toolbarView.get(), toolbarView.col(_("Use"))));
+		GObject *renderer = (GObject *)g_list_nth_data(list, 0);*/
+		g_signal_connect(toolbarView.getCellRenderOf(_("Use")), "toggled", G_CALLBACK(onOptionsViewToggled_gui), (gpointer)toolbarStore);
+//		g_list_free(list);
 
 		GtkIconTheme *iconTheme = gtk_icon_theme_get_default();
 		addOption_gui(toolbarStore, wsm, iconTheme, _("Connect"), "toolbar-button-connect",

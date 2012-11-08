@@ -299,7 +299,7 @@ Raw</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkComboBoxEntry" id="comboboxentryAct">
+                      <widget class="GtkComboBoxText" id="comboboxentryAct">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <child internal-child="entry">

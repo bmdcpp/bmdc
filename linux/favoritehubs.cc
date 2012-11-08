@@ -48,10 +48,11 @@ FavoriteHubs::FavoriteHubs():
 		GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()));
 
 	// Fill the charset drop-down list in edit fav hub dialog.
-	vector<string> &charsets = WulforUtil::getCharsets();
-	for (vector<string>::const_iterator it = charsets.begin(); it != charsets.end(); ++it)
-		gtk_combo_box_append_text(GTK_COMBO_BOX(getWidget("comboboxCharset")), it->c_str());
-
+	auto& charsets = WulforUtil::getCharsets();
+	for (auto it = charsets.begin(); it != charsets.end(); ++it)
+	{
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxCharset")), (*it).first.c_str());
+	}
 	// Initialize favorite hub list treeview
 	favoriteView.setView(GTK_TREE_VIEW(getWidget("favoriteView")), TRUE, "favoritehubs");
 	favoriteView.insertColumn(_("Name"), G_TYPE_STRING, TreeView::STRING, 200);
@@ -119,9 +120,9 @@ FavoriteHubs::FavoriteHubs():
     g_object_unref(actionStore);
     actionSel = gtk_tree_view_get_selection(actionView.get());
 
-    GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(actionView.get(), actionView.col(_("Enabled"))));
-	GtkCellRenderer *arenderer = (GtkCellRenderer *)g_list_nth_data(list, 0);
-	g_list_free(list);
+   // GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(actionView.get(), actionView.col(_("Enabled"))));
+//	GtkCellRenderer *arenderer = (GtkCellRenderer *)g_list_nth_data(list, 0);
+//	g_list_free(list);
 
 	// Connect the signals to their callback functions.
 	g_signal_connect(getWidget("buttonNew"), "clicked", G_CALLBACK(onAddEntry_gui), (gpointer)this);
@@ -146,7 +147,7 @@ FavoriteHubs::FavoriteHubs():
 	g_signal_connect(groupsView.get(), "button-release-event", G_CALLBACK(onGroupsButtonReleased_gui), (gpointer)this);
 	g_signal_connect(groupsView.get(), "key-release-event", G_CALLBACK(onGroupsKeyReleased_gui), (gpointer)this);
 
-	g_signal_connect(arenderer, "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
+	g_signal_connect(actionView.getCellRenderOf(_("Enabled")), "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
 }
 
 FavoriteHubs::~FavoriteHubs()
@@ -554,7 +555,7 @@ void FavoriteHubs::setRawActions_client(FavoriteHubs *fh, StringMap params)
 				gboolean active = actionView.getValue<gboolean>(&child, _("Enabled"));
 				if(active)
 				{
-                   FavoriteManager::getInstance()->setEnabledRaw(&(*entry), ida, idr, true);
+                   		FavoriteManager::getInstance()->setEnabledRaw(&(*entry), ida, idr, true);
 				}
 				cvalid = gtk_tree_model_iter_next(GTK_TREE_MODEL(fh->actionStore), &child);
 			}
@@ -573,7 +574,7 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryNick")), params["Nick"].c_str());
 	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryPassword")), params["Password"].c_str());
 	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryUserDescription")), params["User Description"].c_str());
-	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("comboboxentryCharset")), params["Encoding"].c_str());
+//	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("comboboxentryCharset")), params["Encoding"].c_str());
 	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryIp")), params["IP"].c_str());
 	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryExtraInfo")), params["ExtraInfo"].c_str());
 	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryprotected")), params["Protected"].c_str());
@@ -600,6 +601,10 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 	gboolean overrideEncoding = !(params["Encoding"].empty() || params["Encoding"] == "Global hub default");
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkbuttonEncoding")), overrideEncoding);
 
+	auto& charset = WulforUtil::getCharsets();
+	auto ii = charset.find(params["Encoding"]);
+
+	gtk_combo_box_set_active(GTK_COMBO_BOX(fh->getWidget("comboboxCharset")), (*ii).second);
 	// Set the override default nick checkbox
 	gboolean overrideNick = !(params["Nick"].empty() || params["Nick"] == SETTING(NICK));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkbuttonNick")), overrideNick);
@@ -664,16 +669,19 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 
 		if (gtk_combo_box_get_active(GTK_COMBO_BOX(fh->getWidget("groupsComboBox"))) != 0)
 		{
-			gchar *group = gtk_combo_box_get_active_text(GTK_COMBO_BOX(fh->getWidget("groupsComboBox")));
+			gchar *group = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(fh->getWidget("groupsComboBox")));
 			params["Group"] = string(group);
 			g_free(group);
 		}
 
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkbuttonEncoding"))))
 		{
-			gchar *encoding = gtk_combo_box_get_active_text(GTK_COMBO_BOX(fh->getWidget("comboboxCharset")));
-			params["Encoding"] = string(encoding);
-			g_free(encoding);
+			gchar *encoding = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(fh->getWidget("comboboxCharset")));
+			if(encoding)
+			{		
+				params["Encoding"] = string(encoding);
+				g_free(encoding);
+			}else	params["Encoding"] = Util::emptyString;
 		}
 
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkbuttonNick"))))

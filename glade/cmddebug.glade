@@ -119,7 +119,7 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkComboBox" id="comboboxadr">
+          <widget class="GtkComboBoxText" id="comboboxadr">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="items" translatable="yes" comments="Do Not Transalate"> 

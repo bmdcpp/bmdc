@@ -99,11 +99,11 @@ BookEntry(Entry::DETECTION, _("Detection Settings"), "detection.glade")
 	g_signal_connect(getWidget("button5"), "clicked", G_CALLBACK(ondModEntryDet), (gpointer)this);//edit
 	g_signal_connect(getWidget("button6"), "clicked", G_CALLBACK(onRemoveEntryDet), (gpointer)this);//remove
 
-	GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(detectionView.get(),
+	/*GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(detectionView.get(),
 		detectionView.col(N_("Enable"))));
-	GObject *renderer = (GObject *)g_list_nth_data(list, 0);
-	g_signal_connect(renderer, "toggled", G_CALLBACK(onToggleDet), (gpointer)this);
-	g_list_free(list);
+	GObject *renderer = (GObject *)g_list_nth_data(list, 0);*/
+	g_signal_connect(detectionView.getCellRenderOf(N_("Enable")), "toggled", G_CALLBACK(onToggleDet), (gpointer)this);
+//	g_list_free(list);
 
 	item.setView(GTK_TREE_VIEW(getWidget("treeview1")));
 	item.insertColumn(N_("Field"), G_TYPE_STRING, TreeView::STRING,100);
@@ -628,7 +628,7 @@ bool DetectionTab::showAddActRawDialog(StringMap &params,DetectionTab *dt)
 			params["ID"] = Util::toString(gtk_spin_button_get_value(GTK_SPIN_BUTTON(dt->getWidget("spinbuttonId"))));
 			params["Time"] = Util::toString(gtk_spin_button_get_value(GTK_SPIN_BUTTON(dt->getWidget("spinbuttonTime"))));
 			params["Type"] = Util::toString(gtk_combo_box_get_active(GTK_COMBO_BOX(dt->getWidget("comboboxType"))));
-			params["Action"] = gtk_combo_box_get_active_text(GTK_COMBO_BOX(dt->getWidget("comboboxentryAct")));
+			params["Action"] = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(dt->getWidget("comboboxentryAct")));
 			params["Enabled"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(dt->getWidget("checkEnabled"))) ? "1" : "0";
             params["tmpname"] = tmpname;
 

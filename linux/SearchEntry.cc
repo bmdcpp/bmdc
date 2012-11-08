@@ -85,7 +85,7 @@ void SearchEntry::raisePage_gui(GtkWidget *page)
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(getWidget("sebook")), num);
 }
 
-void SearchEntry::onPageSwitched_gui(GtkNotebook *notebook, GtkNotebookPage *page, guint num, gpointer data)
+void SearchEntry::onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *page, guint num, gpointer data)
 {
 //	SearchEntry* mw = (SearchEntry* )data;
 	GtkWidget *child = gtk_notebook_get_nth_page(notebook, num);
@@ -168,7 +168,9 @@ void SearchEntry::removeBookEntry_gui(BookEntry *entry)
 gboolean SearchEntry::onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
 	gint width, height;
-	gdk_drawable_get_size(event->window, &width, &height);
+//	gdk_drawable_get_size(event->window, &width, &height);
+	width = gdk_window_get_width(event->window);
+	height = gdk_window_get_height(event->window);
 
 	// If middle mouse button was released when hovering over tab label
 	if (event->button == 2 && event->x >= 0 && event->y >= 0

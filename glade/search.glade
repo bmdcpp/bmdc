@@ -220,7 +220,7 @@ GiB</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkComboBox" id="comboboxFile">
+                  <widget class="GtkComboBoxText" id="comboboxFile">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="items"></property>

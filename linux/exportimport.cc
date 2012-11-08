@@ -46,13 +46,13 @@ exportSelection(NULL)
 	
 	exportSelection = gtk_tree_view_get_selection(exportView.get());
 	
-	GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(exportView.get(), exportView.col(_("Enabled"))));
+	/*GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(exportView.get(), exportView.col(_("Enabled"))));
 	GtkCellRenderer *renderer = (GtkCellRenderer *)g_list_nth_data(list, 0);
-	g_list_free(list);
+	g_list_free(list);*/
 	
 	g_signal_connect(getWidget("boxExport"), "clicked", G_CALLBACK(onButtonExportedClicked), (gpointer)this);
 	g_signal_connect(getWidget("boxPath"), "clicked", G_CALLBACK(onGetPathGui), (gpointer)this);
-	g_signal_connect(renderer, "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
+	g_signal_connect(exportView.getCellRenderOf(_("Enabled")), "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
 	
 	gtk_list_store_clear(exportStore);
 	GtkTreeIter iter;

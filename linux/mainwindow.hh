@@ -114,7 +114,6 @@ class MainWindow:
 			QUICKCON = 0,
 			FAVORITE_HUBS,
 			FAVORITE_USERS,
-//			IGNORE_USERS,
 			PUBLIC_HUBS,
 			SEARCH_ADL,
 			SEARCH_SPY,
@@ -182,7 +181,7 @@ class MainWindow:
 		static gboolean onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean animationStatusIcon_gui(gpointer data);
 		static void onRaisePage_gui(GtkMenuItem *item, gpointer data);
-		static void onPageSwitched_gui(GtkNotebook *notebook, GtkNotebookPage *page, guint num, gpointer data);
+		static void onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *page, guint num, gpointer data);
 		static void onPaneRealized_gui(GtkWidget *pane, gpointer data);
 		static void onConnectClicked_gui(GtkWidget *widget, gpointer data);
 		static void onFavoriteHubsClicked_gui(GtkWidget *widget, gpointer data);

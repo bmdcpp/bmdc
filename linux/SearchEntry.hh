@@ -62,7 +62,7 @@ class SearchEntry: public BookEntry
 		GtkWidget *currentPage_gui();
 		void raisePage_gui(GtkWidget *page);
 		void removeBookEntry_gui(BookEntry *entry);
-		static void onPageSwitched_gui(GtkNotebook *notebook, GtkNotebookPage *page, guint num , gpointer data);
+		static void onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *page, guint num , gpointer data);
 		static gboolean onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static void onCloseBookEntry_gui(GtkWidget *widget, gpointer data);
 		BookEntry* findBookEntry(const EntryType type, const std::string &id = "");

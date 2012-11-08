@@ -80,7 +80,6 @@ void* MainWindow::icons[(MainWindow::IconsToolbar)END][4] =
 { ((void*)(MainWindow::IconsToolbar)MainWindow::QUICKCON),(void*)"bmdc-connect",(void*)"bmdc-connect-on",(void*)"connect"},
 { ((void*)(MainWindow::IconsToolbar)MainWindow::FAVORITE_HUBS), (void*)"bmdc-favorite-hubs",(void*)"bmdc-favorite-hubs-on",(void*)"favHubs"},
 { ((void*)(MainWindow::IconsToolbar)MainWindow::FAVORITE_USERS), (void*)"bmdc-favorite-users",(void*)"bmdc-favorite-users-on",(void*)"favUsers"},
-//{ ((void*)(MainWindow::IconsToolbar)MainWindow::IGNORE_USERS), (void*)"bmdc-ignore-users",(void*)"bmdc-ignore-users-on",(void*)"ignUser"},
 { ((void*)(MainWindow::IconsToolbar)MainWindow::PUBLIC_HUBS), (void*)"bmdc-public-hubs",(void*)"bmdc-public-hubs-on",(void*)"publicHubs"},
 { ((void*)(MainWindow::IconsToolbar)MainWindow::SEARCH_ADL), (void*)"bmdc-search-adl",(void*)"bmdc-search-adl-on",(void*)"searchADL"},
 { ((void*)(MainWindow::IconsToolbar)MainWindow::SEARCH_SPY), (void*)"bmdc-search-spy",(void*)"bmdc-search-spy-on",(void*)"searchSpy"},
@@ -133,7 +132,6 @@ MainWindow::MainWindow():
 	setToolbarMenu_gui("finishedUploadsMenuItemBar", "finishedUploads", "toolbar-button-finished-uploads");
 	setToolbarMenu_gui("quitMenuItemBar", "quit", "toolbar-button-quit");
 	//BMDC++
-//	setToolbarMenu_gui("ignUserMenuItemBar", "ignUser", "toolbar-button-ignore");
 	setToolbarMenu_gui("checknotepad", "notepad", "toolbar-button-notepad");
 	setToolbarMenu_gui("checksystem", "system", "toolbar-button-system");
 	setToolbarMenu_gui("awaycitem", "AwayIcon", "toolbar-button-away");
@@ -152,7 +150,7 @@ MainWindow::MainWindow():
 	if (WGETI("toolbar-position") == 1)
 	{
 		box = GTK_BOX(getWidget("vbox1"));
-		gtk_toolbar_set_orientation(GTK_TOOLBAR(child), GTK_ORIENTATION_HORIZONTAL);
+		 gtk_orientable_set_orientation(GTK_ORIENTABLE(child), GTK_ORIENTATION_HORIZONTAL);
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("topToolbarItem")), TRUE);
 		pos = 1;
 	}
@@ -254,8 +252,9 @@ MainWindow::MainWindow():
 		g_object_unref(logo);
 	}
 
-	gtk_about_dialog_set_email_hook((GtkAboutDialogActivateLinkFunc)onAboutDialogActivateLink_gui, (gpointer)this, NULL);
-	gtk_about_dialog_set_url_hook((GtkAboutDialogActivateLinkFunc)onAboutDialogActivateLink_gui, (gpointer)this, NULL);
+	g_signal_connect(getWidget("aboutDialog"),"activate-link",G_CALLBACK(onAboutDialogActivateLink_gui),(gpointer)this);
+//	gtk_about_dialog_set_email_hook((GtkAboutDialogActivateLinkFunc)onAboutDialogActivateLink_gui, (gpointer)this, NULL);
+//	gtk_about_dialog_set_url_hook((GtkAboutDialogActivateLinkFunc)onAboutDialogActivateLink_gui, (gpointer)this, NULL);
 	// This has to be set in code in order to activate the link
 	gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(getWidget("aboutDialog")), "http://launchpad.net/bmdc++");
 	gtk_window_set_transient_for(GTK_WINDOW(getWidget("aboutDialog")), window);
@@ -279,7 +278,6 @@ MainWindow::MainWindow():
 	g_signal_connect(getWidget("connect"), "clicked", G_CALLBACK(onConnectClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("favHubs"), "clicked", G_CALLBACK(onFavoriteHubsClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("favUsers"), "clicked", G_CALLBACK(onFavoriteUsersClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("ignUser"), "clicked", G_CALLBACK(onIgnoreUserClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("publicHubs"), "clicked", G_CALLBACK(onPublicHubsClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("settings"), "clicked", G_CALLBACK(onPreferencesClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("hash"), "clicked", G_CALLBACK(onHashClicked_gui), (gpointer)this);
@@ -540,7 +538,6 @@ void MainWindow::loadIcons_gui()
 	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("finishedUploads")), "bmdc-finished-uploads");
 	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("quit")), "bmdc-quit");
 	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("connect")), "bmdc-connect");
-//	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("ignUser")), "bmdc-ignore-users");
 	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("system")), "bmdc-system");
 	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("notepad")), "bmdc-notepad");
 	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("AwayIcon")), "bmdc-away");
@@ -573,8 +570,6 @@ void MainWindow::autoOpen_gui()
 		showSystemLog_gui();
 	if (WGETB("open-notepad"))
 		showNotepad_gui();
-//	if (WGETB("open-ignore"))
-//		showIgnoreUsers_gui();
 	if (WGETB("open-upload-queue"))
 		showUploadQueue_gui();
 }
@@ -767,9 +762,6 @@ void MainWindow::removeItemFromList(Entry::EntryType type, string id)
 		case Entry::FAVORITE_USERS:
 			setStatusOfIcons(FAVORITE_USERS,false);
 			break;
-//		case Entry::IGNORE_USERS:
-//			setStatusOfIcons(IGNORE_USERS,false);
-//			break;
 		case Entry::PUBLIC_HUBS:
 			setStatusOfIcons(PUBLIC_HUBS,false);
 			break;
@@ -893,7 +885,7 @@ void MainWindow::updateStatusIconTooltip_gui(string download, string upload)
 {
 	ostringstream toolTip;
 	toolTip << g_get_application_name() << endl << _("Download: ") << download << endl << _("Upload: ") << upload;
-	gtk_status_icon_set_tooltip(statusIcon, toolTip.str().c_str());
+	gtk_status_icon_set_tooltip_text(statusIcon, toolTip.str().c_str());
 }
 
 void MainWindow::setMainStatus_gui(string text, time_t t)
@@ -998,12 +990,6 @@ void MainWindow::showFavoriteUsers_gui()
 	setStatusOfIcons(FAVORITE_USERS,true);
 }
 //[BMDC++
-/*void MainWindow::showIgnoreUsers_gui()
-{
-	showBook<Entry::EntryType, BookEntry *>(Entry::IGNORE_USERS, new IgnoreUsers());
-	setStatusOfIcons(IGNORE_USERS,true);
-}
-*/
 void MainWindow::showCmdDebug_gui()
 {
 	showBook<Entry::EntryType, BookEntry *>(Entry::CMD, new cmddebug());
@@ -1245,7 +1231,7 @@ GtkWidget* MainWindow::getChooserDialog_gui()
 
 void MainWindow::actionMagnet_gui(string magnet)
 {
-	if (GTK_WIDGET_VISIBLE(getWidget("MagnetDialog")))
+	if (gtk_widget_get_visible(getWidget("MagnetDialog")))
 		return;
 
 	string name, tth;
@@ -1347,8 +1333,6 @@ void MainWindow::setToolbarButton_gui()
 	if (!WGETB("toolbar-button-finished-uploads"))
 		gtk_widget_hide(getWidget("finishedUploads"));
 	//[BMDC
-	//if (!WGETB("toolbar-button-ignore"))
-	//	gtk_widget_hide(getWidget("ignUser"));
 	if (!WGETB("toolbar-button-notepad"))
 		gtk_widget_hide(getWidget("notepad"));
 	if (!WGETB("toolbar-button-system"))
@@ -1481,10 +1465,10 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 				if(prev != combo_values.end())
 					combo_sel = prev - combo_values.begin();
 
-				GtkWidget *comboBox = gtk_combo_box_new_text();
+				GtkWidget *comboBox = gtk_combo_box_text_new();
 
 				while(!combo_values.empty()) {
-					gtk_combo_box_append_text(GTK_COMBO_BOX(comboBox), combo_values.back().c_str() );
+					gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(comboBox), combo_values.back().c_str() );
 					combo_values.pop_back();
 				}
 				gtk_combo_box_set_active(GTK_COMBO_BOX(comboBox),combo_sel);
@@ -1544,9 +1528,9 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 
 		   if(wid->widget == NULL)
 				continue;
-			if(GTK_IS_COMBO_BOX(wid->widget))
+			if(GTK_IS_COMBO_BOX_TEXT(wid->widget))
 			{
-				const gchar *value = gtk_combo_box_get_active_text(GTK_COMBO_BOX(wid->widget));
+				const gchar *value = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(wid->widget));
 				ucParams["line:"+names[i]] = string (value);
 			}
 			else if( GTK_IS_ENTRY(wid->widget))
@@ -1724,7 +1708,7 @@ void MainWindow::onResponseMagnetDialog_gui(GtkWidget *dialog, gint response, gp
 		string path;
 
 		// magnet choice frame
-		if (!GTK_WIDGET_VISIBLE(mw->getWidget("magnetPropertiesFrame")))
+		if (!gtk_widget_get_visible(mw->getWidget("magnetPropertiesFrame")))
 		{
 			if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(mw->getWidget("dowloadQueueRadioButton"))))
 			{
@@ -1922,7 +1906,7 @@ void MainWindow::onTopToolbarToggled_gui(GtkWidget *widget, gpointer data)
 	g_object_ref(child);
 	gtk_container_remove(GTK_CONTAINER(parent), child);
 	parent = mw->getWidget("vbox1");
-	gtk_toolbar_set_orientation(GTK_TOOLBAR(child), GTK_ORIENTATION_HORIZONTAL);
+	gtk_orientable_set_orientation(GTK_ORIENTABLE(child), GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_pack_start(GTK_BOX(parent), child, FALSE, FALSE, 2);
 	gtk_box_reorder_child(GTK_BOX(parent), child, 1);
 	g_object_unref(child);
@@ -1940,7 +1924,7 @@ void MainWindow::onLeftToolbarToggled_gui(GtkWidget *widget, gpointer data)
 	g_object_ref(child);
 	gtk_container_remove(GTK_CONTAINER(parent), child);
 	parent = mw->getWidget("hbox4");
-	gtk_toolbar_set_orientation(GTK_TOOLBAR(child), GTK_ORIENTATION_VERTICAL);
+	gtk_orientable_set_orientation(GTK_ORIENTABLE(child), GTK_ORIENTATION_VERTICAL);
 	gtk_box_pack_start(GTK_BOX(parent), child, FALSE, FALSE, 2);
 	gtk_box_reorder_child(GTK_BOX(parent), child, 0);
 	g_object_unref(child);
@@ -2017,7 +2001,6 @@ void MainWindow::checkToolbarMenu_gui()
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("finishedDownloadsMenuItemBar")), WGETB("toolbar-button-finished-downloads"));
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("finishedUploadsMenuItemBar")), WGETB("toolbar-button-finished-uploads"));
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("quitMenuItemBar")), WGETB("toolbar-button-quit"));
-//	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("ignUserMenuItemBar")),WGETB("toolbar-button-ignore"));
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("hideToolbarItem")), ((ToolbarStyle = WGETI("toolbar-style")) == 4) ? TRUE : FALSE);
 }
 
@@ -2045,7 +2028,9 @@ gboolean MainWindow::onKeyPressed_gui(GtkWidget *widget, GdkEventKey *event, gpo
 gboolean MainWindow::onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
 	gint width, height;
-	gdk_drawable_get_size(event->window, &width, &height);
+//	gdk_drawable_get_size(event->window, &width, &height);
+	height = gdk_window_get_height(event->window);
+	width = gdk_window_get_width(event->window);
 
 	// If middle mouse button was released when hovering over tab label
 	// with setting to it
@@ -2082,7 +2067,7 @@ void MainWindow::onRaisePage_gui(GtkMenuItem *item, gpointer data)
 	WulforManager::get()->getMainWindow()->raisePage_gui((GtkWidget *)data);
 }
 
-void MainWindow::onPageSwitched_gui(GtkNotebook *notebook, GtkNotebookPage *page, guint num, gpointer data)
+void MainWindow::onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *page, guint num, gpointer data)
 {
 	MainWindow* mw = (MainWindow*)data;
 	GtkWidget *child = gtk_notebook_get_nth_page(notebook, num);
@@ -2322,7 +2307,7 @@ void MainWindow::onTransferToggled_gui(GtkWidget *widget, gpointer data)
 	MainWindow *mw = (MainWindow *)data;
 	GtkWidget *transfer = mw->transfers->getContainer();
 
-	if (GTK_WIDGET_VISIBLE(transfer))
+	if (gtk_widget_get_visible(transfer))
 		gtk_widget_hide(transfer);
 	else
 		gtk_widget_show_all(transfer);
@@ -2382,7 +2367,7 @@ void MainWindow::onQuitClicked_gui(GtkWidget *widget, gpointer data)
 	MainWindow *mw = (MainWindow *)data;
 
 	// fix emit signal (status-icon menu quit)
-	if (GTK_WIDGET_VISIBLE(mw->getWidget("exitDialog")))
+	if (gtk_widget_get_visible(mw->getWidget("exitDialog")))
 		return;
 
 	mw->onQuit = TRUE;
@@ -2536,7 +2521,7 @@ void MainWindow::onShowInterfaceToggled_gui(GtkCheckMenuItem *item, gpointer dat
 	static int x, y;
 	static bool isMaximized, isIconified;
 
-	if (GTK_WIDGET_VISIBLE(win))
+	if (gtk_widget_get_visible(GTK_WIDGET(win)))
 	{
 		GdkWindowState state;
 		gtk_window_get_position(win, &x, &y);

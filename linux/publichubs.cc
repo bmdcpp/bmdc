@@ -67,18 +67,18 @@ PublicHubs::PublicHubs():
 	listsStore = gtk_list_store_newv(listsView.getColCount(), listsView.getGTypes());
 	gtk_tree_view_set_model(listsView.get(), GTK_TREE_MODEL(listsStore));
 	g_object_unref(listsStore);
-	gtk_tree_view_set_headers_visible(listsView.get(), FALSE);
+//	gtk_tree_view_set_headers_visible(listsView.get(), FALSE);
 	listsSelection = gtk_tree_view_get_selection(listsView.get());
-	GtkTreeViewColumn *c = gtk_tree_view_get_column(listsView.get(), 0);
-	GList *l = gtk_tree_view_column_get_cell_renderers(c);
-	GObject *editRenderer = G_OBJECT(g_list_nth_data(l, 0));
-	g_list_free(l);
+//	GtkTreeViewColumn *c = gtk_tree_view_get_column(listsView.get(), 0);
+//	GList *l = gtk_tree_view_column_get_cell_renderers(c);
+//	GObject *editRenderer = G_OBJECT(g_list_nth_data(l, 0));
+//	g_list_free(l);
 
 	// Initialize the hub lists combo box
 	gtk_combo_box_set_model(GTK_COMBO_BOX(getWidget("hubListBox")), GTK_TREE_MODEL(listsStore));
 	GtkCellRenderer *cell = gtk_cell_renderer_text_new();
-	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(GTK_COMBO_BOX(getWidget("hubListBox"))), cell, FALSE);
-	gtk_cell_layout_add_attribute(GTK_CELL_LAYOUT(GTK_COMBO_BOX(getWidget("hubListBox"))), cell, "text", 0);
+	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(GTK_COMBO_BOX_TEXT(getWidget("hubListBox"))), cell, FALSE);
+	gtk_cell_layout_add_attribute(GTK_CELL_LAYOUT(GTK_COMBO_BOX_TEXT(getWidget("hubListBox"))), cell, "text", 0);
 
 	// Connect the signals to their callback functions.
 	g_signal_connect(getContainer(), "focus-in-event", G_CALLBACK(onFocusIn_gui), (gpointer)this);
@@ -92,7 +92,7 @@ PublicHubs::PublicHubs():
 	g_signal_connect(getWidget("downButton"), "clicked", G_CALLBACK(onMoveDown_gui), (gpointer)this);
 	g_signal_connect(getWidget("addButton"), "clicked", G_CALLBACK(onAdd_gui), (gpointer)this);
 	g_signal_connect(getWidget("removeButton"), "clicked", G_CALLBACK(onRemove_gui), (gpointer)this);
-	g_signal_connect(editRenderer, "edited", G_CALLBACK(onCellEdited_gui), (gpointer)this);
+	g_signal_connect(listsView.getCellRenderOf("List"), "edited", G_CALLBACK(onCellEdited_gui), (gpointer)this);
 	g_signal_connect(hubView.get(), "button-press-event", G_CALLBACK(onButtonPress_gui), (gpointer)this);
 	g_signal_connect(hubView.get(), "button-release-event", G_CALLBACK(onButtonRelease_gui), (gpointer)this);
 	g_signal_connect(hubView.get(), "key-release-event", G_CALLBACK(onKeyRelease_gui), (gpointer)this);
@@ -314,10 +314,12 @@ void PublicHubs::onConfigure_gui(GtkWidget *widget, gpointer data)
 	PublicHubs *ph = (PublicHubs *)data;
 
 	// Have to get active here since temp could be NULL after dialog is closed
-	gchar *temp = gtk_combo_box_get_active_text(GTK_COMBO_BOX(ph->getWidget("hubListBox")));
-	string active = string(temp);
-	g_free(temp);
-
+	gchar *temp = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(ph->getWidget("hubListBox")));
+	string active = Util::emptyString;
+	if(temp){
+		active = string(temp);
+		g_free(temp);
+	}
 	gint response = gtk_dialog_run(GTK_DIALOG(ph->getWidget("configureDialog")));
 
 	// Fix crash, if the dialog gets programmatically destroyed.

@@ -62,7 +62,7 @@ stop(false)
 			Client* client = *it;
 			if(!client->isConnected())
 				continue;
-			gtk_combo_box_append_text(GTK_COMBO_BOX(getWidget("comboboxadr")),client->getIpPort().c_str());
+			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxadr")),client->getIpPort().c_str());
 			iters.insert(Iters::value_type(client->getIpPort(), i));	
 			i++;
 		}		
@@ -146,7 +146,7 @@ void cmddebug::UpdateCombo(Client* c, bool add)
 		{
 			if(!c->isConnected())
 				return;
-			gtk_combo_box_append_text(GTK_COMBO_BOX(widget),c->getIpPort().c_str());
+			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(widget),c->getIpPort().c_str());
 			i = iters.size()+1;
 			iters.insert(Iters::value_type(c->getIpPort(),i));		
 		}
@@ -158,7 +158,7 @@ void cmddebug::UpdateCombo(Client* c, bool add)
 		if(it != iters.end())
 		{
 			i = it->second;
-			gtk_combo_box_remove_text(GTK_COMBO_BOX(widget),i);
+			gtk_combo_box_text_remove(GTK_COMBO_BOX_TEXT(widget),i);
 			iters.erase(url);	
 		}
 	}
