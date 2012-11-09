@@ -608,3 +608,5 @@ Prepare to switch for GTK3/GtkBuilder (except ComboBoxes for Charset ..)
 ----r168
 Fixed Encoding comboBoxes
 Few Fixed around GSEAL
+----r169
+Fixed Fav Groups ComboBox

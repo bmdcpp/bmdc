@@ -845,6 +845,7 @@ Disable</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="items" translatable="yes">Default</property>
+			  <property name="entry_text_column">0</property>	
                   </widget>
                   <packing>
                     <property name="left_attach">1</property>
