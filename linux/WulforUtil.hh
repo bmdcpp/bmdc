@@ -56,7 +56,7 @@ class WulforUtil
 		static dcpp::StringList getHubAddress(const dcpp::UserPtr& user, const std::string& hintUrl);
 //NOTE: core 0.762
 		static std::string getTextFromMenu(GtkMenuItem *item);
-		static std::map<std::string,int>& getCharsets();
+		static std::vector<std::string>& getCharsets();
 		static void openURI(const std::string &uri, std::string &_error = dcpp::Util::emptyString);
 		static void openURItoApp(const std::string &cmd);
 		static std::string colorToString(const GdkColor *color); /* gdk < 2.12 */
@@ -103,7 +103,7 @@ class WulforUtil
 		static void loadmimetypes();
 		static std::string getStatsForMem();
 
-		static std::map<std::string,int> charsets;
+		static std::vector<std::string> charsets;
 		static const std::string magnetSignature;
 		static GtkIconFactory *iconFactory;
 		static std::map<std::string,std::string> m_mimetyp;

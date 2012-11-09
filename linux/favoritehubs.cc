@@ -51,7 +51,7 @@ FavoriteHubs::FavoriteHubs():
 	auto& charsets = WulforUtil::getCharsets();
 	for (auto it = charsets.begin(); it != charsets.end(); ++it)
 	{
-		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxCharset")), (*it).first.c_str());
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxCharset")), (*it).c_str());
 	}
 	// Initialize favorite hub list treeview
 	favoriteView.setView(GTK_TREE_VIEW(getWidget("favoriteView")), TRUE, "favoritehubs");
@@ -602,9 +602,11 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkbuttonEncoding")), overrideEncoding);
 
 	auto& charset = WulforUtil::getCharsets();
-	auto ii = charset.find(params["Encoding"]);
-
-	gtk_combo_box_set_active(GTK_COMBO_BOX(fh->getWidget("comboboxCharset")), (*ii).second);
+	for(auto ii = charset.begin();ii!=charset.end();++ii) {
+		if(params["Encoding"] == *ii) {	
+			gtk_combo_box_set_active(GTK_COMBO_BOX(fh->getWidget("comboboxCharset")), (ii - charset.begin()));
+		}
+	}
 	// Set the override default nick checkbox
 	gboolean overrideNick = !(params["Nick"].empty() || params["Nick"] == SETTING(NICK));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkbuttonNick")), overrideNick);
@@ -681,7 +683,7 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 			{		
 				params["Encoding"] = string(encoding);
 				g_free(encoding);
-			}else	params["Encoding"] = Util::emptyString;
+			}//else	params["Encoding"] = Util::emptyString;
 		}
 
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkbuttonNick"))))

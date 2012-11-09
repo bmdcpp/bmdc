@@ -72,7 +72,7 @@ void systemlog::onScroll_gui(GtkAdjustment *adjustment, gpointer data)
 {
     systemlog *sys = (systemlog *)data;
     gdouble value = gtk_adjustment_get_value(adjustment);
-    sys->scrollToBottom = value >= (adjustment->upper-adjustment->page_size);
+    sys->scrollToBottom = value >= ( gtk_adjustment_get_upper(adjustment) - gtk_adjustment_get_page_size (adjustment));
 }
 
 void systemlog::onResize_gui(GtkAdjustment *adjustment, gpointer data)
@@ -80,7 +80,7 @@ void systemlog::onResize_gui(GtkAdjustment *adjustment, gpointer data)
     systemlog *sys = (systemlog *)data;
     gdouble value = gtk_adjustment_get_value(adjustment);
 
-    if (sys->scrollToBottom && value < (adjustment->upper-adjustment->page_size))
+    if (sys->scrollToBottom && value < (gtk_adjustment_get_upper(adjustment) - gtk_adjustment_get_page_size (adjustment)))
     {
         GtkTextIter iter;
         gtk_text_buffer_get_end_iter(sys->buffer, &iter);

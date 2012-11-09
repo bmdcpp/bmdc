@@ -518,7 +518,7 @@ void Hub::columnHeader(int num, string name)
 {
 	GtkTreeViewColumn *col = gtk_tree_view_get_column (nickView.get(), num);
 	gtk_tree_view_column_set_clickable (col, TRUE);
-	g_object_set (col->button, "tooltip-text", name.c_str(), NULL);
+	g_object_set ( col->button, "tooltip-text", name.c_str(), NULL);//TODO
 }
 
 
@@ -1651,7 +1651,7 @@ void Hub::updateCursor_gui(GtkWidget *widget)
 	GSList *tagList;
 	GtkTextTag *newTag = NULL;
 
-	gdk_window_get_pointer(widget->window, &x, &y, NULL);
+	gdk_window_get_pointer(gtk_widget_get_window(widget), &x, &y, NULL);
 
 	// Check for tags under the cursor, and change mouse cursor appropriately
 	gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW(widget), GTK_TEXT_WINDOW_WIDGET, x, y, &buf_x, &buf_y);
@@ -1681,7 +1681,10 @@ void Hub::updateCursor_gui(GtkWidget *widget)
 		if (newTag != NULL)
 		{
 			// Cursor is entering a tag.
-			selectedTagStr = newTag->name;
+			//selectedTagStr = newTag->name;
+			gchar *tmp;
+			g_object_get(G_OBJECT(newTag),"name",&tmp,NULL);
+			selectedTagStr = string(tmp);
 
 			if (find(TagsMap, TagsMap + Tag::TAG_MYNICK, newTag) == TagsMap + Tag::TAG_MYNICK)
 			{
@@ -1709,7 +1712,7 @@ void Hub::preferences_gui()
 	for (int i = Tag::TAG_FIRST; i < Tag::TAG_LAST; i++)
 	{
 		if(i == Tag::TAG_PRIVATE)
-            continue;
+           		continue;
 
 		getSettingTag_gui(wsm, (Tag::TypeTag)i, fore, back, bold, italic);
 
@@ -2079,7 +2082,10 @@ gboolean Hub::onNickTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *e
 
 	if (event->type == GDK_2BUTTON_PRESS)
 	{
-		string tagName = tag->name;
+		//string tagName = tag->name;
+		gchar *tmp;
+		g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
+		string tagName = string(tmp);
 		hub->nickToChat_gui(tagName.substr(tagPrefix.size()));
 
 		return TRUE;
@@ -2087,7 +2093,11 @@ gboolean Hub::onNickTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *e
 	else if (event->type == GDK_BUTTON_PRESS)
 	{
 		GtkTreeIter nickIter;
-		string tagName = tag->name;
+		//string tagName = tag->name;
+		gchar *tmp;
+		g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
+		string tagName = string(tmp);
+
 
 		if (hub->findNick_gui(tagName.substr(tagPrefix.size()), &nickIter))
 		{
@@ -2154,7 +2164,10 @@ gboolean Hub::onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *ev
 gboolean Hub::onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event , GtkTextIter *iter, gpointer data)
 {
 	Hub *hub = (Hub *)data;
-	hub->ip = tag->name; //think
+	///hub->ip = tag->name; //think
+	gchar *tmp;    
+	g_object_get(G_OBJECT(tag),"name",&tmp,NULL);    
+	hub->ip = string(tmp);
 
 	if(event->type == GDK_BUTTON_PRESS)
 	{
@@ -2265,7 +2278,7 @@ void Hub::onChatScroll_gui(GtkAdjustment *adjustment, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	gdouble value = gtk_adjustment_get_value(adjustment);
-	hub->scrollToBottom = value >= (adjustment->upper - adjustment->page_size);
+    	hub->scrollToBottom = value >= ( gtk_adjustment_get_upper(adjustment) - gtk_adjustment_get_page_size (adjustment));
 }
 
 void Hub::onChatResize_gui(GtkAdjustment *adjustment, gpointer data)
@@ -2273,7 +2286,7 @@ void Hub::onChatResize_gui(GtkAdjustment *adjustment, gpointer data)
 	Hub *hub = (Hub *)data;
 	gdouble value = gtk_adjustment_get_value(adjustment);
 
-	if (hub->scrollToBottom && value < (adjustment->upper - adjustment->page_size))
+    if (hub->scrollToBottom && value < (gtk_adjustment_get_upper(adjustment) - gtk_adjustment_get_page_size (adjustment)))
 	{
 		GtkTextIter iter;
 

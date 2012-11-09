@@ -168,7 +168,7 @@ void cmddebug::onScroll_gui(GtkAdjustment *adjustment, gpointer data)
 {
     cmddebug *cmd = reinterpret_cast<cmddebug *>(data);
     gdouble value = gtk_adjustment_get_value(adjustment);
-    cmd->scrollToBottom = value >= (adjustment->upper-adjustment->page_size);
+    cmd->scrollToBottom = value >= ( gtk_adjustment_get_upper(adjustment) - gtk_adjustment_get_page_size (adjustment));
 }
 
 void cmddebug::onResize_gui(GtkAdjustment *adjustment, gpointer data)
@@ -176,7 +176,7 @@ void cmddebug::onResize_gui(GtkAdjustment *adjustment, gpointer data)
     cmddebug *cmd = reinterpret_cast<cmddebug *>(data);
     gdouble value = gtk_adjustment_get_value(adjustment);
 
-    if (cmd->scrollToBottom && value < (adjustment->upper-adjustment->page_size))
+    if (cmd->scrollToBottom && value < (gtk_adjustment_get_upper(adjustment) - gtk_adjustment_get_page_size (adjustment)))
     {
         GtkTextIter iter;
         gtk_text_buffer_get_end_iter(cmd->buffer, &iter);

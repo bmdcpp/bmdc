@@ -87,7 +87,6 @@ void SearchEntry::raisePage_gui(GtkWidget *page)
 
 void SearchEntry::onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *page, guint num, gpointer data)
 {
-//	SearchEntry* mw = (SearchEntry* )data;
 	GtkWidget *child = gtk_notebook_get_nth_page(notebook, num);
 	BookEntry *entry = (BookEntry *)g_object_get_data(G_OBJECT(child), "entry");
 

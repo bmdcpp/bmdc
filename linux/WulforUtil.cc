@@ -52,7 +52,7 @@ using namespace std;
 using namespace dcpp;
 
 const string WulforUtil::ENCODING_LOCALE = _("System default");
-map<string,int> WulforUtil::charsets;
+vector<string> WulforUtil::charsets;
 const string WulforUtil::magnetSignature = "magnet:?xt=urn:tree:tiger:";
 GtkIconFactory* WulforUtil::iconFactory = NULL;
 std::map<std::string,std::string> WulforUtil::m_mimetyp;
@@ -330,9 +330,9 @@ void WulforUtil::remove_signals_from_widget(GtkWidget *widget, gint events)
     GList *window_list;
 
     if (gtk_widget_get_has_window (widget))
-      window_list = gdk_window_get_children (widget->window);
+      window_list = gdk_window_get_children (gtk_widget_get_window(widget));
     else
-      window_list = g_list_prepend (NULL, widget->window);
+      window_list = g_list_prepend (NULL, gtk_widget_get_window(widget));
 
     remove_events_internal (widget, original_events, window_list);
 
@@ -364,28 +364,27 @@ void WulforUtil::remove_events_internal (GtkWidget *widget, gint events, GList *
   }
 }
 
-map<string,int>& WulforUtil::getCharsets()
+vector<string>& WulforUtil::getCharsets()
 {
 	if (charsets.empty())
 	{
-		int i = 1;
-		charsets.insert( make_pair((ENCODING_LOCALE), i) );
-		charsets.insert( make_pair(_("UTF-8 (Unicode)"), ++i));
-		charsets.insert( make_pair(_("CP1252 (Western Europe)"),++i));
-		charsets.insert( make_pair(_("CP1250 (Central Europe)"),++i));
-		charsets.insert( make_pair(_("ISO-8859-2 (Central Europe)"),++i));
-		charsets.insert( make_pair(_("ISO-8859-7 (Greek)"),++i));
-		charsets.insert( make_pair(_("ISO-8859-8 (Hebrew)"),++i));
-		charsets.insert( make_pair(_("ISO-8859-9 (Turkish)"),++i));
-		charsets.insert( make_pair(_("ISO-2022-JP (Japanese)"),++i));
-		charsets.insert( make_pair(_("SJIS (Japanese)"),++i));
-		charsets.insert( make_pair(_("CP949 (Korean)"),++i));
-		charsets.insert( make_pair(_("KOI8-R (Cyrillic)"),++i));
-		charsets.insert( make_pair(_("CP1251 (Cyrillic)"),++i));
-		charsets.insert( make_pair(_("CP1256 (Arabic)"),++i));
-		charsets.insert( make_pair(_("CP1257 (Baltic)"),++i));
-		charsets.insert( make_pair(_("GB18030 (Chinese)"),++i));
-		charsets.insert( make_pair(_("TIS-620 (Thai)"),++i));
+		charsets.push_back(ENCODING_LOCALE);
+		charsets.push_back(_("UTF-8 (Unicode)"));
+		charsets.push_back(_("CP1252 (Western Europe)"));
+		charsets.push_back(_("CP1250 (Central Europe)"));
+		charsets.push_back(_("ISO-8859-2 (Central Europe)"));
+		charsets.push_back(_("ISO-8859-7 (Greek)"));
+		charsets.push_back(_("ISO-8859-8 (Hebrew)"));
+		charsets.push_back(_("ISO-8859-9 (Turkish)"));
+		charsets.push_back(_("ISO-2022-JP (Japanese)"));
+		charsets.push_back(_("SJIS (Japanese)"));
+		charsets.push_back(_("CP949 (Korean)"));
+		charsets.push_back(_("KOI8-R (Cyrillic)"));
+		charsets.push_back(_("CP1251 (Cyrillic)"));
+		charsets.push_back(_("CP1256 (Arabic)"));
+		charsets.push_back(_("CP1257 (Baltic)"));
+		charsets.push_back(_("GB18030 (Chinese)"));
+		charsets.push_back(_("TIS-620 (Thai)"));
 	}
 	return charsets;
 }

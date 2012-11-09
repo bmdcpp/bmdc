@@ -845,11 +845,13 @@ void Settings::initPersonal_gui()
 
 	// Fill charset drop-down list
 	auto& charsets = WulforUtil::getCharsets();
-	for (auto it = charsets.begin(); it != charsets.end(); ++it)
-		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxCharset")), (*it).first.c_str());
-
-	auto ii = charsets.find(WGETS("default-charset"));
-	gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxCharset")),(*ii).second);
+	for (auto it = charsets.begin(); it != charsets.end(); ++it) {
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxCharset")), (*it).c_str());
+		if(WGETS("default-charset") == *it)
+			gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxCharset")), (it - charsets.begin()) );
+	}
+	//auto ii = charsets.find(WGETS("default-charset"));
+//	gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxCharset")),charsets[WGETS("default-charset")]);
 //	gtk_entry_set_text(GTK_ENTRY(getWidget("comboboxentryCharset")), WGETS("default-charset").c_str());
 }
 

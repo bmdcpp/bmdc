@@ -313,6 +313,7 @@ void EmoticonsDialog::position()
 	// ox, oy, w, h
 	gint Wx, Wy, Dh, Dw,
 		Bx, By, Bw;
+	GtkAllocation allocation;//@NOTE: pre-GTK3
 
 	gtk_widget_size_request(dialog, &requisition);
 
@@ -324,10 +325,11 @@ void EmoticonsDialog::position()
 	Bw = requisition.width;
 
 	/* the position of a window in root window coordinates */
-	gdk_window_get_origin(Button->window, &Bx, &By);
+	gdk_window_get_origin( gtk_widget_get_window(Button), &Bx, &By);
+	gtk_widget_get_allocation(Button,&allocation);
 
-	Bx += Button->allocation.x;
-	By += Button->allocation.y;
+	Bx += allocation.x;
+	By += allocation.y;
 
 	Wx = Bx - Dw + Bw;
 	Wy = By - Dh;
@@ -339,7 +341,7 @@ void EmoticonsDialog::position()
 void EmoticonsDialog::graber()
 {
 	/* grabs the pointer (usually a mouse) */
-	gdk_pointer_grab(dialog->window, TRUE, (GdkEventMask) (GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK),
+	gdk_pointer_grab(gtk_widget_get_window(dialog), TRUE, (GdkEventMask) (GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK),
 		NULL, NULL, GDK_CURRENT_TIME);
 
 	gtk_grab_add(dialog);
