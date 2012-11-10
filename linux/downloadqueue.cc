@@ -537,21 +537,20 @@ gboolean DownloadQueue::onDirKeyReleased_gui(GtkWidget *widget, GdkEventKey *eve
 
 	if (gtk_tree_selection_get_selected(dq->dirSelection, NULL, &iter))
 	{
-		if (event->keyval == GDK_Delete || event->keyval == GDK_BackSpace)
+		if (event->keyval == GDK_KEY_Delete || event->keyval == GDK_KEY_BackSpace)
 		{
 			dq->onDirRemoveClicked_gui(NULL, data);
 		}
-		else if (event->keyval == GDK_Menu || (event->keyval == GDK_F10 && event->state & GDK_SHIFT_MASK))
+		else if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
 			gtk_menu_popup(GTK_MENU(dq->getWidget("dirMenu")), NULL, NULL,
 				NULL, NULL, 0, gtk_get_current_event_time());
 		}
-		else if (event->keyval == GDK_Up || event->keyval == GDK_KP_Up ||
-			event->keyval == GDK_Down || event->keyval == GDK_KP_Down)
+		else if (event->keyval == GDK_KEY_Up || event->keyval == GDK_KEY_Down)
 		{
 			dq->updateFileView_gui();
 		}
-		else if (event->keyval == GDK_Return || event->keyval == GDK_KP_Enter)
+		else if (event->keyval == GDK_KEY_Return)
 		{
 			GtkTreePath *path = gtk_tree_model_get_path(GTK_TREE_MODEL(dq->dirStore), &iter);
 			if (gtk_tree_view_row_expanded(dq->dirView.get(), path))

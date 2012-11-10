@@ -60,8 +60,7 @@ Hub::Hub(const string &address, const string &encoding):
 	PasswordDialog(FALSE),
 	WaitingPassword(FALSE),
 	ImgLimit(0),
-	notify(false)/*,
-	toggleNotify(NULL)*/
+	notify(false)
 {
 
 	// Initialize nick treeview
@@ -415,7 +414,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		}//Fav
 		else if ( strcmp(a,"C") == 0)
 		{
-     	   color = WGETS("userlist-bg-favorite");
+     	   		color = WGETS("userlist-bg-favorite");
 		}//ignored
 		else if ( strcmp(a, "I") == 0)
 		{
@@ -601,16 +600,16 @@ void Hub::setStatus_gui(string statusBar, string text)
 			}
 
 			queue<string> tmp = statustext;
-            string statusTextOnToolTip;
+            	string statusTextOnToolTip;
 
 			while(!tmp.empty())
-            {
-                statusTextOnToolTip += "\n" + tmp.front();
-                tmp.pop();
-            }
+            	{
+                		statusTextOnToolTip += "\n" + tmp.front();
+                		tmp.pop();
+			}
 
 			statustext.push(text);
-            statusTextOnToolTip += "\n" + text;
+            	statusTextOnToolTip += "\n" + text;
 
             #if !GTK_CHECK_VERSION(2, 12, 0)
                 gtk_tooltips_set_tip (statusTips, getWidget("statusMain"), statusTextOnToolTip.c_str(), NULL);
@@ -687,13 +686,13 @@ void Hub::updateUser_gui(ParamMap params)
 			if (favorite)
 				userFavoriteMap[cid] = Nick;
 			if (isPasive)
-                 userPasiveMap[cid] = Nick;
-            if(isOperator)
-                 userOpMap[cid] = Nick;
-            if(isIgnore)
-                 userIgnoreMap[cid] = Nick;
-            if(isProtected)
-                 userProtectMap[cid] = Nick;
+				userPasiveMap[cid] = Nick;
+			if(isOperator)
+				userOpMap[cid] = Nick;
+			if(isIgnore)
+				userIgnoreMap[cid] = Nick;
+			if(isProtected)
+				userProtectMap[cid] = Nick;
 		}
 
 		gtk_list_store_set(nickStore, &iter,
@@ -704,20 +703,20 @@ void Hub::updateUser_gui(ParamMap params)
  			nickView.col(_("Connection")), params["Connection"].c_str(),
 			nickView.col("IP"), params["IP"].c_str(),
 			nickView.col(_("eMail")), params["eMail"].c_str(),
-            nickView.col(_("Country")), params["Country"].c_str(),
-            nickView.col(_("Exact Share")), shared,
-            nickView.col(_("Slots")), params["Slots"].c_str(),
-            nickView.col(_("Hubs")), params["Hubs"].c_str(),
-            nickView.col("PK"), params["PK"].c_str(),
-            nickView.col(_("Cheat")), params["Cheat"].c_str(),
-            nickView.col(_("Generator")), params["Generator"].c_str(),
-            nickView.col(_("Support")), params["Support"].c_str(),
+            	nickView.col(_("Country")), params["Country"].c_str(),
+            	nickView.col(_("Exact Share")), shared,
+            	nickView.col(_("Slots")), params["Slots"].c_str(),
+            	nickView.col(_("Hubs")), params["Hubs"].c_str(),
+            	nickView.col("PK"), params["PK"].c_str(),
+            	nickView.col(_("Cheat")), params["Cheat"].c_str(),
+            	nickView.col(_("Generator")), params["Generator"].c_str(),
+            	nickView.col(_("Support")), params["Support"].c_str(),
 			nickView.col("Icon"), icon.c_str(),
 			nickView.col("Nick Order"), nickOrder.c_str(),
 			nickView.col("CID"), cid.c_str(),
 			nickView.col("NickColor"), nickColor.c_str(),
-            nickView.col("Pixbuf"), pixbuf,
-            nickView.col("Client Type"), params["Type"].c_str(),
+            	nickView.col("Pixbuf"), pixbuf,
+            	nickView.col("Client Type"), params["Type"].c_str(),
 			-1);
 	}
 	else
@@ -733,20 +732,20 @@ void Hub::updateUser_gui(ParamMap params)
  			nickView.col(_("Connection")), params["Connection"].c_str(),
 			nickView.col("IP"), params["IP"].c_str(),
 			nickView.col(_("eMail")), params["eMail"].c_str(),
-            nickView.col(_("Country")), params["Country"].c_str(),
-            nickView.col(_("Exact Share")), shared,
-            nickView.col(_("Slots")), params["Slots"].c_str(),
-            nickView.col(_("Hubs")), params["Hubs"].c_str(),
-            nickView.col("PK"), params["PK"].c_str(),
-            nickView.col(_("Cheat")), params["Cheat"].c_str(),
-            nickView.col(_("Generator")), params["Generator"].c_str(),
-            nickView.col(_("Support")), params["Support"].c_str(),
+            	nickView.col(_("Country")), params["Country"].c_str(),
+            	nickView.col(_("Exact Share")), shared,
+            	nickView.col(_("Slots")), params["Slots"].c_str(),
+            	nickView.col(_("Hubs")), params["Hubs"].c_str(),
+            	nickView.col("PK"), params["PK"].c_str(),
+            	nickView.col(_("Cheat")), params["Cheat"].c_str(),
+            	nickView.col(_("Generator")), params["Generator"].c_str(),
+            	nickView.col(_("Support")), params["Support"].c_str(),
 			nickView.col("Icon"), icon.c_str(),
 			nickView.col("Nick Order"), nickOrder.c_str(),
 			nickView.col("CID"), cid.c_str(),
 			nickView.col("NickColor"), nickColor.c_str(),
-            nickView.col("Pixbuf"), pixbuf,
-            nickView.col("Client Type"), params["Type"].c_str(),
+            	nickView.col("Pixbuf"), pixbuf,
+            	nickView.col("Client Type"), params["Type"].c_str(),
 			-1);
 
 		userIters.insert(UserIters::value_type(cid, iter));
@@ -877,10 +876,10 @@ void Hub::popupNickMenu_gui()
 	userCommandMenu->addHub(client->getHubUrl());
 	userCommandMenu->buildMenu_gui();
 	gchar *markup;
-    markup = g_markup_printf_escaped ("<span fgcolor=\"blue\" ><b>%s</b></span>", nick.c_str());
-    GtkMenuItem *item = GTK_MENU_ITEM(getWidget("nickItem"));
-    WulforUtil::remove_signals_from_widget(GTK_WIDGET(item),GDK_ALL_EVENTS_MASK);
-    GtkWidget *label = gtk_bin_get_child(GTK_BIN(item));
+	markup = g_markup_printf_escaped ("<span fgcolor=\"blue\" ><b>%s</b></span>", nick.c_str());
+	GtkMenuItem *item = GTK_MENU_ITEM(getWidget("nickItem"));
+	WulforUtil::remove_signals_from_widget(GTK_WIDGET(item),GDK_ALL_EVENTS_MASK);
+	GtkWidget *label = gtk_bin_get_child(GTK_BIN(item));
 	gtk_label_set_markup (GTK_LABEL (label), markup);
 	g_free(markup);
 
@@ -935,7 +934,7 @@ void Hub::getPassword_gui()
 	gtk_frame_set_label_widget(GTK_FRAME(frame), label);
 
 	gtk_container_add(GTK_CONTAINER(frame), box);
-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox), frame);
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog)))  , frame);
 
 	g_object_set_data(G_OBJECT(dialog), "password-entry", (gpointer) entry);
 
@@ -995,7 +994,7 @@ void Hub::nickToChat_gui(const string &nick)
 
 void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 {
-	auto gotNotify = [this](std::string hub) -> bool { if(notify) return true; else if(!hub.empty())
+	auto gotNotify = [this](string hub) -> bool { if(notify) return true; else if(!hub.empty())
 							return FavoriteManager::getInstance()->getFavoriteHubEntry(hub) != NULL ? FavoriteManager::getInstance()->getFavoriteHubEntry(hub)->getNotify() : notify; else return WGETI("notify-hub-chat-use");  };
 
 	PluginManager::getInstance()->onChatDisplay(client, message);
@@ -1004,21 +1003,18 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 	message = message.c_str();
 	if (message.empty())
 		return;
-/*
-	if(gotNotify(client->getHubUrl()) && checkType(typemsg)) {
-		MainWindow *mw = WulforManager::get()->getMainWindow();
-		typedef Func3<MainWindow, string, string, Notify::TypeNotify> F3;
-		F3 *func = new F3(mw,&MainWindow::showNotification_gui,client->getHubName() ,message, Notify::HUB_CHAT);
-		WulforManager::get()->dispatchGuiFunc(func);
-	}
-*/
+
 	GtkTextIter iter;
 	string line = "";
+
+	// Add a new line if this isn't the first line in buffer.
+	if (gtk_text_buffer_get_char_count(chatBuffer) > 0)
+		line += "\n";
 
 	if (SETTING(TIME_STAMPS))
 		line += "[" + Util::getShortTimeString() + "] ";
 
-	line += message + "\n";
+	line += message; //+ "\n";
 
 	gtk_text_buffer_get_end_iter(chatBuffer, &iter);
 	gtk_text_buffer_insert(chatBuffer, &iter, line.c_str(), line.size());
@@ -1047,7 +1043,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 			if(gotNotify(client->getHubUrl())) {
 				MainWindow *mw = WulforManager::get()->getMainWindow();
 				typedef Func3<MainWindow, string, string, Notify::TypeNotify> F3;
-				F3 *func = new F3(mw,&MainWindow::showNotification_gui,client->getHubName() ,message, Notify::HUB_CHAT);
+				F3 *func = new F3(mw,&MainWindow::showNotification_gui, client->getHubName(), message, Notify::HUB_CHAT);
 				WulforManager::get()->dispatchGuiFunc(func);
 			}
 	}
@@ -1962,11 +1958,11 @@ gboolean Hub::onNickListKeyRelease_gui(GtkWidget *widget, GdkEventKey *event, gp
 
 	if (gtk_tree_selection_count_selected_rows(hub->nickSelection) > 0)
 	{
-		if (event->keyval == GDK_Menu || (event->keyval == GDK_F10 && event->state & GDK_SHIFT_MASK))
+		if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
 			hub->popupNickMenu_gui();
 		}
-		else if (event->keyval == GDK_Return || event->keyval == GDK_KP_Enter)
+		else if (event->keyval == GDK_KEY_Return)
 		{
 			hub->onBrowseItemClicked_gui(NULL, data);
 		}
@@ -1979,8 +1975,8 @@ gboolean Hub::onEntryKeyPress_gui(GtkWidget *entry, GdkEventKey *event, gpointer
 {
 	Hub *hub = (Hub *)data;
 
-	if ( (( WGETB("key-hub-with-ctrl") && ((event->keyval == GDK_Up || event->keyval == GDK_KP_Up) && (event->state & GDK_CONTROL_MASK ) )) )
-			|| ( !WGETB("key-hub-with-ctrl") && (event->keyval == GDK_Up || event->keyval == GDK_KP_Up) ))
+	if ( (( WGETB("key-hub-with-ctrl") && ((event->keyval == GDK_KEY_Up) && (event->state & GDK_CONTROL_MASK ) )) )
+			|| ( !WGETB("key-hub-with-ctrl") && (event->keyval == GDK_KEY_Up ) ))
 	{
 		size_t index = hub->historyIndex - 1;
 		if (index < hub->history.size())
@@ -1990,8 +1986,8 @@ gboolean Hub::onEntryKeyPress_gui(GtkWidget *entry, GdkEventKey *event, gpointer
 		}
 		return TRUE;
 	}
-	else if ( ( WGETB("key-hub-with-ctrl") && ((event->keyval == GDK_Down || event->keyval == GDK_KP_Down) && (event->state & GDK_CONTROL_MASK) ))
-			|| ( !WGETB("key-hub-with-ctrl") && (event->keyval == GDK_Down || event->keyval == GDK_KP_Down)) )
+	else if ( ( WGETB("key-hub-with-ctrl") && ((event->keyval == GDK_KEY_Down ) && (event->state & GDK_CONTROL_MASK) ))
+			|| ( !WGETB("key-hub-with-ctrl") && (event->keyval == GDK_KEY_Down )) )
 	{
 		size_t index = hub->historyIndex + 1;
 		if (index < hub->history.size())
@@ -2001,7 +1997,7 @@ gboolean Hub::onEntryKeyPress_gui(GtkWidget *entry, GdkEventKey *event, gpointer
 		}
 		return TRUE;
 	}
-	else if (event->keyval == GDK_Tab || event->keyval == GDK_ISO_Left_Tab)
+	else if (event->keyval == GDK_KEY_Tab)
 	{
 		string current;
 		string::size_type start, end;
@@ -2481,7 +2477,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			"/addfavorite\t\t\t" + _("Add Indepent Fav") + "\n" +
 			"/topic\t\t\t" + _("Show topic") + "\n" +
 			"/raw\t\t\t" + _("Send Raw data") + "\n"+
-			"/conn" + _("Show Conection Setup Info")+
+			"/conn" + _("Show Conection Setup Info\n")+
 			WulforUtil::commands
              , Msg::SYSTEM);
 		}

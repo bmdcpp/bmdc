@@ -87,7 +87,6 @@ class MainWindow:
 		void showSearchSpy_gui();
 		void showSearchADL_gui();
 		void showDetection_gui();
-//		void showIgnoreUsers_gui();
 		void showCmdDebug_gui();
 		void showSystemLog_gui();
 		void showNotepad_gui();
@@ -186,7 +185,6 @@ class MainWindow:
 		static void onConnectClicked_gui(GtkWidget *widget, gpointer data);
 		static void onFavoriteHubsClicked_gui(GtkWidget *widget, gpointer data);
 		static void onFavoriteUsersClicked_gui(GtkWidget *widget, gpointer data);
-//		static void onIgnoreUserClicked_gui(GtkWidget *widget , gpointer data);//BMDC++
 		static void onPublicHubsClicked_gui(GtkWidget *widget, gpointer data);
 		static void onPreferencesClicked_gui(GtkWidget *widget, gpointer data);
 		static void onHashClicked_gui(GtkWidget *widget, gpointer data);

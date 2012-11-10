@@ -899,14 +899,14 @@ void MainWindow::setMainStatus_gui(string text, time_t t)
 		{
 			    statustext.pop();
 		}
-        queue<string> tmp = statustext;
-        string statusTextOnToolTip;
-        while(!tmp.empty())
-        {
-           statusTextOnToolTip += "\n" + tmp.front();
-           tmp.pop();
-        }
-        statustext.push(text);
+        		queue<string> tmp = statustext;
+	        string statusTextOnToolTip;
+      	  while(!tmp.empty())
+      	  {
+      	     statusTextOnToolTip += "\n" + tmp.front();
+      	     tmp.pop();
+      	  }
+   		     statustext.push(text);
 
        #if !GTK_CHECK_VERSION(2, 12, 0)
              gtk_tooltips_set_tip (statusTips, getWidget("labelStatus"), statusTextOnToolTip.c_str(), NULL);
@@ -2015,7 +2015,7 @@ gboolean MainWindow::onKeyPressed_gui(GtkWidget *widget, GdkEventKey *event, gpo
 			mw->previousTab_gui();
 			return TRUE;
 		}
-		else if (event->keyval == GDK_Tab)
+		else if (event->keyval == GDK_KEY_Tab)
 		{
 			mw->nextTab_gui();
 			return TRUE;
@@ -2028,7 +2028,6 @@ gboolean MainWindow::onKeyPressed_gui(GtkWidget *widget, GdkEventKey *event, gpo
 gboolean MainWindow::onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
 	gint width, height;
-//	gdk_drawable_get_size(event->window, &width, &height);
 	height = gdk_window_get_height(event->window);
 	width = gdk_window_get_width(event->window);
 
@@ -2143,13 +2142,7 @@ void MainWindow::onFavoriteUsersClicked_gui(GtkWidget *widget, gpointer data)
 	MainWindow *mw = (MainWindow *)data;
 	mw->showFavoriteUsers_gui();
 }
-//BMDC++/*
-/*void MainWindow::onIgnoreUserClicked_gui(GtkWidget *widget, gpointer data)
-{
-    MainWindow *mw = (MainWindow *)data;
-    mw->showIgnoreUsers_gui();
-}
-*/
+//BMDC++
 void MainWindow::onCmdDebugClicked_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;

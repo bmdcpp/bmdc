@@ -255,7 +255,7 @@ void PrivateMessage::addMessage_gui(string message, Msg::TypeMsg typemsg)
 	if (WGETB("sound-pm"))
 	{
 		MainWindow *mw = WulforManager::get()->getMainWindow();
-		GdkWindowState state = gdk_window_get_state(mw->getContainer()->window);
+		GdkWindowState state = gdk_window_get_state(gtk_widget_get_window(mw->getContainer()));
 
 		if ((state & GDK_WINDOW_STATE_ICONIFIED) || mw->currentPage_gui() != getContainer())
 			Sound::get()->playSound(Sound::PRIVATE_MESSAGE);
@@ -905,7 +905,7 @@ void PrivateMessage::updateCursor(GtkWidget *widget)
 	GSList *tagList;
 	GtkTextTag *newTag = NULL;
 
-	gdk_window_get_pointer(widget->window, &x, &y, NULL);
+	gdk_window_get_pointer(gtk_widget_get_window(widget), &x, &y, NULL);
 
 	// Check for tags under the cursor, and change mouse cursor appropriately
 	gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW(widget), GTK_TEXT_WINDOW_WIDGET, x, y, &buf_x, &buf_y);
@@ -936,7 +936,10 @@ void PrivateMessage::updateCursor(GtkWidget *widget)
 		if (newTag != NULL)
 		{
 			// Cursor is entering a tag.
-			selectedTagStr = newTag->name;
+//			selectedTagStr = newTag->name;
+			gchar *tmp;
+			g_object_get(G_OBJECT(newTag),"name",&tmp,NULL);
+			selectedTagStr = string(tmp);
 
 			if (find(TagsMap, TagsMap + Tag::TAG_URL, newTag) == TagsMap + Tag::TAG_URL)
 			{
@@ -1093,8 +1096,8 @@ gboolean PrivateMessage::onKeyPress_gui(GtkWidget *widget, GdkEventKey *event, g
 	size_t index;
 
 	if ( ( WGETB("key-hub-with-ctrl") &&
-		((event->keyval == GDK_Up) || (event->keyval == GDK_KP_Up)) && (event->state & GDK_CONTROL_MASK ) )
-		|| (!WGETB("key-hub-with-ctrl") && (event->keyval == GDK_Up || event->keyval == GDK_KP_Up)) )
+		((event->keyval == GDK_KEY_Up)) && (event->state & GDK_CONTROL_MASK ) )
+		|| (!WGETB("key-hub-with-ctrl") && (event->keyval == GDK_KEY_Up )) )
 	{
 		index = pm->historyIndex - 1;
 		if (index < pm->history.size())
@@ -1106,8 +1109,8 @@ gboolean PrivateMessage::onKeyPress_gui(GtkWidget *widget, GdkEventKey *event, g
 		return TRUE;
 	}
 	else if ((
-		WGETB("key-hub-with-ctrl") && ((event->keyval == GDK_Down || event->keyval == GDK_KP_Down) && (event->state & GDK_CONTROL_MASK ) ))
-		|| ( !WGETB("key-hub-with-ctrl") && (event->keyval == GDK_Down || event->keyval == GDK_KP_Down)))
+		WGETB("key-hub-with-ctrl") && ((event->keyval == GDK_KEY_Down ) && (event->state & GDK_CONTROL_MASK ) ))
+		|| ( !WGETB("key-hub-with-ctrl") && (event->keyval == GDK_KEY_Down)))
 	{
 		index = pm->historyIndex + 1;
 		if (index < pm->history.size())
@@ -1128,7 +1131,10 @@ gboolean PrivateMessage::onLinkTagEvent_gui(GtkTextTag *tag, GObject *textView, 
 
 	if (event->type == GDK_BUTTON_PRESS)
 	{
-		pm->selectedTagStr = tag->name;
+//		pm->selectedTagStr = tag->name;
+		gchar *tmp;
+		g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
+		pm->selectedTagStr = string(tmp);
 
 		switch (event->button.button)
 		{
@@ -1152,7 +1158,10 @@ gboolean PrivateMessage::onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, G
 
 	if (event->type == GDK_BUTTON_PRESS)
 	{
-		pm->selectedTagStr = tag->name;
+		//pm->selectedTagStr = tag->name;
+		gchar *tmp;
+		g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
+		pm->selectedTagStr = string(tmp);
 
 		switch (event->button.button)
 		{
@@ -1176,7 +1185,10 @@ gboolean PrivateMessage::onMagnetTagEvent_gui(GtkTextTag *tag, GObject *textView
 
 	if (event->type == GDK_BUTTON_PRESS)
 	{
-		pm->selectedTagStr = tag->name;
+//		pm->selectedTagStr = tag->name;
+		gchar *tmp;
+		g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
+		pm->selectedTagStr = string(tmp);
 
 		switch (event->button.button)
 		{
@@ -1255,7 +1267,7 @@ void PrivateMessage::onChatScroll_gui(GtkAdjustment *adjustment, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 	gdouble value = gtk_adjustment_get_value(adjustment);
-	pm->scrollToBottom = value >= (adjustment->upper - adjustment->page_size);
+    pm->scrollToBottom = value >= ( gtk_adjustment_get_upper(adjustment) - gtk_adjustment_get_page_size (adjustment));
 }
 
 void PrivateMessage::onChatResize_gui(GtkAdjustment *adjustment, gpointer data)
@@ -1263,7 +1275,7 @@ void PrivateMessage::onChatResize_gui(GtkAdjustment *adjustment, gpointer data)
 	PrivateMessage *pm = (PrivateMessage *)data;
 	gdouble value = gtk_adjustment_get_value(adjustment);
 
-	if (pm->scrollToBottom && value < (adjustment->upper - adjustment->page_size))
+    if (pm->scrollToBottom && value < (gtk_adjustment_get_upper(adjustment) - gtk_adjustment_get_page_size (adjustment)))
 	{
 		GtkTextIter iter;
 

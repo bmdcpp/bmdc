@@ -915,11 +915,11 @@ gboolean Search::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpoint
 
 		if (count > 0)
 		{
-			if (event->keyval == GDK_Return || event->keyval == GDK_KP_Enter)
+			if (event->keyval == GDK_KEY_Return)
 				s->onDownloadClicked_gui(NULL, data);
-			else if (event->keyval == GDK_Delete || event->keyval == GDK_BackSpace)
+			else if (event->keyval == GDK_KEY_Delete || event->keyval == GDK_KEY_BackSpace)
 				s->onRemoveClicked_gui(NULL, data);
-			else if (event->keyval == GDK_Menu || (event->keyval == GDK_F10 && event->state & GDK_SHIFT_MASK))
+			else if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 				s->popupMenu_gui();
 		}
 	}
@@ -2097,7 +2097,7 @@ void Search::columnHeader(int num, string name)
 {
 	GtkTreeViewColumn *col = gtk_tree_view_get_column (resultView.get(), num);
 	gtk_tree_view_column_set_clickable (col, TRUE);
-	g_object_set (col->button, "tooltip-text", name.c_str(), NULL);
+	g_object_set (col->button, "tooltip-text", name.c_str(), NULL);//TODO
 }
 
 void Search::set_Header_tooltip_gui()//How beter ?
@@ -2115,56 +2115,5 @@ void Search::set_Header_tooltip_gui()//How beter ?
 	columnHeader(10, "Country");
 	columnHeader(11, "IP");
 	columnHeader(12, "TTH");
-	/*GtkTreeViewColumn *column = gtk_tree_view_get_column (resultView.get(), 0);
-	gtk_tree_view_column_set_clickable (column, TRUE);
-	g_object_set (column->button, "tooltip-text", "Filename", NULL);
-
-	GtkTreeViewColumn *column1 = gtk_tree_view_get_column (resultView.get(), 1);
-	gtk_tree_view_column_set_clickable (column1, TRUE);
-	g_object_set (column1->button, "tooltip-text", "Nick", NULL);
-
-	GtkTreeViewColumn *column2 = gtk_tree_view_get_column (resultView.get(), 2);
-	gtk_tree_view_column_set_clickable (column2, TRUE);
-	g_object_set (column2->button, "tooltip-text", "Type", NULL);
-
-	GtkTreeViewColumn *column3 = gtk_tree_view_get_column (resultView.get(), 3);
-	gtk_tree_view_column_set_clickable (column3, TRUE);
-	g_object_set (column3->button, "tooltip-text", "Size", NULL);
-
-	GtkTreeViewColumn *column4 = gtk_tree_view_get_column (resultView.get(), 4);
-	gtk_tree_view_column_set_clickable (column4, TRUE);
-	g_object_set (column4->button, "tooltip-text", "Path", NULL);
-
-	GtkTreeViewColumn *column5 = gtk_tree_view_get_column (resultView.get(), 5);
-	gtk_tree_view_column_set_clickable (column5, TRUE);
-	g_object_set (column5->button, "tooltip-text", "Slots", NULL);
-
-	GtkTreeViewColumn *column6 = gtk_tree_view_get_column (resultView.get(), 6);
-	gtk_tree_view_column_set_clickable (column6, TRUE);
-	g_object_set (column6->button, "tooltip-text", "Connection", NULL);
-
-	GtkTreeViewColumn *column7 = gtk_tree_view_get_column (resultView.get(), 7);
-	gtk_tree_view_column_set_clickable (column7, TRUE);
-	g_object_set (column7->button, "tooltip-text", "Hub", NULL);
-
-	GtkTreeViewColumn *column8 = gtk_tree_view_get_column (resultView.get(), 8);
-	gtk_tree_view_column_set_clickable (column8, TRUE);
-	g_object_set (column8->button, "tooltip-text", "Filename", NULL);
-
-	GtkTreeViewColumn *column9 = gtk_tree_view_get_column (resultView.get(), 9);
-	gtk_tree_view_column_set_clickable (column9, TRUE);
-	g_object_set (column9->button, "tooltip-text", "Exact Size", NULL);
-
-	GtkTreeViewColumn *column10 = gtk_tree_view_get_column (resultView.get(), 10);
-	gtk_tree_view_column_set_clickable (column10, TRUE);
-	g_object_set (column10->button, "tooltip-text", "Country", NULL);
-
-	GtkTreeViewColumn *column11 = gtk_tree_view_get_column (resultView.get(), 11);
-	gtk_tree_view_column_set_clickable (column11, TRUE);
-	g_object_set (column11->button, "tooltip-text", "IP", NULL);
-
-	GtkTreeViewColumn *column12 = gtk_tree_view_get_column (resultView.get(), 12);
-	gtk_tree_view_column_set_clickable (column12, TRUE);
-	g_object_set (column12->button, "tooltip-text", "TTH", NULL);*/
 
 }

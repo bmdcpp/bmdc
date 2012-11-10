@@ -160,11 +160,11 @@ gboolean FavoriteUsers::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event,
 
 	if (gtk_tree_selection_count_selected_rows(fu->favoriteUserSelection) > 0)
 	{
-		if (event->keyval == GDK_Delete || event->keyval == GDK_BackSpace)
+		if (event->keyval == GDK_KEY_Delete || event->keyval == GDK_KEY_BackSpace)
 		{
 			fu->onRemoveItemClicked_gui(NULL, data);
 		}
-		else if (event->keyval == GDK_Menu || (event->keyval == GDK_F10 && event->state & GDK_SHIFT_MASK))
+		else if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
 			gtk_menu_popup(GTK_MENU(fu->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 		}
@@ -896,19 +896,34 @@ void FavoriteUsers::onIgnoreSetUserClicked_gui(GtkWidget *widget, gpointer data)
 
 void FavoriteUsers::setIgnore(const string cid, bool ignore)
 {
-	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
+	UserPtr uptr = ClientManager::getInstance()->findUser(CID(cid));
 
-	if (user)
+	if (uptr)
 	{
-		FavoriteManager::getInstance()->addFavoriteUser(user);
+		FavoriteManager::getInstance()->addFavoriteUser(uptr);
 		if(ignore)
-			FavoriteManager::getInstance()->setIgnore(user, true);
-		else 	FavoriteManager::getInstance()->setIgnore(user, false);
+			FavoriteManager::getInstance()->setIgnore(uptr, true);
+		else 	FavoriteManager::getInstance()->setIgnore(uptr, false);
 	
 
 		typedef Func1<FavoriteUsers, string> F1;
-		F1 *func = new F1(this, &FavoriteUsers::setStatus_gui, _("Ignored User ") + WulforUtil::getNicks(user, Util::emptyString));
+		F1 *func = new F1(this, &FavoriteUsers::setStatus_gui, _("Ignored User ") + WulforUtil::getNicks(uptr, Util::emptyString));
 		WulforManager::get()->dispatchGuiFunc(func);
+
+		auto user = FavoriteManager::getInstance()->getFavoriteUser(uptr);
+		ParamMap params;
+		string seen = (*user).getUser()->isOnline() ? _("Online") : Util::formatTime("%Y-%m-%d %H:%M", (*user).getLastSeen());
+		params.insert(ParamMap::value_type("Time", seen));
+		params.insert(ParamMap::value_type("CID", (*user).getUser()->getCID().toBase32()));
+		params.insert(ParamMap::value_type("Ignore", (*user).isSet(FavoriteUser::FLAG_IGNORE) ? _("Yes") : _("No")));
+		params.insert(ParamMap::value_type("ign", (*user).isSet(FavoriteUser::FLAG_IGNORE) ? "1" : "0"));
+
+		typedef Func1<FavoriteUsers, ParamMap> FX;
+		FX *funcs = new FX(this,&FavoriteUsers::updateFavoriteUser_gui,params);
+		WulforManager::get()->dispatchGuiFunc(funcs);
+
+		FavoriteManager::getInstance()->save();
+
 	}
 }
 

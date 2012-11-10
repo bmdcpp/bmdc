@@ -386,11 +386,11 @@ gboolean FinishedTransfers::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *ev
 
 	if (count > 0)
 	{
-		if (view == &ft->fileView && (event->keyval == GDK_Return || event->keyval == GDK_KP_Enter))
+		if (view == &ft->fileView && (event->keyval == GDK_KEY_Return))
 		{
 			onOpen_gui(NULL, data);
 		}
-		else if (event->keyval == GDK_Delete || event->keyval == GDK_BackSpace)
+		else if (event->keyval == GDK_KEY_Delete || event->keyval == GDK_KEY_BackSpace)
 		{
 			onRemoveItems_gui(NULL, data);
 		}

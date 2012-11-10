@@ -411,7 +411,7 @@ void TreeView::addColumn_gui(Column& column)
 	 * Breaks GTK+ API, but is the only way to attach a signal to a gtktreeview column header. See GTK bug #141937.
 	 * @todo: Replace when GTK adds a way to add a signal to the entire header (remove visibleColumns var, too).
 	 */
-	g_signal_connect(col->button, "button-release-event", G_CALLBACK(popupMenu_gui), (gpointer)this);
+	g_signal_connect(col->button, "button-release-event", G_CALLBACK(popupMenu_gui), (gpointer)this);//TODO
 }
 
 void TreeView::setSortColumn_gui(const string &column, const string &sortColumn)

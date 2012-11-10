@@ -234,12 +234,12 @@ gboolean PublicHubs::onKeyRelease_gui(GtkWidget *widget, GdkEventKey *event, gpo
 
 	if (gtk_tree_selection_get_selected(ph->hubSelection, NULL, NULL))
 	{
-		if (event->keyval == GDK_Menu || (event->keyval == GDK_F10 && event->state & GDK_SHIFT_MASK))
+		if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
 			gtk_menu_popup(GTK_MENU(ph->getWidget("menu")), NULL, NULL, NULL, NULL, 0, event->time);
 			gtk_widget_show_all(ph->getWidget("menu"));
 		}
-		else if (event->keyval == GDK_Return || event->keyval == GDK_KP_Enter)
+		else if (event->keyval == GDK_KEY_Return)
 		{
 			ph->onConnect_gui(NULL, data);
 		}

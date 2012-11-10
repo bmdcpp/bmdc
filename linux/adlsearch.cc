@@ -547,7 +547,7 @@ gboolean SearchADL::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpo
 
 	if (gtk_tree_selection_get_selected(s->searchADLSelection, NULL, NULL))
 	{
-		if (event->keyval == GDK_Delete || event->keyval == GDK_BackSpace)
+		if (event->keyval == GDK_KEY_Delete || event->keyval == GDK_KEY_BackSpace)
 		{
 			s->onRemoveClicked_gui(NULL, data);
 		}

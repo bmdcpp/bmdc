@@ -189,7 +189,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		print '\tpkg-config not found.'
 		Exit(1)
 
-	if not conf.CheckPKG('gtk+-2.0 >= 2.12'):
+	if not conf.CheckPKG('gtk+-2.0 >= 2.24'):
 		print '\tgtk+ >= 2.12 not found.'
 		print '\tNote: You might have the lib but not the headers'
 		Exit(1)

@@ -610,3 +610,5 @@ Fixed Encoding comboBoxes
 Few Fixed around GSEAL
 ----r169
 Fixed Fav Groups ComboBox
+----r170
+GDK_ => GDK_KEY for keys

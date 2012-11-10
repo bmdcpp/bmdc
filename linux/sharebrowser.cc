@@ -756,9 +756,9 @@ gboolean ShareBrowser::onFileKeyReleased_gui(GtkWidget *widget, GdkEventKey *eve
 	ShareBrowser *sb = (ShareBrowser *)data;
 	gint count = gtk_tree_selection_count_selected_rows(sb->fileSelection);
 
-	if (count > 0 && (event->keyval == GDK_Menu || (event->keyval == GDK_F10 && event->state & GDK_SHIFT_MASK)))
+	if (count > 0 && (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK)))
 		sb->popupFileMenu_gui();
-	else if (count == 1 && (event->keyval == GDK_Return || event->keyval == GDK_KP_Enter))
+	else if (count == 1 && (event->keyval == GDK_KEY_Return))
 		sb->fileViewSelected_gui();
 
 	return FALSE;
@@ -806,7 +806,7 @@ gboolean ShareBrowser::onDirKeyReleased_gui(GtkWidget *widget, GdkEventKey *even
 	if (!gtk_tree_selection_get_selected(sb->dirSelection, NULL, &iter))
 		return FALSE;
 
-	if (event->keyval == GDK_Return || event->keyval == GDK_KP_Enter)
+	if (event->keyval == GDK_KEY_Return)
 	{
 		GtkTreePath *path = gtk_tree_model_get_path(GTK_TREE_MODEL(sb->dirStore), &iter);
 		if (gtk_tree_view_row_expanded(sb->dirView.get(), path))
@@ -815,13 +815,12 @@ gboolean ShareBrowser::onDirKeyReleased_gui(GtkWidget *widget, GdkEventKey *even
 			gtk_tree_view_expand_row(sb->dirView.get(), path, FALSE);
 		gtk_tree_path_free(path);
 	}
-	else if (event->keyval == GDK_Up || event->keyval == GDK_KP_Up ||
-		event->keyval == GDK_Down || event->keyval == GDK_KP_Down)
+	else if (event->keyval == GDK_KEY_Up || event->keyval == GDK_KEY_Down)
 	{
 		ptr = sb->dirView.getValue<gpointer>(&iter, "DL Dir");
 		sb->updateFiles_gui((DirectoryListing::Directory *)ptr);
 	}
-	else if (event->keyval == GDK_Menu || (event->keyval == GDK_F10 && event->state & GDK_SHIFT_MASK))
+	else if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 	{
 		ptr = sb->dirView.getValue<gpointer>(&iter, "DL Dir");
 		sb->updateFiles_gui((DirectoryListing::Directory *)ptr);

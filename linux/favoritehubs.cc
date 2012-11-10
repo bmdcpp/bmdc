@@ -304,17 +304,17 @@ gboolean FavoriteHubs::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, 
 		gtk_widget_set_sensitive(fh->getWidget("buttonRemove"), TRUE);
 		gtk_widget_set_sensitive(fh->getWidget("buttonConnect"), TRUE);
 
-		if (event->keyval == GDK_Return || event->keyval == GDK_KP_Enter)
+		if (event->keyval == GDK_KEY_Return)
 		{
 			WulforManager::get()->getMainWindow()->showHub_gui(
 				fh->favoriteView.getString(&iter, _("Address")),
 				fh->favoriteView.getString(&iter, _("Encoding")));
 		}
-		else if (event->keyval == GDK_Delete || event->keyval == GDK_BackSpace)
+		else if (event->keyval == GDK_KEY_Delete || event->keyval == GDK_KEY_BackSpace)
 		{
 			fh->onRemoveEntry_gui(widget, data);
 		}
-		else if (event->keyval == GDK_Menu || (event->keyval == GDK_F10 && event->state & GDK_SHIFT_MASK))
+		else if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
 			fh->popupMenu_gui();
 		}
