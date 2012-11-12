@@ -23,8 +23,6 @@
 #define WULFOR_ENTRY_HH
 
 #include <gtk/gtk.h>
-#include <glade/glade.h>
-#include <gdk/gdkkeysyms.h>
 #include <glib/gi18n.h>
 #include <string>
 #include <map>
@@ -64,7 +62,7 @@ class Entry
 		} EntryType;
 
 		Entry() : xml(NULL), type((EntryType)0) {}
-		Entry(const EntryType type, const std::string &glade, const std::string &id = "");
+		Entry(const EntryType type, const std::string &ui, const std::string &id = "");
 		virtual ~Entry();
 
 		const EntryType getType();
@@ -84,7 +82,7 @@ class Entry
 		void removeChildren();
 
 	private:
-		GladeXML *xml;
+		GtkBuilder *xml;
 		const EntryType type;
 		std::string id;
 		std::map<std::string, Entry *> children;

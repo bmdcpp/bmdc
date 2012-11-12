@@ -612,3 +612,5 @@ Few Fixed around GSEAL
 Fixed Fav Groups ComboBox
 ----r170
 GDK_ => GDK_KEY for keys
+----r171
+Full Switch to GTK3

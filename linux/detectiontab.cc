@@ -391,8 +391,7 @@ gboolean DetectionTab::onActKeyReleased_gui(GtkWidget *widget, GdkEventKey *even
 
 	if (gtk_tree_selection_get_selected(dt->actionSelection, NULL, &iter))
 	{
-		if (event->keyval == GDK_Up || event->keyval == GDK_KP_Up ||
-			event->keyval == GDK_Down || event->keyval == GDK_KP_Down)
+		if (event->keyval == GDK_KEY_Up || 	event->keyval == GDK_KEY_Down )
 		{
 			dt->updateRawView_gui();
 		}

@@ -517,7 +517,7 @@ void Hub::columnHeader(int num, string name)
 {
 	GtkTreeViewColumn *col = gtk_tree_view_get_column (nickView.get(), num);
 	gtk_tree_view_column_set_clickable (col, TRUE);
-	g_object_set ( col->button, "tooltip-text", name.c_str(), NULL);//TODO
+	g_object_set (  /*col->button*/ gtk_tree_view_column_get_button(col)  , "tooltip-text", name.c_str(), NULL);//TODO
 }
 
 
@@ -1324,17 +1324,16 @@ void Hub::applyTags_gui(const string &cid, const string &line)
             {
                 GdkPixbuf *buffer = WulforUtil::LoadCountryPixbuf(country_text);
                 if(buffer != NULL)
-				{
+			{
 				gtk_text_buffer_delete(chatBuffer, &tag_start_iter, &tag_end_iter);
                 GtkTextChildAnchor *anchor = gtk_text_buffer_create_child_anchor(chatBuffer, &tag_start_iter);
                 GtkWidget *event_box = gtk_event_box_new();
-                // Creating a visible window may cause artifacts that are visible to the user.
+//                 Creating a visible window may cause artifacts that are visible to the user.
                 gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
                 GtkWidget *image = gtk_image_new_from_pixbuf(buffer);
                 gtk_container_add(GTK_CONTAINER(event_box),image);
                 gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW(getWidget("chatText")), event_box, anchor);
-                g_signal_connect(G_OBJECT(image), "expose-event", G_CALLBACK(expose), NULL);
-
+                g_signal_connect(G_OBJECT(image), "draw", G_CALLBACK(expose), NULL);
                 gtk_widget_show_all(event_box);
                 #if GTK_CHECK_VERSION(2, 12, 0)
                     gtk_widget_set_tooltip_text(event_box, country_text.c_str());
@@ -1368,7 +1367,7 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 				gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW(getWidget("chatText")), event_box, anchor);
 				g_object_set_data_full(G_OBJECT(event_box), "magnet", g_strdup(image_magnet.c_str()), g_free);
 				g_object_set_data_full(G_OBJECT(event_box), "cid", g_strdup(cid.c_str()), g_free);
-				g_signal_connect(G_OBJECT(image), "expose-event", G_CALLBACK(expose), NULL);
+				g_signal_connect(G_OBJECT(image), "draw", G_CALLBACK(expose), NULL);
 				g_signal_connect(G_OBJECT(event_box), "event", G_CALLBACK(onImageEvent_gui), (gpointer)this);
 				gtk_widget_show_all(event_box);
 				imageList.insert(ImageList::value_type(image, tth));
@@ -2996,7 +2995,7 @@ void Hub::onUserListToggled_gui(GtkWidget *widget, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
-	if (gtk_widget_is_sensitive(hub->getWidget("scrolledwindow2"))) {
+	if (gtk_widget_get_visible(hub->getWidget("scrolledwindow2"))) {
 		gtk_widget_hide(hub->getWidget("scrolledwindow2"));
 	} else {
 		gtk_widget_show_all(hub->getWidget("scrolledwindow2"));
@@ -4168,9 +4167,9 @@ void Hub::openImage_gui(string target)
 	WulforUtil::openURI(target);
 }
 
-gboolean Hub::expose(GtkWidget *widget, GdkEventExpose *event, gpointer data)
+gboolean Hub::expose(GtkWidget *widget, cairo_t *event, gpointer data)
 {
-	GTK_WIDGET_CLASS(GTK_WIDGET_GET_CLASS(widget))->expose_event(widget, event);
+	GTK_WIDGET_CLASS(GTK_WIDGET_GET_CLASS(widget))->draw(widget, event);
 	return true;
 }
 

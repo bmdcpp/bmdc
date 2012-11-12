@@ -3,7 +3,7 @@ Section: net
 Version: 0.0.2-162
 Priority: optional
 Maintainer: Mank <freedcpp@seznam.cz>
-Build-Depends: debhelper (>= 4.2.0), scons, libbz2-dev, zlib1g-dev, libgtk2.0-dev, libglade2-dev, libssl-dev, libboost-regex1.48-dev, libboost-thread1.48-dev, libboost-system1.48-dev, libnotify-dev, libgnome2-dev, libgeoip-dev,  libtar-dev
+Build-Depends: debhelper (>= 4.2.0), scons, libbz2-dev, zlib1g-dev, libgtk-3-dev, libssl-dev, libboost-regex1.48-dev, libboost-thread1.48-dev, libboost-system1.48-dev, libnotify-dev, libgnome2-dev, libgeoip-dev,  libtar-dev
 
 Package: bmdc
 Architecture: any

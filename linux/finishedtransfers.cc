@@ -394,7 +394,7 @@ gboolean FinishedTransfers::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *ev
 		{
 			onRemoveItems_gui(NULL, data);
 		}
-		else if (event->keyval == GDK_Menu || (event->keyval == GDK_F10 && event->state & GDK_SHIFT_MASK))
+		else if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
 			ft->appsPreviewMenu->cleanMenu_gui();
 

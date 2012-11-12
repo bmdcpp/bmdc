@@ -51,7 +51,7 @@ Transfers::Transfers() :
 	g_object_ref_sink(getWidget("transferMenu"));
 
 	// Initialize the user command menu
-	userCommandMenu = new UserCommandMenu(getWidget("userCommandMenu"), ::UserCommand::CONTEXT_USER);//NOTE: core 0.762
+	userCommandMenu = new UserCommandMenu(getWidget("userCommandMenu"), ::UserCommand::CONTEXT_USER);
 	addChild(userCommandMenu);
 
 	// Initialize the preview menu

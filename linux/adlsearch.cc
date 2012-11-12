@@ -551,7 +551,7 @@ gboolean SearchADL::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpo
 		{
 			s->onRemoveClicked_gui(NULL, data);
 		}
-		else if (event->keyval == GDK_Menu || (event->keyval == GDK_F10 && event->state & GDK_SHIFT_MASK))
+		else if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
 			gtk_menu_popup(GTK_MENU(s->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 		}

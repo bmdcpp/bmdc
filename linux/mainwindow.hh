@@ -125,6 +125,7 @@ class MainWindow:
 			LIMITING,
 			END
 		} IconsToolbar;
+
 		static void* icons[(MainWindow::IconsToolbar)END][4];
 
 		void setStatusOfIcons(IconsToolbar type, bool isClicked)

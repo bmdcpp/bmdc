@@ -607,11 +607,11 @@ gboolean DownloadQueue::onFileKeyReleased_gui(GtkWidget *widget, GdkEventKey *ev
 
 	if (count > 0)
 	{
-		if (event->keyval == GDK_Delete || event->keyval == GDK_BackSpace)
+		if (event->keyval == GDK_KEY_Delete || event->keyval == GDK_KEY_BackSpace)
 		{
 			dq->onFileRemoveClicked_gui(NULL, data);
 		}
-		else if (event->keyval == GDK_Menu || (event->keyval == GDK_F10 && event->state & GDK_SHIFT_MASK))
+		else if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
 			dq->buildDynamicMenu_gui();
 			gtk_menu_popup(GTK_MENU(dq->getWidget("fileMenu")), NULL, NULL,

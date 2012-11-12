@@ -936,7 +936,7 @@ gboolean Search::onSearchEntryKeyPressed_gui(GtkWidget *widget, GdkEventKey *eve
 {
 	Search *s = (Search *)data;
 
-	if (event->keyval == GDK_Return || event->keyval == GDK_KP_Enter)
+	if (event->keyval == GDK_KEY_Return)
 	{
 		s->search_gui();
 	}
@@ -2097,7 +2097,7 @@ void Search::columnHeader(int num, string name)
 {
 	GtkTreeViewColumn *col = gtk_tree_view_get_column (resultView.get(), num);
 	gtk_tree_view_column_set_clickable (col, TRUE);
-	g_object_set (col->button, "tooltip-text", name.c_str(), NULL);//TODO
+	g_object_set (/*col->button*/gtk_tree_view_column_get_button(col), "tooltip-text", name.c_str(), NULL);//TODO
 }
 
 void Search::set_Header_tooltip_gui()//How beter ?

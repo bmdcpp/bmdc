@@ -27,28 +27,34 @@
 
 using namespace std;
 
-Entry::Entry(const EntryType type, const string &glade, const string &id):
+Entry::Entry(const EntryType type, const string &ui, const string &id):
 	xml(NULL),
 	type(type),
 	id(dcpp::Util::toString(type) + ":" + id)
 {
-	// Load the Glade XML file, if applicable
-	if (!glade.empty())
+	dcdebug("%s",ui.c_str());
+	if(!ui.empty()) {
+
+	// Load the Builder XML file, if applicable
+	string file = WulforManager::get()->getPath() + "/ui/" + ui + ".ui";
+	GError *error = NULL;
+	xml = gtk_builder_new();
+	gtk_builder_add_from_file(xml, file.c_str(), &error);
+	if(error != NULL)
 	{
-		string file = WulforManager::get()->getPath() + "/glade/" + glade;
-		xml = glade_xml_new(file.c_str(), NULL, NULL);
-		if (xml == NULL)
-			gtk_main_quit();
+			g_print("[GTKBUILDER] ERROR file => %s ,\n => %s", file.c_str(), error->message);
+						
 	}
+  }
 }
 
 Entry::~Entry()
 {
-	if (xml)
-	{
-		g_object_unref(xml);
-		xml = NULL;
-	}
+//	if (xml)
+//	{
+//		g_object_unref(xml);
+//		xml = NULL;
+//	}
 }
 
 const Entry::EntryType Entry::getType()
@@ -78,16 +84,16 @@ string Entry::generateID()
 GtkWidget *Entry::getWidget(const string &name)
 {
 	dcassert(xml && !name.empty());
-	GtkWidget *widget = glade_xml_get_widget(xml, name.c_str());
+	GtkWidget *widget = GTK_WIDGET(gtk_builder_get_object(xml,name.c_str()));
 	dcassert(widget);
 	return widget;
 }
 
 GtkWidget *Entry::getWidget(string* name)
 {
-    dcassert(xml && !name->empty());
-    GtkWidget *widget = glade_xml_get_widget(xml , g_strdup(name->c_str()));
-    dcassert(widget);
+	dcassert(xml && !name->empty());
+	GtkWidget *widget = GTK_WIDGET(gtk_builder_get_object(xml,g_strdup(name->c_str())));
+	dcassert(widget);
     return widget;
 }
 

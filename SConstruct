@@ -105,7 +105,7 @@ vars.AddVariables(
 	BoolVariable('release', 'Compile the program with optimizations', 0),
 	BoolVariable('profile', 'Compile the program with profiling information', 0),
 	BoolVariable('libnotify', 'Enable notifications through libnotify', 1),
-	BoolVariable('libgnome', 'Enable Gnome Libs', 1),
+#	BoolVariable('libgnome', 'Enable Gnome Libs', 1),
 	BoolVariable("libtar", 'Enable Backuping&Exporting with libtar', 1),
 	PathVariable('PREFIX', 'Compile the program with PREFIX as the root for installation', '/usr/local', PathVariable.PathIsDir),
 	('FAKE_ROOT', 'Make scons install the program under a fake root', '')
@@ -189,20 +189,20 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		print '\tpkg-config not found.'
 		Exit(1)
 
-	if not conf.CheckPKG('gtk+-2.0 >= 2.24'):
+	if not conf.CheckPKG('gtk+-3.0 >= 3.00'):
 		print '\tgtk+ >= 2.12 not found.'
 		print '\tNote: You might have the lib but not the headers'
 		Exit(1)
 
-	if not conf.CheckPKG('gthread-2.0 >= 2.4'):
-		print '\tgthread >= 2.4 not found.'
-		print '\tNote: You might have the lib but not the headers'
-		Exit(1)
+#	if not conf.CheckPKG('gthread-2.0 >= 2.4'):
+#		print '\tgthread >= 2.4 not found.'
+#		print '\tNote: You might have the lib but not the headers'
+#		Exit(1)
 
-	if not conf.CheckPKG('libglade-2.0 >= 2.4'):
-		print '\tlibglade-2.0 >= 2.4 not found.'
-		print '\tNote: You might have the lib but not the headers'
-		Exit(1)
+#	if not conf.CheckPKG('libglade-2.0 >= 2.4'):
+#		print '\tlibglade-2.0 >= 2.4 not found.'
+#		print '\tNote: You might have the lib but not the headers'
+#		Exit(1)
 
 
 	if not conf.CheckCXXHeader('boost/version.hpp', '<>'):
@@ -270,13 +270,22 @@ if not 'install' in COMMAND_LINE_TARGETS:
 					conf.env.Append(CPPDEFINES = 'HAVE_LIBNOTIFY_0_7')
 
 	#GNOME LIBs (use to Sounds)
-	if conf.env.get('libgnome'):
-		conf.env['HAVE_GNOME_LIB'] = 0
-		if not conf.CheckPKG('libgnome-2.0 >= 2.0'):
-			print '\tlibgnome >= 2.0 not found.'
-			print '\tNote: You might have the lib but not the headers'
-		else:
-			conf.env['HAVE_GNOME_LIB'] = 1
+#	if conf.env.get('libgnome'):
+#		conf.env['HAVE_GNOME_LIB'] = 0
+#		if not conf.CheckPKG('libgnome-2.0 >= 2.0'):
+#			print '\tlibgnome >= 2.0 not found.'
+#			print '\tNote: You might have the lib but not the headers'
+#		else:
+#			conf.env['HAVE_GNOME_LIB'] = 1
+	#Sounds
+	conf.env['HAVE_CANBERRA_LIB'] = 0
+	if not conf.CheckPKG('libcanberra'):
+		print '\tlibcanberra not found.'
+		print '\tNote: You might have the lib but not the headers'
+		Exit(1)
+	else:
+		conf.env['HAVE_CANBERRA_LIB'] = 1	
+
 
 	# MiniUPnPc for UPnP
 	if not conf.CheckLib('libminiupnpc'):
@@ -324,8 +333,9 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	env.Append(CPPPATH = '#/miniupnp')
 	env.Append(LIBS = 'miniupnpc')
 
-	env.ParseConfig('pkg-config --libs libglade-2.0')
-	env.ParseConfig('pkg-config --libs gthread-2.0')
+#	env.ParseConfig('pkg-config --libs libglade-2.0')
+#	env.ParseConfig('pkg-config --libs gthread-2.0')
+	env.ParseConfig('pkg-config --libs gtk+-3.0')
 
 	env.Append(LIBPATH = env['build_path'] + CORE_PACKAGE)
 	env.Prepend(LIBS = 'dcpp')
@@ -349,11 +359,11 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		env.Append(LIBS = 'tar')
 
 	#gnome libs
-	if conf.env.get('libgnome'):
-		if env['HAVE_GNOME_LIB'] == 1:
-			env.ParseConfig('pkg-config --cflags libgnome-2.0')
-			env.ParseConfig('pkg-config --libs libgnome-2.0')
-			conf.env.Append(CPPDEFINES = '-D_HAVEGNOME')
+#	if conf.env.get('libgnome'):
+#		if env['HAVE_GNOME_LIB'] == 1:
+#			env.ParseConfig('pkg-config --cflags libgnome-2.0')
+#			env.ParseConfig('pkg-config --libs libgnome-2.0')
+#			conf.env.Append(CPPDEFINES = '-D_HAVEGNOME')
 
 	if env.get('profile'):
 		env.Append(CXXFLAGS = '-pg')
@@ -389,7 +399,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 
 	# Build the GUI
 	ui_env = env.Clone()
-	glade_pot_file = SConscript(dirs = 'glade', variant_dir = env['build_path'] + 'glade', duplicate = 0, exports = {'env': ui_env})
+	glade_pot_file = SConscript(dirs = 'ui', variant_dir = env['build_path'] + 'ui', duplicate = 0, exports = {'env': ui_env})
 
 	(linux_pot_file, obj_files) = SConscript(dirs = 'linux', variant_dir = env['build_path'] + 'gui', duplicate = 0, exports = {'env': ui_env})
 
@@ -417,12 +427,11 @@ if not 'install' in COMMAND_LINE_TARGETS:
 
 else:
 
-	glade_files = env.Glob('glade/*.glade')
+	glade_files = env.Glob('ui/*.ui')
 	text_files = env.Glob('*.txt')
 	prefix = env['FAKE_ROOT'] + env['PREFIX']
 	extfil = env.Glob('extensions/Scripts/*.sh')
 	pythfil = env.Glob('extensions/Scripts/*.py')
-	scriptsluafil = env.Glob('scripts/*.lua')
 	country = env.Glob('country/*.png')
 	desktop_file = os.path.join('data', PACKAGE + '.desktop')
 	app_icon_filter = lambda icon: os.path.splitext(icon)[0] == PACKAGE
@@ -433,7 +442,7 @@ else:
 	env.RecursiveInstall(BUILD_LOCALE_PATH, os.path.join(prefix, 'share', 'locale'))
 	env.RecursiveInstall('emoticons', os.path.join(prefix, 'share', PACKAGE))
 
-	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'glade'), source = glade_files))
+	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'ui'), source = glade_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', 'doc', PACKAGE), source = text_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', 'applications'), source = desktop_file))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'extensions/Scripts'), source = extfil))

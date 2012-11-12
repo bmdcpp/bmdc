@@ -18,8 +18,11 @@
  * In addition, as a special exception, compiling, linking, and/or
  * using OpenSSL with this program is allowed.
  */
-#ifdef _HAVEGNOME
-	#include <libgnome/gnome-sound.h>
+//#ifdef _HAVEGNOME
+//	#include <libgnome/gnome-sound.h>
+//#endif
+#ifdef _HAVECANBERRA
+	#include <canberra-gtk.h> 
 #endif
 #include "settingsmanager.hh"
 #include <dcpp/Text.h>
@@ -51,9 +54,13 @@ Sound* Sound::get()
 
 void Sound::sound_init() const
 {
-	#ifdef _HAVEGNOME
-	gnome_sound_init(NULL);
-	dcdebug("Sound::sound_init: Esound connection %d...\n", gnome_sound_connection_get());
+//	#ifdef _HAVEGNOME
+//	gnome_sound_init(NULL);
+//	dcdebug("Sound::sound_init: Esound connection %d...\n", gnome_sound_connection_get());
+//	#endif
+	#ifdef _HAVECANBERRA
+	int res = ca_context_create(&context); 
+	dcdebug("Sound::sound_init: connection %d...\n", res);
 	#endif
 }
 
@@ -124,8 +131,10 @@ void Sound::playSound(TypeSound sound)
 
 void Sound::playSound(const string &target)
 {
-	#ifdef _HAVEGNOME
-		gnome_sound_play(Text::fromUtf8(target).c_str());
+//	#ifdef _HAVEGNOME
+//		gnome_sound_play(Text::fromUtf8(target).c_str());
+	#ifdef _HAVECANBERRA
+		ca_context_play(context, 1,CA_PROP_MEDIA_FILENAME, target.c_str(), NULL);
 	#else
 		FILE *pipe = popen((WulforSettingsManager::getInstance()->getString("sound-command") + " \"" +target+"\" &" ).c_str(), "w" );
 		pclose(pipe);
@@ -134,7 +143,10 @@ void Sound::playSound(const string &target)
 
 void Sound::sound_finalize() const
 {
-	#ifdef _HAVEGNOME
-		gnome_sound_shutdown();
+//	#ifdef _HAVEGNOME
+//		gnome_sound_shutdown();
+//	#endif
+	#ifdef _HAVECANBERRA
+		ca_context_destroy(context);
 	#endif
 }

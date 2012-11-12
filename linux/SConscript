@@ -10,12 +10,13 @@ gui_files = env.Glob('*.cc')
 #gui_files.remove(File(VERSION_SOURCE))
 obj_files = []
 
-env.ParseConfig('pkg-config --cflags libglade-2.0')
+env.ParseConfig('pkg-config --cflags --libs gtk+-3.0')
+#env.ParseConfig('pkg-config --cflags libglade-2.0')
 env.Append(CPPDEFINES='PACKAGE=\'\"%s\"\'' % env['package'])
 
-if env.get('libgnome'):
-	if env['HAVE_GNOME_LIB'] == 0:
-		env.ParseConfig('pkg-config --cflags libgnome-2.0')
+#if env.get('libgnome'):
+#	if env['HAVE_GNOME_LIB'] == 0:
+#		env.ParseConfig('pkg-config --cflags libgnome-2.0')
 
 # Build the gui_files
 obj_files = env.Object(gui_files)

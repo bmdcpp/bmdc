@@ -89,7 +89,7 @@ class PrivateMessage:
 		static void onCopyCID(gpointer data);
 		static void onAddFavItem(gpointer data);
 		static void onCopyNicks(gpointer data);
-		static gboolean expose(GtkWidget *widget, GdkEventExpose *event, gpointer data);
+		static gboolean expose(GtkWidget *widget, cairo_t *event, gpointer data);
 
 		// Client functions
 		void sendMessage_client(std::string message);

@@ -920,7 +920,7 @@ void Settings::onToggleAutoDetection(GtkWidget *widget, gpointer data)
 	SettingsManager::getInstance()->set(SettingsManager::AUTO_DETECT_CONNECTION, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)) );
 	ConnectivityManager::getInstance()->fire(ConnectivityManagerListener::SettingChanged());
 
-	gtk_widget_set_sensitive(s->getWidget("table19"),!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
+	gtk_widget_set_sensitive(s->getWidget("tabledad19"),!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
 }
 
 void Settings::initDownloads_gui()
@@ -2171,7 +2171,7 @@ void Settings::onSTKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpoint
 {
 	Settings *s = (Settings *)data;
 
-	if (event->keyval == GDK_Up || event->keyval == GDK_Down)
+	if (event->keyval == GDK_KEY_Up || event->keyval == GDK_KEY_Down)
 	{
 		GtkTreeIter iter;
 		GtkTreeSelection *selection = gtk_tree_view_get_selection(s->searchTypeView.get());
@@ -2718,7 +2718,7 @@ void Settings::onNotifyKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gp
 {
 	Settings *s = (Settings *)data;
 
-	if (event->keyval == GDK_Up || event->keyval == GDK_Down)
+	if (event->keyval == GDK_KEY_Up || event->keyval == GDK_KEY_Down)
 	{
 		GtkTreeIter iter;
 		GtkTreeSelection *selection = gtk_tree_view_get_selection(s->notifyView.get());
@@ -3331,7 +3331,7 @@ void Settings::onPreviewKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, g
 {
 	Settings *s = (Settings *)data;
 
-	if (event->keyval == GDK_Up || event->keyval == GDK_Down)
+	if (event->keyval == GDK_KEY_Up || event->keyval == GDK_KEY_Down)
 	{
 		GtkTreeIter iter;
 		GtkTreeSelection *selection = gtk_tree_view_get_selection(s->previewAppView.get());

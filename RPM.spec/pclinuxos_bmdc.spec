@@ -7,18 +7,18 @@ Group: Applications/Internet
 Source: http://launchpad.net/bmdc++/%{name}%{version}.tar.gz
 Buildroot: %{_tmppath}/%{name}-%{version}-buildroot
 BuildRequires:	glib2-devel >= 2.4
-BuildRequires:	gtk+2-devel >= 2.6
-BuildRequires:	libglade2.0-devel >= 2.4
+BuildRequires:	gtk+3-devel >= 3.0
+#BuildRequires:	libglade2.0-devel >= 2.4
 BuildRequires:	bzip2-devel
 BuildRequires:	zlib-devel
-BuildRequires:  libgeoip-devel
+BuildRequires:	libgeoip-devel
 BuildRequires:	openssl-devel
 BuildRequires:	scons
-BuildRequires:  libtar-devel
+BuildRequires:	libtar-devel
 
 %description
 A BMDC++ Client Mod of FreeDC++.
-Media Spam, Lua, Higlitings Words
+Media Spam, Higlitings Words & Fe Others
 
 %prep
 %setup

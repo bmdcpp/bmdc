@@ -58,7 +58,7 @@ DCLogPtr logging;
 
 DCHubPtr hub;
 DCUtilsPtr utils = NULL;
-DCUIPtr ui;
+//DCUIPtr ui;
 
 GDBusProxy *proxy = NULL;
 

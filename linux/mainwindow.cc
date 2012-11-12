@@ -2010,7 +2010,7 @@ gboolean MainWindow::onKeyPressed_gui(GtkWidget *widget, GdkEventKey *event, gpo
 
 	if (event->state & GDK_CONTROL_MASK)
 	{
-		if (event->state & GDK_SHIFT_MASK && event->keyval == GDK_ISO_Left_Tab)
+		if (event->state & GDK_SHIFT_MASK && event->keyval == GDK_KEY_Tab)
 		{
 			mw->previousTab_gui();
 			return TRUE;

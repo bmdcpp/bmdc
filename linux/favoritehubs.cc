@@ -1108,7 +1108,7 @@ gboolean FavoriteHubs::onGroupsKeyReleased_gui(GtkWidget *widget, GdkEventKey *e
 
 	if (gtk_tree_selection_get_selected(fh->groupsSelection, NULL, &iter))
 	{
-		if (event->keyval == GDK_Up || event->keyval == GDK_Down)
+		if (event->keyval == GDK_KEY_Up || event->keyval == GDK_KEY_Down)
 		{
 			string group = fh->groupsView.getString(&iter, _("Group name"));
 			gboolean con = fh->groupsView.getValue<gboolean>(&iter, "Connect hub");
@@ -1132,7 +1132,7 @@ gboolean FavoriteHubs::onGroupsKeyReleased_gui(GtkWidget *widget, GdkEventKey *e
 
 			gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryAwayGroup")),away.c_str());
 		}
-		else if (event->keyval == GDK_Delete || event->keyval == GDK_BackSpace)
+		else if (event->keyval == GDK_KEY_Delete || event->keyval == GDK_KEY_BackSpace)
 		{
 			fh->onRemoveGroupClicked_gui(NULL, data);
 		}

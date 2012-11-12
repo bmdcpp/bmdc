@@ -221,7 +221,7 @@ gboolean AboutConfig::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, g
 
 	if (gtk_tree_selection_get_selected(s->aboutSelection, NULL, NULL))
 	{
-		if (event->keyval == GDK_Menu || (event->keyval == GDK_F10 && event->state & GDK_SHIFT_MASK))
+		if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
 			gtk_menu_popup(GTK_MENU(s->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 		}
