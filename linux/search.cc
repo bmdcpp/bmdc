@@ -90,10 +90,6 @@ Search::Search(const string& str):
 	hubStore = gtk_list_store_newv(hubView.getColCount(), hubView.getGTypes());
 	gtk_tree_view_set_model(hubView.get(), GTK_TREE_MODEL(hubStore));
 	g_object_unref(hubStore);
-	/*GtkTreeViewColumn *col = gtk_tree_view_get_column(hubView.get(), hubView.col("Search"));
-	GList *list = gtk_tree_view_column_get_cell_renderers(col);
-	GtkCellRenderer *renderer = (GtkCellRenderer *)g_list_nth_data(list, 0);
-	g_list_free(list);*/
 
 	// Initialize search result treeview
 	resultView.setView(GTK_TREE_VIEW(getWidget("treeviewResult")), TRUE, "search");

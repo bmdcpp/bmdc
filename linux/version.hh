@@ -20,5 +20,5 @@
  */
 
 #define GUI_PACKAGE "BMDC++"
-#define GUI_VERSION_STRING "0.0.2"
+#define GUI_VERSION_STRING "0.0.3"
 

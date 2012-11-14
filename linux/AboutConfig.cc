@@ -291,7 +291,6 @@ void AboutConfig::onSetDefault(GtkWidget *widget, gpointer data)
 	if (gtk_tree_selection_get_selected(s->aboutSelection, NULL, &iter))
 	{
 		string i = s->aboutView.getString(&iter,_("Name"));
-		string value = Util::emptyString;
 		bool isWsm = s->aboutView.getString(&iter, "WS") == "1" ? TRUE : FALSE;
 		
 		if(isWsm)

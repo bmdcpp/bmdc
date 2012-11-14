@@ -33,7 +33,7 @@ class DialogEntry : public Entry
 
 		GtkWidget *getContainer();
 		gint run();
-		gint getResponseID();
+		gint getResponseID() const;
 
 	private:
 		GtkWindow* parent;

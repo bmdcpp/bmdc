@@ -187,7 +187,7 @@ PrivateMessage::~PrivateMessage()
 
 	if (handCursor)
 	{
-		gdk_cursor_unref(handCursor);
+		g_object_unref(handCursor);
 		handCursor = NULL;
 	}
 
@@ -936,7 +936,6 @@ void PrivateMessage::updateCursor(GtkWidget *widget)
 		if (newTag != NULL)
 		{
 			// Cursor is entering a tag.
-//			selectedTagStr = newTag->name;
 			gchar *tmp;
 			g_object_get(G_OBJECT(newTag),"name",&tmp,NULL);
 			selectedTagStr = string(tmp);
@@ -1131,7 +1130,6 @@ gboolean PrivateMessage::onLinkTagEvent_gui(GtkTextTag *tag, GObject *textView, 
 
 	if (event->type == GDK_BUTTON_PRESS)
 	{
-//		pm->selectedTagStr = tag->name;
 		gchar *tmp;
 		g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
 		pm->selectedTagStr = string(tmp);
@@ -1158,7 +1156,6 @@ gboolean PrivateMessage::onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, G
 
 	if (event->type == GDK_BUTTON_PRESS)
 	{
-		//pm->selectedTagStr = tag->name;
 		gchar *tmp;
 		g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
 		pm->selectedTagStr = string(tmp);
@@ -1185,7 +1182,6 @@ gboolean PrivateMessage::onMagnetTagEvent_gui(GtkTextTag *tag, GObject *textView
 
 	if (event->type == GDK_BUTTON_PRESS)
 	{
-//		pm->selectedTagStr = tag->name;
 		gchar *tmp;
 		g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
 		pm->selectedTagStr = string(tmp);

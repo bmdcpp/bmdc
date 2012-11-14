@@ -33,8 +33,6 @@ ShellCommand::ShellCommand(char* input, int len, int shell): output(dcpp::Util::
 	strcpy(errormessage,"");
 	error = 0;
 	char command[strlen(input)+11];//declaration for the final command that will be executed
-	//for(unsigned int i=0;i>strlen(input)+11;++i)
-	//		command[i] = ' ';
 	memset(input,0,strlen(input)+11);
 
 	if (shell == 0)
@@ -62,7 +60,7 @@ ShellCommand::ShellCommand(char* input, int len, int shell): output(dcpp::Util::
 				//{
 					char com[strlen(command)+29];
 					strcpy(com,("chmod +x "+ WulforManager::get()->getPath() + "/extensions/Scripts/").c_str());
-					strcpy(com,"chmod +x extensions/Scripts/");
+//					strcpy(com,"chmod +x extensions/Scripts/");
 					strcat(com,input);
 					if (system(com)==0)
 					{

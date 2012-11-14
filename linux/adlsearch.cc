@@ -277,9 +277,9 @@ bool SearchADL::showPropertiesDialog_gui(ADLSearch &search, bool edit, SearchADL
 	if (edit && !gtk_tree_selection_get_selected(s->searchADLSelection, NULL, &iter))
 		return false;
 
-	string searchString, sourceTypeString, destDir;
+	string searchString, /*sourceTypeString,*/ destDir;
 	gboolean enabledCheck, matchesCheck;
-	string isForbid,commentStr,kickStr;
+	string isForbid, commentStr, kickStr;
 	gint sizeType, sourceType;
 	gdouble minSize, maxSize;
 	int raw,point;

@@ -50,11 +50,7 @@ Entry::Entry(const EntryType type, const string &ui, const string &id):
 
 Entry::~Entry()
 {
-//	if (xml)
-//	{
-//		g_object_unref(xml);
-//		xml = NULL;
-//	}
+
 }
 
 const Entry::EntryType Entry::getType()

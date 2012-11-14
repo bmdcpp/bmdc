@@ -58,7 +58,8 @@ class Entry
 			DETECTION,
 			ABOUT_CONFIG,
 			EXPORT_DIALOG,
-			SEARCHS
+			SEARCHS,
+			FAV_HUB
 		} EntryType;
 
 		Entry() : xml(NULL), type((EntryType)0) {}

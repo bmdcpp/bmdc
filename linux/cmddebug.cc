@@ -92,7 +92,7 @@ cmddebug::~cmddebug()
 void cmddebug::add_gui(time_t t, string file)
 {
     string line;
-    line = "";
+   // line = "";
 
     gtk_text_buffer_get_end_iter(buffer, &iter);
 
@@ -207,7 +207,7 @@ Bool cmddebug::onHubDataIn(HubDataPtr iHub, const char* message, dcptr_t pCommon
 		gtk_tree_model_get( model, &piter, 0, &fUrl, -1 );
 	}	
 	
-	string url = iHub->url;
+//	string url = iHub->url;
 	string ipPort = (string)iHub->ip + ":" + Util::toString(iHub->port);
 	string msg = message;	
 	
@@ -234,7 +234,7 @@ Bool cmddebug::onHubDataOut(HubDataPtr oHub, const char* message, dcptr_t pCommo
 		gtk_tree_model_get( model, &piter, 0, &fUrl, -1 );
 	}	
 	
-	string url = oHub->url;
+//	string url = oHub->url;
 	string ipPort = (string)oHub->ip + ":" + Util::toString(oHub->port);
 	string msg = message;	
 	

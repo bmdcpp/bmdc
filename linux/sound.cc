@@ -1,5 +1,6 @@
 /*
  * Copyright © 2009-2012 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2012-2012 BMDC++
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,9 +19,6 @@
  * In addition, as a special exception, compiling, linking, and/or
  * using OpenSSL with this program is allowed.
  */
-//#ifdef _HAVEGNOME
-//	#include <libgnome/gnome-sound.h>
-//#endif
 #ifdef _HAVECANBERRA
 	#include <canberra-gtk.h> 
 #endif
@@ -54,10 +52,6 @@ Sound* Sound::get()
 
 void Sound::sound_init() const
 {
-//	#ifdef _HAVEGNOME
-//	gnome_sound_init(NULL);
-//	dcdebug("Sound::sound_init: Esound connection %d...\n", gnome_sound_connection_get());
-//	#endif
 	#ifdef _HAVECANBERRA
 	int res = ca_context_create(&context); 
 	dcdebug("Sound::sound_init: connection %d...\n", res);
@@ -131,8 +125,6 @@ void Sound::playSound(TypeSound sound)
 
 void Sound::playSound(const string &target)
 {
-//	#ifdef _HAVEGNOME
-//		gnome_sound_play(Text::fromUtf8(target).c_str());
 	#ifdef _HAVECANBERRA
 		ca_context_play(context, 1,CA_PROP_MEDIA_FILENAME, target.c_str(), NULL);
 	#else
@@ -143,9 +135,6 @@ void Sound::playSound(const string &target)
 
 void Sound::sound_finalize() const
 {
-//	#ifdef _HAVEGNOME
-//		gnome_sound_shutdown();
-//	#endif
 	#ifdef _HAVECANBERRA
 		ca_context_destroy(context);
 	#endif

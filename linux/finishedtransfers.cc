@@ -126,8 +126,6 @@ FinishedTransfers::~FinishedTransfers()
 void FinishedTransfers::show()
 {
 	initializeList_client();
-	//Func0<FinishedTransfers> *func = new Func0<FinishedTransfers>(this, &FinishedTransfers::initializeList_client);
-	//WulforManager::get()->dispatchClientFunc(func);
 	FinishedManager::getInstance()->addListener(this);
 }
 

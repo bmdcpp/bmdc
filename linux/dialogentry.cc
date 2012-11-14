@@ -62,7 +62,7 @@ gint DialogEntry::run()
 	return responseID;
 }
 
-gint DialogEntry::getResponseID()
+gint DialogEntry::getResponseID() const
 {
 	return responseID;
 }

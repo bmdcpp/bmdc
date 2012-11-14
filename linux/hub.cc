@@ -481,7 +481,7 @@ Hub::~Hub()
 
 	if (handCursor)
 	{
-		gdk_cursor_unref(handCursor);
+		g_object_unref(handCursor);
 		handCursor = NULL;
 	}
 
@@ -517,11 +517,11 @@ void Hub::columnHeader(int num, string name)
 {
 	GtkTreeViewColumn *col = gtk_tree_view_get_column (nickView.get(), num);
 	gtk_tree_view_column_set_clickable (col, TRUE);
-	g_object_set (  /*col->button*/ gtk_tree_view_column_get_button(col)  , "tooltip-text", name.c_str(), NULL);//TODO
+	g_object_set ( gtk_tree_view_column_get_button(col)  , "tooltip-text", name.c_str(), NULL);
 }
 
 
-void Hub::set_Header_tooltip_gui()//How beter ?
+void Hub::set_Header_tooltip_gui()
 {
 	columnHeader(0, "Nick");
 	columnHeader(1, "Shared");
@@ -538,7 +538,6 @@ void Hub::set_Header_tooltip_gui()//How beter ?
 	columnHeader(12,"Cheat");
 	columnHeader(13,"Generator");
 	columnHeader(14,"Support");
-
 }
 
 gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer data)
@@ -573,6 +572,7 @@ gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean 
 									14, &sup,
 									17, &cid,
   									-1);
+  
   pathstring = gtk_tree_path_to_string (path);
   string sharesize  = Util::formatBytes(ssize);
   g_snprintf (buffer, 1000, " Nick: %s\n Connection: %s\n Description: %s\n Tag: %s\n Share: %s\n IP: %s\n eMail: %s\nCountry: %s\n Slots: %s\n Hubs: %s\n PK: %s\n Cheat: %s\n Generator: %s\n Support: %s\n CID: %s", tmp, con,desc, tag , sharesize.c_str() ,ip, e, country, slots, hubs, pk, cheat, gen, sup, cid);
@@ -600,10 +600,10 @@ void Hub::setStatus_gui(string statusBar, string text)
 			}
 
 			queue<string> tmp = statustext;
-            	string statusTextOnToolTip;
+            string statusTextOnToolTip;
 
 			while(!tmp.empty())
-            	{
+            {
                 		statusTextOnToolTip += "\n" + tmp.front();
                 		tmp.pop();
 			}

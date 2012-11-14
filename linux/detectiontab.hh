@@ -38,7 +38,6 @@ class DetectionTab:
 		virtual void show();
 	private:
 
-        //static void onSwitchTab(GtkNotebook *notebook, GtkNotebookPage *page, guint num, gpointer data);
         static bool showErrorDialog_gui(const std::string &description, DetectionTab *dt);
 		///1page
 		typedef std::unordered_map<int, GtkTreeIter> ActRaw;

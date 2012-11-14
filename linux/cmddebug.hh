@@ -77,7 +77,6 @@ class cmddebug:
 					cmdList.pop_front();
 				}
 			typedef Func2<cmddebug,time_t,std::string> F2;
-			//time_t tt = time(NULL);
 			F2 *func = new F2(this, &cmddebug::add_gui, time(NULL), x);
 			WulforManager::get()->dispatchGuiFunc(func);
 			}

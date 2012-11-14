@@ -49,7 +49,7 @@ systemlog::~systemlog()
 void systemlog::add_gui(time_t t, string file)
 {
 	string line;
-	line = "";
+//	line = "";
 	gtk_text_buffer_get_end_iter(buffer, &iter);
 
 	line = Text::toUtf8("[ " + Util::getShortTimeString(t)+" ] " + file + "\n\0");

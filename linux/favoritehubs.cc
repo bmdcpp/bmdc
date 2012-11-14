@@ -24,6 +24,7 @@
 #include "settingsmanager.hh"
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
+#include "FavoriteHubDialog.hh"
 #include <dcpp/RawManager.h>
 
 using namespace std;
@@ -33,26 +34,26 @@ FavoriteHubs::FavoriteHubs():
 	BookEntry(Entry::FAVORITE_HUBS, _("Favorite Hubs"), "favoritehubs.glade")
 {
 	// Configure the dialog
-	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("favoriteHubsDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
-	gtk_widget_set_sensitive(getWidget("comboboxCharset"), FALSE);
-	gtk_widget_set_sensitive(getWidget("entryNick"), FALSE);
-	gtk_widget_set_sensitive(getWidget("entryUserDescription"), FALSE);
+//	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("favoriteHubsDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
+//	gtk_widget_set_sensitive(getWidget("comboboxCharset"), FALSE);
+//	gtk_widget_set_sensitive(getWidget("entryNick"), FALSE);
+//	gtk_widget_set_sensitive(getWidget("entryUserDescription"), FALSE);
 
 	// menu
 	g_object_ref_sink(getWidget("menu"));
 
-	gtk_window_set_transient_for(GTK_WINDOW(getWidget("favoriteHubsDialog")), GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()));
-	gtk_window_set_destroy_with_parent(GTK_WINDOW(getWidget("favoriteHubsDialog")), TRUE);
+//	gtk_window_set_transient_for(GTK_WINDOW(getWidget("favoriteHubsDialog")), GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()));
+//	gtk_window_set_destroy_with_parent(GTK_WINDOW(getWidget("favoriteHubsDialog")), TRUE);
 
-	gtk_window_set_transient_for(GTK_WINDOW(getWidget("FavoriteHubGroupsDialog")),
-		GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()));
+//	gtk_window_set_transient_for(GTK_WINDOW(getWidget("FavoriteHubGroupsDialog")),
+//		GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()));
 
 	// Fill the charset drop-down list in edit fav hub dialog.
-	auto& charsets = WulforUtil::getCharsets();
-	for (auto it = charsets.begin(); it != charsets.end(); ++it)
-	{
-		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxCharset")), (*it).c_str());
-	}
+//	auto& charsets = WulforUtil::getCharsets();
+//	for (auto it = charsets.begin(); it != charsets.end(); ++it)
+//	{
+//		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxCharset")), (*it).c_str());
+//	}
 	// Initialize favorite hub list treeview
 	favoriteView.setView(GTK_TREE_VIEW(getWidget("favoriteView")), TRUE, "favoritehubs");
 	favoriteView.insertColumn(_("Name"), G_TYPE_STRING, TreeView::STRING, 200);
@@ -66,18 +67,19 @@ FavoriteHubs::FavoriteHubs():
 	favoriteView.insertHiddenColumn("Hidden Password", G_TYPE_STRING);
 	favoriteView.insertHiddenColumn("Hide", G_TYPE_INT);
 	favoriteView.insertHiddenColumn("Clients", G_TYPE_INT);
-    favoriteView.insertHiddenColumn("Filelists", G_TYPE_INT);
-    favoriteView.insertHiddenColumn("onConnect", G_TYPE_INT);
-    favoriteView.insertHiddenColumn("Mode", G_TYPE_STRING);
-    favoriteView.insertHiddenColumn("Auto Connect", G_TYPE_INT);
-    favoriteView.insertHiddenColumn("IP", G_TYPE_STRING);
-    favoriteView.insertHiddenColumn("ExtraInfo", G_TYPE_STRING);
-    favoriteView.insertHiddenColumn("Protected", G_TYPE_STRING);
-    favoriteView.insertHiddenColumn("eMail", G_TYPE_STRING);//
-    favoriteView.insertHiddenColumn("Parts", G_TYPE_STRING);
-    favoriteView.insertHiddenColumn("FavParts", G_TYPE_STRING);
-    favoriteView.insertHiddenColumn("LogChat", G_TYPE_STRING);
-    favoriteView.insertHiddenColumn("AwayMessage", G_TYPE_STRING);
+	favoriteView.insertHiddenColumn("Filelists", G_TYPE_INT);
+	favoriteView.insertHiddenColumn("onConnect", G_TYPE_INT);
+	favoriteView.insertHiddenColumn("Mode", G_TYPE_STRING);
+	favoriteView.insertHiddenColumn("Auto Connect", G_TYPE_INT);
+	favoriteView.insertHiddenColumn("IP", G_TYPE_STRING);
+	favoriteView.insertHiddenColumn("ExtraInfo", G_TYPE_STRING);
+	favoriteView.insertHiddenColumn("Protected", G_TYPE_STRING);
+	favoriteView.insertHiddenColumn("eMail", G_TYPE_STRING);//
+	favoriteView.insertHiddenColumn("Parts", G_TYPE_STRING);
+	favoriteView.insertHiddenColumn("FavParts", G_TYPE_STRING);
+	favoriteView.insertHiddenColumn("LogChat", G_TYPE_STRING);
+	favoriteView.insertHiddenColumn("AwayMessage", G_TYPE_STRING);
+	favoriteView.insertHiddenColumn("Notify", G_TYPE_INT);
 	favoriteView.insertHiddenColumn("Action", G_TYPE_INT);
 	favoriteView.finalize();
 	favoriteStore = gtk_list_store_newv(favoriteView.getColCount(), favoriteView.getGTypes());
@@ -109,21 +111,17 @@ FavoriteHubs::FavoriteHubs():
 	groupsSelection = gtk_tree_view_get_selection(groupsView.get());
 
 	///Actions
-    actionView.setView(GTK_TREE_VIEW(getWidget("rawview")));
-    actionView.insertColumn(_("Name"), G_TYPE_STRING,TreeView::STRING,100);
-    actionView.insertColumn(_("Enabled"), G_TYPE_BOOLEAN, TreeView::BOOL,100);
-    actionView.insertHiddenColumn("ISRAW", G_TYPE_BOOLEAN);
-    actionView.insertHiddenColumn("ID", G_TYPE_INT);
-    actionView.finalize();
-    actionStore = gtk_tree_store_newv(actionView.getColCount(),actionView.getGTypes());
-    gtk_tree_view_set_model(actionView.get(),GTK_TREE_MODEL(actionStore));
-    g_object_unref(actionStore);
-    actionSel = gtk_tree_view_get_selection(actionView.get());
-
-   // GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(actionView.get(), actionView.col(_("Enabled"))));
-//	GtkCellRenderer *arenderer = (GtkCellRenderer *)g_list_nth_data(list, 0);
-//	g_list_free(list);
-
+/*	actionView.setView(GTK_TREE_VIEW(getWidget("rawview")));
+	actionView.insertColumn(_("Name"), G_TYPE_STRING,TreeView::STRING,100);
+	actionView.insertColumn(_("Enabled"), G_TYPE_BOOLEAN, TreeView::BOOL,100);
+	actionView.insertHiddenColumn("ISRAW", G_TYPE_BOOLEAN);
+	actionView.insertHiddenColumn("ID", G_TYPE_INT);
+	actionView.finalize();
+	actionStore = gtk_tree_store_newv(actionView.getColCount(),actionView.getGTypes());
+	gtk_tree_view_set_model(actionView.get(),GTK_TREE_MODEL(actionStore));
+	g_object_unref(actionStore);
+	actionSel = gtk_tree_view_get_selection(actionView.get());
+*/
 	// Connect the signals to their callback functions.
 	g_signal_connect(getWidget("buttonNew"), "clicked", G_CALLBACK(onAddEntry_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonConnect"), "clicked", G_CALLBACK(onConnect_gui), (gpointer)this);
@@ -137,9 +135,9 @@ FavoriteHubs::FavoriteHubs():
 	g_signal_connect(favoriteView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
 	g_signal_connect(favoriteView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 	g_signal_connect(favoriteView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
-	g_signal_connect(getWidget("checkbuttonEncoding"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("comboboxCharset"));
-	g_signal_connect(getWidget("checkbuttonNick"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("entryNick"));
-	g_signal_connect(getWidget("checkbuttonUserDescription"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("entryUserDescription"));
+//	g_signal_connect(getWidget("checkbuttonEncoding"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("comboboxCharset"));
+//	g_signal_connect(getWidget("checkbuttonNick"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("entryNick"));
+//	g_signal_connect(getWidget("checkbuttonUserDescription"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("entryUserDescription"));
 	g_signal_connect(getWidget("addGroupButton"), "clicked", G_CALLBACK(onAddGroupClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("updateGroupButton"), "clicked", G_CALLBACK(onUpdateGroupClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("removeGroupButton"), "clicked", G_CALLBACK(onRemoveGroupClicked_gui), (gpointer)this);
@@ -147,7 +145,7 @@ FavoriteHubs::FavoriteHubs():
 	g_signal_connect(groupsView.get(), "button-release-event", G_CALLBACK(onGroupsButtonReleased_gui), (gpointer)this);
 	g_signal_connect(groupsView.get(), "key-release-event", G_CALLBACK(onGroupsKeyReleased_gui), (gpointer)this);
 
-	g_signal_connect(actionView.getCellRenderOf(_("Enabled")), "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
+//	g_signal_connect(actionView.getCellRenderOf(_("Enabled")), "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
 }
 
 FavoriteHubs::~FavoriteHubs()
@@ -174,7 +172,7 @@ void FavoriteHubs::addEntry_gui(StringMap params)
 
 void FavoriteHubs::editEntry_gui(StringMap &params, GtkTreeIter *iter)
 {
-	string password = params["Password"].empty() ? "" : string(8, '*');
+	string password = params["Password"].empty() ? "" : string(5, '*');
 
 	gtk_list_store_set(favoriteStore, iter,
 		favoriteView.col(_("Name")), params["Name"].c_str(),
@@ -200,6 +198,7 @@ void FavoriteHubs::editEntry_gui(StringMap &params, GtkTreeIter *iter)
 		favoriteView.col("FavParts"), params["FavParts"].c_str(),
 		favoriteView.col("LogChat"), params["LogChat"].c_str(),
 		favoriteView.col("AwayMessage"), params["Away"].c_str(),
+		favoriteView.col("Notify"), Util::toInt(params["Notify"]),
 		favoriteView.col("Action"), 0,
 		-1);
 }
@@ -328,7 +327,7 @@ void FavoriteHubs::onAddEntry_gui(GtkWidget *widget, gpointer data)
 	FavoriteHubs *fh = (FavoriteHubs *)data;
 
 	StringMap params;
-	params["Name"] = Util::emptyString;
+	/*params["Name"] = Util::emptyString;
 	params["Address"] = Util::emptyString;
 	params["Description"] = Util::emptyString;
 	params["Nick"] = Util::emptyString;
@@ -350,8 +349,12 @@ void FavoriteHubs::onAddEntry_gui(GtkWidget *widget, gpointer data)
 	params["FavParts"] = Util::emptyString;
 	params["LogChat"] = Util::emptyString;
 	params["Away"] = Util::emptyString;
+	params["Notify"] = "0";
 
-	bool updatedEntry = fh->showFavoriteHubDialog_gui(params, fh);
+	bool updatedEntry = fh->showFavoriteHubDialog_gui(params, fh);*/
+	auto f = new FavoriteHubDialog(true);
+	auto updatedEntry = f->initDialog(fh->GroupsIter,params);
+
 	if(!(fh->checkAddys(string(params["Address"]))))
 	{
 		fh->showErrorDialog_gui("Do Not duplicty",fh);
@@ -420,8 +423,10 @@ void FavoriteHubs::onEditEntry_gui(GtkWidget *widget, gpointer data)
 	params["FavParts"] = fh->favoriteView.getString(&iter, "FavParts");
 	params["LogChat"] = fh->favoriteView.getString(&iter, "LogChat");
 	params["Away"] = fh->favoriteView.getString(&iter, "AwayMessage");
+	params["Notify"] = Util::toString(fh->favoriteView.getValue<gint>(&iter, "Notify"));
 
-	bool entryUpdated = showFavoriteHubDialog_gui(params, fh);
+	auto f = new FavoriteHubDialog(false);
+      bool entryUpdated = f->initDialog(fh->GroupsIter,params);
 
 	if (entryUpdated)
 	{
@@ -459,7 +464,7 @@ bool FavoriteHubs::checkEntry_gui(string address_old, string address_new)
 
 	return TRUE;
 }
-
+/*
 void FavoriteHubs::initActions()
 {
 	GtkTreeIter toplevel;
@@ -562,8 +567,8 @@ void FavoriteHubs::setRawActions_client(FavoriteHubs *fh, StringMap params)
 		}
 		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(fh->actionStore), &iter);
 	}
-}
-
+}*/
+/*
 bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh)
 {
 	fh->initActions();
@@ -574,16 +579,13 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryNick")), params["Nick"].c_str());
 	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryPassword")), params["Password"].c_str());
 	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryUserDescription")), params["User Description"].c_str());
-//	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("comboboxentryCharset")), params["Encoding"].c_str());
 	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryIp")), params["IP"].c_str());
 	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryExtraInfo")), params["ExtraInfo"].c_str());
 	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryprotected")), params["Protected"].c_str());
 	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryeMail")), params["eMail"].c_str());
-
 	gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryAway")), params["Away"].c_str());
 
 	gtk_combo_box_set_active(GTK_COMBO_BOX(fh->getWidget("comboboxMode")), Util::toInt64(params["Mode"]));
-
 	gtk_combo_box_set_active(GTK_COMBO_BOX(fh->getWidget("comboboxParts")), Util::toInt64(params["Parts"]));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(fh->getWidget("comboboxFavParts")), Util::toInt64(params["FavParts"]));
 
@@ -618,7 +620,7 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 	// Set the auto connect checkbox
 	gboolean autoConnect = params["Auto Connect"] == "1" ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkButtonAutoConnect")), autoConnect);
-	/*/*/
+
 	gboolean hide = params["Hide"] == "1" ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkHide")), hide);
 
@@ -633,6 +635,9 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 
 	gboolean log = params["LogChat"] == "1" ? TRUE : FALSE;
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkLog")), log);
+
+	gboolean noti = params["Notify"] == "1" ? TRUE : FALSE;
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkNoti")), noti);
 
 	fh->setRawActions_gui(fh,params);
 	// Show the dialog
@@ -653,7 +658,7 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 		params["ExtraInfo"] = gtk_entry_get_text(GTK_ENTRY(fh->getWidget("entryExtraInfo")));
 		params["IP"] = gtk_entry_get_text(GTK_ENTRY(fh->getWidget("entryIp")));
 		params["Protected"] = gtk_entry_get_text(GTK_ENTRY(fh->getWidget("entryprotected")));
-
+		params["Notify"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkNoti"))) ? "1" : "0";
 		params["Mode"] = Util::toString(gtk_combo_box_get_active(GTK_COMBO_BOX(fh->getWidget("comboboxMode"))));
 		params["Auto Connect"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkButtonAutoConnect"))) ? "1" : "0";
 
@@ -683,7 +688,7 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 			{		
 				params["Encoding"] = string(encoding);
 				g_free(encoding);
-			}//else	params["Encoding"] = Util::emptyString;
+			}
 		}
 
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(fh->getWidget("checkbuttonNick"))))
@@ -721,7 +726,7 @@ bool FavoriteHubs::showFavoriteHubDialog_gui(StringMap &params, FavoriteHubs *fh
 	gtk_widget_hide(fh->getWidget("favoriteHubsDialog"));
 	return FALSE;
 }
-
+*/
 void FavoriteHubs::onManageGroupsClicked_gui(GtkWidget *widget, gpointer data)
 {
 	FavoriteHubs *fh = (FavoriteHubs *)data;
@@ -754,7 +759,7 @@ void FavoriteHubs::initFavHubGroupsDialog_gui()
 	gtk_entry_set_text(GTK_ENTRY(getWidget("nameGroupEntry")), "");
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("connectAllHubsCheckButton")), FALSE);
 
-	for (FavHubGroups::const_iterator i = favHubGroups.begin(); i != favHubGroups.end(); ++i)
+	for (auto i = favHubGroups.begin(); i != favHubGroups.end(); ++i)
 	{
 		// favorite hub groups list
 		gtk_list_store_append(groupsStore, &iter);
@@ -977,6 +982,7 @@ void FavoriteHubs::updateFavHubGroups_gui(bool updated)
 				params["IP"] = favoriteView.getString(&iter, "IP");
 				params["LogChat"] = favoriteView.getString(&iter, "LogChat");
 				params["Away"] = favoriteView.getString(&iter, "AwayMessage");
+				params["Notify"] = Util::toString(favoriteView.getValue<gint>(&iter, "Notify"));
 
 				editEntry_gui(params, &iter);
 
@@ -997,10 +1003,10 @@ void FavoriteHubs::saveFavHubGroups()
 	GtkTreeModel *m = GTK_TREE_MODEL(groupsStore);
 	gboolean valid = gtk_tree_model_get_iter_first(m, &iter);
 
-	GtkListStore *store = GTK_LIST_STORE(gtk_combo_box_get_model(GTK_COMBO_BOX(getWidget("groupsComboBox"))));
-	gtk_list_store_clear(store);
-	gtk_list_store_append(store, &it);
-	gtk_list_store_set(store, &it, 0, _("Default"), -1);
+//	GtkListStore *store = GTK_LIST_STORE(gtk_combo_box_get_model(GTK_COMBO_BOX(getWidget("groupsComboBox"))));
+//	gtk_list_store_clear(store);
+//	gtk_list_store_append(store, &it);
+//	gtk_list_store_set(store, &it, 0, _("Default"), -1);
 	GroupsIter.clear();
 
 	FavHubGroups favHubGroups;
@@ -1010,8 +1016,8 @@ void FavoriteHubs::saveFavHubGroups()
 		string group = groupsView.getString(&iter, _("Group name"));
 
 		// favorite hub properties combo box groups
-		gtk_list_store_append(store, &it);
-		gtk_list_store_set(store, &it, 0, group.c_str(), -1);
+//		gtk_list_store_append(store, &it);
+//		gtk_list_store_set(store, &it, 0, group.c_str(), -1);
 		GroupsIter.insert(FavHubGroupsIter::value_type(group, it));
 
 		bool log_hub = groupsView.getString(&iter, "LogChat") == "1" ? TRUE : FALSE;
@@ -1174,7 +1180,7 @@ gboolean FavoriteHubs::onGroupsButtonReleased_gui(GtkWidget *widget, GdkEventBut
 	}
 	return FALSE;
 }
-
+/*
 void FavoriteHubs::onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data)
 {
 	FavoriteHubs *fh = (FavoriteHubs *)data;
@@ -1188,13 +1194,13 @@ void FavoriteHubs::onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path
 		gtk_tree_store_set(fh->actionStore, &iter, fh->actionView.col(_("Enabled")), fixed, -1);
 	}
 }
-
+*/
 void FavoriteHubs::initializeList_client()
 {
 	StringMap params;
 	typedef Func1<FavoriteHubs, StringMap> F1;
 	const FavoriteHubEntryList& fl = FavoriteManager::getInstance()->getFavoriteHubs();
-	FavHubGroups favHubGroups = FavoriteManager::getInstance()->getFavHubGroups();
+	/*FavHubGroups favHubGroups = FavoriteManager::getInstance()->getFavHubGroups();
 
 	GtkTreeIter iter;
 	GtkListStore *store = GTK_LIST_STORE(gtk_combo_box_get_model(GTK_COMBO_BOX(getWidget("groupsComboBox"))));
@@ -1206,7 +1212,7 @@ void FavoriteHubs::initializeList_client()
 		gtk_list_store_set(store, &iter, 0, i->first.c_str(), -1);
 		GroupsIter.insert(FavHubGroupsIter::value_type(i->first, iter));
 	}
-
+*/
 	for (FavoriteHubEntryList::const_iterator it = fl.begin(); it != fl.end(); ++it)
 	{
 		getFavHubParams_client(*it, params);
@@ -1238,6 +1244,7 @@ void FavoriteHubs::getFavHubParams_client(const FavoriteHubEntry *entry, StringM
 	params["FavParts"] = (toInt(entry->get(HubSettings::FavShowJoins)) == 1 ? "1" : (toInt(entry->get(HubSettings::FavShowJoins))) >= 2 ? "2" : "0");
 	params["LogChat"] = toInt(entry->get(HubSettings::LogChat)) ? "1" : "0";
 	params["Away"] = entry->get(HubSettings::AwayMessage);
+	params["Notify"] = entry->getNotify() ? "1" : "0";
 
 }
 
@@ -1265,6 +1272,7 @@ void FavoriteHubs::addEntry_client(StringMap params)
 	entry.setChatExtraInfo(params["ExtraInfo"]);
 	entry.setAutoConnect(Util::toInt(params["Auto Connect"]));
 	entry.setProtectUsers(params["Protected"]);
+	entry.setNotify(Util::toInt(params["Notify"]));
 
 	entry.get(HubSettings::LogChat) = Util::toInt(params["LogChat"]);
 	entry.get(HubSettings::AwayMessage) = params["Away"];
@@ -1292,6 +1300,7 @@ void FavoriteHubs::editEntry_client(string address, StringMap params)
 		entry->setMode(Util::toInt(params["Mode"]));
 		entry->setIp(params["IP"]);
 		entry->setHideShare(Util::toInt(params["Hide"]));
+		entry->setNotify(Util::toInt(params["Notify"]));
 
 		entry->get(HubSettings::Email) = params["eMail"];
 		tribool showjoin = to3bool(Util::toInt(params["Parts"]));

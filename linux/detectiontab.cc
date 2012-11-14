@@ -331,7 +331,6 @@ void DetectionTab::create_actions_raws() {
 						-1);
 
 		actions.insert(ActRaw::value_type( ((*i)->getId()),topi));
-	//	actionsn.push_back(make_pair(name, (*i)->getId()));
 	}
 
 }
@@ -1633,7 +1632,7 @@ void DetectionTab::initDialogWithValues()
 	vector<pair<string,int> > act = WulforUtil::getActions();
 	GtkTreeIter iter;
 	gtk_list_store_clear(actionsSelectionsRStore);
-	for(vector<pair<string,int> >::const_iterator it = act.begin();it!= act.end();it++)
+	for(vector<pair<string,int> >::const_iterator it = act.begin();it!= act.end();++it)
     {
        gtk_list_store_append( actionsSelectionsRStore, &iter );
         gtk_list_store_set( actionsSelectionsRStore, &iter,
@@ -1653,7 +1652,7 @@ void DetectionTab::set_combo(GtkWidget *place, vector<pair<string,int> > act, in
     GtkCellRenderer *cells,*celli;
     store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
 
-    for(vector<pair<string,int> >::const_iterator it = act.begin();it!= act.end();it++)
+    for(vector<pair<string,int> >::const_iterator it = act.begin();it!= act.end();++it)
     {
        gtk_list_store_append( store, &iter );
         gtk_list_store_set( store, &iter,
@@ -1726,7 +1725,7 @@ void DetectionTab::loadAgain(GtkWidget *widget, vector<pair<string,int> > act, i
 		return;
 	std::map<int,string> tmpmaps;
 
-	for(vector<pair<string,int> >::const_iterator q = act.begin();q!=act.end();q++)
+	for(vector<pair<string,int> >::const_iterator q = act.begin();q!=act.end();++q)
 			tmpmaps.insert( pair<int, std::string>(q->second,q->first) );
 
 	/* Obtain data model from combo box. */

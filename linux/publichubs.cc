@@ -69,10 +69,6 @@ PublicHubs::PublicHubs():
 	g_object_unref(listsStore);
 //	gtk_tree_view_set_headers_visible(listsView.get(), FALSE);
 	listsSelection = gtk_tree_view_get_selection(listsView.get());
-//	GtkTreeViewColumn *c = gtk_tree_view_get_column(listsView.get(), 0);
-//	GList *l = gtk_tree_view_column_get_cell_renderers(c);
-//	GObject *editRenderer = G_OBJECT(g_list_nth_data(l, 0));
-//	g_list_free(l);
 
 	// Initialize the hub lists combo box
 	gtk_combo_box_set_model(GTK_COMBO_BOX(getWidget("hubListBox")), GTK_TREE_MODEL(listsStore));

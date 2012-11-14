@@ -46,10 +46,6 @@ exportSelection(NULL)
 	
 	exportSelection = gtk_tree_view_get_selection(exportView.get());
 	
-	/*GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(exportView.get(), exportView.col(_("Enabled"))));
-	GtkCellRenderer *renderer = (GtkCellRenderer *)g_list_nth_data(list, 0);
-	g_list_free(list);*/
-	
 	g_signal_connect(getWidget("boxExport"), "clicked", G_CALLBACK(onButtonExportedClicked), (gpointer)this);
 	g_signal_connect(getWidget("boxPath"), "clicked", G_CALLBACK(onGetPathGui), (gpointer)this);
 	g_signal_connect(exportView.getCellRenderOf(_("Enabled")), "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
@@ -125,7 +121,6 @@ void ExportDialog::onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path
 
 	if (gtk_tree_model_get_iter_from_string(GTK_TREE_MODEL(ed->exportStore), &iter, path))
 	{
-		//string nane = fh->actionView.getString(&iter, _("Name"));
 		bool fixed = ed->exportView.getValue<gboolean>(&iter, _("Enabled"));
 		fixed = !fixed;
 		gtk_list_store_set(ed->exportStore, &iter, ed->exportView.col(_("Enabled")), fixed, -1);

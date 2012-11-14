@@ -21,7 +21,6 @@
  */
 
 #include <gtk/gtk.h>
-//#include <glade/glade.h>
 #include <glib/gi18n.h>
 
 #include <dcpp/stdinc.h>
@@ -98,7 +97,6 @@ int main(int argc, char *argv[])
 	dcpp::TimerManager::getInstance()->start();
 
 	gdk_threads_init();
-//	glade_init();
 	g_set_application_name("BMDC++");
 	WulforSettingsManager::newInstance();
 	signal(SIGPIPE, SIG_IGN);

@@ -50,14 +50,14 @@ class FavoriteHubs:
 		void setFavoriteHubs_gui(bool remove, const std::string &group);
 		void popupMenu_gui();
 		static bool showErrorDialog_gui(const std::string &description, FavoriteHubs *fh);
-		static bool showFavoriteHubDialog_gui(dcpp::StringMap &params, FavoriteHubs *fh);
+//		static bool showFavoriteHubDialog_gui(dcpp::StringMap &params, FavoriteHubs *fh);
 		void updateFavHubGroups_gui(bool updated);
 		void saveFavHubGroups();
 		void initFavHubGroupsDialog_gui();
 		bool checkEntry_gui(std::string address_old, std::string address_new);
-		void initActions();
-		void setRawActions_gui(FavoriteHubs *fh, dcpp::StringMap params);
-		void setRawActions_client(FavoriteHubs *fh, dcpp::StringMap params);
+//		void initActions();
+//		void setRawActions_gui(FavoriteHubs *fh, dcpp::StringMap params);
+//		void setRawActions_client(FavoriteHubs *fh, dcpp::StringMap params);
 
 		// GUI callbacks
 		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
@@ -76,7 +76,7 @@ class FavoriteHubs:
 		static gboolean onGroupsButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onGroupsKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 
-		static void onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
+//		static void onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
 
 		// Client functions
 		void initializeList_client();
@@ -89,10 +89,10 @@ class FavoriteHubs:
 		virtual void on(dcpp::FavoriteManagerListener::FavoriteAdded, const dcpp::FavoriteHubEntryPtr entry) throw();
 		virtual void on(dcpp::FavoriteManagerListener::FavoriteRemoved, const dcpp::FavoriteHubEntryPtr entry) throw();
 
-		TreeView favoriteView, groupsView ,actionView;
+		TreeView favoriteView, groupsView /*,actionView*/;
 		GtkListStore *favoriteStore, *groupsStore;
-		GtkTreeStore *actionStore;
-		GtkTreeSelection *favoriteSelection, *groupsSelection, *actionSel;
+//		GtkTreeStore *actionStore;
+		GtkTreeSelection *favoriteSelection, *groupsSelection/*, *actionSel*/;
 		GdkEventType previous;
 		FavHubGroupsIter GroupsIter;
 		
