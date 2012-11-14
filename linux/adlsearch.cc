@@ -79,11 +79,7 @@ SearchADL::SearchADL():
 	gtk_tree_view_column_set_clickable(gtk_tree_view_get_column(searchADLView.get(), searchADLView.col(_("Min Size"))), FALSE);
 	gtk_tree_view_column_set_clickable(gtk_tree_view_get_column(searchADLView.get(), searchADLView.col(_("Max Size"))), FALSE);
 
-	/*GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(searchADLView.get(),
-		searchADLView.col(_("Enabled"))));
-	GObject *renderer = (GObject *)g_list_nth_data(list, 0);*/
 	g_signal_connect( searchADLView.getCellRenderOf(_("Enabled")) , "toggled", G_CALLBACK(onActiveToggled_gui), (gpointer)this);
-	//g_list_free(list);
 
 	g_signal_connect(getWidget("addItem"), "activate", G_CALLBACK(onAddClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("propertiesItem"), "activate", G_CALLBACK(onPropertiesClicked_gui), (gpointer)this);
@@ -277,15 +273,15 @@ bool SearchADL::showPropertiesDialog_gui(ADLSearch &search, bool edit, SearchADL
 	if (edit && !gtk_tree_selection_get_selected(s->searchADLSelection, NULL, &iter))
 		return false;
 
-	string searchString, /*sourceTypeString,*/ destDir;
+	string searchString, destDir;
 	gboolean enabledCheck, matchesCheck;
 	string isForbid, commentStr, kickStr;
 	gint sizeType, sourceType;
 	gdouble minSize, maxSize;
-	int raw,point;
+	int raw = 0 ,point;
 	gboolean isFav;
 	bool isFavs;
-	bool overide;
+	bool overide = false;
 
 	if (edit)
 	{
@@ -386,11 +382,15 @@ bool SearchADL::showPropertiesDialog_gui(ADLSearch &search, bool edit, SearchADL
 	sizeType = gtk_combo_box_get_active(GTK_COMBO_BOX(s->getWidget("sizeTypeComboBox")));
 	sourceType = gtk_combo_box_get_active(GTK_COMBO_BOX(s->getWidget("sourceTypeComboBox")));
 	///CMD
-	raw = s->find_raw(gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(s->getWidget("comboboxAction"))));
+	gchar *tmp = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(s->getWidget("comboboxAction")));
+	if(tmp) {
+		raw = s->find_raw(tmp);
+	}
 	isFavs = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkFromFav")));
 	kickStr = gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryKick")));
 	point = (int)gtk_spin_button_get_value (GTK_SPIN_BUTTON(s->getWidget("spinbuttonPoints")));
-	overide = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkoveride1")));
+	if(gtk_widget_is_sensitive(s->getWidget("checkoveride1")))
+		overide = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkoveride1")));
 
 	search.isActive = enabledCheck;
 	search.isAutoQueue = matchesCheck;

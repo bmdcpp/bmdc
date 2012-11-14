@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-11-14 19:59+0100\n"
+"POT-Creation-Date: 2012-11-14 21:35+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-11-14 20:45+0100\n"
+"POT-Creation-Date: 2012-11-14 21:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -393,7 +393,7 @@ msgid "ADL Action"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1081 ui/mainwindow.glade.ui:2068
-#: ui/mainwindow.glade.ui:2308 linux/adlsearch.cc:31 linux/bookentry.cc:353
+#: ui/mainwindow.glade.ui:2308 linux/adlsearch.cc:31 linux/bookentry.cc:354
 #: linux/settingsdialog.cc:1469 linux/settingsdialog.cc:1537
 msgid "ADL Search"
 msgstr ""
@@ -406,13 +406,13 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:1299 linux/bookentry.cc:389
+#: ui/mainwindow.glade.ui:1299 linux/bookentry.cc:390
 msgid "About:Config"
 msgstr ""
 
-#: ui/adlsearch.glade.ui:444 linux/detectiontab.cc:193
-#: linux/detectiontab.cc:1360 linux/detectiontab.cc:1398
-#: linux/detectiontab.cc:1454
+#: ui/adlsearch.glade.ui:444 linux/detectiontab.cc:189
+#: linux/detectiontab.cc:1354 linux/detectiontab.cc:1392
+#: linux/detectiontab.cc:1448
 msgid "Action"
 msgstr ""
 
@@ -433,7 +433,7 @@ msgstr ""
 msgid "Active"
 msgstr ""
 
-#: ui/adlsearch.glade.ui:731 ui/detection.glade.ui:1089
+#: ui/adlsearch.glade.ui:742 ui/detection.glade.ui:1089
 #: ui/detection.glade.ui:1487 ui/detection.glade.ui:2989
 #: ui/detection.glade.ui:3008 ui/detection.glade.ui:3027
 #: ui/settingsdialog.glade.ui:8169 ui/settingsdialog.glade.ui:8772
@@ -502,7 +502,7 @@ msgstr ""
 msgid "Add user to favorites list"
 msgstr ""
 
-#: ui/adlsearch.glade.ui:648
+#: ui/adlsearch.glade.ui:659
 msgid "Add..."
 msgstr ""
 
@@ -660,7 +660,7 @@ msgstr ""
 msgid "Calculate TTH"
 msgstr ""
 
-#: ui/adlsearch.glade.ui:535 ui/settingsdialog.glade.ui:459
+#: ui/adlsearch.glade.ui:546 ui/settingsdialog.glade.ui:459
 msgid "Case Sensitive"
 msgstr ""
 
@@ -689,8 +689,8 @@ msgid "Chat Menu"
 msgstr ""
 
 #: ui/detection.glade.ui:650 linux/detectiontab.cc:42
-#: linux/detectiontab.cc:350 linux/detectiontab.cc:842
-#: linux/detectiontab.cc:910 linux/detectiontab.cc:926 linux/hub.cc:81
+#: linux/detectiontab.cc:346 linux/detectiontab.cc:837
+#: linux/detectiontab.cc:905 linux/detectiontab.cc:920 linux/hub.cc:81
 #: linux/hub.cc:362 linux/hub.cc:711 linux/hub.cc:740
 msgid "Cheat"
 msgstr ""
@@ -792,10 +792,10 @@ msgstr ""
 msgid "Command"
 msgstr ""
 
-#: ui/adlsearch.glade.ui:400 linux/adlsearch.cc:53 linux/adlsearch.cc:149
-#: linux/adlsearch.cc:260 linux/adlsearch.cc:302 linux/detectiontab.cc:43
-#: linux/detectiontab.cc:351 linux/detectiontab.cc:843
-#: linux/detectiontab.cc:911 linux/detectiontab.cc:927
+#: ui/adlsearch.glade.ui:400 linux/adlsearch.cc:53 linux/adlsearch.cc:145
+#: linux/adlsearch.cc:256 linux/adlsearch.cc:298 linux/detectiontab.cc:43
+#: linux/detectiontab.cc:347 linux/detectiontab.cc:838
+#: linux/detectiontab.cc:906 linux/detectiontab.cc:921
 msgid "Comment"
 msgstr ""
 
@@ -1062,8 +1062,8 @@ msgstr ""
 
 #: ui/adlsearch.glade.ui:331 ui/detection.glade.ui:267
 #: ui/detection.glade.ui:800 linux/adlsearch.cc:46 linux/adlsearch.cc:75
-#: linux/adlsearch.cc:85 linux/adlsearch.cc:142 linux/adlsearch.cc:253
-#: linux/adlsearch.cc:298 linux/adlsearch.cc:491 linux/adlsearch.cc:493
+#: linux/adlsearch.cc:82 linux/adlsearch.cc:138 linux/adlsearch.cc:249
+#: linux/adlsearch.cc:294 linux/adlsearch.cc:491 linux/adlsearch.cc:493
 #: linux/exportimport.cc:51 linux/exportimport.cc:85 linux/exportimport.cc:124
 #: linux/exportimport.cc:126 linux/FavoriteHubDialog.hh:46
 #: linux/FavoriteHubDialog.hh:58 linux/FavoriteHubDialog.hh:281
@@ -1190,7 +1190,7 @@ msgid "Find files"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1116 ui/mainwindow.glade.ui:2124
-#: ui/mainwindow.glade.ui:2332 linux/bookentry.cc:361
+#: ui/mainwindow.glade.ui:2332 linux/bookentry.cc:362
 #: linux/finishedtransfers.cc:34 linux/settingsdialog.cc:1132
 #: linux/settingsdialog.cc:1461 linux/settingsdialog.cc:1528
 #: linux/settingsdialog.cc:1584
@@ -1198,7 +1198,7 @@ msgid "Finished Downloads"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1125 ui/mainwindow.glade.ui:2142
-#: ui/mainwindow.glade.ui:2340 linux/bookentry.cc:365
+#: ui/mainwindow.glade.ui:2340 linux/bookentry.cc:366
 #: linux/finishedtransfers.cc:39 linux/settingsdialog.cc:1133
 #: linux/settingsdialog.cc:1462 linux/settingsdialog.cc:1530
 #: linux/settingsdialog.cc:1585
@@ -1242,7 +1242,7 @@ msgstr ""
 msgid "Frame:"
 msgstr ""
 
-#: ui/adlsearch.glade.ui:470
+#: ui/adlsearch.glade.ui:481
 msgid "From Fav"
 msgstr ""
 
@@ -1364,15 +1364,15 @@ msgid "Hubs"
 msgstr ""
 
 #: ui/detection.glade.ui:110 linux/detectiontab.cc:45 linux/detectiontab.cc:61
-#: linux/detectiontab.cc:74 linux/detectiontab.cc:330
-#: linux/detectiontab.cc:353 linux/detectiontab.cc:410
-#: linux/detectiontab.cc:424 linux/detectiontab.cc:494
-#: linux/detectiontab.cc:520 linux/detectiontab.cc:557
-#: linux/detectiontab.cc:589 linux/detectiontab.cc:657
-#: linux/detectiontab.cc:666 linux/detectiontab.cc:685
-#: linux/detectiontab.cc:697 linux/detectiontab.cc:845
-#: linux/detectiontab.cc:869 linux/detectiontab.cc:913
-#: linux/detectiontab.cc:929 linux/detectiontab.cc:1092
+#: linux/detectiontab.cc:74 linux/detectiontab.cc:326
+#: linux/detectiontab.cc:349 linux/detectiontab.cc:406
+#: linux/detectiontab.cc:420 linux/detectiontab.cc:489
+#: linux/detectiontab.cc:515 linux/detectiontab.cc:552
+#: linux/detectiontab.cc:584 linux/detectiontab.cc:652
+#: linux/detectiontab.cc:661 linux/detectiontab.cc:680
+#: linux/detectiontab.cc:692 linux/detectiontab.cc:840
+#: linux/detectiontab.cc:864 linux/detectiontab.cc:908
+#: linux/detectiontab.cc:923 linux/detectiontab.cc:1086
 msgid "ID"
 msgstr ""
 
@@ -1427,7 +1427,7 @@ msgstr ""
 msgid "KiB"
 msgstr ""
 
-#: ui/adlsearch.glade.ui:491
+#: ui/adlsearch.glade.ui:502
 msgid "Kick"
 msgstr ""
 
@@ -1582,8 +1582,8 @@ msgid "Mini slot size"
 msgstr ""
 
 #: ui/detection.glade.ui:816 linux/detectiontab.cc:47
-#: linux/detectiontab.cc:355 linux/detectiontab.cc:915
-#: linux/detectiontab.cc:931
+#: linux/detectiontab.cc:351 linux/detectiontab.cc:910
+#: linux/detectiontab.cc:925
 msgid "MisMatch"
 msgstr ""
 
@@ -1604,11 +1604,11 @@ msgstr ""
 msgid "Modify User Command"
 msgstr ""
 
-#: ui/adlsearch.glade.ui:690
+#: ui/adlsearch.glade.ui:701
 msgid "Move Down"
 msgstr ""
 
-#: ui/adlsearch.glade.ui:676
+#: ui/adlsearch.glade.ui:687
 msgid "Move Up"
 msgstr ""
 
@@ -1630,14 +1630,14 @@ msgstr ""
 #: linux/AboutConfig.cc:41 linux/AboutConfig.cc:43 linux/AboutConfig.cc:144
 #: linux/AboutConfig.cc:162 linux/AboutConfig.cc:240 linux/AboutConfig.cc:293
 #: linux/detectiontab.cc:41 linux/detectiontab.cc:60 linux/detectiontab.cc:71
-#: linux/detectiontab.cc:328 linux/detectiontab.cc:349
-#: linux/detectiontab.cc:420 linux/detectiontab.cc:470
-#: linux/detectiontab.cc:492 linux/detectiontab.cc:516
-#: linux/detectiontab.cc:540 linux/detectiontab.cc:572
-#: linux/detectiontab.cc:655 linux/detectiontab.cc:664
-#: linux/detectiontab.cc:681 linux/detectiontab.cc:693
-#: linux/detectiontab.cc:841 linux/detectiontab.cc:868
-#: linux/detectiontab.cc:909 linux/detectiontab.cc:925
+#: linux/detectiontab.cc:324 linux/detectiontab.cc:345
+#: linux/detectiontab.cc:416 linux/detectiontab.cc:465
+#: linux/detectiontab.cc:487 linux/detectiontab.cc:511
+#: linux/detectiontab.cc:535 linux/detectiontab.cc:567
+#: linux/detectiontab.cc:650 linux/detectiontab.cc:659
+#: linux/detectiontab.cc:676 linux/detectiontab.cc:688
+#: linux/detectiontab.cc:836 linux/detectiontab.cc:863
+#: linux/detectiontab.cc:904 linux/detectiontab.cc:919
 #: linux/favoritehubs.cc:59 linux/favoritehubs.cc:90 linux/favoritehubs.cc:178
 #: linux/favoritehubs.cc:405 linux/favoritehubs.cc:791
 #: linux/favoritehubs.cc:967 linux/publichubs.cc:42 linux/publichubs.cc:154
@@ -1726,7 +1726,7 @@ msgid "Note; because of changing download speeds, this is not 100% accurate..."
 msgstr ""
 
 #: ui/mainwindow.glade.ui:2156 ui/mainwindow.glade.ui:2348
-#: linux/bookentry.cc:381 linux/notepad.cc:28 linux/settingsdialog.cc:1470
+#: linux/bookentry.cc:382 linux/notepad.cc:28 linux/settingsdialog.cc:1470
 #: linux/settingsdialog.cc:1535 linux/settingsdialog.cc:1588
 msgid "Notepad"
 msgstr ""
@@ -1784,7 +1784,7 @@ msgstr ""
 msgid "Open Partial Filelist"
 msgstr ""
 
-#: ui/adlsearch.glade.ui:550
+#: ui/adlsearch.glade.ui:561
 msgid "Overide"
 msgstr ""
 
@@ -1833,13 +1833,13 @@ msgstr ""
 msgid "Plugins"
 msgstr ""
 
-#: ui/detection.glade.ui:1215 linux/detectiontab.cc:192
-#: linux/detectiontab.cc:1359 linux/detectiontab.cc:1397
-#: linux/detectiontab.cc:1453
+#: ui/detection.glade.ui:1215 linux/detectiontab.cc:188
+#: linux/detectiontab.cc:1353 linux/detectiontab.cc:1391
+#: linux/detectiontab.cc:1447
 msgid "Points"
 msgstr ""
 
-#: ui/adlsearch.glade.ui:567
+#: ui/adlsearch.glade.ui:578
 msgid "Points:"
 msgstr ""
 
@@ -1872,11 +1872,11 @@ msgstr ""
 msgid "Private key file"
 msgstr ""
 
-#: ui/adlsearch.glade.ui:662
+#: ui/adlsearch.glade.ui:673
 msgid "Properties"
 msgstr ""
 
-#: ui/adlsearch.glade.ui:739 ui/config.glade.ui:159 ui/hub.glade.ui:297
+#: ui/adlsearch.glade.ui:750 ui/config.glade.ui:159 ui/hub.glade.ui:297
 #: ui/privatemessage.glade.ui:207
 msgid "Propteries"
 msgstr ""
@@ -1933,11 +1933,11 @@ msgstr ""
 
 #: ui/detection.glade.ui:191 ui/detection.glade.ui:730
 #: ui/settingsdialog.glade.ui:944 linux/detectiontab.cc:44
-#: linux/detectiontab.cc:72 linux/detectiontab.cc:352
-#: linux/detectiontab.cc:421 linux/detectiontab.cc:517
-#: linux/detectiontab.cc:682 linux/detectiontab.cc:694
-#: linux/detectiontab.cc:844 linux/detectiontab.cc:912
-#: linux/detectiontab.cc:928
+#: linux/detectiontab.cc:72 linux/detectiontab.cc:348
+#: linux/detectiontab.cc:417 linux/detectiontab.cc:512
+#: linux/detectiontab.cc:677 linux/detectiontab.cc:689
+#: linux/detectiontab.cc:839 linux/detectiontab.cc:907
+#: linux/detectiontab.cc:922
 msgid "Raw"
 msgstr ""
 
@@ -1985,7 +1985,7 @@ msgstr ""
 msgid "Remember choice"
 msgstr ""
 
-#: ui/adlsearch.glade.ui:704 ui/adlsearch.glade.ui:747
+#: ui/adlsearch.glade.ui:715 ui/adlsearch.glade.ui:758
 #: ui/detection.glade.ui:2997 ui/detection.glade.ui:3016
 #: ui/detection.glade.ui:3035 ui/favoritehubs.glade.ui:418
 #: ui/favoriteusers.glade.ui:229 ui/finishedtransfers.glade.ui:187
@@ -2044,7 +2044,7 @@ msgstr ""
 #: ui/hub.glade.ui:246 ui/mainwindow.glade.ui:1071 ui/mainwindow.glade.ui:2052
 #: ui/mainwindow.glade.ui:2300 ui/privatemessage.glade.ui:156
 #: ui/searchspy.glade.ui:94 ui/settingsdialog.glade.ui:9009
-#: ui/transfers.glade.ui:52 linux/bookentry.cc:349
+#: ui/transfers.glade.ui:52 linux/bookentry.cc:350
 #: linux/settingsdialog.cc:1137 linux/settingsdialog.cc:1467
 #: linux/settingsdialog.cc:1522
 msgid "Search"
@@ -2347,7 +2347,7 @@ msgstr ""
 msgid "System"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:2170 linux/System.cc:30 linux/bookentry.cc:385
+#: ui/mainwindow.glade.ui:2170 linux/System.cc:30 linux/bookentry.cc:386
 msgid "System Log"
 msgstr ""
 
@@ -2528,9 +2528,9 @@ msgid "Users"
 msgstr ""
 
 #: ui/detection.glade.ui:956 linux/AboutConfig.cc:35 linux/AboutConfig.cc:147
-#: linux/AboutConfig.cc:163 linux/AboutConfig.cc:241 linux/detectiontab.cc:110
-#: linux/detectiontab.cc:1039 linux/detectiontab.cc:1140
-#: linux/detectiontab.cc:1239
+#: linux/AboutConfig.cc:163 linux/AboutConfig.cc:241 linux/detectiontab.cc:106
+#: linux/detectiontab.cc:1033 linux/detectiontab.cc:1134
+#: linux/detectiontab.cc:1233
 msgid "Value"
 msgstr ""
 
@@ -2866,7 +2866,7 @@ msgstr ""
 msgid "/s"
 msgstr ""
 
-#: linux/adlsearch.cc:148 linux/adlsearch.cc:259
+#: linux/adlsearch.cc:144 linux/adlsearch.cc:255
 msgid "0"
 msgstr ""
 
@@ -2882,7 +2882,7 @@ msgstr ""
 msgid "0 items"
 msgstr ""
 
-#: linux/adlsearch.cc:148 linux/adlsearch.cc:259 linux/adlsearch.cc:326
+#: linux/adlsearch.cc:144 linux/adlsearch.cc:255 linux/adlsearch.cc:322
 msgid "1"
 msgstr ""
 
@@ -2996,7 +2996,7 @@ msgstr ""
 msgid "Application"
 msgstr ""
 
-#: linux/detectiontab.cc:876
+#: linux/detectiontab.cc:871
 #, c-format, boost-format
 msgid "Are you sure you want to delete Entry \"%s\"?"
 msgstr ""
@@ -3015,7 +3015,7 @@ msgstr ""
 msgid "Are you sure you want to delete favorite user(s)?"
 msgstr ""
 
-#: linux/detectiontab.cc:1067 linux/detectiontab.cc:1474
+#: linux/detectiontab.cc:1061 linux/detectiontab.cc:1468
 msgid "Are you sure you want to delete item?"
 msgstr ""
 
@@ -3023,7 +3023,7 @@ msgstr ""
 msgid "Are you sure you want to delete recent hub(s)?"
 msgstr ""
 
-#: linux/detectiontab.cc:547 linux/detectiontab.cc:579
+#: linux/detectiontab.cc:542 linux/detectiontab.cc:574
 #, c-format, boost-format
 msgid "Are you sure you want to delete this item \"%s\"?"
 msgstr ""
@@ -3254,8 +3254,8 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: linux/adlsearch.cc:49 linux/adlsearch.cc:78 linux/adlsearch.cc:145
-#: linux/adlsearch.cc:256 linux/adlsearch.cc:293
+#: linux/adlsearch.cc:49 linux/adlsearch.cc:78 linux/adlsearch.cc:141
+#: linux/adlsearch.cc:252 linux/adlsearch.cc:289
 msgid "Destination Directory"
 msgstr ""
 
@@ -3387,13 +3387,13 @@ msgid "Empty hub address specified"
 msgstr ""
 
 #: linux/detectiontab.cc:40 linux/detectiontab.cc:59 linux/detectiontab.cc:70
-#: linux/detectiontab.cc:105 linux/detectiontab.cc:329
-#: linux/detectiontab.cc:348 linux/detectiontab.cc:423
-#: linux/detectiontab.cc:493 linux/detectiontab.cc:519
-#: linux/detectiontab.cc:656 linux/detectiontab.cc:665
-#: linux/detectiontab.cc:684 linux/detectiontab.cc:696
-#: linux/detectiontab.cc:840 linux/detectiontab.cc:908
-#: linux/detectiontab.cc:924 linux/detectiontab.cc:1093
+#: linux/detectiontab.cc:102 linux/detectiontab.cc:325
+#: linux/detectiontab.cc:344 linux/detectiontab.cc:419
+#: linux/detectiontab.cc:488 linux/detectiontab.cc:514
+#: linux/detectiontab.cc:651 linux/detectiontab.cc:660
+#: linux/detectiontab.cc:679 linux/detectiontab.cc:691
+#: linux/detectiontab.cc:835 linux/detectiontab.cc:903
+#: linux/detectiontab.cc:918 linux/detectiontab.cc:1087
 msgid "Enable"
 msgstr ""
 
@@ -3506,12 +3506,12 @@ msgstr ""
 msgid "Favorite user quit"
 msgstr ""
 
-#: linux/detectiontab.cc:109 linux/detectiontab.cc:1038
-#: linux/detectiontab.cc:1139 linux/detectiontab.cc:1238
+#: linux/detectiontab.cc:105 linux/detectiontab.cc:1032
+#: linux/detectiontab.cc:1133 linux/detectiontab.cc:1232
 msgid "Field"
 msgstr ""
 
-#: linux/detectiontab.cc:1260
+#: linux/detectiontab.cc:1254
 msgid "Fields Name, ID and detection fields are required"
 msgstr ""
 
@@ -3560,9 +3560,9 @@ msgstr ""
 msgid "Filter kick and NMDC debug messages"
 msgstr ""
 
-#: linux/detectiontab.cc:46 linux/detectiontab.cc:354
-#: linux/detectiontab.cc:846 linux/detectiontab.cc:914
-#: linux/detectiontab.cc:930
+#: linux/detectiontab.cc:46 linux/detectiontab.cc:350
+#: linux/detectiontab.cc:841 linux/detectiontab.cc:909
+#: linux/detectiontab.cc:924
 msgid "Flag"
 msgstr ""
 
@@ -3570,8 +3570,8 @@ msgstr ""
 msgid "Float"
 msgstr ""
 
-#: linux/adlsearch.cc:52 linux/adlsearch.cc:148 linux/adlsearch.cc:259
-#: linux/adlsearch.cc:301
+#: linux/adlsearch.cc:52 linux/adlsearch.cc:144 linux/adlsearch.cc:255
+#: linux/adlsearch.cc:297
 msgid "Forbiden File"
 msgstr ""
 
@@ -3628,8 +3628,8 @@ msgstr ""
 msgid "Highliting"
 msgstr ""
 
-#: linux/bookentry.cc:373 linux/detectiontab.cc:111 linux/detectiontab.cc:1040
-#: linux/detectiontab.cc:1141 linux/detectiontab.cc:1240
+#: linux/bookentry.cc:374 linux/detectiontab.cc:107 linux/detectiontab.cc:1034
+#: linux/detectiontab.cc:1135 linux/detectiontab.cc:1234
 #: linux/finishedtransfers.cc:78 linux/finishedtransfers.cc:185
 #: linux/search.cc:103 linux/search.cc:638 linux/search.cc:708
 #: linux/search.cc:851 linux/search.cc:1735 linux/settingsdialog.cc:2019
@@ -3862,8 +3862,8 @@ msgstr ""
 msgid "Max Hubs"
 msgstr ""
 
-#: linux/adlsearch.cc:51 linux/adlsearch.cc:80 linux/adlsearch.cc:147
-#: linux/adlsearch.cc:258
+#: linux/adlsearch.cc:51 linux/adlsearch.cc:80 linux/adlsearch.cc:143
+#: linux/adlsearch.cc:254
 msgid "Max Size"
 msgstr ""
 
@@ -3880,8 +3880,8 @@ msgstr ""
 msgid "Min Share"
 msgstr ""
 
-#: linux/adlsearch.cc:50 linux/adlsearch.cc:79 linux/adlsearch.cc:146
-#: linux/adlsearch.cc:257
+#: linux/adlsearch.cc:50 linux/adlsearch.cc:79 linux/adlsearch.cc:142
+#: linux/adlsearch.cc:253
 msgid "Min Size"
 msgstr ""
 
@@ -4061,7 +4061,7 @@ msgstr ""
 msgid "Priority"
 msgstr ""
 
-#: linux/bookentry.cc:369
+#: linux/bookentry.cc:370
 msgid "Private Message"
 msgstr ""
 
@@ -4143,8 +4143,8 @@ msgstr ""
 msgid "SJIS (Japanese)"
 msgstr ""
 
-#: linux/adlsearch.cc:47 linux/adlsearch.cc:76 linux/adlsearch.cc:143
-#: linux/adlsearch.cc:254 linux/adlsearch.cc:292 linux/searchspy.cc:54
+#: linux/adlsearch.cc:47 linux/adlsearch.cc:76 linux/adlsearch.cc:139
+#: linux/adlsearch.cc:250 linux/adlsearch.cc:288 linux/searchspy.cc:54
 #: linux/searchspy.cc:72 linux/searchspy.cc:74 linux/searchspy.cc:78
 #: linux/searchspy.cc:220 linux/searchspy.cc:231 linux/searchspy.cc:285
 #: linux/searchspy.cc:292 linux/searchspy.cc:308 linux/searchspy.cc:467
@@ -4239,7 +4239,7 @@ msgstr ""
 msgid "Set normal mode\n"
 msgstr ""
 
-#: linux/bookentry.cc:377
+#: linux/bookentry.cc:378
 msgid "Share Browser"
 msgstr ""
 
@@ -4360,8 +4360,8 @@ msgstr ""
 msgid "Sort favorite users first"
 msgstr ""
 
-#: linux/adlsearch.cc:48 linux/adlsearch.cc:77 linux/adlsearch.cc:144
-#: linux/adlsearch.cc:255
+#: linux/adlsearch.cc:48 linux/adlsearch.cc:77 linux/adlsearch.cc:140
+#: linux/adlsearch.cc:251
 msgid "Source Type"
 msgstr ""
 
@@ -4386,7 +4386,7 @@ msgstr ""
 msgid "Speed: "
 msgstr ""
 
-#: linux/bookentry.cc:357
+#: linux/bookentry.cc:358
 msgid "Spy Search"
 msgstr ""
 
@@ -4476,9 +4476,9 @@ msgstr ""
 msgid "Throtle "
 msgstr ""
 
-#: linux/detectiontab.cc:73 linux/detectiontab.cc:422
-#: linux/detectiontab.cc:518 linux/detectiontab.cc:683
-#: linux/detectiontab.cc:695 linux/finishedtransfers.cc:55
+#: linux/detectiontab.cc:73 linux/detectiontab.cc:418
+#: linux/detectiontab.cc:513 linux/detectiontab.cc:678
+#: linux/detectiontab.cc:690 linux/finishedtransfers.cc:55
 #: linux/finishedtransfers.cc:69 linux/finishedtransfers.cc:70
 #: linux/finishedtransfers.cc:76 linux/finishedtransfers.cc:89
 #: linux/finishedtransfers.cc:90 linux/finishedtransfers.cc:183

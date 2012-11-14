@@ -344,6 +344,7 @@ GtkWidget *BookEntry::createItemFirstMenu()
 					stock = WGETS("icon-queue");
 					info = _("Download Queue");
 					break;
+		case Entry::SEARCHS:		
 		case Entry::SEARCH :
 					stock = WGETS("icon-search");
 					info = _("Search");

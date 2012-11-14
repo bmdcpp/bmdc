@@ -616,3 +616,8 @@ GDK_ => GDK_KEY for keys
 Full Switch to GTK3
 ----r172
 Divide Favorite Tab and Favorite Hub Propteries to two class
+----r174
+Partialy Fixed Detection Tab
+Fix ADLSearc add/edit Dialog
+Use Search icon on right click searches
+

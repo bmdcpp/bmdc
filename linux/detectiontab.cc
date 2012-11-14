@@ -99,11 +99,7 @@ BookEntry(Entry::DETECTION, _("Detection Settings"), "detection.glade")
 	g_signal_connect(getWidget("button5"), "clicked", G_CALLBACK(ondModEntryDet), (gpointer)this);//edit
 	g_signal_connect(getWidget("button6"), "clicked", G_CALLBACK(onRemoveEntryDet), (gpointer)this);//remove
 
-	/*GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(detectionView.get(),
-		detectionView.col(N_("Enable"))));
-	GObject *renderer = (GObject *)g_list_nth_data(list, 0);*/
 	g_signal_connect(detectionView.getCellRenderOf(N_("Enable")), "toggled", G_CALLBACK(onToggleDet), (gpointer)this);
-//	g_list_free(list);
 
 	item.setView(GTK_TREE_VIEW(getWidget("treeview1")));
 	item.insertColumn(N_("Field"), G_TYPE_STRING, TreeView::STRING,100);
@@ -440,7 +436,6 @@ void DetectionTab::onAddAct(GtkWidget *widget,gpointer data)
 	params["Time"] = "0.0";
 	params["ID"] = Util::toString(Util::rand(1, 2147483647));
 	params["Enabled"] = "0";
-	//params["Action"] = "0";
 	params["Type"] = "0";
 
 	bool isOk = dt->showAddActRawDialog(params,dt);
@@ -518,7 +513,7 @@ void DetectionTab::onEditRaw(GtkWidget *widget,gpointer data)
 	params["Time"] = Util::toString(dt->RawView.getValue<gint>(&iter,N_("Time")));
 	params["Enabled"] = dt->RawView.getValue<gboolean>(&iter,N_("Enable")) ? "1" : "0";
 	params["ID"] = Util::toString(dt->RawView.getValue<gint>(&iter,N_("ID")));
-    params["Action"] = dt->RawView.getString(&iter,"Action");
+	params["Action"] = dt->RawView.getString(&iter,"Action");
 
 	bool isOk = dt->showAddActRawDialog(params,dt);//ch
 	if(isOk)
@@ -555,7 +550,7 @@ void DetectionTab::onRemoveAct(GtkWidget *widget , gpointer data)
 		}
 
 		gint id = dt->actionView.getValue<gint>(&iter, N_("ID"));
-          dt->removeAction_gui(Util::toString((int)id),name);
+		dt->removeAction_gui(Util::toString((int)id),name);
 		typedef Func1<DetectionTab, int> F1;
 		F1 *func = new F1(dt, &DetectionTab::removeAct_client, (int)id);
 		WulforManager::get()->dispatchClientFunc(func);
@@ -587,7 +582,7 @@ void DetectionTab::onRemoveRaw(GtkWidget *widget , gpointer data)
 		}
 
 		gint id = dt->RawView.getValue<gint>(&iter, N_("ID"));
-        dt->removeRaw_gui(Util::toString((int)id),name);
+		dt->removeRaw_gui(Util::toString((int)id),name);
 		typedef Func1<DetectionTab, int> F1;
 		F1 *func = new F1(dt, &DetectionTab::removeRaw_client, (int)id);
 		WulforManager::get()->dispatchClientFunc(func);
@@ -611,7 +606,7 @@ bool DetectionTab::showAddActRawDialog(StringMap &params,DetectionTab *dt)
 		vector< pair <string,int> >& act = actionsn;
 		WulforUtil::drop_combo(dt->getWidget("comboboxentryAct"), act);
 
-        gtk_entry_set_text(GTK_ENTRY(dt->getWidget("comboboxentry-entry22")), params["Action"].c_str());
+		gtk_entry_set_text(GTK_ENTRY(dt->getWidget("comboboxentry-entry22")), params["Action"].c_str());
 
 		gint response = gtk_dialog_run(GTK_DIALOG(dt->getWidget("ActRawDialog")));
 
@@ -628,7 +623,7 @@ bool DetectionTab::showAddActRawDialog(StringMap &params,DetectionTab *dt)
 			params["Type"] = Util::toString(gtk_combo_box_get_active(GTK_COMBO_BOX(dt->getWidget("comboboxType"))));
 			params["Action"] = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(dt->getWidget("comboboxentryAct")));
 			params["Enabled"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(dt->getWidget("checkEnabled"))) ? "1" : "0";
-            params["tmpname"] = tmpname;
+			params["tmpname"] = tmpname;
 
 			if(params["Name"].empty())
 			{
@@ -721,7 +716,7 @@ void DetectionTab::removeRaw_gui(string Id, string name)
 
 void DetectionTab::addAct_client(StringMap params)
 {
-	/*Action* a =*/ RawManager::getInstance()->addAction(Util::toInt(params["ID"]),params["Name"],Util::toInt(params["Enabled"]));
+	RawManager::getInstance()->addAction(Util::toInt(params["ID"]),params["Name"],Util::toInt(params["Enabled"]));
 	RawManager::getInstance()->saveActionRaws();
 }
 
@@ -733,7 +728,7 @@ void DetectionTab::addRaw_client(StringMap params)
 	raw->setRaw(params["RAW"]);
 	raw->setTime(Util::toInt(params["Time"]));
 	raw->setEnabled(true);
-	/*Raw* r = */RawManager::getInstance()->addRaw(a,*raw);
+	RawManager::getInstance()->addRaw(a,*raw);
 	RawManager::getInstance()->saveActionRaws();
 }
 
@@ -905,31 +900,30 @@ void DetectionTab::addEntryDet_gui(dcpp::StringMap params)
 	if(findProf_gui(id,&iter))
 	{
 			gtk_list_store_set(detectionStore,&iter,
-												detectionView.col(N_("Enable")),Util::toInt(params["Enabled"]),
-												detectionView.col(N_("Name")),params["Name"].c_str(),
-												detectionView.col(N_("Cheat")),params["Cheat"].c_str(),
-												detectionView.col(N_("Comment")),params["Comment"].c_str(),
-												detectionView.col(N_("Raw")),Util::toInt(params["RAW"]),
-												detectionView.col(N_("ID")),id,
-												detectionView.col(N_("Flag")),Util::toInt(params["Flag"]),
-												detectionView.col(N_("MisMatch")),Util::toInt(params["MisMatch"]),
-												-1);
-
+								detectionView.col(N_("Enable")),Util::toInt(params["Enabled"]),
+								detectionView.col(N_("Name")),params["Name"].c_str(),
+								detectionView.col(N_("Cheat")),params["Cheat"].c_str(),
+								detectionView.col(N_("Comment")),params["Comment"].c_str(),
+								detectionView.col(N_("Raw")),Util::toInt(params["RAW"]),
+								detectionView.col(N_("ID")),id,
+								detectionView.col(N_("Flag")),Util::toInt(params["Flag"]),
+								detectionView.col(N_("MisMatch")),Util::toInt(params["MisMatch"]),
+									-1);
 
 	}
 	else
 	{
 				gtk_list_store_append(detectionStore,&iter);
 				gtk_list_store_set(detectionStore,&iter,
-												detectionView.col(N_("Enable")),Util::toInt(params["Enabled"]),
-												detectionView.col(N_("Name")),params["Name"].c_str(),
-												detectionView.col(N_("Cheat")),params["Cheat"].c_str(),
-												detectionView.col(N_("Comment")),params["Comment"].c_str(),
-												detectionView.col(N_("Raw")),Util::toInt(params["RAW"]),
-												detectionView.col(N_("ID")),id,
-												detectionView.col(N_("Flag")),Util::toInt(params["Flag"]),
-												detectionView.col(N_("MisMatch")),Util::toInt(params["MisMatch"]),
-												-1);
+								detectionView.col(N_("Enable")),Util::toInt(params["Enabled"]),
+								detectionView.col(N_("Name")),params["Name"].c_str(),
+								detectionView.col(N_("Cheat")),params["Cheat"].c_str(),
+								detectionView.col(N_("Comment")),params["Comment"].c_str(),
+								detectionView.col(N_("Raw")),Util::toInt(params["RAW"]),
+								detectionView.col(N_("ID")),id,
+								detectionView.col(N_("Flag")),Util::toInt(params["Flag"]),
+								detectionView.col(N_("MisMatch")),Util::toInt(params["MisMatch"]),
+									-1);
 				profiles.insert(Prof::value_type(id,iter));
 	}
 }
@@ -1157,7 +1151,7 @@ bool DetectionTab::showAddEntryDetDialog(StringMap &params, DetectionTab *dt)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(dt->getWidget("checkbuttonCheckMis")), mismatch);
 		///Set Action
 		vector< pair <string,int> > act = WulforUtil::getActions();
-        dt->set_combo(dt->getWidget("comboboxentry1Act"),act,Util::toInt(params["RAW"]),true,dt);
+		dt->set_combo(dt->getWidget("comboboxentry1Act"),act,Util::toInt(params["RAW"]),true,dt);
 		/*WulforUtil::drop_combo(dt->getWidget("comboboxentry1Act"),act);
 		gtk_combo_box_set_active(GTK_COMBO_BOX(dt->getWidget("comboboxentry1Act")), (gint)(dt->find_rawInt(Util::toInt(params["RAW"])) ));*/
 		//Flag
