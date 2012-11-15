@@ -21,16 +21,19 @@
 
 #ifndef EMOTICONS_DIALOG_HH
 #define EMOTICONS_DIALOG_HH
-
+#include <dcpp/stdinc.h>
+#include <dcpp/Util.h>
+#include "emoticons.hh"
 class EmoticonsDialog
 {
 	public:
-		EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *menu);
+		EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *menu, std::string packName = dcpp::Util::emptyString, std::string address = dcpp::Util::emptyString);
 		~EmoticonsDialog();
 
 		// GUI functions
 		void showEmotDialog_gui();
 		void buildEmotMenu_gui();
+		std::string getCurrent(std::string address) { return Emoticons::get()->getCurrPackName_gui(address);}
 
 	private:
 		enum {FIRST, x16 = FIRST, x22, x24, x32, x36, x48, x64, DEFAULT, LAST};
@@ -46,6 +49,8 @@ class EmoticonsDialog
 		int icon_width;
 		int icon_height;
 		std::string currIconSize;
+		std::string packName;
+		std::string address;
 		static const std::string sizeIcon[LAST];
 
 		void build();

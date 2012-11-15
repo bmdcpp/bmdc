@@ -22,7 +22,7 @@
 #include "forward.h"
 
 #include <cstdint>
-
+#include <map>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -107,6 +107,8 @@ typedef vector<UserPtr> UserList;
 typedef vector<UserConnectionPtr> UserConnectionList;
 
 typedef unordered_map<string, boost::variant<string, std::function<string ()>>> ParamMap;
+
+typedef std::map<int, int> IntMap;
 
 }
 

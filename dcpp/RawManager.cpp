@@ -46,7 +46,7 @@ void RawManager::saveActionRaws() {
 		xml.addTag("ActionRaws");
 		xml.stepIn();
 
-		for(Action::ActionList::const_iterator i = actions.begin(); i != actions.end(); ++i) {
+		for(auto i = actions.begin(); i != actions.end(); ++i) {
 			xml.addTag("Action");
 			xml.addChildAttrib("ID", Util::toString((*i)->getId()));
 			xml.addChildAttrib("Name", (*i)->getName());
@@ -145,7 +145,7 @@ Action* RawManager::addAction(int id, const std::string& name, bool enabled) thr
 		throw Exception("NO NAME SPECIFIED");
 
 	Lock l(cs);
-	for(Action::ActionList::const_iterator i = actions.begin(); i != actions.end(); ++i) {
+	for(auto i = actions.begin(); i != actions.end(); ++i) {
 		if(Util::stricmp(name, (*i)->getName()) == 0)
 			throw Exception("ACTION EXISTS");
 	}
@@ -190,7 +190,7 @@ bool RawManager::remAction(Action* a) noexcept {
 
 Action* RawManager::findAction(int id) noexcept {
 	Lock l(cs);
-	for(Action::ActionList::iterator i = actions.begin(); i != actions.end(); ++i) {
+	for(auto i = actions.begin(); i != actions.end(); ++i) {
 		if(id == (*i)->getId())
 			return *i;
 	}
@@ -199,7 +199,7 @@ Action* RawManager::findAction(int id) noexcept {
 
 Action* RawManager::findAction(const std::string& name) noexcept {
 	Lock l(cs);
-	for(Action::ActionList::iterator i = actions.begin(); i != actions.end(); ++i) {
+	for(auto i = actions.begin(); i != actions.end(); ++i) {
 		if(Util::stricmp(name, (*i)->getName()) == 0)
 			return *i;
 	}
@@ -239,7 +239,6 @@ void RawManager::editRaw(const Action* a, Raw* old, Raw _new) throw(Exception) {
 		for(Action::RawsList::const_iterator j = a->raw.begin(); j != a->raw.end(); ++j) {
 			if(Util::stricmp(j->getName(), _new.getName()) == 0)
 				continue;
-				//throw Exception(/*STRING(*/"RAW_EXISTS"/*)*/);
 		}
 	}
 	*old = _new;

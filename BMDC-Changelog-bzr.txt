@@ -620,4 +620,7 @@ Divide Favorite Tab and Favorite Hub Propteries to two class
 Partialy Fixed Detection Tab
 Fix ADLSearc add/edit Dialog
 Use Search icon on right click searches
+----r175
+Modify Emoticons to Settings per-fav
+More Per-Fav options
 

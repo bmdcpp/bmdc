@@ -80,6 +80,9 @@ FavoriteHubs::FavoriteHubs():
 	favoriteView.insertHiddenColumn("LogChat", G_TYPE_STRING);
 	favoriteView.insertHiddenColumn("AwayMessage", G_TYPE_STRING);
 	favoriteView.insertHiddenColumn("Notify", G_TYPE_INT);
+	favoriteView.insertHiddenColumn("ShowIP", G_TYPE_INT);
+	favoriteView.insertHiddenColumn("ShowCountry", G_TYPE_INT);
+	favoriteView.insertHiddenColumn("BoldTab", G_TYPE_INT);
 	favoriteView.insertHiddenColumn("Action", G_TYPE_INT);
 	favoriteView.finalize();
 	favoriteStore = gtk_list_store_newv(favoriteView.getColCount(), favoriteView.getGTypes());
@@ -199,6 +202,9 @@ void FavoriteHubs::editEntry_gui(StringMap &params, GtkTreeIter *iter)
 		favoriteView.col("LogChat"), params["LogChat"].c_str(),
 		favoriteView.col("AwayMessage"), params["Away"].c_str(),
 		favoriteView.col("Notify"), Util::toInt(params["Notify"]),
+		favoriteView.col("ShowIP"), Util::toInt(params["showip"]),
+		favoriteView.col("ShowCountry"), Util::toInt(params["Country"]),
+		favoriteView.col("BoldTab"), Util::toInt(params["BoldTab"]),
 		favoriteView.col("Action"), 0,
 		-1);
 }
@@ -424,6 +430,10 @@ void FavoriteHubs::onEditEntry_gui(GtkWidget *widget, gpointer data)
 	params["LogChat"] = fh->favoriteView.getString(&iter, "LogChat");
 	params["Away"] = fh->favoriteView.getString(&iter, "AwayMessage");
 	params["Notify"] = Util::toString(fh->favoriteView.getValue<gint>(&iter, "Notify"));
+
+	params["Country"] = Util::toString(fh->favoriteView.getValue<gint>(&iter, "ShowCountry"));
+	params["showip"] = Util::toString(fh->favoriteView.getValue<gint>(&iter, "ShowIP"));
+	params["BoldTab"] = Util::toString(fh->favoriteView.getValue<gint>(&iter, "BoldTab"));
 
 	auto f = new FavoriteHubDialog(false);
       bool entryUpdated = f->initDialog(fh->GroupsIter,params);
@@ -983,6 +993,9 @@ void FavoriteHubs::updateFavHubGroups_gui(bool updated)
 				params["LogChat"] = favoriteView.getString(&iter, "LogChat");
 				params["Away"] = favoriteView.getString(&iter, "AwayMessage");
 				params["Notify"] = Util::toString(favoriteView.getValue<gint>(&iter, "Notify"));
+				params["Country"] = Util::toString(favoriteView.getValue<gint>(&iter, "ShowCountry"));
+				params["showip"] = Util::toString(favoriteView.getValue<gint>(&iter, "ShowIP"));
+				params["BoldTab"] = Util::toString(favoriteView.getValue<gint>(&iter, "BoldTab"));
 
 				editEntry_gui(params, &iter);
 
@@ -1245,7 +1258,9 @@ void FavoriteHubs::getFavHubParams_client(const FavoriteHubEntry *entry, StringM
 	params["LogChat"] = toInt(entry->get(HubSettings::LogChat)) ? "1" : "0";
 	params["Away"] = entry->get(HubSettings::AwayMessage);
 	params["Notify"] = entry->getNotify() ? "1" : "0";
-
+	params["Country"] = entry->get(HubSettings::ShowCountry) ? "1" : "0";
+	params["showip"] = entry->get(HubSettings::ShowIps) ? "1" : "0";
+	params["BoldTab"] = entry->get(HubSettings::BoldTab) ? "1" : "0";
 }
 
 void FavoriteHubs::addEntry_client(StringMap params)
@@ -1273,6 +1288,10 @@ void FavoriteHubs::addEntry_client(StringMap params)
 	entry.setAutoConnect(Util::toInt(params["Auto Connect"]));
 	entry.setProtectUsers(params["Protected"]);
 	entry.setNotify(Util::toInt(params["Notify"]));
+
+	entry.get(HubSettings::BoldTab) = Util::toInt(params["BoldTab"]);
+	entry.get(HubSettings::ShowCountry) = Util::toInt(params["Country"]);
+	entry.get(HubSettings::ShowIps) = Util::toInt(params["showip"]);
 
 	entry.get(HubSettings::LogChat) = Util::toInt(params["LogChat"]);
 	entry.get(HubSettings::AwayMessage) = params["Away"];
@@ -1316,6 +1335,10 @@ void FavoriteHubs::editEntry_client(string address, StringMap params)
 		entry->setProtectUsers(params["Protected"]);
 
 		entry->get(HubSettings::LogChat) = Util::toInt(params["LogChat"]);
+		entry->get(HubSettings::BoldTab) = Util::toInt(params["BoldTab"]);
+		entry->get(HubSettings::ShowCountry) = Util::toInt(params["Country"]);
+		entry->get(HubSettings::ShowIps) = Util::toInt(params["showip"]);
+
 
 		entry->get(HubSettings::AwayMessage) = params["Away"];
 

@@ -54,7 +54,7 @@ const string SettingsManager::settingTags[] =
 	"SoundMainChat", "SoundPM", "SoundPMWindow", "SoundFinishedDL", "SoundFinishedFL", "LastSharedFolder",
 	"ACFrameOrder", "ACFrameWidths",
 	//[BMDC
-	"BackupFilePattern", "LogFileRaw", "LogFormatRaw", "ProtectedUsers", "BackupTimeStamp",
+	"BackupFilePattern", "LogFileRaw", "LogFormatRaw", "ProtectedUsers", "BackupTimeStamp", "EmotPack",
 	//]
 	"SENTRY",
 	// Ints
@@ -398,7 +398,7 @@ SettingsManager::SettingsManager()
 	setDefault(AC_DISCLAIM, true);
 	setDefault(GLOBAL_HS, false);
 	setDefault(GLOBAL_EM, false);
-
+	setDefault(EMOT_PACK, "bmicon");
 	setDefault(DONT_ALOW_CHATROOMS, true);
 
 	setSearchTypeDefaults();
@@ -660,6 +660,10 @@ HubSettings SettingsManager::getHubSettings() const {
         ret.get(HubSettings::FavShowJoins) = get(FAV_SHOW_JOINS);
 	//[BMDC++
 	ret.get(HubSettings::LogChat) = get(LOG_MAIN_CHAT);
+	ret.get(HubSettings::ShowIps) = get(USE_IP);
+	ret.get(HubSettings::ShowCountry) = get(GET_USER_COUNTRY);
+	ret.get(HubSettings::BoldTab) = get(BOLD_HUB);
+	ret.get(HubSettings::PackName) = get(EMOT_PACK);
 	//]
         return ret;
 

@@ -828,7 +828,6 @@ void FavoriteManager::userUpdated(const OnlineUser& info) {
 		save();
 	}
 
-
 }
 
 FavoriteHubEntryPtr FavoriteManager::getFavoriteHubEntry(const string& aServer) const {

@@ -41,6 +41,7 @@ struct HubSettings
 		UserIp,
 		// don't forget to edit stringNames in HubSettings.cpp when adding a def here!
 		AwayMessage,
+		PackName,
 		HubStrLast
 	};
 
@@ -52,6 +53,9 @@ struct HubSettings
 		// don't forget to edit boolNames in HubSettings.cpp when adding a def here!
 		LogChat,//BMDC++
 		Connect,
+		ShowIps,
+		ShowCountry,
+		BoldTab,
 
 		HubBoolLast
 	};

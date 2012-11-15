@@ -22,9 +22,9 @@
 #include "Singleton.h"
 #include "ActionRaw.h"
 #include "SettingsManager.h"
+#include "typedefs.h"
 
 namespace dcpp {
-	typedef std::map<int, int> IntMap;
 
 class SimpleXML;
 class RawManager : public Singleton<RawManager>, private SettingsManagerListener {

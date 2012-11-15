@@ -66,7 +66,7 @@ public:
 	const DetectionItems& getProfiles(ParamMap& p, bool isUserInfo = false) noexcept {
 		Lock l(cs);
 		// don't override other params
-		for(ParamMap::iterator i = params.begin(); i != params.end(); ++i)
+		for(auto i = params.begin(); i != params.end(); ++i)
 			p[i->first] = i->second;
 
 		return isUserInfo ? ui_det : det;

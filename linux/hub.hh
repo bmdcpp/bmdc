@@ -105,6 +105,7 @@ class Hub:
 		void addIgnore_gui(ParamMap params);
 
 		void addPrivateMessage_gui(Msg::TypeMsg typemsg, std::string nick, std::string cid, std::string url, std::string message, bool useSetting);
+		//BBCodes		
 		void loadImage_gui(std::string target, std::string tth);
 		void openImage_gui(std::string target);
 		void insertBBcodeEntry_gui(std::string ch);

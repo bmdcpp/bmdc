@@ -21,6 +21,8 @@
 
 #ifndef EMOTICONS_HH
 #define EMOTICONS_HH
+#include <dcpp/stdinc.h>
+#include <dcpp/DCPlusPlus.h>
 
 #include <gtk/gtk.h>
 #include <map>
@@ -59,18 +61,43 @@ class Emoticons
 		~Emoticons();
 
 		// GUI functions
-		Emot::List& getPack_gui() {return pack;}
-		int getCountFile_gui() const {return countfile;}
+		Emot::List& getPack_gui(const std::string address = dcpp::Util::emptyString) {
+				if(address.empty())
+					return pack;
+				else if(hubs2.find(address) != hubs2.end())
+					return hubs2.find(address)->second;
+				else return pack;
+		}
+		int getCountFile_gui(const std::string address = dcpp::Util::emptyString) const {
+				if(address.empty())
+					return countfile;
+				else if(hubs3.find(address)!=hubs3.end())
+					 return hubs3.find(address)->second;
+				else return countfile;
+		}
 		bool useEmoticons_gui() const {return useEmotions;}
-		std::string getCurrPackName_gui() const {return currPackName;}
-		void setCurrPackName_gui(const std::string &name) { currPackName = name;}
-		void reloadPack_gui() {create();}
-
+		std::string getCurrPackName_gui(const std::string address = dcpp::Util::emptyString) const {
+			if(address.empty()) { dcdebug("curr");
+				return currPackName; } 
+			else if( hubs.find(address) != hubs.end()){
+				return hubs.find(address)->second;
+			}
+			return currPackName;
+		}
+		void setCurrPackName_gui(const std::string &name, const std::string &address = dcpp::Util::emptyString) {
+			if(address.empty())
+				currPackName = name;
+			hubs.insert(make_pair(address,name));
+		}
+		void reloadPack_gui(std::string address = dcpp::Util::emptyString) {clean();create(address);}
+		
+		void rebuildHubEmot(std::string address = dcpp::Util::emptyString);
 	private:
 		static Emoticons *emoticons;
 
 		bool load(const std::string &file);
-		void create();
+		std::pair<Emot::List,int> load2(const std::string &file);
+		void create(std::string address = dcpp::Util::emptyString);
 		void clean();
 
 		bool useEmotions;
@@ -78,6 +105,9 @@ class Emoticons
 		Emot::List pack;
 		std::set<std::string> filter;
 		std::string currPackName;
+		std::map<std::string, std::string> hubs;
+		std::map<std::string, Emot::List> hubs2;
+		std::map<std::string, int> hubs3;
 };
 
 #else

@@ -76,7 +76,7 @@ class FavoriteHubDialog: public Entry
 			groups.insert(FavHubGroupsIter::value_type(i->first, iter));
 		}		
 
-		if(init)
+		if(init) //Defualt value when adding
 		{
 			params["Name"] = Util::emptyString;
 			params["Address"] = Util::emptyString;
@@ -101,6 +101,9 @@ class FavoriteHubDialog: public Entry
 			params["LogChat"] = Util::emptyString;
 			params["Away"] = Util::emptyString;
 			params["Notify"] = "0";
+			params["Country"] = "0";
+			params["showip"] = "0";
+			params["BoldTab"] = "0";
 		}
 
 		gtk_dialog_set_alternative_button_order(GTK_DIALOG(getContainer()), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
@@ -171,6 +174,9 @@ class FavoriteHubDialog: public Entry
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkoncon")), f("OnConnect")  );
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkLog")), f("LogChat") );
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkNoti")), f("Notify") );
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkShowCountry")), f("Country"));
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkShowIp")), f("showip") );
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkTabBold")), f("BoldTab") );
 
 		//fh->setRawActions_gui(fh,params);
 		// Show the dialog
@@ -199,6 +205,9 @@ class FavoriteHubDialog: public Entry
 			params["OnConnect"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkoncon"))) ? "1" : "0";
 			params["Filelists"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkFilelist"))) ? "1" : "0";
 			params["Clients"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkClients"))) ? "1" : "0";
+			params["showip"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkShowIp"))) ? "1" : "0";
+			params["BoldTab"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkTabBold"))) ? "1" : "0";
+			params["Country"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkShowCountry"))) ? "1" : "0";
 			params["eMail"] = gtk_entry_get_text(GTK_ENTRY(getWidget("entryeMail")));
 			params["Parts"] = Util::toString(gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("comboboxParts"))));
 			params["FavParts"] = Util::toString(gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("comboboxFavParts"))));

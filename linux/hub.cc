@@ -175,8 +175,15 @@ Hub::Hub(const string &address, const string &encoding):
 	userCommandMenu2 = new UserCommandMenu(getWidget("ipmenu"), ::UserCommand::CONTEXT_IP);
 	addChild(userCommandMenu2);
 
+	auto faventry =  FavoriteManager::getInstance()->getFavoriteHubEntry(address);
+	string packName = SETTING(EMOT_PACK);
+	if(faventry)
+	{
+		packName = faventry->get(HubSettings::PackName);
+	}
+	if(packName.empty()) packName = SETTING(EMOT_PACK);
 	// Emoticons dialog
-	emotdialog = new EmoticonsDialog(getWidget("chatEntry"), getWidget("emotButton"), getWidget("emotPacksMenu"));
+	emotdialog = new EmoticonsDialog(getWidget("chatEntry"), getWidget("emotButton"), getWidget("emotPacksMenu"), packName, address);
 	if (!WGETB("emoticons-use"))
 		gtk_widget_set_sensitive(getWidget("emotButton"), FALSE);
 	useEmoticons = TRUE;
@@ -336,8 +343,6 @@ Hub::Hub(const string &address, const string &encoding):
 	if(r == NULL)
 		FavoriteManager::getInstance()->addRecent(entry);
 
-	auto faventry =  FavoriteManager::getInstance()->getFavoriteHubEntry(address);
-
 	if(faventry)
 	{
 		bool showUserList = faventry->getShowUserList();
@@ -464,6 +469,7 @@ Hub::~Hub()
 	auto entry = FavoriteManager::getInstance()->getFavoriteHubEntry(address);
 
 	if(entry) {
+		entry->get(HubSettings::PackName) = emotdialog->getCurrent(address);
 		entry->setShowUserList(showUL);
 		entry->setNotify(notify);
 		FavoriteManager::getInstance()->save();
@@ -511,7 +517,6 @@ void Hub::selection_changed_userlist_gui(GtkTreeSelection *selection, GtkWidget 
 {
 	gtk_widget_trigger_tooltip_query (tree_view);
 }
-
 
 void Hub::columnHeader(int num, string name)
 {
@@ -667,7 +672,7 @@ void Hub::updateUser_gui(ParamMap params)
 	if(pixbuf != NULL)
         g_object_ref(pixbuf);
 
-	//Color of OP,Pasive, Fav, Ignore, Protect
+	//Color of OP,Pasive, Fav, Ignore, Protect//TODO more flexibile ??
 	string nickColor = (isProtected ? WGETS("userlist-text-protected") :(isOperator ? WGETS("userlist-text-operator") : (isPasive ? WGETS("userlist-text-pasive") :(favorite ? WGETS("userlist-text-favorite") : ( isIgnore ? WGETS("userlist-text-ignored") : WGETS("userlist-text-normal"))))));
 
 	if (findUser_gui(cid, &iter))
@@ -750,7 +755,8 @@ void Hub::updateUser_gui(ParamMap params)
 
 		userIters.insert(UserIters::value_type(cid, iter));
 
-		if (SETTING(SHOW_JOINS))
+		if(client->get(HubSettings::ShowJoins))		
+		//if (SETTING(SHOW_JOINS))
 		{
 			// Show joins in chat by default
 			addStatusMessage_gui(Nick + _(" has joined"), Msg::STATUS, favorite? Sound::FAVORITE_USER_JOIN : Sound::NONE);
@@ -760,7 +766,8 @@ void Hub::updateUser_gui(ParamMap params)
 			if (favorite)
 				Notify::get()->showNotify("", message, Notify::FAVORITE_USER_JOIN);
 		}
-		else if (SETTING(FAV_SHOW_JOINS) && favorite)
+		//else if (SETTING(FAV_SHOW_JOINS) && favorite)
+		else if ( client->get(HubSettings::FavShowJoins) && favorite )
 		{
 			// Only show joins for favorite users
 			string message = Nick + _(" has joined hub ") + client->getHubName();
@@ -1545,7 +1552,7 @@ void Hub::applyEmoticons_gui()
 
 	Emot::Iter p_it;
 	gint set_start, new_start;
-	Emot::List &list = Emoticons::get()->getPack_gui();
+	Emot::List &list = Emoticons::get()->getPack_gui(address);
 
 	/* set start mark */
 	gtk_text_buffer_move_mark(chatBuffer, emot_mark, &start_iter);
@@ -1565,6 +1572,7 @@ void Hub::applyEmoticons_gui()
 
 			for (GList *p = names; p != NULL; p = p->next)
 			{
+
 				if (gtk_text_iter_forward_search(&start_iter,
 					(gchar *)p->data,
 					GTK_TEXT_SEARCH_VISIBLE_ONLY,
@@ -2077,7 +2085,6 @@ gboolean Hub::onNickTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *e
 
 	if (event->type == GDK_2BUTTON_PRESS)
 	{
-		//string tagName = tag->name;
 		gchar *tmp;
 		g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
 		string tagName = string(tmp);
@@ -2088,7 +2095,6 @@ gboolean Hub::onNickTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *e
 	else if (event->type == GDK_BUTTON_PRESS)
 	{
 		GtkTreeIter nickIter;
-		//string tagName = tag->name;
 		gchar *tmp;
 		g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
 		string tagName = string(tmp);
@@ -2159,7 +2165,6 @@ gboolean Hub::onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *ev
 gboolean Hub::onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event , GtkTextIter *iter, gpointer data)
 {
 	Hub *hub = (Hub *)data;
-	///hub->ip = tag->name; //think
 	gchar *tmp;    
 	g_object_get(G_OBJECT(tag),"name",&tmp,NULL);    
 	hub->ip = string(tmp);
@@ -2478,7 +2483,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			"/raw\t\t\t" + _("Send Raw data") + "\n"+
 			"/conn" + _("Show Conection Setup Info\n")+
 			WulforUtil::commands
-             , Msg::SYSTEM);
+             	, Msg::SYSTEM);
 		}
 		else if(command == "plgadd")
 		{
@@ -2888,7 +2893,6 @@ void Hub::onRemoveUserItemClicked_gui(GtkMenuItem *item, gpointer data)
 void Hub::onCopyURIClicked_gui(GtkMenuItem *item, gpointer data)
 {
 	Hub *hub = (Hub *)data;
-
 	gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), hub->selectedTagStr.c_str(), hub->selectedTagStr.length());
 }
 
@@ -4250,7 +4254,7 @@ void Hub::on(FavoriteManagerListener::UserAdded, const FavoriteUser &user) throw
 	params.insert(ParamMap::value_type("Nick", user.getNick()));
 	params.insert(ParamMap::value_type("CID", user.getUser()->getCID().toBase32()));
 	params.insert(ParamMap::value_type("Order", ClientManager::getInstance()->isOp(user.getUser(), user.getUrl()) ? "O" : "U"));
-	params.insert(ParamMap::value_type("Type", "C" + user.getNick()));
+	params.insert(ParamMap::value_type("Type", string(user.isSet(FavoriteUser::FLAG_IGNORE) ? "I" : "C") + user.getNick()));
 
 	Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::addFavoriteUser_gui, params);
 	WulforManager::get()->dispatchGuiFunc(func);
@@ -4268,31 +4272,6 @@ void Hub::on(FavoriteManagerListener::UserRemoved, const FavoriteUser &user) thr
 	Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::removeFavoriteUser_gui, params);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
-/*
-void Hub::on(FavoriteManagerListener::IgnoreUserAdded, const FavoriteUser &user) noexcept
-{
-    if(user.getUrl() != client->getHubUrl())
-        return;
-    ParamMap params;
-    params.insert(ParamMap::value_type("Nick", user.getNick()));
-	params.insert(ParamMap::value_type("CID", user.getUser()->getCID().toBase32()));
-
-    Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::addIgnore_gui, params);
-    WulforManager::get()->dispatchGuiFunc(func);
-}
-
-void Hub::on(FavoriteManagerListener::IgnoreUserRemoved, const FavoriteUser &user) noexcept
-{
-    if (user.getUrl() != client->getHubUrl())
-		return;
-
-	ParamMap params;
-	params.insert(ParamMap::value_type("Nick", user.getNick()));
-	params.insert(ParamMap::value_type("CID", user.getUser()->getCID().toBase32()));
-
-    Func1<Hub, ParamMap> * func = new Func1<Hub, ParamMap> (this, &Hub::removeIgnore_gui, params);
-    WulforManager::get()->dispatchGuiFunc(func);
-}*/
 //Indepent Fav
 void Hub::on(FavoriteManagerListener::FavoriteIAdded, const string &nick, FavoriteUser* &user) noexcept
 {
@@ -4338,18 +4317,18 @@ void Hub::on(ClientListener::UserUpdated, Client *, const OnlineUser &user) thro
 		//BMDC++
 		if(user.getIdentity().getUser()->isSet(User::PASSIVE))
 		{
-            Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::addPasive_gui, params);
-            WulforManager::get()->dispatchGuiFunc(func);
+	            Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::addPasive_gui, params);
+      	      WulforManager::get()->dispatchGuiFunc(func);
 		}
 		if (user.getIdentity().isOp())
 		{
-		    Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::addOperator_gui, params);
-            WulforManager::get()->dispatchGuiFunc(func);
+			Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::addOperator_gui, params);
+      	      WulforManager::get()->dispatchGuiFunc(func);
 		}
 		if (user.getIdentity().getUser()->isSet(User::PROTECT))
 		{
-		   Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::addProtected_gui, params);
-           WulforManager::get()->dispatchGuiFunc(func);
+			Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::addProtected_gui, params);
+           		WulforManager::get()->dispatchGuiFunc(func);
 		}
         //end
 		Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::updateUser_gui, params);
@@ -4363,7 +4342,7 @@ void Hub::on(ClientListener::UsersUpdated, Client *, const OnlineUserList &list)
 	typedef Func1<Hub, ParamMap> F1;
 	F1 *func;
 
-	for (OnlineUserList::const_iterator it = list.begin(); it != list.end(); ++it)
+	for (auto it = list.begin(); it != list.end(); ++it)
 	{
 		id = (*it)->getIdentity();
 		if (!id.isHidden())
@@ -4458,11 +4437,11 @@ string Hub::formatAdditionalInfo(const string& aIp, bool sIp, bool sCC, bool isP
 	string ret = Util::emptyString;
 
 	if(!aIp.empty()) {
-		string cc = (SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountryAbbrevation(aIp) : Util::emptyString;
-		string countryn = (SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountry(aIp) : Util::emptyString;
-		bool showIp = SETTING(USE_IP) || sIp;
-		bool showCc = (SETTING(GET_USER_COUNTRY) || sCC) && !cc.empty();
-		bool useFlagIcons = (WGETB("use-flag") && !cc.empty());
+		string cc = sCC ? GeoManager::getInstance()->getCountryAbbrevation(aIp) : Util::emptyString;
+		string countryn = sCC ? GeoManager::getInstance()->getCountry(aIp) : Util::emptyString;
+		bool showIp = sIp;
+		bool showCc = sCC && !cc.empty();
+		bool useFlagIcons = (WGETB("use-flag") && !cc.empty());//TODO
 
 		if(showIp) {
 			ret = "[ " + aIp + " ] ";
@@ -4498,7 +4477,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 
 		string info;
 		string extraInfo;
-		info = formatAdditionalInfo(message.from->getIdentity().getIp(), SETTING(USE_IP), SETTING(GET_USER_COUNTRY), message.to && message.replyTo);
+		info = formatAdditionalInfo(message.from->getIdentity().getIp(), client->get(HubSettings::ShowIps), client->get(HubSettings::ShowCountry), message.to && message.replyTo);
 
 		//Extra Info
 		dcpp::ParamMap params;
@@ -4509,8 +4488,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 		extraInfo = Text::toT(Util::formatParams(client->getChatExtraInfo(), params));
 		if(!extraInfo.empty())
 			info += " " + extraInfo + " ";
-
-	    line += info;
+		line += info;
 	}
 
 	bool third = false;
@@ -4624,14 +4602,14 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 		WulforManager::get()->dispatchGuiFunc(func);
 
 		// Set urgency hint if message contains user's nick
-		if (SETTING(BOLD_HUB) && message.from->getIdentity().getUser() != client->getMyIdentity().getUser())
+		if (  /*SETTING(BOLD_HUB)*/client->get(HubSettings::BoldTab) && message.from->getIdentity().getUser() != client->getMyIdentity().getUser())
 		{
               if( !isActive_gui() && WGETB("bold-all-tab"))
 			{
 					typedef Func0<Hub> F0;
 					F0 *func = new F0(this, &Hub::setUrgent_gui);
 					WulforManager::get()->dispatchGuiFunc(func);
-					return;//thinking
+					return;
 			}
 
 			if (message.text.find(client->getMyIdentity().getNick()) != string::npos)
@@ -4642,7 +4620,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) throw
 			}
 		}
 	}
-} //NOTE: core 0.762
+}
 
 void Hub::on(ClientListener::StatusMessage, Client *, const string &message, int /* flag */) throw()
 {

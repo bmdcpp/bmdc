@@ -23,10 +23,10 @@ namespace dcpp {
 
 const string HubSettings::stringNames[StringCount] = {
 	"Nick", "UserDescription", "Email", "UserIp" // not "Description" for compat with prev fav hub lists
-	, "AwayMessage"
+	, "AwayMessage", "PackName",
 };
 const string HubSettings::boolNames[BoolCount] = {
-	"ShowJoins", "FavShowJoins", "LogChat", "Connect"
+	"ShowJoins", "FavShowJoins", "LogChat", "Connect", "ShowIps", "ShowCountry", "BoldTab",
 };
 
 namespace {
@@ -36,7 +36,7 @@ inline bool defined(tribool b) { return !indeterminate(b); }
 
 HubSettings::HubSettings() {
 	// tribools default to false; init them to an indeterminate value.
-	for(int i = (int)ShowJoins; i>Connect; ++i) {
+	for(int i = (int)ShowJoins; i>BoldTab; ++i) {
 		bools[i] = indeterminate;
 	}
 }

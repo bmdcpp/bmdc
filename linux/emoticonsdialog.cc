@@ -25,8 +25,9 @@
 #include "settingsmanager.hh"
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
-#include "emoticonsdialog.hh"
 #include "emoticons.hh"
+#include "emoticonsdialog.hh"
+
 
 using namespace std;
 using namespace dcpp;
@@ -35,17 +36,23 @@ const string EmoticonsDialog::sizeIcon[] = {
 	"16x16", "22x22", "24x24", "32x32", "36x36", "48x48", "64x64", "0"
 };
 
-EmoticonsDialog::EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *menu) :
+EmoticonsDialog::EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *menu, string packName /*Util::emptyString*/, string address /*Util::empty*/) :
 	Chat(chat),
 	Button(button),
 	Menu(menu),
-	dialog(NULL)
+	dialog(NULL),
+	packName(packName),
+	address(address)
 {
 #if !GTK_CHECK_VERSION(2, 12, 0)
 	tooltips = gtk_tooltips_new();
 	g_object_ref_sink(tooltips);
 #endif
 	g_object_ref_sink(Menu);
+
+	Emoticons::get()->setCurrPackName_gui(packName,address);
+	Emoticons::get()->rebuildHubEmot(address);
+	Emoticons::get()->reloadPack_gui(address);
 }
 
 EmoticonsDialog::~EmoticonsDialog()
@@ -78,7 +85,7 @@ void EmoticonsDialog::buildEmotMenu_gui()
 
 void EmoticonsDialog::addPacksMenu(GtkWidget *item)
 {
-	const string currPackName = Emoticons::get()->getCurrPackName_gui();
+	const string currPackName = Emoticons::get()->getCurrPackName_gui(address);
 	string path = WulforManager::get()->getPath() + G_DIR_SEPARATOR_S + "emoticons" + G_DIR_SEPARATOR_S;
 
 	GtkWidget *check_item;
@@ -87,7 +94,7 @@ void EmoticonsDialog::addPacksMenu(GtkWidget *item)
 	string packName;
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), packs_menu);
 
-	for (StringIter it = files.begin(); it != files.end(); ++it)
+	for (auto it = files.begin(); it != files.end(); ++it)
 	{
 		packName = Util::getFileName(*it);
 		string::size_type pos = packName.rfind('.');
@@ -112,7 +119,7 @@ void EmoticonsDialog::addPacksMenu(GtkWidget *item)
 		else
 			gtk_check_menu_item_set_active((GtkCheckMenuItem*)check_item, FALSE);
 
-		g_signal_connect(check_item, "activate", G_CALLBACK(onCheckPacksMenu), NULL);
+		g_signal_connect(check_item, "activate", G_CALLBACK(onCheckPacksMenu), (gpointer)this);
 		g_object_set_data_full(G_OBJECT(check_item), "current-pack-name", g_strdup(packName.c_str()), g_free);
 	}
 }
@@ -193,12 +200,15 @@ void EmoticonsDialog::setCurrIconSize(const string &size)
 
 void EmoticonsDialog::onCheckPacksMenu(GtkMenuItem *checkItem, gpointer data)
 {
-	string currPackName = (gchar*) g_object_get_data(G_OBJECT(checkItem), "current-pack-name");
+	EmoticonsDialog *ed = (EmoticonsDialog *)data;	
+	string currPackName = (gchar *)g_object_get_data(G_OBJECT(checkItem), "current-pack-name");
 
-	if (currPackName != Emoticons::get()->getCurrPackName_gui())
+	//if (currPackName != Emoticons::get()->getCurrPackName_gui(ed->address))
 	{
-		Emoticons::get()->setCurrPackName_gui(currPackName);
-		Emoticons::get()->reloadPack_gui();
+		Emoticons::get()->setCurrPackName_gui(currPackName,ed->address);
+		Emoticons::get()->rebuildHubEmot(ed->address);
+		Emoticons::get()->reloadPack_gui(ed->address);
+
 	}
 }
 
@@ -223,9 +233,8 @@ void EmoticonsDialog::build()
 		top_attach = 0,
 		bottom_attach = 1;
 
-	const int sizetable = Emoticons::get()->getCountFile_gui();
-	Emot::List &list = Emoticons::get()->getPack_gui();
-
+	const int sizetable = Emoticons::get()->getCountFile_gui(address);
+	Emot::List &list = Emoticons::get()->getPack_gui(address);
 	/* rows & columns */
 	guint rows, columns;
 	rows = columns = (guint)sqrt((double)sizetable);
@@ -313,7 +322,7 @@ void EmoticonsDialog::position()
 	// ox, oy, w, h
 	gint Wx, Wy, Dh, Dw,
 		Bx, By, Bw;
-	GtkAllocation allocation;//@NOTE: pre-GTK3
+	GtkAllocation allocation;//@NOTE: GTK3
 
 	gtk_widget_size_request(dialog, &requisition);
 

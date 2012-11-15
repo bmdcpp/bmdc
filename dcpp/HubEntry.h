@@ -80,7 +80,7 @@ public:
 		autoConnect(rhs.autoConnect), ip(rhs.ip), mode(rhs.mode), chatExtraInfo(rhs.chatExtraInfo),
 		protectUsers(rhs.protectUsers),	checkAtConn(rhs.checkAtConn), checkClients(rhs.checkClients), checkFilelists(rhs.checkFilelists),  checkMyInfo(rhs.checkMyInfo),
 		showUserList(rhs.showUserList), tabText(rhs.tabText), tabIconStr(rhs.tabIconStr), notify(rhs.notify)
-		 { }
+		{ }
 
 	~FavoriteHubEntry() { }
 
