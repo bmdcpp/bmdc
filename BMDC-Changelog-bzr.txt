@@ -623,4 +623,7 @@ Use Search icon on right click searches
 ----r175
 Modify Emoticons to Settings per-fav
 More Per-Fav options
+----r176
+using gtk_show_uri
+Default BoldTab&Notify in Fav Dialog to Enable
 

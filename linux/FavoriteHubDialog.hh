@@ -100,10 +100,10 @@ class FavoriteHubDialog: public Entry
 			params["FavParts"] = Util::emptyString;
 			params["LogChat"] = Util::emptyString;
 			params["Away"] = Util::emptyString;
-			params["Notify"] = "0";
+			params["Notify"] = "1";
 			params["Country"] = "0";
 			params["showip"] = "0";
-			params["BoldTab"] = "0";
+			params["BoldTab"] = "1";
 		}
 
 		gtk_dialog_set_alternative_button_order(GTK_DIALOG(getContainer()), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
