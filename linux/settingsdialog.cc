@@ -1670,7 +1670,7 @@ void Settings::makeColor(GtkTreeViewColumn *column, GtkCellRenderer *cell, GtkTr
 		}//Favorite
 		else if ( strcmp(a,"f") == 0)
 		{
-     	   color = WGETS("userlist-bg-favorite");
+			color = WGETS("userlist-bg-favorite");
 		}
 		//Normal
 		else if ( strcmp(a,"n") == 0)
@@ -1864,6 +1864,7 @@ void Settings::onRemPluginFrom_gui(GtkWidget *widget, gpointer data)
 		WulforManager::get()->dispatchClientFunc(func);
 	}
 }
+
 void Settings::RemovePlg_client(int sel)
 { PluginManager::getInstance()->unloadPlugin(sel); }
 
@@ -3548,14 +3549,17 @@ void Settings::selectTextStyle_gui(const int select)
 		showErrorDialog(_("selected style failed"));
 		return;
 	}
-
-	gint response = gtk_dialog_run(GTK_DIALOG(getWidget("fontSelectionDialog")));
-	gtk_widget_hide(getWidget("fontSelectionDialog"));
+	GtkWidget *dialog = gtk_font_chooser_dialog_new (_("Select Font"),GTK_WINDOW(getContainer())); 	
+//	gint response = gtk_dialog_run(GTK_DIALOG(getWidget("fontSelectionDialog")));
+//	gtk_widget_hide(getWidget("fontSelectionDialog"));
+	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
+	gtk_widget_hide(dialog);
 
 	if (response == GTK_RESPONSE_OK)
 	{
-		GtkFontSelection *fontsel = GTK_FONT_SELECTION(getWidget("fontsel-font_selection"));
-		gchar *temp = gtk_font_selection_get_font_name(fontsel);
+		//GtkFontSelection *fontsel = GTK_FONT_SELECTION(getWidget("fontsel-font_selection"));
+		//gchar *temp = gtk_font_selection_get_font_name(fontsel);
+		gchar *temp =  gtk_font_chooser_get_font(GTK_FONT_CHOOSER(dialog)); 
 
 		if (temp)
 		{
@@ -3622,7 +3626,7 @@ void Settings::setBgColorUserList()
 
 		string strcolor = WulforUtil::colorToString(&color);
 
-		ColorIters::const_iterator qp = colorsIters.find(_("User ") + currname);
+		auto qp = colorsIters.find(_("User ") + currname);
 
 		gtk_list_store_set(userListStore1, &iter, userListNames.col("BackSet"), strcolor.c_str(), -1);
 		if(currname.find(_("Normal")) != string::npos)
