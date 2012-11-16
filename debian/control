@@ -3,7 +3,7 @@ Section: net
 Version: 0.0.2-162
 Priority: optional
 Maintainer: Mank <freedcpp@seznam.cz>
-Build-Depends: debhelper (>= 4.2.0), scons, libbz2-dev, zlib1g-dev, libgtk-3-dev, libssl-dev, libboost-dev , libnotify-dev, libgeoip-dev, libtar-dev
+Build-Depends: debhelper (>= 4.2.0), scons, libbz2-dev, zlib1g-dev, libgtk-3-dev, libssl-dev, libboost-dev ,libcanberra-dev, libnotify-dev, libgeoip-dev, libtar-dev
 
 Package: bmdc
 Architecture: any
