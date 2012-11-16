@@ -110,11 +110,7 @@ private:
 	NmdcHub(const string& aHubURL);
 	virtual ~NmdcHub();
 
-    string salt;
-	// Dummy
-	//NmdcHub(const NmdcHub&);
-	//NmdcHub& operator=(const NmdcHub&);
-
+	string salt;
 	void clearUsers();
 public:
 	void onLine(const string& aLine) noexcept;

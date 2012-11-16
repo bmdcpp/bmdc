@@ -150,7 +150,7 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	OnlineUser* user = ClientManager::getInstance()->findOnlineUser(CID(cid), hubUrl);
 	isBot = user ? user->getIdentity().isBot() : FALSE;
 
-	setLabel_gui(WulforUtil::getNicks(cid, hubUrl) + " [" + WulforUtil::getHubNames(cid, hubUrl) + "]");//NOTE: core 0.762
+	setLabel_gui(WulforUtil::getNicks(cid, hubUrl) + " [" + WulforUtil::getHubNames(cid, hubUrl) + "]");
 
 	/* initial tags map */
 	TagsMap[Tag::TAG_PRIVATE] = createTag_gui("TAG_PRIVATE", Tag::TAG_PRIVATE);
@@ -172,7 +172,7 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 
 	dcpp::ParamMap params;
 	params["hubNI"] = WulforUtil::getHubNames(cid, hubUrl);//NOTE: core 0.762
-	params["hubURL"] = hubUrl;//NOTE: core 0.762
+	params["hubURL"] = hubUrl;
 	params["userCID"] = cid;
 	params["userNI"] = ClientManager::getInstance()->getNicks(CID(cid), hubUrl)[0];//NOTE: core 0.762
 	params["myCID"] = ClientManager::getInstance()->getMe()->getCID().toBase32();
@@ -213,7 +213,7 @@ void PrivateMessage::addMessage_gui(string message, Msg::TypeMsg typemsg)
 		dcpp::ParamMap params;
 		params["message"] = message;
 		params["hubNI"] = WulforUtil::getHubNames(cid, hubUrl);//NOTE: core 0.762
-		params["hubURL"] = hubUrl;//NOTE: core 0.762
+		params["hubURL"] = hubUrl;
 		params["userCID"] = cid;
 		params["userNI"] = ClientManager::getInstance()->getNicks(CID(cid), hubUrl)[0];//NOTE: core 0.762
 		params["myCID"] = ClientManager::getInstance()->getMe()->getCID().toBase32();
@@ -240,7 +240,7 @@ void PrivateMessage::addMessage_gui(string message, Msg::TypeMsg typemsg)
 		ParamMap params;
 		params["message"] = message;
 		params["hubNI"] = WulforUtil::getHubNames(cid, hubUrl);//NOTE: core 0.762
-		params["hubURL"] = hubUrl;//NOTE: core 0.762
+		params["hubURL"] = hubUrl;
 		params["userCID"] = cid;
 		params["userNI"] = ClientManager::getInstance()->getNicks(CID(cid), hubUrl)[0];//NOTE: core 0.762
 		params["myCID"] = ClientManager::getInstance()->getMe()->getCID().toBase32();
@@ -248,7 +248,7 @@ void PrivateMessage::addMessage_gui(string message, Msg::TypeMsg typemsg)
 
 		sentAwayMessage = TRUE;
 		typedef Func1<PrivateMessage, string> F1;
-		F1 *func = new F1(this, &PrivateMessage::sendMessage_client, /*Util::getAwayMessage(*/ what(params)/* )*/);
+		F1 *func = new F1(this, &PrivateMessage::sendMessage_client, what(params) );
 		WulforManager::get()->dispatchClientFunc(func);
 	}
 
@@ -281,9 +281,6 @@ void PrivateMessage::preferences_gui()
             		continue;
         	if(i == Tag::TAG_CHEAT)
 			continue;
-		//Todo
-		if(i == Tag::TAG_IPADR)
-			continue;
 
 		getSettingTag_gui(wsm, (Tag::TypeTag)i, fore, back, bold, italic);
 
@@ -314,14 +311,6 @@ void PrivateMessage::preferences_gui()
 	gtk_widget_override_background_color(getWidget("text"),GTK_STATE_FLAG_PRELIGHT,&color);
 	gtk_widget_override_background_color(getWidget("text"),GTK_STATE_FLAG_ACTIVE,&color);
 	gtk_widget_override_background_color(getWidget("text"),GTK_STATE_FLAG_INSENSITIVE,&color);
-/*
-	string strcolor = WGETS("background-color-chat");
-	GdkColor color;
-	gdk_color_parse(strcolor.c_str(),&color);
-	gtk_widget_modify_base(getWidget("text"),GTK_STATE_NORMAL,&color);
-	gtk_widget_modify_base(getWidget("text"),GTK_STATE_PRELIGHT,&color);
-	gtk_widget_modify_base(getWidget("text"),GTK_STATE_ACTIVE,&color);
-	gtk_widget_modify_base(getWidget("text"),GTK_STATE_INSENSITIVE,&color);*/
 }
 
 void PrivateMessage::setStatus_gui(string text)
@@ -464,7 +453,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 
 	string tagName;
 	bool start = FALSE;
-
+	bool isIp = false;
 	for(;;)
 	{
 		do {
@@ -522,18 +511,17 @@ void PrivateMessage::applyTags_gui(const string &line)
 			bool notlink = FALSE;
 
 			if(g_ascii_strncasecmp(tagName.c_str(), "[ccc]", 5) == 0)
-            {
-                string::size_type i = tagName.rfind("[/ccc]");
-                if (i != string::npos)
-                {
+			{
+				string::size_type i = tagName.rfind("[/ccc]");
+				if (i != string::npos)
+				{
 					country_text = tagName.substr(5, i - 5);
 					if(country_text.length() == 2 )
 					{
 							notlink = isCountryFlag = TRUE;
-
 					}
-                }
-            }
+                		}
+            	}
 
 			if(!notlink)
 			{
@@ -544,6 +532,19 @@ void PrivateMessage::applyTags_gui(const string &line)
 				else if (WulforUtil::isMagnet(tagName))
 					callback = G_CALLBACK(onMagnetTagEvent_gui);
 			}
+			
+			if(WulforUtil::HitIP(tagName,ip))
+			{
+				callback = G_CALLBACK(onIpTagEvent_gui);
+//				tagStyle = Tag::TAG_IPADR;
+				isIp = true;
+				userCommandMenu->cleanMenu_gui();
+				userCommandMenu->addIp(ip);
+				userCommandMenu->addHub(cid);
+				userCommandMenu->buildMenu_gui();
+				gtk_widget_show_all(userCommandMenu->getContainer());
+			}
+
 		}
 
 		g_free(temp);
@@ -594,7 +595,9 @@ void PrivateMessage::applyTags_gui(const string &line)
 
 			if (!tag)
 			{
-				tag = gtk_text_buffer_create_tag(messageBuffer, tagName.c_str(), "underline", PANGO_UNDERLINE_SINGLE, NULL);
+				if(isIp)
+					tag = gtk_text_buffer_create_tag(messageBuffer, tagName.c_str(), NULL);
+				else tag = gtk_text_buffer_create_tag(messageBuffer, tagName.c_str(), "underline", PANGO_UNDERLINE_SINGLE, NULL);
 				g_signal_connect(tag, "event", callback, (gpointer)this);
 			}
 
@@ -843,7 +846,7 @@ void PrivateMessage::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag 
 			bold = wsm->getInt("text-fav-bold");
 			italic = wsm->getInt("text-fav-italic");
 		break;
-
+		case Tag::TAG_IPADR:
 		case Tag::TAG_URL:
 
 			fore = wsm->getString("text-url-fore-color");
@@ -1206,6 +1209,25 @@ gboolean PrivateMessage::onMagnetTagEvent_gui(GtkTextTag *tag, GObject *textView
 				break;
 		}
 		return TRUE;
+	}
+	return FALSE;
+}
+
+gboolean PrivateMessage::onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event , GtkTextIter *iter, gpointer data)
+{
+	PrivateMessage *pm = (PrivateMessage *)data;
+	gchar *tmp;    
+	g_object_get(G_OBJECT(tag),"name",&tmp,NULL);    
+	pm->ip = std::string(tmp);
+
+	if(event->type == GDK_BUTTON_PRESS)
+	{
+		if(event->button.button == 3)
+		{
+			gtk_widget_show_all(pm->getWidget("ipMenu"));
+			gtk_menu_popup(GTK_MENU(pm->getWidget("ipMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+			return TRUE;
+		}
 	}
 	return FALSE;
 }

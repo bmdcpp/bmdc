@@ -632,4 +632,9 @@ Sound on Start Downloading..
 Add Emoticons to Fav Dialog
 ----r178
 Fixed color of BackGround 
+-----r180
+Removed FastAloc class ( for speedup)
+Add IP Tag to pm too
+-----r
+
 

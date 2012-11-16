@@ -80,7 +80,7 @@ class WulforUtil
 		static void copyValue_gui(GtkTreeStore* store, GtkTreeIter *fromIter, GtkTreeIter *toIter, int position);
 		static void registerIcons();
 		//NOTE: BMDC++
-		static void drop_combo(GtkWidget *widget, std::vector<std::pair<std::string,int> > CONTEUDO);
+		static void drop_combo(GtkWidget *widget, std::vector<std::pair<std::string,int> > CONTEUDO);//Used in Detections Settinsg only
 
 		static GdkPixbuf *LoadCountryPixbuf(const std::string& country);
 		static std::string getCountryCode(std::string _countryname);
@@ -94,6 +94,7 @@ class WulforUtil
 
 		static std::vector<std::pair<std::string,int> > getActions();
 		static std::string StringToUpper(std::string myString);
+		static gboolean HitIP(std::string &name, std::string& ip);
 
 		static const std::string ENCODING_LOCALE;
 		static const std::string commands;

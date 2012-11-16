@@ -205,7 +205,7 @@ gboolean AboutConfig::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *ev
 			// show dialog
 			onPropertiesClicked_gui(NULL, data);
 		}
-		else if (event->button == 3 && event->type == GDK_BUTTON_RELEASE)//TODO ??
+		else if (event->button == 3 && event->type == GDK_BUTTON_RELEASE)
 		{
 			// show menu
 			gtk_menu_popup(GTK_MENU(s->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());

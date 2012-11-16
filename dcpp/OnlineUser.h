@@ -25,7 +25,6 @@
 
 #include "forward.h"
 #include "Flags.h"
-#include "FastAlloc.h"
 #include "Util.h"
 #include "User.h"
 #include "PluginEntity.h"
@@ -148,8 +147,8 @@ private:
 	string getPkVersion() const;
 	void getDetectionParams(ParamMap& p);
 };
-
-class OnlineUser : public FastAlloc<OnlineUser>, public intrusive_ptr_base<OnlineUser>, private boost::noncopyable, public PluginEntity<UserData> {
+//Removed FastAlloc
+class OnlineUser :  public intrusive_ptr_base<OnlineUser>, private boost::noncopyable, public PluginEntity<UserData> {
 public:
 	typedef vector<OnlineUser*> List;
 	typedef List::iterator Iter;

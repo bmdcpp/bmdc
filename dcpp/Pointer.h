@@ -43,10 +43,6 @@ public:
 		intrusive_ptr_release(this);
 	}
 	//END
-
-	/*bool unique() noexcept {
-		return (ref == 1);
-	}*/
 	bool unique(int val = 1) const noexcept {
 		return (ref <= val);
 	}

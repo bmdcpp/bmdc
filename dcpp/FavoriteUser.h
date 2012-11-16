@@ -20,7 +20,6 @@
 #define DCPLUSPLUS_DCPP_FAVORITE_USER_H
 
 #include "Flags.h"
-#include "FastAlloc.h"
 
 namespace dcpp {
 

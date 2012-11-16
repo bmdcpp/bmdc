@@ -205,7 +205,6 @@ class Hub:
 		void openImage_client(std::string tth);
 		//BMDC++
 		std::string formatAdditionalInfo(const std::string& aIp, bool sIp, bool sCC, bool isPm);
-		gboolean HitIP(std::string &name, std::string& ip);
 		std::string getIcons(const dcpp::Identity& id);
 
 		void getPartialFileList_client(std::string cid);

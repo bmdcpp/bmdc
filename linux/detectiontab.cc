@@ -15,7 +15,7 @@
 //      along with this program; if not, write to the Free Software
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //      MA 02110-1301, USA.
-
+//@TODO: Move to Settings Dialog
 #include "detectiontab.hh"
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
@@ -1152,8 +1152,6 @@ bool DetectionTab::showAddEntryDetDialog(StringMap &params, DetectionTab *dt)
 		///Set Action
 		vector< pair <string,int> > act = WulforUtil::getActions();
 		dt->set_combo(dt->getWidget("comboboxentry1Act"),act,Util::toInt(params["RAW"]),true,dt);
-		/*WulforUtil::drop_combo(dt->getWidget("comboboxentry1Act"),act);
-		gtk_combo_box_set_active(GTK_COMBO_BOX(dt->getWidget("comboboxentry1Act")), (gint)(dt->find_rawInt(Util::toInt(params["RAW"])) ));*/
 		//Flag
 		gtk_combo_box_set_active(GTK_COMBO_BOX(dt->getWidget("comboboxFlag")), Util::toInt(params["Flag"]));
 		/*InfMap */

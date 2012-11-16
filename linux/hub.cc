@@ -755,7 +755,6 @@ void Hub::updateUser_gui(ParamMap params)
 		userIters.insert(UserIters::value_type(cid, iter));
 
 		if(client->get(HubSettings::ShowJoins))		
-		//if (SETTING(SHOW_JOINS))
 		{
 			// Show joins in chat by default
 			addStatusMessage_gui(Nick + _(" has joined"), Msg::STATUS, favorite? Sound::FAVORITE_USER_JOIN : Sound::NONE);
@@ -765,7 +764,6 @@ void Hub::updateUser_gui(ParamMap params)
 			if (favorite)
 				Notify::get()->showNotify("", message, Notify::FAVORITE_USER_JOIN);
 		}
-		//else if (SETTING(FAV_SHOW_JOINS) && favorite)
 		else if ( client->get(HubSettings::FavShowJoins) && favorite )
 		{
 			// Only show joins for favorite users
@@ -925,8 +923,13 @@ void Hub::getPassword_gui()
 		NULL);
 	gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_OK);
-
+#if GTK_CHECK_VERSION(3, 2, 0)
+	GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
+#else
 	GtkWidget *box = gtk_vbox_new(TRUE, 0);
+#endif
+
+
 	GtkWidget *entry = gtk_entry_new();
 	g_object_set(entry, "can-focus", TRUE, "visibility", FALSE, "activates-default", TRUE, NULL);
 
@@ -1005,7 +1008,6 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 
 	PluginManager::getInstance()->onChatDisplay(client, message);
 
-	//see linuxdcpp
 	message = message.c_str();
 	if (message.empty())
 		return;
@@ -1020,7 +1022,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 	if (SETTING(TIME_STAMPS))
 		line += "[" + Util::getShortTimeString() + "] ";
 
-	line += message; //+ "\n";
+	line += message; 
 
 	gtk_text_buffer_get_end_iter(chatBuffer, &iter);
 	gtk_text_buffer_insert(chatBuffer, &iter, line.c_str(), line.size());
@@ -1068,51 +1070,6 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 		gtk_text_buffer_get_iter_at_line(chatBuffer, &next, 1);
 		gtk_text_buffer_delete(chatBuffer, &iter, &next);
 	}
-}
-
-/* Inspired by StrongDC catch code ips */
-gboolean Hub::HitIP(string& name, string &sIp)
-{
-    string re = "^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(%.+)?\s*$";
-	bool isOkIpV6 = RegEx::match<string>(name,re);
-	if(isOkIpV6)
-	{
-		sIp = name;
-		return isOkIpV6;
-	}
-
-	for(uint32_t i = 0;i < name.length(); i++)
-	{
-		if(!((name[i] == 0) || (name[i] == '.') || ((name[i] >= '0') && (name[i] <= '9')))) {
-			return FALSE;
-		}
-	}
-
-	name += ".";
-	size_t begin = 0, pos = string::npos, end = 0;
-	bool isOk = true;
-	for(int i = 0; i < 4; i++) {
-		pos = name.find('.', begin);
-		if(pos == string::npos) {
-			isOk = false;
-			break;
-		}
-		end = atoi(Text::fromT(name.substr(begin)).c_str());
-		if(end > 255) {
-			isOk = false;
-			break;
-		}
-		begin = pos + 1;
-	}
-
-	if(isOk)
-	{
-		auto nedle = name.find_last_of(".");
-		name = name.substr(0,nedle);
-		sIp = name.substr(0,pos);
-	}
-	return isOk;
-
 }
 
 void Hub::applyTags_gui(const string &cid, const string &line)
@@ -1307,7 +1264,7 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 					tagStyle = Tag::TAG_URL;
 				}
 
-				if(HitIP(tagName,ip))
+				if(WulforUtil::HitIP(tagName,ip))
 				{
 					callback = G_CALLBACK(onIpTagEvent_gui);
 					tagStyle = Tag::TAG_IPADR;
@@ -1347,7 +1304,7 @@ void Hub::applyTags_gui(const string &cid, const string &line)
                     gtk_tooltips_set_tip(tips, event_box, country_text.c_str(), country_text.c_str());
                 #endif
 
-				}
+			}
             }
 
 		}
@@ -1653,7 +1610,7 @@ void Hub::updateCursor_gui(GtkWidget *widget)
 	GSList *tagList;
 	GtkTextTag *newTag = NULL;
 
-	gdk_window_get_pointer(gtk_widget_get_window(widget), &x, &y, NULL);
+	gdk_window_get_pointer(gtk_widget_get_window(widget), &x, &y, NULL);//TODO
 
 	// Check for tags under the cursor, and change mouse cursor appropriately
 	gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW(widget), GTK_TEXT_WINDOW_WIDGET, x, y, &buf_x, &buf_y);
@@ -1683,7 +1640,6 @@ void Hub::updateCursor_gui(GtkWidget *widget)
 		if (newTag != NULL)
 		{
 			// Cursor is entering a tag.
-			//selectedTagStr = newTag->name;
 			gchar *tmp;
 			g_object_get(G_OBJECT(newTag),"name",&tmp,NULL);
 			selectedTagStr = string(tmp);
@@ -1831,7 +1787,7 @@ void Hub::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, strin
 			bold = wsm->getInt("text-fav-bold");
 			italic = wsm->getInt("text-fav-italic");
 		break;
-
+		case Tag::TAG_IPADR:
 		case Tag::TAG_URL:
 
 			fore = wsm->getString("text-url-fore-color");
@@ -4849,7 +4805,12 @@ void Hub::SetTabText(gpointer data)
    GtkWidget *content_area = gtk_dialog_get_content_area (dialog);
    GtkWidget *entry = gtk_entry_new();
    GtkWidget *label = gtk_label_new("Text: ");
-   GtkWidget *hbox = gtk_hbox_new(TRUE,0);
+#if GTK_CHECK_VERSION(3, 2, 0)
+	GtkWidget *hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
+#else	
+	GtkWidget *hbox = gtk_hbox_new(TRUE,0);
+#endif
+
    GtkWidget *check = gtk_toggle_button_new_with_label("Set Icon Aviable");
    GdkPixbuf *pixbuf =	gdk_pixbuf_new_from_file_at_scale(hub->client->getTabIconStr().c_str(),15,15,FALSE,NULL);
 

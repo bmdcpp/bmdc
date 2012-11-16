@@ -446,10 +446,10 @@ string WulforUtil::colorToString(const GdkColor *color)
 
 string WulforUtil::colorToString(const GdkRGBA *color)
 {
-	gchar strcolor[14];
+	gchar strcolor[20];
 
-	g_snprintf(strcolor, sizeof(strcolor), "#%04F%04F%04F",
-		color->red, color->green, color->blue);
+	g_snprintf(strcolor, sizeof(strcolor), "rgba(%f,%f,%f,%f)",
+		color->red, color->green, color->blue, color->alpha);
 
 	return strcolor;
 }
@@ -723,8 +723,6 @@ void WulforUtil::registerIcons()
 	/**/
 	icons["bmdc-notepad"] = wsm->getString("icon-notepad");
 	icons["bmdc-notepad-on"] = wsm->getString("icon-notepad-on");
-//	icons["bmdc-ignore-users"] = wsm->getString("icon-ignore");
-//	icons["bmdc-ignore-users-on"] = wsm->getString("icon-ignore-on");
 	icons["bmdc-system"] = wsm->getString("icon-system");
 	icons["bmdc-system-on"] = wsm->getString("icon-system-on");
 	icons["bmdc-away"] = wsm->getString("icon-away");
@@ -867,7 +865,7 @@ string WulforUtil::formatReport(const Identity& identity)
 
 	string report = _("*** Info on " )+ identity.getNick() + " ***" + "\n";
 
-	for(map<string, string>::const_iterator i = reportMap.begin(); i != reportMap.end(); ++i)
+	for(auto i = reportMap.begin(); i != reportMap.end(); ++i)
 	{
 		report += "\n" + i->first + ": " +  i->second;
 	}
@@ -1274,7 +1272,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
   		}
   		else
  		{
-           return false;
+           	return false;
  		}
 
   return true;
@@ -1288,7 +1286,7 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, st
 		gboolean ret = FALSE;
 
 		ColorList* cList = HighlightManager::getInstance()->getList();
-		for(ColorIter i = cList->begin();i != cList->end(); ++i) {
+		for(auto i = cList->begin();i != cList->end(); ++i) {
 			ColorSettings* cs = &(*i);
 			bool tBold = false;
 			bool tItalic = false;
@@ -1423,7 +1421,7 @@ vector<std::pair<std::string,int> > WulforUtil::getActions()
 {
 	vector<std::pair<std::string,int> > actions;
 	const dcpp::Action::ActionList& a = dcpp::RawManager::getInstance()->getActions();
-		for(dcpp::Action::ActionList::const_iterator i = a.begin(); i != a.end(); ++i) {
+		for(auto i = a.begin(); i != a.end(); ++i) {
 				const std::string name = (*i)->getName();
 				const int Id = (*i)->getId();
 				if((*i)->getEnabled())
@@ -1558,7 +1556,7 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 }
 
 string WulforUtil::getStatsForMem() {
-	//main poit of this code is from ?? PtoXa
+	//main point of this code is from ?? PtoXa
 	string tmp = Util::emptyString;
 	FILE *fp = fopen("/proc/self/status", "r");
 				if(fp != NULL) {
@@ -1624,3 +1622,50 @@ string WulforUtil::getStatsForMem() {
 			}
 			return tmp;
 }
+
+
+/* Inspired by StrongDC catch code ips */
+gboolean WulforUtil::HitIP(string& name, string &sIp)
+{
+    string re = "^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}))|:)))(%.+)?\s*$";
+	bool isOkIpV6 = RegEx::match<string>(name,re);
+	if(isOkIpV6)
+	{
+		sIp = name;
+		return isOkIpV6;
+	}
+
+	for(uint32_t i = 0;i < name.length(); i++)
+	{
+		if(!((name[i] == 0) || (name[i] == '.') || ((name[i] >= '0') && (name[i] <= '9')))) {
+			return FALSE;
+		}
+	}
+
+	name += ".";
+	size_t begin = 0, pos = string::npos, end = 0;
+	bool isOk = true;
+	for(int i = 0; i < 4; i++) {
+		pos = name.find('.', begin);
+		if(pos == string::npos) {
+			isOk = false;
+			break;
+		}
+		end = atoi(Text::fromT(name.substr(begin)).c_str());
+		if(end > 255) {
+			isOk = false;
+			break;
+		}
+		begin = pos + 1;
+	}
+
+	if(isOk)
+	{
+		auto nedle = name.find_last_of(".");
+		name = name.substr(0,nedle);
+		sIp = name.substr(0,pos);
+	}
+	return isOk;
+
+}
+

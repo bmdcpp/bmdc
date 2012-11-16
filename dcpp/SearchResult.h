@@ -20,7 +20,6 @@
 #define DCPLUSPLUS_DCPP_SEARCHRESULT_H
 
 #include "forward.h"
-#include "FastAlloc.h"
 #include "MerkleTree.h"
 #include "AdcCommand.h"
 #include "Pointer.h"
@@ -28,8 +27,8 @@
 namespace dcpp {
 
 class SearchManager;
-
-class SearchResult : public FastAlloc<SearchResult>, public intrusive_ptr_base<SearchResult> {
+//Removed FastAlloc
+class SearchResult : public intrusive_ptr_base<SearchResult> {
 public:
 	enum Types {
 		TYPE_FILE,

@@ -1002,7 +1002,7 @@ void Settings::initDownloads_gui()
 			wsm->addPreviewApp(_("Amarok player"), "amarok", "mp3");
 		}
 
-		for (PreviewApp::Iter item = Apps.begin(); item != Apps.end(); ++item)
+		for (auto item = Apps.begin(); item != Apps.end(); ++item)
 		{
 			gtk_list_store_append(previewAppToStore, &iter);
 			gtk_list_store_set(previewAppToStore, &iter,
@@ -1146,7 +1146,6 @@ void Settings::initAppearance_gui()
 
 		g_signal_connect(soundView.getCellRenderOf(_("Use")), "toggled", G_CALLBACK(onOptionsViewToggled_gui), (gpointer)soundStore);
 
-//		TODO: download begins, uncomment when implemented
 		addOption_gui(soundStore, wsm, _("Download begins"), "sound-download-begins-use", "sound-download-begins");
 		addOption_gui(soundStore, wsm, _("Download finished"), "sound-download-finished-use", "sound-download-finished");
 		addOption_gui(soundStore, wsm, _("Download finished file list"), "sound-download-finished-ul-use", "sound-download-finished-ul");
@@ -1295,10 +1294,7 @@ void Settings::initAppearance_gui()
 		string strcolor = WGETS("background-color-chat");
 		GdkRGBA color;
 		gdk_rgba_parse(&color,strcolor.c_str());
-	/*	gtk_widget_modify_base(getWidget("textViewPreviewStyles"),GTK_STATE_NORMAL,&color);
-		gtk_widget_modify_base(getWidget("textViewPreviewStyles"),GTK_STATE_PRELIGHT,&color);
-		gtk_widget_modify_base(getWidget("textViewPreviewStyles"),GTK_STATE_ACTIVE,&color);
-		gtk_widget_modify_base(getWidget("textViewPreviewStyles"),GTK_STATE_INSENSITIVE,&color);*/
+
 		gtk_widget_override_background_color(getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_NORMAL,&color);
 		gtk_widget_override_background_color(getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_PRELIGHT,&color);
 		gtk_widget_override_background_color(getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_ACTIVE,&color);
@@ -1490,7 +1486,7 @@ void Settings::initAppearance_gui()
 		addOption_gui(toolbarStore, wsm, iconTheme, _("Connect"), "toolbar-button-connect",
 			"icon-connect");
 	//	addOption_gui(toolbarStore, wsm, iconTheme, _("Reconnect"), "toolbar-button-reconnect",
-	//		"icon-connect");
+	//		"icon-connect");//TODO maybe
 		addOption_gui(toolbarStore, wsm, iconTheme, _("Favorite Hubs"), "toolbar-button-fav-hubs",
 			"icon-favorite-hubs");
 		addOption_gui(toolbarStore, wsm, iconTheme, _("Favorite Users"), "toolbar-button-fav-users",
@@ -1555,7 +1551,6 @@ void Settings::initAppearance_gui()
 
 	{ // Window
 		// Auto-open
-///[core 0.762
 		createOptionsView_gui(windowView1, windowStore1, "windowsAutoOpenTreeView");
 
 		addOption_gui(windowStore1, _("Public Hubs"), "open-public");
@@ -1566,7 +1561,6 @@ void Settings::initAppearance_gui()
 		addOption_gui(windowStore1, _("Favorite Users"), "open-favorite-users");
 		addOption_gui(windowStore1, _("Search Spy"), "open-search-spy");
 		addOption_gui(windowStore1, _("Notepad"), "open-notepad");
-//		addOption_gui(windowStore1, _("Ignore User"), "open-ignore");
 		addOption_gui(windowStore1, _("System Tab"), "open-system");
 		addOption_gui(windowStore1, _("Upload Queue Tab"), "open-upload-queue");
 		// Window options
@@ -1706,7 +1700,6 @@ void Settings::makeColor(GtkTreeViewColumn *column, GtkCellRenderer *cell, GtkTr
 void Settings::onSetBackGroundChat(GtkWidget *widget , gpointer data)
 {
 	Settings *s = (Settings *)data;
-//	GtkColorSelection *colorsel = GTK_COLOR_SELECTION(s->getWidget("colorsel-color_selection"));
 	GtkWidget *dialog = gtk_color_chooser_dialog_new(_("Set Color"),GTK_WINDOW(s->getContainer()));
 	GdkRGBA color;
 	if (gdk_rgba_parse(&color,WGETS("background-color-chat").c_str()))
@@ -1817,7 +1810,7 @@ void Settings::initPlugins_gui()
 
 	const auto& list = PluginManager::getInstance()->getPluginList();
 	int j = 0;
-    for(auto i = list.cbegin(), iend = list.cend() ; i != iend; ++i) {
+	for(auto i = list.cbegin(), iend = list.cend() ; i != iend; ++i) {
        const MetaData& info = (*i)->getInfo();
 
 		gtk_list_store_append(plStore,&iter);
@@ -3457,7 +3450,6 @@ void Settings::selectTextColor_gui(const int select)
 
 	GdkRGBA color;
 	string currentcolor = "";
-//	GtkColorSelection *colorsel = GTK_COLOR_SELECTION(getWidget("colorsel-color_selection"));
 	GtkWidget *dialog = gtk_color_chooser_dialog_new(_("Select Color"),GTK_WINDOW(getContainer()));
 
 	if (select == 0)
@@ -3611,16 +3603,13 @@ void Settings::setBgColorUserList()
 		return;
 	}
 
-//	GdkColor color;
+
 	string currentcolor = "", currname = "";
-//	GtkColorSelection *colorsel = GTK_COLOR_SELECTION(getWidget("colorsel-color_selection"));
 	GtkWidget *dialog = gtk_color_chooser_dialog_new (_("Color Select"),GTK_WINDOW(getContainer()));
 	GdkRGBA color;
 
 	currentcolor = userListNames.getString(&iter, "Back");
 	currname = userListNames.getString(&iter, _("Name"));
-//	if (gdk_color_parse(currentcolor.c_str(), &color))
-//		gtk_color_selection_set_current_color(colorsel, &color);
 	if(gdk_rgba_parse(&color,currentcolor.c_str()))
 		gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog),&color);
 
@@ -3700,13 +3689,9 @@ void Settings::setColorUL()
 	GtkWidget *dialog = gtk_color_chooser_dialog_new (_("Color Select"),GTK_WINDOW(getContainer()));
 	GdkRGBA color;
 
-//	GdkColor color;
 	string currentcolor = "", currname = "";
-//	GtkColorSelection *colorsel = GTK_COLOR_SELECTION(getWidget("colorsel-color_selection"));
 	currentcolor = userListNames.getString(&iter, "Color");
 	currname = userListNames.getString(&iter, _("Name"));
-//	if (gdk_color_parse(currentcolor.c_str(), &color))
-//		gtk_color_selection_set_current_color(colorsel, &color);
 	if( gdk_rgba_parse(&color,currentcolor.c_str() ))
 		gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog),&color);
 	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
@@ -3714,9 +3699,7 @@ void Settings::setColorUL()
 
 	if (response == GTK_RESPONSE_OK)
 	{
-//		gtk_color_selection_get_current_color(colorsel, &color);
 		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(dialog),&color);
-
 		string strcolor = WulforUtil::colorToString(&color);
 
 		ColorIters::const_iterator qp = colorsIters.find(_("User ") + currname);
@@ -3745,7 +3728,7 @@ void Settings::loadUserCommands_gui()
 
 	UserCommand::List userCommands = FavoriteManager::getInstance()->getUserCommands();
 
-	for (UserCommand::List::iterator i = userCommands.begin(); i != userCommands.end(); ++i)
+	for (auto i = userCommands.begin(); i != userCommands.end(); ++i)
 	{
 		UserCommand &uc = *i;
 		if (!uc.isSet(UserCommand::FLAG_NOSAVE))
@@ -4023,7 +4006,7 @@ void Settings::onPublicHubs_gui(GtkWidget *widget, gpointer data)
 
 	gtk_list_store_clear(s->publicListStore);
 	StringList lists(FavoriteManager::getInstance()->getHubLists());
-	for (StringList::iterator idx = lists.begin(); idx != lists.end(); ++idx)
+	for (auto idx = lists.begin(); idx != lists.end(); ++idx)
 	{
 		gtk_list_store_append(s->publicListStore, &iter);
 		gtk_list_store_set(s->publicListStore, &iter, s->publicListView.col("List"), (*idx).c_str(), -1);
@@ -4913,10 +4896,6 @@ void Settings::onRemoveHighlighting_gui(GtkWidget *widget, gpointer data)
 void Settings::onColorText_gui(GtkWidget *widget, gpointer data)
 {
 	Settings *s = (Settings *)data;
-	//GtkColorSelection *colorsel = GTK_COLOR_SELECTION(s->getWidget("colorsel-color_selection"));
-	//GdkColor color;
-	//if (gdk_color_parse(gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryHGColorText"))), &color))
-	//	gtk_color_selection_set_current_color(colorsel, &color);
 	GtkWidget *dialog = gtk_color_chooser_dialog_new (_("Color Select"),GTK_WINDOW(s->getContainer()));
 	GdkRGBA color;
 	if(gdk_rgba_parse(&color,gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryHGColorBack")))));
@@ -4941,18 +4920,12 @@ void Settings::onColorBack_gui(GtkWidget *widget, gpointer data)
 	if(gdk_rgba_parse(&color,gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryHGColorBack")))));
 		gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog),&color);
 
-/*	GtkColorSelection *colorsel = GTK_COLOR_SELECTION(s->getWidget("colorsel-color_selection"));
-	GdkColor color;
-	if (gdk_color_parse(gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryHGColorBack"))), &color))
-		gtk_color_selection_set_current_color(colorsel, &color);
-*/
 	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 	gtk_widget_hide(dialog);
 
 	if (response == GTK_RESPONSE_OK)
 	{
 		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(dialog),&color);
-//		gtk_color_selection_get_current_color(colorsel, &color);
 		string strcolor = WulforUtil::colorToString(&color);
 		gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryHGColorBack")), strcolor.c_str());
 	}

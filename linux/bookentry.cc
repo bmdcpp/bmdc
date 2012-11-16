@@ -44,8 +44,11 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 
 {
 	GSList *group = NULL;
+	#if GTK_CHECK_VERSION(3, 2, 0)
+	labelBox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,5);
+	#else
 	labelBox = gtk_hbox_new(FALSE, 5);
-
+	#endif
 	eventBox = gtk_event_box_new();
 	gtk_event_box_set_above_child(GTK_EVENT_BOX(eventBox), TRUE);
 	gtk_event_box_set_visible_window(GTK_EVENT_BOX(eventBox), FALSE);

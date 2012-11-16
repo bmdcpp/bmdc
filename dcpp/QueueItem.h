@@ -23,7 +23,6 @@
 #include <set>
 
 #include "User.h"
-#include "FastAlloc.h"
 #include "MerkleTree.h"
 #include "Flags.h"
 #include "forward.h"
@@ -37,8 +36,8 @@ namespace dcpp {
 using std::set;
 
 class QueueManager;
-
-class QueueItem : public Flags, public FastAlloc<QueueItem>, public intrusive_ptr_base<QueueItem>, public PluginEntity<QueueData> {
+//Removed FastAlloc
+class QueueItem : public Flags, public intrusive_ptr_base<QueueItem>, public PluginEntity<QueueData> {
 public:
 	typedef unordered_map<string*, QueueItemPtr, noCaseStringHash, noCaseStringEq> StringMap;
 

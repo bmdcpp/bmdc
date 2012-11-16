@@ -127,6 +127,40 @@
       </object>
     </child>
   </object>
+  <object class="GtkMenu" id="ipMenu">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <child>
+      <object class="GtkMenuItem" id="copyipItem">
+        <property name="use_action_appearance">False</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Copy</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="ripeitem">
+        <property name="use_action_appearance">False</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">ripe</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="ipucommands">
+        <property name="use_action_appearance">False</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">usercommand</property>
+        <child type="submenu">
+          <object class="GtkMenu" id="ipmenu">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
   <object class="GtkMenu" id="linkMenu">
     <property name="can_focus">False</property>
     <child>

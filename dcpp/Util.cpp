@@ -29,7 +29,6 @@
 #include "CID.h"
 #include "ClientManager.h"
 #include "ConnectivityManager.h"
-#include "FastAlloc.h"
 #include "File.h"
 #include "LogManager.h"
 #include "SettingsManager.h"
@@ -51,11 +50,7 @@
 namespace dcpp {
 
 using std::make_pair;
-
-#ifndef _DEBUG
-FastCriticalSection FastAllocBase::cs;
-#endif
-
+//FastAlock Removed
 string Util::emptyString;
 wstring Util::emptyStringW;
 tstring Util::emptyStringT;

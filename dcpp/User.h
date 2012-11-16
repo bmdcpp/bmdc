@@ -22,14 +22,14 @@
 #include "forward.h"
 #include "Pointer.h"
 #include "CID.h"
-#include "FastAlloc.h"
 #include "CriticalSection.h"
 #include "Flags.h"
 
 namespace dcpp {
 
 /** A user connected to one or more hubs. */
-class User : public FastAlloc<User>, public intrusive_ptr_base<User>, public Flags, private boost::noncopyable
+//Removed FastAllock
+class User : public intrusive_ptr_base<User>, public Flags, private boost::noncopyable
 {
 public:
 	enum Bits {

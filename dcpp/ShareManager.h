@@ -36,7 +36,6 @@
 #include "StringSearch.h"
 #include "Singleton.h"
 #include "BloomFilter.h"
-#include "FastAlloc.h"
 #include "MerkleTree.h"
 #include "Pointer.h"
 
@@ -121,7 +120,8 @@ public:
 	GETSET(string, bzXmlFile, BZXmlFile);
 private:
 	struct AdcSearch;
-	class Directory : public FastAlloc<Directory>, public intrusive_ptr_base<Directory>, boost::noncopyable {
+	//FastAlloc removed
+	class Directory : public intrusive_ptr_base<Directory>, boost::noncopyable {
 	public:
 		typedef boost::intrusive_ptr<Directory> Ptr;
 		typedef unordered_map<string, Ptr, noCaseStringHash, noCaseStringEq> Map;

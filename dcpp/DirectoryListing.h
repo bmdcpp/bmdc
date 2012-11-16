@@ -23,7 +23,7 @@
 #include "noexcept.h"
 
 #include "HintedUser.h"
-#include "FastAlloc.h"
+/*Removed FastAlloc*/
 #include "MerkleTree.h"
 #include "Util.h"
 #include "MediaInfo.h"
@@ -37,7 +37,7 @@ class DirectoryListing : boost::noncopyable
 public:
 	class Directory;
 
-	class File /*: public FastAlloc<File>*/ {
+	class File  {
 	public:
 		typedef File* Ptr;
 		struct FileSort {
@@ -46,7 +46,6 @@ public:
 			}
 		};
 		typedef vector<Ptr> List;
-		//typedef List::iterator Iter;
 		typedef List::const_iterator Iter;
 
 		File(Directory* aDir, const string& aName, int64_t aSize, const TTHValue& aTTH, uint32_t p_ts, const MediaInfo& p_media) noexcept :
@@ -87,7 +86,7 @@ public:
 		
 	};
 
-	class Directory : /*public FastAlloc<Directory>,*/ boost::noncopyable {
+	class Directory :  boost::noncopyable {
 	public:
 		typedef Directory* Ptr;
 		typedef vector<Ptr> List;
