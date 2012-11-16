@@ -121,13 +121,12 @@ Hub::Hub(const string &address, const string &encoding):
 	}
 	//..set Colors
 	string strcolor = WGETS("background-color-chat");
-	GdkColor color;
-	gdk_color_parse(strcolor.c_str(),&color);
-
-	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_NORMAL,&color);
-	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_PRELIGHT,&color);
-	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_ACTIVE,&color);
-	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_INSENSITIVE,&color);
+	GdkRGBA color;
+	gdk_rgba_parse(&color,strcolor.c_str());
+	gtk_widget_override_background_color(getWidget("chatText"),GTK_STATE_FLAG_NORMAL,&color);
+	gtk_widget_override_background_color(getWidget("chatText"),GTK_STATE_FLAG_PRELIGHT,&color);
+	gtk_widget_override_background_color(getWidget("chatText"),GTK_STATE_FLAG_ACTIVE,&color);
+	gtk_widget_override_background_color(getWidget("chatText"),GTK_STATE_FLAG_INSENSITIVE,&color);
 
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
 	chatBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(getWidget("chatText")));
@@ -1747,12 +1746,13 @@ void Hub::preferences_gui()
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);
 
 	string strcolor = WGETS("background-color-chat");
-	GdkColor color;
-	gdk_color_parse(strcolor.c_str(),&color);
-	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_NORMAL,&color);
-	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_PRELIGHT,&color);
-	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_ACTIVE,&color);
-	gtk_widget_modify_base(getWidget("chatText"),GTK_STATE_INSENSITIVE,&color);
+	GdkRGBA color;
+	gdk_rgba_parse(&color,strcolor.c_str());
+	gtk_widget_override_background_color(getWidget("chatText"),GTK_STATE_FLAG_NORMAL,&color);
+	gtk_widget_override_background_color(getWidget("chatText"),GTK_STATE_FLAG_PRELIGHT,&color);
+	gtk_widget_override_background_color(getWidget("chatText"),GTK_STATE_FLAG_ACTIVE,&color);
+	gtk_widget_override_background_color(getWidget("chatText"),GTK_STATE_FLAG_INSENSITIVE,&color);
+
 	setColorsRows();
 }
 

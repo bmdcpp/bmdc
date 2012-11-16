@@ -56,12 +56,12 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 
 	//..set Colors
 	string strcolor = WGETS("background-color-chat");
-	GdkColor color;
-	gdk_color_parse(strcolor.c_str(),&color);
-	gtk_widget_modify_base(getWidget("text"),GTK_STATE_NORMAL,&color);
-	gtk_widget_modify_base(getWidget("text"),GTK_STATE_PRELIGHT,&color);
-	gtk_widget_modify_base(getWidget("text"),GTK_STATE_ACTIVE,&color);
-	gtk_widget_modify_base(getWidget("text"),GTK_STATE_INSENSITIVE,&color);
+	GdkRGBA color;
+	gdk_rgba_parse(&color,strcolor.c_str());
+	gtk_widget_override_background_color(getWidget("text"),GTK_STATE_FLAG_NORMAL,&color);
+	gtk_widget_override_background_color(getWidget("text"),GTK_STATE_FLAG_PRELIGHT,&color);
+	gtk_widget_override_background_color(getWidget("text"),GTK_STATE_FLAG_ACTIVE,&color);
+	gtk_widget_override_background_color(getWidget("text"),GTK_STATE_FLAG_INSENSITIVE,&color);
 
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
 	messageBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(getWidget("text")));
@@ -307,14 +307,21 @@ void PrivateMessage::preferences_gui()
 	{
 		gtk_widget_set_sensitive(getWidget("emotButton"), TRUE);
 	}
-
+	string strcolor = WGETS("background-color-chat");
+	GdkRGBA color;
+	gdk_rgba_parse(&color,strcolor.c_str());
+	gtk_widget_override_background_color(getWidget("text"),GTK_STATE_FLAG_NORMAL,&color);
+	gtk_widget_override_background_color(getWidget("text"),GTK_STATE_FLAG_PRELIGHT,&color);
+	gtk_widget_override_background_color(getWidget("text"),GTK_STATE_FLAG_ACTIVE,&color);
+	gtk_widget_override_background_color(getWidget("text"),GTK_STATE_FLAG_INSENSITIVE,&color);
+/*
 	string strcolor = WGETS("background-color-chat");
 	GdkColor color;
 	gdk_color_parse(strcolor.c_str(),&color);
 	gtk_widget_modify_base(getWidget("text"),GTK_STATE_NORMAL,&color);
 	gtk_widget_modify_base(getWidget("text"),GTK_STATE_PRELIGHT,&color);
 	gtk_widget_modify_base(getWidget("text"),GTK_STATE_ACTIVE,&color);
-	gtk_widget_modify_base(getWidget("text"),GTK_STATE_INSENSITIVE,&color);
+	gtk_widget_modify_base(getWidget("text"),GTK_STATE_INSENSITIVE,&color);*/
 }
 
 void PrivateMessage::setStatus_gui(string text)

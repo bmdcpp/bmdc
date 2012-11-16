@@ -60,6 +60,7 @@ class WulforUtil
 		static void openURI(const std::string &uri, std::string &_error = dcpp::Util::emptyString);
 		static void openURItoApp(const std::string &cmd);
 		static std::string colorToString(const GdkColor *color); /* gdk < 2.12 */
+		static std::string colorToString(const GdkRGBA *color); 
 		static GdkPixbuf* scalePixbuf(const GdkPixbuf *pixbuf,
 			const int width, const int height, GdkInterpType type = GDK_INTERP_BILINEAR);
 

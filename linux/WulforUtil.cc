@@ -444,6 +444,16 @@ string WulforUtil::colorToString(const GdkColor *color)
 	return strcolor;
 }
 
+string WulforUtil::colorToString(const GdkRGBA *color)
+{
+	gchar strcolor[14];
+
+	g_snprintf(strcolor, sizeof(strcolor), "#%04F%04F%04F",
+		color->red, color->green, color->blue);
+
+	return strcolor;
+}
+
 GdkPixbuf* WulforUtil::scalePixbuf(const GdkPixbuf *pixbuf, const int width, const int height, GdkInterpType type)
 {
 	g_return_val_if_fail(pixbuf != NULL, NULL);

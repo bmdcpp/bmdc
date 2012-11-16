@@ -795,71 +795,73 @@
   <object class="GtkColorSelectionDialog" id="colorSelectionDialog">
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
-    <property name="title" translatable="yes">Color select</property>
-    <property name="window_position">center-on-parent</property>
     <property name="type_hint">dialog</property>
     <child internal-child="color_selection">
-      <object class="GtkColorSelection" id="colorsel-color_selection">
+      <object class="GtkColorSelection" id="colorsel-color_selection2">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="border_width">5</property>
-        <property name="has_palette">True</property>
         <property name="current_color">#ffffffffffff</property>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
       </object>
     </child>
     <action-widgets>
-      <action-widget response="0">colorsel-help_button</action-widget>
-      <action-widget response="0">colorsel-ok_button</action-widget>
-      <action-widget response="0">colorsel-cancel_button</action-widget>
+      <action-widget response="0">colorsel-help_button2</action-widget>
+      <action-widget response="0">colorsel-ok_button2</action-widget>
+      <action-widget response="0">colorsel-cancel_button2</action-widget>
     </action-widgets>
     <child internal-child="help_button">
-      <object class="GtkButton" id="colorsel-help_button">
-        <property name="label">gtk-help</property>
+      <object class="GtkButton" id="colorsel-help_button2">
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="can_default">True</property>
         <property name="receives_default">True</property>
+        <property name="use_underline">True</property>
         <property name="use_stock">True</property>
       </object>
     </child>
     <action-widgets>
-      <action-widget response="0">colorsel-help_button</action-widget>
-      <action-widget response="0">colorsel-ok_button</action-widget>
-      <action-widget response="0">colorsel-cancel_button</action-widget>
+      <action-widget response="0">colorsel-help_button2</action-widget>
+      <action-widget response="0">colorsel-ok_button2</action-widget>
+      <action-widget response="0">colorsel-cancel_button2</action-widget>
     </action-widgets>
     <child internal-child="cancel_button">
-      <object class="GtkButton" id="colorsel-cancel_button">
-        <property name="label">gtk-cancel</property>
+      <object class="GtkButton" id="colorsel-cancel_button2">
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="can_default">True</property>
         <property name="receives_default">True</property>
+        <property name="use_underline">True</property>
         <property name="use_stock">True</property>
       </object>
     </child>
     <action-widgets>
-      <action-widget response="0">colorsel-help_button</action-widget>
-      <action-widget response="0">colorsel-ok_button</action-widget>
-      <action-widget response="0">colorsel-cancel_button</action-widget>
+      <action-widget response="0">colorsel-help_button2</action-widget>
+      <action-widget response="0">colorsel-ok_button2</action-widget>
+      <action-widget response="0">colorsel-cancel_button2</action-widget>
     </action-widgets>
     <child internal-child="ok_button">
-      <object class="GtkButton" id="colorsel-ok_button">
-        <property name="label">gtk-ok</property>
+      <object class="GtkButton" id="colorsel-ok_button2">
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="can_default">True</property>
-        <property name="has_default">True</property>
         <property name="receives_default">True</property>
+        <property name="use_underline">True</property>
         <property name="use_stock">True</property>
       </object>
     </child>
     <action-widgets>
-      <action-widget response="0">colorsel-help_button</action-widget>
-      <action-widget response="0">colorsel-ok_button</action-widget>
-      <action-widget response="0">colorsel-cancel_button</action-widget>
+      <action-widget response="0">colorsel-help_button2</action-widget>
+      <action-widget response="0">colorsel-ok_button2</action-widget>
+      <action-widget response="0">colorsel-cancel_button2</action-widget>
     </action-widgets>
   </object>
   <object class="GtkDialog" id="commandDialog">
@@ -1613,7 +1615,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkComboBoxText" id="comboboxCharset">
+                          <object class="GtkComboBox" id="comboboxCharset">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                           </object>

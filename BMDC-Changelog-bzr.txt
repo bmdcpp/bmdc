@@ -618,7 +618,7 @@ Full Switch to GTK3
 Divide Favorite Tab and Favorite Hub Propteries to two class
 ----r174
 Partialy Fixed Detection Tab
-Fix ADLSearc add/edit Dialog
+Fix ADLSearch add/edit Dialog
 Use Search icon on right click searches
 ----r175
 Modify Emoticons to Settings per-fav
@@ -630,5 +630,6 @@ Default BoldTab&Notify in Fav Dialog to Enable
 Fix Group Combobox
 Sound on Start Downloading..
 Add Emoticons to Fav Dialog
-----
+----r178
+Fixed color of BackGround 
 
