@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef __FAVORITE_HUB_DIALOG_H__
-#define __FAVORITE_HUB_DIALOG_H__
+#ifndef _FAVORITE_HUB_DIALOG_H_
+#define _FAVORITE_HUB_DIALOG_H_
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
 #include <dcpp/FavoriteManager.h>
@@ -67,6 +67,7 @@ class FavoriteHubDialog: public Entry
 
 		gtk_list_store_append(store, &iter);
 		gtk_list_store_set(store, &iter, 0, _("Default"), -1);
+		groups.insert(FavHubGroupsIter::value_type(_("Default"),iter));
 
 		for (auto i = favHubGroups.begin(); i != favHubGroups.end(); ++i)
 		{
@@ -74,8 +75,15 @@ class FavoriteHubDialog: public Entry
 			gtk_list_store_append(store, &iter);
 			gtk_list_store_set(store, &iter, 0, i->first.c_str(), -1);
 			groups.insert(FavHubGroupsIter::value_type(i->first, iter));
-		}		
-
+		}
+		string path = WulforManager::get()->getPath() + G_DIR_SEPARATOR_S + "emoticons" + G_DIR_SEPARATOR_S;
+		auto files = File::findFiles(path, "*.xml");
+		for(auto fi = files.begin(); fi != files.end();++fi) {
+			string file = Util::getFileName((*fi));
+			auto nedle =  file.find(".");
+			string text = file.substr(0,nedle-1);
+			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxEmot")), text.c_str() );
+		}
 		if(init) //Defualt value when adding
 		{
 			params["Name"] = Util::emptyString;
@@ -104,13 +112,17 @@ class FavoriteHubDialog: public Entry
 			params["Country"] = "0";
 			params["showip"] = "0";
 			params["BoldTab"] = "1";
-		}
+			params["PackName"] = "bmicon";
+		}//end
 
 		gtk_dialog_set_alternative_button_order(GTK_DIALOG(getContainer()), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
 		gtk_widget_set_sensitive(getWidget("comboboxCharset"), FALSE);
 		gtk_widget_set_sensitive(getWidget("entryNick"), FALSE);
 		gtk_widget_set_sensitive(getWidget("entryUserDescription"), FALSE);
 		gtk_window_set_destroy_with_parent(GTK_WINDOW(getContainer()), TRUE);
+
+		gtk_window_set_transient_for(GTK_WINDOW(getContainer()),
+		GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()));
 		
 		// Fill the charset drop-down list in edit fav hub dialog.
 		auto& charsets = WulforUtil::getCharsets();
@@ -132,6 +144,7 @@ class FavoriteHubDialog: public Entry
 		gtk_entry_set_text(GTK_ENTRY(getWidget("entryprotected")), params["Protected"].c_str());
 		gtk_entry_set_text(GTK_ENTRY(getWidget("entryeMail")), params["eMail"].c_str());
 		gtk_entry_set_text(GTK_ENTRY(getWidget("entryAway")), params["Away"].c_str());
+
 
 		gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxMode")), Util::toInt64(params["Mode"]));
 		gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxParts")), Util::toInt64(params["Parts"]));
@@ -156,6 +169,14 @@ class FavoriteHubDialog: public Entry
 				gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxCharset")), (ii - charsets.begin()));
 			}
 		}
+		for(auto fii = files.begin();fii!= files.end();++fii) {
+			auto needle = Util::getFileName(*fii).find(".");	
+			string tmp  = Util::getFileName(*fii).substr(0,needle-1);
+			if(params["PackName"] == tmp) {
+				gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxEmot")), (fii - files.begin()));
+			}
+		}
+		
 		// Set the override default nick checkbox
 		gboolean overrideNick = !(params["Nick"].empty() || params["Nick"] == SETTING(NICK));
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonNick")), overrideNick);
@@ -230,6 +251,13 @@ class FavoriteHubDialog: public Entry
 				params["Encoding"] = string(encoding);
 				g_free(encoding);
 			}
+		}
+
+		gchar *pack = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxCharset")));
+		if(pack)
+		{		
+			params["PackName"] = string(pack);
+			g_free(pack);
 		}
 
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonNick"))))
@@ -358,4 +386,4 @@ private:
 
 };
 
-#endif /* __FAVORITE_HUB_DIALOG_H__ */
+#endif /* _FAVORITE_HUB_DIALOG_H_ */

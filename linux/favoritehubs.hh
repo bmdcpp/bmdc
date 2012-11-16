@@ -76,8 +76,6 @@ class FavoriteHubs:
 		static gboolean onGroupsButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onGroupsKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 
-//		static void onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
-
 		// Client functions
 		void initializeList_client();
 		void getFavHubParams_client(const dcpp::FavoriteHubEntry *entry, dcpp::StringMap &params);
@@ -89,10 +87,9 @@ class FavoriteHubs:
 		virtual void on(dcpp::FavoriteManagerListener::FavoriteAdded, const dcpp::FavoriteHubEntryPtr entry) throw();
 		virtual void on(dcpp::FavoriteManagerListener::FavoriteRemoved, const dcpp::FavoriteHubEntryPtr entry) throw();
 
-		TreeView favoriteView, groupsView /*,actionView*/;
+		TreeView favoriteView, groupsView;
 		GtkListStore *favoriteStore, *groupsStore;
-//		GtkTreeStore *actionStore;
-		GtkTreeSelection *favoriteSelection, *groupsSelection/*, *actionSel*/;
+		GtkTreeSelection *favoriteSelection, *groupsSelection;
 		GdkEventType previous;
 		FavHubGroupsIter GroupsIter;
 		

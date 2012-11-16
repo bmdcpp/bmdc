@@ -18,12 +18,9 @@
 
 #include "stdinc.h"
 #include "DCPlusPlus.h"
-
 #include "RawManager.h"
-
 #include "SimpleXML.h"
 #include "ClientManager.h"
-
 #include "File.h"
 
 namespace dcpp {
@@ -35,7 +32,7 @@ RawManager::RawManager() {
 RawManager::~RawManager() {
 	saveActionRaws();
 	SettingsManager::getInstance()->removeListener(this);
-	for(Action::ActionList::iterator i = actions.begin(); i != actions.end(); ++i) {
+	for(auto i = actions.begin(); i != actions.end(); ++i) {
 		delete *i;
 	}
 }
@@ -124,7 +121,7 @@ void RawManager::loadActionRaws() {
 int RawManager::getValidAction(int actionId) {
 	if(actionId <= 0) return 0;
 	Lock l(cs);
-	for(Action::ActionList::const_iterator i = actions.begin(); i != actions.end(); ++i) {
+	for(auto i = actions.begin(); i != actions.end(); ++i) {
 		if((*i)->getId() == actionId)
 			return (*i)->getId();
 	}
@@ -133,7 +130,7 @@ int RawManager::getValidAction(int actionId) {
 
 tstring RawManager::getNameActionId(int actionId) {
 	Lock l(cs);
-	for(Action::ActionList::const_iterator i = actions.begin(); i != actions.end(); ++i) {
+	for(auto i = actions.begin(); i != actions.end(); ++i) {
 		if((*i)->getId() == actionId)
 			return Text::toT((*i)->getName());
 	}
@@ -168,7 +165,7 @@ void RawManager::editAction(Action* a, const std::string& name) throw(Exception)
 
 	{
 		Lock l(cs);
-		for(Action::ActionList::const_iterator i = actions.begin(); i != actions.end(); ++i) {
+		for(auto i = actions.begin(); i != actions.end(); ++i) {
 			if(Util::stricmp(name, (*i)->getName()) == 0)
 				throw Exception("ACTION EXISTS");
 		}
@@ -178,7 +175,7 @@ void RawManager::editAction(Action* a, const std::string& name) throw(Exception)
 
 bool RawManager::remAction(Action* a) noexcept {
 	Lock l(cs);
-	Action::ActionList::iterator i = std::find(actions.begin(), actions.end(), a);
+	auto i = std::find(actions.begin(), actions.end(), a);
 	if(i != actions.end()) {
 		actions.erase(i);
 		delete a;
@@ -213,7 +210,7 @@ void RawManager::addRaw(Action* a, Raw& r) throw(Exception) {
 		throw Exception("NO NAME SPECIFIED");
 
 	Lock l(cs);
-	for(Action::RawsList::const_iterator j = a->raw.begin(); j != a->raw.end(); ++j) {
+	for(auto j = a->raw.begin(); j != a->raw.end(); ++j) {
 		if(Util::stricmp(j->getName(), r.getName()) == 0)
 			throw Exception("RAW EXISTS");
 	}
@@ -246,7 +243,7 @@ void RawManager::editRaw(const Action* a, Raw* old, Raw _new) throw(Exception) {
 
 bool RawManager::remRaw(Action* a, Raw* r) noexcept {
 	Lock l(cs);
-	for(Action::RawsList::iterator i = a->raw.begin(); i != a->raw.end(); ++i) {
+	for(auto i = a->raw.begin(); i != a->raw.end(); ++i) {
 		if(&(*i) == r) { a->raw.erase(i); return true; }
 	}
 	return false;
@@ -284,10 +281,11 @@ void RawManager::on(SettingsManagerListener::Save, SimpleXML& xml) noexcept {
 
 void RawManager::calcADLAction(int aPoints, int& a, bool& d) {
 	Lock l(cs);
-	for(IntMap::const_iterator i = points.begin(); i != points.end(); ++i) {
+	for(auto i = points.begin(); i != points.end(); ++i) {
 		if(aPoints >= i->first) {
 			a = i->second;
 			continue;
+
 		}
 	}
 

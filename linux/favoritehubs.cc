@@ -33,7 +33,6 @@ using namespace dcpp;
 FavoriteHubs::FavoriteHubs():
 	BookEntry(Entry::FAVORITE_HUBS, _("Favorite Hubs"), "favoritehubs.glade")
 {
-	// Configure the dialog
 //	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("favoriteHubsDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
 //	gtk_widget_set_sensitive(getWidget("comboboxCharset"), FALSE);
 //	gtk_widget_set_sensitive(getWidget("entryNick"), FALSE);
@@ -83,6 +82,7 @@ FavoriteHubs::FavoriteHubs():
 	favoriteView.insertHiddenColumn("ShowIP", G_TYPE_INT);
 	favoriteView.insertHiddenColumn("ShowCountry", G_TYPE_INT);
 	favoriteView.insertHiddenColumn("BoldTab", G_TYPE_INT);
+	favoriteView.insertHiddenColumn("PackName", G_TYPE_STRING);
 	favoriteView.insertHiddenColumn("Action", G_TYPE_INT);
 	favoriteView.finalize();
 	favoriteStore = gtk_list_store_newv(favoriteView.getColCount(), favoriteView.getGTypes());
@@ -148,14 +148,13 @@ FavoriteHubs::FavoriteHubs():
 	g_signal_connect(groupsView.get(), "button-release-event", G_CALLBACK(onGroupsButtonReleased_gui), (gpointer)this);
 	g_signal_connect(groupsView.get(), "key-release-event", G_CALLBACK(onGroupsKeyReleased_gui), (gpointer)this);
 
-//	g_signal_connect(actionView.getCellRenderOf(_("Enabled")), "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
 }
 
 FavoriteHubs::~FavoriteHubs()
 {
 	FavoriteManager::getInstance()->removeListener(this);
 
-	gtk_widget_destroy(getWidget("favoriteHubsDialog"));
+	//gtk_widget_destroy(getWidget("favoriteHubsDialog"));
 	gtk_widget_destroy(getWidget("FavoriteHubGroupsDialog"));
 	g_object_unref(getWidget("menu"));
 }
@@ -205,6 +204,7 @@ void FavoriteHubs::editEntry_gui(StringMap &params, GtkTreeIter *iter)
 		favoriteView.col("ShowIP"), Util::toInt(params["showip"]),
 		favoriteView.col("ShowCountry"), Util::toInt(params["Country"]),
 		favoriteView.col("BoldTab"), Util::toInt(params["BoldTab"]),
+		favoriteView.col("PackName"), params["PackName"].c_str(),
 		favoriteView.col("Action"), 0,
 		-1);
 }
@@ -333,31 +333,8 @@ void FavoriteHubs::onAddEntry_gui(GtkWidget *widget, gpointer data)
 	FavoriteHubs *fh = (FavoriteHubs *)data;
 
 	StringMap params;
-	/*params["Name"] = Util::emptyString;
-	params["Address"] = Util::emptyString;
-	params["Description"] = Util::emptyString;
-	params["Nick"] = Util::emptyString;
-	params["Password"] = Util::emptyString;
-	params["User Description"] = Util::emptyString;
-	params["Encoding"] = Util::emptyString;
-	params["Group"] = Util::emptyString;
-	params["IP"] = Util::emptyString;
-	params["Mode"] = "0";
-	params["Auto Connect"] = "0";
-	params["Hide"] = "0";
-	params["Clients"] = "0";
-	params["Filelists"] = "0";
-	params["OnConnect"] = "0";
-	params["ExtraInfo"] = Util::emptyString;
-	params["Protected"] = Util::emptyString;
-	params["eMail"] = Util::emptyString;
-	params["Parts"] = Util::emptyString;
-	params["FavParts"] = Util::emptyString;
-	params["LogChat"] = Util::emptyString;
-	params["Away"] = Util::emptyString;
-	params["Notify"] = "0";
 
-	bool updatedEntry = fh->showFavoriteHubDialog_gui(params, fh);*/
+//	bool updatedEntry = fh->showFavoriteHubDialog_gui(params, fh);*/
 	auto f = new FavoriteHubDialog(true);
 	auto updatedEntry = f->initDialog(fh->GroupsIter,params);
 
@@ -366,7 +343,6 @@ void FavoriteHubs::onAddEntry_gui(GtkWidget *widget, gpointer data)
 		fh->showErrorDialog_gui("Do Not duplicty",fh);
 		return;	
 	}
-
 
 	if (updatedEntry)
 	{
@@ -430,10 +406,10 @@ void FavoriteHubs::onEditEntry_gui(GtkWidget *widget, gpointer data)
 	params["LogChat"] = fh->favoriteView.getString(&iter, "LogChat");
 	params["Away"] = fh->favoriteView.getString(&iter, "AwayMessage");
 	params["Notify"] = Util::toString(fh->favoriteView.getValue<gint>(&iter, "Notify"));
-
 	params["Country"] = Util::toString(fh->favoriteView.getValue<gint>(&iter, "ShowCountry"));
 	params["showip"] = Util::toString(fh->favoriteView.getValue<gint>(&iter, "ShowIP"));
 	params["BoldTab"] = Util::toString(fh->favoriteView.getValue<gint>(&iter, "BoldTab"));
+	params["PackName"] = fh->favoriteView.getString(&iter, "PackName");
 
 	auto f = new FavoriteHubDialog(false);
       bool entryUpdated = f->initDialog(fh->GroupsIter,params);
@@ -996,6 +972,7 @@ void FavoriteHubs::updateFavHubGroups_gui(bool updated)
 				params["Country"] = Util::toString(favoriteView.getValue<gint>(&iter, "ShowCountry"));
 				params["showip"] = Util::toString(favoriteView.getValue<gint>(&iter, "ShowIP"));
 				params["BoldTab"] = Util::toString(favoriteView.getValue<gint>(&iter, "BoldTab"));
+				params["PackName"] = favoriteView.getString(&iter, "PackName");
 
 				editEntry_gui(params, &iter);
 
@@ -1016,10 +993,6 @@ void FavoriteHubs::saveFavHubGroups()
 	GtkTreeModel *m = GTK_TREE_MODEL(groupsStore);
 	gboolean valid = gtk_tree_model_get_iter_first(m, &iter);
 
-//	GtkListStore *store = GTK_LIST_STORE(gtk_combo_box_get_model(GTK_COMBO_BOX(getWidget("groupsComboBox"))));
-//	gtk_list_store_clear(store);
-//	gtk_list_store_append(store, &it);
-//	gtk_list_store_set(store, &it, 0, _("Default"), -1);
 	GroupsIter.clear();
 
 	FavHubGroups favHubGroups;
@@ -1028,9 +1001,6 @@ void FavoriteHubs::saveFavHubGroups()
 	{
 		string group = groupsView.getString(&iter, _("Group name"));
 
-		// favorite hub properties combo box groups
-//		gtk_list_store_append(store, &it);
-//		gtk_list_store_set(store, &it, 0, group.c_str(), -1);
 		GroupsIter.insert(FavHubGroupsIter::value_type(group, it));
 
 		bool log_hub = groupsView.getString(&iter, "LogChat") == "1" ? TRUE : FALSE;
@@ -1213,20 +1183,8 @@ void FavoriteHubs::initializeList_client()
 	StringMap params;
 	typedef Func1<FavoriteHubs, StringMap> F1;
 	const FavoriteHubEntryList& fl = FavoriteManager::getInstance()->getFavoriteHubs();
-	/*FavHubGroups favHubGroups = FavoriteManager::getInstance()->getFavHubGroups();
 
-	GtkTreeIter iter;
-	GtkListStore *store = GTK_LIST_STORE(gtk_combo_box_get_model(GTK_COMBO_BOX(getWidget("groupsComboBox"))));
-
-	for (FavHubGroups::const_iterator i = favHubGroups.begin(); i != favHubGroups.end(); ++i)
-	{
-		// favorite hub properties combo box groups
-		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store, &iter, 0, i->first.c_str(), -1);
-		GroupsIter.insert(FavHubGroupsIter::value_type(i->first, iter));
-	}
-*/
-	for (FavoriteHubEntryList::const_iterator it = fl.begin(); it != fl.end(); ++it)
+	for (auto it = fl.begin(); it != fl.end(); ++it)
 	{
 		getFavHubParams_client(*it, params);
 		addEntry_gui(params);
@@ -1261,6 +1219,7 @@ void FavoriteHubs::getFavHubParams_client(const FavoriteHubEntry *entry, StringM
 	params["Country"] = entry->get(HubSettings::ShowCountry) ? "1" : "0";
 	params["showip"] = entry->get(HubSettings::ShowIps) ? "1" : "0";
 	params["BoldTab"] = entry->get(HubSettings::BoldTab) ? "1" : "0";
+	params["PackName"] = entry->get(HubSettings::PackName);
 }
 
 void FavoriteHubs::addEntry_client(StringMap params)
@@ -1295,6 +1254,7 @@ void FavoriteHubs::addEntry_client(StringMap params)
 
 	entry.get(HubSettings::LogChat) = Util::toInt(params["LogChat"]);
 	entry.get(HubSettings::AwayMessage) = params["Away"];
+	entry.get(HubSettings::PackName) = params["PackName"];
 
 	FavoriteManager::getInstance()->addFavorite(entry);
 
@@ -1338,8 +1298,7 @@ void FavoriteHubs::editEntry_client(string address, StringMap params)
 		entry->get(HubSettings::BoldTab) = Util::toInt(params["BoldTab"]);
 		entry->get(HubSettings::ShowCountry) = Util::toInt(params["Country"]);
 		entry->get(HubSettings::ShowIps) = Util::toInt(params["showip"]);
-
-
+		entry->get(HubSettings::PackName) = params["PackName"];
 		entry->get(HubSettings::AwayMessage) = params["Away"];
 
 		FavoriteManager::getInstance()->save();
@@ -1378,3 +1337,4 @@ void FavoriteHubs::on(FavoriteManagerListener::FavoriteRemoved, const FavoriteHu
 	F1 *func = new F1(this, &FavoriteHubs::removeEntry_gui, entry->getServer());
 	WulforManager::get()->dispatchGuiFunc(func);
 }
+

@@ -403,7 +403,7 @@ OnlineUser* ClientManager::findOnlineUser(const CID& cid, const string& hintUrl)
 	// return a random user that matches the given CID but not the hint.
 	return p.first->second;
 }
-//...@TODO
+
 string ClientManager::findMySID(const HintedUser& p) {
 	//this could also be done by just finding in the client list... better?
 	if(p.hint.empty()) // we cannot find the correct SID without a hubUrl
@@ -706,7 +706,7 @@ bool ClientManager::isActive(const string& aHubUrl /*= Util::emptyString*/) cons
 {
 	return getMode(aHubUrl) != SettingsManager::INCOMING_FIREWALL_PASSIVE;
 }
-//..
+//..TODO IPv6
 void ClientManager::setIpAddress(const UserPtr& p, const string& ip) {
     Lock l(cs);
 	OnlineIterC i = onlineUsers.find(p->getCID());

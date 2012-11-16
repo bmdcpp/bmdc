@@ -60,7 +60,6 @@ Emoticons::Emoticons()
 Emoticons::~Emoticons()
 {
 	clean();
-	//WSET("emoticons-pack", currPackName);
 //	SettingsManager::getInstance()->set(SettingsManager::EMOT_PACK,currPackName);
 }
 
@@ -71,7 +70,6 @@ void Emoticons::create(string address)
 	if (!WGETB("emoticons-use"))
 		return;
 
-//	string file = currPackName;
 	string file = getCurrPackName_gui(address);
 	string path = WulforManager::get()->getPath() + G_DIR_SEPARATOR_S + "emoticons" + G_DIR_SEPARATOR_S;
 	string packName = file;

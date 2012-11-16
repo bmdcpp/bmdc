@@ -626,4 +626,9 @@ More Per-Fav options
 ----r176
 using gtk_show_uri
 Default BoldTab&Notify in Fav Dialog to Enable
+----r177
+Fix Group Combobox
+Sound on Start Downloading..
+Add Emoticons to Fav Dialog
+----
 

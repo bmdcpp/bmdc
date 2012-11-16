@@ -50,7 +50,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("sound-pm-open", 0));
 	defaultInt.insert(IntMap::value_type("sound-pm", 1));
 //	TODO: download begins, uncomment when implemented
-//	defaultInt.insert(IntMap::value_type("sound-download-begins-use", 0));
+	defaultInt.insert(IntMap::value_type("sound-download-begins-use", 0));
 	defaultInt.insert(IntMap::value_type("sound-download-finished-use", 0));
 	defaultInt.insert(IntMap::value_type("sound-download-finished-ul-use", 0));
 	defaultInt.insert(IntMap::value_type("sound-upload-finished-use", 0));
@@ -199,7 +199,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("sharebrowser-visibility", ""));
 	defaultString.insert(StringMap::value_type("default-charset", WulforUtil::ENCODING_LOCALE));
 //	TODO: download begins, uncomment when implemented
-// 	defaultString.insert(StringMap::value_type("sound-download-begins", ""));
+ 	defaultString.insert(StringMap::value_type("sound-download-begins", ""));
 	defaultString.insert(StringMap::value_type("sound-download-finished", ""));
 	defaultString.insert(StringMap::value_type("sound-download-finished-ul", ""));
 	defaultString.insert(StringMap::value_type("sound-upload-finished", ""));

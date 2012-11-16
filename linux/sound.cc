@@ -65,11 +65,11 @@ void Sound::playSound(TypeSound sound)
 	switch (sound)
 	{
 //		TODO: download begins, uncomment when implemented
-//		case DOWNLOAD_BEGINS:
-// 
-//			if (wsm->getInt("sound-download-begins-use"))
-//				playSound(wsm->getString("sound-download-begins"));
-//		break;
+		case DOWNLOAD_BEGINS:
+ 
+			if (wsm->getInt("sound-download-begins-use"))
+				playSound(wsm->getString("sound-download-begins"));
+		break;
 
 		case DOWNLOAD_FINISHED:
 

@@ -107,8 +107,10 @@ typedef vector<UserPtr> UserList;
 typedef vector<UserConnectionPtr> UserConnectionList;
 
 typedef unordered_map<string, boost::variant<string, std::function<string ()>>> ParamMap;
-
+//BMDC
 typedef std::map<int, int> IntMap;
+typedef std::vector<ColorSettings> ColorList;
+typedef ColorList::iterator ColorIter;
 
 }
 

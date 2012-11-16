@@ -94,7 +94,7 @@ class Transfers:
 		void closeConnection_client(std::string cid, bool download);
 
 		// DownloadManager
-		virtual void on(dcpp::DownloadManagerListener::Requesting, dcpp::Download* dl) throw();
+		virtual void on(dcpp::DownloadManagerListener::Requesting, dcpp::Download* dl) noexcept;
 		virtual void on(dcpp::DownloadManagerListener::Starting, dcpp::Download* dl) throw();
 		virtual void on(dcpp::DownloadManagerListener::Tick, const dcpp::DownloadList& dls) throw();
 		virtual void on(dcpp::DownloadManagerListener::Complete, dcpp::Download* dl) throw();

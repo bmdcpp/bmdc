@@ -122,6 +122,8 @@ class WindowInfo;
 
 class RecentHubEntry;
 
+class ColorSettings;
+
 } // namespace dcpp
 
 #endif /*DCPLUSPLUS_DCPP_FORWARD_H_*/

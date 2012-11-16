@@ -20,15 +20,12 @@
 #define HIGHLIGHTMANAGER_H
 
 #include "SettingsManager.h"
-
+#include "typedefs.h"
 #include "Singleton.h"
 #include "ColorSettings.h"
 #include "SimpleXML.h"
 
 namespace dcpp {
-	
-typedef vector<ColorSettings> ColorList;
-typedef ColorList::iterator ColorIter;
 
 class HighlightManager : public Singleton<HighlightManager>, private SettingsManagerListener
 {

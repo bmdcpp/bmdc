@@ -630,7 +630,6 @@ void Settings::addOption_gui(GtkListStore *store, char *name, dcpp::SettingsMana
 		3, "",
 		-1);
 
-
 }
 
 /* Adds a custom UI specific option */
@@ -794,10 +793,7 @@ void Settings::createOptionsView_gui(TreeView &treeView, GtkListStore *&store, c
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(store), treeView.col(_("Name")), GTK_SORT_ASCENDING);
 
 	// Connect the signal handlers
-	//GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(treeView.get(), treeView.col(_("Use"))));
-	//GObject *renderer = (GObject *)g_list_nth_data(list, 0);
 	g_signal_connect(treeView.getCellRenderOf(_("Use")), "toggled", G_CALLBACK(onOptionsViewToggled_gui), (gpointer)store);
-	//g_list_free(list);
 }
 
 /* Saves the core or UI values stored in the options GtkTreeView */
@@ -850,9 +846,6 @@ void Settings::initPersonal_gui()
 		if(WGETS("default-charset") == *it)
 			gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxCharset")), (it - charsets.begin()) );
 	}
-	//auto ii = charsets.find(WGETS("default-charset"));
-//	gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxCharset")),charsets[WGETS("default-charset")]);
-//	gtk_entry_set_text(GTK_ENTRY(getWidget("comboboxentryCharset")), WGETS("default-charset").c_str());
 }
 
 void Settings::initConnection_gui()
@@ -949,10 +942,6 @@ void Settings::initDownloads_gui()
 		gtk_tree_view_set_model(publicListView.get(), GTK_TREE_MODEL(publicListStore));
 		g_object_unref(publicListStore);
 		gtk_tree_view_set_headers_visible(publicListView.get(), FALSE);
-/*		GtkTreeViewColumn *col = gtk_tree_view_get_column(publicListView.get(), 0);
-		GList *list = gtk_tree_view_column_get_cell_renderers(col);
-		GObject *editRenderer = G_OBJECT(g_list_nth_data(list, 0));
-		g_list_free(list);*/
 		g_signal_connect(publicListView.getCellRenderOf("List"), "edited", G_CALLBACK(onPublicEdit_gui), (gpointer)this);
 	}
 
@@ -970,7 +959,7 @@ void Settings::initDownloads_gui()
 		gtk_widget_set_sensitive(getWidget("favoriteRemoveButton"), FALSE);
 
 		StringPairList directories = FavoriteManager::getInstance()->getFavoriteDirs();
-		for (StringPairIter j = directories.begin(); j != directories.end(); ++j)
+		for (auto j = directories.begin(); j != directories.end(); ++j)
 		{
 			gtk_list_store_append(downloadToStore, &iter);
 			gtk_list_store_set(downloadToStore, &iter,
@@ -1155,13 +1144,10 @@ void Settings::initAppearance_gui()
 		gtk_tree_view_set_model(soundView.get(), GTK_TREE_MODEL(soundStore));
 		g_object_unref(soundStore);
 
-	/*	GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(soundView.get(), soundView.col(_("Use"))));
-		GObject *renderer = (GObject *)g_list_nth_data(list, 0);*/
 		g_signal_connect(soundView.getCellRenderOf(_("Use")), "toggled", G_CALLBACK(onOptionsViewToggled_gui), (gpointer)soundStore);
-//		g_list_free(list);
 
 //		TODO: download begins, uncomment when implemented
-//		addOption_gui(soundStore, wsm, _("Download begins"), "sound-download-begins-use", "sound-download-begins");
+		addOption_gui(soundStore, wsm, _("Download begins"), "sound-download-begins-use", "sound-download-begins");
 		addOption_gui(soundStore, wsm, _("Download finished"), "sound-download-finished-use", "sound-download-finished");
 		addOption_gui(soundStore, wsm, _("Download finished file list"), "sound-download-finished-ul-use", "sound-download-finished-ul");
 		addOption_gui(soundStore, wsm, _("Upload finished"), "sound-upload-finished-use", "sound-upload-finished");

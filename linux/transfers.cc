@@ -942,7 +942,7 @@ void Transfers::getParams_client(StringMap& params, Transfer* tr)
 	params["TTH"] = tr->getTTH().toBase32();
 }
 
-void Transfers::on(DownloadManagerListener::Requesting, Download* dl) throw()
+void Transfers::on(DownloadManagerListener::Requesting, Download* dl) noexcept
 {
 	StringMap params;
 
@@ -970,13 +970,13 @@ void Transfers::on(DownloadManagerListener::Starting, Download* dl) throw()
 	params["tmpTarget"] = dl->getTempTarget();
 
 	typedef Func3<Transfers, StringMap, bool, Sound::TypeSound> F3;
-	F3* f3 = new F3(this, &Transfers::updateTransfer_gui, params, TRUE, Sound::NONE);
+	F3* f3 = new F3(this, &Transfers::updateTransfer_gui, params, TRUE, Sound::DOWNLOAD_BEGINS);
 	WulforManager::get()->dispatchGuiFunc(f3);
 }
 
 void Transfers::on(DownloadManagerListener::Tick, const DownloadList& dls) throw()
 {
-	for (DownloadList::const_iterator it = dls.begin(); it != dls.end(); ++it)
+	for (auto it = dls.begin(); it != dls.end(); ++it)
 	{
 		Download* dl = *it;
 		StringMap params;
