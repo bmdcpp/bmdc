@@ -1615,7 +1615,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkComboBox" id="comboboxCharset">
+                          <object class="GtkComboBoxText" id="comboboxCharset">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                           </object>
