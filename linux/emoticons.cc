@@ -30,11 +30,13 @@ using namespace std;
 using namespace dcpp;
 
 Emoticons *Emoticons::emoticons = NULL;
+bool Emoticons::global = true;
 
-Emoticons* Emoticons::start(const string &packName, bool global)
+Emoticons* Emoticons::start(const string &packName, bool _global)
 {
-	//dcassert(!emoticons);
-	if(global) {
+	global = _global;
+	if(_global) {
+		dcassert(!emoticons);
 		emoticons = new Emoticons(packName);
 	}
 	return (new Emoticons(packName));
@@ -42,9 +44,11 @@ Emoticons* Emoticons::start(const string &packName, bool global)
 
 void Emoticons::stop()
 {
-	dcassert(emoticons);
-	delete emoticons;
-	emoticons = NULL;
+	if(global) {
+		dcassert(emoticons);
+		delete emoticons;
+		emoticons = NULL;
+	}
 }
 
 Emoticons* Emoticons::get()

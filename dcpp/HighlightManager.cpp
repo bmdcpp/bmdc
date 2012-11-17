@@ -68,7 +68,7 @@ void HighlightManager::save(SimpleXML& aXml){
 	aXml.addTag("Highlights");
 	aXml.stepIn();
 
-	ColorIter iter = colorSettings.begin();
+	auto iter = colorSettings.begin();
 	for(;iter != colorSettings.end(); ++iter) {
 		aXml.addTag("Highlight");
 

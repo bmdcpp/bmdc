@@ -167,7 +167,6 @@ void SearchEntry::removeBookEntry_gui(BookEntry *entry)
 gboolean SearchEntry::onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
 	gint width, height;
-//	gdk_drawable_get_size(event->window, &width, &height);
 	width = gdk_window_get_width(event->window);
 	height = gdk_window_get_height(event->window);
 

@@ -72,7 +72,7 @@ void RecentHubs::show()
 {
 	const RecentHubEntry::List& fl = FavoriteManager::getInstance()->getRecentHubs();
 	
-	for(RecentHubEntry::List::const_iterator i = fl.begin(); i != fl.end(); ++i)
+	for(auto i = fl.begin(); i != fl.end(); ++i)
 	{
 		GtkTreeIter iter;
 

@@ -394,26 +394,7 @@ vector<string>& WulforUtil::getCharsets()
 void WulforUtil::openURI(const string &uri, string &_error)
 {
 	GError* error = NULL;
-/*	gchar *argv[3];
 
-#if defined(__APPLE__)
-	argv[0] = (gchar *)"open";
-#elif defined(_WIN32)
-	argv[0] = (gchar *)"start";
-#else
-	argv[0] = (gchar *)"xdg-open";
-#endif
-	argv[1] = (gchar *)Text::fromUtf8(uri).c_str();
-	argv[2] = NULL;
-
-	g_spawn_async(NULL, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, &error);
-
-	if (error != NULL)
-	{
-		cerr << "Failed to open URI: " << error->message << endl;
-		_error = error->message;
-		g_error_free(error);
-	}*/
 	gtk_show_uri(NULL,uri.c_str(),GDK_CURRENT_TIME,&error);
 	if(error != NULL)
 	{

@@ -110,7 +110,6 @@ typedef unordered_map<string, boost::variant<string, std::function<string ()>>> 
 //BMDC
 typedef std::map<int, int> IntMap;
 typedef std::vector<ColorSettings> ColorList;
-typedef ColorList::iterator ColorIter;
 
 }
 

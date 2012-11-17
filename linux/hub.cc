@@ -1682,7 +1682,6 @@ void Hub::preferences_gui()
 			NULL);
 	}
 
-	gtk_widget_queue_draw(getWidget("chatText"));
 	gtk_widget_queue_draw(getWidget("nickView"));
 	gtk_widget_queue_draw(getWidget("emotButton"));
 
@@ -1708,7 +1707,7 @@ void Hub::preferences_gui()
 	gtk_widget_override_background_color(getWidget("chatText"),GTK_STATE_FLAG_PRELIGHT,&color);
 	gtk_widget_override_background_color(getWidget("chatText"),GTK_STATE_FLAG_ACTIVE,&color);
 	gtk_widget_override_background_color(getWidget("chatText"),GTK_STATE_FLAG_INSENSITIVE,&color);
-
+	gtk_widget_queue_draw(getWidget("chatText"));
 	setColorsRows();
 }
 
@@ -2568,7 +2567,9 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			}
 		} else if (command == "raw" )
 		{
+		   if(hub->client->isConnected())	
 			hub->client->send(Util::convertCEscapes(param));
+		  else hub->addStatusMessage_gui(_("Don't connected to hub"), Msg::SYSTEM, Sound::NONE);	
 		}
 		else if ( command == "showjoins")
 		{
@@ -4710,15 +4711,15 @@ GtkWidget *Hub::createmenu()
     gtk_widget_show_all(toggleNotify);
     gtk_widget_show_all(userCommandMenu1->getContainer());
 
-    g_signal_connect_swapped(copyHubUrl, "activate", G_CALLBACK(onCopyHubUrl), (gpointer)this);
-    g_signal_connect_swapped(close, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
-    g_signal_connect_swapped(addFav, "activate", G_CALLBACK(onAddFavItem), (gpointer)this);
-    g_signal_connect_swapped(remfav, "activate", G_CALLBACK(onRemoveFavHub), (gpointer)this);
-    g_signal_connect_swapped(setTab, "activate", G_CALLBACK(onSetTabText), (gpointer)this);
+	g_signal_connect_swapped(copyHubUrl, "activate", G_CALLBACK(onCopyHubUrl), (gpointer)this);
+	g_signal_connect_swapped(close, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
+	g_signal_connect_swapped(addFav, "activate", G_CALLBACK(onAddFavItem), (gpointer)this);
+	g_signal_connect_swapped(remfav, "activate", G_CALLBACK(onRemoveFavHub), (gpointer)this);
+	g_signal_connect_swapped(setTab, "activate", G_CALLBACK(onSetTabText), (gpointer)this);
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(toggleNotify), TRUE);
 	g_signal_connect_swapped(toggleNotify, "toggled", G_CALLBACK(onToggleNotify) , (gpointer)this);
 
-    return menu;
+	return menu;
 }
 
 void Hub::onToggleNotify (GtkWidget *item, gpointer data) {
@@ -4770,7 +4771,7 @@ void Hub::on_setImage_tab(GtkButton *widget, gpointer data)
 		tmp = WulforUtil::StringToUpper(tmp);
 		if(tmp == ".PNG" || tmp == ".JPG" || tmp == ".GIF")
 		{
-			GdkPixbuf *pixbuf =	gdk_pixbuf_new_from_file_at_scale(filename,15,15,FALSE,NULL);
+			GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_scale(filename,15,15,FALSE,NULL);
 			gtk_image_set_from_pixbuf(GTK_IMAGE(hub->tab_image),pixbuf);
 			hub->client->setTabIconStr(string(filename));
 			hub->client->fire(ClientListener::HubUpdated(), hub->client);

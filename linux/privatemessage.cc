@@ -233,7 +233,7 @@ void PrivateMessage::addMessage_gui(string message, Msg::TypeMsg typemsg)
 	}
 	else if (!sentAwayMessage && !(SETTING(NO_AWAYMSG_TO_BOTS) && isBot))
 	{
-		/**/
+		/*What away message to send*/
 		auto what = [this](ParamMap& params) -> std::string {
 				string defAway = Util::getAwayMessage(params);
 				if(hubUrl.empty())
@@ -295,7 +295,6 @@ void PrivateMessage::preferences_gui()
 			NULL);
 	}
 
-	gtk_widget_queue_draw(getWidget("text"));
 	gtk_widget_queue_draw(getWidget("emotButton"));
 
 	if (!WGETB("emoticons-use"))
@@ -314,6 +313,8 @@ void PrivateMessage::preferences_gui()
 	gtk_widget_override_background_color(getWidget("text"),GTK_STATE_FLAG_PRELIGHT,&color);
 	gtk_widget_override_background_color(getWidget("text"),GTK_STATE_FLAG_ACTIVE,&color);
 	gtk_widget_override_background_color(getWidget("text"),GTK_STATE_FLAG_INSENSITIVE,&color);
+
+	gtk_widget_queue_draw(getWidget("text"));
 }
 
 void PrivateMessage::setStatus_gui(string text)
