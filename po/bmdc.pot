@@ -5,9 +5,21 @@
 #, fuzzy
 msgid ""
 msgstr ""
+"#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-11-17 00:06+0100\n"
+"POT-Creation-Date: 2012-11-17 10:35+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"#-#-#-#-#  linux.pot  #-#-#-#-#\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
+"POT-Creation-Date: 2012-11-17 12:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -717,7 +729,7 @@ msgstr ""
 msgid "Choose a directory"
 msgstr ""
 
-#: ui/cmddebug.glade.ui:129 ui/searchspy.glade.ui:124
+#: ui/cmddebug.glade.ui:140 ui/searchspy.glade.ui:124
 #: ui/searchspy.glade.ui:340 ui/system.glade.ui:60
 msgid "Clear"
 msgstr ""
@@ -863,7 +875,7 @@ msgstr ""
 #: linux/AboutConfig.cc:86 linux/AboutConfig.cc:91 linux/AboutConfig.cc:97
 #: linux/AboutConfig.cc:102 linux/AboutConfig.cc:122 linux/AboutConfig.cc:133
 #: linux/emoticonsdialog.cc:113 linux/previewmenu.cc:88
-#: linux/FavoriteHubDialog.hh:69 linux/FavoriteHubDialog.hh:70
+#: linux/FavoriteHubDialog.hh:70 linux/FavoriteHubDialog.hh:71
 msgid "Default"
 msgstr ""
 
@@ -1054,9 +1066,9 @@ msgstr ""
 #: linux/adlsearch.cc:294 linux/adlsearch.cc:491 linux/adlsearch.cc:493
 #: linux/exportimport.cc:51 linux/exportimport.cc:85 linux/exportimport.cc:124
 #: linux/exportimport.cc:126 linux/FavoriteHubDialog.hh:46
-#: linux/FavoriteHubDialog.hh:58 linux/FavoriteHubDialog.hh:318
-#: linux/FavoriteHubDialog.hh:331 linux/FavoriteHubDialog.hh:352
-#: linux/FavoriteHubDialog.hh:354
+#: linux/FavoriteHubDialog.hh:58 linux/FavoriteHubDialog.hh:319
+#: linux/FavoriteHubDialog.hh:332 linux/FavoriteHubDialog.hh:353
+#: linux/FavoriteHubDialog.hh:355
 msgid "Enabled"
 msgstr ""
 
@@ -1644,8 +1656,8 @@ msgstr ""
 #: linux/settingsdialog.cc:3742 linux/settingsdialog.cc:3821
 #: linux/settingsdialog.cc:4367 linux/settingsdialog.cc:4460
 #: linux/settingsdialog.cc:4483 linux/settingsdialog.cc:4502
-#: linux/FavoriteHubDialog.hh:45 linux/FavoriteHubDialog.hh:317
-#: linux/FavoriteHubDialog.hh:330 linux/FavoriteHubDialog.hh:351
+#: linux/FavoriteHubDialog.hh:45 linux/FavoriteHubDialog.hh:318
+#: linux/FavoriteHubDialog.hh:331 linux/FavoriteHubDialog.hh:352
 msgid "Name"
 msgstr ""
 
@@ -2817,7 +2829,7 @@ msgstr ""
 msgid " removed from favorites list"
 msgstr ""
 
-#: linux/settingsmanager.cc:625
+#: linux/settingsmanager.cc:623
 msgid " to "
 msgstr ""
 
@@ -3138,7 +3150,7 @@ msgstr ""
 msgid "CRC32 inconsistency (SFV-Check)"
 msgstr ""
 
-#: linux/settingsmanager.cc:625
+#: linux/settingsmanager.cc:623
 msgid "Change setting "
 msgstr ""
 
@@ -3321,12 +3333,12 @@ msgid "Download failed: "
 msgstr ""
 
 #: linux/settingsdialog.cc:1150 linux/settingsdialog.cc:1326
-#: linux/settingsmanager.cc:238 linux/transfers.cc:1127
+#: linux/settingsmanager.cc:236 linux/transfers.cc:1127
 msgid "Download finished"
 msgstr ""
 
 #: linux/settingsdialog.cc:1151 linux/settingsdialog.cc:1330
-#: linux/settingsmanager.cc:240
+#: linux/settingsmanager.cc:238
 msgid "Download finished file list"
 msgstr ""
 
@@ -3434,11 +3446,11 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: linux/settingsmanager.cc:628
+#: linux/settingsmanager.cc:626
 msgid "Error: params have been not 2!"
 msgstr ""
 
-#: linux/settingsmanager.cc:624
+#: linux/settingsmanager.cc:622
 msgid "Error: setting not found!"
 msgstr ""
 
@@ -3510,12 +3522,12 @@ msgid "Favorite hub removed"
 msgstr ""
 
 #: linux/settingsdialog.cc:1156 linux/settingsdialog.cc:1346
-#: linux/settingsmanager.cc:248
+#: linux/settingsmanager.cc:246
 msgid "Favorite user joined"
 msgstr ""
 
 #: linux/settingsdialog.cc:1157 linux/settingsdialog.cc:1350
-#: linux/settingsmanager.cc:250
+#: linux/settingsmanager.cc:248
 msgid "Favorite user quit"
 msgstr ""
 
@@ -3637,7 +3649,7 @@ msgstr ""
 msgid "Highlightings"
 msgstr ""
 
-#: linux/settingsmanager.cc:379
+#: linux/settingsmanager.cc:377
 msgid "Highliting"
 msgstr ""
 
@@ -3663,7 +3675,7 @@ msgstr ""
 msgid "Hub (last seen in, if offline)"
 msgstr ""
 
-#: linux/settingsmanager.cc:382
+#: linux/settingsmanager.cc:380
 msgid "Hub Chat"
 msgstr ""
 
@@ -3681,12 +3693,12 @@ msgid "Hub address"
 msgstr ""
 
 #: linux/settingsdialog.cc:1154 linux/settingsdialog.cc:1338
-#: linux/settingsmanager.cc:246
+#: linux/settingsmanager.cc:244
 msgid "Hub connected"
 msgstr ""
 
 #: linux/settingsdialog.cc:1155 linux/settingsdialog.cc:1342
-#: linux/settingsmanager.cc:244
+#: linux/settingsmanager.cc:242
 msgid "Hub disconnected"
 msgstr ""
 
@@ -4083,7 +4095,7 @@ msgid "Private Message (also sets urgency hint)"
 msgstr ""
 
 #: linux/hub.cc:2426 linux/settingsdialog.cc:1153 linux/settingsdialog.cc:1199
-#: linux/settingsdialog.cc:1334 linux/settingsmanager.cc:242
+#: linux/settingsdialog.cc:1334 linux/settingsmanager.cc:240
 msgid "Private message"
 msgstr ""
 
@@ -4489,7 +4501,7 @@ msgid ""
 "The GeoIP database has been successfully updated; restart DC++ to apply....v"
 msgstr ""
 
-#: linux/FavoriteHubDialog.hh:277
+#: linux/FavoriteHubDialog.hh:278
 msgid "The name and address fields are required"
 msgstr ""
 

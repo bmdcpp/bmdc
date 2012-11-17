@@ -411,7 +411,7 @@ void TreeView::addColumn_gui(Column& column)
 	 * Breaks GTK+ API, but is the only way to attach a signal to a gtktreeview column header. See GTK bug #141937.
 	 * @todo: Replace when GTK adds a way to add a signal to the entire header (remove visibleColumns var, too).
 	 */
-	g_signal_connect(/*col->button*/gtk_tree_view_column_get_button(col), "button-release-event", G_CALLBACK(popupMenu_gui), (gpointer)this);//TODO
+	g_signal_connect(gtk_tree_view_column_get_button(col), "button-release-event", G_CALLBACK(popupMenu_gui), (gpointer)this);
 }
 
 void TreeView::setSortColumn_gui(const string &column, const string &sortColumn)
@@ -631,8 +631,7 @@ void TreeView::onCopyRowClicked_gui(GtkMenuItem *item, gpointer data)
                 {
 			        if (gtk_tree_model_get_iter(GTK_TREE_MODEL(gtk_tree_view_get_model(tv->view)), &iter, path))
 			        {
-			           // GtkTreeModel *m = gtk_tree_view_get_model(tv->view);
-						data += title + ": ";
+					data += title + ": ";
 			            data += tv->getValueAsText(&iter, title) + "\n";
 			        }
 			    }
@@ -656,7 +655,7 @@ void TreeView::onCopyDataItemClicked_gui(GtkMenuItem *item, gpointer data)
 {
 	TreeView *tv = (TreeView *)data;
 
-    string title = (gchar *)g_object_get_data(G_OBJECT(item), "title");
+	string title = (gchar *)g_object_get_data(G_OBJECT(item), "title");
 
 	if (gtk_tree_selection_count_selected_rows(tv->sel) > 0)
 	{
@@ -671,7 +670,6 @@ void TreeView::onCopyDataItemClicked_gui(GtkMenuItem *item, gpointer data)
 
 	        if (gtk_tree_model_get_iter(GTK_TREE_MODEL(gtk_tree_view_get_model(tv->view)), &iter, path))
 	        {
-              // GtkTreeModel *m = gtk_tree_view_get_model(tv->view);
                 data += tv->getValueAsText(&iter, title) + G_DIR_SEPARATOR;
 	        }
 
@@ -713,7 +711,7 @@ string TreeView::getValueAsText(GtkTreeIter *i, const string &title)
 		        case INT:
 		        case EXSIZE:
 		        	char buf[512];
-	                size = getValue<int64_t>(i, title);
+				size = getValue<int64_t>(i, title);
 		            snprintf(buf, sizeof(buf), "%.f", (double)(size));
 		            return buf;
 				default: ;

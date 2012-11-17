@@ -121,7 +121,7 @@ ShareBrowser::ShareBrowser(UserPtr user, const string &file, const string &initi
 	addChild(dirUserCommandMenu);
 	//Tab UC
 	TabUserCommandMenu = new UserCommandMenu(BookEntry::createmenu(), ::UserCommand::CONTEXT_FILELIST);
-    addChild(TabUserCommandMenu);
+	addChild(TabUserCommandMenu);
 
 	// Connect the signals to their callback functions.
 	g_signal_connect(fileView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);

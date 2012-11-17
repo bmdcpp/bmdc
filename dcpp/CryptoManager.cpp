@@ -282,16 +282,6 @@ bool CryptoManager::checkCertificate() noexcept {
 	if(!x509) {
 		return false;
 	}
-/*
-	X509* tmpx509 = NULL;
-	PEM_read_X509(f, &tmpx509, NULL, NULL);
-	fclose(f);
-
-	if(!tmpx509) {
-		return false;
-	}
-	ssl::X509 x509(tmpx509);
-*/
 	ASN1_INTEGER* sn = X509_get_serialNumber(x509);
 	if(!sn || !ASN1_INTEGER_get(sn)) {
 		return false;
@@ -341,18 +331,6 @@ void CryptoManager::loadKeyprint(const string& file) noexcept {
 	if(x509) {
 		keyprint = ssl::X509_digest(x509, EVP_sha256());
 	}
-/*
-	X509* tmpx509 = NULL;
-	PEM_read_X509(f, &tmpx509, NULL, NULL);
-	fclose(f);
-
-	if(!tmpx509) {
-		return;
-	}
-
-	ssl::X509 x509(tmpx509);
-	
-	keyprint = ssl::X509_digest(x509, EVP_sha256());*/
 }
 
 SSLSocket* CryptoManager::getClientSocket(bool allowUntrusted) {

@@ -168,7 +168,7 @@ MainWindow::MainWindow():
 	const FavoriteHubEntryList &fh = FavoriteManager::getInstance()->getFavoriteHubs();
 	gtk_container_foreach(GTK_CONTAINER(menu), (GtkCallback)gtk_widget_destroy, NULL);
 
-	for (FavoriteHubEntryList::const_iterator it = fh.begin(); it != fh.end(); ++it)
+	for (auto it = fh.begin(); it != fh.end(); ++it)
 	{
 		FavoriteHubEntry *entry = *it;
 		string address = entry->getServer();
@@ -616,8 +616,8 @@ void MainWindow::onLimitingDisable(GtkWidget *widget, gpointer data)
 	}
 	SettingsManager::getInstance()->set(SettingsManager::THROTTLE_ENABLE, false);
 
-    mw->setLimitingIcon(false);
-    mw->setStatRate_gui();
+	mw->setLimitingIcon(false);
+	mw->setStatRate_gui();
 }
 
 void MainWindow::setInitThrotles()
@@ -667,11 +667,11 @@ void MainWindow::addBookEntry_gui(BookEntry *entry)
 	gtk_notebook_append_page(GTK_NOTEBOOK(getWidget("book")), page, label);
 
 	g_signal_connect(label, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
-    if(WGETB("use-close-button"))
-    {
-        g_signal_connect(closeButton, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
-        g_signal_connect(closeButton, "clicked", G_CALLBACK(onCloseBookEntry_gui), (gpointer)entry);
-    }
+	if(WGETB("use-close-button"))
+	{
+		g_signal_connect(closeButton, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
+		g_signal_connect(closeButton, "clicked", G_CALLBACK(onCloseBookEntry_gui), (gpointer)entry);
+	}
 	gtk_widget_set_sensitive(getWidget("closeMenuItem"), TRUE);
 
 	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(getWidget("book")), page, TRUE);
@@ -786,7 +786,7 @@ void MainWindow::removeItemFromList(Entry::EntryType type, string id)
 			break;
 		case Entry::HUB:
 			if(Hubs.empty()) break;
-			 for(vector<Hub*>::const_iterator it = Hubs.begin();it != Hubs.end();++it)
+			 for(auto it = Hubs.begin();it != Hubs.end();++it)
 			 {
 				 Hub *hub = *it;
 				 string hubId = (dynamic_cast<Entry*>(hub))->getID();
@@ -798,7 +798,7 @@ void MainWindow::removeItemFromList(Entry::EntryType type, string id)
 			 break;
 		case Entry::PRIVATE_MESSAGE:
 			if(privateMessage.empty()) break;
-			for(vector<PrivateMessage*>::const_iterator it = privateMessage.begin();it != privateMessage.end();++it)
+			for(auto it = privateMessage.begin();it != privateMessage.end();++it)
 			 {
 				 string pId = (dynamic_cast<Entry*>(*it))->getID();
 				 if(pId == id)
@@ -1280,7 +1280,7 @@ void MainWindow::updateFavoriteHubMenu_gui(ListParamPair list)
 	GtkWidget *menu = gtk_menu_tool_button_get_menu(GTK_MENU_TOOL_BUTTON(getWidget("favHubs")));
 	gtk_container_foreach(GTK_CONTAINER(menu), (GtkCallback)gtk_widget_destroy, NULL);
 
-	for (ListParamPair::const_iterator it = list.begin(); it != list.end(); ++it)
+	for (auto it = list.begin(); it != list.end(); ++it)
 	{
 		const ParamPair &param = *it;
 		string address = param.first;
@@ -2552,7 +2552,7 @@ void MainWindow::autoConnect_client()
 	const FavHubGroups &favHubGroups = FavoriteManager::getInstance()->getFavHubGroups();
 	const FavoriteHubEntryList &favoriteHubs = FavoriteManager::getInstance()->getFavoriteHubs();
 
-	for (FavoriteHubEntryList::const_iterator i = favoriteHubs.begin(); i != favoriteHubs.end(); ++i)
+	for (auto i = favoriteHubs.begin(); i != favoriteHubs.end(); ++i)
 	{
 		FavoriteHubEntry *hub = *i;
 		string group = hub->getGroup();
@@ -2928,7 +2928,7 @@ void MainWindow::onCloseAllPM_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 
-	for(vector<PrivateMessage*>::const_iterator i= mw->privateMessage.begin(); i != mw->privateMessage.end();++i)
+	for(auto i= mw->privateMessage.begin(); i != mw->privateMessage.end();++i)
 	{
 		PrivateMessage *pm = *i;
 		typedef Func1<MainWindow,BookEntry*> F1;
@@ -2943,7 +2943,7 @@ void MainWindow::onReconectAllHub_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 
-	for(vector<Hub*>::const_iterator i= mw->Hubs.begin(); i != mw->Hubs.end();++i)
+	for(auto i= mw->Hubs.begin(); i != mw->Hubs.end();++i)
 	{
 		Hub *hub = *i;
 		hub->reconnect_p();
@@ -2955,7 +2955,7 @@ void MainWindow::onCloseAlloffPM_gui(GtkWidget *widget, gpointer data)
 	MainWindow *mw = (MainWindow *)data;
 	vector<PrivateMessage*> noff;
 
-	for(vector<PrivateMessage*>::const_iterator i= mw->privateMessage.begin(); i != mw->privateMessage.end();++i)
+	for(auto i= mw->privateMessage.begin(); i != mw->privateMessage.end();++i)
 	{
 		PrivateMessage *pm = dynamic_cast<PrivateMessage*>(*i);
 

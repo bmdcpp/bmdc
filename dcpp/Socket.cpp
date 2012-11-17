@@ -87,13 +87,13 @@ inline auto check(F f, bool blockOk = false) -> decltype(f()) {
 
 		auto error = getLastError();
 
-		if (error == ENOMEM) return 0;
+		//if (error == ENOMEM) return 0;
 
 		if(blockOk && (error == EWOULDBLOCK || error == ENOBUFS || error == EINPROGRESS || error == EAGAIN)) {
 			return -1;
 		}
-		if(error == EFAULT ||  error == ECONNRESET || error == EDESTADDRREQ || error == ENOTCONN)
-			throw SocketException(error);
+		//if(error == EFAULT ||  error == ECONNRESET || error == EDESTADDRREQ || error == ENOTCONN)
+		//	throw SocketException(error);
 
 		if(error != EINTR) {
 			throw SocketException(error);

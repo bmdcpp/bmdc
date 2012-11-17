@@ -58,7 +58,8 @@ class FavoriteHubDialog: public Entry
 	g_signal_connect(actionView.getCellRenderOf(_("Enabled")), "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
 
 	}
-	bool initDialog(FavHubGroupsIter &groups,dcpp::StringMap &params)
+
+	bool initDialog(FavHubGroupsIter &groups, dcpp::StringMap &params)
 	{
 		FavHubGroups favHubGroups = FavoriteManager::getInstance()->getFavHubGroups();
 
@@ -81,7 +82,7 @@ class FavoriteHubDialog: public Entry
 		for(auto fi = files.begin(); fi != files.end();++fi) {
 			string file = Util::getFileName((*fi));
 			auto nedle =  file.find(".");
-			string text = file.substr(0,nedle-1);
+			string text = file.substr(0,nedle);
 			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxEmot")), text.c_str() );
 		}
 		if(init) //Defualt value when adding
@@ -164,14 +165,14 @@ class FavoriteHubDialog: public Entry
 		gboolean overrideEncoding = !(params["Encoding"].empty() || params["Encoding"] == "Global hub default");
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonEncoding")), overrideEncoding);
 
-		for(auto ii = charsets.begin();ii!=charsets.end();++ii) {
+		for(auto ii = charsets.begin(); ii!=charsets.end(); ++ii) {
 			if(params["Encoding"] == *ii) {	
 				gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxCharset")), (ii - charsets.begin()));
 			}
 		}
-		for(auto fii = files.begin();fii!= files.end();++fii) {
+		for(auto fii = files.begin(); fii!= files.end(); ++fii) {
 			auto needle = Util::getFileName(*fii).find(".");	
-			string tmp  = Util::getFileName(*fii).substr(0,needle-1);
+			string tmp  = Util::getFileName(*fii).substr(0,needle);
 			if(params["PackName"] == tmp) {
 				gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxEmot")), (fii - files.begin()));
 			}
@@ -253,7 +254,7 @@ class FavoriteHubDialog: public Entry
 			}
 		}
 
-		gchar *pack = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxCharset")));
+		gchar *pack = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxEmot")));
 		if(pack)
 		{		
 			params["PackName"] = string(pack);

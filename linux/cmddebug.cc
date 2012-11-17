@@ -205,9 +205,9 @@ Bool cmddebug::onHubDataIn(HubDataPtr iHub, const char* message, dcptr_t pCommon
 	if( gtk_combo_box_get_active_iter( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")), &piter ) ) {
 		model = gtk_combo_box_get_model( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")) );
 		gtk_tree_model_get( model, &piter, 0, &fUrl, -1 );
-	}	
+	}
+	if(!fUrl) return False;	
 	
-//	string url = iHub->url;
 	string ipPort = (string)iHub->ip + ":" + Util::toString(iHub->port);
 	string msg = message;	
 	
@@ -232,9 +232,9 @@ Bool cmddebug::onHubDataOut(HubDataPtr oHub, const char* message, dcptr_t pCommo
 	if( gtk_combo_box_get_active_iter( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")), &piter ) ) {
 		model = gtk_combo_box_get_model( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")) );
 		gtk_tree_model_get( model, &piter, 0, &fUrl, -1 );
-	}	
+	}
+	if(!fUrl) return False;		
 	
-//	string url = oHub->url;
 	string ipPort = (string)oHub->ip + ":" + Util::toString(oHub->port);
 	string msg = message;	
 	
@@ -258,7 +258,8 @@ Bool cmddebug::onConnDataIn(ConnectionDataPtr iConn, const char* message, dcptr_
 	if( gtk_combo_box_get_active_iter( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")), &piter ) ) {
 		model = gtk_combo_box_get_model( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")) );
 		gtk_tree_model_get( model, &piter, 0, &fUrl, -1 );
-	}	
+	}
+	if(!fUrl) return False;		
 	
 	string ipPort = (string)iConn->ip + ":" + Util::toString(iConn->port);
 	string msg = message;	
@@ -284,7 +285,8 @@ Bool cmddebug::onConnDataOut(ConnectionDataPtr oConn, const char* message, dcptr
 	if( gtk_combo_box_get_active_iter( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")), &piter ) ) {
 		model = gtk_combo_box_get_model( GTK_COMBO_BOX(cmd->getWidget("comboboxadr")) );
 		gtk_tree_model_get( model, &piter, 0, &fUrl, -1 );
-	}	
+	}
+	if(!fUrl) return False;		
 	
 	string ipPort = (string)oConn->ip + ":" + Util::toString(oConn->port);
 	string msg = message;	

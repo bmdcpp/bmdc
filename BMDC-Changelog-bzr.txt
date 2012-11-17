@@ -636,6 +636,9 @@ Fixed color of BackGround
 Removed FastAloc class ( for speedup)
 Add IP Tag to pm too
 -----r181
-Use Font Chooser 
+Use Font Chooser
+----r183
+Fix Emot Fav Combobox
+Some Fixies
 
 
