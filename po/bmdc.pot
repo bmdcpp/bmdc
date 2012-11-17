@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-11-17 10:35+0100\n"
+"POT-Creation-Date: 2012-11-17 12:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-11-17 12:49+0100\n"
+"POT-Creation-Date: 2012-11-17 16:29+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -498,7 +498,7 @@ msgid "Add to the list"
 msgstr ""
 
 #: ui/privatemessage.glade.ui:59 linux/hub.cc:2418
-#: linux/privatemessage.cc:1080
+#: linux/privatemessage.cc:1083
 msgid "Add user to favorites list"
 msgstr ""
 
@@ -557,13 +557,13 @@ msgid "Away message"
 msgstr ""
 
 #: ui/hub.glade.ui:15 ui/privatemessage.glade.ui:15
-#: linux/privatemessage.cc:1076
+#: linux/privatemessage.cc:1079
 msgid "Away mode message on/off"
 msgstr ""
 
-#: ui/hub.glade.ui:26 ui/privatemessage.glade.ui:26 linux/WulforUtil.cc:918
-#: linux/WulforUtil.cc:937 linux/mainwindow.cc:2281
-#: linux/privatemessage.cc:1077
+#: ui/hub.glade.ui:26 ui/privatemessage.glade.ui:26 linux/WulforUtil.cc:920
+#: linux/WulforUtil.cc:939 linux/mainwindow.cc:2281
+#: linux/privatemessage.cc:1080
 msgid "Away mode off"
 msgstr ""
 
@@ -725,7 +725,7 @@ msgstr ""
 
 #: ui/search.glade.ui:7 ui/settingsdialog.glade.ui:9034
 #: ui/sharebrowser.glade.ui:7 linux/hub.cc:2923 linux/mainwindow.cc:1623
-#: linux/mainwindow.cc:1691 linux/privatemessage.cc:1354
+#: linux/mainwindow.cc:1691 linux/privatemessage.cc:1357
 msgid "Choose a directory"
 msgstr ""
 
@@ -738,7 +738,7 @@ msgstr ""
 msgid "Clear Chat"
 msgstr ""
 
-#: ui/privatemessage.glade.ui:37 linux/privatemessage.cc:1078
+#: ui/privatemessage.glade.ui:37 linux/privatemessage.cc:1081
 msgid "Clear PM"
 msgstr ""
 
@@ -774,7 +774,7 @@ msgstr ""
 msgid "Close Connection"
 msgstr ""
 
-#: ui/privatemessage.glade.ui:48 linux/privatemessage.cc:1079
+#: ui/privatemessage.glade.ui:48 linux/privatemessage.cc:1082
 msgid "Close PM"
 msgstr ""
 
@@ -874,7 +874,7 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:8960 linux/AboutConfig.cc:81
 #: linux/AboutConfig.cc:86 linux/AboutConfig.cc:91 linux/AboutConfig.cc:97
 #: linux/AboutConfig.cc:102 linux/AboutConfig.cc:122 linux/AboutConfig.cc:133
-#: linux/emoticonsdialog.cc:113 linux/previewmenu.cc:88
+#: linux/emoticonsdialog.cc:125 linux/previewmenu.cc:88
 #: linux/FavoriteHubDialog.hh:70 linux/FavoriteHubDialog.hh:71
 msgid "Default"
 msgstr ""
@@ -1275,7 +1275,7 @@ msgid "Get User Info"
 msgstr ""
 
 #: ui/privatemessage.glade.ui:81 linux/hub.cc:2421
-#: linux/privatemessage.cc:1082
+#: linux/privatemessage.cc:1085
 msgid "Get file list"
 msgstr ""
 
@@ -1293,7 +1293,7 @@ msgid "Grant Slots"
 msgstr ""
 
 #: ui/privatemessage.glade.ui:92 linux/hub.cc:2422
-#: linux/privatemessage.cc:1083
+#: linux/privatemessage.cc:1086
 msgid "Grant extra slot"
 msgstr ""
 
@@ -2013,7 +2013,7 @@ msgid "Remove from Queue"
 msgstr ""
 
 #: ui/privatemessage.glade.ui:70 linux/hub.cc:2419
-#: linux/privatemessage.cc:1081
+#: linux/privatemessage.cc:1084
 msgid "Remove user favorite"
 msgstr ""
 
@@ -2246,7 +2246,7 @@ msgid "Show favorites list"
 msgstr ""
 
 #: ui/hub.glade.ui:70 ui/privatemessage.glade.ui:103 linux/hub.cc:2423
-#: linux/privatemessage.cc:1085
+#: linux/privatemessage.cc:1088
 msgid "Show help"
 msgstr ""
 
@@ -2744,16 +2744,16 @@ msgid ""
 "Message: "
 msgstr ""
 
-#: linux/hub.cc:1496 linux/hub.cc:1576 linux/privatemessage.cc:685
-#: linux/privatemessage.cc:764
+#: linux/hub.cc:1496 linux/hub.cc:1576 linux/privatemessage.cc:688
+#: linux/privatemessage.cc:767
 msgid " *** Emoticons limit"
 msgstr ""
 
-#: linux/hub.cc:1491 linux/privatemessage.cc:680
+#: linux/hub.cc:1491 linux/privatemessage.cc:683
 msgid " *** Emoticons mode off"
 msgstr ""
 
-#: linux/hub.cc:1486 linux/privatemessage.cc:675
+#: linux/hub.cc:1486 linux/privatemessage.cc:678
 msgid " *** Emoticons not loaded"
 msgstr ""
 
@@ -2805,11 +2805,11 @@ msgstr ""
 msgid " has quit hub "
 msgstr ""
 
-#: linux/hub.cc:2329 linux/hub.cc:2995 linux/privatemessage.cc:1447
+#: linux/hub.cc:2329 linux/hub.cc:2995 linux/privatemessage.cc:1450
 msgid " is favorite user"
 msgstr ""
 
-#: linux/hub.cc:2347 linux/hub.cc:3034 linux/privatemessage.cc:1468
+#: linux/hub.cc:2347 linux/hub.cc:3034 linux/privatemessage.cc:1471
 msgid " is not favorite user"
 msgstr ""
 
@@ -2853,11 +2853,11 @@ msgstr ""
 msgid "': type /help for a list of available commands"
 msgstr ""
 
-#: linux/hub.cc:2414 linux/privatemessage.cc:1075
+#: linux/hub.cc:2414 linux/privatemessage.cc:1078
 msgid "*** Available commands:"
 msgstr ""
 
-#: linux/WulforUtil.cc:866
+#: linux/WulforUtil.cc:868
 msgid "*** Info on "
 msgstr ""
 
@@ -2906,7 +2906,7 @@ msgstr ""
 msgid ": "
 msgstr ""
 
-#: linux/privatemessage.cc:1090
+#: linux/privatemessage.cc:1093
 msgid ": type /help for a list of available commands"
 msgstr ""
 
@@ -2958,7 +2958,7 @@ msgstr ""
 msgid "Add finished files to share instantly (if shared)"
 msgstr ""
 
-#: linux/privatemessage.cc:1571
+#: linux/privatemessage.cc:1574
 msgid "Add to Favorite Users"
 msgstr ""
 
@@ -2986,7 +2986,7 @@ msgstr ""
 msgid "Address"
 msgstr ""
 
-#: linux/WulforUtil.cc:1192
+#: linux/WulforUtil.cc:1194
 msgid "Aliases not found."
 msgstr ""
 
@@ -3086,7 +3086,7 @@ msgstr ""
 msgid "Away mode on"
 msgstr ""
 
-#: linux/WulforUtil.cc:929
+#: linux/WulforUtil.cc:931
 msgid "Away mode on: "
 msgstr ""
 
@@ -3118,27 +3118,27 @@ msgstr ""
 msgid "CMD"
 msgstr ""
 
-#: linux/WulforUtil.cc:374
+#: linux/WulforUtil.cc:376
 msgid "CP1250 (Central Europe)"
 msgstr ""
 
-#: linux/WulforUtil.cc:383
+#: linux/WulforUtil.cc:385
 msgid "CP1251 (Cyrillic)"
 msgstr ""
 
-#: linux/WulforUtil.cc:373
+#: linux/WulforUtil.cc:375
 msgid "CP1252 (Western Europe)"
 msgstr ""
 
-#: linux/WulforUtil.cc:384
+#: linux/WulforUtil.cc:386
 msgid "CP1256 (Arabic)"
 msgstr ""
 
-#: linux/WulforUtil.cc:385
+#: linux/WulforUtil.cc:387
 msgid "CP1257 (Baltic)"
 msgstr ""
 
-#: linux/WulforUtil.cc:381
+#: linux/WulforUtil.cc:383
 msgid "CP949 (Korean)"
 msgstr ""
 
@@ -3174,7 +3174,7 @@ msgstr ""
 msgid "Clear search box after each search"
 msgstr ""
 
-#: linux/bookentry.cc:290 linux/hub.cc:4693 linux/privatemessage.cc:1570
+#: linux/bookentry.cc:290 linux/hub.cc:4693 linux/privatemessage.cc:1573
 #: linux/sharebrowser.cc:1105
 msgid "Close"
 msgstr ""
@@ -3200,7 +3200,7 @@ msgstr ""
 msgid "Command name already exists"
 msgstr ""
 
-#: linux/WulforUtil.cc:907
+#: linux/WulforUtil.cc:909
 msgid "Command send: "
 msgstr ""
 
@@ -3240,11 +3240,11 @@ msgstr ""
 msgid "Copy All"
 msgstr ""
 
-#: linux/privatemessage.cc:1569 linux/sharebrowser.cc:1104
+#: linux/privatemessage.cc:1572 linux/sharebrowser.cc:1104
 msgid "Copy CID"
 msgstr ""
 
-#: linux/privatemessage.cc:1572
+#: linux/privatemessage.cc:1575
 msgid "Copy Nick(s)"
 msgstr ""
 
@@ -3391,19 +3391,19 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: linux/hub.cc:2383 linux/privatemessage.cc:1065
+#: linux/hub.cc:2383 linux/privatemessage.cc:1068
 msgid "Emoticons mode off"
 msgstr ""
 
-#: linux/hub.cc:2388 linux/privatemessage.cc:1070
+#: linux/hub.cc:2388 linux/privatemessage.cc:1073
 msgid "Emoticons mode on"
 msgstr ""
 
-#: linux/hub.cc:2430 linux/privatemessage.cc:1084
+#: linux/hub.cc:2430 linux/privatemessage.cc:1087
 msgid "Emoticons on/off"
 msgstr ""
 
-#: linux/emoticonsdialog.cc:76
+#: linux/emoticonsdialog.cc:88
 msgid "Emotion packs"
 msgstr ""
 
@@ -3608,7 +3608,7 @@ msgstr ""
 msgid "Full tree does not match TTH root"
 msgstr ""
 
-#: linux/WulforUtil.cc:386
+#: linux/WulforUtil.cc:388
 msgid "GB18030 (Chinese)"
 msgstr ""
 
@@ -3714,23 +3714,23 @@ msgstr ""
 msgid "IP address"
 msgstr ""
 
-#: linux/WulforUtil.cc:379
+#: linux/WulforUtil.cc:381
 msgid "ISO-2022-JP (Japanese)"
 msgstr ""
 
-#: linux/WulforUtil.cc:375
+#: linux/WulforUtil.cc:377
 msgid "ISO-8859-2 (Central Europe)"
 msgstr ""
 
-#: linux/WulforUtil.cc:376
+#: linux/WulforUtil.cc:378
 msgid "ISO-8859-7 (Greek)"
 msgstr ""
 
-#: linux/WulforUtil.cc:377
+#: linux/WulforUtil.cc:379
 msgid "ISO-8859-8 (Hebrew)"
 msgstr ""
 
-#: linux/WulforUtil.cc:378
+#: linux/WulforUtil.cc:380
 msgid "ISO-8859-9 (Turkish)"
 msgstr ""
 
@@ -3740,7 +3740,7 @@ msgstr ""
 msgid "Icon"
 msgstr ""
 
-#: linux/emoticonsdialog.cc:81
+#: linux/emoticonsdialog.cc:93
 msgid "Icon size"
 msgstr ""
 
@@ -3801,7 +3801,7 @@ msgstr ""
 msgid "Invalid extension: "
 msgstr ""
 
-#: linux/WulforUtil.cc:980
+#: linux/WulforUtil.cc:982
 msgid "Invalid number of slots"
 msgstr ""
 
@@ -3825,7 +3825,7 @@ msgstr ""
 msgid "Join/part showing on"
 msgstr ""
 
-#: linux/WulforUtil.cc:382
+#: linux/WulforUtil.cc:384
 msgid "KOI8-R (Cyrillic)"
 msgstr ""
 
@@ -3991,7 +3991,7 @@ msgstr ""
 msgid "Not found user: "
 msgstr ""
 
-#: linux/WulforUtil.cc:267
+#: linux/WulforUtil.cc:269
 msgid "Offline"
 msgstr ""
 
@@ -4164,7 +4164,7 @@ msgstr ""
 msgid "Running..."
 msgstr ""
 
-#: linux/WulforUtil.cc:380
+#: linux/WulforUtil.cc:382
 msgid "SJIS (Japanese)"
 msgstr ""
 
@@ -4252,7 +4252,7 @@ msgstr ""
 msgid "Set Slots to n\n"
 msgstr ""
 
-#: linux/WulforUtil.cc:987
+#: linux/WulforUtil.cc:989
 msgid "Set Slots to:"
 msgstr ""
 
@@ -4376,7 +4376,7 @@ msgstr ""
 msgid "Skip zero-byte files"
 msgstr ""
 
-#: linux/privatemessage.cc:1500
+#: linux/privatemessage.cc:1503
 msgid "Slot granted"
 msgstr ""
 
@@ -4406,7 +4406,7 @@ msgstr ""
 msgid "Source too slow"
 msgstr ""
 
-#: linux/WulforUtil.cc:1025 linux/WulforUtil.cc:1030
+#: linux/WulforUtil.cc:1027 linux/WulforUtil.cc:1032
 msgid "Specify a search string"
 msgstr ""
 
@@ -4484,7 +4484,7 @@ msgstr ""
 msgid "System message"
 msgstr ""
 
-#: linux/WulforUtil.cc:387
+#: linux/WulforUtil.cc:389
 msgid "TIS-620 (Thai)"
 msgstr ""
 
@@ -4570,7 +4570,7 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
-#: linux/WulforUtil.cc:372
+#: linux/WulforUtil.cc:374
 msgid "UTF-8 (Unicode)"
 msgstr ""
 
@@ -4586,12 +4586,12 @@ msgstr ""
 msgid "Unable to load file list: Invalid file list name"
 msgstr ""
 
-#: linux/WulforUtil.cc:497 linux/WulforUtil.cc:499 linux/downloadqueue.cc:1291
+#: linux/WulforUtil.cc:499 linux/WulforUtil.cc:501 linux/downloadqueue.cc:1291
 #: linux/downloadqueue.cc:1292
 msgid "Unknown"
 msgstr ""
 
-#: linux/privatemessage.cc:1090
+#: linux/privatemessage.cc:1093
 msgid "Unknown command "
 msgstr ""
 
@@ -4652,7 +4652,7 @@ msgstr ""
 msgid "Use DNS in Transfers"
 msgstr ""
 
-#: linux/hub.cc:2217 linux/privatemessage.cc:1275
+#: linux/hub.cc:2217 linux/privatemessage.cc:1278
 msgid "Use Emoticons"
 msgstr ""
 
@@ -4756,7 +4756,7 @@ msgstr ""
 msgid "User unIgnored "
 msgstr ""
 
-#: linux/privatemessage.cc:1435
+#: linux/privatemessage.cc:1438
 msgid "User went offline"
 msgstr ""
 
@@ -5001,7 +5001,7 @@ msgstr ""
 msgid "loading error"
 msgstr ""
 
-#: linux/WulforUtil.cc:948
+#: linux/WulforUtil.cc:950
 msgid "project home: "
 msgstr ""
 

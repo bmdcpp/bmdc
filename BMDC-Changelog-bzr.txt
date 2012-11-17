@@ -640,5 +640,8 @@ Use Font Chooser
 ----r183
 Fix Emot Fav Combobox
 Some Fixies
+----r184
+Callback to IP's PM's menu
+Redone Per-Fav Hub emoticons
 
 

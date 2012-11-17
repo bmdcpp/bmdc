@@ -85,6 +85,8 @@ class PrivateMessage:
 		static void onCommandClicked_gui(GtkWidget *widget, gpointer data);
 		static void onUseEmoticons_gui(GtkWidget *widget, gpointer data);
 		static gboolean onChatCommandButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		static void onCopyIpItem_gui(GtkWidget *wid, gpointer data);
+		static void onRipeDbItem_gui(GtkWidget *wid, gpointer data);
 		//BMDC++
 		static void onCloseItem(gpointer data);
 		static void onCopyCID(gpointer data);

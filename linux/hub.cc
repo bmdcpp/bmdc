@@ -1480,7 +1480,7 @@ void Hub::applyEmoticons_gui()
 	{
 		return;
 	}
-	else if (!Emoticons::get()->useEmoticons_gui())
+	else if (!emotdialog->getEmot(address)->useEmoticons_gui())
 	{
 		if (WGETB("emoticons-use"))
 			setStatus_gui("statusMain", _(" *** Emoticons not loaded"));
@@ -1508,7 +1508,7 @@ void Hub::applyEmoticons_gui()
 
 	Emot::Iter p_it;
 	gint set_start, new_start;
-	Emot::List &list = Emoticons::get()->getPack_gui(address);
+	Emot::List &list = emotdialog->getEmot(address)->getPack_gui();
 
 	/* set start mark */
 	gtk_text_buffer_move_mark(chatBuffer, emot_mark, &start_iter);

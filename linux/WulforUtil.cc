@@ -148,8 +148,10 @@ const char* WulforUtil::msgs_dc[] = {
 		"\r\n-- My client automatically detects the connection, does yours?\r\n" LINE2,
 		"\r\n-- These addies are pretty annoying, aren't they? Get revenge by sending them yourself!\r\n" LINE2,
 		"\r\n-- My client supports grouping favorite hubs, does yours?\r\n" LINE2,
-		"\r\n-- My client supports segmented downloading, does yours?\r\n" LINE2 };
-#define MSGS 12
+		"\r\n-- My client supports segmented downloading, does yours?\r\n" LINE2,
+		"\r\n-- My client support pack of Emoticons per Fav Hubsm does yours?\r\n" LINE2,
+ };
+#define MSGS 13
 
 vector<int> WulforUtil::splitString(const string &str, const string &delimiter)
 {

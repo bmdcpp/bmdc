@@ -145,6 +145,9 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	g_signal_connect(getWidget("downloadBrowseItem"), "activate", G_CALLBACK(onDownloadToClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("downloadItem"), "activate", G_CALLBACK(onDownloadClicked_gui), (gpointer)this);
 
+	g_signal_connect(getWidget("ripeitem"), "activate", G_CALLBACK(onRipeDbItem_gui),(gpointer)this);
+	g_signal_connect(getWidget("copyipItem"), "activate", G_CALLBACK(onCopyIpItem_gui),(gpointer)this);
+
 	gtk_widget_grab_focus(getWidget("entry"));
 	history.push_back("");
 	OnlineUser* user = ClientManager::getInstance()->findOnlineUser(CID(cid), hubUrl);
@@ -669,7 +672,7 @@ void PrivateMessage::applyEmoticons_gui()
 	{
 		return;
 	}
-	else if (!Emoticons::get()->useEmoticons_gui())
+	else if (!emotdialog->getEmot()->useEmoticons_gui())
 	{
 		if (WGETB("emoticons-use"))
 			setStatus_gui(_(" *** Emoticons not loaded"));
@@ -697,7 +700,7 @@ void PrivateMessage::applyEmoticons_gui()
 
 	Emot::Iter p_it;
 	gint set_start, new_start;
-	Emot::List &list = Emoticons::get()->getPack_gui();
+	Emot::List &list = emotdialog->getEmot()->getPack_gui();
 
 	/* set start mark */
 	gtk_text_buffer_move_mark(messageBuffer, emot_mark, &start_iter);
@@ -1613,3 +1616,17 @@ void PrivateMessage::onAddFavItem(gpointer data)
 	pm->addFavoriteUser_client();
 }
 //EnD
+
+void PrivateMessage::onCopyIpItem_gui(GtkWidget *wid, gpointer data)
+{
+	PrivateMessage *pm = (PrivateMessage *)data;
+	gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), pm->ip.c_str(), pm->ip.length());
+}
+
+void PrivateMessage::onRipeDbItem_gui(GtkWidget *wid, gpointer data)
+{
+	PrivateMessage *pm = (PrivateMessage *)data;
+	string error;
+	WulforUtil::openURI("http://www.db.ripe.net/whois?searchtext=" + pm->ip + "&searchSubmit=search", error);
+	pm->setStatus_gui(error);
+}

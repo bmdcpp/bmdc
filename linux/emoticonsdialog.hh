@@ -23,18 +23,19 @@
 #define EMOTICONS_DIALOG_HH
 #include <dcpp/stdinc.h>
 #include <dcpp/Util.h>
+#include <map>
 #include "emoticons.hh"
 class EmoticonsDialog
 {
 	public:
-		EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *menu, std::string packName = dcpp::Util::emptyString, std::string address = dcpp::Util::emptyString);
+		EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *menu, std::string& packName = dcpp::Util::emptyString, const std::string& address = dcpp::Util::emptyString);
 		~EmoticonsDialog();
 
 		// GUI functions
 		void showEmotDialog_gui();
 		void buildEmotMenu_gui();
-		std::string getCurrent(std::string address) { return Emoticons::get()->getCurrPackName_gui(address);}
-
+		std::string getCurrent(const std::string& address) { return getEmot(address)->getCurrPackName_gui();}
+		Emoticons *getEmot(const std::string &address = dcpp::Util::emptyString);
 	private:
 		enum {FIRST, x16 = FIRST, x22, x24, x32, x36, x48, x64, DEFAULT, LAST};
 
@@ -51,6 +52,7 @@ class EmoticonsDialog
 		std::string currIconSize;
 		std::string packName;
 		std::string address;
+		std::map<std::string,Emoticons*> hubs;
 		static const std::string sizeIcon[LAST];
 
 		void build();
@@ -65,6 +67,7 @@ class EmoticonsDialog
 		static void onCheckPacksMenu(GtkMenuItem *checkItem, gpointer data);
 		static void onCheckIconSizeMenu(GtkMenuItem *checkItem, gpointer data);
 		static gboolean event(GtkWidget *widget /*dialog*/, GdkEvent *event, gpointer data /*this*/);
+
 };
 
 #else

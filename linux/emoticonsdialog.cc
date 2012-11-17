@@ -36,7 +36,7 @@ const string EmoticonsDialog::sizeIcon[] = {
 	"16x16", "22x22", "24x24", "32x32", "36x36", "48x48", "64x64", "0"
 };
 
-EmoticonsDialog::EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *menu, string packName /*Util::emptyString*/, string address /*Util::empty*/) :
+EmoticonsDialog::EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *menu, string& packName /*Util::emptyString*/, const string& address /*Util::empty*/) :
 	Chat(chat),
 	Button(button),
 	Menu(menu),
@@ -49,10 +49,20 @@ EmoticonsDialog::EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *
 	g_object_ref_sink(tooltips);
 #endif
 	g_object_ref_sink(Menu);
+	if(!address.empty()) {
+		Emoticons *em = Emoticons::start(packName,false);
+		hubs.insert(make_pair(address,em));
+	}
+}
 
-	Emoticons::get()->setCurrPackName_gui(packName,address);
-	Emoticons::get()->rebuildHubEmot(address);
-	Emoticons::get()->reloadPack_gui(address);
+Emoticons *EmoticonsDialog::getEmot(const std::string &address)
+{
+	if(address.empty()) return Emoticons::get();	
+
+	map<std::string,Emoticons*>::iterator it;
+	if( (it = hubs.find(address) ) != hubs.end())
+		return it->second;
+	else return Emoticons::get();
 }
 
 EmoticonsDialog::~EmoticonsDialog()
@@ -61,6 +71,8 @@ EmoticonsDialog::~EmoticonsDialog()
 	g_object_unref(tooltips);
 #endif
 	g_object_unref(Menu);
+
+	for(auto it=hubs.begin();it!=hubs.end();++it) it->second->stop();
 
 	if (dialog != NULL)
 		gtk_widget_destroy(dialog);
@@ -85,7 +97,7 @@ void EmoticonsDialog::buildEmotMenu_gui()
 
 void EmoticonsDialog::addPacksMenu(GtkWidget *item)
 {
-	const string currPackName = Emoticons::get()->getCurrPackName_gui(address);
+	const string currPackName = getEmot(address)->getCurrPackName_gui();
 	string path = WulforManager::get()->getPath() + G_DIR_SEPARATOR_S + "emoticons" + G_DIR_SEPARATOR_S;
 
 	GtkWidget *check_item;
@@ -205,9 +217,8 @@ void EmoticonsDialog::onCheckPacksMenu(GtkMenuItem *checkItem, gpointer data)
 
 	//if (currPackName != Emoticons::get()->getCurrPackName_gui(ed->address))
 	{
-		Emoticons::get()->setCurrPackName_gui(currPackName,ed->address);
-		Emoticons::get()->rebuildHubEmot(ed->address);
-		Emoticons::get()->reloadPack_gui(ed->address);
+		ed->getEmot(ed->address)->setCurrPackName_gui(currPackName);
+		ed->getEmot(ed->address)->reloadPack_gui();
 
 	}
 }
@@ -233,8 +244,8 @@ void EmoticonsDialog::build()
 		top_attach = 0,
 		bottom_attach = 1;
 
-	const int sizetable = Emoticons::get()->getCountFile_gui(address);
-	Emot::List &list = Emoticons::get()->getPack_gui(address);
+	const int sizetable = getEmot(address)->getCountFile_gui();
+	Emot::List &list = getEmot(address)->getPack_gui();
 	/* rows & columns */
 	guint rows, columns;
 	rows = columns = (guint)sqrt((double)sizetable);

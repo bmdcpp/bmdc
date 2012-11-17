@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2012 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2010 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,8 +23,7 @@
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
 #include <dcpp/Text.h>
-#include <dcpp/SimpleXML.h>
-#include <dcpp/SettingsManager.h>
+#include <dcpp/SimpleXML.h>//NOTE: core 0.762
 #include "emoticons.hh"
 
 using namespace std;
@@ -32,10 +31,13 @@ using namespace dcpp;
 
 Emoticons *Emoticons::emoticons = NULL;
 
-void Emoticons::start()
+Emoticons* Emoticons::start(const string &packName, bool global)
 {
-	dcassert(!emoticons);
-	emoticons = new Emoticons();
+	//dcassert(!emoticons);
+	if(global) {
+		emoticons = new Emoticons(packName);
+	}
+	return (new Emoticons(packName));
 }
 
 void Emoticons::stop()
@@ -51,26 +53,26 @@ Emoticons* Emoticons::get()
 	return emoticons;
 }
 
-Emoticons::Emoticons()
+Emoticons::Emoticons(const std::string &packName)
 {
-	//currPackName = SETTING(EMOT_PACK);//WGETS("emoticons-pack");
+	currPackName = packName;//WGETS("emoticons-pack");
 	create();
 }
 
 Emoticons::~Emoticons()
 {
 	clean();
-//	SettingsManager::getInstance()->set(SettingsManager::EMOT_PACK,currPackName);
+	//WSET("emoticons-pack", currPackName);
 }
 
-void Emoticons::create(string address)
+void Emoticons::create()
 {
 	clean();
 
 	if (!WGETB("emoticons-use"))
 		return;
 
-	string file = getCurrPackName_gui(address);
+	string file = currPackName;
 	string path = WulforManager::get()->getPath() + G_DIR_SEPARATOR_S + "emoticons" + G_DIR_SEPARATOR_S;
 	string packName = file;
 
@@ -99,7 +101,6 @@ void Emoticons::create(string address)
 				return;
 			}
 		}
-		dcdebug("%s",file.c_str());
 	}
 
 	currPackName = "";
@@ -182,91 +183,9 @@ bool Emoticons::load(const string &file)
 	}
 	catch (const Exception &e)
 	{
-		dcdebug("bmdc: %s...\n %s", e.getError().c_str(), path.c_str());
+		dcdebug("BMDC: %s...\n", e.getError().c_str());
 		return FALSE;
 	}
 
 	return !pack.empty();
 }
-
-void Emoticons::rebuildHubEmot(string address)
-{
-	string path = WulforManager::get()->getPath() + G_DIR_SEPARATOR_S + "emoticons" + G_DIR_SEPARATOR_S;
-	for(auto i = hubs.begin();i!=hubs.end();++i)
-	{
-		dcdebug("%s - %s - %s",i->first.c_str(),address.c_str(),string(path + i->second + ".xml").c_str());
-		auto f = load2(path + i->second + ".xml");
-		if(f.second == 0)
-				continue;
-		hubs2.insert(make_pair(address,f.first));
-		hubs3.insert(make_pair(address,f.second));
-	}
-
-}
-
-pair<Emot::List,int> Emoticons::load2(const string &file)
-{
-	Emot::List packs;	
-	std::set<std::string> filt;
-	if (file.empty())
-		return make_pair(vector<Emot *>(),0);;
-
-	string path = WulforManager::get()->getPath() + G_DIR_SEPARATOR_S + "emoticons" + G_DIR_SEPARATOR_S;
-	int count = 0;
-
-	try
-	{
-		SimpleXML xml;
-		xml.fromXML(File(file, File::READ, File::OPEN).read());
-
-		if (xml.findChild("emoticons-map"))
-		{
-			string map = xml.getChildAttrib("name");
-			path += map + G_DIR_SEPARATOR_S;
-			string emotName, emotPath, emotFile;
-
-			xml.stepIn();
-
-			while (xml.findChild("emoticon"))
-			{
-				GList *list = NULL;
-				emotFile = xml.getChildAttrib("file");
-				emotPath = Text::fromUtf8(path + emotFile);
-
-				if (!g_file_test(emotPath.c_str(), G_FILE_TEST_EXISTS))
-					continue;
-
-				xml.stepIn();
-
-				while (xml.findChild("name"))
-				{
-					emotName = xml.getChildAttrib("text");
-
-					if (emotName.empty() || g_utf8_strlen(emotName.c_str(), -1) > Emot::SIZE_NAME || filt.count(emotName))
-						continue;
-
-					list = g_list_append(list, g_strdup(emotName.c_str()));
-					filt.insert(emotName);
-				}
-
-				if (list != NULL)
-				{
-					Emot *emot = new Emot(list, emotFile, gdk_pixbuf_new_from_file(emotPath.c_str(), NULL));
-					packs.push_back(emot);
-					count++;
-				}
-					xml.stepOut();
-			}
-				xml.stepOut();
-		}
-	}
-	catch (const Exception &e)
-	{
-		dcdebug("bmdc: %s...\n %s", e.getError().c_str(), path.c_str());
-		return make_pair(vector<Emot *>(),0);
-	}
-	dcdebug("%s %d",file.c_str(),count);
-	return make_pair(packs,count);
-}
-
-
