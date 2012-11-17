@@ -36,7 +36,7 @@ const string EmoticonsDialog::sizeIcon[] = {
 	"16x16", "22x22", "24x24", "32x32", "36x36", "48x48", "64x64", "0"
 };
 
-EmoticonsDialog::EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *menu, string& packName /*Util::emptyString*/, const string& address /*Util::empty*/) :
+EmoticonsDialog::EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *menu, string packName /*Util::emptyString*/, const string& address /*Util::empty*/) :
 	Chat(chat),
 	Button(button),
 	Menu(menu),
@@ -71,8 +71,12 @@ EmoticonsDialog::~EmoticonsDialog()
 	g_object_unref(tooltips);
 #endif
 	g_object_unref(Menu);
-
-	for(auto it=hubs.begin();it!=hubs.end();++it) it->second->stop();
+	map<std::string,Emoticons*>::iterator it;
+	if( (it = hubs.find(address)) != hubs.end() )
+	{
+			it->second->stop();
+			hubs.erase(it);
+	}
 
 	if (dialog != NULL)
 		gtk_widget_destroy(dialog);
@@ -335,12 +339,12 @@ void EmoticonsDialog::position()
 		Bx, By, Bw;
 	GtkAllocation allocation;//@NOTE: GTK3
 
-	gtk_widget_size_request(dialog, &requisition);
+	gtk_widget_get_preferred_size (dialog,NULL, &requisition);
 
 	Dw = requisition.width;
 	Dh = requisition.height;
 
-	gtk_widget_size_request(Button, &requisition);
+	gtk_widget_get_preferred_size(Button,NULL, &requisition);
 
 	Bw = requisition.width;
 

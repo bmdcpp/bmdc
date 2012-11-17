@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-11-17 16:29+0100\n"
+"POT-Creation-Date: 2012-11-17 17:55+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -874,7 +874,7 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:8960 linux/AboutConfig.cc:81
 #: linux/AboutConfig.cc:86 linux/AboutConfig.cc:91 linux/AboutConfig.cc:97
 #: linux/AboutConfig.cc:102 linux/AboutConfig.cc:122 linux/AboutConfig.cc:133
-#: linux/emoticonsdialog.cc:125 linux/previewmenu.cc:88
+#: linux/emoticonsdialog.cc:129 linux/previewmenu.cc:88
 #: linux/FavoriteHubDialog.hh:70 linux/FavoriteHubDialog.hh:71
 msgid "Default"
 msgstr ""
@@ -3403,7 +3403,7 @@ msgstr ""
 msgid "Emoticons on/off"
 msgstr ""
 
-#: linux/emoticonsdialog.cc:88
+#: linux/emoticonsdialog.cc:92
 msgid "Emotion packs"
 msgstr ""
 
@@ -3740,7 +3740,7 @@ msgstr ""
 msgid "Icon"
 msgstr ""
 
-#: linux/emoticonsdialog.cc:93
+#: linux/emoticonsdialog.cc:97
 msgid "Icon size"
 msgstr ""
 

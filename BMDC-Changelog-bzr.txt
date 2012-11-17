@@ -643,5 +643,7 @@ Some Fixies
 ----r184
 Callback to IP's PM's menu
 Redone Per-Fav Hub emoticons
-
+----r185
+Some fixes around deprecated functions
+Some Fixies around emoticons (mainly on PM)
 
