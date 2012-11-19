@@ -556,6 +556,9 @@ string QueueManager::getListPath(const HintedUser& user) {
 void QueueManager::add(const string& aTarget, int64_t aSize, const TTHValue& root, const HintedUser& aUser,
 	int aFlags /* = 0 */, bool addBad /* = true */, const BundlePtr &bundle)
 {
+	auto gotoend = [this,&aUser] (bool wantConnection) -> void {
+		if(wantConnection && aUser.user->isOnline())
+		ConnectionManager::getInstance()->getDownloadConnection(aUser);};
 	bool wantConnection = true;
 
 	// Check that we're not downloading from ourselves...
@@ -615,7 +618,7 @@ void QueueManager::add(const string& aTarget, int64_t aSize, const TTHValue& roo
 				if(!sourceAdded && permanentExists) {
 					throw QueueException(_("This file is already queued"));
 				}
-				if (permanentExists) goto connect;
+				if (permanentExists) { gotoend(wantConnection); return;}// connect;
 			}
 		}
 
@@ -649,10 +652,11 @@ void QueueManager::add(const string& aTarget, int64_t aSize, const TTHValue& roo
 
 		wantConnection = addSource(q, aUser, addBad ? QueueItem::Source::FLAG_MASK : 0);
 	}
-
+	gotoend(wantConnection);
+/*
 connect:
 	if(wantConnection && aUser.user->isOnline())
-		ConnectionManager::getInstance()->getDownloadConnection(aUser);
+		ConnectionManager::getInstance()->getDownloadConnection(aUser);*/
 }
 
 void QueueManager::add(const string& aRoot, const BundlePtr& bundle, const HintedUser& aUser, int aFlags) {

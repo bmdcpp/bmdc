@@ -105,7 +105,7 @@ class Hub:
 		void addIgnore_gui(ParamMap params);
 
 		void addPrivateMessage_gui(Msg::TypeMsg typemsg, std::string nick, std::string cid, std::string url, std::string message, bool useSetting);
-		//BBCodes		
+		//[BBCodes		
 		void loadImage_gui(std::string target, std::string tth);
 		void openImage_gui(std::string target);
 		void insertBBcodeEntry_gui(std::string ch);
@@ -209,8 +209,8 @@ class Hub:
 
 		void getPartialFileList_client(std::string cid);
 
-		void setHubIcon_gui(std::string url);
-		void updateIcons();
+//		void setHubIcon_gui(std::string url);
+//		void updateIcons();
 		void removeIgnore_gui(ParamMap params);
 		void SetTabText(gpointer data);
 
@@ -238,7 +238,7 @@ class Hub:
 		virtual void on(dcpp::ClientListener::SearchFlood, dcpp::Client *, const std::string &message) noexcept;
 		virtual void on(dcpp::ClientListener::CheatMessage, dcpp::Client *, const std::string &msg) noexcept;
 		virtual void on(dcpp::ClientListener::HubTopic, dcpp::Client *, const std::string &top) noexcept;
-		virtual void on(dcpp::ClientListener::HubIcon, dcpp::Client *, const std::string &url) noexcept;
+//		virtual void on(dcpp::ClientListener::HubIcon, dcpp::Client *, const std::string &url) noexcept;
 		virtual void on(dcpp::ClientListener::ClientLine, dcpp::Client* , const std::string &mess, int type) noexcept;
 		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) throw();
 
@@ -297,7 +297,7 @@ class Hub:
 		}
 
 		bool notify;
-		static void onToggleNotify (GtkWidget *item, gpointer data);
+//		static void onToggleNotify (GtkWidget *item, gpointer data);
 
 };
 #else

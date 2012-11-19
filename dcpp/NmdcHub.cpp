@@ -494,9 +494,9 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			getHubIdentity().setDescription(unescape(param.substr(i+3)));
 		}
 		fire(ClientListener::HubUpdated(), this);
-	} else if (cmd == "$SetIcon"){
+	} /*else if (cmd == "$SetIcon"){
 		fire(ClientListener::HubIcon(), this, param);
-	} else if(cmd == "$Supports") {
+	}*/ else if(cmd == "$Supports") {
 		StringTokenizer<string> st(param, ' ');
 		StringList& sl = st.getTokens();
 		for(StringIter i = sl.begin(); i != sl.end(); ++i) {

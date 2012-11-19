@@ -100,7 +100,7 @@ void AdcCommand::parse(const string& aLine, bool nmdc /* = false */) {
 					cur += '\\';
 					break;
 				case ' ':
-					if (nmdc)
+					if (nmdc) // $ADCGET escaping, leftover from old specs
 						cur += ' ';
 					break;
 				default:

@@ -4627,7 +4627,7 @@ void Hub::on(ClientListener::SearchFlood, Client *, const string &msg) noexcept
 //[BMDC++
 void Hub::on(ClientListener::CheatMessage, Client *, const string &msg) noexcept
 {
-    typedef Func3<Hub, string, Msg::TypeMsg, Sound::TypeSound> F3;
+	typedef Func3<Hub, string, Msg::TypeMsg, Sound::TypeSound> F3;
 	F3 *func = new F3(this, &Hub::addStatusMessage_gui, msg, Msg::CHEAT, Sound::NONE);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
@@ -4645,14 +4645,13 @@ void Hub::on(ClientListener::ClientLine, Client* , const string &mess, int type)
 	F3 *func = new F3(this, &Hub::addStatusMessage_gui, mess, Msg::STATUS, Sound::NONE);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
-
+/*
 void Hub::on(ClientListener::HubIcon, Client *, const string &url) noexcept
 {
-	typedef Func1<Hub, string> F1;
+	/*typedef Func1<Hub, string> F1;
 	F1 *func = new F1(this, &Hub::setHubIcon_gui, url);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
-
 void Hub::setHubIcon_gui(string url)
 {
 	if(g_ascii_strncasecmp(url.c_str(), "http://", 7) == 0 ||
@@ -4677,7 +4676,7 @@ void Hub::updateIcons()
 		{ g_print("%s",e.what());}
 
 	}
-}
+}*/
 //custom popup menu
 GtkWidget *Hub::createmenu()
 {
@@ -4695,20 +4694,20 @@ GtkWidget *Hub::createmenu()
 	GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite hubs"));
 	GtkWidget *remfav = gtk_menu_item_new_with_label(_("Remove from Favorite hubs"));
 	GtkWidget *setTab = gtk_menu_item_new_with_label(_("Set Tab Name"));
-	GtkWidget *toggleNotify = gtk_check_menu_item_new_with_label("Use Chat Notify");
+//	GtkWidget *toggleNotify = gtk_check_menu_item_new_with_label("Use Chat Notify");
 
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), close);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), copyHubUrl);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), addFav);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), remfav);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), setTab);
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), toggleNotify);
+//    gtk_menu_shell_append(GTK_MENU_SHELL(menu), toggleNotify);
     gtk_widget_show(close);
     gtk_widget_show(copyHubUrl);
     gtk_widget_show(addFav);
     gtk_widget_show(remfav);
     gtk_widget_show(setTab);
-    gtk_widget_show_all(toggleNotify);
+//    gtk_widget_show_all(toggleNotify);
     gtk_widget_show_all(userCommandMenu1->getContainer());
 
 	g_signal_connect_swapped(copyHubUrl, "activate", G_CALLBACK(onCopyHubUrl), (gpointer)this);
@@ -4716,12 +4715,12 @@ GtkWidget *Hub::createmenu()
 	g_signal_connect_swapped(addFav, "activate", G_CALLBACK(onAddFavItem), (gpointer)this);
 	g_signal_connect_swapped(remfav, "activate", G_CALLBACK(onRemoveFavHub), (gpointer)this);
 	g_signal_connect_swapped(setTab, "activate", G_CALLBACK(onSetTabText), (gpointer)this);
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(toggleNotify), TRUE);
-	g_signal_connect_swapped(toggleNotify, "toggled", G_CALLBACK(onToggleNotify) , (gpointer)this);
+//	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(toggleNotify), TRUE);
+//	g_signal_connect_swapped(toggleNotify, "toggled", G_CALLBACK(onToggleNotify) , (gpointer)this);
 
 	return menu;
 }
-
+/*
 void Hub::onToggleNotify (GtkWidget *item, gpointer data) {
 	Hub *hub = (Hub *)data;
 	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM( item )) )
@@ -4729,7 +4728,7 @@ void Hub::onToggleNotify (GtkWidget *item, gpointer data) {
 	else
 		hub->notify = FALSE;
 }
-
+*/
 void Hub::onCloseItem(gpointer data)
 {
     BookEntry *entry = (BookEntry *)data;

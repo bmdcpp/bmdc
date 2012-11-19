@@ -49,7 +49,7 @@ public:
 	//...
 	typedef X<19> CheatMessage;
 	typedef X<20> HubTopic;
-	typedef X<22> HubIcon;
+//	typedef X<22> HubIcon;
 	typedef X<23> ClientLine;
 
 	enum StatusFlags {
@@ -77,7 +77,7 @@ public:
 	virtual void on(CheatMessage, Client*, const string&) noexcept { }
 	virtual void on(HubTopic, Client*, const string&) noexcept { }
 	
-	virtual void on(HubIcon, Client*, const string&) noexcept { }//$SetIcon
+//	virtual void on(HubIcon, Client*, const string&) noexcept { }//$SetIcon
 	
 	virtual void on(ClientLine, Client*, const string&, int) noexcept { }//PluginInfo
 };

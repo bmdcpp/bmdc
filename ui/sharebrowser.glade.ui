@@ -15,7 +15,7 @@
         <property name="can_focus">False</property>
         <property name="spacing">24</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area1">
+          <object class="GtkHButtonBox" id="dialog-action__area1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -204,7 +204,7 @@
     <property name="modal">True</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox1">
+      <object class="GtkVBox" id="dialog-vboxs1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <child internal-child="action_area">
@@ -254,7 +254,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkFrame" id="frame1">
+          <object class="GtkFrame" id="framdsfe1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="border_width">7</property>
@@ -279,7 +279,7 @@
               </object>
             </child>
             <child type="label">
-              <object class="GtkLabel" id="label1">
+              <object class="GtkLabel" id="labedsfl1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Enter text to search for</property>
@@ -311,7 +311,7 @@
         <property name="can_focus">True</property>
         <property name="position">200</property>
         <child>
-          <object class="GtkScrolledWindow" id="scrolledwindow1">
+          <object class="GtkScrolledWindow" id="scrolldfedwindow1">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="hscrollbar_policy">automatic</property>
@@ -331,7 +331,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkScrolledWindow" id="scrolledwindow2">
+          <object class="GtkScrolledWindow" id="scrolleddsfwindow2">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="hscrollbar_policy">automatic</property>
@@ -357,7 +357,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkHBox" id="hbox1">
+      <object class="GtkHBox" id="hbdfox1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">4</property>

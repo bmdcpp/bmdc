@@ -76,7 +76,17 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
         rcstyle->xthickness = rcstyle->ythickness = 0;
         gtk_widget_modify_style(closeButton, rcstyle);
         g_object_unref(rcstyle);
-
+/*
+        GtkCssProvider *provider =  gtk_css_provider_get_default();  
+ 	  gtk_css_provider_load_from_data(provider,".button {\n"
+                "-GtkButton-default-border : 0px;\n" 
+                "-GtkButton-default-outside-border : 0px;\n" 
+                "-GtkButton-inner-border: 0px;\n" 
+                "-GtkWidget-focus-line-width : 0px;\n" 
+                "-GtkWidget-focus-padding : 0px;\n" 
+                "padding: 0px;\n\0",-1, NULL);
+	 GtkStyleContext *context = gtk_widget_get_style_context(closeButton);
+	 gtk_style_context_add_provider (context,provider,GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);*/
         // Add the stock icon to the close button
         GtkWidget *image = gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
         gtk_container_add(GTK_CONTAINER(closeButton), image);

@@ -646,4 +646,7 @@ Redone Per-Fav Hub emoticons
 ----r185
 Some fixes around deprecated functions
 Some Fixies around emoticons (mainly on PM)
+----r186
+Fixed ShareBrowser duplicates widgets ids
+Remove $HubIcon|
 
