@@ -17,7 +17,7 @@
 #include "stdinc.h"
 #include "DCPlusPlus.h"
 #include "version.h"
-
+#include <cstring>
 #include "RsxUtil.h"
 #include "Util.h"
 #include "Text.h"

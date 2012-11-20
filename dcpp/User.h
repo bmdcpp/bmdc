@@ -29,7 +29,7 @@ namespace dcpp {
 
 /** A user connected to one or more hubs. */
 //Removed FastAllock
-class User : public intrusive_ptr_base<User>, public Flags, private boost::noncopyable
+class User : public intrusive_ptr_base<User>, public Flags//, private boost::noncopyable
 {
 public:
 	enum Bits {
@@ -71,6 +71,9 @@ public:
 
 private:
 	CID cid;
+	//emulate noncopyable :) ( since we use C++11
+	User(const User&) = delete;
+	User& operator=(const User&) = delete;
 };
 
 } // namespace dcpp

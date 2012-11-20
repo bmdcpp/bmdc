@@ -140,7 +140,8 @@ void SearchManager::disconnect() noexcept {
 
 #define BUFSIZE 8192
 int SearchManager::run() {
-	boost::scoped_array<uint8_t> buf(new uint8_t[BUFSIZE]);
+	//boost::scoped_array<uint8_t> buf(new uint8_t[BUFSIZE]);
+	std::shared_ptr<uint8_t> buf(new uint8_t[BUFSIZE], std::default_delete<uint8_t[]>());
 	int len;
 	string remoteAddr;
 
@@ -150,8 +151,8 @@ int SearchManager::run() {
 				continue;
 			}
 
-			if((len = socket->read(&buf[0], BUFSIZE, remoteAddr)) > 0) {
-				onData(&buf[0], len, remoteAddr);
+			if((len = socket->read(&buf.get()[0], BUFSIZE, remoteAddr)) > 0) {
+				onData(&buf.get()[0], len, remoteAddr);
 				continue;
 			}
 		} catch(const SocketException& e) {

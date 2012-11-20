@@ -53,6 +53,7 @@ using namespace dcpp;
 
 const string WulforUtil::ENCODING_LOCALE = _("System default");
 vector<string> WulforUtil::charsets;
+std::map<std::string,GdkPixbuf*> WulforUtil::countryIcon;
 const string WulforUtil::magnetSignature = "magnet:?xt=urn:tree:tiger:";
 GtkIconFactory* WulforUtil::iconFactory = NULL;
 std::map<std::string,std::string> WulforUtil::m_mimetyp;
@@ -798,17 +799,21 @@ void WulforUtil::registerIcons()
 
 GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
 {
-	GError *error = NULL;
 	if(country.empty())
 	{
 		return NULL;
 	}
+	auto it = countryIcon.find(country);
+	if( it  != countryIcon.end() )
+			return it->second;
+	GError *error = NULL;
 	gchar *path = g_strdup_printf(_DATADIR PATH_SEPARATOR_STR "bmdc/country/%s.png",
 		                              (gchar *)country.c_str());
 	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_size(path,15,15,&error);
 	if (error != NULL || pixbuf == NULL)
 			g_warning("Cannot open stock image: %s => %s", path, error->message);
 	g_free(path);
+	countryIcon.insert(make_pair(country,pixbuf));
 	return pixbuf;
 }
 

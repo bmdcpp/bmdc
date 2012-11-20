@@ -371,7 +371,7 @@ void WulforManager::deleteEntry_gui(Entry *entry)
 	g_mutex_unlock(&clientCallMutex);
 
 	delete entry;
-	entry = NULL;
+	//entry = NULL;
 }
 
 bool WulforManager::isEntry_gui(Entry *entry)

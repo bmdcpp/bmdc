@@ -29,7 +29,7 @@
 #include <dcpp/FavoriteManager.h>
 #include <dcpp/QueueManager.h>
 #include <dcpp/HttpDownload.h>
-
+#include <dcpp/Flags.h>
 #include "bookentry.hh"
 #include "treeview.hh"
 #include "sound.hh"
@@ -70,17 +70,35 @@ class Hub:
 		void reconnect_p() { reconnect_client(); }
 
 	private:
+		//this represent state of user and nick of it
+		struct FlagUser: public dcpp::Flags
+		{
+		  public:	
+			//friend class dcpp::Flags;				
+			FlagUser(const std::string& _nick,int _flags): dcpp::Flags((dcpp::Flags::MaskType)_flags),nick(_nick) { };
+			enum FlagUserFlags
+			{
+				FLAG_OP = 1 << 1,
+				FLAG_PASIVE = 1 << 2,
+				FLAG_IGNORE = 1 << 3,
+				FLAG_PROTECT = 1 << 4,
+				FLAG_FAVORITE = 1 << 5
+			}; 
+			GETSET(std::string,nick, Nick);
+		};
+
 		typedef std::map<std::string, std::string> ParamMap;
 		typedef std::unordered_map<std::string, std::string> UserMap;
 		typedef std::unordered_map<std::string, GtkTreeIter> UserIters;
 		typedef std::unordered_map<GtkWidget*, std::string> ImageList;
 		typedef std::pair<std::string, GtkWidget*> ImageLoad;
+		typedef std::unordered_map<std::string, FlagUser* > UserFlags;//for flags
 
 		// GUI functions
 		void setStatus_gui(std::string statusBar, std::string text);
 		bool findUser_gui(const std::string &cid, GtkTreeIter *iter);
 		bool findNick_gui(const std::string &nick, GtkTreeIter *iter);
-		void updateUser_gui(ParamMap id);
+		void updateUser_gui(ParamMap params);
 		void removeUser_gui(std::string cid);
 		void removeTag_gui(const std::string &nick);
 		void clearNickList_gui();
@@ -209,8 +227,6 @@ class Hub:
 
 		void getPartialFileList_client(std::string cid);
 
-//		void setHubIcon_gui(std::string url);
-//		void updateIcons();
 		void removeIgnore_gui(ParamMap params);
 		void SetTabText(gpointer data);
 
@@ -223,26 +239,26 @@ class Hub:
 		virtual void on(dcpp::FavoriteManagerListener::FavoriteIAdded, const std::string &nick, dcpp::FavoriteUser* &user) noexcept;
 		virtual void on(dcpp::FavoriteManagerListener::FavoriteIRemoved, const std::string &nick, dcpp::FavoriteUser* &user) noexcept;
 		// Client callbacks
-		virtual void on(dcpp::ClientListener::Connecting, dcpp::Client *) throw();
-		virtual void on(dcpp::ClientListener::Connected, dcpp::Client *) throw();
-		virtual void on(dcpp::ClientListener::UserUpdated, dcpp::Client *, const dcpp::OnlineUser &user) throw();
-		virtual void on(dcpp::ClientListener::UsersUpdated, dcpp::Client *, const dcpp::OnlineUserList &list) throw();
-		virtual void on(dcpp::ClientListener::UserRemoved, dcpp::Client *, const dcpp::OnlineUser &user) throw();
-		virtual void on(dcpp::ClientListener::Redirect, dcpp::Client *, const std::string &address) throw();
+		virtual void on(dcpp::ClientListener::Connecting, dcpp::Client *) noexcept;
+		virtual void on(dcpp::ClientListener::Connected, dcpp::Client *) noexcept;
+		virtual void on(dcpp::ClientListener::UserUpdated, dcpp::Client *, const dcpp::OnlineUser &user) noexcept;
+		virtual void on(dcpp::ClientListener::UsersUpdated, dcpp::Client *, const dcpp::OnlineUserList &list) noexcept;
+		virtual void on(dcpp::ClientListener::UserRemoved, dcpp::Client *, const dcpp::OnlineUser &user) noexcept;
+		virtual void on(dcpp::ClientListener::Redirect, dcpp::Client *, const std::string &address) noexcept;
 		virtual void on(dcpp::ClientListener::Failed, dcpp::Client *, const std::string &reason) noexcept;
-		virtual void on(dcpp::ClientListener::GetPassword, dcpp::Client *) throw();
+		virtual void on(dcpp::ClientListener::GetPassword, dcpp::Client *) noexcept;
 		virtual void on(dcpp::ClientListener::HubUpdated, dcpp::Client *) noexcept;
-		virtual void on(dcpp::ClientListener::Message, dcpp::Client*, const dcpp::ChatMessage& message) throw();//NOTE: core 0.762
-		virtual void on(dcpp::ClientListener::StatusMessage, dcpp::Client *, const std::string &message, int flag) throw();
-		virtual void on(dcpp::ClientListener::NickTaken, dcpp::Client *) throw();
+		virtual void on(dcpp::ClientListener::Message, dcpp::Client*, const dcpp::ChatMessage& message) noexcept;;//NOTE: core 0.762
+		virtual void on(dcpp::ClientListener::StatusMessage, dcpp::Client *, const std::string &message, int flag) noexcept;;
+		virtual void on(dcpp::ClientListener::NickTaken, dcpp::Client *) noexcept;
 		virtual void on(dcpp::ClientListener::SearchFlood, dcpp::Client *, const std::string &message) noexcept;
 		virtual void on(dcpp::ClientListener::CheatMessage, dcpp::Client *, const std::string &msg) noexcept;
 		virtual void on(dcpp::ClientListener::HubTopic, dcpp::Client *, const std::string &top) noexcept;
-//		virtual void on(dcpp::ClientListener::HubIcon, dcpp::Client *, const std::string &url) noexcept;
 		virtual void on(dcpp::ClientListener::ClientLine, dcpp::Client* , const std::string &mess, int type) noexcept;
 		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) throw();
 
-		UserMap userMap, userOpMap, userPasiveMap, userIgnoreMap, userProtectMap;
+		UserFlags users;//for OP flag etc
+		UserMap userMap; //userOpMap, userPasiveMap, userIgnoreMap, userProtectMap;
 		UserIters userIters;
 		UserMap userFavoriteMap;
 		ImageList imageList;
@@ -260,7 +276,7 @@ class Hub:
 		std::vector<std::string> history;
 		unsigned int historyIndex;
 		static const int maxLines = 1000;
-		static const int maxHistory = 20;
+		static const int maxHistory = 30;//+10
 		int64_t totalShared;
 		GdkCursor *handCursor;
 		GtkTextTag *selectedTag;

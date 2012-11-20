@@ -109,6 +109,7 @@ class WulforUtil
 		static const std::string magnetSignature;
 		static GtkIconFactory *iconFactory;
 		static std::map<std::string,std::string> m_mimetyp;
+		static std::map<std::string,GdkPixbuf*> countryIcon;
 		static const char* CountryNames[];
 		static const char* CountryCodes[];
 		static const char* msgs_dc[];

@@ -25,7 +25,7 @@
 #define DCPLUSPLUS_DCPP_A_D_L_SEARCH_H
 
 #include <boost/regex.hpp>
-#include <boost/variant.hpp>
+//#include <boost/variant.hpp>
 
 #include "Util.h"
 #include "SettingsManager.h"

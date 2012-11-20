@@ -646,7 +646,12 @@ Redone Per-Fav Hub emoticons
 ----r185
 Some fixes around deprecated functions
 Some Fixies around emoticons (mainly on PM)
-----r186
+----r187
 Fixed ShareBrowser duplicates widgets ids
 Remove $HubIcon|
+----r188
+boost::noncopyable -> = detete copytor (C++11)
+Some work around Text Color in UserList..
+Fix IgnoreUsers in UserList visible as Favorite User..
+Some boost::scoped_array -> std::shared_ptr
 

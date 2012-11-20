@@ -33,8 +33,8 @@
 namespace dcpp {
 
 class UserConnection : public PluginEntity<ConnectionData>, public Speaker<UserConnectionListener>,
-	private BufferedSocketListener, public Flags, private CommandHandler<UserConnection>,
-	private boost::noncopyable
+	private BufferedSocketListener, public Flags, private CommandHandler<UserConnection>//,
+//	private boost::noncopyable
 {
 public:
 	friend class ConnectionManager;
@@ -214,6 +214,9 @@ private:
 	virtual ~UserConnection() {
 		BufferedSocket::putSocket(socket);
 	}
+
+	UserConnection(const UserConnection&) = delete;
+	UserConnection& operator=(const UserConnection&) = delete;
 
 	friend struct DeleteFunction;
 

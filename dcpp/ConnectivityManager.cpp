@@ -41,7 +41,7 @@ bool ConnectivityManager::get(SettingsManager::BoolSetting setting) const {
 	if(SETTING(AUTO_DETECT_CONNECTION)) {
 		auto i = autoSettings.find(setting);
 		if(i != autoSettings.end()) {
-			return boost::get<bool>(i->second);
+			return (bool)std::get<0>(i->second);//bool
 		}
 	}
 	return SettingsManager::getInstance()->get(setting);
@@ -51,7 +51,7 @@ int ConnectivityManager::get(SettingsManager::IntSetting setting) const {
 	if(SETTING(AUTO_DETECT_CONNECTION)) {
 		auto i = autoSettings.find(setting);
 		if(i != autoSettings.end()) {
-			return boost::get<int>(i->second);
+			return std::get<1>(i->second);//int
 		}
 	}
 	return SettingsManager::getInstance()->get(setting);
@@ -61,7 +61,7 @@ const string& ConnectivityManager::get(SettingsManager::StrSetting setting) cons
 	if(SETTING(AUTO_DETECT_CONNECTION)) {
 		auto i = autoSettings.find(setting);
 		if(i != autoSettings.end()) {
-			return boost::get<const string&>(i->second);
+			return std::get<2>(i->second);//string
 		}
 	}
 	return SettingsManager::getInstance()->get(setting);
@@ -69,7 +69,7 @@ const string& ConnectivityManager::get(SettingsManager::StrSetting setting) cons
 
 void ConnectivityManager::set(SettingsManager::StrSetting setting, const string& str) {
 	if(SETTING(AUTO_DETECT_CONNECTION)) {
-		autoSettings[setting] = str;
+		autoSettings.insert(make_pair(setting, std::make_tuple(false,0,str)));
 	} else {
 		SettingsManager::getInstance()->set(setting, str);
 	}
@@ -96,11 +96,11 @@ void ConnectivityManager::detectConnection() {
 		SettingsManager::INCOMING_CONNECTIONS, SettingsManager::OUTGOING_CONNECTIONS };
 	std::for_each(settings, settings + sizeof(settings) / sizeof(settings[0]), [this](int setting) {
 		if(setting >= SettingsManager::STR_FIRST && setting < SettingsManager::STR_LAST) {
-			autoSettings[setting] = SettingsManager::getInstance()->getDefault(static_cast<SettingsManager::StrSetting>(setting));
+			autoSettings.insert(make_pair(setting, std::make_tuple(false,0,SettingsManager::getInstance()->getDefault(static_cast<SettingsManager::StrSetting>(setting)))));
 		} else if(setting >= SettingsManager::INT_FIRST && setting < SettingsManager::INT_LAST) {
-			autoSettings[setting] = SettingsManager::getInstance()->getDefault(static_cast<SettingsManager::IntSetting>(setting));
+			autoSettings.insert(make_pair(setting, std::make_tuple(false,SettingsManager::getInstance()->getDefault(static_cast<SettingsManager::IntSetting>(setting)),"")));
 		} else if(setting >= SettingsManager::BOOL_FIRST && setting < SettingsManager::BOOL_LAST) {
-			autoSettings[setting] = SettingsManager::getInstance()->getDefault(static_cast<SettingsManager::BoolSetting>(setting));
+			autoSettings.insert(make_pair(setting, std::make_tuple(SettingsManager::getInstance()->getDefault(static_cast<SettingsManager::BoolSetting>(setting)),0,"")));
 		} else {
 			dcassert(0);
 		}
@@ -110,7 +110,7 @@ void ConnectivityManager::detectConnection() {
 	try {
 		listen();
 	} catch(const Exception& e) {
-		autoSettings[SettingsManager::INCOMING_CONNECTIONS] = SettingsManager::INCOMING_FIREWALL_PASSIVE;
+		autoSettings.insert(make_pair(SettingsManager::INCOMING_CONNECTIONS,std::make_tuple(false,SettingsManager::INCOMING_FIREWALL_PASSIVE,"")));
 		log(str(F_("Unable to open %1% port(s); connectivity settings must be configured manually") % e.getError()));
 		fire(ConnectivityManagerListener::Finished());
 		running = false;
@@ -120,14 +120,14 @@ void ConnectivityManager::detectConnection() {
 	autoDetected = true;
 
 	if(!Util::isPrivateIp(Util::getLocalIp())) {
-		autoSettings[SettingsManager::INCOMING_CONNECTIONS] = SettingsManager::INCOMING_DIRECT;
+		autoSettings.insert(make_pair(SettingsManager::INCOMING_CONNECTIONS,std::make_tuple(false,SettingsManager::INCOMING_DIRECT,"")));
 		log(_("Public IP address detected, selecting active mode with direct connection"));
 		fire(ConnectivityManagerListener::Finished());
 		running = false;
 		return;
 	}
 
-	autoSettings[SettingsManager::INCOMING_CONNECTIONS] = SettingsManager::INCOMING_FIREWALL_UPNP;
+	autoSettings.insert(make_pair(SettingsManager::INCOMING_CONNECTIONS,std::make_tuple(false,SettingsManager::INCOMING_FIREWALL_UPNP,"")));
 	log(_("Local network with possible NAT detected, trying to map the ports..."));
 
 	startMapping();
@@ -160,11 +160,11 @@ void ConnectivityManager::editAutoSettings() {
 	auto sm = SettingsManager::getInstance();
 	for(auto i = autoSettings.cbegin();i!= autoSettings.cend();++i) {
 		if(i->first >= SettingsManager::STR_FIRST && i->first < SettingsManager::STR_LAST) {
-			sm->set(static_cast<SettingsManager::StrSetting>(i->first), boost::get<const string&>(i->second));
+			sm->set(static_cast<SettingsManager::StrSetting>(i->first), std::get<2>(i->second));
 		} else if(i->first >= SettingsManager::INT_FIRST && i->first < SettingsManager::INT_LAST) {
-			sm->set(static_cast<SettingsManager::IntSetting>(i->first), boost::get<int>(i->second));
+			sm->set(static_cast<SettingsManager::IntSetting>(i->first), std::get<1>(i->second));
 		} else if(i->first >= SettingsManager::BOOL_FIRST && i->first < SettingsManager::BOOL_LAST) {
-			sm->set(static_cast<SettingsManager::BoolSetting>(i->first), boost::get<bool>(i->second));
+			sm->set(static_cast<SettingsManager::BoolSetting>(i->first), std::get<0>(i->second));
 		} else {
 			dcassert(0);
 		}
@@ -237,7 +237,7 @@ void ConnectivityManager::mappingFinished(const string& mapper) {
 	if(SETTING(AUTO_DETECT_CONNECTION)) {
 		if(mapper.empty()) {
 			disconnect();
-			autoSettings[SettingsManager::INCOMING_CONNECTIONS] = SettingsManager::INCOMING_FIREWALL_PASSIVE;
+			autoSettings.insert(make_pair(SettingsManager::INCOMING_CONNECTIONS , std::make_tuple(false,SettingsManager::INCOMING_FIREWALL_PASSIVE,"")));
 			log(_("Active mode could not be achieved; a manual configuration is recommended for better connectivity"));
 		} else {
 			SettingsManager::getInstance()->set(SettingsManager::MAPPER, mapper);

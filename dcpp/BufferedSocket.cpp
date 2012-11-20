@@ -21,7 +21,7 @@
 
 #include <algorithm>
 
-#include <boost/scoped_array.hpp>
+//#include <boost/scoped_array.hpp>
 
 #include "ConnectivityManager.h"
 #include "CryptoManager.h"
@@ -209,15 +209,16 @@ void BufferedSocket::threadRead() {
 					const int BUF_SIZE = 1024;
 					// Special to autodetect nmdc connections...
 					string::size_type pos = 0;
-					boost::scoped_array<char> buffer(new char[BUF_SIZE]);
+					//boost::scoped_array<char> buffer(new char[BUF_SIZE]);
+					std::shared_ptr<char> buffer(new char[BUF_SIZE], std::default_delete<char[]>());
 					l = line;
 					// decompress all input data and store in l.
 					while (left) {
 						size_t in = BUF_SIZE;
 						size_t used = left;
-						bool ret = (*filterIn) (&inbuf[0] + total - left, used, &buffer[0], in);
+						bool ret = (*filterIn) (&inbuf[0] + total - left, used, &buffer.get()[0], in);
 						left -= used;
-						l.append (&buffer[0], in);
+						l.append (&buffer.get()[0], in);
 						// if the stream ends before the data runs out, keep remainder of data in inbuf
 						if (!ret) {
 							bufpos = total-left;

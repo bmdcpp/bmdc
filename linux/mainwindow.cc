@@ -450,7 +450,7 @@ MainWindow::~MainWindow()
 		g_source_remove(timer);
 
 	WSET("status-icon-blink-use", useStatusIconBlink);
-	gtk_widget_destroy(GTK_WIDGET(window));
+	gtk_widget_destroy(GTK_WIDGET(getContainer()));//window
 	g_object_unref(statusIcon);
 	g_object_unref(getWidget("statusIconMenu"));
 	g_object_unref(getWidget("toolbarMenu"));

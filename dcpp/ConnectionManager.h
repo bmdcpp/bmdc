@@ -35,7 +35,7 @@ using std::unique_ptr;
 
 class SocketException;
 
-class ConnectionQueueItem : boost::noncopyable {
+class ConnectionQueueItem /*: boost::noncopyable*/ {
 public:
 	typedef ConnectionQueueItem* Ptr;
 	typedef vector<Ptr> List;
@@ -58,6 +58,8 @@ public:
 	GETSET(bool, download, Download);
 
 	const HintedUser& getUser() const { return user; }
+	ConnectionQueueItem(const ConnectionQueueItem&) = delete;
+	ConnectionQueueItem& operator=(const ConnectionQueueItem&) = delete;
 
 private:
 	HintedUser user;

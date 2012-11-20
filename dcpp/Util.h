@@ -25,9 +25,10 @@
 #include <ctime>
 
 #include <map>
-
-#include <boost/range.hpp>
-#include <boost/algorithm/string/find.hpp>
+#include <cstring>
+#include <algorithm>//we dont need boost
+//#include <boost/range.hpp>
+//#include <boost/algorithm/string/find.hpp>
 
 #ifdef _WIN32
 
