@@ -78,6 +78,7 @@
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Priority</property>
         <child type="submenu">
           <object class="GtkMenu" id="dirPriorityMenu">
             <property name="can_focus">False</property>
@@ -86,6 +87,7 @@
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Paused</property>
               </object>
             </child>
             <child>
@@ -93,6 +95,7 @@
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Lowest</property>
               </object>
             </child>
             <child>
@@ -100,6 +103,7 @@
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Low</property>
               </object>
             </child>
             <child>
@@ -107,6 +111,7 @@
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Normal</property>
               </object>
             </child>
             <child>
@@ -114,6 +119,7 @@
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="label" translatable="yes">High</property>
               </object>
             </child>
             <child>
@@ -121,6 +127,7 @@
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Highest</property>
               </object>
             </child>
           </object>
@@ -138,6 +145,7 @@
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Move</property>
       </object>
     </child>
     <child>
@@ -151,6 +159,7 @@
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Remove</property>
       </object>
     </child>
   </object>
@@ -161,6 +170,7 @@
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Search Alternatives</property>
       </object>
     </child>
     <child>
@@ -168,6 +178,7 @@
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Copy Magnet</property>
       </object>
     </child>
     <child>
@@ -175,6 +186,7 @@
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Move</property>
       </object>
     </child>
     <child>
@@ -188,6 +200,7 @@
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Priority</property>
         <child type="submenu">
           <object class="GtkMenu" id="filePriorityMenu">
             <property name="can_focus">False</property>
@@ -196,6 +209,7 @@
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Paused</property>
               </object>
             </child>
             <child>
@@ -203,6 +217,7 @@
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Lowest</property>
               </object>
             </child>
             <child>
@@ -210,6 +225,7 @@
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Low</property>
               </object>
             </child>
             <child>
@@ -217,6 +233,7 @@
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Normal</property>
               </object>
             </child>
             <child>
@@ -224,6 +241,7 @@
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="label" translatable="yes">High</property>
               </object>
             </child>
             <child>
@@ -231,6 +249,7 @@
                 <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Highest</property>
               </object>
             </child>
           </object>
@@ -242,6 +261,7 @@
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Get FileList</property>
         <child type="submenu">
           <object class="GtkMenu" id="browseMenu">
             <property name="can_focus">False</property>
@@ -254,6 +274,7 @@
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Send Private Message</property>
         <child type="submenu">
           <object class="GtkMenu" id="pmMenu">
             <property name="can_focus">False</property>
@@ -266,6 +287,7 @@
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="label" translatable="yes">re-add source</property>
         <child type="submenu">
           <object class="GtkMenu" id="reAddMenu">
             <property name="can_focus">False</property>
@@ -284,6 +306,7 @@
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="label" translatable="yes">remove source</property>
         <child type="submenu">
           <object class="GtkMenu" id="removeMenu">
             <property name="can_focus">False</property>
@@ -296,6 +319,7 @@
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Remove User from Queue</property>
         <child type="submenu">
           <object class="GtkMenu" id="removeAllMenu">
             <property name="can_focus">False</property>
@@ -308,6 +332,7 @@
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Remove</property>
       </object>
     </child>
   </object>

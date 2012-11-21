@@ -654,4 +654,7 @@ boost::noncopyable -> = detete copytor (C++11)
 Some work around Text Color in UserList..
 Fix IgnoreUsers in UserList visible as Favorite User..
 Some boost::scoped_array -> std::shared_ptr
+----r189
+Fixed menu in Download Queue
+----
 

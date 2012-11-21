@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-11-19 15:51+0100\n"
+"POT-Creation-Date: 2012-11-21 14:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -849,7 +849,8 @@ msgstr ""
 msgid "Copy"
 msgstr ""
 
-#: ui/search.glade.ui:150 ui/sharebrowser.glade.ui:166
+#: ui/downloadqueue.glade.ui:181 ui/search.glade.ui:150
+#: ui/sharebrowser.glade.ui:166
 msgid "Copy Magnet"
 msgstr ""
 
@@ -1254,7 +1255,8 @@ msgstr ""
 msgid "Generate certificates"
 msgstr ""
 
-#: ui/privatemessage.glade.ui:82 ui/transfers.glade.ui:36
+#: ui/downloadqueue.glade.ui:264 ui/privatemessage.glade.ui:82
+#: ui/transfers.glade.ui:36
 msgid "Get FileList"
 msgstr ""
 
@@ -1334,8 +1336,18 @@ msgstr ""
 msgid "Hide Share"
 msgstr ""
 
+#: ui/downloadqueue.glade.ui:122 ui/downloadqueue.glade.ui:244
+#: linux/downloadqueue.cc:1325
+msgid "High"
+msgstr ""
+
 #: ui/settingsdialog.glade.ui:3026
 msgid "High priority max size"
+msgstr ""
+
+#: ui/downloadqueue.glade.ui:130 ui/downloadqueue.glade.ui:252
+#: linux/downloadqueue.cc:1328
+msgid "Highest"
 msgstr ""
 
 #: ui/settingsdialog.glade.ui:3150
@@ -1484,8 +1496,18 @@ msgstr ""
 msgid "Logs"
 msgstr ""
 
+#: ui/downloadqueue.glade.ui:106 ui/downloadqueue.glade.ui:228
+#: linux/downloadqueue.cc:1322
+msgid "Low"
+msgstr ""
+
 #: ui/settingsdialog.glade.ui:3040
 msgid "Low priority size"
+msgstr ""
+
+#: ui/downloadqueue.glade.ui:98 ui/downloadqueue.glade.ui:220
+#: linux/downloadqueue.cc:1319
+msgid "Lowest"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:8 ui/mainwindow.glade.ui:92
@@ -1604,6 +1626,10 @@ msgstr ""
 msgid "Modify User Command"
 msgstr ""
 
+#: ui/downloadqueue.glade.ui:148 ui/downloadqueue.glade.ui:189
+msgid "Move"
+msgstr ""
+
 #: ui/adlsearch.glade.ui:701
 msgid "Move Down"
 msgstr ""
@@ -1703,6 +1729,13 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:5298
 msgid "None icon"
+msgstr ""
+
+#: ui/downloadqueue.glade.ui:114 ui/downloadqueue.glade.ui:236
+#: linux/downloadqueue.cc:1331 linux/settingsdialog.cc:1598
+#: linux/settingsdialog.cc:1617 linux/settingsdialog.cc:3632
+#: linux/settingsdialog.cc:3665
+msgid "Normal"
 msgstr ""
 
 #: ui/settingsdialog.glade.ui:3136
@@ -1813,6 +1846,11 @@ msgstr ""
 msgid "Pause"
 msgstr ""
 
+#: ui/downloadqueue.glade.ui:90 ui/downloadqueue.glade.ui:212
+#: linux/downloadqueue.cc:1316
+msgid "Paused"
+msgstr ""
+
 #: ui/detection.glade.ui:2182
 msgid "Percent Fake"
 msgstr ""
@@ -1866,6 +1904,12 @@ msgstr ""
 
 #: ui/finishedtransfers.glade.ui:155 ui/transfers.glade.ui:111
 msgid "Prewien"
+msgstr ""
+
+#: ui/downloadqueue.glade.ui:81 ui/downloadqueue.glade.ui:203
+#: linux/downloadqueue.cc:69 linux/downloadqueue.cc:283
+#: linux/downloadqueue.cc:390
+msgid "Priority"
 msgstr ""
 
 #: ui/settingsdialog.glade.ui:7834
@@ -1987,7 +2031,8 @@ msgstr ""
 
 #: ui/adlsearch.glade.ui:715 ui/adlsearch.glade.ui:758
 #: ui/detection.glade.ui:2997 ui/detection.glade.ui:3016
-#: ui/detection.glade.ui:3035 ui/favoritehubs.glade.ui:418
+#: ui/detection.glade.ui:3035 ui/downloadqueue.glade.ui:162
+#: ui/downloadqueue.glade.ui:335 ui/favoritehubs.glade.ui:418
 #: ui/favoriteusers.glade.ui:229 ui/finishedtransfers.glade.ui:187
 #: ui/hub.glade.ui:182 ui/recenthub.glade.ui:167 ui/search.glade.ui:231
 #: ui/settingsdialog.glade.ui:8199 ui/settingsdialog.glade.ui:8788
@@ -1998,6 +2043,10 @@ msgstr ""
 
 #: ui/recenthub.glade.ui:175
 msgid "Remove All"
+msgstr ""
+
+#: ui/downloadqueue.glade.ui:322
+msgid "Remove User from Queue"
 msgstr ""
 
 #: ui/hub.glade.ui:657
@@ -2052,6 +2101,10 @@ msgstr ""
 
 #: ui/sharebrowser.glade.ui:158
 msgid "Search Alternative"
+msgstr ""
+
+#: ui/downloadqueue.glade.ui:173
+msgid "Search Alternatives"
 msgstr ""
 
 #: ui/settingsdialog.glade.ui:1042
@@ -2141,7 +2194,8 @@ msgstr ""
 msgid "Send PM"
 msgstr ""
 
-#: ui/hub.glade.ui:635 ui/transfers.glade.ui:60 ui/uploadqueue.glade.ui:75
+#: ui/downloadqueue.glade.ui:277 ui/hub.glade.ui:635 ui/transfers.glade.ui:60
+#: ui/uploadqueue.glade.ui:75
 msgid "Send Private Message"
 msgstr ""
 
@@ -2683,6 +2737,10 @@ msgstr ""
 msgid "left"
 msgstr ""
 
+#: ui/downloadqueue.glade.ui:290
+msgid "re-add source"
+msgstr ""
+
 #: ui/detection.glade.ui:1371
 msgid "rem Action"
 msgstr ""
@@ -2697,6 +2755,10 @@ msgstr ""
 
 #: ui/privatemessage.glade.ui:71
 msgid "remove from fav"
+msgstr ""
+
+#: ui/downloadqueue.glade.ui:309
+msgid "remove source"
 msgstr ""
 
 #: ui/privatemessage.glade.ui:146
@@ -3637,14 +3699,6 @@ msgstr ""
 msgid "Group name"
 msgstr ""
 
-#: linux/downloadqueue.cc:1325
-msgid "High"
-msgstr ""
-
-#: linux/downloadqueue.cc:1328
-msgid "Highest"
-msgstr ""
-
 #: linux/settingsdialog.cc:1353
 msgid "Highlighting string"
 msgstr ""
@@ -3867,14 +3921,6 @@ msgstr ""
 msgid "Log Ignored Messages as STATUS mess"
 msgstr ""
 
-#: linux/downloadqueue.cc:1322
-msgid "Low"
-msgstr ""
-
-#: linux/downloadqueue.cc:1319
-msgid "Lowest"
-msgstr ""
-
 #: linux/mainwindow.cc:1684
 msgid "Magnet Choice"
 msgstr ""
@@ -3985,12 +4031,6 @@ msgstr ""
 msgid "No users"
 msgstr ""
 
-#: linux/downloadqueue.cc:1331 linux/settingsdialog.cc:1598
-#: linux/settingsdialog.cc:1617 linux/settingsdialog.cc:3632
-#: linux/settingsdialog.cc:3665
-msgid "Normal"
-msgstr ""
-
 #: linux/hub.cc:2396
 msgid "Not found user: "
 msgstr ""
@@ -4068,10 +4108,6 @@ msgstr ""
 msgid "Path"
 msgstr ""
 
-#: linux/downloadqueue.cc:1316
-msgid "Paused"
-msgstr ""
-
 #: linux/hashdialog.cc:41 linux/hashdialog.cc:128
 msgid "Paused..."
 msgstr ""
@@ -4083,11 +4119,6 @@ msgstr ""
 #: linux/settingsdialog.cc:2093 linux/settingsdialog.cc:2192
 #: linux/settingsdialog.cc:2296
 msgid "Predefined"
-msgstr ""
-
-#: linux/downloadqueue.cc:69 linux/downloadqueue.cc:283
-#: linux/downloadqueue.cc:390
-msgid "Priority"
 msgstr ""
 
 #: linux/bookentry.cc:383
