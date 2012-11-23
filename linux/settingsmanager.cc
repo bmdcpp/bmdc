@@ -247,6 +247,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("notify-fuser-join-icon", ""));
 	defaultString.insert(StringMap::value_type("notify-fuser-quit-title", _("Favorite user quit")));
 	defaultString.insert(StringMap::value_type("notify-fuser-quit-icon", ""));
+
 	defaultString.insert(StringMap::value_type("theme-name", "default"));
 	defaultString.insert(StringMap::value_type("icon-dc++", "bmdc-dc++"));
 	defaultString.insert(StringMap::value_type("icon-dc++-fw", "bmdc-dc++-fw"));

@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-11-20 16:05+0100\n"
+"POT-Creation-Date: 2012-11-22 18:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2891,7 +2891,7 @@ msgstr ""
 msgid " removed from favorites list"
 msgstr ""
 
-#: linux/settingsmanager.cc:623
+#: linux/settingsmanager.cc:624
 msgid " to "
 msgstr ""
 
@@ -3212,7 +3212,7 @@ msgstr ""
 msgid "CRC32 inconsistency (SFV-Check)"
 msgstr ""
 
-#: linux/settingsmanager.cc:623
+#: linux/settingsmanager.cc:624
 msgid "Change setting "
 msgstr ""
 
@@ -3512,11 +3512,11 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: linux/settingsmanager.cc:626
+#: linux/settingsmanager.cc:627
 msgid "Error: params have been not 2!"
 msgstr ""
 
-#: linux/settingsmanager.cc:622
+#: linux/settingsmanager.cc:623
 msgid "Error: setting not found!"
 msgstr ""
 
@@ -3707,7 +3707,7 @@ msgstr ""
 msgid "Highlightings"
 msgstr ""
 
-#: linux/settingsmanager.cc:377
+#: linux/settingsmanager.cc:378
 msgid "Highliting"
 msgstr ""
 
@@ -3733,7 +3733,7 @@ msgstr ""
 msgid "Hub (last seen in, if offline)"
 msgstr ""
 
-#: linux/settingsmanager.cc:380
+#: linux/settingsmanager.cc:381
 msgid "Hub Chat"
 msgstr ""
 

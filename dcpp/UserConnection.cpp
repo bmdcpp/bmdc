@@ -102,9 +102,9 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 		fire(UserConnectionListener::GetListLength(), this);
 	} //[rsx
 	 else if(cmd == "$FileLength") {
-		if(!param.empty() && isSet(FLAG_DOWNLOAD) && getDownload() != NULL && getUser()) {
+		if(!param.empty() && isSet(FLAG_DOWNLOAD) && getDownload() != NULL && (getHintedUser().user)) {
 			if(getDownload()->isSet(Download::FLAG_CHECK_FILE_LIST)) {
-				ClientManager::getInstance()->setListSize(getUser(), Util::toInt64(param), false);
+				ClientManager::getInstance()->setListSize(getHintedUser(), Util::toInt64(param), false);
 			}
 		}
 	//END
@@ -148,8 +148,8 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 	else if(cmd.compare(0, 4, "$ADC") == 0) {
 		dispatch(aLine, true);
 	} else {
-		if(getUser() && aLine.length() < 255)
-			ClientManager::getInstance()->setUnknownCommand(getUser(), aLine);
+		if( ((getHintedUser().user)) && aLine.length() < 400)
+			ClientManager::getInstance()->setUnknownCommand(getHintedUser(), aLine);
 		fire(UserConnectionListener::ProtocolError(), this, _("Invalid data"));
 		dcdebug("Unknown NMDC command: %.50s\n", aLine.c_str());
 	}
@@ -229,11 +229,6 @@ void UserConnection::on(ModeChange) noexcept {
 void UserConnection::on(TransmitDone) noexcept {
 	fire(UserConnectionListener::TransmitDone(), this);
 }
-/*
-void UserConnection::on(Updated) noexcept {
-	fire(UserConnectionListener::Updated(), this);
-}*/
-
 void UserConnection::on(Failed, const string& aLine) noexcept {
 	setState(STATE_UNCONNECTED);
 	fire(UserConnectionListener::Failed(), this, aLine);

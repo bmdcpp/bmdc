@@ -844,7 +844,7 @@ void ConnectionManager::shutdown() {
 // UserConnectionListener
 void ConnectionManager::on(UserConnectionListener::Supports, UserConnection* conn, const StringList& feat) noexcept {
 	string sup = Util::emptyString;
-	for(StringList::const_iterator i = feat.begin(); i != feat.end(); ++i) {
+	for(auto i = feat.begin(); i != feat.end(); ++i) {
 	    sup += " " +*i;
 		if(*i == UserConnection::FEATURE_MINISLOTS) {
 			conn->setFlag(UserConnection::FLAG_SUPPORTS_MINISLOTS);
@@ -860,7 +860,7 @@ void ConnectionManager::on(UserConnectionListener::Supports, UserConnection* con
 			conn->setFlag(UserConnection::FLAG_SUPPORTS_TTHF);
 		}
 	}
-	ClientManager::getInstance()->setSupports(conn->getUser(),sup);
+	ClientManager::getInstance()->setSupports(conn->getHintedUser(),sup);
 }
 
 } // namespace dcpp

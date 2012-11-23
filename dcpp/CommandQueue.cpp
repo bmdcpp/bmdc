@@ -50,7 +50,7 @@ void CommandQueue::execCommand(const CommandItem& item)  {
         item.ou->getIdentity().getParams(params, "user", true);
 		clientPtr->getHubIdentity().getParams(params, "hub", false);
 		clientPtr->getMyIdentity().getParams(params, "my", true);
-		/*string formattedCmd = */Util::formatParams(item.uc.getCommand(), params);
+		Util::formatParams(item.uc.getCommand(), params);
 		clientPtr->sendUserCmd(item.uc, params);
 }
 

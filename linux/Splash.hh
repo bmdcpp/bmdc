@@ -36,7 +36,11 @@ class Splash
 			gtk_window_set_keep_above(GTK_WINDOW(win), TRUE);
 			gtk_window_set_position(GTK_WINDOW(win),GTK_WIN_POS_CENTER);
 			label = gtk_label_new("Loading...");
+			#if GTK_CHECK_VERSION(3, 2, 0)
+			box = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
+			#else
 			box = gtk_vbox_new(TRUE, 0);
+			#endif
 			image = gtk_image_new_from_file(_DATADIR "/icons/hicolor/scalable/apps/bmdc.svg");
 			gtk_container_add(GTK_CONTAINER(box),image);
 			gtk_container_add(GTK_CONTAINER(box),label);

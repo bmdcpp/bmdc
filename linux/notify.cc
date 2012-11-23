@@ -209,9 +209,9 @@ void Notify::showNotify(const string &head, const string &body, TypeNotify notif
 				wsm->getString("notify-fuser-quit-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_NORMAL);
 			break;
 		case HIGHLITING:
-			if (wsm->getInt("notify-higl-use"))
-				showNotify(wsm->getString("notify-higl-title"), head , body,
-						wsm->getString("notify-higl-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_LOW);
+			if (wsm->getInt("notify-high-use"))
+				showNotify(wsm->getString("notify-high-title"), head , body,
+						wsm->getString("notify-high-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_LOW);
 			break;
 		case HUB_CHAT:
 			if (wsm->getInt("notify-hub-chat-use"))

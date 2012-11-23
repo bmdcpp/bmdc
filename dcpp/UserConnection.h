@@ -235,7 +235,6 @@ private:
 	virtual void on(ModeChange) noexcept;
 	virtual void on(TransmitDone) noexcept;
 	virtual void on(Failed, const string&) noexcept;
-	//virtual void on(Updated) noexcept;
 };
 
 } // namespace dcpp

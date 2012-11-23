@@ -44,6 +44,7 @@ struct HintedUser {
 	}
 
 	operator UserPtr() const { return user; }
+
 };
 
 }

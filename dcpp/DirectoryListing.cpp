@@ -249,7 +249,7 @@ void ListLoader::startTag(const string& name, StringPairList& attribs, bool simp
 		cur->setComplete(true);
 		inListing = true;
 		//
-        string generator = getAttrib(attribs, sGenerator, 2);
+		string generator = getAttrib(attribs, sGenerator, 2);
 		string fileCID = getAttrib(attribs, sCID, 3);
 		string base = getAttrib(attribs, sBase, 4);
 		ClientManager::getInstance()->setGenerator(user, generator, fileCID, base);

@@ -656,5 +656,7 @@ Fix IgnoreUsers in UserList visible as Favorite User..
 Some boost::scoped_array -> std::shared_ptr
 ----r189
 Fixed menu in Download Queue
-----
+----r190
+Fixed typpo in Higltiing settings 
+Move some of FakeChecker Fuctions to parent function(FakeChecker) of ClientManager
 
