@@ -1808,6 +1808,11 @@ void Hub::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, strin
 			italic = wsm->getInt("text-fav-italic");
 		break;
 		case Tag::TAG_IPADR:
+			fore = wsm->getString("text-ip-fore-color");
+			back = wsm->getString("text-ip-back-color");
+			bold = wsm->getInt("text-ip-bold");
+			italic = wsm->getInt("text-ip-italic");
+		break;
 		case Tag::TAG_URL:
 
 			fore = wsm->getString("text-url-fore-color");

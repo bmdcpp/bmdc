@@ -240,6 +240,7 @@ void PrivateMessage::addMessage_gui(string message, Msg::TypeMsg typemsg)
 					return defAway;
 			return FavoriteManager::getInstance()->getAwayMessage(hubUrl, params);
 		};
+
 		ParamMap params;
 		params["message"] = message;
 		params["hubNI"] = WulforUtil::getHubNames(cid, hubUrl);//NOTE: core 0.762
@@ -851,6 +852,11 @@ void PrivateMessage::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag 
 			italic = wsm->getInt("text-fav-italic");
 		break;
 		case Tag::TAG_IPADR:
+			fore = wsm->getString("text-ip-fore-color");
+			back = wsm->getString("text-ip-back-color");
+			bold = wsm->getInt("text-ip-bold");
+			italic = wsm->getInt("text-ip-italic");
+		break;
 		case Tag::TAG_URL:
 
 			fore = wsm->getString("text-url-fore-color");

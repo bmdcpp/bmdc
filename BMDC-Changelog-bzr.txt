@@ -659,4 +659,7 @@ Fixed menu in Download Queue
 ----r190
 Fixed typpo in Higltiing settings 
 Move some of FakeChecker Fuctions to parent function(FakeChecker) of ClientManager
+----r191
+Fix Settings color of IPs
+----
 

@@ -36,7 +36,7 @@
 
 namespace dcpp {
 
-ClientManager::ClientManager() : FakeChecker(this),udp(Socket::TYPE_UDP) {
+ClientManager::ClientManager() : FakeChecker(this), udp(Socket::TYPE_UDP) {
 	TimerManager::getInstance()->addListener(this);
 }
 
@@ -718,7 +718,6 @@ void ClientManager::setIpAddress(const UserPtr& p, const string& ip) {
 }
 
 void FakeChecker::setSupports(const HintedUser& p, const string& aSupports) {
-	//ClientManager *cm = ClientManager::getInstance();
 	cm->lock();
 	OnlineUser* ou = cm->findOnlineUser(p);
 	if(!ou)
@@ -728,7 +727,6 @@ void FakeChecker::setSupports(const HintedUser& p, const string& aSupports) {
 
 void FakeChecker::setGenerator(const HintedUser& p, const string& aGenerator, const string& aCID, const string& aBase) {
 	Client* c;
-	//ClientManager* cm = ClientManager::getInstance();
 	string report;
 	{
 		cm->lock();
@@ -748,7 +746,6 @@ void FakeChecker::setGenerator(const HintedUser& p, const string& aGenerator, co
 }
 
 void FakeChecker::setPkLock(const HintedUser& p, const string& aPk, const string& aLock) {
-	//ClientManager *cm = ClientManager::getInstance();
 	cm->lock();
 	OnlineUser* ou = cm->findOnlineUser(p);
 	if(!ou)
@@ -1011,7 +1008,6 @@ void FakeChecker::setCheating(const HintedUser& p, const string& _ccResponse, co
 		bool _badClient, bool _badFileList, bool _clientCheckComplete, bool _fileListCheckComplete) {
 	OnlineUser* ou = NULL;
 	string report;
-	//ClientManager *cm = ClientManager::getInstance();
 	{
 		cm->lock();	
 		ou = cm->findOnlineUser(p);
@@ -1046,7 +1042,6 @@ void FakeChecker::fileListDisconnected(const HintedUser& p) {
 	bool remove = false;
 	string report = Util::emptyString;
 	Client* c = NULL;
-	//ClientManager *cm = ClientManager::getInstance();
 	{
 		cm->lock();
 		OnlineUser* ou = cm->findOnlineUser(p);
@@ -1080,7 +1075,6 @@ void FakeChecker::fileListDisconnected(const HintedUser& p) {
 }
 
 void FakeChecker::setUnknownCommand(const HintedUser& p, const string& aUnknownCommand) {
-//	ClientManager* cm = ClientManager::getInstance();
 	cm->lock();
 	OnlineUser* ou = cm->findOnlineUser(p);
 	if(!ou)
@@ -1100,7 +1094,6 @@ void FakeChecker::setListLength(const HintedUser& p, const string& listLen) {
 void FakeChecker::setListSize(const HintedUser& p, int64_t aFileLength, bool adc) {
 	OnlineUser* ou = NULL;
 	string report;
-	//ClientManager* cm = ClientManager::getInstance();
 	{
 		cm->lock();
 		ou = cm->findOnlineUser(p);
