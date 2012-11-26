@@ -81,7 +81,6 @@
     <child>
       <widget class="GtkStatusbar" id="status">
         <property name="visible">True</property>
-        <property name="has_resize_grip">False</property>
       </widget>
       <packing>
         <property name="expand">False</property>

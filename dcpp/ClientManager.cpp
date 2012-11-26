@@ -892,7 +892,7 @@ void ClientManager::checkCheating(const HintedUser& p, DirectoryListing* dl) {
 			const DirectoryListing::File::List forbiddenList = dl->getForbiddenFiles();
 			const DirectoryListing::Directory::List forbiddenDirList = dl->getForbiddenDirs();
 
-			if(forbiddenList.size() > 0 || forbiddenDirList.size() > 0) {
+			if(!forbiddenList.empty() || !forbiddenDirList.empty() ) {
 				int64_t fs = 0;
 				string s, c, sz, tth, stringForKick, forbiddenFilesList;
 
@@ -900,7 +900,7 @@ void ClientManager::checkCheating(const HintedUser& p, DirectoryListing* dl) {
 				bool forFromFavs = false;
 				bool forOverRide = false;
 
-				if(forbiddenList.size() > 0) {
+				if(!forbiddenList.empty()) {
 					for(auto i = forbiddenList.begin() ; i != forbiddenList.end() ; i++) {
 						fs += (*i)->getSize();
 						totalPoints += (*i)->getPoints();
@@ -923,7 +923,7 @@ void ClientManager::checkCheating(const HintedUser& p, DirectoryListing* dl) {
 						}
 					}
 				}
-				if(forbiddenDirList.size() > 0) {
+				if(!forbiddenDirList.empty()) {
 					for(auto j = forbiddenDirList.begin() ; j != forbiddenDirList.end() ; j++) {
 						fs += (*j)->getTotalSize();
 						totalPoints += (*j)->getPoints();
