@@ -146,22 +146,11 @@ public:
 	//CMD
 	void setIpAddress(const UserPtr& p, const string& ip);
 
-//	void setSupports(const UserPtr& p, const string& aSupports);
-//	void setGenerator(const HintedUser& p, const string& aGenerator, const string& aCID, const string& aBase);
-//	void setPkLock(const HintedUser& p,const string& aPk, const string& aLock);
-//	void setUnknownCommand(const UserPtr& p, const string& aUnknownCommand);
-//	void setListSize(const UserPtr& p, int64_t aFileLength, bool adc);
-//	void setListLength(const UserPtr& p, const string& listLen);
-
-//	void sendAction(const UserPtr& p, const int aAction);
 	void sendAction(OnlineUser& ou, const int aAction);
 	void sendRawCommand(OnlineUser& user, const string& aRaw, bool checkProtection = false);
 
 	void addCheckToQueue(const HintedUser hintedUser, bool filelist);
 	void checkCheating(const HintedUser& p, DirectoryListing* dl);
-//	void setCheating(const UserPtr& p, const string& _ccResponse, const string& _cheatString, int _actionId, bool _displayCheat,
-//		bool _badClient, bool _badFileList, bool _clientCheckComplete, bool _fileListCheckComplete);
-//	void fileListDisconnected(const UserPtr& p);
 
 private:
 	typedef unordered_map<string, UserPtr> LegacyMap;

@@ -100,18 +100,19 @@ public:
 	void addDirectory(const string& aDir, const HintedUser& aUser, const string& aTarget,
 		QueueItem::Priority p = QueueItem::DEFAULT) noexcept;
 
-	string addClientCheck(UserPtr aUser, const string& hubHint) {
-		StringList nicks = ClientManager::getInstance()->getNicks(*aUser,hubHint);
+	string addClientCheck(const HintedUser& aUser) {
+		StringList nicks = ClientManager::getInstance()->getNicks(aUser);
 		string nick = nicks.empty() ? Util::emptyString : Util::cleanPathChars(nicks[0]) + ".";
-		string filename = RsxUtil::getTestSURString() + nick + aUser->getCID().toBase32();
-		if(aUser == ClientManager::getInstance()->getMe())
+		string filename = RsxUtil::getTestSURString() + nick + aUser.user->getCID().toBase32();
+		if(aUser.user == ClientManager::getInstance()->getMe())
 			return RsxUtil::getTestSURString();
 
-		add(Util::getPath(Util::PATH_USER_CONFIG) + "TestSURs//" + filename, -1, TTHValue(), HintedUser(aUser, hubHint), QueueItem::FLAG_TESTSUR);
+		add(Util::getPath(Util::PATH_USER_CONFIG) + "TestSURs//" + filename, -1, TTHValue(), aUser, QueueItem::FLAG_TESTSUR);
 		return filename;
 	}
 
-	string addFileListCheck(UserPtr aUser, const string& hubHint) noexcept;
+	string addFileListCheck(const HintedUser& user) noexcept;
+
 	void removeTestSUR(HintedUser hintedUser)
 	{
 		try {

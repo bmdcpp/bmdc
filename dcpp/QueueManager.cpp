@@ -1863,15 +1863,15 @@ void QueueManager::logFinishedDownload(QueueItem* qi, Download* d, bool crcCheck
 }
 
 //RSX++
-string QueueManager::addFileListCheck(UserPtr aUser, const string& hubHint) noexcept {
-	StringList nicks = ClientManager::getInstance()->getNicks(HintedUser(aUser,hubHint));
+string QueueManager::addFileListCheck(const HintedUser& aUser) noexcept {
+	StringList nicks = ClientManager::getInstance()->getNicks(aUser);
 	string nick = nicks.empty() ? Util::emptyString : Util::cleanPathChars(nicks[0]) + ".";
-	string fname = nick + aUser->getCID().toBase32();
+	string fname = nick + aUser.user->getCID().toBase32();
 
-	if(aUser == ClientManager::getInstance()->getMe())
+	if(aUser.user == ClientManager::getInstance()->getMe())
 		return Util::emptyString;
 
-	add(Util::getListPath() + fname, -1, TTHValue(), HintedUser(aUser, hubHint), (Flags::MaskType)(QueueItem::FLAG_USER_LIST | QueueItem::FLAG_CHECK_FILE_LIST));
+	add(Util::getListPath() + fname, -1, TTHValue(), aUser, (Flags::MaskType)(QueueItem::FLAG_USER_LIST | QueueItem::FLAG_CHECK_FILE_LIST));
 	return fname;
 }
 //END

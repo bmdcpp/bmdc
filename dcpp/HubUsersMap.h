@@ -167,7 +167,7 @@ private:
 			StringList items;
 			OnlineUserList ul;
 			client->getUserList(ul);
-			for(OnlineUserList::const_iterator i = ul.begin(); i != ul.end(); ++i) {
+			for(auto i = ul.begin(); i != ul.end(); ++i) {
 				const Identity& id = (*i)->getIdentity();
 				if(id.isClientQueued()) {
 					string path = Util::getPath(Util::PATH_USER_CONFIG) + "TestSURs//" + id.getTestSURQueued();
@@ -179,7 +179,7 @@ private:
 				}
 			}
 
-			for(StringIter j = items.begin(); j != items.end(); ++j) {
+			for(auto j = items.begin(); j != items.end(); ++j) {
 				try {
 					QueueManager::getInstance()->remove(*j);
 				} catch(...) {
@@ -283,7 +283,7 @@ private:
 				if(client->isConnected()) {
 					uint8_t t = 0;
 					uint8_t f = 0;
-
+					Lock l(cs);
 					QueueManager::getInstance()->lockedOperation([&f,&t](const QueueItem::StringMap& queue) {
 					for(auto i = queue.cbegin(); i != queue.cend(); ++i) {
 							if(i->second->isSet(QueueItem::FLAG_TESTSUR)) {
@@ -292,22 +292,6 @@ private:
 								f++;
 							}
 					}});
-
-					/*{
-						Lock l(cs);
-						const QueueItem::StringMap q = QueueManager::getInstance()->getQueue();
-						for(QueueItem::StringMap::const_iterator i = q.begin(); i != q.end(); ++i) {
-							//i->second->inc();
-							if(i->second->countOnlineUsers() == 0)
-								continue;
-
-							if(i->second->isSet(QueueItem::FLAG_TESTSUR)) {
-								t++;
-							} else if(i->second->isSet(QueueItem::FLAG_CHECK_FILE_LIST)) {
-								f++;
-							}
-						}
-					}*/
 
 					OnlineUser* ou = NULL;
 					int action = 0;
@@ -331,7 +315,7 @@ private:
 						Lock l(cs);
 						if(action & ADD_CLIENT_CHECK) {
 							try {
-								string fname = QueueManager::getInstance()->addClientCheck(ou->getUser(), client->getHubUrl());
+								string fname = QueueManager::getInstance()->addClientCheck( HintedUser(ou->getUser(), client->getHubUrl()) );
 								if(!fname.empty())
 									ou->getIdentity().setTestSURQueued(fname);
 							} catch(...) {
@@ -340,7 +324,7 @@ private:
 						} else if(action & ADD_FILELIST_CHECK) {
 							string fname;
 							try {
-								fname = QueueManager::getInstance()->addFileListCheck(ou->getUser(), client->getHubUrl());
+								fname = QueueManager::getInstance()->addFileListCheck( HintedUser(ou->getUser(), client->getHubUrl()) );
 								if(!fname.empty())
 									ou->getIdentity().setFileListQueued(fname);
 							} catch(...) {
