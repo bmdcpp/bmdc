@@ -652,7 +652,7 @@ Remove $HubIcon|
 ----r188
 boost::noncopyable -> = detete copytor (C++11)
 Some work around Text Color in UserList..
-Fix IgnoreUsers in UserList visible as Favorite User..
+Fix IgnoreUsers in UserList visible as Favorite User
 Some boost::scoped_array -> std::shared_ptr
 ----r189
 Fixed menu in Download Queue
@@ -667,6 +667,8 @@ Fix some of items.size() > 0 to !items.empty()
 ---r193
 Fix some of "Gtk-WARNING **: Unknown property: GtkStatusbar.has-resize-grip"
 Some Checker code UserPtr => HintedUser
+---r194
+Some mirror cleanup
 
 
 

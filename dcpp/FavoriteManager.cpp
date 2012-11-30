@@ -297,7 +297,7 @@ bool FavoriteManager::renameFavoriteDir(const string& aName, const string& anoth
 	}
 	return false;
 }
-
+//Recent Hubs
 void FavoriteManager::addRecent(const RecentHubEntry& aEntry) {
 	RecentHubEntry::Iter i = getRecentHub(aEntry.getServer());
 	if(i != recentHubs.end()) {
@@ -339,7 +339,7 @@ RecentHubEntry::Iter FavoriteManager::getRecentHub(const string& aServer) const 
 	}
 	return recentHubs.end();
 }
-
+//end
 class XmlListLoader : public SimpleXMLReader::CallBack {
 public:
 	XmlListLoader(HubEntryList& lst) : publicHubs(lst) { }
@@ -450,10 +450,10 @@ void FavoriteManager::save() {
 			(*i)->save(xml);
 			//RSX++
 			xml.stepIn();
-			for(FavoriteHubEntry::FavAction::List::const_iterator a = (*i)->action.begin(); a != (*i)->action.end(); ++a) {
+			for(auto a = (*i)->action.begin(); a != (*i)->action.end(); ++a) {
 				if(RawManager::getInstance()->getValidAction(a->first)) {
 					string raw = Util::emptyString;
-					for(std::list<int>::const_iterator j = a->second->raws.begin(); j != a->second->raws.end(); ++j) {
+					for(auto j = a->second->raws.begin(); j != a->second->raws.end(); ++j) {
 						if(!raw.empty())
 							raw += ",";
 						raw += Util::toString(*j);
@@ -642,8 +642,8 @@ void FavoriteManager::load(SimpleXML& aXml) {
 			if(name.empty())
 				continue;
 			HubSettings settings;
-            settings.load(aXml);
-            favHubGroups[name] = std::move(settings);
+            		settings.load(aXml);
+			favHubGroups[name] = std::move(settings);
 		}
 
 		aXml.resetCurrentChild();
@@ -767,7 +767,7 @@ void FavoriteManager::load(SimpleXML& aXml) {
 		}
 		aXml.stepOut();
 	}
-	//Idenpent Fav
+	//Indepent Fav
 	aXml.resetCurrentChild();
 	if(aXml.findChild("FavoriteIUsers"))
 	{
@@ -818,7 +818,7 @@ void FavoriteManager::userUpdated(const OnlineUser& info) {
 		fire(FavoriteManagerListener::UserUpdated(), i->second);
 		save();
 	}
-	//Idnepent Fav
+	//Indepent Fav
 	auto it = favoritesNoCid.find(info.getIdentity().getNick());
 	if(it != favoritesNoCid.end())
 	{

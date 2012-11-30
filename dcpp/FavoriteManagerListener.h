@@ -40,9 +40,6 @@ public:
 	typedef X<8> StatusChanged;
 	typedef X<9> LoadedFromCache;
 	typedef X<10> Corrupted;
-//	typedef X<11> IgnoreUserAdded;
-//	typedef X<12> IgnoreUserRemoved;
-//	typedef X<13> IgnoreStatusChanges;
 	typedef X<14> RecentAdded;
 	typedef X<15> RecentRemoved;
 	typedef X<16> RecentUpdated;
@@ -57,12 +54,9 @@ public:
 	virtual void on(FavoriteAdded, const FavoriteHubEntryPtr) noexcept { }
 	virtual void on(FavoriteRemoved, const FavoriteHubEntryPtr) noexcept { }
 	virtual void on(UserAdded, const FavoriteUser&) noexcept { }
-//	virtual void on(IgnoreUserAdded, const FavoriteUser&) noexcept { }//BMDC
 	virtual void on(UserUpdated, const FavoriteUser&) noexcept { }
 	virtual void on(UserRemoved, const FavoriteUser&) noexcept { }
-//	virtual void on(IgnoreUserRemoved, const FavoriteUser&) noexcept { }//BMDC
 	virtual void on(StatusChanged, const FavoriteUser&) noexcept { }
-//	virtual void on(IgnoreStatusChanges, const FavoriteUser&) noexcept { }//BMDC
 	virtual void on(LoadedFromCache, const string&, const string&) noexcept { }
 	virtual void on(Corrupted, const string&) noexcept { }
 	//Recent hubs

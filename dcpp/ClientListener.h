@@ -75,7 +75,6 @@ public:
 	virtual void on(AdcSearch, Client*, const AdcCommand&, const CID&) noexcept { }
 	virtual void on(CheatMessage, Client*, const string&) noexcept { }
 	virtual void on(HubTopic, Client*, const string&) noexcept { }
-	
 	virtual void on(ClientLine, Client*, const string&, int) noexcept { }//Plugins
 };
 

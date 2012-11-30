@@ -26,6 +26,7 @@
 namespace dcpp {
 	
 using namespace std;
+
 class Client;
 class OnlineUser;
 

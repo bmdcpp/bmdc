@@ -59,7 +59,7 @@ string ExportManager::importData(const string &from)
 		LogManager::getInstance()->message(_("[ExportManager] failed to read from .tar!"));
 		return _("Failed");
 	}
-	return _("Import of path")+from+_("is Succesfull");
+	return _("Import of path") + from + _("is Succesfull");
 }
 
 int ExportManager::run()

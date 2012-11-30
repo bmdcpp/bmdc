@@ -82,62 +82,32 @@ size_t ClientManager::getUserCount() const {
 }
 
 StringList ClientManager::getHubs(const CID& cid, const string& hintUrl) {
-	return getHubs(cid, hintUrl, false);
+	Lock l(cs);
+	StringList lst;
+	OnlinePairC op = onlineUsers.equal_range(cid);
+	for(auto i = op.first; i != op.second; ++i) {
+		lst.push_back(i->second->getClient().getHubUrl());
+	}
+	return lst;
 }
 
 StringList ClientManager::getHubNames(const CID& cid, const string& hintUrl) {
-	return getHubNames(cid, hintUrl, false);
+	Lock l(cs);
+	StringList lst;
+	OnlinePairC op = onlineUsers.equal_range(cid);
+	for(auto i = op.first; i != op.second; ++i) {
+		lst.push_back(i->second->getClient().getHubName());
+	}
+	return lst;
 }
 
 StringList ClientManager::getNicks(const CID& cid, const string& hintUrl) {
-	return getNicks(cid, hintUrl, false);
-}
-
-StringList ClientManager::getHubs(const CID& cid, const string& hintUrl, bool priv) {
-	Lock l(cs);
-	StringList lst;
-	if(!priv) {
-		OnlinePairC op = onlineUsers.equal_range(cid);
-		for(OnlineIterC i = op.first; i != op.second; ++i) {
-			lst.push_back(i->second->getClient().getHubUrl());
-		}
-	} else {
-		OnlineUser* u = findOnlineUserHint(cid, hintUrl);
-		if(u)
-			lst.push_back(u->getClient().getHubUrl());
-	}
-	return lst;
-}
-
-StringList ClientManager::getHubNames(const CID& cid, const string& hintUrl, bool priv) {
-	Lock l(cs);
-	StringList lst;
-	if(!priv) {
-		OnlinePairC op = onlineUsers.equal_range(cid);
-		for(OnlineIterC i = op.first; i != op.second; ++i) {
-			lst.push_back(i->second->getClient().getHubName());
-		}
-	} else {
-		OnlineUser* u = findOnlineUserHint(cid, hintUrl);
-		if(u)
-			lst.push_back(u->getClient().getHubName());
-	}
-	return lst;
-}
-
-StringList ClientManager::getNicks(const CID& cid, const string& hintUrl, bool priv) {
 	Lock l(cs);
 	StringSet ret;
 
-	if(!priv) {
-		OnlinePairC op = onlineUsers.equal_range(cid);
-		for(OnlineIterC i = op.first; i != op.second; ++i) {
-			ret.insert(i->second->getIdentity().getNick());
-		}
-	} else {
-		OnlineUser* u = findOnlineUserHint(cid, hintUrl);
-		if(u)
-			ret.insert(u->getIdentity().getNick());
+	OnlinePairC op = onlineUsers.equal_range(cid);
+	for(auto i = op.first; i != op.second; ++i) {
+		ret.insert(i->second->getIdentity().getNick());
 	}
 
 	if(ret.empty()) {
@@ -725,7 +695,7 @@ void ClientManager::sendAction(OnlineUser& ou, const int aAction) {
 		ou.getClient().sendActionCommand(ou, aAction);
     }
 }
-
+//TODO is this Suite to FakeChecker?
 void ClientManager::addCheckToQueue(const HintedUser hintedUser, bool filelist) {
 	OnlineUser* ou = NULL;
 	bool addCheck = false;
@@ -797,7 +767,7 @@ void ClientManager::on(HubUserCommand, Client* client, int aType, int ctx, const
  		}
 	}
 }
-//..
+//..suite of FakeChecker ?
 void ClientManager::checkCheating(const HintedUser& p, DirectoryListing* dl) {
 	string report;
 	OnlineUser* ou = NULL;

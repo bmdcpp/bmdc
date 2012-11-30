@@ -64,10 +64,6 @@ public:
 	StringList getNicks(const CID& cid, const string& hintUrl);
 	string getField(const CID& cid, const string& hintUrl, const char* field) const;
 
-	StringList getHubs(const CID& cid, const string& hintUrl, bool priv);
-	StringList getHubNames(const CID& cid, const string& hintUrl, bool priv);
-	StringList getNicks(const CID& cid, const string& hintUrl, bool priv);
-
 	StringList getNicks(const HintedUser& user) { return getNicks(user.user->getCID(), user.hint); }
 	StringList getHubNames(const HintedUser& user) { return getHubNames(user.user->getCID(), user.hint); }
 	StringList getHubs(const HintedUser& user) { return getHubs(user.user->getCID(), user.hint); }
@@ -143,12 +139,12 @@ public:
 
 	int getMode(const string& aHubUrl) const;
 	bool isActive(const string& aHubUrl = Util::emptyString) const;
-	//CMD
+	//TODO ? IPv6
 	void setIpAddress(const UserPtr& p, const string& ip);
 
 	void sendAction(OnlineUser& ou, const int aAction);
 	void sendRawCommand(OnlineUser& user, const string& aRaw, bool checkProtection = false);
-
+	//TODO ? suite for FakeChecker ?
 	void addCheckToQueue(const HintedUser hintedUser, bool filelist);
 	void checkCheating(const HintedUser& p, DirectoryListing* dl);
 
