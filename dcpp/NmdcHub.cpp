@@ -384,6 +384,12 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		u.getIdentity().setHub(false);
 
 		u.getIdentity().set("CO", connection);
+		//away status		
+		auto aMode = param[j-1];
+		if(aMode & 0x02) {
+			u.getIdentity().set("AW", "1");
+		}else { u.getIdentity().set("AW", Util::emptyString);}
+		//end
 		i = j + 1;
 		j = param.find('$', i);
 
@@ -494,9 +500,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			getHubIdentity().setDescription(unescape(param.substr(i+3)));
 		}
 		fire(ClientListener::HubUpdated(), this);
-	} /*else if (cmd == "$SetIcon"){
-		fire(ClientListener::HubIcon(), this, param);
-	}*/ else if(cmd == "$Supports") {
+	} else if(cmd == "$Supports") {
 		StringTokenizer<string> st(param, ' ');
 		StringList& sl = st.getTokens();
 		for(StringIter i = sl.begin(); i != sl.end(); ++i) {
@@ -833,7 +837,9 @@ void NmdcHub::myInfo(bool alwaysSend) {
 	}
 
 	bool gslotf = SETTING(SHOW_FREE_SLOTS_DESC);
-    string gslot = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
+	string gslot = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
+	//away
+        auto staFlag = Util::getAway() ? '\x02' : '\x01';
 
 	string uMin = (SETTING(MIN_UPLOAD_SPEED) == 0) ? Util::emptyString : tmp5 + Util::toString(SETTING(MIN_UPLOAD_SPEED));
 	string myInfoA =
@@ -841,7 +847,7 @@ void NmdcHub::myInfo(bool alwaysSend) {
 		tmp1 + VERSIONSTRING + tmp2 + modeChar + tmp3 + getCounts();
 	string myInfoB = tmp4 + Util::toString(SETTING(SLOTS));
 	string myInfoC = uMin +
-		">$ $" + uploadSpeed + "\x01$" + fromUtf8(escape(get(Email))) + '$';
+		">$ $" + uploadSpeed + staFlag + '$' + fromUtf8(escape(get(Email))) + '$';
 	string share = getHideShare() ? "0" : ShareManager::getInstance()->getShareSizeString();//no share NMDC
 	string myInfoD = share + "$|";
 	// we always send A and C; however, B (slots) and D (share size) can frequently change so we delay them if needed

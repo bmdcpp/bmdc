@@ -112,11 +112,11 @@ void Identity::getParams(ParamMap& params, const string& prefix, bool compatibil
 				params["email"] = [this] { return get("EM"); };
 				params["share"] = [this] { return get("SS"); };
 				params["shareshort"] = [this] { return Util::formatBytes(get("SS")); };
-                params["slots"] = [this] { return get("SL");};
-                /**/
-                params["mode"] = [this] { return string(isTcpActive() ? "A" : "P");  };
-                params["newhubs"] = [this] { return "H:" + get("HN") + "/" + get("HR") + "/" + get("HO");  };
-                //some simple names instead of Ax ;)
+				params["slots"] = [this] { return get("SL");};
+				/**/
+				params["mode"] = [this] { return string(isTcpActive() ? "A" : "P");  };
+				params["newhubs"] = [this] { return "H:" + get("HN") + "/" + get("HR") + "/" + get("HO");  };
+				//some simple names instead of Ax ;)
 				params["adlFile"] =	[this] { return get("A1"); };
 				params["adlComment"] = [this] { return get("A2");};
 				params["adlFileSize"] = [this] { return get("A3");};
@@ -225,7 +225,7 @@ void Identity::checkTagState(OnlineUser& ou) const {
 		ou.getClient().cheatMessage("*** " + getNick() + " - Tag states active mode, but user is using passive mode");
 	}
 }
-string Identity::setCheat(const Client& c, const string& aCheatDescription, bool aBadClient, bool aBadFilelist /*=false*/, bool aDisplayCheat /*=true*/) {
+string Identity::setCheat(const Client& c, const string& aCheatDescription, bool aBadClient, bool aBadFilelist /*=false*/, bool aDisplayCheat /* = true*/) {
 	ParamMap ucParams;
 	getParams(ucParams, "user", true);
 	string cheat = Util::formatParams(aCheatDescription, ucParams);
@@ -233,7 +233,7 @@ string Identity::setCheat(const Client& c, const string& aCheatDescription, bool
 
 	string currentCS = get("CS");
 	StringTokenizer<string> st(currentCS, ';');
-	for(StringIter i = st.getTokens().begin(); i != st.getTokens().end(); ++i) {
+	for(auto i = st.getTokens().begin(); i != st.getTokens().end(); ++i) {
 		if((*i).find(cheat) == string::npos) {
 			newCheat += (*i) + ";";
 		}
@@ -330,7 +330,7 @@ string Identity::myInfoDetect(OnlineUser& ou) {
 	getDetectionParams(params); // get identity fields and escape them, then get the rest and leave as-is
 	const DetectionManager::DetectionItems& profiles = DetectionManager::getInstance()->getProfiles(params);
 
-	for(DetectionManager::DetectionItems::const_iterator i = profiles.begin(); i != profiles.end(); ++i) {
+	for(auto i = profiles.begin(); i != profiles.end(); ++i) {
 		const DetectionEntry& entry = *i;
 		if(!entry.isEnabled)
 			continue;
@@ -353,7 +353,7 @@ string Identity::myInfoDetect(OnlineUser& ou) {
 		DETECTION_DEBUG("\tChecking User Info Profile: " + entry.name);
 
 
-		for(DetectionEntry::INFMap::const_iterator j = INFList.begin(); j != INFList.end(); ++j) {
+		for(auto j = INFList.begin(); j != INFList.end(); ++j) {
 			try {
 				string aPattern = Util::formatRegExp(boost::get<string>(j->second),params);
 				string aField = getDetectionField(j->first);
@@ -390,7 +390,7 @@ string Identity::updateClientType(OnlineUser& ou) {
 	getDetectionParams(params); // get identity fields and escape them, then get the rest and leave as-is
 	const DetectionManager::DetectionItems& profiles = DetectionManager::getInstance()->getProfiles(params, true);//thinking//true
 
-	for(DetectionManager::DetectionItems::const_iterator i = profiles.begin(); i != profiles.end(); ++i) {
+	for(auto i = profiles.begin(); i != profiles.end(); ++i) {
 		const DetectionEntry& entry = *i;
 		if(!entry.isEnabled)
 			continue;
@@ -413,7 +413,7 @@ string Identity::updateClientType(OnlineUser& ou) {
 
 		DETECTION_DEBUG("\tChecking profile: " + entry.name);
 
-		for(DetectionEntry::INFMap::const_iterator j = INFList.begin(); j != INFList.end(); ++j) {
+		for(auto j = INFList.begin(); j != INFList.end(); ++j) {
 			try {
 
 			string aPattern = Util::formatRegExp(boost::get<string>(j->second), params);
@@ -617,13 +617,7 @@ void FavoriteUser::update(const OnlineUser& info) {
 	setLastSeen(time(NULL));
 	setCid(info.getUser()->getCID().toBase32());
 }
-//Indepent Fav
-/*void FavoriteIUser::update(const OnlineUser& ou)
-{
-	setLastSeen(time(NULL));
-	setCid(ou.getUser()->getCID().toBase32());
-}*/
-//end
+
 bool OnlineUser::isCheckable(uint32_t delay /* = 0*/)
 {
 	if(identity.isBot())

@@ -192,6 +192,7 @@ void UserCommandMenu::onUserCommandClick_gui(GtkMenuItem *item, gpointer data)
 				i->cid, commandName, hub, params);
 			WulforManager::get()->dispatchClientFunc(func);
 		}
+
 		for(auto i= ucm->ips.begin();i!= ucm->ips.end();++i)
 		{
 			string cid = ClientManager::getInstance()->getMe()->getCID().toBase32();

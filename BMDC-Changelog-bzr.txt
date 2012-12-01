@@ -669,6 +669,8 @@ Fix some of "Gtk-WARNING **: Unknown property: GtkStatusbar.has-resize-grip"
 Some Checker code UserPtr => HintedUser
 ---r194
 Some mirror cleanup
+---r195
+Away status on NMDC
 
 
 

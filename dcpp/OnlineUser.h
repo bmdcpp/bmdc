@@ -116,17 +116,17 @@ public:
 
 	bool isClientType(ClientType ct) const;
 
-    void logDetection(bool successful);
-    string setCheat(const Client& c,const string& aCheat, bool aBadClient, bool aBadFilelist = false, bool aDisplayCheat = true);
-    string checkFilelistGenerator(OnlineUser& ou);
-    bool isProtectedUser(const Client& c, bool OpBotHubCheck) const;
-    void checkTagState(OnlineUser& ou) const;
-    string getDetectionField(const string& aName) const;
-    string myInfoDetect(OnlineUser& ou);
-    string updateClientType(OnlineUser& ou);
-    map<string, string> getReport() const;
+	void logDetection(bool successful);
+	string setCheat(const Client& c,const string& aCheat, bool aBadClient, bool aBadFilelist = false, bool aDisplayCheat = true);
+	string checkFilelistGenerator(OnlineUser& ou);
+	bool isProtectedUser(const Client& c, bool OpBotHubCheck) const;
+	void checkTagState(OnlineUser& ou) const;
+	string getDetectionField(const string& aName) const;
+	string myInfoDetect(OnlineUser& ou);
+	string updateClientType(OnlineUser& ou);
+	map<string, string> getReport() const;
 
-    bool isFileListQueued() const { return isSet("FQ"); }
+	bool isFileListQueued() const { return isSet("FQ"); }
 	bool isClientChecked() const { return isSet("TC"); }
 	bool isFileListChecked() const { return isSet("FC"); }
 	bool isClientQueued() const { return isSet("TQ"); }
