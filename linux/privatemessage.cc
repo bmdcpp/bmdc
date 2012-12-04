@@ -572,11 +572,7 @@ void PrivateMessage::applyTags_gui(const string &line)
                 g_signal_connect(G_OBJECT(image), "draw", G_CALLBACK(expose), NULL);
 
                 gtk_widget_show_all(event_box);
-                #if GTK_CHECK_VERSION(2, 12, 0)
-                    gtk_widget_set_tooltip_text(event_box, country_text.c_str());
-                #else
-                    gtk_tooltips_set_tip(tips, event_box, country_text.c_str(), country_text.c_str());
-                #endif
+                gtk_widget_set_tooltip_text(event_box, country_text.c_str());
             }
 
 			applyEmoticons_gui();
@@ -1093,7 +1089,7 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			"/grant\t\t\t\t - " + _("Grant extra slot") + "\n" +
 			"/emoticons, /emot\t\t - " + _("Emoticons on/off") + "\n" +
 			"/help\t\t\t\t - " + _("Show help") + "\n" +
-			WulforUtil::commands) ;
+			WulforUtil::commands+"\n") ;
 		}
 		else
 		{
@@ -1566,34 +1562,34 @@ void PrivateMessage::readLog(const string& logPath, const unsigned setting)
 //custom popup menu
 GtkWidget *PrivateMessage::createmenu()
 {
-    string nicks = WulforUtil::getNicks(this->cid, this->hubUrl);
+	string nicks = WulforUtil::getNicks(this->cid, this->hubUrl);
 	GtkWidget *item = getFItem();
 	gtk_menu_item_set_label(GTK_MENU_ITEM(item), nicks.c_str());
 
 	userCommandMenu->cleanMenu_gui();
-    userCommandMenu->addUser(cid);
-    userCommandMenu->addHub(hubUrl);
-    userCommandMenu->buildMenu_gui();
-    GtkWidget *menu = userCommandMenu->getContainer();
+	userCommandMenu->addUser(cid);
+	userCommandMenu->addHub(hubUrl);
+	userCommandMenu->buildMenu_gui();
+	GtkWidget *menu = userCommandMenu->getContainer();
 
-    GtkWidget *copyHubUrl = gtk_menu_item_new_with_label(_("Copy CID"));
-    GtkWidget *close = gtk_menu_item_new_with_label(_("Close"));
-    GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite Users"));
+	GtkWidget *copyHubUrl = gtk_menu_item_new_with_label(_("Copy CID"));
+	GtkWidget *close = gtk_menu_item_new_with_label(_("Close"));
+	GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite Users"));
 	GtkWidget *copyNicks = gtk_menu_item_new_with_label(_("Copy Nick(s)"));
 
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu),close);
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu),copyHubUrl);
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu),addFav);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu),close);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu),copyHubUrl);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu),addFav);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu),copyNicks);
-    gtk_widget_show(close);
-    gtk_widget_show(copyHubUrl);
-    gtk_widget_show(addFav);
+	gtk_widget_show(close);
+	gtk_widget_show(copyHubUrl);
+	gtk_widget_show(addFav);
 	gtk_widget_show(copyNicks);
-    gtk_widget_show_all(userCommandMenu->getContainer());
+	gtk_widget_show_all(userCommandMenu->getContainer());
 
-    g_signal_connect_swapped(copyHubUrl, "activate", G_CALLBACK(onCopyCID), (gpointer)this);
-    g_signal_connect_swapped(close, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
-    g_signal_connect_swapped(addFav, "activate", G_CALLBACK(onAddFavItem), (gpointer)this);
+	g_signal_connect_swapped(copyHubUrl, "activate", G_CALLBACK(onCopyCID), (gpointer)this);
+	g_signal_connect_swapped(close, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
+	g_signal_connect_swapped(addFav, "activate", G_CALLBACK(onAddFavItem), (gpointer)this);
 	g_signal_connect_swapped(copyNicks, "activate", G_CALLBACK(onCopyNicks), (gpointer)this);
     return menu;
 }

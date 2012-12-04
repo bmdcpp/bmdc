@@ -3761,7 +3761,7 @@ string Hub::getIcons(const Identity& id)
 	} else /*status*/
 	{
 		string conn = id.getConnection();
-		if(	(conn == "28.8Kbps") || (conn == "33.6Kbps") ||	(conn == "56Kbps") || (conn == "Modem") ||	(conn == "ISDN")) {
+		if(	(conn == "28.8Kbps") || (conn == "33.6Kbps") ||	(conn == "56Kbps") || (conn == "Modem") || (conn == "ISDN")) {
 				tmp =  "modem";
 			} else if(	(conn == "Satellite") || (conn == "Microwave") || (conn == "Wireless")) {
 				tmp = "wireless";
@@ -3961,7 +3961,7 @@ void Hub::loadImage_gui(string target, string tth)
 	GdkPixbuf *pixbuf = NULL;
 	int set_w = 200, set_h = 200;
 	double w, h, k;
-	w = (double) set_w / width;
+	w = (double) set_w / width ;
 	h = (double) set_h / height ;
 	k = MIN(w, h);
 

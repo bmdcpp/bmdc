@@ -257,7 +257,7 @@ class Hub:
 		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) throw();
 
 		UserFlags users;//for OP flag etc
-		UserMap userMap; //userOpMap, userPasiveMap, userIgnoreMap, userProtectMap;
+		UserMap userMap; 
 		UserIters userIters;
 		UserMap userFavoriteMap;
 		ImageList imageList;
