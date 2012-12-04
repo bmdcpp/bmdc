@@ -23,6 +23,7 @@
 #include "ActionRaw.h"
 #include "SettingsManager.h"
 #include "typedefs.h"
+#include "CalcADLAction.h"
 
 namespace dcpp {
 
@@ -49,13 +50,13 @@ public:
 	int getValidAction(int actionId);
 
 	// custom points system
-	void calcADLAction(int aPoints, int& a, bool& d);
+/*	void calcADLAction(int aPoints, int& a, bool& d);
 
 	IntMap& getADLPoints() { Lock l(cs); return points; }
 	void updateADLPoints(IntMap& p) {
 		Lock l(cs);
 		points = p;
-	}
+	}*/
 private:
 	friend class Singleton<RawManager>;
 
@@ -64,12 +65,12 @@ private:
 
 	void loadActionRaws(SimpleXML& aXml);
 
-	void on(SettingsManagerListener::Load, SimpleXML& xml) noexcept;
-	void on(SettingsManagerListener::Save, SimpleXML& xml) noexcept;
+//	void on(SettingsManagerListener::Load, SimpleXML& xml) noexcept;
+//	void on(SettingsManagerListener::Save, SimpleXML& xml) noexcept;
 
 	Action::ActionList actions;
 
-	IntMap points;
+//	IntMap points;
 	CriticalSection cs;
 };
 

@@ -1358,13 +1358,13 @@ void DetectionTab::onADLPoints(GtkWidget *widget, gpointer data)
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	bool isOk = dt->showADLPoints(dt);
 	if(isOk)
-		RawManager::getInstance()->updateADLPoints(dt->imap);
+		CalcADLAction::getInstance()->updateADLPoints(dt->imap);
 }
 
 gboolean DetectionTab::showADLPoints(DetectionTab *dt)
 {
 	gtk_list_store_clear(dt->pointstore);
-	const IntMap& list = RawManager::getInstance()->getADLPoints();
+	const IntMap& list = CalcADLAction::getInstance()->getADLPoints();
 	for(IntMap::const_iterator i = list.begin(); i != list.end(); ++i)
 	{
 		StringMap params;

@@ -24,6 +24,7 @@
 #include "File.h"
 
 namespace dcpp {
+
 RawManager::RawManager() {
 	loadActionRaws();
 	SettingsManager::getInstance()->addListener(this);
@@ -49,7 +50,7 @@ void RawManager::saveActionRaws() {
 			xml.addChildAttrib("Name", (*i)->getName());
 			xml.addChildAttrib("Enabled", Util::toString((*i)->getEnabled()));
 			xml.stepIn();
-			for(Action::RawsList::const_iterator j = (*i)->raw.begin(); j != (*i)->raw.end(); ++j) {
+			for(auto j = (*i)->raw.begin(); j != (*i)->raw.end(); ++j) {
 				xml.addTag("Raw");
 				xml.addChildAttrib("ID", Util::toString(j->getId()));
 				xml.addChildAttrib("Name", j->getName());
@@ -149,7 +150,7 @@ Action* RawManager::addAction(int id, const std::string& name, bool enabled) thr
 
 	while(id == 0) {
 		id = Util::rand(1, 2147483647);
-		for(Action::ActionList::const_iterator i = actions.begin(); i != actions.end(); ++i) {
+		for(auto i = actions.begin(); i != actions.end(); ++i) {
 			if((*i)->getId() == id) {
 				id = 0;
 				break;
@@ -217,7 +218,7 @@ void RawManager::addRaw(Action* a, Raw& r) throw(Exception) {
 
 	while(r.getId() == 0) {
 		r.setId(Util::rand(1, 2147483647));
-		for(Action::RawsList::const_iterator j = a->raw.begin(); j != a->raw.end(); ++j) {
+		for(auto j = a->raw.begin(); j != a->raw.end(); ++j) {
 			if(j->getId() == r.getId()) {
 				r.setId(0);
 				break;
@@ -233,7 +234,7 @@ void RawManager::editRaw(const Action* a, Raw* old, Raw _new) throw(Exception) {
 		throw Exception("NO NAME SPECIFIED");
 	if(Util::stricmp(old->getName(), _new.getName()) != 0) {
 		Lock l(cs);
-		for(Action::RawsList::const_iterator j = a->raw.begin(); j != a->raw.end(); ++j) {
+		for(auto j = a->raw.begin(); j != a->raw.end(); ++j) {
 			if(Util::stricmp(j->getName(), _new.getName()) == 0)
 				continue;
 		}
@@ -249,7 +250,7 @@ bool RawManager::remRaw(Action* a, Raw* r) noexcept {
 	return false;
 }
 
-void RawManager::on(SettingsManagerListener::Load, SimpleXML& xml) noexcept {
+void CalcADLAction::on(SettingsManagerListener::Load, SimpleXML& xml) noexcept {
 	if(xml.findChild("ADLSPoints")) {
 		xml.stepIn();
 		while(xml.findChild("PointsSetting")) {
@@ -268,10 +269,10 @@ void RawManager::on(SettingsManagerListener::Load, SimpleXML& xml) noexcept {
 	}
 }
 
-void RawManager::on(SettingsManagerListener::Save, SimpleXML& xml) noexcept {
+void CalcADLAction::on(SettingsManagerListener::Save, SimpleXML& xml) noexcept {
 	xml.addTag("ADLSPoints");
 	xml.stepIn();
-	for(IntMap::const_iterator i = points.begin(); i != points.end(); ++i) {
+	for(auto i = points.begin(); i != points.end(); ++i) {
 		xml.addTag("PointsSetting");
 		xml.addChildAttrib("Points", i->first);
 		xml.addChildAttrib("Action", i->second);
@@ -279,7 +280,7 @@ void RawManager::on(SettingsManagerListener::Save, SimpleXML& xml) noexcept {
 	xml.stepOut();
 }
 
-void RawManager::calcADLAction(int aPoints, int& a, bool& d) {
+void CalcADLAction::calcADLAction(int aPoints, int& a, bool& d) {
 	Lock l(cs);
 	for(auto i = points.begin(); i != points.end(); ++i) {
 		if(aPoints >= i->first) {

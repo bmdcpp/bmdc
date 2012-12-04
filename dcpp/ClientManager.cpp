@@ -684,7 +684,6 @@ void ClientManager::setIpAddress(const UserPtr& p, const string& ip) {
 		i->second->getIdentity().set("I4", ip);
 		fire(ClientManagerListener::UserUpdated(),(dynamic_cast<const OnlineUser&>(*i->second)));
 	}
-
 }
 
 void ClientManager::sendAction(OnlineUser& ou, const int aAction) {
@@ -882,7 +881,7 @@ void ClientManager::checkCheating(const HintedUser& p, DirectoryListing* dl) {
 				} else if(totalPoints > 0) {
 					bool show = false;
 					int rawToSend = 0;
-					RawManager::getInstance()->calcADLAction(totalPoints, rawToSend, show);
+					CalcADLAction::getInstance()->calcADLAction(totalPoints, rawToSend, show);
 					report = ou->setCheat(s, false, true, show);
 					sendAction(*ou, rawToSend);
 				}

@@ -33,26 +33,9 @@ using namespace dcpp;
 FavoriteHubs::FavoriteHubs():
 	BookEntry(Entry::FAVORITE_HUBS, _("Favorite Hubs"), "favoritehubs.glade")
 {
-//	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("favoriteHubsDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
-//	gtk_widget_set_sensitive(getWidget("comboboxCharset"), FALSE);
-//	gtk_widget_set_sensitive(getWidget("entryNick"), FALSE);
-//	gtk_widget_set_sensitive(getWidget("entryUserDescription"), FALSE);
-
 	// menu
 	g_object_ref_sink(getWidget("menu"));
 
-//	gtk_window_set_transient_for(GTK_WINDOW(getWidget("favoriteHubsDialog")), GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()));
-//	gtk_window_set_destroy_with_parent(GTK_WINDOW(getWidget("favoriteHubsDialog")), TRUE);
-
-//	gtk_window_set_transient_for(GTK_WINDOW(getWidget("FavoriteHubGroupsDialog")),
-//		GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()));
-
-	// Fill the charset drop-down list in edit fav hub dialog.
-//	auto& charsets = WulforUtil::getCharsets();
-//	for (auto it = charsets.begin(); it != charsets.end(); ++it)
-//	{
-//		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxCharset")), (*it).c_str());
-//	}
 	// Initialize favorite hub list treeview
 	favoriteView.setView(GTK_TREE_VIEW(getWidget("favoriteView")), TRUE, "favoritehubs");
 	favoriteView.insertColumn(_("Name"), G_TYPE_STRING, TreeView::STRING, 200);
@@ -113,18 +96,6 @@ FavoriteHubs::FavoriteHubs():
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(groupsStore), groupsView.col(_("Group name")), GTK_SORT_ASCENDING);
 	groupsSelection = gtk_tree_view_get_selection(groupsView.get());
 
-	///Actions
-/*	actionView.setView(GTK_TREE_VIEW(getWidget("rawview")));
-	actionView.insertColumn(_("Name"), G_TYPE_STRING,TreeView::STRING,100);
-	actionView.insertColumn(_("Enabled"), G_TYPE_BOOLEAN, TreeView::BOOL,100);
-	actionView.insertHiddenColumn("ISRAW", G_TYPE_BOOLEAN);
-	actionView.insertHiddenColumn("ID", G_TYPE_INT);
-	actionView.finalize();
-	actionStore = gtk_tree_store_newv(actionView.getColCount(),actionView.getGTypes());
-	gtk_tree_view_set_model(actionView.get(),GTK_TREE_MODEL(actionStore));
-	g_object_unref(actionStore);
-	actionSel = gtk_tree_view_get_selection(actionView.get());
-*/
 	// Connect the signals to their callback functions.
 	g_signal_connect(getWidget("buttonNew"), "clicked", G_CALLBACK(onAddEntry_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonConnect"), "clicked", G_CALLBACK(onConnect_gui), (gpointer)this);
@@ -138,9 +109,6 @@ FavoriteHubs::FavoriteHubs():
 	g_signal_connect(favoriteView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
 	g_signal_connect(favoriteView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 	g_signal_connect(favoriteView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
-//	g_signal_connect(getWidget("checkbuttonEncoding"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("comboboxCharset"));
-//	g_signal_connect(getWidget("checkbuttonNick"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("entryNick"));
-//	g_signal_connect(getWidget("checkbuttonUserDescription"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("entryUserDescription"));
 	g_signal_connect(getWidget("addGroupButton"), "clicked", G_CALLBACK(onAddGroupClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("updateGroupButton"), "clicked", G_CALLBACK(onUpdateGroupClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("removeGroupButton"), "clicked", G_CALLBACK(onRemoveGroupClicked_gui), (gpointer)this);
@@ -153,9 +121,6 @@ FavoriteHubs::FavoriteHubs():
 FavoriteHubs::~FavoriteHubs()
 {
 	FavoriteManager::getInstance()->removeListener(this);
-
-	//gtk_widget_destroy(getWidget("favoriteHubsDialog"));
-	gtk_widget_destroy(getWidget("FavoriteHubGroupsDialog"));
 	g_object_unref(getWidget("menu"));
 }
 
@@ -1163,21 +1128,7 @@ gboolean FavoriteHubs::onGroupsButtonReleased_gui(GtkWidget *widget, GdkEventBut
 	}
 	return FALSE;
 }
-/*
-void FavoriteHubs::onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data)
-{
-	FavoriteHubs *fh = (FavoriteHubs *)data;
-	GtkTreeIter iter;
 
-	if (gtk_tree_model_get_iter_from_string(GTK_TREE_MODEL(fh->actionStore), &iter, path))
-	{
-		string nane = fh->actionView.getString(&iter, _("Name"));
-		bool fixed = fh->actionView.getValue<gboolean>(&iter, _("Enabled"));
-		fixed = !fixed;
-		gtk_tree_store_set(fh->actionStore, &iter, fh->actionView.col(_("Enabled")), fixed, -1);
-	}
-}
-*/
 void FavoriteHubs::initializeList_client()
 {
 	StringMap params;

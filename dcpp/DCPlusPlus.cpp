@@ -41,6 +41,7 @@
 
 #include "DetectionManager.h"
 #include "RawManager.h"
+#include "CalcADLAction.h"
 #ifdef HAVE_LIBTAR
 	#include "BackupManager.h"
 	#include "ExportManager.h"
@@ -90,6 +91,7 @@ void startup(function<void (const string&)> f) {
 	UploadManager::newInstance();
 	ThrottleManager::newInstance();
 	RawManager::newInstance();//
+	CalcADLAction::newInstance();//
 	QueueManager::newInstance();
 	ShareManager::newInstance();
 	FavoriteManager::newInstance();
@@ -191,6 +193,7 @@ void shutdown() {
 	MappingManager::deleteInstance();
 	ConnectivityManager::deleteInstance();
 	ADLSearchManager::deleteInstance();
+	CalcADLAction::deleteInstance();//
 	RawManager::deleteInstance();//.
 	FinishedManager::deleteInstance();
 	ShareManager::deleteInstance();

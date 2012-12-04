@@ -85,6 +85,7 @@ class FavoriteHubDialog: public Entry
 			string text = file.substr(0,nedle);
 			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxEmot")), text.c_str() );
 		}
+
 		if(init) //Defualt value when adding
 		{
 			params["Name"] = Util::emptyString;
@@ -241,7 +242,7 @@ class FavoriteHubDialog: public Entry
 				if(group) {
 					params["Group"] = string(group);
 					g_free(group);
-			   }	
+			   	}	
 			}
 
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonEncoding"))))

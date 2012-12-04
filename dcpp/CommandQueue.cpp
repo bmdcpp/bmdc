@@ -31,7 +31,7 @@ void CommandQueue::onSecond(uint64_t tick) {
 	Lock l(cs);
 	if(clientPtr == NULL)
 		return;
-	for(Commands::iterator i = queue.begin(); i != queue.end(); ++i) {
+	for(auto i = queue.begin(); i != queue.end(); ++i) {
 		const pair<uint64_t, CommandItem>& p = *i;
 		if(tick >= p.first) {
 			execCommand(p.second);
@@ -46,12 +46,12 @@ void CommandQueue::addCommandDelayed(uint64_t delay, const CommandItem& item)  {
 }
 
 void CommandQueue::execCommand(const CommandItem& item)  {
-        ParamMap params;
-        item.ou->getIdentity().getParams(params, "user", true);
-		clientPtr->getHubIdentity().getParams(params, "hub", false);
-		clientPtr->getMyIdentity().getParams(params, "my", true);
-		Util::formatParams(item.uc.getCommand(), params);
-		clientPtr->sendUserCmd(item.uc, params);
+	ParamMap params;
+	item.ou->getIdentity().getParams(params, "user", true);
+	clientPtr->getHubIdentity().getParams(params, "hub", false);
+	clientPtr->getMyIdentity().getParams(params, "my", true);
+	Util::formatParams(item.uc.getCommand(), params);
+	clientPtr->sendUserCmd(item.uc, params);
 }
 
 void CommandQueue::addCommand(const OnlineUser& ou, int actionId) {
@@ -63,7 +63,7 @@ void CommandQueue::addCommand(const OnlineUser& ou, int actionId) {
 			if(FavoriteManager::getInstance()->getEnabledAction(hub, actionId)) {
 
 				uint64_t delayTime = GET_TICK();
-				for(Action::RawsList::const_iterator i = a->raw.begin(); i != a->raw.end(); ++i) {
+				for(auto i = a->raw.begin(); i != a->raw.end(); ++i) {
 					if(i->getEnabled() && !(i->getRaw().empty())) {
 						if(FavoriteManager::getInstance()->getEnabledRaw(hub, actionId, i->getId())) {
 							ParamMap params;
