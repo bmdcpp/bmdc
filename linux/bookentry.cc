@@ -92,14 +92,7 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
         gtk_container_add(GTK_CONTAINER(closeButton), image);
         gtk_box_pack_start(GTK_BOX(labelBox), closeButton, FALSE, FALSE, 0);
 
-    #if GTK_CHECK_VERSION(2, 12, 0)
         gtk_widget_set_tooltip_text(closeButton, _("Close tab"));
-    #else
-        tips = gtk_tooltips_new();
-        g_object_ref_sink(tips);
-        gtk_tooltips_enable(tips);
-        gtk_tooltips_set_tip(tips, closeButton, _("Close tab"), NULL);
-    #endif
     }
 	gtk_widget_show_all(labelBox);
 
@@ -169,11 +162,7 @@ void BookEntry::setLabel_gui(string text)
 	if(IsCloseButton || WGETB("use-close-button"))
     {
         // Update the notebook tab label
-        #if GTK_CHECK_VERSION(2, 12, 0)
-            gtk_widget_set_tooltip_text(eventBox, text.c_str());
-        #else
-            gtk_tooltips_set_tip(tips, eventBox, text.c_str(), text.c_str());
-        #endif
+       gtk_widget_set_tooltip_text(eventBox, text.c_str());
     }
 
     if(WGETB("custom-font-size"))

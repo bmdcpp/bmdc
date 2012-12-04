@@ -33,9 +33,7 @@ class BookEntry : public Entry
 		BookEntry(const EntryType type, const std::string &text, const std::string &glade, const std::string &id = "");
 		virtual ~BookEntry()
 		{
-#if !GTK_CHECK_VERSION(2, 12, 0)
-			g_object_unref(tips);
-#endif
+
 		}
 
 		GtkWidget *getContainer();
@@ -71,9 +69,6 @@ class BookEntry : public Entry
 		GtkLabel *label;
 		GtkWidget *fItem;
 
-#if !GTK_CHECK_VERSION(2, 12, 0)
-		GtkTooltips *tips;
-#endif
 		bool bold;
 		bool urgent;
 		static const glong labelSize = 20; ///@todo: make a preference?

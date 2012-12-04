@@ -74,7 +74,6 @@ class Hub:
 		struct FlagUser: public dcpp::Flags
 		{
 		  public:	
-			//friend class dcpp::Flags;				
 			FlagUser(const std::string& _nick,int _flags): dcpp::Flags((dcpp::Flags::MaskType)_flags),nick(_nick) { };
 			enum FlagUserFlags
 			{
@@ -292,9 +291,7 @@ class Hub:
 		EmoticonsDialog *emotdialog;
 		bool PasswordDialog;
 		bool WaitingPassword;
-#if !GTK_CHECK_VERSION(2, 12, 0)
-		GtkTooltips *tips,*statusTips;
-#endif
+
 		int ImgLimit;
 		GtkTextTag *BoldTag, *UnderlineTag, *ItalicTag;
 		std::queue<std::string> statustext;
@@ -313,7 +310,6 @@ class Hub:
 		}
 
 		bool notify;
-//		static void onToggleNotify (GtkWidget *item, gpointer data);
 
 };
 #else
