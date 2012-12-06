@@ -27,12 +27,10 @@ namespace dcpp {
 
 RawManager::RawManager() {
 	loadActionRaws();
-	SettingsManager::getInstance()->addListener(this);
 }
 
 RawManager::~RawManager() {
 	saveActionRaws();
-	SettingsManager::getInstance()->removeListener(this);
 	for(auto i = actions.begin(); i != actions.end(); ++i) {
 		delete *i;
 	}

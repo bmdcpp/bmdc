@@ -28,7 +28,7 @@
 namespace dcpp {
 
 class SimpleXML;
-class RawManager : public Singleton<RawManager>, private SettingsManagerListener {
+class RawManager : public Singleton<RawManager> {
 public:
 
 	Action::ActionList& getActions() { Lock l(cs); return actions; }
@@ -49,28 +49,16 @@ public:
 	tstring getNameActionId(int actionId);
 	int getValidAction(int actionId);
 
-	// custom points system
-/*	void calcADLAction(int aPoints, int& a, bool& d);
-
-	IntMap& getADLPoints() { Lock l(cs); return points; }
-	void updateADLPoints(IntMap& p) {
-		Lock l(cs);
-		points = p;
-	}*/
 private:
 	friend class Singleton<RawManager>;
 
 	RawManager();
-	~RawManager();
+	virtual ~RawManager();
 
 	void loadActionRaws(SimpleXML& aXml);
 
-//	void on(SettingsManagerListener::Load, SimpleXML& xml) noexcept;
-//	void on(SettingsManagerListener::Save, SimpleXML& xml) noexcept;
-
 	Action::ActionList actions;
 
-//	IntMap points;
 	CriticalSection cs;
 };
 

@@ -279,7 +279,7 @@ QueueItem* QueueManager::UserQueue::getRunning(const UserPtr& aUser) {
 }
 
 void QueueManager::UserQueue::remove(QueueItem* qi, bool removeRunning) {
-	for(QueueItem::SourceConstIter i = qi->getSources().begin(); i != qi->getSources().end(); ++i) {
+	for(auto i = qi->getSources().begin(); i != qi->getSources().end(); ++i) {
 		remove(qi, i->getUser(), removeRunning);
 	}
 }

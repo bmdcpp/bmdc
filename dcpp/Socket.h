@@ -183,7 +183,7 @@ public:
 	GETSET(bool, v4only, V4only);
 	GETSET(string, port, Port);
 protected:
-	typedef union {
+	typedef struct {//union
 		sockaddr sa;
 		sockaddr_in sai;
 		sockaddr_in6 sai6;

@@ -87,13 +87,9 @@ inline auto check(F f, bool blockOk = false) -> decltype(f()) {
 
 		auto error = getLastError();
 
-		//if (error == ENOMEM) return 0;
-
 		if(blockOk && (error == EWOULDBLOCK || error == ENOBUFS || error == EINPROGRESS || error == EAGAIN)) {
 			return -1;
 		}
-		//if(error == EFAULT ||  error == ECONNRESET || error == EDESTADDRREQ || error == ENOTCONN)
-		//	throw SocketException(error);
 
 		if(error != EINTR) {
 			throw SocketException(error);
@@ -849,6 +845,7 @@ void Socket::socksUpdated() {
 			*((long*)(&connStr[4])) = 0;		// No specific outgoing UDP address
 			*((uint16_t*)(&connStr[8])) = 0;	// No specific port...
 
+
 			s.writeAll(connStr, 10, SOCKS_TIMEOUT);
 
 			// We assume we'll get a ipv4 address back...therefore, 10 bytes...if not, things
@@ -864,7 +861,7 @@ void Socket::socksUpdated() {
 			udpAddr.sa.sa_family = AF_INET;
 			udpAddr.sai.sin_port = *((uint16_t*)(&connStr[8]));
 			//udpAddr.sai.sin_addr.S_un.S_addr = *((long*)(&connStr[4]));
-			udpAddr.sai.sin_addr = *((in_addr*)(&connStr[4]));//change
+			udpAddr.sai.sin_addr = *((in_addr*)(&(connStr[4])));//change
 			udpAddrLen = sizeof(udpAddr.sai);
 		} catch(const SocketException&) {
 			dcdebug("Socket: Failed to register with socks server\n");
