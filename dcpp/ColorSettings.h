@@ -16,8 +16,8 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef COLORSETTINGS_H
-#define COLORSETTINGS_H
+#ifndef _COLORSETTINGS_H
+#define _COLORSETTINGS_H
 
 #include "stdinc.h"
 #include "DCPlusPlus.h"

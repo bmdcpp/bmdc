@@ -37,11 +37,11 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	fItem(NULL),
 	bold(false),
 	urgent(false),
+	labelSize((glong)WGETI("size-label-box-bookentry")),
 	icon(NULL),
 	popTabMenuItem(NULL),
 	type(type),
 	IsCloseButton(false)
-
 {
 	GSList *group = NULL;
 	#if GTK_CHECK_VERSION(3, 2, 0)

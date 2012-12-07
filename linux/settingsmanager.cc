@@ -126,6 +126,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("use-flag", 1));
 	defaultInt.insert(IntMap::value_type("bold-all-tab", 1));
 	defaultInt.insert(IntMap::value_type("use-close-button", 0));
+	defaultInt.insert(IntMap::value_type("size-label-box-bookentry",15));
 	defaultInt.insert(IntMap::value_type("max-tooltips", 10));
 	defaultInt.insert(IntMap::value_type("show-commands", 0));
 	defaultInt.insert(IntMap::value_type("use-highlighting", 0));
