@@ -19,8 +19,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef WULFOR_MANAGER_HH
-#define WULFOR_MANAGER_HH
+#ifndef _WULFOR_MANAGER_HH
+#define _WULFOR_MANAGER_HH
 
 #include <gtk/gtk.h>
 #include <glib.h>

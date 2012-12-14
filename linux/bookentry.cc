@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2012 Mank freedcpp@seznam.cz
+ * Copyright © 2010-2012 Mank freedcpp <at> seznam <dot> cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -72,21 +72,18 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
         gtk_button_set_focus_on_click(GTK_BUTTON(closeButton), FALSE);
 
         // Shrink the padding around the close button
-        GtkRcStyle *rcstyle = gtk_rc_style_new();
-        rcstyle->xthickness = rcstyle->ythickness = 0;
-        gtk_widget_modify_style(closeButton, rcstyle);
-        g_object_unref(rcstyle);
-/*
-        GtkCssProvider *provider =  gtk_css_provider_get_default();  
- 	  gtk_css_provider_load_from_data(provider,".button {\n"
+		GtkCssProvider *provider =  gtk_css_provider_new(); 
+		GdkDisplay *display = gdk_display_get_default ();
+		GdkScreen *screen = gdk_display_get_default_screen (display);
+		gtk_style_context_add_provider_for_screen (screen, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+ 
+		gtk_css_provider_load_from_data(provider,".button {\n"
                 "-GtkButton-default-border : 0px;\n" 
                 "-GtkButton-default-outside-border : 0px;\n" 
                 "-GtkButton-inner-border: 0px;\n" 
                 "-GtkWidget-focus-line-width : 0px;\n" 
                 "-GtkWidget-focus-padding : 0px;\n" 
                 "padding: 0px;\n\0",-1, NULL);
-	 GtkStyleContext *context = gtk_widget_get_style_context(closeButton);
-	 gtk_style_context_add_provider (context,provider,GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);*/
         // Add the stock icon to the close button
         GtkWidget *image = gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
         gtk_container_add(GTK_CONTAINER(closeButton), image);
@@ -346,7 +343,7 @@ GtkWidget *BookEntry::createItemFirstMenu()
 					stock = WGETS("icon-queue");
 					info = _("Download Queue");
 					break;
-		case Entry::SEARCHS:		
+		case Entry::SEARCHS:
 		case Entry::SEARCH :
 					stock = WGETS("icon-search");
 					info = _("Search");

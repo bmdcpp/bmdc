@@ -27,6 +27,7 @@
 #include "Singleton.h"
 #include "SettingsManager.h"
 #include "CriticalSection.h"
+
 namespace dcpp {
 class SimpleXML;
 class CalcADLAction: public Singleton<CalcADLAction>, public SettingsManagerListener

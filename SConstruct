@@ -104,7 +104,6 @@ vars.AddVariables(
 	BoolVariable('release', 'Compile the program with optimizations', 0),
 	BoolVariable('profile', 'Compile the program with profiling information', 0),
 	BoolVariable('libnotify', 'Enable notifications through libnotify', 1),
-#	BoolVariable('libgnome', 'Enable Gnome Libs', 1),
 	BoolVariable("libtar", 'Enable Backuping&Exporting with libtar', 1),
 	PathVariable('PREFIX', 'Compile the program with PREFIX as the root for installation', '/usr/local', PathVariable.PathIsDir),
 	('FAKE_ROOT', 'Make scons install the program under a fake root', '')
@@ -198,12 +197,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 #		print '\tNote: You might have the lib but not the headers'
 #		Exit(1)
 
-#	if not conf.CheckPKG('libglade-2.0 >= 2.4'):
-#		print '\tlibglade-2.0 >= 2.4 not found.'
-#		print '\tNote: You might have the lib but not the headers'
-#		Exit(1)
-
-
 	if not conf.CheckCXXHeader('boost/version.hpp', '<>'):
 		print '\tboost not found.'
 		print '\tNote: You might have the lib but not the headers'
@@ -268,14 +261,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 				if conf.CheckPKG('libnotify >= 0.7'):
 					conf.env.Append(CPPDEFINES = 'HAVE_LIBNOTIFY_0_7')
 
-	#GNOME LIBs (use to Sounds)
-#	if conf.env.get('libgnome'):
-#		conf.env['HAVE_GNOME_LIB'] = 0
-#		if not conf.CheckPKG('libgnome-2.0 >= 2.0'):
-#			print '\tlibgnome >= 2.0 not found.'
-#			print '\tNote: You might have the lib but not the headers'
-#		else:
-#			conf.env['HAVE_GNOME_LIB'] = 1
 	#Sounds
 	conf.env['HAVE_CANBERRA_LIB'] = 0
 	if not conf.CheckPKG('libcanberra'):
@@ -284,7 +269,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		Exit(1)
 	else:
 		conf.env['HAVE_CANBERRA_LIB'] = 1	
-
 
 	# MiniUPnPc for UPnP
 	if not conf.CheckLib('libminiupnpc'):
@@ -332,7 +316,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	env.Append(CPPPATH = '#/miniupnp')
 	env.Append(LIBS = 'miniupnpc')
 
-#	env.ParseConfig('pkg-config --libs libglade-2.0')
 #	env.ParseConfig('pkg-config --libs gthread-2.0')
 	env.ParseConfig('pkg-config --libs gtk+-3.0')
 
@@ -356,13 +339,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if LIB_IS_TAR:
 		env.Append(LINKFLAGS = '-ltar')
 		env.Append(LIBS = 'tar')
-
-	#gnome libs
-#	if conf.env.get('libgnome'):
-#		if env['HAVE_GNOME_LIB'] == 1:
-#			env.ParseConfig('pkg-config --cflags libgnome-2.0')
-#			env.ParseConfig('pkg-config --libs libgnome-2.0')
-#			conf.env.Append(CPPDEFINES = '-D_HAVEGNOME')
 
 	if env.get('profile'):
 		env.Append(CXXFLAGS = '-pg')

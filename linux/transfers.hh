@@ -19,8 +19,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef WULFOR_TRANSFERS_HH
-#define WULFOR_TRANSFERS_HH
+#ifndef _BMDC_TRANSFERS_HH
+#define _BMDC_TRANSFERS_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
@@ -121,5 +121,5 @@ class Transfers:
 		PreviewMenu *appsPreviewMenu;
 };
 
-#endif // WULFOR_TRANSFERS_HH
+#endif // BMDC_TRANSFERS_HH
 

@@ -19,8 +19,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef WULFOR_UTIL_H
-#define WULFOR_UTIL_H
+#ifndef _BMDC_UTIL_H
+#define _BMDC_UTIL_H
 
 #include <gtk/gtk.h>
 #include <dcpp/stdinc.h>

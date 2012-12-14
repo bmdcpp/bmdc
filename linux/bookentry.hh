@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2012 Mank freedcpp@seznam.cz
+ * Copyright © 2010-2012 Mank freedcpp <at> seznam <dot> cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef BMDC_BOOK_ENTRY_HH
-#define BMDC_BOOK_ENTRY_HH
+#ifndef _BMDC_BOOK_ENTRY_HH
+#define _BMDC_BOOK_ENTRY_HH
 
 #include "entry.hh"
 
@@ -72,8 +72,7 @@ class BookEntry : public Entry
 
 		bool bold;
 		bool urgent;
-//		/*static */const glong labelSize = 20; ///@todo: make a preference?
-		const glong labelSize;
+		const glong labelSize;//in WSET 
 		GtkWidget *icon;
 		//[BMDC++
 		GdkEventType previous;

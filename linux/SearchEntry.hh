@@ -56,7 +56,9 @@ class SearchEntry: public BookEntry
 		}
 		void setTabPosition_gui(GtkPositionType pos)
 		{ gtk_notebook_set_tab_pos(GTK_NOTEBOOK(getWidget("sebook")), pos);}
+	
 	private:
+	
 		void addBookEntry_gui(BookEntry *entry);
 		GtkWidget *currentPage_gui();
 		void raisePage_gui(GtkWidget *page);
@@ -65,6 +67,7 @@ class SearchEntry: public BookEntry
 		static gboolean onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static void onCloseBookEntry_gui(GtkWidget *widget, gpointer data);
 		BookEntry* findBookEntry(const EntryType type, const std::string &id = "");
+		
 		std::vector<BookEntry*> books;
 };
 #else

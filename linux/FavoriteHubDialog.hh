@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef _FAVORITE_HUB_DIALOG_H_
-#define _FAVORITE_HUB_DIALOG_H_
+#ifndef _BMDC_FAVORITE_HUB_DIALOG_H_
+#define _BMDC_FAVORITE_HUB_DIALOG_H_
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
 #include <dcpp/FavoriteManager.h>
@@ -388,4 +388,4 @@ private:
 
 };
 
-#endif /* _FAVORITE_HUB_DIALOG_H_ */
+#endif /* _BMDC_FAVORITE_HUB_DIALOG_H_ */

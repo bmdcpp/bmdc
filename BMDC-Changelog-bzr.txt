@@ -682,6 +682,8 @@ some cleanup
 Do not -O2 in Debug build on some systems
 ---r200
 Add option to no. of chars in Tabs
+---r201
+remove some remaining gtk2-code in BookEntry
 
 
 
