@@ -176,7 +176,7 @@ void QueueManager::FileQueue::move(QueueItem* qi, const string& aTarget) {
 }
 
 void QueueManager::UserQueue::add(QueueItem* qi) {
-	for(QueueItem::SourceConstIter i = qi->getSources().begin(); i != qi->getSources().end(); ++i) {
+	for(auto i = qi->getSources().begin(); i != qi->getSources().end(); ++i) {
 		add(qi, i->getUser());
 	}
 }
@@ -239,7 +239,7 @@ void QueueManager::UserQueue::addDownload(QueueItem* qi, Download* d) {
 void QueueManager::UserQueue::removeDownload(QueueItem* qi, const UserPtr& user) {
 	running.erase(user);
 
-	for(DownloadList::iterator i = qi->getDownloads().begin(); i != qi->getDownloads().end(); ++i) {
+	for(auto i = qi->getDownloads().begin(); i != qi->getDownloads().end(); ++i) {
 		if((*i)->getUser() == user) {
 			qi->getDownloads().erase(i);
 			break;
@@ -530,7 +530,7 @@ void QueueManager::on(TimerManagerListener::Minute, uint64_t aTick) noexcept {
 
 	}
 
-	for(StringIter i = offlineChecks.begin(); i != offlineChecks.end(); ++i) {
+	for(auto i = offlineChecks.begin(); i != offlineChecks.end(); ++i) {
 		try {
 			remove(*i);
 		} catch(...) {

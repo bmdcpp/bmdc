@@ -100,7 +100,7 @@ OnlineUser* AdcHub::findUser(const uint32_t aSID) const {
 
 OnlineUser* AdcHub::findUser(const CID& aCID) const {
 	Lock l(cs);
-	for(SIDMap::const_iterator i = users.begin(); i != users.end(); ++i) {
+	for(auto i = users.begin(); i != users.end(); ++i) {
 		if(i->second->getUser()->getCID() == aCID) {
 			return i->second;
 		}
@@ -217,7 +217,7 @@ void AdcHub::handle(AdcCommand::SUP, AdcCommand& c) noexcept {
 		return;
 	bool baseOk = false;
 	bool tigrOk = false;
-	for(StringIter i = c.getParameters().begin(); i != c.getParameters().end(); ++i) {
+	for(auto i = c.getParameters().begin(); i != c.getParameters().end(); ++i) {
 		if(*i == BAS0_SUPPORT) {
 			baseOk = true;
 			tigrOk = true;
@@ -321,7 +321,6 @@ void AdcHub::handle(AdcCommand::QUI, AdcCommand& c) noexcept {
 
 	if(s == sid) {
 		// this QUI is directed to us
-
 		string tmp;
 		if(c.getParam("TL", 1, tmp)) {
 			if(tmp == "-1") {
@@ -579,6 +578,7 @@ void AdcHub::handle(AdcCommand::GET, AdcCommand& c) noexcept {
 		if (m > 0) {
 			ShareManager::getInstance()->getBloom(v, k, m, h);
 		}
+		
 		AdcCommand cmd(AdcCommand::CMD_SND, AdcCommand::TYPE_HUB);
 		cmd.addParam(c.getParam(0));
 		cmd.addParam(c.getParam(1));
@@ -736,7 +736,7 @@ void AdcHub::sendUserCmd(const UserCommand& command, const ParamMap& params) {
 		} else {
 			const string& to = command.getTo();
 			Lock l(cs);
-			for(SIDMap::const_iterator i = users.begin(); i != users.end(); ++i) {
+			for(auto i = users.begin(); i != users.end(); ++i) {
 				if(i->second->getIdentity().getNick() == to) {
 					privateMessage(*i->second, cmd);
 					return;
@@ -842,7 +842,7 @@ void AdcHub::search(int aSizeMode, int64_t aSize, int aFileType, const string& a
 		}
 
 		StringTokenizer<string> st(aString, ' ');
-		for(StringIter i = st.getTokens().begin(); i != st.getTokens().end(); ++i) {
+		for(auto i = st.getTokens().begin(); i != st.getTokens().end(); ++i) {
 			c.addParam("AN", *i);
 		}
 
@@ -943,6 +943,7 @@ void AdcHub::sendSearch(AdcCommand& c) {
 void AdcHub::password(const string& pwd) {
 	if(state != STATE_VERIFY)
 		return;
+		
 	if(!salt.empty()) {
 		size_t saltBytes = salt.size() * 5 / 8;
 		boost::scoped_array<uint8_t> buf(new uint8_t[saltBytes]);
@@ -1056,8 +1057,8 @@ void AdcHub::info(bool /*alwaysSend*/) {
 int64_t AdcHub::getAvailable() const {
 	Lock l(cs);
 	int64_t x = 0;
-	for(SIDMap::const_iterator i = users.begin(); i != users.end(); ++i) {
-		x+=i->second->getIdentity().getBytesShared();
+	for(auto i = users.begin(); i != users.end(); ++i) {
+		x += i->second->getIdentity().getBytesShared();
 	}
 	return x;
 }
@@ -1144,7 +1145,7 @@ void AdcHub::refreshuserlist(bool) {
 	Lock l(cs);
 
 	OnlineUserList v;
-	for(SIDIter i = users.begin(); i != users.end(); ++i) {
+	for(auto i = users.begin(); i != users.end(); ++i) {
 		if(i->first != AdcCommand::HUB_SID) {
 			v.push_back(i->second);
 		}

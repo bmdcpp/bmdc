@@ -79,11 +79,11 @@ void FinishedFileItem::update(
 	FinishedItemBase::update(transferred_, milliSeconds_, time_);
 
 	actual += actual_;
-	
+
 	if(crc32Checked_)
 		crc32Checked = true;
 
-	HintedUserList::iterator i = find(users.begin(), users.end(), user);
+	auto i = find(users.begin(), users.end(), user);
 	if(i == users.end())
 		users.push_back(user);
 	else

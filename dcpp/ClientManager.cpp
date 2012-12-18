@@ -626,7 +626,7 @@ void ClientManager::saveUsers() const {
 
 		{
 			Lock l(cs);
-			for(NickMap::const_iterator i = nicks.begin(), iend = nicks.end(); i != iend; ++i) {
+			for(auto i = nicks.begin(), iend = nicks.end(); i != iend; ++i) {
 				if(i->second.second) {
 					xml.addTag("User");
 					xml.addChildAttrib("CID", i->first.toBase32());

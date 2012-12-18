@@ -801,7 +801,7 @@ void ConnectionManager::on(UserConnectionListener::ProtocolError, UserConnection
 
 void ConnectionManager::disconnect(const UserPtr& aUser) {
 	Lock l(cs);
-	for(UserConnectionList::iterator i = userConnections.begin(); i != userConnections.end(); ++i) {
+	for(auto i = userConnections.begin(); i != userConnections.end(); ++i) {
 		UserConnection* uc = *i;
 		if(uc->getUser() == aUser)
 			uc->disconnect(true);

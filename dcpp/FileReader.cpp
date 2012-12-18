@@ -55,7 +55,6 @@ size_t FileReader::read(const string& file, const DataCallback& callback) {
 	return ret;
 }
 
-
 /** Read entire file, never returns READ_FAILED */
 size_t FileReader::readCached(const string& file, const DataCallback& callback) {
 	buffer.resize(getBlockSize(0));

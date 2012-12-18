@@ -146,7 +146,7 @@ void PluginManager::unloadPlugins() {
 
 	// Off we go...
 	string installed;
-	for(pluginList::reverse_iterator i = plugins.rbegin(); i != plugins.rend();) {
+	for(auto i = plugins.rbegin(); i != plugins.rend();) {
 		PluginInfo* plugin = *i;
 		installed.size() ? installed = plugin->getFile() + ";" + installed : installed = plugin->getFile();
 		i = pluginList::reverse_iterator(plugins.erase(i.base()-1));
@@ -196,7 +196,7 @@ bool PluginManager::addInactivePlugin(pluginHandle h) {
 
 void PluginManager::movePlugin(size_t index, int pos) {
 	Lock l(cs);
-	pluginList::iterator i = (plugins.begin() + index);
+	auto i = (plugins.begin() + index);
 	swap(*i, *(i + pos));
 }
 

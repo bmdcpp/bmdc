@@ -82,8 +82,6 @@ UserPtr DirectoryListing::getUserFromFilename(const string& fileName) {
 }
 
 void DirectoryListing::loadFile(const string& name) {
-	string txt;
-
 	// For now, we detect type by ending...
 	string ext = Util::getFileExt(name);
 
@@ -185,7 +183,7 @@ void ListLoader::startTag(const string& name, StringPairList& attribs, bool simp
 			MediaInfo l_mediaXY;
 			const string& l_ts = getAttrib(attribs, sTS, 3);
 
-			if(l_ts.size()) // Extended tags - exists only FlylinkDC++ or StrongDC++ sqlite or clones
+			if(!l_ts.empty()) // Extended tags - exists only FlylinkDC++ or StrongDC++ sqlite or clones
 			{
 				l_br = getAttrib(attribs, sBR, 4);
 				l_mediaXY.init(getAttrib(attribs, sWH, 3), atoi(l_br.c_str()));
@@ -311,13 +309,13 @@ void DirectoryListing::download(Directory* aDir, const string& aTarget, bool hig
 	// First, recurse over the directories
 	Directory::List& lst = aDir->directories;
 	sort(lst.begin(), lst.end(), Directory::Sort());
-	for(Directory::Iter j = lst.begin(); j != lst.end(); ++j) {
+	for(auto j = lst.begin(); j != lst.end(); ++j) {
 		download(*j, target, highPrio);
 	}
 	// Then add the files
 	File::List& l = aDir->files;
 	sort(l.begin(), l.end(), File::FileSort());
-	for(File::Iter i = aDir->files.begin(); i != aDir->files.end(); ++i) {
+	for(auto i = aDir->files.begin(); i != aDir->files.end(); ++i) {
 		File* file = *i;
 		try {
 			download(file, target + file->getName(), false, highPrio);

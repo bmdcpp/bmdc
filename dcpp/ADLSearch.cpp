@@ -397,7 +397,7 @@ void ADLSearchManager::save() {
 
 void ADLSearchManager::matchesFile(DestDirList& destDirVector, DirectoryListing::File *currentFile, string& fullPath) {
 	// Add to any substructure being stored
-	for(DestDirList::iterator id = destDirVector.begin(); id != destDirVector.end(); ++id) {
+	for(auto id = destDirVector.begin(); id != destDirVector.end(); ++id) {
 		if(id->subdir != NULL) {
 			DirectoryListing::File *copyFile = new DirectoryListing::File(*currentFile, true);
 			dcassert(id->subdir->getAdls());
@@ -414,7 +414,7 @@ void ADLSearchManager::matchesFile(DestDirList& destDirVector, DirectoryListing:
 
 	string filePath = fullPath + "\\" + currentFile->getName();
 	// Match searches
-	for(SearchCollection::iterator is = collection.begin(); is != collection.end(); ++is) {
+	for(auto is = collection.begin(); is != collection.end(); ++is) {
 		if(destDirVector[is->ddIndex].fileAdded) {
 			continue;
 		}
@@ -448,7 +448,7 @@ void ADLSearchManager::matchesFile(DestDirList& destDirVector, DirectoryListing:
 
 void ADLSearchManager::matchesDirectory(DestDirList& destDirVector, DirectoryListing::Directory* currentDir, string& fullPath) {
 	// Add to any substructure being stored
-	for(DestDirList::iterator id = destDirVector.begin(); id != destDirVector.end(); ++id) {
+	for(auto id = destDirVector.begin(); id != destDirVector.end(); ++id) {
 		if(id->subdir != NULL) {
 			DirectoryListing::Directory* newDir =
 				new DirectoryListing::AdlDirectory(fullPath, id->subdir, currentDir->getName());
@@ -463,7 +463,7 @@ void ADLSearchManager::matchesDirectory(DestDirList& destDirVector, DirectoryLis
 	}
 
 	// Match searches
-	for(SearchCollection::iterator is = collection.begin(); is != collection.end(); ++is) {
+	for(auto is = collection.begin(); is != collection.end(); ++is) {
 		if(destDirVector[is->ddIndex].subdir != NULL) {
 			continue;
 		}
@@ -471,7 +471,7 @@ void ADLSearchManager::matchesDirectory(DestDirList& destDirVector, DirectoryLis
 			destDirVector[is->ddIndex].subdir =
 				new DirectoryListing::AdlDirectory(fullPath, destDirVector[is->ddIndex].dir, currentDir->getName());
 			destDirVector[is->ddIndex].dir->directories.push_back(destDirVector[is->ddIndex].subdir);
-			
+
 			//RSX++
 			if(is->isForbidden) {
 				destDirVector[is->ddIndex].subdir->setPoints(is->adlsPoints);
@@ -482,7 +482,7 @@ void ADLSearchManager::matchesDirectory(DestDirList& destDirVector, DirectoryLis
 				destDirVector[is->ddIndex].subdir->setFromFavs(is->fromFavs);
 			}
 			//END
-			
+
 			if(breakOnFirst) {
 				// Found a match, search no more
 				break;
@@ -492,7 +492,7 @@ void ADLSearchManager::matchesDirectory(DestDirList& destDirVector, DirectoryLis
 }
 
 void ADLSearchManager::stepUpDirectory(DestDirList& destDirVector) {
-	for(DestDirList::iterator id = destDirVector.begin(); id != destDirVector.end(); ++id) {
+	for(auto id = destDirVector.begin(); id != destDirVector.end(); ++id) {
 		if(id->subdir != NULL) {
 			id->subdir = id->subdir->getParent();
 			if(id->subdir == id->dir) {
@@ -510,7 +510,7 @@ void ADLSearchManager::prepareDestinationDirectories(DestDirList& destDirVector,
 	id->dir  = new DirectoryListing::Directory(root, "<<<" + id->name + ">>>", true, true);
 
 	// Scan all loaded searches
-	for(SearchCollection::iterator is = collection.begin(); is != collection.end(); ++is) {
+	for(auto is = collection.begin(); is != collection.end(); ++is) {
 		// Check empty destination directory
 		if(is->destDir.size() == 0) {
 			// Set to default
@@ -539,7 +539,7 @@ void ADLSearchManager::prepareDestinationDirectories(DestDirList& destDirVector,
 		}
 	}
 	// Prepare all searches
-	for(SearchCollection::iterator ip = collection.begin(); ip != collection.end(); ++ip) {
+	for(auto ip = collection.begin(); ip != collection.end(); ++ip) {
 		ip->prepare(params);
 	}
 }
@@ -548,7 +548,7 @@ void ADLSearchManager::finalizeDestinationDirectories(DestDirList& destDirVector
 	string szDiscard("<<<" + string(_("Discard")) + ">>>");
 
 	// Add non-empty destination directories to the top level
-	for(vector<DestDir>::iterator id = destDirVector.begin(); id != destDirVector.end(); ++id) {
+	for(auto id = destDirVector.begin(); id != destDirVector.end(); ++id) {
 		if(id->dir->files.size() == 0 && id->dir->directories.size() == 0) {
 			delete (id->dir);
 		} else if(Util::stricmp(id->dir->getName(), szDiscard) == 0) {

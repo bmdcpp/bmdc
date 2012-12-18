@@ -16,8 +16,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef DETECTION_MANAGER_H
-#define DETECTION_MANAGER_H
+#ifndef _DETECTION_MANAGER_H
+#define _DETECTION_MANAGER_H
 
 #include "Singleton.h"
 #include "CriticalSection.h"
@@ -30,7 +30,7 @@ class DetectionManager : public Singleton<DetectionManager> {
 public:
 	typedef vector<DetectionEntry> DetectionItems;
 
-	DetectionManager() : profileVersion("N/A"), profileMessage("N/A"), profileUrl("N/A"), 
+	DetectionManager() : profileVersion("N/A"), profileMessage("N/A"), profileUrl("N/A"),
 		userInfoVersion("N/A"), userInfoMessage("N/A"), userInfoUrl("N/A"), lastId(0), ui_lastId(0) { };
 	~DetectionManager() noexcept { save(); det.clear(); };
 

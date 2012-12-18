@@ -20,9 +20,7 @@
 #include "BufferedSocket.h"
 
 #include <algorithm>
-
 //#include <boost/scoped_array.hpp>
-
 #include "ConnectivityManager.h"
 #include "CryptoManager.h"
 #include "SettingsManager.h"
@@ -259,7 +257,7 @@ void BufferedSocket::threadRead() {
 						break;
 					}
 				}
-				if (pos == string::npos) 
+				if (pos == string::npos)
 					left = 0;
 				line = l;
 				break;
@@ -342,15 +340,15 @@ void BufferedSocket::threadSendFile(InputStream* file) {
 		while(writePos < writeBuf.size()) {
 			if(disconnecting)
 				return;
-			
+
 			if(written == -1) {
 				// workaround for OpenSSL (crashes when previous write failed and now retrying with different writeSize)
 				written = sock->write(&writeBuf[writePos], writeSize);
 			} else {
-				writeSize = min(sockSize / 2, writeBuf.size() - writePos);	
+				writeSize = min(sockSize / 2, writeBuf.size() - writePos);
 				written = ThrottleManager::getInstance()->write(sock.get(), &writeBuf[writePos], writeSize);
 			}
-			
+
 			if(written > 0) {
 				writePos += written;
 

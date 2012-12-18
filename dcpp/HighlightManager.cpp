@@ -1,4 +1,4 @@
-/* 
+/*
 * Copyright (C) 2003-2012 Pär Björklund, per.bjorklund@gmail.com
 *
 * This program is free software; you can redistribute it and/or modify
@@ -68,8 +68,7 @@ void HighlightManager::save(SimpleXML& aXml){
 	aXml.addTag("Highlights");
 	aXml.stepIn();
 
-	auto iter = colorSettings.begin();
-	for(;iter != colorSettings.end(); ++iter) {
+	for(auto iter = colorSettings.begin();iter != colorSettings.end(); ++iter) {
 		aXml.addTag("Highlight");
 
 		aXml.addChildAttrib("Match", (*iter).getMatch());

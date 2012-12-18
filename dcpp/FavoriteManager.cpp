@@ -45,9 +45,9 @@ FavoriteHubEntry::FavAction::FavAction(bool _enabled, string _raw /*= Util::empt
 	StringTokenizer<string> tok(_raw, ',');
 	const Action* a = RawManager::getInstance()->findAction(id);
 	if(a != NULL) {
-		for(StringIter j = tok.getTokens().begin(); j != tok.getTokens().end(); ++j) {
+		for(auto j = tok.getTokens().begin(); j != tok.getTokens().end(); ++j) {
 			int rId = Util::toInt(*j);
-			for(Action::RawsList::const_iterator i = a->raw.begin(); i != a->raw.end(); ++i) {
+			for(auto i = a->raw.begin(); i != a->raw.end(); ++i) {
 				if(rId == i->getId()) {
 					raws.push_back(rId);
 					break;
@@ -436,7 +436,7 @@ void FavoriteManager::save() {
 			//BMDC++
 			xml.addChildAttrib("Group", (*i)->getGroup());
 			//BMDC++
-			xml.addChildAttrib("Ip", (*i)->getIp());
+			//xml.addChildAttrib("Ip", (*i)->getIp());
 			xml.addChildAttrib("Mode", (*i)->getMode());
 			xml.addChildAttrib("ChatExtraInfo", (*i)->getChatExtraInfo());
 			xml.addChildAttrib("onConnect", (*i)->getCheckAtConn());
@@ -659,7 +659,7 @@ void FavoriteManager::load(SimpleXML& aXml) {
 			e->setAutoConnect(Util::toInt(aXml.getChildAttrib("AutoConnect")));
 			//BMDC++
 			e->setGroup(aXml.getChildAttrib("Group"));
-			e->setIp(aXml.getChildAttrib("Ip"));
+			//e->setIp(aXml.getChildAttrib("Ip"));
 			e->setMode(aXml.getIntChildAttrib("Mode"));
 			e->setChatExtraInfo(aXml.getChildAttrib("ChatExtraInfo"));
 			e->setCheckAtConn(Util::toInt(aXml.getChildAttrib("onConnect")));

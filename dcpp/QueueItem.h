@@ -97,7 +97,7 @@ public:
 
 		Source(const HintedUser& aUser) : user(aUser) { }
 		Source(const Source& aSource) : Flags(aSource), user(aSource.user) {  }
-		
+
 		bool operator==(const UserPtr& aUser) const { return user == aUser; }
 
 		GETSET(HintedUser, user, User);
@@ -183,7 +183,7 @@ public:
 
 	const string& getTempTarget();
 	void setTempTarget(const string& aTempTarget) { tempTarget = aTempTarget; }
-	
+
 	QueueData* getPluginObject() noexcept;
 
 	GETSET(SegmentSet, done, Done);

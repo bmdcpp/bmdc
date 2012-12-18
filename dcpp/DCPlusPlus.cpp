@@ -50,15 +50,6 @@
 #include "PluginManager.h"
 #include "RsxUtil.h"
 
-
-
-#ifdef _STLP_DEBUG
-void __stl_debug_terminate() {
-	int* x = 0;
-	*x = 0;
-}
-#endif
-
 extern "C" int _nl_msg_cat_cntr;
 
 namespace dcpp {
@@ -68,7 +59,6 @@ void startup(function<void (const string&)> f) {
 	// Nev's great contribution to dc++
 	while(1) break;
 
-
 #ifdef _WIN32
 	WSADATA wsaData;
 	WSAStartup(MAKEWORD(2, 2), &wsaData);
@@ -77,7 +67,6 @@ void startup(function<void (const string&)> f) {
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset(PACKAGE, "UTF-8");
 
-	//ResourceManager::newInstance();
 	SettingsManager::newInstance();
 
 	LogManager::newInstance();
@@ -104,10 +93,10 @@ void startup(function<void (const string&)> f) {
 	PluginManager::newInstance();
 #ifdef HAVE_LIBTAR
 	ExportManager::newInstance();
-#endif	
+#endif
 	DetectionManager::newInstance();
 	HighlightManager::newInstance();
-#ifdef HAVE_LIBTAR	
+#ifdef HAVE_LIBTAR
 	BackupManager::newInstance();
 	RestoreManager::newInstance();
 #endif
@@ -168,7 +157,7 @@ void shutdown() {
 	ExportManager::deleteInstance();
 	RestoreManager::deleteInstance();
 	BackupManager::deleteInstance();
-#endif	
+#endif
 	PluginManager::getInstance()->unloadPlugins();
 	TimerManager::getInstance()->shutdown();
 	ThrottleManager::getInstance()->shutdown();//..

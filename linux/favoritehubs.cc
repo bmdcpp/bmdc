@@ -1157,7 +1157,7 @@ void FavoriteHubs::getFavHubParams_client(const FavoriteHubEntry *entry, StringM
 	params["OnConnect"] = entry->getCheckAtConn() ? "1" : "0";
 	params["ExtraInfo"] = entry->getChatExtraInfo();
 	params["Mode"] = Util::toString(entry->getMode());
-	params["IP"] = entry->getIp();
+	params["IP"] = entry->get(HubSettings::UserIp);
 	params["Hide"] = entry->getHideShare() ? "1" : "0";
 	params["Auto Connect"] = entry->getAutoConnect() ? "1" : "0";
 	params["Protected"] = entry->getProtectUsers();
@@ -1186,7 +1186,7 @@ void FavoriteHubs::addEntry_client(StringMap params)
 	entry.setGroup(params["Group"]);
 	entry.setHideShare(Util::toInt(params["Hide"]));
 	entry.setMode(Util::toInt(params["Mode"]));
-	entry.setIp(params["IP"]);
+	entry.get(HubSettings::UserIp) =  (params["IP"]);
 	entry.get(HubSettings::Email) = params["eMail"];
 	entry.get(HubSettings::ShowJoins) = to3bool(Util::toInt(params["Parts"]));
 	entry.get(HubSettings::FavShowJoins) = to3bool(Util::toInt(params["FavParts"]));
@@ -1228,7 +1228,7 @@ void FavoriteHubs::editEntry_client(string address, StringMap params)
 		entry->setEncoding(params["Encoding"]);
 		entry->setGroup(params["Group"]);
 		entry->setMode(Util::toInt(params["Mode"]));
-		entry->setIp(params["IP"]);
+		entry->get(HubSettings::UserIp) = (params["IP"]);
 		entry->setHideShare(Util::toInt(params["Hide"]));
 		entry->setNotify(Util::toInt(params["Notify"]));
 

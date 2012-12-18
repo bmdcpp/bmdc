@@ -22,37 +22,37 @@
 
 #include "ExportManager.h"
 namespace dcpp {
-	
+
 void ExportManager::export_(const string &to, StringList &paths)
 {
 	Lock l(cs);
 	map<string, StringList> map;
 	map.insert(make_pair(to,paths));
 	ofexporteddata.push_back(map);
-}	
-	
-void ExportManager::exportData(const string &to, StringList &paths)	
+}
+
+void ExportManager::exportData(const string &to, StringList &paths)
 {
 	StringPairList files;
-	try {	
-	Lock l(cs);
-	
-	for(auto i = paths.cbegin(); i != paths.cend(); ++i) {
+	try {
+		Lock l(cs);
+
+		for(auto i = paths.cbegin(); i != paths.cend(); ++i) {
 			files.push_back(make_pair(*i, Util::getFileName(*i)));
+		}
+
+		TarFile tar;
+		tar.CreateTarredFile(to,files);
+		LogManager::getInstance()->message(_("[ExportManager] Succesfull tarred exported data"));
 	}
-	
-	TarFile tar;
-	tar.CreateTarredFile(to,files);
-	LogManager::getInstance()->message(_("[ExportManager] Succesfull tarred exported data"));
-	}	
-	catch(...){ 
+	catch(...){
 	}
 }
 
 string ExportManager::importData(const string &from)
 {
 	Lock l(cs);
-	try {	
+	try {
 		TarFile tar;
 		tar.DecompresTarredFile(from, Util::getPath(Util::PATH_USER_CONFIG));
 	}catch(...){
@@ -69,12 +69,12 @@ int ExportManager::run()
 	{
 		s.wait(500);
 		if(stop)break;
-		
+
 		while(!ofexporteddata.empty())
 		{
-			map<string, StringList> ii = ofexporteddata.front();	
+			map<string, StringList> ii = ofexporteddata.front();
 			ofexporteddata.pop_front();
-			for(map<string, StringList>::iterator iit = ii.begin(); iit!=ii.end(); ++iit)
+			for(auto iit = ii.begin(); iit!=ii.end(); ++iit)
 				exportData((*iit).first,(*iit).second);
 		}
 	}

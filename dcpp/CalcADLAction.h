@@ -18,8 +18,8 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#ifndef CALC_ADL_H
-#define CALC_ADL_H
+#ifndef _CALC_ADL_H
+#define _CALC_ADL_H
 
 #include "stdinc.h"
 #include "DCPlusPlus.h"
@@ -48,5 +48,5 @@ class CalcADLAction: public Singleton<CalcADLAction>, public SettingsManagerList
 		void on(SettingsManagerListener::Save, SimpleXML& xml) noexcept;
 
 };
-}
+}//dcpp
 #endif

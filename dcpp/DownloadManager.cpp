@@ -65,7 +65,7 @@ void DownloadManager::on(TimerManagerListener::Second, uint64_t aTick) noexcept 
 		DownloadList tickList;
 
 		// Tick each ongoing download
-		for(DownloadList::iterator i = downloads.begin(); i != downloads.end(); ++i) {
+		for(auto i = downloads.begin(); i != downloads.end(); ++i) {
 			if((*i)->getPos() > 0) {
 				tickList.push_back(*i);
 				(*i)->tick();
@@ -109,7 +109,7 @@ void DownloadManager::on(TimerManagerListener::Second, uint64_t aTick) noexcept 
 
 void DownloadManager::checkIdle(const HintedUser& user) {
 	Lock l(cs);
-	for(UserConnectionList::iterator i = idlers.begin(); i != idlers.end(); ++i) {
+	for(auto i = idlers.begin(); i != idlers.end(); ++i) {
 		UserConnection* uc = *i;
 		if(uc->getUser() == user.user) {
 			if(Util::stricmp(uc->getHubUrl(), user.hint) != 0) {
@@ -387,7 +387,7 @@ void DownloadManager::endData(UserConnection* aSource) {
 int64_t DownloadManager::getRunningAverage() {
 	Lock l(cs);
 	int64_t avg = 0;
-	for(DownloadList::iterator i = downloads.begin(); i != downloads.end(); ++i) {
+	for(auto i = downloads.begin(); i != downloads.end(); ++i) {
 		Download* d = *i;
 		avg += d->getAverageSpeed();
 	}

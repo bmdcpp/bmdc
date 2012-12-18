@@ -631,7 +631,7 @@ Fix Group Combobox
 Sound on Start Downloading..
 Add Emoticons to Fav Dialog
 ----r178
-Fixed color of BackGround 
+Fixed color of BackGround
 -----r180
 Removed FastAloc class ( for speedup)
 Add IP Tag to pm too
@@ -657,7 +657,7 @@ Some boost::scoped_array -> std::shared_ptr
 ----r189
 Fixed menu in Download Queue
 ----r190
-Fixed typpo in Higltiing settings 
+Fixed typpo in Higltiing settings
 Move some of FakeChecker Fuctions to parent function(FakeChecker) of ClientManager
 ----r191
 Fix Settings color of IPs
@@ -674,7 +674,7 @@ Away status on NMDC
 ---r196
 Seperate Calc ADL Points
 ---r197
-Remove some unused code 
+Remove some unused code
 Add one more message to /bmdc
 ---r198
 some cleanup
@@ -684,6 +684,8 @@ Do not -O2 in Debug build on some systems
 Add option to no. of chars in Tabs
 ---r201
 remove some remaining gtk2-code in BookEntry
+---r202
+Some more auto in for-cycles
 
 
 

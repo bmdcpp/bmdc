@@ -31,7 +31,7 @@ public:
 
 	void add(const string& s) { xadd(s, N); }
 	bool match(const StringList& s) const {
-		for(StringList::const_iterator i = s.begin(); i != s.end(); ++i) {
+		for(auto i = s.begin(); i != s.end(); ++i) {
 			if(!match(*i))
 				return false;
 		}
@@ -40,7 +40,7 @@ public:
 	bool match(const string& s) const {
 		if(s.length() >= N) {
 			string::size_type l = s.length() - N;
-			for(string::size_type i = 0; i <= l; ++i) {
+			for(auto i = 0; i <= l; ++i) {
 				if(!table[getPos(s, i, N)]) {
 					return false;
 				}
@@ -67,7 +67,7 @@ private:
 	void xadd(const string& s, size_t n) {
 		if(s.length() >= n) {
 			string::size_type l = s.length() - n;
-			for(string::size_type i = 0; i <= l; ++i) {
+			for(auto i = 0; i <= l; ++i) {
 				table[getPos(s, i, n)] = true;
 			}
 		}

@@ -1,7 +1,7 @@
 Mank
 branec (icons)
 iceman50 (ZLIF & hash password on NMDC)
-curse (ShellCommand&custom rc styles)
-troll.freedcpp (FreeDC++ code)
+curse (ShellCommand)
+troll.freedcpp (FreeDC++)
 LinuxDC++ autors
 

@@ -468,7 +468,7 @@ void DetectionManager::ProfilesSave() {
 		xml.stepIn();
 
 		Lock l(cs);
-		for(DetectionItems::const_iterator i = det.begin(); i != det.end(); ++i) {
+		for(auto i = det.begin(); i != det.end(); ++i) {
 			xml.addTag("DetectionProfile");
 			xml.stepIn();
 			{
@@ -589,7 +589,7 @@ void DetectionManager::validateItem(const DetectionEntry& e, bool checkIds, bool
 	Lock l(cs);
 	const DetectionItems& list = isUserInfo ? ui_det : det;
 	if(checkIds && e.Id > 0) {
-		for(DetectionItems::const_iterator i = list.begin(); i != list.end(); ++i) {
+		for(auto i = list.begin(); i != list.end(); ++i) {
 			if(i->Id == e.Id || e.Id <= 0) {
 				throw Exception("Item with this ID already exist!");
 			}
@@ -601,7 +601,7 @@ void DetectionManager::validateItem(const DetectionEntry& e, bool checkIds, bool
 
 	{
 		const DetectionEntry::INFMap& inf = e.defaultMap;
-		for(DetectionEntry::INFMap::const_iterator i = inf.begin(); i != inf.end(); ++i) {
+		for(auto i = inf.begin(); i != inf.end(); ++i) {
 			if(i->first == Util::emptyString)
 				throw Exception("INF entry name can't be empty!");
 			else if(i->second == Util::emptyString)
@@ -610,7 +610,7 @@ void DetectionManager::validateItem(const DetectionEntry& e, bool checkIds, bool
 	}
 	{
 		const DetectionEntry::INFMap& inf = e.nmdcMap;
-		for(DetectionEntry::INFMap::const_iterator i = inf.begin(); i != inf.end(); ++i) {
+		for(auto i = inf.begin(); i != inf.end(); ++i) {
 			if(i->first == Util::emptyString)
 				throw Exception("INF entry name can't be empty!");
 			else if(i->second == Util::emptyString)
@@ -619,7 +619,7 @@ void DetectionManager::validateItem(const DetectionEntry& e, bool checkIds, bool
 	}
 	{
 		const DetectionEntry::INFMap& inf = e.adcMap;
-		for(DetectionEntry::INFMap::const_iterator i = inf.begin(); i != inf.end(); ++i) {
+		for(auto i = inf.begin(); i != inf.end(); ++i) {
 			if(i->first == Util::emptyString)
 				throw Exception("INF entry name can't be empty!");
 			else if(i->second == Util::emptyString)
@@ -633,7 +633,7 @@ void DetectionManager::validateItem(const DetectionEntry& e, bool checkIds, bool
 void DetectionManager::removeDetectionItem(const uint32_t id, bool isUserInfo /*=false*/) throw() {
 	Lock l(cs);
 	DetectionItems& list = isUserInfo ? ui_det : det;
-	for(DetectionItems::iterator i = list.begin(); i != list.end(); ++i) {
+	for(auto i = list.begin(); i != list.end(); ++i) {
 		if(i->Id == id) {
 			list.erase(i);
 			return;
@@ -645,7 +645,7 @@ void DetectionManager::updateDetectionItem(const uint32_t aOrigId, const Detecti
 	Lock l(cs);
 	DetectionItems& list = isUserInfo ? ui_det : det;
 	validateItem(e, e.Id != aOrigId, isUserInfo);
-	for(DetectionItems::iterator i = list.begin(); i != list.end(); ++i) {
+	for(auto i = list.begin(); i != list.end(); ++i) {
 		if(i->Id == aOrigId) {
 			*i = e;
 			break;
@@ -656,7 +656,7 @@ void DetectionManager::updateDetectionItem(const uint32_t aOrigId, const Detecti
 bool DetectionManager::getDetectionItem(const uint32_t aId, DetectionEntry& e, bool isUserInfo /*=false*/) throw() {
 	Lock l(cs);
 	DetectionItems& list = isUserInfo ? ui_det : det;
-	for(DetectionItems::iterator i = list.begin(); i != list.end(); ++i) {
+	for(auto i = list.begin(); i != list.end(); ++i) {
 		if(i->Id == aId) {
 			e = *i;
 			return true;
@@ -668,7 +668,7 @@ bool DetectionManager::getDetectionItem(const uint32_t aId, DetectionEntry& e, b
 bool DetectionManager::getNextDetectionItem(const uint32_t aId, int pos, DetectionEntry& e, bool isUserInfo /*=false*/) throw() {
 	Lock l(cs);
 	DetectionItems& list = isUserInfo ? ui_det : det;
-	for(DetectionItems::iterator i = list.begin(); i != list.end(); ++i) {
+	for(auto i = list.begin(); i != list.end(); ++i) {
 		if(i->Id == aId) {
 			i += pos;
 			if(i < list.end() && i >= list.begin()) {
@@ -684,7 +684,7 @@ bool DetectionManager::getNextDetectionItem(const uint32_t aId, int pos, Detecti
 bool DetectionManager::moveDetectionItem(const uint32_t aId, int pos, bool isUserInfo /*=false*/) {
 	Lock l(cs);
 	DetectionItems& list = isUserInfo ? ui_det : det;
-	for(DetectionItems::iterator i = list.begin(); i != list.end(); ++i) {
+	for(auto i = list.begin(); i != list.end(); ++i) {
 		if(i->Id == aId) {
 			std::swap(*i, *(i + pos));
 			return true;
@@ -696,7 +696,7 @@ bool DetectionManager::moveDetectionItem(const uint32_t aId, int pos, bool isUse
 void DetectionManager::setItemEnabled(const uint32_t aId, bool enabled, bool isUserInfo /*=false*/) throw() {
 	Lock l(cs);
 	DetectionItems& list = isUserInfo ? ui_det : det;
-	for(DetectionItems::iterator i = list.begin(); i != list.end(); ++i) {
+	for(auto i = list.begin(); i != list.end(); ++i) {
 		if(i->Id == aId) {
 			i->isEnabled = enabled;
 			break;

@@ -1,8 +1,8 @@
 //-----------------------------------------------------------------------------
 //(c) 2011 http://flylinkdc.blogspot.com, pavel.pimenov@gmail.com
 //-----------------------------------------------------------------------------
-#ifndef MediaInfo_H
-#define MediaInfo_H
+#ifndef MEDIA_INFO_H
+#define MEDIA_INFO_H
 
 #include <string>
 
