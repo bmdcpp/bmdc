@@ -17,8 +17,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BMDC_SPLASH_HH
-#define BMDC_SPLASH_HH
+#ifndef _BMDC_SPLASH_HH_
+#define _BMDC_SPLASH_HH_
 #include <iostream>
 #include <gtk/gtk.h>
 

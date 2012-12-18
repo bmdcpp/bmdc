@@ -906,11 +906,8 @@ void MainWindow::setMainStatus_gui(string text, time_t t)
       	  }
    		     statustext.push(text);
 
-       #if !GTK_CHECK_VERSION(2, 12, 0)
-             gtk_tooltips_set_tip (statusTips, getWidget("labelStatus"), statusTextOnToolTip.c_str(), NULL);
-       #else
-             gtk_widget_set_tooltip_text(getWidget("labelStatus"), statusTextOnToolTip.c_str());
-       #endif
+       gtk_widget_set_tooltip_text(getWidget("labelStatus"), statusTextOnToolTip.c_str());
+
 	}
 }
 

@@ -24,7 +24,7 @@
 #include "ShellCommand.hh"
 #include "wulformanager.hh"
 
-ShellCommand::ShellCommand(char* input, int len, int shell): output(dcpp::Util::emptyString)
+ShellCommand::ShellCommand(char* input, int len, bool shell): output(dcpp::Util::emptyString)
 {
 	thirdPerson = false;
 	resultsize = len;
@@ -33,9 +33,9 @@ ShellCommand::ShellCommand(char* input, int len, int shell): output(dcpp::Util::
 	strcpy(errormessage,"");
 	error = 0;
 	char command[strlen(input)+11];//declaration for the final command that will be executed
-	memset(input,0,strlen(input)+11);
+	memset(command,0,strlen(input)+10);
 
-	if (shell == 0)
+	if (shell)
 	{
 		char testscript[strlen(input)+28];
 		strcpy(testscript,("test -e "+ WulforManager::get()->getPath() + "/extensions/Scripts/").c_str());
@@ -96,11 +96,13 @@ ShellCommand::ShellCommand(char* input, int len, int shell): output(dcpp::Util::
 	if (error == 0)
 	{
 		FILE* f;
-		char *out = new char[resultsize];
-        f = popen(command,"r");
+		char* out = NULL;
+		f = popen(command,"r");
         fgets(out,resultsize,f);
-		output = out;
-		delete[] out;
+		if(out != NULL) {
+			output = std::string(out);
+			delete[] out;
+		}
         pclose(f);
         //remove trailing newline
 

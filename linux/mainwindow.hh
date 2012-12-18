@@ -20,8 +20,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef BMDC_MAIN_WINDOW_HH
-#define BMDC_MAIN_WINDOW_HH
+#ifndef _BMDC_MAIN_WINDOW_HH_
+#define _BMDC_MAIN_WINDOW_HH_
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
@@ -142,7 +142,7 @@ class MainWindow:
 			setStatusOfIcons(AWAY,isAway);
 		}
 		SearchEntry *getSearchEntry () { return dynamic_cast<SearchEntry*>(findBookEntry(Entry::SEARCHS));}
-		
+
 	private:
 		typedef std::pair<std::string, std::string> ParamPair;
 		typedef std::vector<ParamPair> ListParamPair;
@@ -273,9 +273,6 @@ class MainWindow:
 		GtkWindow *window;
 		Transfers* transfers;
 		GtkStatusIcon *statusIcon;
-		#if !GTK_CHECK_VERSION(2, 12, 0)
-			GtkTooltips *statusTips;
-		#endif
 		int64_t lastUpdate, lastUp, lastDown;
 		bool minimized;
 		dcpp::StringList EntryList;
@@ -314,6 +311,7 @@ class MainWindow:
 
         void back(std::string TTH, std::string filename, int64_t size);
         void progress(bool progress);
+
         struct TTHHash: public dcpp::Thread
         {
 			public:

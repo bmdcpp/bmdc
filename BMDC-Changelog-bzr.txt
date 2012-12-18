@@ -686,6 +686,9 @@ Add option to no. of chars in Tabs
 remove some remaining gtk2-code in BookEntry
 ---r202
 Some more auto in for-cycles
+---r203
+May fix ShellCommands class..
+Remove some cruft from gtk2 version..
 
 
 

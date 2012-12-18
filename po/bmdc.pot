@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-12-18 00:24+0100\n"
+"POT-Creation-Date: 2012-12-18 18:33+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -562,7 +562,7 @@ msgid "Away mode message on/off"
 msgstr ""
 
 #: ui/hub.glade.ui:26 ui/privatemessage.glade.ui:26 linux/WulforUtil.cc:907
-#: linux/WulforUtil.cc:926 linux/mainwindow.cc:2281
+#: linux/WulforUtil.cc:926 linux/mainwindow.cc:2278
 #: linux/privatemessage.cc:1083
 msgid "Away mode off"
 msgstr ""
@@ -724,8 +724,8 @@ msgid "Choose a File"
 msgstr ""
 
 #: ui/search.glade.ui:7 ui/settingsdialog.glade.ui:9034
-#: ui/sharebrowser.glade.ui:7 linux/hub.cc:2913 linux/mainwindow.cc:1623
-#: linux/mainwindow.cc:1691 linux/privatemessage.cc:1360
+#: ui/sharebrowser.glade.ui:7 linux/hub.cc:2913 linux/mainwindow.cc:1620
+#: linux/mainwindow.cc:1688 linux/privatemessage.cc:1360
 msgid "Choose a directory"
 msgstr ""
 
@@ -2182,7 +2182,7 @@ msgstr ""
 msgid "Select Text Color"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:797 linux/mainwindow.cc:2374
+#: ui/mainwindow.glade.ui:797 linux/mainwindow.cc:2371
 msgid "Select filelist to browse"
 msgstr ""
 
@@ -2767,8 +2767,8 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:3360 ui/settingsdialog.glade.ui:3376
 #: ui/settingsdialog.glade.ui:3422 linux/hashdialog.cc:77
-#: linux/mainwindow.cc:942 linux/mainwindow.cc:943 linux/mainwindow.cc:2740
-#: linux/mainwindow.cc:2742 linux/treeview.cc:213
+#: linux/mainwindow.cc:939 linux/mainwindow.cc:940 linux/mainwindow.cc:2737
+#: linux/mainwindow.cc:2739 linux/treeview.cc:213
 msgid "s"
 msgstr ""
 
@@ -2996,7 +2996,7 @@ msgstr ""
 msgid "<b>Under what name you see the directory</b>"
 msgstr ""
 
-#: linux/mainwindow.cc:2715
+#: linux/mainwindow.cc:2712
 msgid "<b>file:</b> "
 msgstr ""
 
@@ -3144,7 +3144,7 @@ msgstr ""
 msgid "Away Icon"
 msgstr ""
 
-#: linux/mainwindow.cc:2290
+#: linux/mainwindow.cc:2287
 msgid "Away mode on"
 msgstr ""
 
@@ -3473,7 +3473,7 @@ msgstr ""
 msgid "Emotion packs"
 msgstr ""
 
-#: linux/mainwindow.cc:1041
+#: linux/mainwindow.cc:1038
 msgid "Empty hub address specified"
 msgstr ""
 
@@ -3913,7 +3913,7 @@ msgstr ""
 msgid "Loaded plugins: "
 msgstr ""
 
-#: linux/mainwindow.cc:2411
+#: linux/mainwindow.cc:2408
 msgid "Loading Own file list"
 msgstr ""
 
@@ -3921,11 +3921,11 @@ msgstr ""
 msgid "Log Ignored Messages as STATUS mess"
 msgstr ""
 
-#: linux/mainwindow.cc:1684
+#: linux/mainwindow.cc:1681
 msgid "Magnet Choice"
 msgstr ""
 
-#: linux/mainwindow.cc:1614
+#: linux/mainwindow.cc:1611
 msgid "Magnet Properties / Choice"
 msgstr ""
 
@@ -4250,7 +4250,7 @@ msgstr ""
 msgid "Select Font"
 msgstr ""
 
-#: linux/mainwindow.cc:2779
+#: linux/mainwindow.cc:2776
 msgid "Select file to Get TTH"
 msgstr ""
 
@@ -4322,7 +4322,7 @@ msgstr ""
 msgid "Shared"
 msgstr ""
 
-#: linux/mainwindow.cc:933
+#: linux/mainwindow.cc:930
 msgid "Shared: "
 msgstr ""
 
@@ -4424,7 +4424,7 @@ msgstr ""
 msgid "Slots"
 msgstr ""
 
-#: linux/mainwindow.cc:932
+#: linux/mainwindow.cc:929
 msgid "Slots: "
 msgstr ""
 
@@ -4527,11 +4527,11 @@ msgstr ""
 msgid "Tag"
 msgstr ""
 
-#: linux/mainwindow.cc:2907
+#: linux/mainwindow.cc:2904
 msgid "The GeoIP database could not be updated...v"
 msgstr ""
 
-#: linux/mainwindow.cc:2902
+#: linux/mainwindow.cc:2899
 msgid ""
 "The GeoIP database has been successfully updated; restart DC++ to apply....v"
 msgstr ""
@@ -4617,7 +4617,7 @@ msgstr ""
 msgid "Unable to load file list: "
 msgstr ""
 
-#: linux/mainwindow.cc:2399
+#: linux/mainwindow.cc:2396
 msgid "Unable to load file list: Invalid file list name"
 msgstr ""
 
@@ -4638,7 +4638,7 @@ msgstr ""
 msgid "Updated frame search"
 msgstr ""
 
-#: linux/mainwindow.cc:2890
+#: linux/mainwindow.cc:2887
 msgid "Updating the GeoIP database...v"
 msgstr ""
 
@@ -5028,7 +5028,7 @@ msgstr ""
 msgid "default theme"
 msgstr ""
 
-#: linux/mainwindow.cc:2691
+#: linux/mainwindow.cc:2688
 msgid "file list from "
 msgstr ""
 
