@@ -20,8 +20,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef SEARCH_ADL_H
-#define SEARCH_ADL_H
+#ifndef _SEARCH_ADL_H
+#define _SEARCH_ADL_H
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>

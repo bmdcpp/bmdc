@@ -1465,7 +1465,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="border_width">8</property>
-                <property name="spacing">8</property>
+                <property name="spacing">4</property>
                 <child>
                   <object class="GtkFrame" id="fra5mes">
                     <property name="visible">True</property>
@@ -1475,8 +1475,11 @@
                       <object class="GtkTable" id="tables">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="homogeneous">True</property>
+                        <property name="x_options">GTK_FILL|GTK_SHRINK</property>
+                        <property name="y_options">GTK_FILL|GTK_SHRINK</property>
                         <property name="border_width">8</property>
-                        <property name="n_rows">5</property>
+                        <property name="n_rows">7</property>
                         <property name="n_columns">2</property>
                         <property name="column_spacing">0</property>
                         <property name="row_spacing">0</property>

@@ -692,6 +692,8 @@ Remove some cruft from gtk2 version..
 ---r204
 Close file after load in FavoriteManager::load
 We Dont Interesting what/where is sending LogedIn on NMDC
+---r205
+Partialy Fix Settings Combobox
 
 
 
