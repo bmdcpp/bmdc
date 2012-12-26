@@ -602,8 +602,9 @@ void FavoriteManager::load() {
 	try {
 		SimpleXML xml;
 		Util::migrate(getConfigFile());
-		xml.fromXML(File(getConfigFile(), File::READ, File::OPEN).read());
-
+		File f(getConfigFile(), File::READ, File::OPEN);
+		xml.fromXML(f.read());
+		f.close();
 		if(xml.findChild("Favorites")) {
 			xml.stepIn();
 			load(xml);
@@ -617,8 +618,9 @@ void FavoriteManager::load() {
 		Util::migrate(Util::getPath(Util::PATH_USER_CONFIG) + "Recents.xml");
 
 		SimpleXML xml;
-		xml.fromXML(File(Util::getPath(Util::PATH_USER_CONFIG) + "Recents.xml", File::READ, File::OPEN).read());
-
+		File f(Util::getPath(Util::PATH_USER_CONFIG) + "Recents.xml", File::READ, File::OPEN);
+		xml.fromXML(f.read());
+		f.close();
 		if(xml.findChild("Recents")) {
 			xml.stepIn();
 			recentload(xml);

@@ -1,6 +1,6 @@
 /*
  * FavoriteHubDialog.hh
- * This file is part of BMDC++ 
+ * This file is part of BMDC++
  *
  * Copyright (C) 2012 - Mank
  *
@@ -8,12 +8,12 @@
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
- * 
+ *
  * BMDC++ is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
@@ -21,6 +21,7 @@
 
 #ifndef _BMDC_FAVORITE_HUB_DIALOG_H_
 #define _BMDC_FAVORITE_HUB_DIALOG_H_
+
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
 #include <dcpp/FavoriteManager.h>
@@ -33,30 +34,29 @@ using namespace dcpp;
 
 class FavoriteHubDialog: public Entry
 {
-	typedef std::unordered_map<std::string, GtkTreeIter> FavHubGroupsIter;	
-   public:		
+	typedef std::unordered_map<std::string, GtkTreeIter> FavHubGroupsIter;
+   public:
 
 	FavoriteHubDialog(bool add = true):
 	Entry(Entry::FAV_HUB,"FavDialog.glade"),
-	init(add), actionStore(NULL), actionSel(NULL)		
+	init(add), actionStore(NULL), actionSel(NULL)
 	{
 		///Actions
-	actionView.setView(GTK_TREE_VIEW(getWidget("rawview")));
-	actionView.insertColumn(_("Name"), G_TYPE_STRING,TreeView::STRING,100);
-	actionView.insertColumn(_("Enabled"), G_TYPE_BOOLEAN, TreeView::BOOL,100);
-	actionView.insertHiddenColumn("ISRAW", G_TYPE_BOOLEAN);
-	actionView.insertHiddenColumn("ID", G_TYPE_INT);
-	actionView.finalize();
-	actionStore = gtk_tree_store_newv(actionView.getColCount(),actionView.getGTypes());
-	gtk_tree_view_set_model(actionView.get(),GTK_TREE_MODEL(actionStore));
-	g_object_unref(actionStore);
-	actionSel = gtk_tree_view_get_selection(actionView.get());
+		actionView.setView(GTK_TREE_VIEW(getWidget("rawview")));
+		actionView.insertColumn(_("Name"), G_TYPE_STRING,TreeView::STRING,100);
+		actionView.insertColumn(_("Enabled"), G_TYPE_BOOLEAN, TreeView::BOOL,100);
+		actionView.insertHiddenColumn("ISRAW", G_TYPE_BOOLEAN);
+		actionView.insertHiddenColumn("ID", G_TYPE_INT);
+		actionView.finalize();
+		actionStore = gtk_tree_store_newv(actionView.getColCount(),actionView.getGTypes());
+		gtk_tree_view_set_model(actionView.get(),GTK_TREE_MODEL(actionStore));
+		g_object_unref(actionStore);
+		actionSel = gtk_tree_view_get_selection(actionView.get());
 
-	g_signal_connect(getWidget("checkbuttonEncoding"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("comboboxCharset"));
-	g_signal_connect(getWidget("checkbuttonNick"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("entryNick"));
-	g_signal_connect(getWidget("checkbuttonUserDescription"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("entryUserDescription"));
-	g_signal_connect(actionView.getCellRenderOf(_("Enabled")), "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
-
+		g_signal_connect(getWidget("checkbuttonEncoding"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("comboboxCharset"));
+		g_signal_connect(getWidget("checkbuttonNick"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("entryNick"));
+		g_signal_connect(getWidget("checkbuttonUserDescription"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("entryUserDescription"));
+		g_signal_connect(actionView.getCellRenderOf(_("Enabled")), "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
 	}
 
 	bool initDialog(FavHubGroupsIter &groups, dcpp::StringMap &params)
@@ -77,6 +77,7 @@ class FavoriteHubDialog: public Entry
 			gtk_list_store_set(store, &iter, 0, i->first.c_str(), -1);
 			groups.insert(FavHubGroupsIter::value_type(i->first, iter));
 		}
+
 		string path = WulforManager::get()->getPath() + G_DIR_SEPARATOR_S + "emoticons" + G_DIR_SEPARATOR_S;
 		auto files = File::findFiles(path, "*.xml");
 		for(auto fi = files.begin(); fi != files.end();++fi) {
@@ -114,7 +115,8 @@ class FavoriteHubDialog: public Entry
 			params["Country"] = "0";
 			params["showip"] = "0";
 			params["BoldTab"] = "1";
-			params["PackName"] = "bmicon";
+			params["PackName"] = "bmicon";//emoticons
+
 		}//end
 
 		gtk_dialog_set_alternative_button_order(GTK_DIALOG(getContainer()), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
@@ -125,14 +127,14 @@ class FavoriteHubDialog: public Entry
 
 		gtk_window_set_transient_for(GTK_WINDOW(getContainer()),
 		GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()));
-		
+
 		// Fill the charset drop-down list in edit fav hub dialog.
 		auto& charsets = WulforUtil::getCharsets();
 		for (auto ic = charsets.begin(); ic != charsets.end(); ++ic)
 		{
 			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxCharset")), (*ic).c_str());
 		}
-		
+
 		initActions();
 		// Populate the dialog with initial values
 		gtk_entry_set_text(GTK_ENTRY(getWidget("entryName")), params["Name"].c_str());
@@ -167,18 +169,18 @@ class FavoriteHubDialog: public Entry
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonEncoding")), overrideEncoding);
 
 		for(auto ii = charsets.begin(); ii!=charsets.end(); ++ii) {
-			if(params["Encoding"] == *ii) {	
+			if(params["Encoding"] == *ii) {
 				gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxCharset")), (ii - charsets.begin()));
 			}
 		}
 		for(auto fii = files.begin(); fii!= files.end(); ++fii) {
-			auto needle = Util::getFileName(*fii).find(".");	
+			auto needle = Util::getFileName(*fii).find(".");
 			string tmp  = Util::getFileName(*fii).substr(0,needle);
 			if(params["PackName"] == tmp) {
 				gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxEmot")), (fii - files.begin()));
 			}
 		}
-		
+
 		// Set the override default nick checkbox
 		gboolean overrideNick = !(params["Nick"].empty() || params["Nick"] == SETTING(NICK));
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonNick")), overrideNick);
@@ -242,14 +244,14 @@ class FavoriteHubDialog: public Entry
 				if(group) {
 					params["Group"] = string(group);
 					g_free(group);
-			   	}	
+			   	}
 			}
 
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonEncoding"))))
 		{
 			gchar *encoding = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxCharset")));
 			if(encoding)
-			{		
+			{
 				params["Encoding"] = string(encoding);
 				g_free(encoding);
 			}
@@ -257,7 +259,7 @@ class FavoriteHubDialog: public Entry
 
 		gchar *pack = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxEmot")));
 		if(pack)
-		{		
+		{
 			params["PackName"] = string(pack);
 			g_free(pack);
 		}
@@ -295,7 +297,7 @@ class FavoriteHubDialog: public Entry
 	}
 
 	gtk_widget_hide(getContainer());
-	return FALSE;		
+	return FALSE;
 
 	}
 	~FavoriteHubDialog() { }
@@ -369,7 +371,7 @@ private:
 				gtk_widget_grab_focus(widget);
 			}
 	}
-	
+
 	bool showErrorDialog_gui(const string &description)
 	{
 		GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(getContainer()),

@@ -497,7 +497,6 @@ bool QueueManager::getTTH(const string& name, TTHValue& tth) noexcept {
 }
 
 void QueueManager::on(TimerManagerListener::Minute, uint64_t aTick) noexcept {
-//	string fn;
 	string searchString;
 	bool online = false;
 	StringList offlineChecks; //BMDC/RSXlike
@@ -558,7 +557,7 @@ void QueueManager::add(const string& aTarget, int64_t aSize, const TTHValue& roo
 {
 	auto gotoend = [this,&aUser] (bool wantConnection) -> void {
 		if(wantConnection && aUser.user->isOnline())
-		ConnectionManager::getInstance()->getDownloadConnection(aUser);};
+		ConnectionManager::getInstance()->getDownloadConnection(aUser); };
 	bool wantConnection = true;
 
 	// Check that we're not downloading from ourselves...

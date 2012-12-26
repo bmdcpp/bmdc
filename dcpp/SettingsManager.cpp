@@ -401,6 +401,8 @@ SettingsManager::SettingsManager()
 	setDefault(EMOT_PACK, "bmicon");
 	setDefault(DONT_ALOW_CHATROOMS, true);
 
+	setDefault(TIME_RECCON, 10);
+
 	setSearchTypeDefaults();
 
 #ifdef _WIN32

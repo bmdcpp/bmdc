@@ -1172,7 +1172,7 @@ void ShareBrowser::onClickedPartial(GtkWidget *widget, gpointer data)
 {
 	ShareBrowser *sb = (ShareBrowser *)data;
 	GtkTreeIter iter;
-	DirectoryListing::Directory *dirList;
+	DirectoryListing::Directory *dirList = NULL;
 	if (gtk_tree_selection_get_selected(sb->dirSelection, NULL, &iter))
 	{
 		dirList = (DirectoryListing::Directory *)sb->dirView.getValue<gpointer>(&iter,"DL Dir");
@@ -1189,7 +1189,7 @@ void ShareBrowser::downloadChangedDir(DirectoryListing::Directory* d) {
 			try {
 				QueueManager::getInstance()->addList(listing.getUser(), QueueItem::FLAG_PARTIAL_LIST, listing.getPath(d));
 			} catch(const QueueException& e) {
-				;
+				//...
 			}
 		} else {
 			setStatus_gui("mainStatus","User went offline");

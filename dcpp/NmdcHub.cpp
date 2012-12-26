@@ -178,7 +178,7 @@ void NmdcHub::updateFromTag(Identity& id, const string& tag) {
 }
 
 void NmdcHub::onLine(const string& aLine) noexcept {
-	if(aLine.length() == 0)
+	if(aLine.empty())
 		return;
 
 	if(aLine[0] != '$') {
@@ -276,7 +276,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		seekers.push_back(make_pair(seeker, tick));
 
 		// First, check if it's a flooder
-		for(FloodIter fi = flooders.begin(); fi != flooders.end(); ++fi) {
+		for(auto fi = flooders.begin(); fi != flooders.end(); ++fi) {
 			if(fi->first == seeker) {
 				return;
 			}
@@ -615,7 +615,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			OnlineUserList v;
 			StringTokenizer<string> t(param, "$$");
 			StringList& l = t.getTokens();
-			for(StringIter it = l.begin(); it != l.end(); ++it) {
+			for(auto it = l.begin(); it != l.end(); ++it) {
 				string::size_type j = 0;
 				if((j = it->find(' ')) == string::npos)
 					continue;
@@ -767,7 +767,10 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		} catch (const Exception& e) {
 			dcdebug("NmdcHub::onLine %s failed with error: %s\n", cmd.c_str(), e.getError().c_str());
 		}
-	} else {
+	} else if (cmd == "$LogedIn") {
+		;//we dont interested in it...
+	} else
+	{
 		dcassert(cmd[0] == '$');
 		dcdebug("NmdcHub::onLine Unknown command %s\n", aLine.c_str());
 	}
@@ -837,7 +840,7 @@ void NmdcHub::myInfo(bool alwaysSend) {
 
 	bool gslotf = SETTING(SHOW_FREE_SLOTS_DESC);
 	string gslot = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
-	//away
+	//away status
     auto staFlag = Util::getAway() ? '\x02' : '\x01';
 
 	string uMin = (SETTING(MIN_UPLOAD_SPEED) == 0) ? Util::emptyString : tmp5 + Util::toString(SETTING(MIN_UPLOAD_SPEED));

@@ -87,7 +87,6 @@ inline unique_ptr<T> make_unique(A0 && a0, A1 && a1, A2 && a2)
     return unique_ptr<T>(new T(forward<A0>(a0), forward<A1>(a1), forward<A2>(a2)));
 }
 
-
 } // namespace dcpp
 
 #endif // !defined(POINTER_H)

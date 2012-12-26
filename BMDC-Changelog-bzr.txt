@@ -689,6 +689,10 @@ Some more auto in for-cycles
 ---r203
 May fix ShellCommands class..
 Remove some cruft from gtk2 version..
+---r204
+Close file after load in FavoriteManager::load
+We Dont Interesting what/where is sending LogedIn on NMDC
+
 
 
 

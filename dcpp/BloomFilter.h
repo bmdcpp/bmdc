@@ -67,7 +67,7 @@ private:
 	void xadd(const string& s, size_t n) {
 		if(s.length() >= n) {
 			string::size_type l = s.length() - n;
-			for(auto i = 0; i <= l; ++i) {
+			for(string::size_type i = 0; i <= l; ++i) {
 				table[getPos(s, i, n)] = true;
 			}
 		}

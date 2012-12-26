@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-12-18 00:10+0100\n"
+"POT-Creation-Date: 2012-12-26 13:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-12-18 18:33+0100\n"
+"POT-Creation-Date: 2012-12-25 22:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1066,10 +1066,10 @@ msgstr ""
 #: linux/adlsearch.cc:82 linux/adlsearch.cc:138 linux/adlsearch.cc:249
 #: linux/adlsearch.cc:294 linux/adlsearch.cc:491 linux/adlsearch.cc:493
 #: linux/exportimport.cc:51 linux/exportimport.cc:85 linux/exportimport.cc:124
-#: linux/exportimport.cc:126 linux/FavoriteHubDialog.hh:46
-#: linux/FavoriteHubDialog.hh:58 linux/FavoriteHubDialog.hh:320
-#: linux/FavoriteHubDialog.hh:333 linux/FavoriteHubDialog.hh:354
-#: linux/FavoriteHubDialog.hh:356
+#: linux/exportimport.cc:126 linux/FavoriteHubDialog.hh:47
+#: linux/FavoriteHubDialog.hh:59 linux/FavoriteHubDialog.hh:322
+#: linux/FavoriteHubDialog.hh:335 linux/FavoriteHubDialog.hh:356
+#: linux/FavoriteHubDialog.hh:358
 msgid "Enabled"
 msgstr ""
 
@@ -1682,8 +1682,8 @@ msgstr ""
 #: linux/settingsdialog.cc:3742 linux/settingsdialog.cc:3821
 #: linux/settingsdialog.cc:4367 linux/settingsdialog.cc:4460
 #: linux/settingsdialog.cc:4483 linux/settingsdialog.cc:4502
-#: linux/FavoriteHubDialog.hh:45 linux/FavoriteHubDialog.hh:319
-#: linux/FavoriteHubDialog.hh:332 linux/FavoriteHubDialog.hh:353
+#: linux/FavoriteHubDialog.hh:46 linux/FavoriteHubDialog.hh:321
+#: linux/FavoriteHubDialog.hh:334 linux/FavoriteHubDialog.hh:355
 msgid "Name"
 msgstr ""
 
@@ -4536,7 +4536,7 @@ msgid ""
 "The GeoIP database has been successfully updated; restart DC++ to apply....v"
 msgstr ""
 
-#: linux/FavoriteHubDialog.hh:279
+#: linux/FavoriteHubDialog.hh:281
 msgid "The name and address fields are required"
 msgstr ""
 

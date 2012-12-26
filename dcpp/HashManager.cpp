@@ -639,17 +639,17 @@ HashManager::HashPauser::~HashPauser() {
 		HashManager::getInstance()->resumeHashing();
 }
 
-bool HashManager::pauseHashing() {
+bool HashManager::pauseHashing() noexcept {
 	Lock l(cs);
 	return hasher.pause();
 }
 
-void HashManager::resumeHashing() {
+void HashManager::resumeHashing() noexcept {
 	Lock l(cs);
 	hasher.resume();
 }
 
-bool HashManager::isHashingPaused() const {
+bool HashManager::isHashingPaused() const noexcept {
 	Lock l(cs);
 	return hasher.isPaused();
 }

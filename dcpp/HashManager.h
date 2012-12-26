@@ -20,6 +20,7 @@
 #define DCPLUSPLUS_DCPP_HASH_MANAGER_H
 
 #include <map>
+#include <boost/optional.hpp>
 
 #include "Singleton.h"
 #include "MerkleTree.h"
@@ -33,6 +34,7 @@
 namespace dcpp {
 
 using std::map;
+using boost::optional;
 
 STANDARD_EXCEPTION(HashException);
 
@@ -102,9 +104,9 @@ public:
 	};
 
 	/// @return whether hashing was already paused
-	bool pauseHashing();
-	void resumeHashing();
-	bool isHashingPaused() const;
+	bool pauseHashing() noexcept;
+	void resumeHashing() noexcept;
+	bool isHashingPaused() const noexcept;
 
 private:
 	class Hasher : public Thread {
