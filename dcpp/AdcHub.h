@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2012 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2013 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,12 +49,12 @@ public:
 	virtual size_t getUserCount() const { Lock l(cs); return users.size(); }
 	virtual int64_t getAvailable() const;
 	virtual void refreshuserlist(bool);
-	//Plugins...
+	//Plugins API...
 	virtual void emulateCommand(const string& cmd) { dispatch(cmd); }
 
 	void getUserList(OnlineUserList& list) const {
 		Lock l(cs);
-		for(SIDMap::const_iterator i = users.begin(); i != users.end(); ++i) {
+		for(auto i = users.begin(); i != users.end(); ++i) {
 			if(i->first != AdcCommand::HUB_SID) {
 				list.push_back(i->second);
 			}

@@ -18,12 +18,12 @@
 
 #include "stdinc.h"
 #include "Util.h"
-
+/*
 #ifdef _WIN32
 	#include "shlobj.h"
 	#include "w.h"
 #endif
-
+*/
 #include <boost/algorithm/string/trim.hpp>
 
 #include "CID.h"

@@ -12,7 +12,7 @@ build: build-stamp
 build-stamp:
 	dh_testdir
 #	Change to release=1 and uncomment dh_strip below for a release
-	scons release=0 PREFIX=/usr FAKE_ROOT=debian/$(package)
+	scons release=0 debug=1 PREFIX=/usr FAKE_ROOT=debian/$(package)
 	touch $@
 
 clean:

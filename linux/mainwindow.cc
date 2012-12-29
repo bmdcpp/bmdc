@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2012 Mank
+ * Copyright © 2010-2013 Mank
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -74,21 +74,21 @@
 using namespace std;
 using namespace dcpp;
 
-void* MainWindow::icons[(MainWindow::IconsToolbar)END][4] =
+char* MainWindow::icons[(MainWindow::IconsToolbar)END][3] =
 {
-{ ((void*)(MainWindow::IconsToolbar)MainWindow::QUICKCON),(void*)"bmdc-connect",(void*)"bmdc-connect-on",(void*)"connect"},
-{ ((void*)(MainWindow::IconsToolbar)MainWindow::FAVORITE_HUBS), (void*)"bmdc-favorite-hubs",(void*)"bmdc-favorite-hubs-on",(void*)"favHubs"},
-{ ((void*)(MainWindow::IconsToolbar)MainWindow::FAVORITE_USERS), (void*)"bmdc-favorite-users",(void*)"bmdc-favorite-users-on",(void*)"favUsers"},
-{ ((void*)(MainWindow::IconsToolbar)MainWindow::PUBLIC_HUBS), (void*)"bmdc-public-hubs",(void*)"bmdc-public-hubs-on",(void*)"publicHubs"},
-{ ((void*)(MainWindow::IconsToolbar)MainWindow::SEARCH_ADL), (void*)"bmdc-search-adl",(void*)"bmdc-search-adl-on",(void*)"searchADL"},
-{ ((void*)(MainWindow::IconsToolbar)MainWindow::SEARCH_SPY), (void*)"bmdc-search-spy",(void*)"bmdc-search-spy-on",(void*)"searchSpy"},
-{ ((void*)(MainWindow::IconsToolbar)MainWindow::QUEUE), (void*)"bmdc-queue",(void*)"bmdc-queue-on",(void*)"queue"},
-{ ((void*)(MainWindow::IconsToolbar)MainWindow::FDOWNLOADS), (void*)"bmdc-finished-downloads",(void*)"bmdc-finished-downloads-on",(void*)"finishedDownloads"},
-{ ((void*)(MainWindow::IconsToolbar)MainWindow::FUPLOADS), (void*)"bmdc-finished-uploads",(void*)"bmdc-finished-uploads-on",(void*)"finishedUploads"},
-{ ((void*)(MainWindow::IconsToolbar)MainWindow::NOTEPAD), (void*)"bmdc-notepad",(void*)"bmdc-notepad-on",(void*)"notepad"},
-{ ((void*)(MainWindow::IconsToolbar)MainWindow::SYSTEM), (void*)"bmdc-system",(void*)"bmdc-system-on",(void*)"system"},
-{ ((void*)(MainWindow::IconsToolbar)MainWindow::AWAY), (void*)"bmdc-away",(void*)"bmdc-away-on",(void*)"AwayIcon"},
-{ ((void*)(MainWindow::IconsToolbar)MainWindow::LIMITING), (void*)"bmdc-limiting",(void*)"bmdc-limiting-on",(void*)"limitingButton"}
+{ /*( (MainWindow::IconsToolbar)MainWindow::QUICKCON),*/ "bmdc-connect", "bmdc-connect-on", "connect"},
+{ /*( (MainWindow::IconsToolbar)MainWindow::FAVORITE_HUBS),*/  "bmdc-favorite-hubs", "bmdc-favorite-hubs-on", "favHubs"},
+{ /*( (MainWindow::IconsToolbar)MainWindow::FAVORITE_USERS),*/  "bmdc-favorite-users", "bmdc-favorite-users-on", "favUsers"},
+{ /*( (MainWindow::IconsToolbar)MainWindow::PUBLIC_HUBS),*/  "bmdc-public-hubs", "bmdc-public-hubs-on", "publicHubs"},
+{ /*( (MainWindow::IconsToolbar)MainWindow::SEARCH_ADL),*/  "bmdc-search-adl", "bmdc-search-adl-on", "searchADL"},
+{ /*( (MainWindow::IconsToolbar)MainWindow::SEARCH_SPY),*/  "bmdc-search-spy", "bmdc-search-spy-on", "searchSpy"},
+{ /*( (MainWindow::IconsToolbar)MainWindow::QUEUE),*/  "bmdc-queue", "bmdc-queue-on", "queue"},
+{ /*( (MainWindow::IconsToolbar)MainWindow::FDOWNLOADS),*/  "bmdc-finished-downloads", "bmdc-finished-downloads-on", "finishedDownloads"},
+{ /*( (MainWindow::IconsToolbar)MainWindow::FUPLOADS),*/  "bmdc-finished-uploads", "bmdc-finished-uploads-on", "finishedUploads"},
+{ /*( (MainWindow::IconsToolbar)MainWindow::NOTEPAD),*/  "bmdc-notepad", "bmdc-notepad-on", "notepad"},
+{ /*( (MainWindow::IconsToolbar)MainWindow::SYSTEM),*/  "bmdc-system", "bmdc-system-on", "system"},
+{ /*( (MainWindow::IconsToolbar)MainWindow::AWAY),*/  "bmdc-away", "bmdc-away-on", "AwayIcon"},
+{ /*( (MainWindow::IconsToolbar)MainWindow::LIMITING),*/  "bmdc-limiting", "bmdc-limiting-on", "limitingButton"}
 };
 
 MainWindow::MainWindow():
@@ -2885,16 +2885,14 @@ void MainWindow::updateGeoIp(bool v6)
 	if(conn.get())
 		return;
 	LogManager::getInstance()->message(string(_("Updating the GeoIP database...v")) + (v6 ? "IPv6" : "IPv4"));
-	conn.reset(new HttpDownload(v6 ? v6str : v4str, [this, v6] { completeGeoIpUpdate(v6); }, false));
+	conn.reset(new HttpDownload(v6 ? v6str : v4str, [this, v6](bool s,const string& b) { if(s) completeGeoIpUpdate(b,v6); }, false));
 }
 
-void MainWindow::completeGeoIpUpdate(bool v6)
+void MainWindow::completeGeoIpUpdate(const string &buf, bool v6)
 {
-	auto& conn = conns[v6 ? CONN_GEOIP_V6 : CONN_GEOIP_V4];
-
-	if(!conn->buf.empty()) {
+	if(!buf.empty()) {
 		try {
-			File(GeoManager::getInstance()->getDbPath(v6) + ".gz", File::WRITE, File::CREATE | File::TRUNCATE).write(conn->buf);
+			File(GeoManager::getInstance()->getDbPath(v6) + ".gz", File::WRITE, File::CREATE | File::TRUNCATE).write(buf);
 			File f(GeoManager::getInstance()->getDbPath(v6), File::WRITE, File::CREATE | File::TRUNCATE); // clear the previous db
 			LogManager::getInstance()->message(string(_("The GeoIP database has been successfully updated; restart DC++ to apply....v")) + (v6 ? "IPv6" : "IPv4"));
 			GeoManager::getInstance()->update(v6);

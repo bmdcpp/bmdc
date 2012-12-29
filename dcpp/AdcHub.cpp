@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2012 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2013 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,6 +40,7 @@
 #include <cmath>
 #include "BufferedSocket.h"
 #include "ConnectivityManager.h"
+#include "nullptr.h"
 
 namespace dcpp {
 
@@ -94,7 +95,7 @@ OnlineUser& AdcHub::getUser(const uint32_t aSID, const CID& aCID) {
 
 OnlineUser* AdcHub::findUser(const uint32_t aSID) const {
 	Lock l(cs);
-	SIDMap::const_iterator i = users.find(aSID);
+	auto i = users.find(aSID);
 	return i == users.end() ? NULL : i->second;
 }
 
@@ -105,7 +106,7 @@ OnlineUser* AdcHub::findUser(const CID& aCID) const {
 			return i->second;
 		}
 	}
-	return 0;
+	return nullptr;
 }
 
 void AdcHub::putUser(const uint32_t aSID, bool disconnect) {
@@ -148,7 +149,7 @@ void AdcHub::handle(AdcCommand::INF, AdcCommand& c) noexcept {
 
 	string cid;
 
-	OnlineUser* u = 0;
+	OnlineUser* u = nullptr;
 	if(c.getParam("ID", 0, cid)) {
 		u = findUser(CID(cid));
 		if(u) {
@@ -301,7 +302,7 @@ void AdcHub::handle(AdcCommand::QUI, AdcCommand& c) noexcept {
 
 		string tmp;
 		if(c.getParam("MS", 1, tmp)) {
-			OnlineUser* source = 0;
+			OnlineUser* source = nullptr;
 			string tmp2;
 			if(c.getParam("ID", 1, tmp2)) {
 				source = findUser(AdcCommand::toSID(tmp2));
@@ -935,8 +936,8 @@ void AdcHub::sendSearch(AdcCommand& c) {
 
 		c.setFeatures(features + '+' + TCP4_FEATURE + '-' + NAT0_FEATURE);
 		send(c);
-		c.setFeatures(features + '+' + NAT0_FEATURE);
-		send(c);
+		//c.setFeatures(features + '+' + NAT0_FEATURE);
+		//send(c);
 	}
 }
 

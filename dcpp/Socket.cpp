@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2012 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2013 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -263,6 +263,9 @@ void Socket::accept(const Socket& listeningSocket) {
 	addr sock_addr = { { 0 } };
 	socklen_t sz = sizeof(sock_addr);
 
+	if(!listeningSocket.sock4.valid())
+		return;
+	
 	auto sock = check([&] { return ::accept(readable(listeningSocket.sock4, listeningSocket.sock6), &sock_addr.sa, &sz); });
 	setSock(sock, sock_addr.sa.sa_family);
 
@@ -285,9 +288,10 @@ string Socket::listen(const string& port) {
 
 	addrinfo_p ai(nullptr, nullptr);
 
-	if(!v4only) {
+	if(!v4only) {/*
 		try { ai = resolveAddr(localIp6, port, AF_INET6, AI_PASSIVE | AI_ADDRCONFIG); }
 		catch(const SocketException&) { ai.reset(); }
+		
 		for(auto a = ai.get(); a && !sock6.valid(); a = a->ai_next) {
 			try {
 				create(*a);
@@ -303,7 +307,7 @@ string Socket::listen(const string& port) {
 					check([&] { return ::listen(sock6, 20); });
 				}
 			} catch(const SocketException&) { }
-		}
+		}*/
 	}
 
 	try { ai = resolveAddr(localIp4, port, AF_INET, AI_PASSIVE | AI_ADDRCONFIG); }

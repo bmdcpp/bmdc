@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2012 Mank
+ * Copyright © 2010-2013 Mank
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -126,14 +126,15 @@ class MainWindow:
 			END
 		} IconsToolbar;
 
-		static void* icons[(MainWindow::IconsToolbar)END][4];
+		static /*void**/char* icons[(MainWindow::IconsToolbar)END][3];
 
 		void setStatusOfIcons(IconsToolbar type, bool isClicked)
 		{
 			if(isClicked)
-				gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget(std::string(reinterpret_cast<char *>(icons[type][3])))),(reinterpret_cast<char *>(icons[type][2])));
+				gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget(std::string(icons[type][2]))),(icons[type][1]));
+				//gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget(std::string(reinterpret_cast<char *>(icons[type][2])))),(reinterpret_cast<char *>(icons[type][1])));
 			else
-				gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget(std::string(reinterpret_cast<char *>(icons[type][3])))),(reinterpret_cast<char *>(icons[type][1])));
+				gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget(std::string(icons[type][2]))),(icons[type][0]));
 		}
 		void setLimitingIcon(bool Limited);
 
@@ -256,7 +257,7 @@ class MainWindow:
 		void addFileDownloadQueue_client(std::string name, int64_t size, std::string tth);
 		void checkUpdateofGeoIp(bool v6);
 		void updateGeoIp(bool v6);
-		void completeGeoIpUpdate(bool v6);
+		void completeGeoIpUpdate(const std::string& buf, bool v6);
 		void removeItemFromList(Entry::EntryType type, std::string id);
 		//[BMDC++
 		void setInitThrotles();

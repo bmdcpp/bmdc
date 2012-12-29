@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2012 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2013 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -257,7 +257,7 @@ void BufferedSocket::threadRead() {
 						break;
 					}
 				}
-				if (pos == string::npos)
+				if (pos == string::npos) 
 					left = 0;
 				line = l;
 				break;
@@ -278,6 +278,7 @@ void BufferedSocket::threadRead() {
 						if(dataBytes == 0) {
 							mode = MODE_LINE;
 							fire(BufferedSocketListener::ModeChange());
+							break; // break loop, in case setDataMode is called with less than read buffer size
 						}
 					}
 				}
@@ -340,15 +341,15 @@ void BufferedSocket::threadSendFile(InputStream* file) {
 		while(writePos < writeBuf.size()) {
 			if(disconnecting)
 				return;
-
+			
 			if(written == -1) {
 				// workaround for OpenSSL (crashes when previous write failed and now retrying with different writeSize)
 				written = sock->write(&writeBuf[writePos], writeSize);
 			} else {
-				writeSize = min(sockSize / 2, writeBuf.size() - writePos);
+				writeSize = min(sockSize / 2, writeBuf.size() - writePos);	
 				written = ThrottleManager::getInstance()->write(sock.get(), &writeBuf[writePos], writeSize);
 			}
-
+			
 			if(written > 0) {
 				writePos += written;
 

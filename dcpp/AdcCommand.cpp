@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2012 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2013 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -79,7 +79,7 @@ void AdcCommand::parse(const string& aLine, bool nmdc /* = false */) {
 			++i;
 			if(i == len)
 				throw ParseException("Escape at eol");
-			/*if(buf[i] == 's')
+			/* if(buf[i] == 's')
 				cur += ' ';
 			else if(buf[i] == 'n')
 				cur += '\n';
@@ -88,7 +88,7 @@ void AdcCommand::parse(const string& aLine, bool nmdc /* = false */) {
 			else if(buf[i] == ' ' && nmdc)	// $ADCGET escaping, leftover from old specs
 				cur += ' ';
 			else
-				throw ParseException("Unknown escape");*/
+				throw ParseException("Unknown escape"); */
 			switch(buf[i]){	
 				case 's':
 					cur += ' ';

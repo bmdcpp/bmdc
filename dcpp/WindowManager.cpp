@@ -249,7 +249,7 @@ void WindowManager::on(SettingsManagerListener::Save, SimpleXML& xml) noexcept {
 		xml.addChildAttrib("Id", i->first);
 		xml.addChildAttrib("MaxItems", i->second);
 	}
-	for(RecentList::const_iterator ri = recent.begin(), riend = recent.end(); ri != riend; ++ri) {
+	for(auto ri = recent.begin(), riend = recent.end(); ri != riend; ++ri) {
 		const WindowInfoList& infoList = ri->second;
 		for(WindowInfoList::const_iterator i = infoList.begin(), iend = infoList.end(); i != iend; ++i)
 			addTag(xml, *i);
