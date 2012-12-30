@@ -694,7 +694,10 @@ Close file after load in FavoriteManager::load
 We Dont Interesting what/where is sending LogedIn on NMDC
 ---r205
 Partialy Fix Settings Combobox
-
+---r206
+Remove some stuff from MainWin,disable some of Ipv6 stuff,update some of copyright
+---r207
+Fix some Socket isue on *Buntu & may in future other distros...
 
 
 

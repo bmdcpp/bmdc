@@ -111,7 +111,7 @@ inline void setBlocking2(socket_t sock, bool block) noexcept {
 #endif
 
 inline int getSocketOptInt2(socket_t sock, int option) {
-	int val;
+	int val = 1;
 	socklen_t len = sizeof(val);
 	check([&] { return ::getsockopt(sock, SOL_SOCKET, option, (char*)&val, &len); });
 	return val;
@@ -144,8 +144,9 @@ inline int readable(socket_t sock0, socket_t sock1) {
 
 	FD_ZERO(&rfd);
 	FD_SET(sock0, &rfd);
-	FD_SET(sock1, &rfd);
-
+	 if(sock1 != -1) {
+		FD_SET(sock1, &rfd);
+	 }
     if(::select(std::max(sock0, sock1) + 1, &rfd, NULL, NULL, &tv) > 0) {
         return FD_ISSET(sock0, &rfd) ? sock0 : sock1;
     }
@@ -209,8 +210,7 @@ string SocketException::errorToString(int aError) noexcept {
 socket_t Socket::setSock(socket_t s, int af) {
 	setBlocking2(s, false);
 	setSocketOpt2(s, SOL_SOCKET, SO_REUSEADDR, 1);
-
-
+	
 	if(af == AF_INET) {
 		dcassert(sock4 == INVALID_SOCKET);
 		sock4 = s;
@@ -220,6 +220,7 @@ socket_t Socket::setSock(socket_t s, int af) {
 		sock6 = s;
 	} else {
 		throw SocketException(str(F_("Unknown protocol %d") % af));
+		return -1;
 	}
 
 	return s;
@@ -484,7 +485,7 @@ void Socket::socksAuth(uint32_t timeout) {
 }
 
 int Socket::getSocketOptInt(int option) {
-	int val;
+	int val = 1;
 	socklen_t len = sizeof(val);
 	check([&] { return ::getsockopt(getSock(), SOL_SOCKET, option, (char*)&val, &len); });
 	return val;
@@ -502,6 +503,8 @@ void Socket::setSocketOpt(int option, int val) {
 }
 
 int Socket::read(void* aBuffer, int aBufLen) {
+	if(aBufLen == 0)//thigies
+			return 0;//
 	auto len = check([&] {
 		return type == TYPE_TCP
 			? ::recv(getSock(), (char*)aBuffer, aBufLen, 0)
@@ -516,6 +519,9 @@ int Socket::read(void* aBuffer, int aBufLen) {
 }
 
 int Socket::read(void* aBuffer, int aBufLen, string &aIP) {
+	if(aBufLen == 0)
+			return 0;
+	
 	dcassert(type == TYPE_UDP);
 
 	addr remote_addr = { { 0 } };
@@ -536,6 +542,9 @@ int Socket::read(void* aBuffer, int aBufLen, string &aIP) {
 }
 
 int Socket::readAll(void* aBuffer, int aBufLen, uint32_t timeout) {
+	if(aBufLen == 0)
+		return 0;
+	
 	uint8_t* buf = (uint8_t*)aBuffer;
 	int i = 0;
 	while(i < aBufLen) {
@@ -555,6 +564,7 @@ int Socket::readAll(void* aBuffer, int aBufLen, uint32_t timeout) {
 }
 
 void Socket::writeAll(const void* aBuffer, int aLen, uint32_t timeout) {
+		
 	const uint8_t* buf = (const uint8_t*)aBuffer;
 	int pos = 0;
 	// No use sending more than this at a time...
