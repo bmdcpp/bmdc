@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2012-12-31 14:04+0100\n"
+"POT-Creation-Date: 2012-12-31 17:47+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -912,7 +912,7 @@ msgstr ""
 #: linux/favoriteusers.cc:470 linux/favoriteusers.cc:480
 #: linux/favoriteusers.cc:727 linux/favoriteusers.cc:755 linux/hub.cc:70
 #: linux/hub.cc:349 linux/hub.cc:695 linux/hub.cc:724 linux/hub.cc:2481
-#: linux/publichubs.cc:43 linux/publichubs.cc:155 linux/publichubs.cc:292
+#: linux/publichubs.cc:44 linux/publichubs.cc:156 linux/publichubs.cc:293
 #: linux/recenthub.cc:43 linux/recenthub.cc:83 linux/recenthub.cc:268
 #: linux/recenthub.cc:281
 msgid "Description"
@@ -1666,8 +1666,8 @@ msgstr ""
 #: linux/detectiontab.cc:904 linux/detectiontab.cc:919
 #: linux/favoritehubs.cc:41 linux/favoritehubs.cc:76 linux/favoritehubs.cc:145
 #: linux/favoritehubs.cc:352 linux/favoritehubs.cc:742
-#: linux/favoritehubs.cc:918 linux/publichubs.cc:42 linux/publichubs.cc:154
-#: linux/publichubs.cc:291 linux/recenthub.cc:41 linux/recenthub.cc:81
+#: linux/favoritehubs.cc:918 linux/publichubs.cc:43 linux/publichubs.cc:155
+#: linux/publichubs.cc:292 linux/recenthub.cc:41 linux/recenthub.cc:81
 #: linux/recenthub.cc:192 linux/recenthub.cc:269 linux/recenthub.cc:278
 #: linux/settingsdialog.cc:784 linux/settingsdialog.cc:793
 #: linux/settingsdialog.cc:974 linux/settingsdialog.cc:1009
@@ -1938,7 +1938,7 @@ msgid "Protected Users"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1047 ui/mainwindow.glade.ui:1998
-#: ui/mainwindow.glade.ui:2276 linux/bookentry.cc:340 linux/publichubs.cc:30
+#: ui/mainwindow.glade.ui:2276 linux/bookentry.cc:340 linux/publichubs.cc:31
 #: linux/settingsdialog.cc:1448 linux/settingsdialog.cc:1494
 #: linux/settingsdialog.cc:1556
 msgid "Public Hubs"
@@ -2583,8 +2583,8 @@ msgstr ""
 
 #: ui/mainwindow.glade.ui:1980 linux/downloadqueue.cc:70
 #: linux/downloadqueue.cc:276 linux/downloadqueue.cc:383
-#: linux/publichubs.cc:44 linux/publichubs.cc:59 linux/publichubs.cc:60
-#: linux/publichubs.cc:156 linux/recenthub.cc:44 linux/recenthub.cc:84
+#: linux/publichubs.cc:45 linux/publichubs.cc:60 linux/publichubs.cc:61
+#: linux/publichubs.cc:157 linux/recenthub.cc:44 linux/recenthub.cc:84
 #: linux/recenthub.cc:271 linux/recenthub.cc:280
 msgid "Users"
 msgstr ""
@@ -2768,7 +2768,7 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:3363 ui/settingsdialog.glade.ui:3379
 #: ui/settingsdialog.glade.ui:3425 linux/hashdialog.cc:77
 #: linux/mainwindow.cc:939 linux/mainwindow.cc:940 linux/mainwindow.cc:2737
-#: linux/mainwindow.cc:2739 linux/treeview.cc:213
+#: linux/mainwindow.cc:2739 linux/treeview.cc:214
 msgid "s"
 msgstr ""
 
@@ -2847,7 +2847,7 @@ msgstr ""
 msgid " filtered"
 msgstr ""
 
-#: linux/publichubs.cc:456
+#: linux/publichubs.cc:457
 msgid " from Coral"
 msgstr ""
 
@@ -3043,8 +3043,8 @@ msgstr ""
 #: linux/favoritehubs.cc:353 linux/favoritehubs.cc:384
 #: linux/favoritehubs.cc:409 linux/favoritehubs.cc:760
 #: linux/favoritehubs.cc:775 linux/favoritehubs.cc:787
-#: linux/favoritehubs.cc:904 linux/publichubs.cc:45 linux/publichubs.cc:157
-#: linux/publichubs.cc:268 linux/publichubs.cc:293
+#: linux/favoritehubs.cc:904 linux/publichubs.cc:46 linux/publichubs.cc:158
+#: linux/publichubs.cc:269 linux/publichubs.cc:294
 msgid "Address"
 msgstr ""
 
@@ -3298,7 +3298,7 @@ msgstr ""
 msgid "Connecting..."
 msgstr ""
 
-#: linux/treeview.cc:579
+#: linux/treeview.cc:580
 msgid "Copy All"
 msgstr ""
 
@@ -3320,7 +3320,7 @@ msgid "Count"
 msgstr ""
 
 #: linux/hub.cc:76 linux/hub.cc:354 linux/hub.cc:700 linux/hub.cc:729
-#: linux/publichubs.cc:46 linux/publichubs.cc:158
+#: linux/publichubs.cc:47 linux/publichubs.cc:159
 msgid "Country"
 msgstr ""
 
@@ -3394,7 +3394,7 @@ msgstr ""
 msgid "Download complete..."
 msgstr ""
 
-#: linux/publichubs.cc:448
+#: linux/publichubs.cc:449
 msgid "Download failed: "
 msgstr ""
 
@@ -3408,7 +3408,7 @@ msgstr ""
 msgid "Download finished file list"
 msgstr ""
 
-#: linux/publichubs.cc:456
+#: linux/publichubs.cc:457
 msgid "Download finished: "
 msgstr ""
 
@@ -3436,7 +3436,7 @@ msgstr ""
 msgid "Download starting..."
 msgstr ""
 
-#: linux/publichubs.cc:440
+#: linux/publichubs.cc:441
 msgid "Download starting: "
 msgstr ""
 
@@ -3764,7 +3764,7 @@ msgstr ""
 msgid "Hub or Bot"
 msgstr ""
 
-#: linux/publichubs.cc:175
+#: linux/publichubs.cc:176
 msgid "Hubs: "
 msgstr ""
 
@@ -3933,7 +3933,7 @@ msgstr ""
 msgid "Matched "
 msgstr ""
 
-#: linux/publichubs.cc:50 linux/publichubs.cc:162
+#: linux/publichubs.cc:51 linux/publichubs.cc:163
 msgid "Max Hubs"
 msgstr ""
 
@@ -3942,7 +3942,7 @@ msgstr ""
 msgid "Max Size"
 msgstr ""
 
-#: linux/publichubs.cc:51 linux/publichubs.cc:163
+#: linux/publichubs.cc:52 linux/publichubs.cc:164
 msgid "Max Users"
 msgstr ""
 
@@ -3951,7 +3951,7 @@ msgstr ""
 msgid "Media Spam\n"
 msgstr ""
 
-#: linux/publichubs.cc:48 linux/publichubs.cc:160
+#: linux/publichubs.cc:49 linux/publichubs.cc:161
 msgid "Min Share"
 msgstr ""
 
@@ -3960,7 +3960,7 @@ msgstr ""
 msgid "Min Size"
 msgstr ""
 
-#: linux/publichubs.cc:49 linux/publichubs.cc:161
+#: linux/publichubs.cc:50 linux/publichubs.cc:162
 msgid "Min Slots"
 msgstr ""
 
@@ -3988,7 +3988,7 @@ msgstr ""
 msgid "New Highlighting Item"
 msgstr ""
 
-#: linux/publichubs.cc:361 linux/settingsdialog.cc:4046
+#: linux/publichubs.cc:362 linux/settingsdialog.cc:4046
 msgid "New list"
 msgstr ""
 
@@ -4147,7 +4147,7 @@ msgstr ""
 msgid "Quit..."
 msgstr ""
 
-#: linux/publichubs.cc:52 linux/publichubs.cc:164
+#: linux/publichubs.cc:53 linux/publichubs.cc:165
 msgid "Rating"
 msgstr ""
 
@@ -4317,7 +4317,7 @@ msgstr ""
 
 #: linux/hub.cc:69 linux/hub.cc:348 linux/hub.cc:435 linux/hub.cc:669
 #: linux/hub.cc:694 linux/hub.cc:723 linux/hub.cc:780 linux/hub.cc:2479
-#: linux/publichubs.cc:47 linux/publichubs.cc:159 linux/recenthub.cc:45
+#: linux/publichubs.cc:48 linux/publichubs.cc:160 linux/recenthub.cc:45
 #: linux/recenthub.cc:85 linux/recenthub.cc:270 linux/recenthub.cc:282
 msgid "Shared"
 msgstr ""
@@ -4939,7 +4939,7 @@ msgstr ""
 msgid "User with other connection type or unknown (pasive)"
 msgstr ""
 
-#: linux/publichubs.cc:176
+#: linux/publichubs.cc:177
 msgid "Users: "
 msgstr ""
 

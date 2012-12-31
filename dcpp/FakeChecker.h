@@ -29,7 +29,7 @@ class FakeChecker
 {
 	public:
 		FakeChecker(ClientManager *_cm): cm(_cm) { }
-		virtual ~FakeChecker();
+		virtual ~FakeChecker() {};
 
 	void setSupports(const HintedUser& user, const string& aSupport);
 	void setGenerator(const HintedUser& user, const string& aGenerator, const string& cid, const string& aBase);
