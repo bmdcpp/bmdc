@@ -905,8 +905,6 @@ void ClientManager::sendRawCommand(OnlineUser& ou, const string& aRaw, bool chec
 		bool skipRaw = false;
 		Lock l(cs);
 		if(checkProtection) {
-//			OnlineUser* ou = findOnlineUser(user->getCID(), Util::emptyString);
-///			if(!ou) return;
 			skipRaw = ou.isProtectedUser();
 		}
 		if(!skipRaw || !checkProtection) {

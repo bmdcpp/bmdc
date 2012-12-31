@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2001-2012 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2013 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -119,7 +119,7 @@ typedef enum tagConfigType {
 } ConfigType;
 
 typedef enum tagProtocolType {
-	PROTOCOL_ADC = 0,											/* Protocol used ís ADC */
+	PROTOCOL_ADC = 0,											/* Protocol used Ã­s ADC */
 	PROTOCOL_NMDC,												/* Protocol used is NMDC */
 	PROTOCOL_DHT												/* DHT node (not used, reserved) */
 } ProtocolType;

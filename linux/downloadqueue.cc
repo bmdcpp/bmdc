@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2013 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -241,7 +241,7 @@ void DownloadQueue::updateStatus_gui()
 
 void DownloadQueue::addFiles_gui(vector<StringMap> files, bool firstUpdate)
 {
-	if (files.size() > 0 && currentDir == files[0]["Path"] &&
+	if (files.empty() && currentDir == files[0]["Path"] &&
 	    gtk_tree_selection_get_selected(dirSelection, NULL, NULL))
 	{
 		if (firstUpdate)

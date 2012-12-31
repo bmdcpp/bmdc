@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-//(c) 2011 http://flylinkdc.blogspot.com, pavel.pimenov@gmail.com
+//(c) 2011-2013 http://flylinkdc.blogspot.com, pavel.pimenov@gmail.com
 //-----------------------------------------------------------------------------
 #ifndef MEDIA_INFO_H
 #define MEDIA_INFO_H

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2012 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2013 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -76,8 +76,12 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 
 	if(aSource.getUser()) {
 		isInSharingHub = ClientManager::getInstance()->getSharingHub(aSource.getHintedUser());
+		if(!isInSharingHub && (aType != Transfer::names[Transfer::TYPE_FULL_LIST] || aType != Transfer::names[Transfer::TYPE_PARTIAL_LIST])) {
+			aSource.fileNotAvail();
+			return false;
+		}
 	}
-
+	
 	string sourceFile;
 	Transfer::Type type;
 

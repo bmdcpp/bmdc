@@ -695,9 +695,15 @@ We Dont Interesting what/where is sending LogedIn on NMDC
 ---r205
 Partialy Fix Settings Combobox
 ---r206
-Remove some stuff from MainWin,disable some of Ipv6 stuff,update some of copyright
+Remove some stuff from MainWin,
+disable some of Ipv6 stuff
+update some of copyright(2013)
 ---r207
 Fix some Socket isue on *Buntu & may in future other distros...
+---r208
+Fix Hide Share, 
+Update copyright to 2013
+some mirror changes
 
 
 

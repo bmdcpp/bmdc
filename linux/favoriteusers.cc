@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2012 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2013 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
  * using OpenSSL with this program is allowed.
  */
 /*
- * Changelog of Changes of BMDC:
+ * Changelog of Changes in BMDC:
  * Added Indepent Favorites
  * 
  */
@@ -539,7 +539,7 @@ void FavoriteUsers::onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data)
 				return;
 		}
 
-		for (vector<string>::const_iterator it = remove.begin(); it != remove.end(); it++)
+		for (vector<string>::const_iterator it = remove.begin(); it != remove.end(); ++it)
 		{
 			F1 *func = new F1(fu, &FavoriteUsers::removeFavoriteUser_client, *it);
 			WulforManager::get()->dispatchClientFunc(func);
