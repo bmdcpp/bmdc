@@ -747,14 +747,14 @@ void WulforUtil::registerIcons()
 	icons["bmdc-netlimiter-away"] = wsm->getString("icon-netlimiter-away");
 	/**/
 	icons["bmdc-ten-away"] = wsm->getString("icon-ten-away");
-	icons["bmdc-zeroone"] = wsm->getString("icon-zeroone-away");
+	icons["bmdc-zeroone-away"] = wsm->getString("icon-zeroone-away");
 	icons["bmdc-zerozeroone-away"] = wsm->getString("icon-zerozeroone-away");
 	icons["bmdc-other-away"] = wsm->getString("icon-other-away");
 	/* normal pasive mod */
 	icons["bmdc-op-pasive"] = wsm->getString("icon-op-pasive");
 	icons["bmdc-modem-pasive"] = wsm->getString("icon-modem-pasive");
 	icons["bmdc-wireless-pasive"] = wsm->getString("icon-wireless-pasive");
-	icons["bmdc-dsl-pasive"] = wsm->getString("icon-dsl");
+	icons["bmdc-dsl-pasive"] = wsm->getString("icon-dsl-pasive");
 	icons["bmdc-lan-pasive"] = wsm->getString("icon-lan-pasive");
 	icons["bmdc-netlimiter-pasive"] = wsm->getString("icon-netlimiter-pasive");
 	/**/
@@ -771,7 +771,7 @@ void WulforUtil::registerIcons()
 	icons["bmdc-netlimiter-away-pasive"] = wsm->getString("icon-netlimiter-away-pasive");
 	/**/
 	icons["bmdc-ten-away-pasive"] = wsm->getString("icon-ten-away-pasive");
-	icons["bmdc-zeroone-pasive"] = wsm->getString("icon-zeroone-away-pasive");
+	icons["bmdc-zeroone-away-pasive"] = wsm->getString("icon-zeroone-away-pasive");
 	icons["bmdc-zerozeroone-away"] = wsm->getString("icon-zerozeroone-away-pasive");
 	icons["bmdc-other-away-pasive"] = wsm->getString("icon-other-away-pasive");
 
