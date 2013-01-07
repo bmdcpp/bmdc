@@ -706,6 +706,9 @@ Update copyright to 2013
 some mirror changes
 ---210
 Fix some UL icons
+---r211
+Fixed Crash in Dowload Queue in GUI
+Add VLC2 Script
 
 
 

@@ -241,7 +241,7 @@ void DownloadQueue::updateStatus_gui()
 
 void DownloadQueue::addFiles_gui(vector<StringMap> files, bool firstUpdate)
 {
-	if (files.empty() && currentDir == files[0]["Path"] &&
+	if (!files.empty() && currentDir == files[0]["Path"] &&
 	    gtk_tree_selection_get_selected(dirSelection, NULL, NULL))
 	{
 		if (firstUpdate)
