@@ -31,7 +31,7 @@ class ShellCommand
 		/* input = shell command or name a script in the Script directory
 		   len (optional) = maximum resultsize, standard set to 256
 		   shell (optional) = 0 for a script, 1 for a shellcommand */
-		ShellCommand(char* input, int len=265, bool shell =  false);
+		ShellCommand(char* input, int len=265, bool shell =  true);
 		~ShellCommand();
 		bool Error() const; //Returns true if an error has occurred
 		char* Output(); //Returns output. If unfixable error has occurred, output = ""

@@ -16,7 +16,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 #ifdef HAVE_LIBTAR
- 
+
 #ifndef DCPLUSPLUS_DCPP_BACKUP_MANAGER_H
 #define DCPLUSPLUS_DCPP_BACKUP_MANAGER_H
 
@@ -38,23 +38,24 @@ public:
 	bool stop;
 	CriticalSection cs;
 	Semaphore s;
-	
+
 	virtual int run();
 	void shutdown() {
 			stop = true;
 			s.signal();
 		}
-		
+
 	void createBackup();
-	
+
 	virtual void on(TimerManagerListener::Minute, uint64_t aTick) noexcept;
-	
+
 private:
 	friend class Singleton<BackupManager>;
-	
-	BackupManager() : stop(false) { }
+
+	BackupManager() : stop(false) { 	TimerManager::getInstance()->addListener(this);}
 	~BackupManager() throw() {
 		shutdown();
+			TimerManager::getInstance()->removeListener(this);
 		}
 };
 
@@ -63,18 +64,18 @@ public:
 	bool stop;
 	CriticalSection cs;
 	Semaphore s;
-	
+
 	virtual int run();
 	void shutdown() {
 			stop = true;
 			s.signal();
 		}
-	
+
 	void restoreBackup();
 
 private:
 	friend class Singleton<RestoreManager>;
-	
+
 	RestoreManager() : stop(false) {}
 	~RestoreManager() throw() {
 		shutdown();

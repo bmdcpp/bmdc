@@ -24,10 +24,10 @@
 #include "ShellCommand.hh"
 #include "wulformanager.hh"
 
-ShellCommand::ShellCommand(char* input, int len, bool shell): output(dcpp::Util::emptyString)
+ShellCommand::ShellCommand(char* input, int len, bool shell):
+output(dcpp::Util::emptyString),
+resultsize(len),thirdPerson(false)
 {
-	thirdPerson = false;
-	resultsize = len;
 	output.resize(resultsize);
 	errormessage = new char[strlen(input)+100];
 	strcpy(errormessage,"");
@@ -38,10 +38,8 @@ ShellCommand::ShellCommand(char* input, int len, bool shell): output(dcpp::Util:
 	if (shell)
 	{
 		char testscript[strlen(input)+28];
-		strcpy(testscript,("test -e "+ WulforManager::get()->getPath() + "/extensions/Scripts/").c_str());
-		strcat(testscript,input);
 		//test if script exists
-		if (dcpp::Util::fileExists(testscript))
+		if (dcpp::Util::fileExists(WulforManager::get()->getPath() + "/extensions/Scripts/"+input) )
 		{
 			error = 1;
 			strcpy(errormessage,"No file ");
@@ -60,7 +58,6 @@ ShellCommand::ShellCommand(char* input, int len, bool shell): output(dcpp::Util:
 				//{
 					char com[strlen(command)+29];
 					strcpy(com,("chmod +x "+ WulforManager::get()->getPath() + "/extensions/Scripts/").c_str());
-//					strcpy(com,"chmod +x extensions/Scripts/");
 					strcat(com,input);
 					if (system(com)==0)
 					{
@@ -98,6 +95,7 @@ ShellCommand::ShellCommand(char* input, int len, bool shell): output(dcpp::Util:
 		FILE* f;
 		char* out = NULL;
 		f = popen(command,"r");
+		if(f != NULL) {
         fgets(out,resultsize,f);
 		if(out != NULL) {
 			output = std::string(out);
@@ -105,11 +103,11 @@ ShellCommand::ShellCommand(char* input, int len, bool shell): output(dcpp::Util:
 		}
         pclose(f);
         //remove trailing newline
-
-		if(dcpp::Util::strnicmp(output,"/me",3) ==0)
-		{
-			thirdPerson = true;
-			output = output.substr(4,std::string::npos);
+			if(dcpp::Util::strnicmp(output,"/me",3) ==0)
+			{
+				thirdPerson = true;
+				output = output.substr(4,std::string::npos);
+			}
 		}
 	}
 }

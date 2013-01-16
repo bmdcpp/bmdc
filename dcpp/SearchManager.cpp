@@ -36,8 +36,8 @@
 #include "LogManager.h"
 
 namespace dcpp {
-	
-using boost::range::for_each;	
+
+using boost::range::for_each;
 
 const char* SearchManager::types[TYPE_LAST] = {
 	N_("Any"),
@@ -59,7 +59,7 @@ SearchManager::SearchManager() :
 	stop(false),
 	lastSearch(GET_TICK())
 {
-
+	TimerManager::getInstance()->addListener(this);
 }
 
 SearchManager::~SearchManager() {
@@ -70,6 +70,7 @@ SearchManager::~SearchManager() {
 		join();
 #endif
 	}
+		TimerManager::getInstance()->removeListener(this);
 }
 
 string SearchManager::normalizeWhitespace(const string& aString){
@@ -103,7 +104,7 @@ void SearchManager::search(StringList& who, const string& aName, int64_t aSize /
 		}
 
 		for_each(tokenHubList, [&](StringPair& sp) {
-			ClientManager::getInstance()->search(sp.second, aSizeMode, aSize, aTypeMode, normalizeWhitespace(aName), sp.first, aExtList);			
+			ClientManager::getInstance()->search(sp.second, aSizeMode, aSize, aTypeMode, normalizeWhitespace(aName), sp.first, aExtList);
 		});
 		lastSearch = GET_TICK();
 	}
