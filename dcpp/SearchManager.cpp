@@ -55,7 +55,6 @@ const char* SearchManager::getTypeStr(int type) {
 }
 
 SearchManager::SearchManager() :
-	//port("0"),
 	stop(false),
 	lastSearch(GET_TICK())
 {

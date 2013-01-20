@@ -33,7 +33,8 @@ namespace dcpp {
 class SearchManager;
 class SocketException;
 
-class SearchManager : public Speaker<SearchManagerListener>, public Singleton<SearchManager>, public Thread
+class SearchManager : public Speaker<SearchManagerListener>, public Singleton<SearchManager>, public Thread,
+private TimerManagerListener
 {
 public:
 	enum SizeModes {

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2013-01-01 20:15+0100\n"
+"POT-Creation-Date: 2013-01-20 17:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2795,15 +2795,15 @@ msgid ""
 msgstr ""
 
 #: linux/hub.cc:1480 linux/hub.cc:1560 linux/privatemessage.cc:686
-#: linux/privatemessage.cc:765 linux/ChatText.hh:532 linux/ChatText.hh:612
+#: linux/privatemessage.cc:765
 msgid " *** Emoticons limit"
 msgstr ""
 
-#: linux/hub.cc:1475 linux/privatemessage.cc:681 linux/ChatText.hh:527
+#: linux/hub.cc:1475 linux/privatemessage.cc:681
 msgid " *** Emoticons mode off"
 msgstr ""
 
-#: linux/hub.cc:1470 linux/privatemessage.cc:676 linux/ChatText.hh:522
+#: linux/hub.cc:1470 linux/privatemessage.cc:676
 msgid " *** Emoticons not loaded"
 msgstr ""
 
