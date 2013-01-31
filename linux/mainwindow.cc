@@ -357,7 +357,7 @@ MainWindow::MainWindow():
 	g_signal_connect(getWidget("forumDiscussionItem"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
 
 	g_object_set_data_full(G_OBJECT(getWidget("changeLogItem")), "link",
-		g_strdup((string(_DATADIR) + "/doc/bmdc/BMDC-Changelog.txt").c_str()), g_free);
+		g_strdup((string("file:///") + string(_DATADIR) + string("/doc/bmdc/BMDC-Changelog.txt")).c_str()), g_free);
 	g_signal_connect(getWidget("changeLogItem"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
 
 	g_object_set_data_full(G_OBJECT(getWidget("dowloadMenuItem1")), "link",

@@ -1005,7 +1005,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 					+ "-= " + rel + " " + mach + " =-\n"
 					+ "-= Uptime: " + Util::formatSeconds(Util::getUptime()) + " =-\n"
 					+ "-= Sys Uptime: " + Util::toString(udays) + " days," + Util::toString(uhour) + " Hours," + Util::toString(umin) + " min. =-\n"
-					+ "-= Detection (Failed/Successful) :" + Util::toString(detfail) + " /" + Util::toString(dettotal) + " =-\n"
+					+ "-= Detection (Failed/Successful): " + Util::toString(detfail) + " /" + Util::toString(dettotal) + " =-\n"
 					+ "-=" + getStatsForMem() + " =-\n";
 
 	}
