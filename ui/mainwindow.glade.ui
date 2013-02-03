@@ -950,7 +950,7 @@ Contributors:
                     </child>
                     <child>
                       <object class="GtkImageMenuItem" id="settingsMenuItem">
-                        <property name="label" translatable="yes">Setiings</property>
+                        <property name="label" translatable="yes">Setings</property>
                         <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
