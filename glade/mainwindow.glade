@@ -880,7 +880,7 @@ Contributors:
                           <widget class="GtkImage" id="menu-item-image25">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">freedcpp-directory</property>
+                            <property name="stock">bmdc-directory</property>
                             <property name="icon-size">1</property>
                           </widget>
                         </child>
@@ -930,7 +930,7 @@ Contributors:
                           <widget class="GtkImage" id="menu-item-image27">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">freedcpp-connect</property>
+                            <property name="stock">bmdc-connect</property>
                             <property name="icon-size">1</property>
                           </widget>
                         </child>
@@ -971,7 +971,7 @@ Contributors:
                           <widget class="GtkImage" id="menu-item-image28">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">freedcpp-preferences</property>
+                            <property name="stock">bmdc-preferences</property>
                             <property name="icon-size">1</property>
                           </widget>
                         </child>
@@ -997,7 +997,7 @@ Contributors:
                           <widget class="GtkImage" id="menu-item-image29">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">freedcpp-magnet</property>
+                            <property name="stock">bmdc-magnet</property>
                             <property name="icon-size">1</property>
                           </widget>
                         </child>
@@ -1037,7 +1037,7 @@ Contributors:
                           <widget class="GtkImage" id="menu-item-image30">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">freedcpp-quit</property>
+                            <property name="stock">bmdc-quit</property>
                             <property name="icon-size">1</property>
                           </widget>
                         </child>
@@ -1068,7 +1068,7 @@ Contributors:
                           <widget class="GtkImage" id="menu-item-image31">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">freedcpp-favorite-hubs</property>
+                            <property name="stock">bmdc-favorite-hubs</property>
                             <property name="icon-size">1</property>
                           </widget>
                         </child>
@@ -1086,7 +1086,7 @@ Contributors:
                           <widget class="GtkImage" id="menu-item-image32">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">freedcpp-favorite-users</property>
+                            <property name="stock">bmdc-favorite-users</property>
                             <property name="icon-size">1</property>
                           </widget>
                         </child>
@@ -1104,7 +1104,7 @@ Contributors:
                           <widget class="GtkImage" id="menu-item-image33">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">freedcpp-public-hubs</property>
+                            <property name="stock">bmdc-public-hubs</property>
                             <property name="icon-size">1</property>
                           </widget>
                         </child>
@@ -1136,7 +1136,7 @@ Contributors:
                           <widget class="GtkImage" id="menu-item-image34">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">freedcpp-search</property>
+                            <property name="stock">bmdc-search</property>
                             <property name="icon-size">1</property>
                           </widget>
                         </child>
@@ -1153,7 +1153,7 @@ Contributors:
                           <widget class="GtkImage" id="menu-item-image35">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">freedcpp-search-adl</property>
+                            <property name="stock">bmdc-search-adl</property>
                             <property name="icon-size">1</property>
                           </widget>
                         </child>
@@ -1171,7 +1171,7 @@ Contributors:
                           <widget class="GtkImage" id="menu-item-image36">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">freedcpp-search-spy</property>
+                            <property name="stock">bmdc-search-spy</property>
                             <property name="icon-size">1</property>
                           </widget>
                         </child>
@@ -1195,7 +1195,7 @@ Contributors:
                           <widget class="GtkImage" id="menu-item-image37">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">freedcpp-queue</property>
+                            <property name="stock">bmdc-queue</property>
                             <property name="icon-size">1</property>
                           </widget>
                         </child>
@@ -1212,7 +1212,7 @@ Contributors:
                           <widget class="GtkImage" id="menu-item-image38">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">freedcpp-finished-downloads</property>
+                            <property name="stock">bmdc-finished-downloads</property>
                             <property name="icon-size">1</property>
                           </widget>
                         </child>
@@ -1229,7 +1229,7 @@ Contributors:
                           <widget class="GtkImage" id="menu-item-image39">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">freedcpp-finished-uploads</property>
+                            <property name="stock">bmdc-finished-uploads</property>
                             <property name="icon-size">1</property>
                           </widget>
                         </child>
@@ -1260,7 +1260,7 @@ Contributors:
                           <widget class="GtkImage" id="menu-item-image40">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">freedcpp-hash</property>
+                            <property name="stock">bmdc-hash</property>
                             <property name="icon-size">1</property>
                           </widget>
                         </child>

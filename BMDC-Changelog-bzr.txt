@@ -714,5 +714,7 @@ May Fix isues with ShellCommand class
 May Fix loading/saving of plugins
 ----r213
 Fix Changelog entry in about menu
+----r214
+Fix typos&Fix remaining freedcpp'sstock in MainWin
 
 
