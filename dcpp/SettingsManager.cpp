@@ -400,8 +400,19 @@ SettingsManager::SettingsManager()
 	setDefault(GLOBAL_EM, false);
 	setDefault(EMOT_PACK, "bmicon");
 	setDefault(DONT_ALOW_CHATROOMS, true);
-
+//[BMDC++
 	setDefault(TIME_RECCON, 10);
+	setDefault(AUTOBACKUP_TIME, 60*60*60);
+	setDefault(CHECK_DELAY, 1);
+	setDefault(MAX_TESTSURS,50);
+	setDefault(MAX_FILELISTS,10);
+	setDefault(SLEEP_TIME,0);
+	setDefault(MIN_POINTS_TO_DISPLAY_CHEAT,0);
+	setDefault(DETECTIONF, 0);
+	setDefault(DETECTIONS, 0);
+	setDefault(DCPP_EMULATION_RAW,0);
+	setDefault(VERSION_MISMATCH_RAW,0);
+	setDefault(SDL_RAW,0);
 
 	setSearchTypeDefaults();
 

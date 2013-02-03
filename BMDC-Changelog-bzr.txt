@@ -716,5 +716,7 @@ May Fix loading/saving of plugins
 Fix Changelog entry in about menu
 ----r214
 Fix typos&Fix remaining freedcpp'sstock in MainWin
+----r217
+Fix missing some default values in settings
 
 
