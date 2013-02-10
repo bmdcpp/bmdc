@@ -1,45 +1,25 @@
 ﻿//Implementation of ShellCommand.hh
 //Author: Irene
-//
-//      Copyright 2011 - 2013 Mank <freedcpp at seznam dot cz>
-//
-//      This program is free software; you can redistribute it and/or modify
-//      it under the terms of the GNU General Public License as published by
-//      the Free Software Foundation; either version 2 of the License, or
-//      (at your option) any later version.
-//
-//      This program is distributed in the hope that it will be useful,
-//      but WITHOUT ANY WARRANTY; without even the implied warranty of
-//      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//      GNU General Public License for more details.
-//
-//      You should have received a copy of the GNU General Public License
-//      along with this program; if not, write to the Free Software
-//      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//      MA 02110-1301, USA.
-
-#include <dcpp/stdinc.h>
-#include <dcpp/Util.h>
 #include <cstring>
 #include "ShellCommand.hh"
-#include "wulformanager.hh"
 
-ShellCommand::ShellCommand(char* input, int len, bool shell):
-output(dcpp::Util::emptyString),
-resultsize(len),thirdPerson(false)
+ShellCommand::ShellCommand(char* input, int len, int shell)
 {
-	output.resize(resultsize);
+	thirdPerson = false;
+	resultsize=len;
+	output = new char[resultsize];
+	strcpy(output,"");
 	errormessage = new char[strlen(input)+100];
 	strcpy(errormessage,"");
 	error = 0;
 	char command[strlen(input)+11];//declaration for the final command that will be executed
-	memset(command,0,strlen(input)+10);
-
-	if (shell)
+	if (shell == 0)
 	{
 		char testscript[strlen(input)+28];
+	        strcpy(testscript,"test -e extensions/Scripts/");
+        	strcat(testscript,input);
 		//test if script exists
-		if (dcpp::Util::fileExists(WulforManager::get()->getPath() + "/extensions/Scripts/"+input) )
+		if (system(testscript)!=0)
 		{
 			error = 1;
 			strcpy(errormessage,"No file ");
@@ -49,15 +29,15 @@ resultsize(len),thirdPerson(false)
 		else
 		{
 			//test if script is an executable
-			strcpy(testscript,("test -e "+ WulforManager::get()->getPath() + "/extensions/Scripts/").c_str());
-			strcat(testscript,input);
+			strcpy(testscript,"test -x extensions/Scripts/");
+        		strcat(testscript,input);
 			if (system(testscript)!=0)
 			{
 				error = 1;
 				//if(BOOLSETTING(SCRIPT_EXECUTABLES))
 				//{
 					char com[strlen(command)+29];
-					strcpy(com,("chmod +x "+ WulforManager::get()->getPath() + "/extensions/Scripts/").c_str());
+					strcpy(com,"chmod +x extensions/Scripts/");
 					strcat(com,input);
 					if (system(com)==0)
 					{
@@ -81,7 +61,7 @@ resultsize(len),thirdPerson(false)
 		}
 		if (error == 0)
 		{
-    			strcpy(command, (WulforManager::get()->getPath() + "/extensions/Scripts/").c_str());
+    			strcpy(command,"./extensions/Scripts/");
     			strcat(command,input);
 		}
 	}
@@ -89,42 +69,38 @@ resultsize(len),thirdPerson(false)
 	{
 		strcpy(command,input);
 	}
-
 	if (error == 0)
 	{
-		FILE* f;
-		char* out = NULL;
-		f = popen(command,"r");
-		if(f != NULL) {
-        fgets(out,resultsize,f);
-		if(out != NULL) {
-			output = std::string(out);
-			delete[] out;
-		}
-        pclose(f);
-        //remove trailing newline
-			if(dcpp::Util::strnicmp(output,"/me",3) ==0)
+	        FILE* f;
+        	f=popen(command,"r");
+        	fgets(output,resultsize,f);
+        	pclose(f);
+        	//remove trailing newline
+			output[strlen(output)-1]='\0';
+
+			if(strncmp(output,"/me",3) ==0)
 			{
 				thirdPerson = true;
-				output = output.substr(4,std::string::npos);
+				output = substr(output,4,strlen(output)+1);
+
 			}
-		}
 	}
 }
 
 ShellCommand::~ShellCommand()
 {
+	delete[] output;
 	delete[] errormessage;
 }
 
-bool ShellCommand::Error() const
+bool ShellCommand::Error()
 {
 	return error;
 }
 
 char* ShellCommand::Output()
 {
-	return const_cast<char*>(output.c_str());
+	return output;
 }
 
 char* ShellCommand::ErrorMessage()
@@ -132,12 +108,13 @@ char* ShellCommand::ErrorMessage()
 	return errormessage;
 }
 
-int ShellCommand::GetResultSize() const
+int ShellCommand::GetResultSize()
 {
 	return resultsize;
 }
 
-bool ShellCommand::isThirdPerson() const
+bool ShellCommand::isThirdPerson()
 {
 	return thirdPerson;
 }
+
