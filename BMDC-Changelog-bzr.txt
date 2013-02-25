@@ -718,5 +718,9 @@ Fix Changelog entry in about menu
 Fix typos&Fix remaining freedcpp'sstock in MainWin
 ----r217
 Fix missing some default values in settings
+----r219
+don't count in /df some unusefull Filesystem..
+May Fix dialog on startup on bad settings ...
+
 
 

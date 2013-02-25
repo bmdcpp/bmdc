@@ -2603,9 +2603,10 @@ void MainWindow::startSocket_client()
 		ConnectivityManager::getInstance()->setup(true);
 	} catch (const Exception& e) {
 		string error = e.getError();
-		typedef Func2<MainWindow,const string&, const string&> F2;
-		F2 *func = new F2(this, &MainWindow::showMessageDialog_gui, error, error);
-		WulforManager::get()->dispatchGuiFunc(func);
+		dcdebug("%s",error.c_str());
+		//typedef Func2<MainWindow,const string&, const string&> F2;
+		//F2 *func = new F2(this, &MainWindow::showMessageDialog_gui, error, error);
+		//WulforManager::get()->dispatchGuiFunc(func);
 	}
 
 	ClientManager::getInstance()->infoUpdated();

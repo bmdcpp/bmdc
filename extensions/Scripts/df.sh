@@ -22,6 +22,6 @@ END { mb = avail / 1024
     }
 EOF
 
-df -k | awk -f $tempfile
+df -k | grep -v rootfs | grep -v udev | grep -v tmpfs | grep -v cgroup_root | awk -f $tempfile
 
 exit 0
