@@ -16,9 +16,11 @@ from dbus.mainloop.glib import DBusGMainLoop
 DBusGMainLoop(set_as_default=True)
 # file loading
 import os
+import re
 global player
 global props
 global bus          # Connection to the session bus
+
 
 mpris='org.mpris.MediaPlayer2'
 
@@ -71,6 +73,9 @@ def Connect(name):
         t = Track['xesam:title']
     except:
         t = Track['xesam:url']
+        q = t.count('/')
+        t = t.split("/")
+        t = t[q]
     try:
         length = Track['mpris:length']
     except:
