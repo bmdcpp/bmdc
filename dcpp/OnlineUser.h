@@ -21,7 +21,7 @@
 
 #include <map>
 
-//#include <boost/noncopyable.hpp>
+#include <boost/noncopyable.hpp>
 
 #include "forward.h"
 #include "Flags.h"
@@ -148,7 +148,7 @@ private:
 	void getDetectionParams(ParamMap& p);
 };
 //Removed FastAlloc
-class OnlineUser :  public intrusive_ptr_base<OnlineUser>,/* private boost::noncopyable,*/ public PluginEntity<UserData> {
+class OnlineUser :  public intrusive_ptr_base<OnlineUser>, private boost::noncopyable, public PluginEntity<UserData> {
 public:
 	typedef vector<OnlineUser*> List;
 	typedef List::iterator Iter;
@@ -198,9 +198,6 @@ public:
 private:
 
 	Client& client;
-	//emulate noncopyable :)
-	OnlineUser(const OnlineUser&) = delete;
-	OnlineUser& operator=(const OnlineUser&) = delete;
 };
 
 }
