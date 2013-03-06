@@ -95,13 +95,13 @@ OnlineUser& AdcHub::getUser(const uint32_t aSID, const CID& aCID) {
 
 OnlineUser* AdcHub::findUser(const uint32_t aSID) const {
 	Lock l(cs);
-	SIDMap::const_iterator i = users.find(aSID);
+	auto i = users.find(aSID);
 	return i == users.end() ? NULL : i->second;
 }
 
 OnlineUser* AdcHub::findUser(const CID& aCID) const {
 	Lock l(cs);
-	for(SIDMap::const_iterator i = users.begin(); i != users.end(); ++i) {
+	for(auto i = users.begin(); i != users.end(); ++i) {
 		if(i->second->getUser()->getCID() == aCID) {
 			return i->second;
 		}
@@ -125,7 +125,6 @@ void AdcHub::putUser(const uint32_t aSID, bool disconnect) {
 
 	fire(ClientListener::UserRemoved(), this, *ou);
 	ou->dec();
-	delete ou;
 }
 
 void AdcHub::clearUsers() {
@@ -136,7 +135,7 @@ void AdcHub::clearUsers() {
 		users.swap(tmp);
 	}
 
-	for(SIDMap::const_iterator i = tmp.begin(); i != tmp.end(); ++i) {
+	for(auto i = tmp.begin(); i != tmp.end(); ++i) {
 		if(i->first != AdcCommand::HUB_SID) {
 			ClientManager::getInstance()->putOffline(i->second);
 			i->second->dec();
@@ -179,9 +178,10 @@ void AdcHub::handle(AdcCommand::INF, AdcCommand& c) noexcept {
 		return;
 	}
 
-	for(StringList::const_iterator i = c.getParameters().begin(); i != c.getParameters().end(); ++i) {
+	for(auto i = c.getParameters().begin(); i != c.getParameters().end(); ++i) {
 		if(i->length() < 2)
 			continue;
+
 		u->getIdentity().set(i->c_str(), i->substr(2));
 	}
 
@@ -218,7 +218,7 @@ void AdcHub::handle(AdcCommand::SUP, AdcCommand& c) noexcept {
 		return;
 	bool baseOk = false;
 	bool tigrOk = false;
-	for(StringList::const_iterator i = c.getParameters().begin(); i != c.getParameters().end(); ++i) {
+	for(auto i = c.getParameters().begin(); i != c.getParameters().end(); ++i) {
 		if(*i == BAS0_SUPPORT) {
 			baseOk = true;
 			tigrOk = true;
@@ -439,7 +439,7 @@ void AdcHub::sendUDP(const AdcCommand& cmd) noexcept {
 	string port;
 	{
 		Lock l(cs);
-		SIDMap::const_iterator i = users.find(cmd.getTo());
+		auto i = users.find(cmd.getTo());
 		if(i == users.end()) {
 			dcdebug("AdcHub::sendUDP: invalid user\n");
 			return;
@@ -673,7 +673,7 @@ void AdcHub::connect(const OnlineUser& user, string const& token, bool secure) {
 	if(state != STATE_NORMAL)
 		return;
 
-	const string *proto;
+	const string* proto;
 	if(secure) {
 		if(user.getUser()->isSet(User::NO_ADCS_0_10_PROTOCOL)) {
 			/// @todo log
@@ -737,7 +737,7 @@ void AdcHub::sendUserCmd(const UserCommand& command, const ParamMap& params) {
 		} else {
 			const string& to = command.getTo();
 			Lock l(cs);
-			for(SIDMap::const_iterator i = users.begin(); i != users.end(); ++i) {
+			for(auto i = users.begin(); i != users.end(); ++i) {
 				if(i->second->getIdentity().getNick() == to) {
 					privateMessage(*i->second, cmd);
 					return;
@@ -749,12 +749,12 @@ void AdcHub::sendUserCmd(const UserCommand& command, const ParamMap& params) {
 	}
 }
 
-vector<StringList>& AdcHub::getSearchExts() {
-//	if(!searchExts.empty())
-//		return searchExts;
+const vector<StringList>& AdcHub::getSearchExts() {
+	if(!searchExts.empty())
+		return searchExts;
 
 	// the list is always immutable except for this function where it is initially being filled.
-	vector<StringList> xSearchExts = vector<StringList>();
+	auto& xSearchExts = const_cast<vector<StringList>&>(searchExts);
 
 	xSearchExts.resize(6);
 
@@ -809,13 +809,13 @@ vector<StringList>& AdcHub::getSearchExts() {
 		l.push_back("swf"); l.push_back("vob"); l.push_back("webm"); l.push_back("wmv");
 	}
 
-	return xSearchExts;
+	return searchExts;
 }
 
 StringList AdcHub::parseSearchExts(int flag) {
 	StringList ret;
-	vector<StringList>& searchExts = getSearchExts();
-	for(vector<StringList>::const_iterator i = searchExts.cbegin(), iend = searchExts.cend(); i != iend; ++i) {
+	const auto& searchExts = getSearchExts();
+	for(auto i = searchExts.cbegin(), iend = searchExts.cend(); i != iend; ++i) {
 		if(flag & (1 << (i - searchExts.cbegin()))) {
 			ret.insert(ret.begin(), i->begin(), i->end());
 		}

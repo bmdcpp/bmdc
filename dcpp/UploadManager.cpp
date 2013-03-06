@@ -220,11 +220,9 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 		}
 
 	} catch(const ShareException& e) {
-		delete is;
 		aSource.fileNotAvail(e.getError());
 		return false;
 	} catch(const Exception& e) {
-		delete is;
 		LogManager::getInstance()->message(str(F_("Unable to send file %1%: %2%") % Util::addBrackets(sourceFile) % e.getError()));
 		aSource.fileNotAvail();
 		return false;

@@ -54,7 +54,7 @@ public:
 
 	void getUserList(OnlineUserList& list) const {
 		Lock l(cs);
-		for(SIDMap::const_iterator i = users.begin(); i != users.end(); ++i) {
+		for(auto i = users.begin(); i != users.end(); ++i) {
 			if(i->first != AdcCommand::HUB_SID) {
 				list.push_back(i->second);
 			}
@@ -70,7 +70,7 @@ public:
 
 	string getMySID() { return AdcCommand::fromSID(sid); }
 
-	static vector<StringList>& getSearchExts();
+	static const vector<StringList>& getSearchExts();
 	static StringList parseSearchExts(int flag);
 
 	static const string CLIENT_PROTOCOL;
@@ -93,8 +93,6 @@ private:
 	friend class ClientManager;
 	friend class CommandHandler<AdcHub>;
 	friend class Identity;
-	
-	static const std::vector<std::vector<std::string > > searchExts;
 
 	AdcHub(const string& aHubURL, bool secure);
 
@@ -117,7 +115,7 @@ private:
 
 	std::unordered_set<uint32_t> forbiddenCommands;
 
-//	static vector<StringList> searchExts;
+	static const vector<StringList> searchExts;
 
 	virtual void checkNick(string& nick);
 

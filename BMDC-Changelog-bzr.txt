@@ -721,10 +721,6 @@ Fix missing some default values in settings
 ----r219
 don't count in /df some unusefull Filesystem..
 May Fix dialog on startup on bad settings ...
-----r220
-Fix vlc2 Script ( don't show uri only filename)
-Some other thigies
-
 
 
 
