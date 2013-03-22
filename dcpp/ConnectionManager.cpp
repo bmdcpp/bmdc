@@ -808,7 +808,7 @@ void ConnectionManager::disconnect(const UserPtr& aUser) {
 	}
 }
 
-void ConnectionManager::disconnect(const UserPtr& aUser, int isDownload) {
+void ConnectionManager::disconnect(const UserPtr& aUser, bool isDownload) {
 	Lock l(cs);
 	for(UserConnectionList::iterator i = userConnections.begin(); i != userConnections.end(); ++i) {
 		UserConnection* uc = *i;

@@ -721,6 +721,9 @@ Fix missing some default values in settings
 ----r219
 don't count in /df some unusefull Filesystem..
 May Fix dialog on startup on bad settings ...
+-----r223
+Fix some warning around deprecated functions
+misc stuff
 
 
 

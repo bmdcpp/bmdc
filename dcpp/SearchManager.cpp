@@ -141,7 +141,7 @@ void SearchManager::disconnect() noexcept {
 #define BUFSIZE 8192
 int SearchManager::run() {
 	//boost::scoped_array<uint8_t> buf(new uint8_t[BUFSIZE]);
-	std::shared_ptr<uint8_t> buf(new uint8_t[BUFSIZE], std::default_delete<uint8_t[]>());
+	std::shared_ptr<uint8_t> buf(new uint8_t[BUFSIZE]);
 	int len;
 	string remoteAddr;
 

@@ -128,7 +128,7 @@ void UserCommandMenu::createSubMenu_gui(GtkWidget *&menu, string &command)
 	GtkWidget *menuItem;
 
 	// Create subfolders based on path separators in the command
-	while ((i = command.find('//')) != string::npos)
+	while ((i = command.find('/')) != string::npos)
 	{
 		bool createSubmenu = TRUE;
 		GList *menuItems = gtk_container_get_children(GTK_CONTAINER(menu));

@@ -1,6 +1,6 @@
 # Contributor: freedcpp at seznam dot cz
 pkgname=bmdc-bzr
-pkgver=165
+pkgver=223
 pkgrel=3
 pkgdesc="DC + + client based on the source code FreeDC + + with Ignore Users."
 arch=('i686' 'x86_64')
