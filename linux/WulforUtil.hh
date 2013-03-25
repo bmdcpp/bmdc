@@ -94,7 +94,7 @@ class WulforUtil
 
 		static std::vector<std::pair<std::string,int> > getActions();
 		static std::string StringToUpper(std::string myString);
-		static gboolean HitIP(std::string &name, std::string& ip);
+		static gboolean HitIP(std::string &name, std::string& sIp);
 
 		static const std::string ENCODING_LOCALE;
 		static const std::string commands;
@@ -104,6 +104,7 @@ class WulforUtil
 		static std::string generateLeech();
 		static void loadmimetypes();
 		static std::string getStatsForMem();
+		static bool Ipv4Hit(std::string &name, std::string &sIp);
 
 		static std::vector<std::string> charsets;
 		static const std::string magnetSignature;

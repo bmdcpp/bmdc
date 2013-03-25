@@ -550,6 +550,7 @@ void DownloadManager::fileNotAvailable(UserConnection* aSource) {
 		ClientManager::getInstance()->setCheating(aSource->getHintedUser(), "File Not Available", "", -1, false, false, false, true, false);
 		QueueManager::getInstance()->putDownload(d, true, false);
 		checkDownloads(aSource);
+		removeConnection(aSource);
 		return;
 	}
 	//end//
@@ -560,6 +561,7 @@ void DownloadManager::fileNotAvailable(UserConnection* aSource) {
 	QueueManager::getInstance()->putDownload(d, false);
 
 	checkDownloads(aSource);
+	removeConnection(aSource);
 }
 
 void DownloadManager::on(UserConnectionListener::ListLength, UserConnection* aSource, const string& aListLength) noexcept {

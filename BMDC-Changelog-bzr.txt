@@ -724,6 +724,8 @@ May Fix dialog on startup on bad settings ...
 -----r223
 Fix some warning around deprecated functions
 misc stuff
-
+-----r224
+do not use RegExp in PM&HUB HitIp
+Misc Stuff
 
 
