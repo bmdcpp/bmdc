@@ -19,23 +19,64 @@
 #ifndef REG_EX_H
 #define REG_EX_H
 
-#include <boost/regex.hpp>
+//#include <boost/regex.hpp>
+#include <pcre.h>     /* PCRE lib */
 #include "StringTokenizer.h"
 
 namespace dcpp {
 
 namespace RegEx {
-
+#define OVECCOUNT 999
 template<typename T>
 bool match(const T& text, const T& pattern, bool ignoreCase = false) {
 	if(pattern.empty())
 		return false;
 
 	try {
-		boost::regex reg(pattern, ignoreCase ?  boost::regex_constants::icase : 0);
-		return !reg.empty() && boost::regex_search(text, reg);
+		const char *error;
+		int   erroffset;
+		pcre *re;   
+		int rc; 
+		int   ovector[OVECCOUNT];
+		//boost::regex reg(pattern, ignoreCase ?  boost::regex_constants::icase : 0);
+		re = pcre_compile (
+             pattern.c_str(),       /* the pattern */
+             ignoreCase ? PCRE_CASELESS : 0,           /* default options */
+             &error,      /* for error message */
+             &erroffset,   /* for error offset */
+             0);           /* use default character tables */
+		if (!re) {
+			printf("pcre_compile failed (offset: %d), %s\n", erroffset, error);
+			throw("pcre_compile failed (offset: %d), %s\n", erroffset, error);
+		}
+		
+		rc = pcre_exec (
+        re,                   /* the compiled pattern */
+        0,                    /* no extra data - pattern was not studied */
+        text.c_str(),                  /* the string to match */
+        text.length(),          /* the length of the string */
+        0,                    /* start at offset 0 in the subject */
+        0,                    /* default options */
+        ovector,              /* output vector for substring information */
+        OVECCOUNT);           /* number of elements in the output vector */
+		
+		if (rc < 0) {
+        switch (rc) {
+            case PCRE_ERROR_NOMATCH:
+                printf("String didn't match");
+                free(re);
+				return false;
+            default:
+                printf("Error while matching: %d\n", rc);
+                throw("Error while matching: %d\n", rc);                
+        }
+        free(re);
+        return true;
+    }
+		
+		//return !reg.empty() && boost::regex_search(text, reg);
 	} catch(...) { /* ... */ }
-
+    //free(re);
 	return false;
 }
 

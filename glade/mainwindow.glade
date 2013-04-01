@@ -576,7 +576,7 @@ Developers of FreeDC++:
   troll
 
 Contributors:
-  Leliksan Floyd
+  Leliksand Floyd
 </property>
     <property name="artists">branec (icons: users, logo)</property>
     <property name="wrap_license">True</property>
@@ -2299,6 +2299,7 @@ Contributors:
       <widget class="GtkToolButton" id="notepad">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="tooltip" translatable="yes">Show Notepad</property>
         <property name="label" translatable="yes">Notepad</property>
         <property name="use_underline">True</property>
         <property name="stock_id">bmdc-notepad</property>
@@ -2312,6 +2313,7 @@ Contributors:
       <widget class="GtkToolButton" id="system">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="tooltip" translatable="yes">Show System Log</property>
         <property name="label" translatable="yes">System Log</property>
         <property name="use_underline">True</property>
         <property name="stock_id">bmdc-system</property>
@@ -2325,6 +2327,7 @@ Contributors:
       <widget class="GtkToolButton" id="AwayIcon">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="tooltip" translatable="yes">On/Off Away Mode</property>
         <property name="label" translatable="yes">Away</property>
         <property name="use_underline">True</property>
         <property name="stock_id">bmdc-away</property>
@@ -2338,6 +2341,7 @@ Contributors:
       <widget class="GtkMenuToolButton" id="limitingButton">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="tooltip" translatable="yes">On/Of Limiting</property>
         <property name="label" translatable="yes">Limiting</property>
         <property name="use_underline">True</property>
         <property name="stock_id">bmdc-limiting</property>
