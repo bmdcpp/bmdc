@@ -24,12 +24,12 @@
 #include <set>
 #include <gtk/gtk.h>
 
-#define EMOTICONS_MAX 48
+#define EMOTICONS_MAX 255
 
 class Emot
 {
 	public:
-		enum {SIZE_NAME = 24};
+		enum {SIZE_NAME = 255};
 		typedef std::vector<Emot *> List;
 		typedef List::const_iterator Iter;
 

@@ -512,17 +512,17 @@ string Util::getAwayMessage(ParamMap& params) {
 string Util::formatBytes(int64_t aBytes) {
 	char buf[128];
 	if(aBytes < 1024) {
-		snprintf(buf, sizeof(buf), _("%d B"), (int)(aBytes&0xffffffff));
+		snprintf(buf, sizeof(buf), ("%d B"), (int)(aBytes&0xffffffff));
 	} else if(aBytes < 1024*1024) {
-		snprintf(buf, sizeof(buf), _("%.02f KiB"), (double)aBytes/(1024.0));
+		snprintf(buf, sizeof(buf), ("%.02f KiB"), (double)aBytes/(1024.0));
 	} else if(aBytes < 1024*1024*1024) {
-		snprintf(buf, sizeof(buf), _("%.02f MiB"), (double)aBytes/(1024.0*1024.0));
+		snprintf(buf, sizeof(buf), ("%.02f MiB"), (double)aBytes/(1024.0*1024.0));
 	} else if(aBytes < (int64_t)1024*1024*1024*1024) {
-		snprintf(buf, sizeof(buf), _("%.02f GiB"), (double)aBytes/(1024.0*1024.0*1024.0));
+		snprintf(buf, sizeof(buf), ("%.02f GiB"), (double)aBytes/(1024.0*1024.0*1024.0));
 	} else if(aBytes < (int64_t)1024*1024*1024*1024*1024) {
-		snprintf(buf, sizeof(buf), _("%.02f TiB"), (double)aBytes/(1024.0*1024.0*1024.0*1024.0));
+		snprintf(buf, sizeof(buf), ("%.02f TiB"), (double)aBytes/(1024.0*1024.0*1024.0*1024.0));
 	} else {
-		snprintf(buf, sizeof(buf), _("%.02f PiB"), (double)aBytes/(1024.0*1024.0*1024.0*1024.0*1024.0));
+		snprintf(buf, sizeof(buf), ("%.02f PiB"), (double)aBytes/(1024.0*1024.0*1024.0*1024.0*1024.0));
 	}
 
 	return buf;
@@ -556,7 +556,7 @@ string Util::formatExactSize(int64_t aBytes) {
 		return buf;
 #else
 		char buf[128];
-		snprintf(buf, sizeof(buf), _("%'lld B"), (long long int)aBytes);
+		snprintf(buf, sizeof(buf), ("%'lld B"), (long long int)aBytes);
 		return string(buf);
 #endif
 }

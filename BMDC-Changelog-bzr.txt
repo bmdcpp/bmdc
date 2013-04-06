@@ -732,5 +732,6 @@ Fixed tooltips in maintoolbar
 [RegExp.h] Change to pcre q
 -----r226
 Some Compile Fixies for boost 1.53/gcc 4.8+
-
+-----r227
+[add] Converter of Win-like emoticons xml
 
