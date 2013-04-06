@@ -18,7 +18,7 @@
 
 #ifndef DCPLUSPLUS_DCPP_USER_H
 #define DCPLUSPLUS_DCPP_USER_H
-
+#include <boost/noncopyable.hpp>
 #include "forward.h"
 #include "Pointer.h"
 #include "CID.h"
@@ -29,7 +29,7 @@ namespace dcpp {
 
 /** A user connected to one or more hubs. */
 //Removed FastAllock
-class User : public intrusive_ptr_base<User>, public Flags, private boost::noncopyable
+class User : public intrusive_ptr_base<User>, public Flags//, private boost::noncopyable
 {
 public:
 	enum Bits {

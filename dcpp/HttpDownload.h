@@ -18,7 +18,7 @@
 
 #ifndef DCPLUSPLUS_DCPP_HTTP_DOWNLOAD_H
 #define DCPLUSPLUS_DCPP_HTTP_DOWNLOAD_H
-
+#include <boost/noncopyable.hpp>
 #include "HttpConnection.h"
 
 namespace dcpp {

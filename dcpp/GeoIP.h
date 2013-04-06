@@ -20,7 +20,7 @@
 #define DCPLUSPLUS_DCPP_GEOIP_H
 
 #include "CriticalSection.h"
-
+#include <boost/noncopyable.hpp>
 #include <string>
 #include <vector>
 

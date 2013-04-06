@@ -21,7 +21,7 @@
 
 #include "forward.h"
 #include "noexcept.h"
-
+#include <boost/noncopyable.hpp>
 #include "HintedUser.h"
 /*Removed FastAlloc*/
 #include "MerkleTree.h"

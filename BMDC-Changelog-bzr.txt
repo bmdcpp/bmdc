@@ -730,5 +730,7 @@ Misc Stuff
 -----r225
 Fixed tooltips in maintoolbar
 [RegExp.h] Change to pcre q
+-----r226
+Some Compile Fixies for boost 1.53/gcc 4.8+
 
 

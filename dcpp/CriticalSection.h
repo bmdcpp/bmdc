@@ -18,16 +18,15 @@
 
 #ifndef DCPLUSPLUS_DCPP_CRITICAL_SECTION_H
 #define DCPLUSPLUS_DCPP_CRITICAL_SECTION_H
-
-#include <boost/thread/recursive_mutex.hpp>
+#include <thread>
+#include <mutex>
 
 namespace dcpp {
-
 // TODO: At some point (probably when c++0x support is solid enough), remove these old names
-typedef boost::recursive_mutex CriticalSection;
-typedef boost::detail::spinlock	FastCriticalSection;
-typedef boost::unique_lock<boost::recursive_mutex> Lock;
-typedef boost::lock_guard<boost::detail::spinlock> FastLock;
+typedef std::recursive_mutex CriticalSection;
+typedef std::unique_lock<std::recursive_mutex> Lock;
+typedef std::mutex FastCriticalSection;
+typedef std::lock_guard<std::mutex> FastLock;
 
 } // namespace dcpp
 

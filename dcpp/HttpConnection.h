@@ -18,7 +18,7 @@
 
 #ifndef DCPLUSPLUS_DCPP_HTTP_CONNECTION_H
 #define DCPLUSPLUS_DCPP_HTTP_CONNECTION_H
-
+#include <boost/noncopyable.hpp>
 #include "BufferedSocketListener.h"
 #include "HttpConnectionListener.h"
 #include "Speaker.h"
