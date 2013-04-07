@@ -431,7 +431,7 @@ string WulforUtil::colorToString(const GdkColor *color)
 
 string WulforUtil::colorToString(const GdkRGBA *color)
 {
-	gchar strcolor[20];
+	gchar strcolor[40];
 
 	g_snprintf(strcolor, sizeof(strcolor), "rgba(%f,%f,%f,%f)",
 		color->red, color->green, color->blue, color->alpha);

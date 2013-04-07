@@ -453,7 +453,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		// For simplicity, we make the assumption that users on a hub have the same character encoding
 		ConnectionManager::getInstance()->nmdcConnect(server, port, getMyNick(), getHubUrl(), getEncoding());
 	} else if(cmd == "$RevConnectToMe") {
-		if(state != STATE_NORMAL || getHideShare()) {
+		if(state != STATE_NORMAL) {
 			return;
 		}
 

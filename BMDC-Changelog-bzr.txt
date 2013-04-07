@@ -734,4 +734,10 @@ Fixed tooltips in maintoolbar
 Some Compile Fixies for boost 1.53/gcc 4.8+
 -----r227
 [add] Converter of Win-like emoticons xml
+-----r228
+Fixed Pasive Mod (icon&func)
+Fixed Backgrouns Chat (Settings)
+Patched bmicon.xml
+
+
 
