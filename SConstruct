@@ -307,7 +307,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	env.MergeFlags(BUILD_FLAGS[env['mode']])
 
 	env.Append(CXXFLAGS = '-std=c++0x')
-	env.Append(LIBS = 'boost_regex')
+	env.Append(LIBS = ['boost_regex','pcre'])
 	env.Append(LINKFLAGS = ['-lboost_system','-lboost_thread','-lpcre'])
 
 	env.Append(CPPDEFINES = ['STATICLIB'])

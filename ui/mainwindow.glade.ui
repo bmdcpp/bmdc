@@ -2152,7 +2152,9 @@ Contributors:
       <object class="GtkToolButton" id="notepad">
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
+        <property name="has_tooltip">True</property>
         <property name="can_focus">False</property>
+        <property name="tooltip_text" translatable="yes">View the Notepad</property>
         <property name="label" translatable="yes">Notepad</property>
         <property name="use_underline">True</property>
         <property name="stock_id">bmdc-notepad</property>
@@ -2167,6 +2169,8 @@ Contributors:
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="has_tooltip">True</property>
+        <property name="tooltip_text" translatable="yes">View the System Log</property>
         <property name="label" translatable="yes">System Log</property>
         <property name="use_underline">True</property>
         <property name="stock_id">bmdc-system</property>
@@ -2181,6 +2185,8 @@ Contributors:
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="has_tooltip">True</property>
+        <property name="tooltip_text" translatable="yes">Set Away on/off</property>
         <property name="label" translatable="yes">Away</property>
         <property name="use_underline">True</property>
         <property name="stock_id">bmdc-away</property>
@@ -2195,6 +2201,8 @@ Contributors:
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="has_tooltip">True</property>
+        <property name="tooltip_text" translatable="yes">Set Limiting</property>
         <property name="label" translatable="yes">Limiting</property>
         <property name="use_underline">True</property>
         <property name="stock_id">bmdc-limiting</property>

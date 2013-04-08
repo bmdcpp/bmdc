@@ -431,12 +431,12 @@ string WulforUtil::colorToString(const GdkColor *color)
 
 string WulforUtil::colorToString(const GdkRGBA *color)
 {
-	gchar strcolor[40];
+	/*gchar strcolor[162];
 
-	g_snprintf(strcolor, sizeof(strcolor), "rgba(%f,%f,%f,%f)",
+	g_snprintf(strcolor, sizeof(strcolor), "rgba(%04f,%04f,%04f,%04f)",
 		color->red, color->green, color->blue, color->alpha);
-
-	return strcolor;
+	*/
+	return string(gdk_rgba_to_string(color));
 }
 
 GdkPixbuf* WulforUtil::scalePixbuf(const GdkPixbuf *pixbuf, const int width, const int height, GdkInterpType type)

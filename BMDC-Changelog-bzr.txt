@@ -738,6 +738,10 @@ Some Compile Fixies for boost 1.53/gcc 4.8+
 Fixed Pasive Mod (icon&func)
 Fixed Backgrouns Chat (Settings)
 Patched bmicon.xml
+-----229
+Fixed some build isue on *Buntu
+Fixed Background Chat (again)
+Fixed tooltips
 
 
 
