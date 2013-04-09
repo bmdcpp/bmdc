@@ -337,7 +337,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry" id="SearchEntry">
+                  <object class="GtkSearchEntry" id="SearchEntry">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="invisible_char">●</property>

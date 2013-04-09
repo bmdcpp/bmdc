@@ -742,6 +742,9 @@ Patched bmicon.xml
 Fixed some build isue on *Buntu
 Fixed Background Chat (again)
 Fixed tooltips
+-----230
+Use GtkSearchEntry in Search's Tabs (relq at least gtk 3.6+)
+Apply Enhanced from Bug #LP1166502 (bmicon)
 
 
 

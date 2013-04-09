@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <emoticons-map name="bmicon">
-<emoticon file="shout.gif">
-<name text=":-D"/>
-<name text=":o)"/>
-</emoticon>
 <emoticon file="derisive.gif">
 <name text=":-))"/>
 <name text=":))"/>
@@ -20,12 +16,18 @@
 <name text=";)"/>
 <name text=";o)"/>
 </emoticon>
+<emoticon file="shout.gif">
+<name text=":-D"/>
+<name text=":D"/>
+<name text=":o)"/>
+</emoticon>
 <emoticon file="biggrin.gif">
 <name text=":-B"/>
 <name text=":B"/>
 </emoticon>
 <emoticon file="sad.gif">
 <name text=":-("/>
+<name text=":("/>
 <name text="8-("/>
 <name text=";o("/>
 </emoticon>
@@ -34,11 +36,13 @@
 </emoticon>
 <emoticon file="blum2.gif">
 <name text=":-P"/>
+<name text=":P"/>
 <name text="=P"/>
 </emoticon>
 <emoticon file="dirol.gif">
 <name text="8-)"/>
-<name text=" 0.0 "/>
+<name text="8)"/>
+<name text="0.0"/>
 <name text="8-}"/>
 </emoticon>
 <emoticon file="blush2.gif">
@@ -74,6 +78,7 @@
 </emoticon>
 <emoticon file="nea.gif">
 <name text=":-/"/>
+<name text=":/"/>
 <name text="8-$"/>
 </emoticon>
 <emoticon file="heart.gif">

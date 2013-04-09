@@ -9,7 +9,7 @@ scons >= 0.96
 pkg-config
 g++ >= 4.5
 glib >= 2.32
-gtk+-3.0 >= 3.00
+gtk+-3.0 >= 3.6
 pthread
 zlib
 libbz2
