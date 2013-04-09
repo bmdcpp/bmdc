@@ -27,7 +27,6 @@
 #include <dcpp/ClientManager.h>
 #include <dcpp/SearchManager.h>
 #include <dcpp/SearchResult.h>
-
 #include "bookentry.hh"
 #include "treeview.hh"
 
@@ -153,6 +152,27 @@ class Search:
 
 		GtkEntryCompletion *completion;
 		GtkListStore *emodel;
+		public:
+		virtual GtkWidget *createmenu()
+		{
+			GtkWidget *item = getFItem();
+			GtkWidget *menu =  BookEntry::createmenu();
+			GtkWidget *addSearchTab = gtk_menu_item_new_with_label(_("Add Search Tab"));
+			GtkWidget *close = gtk_menu_item_new_with_label(_("Close"));
+			gtk_menu_shell_append(GTK_MENU_SHELL(menu),item);
+			gtk_menu_shell_append(GTK_MENU_SHELL(menu),close);
+			gtk_menu_shell_append(GTK_MENU_SHELL(menu),addSearchTab);
+			gtk_widget_show(close);
+			gtk_widget_show(addSearchTab);
+			gtk_widget_show(item);
+			g_signal_connect_swapped(close, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
+			g_signal_connect_swapped(addSearchTab, "activate", G_CALLBACK(onAddItem), (gpointer)this);
+			//gtk_widget_show_all(menu);
+			return menu;
+		}
+		private:
+		static void onCloseItem(gpointer data);
+		static void onAddItem(gpointer data);
 };
 
 #else

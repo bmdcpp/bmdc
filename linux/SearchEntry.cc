@@ -56,7 +56,8 @@ void SearchEntry::addBookEntry_gui(BookEntry *entry)
 	GtkWidget *closeButton = entry->getCloseButton();
 
 	gtk_notebook_append_page(GTK_NOTEBOOK(getWidget("sebook")), page, label);
-
+	
+	g_signal_connect(label, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
 	g_signal_connect(closeButton, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
 	g_signal_connect(closeButton, "clicked", G_CALLBACK(onCloseBookEntry_gui), (gpointer)entry);
 

@@ -2,6 +2,7 @@
 //Author: Irene
 #include <cstring>
 #include "ShellCommand.hh"
+#include "WulforUtil.hh"
 
 ShellCommand::ShellCommand(char* input, int len, int shell)
 {
@@ -81,7 +82,7 @@ ShellCommand::ShellCommand(char* input, int len, int shell)
 			if(strncmp(output,"/me",3) ==0)
 			{
 				thirdPerson = true;
-				output = substr(output,4,strlen(output)+1);
+				output = WulforUtil::g_substr(output,4,strlen(output)+1);
 
 			}
 	}

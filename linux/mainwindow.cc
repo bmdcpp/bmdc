@@ -2183,7 +2183,7 @@ void MainWindow::onPublicHubsClicked_gui(GtkWidget *widget, gpointer data)
 void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	typedef Func0<MainWindow> F0;
+	//typedef Func0<MainWindow> F0;
 
 	auto prevTCP = SETTING(TCP_PORT);
 	auto prevUDP = SETTING(UDP_PORT);

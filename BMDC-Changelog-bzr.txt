@@ -738,13 +738,16 @@ Some Compile Fixies for boost 1.53/gcc 4.8+
 Fixed Pasive Mod (icon&func)
 Fixed Backgrouns Chat (Settings)
 Patched bmicon.xml
------229
+-----r229
 Fixed some build isue on *Buntu
 Fixed Background Chat (again)
 Fixed tooltips
------230
+-----r230
 Use GtkSearchEntry in Search's Tabs (relq at least gtk 3.6+)
 Apply Enhanced from Bug #LP1166502 (bmicon)
+-----r231
+Add Menu Item to Open Search Tab in SearchEntry
+Misc stuff (like as moving duplicated function,..)
 
 
 

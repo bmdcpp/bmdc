@@ -922,7 +922,6 @@ void PrivateMessage::updateCursor(GtkWidget *widget)
 	GSList *tagList;
 	GtkTextTag *newTag = NULL;
 
-	//gdk_window_get_pointer(gtk_widget_get_window(widget), &x, &y, NULL);
 	GdkDeviceManager *device_manager;
 	GdkDevice *pointer;
 //GTK3
@@ -1439,7 +1438,7 @@ void PrivateMessage::sendMessage_client(string message)
 	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
 	if (user && user->isOnline())
 	{
-		// FIXME: WTF does the 3rd param (bool thirdPerson) do? A: Used for /me stuff
+		// NOTE: WTF does the 3rd param (bool thirdPerson) do? A: Used for /me stuff
 		ClientManager::getInstance()->privateMessage(HintedUser(user, hubUrl), message, false);//NOTE: core 0.762
 	}
 	else

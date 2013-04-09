@@ -283,10 +283,12 @@ GtkWidget *BookEntry::createmenu()
 {
     GtkWidget *closeTabMenuItem;
     popTabMenuItem = gtk_menu_new();
-    closeTabMenuItem = gtk_menu_item_new_with_label(_("Close"));
-    gtk_menu_shell_append(GTK_MENU_SHELL(popTabMenuItem),closeTabMenuItem);
-    gtk_widget_show(closeTabMenuItem);
-    g_signal_connect_swapped(closeTabMenuItem, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
+    if(!IsCloseButton) {
+		closeTabMenuItem = gtk_menu_item_new_with_label(_("Close"));
+		gtk_menu_shell_append(GTK_MENU_SHELL(popTabMenuItem),closeTabMenuItem);
+		gtk_widget_show(closeTabMenuItem);
+		g_signal_connect_swapped(closeTabMenuItem, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
+	}	
     return popTabMenuItem;
 }
 

@@ -73,7 +73,8 @@ class Hub:
 		//this represent state of user and nick of it
 		struct FlagUser: public dcpp::Flags
 		{
-		  public:	
+		  public:
+			FlagUser(): dcpp::Flags(FLAG_PASIVE), nick(dcpp::Util::emptyString) {}	
 			FlagUser(const std::string& _nick,int _flags): dcpp::Flags((dcpp::Flags::MaskType)_flags),nick(_nick) { };
 			enum FlagUserFlags
 			{
@@ -91,7 +92,7 @@ class Hub:
 		typedef std::unordered_map<std::string, GtkTreeIter> UserIters;
 		typedef std::unordered_map<GtkWidget*, std::string> ImageList;
 		typedef std::pair<std::string, GtkWidget*> ImageLoad;
-		typedef std::unordered_map<std::string, FlagUser* > UserFlags;//for flags
+		typedef std::unordered_map<std::string, FlagUser > UserFlags;//for flags
 
 		// GUI functions
 		void setStatus_gui(std::string statusBar, std::string text);
@@ -299,15 +300,6 @@ class Hub:
 		std::unique_ptr<dcpp::HttpDownload> iconshttp;
 		GtkWidget *tab_image;
 		GtkWidget *tab_button;
-		//maybe add to WUtil
-		gchar * g_substr (const gchar* string,
-          gint         start,
-          gint         end)
-		{
-			gsize len = (end - start + 1);
-			gchar *output = (gchar *)g_malloc0 (len + 1);
-			return g_utf8_strncpy (output, &string[start], len);
-		}
 
 		bool notify;
 

@@ -56,13 +56,11 @@ class SearchEntry: public BookEntry
 		}
 		void setTabPosition_gui(GtkPositionType pos)
 		{ gtk_notebook_set_tab_pos(GTK_NOTEBOOK(getWidget("sebook")), pos);}
-	
-	private:
-	
+		void removeBookEntry_gui(BookEntry *entry);
 		void addBookEntry_gui(BookEntry *entry);
+	private:
 		GtkWidget *currentPage_gui();
 		void raisePage_gui(GtkWidget *page);
-		void removeBookEntry_gui(BookEntry *entry);
 		static void onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *page, guint num , gpointer data);
 		static gboolean onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static void onCloseBookEntry_gui(GtkWidget *widget, gpointer data);

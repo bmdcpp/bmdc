@@ -2114,3 +2114,14 @@ void Search::set_Header_tooltip_gui()//How beter ?
 	columnHeader(12, "TTH");
 
 }
+
+void Search::onCloseItem(gpointer data)
+{
+	Search *entry = (Search *)data;
+	WulforManager::get()->getMainWindow()->getSearchEntry()->removeBookEntry_gui(entry);
+}
+void Search::onAddItem(gpointer data)
+{
+	BookEntry* entry = new Search(dcpp::Util::emptyString);
+	WulforManager::get()->getMainWindow()->getSearchEntry()->addBookEntry_gui(entry);
+}

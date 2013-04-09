@@ -30,7 +30,7 @@
 #include <dcpp/version.h>
 #include <dcpp/ChatMessage.h> //NOTE: core 0.762
 #include <dcpp/GeoManager.h>
-#include <dcpp/RegEx.h>
+//#include <dcpp/RegEx.h>
 #include <dcpp/PluginManager.h>
 #include <dcpp/ConnectivityManager.h>
 
@@ -381,7 +381,7 @@ void Hub::setColorRow(string cell)
 
 void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data)
 {
-		Hub *hub = (Hub *)data;
+		//Hub *hub = (Hub *)data;
 		string color = "#A52A2A";
 		gchar *cltype;
 		int64_t size;
@@ -400,7 +400,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 						20,&cltype,
 						-1);
 
-		gchar *a = hub->g_substr(cltype,0,0);
+		gchar *a = WulforUtil::g_substr(cltype,0,0);
 		//Hub&Bot
 		if ( strcmp(a,"A") == 0)
 		{
@@ -602,9 +602,9 @@ void Hub::setStatus_gui(string statusBar, string text)
 			}
 
 			statustext.push(text);
-            	statusTextOnToolTip += "\n" + text;
+            statusTextOnToolTip += "\n" + text;
 
-                gtk_widget_set_tooltip_text(getWidget("statusMain"), statusTextOnToolTip.c_str());
+            gtk_widget_set_tooltip_text(getWidget("statusMain"), statusTextOnToolTip.c_str());
 		}
 
 		gtk_statusbar_pop(GTK_STATUSBAR(getWidget(statusBar)), 0);
@@ -654,10 +654,10 @@ void Hub::updateUser_gui(ParamMap params)
 	bool isProtected = false;
 	if(isIn) { 
 		auto it = users.find(cid);
-		isOperator = it->second->isSet(FlagUser::FLAG_OP);
-		isPasive = it->second->isSet(FlagUser::FLAG_PASIVE);
-		isIgnore = it->second->isSet(FlagUser::FLAG_IGNORE);
-		isProtected = it->second->isSet(FlagUser::FLAG_PROTECT);
+		isOperator = it->second.isSet(FlagUser::FLAG_OP);
+		isPasive = it->second.isSet(FlagUser::FLAG_PASIVE);
+		isIgnore = it->second.isSet(FlagUser::FLAG_IGNORE);
+		isProtected = it->second.isSet(FlagUser::FLAG_PROTECT);
 	}
 
 	GdkPixbuf *pixbuf = WulforUtil::LoadCountryPixbuf(params["Abbrevation"]);//we dont need more that one instant and also not need more that one ref
@@ -681,13 +681,13 @@ void Hub::updateUser_gui(ParamMap params)
 			if (favorite)
 				userFavoriteMap[cid] = Nick;
 			if(isProtected)
-				users[cid] = (new FlagUser(Nick,(int)FlagUser::FLAG_PROTECT));
+				users[cid] = (FlagUser(Nick,(int)FlagUser::FLAG_PROTECT));
 			if(isIgnore)
-				users[cid] = ( new FlagUser(Nick,(int)FlagUser::FLAG_IGNORE));
+				users[cid] = (FlagUser(Nick,(int)FlagUser::FLAG_IGNORE));
 			if(isPasive)
-				users[cid] = (new FlagUser(Nick,(int)FlagUser::FLAG_PASIVE));
+				users[cid] = (FlagUser(Nick,(int)FlagUser::FLAG_PASIVE));
 			if(isOperator)
-				users[cid] = (new FlagUser(Nick,(int)FlagUser::FLAG_OP));
+				users[cid] = (FlagUser(Nick,(int)FlagUser::FLAG_OP));
 		}
 
 		gtk_list_store_set(nickStore, &iter,
@@ -698,20 +698,20 @@ void Hub::updateUser_gui(ParamMap params)
  			nickView.col(_("Connection")), params["Connection"].c_str(),
 			nickView.col("IP"), params["IP"].c_str(),
 			nickView.col(_("eMail")), params["eMail"].c_str(),
-            	nickView.col(_("Country")), params["Country"].c_str(),
-            	nickView.col(_("Exact Share")), shared,
-            	nickView.col(_("Slots")), params["Slots"].c_str(),
-            	nickView.col(_("Hubs")), params["Hubs"].c_str(),
-            	nickView.col("PK"), params["PK"].c_str(),
-            	nickView.col(_("Cheat")), params["Cheat"].c_str(),
-            	nickView.col(_("Generator")), params["Generator"].c_str(),
-            	nickView.col(_("Support")), params["Support"].c_str(),
+            nickView.col(_("Country")), params["Country"].c_str(),
+            nickView.col(_("Exact Share")), shared,
+            nickView.col(_("Slots")), params["Slots"].c_str(),
+            nickView.col(_("Hubs")), params["Hubs"].c_str(),
+            nickView.col("PK"), params["PK"].c_str(),
+            nickView.col(_("Cheat")), params["Cheat"].c_str(),
+            nickView.col(_("Generator")), params["Generator"].c_str(),
+            nickView.col(_("Support")), params["Support"].c_str(),
 			nickView.col("Icon"), icon.c_str(),
 			nickView.col("Nick Order"), nickOrder.c_str(),
 			nickView.col("CID"), cid.c_str(),
 			nickView.col("NickColor"), nickColor.c_str(),
-            	nickView.col("Pixbuf"), pixbuf,
-            	nickView.col("Client Type"), params["Type"].c_str(),
+            nickView.col("Pixbuf"), pixbuf,
+            nickView.col("Client Type"), params["Type"].c_str(),
 			-1);
 	}
 	else
@@ -785,10 +785,6 @@ void Hub::removeUser_gui(string cid)
 		//BMDC++
 		users.erase(cid);
 
-//		userOpMap.erase(nick);
-//		userPasiveMap.erase(nick);
-//		userProtectMap.erase(nick);
-//		userIgnoreMap.erase(nick);
 		userFavoriteMap.erase(nick);
 
 		userIters.erase(cid);
@@ -838,11 +834,7 @@ void Hub::clearNickList_gui()
 	userMap.clear();
 	//BMDC++
 	users.clear();
-//	userOpMap.clear();
-//	userPasiveMap.clear();
-//	userIgnoreMap.clear();
 	userFavoriteMap.clear();
-//	userProtectMap.clear();
 	//END
 	userIters.clear();
 	totalShared = 0;
@@ -922,7 +914,6 @@ void Hub::getPassword_gui()
 #else
 	GtkWidget *box = gtk_vbox_new(TRUE, 0);
 #endif
-
 
 	GtkWidget *entry = gtk_entry_new();
 	g_object_set(entry, "can-focus", TRUE, "visibility", FALSE, "activates-default", TRUE, NULL);
@@ -1595,7 +1586,6 @@ void Hub::updateCursor_gui(GtkWidget *widget)
 	GSList *tagList;
 	GtkTextTag *newTag = NULL;
 
-//	gdk_window_get_pointer(gtk_widget_get_window(widget), &x, &y, NULL);//TODO
 	GdkDeviceManager *device_manager;
 	GdkDevice *pointer;
 //GTK3
@@ -3359,7 +3349,7 @@ void Hub::addPasive_gui(ParamMap params)
 		GtkTreeIter iter;
 		const string &nick = params["Nick"];
 //		userPasiveMap.insert(UserMap::value_type(cid, nick));
-		users.insert(UserFlags::value_type(cid,new FlagUser(nick,FlagUser::FLAG_PASIVE)));
+		users.insert(UserFlags::value_type(cid,FlagUser(nick,FlagUser::FLAG_PASIVE)));
 
 		// resort users
 		if (findUser_gui(cid, &iter))
@@ -3383,7 +3373,7 @@ void Hub::addOperator_gui(ParamMap params)
 		GtkTreeIter iter;
 		const string &nick = params["Nick"];
 		//userOpMap.insert(UserMap::value_type(cid, nick));
-		users.insert(UserFlags::value_type(cid, new FlagUser(nick,FlagUser::FLAG_OP)));
+		users.insert(UserFlags::value_type(cid, FlagUser(nick,FlagUser::FLAG_OP)));
 
 		// resort users
 		if (findUser_gui(cid, &iter))
@@ -3407,7 +3397,7 @@ void Hub::addProtected_gui(ParamMap params)
 		GtkTreeIter iter;
 		const string &nick = params["Nick"];
 //		userProtectMap.insert(UserMap::value_type(cid, nick));
-		users.insert(UserFlags::value_type(cid, new FlagUser(nick,FlagUser::FLAG_PROTECT)));
+		users.insert(UserFlags::value_type(cid, FlagUser(nick,FlagUser::FLAG_PROTECT)));
 
 		// resort users
 		if (findUser_gui(cid, &iter))
@@ -3431,7 +3421,7 @@ void Hub::addIgnore_gui(ParamMap params)
 		GtkTreeIter iter;
 		const string &nick = params["Nick"];
 //		userIgnoreMap.insert(UserMap::value_type(cid, nick));
-		users.insert(UserFlags::value_type(cid, new FlagUser(nick,FlagUser::FLAG_IGNORE)));
+		users.insert(UserFlags::value_type(cid, FlagUser(nick,FlagUser::FLAG_IGNORE)));
 
 		// resort users
 		if (findUser_gui(cid, &iter))
@@ -3448,13 +3438,13 @@ void Hub::addIgnore_gui(ParamMap params)
 void Hub::removeIgnore_gui(ParamMap params)
 {
     const string &cid = params["CID"];
-   std::unordered_map<std::string, FlagUser* >::iterator it;
+   std::unordered_map<std::string, FlagUser >::iterator it;
     if( (it = users.find(cid))!= users.end())
     {
        GtkTreeIter iter;
-        if(findUser_gui(cid,&iter) && it->second->isSet(FlagUser::FLAG_IGNORE))
+        if(findUser_gui(cid,&iter) && it->second.isSet(FlagUser::FLAG_IGNORE))
         {
-      	it->second->unsetFlag(FlagUser::FLAG_IGNORE);
+			it->second.unsetFlag(FlagUser::FLAG_IGNORE);
             gtk_list_store_set(nickStore,&iter,
                                nickView.col("NickColor"), WGETS("userlist-text-normal").c_str(),
                                nickView.col("Client Type"), ("U"+params["nick"]).c_str(),

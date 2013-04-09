@@ -126,13 +126,12 @@ class MainWindow:
 			END
 		} IconsToolbar;
 
-		static /*void**/char* icons[(MainWindow::IconsToolbar)END][3];
+		static char* icons[(MainWindow::IconsToolbar)END][3];
 
 		void setStatusOfIcons(IconsToolbar type, bool isClicked)
 		{
 			if(isClicked)
 				gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget(std::string(icons[type][2]))),(icons[type][1]));
-				//gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget(std::string(reinterpret_cast<char *>(icons[type][2])))),(reinterpret_cast<char *>(icons[type][1])));
 			else
 				gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget(std::string(icons[type][2]))),(icons[type][0]));
 		}
