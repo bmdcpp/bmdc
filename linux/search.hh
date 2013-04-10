@@ -167,7 +167,6 @@ class Search:
 			gtk_widget_show(item);
 			g_signal_connect_swapped(close, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
 			g_signal_connect_swapped(addSearchTab, "activate", G_CALLBACK(onAddItem), (gpointer)this);
-			//gtk_widget_show_all(menu);
 			return menu;
 		}
 		private:

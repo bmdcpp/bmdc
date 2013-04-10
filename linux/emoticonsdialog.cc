@@ -365,10 +365,8 @@ void EmoticonsDialog::position()
 void EmoticonsDialog::graber()
 {
 	/* grabs the pointer (usually a mouse) */
-	gdk_pointer_grab(gtk_widget_get_window(dialog), TRUE, (GdkEventMask) (GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK),
-		NULL, NULL, GDK_CURRENT_TIME);
-
-	gtk_grab_add(dialog);
+	if(gdk_device_grab(gtk_get_current_event_device(),gtk_widget_get_window(dialog), GDK_OWNERSHIP_NONE,TRUE,(GdkEventMask)(GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK),NULL,GDK_CURRENT_TIME));
+		gtk_grab_add(dialog);
 }
 
 void EmoticonsDialog::onChat(GtkWidget *widget /*button*/, gpointer data /*this*/)

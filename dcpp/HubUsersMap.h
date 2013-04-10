@@ -151,15 +151,16 @@ private:
 			stop = true;
 			return 0;
 		}
-		bool stop;
 		Client* client;
+		bool stop;
 	}myInfoEngine;
 
 	//clients check engine
 	class ThreadedCheck : public Thread {
 	public:
 		ThreadedCheck(HubUsersMap* _u, Client* _c) : client(_c), users(_u),
-			keepChecking(false), canCheckFilelist(false), inThread(false), checkAtConnect(false) { };
+			keepChecking(false), canCheckFilelist(false), inThread(false), 
+			checkAtConnect(false) , checkClients(true) ,checkFilelists(true)  { };
 
 		~ThreadedCheck() {
 			keepChecking = inThread = false;
@@ -351,21 +352,21 @@ private:
 			inThread = false;
 			return 0;
 		}
-		GETSET(bool, keepChecking, KeepChecking);
-		GETSET(bool, checkAtConnect, CheckAtConnect);
-		GETSET(bool, checkFilelists, CheckFilelists);
-		GETSET(bool, checkClients, CheckClients);
-		bool canCheckFilelist;
-		bool inThread;
-
 		Client* client;
 		HubUsersMap* users;
+		GETSET(bool, keepChecking, KeepChecking);
+		bool canCheckFilelist;
+		bool inThread;
+		GETSET(bool, checkAtConnect, CheckAtConnect);
+		GETSET(bool, checkClients, CheckClients);
+		GETSET(bool, checkFilelists, CheckFilelists);
+		
 	}*clientEngine;
 };
 
 } // namespace dcpp
 #endif // HUB_USERS_MAP
-
+/* Partialy edited by Mank*/
 /**
  * @file
  * $Id: HubUsersMap.h 141 2011-08-10 00:06:13Z adrian_007 $

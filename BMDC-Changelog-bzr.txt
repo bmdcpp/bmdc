@@ -748,6 +748,10 @@ Apply Enhanced from Bug #LP1166502 (bmicon)
 -----r231
 Add Menu Item to Open Search Tab in SearchEntry
 Misc stuff (like as moving duplicated function,..)
+-----r232
+Fix ADLSearch icon
+Fix some -Wreorder
+Fix gdk_pointer_* deprected uses
 
 
 

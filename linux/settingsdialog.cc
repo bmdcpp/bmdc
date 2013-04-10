@@ -86,7 +86,8 @@ Settings::Settings(GtkWindow* parent):
 	/**/
 	defaultStringTheme.insert(StringMap::value_type("icon-notepad", "bmdc-notepad"));
 	defaultStringTheme.insert(StringMap::value_type("icon-system", "bmdc-system"));
-	defaultStringTheme.insert(StringMap::value_type("icon-search-adl", "bmdc-adlsearch"));
+	defaultStringTheme.insert(StringMap::value_type("icon-search-adl", "bmdc-search-adl"));
+	defaultStringTheme.insert(StringMap::value_type("icon-search-adl-on", "bmdc-search-adl-on"));
 	defaultStringTheme.insert(StringMap::value_type("icon-away", "bmdc-away"));
 	defaultStringTheme.insert(StringMap::value_type("icon-none", "bmdc-none"));
 	defaultStringTheme.insert(StringMap::value_type("icon-limiting", "bmdc-limiting"));

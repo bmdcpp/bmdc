@@ -1132,7 +1132,7 @@ gboolean FavoriteHubs::onGroupsButtonReleased_gui(GtkWidget *widget, GdkEventBut
 void FavoriteHubs::initializeList_client()
 {
 	StringMap params;
-	typedef Func1<FavoriteHubs, StringMap> F1;
+	//typedef Func1<FavoriteHubs, StringMap> F1;
 	const FavoriteHubEntryList& fl = FavoriteManager::getInstance()->getFavoriteHubs();
 
 	for (auto it = fl.begin(); it != fl.end(); ++it)
