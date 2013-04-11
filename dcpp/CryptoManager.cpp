@@ -217,7 +217,7 @@ void CryptoManager::loadCertificates() noexcept {
 			generateCertificate();
 			LogManager::getInstance()->message(_("Generated new TLS certificate"));
 		} catch(const CryptoException& e) {
-			LogManager::getInstance()->message(str(F_("TLS disabled, failed to generate certificate: %1%") % e.getError()));
+			LogManager::getInstance()->message((F_("TLS disabled, failed to generate certificate: "+  e.getError())));
 		}
 	}
 

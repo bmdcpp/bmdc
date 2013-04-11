@@ -721,11 +721,11 @@ bool QueueManager::addSource(QueueItem* qi, const HintedUser& aUser, Flags::Mask
 		if(qi->isSet(QueueItem::FLAG_USER_LIST) || qi->isSet(QueueItem::FLAG_TESTSUR)) {
 			return wantConnection;
 		}
-		throw QueueException(str(F_("Duplicate source: %1%") % Util::getFileName(qi->getTarget())));
+		throw QueueException(string(F_("Duplicate source: ") + Util::getFileName(qi->getTarget())));
 	}
 
 	if(qi->isBadSourceExcept(aUser, addBad)) {
-		throw QueueException(str(F_("Duplicate source: %1%") % Util::getFileName(qi->getTarget())));
+		throw QueueException(string(F_("Duplicate source: ") + Util::getFileName(qi->getTarget())));
 	}
 
 	qi->addSource(aUser);
@@ -1063,11 +1063,9 @@ void QueueManager::moveFile_(const string& source, const string& target) {
 		string newTarget = Util::getFilePath(source) + Util::getFileName(target);
 		try {
 			File::renameFile(source, newTarget);
-			LogManager::getInstance()->message(str(F_("Unable to move %1% to %2% (%3%); renamed to %4%") %
-				Util::addBrackets(source) % Util::addBrackets(target) % e1.getError() % Util::addBrackets(newTarget)));
+			LogManager::getInstance()->message( F_( ("Unable to move "+Util::addBrackets(source)+" to "+Util::addBrackets(target)+" ("+e1.getError()+") renamed to "+ Util::addBrackets(newTarget)).c_str()));
 		} catch(const FileException& e2) {
-			LogManager::getInstance()->message(str(F_("Unable to move %1% to %2% (%3%) nor to rename to %4% (%5%)") %
-				Util::addBrackets(source) % Util::addBrackets(target) % e1.getError() % Util::addBrackets(newTarget) % e2.getError()));
+			LogManager::getInstance()->message( F_( ("Unable to move "+Util::addBrackets(source)+" to "+Util::addBrackets(target)+" ("+e1.getError()+") nor to rename to "+Util::addBrackets(newTarget)+" ("+e2.getError()+")").c_str()   ));
 		}
 	}
 }
@@ -1251,7 +1249,7 @@ void QueueManager::processList(const string& name, const HintedUser& user, int f
 	try {
 		dirList.loadFile(name);
 	} catch(const Exception&) {
-		LogManager::getInstance()->message(str(F_("Unable to open filelist: %1%") % Util::addBrackets(name)));
+		LogManager::getInstance()->message(string(F_("Unable to open filelist: ") + Util::addBrackets(name)));
 		return;
 	}
 
@@ -1272,8 +1270,7 @@ void QueueManager::processList(const string& name, const HintedUser& user, int f
 	}
 	if(flags & QueueItem::FLAG_MATCH_QUEUE) {
 		size_t files = matchListing(dirList);
-		LogManager::getInstance()->message(str(FN_("%1%: Matched %2% file", "%1%: Matched %2% files", files) %
-			Util::toString(ClientManager::getInstance()->getNicks(user)) % files));
+		LogManager::getInstance()->message(string(F_(Util::toString(ClientManager::getInstance()->getNicks(user))+": Matched "+Util::toString(files)+" file(s)")));
 	}
 }
 
@@ -1765,7 +1762,7 @@ bool QueueManager::checkSfv(QueueItem* qi, Download* d) {
 			File::deleteFile(qi->getTempTarget());
 			qi->resetDownloaded();
 			dcdebug("QueueManager: CRC32 mismatch for %s\n", qi->getTarget().c_str());
-			LogManager::getInstance()->message(str(F_("CRC32 inconsistency (SFV-Check): %1%") % Util::addBrackets(qi->getTarget())));
+			LogManager::getInstance()->message(string(F_("CRC32 inconsistency (SFV-Check): ") + Util::addBrackets(qi->getTarget())));
 
 			setPriority(qi->getTarget(), QueueItem::PAUSED);
 
@@ -1853,7 +1850,7 @@ void QueueManager::logFinishedDownload(QueueItem* qi, Download* d, bool crcCheck
 			params["fileSIactual"] = Util::toString(entry->getActual());
 			params["fileSIactualshort"] = Util::formatBytes(entry->getActual());
 
-			params["speed"] = str(F_("%1%/s") % Util::formatBytes(entry->getAverageSpeed()));
+			params["speed"] = string(Util::formatBytes(entry->getAverageSpeed()+_("/s") ));
 			params["time"] = Util::formatSeconds(entry->getMilliSeconds() / 1000);
 		}
 	}

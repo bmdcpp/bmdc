@@ -22,7 +22,6 @@
 #include <mutex>
 
 namespace dcpp {
-// TODO: At some point (probably when c++0x support is solid enough), remove these old names
 typedef std::recursive_mutex CriticalSection;
 typedef std::unique_lock<std::recursive_mutex> Lock;
 typedef std::mutex FastCriticalSection;

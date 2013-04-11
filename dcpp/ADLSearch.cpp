@@ -148,7 +148,7 @@ struct Prepare : boost::static_visitor<> {
 		try {
 			r.assign(s);
 		} catch(const std::runtime_error&) {
-			LogManager::getInstance()->message(str(F_("Invalid ADL Search regular expression: %1%") % s));
+			LogManager::getInstance()->message(string(_("Invalid ADL Search regular expression: ")+ s));
 		}
 	}
 

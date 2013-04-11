@@ -752,6 +752,13 @@ Misc stuff (like as moving duplicated function,..)
 Fix ADLSearch icon
 Fix some -Wreorder
 Fix gdk_pointer_* deprected uses
+-----0.0.4-------
+-----r233
+properly format sized in /stats
+some remove of boost::str
+misc stuff
+
+
 
 
 

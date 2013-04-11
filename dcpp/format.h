@@ -18,8 +18,8 @@
 
 #ifndef DCPLUSPLUS_DCPP_FORMAT_H_
 #define DCPLUSPLUS_DCPP_FORMAT_H_
-
-#include <boost/format.hpp>
+#include <string>
+#include <libintl.h>
 
 #ifdef BUILDING_DCPP
 
@@ -28,28 +28,13 @@
 #define _(String) dgettext(PACKAGE, String)
 #define gettext_noop(String) String
 #define N_(String) gettext_noop (String)
-#define F_(String) dcpp::dcpp_fmt(dgettext(PACKAGE, String))
+#define F_(String) (dgettext(PACKAGE, std::string(String).c_str()))
 #define FN_(String1,String2, N) dcpp::dcpp_fmt(dngettext(PACKAGE, String1, String2, N))
 
 #endif
 
 namespace dcpp {
 
-template<typename T>
-boost::basic_format<T> dcpp_fmt(const std::basic_string<T>& t) {
-	boost::basic_format<T> fmt;
-	fmt.exceptions(boost::io::no_error_bits);
-	fmt.parse(t);
-	return fmt;
 }
-
-template<typename T>
-boost::basic_format<T> dcpp_fmt(const T* t) {
-	return dcpp_fmt(std::basic_string<T>(t));
-}
-
-}
-
-using boost::str;
 
 #endif /* DCPLUSPLUS_DCPP_FORMAT_H_ */

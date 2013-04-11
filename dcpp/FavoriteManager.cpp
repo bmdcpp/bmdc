@@ -969,7 +969,7 @@ void FavoriteManager::refresh(bool forceDownload /* = false */) {
 	publicListServer = sl[(lastServer) % sl.size()];
 	if(Util::strnicmp(publicListServer.c_str(), "http://", 7) != 0) {
 		lastServer++;
-		fire(FavoriteManagerListener::DownloadFailed(), str(F_("Invalid URL: %1%") % Util::addBrackets(publicListServer)));
+		fire(FavoriteManagerListener::DownloadFailed(), string(F_("Invalid URL: ") + Util::addBrackets(publicListServer)));
 		return;
 	}
 

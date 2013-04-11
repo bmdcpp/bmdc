@@ -645,7 +645,7 @@ ShareManager::Directory::Ptr ShareManager::buildTree(const string& aName, const 
 		string name = i->getFileName();
 
 		if(name.empty()) {
-			LogManager::getInstance()->message(str(F_("Invalid file name found while hashing folder %1%") % Util::addBrackets(aName)));
+			LogManager::getInstance()->message(string(F_("Invalid file name found while hashing folder ") + Util::addBrackets(aName)));
 			continue;
 		}
 
@@ -725,8 +725,8 @@ void ShareManager::updateIndices(Directory& dir, const Directory::File::Set::ite
 	} else {
 		if(!SETTING(LIST_DUPES)) {
 			try {
-				LogManager::getInstance()->message(str(F_("Duplicate file will not be shared: %1% (Size: %2% B) Dupe matched against: %3%")
-				% Util::addBrackets(dir.getRealPath(f.getName())) % Util::toString(f.getSize()) % Util::addBrackets(j->second->getParent()->getRealPath(j->second->getName()))));
+				LogManager::getInstance()->message(string(F_("Duplicate file will not be shared: ")+Util::addBrackets(dir.getRealPath(f.getName()))+ "(Size: "+ Util::toString(f.getSize())+" B) Dupe matched against: "+Util::addBrackets(j->second->getParent()->getRealPath(j->second->getName())))
+				  );
 				dir.files.erase(i);
 			} catch (const ShareException&) {
 			}
@@ -762,7 +762,7 @@ void ShareManager::refresh(bool dirs /* = false */, bool aUpdate /* = true */, b
 			setThreadPriority(Thread::LOW);
 		}
 	} catch(const ThreadException& e) {
-		LogManager::getInstance()->message(str(F_("File list refresh failed: %1%") % e.getError()));
+		LogManager::getInstance()->message(string(F_("File list refresh failed: ") + e.getError()));
 	}
 }
 
@@ -890,7 +890,7 @@ void ShareManager::generateXmlList() {
 			bzXmlRef = unique_ptr<File>(new File(newXmlName, File::READ, File::OPEN));
 			setBZXmlFile(newXmlName);
 			bzXmlListLen = File::getSize(newXmlName);
-			LogManager::getInstance()->message(str(F_("File list %1% generated") % Util::addBrackets(bzXmlFile)));
+			LogManager::getInstance()->message(string(F_("File list "+Util::addBrackets(bzXmlFile)+" generated") ));
 		} catch(const Exception&) {
 			// No new file lists...
 		}

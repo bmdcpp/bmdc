@@ -163,7 +163,7 @@ string Identity::getApplication() const {
 
 string Identity::getConnection() const {
 	if(!get("US").empty())
-		return str(F_("%1%/s") % Util::formatBytes(get("US")));
+		return string(Util::formatBytes(get("US")+F_("/s") ));
 
 	return get("CO");
 }

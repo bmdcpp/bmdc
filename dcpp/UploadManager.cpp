@@ -223,7 +223,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 		aSource.fileNotAvail(e.getError());
 		return false;
 	} catch(const Exception& e) {
-		LogManager::getInstance()->message(str(F_("Unable to send file %1%: %2%") % Util::addBrackets(sourceFile) % e.getError()));
+		LogManager::getInstance()->message(string(F_("Unable to send file ") +Util::addBrackets(sourceFile) +" : "+ e.getError()));
 		aSource.fileNotAvail();
 		return false;
 	}
@@ -559,7 +559,7 @@ void UploadManager::on(TimerManagerListener::Minute, uint64_t  aTick ) noexcept 
 	}
 
 	for(UserList::iterator i = disconnects.begin(); i != disconnects.end(); ++i) {
-		LogManager::getInstance()->message(str(F_("Disconnected user leaving the hub: %1%") %
+		LogManager::getInstance()->message(string(F_("Disconnected user leaving the hub: ") +
 			Util::toString(ClientManager::getInstance()->getNicks((*i)->getCID(), Util::emptyString))));
 		ConnectionManager::getInstance()->disconnect(*i, false);
 	}

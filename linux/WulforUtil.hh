@@ -108,7 +108,7 @@ class WulforUtil
 	private:
 		static void remove_events_internal(GtkWidget *widget, gint events, GList *window_list);
 		static std::string generateLeech();
-		static void loadmimetypes();
+		static std::map<std::string,std::string> loadmimetypes();
 		static std::string getStatsForMem();
 		static bool Ipv4Hit(std::string &name, std::string &sIp);
 
@@ -120,7 +120,7 @@ class WulforUtil
 		static const char* CountryNames[];
 		static const char* CountryCodes[];
 		static const char* msgs_dc[];
-
+		static std::string formatSized(std::string& nonf);
 };
 
 #endif

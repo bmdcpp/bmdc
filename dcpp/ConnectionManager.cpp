@@ -271,7 +271,7 @@ int ConnectionManager::Server::run() noexcept {
 				dcdebug("ConnectionManager::Server::run Stopped listening: %s\n", e.getError().c_str());
 
 				if(!failed) {
-					LogManager::getInstance()->message(str(F_("Connectivity error: %1%") % e.getError()));
+					LogManager::getInstance()->message(string(F_("Connectivity error: ") + e.getError()));
 					failed = true;
 				}
 

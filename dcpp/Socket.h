@@ -40,7 +40,7 @@ const int INVALID_SOCKET = -1;
 #include "Util.h"
 #include "Exception.h"
 
-#include <boost/noncopyable.hpp>
+//#include <boost/noncopyable.hpp>
 #include <memory>
 
 namespace dcpp {
@@ -60,7 +60,7 @@ private:
 };
 
 /** RAII socket handle */
-class SocketHandle : boost::noncopyable {
+class SocketHandle /*: boost::noncopyable*/ {
 public:
 	SocketHandle() : sock(INVALID_SOCKET) { }
 	SocketHandle(socket_t sock) : sock(sock) { }
@@ -74,9 +74,11 @@ public:
 	void reset(socket_t s = INVALID_SOCKET);
 private:
 	socket_t sock;
+	SocketHandle(SocketHandle&);
+	SocketHandle& operator=(SocketHandle&);
 };
 
-class Socket : boost::noncopyable
+class Socket //: boost::noncopyable
 {
 public:
 	enum SocketType {
@@ -213,6 +215,9 @@ private:
 	// Low level interface
 	socket_t create(const addrinfo& ai);
 	static string resolveName(const sockaddr* sa, socklen_t sa_len, int flags = NI_NUMERICHOST);
+	
+	Socket(Socket&);
+	Socket operator=(Socket&);
 };
 
 } // namespace dcpp

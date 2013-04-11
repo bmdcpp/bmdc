@@ -291,7 +291,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				if(seeker.compare(0, 4, "Hub:") == 0)
 					fire(ClientListener::SearchFlood(), this, seeker.substr(4));
 				else
-					fire(ClientListener::SearchFlood(), this, str(F_("%1% (Nick unknown)") % seeker));
+					fire(ClientListener::SearchFlood(), this, string(seeker+F_(" (Nick unknown)")));
 
 				flooders.push_back(make_pair(seeker, tick));
 				return;
@@ -977,7 +977,7 @@ void NmdcHub::clearFlooders(uint64_t aTick) {
 
 bool NmdcHub::isProtectedIP(const string& ip) {
 	if(find(protectedIPs.begin(), protectedIPs.end(), ip) != protectedIPs.end()) {
-		fire(ClientListener::StatusMessage(), this, str(F_("This hub is trying to use your client to spam %1%, please urge hub owner to fix this") % ip));
+		fire(ClientListener::StatusMessage(), this, string(F_("This hub is trying to use your client to spam "+ip+", please urge hub owner to fix this") ));
 		return true;
 	}
 	return false;

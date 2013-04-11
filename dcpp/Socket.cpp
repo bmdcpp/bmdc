@@ -201,7 +201,7 @@ static const uint32_t SOCKS_TIMEOUT = 30000;
 string SocketException::errorToString(int aError) noexcept {
 	string msg = Util::translateError(aError);
 	if(msg.empty()) {
-		msg = str(F_("Unknown error: 0x%1$x") % aError);
+		msg = string(F_("Unknown error: 0x")+ Util::toString(aError));
 	}
 
 	return msg;
@@ -219,7 +219,7 @@ socket_t Socket::setSock(socket_t s, int af) {
 		setSocketOpt2(s, IPPROTO_IPV6, IPV6_V6ONLY, 1);
 		sock6 = s;
 	} else {
-		throw SocketException(str(F_("Unknown protocol %d") % af));
+		throw SocketException(string(F_("Unknown protocol ")+Util::toString(af)));
 		return -1;
 	}
 

@@ -111,7 +111,7 @@ void ConnectivityManager::detectConnection() {
 		listen();
 	} catch(const Exception& e) {
 		autoSettings.insert(make_pair(SettingsManager::INCOMING_CONNECTIONS,std::make_tuple(false,SettingsManager::INCOMING_FIREWALL_PASSIVE,"")));
-		log(str(F_("Unable to open %1% port(s); connectivity settings must be configured manually") % e.getError()));
+		log(string(F_("Unable to open "+ e.getError()+" port(s); connectivity settings must be configured manually") ));
 		fire(ConnectivityManagerListener::Finished());
 		running = false;
 		return;
@@ -179,7 +179,7 @@ string ConnectivityManager::getInformation() const {
 		return _("Connectivity settings are being configured; try again later");
 	}
 
-	string autoStatus = ok() ? str(F_("enabled - %1%") % getStatus()) : _("disabled");
+	string autoStatus = ok() ? string(F_("enabled - ") + getStatus()) : _("disabled");
 
 	string mode;
 
@@ -191,8 +191,8 @@ string ConnectivityManager::getInformation() const {
 		}
 	case SettingsManager::INCOMING_FIREWALL_UPNP:
 		{
-			mode = str(F_("Active mode behind a router that %1% can configure; port mapping status: %2%") %
-				APPNAME % MappingManager::getInstance()->getStatus());
+			mode = string(F_("Active mode behind a router that "+string(APPNAME)+" can configure; port mapping status: ")+MappingManager::getInstance()->getStatus()
+				);
 			break;
 		}
 	case SettingsManager::INCOMING_FIREWALL_NAT:
@@ -209,21 +209,17 @@ string ConnectivityManager::getInformation() const {
 
 	auto field = [](const string& s) { return s.empty() ? _("undefined") : s; };
 
-	return str(F_(
-		"Connectivity information:\n\n"
-		"Automatic connectivity setup is: %1%\n\n"
-		"\t%2%\n"
-		"\tExternal IP (v4): %3%\n"
-		"\tExternal IP (v6): %4%\n"
-		"\tBound interface (v4): %5%\n"
-		"\tBound interface (v6): %6%\n"
-		"\tTransfer port: %7%\n"
-		"\tEncrypted transfer port: %8%\n"
-		"\tSearch port: %9%") % autoStatus % mode %
-		field(CONNSETTING(EXTERNAL_IP)) % field(CONNSETTING(EXTERNAL_IP6)) %
-		field(CONNSETTING(BIND_ADDRESS)) % field(CONNSETTING(BIND_ADDRESS6)) %
-		field(ConnectionManager::getInstance()->getPort()) % field(ConnectionManager::getInstance()->getSecurePort()) %
-		field(SearchManager::getInstance()->getPort()));
+	return string (
+		string("Connectivity information:\n\n")+
+		"Automatic connectivity setup is: "+string(autoStatus)+"\n\n"+
+		"\t"+mode+"\n"+
+		"\tExternal IP (v4): "+field(CONNSETTING(EXTERNAL_IP))+"\n"+
+		"\tExternal IP (v6): "+field(CONNSETTING(EXTERNAL_IP6))+"\n"+
+		"\tBound interface (v4): "+field(CONNSETTING(BIND_ADDRESS))+"\n"+
+		"\tBound interface (v6): "+field(CONNSETTING(BIND_ADDRESS6))+"\n"+
+		"\tTransfer port: "+field(ConnectionManager::getInstance()->getPort())+"\n"+
+		"\tEncrypted transfer port: "+field(ConnectionManager::getInstance()->getSecurePort()) +"\n"+
+		"\tSearch port: "+field(SearchManager::getInstance()->getPort())+"\n");
 }
 
 void ConnectivityManager::startMapping() {

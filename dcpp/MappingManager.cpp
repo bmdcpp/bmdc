@@ -84,8 +84,7 @@ bool MappingManager::getOpened() const {
 string MappingManager::getStatus() const {
 	if(working.get()) {
 		auto& mapper = *working;
-		return str(F_("Successfully created port mappings on the %1% device with the %2% interface") %
-			deviceString(mapper) % mapper.getName());
+		return string(F_("Successfully created port mappings on the "+deviceString(mapper)+" device with the "+mapper.getName()+" interface")  );
 	}
 	return _("Failed to create port mappings");
 }
@@ -112,8 +111,7 @@ int MappingManager::run() {
 		auto addRule = [this, &mapper](const string& port, Mapper::Protocol protocol, const string& description) {
 			// just launch renewal requests - don't bother with possible failures.
 			if(!port.empty()) {
-				mapper.open(port, protocol, str(F_("%1% %2% port (%3% %4%)") %
-					APPNAME % description % port % Mapper::protocols[protocol]));
+				mapper.open(port, protocol, string(F_(string(APPNAME)+" "+description+" port ("+port+" "+Mapper::protocols[protocol]+")")));
 			}
 		};
 
@@ -144,16 +142,15 @@ int MappingManager::run() {
 
 		ScopedFunctor([&mapper] { mapper.uninit(); });
 		if(!mapper.init()) {
-			log(str(F_("Failed to initalize the %1% interface") % mapper.getName()));
+			log(string(F_("Failed to initalize the "+mapper.getName()+" interface")));
 			continue;
 		}
 
 		auto addRule = [this, &mapper](const string& port, Mapper::Protocol protocol, const string& description) -> bool {
-			if(!port.empty() && !mapper.open(port, protocol, str(F_("%1% %2% port (%3% %4%)") %
-				APPNAME % description % port % Mapper::protocols[protocol])))
+			if(!port.empty() && !mapper.open(port, protocol, string(F_(string(APPNAME)+" "+description+" port ("+port+" "+Mapper::protocols[protocol]+")")
+				 )))
 			{
-				this->log(str(F_("Failed to map the %1% port (%2% %3%) with the %4% interface") %
-					description % port % Mapper::protocols[protocol] % mapper.getName()));
+				this->log(string(F_("Failed to map the "+description+" port ("+port+" "+Mapper::protocols[protocol]+") with the "+mapper.getName()+" interface")));
 				mapper.close();
 				return false;
 			}
@@ -165,8 +162,7 @@ int MappingManager::run() {
 			addRule(search_port, Mapper::PROTOCOL_UDP, _("Search"))))
 			continue;
 
-		log(str(F_("Successfully created port mappings (Transfers: %1%, Encrypted transfers: %2%, Search: %3%) on the %4% device with the %5% interface") %
-			conn_port % secure_port % search_port % deviceString(mapper) % mapper.getName()));
+		log(string(F_("Successfully created port mappings (Transfers: "+conn_port+", Encrypted transfers: "+secure_port +", Search: "+search_port+") on the "+deviceString(mapper)+" device with the "+mapper.getName()+" interface") ));
 
 		working = move(pMapper);
 
@@ -199,13 +195,13 @@ void MappingManager::close(Mapper& mapper) {
 		bool ret = mapper.init() && mapper.close();
 		mapper.uninit();
 		log(ret ?
-			str(F_("Successfully removed port mappings from the %1% device with the %2% interface") % deviceString(mapper) % mapper.getName()) :
-			str(F_("Failed to remove port mappings from the %1% device with the %2% interface") % deviceString(mapper) % mapper.getName()));
+			string(F_("Successfully removed port mappings from the "+deviceString(mapper)+" device with the "+ mapper.getName()+" interface")) :
+			string(F_("Failed to remove port mappings from the "+deviceString(mapper)+" device with the "+mapper.getName()+" interface") ));
 	}
 }
 
 void MappingManager::log(const string& message) {
-	ConnectivityManager::getInstance()->log(str(F_("Port mapping: %1%") % message));
+	ConnectivityManager::getInstance()->log(string(F_("Port mapping: ")+  message));
 }
 
 string MappingManager::deviceString(Mapper& mapper) const {

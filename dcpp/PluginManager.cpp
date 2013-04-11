@@ -83,7 +83,7 @@ bool PluginManager::loadPlugin(const string& fileName, bool isInstall /*= false*
 
 	pluginHandle hr = LOAD_LIBRARY(fileName);
 	if(!hr) {
-		LogManager::getInstance()->message(str(F_("Error loading %1%: %2%") % Util::getFileName(fileName) % GET_ERROR()));
+		LogManager::getInstance()->message(string(F_("Error loading ") + Util::getFileName(fileName) +" : "+ GET_ERROR()));
 		return false;
 	}
 
@@ -102,7 +102,7 @@ bool PluginManager::loadPlugin(const string& fileName, bool isInstall /*= false*
 				}
 			}
 		}
-	} else LogManager::getInstance()->message(str(F_("%1% is not a valid plugin") % Util::getFileName(fileName)));
+	} else LogManager::getInstance()->message(string(Util::getFileName(fileName)+F_(" is not a valid plugin")));
 
 	FREE_LIBRARY(hr);
 	return false;
@@ -117,13 +117,13 @@ bool PluginManager::isLoaded(const string& guid) {
 bool PluginManager::checkPlugin(const MetaData& info) {
 	// Check if user is trying to load a duplicate
 	if(isLoaded(info.guid)) {
-		LogManager::getInstance()->message(str(F_("%1% is already installed") % info.name));
+		LogManager::getInstance()->message(string(F_(string(info.name)+" is already installed")));
 		return false;
 	}
 
 	// Check API compatibility (this should only block on absolutely wrecking api changes, which generally should not happen)
 	if(info.apiVersion < DCAPI_CORE_VER) {
-		LogManager::getInstance()->message(str(F_("%1% is too old, contact the plugin author for an update") % info.name));
+		LogManager::getInstance()->message(string(F_(string(info.name)+" is too old, contact the plugin author for an update")));
 		return false;
 	}
 
@@ -131,7 +131,7 @@ bool PluginManager::checkPlugin(const MetaData& info) {
 	if(info.numDependencies != 0) {
 		for(size_t i = 0; i < info.numDependencies; ++i) {
 			if(!isLoaded(info.dependencies[i])) {
-				LogManager::getInstance()->message(str(F_("Missing dependencies for %1%") % info.name));
+				LogManager::getInstance()->message(string(F_("Missing dependencies for ") +string(info.name)));
 				return false;
 			}
 		}

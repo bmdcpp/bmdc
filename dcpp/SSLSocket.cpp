@@ -155,9 +155,8 @@ int SSLSocket::checkSSL(int ret) {
 			default:
 				{
 					ssl.reset();
-					// @todo replace 80 with MAX_ERROR_SZ or whatever's appropriate for yaSSL in some nice way...
+					// @todo replace 80 with MAX_ERROR_SZ or whatever's appropriate for SSL in some nice way...
 					char errbuf[80];
-					//throw SSLSocketException(str(F_("SSL Error: %1% (%2%, %3%)") % ERR_error_string(err, errbuf) % ret % err));
 					int error = ERR_get_error();
 					sprintf(errbuf, "%s %d: %s", "SSL Error", err, (error == 0) ? "Connection closed" : ERR_reason_error_string(error));
 					throw SSLSocketException(errbuf);

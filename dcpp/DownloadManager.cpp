@@ -266,7 +266,7 @@ void DownloadManager::startData(UserConnection* aSource, int64_t start, int64_t 
 	try {
 		QueueManager::getInstance()->setFile(d);
 	} catch(const FileException& e) {
-		failDownload(aSource, str(F_("Could not open target file: %1%") % e.getError()));
+		failDownload(aSource, string(F_("Could not open target file: ") + e.getError()));
 		return;
 	} catch(const Exception& e) {
 		failDownload(aSource, e.getError());
@@ -554,7 +554,7 @@ void DownloadManager::fileNotAvailable(UserConnection* aSource) {
 		return;
 	}
 	//end//
-	fire(DownloadManagerListener::Failed(), d, str(F_("%1%: File not available") % d->getTargetFileName()));
+	fire(DownloadManagerListener::Failed(), d, string(d->getTargetFileName()+F_(": File not available")  ));
 
 	QueueManager::getInstance()->removeSource(d->getPath(), aSource->getUser(), d->getType() == Transfer::TYPE_TREE ? QueueItem::Source::FLAG_NO_TREE : QueueItem::Source::FLAG_FILE_NOT_AVAILABLE, false);
 

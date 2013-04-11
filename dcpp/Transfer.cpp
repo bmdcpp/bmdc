@@ -88,7 +88,7 @@ void Transfer::getParams(const UserConnection& aSource, ParamMap& params) {
 	params["fileSIshort"] = Util::formatBytes(getSize());
 	params["fileSIactual"] = Util::toString(getActual());
 	params["fileSIactualshort"] = Util::formatBytes(getActual());
-	params["speed"] = str(F_("%1%/s") % Util::formatBytes(getAverageSpeed()));
+	params["speed"] = string(Util::formatBytes(getAverageSpeed()))+F_("%1%/s");
 	params["time"] = Util::formatSeconds((GET_TICK() - getStart()) / 1000);
 	params["fileTR"] = getTTH().toBase32();
 }

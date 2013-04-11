@@ -798,8 +798,7 @@ void ClientManager::checkCheating(const HintedUser& p, DirectoryListing* dl) {
 				cheatStr = "Mismatched share size - zero bytes real size";
 			} else {
 				double qwe = (double)((double)statedSize / (double)realSize);
-				cheatStr = str(boost::format("Mismatched share size - filelist was inflated %1% times, stated size = %[userSSshort], real size = %[userRSshort]")
-					% qwe);
+				cheatStr = "Mismatched share size - filelist was inflated "+Util::toString(qwe)+" times, stated size = %[userSSshort], real size = %[userRSshort]";
 			}
 			report = ou->setCheat(cheatStr, false, true, SETTING(SHOW_FAKESHARE_RAW));
 			sendAction(*ou, SETTING(FAKESHARE_RAW));

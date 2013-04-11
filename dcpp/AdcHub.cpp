@@ -159,9 +159,8 @@ void AdcHub::handle(AdcCommand::INF, AdcCommand& c) noexcept {
 				if(!c.getParam("NI", 0, nick)) {
 					nick = "[nick unknown]";
 				}
-				fire(ClientListener::StatusMessage(), this, str(F_("%1% (%2%) has same CID {%3%} as %4% (%5%), ignoring")
-					% u->getIdentity().getNick() % u->getIdentity().getSIDString() % cid % nick % AdcCommand::fromSID(c.getFrom())),
-					ClientListener::FLAG_IS_SPAM);
+				fire(ClientListener::StatusMessage(), this, (F_((u->getIdentity().getNick()+"("+u->getIdentity().getSIDString()+") has same CID {"+cid+"} as "+nick+" ("+AdcCommand::fromSID(c.getFrom())+"), ignoring").c_str())
+					),	ClientListener::FLAG_IS_SPAM);
 				return;
 			}
 		} else {
@@ -309,10 +308,9 @@ void AdcHub::handle(AdcCommand::QUI, AdcCommand& c) noexcept {
 			}
 
 			if(source) {
-				tmp = str(F_("%1% was kicked by %2%: %3%") % victim->getIdentity().getNick() %
-					source->getIdentity().getNick() % tmp);
+				tmp = (F_((victim->getIdentity().getNick() +" was kicked by "+source->getIdentity().getNick()+": "+tmp).c_str()));
 			} else {
-				tmp = str(F_("%1% was kicked: %2%") % victim->getIdentity().getNick() % tmp);
+				tmp = (F_((victim->getIdentity().getNick()+" was kicked: "+tmp).c_str()) );
 			}
 			fire(ClientListener::StatusMessage(), this, tmp, ClientListener::FLAG_IS_SPAM);
 		}
@@ -692,7 +690,7 @@ void AdcHub::connect(const OnlineUser& user, string const& token, bool secure) {
 		const string& port = secure ? ConnectionManager::getInstance()->getSecurePort() : ConnectionManager::getInstance()->getPort();
 		if(port.empty()) {
 			// Oops?
-			LogManager::getInstance()->message(str(F_("Not listening for connections - please restart %1%") % APPNAME));
+			LogManager::getInstance()->message((F_(("Not listening for connections - please restart "+string(APPNAME)).c_str())));
 			return;
 		}
 		send(AdcCommand(AdcCommand::CMD_CTM, user.getIdentity().getSID(), AdcCommand::TYPE_DIRECT).addParam(*proto).addParam(port).addParam(token));

@@ -173,7 +173,7 @@ int SearchManager::run() {
 				dcdebug("SearchManager::run Stopped listening: %s\n", e.getError().c_str());
 
 				if(!failed) {
-					LogManager::getInstance()->message(str(F_("Search disabled: %1%") % e.getError()));
+					LogManager::getInstance()->message(string(F_("Search disabled: ") + e.getError()));
 					failed = true;
 				}
 

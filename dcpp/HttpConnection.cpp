@@ -205,7 +205,7 @@ void HttpConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 				return;
 			}
 		
-			fire(HttpConnectionListener::Failed(), this, str(F_("%1% (%2%)") % aLine % currentUrl));
+			fire(HttpConnectionListener::Failed(), this, (F_(aLine+"("+currentUrl+")")));
 			connState = CONN_FAILED;
 			coralizeState = CST_DEFAULT;
 		}
@@ -234,7 +234,7 @@ void HttpConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 
 		if(location == currentUrl) {
 			connState = CONN_FAILED;
-			fire(HttpConnectionListener::Failed(), this, str(F_("Endless redirection loop (%1%)") % currentUrl));
+			fire(HttpConnectionListener::Failed(), this, (F_("Endless redirection loop ("+currentUrl+")") ));
 			return;
 		}
 
@@ -272,7 +272,7 @@ void HttpConnection::on(BufferedSocketListener::Failed, const string& aLine) noe
 
 	connState = CONN_FAILED;
 	coralizeState = CST_DEFAULT;
-	fire(HttpConnectionListener::Failed(), this, str(F_("%1% (%2%)") % aLine % currentUrl));
+	fire(HttpConnectionListener::Failed(), this,aLine + "( " +currentUrl+ " )");
 }
 
 void HttpConnection::on(BufferedSocketListener::ModeChange) noexcept {

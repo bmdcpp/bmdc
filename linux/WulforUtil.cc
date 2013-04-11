@@ -431,11 +431,6 @@ string WulforUtil::colorToString(const GdkColor *color)
 
 string WulforUtil::colorToString(const GdkRGBA *color)
 {
-	/*gchar strcolor[162];
-
-	g_snprintf(strcolor, sizeof(strcolor), "rgba(%04f,%04f,%04f,%04f)",
-		color->red, color->green, color->blue, color->alpha);
-	*/
 	return string(gdk_rgba_to_string(color));
 }
 
@@ -540,13 +535,9 @@ bool WulforUtil::isLink(const string &text)
 
 bool WulforUtil::isHubURL(const string &text)
 {
-	string re = "dchub://.+";
-	bool  isDcHub = dcpp::RegEx::match<string>(text,re,true);
-	re = "adc://.+";
-	bool  isAdc = dcpp::RegEx::match<string>(text,re,true);
-	re = "adcs://.+";
-	bool  isAdcs = dcpp::RegEx::match<string>(text,re,true);
-	return isDcHub || isAdc || isAdcs;
+	return g_ascii_strncasecmp(text.c_str(), "dchub://", 8) == 0 ||
+		g_ascii_strncasecmp(text.c_str(), "adc://", 6) == 0 ||
+		g_ascii_strncasecmp(text.c_str(), "adcs://", 7) == 0;
 }
 
 bool WulforUtil::profileIsLocked()
@@ -812,7 +803,7 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
 		                              (gchar *)country.c_str());
 	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_size(path,15,15,&error);
 	if (error != NULL || pixbuf == NULL)
-			g_warning("Cannot open stock image: %s => %s", path, error->message);
+			g_warning("[BMDC::Country] Cannot open image: %s => %s", path, error->message);
 	g_free(path);
 	countryIcon.insert(make_pair(country,pixbuf));
 	return pixbuf;
@@ -876,7 +867,7 @@ string WulforUtil::generateLeech() {
 
 bool WulforUtil::checkCommand(string& cmd, string& param, string& message, string& status, bool& thirdperson)
 {
-	string tmp = cmd;
+	//string tmp = cmd;
 	string::size_type separator = cmd.find_first_of(' ');
 
 	if(separator != string::npos && cmd.size() > separator +1)
@@ -894,8 +885,9 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	if(WGETB("show-commands"))
 	{
 	    status = _("Command send: ");
-	    status += tmp;
+	    status += cmd;
 	    status += '\0';
+	    status += "\n";
 	}
 
 	if( cmd == "away" )
@@ -1011,12 +1003,12 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	}
 	else if ( cmd == "g" || cmd == "google"){
 	  if(param.empty())
-		status = _("Specify a search string");
+		status += _("Specify a search string");
 	   else
 		openURI("http://www.google.com/search?q=" + param);
 	}else if ( cmd == "imdb"){
 	  if(param.empty())
-		status = _("Specify a search string");
+		status += _("Specify a search string");
 	   else
 		openURI("http://www.imdb.com/find?q=" + param);
 	/// "Now Playing" spam // added by curse and Irene
@@ -1030,7 +1022,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 		}
 		else if (strcmp(s.Output(),"Amarok is not playing.")==0)
 		{
-				status += s.Output();
+			status += s.Output();
 		}
 		else
 		{
@@ -1104,7 +1096,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 		}
 		else if (strcmp(s.Output(),"VLC is not playing.") == 0)
 		{
-				status += s.Output();
+			status += s.Output();
 		}
 		else
 		{
@@ -1388,7 +1380,7 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, st
 				TagsMap[Tag::TAG_HIGHL] = tag;//think about this  =P
 
 				if(tPopup)
-					WulforManager::get()->getMainWindow()->showNotification_gui(cs->getNoti()+":", word, Notify::HIGHLITING);
+					WulforManager::get()->getMainWindow()->showNotification_gui(cs->getNoti()+" : ", word, Notify::HIGHLITING);
 
 				if(tSound)
 				{
@@ -1447,8 +1439,9 @@ void WulforUtil::drop_combo(GtkWidget *widget, vector<pair<std::string,int> > CO
 
 }
 
-void WulforUtil::loadmimetypes()
+std::map<std::string,std::string> WulforUtil::loadmimetypes()
 {
+	if(m_mimetyp.empty()) {
 	m_mimetyp.insert( std::pair<std::string, std::string>(".zip", "application/zip"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".pdf", "application/pdf"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".py",  "text/python"));
@@ -1514,6 +1507,8 @@ void WulforUtil::loadmimetypes()
 	m_mimetyp.insert( std::pair<std::string, std::string>(".flv", "video/x-flv"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".mpg", "audio/mpeg"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".mpeg", "audio/mpeg"));
+	}
+	return m_mimetyp;
 }
 
 GdkPixbuf *WulforUtil::loadIconShare(string ext)
@@ -1526,10 +1521,10 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 	}
 	std::transform(ext.begin(), ext.end(), ext.begin(), (int(*)(int))tolower);
 
-	loadmimetypes();
+	std::map<std::string,std::string> map =  loadmimetypes();
 
-	std::map<std::string,std::string>::iterator it = m_mimetyp.find(ext);
-	if(it == m_mimetyp.end())
+	std::map<std::string,std::string>::iterator it = map.find(ext);
+	if(it == map.end())
 	{
 		GtkWidget *iwid = gtk_invisible_new ();
 		GdkPixbuf *buf = gtk_widget_render_icon(iwid, GTK_STOCK_FILE, GTK_ICON_SIZE_MENU, NULL);
@@ -1594,22 +1589,34 @@ string WulforUtil::getStatsForMem() {
 					fclose(fp);
 
 					if(memhwm.size() != 0 && memrss.size() != 0) {
-						tmp+=" Mem usage (Peak): "+memrss+ " ("+memhwm+") =-\n";
+						tmp+=" Mem usage (Peak): "+formatSized(memrss)+ " ("+formatSized(memhwm)+") =-\n";
 					} else if(memrss.size() != 0) {
 						tmp+="-= Mem usage: "+memrss+"\n =-";
 					}
 
 					if(memvmp.size() != 0 && memvms.size() != 0) {
-						tmp+="-= VM size (Peak): "+memvms+ " ("+memvmp+") =-\n";
+						tmp+="-= VM size (Peak): "+formatSized(memvms)+ " ("+formatSized(memvmp)+") =-\n";
 					} else if(memrss.size() != 0) {
 						tmp+="-= VM size: "+memvms+" =-\n";
 					}
 
 					if(memstk.size() != 0 && memlib.size() != 0) {
-						tmp+="-= Stack size / Libs size: "+memstk+ " / "+memlib+" ";
+						tmp+="-= Stack size / Libs size: "+memstk+ " / "+formatSized(memlib)+" ";
 					}
 			}
 			return tmp;
+}
+
+std::string WulforUtil::formatSized(std::string& nonf)
+{
+	size_t needle = nonf.find_last_of(' ');
+	if(needle != string::npos) {
+		string sub = nonf.substr(0,needle-1);	
+		int64_t i = dcpp::Util::toInt64(sub);
+		i*=1000;
+		return dcpp::Util::formatBytes(i);
+	}
+	return nonf;
 }
 
 /* Inspired by StrongDC catch code ips */
@@ -1617,7 +1624,7 @@ gboolean WulforUtil::HitIP(string& name, string &sIp)
 {
 	//dcdebug("[STR]%s",name.c_str());
 	bool isOkIpV6 = false;
-	if(name.empty())return false;
+	if(name.empty()) return false;
 	size_t n = std::count(name.begin(), name.end(), ':');
 	if(n == 0 || n < 2)
 			return Ipv4Hit(name,sIp);
@@ -1640,9 +1647,9 @@ gboolean WulforUtil::HitIP(string& name, string &sIp)
 		if(ok2) {break;}
 	}
 	if( (ok == true ) || (ok2 == true)) {
-	struct sockaddr_in sa;
-    int result = inet_pton(AF_INET6,name.c_str() , &(sa.sin_addr));
-    isOkIpV6 = result == 1;
+		struct sockaddr_in sa;
+		int result = inet_pton(AF_INET6,name.c_str() , &(sa.sin_addr));
+		isOkIpV6 = result == 1;
 	}
 	
 	if(isOkIpV6)
