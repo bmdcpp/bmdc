@@ -757,6 +757,8 @@ Fix gdk_pointer_* deprected uses
 properly format sized in /stats
 some remove of boost::str
 misc stuff
+----r234
+Add disclaimer to About:Config Tab
 
 
 

@@ -395,7 +395,7 @@ SettingsManager::SettingsManager()
 	setDefault(MAX_PM_WINDOWS, 50);
 	setDefault(REQUIRE_TLS, false);
 	setDefault(LAST_SHARED_FOLDER, Util::emptyString);
-	setDefault(AC_DISCLAIM, true);
+	setDefault(AC_DISCLAIM, false);
 	setDefault(GLOBAL_HS, false);
 	setDefault(GLOBAL_EM, false);
 	setDefault(EMOT_PACK, "bmicon");

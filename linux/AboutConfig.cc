@@ -50,7 +50,14 @@ BookEntry(Entry::ABOUT_CONFIG, _("About:config"), "config.glade")
 	g_signal_connect(aboutView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 	g_signal_connect(getWidget("propteriesItem"), "activate", G_CALLBACK(onPropertiesClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("DefaultItem"), "activate", G_CALLBACK(onSetDefault), (gpointer)this);
-
+	
+	if(!SETTING(AC_DISCLAIM)) {
+			gtk_widget_set_sensitive(getWidget("scrolledwindow"),FALSE);
+	}
+	g_signal_connect/*/*swapped*/ (getWidget("infobar"),
+                            "response",
+                            G_CALLBACK (onInfoResponse),
+                            (gpointer)this);
 }
 
 AboutConfig::~AboutConfig()
@@ -229,6 +236,25 @@ gboolean AboutConfig::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, g
 
 	return FALSE;
 }
+
+void AboutConfig::onInfoResponse(GtkWidget *info_bar, gint response_id,  gpointer data)
+{
+	AboutConfig *s = (AboutConfig *)data;
+	switch(response_id)
+	{
+		case -6://not alow
+			gtk_widget_hide(info_bar);
+			break;
+		case -5://alow
+			gtk_widget_hide(info_bar);
+			gtk_widget_set_sensitive(s->getWidget("scrolledwindow"),TRUE);
+			SettingsManager::getInstance()->set(SettingsManager::AC_DISCLAIM,false);
+			break;
+		default:		
+			return;
+	}
+	
+}                 
 
 void AboutConfig::onPropertiesClicked_gui(GtkWidget *widget, gpointer data)
 {

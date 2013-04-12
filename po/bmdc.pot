@@ -5,21 +5,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2013-04-09 15:17+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
-"Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  linux.pot  #-#-#-#-#\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2013-04-11 16:35+0200\n"
+"POT-Creation-Date: 2013-04-12 16:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -152,7 +140,7 @@ msgstr ""
 msgid "<b>Default away message</b>"
 msgstr ""
 
-#: ui/config.glade.ui:96 ui/favoriteusers.glade.ui:96 ui/recenthub.glade.ui:96
+#: ui/config.glade.ui:91 ui/favoriteusers.glade.ui:96 ui/recenthub.glade.ui:96
 msgid "<b>Description</b>"
 msgstr ""
 
@@ -872,9 +860,9 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:5315 ui/settingsdialog.glade.ui:6016
 #: ui/settingsdialog.glade.ui:6207 ui/settingsdialog.glade.ui:6392
-#: ui/settingsdialog.glade.ui:8963 linux/AboutConfig.cc:81
-#: linux/AboutConfig.cc:86 linux/AboutConfig.cc:91 linux/AboutConfig.cc:97
-#: linux/AboutConfig.cc:102 linux/AboutConfig.cc:122 linux/AboutConfig.cc:133
+#: ui/settingsdialog.glade.ui:8963 linux/AboutConfig.cc:88
+#: linux/AboutConfig.cc:93 linux/AboutConfig.cc:98 linux/AboutConfig.cc:104
+#: linux/AboutConfig.cc:109 linux/AboutConfig.cc:129 linux/AboutConfig.cc:140
 #: linux/emoticonsdialog.cc:129 linux/previewmenu.cc:88
 #: linux/FavoriteHubDialog.hh:70 linux/FavoriteHubDialog.hh:71
 msgid "Default"
@@ -1653,8 +1641,8 @@ msgstr ""
 #: ui/detection.glade.ui:152 ui/detection.glade.ui:612
 #: ui/detection.glade.ui:949 ui/favoritehubs.glade.ui:85
 #: ui/settingsdialog.glade.ui:1158 linux/AboutConfig.cc:32
-#: linux/AboutConfig.cc:41 linux/AboutConfig.cc:43 linux/AboutConfig.cc:144
-#: linux/AboutConfig.cc:162 linux/AboutConfig.cc:240 linux/AboutConfig.cc:293
+#: linux/AboutConfig.cc:41 linux/AboutConfig.cc:43 linux/AboutConfig.cc:151
+#: linux/AboutConfig.cc:169 linux/AboutConfig.cc:266 linux/AboutConfig.cc:319
 #: linux/detectiontab.cc:41 linux/detectiontab.cc:60 linux/detectiontab.cc:71
 #: linux/detectiontab.cc:324 linux/detectiontab.cc:345
 #: linux/detectiontab.cc:416 linux/detectiontab.cc:465
@@ -1920,7 +1908,7 @@ msgstr ""
 msgid "Properties"
 msgstr ""
 
-#: ui/adlsearch.glade.ui:750 ui/config.glade.ui:159 ui/hub.glade.ui:297
+#: ui/adlsearch.glade.ui:750 ui/config.glade.ui:253 ui/hub.glade.ui:297
 #: ui/privatemessage.glade.ui:241
 msgid "Propteries"
 msgstr ""
@@ -2219,7 +2207,7 @@ msgstr ""
 msgid "Set Background Color"
 msgstr ""
 
-#: ui/config.glade.ui:167
+#: ui/config.glade.ui:260
 msgid "Set Default Value"
 msgstr ""
 
@@ -2405,8 +2393,8 @@ msgstr ""
 msgid "Start a search for this file"
 msgstr ""
 
-#: ui/settingsdialog.glade.ui:283 linux/AboutConfig.cc:79
-#: linux/AboutConfig.cc:120 linux/settingsdialog.cc:1728
+#: ui/settingsdialog.glade.ui:283 linux/AboutConfig.cc:86
+#: linux/AboutConfig.cc:127 linux/settingsdialog.cc:1728
 #: linux/settingsdialog.cc:1758 linux/settingsdialog.cc:4795
 #: linux/settingsdialog.cc:4877 linux/settingsdialog.cc:4891
 #: linux/settingsdialog.cc:5031
@@ -2502,7 +2490,7 @@ msgid "Trusted certificates path"
 msgstr ""
 
 #: ui/detection.glade.ui:288 ui/detection.glade.ui:967 linux/AboutConfig.cc:34
-#: linux/AboutConfig.cc:40 linux/AboutConfig.cc:146 linux/search.cc:99
+#: linux/AboutConfig.cc:40 linux/AboutConfig.cc:153 linux/search.cc:99
 #: linux/search.cc:637 linux/search.cc:714 linux/search.cc:855
 #: linux/search.cc:1706 linux/search.cc:1707 linux/search.cc:1708
 #: linux/search.cc:1722 linux/sharebrowser.cc:79 linux/sharebrowser.cc:322
@@ -2597,8 +2585,8 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: ui/detection.glade.ui:956 linux/AboutConfig.cc:35 linux/AboutConfig.cc:147
-#: linux/AboutConfig.cc:163 linux/AboutConfig.cc:241 linux/detectiontab.cc:106
+#: ui/detection.glade.ui:956 linux/AboutConfig.cc:35 linux/AboutConfig.cc:154
+#: linux/AboutConfig.cc:170 linux/AboutConfig.cc:267 linux/detectiontab.cc:106
 #: linux/detectiontab.cc:1033 linux/detectiontab.cc:1134
 #: linux/detectiontab.cc:1231
 msgid "Value"
@@ -2646,6 +2634,14 @@ msgstr ""
 
 #: ui/searchspy.glade.ui:284
 msgid "Waiting:"
+msgstr ""
+
+#: ui/config.glade.ui:132
+msgid ""
+"Warning!\r\n"
+"Changing these settings can be harmful to the stability, security, and "
+"performance of this application.\r\n"
+"You should only continue if you know what you're doing!"
 msgstr ""
 
 #: ui/settingsdialog.glade.ui:4809
@@ -3176,7 +3172,7 @@ msgstr ""
 msgid "Bitrate"
 msgstr ""
 
-#: linux/AboutConfig.cc:100
+#: linux/AboutConfig.cc:107
 msgid "Bool"
 msgstr ""
 
@@ -3677,7 +3673,7 @@ msgstr ""
 msgid "Flag"
 msgstr ""
 
-#: linux/AboutConfig.cc:95
+#: linux/AboutConfig.cc:102
 msgid "Float"
 msgstr ""
 
@@ -3867,11 +3863,11 @@ msgstr ""
 msgid "Ignored private message from hub"
 msgstr ""
 
-#: linux/AboutConfig.cc:89
+#: linux/AboutConfig.cc:96
 msgid "Int64"
 msgstr ""
 
-#: linux/AboutConfig.cc:84 linux/AboutConfig.cc:131
+#: linux/AboutConfig.cc:91 linux/AboutConfig.cc:138
 msgid "Integer"
 msgstr ""
 
@@ -4494,7 +4490,7 @@ msgstr ""
 msgid "Started MyInfo check"
 msgstr ""
 
-#: linux/AboutConfig.cc:33 linux/AboutConfig.cc:145 linux/downloadqueue.cc:66
+#: linux/AboutConfig.cc:33 linux/AboutConfig.cc:152 linux/downloadqueue.cc:66
 #: linux/downloadqueue.cc:277 linux/downloadqueue.cc:384 linux/searchspy.cc:57
 #: linux/searchspy.cc:295 linux/searchspy.cc:377 linux/transfers.cc:64
 #: linux/transfers.cc:414 linux/transfers.cc:447 linux/transfers.cc:541
@@ -4801,9 +4797,9 @@ msgstr ""
 msgid "User operator (pasive) "
 msgstr ""
 
-#: linux/AboutConfig.cc:81 linux/AboutConfig.cc:86 linux/AboutConfig.cc:91
-#: linux/AboutConfig.cc:97 linux/AboutConfig.cc:102 linux/AboutConfig.cc:122
-#: linux/AboutConfig.cc:133
+#: linux/AboutConfig.cc:88 linux/AboutConfig.cc:93 linux/AboutConfig.cc:98
+#: linux/AboutConfig.cc:104 linux/AboutConfig.cc:109 linux/AboutConfig.cc:129
+#: linux/AboutConfig.cc:140
 msgid "User set"
 msgstr ""
 

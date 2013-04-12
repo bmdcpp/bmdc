@@ -42,6 +42,7 @@ class AboutConfig:
 		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static void onPropertiesClicked_gui(GtkWidget *widget, gpointer data);
 		static void onSetDefault(GtkWidget *widget, gpointer data);
+		static void onInfoResponse(GtkWidget *info_bar, gint response_id,  gpointer data );
 	
 		bool getDialog(std::string name , std::string& value , gpointer data);
 		void addItem_gui(std::string rowname, std::string isdefault, std::string types, std::string value, bool isWulf = false);
