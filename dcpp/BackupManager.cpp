@@ -46,20 +46,22 @@ int BackupManager::run() {
 			File::ensureDirectory(Util::getBackupPath());
 			StringPairList files;
 
-			const auto& paths = File::findFiles(Util::getPath(Util::PATH_USER_CONFIG), "*");
-			for(auto i = paths.cbegin(); i != paths.cend(); ++i) {
+			const StringList& paths = File::findFiles(Util::getPath(Util::PATH_USER_CONFIG), "*");
+			for(StringList::const_iterator i = paths.cbegin(); i != paths.cend(); ++i) {
 					if(!Wildcard::match(Util::getFileName(*i), SETTING(BACKUP_FILE_PATTERN), ';')){
 						continue;
 					}
 								
 				files.push_back(make_pair(*i, Util::getFileName(*i)));
 			}
-			TarFile zip;
-			zip.CreateTarredFile(zipFile,files);
+			TarFile tar;
+			tar.CreateTarredFile(zipFile,files);
 			LogManager::getInstance()->message(_("Settings have been backed up!"));
-			} catch (...){
+			
+			} catch (...)
+			{
 				dcdebug("Exception caught");
-		}
+			}
 		stop = true;
 	}
 
@@ -94,7 +96,7 @@ int RestoreManager::run() {
 		Lock l(cs);
 		
 		StringList files = File::findFiles(Util::getBackupPath(), "SettingsBackup*.tar");
-		auto recentBackup = files.front();
+		string recentBackup = files.front();
 		
 		try {
 			TarFile tar;

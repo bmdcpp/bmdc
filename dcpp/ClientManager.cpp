@@ -567,7 +567,7 @@ UserPtr& ClientManager::getMe() {
 	if(!me) {
 		Lock l(cs);
 		if(!me) {
-			me = new User(getMyCID());
+			me = std::make_shared<User>(User(getMyCID()));
 			users.insert(make_pair(me->getCID(), me));
 		}
 	}

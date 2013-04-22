@@ -33,7 +33,6 @@
 #include "CommandQueue.h"
 #include "PluginEntity.h"
 #include "HubSettings.h"
-//#include <boost/noncopyable.hpp>
 
 namespace dcpp {
 
@@ -44,8 +43,7 @@ class Client :
 	public Speaker<ClientListener>,
 	public BufferedSocketListener,
 	protected TimerManagerListener,
-	public HubSettings//,
-//	private boost::noncopyable
+	public HubSettings
 {
 public:
 	virtual void connect();

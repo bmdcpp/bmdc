@@ -21,7 +21,7 @@
 
 #include "forward.h"
 #include "noexcept.h"
-#include <boost/noncopyable.hpp>
+//#include <boost/noncopyable.hpp>
 #include "HintedUser.h"
 /*Removed FastAlloc*/
 #include "MerkleTree.h"
@@ -32,7 +32,7 @@ namespace dcpp {
 
 class ListLoader;
 
-class DirectoryListing : boost::noncopyable
+class DirectoryListing //: boost::noncopyable
 {
 public:
 	class Directory;
@@ -86,7 +86,7 @@ public:
 		
 	};
 
-	class Directory :  boost::noncopyable {
+	class Directory /*:  boost::noncopyable*/ {
 	public:
 		typedef Directory* Ptr;
 		typedef vector<Ptr> List;
@@ -154,6 +154,9 @@ public:
 		GETSET(int, adlsRaw, AdlsRaw);
 		GETSET(string, kickString, KickString)
 		GETSET(string, fullFileName ,FullFileName);
+	  private:
+			Directory(Directory&);
+			Directory operator=(Directory&);
 	};
 
 	class AdlDirectory : public Directory {
@@ -205,6 +208,9 @@ private:
 	string base;
 
 	Directory* find(const string& aName, Directory* current) const;
+	
+	DirectoryListing(DirectoryListing&);
+	DirectoryListing operator=(DirectoryListing&);
 };
 
 inline bool operator==(DirectoryListing::Directory::Ptr a, const string& b) { return Util::stricmp(a->getName(), b) == 0; }

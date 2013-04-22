@@ -24,7 +24,7 @@
 #include "Util.h"
 
 namespace dcpp {
-
+/*
 string ChatMessage::format() const {
 	string tmp;
 
@@ -51,5 +51,5 @@ string ChatMessage::format() const {
 
 	return Text::toDOS(tmp);
 }
-
+*/
 } // namespace dcpp

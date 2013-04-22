@@ -30,7 +30,6 @@
 #include <dcpp/version.h>
 #include <dcpp/ChatMessage.h> //NOTE: core 0.762
 #include <dcpp/GeoManager.h>
-//#include <dcpp/RegEx.h>
 #include <dcpp/PluginManager.h>
 #include <dcpp/ConnectivityManager.h>
 
@@ -167,7 +166,7 @@ Hub::Hub(const string &address, const string &encoding):
 	userCommandMenu2 = new UserCommandMenu(getWidget("ipmenu"), ::UserCommand::CONTEXT_IP);
 	addChild(userCommandMenu2);
 
-	auto faventry =  FavoriteManager::getInstance()->getFavoriteHubEntry(address);
+	FavoriteHubEntry* faventry =  FavoriteManager::getInstance()->getFavoriteHubEntry(address);
 	string packName = SETTING(EMOT_PACK);
 	if(faventry)
 	{
@@ -287,6 +286,10 @@ Hub::Hub(const string &address, const string &encoding):
 		gint width;
 		GtkWindow *window = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
 		gtk_window_get_size(window, &width, NULL);
+		//may Fix isue with UL ?
+		gtk_scrolled_window_set_min_content_width (GTK_SCROLLED_WINDOW(getWidget("scrolledwindow2")) ,(width - panePosition - 15)  );
+		gtk_widget_set_size_request(getWidget("scrolledwindow2"),width - panePosition,-1);
+		///end
 		gtk_paned_set_position(GTK_PANED(getWidget("pane")), width - panePosition);
 	}
 

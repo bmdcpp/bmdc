@@ -93,7 +93,7 @@ void HashManager::HashStore::addFile(const string& aFileName, uint32_t aTimeStam
 
 	FileInfoList& fileList = fileIndex[fpath];
 
-	auto j = find(fileList.begin(), fileList.end(), fname);
+	FileInfoIter j = find(fileList.begin(), fileList.end(), fname);
 	if (j != fileList.end()) {
 		fileList.erase(j);
 	}

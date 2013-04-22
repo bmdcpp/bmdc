@@ -56,7 +56,7 @@ UploadManager::~UploadManager() {
 }
 
 bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, const string& aFile, int64_t aStartPos, int64_t aBytes, bool listRecursive) {
-	dcdebug("Preparing %s %s " I64_FMT " " I64_FMT " %d\n", aType.c_str(), aFile.c_str(), aStartPos, aBytes, listRecursive);
+	dcdebug("Preparing %s %s " I64_FMT " " I64_FMT " %d\n", aType.c_str(), aFile.c_str(), (long long int)aStartPos, (long long int)aBytes, listRecursive);
 
 	if(aFile.empty() || aStartPos < 0 || aBytes < -1 || aBytes == 0) {
 		aSource.fileNotAvail("Invalid request");

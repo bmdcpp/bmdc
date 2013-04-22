@@ -1048,7 +1048,7 @@ void DownloadQueue::onFileRemoveClicked_gui(GtkMenuItem *menuitem, gpointer data
 void DownloadQueue::addQueueList(const QueueItem::StringMap &ll)
 {
 	StringMap params;
-	typedef Func2<DownloadQueue, StringMap, bool> F2;
+	//typedef Func2<DownloadQueue, StringMap, bool> F2;
 	//F2 *func;
 
 	for (QueueItem::StringMap::const_iterator it = ll.begin(); it != ll.end(); ++it)

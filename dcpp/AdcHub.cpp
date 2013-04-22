@@ -19,9 +19,6 @@
 #include "stdinc.h"
 #include "AdcHub.h"
 
-#include <boost/scoped_array.hpp>
-#include <boost/format.hpp>
-
 #include "ChatMessage.h"
 #include "ClientManager.h"
 #include "ShareManager.h"
@@ -95,13 +92,13 @@ OnlineUser& AdcHub::getUser(const uint32_t aSID, const CID& aCID) {
 
 OnlineUser* AdcHub::findUser(const uint32_t aSID) const {
 	Lock l(cs);
-	auto i = users.find(aSID);
+	SIDIter i = users.find(aSID);
 	return i == users.end() ? NULL : i->second;
 }
 
 OnlineUser* AdcHub::findUser(const CID& aCID) const {
 	Lock l(cs);
-	for(auto i = users.begin(); i != users.end(); ++i) {
+	for(SIDIter i = users.begin(); i != users.end(); ++i) {
 		if(i->second->getUser()->getCID() == aCID) {
 			return i->second;
 		}
@@ -110,7 +107,7 @@ OnlineUser* AdcHub::findUser(const CID& aCID) const {
 }
 
 void AdcHub::putUser(const uint32_t aSID, bool disconnect) {
-	OnlineUser* ou = 0;
+	OnlineUser* ou = nullptr;
 	{
 		Lock l(cs);
 		SIDIter i = users.find(aSID);
@@ -135,7 +132,7 @@ void AdcHub::clearUsers() {
 		users.swap(tmp);
 	}
 
-	for(auto i = tmp.begin(); i != tmp.end(); ++i) {
+	for(SIDIter i = tmp.begin(); i != tmp.end(); ++i) {
 		if(i->first != AdcCommand::HUB_SID) {
 			ClientManager::getInstance()->putOffline(i->second);
 			i->second->dec();
@@ -437,7 +434,7 @@ void AdcHub::sendUDP(const AdcCommand& cmd) noexcept {
 	string port;
 	{
 		Lock l(cs);
-		auto i = users.find(cmd.getTo());
+		SIDIter i = users.find(cmd.getTo());
 		if(i == users.end()) {
 			dcdebug("AdcHub::sendUDP: invalid user\n");
 			return;
@@ -612,7 +609,7 @@ void AdcHub::handle(AdcCommand::NAT, AdcCommand& c) noexcept {
 	}
 
 	// Trigger connection attempt sequence locally ...
-	auto localPort = Util::toString(sock->getLocalPort());
+	string localPort = Util::toString(sock->getLocalPort());
 	dcdebug("triggering connecting attempt in NAT: remote port = %s, local port = %d\n", port.c_str(), sock->getLocalPort());
 	ConnectionManager::getInstance()->adcConnect(*u, port, localPort, BufferedSocket::NAT_CLIENT, token, secure);
 
@@ -735,7 +732,7 @@ void AdcHub::sendUserCmd(const UserCommand& command, const ParamMap& params) {
 		} else {
 			const string& to = command.getTo();
 			Lock l(cs);
-			for(auto i = users.begin(); i != users.end(); ++i) {
+			for(SIDIter i = users.begin(); i != users.end(); ++i) {
 				if(i->second->getIdentity().getNick() == to) {
 					privateMessage(*i->second, cmd);
 					return;
@@ -931,11 +928,8 @@ void AdcHub::sendSearch(AdcCommand& c) {
 	} else {
 		c.setType(AdcCommand::TYPE_FEATURE);
 		string features = c.getFeatures();
-
 		c.setFeatures(features + '+' + TCP4_FEATURE + '-' + NAT0_FEATURE);
 		send(c);
-		//c.setFeatures(features + '+' + NAT0_FEATURE);
-		//send(c);
 	}
 }
 
@@ -945,22 +939,22 @@ void AdcHub::password(const string& pwd) {
 		
 	if(!salt.empty()) {
 		size_t saltBytes = salt.size() * 5 / 8;
-		boost::scoped_array<uint8_t> buf(new uint8_t[saltBytes]);
-		Encoder::fromBase32(salt.c_str(), &buf[0], saltBytes);
+		std::shared_ptr<uint8_t> buf(new uint8_t[saltBytes]);
+		Encoder::fromBase32(salt.c_str(), &buf.get()[0], saltBytes);
 		TigerHash th;
 		if(oldPassword) {
 			CID cid = getMyIdentity().getUser()->getCID();
 			th.update(cid.data(), CID::SIZE);
 		}
 		th.update(pwd.data(), pwd.length());
-		th.update(&buf[0], saltBytes);
+		th.update(&buf.get()[0], saltBytes);
 		send(AdcCommand(AdcCommand::CMD_PAS, AdcCommand::TYPE_HUB).addParam(Encoder::toBase32(th.finalize(), TigerHash::BYTES)));
 		salt.clear();
 	}
 }
 
 static void addParam(StringMap& lastInfoMap, AdcCommand& c, const string& var, const string& value) {
-	auto i = lastInfoMap.find(var);
+	StringMap::iterator i = lastInfoMap.find(var);
 
 	if(i != lastInfoMap.end()) {
 		if(i->second != value) {
@@ -1028,7 +1022,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 
 	if(CryptoManager::getInstance()->TLSOk()) {
 		su += "," + ADCS_FEATURE;
-		auto &kp = CryptoManager::getInstance()->getKeyprint();
+		const vector<uint8_t> kp = CryptoManager::getInstance()->getKeyprint();
 		addParam(lastInfoMap, c, "KP", "SHA256/" + Encoder::toBase32(&kp[0], kp.size()));
 	}
 
@@ -1056,7 +1050,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 int64_t AdcHub::getAvailable() const {
 	Lock l(cs);
 	int64_t x = 0;
-	for(auto i = users.begin(); i != users.end(); ++i) {
+	for(SIDIter i = users.begin(); i != users.end(); ++i) {
 		x += i->second->getIdentity().getBytesShared();
 	}
 	return x;
@@ -1144,7 +1138,7 @@ void AdcHub::refreshuserlist(bool) {
 	Lock l(cs);
 
 	OnlineUserList v;
-	for(auto i = users.begin(); i != users.end(); ++i) {
+	for(SIDIter i = users.begin(); i != users.end(); ++i) {
 		if(i->first != AdcCommand::HUB_SID) {
 			v.push_back(i->second);
 		}

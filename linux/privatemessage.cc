@@ -1021,7 +1021,7 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		bool isThirdPerson = false;
 		string message = Util::emptyString, status = Util::emptyString;
-		if(PluginManager::getInstance()->onChatCommandPM(HintedUser(new User(CID(pm->cid)),pm->hubUrl),command,false )) {
+		if(PluginManager::getInstance()->onChatCommandPM(HintedUser(make_shared<User>(User(CID(pm->cid))),pm->hubUrl),command,false )) {
 			// Plugins, chat commands
 		  return;
 	    }

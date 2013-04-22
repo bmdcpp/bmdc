@@ -20,7 +20,6 @@
 #include "BufferedSocket.h"
 
 #include <algorithm>
-//#include <boost/scoped_array.hpp>
 #include "ConnectivityManager.h"
 #include "CryptoManager.h"
 #include "SettingsManager.h"
@@ -207,7 +206,6 @@ void BufferedSocket::threadRead() {
 					const int BUF_SIZE = 1024;
 					// Special to autodetect nmdc connections...
 					string::size_type pos = 0;
-					//boost::scoped_array<char> buffer(new char[BUF_SIZE]);
 					std::shared_ptr<char> buffer(new char[BUF_SIZE]);
 					l = line;
 					// decompress all input data and store in l.
@@ -415,7 +413,7 @@ void BufferedSocket::threadSendData() {
 			return;
 		}
 
-		auto w = sock->wait(POLL_TIMEOUT, true, true);
+		std::pair<bool,bool> w = sock->wait(POLL_TIMEOUT, true, true);
 
 		if(w.first) {
 			threadRead();
@@ -474,7 +472,7 @@ bool BufferedSocket::checkEvents() {
 }
 
 void BufferedSocket::checkSocket() {
-	auto w = sock->wait(POLL_TIMEOUT, true, false);
+	pair<bool,bool> w = sock->wait(POLL_TIMEOUT, true, false);
 
 	if(w.first) {
 		threadRead();

@@ -1782,7 +1782,7 @@ void MainWindow::addFileDownloadQueue_client(string name, int64_t size, string t
 	{
 		if (!tth.empty())
 		{
-			QueueManager::getInstance()->add(name, size, TTHValue(tth) , HintedUser(new User(CID()),Util::emptyString));
+			QueueManager::getInstance()->add(name, size, TTHValue(tth) , HintedUser(make_shared<User>(User(CID())),Util::emptyString));
 
 			// automatically search for alternative download locations
 			if (SETTING(AUTO_SEARCH))

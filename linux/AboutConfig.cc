@@ -1,4 +1,4 @@
-﻿//
+//
 //      Copyright 2011 - 2013 Mank <freedcpp at seznam dot cz>
 //
 //      This program is free software; you can redistribute it and/or modify
@@ -54,7 +54,7 @@ BookEntry(Entry::ABOUT_CONFIG, _("About:config"), "config.glade")
 	if(!SETTING(AC_DISCLAIM)) {
 			gtk_widget_set_sensitive(getWidget("scrolledwindow"),FALSE);
 	}
-	g_signal_connect/*/*swapped*/ (getWidget("infobar"),
+	g_signal_connect(getWidget("infobar"),
                             "response",
                             G_CALLBACK (onInfoResponse),
                             (gpointer)this);
@@ -248,7 +248,7 @@ void AboutConfig::onInfoResponse(GtkWidget *info_bar, gint response_id,  gpointe
 		case -5://alow
 			gtk_widget_hide(info_bar);
 			gtk_widget_set_sensitive(s->getWidget("scrolledwindow"),TRUE);
-			SettingsManager::getInstance()->set(SettingsManager::AC_DISCLAIM,false);
+			SettingsManager::getInstance()->set(SettingsManager::AC_DISCLAIM,true);
 			break;
 		default:		
 			return;

@@ -60,11 +60,12 @@ public:
 			}
 		}
 	}
+	//[CMD
 	string startCheck(const string &params) { return users.startChecking(this,params);}
 	void startMyInfoCheck() { users.startMyINFOCheck(this);}
 	void stopMyInfoCheck() { users.stopMyINFOCheck();}
 	void stopChecking() { users.stopCheck();}
-
+	//CMD]
 	static string escape(const string& str) { return AdcCommand::escape(str, false); }
 	virtual void send(const AdcCommand& cmd);
 
@@ -156,7 +157,7 @@ private:
 	virtual void on(Connected) noexcept;
 	virtual void on(Line, const string& aLine) noexcept;
 	virtual void on(Failed, const string& aLine) noexcept;
-
+	//TimerManagerListener
 	virtual void on(Second, uint64_t aTick) noexcept;
 
 };

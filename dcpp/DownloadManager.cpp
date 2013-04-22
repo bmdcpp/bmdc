@@ -204,7 +204,7 @@ void DownloadManager::checkDownloads(UserConnection* aConn) {
 	}
 	fire(DownloadManagerListener::Requesting(), d);
 
-	dcdebug("Requesting " I64_FMT "/" I64_FMT "\n", (long long int)d->getStartPos(), d->getSize());
+	dcdebug("Requesting " I64_FMT "/" I64_FMT "\n", (long long int)d->getStartPos(), (long long int)d->getSize());
 
 	/*
 	find mySID, better ways to get the correct one transferred here?

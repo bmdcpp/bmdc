@@ -22,7 +22,7 @@
 /** @file
  * This file contains forward declarations for the various DC++ classes
  */
-
+#include <memory>
 #include <boost/intrusive_ptr.hpp>
 
 namespace dcpp {
@@ -111,7 +111,8 @@ class Upload;
 typedef Upload* UploadPtr;
 
 class User;
-typedef boost::intrusive_ptr<User> UserPtr;
+//typedef boost::intrusive_ptr<User> UserPtr;
+typedef std::shared_ptr<User> UserPtr;
 
 class UserCommand;
 

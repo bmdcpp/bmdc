@@ -29,7 +29,7 @@
 #include "ThrottleManager.h"
 #include "UploadManager.h"
 #include "version.h"
-#include <boost/scoped_array.hpp>
+//#include <boost/scoped_array.hpp>
 #include "Socket.h"
 #include "UserCommand.h"
 #include "StringTokenizer.h"
@@ -76,7 +76,7 @@ OnlineUser& NmdcHub::getUser(const string& aNick) {
 	{
 		Lock l(cs);
 
-		auto i = users.find(aNick);
+		NickIter i = users.find(aNick);
 		if(i != users.end())
 			return *i->second;
 	}
@@ -139,7 +139,7 @@ void NmdcHub::clearUsers() {
 		u2.swap(users);
 	}
 
-	for(auto i = u2.begin(); i != u2.end(); ++i) {
+	for(NickIter i = u2.begin(); i != u2.end(); ++i) {
 		ClientManager::getInstance()->putOffline(i->second);
 		i->second->dec();
 	}
@@ -841,7 +841,7 @@ void NmdcHub::myInfo(bool alwaysSend) {
 	bool gslotf = SETTING(SHOW_FREE_SLOTS_DESC);
 	string gslot = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
 	//away status
-    auto staFlag = Util::getAway() ? '\x02' : '\x01';
+    char staFlag = Util::getAway() ? '\x02' : '\x01';
 
 	string uMin = (SETTING(MIN_UPLOAD_SPEED) == 0) ? Util::emptyString : tmp5 + Util::toString(SETTING(MIN_UPLOAD_SPEED));
 	string myInfoA =
@@ -1066,11 +1066,11 @@ void NmdcHub::password(const string& aPass) {
 	if(!salt.empty()) {
 		string filteredPass = fromUtf8(aPass);
 		size_t saltBytes = salt.size() * 5 / 8;
-		boost::scoped_array<uint8_t> buf(new uint8_t[saltBytes]);
-		Encoder::fromBase32(salt.c_str(), &buf[0], saltBytes);
+		std::shared_ptr<uint8_t> buf(new uint8_t[saltBytes]);
+		Encoder::fromBase32(salt.c_str(), &buf.get()[0], saltBytes);
 		TigerHash th;
 		th.update(filteredPass.data(), filteredPass.length());
-		th.update(&buf[0], saltBytes);
+		th.update(&buf.get()[0], saltBytes);
 		send("$MyPass " + Encoder::toBase32(th.finalize(), TigerHash::BYTES) + "|");
 		salt.clear();
 	} else {
@@ -1084,7 +1084,7 @@ void NmdcHub::refreshuserlist(bool refreshOnly) {
 		Lock l(cs);
 
 		OnlineUserList v;
-		for(auto i = users.begin(); i != users.end(); ++i) {
+		for(NickIter i = users.begin(); i != users.end(); ++i) {
 			v.push_back(i->second);
 		}
 		fire(ClientListener::UsersUpdated(), this, v);

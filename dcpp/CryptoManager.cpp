@@ -19,7 +19,7 @@
 #include "stdinc.h"
 #include "CryptoManager.h"
 
-#include <boost/scoped_array.hpp>
+//#include <boost/scoped_array.hpp>
 
 #include "File.h"
 #include "LogManager.h"
@@ -349,12 +349,12 @@ void CryptoManager::decodeBZ2(const uint8_t* is, size_t sz, string& os) {
 	// We assume that the files aren't compressed more than 2:1...if they are it'll work anyway,
 	// but we'll have to do multiple passes...
 	size_t bufsize = 2*sz;
-	boost::scoped_array<char> buf(new char[bufsize]);
+	std::shared_ptr<char> buf(new char[bufsize]);
 
 	bs.avail_in = sz;
 	bs.avail_out = bufsize;
 	bs.next_in = reinterpret_cast<char*>(const_cast<uint8_t*>(is));
-	bs.next_out = &buf[0];
+	bs.next_out = &buf.get()[0];
 
 	int err;
 
@@ -365,13 +365,13 @@ void CryptoManager::decodeBZ2(const uint8_t* is, size_t sz, string& os) {
 			BZ2_bzDecompressEnd(&bs);
 			throw CryptoException(_("Error during decompression"));
 		}
-		os.append(&buf[0], bufsize-bs.avail_out);
+		os.append(&buf.get()[0], bufsize-bs.avail_out);
 		bs.avail_out = bufsize;
-		bs.next_out = &buf[0];
+		bs.next_out = &buf.get()[0];
 	}
 
 	if(err == BZ_STREAM_END)
-		os.append(&buf[0], bufsize-bs.avail_out);
+		os.append(&buf.get()[0], bufsize-bs.avail_out);
 
 	BZ2_bzDecompressEnd(&bs);
 
@@ -382,59 +382,59 @@ void CryptoManager::decodeBZ2(const uint8_t* is, size_t sz, string& os) {
 }
 
 string CryptoManager::keySubst(const uint8_t* aKey, size_t len, size_t n) {
-	boost::scoped_array<uint8_t> temp(new uint8_t[len + n * 10]);
+	std::shared_ptr<uint8_t> temp(new uint8_t[len + n * 10]);
 
 	size_t j=0;
 
 	for(size_t i = 0; i<len; i++) {
 		if(isExtra(aKey[i])) {
-			temp[j++] = '/'; temp[j++] = '%'; temp[j++] = 'D';
-			temp[j++] = 'C'; temp[j++] = 'N';
+			temp.get()[j++] = '/'; temp.get()[j++] = '%'; temp.get()[j++] = 'D';
+			temp.get()[j++] = 'C'; temp.get()[j++] = 'N';
 			switch(aKey[i]) {
-			case 0: temp[j++] = '0'; temp[j++] = '0'; temp[j++] = '0'; break;
-			case 5: temp[j++] = '0'; temp[j++] = '0'; temp[j++] = '5'; break;
-			case 36: temp[j++] = '0'; temp[j++] = '3'; temp[j++] = '6'; break;
-			case 96: temp[j++] = '0'; temp[j++] = '9'; temp[j++] = '6'; break;
-			case 124: temp[j++] = '1'; temp[j++] = '2'; temp[j++] = '4'; break;
-			case 126: temp[j++] = '1'; temp[j++] = '2'; temp[j++] = '6'; break;
+			case 0: temp.get()[j++] = '0'; temp.get()[j++] = '0'; temp.get()[j++] = '0'; break;
+			case 5: temp.get()[j++] = '0'; temp.get()[j++] = '0'; temp.get()[j++] = '5'; break;
+			case 36: temp.get()[j++] = '0'; temp.get()[j++] = '3'; temp.get()[j++] = '6'; break;
+			case 96: temp.get()[j++] = '0'; temp.get()[j++] = '9'; temp.get()[j++] = '6'; break;
+			case 124: temp.get()[j++] = '1'; temp.get()[j++] = '2'; temp.get()[j++] = '4'; break;
+			case 126: temp.get()[j++] = '1'; temp.get()[j++] = '2'; temp.get()[j++] = '6'; break;
 			}
-			temp[j++] = '%'; temp[j++] = '/';
+			temp.get()[j++] = '%'; temp.get()[j++] = '/';
 		} else {
-			temp[j++] = aKey[i];
+			temp.get()[j++] = aKey[i];
 		}
 	}
-	return string((const char*)&temp[0], j);
+	return string((const char*)&temp.get()[0], j);
 }
 
 string CryptoManager::makeKey(const string& aLock) {
 	if(aLock.size() < 3)
 		return Util::emptyString;
 
-	boost::scoped_array<uint8_t> temp(new uint8_t[aLock.length()]);
+	std::shared_ptr<uint8_t> temp(new uint8_t[aLock.length()]);
 	uint8_t v1;
 	size_t extra=0;
 
 	v1 = (uint8_t)(aLock[0]^5);
 	v1 = (uint8_t)(((v1 >> 4) | (v1 << 4)) & 0xff);
-	temp[0] = v1;
+	temp.get()[0] = v1;
 
 	string::size_type i;
 
 	for(i = 1; i<aLock.length(); i++) {
 		v1 = (uint8_t)(aLock[i]^aLock[i-1]);
 		v1 = (uint8_t)(((v1 >> 4) | (v1 << 4))&0xff);
-		temp[i] = v1;
-		if(isExtra(temp[i]))
+		temp.get()[i] = v1;
+		if(isExtra(temp.get()[i]))
 			extra++;
 	}
 
-	temp[0] = (uint8_t)(temp[0] ^ temp[aLock.length()-1]);
+	temp.get()[0] = (uint8_t)(temp.get()[0] ^ temp.get()[aLock.length()-1]);
 
-	if(isExtra(temp[0])) {
+	if(isExtra(temp.get()[0])) {
 		extra++;
 	}
 
-	return keySubst(&temp[0], aLock.length(), extra);
+	return keySubst(&temp.get()[0], aLock.length(), extra);
 }
 
 } // namespace dcpp
