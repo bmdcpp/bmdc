@@ -74,21 +74,21 @@
 using namespace std;
 using namespace dcpp;
 
-char* MainWindow::icons[(MainWindow::IconsToolbar)END][3] =
+const char* MainWindow::icons[(MainWindow::IconsToolbar)END][3] =
 {
-{ /*( (MainWindow::IconsToolbar)MainWindow::QUICKCON),*/ "bmdc-connect", "bmdc-connect-on", "connect"},
-{ /*( (MainWindow::IconsToolbar)MainWindow::FAVORITE_HUBS),*/  "bmdc-favorite-hubs", "bmdc-favorite-hubs-on", "favHubs"},
-{ /*( (MainWindow::IconsToolbar)MainWindow::FAVORITE_USERS),*/  "bmdc-favorite-users", "bmdc-favorite-users-on", "favUsers"},
-{ /*( (MainWindow::IconsToolbar)MainWindow::PUBLIC_HUBS),*/  "bmdc-public-hubs", "bmdc-public-hubs-on", "publicHubs"},
-{ /*( (MainWindow::IconsToolbar)MainWindow::SEARCH_ADL),*/  "bmdc-search-adl", "bmdc-search-adl-on", "searchADL"},
-{ /*( (MainWindow::IconsToolbar)MainWindow::SEARCH_SPY),*/  "bmdc-search-spy", "bmdc-search-spy-on", "searchSpy"},
-{ /*( (MainWindow::IconsToolbar)MainWindow::QUEUE),*/  "bmdc-queue", "bmdc-queue-on", "queue"},
-{ /*( (MainWindow::IconsToolbar)MainWindow::FDOWNLOADS),*/  "bmdc-finished-downloads", "bmdc-finished-downloads-on", "finishedDownloads"},
-{ /*( (MainWindow::IconsToolbar)MainWindow::FUPLOADS),*/  "bmdc-finished-uploads", "bmdc-finished-uploads-on", "finishedUploads"},
-{ /*( (MainWindow::IconsToolbar)MainWindow::NOTEPAD),*/  "bmdc-notepad", "bmdc-notepad-on", "notepad"},
-{ /*( (MainWindow::IconsToolbar)MainWindow::SYSTEM),*/  "bmdc-system", "bmdc-system-on", "system"},
-{ /*( (MainWindow::IconsToolbar)MainWindow::AWAY),*/  "bmdc-away", "bmdc-away-on", "AwayIcon"},
-{ /*( (MainWindow::IconsToolbar)MainWindow::LIMITING),*/  "bmdc-limiting", "bmdc-limiting-on", "limitingButton"}
+{ /*( QUICKCON),*/ "bmdc-connect", "bmdc-connect-on", "connect"},
+{ /*( FAVORITE_HUBS),*/  "bmdc-favorite-hubs", "bmdc-favorite-hubs-on", "favHubs"},
+{ /*( FAVORITE_USERS),*/  "bmdc-favorite-users", "bmdc-favorite-users-on", "favUsers"},
+{ /*( PUBLIC_HUBS),*/  "bmdc-public-hubs", "bmdc-public-hubs-on", "publicHubs"},
+{ /*( SEARCH_ADL),*/  "bmdc-search-adl", "bmdc-search-adl-on", "searchADL"},
+{ /*( SEARCH_SPY),*/  "bmdc-search-spy", "bmdc-search-spy-on", "searchSpy"},
+{ /*( QUEUE),*/  "bmdc-queue", "bmdc-queue-on", "queue"},
+{ /*( FDOWNLOADS),*/  "bmdc-finished-downloads", "bmdc-finished-downloads-on", "finishedDownloads"},
+{ /*( FUPLOADS),*/  "bmdc-finished-uploads", "bmdc-finished-uploads-on", "finishedUploads"},
+{ /*( NOTEPAD),*/  "bmdc-notepad", "bmdc-notepad-on", "notepad"},
+{ /*( SYSTEM),*/  "bmdc-system", "bmdc-system-on", "system"},
+{ /*( AWAY),*/  "bmdc-away", "bmdc-away-on", "AwayIcon"},
+{ /*( LIMITING),*/  "bmdc-limiting", "bmdc-limiting-on", "limitingButton"}
 };
 
 MainWindow::MainWindow():
@@ -1456,7 +1456,7 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 					Util::replace("\t", "/", *i);
 
 				// if the combo has already been displayed before, retrieve the prev value and bypass combo_sel
-				auto prev = find(combo_values.begin(), combo_values.end(), boost::get<string>(ucParams["line:" + name]));
+				auto prev = find(combo_values.begin(), combo_values.end(), (ucParams["line:" + name]));
 				if(prev != combo_values.end())
 					combo_sel = prev - combo_values.begin();
 
@@ -1484,7 +1484,7 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 		  } else {
 				GtkWidget *label = gtk_label_new(caption.c_str());
 				GtkWidget *entry = gtk_entry_new();
-				gtk_entry_set_text(GTK_ENTRY(entry),boost::get<string>(ucParams["line:"+ name]).c_str());
+				gtk_entry_set_text(GTK_ENTRY(entry),(ucParams["line:"+ name]).c_str());
 				Widgets *wid = new Widgets();
 				wid->widget = entry;
 				wid->label = label;

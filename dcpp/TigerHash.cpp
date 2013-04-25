@@ -34,12 +34,13 @@
 
 #include <algorithm>
 #include <cstring>
-#include <boost/detail/endian.hpp>
-
+//#include <boost/detail/endian.hpp>
+#include <endian.h>
 #include "debug.h"
 
-#ifdef BOOST_BIG_ENDIAN
-#define TIGER_BIG_ENDIAN
+//#ifdef BOOST_BIG_ENDIAN
+#if (__BYTE_ORDER == __BIG_ENDIAN)
+	#define TIGER_BIG_ENDIAN
 #endif
 
 #if defined(_M_X64) || defined(__amd64__) || defined(__x86_64__) || defined(__alpha)

@@ -26,7 +26,6 @@
 
 #include <string>
 #include <unordered_map>
-//#include <boost/variant.hpp>
 
 namespace dcpp {
 

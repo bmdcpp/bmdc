@@ -21,7 +21,6 @@
 
 #include "forward.h"
 #include "noexcept.h"
-//#include <boost/noncopyable.hpp>
 #include "HintedUser.h"
 /*Removed FastAlloc*/
 #include "MerkleTree.h"
@@ -32,7 +31,7 @@ namespace dcpp {
 
 class ListLoader;
 
-class DirectoryListing //: boost::noncopyable
+class DirectoryListing 
 {
 public:
 	class Directory;
@@ -86,7 +85,7 @@ public:
 		
 	};
 
-	class Directory /*:  boost::noncopyable*/ {
+	class Directory  {
 	public:
 		typedef Directory* Ptr;
 		typedef vector<Ptr> List;

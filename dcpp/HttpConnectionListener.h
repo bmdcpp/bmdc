@@ -42,8 +42,6 @@ public:
 	virtual void on(Failed, HttpConnection*, const string&) noexcept = 0;
 	virtual void on(Complete, HttpConnection*, const string&, bool) noexcept = 0;
 	virtual void on(Redirected, HttpConnection*, const string&) noexcept { }
-	//virtual void on(TypeNormal, HttpConnection*) noexcept { }
-	//virtual void on(TypeBZ2, HttpConnection*) noexcept { }
 	virtual void on(Retried, HttpConnection*, bool) noexcept { }
 };
 

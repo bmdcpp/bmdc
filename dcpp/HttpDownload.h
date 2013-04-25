@@ -18,7 +18,7 @@
 
 #ifndef DCPLUSPLUS_DCPP_HTTP_DOWNLOAD_H
 #define DCPLUSPLUS_DCPP_HTTP_DOWNLOAD_H
-#include <boost/noncopyable.hpp>
+//#include <boost/noncopyable.hpp>
 #include "HttpConnection.h"
 
 namespace dcpp {
@@ -26,7 +26,7 @@ namespace dcpp {
 using std::string;
 
 /** Helper struct to manage a single HTTP download. Calls a completion function when finished. */
-struct HttpDownload : private HttpConnectionListener, private boost::noncopyable {
+struct HttpDownload : private HttpConnectionListener/*, private boost::noncopyable*/ {
 	typedef std::function<void (bool success, const string& result)> CompletionFunc;
 	
 	explicit HttpDownload(const string& address, CompletionFunc f, bool coralize = true);
@@ -43,6 +43,8 @@ private:
 	void on(HttpConnectionListener::Failed, HttpConnection*, const string& line) noexcept;
 	void on(HttpConnectionListener::Complete, HttpConnection*, const string& line, bool) noexcept;
 	void on(HttpConnectionListener::Retried, HttpConnection*, bool connected) noexcept;
+	HttpDownload(HttpDownload&);
+	HttpDownload& operator=(HttpDownload&);
 };
 
 } // namespace dcpp

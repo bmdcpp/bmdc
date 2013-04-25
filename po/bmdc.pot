@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2013-04-22 09:32+0200\n"
+"POT-Creation-Date: 2013-04-24 17:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4759,8 +4759,8 @@ msgstr ""
 #: linux/settingsdialog.cc:1618 linux/settingsdialog.cc:1619
 #: linux/settingsdialog.cc:1620 linux/settingsdialog.cc:1621
 #: linux/settingsdialog.cc:1622 linux/settingsdialog.cc:1623
-#: linux/settingsdialog.cc:1624 linux/settingsdialog.cc:3630
-#: linux/settingsdialog.cc:3710 linux/settingsdialog.cc:3721
+#: linux/settingsdialog.cc:1624 linux/settingsdialog.cc:3710
+#: linux/settingsdialog.cc:3721
 msgid "User "
 msgstr ""
 

@@ -274,8 +274,8 @@ UserPtr ClientManager::findUser(const CID& cid) const noexcept {
 	UserMap::const_iterator ui = users.find(cid);
 	if(ui != users.end()) {
 		return ui->second;
-	}
-	return 0;
+	}//return 0;
+	return std::make_shared<User>( User(CID("#")) );
 }
 
 bool ClientManager::isOp(const UserPtr& user, const string& aHubUrl) const {
@@ -707,7 +707,7 @@ void ClientManager::addCheckToQueue(const HintedUser hintedUser, bool filelist) 
 			if(!ou->getChecked(filelist)) {
 				if((filelist && ou->shouldCheckFileList()) || (!filelist && ou->shouldCheckClient())) {
 					addCheck = true;
-					ou->inc();
+					//ou->inc();
 				}
 			}
 		}
@@ -725,7 +725,7 @@ void ClientManager::addCheckToQueue(const HintedUser hintedUser, bool filelist) 
 		} catch(...) {
 			//...
 		}
-		ou->dec();
+		//ou->dec();
 	}
 }
 

@@ -107,10 +107,10 @@ void GeoIP::rebuild() {
 
 			ParamMap params;
 
-			params["2code"] = [id] { return forwardRet(GeoIP_code_by_id(id)); };
-			params["3code"] = [id] { return forwardRet(GeoIP_code3_by_id(id)); };
-			params["continent"] = [id] { return forwardRet(GeoIP_continent_by_id(id)); };
-			params["engname"] = [id] { return forwardRet(GeoIP_name_by_id(id)); };
+			params["2code"] = forwardRet(GeoIP_code_by_id(id)); 
+			params["3code"] = forwardRet(GeoIP_code3_by_id(id)); 
+			params["continent"] = forwardRet(GeoIP_continent_by_id(id)); 
+			params["engname"] = forwardRet(GeoIP_name_by_id(id)); 
 #ifdef _WIN32
 			params["name"] = [id]() -> string {
 				auto str = getGeoInfo(id, GEO_FRIENDLYNAME);
@@ -122,8 +122,8 @@ void GeoIP::rebuild() {
 			};
 #else
 			/// @todo any way to get localized country names on non-Windows?
-			params["name"] = [id] { return forwardRet(GeoIP_name_by_id(id)); };
-			params["officialname"] = [id] { return forwardRet(GeoIP_name_by_id(id)); };
+			params["name"] =  forwardRet(GeoIP_name_by_id(id)); 
+			params["officialname"] = forwardRet(GeoIP_name_by_id(id)); 
 #endif
 
 			cache[id] = Util::formatParams(setting, params);

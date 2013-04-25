@@ -21,19 +21,22 @@
 
 #include "typedefs.h"
 
-#include <boost/noncopyable.hpp>
+//#include <boost/noncopyable.hpp>
 
 namespace dcpp {
 
 class SimpleXMLReader {
 public:
-	struct CallBack : private boost::noncopyable {
+	class CallBack /*: private boost::noncopyable*/ {
+		public:
 		virtual ~CallBack() { }
 		virtual void startTag(const std::string& name, StringPairList& attribs, bool simple) = 0;
 		virtual void endTag(const std::string& name, const std::string& data) = 0;
 
 	protected:
 		static const std::string& getAttrib(StringPairList& attribs, const std::string& name, size_t hint);
+	private:
+		CallBack& operator=(CallBack&) = delete;
 	};
 
 	SimpleXMLReader(CallBack* callback);

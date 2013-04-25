@@ -35,7 +35,7 @@ namespace dcpp {
 
 STANDARD_EXCEPTION(ThreadException);
 
-class Thread : private boost::noncopyable
+class Thread //: private boost::noncopyable
 {
 public:
 #ifdef _WIN32
@@ -114,6 +114,9 @@ protected:
 		return NULL;
 	}
 #endif
+	private:
+		Thread(Thread&);
+		Thread& operator=(Thread&);
 };
 
 } // namespace dcpp

@@ -20,7 +20,6 @@
 #define DCPLUSPLUS_DCPP_HASH_MANAGER_H
 
 #include <map>
-//#include <boost/optional.hpp>
 
 #include "Singleton.h"
 #include "MerkleTree.h"

@@ -21,14 +21,14 @@
 
 #include <string>
 #include <vector>
-#include <boost/noncopyable.hpp>
+//#include <boost/noncopyable.hpp>
 
 namespace dcpp {
 
 using std::string;
 
 /** abstract class to represent an implementation usable by MappingManager. */
-class Mapper : boost::noncopyable
+class Mapper //: boost::noncopyable
 {
 public:
 	Mapper(string&& localIp);
@@ -73,6 +73,9 @@ private:
 	virtual bool remove(const string& port, const Protocol protocol) = 0;
 
 	std::vector<std::pair<string, Protocol>> rules;
+	Mapper(Mapper&);
+	Mapper& operator=(Mapper&);
+	
 };
 
 } // namespace dcpp

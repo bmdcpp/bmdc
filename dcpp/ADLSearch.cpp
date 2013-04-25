@@ -23,7 +23,7 @@
 
 #include "stdinc.h"
 #include "ADLSearch.h"
-
+#include "RegEx.h"
 #include "ClientManager.h"
 #include "File.h"
 #include "LogManager.h"
@@ -117,16 +117,16 @@ int64_t ADLSearch::GetSizeBase() {
 }
 
 bool ADLSearch::isRegEx() const {
-	return boost::get<boost::regex>(&v);
+	return v;
 }
 
 void ADLSearch::setRegEx(bool b) {
 	if(b)
-		v = boost::regex();
+		v = b;
 	else
-		v = StringSearch::List();
+		v = b;//StringSearch::List();
 }
-
+/*
 struct Prepare : boost::static_visitor<> {
 	Prepare(const string& s_) : s(s_) { }
 
@@ -144,7 +144,7 @@ struct Prepare : boost::static_visitor<> {
 		}
 	}
 
-	void operator()(boost::regex& r) const {
+	void operator()(std::regex& r) const {
 		try {
 			r.assign(s);
 		} catch(const std::runtime_error&) {
@@ -159,7 +159,7 @@ private:
 void ADLSearch::prepare(ParamMap& params) {
 	boost::apply_visitor(Prepare(Util::formatParams(searchString, params)), v);
 }
-
+*/
 bool ADLSearch::matchesFile(const string& f, const string& fp, int64_t size, const TTHValue& root) {
 	// Check status
 	if(!isActive) {
@@ -200,7 +200,7 @@ bool ADLSearch::matchesDirectory(const string& d) {
 	// Do search
 	return searchAll(d);
 }
-
+/*
 struct SearchAll : boost::static_visitor<bool> {
 	SearchAll(const string& s_) : s(s_) { }
 
@@ -226,9 +226,10 @@ struct SearchAll : boost::static_visitor<bool> {
 private:
 	const string& s;
 };
-
+*/
 bool ADLSearch::searchAll(const string& s) {
-	return boost::apply_visitor(SearchAll(s), v);
+	//return boost::apply_visitor(SearchAll(s), v);
+	return RegEx::match<string>(s,searchString);
 }
 
 ADLSearchManager::ADLSearchManager() : breakOnFirst(false), user(UserPtr(), Util::emptyString)  {
@@ -418,7 +419,9 @@ void ADLSearchManager::matchesFile(DestDirList& destDirVector, DirectoryListing:
 		if(destDirVector[is->ddIndex].fileAdded) {
 			continue;
 		}
-		if(is->matchesFile(currentFile->getName(), filePath, currentFile->getSize(),currentFile->getTTH())) {
+		if ( (is->matchesFile(currentFile->getName(), filePath, currentFile->getSize(),currentFile->getTTH()))
+			|| (is->isRegEx() && RegEx::match<string>(currentFile->getName(),is->searchString))
+		) {
 			DirectoryListing::File *copyFile = new DirectoryListing::File(*currentFile, true);
 			destDirVector[is->ddIndex].dir->files.push_back(copyFile);
 			destDirVector[is->ddIndex].fileAdded = true;
@@ -467,7 +470,8 @@ void ADLSearchManager::matchesDirectory(DestDirList& destDirVector, DirectoryLis
 		if(destDirVector[is->ddIndex].subdir != NULL) {
 			continue;
 		}
-		if(is->matchesDirectory(currentDir->getName())) {
+				
+		if( (is->matchesDirectory(currentDir->getName()) ) || (is->isRegEx() && RegEx::match<string>(currentDir->getName(),is->searchString)) ) {
 			destDirVector[is->ddIndex].subdir =
 				new DirectoryListing::AdlDirectory(fullPath, destDirVector[is->ddIndex].dir, currentDir->getName());
 			destDirVector[is->ddIndex].dir->directories.push_back(destDirVector[is->ddIndex].subdir);
@@ -482,6 +486,7 @@ void ADLSearchManager::matchesDirectory(DestDirList& destDirVector, DirectoryLis
 				destDirVector[is->ddIndex].subdir->setFromFavs(is->fromFavs);
 			}
 			//END
+			
 
 			if(breakOnFirst) {
 				// Found a match, search no more
@@ -539,9 +544,9 @@ void ADLSearchManager::prepareDestinationDirectories(DestDirList& destDirVector,
 		}
 	}
 	// Prepare all searches
-	for(auto ip = collection.begin(); ip != collection.end(); ++ip) {
-		ip->prepare(params);
-	}
+	//for(auto ip = collection.begin(); ip != collection.end(); ++ip) {
+	//	ip->prepare(params);
+	//}
 }
 
 void ADLSearchManager::finalizeDestinationDirectories(DestDirList& destDirVector, DirectoryListing::Directory* root) {

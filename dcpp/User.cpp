@@ -18,7 +18,6 @@
 
 #include "stdinc.h"
 #include "User.h"
-
 #include "AdcHub.h"
 #include "FavoriteUser.h"
 #include "format.h"
@@ -94,38 +93,38 @@ void Identity::getParams(ParamMap& params, const string& prefix, bool compatibil
 		}
 	}
 	if(user) {
-		params[prefix + "SID"] = [this] { return getSIDString(); };
-		params[prefix + "CID"] = [this] { return user->getCID().toBase32(); };
-		params[prefix + "TAG"] = [this] { return getTag(); };
-		params[prefix + "SSshort"] = [this] { return Util::formatBytes(get("SS")); };
+		params[prefix + "SID"] =  getSIDString(); 
+		params[prefix + "CID"] =  user->getCID().toBase32(); 
+		params[prefix + "TAG"] =  getTag(); 
+		params[prefix + "SSshort"] =  Util::formatBytes(get("SS")); 
 
 		if(compatibility) {
 			if(prefix == "my") {
-				params["mynick"] = [this] { return getNick(); };
-				params["mycid"] = [this] { return user->getCID().toBase32(); };
+				params["mynick"] =  getNick(); 
+				params["mycid"] = user->getCID().toBase32();
 			} else {
-				params["nick"] = [this] { return getNick(); };
-				params["cid"] = [this] { return user->getCID().toBase32(); };
-				params["ip"] = [this] { return get("I4"); };
-				params["tag"] = [this] { return getTag(); };
-				params["description"] = [this] { return get("DE"); };
-				params["email"] = [this] { return get("EM"); };
-				params["share"] = [this] { return get("SS"); };
-				params["shareshort"] = [this] { return Util::formatBytes(get("SS")); };
-				params["slots"] = [this] { return get("SL");};
+				params["nick"] = getNick(); 
+				params["cid"] =  user->getCID().toBase32(); 
+				params["ip"] =  get("I4"); 
+				params["tag"] =  getTag(); 
+				params["description"] =  get("DE"); 
+				params["email"] =  get("EM"); 
+				params["share"] =  get("SS"); 
+				params["shareshort"] =  Util::formatBytes(get("SS")); 
+				params["slots"] =  get("SL");
 				/**/
-				params["mode"] = [this] { return string(isTcpActive() ? "A" : "P");  };
-				params["newhubs"] = [this] { return "H:" + get("HN") + "/" + get("HR") + "/" + get("HO");  };
+				params["mode"] =  string(isTcpActive() ? "A" : "P");  
+				params["newhubs"] = "H:" + get("HN") + "/" + get("HR") + "/" + get("HO");  
 				//some simple names instead of Ax ;)
-				params["adlFile"] =	[this] { return get("A1"); };
-				params["adlComment"] = [this] { return get("A2");};
-				params["adlFileSize"] = [this] { return get("A3");};
-				params["adlTTH"] = [this] { return 	get("A4");};
-				params["adlForbiddenSize"] = [this] { return get("A5");};
-				params["adlTotalPoints"] = [this] { return get("A6");};
-				params["adlFilesCount"] = [this] { return get("A7");};
-				params["adlFileSizeShort"] = [this] { return Util::formatBytes(get("A3"));};
-				params["adlForbiddenSizeShort"] = [this] { return Util::formatBytes(get("A5"));};
+				params["adlFile"] =	 get("A1"); 
+				params["adlComment"] =  get("A2");
+				params["adlFileSize"] =  get("A3");
+				params["adlTTH"] = 	get("A4");
+				params["adlForbiddenSize"] =  get("A5");
+				params["adlTotalPoints"] = get("A6");
+				params["adlFilesCount"] = get("A7");
+				params["adlFileSizeShort"] =  Util::formatBytes(get("A3"));
+				params["adlForbiddenSizeShort"] =  Util::formatBytes(get("A5"));
 			}
 		}
 	}
@@ -354,15 +353,15 @@ string Identity::myInfoDetect(OnlineUser& ou) {
 
 
 		for(auto j = INFList.begin(); j != INFList.end(); ++j) {
-			try {
-				string aPattern = Util::formatRegExp(boost::get<string>(j->second),params);
+		//	try {
+				string aPattern = Util::formatRegExp(j->second,params);
 				string aField = getDetectionField(j->first);
 				DETECTION_DEBUG("\t\tPattern: " + aPattern + " Field: " + aField);
 				if(!RegEx::match<string>(aField, aPattern)) {
 					_continue = true;
 					break;
 				}
-			}catch(const boost::bad_get& ) { }
+	//		}catch(const boost::bad_get& ) { }
 		}
 		if(_continue)
 			continue;
@@ -414,16 +413,16 @@ string Identity::updateClientType(OnlineUser& ou) {
 		DETECTION_DEBUG("\tChecking profile: " + entry.name);
 
 		for(auto j = INFList.begin(); j != INFList.end(); ++j) {
-			try {
+	//		try {
 
-			string aPattern = Util::formatRegExp(boost::get<string>(j->second), params);
+			string aPattern = Util::formatRegExp(j->second, params);
 			string aField = getDetectionField(j->first);
 			DETECTION_DEBUG("\t\tPattern: " + aPattern + " Field: " + aField);
 			if(!RegEx::match<string>(aField, aPattern)) {
 				_continue = true;
 				break;
 			}
-			}catch(const boost::bad_get&) { }
+		//	}catch(const boost::bad_get&) { }
 		}
 		if(_continue)
 			continue;
@@ -436,7 +435,7 @@ string Identity::updateClientType(OnlineUser& ou) {
 		set("BC", entry.cheat.empty() ? Util::emptyString : "1");
 		logDetection(true);
 
-		if(entry.checkMismatch && getUser()->isSet(User::NMDC) &&  (boost::get<string>(params["VE"]) != boost::get<string>(params["PKVE"]))) {
+		if(entry.checkMismatch && getUser()->isSet(User::NMDC) &&  (params["VE"]) != (params["PKVE"])) {
 			setClientType(entry.name + " Version mis-match");
 			return ou.setCheat(entry.cheat + " Version mis-match", true, false, ou.getClient().isActionActive(SETTING(VERSION_MISMATCH_RAW)));
 		}
@@ -472,26 +471,26 @@ void Identity::getDetectionParams(ParamMap& p) {
    // convert all special chars to make regex happy
 	for(ParamMap::iterator i = p.begin(); i != p.end(); ++i) {
 		// looks really bad... but do the job
-		try {
-			Util::replace( "\\", "\\\\", boost::get<string>(i->second)); // this one must be first
-			Util::replace( "[", "\\[", boost::get<string>(i->second));
-			Util::replace( "]", "\\]", boost::get<string>(i->second));
-			Util::replace( "^", "\\^", boost::get<string>(i->second));
-			Util::replace( "$", "\\$", boost::get<string>(i->second));
-			Util::replace( ".", "\\.", boost::get<string>(i->second));
-			Util::replace( "|", "\\|", boost::get<string>(i->second));
-			Util::replace( "?", "\\?", boost::get<string>(i->second));
-			Util::replace( "*", "\\*", boost::get<string>(i->second));
-			Util::replace( "+", "\\+", boost::get<string>(i->second));
-			Util::replace( "(", "\\(", boost::get<string>(i->second));
-			Util::replace( ")", "\\)", boost::get<string>(i->second));
-			Util::replace( "{", "\\{", boost::get<string>(i->second));
-			Util::replace( "}", "\\}", boost::get<string>(i->second));
-			}
-			catch(const boost::bad_get& )
-			{
+		//try {
+			Util::replace( "\\", "\\\\",   (i->second)); // this one must be first
+			Util::replace( "[", "\\[",   (i->second));
+			Util::replace( "]", "\\]",   (i->second));
+			Util::replace( "^", "\\^",   (i->second));
+			Util::replace( "$", "\\$",   (i->second));
+			Util::replace( ".", "\\.",   (i->second));
+			Util::replace( "|", "\\|",   (i->second));
+			Util::replace( "?", "\\?",   (i->second));
+			Util::replace( "*", "\\*",   (i->second));
+			Util::replace( "+", "\\+",   (i->second));
+			Util::replace( "(", "\\(",   (i->second));
+			Util::replace( ")", "\\)",   (i->second));
+			Util::replace( "{", "\\{",   (i->second));
+			Util::replace( "}", "\\}",   (i->second));
+		//	}
+			//catch(const boost::bad_get& )
+		//	{
 				//..
-			}
+		//	}
 	}
 }
 

@@ -24,6 +24,7 @@
 #include "SettingsManager.h"
 #include "version.h"
 #include <limits.h> 
+
 #include <boost/algorithm/string/trim.hpp>
 
 namespace dcpp {

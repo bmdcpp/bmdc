@@ -20,7 +20,6 @@
 #define DCPLUSPLUS_DCPP_GEOIP_H
 
 #include "CriticalSection.h"
-#include <boost/noncopyable.hpp>
 #include <string>
 #include <vector>
 
@@ -31,7 +30,7 @@ namespace dcpp {
 using std::string;
 using std::vector;
 
-class GeoIP /*: boost::noncopyable*/ {
+class GeoIP {
 public:
 	explicit GeoIP(string&& path);
 	~GeoIP();

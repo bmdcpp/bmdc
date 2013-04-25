@@ -850,10 +850,11 @@ FavoriteHubEntryList FavoriteManager::getFavoriteHubs(const string& group) const
 	return ret;
 }
 
-optional<FavoriteUser> FavoriteManager::getFavoriteUser(const UserPtr &aUser) const {
+/*optional<*/const FavoriteUser*/*>*/ FavoriteManager::getFavoriteUser(const UserPtr &aUser) const {
 	Lock l(cs);
 	auto i = users.find(aUser->getCID());
-	return i == users.end() ? optional<FavoriteUser>() : i->second;
+	return i == users.end() ? (nullptr) : &i->second;
+	/*optional<FavoriteUser>()*/
 }
 
 bool FavoriteManager::hasSlot(const UserPtr& aUser) const {

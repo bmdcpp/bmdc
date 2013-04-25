@@ -29,7 +29,7 @@
 #include "ThrottleManager.h"
 #include "UploadManager.h"
 #include "version.h"
-//#include <boost/scoped_array.hpp>
+
 #include "Socket.h"
 #include "UserCommand.h"
 #include "StringTokenizer.h"
@@ -91,7 +91,7 @@ OnlineUser& NmdcHub::getUser(const string& aNick) {
 	{
 		Lock l(cs);
 		u = users.insert(make_pair(aNick, new OnlineUser(p, *this, 0))).first->second;
-		u->inc();
+		//u->inc();
 		u->getIdentity().setNick(aNick);
 		if(u->getUser() == getMyIdentity().getUser()) {
 			setMyIdentity(u->getIdentity());
@@ -128,7 +128,8 @@ void NmdcHub::putUser(const string& aNick) {
 		users.erase(i);
 	}
 	ClientManager::getInstance()->putOffline(ou);
-	ou->dec();
+	//ou->dec();
+	delete ou;
 }
 
 void NmdcHub::clearUsers() {
@@ -141,7 +142,8 @@ void NmdcHub::clearUsers() {
 
 	for(NickIter i = u2.begin(); i != u2.end(); ++i) {
 		ClientManager::getInstance()->putOffline(i->second);
-		i->second->dec();
+		//i->second->dec();
+		delete i->second;
 	}
 }
 

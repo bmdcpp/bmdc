@@ -830,10 +830,10 @@ string Util::encodeURI(const string& aString, bool reverse) {
 }
 
 // used to parse the boost::variant params of the formatParams function.
-struct GetString : boost::static_visitor<string> {
-	string operator()(const string& s) const { return s; }
-	string operator()(const std::function<string ()>& f) const { return f(); }
-};
+//struct GetString : boost::static_visitor<string> {
+//	string operator()(const string& s) const { return s; }
+//	string operator()(const std::function<string ()>& f) const { return f(); }
+//};
 
 /**
  * This function takes a string and a set of parameters and transforms them according to
@@ -860,7 +860,7 @@ string Util::formatParams(const string& msg, const ParamMap& params, FilterF fil
 			i = j;
 
 		} else {
-			auto replacement = boost::apply_visitor(GetString(), param->second);
+			auto replacement = /*boost::apply_visitor(GetString(),*/ param->second/*)*/;
 
 			// replace all % in params with %% for strftime
 			replace("%", "%%", replacement);
@@ -1095,8 +1095,8 @@ std::string Util::formatRegExp(const string& msg, ParamMap& params) {
 			std::string name = result.substr(j + 2, k - j - 2);
 			ParamMap::iterator smi = params.find(name);
 			if(smi != params.end()) {
-				result.replace(j, k-j + 1, boost::get<string>(smi->second));
-				i = j + boost::get<string>(smi->second).size();
+				result.replace(j, k-j + 1, (smi->second));
+				i = j + (smi->second).size();
 			} else {
 				i = k + 1;
 			}

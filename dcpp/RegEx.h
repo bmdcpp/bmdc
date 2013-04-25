@@ -19,7 +19,6 @@
 #ifndef REG_EX_H
 #define REG_EX_H
 
-//#include <boost/regex.hpp>
 #include <pcre.h>     /* PCRE lib */
 #include "StringTokenizer.h"
 

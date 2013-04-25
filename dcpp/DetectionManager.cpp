@@ -331,7 +331,7 @@ void DetectionManager::UserInfoSave() {
 			for(ParamMap::const_iterator j = params.begin(); j != params.end(); ++j) {
 				xml.addTag("Param");
 				xml.addChildAttrib("Name", j->first);
-				xml.addChildAttrib("Pattern",  boost::get<string>(j->second));
+				xml.addChildAttrib("Pattern",  j->second);
 			}
 		}
 		xml.stepOut();
@@ -526,7 +526,7 @@ void DetectionManager::ProfilesSave() {
 			for(ParamMap::const_iterator j = params.begin(); j != params.end(); ++j) {
 				xml.addTag("Param");
 				xml.addChildAttrib("Name", j->first);
-				xml.addChildAttrib("Pattern", boost::get<string>(j->second));
+				xml.addChildAttrib("Pattern", j->second);
 			}
 		}
 		xml.stepOut();

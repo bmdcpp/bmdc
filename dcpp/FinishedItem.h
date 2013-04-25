@@ -19,7 +19,7 @@
 #ifndef DCPLUSPLUS_DCPP_FINISHED_ITEM_H
 #define DCPLUSPLUS_DCPP_FINISHED_ITEM_H
 
-#include <boost/noncopyable.hpp>
+//#include <boost/noncopyable.hpp>
 
 #include "forward.h"
 
@@ -28,7 +28,7 @@
 
 namespace dcpp {
 
-class FinishedItemBase : boost::noncopyable {
+class FinishedItemBase /*: boost::noncopyable*/ {
 public:
 	explicit FinishedItemBase(
 		int64_t transferred_,
@@ -47,6 +47,10 @@ public:
 	GETSET(int64_t, transferred, Transferred);
 	GETSET(int64_t, milliSeconds, MilliSeconds);
 	GETSET(time_t, time, Time);
+private:
+	FinishedItemBase(FinishedItemBase&);
+	FinishedItemBase operator=(FinishedItemBase&);
+	
 };
 
 class FinishedFileItem : public FinishedItemBase, public intrusive_ptr_base<FinishedFileItem> {

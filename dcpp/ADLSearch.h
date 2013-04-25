@@ -101,8 +101,8 @@ public:
 
 private:
 	friend class ADLSearchManager;
-
-	boost::variant<StringSearch::List, boost::regex> v;
+	bool v;
+	//std::tuple<StringSearch::List, std::regexp> v;
 
 	/// Prepare search
 	void prepare(ParamMap& params);

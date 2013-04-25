@@ -19,8 +19,6 @@
 #include "stdinc.h"
 #include "HashManager.h"
 
-#include <boost/scoped_array.hpp>
-
 #include "SimpleXML.h"
 #include "LogManager.h"
 #include "File.h"
@@ -147,9 +145,9 @@ bool HashManager::HashStore::loadTree(File& f, const TreeInfo& ti, const TTHValu
 	try {
 		f.setPos(ti.getIndex());
 		size_t datalen = TigerTree::calcBlocks(ti.getSize(), ti.getBlockSize()) * TTHValue::BYTES;
-		boost::scoped_array<uint8_t> buf(new uint8_t[datalen]);
-		f.read(&buf[0], datalen);
-		tt = TigerTree(ti.getSize(), ti.getBlockSize(), &buf[0]);
+		std::shared_ptr<uint8_t> buf(new uint8_t[datalen]);
+		f.read(&buf.get()[0], datalen);
+		tt = TigerTree(ti.getSize(), ti.getBlockSize(), &buf.get()[0]);
 		if (!(tt.getRoot() == root))
 			return false;
 	} catch (const Exception&) {

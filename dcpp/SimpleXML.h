@@ -34,7 +34,7 @@ STANDARD_EXCEPTION(SimpleXMLException);
  * A simple XML class that loads an XML-ish structure into an internal tree
  * and allows easy access to each element through a "current location".
  */
-class SimpleXML : private boost::noncopyable
+class SimpleXML //: private boost::noncopyable
 {
 public:
 	SimpleXML() : root("BOGUSROOT", Util::emptyString, NULL), current(&root), found(false) {
@@ -212,6 +212,7 @@ private:
 	class TagReader : public SimpleXMLReader::CallBack {
 	public:
 		TagReader(Tag* root) : cur(root) { }
+		virtual ~TagReader() {};
 		virtual bool getData(string&) { return false; }
 		virtual void startTag(const string& name, StringPairList& attribs, bool simple) {
 			cur->children.push_back(new Tag(name, attribs, cur));
@@ -242,6 +243,10 @@ private:
 	}
 
 	bool found;
+	private:
+		SimpleXML(SimpleXML&);
+		SimpleXML operator=(SimpleXML&);
+		
 };
 
 } // namespace dcpp

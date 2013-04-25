@@ -19,7 +19,6 @@
 #ifndef DCPLUSPLUS_DCPP_FAVORITE_MANAGER_H
 #define DCPLUSPLUS_DCPP_FAVORITE_MANAGER_H
 
-#include <boost/optional.hpp>
 
 #include "SettingsManager.h"
 
@@ -37,7 +36,6 @@
 
 namespace dcpp {
 
-using boost::optional;
 
 class SimpleXML;
 
@@ -76,7 +74,7 @@ public:
 	bool isFavoriteUser(const UserPtr& aUser) const { Lock l(cs); return users.find(aUser->getCID()) != users.end(); }
 	void removeFavoriteUser(const UserPtr& aUser);
 
-	optional<FavoriteUser> getFavoriteUser(const UserPtr& aUser) const;
+	const FavoriteUser* getFavoriteUser(const UserPtr& aUser) const;
 	bool hasSlot(const UserPtr& aUser) const;
 	void setUserDescription(const UserPtr& aUser, const string& description);
 	void setAutoGrant(const UserPtr& aUser, bool grant);
@@ -234,8 +232,6 @@ private:
 	void on(Failed, HttpConnection*, const string&) noexcept;
 	void on(Complete, HttpConnection*, const string&, bool) noexcept;
 	void on(Redirected, HttpConnection*, const string&) noexcept;
-//	void on(TypeNormal, HttpConnection*) noexcept;
-//	void on(TypeBZ2, HttpConnection*) noexcept;
 	void on(Retried, HttpConnection*, bool) noexcept;
 
 	bool onHttpFinished(bool fromHttp) noexcept;

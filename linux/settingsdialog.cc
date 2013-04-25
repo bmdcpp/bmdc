@@ -3627,7 +3627,7 @@ void Settings::setBgColorUserList()
 
 		string strcolor = WulforUtil::colorToString(&color);
 
-		auto qp = colorsIters.find(_("User ") + currname);
+//		auto qp = colorsIters.find(_("User ") + currname);
 
 		gtk_list_store_set(userListStore1, &iter, userListNames.col("BackSet"), strcolor.c_str(), -1);
 		if(currname.find(_("Normal")) != string::npos)

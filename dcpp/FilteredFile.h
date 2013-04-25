@@ -19,10 +19,7 @@
 #ifndef DCPLUSPLUS_DCPP_FILTERED_FILE_H
 #define DCPLUSPLUS_DCPP_FILTERED_FILE_H
 
-#include <boost/scoped_array.hpp>
-
 #include "Streams.h"
-
 #include "Exception.h"
 
 namespace dcpp {
@@ -111,9 +108,9 @@ public:
 		for(;;) {
 			size_t n = BUF_SIZE;
 			size_t zero = 0;
-			more = filter(NULL, zero, &buf[0], n);
+			more = filter(NULL, zero, &buf.get()[0], n);
 
-			written += f->write(&buf[0], n);
+			written += f->write(&buf.get()[0], n);
 
 			if(!more)
 				break;
@@ -131,11 +128,11 @@ public:
 			size_t n = BUF_SIZE;
 			size_t m = len;
 
-			more = filter(wb, m, &buf[0], n);
+			more = filter(wb, m, &buf.get()[0], n);
 			wb += m;
 			len -= m;
 
-			written += f->write(&buf[0], n);
+			written += f->write(&buf.get()[0], n);
 
 			if(!more) {
 				if(len > 0) {
@@ -154,8 +151,8 @@ private:
 
 	OutputStream* f;
 	Filter filter;
-
-	boost::scoped_array<uint8_t> buf;
+	std::shared_ptr<uint8_t> buf;
+	//boost::scoped_array<uint8_t> buf;
 	bool flushed;
 	bool more;
 };
@@ -182,13 +179,13 @@ public:
 			size_t curRead = BUF_SIZE;
 			if(valid == 0) {
 				dcassert(pos == 0);
-				valid = f->read(&buf[0], curRead);
+				valid = f->read(&buf.get()[0], curRead);
 				totalRead += curRead;
 			}
 
 			size_t n = len - totalProduced;
 			size_t m = valid - pos;
-			more = filter(&buf[pos], m, rb, n);
+			more = filter(&buf.get()[pos], m, rb, n);
 			pos += m;
 			if(pos == valid) {
 				valid = pos = 0;
@@ -205,7 +202,8 @@ private:
 
 	InputStream* f;
 	Filter filter;
-	boost::scoped_array<uint8_t> buf;
+	//boost::scoped_array<uint8_t> buf;
+	std::shared_ptr<uint8_t> buf;
 	size_t pos;
 	size_t valid;
 	bool more;

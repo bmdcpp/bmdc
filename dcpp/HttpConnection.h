@@ -18,7 +18,7 @@
 
 #ifndef DCPLUSPLUS_DCPP_HTTP_CONNECTION_H
 #define DCPLUSPLUS_DCPP_HTTP_CONNECTION_H
-#include <boost/noncopyable.hpp>
+//#include <boost/noncopyable.hpp>
 #include "BufferedSocketListener.h"
 #include "HttpConnectionListener.h"
 #include "Speaker.h"
@@ -28,7 +28,7 @@ namespace dcpp {
 
 using std::string;
 
-class HttpConnection : BufferedSocketListener, public Speaker<HttpConnectionListener>, boost::noncopyable
+class HttpConnection : BufferedSocketListener, public Speaker<HttpConnectionListener>//, boost::noncopyable
 {
 public:
 	HttpConnection(bool coralize = true, const string& aUserAgent = Util::emptyString);
@@ -52,7 +52,6 @@ private:
 	string method;
 	string file;
 	string server;
-//	bool ok;
 	string port;
 
 	string requestBody;
@@ -77,8 +76,9 @@ private:
 	void on(ModeChange) noexcept;
 	void on(Failed, const string&) noexcept;
 
-//	void onConnected();
-//	void onLine(const string& aLine);
+	HttpConnection(HttpConnection&);
+	HttpConnection& operator=(HttpConnection&);
+	
 };
 
 } // namespace dcpp

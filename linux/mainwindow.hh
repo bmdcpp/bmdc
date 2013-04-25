@@ -126,7 +126,7 @@ class MainWindow:
 			END
 		} IconsToolbar;
 
-		static char* icons[(MainWindow::IconsToolbar)END][3];
+		static const char* icons[(MainWindow::IconsToolbar)END][3];
 
 		void setStatusOfIcons(IconsToolbar type, bool isClicked)
 		{
