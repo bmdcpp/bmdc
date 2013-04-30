@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2013 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2011 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,57 +17,88 @@
  */
 
 #include "stdinc.h"
-#include "TimerManager.h"
+#include "DCPlusPlus.h"
 
-#include <boost/date_time/posix_time/ptime.hpp>
+#include "TimerManager.h"
+#include "Util.h"
 
 namespace dcpp {
+#ifdef _WIN32
+    DWORD TimerManager::lastTick = 0;
+    uint32_t TimerManager::cycles = 0;
 
-using namespace boost::posix_time;
-
+    typedef ULONGLONG (WINAPI *GTC64)(void);
+    GTC64 pGTC64 = NULL;
+#else
+    timeval TimerManager::tv;
+#endif
 TimerManager::TimerManager() {
-	// This mutex will be unlocked only upon shutdown
-	mtx.lock();
+#ifdef _WIN32
+    if(Util::OsMajor >= 6) {
+        pGTC64 = (GTC64)::GetProcAddress(::GetModuleHandle(_T("Kernel32.dll")), "GetTickCount64");
+    }
+#else
+	gettimeofday(&tv, NULL);
+#endif
 }
 
-TimerManager::~TimerManager() {
-	dcassert(listeners.size() == 0);
-}
-
-void TimerManager::shutdown() {
-	
-	mtx.unlock();
-	join();
+TimerManager::~TimerManager() throw() {
+	dcassert(listeners.empty());
+	shutdown();
 }
 
 int TimerManager::run() {
 	int nextMin = 0;
-	
-	ptime now = microsec_clock::universal_time();
-	ptime nextSecond = now + seconds(1);
 
-	while(!mtx.timed_lock(nextSecond)) {
-		uint64_t t = getTick();
-		now = microsec_clock::universal_time();
-		nextSecond += seconds(1);
-		if(nextSecond < now) {
-			nextSecond = now;
-		}
+	uint64_t x = getTick();
+	uint64_t nextTick = x + 1000;
 
-		fire(TimerManagerListener::Second(), t);
+	while(!s.wait(nextTick > x ? (uint32_t)(nextTick - x) : 0)) {
+		uint64_t z = getTick();
+		nextTick = z + 1000;
+		fire(TimerManagerListener::Second(), z);
 		if(nextMin++ >= 60) {
-			fire(TimerManagerListener::Minute(), t);
+			fire(TimerManagerListener::Minute(), z);
 			nextMin = 0;
 		}
+		x = getTick();
 	}
-	mtx.unlock ();
-	dcdebug("TimerManager done\n");
+
 	return 0;
 }
 
 uint64_t TimerManager::getTick() {
-	static ptime start = microsec_clock::universal_time();
-	return (microsec_clock::universal_time() - start).total_milliseconds();
-}
+#ifdef _WIN32
+    static volatile long state = 0;
 
-} // namespace dcpp
+    while(Thread::safeExchange(state, 1) == 1) {
+		::Sleep(1);
+	}
+
+    if(pGTC64 != NULL) {
+        uint64_t ui64Ret = pGTC64();
+
+        Thread::safeDec(state);
+
+        return ui64Ret;
+    } else {
+        DWORD tick = ::GetTickCount();
+        if(tick < lastTick) {
+            cycles++;
+        }
+        lastTick = tick;
+
+        uint64_t ui64Ret = uint64_t(cycles) * (uint64_t(std::numeric_limits<DWORD>::max()) + 1) + tick;
+
+        Thread::safeDec(state);
+
+        return ui64Ret;
+    }
+#else
+	timeval tv2;
+	gettimeofday(&tv2, NULL);
+	/// @todo check conversions to use uint64_t fully
+	return static_cast<uint64_t>(((tv2.tv_sec - tv.tv_sec) * 1000 ) + ( (tv2.tv_usec - tv.tv_usec) / 1000));
+#endif
+}
+}//namespace dcpp

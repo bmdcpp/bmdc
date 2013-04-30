@@ -18,7 +18,7 @@
 
 #ifndef DCPLUSPLUS_DCPP_USER_H
 #define DCPLUSPLUS_DCPP_USER_H
-#include <boost/noncopyable.hpp>
+//#include <boost/noncopyable.hpp>
 #include "forward.h"
 #include "Pointer.h"
 #include "CID.h"

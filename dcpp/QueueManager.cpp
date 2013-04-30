@@ -18,9 +18,9 @@
 
 #include "stdinc.h"
 #include "QueueManager.h"
-#include <boost/range/adaptor/map.hpp>
-#include <boost/range/algorithm/for_each.hpp>
-#include <boost/range/algorithm_ext/for_each.hpp>
+//#include <boost/range/adaptor/map.hpp>
+//#include <boost/range/algorithm/for_each.hpp>
+//#include <boost/range/algorithm_ext/for_each.hpp>
 #include "ClientManager.h"
 #include "ConnectionManager.h"
 #include "Download.h"
@@ -50,11 +50,12 @@
 
 namespace dcpp {
 
-using boost::adaptors::map_values;
-using boost::range::for_each;
+//using boost::adaptors::map_values;
+//using boost::range::for_each;
 
 QueueManager::FileQueue::~FileQueue() {
-	for_each(queue | map_values, DeleteFunction());
+	//for_each(queue | map_values, DeleteFunction());
+	for(auto i:queue){delete (i).second;}//TODO check if does as it does :p
 }
 
 QueueItem* QueueManager::FileQueue::add(const string& aTarget, int64_t aSize,
@@ -439,13 +440,27 @@ int QueueManager::Rechecker::run() {
 		}
 
 		size_t pos = 0;
-		boost::for_each(tt.getLeaves(), ttFile.getLeaves(), [&](const TTHValue& our, const TTHValue& file) {
+		for(auto i = tt.getLeaves().begin();i!= tt.getLeaves().end();++i)
+		{
+				for(auto j = ttFile.getLeaves().begin();j!= ttFile.getLeaves().end();++j)
+				{
+					TTHValue& our = *i;
+					TTHValue& file = *j;
+					if(our == file)
+					{
+						q->addSegment(Segment(pos,tt.getBlockSize())); 
+					}	
+					pos += tt.getBlockSize();	
+				}
+			
+		}	
+		/*for_each(tt.getLeaves(), ttFile.getLeaves(), [&](const TTHValue& our, const TTHValue& file) {
 			if(our == file) {
 				q->addSegment(Segment(pos, tt.getBlockSize()));
 			}
 
 			pos += tt.getBlockSize();
-		});
+		});*/
 
 		qm->rechecked(q);
 	}
@@ -553,7 +568,7 @@ string QueueManager::getListPath(const HintedUser& user) {
 }
 
 void QueueManager::add(const string& aTarget, int64_t aSize, const TTHValue& root, const HintedUser& aUser,
-	int aFlags /* = 0 */, bool addBad /* = true */, const BundlePtr &bundle)
+	int aFlags /* = 0 */, bool addBad /* = true , const BundlePtr &bundle*/)
 {
 	auto gotoend = [this,&aUser] (bool wantConnection) -> void {
 		if(wantConnection && aUser.user->isOnline())
@@ -657,13 +672,13 @@ connect:
 	if(wantConnection && aUser.user->isOnline())
 		ConnectionManager::getInstance()->getDownloadConnection(aUser);*/
 }
-
+/*
 void QueueManager::add(const string& aRoot, const BundlePtr& bundle, const HintedUser& aUser, int aFlags) {
 	for_each(bundle->entries, [&](const Bundle::Entry& e) { add(aRoot + e.name, e.size, e.tth, aUser, aFlags, true, bundle); });
 	Lock l(cs);
 	bundles.insert(make_pair(bundle->getHash(), BundleItem(aRoot, bundle)));
 }
-
+*/
 void QueueManager::readd(const string& target, const HintedUser& aUser) {
 	bool wantConnection = false;
 	{
@@ -1107,7 +1122,7 @@ void QueueManager::putDownload(Download* aDownload, bool finished, bool reportFi
 		Lock l(cs);
 
 		delete aDownload->getFile();
-		aDownload->setFile(0);
+		aDownload->setFile(nullptr);
 
 		if(aDownload->getType() == Transfer::TYPE_PARTIAL_LIST ) {
 			QueueItem* q = fileQueue.find(/*getListPath(aDownload->getHintedUser())*/aDownload->getPath());
@@ -1257,8 +1272,9 @@ void QueueManager::processList(const string& name, const HintedUser& user, int f
 		DirectoryItem::List dl;
 		{
 			Lock l(cs);
-			auto dp = directories.equal_range(user) | map_values;
-			dl.assign(boost::begin(dp), boost::end(dp));
+			auto dp = directories.equal_range(user); //| map_values;
+			//dl.assign(boost::begin(dp), boost::end(dp));
+			for(auto i = dp.first;i!= dp.second;++i) {dl.push_back((*i).second);}//TODO check...
 			directories.erase(user);
 		}
 

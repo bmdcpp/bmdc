@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2013 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2011 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,14 +16,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef DCPLUSPLUS_DCPP_TIMER_MANAGER_H
-#define DCPLUSPLUS_DCPP_TIMER_MANAGER_H
+#ifndef TIMERMANAGER_H
+#define TIMERMANAGER_H
 
 #include "Thread.h"
+#include "Semaphore.h"
 #include "Speaker.h"
 #include "Singleton.h"
-
-#include <boost/thread/mutex.hpp>
 
 #ifndef _WIN32
 #include <sys/time.h>
@@ -39,30 +38,39 @@ public:
 	typedef X<0> Second;
 	typedef X<1> Minute;
 
-	virtual void on(Second, uint64_t) noexcept { }
-	virtual void on(Minute, uint64_t) noexcept { }
+	// We expect everyone to implement this...
+	virtual void on(Second, uint64_t) throw() { }
+	virtual void on(Minute, uint64_t) throw() { }
 };
 
-class TimerManager : public Speaker<TimerManagerListener>, public Singleton<TimerManager>, public Thread
-{
+class TimerManager : public Speaker<TimerManagerListener>, public Singleton<TimerManager>, public Thread {
 public:
-	void shutdown();
+	TimerManager();
+	virtual ~TimerManager() throw();
 
-	static time_t getTime() { return (time_t)time(NULL); }
+	void shutdown() {
+		s.signal();
+		join();
+	}
+
+	static time_t getTime() {
+		return (time_t)time(NULL);
+	}
 	static uint64_t getTick();
 private:
-	friend class Singleton<TimerManager>;
-	boost::timed_mutex mtx;
+	Semaphore s;
 
-	TimerManager();
-	virtual ~TimerManager();
+	int run();
 
-	virtual int run();
+#ifdef _WIN32
+	static DWORD lastTick;
+	static uint32_t cycles;
+#else
+	static timeval tv;
+#endif
 };
-
+};//namespace dcpp
 #define GET_TICK() TimerManager::getTick()
 #define GET_TIME() TimerManager::getTime()
 
-} // namespace dcpp
-
-#endif // DCPLUSPLUS_DCPP_TIMER_MANAGER_H
+#endif // TIMERMANAGER_H

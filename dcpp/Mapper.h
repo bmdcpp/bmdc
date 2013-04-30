@@ -28,7 +28,7 @@ namespace dcpp {
 using std::string;
 
 /** abstract class to represent an implementation usable by MappingManager. */
-class Mapper //: boost::noncopyable
+class Mapper 
 {
 public:
 	Mapper(string&& localIp);

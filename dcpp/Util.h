@@ -27,8 +27,6 @@
 #include <map>
 #include <cstring>
 #include <algorithm>//we dont need boost
-//#include <boost/range.hpp>
-//#include <boost/algorithm/string/find.hpp>
 
 #ifdef _WIN32
 
@@ -453,7 +451,18 @@ public:
 	static uint64_t getUptime() { return uptime;}
 	static void setUptime() { uptime++; }
 	static string convertCEscapes(string tmp);
-
+	static string trimUrl(string url)
+	{
+		string currentUrl = url;
+		// Trim spaces
+		while(currentUrl[0] == ' ')
+			currentUrl.erase(0, 1);
+		while(currentUrl[currentUrl.length() - 1] == ' ') {
+			currentUrl.erase(currentUrl.length()-1);
+		}
+		return currentUrl;
+	}
+	
 private:
 	/** In local mode, all config and temp files are kept in the same dir as the executable */
 	static bool localMode;

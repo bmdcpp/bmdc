@@ -22,7 +22,7 @@ LIB_IS_TAR = False
 # -fpermissive
 # , '-Werror' ,'-Wfatal-errors'
 BUILD_FLAGS = {
-	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib','-fno-stack-protector','-Wno-unused-parameter','-Wno-unused-value','-Wno-missing-field-initializers', '-Wno-address','-fexceptions','-g3', '-ldl', '-pipe','-DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED','-DGSEAL_ENABLE' ],
+	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib','-fno-stack-protector','-Wno-unused-parameter','-Wno-unused-value','-Wno-missing-field-initializers', '-Wno-address','-fexceptions','-g3', '-ldl', '-pipe','-DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED','-DGSEAL_ENABLE', '-fpermissive' ],
 	'debug'   : ['-O1','-g', '-ggdb', '-Wall', '-D_DEBUG'],
 	'release' : ['-O3', '-fomit-frame-pointer', '-DNDEBUG']
 }
@@ -197,10 +197,10 @@ if not 'install' in COMMAND_LINE_TARGETS:
 #		print '\tNote: You might have the lib but not the headers'
 #		Exit(1)
 
-	if not conf.CheckCXXHeader('boost/version.hpp', '<>'):
-		print '\tboost not found.'
-		print '\tNote: You might have the lib but not the headers'
-		Exit(1)
+#	if not conf.CheckCXXHeader('boost/version.hpp', '<>'):
+#		print '\tboost not found.'
+#		print '\tNote: You might have the lib but not the headers'
+#		Exit(1)
 
 	if not conf.CheckHeader('time.h'):
 		Exit(1)
@@ -307,8 +307,10 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	env.MergeFlags(BUILD_FLAGS[env['mode']])
 
 	env.Append(CXXFLAGS = '-std=c++0x')
-	env.Append(LIBS = ['boost_regex','pcre'])
-	env.Append(LINKFLAGS = ['-lboost_system','-lboost_thread','-lpcre'])
+	#'boost_regex',
+	env.Append(LIBS = ['pcre'])
+	#'-lboost_system','-lboost_thread',
+	env.Append(LINKFLAGS = ['-lpcre'])
 
 	env.Append(CPPDEFINES = ['STATICLIB'])
 	env.Append(CPPPATH = '#/natpmp')

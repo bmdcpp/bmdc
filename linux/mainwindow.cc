@@ -69,7 +69,7 @@
 #endif
 #include "SearchEntry.hh"
 
-#include <boost/algorithm/string/trim.hpp>
+//#include <boost/algorithm/string/trim.hpp>
 
 using namespace std;
 using namespace dcpp;
@@ -1031,7 +1031,8 @@ void MainWindow::showFinishedUploads_gui()
 
 void MainWindow::showHub_gui(string address, string encoding)
 {
-	boost::algorithm::trim(address);
+	//boost::algorithm::trim(address);
+	address = Util::trimUrl(address);
 
 	if(address.empty())
 	{
@@ -2558,7 +2559,7 @@ void MainWindow::autoConnect_client()
 		if (it != favHubGroups.end())
 		{
 			HubSettings p = it->second;
-			if (p.get(HubSettings::Connect))
+			if (p.get(HubSettings::Connect) == 1)
 			{
 				typedef Func2<MainWindow, string, string> F2;
 				F2 *func = new F2(this, &MainWindow::showHub_gui, hub->getServer(), hub->getEncoding());

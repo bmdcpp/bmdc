@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- */
-
+ 
+/*
 #ifndef DCPLUSPLUS_DCPP_BUNDLE_H_
 #define DCPLUSPLUS_DCPP_BUNDLE_H_
 
@@ -37,7 +37,7 @@ using std::string;
  * For each file in the set, ordered by name (byte-order, not linguistic), except those specially marked,
  * compute the compute the hash. Then calculate the combined hash value by passing the concatenated hashes
  * of each file through the hash function.
- */
+ 
 class Bundle : public intrusive_ptr_base<Bundle> {
 public:
 	struct Entry {
@@ -60,4 +60,4 @@ public:
 
 }
 
-#endif /* DCPLUSPLUS_DCPP_BUNDLE_H_ */
+#endif */  DCPLUSPLUS_DCPP_BUNDLE_H_ */

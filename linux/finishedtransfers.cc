@@ -620,7 +620,7 @@ void FinishedTransfers::onRemoveAll_gui(GtkMenuItem *item, gpointer data)
 void FinishedTransfers::initializeList_client()
 {
 	StringMap params;
-	typedef Func2<FinishedTransfers, StringMap, bool> F2;
+	//typedef Func2<FinishedTransfers, StringMap, bool> F2;
 	//F2 *func;
 	FinishedManager::getInstance()->lockLists();
 	const FinishedManager::MapByFile &list = FinishedManager::getInstance()->getMapByFile(isUpload);

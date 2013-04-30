@@ -56,21 +56,21 @@ public:
 	UserCommand(int aId, int aType, int aCtx, int aFlags, const string& aName, const string& aCommand, const string& aTo, const string& aHub) noexcept
 		: Flags(aFlags), cid(aId), type(aType), ctx(aCtx), name(aName), command(aCommand), to(aTo), hub(aHub)
 	{
-		setDisplayName();
+		//setDisplayName();
 	}
 
 	UserCommand(const UserCommand& rhs) : Flags(rhs), cid(rhs.cid), type(rhs.type),
 		ctx(rhs.ctx), name(rhs.name), command(rhs.command), to(rhs.to), hub(rhs.hub)
 	{
-		setDisplayName();
+		//setDisplayName();
 	}
 
 	UserCommand& operator=(const UserCommand& rhs) {
 		cid = rhs.cid; type = rhs.type; ctx = rhs.ctx;
 		name = rhs.name; command = rhs.command; to = rhs.to; hub = rhs.hub;
 		*(reinterpret_cast<Flags*>(this)) = rhs;
-		displayName.clear();
-		setDisplayName();
+		//displayName.clear();
+		//setDisplayName();
 		return *this;
 	}
 
@@ -87,8 +87,8 @@ public:
 	static bool adc(const string& h);
 	inline bool adc() const { return adc(hub); }
 
-	const StringList& getDisplayName() const;
-	void setDisplayName();
+	//const StringList& getDisplayName() const;
+	//void setDisplayName();
 
 	GETSET(int, cid, Id);
 	GETSET(int, type, Type);
@@ -97,9 +97,9 @@ public:
 	GETSET(string, command, Command);
 	GETSET(string, to, To);
 	GETSET(string, hub, Hub);
-
+/*
 private:
-	StringList displayName;
+	StringList displayName;*/
 };
 
 } // namespace dcpp

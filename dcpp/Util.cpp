@@ -24,7 +24,7 @@
 	#include "w.h"
 #endif
 */
-#include <boost/algorithm/string/trim.hpp>
+//#include <boost/algorithm/string/trim.hpp>
 
 #include "CID.h"
 #include "ClientManager.h"

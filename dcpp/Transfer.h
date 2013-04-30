@@ -20,7 +20,7 @@
 #define DCPLUSPLUS_DCPP_TRANSFER_H_
 
 #include <deque>
-#include <boost/noncopyable.hpp>
+//#include <boost/noncopyable.hpp>
 #include "forward.h"
 #include "MerkleTree.h"
 #include "CriticalSection.h"
@@ -31,7 +31,7 @@ namespace dcpp {
 
 using std::deque;
 
-class Transfer : private boost::noncopyable {
+class Transfer /*: private boost::noncopyable*/ {
 public:
 	enum Type {
 		TYPE_FILE,
@@ -113,6 +113,9 @@ private:
 	int64_t pos;
 
 	UserConnection& userConnection;
+	Transfer(Transfer&);
+	Transfer& operator=(Transfer&);
+	
 };
 
 } // namespace dcpp

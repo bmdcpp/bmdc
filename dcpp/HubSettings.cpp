@@ -31,13 +31,14 @@ const string HubSettings::boolNames[BoolCount] = {
 
 namespace {
 inline bool defined(const string& s) { return !s.empty(); }
-inline bool defined(tribool b) { return !indeterminate(b); }
+inline bool defined(int b) { return b >=0 && b <= 2; //!indeterminate(b); 
+}
 }
 
 HubSettings::HubSettings() {
 	// tribools default to false; init them to an indeterminate value.
 	for(int i = (int)ShowJoins; i>BoldTab; ++i) {
-		bools[i] = indeterminate;
+		bools[i] = 0;//indeterminate;
 	}
 }
 
@@ -45,7 +46,7 @@ const string& HubSettings::get(HubStrSetting setting) const {
 	return strings[setting - HubStrFirst];
 }
 
-const tribool& HubSettings::get(HubBoolSetting setting) const {
+const int& HubSettings::get(HubBoolSetting setting) const {
 	return bools[setting - HubBoolFirst];
 }
 
@@ -53,7 +54,7 @@ string& HubSettings::get(HubStrSetting setting) {
 	return strings[setting - HubStrFirst];
 }
 
-tribool& HubSettings::get(HubBoolSetting setting) {
+int& HubSettings::get(HubBoolSetting setting) {
 	return bools[setting - HubBoolFirst];
 }
 
@@ -75,7 +76,7 @@ void HubSettings::load(SimpleXML& xml) {
 		strings[i] = xml.getChildAttrib(stringNames[i]);
 	}
 	for(uint8_t i = 0; i < BoolCount; ++i) {
-		bools[i] = to3bool(xml.getIntChildAttrib(boolNames[i]));
+		bools[i] = (xml.getIntChildAttrib(boolNames[i]));
 	}
 
 }
@@ -88,7 +89,7 @@ void HubSettings::save(SimpleXML& xml) const {
 	}
 	for(uint8_t i = 0; i < BoolCount; ++i) {
 		if(defined(bools[i])) {
-			xml.addChildAttrib(boolNames[i], toInt(bools[i]));
+			xml.addChildAttrib(boolNames[i], bools[i]);
 		}
 	}
 }

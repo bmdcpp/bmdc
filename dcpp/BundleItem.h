@@ -4,7 +4,7 @@
  *  Created on: 22 apr 2011 - 2013
  *      Author: arnetheduck
  */
-
+/*
 #ifndef BUNDLEITEM_H_
 #define BUNDLEITEM_H_
 

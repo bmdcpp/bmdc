@@ -28,7 +28,7 @@
 #include <unistd.h>
 #endif
 
-#include <boost/noncopyable.hpp>
+//#include <boost/noncopyable.hpp>
 #include "Exception.h"
 
 namespace dcpp {

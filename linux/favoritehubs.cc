@@ -713,6 +713,10 @@ void FavoriteHubs::initFavHubGroupsDialog_gui()
 	for (auto i = favHubGroups.begin(); i != favHubGroups.end(); ++i)
 	{
 		// favorite hub groups list
+		int showJoins = i->second.get(HubSettings::ShowJoins);
+		int FavShowJoins = i->second.get(HubSettings::FavShowJoins);
+		int connect = i->second.get(HubSettings::Connect);
+		int log = i->second.get(HubSettings::LogChat);
 		gtk_list_store_append(groupsStore, &iter);
 		gtk_list_store_set(groupsStore, &iter,
 			groupsView.col(_("Group name")), i->first.c_str(),
@@ -720,10 +724,10 @@ void FavoriteHubs::initFavHubGroupsDialog_gui()
 			groupsView.col("Nick"), i->second.get(HubSettings::Nick).c_str(),
 			groupsView.col("eMail"), i->second.get(HubSettings::Email).c_str(),
 			groupsView.col("Desc"), i->second.get(HubSettings::Description).c_str(),
-			groupsView.col("Parts"), (toInt(i->second.get(HubSettings::ShowJoins)) == 1 ? "1" : (toInt(i->second.get(HubSettings::ShowJoins) )>= 2 ? "2" : "0")),
-			groupsView.col("FavParts"), (toInt(i->second.get(HubSettings::FavShowJoins)) == 1 ? "1" : (toInt(i->second.get(HubSettings::FavShowJoins))) >= 2 ? "2" : "0" ),
-			groupsView.col("Connect hub"), toInt(i->second.get(HubSettings::Connect)) ? "1" : "0",
-			groupsView.col("LogChat"), toInt(i->second.get(HubSettings::LogChat)) ? "1" : "0",
+			groupsView.col("Parts"), Util::toString(showJoins).c_str() /*(toInt(i->second.get(HubSettings::ShowJoins)) /*== 1 ? "1" : (toInt(i->second.get(HubSettings::ShowJoins) )>= 2 ? "2" : "0"))*/,
+			groupsView.col("FavParts"),Util::toString(FavShowJoins).c_str()/*(toInt(i->second.get(HubSettings::FavShowJoins)) == 1 ? "1" : (toInt(i->second.get(HubSettings::FavShowJoins))) >= 2 ? "2" : "0" )*/,
+			groupsView.col("Connect hub"),Util::toString(connect).c_str()/*toInt(i->second.get(HubSettings::Connect)) ? "1" : "0"*/,
+			groupsView.col("LogChat"),  Util::toString(log).c_str() /*toInt(i->second.get(HubSettings::LogChat)) ? "1" : "0"*/,
 			groupsView.col("AwayMessage"), i->second.get(HubSettings::AwayMessage).c_str(),
 			-1);
 			//Parts 1 = Enable 2 = disable 0 = def
@@ -967,17 +971,18 @@ void FavoriteHubs::saveFavHubGroups()
 		string group = groupsView.getString(&iter, _("Group name"));
 
 		GroupsIter.insert(FavHubGroupsIter::value_type(group, it));
+		HubSettings p;
 
 		bool log_hub = groupsView.getString(&iter, "LogChat") == "1" ? TRUE : FALSE;
 		bool connect_hub = groupsView.getValue<int>(&iter, "Connect hub");
 		string nick = groupsView.getString(&iter, "Nick");
 		string email = groupsView.getString(&iter, "eMail");
 		string desc = groupsView.getString(&iter, "Desc");
-		tribool favShowJoins = to3bool(Util::toInt(groupsView.getString(&iter,"FavParts")));
-		tribool showJoins = to3bool(Util::toInt(groupsView.getString(&iter,"Parts")));
+		int favShowJoins = Util::toInt(groupsView.getString(&iter,"FavParts"));
+		int showJoins = Util::toInt(groupsView.getString(&iter,"Parts"));
 		string away = groupsView.getString(&iter, "AwayMessage");
 
-		HubSettings p;
+		
 		p.get(HubSettings::Nick) = nick;
 		p.get(HubSettings::Email) = email;
 		p.get(HubSettings::Description) = desc;
@@ -1162,9 +1167,9 @@ void FavoriteHubs::getFavHubParams_client(const FavoriteHubEntry *entry, StringM
 	params["Auto Connect"] = entry->getAutoConnect() ? "1" : "0";
 	params["Protected"] = entry->getProtectUsers();
 	params["eMail"] = entry->get(HubSettings::Email);
-	params["Parts"] = toInt(entry->get(HubSettings::ShowJoins)) == 1 ? "1" : (toInt(entry->get(HubSettings::ShowJoins)) >= 2 ? "2" : "0");
-	params["FavParts"] = (toInt(entry->get(HubSettings::FavShowJoins)) == 1 ? "1" : (toInt(entry->get(HubSettings::FavShowJoins))) >= 2 ? "2" : "0");
-	params["LogChat"] = toInt(entry->get(HubSettings::LogChat)) ? "1" : "0";
+	params["Parts"] = (entry->get(HubSettings::ShowJoins) == 1 ? "1" : (entry->get(HubSettings::ShowJoins)) >= 2 ? "2" : "0");
+	params["FavParts"] = (entry->get(HubSettings::FavShowJoins) == 1 ? "1" : (entry->get(HubSettings::FavShowJoins)) >= 2 ? "2" : "0");
+	params["LogChat"] = entry->get(HubSettings::LogChat) ? "1" : "0";
 	params["Away"] = entry->get(HubSettings::AwayMessage);
 	params["Notify"] = entry->getNotify() ? "1" : "0";
 	params["Country"] = entry->get(HubSettings::ShowCountry) ? "1" : "0";
@@ -1188,8 +1193,8 @@ void FavoriteHubs::addEntry_client(StringMap params)
 	entry.setMode(Util::toInt(params["Mode"]));
 	entry.get(HubSettings::UserIp) =  (params["IP"]);
 	entry.get(HubSettings::Email) = params["eMail"];
-	entry.get(HubSettings::ShowJoins) = to3bool(Util::toInt(params["Parts"]));
-	entry.get(HubSettings::FavShowJoins) = to3bool(Util::toInt(params["FavParts"]));
+	entry.get(HubSettings::ShowJoins) = Util::toInt(params["Parts"]);
+	entry.get(HubSettings::FavShowJoins) = Util::toInt(params["FavParts"]);
 
 	entry.setCheckClients(Util::toInt(params["Clients"]));
 	entry.setCheckFilelists(Util::toInt(params["Filelists"]));
@@ -1233,9 +1238,9 @@ void FavoriteHubs::editEntry_client(string address, StringMap params)
 		entry->setNotify(Util::toInt(params["Notify"]));
 
 		entry->get(HubSettings::Email) = params["eMail"];
-		tribool showjoin = to3bool(Util::toInt(params["Parts"]));
+		int showjoin = Util::toInt(params["Parts"]);
 		entry->get(HubSettings::ShowJoins) = showjoin;
-		tribool favJoin = to3bool(Util::toInt(params["FavParts"]));
+		int favJoin = (Util::toInt(params["FavParts"]));
 		entry->get(HubSettings::FavShowJoins) = favJoin;
 
 		entry->setCheckClients(Util::toInt(params["Clients"]));

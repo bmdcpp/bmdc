@@ -7,7 +7,7 @@ Group: Applications/Internet
 Source: http://launchpad.net/bmdc++/%{name}%{version}.tar.gz
 Buildroot: %{_tmppath}/%{name}-%{version}-buildroot
 BuildRequires:	glib2-devel >= 2.4
-BuildRequires:	gtk+3-devel >= 3.0
+BuildRequires:	gtk+3-devel >= 3.6
 BuildRequires:	bzip2-devel
 BuildRequires:	zlib-devel
 BuildRequires:	libgeoip-devel

@@ -18,11 +18,11 @@
 
 #include "stdinc.h"
 #include "SearchManager.h"
+#include <algorithm>
+//#include <boost/scoped_array.hpp>
 
-#include <boost/scoped_array.hpp>
-
-#include <boost/range/algorithm/for_each.hpp>
-#include <boost/range/algorithm_ext/for_each.hpp>
+//#include <boost/range/algorithm/for_each.hpp>
+//#include <boost/range/algorithm_ext/for_each.hpp>
 
 #include "ClientManager.h"
 #include "ConnectivityManager.h"
@@ -37,7 +37,7 @@
 
 namespace dcpp {
 
-using boost::range::for_each;
+//using boost::range::for_each;
 
 const char* SearchManager::types[TYPE_LAST] = {
 	N_("Any"),
@@ -95,14 +95,14 @@ void SearchManager::search(StringList& who, const string& aName, int64_t aSize /
 		StringPairList tokenHubList;
 		{
 			Lock l (cs);
-			for_each(who, [&](string& hub) {
+			std::for_each(who.begin(),who.end(), [&](string& hub) {
 				string hubToken = Util::toString(Util::rand());
 				searches[hubToken] = (SearchItem)(std::make_tuple(GET_TICK(), aToken, hub));
 				tokenHubList.push_back(make_pair(hubToken, hub));
 			});
 		}
 
-		for_each(tokenHubList, [&](StringPair& sp) {
+		std::for_each(tokenHubList.begin(),tokenHubList.end(), [&](StringPair& sp) {
 			ClientManager::getInstance()->search(sp.second, aSizeMode, aSize, aTypeMode, normalizeWhitespace(aName), sp.first, aExtList);
 		});
 		lastSearch = GET_TICK();

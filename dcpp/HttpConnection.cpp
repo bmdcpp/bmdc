@@ -24,8 +24,8 @@
 #include "SettingsManager.h"
 #include "version.h"
 #include <limits.h> 
-
-#include <boost/algorithm/string/trim.hpp>
+#include "Util.h"
+//#include <boost/algorithm/string/trim.hpp>
 
 namespace dcpp {
 
@@ -79,7 +79,8 @@ void HttpConnection::postData(const string& aUrl, const StringMap& aData) {
 
 void HttpConnection::prepareRequest(RequestType type) {
 	dcassert(Util::findSubString(currentUrl, "http://") == 0 || Util::findSubString(currentUrl, "https://") == 0);
-	boost::trim(currentUrl);
+	//boost::trim(currentUrl);
+	currentUrl = Util::trimUrl(currentUrl);
 
 	// Reset the connection states
 	if(connState == CONN_OK || connState == CONN_FAILED) 
@@ -215,7 +216,8 @@ void HttpConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 
 		string location = aLine.substr(10, aLine.length() - 10);
 //		Util::sanitizeUrl(location);
-		boost::trim(location);
+		//boost::trim(location);
+		location = Util::trimUrl(location);
 
 		// make sure we can also handle redirects with relative paths
 		if(location.find("://") == string::npos) {

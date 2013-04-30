@@ -22,7 +22,7 @@
 #include <string>
 
 #include "SimpleXML.h"
-#include "tribool.h"
+//#include "tribool.h"
 
 namespace dcpp {
 
@@ -63,9 +63,9 @@ struct HubSettings
 	HubSettings();
 
 	const string& get(HubStrSetting setting) const;
-	const tribool& get(HubBoolSetting setting) const;
+	const int& get(HubBoolSetting setting) const;
 	string& get(HubStrSetting setting);
-	tribool& get(HubBoolSetting setting);
+	int& get(HubBoolSetting setting);
 
 	/** Apply a set of sub-settings that may override current ones. Strings are overridden when not
 	null. Tribools are overridden when not in an indeterminate state. */
@@ -82,7 +82,7 @@ private:
 	static const string boolNames[BoolCount];
 
 	string strings[StringCount];
-	tribool bools[BoolCount];
+	int bools[BoolCount];
 
 };
 

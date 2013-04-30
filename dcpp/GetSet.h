@@ -19,14 +19,25 @@
 #ifndef DCPLUSPLUS_DCPP_GET_SET_H
 #define DCPLUSPLUS_DCPP_GET_SET_H
 
-#include <boost/mpl/if.hpp>
+/* adds a private member variable to a class and provides public get & set member functions to
+access it. */
+
 #include <type_traits>
 
-#define REF_OR_COPY(t) std::conditional<std::is_class<t>::value, const t&, t>::type
+#ifndef DCPLUSPLUS_SIMPLE_GETSET
 
-#define GETSET(type, name, name2) \
-private: type name; \
-public: REF_OR_COPY(type) get##name2() const { return name; } \
-	void set##name2(REF_OR_COPY(type) name) { this->name = name; }
+#define GETSET(t, name, name2) \
+private: t name; \
+public: std::conditional<std::is_class<t>::value, const t&, t>::type get##name2() const { return name; } \
+	template<typename GetSetT> void set##name2(GetSetT&& name) { this->name = std::forward<GetSetT>(name); }
+
+#else
+
+// This version is for my stupid editor =)
+#define GETSET(t, name, name2) \
+	private: t name; \
+	public: t get##name2() const; void set##name2(t name);
+
+#endif
 
 #endif /* GETSET_H_ */

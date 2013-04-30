@@ -36,7 +36,7 @@
 #include "QueueManagerListener.h"
 #include "SearchManagerListener.h"
 #include "ClientManagerListener.h"
-#include "BundleItem.h"
+//#include "BundleItem.h"
 
 #include "RsxUtil.h"
 #include "ClientManager.h"
@@ -89,8 +89,8 @@ public:
 
 	/** Add a file to the queue. */
 	void add(const string& aTarget, int64_t aSize, const TTHValue& root, const HintedUser& aUser,
-		int aFlags = 0, bool addBad = true, const BundlePtr &bundle = BundlePtr());
-	void add(const string& aRoot, const BundlePtr& bundle, const HintedUser& aUser, int aFlags = 0);
+		int aFlags = 0, bool addBad = true/*, const BundlePtr &bundle = BundlePtr()*/);
+	//void add(const string& aRoot, const BundlePtr& bundle, const HintedUser& aUser, int aFlags = 0);
 
 	/** Add a user's filelist to the queue. */
 	void addList(const HintedUser& HintedUser, int aFlags, const string& aInitialDir = Util::emptyString);
@@ -279,7 +279,7 @@ private:
 	mutable CriticalSection cs;
 
 	/** Bundles queued for download */
-	map<TTHValue, BundleItem> bundles;
+	//map<TTHValue, BundleItem> bundles;
 	/** QueueItems by target */
 	FileQueue fileQueue;
 	/** QueueItems by user */

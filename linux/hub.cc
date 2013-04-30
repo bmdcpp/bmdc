@@ -748,7 +748,7 @@ void Hub::updateUser_gui(ParamMap params)
 
 		userIters.insert(UserIters::value_type(cid, iter));
 
-		if(client->get(HubSettings::ShowJoins))		
+		if(client->get(HubSettings::ShowJoins) >= 1)		
 		{
 			// Show joins in chat by default
 			addStatusMessage_gui(Nick + _(" has joined"), Msg::STATUS, favorite? Sound::FAVORITE_USER_JOIN : Sound::NONE);
@@ -758,7 +758,7 @@ void Hub::updateUser_gui(ParamMap params)
 			if (favorite)
 				Notify::get()->showNotify("", message, Notify::FAVORITE_USER_JOIN);
 		}
-		else if ( client->get(HubSettings::FavShowJoins) && favorite )
+		else if ( (client->get(HubSettings::FavShowJoins) >= 1 ) && favorite )
 		{
 			// Only show joins for favorite users
 			string message = Nick + _(" has joined hub ") + client->getHubName();
@@ -794,7 +794,7 @@ void Hub::removeUser_gui(string cid)
 		setStatus_gui("statusUsers", Util::toString(userMap.size()) + _(" Users"));
 		setStatus_gui("statusShared", Util::formatBytes(totalShared));
 
-		if (client->get(HubSettings::ShowJoins))
+		if (client->get(HubSettings::ShowJoins) >= 1)
 		{
 			// Show parts in chat by default
 			string message = nick + _(" has quit hub ") + client->getHubName();
@@ -804,7 +804,7 @@ void Hub::removeUser_gui(string cid)
 			if (order[0] == 'C')//f
 				Notify::get()->showNotify("", message, Notify::FAVORITE_USER_QUIT);
 		}
-		else if (client->get(HubSettings::FavShowJoins) && order[0] == 'C')//f
+		else if ((client->get(HubSettings::FavShowJoins) >=1 )&& order[0] == 'C')//f
 		{
 			// Only show parts for favorite users
 			string message = nick + _(" has quit hub ") + client->getHubName();

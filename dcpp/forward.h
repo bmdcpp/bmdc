@@ -33,8 +33,8 @@ class ADLSearch;
 
 class BufferedSocket;
 
-class Bundle;
-typedef boost::intrusive_ptr<Bundle> BundlePtr;
+//class Bundle;
+//typedef boost::intrusive_ptr<Bundle> BundlePtr;
 
 struct ChatMessage;
 
@@ -59,10 +59,12 @@ class FavoriteUser;
 class File;
 
 class FinishedFileItem;
-typedef boost::intrusive_ptr<FinishedFileItem> FinishedFileItemPtr;
+//typedef boost::intrusive_ptr<FinishedFileItem> FinishedFileItemPtr;
+typedef std::shared_ptr<FinishedFileItem> FinishedFileItemPtr;
 
 class FinishedUserItem;
-typedef boost::intrusive_ptr<FinishedUserItem> FinishedUserItemPtr;
+//typedef boost::intrusive_ptr<FinishedUserItem> FinishedUserItemPtr;
+typedef std::shared_ptr<FinishedUserItem> FinishedUserItemPtr;
 
 class FinishedManager;
 
@@ -92,7 +94,8 @@ class QueueItem;
 typedef QueueItem* QueueItemPtr;
 
 class SearchResult;
-typedef boost::intrusive_ptr<SearchResult> SearchResultPtr;
+//typedef boost::intrusive_ptr<SearchResult> SearchResultPtr;
+typedef std::shared_ptr<SearchResult> SearchResultPtr;
 
 class Socket;
 class SocketException;

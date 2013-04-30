@@ -24,7 +24,7 @@
 #ifndef DCPLUSPLUS_DCPP_A_D_L_SEARCH_H
 #define DCPLUSPLUS_DCPP_A_D_L_SEARCH_H
 
-#include <boost/regex.hpp>
+//#include <boost/regex.hpp>
 
 #include "Util.h"
 #include "SettingsManager.h"
