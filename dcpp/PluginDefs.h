@@ -395,6 +395,7 @@ typedef struct DCUI {
         /* User interface API version */
         uint32_t apiVersion;
         void    (DCAPI *play_sound)					(const char* path);
+        void	(DCAPI *notify)						(const char* title, const char* message);
 } DCUI, *DCUIPtr;
 
 #ifdef __cplusplus

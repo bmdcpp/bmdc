@@ -89,6 +89,7 @@ private:
 	
 	// Functions for DCUI - the host has to define these
 	static void DCAPI playSound(const char* path);
+	static void DCAPI notify(const char* title, const char* message);
 
 
 	// Functions for DCQueue

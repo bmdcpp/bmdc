@@ -32,4 +32,9 @@ void PluginApiImpl::playSound(const char* path) {
 	Sound::get()->playSound(string(path));
 }
 
+void PluginApiImpl::notify(const char* title, const char* message) {
+	Notify::get()->showNotify(string(title), string(message), Notify::PLUGINS);	
+	
+}
+
 } // namespace dcpp

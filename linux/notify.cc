@@ -218,6 +218,9 @@ void Notify::showNotify(const string &head, const string &body, TypeNotify notif
 				showNotify(wsm->getString("notify-hub-chat-title"), head , body,
 						wsm->getString("notify-hub-chat-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_NORMAL);
 			break;
+		case PLUGINS://TODO may settable as others :p
+				showNotify(head,head, body, wsm->getString("notify-high-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_NORMAL);
+				break;
 		default: break;
 	}
 	#endif

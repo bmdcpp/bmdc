@@ -54,6 +54,7 @@ class Notify
 			FAVORITE_USER_QUIT,
 			HIGHLITING,
 			HUB_CHAT,
+			PLUGINS,
 			NONE
 		};
 

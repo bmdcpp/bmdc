@@ -766,6 +766,8 @@ Remove Torrent.cpp/h file
 some more removal of boost
 -----r237
 Complety removed boost
+-----r238
+plugin API: add a notification function
 
 
 
