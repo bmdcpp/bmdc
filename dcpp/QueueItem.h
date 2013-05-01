@@ -37,7 +37,7 @@ using std::set;
 
 class QueueManager;
 //Removed FastAlloc
-class QueueItem : public Flags, public intrusive_ptr_base<QueueItem>, public PluginEntity<QueueData> {
+class QueueItem : public Flags,/* public intrusive_ptr_base<QueueItem>,*/ public PluginEntity<QueueData> {
 public:
 	typedef unordered_map<string*, QueueItemPtr, noCaseStringHash, noCaseStringEq> StringMap;
 
@@ -108,20 +108,25 @@ public:
 	typedef SourceList::const_iterator SourceConstIter;
 
 	typedef set<Segment> SegmentSet;
-	typedef SegmentSet::iterator SegmentIter;
+//	typedef SegmentSet::iterator SegmentIter;
 	typedef SegmentSet::const_iterator SegmentConstIter;
 
 	QueueItem(const string& aTarget, int64_t aSize, Priority aPriority, int aFlag,
 		time_t aAdded, const TTHValue& tth) :
 		Flags(aFlag), target(aTarget), size(aSize),
 		priority(aPriority), added(aAdded),	tthRoot(tth)
-	{ inc();}
+	{ 
+	//	inc();
+	}
 
 	QueueItem(const QueueItem& rhs) :
 		Flags(rhs), done(rhs.done), downloads(rhs.downloads), target(rhs.target),
 		size(rhs.size), priority(rhs.priority), added(rhs.added), tthRoot(rhs.tthRoot),
 		sources(rhs.sources), badSources(rhs.badSources), tempTarget(rhs.tempTarget)
-	{ inc();}
+	{ 
+		//inc();
+		
+	}
 
 	virtual ~QueueItem() { }
 

@@ -3347,11 +3347,9 @@ void Hub::addPasive_gui(ParamMap params)
 	const string &cid = params["CID"];
 
 	if (users.find(cid) == users.end())
-	//if (userPasiveMap.find(cid) == userPasiveMap.end())
 	{
 		GtkTreeIter iter;
 		const string &nick = params["Nick"];
-//		userPasiveMap.insert(UserMap::value_type(cid, nick));
 		users.insert(UserFlags::value_type(cid,FlagUser(nick,FlagUser::FLAG_PASIVE)));
 
 		// resort users
@@ -3370,12 +3368,10 @@ void Hub::addOperator_gui(ParamMap params)
 {
 	const string &cid = params["CID"];
 
-	//if (userOpMap.find(cid) == userOpMap.end())
 	if(users.find(cid) == users.end())
 	{
 		GtkTreeIter iter;
 		const string &nick = params["Nick"];
-		//userOpMap.insert(UserMap::value_type(cid, nick));
 		users.insert(UserFlags::value_type(cid, FlagUser(nick,FlagUser::FLAG_OP)));
 
 		// resort users
@@ -3394,12 +3390,10 @@ void Hub::addProtected_gui(ParamMap params)
 {
 	const string &cid = params["CID"];
 
-//	if (userProtectMap.find(cid) == userProtectMap.end())
 	if(users.find(cid) == users.end())
 	{
 		GtkTreeIter iter;
 		const string &nick = params["Nick"];
-//		userProtectMap.insert(UserMap::value_type(cid, nick));
 		users.insert(UserFlags::value_type(cid, FlagUser(nick,FlagUser::FLAG_PROTECT)));
 
 		// resort users
@@ -3419,11 +3413,9 @@ void Hub::addIgnore_gui(ParamMap params)
 	const string &cid = params["CID"];
 
 	if (users.find(cid) == users.end())
-//	if (userIgnoreMap.find(cid) == userIgnoreMap.end())
 	{
 		GtkTreeIter iter;
 		const string &nick = params["Nick"];
-//		userIgnoreMap.insert(UserMap::value_type(cid, nick));
 		users.insert(UserFlags::value_type(cid, FlagUser(nick,FlagUser::FLAG_IGNORE)));
 
 		// resort users
@@ -4531,7 +4523,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 			}
 		}
 
-		if (client->settings.get(HubSettings::LogChat))
+		if (client->settings.get(HubSettings::LogChat) >= 1)
 		{
 			dcpp::ParamMap params;
 			params["message"] = tmp_text;
@@ -4546,7 +4538,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 		WulforManager::get()->dispatchGuiFunc(func);
 
 		// Set urgency hint if message contains user's nick
-		if (  /*SETTING(BOLD_HUB)*/client->get(HubSettings::BoldTab) && message.from->getIdentity().getUser() != client->getMyIdentity().getUser())
+		if (  (client->get(HubSettings::BoldTab) >= 1) && message.from->getIdentity().getUser() != client->getMyIdentity().getUser())
 		{
               if( !isActive_gui() && WGETB("bold-all-tab"))
 			{

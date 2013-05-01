@@ -34,7 +34,7 @@ public:
 	void unsetFlag(MaskType aFlag) { flags &= ~aFlag; }
 	Flags& operator=(const Flags& rhs) { flags = rhs.flags; return *this; }
 protected:
-	~Flags() { }
+	virtual ~Flags() { }
 private:
 	MaskType flags;
 };

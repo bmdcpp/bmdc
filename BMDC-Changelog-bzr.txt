@@ -768,6 +768,10 @@ some more removal of boost
 Complety removed boost
 -----r238
 plugin API: add a notification function
+-----r239
+remove leftovers files
+add some basic support of clang ( not done)
+some cleanup
 
 
 

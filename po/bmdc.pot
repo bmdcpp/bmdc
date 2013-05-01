@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2013-04-30 15:28+0200\n"
+"POT-Creation-Date: 2013-05-01 17:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2824,7 +2824,7 @@ msgstr ""
 msgid "\n"
 msgstr ""
 
-#: linux/hub.cc:4463
+#: linux/hub.cc:4455
 msgid ""
 "\n"
 "Message: "
@@ -3052,7 +3052,7 @@ msgstr ""
 msgid "Add to Favorite Users"
 msgstr ""
 
-#: linux/hub.cc:4649
+#: linux/hub.cc:4641
 msgid "Add to Favorite hubs"
 msgstr ""
 
@@ -3264,7 +3264,7 @@ msgstr ""
 msgid "Clear search box after each search"
 msgstr ""
 
-#: linux/bookentry.cc:287 linux/hub.cc:4648 linux/privatemessage.cc:1582
+#: linux/bookentry.cc:287 linux/hub.cc:4640 linux/privatemessage.cc:1582
 #: linux/sharebrowser.cc:1105 linux/search.hh:161
 msgid "Close"
 msgstr ""
@@ -3302,11 +3302,11 @@ msgstr ""
 msgid "Confirm favorite hub removal"
 msgstr ""
 
-#: linux/hub.cc:4322
+#: linux/hub.cc:4314
 msgid "Connect failed: "
 msgstr ""
 
-#: linux/hub.cc:4249 linux/transfers.cc:1066
+#: linux/hub.cc:4241 linux/transfers.cc:1066
 msgid "Connected"
 msgstr ""
 
@@ -3318,7 +3318,7 @@ msgstr ""
 msgid "Connecting (forced)..."
 msgstr ""
 
-#: linux/hub.cc:4242
+#: linux/hub.cc:4234
 msgid "Connecting to "
 msgstr ""
 
@@ -3338,7 +3338,7 @@ msgstr ""
 msgid "Copy Nick(s)"
 msgstr ""
 
-#: linux/hub.cc:4647
+#: linux/hub.cc:4639
 msgid "Copy URL"
 msgstr ""
 
@@ -3603,15 +3603,15 @@ msgstr ""
 msgid "Favorite User"
 msgstr ""
 
-#: linux/hub.cc:3717
+#: linux/hub.cc:3709
 msgid "Favorite hub added"
 msgstr ""
 
-#: linux/hub.cc:3722
+#: linux/hub.cc:3714
 msgid "Favorite hub already exists"
 msgstr ""
 
-#: linux/hub.cc:3737
+#: linux/hub.cc:3729
 msgid "Favorite hub removed"
 msgstr ""
 
@@ -3863,15 +3863,15 @@ msgstr ""
 msgid "Ignored User "
 msgstr ""
 
-#: linux/hub.cc:4462
+#: linux/hub.cc:4454
 msgid "Ignored message from User "
 msgstr ""
 
-#: linux/hub.cc:4498
+#: linux/hub.cc:4490
 msgid "Ignored private message from bot "
 msgstr ""
 
-#: linux/hub.cc:4491
+#: linux/hub.cc:4483
 msgid "Ignored private message from hub"
 msgstr ""
 
@@ -4024,7 +4024,7 @@ msgstr ""
 msgid "New search type"
 msgstr ""
 
-#: linux/hub.cc:4604
+#: linux/hub.cc:4596
 msgid "Nick already taken"
 msgstr ""
 
@@ -4203,7 +4203,7 @@ msgstr ""
 msgid "Remote client does not fully support TTH - cannot download"
 msgstr ""
 
-#: linux/hub.cc:4650
+#: linux/hub.cc:4642
 msgid "Remove from Favorite hubs"
 msgstr ""
 
@@ -4248,7 +4248,7 @@ msgstr ""
 msgid "Search on imdb\n"
 msgstr ""
 
-#: linux/hub.cc:4611
+#: linux/hub.cc:4603
 msgid "Search spam detected from "
 msgstr ""
 
@@ -4290,7 +4290,7 @@ msgstr ""
 msgid "Send Raw data"
 msgstr ""
 
-#: linux/hub.cc:4332
+#: linux/hub.cc:4324
 msgid "Send Stored password... "
 msgstr ""
 
@@ -4319,7 +4319,7 @@ msgstr ""
 msgid "Set Slots to:"
 msgstr ""
 
-#: linux/hub.cc:4651
+#: linux/hub.cc:4643
 msgid "Set Tab Name"
 msgstr ""
 
@@ -4443,7 +4443,7 @@ msgstr ""
 msgid "Slot granted"
 msgstr ""
 
-#: linux/favoriteusers.cc:629 linux/hub.cc:3641
+#: linux/favoriteusers.cc:629 linux/hub.cc:3633
 msgid "Slot granted to "
 msgstr ""
 
@@ -4568,7 +4568,7 @@ msgstr ""
 msgid "The name and address fields are required"
 msgstr ""
 
-#: linux/hub.cc:3742
+#: linux/hub.cc:3734
 msgid "This hub is not a favorite hub"
 msgstr ""
 
@@ -4611,7 +4611,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: linux/hub.cc:2472 linux/hub.cc:4625
+#: linux/hub.cc:2472 linux/hub.cc:4617
 msgid "Topic: "
 msgstr ""
 
@@ -4637,7 +4637,7 @@ msgstr ""
 msgid "UTF-8 (Unicode)"
 msgstr ""
 
-#: linux/hub.cc:3666
+#: linux/hub.cc:3658
 msgid "Unable to connect: already connected to the requested hub"
 msgstr ""
 
@@ -4781,7 +4781,7 @@ msgstr ""
 msgid "User list show/hide"
 msgstr ""
 
-#: linux/hub.cc:3569 linux/hub.cc:3611 linux/hub.cc:3632
+#: linux/hub.cc:3561 linux/hub.cc:3603 linux/hub.cc:3624
 msgid "User not found"
 msgstr ""
 
@@ -5044,7 +5044,7 @@ msgstr ""
 msgid "add alias A with uname -a exec\n"
 msgstr ""
 
-#: linux/hub.cc:3955
+#: linux/hub.cc:3947
 msgid "bad image"
 msgstr ""
 
@@ -5060,7 +5060,7 @@ msgstr ""
 msgid "file list from "
 msgstr ""
 
-#: linux/hub.cc:3946
+#: linux/hub.cc:3938
 msgid "loading error"
 msgstr ""
 

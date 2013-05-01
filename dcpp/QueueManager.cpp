@@ -101,7 +101,8 @@ void QueueManager::FileQueue::remove(QueueItem* qi) {
 	if(lastInsert != queue.end() && Util::stricmp(*lastInsert->first, qi->getTarget()) == 0)
 		++lastInsert;
 	queue.erase(const_cast<string*>(&qi->getTarget()));
-	qi->dec();
+	//qi->dec();
+	delete qi;
 }
 
 QueueItem* QueueManager::FileQueue::find(const string& target) {

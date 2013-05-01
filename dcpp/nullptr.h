@@ -1,6 +1,7 @@
 // for compilers that don't support nullptr, use the workaround in section 1.1 of the proposal.
 #ifndef NULL_PTR_HH
 #define  NULL_PTR_HH
+#ifndef __clang__
 
 #ifdef __GNUC__
 #if __GNUC__ < 4 || (__GNUC__ == 4 && __GNUC_MINOR__ < 6) // GCC 4.6 is the first GCC to implement nullptr.
@@ -20,6 +21,6 @@ private:
 
 #endif
 #endif
-
+#endif
 #endif
 
