@@ -614,7 +614,7 @@ void Search::addResult_gui(const SearchResultPtr result)
 	if (createParent)
 	{
 		GtkWidget *iwid = gtk_invisible_new ();
-		GdkPixbuf *buf = gtk_widget_render_icon(iwid, GTK_STOCK_DND_MULTIPLE, GTK_ICON_SIZE_MENU, NULL);
+		GdkPixbuf *buf = gtk_widget_render_icon_pixbuf(iwid, GTK_STOCK_DND_MULTIPLE, GTK_ICON_SIZE_MENU);
 		// Insert the new parent row
 		gtk_tree_store_insert_with_values(resultStore, &parent, NULL, -1,
 				resultView.col("Icon"),buf ,
@@ -794,7 +794,7 @@ void Search::regroup_gui()
 			if (!gtk_tree_model_iter_has_child(GTK_TREE_MODEL(resultStore), &groupParent))
 			{
 				GtkWidget *iwid = gtk_invisible_new ();
-				GdkPixbuf *buf = gtk_widget_render_icon(iwid, GTK_STOCK_DND_MULTIPLE, GTK_ICON_SIZE_MENU, NULL);
+				GdkPixbuf *buf = gtk_widget_render_icon_pixbuf(iwid, GTK_STOCK_DND_MULTIPLE, GTK_ICON_SIZE_MENU);
 
 				gtk_tree_store_insert_with_values(resultStore, &parent, NULL, position,
 					resultView.col("Icon"), buf,

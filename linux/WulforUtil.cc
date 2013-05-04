@@ -1516,7 +1516,7 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 	if(ext == "directory" || ext.empty())
 	{
 		GtkWidget *iwid = gtk_invisible_new ();
-		GdkPixbuf *buf = gtk_widget_render_icon(iwid, GTK_STOCK_DIRECTORY, GTK_ICON_SIZE_MENU, NULL);
+		GdkPixbuf *buf = gtk_widget_render_icon_pixbuf(iwid, GTK_STOCK_DIRECTORY, GTK_ICON_SIZE_MENU);
 		return buf;
 	}
 	std::transform(ext.begin(), ext.end(), ext.begin(), (int(*)(int))tolower);
@@ -1527,7 +1527,7 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 	if(it == map.end())
 	{
 		GtkWidget *iwid = gtk_invisible_new ();
-		GdkPixbuf *buf = gtk_widget_render_icon(iwid, GTK_STOCK_FILE, GTK_ICON_SIZE_MENU, NULL);
+		GdkPixbuf *buf = gtk_widget_render_icon_pixbuf(iwid, GTK_STOCK_FILE, GTK_ICON_SIZE_MENU);
 		return buf;
 	}
 

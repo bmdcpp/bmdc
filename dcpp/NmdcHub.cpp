@@ -552,7 +552,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 
 		if(!param.empty()) {
 			string::size_type j = param.find(" Pk=");
-			string lock, pk;
+			string lock;//, pk;
 			if( j != string::npos ) {
 				lock = param.substr(0, j);
 				//pk = param.substr(j + 4);

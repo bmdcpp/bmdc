@@ -188,7 +188,7 @@ void QueueItem::addSegment(const Segment& segment) {
 
 	for(auto i = ++done.begin() ; i != done.end(); ) {
 		SegmentSet::iterator prev = i;
-		prev--;
+		--prev;
 		if(prev->getEnd() >= i->getStart()) {
 			Segment big(prev->getStart(), i->getEnd() - prev->getStart());
 			done.erase(prev);

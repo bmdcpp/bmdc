@@ -115,7 +115,7 @@ Hub::Hub(const string &address, const string &encoding):
 	{
 		PangoFontDescription *fontDesc = pango_font_description_new();
 		pango_font_description_set_family(fontDesc, "Mono");
-		gtk_widget_modify_font(getWidget("chatText"), fontDesc);
+		gtk_widget_override_font(getWidget("chatText"), fontDesc);
 		pango_font_description_free(fontDesc);
 	}
 	//..set Colors

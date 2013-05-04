@@ -304,7 +304,7 @@ StringList DirectoryListing::getLocalPaths(const Directory* d) const {
 }
 
 void DirectoryListing::download(Directory* aDir, const string& aTarget, bool highPrio) {
-	string tmp;
+	//string tmp;
 	string target = (aDir == getRoot()) ? aTarget : aTarget + aDir->getName() + PATH_SEPARATOR;
 	// First, recurse over the directories
 	Directory::List& lst = aDir->directories;
@@ -424,7 +424,7 @@ DirectoryListing::Directory::List DirectoryListing::getForbiddenDirs() {
 	for(DirectoryListing::Directory::Iter di = root->directories.begin() ; di != root->directories.end() ; ++di) {
 		if((*di)->getName().find("Forbidden Directories") != string::npos) {
 			DirectoryListing::Directory::Iter fd;
-			for(fd = (*di)->directories.begin(); fd != (*di)->directories.end() ; fd++) {
+			for(fd = (*di)->directories.begin(); fd != (*di)->directories.end() ; ++fd) {
 				forbiddenDirList.push_back(*fd);
 			}
 		}

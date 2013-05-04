@@ -121,10 +121,10 @@ bool ADLSearch::isRegEx() const {
 }
 
 void ADLSearch::setRegEx(bool b) {
-	if(b)
+	//if(b)
 		v = b;
-	else
-		v = b;//StringSearch::List();
+	//else
+	//	v = b;//StringSearch::List();
 }
 /*
 struct Prepare : boost::static_visitor<> {

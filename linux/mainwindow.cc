@@ -371,8 +371,8 @@ MainWindow::MainWindow():
 	onQuit = FALSE;
 
 	// colourstuff added by curse //add to BMDC++ by Mank
-	string res = WulforManager::get()->getPath() + "/glade/resources.rc";//@TODO CSS
-	gtk_rc_parse(res.c_str());
+	//string res = WulforManager::get()->getPath() + "/glade/resources.rc";//@TODO CSS
+	//gtk_rc_parse(res.c_str());
 	// colourstuff end
 
 	// Load window state and position from settings manager
@@ -1408,7 +1408,7 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
                                          NULL));
 
      GtkWidget *content_area = gtk_dialog_get_content_area (dialog);
-     GtkWidget *table = gtk_table_new(1,2,FALSE);
+     GtkWidget *table = gtk_grid_new();
      gtk_container_add(GTK_CONTAINER(content_area), table);
 
 	string::size_type i = 0;
@@ -1474,11 +1474,11 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 				wid->label = label;
 				WidgList.push_back(wid);
 				guint row = 0; guint acolums = 0;
-				gtk_table_get_size(GTK_TABLE(table),&row,&acolums);
-				if(row > 1 && acolums > 1)
-					gtk_table_resize(GTK_TABLE(table),row+1,acolums+1);
-				gtk_table_attach_defaults(GTK_TABLE(table),label, acolums, acolums+1,row,row+1);
-				gtk_table_attach_defaults(GTK_TABLE(table),comboBox, acolums+1, acolums+2,row,row+1);
+				//gtk_table_get_size(GTK_TABLE(table),&row,&acolums);
+				//if(row > 1 && acolums > 1)
+				//	gtk_table_resize(GTK_TABLE(table),row+1,acolums+1);
+				gtk_grid_attach(GTK_GRID(table), label, acolums, row,acolums+1,row+1);
+				gtk_grid_attach(GTK_GRID(table), comboBox, acolums+1, row,acolums+2,row+1);
 				gtk_widget_show(label);
 				gtk_widget_show(comboBox);
 
@@ -1491,11 +1491,11 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 				wid->label = label;
 				WidgList.push_back(wid);
 				guint row = 0;guint acolums= 0;
-				gtk_table_get_size(GTK_TABLE(table),&row,&acolums);
-				if(row > 1 && acolums > 1)
-					gtk_table_resize(GTK_TABLE(table),row+1,acolums+1);
-				gtk_table_attach_defaults(GTK_TABLE(table),label,acolums,acolums+1,row,row+1);
-				gtk_table_attach_defaults(GTK_TABLE(table),entry,acolums+1,acolums+2,row,row+1);
+				//gtk_table_get_size(GTK_TABLE(table),&row,&acolums);
+				//if(row > 1 && acolums > 1)
+				//	gtk_table_resize(GTK_TABLE(table),row+1,acolums+1);
+				gtk_grid_attach(GTK_GRID(table),label,acolums,row,acolums+1,row+1);
+				gtk_grid_attach(GTK_GRID(table),entry,acolums+1,row,acolums+2,row+1);
 
 				gtk_widget_show(label);
 				gtk_widget_show(entry);

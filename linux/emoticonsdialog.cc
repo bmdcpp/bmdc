@@ -258,18 +258,19 @@ void EmoticonsDialog::build()
 		if ((++columns*rows) < (guint)sizetable) rows++;
 
 	/* set options dialog */
-	GdkColor color;
+	GdkRGBA color;
 	string back = "#faddab";
 
-	if (gdk_color_parse(back.c_str(), &color))
-		gtk_widget_modify_bg(dialog, GTK_STATE_NORMAL, &color);
+	if (gdk_rgba_parse (&color,back.c_str()))
+		gtk_widget_override_background_color(dialog, GTK_STATE_FLAG_NORMAL, &color);
+
 
 	/* create dialog body */
 	GtkWidget *frame = gtk_frame_new(NULL);
 	gtk_container_add(GTK_CONTAINER(dialog), frame);
 	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_ETCHED_OUT);
 
-	GtkWidget *table = gtk_table_new(rows, columns, TRUE);
+	GtkWidget *table = gtk_grid_new();
 	gtk_container_add(GTK_CONTAINER(frame), table);
 
 	gtk_widget_show(frame);
@@ -302,8 +303,8 @@ void EmoticonsDialog::build()
 			gtk_button_set_image(GTK_BUTTON(icon), image);
 			gtk_button_set_relief(GTK_BUTTON(icon), GTK_RELIEF_NONE);
 			gtk_widget_show(icon);
-
-			gtk_table_attach_defaults(GTK_TABLE(table), icon, left_attach, right_attach, top_attach, bottom_attach);
+//right_attach, bottom_attach
+			gtk_grid_attach(GTK_GRID(table), icon, left_attach, top_attach,1,1);
 
 #if GTK_CHECK_VERSION(2, 12, 0)
 			gtk_widget_set_tooltip_text(icon, name);

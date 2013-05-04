@@ -50,7 +50,7 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	{
 		PangoFontDescription *fontDesc = pango_font_description_new();
 		pango_font_description_set_family(fontDesc, "Mono");
-		gtk_widget_modify_font(getWidget("text"), fontDesc);
+		gtk_widget_override_font(getWidget("text"), fontDesc);
 		pango_font_description_free(fontDesc);
 	}
 

@@ -772,6 +772,8 @@ plugin API: add a notification function
 remove leftovers files
 add some basic support of clang ( not done)
 some cleanup
+-----r240
+Fix some deprecated functions in use
 
 
 

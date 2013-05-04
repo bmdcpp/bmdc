@@ -164,8 +164,10 @@ void BookEntry::setLabel_gui(string text)
 
     if(WGETB("custom-font-size"))
     {
-		GtkStyle *style = gtk_widget_get_default_style();
-		PangoFontDescription *desc = pango_font_description_copy(style->font_desc);
+		//GtkStyle *style = gtk_widget_get_default_style();
+		//PangoFontDescription *desc = pango_font_description_copy(style->font_desc);
+		PangoContext *cnx = gtk_widget_get_pango_context (GTK_WIDGET(label));
+		PangoFontDescription * desc = pango_context_get_font_description(cnx);
 		gint font_sized = pango_font_description_get_size (desc);
 		if(font_sized != (gint)WGETI("book-font-size"))
 		{
@@ -173,7 +175,7 @@ void BookEntry::setLabel_gui(string text)
 			if(fsize >=1)
 				pango_font_description_set_size (desc, fsize);
 		}
-		gtk_widget_modify_font (GTK_WIDGET(label),desc);
+		gtk_widget_override_font (GTK_WIDGET(label),desc);
     }
 
 	glong len = g_utf8_strlen(text.c_str(), -1);

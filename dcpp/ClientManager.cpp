@@ -809,7 +809,7 @@ void ClientManager::checkCheating(const HintedUser& p, DirectoryListing* dl) {
 
 			if(!forbiddenList.empty() || !forbiddenDirList.empty() ) {
 				int64_t fs = 0;
-				string s, c, sz, tth, stringForKick, forbiddenFilesList;
+				string s, c, sz, tth, stringForKick; //forbiddenFilesList;
 
 				int actionCommand = 0, totalPoints = 0, point = 0;
 				bool forFromFavs = false;
