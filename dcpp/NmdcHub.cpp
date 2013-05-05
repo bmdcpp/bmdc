@@ -91,7 +91,6 @@ OnlineUser& NmdcHub::getUser(const string& aNick) {
 	{
 		Lock l(cs);
 		u = users.insert(make_pair(aNick, new OnlineUser(p, *this, 0))).first->second;
-		//u->inc();
 		u->getIdentity().setNick(aNick);
 		if(u->getUser() == getMyIdentity().getUser()) {
 			setMyIdentity(u->getIdentity());
@@ -128,7 +127,6 @@ void NmdcHub::putUser(const string& aNick) {
 		users.erase(i);
 	}
 	ClientManager::getInstance()->putOffline(ou);
-	//ou->dec();
 	delete ou;
 }
 
@@ -142,7 +140,6 @@ void NmdcHub::clearUsers() {
 
 	for(NickIter i = u2.begin(); i != u2.end(); ++i) {
 		ClientManager::getInstance()->putOffline(i->second);
-		//i->second->dec();
 		delete i->second;
 	}
 }
@@ -552,10 +549,9 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 
 		if(!param.empty()) {
 			string::size_type j = param.find(" Pk=");
-			string lock;//, pk;
+			string lock;
 			if( j != string::npos ) {
 				lock = param.substr(0, j);
-				//pk = param.substr(j + 4);
 			} else {
 				// Workaround for faulty linux hubs...
 				j = param.find(" ");
@@ -1065,17 +1061,19 @@ void NmdcHub::on(Minute, uint64_t aTick) noexcept {
 }
 
 void NmdcHub::password(const string& aPass) {
-	if(!salt.empty()) {
+	if(!salt.empty()) {//$SaltPassy in Support
 		string filteredPass = fromUtf8(aPass);
 		size_t saltBytes = salt.size() * 5 / 8;
-		std::shared_ptr<uint8_t> buf(new uint8_t[saltBytes]);
-		Encoder::fromBase32(salt.c_str(), &buf.get()[0], saltBytes);
+		//std::shared_ptr<uint8_t> buf(new uint8_t[saltBytes]);
+		uint8_t *buf = new uint8_t[saltBytes];
+		Encoder::fromBase32(salt.c_str(), buf, saltBytes);//.get()[0]
 		TigerHash th;
 		th.update(filteredPass.data(), filteredPass.length());
-		th.update(&buf.get()[0], saltBytes);
+		th.update(buf, saltBytes);
 		send("$MyPass " + Encoder::toBase32(th.finalize(), TigerHash::BYTES) + "|");
 		salt.clear();
-	} else {
+		delete [] buf;
+	} else {//end
 		send("$MyPass " + fromUtf8(aPass) + "|");
 	}
 }

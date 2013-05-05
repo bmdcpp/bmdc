@@ -42,6 +42,7 @@ class BookEntry : public Entry
 		GtkWidget *getCloseButton() { return closeButton; }
 		GtkWidget *getTabMenuItem() { return tabMenuItem; }
 		void setIcon_gui(const EntryType type);
+		void setBackGround(const EntryType type);
 		void setIcon_gui(const std::string stock);
 		void setIconPixbufs_gui(const std::string iconspath);
 		void setLabel_gui(std::string text);

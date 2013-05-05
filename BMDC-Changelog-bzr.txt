@@ -774,7 +774,10 @@ add some basic support of clang ( not done)
 some cleanup
 -----r240
 Fix some deprecated functions in use
-
+-----r241
+add colorfull tab ( for now settings via About:config => values with colored-tabs-*
+some std::shared_ptr => new/delete operator
+some cleanup
 
 
 

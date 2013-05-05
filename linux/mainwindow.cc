@@ -265,7 +265,7 @@ MainWindow::MainWindow():
 	gtk_notebook_remove_page(GTK_NOTEBOOK(getWidget("book")), -1);
 	g_object_set_data(G_OBJECT(getWidget("book")), "page-rotation-list", NULL);
 	gtk_widget_set_sensitive(getWidget("closeMenuItem"), FALSE);
-
+	gtk_notebook_set_show_border (GTK_NOTEBOOK(getWidget("book")),FALSE);
 	// Connect the signals to their callback functions.
 	g_signal_connect(window, "delete-event", G_CALLBACK(onCloseWindow_gui), (gpointer)this);
 	g_signal_connect(window, "window-state-event", G_CALLBACK(onWindowState_gui), (gpointer)this);
@@ -501,7 +501,6 @@ void MainWindow::setUrgent_gui()
 {
 	gtk_window_set_urgency_hint(window, true);
 }
-
 /*
  * Create and show Transfers pane
  */

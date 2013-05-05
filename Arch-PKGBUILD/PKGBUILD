@@ -1,12 +1,12 @@
 # Contributor: freedcpp at seznam dot cz
 pkgname=bmdc-bzr
-pkgver=223
+pkgver=250
 pkgrel=3
-pkgdesc="DC + + client based on the source code FreeDC + + with Ignore Users."
+pkgdesc="DC++ client based on the source code FreeDC++ with Ignore Users."
 arch=('i686' 'x86_64')
 url="http://launchpad.net/bmdc++"
 license=('GPL')
-depends=('boost' 'bzip2' 'gtk3>=3.6' 'libgnome>=2.0' 
+depends=('bzip2' 'gtk3>=3.6' 'libgnome>=2.0' 
 'libnotify>=0.4.1' 'openssl' 'geoip' 'libtar' )
 makedepends=('pkgconfig' 'bzr' 'scons' 'gcc')
 provides=(bmdc)

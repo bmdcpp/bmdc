@@ -10,8 +10,8 @@ Upstream Author(s):
 
 Copyright:
 
-    <Copyright (C) 2010-2012 Mank>
-    <Copyright (C) 2010-2012 branec>
+    <Copyright (C) 2010-2013 Mank>
+    <Copyright (C) 2010-2013 branec>
 
 License:
 
@@ -19,7 +19,7 @@ License:
 
 The Debian packaging is:
 
-    Copyright (C) 2010 Mank <freedcpp@seznam.cz>
+    Copyright (C) 2010-2013 Mank <freedcpp@seznam.cz>
 
 # Please chose a license for your packaging work. If the program you package
 # uses a mainstream license, using the same license is the safest choice.

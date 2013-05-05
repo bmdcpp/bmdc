@@ -3,15 +3,16 @@ Section: net
 Version: 0.0.3-201
 Priority: optional
 Maintainer: Mank <freedcpp@seznam.cz>
-Build-Depends: debhelper (>= 4.2.0), scons, libbz2-dev, zlib1g-dev, libgtk-3-dev, libssl-dev, libboost-all-dev ,libcanberra-dev, libnotify-dev, libgeoip-dev, libtar-dev
+Build-Depends: debhelper (>= 4.2.0), scons, libbz2-dev, zlib1g-dev, libgtk-3-dev, libssl-dev, libcanberra-dev, libnotify-dev, libgeoip-dev, libtar-dev
 
 Package: bmdc
 Architecture: any
 Installed-Size: ${Installed-Size}
 Depends: ${shlibs:Depends}
 Homepage: http://launchpad.net/bmdc++
-Description: BMDC++ by Mank and branec
+Description: BMDC++ Client with Ignore User , Media Spam and many others.
  DC++ Client with Ignore User , Media Spam and many others.
+ By Mank and branec ( icons)
  ...
  .
  http://freedcppmv.sourceforge.net/

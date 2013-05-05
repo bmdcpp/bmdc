@@ -82,7 +82,6 @@ OnlineUser& AdcHub::getUser(const uint32_t aSID, const CID& aCID) {
 	{
 		Lock l(cs);
 		ou = users.insert(make_pair(aSID, new OnlineUser(p, *this, aSID))).first->second;
-		//ou->inc();
 	}
 
 	if(aSID != AdcCommand::HUB_SID)
@@ -121,7 +120,6 @@ void AdcHub::putUser(const uint32_t aSID, bool disconnect) {
 		ClientManager::getInstance()->putOffline(ou, disconnect);
 
 	fire(ClientListener::UserRemoved(), this, *ou);
-	//ou->dec();
 	delete ou;
 }
 
@@ -136,7 +134,6 @@ void AdcHub::clearUsers() {
 	for(SIDIter i = tmp.begin(); i != tmp.end(); ++i) {
 		if(i->first != AdcCommand::HUB_SID) {
 			ClientManager::getInstance()->putOffline(i->second);
-			//i->second->dec();
 			delete i->second;
 		}
 	}
@@ -941,17 +938,19 @@ void AdcHub::password(const string& pwd) {
 		
 	if(!salt.empty()) {
 		size_t saltBytes = salt.size() * 5 / 8;
-		std::shared_ptr<uint8_t> buf(new uint8_t[saltBytes]);
-		Encoder::fromBase32(salt.c_str(), &buf.get()[0], saltBytes);
+		//std::shared_ptr<uint8_t> buf(new uint8_t[saltBytes]);
+		uint8_t *buf = new uint8_t[saltBytes];
+		Encoder::fromBase32(salt.c_str(), buf, saltBytes);//&buf.get[0]
 		TigerHash th;
 		if(oldPassword) {
 			CID cid = getMyIdentity().getUser()->getCID();
 			th.update(cid.data(), CID::SIZE);
 		}
 		th.update(pwd.data(), pwd.length());
-		th.update(&buf.get()[0], saltBytes);
+		th.update(buf, saltBytes);
 		send(AdcCommand(AdcCommand::CMD_PAS, AdcCommand::TYPE_HUB).addParam(Encoder::toBase32(th.finalize(), TigerHash::BYTES)));
 		salt.clear();
+		delete [] buf;
 	}
 }
 

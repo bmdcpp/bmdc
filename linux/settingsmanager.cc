@@ -391,6 +391,51 @@ WulforSettingsManager::WulforSettingsManager():
 
 	defaultString.insert(StringMap::value_type("color-tab-text-bold", "blue"));
 	defaultString.insert(StringMap::value_type("color-tab-text-urgent", "blue"));
+	
+	defaultInt.insert(IntMap::value_type("colored-tabs-fav-hubs",1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-fav-users",1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-public",1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-download-quene",1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-downloads",1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-uploads",1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-searchs",1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-spy",1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-adl",1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-pm",1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-hub",1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-shareb",1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-notepad",1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-system",1));
+	
+	defaultString.insert(StringMap::value_type("colored-tabs-fav-hubs-color-bg","#7F7F7F"));
+	defaultString.insert(StringMap::value_type("colored-tabs-fav-users-color-bg","#7F7F7F"));
+	defaultString.insert(StringMap::value_type("colored-tabs-public-color-bg","#7F7F7F"));
+	defaultString.insert(StringMap::value_type("colored-tabs-download-quene-color-bg","#7F7F7F"));
+	defaultString.insert(StringMap::value_type("colored-tabs-downloads-color-bg","#7F7F7F"));
+	defaultString.insert(StringMap::value_type("colored-tabs-uploads-color-bg","#7F7F7F"));
+	defaultString.insert(StringMap::value_type("colored-tabs-searchs-color-bg","#7F7F7F"));
+	defaultString.insert(StringMap::value_type("colored-tabs-spy-color-bg","#7F7F7F"));
+	defaultString.insert(StringMap::value_type("colored-tabs-adl-color-bg","#7F7F7F"));
+	defaultString.insert(StringMap::value_type("colored-tabs-pm-color-bg","#7F7F7F"));
+	defaultString.insert(StringMap::value_type("colored-tabs-hub-color-bg","#7F7F7F"));
+	defaultString.insert(StringMap::value_type("colored-tabs-shareb-color-bg","#7F7F7F"));
+	defaultString.insert(StringMap::value_type("colored-tabs-notepad-color-bg","green"));
+	defaultString.insert(StringMap::value_type("colored-tabs-system-color-bg","white"));
+	
+	defaultString.insert(StringMap::value_type("colored-tabs-fav-hubs-color-fg","black"));
+	defaultString.insert(StringMap::value_type("colored-tabs-fav-users-color-fg","black"));
+	defaultString.insert(StringMap::value_type("colored-tabs-public-color-fg","black"));
+	defaultString.insert(StringMap::value_type("colored-tabs-download-quene-color-fg","black"));
+	defaultString.insert(StringMap::value_type("colored-tabs-downloads-color-fg","black"));
+	defaultString.insert(StringMap::value_type("colored-tabs-uploads-color-fg","black"));
+	defaultString.insert(StringMap::value_type("colored-tabs-searchs-color-fg","black"));
+	defaultString.insert(StringMap::value_type("colored-tabs-spy-color-fg","black"));
+	defaultString.insert(StringMap::value_type("colored-tabs-adl-color-fg","black"));
+	defaultString.insert(StringMap::value_type("colored-tabs-pm-color-fg","black"));
+	defaultString.insert(StringMap::value_type("colored-tabs-hub-color-fg","black"));
+	defaultString.insert(StringMap::value_type("colored-tabs-shareb-color-fg","black"));
+	defaultString.insert(StringMap::value_type("colored-tabs-notepad-color-fg","black"));
+	defaultString.insert(StringMap::value_type("colored-tabs-system-color-fg","black"));
 
 	load();
 
