@@ -23,7 +23,7 @@
  * This file contains forward declarations for the various DC++ classes
  */
 #include <memory>
-#include <boost/intrusive_ptr.hpp>
+//#include <boost/intrusive_ptr.hpp>
 
 namespace dcpp {
 

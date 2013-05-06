@@ -25,6 +25,7 @@
 #include <errno.h>
 #include <iconv.h>
 #include <langinfo.h>
+#include <cwctype>
 
 #ifndef ICONV_CONST
  #define ICONV_CONST

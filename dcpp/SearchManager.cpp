@@ -19,10 +19,6 @@
 #include "stdinc.h"
 #include "SearchManager.h"
 #include <algorithm>
-//#include <boost/scoped_array.hpp>
-
-//#include <boost/range/algorithm/for_each.hpp>
-//#include <boost/range/algorithm_ext/for_each.hpp>
 
 #include "ClientManager.h"
 #include "ConnectivityManager.h"

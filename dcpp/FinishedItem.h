@@ -19,8 +19,6 @@
 #ifndef DCPLUSPLUS_DCPP_FINISHED_ITEM_H
 #define DCPLUSPLUS_DCPP_FINISHED_ITEM_H
 
-//#include <boost/noncopyable.hpp>
-
 #include "forward.h"
 
 #include "Pointer.h"

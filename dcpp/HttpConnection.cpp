@@ -25,7 +25,6 @@
 #include "version.h"
 #include <limits.h> 
 #include "Util.h"
-//#include <boost/algorithm/string/trim.hpp>
 
 namespace dcpp {
 

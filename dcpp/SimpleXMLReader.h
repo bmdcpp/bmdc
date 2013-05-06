@@ -21,8 +21,6 @@
 
 #include "typedefs.h"
 
-//#include <boost/noncopyable.hpp>
-
 namespace dcpp {
 
 class SimpleXMLReader {

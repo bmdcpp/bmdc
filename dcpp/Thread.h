@@ -28,14 +28,13 @@
 #include <unistd.h>
 #endif
 
-//#include <boost/noncopyable.hpp>
 #include "Exception.h"
 
 namespace dcpp {
 
 STANDARD_EXCEPTION(ThreadException);
 
-class Thread //: private boost::noncopyable
+class Thread 
 {
 public:
 #ifdef _WIN32

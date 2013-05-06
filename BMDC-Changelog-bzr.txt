@@ -780,7 +780,8 @@ some std::shared_ptr => new/delete operator
 some cleanup
 -----r242
 Add Settings for colorfull tab to Settings Dialog ( under Appearence -> Tabs)
-
+-----r243
+some compile fixies
 
 
 

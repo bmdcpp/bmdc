@@ -19,8 +19,8 @@
 #ifndef DCPLUSPLUS_DCPP_POINTER_H
 #define DCPLUSPLUS_DCPP_POINTER_H
 
-#include <boost/intrusive_ptr.hpp>
-#include <boost/smart_ptr/detail/atomic_count.hpp>
+//#include <boost/intrusive_ptr.hpp>
+//#include <boost/smart_ptr/detail/atomic_count.hpp>
 #include <atomic>
 #include <memory>
 #include "noexcept.h"
@@ -29,7 +29,7 @@ namespace dcpp {
 
 using std::unique_ptr;
 using std::forward;
-
+/*
 template<typename T>
 class intrusive_ptr_base
 {
@@ -57,7 +57,7 @@ private:
 	boost::detail::atomic_count ref;
 	//atomic<long> ref;
 };
-
+*/
 struct DeleteFunction {
 	template<typename T>
 	void operator()(const T& p) const { delete p; }
