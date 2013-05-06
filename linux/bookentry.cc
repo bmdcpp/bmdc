@@ -428,7 +428,7 @@ void BookEntry::setBackGround(const EntryType type)
 					break;
 		case Entry::SEARCHS:
 		case Entry::SEARCH :
-				if(WGETB("colored-tabs-search")) {
+				if(WGETB("colored-tabs-searchs")) {
 						fg = WGETS("colored-tabs-searchs-color-fg");
 						bg = WGETS("colored-tabs-searchs-color-bg");
 					}
@@ -488,7 +488,6 @@ void BookEntry::setBackGround(const EntryType type)
 				}
 				break;
 		case Entry::ABOUT_CONFIG:
-					break;
 		default: return; ;
 	}
 	

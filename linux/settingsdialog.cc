@@ -210,7 +210,7 @@ Settings::Settings(GtkWindow* parent):
 	defaultIntTheme.insert(IntMap::value_type("text-cheat-italic", 0));
 	defaultIntTheme.insert(IntMap::value_type("text-high-bold", 1));
 	defaultIntTheme.insert(IntMap::value_type("text-high-italic", 0));
-	//Tab
+	//Tabs
 	defaultStringTheme.insert(StringMap::value_type("color-tab-text-bold", "blue"));
 	defaultStringTheme.insert(StringMap::value_type("color-tab-text-urgent", "blue"));
 	defaultIntTheme.insert(IntMap::value_type("colorize-tab-text",1));
@@ -774,6 +774,17 @@ void Settings::addOption_gui(GtkListStore *store, WulforSettingsManager *wsm, co
 		8, key4.c_str(),
 		-1);
 }
+//@tabs
+void Settings::addOption_gui_tabs(GtkListStore *store , const string& type, const string& key, const string& icon)
+{
+	GtkTreeIter iter;
+	gtk_list_store_append(store,&iter);
+	gtk_list_store_set(store, &iter,
+					0, type.c_str(),
+					1, key.c_str(),
+					2, icon.c_str(),
+					-1);
+}
 
 /* Creates a generic checkbox-based options GtkTreeView */
 
@@ -1127,6 +1138,37 @@ void Settings::initAppearance_gui()
 		addOption_gui(tabStore, _("Search"), SettingsManager::BOLD_SEARCH);
 		addOption_gui(tabStore, _("Search Spy"), SettingsManager::BOLD_SEARCH_SPY);
 		addOption_gui(tabStore, _("Set Hub to Bold all time when change whats in it"), "bold-all-tab");
+		//@tabs Colors
+		tabsColors.setView(GTK_TREE_VIEW(getWidget("tabsColors")));
+		tabsColors.insertColumn("Type", G_TYPE_STRING, TreeView::ICON_STRING,30,"Icon");
+		tabsColors.insertHiddenColumn("key", G_TYPE_STRING);
+		tabsColors.insertHiddenColumn("Icon", G_TYPE_STRING);
+		tabsColors.finalize();
+		
+		tabColorStore = gtk_list_store_newv(tabsColors.getColCount(), tabsColors.getGTypes());
+		gtk_tree_view_set_model(tabsColors.get(), GTK_TREE_MODEL(tabColorStore));
+		g_object_unref(tabColorStore);
+		//
+		addOption_gui_tabs(tabColorStore,"Hub","hub",WGETS("icon-hub-online"));
+		addOption_gui_tabs(tabColorStore,"Private Messages","pm",WGETS("icon-pm-online"));
+		addOption_gui_tabs(tabColorStore,"Finished Uploads","uploads",WGETS("icon-finished-uploads"));
+		addOption_gui_tabs(tabColorStore,"Finished Downloads","downloads",WGETS("icon-finished-downloads"));
+		addOption_gui_tabs(tabColorStore,"Download Quene","downloads-quene",WGETS("icon-queue"));
+		addOption_gui_tabs(tabColorStore,"Searchs","searchs",WGETS("icon-search"));
+		addOption_gui_tabs(tabColorStore,"Search Spy","spy",WGETS("icon-search-spy"));
+		addOption_gui_tabs(tabColorStore,"Search ADL","adl",WGETS("icon-search-adl"));
+		addOption_gui_tabs(tabColorStore,"Share Browser","shareb",WGETS("icon-directory"));
+		addOption_gui_tabs(tabColorStore,"Notepad","notepad",WGETS("icon-notepad"));
+		addOption_gui_tabs(tabColorStore,"System Log","system",WGETS("icon-system"));
+		addOption_gui_tabs(tabColorStore,"Public Hubs","public",WGETS("icon-public-hubs"));
+		addOption_gui_tabs(tabColorStore,"Favorite Users","fav-users",WGETS("icon-favorite-users"));
+		addOption_gui_tabs(tabColorStore,"Favorite Hubs","fav-hubs",WGETS("icon-favorite-hubs"));
+		
+		
+		tabSelections = gtk_tree_view_get_selection (GTK_TREE_VIEW (tabsColors.get()));
+		gtk_tree_selection_set_mode (tabSelections, GTK_SELECTION_SINGLE);
+		g_signal_connect(G_OBJECT(tabSelections),"changed",G_CALLBACK(onChangeTabSelections), (gpointer)this);
+		
 	}
 
 	{ // Sounds
@@ -5045,4 +5087,96 @@ void Settings::addHighlighting_to_gui(ColorSettings &cs, bool add)
 				hView.col("Case sensitive"), cs.usingRegexp() ? "1" : "0",
 				-1);
 
+}
+
+//tab
+
+void Settings::onChangeTabSelections(GtkTreeSelection *selection, gpointer data)
+{
+	Settings *s = (Settings*)data;
+	s->changeTab(selection);
+}
+
+void Settings::changeTab(GtkTreeSelection *selection) {
+        GtkTreeIter iter;
+        GtkTreeModel *model;
+        gchar *key;
+
+        if (gtk_tree_selection_get_selected (selection, &model, &iter))
+        {
+                gtk_tree_model_get (model, &iter, 1, &key, -1);
+                string keys = (string(key));
+				
+				string fg_string = WGETS("colored-tabs-" +(string(key))+"-color-bg");
+				g_free (key);
+				
+				GdkRGBA fg;
+								
+				gdk_rgba_parse(&fg,fg_string.c_str());
+				//TODO@ more...
+				GtkWidget *box = getWidget("box");
+				gtk_container_foreach(GTK_CONTAINER(box),(GtkCallback)gtk_widget_destroy, NULL);
+				GtkWidget *grid = gtk_grid_new();
+				GtkWidget *labelb = gtk_label_new("BackGround Color");
+				GtkWidget *labelf = gtk_label_new("ForeGround Color");
+				GtkWidget *buttonb = gtk_button_new_with_label("Chose");
+				GtkWidget *buttonf = gtk_button_new_with_label("Chose");
+				gtk_grid_attach(GTK_GRID(grid),labelb,0,0,1,1); 
+				gtk_grid_attach (GTK_GRID(grid),buttonb,0,1,1,1); 
+				gtk_grid_attach (GTK_GRID(grid),labelf,1,0,1,1);
+				gtk_grid_attach (GTK_GRID(grid),buttonf,1,1,1,1); 
+				gtk_container_add(GTK_CONTAINER(box),grid);
+				
+				g_object_set_data_full(G_OBJECT(buttonf), "name", g_strdup(keys.c_str()), g_free);
+				g_object_set_data_full(G_OBJECT(buttonb), "name", g_strdup(keys.c_str()), g_free);
+				g_signal_connect(buttonb, "clicked", G_CALLBACK(onBackColorChooserTab), (gpointer)this);
+				g_signal_connect(buttonf, "clicked", G_CALLBACK(onForeColorChooserTab), (gpointer)this);
+				gtk_widget_show_all(grid);
+        }
+}
+
+void Settings::onBackColorChooserTab(GtkWidget *button, gpointer data) 
+{	
+	Settings *s = (Settings *)data;
+	string key = (gchar *)g_object_get_data(G_OBJECT(button), "name");
+	string bg_string = WGETS("colored-tabs-" +(string(key))+"-color-bg");
+	GdkRGBA bg;
+	gdk_rgba_parse(&bg,bg_string.c_str());
+	GtkWidget *dialog =   gtk_color_chooser_dialog_new (("Chose BackGroun of "+key).c_str(),
+                                                        GTK_WINDOW(s->getContainer())); 
+    gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog),&bg);
+    int response = gtk_dialog_run(GTK_DIALOG(dialog));
+    if(response ==  GTK_RESPONSE_OK)
+	{
+		GdkRGBA bg_s;
+		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(dialog),&bg_s);
+		string color = WulforUtil::colorToString(&bg_s);
+		WSET("colored-tabs-" +(string(key))+"-color-bg",color);
+	 
+	}
+	gtk_widget_destroy(dialog);
+	
+}
+
+void Settings::onForeColorChooserTab(GtkWidget *button, gpointer data) 
+{	
+	Settings *s = (Settings *)data;
+	string key = (gchar *)g_object_get_data(G_OBJECT(button), "name");
+	string fg_string = WGETS("colored-tabs-" +(string(key))+"-color-fg");
+	GdkRGBA fg;
+	gdk_rgba_parse(&fg,fg_string.c_str());
+	GtkWidget *dialog =   gtk_color_chooser_dialog_new (("Chose ForeGroun of "+key).c_str(),
+                                                        GTK_WINDOW(s->getContainer())); 
+    gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog),&fg);
+    int response = gtk_dialog_run(GTK_DIALOG(dialog));
+    if(response ==  GTK_RESPONSE_OK)
+	{
+		GdkRGBA fg_s;
+		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(dialog),&fg_s);
+		string color = WulforUtil::colorToString(&fg_s);
+		WSET("colored-tabs-" +(string(key))+"-color-fg",color);
+	 
+	}
+	gtk_widget_destroy(dialog);
+	
 }

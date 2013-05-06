@@ -41,8 +41,7 @@ TreeView::~TreeView()
 {
 	if (!name.empty())
 		saveSettings();
-//	if (gtypes)
-		delete [] gtypes;
+	delete [] gtypes;
 	g_object_unref(menu);
 }
 

@@ -778,6 +778,8 @@ Fix some deprecated functions in use
 add colorfull tab ( for now settings via About:config => values with colored-tabs-*
 some std::shared_ptr => new/delete operator
 some cleanup
+-----r242
+Add Settings for colorfull tab to Settings Dialog ( under Appearence -> Tabs)
 
 
 

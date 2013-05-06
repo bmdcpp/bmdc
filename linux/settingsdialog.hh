@@ -57,6 +57,7 @@ class Settings:
 		//NOTE: BMDC++
 		void addOption_gui(GtkListStore *store, const std::string &name, const std::string &setting, const std::string &backSetting);
 		void addPreviewUL_gui(GtkListStore *store, const std::string &name, const std::string &color, const std::string &icon, const std::string &back);
+		void addOption_gui_tabs(GtkListStore *store, const std::string &type, const std::string &key, const std::string &icon);
 		//end
 		void addOption_gui(GtkListStore *store, WulforSettingsManager *wsm, const std::string &name,
 			const std::string &key1, const std::string &key2);
@@ -207,6 +208,11 @@ class Settings:
 		static void onConfigurePlugin_gui(GtkWidget *widget, gpointer data);
 		static void onAboutPlugin_gui(GtkWidget *widget, gpointer data);
 		//BMDC
+		static void onForeColorChooserTab(GtkWidget *button, gpointer data) ;
+		static void onBackColorChooserTab(GtkWidget *button, gpointer data) ;
+		static void onChangeTabSelections(GtkTreeSelection *selection, gpointer data);
+		void changeTab(GtkTreeSelection *selection);
+		//BMDC
 		static void makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data);
 		// Client functions
 		void saveSettings_client();
@@ -229,13 +235,15 @@ class Settings:
 			*windowStore2, *windowStore3, *advancedStore, *certificatesStore, *userCommandStore,
 			*previewAppToStore, *soundStore, *textStyleStore, *notifyStore, *themeIconsStore,
 			*toolbarStore, *extensionStore, *searchTypeStore, *userListStore1, *userListStore2, *hStore, *plStore;
+		GtkListStore *tabColorStore;	
 		TreeView downloadToView, publicListView, queueView, shareView,
 			appearanceView, tabView, windowView1, windowView2,
 			windowView3, advancedView, certificatesView, userCommandView,
 			previewAppView, soundView, textStyleView, notifyView, themeIconsView,
 			toolbarView, extensionView, searchTypeView, userListNames, userListPreview, hView, plView;
+		TreeView tabsColors;	
 		GtkTextBuffer *textStyleBuffer;
-		GtkTreeSelection *selection,*plselection;
+		GtkTreeSelection *selection, *plselection, *tabSelections;
 
 		typedef std::map<std::string, int> IntMap;
 		typedef std::map<std::string, std::string> StringMap;
