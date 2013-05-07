@@ -93,7 +93,6 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("toolbar-button-quit", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-button-finished-downloads", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-button-finished-uploads", 1));
-	defaultInt.insert(IntMap::value_type("toolbar-button-ignore",1));
 	defaultInt.insert(IntMap::value_type("notify-download-finished-use", 0));
 	defaultInt.insert(IntMap::value_type("notify-download-finished-ul-use", 0));
 	defaultInt.insert(IntMap::value_type("notify-private-message-use", 0));
@@ -143,7 +142,6 @@ WulforSettingsManager::WulforSettingsManager():
 
 	defaultInt.insert(IntMap::value_type("toolbar-button-notepad", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-button-system", 1));
-	defaultInt.insert(IntMap::value_type("toolbar-button-ignore", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-button-away", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-limit-bandwith", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-button-limiting", 1));
@@ -392,20 +390,25 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("color-tab-text-bold", "blue"));
 	defaultString.insert(StringMap::value_type("color-tab-text-urgent", "blue"));
 	
-	defaultInt.insert(IntMap::value_type("colored-tabs-fav-hubs",1));
-	defaultInt.insert(IntMap::value_type("colored-tabs-fav-users",1));
-	defaultInt.insert(IntMap::value_type("colored-tabs-public",1));
-	defaultInt.insert(IntMap::value_type("colored-tabs-download-quene",1));
-	defaultInt.insert(IntMap::value_type("colored-tabs-downloads",1));
-	defaultInt.insert(IntMap::value_type("colored-tabs-uploads",1));
-	defaultInt.insert(IntMap::value_type("colored-tabs-searchs",1));
-	defaultInt.insert(IntMap::value_type("colored-tabs-spy",1));
-	defaultInt.insert(IntMap::value_type("colored-tabs-adl",1));
-	defaultInt.insert(IntMap::value_type("colored-tabs-pm",1));
-	defaultInt.insert(IntMap::value_type("colored-tabs-hub",1));
-	defaultInt.insert(IntMap::value_type("colored-tabs-shareb",1));
-	defaultInt.insert(IntMap::value_type("colored-tabs-notepad",1));
-	defaultInt.insert(IntMap::value_type("colored-tabs-system",1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-fav-hubs", 1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-fav-users", 1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-public", 1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-download-quene", 1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-downloads", 1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-uploads", 1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-searchs", 1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-spy", 1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-adl", 1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-pm", 1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-hub", 1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-shareb", 1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-notepad", 1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-system", 1));
+	
+	defaultInt.insert(IntMap::value_type("colored-tabs-pm-unread",1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-hub-unread",1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-searchs-unread",1));
+	defaultInt.insert(IntMap::value_type("colored-tabs-system-unread",1));
 	
 	defaultString.insert(StringMap::value_type("colored-tabs-fav-hubs-color-bg","#7F7F7F"));
 	defaultString.insert(StringMap::value_type("colored-tabs-fav-users-color-bg","#7F7F7F"));
@@ -422,6 +425,11 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("colored-tabs-notepad-color-bg","green"));
 	defaultString.insert(StringMap::value_type("colored-tabs-system-color-bg","white"));
 	
+	defaultString.insert(StringMap::value_type("colored-tabs-pm-color-bg-unread","#E5E5E5"));
+	defaultString.insert(StringMap::value_type("colored-tabs-hub-color-bg-unread","#E5E5E5"));
+	defaultString.insert(StringMap::value_type("colored-tabs-system-color-bg-unread","#90EE90"));
+	defaultString.insert(StringMap::value_type("colored-tabs-searchs-color-bg-unread","#E5E5E5"));
+	
 	defaultString.insert(StringMap::value_type("colored-tabs-fav-hubs-color-fg","black"));
 	defaultString.insert(StringMap::value_type("colored-tabs-fav-users-color-fg","black"));
 	defaultString.insert(StringMap::value_type("colored-tabs-public-color-fg","black"));
@@ -436,6 +444,11 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("colored-tabs-shareb-color-fg","black"));
 	defaultString.insert(StringMap::value_type("colored-tabs-notepad-color-fg","black"));
 	defaultString.insert(StringMap::value_type("colored-tabs-system-color-fg","black"));
+	//..
+	defaultString.insert(StringMap::value_type("colored-tabs-pm-color-fg-unread","#FF0000"));
+	defaultString.insert(StringMap::value_type("colored-tabs-hub-color-fg-unread","#90EE90"));
+	defaultString.insert(StringMap::value_type("colored-tabs-system-color-fg-unread","#4D4D4D"));
+	defaultString.insert(StringMap::value_type("colored-tabs-searchs-color-fg-unread","#E5E5E5"));
 
 	load();
 

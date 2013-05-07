@@ -33,16 +33,15 @@ class BookEntry : public Entry
 				type((EntryType)0), IsCloseButton(true)  { }
 		BookEntry(const EntryType type, const std::string &text, const std::string &glade, const std::string &id = "");
 		virtual ~BookEntry()
-		{
+		{	}
 
-		}
-
-		GtkWidget *getContainer();
+		GtkWidget *getContainer(); //@ return Main Container of Book
 		GtkWidget *getLabelBox() { return labelBox; }
 		GtkWidget *getCloseButton() { return closeButton; }
 		GtkWidget *getTabMenuItem() { return tabMenuItem; }
 		void setIcon_gui(const EntryType type);
-		void setBackGround(const EntryType type);
+		void setBackForeGround(const EntryType type);//@ Setting BackGround and ForeGround of Book
+		void setBackForeGround_unread(const EntryType type);
 		void setIcon_gui(const std::string stock);
 		void setIconPixbufs_gui(const std::string iconspath);
 		void setLabel_gui(std::string text);
@@ -54,8 +53,8 @@ class BookEntry : public Entry
 		virtual void show() = 0;
 		virtual GtkWidget *createmenu();
 		GtkWidget *getFItem() { return fItem;}
-		void setSearchButtons(bool s) { IsCloseButton = s;}
 		
+		void setSearchButtons(bool s) { IsCloseButton = s;}
 	private:
 		void updateLabel_gui();
 		static void onCloseItem(gpointer data);
@@ -74,7 +73,7 @@ class BookEntry : public Entry
 
 		bool bold;
 		bool urgent;
-		const glong labelSize;//in WSET 
+		const glong labelSize;//@ size of Chars in Tab value in WulforSettingsManager 
 		GtkWidget *icon;
 		//[BMDC++
 		GdkEventType previous;

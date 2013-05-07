@@ -5116,22 +5116,50 @@ void Settings::changeTab(GtkTreeSelection *selection) {
 				//TODO@ more...
 				GtkWidget *box = getWidget("box");
 				gtk_container_foreach(GTK_CONTAINER(box),(GtkCallback)gtk_widget_destroy, NULL);
+				GtkWidget *frame = gtk_frame_new("Tabs");
+				GtkWidget *note = gtk_notebook_new();
+				gtk_container_add(GTK_CONTAINER(frame),note);
+				//1st
+				GtkWidget *pagelabel = gtk_label_new("NonBold/NonUnread");
 				GtkWidget *grid = gtk_grid_new();
 				GtkWidget *labelb = gtk_label_new("BackGround Color");
 				GtkWidget *labelf = gtk_label_new("ForeGround Color");
-				GtkWidget *buttonb = gtk_button_new_with_label("Chose");
-				GtkWidget *buttonf = gtk_button_new_with_label("Chose");
+				GtkWidget *buttonb = gtk_button_new_with_label("Choose");
+				GtkWidget *buttonf = gtk_button_new_with_label("Choose");
 				gtk_grid_attach(GTK_GRID(grid),labelb,0,0,1,1); 
 				gtk_grid_attach (GTK_GRID(grid),buttonb,0,1,1,1); 
 				gtk_grid_attach (GTK_GRID(grid),labelf,1,0,1,1);
 				gtk_grid_attach (GTK_GRID(grid),buttonf,1,1,1,1); 
-				gtk_container_add(GTK_CONTAINER(box),grid);
+				gtk_container_add(GTK_CONTAINER(box),frame);
 				
 				g_object_set_data_full(G_OBJECT(buttonf), "name", g_strdup(keys.c_str()), g_free);
 				g_object_set_data_full(G_OBJECT(buttonb), "name", g_strdup(keys.c_str()), g_free);
 				g_signal_connect(buttonb, "clicked", G_CALLBACK(onBackColorChooserTab), (gpointer)this);
 				g_signal_connect(buttonf, "clicked", G_CALLBACK(onForeColorChooserTab), (gpointer)this);
+				gtk_notebook_append_page(GTK_NOTEBOOK(note), grid, pagelabel);
 				gtk_widget_show_all(grid);
+				
+				//2nd
+				GtkWidget *pagelabel2 = gtk_label_new("Unread");
+				GtkWidget *grid2 = gtk_grid_new();
+				GtkWidget *labelb2 = gtk_label_new("BackGround Color");
+				GtkWidget *labelf2 = gtk_label_new("ForeGround Color");
+				GtkWidget *buttonb2 = gtk_button_new_with_label("Choose");
+				GtkWidget *buttonf2 = gtk_button_new_with_label("Choose");
+				gtk_grid_attach(GTK_GRID(grid2),labelb2,0,0,1,1); 
+				gtk_grid_attach (GTK_GRID(grid2),buttonb2,0,1,1,1); 
+				gtk_grid_attach (GTK_GRID(grid2),labelf2,1,0,1,1);
+				gtk_grid_attach (GTK_GRID(grid2),buttonf2,1,1,1,1); 
+				//gtk_container_add(GTK_CONTAINER(box),frame);
+				
+				g_object_set_data_full(G_OBJECT(buttonf2), "name", g_strdup(keys.c_str()), g_free);
+				g_object_set_data_full(G_OBJECT(buttonb2), "name", g_strdup(keys.c_str()), g_free);
+				g_signal_connect(buttonb2, "clicked", G_CALLBACK(onBackColorChooserTab), (gpointer)this);
+				g_signal_connect(buttonf2, "clicked", G_CALLBACK(onForeColorChooserTab), (gpointer)this);
+				gtk_notebook_append_page(GTK_NOTEBOOK(note), grid2, pagelabel2);
+				gtk_widget_show_all(grid2);
+				gtk_widget_show_all(note);
+				gtk_widget_show_all(frame);
         }
 }
 

@@ -97,7 +97,7 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 
 	setLabel_gui(text);
 	setIcon_gui(type);
-	setBackGround(type);
+	setBackForeGround(type);
 
 	// Associates entry to the widget for later retrieval in MainWindow::switchPage_gui()
 	g_object_set_data(G_OBJECT(getContainer()), "entry", (gpointer)this);
@@ -163,8 +163,6 @@ void BookEntry::setLabel_gui(string text)
 
     if(WGETB("custom-font-size"))
     {
-		//GtkStyle *style = gtk_widget_get_default_style();
-		//PangoFontDescription *desc = pango_font_description_copy(style->font_desc);
 		PangoContext *cnx = gtk_widget_get_pango_context (GTK_WIDGET(label));
 		PangoFontDescription * desc = pango_context_get_font_description(cnx);
 		gint font_sized = pango_font_description_get_size (desc);
@@ -207,6 +205,7 @@ void BookEntry::setBold_gui()
 	{
 		bold = TRUE;
 		updateLabel_gui();
+//		setBackForeGround_unread(type);
 	}
 }
 
@@ -221,6 +220,7 @@ void BookEntry::setUrgent_gui()
 			bold = TRUE;
 			urgent = TRUE;
 			updateLabel_gui();
+			setBackForeGround_unread(type);
 		}
 
 		if (!mw->isActive_gui())
@@ -235,6 +235,8 @@ void BookEntry::setActive_gui()
 		bold = FALSE;
 		urgent = FALSE;
 		updateLabel_gui();
+		setBackForeGround(type);
+		//sel
 	}
 }
 
@@ -395,7 +397,7 @@ GtkWidget *BookEntry::createItemFirstMenu()
 	return item;
 }
 
-void BookEntry::setBackGround(const EntryType type)
+void BookEntry::setBackForeGround(const EntryType type)
 {
 	GdkRGBA fg_color;
 	GdkRGBA bg_color;
@@ -496,13 +498,13 @@ void BookEntry::setBackGround(const EntryType type)
 	
 	gtk_event_box_set_visible_window (GTK_EVENT_BOX(eventBox)
 	,&fg_color != NULL || &bg_color != NULL);
-    gtk_widget_override_color (GTK_WIDGET(label),(GtkStateFlags)GTK_STATE_FLAG_NORMAL, &fg_color);
-    gtk_widget_override_color (GTK_WIDGET(label),(GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &fg_color);
-    gtk_widget_override_background_color (eventBox,(GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
-    gtk_widget_override_background_color (eventBox,(GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
+    gtk_widget_override_color (GTK_WIDGET(label), (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &fg_color);
+    gtk_widget_override_color (GTK_WIDGET(label), (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &fg_color);
+    gtk_widget_override_background_color (eventBox, (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
+    gtk_widget_override_background_color (eventBox, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
     //We need also overide color on icon...
-    gtk_widget_override_background_color (icon,(GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
-    gtk_widget_override_background_color (icon,(GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
+    gtk_widget_override_background_color (icon, (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
+    gtk_widget_override_background_color (icon, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
     
      // Fix between icon and label may to been necasary ?
 	GtkCssProvider *provider =  gtk_css_provider_new(); 
@@ -516,5 +518,247 @@ void BookEntry::setBackGround(const EntryType type)
  	
 }
 
+void BookEntry::setBackForeGround_unread(const EntryType type)
+{
+	GdkRGBA fg_color;
+	GdkRGBA bg_color;
+	string fg,bg;
+	switch (type)
+	{
+		case Entry::FAVORITE_HUBS :
+					if(WGETB("colored-tabs-fav-hubs")) {
+						fg = WGETS("colored-tabs-fav-hubs-color-fg");
+						bg = WGETS("colored-tabs-fav-hubs-color-bg");
+					}
+					break;
+		case Entry::FAVORITE_USERS :
+					if(WGETB("colored-tabs-fav-users")) {
+						fg = WGETS("colored-tabs-fav-users-color-fg");
+						bg = WGETS("colored-tabs-fav-users-color-bg");
+					}
+					break;
+		case Entry::PUBLIC_HUBS :
+					if(WGETB("colored-tabs-public")) {
+						fg = WGETS("colored-tabs-public-color-fg");
+						bg = WGETS("colored-tabs-public-color-bg");
+					}
+					break;
+		case Entry::DOWNLOAD_QUEUE :
+					if(WGETB("colored-tabs-download-quene")) {
+						fg = WGETS("colored-tabs-download-quene-color-fg");
+						bg = WGETS("colored-tabs-download-quene-color-bg");
+					}
+					break;
+		case Entry::SEARCHS:
+		case Entry::SEARCH :
+				if(WGETB("colored-tabs-searchs-unread")) {
+						fg = WGETS("colored-tabs-searchs-color-fg-unread");
+						bg = WGETS("colored-tabs-searchs-color-bg-unread");
+					}
+					break;
+		case Entry::SEARCH_ADL :
+					if(WGETB("colored-tabs-adl")) {
+						fg = WGETS("colored-tabs-adl-color-fg");
+						bg = WGETS("colored-tabs-adl-color-bg");
+					}
+					break;
+		case Entry::SEARCH_SPY :
+					if(WGETB("colored-tabs-spy")) {
+						fg = WGETS("colored-tabs-spy-color-fg");
+						bg = WGETS("colored-tabs-spy-color-bg");
+					}
+					break;
+		case Entry::FINISHED_DOWNLOADS :
+				if(WGETB("colored-tabs-downloads")) {
+						fg = WGETS("colored-tabs-downloads-color-fg");
+						bg = WGETS("colored-tabs-downloads-color-bg");
+					}
+					break;
+		case Entry::FINISHED_UPLOADS :
+				if(WGETB("colored-tabs-uploads")) {
+					fg = WGETS("colored-tabs-uploads-color-fg");
+					bg = WGETS("colored-tabs-uploads-color-bg");
+				}
+				break;
+		case Entry::PRIVATE_MESSAGE :
+					if(WGETB("colored-tabs-pm-unread")) {
+						fg = WGETS("colored-tabs-pm-color-fg-unread");
+						bg = WGETS("colored-tabs-pm-color-bg-unread");
+					}
+					break;
+		case Entry::HUB :
+					if(WGETB("colored-tabs-hub-unread")) {
+						fg = WGETS("colored-tabs-hub-color-fg-unread");
+						bg = WGETS("colored-tabs-hub-color-bg-unread");
+					}
+					break;
+		case Entry::SHARE_BROWSER :
+					if(WGETB("colored-tabs-shareb")) {
+						fg = WGETS("colored-tabs-shareb-color-fg");
+						bg = WGETS("colored-tabs-shareb-color-bg");
+					}
+					break;
+		case Entry::NOTEPAD :
+					if(WGETB("colored-tabs-notepad")) {
+						fg = WGETS("colored-tabs-notepad-color-fg");
+						bg = WGETS("colored-tabs-notepad-color-bg");
+					}
+					break;
+		case Entry::SYSTEML :
+				if(WGETB("colored-tabs-system-unread")) {
+						fg = WGETS("colored-tabs-system-color-fg-unread");
+						bg = WGETS("colored-tabs-system-color-bg-unread");
+				}
+				break;
+		case Entry::ABOUT_CONFIG:
+		default: return; ;
+	}
+	
+	gdk_rgba_parse(&fg_color,fg.c_str());
+	gdk_rgba_parse(&bg_color,bg.c_str());
+	
+	gtk_event_box_set_visible_window (GTK_EVENT_BOX(eventBox)
+	,&fg_color != NULL || &bg_color != NULL);
+    gtk_widget_override_color (GTK_WIDGET(label), (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &fg_color);
+    gtk_widget_override_color (GTK_WIDGET(label), (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &fg_color);
+    gtk_widget_override_background_color (eventBox, (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
+    gtk_widget_override_background_color (eventBox, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
+    //We need also overide color on icon...
+    gtk_widget_override_background_color (icon, (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
+    gtk_widget_override_background_color (icon, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
+    
+     // Fix between icon and label may to been necasary ?
+	GtkCssProvider *provider =  gtk_css_provider_new(); 
+	GdkDisplay *display = gdk_display_get_default ();
+	GdkScreen *screen = gdk_display_get_default_screen (display);
+	gtk_style_context_add_provider_for_screen (screen, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	string note = "GtkNotebook tab {padding:0;margin:0;border:0;border-width:0;}\n"
+				"GtkNotebook GtkLabel {padding:0;margin:0;border:0;border-width:0;}\n"
+				"GtkNotebook GtkImage {padding:0;margin:0;border:0;border-width:0;}";
+	gtk_css_provider_load_from_data(provider,note.c_str(),-1, NULL);
+ 	
+}
+/*
+void BookEntry::setBackForeGround_selected(const EntryType type)
+{
+	GdkRGBA fg_color;
+	GdkRGBA bg_color;
+	string fg,bg;
+	switch (type)
+	{
+		case Entry::FAVORITE_HUBS :
+					if(WGETB("colored-tabs-fav-hubs")) {
+						fg = WGETS("colored-tabs-fav-hubs-color-fg");
+						bg = WGETS("colored-tabs-fav-hubs-color-bg");
+					}
+					break;
+		case Entry::FAVORITE_USERS :
+					if(WGETB("colored-tabs-fav-users")) {
+						fg = WGETS("colored-tabs-fav-users-color-fg");
+						bg = WGETS("colored-tabs-fav-users-color-bg");
+					}
+					break;
+		case Entry::PUBLIC_HUBS :
+					if(WGETB("colored-tabs-public")) {
+						fg = WGETS("colored-tabs-public-color-fg");
+						bg = WGETS("colored-tabs-public-color-bg");
+					}
+					break;
+		case Entry::DOWNLOAD_QUEUE :
+					if(WGETB("colored-tabs-download-quene")) {
+						fg = WGETS("colored-tabs-download-quene-color-fg");
+						bg = WGETS("colored-tabs-download-quene-color-bg");
+					}
+					break;
+		case Entry::SEARCHS:
+		case Entry::SEARCH :
+				if(WGETB("colored-tabs-searchs")) {
+						fg = WGETS("colored-tabs-searchs-color-fg");
+						bg = WGETS("colored-tabs-searchs-color-bg");
+					}
+					break;
+		case Entry::SEARCH_ADL :
+					if(WGETB("colored-tabs-adl")) {
+						fg = WGETS("colored-tabs-adl-color-fg");
+						bg = WGETS("colored-tabs-adl-color-bg");
+					}
+					break;
+		case Entry::SEARCH_SPY :
+					if(WGETB("colored-tabs-spy")) {
+						fg = WGETS("colored-tabs-spy-color-fg");
+						bg = WGETS("colored-tabs-spy-color-bg");
+					}
+					break;
+		case Entry::FINISHED_DOWNLOADS :
+				if(WGETB("colored-tabs-downloads")) {
+						fg = WGETS("colored-tabs-downloads-color-fg");
+						bg = WGETS("colored-tabs-downloads-color-bg");
+					}
+					break;
+		case Entry::FINISHED_UPLOADS :
+				if(WGETB("colored-tabs-uploads")) {
+					fg = WGETS("colored-tabs-uploads-color-fg");
+					bg = WGETS("colored-tabs-uploads-color-bg");
+				}
+				break;
+		case Entry::PRIVATE_MESSAGE :
+					if(WGETB("colored-tabs-pm")) {
+						fg = WGETS("colored-tabs-pm-color-fg");
+						bg = WGETS("colored-tabs-pm-color-bg");
+					}
+					break;
+		case Entry::HUB :
+					if(WGETB("colored-tabs-hub")) {
+						fg = WGETS("colored-tabs-hub-color-fg");
+						bg = WGETS("colored-tabs-hub-color-bg");
+					}
+					break;
+		case Entry::SHARE_BROWSER :
+					if(WGETB("colored-tabs-shareb")) {
+						fg = WGETS("colored-tabs-shareb-color-fg");
+						bg = WGETS("colored-tabs-shareb-color-bg");
+					}
+					break;
+		case Entry::NOTEPAD :
+					if(WGETB("colored-tabs-notepad")) {
+						fg = WGETS("colored-tabs-notepad-color-fg");
+						bg = WGETS("colored-tabs-notepad-color-bg");
+					}
+					break;
+		case Entry::SYSTEML :
+				if(WGETB("colored-tabs-system")) {
+						fg = WGETS("colored-tabs-system-color-fg");
+						bg = WGETS("colored-tabs-system-color-bg");
+				}
+				break;
+		case Entry::ABOUT_CONFIG:
+		default: return; ;
+	}
+	
+	gdk_rgba_parse(&fg_color,fg.c_str());
+	gdk_rgba_parse(&bg_color,bg.c_str());
+	
+	gtk_event_box_set_visible_window (GTK_EVENT_BOX(eventBox)
+	,&fg_color != NULL || &bg_color != NULL);
+    gtk_widget_override_color (GTK_WIDGET(label), (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &fg_color);
+    gtk_widget_override_color (GTK_WIDGET(label), (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &fg_color);
+    gtk_widget_override_background_color (eventBox, (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
+    gtk_widget_override_background_color (eventBox, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
+    //We need also overide color on icon...
+    gtk_widget_override_background_color (icon, (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
+    gtk_widget_override_background_color (icon, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
+    
+     // Fix between icon and label may to been necasary ?
+	GtkCssProvider *provider =  gtk_css_provider_new(); 
+	GdkDisplay *display = gdk_display_get_default ();
+	GdkScreen *screen = gdk_display_get_default_screen (display);
+	gtk_style_context_add_provider_for_screen (screen, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	string note = "GtkNotebook tab {padding:0;margin:0;border:0;border-width:0;}\n"
+				"GtkNotebook GtkLabel {padding:0;margin:0;border:0;border-width:0;}\n"
+				"GtkNotebook GtkImage {padding:0;margin:0;border:0;border-width:0;}";
+	gtk_css_provider_load_from_data(provider,note.c_str(),-1, NULL);
+ 	
+}
+*/
 
 
