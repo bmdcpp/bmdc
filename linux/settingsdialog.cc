@@ -5154,8 +5154,8 @@ void Settings::changeTab(GtkTreeSelection *selection) {
 				
 				g_object_set_data_full(G_OBJECT(buttonf2), "name", g_strdup(keys.c_str()), g_free);
 				g_object_set_data_full(G_OBJECT(buttonb2), "name", g_strdup(keys.c_str()), g_free);
-				g_signal_connect(buttonb2, "clicked", G_CALLBACK(onBackColorChooserTab), (gpointer)this);
-				g_signal_connect(buttonf2, "clicked", G_CALLBACK(onForeColorChooserTab), (gpointer)this);
+				g_signal_connect(buttonb2, "clicked", G_CALLBACK(onBackColorChooserTab_unread), (gpointer)this);
+				g_signal_connect(buttonf2, "clicked", G_CALLBACK(onForeColorChooserTab_unread), (gpointer)this);
 				gtk_notebook_append_page(GTK_NOTEBOOK(note), grid2, pagelabel2);
 				gtk_widget_show_all(grid2);
 				gtk_widget_show_all(note);
@@ -5203,6 +5203,53 @@ void Settings::onForeColorChooserTab(GtkWidget *button, gpointer data)
 		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(dialog),&fg_s);
 		string color = WulforUtil::colorToString(&fg_s);
 		WSET("colored-tabs-" +(string(key))+"-color-fg",color);
+	 
+	}
+	gtk_widget_destroy(dialog);
+	
+}
+
+
+void Settings::onBackColorChooserTab_unread(GtkWidget *button, gpointer data) 
+{	
+	Settings *s = (Settings *)data;
+	string key = (gchar *)g_object_get_data(G_OBJECT(button), "name");
+	string bg_string = WGETS("colored-tabs-" +(string(key))+"-color-bg-unread");
+	GdkRGBA bg;
+	gdk_rgba_parse(&bg,bg_string.c_str());
+	GtkWidget *dialog =   gtk_color_chooser_dialog_new (("Chose BackGroun of "+key).c_str(),
+                                                        GTK_WINDOW(s->getContainer())); 
+    gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog),&bg);
+    int response = gtk_dialog_run(GTK_DIALOG(dialog));
+    if(response ==  GTK_RESPONSE_OK)
+	{
+		GdkRGBA bg_s;
+		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(dialog),&bg_s);
+		string color = WulforUtil::colorToString(&bg_s);
+		WSET("colored-tabs-" +(string(key))+"-color-bg-unread",color);
+	 
+	}
+	gtk_widget_destroy(dialog);
+	
+}
+
+void Settings::onForeColorChooserTab_unread(GtkWidget *button, gpointer data) 
+{	
+	Settings *s = (Settings *)data;
+	string key = (gchar *)g_object_get_data(G_OBJECT(button), "name");
+	string fg_string = WGETS("colored-tabs-" +(string(key))+"-color-fg-unread");
+	GdkRGBA fg;
+	gdk_rgba_parse(&fg,fg_string.c_str());
+	GtkWidget *dialog =   gtk_color_chooser_dialog_new (("Chose ForeGroun of "+key).c_str(),
+                                                        GTK_WINDOW(s->getContainer())); 
+    gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog),&fg);
+    int response = gtk_dialog_run(GTK_DIALOG(dialog));
+    if(response ==  GTK_RESPONSE_OK)
+	{
+		GdkRGBA fg_s;
+		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(dialog),&fg_s);
+		string color = WulforUtil::colorToString(&fg_s);
+		WSET("colored-tabs-" +(string(key))+"-color-fg-unread",color);
 	 
 	}
 	gtk_widget_destroy(dialog);

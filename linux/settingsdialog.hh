@@ -210,6 +210,8 @@ class Settings:
 		//BMDC
 		static void onForeColorChooserTab(GtkWidget *button, gpointer data) ;
 		static void onBackColorChooserTab(GtkWidget *button, gpointer data) ;
+		static void onForeColorChooserTab_unread(GtkWidget *button, gpointer data) ;
+		static void onBackColorChooserTab_unread(GtkWidget *button, gpointer data) ;
 		static void onChangeTabSelections(GtkTreeSelection *selection, gpointer data);
 		void changeTab(GtkTreeSelection *selection);
 		//BMDC

@@ -782,6 +782,8 @@ some cleanup
 Add Settings for colorfull tab to Settings Dialog ( under Appearence -> Tabs)
 -----r243
 some compile fixies
+-----r246
+add unread status to colorfull tab higlting.
 
 
 
