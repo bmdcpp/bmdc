@@ -287,8 +287,8 @@ Hub::Hub(const string &address, const string &encoding):
 		GtkWindow *window = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
 		gtk_window_get_size(window, &width, NULL);
 		//may Fix isue with UL ?
-		gtk_scrolled_window_set_min_content_width (GTK_SCROLLED_WINDOW(getWidget("scrolledwindow2")) ,(width - panePosition - 15)  );
-		gtk_widget_set_size_request(getWidget("scrolledwindow2"),width - panePosition,-1);
+		//gtk_scrolled_window_set_min_content_width (GTK_SCROLLED_WINDOW(getWidget("scrolledwindow2")) ,(width - panePosition - 15)  );
+		//gtk_widget_set_size_request(getWidget("scrolledwindow2"),width - panePosition,-1);
 		///end
 		gtk_paned_set_position(GTK_PANED(getWidget("pane")), width - panePosition);
 	}
@@ -384,7 +384,6 @@ void Hub::setColorRow(string cell)
 
 void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data)
 {
-		//Hub *hub = (Hub *)data;
 		string color = "#A52A2A";
 		gchar *cltype;
 		int64_t size;
@@ -462,7 +461,7 @@ Hub::~Hub()
 	}
 
 	bool showUL = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")));
-	auto entry = FavoriteManager::getInstance()->getFavoriteHubEntry(address);
+	FavoriteHubEntry* entry = FavoriteManager::getInstance()->getFavoriteHubEntry(address);
 
 	if(entry) {
 		entry->get(HubSettings::PackName) = emotdialog->getCurrent(address);
@@ -514,7 +513,7 @@ void Hub::columnHeader(int num, string name)
 {
 	GtkTreeViewColumn *col = gtk_tree_view_get_column (nickView.get(), num);
 	gtk_tree_view_column_set_clickable (col, TRUE);
-	g_object_set ( gtk_tree_view_column_get_button(col)  , "tooltip-text", name.c_str(), NULL);
+	g_object_set ( gtk_tree_view_column_get_button(col)  ,"tooltip-text", name.c_str(), NULL);
 }
 
 void Hub::set_Header_tooltip_gui()
@@ -663,7 +662,7 @@ void Hub::updateUser_gui(ParamMap params)
 		isProtected = it->second.isSet(FlagUser::FLAG_PROTECT);
 	}
 
-	GdkPixbuf *pixbuf = WulforUtil::LoadCountryPixbuf(params["Abbrevation"]);//we dont need more that one instant and also not need more that one ref
+	GdkPixbuf *pixbuf = WulforUtil::LoadCountryPixbuf(params["Abbrevation"]); //we dont need more that one instant and also not need more that one ref
 
 	//Color of OP,Pasive, Fav, Ignore, Protect//TODO more flexibile ??
 	string nickColor = (isProtected ? WGETS("userlist-text-protected") :(isOperator ? WGETS("userlist-text-operator") : (isPasive ? WGETS("userlist-text-pasive") :(favorite ? WGETS("userlist-text-favorite") : ( isIgnore ? WGETS("userlist-text-ignored") : WGETS("userlist-text-normal"))))));
@@ -730,25 +729,25 @@ void Hub::updateUser_gui(ParamMap params)
  			nickView.col(_("Connection")), params["Connection"].c_str(),
 			nickView.col("IP"), params["IP"].c_str(),
 			nickView.col(_("eMail")), params["eMail"].c_str(),
-            	nickView.col(_("Country")), params["Country"].c_str(),
-            	nickView.col(_("Exact Share")), shared,
-            	nickView.col(_("Slots")), params["Slots"].c_str(),
-            	nickView.col(_("Hubs")), params["Hubs"].c_str(),
-            	nickView.col("PK"), params["PK"].c_str(),
-            	nickView.col(_("Cheat")), params["Cheat"].c_str(),
-            	nickView.col(_("Generator")), params["Generator"].c_str(),
-            	nickView.col(_("Support")), params["Support"].c_str(),
+            nickView.col(_("Country")), params["Country"].c_str(),
+            nickView.col(_("Exact Share")), shared,
+            nickView.col(_("Slots")), params["Slots"].c_str(),
+            nickView.col(_("Hubs")), params["Hubs"].c_str(),
+            nickView.col("PK"), params["PK"].c_str(),
+            nickView.col(_("Cheat")), params["Cheat"].c_str(),
+            nickView.col(_("Generator")), params["Generator"].c_str(),
+            nickView.col(_("Support")), params["Support"].c_str(),
 			nickView.col("Icon"), icon.c_str(),
 			nickView.col("Nick Order"), nickOrder.c_str(),
 			nickView.col("CID"), cid.c_str(),
 			nickView.col("NickColor"), nickColor.c_str(),
-            	nickView.col("Pixbuf"), pixbuf,
-            	nickView.col("Client Type"), params["Type"].c_str(),
+            nickView.col("Pixbuf"), pixbuf,
+            nickView.col("Client Type"), params["Type"].c_str(),
 			-1);
 
 		userIters.insert(UserIters::value_type(cid, iter));
 
-		if(client->get(HubSettings::ShowJoins) >= 1)		
+		if(client->get(HubSettings::ShowJoins) == 1)		
 		{
 			// Show joins in chat by default
 			addStatusMessage_gui(Nick + _(" has joined"), Msg::STATUS, favorite? Sound::FAVORITE_USER_JOIN : Sound::NONE);
@@ -758,7 +757,7 @@ void Hub::updateUser_gui(ParamMap params)
 			if (favorite)
 				Notify::get()->showNotify("", message, Notify::FAVORITE_USER_JOIN);
 		}
-		else if ( (client->get(HubSettings::FavShowJoins) >= 1 ) && favorite )
+		else if ( (client->get(HubSettings::FavShowJoins) == 1 ) && favorite )
 		{
 			// Only show joins for favorite users
 			string message = Nick + _(" has joined hub ") + client->getHubName();
@@ -794,7 +793,7 @@ void Hub::removeUser_gui(string cid)
 		setStatus_gui("statusUsers", Util::toString(userMap.size()) + _(" Users"));
 		setStatus_gui("statusShared", Util::formatBytes(totalShared));
 
-		if (client->get(HubSettings::ShowJoins) >= 1)
+		if (client->get(HubSettings::ShowJoins) == 1)
 		{
 			// Show parts in chat by default
 			string message = nick + _(" has quit hub ") + client->getHubName();
@@ -804,7 +803,7 @@ void Hub::removeUser_gui(string cid)
 			if (order[0] == 'C')//f
 				Notify::get()->showNotify("", message, Notify::FAVORITE_USER_QUIT);
 		}
-		else if ((client->get(HubSettings::FavShowJoins) >=1 )&& order[0] == 'C')//f
+		else if ((client->get(HubSettings::FavShowJoins) == 1 )&& order[0] == 'C')//f
 		{
 			// Only show parts for favorite users
 			string message = nick + _(" has quit hub ") + client->getHubName();
@@ -1591,7 +1590,7 @@ void Hub::updateCursor_gui(GtkWidget *widget)
 
 	GdkDeviceManager *device_manager;
 	GdkDevice *pointer;
-//GTK3
+//@NOTE: GTK3
 	device_manager = gdk_display_get_device_manager (gdk_window_get_display (gtk_widget_get_window(widget)));
 	pointer = gdk_device_manager_get_client_pointer (device_manager);
 	gdk_window_get_device_position (gtk_widget_get_window(widget), pointer, &x, &y, NULL);
@@ -2419,8 +2418,8 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			"/emoticons, /emot\t\t - " + _("Emoticons on/off") + "\n" +
 			"/sc\t\t\t" + _("Start/Stop checkers") + "\n" +
 			"/scmyinfo\t\t\t" + _("Start/Stop checkers myinfo") + "\n" +
-			"/showjoins\t\t\t" + _("Join/Parts on/off") + "\n" +
-			"/showfavjoins\t\t\t" + _("Fav Joins/Parts on/off") + "\n" +
+			"/showjoins\t\t\t" + _("Join/Parts: 1 - enable , other disable ") + "\n" +
+			"/showfavjoins\t\t\t" + _("Fav Joins/Parts: 1 - enable , other disable") + "\n" +
 			"/plgadd\t\t\t" + _("Add Plugin") + "\n" +
 			"/plist\t\t\t" + _("List Plugins") + "\n" +
 			"/addfavorite\t\t\t" + _("Add Indepent Fav") + "\n" +
@@ -2474,7 +2473,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		else if ( command == "info" )
 		{
 			map<string, string> info;
-             	info[_("Hub address")] = hub->address;
+            info[_("Hub address")] = hub->address;
 			info[_("Hub IP & port")] = hub->client->getIpPort();
 			info[_("Online users")] = Util::toString(hub->client->getUserCount()-1);
 			info[_("Shared")] = Util::formatBytes(hub->client->getAvailable());
@@ -2483,15 +2482,15 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			info[_("Email")] = hub->client->get(HubSettings::Email);
 			info[_("External / WAN IP")] = hub->client->getFavIp();
 			info[_("Encoding")] =  hub->client->getEncoding();
-             	string text;
-             	for(auto i = info.begin();i!=info.end();++i) {
+            string text;
+            for(auto i = info.begin();i!=info.end();++i) {
                   	text += _("\n") + (*i).first + _(": ") + Text::toT((*i).second);
-             	}
+            }
              	
 			hub->addMessage_gui("",text,Msg::SYSTEM);
 
 		} else if ( command == "conn"){
-			auto info = ConnectivityManager::getInstance()->getInformation();
+			string info = ConnectivityManager::getInstance()->getInformation();
 			hub->addMessage_gui("", info, Msg::SYSTEM);
 
 		}else if (command == "pm")
@@ -2563,20 +2562,27 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if ( command == "showjoins")
 		{
-			hub->client->get(HubSettings::ShowJoins) = !hub->client->get(HubSettings::ShowJoins);
-	            if(hub->client->get(HubSettings::ShowJoins)) {
-        	         hub->addStatusMessage_gui(_("Join/part showing on"), Msg::SYSTEM, Sound::NONE);
-	            } else {
-        	         hub->addStatusMessage_gui(_("Join/part showing off"), Msg::SYSTEM, Sound::NONE);
-       		     }
+			//hub->client->get(HubSettings::ShowJoins) = !hub->client->get(HubSettings::ShowJoins);
+			int p = Util::toInt((const char*)param[0]);
+	        if(p == 1) {
+        	     hub->addStatusMessage_gui(_("Join/part showing on"), Msg::SYSTEM, Sound::NONE);
+        	     hub->client->get(HubSettings::ShowJoins) = 1;
+	        } else {
+        	     hub->addStatusMessage_gui(_("Join/part showing off"), Msg::SYSTEM, Sound::NONE);
+        	     hub->client->get(HubSettings::ShowJoins) = 2;
+       		}
 		}
 		else if ( command == "showfavjoins")
 		{
-			hub->client->get(HubSettings::FavShowJoins) = !hub->client->get(HubSettings::FavShowJoins);
-            if(hub->client->get(HubSettings::FavShowJoins)) {
+			//hub->client->get(HubSettings::FavShowJoins) = !hub->client->get(HubSettings::FavShowJoins);
+            //if(hub->client->get(HubSettings::FavShowJoins) == 1) {
+            int p = Util::toInt((const char*)param[0]);
+            if(p == 1) {
                  hub->addStatusMessage_gui("Join/part for Fav showing on", Msg::SYSTEM, Sound::NONE);
+                 hub->client->get(HubSettings::FavShowJoins) = 1;
             } else {
                  hub->addStatusMessage_gui("Join/part for fav showing off", Msg::SYSTEM, Sound::NONE);
+                 hub->client->get(HubSettings::FavShowJoins) = 2;
             }
 		}
 		// protect command
@@ -4413,7 +4419,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 
 		string info;
 		string extraInfo;
-		info = formatAdditionalInfo(message.from->getIdentity().getIp(), client->get(HubSettings::ShowIps), client->get(HubSettings::ShowCountry), message.to && message.replyTo);
+		info = formatAdditionalInfo(message.from->getIdentity().getIp(), client->get(HubSettings::ShowIps) == 1, client->get(HubSettings::ShowCountry) == 1, message.to && message.replyTo);
 
 		//Extra Info
 		dcpp::ParamMap params;
@@ -4523,7 +4529,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 			}
 		}
 
-		if (client->settings.get(HubSettings::LogChat) >= 1)
+		if (client->settings.get(HubSettings::LogChat) == 1)
 		{
 			dcpp::ParamMap params;
 			params["message"] = tmp_text;
@@ -4538,7 +4544,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 		WulforManager::get()->dispatchGuiFunc(func);
 
 		// Set urgency hint if message contains user's nick
-		if (  (client->get(HubSettings::BoldTab) >= 1) && message.from->getIdentity().getUser() != client->getMyIdentity().getUser())
+		if (  (client->get(HubSettings::BoldTab) == 1) && message.from->getIdentity().getUser() != client->getMyIdentity().getUser())
 		{
               if( !isActive_gui() && WGETB("bold-all-tab"))
 			{
