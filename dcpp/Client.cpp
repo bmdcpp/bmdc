@@ -90,7 +90,6 @@ void Client::reloadSettings(bool updateNick) {
 			setPassword(fav->getPassword());
 		//[BMDC
 		setHideShare(fav->getHideShare());
-		//setFavIp(fav->getIp());
 		setChatExtraInfo(fav->getChatExtraInfo());
 		setProtectUser(fav->getProtectUsers());
 		setCheckAtConnect(fav->getCheckAtConn());
@@ -102,7 +101,6 @@ void Client::reloadSettings(bool updateNick) {
 	}else{
 		//[BMDC++
 		setHideShare(false);
-		//setFavIp(Util::emptyString);
 		setChatExtraInfo(Util::emptyString);
 		setProtectUser(Util::emptyString);
 		setCheckAtConnect(false);

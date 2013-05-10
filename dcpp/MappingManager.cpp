@@ -34,7 +34,6 @@ namespace dcpp {
 MappingManager::MappingManager() : busy(false), renewal(0) {
 	addMapper<Mapper_NATPMP>();
 	addMapper<Mapper_MiniUPnPc>();
-	//addMapper<Mapper_WinUPnP>();
 }
 
 StringList MappingManager::getMappers() const {

@@ -68,11 +68,7 @@ FavoriteUsers::FavoriteUsers():
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(favoriteUserView.get(), favoriteUserView.col(_("Nick"))), TRUE);
 	gtk_tree_view_set_fixed_height_mode(favoriteUserView.get(), TRUE);
 
-//	GList *list = gtk_tree_view_column_get_cell_renderers(gtk_tree_view_get_column(favoriteUserView.get(),
-//		favoriteUserView.col(_("Auto grant slot"))));
-//	GObject *renderer = (GObject *)g_list_nth_data(list, 0);
 	g_signal_connect(favoriteUserView.getCellRenderOf(_("Auto grant slot")), "toggled", G_CALLBACK(onAutoGrantSlotToggled_gui), (gpointer)this);
-//	g_list_free(list);
 
 	g_signal_connect(getWidget("browseItem"), "activate", G_CALLBACK(onBrowseItemClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("matchQueueItem"), "activate", G_CALLBACK(onMatchQueueItemClicked_gui), (gpointer)this);
@@ -871,7 +867,6 @@ void FavoriteUsers::onIgnoreSetUserClicked_gui(GtkWidget *widget, gpointer data)
 		GtkTreeIter iter;
 		GtkTreePath *path;
 		GList *list = gtk_tree_selection_get_selected_rows(fu->favoriteUserSelection, NULL);
-		//typedef Func3<FavoriteUsers, string, string, bool> F3;
 		typedef Func2<FavoriteUsers, string, bool> F2;
 
 		for (GList *i = list; i; i = i->next)
@@ -881,9 +876,8 @@ void FavoriteUsers::onIgnoreSetUserClicked_gui(GtkWidget *widget, gpointer data)
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(fu->favoriteUserStore), &iter, path))
 			{
 				string cid = fu->favoriteUserView.getString(&iter, "CID");
-				//string nick = fu->favoriteUserView.getString(&iter, _("Nick"));
 				bool ign = fu->favoriteUserView.getString(&iter, "Ign") == "1" ? true : false ;
-				if(cid == "n/a")return;
+					if(cid == "n/a")return;
 
 				F2 *func = new F2(fu,&FavoriteUsers::setIgnore,cid,ign);
 				WulforManager::get()->dispatchClientFunc(func);
@@ -926,11 +920,3 @@ void FavoriteUsers::setIgnore(const string cid, bool ignore)
 
 	}
 }
-
-
-
-
-
-
-
-

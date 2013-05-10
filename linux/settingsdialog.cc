@@ -278,7 +278,6 @@ void Settings::saveSettings_client()
 			WSET("default-charset", string(encoding));
 			g_free(encoding);
 		}
-
 	}
 
 	{ // Connection
@@ -5150,7 +5149,6 @@ void Settings::changeTab(GtkTreeSelection *selection) {
 				gtk_grid_attach (GTK_GRID(grid2),buttonb2,0,1,1,1); 
 				gtk_grid_attach (GTK_GRID(grid2),labelf2,1,0,1,1);
 				gtk_grid_attach (GTK_GRID(grid2),buttonf2,1,1,1,1); 
-				//gtk_container_add(GTK_CONTAINER(box),frame);
 				
 				g_object_set_data_full(G_OBJECT(buttonf2), "name", g_strdup(keys.c_str()), g_free);
 				g_object_set_data_full(G_OBJECT(buttonb2), "name", g_strdup(keys.c_str()), g_free);

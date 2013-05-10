@@ -73,18 +73,6 @@
 #include <utility>
 #include <vector>
 
-//#include <boost/intrusive_ptr.hpp>
-//#include <boost/noncopyable.hpp>
-//#include <boost/optional.hpp>
-//#include <boost/range/algorithm/find_if.hpp>
-//#include <boost/range/algorithm/find.hpp>
-//#include <boost/regex.hpp>
-//#include <boost/scoped_array.hpp>
-//#include <boost/smart_ptr/detail/atomic_count.hpp>
-//#include <boost/thread/mutex.hpp>
-//#include <boost/thread/recursive_mutex.hpp>
-//#include <boost/variant.hpp>
-
 #include <bzlib.h>
 
 #include <openssl/ssl.h>

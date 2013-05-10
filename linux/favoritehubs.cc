@@ -724,10 +724,10 @@ void FavoriteHubs::initFavHubGroupsDialog_gui()
 			groupsView.col("Nick"), i->second.get(HubSettings::Nick).c_str(),
 			groupsView.col("eMail"), i->second.get(HubSettings::Email).c_str(),
 			groupsView.col("Desc"), i->second.get(HubSettings::Description).c_str(),
-			groupsView.col("Parts"), Util::toString(showJoins).c_str() /*(toInt(i->second.get(HubSettings::ShowJoins)) /*== 1 ? "1" : (toInt(i->second.get(HubSettings::ShowJoins) )>= 2 ? "2" : "0"))*/,
-			groupsView.col("FavParts"),Util::toString(FavShowJoins).c_str()/*(toInt(i->second.get(HubSettings::FavShowJoins)) == 1 ? "1" : (toInt(i->second.get(HubSettings::FavShowJoins))) >= 2 ? "2" : "0" )*/,
-			groupsView.col("Connect hub"),Util::toString(connect).c_str()/*toInt(i->second.get(HubSettings::Connect)) ? "1" : "0"*/,
-			groupsView.col("LogChat"),  Util::toString(log).c_str() /*toInt(i->second.get(HubSettings::LogChat)) ? "1" : "0"*/,
+			groupsView.col("Parts"), Util::toString(showJoins).c_str() ,
+			groupsView.col("FavParts"),Util::toString(FavShowJoins).c_str(),
+			groupsView.col("Connect hub"),Util::toString(connect).c_str(),
+			groupsView.col("LogChat"),  Util::toString(log).c_str() ,
 			groupsView.col("AwayMessage"), i->second.get(HubSettings::AwayMessage).c_str(),
 			-1);
 			//Parts 1 = Enable 2 = disable 0 = def
@@ -1137,7 +1137,6 @@ gboolean FavoriteHubs::onGroupsButtonReleased_gui(GtkWidget *widget, GdkEventBut
 void FavoriteHubs::initializeList_client()
 {
 	StringMap params;
-	//typedef Func1<FavoriteHubs, StringMap> F1;
 	const FavoriteHubEntryList& fl = FavoriteManager::getInstance()->getFavoriteHubs();
 
 	for (auto it = fl.begin(); it != fl.end(); ++it)

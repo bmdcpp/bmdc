@@ -28,8 +28,6 @@
 #include <unordered_set>
 #include <vector>
 
-//#include <boost/variant.hpp>
-
 namespace dcpp {
 
 using std::pair;

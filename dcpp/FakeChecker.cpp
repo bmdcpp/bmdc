@@ -31,6 +31,7 @@ namespace dcpp {
 
 void FakeChecker::setCheating(const HintedUser& p, const string& _ccResponse, const string& _cheatString, int _actionId, bool _displayCheat,
 		bool _badClient, bool _badFileList, bool _clientCheckComplete, bool _fileListCheckComplete) {
+			
 	OnlineUser* ou = NULL;
 	string report;
 	{

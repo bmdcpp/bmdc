@@ -145,7 +145,6 @@ bool HashManager::HashStore::loadTree(File& f, const TreeInfo& ti, const TTHValu
 	try {
 		f.setPos(ti.getIndex());
 		size_t datalen = TigerTree::calcBlocks(ti.getSize(), ti.getBlockSize()) * TTHValue::BYTES;
-		//std::shared_ptr<uint8_t> buf(new uint8_t[datalen]);
 		uint8_t *buf = new uint8_t[datalen];
 		f.read(buf, datalen);
 		tt = TigerTree(ti.getSize(), ti.getBlockSize(), buf);

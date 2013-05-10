@@ -1030,7 +1030,6 @@ void MainWindow::showFinishedUploads_gui()
 
 void MainWindow::showHub_gui(string address, string encoding)
 {
-	//boost::algorithm::trim(address);
 	address = Util::trimUrl(address);
 
 	if(address.empty())
@@ -1425,11 +1424,6 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 		const string name = commands.substr(i, j - i);
 		if(find(names.begin(), names.end(), name) == names.end()) {
 			string caption = name;
-			/*if(uc->adc()) {
-				Util::replace("\\\\", "\\", caption);
-				Util::replace("\\s", " ", caption);
-			}
-		*/
 			// let's break between slashes (while ignoring double-slashes) to see if it's a combo
 			int combo_sel = -1;
 			string combo_caption = caption;
@@ -1473,9 +1467,6 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 				wid->label = label;
 				WidgList.push_back(wid);
 				guint row = 0; guint acolums = 0;
-				//gtk_table_get_size(GTK_TABLE(table),&row,&acolums);
-				//if(row > 1 && acolums > 1)
-				//	gtk_table_resize(GTK_TABLE(table),row+1,acolums+1);
 				gtk_grid_attach(GTK_GRID(table), label, acolums, row,acolums+1,row+1);
 				gtk_grid_attach(GTK_GRID(table), comboBox, acolums+1, row,acolums+2,row+1);
 				gtk_widget_show(label);
@@ -1490,9 +1481,6 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 				wid->label = label;
 				WidgList.push_back(wid);
 				guint row = 0;guint acolums= 0;
-				//gtk_table_get_size(GTK_TABLE(table),&row,&acolums);
-				//if(row > 1 && acolums > 1)
-				//	gtk_table_resize(GTK_TABLE(table),row+1,acolums+1);
 				gtk_grid_attach(GTK_GRID(table),label,acolums,row,acolums+1,row+1);
 				gtk_grid_attach(GTK_GRID(table),entry,acolums+1,row,acolums+2,row+1);
 
@@ -2183,7 +2171,6 @@ void MainWindow::onPublicHubsClicked_gui(GtkWidget *widget, gpointer data)
 void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	//typedef Func0<MainWindow> F0;
 
 	auto prevTCP = SETTING(TCP_PORT);
 	auto prevUDP = SETTING(UDP_PORT);
@@ -2604,9 +2591,6 @@ void MainWindow::startSocket_client()
 	} catch (const Exception& e) {
 		string error = e.getError();
 		dcdebug("%s",error.c_str());
-		//typedef Func2<MainWindow,const string&, const string&> F2;
-		//F2 *func = new F2(this, &MainWindow::showMessageDialog_gui, error, error);
-		//WulforManager::get()->dispatchGuiFunc(func);
 	}
 
 	ClientManager::getInstance()->infoUpdated();

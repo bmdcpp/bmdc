@@ -22,7 +22,7 @@
 #include "forward.h"
 #include "noexcept.h"
 #include "HintedUser.h"
-/*Removed FastAlloc*/
+/* Removed FastAlloc */
 #include "MerkleTree.h"
 #include "Util.h"
 #include "MediaInfo.h"

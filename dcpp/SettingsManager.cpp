@@ -666,11 +666,11 @@ void SettingsManager::save(string const& aFileName) {
 
 HubSettings SettingsManager::getHubSettings() const {
 	HubSettings ret;
-        ret.get(HubSettings::Nick) = get(NICK);
-        ret.get(HubSettings::Description) = get(DESCRIPTION);
+    ret.get(HubSettings::Nick) = get(NICK);
+    ret.get(HubSettings::Description) = get(DESCRIPTION);
 	ret.get(HubSettings::Email) = get(EMAIL);
-        ret.get(HubSettings::ShowJoins) = get(SHOW_JOINS);
-        ret.get(HubSettings::FavShowJoins) = get(FAV_SHOW_JOINS);
+    ret.get(HubSettings::ShowJoins) = get(SHOW_JOINS);
+    ret.get(HubSettings::FavShowJoins) = get(FAV_SHOW_JOINS);
 	//[BMDC++
 	ret.get(HubSettings::LogChat) = get(LOG_MAIN_CHAT);
 	ret.get(HubSettings::ShowIps) = get(USE_IP);
@@ -678,7 +678,7 @@ HubSettings SettingsManager::getHubSettings() const {
 	ret.get(HubSettings::BoldTab) = get(BOLD_HUB);
 	ret.get(HubSettings::PackName) = get(EMOT_PACK);
 	//]
-        return ret;
+    return ret;
 
 }
 

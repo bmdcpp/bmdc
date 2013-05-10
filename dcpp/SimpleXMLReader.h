@@ -25,7 +25,7 @@ namespace dcpp {
 
 class SimpleXMLReader {
 public:
-	class CallBack /*: private boost::noncopyable*/ {
+	class CallBack  {
 		public:
 		virtual ~CallBack() { }
 		virtual void startTag(const std::string& name, StringPairList& attribs, bool simple) = 0;

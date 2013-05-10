@@ -33,8 +33,7 @@
 namespace dcpp {
 
 class UserConnection : public PluginEntity<ConnectionData>, public Speaker<UserConnectionListener>,
-	private BufferedSocketListener, public Flags, private CommandHandler<UserConnection>//,
-//	private boost::noncopyable
+	private BufferedSocketListener, public Flags, private CommandHandler<UserConnection>
 {
 public:
 	friend class ConnectionManager;

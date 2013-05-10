@@ -353,15 +353,13 @@ string Identity::myInfoDetect(OnlineUser& ou) {
 
 
 		for(auto j = INFList.begin(); j != INFList.end(); ++j) {
-		//	try {
-				string aPattern = Util::formatRegExp(j->second,params);
-				string aField = getDetectionField(j->first);
-				DETECTION_DEBUG("\t\tPattern: " + aPattern + " Field: " + aField);
-				if(!RegEx::match<string>(aField, aPattern)) {
-					_continue = true;
-					break;
-				}
-	//		}catch(const boost::bad_get& ) { }
+			string aPattern = Util::formatRegExp(j->second,params);
+			string aField = getDetectionField(j->first);
+			DETECTION_DEBUG("\t\tPattern: " + aPattern + " Field: " + aField);
+			if(!RegEx::match<string>(aField, aPattern)) {
+				_continue = true;
+				break;
+			}
 		}
 		if(_continue)
 			continue;
@@ -413,8 +411,6 @@ string Identity::updateClientType(OnlineUser& ou) {
 		DETECTION_DEBUG("\tChecking profile: " + entry.name);
 
 		for(auto j = INFList.begin(); j != INFList.end(); ++j) {
-	//		try {
-
 			string aPattern = Util::formatRegExp(j->second, params);
 			string aField = getDetectionField(j->first);
 			DETECTION_DEBUG("\t\tPattern: " + aPattern + " Field: " + aField);
@@ -422,7 +418,6 @@ string Identity::updateClientType(OnlineUser& ou) {
 				_continue = true;
 				break;
 			}
-		//	}catch(const boost::bad_get&) { }
 		}
 		if(_continue)
 			continue;
@@ -471,7 +466,6 @@ void Identity::getDetectionParams(ParamMap& p) {
    // convert all special chars to make regex happy
 	for(ParamMap::iterator i = p.begin(); i != p.end(); ++i) {
 		// looks really bad... but do the job
-		//try {
 			Util::replace( "\\", "\\\\",   (i->second)); // this one must be first
 			Util::replace( "[", "\\[",   (i->second));
 			Util::replace( "]", "\\]",   (i->second));
@@ -486,11 +480,6 @@ void Identity::getDetectionParams(ParamMap& p) {
 			Util::replace( ")", "\\)",   (i->second));
 			Util::replace( "{", "\\{",   (i->second));
 			Util::replace( "}", "\\}",   (i->second));
-		//	}
-			//catch(const boost::bad_get& )
-		//	{
-				//..
-		//	}
 	}
 }
 

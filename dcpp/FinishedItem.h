@@ -27,7 +27,7 @@
 namespace dcpp {
 using std::shared_ptr;	
 
-class FinishedItemBase /*: boost::noncopyable*/ {
+class FinishedItemBase {
 public:
 	explicit FinishedItemBase(
 		int64_t transferred_,
@@ -52,7 +52,7 @@ private:
 	
 };
 
-class FinishedFileItem : public FinishedItemBase, public shared_ptr<FinishedFileItem> /*public intrusive_ptr_base<FinishedFileItem>*/ {
+class FinishedFileItem : public FinishedItemBase, public shared_ptr<FinishedFileItem>  {
 public:
 	explicit FinishedFileItem(
 		int64_t transferred_,
@@ -82,7 +82,7 @@ public:
 	GETSET(bool, crc32Checked, Crc32Checked);
 };
 
-class FinishedUserItem : public FinishedItemBase, public shared_ptr<FinishedUserItem> /*public intrusive_ptr_base<FinishedUserItem>*/ {
+class FinishedUserItem : public FinishedItemBase, public shared_ptr<FinishedUserItem> {
 public:
 	explicit FinishedUserItem(
 		int64_t transferred_,

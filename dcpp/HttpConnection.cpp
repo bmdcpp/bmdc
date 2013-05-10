@@ -215,7 +215,6 @@ void HttpConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 
 		string location = aLine.substr(10, aLine.length() - 10);
 //		Util::sanitizeUrl(location);
-		//boost::trim(location);
 		location = Util::trimUrl(location);
 
 		// make sure we can also handle redirects with relative paths

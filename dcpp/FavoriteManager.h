@@ -80,7 +80,7 @@ public:
 	void setAutoGrant(const UserPtr& aUser, bool grant);
 	void userUpdated(const OnlineUser& info);
 	time_t getLastSeen(const UserPtr& aUser) const;
-	std::string getUserURL(const UserPtr& aUser) const;
+	string getUserURL(const UserPtr& aUser) const;
 	void setIgnore(const UserPtr& aUser, bool ignore);
 // Indepent Favorites on CID
 	typedef map<string, FavoriteUser*> FavoriteIMap;

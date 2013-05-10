@@ -2094,10 +2094,10 @@ void Search::columnHeader(int num, string name)
 {
 	GtkTreeViewColumn *col = gtk_tree_view_get_column (resultView.get(), num);
 	gtk_tree_view_column_set_clickable (col, TRUE);
-	g_object_set (/*col->button*/gtk_tree_view_column_get_button(col), "tooltip-text", name.c_str(), NULL);//TODO
+	g_object_set (gtk_tree_view_column_get_button(col), "tooltip-text", name.c_str(), NULL);
 }
 
-void Search::set_Header_tooltip_gui()//How beter ?
+void Search::set_Header_tooltip_gui()
 {
 	columnHeader(0, "Filename");
 	columnHeader(1, "Nick");

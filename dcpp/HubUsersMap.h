@@ -44,8 +44,6 @@ public:
 	}
 
 	string startChecking(Client* c, const string& param) noexcept {
-		//if(!c->isOp())
-		//	return _("You are not an Operator on this hub");
 		if(clientEngine != NULL) {
 			stopCheck();
 			return _("Checking stopped");

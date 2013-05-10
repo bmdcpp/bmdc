@@ -57,16 +57,15 @@ Emoticons* Emoticons::get()
 	return emoticons;
 }
 
-Emoticons::Emoticons(const std::string &packName)
+Emoticons::Emoticons(const string &packName)
 {
-	currPackName = packName;//WGETS("emoticons-pack");
+	currPackName = packName;
 	create();
 }
 
 Emoticons::~Emoticons()
 {
 	clean();
-	//WSET("emoticons-pack", currPackName);
 }
 
 void Emoticons::create()
@@ -187,7 +186,7 @@ bool Emoticons::load(const string &file)
 	}
 	catch (const Exception &e)
 	{
-		dcdebug("BMDC: %s...\n", e.getError().c_str());
+		dcdebug("[BMDC]: %s...\n", e.getError().c_str());
 		return FALSE;
 	}
 

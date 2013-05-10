@@ -25,6 +25,7 @@
 #include <dcpp/Util.h>
 #include <map>
 #include "emoticons.hh"
+
 class EmoticonsDialog
 {
 	public:

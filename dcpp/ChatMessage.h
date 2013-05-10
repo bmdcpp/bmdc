@@ -36,7 +36,6 @@ struct ChatMessage {
 	bool thirdPerson;
 	time_t timestamp;
 
-	//string format() const;
 };
 
 } // namespace dcpp

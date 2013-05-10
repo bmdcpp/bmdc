@@ -533,8 +533,6 @@ void TreeView::saveSettings()
 	GtkTreeViewColumn *col;
 	gint width;
 
-	//dcassert(columns.empty());
-
 	for (size_t i = 0; i < columns.size(); ++i)
 	{
 		col = gtk_tree_view_get_column(view, i);

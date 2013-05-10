@@ -61,7 +61,7 @@ struct PluginHook {
 };
 
 // Holds a loaded plugin
-class PluginInfo //: private boost::noncopyable
+class PluginInfo 
 {
 public:
 	typedef	DCMAIN	(DCAPI *PLUGIN_INIT)(MetaDataPtr info);

@@ -436,7 +436,6 @@ void FavoriteManager::save() {
 			//BMDC++
 			xml.addChildAttrib("Group", (*i)->getGroup());
 			//BMDC++
-			//xml.addChildAttrib("Ip", (*i)->getIp());
 			xml.addChildAttrib("Mode", (*i)->getMode());
 			xml.addChildAttrib("ChatExtraInfo", (*i)->getChatExtraInfo());
 			xml.addChildAttrib("onConnect", (*i)->getCheckAtConn());
@@ -486,18 +485,6 @@ void FavoriteManager::save() {
 		}
 
 		xml.stepOut();
-		/*xml.addTag("IgnoredUsers");
-		xml.stepIn();
-		for(FavoriteMap::iterator j = ignored_users.begin(); j != ignored_users.end(); ++j) {
-			xml.addTag("IgnoredUser");
-			xml.addChildAttrib("LastSeen", j->second.getLastSeen());
-			xml.addChildAttrib("UserDescription", j->second.getDescription());
-			xml.addChildAttrib("Nick", j->second.getNick());
-			xml.addChildAttrib("URL", j->second.getUrl());
-			xml.addChildAttrib("CID", j->first.toBase32());
-		}
-		xml.stepOut();
-		*/
 		xml.addTag("UserCommands");
 		xml.stepIn();
 		for(UserCommand::List::const_iterator i = userCommands.begin(), iend = userCommands.end(); i != iend; ++i) {
@@ -661,7 +648,6 @@ void FavoriteManager::load(SimpleXML& aXml) {
 			e->setAutoConnect(Util::toInt(aXml.getChildAttrib("AutoConnect")));
 			//BMDC++
 			e->setGroup(aXml.getChildAttrib("Group"));
-			//e->setIp(aXml.getChildAttrib("Ip"));
 			e->setMode(aXml.getIntChildAttrib("Mode"));
 			e->setChatExtraInfo(aXml.getChildAttrib("ChatExtraInfo"));
 			e->setCheckAtConn(Util::toInt(aXml.getChildAttrib("onConnect")));
@@ -725,29 +711,6 @@ void FavoriteManager::load(SimpleXML& aXml) {
 	}
 	aXml.resetCurrentChild();
 
-	/*if(aXml.findChild("IgnoredUsers")) {
-		aXml.stepIn();
-		while(aXml.findChild("IgnoredUser")) {
-			UserPtr u;
-			const string& cid = aXml.getChildAttrib("CID");
-			const string& nick = aXml.getChildAttrib("Nick");
-			const string& hubUrl = aXml.getChildAttrib("URL");
-
-			if(cid.length() != 39) {
-				if(nick.empty() || hubUrl.empty())
-					continue;
-				u = ClientManager::getInstance()->getUser(nick, hubUrl);
-			} else {
-				u = ClientManager::getInstance()->getUser(CID(cid));
-			}
-			FavoriteMap::iterator i = ignored_users.insert(make_pair(u->getCID(), FavoriteUser(u, nick, hubUrl))).first;
-
-			i->second.setLastSeen((time_t)aXml.getIntChildAttrib("LastSeen"));
-			i->second.setDescription(aXml.getChildAttrib("UserDescription"));
-		}
-		aXml.stepOut();
-	}
-*/
 	aXml.resetCurrentChild();
 	if(aXml.findChild("UserCommands")) {
 		aXml.stepIn();
@@ -769,7 +732,7 @@ void FavoriteManager::load(SimpleXML& aXml) {
 		}
 		aXml.stepOut();
 	}
-	//Indepent Fav
+	// Indepent Fav
 	aXml.resetCurrentChild();
 	if(aXml.findChild("FavoriteIUsers"))
 	{
@@ -850,11 +813,10 @@ FavoriteHubEntryList FavoriteManager::getFavoriteHubs(const string& group) const
 	return ret;
 }
 
-/*optional<*/const FavoriteUser*/*>*/ FavoriteManager::getFavoriteUser(const UserPtr &aUser) const {
+const FavoriteUser* FavoriteManager::getFavoriteUser(const UserPtr &aUser) const {
 	Lock l(cs);
 	auto i = users.find(aUser->getCID());
 	return i == users.end() ? (nullptr) : &i->second;
-	/*optional<FavoriteUser>()*/
 }
 
 bool FavoriteManager::hasSlot(const UserPtr& aUser) const {
@@ -1223,14 +1185,14 @@ void FavoriteManager::mergeHubSettings(const FavoriteHubEntry& entry, HubSetting
 }
 
 string FavoriteManager::getAwayMessage(const string& aServer, ParamMap& params) {
-	auto hub = getFavoriteHubEntry(aServer);
+	FavoriteHubEntry* hub = getFavoriteHubEntry(aServer);
 	auto name = hub->getGroup();
 	auto group = favHubGroups.find(name);
 	if(group != favHubGroups.end())
 		return (group->second.get(HubSettings::AwayMessage).empty() ?
 			(hub ?
 			( hub->get(HubSettings::AwayMessage).empty() ?
-			Util::getAwayMessage(params) : Util::formatParams(hub->get(HubSettings::AwayMessage), params) ) : Util::getAwayMessage(params) ) : Util::formatParams(group->second.get(HubSettings::AwayMessage), params));
+				Util::getAwayMessage(params) : Util::formatParams(hub->get(HubSettings::AwayMessage), params) ) : Util::getAwayMessage(params) ) : Util::formatParams(group->second.get(HubSettings::AwayMessage), params));
 
 	return Util::getAwayMessage(params);
 }

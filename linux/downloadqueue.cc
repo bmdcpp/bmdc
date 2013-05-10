@@ -1048,17 +1048,12 @@ void DownloadQueue::onFileRemoveClicked_gui(GtkMenuItem *menuitem, gpointer data
 void DownloadQueue::addQueueList(const QueueItem::StringMap &ll)
 {
 	StringMap params;
-	//typedef Func2<DownloadQueue, StringMap, bool> F2;
-	//F2 *func;
 
 	for (QueueItem::StringMap::const_iterator it = ll.begin(); it != ll.end(); ++it)
 	{
 		params["Size Sort"] = Util::toString(it->second->getSize());
 		params["Path"] = Util::getFilePath(*it->first);
-
 		addFile_gui(params, TRUE);
-		//func = new F2(this, &DownloadQueue::addFile_gui, params, TRUE);
-		//WulforManager::get()->dispatchGuiFunc(func);
 	}
 
 }

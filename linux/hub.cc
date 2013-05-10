@@ -286,10 +286,6 @@ Hub::Hub(const string &address, const string &encoding):
 		gint width;
 		GtkWindow *window = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
 		gtk_window_get_size(window, &width, NULL);
-		//may Fix isue with UL ?
-		//gtk_scrolled_window_set_min_content_width (GTK_SCROLLED_WINDOW(getWidget("scrolledwindow2")) ,(width - panePosition - 15)  );
-		//gtk_widget_set_size_request(getWidget("scrolledwindow2"),width - panePosition,-1);
-		///end
 		gtk_paned_set_position(GTK_PANED(getWidget("pane")), width - panePosition);
 	}
 
@@ -2562,7 +2558,6 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if ( command == "showjoins")
 		{
-			//hub->client->get(HubSettings::ShowJoins) = !hub->client->get(HubSettings::ShowJoins);
 			int p = Util::toInt((const char*)param[0]);
 	        if(p == 1) {
         	     hub->addStatusMessage_gui(_("Join/part showing on"), Msg::SYSTEM, Sound::NONE);
@@ -2574,8 +2569,6 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if ( command == "showfavjoins")
 		{
-			//hub->client->get(HubSettings::FavShowJoins) = !hub->client->get(HubSettings::FavShowJoins);
-            //if(hub->client->get(HubSettings::FavShowJoins) == 1) {
             int p = Util::toInt((const char*)param[0]);
             if(p == 1) {
                  hub->addStatusMessage_gui("Join/part for Fav showing on", Msg::SYSTEM, Sound::NONE);

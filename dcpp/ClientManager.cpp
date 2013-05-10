@@ -368,7 +368,7 @@ OnlineUser* ClientManager::findOnlineUser(const CID& cid, const string& hintUrl)
 		return u;
 
 	if(p.first == p.second) // no user found with the given CID.
-		return 0;
+		return nullptr;
 
 	// return a random user that matches the given CID but not the hint.
 	return p.first->second;
@@ -676,12 +676,15 @@ bool ClientManager::isActive(const string& aHubUrl /*= Util::emptyString*/) cons
 {
 	return getMode(aHubUrl) != SettingsManager::INCOMING_FIREWALL_PASSIVE;
 }
-//..TODO IPv6
+//..TODO IPv6(may done)
 void ClientManager::setIpAddress(const UserPtr& p, const string& ip) {
     Lock l(cs);
 	OnlineIterC i = onlineUsers.find(p->getCID());
 	if(i != onlineUsers.end()) {
 		i->second->getIdentity().set("I4", ip);
+		if(ip.find_first_of(':') != ip.find_last_of(':')) {//ipv6
+				i->second->getIdentity().set("I6", ip);
+		}
 		fire(ClientManagerListener::UserUpdated(),(dynamic_cast<const OnlineUser&>(*i->second)));
 	}
 }
@@ -707,7 +710,6 @@ void ClientManager::addCheckToQueue(const HintedUser hintedUser, bool filelist) 
 			if(!ou->getChecked(filelist)) {
 				if((filelist && ou->shouldCheckFileList()) || (!filelist && ou->shouldCheckClient())) {
 					addCheck = true;
-					//ou->inc();
 				}
 			}
 		}
@@ -725,7 +727,6 @@ void ClientManager::addCheckToQueue(const HintedUser hintedUser, bool filelist) 
 		} catch(...) {
 			//...
 		}
-		//ou->dec();
 	}
 }
 

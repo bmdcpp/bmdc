@@ -22,7 +22,6 @@
 #include <string>
 
 #include "SimpleXML.h"
-//#include "tribool.h"
 
 namespace dcpp {
 

@@ -18,14 +18,7 @@
 
 #ifndef DCPLUSPLUS_DCPP_SPEAKER_H
 #define DCPLUSPLUS_DCPP_SPEAKER_H
-/*
-#include <boost/config.hpp>
-#include <boost/range.hpp>
-#include <boost/range/functions.hpp>
-#include <boost/range/iterator.hpp>
-#include <boost/range/difference_type.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/fusion/algorithm/query/find.hpp>*/
+
 #include <utility>
 #include <vector>
 #include  <algorithm>

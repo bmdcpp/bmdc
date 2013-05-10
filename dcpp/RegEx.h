@@ -37,7 +37,6 @@ bool match(const T& text, const T& pattern, bool ignoreCase = false) {
 		pcre *re;   
 		int rc; 
 		int   ovector[OVECCOUNT];
-		//boost::regex reg(pattern, ignoreCase ?  boost::regex_constants::icase : 0);
 		re = pcre_compile (
              pattern.c_str(),       /* the pattern */
              ignoreCase ? PCRE_CASELESS : 0,           /* default options */
@@ -72,8 +71,6 @@ bool match(const T& text, const T& pattern, bool ignoreCase = false) {
         free(re);
         return true;
     }
-		
-		//return !reg.empty() && boost::regex_search(text, reg);
 	} catch(...) { /* ... */ }
     //free(re);
 	return false;

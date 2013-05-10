@@ -32,7 +32,7 @@ using std::vector;
 
 /** Helper class for reading an entire file */
 
-class FileReader /*: boost::noncopyable*/ {
+class FileReader {
 public:
 
 	enum Strategy {

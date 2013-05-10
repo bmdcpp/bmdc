@@ -205,7 +205,6 @@ void BookEntry::setBold_gui()
 	{
 		bold = TRUE;
 		updateLabel_gui();
-//		setBackForeGround_unread(type);
 	}
 }
 
@@ -236,7 +235,6 @@ void BookEntry::setActive_gui()
 		urgent = FALSE;
 		updateLabel_gui();
 		setBackForeGround(type);
-		//sel
 	}
 }
 

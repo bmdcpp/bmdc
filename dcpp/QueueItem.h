@@ -37,7 +37,7 @@ using std::set;
 
 class QueueManager;
 //Removed FastAlloc
-class QueueItem : public Flags,/* public intrusive_ptr_base<QueueItem>,*/ public PluginEntity<QueueData> {
+class QueueItem : public Flags, public PluginEntity<QueueData> {
 public:
 	typedef unordered_map<string*, QueueItemPtr, noCaseStringHash, noCaseStringEq> StringMap;
 
@@ -116,7 +116,6 @@ public:
 		Flags(aFlag), target(aTarget), size(aSize),
 		priority(aPriority), added(aAdded),	tthRoot(tth)
 	{ 
-	//	inc();
 	}
 
 	QueueItem(const QueueItem& rhs) :
@@ -124,8 +123,6 @@ public:
 		size(rhs.size), priority(rhs.priority), added(rhs.added), tthRoot(rhs.tthRoot),
 		sources(rhs.sources), badSources(rhs.badSources), tempTarget(rhs.tempTarget)
 	{ 
-		//inc();
-		
 	}
 
 	virtual ~QueueItem() { }

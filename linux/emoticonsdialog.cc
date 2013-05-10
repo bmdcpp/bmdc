@@ -219,11 +219,9 @@ void EmoticonsDialog::onCheckPacksMenu(GtkMenuItem *checkItem, gpointer data)
 	EmoticonsDialog *ed = (EmoticonsDialog *)data;	
 	string currPackName = (gchar *)g_object_get_data(G_OBJECT(checkItem), "current-pack-name");
 
-	//if (currPackName != Emoticons::get()->getCurrPackName_gui(ed->address))
 	{
 		ed->getEmot(ed->address)->setCurrPackName_gui(currPackName);
 		ed->getEmot(ed->address)->reloadPack_gui();
-
 	}
 }
 

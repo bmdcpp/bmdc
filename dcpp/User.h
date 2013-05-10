@@ -30,7 +30,7 @@ using std::shared_ptr;
 
 /** A user connected to one or more hubs. */
 //Removed FastAllock
-class User :/* public intrusive_ptr_base<User>,*/ public shared_ptr<User>, public Flags//, private boost::noncopyable
+class User : public shared_ptr<User>, public Flags
 {
 public:
 	enum Bits {

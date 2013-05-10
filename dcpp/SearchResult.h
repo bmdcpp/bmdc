@@ -28,7 +28,7 @@ namespace dcpp {
 using std::shared_ptr;
 class SearchManager;
 //Removed FastAlloc
-class SearchResult : public std::shared_ptr<SearchResult> /*public intrusive_ptr_base<SearchResult>*/ {
+class SearchResult : public std::shared_ptr<SearchResult>  {
 public:
 	enum Types {
 		TYPE_FILE,

@@ -18,9 +18,7 @@
 
 #include "stdinc.h"
 #include "QueueManager.h"
-//#include <boost/range/adaptor/map.hpp>
-//#include <boost/range/algorithm/for_each.hpp>
-//#include <boost/range/algorithm_ext/for_each.hpp>
+
 #include "ClientManager.h"
 #include "ConnectionManager.h"
 #include "Download.h"
@@ -49,9 +47,6 @@
 #endif
 
 namespace dcpp {
-
-//using boost::adaptors::map_values;
-//using boost::range::for_each;
 
 QueueManager::FileQueue::~FileQueue() {
 	//for_each(queue | map_values, DeleteFunction());
@@ -101,7 +96,6 @@ void QueueManager::FileQueue::remove(QueueItem* qi) {
 	if(lastInsert != queue.end() && Util::stricmp(*lastInsert->first, qi->getTarget()) == 0)
 		++lastInsert;
 	queue.erase(const_cast<string*>(&qi->getTarget()));
-	//qi->dec();
 	delete qi;
 }
 
@@ -454,7 +448,7 @@ int QueueManager::Rechecker::run() {
 					pos += tt.getBlockSize();	
 				}
 			
-		}	
+		}	//TODO: check ...
 		/*for_each(tt.getLeaves(), ttFile.getLeaves(), [&](const TTHValue& our, const TTHValue& file) {
 			if(our == file) {
 				q->addSegment(Segment(pos, tt.getBlockSize()));
@@ -673,13 +667,7 @@ connect:
 	if(wantConnection && aUser.user->isOnline())
 		ConnectionManager::getInstance()->getDownloadConnection(aUser);*/
 }
-/*
-void QueueManager::add(const string& aRoot, const BundlePtr& bundle, const HintedUser& aUser, int aFlags) {
-	for_each(bundle->entries, [&](const Bundle::Entry& e) { add(aRoot + e.name, e.size, e.tth, aUser, aFlags, true, bundle); });
-	Lock l(cs);
-	bundles.insert(make_pair(bundle->getHash(), BundleItem(aRoot, bundle)));
-}
-*/
+
 void QueueManager::readd(const string& target, const HintedUser& aUser) {
 	bool wantConnection = false;
 	{

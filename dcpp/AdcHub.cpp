@@ -304,9 +304,9 @@ void AdcHub::handle(AdcCommand::QUI, AdcCommand& c) noexcept {
 			}
 
 			if(source) {
-				tmp = (F_((victim->getIdentity().getNick() +" was kicked by "+source->getIdentity().getNick()+": "+tmp).c_str()));
+				tmp = (F_((victim->getIdentity().getNick() + " was kicked by " + source->getIdentity().getNick() + ": " + tmp).c_str()));
 			} else {
-				tmp = (F_((victim->getIdentity().getNick()+" was kicked: "+tmp).c_str()) );
+				tmp = (F_((victim->getIdentity().getNick() +" was kicked: " + tmp).c_str()) );
 			}
 			fire(ClientListener::StatusMessage(), this, tmp, ClientListener::FLAG_IS_SPAM);
 		}

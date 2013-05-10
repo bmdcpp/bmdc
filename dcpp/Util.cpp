@@ -827,13 +827,6 @@ string Util::encodeURI(const string& aString, bool reverse) {
 	}
 	return tmp;
 }
-
-// used to parse the boost::variant params of the formatParams function.
-//struct GetString : boost::static_visitor<string> {
-//	string operator()(const string& s) const { return s; }
-//	string operator()(const std::function<string ()>& f) const { return f(); }
-//};
-
 /**
  * This function takes a string and a set of parameters and transforms them according to
  * a simple formatting rule, similar to strftime. In the message, every parameter should be
@@ -859,7 +852,7 @@ string Util::formatParams(const string& msg, const ParamMap& params, FilterF fil
 			i = j;
 
 		} else {
-			auto replacement = /*boost::apply_visitor(GetString(),*/ param->second/*)*/;
+			auto replacement = param->second;
 
 			// replace all % in params with %% for strftime
 			replace("%", "%%", replacement);

@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
 	g_set_application_name("BMDC++");
 	WulforSettingsManager::newInstance();
 	signal(SIGPIPE, SIG_IGN);
-	//signal(SIGSEGV, printBacktrace);
+	signal(SIGSEGV, printBacktrace);
 
 	WulforManager::start(argc, argv);
 	gdk_threads_enter();

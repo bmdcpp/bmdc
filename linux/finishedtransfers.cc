@@ -620,8 +620,6 @@ void FinishedTransfers::onRemoveAll_gui(GtkMenuItem *item, gpointer data)
 void FinishedTransfers::initializeList_client()
 {
 	StringMap params;
-	//typedef Func2<FinishedTransfers, StringMap, bool> F2;
-	//F2 *func;
 	FinishedManager::getInstance()->lockLists();
 	const FinishedManager::MapByFile &list = FinishedManager::getInstance()->getMapByFile(isUpload);
 	const FinishedManager::MapByUser &user = FinishedManager::getInstance()->getMapByUser(isUpload);
@@ -631,8 +629,6 @@ void FinishedTransfers::initializeList_client()
 		params.clear();
 		getFinishedParams_client(it->second, it->first, params);
 		addFile_gui(params, FALSE);
-		//func = new F2(this, &FinishedTransfers::addItem_gui, params, FALSE);
-		//WulforManager::get()->dispatchGuiFunc(func);
 	}
 
 	for (FinishedManager::MapByUser::const_iterator uit = user.begin(); uit != user.end(); ++uit)
@@ -640,8 +636,6 @@ void FinishedTransfers::initializeList_client()
 		params.clear();
 		getFinishedParams_client(uit->second, uit->first, params);
 		addUser_gui(params, FALSE);
-		//func = new F2(this, &FinishedTransfers::addItem_gui, params, FALSE);
-		//WulforManager::get()->dispatchGuiFunc(func);
 	}
 
 	updateStatus_gui();

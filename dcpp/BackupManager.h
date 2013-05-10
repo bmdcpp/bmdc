@@ -52,7 +52,7 @@ public:
 private:
 	friend class Singleton<BackupManager>;
 
-	BackupManager() : stop(false) { 	TimerManager::getInstance()->addListener(this);}
+	BackupManager() : stop(false) { TimerManager::getInstance()->addListener(this); }
 	~BackupManager() throw() {
 		shutdown();
 			TimerManager::getInstance()->removeListener(this);

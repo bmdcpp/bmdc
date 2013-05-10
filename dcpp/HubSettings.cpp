@@ -38,7 +38,7 @@ inline bool defined(int b) { return b >=0 && b <= 2; //!indeterminate(b);
 HubSettings::HubSettings() {
 	// tribools default to false; init them to an indeterminate value.
 	for(int i = (int)ShowJoins; i>BoldTab; ++i) {
-		bools[i] = 0;//indeterminate;
+		bools[i] = 0;
 	}
 }
 

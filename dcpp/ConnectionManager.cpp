@@ -417,20 +417,6 @@ void ConnectionManager::on(AdcCommand::SUP, UserConnection* aSource, const AdcCo
 }
 
 void ConnectionManager::on(AdcCommand::STA, UserConnection* uc, const AdcCommand& cmd) noexcept {
-	/*dcdebug("Calllllllllll\n\n\n");
-	string ref;
-	if(!cmd.getParam("RF", 1, ref))
-		return;
-
-	ClientManager* CMgr = ClientManager::getInstance();
-	auto lock = CMgr->lock();
-	auto ou = CMgr->findOnlineUser(uc->getUser()->getCID(), uc->getHubUrl());
-	if(!ou)
-		return;
-	dcdebug("flip-flop-falp");
-	cmd.getParam("RF", 1, ref);
-	ou->getIdentity().set("RF", move(ref));
-	CMgr->fire(ClientManagerListener::UserUpdated(), dynamic_cast<const OnlineUser&>(*ou)); */
 }
 
 void ConnectionManager::on(UserConnectionListener::Connected, UserConnection* aSource) noexcept {
@@ -551,7 +537,7 @@ void ConnectionManager::on(UserConnectionListener::CLock, UserConnection* aSourc
 	aSource->setState(UserConnection::STATE_DIRECTION);
 	aSource->direction(aSource->getDirectionString(), aSource->getNumber());
 	aSource->key(CryptoManager::getInstance()->makeKey(aLock));
-//detection ..Pk String/Lock string
+//Detection ..Pk String/Lock string
 	if(aSource->getHintedUser().user)
 		ClientManager::getInstance()->setPkLock(aSource->getHintedUser(), aPk, aLock);
 
