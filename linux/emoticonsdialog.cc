@@ -243,8 +243,7 @@ void EmoticonsDialog::build()
 {
 	guint left_attach = 0,
 		right_attach = 1,
-		top_attach = 0,
-		bottom_attach = 1;
+		top_attach = 0;
 
 	const int sizetable = getEmot(address)->getCountFile_gui();
 	Emot::List &list = getEmot(address)->getPack_gui();
@@ -302,7 +301,7 @@ void EmoticonsDialog::build()
 			gtk_button_set_relief(GTK_BUTTON(icon), GTK_RELIEF_NONE);
 			gtk_widget_show(icon);
 //right_attach, bottom_attach
-			gtk_grid_attach(GTK_GRID(table), icon, left_attach, top_attach,1,1);
+			gtk_grid_attach(GTK_GRID(table), icon, left_attach, top_attach, 1, 1);
 
 #if GTK_CHECK_VERSION(2, 12, 0)
 			gtk_widget_set_tooltip_text(icon, name);
@@ -318,7 +317,7 @@ void EmoticonsDialog::build()
 			{
 				left_attach = 0;
 				right_attach = left_attach + 1;
-				bottom_attach = ++top_attach + 1;
+				++top_attach;
 			}
 
 			if (++i > sizetable)

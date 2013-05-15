@@ -2933,7 +2933,6 @@ void Settings::onSystemIconsThemeButton_gui(GtkWidget *widget, gpointer data)
 	s->set("icon-directory", GTK_STOCK_DIRECTORY);
 	s->set("icon-notepad",GTK_STOCK_FILE);//me icon
 	s->set("icon-adlsearch",GTK_STOCK_GO_UP);
-	s->set("icon-ignore",GTK_STOCK_HOME);
 	s->set("icon-system",GTK_STOCK_FIND);
 	s->set("icon-away", GTK_STOCK_NETWORK);
 

@@ -31,12 +31,11 @@ const string HubSettings::boolNames[BoolCount] = {
 
 namespace {
 inline bool defined(const string& s) { return !s.empty(); }
-inline bool defined(int b) { return b >=0 && b <= 2; //!indeterminate(b); 
-}
+inline bool defined(int b) { return b >= 0 && b <= 2; }
 }
 
 HubSettings::HubSettings() {
-	// tribools default to false; init them to an indeterminate value.
+	// bools default to false; 
 	for(int i = (int)ShowJoins; i>BoldTab; ++i) {
 		bools[i] = 0;
 	}

@@ -173,6 +173,7 @@ class FavoriteHubDialog: public Entry
 				gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxCharset")), (ii - charsets.begin()));
 			}
 		}
+		
 		for(auto fii = files.begin(); fii!= files.end(); ++fii) {
 			auto needle = Util::getFileName(*fii).find(".");
 			string tmp  = Util::getFileName(*fii).substr(0,needle);

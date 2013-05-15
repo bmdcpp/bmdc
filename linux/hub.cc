@@ -239,7 +239,7 @@ Hub::Hub(const string &address, const string &encoding):
 	g_signal_connect(getWidget("nickToChatItem"), "activate", G_CALLBACK(onNickToChat_gui), (gpointer)this);
 	g_signal_connect(getWidget("copyNickItem"), "activate", G_CALLBACK(onCopyNickItemClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("browseItem"), "activate", G_CALLBACK(onBrowseItemClicked_gui), (gpointer)this);
-	//[Partial FL
+	//[BMDC:Partial Filelists
 	g_signal_connect(getWidget("openPartial"), "activate", G_CALLBACK(onPartialFileListOpen_gui), (gpointer)this);
 	/**/
 	g_signal_connect(getWidget("matchItem"), "activate", G_CALLBACK(onMatchItemClicked_gui), (gpointer)this);
@@ -799,7 +799,7 @@ void Hub::removeUser_gui(string cid)
 			if (order[0] == 'C')//f
 				Notify::get()->showNotify("", message, Notify::FAVORITE_USER_QUIT);
 		}
-		else if ((client->get(HubSettings::FavShowJoins) == 1 )&& order[0] == 'C')//f
+		else if ( (client->get(HubSettings::FavShowJoins) == 1 )&& order[0] == 'C')//f
 		{
 			// Only show parts for favorite users
 			string message = nick + _(" has quit hub ") + client->getHubName();
@@ -987,7 +987,7 @@ void Hub::nickToChat_gui(const string &nick)
 void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 {
 	auto gotNotify = [this](string hub) -> bool { if(notify) return true; else if(!hub.empty())
-							return FavoriteManager::getInstance()->getFavoriteHubEntry(hub) != NULL ? FavoriteManager::getInstance()->getFavoriteHubEntry(hub)->getNotify() : notify; else return WGETI("notify-hub-chat-use");  };
+						return FavoriteManager::getInstance()->getFavoriteHubEntry(hub) != NULL ? FavoriteManager::getInstance()->getFavoriteHubEntry(hub)->getNotify() : notify; else return WGETI("notify-hub-chat-use");  };
 
 	PluginManager::getInstance()->onChatDisplay(client, message);
 
@@ -2558,8 +2558,9 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if ( command == "showjoins")
 		{
-			int p = Util::toInt((const char*)param[0]);
-	        if(p == 1) {
+			if(params.empty())return;
+						
+	        if(params[0] == '1') {
         	     hub->addStatusMessage_gui(_("Join/part showing on"), Msg::SYSTEM, Sound::NONE);
         	     hub->client->get(HubSettings::ShowJoins) = 1;
 	        } else {
@@ -2569,8 +2570,9 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if ( command == "showfavjoins")
 		{
-            int p = Util::toInt((const char*)param[0]);
-            if(p == 1) {
+			if(params.empty())return;
+            
+            if(params[0] == '1') {
                  hub->addStatusMessage_gui("Join/part for Fav showing on", Msg::SYSTEM, Sound::NONE);
                  hub->client->get(HubSettings::FavShowJoins) = 1;
             } else {

@@ -786,6 +786,10 @@ some compile fixies
 add unread status to colorfull tab higlting.
 -----r247
 Fix show/unshow joing users messages and some others Hub-Preference related code
+-----r249
+Fix spaces between hiden limiting and unhidien limitin toolbar icon
+Possible beter look v 1st page of Settings
+some cleanup
 
 
 

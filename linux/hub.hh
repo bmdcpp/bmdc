@@ -67,7 +67,7 @@ class Hub:
 			GtkTreeIter iter;
 			return findNick_gui(word,&iter);
 		}
-		void reconnect_p() { reconnect_client(); }
+		//void reconnect_p() { reconnect_client(); }
 
 	private:
 		//this represent state of user and nick of it
@@ -297,10 +297,8 @@ class Hub:
 		GtkTextTag *BoldTag, *UnderlineTag, *ItalicTag;
 		std::queue<std::string> statustext;
 		std::string ip;
-		std::unique_ptr<dcpp::HttpDownload> iconshttp;
 		GtkWidget *tab_image;
 		GtkWidget *tab_button;
-
 		bool notify;
 
 };

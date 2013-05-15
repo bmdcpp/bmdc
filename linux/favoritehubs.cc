@@ -377,7 +377,7 @@ void FavoriteHubs::onEditEntry_gui(GtkWidget *widget, gpointer data)
 	params["PackName"] = fh->favoriteView.getString(&iter, "PackName");
 
 	auto f = new FavoriteHubDialog(false);
-      bool entryUpdated = f->initDialog(fh->GroupsIter,params);
+	bool entryUpdated = f->initDialog(fh->GroupsIter,params);
 
 	if (entryUpdated)
 	{
@@ -717,6 +717,7 @@ void FavoriteHubs::initFavHubGroupsDialog_gui()
 		int FavShowJoins = i->second.get(HubSettings::FavShowJoins);
 		int connect = i->second.get(HubSettings::Connect);
 		int log = i->second.get(HubSettings::LogChat);
+		
 		gtk_list_store_append(groupsStore, &iter);
 		gtk_list_store_set(groupsStore, &iter,
 			groupsView.col(_("Group name")), i->first.c_str(),
@@ -973,15 +974,14 @@ void FavoriteHubs::saveFavHubGroups()
 		GroupsIter.insert(FavHubGroupsIter::value_type(group, it));
 		HubSettings p;
 
-		bool log_hub = groupsView.getString(&iter, "LogChat") == "1" ? TRUE : FALSE;
-		bool connect_hub = groupsView.getValue<int>(&iter, "Connect hub");
+		int log_hub = groupsView.getString(&iter, "LogChat") == "1" ? 1 : 0;
+		int connect_hub = groupsView.getValue<int>(&iter, "Connect hub");
 		string nick = groupsView.getString(&iter, "Nick");
 		string email = groupsView.getString(&iter, "eMail");
 		string desc = groupsView.getString(&iter, "Desc");
 		int favShowJoins = Util::toInt(groupsView.getString(&iter,"FavParts"));
 		int showJoins = Util::toInt(groupsView.getString(&iter,"Parts"));
 		string away = groupsView.getString(&iter, "AwayMessage");
-
 		
 		p.get(HubSettings::Nick) = nick;
 		p.get(HubSettings::Email) = email;

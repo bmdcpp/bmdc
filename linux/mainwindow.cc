@@ -2926,7 +2926,8 @@ void MainWindow::onReconectAllHub_gui(GtkWidget *widget, gpointer data)
 	for(auto i= mw->Hubs.begin(); i != mw->Hubs.end();++i)
 	{
 		Hub *hub = *i;
-		hub->reconnect_p();
+		//hub->reconnect_p();
+		hub->reconnect_client();
 	}
 }
 ///PM
