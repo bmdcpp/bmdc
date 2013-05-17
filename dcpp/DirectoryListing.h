@@ -121,7 +121,7 @@ public:
 			}
 			return x;
 		}
-		//FL
+		//Flink
 		uint16_t getBitrate() const
 		{
 			uint16_t x = 0;

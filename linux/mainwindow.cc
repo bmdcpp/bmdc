@@ -69,8 +69,6 @@
 #endif
 #include "SearchEntry.hh"
 
-//#include <boost/algorithm/string/trim.hpp>
-
 using namespace std;
 using namespace dcpp;
 
@@ -597,7 +595,7 @@ void MainWindow::onLimitingMenuItem_gui(GtkWidget *widget, gpointer data)
 void MainWindow::setLimitingIcon(bool Limited)
 {
 	setMainStatus_gui(string(_("Throtle ")) + ( Limited ? string("on") : string("off")), time(NULL));
-	setStatusOfIcons(LIMITING,Limited);
+	setStatusOfIcons(LIMITING, Limited);
 }
 
 void MainWindow::onLimitingDisable(GtkWidget *widget, gpointer data)

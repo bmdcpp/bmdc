@@ -122,10 +122,10 @@ Hub::Hub(const string &address, const string &encoding):
 	string strcolor = WGETS("background-color-chat");
 	GdkRGBA color;
 	gdk_rgba_parse(&color,strcolor.c_str());
-	gtk_widget_override_background_color(getWidget("chatText"),GTK_STATE_FLAG_NORMAL,&color);
-	gtk_widget_override_background_color(getWidget("chatText"),GTK_STATE_FLAG_PRELIGHT,&color);
-	gtk_widget_override_background_color(getWidget("chatText"),GTK_STATE_FLAG_ACTIVE,&color);
-	gtk_widget_override_background_color(getWidget("chatText"),GTK_STATE_FLAG_INSENSITIVE,&color);
+	gtk_widget_override_background_color(getWidget("chatText"), GTK_STATE_FLAG_NORMAL, &color);
+	gtk_widget_override_background_color(getWidget("chatText"), GTK_STATE_FLAG_PRELIGHT, &color);
+	gtk_widget_override_background_color(getWidget("chatText"), GTK_STATE_FLAG_ACTIVE, &color);
+	gtk_widget_override_background_color(getWidget("chatText"), GTK_STATE_FLAG_INSENSITIVE, &color);
 
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
 	chatBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(getWidget("chatText")));
@@ -509,7 +509,7 @@ void Hub::columnHeader(int num, string name)
 {
 	GtkTreeViewColumn *col = gtk_tree_view_get_column (nickView.get(), num);
 	gtk_tree_view_column_set_clickable (col, TRUE);
-	g_object_set ( gtk_tree_view_column_get_button(col)  ,"tooltip-text", name.c_str(), NULL);
+	g_object_set ( gtk_tree_view_column_get_button(col), "tooltip-text", name.c_str(), NULL);
 }
 
 void Hub::set_Header_tooltip_gui()
@@ -746,7 +746,7 @@ void Hub::updateUser_gui(ParamMap params)
 		if(client->get(HubSettings::ShowJoins) == 1)		
 		{
 			// Show joins in chat by default
-			addStatusMessage_gui(Nick + _(" has joined"), Msg::STATUS, favorite? Sound::FAVORITE_USER_JOIN : Sound::NONE);
+			addStatusMessage_gui(Nick + _(" has joined"), Msg::STATUS, favorite ? Sound::FAVORITE_USER_JOIN : Sound::NONE);
 			string message = Nick + _(" has joined hub ") + client->getHubName();
 			WulforManager::get()->getMainWindow()->addPrivateStatusMessage_gui(Msg::STATUS, cid, message);
 
@@ -1683,10 +1683,10 @@ void Hub::preferences_gui()
 	string strcolor = WGETS("background-color-chat");
 	GdkRGBA color;
 	gdk_rgba_parse(&color,strcolor.c_str());
-	gtk_widget_override_background_color(getWidget("chatText"),GTK_STATE_FLAG_NORMAL,&color);
-	gtk_widget_override_background_color(getWidget("chatText"),GTK_STATE_FLAG_PRELIGHT,&color);
-	gtk_widget_override_background_color(getWidget("chatText"),GTK_STATE_FLAG_ACTIVE,&color);
-	gtk_widget_override_background_color(getWidget("chatText"),GTK_STATE_FLAG_INSENSITIVE,&color);
+	gtk_widget_override_background_color(getWidget("chatText"), GTK_STATE_FLAG_NORMAL, &color);
+	gtk_widget_override_background_color(getWidget("chatText"), GTK_STATE_FLAG_PRELIGHT, &color);
+	gtk_widget_override_background_color(getWidget("chatText"), GTK_STATE_FLAG_ACTIVE, &color);
+	gtk_widget_override_background_color(getWidget("chatText"), GTK_STATE_FLAG_INSENSITIVE, &color);
 	gtk_widget_queue_draw(getWidget("chatText"));
 	setColorsRows();
 }
@@ -1878,7 +1878,7 @@ gboolean Hub::onNickListButtonRelease_gui(GtkWidget *widget, GdkEventButton *eve
 	{
 		if (event->button == 1 && hub->oldType == GDK_2BUTTON_PRESS)
 		{
-			if (WGETB("pm"))
+			if (WGETB("pm"))//TODO switch more actions :p
 				hub->onMsgItemClicked_gui(NULL, data);
 			else
 				hub->onBrowseItemClicked_gui(NULL, data);
@@ -2026,7 +2026,7 @@ gboolean Hub::onNickTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *e
 	if (event->type == GDK_2BUTTON_PRESS)
 	{
 		gchar *tmp;
-		g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
+		g_object_get(G_OBJECT(tag), "name", &tmp, NULL);
 		string tagName = string(tmp);
 		hub->nickToChat_gui(tagName.substr(tagPrefix.size()));
 
@@ -2036,7 +2036,7 @@ gboolean Hub::onNickTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *e
 	{
 		GtkTreeIter nickIter;
 		gchar *tmp;
-		g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
+		g_object_get(G_OBJECT(tag), "name", &tmp, NULL);
 		string tagName = string(tmp);
 
 
@@ -2600,9 +2600,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			else {
 				hub->addStatusMessage_gui(_("Unknown command '") + text + _("': type /help for a list of available commands"), Msg::SYSTEM, Sound::NONE);
 			}
-
 		}
-
 	}
 	else
 	{
@@ -2849,6 +2847,7 @@ void Hub::onOpenLinkClicked_gui(GtkMenuItem *item, gpointer data)
 	Hub *hub = (Hub *)data;
 	string error = Util::emptyString;
 	WulforUtil::openURI(hub->selectedTagStr,error);
+	
 	if(!error.empty())
 		hub->setStatus_gui("statusMain", error);
 }
@@ -3209,7 +3208,6 @@ void Hub::onTestSURItemClicked_gui(GtkMenuItem *item, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
-
 	if (gtk_tree_selection_count_selected_rows(hub->nickSelection) >= 1)
 	{
 		std::queue<std::string> nicks;
@@ -3434,7 +3432,7 @@ void Hub::addIgnore_gui(ParamMap params)
 void Hub::removeIgnore_gui(ParamMap params)
 {
     const string &cid = params["CID"];
-   std::unordered_map<std::string, FlagUser >::iterator it;
+	std::unordered_map<std::string, FlagUser >::iterator it;
     if( (it = users.find(cid))!= users.end())
     {
        GtkTreeIter iter;
@@ -4703,6 +4701,7 @@ void Hub::on_setImage_tab(GtkButton *widget, gpointer data)
 		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
 		string tmp = Util::getFileExt(string(filename));
 		tmp = WulforUtil::StringToUpper(tmp);
+		
 		if(tmp == ".PNG" || tmp == ".JPG" || tmp == ".GIF")
 		{
 			GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_scale(filename,15,15,FALSE,NULL);

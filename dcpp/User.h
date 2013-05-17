@@ -23,6 +23,7 @@
 #include "CID.h"
 #include "CriticalSection.h"
 #include "Flags.h"
+#include <memory>
 
 namespace dcpp {
 	
@@ -30,7 +31,7 @@ using std::shared_ptr;
 
 /** A user connected to one or more hubs. */
 //Removed FastAllock
-class User : public shared_ptr<User>, public Flags
+class User : public shared_ptr<User> , public Flags
 {
 public:
 	enum Bits {

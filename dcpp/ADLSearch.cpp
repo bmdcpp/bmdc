@@ -229,7 +229,7 @@ private:
 */
 bool ADLSearch::searchAll(const string& s) {
 	//return boost::apply_visitor(SearchAll(s), v);
-	return RegEx::match<string>(s,searchString);
+	return RegEx::match<string>(s,searchString,isCaseSensitive);
 }
 
 ADLSearchManager::ADLSearchManager() : breakOnFirst(false), user(UserPtr(), Util::emptyString)  {
@@ -359,7 +359,7 @@ void ADLSearchManager::save() {
 			xml.addTag("MinSize", search.minFileSize);
 			xml.addTag("SizeType", search.SizeTypeToString(search.typeFileSize));
 			xml.addTag("IsAutoQueue", search.isAutoQueue);
-			//RSX++//BMDC++
+			//BMDC++ //RSX++alike
 			string type = "type";
 			xml.addTag("IsForbidden", search.isForbidden);
 			xml.addChildAttrib(type, string("int"));
@@ -584,7 +584,7 @@ void ADLSearchManager::matchListing(DirectoryListing& aDirList) {
 }
 
 void ADLSearchManager::matchRecurse(DestDirList& aDestList, DirectoryListing& filelist, DirectoryListing::Directory* aDir, string& aPath) {
-	for(auto dirIt = aDir->directories.begin();dirIt != aDir->directories.end();++dirIt) {
+	for(auto dirIt = aDir->directories.begin(); dirIt != aDir->directories.end(); ++dirIt) {
 		if(filelist.getAbort()) { throw Exception(); }
 		string tmpPath = aPath + "\\" + (*dirIt)->getName();
 		matchesDirectory(aDestList, (*dirIt), tmpPath);

@@ -297,7 +297,7 @@ bool FavoriteManager::renameFavoriteDir(const string& aName, const string& anoth
 	}
 	return false;
 }
-//Recent Hubs
+//[Recent Hubs
 void FavoriteManager::addRecent(const RecentHubEntry& aEntry) {
 	RecentHubEntry::Iter i = getRecentHub(aEntry.getServer());
 	if(i != recentHubs.end()) {
@@ -1168,7 +1168,6 @@ void FavoriteManager::on(UserConnected, const UserPtr& user) noexcept {
 			fire(FavoriteManagerListener::FavoriteIUpdate(), nick, *(idt->second));
 			save();
 		}
-
 	}
 }
 
@@ -1186,7 +1185,7 @@ void FavoriteManager::mergeHubSettings(const FavoriteHubEntry& entry, HubSetting
 
 string FavoriteManager::getAwayMessage(const string& aServer, ParamMap& params) {
 	FavoriteHubEntry* hub = getFavoriteHubEntry(aServer);
-	auto name = hub->getGroup();
+	string name = hub->getGroup();
 	auto group = favHubGroups.find(name);
 	if(group != favHubGroups.end())
 		return (group->second.get(HubSettings::AwayMessage).empty() ?

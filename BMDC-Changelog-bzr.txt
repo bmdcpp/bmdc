@@ -790,6 +790,8 @@ Fix show/unshow joing users messages and some others Hub-Preference related code
 Fix spaces between hiden limiting and unhidien limitin toolbar icon
 Possible beter look v 1st page of Settings
 some cleanup
+-----r250
+cleanup& remove some ununsed settings
 
 
 

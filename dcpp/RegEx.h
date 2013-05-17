@@ -27,7 +27,7 @@ namespace dcpp {
 namespace RegEx {
 #define OVECCOUNT 999
 template<typename T>
-bool match(const T& text, const T& pattern, bool ignoreCase = false) {
+bool match(const T& text, const T& pattern, bool ignoreCase = true) {
 	if(pattern.empty())
 		return false;
 
@@ -36,7 +36,7 @@ bool match(const T& text, const T& pattern, bool ignoreCase = false) {
 		int   erroffset;
 		pcre *re;   
 		int rc; 
-		int   ovector[OVECCOUNT];
+		int ovector[OVECCOUNT];
 		re = pcre_compile (
              pattern.c_str(),       /* the pattern */
              ignoreCase ? PCRE_CASELESS : 0,           /* default options */

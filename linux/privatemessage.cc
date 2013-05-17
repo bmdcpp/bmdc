@@ -924,7 +924,7 @@ void PrivateMessage::updateCursor(GtkWidget *widget)
 
 	GdkDeviceManager *device_manager;
 	GdkDevice *pointer;
-//GTK3
+//@NOTE: GTK3
 	device_manager = gdk_display_get_device_manager (gdk_window_get_display (gtk_widget_get_window(widget)));
 	pointer = gdk_device_manager_get_client_pointer (device_manager);
 	gdk_window_get_device_position (gtk_widget_get_window(widget), pointer, &x, &y, NULL);
@@ -1334,6 +1334,7 @@ void PrivateMessage::onOpenLinkClicked_gui(GtkMenuItem *item, gpointer data)
 	PrivateMessage *pm = (PrivateMessage *)data;
 	string error = Util::emptyString;
 	WulforUtil::openURI(pm->selectedTagStr, error);
+	
 	if(!error.empty())
 		pm->setStatus_gui(error);
 }

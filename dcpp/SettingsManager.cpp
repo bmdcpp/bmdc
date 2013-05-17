@@ -128,7 +128,7 @@ const string SettingsManager::settingTags[] =
 	"SpyFrameIgnoreTthSearches", "StatusInChat", "TimeDependentThrottle", "TimeStamps",
 	"ToggleActiveTab", "UrlHandler", "UseCTRLForLineHistory", "UseSystemIcons",
 	"UsersFilterFavorite", "UsersFilterOnline", "UsersFilterQueue", "UsersFilterWaiting",
-	"ACDisclaimer", "GlobalHS", "GlobalEM",
+	"ACDisclaimer", 
 	//BMDC++
 	"CheckAllClientsBeforeList",
 	"ShowFreeSlotsInDesc",
@@ -154,7 +154,6 @@ const string SettingsManager::settingTags[] =
 	"UseWildCardProtectUsers",
 	"DisplayCheatsInMainChat",
 	"UseOemFont",
-	"DontAlowChatrooms",
 	"SENTRY",
 	// Int64
 	"TotalUpload", "TotalDownload",
@@ -396,17 +395,14 @@ SettingsManager::SettingsManager()
 	setDefault(REQUIRE_TLS, false);
 	setDefault(LAST_SHARED_FOLDER, Util::emptyString);
 	setDefault(AC_DISCLAIM, false);
-	setDefault(GLOBAL_HS, false);
-	setDefault(GLOBAL_EM, false);
-	setDefault(EMOT_PACK, "bmicon");
-	setDefault(DONT_ALOW_CHATROOMS, true);
 //[BMDC++
+	setDefault(EMOT_PACK, "bmicon");
 	setDefault(TIME_RECCON, 10);
 	setDefault(AUTOBACKUP_TIME, 60*60*60);
 	setDefault(CHECK_DELAY, 1);
-	setDefault(MAX_TESTSURS,50);
-	setDefault(MAX_FILELISTS,10);
-	setDefault(SLEEP_TIME,0);
+	setDefault(MAX_TESTSURS, 50);
+	setDefault(MAX_FILELISTS, 10);
+	setDefault(SLEEP_TIME, 0);
 	setDefault(MIN_POINTS_TO_DISPLAY_CHEAT,0);
 	setDefault(DETECTIONF, 0);
 	setDefault(DETECTIONS, 0);
@@ -567,11 +563,11 @@ void SettingsManager::load(string const& aFileName)
 			set(AUTO_SEARCH_LIMIT, 5);
 		else if(SETTING(AUTO_SEARCH_LIMIT) < 1)
 			set(AUTO_SEARCH_LIMIT, 1);
-
+/*
 #ifdef _DEBUG
 		set(PRIVATE_ID, CID::generate().toBase32());
 #endif
-
+*/
 		File::ensureDirectory(SETTING(TLS_TRUSTED_CERTIFICATES_PATH));
 
 		fire(SettingsManagerListener::Load(), xml);
@@ -679,7 +675,6 @@ HubSettings SettingsManager::getHubSettings() const {
 	ret.get(HubSettings::PackName) = get(EMOT_PACK);
 	//]
     return ret;
-
 }
 
 void SettingsManager::validateSearchTypeName(const string& name) const {

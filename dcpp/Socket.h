@@ -58,7 +58,7 @@ private:
 };
 
 /** RAII socket handle */
-class SocketHandle /*: boost::noncopyable*/ {
+class SocketHandle {
 public:
 	SocketHandle() : sock(INVALID_SOCKET) { }
 	SocketHandle(socket_t sock) : sock(sock) { }
@@ -76,7 +76,7 @@ private:
 	SocketHandle& operator=(SocketHandle&);
 };
 
-class Socket //: boost::noncopyable
+class Socket 
 {
 public:
 	enum SocketType {
