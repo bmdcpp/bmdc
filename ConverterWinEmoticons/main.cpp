@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) Mank 2013 freedcpp at seznam  dot cz
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ */
+
 #include "SimpleXML.h"
 #include "File.h"
 #include <string>
@@ -15,18 +33,18 @@ string Escape(string str)
 			tmp.erase(tmp.length()-1);
 			tmp[tmp.length()-1] = '/';
 	}	
-return tmp;	
+	return tmp;	
 }
 
 int main(int argc ,char *argv[]) {
 
-	if(argc <= 1)return 1;
+	if(argc <= 1) return 1;
+	
 	map<string,string> emoticons;
 	SimpleXML xml;
 	xml.fromXML(File( string(argv[1]) + ".xml", File::READ, File::OPEN).read());
 	try {
-		//xml.stepIn();
-		//printf("testxx");
+
 		if(xml.findChild("Emoticons")) 
 		{
 			xml.stepIn();
@@ -38,15 +56,11 @@ int main(int argc ,char *argv[]) {
 				printf("%s", strEmotionBmpPath.c_str());
 				emoticons.insert( make_pair(strEmotionText, Escape(strEmotionBmpPath)));
 			}
-			//xml.stepOut();
 		}
-		//xml.stepOut();
 	} catch(...) {
 		printf("EmoticonsManager::Create:1 \n");
 	}
-		
-		//czdc
-//if(argv[2] == "c") {		
+	//czdc
 try{
 		xml.resetCurrentChild();
 		if(xml.findChild("Emotions")) {
@@ -63,11 +77,9 @@ try{
 			}
 			xml.stepOut();	
 		}	
-		//xml.stepOut();
 	} catch(...) {
 		printf("EmoticonsManager::Create:2 \n");
 	}
-//}	
 		printf("size %d",emoticons.size());
 		SimpleXML aXml;
 		aXml.addTag("emoticons-map");
