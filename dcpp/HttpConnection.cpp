@@ -78,7 +78,6 @@ void HttpConnection::postData(const string& aUrl, const StringMap& aData) {
 
 void HttpConnection::prepareRequest(RequestType type) {
 	dcassert(Util::findSubString(currentUrl, "http://") == 0 || Util::findSubString(currentUrl, "https://") == 0);
-	//boost::trim(currentUrl);
 	currentUrl = Util::trimUrl(currentUrl);
 
 	// Reset the connection states

@@ -18,6 +18,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+ 
 #include "stdinc.h"
 #include "Client.h"
 #include "ClientManager.h"
@@ -135,7 +136,7 @@ void FakeChecker::setListSize(const HintedUser& p, int64_t aFileLength, bool adc
 				report = ou->setCheat("Too small filelist - %[userLSshort] for the specified share of %[userSSshort]", false, true, SETTING(FILELIST_TOO_SMALL_BIG));
 				cm->sendAction(*ou, SETTING(FILELIST_TOO_SMALL_BIG_RAW));
 			}
-		} else if(!adc) {///false
+		} else if(!adc) {
 			int64_t listLength = (!ou->getIdentity().get("LL").empty()) ? Util::toInt64(ou->getIdentity().get("LL")) : -1;
 			if((listLength != -1) && (listLength * 3 < aFileLength) && (ou->getIdentity().getBytesShared() > 0)) {
 				report = ou->setCheat("Fake file list - ListLen = %[userLL], FileLength = %[userLS]", false, true, SETTING(LISTLEN_MISMATCH_SHOW));

@@ -29,7 +29,7 @@
 #define gettext_noop(String) String
 #define N_(String) gettext_noop (String)
 #define F_(String) (dgettext(PACKAGE, std::string(String).c_str()))
-#define FN_(String1,String2, N) dcpp::dcpp_fmt(dngettext(PACKAGE, String1, String2, N))
+#define FN_(String1,String2, N) (dngettext(PACKAGE, String1, String2, N))
 
 #endif
 

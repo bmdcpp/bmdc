@@ -26,7 +26,7 @@
 
 #include <map>
 #include <cstring>
-#include <algorithm>//we dont need boost
+#include <algorithm> //we dont need boost
 
 #ifdef _WIN32
 

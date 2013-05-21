@@ -2476,7 +2476,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			info[_("Nick")] = hub->client->get(HubSettings::Nick);
 			info[_("Description")] = hub->client->get(HubSettings::Description);
 			info[_("Email")] = hub->client->get(HubSettings::Email);
-			info[_("External / WAN IP")] = hub->client->getFavIp();
+			info[_("External / WAN IP")] = hub->client->get(HubSettings::UserIp);
 			info[_("Encoding")] =  hub->client->getEncoding();
             string text;
             for(auto i = info.begin();i!=info.end();++i) {
@@ -2534,7 +2534,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if (command == "sc")
 		{
-			hub->addStatusMessage_gui(hub->client->startCheck(params),Msg::SYSTEM,Sound::NONE);
+			hub->addStatusMessage_gui(hub->client->startCheck(params), Msg::SYSTEM, Sound::NONE);
 		}
 		else if(command == "addfavorite")
 		{

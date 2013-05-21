@@ -1642,7 +1642,7 @@
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkCheckButton" id="checkautodet">
-                        <property name="label" translatable="yes">Disable Auto Detection</property>
+                        <property name="label" translatable="yes">Enable Auto Detection</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>

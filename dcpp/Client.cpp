@@ -70,7 +70,7 @@ void Client::shutdown() {
 	//END
 	if(sock) {
 		BufferedSocket::putSocket(sock);
-		sock = 0;
+		sock = nullptr;
 	}
 }
 
@@ -111,7 +111,7 @@ void Client::reloadSettings(bool updateNick) {
         //]
 	}
 	if(updateNick)
-        	checkNick(get(Nick));
+        checkNick(get(Nick));
 	else
 		get(Nick) = prevNick;
 }
@@ -126,7 +126,7 @@ const string& Client::getUserIp() const {
 void Client::connect() {
 	if(sock) {
 		BufferedSocket::putSocket(sock);
-		sock = 0;
+		sock = nullptr;
 	}
 
 	setAutoReconnect(true);
@@ -186,7 +186,7 @@ void Client::on(Connected) noexcept {
 	ip = sock->getIp();
 
 	if(sock->isSecure() && keyprint.compare(0, 7, "SHA256/") == 0) {
-		auto kp = sock->getKeyprint();
+		vector<uint8_t> kp = sock->getKeyprint();
 		if(!kp.empty()) {
 			vector<uint8_t> kp2v(kp.size());
 			Encoder::fromBase32(keyprint.c_str() + 7, &kp2v[0], kp2v.size());

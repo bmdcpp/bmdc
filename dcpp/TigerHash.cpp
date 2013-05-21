@@ -34,11 +34,9 @@
 
 #include <algorithm>
 #include <cstring>
-//#include <boost/detail/endian.hpp>
 #include <endian.h>
 #include "debug.h"
 
-//#ifdef BOOST_BIG_ENDIAN
 #if (__BYTE_ORDER == __BIG_ENDIAN)
 	#define TIGER_BIG_ENDIAN
 #endif
@@ -222,7 +220,7 @@ uint8_t* TigerHash::finalize() {
 	uint8_t buf[BLOCK_SIZE];
 	int j;
 #endif
-	// Tmp buffer always has at least one pos, otherwise it would have
+	// tmp buffer always has at least one pos, otherwise it would have
 	// been processed in update()
 
 	tmp[tmppos++] = 0x01;

@@ -792,6 +792,10 @@ Possible beter look v 1st page of Settings
 some cleanup
 -----r250
 cleanup& remove some ununsed settings
+-----r252
+some small fixies&cleanup
+Fix Arch's PKGBUILD
+
 
 
 

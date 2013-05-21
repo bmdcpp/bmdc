@@ -125,7 +125,6 @@ public:
 
 	//BMDC++
 	GETSET(bool, hideShare, HideShare);
-	GETSET(string, favIp, FavIp);
 	GETSET(string, chatExtraInfo, ChatExtraInfo);
 	GETSET(string, protectUser, ProtectUser);
 	GETSET(string, tabText, TabText);

@@ -72,7 +72,7 @@ public:
 		return _nicks+";";
 	}
 	void setNicks(vector<string> _nicks) { 
-			for(auto it = _nicks.begin();it!=_nicks.end();++it)
+			for(auto it = _nicks.begin(); it!=_nicks.end(); ++it)
 		           nicks.insert(make_pair(*it,true));
 		
 	}

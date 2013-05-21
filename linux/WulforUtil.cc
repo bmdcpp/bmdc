@@ -193,6 +193,7 @@ string WulforUtil::windowsSeparator(const string &ps)
 }
 
 //Is This function usefull ?
+/*
 vector<string> WulforUtil::getLocalIPs()
 {
 	vector<string> addresses;
@@ -242,7 +243,7 @@ vector<string> WulforUtil::getLocalIPs()
 
 	return addresses;
 }
-
+*/
 //NOTE: core 0.762
 string WulforUtil::getNicks(const string &cid, const string& hintUrl)
 {

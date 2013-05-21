@@ -386,7 +386,10 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		auto aMode = param[j-1];
 		if(aMode & 0x02) {
 			u.getIdentity().set("AW", "1");
-		}else { u.getIdentity().set("AW", Util::emptyString);}
+		}else 
+		{
+			u.getIdentity().set("AW", Util::emptyString);
+		}
 		//end
 		i = j + 1;
 		j = param.find('$', i);
@@ -766,7 +769,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			dcdebug("NmdcHub::onLine %s failed with error: %s\n", cmd.c_str(), e.getError().c_str());
 		}
 	} else if (cmd == "$LogedIn") {
-		;//we dont interested in it...
+		//we dont interested in it...
 	} else
 	{
 		dcassert(cmd[0] == '$');
@@ -1064,9 +1067,8 @@ void NmdcHub::password(const string& aPass) {
 	if(!salt.empty()) {//$SaltPassy in Support
 		string filteredPass = fromUtf8(aPass);
 		size_t saltBytes = salt.size() * 5 / 8;
-		//std::shared_ptr<uint8_t> buf(new uint8_t[saltBytes]);
 		uint8_t *buf = new uint8_t[saltBytes];
-		Encoder::fromBase32(salt.c_str(), buf, saltBytes);//.get()[0]
+		Encoder::fromBase32(salt.c_str(), buf, saltBytes);
 		TigerHash th;
 		th.update(filteredPass.data(), filteredPass.length());
 		th.update(buf, saltBytes);
