@@ -795,7 +795,18 @@ cleanup& remove some ununsed settings
 -----r252
 some small fixies&cleanup
 Fix Arch's PKGBUILD
-
+-----r253
+Add More options for using double click on UserList Items
+/*
+/ws double-click-action
+	 * 0 - Browse FL
+	 * 1 - Nick to Chat
+	 * 2 - PM to nick
+	 * 3 - match quene
+	 * 4 - grant slot
+	 * 5 - add to fav users
+	 * 6 - Partial FL	
+*/
 
 
 

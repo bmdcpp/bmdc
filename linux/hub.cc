@@ -1878,7 +1878,7 @@ gboolean Hub::onNickListButtonRelease_gui(GtkWidget *widget, GdkEventButton *eve
 	{
 		if (event->button == 1 && hub->oldType == GDK_2BUTTON_PRESS)
 		{
-			if (WGETB("pm"))//TODO switch more actions :p
+			if ( (!hub->clickAction(data) ) && WGETB("pm"))
 				hub->onMsgItemClicked_gui(NULL, data);
 			else
 				hub->onBrowseItemClicked_gui(NULL, data);
@@ -1897,6 +1897,44 @@ gboolean Hub::onNickListButtonRelease_gui(GtkWidget *widget, GdkEventButton *eve
 	}
 
 	return FALSE;
+}
+
+bool Hub::clickAction(gpointer data)
+{
+	bool isOk = false;
+	switch(WGETI("double-click-action"))
+	{
+		case 0:
+			onBrowseItemClicked_gui(NULL, data);
+			isOk = true;
+			break;
+		case 1:
+			onNickToChat_gui(NULL, data);
+			isOk = true;
+			break;
+	    case 2:
+			onMsgItemClicked_gui(NULL, data);
+			isOk = true;
+			break;
+		case 3:
+			onMatchItemClicked_gui(NULL ,data);
+			isOk = true;
+			break;
+		case 4:
+			onGrantItemClicked_gui(NULL, data);
+			isOk = true;
+			break;
+		case 5:
+			onAddFavoriteUserClicked_gui(NULL, data);
+			isOk = true;
+			break;
+		case 6:
+			onPartialFileListOpen_gui(NULL, data);
+			isOk = true;
+			break;
+		default: break;
+	}
+	return isOk;
 }
 
 gboolean Hub::onNickListKeyRelease_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
