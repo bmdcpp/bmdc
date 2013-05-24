@@ -300,7 +300,6 @@ void EmoticonsDialog::build()
 			gtk_button_set_image(GTK_BUTTON(icon), image);
 			gtk_button_set_relief(GTK_BUTTON(icon), GTK_RELIEF_NONE);
 			gtk_widget_show(icon);
-//right_attach, bottom_attach
 			gtk_grid_attach(GTK_GRID(table), icon, left_attach, top_attach, 1, 1);
 
 #if GTK_CHECK_VERSION(2, 12, 0)

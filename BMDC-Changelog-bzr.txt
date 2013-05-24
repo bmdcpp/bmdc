@@ -808,6 +808,8 @@ Add More options for using double click on UserList Items
 	 * 6 - Partial FL	
 */
 -----r254
+Remeber state of Transfers checkbox
+-----
 
 
 

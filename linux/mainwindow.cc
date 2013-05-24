@@ -313,8 +313,7 @@ MainWindow::MainWindow():
 	#else
 		gtk_widget_set_sensitive(getWidget("exportitem"), FALSE);
 	#endif
-
-	/**/
+	/*-*/
 	g_signal_connect(getWidget("searchMenuItem"), "activate", G_CALLBACK(onSearchClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("searchADLMenuItem"), "activate", G_CALLBACK(onSearchADLClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("searchSpyMenuItem"), "activate", G_CALLBACK(onSearchSpyClicked_gui), (gpointer)this);
@@ -2281,10 +2280,13 @@ void MainWindow::onTransferToggled_gui(GtkWidget *widget, gpointer data)
 	MainWindow *mw = (MainWindow *)data;
 	GtkWidget *transfer = mw->transfers->getContainer();
 
-	if (gtk_widget_get_visible(transfer))
+	if ( WGETB("hide-transfers") || gtk_widget_get_visible(transfer)) {
 		gtk_widget_hide(transfer);
-	else
+		WSET("hide-transfers",1);
+	} else {
 		gtk_widget_show_all(transfer);
+		WSET("hide-transfers",0);
+	}	
 }
 
 void MainWindow::onHashClicked_gui(GtkWidget *widget, gpointer data)

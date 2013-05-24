@@ -488,7 +488,7 @@ void BookEntry::setBackForeGround(const EntryType type)
 				}
 				break;
 		case Entry::ABOUT_CONFIG:
-		default: return; ;
+		default: return; 
 	}
 	
 	gdk_rgba_parse(&fg_color,fg.c_str());
@@ -609,7 +609,7 @@ void BookEntry::setBackForeGround_unread(const EntryType type)
 				}
 				break;
 		case Entry::ABOUT_CONFIG:
-		default: return; ;
+		default: return;
 	}
 	
 	gdk_rgba_parse(&fg_color,fg.c_str());
@@ -626,7 +626,7 @@ void BookEntry::setBackForeGround_unread(const EntryType type)
     gtk_widget_override_background_color (icon, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
     
      // Fix between icon and label may to been necasary ?
-	GtkCssProvider *provider =  gtk_css_provider_new(); 
+	/*GtkCssProvider *provider =  gtk_css_provider_new(); 
 	GdkDisplay *display = gdk_display_get_default ();
 	GdkScreen *screen = gdk_display_get_default_screen (display);
 	gtk_style_context_add_provider_for_screen (screen, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
@@ -634,7 +634,7 @@ void BookEntry::setBackForeGround_unread(const EntryType type)
 				"GtkNotebook GtkLabel {padding:0;margin:0;border:0;border-width:0;}\n"
 				"GtkNotebook GtkImage {padding:0;margin:0;border:0;border-width:0;}";
 	gtk_css_provider_load_from_data(provider,note.c_str(),-1, NULL);
- 	
+ 	*/
 }
 /*
 void BookEntry::setBackForeGround_selected(const EntryType type)
@@ -730,7 +730,7 @@ void BookEntry::setBackForeGround_selected(const EntryType type)
 				}
 				break;
 		case Entry::ABOUT_CONFIG:
-		default: return; ;
+		default: return;
 	}
 	
 	gdk_rgba_parse(&fg_color,fg.c_str());

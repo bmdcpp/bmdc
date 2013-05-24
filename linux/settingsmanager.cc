@@ -459,6 +459,7 @@ WulforSettingsManager::WulforSettingsManager():
 	 * 6 - Partial FL	
 	*/
 	defaultInt.insert(IntMap::value_type("double-click-action",1));
+	defaultInt.insert(IntMap::value_type("hide-transfers",0));
 
 	load();
 

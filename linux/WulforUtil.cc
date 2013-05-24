@@ -1030,7 +1030,6 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			message = s.Output();
 			status += s.ErrorMessage();
 			thirdperson = s.isThirdPerson();
-
 		}
 	}
  	else if (cmd == "auda" || cmd == "w")
@@ -1058,7 +1057,6 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 		else if (strcmp(s.Output(),"Kaffeine is not playing.")==0)
 		{
 			status += s.Output();
-
 		}
 		else
 		{
@@ -1078,7 +1076,6 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 		else if (strcmp(s.Output(),"Kaffeine is not playing.")==0)
 		{
 			status += s.Output();
-
 		}
 		else
 		{
@@ -1104,7 +1101,6 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			message = s.Output();
 			status += s.ErrorMessage();
 			thirdperson = s.isThirdPerson();
-
 		}
 	}
 	// End of "Now Playing"

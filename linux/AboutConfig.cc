@@ -249,6 +249,7 @@ void AboutConfig::onInfoResponse(GtkWidget *info_bar, gint response_id,  gpointe
 			gtk_widget_hide(info_bar);
 			gtk_widget_set_sensitive(s->getWidget("scrolledwindow"),TRUE);
 			SettingsManager::getInstance()->set(SettingsManager::AC_DISCLAIM,true);
+			SettingsManager::getInstance()->save();
 			break;
 		default:		
 			return;

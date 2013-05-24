@@ -5,9 +5,21 @@
 #, fuzzy
 msgid ""
 msgstr ""
+"#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
 "POT-Creation-Date: 2013-05-23 16:35+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"#-#-#-#-#  linux.pot  #-#-#-#-#\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
+"POT-Creation-Date: 2013-05-24 19:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -550,7 +562,7 @@ msgid "Away mode message on/off"
 msgstr ""
 
 #: ui/hub.glade.ui:23 ui/privatemessage.glade.ui:26 linux/WulforUtil.cc:900
-#: linux/WulforUtil.cc:919 linux/mainwindow.cc:2264
+#: linux/WulforUtil.cc:919 linux/mainwindow.cc:2263
 #: linux/privatemessage.cc:1089
 msgid "Away mode off"
 msgstr ""
@@ -712,8 +724,8 @@ msgid "Choose a File"
 msgstr ""
 
 #: ui/search.glade.ui:7 ui/settingsdialog.glade.ui:8901
-#: ui/sharebrowser.glade.ui:7 linux/hub.cc:2952 linux/mainwindow.cc:1607
-#: linux/mainwindow.cc:1675 linux/privatemessage.cc:1367
+#: ui/sharebrowser.glade.ui:7 linux/hub.cc:2952 linux/mainwindow.cc:1606
+#: linux/mainwindow.cc:1674 linux/privatemessage.cc:1367
 msgid "Choose a directory"
 msgstr ""
 
@@ -1642,7 +1654,7 @@ msgstr ""
 #: ui/detection.glade.ui:949 ui/favoritehubs.glade.ui:85
 #: ui/settingsdialog.glade.ui:1156 linux/AboutConfig.cc:32
 #: linux/AboutConfig.cc:41 linux/AboutConfig.cc:43 linux/AboutConfig.cc:151
-#: linux/AboutConfig.cc:169 linux/AboutConfig.cc:266 linux/AboutConfig.cc:319
+#: linux/AboutConfig.cc:169 linux/AboutConfig.cc:267 linux/AboutConfig.cc:320
 #: linux/detectiontab.cc:41 linux/detectiontab.cc:60 linux/detectiontab.cc:71
 #: linux/detectiontab.cc:324 linux/detectiontab.cc:345
 #: linux/detectiontab.cc:416 linux/detectiontab.cc:465
@@ -2171,7 +2183,7 @@ msgstr ""
 msgid "Select Text Color"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:771 linux/mainwindow.cc:2357
+#: ui/mainwindow.glade.ui:771 linux/mainwindow.cc:2359
 msgid "Select filelist to browse"
 msgstr ""
 
@@ -2587,7 +2599,7 @@ msgid "Users"
 msgstr ""
 
 #: ui/detection.glade.ui:956 linux/AboutConfig.cc:35 linux/AboutConfig.cc:154
-#: linux/AboutConfig.cc:170 linux/AboutConfig.cc:267 linux/detectiontab.cc:106
+#: linux/AboutConfig.cc:170 linux/AboutConfig.cc:268 linux/detectiontab.cc:106
 #: linux/detectiontab.cc:1033 linux/detectiontab.cc:1134
 #: linux/detectiontab.cc:1231
 msgid "Value"
@@ -2780,8 +2792,8 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:3297 ui/settingsdialog.glade.ui:3313
 #: ui/settingsdialog.glade.ui:3357 linux/hashdialog.cc:77
-#: linux/mainwindow.cc:937 linux/mainwindow.cc:938 linux/mainwindow.cc:2721
-#: linux/mainwindow.cc:2723 linux/treeview.cc:213
+#: linux/mainwindow.cc:936 linux/mainwindow.cc:937 linux/mainwindow.cc:2723
+#: linux/mainwindow.cc:2725 linux/treeview.cc:213
 msgid "s"
 msgstr ""
 
@@ -2904,7 +2916,7 @@ msgstr ""
 msgid " removed from favorites list"
 msgstr ""
 
-#: linux/settingsmanager.cc:693
+#: linux/settingsmanager.cc:694
 msgid " to "
 msgstr ""
 
@@ -3009,7 +3021,7 @@ msgstr ""
 msgid "<b>Under what name you see the directory</b>"
 msgstr ""
 
-#: linux/mainwindow.cc:2696
+#: linux/mainwindow.cc:2698
 msgid "<b>file:</b> "
 msgstr ""
 
@@ -3065,7 +3077,7 @@ msgstr ""
 msgid "Address"
 msgstr ""
 
-#: linux/WulforUtil.cc:1174
+#: linux/WulforUtil.cc:1170
 msgid "Aliases not found."
 msgstr ""
 
@@ -3161,7 +3173,7 @@ msgstr ""
 msgid "Away Icon"
 msgstr ""
 
-#: linux/mainwindow.cc:2273
+#: linux/mainwindow.cc:2272
 msgid "Away mode on"
 msgstr ""
 
@@ -3229,7 +3241,7 @@ msgstr ""
 msgid "CRC32 inconsistency (SFV-Check)"
 msgstr ""
 
-#: linux/settingsmanager.cc:693
+#: linux/settingsmanager.cc:694
 msgid "Change setting "
 msgstr ""
 
@@ -3457,7 +3469,7 @@ msgstr ""
 msgid "Download starting: "
 msgstr ""
 
-#: linux/mainwindow.cc:883
+#: linux/mainwindow.cc:882
 msgid "Download: "
 msgstr ""
 
@@ -3490,7 +3502,7 @@ msgstr ""
 msgid "Emotion packs"
 msgstr ""
 
-#: linux/mainwindow.cc:1036
+#: linux/mainwindow.cc:1035
 msgid "Empty hub address specified"
 msgstr ""
 
@@ -3529,11 +3541,11 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: linux/settingsmanager.cc:696
+#: linux/settingsmanager.cc:697
 msgid "Error: params have been not 2!"
 msgstr ""
 
-#: linux/settingsmanager.cc:692
+#: linux/settingsmanager.cc:693
 msgid "Error: setting not found!"
 msgstr ""
 
@@ -3926,7 +3938,7 @@ msgstr ""
 msgid "Loaded plugins: "
 msgstr ""
 
-#: linux/mainwindow.cc:2394
+#: linux/mainwindow.cc:2396
 msgid "Loading Own file list"
 msgstr ""
 
@@ -3934,11 +3946,11 @@ msgstr ""
 msgid "Log Ignored Messages as STATUS mess"
 msgstr ""
 
-#: linux/mainwindow.cc:1668
+#: linux/mainwindow.cc:1667
 msgid "Magnet Choice"
 msgstr ""
 
-#: linux/mainwindow.cc:1598
+#: linux/mainwindow.cc:1597
 msgid "Magnet Properties / Choice"
 msgstr ""
 
@@ -4263,7 +4275,7 @@ msgstr ""
 msgid "Select Font"
 msgstr ""
 
-#: linux/mainwindow.cc:2760
+#: linux/mainwindow.cc:2762
 msgid "Select file to Get TTH"
 msgstr ""
 
@@ -4335,7 +4347,7 @@ msgstr ""
 msgid "Shared"
 msgstr ""
 
-#: linux/mainwindow.cc:928
+#: linux/mainwindow.cc:927
 msgid "Shared: "
 msgstr ""
 
@@ -4437,7 +4449,7 @@ msgstr ""
 msgid "Slots"
 msgstr ""
 
-#: linux/mainwindow.cc:927
+#: linux/mainwindow.cc:926
 msgid "Slots: "
 msgstr ""
 
@@ -4540,11 +4552,11 @@ msgstr ""
 msgid "Tag"
 msgstr ""
 
-#: linux/mainwindow.cc:2886
+#: linux/mainwindow.cc:2888
 msgid "The GeoIP database could not be updated...v"
 msgstr ""
 
-#: linux/mainwindow.cc:2881
+#: linux/mainwindow.cc:2883
 msgid ""
 "The GeoIP database has been successfully updated; restart DC++ to apply....v"
 msgstr ""
@@ -4557,7 +4569,7 @@ msgstr ""
 msgid "This hub is not a favorite hub"
 msgstr ""
 
-#: linux/mainwindow.cc:598
+#: linux/mainwindow.cc:597
 msgid "Throtle "
 msgstr ""
 
@@ -4630,7 +4642,7 @@ msgstr ""
 msgid "Unable to load file list: "
 msgstr ""
 
-#: linux/mainwindow.cc:2382
+#: linux/mainwindow.cc:2384
 msgid "Unable to load file list: Invalid file list name"
 msgstr ""
 
@@ -4651,7 +4663,7 @@ msgstr ""
 msgid "Updated frame search"
 msgstr ""
 
-#: linux/mainwindow.cc:2871
+#: linux/mainwindow.cc:2873
 msgid "Updating the GeoIP database...v"
 msgstr ""
 
@@ -4679,7 +4691,7 @@ msgstr ""
 msgid "Upload starting..."
 msgstr ""
 
-#: linux/mainwindow.cc:883
+#: linux/mainwindow.cc:882
 msgid "Upload: "
 msgstr ""
 
@@ -4986,7 +4998,7 @@ msgstr ""
 msgid "Waiting to retry"
 msgstr ""
 
-#: linux/mainwindow.cc:388
+#: linux/mainwindow.cc:387
 msgid "Welcome to "
 msgstr ""
 
@@ -5041,7 +5053,7 @@ msgstr ""
 msgid "default theme"
 msgstr ""
 
-#: linux/mainwindow.cc:2672
+#: linux/mainwindow.cc:2674
 msgid "file list from "
 msgstr ""
 
