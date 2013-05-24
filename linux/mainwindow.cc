@@ -510,6 +510,9 @@ void MainWindow::showTransfersPane_gui()
 	gtk_paned_pack2(GTK_PANED(getWidget("pane")), transfers->getContainer(), TRUE, TRUE);
 	addChild(transfers);
 	transfers->show();
+	if(WGETB("hide-transfers"))
+		gtk_widget_hide(transfers->getContainer());
+	
 }
 
 /*
@@ -2280,7 +2283,7 @@ void MainWindow::onTransferToggled_gui(GtkWidget *widget, gpointer data)
 	MainWindow *mw = (MainWindow *)data;
 	GtkWidget *transfer = mw->transfers->getContainer();
 
-	if ( WGETB("hide-transfers") || gtk_widget_get_visible(transfer)) {
+	if (gtk_widget_get_visible(transfer)) {
 		gtk_widget_hide(transfer);
 		WSET("hide-transfers",1);
 	} else {
