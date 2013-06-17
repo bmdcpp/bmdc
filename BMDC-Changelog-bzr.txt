@@ -809,7 +809,11 @@ Add More options for using double click on UserList Items
 */
 -----r254
 Remeber state of Transfers checkbox
------
+-----r257
+  Fix Downloading status
+-----r258
+[dbus-plugin] Fix year field in /np 
+
 
 
 

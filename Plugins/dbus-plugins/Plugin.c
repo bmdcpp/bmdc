@@ -249,7 +249,7 @@ static gchar *parse(GVariant *var,ConfigStrPtr suffix)
           g_print ("      %s -> %s\n", key, value_str);
 		  string tmp(value_str);
 		  string tmp2 = tmp.substr(1,tmp.length()-2);
-		  params[key] = tmp2; //value_str;
+		  params[key] = (key[0] == 'y') ? tmp : tmp2; //value_str;
           g_free (value_str);
         }
       g_variant_iter_free (iter);
