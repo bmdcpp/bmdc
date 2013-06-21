@@ -35,6 +35,11 @@ using namespace dcpp;
 WulforSettingsManager::WulforSettingsManager():
 	configFile(Util::getPath(Util::PATH_USER_CONFIG) + "BMDC.xml")
 {
+	//obtain from theme..
+	GtkThemingEngine *engine = gtk_theming_engine_load(NULL);
+	GdkRGBA color;
+	gtk_theming_engine_get_background_color (engine,(GtkStateFlags)GTK_STATE_FLAG_NORMAL,&color);
+	
 	defaultInt.insert(IntMap::value_type("main-window-maximized", 0));
 	defaultInt.insert(IntMap::value_type("main-window-size-x", 875));
 	defaultInt.insert(IntMap::value_type("main-window-size-y", 685));
@@ -205,25 +210,25 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("sound-hub-disconnect", ""));
 	defaultString.insert(StringMap::value_type("sound-fuser-join", ""));
 	defaultString.insert(StringMap::value_type("sound-fuser-quit", ""));
-	defaultString.insert(StringMap::value_type("text-general-back-color", "#FFFFFF"));
+	defaultString.insert(StringMap::value_type("text-general-back-color", WulforUtil::colorToString(&color)));
 	defaultString.insert(StringMap::value_type("text-general-fore-color", "#4D4D4D"));
-	defaultString.insert(StringMap::value_type("text-myown-back-color", "#FFFFFF"));
+	defaultString.insert(StringMap::value_type("text-myown-back-color", WulforUtil::colorToString(&color)));
 	defaultString.insert(StringMap::value_type("text-myown-fore-color", "#207505"));
-	defaultString.insert(StringMap::value_type("text-private-back-color", "#FFFFFF"));
+	defaultString.insert(StringMap::value_type("text-private-back-color", WulforUtil::colorToString(&color)));
 	defaultString.insert(StringMap::value_type("text-private-fore-color", "#2763CE"));
-	defaultString.insert(StringMap::value_type("text-system-back-color", "#FFFFFF"));
+	defaultString.insert(StringMap::value_type("text-system-back-color", WulforUtil::colorToString(&color)));
 	defaultString.insert(StringMap::value_type("text-system-fore-color", "#1A1A1A"));
-	defaultString.insert(StringMap::value_type("text-status-back-color", "#FFFFFF"));
+	defaultString.insert(StringMap::value_type("text-status-back-color", WulforUtil::colorToString(&color)));
 	defaultString.insert(StringMap::value_type("text-status-fore-color", "#7F7F7F"));
-	defaultString.insert(StringMap::value_type("text-timestamp-back-color", "#FFFFFF"));
+	defaultString.insert(StringMap::value_type("text-timestamp-back-color", WulforUtil::colorToString(&color)));
 	defaultString.insert(StringMap::value_type("text-timestamp-fore-color", "#43629A"));
-	defaultString.insert(StringMap::value_type("text-mynick-back-color", "#FFFFFF"));
+	defaultString.insert(StringMap::value_type("text-mynick-back-color", WulforUtil::colorToString(&color)));
 	defaultString.insert(StringMap::value_type("text-mynick-fore-color", "#A52A2A"));
-	defaultString.insert(StringMap::value_type("text-fav-back-color", "#FFFFFF"));
+	defaultString.insert(StringMap::value_type("text-fav-back-color", WulforUtil::colorToString(&color)));
 	defaultString.insert(StringMap::value_type("text-fav-fore-color", "#FFA500"));
-	defaultString.insert(StringMap::value_type("text-op-back-color", "#FFFFFF"));
+	defaultString.insert(StringMap::value_type("text-op-back-color", WulforUtil::colorToString(&color)));
 	defaultString.insert(StringMap::value_type("text-op-fore-color", "#0000FF"));
-	defaultString.insert(StringMap::value_type("text-url-back-color", "#FFFFFF"));
+	defaultString.insert(StringMap::value_type("text-url-back-color", WulforUtil::colorToString(&color)));
 	defaultString.insert(StringMap::value_type("text-url-fore-color", "#0000FF"));
 	defaultString.insert(StringMap::value_type("search-spy-a-color", "#339900"));
 	defaultString.insert(StringMap::value_type("search-spy-t-color", "#ff0000"));
@@ -385,7 +390,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("share-default", "black"));
 	defaultString.insert(StringMap::value_type("sound-command", "aplay -q"));
 	defaultString.insert(StringMap::value_type("last-searchs", "."));
-	defaultString.insert(StringMap::value_type("background-color-chat", "white"));
+	defaultString.insert(StringMap::value_type("background-color-chat", WulforUtil::colorToString(&color)));
 
 	defaultString.insert(StringMap::value_type("color-tab-text-bold", "blue"));
 	defaultString.insert(StringMap::value_type("color-tab-text-urgent", "blue"));
