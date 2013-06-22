@@ -344,7 +344,7 @@ WulforSettingsManager::WulforSettingsManager():
 	/* aways */
 	defaultString.insert(StringMap::value_type("icon-op-away-pasive", "bmdc-op-away-pasive"));
 	defaultString.insert(StringMap::value_type("icon-modem-away-pasive", "bmdc-modem-away-pasive"));
-	defaultString.insert(StringMap::value_type("icon-wireless-away-pasive", "bmdc-wireless-awayv"));
+	defaultString.insert(StringMap::value_type("icon-wireless-away-pasive", "bmdc-wireless-away-pasive"));
 	defaultString.insert(StringMap::value_type("icon-dsl-away-pasive", "bmdc-dsl-away-pasive"));
 	defaultString.insert(StringMap::value_type("icon-lan-away-pasive", "bmdc-lan-away-pasive"));
 	defaultString.insert(StringMap::value_type("icon-netlimiter-away-pasive", "bmdc-netlimiter-away-pasive"));

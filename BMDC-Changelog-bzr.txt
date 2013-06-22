@@ -815,6 +815,8 @@ Remeber state of Transfers checkbox
 [dbus-plugin] Fix year field in /np 
 -----r259
 1st startup using for chat backgroun color from theme
+----r260
+Fix some settings ( icon of wireless etc in away pasive mod)
 
 
 
