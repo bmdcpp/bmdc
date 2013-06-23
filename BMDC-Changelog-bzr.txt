@@ -817,6 +817,8 @@ Remeber state of Transfers checkbox
 1st startup using for chat backgroun color from theme
 ----r260
 Fix some settings ( icon of wireless etc in away pasive mod)
+----r261
+Made Hub-Bot (uhub,..) visible to users
 
 
 

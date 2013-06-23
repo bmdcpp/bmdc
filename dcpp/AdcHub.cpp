@@ -84,7 +84,7 @@ OnlineUser& AdcHub::getUser(const uint32_t aSID, const CID& aCID) {
 		ou = users.insert(make_pair(aSID, new OnlineUser(p, *this, aSID))).first->second;
 	}
 
-	if(aSID != AdcCommand::HUB_SID)
+	//if(aSID != AdcCommand::HUB_SID)
 		ClientManager::getInstance()->putOnline(ou);
 	return *ou;
 }
@@ -116,7 +116,7 @@ void AdcHub::putUser(const uint32_t aSID, bool disconnect) {
 		users.erase(i);
 	}
 
-	if(aSID != AdcCommand::HUB_SID)
+	//if(aSID != AdcCommand::HUB_SID)
 		ClientManager::getInstance()->putOffline(ou, disconnect);
 
 	fire(ClientListener::UserRemoved(), this, *ou);
@@ -202,7 +202,10 @@ void AdcHub::handle(AdcCommand::INF, AdcCommand& c) noexcept {
 
 	if(u->getIdentity().isHub()) {
 		setHubIdentity(u->getIdentity());
+		u->getIdentity()->setBot(true);
+		u->getIdentity()->setOp(true);
 		fire(ClientListener::HubUpdated(), this);
+		fire(ClientListener::UserUpdated(), this, *u);
 	} else {
 		fire(ClientListener::UserUpdated(), this, *u);
 	}

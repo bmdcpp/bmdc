@@ -95,7 +95,7 @@ public:
 	bool isOp() const { return isClientType(CT_OP) || isClientType(CT_SU) || isClientType(CT_OWNER) || isSet("OP"); }
 	bool isRegistered() const { return isClientType(CT_REGGED) || isSet("RG"); }
 	bool isHidden() const { return isClientType(CT_HIDDEN) || isSet("HI"); }
-	bool isBot() const { return isClientType(CT_BOT) || isSet("BO"); }//bot fix
+	bool isBot() const { return isClientType(CT_HUB) ||isClientType(CT_BOT) || isSet("BO"); }//bot fix
 	bool isAway() const { return isSet("AW"); }
 	bool isTcpActive(const Client *c = NULL) const;
 	bool isTcp4Active() const;
