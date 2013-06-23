@@ -202,8 +202,8 @@ void AdcHub::handle(AdcCommand::INF, AdcCommand& c) noexcept {
 
 	if(u->getIdentity().isHub()) {
 		setHubIdentity(u->getIdentity());
-		u->getIdentity()->setBot(true);
-		u->getIdentity()->setOp(true);
+		u->getIdentity().setBot(true);
+		u->getIdentity().setOp(true);
 		fire(ClientListener::HubUpdated(), this);
 		fire(ClientListener::UserUpdated(), this, *u);
 	} else {
