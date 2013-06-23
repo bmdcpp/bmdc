@@ -819,7 +819,8 @@ Remeber state of Transfers checkbox
 Fix some settings ( icon of wireless etc in away pasive mod)
 ----r261
 Made Hub-Bot (uhub,..) visible to users
-
+----r262
+Possibe Fix pos of UserList in Hub tab
 
 
 
