@@ -152,6 +152,8 @@ namespace Text {
 
 }
 
+//#define TO_UTF8(sText) Text::validateUtf8(sText) == false ? Text::toUtf8(sText) : sText
+
 } // namespace dcpp
 
 #endif

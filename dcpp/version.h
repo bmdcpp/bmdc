@@ -26,10 +26,10 @@
 	#define DCPP_REVISION_STRING "2972+"
 #endif
 #ifndef BMDC_REVISION
-	#define BMDC_REVISION 259
+	#define BMDC_REVISION 263
 #endif
 #ifndef BMDC_REVISION_STRING
-	#define BMDC_REVISION_STRING "259"
+	#define BMDC_REVISION_STRING "263"
 #endif
 #define xstrver(s) strver(s)
 #define strver(s) #s

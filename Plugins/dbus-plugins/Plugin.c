@@ -410,6 +410,12 @@ Bool DCAPI onHubEnter(dcptr_t pObject, dcptr_t pData, dcptr_t opaque, Bool* bBre
 		hub->send_message(hHub, freespace.c_str(), (strnicmp(freespace.c_str(), "/me ", 4) == 0) ? True : False);
 		config->release((ConfigValuePtr)s);
 		return True;
+	}else if ( stricmp(cmd->command, "hdd") == 0)
+	{
+		    std::string tmp = "\n\t\t\t-=Free Spaces=-\t\t\t\n" +  FreeSpace::process_mounts("/etc/mtab");
+		    tmp += "\n\t\t\tTotal:\t" + formatBytes(FreeSpace::_aviable) + "/" + formatBytes(FreeSpace::_total) + "\t\n";
+			hub->send_message(hHub,tmp.c_str(), (strnicmp(tmp.c_str(), "/me ",4) ==0) ? True : False );
+			return True;
 	}
 	return False;
 }

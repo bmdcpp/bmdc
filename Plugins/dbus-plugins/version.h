@@ -24,7 +24,7 @@
 #define PLUGIN_NAME "DBus Plugin"								/* Name of the plugin */
 #define PLUGIN_AUTHOR "bmdc-team"							/* Author of the plugin */
 #define PLUGIN_DESC "DBus plugin project"						/* Short description about the plugin */
-#define PLUGIN_VERSION 0.01										/* Version of the plugin (note: not api version) */
+#define PLUGIN_VERSION 0.02										/* Version of the plugin (note: not api version) */
 #define PLUGIN_WEB "http://launcpad.net/bmdc++"			/* Plugin website, set to "N/A" if none */
 
 #endif /* VERSION_H */

@@ -61,7 +61,7 @@ bool match(const T& text, const T& pattern, bool ignoreCase = true) {
 		if (rc < 0) {
         switch (rc) {
             case PCRE_ERROR_NOMATCH:
-                printf("String didn't match");
+                dcdebug("String didn't match");
                 free(re);
 				return false;
             default:
@@ -72,7 +72,6 @@ bool match(const T& text, const T& pattern, bool ignoreCase = true) {
         return true;
     }
 	} catch(...) { /* ... */ }
-    //free(re);
 	return false;
 }
 

@@ -18,10 +18,6 @@
 
 #include "stdinc.h"
 #include "Text.h"
-/*
-#ifdef _WIN32
-#include "w.h"
-#else*/
 #include <errno.h>
 #include <iconv.h>
 #include <langinfo.h>
@@ -30,8 +26,6 @@
 #ifndef ICONV_CONST
  #define ICONV_CONST
 #endif
-
-//#endif
 
 #include "Util.h"
 

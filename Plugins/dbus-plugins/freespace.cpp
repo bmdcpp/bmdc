@@ -19,6 +19,9 @@
 #endif //WIN32
 #include "freespace.h"
 
+unsigned long long FreeSpace::_aviable = 0;
+unsigned long long FreeSpace::_total = 0;
+
 bool FreeSpace::FreeDiscSpace ( std::string path,  unsigned long long * res, unsigned long long * res2) {
         if ( !res ) {
             return false;
