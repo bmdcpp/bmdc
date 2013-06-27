@@ -821,6 +821,9 @@ Fix some settings ( icon of wireless etc in away pasive mod)
 Made Hub-Bot (uhub,..) visible to users
 ----r262
 Possibe Fix pos of UserList in Hub tab
-
+----r264
+[dbus-plugin] add /hdd
+----r265
+Fix building ...
 
 
