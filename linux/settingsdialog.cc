@@ -313,8 +313,8 @@ void Settings::saveSettings_client()
 		else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("socksRadioButton"))))
 			sm->set(SettingsManager::OUTGOING_CONNECTIONS, SettingsManager::OUTGOING_SOCKS5);
 
-		if (SETTING(OUTGOING_CONNECTIONS) != type)
-			Socket::socksUpdated();
+		//if (SETTING(OUTGOING_CONNECTIONS) != type)
+		//	Socket::socksUpdated();
 
 		sm->set(SettingsManager::SOCKS_SERVER, gtk_entry_get_text(GTK_ENTRY(getWidget("socksIPEntry"))));
 		sm->set(SettingsManager::SOCKS_USER, gtk_entry_get_text(GTK_ENTRY(getWidget("socksUserEntry"))));

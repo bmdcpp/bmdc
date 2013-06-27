@@ -827,5 +827,7 @@ Possibe Fix pos of UserList in Hub tab
 Fix building ...
 ----r266
 [dbus-plugin] add some items what should be ignored
+----r267
+Possible fix some isues within in connection setup
 
 
