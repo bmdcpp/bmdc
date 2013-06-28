@@ -103,10 +103,10 @@ int main(int argc, char *argv[])
 	signal(SIGSEGV, printBacktrace);
 
 	WulforManager::start(argc, argv);
-	gdk_threads_enter();
+	//gdk_threads_enter();
 	gtk_main();
 	bacon_message_connection_free(connection);
-	gdk_threads_leave();
+	//gdk_threads_leave();
 	WulforManager::stop();
 	WulforSettingsManager::deleteInstance();
 

@@ -829,5 +829,8 @@ Fix building ...
 [dbus-plugin] add some items what should be ignored
 ----r267
 Possible fix some isues within in connection setup
+----r268
+Fix UserList Text color
+Possible Fix some locking in WUlforManager
 
 

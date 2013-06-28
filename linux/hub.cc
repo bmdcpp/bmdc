@@ -239,7 +239,7 @@ Hub::Hub(const string &address, const string &encoding):
 	g_signal_connect(getWidget("nickToChatItem"), "activate", G_CALLBACK(onNickToChat_gui), (gpointer)this);
 	g_signal_connect(getWidget("copyNickItem"), "activate", G_CALLBACK(onCopyNickItemClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("browseItem"), "activate", G_CALLBACK(onBrowseItemClicked_gui), (gpointer)this);
-	//[BMDC:Partial Filelists
+	//[BMDC: Partial Filelists
 	g_signal_connect(getWidget("openPartial"), "activate", G_CALLBACK(onPartialFileListOpen_gui), (gpointer)this);
 	/**/
 	g_signal_connect(getWidget("matchItem"), "activate", G_CALLBACK(onMatchItemClicked_gui), (gpointer)this);
@@ -281,10 +281,10 @@ Hub::Hub(const string &address, const string &encoding):
 
 	// Set the pane position
 	gint panePosition = WGETI("nick-pane-position");
-	if (panePosition > 10)
+	//if (panePosition > 10)
 	{
 		gint width;
-		GtkWindow *window = GTK_WINDOW(/*WulforManager::get()->getMainWindow()->*/getContainer());
+		GtkWindow *window = GTK_WINDOW(/*WulforManager::get()->getMainWindow()->getContainer()*/getContainer());
 		gtk_window_get_size(window, &width, NULL);
 		gtk_paned_set_position(GTK_PANED(getWidget("pane")), width - panePosition);
 	}
@@ -411,11 +411,11 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		else if ( strcmp(a,"C") == 0)
 		{
      	   		color = WGETS("userlist-bg-favorite");
-		}//ignored
+		}//Ignored
 		else if ( strcmp(a, "I") == 0)
 		{
 		   color = WGETS("userlist-bg-ignored");
-		}//protected
+		}//Protected
 		else if ( strcmp(a,"R") == 0)
 		{
 		   color	= WGETS("userlist-bg-protected");
@@ -473,7 +473,7 @@ Hub::~Hub()
 	GtkWindow *window = GTK_WINDOW(/*WulforManager::get()->getMainWindow()->*/getContainer());
 	gtk_window_get_size(window, &width, NULL);
 	gint panePosition = width - gtk_paned_get_position(GTK_PANED(getWidget("pane")));
-	if (panePosition > 10)
+	//if (panePosition > 10)
 		WSET("nick-pane-position", panePosition);
 
 	if (handCursor)
@@ -495,9 +495,10 @@ Hub::~Hub()
 void Hub::show()
 {
 	// Connect to the hub
-	typedef Func2<Hub, string, string> F2;
-	F2 *func = new F2(this, &Hub::connectClient_client, address, encoding);
-	WulforManager::get()->dispatchClientFunc(func);
+	//typedef Func2<Hub, string, string> F2;
+	//F2 *func = new F2(this, &Hub::connectClient_client, address, encoding);
+	//WulforManager::get()->dispatchClientFunc(func);
+	connectClient_client(address, encoding);
 }
 
 void Hub::selection_changed_userlist_gui(GtkTreeSelection *selection, GtkWidget *tree_view)
@@ -661,7 +662,8 @@ void Hub::updateUser_gui(ParamMap params)
 	GdkPixbuf *pixbuf = WulforUtil::LoadCountryPixbuf(params["Abbrevation"]); //we dont need more that one instant and also not need more that one ref
 
 	//Color of OP,Pasive, Fav, Ignore, Protect//TODO more flexibile ??
-	string nickColor = (isProtected ? WGETS("userlist-text-protected") :(isOperator ? WGETS("userlist-text-operator") : (isPasive ? WGETS("userlist-text-pasive") :(favorite ? WGETS("userlist-text-favorite") : ( isIgnore ? WGETS("userlist-text-ignored") : WGETS("userlist-text-normal"))))));
+	//string nickColor = (isProtected ? WGETS("userlist-text-protected") :(isOperator ? WGETS("userlist-text-operator") : (isPasive ? WGETS("userlist-text-pasive") :(favorite ? WGETS("userlist-text-favorite") : ( isIgnore ? WGETS("userlist-text-ignored") : WGETS("userlist-text-normal"))))));
+	string nickColor = params["NickColor"];	
 
 	if (findUser_gui(cid, &iter))
 	{
@@ -864,7 +866,7 @@ void Hub::popupNickMenu_gui()
 	userCommandMenu->addHub(client->getHubUrl());
 	userCommandMenu->buildMenu_gui();
 	gchar *markup;
-	markup = g_markup_printf_escaped ("<span fgcolor=\"blue\" ><b>%s</b></span>", nick.c_str());
+	markup = g_markup_printf_escaped ("<span fgcolor=\"blue\" ><b>%s</b></span>", nick.c_str());//TODO: maybe custom color
 	GtkMenuItem *item = GTK_MENU_ITEM(getWidget("nickItem"));
 	WulforUtil::remove_signals_from_widget(GTK_WIDGET(item),GDK_ALL_EVENTS_MASK);
 	GtkWidget *label = gtk_bin_get_child(GTK_BIN(item));
@@ -945,9 +947,10 @@ void Hub::onPasswordDialog(GtkWidget *dialog, gint response, gpointer data)
 	if (response == GTK_RESPONSE_OK)
 	{
 		string password = gtk_entry_get_text(GTK_ENTRY(entry));
-		typedef Func1<Hub, string> F1;
-		F1 *func = new F1(hub, &Hub::setPassword_client, password);
-		WulforManager::get()->dispatchClientFunc(func);
+		//typedef Func1<Hub, string> F1;
+		//F1 *func = new F1(hub, &Hub::setPassword_client, password);
+		//WulforManager::get()->dispatchClientFunc(func);
+		hub->setPassword_client(password);
 	}
 	else
 		hub->client->disconnect(TRUE);
@@ -2333,7 +2336,8 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if (command == "favorite" || command == "fav")
 		{
-			WulforManager::get()->dispatchClientFunc(new Func0<Hub>(hub, &Hub::addAsFavorite_client));
+			//WulforManager::get()->dispatchClientFunc(new Func0<Hub>(hub, &Hub::addAsFavorite_client));
+			hub->addAsFavorite_client();
 		}
 		else if (command == "fuser" || command == "fu")
 		{
@@ -2624,16 +2628,18 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			if (!hub->WaitingPassword)
 				return;
 
-			F1 *func = new F1(hub, &Hub::setPassword_client, params);
-			WulforManager::get()->dispatchClientFunc(func);
+			//F1 *func = new F1(hub, &Hub::setPassword_client, params);
+			//WulforManager::get()->dispatchClientFunc(func);
+			hub->setPassword_client(params);
 			hub->WaitingPassword = FALSE;
 		}
 		else
 		{
 			if (SETTING(SEND_UNKNOWN_COMMANDS))
 			{
-					func2 = new F2(hub, &Hub::sendMessage_client, text, false);
-					WulforManager::get()->dispatchClientFunc(func2);
+					//func2 = new F2(hub, &Hub::sendMessage_client, text, false);
+					//WulforManager::get()->dispatchClientFunc(func2);
+					hub->sendMessage_client(text, false);
 			}
 			else {
 				hub->addStatusMessage_gui(_("Unknown command '") + text + _("': type /help for a list of available commands"), Msg::SYSTEM, Sound::NONE);
@@ -2642,8 +2648,9 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 	}
 	else
 	{
-		func2 = new F2(hub, &Hub::sendMessage_client, text, false);
-        	WulforManager::get()->dispatchClientFunc(func2);
+		//func2 = new F2(hub, &Hub::sendMessage_client, text, false);
+        //	WulforManager::get()->dispatchClientFunc(func2);
+		hub->sendMessage_client(text, false);
 	}
 }
 
@@ -3866,41 +3873,40 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 
 	if(id.isBot() || id.isHub()) {
         params.insert(ParamMap::value_type("Type", "A" + id.getNick()));
-        addOperator_gui(params);
+        params.insert(ParamMap::value_type("NickColor",WGETS("userlist-text-bot-hub")));
     } else if (id.isOp()) {
         params.insert(ParamMap::value_type("Type", "B" + id.getNick()));
-        addOperator_gui(params);
-    } else
-        params.insert(ParamMap::value_type("Type", "U" + id.getNick()));
-
-	if(id.getUser()->isSet(User::PASSIVE))
+        params.insert(ParamMap::value_type("NickColor",WGETS("userlist-text-operator")));
+    }
+    if(id.getUser()->isSet(User::PASSIVE))
 	{
 		params.insert(ParamMap::value_type("Type", "P" + id.getNick()));
-		addPasive_gui(params);
+		params.insert(ParamMap::value_type("NickColor", WGETS("userlist-text-pasive")));
 	}
+    else if(id.getUser()->isSet(User::PROTECT))
+	{
+		params.insert(ParamMap::value_type("NickColor", WGETS("userlist-text-protected")));
+		params.insert(ParamMap::value_type("Type", "R" + id.getNick()));
+	}else {
+        params.insert(ParamMap::value_type("Type", "U" + id.getNick()));
+		params.insert(ParamMap::value_type("NickColor",WGETS("userlist-text-normal")));
+	}
+	
 	if(FavoriteManager::getInstance()->isFavoriteUser(id.getUser())  && !FavoriteManager::getInstance()->getFavoriteUser(id.getUser())->isSet(FavoriteUser::FLAG_IGNORE))
 	{
 		params.insert(ParamMap::value_type("Type", "C" + id.getNick()));
-		addFavoriteUser_gui(params);
+		params.insert(ParamMap::value_type("NickColor", WGETS("userlist-text-favorite")));
 	}
     if(FavoriteManager::getInstance()->isFavoriteIUser(id.getNick()))
 	{
 		params.insert(ParamMap::value_type("Type", "C" + id.getNick()));
-		addFavoriteUser_gui(params);
+		params.insert(ParamMap::value_type("NickColor", WGETS("userlist-text-favorite")));
 	}
-
 	if(FavoriteManager::getInstance()->isFavoriteUser(id.getUser()) && FavoriteManager::getInstance()->getFavoriteUser(id.getUser())->isSet(FavoriteUser::FLAG_IGNORE))
      {
 		params.insert(ParamMap::value_type("Type", "I" + id.getNick()));
-		addIgnore_gui(params);
+		params.insert(ParamMap::value_type("NickColor", WGETS("userlist-text-ignored")));
 	}
-
-	if(id.getUser()->isSet(User::PROTECT))
-	{
-		params.insert(ParamMap::value_type("Type", "R" + id.getNick()));
-		addProtected_gui(params);
-	}
-
 }
 
 void Hub::download_client(string target, int64_t size, string tth, string cid)
@@ -4288,7 +4294,7 @@ void Hub::on(ClientListener::UserUpdated, Client *, const OnlineUser &user) noex
 		ParamMap params;
 		getParams_client(params, id);
 		//BMDC++
-		if(user.getIdentity().getUser()->isSet(User::PASSIVE))
+		/*if(user.getIdentity().getUser()->isSet(User::PASSIVE))
 		{
 	            Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::addPasive_gui, params);
       	      WulforManager::get()->dispatchGuiFunc(func);
@@ -4302,7 +4308,7 @@ void Hub::on(ClientListener::UserUpdated, Client *, const OnlineUser &user) noex
 		{
 			Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::addProtected_gui, params);
            		WulforManager::get()->dispatchGuiFunc(func);
-		}
+		}*/
         //end
 		Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::updateUser_gui, params);
 		WulforManager::get()->dispatchGuiFunc(func);
@@ -4414,7 +4420,7 @@ string Hub::formatAdditionalInfo(const string& aIp, bool sIp, bool sCC, bool isP
 		string countryn = sCC ? GeoManager::getInstance()->getCountry(aIp) : Util::emptyString;
 		bool showIp = sIp;
 		bool showCc = sCC && !cc.empty();
-		bool useFlagIcons = (WGETB("use-flag") && !cc.empty());//TODO
+		bool useFlagIcons = (WGETB("use-flag") && !cc.empty());
 
 		if(showIp) {
 			ret = "[ " + aIp + " ] ";

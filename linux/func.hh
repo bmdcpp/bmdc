@@ -27,7 +27,11 @@ class FuncBase
 	public:
 		FuncBase() {}
 		virtual ~FuncBase() {}
-		virtual void call() = 0;
+		static bool call_(gpointer d) {
+		  FuncBase *f = (FuncBase*)d;	
+			return f->call(f);
+		};
+		virtual bool call(gpointer d) = 0;
 		virtual const std::string& getID() = 0;
 };
 
@@ -41,8 +45,9 @@ class Func0: public FuncBase
 			this->func = func;
 		}
 
-		void call() {
+		bool call(gpointer d) {
 			(*obj.*func)();
+			return FALSE;
 		}
 
 		const std::string& getID()
@@ -66,8 +71,9 @@ class Func1: public FuncBase
 			this->func = func;
 		}
 
-		void call() {
+		bool call(gpointer d) {
 			(*obj.*func)(_param1);
+			return FALSE;
 		}
 
 		const std::string& getID()
@@ -93,8 +99,9 @@ class Func2: public FuncBase
 			this->func = func;
 		}
 
-		void call() {
+		bool call(gpointer d) {
 			(*obj.*func)(_param1, _param2);
+			return FALSE;
 		}
 
 		const std::string& getID()
@@ -122,8 +129,9 @@ class Func3: public FuncBase
 			this->func = func;
 		}
 
-		void call() {
+		bool call(gpointer d) {
 			(*obj.*func)(_param1, _param2, _param3);
+			return FALSE;
 		}
 
 		const std::string& getID()
@@ -154,8 +162,9 @@ class Func4: public FuncBase
 			this->func = func;
 		}
 
-		void call() {
+		bool call(gpointer d) {
 			(*obj.*func)(_param1, _param2, _param3, _param4);
+			return FALSE;
 		}
 
 		const std::string& getID()
@@ -188,8 +197,9 @@ class Func5: public FuncBase
 			this->func = func;
 		}
 
-		void call() {
+		bool call(gpointer d) {
 			(*obj.*func)(_param1, _param2, _param3, _param4, _param5);
+			return FALSE;
 		}
 
 		const std::string& getID()
@@ -224,8 +234,9 @@ class Func6: public FuncBase
 			this->func = func;
 		}
 
-		void call() {
+		bool call(gpointer d) {
 			(*obj.*func)(_param1, _param2, _param3, _param4, _param5, _param6);
+			return FALSE;
 		}
 
 		const std::string& getID()
@@ -262,8 +273,9 @@ class Func7: public FuncBase
 			this->func = func;
 		}
 
-		void call() {
+		bool call(gpointer d) {
 			(*obj.*func)(_param1, _param2, _param3, _param4, _param5, _param6, _param7);
+			return FALSE;
 		}
 
 		const std::string& getID()
@@ -304,9 +316,10 @@ class Func8: public FuncBase
 			this->func = func;
 		}
 
-		void call() {
+		bool call(gpointer d) {
 			(*obj.*func)(_param1, _param2, _param3, _param4, _param5, _param6,
 				_param7, _param8);
+				return FALSE;
 		}
 
 		const std::string& getID()
@@ -349,9 +362,10 @@ class Func9: public FuncBase
 			this->func = func;
 		}
 
-		void call() {
+		bool call(gpointer d) {
 			(*obj.*func)(_param1, _param2, _param3, _param4, _param5, _param6,
 				_param7, _param8, _param9);
+				return FALSE;
 		}
 
 		const std::string& getID()
