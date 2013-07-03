@@ -25,7 +25,7 @@
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
 #include <dcpp/DirectoryListing.h>
-
+#include <dcpp/Thread.h>
 #include "bookentry.hh"
 #include "treeview.hh"
 
@@ -109,6 +109,23 @@ class ShareBrowser:
 		UserCommandMenu *dirUserCommandMenu;
 		UserCommandMenu *TabUserCommandMenu;
 		bool fullfl;
+		
+		class ThreadedDirectoryListing : public dcpp::Thread
+ 	{
+ 	public:
+		ThreadedDirectoryListing(ShareBrowser* pWindow,
+		const std::string& pFile, const std::string& pTxt, const std::string& aDir = dcpp::Util::emptyString) : mWindow(pWindow),
+		mFile(pFile), mTxt(pTxt), mDir(aDir) { }
+ 	
+ 	protected:
+		ShareBrowser* mWindow;
+		std::string mFile;
+		std::string mTxt;
+		std::string mDir;
+ 	
+		private:
+		int run();
+ 	};
 	
 };
 

@@ -142,9 +142,9 @@ ShareBrowser::ShareBrowser(UserPtr user, const string &file, const string &initi
 	g_signal_connect(getWidget("downloadPartialFile"), "activate", G_CALLBACK(onClickedPartial), (gpointer)this);
 	g_signal_connect(getWidget("downloadPartialDir"), "activate", G_CALLBACK(onClickedPartial), (gpointer)this);
 
-	GError *error = NULL;
-	g_thread_try_new("share_browser",threadLoad_list, (gpointer)this, &error);
-	if (error) g_error_free(error);
+	//GError *error = NULL;
+	//g_thread_try_new("share_browser",threadLoad_list, (gpointer)this, &error);
+	//if (error) g_error_free(error);
 }
 
 ShareBrowser::~ShareBrowser()
@@ -163,10 +163,12 @@ ShareBrowser::~ShareBrowser()
 void ShareBrowser::show()
 {
 	updateStatus_gui();
-	WulforManager::get()->getMainWindow()->setMainStatus_gui(_("File list loaded"));
+	ThreadedDirectoryListing* tdl = new ThreadedDirectoryListing(this, file,Util::emptyString,initialDirectory);
+	WulforManager::get()->getMainWindow()->setMainStatus_gui(_("File list loading"));
+	tdl->start();
 }
 
-gpointer ShareBrowser::threadLoad_list(gpointer data)
+/*gpointer ShareBrowser::threadLoad_list(gpointer data)
 {
     ShareBrowser *sb = (ShareBrowser *)data;
     sb->setStatus_gui("mainStatus", _("Parse and build tree....waiting"));
@@ -174,7 +176,7 @@ gpointer ShareBrowser::threadLoad_list(gpointer data)
     sb->setStatus_gui("mainStatus", _("Done"));
     return NULL;
 }
-
+*/
 void ShareBrowser::buildList_gui()
 {
 	// Load the xml file containing the share list.
@@ -469,9 +471,10 @@ void ShareBrowser::downloadSelectedFiles_gui(const string &target)
 			{
 				dir = (DirectoryListing::Directory *)ptr;
 
-				typedef Func2<ShareBrowser, DirectoryListing::Directory *, string> F2;
-				F2 * func = new F2(this, &ShareBrowser::downloadDir_client, dir, target);
-				WulforManager::get()->dispatchClientFunc(func);
+			//	typedef Func2<ShareBrowser, DirectoryListing::Directory *, string> F2;
+			//	F2 * func = new F2(this, &ShareBrowser::downloadDir_client, dir, target);
+			//	WulforManager::get()->dispatchClientFunc(func);
+				downloadDir_client(dir , target);
 			}
 			else
 			{
@@ -479,9 +482,10 @@ void ShareBrowser::downloadSelectedFiles_gui(const string &target)
 
 				string filename = Util::getFileName(file->getName());
 
-				typedef Func2<ShareBrowser, DirectoryListing::File *, string> F2;
-				F2 * func = new F2(this, &ShareBrowser::downloadFile_client, file, target + filename);
-				WulforManager::get()->dispatchClientFunc(func);
+				//typedef Func2<ShareBrowser, DirectoryListing::File *, string> F2;
+				//F2 * func = new F2(this, &ShareBrowser::downloadFile_client, file, target + filename);
+				//WulforManager::get()->dispatchClientFunc(func);
+				downloadFile_client(file, target+filename);
 			}
 		}
 		gtk_tree_path_free(path);
@@ -498,9 +502,10 @@ void ShareBrowser::downloadSelectedDirs_gui(const string &target)
 	{
 		dir = dirView.getValue<gpointer, DirectoryListing::Directory *>(&iter, "DL Dir");
 
-		typedef Func2<ShareBrowser, DirectoryListing::Directory *, string> F2;
-		F2 * func = new F2(this, &ShareBrowser::downloadDir_client, dir, target);
-		WulforManager::get()->dispatchClientFunc(func);
+		//typedef Func2<ShareBrowser, DirectoryListing::Directory *, string> F2;
+		//F2 * func = new F2(this, &ShareBrowser::downloadDir_client, dir, target);
+		//WulforManager::get()->dispatchClientFunc(func);
+		downloadDir_client(dir, target);
 	}
 }
 
@@ -832,9 +837,10 @@ gboolean ShareBrowser::onDirKeyReleased_gui(GtkWidget *widget, GdkEventKey *even
 
 void ShareBrowser::onMatchButtonClicked_gui(GtkWidget *widget, gpointer data)
 {
-	typedef Func0<ShareBrowser> F0;
-	F0 *f0 = new F0((ShareBrowser*)data, &ShareBrowser::matchQueue_client);
-	WulforManager::get()->dispatchClientFunc(f0);
+	//typedef Func0<ShareBrowser> F0;
+	//F0 *f0 = new F0((ShareBrowser*)data, &ShareBrowser::matchQueue_client);
+	//WulforManager::get()->dispatchClientFunc(f0);
+	((ShareBrowser*)data)->matchQueue_client();
 }
 
 void ShareBrowser::onFindButtonClicked_gui(GtkWidget *widget, gpointer data)
@@ -1177,9 +1183,10 @@ void ShareBrowser::onClickedPartial(GtkWidget *widget, gpointer data)
 	{
 		dirList = (DirectoryListing::Directory *)sb->dirView.getValue<gpointer>(&iter,"DL Dir");
 	}
-	typedef Func1<ShareBrowser, DirectoryListing::Directory*> F1;
-	F1 *func = new F1(sb,&ShareBrowser::downloadChangedDir,dirList);
-	WulforManager::get()->dispatchClientFunc(func);
+	//typedef Func1<ShareBrowser, DirectoryListing::Directory*> F1;
+	//F1 *func = new F1(sb,&ShareBrowser::downloadChangedDir,dirList);
+	//WulforManager::get()->dispatchClientFunc(func);
+	sb->downloadChangedDir(dirList);
 }
 
 void ShareBrowser::downloadChangedDir(DirectoryListing::Directory* d) {
@@ -1192,8 +1199,51 @@ void ShareBrowser::downloadChangedDir(DirectoryListing::Directory* d) {
 				//...
 			}
 		} else {
-			setStatus_gui("mainStatus","User went offline");
+			//setStatus_gui("mainStatus","User went offline");
+			typedef Func2<ShareBrowser, string, string> F2;
+			F2 *func = new F2(this,&ShareBrowser::setStatus_gui,"mainStatus", "User went Offline");
+			WulforManager::get()->dispatchGuiFunc(func);
 		}
 	}
+}
+
+
+int ShareBrowser::ThreadedDirectoryListing::run()
+{
+	typedef Func2<ShareBrowser, string, string> F2;
+	F2 *func = new F2(mWindow,&ShareBrowser::setStatus_gui,"mainStatus", "Filelisting loading...");
+	WulforManager::get()->dispatchGuiFunc(func);
+	
+ 	try
+ 	{
+ 	if(!mFile.empty())
+ 	{
+		mWindow->listing.loadFile(mFile);
+		ADLSearchManager::getInstance()->matchListing(mWindow->listing);
+ 	}
+ 	else
+ 	{
+		mDir = Text::toT(Util::toNmdcFile(mWindow->listing.updateXML(mTxt)));
+		//mWindow->listing->save(mWindow->path);
+ 	}
+		typedef Func2<ShareBrowser,dcpp::DirectoryListing::Directory*, GtkTreeIter*> F2;
+		F2 *func = new F2(mWindow,&ShareBrowser::buildDirs_gui,mWindow->listing.getRoot(),NULL);
+		WulforManager::get()->dispatchGuiFunc(func);
+ 	}
+ 	catch(const dcpp::Exception& e)
+ 	{
+		string error = ClientManager::getInstance()->getNicks(mWindow->listing.getUser().user->getCID(), mWindow->listing.getUser().hint)[0] + ": " + e.getError();
+		typedef Func2<ShareBrowser, string,string> F2;
+		F2 *func = new F2(mWindow,&ShareBrowser::setStatus_gui,"mainStatus", error);
+		WulforManager::get()->dispatchGuiFunc(func);
+  	}
+ 	
+	func = new F2(mWindow,&ShareBrowser::setStatus_gui,"mainStatus", "Filelisting loaded...");
+	WulforManager::get()->dispatchGuiFunc(func);
+ 	
+ 	//cleanup the thread object
+ 	delete this;
+ 	
+ 	return 0;
 }
 
