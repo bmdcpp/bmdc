@@ -834,5 +834,7 @@ Fix UserList Text color
 Possible Fix some locking in WUlforManager
 -----r269
 Possibe Fix loading big FL
+-----r270
+Possible Fix infinitive loop in BackupManager
 
 

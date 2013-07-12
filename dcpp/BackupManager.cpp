@@ -75,12 +75,15 @@ void BackupManager::createBackup() {
 }
 
 void BackupManager::on(TimerManagerListener::Minute, uint64_t aTick) noexcept {
-	uint64_t backupTime = SETTING(AUTOBACKUP_TIME) * 60;
-	if(SETTING(ENABLE_AUTOBACKUP) && aTick > backupTime) {
+	uint64_t backupTime = ui64LastBackUpTime * ( SETTING(AUTOBACKUP_TIME) * 60);
+	
+	if(SETTING(ENABLE_AUTOBACKUP) && aTick >= backupTime) {
 		stop = false;
 		start();
 		LogManager::getInstance()->message(_("Settings files have been automatically backed up!"));
 	}
+	ui64LastBackUpTime = aTick;
+	//save old tick for backuping only once a setted time
 }
 
 int RestoreManager::run() {

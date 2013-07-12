@@ -52,11 +52,12 @@ public:
 private:
 	friend class Singleton<BackupManager>;
 
-	BackupManager() : stop(false) { TimerManager::getInstance()->addListener(this); }
+	BackupManager() : stop(false), ui64LastBackUpTime(GET_TICK()) { TimerManager::getInstance()->addListener(this); }
 	~BackupManager() throw() {
 		shutdown();
 			TimerManager::getInstance()->removeListener(this);
 		}
+	uint64_t ui64LastBackUpTime;
 };
 
 class RestoreManager: public Singleton<RestoreManager>, public Thread, public LogManagerListener, public SettingsManagerListener {
