@@ -289,7 +289,7 @@ string Socket::listen(const string& port) {
 
 	addrinfo_p ai(nullptr, nullptr);
 
-	if(!v4only) {/*
+	if(!v4only) {
 		try { ai = resolveAddr(localIp6, port, AF_INET6, AI_PASSIVE | AI_ADDRCONFIG); }
 		catch(const SocketException&) { ai.reset(); }
 		
@@ -308,7 +308,7 @@ string Socket::listen(const string& port) {
 					check([&] { return ::listen(sock6, 20); });
 				}
 			} catch(const SocketException&) { }
-		}*/
+		}
 	}
 
 	try { ai = resolveAddr(localIp4, port, AF_INET, AI_PASSIVE | AI_ADDRCONFIG); }

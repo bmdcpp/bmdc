@@ -150,7 +150,7 @@ public:
 
 	typedef std::unique_ptr<addrinfo, decltype(&freeaddrinfo)> addrinfo_p;
 	static string resolve(const string& aDns, int af = AF_UNSPEC) noexcept;
-	addrinfo_p resolveAddr(const string& name, const string& port, int family = AF_UNSPEC, int flags = 0);
+	addrinfo_p resolveAddr(const string& name, const string& port, int family = AF_UNSPEC, int flags =  AI_PASSIVE | AI_V4MAPPED |AI_ADDRCONFIG);
 
 	static uint64_t getTotalDown() { return stats.totalDown; }
 	static uint64_t getTotalUp() { return stats.totalUp; }
