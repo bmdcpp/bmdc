@@ -1216,6 +1216,7 @@ int ShareBrowser::ThreadedDirectoryListing::run()
 	
  	try
  	{
+		mWindow->listing.getRoot()->setName(mWindow->nick);
  	if(!mFile.empty())
  	{
 		mWindow->listing.loadFile(mFile);

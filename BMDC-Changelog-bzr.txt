@@ -836,5 +836,9 @@ Possible Fix some locking in WUlforManager
 Possibe Fix loading big FL
 -----r270
 Possible Fix infinitive loop in BackupManager
+-----r271
+Possible Fix AAAA&A entry on DNS when connecting
+-----r272
+Fix root item in ShareBrowser
 
 
