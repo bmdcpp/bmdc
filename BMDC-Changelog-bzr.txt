@@ -840,5 +840,7 @@ Possible Fix infinitive loop in BackupManager
 Possible Fix AAAA&A entry on DNS when connecting
 -----r272
 Fix root item in ShareBrowser
+-----r273
+Fix Partial Listing
 
 

@@ -163,20 +163,14 @@ ShareBrowser::~ShareBrowser()
 void ShareBrowser::show()
 {
 	updateStatus_gui();
-	ThreadedDirectoryListing* tdl = new ThreadedDirectoryListing(this, file,Util::emptyString,initialDirectory);
-	WulforManager::get()->getMainWindow()->setMainStatus_gui(_("File list loading"));
-	tdl->start();
+	if(fullfl) {
+		ThreadedDirectoryListing* tdl = new ThreadedDirectoryListing(this, file,Util::emptyString,initialDirectory);
+		WulforManager::get()->getMainWindow()->setMainStatus_gui(_("File list loading"));
+		tdl->start();
+	}else
+	{ buildList_gui();}
 }
 
-/*gpointer ShareBrowser::threadLoad_list(gpointer data)
-{
-    ShareBrowser *sb = (ShareBrowser *)data;
-    sb->setStatus_gui("mainStatus", _("Parse and build tree....waiting"));
-    sb->buildList_gui();
-    sb->setStatus_gui("mainStatus", _("Done"));
-    return NULL;
-}
-*/
 void ShareBrowser::buildList_gui()
 {
 	// Load the xml file containing the share list.
@@ -184,19 +178,6 @@ void ShareBrowser::buildList_gui()
 	{
 		// Set name of root entry to user nick.
 		listing.getRoot()->setName(nick);
-
-		if(fullfl) {
-			listing.loadFile(file);
-			listing.sortDirs();
-
-			// Search ADL
-			ADLSearchManager::getInstance()->matchListing(listing);
-
-			// Add entries to dir tree view starting with the root entry.
-			buildDirs_gui(listing.getRoot(), NULL);
-			openDir_gui(initialDirectory);
-		}
-		else
 		{
 			buildDirs_gui(listing.getRoot(), NULL);
 
