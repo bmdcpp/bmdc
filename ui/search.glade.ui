@@ -70,6 +70,12 @@
       <action-widget response="-5">button2</action-widget>
     </action-widgets>
   </object>
+  <object class="GtkListStore" id="liststore1">
+    <columns>
+      <!-- column-name gchararray -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkVBox" id="mainBox">
     <property name="visible">True</property>
     <property name="can_focus">True</property>
@@ -240,6 +246,13 @@
                       <object class="GtkComboBox" id="comboboxFile">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="model">liststore1</property>
+                        <child>
+                              <object class="GtkCellRendererText" id="renderer4"/>
+                              <attributes>
+                                <attribute name="text">0</attribute>
+                              </attributes>
+                          </child>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -426,6 +439,7 @@
                           <object class="GtkTreeView" id="treeviewHubs">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="model">model2</property>
                             <property name="headers_visible">False</property>
                           </object>
                         </child>
@@ -535,6 +549,7 @@
                   <object class="GtkTreeView" id="treeviewResult">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="model">model1</property>
                     <property name="rules_hint">True</property>
                   </object>
                 </child>

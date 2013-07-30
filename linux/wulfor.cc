@@ -48,9 +48,9 @@ void receiver(const char *link, gpointer data)
 int main(int argc, char *argv[])
 {
 	// Initialize i18n support
-	bindtextdomain(GUI_PACKAGE, GUI_LOCALE_DIR);
-	textdomain(GUI_PACKAGE);
-	bind_textdomain_codeset(GUI_PACKAGE, "UTF-8");
+	bindtextdomain(GUI_LOCALE_PACKAGE, GUI_LOCALE_DIR);
+	textdomain(GUI_LOCALE_PACKAGE);
+	bind_textdomain_codeset(GUI_LOCALE_PACKAGE, "UTF-8");
 
 	connection = bacon_message_connection_new(GUI_PACKAGE);
 
