@@ -393,6 +393,11 @@ MainWindow::MainWindow():
 	// in the correct position instantly, looking slightly more cool
 	// (seems we have rather poor standards for cool?)
 	gtk_widget_show_all(GTK_WIDGET(window));
+	
+	//@fix hideing transfers
+	if(WGETB("hide-transfers"))
+		gtk_widget_hide(transfers->getContainer());
+	//
 
 	setToolbarButton_gui();
 	setTabPosition_gui(WGETI("tab-position"));
@@ -2285,10 +2290,10 @@ void MainWindow::onTransferToggled_gui(GtkWidget *widget, gpointer data)
 
 	if (gtk_widget_get_visible(transfer)) {
 		gtk_widget_hide(transfer);
-		WSET("hide-transfers",1);
+		WSET("hide-transfers",TRUE);
 	} else {
 		gtk_widget_show_all(transfer);
-		WSET("hide-transfers",0);
+		WSET("hide-transfers",FALSE);
 	}	
 }
 
