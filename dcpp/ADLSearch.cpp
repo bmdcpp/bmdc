@@ -121,45 +121,10 @@ bool ADLSearch::isRegEx() const {
 }
 
 void ADLSearch::setRegEx(bool b) {
-	//if(b)
 		v = b;
-	//else
-	//	v = b;//StringSearch::List();
+
 }
-/*
-struct Prepare : boost::static_visitor<> {
-	Prepare(const string& s_) : s(s_) { }
 
-	void operator()(StringSearch::List& stringSearches) const {
-		// Prepare quick search of substrings
-		stringSearches.clear();
-
-		// Split into substrings
-		StringTokenizer<string> st(s, ' ');
-		for(auto i = st.getTokens().begin(), iend = st.getTokens().end(); i != iend; ++i) {
-			if(!i->empty()) {
-				// Add substring search
-				stringSearches.push_back(StringSearch(*i));
-			}
-		}
-	}
-
-	void operator()(std::regex& r) const {
-		try {
-			r.assign(s);
-		} catch(const std::runtime_error&) {
-			LogManager::getInstance()->message(string(_("Invalid ADL Search regular expression: ")+ s));
-		}
-	}
-
-private:
-	const string& s;
-};
-
-void ADLSearch::prepare(ParamMap& params) {
-	boost::apply_visitor(Prepare(Util::formatParams(searchString, params)), v);
-}
-*/
 bool ADLSearch::matchesFile(const string& f, const string& fp, int64_t size, const TTHValue& root) {
 	// Check status
 	if(!isActive) {
@@ -200,36 +165,15 @@ bool ADLSearch::matchesDirectory(const string& d) {
 	// Do search
 	return searchAll(d);
 }
-/*
-struct SearchAll : boost::static_visitor<bool> {
-	SearchAll(const string& s_) : s(s_) { }
 
-	bool operator()(StringSearch::List& stringSearches) const {
-		// Match all substrings
-		for(auto i = stringSearches.begin(), iend = stringSearches.end(); i != iend; ++i) {
-			if(!i->match(s)) {
-				return false;
-			}
-		}
-		return !stringSearches.empty();
-	}
-
-	bool operator()(boost::regex& r) const {
-		try {
-			return !r.empty() && boost::regex_search(s, r);
-		} catch(const std::runtime_error&) {
-			// most likely a stack overflow, ignore...
-			return false;
-		}
-	}
-
-private:
-	const string& s;
-};
-*/
 bool ADLSearch::searchAll(const string& s) {
-	//return boost::apply_visitor(SearchAll(s), v);
-	return RegEx::match<string>(s,searchString,isCaseSensitive);
+	if(isRegEx())
+		return RegEx::match<string>(s,searchString,isCaseSensitive);
+	else {
+		// Match all substrings
+		StringSearch ss(searchString);
+		return ss.match(s);
+	}
 }
 
 ADLSearchManager::ADLSearchManager() : breakOnFirst(false), user(UserPtr(), Util::emptyString)  {
@@ -420,7 +364,6 @@ void ADLSearchManager::matchesFile(DestDirList& destDirVector, DirectoryListing:
 			continue;
 		}
 		if ( (is->matchesFile(currentFile->getName(), filePath, currentFile->getSize(),currentFile->getTTH()))
-			|| (is->isRegEx() && RegEx::match<string>(currentFile->getName(),is->searchString))
 		) {
 			DirectoryListing::File *copyFile = new DirectoryListing::File(*currentFile, true);
 			destDirVector[is->ddIndex].dir->files.push_back(copyFile);
@@ -470,8 +413,8 @@ void ADLSearchManager::matchesDirectory(DestDirList& destDirVector, DirectoryLis
 		if(destDirVector[is->ddIndex].subdir != NULL) {
 			continue;
 		}
-				
-		if( (is->matchesDirectory(currentDir->getName()) ) || (is->isRegEx() && RegEx::match<string>(currentDir->getName(),is->searchString)) ) {
+
+		if( (is->matchesDirectory(currentDir->getName()) )) {
 			destDirVector[is->ddIndex].subdir =
 				new DirectoryListing::AdlDirectory(fullPath, destDirVector[is->ddIndex].dir, currentDir->getName());
 			destDirVector[is->ddIndex].dir->directories.push_back(destDirVector[is->ddIndex].subdir);
@@ -486,7 +429,7 @@ void ADLSearchManager::matchesDirectory(DestDirList& destDirVector, DirectoryLis
 				destDirVector[is->ddIndex].subdir->setFromFavs(is->fromFavs);
 			}
 			//END
-			
+
 
 			if(breakOnFirst) {
 				// Found a match, search no more
@@ -543,10 +486,6 @@ void ADLSearchManager::prepareDestinationDirectories(DestDirList& destDirVector,
 			is->ddIndex = ddIndex;
 		}
 	}
-	// Prepare all searches
-	//for(auto ip = collection.begin(); ip != collection.end(); ++ip) {
-	//	ip->prepare(params);
-	//}
 }
 
 void ADLSearchManager::finalizeDestinationDirectories(DestDirList& destDirVector, DirectoryListing::Directory* root) {

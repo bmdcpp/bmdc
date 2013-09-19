@@ -805,14 +805,14 @@ Add More options for using double click on UserList Items
 	 * 3 - match quene
 	 * 4 - grant slot
 	 * 5 - add to fav users
-	 * 6 - Partial FL	
+	 * 6 - Partial FL
 */
 -----r254
 Remeber state of Transfers checkbox
 -----r257
   Fix Downloading status
 -----r258
-[dbus-plugin] Fix year field in /np 
+[dbus-plugin] Fix year field in /np
 -----r259
 1st startup using for chat backgroun color from theme
 ----r260
@@ -844,5 +844,7 @@ Fix root item in ShareBrowser
 Fix Partial Listing
 -----r274
 Fix hideing transfers
+-----r277
+Fix ADLSearch
 
 
