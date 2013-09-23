@@ -381,12 +381,12 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		u.getIdentity().setBot(connection.empty()); // No connection = bot...
 		u.getIdentity().setHub(false);
 
-		u.getIdentity().set("CO", connection);
+		u.getIdentity().set("CO", Text::utf8ToAcp(connection));//dont fucked up CO string with weird chars (unix)
 		//away status
 		auto aMode = param[j-1];
 		if(aMode & 0x02) {
 			u.getIdentity().set("AW", "1");
-		}else 
+		}else
 		{
 			u.getIdentity().set("AW", Util::emptyString);
 		}
