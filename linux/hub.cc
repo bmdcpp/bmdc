@@ -583,6 +583,13 @@ void Hub::setStatus_gui(string statusBar, string text)
 {
 	if (!statusBar.empty() && !text.empty())
 	{
+		if(!g_utf8_validate(text.c_str(),-1,NULL))
+		{
+			dcdebug("Should be aware about codepage ?");
+			string _text = Text::toUtf8(text,client->getEncoding());
+			text = _text;
+		}
+
 		if (statusBar == "statusMain")
 		{
 			text = "[" + Util::getShortTimeString() + "] " + text;
@@ -1305,8 +1312,13 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 
 				// Creating a visible window may cause artifacts that are visible to the user.
 				gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
-
+#if GTK_CHECK_VERSION(3,9,0)
+				GtkWidget *image = gtk_image_new_from_icon_name("text-x-generic",GTK_ICON_SIZE_BUTTON);
+#else
 				GtkWidget *image = gtk_image_new_from_stock(GTK_STOCK_FILE, GTK_ICON_SIZE_BUTTON);
+#endif
+
+	//			GtkWidget *image = gtk_image_new_from_stock(GTK_STOCK_FILE, GTK_ICON_SIZE_BUTTON);
 				gtk_container_add(GTK_CONTAINER(event_box), image);
 				gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW(getWidget("chatText")), event_box, anchor);
 				g_object_set_data_full(G_OBJECT(event_box), "magnet", g_strdup(image_magnet.c_str()), g_free);
@@ -4116,8 +4128,11 @@ void Hub::onRemoveImageClicked_gui(GtkMenuItem *item, gpointer data)
 	GList *childs = gtk_container_get_children(GTK_CONTAINER(container));
 	GtkWidget *image = (GtkWidget*)childs->data;
 	g_list_free(childs);
-	gtk_image_set_from_stock(GTK_IMAGE(image), GTK_STOCK_FILE, GTK_ICON_SIZE_BUTTON);
-
+	#if GTK_CHECK_VERSION(3,9,0)
+		gtk_image_set_from_icon_name(GTK_IMAGE(image),"text-x-generic", GTK_ICON_SIZE_BUTTON);
+	#else
+		gtk_image_set_from_stock(GTK_IMAGE(image), GTK_STOCK_FILE, GTK_ICON_SIZE_BUTTON);
+	#endif
 	hub->imageLoad.first = "";
 	hub->imageLoad.second = NULL;
 }

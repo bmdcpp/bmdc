@@ -111,10 +111,15 @@ class WulforUtil
 		static std::map<std::string,std::string> loadmimetypes();
 		static std::string getStatsForMem();
 		static bool Ipv4Hit(std::string &name, std::string &sIp);
-
+	#if GTK_CHECK_VERSION(3,9,0)
+	public:
+		static GtkIconTheme *icon_theme;
+	#else
+		static GtkIconFactory *iconFactory;
+	#endif
 		static std::vector<std::string> charsets;
 		static const std::string magnetSignature;
-		static GtkIconFactory *iconFactory;
+	//	static GtkIconFactory *iconFactory;
 		static std::map<std::string,std::string> m_mimetyp;
 		static std::map<std::string,GdkPixbuf*> countryIcon;
 		static const char* CountryNames[];

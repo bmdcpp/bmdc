@@ -55,7 +55,11 @@ const string WulforUtil::ENCODING_LOCALE = _("System default");
 vector<string> WulforUtil::charsets;
 std::map<std::string,GdkPixbuf*> WulforUtil::countryIcon;
 const string WulforUtil::magnetSignature = "magnet:?xt=urn:tree:tiger:";
-GtkIconFactory* WulforUtil::iconFactory = NULL;
+#if GTK_CHECK_VERSION(3,9,0)
+	GtkIconTheme* WulforUtil::icon_theme = NULL;
+#else
+	GtkIconFactory* WulforUtil::iconFactory = NULL;
+#endif
 std::map<std::string,std::string> WulforUtil::m_mimetyp;
 const string WulforUtil::commands =
 string("/away\t\t\t\t") + _("Set away mode\n") +
@@ -137,6 +141,7 @@ const char* WulforUtil::CountryCodes[] = {
  "UM", "US", "UY", "UZ", "VA", "VC", "VE", "VG", "VI", "VN", "VU", "WF", "WS", "YE", "YT", "YU", "ZA", "ZM", "ZW" };
 
 #define LINE2 "-- http://launchpad.net/bmdc++ <BMDC++ " GUI_VERSION_STRING "." BMDC_REVISION_STRING ">"
+
 const char* WulforUtil::msgs_dc[] = {
 		"\r\n-- I'm a happy DC++ user. You could be happy too.\r\n" LINE2,
 		"\r\n-- Neo-...what? Nope...never heard of it...\r\n" LINE2,
@@ -767,6 +772,10 @@ void WulforUtil::registerIcons()
 	icons["bmdc-zerozeroone-away"] = wsm->getString("icon-zerozeroone-away-pasive");
 	icons["bmdc-other-away-pasive"] = wsm->getString("icon-other-away-pasive");
 
+	#if GTK_CHECK_VERSION(3,9,0)
+	icon_theme = gtk_icon_theme_get_default ();
+	gtk_icon_theme_prepend_search_path(icon_theme,_DATADIR PATH_SEPARATOR_STR GUI_LOCALE_PACKAGE "icons");
+	#else
 	if (iconFactory)
 	{
 		gtk_icon_factory_remove_default(iconFactory);
@@ -788,6 +797,7 @@ void WulforUtil::registerIcons()
 
 	gtk_icon_factory_add_default(iconFactory);
 	g_object_unref(iconFactory);
+	#endif
 }
 
 GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
@@ -1512,9 +1522,17 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 {
 	if(ext == "directory" || ext.empty())
 	{
-		GtkWidget *iwid = gtk_invisible_new ();
-		GdkPixbuf *buf = gtk_widget_render_icon_pixbuf(iwid, GTK_STOCK_DIRECTORY, GTK_ICON_SIZE_MENU);
+		#if GTK_CHECK_VERSION(3,9,0)
+		GError* error = NULL;
+		GdkPixbuf* buf = gtk_icon_theme_load_icon(icon_theme,"folder",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,&error);
+		if(error)
+			g_print("Failed %s",error->message);
 		return buf;
+		#else
+		GtkWidget* iwid = gtk_invisible_new ();
+		GdkPixbuf* buf = gtk_widget_render_icon_pixbuf(iwid, GTK_STOCK_DIRECTORY, GTK_ICON_SIZE_MENU);
+		return buf;
+		#endif
 	}
 	std::transform(ext.begin(), ext.end(), ext.begin(), (int(*)(int))tolower);
 
@@ -1523,9 +1541,17 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 	std::map<std::string,std::string>::iterator it = map.find(ext);
 	if(it == map.end())
 	{
+		#if GTK_CHECK_VERSION(3,9,0)
+		GError* error = NULL;
+		GdkPixbuf* buf = gtk_icon_theme_load_icon(icon_theme,"text-x-generic",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,&error);
+		if(error)
+			g_print("Failed %s",error->message);
+		return buf;
+		#else
 		GtkWidget *iwid = gtk_invisible_new ();
 		GdkPixbuf *buf = gtk_widget_render_icon_pixbuf(iwid, GTK_STOCK_FILE, GTK_ICON_SIZE_MENU);
 		return buf;
+		#endif
 	}
 
 	GIcon *icon = g_content_type_get_icon((const gchar *)it->second.c_str());

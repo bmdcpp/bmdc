@@ -528,29 +528,36 @@ void MainWindow::loadIcons_gui()
 	WulforUtil::registerIcons();
 
 	// Reset the stock IDs manually to force the icon to refresh
-	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("favHubs")), "bmdc-favorite-hubs");
-	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("favUsers")), "bmdc-favorite-users");
-	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("publicHubs")), "bmdc-public-hubs");
-	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("settings")), "bmdc-preferences");
-	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("hash")), "bmdc-hash");
-	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("search")), "bmdc-search");
-	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("searchADL")), "bmdc-search-adl");
-	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("searchSpy")), "bmdc-search-spy");
-	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("queue")), "bmdc-queue");
-	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("finishedDownloads")), "bmdc-finished-downloads");
-	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("finishedUploads")), "bmdc-finished-uploads");
-	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("quit")), "bmdc-quit");
-	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("connect")), "bmdc-connect");
-	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("system")), "bmdc-system");
-	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("notepad")), "bmdc-notepad");
-	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("AwayIcon")), "bmdc-away");
-	gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget("limitingButton")), "bmdc-limiting");
+	#if GTK_CHECK_VERSION(3,9,0)
+		#define g_tool_set gtk_tool_button_set_icon_name
+		#define g_image_set gtk_image_set_from_icon_name
+	#else
+		#define g_tool_set gtk_tool_button_set_stock_id
+		#define g_image_set gtk_image_set_from_stock
+	#endif
+	g_tool_set(GTK_TOOL_BUTTON(getWidget("favHubs")), "bmdc-favorite-hubs");
+	g_tool_set(GTK_TOOL_BUTTON(getWidget("favUsers")), "bmdc-favorite-users");
+	g_tool_set(GTK_TOOL_BUTTON(getWidget("publicHubs")), "bmdc-public-hubs");
+	g_tool_set(GTK_TOOL_BUTTON(getWidget("settings")), "bmdc-preferences");
+	g_tool_set(GTK_TOOL_BUTTON(getWidget("hash")), "bmdc-hash");
+	g_tool_set(GTK_TOOL_BUTTON(getWidget("search")), "bmdc-search");
+	g_tool_set(GTK_TOOL_BUTTON(getWidget("searchADL")), "bmdc-search-adl");
+	g_tool_set(GTK_TOOL_BUTTON(getWidget("searchSpy")), "bmdc-search-spy");
+	g_tool_set(GTK_TOOL_BUTTON(getWidget("queue")), "bmdc-queue");
+	g_tool_set(GTK_TOOL_BUTTON(getWidget("finishedDownloads")), "bmdc-finished-downloads");
+	g_tool_set(GTK_TOOL_BUTTON(getWidget("finishedUploads")), "bmdc-finished-uploads");
+	g_tool_set(GTK_TOOL_BUTTON(getWidget("quit")), "bmdc-quit");
+	g_tool_set(GTK_TOOL_BUTTON(getWidget("connect")), "bmdc-connect");
+	g_tool_set(GTK_TOOL_BUTTON(getWidget("system")), "bmdc-system");
+	g_tool_set(GTK_TOOL_BUTTON(getWidget("notepad")), "bmdc-notepad");
+	g_tool_set(GTK_TOOL_BUTTON(getWidget("AwayIcon")), "bmdc-away");
+	g_tool_set(GTK_TOOL_BUTTON(getWidget("limitingButton")), "bmdc-limiting");
 
-	gtk_image_set_from_stock(GTK_IMAGE(getWidget("imageHubs")), "bmdc-public-hubs", GTK_ICON_SIZE_SMALL_TOOLBAR);
-	gtk_image_set_from_stock(GTK_IMAGE(getWidget("imageDownloadSpeed")), "bmdc-download", GTK_ICON_SIZE_SMALL_TOOLBAR);
-	gtk_image_set_from_stock(GTK_IMAGE(getWidget("imageUploadSpeed")), "bmdc-upload", GTK_ICON_SIZE_SMALL_TOOLBAR);
-	gtk_image_set_from_stock(GTK_IMAGE(getWidget("imageDownloadRate")), "bmdc-download", GTK_ICON_SIZE_SMALL_TOOLBAR);
-	gtk_image_set_from_stock(GTK_IMAGE(getWidget("imageUploadRate")), "bmdc-upload", GTK_ICON_SIZE_SMALL_TOOLBAR);
+	g_image_set(GTK_IMAGE(getWidget("imageHubs")), "bmdc-public-hubs", GTK_ICON_SIZE_SMALL_TOOLBAR);
+	g_image_set(GTK_IMAGE(getWidget("imageDownloadSpeed")), "bmdc-download", GTK_ICON_SIZE_SMALL_TOOLBAR);
+	g_image_set(GTK_IMAGE(getWidget("imageUploadSpeed")), "bmdc-upload", GTK_ICON_SIZE_SMALL_TOOLBAR);
+	g_image_set(GTK_IMAGE(getWidget("imageDownloadRate")), "bmdc-download", GTK_ICON_SIZE_SMALL_TOOLBAR);
+	g_image_set(GTK_IMAGE(getWidget("imageUploadRate")), "bmdc-upload", GTK_ICON_SIZE_SMALL_TOOLBAR);
 }
 
 void MainWindow::autoOpen_gui()

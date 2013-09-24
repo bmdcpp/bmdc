@@ -20,13 +20,13 @@
  */
 
 #include "settingsmanager.hh"
-
+#include "wulformanager.hh"
 #include <dcpp/File.h>
 #include <dcpp/SimpleXML.h>
 #include <dcpp/Util.h>
 #include <dcpp/StringTokenizer.h>
 #include "WulforUtil.hh"
-
+#include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
 using namespace std;
@@ -35,10 +35,14 @@ using namespace dcpp;
 WulforSettingsManager::WulforSettingsManager():
 	configFile(Util::getPath(Util::PATH_USER_CONFIG) + "BMDC.xml")
 {
-	//obtain from theme..
-	GtkThemingEngine *engine = gtk_theming_engine_load(NULL);
+	//obtain from theme..(and fallbacking for now on 3.9+)
 	GdkRGBA color;
-	gtk_theming_engine_get_background_color (engine,(GtkStateFlags)GTK_STATE_FLAG_NORMAL,&color);
+	#if !GTK_CHECK_VERSION(3,9,0)
+		GtkThemingEngine *engine = gtk_theming_engine_load(NULL);
+		gtk_theming_engine_get_background_color (engine,(GtkStateFlags)GTK_STATE_FLAG_NORMAL,&color);
+	#else
+		gdk_rgba_parse(&color,"white");
+	#endif
 	
 	defaultInt.insert(IntMap::value_type("main-window-maximized", 0));
 	defaultInt.insert(IntMap::value_type("main-window-size-x", 875));

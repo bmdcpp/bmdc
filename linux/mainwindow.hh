@@ -128,6 +128,15 @@ class MainWindow:
 
 		static const char* icons[(MainWindow::IconsToolbar)END][3];
 
+		#if GTK_CHECK_VERSION(3,9,0)
+		void setStatusOfIcons(IconsToolbar type, bool isClicked)
+		{
+			if(isClicked)
+				gtk_tool_button_set_icon_name(GTK_TOOL_BUTTON(getWidget(std::string(icons[type][2]))),(icons[type][1]));
+			else
+				gtk_tool_button_set_icon_name(GTK_TOOL_BUTTON(getWidget(std::string(icons[type][2]))),(icons[type][0]));
+		}
+		#else
 		void setStatusOfIcons(IconsToolbar type, bool isClicked)
 		{
 			if(isClicked)
@@ -135,6 +144,8 @@ class MainWindow:
 			else
 				gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget(std::string(icons[type][2]))),(icons[type][0]));
 		}
+		#endif
+		
 		void setLimitingIcon(bool Limited);
 
 		void setAwayIcon(bool isAway)

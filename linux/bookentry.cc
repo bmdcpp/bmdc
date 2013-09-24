@@ -84,7 +84,12 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
                 "-GtkWidget-focus-padding : 0px;\n" 
                 "padding: 0px;\n\0",-1, NULL);
         // Add the stock icon to the close button
+     #if GTK_CHECK_VERSION(3,9,0)
+	    GtkWidget *image = gtk_image_new_from_icon_name("window-close",GTK_ICON_SIZE_MENU);
+    #else
         GtkWidget *image = gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
+    #endif
+
         gtk_container_add(GTK_CONTAINER(closeButton), image);
         gtk_box_pack_start(GTK_BOX(labelBox), closeButton, FALSE, FALSE, 0);
 
@@ -134,12 +139,20 @@ void BookEntry::setIcon_gui(const EntryType type)
 		case Entry::ABOUT_CONFIG : stock = WGETS("icon-system"); break;//for now
 		default: ;
 	}
-	gtk_image_set_from_stock(GTK_IMAGE(icon), stock.c_str(), GTK_ICON_SIZE_MENU);//BUTTON
+	#if GTK_CHECK_VERSION(3,9,0)
+	gtk_image_set_from_icon_name(GTK_IMAGE(icon), stock.c_str(), GTK_ICON_SIZE_MENU);
+	#else
+	gtk_image_set_from_stock(GTK_IMAGE(icon), stock.c_str(), GTK_ICON_SIZE_MENU);
+	#endif
 }
 
 void BookEntry::setIcon_gui(const std::string stock)
 {
-	gtk_image_set_from_stock(GTK_IMAGE(icon), stock.c_str(), GTK_ICON_SIZE_MENU);//BUTTON
+	#if GTK_CHECK_VERSION(3,9,0)
+	gtk_image_set_from_icon_name(GTK_IMAGE(icon), stock.c_str(), GTK_ICON_SIZE_MENU);
+	#else
+	gtk_image_set_from_stock(GTK_IMAGE(icon), stock.c_str(), GTK_ICON_SIZE_MENU);
+	#endif
 }
 
 void BookEntry::setIconPixbufs_gui(const std::string iconspath)
@@ -389,8 +402,11 @@ GtkWidget *BookEntry::createItemFirstMenu()
 					break;
 		default: ;
 	}
-
+	#if GTK_CHECK_VERSION(3,9,0)
+	item = gtk_menu_item_new();//gtk_image_menu_item_new_from_icon_name(stock.c_str(),NULL);
+	#else
 	item = gtk_image_menu_item_new_from_stock(stock.c_str(),NULL);
+	#endif
 	gtk_menu_item_set_label(GTK_MENU_ITEM(item),info.c_str());
 	return item;
 }

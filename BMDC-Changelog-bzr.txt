@@ -846,5 +846,9 @@ Fix Partial Listing
 Fix hideing transfers
 -----r277
 Fix ADLSearch
+-----r278
+Fix Weird chars in Connection Type
+-----
+Fix build with 3.10 gtk
 
 
