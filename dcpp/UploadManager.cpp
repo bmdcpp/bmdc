@@ -81,7 +81,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 			return false;
 		}
 	}
-	
+
 	string sourceFile;
 	Transfer::Type type;
 
@@ -435,7 +435,8 @@ size_t UploadManager::addFailedUpload(const UserConnection& source, string filen
 		if (it==waitingUsers.end()) {
 			waitingUsers.emplace_back(source.getHintedUser(), source.getToken());
 		}
-		waitingFiles[source.getUser()].insert(filename);		//files for which user's asked
+		auto prev = waitingFiles[source.getUser()].begin();
+		waitingFiles[source.getUser()].insert(prev,filename);		//files for which user's asked
 	}
 	fire(UploadManagerListener::WaitingAddFile(), source.getHintedUser(), filename);
 	return queue_position;

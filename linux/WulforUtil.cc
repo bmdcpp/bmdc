@@ -1003,8 +1003,13 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			/**/
 			int dettotal = SETTING(DETECTIONS);
 			int detfail = SETTING(DETECTIONF);
-
-		message =   "\n-= Stats " + dcpp::fullVersionString + " =-\n"
+			string build = "Builded with ";
+			#ifdef __clang__
+				build += "clang" __clang_version__;
+			#elif defined(__GNUC__)
+				build += "gcc" __gcc_version__;
+			#endif
+		message =   "\n-= Stats " + dcpp::fullVersionString +" " +build+" =-\n"
 					+ "-= " + rel + " " + mach + " =-\n"
 					+ "-= Uptime: " + Util::formatSeconds(Util::getUptime()) + " =-\n"
 					+ "-= Sys Uptime: " + Util::toString(udays) + " days," + Util::toString(uhour) + " Hours," + Util::toString(umin) + " min. =-\n"
@@ -1634,7 +1639,7 @@ std::string WulforUtil::formatSized(std::string& nonf)
 {
 	size_t needle = nonf.find_last_of(' ');
 	if(needle != string::npos) {
-		string sub = nonf.substr(0,needle-1);	
+		string sub = nonf.substr(0,needle-1);
 		int64_t i = dcpp::Util::toInt64(sub);
 		i*=1000;
 		return dcpp::Util::formatBytes(i);
@@ -1674,7 +1679,7 @@ gboolean WulforUtil::HitIP(string& name, string &sIp)
 		int result = inet_pton(AF_INET6,name.c_str() , &(sa.sin_addr));
 		isOkIpV6 = result == 1;
 	}
-	
+
 	if(isOkIpV6)
 	{
 		sIp = name;

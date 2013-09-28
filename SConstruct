@@ -5,7 +5,7 @@ import os
 import commands
 import string
 import re
-#import subst 
+#import subst
 
 EnsureSConsVersion(0, 98, 1)
 
@@ -268,7 +268,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		print '\tNote: You might have the lib but not the headers'
 		Exit(1)
 	else:
-		conf.env['HAVE_CANBERRA_LIB'] = 1	
+		conf.env['HAVE_CANBERRA_LIB'] = 1
 
 	# MiniUPnPc for UPnP
 	if not conf.CheckLib('libminiupnpc'):
@@ -306,7 +306,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	env.MergeFlags(BUILD_FLAGS['common'])
 	env.MergeFlags(BUILD_FLAGS[env['mode']])
 
-	env.Append(CXXFLAGS = '-std=c++0x')
+	env.Append(CXXFLAGS = '-std=c++11')
 	#'boost_regex',
 	env.Append(LIBS = ['pcre'])
 	#'-lboost_system','-lboost_thread',
@@ -349,7 +349,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if not LIB_IS_UPNP:
 		env.Append(LIBPATH = [BUILD_PATH + LIB_UPNP])
 		env.Prepend(LIBS = [LIB_UPNP])
-	
+
 	if not LIB_IS_NATPMP:
 		env.Append(LIBPATH = [BUILD_PATH + LIB_NATPMP])
 		env.Prepend(LIBS = [LIB_NATPMP])

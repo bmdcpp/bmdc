@@ -180,7 +180,7 @@ int64_t QueueItem::getDownloadedBytes() const {
 }
 
 void QueueItem::addSegment(const Segment& segment) {
-	done.insert(segment);
+	done.push_back(segment);//insert
 
 	// Consolidate segments
 	if(done.size() == 1)
@@ -193,7 +193,7 @@ void QueueItem::addSegment(const Segment& segment) {
 			Segment big(prev->getStart(), i->getEnd() - prev->getStart());
 			done.erase(prev);
 			done.erase(i++);
-			done.insert(big);
+			done.push_back(big);
 		} else {
 			++i;
 		}

@@ -20,7 +20,8 @@
 #define DCPLUSPLUS_DCPP_QUEUE_ITEM_H
 
 #include <list>
-#include <set>
+//#include <set>
+#include <vector>
 
 #include "User.h"
 #include "MerkleTree.h"
@@ -33,10 +34,9 @@
 
 namespace dcpp {
 
-using std::set;
+//using std::set;
 
 class QueueManager;
-//Removed FastAlloc
 class QueueItem : public Flags, public PluginEntity<QueueData> {
 public:
 	typedef unordered_map<string*, QueueItemPtr, noCaseStringHash, noCaseStringEq> StringMap;
@@ -106,23 +106,25 @@ public:
 	typedef std::vector<Source> SourceList;
 	typedef SourceList::iterator SourceIter;
 	typedef SourceList::const_iterator SourceConstIter;
-
-	typedef set<Segment> SegmentSet;
-//	typedef SegmentSet::iterator SegmentIter;
+	//#ifndef __clang__
+	//typedef std::set<Segment> SegmentSet;
+	//#else
+	typedef std::vector<Segment> SegmentSet;
+	//#endif
 	typedef SegmentSet::const_iterator SegmentConstIter;
 
 	QueueItem(const string& aTarget, int64_t aSize, Priority aPriority, int aFlag,
 		time_t aAdded, const TTHValue& tth) :
 		Flags(aFlag), target(aTarget), size(aSize),
 		priority(aPriority), added(aAdded),	tthRoot(tth)
-	{ 
+	{
 	}
 
 	QueueItem(const QueueItem& rhs) :
-		Flags(rhs), done(rhs.done), downloads(rhs.downloads), target(rhs.target),
+		/*Flags(rhs),*/ done(rhs.done), downloads(rhs.downloads), target(rhs.target),
 		size(rhs.size), priority(rhs.priority), added(rhs.added), tthRoot(rhs.tthRoot),
 		sources(rhs.sources), badSources(rhs.badSources), tempTarget(rhs.tempTarget)
-	{ 
+	{
 	}
 
 	virtual ~QueueItem() { }
@@ -175,8 +177,9 @@ public:
 	}
 
 	string getListName() const {
-		dcassert(isSet(QueueItem::FLAG_USER_LIST));
-		if(isSet(QueueItem::FLAG_XML_BZLIST)) {
+		//dcassert(isSet(QueueItem::FLAG_USER_LIST));
+		const Flags* f = dynamic_cast<const Flags*>(this);
+		if(f->isSet(QueueItem::FLAG_XML_BZLIST)) {
 			return getTarget() + ".xml.bz2";
 		} else {
 			return getTarget() + ".xml";

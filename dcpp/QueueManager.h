@@ -127,7 +127,7 @@ public:
 	void removeFileListCheck(UserPtr aUser) noexcept {
 		Lock l(cs);
 		for(auto i = fileQueue.getQueue().begin(); i != fileQueue.getQueue().end(); ++i) {
-			if(i->second->isSource(aUser) && i->second->isSet(QueueItem::FLAG_CHECK_FILE_LIST)) {
+			if(i->second->isSource(aUser) && dynamic_cast<Flags*>(i->second)->isSet(QueueItem::FLAG_CHECK_FILE_LIST)) {
 				remove(i->second->getTarget());
 				return;
 			}

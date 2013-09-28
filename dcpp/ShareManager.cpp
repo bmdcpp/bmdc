@@ -400,7 +400,7 @@ struct ShareLoader : public SimpleXMLReader::CallBack {
 				dcdebug("Invalid file found: %s\n", fname.c_str());
 				return;
 			}
-			cur->files.insert(ShareManager::Directory::File(fname, Util::toInt64(size), cur, TTHValue(root)));
+			cur->files.push_back(ShareManager::Directory::File(fname, Util::toInt64(size), cur, TTHValue(root)));
 		}
 	}
 	virtual void endTag(const string& name, const string&) {
@@ -538,9 +538,10 @@ void ShareManager::Directory::merge(const Directory::Ptr& source) {
 			if(directories.find(i->getName()) != directories.end()) {
 				dcdebug("Directory named the same as file");
 			} else {
-				std::pair<File::Set::iterator, bool> added = files.insert(*i);
-				if(added.second) {
-					const_cast<File&>(*added.first).setParent(this);
+				auto prev = files.begin();
+				auto added = files.insert(prev,*i);
+				if(added != files.end()) {
+					const_cast<File&>(*added).setParent(this);
 				}
 			}
 		}
@@ -1444,7 +1445,9 @@ void ShareManager::on(HashManagerListener::TTHDone, const string& fname, const T
 		} else {
 			string name = Util::getFileName(fname);
 			int64_t size = File::getSize(fname);
-			auto it = d->files.insert(Directory::File(name, size, d, root)).first;
+			auto prev = d->files.begin();
+			auto it = d->files.insert(prev,Directory::File(name, size, d, root));
+
 			updateIndices(*d, it);
 		}
 		setDirty();

@@ -22,7 +22,7 @@
 #include <atomic>
 #include <list>
 #include <memory>
-#include <set>
+//#include <set>
 #include <unordered_map>
 
 #include "TimerManager.h"
@@ -41,7 +41,7 @@
 
 namespace dcpp {
 
-using std::set;
+//using std::set;
 using std::unique_ptr;
 using std::unordered_map;
 using std::atomic_flag;
@@ -139,7 +139,8 @@ private:
 			struct FileLess {
 				bool operator()(const File& a, const File& b) const { return (Util::stricmp(a.getName(), b.getName()) < 0); }
 			};
-			typedef set<File, FileLess> Set;
+			//typedef set<File, FileLess> Set;
+			typedef vector<File> Set;
 
 			File() : size(0), parent(0) { }
 			File(const string& aName, int64_t aSize, const Directory::Ptr& aParent, const TTHValue& aRoot) :

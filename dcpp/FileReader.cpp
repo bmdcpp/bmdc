@@ -17,7 +17,7 @@
  */
 
 #include "stdinc.h"
-#include "TimerManager.h"
+//#include "TimerManager.h"
 #include "FileReader.h"
 
 #include "debug.h"
@@ -261,10 +261,12 @@ size_t FileReader::readMapped(const string& file, const DataCallback& callback) 
 }
 
 #else
-
+#define __USE_POSIX 0
 #include <sys/mman.h> // mmap, munmap, madvise
 #include <signal.h>  // for handling read errors from previous trio
+#ifndef __clang__
 #include <setjmp.h>
+#endif
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -275,6 +277,7 @@ size_t FileReader::readDirect(const string& file, const DataCallback& callback) 
 }
 
 static const int64_t BUF_SIZE = 0x1000000 - (0x1000000 % getpagesize());
+#ifndef __clang__
 static sigjmp_buf sb_env;
 
 static void sigbus_handler(int signum, siginfo_t* info, void* context) {
@@ -283,7 +286,7 @@ static void sigbus_handler(int signum, siginfo_t* info, void* context) {
 	if (signum == SIGBUS && (info->si_code == BUS_ADRERR || info->si_code == BUS_OBJERR))
 		siglongjmp(sb_env, 1);
 }
-
+#endif
 size_t FileReader::readMapped(const string& filename, const DataCallback& callback) {
 	int fd = open(Text::fromUtf8(filename).c_str(), O_RDONLY);
 	if(fd == -1) {
@@ -309,7 +312,9 @@ size_t FileReader::readMapped(const string& filename, const DataCallback& callba
 	sigemptyset(&signalset);
 
 	act.sa_handler = NULL;
+	#ifndef __clang__
 	act.sa_sigaction = sigbus_handler;
+	#endif
 	act.sa_mask = signalset;
 	act.sa_flags = SA_SIGINFO | SA_RESETHAND;
 
@@ -329,12 +334,12 @@ size_t FileReader::readMapped(const string& filename, const DataCallback& callba
 			dcdebug("Error calling mmap for file %s: %s\n", filename.c_str(), Util::translateError(errno).c_str());
 			break;
 		}
-
-		if (sigsetjmp(sb_env, 1)) {
+		#ifndef __clang__
+		if (sigsetjmp(sb_env, 1)) {//set
 			dcdebug("Caught SIGBUS for file %s\n", filename.c_str());
 			break;
 		}
-
+		#endif
 		if (posix_madvise(buf, size_read, POSIX_MADV_SEQUENTIAL | POSIX_MADV_WILLNEED) == -1) {
 			dcdebug("Error calling madvise for file %s: %s\n", filename.c_str(), Util::translateError(errno).c_str());
 			break;

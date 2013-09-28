@@ -575,7 +575,7 @@ void Transfers::updateParent_gui(GtkTreeIter* iter)
 	int active = 0;
 	GtkTreeIter child;
 	string users;
-	set<string> hubs;
+	vector<string> hubs;
 	int64_t speed = 0;
 	int64_t position = 0;
 	int64_t totalSize = 0;
@@ -603,7 +603,7 @@ void Transfers::updateParent_gui(GtkTreeIter* iter)
 				position += transferView.getValue<int64_t>(&child, "Download Position");
 			}
 			users += transferView.getString(&child, _("User")) + string(", ");
-			hubs.insert(transferView.getString(&child, _("Hub Name")));
+			hubs.push_back(transferView.getString(&child, _("Hub Name")));
 			valid = WulforUtil::getNextIter_gui(GTK_TREE_MODEL(transferStore), &child, TRUE, FALSE);
 		}
 	}

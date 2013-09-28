@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2006-2013 Crise, crise<at>mail.berlios.de
  *
  * This program is free software; you can redistribute it and/or modify
@@ -27,15 +27,15 @@ namespace dcpp {
 namespace RegEx {
 #define OVECCOUNT 999
 template<typename T>
-bool match(const T& text, const T& pattern, bool ignoreCase = true) {
+bool match(const T& text, const T& pattern, bool ignoreCase = true) /*throw()*/ {
 	if(pattern.empty())
 		return false;
 
 	try {
 		const char *error;
 		int   erroffset;
-		pcre *re;   
-		int rc; 
+		pcre *re;
+		int rc;
 		int ovector[OVECCOUNT];
 		re = pcre_compile (
              pattern.c_str(),       /* the pattern */
@@ -45,9 +45,9 @@ bool match(const T& text, const T& pattern, bool ignoreCase = true) {
              0);           /* use default character tables */
 		if (!re) {
 			printf("pcre_compile failed (offset: %d), %s\n", erroffset, error);
-			throw("pcre_compile failed (offset: %d), %s\n", erroffset, error);
+			//throw("pcre_compile failed (offset: %d), %s\n", erroffset, error);
 		}
-		
+
 		rc = pcre_exec (
         re,                   /* the compiled pattern */
         0,                    /* no extra data - pattern was not studied */
@@ -57,7 +57,7 @@ bool match(const T& text, const T& pattern, bool ignoreCase = true) {
         0,                    /* default options */
         ovector,              /* output vector for substring information */
         OVECCOUNT);           /* number of elements in the output vector */
-		
+
 		if (rc < 0) {
         switch (rc) {
             case PCRE_ERROR_NOMATCH:
@@ -66,7 +66,7 @@ bool match(const T& text, const T& pattern, bool ignoreCase = true) {
 				return false;
             default:
                 printf("Error while matching: %d\n", rc);
-                throw("Error while matching: %d\n", rc);                
+                //throw("Error while matching: %d\n", rc);
         }
         free(re);
         return true;
