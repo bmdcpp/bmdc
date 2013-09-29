@@ -74,6 +74,7 @@ string("/away\t\t\t\t") + _("Set away mode\n") +
 +"/kaff\t\t\t" + _("Media Spam\n") +
 +"/rb\t\t\t" + _("Media Spam\n") +
 +"/vlc\t\t\t" + _("Media Spam\n") +
++"/debf\t\t\t" + _("Media Spam\n") +
 +"/df\t\t\t" + _("Show df of disk(s)\n") +
 +"/uptime\t\t\t" + _("Show uptime\n") +
 +"/rebuild\t\t" + _("Rebuild Share\n") +
@@ -1007,7 +1008,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			#ifdef __clang__
 				build += "clang" __clang_version__;
 			#elif defined(__GNUC__)
-				build += "gcc" __gcc_version__;
+				build += "gcc";
 			#endif
 		message =   "\n-= Stats " + dcpp::fullVersionString +" " +build+" =-\n"
 					+ "-= " + rel + " " + mach + " =-\n"
@@ -1117,6 +1118,24 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			status += s.ErrorMessage();
 			thirdperson = s.isThirdPerson();
 		}
+	}
+	else if ( cmd == "debf")
+	{
+			ShellCommand s((char *)"deadbeaf.sh");
+			if (strcmp(s.Output(),"Deadbeef is not running.") == 0)
+			{
+				status += s.Output();
+			}
+			else if (strcmp(s.Output(),"Deadbeef is not playing.") == 0)
+			{
+				status += s.Output();
+			}
+			else
+			{
+				message = s.Output();
+				status += s.ErrorMessage();
+				thirdperson = s.isThirdPerson();
+			}
 	}
 	// End of "Now Playing"
 	else if ( cmd == "df" )
