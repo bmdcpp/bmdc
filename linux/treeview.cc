@@ -326,7 +326,11 @@ void TreeView::addColumn_gui(Column& column)
 			col = gtk_tree_view_column_new();
 			gtk_tree_view_column_set_title(col, column.title.c_str());
 			gtk_tree_view_column_pack_start(col, renderer, false);
-			gtk_tree_view_column_add_attribute(col, renderer, "stock-id", TreeView::col(column.linkedCol));
+			#if GTK_CHECK_VERSION(3,9,0)
+				gtk_tree_view_column_add_attribute(col, renderer, "icon-name"/*"stock-id"*/, TreeView::col(column.linkedCol));
+			#else
+				gtk_tree_view_column_add_attribute(col, renderer, "stock-id", TreeView::col(column.linkedCol));
+			#endif
 			column.renderer2 = renderer;
 			renderer = gtk_cell_renderer_text_new();
 			gtk_tree_view_column_pack_start(col, renderer, true);
@@ -338,7 +342,11 @@ void TreeView::addColumn_gui(Column& column)
 			col = gtk_tree_view_column_new();
 			gtk_tree_view_column_set_title(col, column.title.c_str());
 			gtk_tree_view_column_pack_start(col, renderer, false);
-			gtk_tree_view_column_add_attribute(col, renderer, "stock-id", TreeView::col(column.linkedCol));
+			#if GTK_CHECK_VERSION(3,9,0)
+				gtk_tree_view_column_add_attribute(col, renderer, "icon-name"/*"stock-id"*/, TreeView::col(column.linkedCol));
+			#else
+				gtk_tree_view_column_add_attribute(col, renderer, "stock-id", TreeView::col(column.linkedCol));
+			#endif
 			column.renderer2 = renderer;
 			// text
 			renderer = gtk_cell_renderer_text_new();

@@ -1658,7 +1658,7 @@ std::string WulforUtil::formatSized(std::string& nonf)
 {
 	size_t needle = nonf.find_last_of(' ');
 	if(needle != string::npos) {
-		string sub = nonf.substr(0,needle-1);
+		string sub = nonf.substr(0,needle);
 		int64_t i = dcpp::Util::toInt64(sub);
 		i*=1000;
 		return dcpp::Util::formatBytes(i);
