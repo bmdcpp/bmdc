@@ -499,9 +499,9 @@ void PrivateMessage::applyTags_gui(const string &line)
 		{
 			GtkTextTag *tag = gtk_text_tag_table_lookup(gtk_text_buffer_get_tag_table(messageBuffer), temp);
 			bool isTab = false;
-			if(WulforUtil::isHighlightingWorld(messageBuffer,tag,string(temp),isTab,(gpointer)NULL, TagsMap))
+			if(WulforUtil::isHighlightingWorld(messageBuffer,tag,string(temp),isTab,(gpointer)NULL))
 			{
-				gtk_text_buffer_apply_tag(messageBuffer, TagsMap[Tag::TAG_HIGHL], &tag_start_iter, &tag_end_iter);
+				gtk_text_buffer_apply_tag(messageBuffer, tag, &tag_start_iter, &tag_end_iter);
 				if(isTab)
 				{
 					typedef Func0<PrivateMessage> F0;
@@ -538,7 +538,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 				else if (WulforUtil::isMagnet(tagName))
 					callback = G_CALLBACK(onMagnetTagEvent_gui);
 			}
-			
+
 			if(WulforUtil::HitIP(tagName,ip))
 			{
 				callback = G_CALLBACK(onIpTagEvent_gui);
@@ -1228,8 +1228,8 @@ gboolean PrivateMessage::onMagnetTagEvent_gui(GtkTextTag *tag, GObject *textView
 gboolean PrivateMessage::onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event , GtkTextIter *iter, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
-	gchar *tmp;    
-	g_object_get(G_OBJECT(tag),"name",&tmp,NULL);    
+	gchar *tmp;
+	g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
 	pm->ip = std::string(tmp);
 
 	if(event->type == GDK_BUTTON_PRESS)
@@ -1334,7 +1334,7 @@ void PrivateMessage::onOpenLinkClicked_gui(GtkMenuItem *item, gpointer data)
 	PrivateMessage *pm = (PrivateMessage *)data;
 	string error = Util::emptyString;
 	WulforUtil::openURI(pm->selectedTagStr, error);
-	
+
 	if(!error.empty())
 		pm->setStatus_gui(error);
 }

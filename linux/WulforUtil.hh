@@ -39,8 +39,6 @@ class WulforUtil
 		static std::vector<int> splitString(const std::string &str, const std::string &delimiter);
 		static std::string linuxSeparator(const std::string &ps);
 		static std::string windowsSeparator(const std::string &ps);
-		//static std::vector<std::string> getLocalIPs();
-//NOTE: core 0.762
 		/** get nick */
 		static std::string getNicks(const std::string &cid, const std::string& hintUrl);
 		static std::string getNicks(const dcpp::CID& cid, const std::string& hintUrl);
@@ -60,7 +58,7 @@ class WulforUtil
 		static void openURI(const std::string &uri, std::string &_error = dcpp::Util::emptyString);
 		static void openURItoApp(const std::string &cmd);
 		static std::string colorToString(const GdkColor *color); /* gdk < 2.12 */
-		static std::string colorToString(const GdkRGBA *color); 
+		static std::string colorToString(const GdkRGBA *color);
 		static GdkPixbuf* scalePixbuf(const GdkPixbuf *pixbuf,
 			const int width, const int height, GdkInterpType type = GDK_INTERP_BILINEAR);
 
@@ -90,12 +88,12 @@ class WulforUtil
 		static std::string formatReport(const dcpp::Identity& identity);
 		static bool checkCommand(std::string& cmd, std::string& param, std::string& message, std::string& status, bool& thirdperson);
 
-		static bool isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, std::string word, bool &tTab, gpointer hub, GtkTextTag *TagsMap[]);
+		static bool isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, std::string word, bool &tTab, gpointer hub);
 
 		static std::vector<std::pair<std::string,int> > getActions();
 		static std::string StringToUpper(std::string myString);
 		static gboolean HitIP(std::string &name, std::string& sIp);
-		
+
 		static gchar* g_substr(const gchar* string, gint start, gint  end)
 		{	gsize len = (end - start + 1);
 			gchar *output = (gchar *)g_malloc0 (len + 1);

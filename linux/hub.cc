@@ -564,7 +564,7 @@ gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean 
 									14, &sup,
 									17, &cid,
   									-1);
-  
+
   pathstring = gtk_tree_path_to_string (path);
   string sharesize  = Util::formatBytes(ssize);
   g_snprintf (buffer, 1000, " Nick: %s\n Connection: %s\n Description: %s\n Tag: %s\n Share: %s\n IP: %s\n eMail: %s\nCountry: %s\n Slots: %s\n Hubs: %s\n PK: %s\n Cheat: %s\n Generator: %s\n Support: %s\n CID: %s", tmp, con,desc, tag , sharesize.c_str() ,ip, e, country, slots, hubs, pk, cheat, gen, sup, cid);
@@ -658,7 +658,7 @@ void Hub::updateUser_gui(ParamMap params)
 	bool isPasive = false;
 	bool isIgnore = false;
 	bool isProtected = false;
-	if(isIn) { 
+	if(isIn) {
 		auto it = users.find(cid);
 		isOperator = it->second.isSet(FlagUser::FLAG_OP);
 		isPasive = it->second.isSet(FlagUser::FLAG_PASIVE);
@@ -670,7 +670,7 @@ void Hub::updateUser_gui(ParamMap params)
 
 	//Color of OP,Pasive, Fav, Ignore, Protect//TODO more flexibile ??
 	//string nickColor = (isProtected ? WGETS("userlist-text-protected") :(isOperator ? WGETS("userlist-text-operator") : (isPasive ? WGETS("userlist-text-pasive") :(favorite ? WGETS("userlist-text-favorite") : ( isIgnore ? WGETS("userlist-text-ignored") : WGETS("userlist-text-normal"))))));
-	string nickColor = params["NickColor"];	
+	string nickColor = params["NickColor"];
 
 	if (findUser_gui(cid, &iter))
 	{
@@ -752,7 +752,7 @@ void Hub::updateUser_gui(ParamMap params)
 
 		userIters.insert(UserIters::value_type(cid, iter));
 
-		if(client->get(HubSettings::ShowJoins) == 1)		
+		if(client->get(HubSettings::ShowJoins) == 1)
 		{
 			// Show joins in chat by default
 			addStatusMessage_gui(Nick + _(" has joined"), Msg::STATUS, favorite ? Sound::FAVORITE_USER_JOIN : Sound::NONE);
@@ -1015,7 +1015,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 	if (SETTING(TIME_STAMPS))
 		line += "[" + Util::getShortTimeString() + "] ";
 
-	line += message; 
+	line += message;
 
 	gtk_text_buffer_get_end_iter(chatBuffer, &iter);
 	gtk_text_buffer_insert(chatBuffer, &iter, line.c_str(), line.size());
@@ -1143,9 +1143,9 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 		{
 			GtkTextTag *tag = gtk_text_tag_table_lookup(gtk_text_buffer_get_tag_table(chatBuffer), temp);
 			bool isTab = false;
-			if(WulforUtil::isHighlightingWorld(chatBuffer,tag,string(temp),isTab,(gpointer)this, TagsMap))
+			if(WulforUtil::isHighlightingWorld(chatBuffer,tag,string(temp),isTab,(gpointer)this))
 			{
-				gtk_text_buffer_apply_tag(chatBuffer, TagsMap[Tag::TAG_HIGHL], &tag_start_iter, &tag_end_iter);
+				gtk_text_buffer_apply_tag(chatBuffer, tag, &tag_start_iter, &tag_end_iter);
 				if(isTab)
 				{
 					typedef Func0<Hub> F0;
@@ -2158,8 +2158,8 @@ gboolean Hub::onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *ev
 gboolean Hub::onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event , GtkTextIter *iter, gpointer data)
 {
 	Hub *hub = (Hub *)data;
-	gchar *tmp;    
-	g_object_get(G_OBJECT(tag),"name",&tmp,NULL);    
+	gchar *tmp;
+	g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
 	hub->ip = string(tmp);
 
 	if(event->type == GDK_BUTTON_PRESS)
@@ -2536,7 +2536,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
             for(auto i = info.begin();i!=info.end();++i) {
                   	text += _("\n") + (*i).first + _(": ") + Text::toT((*i).second);
             }
-             	
+
 			hub->addMessage_gui("",text,Msg::SYSTEM);
 
 		} else if ( command == "conn"){
@@ -2606,14 +2606,14 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			}
 		} else if (command == "raw" )
 		{
-		   if(hub->client->isConnected())	
+		   if(hub->client->isConnected())
 			hub->client->send(Util::convertCEscapes(param));
-		  else hub->addStatusMessage_gui(_("Don't connected to hub"), Msg::SYSTEM, Sound::NONE);	
+		  else hub->addStatusMessage_gui(_("Don't connected to hub"), Msg::SYSTEM, Sound::NONE);
 		}
 		else if ( command == "showjoins")
 		{
 			if(params.empty())return;
-						
+
 	        if(params[0] == '1') {
         	     hub->addStatusMessage_gui(_("Join/part showing on"), Msg::SYSTEM, Sound::NONE);
         	     hub->client->get(HubSettings::ShowJoins) = 1;
@@ -2625,7 +2625,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		else if ( command == "showfavjoins")
 		{
 			if(params.empty())return;
-            
+
             if(params[0] == '1') {
                  hub->addStatusMessage_gui("Join/part for Fav showing on", Msg::SYSTEM, Sound::NONE);
                  hub->client->get(HubSettings::FavShowJoins) = 1;
@@ -2904,7 +2904,7 @@ void Hub::onOpenLinkClicked_gui(GtkMenuItem *item, gpointer data)
 	Hub *hub = (Hub *)data;
 	string error = Util::emptyString;
 	WulforUtil::openURI(hub->selectedTagStr,error);
-	
+
 	if(!error.empty())
 		hub->setStatus_gui("statusMain", error);
 }
@@ -3109,7 +3109,7 @@ void Hub::onAddIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data)
 				if (user)
 				{
 					FavoriteManager::getInstance()->addFavoriteUser(user);
-					FavoriteManager::getInstance()->setIgnore(user,true);	
+					FavoriteManager::getInstance()->setIgnore(user,true);
 				}
 				else
 				{
@@ -3148,7 +3148,7 @@ void Hub::onRemoveIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data)
 					if( FavoriteManager::getInstance()->isFavoriteUser(user) && FavoriteManager::getInstance()->getFavoriteUser(user)->isSet(FavoriteUser::FLAG_IGNORE) )
 					{
 						FavoriteManager::getInstance()->setIgnore(user,false);
-					
+
 					}
 				}
 				else
@@ -3741,7 +3741,7 @@ void Hub::addAsFavorite_client()
 	auto tmp = client->getHubUrl();
 	auto i = tmp.find("dchub://");
 	if(i != string::npos) exHub = FavoriteManager::getInstance()->getFavoriteHubEntry(tmp.substr(i+1));
-	
+
 	if (!exHub || !existingHub)
 	{
 		FavoriteHubEntry entry;
@@ -3903,7 +3903,7 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
         params.insert(ParamMap::value_type("Type", "U" + id.getNick()));
 		params.insert(ParamMap::value_type("NickColor",WGETS("userlist-text-normal")));
 	}
-	
+
 	if(FavoriteManager::getInstance()->isFavoriteUser(id.getUser())  && !FavoriteManager::getInstance()->getFavoriteUser(id.getUser())->isSet(FavoriteUser::FLAG_IGNORE))
 	{
 		params.insert(ParamMap::value_type("Type", "C" + id.getNick()));
@@ -4760,7 +4760,7 @@ void Hub::on_setImage_tab(GtkButton *widget, gpointer data)
 		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
 		string tmp = Util::getFileExt(string(filename));
 		tmp = WulforUtil::StringToUpper(tmp);
-		
+
 		if(tmp == ".PNG" || tmp == ".JPG" || tmp == ".GIF")
 		{
 			GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_scale(filename,15,15,FALSE,NULL);
@@ -4800,7 +4800,7 @@ void Hub::SetTabText(gpointer data)
    GtkWidget *label = gtk_label_new("Text: ");
 #if GTK_CHECK_VERSION(3, 2, 0)
 	GtkWidget *hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
-#else	
+#else
 	GtkWidget *hbox = gtk_hbox_new(TRUE,0);
 #endif
 

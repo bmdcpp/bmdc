@@ -1290,7 +1290,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
   return true;
 }
 
-bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, string word, bool &tTab, gpointer hub, GtkTextTag *TagsMap[])
+bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, string word, bool &tTab, gpointer hub)
 {
 		string sMsgLower;
 		sMsgLower.resize(word.size()+1);
@@ -1355,7 +1355,6 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, st
 							"underline", tUnderline ? PANGO_UNDERLINE_DOUBLE : PANGO_UNDERLINE_NONE,
 							NULL);
 						}
-						TagsMap[Tag::TAG_HIGHL] = tag;//think about this  =P
 						ret = TRUE;
 						continue;
 					}
@@ -1388,7 +1387,6 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, st
 						NULL);
 					}
 
-					TagsMap[Tag::TAG_HIGHL] = tag;//think about this  =P
 					ret = TRUE;
 					continue;
 				}
@@ -1408,8 +1406,6 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag *tag, st
 					NULL);
 
 				}
-				TagsMap[Tag::TAG_HIGHL] = tag;//think about this  =P
-
 				if(tPopup)
 					WulforManager::get()->getMainWindow()->showNotification_gui(cs->getNoti()+" : ", word, Notify::HIGHLITING);
 
