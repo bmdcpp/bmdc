@@ -46,6 +46,7 @@
 	#include "BackupManager.h"
 	#include "ExportManager.h"
 #endif
+#include "DebugManager.h"
 #include "HighlightManager.h"
 #include "PluginManager.h"
 #include "RsxUtil.h"
@@ -73,6 +74,7 @@ void startup(function<void (const string&)> f) {
 	TimerManager::newInstance();
 	HashManager::newInstance();
 	CryptoManager::newInstance();
+	DebugManager::newInstance();
 	SearchManager::newInstance();
 	ClientManager::newInstance();
 	ConnectionManager::newInstance();
@@ -195,6 +197,7 @@ void shutdown() {
 	SearchManager::deleteInstance();
 	FavoriteManager::deleteInstance();
 	ClientManager::deleteInstance();
+	DebugManager::deleteInstance();
 	HashManager::deleteInstance();
 	LogManager::deleteInstance();
 	SettingsManager::deleteInstance();

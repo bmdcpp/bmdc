@@ -27,7 +27,7 @@
 #include <dcpp/DCPlusPlus.h>
 #include <dcpp/ClientManager.h>
 #include <dcpp/Util.h>
-#include <dcpp/PluginManager.h>
+#include <dcpp/DebugManager.h>
 
 #include "bookentry.hh"
 #include "treeview.hh"
@@ -36,13 +36,14 @@
 class cmddebug:
     public BookEntry,
     private dcpp::ClientManagerListener,
+	private dcpp::DebugManagerListener,
     public dcpp::Thread
 {
     public:
         cmddebug();
         virtual ~cmddebug();
         virtual void show();
-        //GUI FCE
+        //Gui..
         void add_gui(time_t t, std::string file);
 
     private:
@@ -106,21 +107,42 @@ class cmddebug:
 	GtkTextMark *cmdMark;
 	GtkListStore *store;
 	Iters iters;
-	dcpp::HookSubscriber *hubIn, *hubOut, *clientIn, *clientOut;
-
-	/* HubData */
-	static Bool onHubDataIn(HubDataPtr iHub, const char* message, dcptr_t pCommon);
-	static Bool DCAPI netHubInEvent(dcptr_t pObject, dcptr_t pData, dcptr_t pCommon, Bool* /*bBreak*/) { return onHubDataIn((HubDataPtr)pObject, (char*)pData, pCommon); }
-
-	static Bool onHubDataOut(HubDataPtr oHub, const char* message, dcptr_t pCommon);
-	static Bool DCAPI netHubOutEvent(dcptr_t pObject, dcptr_t pData, dcptr_t pCommon, Bool* /*bBreak*/) { return onHubDataOut((HubDataPtr)pObject, (char*)pData, pCommon); }
-
-	/* ClientData */
-	static Bool onConnDataIn(ConnectionDataPtr iConn, const char* message, dcptr_t pCommon);
-	static Bool DCAPI netConnInEvent(dcptr_t pObject, dcptr_t pData, dcptr_t pCommon, Bool* /*bBreak*/) { return onConnDataIn((ConnectionDataPtr)pObject, (char*)pData, pCommon); }
-
-	static Bool onConnDataOut(ConnectionDataPtr oConn, const char* message, dcptr_t pCommon);
-	static Bool DCAPI netConnOutEvent(dcptr_t pObject, dcptr_t pData, dcptr_t pCommon, Bool* /*bBreak*/) { return onConnDataOut((ConnectionDataPtr)pObject, (char*)pData, pCommon); }
+	std::string getDirection(unsigned int dir)
+	{
+		std::string tmp = dcpp::Util::emptyString;
+		switch(dir){
+		case dcpp::DebugManager::INCOMING: tmp+="\t\tIncoming: "; break;
+		case dcpp::DebugManager::OUTGOING: tmp+="\t\tOutcoming: "; break;
+		default:break;
+		}	
+		return tmp;
+	}
+	std::string getType(unsigned int type,unsigned int dir)
+	{	std::string tmp = dcpp::Util::emptyString;
+		switch(type){
+			case dcpp::DebugManager::TYPE_HUB: tmp += "Hub:\t"+getDirection(dir); break;
+			case dcpp::DebugManager::TYPE_CLIENT: tmp += "Client:\t"+getDirection(dir); break;
+			default:break;
+		}
+		return tmp;
+	}		
+		
+	virtual void on(dcpp::DebugManagerListener::DebugCommand, const std::string& m, uint8_t type, uint8_t dir, const std::string& ip) noexcept {
+			gchar *fUrl = NULL;
+			GtkTreeIter piter;
+			GtkTreeModel *model = NULL;
+			if( gtk_combo_box_get_active_iter( GTK_COMBO_BOX(getWidget("comboboxadr")), &piter ) ) {
+				model = gtk_combo_box_get_model( GTK_COMBO_BOX(getWidget("comboboxadr")) );
+				gtk_tree_model_get( model, &piter, 0, &fUrl, -1 );
+			}
+			if((gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("by_ip_button"))) == TRUE) || (!(fUrl == NULL) && (ip == fUrl) ))
+				addCmd("\t"+getType(type,dir)+"\tIP (Address):\t"+ip+"\t:\t"+m);
+			else
+				addCmd("\t"+getType(type,dir)+"\tIP (Address):\t"+ip+"\t:\t"+m);
+	}
+	virtual void on(dcpp::DebugManagerListener::DebugDetection, const std::string& m) noexcept {
+		addCmd(m);
+	}
 
 };
 

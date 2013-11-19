@@ -403,7 +403,7 @@ GtkWidget *BookEntry::createItemFirstMenu()
 		default: ;
 	}
 	#if GTK_CHECK_VERSION(3,9,0)
-	item = gtk_menu_item_new();//gtk_image_menu_item_new_from_icon_name(stock.c_str(),NULL);
+	item = gtk_menu_item_new();
 	#else
 	item = gtk_image_menu_item_new_from_stock(stock.c_str(),NULL);
 	#endif

@@ -48,7 +48,8 @@ const string UserConnection::UPLOAD = "Upload";
 const string UserConnection::DOWNLOAD = "Download";
 
 void UserConnection::on(BufferedSocketListener::Line, const string& aLine) noexcept {
-
+	COMMAND_DEBUG(aLine,TYPE_CLIENT,INCOMING,getRemoteIp());
+	
 	if(aLine.length() < 2) {
 		fire(UserConnectionListener::ProtocolError(), this, _("Invalid data"));
 		return;
@@ -290,6 +291,7 @@ ConnectionData* UserConnection::getPluginObject() noexcept {
 
 void UserConnection::send(const string& aString) {
 	lastActivity = GET_TICK();
+	COMMAND_DEBUG(aString,TYPE_CLIENT,OUTGOING,getRemoteIp());
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_CONN_OUT, this, aString))
 		return;
 	socket->write(aString);

@@ -34,6 +34,7 @@
 #include "UploadManager.h"
 #include "format.h"
 #include "PluginManager.h"
+#include "DebugManager.h"
 #include <cmath>
 #include "BufferedSocket.h"
 #include "ConnectivityManager.h"
@@ -1119,7 +1120,7 @@ void AdcHub::on(Line l, const string& aLine) noexcept {
 		// @todo report to user?
 		return;
 	}
-
+	COMMAND_DEBUG(aLine,TYPE_HUB,INCOMING,getHubUrl());
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_IN, this, aLine))
 		return;
 

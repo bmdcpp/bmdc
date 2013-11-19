@@ -35,27 +35,21 @@ notepad::~notepad()
 	GtkTextIter start;
 	GtkTextIter end;
 
-	gchar *text;
+	gchar *text = NULL;
 	/* Obtain iters for the start and end of points of the buffer */
 	gtk_text_buffer_get_start_iter (buffer, &start);
 	gtk_text_buffer_get_end_iter (buffer, &end);
-
 	/* Get the entire buffer text. */
-
 	text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
-	string stext;
-	stext.assign(text);
 
     try {
 		string configFile = dcpp::Util::getNotepadFile();
-
 		File out(configFile + ".tmp", File::WRITE, File::CREATE | File::TRUNCATE);
-		out.write(stext);
+		out.write(string(text));
 		out.flush();
 		out.close();
 		File::deleteFile(configFile);
 		File::renameFile(configFile + ".tmp", configFile);
-
 	}
 	catch (const Exception &e)
 	{ }

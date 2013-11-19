@@ -29,7 +29,7 @@
 #include "ThrottleManager.h"
 #include "UploadManager.h"
 #include "version.h"
-
+#include "DebugManager.h"
 #include "Socket.h"
 #include "UserCommand.h"
 #include "StringTokenizer.h"
@@ -225,7 +225,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 
 			chatMessage.from = &o;
 		}
-
+		COMMAND_DEBUG(aLine,TYPE_HUB,INCOMING,getHubUrl());
 		if(PluginManager::getInstance()->runHook(HOOK_CHAT_IN, this, message))
 			return;
 
