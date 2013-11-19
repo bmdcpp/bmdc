@@ -243,7 +243,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkComboBox" id="comboboxFile">
+                      <object class="GtkComboBoxText" id="comboboxFile">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="model">liststore1</property>

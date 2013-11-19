@@ -5,21 +5,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2013-09-28 19:38+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
-"Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  linux.pot  #-#-#-#-#\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2013-09-29 18:39+0200\n"
+"POT-Creation-Date: 2013-11-19 15:56+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -72,7 +60,7 @@ msgstr ""
 msgid "/favu"
 msgstr ""
 
-#: ui/hub.glade.ui:84
+#: ui/hub.glade.ui:85
 msgid "/me"
 msgstr ""
 
@@ -554,7 +542,7 @@ msgstr ""
 msgid "Add User as Favorite"
 msgstr ""
 
-#: ui/hub.glade.ui:43 linux/hub.cc:2455
+#: ui/hub.glade.ui:44 linux/hub.cc:2455
 msgid "Add a hub to favorites"
 msgstr ""
 
@@ -562,15 +550,15 @@ msgstr ""
 msgid "Add as Favorite"
 msgstr ""
 
-#: ui/hub.glade.ui:600
+#: ui/hub.glade.ui:603
 msgid "Add as Favorite User"
 msgstr ""
 
-#: ui/hub.glade.ui:44
+#: ui/hub.glade.ui:45
 msgid "Add as Favorites"
 msgstr ""
 
-#: ui/hub.glade.ui:620
+#: ui/hub.glade.ui:623
 msgid "Add as Ignored User"
 msgstr ""
 
@@ -641,7 +629,7 @@ msgstr ""
 msgid "Automatically open extra slot if speed is below (0 = disable)"
 msgstr ""
 
-#: ui/hub.glade.ui:14 ui/mainwindow.glade.ui:2107 ui/mainwindow.glade.ui:2277
+#: ui/hub.glade.ui:15 ui/mainwindow.glade.ui:2107 ui/mainwindow.glade.ui:2277
 msgid "Away"
 msgstr ""
 
@@ -653,12 +641,12 @@ msgstr ""
 msgid "Away message"
 msgstr ""
 
-#: ui/hub.glade.ui:13 ui/privatemessage.glade.ui:15
+#: ui/hub.glade.ui:14 ui/privatemessage.glade.ui:15
 #: linux/privatemessage.cc:1088
 msgid "Away mode message on/off"
 msgstr ""
 
-#: ui/hub.glade.ui:23 ui/privatemessage.glade.ui:26 linux/WulforUtil.cc:911
+#: ui/hub.glade.ui:24 ui/privatemessage.glade.ui:26 linux/WulforUtil.cc:911
 #: linux/WulforUtil.cc:930 linux/mainwindow.cc:2278
 #: linux/privatemessage.cc:1089
 msgid "Away mode off"
@@ -674,7 +662,7 @@ msgstr ""
 msgid "B/s"
 msgstr ""
 
-#: ui/hub.glade.ui:24
+#: ui/hub.glade.ui:25
 msgid "Back"
 msgstr ""
 
@@ -740,7 +728,7 @@ msgstr ""
 msgid "Bottom"
 msgstr ""
 
-#: ui/favoriteusers.glade.ui:159 ui/hub.glade.ui:566
+#: ui/favoriteusers.glade.ui:159 ui/hub.glade.ui:569
 #: ui/uploadqueue.glade.ui:83
 msgid "Browse Filelist"
 msgstr ""
@@ -790,7 +778,7 @@ msgstr ""
 msgid "Chat"
 msgstr ""
 
-#: ui/hub.glade.ui:340 ui/privatemessage.glade.ui:285
+#: ui/hub.glade.ui:343 ui/privatemessage.glade.ui:285
 msgid "Chat Commands"
 msgstr ""
 
@@ -813,7 +801,7 @@ msgstr ""
 msgid "Check Clients"
 msgstr ""
 
-#: ui/hub.glade.ui:679
+#: ui/hub.glade.ui:682
 msgid "Check Filelist"
 msgstr ""
 
@@ -844,7 +832,7 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: ui/hub.glade.ui:34
+#: ui/hub.glade.ui:35
 msgid "Clear Chat"
 msgstr ""
 
@@ -852,7 +840,7 @@ msgstr ""
 msgid "Clear PM"
 msgstr ""
 
-#: ui/hub.glade.ui:33 linux/hub.cc:2453
+#: ui/hub.glade.ui:34 linux/hub.cc:2453
 msgid "Clear chat"
 msgstr ""
 
@@ -929,7 +917,7 @@ msgstr ""
 msgid "Connect"
 msgstr ""
 
-#: ui/hub.glade.ui:74
+#: ui/hub.glade.ui:75
 msgid "Connect To.."
 msgstr ""
 
@@ -941,7 +929,7 @@ msgstr ""
 msgid "Connect to all hubs in this group when the program starts"
 msgstr ""
 
-#: ui/hub.glade.ui:73 linux/hub.cc:2462
+#: ui/hub.glade.ui:74 linux/hub.cc:2462
 msgid "Connect to the hub"
 msgstr ""
 
@@ -952,8 +940,8 @@ msgstr ""
 msgid "Connection"
 msgstr ""
 
-#: ui/hub.glade.ui:127 ui/hub.glade.ui:176 ui/hub.glade.ui:206
-#: ui/hub.glade.ui:256 ui/hub.glade.ui:546 ui/privatemessage.glade.ui:118
+#: ui/hub.glade.ui:128 ui/hub.glade.ui:177 ui/hub.glade.ui:207
+#: ui/hub.glade.ui:257 ui/hub.glade.ui:549 ui/privatemessage.glade.ui:118
 #: ui/privatemessage.glade.ui:138 ui/privatemessage.glade.ui:171
 #: ui/privatemessage.glade.ui:227 ui/search.glade.ui:639
 msgid "Copy"
@@ -1076,11 +1064,11 @@ msgstr ""
 msgid "Dowload"
 msgstr ""
 
-#: ui/hub.glade.ui:245
+#: ui/hub.glade.ui:246
 msgid "Dowload To..."
 msgstr ""
 
-#: ui/hub.glade.ui:145 ui/hub.glade.ui:230 ui/mainwindow.glade.ui:1321
+#: ui/hub.glade.ui:146 ui/hub.glade.ui:231 ui/mainwindow.glade.ui:1321
 #: ui/privatemessage.glade.ui:198 ui/search.glade.ui:631
 #: ui/sharebrowser.glade.ui:131 linux/settingsdialog.cc:1482
 msgid "Download"
@@ -1104,7 +1092,7 @@ msgstr ""
 msgid "Download Queue"
 msgstr ""
 
-#: ui/hub.glade.ui:237 ui/privatemessage.glade.ui:206 ui/search.glade.ui:653
+#: ui/hub.glade.ui:238 ui/privatemessage.glade.ui:206 ui/search.glade.ui:653
 #: ui/sharebrowser.glade.ui:139
 msgid "Download To"
 msgstr ""
@@ -1149,7 +1137,7 @@ msgstr ""
 msgid "Emot Pack"
 msgstr ""
 
-#: ui/hub.glade.ui:367 ui/privatemessage.glade.ui:315
+#: ui/hub.glade.ui:370 ui/privatemessage.glade.ui:315
 msgid "Emoticons"
 msgstr ""
 
@@ -1427,11 +1415,11 @@ msgstr ""
 msgid "Get TTH from File"
 msgstr ""
 
-#: ui/hub.glade.ui:686
+#: ui/hub.glade.ui:689
 msgid "Get TestSur"
 msgstr ""
 
-#: ui/hub.glade.ui:672
+#: ui/hub.glade.ui:675
 msgid "Get User Info"
 msgstr ""
 
@@ -1448,7 +1436,7 @@ msgstr ""
 msgid "Grant"
 msgstr ""
 
-#: ui/favoriteusers.glade.ui:183 ui/hub.glade.ui:640 ui/transfers.glade.ui:76
+#: ui/favoriteusers.glade.ui:183 ui/hub.glade.ui:643 ui/transfers.glade.ui:76
 #: ui/uploadqueue.glade.ui:51
 msgid "Grant Slot"
 msgstr ""
@@ -1706,7 +1694,7 @@ msgstr ""
 msgid "Manage groups"
 msgstr ""
 
-#: ui/favoriteusers.glade.ui:167 ui/hub.glade.ui:580 ui/search.glade.ui:723
+#: ui/favoriteusers.glade.ui:167 ui/hub.glade.ui:583 ui/search.glade.ui:723
 #: ui/sharebrowser.glade.ui:442 ui/transfers.glade.ui:44
 msgid "Match Queue"
 msgstr ""
@@ -1835,7 +1823,7 @@ msgstr ""
 msgid "Move to..."
 msgstr ""
 
-#: ui/hub.glade.ui:539
+#: ui/hub.glade.ui:542
 msgid "NICK"
 msgstr ""
 
@@ -1994,7 +1982,7 @@ msgstr ""
 msgid "Only users with free slots"
 msgstr ""
 
-#: ui/hub.glade.ui:134 ui/hub.glade.ui:152 ui/hub.glade.ui:213
+#: ui/hub.glade.ui:135 ui/hub.glade.ui:153 ui/hub.glade.ui:214
 #: ui/privatemessage.glade.ui:126 ui/privatemessage.glade.ui:179
 msgid "Open"
 msgstr ""
@@ -2015,7 +2003,7 @@ msgstr ""
 msgid "Open Partial"
 msgstr ""
 
-#: ui/hub.glade.ui:573
+#: ui/hub.glade.ui:576
 msgid "Open Partial Filelist"
 msgstr ""
 
@@ -2141,12 +2129,12 @@ msgstr ""
 msgid "Properties"
 msgstr ""
 
-#: ui/adlsearch.glade.ui:750 ui/config.glade.ui:253 ui/hub.glade.ui:269
+#: ui/adlsearch.glade.ui:750 ui/config.glade.ui:253 ui/hub.glade.ui:270
 #: ui/privatemessage.glade.ui:241
 msgid "Propteries"
 msgstr ""
 
-#: ui/hub.glade.ui:699
+#: ui/hub.glade.ui:702
 msgid "Protec User"
 msgstr ""
 
@@ -2210,11 +2198,11 @@ msgstr ""
 msgid "Raw for Actions"
 msgstr ""
 
-#: ui/hub.glade.ui:94
+#: ui/hub.glade.ui:95
 msgid "Rebuild Hash"
 msgstr ""
 
-#: ui/hub.glade.ui:93
+#: ui/hub.glade.ui:94
 msgid "Rebuild hash"
 msgstr ""
 
@@ -2234,7 +2222,7 @@ msgstr ""
 msgid "Reconnect All Hubs"
 msgstr ""
 
-#: ui/hub.glade.ui:512
+#: ui/hub.glade.ui:515
 msgid "Refresh"
 msgstr ""
 
@@ -2242,7 +2230,7 @@ msgstr ""
 msgid "Refresh Filelist"
 msgstr ""
 
-#: ui/hub.glade.ui:719
+#: ui/hub.glade.ui:722
 msgid "Refresh Userlist"
 msgstr ""
 
@@ -2255,7 +2243,7 @@ msgstr ""
 #: ui/detection.glade.ui:3035 ui/downloadqueue.glade.ui:162
 #: ui/downloadqueue.glade.ui:335 ui/favoritehubs.glade.ui:418
 #: ui/favoriteusers.glade.ui:229 ui/finishedtransfers.glade.ui:187
-#: ui/hub.glade.ui:165 ui/recenthub.glade.ui:167 ui/search.glade.ui:782
+#: ui/hub.glade.ui:166 ui/recenthub.glade.ui:167 ui/search.glade.ui:782
 #: ui/settingsdialog.glade.ui:8084 ui/settingsdialog.glade.ui:8662
 #: ui/settingsdialog.glade.ui:8815 ui/transfers.glade.ui:84
 #: ui/uploadqueue.glade.ui:67
@@ -2270,15 +2258,15 @@ msgstr ""
 msgid "Remove User from Queue"
 msgstr ""
 
-#: ui/hub.glade.ui:607
+#: ui/hub.glade.ui:610
 msgid "Remove from Favorite Users"
 msgstr ""
 
-#: ui/hub.glade.ui:627
+#: ui/hub.glade.ui:630
 msgid "Remove from Ignored Users"
 msgstr ""
 
-#: ui/hub.glade.ui:647 ui/search.glade.ui:755
+#: ui/hub.glade.ui:650 ui/search.glade.ui:755
 msgid "Remove from Queue"
 msgstr ""
 
@@ -2299,7 +2287,7 @@ msgstr ""
 msgid "Right"
 msgstr ""
 
-#: ui/hub.glade.ui:183
+#: ui/hub.glade.ui:184
 msgid "Ripe.net Info"
 msgstr ""
 
@@ -2311,11 +2299,11 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: ui/hub.glade.ui:83 linux/hub.cc:2463
+#: ui/hub.glade.ui:84 linux/hub.cc:2463
 msgid "Say a third person"
 msgstr ""
 
-#: ui/hub.glade.ui:223 ui/mainwindow.glade.ui:1025 ui/mainwindow.glade.ui:1977
+#: ui/hub.glade.ui:224 ui/mainwindow.glade.ui:1025 ui/mainwindow.glade.ui:1977
 #: ui/mainwindow.glade.ui:2214 ui/privatemessage.glade.ui:190
 #: ui/searchspy.glade.ui:94 ui/settingsdialog.glade.ui:8878
 #: ui/transfers.glade.ui:52 linux/bookentry.cc:361
@@ -2407,7 +2395,7 @@ msgstr ""
 msgid "Select filelist to browse"
 msgstr ""
 
-#: ui/hub.glade.ui:559
+#: ui/hub.glade.ui:562
 msgid "Send Mainchat messges to"
 msgstr ""
 
@@ -2415,7 +2403,7 @@ msgstr ""
 msgid "Send PM"
 msgstr ""
 
-#: ui/downloadqueue.glade.ui:277 ui/hub.glade.ui:587 ui/transfers.glade.ui:60
+#: ui/downloadqueue.glade.ui:277 ui/hub.glade.ui:590 ui/transfers.glade.ui:60
 #: ui/uploadqueue.glade.ui:75
 msgid "Send Private Message"
 msgstr ""
@@ -2456,7 +2444,7 @@ msgstr ""
 msgid "Set color of Text"
 msgstr ""
 
-#: ui/hub.glade.ui:103
+#: ui/hub.glade.ui:104
 msgid "Set download limit image"
 msgstr ""
 
@@ -2504,7 +2492,7 @@ msgstr ""
 msgid "Show Fav Joins/Parts:"
 msgstr ""
 
-#: ui/hub.glade.ui:54
+#: ui/hub.glade.ui:55
 msgid "Show Favorie List"
 msgstr ""
 
@@ -2524,11 +2512,11 @@ msgstr ""
 msgid "Show Join/parts in chat for Favorite Users"
 msgstr ""
 
-#: ui/hub.glade.ui:53 linux/hub.cc:2458
+#: ui/hub.glade.ui:54 linux/hub.cc:2458
 msgid "Show favorites list"
 msgstr ""
 
-#: ui/hub.glade.ui:63 ui/privatemessage.glade.ui:103 linux/hub.cc:2461
+#: ui/hub.glade.ui:64 ui/privatemessage.glade.ui:103 linux/hub.cc:2461
 #: linux/privatemessage.cc:1097
 msgid "Show help"
 msgstr ""
@@ -2552,11 +2540,11 @@ msgstr ""
 msgid "Show top search"
 msgstr ""
 
-#: ui/hub.glade.ui:113 ui/hub.glade.ui:114
+#: ui/hub.glade.ui:114 ui/hub.glade.ui:115
 msgid "Show version"
 msgstr ""
 
-#: ui/hub.glade.ui:500
+#: ui/hub.glade.ui:503
 msgid "Show/Hide user list"
 msgstr ""
 
@@ -2802,11 +2790,11 @@ msgstr ""
 msgid "Use separator extensions (doc;xls;ppt;docx;xlsx;pptx)"
 msgstr ""
 
-#: ui/hub.glade.ui:654 ui/search.glade.ui:763 ui/settingsdialog.glade.ui:6986
+#: ui/hub.glade.ui:657 ui/search.glade.ui:763 ui/settingsdialog.glade.ui:6986
 msgid "User Commands"
 msgstr ""
 
-#: ui/hub.glade.ui:190 ui/sharebrowser.glade.ui:107
+#: ui/hub.glade.ui:191 ui/sharebrowser.glade.ui:107
 #: ui/sharebrowser.glade.ui:182 ui/transfers.glade.ui:92
 msgid "UserCommands"
 msgstr ""
@@ -2950,7 +2938,7 @@ msgstr ""
 msgid "close"
 msgstr ""
 
-#: ui/hub.glade.ui:104
+#: ui/hub.glade.ui:105
 msgid "dowload Image Limit"
 msgstr ""
 
@@ -2971,7 +2959,7 @@ msgstr ""
 msgid "from"
 msgstr ""
 
-#: ui/hub.glade.ui:64 ui/privatemessage.glade.ui:104
+#: ui/hub.glade.ui:65 ui/privatemessage.glade.ui:104
 msgid "help"
 msgstr ""
 
@@ -3042,7 +3030,7 @@ msgstr ""
 msgid "top"
 msgstr ""
 
-#: ui/hub.glade.ui:706
+#: ui/hub.glade.ui:709
 msgid "unProtec User"
 msgstr ""
 
@@ -3556,7 +3544,7 @@ msgstr ""
 msgid "Connecting..."
 msgstr ""
 
-#: linux/treeview.cc:577
+#: linux/treeview.cc:585
 msgid "Copy All"
 msgstr ""
 

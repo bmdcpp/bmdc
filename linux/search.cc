@@ -42,7 +42,7 @@ Search::Search(const string& str):
 	previousGrouping(NOGROUPING)
 {
 	setSearchButtons(true);
-	
+
 	gtk_widget_grab_focus(getWidget("SearchEntry"));
 	/* set up completion */
 	completion = gtk_entry_completion_new();
