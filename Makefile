@@ -1,6 +1,7 @@
 all:
 	mkdir -p ${HOME}/BMDC/
 	scons PREFIX=${HOME}/BMDC/ release=1 -j2
+	scons install
 Release:
 	mkdir -p ${HOME}/BMDC/
 	scons PREFIX=${HOME}/BMDC/ release=1 -j2

@@ -284,7 +284,7 @@ Hub::Hub(const string &address, const string &encoding):
 	//if (panePosition > 10)
 	{
 		gint width;
-		GtkWindow *window = GTK_WINDOW(/*WulforManager::get()->getMainWindow()->getContainer()*/getContainer());
+		GtkWindow *window = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
 		gtk_window_get_size(window, &width, NULL);
 		gtk_paned_set_position(GTK_PANED(getWidget("pane")), width - panePosition);
 	}
@@ -470,7 +470,7 @@ Hub::~Hub()
 
 	// Save the pane position
 	gint width;
-	GtkWindow *window = GTK_WINDOW(/*WulforManager::get()->getMainWindow()->*/getContainer());
+	GtkWindow *window = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
 	gtk_window_get_size(window, &width, NULL);
 	gint panePosition = width - gtk_paned_get_position(GTK_PANED(getWidget("pane")));
 	//if (panePosition > 10)

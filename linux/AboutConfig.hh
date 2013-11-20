@@ -16,8 +16,8 @@
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //      MA 02110-1301, USA.
 
-#ifndef _ABOUT_CONFIG
-#define _ABOUT_CONFIG
+#ifndef _BMDC_ABOUT_CONFIG_
+#define _BMDC_ABOUT_CONFIG_
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>

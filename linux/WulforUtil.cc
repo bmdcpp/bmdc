@@ -198,59 +198,6 @@ string WulforUtil::windowsSeparator(const string &ps)
 	return str;
 }
 
-//Is This function usefull ?
-/*
-vector<string> WulforUtil::getLocalIPs()
-{
-	vector<string> addresses;
-
-#ifdef HAVE_IFADDRS_H
-	struct ifaddrs *ifap;
-
-	if (getifaddrs(&ifap) == 0)
-	{
-		for (struct ifaddrs *i = ifap; i != NULL; i = i->ifa_next)
-		{
-			struct sockaddr *sa = i->ifa_addr;
-
-			// If the interface is up, is not a loopback and it has an address
-			if ((i->ifa_flags & IFF_UP) && !(i->ifa_flags & IFF_LOOPBACK) && sa != NULL)
-			{
-				void* src = NULL;
-				socklen_t len;
-
-				// IPv4 address
-				if (sa->sa_family == AF_INET)
-				{
-					struct sockaddr_in* sai = (struct sockaddr_in*)sa;
-					src = (void*) &(sai->sin_addr);
-					len = INET_ADDRSTRLEN;
-				}
-				// IPv6 address
-				else if (sa->sa_family == AF_INET6)
-				{
-					struct sockaddr_in6* sai6 = (struct sockaddr_in6*)sa;
-					src = (void*) &(sai6->sin6_addr);
-					len = INET6_ADDRSTRLEN;
-				}
-
-				// Convert the binary address to a string and add it to the output list
-				if (src != NULL)
-				{
-					char address[len];
-					inet_ntop(sa->sa_family, src, address, len);
-					addresses.push_back(address);
-				}
-			}
-		}
-		freeifaddrs(ifap);
-	}
-#endif
-
-	return addresses;
-}
-*/
-//NOTE: core 0.762
 string WulforUtil::getNicks(const string &cid, const string& hintUrl)
 {
 	return getNicks(CID(cid), hintUrl);
@@ -826,25 +773,23 @@ string WulforUtil::StringToUpper(std::string myString)
 	const int length = myString.length();
 	if(myString.empty())
 		return Util::emptyString;
-	locale loc;
 	for(int i=0; i != length; ++i)
 	{
-		myString[i] = toupper(myString[i],loc);
+		myString[i] = toupper(myString[i]);
 	}
-
 	return myString;
 }
 
 string WulforUtil::getCountryCode(string _countryname)
 {
-	string _cc = StringToUpper(_countryname);
-
-	if(_cc.empty())
+	//string _cc = StringToUpper(_countryname);
+	std::transform(_countryname.begin(), _countryname.end(), _countryname.begin(), (int(*)(int))toupper);
+	if(_countryname.empty())
 		return Util::emptyString;
 
-	for(uint8_t q = 0; q < (sizeof(CountryNames) / sizeof(CountryNames[0])); q++)
+	for(uint8_t q = 0; q < (sizeof(CountryNames) / sizeof(CountryNames[0])); ++q)
 	{
-		if(_cc == CountryNames[q])
+		if(_countryname == CountryNames[q])
 				return CountryCodes[q];
 
 	}
@@ -879,7 +824,6 @@ string WulforUtil::generateLeech() {
 
 bool WulforUtil::checkCommand(string& cmd, string& param, string& message, string& status, bool& thirdperson)
 {
-	//string tmp = cmd;
 	string::size_type separator = cmd.find_first_of(' ');
 
 	if(separator != string::npos && cmd.size() > separator +1)
@@ -1006,11 +950,12 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			int detfail = SETTING(DETECTIONF);
 			string build = "Builded with ";
 			#ifdef __clang__
-				build += "clang" __clang_version__;
+				build += "clang " __clang_version__;
 			#elif defined(__GNUC__)
-				build += "gcc";
+				build += "gcc ";
 			#endif
-		message =   "\n-= Stats " + dcpp::fullVersionString +" " +build+" =-\n"
+		message =   "\n-= Stats " + dcpp::fullVersionString
+					+"\n " +build+" =-\n"
 					+ "-= " + rel + " " + mach + " =-\n"
 					+ "-= Uptime: " + Util::formatSeconds(Util::getUptime()) + " =-\n"
 					+ "-= Sys Uptime: " + Util::toString(udays) + " days," + Util::toString(uhour) + " Hours," + Util::toString(umin) + " min. =-\n"

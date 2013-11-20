@@ -71,9 +71,9 @@ void AboutConfig::show()
 	
 	int n;
 	SettingsManager::Types type;
-	auto sm = SettingsManager::getInstance();
+	SettingsManager* sm = SettingsManager::getInstance();
 	
-	for(int i = 0;i < SettingsManager::SETTINGS_LAST ; i++ ) {
+	for(int i = 0; i < SettingsManager::SETTINGS_LAST; i++ ) {
 		string b = sm->getSettingTags()[i];
 		if (b == "SENTRY") continue;
 		if (sm->getType(b.c_str(), n, type)) {
@@ -242,7 +242,7 @@ void AboutConfig::onInfoResponse(GtkWidget *info_bar, gint response_id,  gpointe
 	AboutConfig *s = (AboutConfig *)data;
 	switch(response_id)
 	{
-		case -6://not alow
+		case -6://not allowing
 			gtk_widget_hide(info_bar);
 			break;
 		case -5://alow

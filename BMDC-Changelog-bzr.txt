@@ -850,5 +850,7 @@ Fix ADLSearch
 Fix Weird chars in Connection Type
 -----
 Fix build with 3.10 gtk
+----
+Remove Plugin API from Debug CMD Frame
 
 
