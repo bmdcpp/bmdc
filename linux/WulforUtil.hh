@@ -113,11 +113,11 @@ class WulforUtil
 	public:
 		static GtkIconTheme *icon_theme;
 	#else
+	private:	
 		static GtkIconFactory *iconFactory;
 	#endif
 		static std::vector<std::string> charsets;
 		static const std::string magnetSignature;
-	//	static GtkIconFactory *iconFactory;
 		static std::map<std::string,std::string> m_mimetyp;
 		static std::map<std::string,GdkPixbuf*> countryIcon;
 		static const char* CountryNames[];

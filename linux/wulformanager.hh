@@ -92,9 +92,7 @@ class WulforManager
 		DialogEntry *getDialogEntry_gui(const std::string &id);
 
 		// Thread-related functions
-		static gpointer threadFunc_gui(gpointer data);
 		static gpointer threadFunc_client(gpointer data);
-		void processGuiQueue();
 		void processClientQueue();
 
 		static WulforManager *manager;

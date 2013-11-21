@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2013 Mank , freedcpp at seznam dot cz
+ * Copyright © 2010-2013 Mank, freedcpp at seznam dot cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -100,13 +100,16 @@ int main(int argc, char *argv[])
 	g_set_application_name("BMDC++");
 	WulforSettingsManager::newInstance();
 	signal(SIGPIPE, SIG_IGN);
-	signal(SIGSEGV, printBacktrace);
+	signal(SIGSEGV, handle_crash);
+	signal(SIGINT,  handle_crash);
+	signal(SIGILL,  handle_crash);
+	signal(SIGFPE,  handle_crash);
+	signal(SIGABRT, handle_crash);
+	signal(SIGTERM, handle_crash);
 
 	WulforManager::start(argc, argv);
-	//gdk_threads_enter();
 	gtk_main();
 	bacon_message_connection_free(connection);
-	//gdk_threads_leave();
 	WulforManager::stop();
 	WulforSettingsManager::deleteInstance();
 

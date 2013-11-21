@@ -23,7 +23,6 @@
 #include "WulforUtil.hh"
 
 #include <iostream>
-//#include <gdk/gdkx.h>
 #include <glib/gi18n.h>
 #include "hashdialog.hh"
 #include "settingsdialog.hh"
@@ -44,10 +43,7 @@ void WulforManager::start(int argc, char **argv)
 	// Create WulforManager
 	dcassert(!manager);
 	manager = new WulforManager();
-
-	//gdk_threads_enter();
 	manager->createMainWindow();
-	//gdk_threads_leave();
 }
 
 void WulforManager::stop()
@@ -69,29 +65,15 @@ mainWin(NULL),guiThread(NULL),clientThread(NULL)
 	abort = FALSE;
 
 	// Initialize sempahore variables
-	//guiCondValue = 0;
 	clientCondValue = 0;
-	//g_cond_init(&guiCond);
 	g_cond_init(&clientCond);
-
-//	g_mutex_init(&guiCondMutex);
 	g_mutex_init(&clientCondMutex);
 
 	g_mutex_init(&clientCallMutex);
-//	g_mutex_init(&guiQueueMutex);
 	g_mutex_init(&clientQueueMutex);
 	g_rw_lock_init(&entryMutex);
 
 	GError *error = NULL;
-	//guiThread = g_thread_try_new("gui",threadFunc_gui, (gpointer)this, &error);
-	//if (error != NULL)
-	//{
-	//	cerr << "Unable to create gui thread: " << error->message << endl;
-	//	g_error_free(error);
-	//	exit(EXIT_FAILURE);
-	//}
-
-	//g_clear_error(&error);
 
 	clientThread = g_thread_try_new("client",threadFunc_client, (gpointer)this, &error);
 	if (error != NULL)
@@ -100,9 +82,6 @@ mainWin(NULL),guiThread(NULL),clientThread(NULL)
 		g_error_free(error);
 		exit(EXIT_FAILURE);
 	}
-
-	//mainWin = NULL;
-
 	// Determine path to data files
 	path = string(_DATADIR) + G_DIR_SEPARATOR_S + g_get_prgname();
 	if (!g_file_test(path.c_str(), G_FILE_TEST_EXISTS))
@@ -123,25 +102,16 @@ WulforManager::~WulforManager()
 {
 	abort = TRUE;
 
-	//g_mutex_lock(&guiCondMutex);
-	//guiCondValue++;
-	//g_cond_signal(&guiCond);
-	//g_mutex_unlock(&guiCondMutex);
-
 	g_mutex_lock(&clientCondMutex);
 	clientCondValue++;
 	g_cond_signal(&clientCond);
 	g_mutex_unlock(&clientCondMutex);
 
-	//g_thread_join(guiThread);
 	g_thread_join(clientThread);
 
-	//g_cond_clear(&guiCond);
 	g_cond_clear(&clientCond);
 	g_mutex_clear(&clientCondMutex);
-	//g_mutex_clear(&guiCondMutex);
 	g_mutex_clear(&clientCallMutex);
-	//g_mutex_clear(&guiQueueMutex);
 	g_mutex_clear(&clientQueueMutex);
 	g_rw_lock_clear(&entryMutex);
 }
@@ -173,56 +143,11 @@ void WulforManager::deleteMainWindow()
 	gtk_main_quit();
 }
 
-gpointer WulforManager::threadFunc_gui(gpointer data)
-{
-	WulforManager *man = (WulforManager *)data;
-	man->processGuiQueue();
-	return NULL;
-}
-
 gpointer WulforManager::threadFunc_client(gpointer data)
 {
 	WulforManager *man = (WulforManager *)data;
 	man->processClientQueue();
 	return NULL;
-}
-
-void WulforManager::processGuiQueue()
-{
-	/*FuncBase *func;
-
-	while (!abort)
-	{
-		g_mutex_lock(&guiCondMutex);
-		while (guiCondValue < 1)
-			g_cond_wait(&guiCond, &guiCondMutex);
-		guiCondValue--;
-		g_mutex_unlock(&guiCondMutex);
-
-		// This must be taken before the queuelock to avoid deadlock.
-		gdk_threads_enter();
-
-		g_mutex_lock(&guiQueueMutex);
-		while (!guiFuncs.empty())
-		{
-			func = guiFuncs.front();
-			guiFuncs.pop_front();
-
-			g_mutex_unlock(&guiQueueMutex);
-
-			func->call();
-			delete func;
-
-			g_mutex_lock(&guiQueueMutex);
-		}
-		g_mutex_unlock(&guiQueueMutex);
-
-		// Don't call gdk_flush() since it actually calls XSync, which can
-		// block waiting on events
-		//XFlush(GDK_DISPLAY_XDISPLAY(gdk_display_get_default()));
-		gdk_threads_leave();*/
-	/*}*/
-	//g_thread_exit(NULL);
 }
 //TODO: remove ?
 void WulforManager::processClientQueue()
@@ -259,47 +184,19 @@ void WulforManager::processClientQueue()
 
 void WulforManager::dispatchGuiFunc(FuncBase *func)
 {
-	//g_rw_lock_reader_lock(&entryMutex);
-
-	// Make sure we're not adding functions to deleted objects.
-	//if (entries.find(func->getID()) != entries.end())
-	{
-		//g_mutex_lock(&guiQueueMutex);
-		//guiFuncs.push_back(func);
 		g_idle_add((GSourceFunc)((func)->call_),func);
-		//g_mutex_unlock(&guiQueueMutex);
-/*
-		g_mutex_lock(&guiCondMutex);
-		guiCondValue++;
-		g_cond_signal(&guiCond);
-		g_mutex_unlock(&guiCondMutex);*/
-	}
-	//else
-	//	delete func;
-
-	//g_rw_lock_reader_unlock(&entryMutex);
 }
 
 void WulforManager::dispatchClientFunc(FuncBase *func)
 {
-	//g_rw_lock_reader_lock(&entryMutex);
+	g_mutex_lock(&clientQueueMutex);
+	clientFuncs.push_back(func);
+	g_mutex_unlock(&clientQueueMutex);
 
-	// Make sure we're not adding functions to deleted objects.
-	//if (entries.find(func->getID()) != entries.end())
-	{
-		g_mutex_lock(&clientQueueMutex);
-		clientFuncs.push_back(func);
-		g_mutex_unlock(&clientQueueMutex);
-
-		g_mutex_lock(&clientCondMutex);
-		clientCondValue++;
-		g_cond_signal(&clientCond);
-		g_mutex_unlock(&clientCondMutex);
-	}
-	//else
-	//	delete func;
-
-	//g_rw_lock_reader_unlock(&entryMutex);
+	g_mutex_lock(&clientCondMutex);
+	clientCondValue++;
+	g_cond_signal(&clientCond);
+	g_mutex_unlock(&clientCondMutex);
 }
 
 MainWindow *WulforManager::getMainWindow()
@@ -348,20 +245,6 @@ void WulforManager::deleteEntry_gui(Entry *entry)
 	}
 	g_mutex_unlock(&clientQueueMutex);
 
-/*	g_mutex_lock(&guiQueueMutex);
-	fIt = guiFuncs.begin();
-	while (fIt != guiFuncs.end())
-	{
-		if ((*fIt)->getID() == id)
-		{
-			delete *fIt;
-			fIt = guiFuncs.erase(fIt);
-		}
-		else
-			++fIt;
-	}
-	g_mutex_unlock(&guiQueueMutex);
-*/
 	// Remove the bookentry from the list.
 	g_rw_lock_writer_lock(&entryMutex);
 	if (entries.find(id) != entries.end())
