@@ -32,6 +32,8 @@
 #include "Splash.hh"
 #include "version.hh"
 #include <iostream>
+#include <iterator>
+#include <fstream>
 #include <signal.h>
 #include "stacktrace.h"
 
@@ -43,6 +45,39 @@ void receiver(const char *link, gpointer data)
 {
 	g_return_if_fail(link != NULL);
 	WulforManager::get()->onReceived_gui(link);
+}
+
+
+using namespace std;
+using namespace dcpp;
+
+static bool m_crash = false;
+void handle_crash(int sig)
+{
+    if(m_crash)
+        abort();
+
+    m_crash = true;
+
+    std::cerr << "pid: " << getpid() << std::endl;
+
+#if USE_STACKTRACE
+    cow::StackTrace trace;
+    trace.generate_frames();
+    std::copy(trace.begin(), trace.end(),
+        std::ostream_iterator<cow::StackFrame>(std::cerr, "\n"));
+
+	string stackPath = Util::getPath(Util::PATH_USER_CONFIG) + "exceptioninfo.txt";
+	std::ofstream f;
+	f.open(stackPath.c_str());
+	std::copy(trace.begin(), trace.end(),
+		std::ostream_iterator<cow::StackFrame>(f, "\n"));
+	f.close();
+	std::cout << "\nException info to be posted on the bug tracker has also been saved in " + stackPath << std::endl;
+#else
+    std::cerr << "Stacktrace is not enabled\n";
+#endif
+	return exit(0);
 }
 
 int main(int argc, char *argv[])
