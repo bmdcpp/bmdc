@@ -35,14 +35,13 @@ using namespace dcpp;
 WulforSettingsManager::WulforSettingsManager():
 	configFile(Util::getPath(Util::PATH_USER_CONFIG) + "BMDC.xml")
 {
-	//obtain from theme..(and fallbacking for now on 3.9+)
+	//obtain from theme..
 	GdkRGBA color;
-	#if !GTK_CHECK_VERSION(3,9,0)
-		GtkThemingEngine *engine = gtk_theming_engine_load(NULL);
-		gtk_theming_engine_get_background_color (engine,(GtkStateFlags)GTK_STATE_FLAG_NORMAL,&color);
-	#else
-		gdk_rgba_parse(&color,"white");
-	#endif
+	//  "gtk-theme-name"           gchar*                : Read / Write (from gtk-doc)
+	gchar *name_theme = NULL;
+	g_object_get(gtk_settings_get_default(),"gtk-theme-name",&name_theme,NULL);
+	GtkThemingEngine *engine = gtk_theming_engine_load(name_theme);
+	gtk_theming_engine_get_background_color (engine,(GtkStateFlags)GTK_STATE_FLAG_NORMAL,&color);
 	
 	defaultInt.insert(IntMap::value_type("main-window-maximized", 0));
 	defaultInt.insert(IntMap::value_type("main-window-size-x", 875));

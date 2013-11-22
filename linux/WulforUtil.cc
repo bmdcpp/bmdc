@@ -782,7 +782,6 @@ string WulforUtil::StringToUpper(std::string myString)
 
 string WulforUtil::getCountryCode(string _countryname)
 {
-	//string _cc = StringToUpper(_countryname);
 	std::transform(_countryname.begin(), _countryname.end(), _countryname.begin(), (int(*)(int))toupper);
 	if(_countryname.empty())
 		return Util::emptyString;
