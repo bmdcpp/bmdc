@@ -5,7 +5,6 @@ import os
 import commands
 import string
 import re
-#import subst
 
 EnsureSConsVersion(0, 98, 1)
 
@@ -192,11 +191,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		print '\tNote: You might have the lib but not the headers'
 		Exit(1)
 
-#	if not conf.CheckPKG('gthread-2.0 >= 2.4'):
-#		print '\tgthread >= 2.4 not found.'
-#		print '\tNote: You might have the lib but not the headers'
-#		Exit(1)
-
 #	if not conf.CheckCXXHeader('boost/version.hpp', '<>'):
 #		print '\tboost not found.'
 #		print '\tNote: You might have the lib but not the headers'
@@ -318,7 +312,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	env.Append(CPPPATH = '#/miniupnp')
 	env.Append(LIBS = 'miniupnpc')
 
-#	env.ParseConfig('pkg-config --libs gthread-2.0')
 	env.ParseConfig('pkg-config --libs gtk+-3.0')
 
 	env.Append(LIBPATH = env['build_path'] + CORE_PACKAGE)

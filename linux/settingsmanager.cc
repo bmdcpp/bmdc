@@ -113,7 +113,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("notify-only-not-active", 0));
 	defaultInt.insert(IntMap::value_type("status-icon-blink-use", 1));
 	defaultInt.insert(IntMap::value_type("emoticons-use", 1));
-	defaultInt.insert(IntMap::value_type("pm", 0));//Send private message when double clicked in the user list.
+	defaultInt.insert(IntMap::value_type("pm", 0));//Send private message when double clicked in the user list.//@TODO remove ?
 	defaultInt.insert(IntMap::value_type("search-spy-frame", 50));
 	defaultInt.insert(IntMap::value_type("search-spy-waiting", 40));
 	defaultInt.insert(IntMap::value_type("search-spy-top", 4));
