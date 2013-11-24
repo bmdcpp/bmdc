@@ -1178,9 +1178,9 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 					tagStyle = Tag::TAG_MYNICK;
 				else if (order[0] == 'C')
 					tagStyle = Tag::TAG_FAVORITE;
-				else if (order[0] == 'B')
+				else if (order[0] == 'B'  || order[0] == 'A')//bot fix (for now)
 					tagStyle = Tag::TAG_OPERATOR;
-				else if (order[0] == 'U' || order[0] == 'A')//bot fix (for now)
+				else if (order[0] == 'U' || order[0] == 'P' || order[0] == 'R')
 					tagStyle = Tag::TAG_NICK;
 
 				tagName = tagPrefix + tagName;
@@ -2640,8 +2640,6 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			if (!hub->WaitingPassword)
 				return;
 
-			//F1 *func = new F1(hub, &Hub::setPassword_client, params);
-			//WulforManager::get()->dispatchClientFunc(func);
 			hub->setPassword_client(params);
 			hub->WaitingPassword = FALSE;
 		}
@@ -2649,9 +2647,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		{
 			if (SETTING(SEND_UNKNOWN_COMMANDS))
 			{
-					//func2 = new F2(hub, &Hub::sendMessage_client, text, false);
-					//WulforManager::get()->dispatchClientFunc(func2);
-					hub->sendMessage_client(text, false);
+				hub->sendMessage_client(text, false);
 			}
 			else {
 				hub->addStatusMessage_gui(_("Unknown command '") + text + _("': type /help for a list of available commands"), Msg::SYSTEM, Sound::NONE);
@@ -2660,8 +2656,6 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 	}
 	else
 	{
-		//func2 = new F2(hub, &Hub::sendMessage_client, text, false);
-        //	WulforManager::get()->dispatchClientFunc(func2);
 		hub->sendMessage_client(text, false);
 	}
 }
@@ -4308,23 +4302,6 @@ void Hub::on(ClientListener::UserUpdated, Client *, const OnlineUser &user) noex
 	{
 		ParamMap params;
 		getParams_client(params, id);
-		//BMDC++
-		/*if(user.getIdentity().getUser()->isSet(User::PASSIVE))
-		{
-	            Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::addPasive_gui, params);
-      	      WulforManager::get()->dispatchGuiFunc(func);
-		}
-		if (user.getIdentity().isOp())
-		{
-			Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::addOperator_gui, params);
-      	      WulforManager::get()->dispatchGuiFunc(func);
-		}
-		if (user.getIdentity().getUser()->isSet(User::PROTECT))
-		{
-			Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::addProtected_gui, params);
-           		WulforManager::get()->dispatchGuiFunc(func);
-		}*/
-        //end
 		Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::updateUser_gui, params);
 		WulforManager::get()->dispatchGuiFunc(func);
 	}
@@ -4377,7 +4354,7 @@ void Hub::on(ClientListener::GetPassword, Client *) noexcept
 {
 	if (!client->getPassword().empty()) {
 		client->password(client->getPassword());
-        //Show if stored pass send..in status
+        //Show if stored pass send in status
 		typedef Func4<Hub, string,Msg::TypeMsg, Sound::TypeSound, Notify::TypeNotify> F4;
 		F4 *func4 = new F4(this, &Hub::addStatusMessage_gui, _("Send Stored password... "), Msg::SYSTEM, Sound::NONE, Notify::NONE);
 		WulforManager::get()->dispatchGuiFunc(func4);
@@ -4486,9 +4463,9 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 	}
 
 	bool third = false;
-	string mess;
+	//string mess;
 
-	mess = message.text;
+	string mess = message.text;
 	{
 		size_t nestle = message.text.find("/me");
 		if(nestle != string::npos)
