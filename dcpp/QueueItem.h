@@ -18,9 +18,11 @@
 
 #ifndef DCPLUSPLUS_DCPP_QUEUE_ITEM_H
 #define DCPLUSPLUS_DCPP_QUEUE_ITEM_H
-
+#ifdef __clang__
 #include <list>
-//#include <set>
+#else
+#include <set>
+#endif
 #include <vector>
 
 #include "User.h"
@@ -106,11 +108,11 @@ public:
 	typedef std::vector<Source> SourceList;
 	typedef SourceList::iterator SourceIter;
 	typedef SourceList::const_iterator SourceConstIter;
-	//#ifndef __clang__
-	//typedef std::set<Segment> SegmentSet;
-	//#else
-	typedef std::vector<Segment> SegmentSet;
-	//#endif
+	#ifndef __clang__
+		typedef std::set<Segment> SegmentSet;
+	#else
+		typedef std::vector<Segment> SegmentSet;
+	#endif
 	typedef SegmentSet::const_iterator SegmentConstIter;
 
 	QueueItem(const string& aTarget, int64_t aSize, Priority aPriority, int aFlag,
