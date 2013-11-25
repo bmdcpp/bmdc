@@ -777,11 +777,12 @@ void FavoriteManager::recentload(SimpleXML& aXml) {
 void FavoriteManager::userUpdated(const OnlineUser& info) {
 	Lock l(cs);
 	FavoriteMap::iterator i = users.find(info.getUser()->getCID());
+	bool isToSave = false;
 	if(i != users.end()) {
 		FavoriteUser& fu = i->second;
 		fu.update(info);
 		fire(FavoriteManagerListener::UserUpdated(), i->second);
-		save();
+		isToSave = true;
 	}
 	//Indepent Fav
 	auto it = favoritesNoCid.find(info.getIdentity().getNick());
@@ -790,9 +791,10 @@ void FavoriteManager::userUpdated(const OnlineUser& info) {
 		FavoriteUser& fiu = *(it->second);
 		fiu.update(info);
 		fire(FavoriteManagerListener::FavoriteIUpdate(), info.getIdentity().getNick(), fiu);
-		save();
+		isToSave = true;
 	}
-
+	if(isToSave)
+		save();
 }
 
 FavoriteHubEntryPtr FavoriteManager::getFavoriteHubEntry(const string& aServer) const {
@@ -1117,7 +1119,7 @@ void FavoriteManager::on(Complete, HttpConnection*, const string& aLine, bool fr
 		if(c->getMimeType() == "application/x-bzip2")
 			listType = TYPE_BZIP2;
 		parseSuccess = onHttpFinished(true);
-	}	
+	}
 	running = false;
 	if(parseSuccess) {
 		fire(FavoriteManagerListener::DownloadFinished(), aLine, fromCoral);
@@ -1143,8 +1145,8 @@ void FavoriteManager::on(UserDisconnected, const UserPtr& user) noexcept {
 		if(i != users.end()) {
 			i->second.setLastSeen(GET_TIME());
 			fire(FavoriteManagerListener::StatusChanged(), i->second);
+			save();
 		}
-		save();
 	}
 }
 
@@ -1154,7 +1156,6 @@ void FavoriteManager::on(UserConnected, const UserPtr& user) noexcept {
 		FavoriteMap::iterator i = users.find(user->getCID());
 		if(i != users.end()) {
 			fire(FavoriteManagerListener::StatusChanged(), i->second);
-			save();
 		}
 		//Idepetn Favorites
 		ClientManager::getInstance()->lock();
@@ -1166,7 +1167,6 @@ void FavoriteManager::on(UserConnected, const UserPtr& user) noexcept {
 		{
 			idt->second->update(*ou);
 			fire(FavoriteManagerListener::FavoriteIUpdate(), nick, *(idt->second));
-			save();
 		}
 	}
 }
