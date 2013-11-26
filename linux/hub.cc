@@ -4676,17 +4676,20 @@ GtkWidget *Hub::createmenu()
 	GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite hubs"));
 	GtkWidget *remfav = gtk_menu_item_new_with_label(_("Remove from Favorite hubs"));
 	GtkWidget *setTab = gtk_menu_item_new_with_label(_("Set Tab Name"));
+	GtkWidget *reconectItem = gtk_menu_item_new_with_label(_("Reconnect this hub"));
 
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), close);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), copyHubUrl);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), addFav);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), remfav);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), setTab);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), reconectItem);
 	gtk_widget_show(close);
 	gtk_widget_show(copyHubUrl);
 	gtk_widget_show(addFav);
 	gtk_widget_show(remfav);
 	gtk_widget_show(setTab);
+	gtk_widget_show(reconectItem);
 	gtk_widget_show_all(userCommandMenu1->getContainer());
 
 	g_signal_connect_swapped(copyHubUrl, "activate", G_CALLBACK(onCopyHubUrl), (gpointer)this);
@@ -4694,9 +4697,12 @@ GtkWidget *Hub::createmenu()
 	g_signal_connect_swapped(addFav, "activate", G_CALLBACK(onAddFavItem), (gpointer)this);
 	g_signal_connect_swapped(remfav, "activate", G_CALLBACK(onRemoveFavHub), (gpointer)this);
 	g_signal_connect_swapped(setTab, "activate", G_CALLBACK(onSetTabText), (gpointer)this);
-
+	g_signal_connect_swapped(reconectItem, "activate",G_CALLBACK(onReconnectItemTab), (gpointer)this);
 	return menu;
 }
+
+void Hub::onReconnectItemTab(gpointer data)
+{ ((Hub*)data)->reconnect_client();}
 
 void Hub::onCloseItem(gpointer data)
 {

@@ -67,14 +67,13 @@ class Hub:
 			GtkTreeIter iter;
 			return findNick_gui(word,&iter);
 		}
-		//void reconnect_p() { reconnect_client(); }
 
 	private:
 		//this represent state of user and nick of it
 		struct FlagUser: public dcpp::Flags
 		{
 		  public:
-			FlagUser(): dcpp::Flags(FLAG_PASIVE), nick(dcpp::Util::emptyString) {}	
+			FlagUser(): dcpp::Flags(FLAG_PASIVE), nick(dcpp::Util::emptyString) {}
 			FlagUser(const std::string& _nick,int _flags): dcpp::Flags((dcpp::Flags::MaskType)_flags),nick(_nick) { };
 			enum FlagUserFlags
 			{
@@ -83,7 +82,7 @@ class Hub:
 				FLAG_IGNORE = 1 << 3,
 				FLAG_PROTECT = 1 << 4,
 				FLAG_FAVORITE = 1 << 5
-			}; 
+			};
 			GETSET(std::string,nick, Nick);
 		};
 
@@ -123,7 +122,7 @@ class Hub:
 		void addIgnore_gui(ParamMap params);
 
 		void addPrivateMessage_gui(Msg::TypeMsg typemsg, std::string nick, std::string cid, std::string url, std::string message, bool useSetting);
-		//[BBCodes		
+		//[BBCodes
 		void loadImage_gui(std::string target, std::string tth);
 		void openImage_gui(std::string target);
 		void insertBBcodeEntry_gui(std::string ch);
@@ -184,6 +183,7 @@ class Hub:
 		static void onAddFavItem(gpointer data);
 		static void onRemoveFavHub(gpointer data);
 		static void onSetTabText(gpointer data);
+		static void onReconnectItemTab(gpointer data);
 		static void onAddIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onRemoveIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onShowReportClicked_gui(GtkMenuItem *item, gpointer data);
@@ -259,7 +259,7 @@ class Hub:
 		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) throw();
 
 		UserFlags users;//for OP flag etc
-		UserMap userMap; 
+		UserMap userMap;
 		UserIters userIters;
 		UserMap userFavoriteMap;
 		ImageList imageList;
