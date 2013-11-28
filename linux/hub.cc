@@ -2184,7 +2184,10 @@ void Hub::onRipeDbItem_gui(GtkWidget *wid, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	string error;
-	WulforUtil::openURI("http://www.db.ripe.net/whois?searchtext=" + hub->ip + "&searchSubmit=search", error);
+	dcpp::ParamMap params;
+	params["IP"] = hub->ip;
+	string result = dcpp::Util::formatParams(SETTING(RIPE_DB),params);
+	WulforUtil::openURI(result,error);
 	hub->setStatus_gui("statusMain",error);
 }
 

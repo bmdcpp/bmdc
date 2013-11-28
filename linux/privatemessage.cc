@@ -1637,6 +1637,9 @@ void PrivateMessage::onRipeDbItem_gui(GtkWidget *wid, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 	string error;
-	WulforUtil::openURI("http://www.db.ripe.net/whois?searchtext=" + pm->ip + "&searchSubmit=search", error);
+	dcpp::ParamMap params;
+	params["IP"] = pm->ip;
+	string result = dcpp::Util::formatParams(SETTING(RIPE_DB),params);
+	WulforUtil::openURI(result,error);
 	pm->setStatus_gui(error);
 }

@@ -54,7 +54,7 @@ const string SettingsManager::settingTags[] =
 	"SoundMainChat", "SoundPM", "SoundPMWindow", "SoundFinishedDL", "SoundFinishedFL", "LastSharedFolder",
 	"ACFrameOrder", "ACFrameWidths",
 	//[BMDC
-	"BackupFilePattern", "LogFileRaw", "LogFormatRaw", "ProtectedUsers", "BackupTimeStamp", "EmotPack",
+	"BackupFilePattern", "LogFileRaw", "LogFormatRaw", "ProtectedUsers", "BackupTimeStamp", "EmotPack", "RipeDB",
 	//]
 	"SENTRY",
 	// Ints
@@ -128,7 +128,7 @@ const string SettingsManager::settingTags[] =
 	"SpyFrameIgnoreTthSearches", "StatusInChat", "TimeDependentThrottle", "TimeStamps",
 	"ToggleActiveTab", "UrlHandler", "UseCTRLForLineHistory", "UseSystemIcons",
 	"UsersFilterFavorite", "UsersFilterOnline", "UsersFilterQueue", "UsersFilterWaiting",
-	"ACDisclaimer", 
+	"ACDisclaimer",
 	//BMDC++
 	"CheckAllClientsBeforeList",
 	"ShowFreeSlotsInDesc",
@@ -409,6 +409,8 @@ SettingsManager::SettingsManager()
 	setDefault(DCPP_EMULATION_RAW,0);
 	setDefault(VERSION_MISMATCH_RAW,0);
 	setDefault(SDL_RAW,0);
+
+	setDefault(RIPE_DB,"https://apps.db.ripe.net/search/query.html?searchtext=%[IP]&search%3AdoSearch=Search#resultsAnchor");
 
 	setSearchTypeDefaults();
 

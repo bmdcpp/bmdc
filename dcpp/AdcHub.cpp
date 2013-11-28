@@ -84,9 +84,7 @@ OnlineUser& AdcHub::getUser(const uint32_t aSID, const CID& aCID) {
 		Lock l(cs);
 		ou = users.insert(make_pair(aSID, new OnlineUser(p, *this, aSID))).first->second;
 	}
-
-	//if(aSID != AdcCommand::HUB_SID)
-		ClientManager::getInstance()->putOnline(ou);
+	ClientManager::getInstance()->putOnline(ou);
 	return *ou;
 }
 
@@ -117,8 +115,7 @@ void AdcHub::putUser(const uint32_t aSID, bool disconnect) {
 		users.erase(i);
 	}
 
-	//if(aSID != AdcCommand::HUB_SID)
-		ClientManager::getInstance()->putOffline(ou, disconnect);
+	ClientManager::getInstance()->putOffline(ou, disconnect);
 
 	fire(ClientListener::UserRemoved(), this, *ou);
 	delete ou;
@@ -577,7 +574,7 @@ void AdcHub::handle(AdcCommand::GET, AdcCommand& c) noexcept {
 		if (m > 0) {
 			ShareManager::getInstance()->getBloom(v, k, m, h);
 		}
-		
+
 		AdcCommand cmd(AdcCommand::CMD_SND, AdcCommand::TYPE_HUB);
 		cmd.addParam(c.getParam(0));
 		cmd.addParam(c.getParam(1));
@@ -939,7 +936,7 @@ void AdcHub::sendSearch(AdcCommand& c) {
 void AdcHub::password(const string& pwd) {
 	if(state != STATE_VERIFY)
 		return;
-		
+
 	if(!salt.empty()) {
 		size_t saltBytes = salt.size() * 5 / 8;
 		//std::shared_ptr<uint8_t> buf(new uint8_t[saltBytes]);
