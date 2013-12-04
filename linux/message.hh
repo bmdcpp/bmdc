@@ -58,7 +58,6 @@ class Tag
 			TAG_CHEAT,
 			TAG_TIMESTAMP,
 			/*-*/
-			TAG_HIGHL,
 			TAG_MYNICK,
 			TAG_NICK,
 			TAG_OPERATOR,

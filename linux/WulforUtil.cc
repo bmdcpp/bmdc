@@ -1613,6 +1613,7 @@ gboolean WulforUtil::HitIP(string& name, string &sIp)
 	bool isOkIpV6 = false;
 	if(name.empty()) return false;
 	size_t n = std::count(name.begin(), name.end(), ':');
+	if( (n==2) && (name.size() == 2) ) return true;//Fix for "::"
 	if(n == 0 || n < 2)
 			return Ipv4Hit(name,sIp);
 	bool ok = false;

@@ -169,7 +169,6 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	TagsMap[Tag::TAG_FAVORITE] = createTag_gui("TAG_FAVORITE", Tag::TAG_FAVORITE);
 	TagsMap[Tag::TAG_URL] = createTag_gui("TAG_URL", Tag::TAG_URL);
 	TagsMap[Tag::TAG_IPADR] = createTag_gui("TAG_IPADR", Tag::TAG_IPADR);
-	//TagsMap[Tag::TAG_HIGHL] = createTag_gui("TAG_HIGHL", Tag::TAG_HIGHL);
 
 	// set default select tag (fix error show cursor in neutral space)
 	selectedTag = TagsMap[Tag::TAG_PRIVATE];
@@ -861,13 +860,6 @@ void PrivateMessage::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag 
 			bold = wsm->getInt("text-url-bold");
 			italic = wsm->getInt("text-url-italic");
 		break;
-
-		//case Tag::TAG_HIGHL:
-		//	fore = wsm->getString("text-high-fore-color");
-		//	back = wsm->getString("text-high-back-color");
-		//	bold = wsm->getInt("text-high-bold");
-		//	italic = wsm->getInt("text-high-italic");
-		//	break;
 
 		case Tag::TAG_NICK:
 
