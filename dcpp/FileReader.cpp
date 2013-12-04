@@ -261,7 +261,7 @@ size_t FileReader::readMapped(const string& file, const DataCallback& callback) 
 }
 
 #else
-#define __USE_POSIX 0
+//#define __USE_POSIX 0
 #include <sys/mman.h> // mmap, munmap, madvise
 #include <signal.h>  // for handling read errors from previous trio
 #ifndef __clang__

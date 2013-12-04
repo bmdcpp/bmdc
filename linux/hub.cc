@@ -50,16 +50,11 @@ const string Hub::tagPrefix = "#";
 
 Hub::Hub(const string &address, const string &encoding):
 	BookEntry(Entry::HUB, address, "hub.glade", address),
-	client(NULL),
-	historyIndex(0),
-	totalShared(0),
-	address(address),
-	encoding(encoding),
-	scrollToBottom(TRUE),
-	PasswordDialog(FALSE),
-	WaitingPassword(FALSE),
-	ImgLimit(0),
-	notify(false)
+	client(NULL), historyIndex(0),
+	totalShared(0),	address(address),
+	encoding(encoding),  scrollToBottom(TRUE),
+	PasswordDialog(FALSE),	WaitingPassword(FALSE),
+	ImgLimit(0), notify(false)
 {
 
 	// Initialize nick treeview
@@ -305,7 +300,7 @@ Hub::Hub(const string &address, const string &encoding):
 	TagsMap[Tag::TAG_FAVORITE] = createTag_gui("TAG_FAVORITE", Tag::TAG_FAVORITE);
 	TagsMap[Tag::TAG_URL] = createTag_gui("TAG_URL", Tag::TAG_URL);
 	TagsMap[Tag::TAG_IPADR] = createTag_gui("TAG_IPADR", Tag::TAG_IPADR);
-	TagsMap[Tag::TAG_HIGHL] = createTag_gui("TAG_HIGHL", Tag::TAG_HIGHL);
+	//TagsMap[Tag::TAG_HIGHL] = createTag_gui("TAG_HIGHL", Tag::TAG_HIGHL);
 
 	BoldTag = gtk_text_buffer_create_tag(chatBuffer, "TAG_WEIGHT", "weight", PANGO_WEIGHT_BOLD, NULL);
 	UnderlineTag = gtk_text_buffer_create_tag(chatBuffer, "TAG_UNDERLINE", "underline", PANGO_UNDERLINE_SINGLE, NULL);
@@ -1750,13 +1745,13 @@ void Hub::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, strin
 			italic = wsm->getInt("text-cheat-italic");
 		break;
 
-		case Tag::TAG_HIGHL:
+		//case Tag::TAG_HIGHL:
 
-			fore = wsm->getString("text-high-fore-color");
-			back = wsm->getString("text-high-back-color");
-			bold = wsm->getInt("text-high-bold");
-			italic = wsm->getInt("text-high-italic");
-		break;
+		//	fore = wsm->getString("text-high-fore-color");
+		//	back = wsm->getString("text-high-back-color");
+		//	bold = wsm->getInt("text-high-bold");
+		//	italic = wsm->getInt("text-high-italic");
+		//break;
 
 		case Tag::TAG_MYNICK:
 
