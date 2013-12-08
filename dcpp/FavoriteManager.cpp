@@ -1157,7 +1157,7 @@ void FavoriteManager::on(UserConnected, const UserPtr& user) noexcept {
 		if(i != users.end()) {
 			fire(FavoriteManagerListener::StatusChanged(), i->second);
 		}
-		//Idepetn Favorites
+		//Idedetn Favorites
 		ClientManager::getInstance()->lock();
 		OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(HintedUser(user,Util::emptyString));
 		Identity id = ou->getIdentity();

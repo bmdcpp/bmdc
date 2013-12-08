@@ -844,14 +844,16 @@ Fix root item in ShareBrowser
 Fix Partial Listing
 -----r274
 Fix hideing transfers
------r277
+-----r275
 Fix ADLSearch
------r278
+-----r276
 Fix Weird chars in Connection Type
 -----
 Fix build with 3.10 gtk
-----r288
+----r287
 Remove Plugin API from Debug CMD Frame
-----r299
+----r298
 Beter hadling of crashes
+----
+Fix IPv6 coloring in chat
 

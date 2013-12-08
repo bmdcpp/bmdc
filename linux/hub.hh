@@ -239,6 +239,7 @@ class Hub:
 		virtual void on(dcpp::FavoriteManagerListener::UserRemoved, const dcpp::FavoriteUser &user) noexcept;
 		virtual void on(dcpp::FavoriteManagerListener::FavoriteIAdded, const std::string &nick, dcpp::FavoriteUser* &user) noexcept;
 		virtual void on(dcpp::FavoriteManagerListener::FavoriteIRemoved, const std::string &nick, dcpp::FavoriteUser* &user) noexcept;
+		virtual void on(dcpp::FavoriteManagerListener::StatusChanged, const dcpp::FavoriteUser& fu) noexcept;
 		// Client callbacks
 		virtual void on(dcpp::ClientListener::Connecting, dcpp::Client *) noexcept;
 		virtual void on(dcpp::ClientListener::Connected, dcpp::Client *) noexcept;

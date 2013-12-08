@@ -28,7 +28,7 @@
 #include <dcpp/ShareManager.h>
 #include <dcpp/UserCommand.h>
 #include <dcpp/version.h>
-#include <dcpp/ChatMessage.h> //NOTE: core 0.762
+#include <dcpp/ChatMessage.h>
 #include <dcpp/GeoManager.h>
 #include <dcpp/PluginManager.h>
 #include <dcpp/ConnectivityManager.h>
@@ -154,7 +154,7 @@ Hub::Hub(const string &address, const string &encoding):
 	// Initialize the user command menu
 	userCommandMenu = new UserCommandMenu(getWidget("usercommandMenu"), ::UserCommand::CONTEXT_USER);//NOTE: core 0.762
 	addChild(userCommandMenu);
-    // Hub ...
+	// Hub ...
 	userCommandMenu1 = new UserCommandMenu(BookEntry::createmenu(), ::UserCommand::CONTEXT_HUB);
 	addChild(userCommandMenu1);
 	// Ip ...
@@ -489,9 +489,6 @@ Hub::~Hub()
 void Hub::show()
 {
 	// Connect to the hub
-	//typedef Func2<Hub, string, string> F2;
-	//F2 *func = new F2(this, &Hub::connectClient_client, address, encoding);
-	//WulforManager::get()->dispatchClientFunc(func);
 	connectClient_client(address, encoding);
 }
 
@@ -660,11 +657,7 @@ void Hub::updateUser_gui(ParamMap params)
 		isProtected = it->second.isSet(FlagUser::FLAG_PROTECT);
 	}
 
-	GdkPixbuf *pixbuf = WulforUtil::LoadCountryPixbuf(params["Abbrevation"]); //we dont need more that one instant and also not need more that one ref
-
-	//Color of OP,Pasive, Fav, Ignore, Protect//TODO more flexibile ??
-	//string nickColor = (isProtected ? WGETS("userlist-text-protected") :(isOperator ? WGETS("userlist-text-operator") : (isPasive ? WGETS("userlist-text-pasive") :(favorite ? WGETS("userlist-text-favorite") : ( isIgnore ? WGETS("userlist-text-ignored") : WGETS("userlist-text-normal"))))));
-	string nickColor = params["NickColor"];
+	GdkPixbuf *pixbuf = WulforUtil::LoadCountryPixbuf(params["Abbrevation"]);
 
 	if (findUser_gui(cid, &iter))
 	{
@@ -699,20 +692,20 @@ void Hub::updateUser_gui(ParamMap params)
  			nickView.col(_("Connection")), params["Connection"].c_str(),
 			nickView.col("IP"), params["IP"].c_str(),
 			nickView.col(_("eMail")), params["eMail"].c_str(),
-            nickView.col(_("Country")), params["Country"].c_str(),
-            nickView.col(_("Exact Share")), shared,
-            nickView.col(_("Slots")), params["Slots"].c_str(),
-            nickView.col(_("Hubs")), params["Hubs"].c_str(),
-            nickView.col("PK"), params["PK"].c_str(),
-            nickView.col(_("Cheat")), params["Cheat"].c_str(),
-            nickView.col(_("Generator")), params["Generator"].c_str(),
-            nickView.col(_("Support")), params["Support"].c_str(),
+			nickView.col(_("Country")), params["Country"].c_str(),
+			nickView.col(_("Exact Share")), shared,
+			nickView.col(_("Slots")), params["Slots"].c_str(),
+			nickView.col(_("Hubs")), params["Hubs"].c_str(),
+			nickView.col("PK"), params["PK"].c_str(),
+			nickView.col(_("Cheat")), params["Cheat"].c_str(),
+			nickView.col(_("Generator")), params["Generator"].c_str(),
+			nickView.col(_("Support")), params["Support"].c_str(),
 			nickView.col("Icon"), icon.c_str(),
 			nickView.col("Nick Order"), nickOrder.c_str(),
 			nickView.col("CID"), cid.c_str(),
-			nickView.col("NickColor"), nickColor.c_str(),
-            nickView.col("Pixbuf"), pixbuf,
-            nickView.col("Client Type"), params["Type"].c_str(),
+			nickView.col("NickColor"), params["NickColor"].c_str(),
+			nickView.col("Pixbuf"), pixbuf,
+			nickView.col("Client Type"), params["Type"].c_str(),
 			-1);
 	}
 	else
@@ -739,7 +732,7 @@ void Hub::updateUser_gui(ParamMap params)
 			nickView.col("Icon"), icon.c_str(),
 			nickView.col("Nick Order"), nickOrder.c_str(),
 			nickView.col("CID"), cid.c_str(),
-			nickView.col("NickColor"), nickColor.c_str(),
+			nickView.col("NickColor"), params["NickColor"].c_str(),
             nickView.col("Pixbuf"), pixbuf,
             nickView.col("Client Type"), params["Type"].c_str(),
 			-1);
@@ -802,7 +795,7 @@ void Hub::removeUser_gui(string cid)
 			if (order[0] == 'C')//f
 				Notify::get()->showNotify("", message, Notify::FAVORITE_USER_QUIT);
 		}
-		else if ( (client->get(HubSettings::FavShowJoins) == 1 )&& order[0] == 'C')//f
+		else if ( (client->get(HubSettings::FavShowJoins) == 1 )&& order[0] == 'C')
 		{
 			// Only show parts for favorite users
 			string message = nick + _(" has quit hub ") + client->getHubName();
@@ -948,9 +941,6 @@ void Hub::onPasswordDialog(GtkWidget *dialog, gint response, gpointer data)
 	if (response == GTK_RESPONSE_OK)
 	{
 		string password = gtk_entry_get_text(GTK_ENTRY(entry));
-		//typedef Func1<Hub, string> F1;
-		//F1 *func = new F1(hub, &Hub::setPassword_client, password);
-		//WulforManager::get()->dispatchClientFunc(func);
 		hub->setPassword_client(password);
 	}
 	else
@@ -1687,8 +1677,7 @@ void Hub::preferences_gui()
 	string sort = SETTING(SORT_FAVUSERS_FIRST) ? "Client Type" : "Nick Order";
 	nickView.setSortColumn_gui(_("Nick"), sort);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);
-
-//..set Colors
+//set Colors
 	string strcolor = WGETS("background-color-chat");
 	GdkRGBA color;
 	gdk_rgba_parse(&color,strcolor.c_str());
@@ -2067,6 +2056,7 @@ gboolean Hub::onNickTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *e
 		gchar *tmp;
 		g_object_get(G_OBJECT(tag), "name", &tmp, NULL);
 		string tagName = string(tmp);
+		
 		hub->nickToChat_gui(tagName.substr(tagPrefix.size()));
 
 		return TRUE;
@@ -3417,8 +3407,8 @@ void Hub::addOperator_gui(ParamMap params)
 		if (findUser_gui(cid, &iter))
 		{
 			gtk_list_store_set(nickStore, &iter,
-                    nickView.col("NickColor"), WGETS("userlist-text-operator").c_str(),
-                    nickView.col("Client Type"), params["Type"].c_str(),
+			nickView.col("NickColor"), WGETS("userlist-text-operator").c_str(),
+			nickView.col("Client Type"), params["Type"].c_str(),
 				-1);
 			removeTag_gui(nick);
 		}
@@ -3869,38 +3859,39 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 	if(id.isBot() || id.isHub()) {
         params.insert(ParamMap::value_type("Type", "A" + id.getNick()));
         params.insert(ParamMap::value_type("NickColor",WGETS("userlist-text-bot-hub")));
-    } else if (id.isOp()) {
+	} else if (id.isOp()) {
         params.insert(ParamMap::value_type("Type", "B" + id.getNick()));
         params.insert(ParamMap::value_type("NickColor",WGETS("userlist-text-operator")));
-    }
-    if(id.getUser()->isSet(User::PASSIVE))
+    	}
+	else if(id.getUser()->isSet(User::PASSIVE))
 	{
-		params.insert(ParamMap::value_type("Type", "P" + id.getNick()));
+		params.insert(ParamMap::value_type("Type", "Z" + id.getNick()));
 		params.insert(ParamMap::value_type("NickColor", WGETS("userlist-text-pasive")));
 	}
-    else if(id.getUser()->isSet(User::PROTECT))
+    	else if(id.getUser()->isSet(User::PROTECT))
 	{
 		params.insert(ParamMap::value_type("NickColor", WGETS("userlist-text-protected")));
 		params.insert(ParamMap::value_type("Type", "R" + id.getNick()));
-	}else {
-        params.insert(ParamMap::value_type("Type", "U" + id.getNick()));
-		params.insert(ParamMap::value_type("NickColor",WGETS("userlist-text-normal")));
 	}
-
-	if(FavoriteManager::getInstance()->isFavoriteUser(id.getUser())  && !FavoriteManager::getInstance()->getFavoriteUser(id.getUser())->isSet(FavoriteUser::FLAG_IGNORE))
+	else if(FavoriteManager::getInstance()->isFavoriteUser(id.getUser())  
+	&& !FavoriteManager::getInstance()->getFavoriteUser(id.getUser())->isSet(FavoriteUser::FLAG_IGNORE))
 	{
 		params.insert(ParamMap::value_type("Type", "C" + id.getNick()));
 		params.insert(ParamMap::value_type("NickColor", WGETS("userlist-text-favorite")));
 	}
-    if(FavoriteManager::getInstance()->isFavoriteIUser(id.getNick()))
+	else if(FavoriteManager::getInstance()->isFavoriteIUser(id.getNick()))
 	{
 		params.insert(ParamMap::value_type("Type", "C" + id.getNick()));
 		params.insert(ParamMap::value_type("NickColor", WGETS("userlist-text-favorite")));
 	}
-	if(FavoriteManager::getInstance()->isFavoriteUser(id.getUser()) && FavoriteManager::getInstance()->getFavoriteUser(id.getUser())->isSet(FavoriteUser::FLAG_IGNORE))
-     {
+	else if(FavoriteManager::getInstance()->isFavoriteUser(id.getUser()) 
+	&& FavoriteManager::getInstance()->getFavoriteUser(id.getUser())->isSet(FavoriteUser::FLAG_IGNORE))
+     	{
 		params.insert(ParamMap::value_type("Type", "I" + id.getNick()));
 		params.insert(ParamMap::value_type("NickColor", WGETS("userlist-text-ignored")));
+	}else {
+        	params.insert(ParamMap::value_type("Type", "U" + id.getNick()));
+		params.insert(ParamMap::value_type("NickColor",WGETS("userlist-text-normal")));
 	}
 }
 
@@ -4237,6 +4228,20 @@ void Hub::on(FavoriteManagerListener::UserAdded, const FavoriteUser &user) throw
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
+void Hub::on(dcpp::FavoriteManagerListener::StatusChanged, const FavoriteUser& fu) noexcept
+{
+	if (fu.getUrl() != client->getHubUrl())
+		return;
+	ParamMap params;
+	params.insert(ParamMap::value_type("Nick", fu.getNick()));
+	params.insert(ParamMap::value_type("CID", fu.getUser()->getCID().toBase32()));
+	params.insert(ParamMap::value_type("Order", ClientManager::getInstance()->isOp(fu.getUser(), fu.getUrl()) ? "O" : "U"));
+	params.insert(ParamMap::value_type("Type", string(fu.isSet(FavoriteUser::FLAG_IGNORE) ? "I" : "C") + fu.getNick()));
+	
+	Func1<Hub, ParamMap> *func = new Func1<Hub, ParamMap>(this, &Hub::addFavoriteUser_gui, params);
+	WulforManager::get()->dispatchGuiFunc(func);
+}
+
 void Hub::on(FavoriteManagerListener::UserRemoved, const FavoriteUser &user) throw()
 {
 	if (user.getUrl() != client->getHubUrl())
@@ -4452,7 +4457,6 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 	}
 
 	bool third = false;
-	//string mess;
 
 	string mess = message.text;
 	{
@@ -4728,8 +4732,7 @@ void Hub::on_setImage_tab(GtkButton *widget, gpointer data)
 				        NULL);
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
 	{
-		char *filename;
-		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+		char *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
 		string tmp = Util::getFileExt(string(filename));
 		tmp = WulforUtil::StringToUpper(tmp);
 

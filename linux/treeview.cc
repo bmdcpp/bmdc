@@ -343,7 +343,7 @@ void TreeView::addColumn_gui(Column& column)
 			gtk_tree_view_column_set_title(col, column.title.c_str());
 			gtk_tree_view_column_pack_start(col, renderer, false);
 			#if GTK_CHECK_VERSION(3,9,0)
-				gtk_tree_view_column_add_attribute(col, renderer, "icon-name"/*"stock-id"*/, TreeView::col(column.linkedCol));
+				gtk_tree_view_column_add_attribute(col, renderer, "icon-name", TreeView::col(column.linkedCol));
 			#else
 				gtk_tree_view_column_add_attribute(col, renderer, "stock-id", TreeView::col(column.linkedCol));
 			#endif
@@ -414,7 +414,7 @@ void TreeView::addColumn_gui(Column& column)
 	gtk_tree_view_insert_column(view, col, column.pos);
 	column.renderer = renderer;//think;
 	column.column = col;
-     g_object_set_data(G_OBJECT(col), "column", (gpointer)&column);
+	g_object_set_data(G_OBJECT(col), "column", (gpointer)&column);
 	/*
 	 * Breaks GTK+ API, but is the only way to attach a signal to a gtktreeview column header. See GTK bug #141937.
 	 * @todo: Replace when GTK adds a way to add a signal to the entire header (remove visibleColumns var, too).
