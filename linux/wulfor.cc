@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
 
 		bacon_message_connection_free(connection);
 
-		return 0;
+		return 1;
 	}
 
 	if (bacon_message_connection_get_is_server(connection))

@@ -58,6 +58,11 @@ class SearchEntry: public BookEntry
 		{ gtk_notebook_set_tab_pos(GTK_NOTEBOOK(getWidget("sebook")), pos);}
 		void removeBookEntry_gui(BookEntry *entry);
 		void addBookEntry_gui(BookEntry *entry);
+		static void onRaisePage_gui(GtkWidget* item,gpointer data)
+		{
+			gpointer sp = g_object_get_data(G_OBJECT(item),"data");
+			((SearchEntry*)sp)->raisePage_gui((GtkWidget*)data);
+		}
 	private:
 		GtkWidget *currentPage_gui();
 		void raisePage_gui(GtkWidget *page);

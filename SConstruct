@@ -18,7 +18,6 @@ LIB_IS_UPNP = True
 LIB_IS_NATPMP = True
 LIB_IS_GEO = False
 LIB_IS_TAR = False
-# -fpermissive
 # , '-Werror' ,'-Wfatal-errors'
 BUILD_FLAGS = {
 	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib','-fno-stack-protector','-Wno-unused-parameter','-Wno-unused-value','-Wno-missing-field-initializers', '-Wno-address','-fexceptions','-g3', '-ldl', '-pipe','-DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED','-DGSEAL_ENABLE','-DUSE_STACKTRACE' ,'-fpermissive' ],
@@ -80,13 +79,6 @@ def generate_message_catalogs(env):
 		env.MoBuild(source = po_file, target = mo_file)
 
 	return None
-
-#def generate_desktop_file(env):
-#	TOOL_SUBST(env)
-#	env["DISPLAY_NAME"] = "BMDC++"
-#	env["DESCRIPTION"] = "DC++ Client"
-#	env.Substfile("data/bmdc.desktop","bmdc.in")
-
 
 # ----------------------------------------------------------------------
 # Command-line options
@@ -191,11 +183,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		print '\tNote: You might have the lib but not the headers'
 		Exit(1)
 
-#	if not conf.CheckCXXHeader('boost/version.hpp', '<>'):
-#		print '\tboost not found.'
-#		print '\tNote: You might have the lib but not the headers'
-#		Exit(1)
-
 	if not conf.CheckHeader('time.h'):
 		Exit(1)
 
@@ -232,9 +219,9 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		Exit(1)
 
 	# Needed for XFlush(). Headers shouldn't be needed since we include gdk/gdkx.h
-	if not conf.CheckLib('X11'):
-		print '\tX11 library not found'
-		Exit(1)
+	#if not conf.CheckLib('X11'):
+	#	print '\tX11 library not found'
+	#	Exit(1)
 
 	if not conf.CheckHeader('iconv.h'):
 		Exit(1)
@@ -386,7 +373,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	# i18n
 	env.MergePotFiles(source = [glade_pot_file, linux_pot_file], target = 'po/%s.pot' % PACKAGE)
 	env.GenerateMessageCatalogs()
-#	generate_desktop_file(env)
 
 	# Build source files followed by everything else
 	Default(PACKAGE, '.')
@@ -400,9 +386,9 @@ else:
 	glade_files = env.Glob('ui/*.ui')
 	text_files = env.Glob('*.txt')
 	prefix = env['FAKE_ROOT'] + env['PREFIX']
-	extfil = env.Glob('extensions/Scripts/*.sh')
-	pythfil = env.Glob('extensions/Scripts/*.py')
-	country = env.Glob('country/*.png')
+	shell_files = env.Glob('extensions/Scripts/*.sh')
+	py_files = env.Glob('extensions/Scripts/*.py')
+	country_files = env.Glob('country/*.png')
 	desktop_file = os.path.join('data', PACKAGE + '.desktop')
 	app_icon_filter = lambda icon: os.path.splitext(icon)[0] == PACKAGE
 	regular_icon_filter = lambda icon: os.path.splitext(icon)[0] != PACKAGE
@@ -415,8 +401,8 @@ else:
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'ui'), source = glade_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', 'doc', PACKAGE), source = text_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', 'applications'), source = desktop_file))
-	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'extensions/Scripts'), source = extfil))
-	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'extensions/Scripts'), source = pythfil))
-	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'country'), source = country))
+	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'extensions/Scripts'), source = shell_files))
+	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'extensions/Scripts'), source = py_files))
+	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'country'), source = country_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'bin'), source = PACKAGE))
 

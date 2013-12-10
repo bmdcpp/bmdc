@@ -42,7 +42,7 @@ WulforSettingsManager::WulforSettingsManager():
 	g_object_get(gtk_settings_get_default(),"gtk-theme-name",&name_theme,NULL);
 	GtkThemingEngine *engine = gtk_theming_engine_load(name_theme);
 	gtk_theming_engine_get_background_color (engine,(GtkStateFlags)GTK_STATE_FLAG_NORMAL,&color);
-	
+	//
 	defaultInt.insert(IntMap::value_type("main-window-maximized", 0));
 	defaultInt.insert(IntMap::value_type("main-window-size-x", 875));
 	defaultInt.insert(IntMap::value_type("main-window-size-y", 685));

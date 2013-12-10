@@ -3,11 +3,8 @@
 
 Import('env')
 
-#VERSION_SOURCE = 'version.cc'
-
 header_files = env.Glob('*.hh')
 gui_files = env.Glob('*.cc')
-#gui_files.remove(File(VERSION_SOURCE))
 obj_files = []
 
 env.ParseConfig('pkg-config --cflags --libs gtk+-3.0')
@@ -15,8 +12,6 @@ env.Append(CPPDEFINES='PACKAGE=\'\"%s\"\'' % env['package'])
 
 # Build the gui_files
 obj_files = env.Object(gui_files)
-#obj_file = env.Object(VERSION_SOURCE, CPPDEFINES = 'BZR_REVISION=\\"%s\\"' % env['BZR_REVISION'])
-#obj_files.append(obj_file)
 
 pot_file = env.PotBuild(source = gui_files + header_files, target='po/linux.pot', LANGUAGE='C++')
 

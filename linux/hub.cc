@@ -414,7 +414,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		{
 		   color	= WGETS("userlist-bg-protected");
 		}//pasive
-		else if (strcmp(a,"P") == 0)
+		else if (strcmp(a,"Z") == 0)
 		{
 		   color = WGETS("userlist-bg-pasive");
 		}
@@ -1164,7 +1164,7 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 					tagStyle = Tag::TAG_FAVORITE;
 				else if (order[0] == 'B'  || order[0] == 'A')//bot fix (for now)
 					tagStyle = Tag::TAG_OPERATOR;
-				else if (order[0] == 'U' || order[0] == 'P' || order[0] == 'R')
+				else if (order[0] == 'U' || order[0] == 'Z' || order[0] == 'R')
 					tagStyle = Tag::TAG_NICK;
 
 				tagName = tagPrefix + tagName;
@@ -3863,11 +3863,6 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
         params.insert(ParamMap::value_type("Type", "B" + id.getNick()));
         params.insert(ParamMap::value_type("NickColor",WGETS("userlist-text-operator")));
     	}
-	else if(id.getUser()->isSet(User::PASSIVE))
-	{
-		params.insert(ParamMap::value_type("Type", "Z" + id.getNick()));
-		params.insert(ParamMap::value_type("NickColor", WGETS("userlist-text-pasive")));
-	}
     	else if(id.getUser()->isSet(User::PROTECT))
 	{
 		params.insert(ParamMap::value_type("NickColor", WGETS("userlist-text-protected")));
@@ -3889,7 +3884,12 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
      	{
 		params.insert(ParamMap::value_type("Type", "I" + id.getNick()));
 		params.insert(ParamMap::value_type("NickColor", WGETS("userlist-text-ignored")));
-	}else {
+	}else if(id.getUser()->isSet(User::PASSIVE))
+	{
+		params.insert(ParamMap::value_type("Type", "Z" + id.getNick()));
+		params.insert(ParamMap::value_type("NickColor", WGETS("userlist-text-pasive")));
+	}
+	else {
         	params.insert(ParamMap::value_type("Type", "U" + id.getNick()));
 		params.insert(ParamMap::value_type("NickColor",WGETS("userlist-text-normal")));
 	}
