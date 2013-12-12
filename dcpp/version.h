@@ -18,18 +18,18 @@
 
 #define APPNAME "BMDC++"
 
-#define VERSIONSTRING "0.800"
-#define VERSIONFLOAT 0.800
+#define VERSIONSTRING "0.810"
+#define VERSIONFLOAT 0.810
 
 #ifndef DCPP_REVISION
 	#define DCPP_REVISION 2972
 	#define DCPP_REVISION_STRING "2972+"
 #endif
 #ifndef BMDC_REVISION
-	#define BMDC_REVISION 267
+	#define BMDC_REVISION 302
 #endif
 #ifndef BMDC_REVISION_STRING
-	#define BMDC_REVISION_STRING "267"
+	#define BMDC_REVISION_STRING "302"
 #endif
 #define xstrver(s) strver(s)
 #define strver(s) #s

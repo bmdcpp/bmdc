@@ -88,7 +88,7 @@ class QueueItem;
 typedef QueueItem* QueueItemPtr;
 
 class SearchResult;
-typedef std::shared_ptr<SearchResult> SearchResultPtr;
+typedef SearchResult* SearchResultPtr;
 
 class Socket;
 class SocketException;

@@ -54,17 +54,17 @@ stop(false)
     
     ClientManager *clientMgr = ClientManager::getInstance();
     {
-		auto lock = clientMgr->lock();
-		clientMgr->addListener(this);
-		auto& clients = clientMgr->getClients();
-		int i = 0;
-		for(auto it = clients.begin(); it != clients.end(); ++it) {
-			Client* client = *it;
-			if(!client->isConnected())
-				continue;
-			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxadr")),client->getIpPort().c_str());
-			iters.insert(Iters::value_type(client->getIpPort(), i));	
-			i++;
+	auto lock = clientMgr->lock();
+	clientMgr->addListener(this);
+	auto& clients = clientMgr->getClients();
+	int i = 0;
+	for(auto it = clients.begin(); it != clients.end(); ++it) {
+		Client* client = *it;
+		if(!client->isConnected())
+			continue;
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxadr")),client->getIpPort().c_str());
+		iters.insert(Iters::value_type(client->getIpPort(), i));	
+		i++;
 		}		
 	}
 	DebugManager::getInstance()->addListener(this);

@@ -20,7 +20,7 @@
 #define DCPLUSPLUS_DCPP_STRING_SEARCH_H
 
 #include "Text.h"
-
+#include <cstring>
 #include "noexcept.h"
 
 namespace dcpp {

@@ -19,11 +19,12 @@
 #ifndef DCPLUSPLUS_DCPP_SHARE_MANAGER_H
 #define DCPLUSPLUS_DCPP_SHARE_MANAGER_H
 
-#include <atomic>
-#include <list>
+#include <functional>
+#include <map>
 #include <memory>
-//#include <set>
+#include <set>
 #include <unordered_map>
+#include <list>
 
 #include "TimerManager.h"
 #include "SearchManager.h"
@@ -38,13 +39,18 @@
 #include "BloomFilter.h"
 #include "MerkleTree.h"
 #include "Pointer.h"
+#include "StringMatch.h"
+#include <iostream>
+#include <atomic>
 
 namespace dcpp {
 
-//using std::set;
+using std::function;
+using std::map;
+using std::set;
 using std::unique_ptr;
 using std::unordered_map;
-using std::atomic_flag;
+using std::atomic;
 
 STANDARD_EXCEPTION(ShareException);
 
@@ -68,21 +74,21 @@ public:
 	void renameDirectory(const string& realPath, const string& virtualName);
 
 	string toVirtual(const TTHValue& tth) const;
-	string toReal(const string& virtualFile, bool isInSharingHub);
+	string toReal(const string& virtualFile,bool isShared);
 	/** @return Actual file path & size. Returns 0 for file lists. */
-	pair<string, int64_t> toRealWithSize(const string& virtualFile, bool isInSharingHub);
+	pair<string, int64_t> toRealWithSize(const string& virtualFile,bool isSharedHub);
 	StringList getRealPaths(const string& virtualPath);
 	TTHValue getTTH(const string& virtualFile) const;
 
-	void refresh(bool dirs = false, bool aUpdate = true, bool block = false) noexcept;
+	void refresh(bool dirs = false, bool aUpdate = true, bool block = false, function<void (float)> progressF = nullptr) noexcept;
 	void setDirty() { xmlDirty = true; }
 
-	void search(SearchResultList& l, const string& aString, int aSearchType, int64_t aSize, int aFileType, Client* aClient, StringList::size_type maxResults) noexcept;
-	void search(SearchResultList& l, const StringList& params, StringList::size_type maxResults) noexcept;
+	SearchResultList search(const StringList& adcParams, size_t maxResults) noexcept;
+	SearchResultList search(const string& nmdcString, int searchType, int64_t size, int fileType, size_t maxResults) noexcept;
 
 	StringPairList getDirectories() const noexcept;
 
-	MemoryInputStream* generatePartialList(const string& dir, bool recurse, bool isInSharingHub) const;
+	MemoryInputStream* generatePartialList(const string& dir, bool recurse, bool isSharedHub = false) const;
 	MemoryInputStream* getTree(const string& virtualFile) const;
 
 	AdcCommand getFileInfo(const string& aFile);
@@ -116,98 +122,90 @@ public:
 		return tthIndex.find(tth) != tthIndex.end();
 	}
 
+	void updateFilterCache();
+
 	GETSET(uint32_t, hits, Hits);
 	GETSET(string, bzXmlFile, BZXmlFile);
+
 private:
-	struct AdcSearch;
-	//FastAlloc removed
-	class Directory /*: public intrusive_ptr_base<Directory>, boost::noncopyable*/ {
+	struct SearchQuery;
+
+	class Directory {
 	public:
-		//typedef boost::intrusive_ptr<Directory> Ptr;
 		typedef Directory* Ptr;
-		typedef unordered_map<string, Ptr, noCaseStringHash, noCaseStringEq> Map;
-		typedef Map::iterator MapIter;
 
 		struct File {
-			struct StringComp {
-				StringComp(const string& s) : a(s) { }
-				bool operator()(const File& b) const { return Util::stricmp(a, b.getName()) == 0; }
-				const string& a;
-			private:
-				StringComp& operator=(const StringComp&);
-			};
-			struct FileLess {
-				bool operator()(const File& a, const File& b) const { return (Util::stricmp(a.getName(), b.getName()) < 0); }
-			};
-			//typedef set<File, FileLess> Set;
-			typedef vector<File> Set;
-
 			File() : size(0), parent(0) { }
 			File(const string& aName, int64_t aSize, const Directory::Ptr& aParent, const TTHValue& aRoot) :
-			name(aName), tth(aRoot), size(aSize), parent(aParent) { }
-			File(const File& rhs) :
-			name(rhs.getName()), tth(rhs.getTTH()), size(rhs.getSize()), parent(rhs.getParent()) { }
-
-			~File() { }
-
-			File& operator=(const File& rhs) {
-				name = rhs.name; size = rhs.size; parent = rhs.parent; tth = rhs.tth;
-				return *this;
-			}
+				name(aName), tth(aRoot), size(aSize), parent(aParent) { }
 
 			bool operator==(const File& rhs) const {
 				return getParent() == rhs.getParent() && (Util::stricmp(getName(), rhs.getName()) == 0);
 			}
 
+			struct StringComp {
+				StringComp(const string& s) : a(s) { }
+				bool operator()(const File& b) const { return Util::stricmp(a, b.getName()) == 0; }
+				const string& a;
+			};
+			struct FileLess {
+				bool operator()(const File& a, const File& b) const { return (Util::stricmp(a.getName(), b.getName()) < 0); }
+			};
+
+			/** Ensure this file's name doesn't clash with the names of the parent directory's sub-
+			directories or files; rename to "file (N).ext" otherwise (and set realPath to the
+			actual path on disk).
+			@param sourcePath Real path (on the disk) of the directory this file came from. */
+			void validateName(const string& sourcePath);
+
 			string getADCPath() const { return parent->getADCPath() + name; }
 			string getFullName() const { return parent->getFullName() + name; }
-			string getRealPath() const { return parent->getRealPath(name); }
+			string getRealPath() const { return (!realPath.empty()) ? realPath : parent->getRealPath(name); }
 
 			GETSET(string, name, Name);
-			GETSET(TTHValue, tth, TTH);
+			string realPath; // only defined if this file had to be renamed to avoid duplication.
+			TTHValue tth;
 			GETSET(int64_t, size, Size);
 			GETSET(Directory*, parent, Parent);
 		};
 
 		int64_t size;
-		Map directories;
-		File::Set files;
+		unordered_map<string, Ptr, noCaseStringHash, noCaseStringEq> directories;
+		set<File, File::FileLess> files;
 
-		static Ptr create(const string& aName, const Ptr& aParent = Ptr()) { return Ptr(new Directory(aName, aParent)); }
+		static Ptr create(const string& aName, const Ptr& aParent = Ptr()) { return new Directory(aName, aParent); }
 
-		bool hasType(uint32_t type) const noexcept {
-			return ( (type == SearchManager::TYPE_ANY) || (fileTypes & (1 << type)) );
-		}
-		void addType(uint32_t type) noexcept;
+		const string& getRealName() const noexcept;
+		template<typename SetT> void setRealName(SetT&& realName) noexcept { this->realName = std::forward<SetT>(realName); }
 
 		string getADCPath() const noexcept;
 		string getFullName() const noexcept;
 		string getRealPath(const std::string& path) const;
 
+		/** Check whether the given name would clash with this directory's sub-directories or
+		files. */
+		bool nameInUse(const string& name) const;
+
 		int64_t getSize() const noexcept;
 
-		void search(SearchResultList& aResults, StringSearch::List& aStrings, int aSearchType, int64_t aSize, int aFileType, Client* aClient, StringList::size_type maxResults) const noexcept;
-		void search(SearchResultList& aResults, AdcSearch& aStrings, StringList::size_type maxResults) const noexcept;
+		void search(SearchResultList& results, SearchQuery& query, size_t maxResults) const noexcept;
 
-		void toXml(OutputStream& xmlFile, string& indent, string& tmp2, bool fullList) const;
+		/// @param level -1 to include all levels, or the current level.
+		void toXml(OutputStream& xmlFile, string& indent, string& tmp2, int8_t level) const;
 		void filesToXml(OutputStream& xmlFile, string& indent, string& tmp2) const;
 
-		File::Set::const_iterator findFile(const string& aFile) const { return find_if(files.begin(), files.end(), Directory::File::StringComp(aFile)); }
+		auto findFile(const string& aFile) const -> decltype(files.cbegin()) { return find_if(files.begin(), files.end(), File::StringComp(aFile)); }
 
-		void merge(const Ptr& source);
+		void merge(const Ptr& source, const string& realPath);
 
 		GETSET(string, name, Name);
 		GETSET(Directory*, parent, Parent);
+
 	private:
-		//friend void intrusive_ptr_release(intrusive_ptr_base<Directory>*);
-		Directory(Directory&);
-		Directory operator=(Directory&);
 		Directory(const string& aName, const Ptr& aParent);
 		~Directory() { }
 
-		/** Set of flags that say which SearchManager::TYPE_* a directory contains */
-		uint32_t fileTypes;
-
+		string realName; // only defined if this directory had to be renamed to avoid duplication.
 	};
 
 	friend class Directory;
@@ -218,14 +216,16 @@ private:
 
 	virtual ~ShareManager();
 
-	struct AdcSearch {
-		AdcSearch(const StringList& params);
+	struct SearchQuery {
+		SearchQuery();
+		SearchQuery(const StringList& adcParams);
+		SearchQuery(const string& nmdcString, int searchType, int64_t size, int fileType);
 
 		bool isExcluded(const string& str);
 		bool hasExt(const string& name);
 
 		StringSearch::List* include;
-		StringSearch::List includeX;
+		StringSearch::List includeInit;
 		StringSearch::List exclude;
 		StringList ext;
 		StringList noExt;
@@ -234,7 +234,6 @@ private:
 		int64_t lt;
 
 		TTHValue root;
-		bool hasRoot;
 
 		bool isDirectory;
 	};
@@ -249,11 +248,10 @@ private:
 	bool forceXmlRefresh; /// bypass the 15-minutes guard
 	bool refreshDirs;
 	bool update;
-	bool initial;
 
 	int listN;
 
-	atomic_flag refreshing;
+	static std::atomic_flag refreshing;
 
 	uint64_t lastXmlUpdate;
 	uint64_t lastFullUpdate;
@@ -261,46 +259,59 @@ private:
 	mutable CriticalSection cs;
 
 	// List of root directory items
-	typedef std::list<Directory::Ptr> DirList;
-	DirList directories;
+	unordered_map<string, Directory::Ptr, noCaseStringHash, noCaseStringEq> directories;
 
-	/** Map real name to virtual name - multiple real names may be mapped to a single virtual one */
-	StringMap shares;
+	/** Map real name to virtual name - multiple real names may be mapped to a single virtual one.
+	The map is sorted to make sure conflicts are always resolved in the same order when merging. */
+	map<string, string> shares;
 
-	typedef unordered_map<TTHValue, Directory::File::Set::const_iterator> HashFileMap;
-	typedef HashFileMap::iterator HashFileIter;
-
-	HashFileMap tthIndex;
+	unordered_map<TTHValue, const Directory::File*> tthIndex;
 
 	BloomFilter<5> bloom;
 
-	Directory::File::Set::const_iterator findFile(const string& virtualFile) const;
+	std::list<StringMatch> cachedFilterSkiplistRegEx;
+	std::list<StringMatch> cachedFilterSkiplistFileExtensions;
+	std::list<StringMatch> cachedFilterSkiplistPaths;
 
-	Directory::Ptr buildTree(const string& aName, const Directory::Ptr& aParent);
-	bool checkHidden(const string& aName) const;
+	const Directory::File& findFile(const string& virtualFile) const;
+
+	Directory::Ptr buildTree(const string& realPath, const string& dirName = Util::emptyString, const Directory::Ptr& parent = nullptr);
+	bool checkHidden(const string& realPath) const;
+	bool checkInvalidFileName(const string& realPath) const;
+	bool checkInvalidPaths(const string& realPath) const;
+	bool checkInvalidFileSize(uint64_t size) const;
+	bool checkRegEx(const StringMatch& matcher, const string& match) const;
+
+	void updateFilterCache(const std::string& strSetting, std::list<StringMatch>& lst);
+	void updateFilterCache(const std::string& strSetting, const std::string& strExtraPattern, bool escapeDot, std::list<StringMatch>& lst);
 
 	void rebuildIndices();
 
 	void updateIndices(Directory& aDirectory);
-	void updateIndices(Directory& dir, const Directory::File::Set::iterator& i);
+	void updateIndices(Directory& dir, const decltype(std::declval<Directory>().files.begin())& i);
 
-	Directory::Ptr merge(const Directory::Ptr& directory);
+	void merge(const Directory::Ptr& directory, const string& realPath);
 
 	void generateXmlList();
-	bool loadCache() noexcept;
-	DirList::const_iterator getByVirtual(const string& virtualName) const noexcept;
 	pair<Directory::Ptr, string> splitVirtual(const string& virtualPath) const;
 	string findRealRoot(const string& virtualRoot, const string& virtualLeaf) const;
 
-	Directory::Ptr getDirectory(const string& fname);
+	SearchResultList search(SearchQuery&& query, size_t maxResults) noexcept;
+
+	/** Get the directory pointer corresponding to a given real path (on disk). Note that only
+	directories are considered here but not the file's base name. */
+	Directory::Ptr getDirectory(const string& realPath) noexcept;
+	/** Get the file corresponding to a given real path (on disk). */
+	const ShareManager::Directory::File* getFile(const string& realPath, Directory::Ptr d = nullptr) noexcept;
 
 	virtual int run();
+	void runRefresh(function<void (float)> progressF = nullptr);
 
 	// QueueManagerListener
-	virtual void on(QueueManagerListener::FileMoved, const string& n) noexcept;
+	virtual void on(QueueManagerListener::FileMoved, const string& realPath) noexcept;
 
 	// HashManagerListener
-	virtual void on(HashManagerListener::TTHDone, const string& fname, const TTHValue& root) noexcept;
+	virtual void on(HashManagerListener::TTHDone, const string& realPath, const TTHValue& root) noexcept;
 
 	// SettingsManagerListener
 	virtual void on(SettingsManagerListener::Save, SimpleXML& xml) noexcept {

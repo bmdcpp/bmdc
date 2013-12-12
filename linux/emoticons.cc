@@ -23,7 +23,7 @@
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
 #include <dcpp/Text.h>
-#include <dcpp/SimpleXML.h> //NOTE: core 0.762
+#include <dcpp/SimpleXML.h>
 #include "emoticons.hh"
 
 using namespace std;

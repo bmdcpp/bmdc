@@ -53,6 +53,7 @@ const string SettingsManager::settingTags[] =
 	"Language", "DownloadsOrder", "DownloadsWidth", "Toolbar", "LastSearchType", "Mapper",
 	"SoundMainChat", "SoundPM", "SoundPMWindow", "SoundFinishedDL", "SoundFinishedFL", "LastSharedFolder",
 	"ACFrameOrder", "ACFrameWidths",
+	"SharingSkiplistExtensions", "SharingSkiplistRegEx", "SharingSkiplistPaths",
 	//[BMDC
 	"BackupFilePattern", "LogFileRaw", "LogFormatRaw", "ProtectedUsers", "BackupTimeStamp", "EmotPack", "RipeDB",
 	//]
@@ -156,7 +157,7 @@ const string SettingsManager::settingTags[] =
 	"UseOemFont",
 	"SENTRY",
 	// Int64
-	"TotalUpload", "TotalDownload",
+	"TotalUpload", "TotalDownload","SharingSkiplistMinSize", "SharingSkiplistMaxSize",
 	"SENTRY",
 	// Floats
 	"TransfersPanedPos", "QueuePanedPos", "SearchPanedPos",
@@ -395,6 +396,12 @@ SettingsManager::SettingsManager()
 	setDefault(REQUIRE_TLS, false);
 	setDefault(LAST_SHARED_FOLDER, Util::emptyString);
 	setDefault(AC_DISCLAIM, false);
+
+	setDefault(SHARING_SKIPLIST_EXTENSIONS, Util::emptyString);
+	setDefault(SHARING_SKIPLIST_REGEX, Util::emptyString);
+	setDefault(SHARING_SKIPLIST_PATHS, Util::emptyString);
+	setDefault(SHARING_SKIPLIST_MINSIZE, 0);
+	setDefault(SHARING_SKIPLIST_MAXSIZE, 0);
 //[BMDC++
 	setDefault(EMOT_PACK, "bmicon");
 	setDefault(TIME_RECCON, 10);

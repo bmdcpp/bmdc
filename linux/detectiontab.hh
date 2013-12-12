@@ -72,9 +72,9 @@ class DetectionTab:
 		TreeView RawView;
 		GtkListStore *actionStore,*RawStore;
 		GtkTreeSelection *RawSelection,*actionSelection;
-        GdkEventType actPrevious;
+		GdkEventType actPrevious;
 
-        std::vector<std::pair<std::string,int> > actionsn;
+		std::vector<std::pair<std::string,int> > actionsn;
 
 		ActRaw actions;
 		ActRaw raws;

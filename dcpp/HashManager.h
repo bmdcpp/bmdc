@@ -19,6 +19,7 @@
 #ifndef DCPLUSPLUS_DCPP_HASH_MANAGER_H
 #define DCPLUSPLUS_DCPP_HASH_MANAGER_H
 
+#include <functional>
 #include <map>
 
 #include "Singleton.h"
@@ -32,6 +33,7 @@
 
 namespace dcpp {
 
+using std::function;
 using std::map;
 
 STANDARD_EXCEPTION(HashException);
@@ -54,21 +56,16 @@ public:
 		hasher.join();
 	}
 
-	/**
-	 * Check if the TTH tree associated with the filename is current.
-	 */
-	bool checkTTH(const string& aFileName, int64_t aSize, uint32_t aTimeStamp);
+	/** Get the TTH root associated with the filename if its tree is current. */
+	TTHValue getTTH(const string& aFileName, int64_t aSize, uint32_t aTimeStamp) noexcept;
 
 	void stopHashing(const string& baseDir) { hasher.stopHashing(baseDir); }
 	void setPriority(Thread::Priority p) { hasher.setThreadPriority(p); }
 
-	/** @return TTH root */
-	TTHValue getTTH(const string& aFileName, int64_t aSize);
-
 	bool getTree(const TTHValue& root, TigerTree& tt);
 
 	/** Return block size of the tree associated with root, or 0 if no such tree is in the store */
-	size_t getBlockSize(const TTHValue& root);
+	int64_t getBlockSize(const TTHValue& root);
 
 	void addTree(const string& aFileName, uint32_t aTimeStamp, const TigerTree& tt) {
 		hashDone(aFileName, aTimeStamp, tt, -1, -1);
@@ -84,7 +81,7 @@ public:
 	 */
 	void rebuild() { hasher.scheduleRebuild(); }
 
-	void startup() { hasher.start(); store.load(); }
+	void startup(function<void (float)> progressF = nullptr) { hasher.start(); store.load(progressF); }
 
 	void shutdown() {
 		hasher.shutdown();
@@ -111,12 +108,12 @@ private:
 	public:
 		Hasher() : stop(false), running(false), paused(0), rebuild(false), currentSize(0) { }
 
-		void hashFile(const string& fileName, int64_t size);
+		void hashFile(const string& fileName, int64_t size) noexcept;
 
 		/// @return whether hashing was already paused
-		bool pause();
-		void resume();
-		bool isPaused() const;
+		bool pause() noexcept;
+		void resume() noexcept;
+		bool isPaused() const noexcept;
 
 		void stopHashing(const string& baseDir);
 		virtual int run();
@@ -128,10 +125,7 @@ private:
 	private:
 		// Case-sensitive (faster), it is rather unlikely that case changes, and if it does it's harmless.
 		// map because it's sorted (to avoid random hash order that would create quite strange shares while hashing)
-		typedef map<string, int64_t> WorkMap;
-		typedef WorkMap::iterator WorkIter;
-
-		WorkMap w;
+		map<string, int64_t> w;
 		mutable CriticalSection cs;
 		Semaphore s;
 
@@ -152,25 +146,22 @@ private:
 		HashStore();
 		void addFile(const string& aFileName, uint32_t aTimeStamp, const TigerTree& tth, bool aUsed);
 
-		void load();
+		void load(function<void (float)> progressF);
 		void save();
 
 		void rebuild();
 
-		bool checkTTH(const string& aFileName, int64_t aSize, uint32_t aTimeStamp);
+		TTHValue getTTH(const string& aFileName, int64_t aSize, uint32_t aTimeStamp) noexcept;
 
 		void addTree(const TigerTree& tt) noexcept;
-		const TTHValue* getTTH(const string& aFileName);
 		bool getTree(const TTHValue& root, TigerTree& tth);
-		size_t getBlockSize(const TTHValue& root) const;
-		bool isDirty() const { return dirty; }
+		int64_t getBlockSize(const TTHValue& root) const;
+		bool isDirty() { return dirty; }
 	private:
 		/** Root -> tree mapping info, we assume there's only one tree for each root (a collision would mean we've broken tiger...) */
 		struct TreeInfo {
 			TreeInfo() : size(0), index(0), blockSize(0) { }
 			TreeInfo(int64_t aSize, int64_t aIndex, int64_t aBlockSize) : size(aSize), index(aIndex), blockSize(aBlockSize) { }
-			TreeInfo(const TreeInfo& rhs) : size(rhs.size), index(rhs.index), blockSize(rhs.blockSize) { }
-			TreeInfo& operator=(const TreeInfo& rhs) { size = rhs.size; index = rhs.index; blockSize = rhs.blockSize; return *this; }
 
 			GETSET(int64_t, size, Size);
 			GETSET(int64_t, index, Index);
@@ -183,7 +174,7 @@ private:
 			FileInfo(const string& aFileName, const TTHValue& aRoot, uint32_t aTimeStamp, bool aUsed) :
 				fileName(aFileName), root(aRoot), timeStamp(aTimeStamp), used(aUsed) { }
 
-			bool operator==(const string& name) const { return name == fileName; }
+			bool operator==(const string& name) { return name == fileName; }
 
 			GETSET(string, fileName, FileName);
 			GETSET(TTHValue, root, Root);
@@ -191,19 +182,10 @@ private:
 			GETSET(bool, used, Used);
 		};
 
-		typedef vector<FileInfo> FileInfoList;
-		typedef FileInfoList::iterator FileInfoIter;
-
-		typedef unordered_map<string, FileInfoList> DirMap;
-		typedef DirMap::iterator DirIter;
-
-		typedef unordered_map<TTHValue, TreeInfo> TreeMap;
-		typedef TreeMap::iterator TreeIter;
-
 		friend class HashLoader;
 
-		DirMap fileIndex;
-		TreeMap treeIndex;
+		unordered_map<string, vector<FileInfo>> fileIndex;
+		unordered_map<TTHValue, TreeInfo> treeIndex;
 
 		bool dirty;
 
