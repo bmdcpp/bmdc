@@ -54,7 +54,7 @@ Hub::Hub(const string &address, const string &encoding):
 	totalShared(0),	address(address),
 	encoding(encoding),  scrollToBottom(TRUE),
 	PasswordDialog(FALSE),	WaitingPassword(FALSE),
-	ImgLimit(0), notify(false)
+	ImgLimit(0)
 {
 
 	// Initialize nick treeview
@@ -75,7 +75,7 @@ Hub::Hub(const string &address, const string &encoding):
 	nickView.insertColumn(_("Cheat"), G_TYPE_STRING, TreeView::STRING, 80);
 	nickView.insertColumn(_("Generator"), G_TYPE_STRING, TreeView::STRING, 80);
 	nickView.insertColumn(_("Support"), G_TYPE_STRING, TreeView::STRING, 80);
-     //[BMDC++
+	//[BMDC++
 	nickView.insertHiddenColumn("Icon", G_TYPE_STRING);
 	nickView.insertHiddenColumn("Nick Order", G_TYPE_STRING);
 	nickView.insertHiddenColumn("CID", G_TYPE_STRING);
@@ -456,7 +456,6 @@ Hub::~Hub()
 	if(entry) {
 		entry->get(HubSettings::PackName) = emotdialog->getCurrent(address);
 		entry->setShowUserList(showUL);
-		entry->setNotify(notify);
 		FavoriteManager::getInstance()->save();
 	}
 
@@ -529,7 +528,7 @@ gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean 
   GtkTreeView *tree_view = GTK_TREE_VIEW (widget);
   GtkTreeModel *model = gtk_tree_view_get_model (tree_view);
   GtkTreePath *path = NULL;
-  gchar *tmp, *tag, *desc,*con,*ip,*e,*country,*slots,*hubs,*pk,*cheat,*gen,*sup,*cid,*pathstring;
+  gchar *tmp, *tag, *desc,*con,*ip,*e,*country,*slots,*hubs,*pk,*cheat,*gen,*sup,*cid;
   gint64 ssize;
 
   char buffer[1000];
@@ -556,7 +555,6 @@ gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean 
 									17, &cid,
   									-1);
 
-  pathstring = gtk_tree_path_to_string (path);
   string sharesize  = Util::formatBytes(ssize);
   g_snprintf (buffer, 1000, " Nick: %s\n Connection: %s\n Description: %s\n Tag: %s\n Share: %s\n IP: %s\n eMail: %s\nCountry: %s\n Slots: %s\n Hubs: %s\n PK: %s\n Cheat: %s\n Generator: %s\n Support: %s\n CID: %s", tmp, con,desc, tag , sharesize.c_str() ,ip, e, country, slots, hubs, pk, cheat, gen, sup, cid);
   gtk_tooltip_set_text (_tooltip, buffer);
@@ -564,7 +562,6 @@ gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean 
   gtk_tree_view_set_tooltip_row (tree_view, _tooltip, path);
 
   gtk_tree_path_free (path);
-  g_free (pathstring);
   g_free (tmp);
 
   return TRUE;
@@ -980,8 +977,8 @@ void Hub::nickToChat_gui(const string &nick)
 
 void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 {
-	auto gotNotify = [this](string hub) -> bool { if(notify) return true; else if(!hub.empty())
-						return FavoriteManager::getInstance()->getFavoriteHubEntry(hub) != NULL ? FavoriteManager::getInstance()->getFavoriteHubEntry(hub)->getNotify() : notify; else return WGETI("notify-hub-chat-use");  };
+	auto gotNotify = [this](string hub) -> bool { if(!hub.empty())
+						return FavoriteManager::getInstance()->getFavoriteHubEntry(hub) != NULL ? 		FavoriteManager::getInstance()->getFavoriteHubEntry(hub)->getNotify() : WGETI("notify-hub-chat-use");  };
 
 	PluginManager::getInstance()->onChatDisplay(client, message);
 
@@ -3711,8 +3708,8 @@ void Hub::addAsFavorite_client()
 
 	FavoriteHubEntry *existingHub = FavoriteManager::getInstance()->getFavoriteHubEntry(client->getHubUrl());
 	FavoriteHubEntry *exHub = NULL;
-	auto tmp = client->getHubUrl();
-	auto i = tmp.find("dchub://");
+	string tmp = client->getHubUrl();
+	size_t i = tmp.find("dchub://");
 	if(i != string::npos) exHub = FavoriteManager::getInstance()->getFavoriteHubEntry(tmp.substr(i+1));
 
 	if (!exHub || !existingHub)

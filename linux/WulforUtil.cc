@@ -951,7 +951,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			#ifdef __clang__
 				build += "clang " __clang_version__;
 			#elif defined(__GNUC__)
-				build += "gcc ";
+				build += "gcc " __VERSION__;
 			#endif
 		message =   "\n-= Stats " + dcpp::fullVersionString
 					+"\n " +build+" =-\n"
@@ -1239,7 +1239,7 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 		string sMsgLower;
 		sMsgLower.resize(word.size()+1);
 		std::transform(word.begin(), word.end(), sMsgLower.begin(), _tolower);
-		gboolean ret = FALSE;
+		bool ret = FALSE;
 
 		ColorList* cList = HighlightManager::getInstance()->getList();
 		for(auto i = cList->begin();i != cList->end(); ++i) {
@@ -1412,7 +1412,7 @@ void WulforUtil::drop_combo(GtkWidget *widget, vector<pair<std::string,int> > CO
 
 std::map<std::string,std::string> WulforUtil::loadmimetypes()
 {
-	if(m_mimetyp.empty()) {
+	if(m_mimetyp.empty()) {//any other way TODO this ?
 	m_mimetyp.insert( std::pair<std::string, std::string>(".zip", "application/zip"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".pdf", "application/pdf"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".py",  "text/python"));
@@ -1609,7 +1609,6 @@ std::string WulforUtil::formatSized(std::string& nonf)
 /* Inspired by StrongDC catch code ips */
 gboolean WulforUtil::HitIP(string& name, string &sIp)
 {
-	//dcdebug("[STR]%s",name.c_str());
 	bool isOkIpV6 = false;
 	if(name.empty()) return false;
 	size_t n = std::count(name.begin(), name.end(), ':');

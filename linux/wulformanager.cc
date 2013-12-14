@@ -60,7 +60,7 @@ WulforManager *WulforManager::get()
 }
 
 WulforManager::WulforManager():
-mainWin(NULL),guiThread(NULL),clientThread(NULL)
+mainWin(NULL),clientThread(NULL)
 {
 	abort = FALSE;
 
