@@ -1041,6 +1041,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 		addParam(lastInfoMap, c, "U4", "");
 		su += "," + NAT0_FEATURE;
 	}
+	addParam(lastInfoMap, c, "LC", Util::getIETFLang());
 
 	addParam(lastInfoMap, c, "SU", su);
 

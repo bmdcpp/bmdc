@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2001-2013 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,10 +24,9 @@
 #ifndef DCPLUSPLUS_DCPP_PLUGIN_API_IMPL_H
 #define DCPLUSPLUS_DCPP_PLUGIN_API_IMPL_H
 
-#include <cstdint>
-
 #include "forward.h"
 #include "typedefs.h"
+
 #include "PluginDefs.h"
 
 namespace dcpp {
@@ -35,8 +34,8 @@ namespace dcpp {
 class PluginApiImpl
 {
 public:
-	static void initAPI(DCCore& dcCore);
-	static void releaseAPI();
+	static void init();
+	static void shutdown();
 
 	static HubDataPtr DCAPI copyData(const HubDataPtr hub);
 	static void DCAPI releaseData(HubDataPtr hub);
@@ -56,6 +55,9 @@ private:
 	static DCInterfacePtr DCAPI queryInterface(const char* guid, uint32_t version);
 	static Bool DCAPI releaseInterface(intfHandle hInterface);
 
+	static Bool DCAPI isLoaded(const char* guid);
+	static const char* DCAPI hostName();
+
 	// Functions for DCHooks
 	static hookHandle DCAPI createHook(const char* guid, DCHOOK defProc);
 	static Bool DCAPI destroyHook(hookHandle hHook);
@@ -65,9 +67,11 @@ private:
 	static size_t DCAPI releaseHook(subsHandle hHook);
 
 	// Functions For DCConfig
-	static const char* DCAPI getPath(PathType type);
+	static ConfigStrPtr DCAPI getPath(PathType type);
+	static ConfigStrPtr DCAPI getInstallPath(const char* guid);
 	static void DCAPI setConfig(const char* guid, const char* setting, ConfigValuePtr val);
 	static ConfigValuePtr DCAPI getConfig(const char* guid, const char* setting, ConfigType type);
+	static ConfigStrPtr DCAPI getLanguage();
 
 	// Functions for DCLog
 	static void DCAPI log(const char* msg);
@@ -76,6 +80,8 @@ private:
 	static void DCAPI sendProtocolCmd(ConnectionDataPtr conn, const char* cmd);
 	static void DCAPI terminateConnection(ConnectionDataPtr conn, Bool graceless);
 	static void DCAPI sendUdpData(const char* ip, uint32_t port, dcptr_t data, size_t n);
+
+	static UserDataPtr DCAPI getUserFromConn(ConnectionDataPtr conn);
 
 	// Functions for DCUtils
 	static size_t DCAPI toUtf8(char* dst, const char* src, size_t n);
@@ -86,12 +92,13 @@ private:
 
 	static size_t DCAPI toBase32(char* dst, const uint8_t* src, size_t n);
 	static size_t DCAPI fromBase32(uint8_t* dst, const char* src, size_t n);
-	
-	// Functions for DCUI - the host has to define these
-	static void DCAPI playSound(const char* path);
-	static void DCAPI notify(const char* title, const char* message);
 
+	// Functions for DCTagger
+	/*static const char* DCAPI getText(TagDataPtr hTags);
 
+	static void DCAPI addTag(TagDataPtr hTags, size_t start, size_t end, const char* id, const char* attributes);
+	static void DCAPI replaceText(TagDataPtr hTags, size_t start, size_t end, const char* replacement);
+*/
 	// Functions for DCQueue
 	static QueueDataPtr DCAPI addList(UserDataPtr user, Bool silent);
 	static QueueDataPtr DCAPI addDownload(const char* hash, uint64_t size, const char* target);
@@ -99,6 +106,7 @@ private:
 	static void DCAPI removeDownload(QueueDataPtr qi);
 
 	static void DCAPI setPriority(QueueDataPtr qi, QueuePrio priority);
+	static Bool DCAPI pause(QueueDataPtr qi);
 
 	// Functions for DCHub
 	static HubDataPtr DCAPI addHub(const char* url, const char* nick, const char* password);
@@ -122,17 +130,12 @@ private:
 	static DCHub dcHub;
 	static DCQueue dcQueue;
 	static DCUtils dcUtils;
-	
-	static DCUI dcUI;
+	static DCTagger dcTagger;
 
-	static Socket apiSocket;
+	static Socket* udpSocket;
+	static Socket& getUdpSocket();
 };
 
 } // namepsace dcpp
 
 #endif // !defined(DCPLUSPLUS_DCPP_PLUGIN_API_H)
-
-/**
- * @file
- * $Id: PluginApiImpl.h 1248 2012-01-22 01:49:30Z crise $
- */

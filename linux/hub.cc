@@ -980,7 +980,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 	auto gotNotify = [this](string hub) -> bool { if(!hub.empty())
 						return FavoriteManager::getInstance()->getFavoriteHubEntry(hub) != NULL ? 		FavoriteManager::getInstance()->getFavoriteHubEntry(hub)->getNotify() : WGETI("notify-hub-chat-use");  };
 
-	PluginManager::getInstance()->onChatDisplay(client, message);
+	PluginManager::getInstance()->onChatDisplay(message);
 
 	message = message.c_str();
 	if (message.empty())
@@ -2457,20 +2457,22 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if(command == "plgadd")
 		{
-			size_t idx = PluginManager::getInstance()->getPluginList().size();
+/*			size_t idx = PluginManager::getInstance()->getPluginList().size();
 			if(PluginManager::getInstance()->loadPlugin(Text::fromT(param), true)) {
 				const MetaData& info = PluginManager::getInstance()->getPlugin(idx)->getInfo();
 					hub->addMessage_gui("", string("Done, Info **\nName") + string(info.name) + string("\nDesc") + string(info.description) + string("\nVersion") + Util::toString(info.version) + string("\n"), Msg::SYSTEM);
 
-			}
+		}*/
+			PluginManager::getInstance()->addPlugin(param);
 		}
 		else if(command == "plist") {
 			size_t idx = 0;
 			string status = string(_("Loaded plugins: ")) + _("\n");
 			const auto list = PluginManager::getInstance()->getPluginList();
 			for(auto i = list.begin(); i != list.end(); ++i, ++idx) {
-				const MetaData& info = (*i)->getInfo();
-				status += Util::toString(idx) + " - " + string(info.name) + " - " + Util::toString(info.version) + "\n";
+				//const MetaData& info = (*i)->getInfo();
+				//status += Util::toString(idx) + " - " + string(info.name) + " - " + Util::toString(info.version) + "\n";
+				status += *i + "\n";
 			}
 			hub->addMessage_gui("",status,Msg::SYSTEM);
 		}
@@ -2555,6 +2557,8 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			GIOStatus gio_status = g_io_channel_read_to_end( gio_chanel, &command_res, &command_length, NULL );
 			if( gio_status == G_IO_STATUS_NORMAL )
 			{
+				command_res[command_length-1]="\0";
+				command_res[command_length]=NULL;
 				F2 *func = new F2( hub, &Hub::sendMessage_client, string(command_res), false );
 				WulforManager::get()->dispatchClientFunc(func);
 			}
@@ -4424,7 +4428,7 @@ string Hub::formatAdditionalInfo(const string& aIp, bool sIp, bool sCC, bool isP
 void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexcept //NOTE: core 0.762
 {
 	string txt = message.text;
-	if(PluginManager::getInstance()->onChatDisplay(client, txt))
+	if(PluginManager::getInstance()->onChatDisplay(txt))
 		return;
 
 	if (message.text.empty())

@@ -42,6 +42,7 @@
 #include "DetectionManager.h"
 #include "RawManager.h"
 #include "CalcADLAction.h"
+#include "PluginApiImpl.h"
 #ifdef HAVE_LIBTAR
 	#include "BackupManager.h"
 	#include "ExportManager.h"
@@ -93,6 +94,7 @@ void startup(function<void (const string&)> f) {
 	GeoManager::newInstance();
 	WindowManager::newInstance();
 	PluginManager::newInstance();
+        PluginApiImpl::init();
 #ifdef HAVE_LIBTAR
 	ExportManager::newInstance();
 #endif
@@ -155,6 +157,7 @@ void startup(function<void (const string&)> f) {
 
 void shutdown() {
 	RsxUtil::uinit();
+        PluginApiImpl::shutdown();
 #ifdef HAVE_LIBTAR
 	ExportManager::deleteInstance();
 	RestoreManager::deleteInstance();

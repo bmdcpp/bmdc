@@ -228,8 +228,8 @@ class Settings:
 		void saveHighlighting(dcpp::StringMap &params, bool add, const std::string &name = "");//BMDC++
 		void addHighlighting_to_gui(dcpp::ColorSettings &cs, bool add);//BMDC++
 		//PLg
-		void addToGuiPlg(const MetaData &info);
-		void RemovePlg_client(int sel);
+		void addToGuiPlg();
+		void RemovePlg_client(std::string sel);
 
 		GtkComboBoxText *connectionSpeedComboBox;
 		GtkListStore *downloadToStore, *publicListStore, *queueStore,

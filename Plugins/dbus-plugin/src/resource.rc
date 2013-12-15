@@ -1,0 +1,131 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+#include "version.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "#include ""version.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define str_(x) #x\r\n"
+    "#define str(x) str_(x)\r\n"
+    "\r\n"
+    "1 VERSIONINFO\r\n"
+    " FILEVERSION PLUGIN_VERSION_MAJOR,PLUGIN_VERSION_MINOR,0,0\r\n"
+    " PRODUCTVERSION PLUGIN_VERSION_MAJOR,PLUGIN_VERSION_MINOR,0,0\r\n"
+    " FILEFLAGSMASK 0x17L\r\n"
+    "#ifdef _DEBUG\r\n"
+    " FILEFLAGS 0x1L\r\n"
+    "#else\r\n"
+    " FILEFLAGS 0x0L\r\n"
+    "#endif\r\n"
+    " FILEOS 0x4L\r\n"
+    " FILETYPE 0x2L\r\n"
+    " FILESUBTYPE 0x0L\r\n"
+    "BEGIN\r\n"
+    "    BLOCK ""StringFileInfo""\r\n"
+    "    BEGIN\r\n"
+    "        BLOCK ""080004b0""\r\n"
+    "        BEGIN\r\n"
+    "            VALUE ""Comments"", PLUGIN_WEB\r\n"
+    "            VALUE ""FileDescription"", PLUGIN_NAME\r\n"
+    "            VALUE ""FileVersion"", str(PLUGIN_VERSION_MAJOR) "", "" str(PLUGIN_VERSION_MINOR) "", 0, 0""\r\n"
+    "            VALUE ""InternalName"", PLUGIN_FILE_NAME\r\n"
+    "            VALUE ""LegalCopyright"", PLUGIN_AUTHOR\r\n"
+    "            VALUE ""OriginalFilename"", PLUGIN_FILE_NAME_EXT\r\n"
+    "            VALUE ""ProductName"", PLUGIN_NAME\r\n"
+    "            VALUE ""ProductVersion"", str(PLUGIN_VERSION_MAJOR) "", "" str(PLUGIN_VERSION_MINOR) "", 0, 0""\r\n"
+    "        END\r\n"
+    "    END\r\n"
+    "    BLOCK ""VarFileInfo""\r\n"
+    "    BEGIN\r\n"
+    "        VALUE ""Translation"", 0x800, 1200\r\n"
+    "    END\r\n"
+    "END\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define str_(x) #x
+#define str(x) str_(x)
+
+1 VERSIONINFO
+ FILEVERSION PLUGIN_VERSION_MAJOR,PLUGIN_VERSION_MINOR,0,0
+ PRODUCTVERSION PLUGIN_VERSION_MAJOR,PLUGIN_VERSION_MINOR,0,0
+ FILEFLAGSMASK 0x17L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080004b0"
+        BEGIN
+            VALUE "Comments", PLUGIN_WEB
+            VALUE "FileDescription", PLUGIN_NAME
+            VALUE "FileVersion", str(PLUGIN_VERSION_MAJOR) ", " str(PLUGIN_VERSION_MINOR) ", 0, 0"
+            VALUE "InternalName", PLUGIN_FILE_NAME
+            VALUE "LegalCopyright", PLUGIN_AUTHOR
+            VALUE "OriginalFilename", PLUGIN_FILE_NAME_EXT
+            VALUE "ProductName", PLUGIN_NAME
+            VALUE "ProductVersion", str(PLUGIN_VERSION_MAJOR) ", " str(PLUGIN_VERSION_MINOR) ", 0, 0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x800, 1200
+    END
+END
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

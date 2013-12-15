@@ -43,7 +43,6 @@
 namespace dcpp {
 
 using std::make_pair;
-//FastAlock Removed
 string Util::emptyString;
 wstring Util::emptyStringW;
 tstring Util::emptyStringT;
@@ -1164,5 +1163,31 @@ string Util::convertCEscapes(string tmp)
 	}
 	return tmp;
 }
+
+
+string Util::getIETFLang() {
+#ifdef _WIN32
+	auto lang = SETTING(LANGUAGE);
+	if(lang.empty()) {
+		string lang = _nl_locale_name_default();
+	}
+	if(lang.empty() || lang == "C") {
+		lang = "en-US";
+	}
+
+	// replace separation signs by hyphens.
+	size_t i = 0;
+	while((i = lang.find_first_of("_@.", i)) != string::npos) {
+		lang[i] = '-';
+		++i;
+	}
+
+	return lang;
+#else
+	const gchar* const* x = g_get_language_names();
+	return string(x[0]);///return only 1st locale ...and hope its existing :p
+#endif
+}
+
 
 } // namespace dcpp

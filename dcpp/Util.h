@@ -20,7 +20,8 @@
 #define DCPLUSPLUS_DCPP_UTIL_H
 
 #include "compiler.h"
-
+#include <glib.h>
+#include <glib/gi18n.h>
 #include <cstdlib>
 #include <ctime>
 
@@ -460,7 +461,7 @@ public:
 		}
 		return currentUrl;
 	}
-	
+	static string getIETFLang();
 private:
 	/** In local mode, all config and temp files are kept in the same dir as the executable */
 	static bool localMode;

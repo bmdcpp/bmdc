@@ -1850,17 +1850,20 @@ void Settings::initPlugins_gui()
 
 	plselection = gtk_tree_view_get_selection(plView.get());
 
-	const auto& list = PluginManager::getInstance()->getPluginList();
+        auto pm = PluginManager::getInstance();
+	const auto& list = pm->getPluginList();
 	int j = 0;
 	for(auto i = list.cbegin(), iend = list.cend() ; i != iend; ++i) {
-       const MetaData& info = (*i)->getInfo();
+		//const MetaData& info = (*i)->getInfo();
+		auto info = pm->getPlugin(*i);
 
 		gtk_list_store_append(plStore,&iter);
 			gtk_list_store_set(plStore,&iter,
-				     plView.col("Name"),info.name,
-					 plView.col("Description"),info.description,
+				     plView.col("Name"),info.name.c_str(),
+					 plView.col("Description"),info.description.c_str(),
 					 plView.col("Version"), Util::toString(info.version).c_str(),
-					 plView.col("Index"), Util::toString(j++).c_str() ,
+					// plView.col("Index"), Util::toString(j++).c_str() ,
+					plView.col("Index"), info.guid.c_str(),
 					-1);
 	}
 
@@ -1884,15 +1887,17 @@ void Settings::onAddPluginTo_gui(GtkWidget *widget, gpointer data)
 
 		if (path)
 		{
-			size_t idx = PluginManager::getInstance()->getPluginList().size();
-			if(PluginManager::getInstance()->loadPlugin(string(path), true)) {
-				const MetaData& info = PluginManager::getInstance()->getPlugin(idx)->getInfo();
-				s->addToGuiPlg(info);
+//			size_t idx = PluginManager::getInstance()->getPluginList().size();
+//			if(PluginManager::getInstance()->loadPlugin(string(path), true)) {
+				//const MetaData& info = PluginManager::getInstance()->getPlugin(idx)->getInfo();
+				//s->addToGuiPlg(info);
+				PluginManager::getInstance()->addPlugin(string(path));
+ 	                        s->addToGuiPlg();
 
 			}
 		}
 	}
-}
+//}
 
 void Settings::onRemPluginFrom_gui(GtkWidget *widget, gpointer data)
 {
@@ -1900,15 +1905,17 @@ void Settings::onRemPluginFrom_gui(GtkWidget *widget, gpointer data)
 	GtkTreeIter iter;
 	if (gtk_tree_selection_get_selected(s->plselection, NULL, &iter))
 	{
-		gint sel = Util::toInt(s->plView.getString(&iter, "Index"));
-		typedef Func1<Settings, int> F1;
-		F1	*func = new F1(s,&Settings::RemovePlg_client,sel);
+	//	gint sel = Util::toInt(s->plView.getString(&iter, "Index"));
+                string sel = s->plView.getString(&iter, "Index");
+		typedef Func1<Settings, string> F1;
+		F1 *func = new F1(s,&Settings::RemovePlg_client,sel);
 		WulforManager::get()->dispatchClientFunc(func);
+                s->addToGuiPlg();
 	}
 }
 
-void Settings::RemovePlg_client(int sel)
-{ PluginManager::getInstance()->unloadPlugin(sel); }
+void Settings::RemovePlg_client(string sel)
+{ PluginManager::getInstance()->disablePlugin(sel); }
 
 void Settings::onConfigurePlugin_gui(GtkWidget *widget, gpointer data)
 {
@@ -1916,14 +1923,16 @@ void Settings::onConfigurePlugin_gui(GtkWidget *widget, gpointer data)
 	GtkTreeIter iter;
 	if(gtk_tree_selection_get_selected(s->plselection, NULL, &iter))
 	{
-		gint sel = Util::toInt(s->plView.getString(&iter, "Index"));
-		const PluginInfo *p = PluginManager::getInstance()->getPlugin(sel);
-		if(!p->dcMain(ON_CONFIGURE, PluginManager::getInstance()->getCore(),s->getContainer())) {
+//		gint sel = Util::toInt(s->plView.getString(&iter, "Index"));
+		string sel = s->plView.getString(&iter, "Index");
+//		const PluginInfo *p = PluginManager::getInstance()->getPlugin(sel);
+//		if(!p->dcMain(ON_CONFIGURE, PluginManager::getInstance()->getCore(),s->getContainer())) {
+		if(!PluginManager::getInstance()->configPlugin(sel, s->getContainer())) {
 			GtkDialog *dialog =  GTK_DIALOG(gtk_message_dialog_new (GTK_WINDOW(s->getContainer()),
                                  GTK_DIALOG_DESTROY_WITH_PARENT,
                                  GTK_MESSAGE_ERROR,
                                  GTK_BUTTONS_CLOSE,
-                                 "%s Plugin doesnt need configuration", string(p->getInfo().name).c_str()));
+                                 "%s Plugin doesnt need configuration", sel.c_str()/*string(p->getInfo().name).c_str()*/));
 
 			gtk_dialog_run(dialog);
 			gtk_widget_destroy(GTK_WIDGET(dialog));
@@ -1937,14 +1946,13 @@ void Settings::onAboutPlugin_gui(GtkWidget *widget, gpointer data)
 	GtkTreeIter iter;
 	if(gtk_tree_selection_get_selected(s->plselection, NULL, &iter))
 	{
-		gint sel = Util::toInt(s->plView.getString(&iter, "Index"));
-		const PluginInfo *p = PluginManager::getInstance()->getPlugin(sel);
-		const MetaData& meta = p->getInfo();
-		string about = Util::emptyString;
-		about += "Name: " + string(meta.name) + "\n";
-		about += "Author: " + string(meta.author) + "\n";
-		about += "Description: " + string(meta.description) + "\n";
-		about += "Web: " + string(meta.web) + "\n";
+		string sel = s->plView.getString(&iter, "Index");
+                auto meta = PluginManager::getInstance()->getPlugin(sel);
+                string
+                about = "Name: " + meta.name + "\n";
+                about += "Author: " + meta.author + "\n";
+                about += "Description: " + meta.description + "\n";
+                about += "Web: " + meta.website + "\n";
 		GtkDialog *dialog;
 		dialog = GTK_DIALOG(gtk_message_dialog_new_with_markup(GTK_WINDOW(s->getContainer()),
 		GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -1956,15 +1964,30 @@ void Settings::onAboutPlugin_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::addToGuiPlg(const MetaData &info)
+void Settings::addToGuiPlg()
 {
-	GtkTreeIter iter;
+	/*GtkTreeIter iter;
 	gtk_list_store_append(plStore,&iter);
 		gtk_list_store_set(plStore,&iter,
 			     plView.col("Name"),info.name,
 				 plView.col("Description"),info.description,
 				 plView.col("Version"), Util::toString(info.version).c_str(),
-				-1);
+				-1);*/
+ auto pm = PluginManager::getInstance();
+         const auto& list = pm->getPluginList();
+         gtk_list_store_clear(plStore);
+         GtkTreeIter iter;
+         for(auto i = list.cbegin(), iend = list.cend() ; i != iend; ++i) {
+          auto info = pm->getPlugin(*i);
+  
+                 gtk_list_store_append(plStore,&iter);
+                         gtk_list_store_set(plStore,&iter,
+                                      plView.col("Name"),info.name.c_str(),
+                                          plView.col("Description"),info.description.c_str(),
+                                          plView.col("Version"), Util::toString(info.version).c_str(),
+                                          plView.col("Index"), info.guid.c_str() ,
+                                         -1);
+         }
 }
 
 

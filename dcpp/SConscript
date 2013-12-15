@@ -6,6 +6,7 @@ Import('env')
 dcpp_files = env.Glob('*.cpp')
 
 env.Append(CPPDEFINES = 'BUILDING_DCPP')
+env.ParseConfig('pkg-config --cflags glib-2.0')
 
 # Build the dcpp files and create the library
 libdcpp  = env.StaticLibrary(target = 'dcpp', source = dcpp_files)

@@ -100,7 +100,6 @@ public:
 private:
 	friend class ADLSearchManager;
 	bool v;
-	//std::tuple<StringSearch::List, std::regexp> v;
 
 	/// Prepare search
 	void prepare(ParamMap& params);

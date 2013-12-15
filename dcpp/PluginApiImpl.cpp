@@ -28,20 +28,21 @@
 #include "stdinc.h"
 #include "PluginApiImpl.h"
 
-#include "File.h"
-
-#include "PluginManager.h"
+#include "Client.h"
+#include "ClientManager.h"
 #include "ConnectionManager.h"
 #include "FavoriteManager.h"
+#include "File.h"
+#include "LogManager.h"
+#include "PluginManager.h"
 #include "QueueManager.h"
-#include "ClientManager.h"
-#include "HubSettings.h"
+//#include "Tagger.h"
 #include "UserConnection.h"
-#include "Client.h"
+#include "version.h"
 
 namespace dcpp {
 
-#define IMPL_HOOKS_COUNT 19
+#define IMPL_HOOKS_COUNT 22
 
 static const char* hookGuids[IMPL_HOOKS_COUNT] = {
 	HOOK_CHAT_IN,
@@ -59,16 +60,22 @@ static const char* hookGuids[IMPL_HOOKS_COUNT] = {
 	HOOK_NETWORK_HUB_OUT,
 	HOOK_NETWORK_CONN_IN,
 	HOOK_NETWORK_CONN_OUT,
+	HOOK_NETWORK_UDP_IN,
+	HOOK_NETWORK_UDP_OUT,
 
-	HOOK_QUEUE_ADD,
-	HOOK_QUEUE_MOVE,
-	HOOK_QUEUE_REMOVE,
+	HOOK_QUEUE_ADDED,
+	HOOK_QUEUE_MOVED,
+	HOOK_QUEUE_REMOVED,
 	HOOK_QUEUE_FINISHED,
 
 	HOOK_UI_CREATED,
+//	HOOK_UI_CHAT_TAGS,
 	HOOK_UI_CHAT_DISPLAY,
-	HOOK_UI_PROCESS_CHAT_CMD
+	HOOK_UI_CHAT_COMMAND,
+	HOOK_UI_CHAT_COMMAND_PM
 };
+
+static const char* hostName = APPNAME;
 
 DCHooks PluginApiImpl::dcHooks = {
 	DCINTF_HOOKS_VER,
@@ -85,9 +92,12 @@ DCConfig PluginApiImpl::dcConfig = {
 	DCINTF_CONFIG_VER,
 
 	&PluginApiImpl::getPath,
+	&PluginApiImpl::getInstallPath,
 
 	&PluginApiImpl::setConfig,
 	&PluginApiImpl::getConfig,
+
+	&PluginApiImpl::getLanguage,
 
 	&PluginApiImpl::copyData,
 	&PluginApiImpl::releaseData
@@ -104,7 +114,9 @@ DCConnection PluginApiImpl::dcConnection = {
 
 	&PluginApiImpl::sendUdpData,
 	&PluginApiImpl::sendProtocolCmd,
-	&PluginApiImpl::terminateConnection
+	&PluginApiImpl::terminateConnection,
+
+	&PluginApiImpl::getUserFromConn
 };
 
 DCHub PluginApiImpl::dcHub = {
@@ -138,6 +150,7 @@ DCQueue PluginApiImpl::dcQueue = {
 	&PluginApiImpl::removeDownload,
 
 	&PluginApiImpl::setPriority,
+	&PluginApiImpl::pause,
 
 	&PluginApiImpl::copyData,
 	&PluginApiImpl::releaseData
@@ -155,22 +168,37 @@ DCUtils PluginApiImpl::dcUtils = {
 	&PluginApiImpl::toBase32,
 	&PluginApiImpl::fromBase32
 };
+/*
+DCTagger PluginApiImpl::dcTagger = {
+	DCINTF_DCPP_TAGGER_VER,
 
-DCUI PluginApiImpl::dcUI = {
-        DCINTF_DCPP_UI_VER,
-        &PluginApiImpl::playSound,
+	&PluginApiImpl::getText,
+
+	&PluginApiImpl::addTag,
+	&PluginApiImpl::replaceText
 };
+*/
+Socket* PluginApiImpl::udpSocket = nullptr;
+Socket& PluginApiImpl::getUdpSocket() {
+	if(!udpSocket) {
+		udpSocket = new Socket(Socket::TYPE_UDP);
+	}
+	return *udpSocket;
+}
 
+void PluginApiImpl::init() {
+	auto& dcCore = *PluginManager::getInstance()->getCore();
 
-Socket PluginApiImpl::apiSocket(Socket::TYPE_UDP);
-
-void PluginApiImpl::initAPI(DCCore& dcCore) {
 	dcCore.apiVersion = DCAPI_CORE_VER;
 
 	// Interface registry
 	dcCore.register_interface = &PluginApiImpl::registerInterface;
 	dcCore.query_interface = &PluginApiImpl::queryInterface;
 	dcCore.release_interface = &PluginApiImpl::releaseInterface;
+
+	// Core functions
+	dcCore.has_plugin = &PluginApiImpl::isLoaded;
+	dcCore.host_name = &PluginApiImpl::hostName;
 
 	// Interfaces (since these outlast any plugin they don't need to be explictly released)
 	dcCore.register_interface(DCINTF_HOOKS, &dcHooks);
@@ -181,16 +209,19 @@ void PluginApiImpl::initAPI(DCCore& dcCore) {
 	dcCore.register_interface(DCINTF_DCPP_HUBS, &dcHub);
 	dcCore.register_interface(DCINTF_DCPP_QUEUE, &dcQueue);
 	dcCore.register_interface(DCINTF_DCPP_UTILS, &dcUtils);
-	
-	dcCore.register_interface(DCINTF_DCPP_UI, &dcUI);
+//	dcCore.register_interface(DCINTF_DCPP_TAGGER, &dcTagger);
 
 	// Create provided hooks (since these outlast any plugin they don't need to be explictly released)
 	for(int i = 0; i < IMPL_HOOKS_COUNT; ++i)
 		dcHooks.create_hook(hookGuids[i], NULL);
 }
 
-void PluginApiImpl::releaseAPI() {
-	apiSocket.disconnect();
+void PluginApiImpl::shutdown() {
+	if(udpSocket) {
+		udpSocket->disconnect();
+		delete udpSocket;
+		udpSocket = nullptr;
+	}
 }
 
 // Functions for DCCore
@@ -201,11 +232,19 @@ intfHandle PluginApiImpl::registerInterface(const char* guid, dcptr_t pInterface
 DCInterfacePtr PluginApiImpl::queryInterface(const char* guid, uint32_t version) {
 	// we only return the registered interface if it is same or newer than requested
 	DCInterface* dci = (DCInterface*)PluginManager::getInstance()->queryInterface(guid);
-	return (!dci || dci->apiVersion >= version) ? dci : NULL;
+	return (!dci || dci->apiVersion >= version) ? dci : nullptr;
 }
 
 Bool PluginApiImpl::releaseInterface(intfHandle hInterface) {
 	return PluginManager::getInstance()->releaseInterface(hInterface) ? True : False;
+}
+
+Bool PluginApiImpl::isLoaded(const char* guid) {
+	return PluginManager::getInstance()->isLoaded(guid) ? True : False;
+}
+
+const char* PluginApiImpl::hostName() {
+	return dcpp::hostName;
 }
 
 // Functions for DCHook
@@ -232,8 +271,16 @@ size_t PluginApiImpl::releaseHook(subsHandle hHook) {
 }
 
 // Functions for DCConfig
-const char* DCAPI PluginApiImpl::getPath(PathType type) {
-	return Util::getPath(static_cast<Util::Paths>(type)).c_str();
+ConfigStrPtr DCAPI PluginApiImpl::getPath(PathType type) {
+	auto str = Util::getPath(static_cast<Util::Paths>(type));
+	ConfigStr value = { CFG_TYPE_STRING, str.c_str() };
+	return reinterpret_cast<ConfigStrPtr>(copyData(reinterpret_cast<ConfigValuePtr>(&value)));
+}
+
+ConfigStrPtr DCAPI PluginApiImpl::getInstallPath(const char* guid) {
+	auto str = PluginManager::getInstallPath(guid);
+	ConfigStr value = { CFG_TYPE_STRING, str.c_str() };
+	return reinterpret_cast<ConfigStrPtr>(copyData(reinterpret_cast<ConfigValuePtr>(&value)));
 }
 
 void PluginApiImpl::setConfig(const char* guid, const char* setting, ConfigValuePtr val) {
@@ -325,6 +372,12 @@ ConfigValuePtr PluginApiImpl::getConfig(const char* guid, const char* setting, C
 	return NULL;
 }
 
+ConfigStrPtr DCAPI PluginApiImpl::getLanguage() {
+	auto str = Util::getIETFLang();
+	ConfigStr value = { CFG_TYPE_STRING, str.c_str() };
+	return reinterpret_cast<ConfigStrPtr>(copyData(reinterpret_cast<ConfigValuePtr>(&value)));
+}
+
 ConfigValuePtr PluginApiImpl::copyData(const ConfigValuePtr val) {
 	switch(val->type) {
 		case CFG_TYPE_STRING: {
@@ -409,43 +462,58 @@ void PluginApiImpl::terminateConnection(ConnectionDataPtr conn, Bool graceless) 
 }
 
 void PluginApiImpl::sendUdpData(const char* ip, uint32_t port, dcptr_t data, size_t n) {
-	apiSocket.writeTo(ip, Util::toString(port), data, n);
+	try { getUdpSocket().writeTo(ip, Util::toString(port), data, n); } catch (const Exception&) { /* ... */ }
+}
+
+UserDataPtr PluginApiImpl::getUserFromConn(ConnectionDataPtr conn) {
+	auto user = reinterpret_cast<UserConnection*>(conn->object)->getHintedUser();
+	if(!user.user) { return nullptr; }
+
+	auto lock = ClientManager::getInstance()->lock();
+	auto ou = ClientManager::getInstance()->findOnlineUser(user);
+	if(!ou) { return nullptr; }
+	return ou->copyPluginObject();
 }
 
 // Functions for DCUtils
 size_t PluginApiImpl::toUtf8(char* dst, const char* src, size_t n) {
-	string sSrc(Text::toUtf8(src));
-	n = (sSrc.size() < n) ? sSrc.size() : n;
-	strncpy(dst, sSrc.c_str(), n);
-	return n;
+	string str(Text::toUtf8(src));
+	if(n >= str.size()) {
+		strncpy(dst, str.c_str(), str.size());
+	}
+	return str.size();
 }
 
 size_t PluginApiImpl::fromUtf8(char* dst, const char* src, size_t n) {
-	string sSrc(Text::fromUtf8(src));
-	n = (sSrc.size() < n) ? sSrc.size() : n;
-	strncpy(dst, sSrc.c_str(), n);
-	return n;
+	string str(Text::fromUtf8(src));
+	if(n >= str.size()) {
+		strncpy(dst, str.c_str(), str.size());
+	}
+	return str.size();
 }
 
 size_t PluginApiImpl::Utf8toWide(wchar_t* dst, const char* src, size_t n) {
-	wstring sSrc(Text::utf8ToWide(src));
-	n = (sSrc.size() < n) ? sSrc.size() : n;
-	wcsncpy(dst, sSrc.c_str(), n);
-	return n;
+	wstring str(Text::utf8ToWide(src));
+	if(n >= str.size()) {
+		wcsncpy(dst, str.c_str(), str.size());
+	}
+	return str.size();
 }
 
 size_t PluginApiImpl::WidetoUtf8(char* dst, const wchar_t* src, size_t n) {
-	string sSrc(Text::wideToUtf8(src));
-	n = (sSrc.size() < n) ? sSrc.size() : n;
-	strncpy(dst, sSrc.c_str(), n);
-	return n;
+	string str(Text::wideToUtf8(src));
+	if(n >= str.size()) {
+		strncpy(dst, str.c_str(), str.size());
+	}
+	return str.size();
 }
 
 size_t PluginApiImpl::toBase32(char* dst, const uint8_t* src, size_t n) {
-	string sSrc(Encoder::toBase32(src, n));
-	n = (sSrc.size() < n) ? sSrc.size() : n;
-	strncpy(dst, sSrc.c_str(), n);
-	return n;
+	string str(Encoder::toBase32(src, n));
+	if(n >= str.size()) {
+		strncpy(dst, str.c_str(), str.size());
+	}
+	return str.size();
 }
 
 size_t PluginApiImpl::fromBase32(uint8_t* dst, const char* src, size_t n) {
@@ -453,6 +521,20 @@ size_t PluginApiImpl::fromBase32(uint8_t* dst, const char* src, size_t n) {
 	return n;
 }
 
+// Functions for DCTagger
+/*
+const char* PluginApiImpl::getText(TagDataPtr hTags) {
+	return reinterpret_cast<Tagger*>(hTags->object)->getText().c_str();
+}
+
+void PluginApiImpl::addTag(TagDataPtr hTags, size_t start, size_t end, const char* id, const char* attributes) {
+	reinterpret_cast<Tagger*>(hTags->object)->addTag(start, end, id, attributes);
+}
+
+void PluginApiImpl::replaceText(TagDataPtr hTags, size_t start, size_t end, const char* replacement) {
+	reinterpret_cast<Tagger*>(hTags->object)->replaceText(start, end, replacement);
+}
+*/
 // Functions for DCQueue
 QueueDataPtr PluginApiImpl::addList(UserDataPtr user, Bool silent) {
 	auto u = ClientManager::getInstance()->findUser(CID(user->cid));
@@ -503,6 +585,14 @@ void PluginApiImpl::setPriority(QueueDataPtr qi, QueuePrio priority) {
 	reinterpret_cast<QueueItem*>(qi->object)->setPriority(static_cast<QueueItem::Priority>(priority));
 }
 
+Bool PluginApiImpl::pause(QueueDataPtr qi) {
+	auto item = reinterpret_cast<QueueItem*>(qi->object);
+	bool paused = (item->getPriority() == QueueItem::PAUSED);
+
+	item->setPriority(paused ? QueueItem::DEFAULT : QueueItem::PAUSED);
+	return (!paused ? True : False);
+}
+
 QueueDataPtr PluginApiImpl::copyData(const QueueDataPtr qi) {
 	QueueDataPtr copy = (QueueDataPtr)malloc(sizeof(QueueData));
 	memcpy(copy, qi, sizeof(QueueData));
@@ -544,7 +634,7 @@ HubDataPtr PluginApiImpl::addHub(const char* url, const char* nick, const char* 
 		Client* client = ClientManager::getInstance()->getClient(url);
 		client->connect();
 		client->setPassword(password);
-		client->get(HubSettings::Nick) = string(nick);
+		client->get(HubSettings::Nick) = nick;
 
 		// check that socket is waitting for connection...
 		if(client->isConnected()) {
@@ -594,7 +684,7 @@ void PluginApiImpl::sendHubMessage(HubDataPtr hub, const char* message, Bool thi
 
 void PluginApiImpl::sendLocalMessage(HubDataPtr hub, const char* msg, MsgType type) {
 	Client* client = reinterpret_cast<Client*>(hub->object);
-	client->fire(ClientListener::ClientLine(), client, msg, (int)type);
+	client->fire(ClientListener::ClientLine(), client, msg, type);
 }
 
 Bool PluginApiImpl::sendPrivateMessage(UserDataPtr user, const char* message, Bool thirdPerson) {
@@ -685,8 +775,3 @@ void PluginApiImpl::releaseData(UserDataPtr user) {
 }
 
 } // namespace dcpp
-
-/**
- * @file
- * $Id: PluginApiImpl.cpp 1248 2012-01-22 01:49:30Z crise $
- */

@@ -19,30 +19,36 @@
 #ifndef DCPLUSPLUS_DCPP_PLUGIN_MANAGER_H
 #define DCPLUSPLUS_DCPP_PLUGIN_MANAGER_H
 
-#include "stdinc.h"
-#include "typedefs.h"
+#include <functional>
 #include <map>
-#include "Singleton.h"
-#include "SettingsManager.h"
-#include "TimerManager.h"
-#include "LogManager.h"
+#include <memory>
+#include <string>
+#include <vector>
 
-#include "QueueManagerListener.h"
+#include "typedefs.h"
+
 #include "ClientManagerListener.h"
-
+#include "PluginDefs.h"
 #include "PluginEntity.h"
-#include "PluginApiImpl.h"
+#include "QueueManagerListener.h"
+#include "SettingsManager.h"
+#include "Singleton.h"
+//#include "Tagger.h"
+#include "TimerManager.h"
 
 #ifdef _WIN32
-typedef HMODULE pluginHandle;
+typedef HMODULE PluginHandle;
 #else
-typedef void* pluginHandle;
+typedef void* PluginHandle;
 #endif
 
 namespace dcpp {
 
-using std::map;
 using std::function;
+using std::map;
+using std::string;
+using std::unique_ptr;
+using std::vector;
 
 // Represents a plugin in hook context
 struct HookSubscriber {
@@ -56,86 +62,95 @@ struct PluginHook {
 	string guid;
 	DCHOOK defProc;
 
-	vector<HookSubscriber*> subscribers;
+	vector<unique_ptr<HookSubscriber>> subscribers;
 	CriticalSection cs;
 };
 
-// Holds a loaded plugin
-class PluginInfo 
-{
-public:
-	typedef	DCMAIN	(DCAPI *PLUGIN_INIT)(MetaDataPtr info);
+/** Information about a registered plugin. It may or may not be loaded. */
+struct Plugin {
+	string guid;
+	string name;
+	double version;
+	string author;
+	string description;
+	string website;
+	string path;
 
-	PluginInfo(const string& aFile, pluginHandle hInst, MetaData aInfo, DCMAIN aMain)
-		: dcMain(aMain), info(aInfo), file(aFile), handle(hInst) { };
-
-	~PluginInfo();
-
+	PluginHandle handle; /// identifies the state (enabled / disabled) of this plugin.
 	DCMAIN dcMain;
-	const MetaData& getInfo() const { return info; }
-	const string& getFile() const { return file; }
 
-private:
-	MetaData info;
-	string file;
-	pluginHandle handle;
-	PluginInfo(PluginInfo&);
-	PluginInfo operator=(PluginInfo&);
+	StringMap settings;
+};
+
+/** Information about a dcext-packaged plugin that has just been extracted. */
+struct DcextInfo {
+	string uuid;
+	string name;
+	double version;
+	string author;
+	string description;
+	string website;
+	string plugin;
+	StringList files;
+	bool updating;
 };
 
 class PluginManager : public Singleton<PluginManager>, private TimerManagerListener,
 	private ClientManagerListener, private QueueManagerListener, private SettingsManagerListener
 {
 public:
-	typedef vector<PluginInfo*> pluginList;
+	PluginManager();
+	~PluginManager();
 
-	PluginManager() : shutdown(false), secNum(Util::rand()) {
-		memset(&dcCore,0,sizeof(DCCore));
-		SettingsManager::getInstance()->addListener(this);
-	}
-
-	~PluginManager() {
-		SettingsManager::getInstance()->removeListener(this);
-	}
-
+	/** Extract a dcext-packaged plugin. Throws on errors. */
+	/*DcextInfo extract(const string& path);
+	void install(const DcextInfo& info);
+*/
 	void loadPlugins(function<void (const string&)> f);
-	bool loadPlugin(const string& fileName, bool isInstall = false);
-	bool isLoaded(const string& guid);
-
 	void unloadPlugins();
-	void unloadPlugin(int index);
 
-	bool addInactivePlugin(pluginHandle h);
-	bool getShutdown() const { return shutdown; }
+	/** Install a plain plugin (not dcext-packaged). Throws on errors. */
+	void addPlugin(const string& path);
+	bool configPlugin(const string& guid, dcptr_t data);
+	void enablePlugin(const string& guid);
+	void disablePlugin(const string& guid);
+	void movePlugin(const string& guid, int delta);
+	void removePlugin(const string& guid);
 
-	void movePlugin(size_t index, int pos);
-	const pluginList& getPluginList() { Lock l(cs); return plugins; };
-	const PluginInfo* getPlugin(size_t index) { Lock l(cs); return plugins[index]; }
+	bool isLoaded(const string& guid) const;
+
+	StringList getPluginList() const;
+	Plugin getPlugin(const string& guid) const;
 
 	DCCorePtr getCore() { return &dcCore; }
 
 	// Functions that call the plugin
-	bool onChatDisplay(Client* client, string& line);
+	bool onUDP(bool out, const string& ip, const string& port, const string& data);
+	//bool onChatTags(Tagger& tagger, OnlineUser* from = nullptr);
+	bool onChatDisplay(string& htmlMessage, OnlineUser* from = nullptr);
 	bool onChatCommand(Client* client, const string& line);
-	bool onChatCommandPM(const HintedUser& user, const string& line, bool isPriv);
+	bool onChatCommandPM(const HintedUser& user, const string& line);
 
 	// runHook wrappers for host calls
 	bool runHook(const string& guid, dcptr_t pObject, dcptr_t pData) {
+		if(shutdown) return false;
 		auto i = hooks.find(guid);
 		dcassert(i != hooks.end());
-		if(shutdown) return false;
-		return runHook(i->second, pObject, pData);
+		return runHook(i->second.get(), pObject, pData);
 	}
 
 	template<class T>
 	bool runHook(const string& guid, PluginEntity<T>* entity, dcptr_t pData = NULL) {
-		Lock l(entity->cs);
-		return runHook(guid, entity->getPluginObject(), pData);
+		if(entity) {
+			Lock l(entity->cs);
+			return runHook(guid, entity->getPluginObject(), pData);
+		}
+		return runHook(guid, nullptr, pData);
 	}
 
 	template<class T>
 	bool runHook(const string& guid, PluginEntity<T>* entity, const string& data) {
-		return runHook<T>(guid, entity, (dcptr_t)data.c_str());
+		return runHook<T>(guid, entity, reinterpret_cast<dcptr_t>(const_cast<char*>(data.c_str())));
 	}
 
 	// Plugin interface registry
@@ -152,16 +167,23 @@ public:
 	size_t releaseHook(HookSubscriber* subscription);
 
 	// Plugin configuration
-	bool hasSettings(const string& pluginName);
-	void processSettings(const string& pluginName, const function<void (StringMap&)>& currentSettings);
+	void setPluginSetting(const string& guid, const string& setting, const string& value);
+	const string& getPluginSetting(const string& guid, const string& setting);
+	void removePluginSetting(const string& guid, const string& setting);
 
-	void setPluginSetting(const string& pluginName, const string& setting, const string& value);
-	const string& getPluginSetting(const string& pluginName, const string& setting);
-	void removePluginSetting(const string& pluginName, const string& setting);
+	static string getInstallPath(const string& uuid);
 
 private:
-	// Check if plugin can be loaded
-	bool checkPlugin(const MetaData& info);
+	void enable(Plugin& plugin, bool install, bool runtime);
+	void disable(Plugin& plugin, bool uninstall);
+
+	void loadSettings() noexcept;
+	void saveSettings() noexcept;
+
+	const Plugin* findPlugin(const string& guid) const;
+	Plugin* findPlugin(const string& guid);
+	vector<Plugin>::const_iterator findPluginIter(const string& guid) const;
+	vector<Plugin>::iterator findPluginIter(const string& guid);
 
 	// Listeners
 	void on(TimerManagerListener::Second, uint64_t ticks) noexcept { runHook(HOOK_TIMER_SECOND, NULL, &ticks); }
@@ -175,19 +197,16 @@ private:
 	void on(QueueManagerListener::Removed, QueueItem* qi) noexcept;
 	void on(QueueManagerListener::Finished, QueueItem* qi, const string& /*dir*/, int64_t /*speed*/) noexcept;
 
-	void on(SettingsManagerListener::Load, SimpleXML& /*xml*/) noexcept;
 	void on(SettingsManagerListener::Save, SimpleXML& /*xml*/) noexcept;
 
-	pluginList plugins;
-	vector<pluginHandle> inactive;
+	vector<Plugin> plugins;
+	vector<PluginHandle> inactive;
 
-	map<string, PluginHook*> hooks;
+	map<string, unique_ptr<PluginHook>> hooks;
 	map<string, dcptr_t> interfaces;
 
-	map<string, StringMap> settings;
-
 	DCCore dcCore;
-	CriticalSection cs, csHook;
+	mutable CriticalSection cs, csHook;
 	bool shutdown;
 
 	uintptr_t secNum;
@@ -196,8 +215,3 @@ private:
 } // namespace dcpp
 
 #endif // !defined(DCPLUSPLUS_DCPP_PLUGIN_MANAGER_H)
-
-/**
- * @file
- * $Id: PluginManager.h 1245 2012-01-21 15:09:54Z crise $
- */
