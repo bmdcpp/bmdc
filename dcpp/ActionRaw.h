@@ -26,18 +26,18 @@ struct Raw {
 	Raw() : id(0), name(Util::emptyString), raw(Util::emptyString), time(0), enabled(false) { }
 	
 	Raw(int _id, const std::string& _name, const std::string& _raw, int _time, bool _enabled)
-		noexcept : id(_id), name(_name), raw(_raw), time(_time), enabled(_enabled) { }
+		: id(_id), name(_name), raw(_raw), time(_time), enabled(_enabled) { }
 	
-	Raw(const Raw& rhs) : id(rhs.id), name(rhs.name), raw(rhs.raw), time(rhs.time), enabled(rhs.enabled) { }
+	//Raw(const Raw& rhs) : id(rhs.id), name(rhs.name), raw(rhs.raw), time(rhs.time), enabled(rhs.enabled) { }
 	
-	Raw& operator=(const Raw& rhs) {
-		id = rhs.id;
-		name = rhs.name;
-		raw = rhs.raw;
-		time = rhs.time;
-		enabled = rhs.enabled;
-		return *this;
-	}
+	//Raw& operator=(const Raw& rhs) {
+	//	id = rhs.id;
+	//	name = rhs.name;
+	//	raw = rhs.raw;
+	//	time = rhs.time;
+	//	enabled = rhs.enabled;
+	//	return *this;
+	//}
 
 	GETSET(int, id, Id);
 	GETSET(std::string, name, Name);
@@ -52,7 +52,7 @@ struct Action {
 	typedef std::vector<Action*> ActionList;
 
 	Action() : id(0), name(Util::emptyString), enabled(false) { }
-	Action(int _id, const std::string& _name, bool _enabled) noexcept : id(_id), name(_name), enabled(_enabled) { }
+	Action(int _id, const std::string& _name, bool _enabled): id(_id), name(_name), enabled(_enabled) { }
 	~Action() { raw.clear(); }
 
 	GETSET(int, id, Id);

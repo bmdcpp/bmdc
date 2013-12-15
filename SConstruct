@@ -335,7 +335,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		env.Prepend(LIBS = [LIB_NATPMP])
 
 	if env.get('PREFIX'):
-		data_dir = '\'\"%s/share\"\'' % env['PREFIX']
+		data_dir = '\'\"%sshare\"\'' % env['PREFIX']
 		env.Append(CPPDEFINES = ('_DATADIR', data_dir))
 
 

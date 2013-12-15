@@ -2,7 +2,10 @@
 //Author: Irene
 #include <cstring>
 #include "ShellCommand.hh"
+#include "wulformanager.hh"
 #include "WulforUtil.hh"
+
+using namespace std;
 
 ShellCommand::ShellCommand(char* input, int len, int shell)
 {
@@ -17,7 +20,7 @@ ShellCommand::ShellCommand(char* input, int len, int shell)
 	if (shell == 0)
 	{
 		char testscript[strlen(input)+28];
-	        strcpy(testscript,"test -e extensions/Scripts/");
+	        strcpy(testscript,("test -e "+WulforManager::get()->getPath()+"/extensions/Scripts/").c_str());
         	strcat(testscript,input);
 		//test if script exists
 		if (system(testscript)!=0)
@@ -30,7 +33,7 @@ ShellCommand::ShellCommand(char* input, int len, int shell)
 		else
 		{
 			//test if script is an executable
-			strcpy(testscript,"test -x extensions/Scripts/");
+			strcpy(testscript,string("test -x "+WulforManager::get()->getPath()+"/extensions/Scripts/").c_str());
         		strcat(testscript,input);
 			if (system(testscript)!=0)
 			{
@@ -38,7 +41,7 @@ ShellCommand::ShellCommand(char* input, int len, int shell)
 				//if(BOOLSETTING(SCRIPT_EXECUTABLES))
 				//{
 					char com[strlen(command)+29];
-					strcpy(com,"chmod +x extensions/Scripts/");
+					strcpy(com,string("chmod +x "+WulforManager::get()->getPath()+"/extensions/Scripts/").c_str());
 					strcat(com,input);
 					if (system(com)==0)
 					{
@@ -62,7 +65,7 @@ ShellCommand::ShellCommand(char* input, int len, int shell)
 		}
 		if (error == 0)
 		{
-    			strcpy(command,"./extensions/Scripts/");
+    			strcpy(command,(WulforManager::get()->getPath()+"/extensions/Scripts/").c_str());
     			strcat(command,input);
 		}
 	}

@@ -113,7 +113,7 @@ protected:
 		return NULL;
 	}
 #endif
-	private:
+private:
 		Thread(Thread&);
 		Thread& operator=(Thread&);
 };

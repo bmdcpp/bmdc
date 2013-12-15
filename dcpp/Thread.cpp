@@ -18,7 +18,7 @@
 
 #include "stdinc.h"
 #include "Thread.h"
-
+#include "Util.h"
 #include "format.h"
 
 namespace dcpp {
