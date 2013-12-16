@@ -6,6 +6,12 @@ import commands
 import string
 import re
 
+
+try:
+	from bzrlib import branch
+except ImportError:
+	print "bzrlib not installed"
+
 EnsureSConsVersion(0, 98, 1)
 
 PACKAGE = 'bmdc'
@@ -80,6 +86,24 @@ def generate_message_catalogs(env):
 
 	return None
 
+
+def check_bzr_revision(context,env):
+	context.Message("Checking bzr revision...")
+	revision = ''
+
+	try:
+		b = branch.Branch.open('.')
+		revision = str(b.revno())
+	except:
+		print "failed"
+
+	context.env['BZR_REVISION'] = revision
+	env.Append( CPPDEFINES = ('-DBZR_REVISION=') + revision)
+	env.Append( CPPDEFINES = ('-DBZR_REVISION_STRING=\'"') + revision+('\"\''))
+	context.Result(revision)
+	return revision
+
+
 # ----------------------------------------------------------------------
 # Command-line options
 # ----------------------------------------------------------------------
@@ -96,7 +120,7 @@ vars.AddVariables(
 	BoolVariable('profile', 'Compile the program with profiling information', 0),
 	BoolVariable('libnotify', 'Enable notifications through libnotify', 1),
 	BoolVariable("libtar", 'Enable Backuping&Exporting with libtar', 1),
-	PathVariable('PREFIX', 'Compile the program with PREFIX as the root for installation', '/usr/local', PathVariable.PathIsDir),
+	PathVariable('PREFIX', 'Compile the program with PREFIX as the root for installation', '/usr/local/', PathVariable.PathIsDir),
 	('FAKE_ROOT', 'Make scons install the program under a fake root', '')
 )
 
@@ -160,6 +184,7 @@ conf = env.Configure(
 		'CheckPKGConfig' : check_pkg_config,
 		'CheckPKG' : check_pkg,
 		'CheckCXXVersion' : check_cxx_version,
+		'CheckBZRRevision' : check_bzr_revision
 	},
 	conf_dir = 'build/sconf',
 	log_file = 'build/sconf/config.log')
@@ -218,11 +243,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		print '\tNote: You might have the lib but not the headers'
 		Exit(1)
 
-	# Needed for XFlush(). Headers shouldn't be needed since we include gdk/gdkx.h
-	#if not conf.CheckLib('X11'):
-	#	print '\tX11 library not found'
-	#	Exit(1)
-
 	if not conf.CheckHeader('iconv.h'):
 		Exit(1)
 	elif conf.CheckLibWithHeader('iconv', 'iconv.h', 'c', 'iconv(0, (const char **)0, 0, (char**)0, 0);'):
@@ -277,7 +297,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 			print 'Dont Found libtar headers'
 			LIB_IS_TAR = False
 
-	#	conf.CheckBZRRevision()
+	conf.CheckBZRRevision(env)
 	env = conf.Finish()
 
 # ----------------------------------------------------------------------

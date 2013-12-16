@@ -68,13 +68,15 @@ void HashManager::hashDone(const string& aFileName, uint32_t aTimeStamp, const T
 	fire(HashManagerListener::TTHDone(), aFileName, tth.getRoot());
 
 	if(speed > 0) {
-		LogManager::getInstance()->message(_("Finished hashing: %1% (%2% at %3%/s)") + Util::addBrackets(aFileName) +
-			Util::formatBytes(size) + Util::formatBytes(speed));
+		char buf[1024];
+		sprintf(buf,_("Finished hashing: %s (%s at %s/s)"),Util::addBrackets(aFileName).c_str(),Util::formatBytes(size).c_str(),Util::formatBytes(speed).c_str());
+		LogManager::getInstance()->message(string(buf));
 	} else if(size >= 0) {
-		LogManager::getInstance()->message(_("Finished hashing: %1% (%2%)") + Util::addBrackets(aFileName) +
-			Util::formatBytes(size));
+		char buf[1024];
+		sprintf(buf,_("Finished hashing: %s (%s %%)"), Util::addBrackets(aFileName).c_str(),Util::formatBytes(size).c_str());
+		LogManager::getInstance()->message(string(buf));
 	} else {
-		LogManager::getInstance()->message(_("Finished hashing: ")+ Util::addBrackets(aFileName));
+		LogManager::getInstance()->message(_("Finished hashing: ") + Util::addBrackets(aFileName));
 	}
 }
 
@@ -102,7 +104,7 @@ void HashManager::HashStore::addTree(const TigerTree& tt) noexcept {
 			treeIndex.emplace(tt.getRoot(), TreeInfo(tt.getFileSize(), index, tt.getBlockSize()));
 			dirty = true;
 		} catch (const FileException& e) {
-			LogManager::getInstance()->message(_("Error saving hash data: ")+ e.getError());
+			LogManager::getInstance()->message(_("Error saving hash data: ") + e.getError());
 		}
 	}
 }

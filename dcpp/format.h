@@ -25,9 +25,7 @@
 
 #define PACKAGE "libdcpp"
 #define LOCALEDIR dcpp::Util::getPath(Util::PATH_LOCALE).c_str()
-//#define _(String) dgettext(PACKAGE, String)
 #define gettext_noop(String) String
-//#define N_(String) gettext_noop (String)
 #define F_(String) (dgettext(PACKAGE, std::string(String).c_str()))
 #define FN_(String1,String2, N) (dngettext(PACKAGE, String1, String2, N))
 
