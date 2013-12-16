@@ -572,11 +572,7 @@ void SettingsManager::load(string const& aFileName)
 			set(AUTO_SEARCH_LIMIT, 5);
 		else if(SETTING(AUTO_SEARCH_LIMIT) < 1)
 			set(AUTO_SEARCH_LIMIT, 1);
-/*
-#ifdef _DEBUG
-		set(PRIVATE_ID, CID::generate().toBase32());
-#endif
-*/
+
 		File::ensureDirectory(SETTING(TLS_TRUSTED_CERTIFICATES_PATH));
 
 		fire(SettingsManagerListener::Load(), xml);

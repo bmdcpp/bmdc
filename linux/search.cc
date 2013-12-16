@@ -161,13 +161,11 @@ Search::Search(const string& str):
 	}
 
 	// Customs
-	for (auto i = searchTypes.begin(), iend = searchTypes.end(); i != iend; ++i)
-	{
-		string type = i->first;
-		if (!(type.size() == 1 && type[0] >= '0' && type[0] <= '6'))
-		{
-			gtk_list_store_append(store, &iter);
-			gtk_list_store_set(store, &iter, 0, type.c_str(), -1);
+	for(auto& i: SettingsManager::getInstance()->getSearchTypes()) {
+		if(i.first.size() > 1 || i.first[0] < '1' || i.first[0] > '6') { //Custom type
+		string type = i.first;
+		gtk_list_store_append(store, &iter);
+		gtk_list_store_set(store, &iter, 0, type.c_str(), -1);
 		}
 	}
 	gtk_combo_box_set_active(combo_box, 0);
@@ -2038,7 +2036,7 @@ gboolean Search::searchFilterFunc_gui(GtkTreeModel *model, GtkTreeIter *iter, gp
 	}
 
 	int type = gtk_combo_box_get_active(GTK_COMBO_BOX(s->getWidget("comboboxFile")));
-	if (type != SearchManager::TYPE_ANY && type != ShareManager::getInstance()->getType(filename))
+	if (type != SearchManager::TYPE_ANY/* && type != SearchManager::getTypeStr(filename)*/)
 		return FALSE;
 
 	return TRUE;

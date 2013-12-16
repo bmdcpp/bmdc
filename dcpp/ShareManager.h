@@ -103,7 +103,7 @@ public:
 
 	void getBloom(ByteVector& v, size_t k, size_t m, size_t h) const;
 
-	SearchManager::TypeModes getType(const string& fileName) const noexcept;
+	//SearchManager::TypeModes getType(const string& fileName) const noexcept;
 
 	string validateVirtual(const string& /*aVirt*/) const noexcept;
 	bool hasVirtual(const string& name) const noexcept;
