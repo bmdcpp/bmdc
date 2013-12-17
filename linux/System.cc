@@ -48,10 +48,9 @@ systemlog::~systemlog()
 
 void systemlog::add_gui(time_t t, string file)
 {
-	string line;
 	gtk_text_buffer_get_end_iter(buffer, &iter);
 
-	line = Text::toUtf8("[ " + Util::getShortTimeString(t)+" ] " + file + "\n\0");
+	string line = Text::toUtf8("[ " + Util::getShortTimeString(t)+" ] " + file + "\n\0");
 
 	gtk_text_buffer_insert(buffer, &iter, line.c_str(), line.size());
 	gtk_text_buffer_get_end_iter(buffer, &iter);

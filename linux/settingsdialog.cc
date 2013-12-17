@@ -1973,7 +1973,7 @@ void Settings::addToGuiPlg()
 				 plView.col("Description"),info.description,
 				 plView.col("Version"), Util::toString(info.version).c_str(),
 				-1);*/
- auto pm = PluginManager::getInstance();
+ 	auto pm = PluginManager::getInstance();
          const auto& list = pm->getPluginList();
          gtk_list_store_clear(plStore);
          GtkTreeIter iter;

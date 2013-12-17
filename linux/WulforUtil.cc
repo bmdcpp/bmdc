@@ -47,7 +47,7 @@
 #endif
 #include <sys/utsname.h>
 #include <sys/sysinfo.h>
-
+#include "freespace.h"
 using namespace std;
 using namespace dcpp;
 
@@ -1083,14 +1083,17 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	}
 	// End of "Now Playing"
 	else if ( cmd == "df" )
-	{
+	{/*
         ShellCommand s((char *)"df.sh");
 
 		if (param == "mc")
 			message = s.Output();
 		else
 			status += s.Output();
-
+*/
+		std::string tmp = "\n\t\t\t-=Free Spaces=-\t\t\t\n" +  FreeSpace::process_mounts("/etc/mtab");
+		tmp += "\n\t\t\tTotal:\t" + Util::formatBytes(FreeSpace::_aviable) + "/" + Util::formatBytes(FreeSpace::_total) + "\t\n";
+		message += tmp;
 	}
 	else if (cmd == "uptime")
 	{
