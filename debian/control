@@ -5,19 +5,12 @@ Maintainer: Mank <Mank1@seznam.cz>
 XSBC-Original-Maintainer: Mank <Mank1@seznam.cz>
 Build-Depends: 
  cdbs (>= 0.4.85~),
- debhelper (>= 7.0.1),
- dh-buildinfo,
- quilt,
- patchutils (>= 0.2.25),
- cdbs (>= 0.4.27),
- scons, 
- scons, 
- libbz2-dev, 
- libgtk3.0-dev, 
- libglade2-dev, 
+ debhelper (>= 4.2.0), 
+ scons,
+ libbz2-dev,
+ zlib1g-dev,
+ libgtk-3-dev,
  libssl-dev,
- libboost-dev,
- libnotify4-dev | libnotify-dev,
  libcanberra-dev,
  libnotify-dev,
  libgeoip-dev,
@@ -25,7 +18,7 @@ Build-Depends:
 Homepage: http://launchpad.net/bmdc++/
 Standards-Version: 3.9.2
 
-Package: linuxdcpp
+Package: bmdc
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: BMDC++ Client with Ignore User , Media Spam and many others.
