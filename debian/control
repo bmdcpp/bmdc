@@ -5,7 +5,8 @@ Maintainer: Mank <Mank1@seznam.cz>
 XSBC-Original-Maintainer: Mank <Mank1@seznam.cz>
 Build-Depends: 
  cdbs (>= 0.4.85~),
- debhelper (>= 4.2.0), 
+ debhelper (>= 4.2.0),
+ patchutils (>= 0.2.25), 
  scons,
  libbz2-dev,
  zlib1g-dev,
