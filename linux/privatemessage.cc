@@ -37,7 +37,7 @@ using namespace std;
 using namespace dcpp;
 
 PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
-	BookEntry(Entry::PRIVATE_MESSAGE, _("PM: ") + WulforUtil::getNicks(cid, hubUrl), "privatemessage.glade", cid),//NOTE: core 0.760
+	BookEntry(Entry::PRIVATE_MESSAGE, _("PM: ") + WulforUtil::getNicks(cid, hubUrl), "privatemessage.glade", cid),
 	cid(cid),
 	hubUrl(hubUrl),
 	historyIndex(0),
@@ -215,10 +215,10 @@ void PrivateMessage::addMessage_gui(string message, Msg::TypeMsg typemsg)
 	{
 		dcpp::ParamMap params;
 		params["message"] = message;
-		params["hubNI"] = WulforUtil::getHubNames(cid, hubUrl);//NOTE: core 0.762
+		params["hubNI"] = WulforUtil::getHubNames(cid, hubUrl);
 		params["hubURL"] = hubUrl;
 		params["userCID"] = cid;
-		params["userNI"] = ClientManager::getInstance()->getNicks(CID(cid), hubUrl)[0];//NOTE: core 0.762
+		params["userNI"] = ClientManager::getInstance()->getNicks(CID(cid), hubUrl)[0];
 		params["myCID"] = ClientManager::getInstance()->getMe()->getCID().toBase32();
 		LOG(LogManager::PM, params);
 	}
@@ -1432,7 +1432,7 @@ void PrivateMessage::sendMessage_client(string message)
 	if (user && user->isOnline())
 	{
 		// NOTE: WTF does the 3rd param (bool thirdPerson) do? A: Used for /me stuff
-		ClientManager::getInstance()->privateMessage(HintedUser(user, hubUrl), message, false);//NOTE: core 0.762
+		ClientManager::getInstance()->privateMessage(HintedUser(user, hubUrl), message, false);
 	}
 	else
 	{
@@ -1450,7 +1450,7 @@ void PrivateMessage::addFavoriteUser_client()
 	{
 		typedef Func2<PrivateMessage, string, Msg::TypeMsg> F2;
 		F2 *func = new F2(this, &PrivateMessage::addStatusMessage_gui, WulforUtil::getNicks(user, hubUrl) + _(" is favorite user"),
-			Msg::STATUS);//NOTE: core 0.762
+			Msg::STATUS);
 		WulforManager::get()->dispatchGuiFunc(func);
 	}
 	else
@@ -1471,7 +1471,7 @@ void PrivateMessage::removeFavoriteUser_client()
 	{
 		typedef Func2<PrivateMessage, string, Msg::TypeMsg> F2;
 		F2 *func = new F2(this, &PrivateMessage::addStatusMessage_gui, WulforUtil::getNicks(user, hubUrl) + _(" is not favorite user"),
-			Msg::STATUS);//NOTE: core 0.762
+			Msg::STATUS);
 		WulforManager::get()->dispatchGuiFunc(func);
 	}
 }
@@ -1497,7 +1497,7 @@ void PrivateMessage::grantSlot_client()
 	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
 	if (user)
 	{
-		UploadManager::getInstance()->reserveSlot(HintedUser(user, hubUrl));//NOTE: core 0.762
+		UploadManager::getInstance()->reserveSlot(HintedUser(user, hubUrl));
 	}
 	else
 	{

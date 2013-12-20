@@ -34,7 +34,7 @@ struct ChatMessage {
 	const OnlineUser* replyTo;
 
 	bool thirdPerson;
-	time_t timestamp;
+	time_t timestamp;//[ADC-only]
 
 };
 

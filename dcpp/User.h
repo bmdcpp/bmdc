@@ -30,11 +30,10 @@ namespace dcpp {
 using std::shared_ptr;	
 
 /** A user connected to one or more hubs. */
-//Removed FastAllock
 class User : public shared_ptr<User> , public Flags
 {
 public:
-	enum Bits {
+	/*enum Bits {
 		ONLINE_BIT,
 		PASSIVE_BIT,
 		NMDC_BIT,
@@ -44,9 +43,9 @@ public:
 		NO_ADCS_0_10_PROTOCOL_BIT,
 		PROTECT_BIT
 	};
-
+*/
 	/** Each flag is set if it's true in at least one hub */
-	enum UserFlags {
+	/*enum UserFlags {
 		ONLINE = 1<<ONLINE_BIT,
 		PASSIVE = 1<<PASSIVE_BIT,
 		NMDC = 1<<NMDC_BIT,
@@ -55,13 +54,25 @@ public:
 		NO_ADC_1_0_PROTOCOL = 1<<NO_ADC_1_0_PROTOCOL_BIT,	//< Doesn't support "ADC/1.0" (dc++ <=0.703)
 		NO_ADCS_0_10_PROTOCOL = 1<< NO_ADCS_0_10_PROTOCOL_BIT,	//< Doesn't support "ADCS/0.10"
 		PROTECT = 1 << PROTECT_BIT
+	};*/
+	enum UserFlags {
+		ONLINE = 0x01,
+		PASSIVE = 0x02,
+		NMDC = 0x03,
+		TLS = 0x04,			//< Client supports TLS
+		OLD_CLIENT =0x05 ,  //< Can't download - old client
+		NO_ADC_1_0_PROTOCOL = 0x06,	//< Doesn't support "ADC/1.0" (dc++ <=0.703)
+		NO_ADCS_0_10_PROTOCOL = 0x07,	//< Doesn't support "ADCS/0.10"
+		PROTECT = 0x08
 	};
 
 	struct Hash {
 		size_t operator()(const UserPtr& x) const { return ((size_t)(&(*x)))/sizeof(User); }
 	};
 
-	User(const CID& aCID) : cid(aCID) { }
+	User(const CID& aCID) : cid(aCID) {
+		setFlag(ONLINE);
+	}
 
 	~User() noexcept { }
 

@@ -47,6 +47,7 @@ class ColorSettings
 	GETSET(bool, bHasBgColor, HasBgColor);
 	GETSET(bool, bHasFgColor, HasFgColor);
 	GETSET(string, strSoundFile, SoundFile);
+	//..
 
 	void setMatch(string match){
 		if(match.find(("$Re:")) == 0) {

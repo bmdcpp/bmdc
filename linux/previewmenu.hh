@@ -19,8 +19,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef PREVIEW_MENU_HH
-#define PREVIEW_MENU_HH
+#ifndef _PREVIEW_MENU_HH
+#define _PREVIEW_MENU_HH
 
 class PreviewMenu
 {

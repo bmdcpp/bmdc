@@ -216,7 +216,7 @@ private:
 			if(!ou.isCheckable((uint16_t)SETTING(CHECK_DELAY)))
 				return CONTINUE;
 			if(isADC) {
-				if((ou.getUser()->isSet(User::NO_ADC_1_0_PROTOCOL_BIT) || ou.getUser()->isSet(User::NO_ADCS_0_10_PROTOCOL_BIT)) &&
+				if((ou.getUser()->isSet(User::NO_ADC_1_0_PROTOCOL) || ou.getUser()->isSet(User::NO_ADCS_0_10_PROTOCOL)) &&
 					!(ou.getIdentity().isClientChecked() || ou.getIdentity().isFileListChecked())) {
 					//nasty...
 					ou.getIdentity().setTestSURChecked(Util::toString(GET_TIME()));

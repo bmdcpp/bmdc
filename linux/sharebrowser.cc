@@ -35,11 +35,11 @@ using namespace std;
 using namespace dcpp;
 
 ShareBrowser::ShareBrowser(UserPtr user, const string &file, const string &initialDirectory, int64_t speed, bool full):
-	BookEntry(Entry::SHARE_BROWSER, _("List: ") + WulforUtil::getNicks(user, ""), "sharebrowser.glade", user->getCID().toBase32()),//NOTE: core 0.762
+	BookEntry(Entry::SHARE_BROWSER, _("List: ") + WulforUtil::getNicks(user, ""), "sharebrowser.glade", user->getCID().toBase32()),
 	user(user),
 	file(file),
 	initialDirectory(initialDirectory),
-	listing(HintedUser(user, "")),//NOTE: core 0.762
+	listing(HintedUser(user, "")),
 	shareSize(0),
 	currentSize(0),
 	shareItems(0),
@@ -141,10 +141,6 @@ ShareBrowser::ShareBrowser(UserPtr user, const string &file, const string &initi
 
 	g_signal_connect(getWidget("downloadPartialFile"), "activate", G_CALLBACK(onClickedPartial), (gpointer)this);
 	g_signal_connect(getWidget("downloadPartialDir"), "activate", G_CALLBACK(onClickedPartial), (gpointer)this);
-
-	//GError *error = NULL;
-	//g_thread_try_new("share_browser",threadLoad_list, (gpointer)this, &error);
-	//if (error) g_error_free(error);
 }
 
 ShareBrowser::~ShareBrowser()
@@ -451,10 +447,6 @@ void ShareBrowser::downloadSelectedFiles_gui(const string &target)
 			if (fileOrder[0] == 'd')
 			{
 				dir = (DirectoryListing::Directory *)ptr;
-
-			//	typedef Func2<ShareBrowser, DirectoryListing::Directory *, string> F2;
-			//	F2 * func = new F2(this, &ShareBrowser::downloadDir_client, dir, target);
-			//	WulforManager::get()->dispatchClientFunc(func);
 				downloadDir_client(dir , target);
 			}
 			else
@@ -463,9 +455,6 @@ void ShareBrowser::downloadSelectedFiles_gui(const string &target)
 
 				string filename = Util::getFileName(file->getName());
 
-				//typedef Func2<ShareBrowser, DirectoryListing::File *, string> F2;
-				//F2 * func = new F2(this, &ShareBrowser::downloadFile_client, file, target + filename);
-				//WulforManager::get()->dispatchClientFunc(func);
 				downloadFile_client(file, target+filename);
 			}
 		}
@@ -483,9 +472,6 @@ void ShareBrowser::downloadSelectedDirs_gui(const string &target)
 	{
 		dir = dirView.getValue<gpointer, DirectoryListing::Directory *>(&iter, "DL Dir");
 
-		//typedef Func2<ShareBrowser, DirectoryListing::Directory *, string> F2;
-		//F2 * func = new F2(this, &ShareBrowser::downloadDir_client, dir, target);
-		//WulforManager::get()->dispatchClientFunc(func);
 		downloadDir_client(dir, target);
 	}
 }
@@ -518,11 +504,11 @@ void ShareBrowser::popupFileMenu_gui()
 	gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("fileDownloadMenu")), menuItem);
 
 	// Build user command menu
-	StringList hubs = WulforUtil::getHubAddress(listing.getUser().user->getCID(), "");//NOTE: core 0.762
+	StringList hubs = WulforUtil::getHubAddress(listing.getUser().user->getCID(), "");
 	fileUserCommandMenu->addHub(hubs);
 	GtkTreeIter iter;
 	GList *list = gtk_tree_selection_get_selected_rows(fileSelection, NULL);
-	string cid = listing.getUser().user->getCID().toBase32();//NOTE: core 0.762
+	string cid = listing.getUser().user->getCID().toBase32();
 
 	for (GList *i = list; i; i = i->next)
 	{
@@ -570,11 +556,11 @@ void ShareBrowser::popupDirMenu_gui()
 	gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("dirDownloadMenu")), menuItem);
 
 	// Add user commands.
-	StringList hubs = WulforUtil::getHubAddress(listing.getUser().user->getCID(), "");//NOTE: core 0.762
+	StringList hubs = WulforUtil::getHubAddress(listing.getUser().user->getCID(), "");
 	dirUserCommandMenu->addHub(hubs);
 	GtkTreeIter iter;
 	GList *list = gtk_tree_selection_get_selected_rows(dirSelection, NULL);
-	string cid = listing.getUser().user->getCID().toBase32();//NOTE: core 0.762
+	string cid = listing.getUser().user->getCID().toBase32();
 
 	for (GList *i = list; i; i = i->next)
 	{
@@ -818,9 +804,6 @@ gboolean ShareBrowser::onDirKeyReleased_gui(GtkWidget *widget, GdkEventKey *even
 
 void ShareBrowser::onMatchButtonClicked_gui(GtkWidget *widget, gpointer data)
 {
-	//typedef Func0<ShareBrowser> F0;
-	//F0 *f0 = new F0((ShareBrowser*)data, &ShareBrowser::matchQueue_client);
-	//WulforManager::get()->dispatchClientFunc(f0);
 	((ShareBrowser*)data)->matchQueue_client();
 }
 
@@ -1083,7 +1066,7 @@ GtkWidget *ShareBrowser::createmenu()
 {
     TabUserCommandMenu->cleanMenu_gui();
     TabUserCommandMenu->addUser(user->getCID().toBase32());
-    StringList hubs = WulforUtil::getHubAddress(listing.getUser().user->getCID(), "");//NOTE: core 0.762
+    StringList hubs = WulforUtil::getHubAddress(listing.getUser().user->getCID(), "");
     TabUserCommandMenu->addHub(hubs);
     TabUserCommandMenu->buildMenu_gui();
     GtkWidget *menu = TabUserCommandMenu->getContainer();
@@ -1113,15 +1096,12 @@ void ShareBrowser::onCopyCID(gpointer data)
     ShareBrowser *sb = (ShareBrowser *)data;
     gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), sb->user->getCID().toBase32().c_str(), sb->user->getCID().toBase32().length());
 }
-//]
-/**/
 void ShareBrowser::loadXML(string txt) {
 
 		typedef Func1<ShareBrowser,string> F1;
 		F1 *func = new F1(this,&ShareBrowser::load,txt);
 		WulforManager::get()->dispatchGuiFunc(func);
 }
-/**/
 void ShareBrowser::load(string xml)
 {
 	// Set name of root entry to user nick.
@@ -1164,9 +1144,6 @@ void ShareBrowser::onClickedPartial(GtkWidget *widget, gpointer data)
 	{
 		dirList = (DirectoryListing::Directory *)sb->dirView.getValue<gpointer>(&iter,"DL Dir");
 	}
-	//typedef Func1<ShareBrowser, DirectoryListing::Directory*> F1;
-	//F1 *func = new F1(sb,&ShareBrowser::downloadChangedDir,dirList);
-	//WulforManager::get()->dispatchClientFunc(func);
 	sb->downloadChangedDir(dirList);
 }
 
@@ -1180,9 +1157,8 @@ void ShareBrowser::downloadChangedDir(DirectoryListing::Directory* d) {
 				//...
 			}
 		} else {
-			//setStatus_gui("mainStatus","User went offline");
 			typedef Func2<ShareBrowser, string, string> F2;
-			F2 *func = new F2(this,&ShareBrowser::setStatus_gui,"mainStatus", "User went Offline");
+			F2 *func = new F2(this,&ShareBrowser::setStatus_gui,"mainStatus", _("User went Offline"));
 			WulforManager::get()->dispatchGuiFunc(func);
 		}
 	}

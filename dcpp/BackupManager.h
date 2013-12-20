@@ -17,8 +17,8 @@
  */
 #ifdef HAVE_LIBTAR
 
-#ifndef DCPLUSPLUS_DCPP_BACKUP_MANAGER_H
-#define DCPLUSPLUS_DCPP_BACKUP_MANAGER_H
+#ifndef _BMDC_BACKUP_MANAGER_H
+#define _BMDC_BACKUP_MANAGER_H
 
 #include <utility>
 

@@ -19,8 +19,8 @@
 //
 //
 
-#ifndef BMDC_SYSTEM_HH
-#define BMDC_SYSTEM_HH
+#ifndef _BMDC_SYSTEM_HH
+#define _BMDC_SYSTEM_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>

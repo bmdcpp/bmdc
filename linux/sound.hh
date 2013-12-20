@@ -20,8 +20,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef SOUND_HH
-#define SOUND_HH
+#ifndef _SOUND_HH
+#define _SOUND_HH
 
 class Sound
 {

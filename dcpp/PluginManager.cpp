@@ -33,11 +33,8 @@
 
 #include <utility>
 
-//#include <boost/range/adaptor/reversed.hpp>
-
 #ifdef _WIN32
 # define PLUGIN_EXT "*.dll"
-
 # define LOAD_LIBRARY(filename) ::LoadLibrary(Text::toT(filename).c_str())
 # define FREE_LIBRARY(lib) ::FreeLibrary(lib)
 # define GET_ADDRESS(lib, name) ::GetProcAddress(lib, name)

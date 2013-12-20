@@ -33,13 +33,17 @@ namespace dcpp {
 /** One of possibly many identities of a user, mainly for UI purposes */
 class Identity : public Flags {
 public:
-	enum IdentityFlagBits {
-		GOT_INF_BIT,
-		NMDC_PASSIVE_BIT
-	};
+	//enum IdentityFlagBits {
+	//	GOT_INF_BIT,
+	//	NMDC_PASSIVE_BIT
+	//};
+	//enum IdentityFlags {
+	//	GOT_INF = 1 << GOT_INF_BIT,
+	//	NMDC_PASSIVE = 1 << NMDC_PASSIVE_BIT
+	//};
 	enum IdentityFlags {
-		GOT_INF = 1 << GOT_INF_BIT,
-		NMDC_PASSIVE = 1 << NMDC_PASSIVE_BIT
+		GOT_INF = 0x01,
+		NMDC_PASSIVE = 0x02
 	};
 	enum ClientType {
 		CT_BOT = 1,

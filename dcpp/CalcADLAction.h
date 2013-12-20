@@ -18,8 +18,8 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#ifndef _CALC_ADL_H
-#define _CALC_ADL_H
+#ifndef _BMDC_CALC_ADL_H
+#define _BMDC_CALC_ADL_H
 
 #include "stdinc.h"
 #include "DCPlusPlus.h"

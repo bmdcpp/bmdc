@@ -204,7 +204,6 @@ bool Identity::supports(const string& name) const {
 
 std::map<string, string> Identity::getInfo() const {
 	std::map<string, string> ret;
-
 	FastLock l(cs);
 	for(auto i = info.begin(); i != info.end(); ++i) {
 		ret[string((char*)(&i->first), 2)] = i->second;
@@ -216,7 +215,7 @@ std::map<string, string> Identity::getInfo() const {
 void Identity::checkTagState(OnlineUser& ou) const {
 	string usrTag = getTag();
 	if(usrTag.empty()) return;
-	bool isActive = ou.getIdentity().isTcpActive();
+	bool isActive = ou.getIdentity().isTcpActive(NULL);
 
 	if(isActive && (usrTag.find(",M:P,") != string::npos)) {
 		ou.getClient().cheatMessage("*** " + getNick() + " - Tag states passive mode, but user is using active mode");

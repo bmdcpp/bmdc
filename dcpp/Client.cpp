@@ -262,6 +262,7 @@ string Client::getCounts() {
 
 void Client::on(Line, const string& aLine) noexcept {
 	updateActivity();
+	COMMAND_DEBUG(aLine, TYPE_HUB, INCOMING, getIpPort());
 }
 
 void Client::on(Second, uint64_t aTick) noexcept {

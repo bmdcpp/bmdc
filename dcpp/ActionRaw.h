@@ -14,8 +14,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef ACTION_RAW
-#define ACTION_RAW
+#ifndef _BMDC_ACTION_RAW_
+#define _BMDC_ACTION_RAW_
 
 #include "Util.h"
 

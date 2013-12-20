@@ -68,7 +68,7 @@ PublicHubs::PublicHubs():
 	listsStore = gtk_list_store_newv(listsView.getColCount(), listsView.getGTypes());
 	gtk_tree_view_set_model(listsView.get(), GTK_TREE_MODEL(listsStore));
 	g_object_unref(listsStore);
-//	gtk_tree_view_set_headers_visible(listsView.get(), FALSE);
+	gtk_tree_view_set_headers_visible(listsView.get(), FALSE);//@
 	listsSelection = gtk_tree_view_get_selection(listsView.get());
 
 	// Initialize the hub lists combo box

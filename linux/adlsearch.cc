@@ -29,8 +29,7 @@ using namespace dcpp;
 
 SearchADL::SearchADL():
 	BookEntry(Entry::SEARCH_ADL, _("ADL Search"), "adlsearch.glade"),
-	sens(TRUE),
-	acts(TRUE),
+	sens(TRUE),	acts(TRUE),
 	forbid(TRUE)
 {
 	// Configure the dialog

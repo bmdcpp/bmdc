@@ -20,8 +20,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef CMDDEBUG_HH
-#define CMDDEBUG_HH
+#ifndef _BMDC_CMDDEBUG_HH
+#define _BMDC_CMDDEBUG_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
