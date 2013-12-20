@@ -856,4 +856,7 @@ Remove Plugin API from Debug CMD Frame
 Beter hadling of crashes
 ----
 Fix IPv6 coloring in chat
+----
+Fix DebugManager
+Update Hash/Share Manager
 

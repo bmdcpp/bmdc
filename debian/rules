@@ -1,71 +1,21 @@
 #!/usr/bin/make -f
-# -*- makefile -*-
-# Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
 
-package = bmdc
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/rules/patchsys-quilt.mk
+include /usr/share/cdbs/1/class/scons.mk
 
+# In order to regenerate 'debian/control' :
+#   DEB_AUTO_UPDATE_DEBIAN_CONTROL=yes fakeroot debian/rules clean
+# Then check manually if everything's ok
 
-build: build-stamp
+#DEB_INSTALL_MANPAGES_bmdc := data/linuxdcpp.1
+DEB_INSTALL_CHANGELOGS_bmdc := BMDC-Changelog.txt
+DEB_SCONS_OPTIONS := release=1 PREFIX=/usr FAKE_ROOT=$(CURDIR)/debian/bmdc
 
-build-stamp:
-	dh_testdir
-#	Change to release=1 and uncomment dh_strip below for a release
-	scons release=0 debug=1 PREFIX=/usr FAKE_ROOT=debian/$(package)
-	touch $@
+install/bmdc::
+	rm -rf $(CURDIR)/debian/bmdc/usr/share/doc/bmdc/License.txt 
+	cp -rf $(CURDIR)/debian/icons/* $(CURDIR)/debian/bmdc/usr/share/pixmaps
+	cp $(CURDIR)/data/bmdc.desktop $(CURDIR)/debian/bmdc/usr/share/applications
 
-clean:
-	dh_testdir
-	dh_testroot
-	rm -f build-stamp
-	scons -c
-	rm -rf build
-	dh_clean
-
-install: build
-	dh_testdir
-	dh_testroot
-	dh_prep
-#	dh_installdirs
-	scons install
-
-# Build architecture-independent files
-binary-indep: install
-# We have nothing to do by default.
-
-# Build architecture-dependent files
-binary-arch: install
-	dh_testdir
-	dh_testroot
-	dh_installchangelogs
-#	dh_installdocs
-#	dh_installexamples
-	dh_install
-	dh_installmenu
-#	dh_installdebconf
-#	dh_installlogrotate
-#	dh_installemacsen
-#	dh_installpam
-#	dh_installmime
-#	dh_python
-#	dh_installinit
-#	dh_installcron
-#	dh_installinfo
-#	dh_installman data/$(package).1
-	dh_gconf
-	dh_icons
-	dh_link
-#	dh_strip
-	dh_compress
-#	dh_fixperms -a
-#	dh_perl
-#	dh_makeshlibs
-	dh_installdeb
-	dh_shlibdeps
-	dh_gencontrol
-	dh_md5sums
-	dh_builddeb
-
-binary: binary-indep binary-arch
-
-.PHONY: build clean binary-indep binary-arch binary install
+clean::
+	rm -rf build bmdc po/bmdc.pot 

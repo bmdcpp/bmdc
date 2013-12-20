@@ -111,6 +111,7 @@ public:
 
 	/** Install a plain plugin (not dcext-packaged). Throws on errors. */
 	void addPlugin(const string& path);
+	void addPluginStart(const string& path);
 	bool configPlugin(const string& guid, dcptr_t data);
 	void enablePlugin(const string& guid);
 	void disablePlugin(const string& guid);

@@ -19,8 +19,8 @@
  * using OpenSSL with this program is allowed.
  */
  
-#ifndef _EXPORT_MANAGER_HH
-#define _EXPORT_MANAGER_HH
+#ifndef _BMDC_EXPORT_MANAGER_HH
+#define _BMDC_EXPORT_MANAGER_HH
 #include "stdinc.h"
 #include "Singleton.h"
 #include "LogManager.h"
@@ -42,7 +42,7 @@ class ExportManager:
 {
 public:
 	ExportManager(): stop(false) { start();}
-	virtual ~ExportManager(){}
+	virtual ~ExportManager(){ }
 	void export_(const string &to, StringList &paths);
 private:
 	

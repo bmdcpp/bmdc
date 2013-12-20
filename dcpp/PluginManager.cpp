@@ -196,12 +196,21 @@ void PluginManager::loadPlugins(function<void (const string&)> f) {
 	SettingsManager::getInstance()->addListener(this);
 
 	loadSettings();
-
+//load from sys path (BMDC) so we can include some in package :p@TODO?
+//	const auto& paths = File::findFiles(Util::getPath(Util::PATH_RESOURCES)+"bmdc/plugins/" , PLUGIN_EXT);
+//	for(auto& file:paths)
+//{
+//	if(file.empty())continue;
+//	addPluginStart(file);
+//}
+//
 	for(auto& plugin: plugins) {
 		if(!plugin.dcMain) { continue; } // a little trick to avoid an additonal "bool enabled"
 		if(f) { f(plugin.name); }
 		try { enable(plugin, false, false); }
-		catch(const Exception& e) { LogManager::getInstance()->message(e.getError()); }
+		catch(const Exception& e) {
+			LogManager::getInstance()->message(e.getError());
+		}
 	}
 }
 
@@ -240,6 +249,17 @@ void PluginManager::addPlugin(const string& path) {
 	plugin.path = path;
 
 	enable(plugin, true, true);
+}
+
+void PluginManager::addPluginStart(const string& path)
+{
+	Lock l(cs);
+
+	Plugin plugin { };
+	plugin.name = Util::getFileName(path);
+	plugin.path = path;
+
+	enable(plugin, false, true);
 }
 
 bool PluginManager::configPlugin(const string& guid, dcptr_t data) {

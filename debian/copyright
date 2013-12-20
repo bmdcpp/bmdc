@@ -1,34 +1,29 @@
-This work was packaged for Debian by:
+Tue, 01 Nov 2005 12:49:25 +0200.
 
-    Mank <freedcpp@seznam.cz> 
 
-It was downloaded from <http://launchpad.net/bmdc++>
 
-Upstream Author(s):
-
-    Mank <freedcpp@seznam.cz> 
-
-Copyright:
-
-    <Copyright (C) 2010-2013 Mank>
-    <Copyright (C) 2010-2013 branec>
+Copyright Holders: Jens Oknelid <paskharen@users.berlios.de>
+and all the authors mentioned in the Credits file.
 
 License:
 
-    <GPLv3>
+   This package is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; version 2 dated June, 1991.
 
-The Debian packaging is:
+   This package is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    Copyright (C) 2010-2013 Mank <freedcpp@seznam.cz>
+   You should have received a copy of the GNU General Public License
+   along with this package; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+   02110-1301, USA.
 
-# Please chose a license for your packaging work. If the program you package
-# uses a mainstream license, using the same license is the safest choice.
-# Please avoid to pick license terms that are more restrictive than the
-# packaged work, as it may make Debian's contributions unacceptable upstream.
-# If you just want it to be GPL version 3, leave the following lines in.
+   This program is released under the GPL with the additional exception
+   that compiling, linking, and/or using OpenSSL is allowed.
 
-and is licensed under the GPL version 3, 
-see `/usr/share/common-licenses/GPL-3'.
+On Debian systems, the complete text of the GNU General Public
+License can be found in the file `/usr/share/common-licenses/GPL'.
 
-# Please also look if there are files or directories which have a
-# different copyright/license attached and list them here.

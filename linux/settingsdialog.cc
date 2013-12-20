@@ -1838,6 +1838,7 @@ void Settings::initPlugins_gui()
 {
 	GtkTreeIter iter;
 	plView.setView(GTK_TREE_VIEW(getWidget("PluginsTree")));
+	plView.insertColumn(_("Enabled"),G_TYPE_BOOLEAN,TreeView::BOOL,20);
 	plView.insertColumn("Name", G_TYPE_STRING, TreeView::STRING, 100);
 	plView.insertColumn("Description", G_TYPE_STRING, TreeView::STRING, 100);
 	plView.insertColumn("Version", G_TYPE_STRING, TreeView::STRING, 100);
@@ -1850,27 +1851,42 @@ void Settings::initPlugins_gui()
 
 	plselection = gtk_tree_view_get_selection(plView.get());
 
-        auto pm = PluginManager::getInstance();
+    auto pm = PluginManager::getInstance();
 	const auto& list = pm->getPluginList();
 	int j = 0;
 	for(auto i = list.cbegin(), iend = list.cend() ; i != iend; ++i) {
-		//const MetaData& info = (*i)->getInfo();
 		auto info = pm->getPlugin(*i);
-
 		gtk_list_store_append(plStore,&iter);
-			gtk_list_store_set(plStore,&iter,
-				     plView.col("Name"),info.name.c_str(),
-					 plView.col("Description"),info.description.c_str(),
-					 plView.col("Version"), Util::toString(info.version).c_str(),
-					// plView.col("Index"), Util::toString(j++).c_str() ,
-					plView.col("Index"), info.guid.c_str(),
-					-1);
+		gtk_list_store_set(plStore,&iter,
+			plView.col(_("Enabled")),pm->isLoaded(info.guid) ? TRUE : FALSE,
+			plView.col("Name"),info.name.c_str(),
+			plView.col("Description"),info.description.c_str(),
+			plView.col("Version"), Util::toString(info.version).c_str(),
+			plView.col("Index"), info.guid.c_str(),
+			-1);
 	}
 
 	g_signal_connect(getWidget("buttonPLAdd"), "clicked", G_CALLBACK(onAddPluginTo_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonPLrem"), "clicked", G_CALLBACK(onRemPluginFrom_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonPLConfig"), "clicked", G_CALLBACK(onConfigurePlugin_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonAbout"), "clicked", G_CALLBACK(onAboutPlugin_gui), (gpointer)this);
+	g_signal_connect(plView.getCellRenderOf(_("Enabled")), "toggled", G_CALLBACK(onToggledPluginsClicked_gui), (gpointer)this);
+}
+
+void Settings::onToggledPluginsClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data)
+{
+		Settings *fh = (Settings *)data;
+		GtkTreeIter iter;
+
+		if (gtk_tree_model_get_iter_from_string(GTK_TREE_MODEL(fh->plStore), &iter, path))
+		{
+			string guid = fh->plView.getString(&iter, "Index");
+			bool fixed = fh->plView.getValue<gboolean>(&iter, _("Enabled"));
+			fixed = !fixed;
+			gtk_list_store_set(fh->plStore, &iter, fh->plView.col(_("Enabled")), fixed, -1);
+			if(!fixed)	PluginManager::getInstance()->enablePlugin(guid);
+			else PluginManager::getInstance()->disablePlugin(guid);	
+		}
 
 }
 

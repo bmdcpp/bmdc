@@ -45,7 +45,7 @@ ClientManager::~ClientManager() {
 }
 
 Client* ClientManager::getClient(const string& aHubURL) {
-	Client* c;
+	Client* c = NULL;
 	if(Util::strnicmp("adc://", aHubURL.c_str(), 6) == 0) {
 		c = new AdcHub(aHubURL, false);
 	} else if(Util::strnicmp("adcs://", aHubURL.c_str(), 7) == 0) {

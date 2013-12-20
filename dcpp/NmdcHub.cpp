@@ -40,8 +40,7 @@ namespace dcpp {
 
 NmdcHub::NmdcHub(const string& aHubURL) :
 Client(aHubURL, '|', false),
-supportFlags(0),
-lastUpdate(0),
+supportFlags(0), lastUpdate(0),
 lastProtectedIPsUpdate(0)
 {
 }

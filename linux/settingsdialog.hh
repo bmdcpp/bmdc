@@ -230,6 +230,8 @@ class Settings:
 		//PLg
 		void addToGuiPlg();
 		void RemovePlg_client(std::string sel);
+		static void onToggledPluginsClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
+
 
 		GtkComboBoxText *connectionSpeedComboBox;
 		GtkListStore *downloadToStore, *publicListStore, *queueStore,

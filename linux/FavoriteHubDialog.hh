@@ -353,7 +353,6 @@ private:
 
 		if (gtk_tree_model_get_iter_from_string(GTK_TREE_MODEL(fh->actionStore), &iter, path))
 		{
-			string nane = fh->actionView.getString(&iter, _("Name"));
 			bool fixed = fh->actionView.getValue<gboolean>(&iter, _("Enabled"));
 			fixed = !fixed;
 			gtk_tree_store_set(fh->actionStore, &iter, fh->actionView.col(_("Enabled")), fixed, -1);
