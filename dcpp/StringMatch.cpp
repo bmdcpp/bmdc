@@ -42,6 +42,29 @@ bool StringMatch::operator==(const StringMatch& rhs) const {
 	return pattern == rhs.pattern && getMethod() == rhs.getMethod();
 }
 
+void StringMatch::prepare()
+{
+	StringTokenizer<string> st(pattern, ' ');
+	switch(getMethod()){
+		case PARTIAL:
+		searchlist.clear();
+		
+		for(auto& i: st.getTokens()) {
+			if(!i.empty()) {
+				searchlist.emplace_back(i);
+			}
+		}
+		break;
+		case EXACT:
+			search = pattern;
+			break;
+		case REGEX:
+			reg = pattern;
+			break;
+		default:break;
+	}
+}
+
 bool StringMatch::matchlist(string str) const {
 	for(auto& i: searchlist) {
 		if(!i.match(str)) {
@@ -49,7 +72,7 @@ bool StringMatch::matchlist(string str) const {
 		}
 	}
 	return !searchlist.empty();
-	}
+}
 
 bool StringMatch::matchstr(const string& s) const {
 	return search == s;
@@ -60,10 +83,15 @@ bool StringMatch::matchreg(const string& str) const {
 }
 
 bool StringMatch::match(const string& str) const {
-	if(str.empty())return false;
-	if(matchstr(str))return true;
-	if(matchlist(str)) return true;
-	if(matchreg(str)) return true;
+	if(str.empty())return false;//should never hapened but :-D
+
+	switch(getMethod())
+	{
+		case PARTIAL: return matchlist(str);
+		case EXACT: return matchstr(str);
+		case REGEX: return matchreg(str);
+		default:break;
+	};
 	return false;
 }
 

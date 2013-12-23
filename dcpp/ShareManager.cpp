@@ -740,7 +740,7 @@ void ShareManager::updateFilterCache(const std::string& strSetting, const std::s
 		StringMatch matcher;
 		matcher.pattern = pattern + strExtraPattern;
 		matcher.setMethod(StringMatch::REGEX);
-
+		matcher.prepare();
 		lst.push_back(matcher);
 	}
 }

@@ -57,13 +57,13 @@ public:
 	};*/
 	enum UserFlags {
 		ONLINE = 0x01,
-		PASSIVE = 0x02,
-		NMDC = 0x03,
-		TLS = 0x04,			//< Client supports TLS
-		OLD_CLIENT =0x05 ,  //< Can't download - old client
-		NO_ADC_1_0_PROTOCOL = 0x06,	//< Doesn't support "ADC/1.0" (dc++ <=0.703)
-		NO_ADCS_0_10_PROTOCOL = 0x07,	//< Doesn't support "ADCS/0.10"
-		PROTECT = 0x08
+		PASSIVE = 0x04,
+		NMDC = 0x08,
+		TLS = 0x20,			//< Client supports TLS
+		OLD_CLIENT =0x40 ,  //< Can't download - old client
+		NO_ADC_1_0_PROTOCOL = 0x80,	//< Doesn't support "ADC/1.0" (dc++ <=0.703)
+		NO_ADCS_0_10_PROTOCOL = 0x100,	//< Doesn't support "ADCS/0.10"
+		PROTECT = 0x700
 	};
 
 	struct Hash {

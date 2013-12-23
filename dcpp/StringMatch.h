@@ -45,8 +45,7 @@ struct StringMatch {
 	void setMethod(Method method);
 
 	bool operator==(const StringMatch& rhs) const;
-
-	//bool prepare();
+	void prepare();
 	bool match(const string& str) const;
 
 private:
