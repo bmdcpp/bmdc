@@ -574,14 +574,14 @@ bool FileFindIter::DirData::isLink() {
 
 int64_t FileFindIter::DirData::getSize() {
 	struct stat inode;
-	if (!ent) return false;
+	if (!ent) return 0;
 	if (stat((base + PATH_SEPARATOR + ent->d_name).c_str(), &inode) == -1) return 0;
 	return inode.st_size;
 }
 
 uint32_t FileFindIter::DirData::getLastWriteTime() {
 	struct stat inode;
-	if (!ent) return false;
+	if (!ent) return 0;
 	if (stat((base + PATH_SEPARATOR + ent->d_name).c_str(), &inode) == -1) return 0;
 	return inode.st_mtime;
 }

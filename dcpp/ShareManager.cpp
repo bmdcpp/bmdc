@@ -66,6 +66,16 @@ ShareManager::ShareManager() : hits(0), xmlListLen(0), bzXmlListLen(0),
 	TimerManager::getInstance()->addListener(this);
 	QueueManager::getInstance()->addListener(this);
 	HashManager::getInstance()->addListener(this);
+
+	if(!Util::fileExists(Util::getPath(Util::PATH_USER_CONFIG) + "Emptyfiles.xml.bz2")) {
+				string emptyXmlName = Util::getPath(Util::PATH_USER_CONFIG) + "Emptyfiles.xml.bz2";
+				FilteredOutputStream<BZFilter, true> emptyXmlFile(new File(emptyXmlName, File::WRITE, File::TRUNCATE | File::CREATE));
+				emptyXmlFile.write(SimpleXML::utf8Header);
+				emptyXmlFile.write("<FileListing Version=\"1\" CID=\"" + ClientManager::getInstance()->getMe()->getCID().toBase32() + "\" Base=\"/\" Generator=\"BMDC++ " VERSIONSTRING "\">\r\n");
+				emptyXmlFile.write("</FileListing>");
+				emptyXmlFile.flush();
+	}
+	
 }
 
 ShareManager::~ShareManager() {
@@ -156,7 +166,7 @@ string ShareManager::toReal(const string& virtualFile,bool isShared) {
 
 pair<string, int64_t> ShareManager::toRealWithSize(const string& virtualFile, bool isInSharedHub) {
 	Lock l(cs);
-	if(isInSharedHub)return make_pair("Filelist.xml.bz2",0);
+	if(isInSharedHub)return make_pair("Emptyfiles.xml.bz2",0);
 
 	if(virtualFile == "MyList.DcLst") {
 		throw ShareException("NMDC-style lists no longer supported, please upgrade your client");
@@ -471,7 +481,7 @@ void ShareManager::Directory::File::validateName(const string& sourcePath) {
 	if(parent->nameInUse(name)) {
 		uint32_t num = 0;
 		string base = name, ext, vname;
-		auto dot = base.rfind('.');
+		size_t dot = base.rfind('.');
 		if(dot != string::npos) {
 			ext = base.substr(dot);
 			base.erase(dot);
@@ -1089,7 +1099,7 @@ ShareManager::SearchQuery::SearchQuery(const StringList& adcParams) :
 
 		auto cmd = toCode(p[0], p[1]);
 		if(toCode('T', 'R') == cmd) {
-			root = TTHValue(p.substr(2));
+			root = new TTHValue(p.substr(2));
 			return;
 		} else if(toCode('A', 'N') == cmd) {
 			includeInit.emplace_back(p.substr(2));
@@ -1118,7 +1128,7 @@ ShareManager::SearchQuery::SearchQuery(const string& nmdcString, int searchType,
 	SearchQuery()
 {
 	if(fileType == SearchManager::TYPE_TTH && nmdcString.compare(0, 4, "TTH:") == 0) {
-		root = TTHValue(nmdcString.substr(4));
+		root = new TTHValue(nmdcString.substr(4));
 
 	} else {
 		StringTokenizer<string> tok(Text::toLower(nmdcString), '$');
@@ -1244,8 +1254,8 @@ SearchResultList ShareManager::search(SearchQuery&& query, size_t maxResults) no
 
 	Lock l(cs);
 
-	if(true/*query.root*/) {
-		auto i = tthIndex.find(query.root);
+	if(query.root != NULL) {
+		auto i = tthIndex.find(*(query.root));
 		if(i != tthIndex.end()) {
 			results.push_back(new SearchResult(SearchResult::TYPE_FILE, i->second->getSize(),
 				i->second->getParent()->getFullName() + i->second->getName(), i->second->tth));
