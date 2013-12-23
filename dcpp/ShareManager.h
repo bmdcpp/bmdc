@@ -134,7 +134,7 @@ private:
 
 		struct File {
 			File() : size(0), parent(0) { }
-			File(const string& aName, int64_t aSize, const Directory::Ptr& aParent, const TTHValue& aRoot) :
+			File(const string& aName, int64_t aSize, const Directory::Ptr& aParent, TTHValue* aRoot) :
 				name(aName), tth(aRoot), size(aSize), parent(aParent) { }
 
 			bool operator==(const File& rhs) const {
@@ -162,7 +162,7 @@ private:
 
 			GETSET(string, name, Name);
 			string realPath; // only defined if this file had to be renamed to avoid duplication.
-			TTHValue tth;
+			TTHValue* tth;
 			GETSET(int64_t, size, Size);
 			GETSET(Directory*, parent, Parent);
 		};

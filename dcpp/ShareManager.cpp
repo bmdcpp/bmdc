@@ -128,7 +128,10 @@ string ShareManager::findRealRoot(const string& virtualRoot, const string& virtu
 		if(Util::stricmp(i.second, virtualRoot) == 0) {
 			std::string name = i.first + virtualPath;
 			dcdebug("Matching %s\n", name.c_str());
-			if(FileFindIter(name) != FileFindIter()) {
+			//if(FileFindIter(name) != FileFindIter()) {
+			//	return name;
+			//}
+			if(Util::fileExists(name)){
 				return name;
 			}
 		}
@@ -166,7 +169,7 @@ string ShareManager::toReal(const string& virtualFile,bool isShared) {
 
 pair<string, int64_t> ShareManager::toRealWithSize(const string& virtualFile, bool isInSharedHub) {
 	Lock l(cs);
-	if(isInSharedHub)return make_pair("Emptyfiles.xml.bz2",0);
+	if(isInSharedHub)return make_pair((Util::getPath(Util::PATH_USER_CONFIG) + "Emptyfiles.xml.bz2"),0);
 
 	if(virtualFile == "MyList.DcLst") {
 		throw ShareException("NMDC-style lists no longer supported, please upgrade your client");
@@ -222,7 +225,7 @@ TTHValue ShareManager::getTTH(const string& virtualFile) const {
 		return xmlRoot;
 	}
 
-	return findFile(virtualFile).tth;
+	return *(findFile(virtualFile).tth);
 }
 
 MemoryInputStream* ShareManager::getTree(const string& virtualFile) const {
@@ -278,7 +281,7 @@ AdcCommand ShareManager::getFileInfo(const string& aFile) {
 	AdcCommand cmd(AdcCommand::CMD_RES);
 	cmd.addParam("FN", f.getADCPath());
 	cmd.addParam("SI", Util::toString(f.getSize()));
-	cmd.addParam("TR", f.tth.toBase32());
+	cmd.addParam("TR", f.tth->toBase32());
 	return cmd;
 }
 
@@ -566,7 +569,7 @@ size_t ShareManager::getSharedFiles() const noexcept {
 
 ShareManager::Directory::Ptr ShareManager::buildTree(const string& realPath, const string& dirName, const Directory::Ptr& parent) {
 	auto dir = Directory::create( (!dirName.empty()) ? dirName : Util::getLastDir(realPath), parent);
-	if(dir == NULL)return;	
+	if(dir == NULL)return nullptr;//is this needed ?	
 	auto lastFileIter = dir->files.begin();
 #ifdef _WIN32
 	for(FileFindIter i(realPath + "*"), end; i != end; ++i) {
@@ -578,7 +581,7 @@ ShareManager::Directory::Ptr ShareManager::buildTree(const string& realPath, con
 		auto name = i->getFileName();
 
 		if(name.empty()) {
-			LogManager::getInstance()->message(_("Invalid file name found while hashing folder %1%") + Util::addBrackets(realPath));
+			LogManager::getInstance()->message(_("Invalid file name found while hashing folder ") + Util::addBrackets(realPath));
 			continue;
 		}
 
@@ -781,11 +784,11 @@ void ShareManager::rebuildIndices() {
 void ShareManager::updateIndices(Directory& dir, const decltype(std::declval<Directory>().files.begin())& i) {
 	const Directory::File& f = *i;
 
-//	if(!f.tth) {
-//		return;
-//	}
+	if(!f.tth) {
+		return;
+	}
 
-	auto j = tthIndex.find(f.tth);
+	auto j = tthIndex.find(*(f.tth));
 	if(j == tthIndex.end()) {
 		dir.size += f.getSize();
 
@@ -800,7 +803,7 @@ void ShareManager::updateIndices(Directory& dir, const decltype(std::declval<Dir
 		}
 	}
 
-	tthIndex[f.tth] = &f;
+	tthIndex[*(f.tth)] = &f;
 	bloom.add(Text::toLower(f.getName()));
 }
 
@@ -1074,7 +1077,7 @@ void ShareManager::Directory::filesToXml(OutputStream& xmlFile, string& indent, 
 		xmlFile.write(Util::toString(f.getSize()));
 		xmlFile.write(LITERAL("\" TTH=\""));
 		tmp2.clear();
-		xmlFile.write(f.tth.toBase32(tmp2));
+		xmlFile.write(f.tth->toBase32(tmp2));
 		xmlFile.write(LITERAL("\"/>\r\n"));
 	}
 }
@@ -1235,7 +1238,7 @@ void ShareManager::Directory::search(SearchResultList& results, SearchQuery& que
 				continue;
 
 			results.push_back(new SearchResult(SearchResult::TYPE_FILE, i.getSize(),
-				getFullName() + i.getName(), i.tth));
+				getFullName() + i.getName(), *(i.tth)));
 			ShareManager::getInstance()->addHits(1);
 
 			if(results.size() >= maxResults) { return; }
@@ -1258,7 +1261,7 @@ SearchResultList ShareManager::search(SearchQuery&& query, size_t maxResults) no
 		auto i = tthIndex.find(*(query.root));
 		if(i != tthIndex.end()) {
 			results.push_back(new SearchResult(SearchResult::TYPE_FILE, i->second->getSize(),
-				i->second->getParent()->getFullName() + i->second->getName(), i->second->tth));
+				i->second->getParent()->getFullName() + i->second->getName(), *(i->second->tth)));
 			addHits(1);
 		}
 		return results;
@@ -1404,10 +1407,10 @@ void ShareManager::on(HashManagerListener::TTHDone, const string& realPath, cons
 	Lock l(cs);
 	auto f = getFile(realPath);
 	if(f) {
-		if(root != f->tth)
-			tthIndex.erase(f->tth);
-		const_cast<Directory::File&>(*f).tth = root;
-		tthIndex[f->tth] = f;
+		if(root != (*f->tth))
+			tthIndex.erase(*(f->tth));
+		const_cast<Directory::File&>(*f).tth = &root;
+		tthIndex[*(f->tth)] = f;
 
 		setDirty();
 		forceXmlRefresh = true;

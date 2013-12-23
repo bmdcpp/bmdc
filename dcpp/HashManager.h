@@ -57,7 +57,7 @@ public:
 	}
 
 	/** Get the TTH root associated with the filename if its tree is current. */
-	TTHValue getTTH(const string& aFileName, int64_t aSize, uint32_t aTimeStamp) noexcept;
+	TTHValue* getTTH(const string& aFileName, int64_t aSize, uint32_t aTimeStamp) noexcept;
 
 	void stopHashing(const string& baseDir) { hasher.stopHashing(baseDir); }
 	void setPriority(Thread::Priority p) { hasher.setThreadPriority(p); }
@@ -151,7 +151,7 @@ private:
 
 		void rebuild();
 
-		TTHValue getTTH(const string& aFileName, int64_t aSize, uint32_t aTimeStamp) noexcept;
+		TTHValue* getTTH(const string& aFileName, int64_t aSize, uint32_t aTimeStamp) noexcept;
 
 		void addTree(const TigerTree& tt) noexcept;
 		bool getTree(const TTHValue& root, TigerTree& tth);

@@ -119,7 +119,6 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 	if(!aSource.isSet(UserConnection::FLAG_HASSLOT)) {
 		bool hasReserved = hasReservedSlot(aSource.getUser());
 		bool isFavorite = FavoriteManager::getInstance()->hasSlot(aSource.getUser());
-		//bool hasFreeSlot = (getFreeSlots() > 0) && ((waitingFiles.empty() && connectingUsers.empty()) || isConnecting(aSource.getUser()));
 		bool hasFreeSlot = [&]() -> bool { Lock l(cs); return (getFreeSlots() > 0) && ((waitingFiles.empty() && connectingUsers.empty()) || isConnecting(aSource.getUser())); }();
 
 		if(!(hasReserved || isFavorite || getAutoSlot() || hasFreeSlot)) {
@@ -128,7 +127,6 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 			if(miniSlot && supportsMini && allowedMini) {
 				extraSlot = true;
 			} else {
-
 				// Check for tth root identifier
 				string tFile = aFile;
 				if (tFile.compare(0, 4, "TTH/") == 0)

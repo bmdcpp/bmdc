@@ -39,7 +39,7 @@ using std::swap;
 static const uint32_t HASH_FILE_VERSION = 3;
 const int64_t HashManager::MIN_BLOCK_SIZE = 64 * 1024;
 
-TTHValue HashManager::getTTH(const string& aFileName, int64_t aSize, uint32_t aTimeStamp) noexcept {
+TTHValue* HashManager::getTTH(const string& aFileName, int64_t aSize, uint32_t aTimeStamp) noexcept {
 	Lock l(cs);
 	auto tth = store.getTTH(aFileName, aSize, aTimeStamp);
 	hasher.hashFile(aFileName, aSize);
@@ -170,19 +170,19 @@ int64_t HashManager::HashStore::getBlockSize(const TTHValue& root) const {
 	return i == treeIndex.end() ? 0 : i->second.getBlockSize();
 }
 
-TTHValue HashManager::HashStore::getTTH(const string& aFileName, int64_t aSize, uint32_t aTimeStamp) noexcept {
-	auto fname = Util::getFileName(aFileName), fpath = Util::getFilePath(aFileName);
+TTHValue* HashManager::HashStore::getTTH(const string& aFileName, int64_t aSize, uint32_t aTimeStamp) noexcept {
+	string fname = Util::getFileName(aFileName), fpath = Util::getFilePath(aFileName);
 
 	auto i = fileIndex.find(fpath);
 	if (i != fileIndex.end()) {
 		auto j = find(i->second.begin(), i->second.end(), fname);
 		if (j != i->second.end()) {
 			FileInfo& fi = *j;
-			const auto& root = fi.getRoot();
+			TTHValue root = fi.getRoot();
 			auto ti = treeIndex.find(root);
 			if(ti != treeIndex.end() && ti->second.getSize() == aSize && fi.getTimeStamp() == aTimeStamp) {
 				fi.setUsed(true);
-				return root;
+				return &root;
 			}
 
 			// the file size or the timestamp has changed
@@ -190,7 +190,7 @@ TTHValue HashManager::HashStore::getTTH(const string& aFileName, int64_t aSize, 
 			dirty = true;
 		}
 	}
-	return;
+	return nullptr;
 }
 
 void HashManager::HashStore::rebuild() {
