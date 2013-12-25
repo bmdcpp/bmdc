@@ -217,15 +217,15 @@ StringList ShareManager::getRealPaths(const string& virtualPath) {
 	return ret;
 }
 
-TTHValue ShareManager::getTTH(const string& virtualFile) const {
+TTHValue* ShareManager::getTTH(const string& virtualFile) const {
 	Lock l(cs);
 	if(virtualFile == Transfer::USER_LIST_NAME_BZ) {
-		return *bzXmlRoot;
+		return bzXmlRoot;
 	} else if(virtualFile == Transfer::USER_LIST_NAME) {
-		return *xmlRoot;
+		return xmlRoot;
 	}
 
-	return *(findFile(virtualFile).tth);
+	return (findFile(virtualFile).tth);
 }
 
 MemoryInputStream* ShareManager::getTree(const string& virtualFile) const {
@@ -236,7 +236,8 @@ MemoryInputStream* ShareManager::getTree(const string& virtualFile) const {
 	} else {
 		try {
 			auto tth = getTTH(virtualFile);
-			HashManager::getInstance()->getTree(tth, tree);
+			if(!tth) { return nullptr; }
+			HashManager::getInstance()->getTree(*tth, tree);
 		} catch(const Exception&) {
 			return nullptr;
 		}
@@ -1077,6 +1078,7 @@ void ShareManager::Directory::toXml(OutputStream& xmlFile, string& indent, strin
 
 void ShareManager::Directory::filesToXml(OutputStream& xmlFile, string& indent, string& tmp2) const {
 	for(auto& f: files) {
+		if(!f.tth) { continue; }
 		xmlFile.write(indent);
 		xmlFile.write(LITERAL("<File Name=\""));
 		xmlFile.write(SimpleXML::escape(f.getName(), tmp2, true));
@@ -1223,6 +1225,8 @@ void ShareManager::Directory::search(SearchResultList& results, SearchQuery& que
 
 	if(!query.isDirectory) {
 		for(auto& i: files) {
+			if(!i.tth) { continue; }
+
 			// check the size
 			if(!(i.getSize() >= query.gt)) {
 				continue;
@@ -1268,7 +1272,7 @@ SearchResultList ShareManager::search(SearchQuery&& query, size_t maxResults) no
 		auto i = tthIndex.find(*(query.root));
 		if(i != tthIndex.end()) {
 			results.push_back(new SearchResult(SearchResult::TYPE_FILE, i->second->getSize(),
-				i->second->getParent()->getFullName() + i->second->getName(), *(i->second->tth)));
+				i->second->getParent()->getFullName() + i->second->getName(), *i->second->tth));
 			addHits(1);
 		}
 		return results;
@@ -1347,6 +1351,9 @@ ShareManager::Directory::Ptr ShareManager::getDirectory(const string& realPath) 
 const ShareManager::Directory::File* ShareManager::getFile(const string& realPath, Directory::Ptr d) noexcept {
 	if(!d) {
 		d = getDirectory(realPath);
+		if(!d) {
+			return nullptr;
+		}
 	}
 
 	auto i = d->findFile(Util::getFileName(realPath));

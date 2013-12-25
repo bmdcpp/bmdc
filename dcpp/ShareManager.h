@@ -78,7 +78,7 @@ public:
 	/** @return Actual file path & size. Returns 0 for file lists. */
 	pair<string, int64_t> toRealWithSize(const string& virtualFile,bool isSharedHub);
 	StringList getRealPaths(const string& virtualPath);
-	TTHValue getTTH(const string& virtualFile) const;
+	TTHValue* getTTH(const string& virtualFile) const;
 
 	void refresh(bool dirs = false, bool aUpdate = true, bool block = false, function<void (float)> progressF = nullptr) noexcept;
 	void setDirty() { xmlDirty = true; }
