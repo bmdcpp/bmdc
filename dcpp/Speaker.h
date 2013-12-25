@@ -108,7 +108,6 @@ public:
 
 	void addListener(Listener* aListener) {
 		Lock l(listenerCS);
-		//if(find(listeners, aListener) == listeners.end())
 		if(find(listeners.begin(), listeners.end(), aListener) == listeners.end())
 			listeners.push_back(aListener);
 	}

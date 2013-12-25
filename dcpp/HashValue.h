@@ -18,7 +18,6 @@
 
 #ifndef DCPLUSPLUS_DCPP_HASH_VALUE_H
 #define DCPLUSPLUS_DCPP_HASH_VALUE_H
-//Removed FastAlloc
 #include "Encoder.h"
 #include <cstring>
 namespace dcpp {

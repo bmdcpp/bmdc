@@ -148,9 +148,9 @@ int64_t ShareManager::Directory::getSize() const noexcept {
 }
 
 string ShareManager::toVirtual(const TTHValue& tth) const {
-	if(tth == bzXmlRoot) {
+	if(bzXmlRoot && tth == *bzXmlRoot) {
 		return Transfer::USER_LIST_NAME_BZ;
-	} else if(tth == xmlRoot) {
+	} else if(xmlRoot && tth == *xmlRoot) {
 		return Transfer::USER_LIST_NAME;
 	}
 
@@ -220,9 +220,9 @@ StringList ShareManager::getRealPaths(const string& virtualPath) {
 TTHValue ShareManager::getTTH(const string& virtualFile) const {
 	Lock l(cs);
 	if(virtualFile == Transfer::USER_LIST_NAME_BZ) {
-		return bzXmlRoot;
+		return *bzXmlRoot;
 	} else if(virtualFile == Transfer::USER_LIST_NAME) {
-		return xmlRoot;
+		return *xmlRoot;
 	}
 
 	return *(findFile(virtualFile).tth);
@@ -249,21 +249,27 @@ MemoryInputStream* ShareManager::getTree(const string& virtualFile) const {
 AdcCommand ShareManager::getFileInfo(const string& aFile) {
 	if(aFile == Transfer::USER_LIST_NAME) {
 		generateXmlList();
+		if(!xmlRoot) {
+			throw ShareException(UserConnection::FILE_NOT_AVAILABLE);
+		}
 
 		AdcCommand cmd(AdcCommand::CMD_RES);
 		cmd.addParam("FN", aFile);
 		cmd.addParam("SI", Util::toString(xmlListLen));
-		cmd.addParam("TR", xmlRoot.toBase32());
+		cmd.addParam("TR", xmlRoot->toBase32());
 		return cmd;
 	}
 
 	if(aFile == Transfer::USER_LIST_NAME_BZ) {
 		generateXmlList();
+		if(!bzXmlRoot) {
+			throw ShareException(UserConnection::FILE_NOT_AVAILABLE);
+		}
 
 		AdcCommand cmd(AdcCommand::CMD_RES);
 		cmd.addParam("FN", aFile);
 		cmd.addParam("SI", Util::toString(bzXmlListLen));
-		cmd.addParam("TR", bzXmlRoot.toBase32());
+		cmd.addParam("TR", bzXmlRoot->toBase32());
 		return cmd;
 	}
 
@@ -316,6 +322,7 @@ pair<ShareManager::Directory::Ptr, string> ShareManager::splitVirtual(const stri
 
 const ShareManager::Directory::File& ShareManager::findFile(const string& virtualFile) const {
 	if(virtualFile.compare(0, 4, "TTH/") == 0) {
+		Lock l(cs);
 		auto i = tthIndex.find(TTHValue(virtualFile.substr(4)));
 		if(i == tthIndex.end()) {
 			throw ShareException(UserConnection::FILE_NOT_AVAILABLE);
@@ -569,7 +576,6 @@ size_t ShareManager::getSharedFiles() const noexcept {
 
 ShareManager::Directory::Ptr ShareManager::buildTree(const string& realPath, const string& dirName, const Directory::Ptr& parent) {
 	auto dir = Directory::create( (!dirName.empty()) ? dirName : Util::getLastDir(realPath), parent);
-	if(dir == NULL)return nullptr;//is this needed ?	
 	auto lastFileIter = dir->files.begin();
 #ifdef _WIN32
 	for(FileFindIter i(realPath + "*"), end; i != end; ++i) {
@@ -787,7 +793,7 @@ void ShareManager::updateIndices(Directory& dir, const decltype(std::declval<Dir
 	if(!f.tth) {
 		return;
 	}
-
+	Lock l(cs);
 	auto j = tthIndex.find(*(f.tth));
 	if(j == tthIndex.end()) {
 		dir.size += f.getSize();
@@ -802,9 +808,11 @@ void ShareManager::updateIndices(Directory& dir, const decltype(std::declval<Dir
 			return;
 		}
 	}
-
-	tthIndex[*(f.tth)] = &f;
-	bloom.add(Text::toLower(f.getName()));
+	{
+		Lock l(cs);
+		tthIndex[*(f.tth)] = &f;
+		bloom.add(Text::toLower(f.getName()));
+	}
 }
 
 void ShareManager::refresh(bool dirs, bool aUpdate, bool block, function<void (float)> progressF) noexcept {
@@ -820,7 +828,6 @@ void ShareManager::refresh(bool dirs, bool aUpdate, bool block, function<void (f
 
 	if(block) {
 		runRefresh(progressF);
-
 	} else {
 		try {
 			start();
@@ -942,8 +949,8 @@ void ShareManager::generateXmlList() {
 				newXmlFile.getFilter().getTree().finalize();
 				bzTree.getFilter().getTree().finalize();
 
-				xmlRoot = newXmlFile.getFilter().getTree().getRoot();
-				bzXmlRoot = bzTree.getFilter().getTree().getRoot();
+				xmlRoot = &(newXmlFile.getFilter().getTree().getRoot());
+				bzXmlRoot = &(bzTree.getFilter().getTree().getRoot());
 			}
 
 			if(bzXmlRef.get()) {
@@ -1407,11 +1414,12 @@ void ShareManager::on(HashManagerListener::TTHDone, const string& realPath, cons
 	Lock l(cs);
 	auto f = getFile(realPath);
 	if(f) {
-		if(root != (*f->tth))
+		Lock l(cs);
+		if(f->tth && root != (*f->tth)){
 			tthIndex.erase(*(f->tth));
+		}	
 		const_cast<Directory::File&>(*f).tth = &root;
 		tthIndex[*(f->tth)] = f;
-
 		setDirty();
 		forceXmlRefresh = true;
 	}

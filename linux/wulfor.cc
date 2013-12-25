@@ -47,7 +47,6 @@ void receiver(const char *link, gpointer data)
 	WulforManager::get()->onReceived_gui(link);
 }
 
-
 using namespace std;
 using namespace dcpp;
 

@@ -237,9 +237,9 @@ private:
 	};
 
 	int64_t xmlListLen;
-	TTHValue xmlRoot;
+	TTHValue* xmlRoot;
 	int64_t bzXmlListLen;
-	TTHValue bzXmlRoot;
+	TTHValue* bzXmlRoot;
 	unique_ptr<File> bzXmlRef;
 
 	bool xmlDirty;

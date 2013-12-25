@@ -3474,11 +3474,11 @@ void Settings::onAddShare_gui(GtkWidget *widget, gpointer data)
 			gtk_editable_select_region(GTK_EDITABLE(s->getWidget("nameDialogEntry")), 0, -1);
 			gtk_label_set_markup(GTK_LABEL(s->getWidget("labelNameDialog")), _("<b>Name under which the others see the directory</b>"));
 			response = gtk_dialog_run(GTK_DIALOG(dialog));
+			string name = gtk_entry_get_text(GTK_ENTRY(s->getWidget("nameDialogEntry")));
 			gtk_widget_hide(dialog);
 
 			if (response == GTK_RESPONSE_OK)
 			{
-				string name = gtk_entry_get_text(GTK_ENTRY(s->getWidget("nameDialogEntry")));
 				typedef Func2<Settings, string, string> F2;
 				F2 *func = new F2(s, &Settings::addShare_client, path, name);
 				WulforManager::get()->dispatchClientFunc(func);

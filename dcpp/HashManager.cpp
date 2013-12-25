@@ -68,11 +68,11 @@ void HashManager::hashDone(const string& aFileName, uint32_t aTimeStamp, const T
 	fire(HashManagerListener::TTHDone(), aFileName, tth.getRoot());
 
 	if(speed > 0) {
-		char buf[1024];
+		char buf[8024];
 		sprintf(buf,_("Finished hashing: %s (%s at %s/s)"),Util::addBrackets(aFileName).c_str(),Util::formatBytes(size).c_str(),Util::formatBytes(speed).c_str());
 		LogManager::getInstance()->message(string(buf));
 	} else if(size >= 0) {
-		char buf[1024];
+		char buf[6024];
 		sprintf(buf,_("Finished hashing: %s (%s %%)"), Util::addBrackets(aFileName).c_str(),Util::formatBytes(size).c_str());
 		LogManager::getInstance()->message(string(buf));
 	} else {
