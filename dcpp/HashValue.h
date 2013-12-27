@@ -49,7 +49,7 @@ template<typename T>
 struct hash<dcpp::HashValue<T> > {
 	size_t operator()(const dcpp::HashValue<T>& rhs) const {
 		// RVO should handle this as efficiently as reinterpret_cast
-		size_t hvHash;
+		size_t hvHash = 0;
 		memcpy(&hvHash, rhs.data, sizeof(size_t));
 		return hvHash;
 	}
