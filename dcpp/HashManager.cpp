@@ -178,7 +178,7 @@ TTHValue* HashManager::HashStore::getTTH(const string& aFileName, int64_t aSize,
 		auto j = find(i->second.begin(), i->second.end(), fname);
 		if (j != i->second.end()) {
 			FileInfo& fi = *j;
-			TTHValue root = fi.getRoot();
+			const TTHValue& root = fi.getRoot();
 			auto ti = treeIndex.find(root);
 			if(ti != treeIndex.end() && ti->second.getSize() == aSize && fi.getTimeStamp() == aTimeStamp) {
 				fi.setUsed(true);
