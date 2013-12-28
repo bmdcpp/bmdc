@@ -25,7 +25,7 @@ optional:
 Compiling:
 ----------
 $ cd /path/to/bmdc-source
-$ scons PREFIX=/path/to/install
+$ scons PREFIX=/path/to/install/
 
 Installing:
 -----------

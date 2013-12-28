@@ -64,7 +64,7 @@ namespace std {
 template<>
 struct hash<dcpp::CID> {
 	size_t operator()(const dcpp::CID& rhs) const {
-		size_t hvHash;
+		size_t hvHash = 0;
 		memcpy(&hvHash, rhs.data(), sizeof(size_t));
 		return hvHash;
 	}
