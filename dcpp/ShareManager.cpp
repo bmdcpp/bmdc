@@ -1095,8 +1095,9 @@ ShareManager::SearchQuery::SearchQuery() :
 	include(&includeInit),
 	gt(0),
 	lt(numeric_limits<int64_t>::max()),
+	root(NULL),
 	isDirectory(false)
-{
+{ 
 }
 
 namespace {
