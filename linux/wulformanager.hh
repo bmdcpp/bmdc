@@ -19,8 +19,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef _WULFOR_MANAGER_HH
-#define _WULFOR_MANAGER_HH
+#ifndef _BMDC_MANAGER_HH
+#define _BMDC_MANAGER_HH
 
 #include <gtk/gtk.h>
 #include <glib.h>
@@ -98,15 +98,15 @@ class WulforManager
 		static WulforManager *manager;
 		MainWindow *mainWin;
 		std::string path;
-		std::deque<FuncBase *> clientFuncs;
+		//std::deque<FuncBase *> clientFuncs;
 		std::unordered_map<std::string, Entry *> entries;
-		gint clientCondValue;
-		GCond clientCond;
-		GMutex clientCondMutex;
-		GMutex clientCallMutex;
-		GMutex clientQueueMutex;
+		//gint clientCondValue;
+		//GCond clientCond;
+		//GMutex clientCondMutex;
+		//GMutex clientCallMutex;
+		//GMutex clientQueueMutex;
 		GRWLock entryMutex;
-		GThread *clientThread;
+		//GThread *clientThread;
 		bool abort;
 };
 

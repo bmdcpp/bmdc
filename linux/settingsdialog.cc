@@ -4259,8 +4259,9 @@ gboolean Settings::onFavoriteButtonReleased_gui(GtkWidget *widget, GdkEventButto
 	return FALSE;
 }
 
-void Settings::addShare_gui(string path, string name, int64_t size)
+void Settings::addShare_gui(string path, string name)
 {
+	int64_t size = ShareManager::getInstance()->getShareSize(path);
 	GtkTreeIter iter;
 	gtk_list_store_append(shareStore, &iter);
 	gtk_list_store_set(shareStore, &iter,
@@ -4738,12 +4739,12 @@ void Settings::shareHidden_client(bool show)
 
 void Settings::addShare_client(string path, string name)
 {
-	int64_t size = 0;
+//	int64_t size = 0;
 
 	try
 	{
 		ShareManager::getInstance()->addDirectory(path, name);
-		size = ShareManager::getInstance()->getShareSize(path);
+		//size = ShareManager::getInstance()->getShareSize(path);
 	}
 	catch (const ShareException &e)
 	{
@@ -4752,8 +4753,8 @@ void Settings::addShare_client(string path, string name)
 		WulforManager::get()->dispatchGuiFunc(func);
 	}
 
-	typedef Func3<Settings, string, string, int64_t> F3;
-	F3 *func = new F3(this, &Settings::addShare_gui, path, name, size);
+	typedef Func2<Settings, string, string> F3;
+	F3 *func = new F3(this, &Settings::addShare_gui, path, name);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 

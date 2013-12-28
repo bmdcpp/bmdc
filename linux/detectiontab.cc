@@ -53,7 +53,7 @@ BookEntry(Entry::DETECTION, _("Detection Settings"), "detection.glade")
 
 	detectionSelection = gtk_tree_view_get_selection(detectionView.get());
 
-	//Action&&Raw
+	//Action&Raw
 	///Actions
 	actionView.setView(GTK_TREE_VIEW(getWidget("treeviewAction")));
     actionView.insertColumn(N_("Enable"), G_TYPE_BOOLEAN, TreeView::BOOL, 100);//checkbox

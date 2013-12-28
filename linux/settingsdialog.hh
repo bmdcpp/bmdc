@@ -82,7 +82,7 @@ class Settings:
 		void initHighlighting_gui();//NOTE: BMDC++
 		void initPlugins_gui();//NOTE: BMDC++
 
-		void addShare_gui(std::string path, std::string name, int64_t size);
+		void addShare_gui(std::string path, std::string name);
 		void selectTextColor_gui(const int select);
 		void selectTextStyle_gui(const int select);
 		void loadUserCommands_gui();

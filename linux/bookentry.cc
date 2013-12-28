@@ -625,6 +625,3 @@ void BookEntry::setBackForeGround_unread(const EntryType type)
     gtk_widget_override_background_color (icon, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
 
 }
-
-
-

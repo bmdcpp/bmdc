@@ -1,6 +1,6 @@
 /*
  * Copyright © 2009-2012 freedcpp, http://code.google.com/p/freedcpp
- * Copyright © 2011-20144 of Parts (CMD supports) of Code BMDC++ , https://launchpad.net/bmdc++
+ * Copyright © 2011-2014 of Parts (CMD supports) of Code BMDC++ , https://launchpad.net/bmdc++
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -592,7 +592,6 @@ int SearchADL::find_rawInt(int raw)
 
 void SearchADL::onToggleOveride(GtkWidget *widget, gpointer data) 
 {
-	
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 
 	gtk_widget_set_sensitive(s->getWidget("checkFromFav"), s->sens);
@@ -605,6 +604,7 @@ void SearchADL::onToggleOveride(GtkWidget *widget, gpointer data)
 void SearchADL::onToggleActions(GtkWidget *widget, gpointer data)
 {
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
+
 	gtk_widget_set_sensitive(s->getWidget("comboboxAction"), s->acts);
 	gtk_widget_set_sensitive(s->getWidget("checkAction"), s->acts);
 	s->acts = !s->acts;
@@ -613,12 +613,12 @@ void SearchADL::onToggleActions(GtkWidget *widget, gpointer data)
 void SearchADL::onChangeCombo(GtkWidget *widget, gpointer data)
 {
     SearchADL *s = reinterpret_cast<SearchADL *>(data);
-    gint type;
-    type = gtk_combo_box_get_active(GTK_COMBO_BOX(widget));
-    
+
+    gint type = gtk_combo_box_get_active(GTK_COMBO_BOX(widget));
+
     if(!s->forbid) {
-	    
-    switch(type) {
+		
+		switch(type) {
     case 0:
         gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")),"Forbidden Files");
         break;

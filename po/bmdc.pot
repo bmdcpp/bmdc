@@ -5,9 +5,21 @@
 #, fuzzy
 msgid ""
 msgstr ""
+"#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2013-12-27 21:20+0100\n"
+"POT-Creation-Date: 2013-12-28 17:55+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"#-#-#-#-#  linux.pot  #-#-#-#-#\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
+"POT-Creation-Date: 2013-12-28 20:44+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1037,8 +1049,8 @@ msgstr ""
 #: linux/settingsdialog.cc:964 linux/settingsdialog.cc:978
 #: linux/settingsdialog.cc:1066 linux/settingsdialog.cc:1501
 #: linux/settingsdialog.cc:4219 linux/settingsdialog.cc:4239
-#: linux/settingsdialog.cc:4268 linux/settingsdialog.cc:4282
-#: linux/settingsdialog.cc:4337 linux/sharebrowser.cc:301
+#: linux/settingsdialog.cc:4269 linux/settingsdialog.cc:4283
+#: linux/settingsdialog.cc:4338 linux/sharebrowser.cc:301
 msgid "Directory"
 msgstr ""
 
@@ -1526,8 +1538,8 @@ msgstr ""
 #: linux/search.cc:712 linux/search.cc:859 linux/search.cc:1743
 #: linux/settingsdialog.cc:2074 linux/settingsdialog.cc:2084
 #: linux/settingsdialog.cc:3823 linux/settingsdialog.cc:3902
-#: linux/settingsdialog.cc:4448 linux/settingsdialog.cc:4541
-#: linux/settingsdialog.cc:4564 linux/settingsdialog.cc:4583
+#: linux/settingsdialog.cc:4449 linux/settingsdialog.cc:4542
+#: linux/settingsdialog.cc:4565 linux/settingsdialog.cc:4584
 msgid "Hub"
 msgstr ""
 
@@ -1863,8 +1875,8 @@ msgstr ""
 #: linux/settingsdialog.cc:3444 linux/settingsdialog.cc:3696
 #: linux/settingsdialog.cc:3728 linux/settingsdialog.cc:3778
 #: linux/settingsdialog.cc:3822 linux/settingsdialog.cc:3901
-#: linux/settingsdialog.cc:4447 linux/settingsdialog.cc:4540
-#: linux/settingsdialog.cc:4563 linux/settingsdialog.cc:4582
+#: linux/settingsdialog.cc:4448 linux/settingsdialog.cc:4541
+#: linux/settingsdialog.cc:4564 linux/settingsdialog.cc:4583
 #: linux/FavoriteHubDialog.hh:46 linux/FavoriteHubDialog.hh:322
 #: linux/FavoriteHubDialog.hh:335
 msgid "Name"
@@ -2556,7 +2568,7 @@ msgstr ""
 #: linux/search.cc:130 linux/search.cc:638 linux/search.cc:697
 #: linux/search.cc:847 linux/search.cc:1716 linux/search.cc:1734
 #: linux/settingsdialog.cc:1067 linux/settingsdialog.cc:1073
-#: linux/settingsdialog.cc:4269 linux/settingsdialog.cc:4338
+#: linux/settingsdialog.cc:4270 linux/settingsdialog.cc:4339
 #: linux/sharebrowser.cc:78 linux/sharebrowser.cc:102
 #: linux/sharebrowser.cc:298 linux/sharebrowser.cc:338 linux/transfers.cc:68
 #: linux/transfers.cc:588 linux/transfers.cc:669 linux/transfers.cc:762
@@ -2618,9 +2630,9 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:286 linux/AboutConfig.cc:86
 #: linux/AboutConfig.cc:127 linux/settingsdialog.cc:1769
-#: linux/settingsdialog.cc:1799 linux/settingsdialog.cc:4874
-#: linux/settingsdialog.cc:4956 linux/settingsdialog.cc:4970
-#: linux/settingsdialog.cc:5110
+#: linux/settingsdialog.cc:1799 linux/settingsdialog.cc:4875
+#: linux/settingsdialog.cc:4957 linux/settingsdialog.cc:4971
+#: linux/settingsdialog.cc:5111
 msgid "String"
 msgstr ""
 
@@ -3327,7 +3339,7 @@ msgstr ""
 msgid "Are you sure you want to delete Entry \"%s\"?"
 msgstr ""
 
-#: linux/settingsdialog.cc:4960
+#: linux/settingsdialog.cc:4961
 #, c-format, boost-format
 msgid "Are you sure you want to delete Highlighting \"%s\"?"
 msgstr ""
@@ -3502,7 +3514,7 @@ msgid "Closing connection..."
 msgstr ""
 
 #: linux/settingsdialog.cc:3692 linux/settingsdialog.cc:3773
-#: linux/settingsdialog.cc:4983 linux/settingsdialog.cc:5002
+#: linux/settingsdialog.cc:4984 linux/settingsdialog.cc:5003
 msgid "Color Select"
 msgstr ""
 
@@ -4184,7 +4196,7 @@ msgstr ""
 msgid "Name and command must not be empty"
 msgstr ""
 
-#: linux/settingsdialog.cc:4820 linux/settingsdialog.cc:4891
+#: linux/settingsdialog.cc:4821 linux/settingsdialog.cc:4892
 msgid "New Highlighting Item"
 msgstr ""
 
@@ -4765,7 +4777,7 @@ msgstr ""
 msgid "Topic: "
 msgstr ""
 
-#: linux/settingsdialog.cc:4343
+#: linux/settingsdialog.cc:4344
 msgid "Total size: "
 msgstr ""
 
@@ -5133,8 +5145,8 @@ msgstr ""
 msgid "View status messages in main chat"
 msgstr ""
 
-#: linux/settingsdialog.cc:1065 linux/settingsdialog.cc:4267
-#: linux/settingsdialog.cc:4336
+#: linux/settingsdialog.cc:1065 linux/settingsdialog.cc:4268
+#: linux/settingsdialog.cc:4337
 msgid "Virtual Name"
 msgstr ""
 
@@ -5174,7 +5186,7 @@ msgstr ""
 msgid "You must enter a name"
 msgstr ""
 
-#: linux/settingsdialog.cc:4329
+#: linux/settingsdialog.cc:4330
 msgid "[HIDDEN SHARE] "
 msgstr ""
 
