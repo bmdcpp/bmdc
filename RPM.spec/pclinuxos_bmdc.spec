@@ -1,6 +1,6 @@
 Summary: A Client of DC with Ignore User&few Others Features
 Name: bmdc
-Version: 0.0.3
+Version: 0.1.0
 Release: 1
 License: GNU GPL
 Group: Applications/Internet
@@ -25,7 +25,7 @@ Media Spam, Higlitings Words & Few Others
 %build
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
 mkdir $RPM_BUILD_ROOT
-scons PREFIX=/usr
+scons PREFIX=/usr/
 
 %install
 #[ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
@@ -38,7 +38,7 @@ scons FAKE_ROOT=$RPM_BUILD_ROOT release=1 install
 %defattr(-,root,root)
 %{_bindir}/bmdc
 %{_datadir}/bmdc/*
-%{_datadir}/country/*
+%{_datadir}/bmdc/country/*
 %{_datadir}/doc/*
 %{_datadir}/applications/bmdc.desktop
 %{_datadir}/icons/*

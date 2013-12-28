@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2013 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011-2013 Mank, freedcpp at seznam dot cz
+ * Copyright © 2011-2014 Mank, freedcpp at seznam dot cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
