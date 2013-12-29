@@ -42,7 +42,9 @@ const int64_t HashManager::MIN_BLOCK_SIZE = 64 * 1024;
 TTHValue* HashManager::getTTH(const string& aFileName, int64_t aSize, uint32_t aTimeStamp) noexcept {
 	Lock l(cs);
 	auto tth = store.getTTH(aFileName, aSize, aTimeStamp);
-	hasher.hashFile(aFileName, aSize);
+	if(tth == NULL) {
+		hasher.hashFile(aFileName, aSize);
+	}
 	return tth;
 }
 

@@ -27,7 +27,7 @@ struct HashValue {
 	static const size_t BITS = Hasher::BITS;
 	static const size_t BYTES = Hasher::BYTES;
 
-	HashValue() { }
+	HashValue() { memset(data, 0, BYTES); }
 	explicit HashValue(const uint8_t* aData) { memcpy(data, aData, BYTES); }
 	explicit HashValue(const std::string& base32) { Encoder::fromBase32(base32.c_str(), data, BYTES); }
 	HashValue(const HashValue& rhs) { memcpy(data, rhs.data, BYTES); }
@@ -39,6 +39,8 @@ struct HashValue {
 	std::string toBase32() const { return Encoder::toBase32(data, BYTES); }
 	std::string& toBase32(std::string& tmp) const { return Encoder::toBase32(data, BYTES, tmp); }
 
+	explicit operator bool() const { return find_if(data, data + BYTES, [](uint8_t c) { return c != 0; }) != data + BYTES; }
+
 	uint8_t data[BYTES];
 };
 
@@ -49,7 +51,7 @@ template<typename T>
 struct hash<dcpp::HashValue<T> > {
 	size_t operator()(const dcpp::HashValue<T>& rhs) const {
 		// RVO should handle this as efficiently as reinterpret_cast
-		size_t hvHash = 0;
+		size_t hvHash;
 		memcpy(&hvHash, rhs.data, sizeof(size_t));
 		return hvHash;
 	}

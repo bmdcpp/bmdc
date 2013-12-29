@@ -21,12 +21,19 @@
 
 #include "stdinc.h"
 #include "DCPlusPlus.h"
+#include "Flags.h"
 
 namespace dcpp {
-class ColorSettings
+class ColorSettings: public Flags
 {
   public:
-	ColorSettings(): bIncludeNick(false), bCaseSensitive(false), bPopup(false), bTab(false),
+	enum ColorFlags {
+		CONTEXT_CHAT = 1,
+		//CONTEXT_NICKLIST = 2,
+		CONTEXT_FILELIST = 3
+	};
+  
+	ColorSettings(): Flags(CONTEXT_CHAT), bIncludeNick(false), bCaseSensitive(false), bPopup(false), bTab(false),
 		bPlaySound(false), bBold(false), bUnderline(false), bItalic(false),
 		bNoti(Util::emptyString), iMatchType(1), iBgColor(Util::emptyString), iFgColor(Util::emptyString), bHasBgColor(false),
 		bHasFgColor(false) , strSoundFile(Util::emptyString), strMatch(Util::emptyString), bUsingRegexp(false)  {	}
@@ -58,7 +65,16 @@ class ColorSettings
 	bool usingRegexp() const { return bUsingRegexp; }
 
 	const string & getMatch() const { return strMatch; }
-
+	int getFlag() const
+	{
+		if(isSet(CONTEXT_CHAT))
+			return 1;
+		//if(isSet(CONTEXT_NICKLIST))
+		//	return 2;
+		if(isSet(CONTEXT_FILELIST))
+			return 3;
+		return 0;	
+	}
 private:
 	//string to match against
 	string strMatch;

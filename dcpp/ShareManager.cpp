@@ -795,7 +795,7 @@ void ShareManager::updateIndices(Directory& dir, const decltype(std::declval<Dir
 		return;
 	}
 	//Lock l(cs);
-	auto j = tthIndex.find(*(f.tth));
+	auto j = tthIndex.find(*f.tth);
 	if(j == tthIndex.end()) {
 		dir.size += f.getSize();
 
