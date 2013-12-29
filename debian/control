@@ -15,7 +15,8 @@ Build-Depends:
  libcanberra-dev,
  libnotify-dev,
  libgeoip-dev,
- libtar-dev
+ libtar-dev,
+ bzr
 Homepage: http://launchpad.net/bmdc++/
 Standards-Version: 3.9.2
 

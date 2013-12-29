@@ -323,7 +323,7 @@ pair<ShareManager::Directory::Ptr, string> ShareManager::splitVirtual(const stri
 
 const ShareManager::Directory::File& ShareManager::findFile(const string& virtualFile) const {
 	if(virtualFile.compare(0, 4, "TTH/") == 0) {
-		Lock l(cs);
+		//Lock l(cs);
 		auto i = tthIndex.find(TTHValue(virtualFile.substr(4)));
 		if(i == tthIndex.end()) {
 			throw ShareException(UserConnection::FILE_NOT_AVAILABLE);
@@ -794,7 +794,7 @@ void ShareManager::updateIndices(Directory& dir, const decltype(std::declval<Dir
 	if(!f.tth) {
 		return;
 	}
-	Lock l(cs);
+	//Lock l(cs);
 	auto j = tthIndex.find(*(f.tth));
 	if(j == tthIndex.end()) {
 		dir.size += f.getSize();
@@ -810,7 +810,7 @@ void ShareManager::updateIndices(Directory& dir, const decltype(std::declval<Dir
 		}
 	}
 	{
-		Lock l(cs);
+		//Lock l(cs);
 		tthIndex[*(f.tth)] = &f;
 		bloom.add(Text::toLower(f.getName()));
 	}
@@ -1365,7 +1365,7 @@ const ShareManager::Directory::File* ShareManager::getFile(const string& realPat
 		return nullptr;
 	}
 
-	if(i->realPath == realPath) {
+	if( (!i->realPath.empty()) && (i->realPath == realPath)) {
 		/* lucky! the base file already had a real path set (should never happen - it's only for
 		dupes). */
 		dcdebug("ShareManager::getFile: wtf, a non-renamed file has realPath set: <%s>\n", realPath.c_str());
@@ -1376,7 +1376,7 @@ const ShareManager::Directory::File* ShareManager::getFile(const string& realPat
 	the most common case for dupes: "x (1).ext" is sorted before "x.ext". */
 	auto real = i;
 	--real;
-	while(real != d->files.end()) {
+	while((real != d->files.end()) && (!real->realPath.empty())) {
 		if(real->realPath == realPath) {
 			return &(*real);
 		}
@@ -1387,7 +1387,7 @@ const ShareManager::Directory::File* ShareManager::getFile(const string& realPat
 	no ext: "x (1)" is sorted after "x". */
 	real = i;
 	++real;
-	while(real != d->files.end()) {
+	while((real != d->files.end()) && (!real->realPath.empty())) {
 		if(real->realPath == realPath) {
 			return &(*real);
 		}
@@ -1422,7 +1422,7 @@ void ShareManager::on(HashManagerListener::TTHDone, const string& realPath, cons
 	Lock l(cs);
 	auto f = getFile(realPath);
 	if(f) {
-		Lock l(cs);
+		//Lock l(cs);
 		if(f->tth && root != (*f->tth)){
 			tthIndex.erase(*(f->tth));
 		}	

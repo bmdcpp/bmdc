@@ -3455,7 +3455,7 @@ void Settings::onAddShare_gui(GtkWidget *widget, gpointer data)
 
 	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(s->getWidget("dirChooserDialog")), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
  	gint response = gtk_dialog_run(GTK_DIALOG(s->getWidget("dirChooserDialog")));
-	gtk_widget_hide(s->getWidget("dirChooserDialog"));
+	gtk_widget_hide(s->getWidget("dirChooserDialog"));//hide
 
 	if (response == GTK_RESPONSE_OK)
 	{
@@ -3475,13 +3475,32 @@ void Settings::onAddShare_gui(GtkWidget *widget, gpointer data)
 			gtk_label_set_markup(GTK_LABEL(s->getWidget("labelNameDialog")), _("<b>Name under which the others see the directory</b>"));
 			response = gtk_dialog_run(GTK_DIALOG(dialog));
 			string name = gtk_entry_get_text(GTK_ENTRY(s->getWidget("nameDialogEntry")));
-			gtk_widget_hide(dialog);
+			gtk_widget_destroy(dialog);//hide
 
 			if (response == GTK_RESPONSE_OK)
 			{
-				typedef Func2<Settings, string, string> F2;
-				F2 *func = new F2(s, &Settings::addShare_client, path, name);
-				WulforManager::get()->dispatchClientFunc(func);
+				//typedef Func2<Settings, string, string> F2;
+				//F2 *func = new F2(s, &Settings::addShare_client, path, name);
+				//WulforManager::get()->dispatchClientFunc(func);
+				try
+				{
+					ShareManager::getInstance()->addDirectory(path, name);
+					//size = ShareManager::getInstance()->getShareSize(path);
+				}
+				catch (const ShareException &e)
+				{
+					//typedef Func1<Settings, const string> F1;
+					//F1 *func = new F1(this, &Settings::showErrorDialog, e.getError());
+					//WulforManager::get()->dispatchGuiFunc(func);
+					s->showErrorDialog(e.getError());
+					return;//should not update GUI if any Share* exception hapened
+				}
+				catch(...){g_print("Some other exception");}
+				
+				s->addShare_gui(path, name);
+				//typedef Func2<Settings, string, string> F3;
+				//F3 *func = new F3(this, &Settings::addShare_gui, path, name);
+				//WulforManager::get()->dispatchGuiFunc(func);
 			}
 		}
 	}
