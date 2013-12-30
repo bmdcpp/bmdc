@@ -169,7 +169,7 @@ string ShareManager::toReal(const string& virtualFile,bool isShared) {
 
 pair<string, int64_t> ShareManager::toRealWithSize(const string& virtualFile, bool isInSharedHub) {
 	Lock l(cs);
-	if(isInSharedHub)return make_pair((Util::getPath(Util::PATH_USER_CONFIG) + "Emptyfiles.xml.bz2"),0);
+	if(!isInSharedHub)return make_pair((Util::getPath(Util::PATH_USER_CONFIG) + "Emptyfiles.xml.bz2"),0);
 
 	if(virtualFile == "MyList.DcLst") {
 		throw ShareException("NMDC-style lists no longer supported, please upgrade your client");
@@ -982,6 +982,14 @@ void ShareManager::generateXmlList() {
 MemoryInputStream* ShareManager::generatePartialList(const string& dir, bool recurse, bool isSharedHub) const {
 	if(dir[0] != '/' || dir[dir.size()-1] != '/')
 		return 0;
+		
+	if(!isSharedHub) {
+		string xml = SimpleXML::utf8Header;
+        string tmp;
+        xml += "<FileListing Version=\"1\" CID=\"" + ClientManager::getInstance()->getMe()->getCID().toBase32() + "\" Base=\"" + SimpleXML::escape(dir, tmp, false) + "\" Generator=\"" APPNAME " " VERSIONSTRING "\">\r\n";
+        xml += "</FileListing>";
+        return new MemoryInputStream(xml);
+	}	
 
 	string xml = SimpleXML::utf8Header;
 	string tmp;
