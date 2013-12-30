@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2013 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -346,6 +346,7 @@ void Socket::connect(const string& aAddr, const string& aPort, const string& loc
 		if((ai->ai_family == AF_INET && !sock4.valid()) ||
 			(ai->ai_family == AF_INET6 && !sock6.valid() && !v4only))
 		{
+		try {
 			auto sock = create(*ai);
 			auto &localIp = ai->ai_family == AF_INET ? getLocalIp4() : getLocalIp6();
 
@@ -356,7 +357,17 @@ void Socket::connect(const string& aAddr, const string& aPort, const string& loc
 
 			check([&] { return ::connect(sock, ai->ai_addr, ai->ai_addrlen); }, true);
 			setIp(resolveName(ai->ai_addr, ai->ai_addrlen));
+			} catch(const SocketException& e) {
+				ai->ai_family == AF_INET ? sock4.reset() : sock6.reset();
+				lastError = e.getError();
+			}
 		}
+	}
+	
+	
+	// An IP should be set if at least one connection attempt succeeded
+	if(!ip.empty()) {
+		throw SocketException(lastError);
 	}
 }
 
