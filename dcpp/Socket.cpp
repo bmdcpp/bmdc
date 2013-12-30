@@ -341,32 +341,34 @@ void Socket::connect(const string& aAddr, const string& aPort, const string& loc
 
 	// We try to connect to both IPv4 and IPv6 if available
 	auto addr = resolveAddr(aAddr, aPort);
-	string lastError = Util::emptyString;
+
+	string lastError;
+
 	for(auto ai = addr.get(); ai; ai = ai->ai_next) {
 		if((ai->ai_family == AF_INET && !sock4.valid()) ||
 			(ai->ai_family == AF_INET6 && !sock6.valid() && !v4only))
 		{
-		try {
-			auto sock = create(*ai);
-			auto &localIp = ai->ai_family == AF_INET ? getLocalIp4() : getLocalIp6();
+			try {
+				auto sock = create(*ai);
+				auto &localIp = ai->ai_family == AF_INET ? getLocalIp4() : getLocalIp6();
 
-			if(!localPort.empty() || !localIp.empty()) {
-				auto local = resolveAddr(localIp, localPort, ai->ai_family);
-				check([&] { return ::bind(sock, local->ai_addr, local->ai_addrlen); });
-			}
+				if(!localPort.empty() || !localIp.empty()) {
+					auto local = resolveAddr(localIp, localPort, ai->ai_family);
+					check([&] { return ::bind(sock, local->ai_addr, local->ai_addrlen); });
+				}
 
-			check([&] { return ::connect(sock, ai->ai_addr, ai->ai_addrlen); }, true);
-			setIp(resolveName(ai->ai_addr, ai->ai_addrlen));
+				check([&] { return ::connect(sock, ai->ai_addr, ai->ai_addrlen); }, true);
+				setIp(resolveName(ai->ai_addr, ai->ai_addrlen));
+
 			} catch(const SocketException& e) {
 				ai->ai_family == AF_INET ? sock4.reset() : sock6.reset();
 				lastError = e.getError();
 			}
 		}
 	}
-	
-	
+
 	// An IP should be set if at least one connection attempt succeeded
-	if(!ip.empty()) {
+	if(ip.empty()) {
 		throw SocketException(lastError);
 	}
 }
