@@ -91,22 +91,11 @@ class WulforManager
 		// Entry functions
 		DialogEntry *getDialogEntry_gui(const std::string &id);
 
-		// Thread-related functions
-		static gpointer threadFunc_client(gpointer data);
-		void processClientQueue();
-
 		static WulforManager *manager;
 		MainWindow *mainWin;
 		std::string path;
-		//std::deque<FuncBase *> clientFuncs;
 		std::unordered_map<std::string, Entry *> entries;
-		//gint clientCondValue;
-		//GCond clientCond;
-		//GMutex clientCondMutex;
-		//GMutex clientCallMutex;
-		//GMutex clientQueueMutex;
 		GRWLock entryMutex;
-		//GThread *clientThread;
 		bool abort;
 };
 

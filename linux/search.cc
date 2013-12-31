@@ -151,7 +151,7 @@ Search::Search(const string& str):
 	GtkComboBox *combo_box = GTK_COMBO_BOX(getWidget("comboboxFile"));
 	GtkTreeModel *model = gtk_combo_box_get_model(combo_box);
 	GtkListStore *store = GTK_LIST_STORE(model);
-	const SettingsManager::SearchTypes &searchTypes = SettingsManager::getInstance()->getSearchTypes();
+	//const SettingsManager::SearchTypes &searchTypes = SettingsManager::getInstance()->getSearchTypes();
 
 	// Predefined
 	for (int i = SearchManager::TYPE_ANY; i < SearchManager::TYPE_LAST; i++)

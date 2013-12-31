@@ -505,7 +505,7 @@ void BookEntry::setBackForeGround(const EntryType type)
 	gdk_rgba_parse(&bg_color,bg.c_str());
 
 	gtk_event_box_set_visible_window (GTK_EVENT_BOX(eventBox)
-	,&fg_color != NULL || &bg_color != NULL);
+	,TRUE);
     gtk_widget_override_color (GTK_WIDGET(label), (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &fg_color);
     gtk_widget_override_color (GTK_WIDGET(label), (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &fg_color);
     gtk_widget_override_background_color (eventBox, (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
@@ -615,7 +615,7 @@ void BookEntry::setBackForeGround_unread(const EntryType type)
 	gdk_rgba_parse(&bg_color,bg.c_str());
 
 	gtk_event_box_set_visible_window (GTK_EVENT_BOX(eventBox)
-	,&fg_color != NULL || &bg_color != NULL);
+	,TRUE);
     gtk_widget_override_color (GTK_WIDGET(label), (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &fg_color);
     gtk_widget_override_color (GTK_WIDGET(label), (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &fg_color);
     gtk_widget_override_background_color (eventBox, (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);

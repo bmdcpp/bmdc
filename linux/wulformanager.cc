@@ -60,28 +60,12 @@ WulforManager *WulforManager::get()
 }
 
 WulforManager::WulforManager():
-mainWin(NULL)//,clientThread(NULL)
+mainWin(NULL)
 {
 	abort = FALSE;
 
 	// Initialize sempahore variables
-	//clientCondValue = 0;
-	//g_cond_init(&clientCond);
-	//g_mutex_init(&clientCondMutex);
-
-	//g_mutex_init(&clientCallMutex);
-	//g_mutex_init(&clientQueueMutex);
 	g_rw_lock_init(&entryMutex);
-
-	//GError *error = NULL;
-
-	//clientThread = g_thread_try_new("client",threadFunc_client, (gpointer)this, &error);
-	//if (error != NULL)
-	//{
-	//	cerr << "Unable to create client thread: " << error->message << endl;
-	//	g_error_free(error);
-	//	exit(EXIT_FAILURE);
-	//}
 	// Determine path to data files
 	path = string(_DATADIR) + G_DIR_SEPARATOR_S + g_get_prgname();
 	if (!g_file_test(path.c_str(), G_FILE_TEST_EXISTS))
@@ -101,18 +85,6 @@ mainWin(NULL)//,clientThread(NULL)
 WulforManager::~WulforManager()
 {
 	abort = TRUE;
-
-	//g_mutex_lock(&clientCondMutex);
-	//clientCondValue++;
-	//g_cond_signal(&clientCond);
-	//g_mutex_unlock(&clientCondMutex);
-
-	//g_thread_join(clientThread);
-
-	//g_cond_clear(&clientCond);
-	//g_mutex_clear(&clientCondMutex);
-	//g_mutex_clear(&clientCallMutex);
-	//g_mutex_clear(&clientQueueMutex);
 	g_rw_lock_clear(&entryMutex);
 }
 
@@ -142,45 +114,6 @@ void WulforManager::deleteMainWindow()
 	mainWin->remove();
 	gtk_main_quit();
 }
-//
-//gpointer WulforManager::threadFunc_client(gpointer data)
-//{
-//	WulforManager *man = (WulforManager *)data;
-//	man->processClientQueue();
-//	return NULL;
-//}
-//TODO: remove ?
-//void WulforManager::processClientQueue()
-//{
-//	FuncBase *func = NULL;
-
-//	while (!abort)
-//	{
-//		g_mutex_lock(&clientCondMutex);
-//		while (clientCondValue < 1)
-//			g_cond_wait(&clientCond, &clientCondMutex);
-//		clientCondValue--;
-//		g_mutex_unlock(&clientCondMutex);
-
-//		g_mutex_lock(&clientCallMutex);
-//		g_mutex_lock(&clientQueueMutex);
-//		while (!clientFuncs.empty())
-//		{
-//			func = clientFuncs.front();
-//			clientFuncs.pop_front();
-//			g_mutex_unlock(&clientQueueMutex);
-
-//			func->call(NULL);
-//			delete func;
-
-//			g_mutex_lock(&clientQueueMutex);
-//		}
-//		g_mutex_unlock(&clientQueueMutex);
-//		g_mutex_unlock(&clientCallMutex);
-//	}
-
-//	g_thread_exit(NULL);
-//}
 
 void WulforManager::dispatchGuiFunc(FuncBase *func)
 {
@@ -189,14 +122,7 @@ void WulforManager::dispatchGuiFunc(FuncBase *func)
 
 void WulforManager::dispatchClientFunc(FuncBase *func)
 {
-	//g_mutex_lock(&clientQueueMutex);
-	//clientFuncs.push_back(func);
-	//g_mutex_unlock(&clientQueueMutex);
 	func->call((gpointer)func);
-	//g_mutex_lock(&clientCondMutex);
-	//clientCondValue++;
-	//g_cond_signal(&clientCond);
-	//g_mutex_unlock(&clientCondMutex);
 }
 
 MainWindow *WulforManager::getMainWindow()
@@ -228,30 +154,11 @@ void WulforManager::deleteEntry_gui(Entry *entry)
 	const string &id = entry->getID();
 	deque<FuncBase *>::iterator fIt;
 
-	//g_mutex_lock(&clientCallMutex);
-
-	// Erase any pending calls to this bookentry.
-	//g_mutex_lock(&clientQueueMutex);
-	//fIt = clientFuncs.begin();
-	//while (fIt != clientFuncs.end())
-	//{
-	//	if ((*fIt)->getID() == id)
-	//	{
-	//		delete *fIt;
-	//		fIt = clientFuncs.erase(fIt);
-	//	}
-	//	else
-	//		++fIt;
-	//}
-	//g_mutex_unlock(&clientQueueMutex);
-
 	// Remove the bookentry from the list.
 	g_rw_lock_writer_lock(&entryMutex);
 	if (entries.find(id) != entries.end())
 		entries.erase(id);
 	g_rw_lock_writer_unlock(&entryMutex);
-
-	//g_mutex_unlock(&clientCallMutex);
 
 	delete entry;
 	entry = NULL;

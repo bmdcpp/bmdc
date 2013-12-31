@@ -37,7 +37,7 @@ WulforSettingsManager::WulforSettingsManager():
 {
 	//obtain from theme..
 	GdkRGBA color;
-	//  "gtk-theme-name"           gchar*                : Read / Write (from gtk-doc)
+	//  "gtk-theme-name"           gchar*               : Read / Write (from gtk-doc)
 	gchar *name_theme = NULL;
 	g_object_get(gtk_settings_get_default(),"gtk-theme-name",&name_theme,NULL);
 	GtkThemingEngine *engine = gtk_theming_engine_load(name_theme);
