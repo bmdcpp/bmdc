@@ -14,3 +14,4 @@ Plugins/LuaPlugin/compiled
 Plugins/dbus-plugins/compiled
 Plugins/dbus-plugins/tmp.out
 .svn
+Plugins/dbus-plugin/projects/make/build-x64

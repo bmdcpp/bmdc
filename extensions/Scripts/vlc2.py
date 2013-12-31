@@ -2,7 +2,7 @@
 # -*- coding: utf8 -*-
 #
 # Copyright  2006-2011 <funman at videolanorg>
-# Modifed to BMDC by Mank 2013
+# Modifed to BMDC by Mank 2013-2014
 #
 # NOTE: This controller is a SAMPLE, and thus doesn't use all the
 # Media Player Remote Interface Specification (MPRIS for short) capabilities
