@@ -90,9 +90,6 @@ public:
 	GETSET(string, command, Command);
 	GETSET(string, to, To);
 	GETSET(string, hub, Hub);
-/*
-private:
-	StringList displayName;*/
 };
 
 } // namespace dcpp
