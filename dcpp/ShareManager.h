@@ -133,7 +133,7 @@ private:
 		typedef Directory* Ptr;
 
 		struct File {
-			File() : size(0), parent(0) , tth(NULL) , name(Util::emptyString) { }
+			File() : name(Util::emptyString), tth(NULL) , size(0), parent(0)   { }
 			File(const string& aName, int64_t aSize, const Directory::Ptr& aParent, TTHValue* aRoot) :
 				name(aName), tth(aRoot), size(aSize), parent(aParent) { }
 

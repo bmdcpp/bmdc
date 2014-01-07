@@ -374,6 +374,8 @@ void Hub::setColorRow(string cell)
 
 void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data)
 {
+		Hub* hub = (Hub *)data;
+		if(hub == NULL)return;
 		string color = "#A52A2A";
 		gchar *cltype;
 		int64_t size;
@@ -388,8 +390,8 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 			return;
 
 		gtk_tree_model_get(model,iter,
-		                     1, &size,
-						20,&cltype,
+		                hub->nickView.col(_("Shared")) , &size,
+						hub->nickView.col("Client Type"),&cltype,
 						-1);
 
 		gchar *a = WulforUtil::g_substr(cltype,0,0);
@@ -1674,7 +1676,7 @@ void Hub::preferences_gui()
 	string sort = SETTING(SORT_FAVUSERS_FIRST) ? "Client Type" : "Nick Order";
 	nickView.setSortColumn_gui(_("Nick"), sort);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);
-//set Colors
+	//set Colors
 	string strcolor = WGETS("background-color-chat");
 	GdkRGBA color;
 	gdk_rgba_parse(&color,strcolor.c_str());
@@ -2050,7 +2052,7 @@ gboolean Hub::onNickTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *e
 
 	if (event->type == GDK_2BUTTON_PRESS)
 	{
-		gchar *tmp;
+		gchar *tmp = NULL;
 		g_object_get(G_OBJECT(tag), "name", &tmp, NULL);
 		string tagName = string(tmp);
 		
@@ -2061,7 +2063,7 @@ gboolean Hub::onNickTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *e
 	else if (event->type == GDK_BUTTON_PRESS)
 	{
 		GtkTreeIter nickIter;
-		gchar *tmp;
+		gchar *tmp = NULL;
 		g_object_get(G_OBJECT(tag), "name", &tmp, NULL);
 		string tagName = string(tmp);
 
@@ -2131,7 +2133,7 @@ gboolean Hub::onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *ev
 gboolean Hub::onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event , GtkTextIter *iter, gpointer data)
 {
 	Hub *hub = (Hub *)data;
-	gchar *tmp;
+	gchar *tmp = NULL;
 	g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
 	hub->ip = string(tmp);
 

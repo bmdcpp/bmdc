@@ -20,8 +20,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef BMDC_HUB_HH
-#define BMDC_HUB_HH
+#ifndef _BMDC_HUB_HH
+#define _BMDC_HUB_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
@@ -91,7 +91,7 @@ class Hub:
 		typedef std::unordered_map<std::string, GtkTreeIter> UserIters;
 		typedef std::unordered_map<GtkWidget*, std::string> ImageList;
 		typedef std::pair<std::string, GtkWidget*> ImageLoad;
-		typedef std::unordered_map<std::string, FlagUser > UserFlags;//for flags
+		typedef std::unordered_map<std::string, FlagUser > UserFlags; //for flags
 
 		// GUI functions
 		void setStatus_gui(std::string statusBar, std::string text);
@@ -250,14 +250,14 @@ class Hub:
 		virtual void on(dcpp::ClientListener::Failed, dcpp::Client *, const std::string &reason) noexcept;
 		virtual void on(dcpp::ClientListener::GetPassword, dcpp::Client *) noexcept;
 		virtual void on(dcpp::ClientListener::HubUpdated, dcpp::Client *) noexcept;
-		virtual void on(dcpp::ClientListener::Message, dcpp::Client*, const dcpp::ChatMessage& message) noexcept;;//NOTE: core 0.762
+		virtual void on(dcpp::ClientListener::Message, dcpp::Client*, const dcpp::ChatMessage& message) noexcept;;
 		virtual void on(dcpp::ClientListener::StatusMessage, dcpp::Client *, const std::string &message, int flag) noexcept;;
 		virtual void on(dcpp::ClientListener::NickTaken, dcpp::Client *) noexcept;
 		virtual void on(dcpp::ClientListener::SearchFlood, dcpp::Client *, const std::string &message) noexcept;
 		virtual void on(dcpp::ClientListener::CheatMessage, dcpp::Client *, const std::string &msg) noexcept;
 		virtual void on(dcpp::ClientListener::HubTopic, dcpp::Client *, const std::string &top) noexcept;
 		virtual void on(dcpp::ClientListener::ClientLine, dcpp::Client* , const std::string &mess, int type) noexcept;
-		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) throw();
+		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) noexcept;
 
 		UserFlags users;//for OP flag etc
 		UserMap userMap;

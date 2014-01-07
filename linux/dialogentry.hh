@@ -19,8 +19,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef WULFOR_DIALOG_ENTRY_HH
-#define WULFOR_DIALOG_ENTRY_HH
+#ifndef _BMDC_DIALOG_ENTRY_HH
+#define _BMDC_DIALOG_ENTRY_HH
 
 #include "entry.hh"
 

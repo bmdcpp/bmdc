@@ -859,4 +859,5 @@ Fix IPv6 coloring in chat
 ----
 Fix DebugManager
 Update Hash/Share Manager
+----
 

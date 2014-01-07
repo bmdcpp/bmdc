@@ -589,7 +589,7 @@ int SearchADL::find_rawInt(int raw)
 	}
   return _raw;
 }
-
+//end
 void SearchADL::onToggleOveride(GtkWidget *widget, gpointer data) 
 {
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);

@@ -6,7 +6,6 @@ import commands
 import string
 import re
 
-
 try:
 	from bzrlib import branch
 except ImportError:

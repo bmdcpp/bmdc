@@ -19,8 +19,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef WULFOR_SHARE_BROWSER_HH
-#define WULFOR_SHARE_BROWSER_HH
+#ifndef _BMDC_SHARE_BROWSER_HH
+#define _BMDC_SHARE_BROWSER_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
