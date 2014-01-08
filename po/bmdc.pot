@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2014-01-04 23:24+0100\n"
+"POT-Creation-Date: 2014-01-08 14:38+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -517,7 +517,7 @@ msgstr ""
 msgid "Actions and Raws"
 msgstr ""
 
-#: ui/FavDialog.glade.ui:993 ui/favoritehubs.glade.ui:1579
+#: ui/FavDialog.glade.ui:993 ui/favoritehubs.glade.ui:1580
 #: ui/settingsdialog.glade.ui:1862
 msgid "Active"
 msgstr ""
@@ -983,9 +983,9 @@ msgid "Debug CMD"
 msgstr ""
 
 #: ui/FavDialog.glade.ui:956 ui/FavDialog.glade.ui:973
-#: ui/FavDialog.glade.ui:990 ui/favoritehubs.glade.ui:1508
-#: ui/favoritehubs.glade.ui:1525 ui/favoritehubs.glade.ui:1542
-#: ui/favoritehubs.glade.ui:1559 ui/favoritehubs.glade.ui:1576
+#: ui/FavDialog.glade.ui:990 ui/favoritehubs.glade.ui:1509
+#: ui/favoritehubs.glade.ui:1526 ui/favoritehubs.glade.ui:1543
+#: ui/favoritehubs.glade.ui:1560 ui/favoritehubs.glade.ui:1577
 #: ui/settingsdialog.glade.ui:5272 ui/settingsdialog.glade.ui:5964
 #: ui/settingsdialog.glade.ui:6148 ui/settingsdialog.glade.ui:6333
 #: ui/settingsdialog.glade.ui:8828 linux/AboutConfig.cc:88
@@ -1057,8 +1057,8 @@ msgid "Directory"
 msgstr ""
 
 #: ui/FavDialog.glade.ui:962 ui/FavDialog.glade.ui:979
-#: ui/favoritehubs.glade.ui:1514 ui/favoritehubs.glade.ui:1531
-#: ui/favoritehubs.glade.ui:1548 ui/favoritehubs.glade.ui:1565
+#: ui/favoritehubs.glade.ui:1515 ui/favoritehubs.glade.ui:1532
+#: ui/favoritehubs.glade.ui:1549 ui/favoritehubs.glade.ui:1566
 msgid "Disable"
 msgstr ""
 
@@ -1160,8 +1160,8 @@ msgid "Emulation Action"
 msgstr ""
 
 #: ui/FavDialog.glade.ui:959 ui/FavDialog.glade.ui:976
-#: ui/favoritehubs.glade.ui:1511 ui/favoritehubs.glade.ui:1528
-#: ui/favoritehubs.glade.ui:1545 ui/favoritehubs.glade.ui:1562
+#: ui/favoritehubs.glade.ui:1512 ui/favoritehubs.glade.ui:1529
+#: ui/favoritehubs.glade.ui:1546 ui/favoritehubs.glade.ui:1563
 #: linux/detectiontab.cc:40 linux/detectiontab.cc:59 linux/detectiontab.cc:70
 #: linux/detectiontab.cc:102 linux/detectiontab.cc:313
 #: linux/detectiontab.cc:332 linux/detectiontab.cc:407
@@ -2041,7 +2041,7 @@ msgstr ""
 msgid "Package in PPA"
 msgstr ""
 
-#: ui/FavDialog.glade.ui:996 ui/favoritehubs.glade.ui:1582
+#: ui/FavDialog.glade.ui:996 ui/favoritehubs.glade.ui:1583
 #: linux/settingsdialog.cc:1657 linux/settingsdialog.cc:1676
 #: linux/settingsdialog.cc:3756 linux/settingsdialog.cc:3787
 msgid "Pasive"
