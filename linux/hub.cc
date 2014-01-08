@@ -2263,7 +2263,7 @@ void Hub::onChatScroll_gui(GtkAdjustment *adjustment, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	gdouble value = gtk_adjustment_get_value(adjustment);
-    	hub->scrollToBottom = value >= ( gtk_adjustment_get_upper(adjustment) - gtk_adjustment_get_page_size (adjustment));
+  	hub->scrollToBottom = value >= ( gtk_adjustment_get_upper(adjustment) - gtk_adjustment_get_page_size (adjustment));
 }
 
 void Hub::onChatResize_gui(GtkAdjustment *adjustment, gpointer data)
@@ -2340,7 +2340,6 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if (command == "favorite" || command == "fav")
 		{
-			//WulforManager::get()->dispatchClientFunc(new Func0<Hub>(hub, &Hub::addAsFavorite_client));
 			hub->addAsFavorite_client();
 		}
 		else if (command == "fuser" || command == "fu")
@@ -2473,22 +2472,16 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if(command == "plgadd")
 		{
-/*			size_t idx = PluginManager::getInstance()->getPluginList().size();
-			if(PluginManager::getInstance()->loadPlugin(Text::fromT(param), true)) {
-				const MetaData& info = PluginManager::getInstance()->getPlugin(idx)->getInfo();
-					hub->addMessage_gui("", string("Done, Info **\nName") + string(info.name) + string("\nDesc") + string(info.description) + string("\nVersion") + Util::toString(info.version) + string("\n"), Msg::SYSTEM);
-
-		}*/
 			PluginManager::getInstance()->addPlugin(param);
 		}
 		else if(command == "plist") {
 			size_t idx = 0;
 			string status = string(_("Loaded plugins: ")) + _("\n");
-			const auto list = PluginManager::getInstance()->getPluginList();
+			PluginManager* pm = PluginManager::getInstance();
+			const auto list = pm->getPluginList();
 			for(auto i = list.begin(); i != list.end(); ++i, ++idx) {
-				//const MetaData& info = (*i)->getInfo();
-				//status += Util::toString(idx) + " - " + string(info.name) + " - " + Util::toString(info.version) + "\n";
-				status += *i + "\n";
+				Plugin p = pm->getPlugin(*i);
+				status += *i +"\t"+p.name+ "\n";
 			}
 			hub->addMessage_gui("",status,Msg::SYSTEM);
 		}
@@ -2573,7 +2566,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			GIOStatus gio_status = g_io_channel_read_to_end( gio_chanel, &command_res, &command_length, NULL );
 			if( gio_status == G_IO_STATUS_NORMAL )
 			{
-				command_res[command_length-1]="\0";
+				command_res[command_length-1]='\0';
 				command_res[command_length]=NULL;
 				F2 *func = new F2( hub, &Hub::sendMessage_client, string(command_res), false );
 				WulforManager::get()->dispatchClientFunc(func);

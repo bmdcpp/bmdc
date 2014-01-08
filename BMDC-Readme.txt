@@ -7,7 +7,7 @@ Dependencies:
 -------------
 scons >= 0.96
 pkg-config
-g++ >= 4.5
+g++ >= 4.7
 glib >= 2.32
 gtk+-3.0 >= 3.6
 pthread
@@ -17,10 +17,10 @@ libssl
 libGeoIP >= 1.4.7
 --------------
 optional:
- libtar ( for Backup/Restore options)
+ libtar (Note: for Backup/Restore options)
  libnotify >= 0.4.1
 -------------- 
- lua5.1 >= 5.0 or lua >= 5.0
+ lua5.1 >= 5.0 or lua >= 5.0 (Note: not needed by main bin)
 
 Compiling:
 ----------
