@@ -372,7 +372,7 @@ void WulforUtil::openURItoApp(const string &cmd)
 		g_error_free(error);
 	}
 }
-
+#if !GTK_CHECK_VERSION(3,4,0)
 string WulforUtil::colorToString(const GdkColor *color)
 {
 	gchar strcolor[14];
@@ -382,12 +382,12 @@ string WulforUtil::colorToString(const GdkColor *color)
 
 	return strcolor;
 }
-
+#else
 string WulforUtil::colorToString(const GdkRGBA *color)
 {
 	return string(gdk_rgba_to_string(color));
 }
-
+#endif
 GdkPixbuf* WulforUtil::scalePixbuf(const GdkPixbuf *pixbuf, const int width, const int height, GdkInterpType type)
 {
 	g_return_val_if_fail(pixbuf != NULL, NULL);

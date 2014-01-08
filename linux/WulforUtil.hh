@@ -57,8 +57,11 @@ class WulforUtil
 		static std::vector<std::string>& getCharsets();
 		static void openURI(const std::string &uri, std::string &_error = dcpp::Util::emptyString);
 		static void openURItoApp(const std::string &cmd);
+		#if !GTK_CHECK_VERSION(3,4,0)
 		static std::string colorToString(const GdkColor *color); /* gdk < 2.12 */
+		#else
 		static std::string colorToString(const GdkRGBA *color);
+		#endif
 		static GdkPixbuf* scalePixbuf(const GdkPixbuf *pixbuf,
 			const int width, const int height, GdkInterpType type = GDK_INTERP_BILINEAR);
 

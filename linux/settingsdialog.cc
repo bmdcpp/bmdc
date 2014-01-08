@@ -42,6 +42,19 @@
 #define ICON_SIZE 32
 #define ICON_SIZE_NORMAL 22
 
+
+#if GTK_CHECK_VERSION(3,4,0)
+	#define g_c_b_g gtk_color_chooser_get_rgba
+	#define g_c_b_s gtk_color_chooser_set_rgba
+	#define G_C_B GTK_COLOR_CHOOSER
+	#define g_c_p(x,y) gdk_rgba_parse(y,x)
+#else
+	#define g_c_b_g gtk_color_button_get_color
+	#define g_c_b_s gtk_color_button_set_color
+	#define G_C_B GTK_COLOR_BUTTON
+	#define g_c_p(x,y) gdk_color_parse(x,y)
+#endif
+
 using namespace std;
 using namespace dcpp;
 
@@ -307,14 +320,10 @@ void Settings::saveSettings_client()
 			sm->set(SettingsManager::TLS_PORT, port);
 
 		// Outgoing connection
-		int type = SETTING(OUTGOING_CONNECTIONS);
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("outDirectRadioButton"))))
 			sm->set(SettingsManager::OUTGOING_CONNECTIONS, SettingsManager::OUTGOING_DIRECT);
 		else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("socksRadioButton"))))
 			sm->set(SettingsManager::OUTGOING_CONNECTIONS, SettingsManager::OUTGOING_SOCKS5);
-
-		//if (SETTING(OUTGOING_CONNECTIONS) != type)
-		//	Socket::socksUpdated();
 
 		sm->set(SettingsManager::SOCKS_SERVER, gtk_entry_get_text(GTK_ENTRY(getWidget("socksIPEntry"))));
 		sm->set(SettingsManager::SOCKS_USER, gtk_entry_get_text(GTK_ENTRY(getWidget("socksUserEntry"))));
@@ -466,21 +475,24 @@ void Settings::saveSettings_client()
 		}
 
 		{ // Search Spy
+			#if !GTK_CHECK_VERSION(3,4,0)
 			GdkColor color;
-
-			gtk_color_button_get_color(GTK_COLOR_BUTTON(getWidget("aSPColorButton")), &color);
+			#else
+			GdkRGBA color;
+			#endif
+			g_c_b_g(G_C_B(getWidget("aSPColorButton")), &color);
 			WSET("search-spy-a-color", WulforUtil::colorToString(&color));
 
-			gtk_color_button_get_color(GTK_COLOR_BUTTON(getWidget("tSPColorButton")), &color);
+			g_c_b_g(G_C_B(getWidget("tSPColorButton")), &color);
 			WSET("search-spy-t-color", WulforUtil::colorToString(&color));
 
-			gtk_color_button_get_color(GTK_COLOR_BUTTON(getWidget("qSPColorButton")), &color);
+			g_c_b_g(G_C_B(getWidget("qSPColorButton")), &color);
 			WSET("search-spy-q-color", WulforUtil::colorToString(&color));
 
-			gtk_color_button_get_color(GTK_COLOR_BUTTON(getWidget("cSPColorButton")), &color);
+			g_c_b_g(G_C_B(getWidget("cSPColorButton")), &color);
 			WSET("search-spy-c-color", WulforUtil::colorToString(&color));
 
-			gtk_color_button_get_color(GTK_COLOR_BUTTON(getWidget("rSPColorButton")), &color);
+			g_c_b_g(G_C_B(getWidget("rSPColorButton")), &color);
 			WSET("search-spy-r-color", WulforUtil::colorToString(&color));
 
 			WSET("search-spy-frame", (int)gtk_spin_button_get_value(GTK_SPIN_BUTTON(getWidget("frameSPSpinButton"))));
@@ -1566,22 +1578,25 @@ void Settings::initAppearance_gui()
 	}
 
 	{ // Search Spy
+		#if !GTK_CHECK_VERSION(3,4,0)
 		GdkColor color;
+		#else
+		GdkRGBA color;
+		#endif
+		if (g_c_p(wsm->getString("search-spy-a-color").c_str(), &color))
+			g_c_b_s(G_C_B(getWidget("aSPColorButton")), &color);
 
-		if (gdk_color_parse(wsm->getString("search-spy-a-color").c_str(), &color))
-			gtk_color_button_set_color(GTK_COLOR_BUTTON(getWidget("aSPColorButton")), &color);
+		if (g_c_p(wsm->getString("search-spy-t-color").c_str(), &color))
+			g_c_b_s(G_C_B(getWidget("tSPColorButton")), &color);
 
-		if (gdk_color_parse(wsm->getString("search-spy-t-color").c_str(), &color))
-			gtk_color_button_set_color(GTK_COLOR_BUTTON(getWidget("tSPColorButton")), &color);
+		if (g_c_p(wsm->getString("search-spy-q-color").c_str(), &color))
+			g_c_b_s(G_C_B(getWidget("qSPColorButton")), &color);
 
-		if (gdk_color_parse(wsm->getString("search-spy-q-color").c_str(), &color))
-			gtk_color_button_set_color(GTK_COLOR_BUTTON(getWidget("qSPColorButton")), &color);
+		if (g_c_p(wsm->getString("search-spy-c-color").c_str(), &color))
+			g_c_b_s(G_C_B(getWidget("cSPColorButton")), &color);
 
-		if (gdk_color_parse(wsm->getString("search-spy-c-color").c_str(), &color))
-			gtk_color_button_set_color(GTK_COLOR_BUTTON(getWidget("cSPColorButton")), &color);
-
-		if (gdk_color_parse(wsm->getString("search-spy-r-color").c_str(), &color))
-			gtk_color_button_set_color(GTK_COLOR_BUTTON(getWidget("rSPColorButton")), &color);
+		if (g_c_p(wsm->getString("search-spy-r-color").c_str(), &color))
+			g_c_b_s(G_C_B(getWidget("rSPColorButton")), &color);
 
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("frameSPSpinButton")), (double)WGETI("search-spy-frame"));
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("waitingSPSpinButton")), (double)WGETI("search-spy-waiting"));
@@ -1853,7 +1868,6 @@ void Settings::initPlugins_gui()
 
     auto pm = PluginManager::getInstance();
 	const auto& list = pm->getPluginList();
-	int j = 0;
 	for(auto i = list.cbegin(), iend = list.cend() ; i != iend; ++i) {
 		auto info = pm->getPlugin(*i);
 		gtk_list_store_append(plStore,&iter);
@@ -2990,24 +3004,27 @@ void Settings::onDefaultThemeButton_gui(GtkWidget *widget, gpointer data)
 void Settings::onDefaultColorsSPButton_gui(GtkWidget *widget, gpointer data)
 {
 	Settings *s = (Settings *)data;
-
+	#if !GTK_CHECK_VERSION(3,4,0)
 	GdkColor color;
+	#else
+	GdkRGBA color;
+	#endif
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
 
-	if (gdk_color_parse(wsm->getString("search-spy-a-color", TRUE).c_str(), &color))
-		gtk_color_button_set_color(GTK_COLOR_BUTTON(s->getWidget("aSPColorButton")), &color);
+	if (g_c_p(wsm->getString("search-spy-a-color", TRUE).c_str(), &color))
+		g_c_b_s(G_C_B(s->getWidget("aSPColorButton")), &color);
 
-	if (gdk_color_parse(wsm->getString("search-spy-t-color", TRUE).c_str(), &color))
-		gtk_color_button_set_color(GTK_COLOR_BUTTON(s->getWidget("tSPColorButton")), &color);
+	if (g_c_p(wsm->getString("search-spy-t-color", TRUE).c_str(), &color))
+		g_c_b_s(G_C_B(s->getWidget("tSPColorButton")), &color);
 
-	if (gdk_color_parse(wsm->getString("search-spy-q-color", TRUE).c_str(), &color))
-		gtk_color_button_set_color(GTK_COLOR_BUTTON(s->getWidget("qSPColorButton")), &color);
+	if (g_c_p(wsm->getString("search-spy-q-color", TRUE).c_str(), &color))
+		g_c_b_s(G_C_B(s->getWidget("qSPColorButton")), &color);
 
-	if (gdk_color_parse(wsm->getString("search-spy-c-color", TRUE).c_str(), &color))
-		gtk_color_button_set_color(GTK_COLOR_BUTTON(s->getWidget("cSPColorButton")), &color);
+	if (g_c_p(wsm->getString("search-spy-c-color", TRUE).c_str(), &color))
+		g_c_b_s(G_C_B(s->getWidget("cSPColorButton")), &color);
 
-	if (gdk_color_parse(wsm->getString("search-spy-r-color", TRUE).c_str(), &color))
-		gtk_color_button_set_color(GTK_COLOR_BUTTON(s->getWidget("rSPColorButton")), &color);
+	if (g_c_p(wsm->getString("search-spy-r-color", TRUE).c_str(), &color))
+		g_c_b_s(G_C_B(s->getWidget("rSPColorButton")), &color);
 }
 
 void Settings::onDefaultFrameSPButton_gui(GtkWidget *widget, gpointer data)
