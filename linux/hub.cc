@@ -507,30 +507,33 @@ void Hub::columnHeader(int num, string name)
 
 void Hub::set_Header_tooltip_gui()
 {
-	columnHeader(0, "Nick");
-	columnHeader(1, "Shared");
-	columnHeader(2, "Description");
-	columnHeader(3, "Tag");
-	columnHeader(4, "Conection");
-	columnHeader(5, "IP");
-	columnHeader(6, "eMail");
-	columnHeader(7, "Country");
-	columnHeader(8, "Exact Share");
-	columnHeader(9, "Slots");
-	columnHeader(10,"Hubs");
-	columnHeader(11,"PK");
-	columnHeader(12,"Cheat");
-	columnHeader(13,"Generator");
-	columnHeader(14,"Support");
+	columnHeader(nickView.col(_("Nick")), "Nick");
+	columnHeader(nickView.col(_("Shared")), "Shared");
+	columnHeader(nickView.col(_("Description")), "Description");
+	columnHeader(nickView.col(_("Tag")), "Tag");
+	columnHeader(nickView.col(_("Connection")), "Connection");
+	columnHeader(nickView.col("IP"), "IP");
+	columnHeader(nickView.col(_("eMail")), "eMail");
+	columnHeader(nickView.col(_("Country")), "Country");
+	columnHeader(nickView.col(_("Exact Share")), "Exact Share");
+	columnHeader(nickView.col(_("Slots")), "Slots");
+	columnHeader(nickView.col(_("Hubs")),"Hubs");
+	columnHeader(nickView.col("PK"),"PK");
+	columnHeader(nickView.col(_("Cheat")),"Cheat");
+	columnHeader(nickView.col(_("Generator")),"Generator");
+	columnHeader(nickView.col(_("Support")),"Support");
 }
 
 gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer data)
 {
+	Hub* hub = (Hub*)data;
+	if(hub == NULL)return FALSE;//@Should never hapen but :-D
+  	
   GtkTreeIter iter;
   GtkTreeView *tree_view = GTK_TREE_VIEW (widget);
   GtkTreeModel *model = gtk_tree_view_get_model (tree_view);
   GtkTreePath *path = NULL;
-  gchar *tmp, *tag, *desc,*con,*ip,*e,*country,*slots,*hubs,*pk,*cheat,*gen,*sup,*cid;
+  gchar *nick, *tag, *desc,*con,*ip,*e,*country,*slots,*hubs,*pk,*cheat,*gen,*sup,*cid;
   gint64 ssize;
 
   char buffer[1000];
@@ -540,32 +543,43 @@ gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean 
 					  &model, &path, &iter))
     return FALSE;
 
-  gtk_tree_model_get (model, &iter, 0, &tmp,
-									2, &desc,
-									3, &tag,
-									4, &con,
-									5, &ip,
-									6, &e,
-									7, &country,
-									8, &ssize,
-									9, &slots,
-									10, &hubs,
-									11, &pk,
-									12, &cheat,
-									13, &gen,
-									14, &sup,
-									17, &cid,
+  gtk_tree_model_get (model, &iter, hub->nickView.col(_("Nick")), &nick,
+									hub->nickView.col(_("Description")), &desc,
+									hub->nickView.col(_("Tag")), &tag,
+									hub->nickView.col(_("Connection")), &con,
+									hub->nickView.col("IP"), &ip,
+									hub->nickView.col(_("eMail")), &e,
+									hub->nickView.col(_("Country")), &country,
+									hub->nickView.col(_("Exact Share")), &ssize,
+									hub->nickView.col(_("Slots")), &slots,
+									hub->nickView.col(_("Hubs")), &hubs,
+									hub->nickView.col("PK"), &pk,
+									hub->nickView.col(_("Cheat")), &cheat,
+									hub->nickView.col(_("Generator")), &gen,
+									hub->nickView.col(_("Support")), &sup,
+									hub->nickView.col("CID"), &cid,
   									-1);
 
   string sharesize  = Util::formatBytes(ssize);
-  g_snprintf (buffer, 1000, " Nick: %s\n Connection: %s\n Description: %s\n Tag: %s\n Share: %s\n IP: %s\n eMail: %s\nCountry: %s\n Slots: %s\n Hubs: %s\n PK: %s\n Cheat: %s\n Generator: %s\n Support: %s\n CID: %s", tmp, con,desc, tag , sharesize.c_str() ,ip, e, country, slots, hubs, pk, cheat, gen, sup, cid);
+  g_snprintf (buffer, 1000, " Nick: %s\n Connection: %s\n Description: %s\n Tag: %s\n Share: %s\n IP: %s\n eMail: %s\nCountry: %s\n Slots: %s\n Hubs: %s\n PK: %s\n Cheat: %s\n Generator: %s\n Support: %s\n CID: %s", nick, con,desc, tag , sharesize.c_str() ,ip, e, country, slots, hubs, pk, cheat, gen, sup, cid);
   gtk_tooltip_set_text (_tooltip, buffer);
 
   gtk_tree_view_set_tooltip_row (tree_view, _tooltip, path);
 
   gtk_tree_path_free (path);
-  g_free (tmp);
-
+  g_free (nick);
+  g_free (tag);
+  g_free (desc);
+  g_free (con);
+  g_free (e);
+  g_free (country);
+  g_free (slots);
+  g_free (hubs);
+  g_free (pk);
+  g_free (cheat);
+  g_free (gen);
+  g_free (sup);
+  g_free (cid);	
   return TRUE;
 }
 
@@ -980,7 +994,7 @@ void Hub::nickToChat_gui(const string &nick)
 void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 {
 	auto gotNotify = [this](string hub) -> bool { if(!hub.empty())
-						return FavoriteManager::getInstance()->getFavoriteHubEntry(hub) != NULL ? 		FavoriteManager::getInstance()->getFavoriteHubEntry(hub)->getNotify() : WGETI("notify-hub-chat-use");  };
+						return (FavoriteManager::getInstance()->getFavoriteHubEntry(hub) != NULL) ? FavoriteManager::getInstance()->getFavoriteHubEntry(hub)->getNotify() : WGETI("notify-hub-chat-use");  };
 
 	PluginManager::getInstance()->onChatDisplay(message);
 
