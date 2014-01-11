@@ -374,7 +374,7 @@ void File::copyFile(const string& source, const string& target) {
 		}
 		count = BUF_SIZE;
 	}
-	delete buffer;
+	delete [] buffer;
 }
 
 void File::deleteFile(const string& aFileName) noexcept {
