@@ -152,7 +152,6 @@ void WulforManager::insertEntry_gui(Entry *entry)
 void WulforManager::deleteEntry_gui(Entry *entry)
 {
 	const string &id = entry->getID();
-	deque<FuncBase *>::iterator fIt;
 
 	// Remove the bookentry from the list.
 	g_rw_lock_writer_lock(&entryMutex);

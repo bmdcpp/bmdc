@@ -35,6 +35,7 @@
 #include "StringTokenizer.h"
 #include "format.h"
 #include "PluginManager.h"
+#include <iconv.h>
 
 namespace dcpp {
 
@@ -186,7 +187,37 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				setAutoReconnect(false);
 			}
 		}
-		string line = toUtf8(aLine);
+		string line;
+		//[BMDC
+		//check to if it utf-8 . if not convert to it
+		iconv_t test = iconv_open("UTF-8", "UTF-8");
+		char* result = new char[aLine.length()*2];
+		const char* teststr = aLine.c_str();
+		size_t ilen = aLine.size();
+		size_t olen = aLine.size()*2;
+		size_t szRet = iconv(test, &teststr,&ilen, &result, &olen);
+		if(szRet == -1) {
+			// chyba, neni to utf-8
+			//line = toUtf8(unescape(aLine));
+				string enco = getEncoding();
+				if(!enco.empty()){
+				size_t f = enco.find(0x20);
+				if(f != string::npos){
+				enco = enco.substr(f);
+				const char* enc = enco.c_str();
+				iconv_t conv = iconv_open(enc,"utf-8");
+				szRet = iconv(conv,&teststr,&ilen,&result,&olen);
+				if(szRet != -1)
+				{
+					line = result;
+				}
+				iconv_close(conv);
+				}
+			}
+		}
+		iconv_close(test);
+		//[BMDC]
+		/*string*/line = toUtf8(aLine);
 		if(line[0] != '<') {
 			fire(ClientListener::StatusMessage(), this, unescape(line));
 			return;
@@ -227,7 +258,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		COMMAND_DEBUG(aLine,TYPE_HUB,INCOMING,getHubUrl());
 		if(PluginManager::getInstance()->runHook(HOOK_CHAT_IN, this, message))
 			return;
-
+		
 		fire(ClientListener::Message(), this, chatMessage);
 		return;
 	}

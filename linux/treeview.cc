@@ -347,6 +347,7 @@ void TreeView::addColumn_gui(Column& column)
 			#else
 				gtk_tree_view_column_add_attribute(col, renderer, "stock-id", TreeView::col(column.linkedCol));
 			#endif
+			
 			column.renderer2 = renderer;
 			// text
 			renderer = gtk_cell_renderer_text_new();

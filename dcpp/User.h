@@ -56,6 +56,7 @@ public:
 		PROTECT = 1 << PROTECT_BIT
 	};*/
 	enum UserFlags {
+		UNDEFINED = 0x00,
 		ONLINE = 0x01,
 		PASSIVE = 0x04,
 		NMDC = 0x08,
@@ -71,7 +72,7 @@ public:
 	};
 
 	User(const CID& aCID) : cid(aCID) {
-		setFlag(ONLINE);
+		setFlag(UNDEFINED);
 	}
 
 	~User() noexcept { }

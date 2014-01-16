@@ -53,7 +53,8 @@ class Splash
 		}
 		~Splash() {	}
 
-	void setText(const string &text) { if(text.empty()) return;
+	void setText(const string &text) {
+						if(text.empty()) return;
 						Text = text;
 						cout << "Loading: " << text << endl;
 					}

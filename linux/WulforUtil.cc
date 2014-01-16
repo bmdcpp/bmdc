@@ -717,7 +717,7 @@ void WulforUtil::registerIcons()
 	/**/
 	icons["bmdc-ten-away-pasive"] = wsm->getString("icon-ten-away-pasive");
 	icons["bmdc-zeroone-away-pasive"] = wsm->getString("icon-zeroone-away-pasive");
-	icons["bmdc-zerozeroone-away"] = wsm->getString("icon-zerozeroone-away-pasive");
+	icons["bmdc-zerozeroone-away-pasive"] = wsm->getString("icon-zerozeroone-away-pasive");
 	icons["bmdc-other-away-pasive"] = wsm->getString("icon-other-away-pasive");
 
 	#if GTK_CHECK_VERSION(3,9,0)

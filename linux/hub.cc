@@ -993,8 +993,7 @@ void Hub::nickToChat_gui(const string &nick)
 
 void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 {
-	auto gotNotify = [this](string hub) -> bool { if(!hub.empty())
-						return (FavoriteManager::getInstance()->getFavoriteHubEntry(hub) != NULL) ? FavoriteManager::getInstance()->getFavoriteHubEntry(hub)->getNotify() : WGETI("notify-hub-chat-use");  };
+	auto gotNotify = [this](string hub) -> bool { return (FavoriteManager::getInstance()->getFavoriteHubEntry(hub) != NULL) ? FavoriteManager::getInstance()->getFavoriteHubEntry(hub)->getNotify() : WGETI("notify-hub-chat-use");  };
 
 	PluginManager::getInstance()->onChatDisplay(message);
 
@@ -3217,7 +3216,7 @@ void Hub::onUnProtectUserClicked_gui(GtkMenuItem *item , gpointer data)
 void Hub::onShowReportClicked_gui(GtkMenuItem *item , gpointer data)
 {
     Hub *hub = (Hub *)data;
-	string cid;
+	string cid/*,icon*/;
 
 	if (gtk_tree_selection_count_selected_rows(hub->nickSelection) == 1)
 	{
@@ -3231,6 +3230,7 @@ void Hub::onShowReportClicked_gui(GtkMenuItem *item , gpointer data)
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(hub->nickStore), &iter,path))
 			{
 				cid = hub->nickView.getString(&iter, "CID") ;
+				//icon = hub->nickView.getString(&iter, "Icon");
 			}
 			gtk_tree_path_free(path);
 		}
@@ -3238,9 +3238,9 @@ void Hub::onShowReportClicked_gui(GtkMenuItem *item , gpointer data)
 
 		OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hub->client->getHubUrl());
 		Identity id = ou->getIdentity();
-
-		hub->addMessage_gui("", WulforUtil::formatReport(id), Msg::CHEAT);
-
+		
+		hub->addMessage_gui("", WulforUtil::formatReport(id)/*+"\nIcon\t"+icon*/, Msg::CHEAT);
+		
 	}
 }
 //Test SUR
@@ -3806,20 +3806,19 @@ string Hub::getIcons(const Identity& id)
 			} else {
 				size_t n = 0;
 				if( (n = conn.find("/s")) != string::npos)
-					conn.erase(n, string::npos);
+					conn.erase(n);
 
 				double us = conn.empty() ? (8 * Util::toInt64(id.get("US")) / 1024 / 1024): Util::toDouble(conn);
 
 				if(us >= 10) {
 					tmp = "ten";
-				} else if(us > 0.1) {
+				} else if(us >= 0.1) {
 					tmp = "zeroone";
 				} else if(us >= 0.01) {
 					tmp = "zerozeroone";
-				} else if(us > 0) {
+				} else if(us >= 0) {
 					tmp = "other";
 				}
-				else tmp = "other";
 			}
 	}
 
@@ -3830,7 +3829,6 @@ string Hub::getIcons(const Identity& id)
 	if(!id.isTcpActive(client)) {
 			tmp += "-pasive";
 	}
-
 	return tmp;
 }
 
