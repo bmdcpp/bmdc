@@ -136,15 +136,14 @@ public:
 		return true;
 	}
 
-
 	int getMode(const string& aHubUrl) const;
 	bool isActive(const string& aHubUrl = Util::emptyString) const;
-	//TODO ? IPv6 ( may done :p)
+	//TODO: ? IPv6 ( may done :p)
 	void setIpAddress(const UserPtr& p, const string& ip);
 
 	void sendAction(OnlineUser& ou, const int aAction);
 	void sendRawCommand(OnlineUser& user, const string& aRaw, bool checkProtection = false);
-	//TODO ? suite for FakeChecker ?
+	//TODO: ? suite for FakeChecker ?
 	void addCheckToQueue(const HintedUser hintedUser, bool filelist);
 	void checkCheating(const HintedUser& p, DirectoryListing* dl);
 

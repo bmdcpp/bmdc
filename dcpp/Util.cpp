@@ -46,13 +46,11 @@ using std::make_pair;
 string Util::emptyString;
 wstring Util::emptyStringW;
 tstring Util::emptyStringT;
-
 bool Util::away = false;
 bool Util::manualAway = false;
 string Util::awayMsg;
 time_t Util::awayTime;
 uint64_t Util::uptime = 0;
-
 string Util::paths[Util::PATH_LAST];
 
 bool Util::localMode = true;
@@ -485,20 +483,11 @@ map<string, string> Util::decodeQuery(const string& query) {
 
 	return ret;
 }
-/*
-string Util::getAwayMessage() {
-	return (formatTime(awayMsg.empty() ? SETTING(DEFAULT_AWAY_MESSAGE) : awayMsg, awayTime)) + " <" APPNAME " v" VERSIONSTRING ">";
-}*/
 
 string Util::getAwayMessage(ParamMap& params) {
-	//time_t currentTime;
-	//time(&currentTime);
-	//int currentHour = localtime(&currentTime)->tm_hour;
-
 	params["idleTI"] = Text::fromT(formatSeconds(time(NULL) - awayTime));
 	params["time"] = Util::toString(awayTime);
 	return formatParams((awayMsg.empty() ? SETTING(DEFAULT_AWAY_MESSAGE) : awayMsg), params);
-
 }
 
 string Util::formatBytes(int64_t aBytes) {
@@ -553,7 +542,7 @@ string Util::formatExactSize(int64_t aBytes) {
 #endif
 }
 
-string Util::getLocalIp() {
+string Util::getLocalIp() {//@TODO:IPv6?
 	const auto& bindAddr = CONNSETTING(BIND_ADDRESS);
 	if(!bindAddr.empty() && bindAddr != SettingsManager::getInstance()->getDefault(SettingsManager::BIND_ADDRESS)) {
 		return bindAddr;

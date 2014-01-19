@@ -73,7 +73,7 @@ public:
 
 	FavoriteHubEntry(const HubEntry& rhs) : name(rhs.getName()), server(rhs.getServer()),
 		hubDescription(rhs.getDescription()), encoding(Text::systemCharset), autoConnect(false), showUserList(true),
-		tabText(Util::emptyString) , tabIconStr(Util::emptyString) , notify(false)
+		tabText(Util::emptyString) , tabIconStr(Util::emptyString) , notify(true)
 		{ }
 
 	FavoriteHubEntry(const FavoriteHubEntry& rhs) :
