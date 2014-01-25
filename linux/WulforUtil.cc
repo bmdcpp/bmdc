@@ -761,8 +761,10 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
 	gchar *path = g_strdup_printf(_DATADIR PATH_SEPARATOR_STR "bmdc/country/%s.png",
 		                              (gchar *)country.c_str());
 	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_size(path,15,15,&error);
-	if (error != NULL || pixbuf == NULL)
+	if (error != NULL || pixbuf == NULL) {
 			g_warning("[BMDC::Country] Cannot open image: %s => %s", path, error->message);
+			g_error_free(error);
+	}
 	g_free(path);
 	countryIcon.insert(make_pair(country,pixbuf));
 	return pixbuf;
@@ -771,7 +773,7 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
 string WulforUtil::StringToUpper(std::string myString)
 {
 	const int length = myString.length();
-	if(myString.empty())
+	if(length == 0)
 		return Util::emptyString;
 	for(int i=0; i != length; ++i)
 	{
@@ -782,9 +784,9 @@ string WulforUtil::StringToUpper(std::string myString)
 
 string WulforUtil::getCountryCode(string _countryname)
 {
-	std::transform(_countryname.begin(), _countryname.end(), _countryname.begin(), (int(*)(int))toupper);
 	if(_countryname.empty())
 		return Util::emptyString;
+	std::transform(_countryname.begin(), _countryname.end(), _countryname.begin(), (int(*)(int))toupper);
 
 	for(uint8_t q = 0; q < (sizeof(CountryNames) / sizeof(CountryNames[0])); ++q)
 	{
@@ -967,7 +969,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 		status += _("Specify a search string");
 	   else
 		openURI("http://www.google.com/search?q=" + param);
-	}else if ( cmd == "imdb"){
+	}else if ( cmd == "imdb") {
 	  if(param.empty())
 		status += _("Specify a search string");
 	   else

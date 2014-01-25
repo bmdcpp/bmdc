@@ -373,7 +373,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("userlist-bg-protected", "#BFBFBF"));
 	defaultString.insert(StringMap::value_type("userlist-bg-ignored", "#BFBFBF"));
 	/**/
-	defaultString.insert(StringMap::value_type("custom-aliases", ""));
+	defaultString.insert(StringMap::value_type("custom-aliases", "#"));
 	/* Extended text color*/
 	defaultString.insert(StringMap::value_type("text-cheat-fore-color", "red"));
 	defaultString.insert(StringMap::value_type("text-cheat-back-color", "white"));
