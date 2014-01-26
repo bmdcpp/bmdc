@@ -949,14 +949,14 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			/**/
 			int dettotal = SETTING(DETECTIONS);
 			int detfail = SETTING(DETECTIONF);
-			string build = "Builded with ";
+			string build = "Built with ";
 			#ifdef __clang__
 				build += "clang " __clang_version__;
 			#elif defined(__GNUC__)
 				build += "gcc " __VERSION__;
 			#endif
 		message =   "\n-= Stats " + dcpp::fullVersionString
-					+"\n " +build+" =-\n"
+					+"\n-= " +build+" =-\n"
 					+ "-= " + rel + " " + mach + " =-\n"
 					+ "-= Uptime: " + Util::formatSeconds(Util::getUptime()) + " =-\n"
 					+ "-= Sys Uptime: " + Util::toString(udays) + " days," + Util::toString(uhour) + " Hours," + Util::toString(umin) + " min. =-\n"

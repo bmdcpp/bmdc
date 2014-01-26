@@ -1630,9 +1630,10 @@ void Hub::updateCursor_gui(GtkWidget *widget)
 		if (newTag != NULL)
 		{
 			// Cursor is entering a tag.
-			gchar *tmp;
+			gchar *tmp = NULL;
 			g_object_get(G_OBJECT(newTag),"name",&tmp,NULL);
 			selectedTagStr = string(tmp);
+			g_free(tmp);
 
 			if (find(TagsMap, TagsMap + Tag::TAG_MYNICK, newTag) == TagsMap + Tag::TAG_MYNICK)
 			{
@@ -2068,6 +2069,7 @@ gboolean Hub::onNickTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *e
 		gchar *tmp = NULL;
 		g_object_get(G_OBJECT(tag), "name", &tmp, NULL);
 		string tagName = string(tmp);
+		g_free(tmp);
 		
 		hub->nickToChat_gui(tagName.substr(tagPrefix.size()));
 
@@ -2079,6 +2081,7 @@ gboolean Hub::onNickTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *e
 		gchar *tmp = NULL;
 		g_object_get(G_OBJECT(tag), "name", &tmp, NULL);
 		string tagName = string(tmp);
+		g_free(tmp);
 
 
 		if (hub->findNick_gui(tagName.substr(tagPrefix.size()), &nickIter))
@@ -2149,6 +2152,7 @@ gboolean Hub::onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *eve
 	gchar *tmp = NULL;
 	g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
 	hub->ip = string(tmp);
+	g_free(tmp);
 
 	if(event->type == GDK_BUTTON_PRESS)
 	{
@@ -4663,8 +4667,8 @@ void Hub::on(ClientListener::ClientLine, Client* , const string &mess, int type)
 //custom popup menu
 GtkWidget *Hub::createmenu()
 {
-	GtkWidget *item = getFItem();
-	gtk_menu_item_set_label(GTK_MENU_ITEM(item),address.c_str());
+	//GtkWidget *item = getFItem();
+	gtk_menu_item_set_label(GTK_MENU_ITEM(/*item*/getFItem()),address.c_str());
 
 	userCommandMenu1->cleanMenu_gui();
 	userCommandMenu1->addUser(client->getMyIdentity().getUser()->getCID().toBase32());

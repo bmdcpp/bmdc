@@ -950,9 +950,10 @@ void PrivateMessage::updateCursor(GtkWidget *widget)
 		if (newTag != NULL)
 		{
 			// Cursor is entering a tag.
-			gchar *tmp;
+			gchar *tmp = NULL;
 			g_object_get(G_OBJECT(newTag),"name",&tmp,NULL);
 			selectedTagStr = string(tmp);
+			g_free(tmp);
 
 			if (find(TagsMap, TagsMap + Tag::TAG_URL, newTag) == TagsMap + Tag::TAG_URL)
 			{
@@ -1144,9 +1145,10 @@ gboolean PrivateMessage::onLinkTagEvent_gui(GtkTextTag *tag, GObject *textView, 
 
 	if (event->type == GDK_BUTTON_PRESS)
 	{
-		gchar *tmp;
+		gchar *tmp = NULL;
 		g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
 		pm->selectedTagStr = string(tmp);
+		g_free(tmp);
 
 		switch (event->button.button)
 		{
@@ -1170,9 +1172,10 @@ gboolean PrivateMessage::onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, G
 
 	if (event->type == GDK_BUTTON_PRESS)
 	{
-		gchar *tmp;
+		gchar *tmp = NULL;
 		g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
 		pm->selectedTagStr = string(tmp);
+		g_free(tmp);
 
 		switch (event->button.button)
 		{
@@ -1196,9 +1199,10 @@ gboolean PrivateMessage::onMagnetTagEvent_gui(GtkTextTag *tag, GObject *textView
 
 	if (event->type == GDK_BUTTON_PRESS)
 	{
-		gchar *tmp;
+		gchar *tmp = NULL;
 		g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
 		pm->selectedTagStr = string(tmp);
+		g_free(tmp);
 
 		switch (event->button.button)
 		{
@@ -1220,9 +1224,10 @@ gboolean PrivateMessage::onMagnetTagEvent_gui(GtkTextTag *tag, GObject *textView
 gboolean PrivateMessage::onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event , GtkTextIter *iter, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
-	gchar *tmp;
+	gchar *tmp = NULL;
 	g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
 	pm->ip = std::string(tmp);
+	g_free(tmp);
 
 	if(event->type == GDK_BUTTON_PRESS)
 	{
@@ -1534,7 +1539,7 @@ void PrivateMessage::readLog(const string& logPath, const unsigned setting)
 		return;
 	if(logPath.empty())
 		return;
-	//..
+
 	StringList lines;
 	try {
 			const int MAX_SIZE = 32 * 1024;
@@ -1562,8 +1567,8 @@ void PrivateMessage::readLog(const string& logPath, const unsigned setting)
 GtkWidget *PrivateMessage::createmenu()
 {
 	string nicks = WulforUtil::getNicks(this->cid, this->hubUrl);
-	GtkWidget *item = getFItem();
-	gtk_menu_item_set_label(GTK_MENU_ITEM(item), nicks.c_str());
+//	GtkWidget *item = getFItem();
+	gtk_menu_item_set_label(GTK_MENU_ITEM(/*item*/getFItem()), nicks.c_str());
 
 	userCommandMenu->cleanMenu_gui();
 	userCommandMenu->addUser(cid);
