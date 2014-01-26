@@ -44,10 +44,6 @@ EmoticonsDialog::EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *
 	packName(packName),
 	address(address)
 {
-#if !GTK_CHECK_VERSION(2, 12, 0)
-	tooltips = gtk_tooltips_new();
-	g_object_ref_sink(tooltips);
-#endif
 	g_object_ref_sink(Menu);
 	if(!address.empty()) {
 		Emoticons *em = Emoticons::start(packName,false);
@@ -67,9 +63,6 @@ Emoticons *EmoticonsDialog::getEmot(const std::string &address)
 
 EmoticonsDialog::~EmoticonsDialog()
 {
-#if !GTK_CHECK_VERSION(2, 12, 0)
-	g_object_unref(tooltips);
-#endif
 	g_object_unref(Menu);
 	map<std::string,Emoticons*>::iterator it;
 	if( (it = hubs.find(address)) != hubs.end() )
@@ -302,11 +295,8 @@ void EmoticonsDialog::build()
 			gtk_widget_show(icon);
 			gtk_grid_attach(GTK_GRID(table), icon, left_attach, top_attach, 1, 1);
 
-#if GTK_CHECK_VERSION(2, 12, 0)
 			gtk_widget_set_tooltip_text(icon, name);
-#else
-			gtk_tooltips_set_tip(tooltips, icon, name, NULL);
-#endif
+
 			g_object_set_data_full(G_OBJECT(icon), "text", g_strdup(name), g_free);
 			g_signal_connect(G_OBJECT(icon), "clicked", G_CALLBACK(onChat), (gpointer) this);
 
