@@ -822,7 +822,7 @@ string WulforUtil::generateLeech() {
 		Util::toString(DownloadManager::getInstance()->getDownloadCount()).c_str(), Util::formatBytes(DownloadManager::getInstance()->getRunningAverage()).c_str());
 	return buf;
 }
-
+//return True if hadles by this func otherwise False
 bool WulforUtil::checkCommand(string& cmd, string& param, string& message, string& status, bool& thirdperson)
 {
 	string::size_type separator = cmd.find_first_of(' ');
@@ -868,6 +868,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 				WulforManager::get()->getMainWindow()->setAwayIcon(true);
 		}
 		ClientManager::getInstance()->infoUpdated();
+		return true;
 	}
 	else if ( cmd == "back" )
 	{
@@ -876,6 +877,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 		WulforManager::get()->getMainWindow()->setAwayIcon(false);
 		ClientManager::getInstance()->infoUpdated();
 
+		return true;
 	} else if ( cmd == "bmdc" )
 	{
 		string msg = string(msgs_dc[GET_TICK() % MSGS]);
@@ -884,7 +886,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
             message += msg;
         } else
             status  += string(GUI_PACKAGE " " GUI_VERSION_STRING "." BMDC_REVISION_STRING "/" VERSIONSTRING "/" DCPP_REVISION_STRING ", ") + _("project home: ") + "http://launchpad.net/bmdc++";
-
+		return true;
 	} else if ( cmd == "ratio")
 	{
 			double ratio;
@@ -899,6 +901,8 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 				message = string("Ratio: " ) + Util::toString(ratio) + string(" ( Uploads: ") + Util::formatBytes(up) + "/ Downloads " + Util::formatBytes(dw) + " )";
 			else
 				status += string("Ratio: " ) + Util::toString(ratio) + string(" ( Uploads: ") + Util::formatBytes(up) + "/ Downloads " + Util::formatBytes(dw) + " )";
+
+			return true;
 	}
 	else if ( cmd == "refresh" )
 	{
@@ -911,6 +915,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 		{
 			status += e.getError();
 		}
+				return true;
 	}
 	else if ( cmd == "slots")
 	{
@@ -924,6 +929,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			sm->set(SettingsManager::SLOTS_PRIMARY, Util::toInt(param));
 			status += _("Set Slots to:") + param;
 		}
+		return true;
 	}
 	else if (cmd == "stats")
 	{
@@ -962,18 +968,20 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 					+ "-= Sys Uptime: " + Util::toString(udays) + " days," + Util::toString(uhour) + " Hours," + Util::toString(umin) + " min. =-\n"
 					+ "-= Detection (Failed/Successful): " + Util::toString(detfail) + " /" + Util::toString(dettotal) + " =-\n"
 					+ "-=" + getStatsForMem() + " =-\n";
-
+		return true;
 	}
 	else if ( cmd == "g" || cmd == "google"){
 	  if(param.empty())
 		status += _("Specify a search string");
 	   else
 		openURI("http://www.google.com/search?q=" + param);
+		return true;
 	}else if ( cmd == "imdb") {
 	  if(param.empty())
 		status += _("Specify a search string");
 	   else
 		openURI("http://www.imdb.com/find?q=" + param);
+		return true;
 	/// "Now Playing" spam // added by curse and Irene
 	}else if (cmd == "amar")
 	{
@@ -993,6 +1001,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			status += s.ErrorMessage();
 			thirdperson = s.isThirdPerson();
 		}
+		return true;
 	}
  	else if (cmd == "auda" || cmd == "w")
 	{
@@ -1007,6 +1016,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			status += s.ErrorMessage();
 			thirdperson = s.isThirdPerson();
 		}
+		return true;
 	}
 	else if (cmd == "kaff")
 	{
@@ -1026,6 +1036,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			status += s.ErrorMessage();
 			thirdperson = s.isThirdPerson();
 		}
+		return true;
 	}
 	else if  (cmd == "rb")
 	{
@@ -1045,6 +1056,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			status += s.ErrorMessage();
 			thirdperson = s.isThirdPerson();
 		}
+		return true;
 	}
 	else if (cmd == "vlc")
 	{
@@ -1064,6 +1076,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			status += s.ErrorMessage();
 			thirdperson = s.isThirdPerson();
 		}
+		return true;
 	}
 	else if ( cmd == "debf")
 	{
@@ -1082,6 +1095,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 				status += s.ErrorMessage();
 				thirdperson = s.isThirdPerson();
 			}
+		return true;
 	}
 	// End of "Now Playing"
 	else if ( cmd == "df" )
@@ -1096,14 +1110,17 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 		std::string tmp = "\n\t\t\t-=Free Spaces=-\t\t\t\n" +  FreeSpace::process_mounts("/etc/mtab");
 		tmp += "\n\t\t\tTotal:\t" + Util::formatBytes(FreeSpace::_aviable) + "/" + Util::formatBytes(FreeSpace::_total) + "\t\n";
 		message += tmp;
+		return true;
 	}
 	else if (cmd == "uptime")
 	{
 		message = "Uptime: " + Util::formatSeconds(Util::getUptime());
+		return true;
 	}
 	else if ( cmd == "rebuild" )
 	{
 			HashManager::getInstance()->rebuild();
+		return true;
 	}
 	else if ( cmd == "cleanmc" )
 	{
@@ -1111,6 +1128,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 		message += "---------- Cleaning the chat ----------";
 		message += "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
 		message += "---------- The chat has been cleaned ----------";
+		return true;
 	}
 	//From CrZDC
 	else if ( cmd == "leech" )
@@ -1119,14 +1137,17 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			message = generateLeech();
 		else
 			status += generateLeech();
+		return true;
 	}
 	else if ( cmd == "ws")
 	{
 		status += WSCMD(param);
+		return true;
 	}
 	else if ( cmd == "dcpps" )
 	{
 		status  += SettingsManager::getInstance()->parseCoreCmd(param);
+		return true;
 	}
 	//aliases
 	else if (cmd == "alias" && !param.empty())
@@ -1152,6 +1173,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
  					{
  						status += _("Aliases not found.");
   					}
+					return true;
  				}
  				else if( sl.getTokens().at(0) == "purge" )
  					///odstraneni aliasu
@@ -1164,7 +1186,8 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
  								store = store + *i + "#";
  						}
  						WSET( "custom-aliases", store );
-
+						status += "Added alias: "+param;
+						return true;
  				}
  				else
  				{
@@ -1182,7 +1205,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
  							break;
  						}
  					}
- 					if( command.getTokens().size() == 3  && !exists )
+ 					if( command.getTokens().size() == 2  && !exists )//3
  					{
  						aliases.getTokens().push_back( param );
  						string store("");
@@ -1191,7 +1214,9 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
  							store = store + *i + "#";
  						}
  						WSET( "custom-aliases", store );
+						status += "Added alias: "+param;
  					}
+					return true;
  				}
  			}
  		}
@@ -1201,10 +1226,15 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
  			string name("");
  			for(StringIter i = aliases.getTokens().begin(); i != aliases.getTokens().end(); ++i)
  			{
- 				name = i->substr( 0, i->find_first_of( "::", 0 ) );
- 				if( name.compare( cmd ) == 0 )
+				g_print("%s",i->c_str());
+				size_t s = i->find_first_of("::");				
+				if( s  == string::npos)continue;
+				if(i->empty())continue;
+				name = i->substr( 0, s );
+ 				
+				if( name.compare( cmd ) == 0 )
  				{
- 					string exec = i->substr( i->find_first_of( "::", 0 ) + 2, i->size() );
+ 					string exec = i->substr( i->find_first_of("::") + 2, i->size() );
 
  					if( !exec.empty() )
  					{
@@ -1215,28 +1245,31 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 
  						if (error != NULL)
  						{
- 							status = error->message;
+ 							status += error->message;
  							g_error_free(error);
+							return true;
  						}
  						else
  						{
  							string trash( output );
  							g_free( output );
-							message = trash;
-
+							message += trash;
+							return true;
  						}
+
 					}
  					break;
  				}
 
  			}
+			return false;
   		}
   		else
  		{
            	return false;
  		}
 
-  return true;
+  return false;
 }
 
 bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, string word, bool &tTab, gpointer hub)

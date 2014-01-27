@@ -723,7 +723,6 @@ void FinishedTransfers::on(FinishedManagerListener::AddedFile, bool upload, cons
 	}
 }
 
-//NOTE: core 0.762
 void FinishedTransfers::on(FinishedManagerListener::AddedUser, bool upload, const HintedUser &user, const FinishedUserItemPtr &item) noexcept
 {
 	if (isUpload == upload)

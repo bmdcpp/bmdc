@@ -369,7 +369,7 @@ MainWindow::MainWindow():
 	onQuit = FALSE;
 
 	// colourstuff added by curse //add to BMDC++ by Mank
-	//string res = WulforManager::get()->getPath() + "/glade/resources.rc";//@TODO CSS
+	//string res = WulforManager::get()->getPath() + "/glade/resources.rc";//@TODO CSS?
 	//gtk_rc_parse(res.c_str());
 	// colourstuff end
 
@@ -916,7 +916,7 @@ void MainWindow::setMainStatus_gui(string text, time_t t)
       	     statusTextOnToolTip += "\n" + tmp.front();
       	     tmp.pop();
       	  }
-   		     statustext.push(text);
+   		  statustext.push(text);
 
        gtk_widget_set_tooltip_text(getWidget("labelStatus"), statusTextOnToolTip.c_str());
 
@@ -1924,7 +1924,7 @@ void MainWindow::onLeftToolbarToggled_gui(GtkWidget *widget, gpointer data)
 	gtk_box_pack_start(GTK_BOX(parent), child, FALSE, FALSE, 2);
 	gtk_box_reorder_child(GTK_BOX(parent), child, 0);
 	g_object_unref(child);
-	WSET("toolbar-position", 0);//1
+	WSET("toolbar-position", 0);
 }
 
 void MainWindow::onHideToolbarToggled_gui(GtkWidget *widget, gpointer data)
@@ -2799,6 +2799,7 @@ void MainWindow::onTTHFileButton_gui(GtkWidget *widget , gpointer data)
 			mw->hasht.start();
 			mw->hasht.s.signal();
 		}
+		g_free(temp);
 	}
 }
 
@@ -2847,6 +2848,7 @@ int MainWindow::TTHHash::run()
 					} else {
 					tth.update("", 0);
 				}
+				delete [] buf;
 				tth.finalize();
 				f.close();
 				strcpy(&TTH[0], tth.getRoot().toBase32().c_str());
@@ -2983,7 +2985,7 @@ void MainWindow::parsePartial(HintedUser aUser, string txt)
 	{
 		if ( (entry == NULL) && !path.empty())
 		{
-			entry = new ShareBrowser(aUser.user, path, "/",0,false);
+			entry = new ShareBrowser(aUser.user, path, "/", 0, false);
 			addBookEntry_gui(entry);
 			dynamic_cast<ShareBrowser*>(entry)->loadXML(txt);
 		}

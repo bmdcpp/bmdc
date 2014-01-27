@@ -385,6 +385,7 @@ bool SearchADL::showPropertiesDialog_gui(ADLSearch &search, bool edit, SearchADL
 	if(tmp) {
 		raw = s->find_raw(tmp);
 	}
+	g_free(tmp);
 	isFavs = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkFromFav")));
 	kickStr = gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryKick")));
 	point = (int)gtk_spin_button_get_value (GTK_SPIN_BUTTON(s->getWidget("spinbuttonPoints")));

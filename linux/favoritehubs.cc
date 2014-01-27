@@ -841,7 +841,7 @@ void FavoriteHubs::onAddGroupClicked_gui(GtkWidget *widget, gpointer data)
 	string desc = gtk_entry_get_text(GTK_ENTRY(fh->getWidget("entryDescGroup")));
 	int favShowJoins = gtk_combo_box_get_active(GTK_COMBO_BOX(fh->getWidget("comboboxJoinFav")));
 	int ShowJoins = gtk_combo_box_get_active(GTK_COMBO_BOX(fh->getWidget("comboboxJoin")));
-	string away = gtk_entry_get_text(GTK_ENTRY(fh->getWidget("entryAwayGroup")));
+	string awayMsg = gtk_entry_get_text(GTK_ENTRY(fh->getWidget("entryAwayGroup")));
 
 	gtk_list_store_append(fh->groupsStore, &iter);
 	gtk_list_store_set(fh->groupsStore, &iter,
@@ -854,7 +854,7 @@ void FavoriteHubs::onAddGroupClicked_gui(GtkWidget *widget, gpointer data)
 		fh->groupsView.col("FavParts"), favShowJoins == 1 ? "1" : ( favShowJoins >= 2 ? "2" : "0"),
 		fh->groupsView.col("LogChat"), log_hub,
 		fh->groupsView.col("Connect hub"), connect_hub,
-		fh->groupsView.col("AwayMessage"), away.c_str(),
+		fh->groupsView.col("AwayMessage"), awayMsg.c_str(),
 		-1);
 }
 

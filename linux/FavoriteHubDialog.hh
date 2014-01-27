@@ -87,7 +87,7 @@ class FavoriteHubDialog: public Entry
 			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxEmot")), text.c_str() );
 		}
 
-		if(init) //Defualt value when adding
+		if(init) //Default value when adding
 		{
 			params["Name"] = Util::emptyString;
 			params["Address"] = Util::emptyString;
