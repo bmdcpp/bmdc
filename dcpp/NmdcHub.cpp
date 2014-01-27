@@ -207,7 +207,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				const char* enc = enco.c_str();
 				iconv_t conv = iconv_open(enc,"utf-8");
 				szRet = iconv(conv,&teststr,&ilen,&result,&olen);
-				if(szRet != -1)
+				if( (szRet == 0) || (szRet != -1) || (szRet > 1))
 				{
 					line = result;
 				}
