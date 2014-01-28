@@ -461,7 +461,7 @@ Hub::~Hub()
 		FavoriteManager::getInstance()->save();
 	}
 
-	disconnect_client();
+	disconnect_client(TRUE);
 
 	// Save the pane position
 	gint width;
@@ -3545,16 +3545,18 @@ void Hub::connectClient_client(string address, string encoding)
 	QueueManager::getInstance()->addListener(this);
 }
 
-void Hub::disconnect_client()
+void Hub::disconnect_client(bool shutdownHub /*= FALSE*/)
 {
 	if (client)
 	{
 		FavoriteManager::getInstance()->removeListener(this);
 		QueueManager::getInstance()->removeListener(this);
 		client->removeListener(this);
-		client->disconnect(TRUE);
+		if(shutdownHub)
+			client->disconnect(true);
+//		client->disconnect(TRUE);
 		ClientManager::getInstance()->putClient(client);
-		client = NULL;
+		client = nullptr;//NULL;
 	}
 }
 

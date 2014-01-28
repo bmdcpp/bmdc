@@ -207,7 +207,7 @@ class Hub:
 		void addFavoriteUser_client(const std::string& cid);
 		void removeFavoriteUser_client(const std::string& cid);
 		void connectClient_client(std::string address, std::string encoding);
-		void disconnect_client();
+		void disconnect_client(bool shutdownHub = false);
 		void setPassword_client(std::string password);
 		void sendMessage_client(std::string message, bool thirdPerson);
 		void getFileList_client(std::string cid, bool match);

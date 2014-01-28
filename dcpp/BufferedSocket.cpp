@@ -245,7 +245,7 @@ void BufferedSocket::threadRead() {
 				l = line + string ((char*)&inbuf[bufpos], left);
 				while ((pos = l.find(separator)) != string::npos) {
 	                if(pos > 0) // check empty (only pipe) command and don't waste cpu with it ;o)
-						fire(BufferedSocketListener::Line(), l.substr(0, pos));
+					fire(BufferedSocketListener::Line(), l.substr(0, pos));
 					l.erase (0, pos + 1 /* separator char */);
 					if (l.length() < (size_t)left) left = l.length();
 					if (mode != MODE_LINE) {
