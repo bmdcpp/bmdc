@@ -135,6 +135,7 @@ void AdcHub::clearUsers() {
 			delete i->second;
 		}
 	}
+	tmp.clear();
 }
 
 void AdcHub::handle(AdcCommand::INF, AdcCommand& c) noexcept {
@@ -598,7 +599,6 @@ void AdcHub::handle(AdcCommand::NAT, AdcCommand& c) noexcept {
 	const string& port = c.getParam(1);
 	const string& token = c.getParam(2);
 
-	// bool secure = secureAvail(c.getFrom(), protocol, token);
 	bool secure = false;
 	if(protocol == CLIENT_PROTOCOL) {
 		// Nothing special
@@ -940,7 +940,6 @@ void AdcHub::password(const string& pwd) {
 
 	if(!salt.empty()) {
 		size_t saltBytes = salt.size() * 5 / 8;
-		//std::shared_ptr<uint8_t> buf(new uint8_t[saltBytes]);
 		uint8_t *buf = new uint8_t[saltBytes];
 		Encoder::fromBase32(salt.c_str(), buf, saltBytes);//&buf.get[0]
 		TigerHash th;

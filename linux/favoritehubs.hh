@@ -94,6 +94,7 @@ class FavoriteHubs:
 		FavHubGroupsIter GroupsIter;
 		
 		bool checkAddys(std::string url);//True if not find in FavList
+		//static gboolean clearData(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data);
 };
 
 #else

@@ -72,8 +72,9 @@ public:
 	FavoriteHubEntry() : encoding(Text::systemCharset), showUserList(true) , notify(false) { }
 
 	FavoriteHubEntry(const HubEntry& rhs) : name(rhs.getName()), server(rhs.getServer()),
-		hubDescription(rhs.getDescription()), encoding(Text::systemCharset), autoConnect(false), showUserList(true),
-		tabText(Util::emptyString) , tabIconStr(Util::emptyString) , notify(true)
+		hubDescription(rhs.getDescription()), password(Util::emptyString), encoding(Text::systemCharset), group(Util::emptyString),
+hideShare(false),autoConnect(false),mode(0),chatExtraInfo(Util::emptyString), protectUsers(Util::emptyString), 
+checkAtConn(false), checkClients(false), checkFilelists(false),  checkMyInfo(false), showUserList(true),tabText(Util::emptyString) , tabIconStr(Util::emptyString) , notify(true)
 		{ }
 
 	FavoriteHubEntry(const FavoriteHubEntry& rhs) :

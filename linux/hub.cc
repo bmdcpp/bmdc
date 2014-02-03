@@ -144,15 +144,16 @@ Hub::Hub(const string &address, const string &encoding):
 	imageMagnet.second = "";
 
 	// menu
+/*
 	g_object_ref_sink(getWidget("nickMenu"));
 	g_object_ref_sink(getWidget("magnetMenu"));
 	g_object_ref_sink(getWidget("linkMenu"));
 	g_object_ref_sink(getWidget("hubMenu"));
 	g_object_ref_sink(getWidget("chatCommandsMenu"));
 	g_object_ref_sink(getWidget("imageMenu"));
-
+*/
 	// Initialize the user command menu
-	userCommandMenu = new UserCommandMenu(getWidget("usercommandMenu"), ::UserCommand::CONTEXT_USER);//NOTE: core 0.762
+	userCommandMenu = new UserCommandMenu(getWidget("usercommandMenu"), ::UserCommand::CONTEXT_USER);
 	addChild(userCommandMenu);
 	// Hub ...
 	userCommandMenu1 = new UserCommandMenu(BookEntry::createmenu(), ::UserCommand::CONTEXT_HUB);
@@ -308,7 +309,7 @@ Hub::Hub(const string &address, const string &encoding):
 	// Initialize favorite users list
 	FavoriteManager::FavoriteMap map = FavoriteManager::getInstance()->getFavoriteUsers();
 
-	for (auto it = map.begin(); it != map.end(); ++it)
+	for (FavoriteManager::FavoriteMap::const_iterator it = map.begin(); it != map.end(); ++it)
 	{
 		if (it->second.getUrl() == address)
 		{
@@ -375,9 +376,9 @@ void Hub::setColorRow(string cell)
 void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data)
 {
 		Hub* hub = (Hub *)data;
-		if(hub == NULL)return;
+		if(hub == NULL) return;
 		string color = "#A52A2A";
-		gchar *cltype;
+		gchar *cltype = NULL;
 		int64_t size;
 		string sizeString;
 		if(model == NULL)
@@ -456,6 +457,7 @@ Hub::~Hub()
 	FavoriteHubEntry* entry = FavoriteManager::getInstance()->getFavoriteHubEntry(address);
 
 	if(entry) {
+		
 		entry->get(HubSettings::PackName) = emotdialog->getCurrent(address);
 		entry->setShowUserList(showUL);
 		FavoriteManager::getInstance()->save();
@@ -478,13 +480,13 @@ Hub::~Hub()
 	}
 
 	delete emotdialog;
-
+/*
 	g_object_unref(getWidget("nickMenu"));
 	g_object_unref(getWidget("magnetMenu"));
 	g_object_unref(getWidget("linkMenu"));
 	g_object_unref(getWidget("hubMenu"));
 	g_object_unref(getWidget("chatCommandsMenu"));
-	g_object_unref(getWidget("imageMenu"));
+	g_object_unref(getWidget("imageMenu"));*/
 }
 
 void Hub::show()

@@ -370,7 +370,7 @@ void BufferedSocket::threadSendFile(InputStream* file) {
 					}
 				} else {
 					while(!disconnecting) {
-						auto w = sock->wait(POLL_TIMEOUT, true, true);
+						pair<bool,bool> w = sock->wait(POLL_TIMEOUT, true, true);
 						if(w.first) {
 							threadRead();
 						}

@@ -94,6 +94,7 @@ void systemlog::onClearButton(GtkWidget *widget, gpointer data)
 	gtk_text_buffer_get_start_iter(sys->buffer, &startIter);
 	gtk_text_buffer_get_end_iter(sys->buffer, &endIter);
 	gtk_text_buffer_delete(sys->buffer, &startIter, &endIter);
+	LogManager::getInstance()->clearLogs();
 
 }
 void systemlog::ini_client()

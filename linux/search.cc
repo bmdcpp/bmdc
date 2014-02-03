@@ -69,7 +69,7 @@ Search::Search(const string& str):
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("dirChooserDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
 
 	// menu
-	g_object_ref_sink(getWidget("mainMenu"));
+	//g_object_ref_sink(getWidget("mainMenu"));
 
 	// Initialize check button options.
 	onlyFree = SETTING(SEARCH_ONLY_FREE_SLOTS);
@@ -208,7 +208,7 @@ Search::~Search()
 	SearchManager::getInstance()->removeListener(this);
 
 	gtk_widget_destroy(getWidget("dirChooserDialog"));
-	g_object_unref(getWidget("mainMenu"));
+	//g_object_unref(getWidget("mainMenu"));
 }
 
 void Search::show()

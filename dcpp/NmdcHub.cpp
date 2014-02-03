@@ -264,14 +264,15 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 	}
 
 	string cmd;
-	string param;
-	string::size_type x;
+	string param = Util::emptyString;
+	string::size_type x = 0;
 
 	if( (x = aLine.find(' ')) == string::npos) {
 		cmd = aLine;
 	} else {
 		cmd = aLine.substr(0, x);
-		param = toUtf8(aLine.substr(x+1));
+		if( (x+1) != string::npos)
+			param = toUtf8(aLine.substr(x+1));
 	}
 
 	if(cmd == "$Search") {

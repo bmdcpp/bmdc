@@ -81,6 +81,7 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("scroll")));
 
 	// menu
+	
 	g_object_ref_sink(getWidget("magnetMenu"));
 	g_object_ref_sink(getWidget("linkMenu"));
 	g_object_ref_sink(getWidget("hubMenu"));
@@ -1567,8 +1568,7 @@ void PrivateMessage::readLog(const string& logPath, const unsigned setting)
 GtkWidget *PrivateMessage::createmenu()
 {
 	string nicks = WulforUtil::getNicks(this->cid, this->hubUrl);
-//	GtkWidget *item = getFItem();
-	gtk_menu_item_set_label(GTK_MENU_ITEM(/*item*/getFItem()), nicks.c_str());
+	gtk_menu_item_set_label(GTK_MENU_ITEM(getFItem()), nicks.c_str());
 
 	userCommandMenu->cleanMenu_gui();
 	userCommandMenu->addUser(cid);

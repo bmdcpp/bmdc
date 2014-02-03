@@ -66,6 +66,7 @@ FavoriteHubs::FavoriteHubs():
 	favoriteView.insertHiddenColumn("ShowCountry", G_TYPE_INT);
 	favoriteView.insertHiddenColumn("BoldTab", G_TYPE_INT);
 	favoriteView.insertHiddenColumn("PackName", G_TYPE_STRING);
+//	favoriteView.insertHiddenColumn("Pointer", G_TYPE_POINTER);
 	favoriteView.insertHiddenColumn("Action", G_TYPE_INT);
 	favoriteView.finalize();
 	favoriteStore = gtk_list_store_newv(favoriteView.getColCount(), favoriteView.getGTypes());
@@ -117,11 +118,23 @@ FavoriteHubs::FavoriteHubs():
 	g_signal_connect(groupsView.get(), "key-release-event", G_CALLBACK(onGroupsKeyReleased_gui), (gpointer)this);
 
 }
-
+/*
+gboolean FavoriteHubs::clearData(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
+{
+	FavoriteHubs* fh = (FavoriteHubs*)data;
+	gpointer f = NULL;
+	gtk_tree_model_get(model,iter,fh->favoriteView.col("Pointer"),f);
+	delete (FavoriteHubEntry*)f;
+return FALSE;
+}
+*/
 FavoriteHubs::~FavoriteHubs()
 {
 	FavoriteManager::getInstance()->removeListener(this);
 	g_object_unref(getWidget("menu"));
+//	gtk_tree_model_foreach(GTK_TREE_MODEL(favoriteStore),
+//                                                         FavoriteHubs::clearData,
+//                                                         (gpointer)this);
 }
 
 void FavoriteHubs::show()

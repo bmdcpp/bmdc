@@ -59,7 +59,7 @@ public:
 
 	const string& getSetting(int area, int sel) const;
 	void saveSetting(int area, int sel, const string& setting);
-
+	void clearLogs(){ Lock l(cs); lastLogs.clear(); }
 private:
 	void log(const string& area, const string& msg) noexcept;
 
