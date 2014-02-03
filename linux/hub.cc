@@ -3863,7 +3863,7 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 	params.insert(ParamMap::value_type("eMail", id.getEmail()));
 	params.insert(ParamMap::value_type("CID", id.getUser()->getCID().toBase32()));
 	//BMDC++
-	params.insert(ParamMap::value_type("Country", (SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountry(id.getIp(),GeoManager::V4): Util::emptyString ));
+	params.insert(ParamMap::value_type("Country", (SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountry(id.getIp()): Util::emptyString ));
 	params.insert(ParamMap::value_type("Abbrevation", (SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountryAbbrevation(id.getIp()): Util::emptyString ));
 	params.insert(ParamMap::value_type("Slots", id.get("SL")));
 	const string hubs = Util::toString(Util::toInt(id.get("HN")) + Util::toInt(id.get("HR")) + Util::toInt(id.get("HO")));//hubs

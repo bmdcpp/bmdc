@@ -29,7 +29,7 @@
 
 namespace dcpp {
 
-GeoIP::GeoIP(string&& path) : geo(0), path(move(path)) {
+GeoIP::GeoIP(string&& path) : geo(nullptr), path(move(path)) {
 	if(File::getSize(path) > 0 || decompress()) {
 		open();
 	}
