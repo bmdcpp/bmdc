@@ -52,7 +52,7 @@ class WulforUtil
 		/** get hub address */
 		static dcpp::StringList getHubAddress(const dcpp::CID& cid, const std::string& hintUrl);
 		static dcpp::StringList getHubAddress(const dcpp::UserPtr& user, const std::string& hintUrl);
-//NOTE: core 0.762
+//NOTE: FreeDC++
 		static std::string getTextFromMenu(GtkMenuItem *item);
 		static std::vector<std::string>& getCharsets();
 		static void openURI(const std::string &uri, std::string &_error = dcpp::Util::emptyString);
@@ -87,7 +87,6 @@ class WulforUtil
 		static std::string getCountryCode(std::string _countryname);
 
 		static GdkPixbuf *loadIconShare(std::string ext);
-		static void remove_signals_from_widget(GtkWidget *widget, gint events);
 		static std::string formatReport(const dcpp::Identity& identity);
 		static bool checkCommand(std::string& cmd, std::string& param, std::string& message, std::string& status, bool& thirdperson);
 
@@ -107,7 +106,6 @@ class WulforUtil
 		static const std::string commands;
 
 	private:
-		static void remove_events_internal(GtkWidget *widget, gint events, GList *window_list);
 		static std::string generateLeech();
 		static std::map<std::string,std::string> loadmimetypes();
 		static std::string getStatsForMem();

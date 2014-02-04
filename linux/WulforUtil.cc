@@ -36,18 +36,16 @@
 #include <iostream>
 #include <arpa/inet.h>
 #include <fcntl.h>
+#include <sys/utsname.h>
+#include <sys/sysinfo.h>
+
 #include "settingsmanager.hh"
 #include "wulformanager.hh"
 #include "ShellCommand.hh"
 #include "hub.hh"
 #include "version.hh"
-#ifdef HAVE_IFADDRS_H
-	#include <ifaddrs.h>
-	#include <net/if.h>
-#endif
-#include <sys/utsname.h>
-#include <sys/sysinfo.h>
 #include "freespace.h"
+
 using namespace std;
 using namespace dcpp;
 
@@ -252,74 +250,6 @@ string WulforUtil::getTextFromMenu(GtkMenuItem *item)
 		text = gtk_label_get_text(GTK_LABEL(child));
 
 	return text;
-}
-//[BMDC++
-/* taken from http://svn.xiph.org/trunk/sushivision/gtksucks.c */
-void WulforUtil::remove_signals_from_widget(GtkWidget *widget, gint events)
-{
-
-  g_return_if_fail (GTK_IS_WIDGET (widget));
-
-  GQuark quark_event_mask = g_quark_from_static_string ("gtk-event-mask");
-  gint *eventp = (gint *)g_object_get_qdata (G_OBJECT (widget), quark_event_mask);
-  gint original_events = events;
-
-  if (!eventp){
-    eventp = g_slice_new (gint);
-    *eventp = 0;
-  }
-
-  events = ~events;
-  events &= *eventp;
-
-  if(events)
-  {
-    *eventp = events;
-    g_object_set_qdata (G_OBJECT (widget), quark_event_mask, eventp);
-  }
-  else
-  {
-    g_slice_free (gint, eventp);
-    g_object_set_qdata (G_OBJECT (widget), quark_event_mask, NULL);
-  }
-
-  if (gtk_widget_get_realized (widget))
-  {
-    GList *window_list;
-
-    if (gtk_widget_get_has_window (widget))
-      window_list = gdk_window_get_children (gtk_widget_get_window(widget));
-    else
-      window_list = g_list_prepend (NULL, gtk_widget_get_window(widget));
-
-    remove_events_internal (widget, original_events, window_list);
-
-    g_list_free (window_list);
-  }
-
-  g_object_notify (G_OBJECT (widget), "events");
-}
-
-void WulforUtil::remove_events_internal (GtkWidget *widget, gint events, GList *window_list)
-{
-  GList *l;
-
-  for (l = window_list; l != NULL; l = l->next)
-  {
-    GdkWindow *window = (GdkWindow *)l->data;
-    gpointer user_data;
-
-    gdk_window_get_user_data (window, &user_data);
-    if (user_data == widget){
-      GList *children;
-
-      gdk_window_set_events (window, (GdkEventMask) (gdk_window_get_events(window) & (~events)));
-
-      children = gdk_window_get_children (window);
-      remove_events_internal (widget, events, children);
-      g_list_free (children);
-    }
-  }
 }
 
 vector<string>& WulforUtil::getCharsets()
@@ -754,7 +684,7 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
 	{
 		return NULL;
 	}
-	auto it = countryIcon.find(country);
+	std::map<std::string,GdkPixbuf*>::const_iterator it = countryIcon.find(country);
 	if( it  != countryIcon.end() )
 			return it->second;
 	GError *error = NULL;
@@ -1099,15 +1029,8 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	}
 	// End of "Now Playing"
 	else if ( cmd == "df" )
-	{/*
-        ShellCommand s((char *)"df.sh");
-
-		if (param == "mc")
-			message = s.Output();
-		else
-			status += s.Output();
-*/
-		std::string tmp = "\n\t\t\t-=Free Spaces=-\t\t\t\n" +  FreeSpace::process_mounts("/etc/mtab");
+	{
+		string tmp = "\n\t\t\t-=Free Spaces=-\t\t\t\n" +  FreeSpace::process_mounts("/etc/mtab");
 		tmp += "\n\t\t\tTotal:\t" + Util::formatBytes(FreeSpace::_aviable) + "/" + Util::formatBytes(FreeSpace::_total) + "\t\n";
 		message += tmp;
 		return true;
@@ -1527,8 +1450,10 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 		#if GTK_CHECK_VERSION(3,9,0)
 		GError* error = NULL;
 		GdkPixbuf* buf = gtk_icon_theme_load_icon(icon_theme,"folder",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,&error);
-		if(error)
+		if(error){
 			g_print("Failed %s",error->message);
+			g_error_free(error);
+		}	
 		return buf;
 		#else
 		GtkWidget* iwid = gtk_invisible_new ();
@@ -1546,8 +1471,10 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 		#if GTK_CHECK_VERSION(3,9,0)
 		GError* error = NULL;
 		GdkPixbuf* buf = gtk_icon_theme_load_icon(icon_theme,"text-x-generic",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,&error);
-		if(error)
+		if(error){
 			g_print("Failed %s",error->message);
+			g_error_free(error);
+		}	
 		return buf;
 		#else
 		GtkWidget *iwid = gtk_invisible_new ();
@@ -1565,7 +1492,7 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 }
 
 string WulforUtil::getStatsForMem() {
-	//main point of this code is from ?? PtoXa
+	//main point of this code is from ? PtoXa
 	string tmp = Util::emptyString;
 	FILE *fp = fopen("/proc/self/status", "r");
 				if(fp != NULL) {

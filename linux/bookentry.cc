@@ -316,7 +316,6 @@ gboolean BookEntry::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *even
 		book->fItem = (book->createItemFirstMenu());
 		// show menu
 		book->createmenu();
-		WulforUtil::remove_signals_from_widget(book->fItem,GDK_ALL_EVENTS_MASK);
 		gtk_menu_shell_prepend(GTK_MENU_SHELL(book->popTabMenuItem),book->fItem);
 		gtk_widget_show(book->fItem);
 		gtk_widget_show(book->popTabMenuItem);

@@ -877,7 +877,6 @@ void Hub::popupNickMenu_gui()
 	gchar *markup;
 	markup = g_markup_printf_escaped ("<span fgcolor=\"blue\" ><b>%s</b></span>", nick.c_str());//TODO: maybe custom color
 	GtkMenuItem *item = GTK_MENU_ITEM(getWidget("nickItem"));
-	WulforUtil::remove_signals_from_widget(GTK_WIDGET(item),GDK_ALL_EVENTS_MASK);
 	GtkWidget *label = gtk_bin_get_child(GTK_BIN(item));
 	gtk_label_set_markup (GTK_LABEL (label), markup);
 	g_free(markup);
