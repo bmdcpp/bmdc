@@ -82,7 +82,7 @@ void Client::reloadSettings(bool updateNick) {
 
 	*static_cast<HubSettings*>(this) = SettingsManager::getInstance()->getHubSettings();
 
-	auto fav = FavoriteManager::getInstance()->getFavoriteHubEntry(getHubUrl());
+	FavoriteHubEntry* fav = FavoriteManager::getInstance()->getFavoriteHubEntry(getHubUrl());
 	if(fav)
 	{
 		FavoriteManager::getInstance()->mergeHubSettings(*fav, *this);

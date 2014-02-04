@@ -4567,7 +4567,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 			}
 		}
 
-		if (client->settings.get(HubSettings::LogChat) == 1)
+		if (client->get(HubSettings::LogChat) == 1)
 		{
 			dcpp::ParamMap params;
 			params["message"] = tmp_text;

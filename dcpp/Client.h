@@ -73,7 +73,7 @@ public:
 	bool isConnected() const { return state != STATE_CONNECTING && state != STATE_DISCONNECTED; }
 	bool isSecure() const;
 	bool isTrusted() const;
-	std::string getCipherName() const;
+	string getCipherName() const;
 	vector<uint8_t> getKeyprint() const;
 
 	bool isOp() const { return getMyIdentity().isOp(); }
@@ -110,8 +110,6 @@ public:
 	void putDetectors() { stopMyInfoCheck(); stopChecking();  }
 
 	HubData* getPluginObject() noexcept;
-
-	HubSettings settings;
 
 	GETSET(Identity, myIdentity, MyIdentity);
 	GETSET(Identity, hubIdentity, HubIdentity);
