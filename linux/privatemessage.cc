@@ -146,7 +146,6 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	g_signal_connect(getWidget("emotButton"), "button-release-event", G_CALLBACK(onEmotButtonRelease_gui), (gpointer)this);
 	g_signal_connect(getWidget("downloadBrowseItem"), "activate", G_CALLBACK(onDownloadToClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("downloadItem"), "activate", G_CALLBACK(onDownloadClicked_gui), (gpointer)this);
-
 	g_signal_connect(getWidget("ripeitem"), "activate", G_CALLBACK(onRipeDbItem_gui),(gpointer)this);
 	g_signal_connect(getWidget("copyipItem"), "activate", G_CALLBACK(onCopyIpItem_gui),(gpointer)this);
 
@@ -284,7 +283,7 @@ void PrivateMessage::preferences_gui()
 	{
 		if(i == Tag::TAG_GENERAL)
             		continue;
-        	if(i == Tag::TAG_CHEAT)
+       	if(i == Tag::TAG_CHEAT)
 			continue;
 
 		getSettingTag_gui(wsm, (Tag::TypeTag)i, fore, back, bold, italic);
@@ -1227,7 +1226,7 @@ gboolean PrivateMessage::onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, Gd
 	PrivateMessage *pm = (PrivateMessage *)data;
 	gchar *tmp = NULL;
 	g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
-	pm->ip = std::string(tmp);
+	pm->ip = string(tmp);
 	g_free(tmp);
 
 	if(event->type == GDK_BUTTON_PRESS)

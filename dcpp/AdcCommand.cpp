@@ -80,7 +80,7 @@ void AdcCommand::parse(const string& aLine, bool nmdc /* = false */) {
 			if(i == len)
 				throw ParseException("Escape at eol");
 //Note:BMDC++ if => switch
-			switch(buf[i]){	
+			switch(buf[i]) {	
 				case 's':
 					cur += ' ';
 					break;
@@ -224,7 +224,6 @@ string AdcCommand::getHeaderString(uint32_t sid, bool nmdc) const {
 string AdcCommand::getHeaderString(const CID& cid) const {
 	dcassert(type == TYPE_UDP);
 	string tmp;
-
 	tmp += getType();
 	tmp += cmdChar;
 	tmp += ' ';

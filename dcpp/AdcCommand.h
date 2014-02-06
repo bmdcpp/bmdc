@@ -116,7 +116,7 @@ public:
 	static const uint32_t HUB_SID = 0xffffffff;		// No client will have this sid
 
 	static uint32_t toFourCC(const char* x) { return *reinterpret_cast<const uint32_t*>(x); }
-	static std::string fromFourCC(uint32_t x) { return std::string(reinterpret_cast<const char*>(&x), sizeof(x)); }
+	static string fromFourCC(uint32_t x) { return std::string(reinterpret_cast<const char*>(&x), sizeof(x)); }
 
 	explicit AdcCommand(uint32_t aCmd, char aType = TYPE_CLIENT);
 	explicit AdcCommand(uint32_t aCmd, const uint32_t aTarget, char aType);

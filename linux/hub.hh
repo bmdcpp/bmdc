@@ -232,7 +232,7 @@ class Hub:
 
 		void setColorRow(std::string cell);
 		void setColorsRows();
-		bool clickAction(gpointer data);
+		void clickAction(gpointer data);
 
 		// Favorite callbacks
 		virtual void on(dcpp::FavoriteManagerListener::UserAdded, const dcpp::FavoriteUser &user) noexcept;

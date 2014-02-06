@@ -502,6 +502,7 @@ bool MainWindow::isActive_gui()
 
 void MainWindow::setUrgent_gui()
 {
+	//flashing?
 	gtk_window_set_urgency_hint(window, true);
 }
 /*
@@ -589,7 +590,7 @@ void MainWindow::onLimitingMenuItem_gui(GtkWidget *widget, gpointer data)
 	MainWindow *mw = (MainWindow *)data;
 	string speed = (gchar *)g_object_get_data(G_OBJECT(widget), "speed");
 	string type = (gchar *)g_object_get_data(G_OBJECT(widget), "type");
-	if(speed.empty())
+	if(speed.empty() || type.length() == 2)
 		return;
 
 	if(type == "up")
@@ -609,7 +610,7 @@ void MainWindow::onLimitingMenuItem_gui(GtkWidget *widget, gpointer data)
 
 void MainWindow::setLimitingIcon(bool Limited)
 {
-	setMainStatus_gui(string(_("Throtle ")) + ( Limited ? string("on") : string("off")), time(NULL));
+	setMainStatus_gui(string(_("Throtle ")) + ( Limited ? string(_("on")) : string(_("off"))));
 	setStatusOfIcons(LIMITING, Limited);
 }
 
@@ -617,7 +618,8 @@ void MainWindow::onLimitingDisable(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 	string type = (gchar *)g_object_get_data(G_OBJECT(widget), "type");
-
+	if(type.empty())
+		return;
 	if(type == "dw")
 	{
 		ThrottleManager::setSetting(SettingsManager::MAX_DOWNLOAD_SPEED_MAIN, 0);
@@ -645,7 +647,7 @@ void MainWindow::setInitThrotles()
 		setLimitingIcon(true);
 		return;
 	}
-
+//disabled
 	if(!enabled && (up == 0)) {
 		setLimitingIcon(false);
 		return;
@@ -909,8 +911,8 @@ void MainWindow::setMainStatus_gui(string text, time_t t)
 		{
 			    statustext.pop();
 		}
-        		queue<string> tmp = statustext;
-	        string statusTextOnToolTip;
+		queue<string> tmp = statustext;
+		string statusTextOnToolTip;
       	  while(!tmp.empty())
       	  {
       	     statusTextOnToolTip += "\n" + tmp.front();

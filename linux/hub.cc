@@ -793,21 +793,19 @@ void Hub::removeUser_gui(string cid)
 		userMap.erase(nick);
 		//BMDC++
 		users.erase(cid);
-
 		userFavoriteMap.erase(nick);
-
 		userIters.erase(cid);
 		setStatus_gui("statusUsers", Util::toString(userMap.size()) + _(" Users"));
 		setStatus_gui("statusShared", Util::formatBytes(totalShared));
 
 		if (client->get(HubSettings::ShowJoins) == 1)
 		{
-			// Show parts in chat by default
+			// Show parts in chat
 			string message = nick + _(" has quit hub ") + client->getHubName();
 			addStatusMessage_gui(nick + _(" has quit"), Msg::STATUS, order[0] == 'C' ? Sound::FAVORITE_USER_QUIT : Sound::NONE);
 			WulforManager::get()->getMainWindow()->addPrivateStatusMessage_gui(Msg::STATUS, cid, message);
 
-			if (order[0] == 'C')//f
+			if (order[0] == 'C')
 				Notify::get()->showNotify("", message, Notify::FAVORITE_USER_QUIT);
 		}
 		else if ( (client->get(HubSettings::FavShowJoins) == 1 )&& order[0] == 'C')
@@ -874,8 +872,8 @@ void Hub::popupNickMenu_gui()
 
 	userCommandMenu->addHub(client->getHubUrl());
 	userCommandMenu->buildMenu_gui();
-	gchar *markup;
-	markup = g_markup_printf_escaped ("<span fgcolor=\"blue\" ><b>%s</b></span>", nick.c_str());//TODO: maybe custom color
+	gchar *markup = NULL;
+	markup = g_markup_printf_escaped ("<span fgcolor=\"blue\"><b>%s</b></span>", nick.c_str());//TODO: maybe custom color
 	GtkMenuItem *item = GTK_MENU_ITEM(getWidget("nickItem"));
 	GtkWidget *label = gtk_bin_get_child(GTK_BIN(item));
 	gtk_label_set_markup (GTK_LABEL (label), markup);
@@ -1882,10 +1880,7 @@ gboolean Hub::onNickListButtonRelease_gui(GtkWidget *widget, GdkEventButton *eve
 	{
 		if (event->button == 1 && hub->oldType == GDK_2BUTTON_PRESS)
 		{
-			if ( (!hub->clickAction(data) ))
-				hub->onMsgItemClicked_gui(NULL, data);
-			else
-				hub->onBrowseItemClicked_gui(NULL, data);
+			hub->clickAction(data);
 		}
 		else if (event->button == 2 && event->type == GDK_BUTTON_RELEASE)
 		{
@@ -1903,42 +1898,33 @@ gboolean Hub::onNickListButtonRelease_gui(GtkWidget *widget, GdkEventButton *eve
 	return FALSE;
 }
 
-bool Hub::clickAction(gpointer data)
+void Hub::clickAction(gpointer data)
 {
-	bool isOk = false;
 	switch(WGETI("double-click-action"))
 	{
 		case 0:
 			onBrowseItemClicked_gui(NULL, data);
-			isOk = true;
 			break;
 		case 1:
 			onNickToChat_gui(NULL, data);
-			isOk = true;
 			break;
 	    case 2:
 			onMsgItemClicked_gui(NULL, data);
-			isOk = true;
 			break;
 		case 3:
 			onMatchItemClicked_gui(NULL ,data);
-			isOk = true;
 			break;
 		case 4:
 			onGrantItemClicked_gui(NULL, data);
-			isOk = true;
 			break;
 		case 5:
 			onAddFavoriteUserClicked_gui(NULL, data);
-			isOk = true;
 			break;
 		case 6:
 			onPartialFileListOpen_gui(NULL, data);
-			isOk = true;
 			break;
 		default: break;
 	}
-	return isOk;
 }
 
 gboolean Hub::onNickListKeyRelease_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
@@ -4455,18 +4441,14 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 
 	if( (!message.from->getIdentity().isHub()) && (!message.from->getIdentity().isBot()) )
 	{
-
-		string info;
-		string extraInfo;
-		info = formatAdditionalInfo(message.from->getIdentity().getIp(), client->get(HubSettings::ShowIps) == 1, client->get(HubSettings::ShowCountry) == 1, message.to && message.replyTo);
-
+		string info = formatAdditionalInfo(message.from->getIdentity().getIp(), client->get(HubSettings::ShowIps) == 1, client->get(HubSettings::ShowCountry) == 1, message.to && message.replyTo);
 		//Extra Info
 		dcpp::ParamMap params;
 		params["hubURL"] = client->getHubUrl();
 		client->getHubIdentity().getParams(params, "hub", false);
 		client->getMyIdentity().getParams(params, "my", true);
 		message.from->getIdentity().getParams(params, "user", true);
-		extraInfo = Text::toT(Util::formatParams(client->getChatExtraInfo(), params));
+		string extraInfo = Util::formatParams(client->getChatExtraInfo(), params);
 		if(!extraInfo.empty())
 			info += " " + extraInfo + " ";
 		line += info;
