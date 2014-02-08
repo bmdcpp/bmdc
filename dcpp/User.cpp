@@ -145,8 +145,8 @@ string Identity::getTag() const {
 }
 
 string Identity::getApplication() const {
-	auto application = get("AP");
-	auto version = get("VE");
+	string application = get("AP");
+	string version = get("VE");
 
 	if(version.empty()) {
 		return application;
@@ -162,8 +162,7 @@ string Identity::getApplication() const {
 
 string Identity::getConnection() const {
 	if(!get("US").empty())
-		return string(Util::formatBytes(get("US")+F_("/s") ));
-
+		return string(Util::formatBytes(get("US")+_("/s")));
 	return get("CO");
 }
 
@@ -544,11 +543,11 @@ map<string, string> Identity::getReport() const
 				case TAG('O','P'): name = "Operator"; break;
 				case TAG('P','K'): name = "NMDC Pk"; break;
 				case TAG('R','F'): name = "Refferer url"; break;
-				case TAG('R','S'): name = "Shared bytes - real"; value = Text::fromT(Util::formatExactSize(Util::toInt64(value))); break;
+				case TAG('R','S'): name = "Shared bytes - real"; value = Util::formatExactSize(Util::toInt64(value)); break;
 				case TAG('S','F'): name = "Shared files"; break;
 				case TAG('S','I'): name = "Session ID"; value = sid; break;
 				case TAG('S','L'): name = "Slots"; break;
-				case TAG('S','S'): name = "Shared bytes - reported"; value = Text::fromT(Util::formatExactSize(Util::toInt64(value))); break;
+				case TAG('S','S'): name = "Shared bytes - reported"; value = Util::formatExactSize(Util::toInt64(value)); break;
 				case TAG('S','U'): name = "Supports"; break;
 				case TAG('T','A'): name = "Tag"; break;
 				case TAG('T','O'): name = "Timeouts"; break;

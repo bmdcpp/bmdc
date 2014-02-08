@@ -318,7 +318,7 @@
               <object class="GtkImage" id="emotButtonImage">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="stock">freedcpp-smile</property>
+                <property name="stock">bmdc-smile</property>
                 <property name="icon-size">1</property>
               </object>
             </child>

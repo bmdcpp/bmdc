@@ -203,7 +203,16 @@ SettingsManager::SettingsManager()
 		floatSettings[i] = 0;
 	}
 
-	setDefault(DOWNLOAD_DIRECTORY, Util::getPath(Util::PATH_DOWNLOADS));
+
+//should use xdg on *nix
+#ifndef _WIN32
+	const char* xdgDir = g_get_user_special_dir(G_USER_DIRECTORY_DOWNLOAD);
+	const string downloadDir = xdgDir ? string(xdgDir) + PATH_SEPARATOR_STR : Util::getPath(Util::PATH_DOWNLOADS);
+	setDefault(DOWNLOAD_DIRECTORY, downloadDir);
+#else
+	setDefault(DOWNLOAD_DIRECTORY,Util::getPath(Util::PATH_DOWNLOADS))
+#endif
+	
 	setDefault(TEMP_DOWNLOAD_DIRECTORY, Util::getPath(Util::PATH_USER_LOCAL) + "Incomplete" PATH_SEPARATOR_STR);
 	setDefault(BIND_ADDRESS, "0.0.0.0");
 	setDefault(BIND_ADDRESS6, "::");
@@ -416,7 +425,6 @@ SettingsManager::SettingsManager()
 	setDefault(DCPP_EMULATION_RAW,0);
 	setDefault(VERSION_MISMATCH_RAW,0);
 	setDefault(SDL_RAW,0);
-
 	setDefault(RIPE_DB,"https://apps.db.ripe.net/search/query.html?searchtext=%[IP]&search%3AdoSearch=Search#resultsAnchor");
 
 	setSearchTypeDefaults();
@@ -599,7 +607,6 @@ void SettingsManager::save(string const& aFileName) {
 	for(i=STR_FIRST; i<STR_LAST; i++)
 	{
 		if(i == CONFIG_VERSION) {
-/* 0017 */
 			xml.addTag(settingTags[i], VERSIONSTRING); // need original DC++ version
 			xml.addChildAttrib(type, curType);
 		} else if(isSet[i]) {

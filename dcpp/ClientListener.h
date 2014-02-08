@@ -49,7 +49,7 @@ public:
 	//...
 	typedef X<19> CheatMessage;
 	typedef X<20> HubTopic;
-	typedef X<23> ClientLine;
+	typedef X<21> ClientLine;
 
 	enum StatusFlags {
 		FLAG_NORMAL = 0x00,

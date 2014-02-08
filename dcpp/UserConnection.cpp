@@ -150,7 +150,7 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 	else if(cmd.compare(0, 4, "$ADC") == 0) {
 		dispatch(aLine, true);
 	} else {
-		if( ((getHintedUser().user)) && aLine.length() < 400)
+		if( ((getHintedUser().user)) && aLine.length() < 500)
 			ClientManager::getInstance()->setUnknownCommand(getHintedUser(), aLine);
 		fire(UserConnectionListener::ProtocolError(), this, _("Invalid data"));
 		dcdebug("Unknown NMDC command: %.50s\n", aLine.c_str());
@@ -234,7 +234,6 @@ void UserConnection::on(TransmitDone) noexcept {
 void UserConnection::on(Failed, const string& aLine) noexcept {
 	setState(STATE_UNCONNECTED);
 	fire(UserConnectionListener::Failed(), this, aLine);
-
 	delete this;
 }
 

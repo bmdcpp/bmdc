@@ -144,7 +144,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 
 	/* cool! the request is correct, and the user can have a slot. let's prepare the file. */
 
-	InputStream* is = 0;
+	InputStream* is = nullptr;
 	int64_t start = 0;
 	int64_t size = 0;
 
@@ -161,7 +161,6 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 					is = new MemoryInputStream(xml);
 					start = 0;
 					size = xml.size();
-
 				} else {
 					File* f = new File(sourceFile, File::READ, File::OPEN);
 
@@ -215,6 +214,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 		case Transfer::TYPE_CHECK_FILE_LIST:
 		case Transfer::TYPE_TESTSUR:
 		case Transfer::TYPE_LAST: break;
+		default:break;
 		}
 
 	} catch(const ShareException& e) {
@@ -267,7 +267,6 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 		}
 	 }
   }
-
 	return true;
 }
 

@@ -217,8 +217,6 @@ private:
 	UserConnection(const UserConnection&) = delete;
 	UserConnection& operator=(const UserConnection&) = delete;
 
-	//friend struct DeleteFunction;
-
 	void setUser(const UserPtr& aUser) {
 		user = aUser;
 	}

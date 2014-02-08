@@ -126,7 +126,7 @@ StringList ClientManager::getNicks(const CID& cid, const string& hintUrl) {
 vector<Identity> ClientManager::getIdentities(const UserPtr &u) const {
 	Lock l(cs);
 	auto op = onlineUsers.equal_range(u->getCID());
-	auto ret = vector<Identity>();
+	vector<Identity> ret;
 	for(auto i = op.first; i != op.second; ++i) {
 		ret.push_back(i->second->getIdentity());
 	}
@@ -140,14 +140,14 @@ string ClientManager::getField(const CID& cid, const string& hint, const char* f
 	OnlinePairC p;
 	auto u = findOnlineUserHint(cid, hint, p);
 	if(u) {
-		auto value = u->getIdentity().get(field);
+		string value = u->getIdentity().get(field);
 		if(!value.empty()) {
 			return value;
 		}
 	}
 
 	for(auto i = p.first; i != p.second; ++i) {
-		auto value = i->second->getIdentity().get(field);
+		string value = i->second->getIdentity().get(field);
 		if(!value.empty()) {
 			return value;
 		}
@@ -253,7 +253,6 @@ UserPtr ClientManager::getUser(const string& aNick, const string& aHubUrl) noexc
 	UserPtr p(new User(cid));
 	p->setFlag(User::NMDC);
 	users.insert(make_pair(cid, p));
-
 	return p;
 }
 
@@ -274,8 +273,8 @@ UserPtr ClientManager::findUser(const CID& cid) const noexcept {
 	UserMap::const_iterator ui = users.find(cid);
 	if(ui != users.end()) {
 		return ui->second;
-	}//return 0;
-	return std::make_shared<User>( User(CID("#")) );
+	}
+	return nullptr;
 }
 
 bool ClientManager::isOp(const UserPtr& user, const string& aHubUrl) const {
@@ -354,7 +353,7 @@ OnlineUser* ClientManager::findOnlineUserHint(const CID& cid, const string& hint
 		}
 	}
 
-	return 0;
+	return nullptr;
 }
 
 OnlineUser* ClientManager::findOnlineUser(const HintedUser& user) {
@@ -373,7 +372,7 @@ OnlineUser* ClientManager::findOnlineUser(const CID& cid, const string& hintUrl)
 	// return a random user that matches the given CID but not the hint.
 	return p.first->second;
 }
-//TODO ? removed ??
+//TODO ? needed??
 string ClientManager::findMySID(const HintedUser& p) {
 	//this could also be done by just finding in the client list... better?
 	if(p.hint.empty()) // we cannot find the correct SID without a hubUrl
@@ -916,6 +915,5 @@ void ClientManager::sendRawCommand(OnlineUser& ou, const string& aRaw, bool chec
 		}
 	}
 }
-
 
 } // namespace dcpp
