@@ -55,7 +55,6 @@ class Sound
 	#ifdef _HAVECANBERRA
 		ca_context *context;
 	#endif
-
 		void sound_init() const;
 		void sound_finalize() const;
 };

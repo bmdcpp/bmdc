@@ -182,9 +182,9 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("finished-order", ""));
 	defaultString.insert(StringMap::value_type("finished-width", ""));
 	defaultString.insert(StringMap::value_type("finished-visibility", ""));
-	defaultString.insert(StringMap::value_type("hub-order", ""));
-	defaultString.insert(StringMap::value_type("hub-width", ""));
-	defaultString.insert(StringMap::value_type("hub-visibility", ""));
+	defaultString.insert(StringMap::value_type("hub-order", "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14"));
+	defaultString.insert(StringMap::value_type("hub-width", "157,75,85,100,85,85,90,70,100,50,50,80,80,80,80"));
+	defaultString.insert(StringMap::value_type("hub-visibility", "1,1,1,1,1,1,1,1,1,1,1,1,1,1,1"));
 	defaultString.insert(StringMap::value_type("transfers-order", ""));
 	defaultString.insert(StringMap::value_type("transfers-width", ""));
 	defaultString.insert(StringMap::value_type("transfers-visibility", ""));

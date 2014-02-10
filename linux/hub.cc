@@ -144,14 +144,14 @@ Hub::Hub(const string &address, const string &encoding):
 	imageMagnet.second = "";
 
 	// menu
-/*
+/**/
 	g_object_ref_sink(getWidget("nickMenu"));
 	g_object_ref_sink(getWidget("magnetMenu"));
 	g_object_ref_sink(getWidget("linkMenu"));
 	g_object_ref_sink(getWidget("hubMenu"));
 	g_object_ref_sink(getWidget("chatCommandsMenu"));
 	g_object_ref_sink(getWidget("imageMenu"));
-*/
+
 	// Initialize the user command menu
 	userCommandMenu = new UserCommandMenu(getWidget("usercommandMenu"), ::UserCommand::CONTEXT_USER);
 	addChild(userCommandMenu);
@@ -334,6 +334,9 @@ Hub::Hub(const string &address, const string &encoding):
 	{
 		bool showUserList = faventry->getShowUserList();
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")), showUserList);
+		nickView.restoreSettings(faventry->getHubOrder(),faventry->getHubWidth(),faventry->getHubVisible());
+	}else {//not Fav-Hub
+		nickView.restoreSettings(WGETS("hub-order"),WGETS("hub-width"),WGETS("hub-visibility"));
 	}
 }
 
@@ -455,12 +458,19 @@ Hub::~Hub()
 
 	bool showUL = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")));
 	FavoriteHubEntry* entry = FavoriteManager::getInstance()->getFavoriteHubEntry(address);
-
+	string order = Util::emptyString,hwidth = Util::emptyString,visible = Util::emptyString;
+	nickView.saveSettings(order,hwidth,visible);
 	if(entry) {
-		
+		entry->setHubVisible(visible);
+		entry->setHubOrder(order);
+		entry->setHubWidth(hwidth);
 		entry->get(HubSettings::PackName) = emotdialog->getCurrent(address);
 		entry->setShowUserList(showUL);
 		FavoriteManager::getInstance()->save();
+	}else{//not Fav save to main setting
+		WSET("hub-order",order);
+		WSET("hub-width",hwidth);
+		WSET("hub-visibility",visible);
 	}
 
 	disconnect_client(TRUE);
@@ -480,13 +490,13 @@ Hub::~Hub()
 	}
 
 	delete emotdialog;
-/*
+
 	g_object_unref(getWidget("nickMenu"));
 	g_object_unref(getWidget("magnetMenu"));
 	g_object_unref(getWidget("linkMenu"));
 	g_object_unref(getWidget("hubMenu"));
 	g_object_unref(getWidget("chatCommandsMenu"));
-	g_object_unref(getWidget("imageMenu"));*/
+	g_object_unref(getWidget("imageMenu"));
 }
 
 void Hub::show()
@@ -509,21 +519,21 @@ void Hub::columnHeader(int num, string name)
 
 void Hub::set_Header_tooltip_gui()
 {
-	columnHeader(nickView.col(_("Nick")), "Nick");
-	columnHeader(nickView.col(_("Shared")), "Shared");
-	columnHeader(nickView.col(_("Description")), "Description");
-	columnHeader(nickView.col(_("Tag")), "Tag");
-	columnHeader(nickView.col(_("Connection")), "Connection");
+	columnHeader(nickView.col(_("Nick")),_("Nick"));
+	columnHeader(nickView.col(_("Shared")),_("Shared"));
+	columnHeader(nickView.col(_("Description")), _("Description"));
+	columnHeader(nickView.col(_("Tag")), _("Tag"));
+	columnHeader(nickView.col(_("Connection")), _("Connection"));
 	columnHeader(nickView.col("IP"), "IP");
-	columnHeader(nickView.col(_("eMail")), "eMail");
-	columnHeader(nickView.col(_("Country")), "Country");
-	columnHeader(nickView.col(_("Exact Share")), "Exact Share");
-	columnHeader(nickView.col(_("Slots")), "Slots");
-	columnHeader(nickView.col(_("Hubs")),"Hubs");
+	columnHeader(nickView.col(_("eMail")), _("eMail"));
+	columnHeader(nickView.col(_("Country")), _("Country"));
+	columnHeader(nickView.col(_("Exact Share")), _("Exact Share"));
+	columnHeader(nickView.col(_("Slots")), _("Slots"));
+	columnHeader(nickView.col(_("Hubs")),_("Hubs"));
 	columnHeader(nickView.col("PK"),"PK");
-	columnHeader(nickView.col(_("Cheat")),"Cheat");
-	columnHeader(nickView.col(_("Generator")),"Generator");
-	columnHeader(nickView.col(_("Support")),"Support");
+	columnHeader(nickView.col(_("Cheat")),_("Cheat"));
+	columnHeader(nickView.col(_("Generator")),_("Generator"));
+	columnHeader(nickView.col(_("Support")),_("Support"));
 }
 
 gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer data)

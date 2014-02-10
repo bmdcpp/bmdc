@@ -42,15 +42,14 @@ class FavoriteHubs:
 		typedef std::unordered_map<std::string, GtkTreeIter> FavHubGroupsIter;
 
 		// GUI functions
-		void addEntry_gui(dcpp::StringMap params);
-		void editEntry_gui(dcpp::StringMap &params, GtkTreeIter *iter);
+		void addEntry_gui(dcpp::FavoriteHubEntry* entry,dcpp::StringMap params);
+		void editEntry_gui(dcpp::FavoriteHubEntry* entry, dcpp::StringMap &params, GtkTreeIter *iter);
 		void removeEntry_gui(std::string address);
 		void removeGroupComboBox_gui(const std::string &group);
 		void addGroupComboBox_gui(const std::string &group);
 		void setFavoriteHubs_gui(bool remove, const std::string &group);
 		void popupMenu_gui();
 		static bool showErrorDialog_gui(const std::string &description, FavoriteHubs *fh);
-//		static bool showFavoriteHubDialog_gui(dcpp::StringMap &params, FavoriteHubs *fh);
 		void updateFavHubGroups_gui(bool updated);
 		void saveFavHubGroups();
 		void initFavHubGroupsDialog_gui();
@@ -94,7 +93,7 @@ class FavoriteHubs:
 		FavHubGroupsIter GroupsIter;
 		
 		bool checkAddys(std::string url);//True if not find in FavList
-		//static gboolean clearData(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data);
+
 };
 
 #else

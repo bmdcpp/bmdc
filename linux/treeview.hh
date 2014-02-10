@@ -66,6 +66,10 @@ class TreeView
 		void setSortColumn_gui(const std::string &column, const std::string &sortColumn);
 		int col(const std::string &title);
 		void saveSettings();
+		//custom
+		void saveSettings(std::string &columnOrder,std::string &columnWidth, std::string &columnVisibility);
+		void restoreSettings(std::string order, std::string width, std::string visible);
+		//end
 		std::string getString(GtkTreeIter *i, const std::string &column, GtkTreeModel *m = NULL);
 		template<class T>
 		T getValue(GtkTreeIter *i, const std::string &column, GtkTreeModel *m = NULL)

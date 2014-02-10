@@ -206,16 +206,16 @@ public:
 	enum {	INCOMING_DIRECT, INCOMING_FIREWALL_UPNP, INCOMING_FIREWALL_NAT,
 		INCOMING_FIREWALL_PASSIVE };
 	enum {	OUTGOING_DIRECT, OUTGOING_SOCKS5 };
-
+/*
 	enum {
 		TAB_STYLE_BUTTONS = 1 << 1,
 		TAB_STYLE_OD = 1 << 2,
 		TAB_STYLE_BROWSER = 1 << 3
-	};
+	};*/
 
 	enum {	MAGNET_AUTO_SEARCH, MAGNET_AUTO_DOWNLOAD };
 
-	enum { BALLOON_DISABLED, BALLOON_ALWAYS, BALLOON_BACKGROUND };
+//	enum { BALLOON_DISABLED, BALLOON_ALWAYS, BALLOON_BACKGROUND };
 
 	const string& get(StrSetting key, bool useDefault = true) const {
 		return (isSet[key] || !useDefault) ? strSettings[key - STR_FIRST] : strDefaults[key - STR_FIRST];

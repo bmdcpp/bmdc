@@ -446,6 +446,7 @@ MainWindow::~MainWindow()
 		WSET("main-window-size-y", sizeY);
 	}
 	WSET("main-window-maximized", (int)maximized);
+	
 	if (transferPanePosition > 10)
 		WSET("transfer-pane-position", transferPanePosition);
 
@@ -618,7 +619,7 @@ void MainWindow::onLimitingDisable(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 	string type = (gchar *)g_object_get_data(G_OBJECT(widget), "type");
-	if(type.empty())
+	if(type.empty() || type.length() == 2)
 		return;
 	if(type == "dw")
 	{
@@ -1082,11 +1083,11 @@ void MainWindow::showSearchADL_gui()
 void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string hubUrl, string message, bool useSetting)
 {
 	BookEntry *entry = findBookEntry(Entry::PRIVATE_MESSAGE, cid);
-	bool raise = TRUE;
+	bool raise = true;
 
 	// If PM is initiated by another user, use setting except if tab is already open.
 	if (useSetting)
-		raise = (entry == NULL) ? !SETTING(POPUNDER_PM) : FALSE;
+		raise = (entry == NULL) ? !SETTING(POPUNDER_PM) : false;
 
 	if (entry == NULL)
 	{
@@ -1109,11 +1110,11 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 	{
 		dynamic_cast<PrivateMessage*>(entry)->addMessage_gui(message, typemsg);
 
-		bool show = FALSE;
+		bool show = false;
 
 		if (!isActive_gui())
 		{
-			show = TRUE;
+			show = true;
 			if (useStatusIconBlink && timer == 0)
 			{
 				timer = g_timeout_add(1000, animationStatusIcon_gui, (gpointer)this);
@@ -1121,7 +1122,7 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 		}
 		else if (currentPage_gui() != entry->getContainer() && !WGETI("notify-only-not-active"))
 		{
-			show = TRUE;
+			show = true;
 		}
 
 		if (show)
@@ -1181,7 +1182,7 @@ void MainWindow::showPublicHubs_gui()
 
 void MainWindow::showShareBrowser_gui(UserPtr user, string filename, string dir, int64_t speed ,bool useSetting)
 {
-	bool raise = useSetting ? !SETTING(POPUNDER_FILELIST) : TRUE;
+	bool raise = useSetting ? !SETTING(POPUNDER_FILELIST) : true;
 	BookEntry *entry = findBookEntry(Entry::SHARE_BROWSER, user->getCID().toBase32());
 
 	if (entry == NULL)
@@ -1908,7 +1909,7 @@ void MainWindow::onTopToolbarToggled_gui(GtkWidget *widget, gpointer data)
 	gtk_box_pack_start(GTK_BOX(parent), child, FALSE, FALSE, 2);
 	gtk_box_reorder_child(GTK_BOX(parent), child, 1);
 	g_object_unref(child);
-	WSET("toolbar-position", 1);//0
+	WSET("toolbar-position", 1);
 }
 
 void MainWindow::onLeftToolbarToggled_gui(GtkWidget *widget, gpointer data)
@@ -2946,7 +2947,6 @@ void MainWindow::onReconectAllHub_gui(GtkWidget *widget, gpointer data)
 	for(auto i= mw->Hubs.begin(); i != mw->Hubs.end();++i)
 	{
 		Hub *hub = *i;
-		//hub->reconnect_p();
 		hub->reconnect_client();
 	}
 }
@@ -2968,7 +2968,7 @@ void MainWindow::onCloseAlloffPM_gui(GtkWidget *widget, gpointer data)
 
 		}else noff.push_back(*i);
 	}
-	mw->privateMessage.clear();
+//	mw->privateMessage.clear();
 	mw->privateMessage = noff;
 }
 /* partial */

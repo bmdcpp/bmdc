@@ -216,7 +216,7 @@ SettingsManager::SettingsManager()
 	setDefault(TEMP_DOWNLOAD_DIRECTORY, Util::getPath(Util::PATH_USER_LOCAL) + "Incomplete" PATH_SEPARATOR_STR);
 	setDefault(BIND_ADDRESS, "0.0.0.0");
 	setDefault(BIND_ADDRESS6, "::");
-	setDefault(SLOTS, 1);
+	setDefault(SLOTS, 3);
 	setDefault(TCP_PORT, 0);
 	setDefault(UDP_PORT, 0);
 	setDefault(TLS_PORT, 0);
@@ -246,10 +246,10 @@ SettingsManager::SettingsManager()
 	setDefault(LOG_FINISHED_DOWNLOADS, false);
 	setDefault(LOG_PRIVATE_CHAT, false);
 	setDefault(LOG_MAIN_CHAT, false);
-	setDefault(STATUS_IN_CHAT, true);
+	setDefault(STATUS_IN_CHAT, false);
 	setDefault(SHOW_JOINS, false);
 	setDefault(UPLOAD_SPEED, connectionSpeeds[0]);
-	setDefault(USE_SYSTEM_ICONS, true);
+	setDefault(USE_SYSTEM_ICONS, true);//TODO?
 	setDefault(POPUP_PMS, true);
 	setDefault(MIN_UPLOAD_SPEED, 0);
 	setDefault(LOG_FORMAT_POST_DOWNLOAD, "%Y-%m-%d %H:%M: %[target] " + string(_("downloaded from")) + " %[userNI] (%[userCID]), %[fileSI] (%[fileSIactual]), %[speed], %[time], %[fileTR]");
@@ -262,16 +262,16 @@ SettingsManager::SettingsManager()
 	setDefault(LOG_FORMAT_RAW, "%[message]");//BMDC
 	setDefault(LOG_FILE_MAIN_CHAT, "%[hubURL].log");
 	setDefault(LOG_FILE_STATUS, "%[hubURL]_status.log");
-	setDefault(LOG_FILE_PRIVATE_CHAT, "%[userNI].%[userCID].log");
+	setDefault(LOG_FILE_PRIVATE_CHAT, "%[userNI].log");
 	setDefault(LOG_FILE_UPLOAD, "Uploads.log");
 	setDefault(LOG_FILE_DOWNLOAD, "Downloads.log");
 	setDefault(LOG_FILE_FINISHED_DOWNLOAD, "Finished_downloads.log");
 	setDefault(LOG_FILE_SYSTEM, "system.log");
-	setDefault(LOG_FILE_RAW, "raws.log");//BMDC
+	setDefault(LOG_FILE_RAW, "Raws.log");//BMDC
 	setDefault(GET_USER_INFO, true);
 	setDefault(URL_HANDLER, false);
-	setDefault(SETTINGS_WIDTH, 700);
-	setDefault(SETTINGS_HEIGHT, 600);
+	setDefault(SETTINGS_WIDTH, 700);//not used?
+	setDefault(SETTINGS_HEIGHT, 600);//not used?
 	setDefault(SOCKS_PORT, 1080);
 	setDefault(SOCKS_RESOLVE, 1);
 	setDefault(CONFIG_VERSION, "0.181");		// 0.181 is the last version missing configversion
@@ -283,11 +283,11 @@ SettingsManager::SettingsManager()
 	setDefault(AUTO_AWAY, false);
 	setDefault(AWAY_COMP_LOCK, true);
 	setDefault(AWAY_IDLE, 10);
-	setDefault(TIME_STAMPS_FORMAT, "%H:%M");
+	setDefault(TIME_STAMPS_FORMAT, "%H:%M:%S");
 	setDefault(COUNTRY_FORMAT, "%[2code] - %[name]");
 	setDefault(MAX_COMPRESSION, 6);
-	setDefault(NO_AWAYMSG_TO_BOTS, true);
-	setDefault(SKIP_ZERO_BYTE, false);
+	setDefault(NO_AWAYMSG_TO_BOTS, false);
+	setDefault(SKIP_ZERO_BYTE, true);
 	setDefault(ADLS_BREAK_ON_FIRST, false);
 	setDefault(HUB_USER_COMMANDS, true);
 	setDefault(AUTO_SEARCH_AUTO_MATCH, true);
@@ -299,8 +299,8 @@ SettingsManager::SettingsManager()
 	setDefault(GET_USER_COUNTRY, true);
 	setDefault(FAV_SHOW_JOINS, false);
 	setDefault(LOG_STATUS_MESSAGES, false);
-	setDefault(SHOW_MENU_BAR, true);
-	setDefault(SHOW_TRANSFERVIEW, true);
+	setDefault(SHOW_MENU_BAR, true);//TODO?
+	setDefault(SHOW_TRANSFERVIEW, true);//hide-transfer in WUl?
 	setDefault(SHOW_STATUSBAR, true);
 	setDefault(SHOW_TOOLBAR, true);
 	setDefault(POPUNDER_PM, false);
@@ -363,7 +363,7 @@ SettingsManager::SettingsManager()
 	setDefault(SEGMENTED_DL, true);
 	setDefault(FOLLOW_LINKS, false);
 	setDefault(SEND_BLOOM, true);
-	setDefault(OWNER_DRAWN_MENUS, true);
+	setDefault(OWNER_DRAWN_MENUS, true);//what?
 	setDefault(CORAL, true);
 	setDefault(FINISHED_DL_ONLY_FULL, true);
 	setDefault(CONFIRM_EXIT, true);
@@ -372,10 +372,9 @@ SettingsManager::SettingsManager()
 	setDefault(CONFIRM_USER_REMOVAL, true);
 	setDefault(CONFIRM_ITEM_REMOVAL, true);
 	setDefault(CONFIRM_ADLS_REMOVAL, true);
-	setDefault(SEARCH_MERGE, true);
+	setDefault(SEARCH_MERGE, true);//what?
 	setDefault(TOOLBAR_SIZE, 20);
 	setDefault(TAB_WIDTH, 150);
-	setDefault(TAB_STYLE, TAB_STYLE_OD | TAB_STYLE_BROWSER);
 	setDefault(TRANSFERS_PANED_POS, .7);
 	setDefault(QUEUE_PANED_POS, .3);
 	setDefault(SEARCH_PANED_POS, .2);
@@ -392,11 +391,6 @@ SettingsManager::SettingsManager()
 	setDefault(SLOTS_ALTERNATE_LIMITING, 1);
 	setDefault(SLOTS_PRIMARY, 3);
 	setDefault(SETTINGS_SAVE_INTERVAL, 10);
-	setDefault(BALLOON_MAIN_CHAT, BALLOON_DISABLED);
-	setDefault(BALLOON_PM, BALLOON_DISABLED);
-	setDefault(BALLOON_PM_WINDOW, BALLOON_DISABLED);
-	setDefault(BALLOON_FINISHED_DL, BALLOON_ALWAYS);
-	setDefault(BALLOON_FINISHED_FL, BALLOON_DISABLED);
 	setDefault(USERS_FILTER_ONLINE, false);
 	setDefault(USERS_FILTER_FAVORITE, true);
 	setDefault(USERS_FILTER_QUEUE, false);

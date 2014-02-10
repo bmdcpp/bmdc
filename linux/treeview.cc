@@ -508,6 +508,7 @@ void TreeView::toggleColumnVisibility(GtkMenuItem *item, gpointer data)
 
 void TreeView::restoreSettings()
 {
+	if(name == "hub")return;//not load hub-based prop to main setttings	
 	vector<int> columnOrder, columnWidth, columnVisibility;
 	columnOrder = WulforUtil::splitString(WGETS(name + "-order"), ",");
 	columnWidth = WulforUtil::splitString(WGETS(name + "-width"), ",");
@@ -538,6 +539,8 @@ void TreeView::restoreSettings()
 
 void TreeView::saveSettings()
 {
+	if(name == "hub")return;//not save hub-based prop to main setttings
+
 	string columnOrder, columnWidth, columnVisibility, title;
 	GtkTreeViewColumn *col;
 	gint width;
@@ -718,7 +721,7 @@ string TreeView::getValueAsText(GtkTreeIter *i, const string &title)
 		        case INT:
 		        case EXSIZE:
 		        	char buf[512];
-				size = getValue<int64_t>(i, title);
+					size = getValue<int64_t>(i, title);
 		            snprintf(buf, sizeof(buf), "%.f", (double)(size));
 		            return buf;
 				default: ;
@@ -755,4 +758,72 @@ GtkCellRenderer *TreeView::getCellRenderOf2(const string &title)
 
 	dcassert(render != NULL);
 	return render;
+}
+
+
+void TreeView::saveSettings(string &columnOrder,string &columnWidth, string &columnVisibility)
+{
+	string title;
+	GtkTreeViewColumn *col = NULL;
+	gint width = 0;
+
+	for (size_t i = 0; i < columns.size(); ++i)
+	{
+		col = gtk_tree_view_get_column(view, i);
+		if (col == NULL)
+			continue;
+
+		title = string(gtk_tree_view_column_get_title(col));
+		width = gtk_tree_view_column_get_width(col);
+
+		// A col was moved to the right of the padding col
+		if (title.empty())
+			return;
+
+		columnOrder += dcpp::Util::toString(columns[title].id) + ",";
+		if (width >= 20)
+			columnWidth += dcpp::Util::toString(width) + ",";
+		else
+			columnWidth += dcpp::Util::toString(columns[title].width) + ",";
+		columnVisibility += dcpp::Util::toString(gtk_tree_view_column_get_visible(col)) + ",";
+	}
+
+	if (columnOrder.size() > 0)
+	{
+		columnOrder.erase(columnOrder.size() - 1, 1);
+		columnWidth.erase(columnWidth.size() - 1, 1);
+		columnVisibility.erase(columnVisibility.size() - 1, 1);
+
+	}
+}
+
+
+void TreeView::restoreSettings(string order, string width, string visible)
+{
+	vector<int> columnOrder, columnWidth, columnVisibility;
+	columnOrder = WulforUtil::splitString(order, ",");
+	columnWidth = WulforUtil::splitString(width, ",");
+	columnVisibility = WulforUtil::splitString(visible, ",");
+
+	if (columns.size() == columnOrder.size() &&
+	    columnOrder.size() == columnWidth.size() &&
+	    columnWidth.size() == columnVisibility.size())
+	{
+		for (ColIter iter = columns.begin(); iter != columns.end(); ++iter)
+		{
+			for (size_t i = 0; i < columns.size(); i++)
+			{
+				if (iter->second.id == columnOrder.at(i))
+				{
+					iter->second.pos = i;
+					sortedColumns[i] = iter->second.title;
+					if (columnWidth.at(i) >= 20)
+						iter->second.width = columnWidth.at(i);
+					if (columnVisibility.at(i) == 0 || columnVisibility.at(i) == 1)
+						iter->second.visible = columnVisibility.at(i);
+					break;
+				}
+			}
+		}
+	}
 }

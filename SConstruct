@@ -261,7 +261,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 				if conf.CheckPKG('libnotify >= 0.7'):
 					conf.env.Append(CPPDEFINES = 'HAVE_LIBNOTIFY_0_7')
 
-	#Sounds
+	# Sound
 	conf.env['HAVE_CANBERRA_LIB'] = 0
 	if not conf.CheckPKG('libcanberra'):
 		print '\tlibcanberra not found.'
@@ -270,7 +270,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	else:
 		conf.env['HAVE_CANBERRA_LIB'] = 1
 
-	# MiniUPnPc for UPnP
+	# Check for MiniUPnPc
 	if not conf.CheckLib('libminiupnpc'):
 		LIB_IS_UPNP = False
 	# Check for natpmp
@@ -286,7 +286,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		print 'Dont Found GeoIP headers or libs'
 		Exit(1)
 
-	# tar for Backup/Restore man...
+	# libtar for Backup/Restore man...
 	if conf.env.get('libtar'):
 		if conf.CheckHeader("libtar.h"):
 			print "Found Libtar"
@@ -307,9 +307,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	env.MergeFlags(BUILD_FLAGS[env['mode']])
 
 	env.Append(CXXFLAGS = '-std=c++11')
-	#'boost_regex',
 	env.Append(LIBS = ['pcre'])
-	#'-lboost_system','-lboost_thread',
 	env.Append(LINKFLAGS = ['-lpcre'])
 
 	env.Append(CPPDEFINES = ['STATICLIB'])

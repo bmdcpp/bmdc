@@ -74,7 +74,9 @@ public:
 	FavoriteHubEntry(const HubEntry& rhs) : name(rhs.getName()), server(rhs.getServer()),
 		hubDescription(rhs.getDescription()), password(Util::emptyString), encoding(Text::systemCharset), group(Util::emptyString),
 hideShare(false),autoConnect(false),mode(0),chatExtraInfo(Util::emptyString), protectUsers(Util::emptyString), 
-checkAtConn(false), checkClients(false), checkFilelists(false),  checkMyInfo(false), showUserList(true),tabText(Util::emptyString) , tabIconStr(Util::emptyString) , notify(true)
+checkAtConn(false), checkClients(false), checkFilelists(false),  checkMyInfo(false), showUserList(true),
+order("0,1,2,3,4,5,6,7,8,9,10,11,12,13,14"),visible("1,1,1,1,1,1,1,1,1,1,1,1,1,1,1"),width("157,75,85,100,85,85,90,70,100,50,50,80,80,80,80"),
+tabText(Util::emptyString) , tabIconStr(Util::emptyString) , notify(true)
 		{ }
 
 	FavoriteHubEntry(const FavoriteHubEntry& rhs) :
@@ -82,7 +84,7 @@ checkAtConn(false), checkClients(false), checkFilelists(false),  checkMyInfo(fal
 		password(rhs.getPassword()), encoding(rhs.getEncoding()), group(rhs.getGroup()), hideShare(rhs.hideShare),
 		autoConnect(rhs.autoConnect),  mode(rhs.mode), chatExtraInfo(rhs.chatExtraInfo),
 		protectUsers(rhs.protectUsers),	checkAtConn(rhs.checkAtConn), checkClients(rhs.checkClients), checkFilelists(rhs.checkFilelists),  checkMyInfo(rhs.checkMyInfo),
-		showUserList(rhs.showUserList), tabText(rhs.tabText), tabIconStr(rhs.tabIconStr), notify(rhs.notify)
+		showUserList(rhs.showUserList), order(rhs.order),visible(rhs.visible),width(rhs.width),tabText(rhs.tabText), tabIconStr(rhs.tabIconStr), notify(rhs.notify)
 		{ }
 
 	~FavoriteHubEntry() { }
@@ -105,7 +107,10 @@ checkAtConn(false), checkClients(false), checkFilelists(false),  checkMyInfo(fal
 	GETSET(bool, checkMyInfo,CheckMyInfo);
 
 	GETSET(bool, showUserList , ShowUserList);
-
+	GETSET(string, order, HubOrder);
+	GETSET(string, visible, HubVisible);
+	GETSET(string, width, HubWidth);
+	
 	GETSET(string, tabText, TabText);
 	GETSET(string, tabIconStr, TabIconStr);
 	GETSET(bool, notify , Notify );

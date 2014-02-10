@@ -47,6 +47,7 @@ FavoriteHubs::FavoriteHubs():
 	favoriteView.insertColumn(_("Encoding"), G_TYPE_STRING, TreeView::STRING, 125);
 	favoriteView.insertColumn(_("Group"), G_TYPE_STRING, TreeView::STRING, 125);
 	favoriteView.insertHiddenColumn("Hidden Password", G_TYPE_STRING);
+	favoriteView.insertHiddenColumn("FavPointer",G_TYPE_POINTER);
 	favoriteView.insertHiddenColumn("Hide", G_TYPE_INT);
 	favoriteView.insertHiddenColumn("Clients", G_TYPE_INT);
 	favoriteView.insertHiddenColumn("Filelists", G_TYPE_INT);
@@ -66,7 +67,6 @@ FavoriteHubs::FavoriteHubs():
 	favoriteView.insertHiddenColumn("ShowCountry", G_TYPE_INT);
 	favoriteView.insertHiddenColumn("BoldTab", G_TYPE_INT);
 	favoriteView.insertHiddenColumn("PackName", G_TYPE_STRING);
-//	favoriteView.insertHiddenColumn("Pointer", G_TYPE_POINTER);
 	favoriteView.insertHiddenColumn("Action", G_TYPE_INT);
 	favoriteView.finalize();
 	favoriteStore = gtk_list_store_newv(favoriteView.getColCount(), favoriteView.getGTypes());
@@ -118,23 +118,10 @@ FavoriteHubs::FavoriteHubs():
 	g_signal_connect(groupsView.get(), "key-release-event", G_CALLBACK(onGroupsKeyReleased_gui), (gpointer)this);
 
 }
-/*
-gboolean FavoriteHubs::clearData(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
-{
-	FavoriteHubs* fh = (FavoriteHubs*)data;
-	gpointer f = NULL;
-	gtk_tree_model_get(model,iter,fh->favoriteView.col("Pointer"),f);
-	delete (FavoriteHubEntry*)f;
-return FALSE;
-}
-*/
 FavoriteHubs::~FavoriteHubs()
 {
 	FavoriteManager::getInstance()->removeListener(this);
 	g_object_unref(getWidget("menu"));
-//	gtk_tree_model_foreach(GTK_TREE_MODEL(favoriteStore),
-//                                                         FavoriteHubs::clearData,
-//                                                         (gpointer)this);
 }
 
 void FavoriteHubs::show()
@@ -143,14 +130,14 @@ void FavoriteHubs::show()
 	FavoriteManager::getInstance()->addListener(this);
 }
 
-void FavoriteHubs::addEntry_gui(StringMap params)
+void FavoriteHubs::addEntry_gui(FavoriteHubEntry* entry,StringMap params)
 {
 	GtkTreeIter iter;
 	gtk_list_store_append(favoriteStore, &iter);
-	editEntry_gui(params, &iter);
+	editEntry_gui(entry,params, &iter);
 }
 
-void FavoriteHubs::editEntry_gui(StringMap &params, GtkTreeIter *iter)
+void FavoriteHubs::editEntry_gui(FavoriteHubEntry* entry,StringMap &params, GtkTreeIter *iter)
 {
 	string password = params["Password"].empty() ? "" : string(5, '*');
 
@@ -164,6 +151,7 @@ void FavoriteHubs::editEntry_gui(StringMap &params, GtkTreeIter *iter)
 		favoriteView.col(_("User Description")), params["User Description"].c_str(),
 		favoriteView.col(_("Encoding")), params["Encoding"].c_str(),
 		favoriteView.col(_("Group")), params["Group"].c_str(),
+		favoriteView.col("FavPointer"), entry,
 		favoriteView.col("Mode"), params["Mode"].c_str(),
 		favoriteView.col("IP"), params["IP"].c_str(),
 		favoriteView.col("ExtraInfo"), params["ExtraInfo"].c_str(),
@@ -311,10 +299,9 @@ void FavoriteHubs::onAddEntry_gui(GtkWidget *widget, gpointer data)
 	FavoriteHubs *fh = (FavoriteHubs *)data;
 
 	StringMap params;
-
-//	bool updatedEntry = fh->showFavoriteHubDialog_gui(params, fh);*/
-	auto f = new FavoriteHubDialog(true);
-	auto updatedEntry = f->initDialog(fh->GroupsIter,params);
+	FavoriteHubEntry entry;
+	FavoriteHubDialog *f = new FavoriteHubDialog(&entry,true);
+	bool updatedEntry = f->initDialog(fh->GroupsIter,params);
 
 	if(!(fh->checkAddys(string(params["Address"]))))
 	{
@@ -360,7 +347,8 @@ void FavoriteHubs::onEditEntry_gui(GtkWidget *widget, gpointer data)
 
 	if (!gtk_tree_selection_get_selected(fh->favoriteSelection, NULL, &iter))
 		return;
-
+	FavoriteHubEntry* entry;
+	entry = (FavoriteHubEntry*)fh->favoriteView.getValue<gpointer>(&iter, "FavPointer");
 	StringMap params;
 	params["Name"] = fh->favoriteView.getString(&iter, _("Name"));
 	params["Address"] = fh->favoriteView.getString(&iter, _("Address"));
@@ -389,7 +377,7 @@ void FavoriteHubs::onEditEntry_gui(GtkWidget *widget, gpointer data)
 	params["BoldTab"] = Util::toString(fh->favoriteView.getValue<gint>(&iter, "BoldTab"));
 	params["PackName"] = fh->favoriteView.getString(&iter, "PackName");
 
-	auto f = new FavoriteHubDialog(false);
+	FavoriteHubDialog* f = new FavoriteHubDialog(entry,false);
 	bool entryUpdated = f->initDialog(fh->GroupsIter,params);
 
 	if (entryUpdated)
@@ -399,7 +387,7 @@ void FavoriteHubs::onEditEntry_gui(GtkWidget *widget, gpointer data)
 
 		if (fh->checkEntry_gui(address_old, address_new))
 		{
-			fh->editEntry_gui(params, &iter);
+			fh->editEntry_gui(entry,params, &iter);
 
 			typedef Func2<FavoriteHubs, string, StringMap> F2;
 			F2 *func = new F2(fh, &FavoriteHubs::editEntry_client, address_old, params);
@@ -933,6 +921,7 @@ void FavoriteHubs::updateFavHubGroups_gui(bool updated)
 			{
 				// moved hub entry to default group
 				StringMap params;
+				FavoriteHubEntry* entry = (FavoriteHubEntry*)favoriteView.getValue<gpointer>(&iter,"FavPointer");
 				params["Name"] = favoriteView.getString(&iter, _("Name"));
 				params["Address"] = address;
 				params["Description"] = favoriteView.getString(&iter, _("Description"));
@@ -957,7 +946,7 @@ void FavoriteHubs::updateFavHubGroups_gui(bool updated)
 				params["BoldTab"] = Util::toString(favoriteView.getValue<gint>(&iter, "BoldTab"));
 				params["PackName"] = favoriteView.getString(&iter, "PackName");
 
-				editEntry_gui(params, &iter);
+				editEntry_gui(entry, params, &iter);
 
 				typedef Func2<FavoriteHubs, string, StringMap> F2;
 				F2 *func = new F2(this, &FavoriteHubs::editEntry_client, address, params);
@@ -1155,7 +1144,7 @@ void FavoriteHubs::initializeList_client()
 	for (auto it = fl.begin(); it != fl.end(); ++it)
 	{
 		getFavHubParams_client(*it, params);
-		addEntry_gui(params);
+		addEntry_gui(*it,params);
 	}
 }
 
@@ -1294,8 +1283,8 @@ void FavoriteHubs::on(FavoriteManagerListener::FavoriteAdded, const FavoriteHubE
 	StringMap params;
 	getFavHubParams_client(entry, params);
 
-	typedef Func1<FavoriteHubs, StringMap> F1;
-	F1 *func = new F1(this, &FavoriteHubs::addEntry_gui, params);
+	typedef Func2<FavoriteHubs, FavoriteHubEntry*,StringMap> F1;
+	F1 *func = new F1(this, &FavoriteHubs::addEntry_gui,entry, params);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 

@@ -20,7 +20,7 @@ optional:
  libtar (Note: for Backup/Restore options)
  libnotify >= 0.4.1
 -------------- 
- lua5.1 >= 5.0 or lua >= 5.0 (Note: not needed by main bin)
+ lua5.1 >= 5.0 or lua >= 5.0 (Note: not needed by main binary)
 
 Compiling:
 ----------

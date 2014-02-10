@@ -37,8 +37,9 @@ class FavoriteHubDialog: public Entry
 	typedef std::unordered_map<std::string, GtkTreeIter> FavHubGroupsIter;
    public:
 
-	FavoriteHubDialog(bool add = true):
+	FavoriteHubDialog(FavoriteHubEntry* entry,bool add = true):
 	Entry(Entry::FAV_HUB,"FavDialog.glade"),
+	p_entry(entry),
 	init(add), actionStore(NULL), actionSel(NULL)
 	{
 		///Actions
@@ -301,7 +302,9 @@ class FavoriteHubDialog: public Entry
 	return FALSE;
 
 	}
-	~FavoriteHubDialog() { }
+	~FavoriteHubDialog() {
+		//delete p_entry;
+	}
 	GtkWidget *getContainer() {return getWidget("dialog");}
 
 private:
@@ -342,7 +345,7 @@ private:
 	}
 
 	bool init;
-
+	FavoriteHubEntry* p_entry;
 	GtkTreeStore *actionStore;
 	TreeView actionView;
 	GtkTreeSelection *actionSel;
