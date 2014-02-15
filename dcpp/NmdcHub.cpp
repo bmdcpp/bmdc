@@ -192,7 +192,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		//check to if it utf-8 . if not convert to it
 		iconv_t test = iconv_open("UTF-8", "UTF-8");
 		char* result = new char[aLine.length()*2];
-		const char* teststr = aLine.c_str();
+		char* teststr = const_cast<char*>(aLine.c_str());
 		size_t ilen = aLine.size();
 		size_t olen = aLine.size()*2;
 		size_t szRet = iconv(test, &teststr,&ilen, &result, &olen);
@@ -1095,7 +1095,7 @@ void NmdcHub::on(Minute, uint64_t aTick) noexcept {
 }
 
 void NmdcHub::password(const string& aPass) {
-	if(!salt.empty()) {//$SaltPassy in Support
+	if(!salt.empty()) {//$SaltPass in Support
 		string filteredPass = fromUtf8(aPass);
 		size_t saltBytes = salt.size() * 5 / 8;
 		uint8_t *buf = new uint8_t[saltBytes];

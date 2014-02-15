@@ -130,7 +130,6 @@ int main(int argc, char *argv[])
 	delete sp;
 	dcpp::TimerManager::getInstance()->start();
 
-	gdk_threads_init();
 	g_set_application_name("BMDC++");
 	WulforSettingsManager::newInstance();
 	signal(SIGPIPE, SIG_IGN);

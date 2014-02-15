@@ -144,7 +144,6 @@ Hub::Hub(const string &address, const string &encoding):
 	imageMagnet.second = "";
 
 	// menu
-/**/
 	g_object_ref_sink(getWidget("nickMenu"));
 	g_object_ref_sink(getWidget("magnetMenu"));
 	g_object_ref_sink(getWidget("linkMenu"));
@@ -398,9 +397,11 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 						hub->nickView.col("Client Type"),&cltype,
 						-1);
 
-		gchar *a = WulforUtil::g_substr(cltype,0,0);
+		//gchar *a = WulforUtil::g_substr(cltype,0,0);
+		string tmp(cltype);
+		char a = tmp[0];
 		//Hub&Bot
-		if ( strcmp(a,"A") == 0)
+		/*if ( strcmp(a,"A") == 0)
 		{
 		  color = WGETS("userlist-bg-bot-hub");
 		}//Op
@@ -426,7 +427,31 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		}
 		else {
 		  color = WGETS("userlist-bg-normal");
+		}*/
+
+		switch(a){
+			case 'A':
+			  color = WGETS("userlist-bg-bot-hub");
+				break;
+			case 'B':
+				color = WGETS("userlist-bg-operator");
+				break;
+			case 'C':
+     	   		color = WGETS("userlist-bg-favorite");
+				break;
+			case 'I':
+			   color = WGETS("userlist-bg-ignored");
+				break;
+			case 'R':
+			   color	= WGETS("userlist-bg-protected");
+				break;
+			case 'Z':
+			   color = WGETS("userlist-bg-pasive");
+				break;
+			default:
+			  color = WGETS("userlist-bg-normal");
 		}
+
 
 		g_object_set(cell,"cell-background-set",TRUE,"cell-background",color.c_str(),NULL);
 		gchar *title = const_cast<gchar*>(gtk_tree_view_column_get_title(column));
@@ -440,7 +465,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 			g_object_set(cell, "text", sizeString.c_str(), NULL);
 		}
 		g_free(cltype);
-		g_free(a);
+		//free(a);
 }
 
 Hub::~Hub()

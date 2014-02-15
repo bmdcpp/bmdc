@@ -1430,11 +1430,10 @@ void ShareManager::on(HashManagerListener::TTHDone, const string& realPath, cons
 	Lock l(cs);
 	auto f = getFile(realPath);
 	if(f) {
-		//Lock l(cs);
 		if(f->tth && root != (*f->tth)){
 			tthIndex.erase(*(f->tth));
 		}	
-		const_cast<Directory::File&>(*f).tth = &root;
+		const_cast<Directory::File&>(*f).tth = const_cast<TTHValue*>(&root);
 		tthIndex[*(f->tth)] = f;
 		setDirty();
 		forceXmlRefresh = true;

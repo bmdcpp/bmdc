@@ -73,13 +73,12 @@ class cmddebug:
 					dcpp::Lock l(cs);
 
 					if(cmdList.empty()) continue;
-
 					x = cmdList.front();
 					cmdList.pop_front();
 				}
-			typedef Func2<cmddebug,time_t,std::string> F2;
-			F2 *func = new F2(this, &cmddebug::add_gui, time(NULL), x);
-			WulforManager::get()->dispatchGuiFunc(func);
+				typedef Func2<cmddebug,time_t,std::string> F2;
+				F2 *func = new F2(this, &cmddebug::add_gui, time(NULL), x);
+				WulforManager::get()->dispatchGuiFunc(func);
 			}
 
 			stop = false;

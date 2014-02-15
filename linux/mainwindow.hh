@@ -75,8 +75,7 @@ class MainWindow:
 		void propertiesMagnetDialog_gui(std::string magnet);
 		void showMessageDialog_gui(const std::string &primaryText, const std::string &secondaryText);
 
-		template<typename T, typename B>
-		void showBook(const T& type, const B& book);
+		void showBook(const EntryType type, BookEntry* book);
 
 		void showDownloadQueue_gui();
 		void showFavoriteHubs_gui();

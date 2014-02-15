@@ -128,7 +128,7 @@ vector<Identity> ClientManager::getIdentities(const UserPtr &u) const {
 	auto op = onlineUsers.equal_range(u->getCID());
 	vector<Identity> ret;
 	for(auto i = op.first; i != op.second; ++i) {
-		ret.push_back(i->second->getIdentity());
+		ret.emplace_back(i->second->getIdentity());
 	}
 
 	return ret;
@@ -138,7 +138,7 @@ string ClientManager::getField(const CID& cid, const string& hint, const char* f
 	Lock l(cs);
 
 	OnlinePairC p;
-	auto u = findOnlineUserHint(cid, hint, p);
+	OnlineUser* u = findOnlineUserHint(cid, hint, p);
 	if(u) {
 		string value = u->getIdentity().get(field);
 		if(!value.empty()) {
@@ -252,7 +252,7 @@ UserPtr ClientManager::getUser(const string& aNick, const string& aHubUrl) noexc
 
 	UserPtr p(new User(cid));
 	p->setFlag(User::NMDC);
-	users.insert(make_pair(cid, p));
+	users.emplace(cid, p);
 	return p;
 }
 
@@ -264,7 +264,7 @@ UserPtr ClientManager::getUser(const CID& cid) noexcept {
 	}
 
 	UserPtr p(new User(cid));
-	users.insert(make_pair(cid, p));
+	users.emplace(make_pair(cid, p));
 	return p;
 }
 
@@ -301,7 +301,7 @@ CID ClientManager::makeCid(const string& aNick, const string& aHubUrl) const noe
 void ClientManager::putOnline(OnlineUser* ou) noexcept {
 	{
 		Lock l(cs);
-		onlineUsers.insert(make_pair(ou->getUser()->getCID(), ou));
+		onlineUsers.emplace(ou->getUser()->getCID(), ou);
 	}
 
 	if(!ou->getUser()->isOnline()) {
@@ -550,7 +550,11 @@ void ClientManager::on(TimerManagerListener::Minute, uint64_t /* aTick */) noexc
 	auto i = users.begin();
 	while(i != users.end()) {
 		if(i->second->unique()) {
+				auto n = nicks.find(i->second->getCID());//should also remove from nicks...
+				if(n != nicks.end())
+					nicks.erase(n);
 			users.erase(i++);
+			delete i->second.get();
 		} else {
 			++i;
 		}
@@ -566,7 +570,7 @@ UserPtr& ClientManager::getMe() {
 		Lock l(cs);
 		if(!me) {
 			me = std::make_shared<User>(User(getMyCID()));
-			users.insert(make_pair(me->getCID(), me));
+			users.emplace(me->getCID(), me);
 		}
 	}
 	return me;

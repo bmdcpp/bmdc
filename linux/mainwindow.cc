@@ -963,84 +963,84 @@ BookEntry* MainWindow::findBookEntry(const EntryType type, const string &id)
 	return dynamic_cast<BookEntry*>(entry);
 }
 
-template<typename T, typename B>
-void MainWindow::showBook(const T& type, const B& book)
+void MainWindow::showBook(const EntryType type, BookEntry* book)
 {
 	BookEntry *entry = findBookEntry(type);
 
 	if(entry == NULL)
 	{
-			entry = book;
-			addBookEntry_gui(entry);
+		addBookEntry_gui(book);
+		raisePage_gui(book->getContainer());
 	}
-	raisePage_gui(entry->getContainer());
+	else 	raisePage_gui(entry->getContainer());
+
 }
 
 void MainWindow::onAboutConfigClicked_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	mw->showBook<Entry::EntryType,BookEntry *>(Entry::ABOUT_CONFIG,new AboutConfig());
+	mw->showBook(Entry::ABOUT_CONFIG,new AboutConfig());
 }
 
 void MainWindow::showDownloadQueue_gui()
 {
-	showBook<Entry::EntryType,BookEntry *>(Entry::DOWNLOAD_QUEUE,new DownloadQueue());
+	showBook(Entry::DOWNLOAD_QUEUE,new DownloadQueue());
 	setStatusOfIcons(QUEUE,true);
 }
 
 void MainWindow::showFavoriteHubs_gui()
 {
-	showBook<Entry::EntryType, BookEntry *>(Entry::FAVORITE_HUBS, new FavoriteHubs());
+	showBook(Entry::FAVORITE_HUBS, new FavoriteHubs());
 	setStatusOfIcons(FAVORITE_HUBS,true);
 }
 
 void MainWindow::showFavoriteUsers_gui()
 {
-	showBook<Entry::EntryType, BookEntry *>(Entry::FAVORITE_USERS, new FavoriteUsers());
+	showBook(Entry::FAVORITE_USERS, new FavoriteUsers());
 	setStatusOfIcons(FAVORITE_USERS,true);
 }
 //[BMDC++
 void MainWindow::showCmdDebug_gui()
 {
-	showBook<Entry::EntryType, BookEntry *>(Entry::CMD, new cmddebug());
+	showBook(Entry::CMD, new cmddebug());
 }
 
 void MainWindow::showSystemLog_gui()
 {
-	showBook<Entry::EntryType, BookEntry *>(Entry::SYSTEML, new systemlog());
+	showBook(Entry::SYSTEML, new systemlog());
 	setStatusOfIcons(SYSTEM, true);
 }
 
 void MainWindow::showNotepad_gui()
 {
-	showBook<Entry::EntryType, BookEntry *>(Entry::NOTEPAD, new notepad());
+	showBook(Entry::NOTEPAD, new notepad());
 	setStatusOfIcons(NOTEPAD, true);
 }
 
 void MainWindow::showUploadQueue_gui()
 {
-	showBook<Entry::EntryType, BookEntry *>(Entry::UPLOADQUEUE, new UploadQueue());
+	showBook(Entry::UPLOADQUEUE, new UploadQueue());
 }
 
 void MainWindow::showRecentHubs_gui()
 {
-	showBook<Entry::EntryType, BookEntry *>(Entry::RECENT, new RecentHubs());
+	showBook(Entry::RECENT, new RecentHubs());
 }
 
 void MainWindow::showDetection_gui()
 {
-	showBook<Entry::EntryType, BookEntry *>(Entry::DETECTION, new DetectionTab());
+	showBook(Entry::DETECTION, new DetectionTab());
 }
 
 void MainWindow::showFinishedDownloads_gui()
 {
-	showBook<Entry::EntryType, BookEntry *>(Entry::FINISHED_DOWNLOADS, FinishedTransfers::createFinishedDownloads());
+	showBook(Entry::FINISHED_DOWNLOADS, FinishedTransfers::createFinishedDownloads());
 	setStatusOfIcons(FDOWNLOADS, true);
 }
 
 void MainWindow::showFinishedUploads_gui()
 {
-	showBook<Entry::EntryType, BookEntry *>(Entry::FINISHED_UPLOADS, FinishedTransfers::createFinishedUploads());
+	showBook(Entry::FINISHED_UPLOADS, FinishedTransfers::createFinishedUploads());
 	setStatusOfIcons(FUPLOADS, true);
 }
 
@@ -1070,13 +1070,13 @@ void MainWindow::showHub_gui(string address, string encoding)
 
 void MainWindow::showSearchSpy_gui()
 {
-	showBook<Entry::EntryType, BookEntry *>(Entry::SEARCH_SPY, new SearchSpy());
+	showBook(Entry::SEARCH_SPY, new SearchSpy());
 	setStatusOfIcons(SEARCH_SPY,true);
 }
 
 void MainWindow::showSearchADL_gui()
 {
-	showBook<Entry::EntryType, BookEntry *>(Entry::SEARCH_ADL, new SearchADL());
+	showBook(Entry::SEARCH_ADL, new SearchADL());
 	setStatusOfIcons(SEARCH_ADL,true);
 }
 
@@ -1176,7 +1176,7 @@ void MainWindow::addPrivateStatusMessage_gui(Msg::TypeMsg typemsg, string cid, s
 
 void MainWindow::showPublicHubs_gui()
 {
-	showBook<Entry::EntryType, BookEntry *>(Entry::PUBLIC_HUBS, new PublicHubs());
+	showBook(Entry::PUBLIC_HUBS, new PublicHubs());
 	setStatusOfIcons(PUBLIC_HUBS,true);
 }
 

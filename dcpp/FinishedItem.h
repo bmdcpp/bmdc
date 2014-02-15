@@ -47,7 +47,6 @@ public:
 	GETSET(int64_t, milliSeconds, MilliSeconds);
 	GETSET(time_t, time, Time);
 private:
-	//FinishedItemBase(FinishedItemBase&);
 	FinishedItemBase operator=(FinishedItemBase&);
 	
 };

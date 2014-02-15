@@ -137,8 +137,6 @@ protected:
 	friend class ClientManager;
 	Client(const string& hubURL, char separator, bool secure_);
 	virtual ~Client();
-	Client(const Client&) = delete;
-	Client& operator=(const Client&) = delete;
 
 	enum CountType {
 		COUNT_NORMAL,
@@ -191,6 +189,9 @@ private:
 	CountType countType;
 
 	CommandQueue cmdQueue;
+
+	Client(const Client&);
+	Client& operator=(const Client&);
 };
 
 } // namespace dcpp

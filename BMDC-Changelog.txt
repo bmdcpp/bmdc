@@ -20,7 +20,7 @@
 * Remove /lua and /luafile from GUI
 * Fixed . after copy IP
 * Threaded Loading of FileList (eiskaltdcpp (dhamp))
-* partialy update to 2972
+* Partialy update to 2972 dcpp
 * Update to 2923 dcpp
 * Add Export Dialog
 * Made libtar optional depedience
