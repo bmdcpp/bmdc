@@ -34,7 +34,7 @@ STANDARD_EXCEPTION(SimpleXMLException);
  * A simple XML class that loads an XML-ish structure into an internal tree
  * and allows easy access to each element through a "current location".
  */
-class SimpleXML //: private boost::noncopyable
+class SimpleXML 
 {
 public:
 	SimpleXML() : root("BOGUSROOT", Util::emptyString, NULL), current(&root), found(false) {
@@ -100,7 +100,7 @@ public:
 	}
 
 	bool findChild(const string& aName) noexcept;
-	//plg..
+	//Plugins using this
 	StringMap getCurrentChildren() {
 		dcassert(current != NULL);
 		StringMap d;

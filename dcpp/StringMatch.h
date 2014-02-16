@@ -34,9 +34,7 @@ struct StringMatch {
 	enum Method {
 		PARTIAL, /// case-insensitive pattern matching (multiple patterns separated with spaces)
 		EXACT, /// case-sensitive, character-for-character equality
-		REGEX, /// regular expression
-
-		METHOD_LAST
+		REGEX /// regular expression
 	};
 
 	string pattern;
@@ -49,6 +47,7 @@ struct StringMatch {
 	bool match(const string& str) const;
 
 private:
+	int i_method = -1;
 	StringSearch::List searchlist;
 	string search;
 	string reg;

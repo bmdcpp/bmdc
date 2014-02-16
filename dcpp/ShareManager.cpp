@@ -68,12 +68,12 @@ ShareManager::ShareManager() : hits(0), xmlListLen(0), bzXmlListLen(0),
 	HashManager::getInstance()->addListener(this);
 
 	if(!Util::fileExists(Util::getPath(Util::PATH_USER_CONFIG) + "Emptyfiles.xml.bz2")) {
-				string emptyXmlName = Util::getPath(Util::PATH_USER_CONFIG) + "Emptyfiles.xml.bz2";
-				FilteredOutputStream<BZFilter, true> emptyXmlFile(new File(emptyXmlName, File::WRITE, File::TRUNCATE | File::CREATE));
-				emptyXmlFile.write(SimpleXML::utf8Header);
-				emptyXmlFile.write("<FileListing Version=\"1\" CID=\"" + ClientManager::getInstance()->getMe()->getCID().toBase32() + "\" Base=\"/\" Generator=\"BMDC++ " VERSIONSTRING "\">\r\n");
-				emptyXmlFile.write("</FileListing>");
-				emptyXmlFile.flush();
+		string emptyXmlName = Util::getPath(Util::PATH_USER_CONFIG) + "Emptyfiles.xml.bz2";
+		FilteredOutputStream<BZFilter, true> emptyXmlFile(new File(emptyXmlName, File::WRITE, File::TRUNCATE | File::CREATE));
+		emptyXmlFile.write(SimpleXML::utf8Header);
+		emptyXmlFile.write("<FileListing Version=\"1\" CID=\"" + ClientManager::getInstance()->getMe()->getCID().toBase32() + "\" Base=\"/\" Generator=\"BMDC++ " VERSIONSTRING "\">\r\n");
+		emptyXmlFile.write("</FileListing>");
+		emptyXmlFile.flush();
 	}
 	
 }
@@ -169,7 +169,7 @@ string ShareManager::toReal(const string& virtualFile,bool isShared) {
 
 pair<string, int64_t> ShareManager::toRealWithSize(const string& virtualFile, bool isInSharedHub) {
 	Lock l(cs);
-	if(!isInSharedHub)return make_pair((Util::getPath(Util::PATH_USER_CONFIG) + "Emptyfiles.xml.bz2"),0);
+	if(!isInSharedHub) return make_pair((Util::getPath(Util::PATH_USER_CONFIG) + "Emptyfiles.xml.bz2"),0);
 
 	if(virtualFile == "MyList.DcLst") {
 		throw ShareException("NMDC-style lists no longer supported, please upgrade your client");
@@ -323,7 +323,6 @@ pair<ShareManager::Directory::Ptr, string> ShareManager::splitVirtual(const stri
 
 const ShareManager::Directory::File& ShareManager::findFile(const string& virtualFile) const {
 	if(virtualFile.compare(0, 4, "TTH/") == 0) {
-		//Lock l(cs);
 		auto i = tthIndex.find(TTHValue(virtualFile.substr(4)));
 		if(i == tthIndex.end()) {
 			throw ShareException(UserConnection::FILE_NOT_AVAILABLE);
@@ -585,7 +584,7 @@ ShareManager::Directory::Ptr ShareManager::buildTree(const string& realPath, con
 	//will be needed later
 	for(FileFindIter i(realPath),end; i != end; ++i) {
 #endif
-		auto name = i->getFileName();
+		string name = i->getFileName();
 
 		if(name.empty()) {
 			LogManager::getInstance()->message(_("Invalid file name found while hashing folder ") + Util::addBrackets(realPath));

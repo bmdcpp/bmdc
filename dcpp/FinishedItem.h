@@ -25,7 +25,6 @@
 #include "Util.h"
 
 namespace dcpp {
-using std::shared_ptr;	
 
 class FinishedItemBase {
 public:
@@ -51,7 +50,7 @@ private:
 	
 };
 
-class FinishedFileItem : public FinishedItemBase, public shared_ptr<FinishedFileItem>  {
+class FinishedFileItem : public FinishedItemBase  {
 public:
 	explicit FinishedFileItem(
 		int64_t transferred_,
@@ -81,7 +80,7 @@ public:
 	GETSET(bool, crc32Checked, Crc32Checked);
 };
 
-class FinishedUserItem : public FinishedItemBase, public shared_ptr<FinishedUserItem> {
+class FinishedUserItem : public FinishedItemBase {
 public:
 	explicit FinishedUserItem(
 		int64_t transferred_,

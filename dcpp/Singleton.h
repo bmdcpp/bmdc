@@ -37,13 +37,12 @@ public:
 	static void newInstance() {
 		if(instance)
 			delete instance;
-
 		instance = new T();
 	}
 
 	static void deleteInstance() {
-		if(instance)
-			delete instance;
+		//if(instance)
+		delete instance;//alway delete of NULL is safe
 		instance = NULL;
 	}
 protected:

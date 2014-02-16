@@ -18,15 +18,9 @@
 
 #ifndef DCPLUSPLUS_DCPP_SEMAPHORE_H
 #define DCPLUSPLUS_DCPP_SEMAPHORE_H
-/*
-#ifdef _WIN32
-	#include "w.h"
-#else*/
 #include <errno.h>
 #include <semaphore.h>
 #include <sys/time.h>
-//#endif
-
 #include "noexcept.h"
 
 namespace dcpp {

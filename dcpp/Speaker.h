@@ -114,7 +114,7 @@ public:
 
 	void removeListener(Listener* aListener) {
 		Lock l(listenerCS);
-		auto it = find(listeners.begin(), listeners.end(), aListener);//find(listeners, aListener);
+		auto it = find(listeners.begin(), listeners.end(), aListener);
 		if(it != listeners.end())
 			listeners.erase(it);
 	}

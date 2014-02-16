@@ -19,7 +19,6 @@
 #include "stdinc.h"
 #include "PluginManager.h"
 
-//#include "Archive.h"
 #include "Client.h"
 #include "ClientManager.h"
 #include "ConnectionManager.h"
@@ -196,14 +195,7 @@ void PluginManager::loadPlugins(function<void (const string&)> f) {
 	SettingsManager::getInstance()->addListener(this);
 
 	loadSettings();
-//load from sys path (BMDC) so we can include some in package :p@TODO?
-//	const auto& paths = File::findFiles(Util::getPath(Util::PATH_RESOURCES)+"bmdc/plugins/" , PLUGIN_EXT);
-//	for(auto& file:paths)
-//{
-//	if(file.empty())continue;
-//	addPluginStart(file);
-//}
-//
+//load from sys path (BMDC)@TODO?
 	for(auto& plugin: plugins) {
 		if(!plugin.dcMain) { continue; } // a little trick to avoid an additonal "bool enabled"
 		if(f) { f(plugin.name); }

@@ -55,10 +55,10 @@ class FavoriteUser;
 class File;
 
 class FinishedFileItem;
-typedef std::shared_ptr<FinishedFileItem> FinishedFileItemPtr;
+typedef FinishedFileItem* FinishedFileItemPtr;
 
 class FinishedUserItem;
-typedef std::shared_ptr<FinishedUserItem> FinishedUserItemPtr;
+typedef FinishedUserItem* FinishedUserItemPtr;
 
 class FinishedManager;
 

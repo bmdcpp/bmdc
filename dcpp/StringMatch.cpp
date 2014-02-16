@@ -26,7 +26,7 @@
 namespace dcpp {
 
 StringMatch::Method StringMatch::getMethod() const {
-	return !searchlist.empty() ? PARTIAL : (!search.empty()) ? EXACT : REGEX;
+	return (Method)i_method;
 }
 
 void StringMatch::setMethod(Method method) {
@@ -34,8 +34,9 @@ void StringMatch::setMethod(Method method) {
 	case PARTIAL: searchlist = StringSearch::List(); break;
 	case EXACT: search = string(); break;
 	case REGEX: reg = string(); break;
-	case METHOD_LAST: break;
+	default:return;
 	}
+	i_method = (int)method;
 }
 
 bool StringMatch::operator==(const StringMatch& rhs) const {
@@ -48,7 +49,6 @@ void StringMatch::prepare()
 	switch(getMethod()){
 		case PARTIAL:
 		searchlist.clear();
-		
 		for(auto& i: st.getTokens()) {
 			if(!i.empty()) {
 				searchlist.emplace_back(i);
@@ -79,7 +79,7 @@ bool StringMatch::matchstr(const string& s) const {
 }
 
 bool StringMatch::matchreg(const string& str) const {
-		return RegEx::match<string>(str,reg);
+	return RegEx::match<string>(str,reg);
 }
 
 bool StringMatch::match(const string& str) const {

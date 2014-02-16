@@ -33,7 +33,6 @@
 #include "QueueManagerListener.h"
 #include "SettingsManager.h"
 #include "Singleton.h"
-//#include "Tagger.h"
 #include "TimerManager.h"
 
 #ifdef _WIN32
@@ -102,10 +101,6 @@ public:
 	PluginManager();
 	~PluginManager();
 
-	/** Extract a dcext-packaged plugin. Throws on errors. */
-	/*DcextInfo extract(const string& path);
-	void install(const DcextInfo& info);
-*/
 	void loadPlugins(function<void (const string&)> f);
 	void unloadPlugins();
 

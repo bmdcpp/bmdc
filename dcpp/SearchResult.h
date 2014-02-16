@@ -25,9 +25,7 @@
 #include "Pointer.h"
 
 namespace dcpp {
-using std::shared_ptr;
 class SearchManager;
-//Removed FastAlloc
 class SearchResult {
 public:
 	enum Types {

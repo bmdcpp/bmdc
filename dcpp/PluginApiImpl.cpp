@@ -36,7 +36,6 @@
 #include "LogManager.h"
 #include "PluginManager.h"
 #include "QueueManager.h"
-//#include "Tagger.h"
 #include "UserConnection.h"
 #include "version.h"
 

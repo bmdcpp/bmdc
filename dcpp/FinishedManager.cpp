@@ -134,7 +134,7 @@ void FinishedManager::onComplete(Transfer* t, bool upload, bool crc32Checked) {
 			MapByFile& map = upload ? ULByFile : DLByFile;
 			MapByFile::iterator it = map.find(file);
 			if(it == map.end()) {
-				FinishedFileItemPtr p = std::make_shared<FinishedFileItem>( FinishedFileItem(
+				FinishedFileItem* p = new FinishedFileItem(
 					t->getPos(),
 					milliSeconds,
 					time,
@@ -142,7 +142,7 @@ void FinishedManager::onComplete(Transfer* t, bool upload, bool crc32Checked) {
 					t->getActual(),
 					crc32Checked,
 					user
-					) );
+					) ;
 				map[file] = p;
 				fire(FinishedManagerListener::AddedFile(), upload, file, p);
 			} else {
@@ -163,12 +163,12 @@ void FinishedManager::onComplete(Transfer* t, bool upload, bool crc32Checked) {
 			MapByUser& map = upload ? ULByUser : DLByUser;
 			MapByUser::iterator it = map.find(user);
 			if(it == map.end()) {
-				FinishedUserItemPtr p = make_shared<FinishedUserItem> (FinishedUserItem(
+				FinishedUserItem* p = new FinishedUserItem(
 					t->getPos(),
 					milliSeconds,
 					time,
 					file
-					) );
+					);
 				map[user] = p;
 				fire(FinishedManagerListener::AddedUser(), upload, user, p);
 			} else {
