@@ -72,7 +72,7 @@ int64_t NmdcHub::getAvailable() const {
 }
 
 OnlineUser& NmdcHub::getUser(const string& aNick) {
-	OnlineUser* u = NULL;
+	OnlineUser* u = nullptr;
 	{
 		Lock l(cs);
 
@@ -90,7 +90,7 @@ OnlineUser& NmdcHub::getUser(const string& aNick) {
 
 	{
 		Lock l(cs);
-		u = users.insert(make_pair(aNick, new OnlineUser(p, *this, 0))).first->second;
+		u = users.emplace(aNick, new OnlineUser(p, *this, 0)).first->second;
 		u->getIdentity().setNick(aNick);
 		if(u->getUser() == getMyIdentity().getUser()) {
 			setMyIdentity(u->getIdentity());
@@ -117,7 +117,7 @@ OnlineUser* NmdcHub::findUser(const string& aNick) {
 }
 
 void NmdcHub::putUser(const string& aNick) {
-	OnlineUser* ou = NULL;
+	OnlineUser* ou = nullptr;
 	{
 		Lock l(cs);
 		NickIter i = users.find(aNick);
@@ -142,6 +142,7 @@ void NmdcHub::clearUsers() {
 		ClientManager::getInstance()->putOffline(i->second);
 		delete i->second;
 	}
+	u2.clear();
 }
 
 void NmdcHub::updateFromTag(Identity& id, const string& tag) {
@@ -328,7 +329,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			}
 		}
 
-		int a;
+		int a = -1;
 		if(param[i] == 'F') {
 			a = SearchManager::SIZE_DONTCARE;
 		} else if(param[i+2] == 'F') {
@@ -366,8 +367,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			fire(ClientListener::NmdcSearch(), this, seeker, a, Util::toInt64(size), type, terms);
 		}
 	} else if(cmd == "$MyINFO") {
-		string::size_type i, j;
-		i = 5;
+		string::size_type i = 5, j;
 		j = param.find(' ', i);
 		if( (j == string::npos) || (j == i) )
 			return;
@@ -376,7 +376,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		if(nick.empty())
 			return;
 
-		i = j + 1;
+		i = j + 1;//11
 
 		OnlineUser& u = getUser(nick);
 
@@ -413,8 +413,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		u.getIdentity().setHub(false);
 
 		u.getIdentity().set("CO", Text::utf8ToAcp(connection));//dont fucked up CO string with weird chars (unix)
-		//away status
-		auto aMode = param[j-1];
+		char aMode = param[j-1];
 		if(aMode & 0x02) {
 			u.getIdentity().set("AW", "1");
 		}else

@@ -397,38 +397,8 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 						hub->nickView.col("Client Type"),&cltype,
 						-1);
 
-		//gchar *a = WulforUtil::g_substr(cltype,0,0);
 		string tmp(cltype);
 		char a = tmp[0];
-		//Hub&Bot
-		/*if ( strcmp(a,"A") == 0)
-		{
-		  color = WGETS("userlist-bg-bot-hub");
-		}//Op
-		else if ( strcmp(a,"B") == 0)
-		{
-			color = WGETS("userlist-bg-operator");
-		}//Fav
-		else if ( strcmp(a,"C") == 0)
-		{
-     	   		color = WGETS("userlist-bg-favorite");
-		}//Ignored
-		else if ( strcmp(a, "I") == 0)
-		{
-		   color = WGETS("userlist-bg-ignored");
-		}//Protected
-		else if ( strcmp(a,"R") == 0)
-		{
-		   color	= WGETS("userlist-bg-protected");
-		}//pasive
-		else if (strcmp(a,"Z") == 0)
-		{
-		   color = WGETS("userlist-bg-pasive");
-		}
-		else {
-		  color = WGETS("userlist-bg-normal");
-		}*/
-
 		switch(a){
 			case 'A':
 			  color = WGETS("userlist-bg-bot-hub");
@@ -465,7 +435,6 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 			g_object_set(cell, "text", sizeString.c_str(), NULL);
 		}
 		g_free(cltype);
-		//free(a);
 }
 
 Hub::~Hub()

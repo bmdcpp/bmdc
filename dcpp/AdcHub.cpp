@@ -77,12 +77,11 @@ OnlineUser& AdcHub::getUser(const uint32_t aSID, const CID& aCID) {
 	if(ou) {
 		return *ou;
 	}
-
 	UserPtr p = ClientManager::getInstance()->getUser(aCID);
 
-	{
+	{	
 		Lock l(cs);
-		ou = users.insert(make_pair(aSID, new OnlineUser(p, *this, aSID))).first->second;
+		ou = users.emplace(aSID, new OnlineUser(p, *this, aSID)).first->second;
 	}
 	ClientManager::getInstance()->putOnline(ou);
 	return *ou;
@@ -949,9 +948,9 @@ void AdcHub::password(const string& pwd) {
 		}
 		th.update(pwd.data(), pwd.length());
 		th.update(buf, saltBytes);
+		delete [] buf;
 		send(AdcCommand(AdcCommand::CMD_PAS, AdcCommand::TYPE_HUB).addParam(Encoder::toBase32(th.finalize(), TigerHash::BYTES)));
 		salt.clear();
-		delete [] buf;
 	}
 }
 
