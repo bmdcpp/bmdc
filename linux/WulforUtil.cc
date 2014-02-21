@@ -501,7 +501,7 @@ GtkTreeIter WulforUtil::copyRow_gui(GtkListStore *store, GtkTreeIter *fromIter, 
 
 void WulforUtil::copyValue_gui(GtkListStore *store, GtkTreeIter *fromIter, GtkTreeIter *toIter, int position)
 {
-	GValue value = {0, };
+	GValue value = G_VALUE_INIT;
 	gtk_tree_model_get_value(GTK_TREE_MODEL(store), fromIter, position, &value);
 	gtk_list_store_set_value(store, toIter, position, &value);
 	g_value_unset(&value);
@@ -524,7 +524,7 @@ GtkTreeIter WulforUtil::copyRow_gui(GtkTreeStore *store, GtkTreeIter *fromIter, 
 
 void WulforUtil::copyValue_gui(GtkTreeStore *store, GtkTreeIter *fromIter, GtkTreeIter *toIter, int position)
 {
-	GValue value = {0, };
+	GValue value =  G_VALUE_INIT;
 	gtk_tree_model_get_value(GTK_TREE_MODEL(store), fromIter, position, &value);
 	gtk_tree_store_set_value(store, toIter, position, &value);
 	g_value_unset(&value);
@@ -845,7 +845,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 		{
 			status += e.getError();
 		}
-				return true;
+		return true;
 	}
 	else if ( cmd == "slots")
 	{
@@ -915,7 +915,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	/// "Now Playing" spam // added by curse and Irene
 	}else if (cmd == "amar")
 	{
-		ShellCommand s((char *)"amarok-now-playing.sh");
+		ShellCommand s("amarok-now-playing.sh");
 		//test if script is in the right directory and set executable and if so run it
 		if (strcmp(s.Output(),"Amarok is not running.")==0)
 		{
@@ -935,7 +935,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	}
  	else if (cmd == "auda" || cmd == "w")
 	{
-		ShellCommand s((char *)"audacious-now-playing.sh");
+		ShellCommand s("audacious-now-playing.sh");
 		if (strcmp(s.Output(),"Audacious is not running.")==0)
 		{
 			status += s.Output();
@@ -950,7 +950,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	}
 	else if (cmd == "kaff")
 	{
-		ShellCommand s((char *)"kaffeine-now-playing.sh");
+		ShellCommand s("kaffeine-now-playing.sh");
 
 		if (strcmp(s.Output(),"Kaffeine is not running.")==0)
 		{
@@ -970,7 +970,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	}
 	else if  (cmd == "rb")
 	{
-		ShellCommand s((char *)"rhytmobox-now-playing.sh");
+		ShellCommand s("rhytmobox-now-playing.sh");
 
 		if (strcmp(s.Output(),"Kaffeine is not running.")==0)
 		{
@@ -990,7 +990,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	}
 	else if (cmd == "vlc")
 	{
-		ShellCommand s((char *)"vlc-np.sh");
+		ShellCommand s("vlc-np.sh");
 		//test if script is in the right directory and set executable and if so run it
 		if (strcmp(s.Output(),"VLC is not running.") == 0)
 		{
@@ -1010,7 +1010,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	}
 	else if ( cmd == "debf")
 	{
-			ShellCommand s((char *)"deadbeaf.sh");
+			ShellCommand s("deadbeaf.sh");
 			if (strcmp(s.Output(),"Deadbeef is not running.") == 0)
 			{
 				status += s.Output();

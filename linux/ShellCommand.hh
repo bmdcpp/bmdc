@@ -1,5 +1,5 @@
 //Class to take care of communication with the shell
-//Author: Irene
+//Author: Irene//Modified by Mank
 
 #ifndef SHELL_COMMAND_HH
 #define SHELL_COMMAND_HH
@@ -13,21 +13,18 @@ class ShellCommand
 	public:
 		/* input = shell command or name a script in the Script directory
 		   len (optional) = maximum resultsize, standard set to 256
-		   shell (optional) = 0 for a script, 1 for a shellcommand */
-		ShellCommand(char* input, int len=2500, int shell=0);
+		*/
+		ShellCommand(std::string input, int len=256);
 		~ShellCommand();
-		bool Error(); //Returns true if an error has occurred
 		char* Output(); //Returns output. If unfixable error has occurred, output = ""
-		char* ErrorMessage(); //Returns errormessage. If no error has occurred, errormessage = ""
-		int GetResultSize(); //Returns size of the result
+		const char* ErrorMessage(); //Returns errormessage. If no error has occurred, errormessage = ""
 		bool isThirdPerson();
-
 	private:
 		char* output;
-		char* errormessage;
-		bool error;
-		int resultsize;
+		std::string errormessage;
 		bool thirdPerson;
+		int resultsize;
+		std::string path;
 };
 
 #else

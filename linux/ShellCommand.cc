@@ -1,17 +1,38 @@
 ﻿//Implementation of ShellCommand.hh
-//Author: Irene
+//Author: Irene//Modified by Mank
 #include <cstring>
+#include <dcpp/stdinc.h>
+#include <dcpp/Util.h>
 #include "ShellCommand.hh"
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
 
 using namespace std;
 
-ShellCommand::ShellCommand(char* input, int len, int shell)
+ShellCommand::ShellCommand(std::string input, int len):
+errormessage(""),thirdPerson(false), resultsize(len), path(WulforManager::get()->getPath()+"/extensions/Scripts/"+input)
 {
-	thirdPerson = false;
-	resultsize=len;
-	output = new char[resultsize];
+	if(!dcpp::Util::fileExists(path))
+	{
+		errormessage = output = _("File doesn't exist");
+		return;
+	}
+	output = new char[resultsize+1];
+	FILE *p = NULL;
+	p = popen( (path).c_str(), "r");
+	fgets(output,resultsize,p);
+	pclose(p);
+	output[strlen(output)-1]='\0';
+	if(strncmp(output,"/me",3) ==0)
+	{
+		thirdPerson = true;
+		string out(output);
+		string tmp = out.substr(4);
+		output = const_cast<char*>(tmp.c_str());
+	}
+
+//	resultsize=len;
+/*	output = new char[resultsize];
 	strcpy(output,"");
 	errormessage = new char[strlen(input)+100];
 	strcpy(errormessage,"");
@@ -61,7 +82,7 @@ ShellCommand::ShellCommand(char* input, int len, int shell)
 					strcat(errormessage,input);
 					strcat(errormessage," is not an executable. Please use chmod +x to set file permissions.");
 				}*/
-			}
+/*			}
 		}
 		if (error == 0)
 		{
@@ -72,8 +93,8 @@ ShellCommand::ShellCommand(char* input, int len, int shell)
 	else
 	{
 		strcpy(command,input);
-	}
-	if (error == 0)
+	}*/
+/*	if (error == 0)
 	{
 	        FILE* f;
         	f=popen(command,"r");
@@ -88,18 +109,12 @@ ShellCommand::ShellCommand(char* input, int len, int shell)
 				output = WulforUtil::g_substr(output,4,strlen(output)+1);
 
 			}
-	}
+	}*/
 }
 
 ShellCommand::~ShellCommand()
 {
-	delete[] output;
-	delete[] errormessage;
-}
 
-bool ShellCommand::Error()
-{
-	return error;
 }
 
 char* ShellCommand::Output()
@@ -107,14 +122,9 @@ char* ShellCommand::Output()
 	return output;
 }
 
-char* ShellCommand::ErrorMessage()
+const char* ShellCommand::ErrorMessage()
 {
-	return errormessage;
-}
-
-int ShellCommand::GetResultSize()
-{
-	return resultsize;
+	return errormessage.c_str();
 }
 
 bool ShellCommand::isThirdPerson()
