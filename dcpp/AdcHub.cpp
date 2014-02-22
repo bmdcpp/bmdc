@@ -64,11 +64,11 @@ const vector<StringList> AdcHub::searchExts;
 
 AdcHub::AdcHub(const string& aHubURL, bool secure) :
 	Client(aHubURL, '\n', secure), oldPassword(false), udp(Socket::TYPE_UDP), sid(0) {
-	TimerManager::getInstance()->addListener(this);
+	//TimerManager::getInstance()->addListener(this);
 }
 
 AdcHub::~AdcHub() {
-	TimerManager::getInstance()->removeListener(this);
+	//TimerManager::getInstance()->removeListener(this);
 	clearUsers();
 }
 
@@ -90,7 +90,7 @@ OnlineUser& AdcHub::getUser(const uint32_t aSID, const CID& aCID) {
 OnlineUser* AdcHub::findUser(const uint32_t aSID) const {
 	Lock l(cs);
 	SIDIter i = users.find(aSID);
-	return i == users.end() ? NULL : i->second;
+	return i == users.end() ? nullptr : i->second;
 }
 
 OnlineUser* AdcHub::findUser(const CID& aCID) const {
@@ -566,7 +566,7 @@ void AdcHub::handle(AdcCommand::GET, AdcCommand& c) noexcept {
 		size_t n = ShareManager::getInstance()->getSharedFiles();
 
 		// When h >= 32, m can't go above 2^h anyway since it's stored in a size_t.
-           if(m > (5 * Util::roundUp((int64_t)(n * k / log(2.)), (int64_t)64)) || (h < 32 && m > static_cast<size_t>(1U << h))) {
+        if(m > (5 * Util::roundUp((int64_t)(n * k / log(2.)), (int64_t)64)) || (h < 32 && m > static_cast<size_t>(1U << h))) {
 			send(AdcCommand(AdcCommand::SEV_FATAL, AdcCommand::ERROR_TRANSFER_GENERIC,
 				"Unsupported m", AdcCommand::TYPE_HUB));
 			return;

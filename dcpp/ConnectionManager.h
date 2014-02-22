@@ -35,7 +35,7 @@ using std::unique_ptr;
 
 class SocketException;
 
-class ConnectionQueueItem /*: boost::noncopyable*/ {
+class ConnectionQueueItem  {
 public:
 	typedef ConnectionQueueItem* Ptr;
 	typedef vector<Ptr> List;

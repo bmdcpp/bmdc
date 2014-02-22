@@ -319,6 +319,9 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
 				<property name="expand">True</property>
+				<property name="cursor-visible">False</property>
+				<property name="editable">False</property>
+				<property name="wrap-mode">GTK_WRAP_WORD_CHAR</property>
               </object>
             </child>
           </object>

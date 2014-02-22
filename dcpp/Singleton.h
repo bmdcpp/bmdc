@@ -42,7 +42,7 @@ public:
 
 	static void deleteInstance() {
 		//if(instance)
-		delete instance;//alway delete of NULL is safe
+		delete instance;//alway delete. delete of NULL is safe
 		instance = NULL;
 	}
 protected:

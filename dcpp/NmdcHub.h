@@ -73,6 +73,18 @@ public:
 	virtual void send(const AdcCommand&) { dcassert(0); }
 
 	static string validateMessage(string tmp, bool reverse);
+	
+	/*UserPtr findUser_(const CID& cid)
+	{
+			for(auto u:users)
+			{
+				UserPtr user = u.second->getUser()
+				if(user->getCID() == cid)
+					return user;
+					
+			}
+		return nullptr;
+	}*/
 private:
 	friend class ClientManager;
 	enum SupportFlags {
