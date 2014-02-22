@@ -1904,27 +1904,27 @@ gboolean Hub::onNickListButtonRelease_gui(GtkWidget *widget, GdkEventButton *eve
 
 void Hub::clickAction(gpointer data)
 {
-	switch(WGETI("double-click-action"))
+	switch((CActions::User)WGETI("double-click-action"))
 	{
-		case 0:
+		case CActions::BROWSE:
 			onBrowseItemClicked_gui(NULL, data);
 			break;
-		case 1:
+		case CActions::NICK_TO_CHAT:
 			onNickToChat_gui(NULL, data);
 			break;
-	    case 2:
+	    case CActions::PM_TO_NICK:
 			onMsgItemClicked_gui(NULL, data);
 			break;
-		case 3:
+		case CActions::MATCH_Q:
 			onMatchItemClicked_gui(NULL ,data);
 			break;
-		case 4:
+		case CActions::GRANT_SLOT:
 			onGrantItemClicked_gui(NULL, data);
 			break;
-		case 5:
+		case CActions::ADD_AS_FAV:
 			onAddFavoriteUserClicked_gui(NULL, data);
 			break;
-		case 6:
+		case CActions::GET_PARTIAL_FILELIST:
 			onPartialFileListOpen_gui(NULL, data);
 			break;
 		default: break;

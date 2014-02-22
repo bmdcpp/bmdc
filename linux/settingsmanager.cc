@@ -26,6 +26,7 @@
 #include <dcpp/Util.h>
 #include <dcpp/StringTokenizer.h>
 #include "WulforUtil.hh"
+#include "message.hh"
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
@@ -35,9 +36,9 @@ using namespace dcpp;
 WulforSettingsManager::WulforSettingsManager():
 	configFile(Util::getPath(Util::PATH_USER_CONFIG) + "BMDC.xml")
 {
-	//obtain from theme..
+	//obtain "background" color from theme what used on 1st startup
 	GdkRGBA color;
-	//  "gtk-theme-name"           gchar*               : Read / Write (from gtk-doc)
+	//  "gtk-theme-name"           gchar*    : Read / Write (from gtk-doc)
 	gchar *name_theme = NULL;
 	g_object_get(gtk_settings_get_default(),"gtk-theme-name",&name_theme,NULL);
 	GtkThemingEngine *engine = gtk_theming_engine_load(name_theme);
@@ -113,12 +114,12 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("notify-only-not-active", 0));
 	defaultInt.insert(IntMap::value_type("status-icon-blink-use", 1));
 	defaultInt.insert(IntMap::value_type("emoticons-use", 1));
-	defaultInt.insert(IntMap::value_type("pm", 0));//Send private message when double clicked in the user list.//@TODO remove ?
+	defaultInt.insert(IntMap::value_type("pm", 0));//Send private message when double clicked in the user list.//@TODO remove ?//Not yet still used
 	defaultInt.insert(IntMap::value_type("search-spy-frame", 50));
 	defaultInt.insert(IntMap::value_type("search-spy-waiting", 40));
 	defaultInt.insert(IntMap::value_type("search-spy-top", 4));
 	defaultInt.insert(IntMap::value_type("magnet-action", -1));//default show magnet dialog
-///[core 0.762 NOTE:
+//open tabs/win
 	defaultInt.insert(IntMap::value_type("open-public", 0));
 	defaultInt.insert(IntMap::value_type("open-favorite-hubs", 0));
 	defaultInt.insert(IntMap::value_type("open-queue", 0));
@@ -126,7 +127,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("open-finished-uploads", 0));
 	defaultInt.insert(IntMap::value_type("open-favorite-users", 0));
 	defaultInt.insert(IntMap::value_type("open-search-spy", 0));
-///core 0.762]
+
 	defaultInt.insert(IntMap::value_type("toolbar-position", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-small", 1));
 	///[BMDC++
@@ -238,7 +239,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("search-spy-q-color", "#b0b0b0"));
 	defaultString.insert(StringMap::value_type("search-spy-c-color", "#b28600"));
 	defaultString.insert(StringMap::value_type("search-spy-r-color", "#6c85ca"));
-	defaultString.insert(StringMap::value_type("emoticons-pack", ""));
+	defaultString.insert(StringMap::value_type("emoticons-pack", "bmicon"));
 	defaultString.insert(StringMap::value_type("emoticons-icon-size", "24x24"));
 	defaultString.insert(StringMap::value_type("notify-download-finished-title", _("Download finished")));
 	defaultString.insert(StringMap::value_type("notify-download-finished-icon", ""));
@@ -388,7 +389,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("notify-hub-chat-title", _("Hub Chat")));
 	defaultString.insert(StringMap::value_type("notify-hub-chat-icon", "bmdc-hub-online"));
 
-	defaultString.insert(StringMap::value_type("share-shared","#1E90FF"));
+	defaultString.insert(StringMap::value_type("share-shared", "#1E90FF"));
 	defaultString.insert(StringMap::value_type("share-queue", "#E32020"));
 	defaultString.insert(StringMap::value_type("share-default", "black"));
 	defaultString.insert(StringMap::value_type("sound-command", "aplay -q"));
@@ -465,8 +466,9 @@ WulforSettingsManager::WulforSettingsManager():
 	 * 4 - grant slot
 	 * 5 - add to fav users
 	 * 6 - Partial FL	
+	 * message.hh
 	*/
-	defaultInt.insert(IntMap::value_type("double-click-action",1));
+	defaultInt.insert(IntMap::value_type("double-click-action",(int)CActions::BROWSE));
 	defaultInt.insert(IntMap::value_type("hide-transfers",0));
 
 	load();

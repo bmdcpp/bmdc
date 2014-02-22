@@ -67,5 +67,27 @@ class Tag
 			TAG_LAST
 		} TypeTag;
 };
+/*
+	 * 0 - Browse FL
+	 * 1 - Nick to Chat
+	 * 2 - PM to nick
+	 * 3 - match quene
+	 * 4 - grant slot
+	 * 5 - add to fav users
+	 * 6 - Partial FL	*/
+class CActions
+{
+	public:
+	typedef enum
+	{
+		BROWSE = 0,
+		NICK_TO_CHAT,
+		PM_TO_NICK,
+		MATCH_Q,
+		GRANT_SLOT,
+		ADD_AS_FAV,
+		GET_PARTIAL_FILELIST
+	} User;
+};
 
 #endif
