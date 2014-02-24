@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2014-02-22 14:23+0100\n"
+"POT-Creation-Date: 2014-02-22 23:27+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2014-02-22 15:01+0100\n"
+"POT-Creation-Date: 2014-02-23 16:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -806,9 +806,7 @@ msgstr ""
 #: linux/detectiontab.cc:334 linux/detectiontab.cc:825
 #: linux/detectiontab.cc:893 linux/detectiontab.cc:908 linux/hub.cc:75
 #: linux/hub.cc:356 linux/hub.cc:528 linux/hub.cc:563 linux/hub.cc:719
-#: linux/hub.cc:748 linux/userlist.cc:25 linux/userlist.cc:117
-#: linux/userlist.cc:228 linux/userlist.cc:263 linux/userlist.cc:381
-#: linux/userlist.cc:410
+#: linux/hub.cc:748
 msgid "Cheat"
 msgstr ""
 
@@ -960,9 +958,7 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:2374 linux/hub.cc:66 linux/hub.cc:348
 #: linux/hub.cc:520 linux/hub.cc:555 linux/hub.cc:711 linux/hub.cc:740
 #: linux/search.cc:103 linux/search.cc:641 linux/search.cc:702
-#: linux/search.cc:850 linux/search.cc:1742 linux/userlist.cc:16
-#: linux/userlist.cc:109 linux/userlist.cc:220 linux/userlist.cc:255
-#: linux/userlist.cc:373 linux/userlist.cc:402
+#: linux/search.cc:850 linux/search.cc:1742
 msgid "Connection"
 msgstr ""
 
@@ -1043,8 +1039,6 @@ msgstr ""
 #: linux/hub.cc:738 linux/hub.cc:2513 linux/publichubs.cc:44
 #: linux/publichubs.cc:156 linux/publichubs.cc:293 linux/recenthub.cc:43
 #: linux/recenthub.cc:83 linux/recenthub.cc:268 linux/recenthub.cc:281
-#: linux/userlist.cc:14 linux/userlist.cc:107 linux/userlist.cc:218
-#: linux/userlist.cc:253 linux/userlist.cc:371 linux/userlist.cc:400
 msgid "Description"
 msgstr ""
 
@@ -1569,9 +1563,7 @@ msgstr ""
 
 #: ui/mainwindow.glade.ui:1893 ui/search.glade.ui:422 linux/hub.cc:73
 #: linux/hub.cc:354 linux/hub.cc:526 linux/hub.cc:561 linux/hub.cc:717
-#: linux/hub.cc:746 linux/userlist.cc:23 linux/userlist.cc:115
-#: linux/userlist.cc:226 linux/userlist.cc:261 linux/userlist.cc:379
-#: linux/userlist.cc:408
+#: linux/hub.cc:746
 msgid "Hubs"
 msgstr ""
 
@@ -1938,10 +1930,7 @@ msgstr ""
 #: linux/hub.cc:2021 linux/hub.cc:2082 linux/hub.cc:2512 linux/hub.cc:2663
 #: linux/hub.cc:2694 linux/hub.cc:3010 linux/hub.cc:3049 linux/search.cc:98
 #: linux/search.cc:635 linux/search.cc:708 linux/search.cc:856
-#: linux/search.cc:1739 linux/userlist.cc:12 linux/userlist.cc:44
-#: linux/userlist.cc:46 linux/userlist.cc:105 linux/userlist.cc:216
-#: linux/userlist.cc:252 linux/userlist.cc:346 linux/userlist.cc:369
-#: linux/userlist.cc:398 linux/userlist.cc:706
+#: linux/search.cc:1739
 msgid "Nick"
 msgstr ""
 
@@ -2989,8 +2978,6 @@ msgstr ""
 
 #: ui/favoritehubs.glade.ui:216 linux/hub.cc:68 linux/hub.cc:350
 #: linux/hub.cc:522 linux/hub.cc:557 linux/hub.cc:713 linux/hub.cc:742
-#: linux/userlist.cc:18 linux/userlist.cc:111 linux/userlist.cc:222
-#: linux/userlist.cc:257 linux/userlist.cc:375 linux/userlist.cc:404
 msgid "eMail"
 msgstr ""
 
@@ -3614,9 +3601,7 @@ msgstr ""
 
 #: linux/hub.cc:70 linux/hub.cc:351 linux/hub.cc:523 linux/hub.cc:558
 #: linux/hub.cc:714 linux/hub.cc:743 linux/publichubs.cc:47
-#: linux/publichubs.cc:159 linux/userlist.cc:20 linux/userlist.cc:112
-#: linux/userlist.cc:223 linux/userlist.cc:258 linux/userlist.cc:376
-#: linux/userlist.cc:405
+#: linux/publichubs.cc:159
 msgid "Country"
 msgstr ""
 
@@ -3811,9 +3796,7 @@ msgid "Errors"
 msgstr ""
 
 #: linux/hub.cc:71 linux/hub.cc:352 linux/hub.cc:524 linux/hub.cc:559
-#: linux/hub.cc:715 linux/hub.cc:744 linux/userlist.cc:21
-#: linux/userlist.cc:113 linux/userlist.cc:224 linux/userlist.cc:259
-#: linux/userlist.cc:377 linux/userlist.cc:406
+#: linux/hub.cc:715 linux/hub.cc:744
 msgid "Exact Share"
 msgstr ""
 
@@ -3954,9 +3937,7 @@ msgid "General text"
 msgstr ""
 
 #: linux/hub.cc:76 linux/hub.cc:357 linux/hub.cc:529 linux/hub.cc:564
-#: linux/hub.cc:720 linux/hub.cc:749 linux/userlist.cc:26
-#: linux/userlist.cc:118 linux/userlist.cc:229 linux/userlist.cc:264
-#: linux/userlist.cc:382 linux/userlist.cc:411
+#: linux/hub.cc:720 linux/hub.cc:749
 msgid "Generator"
 msgstr ""
 
@@ -4559,10 +4540,7 @@ msgstr ""
 #: linux/hub.cc:517 linux/hub.cc:683 linux/hub.cc:708 linux/hub.cc:737
 #: linux/hub.cc:794 linux/hub.cc:2511 linux/publichubs.cc:48
 #: linux/publichubs.cc:160 linux/recenthub.cc:45 linux/recenthub.cc:85
-#: linux/recenthub.cc:270 linux/recenthub.cc:282 linux/userlist.cc:13
-#: linux/userlist.cc:106 linux/userlist.cc:157 linux/userlist.cc:194
-#: linux/userlist.cc:217 linux/userlist.cc:345 linux/userlist.cc:370
-#: linux/userlist.cc:399 linux/userlist.cc:707
+#: linux/recenthub.cc:270 linux/recenthub.cc:282
 msgid "Shared"
 msgstr ""
 
@@ -4665,9 +4643,7 @@ msgstr ""
 
 #: linux/hub.cc:72 linux/hub.cc:353 linux/hub.cc:525 linux/hub.cc:560
 #: linux/hub.cc:716 linux/hub.cc:745 linux/search.cc:102 linux/search.cc:132
-#: linux/search.cc:637 linux/userlist.cc:22 linux/userlist.cc:114
-#: linux/userlist.cc:225 linux/userlist.cc:260 linux/userlist.cc:378
-#: linux/userlist.cc:407
+#: linux/search.cc:637
 msgid "Slots"
 msgstr ""
 
@@ -4750,9 +4726,7 @@ msgid "Style"
 msgstr ""
 
 #: linux/hub.cc:77 linux/hub.cc:358 linux/hub.cc:530 linux/hub.cc:565
-#: linux/hub.cc:721 linux/hub.cc:750 linux/userlist.cc:27
-#: linux/userlist.cc:119 linux/userlist.cc:230 linux/userlist.cc:265
-#: linux/userlist.cc:383 linux/userlist.cc:412
+#: linux/hub.cc:721 linux/hub.cc:750
 msgid "Support"
 msgstr ""
 
@@ -4770,9 +4744,7 @@ msgid "TIS-620 (Thai)"
 msgstr ""
 
 #: linux/hub.cc:65 linux/hub.cc:347 linux/hub.cc:519 linux/hub.cc:554
-#: linux/hub.cc:710 linux/hub.cc:739 linux/userlist.cc:15
-#: linux/userlist.cc:108 linux/userlist.cc:219 linux/userlist.cc:254
-#: linux/userlist.cc:372 linux/userlist.cc:401
+#: linux/hub.cc:710 linux/hub.cc:739
 msgid "Tag"
 msgstr ""
 

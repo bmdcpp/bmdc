@@ -52,8 +52,8 @@ Hub::Hub(const string &address, const string &encoding):
 	BookEntry(Entry::HUB, address, "hub.glade", address),
 	client(NULL), historyIndex(0),
 	totalShared(0),	address(address),
-	encoding(encoding),  scrollToBottom(TRUE),
-	PasswordDialog(FALSE),	WaitingPassword(FALSE),
+	encoding(encoding), scrollToBottom(TRUE),
+	PasswordDialog(FALSE), WaitingPassword(FALSE),
 	ImgLimit(0)
 {
 
@@ -694,13 +694,13 @@ void Hub::updateUser_gui(ParamMap params)
 			if (favorite)
 				userFavoriteMap[cid] = Nick;
 			if(isProtected)
-				users[cid] = (FlagUser(Nick,(int)FlagUser::FLAG_PROTECT));
+				users[cid] = (FlagUser((int)FlagUser::FLAG_PROTECT));
 			if(isIgnore)
-				users[cid] = (FlagUser(Nick,(int)FlagUser::FLAG_IGNORE));
+				users[cid] = (FlagUser((int)FlagUser::FLAG_IGNORE));
 			if(isPasive)
-				users[cid] = (FlagUser(Nick,(int)FlagUser::FLAG_PASIVE));
+				users[cid] = (FlagUser((int)FlagUser::FLAG_PASIVE));
 			if(isOperator)
-				users[cid] = (FlagUser(Nick,(int)FlagUser::FLAG_OP));
+				users[cid] = (FlagUser((int)FlagUser::FLAG_OP));
 		}
 
 		gtk_list_store_set(nickStore, &iter,
@@ -2555,15 +2555,15 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		else if (command == "exec")
 		{
 			FILE *pipe = popen( param.c_str(), "r" );
-			gchar *command_res;
+			gchar *command_res = NULL;
 			gsize command_length;
 			GIOChannel* gio_chanel = g_io_channel_unix_new( fileno( pipe ) );
 			GIOStatus gio_status = g_io_channel_read_to_end( gio_chanel, &command_res, &command_length, NULL );
 			if( gio_status == G_IO_STATUS_NORMAL )
 			{
-				command_res[command_length-1]='\0';
-				command_res[command_length]=NULL;
-				F2 *func = new F2( hub, &Hub::sendMessage_client, string(command_res), false );
+				//command_res[command_length-1]='\0';
+				//command_res[command_length]=NULL;
+				F2 *func = new F2( hub, &Hub::sendMessage_client, string(command_res,command_length-1), false );
 				WulforManager::get()->dispatchClientFunc(func);
 			}
 			g_io_channel_shutdown( gio_chanel ,FALSE, NULL );
@@ -2591,7 +2591,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		} else if (command == "raw" )
 		{
 		   if(hub->client->isConnected())
-			hub->client->send(Util::convertCEscapes(param));
+				hub->client->send(Util::convertCEscapes(param));
 		  else hub->addStatusMessage_gui(_("Don't connected to hub"), Msg::SYSTEM, Sound::NONE);
 		}
 		else if ( command == "showjoins")
@@ -3385,7 +3385,7 @@ void Hub::addPasive_gui(ParamMap params)
 	{
 		GtkTreeIter iter;
 		const string &nick = params["Nick"];
-		users.insert(UserFlags::value_type(cid,FlagUser(nick,FlagUser::FLAG_PASIVE)));
+		users.insert(UserFlags::value_type(cid,FlagUser(FlagUser::FLAG_PASIVE)));
 
 		// resort users
 		if (findUser_gui(cid, &iter))
@@ -3407,7 +3407,7 @@ void Hub::addOperator_gui(ParamMap params)
 	{
 		GtkTreeIter iter;
 		const string &nick = params["Nick"];
-		users.insert(UserFlags::value_type(cid, FlagUser(nick,FlagUser::FLAG_OP)));
+		users.insert(UserFlags::value_type(cid, FlagUser(FlagUser::FLAG_OP)));
 
 		// resort users
 		if (findUser_gui(cid, &iter))
@@ -3429,7 +3429,7 @@ void Hub::addProtected_gui(ParamMap params)
 	{
 		GtkTreeIter iter;
 		const string &nick = params["Nick"];
-		users.insert(UserFlags::value_type(cid, FlagUser(nick,FlagUser::FLAG_PROTECT)));
+		users.insert(UserFlags::value_type(cid, FlagUser(FlagUser::FLAG_PROTECT)));
 
 		// resort users
 		if (findUser_gui(cid, &iter))
@@ -3451,7 +3451,7 @@ void Hub::addIgnore_gui(ParamMap params)
 	{
 		GtkTreeIter iter;
 		const string &nick = params["Nick"];
-		users.insert(UserFlags::value_type(cid, FlagUser(nick,FlagUser::FLAG_IGNORE)));
+		users.insert(UserFlags::value_type(cid, FlagUser(FlagUser::FLAG_IGNORE)));
 
 		// resort users
 		if (findUser_gui(cid, &iter))

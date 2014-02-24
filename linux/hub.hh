@@ -73,8 +73,9 @@ class Hub:
 		struct FlagUser: public dcpp::Flags
 		{
 		  public:
-			FlagUser(): dcpp::Flags(FLAG_PASIVE), nick(dcpp::Util::emptyString) {}
-			FlagUser(const std::string& _nick,int _flags): dcpp::Flags((dcpp::Flags::MaskType)_flags),nick(_nick) { };
+			FlagUser(): dcpp::Flags(FLAG_PASIVE) {
+			}
+			FlagUser(int _flags): dcpp::Flags((dcpp::Flags::MaskType)_flags) { };
 			enum FlagUserFlags
 			{
 				FLAG_OP = 1 << 1,
@@ -83,7 +84,6 @@ class Hub:
 				FLAG_PROTECT = 1 << 4,
 				FLAG_FAVORITE = 1 << 5
 			};
-			GETSET(std::string,nick, Nick);
 		};
 
 		typedef std::map<std::string, std::string> ParamMap;
