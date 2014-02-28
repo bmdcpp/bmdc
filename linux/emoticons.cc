@@ -57,9 +57,9 @@ Emoticons* Emoticons::get()
 	return emoticons;
 }
 
-Emoticons::Emoticons(const string &packName)
+Emoticons::Emoticons(const string &packName):
+currPackName(packName)
 {
-	currPackName = packName;
 	create();
 }
 

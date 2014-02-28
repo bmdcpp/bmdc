@@ -39,7 +39,7 @@ visibleColumns(0), menu(NULL), sel(NULL)
 
 TreeView::~TreeView()
 {
-	if (!name.empty())
+	if (!name.empty() && !( (name.length() == 3) && (name == "hub"))  )
 		saveSettings();
 	delete [] gtypes;
 	g_object_unref(menu);
@@ -128,13 +128,17 @@ void TreeView::insertHiddenColumn(const string &title, const GType &gtype)
 
 void TreeView::finalize()
 {
+	bool restoreMain = true;
+	if(name.length() == 3 && name == "hub")
+		restoreMain = false;
+	
 	dcassert(count > 0);
 
 	menu = GTK_MENU(gtk_menu_new());
 	g_object_ref_sink(menu);
 	visibleColumns = columns.size();
 
-	if (!name.empty())
+	if (restoreMain && !name.empty())
 		restoreSettings();
 
 	for (SortedColIter iter = sortedColumns.begin(); iter != sortedColumns.end(); ++iter)

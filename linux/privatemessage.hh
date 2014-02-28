@@ -19,8 +19,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef WULFOR_PRIVATE_MESSAGE_HH
-#define WULFOR_PRIVATE_MESSAGE_HH
+#ifndef BMDC_PRIVATE_MESSAGE_HH
+#define BMDC_PRIVATE_MESSAGE_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>

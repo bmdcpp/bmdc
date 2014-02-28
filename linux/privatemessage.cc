@@ -1005,12 +1005,12 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 	// Process special commands
 	if (text[0] == '/')
 	{
-		string command = text, param, params;
+		string command = text, param = Util::emptyString;
 		string::size_type separator = text.find_first_of(' ');
 		if (separator != string::npos && text.size() > separator + 1)
 		{
 			command = text.substr(1, separator - 1);
-			params = text.substr(separator + 1);
+			param = text.substr(separator + 1);
 		}
 		bool isThirdPerson = false;
 		string message = Util::emptyString, status = Util::emptyString;

@@ -56,6 +56,7 @@ Hub::Hub(const string &address, const string &encoding):
 	PasswordDialog(FALSE), WaitingPassword(FALSE),
 	ImgLimit(0)
 {
+	FavoriteHubEntry* faventry =  FavoriteManager::getInstance()->getFavoriteHubEntry(address);
 
 	// Initialize nick treeview
 	nickView.setView(GTK_TREE_VIEW(getWidget("nickView")), true, "hub");
@@ -83,6 +84,11 @@ Hub::Hub(const string &address, const string &encoding):
 	//BMDC++
 	nickView.insertHiddenColumn("Pixbuf", GDK_TYPE_PIXBUF);
 	nickView.insertHiddenColumn("Client Type", G_TYPE_STRING);
+	if(faventry){
+		nickView.restoreSettings(faventry->getHubOrder(),faventry->getHubWidth(),faventry->getHubVisible());
+	}else{
+		nickView.restoreSettings(WGETS("hub-order"),WGETS("hub-width"),WGETS("hub-visibility"));
+	}	
 	nickView.finalize();
 	nickStore = gtk_list_store_newv(nickView.getColCount(), nickView.getGTypes());
 	gtk_tree_view_set_model(nickView.get(), GTK_TREE_MODEL(nickStore));
@@ -161,7 +167,7 @@ Hub::Hub(const string &address, const string &encoding):
 	userCommandMenu2 = new UserCommandMenu(getWidget("ipmenu"), ::UserCommand::CONTEXT_IP);
 	addChild(userCommandMenu2);
 
-	FavoriteHubEntry* faventry =  FavoriteManager::getInstance()->getFavoriteHubEntry(address);
+	//FavoriteHubEntry* faventry =  FavoriteManager::getInstance()->getFavoriteHubEntry(address);
 	string packName = SETTING(EMOT_PACK);
 	if(faventry)
 	{
@@ -333,9 +339,9 @@ Hub::Hub(const string &address, const string &encoding):
 	{
 		bool showUserList = faventry->getShowUserList();
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")), showUserList);
-		nickView.restoreSettings(faventry->getHubOrder(),faventry->getHubWidth(),faventry->getHubVisible());
+		//nickView.restoreSettings(faventry->getHubOrder(),faventry->getHubWidth(),faventry->getHubVisible());
 	}else {//not Fav-Hub
-		nickView.restoreSettings(WGETS("hub-order"),WGETS("hub-width"),WGETS("hub-visibility"));
+		//nickView.restoreSettings(WGETS("hub-order"),WGETS("hub-width"),WGETS("hub-visibility"));
 	}
 }
 
