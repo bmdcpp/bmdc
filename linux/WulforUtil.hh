@@ -83,33 +83,34 @@ class WulforUtil
 		//NOTE: BMDC++
 		static void drop_combo(GtkWidget *widget, std::vector<std::pair<std::string,int> > CONTEUDO);//Used in Detections Settinsg only
 
-		static GdkPixbuf *LoadCountryPixbuf(const std::string& country);
+		static GdkPixbuf* LoadCountryPixbuf(const std::string& country);
 		static std::string getCountryCode(std::string _countryname);
 
-		static GdkPixbuf *loadIconShare(std::string ext);
+		static GdkPixbuf* loadIconShare(std::string ext);
 		static std::string formatReport(const dcpp::Identity& identity);
 		static bool checkCommand(std::string& cmd, std::string& param, std::string& message, std::string& status, bool& thirdperson);
 
 		static bool isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, std::string word, bool &tTab, gpointer hub);
 
 		static std::vector<std::pair<std::string,int> > getActions();
-		static std::string StringToUpper(std::string myString);
+		//static std::string StringToUpper(std::string myString);
 		static gboolean HitIP(std::string &name, std::string& sIp);
 
-		static gchar* g_substr(const gchar* string, gint start, gint  end)
+		/*static gchar* g_substr(const gchar* string, gint start, gint  end)
 		{	gsize len = (end - start + 1);
 			gchar *output = (gchar *)g_malloc0 (len + 1);
 			return g_utf8_strncpy (output, &string[start], len);
 		}
-
+		*/
 		static const std::string ENCODING_LOCALE;
 		static const std::string commands;
 
 	private:
 		static std::string generateLeech();
-		static std::map<std::string,std::string> loadmimetypes();
+		static void loadmimetypes();
 		static std::string getStatsForMem();
 		static bool Ipv4Hit(std::string &name, std::string &sIp);
+		static std::string formatSized(std::string& nonf);
 	#if GTK_CHECK_VERSION(3,9,0)
 	public:
 		static GtkIconTheme *icon_theme;
@@ -124,7 +125,6 @@ class WulforUtil
 		static const char* CountryNames[];
 		static const char* CountryCodes[];
 		static const char* msgs_dc[];
-		static std::string formatSized(std::string& nonf);
 };
 
 #endif

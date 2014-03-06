@@ -167,7 +167,6 @@ Hub::Hub(const string &address, const string &encoding):
 	userCommandMenu2 = new UserCommandMenu(getWidget("ipmenu"), ::UserCommand::CONTEXT_IP);
 	addChild(userCommandMenu2);
 
-	//FavoriteHubEntry* faventry =  FavoriteManager::getInstance()->getFavoriteHubEntry(address);
 	string packName = SETTING(EMOT_PACK);
 	if(faventry)
 	{
@@ -339,9 +338,6 @@ Hub::Hub(const string &address, const string &encoding):
 	{
 		bool showUserList = faventry->getShowUserList();
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")), showUserList);
-		//nickView.restoreSettings(faventry->getHubOrder(),faventry->getHubWidth(),faventry->getHubVisible());
-	}else {//not Fav-Hub
-		//nickView.restoreSettings(WGETS("hub-order"),WGETS("hub-width"),WGETS("hub-visibility"));
 	}
 }
 
@@ -1603,12 +1599,9 @@ void Hub::updateCursor_gui(GtkWidget *widget)
 	GtkTextIter iter;
 	GSList *tagList;
 	GtkTextTag *newTag = NULL;
-
-	GdkDeviceManager *device_manager;
-	GdkDevice *pointer;
 //@NOTE: GTK3
-	device_manager = gdk_display_get_device_manager (gdk_window_get_display (gtk_widget_get_window(widget)));
-	pointer = gdk_device_manager_get_client_pointer (device_manager);
+	GdkDeviceManager *device_manager = gdk_display_get_device_manager (gdk_window_get_display (gtk_widget_get_window(widget)));
+	GdkDevice *pointer = gdk_device_manager_get_client_pointer (device_manager);
 	gdk_window_get_device_position (gtk_widget_get_window(widget), pointer, &x, &y, NULL);
 
 	// Check for tags under the cursor, and change mouse cursor appropriately
@@ -2483,6 +2476,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			for(auto i = list.begin(); i != list.end(); ++i, ++idx) {
 				Plugin p = pm->getPlugin(*i);
 				status += *i +"\t"+p.name+ "\n";
+				status += pm->isLoaded(p.guid) ? "Loaded" : "Not loaded";
 			}
 			hub->addMessage_gui("",status,Msg::SYSTEM);
 		}
@@ -4742,7 +4736,8 @@ void Hub::on_setImage_tab(GtkButton *widget, gpointer data)
 	{
 		char *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
 		string tmp = Util::getFileExt(string(filename));
-		tmp = WulforUtil::StringToUpper(tmp);
+		//tmp = WulforUtil::StringToUpper(tmp);
+		std::transform(tmp.begin(), tmp.end(), tmp.begin(), (int(*)(int))toupper);
 
 		if(tmp == ".PNG" || tmp == ".JPG" || tmp == ".GIF")
 		{

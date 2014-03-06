@@ -82,7 +82,7 @@ struct Plugin {
 };
 
 /** Information about a dcext-packaged plugin that has just been extracted. */
-struct DcextInfo {
+/*struct DcextInfo {
 	string uuid;
 	string name;
 	double version;
@@ -93,7 +93,7 @@ struct DcextInfo {
 	StringList files;
 	bool updating;
 };
-
+*/
 class PluginManager : public Singleton<PluginManager>, private TimerManagerListener,
 	private ClientManagerListener, private QueueManagerListener, private SettingsManagerListener
 {

@@ -676,15 +676,17 @@ void WulforUtil::registerIcons()
 	gtk_icon_factory_add_default(iconFactory);
 	g_object_unref(iconFactory);
 	#endif
+	loadmimetypes();
 }
 
 GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
 {
 	if(country.empty())
 	{
+		//todo return "Unknow symbol?"
 		return NULL;
 	}
-	std::map<std::string,GdkPixbuf*>::const_iterator it = countryIcon.find(country);
+	map<string,GdkPixbuf*>::const_iterator it = countryIcon.find(country);
 	if( it  != countryIcon.end() )
 			return it->second;
 	GError *error = NULL;
@@ -693,13 +695,13 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
 	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_size(path,15,15,&error);
 	if (error != NULL || pixbuf == NULL) {
 			g_warning("[BMDC::Country] Cannot open image: %s => %s", path, error->message);
-			g_error_free(error);
+			g_error_free(error);//TODO?
 	}
 	g_free(path);
 	countryIcon.insert(make_pair(country,pixbuf));
 	return pixbuf;
 }
-
+/*
 string WulforUtil::StringToUpper(std::string myString)
 {
 	const int length = myString.length();
@@ -711,7 +713,7 @@ string WulforUtil::StringToUpper(std::string myString)
 	}
 	return myString;
 }
-
+*/
 string WulforUtil::getCountryCode(string _countryname)
 {
 	if(_countryname.empty())
@@ -1200,7 +1202,7 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 		string sMsgLower;
 		sMsgLower.resize(word.size()+1);
 		std::transform(word.begin(), word.end(), sMsgLower.begin(), _tolower);
-		bool ret = FALSE;
+		bool ret = false;
 
 		ColorList* cList = HighlightManager::getInstance()->getList();
 		for(auto i = cList->begin();i != cList->end(); ++i) {
@@ -1228,7 +1230,7 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 			if(cs->getHasFgColor())
 				fore = cs->getFgColor();
 			else
-				fore = "#000000";
+				fore = "#000000";//TODO global color?
 
 			if(cs->getPopup())
 				tPopup = true;
@@ -1274,12 +1276,12 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 			if(cs->usingRegexp())
 			{
 				string q = cs->getMatch().substr(4);
-				int rematch = 0;
+				bool rematch = false;
 
 				rematch = dcpp::RegEx::match<string>(word,q,cs->getCaseSensitive());
 
 				if(!rematch)
-					ret = FALSE;
+					ret = false;
 				else
 				{
 					if(!tag) {
@@ -1292,7 +1294,7 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 						NULL);
 					}
 
-					ret = TRUE;
+					ret = true;
 					continue;
 				}
 			}
@@ -1319,12 +1321,12 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 					Sound::get()->playSound(cs->getSoundFile());
 				}
 
-				ret = TRUE;
+				ret = true;
 				break;
 			}
 			else
 			{
-				ret = FALSE;
+				ret = false;
 				continue;
 			}
 	}
@@ -1371,7 +1373,7 @@ void WulforUtil::drop_combo(GtkWidget *widget, vector<pair<std::string,int> > CO
 
 }
 
-std::map<std::string,std::string> WulforUtil::loadmimetypes()
+void WulforUtil::loadmimetypes()
 {
 	if(m_mimetyp.empty()) {//any other way TODO this ?
 	m_mimetyp.insert( std::pair<std::string, std::string>(".zip", "application/zip"));
@@ -1440,7 +1442,6 @@ std::map<std::string,std::string> WulforUtil::loadmimetypes()
 	m_mimetyp.insert( std::pair<std::string, std::string>(".mpg", "audio/mpeg"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".mpeg", "audio/mpeg"));
 	}
-	return m_mimetyp;
 }
 
 GdkPixbuf *WulforUtil::loadIconShare(string ext)
@@ -1463,10 +1464,10 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 	}
 	std::transform(ext.begin(), ext.end(), ext.begin(), (int(*)(int))tolower);
 
-	std::map<std::string,std::string> map =  loadmimetypes();
+//	std::map<std::string,std::string> map =  loadmimetypes();
 
-	std::map<std::string,std::string>::iterator it = map.find(ext);
-	if(it == map.end())
+	std::map<std::string,std::string>::iterator it = m_mimetyp.find(ext);
+	if(it == m_mimetyp.end())
 	{
 		#if GTK_CHECK_VERSION(3,9,0)
 		GError* error = NULL;
@@ -1639,7 +1640,7 @@ bool WulforUtil::Ipv4Hit(string &name, string &sIp) {
 
 	if(isOk)
 	{
-		auto nedle = name.find_last_of(".");
+		size_t nedle = name.find_last_of(".");
 		name = name.substr(0,nedle);
 		sIp = name.substr(0,pos);
 		struct sockaddr_in sa;
