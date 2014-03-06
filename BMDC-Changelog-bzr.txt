@@ -867,4 +867,7 @@ Fix chat commands
 Fix Translate of tooltip in UserList
 Add ablity save per-fav columns in Userslist
 some cleanup
+----
+added status column to FavoriteHubs Tab.
+
 

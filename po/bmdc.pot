@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2014-03-04 16:04+0100\n"
+"POT-Creation-Date: 2014-03-06 14:06+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -932,8 +932,8 @@ msgstr ""
 
 #: ui/favoriteusers.glade.ui:207 ui/mainwindow.glade.ui:1876
 #: ui/mainwindow.glade.ui:2172 ui/recenthub.glade.ui:159
-#: linux/favoritehubs.cc:82 linux/favoritehubs.cc:725
-#: linux/favoritehubs.cc:850 linux/favoritehubs.cc:1052
+#: linux/favoritehubs.cc:83 linux/favoritehubs.cc:729
+#: linux/favoritehubs.cc:854 linux/favoritehubs.cc:1056
 #: linux/settingsdialog.cc:1511 linux/settingsdialog.cc:1540
 msgid "Connect"
 msgstr ""
@@ -1029,8 +1029,8 @@ msgid "Delete item"
 msgstr ""
 
 #: ui/favoritehubs.glade.ui:177 ui/settingsdialog.glade.ui:1545
-#: linux/favoritehubs.cc:42 linux/favoritehubs.cc:146
-#: linux/favoritehubs.cc:355 linux/favoritehubs.cc:927
+#: linux/favoritehubs.cc:42 linux/favoritehubs.cc:149
+#: linux/favoritehubs.cc:359 linux/favoritehubs.cc:931
 #: linux/favoriteusers.cc:52 linux/favoriteusers.cc:117
 #: linux/favoriteusers.cc:142 linux/favoriteusers.cc:442
 #: linux/favoriteusers.cc:466 linux/favoriteusers.cc:476
@@ -1874,9 +1874,9 @@ msgstr ""
 #: linux/detectiontab.cc:664 linux/detectiontab.cc:676
 #: linux/detectiontab.cc:824 linux/detectiontab.cc:851
 #: linux/detectiontab.cc:892 linux/detectiontab.cc:907
-#: linux/favoritehubs.cc:41 linux/favoritehubs.cc:77 linux/favoritehubs.cc:145
-#: linux/favoritehubs.cc:353 linux/favoritehubs.cc:748
-#: linux/favoritehubs.cc:925 linux/publichubs.cc:43 linux/publichubs.cc:155
+#: linux/favoritehubs.cc:41 linux/favoritehubs.cc:78 linux/favoritehubs.cc:148
+#: linux/favoritehubs.cc:357 linux/favoritehubs.cc:752
+#: linux/favoritehubs.cc:929 linux/publichubs.cc:43 linux/publichubs.cc:155
 #: linux/publichubs.cc:292 linux/recenthub.cc:41 linux/recenthub.cc:81
 #: linux/recenthub.cc:192 linux/recenthub.cc:269 linux/recenthub.cc:278
 #: linux/settingsdialog.cc:807 linux/settingsdialog.cc:816
@@ -1915,8 +1915,8 @@ msgstr ""
 
 #: ui/favoritehubs.glade.ui:138 ui/search.glade.ui:848
 #: ui/settingsdialog.glade.ui:1573 linux/favoritehubs.cc:44
-#: linux/favoritehubs.cc:147 linux/favoritehubs.cc:356
-#: linux/favoritehubs.cc:928 linux/favoriteusers.cc:49
+#: linux/favoritehubs.cc:150 linux/favoritehubs.cc:360
+#: linux/favoritehubs.cc:932 linux/favoriteusers.cc:49
 #: linux/favoriteusers.cc:67 linux/favoriteusers.cc:68
 #: linux/favoriteusers.cc:114 linux/favoriteusers.cc:139
 #: linux/favoriteusers.cc:243 linux/favoriteusers.cc:284
@@ -2060,7 +2060,7 @@ msgid "Pasive"
 msgstr ""
 
 #: ui/settingsdialog.glade.ui:2149 linux/favoritehubs.cc:45
-#: linux/favoritehubs.cc:148
+#: linux/favoritehubs.cc:151
 msgid "Password"
 msgstr ""
 
@@ -3317,13 +3317,13 @@ msgstr ""
 msgid "Added Indepent Fav "
 msgstr ""
 
-#: linux/favoritehubs.cc:43 linux/favoritehubs.cc:150
-#: linux/favoritehubs.cc:186 linux/favoritehubs.cc:259
-#: linux/favoritehubs.cc:281 linux/favoritehubs.cc:334
-#: linux/favoritehubs.cc:354 linux/favoritehubs.cc:385
-#: linux/favoritehubs.cc:410 linux/favoritehubs.cc:766
-#: linux/favoritehubs.cc:781 linux/favoritehubs.cc:793
-#: linux/favoritehubs.cc:910 linux/publichubs.cc:46 linux/publichubs.cc:158
+#: linux/favoritehubs.cc:43 linux/favoritehubs.cc:153
+#: linux/favoritehubs.cc:190 linux/favoritehubs.cc:263
+#: linux/favoritehubs.cc:285 linux/favoritehubs.cc:338
+#: linux/favoritehubs.cc:358 linux/favoritehubs.cc:389
+#: linux/favoritehubs.cc:414 linux/favoritehubs.cc:770
+#: linux/favoritehubs.cc:785 linux/favoritehubs.cc:797
+#: linux/favoritehubs.cc:914 linux/publichubs.cc:46 linux/publichubs.cc:158
 #: linux/publichubs.cc:269 linux/publichubs.cc:294
 msgid "Address"
 msgstr ""
@@ -3344,7 +3344,7 @@ msgstr ""
 msgid "Amarok player"
 msgstr ""
 
-#: linux/favoritehubs.cc:832
+#: linux/favoritehubs.cc:836
 msgid "Another group with the name already exists"
 msgstr ""
 
@@ -3364,7 +3364,7 @@ msgstr ""
 msgid "Are you sure you want to delete Highlighting \"%s\"?"
 msgstr ""
 
-#: linux/favoritehubs.cc:752
+#: linux/favoritehubs.cc:756
 #, c-format, boost-format
 msgid "Are you sure you want to delete favorite hub \"%s\"?"
 msgstr ""
@@ -3770,10 +3770,10 @@ msgstr ""
 msgid "Enable segmented downloads"
 msgstr ""
 
-#: linux/favoritehubs.cc:47 linux/favoritehubs.cc:152
-#: linux/favoritehubs.cc:260 linux/favoritehubs.cc:282
-#: linux/favoritehubs.cc:359 linux/favoritehubs.cc:794
-#: linux/favoritehubs.cc:931 linux/hub.cc:2516
+#: linux/favoritehubs.cc:47 linux/favoritehubs.cc:155
+#: linux/favoritehubs.cc:264 linux/favoritehubs.cc:286
+#: linux/favoritehubs.cc:363 linux/favoritehubs.cc:798
+#: linux/favoritehubs.cc:935 linux/hub.cc:2516
 msgid "Encoding"
 msgstr ""
 
@@ -3941,16 +3941,16 @@ msgstr ""
 msgid "Generator"
 msgstr ""
 
-#: linux/favoritehubs.cc:48 linux/favoritehubs.cc:153
-#: linux/favoritehubs.cc:360 linux/favoritehubs.cc:1013
+#: linux/favoritehubs.cc:48 linux/favoritehubs.cc:156
+#: linux/favoritehubs.cc:364 linux/favoritehubs.cc:1017
 msgid "Group"
 msgstr ""
 
-#: linux/favoritehubs.cc:81 linux/favoritehubs.cc:97 linux/favoritehubs.cc:724
-#: linux/favoritehubs.cc:828 linux/favoritehubs.cc:849
-#: linux/favoritehubs.cc:869 linux/favoritehubs.cc:974
-#: linux/favoritehubs.cc:1051 linux/favoritehubs.cc:1074
-#: linux/favoritehubs.cc:1113
+#: linux/favoritehubs.cc:82 linux/favoritehubs.cc:98 linux/favoritehubs.cc:728
+#: linux/favoritehubs.cc:832 linux/favoritehubs.cc:853
+#: linux/favoritehubs.cc:873 linux/favoritehubs.cc:978
+#: linux/favoritehubs.cc:1055 linux/favoritehubs.cc:1078
+#: linux/favoritehubs.cc:1117
 msgid "Group name"
 msgstr ""
 
@@ -4045,7 +4045,7 @@ msgstr ""
 msgid "Icon size"
 msgstr ""
 
-#: linux/favoritehubs.cc:875
+#: linux/favoritehubs.cc:879
 msgid ""
 "If you select 'Yes', all of these hubs are going to be deleted!\n"
 "If you select 'No', these hubs will simply be moved to the main default "
@@ -4247,8 +4247,8 @@ msgstr ""
 msgid "Nicks History (if it have CID)"
 msgstr ""
 
-#: linux/favoritehubs.cc:725 linux/favoritehubs.cc:850
-#: linux/favoritehubs.cc:1052 linux/favoriteusers.cc:109
+#: linux/favoritehubs.cc:729 linux/favoritehubs.cc:854
+#: linux/favoritehubs.cc:1056 linux/favoriteusers.cc:109
 #: linux/favoriteusers.cc:801 linux/favoriteusers.cc:821
 #: linux/favoriteusers.cc:912 linux/finishedtransfers.cc:663
 msgid "No"
@@ -4698,7 +4698,8 @@ msgid "Started MyInfo check"
 msgstr ""
 
 #: linux/AboutConfig.cc:33 linux/AboutConfig.cc:152 linux/downloadqueue.cc:66
-#: linux/downloadqueue.cc:277 linux/downloadqueue.cc:384 linux/searchspy.cc:57
+#: linux/downloadqueue.cc:277 linux/downloadqueue.cc:384
+#: linux/favoritehubs.cc:49 linux/favoritehubs.cc:157 linux/searchspy.cc:57
 #: linux/searchspy.cc:295 linux/searchspy.cc:377 linux/transfers.cc:64
 #: linux/transfers.cc:414 linux/transfers.cc:447 linux/transfers.cc:541
 #: linux/transfers.cc:630 linux/transfers.cc:640 linux/transfers.cc:814
@@ -4957,8 +4958,8 @@ msgstr ""
 msgid "User "
 msgstr ""
 
-#: linux/favoritehubs.cc:46 linux/favoritehubs.cc:151
-#: linux/favoritehubs.cc:358 linux/favoritehubs.cc:930
+#: linux/favoritehubs.cc:46 linux/favoritehubs.cc:154
+#: linux/favoritehubs.cc:362 linux/favoritehubs.cc:934
 msgid "User Description"
 msgstr ""
 
@@ -5206,14 +5207,14 @@ msgstr ""
 msgid "Xine player"
 msgstr ""
 
-#: linux/favoritehubs.cc:725 linux/favoritehubs.cc:850
-#: linux/favoritehubs.cc:1052 linux/favoriteusers.cc:109
+#: linux/favoritehubs.cc:729 linux/favoritehubs.cc:854
+#: linux/favoritehubs.cc:1056 linux/favoriteusers.cc:109
 #: linux/favoriteusers.cc:801 linux/favoriteusers.cc:821
 #: linux/favoriteusers.cc:912 linux/finishedtransfers.cc:663
 msgid "Yes"
 msgstr ""
 
-#: linux/favoritehubs.cc:818
+#: linux/favoritehubs.cc:822
 msgid "You must enter a name"
 msgstr ""
 

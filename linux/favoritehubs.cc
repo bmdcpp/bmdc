@@ -46,6 +46,7 @@ FavoriteHubs::FavoriteHubs():
 	favoriteView.insertColumn(_("User Description"), G_TYPE_STRING, TreeView::STRING, 125);
 	favoriteView.insertColumn(_("Encoding"), G_TYPE_STRING, TreeView::STRING, 125);
 	favoriteView.insertColumn(_("Group"), G_TYPE_STRING, TreeView::STRING, 125);
+	favoriteView.insertColumn(_("Status"), G_TYPE_STRING, TreeView::STRING, 20);
 	favoriteView.insertHiddenColumn("Hidden Password", G_TYPE_STRING);
 	favoriteView.insertHiddenColumn("FavPointer",G_TYPE_POINTER);
 	favoriteView.insertHiddenColumn("Hide", G_TYPE_INT);
@@ -121,6 +122,7 @@ FavoriteHubs::FavoriteHubs():
 FavoriteHubs::~FavoriteHubs()
 {
 	FavoriteManager::getInstance()->removeListener(this);
+	ClientManager::getInstance()->removeListener(this);
 	g_object_unref(getWidget("menu"));
 }
 
@@ -128,6 +130,7 @@ void FavoriteHubs::show()
 {
 	initializeList_client();
 	FavoriteManager::getInstance()->addListener(this);
+	ClientManager::getInstance()->addListener(this);
 }
 
 void FavoriteHubs::addEntry_gui(FavoriteHubEntry* entry,StringMap params)
@@ -151,6 +154,7 @@ void FavoriteHubs::editEntry_gui(FavoriteHubEntry* entry,StringMap &params, GtkT
 		favoriteView.col(_("User Description")), params["User Description"].c_str(),
 		favoriteView.col(_("Encoding")), params["Encoding"].c_str(),
 		favoriteView.col(_("Group")), params["Group"].c_str(),
+		favoriteView.col(_("Status")), params["Status"].c_str(),
 		favoriteView.col("FavPointer"), entry,
 		favoriteView.col("Mode"), params["Mode"].c_str(),
 		favoriteView.col("IP"), params["IP"].c_str(),
@@ -1177,6 +1181,7 @@ void FavoriteHubs::getFavHubParams_client(const FavoriteHubEntry *entry, StringM
 	params["showip"] = entry->get(HubSettings::ShowIps) ? "1" : "0";
 	params["BoldTab"] = entry->get(HubSettings::BoldTab) ? "1" : "0";
 	params["PackName"] = entry->get(HubSettings::PackName);
+	params["Status"] = ClientManager::getInstance()->isHubConnected(entry->getServer()) ? "Online" : "Offline";
 }
 
 void FavoriteHubs::addEntry_client(StringMap params)
@@ -1292,6 +1297,26 @@ void FavoriteHubs::on(FavoriteManagerListener::FavoriteRemoved, const FavoriteHu
 {
 	typedef Func1<FavoriteHubs, string> F1;
 	F1 *func = new F1(this, &FavoriteHubs::removeEntry_gui, entry->getServer());
+	WulforManager::get()->dispatchGuiFunc(func);
+}
+
+void FavoriteHubs::on(ClientManagerListener::ClientConnected, Client* c) noexcept
+{
+	auto entry = FavoriteManager::getInstance()->getFavoriteHubEntry(c->getAddress());
+	StringMap params;
+	getFavHubParams_client(entry, params);
+
+	typedef Func2<FavoriteHubs, FavoriteHubEntry*,StringMap> F1;
+	F1 *func = new F1(this, &FavoriteHubs::addEntry_gui,entry, params);
+	WulforManager::get()->dispatchGuiFunc(func);
+}
+void FavoriteHubs::on(ClientManagerListener::ClientDisconnected, Client* c) noexcept {
+	auto entry = FavoriteManager::getInstance()->getFavoriteHubEntry(c->getAddress());
+	StringMap params;
+	getFavHubParams_client(entry, params);
+
+	typedef Func2<FavoriteHubs, FavoriteHubEntry*,StringMap> F1;
+	F1 *func = new F1(this, &FavoriteHubs::addEntry_gui,entry, params);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 

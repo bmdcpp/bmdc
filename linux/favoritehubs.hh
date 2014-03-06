@@ -25,13 +25,15 @@
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
 #include <dcpp/FavoriteManager.h>
+#include <dcpp/ClientManager.h>
 
 #include "bookentry.hh"
 #include "treeview.hh"
 
 class FavoriteHubs:
 	public BookEntry,
-	public dcpp::FavoriteManagerListener
+	public dcpp::FavoriteManagerListener,
+	public dcpp::ClientManagerListener
 {
 	public:
 		FavoriteHubs();
@@ -85,6 +87,10 @@ class FavoriteHubs:
 		// Client callbacks
 		virtual void on(dcpp::FavoriteManagerListener::FavoriteAdded, const dcpp::FavoriteHubEntryPtr entry) throw();
 		virtual void on(dcpp::FavoriteManagerListener::FavoriteRemoved, const dcpp::FavoriteHubEntryPtr entry) throw();
+		
+		// ClientManagerListener
+		virtual void on(dcpp::ClientManagerListener::ClientConnected, dcpp::Client*) noexcept;
+		virtual void on(dcpp::ClientManagerListener::ClientDisconnected, dcpp::Client*) noexcept;
 
 		TreeView favoriteView, groupsView;
 		GtkListStore *favoriteStore, *groupsStore;

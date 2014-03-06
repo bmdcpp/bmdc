@@ -186,6 +186,17 @@ bool ClientManager::isConnected(const string& aUrl) const {
 	return false;
 }
 
+bool ClientManager::isHubConnected(const string& aUrl) const {
+	Lock l(cs);
+
+	for(auto i: clients) {
+		if(i->getHubUrl() == aUrl) {
+			return i->isConnected();
+		}
+	}
+	return false;
+}
+
 string ClientManager::findHub(const string& ipPort) const {
 	Lock l(cs);
 
