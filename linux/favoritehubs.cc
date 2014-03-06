@@ -1142,6 +1142,7 @@ gboolean FavoriteHubs::onGroupsButtonReleased_gui(GtkWidget *widget, GdkEventBut
 
 void FavoriteHubs::initializeList_client()
 {
+	gtk_list_store_clear(favoriteStore);//Clean empty ?
 	StringMap params;
 	const FavoriteHubEntryList& fl = FavoriteManager::getInstance()->getFavoriteHubs();
 
@@ -1302,21 +1303,15 @@ void FavoriteHubs::on(FavoriteManagerListener::FavoriteRemoved, const FavoriteHu
 
 void FavoriteHubs::on(ClientManagerListener::ClientConnected, Client* c) noexcept
 {
-	auto entry = FavoriteManager::getInstance()->getFavoriteHubEntry(c->getAddress());
-	StringMap params;
-	getFavHubParams_client(entry, params);
-
-	typedef Func2<FavoriteHubs, FavoriteHubEntry*,StringMap> F1;
-	F1 *func = new F1(this, &FavoriteHubs::addEntry_gui,entry, params);
+	typedef Func0<FavoriteHubs> F0;
+	F0 *func = new F0(this,&FavoriteHubs::initializeList_client);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 void FavoriteHubs::on(ClientManagerListener::ClientDisconnected, Client* c) noexcept {
-	auto entry = FavoriteManager::getInstance()->getFavoriteHubEntry(c->getAddress());
-	StringMap params;
-	getFavHubParams_client(entry, params);
 
-	typedef Func2<FavoriteHubs, FavoriteHubEntry*,StringMap> F1;
-	F1 *func = new F1(this, &FavoriteHubs::addEntry_gui,entry, params);
+	typedef Func0<FavoriteHubs> F0;
+	F0 *func = new F0(this,&FavoriteHubs::initializeList_client);
 	WulforManager::get()->dispatchGuiFunc(func);
+	
 }
 
