@@ -220,6 +220,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		//[BMDC]
 		if(line.empty())
 		/*string*/line = toUtf8(aLine);
+		
 		if(line[0] != '<') {
 			fire(ClientListener::StatusMessage(), this, unescape(line));
 			return;

@@ -68,7 +68,7 @@ private:
 	const string lock;
 	const string pk;
 
-	string keySubst(const uint8_t* aKey, size_t len, size_t n);
+	string keySubst(const uint8_t* aKey, size_t len, size_t n) noexcept;
 	bool isExtra(uint8_t b) {
 		return (b == 0 || b==5 || b==124 || b==96 || b==126 || b==36);
 	}

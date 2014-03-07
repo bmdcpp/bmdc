@@ -379,60 +379,60 @@ void CryptoManager::decodeBZ2(const uint8_t* is, size_t sz, string& os) {
 	}
 }
 
-string CryptoManager::keySubst(const uint8_t* aKey, size_t len, size_t n) {
-	std::shared_ptr<uint8_t> temp(new uint8_t[len + n * 10]);
+string CryptoManager::keySubst(const uint8_t* aKey, size_t len, size_t n) noexcept {
+	uint8_t temp[len + n * 10];
 
 	size_t j=0;
 
 	for(size_t i = 0; i<len; i++) {
 		if(isExtra(aKey[i])) {
-			temp.get()[j++] = '/'; temp.get()[j++] = '%'; temp.get()[j++] = 'D';
-			temp.get()[j++] = 'C'; temp.get()[j++] = 'N';
+			temp[j++] = '/'; temp[j++] = '%'; temp[j++] = 'D';
+			temp[j++] = 'C'; temp[j++] = 'N';
 			switch(aKey[i]) {
-			case 0: temp.get()[j++] = '0'; temp.get()[j++] = '0'; temp.get()[j++] = '0'; break;
-			case 5: temp.get()[j++] = '0'; temp.get()[j++] = '0'; temp.get()[j++] = '5'; break;
-			case 36: temp.get()[j++] = '0'; temp.get()[j++] = '3'; temp.get()[j++] = '6'; break;
-			case 96: temp.get()[j++] = '0'; temp.get()[j++] = '9'; temp.get()[j++] = '6'; break;
-			case 124: temp.get()[j++] = '1'; temp.get()[j++] = '2'; temp.get()[j++] = '4'; break;
-			case 126: temp.get()[j++] = '1'; temp.get()[j++] = '2'; temp.get()[j++] = '6'; break;
+			case 0: temp[j++] = '0'; temp[j++] = '0'; temp[j++] = '0'; break;
+			case 5: temp[j++] = '0'; temp[j++] = '0'; temp[j++] = '5'; break;
+			case 36: temp[j++] = '0'; temp[j++] = '3'; temp[j++] = '6'; break;
+			case 96: temp[j++] = '0'; temp[j++] = '9'; temp[j++] = '6'; break;
+			case 124: temp[j++] = '1'; temp[j++] = '2'; temp[j++] = '4'; break;
+			case 126: temp[j++] = '1'; temp[j++] = '2'; temp[j++] = '6'; break;
 			}
-			temp.get()[j++] = '%'; temp.get()[j++] = '/';
+			temp[j++] = '%'; temp[j++] = '/';
 		} else {
-			temp.get()[j++] = aKey[i];
+			temp[j++] = aKey[i];
 		}
 	}
-	return string((const char*)&temp.get()[0], j);
+	return string((const char*)&temp[0], j);
 }
 
 string CryptoManager::makeKey(const string& aLock) {
 	if(aLock.size() < 3)
 		return Util::emptyString;
 
-	std::shared_ptr<uint8_t> temp(new uint8_t[aLock.length()]);
+	uint8_t temp[aLock.length()];
 	uint8_t v1;
 	size_t extra=0;
 
 	v1 = (uint8_t)(aLock[0]^5);
 	v1 = (uint8_t)(((v1 >> 4) | (v1 << 4)) & 0xff);
-	temp.get()[0] = v1;
+	temp[0] = v1;
 
 	string::size_type i;
 
 	for(i = 1; i<aLock.length(); i++) {
 		v1 = (uint8_t)(aLock[i]^aLock[i-1]);
 		v1 = (uint8_t)(((v1 >> 4) | (v1 << 4))&0xff);
-		temp.get()[i] = v1;
-		if(isExtra(temp.get()[i]))
+		temp[i] = v1;
+		if(isExtra(temp[i]))
 			extra++;
 	}
 
-	temp.get()[0] = (uint8_t)(temp.get()[0] ^ temp.get()[aLock.length()-1]);
+	temp[0] = (uint8_t)(temp[0] ^ temp[aLock.length()-1]);
 
-	if(isExtra(temp.get()[0])) {
+	if(isExtra(temp[0])) {
 		extra++;
 	}
 
-	return keySubst(&temp.get()[0], aLock.length(), extra);
+	return keySubst(&temp[0], aLock.length(), extra);
 }
 
 } // namespace dcpp
