@@ -54,15 +54,8 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 		pango_font_description_free(fontDesc);
 	}
 
-	//..set Colors
-	string strcolor = WGETS("background-color-chat");
-	GdkRGBA color;
-	gdk_rgba_parse(&color,strcolor.c_str());
-	gtk_widget_override_background_color(getWidget("text"),GTK_STATE_FLAG_NORMAL,&color);
-	gtk_widget_override_background_color(getWidget("text"),GTK_STATE_FLAG_PRELIGHT,&color);
-	gtk_widget_override_background_color(getWidget("text"),GTK_STATE_FLAG_ACTIVE,&color);
-	gtk_widget_override_background_color(getWidget("text"),GTK_STATE_FLAG_INSENSITIVE,&color);
-
+	//set Colors
+	WulforUtil::setTextBackground(getWidget("text"),WGETS("background-color-chat"));
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
 	messageBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(getWidget("text")));
 
@@ -307,14 +300,7 @@ void PrivateMessage::preferences_gui()
 	{
 		gtk_widget_set_sensitive(getWidget("emotButton"), TRUE);
 	}
-	string strcolor = WGETS("background-color-chat");
-	GdkRGBA color;
-	gdk_rgba_parse(&color,strcolor.c_str());
-	gtk_widget_override_background_color(getWidget("text"),GTK_STATE_FLAG_NORMAL,&color);
-	gtk_widget_override_background_color(getWidget("text"),GTK_STATE_FLAG_PRELIGHT,&color);
-	gtk_widget_override_background_color(getWidget("text"),GTK_STATE_FLAG_ACTIVE,&color);
-	gtk_widget_override_background_color(getWidget("text"),GTK_STATE_FLAG_INSENSITIVE,&color);
-
+	WulforUtil::setTextBackground(getWidget("text"),WGETS("background-color-chat"));
 	gtk_widget_queue_draw(getWidget("text"));
 }
 

@@ -20,7 +20,7 @@
 #include "System.hh"
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
-
+#include "settingsmanager.hh"
 #include <dcpp/LogManager.h>
 
 using namespace std;
@@ -30,6 +30,7 @@ systemlog::systemlog():
 BookEntry(Entry::SYSTEML,_("System Log"),"system.glade"),
  buffer(NULL),sysMark(NULL)
 {
+	WulforUtil::setTextBackground(getWidget("systextview"),WGETS("background-color-chat"));
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("systextview")));
 	gtk_text_buffer_get_end_iter(buffer, &iter);
 	sysMark = gtk_text_buffer_create_mark(buffer, NULL, &iter, FALSE);

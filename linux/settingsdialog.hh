@@ -19,8 +19,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef WULFOR_SETTINGS_DIALOG_HH
-#define WULFOR_SETTINGS_DIALOG_HH
+#ifndef _BMDC_SETTINGS_DIALOG_HH
+#define _BMDC_SETTINGS_DIALOG_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>

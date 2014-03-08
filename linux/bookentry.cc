@@ -77,7 +77,8 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
                 "-GtkWidget-focus-line-width : 0px;\n"
                 "-GtkWidget-focus-padding : 0px;\n"
                 "padding: 0px;\n\0",-1, NULL);
-        // Add the stock icon to the close button
+     
+     // Add the stock icon to the close button
      #if GTK_CHECK_VERSION(3,9,0)
 	    GtkWidget *image = gtk_image_new_from_icon_name("window-close",GTK_ICON_SIZE_MENU);
     #else
@@ -133,6 +134,7 @@ void BookEntry::setIcon_gui(const EntryType type)
 		case Entry::ABOUT_CONFIG : stock = WGETS("icon-system"); break;//for now
 		default: ;
 	}
+	
 	#if GTK_CHECK_VERSION(3,9,0)
 	gtk_image_set_from_icon_name(GTK_IMAGE(icon), stock.c_str(), GTK_ICON_SIZE_MENU);
 	#else

@@ -19,8 +19,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef RECENT_HUBS_HH
-#define RECENT_HUBS_HH
+#ifndef _BMDC_RECENT_HUBS_HH
+#define _BMDC_RECENT_HUBS_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>

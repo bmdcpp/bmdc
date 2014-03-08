@@ -33,6 +33,7 @@ cmddebug::cmddebug():
 BookEntry(Entry::CMD,_("CMD"),"cmddebug.glade"),
 stop(false)
 {
+	WulforUtil::setTextBackground(getWidget("cmdtextview"),WGETS("background-color-chat"));
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("cmdtextview")));
     gtk_text_buffer_get_end_iter(buffer, &iter);
     cmdMark = gtk_text_buffer_create_mark(buffer, NULL, &iter, FALSE);

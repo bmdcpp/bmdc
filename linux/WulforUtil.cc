@@ -701,19 +701,7 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
 	countryIcon.insert(make_pair(country,pixbuf));
 	return pixbuf;
 }
-/*
-string WulforUtil::StringToUpper(std::string myString)
-{
-	const int length = myString.length();
-	if(length == 0)
-		return Util::emptyString;
-	for(int i=0; i != length; ++i)
-	{
-		myString[i] = toupper(myString[i]);
-	}
-	return myString;
-}
-*/
+
 string WulforUtil::getCountryCode(string _countryname)
 {
 	if(_countryname.empty())
@@ -1650,4 +1638,3 @@ bool WulforUtil::Ipv4Hit(string &name, string &sIp) {
 	return isOk;
 
 }
-

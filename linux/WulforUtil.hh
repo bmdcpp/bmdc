@@ -93,17 +93,21 @@ class WulforUtil
 		static bool isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, std::string word, bool &tTab, gpointer hub);
 
 		static std::vector<std::pair<std::string,int> > getActions();
-		//static std::string StringToUpper(std::string myString);
+
 		static gboolean HitIP(std::string &name, std::string& sIp);
 
-		/*static gchar* g_substr(const gchar* string, gint start, gint  end)
-		{	gsize len = (end - start + 1);
-			gchar *output = (gchar *)g_malloc0 (len + 1);
-			return g_utf8_strncpy (output, &string[start], len);
-		}
-		*/
 		static const std::string ENCODING_LOCALE;
 		static const std::string commands;
+		
+		static void setTextBackground(GtkWidget* widget,std::string strcolor)
+		{
+			GdkRGBA color;
+			gdk_rgba_parse(&color,strcolor.c_str());
+			gtk_widget_override_background_color(widget, GTK_STATE_FLAG_NORMAL, &color);
+			gtk_widget_override_background_color(widget, GTK_STATE_FLAG_PRELIGHT, &color);
+			gtk_widget_override_background_color(widget, GTK_STATE_FLAG_ACTIVE, &color);
+			gtk_widget_override_background_color(widget, GTK_STATE_FLAG_INSENSITIVE, &color);	
+		}
 
 	private:
 		static std::string generateLeech();

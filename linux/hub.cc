@@ -120,14 +120,15 @@ Hub::Hub(const string &address, const string &encoding):
 		pango_font_description_free(fontDesc);
 	}
 	//..set Colors
-	string strcolor = WGETS("background-color-chat");
-	GdkRGBA color;
+	//string strcolor = WGETS("background-color-chat");
+	WulforUtil::setTextBackground(getWidget("chatText"),WGETS("background-color-chat"));
+	/*GdkRGBA color;
 	gdk_rgba_parse(&color,strcolor.c_str());
 	gtk_widget_override_background_color(getWidget("chatText"), GTK_STATE_FLAG_NORMAL, &color);
 	gtk_widget_override_background_color(getWidget("chatText"), GTK_STATE_FLAG_PRELIGHT, &color);
 	gtk_widget_override_background_color(getWidget("chatText"), GTK_STATE_FLAG_ACTIVE, &color);
 	gtk_widget_override_background_color(getWidget("chatText"), GTK_STATE_FLAG_INSENSITIVE, &color);
-
+*/
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
 	chatBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(getWidget("chatText")));
 
@@ -1693,13 +1694,7 @@ void Hub::preferences_gui()
 	nickView.setSortColumn_gui(_("Nick"), sort);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);
 	//set Colors
-	string strcolor = WGETS("background-color-chat");
-	GdkRGBA color;
-	gdk_rgba_parse(&color,strcolor.c_str());
-	gtk_widget_override_background_color(getWidget("chatText"), GTK_STATE_FLAG_NORMAL, &color);
-	gtk_widget_override_background_color(getWidget("chatText"), GTK_STATE_FLAG_PRELIGHT, &color);
-	gtk_widget_override_background_color(getWidget("chatText"), GTK_STATE_FLAG_ACTIVE, &color);
-	gtk_widget_override_background_color(getWidget("chatText"), GTK_STATE_FLAG_INSENSITIVE, &color);
+	WulforUtil::setTextBackground(getWidget("chatText"),WGETS("background-color-chat"));
 	gtk_widget_queue_draw(getWidget("chatText"));
 	setColorsRows();
 }
