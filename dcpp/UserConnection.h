@@ -136,7 +136,7 @@ public:
 	void setDataMode(int64_t aBytes = -1) { dcassert(socket); socket->setDataMode(aBytes); }
 	void setLineMode(size_t rollback) { dcassert(socket); socket->setLineMode(rollback); }
 
-	void connect(const string& aServer, const string& aPort, const string& localPort, const BufferedSocket::NatRoles natRole);
+	void connect(const string& aServer, const string& aPort, const string& localPort, const BufferedSocket::NatRoles natRole, const UserPtr& user);
 	void accept(const Socket& aServer);
 
 	template<typename F>
@@ -158,7 +158,7 @@ public:
 	bool isTrusted() const { return socket && socket->isTrusted(); }
 	std::string getCipherName() const { return socket ? socket->getCipherName() : Util::emptyString; }
 	vector<uint8_t> getKeyprint() const { return socket ? socket->getKeyprint() : vector<uint8_t>(); }
-	const string getPort() const { if(socket) return socket->getPort(); else return 0; }
+	bool verifyKeyprint(const string& expKeyp, bool allowUntrusted) noexcept { return socket ? socket->verifyKeyprint(expKeyp, allowUntrusted) : true; }
 	string getRemoteIp() const { return socket->getIp(); }
 	Download* getDownload() { dcassert(isSet(FLAG_DOWNLOAD)); return download; }
 	void setDownload(Download* d) { dcassert(isSet(FLAG_DOWNLOAD)); download = d; }
@@ -188,6 +188,7 @@ public:
 	GETSET(States, state, State);
 	GETSET(uint64_t, lastActivity, LastActivity);
 	GETSET(double, speed, Speed);
+	GETSET(string, port ,Port);
 private:
 	int64_t chunkSize;
 	BufferedSocket* socket;

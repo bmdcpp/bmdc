@@ -22,6 +22,7 @@
 #include "FavoriteManager.h"
 #include "TimerManager.h"
 #include "ClientManager.h"
+#include "LogManager.h"
 #include "DebugManager.h"
 #include "PluginManager.h"
 #include "ConnectivityManager.h"
@@ -41,8 +42,8 @@ Client::Client(const string& hubURL, char separator_, bool secure_) :
 	string file, proto, query, fragment;
 	Util::decodeUrl(hubURL, proto, address, port, file, query, fragment);
 	keyprint = Util::decodeQuery(query)["kp"];
-
 	TimerManager::getInstance()->addListener(this);
+
 	//RSX++
 	setCheckAtConnect(false);
 	cmdQueue.setClientPtr(this);
@@ -134,7 +135,7 @@ void Client::connect() {
 	if((uint32_t)SETTING(TIME_RECCON) > 10)
         setReconnDelay((uint32_t)(SETTING(TIME_RECCON)));
 	else
-        setReconnDelay(20);
+       	setReconnDelay(120 + Util::rand(0, 60));
 	
 	reloadSettings(true);
 	setRegistered(false);
@@ -157,6 +158,7 @@ void Client::connect() {
 void Client::send(const char* aMessage, size_t aLen) {
 	if(!isConnected()) {
 		dcassert(0);
+		LogManager::getInstance()->message("Not Connected returning");
 		return;
 	}
 	COMMAND_DEBUG(aMessage,TYPE_HUB,OUTGOING, getHubUrl());
@@ -185,7 +187,7 @@ HubData* Client::getPluginObject() noexcept {
 void Client::on(Connected) noexcept {
 	updateActivity();
 	ip = sock->getIp();
-
+/*
 	if(sock->isSecure() && keyprint.compare(0, 7, "SHA256/") == 0) {
 		vector<uint8_t> kp = sock->getKeyprint();
 		if(!kp.empty()) {
@@ -198,7 +200,7 @@ void Client::on(Connected) noexcept {
 				return;
 			}
 		}
-	}
+	}*/
 
 	fire(ClientListener::Connected(), this);
 	state = STATE_PROTOCOL;

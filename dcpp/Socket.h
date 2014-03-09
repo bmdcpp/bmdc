@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2013 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,6 @@
 #define DCPLUSPLUS_DCPP_SOCKET_H
 
 #ifdef _WIN32
-#include "w.h"
 typedef int socklen_t;
 typedef SOCKET socket_t;
 #else
@@ -31,6 +30,7 @@ typedef SOCKET socket_t;
 #include <netdb.h>
 #include <fcntl.h>
 #include <errno.h>
+
 typedef int socket_t;
 const int INVALID_SOCKET = -1;
 #define SOCKET_ERROR -1
@@ -39,6 +39,7 @@ const int INVALID_SOCKET = -1;
 #include "GetSet.h"
 #include "Util.h"
 #include "Exception.h"
+
 #include <memory>
 
 namespace dcpp {
@@ -72,11 +73,9 @@ public:
 	void reset(socket_t s = INVALID_SOCKET);
 private:
 	socket_t sock;
-	SocketHandle(SocketHandle&);
-	SocketHandle& operator=(SocketHandle&);
 };
 
-class Socket 
+class Socket
 {
 public:
 	enum SocketType {
@@ -150,7 +149,7 @@ public:
 
 	typedef std::unique_ptr<addrinfo, decltype(&freeaddrinfo)> addrinfo_p;
 	static string resolve(const string& aDns, int af = AF_UNSPEC) noexcept;
-	addrinfo_p resolveAddr(const string& name, const string& port, int family = AF_UNSPEC, int flags =  AI_PASSIVE | AI_V4MAPPED |AI_ADDRCONFIG);
+	addrinfo_p resolveAddr(const string& name, const string& port, int family = AF_UNSPEC, int flags = 0);
 
 	static uint64_t getTotalDown() { return stats.totalDown; }
 	static uint64_t getTotalUp() { return stats.totalUp; }
@@ -162,28 +161,32 @@ public:
 
 	/** Binds a socket to a certain local port and possibly IP. */
 	virtual string listen(const string& port);
-	virtual void accept(const Socket& listeningSocket);
+	/** Accept a socket.
+	@return remote port */
+	virtual uint16_t accept(const Socket& listeningSocket);
 
 	int getSocketOptInt(int option);
 	void setSocketOpt(int option, int value);
 
 	virtual bool isSecure() const noexcept { return false; }
 	virtual bool isTrusted() const noexcept { return false; }
-	virtual std::string getCipherName() const noexcept { return Util::emptyString; }
-	virtual vector<uint8_t> getKeyprint() const noexcept { return vector<uint8_t>(); }
-	
-	static string getRemoteHost(const string& aIp); 
+	virtual string getCipherName() const noexcept { return Util::emptyString; }
+	virtual ByteVector getKeyprint() const noexcept { return ByteVector(); }
+	virtual bool verifyKeyprint(const string& expKeyp, bool allowUntrusted) noexcept { return true; };
 
 	/** When socks settings are updated, this has to be called... */
 	static void socksUpdated();
+
+	static int getLastError();
+	static string getRemoteHost(const string& aIp);
 
 	GETSET(string, ip, Ip);
 	GETSET(string, localIp4, LocalIp4);
 	GETSET(string, localIp6, LocalIp6);
 	GETSET(bool, v4only, V4only);
-	GETSET(string, port, Port);
+
 protected:
-	typedef struct {//union
+	typedef union {
 		sockaddr sa;
 		sockaddr_in sai;
 		sockaddr_in6 sai6;
@@ -206,6 +209,7 @@ protected:
 
 	static addr udpAddr;
 	static socklen_t udpAddrLen;
+
 private:
 	void socksAuth(uint32_t timeout);
 	socket_t setSock(socket_t s, int af);
@@ -213,9 +217,6 @@ private:
 	// Low level interface
 	socket_t create(const addrinfo& ai);
 	static string resolveName(const sockaddr* sa, socklen_t sa_len, int flags = NI_NUMERICHOST);
-	
-	Socket(Socket&);
-	Socket operator=(Socket&);
 };
 
 } // namespace dcpp

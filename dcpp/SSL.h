@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2013 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,8 @@
 
 #ifndef DCPLUSPLUS_DCPP_SSL_H
 #define DCPLUSPLUS_DCPP_SSL_H
+
+#include "typedefs.h"
 
 #include <openssl/ssl.h>
 
@@ -38,10 +40,10 @@ public:
 	explicit scoped_handle(T* t_ = nullptr) : t(t_) { }
 	~scoped_handle() { if(t) { Release(t); } }
 
-	operator T*() const  { return t; }
+	operator T*() { return t; }
 	operator const T*() const { return t; }
 
-	operator bool() const { return t; }
+	explicit operator bool() const { return t; }
 
 	T* operator->() { return t; }
 	const T* operator->() const { return t; }
@@ -74,8 +76,10 @@ bool SSL_CTX_use_certificate_file(::SSL_CTX* ctx, const char* file, int type);
 bool SSL_CTX_use_PrivateKey_file(::SSL_CTX* ctx, const char* file, int type);
 
 X509 getX509(const char* file);
-std::vector<uint8_t> X509_digest(::X509* x509, const ::EVP_MD* md);
+ByteVector X509_digest(::X509* x509, const ::EVP_MD* md);
 
 }
+
 }
-#endif /*SSL_H_*/
+
+#endif

@@ -332,7 +332,7 @@ void ConnectionManager::nmdcConnect(const string& aServer, const string& aPort, 
 	uc->setFlag(UserConnection::FLAG_NMDC);
 
 	try {
-		uc->connect(aServer, aPort, Util::emptyString, BufferedSocket::NAT_NONE);
+		uc->connect(aServer, aPort, Util::emptyString, BufferedSocket::NAT_NONE,uc->getUser());
 	} catch(const Exception&) {
 		putConnection(uc);
 		delete uc;
@@ -356,7 +356,7 @@ void ConnectionManager::adcConnect(const OnlineUser& aUser, const string& aPort,
 		uc->setFlag(UserConnection::FLAG_OP);
 	}
 	try {
-		uc->connect(aUser.getIdentity().getIp(), aPort, localPort, natRole);
+		uc->connect(aUser.getIdentity().getIp(), aPort, localPort, natRole,aUser.getUser());
 	} catch(const Exception&) {
 		putConnection(uc);
 		delete uc;
@@ -725,34 +725,10 @@ void ConnectionManager::force(const UserPtr& aUser) {
 }
 
 bool ConnectionManager::checkKeyprint(UserConnection *aSource) {
-	dcassert(aSource->getUser());
-
-	auto kp = aSource->getKeyprint();
-	if(kp.empty()) {
-		return true;
-	}
-
-	auto kp2 = ClientManager::getInstance()->getField(aSource->getUser()->getCID(), aSource->getHubUrl(), "KP");
-	if(kp2.empty()) {
-		// TODO false probably
-		return true;
-	}
-
-	if(kp2.compare(0, 7, "SHA256/") != 0) {
-		// Unsupported hash
-		return true;
-	}
-
-	dcdebug("Keyprint: %s vs %s\n", Encoder::toBase32(&kp[0], kp.size()).c_str(), kp2.c_str() + 7);
-
-	vector<uint8_t> kp2v(kp.size());
-	Encoder::fromBase32(&kp2[7], &kp2v[0], kp2v.size());
-	if(!std::equal(kp.begin(), kp.end(), kp2v.begin())) {
-		dcdebug("Not equal...\n");
-		return false;
-	}
-
-	return true;
+	if(!aSource->isSecure() || aSource->isTrusted())
+         return true;
+    string kp = ClientManager::getInstance()->getField(aSource->getUser()->getCID(), aSource->getHubUrl(), "KP");
+    return aSource->verifyKeyprint(kp, SETTING(ALLOW_UNTRUSTED_CLIENTS));
 }
 
 void ConnectionManager::failed(UserConnection* aSource, const string& aError, bool protocolError) {

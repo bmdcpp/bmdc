@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2013 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,35 +19,42 @@
 #ifndef DCPLUSPLUS_DCPP_SSLSOCKET_H
 #define DCPLUSPLUS_DCPP_SSLSOCKET_H
 
+#include "typedefs.h"
+
+#include "CryptoManager.h"
 #include "Socket.h"
 #include "Singleton.h"
-#include <openssl/err.h>
-#include "SSL.h"
 
-#ifndef SSL_SUCCESS
-#define SSL_SUCCESS 1
-#endif
+#include "SSL.h"
 
 namespace dcpp {
 
-class SSLSocketException : public SocketException {
+using std::unique_ptr;
+using std::string;
+
+class SSLSocketException : public SocketException 
+{
 public:
 #ifdef _DEBUG
 	SSLSocketException(const string& aError) noexcept : SocketException("SSLSocketException: " + aError) { }
 #else //_DEBUG
 	SSLSocketException(const string& aError) noexcept : SocketException(aError) { }
 #endif // _DEBUG
+	SSLSocketException(int aError) noexcept : SocketException(aError) { }
 
 	virtual ~SSLSocketException() throw() { }
 };
 
-class CryptoManager;
-
-class SSLSocket : public Socket {
+class SSLSocket : public Socket 
+{
 public:
-	virtual ~SSLSocket() { ERR_remove_state(0);}
+	SSLSocket(CryptoManager::SSLContext context, bool allowUntrusted, const string& expKP);
+	/** Creates an SSL socket without any verification */
+	SSLSocket(CryptoManager::SSLContext context);
 
-	virtual void accept(const Socket& listeningSocket);
+	virtual ~SSLSocket() { verifyData.reset(); }
+
+	virtual uint16_t accept(const Socket& listeningSocket);
 	virtual void connect(const string& aIp, const string& aPort);
 	virtual int read(void* aBuffer, int aBufLen);
 	virtual int write(const void* aBuffer, int aLen);
@@ -57,21 +64,19 @@ public:
 
 	virtual bool isSecure() const noexcept { return true; }
 	virtual bool isTrusted() const noexcept;
-	virtual std::string getCipherName() const noexcept;
-	virtual vector<uint8_t> getKeyprint() const noexcept;
+	virtual string getCipherName() const noexcept;
+	virtual ByteVector getKeyprint() const noexcept;
+	virtual bool verifyKeyprint(const string& expKeyp, bool allowUntrusted) noexcept;
 
 	virtual bool waitConnected(uint32_t millis);
 	virtual bool waitAccepted(uint32_t millis);
 
 private:
-	friend class CryptoManager;
-
-	SSLSocket(SSL_CTX* context);
-	SSLSocket(const SSLSocket&);
-	SSLSocket& operator=(const SSLSocket&);
 
 	SSL_CTX* ctx;
 	ssl::SSL ssl;
+
+	unique_ptr<CryptoManager::SSLVerifyData> verifyData;	// application data used by CryptoManager::verify_callback(...)
 
 	int checkSSL(int ret);
 	bool waitWant(int ret, uint32_t millis);
