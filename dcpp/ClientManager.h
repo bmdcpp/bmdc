@@ -128,7 +128,7 @@ public:
 	void loadUsers();
 	void saveUsers() const;
 	void saveUser(const CID& cid);
-
+	//HideShare
 	bool getSharingHub(const HintedUser& p) {
 		Lock l(cs);
 		OnlineUser* ou = findOnlineUserHint(p.user->getCID(), p.hint);

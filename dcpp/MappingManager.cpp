@@ -89,10 +89,10 @@ string MappingManager::getStatus() const {
 }
 
 int MappingManager::run() {
-	ScopedFunctor([this] { busy.clear(); });
+	//ScopedFunctor([this] { busy.clear(); });
 
 	// cache ports
-	auto
+	string
 		conn_port = ConnectionManager::getInstance()->getPort(),
 		secure_port = ConnectionManager::getInstance()->getSecurePort(),
 		search_port = SearchManager::getInstance()->getPort();
@@ -123,7 +123,7 @@ int MappingManager::run() {
 	}
 
 	// move the preferred mapper to the top of the stack.
-	const auto& setting = SETTING(MAPPER);
+	const string& setting = SETTING(MAPPER);
 	for(auto i = mappers.begin(); i != mappers.end(); ++i) {
 		if(i->first == setting) {
 			if(i != mappers.begin()) {
@@ -139,7 +139,7 @@ int MappingManager::run() {
 		unique_ptr<Mapper> pMapper(i->second(Util::getLocalIp()));
 		Mapper& mapper = *pMapper;
 
-		ScopedFunctor([&mapper] { mapper.uninit(); });
+		//ScopedFunctor([&mapper] { mapper.uninit(); });
 		if(!mapper.init()) {
 			log(string(F_("Failed to initalize the "+mapper.getName()+" interface")));
 			continue;
@@ -151,6 +151,7 @@ int MappingManager::run() {
 			{
 				this->log(string(F_("Failed to map the "+description+" port ("+port+" "+Mapper::protocols[protocol]+") with the "+mapper.getName()+" interface")));
 				mapper.close();
+				mapper.uninit();
 				return false;
 			}
 			return true;
@@ -185,7 +186,7 @@ int MappingManager::run() {
 		log(_("Failed to create port mappings"));
 		ConnectivityManager::getInstance()->mappingFinished(Util::emptyString);
 	}
-
+	busy.clear();
 	return 0;
 }
 
@@ -211,7 +212,7 @@ string MappingManager::deviceString(Mapper& mapper) const {
 }
 
 void MappingManager::renewLater(Mapper& mapper) {
-	auto minutes = mapper.renewal();
+	uint32_t minutes = mapper.renewal();
 	if(minutes) {
 		bool addTimer = !renewal;
 		renewal = GET_TICK() + std::max(minutes, 10u) * 60 * 1000;

@@ -57,6 +57,11 @@ public:
 
 		File& operator=(const File& rhs) {
 			name = rhs.name; size = rhs.size; parent = rhs.parent; tthRoot = rhs.tthRoot;
+			adls = rhs.adls;
+			fromFavs = rhs.fromFavs;
+			adlsComment = rhs.adlsComment;
+			overRidePoints = rhs.overRidePoints;
+			points = rhs.points;
 			ts = rhs.ts;
 			m_media = rhs.m_media;
 			return *this;
@@ -96,7 +101,9 @@ public:
 		File::List files;
 
 		Directory(Directory* aParent, const string& aName, bool _adls, bool aComplete)
-			: name(aName), parent(aParent), adls(_adls), complete(aComplete) { }
+			: name(aName), parent(aParent), adls(_adls), complete(aComplete),
+			points(0), overRidePoints(false), fromFavs(false), adlsRaw(0)
+			 { }
 
 		virtual ~Directory();
 

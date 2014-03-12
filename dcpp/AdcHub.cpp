@@ -199,7 +199,7 @@ void AdcHub::handle(AdcCommand::INF, AdcCommand& c) noexcept {
 	if(u->getIdentity().isHub()) {
 		setHubIdentity(u->getIdentity());
 		u->getIdentity().setBot(true);
-		u->getIdentity().setOp(true);
+		u->getIdentity().setOp(true);//@fix for the visible at top for HUB_SID
 		fire(ClientListener::HubUpdated(), this);
 		fire(ClientListener::UserUpdated(), this, *u);
 	} else {
@@ -214,8 +214,7 @@ void AdcHub::handle(AdcCommand::SUP, AdcCommand& c) noexcept {
 	bool tigrOk = false;
 	for(auto i = c.getParameters().begin(); i != c.getParameters().end(); ++i) {
 		if(*i == BAS0_SUPPORT) {
-			baseOk = true;
-			tigrOk = true;
+			tigrOk = baseOk = true;
 		} else if(*i == BASE_SUPPORT) {
 			baseOk = true;
 		} else if(*i == TIGR_SUPPORT) {
@@ -335,11 +334,14 @@ void AdcHub::handle(AdcCommand::QUI, AdcCommand& c) noexcept {
 }
 
 void AdcHub::handle(AdcCommand::CTM, AdcCommand& c) noexcept {
+	if(c.getParameters().size() < 3)
+		return;
+
 	OnlineUser* u = findUser(c.getFrom());
 	if(!u || u->getUser() == ClientManager::getInstance()->getMe())
 		return;
-	if(c.getParameters().size() < 3)
-		return;
+	//if(c.getParameters().size() < 3)
+	//	return;
 
 	const string& protocol = c.getParam(0);
 	const string& port = c.getParam(1);
@@ -375,9 +377,9 @@ void AdcHub::handle(AdcCommand::RCM, AdcCommand& c) noexcept {
 	const string& protocol = c.getParam(0);
 	const string& token = c.getParam(1);
 
-	bool secure;
+	bool secure = false;
 	if(protocol == CLIENT_PROTOCOL) {
-		secure = false;
+	//	secure = false;
 	} else if(protocol == SECURE_CLIENT_PROTOCOL_TEST && CryptoManager::getInstance()->TLSOk()) {
 		secure = true;
 	} else {
@@ -435,7 +437,7 @@ void AdcHub::sendUDP(const AdcCommand& cmd) noexcept {
 		Lock l(cs);
 		SIDIter i = users.find(cmd.getTo());
 		if(i == users.end()) {
-			dcdebug("AdcHub::sendUDP: invalid user\n");
+			dcdebug("AdcHub::sendUDP: invalid user\n");//Possible alow logging?
 			return;
 		}
 		OnlineUser& ou = *i->second;
@@ -470,15 +472,19 @@ void AdcHub::handle(AdcCommand::STA, AdcCommand& c) noexcept {
 
 	case AdcCommand::ERROR_BAD_PASSWORD:
 		{
-			setPassword(Util::emptyString);
+			if(c.getType() == AdcCommand::TYPE_INFO) {
+				setPassword(Util::emptyString);
+			}
 			break;
 		}
 
 	case AdcCommand::ERROR_COMMAND_ACCESS:
 		{
-			string tmp;
-			if(c.getParam("FC", 1, tmp) && tmp.size() == 4)
-				forbiddenCommands.insert(AdcCommand::toFourCC(tmp.c_str()));
+			if(c.getType() == AdcCommand::TYPE_INFO) {
+				string tmp;
+				if(c.getParam("FC", 1, tmp) && tmp.size() == 4)
+					forbiddenCommands.insert(AdcCommand::toFourCC(tmp.c_str()));
+			}
 			break;
 		}
 
@@ -509,7 +515,7 @@ void AdcHub::handle(AdcCommand::SCH, AdcCommand& c) noexcept {
 
 	OnlineUser* ou = findUser(c.getFrom());
 	if(!ou) {
-		dcdebug("Invalid user in AdcHub::onSCH\n");
+		dcdebug("Invalid user in AdcHub::onSCH\n");//should be loged ?
 		return;
 	}
 
@@ -519,7 +525,7 @@ void AdcHub::handle(AdcCommand::SCH, AdcCommand& c) noexcept {
 void AdcHub::handle(AdcCommand::RES, AdcCommand& c) noexcept {
 	OnlineUser* ou = findUser(c.getFrom());
 	if(!ou) {
-		dcdebug("Invalid user in AdcHub::onRES\n");
+		dcdebug("Invalid user in AdcHub::onRES\n");//logging?
 		return;
 	}
 	SearchManager::getInstance()->onRES(c, ou->getUser());
@@ -588,6 +594,9 @@ void AdcHub::handle(AdcCommand::GET, AdcCommand& c) noexcept {
 }
 
 void AdcHub::handle(AdcCommand::NAT, AdcCommand& c) noexcept {
+	if(c.getParameters().size() < 3)
+		return;
+
 	OnlineUser* u = findUser(c.getFrom());
 	if(!u || u->getUser() == ClientManager::getInstance()->getMe() || c.getParameters().size() < 3)
 		return;
@@ -617,10 +626,13 @@ void AdcHub::handle(AdcCommand::NAT, AdcCommand& c) noexcept {
 }
 
 void AdcHub::handle(AdcCommand::RNT, AdcCommand& c) noexcept {
+	if(c.getParameters().size() < 3)
+		return;
+
 	// Sent request for NAT traversal cooperation, which
 	// was acknowledged (with requisite local port information).
 	OnlineUser* u = findUser(c.getFrom());
-	if(!u || u->getUser() == ClientManager::getInstance()->getMe() || c.getParameters().size() < 3)
+	if(!u || u->getUser() == ClientManager::getInstance()->getMe())
 		return;
 
 	const string& protocol = c.getParam(0);
@@ -643,18 +655,22 @@ void AdcHub::handle(AdcCommand::RNT, AdcCommand& c) noexcept {
 }
 
 void AdcHub::handle(AdcCommand::ZON, AdcCommand& c) noexcept {
-	try {
+	if(c.getType() == AdcCommand::TYPE_INFO) {
+		try {
 			sock->setMode(BufferedSocket::MODE_ZPIPE);
-	} catch (const Exception& e) {
-			dcdebug("AdcHub::handleZON failed with error: %s\n", e.getError().c_str());
+		} catch (const Exception& e) {
+				dcdebug("AdcHub::handleZON failed with error: %s\n", e.getError().c_str());
+		}
 	}
 }
 
 void AdcHub::handle(AdcCommand::ZOF, AdcCommand& c) noexcept {
-	try {
-			sock->setMode(BufferedSocket::MODE_LINE);
-	} catch (const Exception& e) {
-			dcdebug("AdcHub::handleZOF failed with error: %s\n", e.getError().c_str());
+	if(c.getType() == AdcCommand::TYPE_INFO) {
+		try {
+				sock->setMode(BufferedSocket::MODE_LINE);
+		} catch (const Exception& e) {
+				dcdebug("AdcHub::handleZOF failed with error: %s\n", e.getError().c_str());
+		}
 	}
 }
 
@@ -938,7 +954,7 @@ void AdcHub::password(const string& pwd) {
 	if(!salt.empty()) {
 		size_t saltBytes = salt.size() * 5 / 8;
 		uint8_t *buf = new uint8_t[saltBytes];
-		Encoder::fromBase32(salt.c_str(), buf, saltBytes);//&buf.get[0]
+		Encoder::fromBase32(salt.c_str(), buf, saltBytes);
 		TigerHash th;
 		if(oldPassword) {
 			CID cid = getMyIdentity().getUser()->getCID();

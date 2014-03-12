@@ -25,6 +25,7 @@
 #include "QueueManager.h"
 #include "OnlineUser.h"
 #include "SettingsManager.h"
+#include "ADLSearch.h"
 #include "FakeChecker.h"
 
 namespace dcpp {
@@ -32,11 +33,11 @@ namespace dcpp {
 
 void FakeChecker::setCheating(const HintedUser& p, const string& _ccResponse, const string& _cheatString, int _actionId, bool _displayCheat,
 		bool _badClient, bool _badFileList, bool _clientCheckComplete, bool _fileListCheckComplete) {
-			
-	OnlineUser* ou = NULL;
+
+	OnlineUser* ou = nullptr;
 	string report;
 	{
-		cm->lock();	
+		cm->lock();
 		ou = cm->findOnlineUser(p);
 		if(!ou)
 			return;
@@ -68,7 +69,7 @@ void FakeChecker::fileListDisconnected(const HintedUser& p) {
 
 	bool remove = false;
 	string report = Util::emptyString;
-	Client* c = NULL;
+	Client* c = nullptr;
 	{
 		cm->lock();
 		OnlineUser* ou = cm->findOnlineUser(p);
@@ -118,7 +119,7 @@ void FakeChecker::setListLength(const HintedUser& p, const string& listLen) {
 }
 
 void FakeChecker::setListSize(const HintedUser& p, int64_t aFileLength, bool adc) {
-	OnlineUser* ou = NULL;
+	OnlineUser* ou = nullptr;
 	string report;
 	{
 		cm->lock();
@@ -171,7 +172,7 @@ void FakeChecker::setSupports(const HintedUser& p, const string& aSupports) {
 }
 
 void FakeChecker::setGenerator(const HintedUser& p, const string& aGenerator, const string& aCID, const string& aBase) {
-	Client* c;
+	Client* c  = nullptr;
 	string report;
 	{
 		cm->lock();

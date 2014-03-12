@@ -28,7 +28,7 @@ public:
 	FavoriteUser() : lastSeen(time(NULL)) { }
 	FavoriteUser(const UserPtr& user_, const string& nick_, const string& hubUrl_) : user(user_), url(hubUrl_), lastSeen(0), nick(nick_) 
 	{ 
-			nicks.insert(make_pair(nick,true));
+			nicks.push_back(nick);
 	}
 
 	enum Flags {
@@ -48,35 +48,37 @@ public:
 	
 	void setNick(string _nick)
 	{
-		if(!(nicks.count(_nick) > 1))
-			nicks.insert(make_pair(_nick,true));
+		uint64_t count = 0;
+		for(auto& i:nicks){
+				if(i==_nick) ++count;
+		}
+		if(count > 1)		
+			nicks.push_back(_nick);
 		nick = _nick;
 	}
-	string getNick() const 
+	string getNick() const
 	{ return nick; }
-	
-	string getNicks() const { 
+
+	string getNicks() const {
 		string _nicks = Util::emptyString;
 		int num = 0;
-		for(auto it = nicks.begin();it!= nicks.end();++it)
+		for(vector<string>::const_iterator it = nicks.begin();it!= nicks.end();++it)
 		{
 			if(num == 0) {
-				_nicks+= it->first;
+				_nicks+= (*it);
 			} else {
-				_nicks+= ";"+it->first;
+				_nicks+= ";"+(*it);
 			}
-			num++;	
+			num++;
 		 }
-				
+
 		return _nicks+";";
 	}
-	void setNicks(vector<string> _nicks) { 
-			for(auto it = _nicks.begin(); it!=_nicks.end(); ++it)
-		           nicks.insert(make_pair(*it,true));
-		
+	void setNicks(vector<string> _nicks) {
+			nicks = _nicks;
 	}
-private:	
-	map<string,bool> nicks;
+private:
+	vector<string> nicks;
 	string nick;
 };
 

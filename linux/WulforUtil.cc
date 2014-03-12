@@ -683,8 +683,20 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
 {
 	if(country.empty())
 	{
-		//todo return "Unknow symbol?"
-		return NULL;
+		GdkPixbuf* buf = NULL;
+		#if GTK_CHECK_VERSION(3,9,0)
+		GError* error = NULL;
+		GdkPixbuf* buf = gtk_icon_theme_load_icon(icon_theme,"gtk-dialog-question",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,&error);
+		if(error){
+			g_print("[BMDC:Country] Failed %s",error->message);
+			g_error_free(error);
+			return NULL;
+		}	
+		#else
+		GtkWidget* iwid = gtk_invisible_new ();
+		buf = gtk_widget_render_icon_pixbuf(iwid, GTK_STOCK_DIALOG_QUESTION, GTK_ICON_SIZE_MENU);
+		#endif
+		return buf;
 	}
 	map<string,GdkPixbuf*>::const_iterator it = countryIcon.find(country);
 	if( it  != countryIcon.end() )
@@ -695,7 +707,9 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
 	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_size(path,15,15,&error);
 	if (error != NULL || pixbuf == NULL) {
 			g_warning("[BMDC::Country] Cannot open image: %s => %s", path, error->message);
-			g_error_free(error);//TODO?
+			g_error_free(error);
+			g_free(path);
+			return NULL;
 	}
 	g_free(path);
 	countryIcon.insert(make_pair(country,pixbuf));
@@ -1451,8 +1465,6 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 		#endif
 	}
 	std::transform(ext.begin(), ext.end(), ext.begin(), (int(*)(int))tolower);
-
-//	std::map<std::string,std::string> map =  loadmimetypes();
 
 	std::map<std::string,std::string>::iterator it = m_mimetyp.find(ext);
 	if(it == m_mimetyp.end())

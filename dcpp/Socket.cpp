@@ -18,7 +18,7 @@
 
 #include "stdinc.h"
 #include "Socket.h"
-
+#include <signal.h>
 #include "ConnectivityManager.h"
 #include "format.h"
 #include "SettingsManager.h"

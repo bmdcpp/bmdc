@@ -793,7 +793,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 	} else if(cmd == "$HubTopic") {
         string line = aLine;
         line.replace(0,9,Util::emptyString);
-        fire(ClientListener::HubTopic(), this, line);
+        fire(ClientListener::HubTopic(), this, unescape(line) );
 	} else if(cmd == "$ZOn") {
 		try {
 			sock->setMode(BufferedSocket::MODE_ZPIPE);

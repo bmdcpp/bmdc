@@ -89,6 +89,9 @@ public:
 	void cheatMessage(const string& message) { fire(ClientListener::CheatMessage(), this, message); }
 
 	static string getCounts();
+	static int getTotalCounts() {
+		return counts[COUNT_NORMAL].load() + counts[COUNT_REGISTERED].load() + counts[COUNT_OP].load();
+	}
 
 	void reconnect();
 	void shutdown();

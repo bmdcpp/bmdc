@@ -219,7 +219,7 @@ string FavoriteManager::getUserURL(const UserPtr& aUser) const {
 }
 
 void FavoriteManager::addFavorite(const FavoriteHubEntry& aEntry) {
-	FavoriteHubEntry* f;
+	FavoriteHubEntry* f = nullptr;
 
 	FavoriteHubEntryList::iterator i = getFavoriteHub(aEntry.getServer());
 	if(i != favoriteHubs.end()) {

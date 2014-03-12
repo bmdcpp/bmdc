@@ -34,7 +34,7 @@ namespace dcpp {
 
 using std::list;
 
-class NmdcHub : public Client, private Flags
+class NmdcHub : public Client//, private Flags
 {
 public:
 	using Client::send;

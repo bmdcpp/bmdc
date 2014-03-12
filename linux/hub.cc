@@ -879,8 +879,8 @@ void Hub::popupNickMenu_gui()
 
 	userCommandMenu->addHub(client->getHubUrl());
 	userCommandMenu->buildMenu_gui();
-	gchar *markup = NULL;
-	markup = g_markup_printf_escaped ("<span fgcolor=\"blue\"><b>%s</b></span>", nick.c_str());//TODO: maybe custom color
+	gchar *markup;
+	markup = g_markup_printf_escaped ("<span fgcolor=\"blue\" ><b>%s</b></span>", nick.c_str());//TODO: maybe custom color
 	GtkMenuItem *item = GTK_MENU_ITEM(getWidget("nickItem"));
 	GtkWidget *label = gtk_bin_get_child(GTK_BIN(item));
 	gtk_label_set_markup (GTK_LABEL (label), markup);
@@ -999,7 +999,7 @@ void Hub::nickToChat_gui(const string &nick)
 
 void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 {
-	auto gotNotify = [this](string hub) -> bool { return (FavoriteManager::getInstance()->getFavoriteHubEntry(hub) != NULL) ? FavoriteManager::getInstance()->getFavoriteHubEntry(hub)->getNotify() : WGETI("notify-hub-chat-use");  };
+//	auto gotNotify = [this](string hub) -> bool { return (FavoriteManager::getInstance()->getFavoriteHubEntry(hub) != NULL) ? FavoriteManager::getInstance()->getFavoriteHubEntry(hub)->getNotify() : WGETI("notify-hub-chat-use");  };
 
 	PluginManager::getInstance()->onChatDisplay(message);
 
@@ -1043,7 +1043,12 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 		default:
 			tagMsg = Tag::TAG_GENERAL;
 
-			if(gotNotify(client->getHubUrl())) {
+			FavoriteHubEntryPtr entry = FavoriteManager::getInstance()->getFavoriteHubEntry(client->getHubUrl());
+
+			bool isFavBool =  entry ? entry->getNotify() : WGETI("notify-hub-chat-use");
+
+			if(isFavBool)
+			{
 				MainWindow *mw = WulforManager::get()->getMainWindow();
 				typedef Func3<MainWindow, string, string, Notify::TypeNotify> F3;
 				F3 *func = new F3(mw,&MainWindow::showNotification_gui, client->getHubName(), message, Notify::HUB_CHAT);
@@ -1282,19 +1287,20 @@ void Hub::applyTags_gui(const string &cid, const string &line)
             {
                 GdkPixbuf *buffer = WulforUtil::LoadCountryPixbuf(country_text);
                 if(buffer != NULL)
-			{
-			gtk_text_buffer_delete(chatBuffer, &tag_start_iter, &tag_end_iter);
-			GtkTextChildAnchor *anchor = gtk_text_buffer_create_child_anchor(chatBuffer, &tag_start_iter);
-			GtkWidget *event_box = gtk_event_box_new();
-//                 Creating a visible window may cause artifacts that are visible to the user.
-			gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
-			GtkWidget *image = gtk_image_new_from_pixbuf(buffer);
-			gtk_container_add(GTK_CONTAINER(event_box),image);
-                gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW(getWidget("chatText")), event_box, anchor);
-                g_signal_connect(G_OBJECT(image), "draw", G_CALLBACK(expose), NULL);
-                gtk_widget_show_all(event_box);
-                gtk_widget_set_tooltip_text(event_box, country_text.c_str());
-			}
+				{
+					gtk_text_buffer_delete(chatBuffer, &tag_start_iter, &tag_end_iter);
+					GtkTextChildAnchor *anchor = gtk_text_buffer_create_child_anchor(chatBuffer, &tag_start_iter);
+					GtkWidget *event_box = gtk_event_box_new();
+	//          Creating a visible window may cause artifacts that are visible to the user.
+					gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
+					GtkWidget *image = gtk_image_new_from_pixbuf(buffer);
+					gtk_container_add(GTK_CONTAINER(event_box),image);
+					gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW(getWidget("chatText")), event_box, anchor);
+					g_signal_connect(G_OBJECT(image), "draw", G_CALLBACK(expose), NULL);
+					gtk_widget_show_all(event_box);
+					gtk_widget_set_tooltip_text(event_box, country_text.c_str());
+				}
+				g_object_unref(buffer);
             }
 
 		}
@@ -2111,7 +2117,7 @@ gboolean Hub::onLinkTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *e
 
 gboolean Hub::onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data)
 {
-	Hub *hub = (Hub *)data;
+	//Hub *hub = (Hub *)data;
 
 	if (event->type == GDK_BUTTON_PRESS)
 	{
@@ -2121,6 +2127,7 @@ gboolean Hub::onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *ev
 				onOpenHubClicked_gui(NULL, data);
 				break;
 			case 3:
+				Hub *hub = (Hub *)data;
 				// Popup uri context menu
 				gtk_widget_show_all(hub->getWidget("hubMenu"));
 				gtk_menu_popup(GTK_MENU(hub->getWidget("hubMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
@@ -2904,10 +2911,12 @@ void Hub::onDownloadClicked_gui(GtkMenuItem *item, gpointer data)
 
 gboolean Hub::onChatCommandButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	Hub *hub = (Hub *)data;
+	//Hub *hub = (Hub *)data;
 
 	if (event->button == 1)
 	{
+		Hub *hub = (Hub *)data;
+
 		gtk_menu_popup(GTK_MENU(hub->getWidget("chatCommandsMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 	}
 
@@ -2938,7 +2947,7 @@ void Hub::onUseEmoticons_gui(GtkWidget *widget, gpointer data)
 
 void Hub::onDownloadToClicked_gui(GtkMenuItem *item, gpointer data)
 {
-	Hub *hub = (Hub *)data;
+	//Hub *hub = (Hub *)data;
 
 	GtkWidget *dialog = WulforManager::get()->getMainWindow()->getChooserDialog_gui();
 	gtk_window_set_title(GTK_WINDOW(dialog), _("Choose a directory"));
@@ -2956,6 +2965,7 @@ void Hub::onDownloadToClicked_gui(GtkMenuItem *item, gpointer data)
 
 		if (temp)
 		{
+			Hub *hub = (Hub *)data;
 			string path = Text::toUtf8(temp) + G_DIR_SEPARATOR_S;
 			g_free(temp);
 
@@ -3262,6 +3272,8 @@ void Hub::onTestSURItemClicked_gui(GtkMenuItem *item, gpointer data)
 		   	string nick = Util::emptyString;
 			nick += nicks.front();
 			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser( CID(nick),hub->client->getHubUrl());
+			if(ou->getIdentity().isHub()) return;
+
 			if(ou)
 			{
 				try {
@@ -3283,7 +3295,7 @@ void Hub::onCheckFLItemClicked_gui(GtkMenuItem *item , gpointer data)
 	{
 		string nick;
 		GtkTreeIter iter;
-		GtkTreePath *path;
+		GtkTreePath *path = NULL;
 		GList *list = gtk_tree_selection_get_selected_rows(hub->nickSelection, NULL);
 
 		for (GList *i = list; i; i = i->next)
@@ -3300,6 +3312,8 @@ void Hub::onCheckFLItemClicked_gui(GtkMenuItem *item , gpointer data)
 		if (!nick.empty())
 		{
 			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(nick),hub->client->getHubUrl());
+			if(ou->getIdentity().isHub()) return;
+
 			if(ou != NULL)
 			{
 				try {
@@ -3847,8 +3861,10 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 	params.insert(ParamMap::value_type("eMail", id.getEmail()));
 	params.insert(ParamMap::value_type("CID", id.getUser()->getCID().toBase32()));
 	//BMDC++
-	params.insert(ParamMap::value_type("Country", (SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountry(id.getIp()): Util::emptyString ));
-	params.insert(ParamMap::value_type("Abbrevation", (SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountryAbbrevation(id.getIp()): Util::emptyString ));
+	if( !id.isHub() || !id.isBot() ) {//should *not* getting CC from Bot/Hub User
+		params.insert(ParamMap::value_type("Country", (SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountry(id.getIp()): Util::emptyString ));
+		params.insert(ParamMap::value_type("Abbrevation", (SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountryAbbrevation(id.getIp()): Util::emptyString ));
+	}
 	params.insert(ParamMap::value_type("Slots", id.get("SL")));
 	const string hubs = Util::toString(Util::toInt(id.get("HN")) + Util::toInt(id.get("HR")) + Util::toInt(id.get("HO")));//hubs
 	params.insert(ParamMap::value_type("Hubs", hubs));
@@ -4048,10 +4064,11 @@ void Hub::onImageDestroy_gui(GtkWidget *widget, gpointer data)
 
 gboolean Hub::onImageEvent_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	Hub *hub = (Hub*) data;
+	//Hub *hub = (Hub*) data;
 
 	if (event->button == 3 && event->type == GDK_BUTTON_RELEASE)
 	{
+		Hub *hub = (Hub *)data;
 		hub->imageMagnet.first = (gchar*) g_object_get_data(G_OBJECT(widget), "magnet");
 		hub->imageMagnet.second = (gchar*) g_object_get_data(G_OBJECT(widget), "cid");
 		g_object_set_data(G_OBJECT(hub->getWidget("removeImageItem")), "container", (gpointer)widget);
@@ -4092,13 +4109,14 @@ void Hub::onDownloadImageClicked_gui(GtkMenuItem *item, gpointer data)
 
 void Hub::onRemoveImageClicked_gui(GtkMenuItem *item, gpointer data)
 {
-	Hub *hub = (Hub*) data;
+	//Hub *hub = (Hub*) data;
 
 	GtkWidget *container = (GtkWidget*) g_object_get_data(G_OBJECT(item), "container");
 
 	// if image destroy
 	if (container == NULL)
 		return;
+	Hub *hub = (Hub*) data;
 
 	GList *childs = gtk_container_get_children(GTK_CONTAINER(container));
 	GtkWidget *image = (GtkWidget*)childs->data;
@@ -4308,7 +4326,7 @@ void Hub::on(ClientListener::UsersUpdated, Client *, const OnlineUserList &list)
 	typedef Func1<Hub, ParamMap> F1;
 	F1 *func;
 
-	for (auto it = list.begin(); it != list.end(); ++it)
+	for (OnlineUserList::const_iterator it = list.begin(); it != list.end(); ++it)
 	{
 		id = (*it)->getIdentity();
 		if (!id.isHidden())
@@ -4816,6 +4834,7 @@ void Hub::SetTabText(gpointer data)
 			FavoriteManager::getInstance()->save();
 		}
 	}
+	g_object_unref(pixbuf);
 	gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 

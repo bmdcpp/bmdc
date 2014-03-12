@@ -59,7 +59,7 @@ public:
 	static uint64_t getTick();
 private:
 	Semaphore s;
-
+	friend class Singleton<TimerManager>;
 	int run();
 
 #ifdef _WIN32

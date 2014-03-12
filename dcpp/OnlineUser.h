@@ -53,28 +53,24 @@ public:
 	Identity(const Identity& rhs) : Flags(), sid(0) { *this = rhs; } // Use operator= since we have to lock before reading...
 	Identity& operator=(const Identity& rhs) { FastLock l(cs); *static_cast<Flags*>(this) = rhs; user = rhs.user; sid = rhs.sid; info = rhs.info; return *this; }
 
-// GS is already defined on some systems (e.g. OpenSolaris)
-#ifdef GS
-#undef GS
-#endif
+#define GESET(n, x) string get##n() const { return get(x); } void set##n(const string& v) { set(x, v); }
 
-#define GS(n, x) string get##n() const { return get(x); } void set##n(const string& v) { set(x, v); }
-	GS(Nick, "NI")
-	GS(Description, "DE")
-	GS(Ip4, "I4")
-	GS(Ip6, "I6")
-	GS(Udp4Port, "U4")
-	GS(Udp6Port, "U6")
-	GS(Email, "EM")
-	GS(ClientType, "CL")
-	GS(MyInfoType, "MT")
-	GS(cheats, "CS")
-	GS(TestSURChecked, "TC")
-	GS(FileListChecked, "FC")
-	GS(FileListQueued, "FQ")
-	GS(TestSURQueued, "TQ")
-	GS(FileListComplete, "CF")
-	GS(TestSURComplete, "TK")
+	GESET(Nick, "NI")
+	GESET(Description, "DE")
+	GESET(Ip4, "I4")
+	GESET(Ip6, "I6")
+	GESET(Udp4Port, "U4")
+	GESET(Udp6Port, "U6")
+	GESET(Email, "EM")
+	GESET(ClientType, "CL")
+	GESET(MyInfoType, "MT")
+	GESET(cheats, "CS")
+	GESET(TestSURChecked, "TC")
+	GESET(FileListChecked, "FC")
+	GESET(FileListQueued, "FQ")
+	GESET(TestSURQueued, "TQ")
+	GESET(FileListComplete, "CF")
+	GESET(TestSURComplete, "TK")
 
 	void setBytesShared(const string& bs) { set("SS", bs); }
 	int64_t getBytesShared() const { return Util::toInt64(get("SS")); }

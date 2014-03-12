@@ -44,7 +44,9 @@ struct HintedUser {
 	}
 
 	operator UserPtr() const { return user; }
+	operator const CID&() const { return user->getCID(); }
 
+	explicit operator bool() const { return !(user == NULL); }
 };
 
 }

@@ -609,7 +609,7 @@ int CryptoManager::verify_callback(int preverify_ok, X509_STORE_CTX *ctx) {
 				tmp = getNameEntryByNID(subject, NID_commonName);
 				if(!tmp.empty()) {
 					CID certCID(tmp);
-					if(!certCID.isZero())
+					if(certCID.isZero())
 						tmp = Util::toString(ClientManager::getInstance()->getNicks(certCID,Util::emptyString));
 					line += (!line.empty() ? ", " : "") + tmp;
 				}
@@ -621,7 +621,7 @@ int CryptoManager::verify_callback(int preverify_ok, X509_STORE_CTX *ctx) {
 				ByteVector kp = ssl::X509_digest(cert, EVP_sha256());
 				string keyp = "SHA256/" + Encoder::toBase32(&kp[0], kp.size());
 
-				LogManager::getInstance()->message(string(_("Certificate verification for %1% failed with error: ")+line+_("certificate KeyPrint: )")+  X509_verify_cert_error_string(err) + keyp));
+				LogManager::getInstance()->message(string(_("Certificate verification for failed with error: ")+line+_("certificate KeyPrint: )")+  X509_verify_cert_error_string(err) + keyp));
 			}
 		}
 

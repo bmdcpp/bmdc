@@ -35,8 +35,10 @@ namespace dcpp {
 
 FastCriticalSection Identity::cs;
 
+std::atomic<long> User::counter(0);
+
 OnlineUser::OnlineUser(const UserPtr& ptr, Client& client_, uint32_t sid_) : identity(ptr, sid_), client(client_) {
-    identity.isProtectedUser(getClient(), true); // run init check
+    identity.isProtectedUser(client, true); // run init check
 }
 
 bool Identity::isTcpActive(const Client *c) const {

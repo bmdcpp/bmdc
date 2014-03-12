@@ -30,7 +30,7 @@ namespace dcpp {
 using std::shared_ptr;	
 
 /** A user connected to one or more hubs. */
-class User : public shared_ptr<User> , public Flags
+class User : /*public shared_ptr<User> ,*/ public Flags
 {
 public:
 	/** Each flag is set if it's true in at least one hub */
@@ -61,9 +61,13 @@ public:
 
 	bool isOnline() const { return isSet(ONLINE); }
 	bool isNMDC() const { return isSet(NMDC); }
-
+	//...
+	bool unique() const { return counter == 1;}
+	void inc() { ++counter;}
+	void dec() { --counter;}
 private:
 	CID cid;
+	static std::atomic<long> counter;
 };
 
 } // namespace dcpp

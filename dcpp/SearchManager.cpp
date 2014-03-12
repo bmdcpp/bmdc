@@ -134,20 +134,23 @@ void SearchManager::disconnect() noexcept {
 
 #define BUFSIZE 8192
 int SearchManager::run() {
-	std::shared_ptr<uint8_t> buf(new uint8_t[BUFSIZE]);
+	//std::shared_ptr<uint8_t> buf(new uint8_t[BUFSIZE]);
 	int len;
 	string remoteAddr;
 
 	while(!stop) {
 		try {
+			uint8_t *buf = new uint8_t[BUFSIZE];
+
 			if(!socket->wait(400, true, false).first) {
 				continue;
 			}
 
-			if((len = socket->read(&buf.get()[0], BUFSIZE, remoteAddr)) > 0) {
-				onData(&buf.get()[0], len, remoteAddr);
+			if((len = socket->read(&buf[0], BUFSIZE, remoteAddr)) > 0) {
+				onData(&buf[0], len, remoteAddr);
 				continue;
 			}
+			delete [] buf;
 		} catch(const SocketException& e) {
 			dcdebug("SearchManager::run Error: %s\n", e.getError().c_str());
 		}
@@ -171,7 +174,7 @@ int SearchManager::run() {
 				}
 
 				// Spin for 60 seconds
-				for(auto i = 0; i < 60 && !stop; ++i) {
+				for(int i = 0; i < 60 && !stop; ++i) {
 					Thread::sleep(1000);
 				}
 			}

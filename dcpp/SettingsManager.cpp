@@ -18,7 +18,7 @@
 
 #include "stdinc.h"
 #include "SettingsManager.h"
-
+#include <glib.h>
 #include "SimpleXML.h"
 #include "Util.h"
 #include "File.h"

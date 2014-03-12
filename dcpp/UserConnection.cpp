@@ -55,6 +55,9 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 		return;
 	}
 
+	if(aLine[0] == '$')
+		setFlag(FLAG_NMDC);
+
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_CONN_IN, this, aLine))
 		return;
 

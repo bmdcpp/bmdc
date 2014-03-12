@@ -30,7 +30,7 @@
 #include "File.h"
 #include "AdcHub.h"
 #include "NmdcHub.h"
-
+#include "nullptr.h"
 #include "RawManager.h"
 #include "LogManager.h"
 
@@ -263,7 +263,9 @@ UserPtr ClientManager::getUser(const string& aNick, const string& aHubUrl) noexc
 
 	UserPtr p(new User(cid));
 	p->setFlag(User::NMDC);
-	users.emplace(cid, p);
+	p->inc();
+	users.emplace(cid,p);
+
 	return p;
 }
 
@@ -273,9 +275,13 @@ UserPtr ClientManager::getUser(const CID& cid) noexcept {
 	if(ui != users.end()) {
 		return ui->second;
 	}
+	if(cid == getMe()->getCID()) {//should create only one instance of yourself
+		return getMe();
+	}
 
 	UserPtr p(new User(cid));
-	users.emplace(make_pair(cid, p));
+	p->inc();
+	users.emplace(cid,p);
 	return p;
 }
 
@@ -312,7 +318,7 @@ CID ClientManager::makeCid(const string& aNick, const string& aHubUrl) const noe
 void ClientManager::putOnline(OnlineUser* ou) noexcept {
 	{
 		Lock l(cs);
-		onlineUsers.emplace(ou->getUser()->getCID(), ou);
+		onlineUsers.emplace(ou->getUser()->getCID(),ou);
 	}
 
 	if(!ou->getUser()->isOnline()) {
@@ -345,6 +351,13 @@ void ClientManager::putOffline(OnlineUser* ou, bool disconnect) noexcept {
 		if(disconnect)
 			ConnectionManager::getInstance()->disconnect(u);
 		fire(ClientManagerListener::UserDisconnected(), u);
+		u.get()->dec();
+		if(u.unique())
+		{
+			Lock l(cs);
+			delete u.get();
+		}
+
 	} else if(diff > 1) {
 			fire(ClientManagerListener::UserUpdated(), *ou);
 	}
@@ -353,7 +366,7 @@ void ClientManager::putOffline(OnlineUser* ou, bool disconnect) noexcept {
 OnlineUser* ClientManager::findOnlineUserHint(const CID& cid, const string& hintUrl, OnlinePairC& p) const {
 	p = onlineUsers.equal_range(cid);
 	if(p.first == p.second) // no user found with the given CID.
-		return 0;
+		return nullptr;
 
 	if(!hintUrl.empty()) {
 		for(auto i = p.first; i != p.second; ++i) {
@@ -494,8 +507,8 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				string ip, port, file, proto, query, fragment;
 
 				Util::decodeUrl(aSeeker, proto, ip, port, file, query, fragment);
-				ip = Socket::resolve(ip, AF_INET);
-				if(static_cast<NmdcHub*>(aClient)->isProtectedIP(ip))
+				ip = Socket::resolve(ip, AF_UNSPEC);
+				if(static_cast<NmdcHub*>(aClient)->isProtectedIP(ip))//should be checked if after cast existi or not ?
 					return;
 				if(port.empty())
 					port = "412";
@@ -572,7 +585,8 @@ void ClientManager::on(TimerManagerListener::Minute, uint64_t /* aTick */) noexc
 	}
 
 	for(auto j = clients.begin(); j != clients.end(); ++j) {
-		(*j)->info(false);
+		if((*j)->isConnected())
+			(*j)->info(false);
 	}
 }
 

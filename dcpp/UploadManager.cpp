@@ -81,6 +81,11 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 			return false;
 		}
 	}
+	if(aSource.getHubUrl().empty())//should always be not empty
+	{
+		aSource.fileNotAvail();
+		return false;
+	}	
 
 	string sourceFile;
 	Transfer::Type type;
@@ -218,9 +223,11 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 		}
 
 	} catch(const ShareException& e) {
+		delete is;
 		aSource.fileNotAvail(e.getError());
 		return false;
 	} catch(const Exception& e) {
+		delete is;
 		LogManager::getInstance()->message(string(F_("Unable to send file ") +Util::addBrackets(sourceFile) +" : "+ e.getError()));
 		aSource.fileNotAvail();
 		return false;

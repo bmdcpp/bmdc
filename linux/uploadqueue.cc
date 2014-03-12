@@ -67,6 +67,9 @@ store(NULL), selection(NULL)
 UploadQueue::~UploadQueue()
 {
 	UploadManager::getInstance()->removeListener(this);
+	gtk_list_store_clear(store);
+	store = NULL;
+	selection = NULL;
 }
 
 void UploadQueue::show()
@@ -151,7 +154,7 @@ void UploadQueue::onGrantSlotItemClicked_gui(GtkMenuItem *item, gpointer data)
 	if (gtk_tree_selection_count_selected_rows(qp->selection) > 0)
 	{
 		GtkTreeIter iter;
-		GtkTreePath *path;
+		GtkTreePath *path = NULL;
 		GList *list = gtk_tree_selection_get_selected_rows(qp->selection, NULL);
 		typedef Func1<UploadQueue, const string&> F2;
 
@@ -178,7 +181,7 @@ void UploadQueue::onRemoveItem_gui(GtkMenuItem *item, gpointer data)
 	if (gtk_tree_selection_count_selected_rows(qp->selection) > 0)
 	{
 		GtkTreeIter iter;
-		GtkTreePath *path;
+		GtkTreePath *path = NULL;
 		GList *list = gtk_tree_selection_get_selected_rows(qp->selection, NULL);
 		typedef Func1<UploadQueue, const string&> F2;
 
@@ -205,7 +208,7 @@ void UploadQueue::onSendPMItemClicked_gui(GtkMenuItem *item, gpointer data)
 	if (gtk_tree_selection_count_selected_rows(qp->selection) > 0)
 	{
 		GtkTreeIter iter;
-		GtkTreePath *path;
+		GtkTreePath *path = NULL;
 		GList *list = gtk_tree_selection_get_selected_rows(qp->selection, NULL);
 
 		for (GList *i = list; i; i = i->next)
@@ -230,7 +233,7 @@ void UploadQueue::onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data)
 	if (gtk_tree_selection_count_selected_rows(qp->selection) > 0)
 	{
 		GtkTreeIter iter;
-		GtkTreePath *path;
+		GtkTreePath *path = NULL;
 		GList *list = gtk_tree_selection_get_selected_rows(qp->selection, NULL);
 		typedef Func1<UploadQueue, const string&> F1;
 
@@ -257,7 +260,7 @@ void UploadQueue::onFavoriteUserAddItemClicked_gui(GtkMenuItem *item, gpointer d
 	if (gtk_tree_selection_count_selected_rows(qp->selection) > 0)
 	{
 		GtkTreeIter iter;
-		GtkTreePath *path;
+		GtkTreePath *path = NULL;
 		GList *list = gtk_tree_selection_get_selected_rows(qp->selection, NULL);
 		typedef Func1<UploadQueue, const string&> F2;
 
@@ -299,7 +302,7 @@ gboolean UploadQueue::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *eve
 
 	if (event->button == 3)
 	{
-		GtkTreePath *path;
+		GtkTreePath *path = NULL;
 
 		if (gtk_tree_view_get_path_at_pos(qp->users.get(), (gint)event->x, (gint)event->y, &path, NULL, NULL, NULL))
 		{

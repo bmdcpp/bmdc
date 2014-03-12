@@ -205,21 +205,40 @@ void BufferedSocket::threadRead() {
 					const int BUF_SIZE = 1024;
 					// Special to autodetect nmdc connections...
 					string::size_type pos = 0;
-					std::shared_ptr<char> buffer(new char[BUF_SIZE]);
+					//std::shared_ptr<char> buffer(new char[BUF_SIZE]);
+					char *buffer = new char[BUF_SIZE];
 					l = line;
+					bool deleted = false;
 					// decompress all input data and store in l.
 					while (left) {
 						size_t in = BUF_SIZE;
 						size_t used = left;
-						bool ret = (*filterIn) (&inbuf[0] + total - left, used, &buffer.get()[0], in);
+						bool ret = (*filterIn) (&inbuf[0] + total - left, used, &buffer/*.get()*/[0], in);
 						left -= used;
-						l.append (&buffer.get()[0], in);
+						l.append (&buffer/*.get()*/[0], in);
 						// if the stream ends before the data runs out, keep remainder of data in inbuf
 						if (!ret) {
 							bufpos = total-left;
 							setMode (MODE_LINE, rollback);
+							delete [] buffer;
+							deleted = true;
 							break;
 						}
+						//should not get bigger that...
+						if(l.size() > (size_t)SETTING(MAX_COMMAND_LENGTH)) {
+                            while((pos = l.find(separator)) != string::npos) {
+                                if(pos > 0) {
+                                    fire(BufferedSocketListener::Line(), l.substr(0, pos));
+                                }
+                                l.erase(0, pos + 1);
+                            }
+
+                            if(l.size() > (size_t)SETTING(MAX_COMMAND_LENGTH)) {
+                                throw SocketException(_("Out of Limit"));
+                            }
+                        }
+						//end
+
 					}
 					// process all lines
 					while ((pos = l.find(separator)) != string::npos) {
@@ -229,7 +248,8 @@ void BufferedSocket::threadRead() {
 					}
 					// store remainder
 					line = l;
-
+					if(deleted == false)
+						delete [] buffer;
 					break;
 				}
 			case MODE_LINE:
@@ -244,7 +264,7 @@ void BufferedSocket::threadRead() {
 				l = line + string ((char*)&inbuf[bufpos], left);
 				while ((pos = l.find(separator)) != string::npos) {
 	                if(pos > 0) // check empty (only pipe) command and don't waste cpu with it ;o)
-					fire(BufferedSocketListener::Line(), l.substr(0, pos));
+						fire(BufferedSocketListener::Line(), l.substr(0, pos));
 					l.erase (0, pos + 1 /* separator char */);
 					if (l.length() < (size_t)left) left = l.length();
 					if (mode != MODE_LINE) {
@@ -254,7 +274,7 @@ void BufferedSocket::threadRead() {
 						break;
 					}
 				}
-				if (pos == string::npos) 
+				if (pos == string::npos)
 					left = 0;
 				line = l;
 				break;

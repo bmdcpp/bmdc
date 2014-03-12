@@ -96,7 +96,7 @@ public:
 	using OutputStream::write;
 
 	FilteredOutputStream(OutputStream* aFile) : f(aFile), buf(new uint8_t[BUF_SIZE]), flushed(false), more(true) { }
-	virtual ~FilteredOutputStream() { if(manage) delete f; }
+	virtual ~FilteredOutputStream() { if(manage) delete f; delete [] buf; }
 
 	size_t flush() {
 		if(flushed)
@@ -108,9 +108,9 @@ public:
 		for(;;) {
 			size_t n = BUF_SIZE;
 			size_t zero = 0;
-			more = filter(NULL, zero, &buf.get()[0], n);
+			more = filter(NULL, zero, &buf[0], n);
 
-			written += f->write(&buf.get()[0], n);
+			written += f->write(&buf[0], n);
 
 			if(!more)
 				break;
@@ -128,11 +128,11 @@ public:
 			size_t n = BUF_SIZE;
 			size_t m = len;
 
-			more = filter(wb, m, &buf.get()[0], n);
+			more = filter(wb, m, &buf[0], n);
 			wb += m;
 			len -= m;
 
-			written += f->write(&buf.get()[0], n);
+			written += f->write(&buf[0], n);
 
 			if(!more) {
 				if(len > 0) {
@@ -151,7 +151,7 @@ private:
 
 	OutputStream* f;
 	Filter filter;
-	std::shared_ptr<uint8_t> buf;
+	uint8_t *buf;
 	bool flushed;
 	bool more;
 };
@@ -160,7 +160,7 @@ template<class Filter, bool managed>
 class FilteredInputStream : public InputStream {
 public:
 	FilteredInputStream(InputStream* aFile) : f(aFile), buf(new uint8_t[BUF_SIZE]), pos(0), valid(0), more(true) { }
-	virtual ~FilteredInputStream() { if(managed) delete f; }
+	virtual ~FilteredInputStream() { if(managed) delete f; delete buf; }
 
 	/**
 	* Read data through filter, keep calling until len returns 0.
@@ -178,13 +178,13 @@ public:
 			size_t curRead = BUF_SIZE;
 			if(valid == 0) {
 				dcassert(pos == 0);
-				valid = f->read(&buf.get()[0], curRead);
+				valid = f->read(&buf[0], curRead);
 				totalRead += curRead;
 			}
 
 			size_t n = len - totalProduced;
 			size_t m = valid - pos;
-			more = filter(&buf.get()[pos], m, rb, n);
+			more = filter(&buf[pos], m, rb, n);
 			pos += m;
 			if(pos == valid) {
 				valid = pos = 0;
@@ -201,7 +201,7 @@ private:
 
 	InputStream* f;
 	Filter filter;
-	std::shared_ptr<uint8_t> buf;
+	uint8_t *buf;
 	size_t pos;
 	size_t valid;
 	bool more;

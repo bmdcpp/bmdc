@@ -65,6 +65,7 @@ void Client::reconnect() {
 }
 
 void Client::shutdown() {
+	state = STATE_DISCONNECTED;
 	//RSX++
 	cmdQueue.clear();
 	putDetectors();
@@ -213,6 +214,7 @@ void Client::on(Failed, const string& aLine) noexcept {
 }
 
 void Client::disconnect(bool graceLess) {
+	state = STATE_DISCONNECTED;
 	if(sock)
 		sock->disconnect(graceLess);
 }
