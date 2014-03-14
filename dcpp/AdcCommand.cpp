@@ -39,8 +39,10 @@ void AdcCommand::parse(const string& aLine, bool nmdc /* = false */) {
 
 	if(nmdc) {
 		// "$ADCxxx ..."
-		if(aLine.length() < 7)
+		if(aLine.length() < 7) {
 			throw ParseException("Too short");
+			return;
+		}	
 		type = TYPE_CLIENT;
 		cmd[0] = aLine[4];
 		cmd[1] = aLine[5];
@@ -48,8 +50,10 @@ void AdcCommand::parse(const string& aLine, bool nmdc /* = false */) {
 		i += 3;
 	} else {
 		// "yxxx ..."
-		if(aLine.length() < 4)
+		if(aLine.length() < 4){
 			throw ParseException("Too short");
+			return;
+		}	
 		type = aLine[0];
 		cmd[0] = aLine[1];
 		cmd[1] = aLine[2];

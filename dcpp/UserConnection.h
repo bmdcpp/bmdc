@@ -203,20 +203,22 @@ private:
 	};
 
 	UserConnection() : encoding(Text::systemCharset), state(STATE_UNCONNECTED),
-		lastActivity(0), speed(0), chunkSize(0), socket(0), secure(true), download(NULL) {
+		lastActivity(0), speed(0), chunkSize(0), socket(nullptr), secure(true), download(NULL) {
+
 	}
 
 	// We only want ConnectionManager to create this...
 	UserConnection(bool secure_) noexcept : encoding(Text::systemCharset), state(STATE_UNCONNECTED),
-		lastActivity(0), speed(0), chunkSize(0), socket(0), secure(secure_), download(NULL) {
+		lastActivity(0), speed(0), chunkSize(0), socket(nullptr), secure(secure_), download(NULL) {
+
 	}
 
 	virtual ~UserConnection() {
 		BufferedSocket::putSocket(socket);
 	}
 
-	UserConnection(const UserConnection&) = delete;
-	UserConnection& operator=(const UserConnection&) = delete;
+	UserConnection(const UserConnection&);
+	UserConnection& operator=(const UserConnection&);
 
 	void setUser(const UserPtr& aUser) {
 		user = aUser;

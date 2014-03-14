@@ -20,6 +20,7 @@
 #define DCPLUSPLUS_DCPP_FORMAT_H_
 #include <string>
 #include <libintl.h>
+#include <glib/gi18n.h>
 
 #ifdef BUILDING_DCPP
 

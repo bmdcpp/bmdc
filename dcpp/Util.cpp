@@ -203,6 +203,7 @@ void Util::migrate(const string& file) {
 }
 
 void Util::loadBootConfig() {
+#ifdef _WIN32
 	// Load boot settings
 	try {
 		SimpleXML boot;
@@ -215,7 +216,7 @@ void Util::loadBootConfig() {
 
 		if(boot.findChild("ConfigPath")) {
 			ParamMap params;
-#ifdef _WIN32
+//#ifdef _WIN32
 			/// @todo load environment variables instead? would make it more useful on *nix
 			params["APPDATA"] = []() -> string {
 				TCHAR path[MAX_PATH];
@@ -225,12 +226,13 @@ void Util::loadBootConfig() {
 				TCHAR path[MAX_PATH];
 				return Text::fromT((::SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, path), path));
 			};
-#endif
+//#endif
 			paths[PATH_USER_CONFIG] = Util::formatParams(boot.getChildData(), params);
 		}
 	} catch(const Exception& ) {
 		// Unable to load boot settings...
 	}
+#endif
 }
 
 #ifdef _WIN32

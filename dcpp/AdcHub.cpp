@@ -1042,7 +1042,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 	}
 
 	if(CONNSETTING(NO_IP_OVERRIDE) && !getUserIp().empty()) {
-		addParam(lastInfoMap, c, "I4", Socket::resolve(getUserIp(), AF_INET));
+		addParam(lastInfoMap, c, "I4", Socket::resolve(getUserIp(), AF_UNSPEC));
 	} else {
 		addParam(lastInfoMap, c, "I4", "0.0.0.0");
 	}

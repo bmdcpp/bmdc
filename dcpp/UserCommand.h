@@ -19,11 +19,17 @@
 #ifndef DCPLUSPLUS_DCPP_USER_COMMAND_H
 #define DCPLUSPLUS_DCPP_USER_COMMAND_H
 
+#include <vector>
+#include <string>
+
 #include "Flags.h"
 #include "Util.h"
 #include "noexcept.h"
 
 namespace dcpp {
+
+using std::string;
+using std::vector;
 
 class UserCommand : public Flags {
 public:

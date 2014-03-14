@@ -68,9 +68,7 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 		}
 		dispatch(aLine);
 		return;
-	} else if(aLine[0] == '$') {
-		setFlag(FLAG_NMDC);
-	} else {
+	} else if(!isSet(FLAG_NMDC)) {
 		fire(UserConnectionListener::ProtocolError(), this, _("Invalid data"));
 		return;
 	}

@@ -686,7 +686,7 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
 		GdkPixbuf* buf = NULL;
 		#if GTK_CHECK_VERSION(3,9,0)
 		GError* error = NULL;
-		GdkPixbuf* buf = gtk_icon_theme_load_icon(icon_theme,"gtk-dialog-question",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,&error);
+		buf = gtk_icon_theme_load_icon(icon_theme,"gtk-dialog-question",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,&error);
 		if(error){
 			g_print("[BMDC:Country] Failed %s",error->message);
 			g_error_free(error);
