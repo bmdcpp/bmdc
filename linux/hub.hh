@@ -109,7 +109,7 @@ class Hub:
 		void addStatusMessage_gui(std::string message, Msg::TypeMsg typemsg, Sound::TypeSound sound);
 		void applyEmoticons_gui();
 		void updateCursor_gui(GtkWidget *widget);
-		void getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, std::string &fore, std::string &back, int &bold, int &italic);
+		void getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, std::string &fore, std::string &back, bool &bold, bool &italic);
 		GtkTextTag* createTag_gui(const std::string &tagname, Tag::TypeTag type);
 		void addStatusMessage_gui(std::string message, Msg::TypeMsg typemsg, Sound::TypeSound sound, Notify::TypeNotify notify);
 		void nickToChat_gui(const std::string &nick);
@@ -222,7 +222,7 @@ class Hub:
 		std::string realFile_client(std::string tth);
 		void openImage_client(std::string tth);
 		//BMDC++
-		std::string formatAdditionalInfo(const std::string& aIp, bool sIp, bool sCC, bool isPm);
+		std::string formatAdditionalInfo(const std::string& aIp, bool sIp, bool sCC);
 		std::string getIcons(const dcpp::Identity& id);
 
 		void getPartialFileList_client(std::string cid);

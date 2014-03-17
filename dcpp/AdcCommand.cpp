@@ -101,7 +101,7 @@ void AdcCommand::parse(const string& aLine, bool nmdc /* = false */) {
 				default:
 					throw ParseException("Unknown escape");
 					break;
-			}
+			};
 			break;
 		case ' ':
 			// New parameter...
@@ -132,6 +132,7 @@ void AdcCommand::parse(const string& aLine, bool nmdc /* = false */) {
 			break;
 		default:
 			cur += buf[i];
+			break;
 		}
 		++i;
 	}
@@ -191,6 +192,7 @@ string AdcCommand::escape(const string& str, bool old) {
 				case ' ': tmp.replace(i, 1, "\\s"); break;
 				case '\n': tmp.replace(i, 1, "\\n"); break;
 				case '\\': tmp.replace(i, 1, "\\\\"); break;
+				default: break;
 			}
 		}
 		i+=2;

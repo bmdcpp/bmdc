@@ -43,6 +43,9 @@ TreeView::~TreeView()
 		saveSettings();
 	delete [] gtypes;
 	g_object_unref(menu);
+	menu = NULL;
+	view = NULL;
+	sel = NULL;
 }
 
 void TreeView::setView(GtkTreeView *view)

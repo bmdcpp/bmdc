@@ -41,6 +41,9 @@ EmoticonsDialog::EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *
 	Button(button),
 	Menu(menu),
 	dialog(NULL),
+	icon_width(16),
+	icon_height(16),
+	currIconSize("16x16"),
 	packName(packName),
 	address(address)
 {

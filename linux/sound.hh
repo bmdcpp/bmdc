@@ -20,8 +20,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef _SOUND_HH
-#define _SOUND_HH
+#ifndef SOUND_HH
+#define SOUND_HH
 
 class Sound
 {
@@ -55,6 +55,7 @@ class Sound
 	#ifdef _HAVECANBERRA
 		ca_context *context;
 	#endif
+
 		void sound_init() const;
 		void sound_finalize() const;
 };

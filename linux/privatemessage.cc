@@ -228,9 +228,8 @@ void PrivateMessage::addMessage_gui(string message, Msg::TypeMsg typemsg)
 	{
 		/*What away message to send*/
 		auto what = [this](ParamMap& params) -> std::string {
-				string defAway = Util::getAwayMessage(params);
-				if(hubUrl.empty())
-					return defAway;
+			if(hubUrl.empty())
+					return Util::getAwayMessage(params);
 			return FavoriteManager::getInstance()->getAwayMessage(hubUrl, params);
 		};
 
@@ -270,7 +269,7 @@ void PrivateMessage::preferences_gui()
 {
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
 	string fore, back;
-	int bold, italic;
+	bool bold = false, italic = false;
 
 	for (int i = Tag::TAG_FIRST; i < Tag::TAG_LAST; i++)
 	{
@@ -559,6 +558,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 
                 gtk_widget_show_all(event_box);
                 gtk_widget_set_tooltip_text(event_box, country_text.c_str());
+                g_object_unref(buffer);
             }
 
 			applyEmoticons_gui();
@@ -774,7 +774,7 @@ void PrivateMessage::applyEmoticons_gui()
 	}
 }
 
-void PrivateMessage::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, string &fore, string &back, int &bold, int &italic)
+void PrivateMessage::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, string &fore, string &back, bool &bold, bool &italic)
 {
 	switch (type)
 	{
@@ -782,81 +782,81 @@ void PrivateMessage::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag 
 
 			fore = wsm->getString("text-myown-fore-color");
 			back = wsm->getString("text-myown-back-color");
-			bold = wsm->getInt("text-myown-bold");
-			italic = wsm->getInt("text-myown-italic");
+			bold = (bool)wsm->getInt("text-myown-bold");
+			italic = (bool)wsm->getInt("text-myown-italic");
 		break;
 
 		case Tag::TAG_SYSTEM:
 
 			fore = wsm->getString("text-system-fore-color");
 			back = wsm->getString("text-system-back-color");
-			bold = wsm->getInt("text-system-bold");
-			italic = wsm->getInt("text-system-italic");
+			bold = (bool)wsm->getInt("text-system-bold");
+			italic = (bool)wsm->getInt("text-system-italic");
 		break;
 
 		case Tag::TAG_STATUS:
 
 			fore = wsm->getString("text-status-fore-color");
 			back = wsm->getString("text-status-back-color");
-			bold = wsm->getInt("text-status-bold");
-			italic = wsm->getInt("text-status-italic");
+			bold = (bool)wsm->getInt("text-status-bold");
+			italic = (bool)wsm->getInt("text-status-italic");
 		break;
 
 		case Tag::TAG_TIMESTAMP:
 
 			fore = wsm->getString("text-timestamp-fore-color");
 			back = wsm->getString("text-timestamp-back-color");
-			bold = wsm->getInt("text-timestamp-bold");
-			italic = wsm->getInt("text-timestamp-italic");
+			bold = (bool)wsm->getInt("text-timestamp-bold");
+			italic = (bool)wsm->getInt("text-timestamp-italic");
 		break;
 
 		case Tag::TAG_MYNICK:
 
 			fore = wsm->getString("text-mynick-fore-color");
 			back = wsm->getString("text-mynick-back-color");
-			bold = wsm->getInt("text-mynick-bold");
-			italic = wsm->getInt("text-mynick-italic");
+			bold = (bool)wsm->getInt("text-mynick-bold");
+			italic = (bool)wsm->getInt("text-mynick-italic");
 		break;
 
 		case Tag::TAG_OPERATOR:
 
 			fore = wsm->getString("text-op-fore-color");
 			back = wsm->getString("text-op-back-color");
-			bold = wsm->getInt("text-op-bold");
-			italic = wsm->getInt("text-op-italic");
+			bold = (bool)wsm->getInt("text-op-bold");
+			italic = (bool)wsm->getInt("text-op-italic");
 		break;
 
 		case Tag::TAG_FAVORITE:
 
 			fore = wsm->getString("text-fav-fore-color");
 			back = wsm->getString("text-fav-back-color");
-			bold = wsm->getInt("text-fav-bold");
-			italic = wsm->getInt("text-fav-italic");
+			bold = (bool)wsm->getInt("text-fav-bold");
+			italic = (bool)wsm->getInt("text-fav-italic");
 		break;
 		case Tag::TAG_IPADR:
 			fore = wsm->getString("text-ip-fore-color");
 			back = wsm->getString("text-ip-back-color");
-			bold = wsm->getInt("text-ip-bold");
-			italic = wsm->getInt("text-ip-italic");
+			bold = (bool)wsm->getInt("text-ip-bold");
+			italic = (bool)wsm->getInt("text-ip-italic");
 		break;
 		case Tag::TAG_URL:
 
 			fore = wsm->getString("text-url-fore-color");
 			back = wsm->getString("text-url-back-color");
-			bold = wsm->getInt("text-url-bold");
-			italic = wsm->getInt("text-url-italic");
+			bold = (bool)wsm->getInt("text-url-bold");
+			italic = (bool)wsm->getInt("text-url-italic");
 		break;
 
 		case Tag::TAG_NICK:
 
 			fore = wsm->getString("text-private-fore-color");
 			back = wsm->getString("text-private-back-color");
-			italic = wsm->getInt("text-private-italic");
+			italic = (bool)wsm->getInt("text-private-italic");
 
 			if (wsm->getBool("text-bold-autors"))
-				bold = 1;
+				bold = true;
 			else
-				bold = 0;
+				bold = false;
 		break;
 
 		case Tag::TAG_PRIVATE:
@@ -865,8 +865,8 @@ void PrivateMessage::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag 
 
 			fore = wsm->getString("text-private-fore-color");
 			back = wsm->getString("text-private-back-color");
-			bold = wsm->getInt("text-private-bold");
-			italic = wsm->getInt("text-private-italic");
+			bold = (bool)wsm->getInt("text-private-bold");
+			italic = (bool)wsm->getInt("text-private-italic");
 	}
 }
 
@@ -878,7 +878,7 @@ GtkTextTag* PrivateMessage::createTag_gui(const string &tagname, Tag::TypeTag ty
 	if (!tag)
 	{
 		string fore, back;
-		int bold, italic;
+		bool bold = false, italic = false;
 
 		getSettingTag_gui(wsm, type, fore, back, bold, italic);
 
@@ -897,11 +897,11 @@ void PrivateMessage::updateCursor(GtkWidget *widget)
 {
 	gint x, y, buf_x, buf_y;
 	GtkTextIter iter;
-	GSList *tagList;
+	GSList *tagList = NULL;
 	GtkTextTag *newTag = NULL;
 
-	GdkDeviceManager *device_manager;
-	GdkDevice *pointer;
+	GdkDeviceManager *device_manager = NULL;
+	GdkDevice *pointer = NULL;
 //@NOTE: GTK3
 	device_manager = gdk_display_get_device_manager (gdk_window_get_display (gtk_widget_get_window(widget)));
 	pointer = gdk_device_manager_get_client_pointer (device_manager);
@@ -1127,10 +1127,9 @@ gboolean PrivateMessage::onKeyPress_gui(GtkWidget *widget, GdkEventKey *event, g
 
 gboolean PrivateMessage::onLinkTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data)
 {
-	PrivateMessage *pm = (PrivateMessage *)data;
-
 	if (event->type == GDK_BUTTON_PRESS)
 	{
+		PrivateMessage *pm = (PrivateMessage *)data;
 		gchar *tmp = NULL;
 		g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
 		pm->selectedTagStr = string(tmp);
@@ -1154,10 +1153,9 @@ gboolean PrivateMessage::onLinkTagEvent_gui(GtkTextTag *tag, GObject *textView, 
 
 gboolean PrivateMessage::onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data)
 {
-	PrivateMessage *pm = (PrivateMessage *)data;
-
 	if (event->type == GDK_BUTTON_PRESS)
 	{
+		PrivateMessage *pm = (PrivateMessage *)data;
 		gchar *tmp = NULL;
 		g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
 		pm->selectedTagStr = string(tmp);
@@ -1181,10 +1179,9 @@ gboolean PrivateMessage::onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, G
 
 gboolean PrivateMessage::onMagnetTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data)
 {
-	PrivateMessage *pm = (PrivateMessage *)data;
-
 	if (event->type == GDK_BUTTON_PRESS)
 	{
+		PrivateMessage *pm = (PrivateMessage *)data;
 		gchar *tmp = NULL;
 		g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
 		pm->selectedTagStr = string(tmp);
@@ -1344,8 +1341,6 @@ void PrivateMessage::onDownloadClicked_gui(GtkMenuItem *item, gpointer data)
 
 void PrivateMessage::onDownloadToClicked_gui(GtkMenuItem *item, gpointer data)
 {
-	PrivateMessage *pm = (PrivateMessage *)data;
-
 	GtkWidget *dialog = WulforManager::get()->getMainWindow()->getChooserDialog_gui();
 	gtk_window_set_title(GTK_WINDOW(dialog), _("Choose a directory"));
 	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(dialog), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
@@ -1362,6 +1357,7 @@ void PrivateMessage::onDownloadToClicked_gui(GtkMenuItem *item, gpointer data)
 
 		if (temp)
 		{
+			PrivateMessage *pm = (PrivateMessage *)data;
 			string path = Text::toUtf8(temp) + G_DIR_SEPARATOR_S;
 			g_free(temp);
 
@@ -1395,10 +1391,9 @@ void PrivateMessage::onCommandClicked_gui(GtkWidget *widget, gpointer data)
 
 gboolean PrivateMessage::onChatCommandButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	PrivateMessage *pm = (PrivateMessage *)data;
-
 	if (event->button == 1)
 	{
+		PrivateMessage *pm = (PrivateMessage *)data;
 		gtk_menu_popup(GTK_MENU(pm->getWidget("chatCommandsMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 	}
 
@@ -1473,7 +1468,7 @@ void PrivateMessage::getFileList_client()
 	{
 		UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
 		if (user)
-			QueueManager::getInstance()->addList(HintedUser(user, hubUrl), QueueItem::FLAG_CLIENT_VIEW);//NOTE: core 0.762
+			QueueManager::getInstance()->addList(HintedUser(user, hubUrl), QueueItem::FLAG_CLIENT_VIEW);
 	}
 	catch (const Exception& e)
 	{
@@ -1618,7 +1613,7 @@ void PrivateMessage::onCopyIpItem_gui(GtkWidget *wid, gpointer data)
 void PrivateMessage::onRipeDbItem_gui(GtkWidget *wid, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
-	string error;
+	string error = Util::emptyString;
 	dcpp::ParamMap params;
 	params["IP"] = pm->ip;
 	string result = dcpp::Util::formatParams(SETTING(RIPE_DB),params);

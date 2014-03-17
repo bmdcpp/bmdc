@@ -89,16 +89,7 @@ public:
 	static const string UCM0_SUPPORT;
 	static const string BLO0_SUPPORT;
 	static const string ZLIF_SUPPORT;
-/*	UserPtr findUser_(const CID& cid)
-	{
-		for(auto& u:users)
-		{
-			UserPtr user = u.second->getUser();
-			if(user->getCID() == cid)
-				return user;
-		}
-			return nullptr;		
-	}*/
+
 private:
 	friend class ClientManager;
 	friend class CommandHandler<AdcHub>;

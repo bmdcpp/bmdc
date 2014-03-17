@@ -149,18 +149,18 @@ public:
 	operator UserPtr&() { return getUser(); }
 	operator const UserPtr&() const { return getUser(); }
 
-	UserPtr& getUser() { return getIdentity().getUser(); }
-	const UserPtr& getUser() const { return getIdentity().getUser(); }
+	UserPtr& getUser() { return identity.getUser(); }
+	const UserPtr& getUser() const { return identity.getUser(); }
 	Identity& getIdentity() { return identity; }
 	Client& getClient() { return client; }
 	const Client& getClient() const { return client; }
 	//CMD
 	string setCheat(const string& aCheat, bool aBadClient, bool aBadFilelist = false, bool aDisplayCheat = true)
 	{
-        return identity.setCheat(getClient(),aCheat,aBadClient, aBadFilelist, aDisplayCheat);
+        return identity.setCheat(client,aCheat,aBadClient, aBadFilelist, aDisplayCheat);
 	}
 
-	inline bool isProtectedUser(bool checkOp = true) const {
+	bool isProtectedUser(bool checkOp = true) const {
 		return identity.isProtectedUser(getClient(), checkOp);
 	}
 

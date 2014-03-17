@@ -156,7 +156,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("toolbar-button-limiting", 1));
 	defaultInt.insert(IntMap::value_type("open-notepad", 0));
 	defaultInt.insert(IntMap::value_type("open-system", 1));
-	defaultInt.insert(IntMap::value_type("open-ignore", 0));
+//	defaultInt.insert(IntMap::value_type("open-ignore", 0));
 	defaultInt.insert(IntMap::value_type("open-upload-queue", 0));
 	defaultInt.insert(IntMap::value_type("cmd-debug-hub-in", 1));
 	defaultInt.insert(IntMap::value_type("cmd-debug-hub-out", 1));

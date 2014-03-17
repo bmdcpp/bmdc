@@ -24,8 +24,8 @@
   * Added class Tag
   * */
 
-#ifndef MSG_TYPE_HH
-#define MSG_TYPE_HH
+#ifndef _BMDC_MSG_TYPE_HH
+#define _BMDC_MSG_TYPE_HH
 
 class Msg
 {

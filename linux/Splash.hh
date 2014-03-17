@@ -51,7 +51,7 @@ class Splash
 			gtk_widget_show_now(win);
 			update();
 		}
-		~Splash() {	}
+		~Splash() {	win = NULL;label= NULL;box= NULL;image= NULL;}
 
 	void setText(const string &text) {
 						if(text.empty()) return;

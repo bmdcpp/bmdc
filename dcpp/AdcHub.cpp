@@ -340,8 +340,6 @@ void AdcHub::handle(AdcCommand::CTM, AdcCommand& c) noexcept {
 	OnlineUser* u = findUser(c.getFrom());
 	if(!u || u->getUser() == ClientManager::getInstance()->getMe())
 		return;
-	//if(c.getParameters().size() < 3)
-	//	return;
 
 	const string& protocol = c.getParam(0);
 	const string& port = c.getParam(1);
@@ -379,7 +377,7 @@ void AdcHub::handle(AdcCommand::RCM, AdcCommand& c) noexcept {
 
 	bool secure = false;
 	if(protocol == CLIENT_PROTOCOL) {
-	//	secure = false;
+		//Nothink
 	} else if(protocol == SECURE_CLIENT_PROTOCOL_TEST && CryptoManager::getInstance()->TLSOk()) {
 		secure = true;
 	} else {

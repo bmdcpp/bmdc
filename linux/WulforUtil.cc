@@ -1412,6 +1412,7 @@ void WulforUtil::loadmimetypes()
 	m_mimetyp.insert( std::pair<std::string, std::string>(".css", "text/css"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".html","text/html"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".htm", "text/html"));
+	m_mimetyp.insert( std::pair<std::string, std::string>(".xml", "text/html"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".txt", "text/plain"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".c",   "text/plain"));
 	m_mimetyp.insert( std::pair<std::string, std::string>(".h",   "text/plain"));
@@ -1475,7 +1476,8 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 		if(error){
 			g_print("Failed %s",error->message);
 			g_error_free(error);
-		}	
+			return NULL;
+		}
 		return buf;
 		#else
 		GtkWidget *iwid = gtk_invisible_new ();
@@ -1541,19 +1543,19 @@ string WulforUtil::getStatsForMem() {
 
 					fclose(fp);
 
-					if(memhwm.size() != 0 && memrss.size() != 0) {
+					if(!memhwm.empty() && !memrss.empty()) {
 						tmp+=" Mem usage (Peak): "+formatSized(memrss)+ " ("+formatSized(memhwm)+") =-\n";
 					} else if(memrss.size() != 0) {
 						tmp+="-= Mem usage: "+memrss+"\n =-";
 					}
 
-					if(memvmp.size() != 0 && memvms.size() != 0) {
+					if(!memvmp.empty() && !memvms.empty()) {
 						tmp+="-= VM size (Peak): "+formatSized(memvms)+ " ("+formatSized(memvmp)+") =-\n";
 					} else if(memrss.size() != 0) {
 						tmp+="-= VM size: "+memvms+" =-\n";
 					}
 
-					if(memstk.size() != 0 && memlib.size() != 0) {
+					if(!memstk.empty() && !memlib.empty()) {
 						tmp+="-= Stack size / Libs size: "+memstk+ " / "+formatSized(memlib)+" ";
 					}
 			}
@@ -1617,7 +1619,7 @@ bool WulforUtil::Ipv4Hit(string &name, string &sIp) {
 	for(uint32_t i = 0;i < name.length(); i++)
 	{
 		if(!((name[i] == 0) || (name[i] == '.') || ((name[i] >= '0') && (name[i] <= '9')))) {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -1650,3 +1652,4 @@ bool WulforUtil::Ipv4Hit(string &name, string &sIp) {
 	return isOk;
 
 }
+

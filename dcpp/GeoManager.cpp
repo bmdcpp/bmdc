@@ -32,7 +32,7 @@ void GeoManager::init() {
 }
 
 void GeoManager::update(bool v6) {
-	auto geo = (v6 ? geo6 : geo4).get();
+	GeoIP* geo = (v6 ? geo6 : geo4).get();
 	if(geo) {
 		geo->update();
 		geo->rebuild();
@@ -53,7 +53,7 @@ const string& GeoManager::getCountry(const string& ip, int flags) {
 	if(!ip.empty()) {
 
 		if((flags & V6) && geo6.get()) {
-			const auto& ret = geo6->getCountry(ip);
+			const string& ret = geo6->getCountry(ip);
 			if(!ret.empty())
 				return ret;
 		}
@@ -71,7 +71,7 @@ const string GeoManager::getCountryAbbrevation(const string& ip, int flags)
 	if(!ip.empty())
 	{
 		if((flags & V6) && geo6.get()) {
-		const auto& ret = geo6->getCountryAB(ip);
+		const string& ret = geo6->getCountryAB(ip);
 		if(!ret.empty())
 			return ret;
 		}

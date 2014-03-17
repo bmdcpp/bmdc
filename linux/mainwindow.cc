@@ -68,6 +68,8 @@
 	#include "exportimport.hh"
 #endif
 #include "SearchEntry.hh"
+#include "settingsdialog.hh"
+#include "hashdialog.hh"
 
 using namespace std;
 using namespace dcpp;
@@ -91,12 +93,9 @@ const char* MainWindow::icons[(MainWindow::IconsToolbar)END][3] =
 
 MainWindow::MainWindow():
 	Entry(Entry::MAIN_WINDOW, "mainwindow.glade"),
-	transfers(NULL),
-	lastUpdate(0),
-	lastUp(0),
-	lastDown(0),
-	minimized(FALSE),
-	timer(0),
+	transfers(NULL), lastUpdate(0),
+	lastUp(0), lastDown(0),
+	minimized(FALSE), timer(0),
 	statusFrame(1)
 {
 	window = GTK_WINDOW(getWidget("mainWindow"));
@@ -191,7 +190,7 @@ MainWindow::MainWindow():
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep);
 	///TODO @change to dynamic
 	for(int i = 10240; i<2097152; i = i*2+40960/2) {
-		string tmenu = Text::toT(Util::formatBytes(i)) + (_("/s"));
+		string tmenu = Util::formatBytes(i) + (_("/s"));
 		string tspeed = Util::toString(i);
 		GtkWidget *item = gtk_menu_item_new_with_label(tmenu.c_str());
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
@@ -209,7 +208,7 @@ MainWindow::MainWindow():
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep2);
 
 	for(int j = 10240; j<2097152; j = j*2+40960/2) {
-		string tmenu = Text::toT(Util::formatBytes(j)) + (_("/s"));
+		string tmenu = Util::formatBytes(j) + (_("/s"));
 		string tspeed = Util::toString(j);
 		GtkWidget *item = gtk_menu_item_new_with_label(tmenu.c_str());
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
@@ -454,7 +453,7 @@ MainWindow::~MainWindow()
 		g_source_remove(timer);
 
 	WSET("status-icon-blink-use", useStatusIconBlink);
-	gtk_widget_destroy(GTK_WIDGET(getContainer()));//window
+	gtk_widget_destroy(GTK_WIDGET(window));
 	g_object_unref(statusIcon);
 	g_object_unref(getWidget("statusIconMenu"));
 	g_object_unref(getWidget("toolbarMenu"));
@@ -674,7 +673,6 @@ void MainWindow::addBookEntry_gui(BookEntry *entry)
 
 	GtkWidget *page = entry->getContainer();
 	GtkWidget *label = entry->getLabelBox();
-	GtkWidget *closeButton = entry->getCloseButton();
 	GtkWidget *tabMenuItem = entry->getTabMenuItem();
 
 	addTabMenuItem_gui(tabMenuItem, page);
@@ -684,6 +682,7 @@ void MainWindow::addBookEntry_gui(BookEntry *entry)
 	g_signal_connect(label, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
 	if(WGETB("use-close-button"))
 	{
+		GtkWidget *closeButton = entry->getCloseButton();
 		g_signal_connect(closeButton, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
 		g_signal_connect(closeButton, "clicked", G_CALLBACK(onCloseBookEntry_gui), (gpointer)entry);
 	}
@@ -972,7 +971,7 @@ void MainWindow::showBook(const EntryType type, BookEntry* book)
 		addBookEntry_gui(book);
 		raisePage_gui(book->getContainer());
 	}
-	else 	raisePage_gui(entry->getContainer());
+	else raisePage_gui(entry->getContainer());
 
 }
 
@@ -1452,7 +1451,7 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 				combo_values.erase(first);
 
 				auto sec = combo_values.begin();
-				combo_sel = Util::toInt(Text::fromT(*sec));
+				combo_sel = Util::toInt((*sec));
 				if(combo_values.empty())
 				{ combo_sel = -1; }
 
@@ -1623,7 +1622,7 @@ void MainWindow::showMagnetDialog_gui(const string &magnet, const string &name, 
 	GtkWidget *chooser = getWidget("flistDialog");
 	gtk_window_set_title(GTK_WINDOW(chooser), _("Choose a directory"));
 	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(chooser), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
-	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(chooser), Text::fromUtf8(WGETS("magnet-choose-dir")).c_str());
+	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(chooser), WGETS("magnet-choose-dir").c_str());
 	// choose
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("choiceCheckButton")), FALSE);
 	setChooseMagnetDialog_gui();
@@ -1691,7 +1690,7 @@ void MainWindow::onSetMagnetChoiceDialog_gui(GtkWidget *widget, gpointer data)
 	GtkWidget *chooser = mw->getWidget("flistDialog");
 	gtk_window_set_title(GTK_WINDOW(chooser), _("Choose a directory"));
 	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(chooser), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
-	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(chooser), Text::fromUtf8(WGETS("magnet-choose-dir")).c_str());
+	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(chooser), WGETS("magnet-choose-dir").c_str());
 
 	mw->setChooseMagnetDialog_gui();
 
@@ -1714,7 +1713,7 @@ void MainWindow::onResponseMagnetDialog_gui(GtkWidget *dialog, gint response, gp
 				gchar *temp = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(mw->getWidget("flistDialog")));
 				if (temp)
 				{
-					path = Text::toUtf8(temp) + G_DIR_SEPARATOR_S;
+					path = string(temp) + G_DIR_SEPARATOR_S;
 					g_free(temp);
 				}
 				if (!File::isAbsolute(path))
@@ -1746,7 +1745,7 @@ void MainWindow::onResponseMagnetDialog_gui(GtkWidget *dialog, gint response, gp
 			gchar *temp = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(mw->getWidget("flistDialog")));
 			if (temp)
 			{
-				path = Text::toUtf8(temp) + G_DIR_SEPARATOR_S;
+				path = string(temp) + G_DIR_SEPARATOR_S;
 				g_free(temp);
 			}
 
@@ -2188,14 +2187,14 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 
-	auto prevTCP = SETTING(TCP_PORT);
-	auto prevUDP = SETTING(UDP_PORT);
-	auto prevTLS = SETTING(TLS_PORT);
+	int prevTCP = SETTING(TCP_PORT);
+	int prevUDP = SETTING(UDP_PORT);
+	int prevTLS = SETTING(TLS_PORT);
 
 	auto prevConn = SETTING(INCOMING_CONNECTIONS);
 	auto prevMapper = SETTING(MAPPER);
-	auto prevBind = SETTING(BIND_ADDRESS);
-	auto prevBind6 = SETTING(BIND_ADDRESS6);
+	string prevBind = SETTING(BIND_ADDRESS);
+	string prevBind6 = SETTING(BIND_ADDRESS6);
 	auto prevProxy = CONNSETTING(OUTGOING_CONNECTIONS);
 
 	if (mw->useStatusIconBlink != WGETB("status-icon-blink-use"))
@@ -2376,7 +2375,7 @@ void MainWindow::onOpenFileListClicked_gui(GtkWidget *widget, gpointer data)
 	GtkWidget *chooser = mw->getWidget("flistDialog");
 	gtk_window_set_title(GTK_WINDOW(chooser), _("Select filelist to browse"));
 	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(chooser), GTK_FILE_CHOOSER_ACTION_OPEN);
-	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(chooser), Text::fromUtf8(Util::getListPath()).c_str());
+	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(chooser), Util::getListPath().c_str());
 
 	gint response = gtk_dialog_run(GTK_DIALOG(chooser));
 
@@ -2392,7 +2391,7 @@ void MainWindow::onOpenFileListClicked_gui(GtkWidget *widget, gpointer data)
 
 		if (temp)
 		{
-			string path = Text::toUtf8(temp);
+			string path(temp);
 			g_free(temp);
 
 			UserPtr user = DirectoryListing::getUserFromFilename(path);
@@ -2482,7 +2481,7 @@ void MainWindow::onAboutDialogActivateLink_gui(GtkAboutDialog *dialog, const gch
 	string error = Util::emptyString;
 	WulforUtil::openURI(link,error);
 	if(!error.empty())
-	    mw->setMainStatus_gui(error, time(NULL));
+	    mw->setMainStatus_gui(error);
 }
 
 void MainWindow::onCloseBookEntry_gui(GtkWidget *widget, gpointer data)
@@ -2563,8 +2562,8 @@ void MainWindow::autoConnect_client()
 
 		if (it != favHubGroups.end())
 		{
-			HubSettings p = it->second;
-			if (p.get(HubSettings::Connect) == 1)
+			const HubSettings* p = &(it->second);
+			if (p->get(HubSettings::Connect) == 1)
 			{
 				typedef Func2<MainWindow, string, string> F2;
 				F2 *func = new F2(this, &MainWindow::showHub_gui, hub->getServer(), hub->getEncoding());
@@ -2646,7 +2645,7 @@ int MainWindow::FileListQueue::run() {
 			break;
 		}
 
-		DirectoryListInfo* i;
+		DirectoryListInfo* i = nullptr;
 		{
 			Lock l(cs);
 			i = fileLists.front();
@@ -2916,6 +2915,7 @@ void MainWindow::onCloseAllHub_gui(GtkWidget *widget, gpointer data)
 	while(!mw->Hubs.empty())
 	{
 		Hub *hub = mw->Hubs.back();
+		if(hub == NULL) continue;//should never hapen but :-D
 		typedef Func1<MainWindow,BookEntry*> F1;
 		F1 *func = new F1(mw,&MainWindow::removeBookEntry_gui,hub);
 		WulforManager::get()->dispatchGuiFunc(func);
@@ -2932,6 +2932,7 @@ void MainWindow::onCloseAllPM_gui(GtkWidget *widget, gpointer data)
 	for(auto i= mw->privateMessage.begin(); i != mw->privateMessage.end();++i)
 	{
 		PrivateMessage *pm = *i;
+		if(pm == NULL) continue;
 		typedef Func1<MainWindow,BookEntry*> F1;
 		F1 *func = new F1(mw,&MainWindow::removeBookEntry_gui,pm);
 		WulforManager::get()->dispatchGuiFunc(func);
@@ -2960,15 +2961,14 @@ void MainWindow::onCloseAlloffPM_gui(GtkWidget *widget, gpointer data)
 	{
 		PrivateMessage *pm = dynamic_cast<PrivateMessage*>(*i);
 
-		if(pm->getIsOffline())
+		if( !(pm == NULL) && pm->getIsOffline())
 		{
 			typedef Func1<MainWindow,BookEntry*> F1;
 			F1 *func = new F1(mw,&MainWindow::removeBookEntry_gui,pm);
 			WulforManager::get()->dispatchGuiFunc(func);
 
-		}else noff.push_back(*i);
+		}else {noff.push_back(*i);}
 	}
-//	mw->privateMessage.clear();
 	mw->privateMessage = noff;
 }
 /* partial */
@@ -3001,4 +3001,4 @@ void MainWindow::on(QueueManagerListener::PartialList, const HintedUser& aUser, 
 	F2 *func = new F2(this,&MainWindow::parsePartial,aUser,text);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
-/**/
+

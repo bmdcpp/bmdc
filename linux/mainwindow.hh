@@ -125,7 +125,7 @@ class MainWindow:
 			END
 		} IconsToolbar;
 
-		static const char* icons[(MainWindow::IconsToolbar)END][3];
+		//static const char* icons[(MainWindow::IconsToolbar)END][3];
 
 		#if GTK_CHECK_VERSION(3,9,0)
 		void setStatusOfIcons(IconsToolbar type, bool isClicked)
@@ -156,7 +156,7 @@ class MainWindow:
 	private:
 		typedef std::pair<std::string, std::string> ParamPair;
 		typedef std::vector<ParamPair> ListParamPair;
-
+		static const char* icons[(MainWindow::IconsToolbar)END][3];
 		// GUI functions
 		void loadIcons_gui();
 		void showTransfersPane_gui();

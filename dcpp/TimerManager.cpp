@@ -40,6 +40,8 @@ TimerManager::TimerManager() {
 #else
 	gettimeofday(&tv, NULL);
 #endif
+	dcdebug("TimerManager \n %d , %p ", (int)listeners.size(),this);
+
 }
 
 TimerManager::~TimerManager() throw() {
@@ -53,7 +55,7 @@ int TimerManager::run() {
 	uint64_t x = getTick();
 	uint64_t nextTick = x + 1000;
 
-	while(!s.wait(nextTick > x ? (uint32_t)(nextTick - x) : 0)) {
+	while(!s.wait(nextTick > x ? (nextTick - x) : 0)) {
 		uint64_t z = getTick();
 		nextTick = z + 1000;
 		fire(TimerManagerListener::Second(), z);
