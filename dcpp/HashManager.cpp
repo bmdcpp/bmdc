@@ -41,7 +41,7 @@ const int64_t HashManager::MIN_BLOCK_SIZE = 64 * 1024;
 
 TTHValue* HashManager::getTTH(const string& aFileName, int64_t aSize, uint32_t aTimeStamp) noexcept {
 	Lock l(cs);
-	auto tth = store.getTTH(aFileName, aSize, aTimeStamp);
+	TTHValue* tth = store.getTTH(aFileName, aSize, aTimeStamp);
 	if(tth == NULL) {
 		hasher.hashFile(aFileName, aSize);
 	}
@@ -180,11 +180,11 @@ TTHValue* HashManager::HashStore::getTTH(const string& aFileName, int64_t aSize,
 		auto j = find(i->second.begin(), i->second.end(), fname);
 		if (j != i->second.end()) {
 			FileInfo& fi = *j;
-			TTHValue root = fi.getRoot();
-			auto ti = treeIndex.find(root);
+			TTHValue* root = const_cast<TTHValue*>(&(fi.getRoot()));
+			auto ti = treeIndex.find(*root);
 			if(ti != treeIndex.end() && ti->second.getSize() == aSize && fi.getTimeStamp() == aTimeStamp) {
 				fi.setUsed(true);
-				return &root;
+				return root;
 			}
 
 			// the file size or the timestamp has changed

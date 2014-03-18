@@ -793,7 +793,6 @@ void ShareManager::updateIndices(Directory& dir, const decltype(std::declval<Dir
 	if(!f.tth) {
 		return;
 	}
-	//Lock l(cs);
 	auto j = tthIndex.find(*f.tth);
 	if(j == tthIndex.end()) {
 		dir.size += f.getSize();
@@ -809,7 +808,6 @@ void ShareManager::updateIndices(Directory& dir, const decltype(std::declval<Dir
 		}
 	}
 	{
-		//Lock l(cs);
 		tthIndex[*(f.tth)] = &f;
 		bloom.add(Text::toLower(f.getName()));
 	}
@@ -1092,8 +1090,8 @@ void ShareManager::Directory::filesToXml(OutputStream& xmlFile, string& indent, 
 		xmlFile.write(LITERAL("\" Size=\""));
 		xmlFile.write(Util::toString(f.getSize()));
 		xmlFile.write(LITERAL("\" TTH=\""));
-		tmp2.clear();
 		xmlFile.write(f.tth->toBase32(tmp2));
+		tmp2.clear();
 		xmlFile.write(LITERAL("\"/>\r\n"));
 	}
 }
@@ -1407,7 +1405,7 @@ const ShareManager::Directory::File* ShareManager::getFile(const string& realPat
 
 void ShareManager::on(QueueManagerListener::FileMoved, const string& realPath) noexcept {
 	if(SETTING(ADD_FINISHED_INSTANTLY)) {
-		auto size = File::getSize(realPath);
+		int64_t size = File::getSize(realPath);
 		if(size == -1) {
 			// looks like the file isn't actually there...
 			return;
