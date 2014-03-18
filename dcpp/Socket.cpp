@@ -518,7 +518,9 @@ void Socket::setSocketOpt(int option, int val) {
 }
 
 int Socket::read(void* aBuffer, int aBufLen) {
-	auto len = check([&] {
+			if(aBufLen == 0)
+                  return 0;
+	int len = check([&] {
 		return type == TYPE_TCP
 			? ::recv(getSock(), (char*)aBuffer, aBufLen, 0)
 			: ::recvfrom(readable(sock4, sock6), (char*)aBuffer, aBufLen, 0, NULL, NULL);
@@ -532,12 +534,14 @@ int Socket::read(void* aBuffer, int aBufLen) {
 }
 
 int Socket::read(void* aBuffer, int aBufLen, string &aIP) {
+		if(aBufLen == 0)
+              return 0;
 	dcassert(type == TYPE_UDP);
 
 	addr remote_addr = { { 0 } };
 	socklen_t addr_length = sizeof(remote_addr);
 
-	auto len = check([&] {
+	int len = check([&] {
 		return ::recvfrom(readable(sock4, sock6), (char*)aBuffer, aBufLen, 0, &remote_addr.sa, &addr_length);
 	}, true);
 
@@ -588,7 +592,9 @@ void Socket::writeAll(const void* aBuffer, int aLen, uint32_t timeout) {
 }
 
 int Socket::write(const void* aBuffer, int aLen) {
-	auto sent = check([&] { return ::send(getSock(), (const char*)aBuffer, aLen, 0); }, true);
+	if(aBuffer == NULL || aLen == 0)
+		return 0;
+	int sent = check([&] { return ::send(getSock(), (const char*)aBuffer, aLen, 0); }, true);
 	if(sent > 0) {
 		stats.totalUp += sent;
 	}

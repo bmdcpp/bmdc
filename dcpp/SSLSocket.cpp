@@ -287,6 +287,7 @@ void SSLSocket::shutdown() noexcept {
 }
 
 void SSLSocket::close() noexcept {
+    ERR_remove_state(0);
 	if(ssl) {
 		ssl.reset();
 	}
