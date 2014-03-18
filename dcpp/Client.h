@@ -134,7 +134,6 @@ public:
 	GETSET(bool, checkAtConnect, CheckAtConnect);
 	GETSET(bool, checkClients, CheckClients);
 	GETSET(bool, checkFilelists, CheckFilelists);
-	//virtual UserPtr findUser_(const CID& cid) = 0;
 	mutable CriticalSection cs; //BMDC++//RSX++
 protected:
 	friend class ClientManager;

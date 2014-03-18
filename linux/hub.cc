@@ -3523,7 +3523,7 @@ void Hub::connectClient_client(string address, string encoding)
 		encoding = encoding.substr(0, i);
 
 	client = ClientManager::getInstance()->getClient(address);
-	client->setEncoding(encoding);
+	//client->setEncoding(encoding);
 	client->addListener(this);
 	client->connect();
 	FavoriteManager::getInstance()->addListener(this);

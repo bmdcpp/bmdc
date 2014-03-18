@@ -189,11 +189,11 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			}
 		}
 				
-		string line = aLine;
+//		string line = aLine;
 		//[BMDC
 		//check to if it utf-8 . if not convert to it
 		//90 is magic value because motd's
-		#define SIZE_TEXT 90
+/*		#define SIZE_TEXT 90
 		iconv_t test = iconv_open("UTF-8", "UTF-8");
 		char* result = new char[aLine.length()*SIZE_TEXT];
 		char* teststr = const_cast<char*>(aLine.c_str());
@@ -220,10 +220,10 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				}
 			}
 		}
-		
-		iconv_close(test);
-		if(aLine.length() > SIZE_TEXT)
-				line = toUtf8(aLine);
+	*/	
+//		iconv_close(test);
+//		if(aLine.length() > SIZE_TEXT)
+		string line = toUtf8(aLine);
 //..		
 		if(line[0] != '<') {
 			fire(ClientListener::StatusMessage(), this, unescape(line));

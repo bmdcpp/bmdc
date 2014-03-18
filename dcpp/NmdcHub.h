@@ -34,7 +34,7 @@ namespace dcpp {
 
 using std::list;
 
-class NmdcHub : public Client//, private Flags
+class NmdcHub : public Client
 {
 public:
 	using Client::send;
@@ -73,18 +73,6 @@ public:
 	virtual void send(const AdcCommand&) { dcassert(0); }
 
 	static string validateMessage(string tmp, bool reverse);
-	
-	/*UserPtr findUser_(const CID& cid)
-	{
-			for(auto u:users)
-			{
-				UserPtr user = u.second->getUser()
-				if(user->getCID() == cid)
-					return user;
-					
-			}
-		return nullptr;
-	}*/
 private:
 	friend class ClientManager;
 	enum SupportFlags {
@@ -131,7 +119,9 @@ private:
 	void putUser(const string& aNick);
 
 	string toUtf8(const string& str) const { return Text::toUtf8(str, getEncoding()); }
-	string fromUtf8(const string& str) const { return Text::fromUtf8(str, getEncoding()); }
+	string fromUtf8(const string& str) const {
+		 return Text::fromUtf8(str,getEncoding());
+	}
 
 	void privateMessage(const string& nick, const string& aMessage);
 	void validateNick(const string& aNick) { send("$ValidateNick " + fromUtf8(aNick) + "|"); }
