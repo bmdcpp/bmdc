@@ -65,7 +65,7 @@ mainWin(NULL)
 	abort = FALSE;
 
 	// Initialize sempahore variables
-	g_rw_lock_init(&entryMutex);
+	//g_rw_lock_init(&entryMutex);
 	// Determine path to data files
 	path = string(_DATADIR) + G_DIR_SEPARATOR_S + g_get_prgname();
 	if (!g_file_test(path.c_str(), G_FILE_TEST_EXISTS))
@@ -85,14 +85,14 @@ mainWin(NULL)
 WulforManager::~WulforManager()
 {
 	abort = TRUE;
-	g_rw_lock_clear(&entryMutex);
+	//g_rw_lock_clear(&entryMutex);
 }
 
 void WulforManager::createMainWindow()
 {
 	dcassert(!mainWin);
 	mainWin = new MainWindow();
-	WulforManager::insertEntry_gui(mainWin);
+	//WulforManager::insertEntry_gui(mainWin);
 	mainWin->show();
 }
 
@@ -117,7 +117,7 @@ void WulforManager::deleteMainWindow()
 }
 
 static void xnotify(gpointer data)
-{ delete (FuncBase*)data;}
+{ delete (FuncBase*)data; }
 
 void WulforManager::dispatchGuiFunc(FuncBase *func)
 {
@@ -152,7 +152,6 @@ void WulforManager::insertEntry_gui(Entry *entry)
 	g_rw_lock_writer_unlock(&entryMutex);
 }
 
-// Should be called from a callback, so gdk_threads_enter/leave is called automatically.
 void WulforManager::deleteEntry_gui(Entry *entry)
 {
 	const string &id = entry->getID();

@@ -93,16 +93,6 @@ tabText(Util::emptyString) , tabIconStr(Util::emptyString) , notify(true)
 	GETSET(string, server, Server);
 	GETSET(string, hubDescription, HubDescription);
 	GETSET(string, password, Password);
-	string getEncoding() {
-		string enco = encoding;
-			if(!enco.empty()){
-				size_t f = enco.find(0x20);
-				if(f != string::npos){
-					enco = enco.substr(0,f);
-				}
-			}
-		return enco;		
-	}
 	GETSET(string, encoding, Encoding);
 	GETSET(string, group, Group);
 	//BMDC++

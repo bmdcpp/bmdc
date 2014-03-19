@@ -33,7 +33,7 @@ namespace dcpp {
 
 namespace Text {
 
-const string utf8 = "UTF-8"; // optimization
+const string utf8 = "utf-8"; // optimization
 string systemCharset;
 
 void initialize() {

@@ -99,7 +99,6 @@ void Client::reloadSettings(bool updateNick) {
 		setCheckFilelists(fav->getCheckFilelists());
 		setTabText(fav->getTabText());
 		setTabIconStr(fav->getTabIconStr());
-		setEncoding(fav->getEncoding());
 		//]
 	}else{
 		//[BMDC++
@@ -111,7 +110,6 @@ void Client::reloadSettings(bool updateNick) {
 		setCheckFilelists(false);
 		setTabText(Util::emptyString);
 		setTabIconStr(Util::emptyString);
-		//Assume UTF-8/SYSTEM
         //]
 	}
 	if(updateNick)

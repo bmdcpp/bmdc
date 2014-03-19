@@ -3523,7 +3523,7 @@ void Hub::connectClient_client(string address, string encoding)
 		encoding = encoding.substr(0, i);
 
 	client = ClientManager::getInstance()->getClient(address);
-	//client->setEncoding(encoding);
+	client->setEncoding(encoding);
 	client->addListener(this);
 	client->connect();
 	FavoriteManager::getInstance()->addListener(this);
@@ -4013,8 +4013,9 @@ void Hub::onImageDestroy_gui(GtkWidget *widget, gpointer data)
 	Hub *hub = (Hub*) data;
 
 	// fix crash, if entry delete...
-	if (!WulforManager::get()->isEntry_gui(hub))
-		return;
+//	if (!WulforManager::get()->isEntry_gui(hub))
+//		return;
+	if(hub == NULL) return;
 
 	ImageList::const_iterator j = hub->imageList.find(widget);
 
