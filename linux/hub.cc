@@ -1689,7 +1689,7 @@ void Hub::preferences_gui()
 	string sort = SETTING(SORT_FAVUSERS_FIRST) ? "Client Type" : "Nick Order";
 	nickView.setSortColumn_gui(_("Nick"), sort);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);
-	//set Colors
+	//Set Colors
 	WulforUtil::setTextDeufaults(getWidget("chatText"),WGETS("background-color-chat"));
 	gtk_widget_queue_draw(getWidget("chatText"));
 	setColorsRows();

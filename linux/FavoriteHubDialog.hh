@@ -80,15 +80,15 @@ class FavoriteHubDialog: public Entry
 		}
 
 		string path = WulforManager::get()->getPath() + G_DIR_SEPARATOR_S + "emoticons" + G_DIR_SEPARATOR_S;
-		auto files = File::findFiles(path, "*.xml");
+		StringList files = File::findFiles(path, "*.xml");
 		for(auto fi = files.begin(); fi != files.end();++fi) {
 			string file = Util::getFileName((*fi));
-			auto nedle =  file.find(".");
+			size_t nedle =  file.find(".");
 			string text = file.substr(0,nedle);
 			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxEmot")), text.c_str() );
 		}
 
-		if(init) //Default value when adding
+		if(init) //Default values when adding
 		{
 			params["Name"] = Util::emptyString;
 			params["Address"] = Util::emptyString;
@@ -112,7 +112,7 @@ class FavoriteHubDialog: public Entry
 			params["FavParts"] = Util::emptyString;
 			params["LogChat"] = Util::emptyString;
 			params["Away"] = Util::emptyString;
-			params["Notify"] = "1";
+			params["Notify"] = "0";
 			params["Country"] = "0";
 			params["showip"] = "0";
 			params["BoldTab"] = "1";
@@ -204,6 +204,7 @@ class FavoriteHubDialog: public Entry
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkShowCountry")), f("Country"));
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkShowIp")), f("showip") );
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkTabBold")), f("BoldTab") );
+		WulforManager::get()->insertEntry_gui(this);
 
 		//fh->setRawActions_gui(fh,params);
 		// Show the dialog
@@ -297,15 +298,14 @@ class FavoriteHubDialog: public Entry
 			return TRUE;
 		}
 	}
-
 	gtk_widget_hide(getContainer());
 	return FALSE;
 
 	}
 	~FavoriteHubDialog() {
-		//delete p_entry;
+		WulforManager::get()->deleteEntry_gui(this);
 	}
-	GtkWidget *getContainer() {return getWidget("dialog");}
+	GtkWidget *getContainer() { return getWidget("dialog"); }
 
 private:
 	void initActions()
@@ -344,8 +344,8 @@ private:
 		}
 	}
 
-	bool init;
 	FavoriteHubEntry* p_entry;
+	bool init;
 	GtkTreeStore *actionStore;
 	TreeView actionView;
 	GtkTreeSelection *actionSel;
