@@ -46,16 +46,16 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	offline(false)
 {
 	// Intialize the chat window
-	if (SETTING(USE_OEM_MONOFONT))
+	/*if (SETTING(USE_OEM_MONOFONT))
 	{
 		PangoFontDescription *fontDesc = pango_font_description_new();
 		pango_font_description_set_family(fontDesc, "Mono");
 		gtk_widget_override_font(getWidget("text"), fontDesc);
 		pango_font_description_free(fontDesc);
-	}
+	}*/
 
 	//set Colors
-	WulforUtil::setTextBackground(getWidget("text"),WGETS("background-color-chat"));
+	WulforUtil::setTextDeufaults(getWidget("text"),WGETS("background-color-chat"));
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
 	messageBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(getWidget("text")));
 
@@ -273,10 +273,10 @@ void PrivateMessage::preferences_gui()
 
 	for (int i = Tag::TAG_FIRST; i < Tag::TAG_LAST; i++)
 	{
-		if(i == Tag::TAG_GENERAL)
+		if(i == Tag::TAG_GENERAL)//@mainchat Tag
             		continue;
-       	if(i == Tag::TAG_CHEAT)
-			continue;
+       	if(i == Tag::TAG_CHEAT)//@Cheating on MC
+					continue;
 
 		getSettingTag_gui(wsm, (Tag::TypeTag)i, fore, back, bold, italic);
 
@@ -299,7 +299,7 @@ void PrivateMessage::preferences_gui()
 	{
 		gtk_widget_set_sensitive(getWidget("emotButton"), TRUE);
 	}
-	WulforUtil::setTextBackground(getWidget("text"),WGETS("background-color-chat"));
+	WulforUtil::setTextDeufaults(getWidget("text"),WGETS("background-color-chat"));
 	gtk_widget_queue_draw(getWidget("text"));
 }
 

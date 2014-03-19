@@ -397,7 +397,7 @@ private:
 };
 
 // Shorthand accessor macros
-#define SETTING(k) SettingsManager::getInstance()->get(SettingsManager::k)
+#define SETTING(k) dcpp::SettingsManager::getInstance()->get(dcpp::SettingsManager::k)
 
 } // namespace dcpp
 

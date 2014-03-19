@@ -29,6 +29,7 @@
 #include <dcpp/User.h>
 #include <dcpp/HintedUser.h>
 #include <dcpp/typedefs.h>
+#include <dcpp/SettingsManager.h>
 #include <dcpp/Util.h>
 
 #define C_EMPTY(x) ((x) == NULL || (x)[0] == '\0')
@@ -99,8 +100,17 @@ class WulforUtil
 		static const std::string ENCODING_LOCALE;
 		static const std::string commands;
 		
-		static void setTextBackground(GtkWidget* widget,std::string strcolor)
+		static void setTextDeufaults(GtkWidget* widget,std::string strcolor)
 		{
+			// Intialize the chat window
+			if (SETTING(USE_OEM_MONOFONT))
+			{
+				PangoFontDescription *fontDesc = pango_font_description_new();
+				pango_font_description_set_family(fontDesc, "Mono");
+				gtk_widget_override_font(widget, fontDesc);
+				pango_font_description_free(fontDesc);
+			}
+
 			GdkRGBA color;
 			gdk_rgba_parse(&color,strcolor.c_str());
 			gtk_widget_override_background_color(widget, GTK_STATE_FLAG_NORMAL, &color);

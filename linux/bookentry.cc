@@ -402,7 +402,7 @@ GtkWidget *BookEntry::createItemFirstMenu()
 	#else
 	item = gtk_image_menu_item_new_from_stock(stock.c_str(),NULL);
 	#endif
-	gtk_menu_item_set_label(GTK_MENU_ITEM(item),info.c_str());
+		gtk_menu_item_set_label(GTK_MENU_ITEM(item),info.c_str());
 	return item;
 }
 
