@@ -65,7 +65,7 @@ mainWin(NULL)
 	abort = FALSE;
 
 	// Initialize sempahore variables
-	//g_rw_lock_init(&entryMutex);
+	g_rw_lock_init(&entryMutex);
 	// Determine path to data files
 	path = string(_DATADIR) + G_DIR_SEPARATOR_S + g_get_prgname();
 	if (!g_file_test(path.c_str(), G_FILE_TEST_EXISTS))
@@ -85,14 +85,14 @@ mainWin(NULL)
 WulforManager::~WulforManager()
 {
 	abort = TRUE;
-	//g_rw_lock_clear(&entryMutex);
+	g_rw_lock_clear(&entryMutex);
 }
 
 void WulforManager::createMainWindow()
 {
 	dcassert(!mainWin);
 	mainWin = new MainWindow();
-	//WulforManager::insertEntry_gui(mainWin);
+	WulforManager::insertEntry_gui(mainWin);
 	mainWin->show();
 }
 
