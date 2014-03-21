@@ -19,7 +19,7 @@
 #ifndef REG_EX_H
 #define REG_EX_H
 
-#include <pcre.h>     /* PCRE lib */
+#include <pcre.h>  /* PCRE lib */
 #include "StringTokenizer.h"
 #include "debug.h"
 namespace dcpp {
@@ -45,7 +45,7 @@ bool match(const T& text, const T& pattern, bool ignoreCase = true) /*throw()*/ 
              0);           /* use default character tables */
 		if (!re) {
 			printf("pcre_compile failed (offset: %d), %s\n", erroffset, error);
-			//throw("pcre_compile failed (offset: %d), %s\n", erroffset, error);
+			return false;
 		}
 
 		rc = pcre_exec (
@@ -66,7 +66,6 @@ bool match(const T& text, const T& pattern, bool ignoreCase = true) /*throw()*/ 
 				return false;
             default:
                 printf("Error while matching: %d\n", rc);
-                //throw("Error while matching: %d\n", rc);
         }
         free(re);
         return true;

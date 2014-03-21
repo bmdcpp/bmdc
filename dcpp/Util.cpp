@@ -797,12 +797,12 @@ string Util::encodeURI(const string& aString, bool reverse) {
 		const string disallowed = ";/?:@&=+$," // reserved
 								  "<>#%\" "    // delimiters
 								  "{}|\\^[]`"; // unwise
-		string::size_type idx, loc;
+		string::size_type idx;
 		for(idx = 0; idx < tmp.length(); ++idx) {
 			if(tmp[idx] == ' ') {
 				tmp[idx] = '+';
 			} else {
-				if(tmp[idx] <= 0x1F || tmp[idx] >= 0x7f || (loc = disallowed.find_first_of(tmp[idx])) != string::npos) {
+				if(tmp[idx] <= 0x1F || tmp[idx] >= 0x7f || (disallowed.find_first_of(tmp[idx])) != string::npos) {
 					tmp.replace(idx, 1, toHexEscape(tmp[idx]));
 					idx+=2;
 				}

@@ -304,7 +304,6 @@ StringList DirectoryListing::getLocalPaths(const Directory* d) const {
 }
 
 void DirectoryListing::download(Directory* aDir, const string& aTarget, bool highPrio) {
-	//string tmp;
 	string target = (aDir == getRoot()) ? aTarget : aTarget + aDir->getName() + PATH_SEPARATOR;
 	// First, recurse over the directories
 	Directory::List& lst = aDir->directories;

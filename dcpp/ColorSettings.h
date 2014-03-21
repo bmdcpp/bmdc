@@ -29,7 +29,7 @@ class ColorSettings: public Flags
   public:
 	enum ColorFlags {
 		CONTEXT_CHAT = 1,
-		//CONTEXT_NICKLIST = 2,
+		CONTEXT_NICKLIST = 2,
 		CONTEXT_FILELIST = 3
 	};
   
@@ -69,8 +69,8 @@ class ColorSettings: public Flags
 	{
 		if(isSet(CONTEXT_CHAT))
 			return 1;
-		//if(isSet(CONTEXT_NICKLIST))
-		//	return 2;
+		if(isSet(CONTEXT_NICKLIST))
+			return 2;
 		if(isSet(CONTEXT_FILELIST))
 			return 3;
 		return 0;	

@@ -188,21 +188,6 @@ HubData* Client::getPluginObject() noexcept {
 void Client::on(Connected) noexcept {
 	updateActivity();
 	ip = sock->getIp();
-/*
-	if(sock->isSecure() && keyprint.compare(0, 7, "SHA256/") == 0) {
-		vector<uint8_t> kp = sock->getKeyprint();
-		if(!kp.empty()) {
-			vector<uint8_t> kp2v(kp.size());
-			Encoder::fromBase32(keyprint.c_str() + 7, &kp2v[0], kp2v.size());
-			if(!std::equal(kp.begin(), kp.end(), kp2v.begin())) {
-				state = STATE_DISCONNECTED;
-				sock->removeListener(this);
-				fire(ClientListener::Failed(), this, "Keyprint mismatch");
-				return;
-			}
-		}
-	}*/
-
 	fire(ClientListener::Connected(), this);
 	state = STATE_PROTOCOL;
 }

@@ -68,12 +68,6 @@ void CommandQueue::addCommand(const OnlineUser& ou, int actionId) {
 						if(FavoriteManager::getInstance()->getEnabledRaw(hub, actionId, i->getId())) {
 							ParamMap params;
 							const UserCommand uc = UserCommand(0, 0, 0, 0, "", i->getRaw(),"", "");
-
-							ou.getIdentity().getParams(params, "user", true);
-							clientPtr->getHubIdentity().getParams(params, "hub", false);
-							clientPtr->getMyIdentity().getParams(params, "my", true);
-							string formattedCmd = Util::formatParams(uc.getCommand(), params);
-
 							CommandItem item;
 							item.name = i->getName();
 							item.uc = uc;
@@ -86,6 +80,10 @@ void CommandQueue::addCommand(const OnlineUser& ou, int actionId) {
 								execCommand(item);
 							}
 							if(SETTING(LOG_RAW_CMD)) {
+								ou.getIdentity().getParams(params, "user", true);
+								clientPtr->getHubIdentity().getParams(params, "hub", false);
+								clientPtr->getMyIdentity().getParams(params, "my", true);
+								string formattedCmd = Util::formatParams(uc.getCommand(), params);
 								params["rawCommand"] = formattedCmd;
 								LOG(LogManager::RAW, params);
 							}

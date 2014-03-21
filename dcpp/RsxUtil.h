@@ -31,14 +31,7 @@ public:
 */
 	static void		generateTestSURString();
 	static const string&	getTestSURString();
-/*	static bool				toBool(const string& aString);
-	static bool				toBool(const int aNumber);
-	static void				trim(string& source, const string& delims = " \t\r\n");
-	static tstring			replace(const tstring& aString, const tstring& fStr, const tstring& rStr);
-	static string			replace(const string& aString, const string& fStr, const string& rStr);
-	static bool				compareLower(const string& firstStr, const string& secondStr);
-	static bool				compareLower(const tstring& firstStr, const tstring& secondStr);
-	static bool				isIpInRange(const string& aIp, const string& aRange);
+/*	static bool				isIpInRange(const string& aIp, const string& aRange);
 */
 private:
 	static string tmpTestSur;

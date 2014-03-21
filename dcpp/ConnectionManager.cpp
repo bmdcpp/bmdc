@@ -492,7 +492,6 @@ void ConnectionManager::on(UserConnectionListener::MyNick, UserConnection* aSour
 		}
 	}
 
-
 	if(!aSource->getUser()) {
 		// Make sure we know who it is, i e that he/she is connected...
 

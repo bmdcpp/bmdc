@@ -88,7 +88,6 @@ private:
 	settings (stored in SettingsManager) in case the user wants to keep the manually set ones for
 	future use. */
 	unordered_map<int, std::tuple<bool, int, string>> autoSettings;
-//	unordered_map<int, boost::variant<bool, int, string>> autoSettings;
 };
 
 #define CONNSETTING(k) ConnectivityManager::getInstance()->get(SettingsManager::k)

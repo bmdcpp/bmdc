@@ -446,7 +446,6 @@ void FavoriteManager::save() {
 			xml.addChildAttrib("TabIcon", (*i)->getTabIconStr());
 			xml.addChildAttrib("UserListToggle", (*i)->getShowUserList());
 			xml.addChildAttrib("NotifyToggle", (*i)->getNotify());
-			
 			xml.addChildAttrib("Order",(*i)->getHubOrder());
 			xml.addChildAttrib("Visible",(*i)->getHubVisible());
 			xml.addChildAttrib("Width",(*i)->getHubWidth());

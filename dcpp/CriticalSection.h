@@ -24,7 +24,7 @@
 namespace dcpp {
 typedef std::recursive_mutex CriticalSection;
 typedef std::unique_lock<std::recursive_mutex> Lock;
-typedef std::lock_guard<std::recursive_mutex> LockGuard;//
+typedef std::lock_guard<std::recursive_mutex> LockGuard;
 typedef std::mutex FastCriticalSection;
 typedef std::lock_guard<std::mutex> FastLock;
 
