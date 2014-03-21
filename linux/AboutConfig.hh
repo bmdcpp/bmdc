@@ -22,7 +22,7 @@
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
 #include <dcpp/SettingsManager.h>
-
+#include "WulforUtil.hh"
 #include "bookentry.hh"
 #include "treeview.hh"
 
@@ -35,8 +35,6 @@ class AboutConfig:
 		virtual ~AboutConfig();
 		virtual void show();
 	private:
-		typedef std::unordered_map<std::string, GtkTreeIter> AboutIters;
-		
 		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
@@ -54,7 +52,7 @@ class AboutConfig:
 		GtkListStore *aboutStore;
 		GtkTreeSelection *aboutSelection;
 		GdkEventType previous;
-		AboutIters aboutIters;
+		UnMapIter aboutIters;
 };
 #else
 class AboutConfig;

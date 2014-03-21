@@ -800,7 +800,7 @@ void ShareManager::updateIndices(Directory& dir, const decltype(std::declval<Dir
 	} else {
 		if(!SETTING(LIST_DUPES)) {
 			try {
-				LogManager::getInstance()->message(_("Duplicate file will not be shared: %1% (Size: %2% B) Dupe matched against: %3%")+ Util::addBrackets(f.getRealPath()) + Util::toString(f.getSize()) + Util::addBrackets(j->second->getRealPath()));//@TODO
+				LogManager::getInstance()->message(_("Duplicate file will not be shared: ")+Util::addBrackets(f.getRealPath())+_("Size: ")+Util::toString(f.getSize())+_(" B) Dupe matched against: ") + Util::addBrackets(j->second->getRealPath()));
 				dir.files.erase(i);
 			} catch (const ShareException&) {
 			}
@@ -831,7 +831,7 @@ void ShareManager::refresh(bool dirs, bool aUpdate, bool block, function<void (f
 			start();
 			setThreadPriority(Thread::LOW);
 		} catch(const ThreadException& e) {
-			LogManager::getInstance()->message(_("File list refresh failed: %1%") + e.getError());
+			LogManager::getInstance()->message(_("File list refresh failed: ") + e.getError());
 		}
 	}
 }
@@ -965,7 +965,7 @@ void ShareManager::generateXmlList() {
 			bzXmlRef = unique_ptr<File>(new File(newXmlName, File::READ, File::OPEN));
 			setBZXmlFile(newXmlName);
 			bzXmlListLen = File::getSize(newXmlName);
-			LogManager::getInstance()->message(_("File list %1% generated") + Util::addBrackets(bzXmlFile));
+			LogManager::getInstance()->message(_("File list ")+Util::addBrackets(bzXmlFile)+_("generated"));
 		} catch(const Exception&) {
 			// No new file lists...
 		}

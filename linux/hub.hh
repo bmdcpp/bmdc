@@ -35,7 +35,7 @@
 #include "sound.hh"
 #include "notify.hh"
 #include "message.hh"
-
+#include "WulforUtil.hh"
 #include <queue>
 #include <map>
 
@@ -88,7 +88,6 @@ class Hub:
 
 		typedef std::map<std::string, std::string> ParamMap;
 		typedef std::unordered_map<std::string, std::string> UserMap;
-		typedef std::unordered_map<std::string, GtkTreeIter> UserIters;
 		typedef std::unordered_map<GtkWidget*, std::string> ImageList;
 		typedef std::pair<std::string, GtkWidget*> ImageLoad;
 		typedef std::unordered_map<std::string, FlagUser > UserFlags; //for flags
@@ -261,7 +260,7 @@ class Hub:
 
 		UserFlags users;//for OP flag etc
 		UserMap userMap;
-		UserIters userIters;
+		UnMapIter userIters;
 		UserMap userFavoriteMap;
 		ImageList imageList;
 		ImageLoad imageLoad;

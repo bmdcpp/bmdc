@@ -34,10 +34,9 @@ using namespace dcpp;
 
 class FavoriteHubDialog: public Entry
 {
-	typedef std::unordered_map<std::string, GtkTreeIter> FavHubGroupsIter;
    public:
 
-	FavoriteHubDialog(FavoriteHubEntry* entry,bool add = true):
+	FavoriteHubDialog(FavoriteHubEntry* entry, bool add = true):
 	Entry(Entry::FAV_HUB,"FavDialog.glade"),
 	p_entry(entry),
 	init(add), actionStore(NULL), actionSel(NULL)
@@ -60,7 +59,7 @@ class FavoriteHubDialog: public Entry
 		g_signal_connect(actionView.getCellRenderOf(_("Enabled")), "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
 	}
 
-	bool initDialog(FavHubGroupsIter &groups, dcpp::StringMap &params)
+	bool initDialog(UnMapIter &groups, dcpp::StringMap &params)
 	{
 		FavHubGroups favHubGroups = FavoriteManager::getInstance()->getFavHubGroups();
 
@@ -69,14 +68,14 @@ class FavoriteHubDialog: public Entry
 
 		gtk_list_store_append(store, &iter);
 		gtk_list_store_set(store, &iter, 0, _("Default"), -1);
-		groups.insert(FavHubGroupsIter::value_type(_("Default"),iter));
+		groups.insert(UnMapIter::value_type(_("Default"),iter));
 
 		for (auto i = favHubGroups.begin(); i != favHubGroups.end(); ++i)
 		{
 		// favorite hub properties combo box groups
 			gtk_list_store_append(store, &iter);
 			gtk_list_store_set(store, &iter, 0, i->first.c_str(), -1);
-			groups.insert(FavHubGroupsIter::value_type(i->first, iter));
+			groups.insert(UnMapIter::value_type(i->first, iter));
 		}
 
 		string path = WulforManager::get()->getPath() + G_DIR_SEPARATOR_S + "emoticons" + G_DIR_SEPARATOR_S;

@@ -25,7 +25,7 @@
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
 #include <dcpp/FavoriteManager.h>
-
+#include "WulforUtil.hh"
 #include "bookentry.hh"
 #include "treeview.hh"
 
@@ -40,7 +40,6 @@ class FavoriteUsers:
 
 	private:
 		typedef std::map<std::string, std::string> ParamMap;
-		typedef std::unordered_map<std::string, GtkTreeIter> UserIters;
 
 		// GUI functions
 		bool findUser_gui(const std::string &cid, GtkTreeIter *iter);
@@ -86,8 +85,8 @@ class FavoriteUsers:
 		virtual void on(dcpp::FavoriteManagerListener::FavoriteIRemoved, const std::string &nick, dcpp::FavoriteUser* &user) noexcept;
 		virtual void on(dcpp::FavoriteManagerListener::FavoriteIUpdate, const std::string &nick , dcpp::FavoriteUser* &user) noexcept;
 
-		UserIters userIters;
-		UserIters nicksIters;
+		UnMapIter userIters;
+		UnMapIter nicksIters;
 		GdkEventType previous;
 		TreeView favoriteUserView;
 		GtkListStore *favoriteUserStore;

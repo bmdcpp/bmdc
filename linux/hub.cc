@@ -32,7 +32,7 @@
 #include <dcpp/GeoManager.h>
 #include <dcpp/PluginManager.h>
 #include <dcpp/ConnectivityManager.h>
-
+#include "WulforUtil.hh"
 #include "privatemessage.hh"
 #include "search.hh"
 #include "settingsmanager.hh"
@@ -626,7 +626,7 @@ void Hub::setStatus_gui(string statusBar, string text)
 
 bool Hub::findUser_gui(const string &cid, GtkTreeIter *iter)
 {
-	unordered_map<string, GtkTreeIter>::const_iterator it = userIters.find(cid);
+	UnMapIter::const_iterator it = userIters.find(cid);
 
 	if (it != userIters.end())
 	{
@@ -752,7 +752,7 @@ void Hub::updateUser_gui(ParamMap params)
             nickView.col("Client Type"), params["Type"].c_str(),
 			-1);
 
-		userIters.insert(UserIters::value_type(cid, iter));
+		userIters.insert(UnMapIter::value_type(cid, iter));
 
 		if(client->get(HubSettings::ShowJoins) == 1)
 		{

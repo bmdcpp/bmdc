@@ -29,7 +29,7 @@
 #include <dcpp/HighlightManager.h>
 #include <dcpp/PluginDefs.h>
 #include <dcpp/PluginManager.h>
-
+#include "WulforUtil.hh"
 #include "dialogentry.hh"
 #include "treeview.hh"
 
@@ -251,13 +251,12 @@ class Settings:
 
 		typedef std::map<std::string, int> IntMap;
 		typedef std::map<std::string, std::string> StringMap;
-		typedef std::map<std::string, GtkTreeIter> ColorIters;
 
 		IntMap defaultIntTheme;
 		IntMap intMapTheme;
 		StringMap stringMapTheme;
 		StringMap defaultStringTheme;
-		ColorIters colorsIters;
+		UnMapIter colorsIters;
 
 		bool loadFileTheme(const std::string &file);
 		void saveFileTheme(const std::string &file);

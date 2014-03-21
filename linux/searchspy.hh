@@ -26,7 +26,7 @@
 #include <dcpp/DCPlusPlus.h>
 #include <dcpp/ClientManager.h>
 #include <dcpp/TimerManager.h>
-
+#include "WulforUtil.hh"
 #include "bookentry.hh"
 #include "treeview.hh"
 
@@ -42,8 +42,7 @@ class SearchSpy:
 		void preferences_gui();
 
 	private:
-		typedef std::unordered_map<std::string, GtkTreeIter> SearchIters;
-		typedef SearchIters::size_type SearchType;
+		typedef UnMapIter::size_type SearchType;
 
 		// GUI functions
 		bool updateFrameStatus_gui(GtkTreeIter *iter, uint64_t tick);
@@ -81,7 +80,7 @@ class SearchSpy:
 		TreeView searchView;
 		GtkListStore *searchStore;
 		GtkTreeSelection *searchSelection;
-		SearchIters searchIters;
+		UnMapIter searchIters;
 		TreeView topView;
 		GtkListStore *topStore;
 		std::string aSearchColor, cSearchColor, rSearchColor, tSearchColor, qSearchColor;

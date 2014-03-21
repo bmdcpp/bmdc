@@ -46,7 +46,7 @@ FavoriteHubs::FavoriteHubs():
 	favoriteView.insertColumn(_("User Description"), G_TYPE_STRING, TreeView::STRING, 125);
 	favoriteView.insertColumn(_("Encoding"), G_TYPE_STRING, TreeView::STRING, 125);
 	favoriteView.insertColumn(_("Group"), G_TYPE_STRING, TreeView::STRING, 125);
-	favoriteView.insertColumn(_("Status"), G_TYPE_STRING, TreeView::STRING, 20);
+	favoriteView.insertColumn(_("Status"), G_TYPE_STRING, TreeView::STRING, 50);
 	favoriteView.insertHiddenColumn("Hidden Password", G_TYPE_STRING);
 	favoriteView.insertHiddenColumn("FavPointer",G_TYPE_POINTER);
 	favoriteView.insertHiddenColumn("Hide", G_TYPE_INT);
@@ -309,7 +309,7 @@ void FavoriteHubs::onAddEntry_gui(GtkWidget *widget, gpointer data)
 
 	if(!(fh->checkAddys(string(params["Address"]))))
 	{
-		fh->showErrorDialog_gui("Do Not duplicty",fh);
+		fh->showErrorDialog_gui(_("Don't Add Duplicty"),fh);
 		return;	
 	}
 
@@ -324,10 +324,10 @@ void FavoriteHubs::onAddEntry_gui(GtkWidget *widget, gpointer data)
 bool FavoriteHubs::checkAddys(string url)
 {
 	string tmp = url;
-	auto i = tmp.find("dchub://");
+	size_t i = tmp.find("dchub://");
 	if(i == string::npos)
 		return TRUE;
-	auto newhubaddy = tmp.substr(i+1);
+	string newhubaddy = tmp.substr(i+1);
 	
 	GtkTreeIter iter;
 	GtkTreeModel *m = GTK_TREE_MODEL(favoriteStore);
@@ -977,7 +977,7 @@ void FavoriteHubs::saveFavHubGroups()
 	{
 		string group = groupsView.getString(&iter, _("Group name"));
 
-		GroupsIter.insert(FavHubGroupsIter::value_type(group, it));
+		GroupsIter.insert(UnMapIter::value_type(group, it));
 		HubSettings p;
 
 		int log_hub = groupsView.getString(&iter, "LogChat") == "1" ? 1 : 0;
@@ -1306,6 +1306,7 @@ void FavoriteHubs::on(ClientManagerListener::ClientConnected, Client* c) noexcep
 	typedef Func0<FavoriteHubs> F0;
 	F0 *func = new F0(this,&FavoriteHubs::initializeList_client);
 	WulforManager::get()->dispatchGuiFunc(func);
+	
 }
 void FavoriteHubs::on(ClientManagerListener::ClientDisconnected, Client* c) noexcept {
 

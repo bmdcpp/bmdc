@@ -26,7 +26,7 @@
 #include <dcpp/DCPlusPlus.h>
 #include <dcpp/FavoriteManager.h>
 #include <dcpp/ClientManager.h>
-
+#include "WulforUtil.hh"
 #include "bookentry.hh"
 #include "treeview.hh"
 
@@ -41,8 +41,6 @@ class FavoriteHubs:
 		virtual void show();
 
 	private:
-		typedef std::unordered_map<std::string, GtkTreeIter> FavHubGroupsIter;
-
 		// GUI functions
 		void addEntry_gui(dcpp::FavoriteHubEntry* entry,dcpp::StringMap params);
 		void editEntry_gui(dcpp::FavoriteHubEntry* entry, dcpp::StringMap &params, GtkTreeIter *iter);
@@ -96,7 +94,7 @@ class FavoriteHubs:
 		GtkListStore *favoriteStore, *groupsStore;
 		GtkTreeSelection *favoriteSelection, *groupsSelection;
 		GdkEventType previous;
-		FavHubGroupsIter GroupsIter;
+		UnMapIter GroupsIter;
 		
 		bool checkAddys(std::string url);//True if not find in FavList
 

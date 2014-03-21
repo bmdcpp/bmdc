@@ -28,8 +28,8 @@ class FuncBase
 		FuncBase() {}
 		virtual ~FuncBase() {}
 		static bool call_(gpointer d) {
-		  FuncBase *f = (FuncBase*)d;	
-			return f->call(f);
+		 // FuncBase *f = (FuncBase*)d;	
+			return ((FuncBase*)d)->call(d);
 		};
 		virtual bool call(gpointer d) = 0;
 		virtual const std::string& getID() = 0;

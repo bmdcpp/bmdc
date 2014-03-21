@@ -47,7 +47,7 @@ SearchSpy::SearchSpy():
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("topSpinButton")), (double)Top);
 
 	// menu
-	//g_object_ref_sink(getWidget("menu"));
+	g_object_ref_sink(getWidget("menu"));
 
 	// Initialize search list treeview
 	searchView.setView(GTK_TREE_VIEW(getWidget("searchSpyView")), TRUE, "searchspy");
@@ -111,7 +111,7 @@ SearchSpy::~SearchSpy()
 	WSET("search-spy-top", (int)gtk_spin_button_get_value(GTK_SPIN_BUTTON(getWidget("topSpinButton"))));
 
 	gtk_widget_destroy(getWidget("TopSearchDialog"));
-	//g_object_unref(getWidget("menu"));
+	g_object_unref(getWidget("menu"));
 
 	TimerManager::getInstance()->removeListener(this);
 	ClientManager::getInstance()->removeListener(this);
@@ -141,7 +141,7 @@ void SearchSpy::preferences_gui()
 	string color, order;
 	GtkTreeIter iter;
 
-	for (SearchIters::const_iterator it = searchIters.begin(); it != searchIters.end(); ++it)
+	for (UnMapIter::const_iterator it = searchIters.begin(); it != searchIters.end(); ++it)
 	{
 		iter = it->second;
 		order = searchView.getString(&iter, "order");
@@ -182,7 +182,7 @@ void SearchSpy::resetFrame()
 		SearchType i = 0;
 		gtk_tree_selection_select_all(searchSelection);
 
-		for (SearchIters::const_iterator it = searchIters.begin(); it != searchIters.end(); ++it)
+		for (UnMapIter::const_iterator it = searchIters.begin(); it != searchIters.end(); ++it)
 		{
 			if (++i > FrameSize)
 				break;
@@ -196,7 +196,7 @@ void SearchSpy::resetFrame()
 
 bool SearchSpy::findIter_gui(const string &search, GtkTreeIter *iter)
 {
-	SearchIters::const_iterator it = searchIters.find(search);
+	UnMapIter::const_iterator it = searchIters.find(search);
 
 	if (it != searchIters.end())
 	{
@@ -284,7 +284,7 @@ void SearchSpy::updateFrameSearch_gui(const string search, const string type)
 			{
 				string oldstring = searchView.getString(&iter, _("Search String"));
 				searchIters.erase(oldstring);
-				searchIters.insert(SearchIters::value_type(search, iter));
+				searchIters.insert(UnMapIter::value_type(search, iter));
 
 				tick = GET_TICK();
 
@@ -314,7 +314,7 @@ void SearchSpy::updateFrameSearch_gui(const string search, const string type)
 			searchView.col("order"), "a",
 			-1);
 
-		searchIters.insert(SearchIters::value_type(search, iter));
+		searchIters.insert(UnMapIter::value_type(search, iter));
 		updateFrameStatus_gui(NULL, tick);
 	}
 }
@@ -330,7 +330,7 @@ bool SearchSpy::updateFrameStatus_gui(GtkTreeIter *iter, uint64_t tick)
 	GtkTreeIter itree;
 	string color;
 
-	for (SearchIters::const_iterator it = searchIters.begin(); it != searchIters.end(); ++it)
+	for (UnMapIter::const_iterator it = searchIters.begin(); it != searchIters.end(); ++it)
 	{
 		itree = it->second;
 		uint64_t gettick = searchView.getValue<uint64_t>(&itree, "tick");
@@ -420,7 +420,7 @@ void SearchSpy::onOKButtonClicked_gui(GtkWidget *widget, gpointer data)
 void SearchSpy::resetCount()
 {
 	GtkTreeIter iter;
-	for (SearchIters::const_iterator it = searchIters.begin(); it != searchIters.end(); ++it)
+	for (UnMapIter::const_iterator it = searchIters.begin(); it != searchIters.end(); ++it)
 	{
 		iter = it->second;
 		guint count = searchView.getValue<guint>(&iter, "count");

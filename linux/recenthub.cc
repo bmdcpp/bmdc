@@ -84,7 +84,7 @@ void RecentHubs::show()
 			recentView.col(_("Users")), (*i)->getUsers().c_str(),
 			recentView.col(_("Shared")), Util::formatBytes((*i)->getShared()).c_str(),
 			-1);
-		recIters.insert(RecIters::value_type((*i)->getServer(), iter));
+		recIters.insert(UnMapIter::value_type((*i)->getServer(), iter));
 
 	}
 	
@@ -244,7 +244,7 @@ void RecentHubs::removeRecent_client(const string adr)
 
 bool RecentHubs::findRecent_gui(const string &cid, GtkTreeIter *iter)
 {
-	RecIters::const_iterator it = recIters.find(cid);
+	UnMapIter::const_iterator it = recIters.find(cid);
 
 	if (it != recIters.end())
 	{
@@ -282,7 +282,7 @@ void RecentHubs::updateRecent_gui(ParamMap params)
 			recentView.col(_("Shared")), params["Shared"].c_str(),
 			-1);
 
-		recIters.insert(RecIters::value_type(server, iter));
+		recIters.insert(UnMapIter::value_type(server, iter));
 	}
 }
 

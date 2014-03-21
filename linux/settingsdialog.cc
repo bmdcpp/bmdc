@@ -2300,7 +2300,7 @@ void Settings::addPreviewUL_gui(GtkListStore *store, const std::string &name, co
 			2, color.c_str(),
 			3, back.c_str(),
 			-1);
-	colorsIters.insert(ColorIters::value_type(name, iter));
+	colorsIters.insert(UnMapIter::value_type(name, iter));
 }
 
 void Settings::onAddSTButton_gui(GtkWidget *widget, gpointer data)
@@ -3822,7 +3822,7 @@ void Settings::setColorUL()
 		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(dialog),&color);
 		string strcolor = WulforUtil::colorToString(&color);
 
-		ColorIters::const_iterator qp = colorsIters.find(_("User ") + currname);
+		UnMapIter::const_iterator qp = colorsIters.find(_("User ") + currname);
 		GtkTreeIter qiter = qp->second;
 
 		gtk_list_store_set(userListStore2, &qiter, userListPreview.col("Color"), strcolor.c_str(), -1);
@@ -3833,7 +3833,7 @@ void Settings::setColorUL()
 
 void Settings::setDefaultColor(string color, string name, GtkTreeIter *iter)
 {
-	ColorIters::const_iterator qp = colorsIters.find(_("User ") + name);
+	UnMapIter::const_iterator qp = colorsIters.find(_("User ") + name);
 	GtkTreeIter qiter = qp->second;
 
 	gtk_list_store_set(userListStore2, &qiter, userListPreview.col("Color"), color.c_str(), -1);

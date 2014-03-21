@@ -155,7 +155,7 @@ void AboutConfig::addItem_gui(string rowname, string isdefault, string types, st
 				aboutView.col("WS"), isWulf ? "1" : "0", 
 	-1);
 	
-	aboutIters.insert(AboutIters::value_type(rowname,iter));
+	aboutIters.insert(UnMapIter::value_type(rowname,iter));
 	
 }
 
@@ -175,7 +175,7 @@ void AboutConfig::updateItem_gui(string rowname, string value)
 
 bool AboutConfig::findAboutItem_gui(const string &about, GtkTreeIter *iter)
 {
-	AboutIters::const_iterator it = aboutIters.find(about);
+	UnMapIter::const_iterator it = aboutIters.find(about);
 
 	if (it != aboutIters.end())
 	{

@@ -123,7 +123,7 @@ void FavoriteUsers::show()
 			favoriteUserView.col("Ign"), string(user.isSet(FavoriteUser::FLAG_IGNORE) ? "1" : "0").c_str(),
 			-1);
 
-		userIters.insert(UserIters::value_type(cid, iter));
+		userIters.insert(UnMapIter::value_type(cid, iter));
 	}
 	
 	auto nickmap = FavoriteManager::getInstance()->getFavoritesIndepentOnCid();
@@ -144,7 +144,7 @@ void FavoriteUsers::show()
 			favoriteUserView.col("URL"), "n/a",
 			favoriteUserView.col("Icon"), "bmdc-normal",
 		-1);
-		nicksIters.insert(UserIters::value_type(nt->first, iter));
+		nicksIters.insert(UnMapIter::value_type(nt->first, iter));
 		
 	}	
 	FavoriteManager::getInstance()->addListener(this);
@@ -678,7 +678,7 @@ void FavoriteUsers::setDesc_client(const string nick, const string desc)
 
 bool FavoriteUsers::findUser_gui(const string &cid, GtkTreeIter *iter)
 {
-	UserIters::const_iterator it = userIters.find(cid);
+	UnMapIter::const_iterator it = userIters.find(cid);
 
 	if (it != userIters.end())
 	{
@@ -693,7 +693,7 @@ bool FavoriteUsers::findUser_gui(const string &cid, GtkTreeIter *iter)
 
 bool FavoriteUsers::findNicks_gui(const string &nick, GtkTreeIter *iter)
 {
-	UserIters::const_iterator it = nicksIters.find(nick);
+	UnMapIter::const_iterator it = nicksIters.find(nick);
 	if(it!= nicksIters.end())
 	{
 		
@@ -728,7 +728,7 @@ void FavoriteUsers::updateFavoriteUser_gui(ParamMap params)
 			favoriteUserView.col("Ign"), params["ign"].c_str(),
 			-1);
 
-		userIters.insert(UserIters::value_type(cid, iter));
+		userIters.insert(UnMapIter::value_type(cid, iter));
 	}
 }
 
@@ -753,7 +753,7 @@ void FavoriteUsers::updateFavoriteNicks_gui(ParamMap params)
 			favoriteUserView.col("URL"), params["URL"].c_str(),
 			favoriteUserView.col("Icon"), "bmdc-normal",//todo another icon maybe
 			-1);
-		nicksIters.insert(UserIters::value_type(nick, iter));	
+		nicksIters.insert(UnMapIter::value_type(nick, iter));	
 	}
 }
 

@@ -33,6 +33,8 @@
 #include <dcpp/Util.h>
 
 #define C_EMPTY(x) ((x) == NULL || (x)[0] == '\0')
+//Some typedefs :p
+typedef std::unordered_map<std::string, GtkTreeIter> UnMapIter;
 
 class WulforUtil
 {
@@ -100,7 +102,7 @@ class WulforUtil
 		static const std::string ENCODING_LOCALE;
 		static const std::string commands;
 		
-		static void setTextDeufaults(GtkWidget* widget,std::string strcolor)
+		static void setTextDeufaults(GtkWidget* widget, std::string strcolor)
 		{
 			// Intialize the chat window
 			if (SETTING(USE_OEM_MONOFONT))

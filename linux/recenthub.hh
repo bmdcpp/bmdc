@@ -26,7 +26,7 @@
 #include <dcpp/DCPlusPlus.h>
 #include <dcpp/FavoriteManager.h>
 #include <dcpp/FavoriteManagerListener.h>
-
+#include "WulforUtil.hh"
 #include "bookentry.hh"
 #include "treeview.hh"
 
@@ -41,7 +41,6 @@ class RecentHubs:
 
 	private:
 		typedef std::map<std::string, std::string> ParamMap;
-		typedef std::unordered_map<std::string, GtkTreeIter> RecIters;
 
 		bool findRecent_gui(const std::string &cid, GtkTreeIter *iter);
 		void updateRecent_gui(ParamMap params);
@@ -62,7 +61,7 @@ class RecentHubs:
 		virtual void on(dcpp::FavoriteManagerListener::RecentRemoved, const dcpp::RecentHubEntry *entry) noexcept;
 		virtual void on(dcpp::FavoriteManagerListener::RecentAdded, const dcpp::RecentHubEntry *entry) noexcept;
 
-		RecIters recIters;
+		UnMapIter recIters;
 		GdkEventType previous;
 		TreeView recentView;
 		GtkListStore *recentStore;
