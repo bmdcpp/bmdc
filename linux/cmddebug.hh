@@ -134,13 +134,15 @@ class cmddebug:
 				model = gtk_combo_box_get_model( GTK_COMBO_BOX(getWidget("comboboxadr")) );
 				gtk_tree_model_get( model, &piter, 0, &fUrl, -1 );
 			}
-			if((gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("by_ip_button"))) == TRUE) || (!(fUrl == NULL) && (ip == fUrl) ))
-				addCmd("\t"+getType(type,dir)+"\tIP (Address):\t"+ip+"\t:\t"+m);
+			std::string tmp(fUrl);
+			g_free(fUrl);
+			if((gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("by_ip_button"))) == TRUE) || ( !tmp.empty() && (ip == tmp) ))
+				addCmd("\t"+getType(type,dir)+"\tIP (Address): \t"+ip+" \t:\t "+m);
 			else
-				addCmd("\t"+getType(type,dir)+"\tIP (Address):\t"+ip+"\t:\t"+m);
+				addCmd("\t"+getType(type,dir)+"\tIP (Address): \t"+ip+" \t:\t "+m);
 	}
 	virtual void on(dcpp::DebugManagerListener::DebugDetection, const std::string& m) noexcept {
-		addCmd(m);
+				addCmd(m);
 	}
 
 };

@@ -70,7 +70,7 @@ EmoticonsDialog::~EmoticonsDialog()
 	map<std::string,Emoticons*>::iterator it;
 	if( (it = hubs.find(address)) != hubs.end() )
 	{
-			it->second->stop();
+			delete it->second;
 			hubs.erase(it);
 	}
 
@@ -80,7 +80,7 @@ EmoticonsDialog::~EmoticonsDialog()
 
 void EmoticonsDialog::buildEmotMenu_gui()
 {
-	gtk_container_foreach(GTK_CONTAINER(Menu), (GtkCallback) gtk_widget_destroy, NULL);
+	gtk_container_foreach(GTK_CONTAINER(Menu), (GtkCallback)gtk_widget_destroy, NULL);
 
 	GtkWidget *item;
 
@@ -214,7 +214,6 @@ void EmoticonsDialog::onCheckPacksMenu(GtkMenuItem *checkItem, gpointer data)
 {
 	EmoticonsDialog *ed = (EmoticonsDialog *)data;	
 	string currPackName = (gchar *)g_object_get_data(G_OBJECT(checkItem), "current-pack-name");
-
 	{
 		ed->getEmot(ed->address)->setCurrPackName_gui(currPackName);
 		ed->getEmot(ed->address)->reloadPack_gui();
