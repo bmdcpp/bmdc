@@ -1,5 +1,6 @@
 /*
  * Copyright © 2004-2014 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2011-2014 Mank freedcpp@seznam.cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,8 +43,8 @@ class FavoriteHubs:
 
 	private:
 		// GUI functions
-		void addEntry_gui(dcpp::FavoriteHubEntry* entry,dcpp::StringMap params);
-		void editEntry_gui(dcpp::FavoriteHubEntry* entry, dcpp::StringMap &params, GtkTreeIter *iter);
+		void addEntry_gui(dcpp::FavoriteHubEntry* entry);
+		void editEntry_gui(dcpp::FavoriteHubEntry* entry, GtkTreeIter *iter);
 		void removeEntry_gui(std::string address);
 		void removeGroupComboBox_gui(const std::string &group);
 		void addGroupComboBox_gui(const std::string &group);
@@ -54,9 +55,6 @@ class FavoriteHubs:
 		void saveFavHubGroups();
 		void initFavHubGroupsDialog_gui();
 		bool checkEntry_gui(std::string address_old, std::string address_new);
-//		void initActions();
-//		void setRawActions_gui(FavoriteHubs *fh, dcpp::StringMap params);
-//		void setRawActions_client(FavoriteHubs *fh, dcpp::StringMap params);
 
 		// GUI callbacks
 		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
@@ -77,9 +75,8 @@ class FavoriteHubs:
 
 		// Client functions
 		void initializeList_client();
-		void getFavHubParams_client(const dcpp::FavoriteHubEntry *entry, dcpp::StringMap &params);
-		void addEntry_client(dcpp::StringMap params);
-		void editEntry_client(std::string address, dcpp::StringMap params);
+		void addEntry_client(dcpp::FavoriteHubEntry entry);
+		void editEntry_client(dcpp::FavoriteHubEntry* entry,std::string address);
 		void removeEntry_client(std::string address);
 
 		// Client callbacks

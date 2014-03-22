@@ -41,6 +41,8 @@ class FavoriteHubDialog: public Entry
 	p_entry(entry),
 	init(add), actionStore(NULL), actionSel(NULL)
 	{
+		if(init)
+			p_entry = new FavoriteHubEntry();
 		///Actions
 		actionView.setView(GTK_TREE_VIEW(getWidget("rawview")));
 		actionView.insertColumn(_("Name"), G_TYPE_STRING,TreeView::STRING,100);
@@ -59,7 +61,7 @@ class FavoriteHubDialog: public Entry
 		g_signal_connect(actionView.getCellRenderOf(_("Enabled")), "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
 	}
 
-	bool initDialog(UnMapIter &groups, dcpp::StringMap &params)
+	bool initDialog(UnMapIter &groups)
 	{
 		FavHubGroups favHubGroups = FavoriteManager::getInstance()->getFavHubGroups();
 
@@ -68,7 +70,7 @@ class FavoriteHubDialog: public Entry
 
 		gtk_list_store_append(store, &iter);
 		gtk_list_store_set(store, &iter, 0, _("Default"), -1);
-		groups.insert(UnMapIter::value_type(_("Default"),iter));
+		groups.insert(UnMapIter::value_type(_("Default"), iter));
 
 		for (auto i = favHubGroups.begin(); i != favHubGroups.end(); ++i)
 		{
@@ -86,38 +88,6 @@ class FavoriteHubDialog: public Entry
 			string text = file.substr(0,nedle);
 			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxEmot")), text.c_str() );
 		}
-
-		if(init) //Default values when adding
-		{
-			params["Name"] = Util::emptyString;
-			params["Address"] = Util::emptyString;
-			params["Description"] = Util::emptyString;
-			params["Nick"] = Util::emptyString;
-			params["Password"] = Util::emptyString;
-			params["User Description"] = Util::emptyString;
-			params["Encoding"] = Util::emptyString;
-			params["Group"] = Util::emptyString;
-			params["IP"] = Util::emptyString;
-			params["Mode"] = "0";
-			params["Auto Connect"] = "0";
-			params["Hide"] = "0";
-			params["Clients"] = "0";
-			params["Filelists"] = "0";
-			params["OnConnect"] = "0";
-			params["ExtraInfo"] = Util::emptyString;
-			params["Protected"] = Util::emptyString;
-			params["eMail"] = Util::emptyString;
-			params["Parts"] = Util::emptyString;
-			params["FavParts"] = Util::emptyString;
-			params["LogChat"] = Util::emptyString;
-			params["Away"] = Util::emptyString;
-			params["Notify"] = "0";
-			params["Country"] = "0";
-			params["showip"] = "0";
-			params["BoldTab"] = "1";
-			params["PackName"] = "bmicon";//emoticons
-
-		}//end
 
 		gtk_dialog_set_alternative_button_order(GTK_DIALOG(getContainer()), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
 		gtk_widget_set_sensitive(getWidget("comboboxCharset"), FALSE);
@@ -137,24 +107,24 @@ class FavoriteHubDialog: public Entry
 
 		initActions();
 		// Populate the dialog with initial values
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryName")), params["Name"].c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryAddress")), params["Address"].c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryDescription")), params["Description"].c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryNick")), params["Nick"].c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryPassword")), params["Password"].c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryUserDescription")), params["User Description"].c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryIp")), params["IP"].c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryExtraInfo")), params["ExtraInfo"].c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryprotected")), params["Protected"].c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryeMail")), params["eMail"].c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryAway")), params["Away"].c_str());
+		gtk_entry_set_text(GTK_ENTRY(getWidget("entryName")), p_entry->getName().c_str());
+		gtk_entry_set_text(GTK_ENTRY(getWidget("entryAddress")), p_entry->getServer().c_str());
+		gtk_entry_set_text(GTK_ENTRY(getWidget("entryDescription")), p_entry->getHubDescription().c_str());
+		gtk_entry_set_text(GTK_ENTRY(getWidget("entryNick")), p_entry->get(HubSettings::Nick).c_str());
+		gtk_entry_set_text(GTK_ENTRY(getWidget("entryPassword")), p_entry->getPassword().c_str());
+		gtk_entry_set_text(GTK_ENTRY(getWidget("entryUserDescription")),p_entry->get(HubSettings::Description).c_str());
+		gtk_entry_set_text(GTK_ENTRY(getWidget("entryIp")), p_entry->get(HubSettings::UserIp).c_str());
+		gtk_entry_set_text(GTK_ENTRY(getWidget("entryExtraInfo")), p_entry->getChatExtraInfo().c_str());
+		gtk_entry_set_text(GTK_ENTRY(getWidget("entryprotected")), p_entry->getProtectUsers().c_str());
+		gtk_entry_set_text(GTK_ENTRY(getWidget("entryeMail")), p_entry->get(HubSettings::Email).c_str());
+		gtk_entry_set_text(GTK_ENTRY(getWidget("entryAway")), p_entry->get(HubSettings::AwayMessage).c_str());
 
 
-		gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxMode")), Util::toInt64(params["Mode"]));
-		gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxParts")), Util::toInt64(params["Parts"]));
-		gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxFavParts")), Util::toInt64(params["FavParts"]));
+		gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxMode")), p_entry->getMode());
+		gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxParts")), p_entry->get(HubSettings::ShowJoins));
+		gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxFavParts")), p_entry->get(HubSettings::FavShowJoins));
 
-		auto it = groups.find(params["Group"]);
+		auto it = groups.find(p_entry->getGroup());
 		if (it != groups.end())
 		{
 			GtkTreeIter iter = it->second;
@@ -165,47 +135,47 @@ class FavoriteHubDialog: public Entry
 
 		// Set the override default encoding checkbox. Check for "Global hub default"
 		// for backwards compatability w/ 1.0.3. Should be removed at some point.
-		gboolean overrideEncoding = !(params["Encoding"].empty() || params["Encoding"] == "Global hub default");
+		string enc = p_entry->getEncoding();
+		gboolean overrideEncoding = !(enc.empty() || enc == "Global hub default");
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonEncoding")), overrideEncoding);
 
 		for(auto ii = charsets.begin(); ii!=charsets.end(); ++ii) {
-			if(params["Encoding"] == *ii) {
+			if(enc == *ii) {
 				gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxCharset")), (ii - charsets.begin()));
 			}
 		}
-		
+		string pack_name = p_entry->get(HubSettings::PackName);
 		for(auto fii = files.begin(); fii!= files.end(); ++fii) {
-			auto needle = Util::getFileName(*fii).find(".");
+			size_t needle = Util::getFileName(*fii).find(".");
 			string tmp  = Util::getFileName(*fii).substr(0,needle);
-			if(params["PackName"] == tmp) {
+			if(pack_name == tmp) {
 				gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxEmot")), (fii - files.begin()));
 			}
 		}
 
 		// Set the override default nick checkbox
-		gboolean overrideNick = !(params["Nick"].empty() || params["Nick"] == SETTING(NICK));
+		string nick = p_entry->get(HubSettings::Nick);
+		gboolean overrideNick = !(nick.empty() || nick == SETTING(NICK));
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonNick")), overrideNick);
 
 		// Set the override default user description checkbox
-		gboolean overrideUserDescription = !(params["User Description"].empty() || params["User Description"] == SETTING(DESCRIPTION));
+		string desc = p_entry->get(HubSettings::Description);
+		gboolean overrideUserDescription = !(desc.empty() || desc == SETTING(DESCRIPTION));
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonUserDescription")), overrideUserDescription);
 
-
-		auto f = [this,&params](std::string name) -> gboolean { return params[name] == "1" ? TRUE : FALSE; };
 		// Set the auto connect checkbox
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkButtonAutoConnect")), f("Auto Connect"));
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkHide")), f("Hide"));
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkFilelist")), f("Filelists"));
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkClients")), f("Clients") );
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkoncon")), f("OnConnect")  );
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkLog")), f("LogChat") );
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkNoti")), f("Notify") );
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkShowCountry")), f("Country"));
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkShowIp")), f("showip") );
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkTabBold")), f("BoldTab") );
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkButtonAutoConnect")), p_entry->getAutoConnect());
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkHide")), p_entry->getHideShare() );
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkFilelist")), p_entry->getCheckFilelists()   );
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkClients")), p_entry->getCheckClients() );
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkoncon")),  p_entry->getCheckAtConn()  );
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkLog")),   p_entry->get(HubSettings::LogChat)  );
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkNoti")), p_entry->getNotify() );
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkShowCountry")), p_entry->get(HubSettings::ShowCountry) );
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkShowIp")), p_entry->get(HubSettings::ShowIps) );
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkTabBold")), p_entry->get(HubSettings::BoldTab) );
 		WulforManager::get()->insertEntry_gui(this);
 
-		//fh->setRawActions_gui(fh,params);
 		// Show the dialog
 		gint response = gtk_dialog_run(GTK_DIALOG(getContainer()));
 
@@ -215,36 +185,35 @@ class FavoriteHubDialog: public Entry
 
 		while (response == GTK_RESPONSE_OK)
 		{
-			params.clear();
-			params["Name"] = gtk_entry_get_text(GTK_ENTRY(getWidget("entryName")));
-			params["Address"] = gtk_entry_get_text(GTK_ENTRY(getWidget("entryAddress")));
-			params["Description"] = gtk_entry_get_text(GTK_ENTRY(getWidget("entryDescription")));
-			params["Password"] = gtk_entry_get_text(GTK_ENTRY(getWidget("entryPassword")));
-			params["Group"] = Util::emptyString;
-			params["ExtraInfo"] = gtk_entry_get_text(GTK_ENTRY(getWidget("entryExtraInfo")));
-			params["IP"] = gtk_entry_get_text(GTK_ENTRY(getWidget("entryIp")));
-			params["Protected"] = gtk_entry_get_text(GTK_ENTRY(getWidget("entryprotected")));
-			params["Notify"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkNoti"))) ? "1" : "0";
-			params["Mode"] = Util::toString(gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("comboboxMode"))));
-			params["Auto Connect"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkButtonAutoConnect"))) ? "1" : "0";
-			params["LogChat"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkLog"))) ? "1" : "0";
-			params["Hide"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkHide"))) ? "1" : "0";
-			params["OnConnect"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkoncon"))) ? "1" : "0";
-			params["Filelists"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkFilelist"))) ? "1" : "0";
-			params["Clients"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkClients"))) ? "1" : "0";
-			params["showip"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkShowIp"))) ? "1" : "0";
-			params["BoldTab"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkTabBold"))) ? "1" : "0";
-			params["Country"] = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkShowCountry"))) ? "1" : "0";
-			params["eMail"] = gtk_entry_get_text(GTK_ENTRY(getWidget("entryeMail")));
-			params["Parts"] = Util::toString(gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("comboboxParts"))));
-			params["FavParts"] = Util::toString(gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("comboboxFavParts"))));
-			params["Away"] = gtk_entry_get_text(GTK_ENTRY(getWidget("entryAway")));
+			p_entry->setName(gtk_entry_get_text(GTK_ENTRY(getWidget("entryName"))));
+			p_entry->setServer(gtk_entry_get_text(GTK_ENTRY(getWidget("entryAddress"))));
+			p_entry->setHubDescription(gtk_entry_get_text(GTK_ENTRY(getWidget("entryDescription"))));
+			p_entry->setPassword(gtk_entry_get_text(GTK_ENTRY(getWidget("entryPassword"))));
+			p_entry->setGroup(Util::emptyString);
+			p_entry->setChatExtraInfo(gtk_entry_get_text(GTK_ENTRY(getWidget("entryExtraInfo"))));
+			p_entry->get(HubSettings::UserIp) = gtk_entry_get_text(GTK_ENTRY(getWidget("entryIp")));
+			p_entry->setProtectUsers(gtk_entry_get_text(GTK_ENTRY(getWidget("entryprotected"))));
+			p_entry->setNotify(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkNoti"))));
+			p_entry->setMode(gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("comboboxMode"))));
+			p_entry->setAutoConnect(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkButtonAutoConnect"))));
+			p_entry->get(HubSettings::LogChat) = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkLog")));
+			p_entry->setHideShare(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkHide"))));
+			p_entry->setCheckAtConn(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkoncon"))));
+			p_entry->setCheckFilelists(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkFilelist"))));
+			p_entry->setCheckClients(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkClients"))));
+			p_entry->get(HubSettings::ShowIps) = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkShowIp")));
+			p_entry->get(HubSettings::BoldTab) = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkTabBold")));
+			p_entry->get(HubSettings::ShowCountry) = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkShowCountry")));
+			p_entry->get(HubSettings::Email) = gtk_entry_get_text(GTK_ENTRY(getWidget("entryeMail")));
+			p_entry->get(HubSettings::ShowJoins) =  gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("comboboxParts")));
+			p_entry->get(HubSettings::FavShowJoins) = gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("comboboxFavParts")));
+			p_entry->get(HubSettings::AwayMessage) = gtk_entry_get_text(GTK_ENTRY(getWidget("entryAway")));
 
 			if (gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("groupsComboBox"))) != 0)
 			{
 				gchar *group = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(getWidget("groupsComboBox")));
 				if(group) {
-					params["Group"] = string(group);
+					p_entry->setGroup(string(group));
 					g_free(group);
 			   	}
 			}
@@ -254,7 +223,7 @@ class FavoriteHubDialog: public Entry
 			gchar *encoding = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxCharset")));
 			if(encoding)
 			{
-				params["Encoding"] = string(encoding);
+				p_entry->setEncoding(string(encoding));
 				g_free(encoding);
 			}
 		}
@@ -262,23 +231,21 @@ class FavoriteHubDialog: public Entry
 		gchar *pack = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxEmot")));
 		if(pack)
 		{
-			params["PackName"] = string(pack);
+			p_entry->get(HubSettings::PackName) = string(pack);
 			g_free(pack);
 		}
 
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonNick"))))
 		{
-			params["Nick"] = gtk_entry_get_text(GTK_ENTRY(getWidget("entryNick")));
+			p_entry->get(HubSettings::Nick) = gtk_entry_get_text(GTK_ENTRY(getWidget("entryNick")));
 		}
 
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonUserDescription"))))
 		{
-			params["User Description"] = gtk_entry_get_text(GTK_ENTRY(getWidget("entryUserDescription")));
+			p_entry->get(HubSettings::Description) = gtk_entry_get_text(GTK_ENTRY(getWidget("entryUserDescription")));
 		}
 
-//		fh->setRawActions_client(fh,params);
-
-		if (params["Name"].empty() || params["Address"].empty())
+		if (p_entry->getName().empty() || p_entry->getServer().empty())
 		{
 			if (showErrorDialog_gui(_("The name and address fields are required")))
 			{
