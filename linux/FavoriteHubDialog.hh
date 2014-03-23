@@ -41,8 +41,6 @@ class FavoriteHubDialog: public Entry
 	p_entry(entry),
 	init(add), actionStore(NULL), actionSel(NULL)
 	{
-		if(init)
-			p_entry = new FavoriteHubEntry();
 		///Actions
 		actionView.setView(GTK_TREE_VIEW(getWidget("rawview")));
 		actionView.insertColumn(_("Name"), G_TYPE_STRING,TreeView::STRING,100);

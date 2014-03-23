@@ -60,6 +60,8 @@ struct HubSettings
 	};
 
 	HubSettings();
+	HubSettings(const HubSettings& rhs) { *this = rhs; }
+	HubSettings& operator=(const HubSettings& rhs);
 
 	const string& get(HubStrSetting setting) const;
 	const int& get(HubBoolSetting setting) const;

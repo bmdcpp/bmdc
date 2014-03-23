@@ -28,7 +28,7 @@ public:
 	FavoriteUser() : lastSeen(time(NULL)) { }
 	FavoriteUser(const UserPtr& user_, const string& nick_, const string& hubUrl_) : user(user_), url(hubUrl_), lastSeen(0), nick(nick_) 
 	{ 
-			nicks.push_back(nick);
+		nicks.push_back(nick);
 	}
 
 	enum Flags {
@@ -72,7 +72,7 @@ public:
 			num++;
 		 }
 
-		return _nicks+";";
+		return _nicks+string( num == 0 ? "" : ";");
 	}
 	void setNicks(vector<string> _nicks) {
 			nicks = _nicks;

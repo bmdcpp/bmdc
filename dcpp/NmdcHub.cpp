@@ -95,7 +95,6 @@ OnlineUser& NmdcHub::getUser(const string& aNick) {
 		if(u->getUser() == getMyIdentity().getUser()) {
 			setMyIdentity(u->getIdentity());
 		}
-
 	}
 
 	ClientManager::getInstance()->putOnline(u);

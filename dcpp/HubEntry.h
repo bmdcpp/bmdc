@@ -76,10 +76,11 @@ public:
 hideShare(false),autoConnect(false),mode(0),chatExtraInfo(Util::emptyString), protectUsers(Util::emptyString), 
 checkAtConn(false), checkClients(false), checkFilelists(false),  checkMyInfo(false), showUserList(true),
 order("0,1,2,3,4,5,6,7,8,9,10,11,12,13,14"),visible("1,1,1,1,1,1,1,1,1,1,1,1,1,1,1"),width("157,75,85,100,85,85,90,70,100,50,50,80,80,80,80"),
-tabText(Util::emptyString) , tabIconStr(Util::emptyString) , notify(true)
+tabText(Util::emptyString) , tabIconStr(Util::emptyString) , notify(false)
 		{ }
 
 	FavoriteHubEntry(const FavoriteHubEntry& rhs) :
+		HubSettings(rhs),
 		name(rhs.getName()), server(rhs.getServer()), hubDescription(rhs.getHubDescription()),
 		password(rhs.getPassword()), encoding(rhs.getEncoding()), group(rhs.getGroup()), hideShare(rhs.hideShare),
 		autoConnect(rhs.autoConnect),  mode(rhs.mode), chatExtraInfo(rhs.chatExtraInfo),

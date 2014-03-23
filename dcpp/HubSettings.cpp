@@ -93,4 +93,16 @@ void HubSettings::save(SimpleXML& xml) const {
 	}
 }
 
+
+HubSettings& HubSettings::operator=(const HubSettings& rhs)
+{
+	for(int i = 0; i <BoolCount;++i)
+			bools[i] = rhs.bools[i];
+
+	for(int i = 0; i <StringCount;++i)
+			strings[i] = rhs.strings[i];
+
+	return *this;
+}
+
 } // namespace dcpp

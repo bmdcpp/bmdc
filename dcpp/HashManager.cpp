@@ -85,7 +85,7 @@ void HashManager::hashDone(const string& aFileName, uint32_t aTimeStamp, const T
 void HashManager::HashStore::addFile(const string& aFileName, uint32_t aTimeStamp, const TigerTree& tth, bool aUsed) {
 	addTree(tth);
 
-	auto fname = Util::getFileName(aFileName), fpath = Util::getFilePath(aFileName);
+	string fname = Util::getFileName(aFileName), fpath = Util::getFilePath(aFileName);
 
 	auto& fileList = fileIndex[fpath];
 
