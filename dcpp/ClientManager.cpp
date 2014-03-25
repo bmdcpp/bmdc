@@ -261,9 +261,9 @@ UserPtr ClientManager::getUser(const string& aNick, const string& aHubUrl) noexc
 		return ui->second;
 	}
 
-	UserPtr p(new User(cid));
+	UserPtr p = make_shared<User>(User(cid));
 	p->setFlag(User::NMDC);
-	p->inc();
+	//p->inc();
 	users.emplace(cid,p);
 
 	return p;
@@ -279,8 +279,9 @@ UserPtr ClientManager::getUser(const CID& cid) noexcept {
 		return getMe();
 	}
 
-	UserPtr p(new User(cid));
-	p->inc();
+	//UserPtr p(new User(cid));
+	UserPtr p = make_shared<User>(User(cid));
+	//p->inc();
 	users.emplace(cid,p);
 	return p;
 }
@@ -351,7 +352,7 @@ void ClientManager::putOffline(OnlineUser* ou, bool disconnect) noexcept {
 		if(disconnect)
 			ConnectionManager::getInstance()->disconnect(u);
 		fire(ClientManagerListener::UserDisconnected(), u);
-		u.get()->dec();
+		//u.get()->dec();
 		if(u.unique())
 		{
 			Lock l(cs);
