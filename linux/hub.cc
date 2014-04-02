@@ -32,6 +32,7 @@
 #include <dcpp/GeoManager.h>
 #include <dcpp/PluginManager.h>
 #include <dcpp/ConnectivityManager.h>
+#include <dcpp/HighlightManager.h>
 #include "WulforUtil.hh"
 #include "privatemessage.hh"
 #include "search.hh"
@@ -112,14 +113,7 @@ Hub::Hub(const string &address, const string &encoding):
 	set_Header_tooltip_gui();
 
 	// Initialize the chat window
-	/*if (SETTING(USE_OEM_MONOFONT))
-	{
-		PangoFontDescription *fontDesc = pango_font_description_new();
-		pango_font_description_set_family(fontDesc, "Mono");
-		gtk_widget_override_font(getWidget("chatText"), fontDesc);
-		pango_font_description_free(fontDesc);
-	}*/
-	//..set Colors
+	//Set Colors
 	WulforUtil::setTextDeufaults(getWidget("chatText"),WGETS("background-color-chat"));
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
 	chatBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(getWidget("chatText")));
@@ -298,7 +292,6 @@ Hub::Hub(const string &address, const string &encoding):
 	TagsMap[Tag::TAG_FAVORITE] = createTag_gui("TAG_FAVORITE", Tag::TAG_FAVORITE);
 	TagsMap[Tag::TAG_URL] = createTag_gui("TAG_URL", Tag::TAG_URL);
 	TagsMap[Tag::TAG_IPADR] = createTag_gui("TAG_IPADR", Tag::TAG_IPADR);
-//	TagsMap[Tag::TAG_HIGHL] = createTag_gui("TAG_HIGHL", Tag::TAG_HIGHL);
 
 	BoldTag = gtk_text_buffer_create_tag(chatBuffer, "TAG_WEIGHT", "weight", PANGO_WEIGHT_BOLD, NULL);
 	UnderlineTag = gtk_text_buffer_create_tag(chatBuffer, "TAG_UNDERLINE", "underline", PANGO_UNDERLINE_SINGLE, NULL);
@@ -376,7 +369,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		Hub* hub = (Hub *)data;
 		if(hub == NULL) return;
 		string color = "#A52A2A";
-		gchar *cltype = NULL;
+		gchar *cltype = NULL, *nickp = NULL;
 		int64_t size;
 		string sizeString;
 		if(model == NULL)
@@ -389,10 +382,12 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 			return;
 
 		gtk_tree_model_get(model,iter,
+						hub->nickView.col(_("Nick")), &nickp,
 		                hub->nickView.col(_("Shared")) , &size,
 						hub->nickView.col("Client Type"),&cltype,
 						-1);
-
+		string nick(nickp);
+		//g_free(nickp);
 		string tmp(cltype);
 		char a = tmp[0];
 		switch(a){
@@ -417,9 +412,28 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 			default:
 			  color = WGETS("userlist-bg-normal");
 		}
-
-
-		g_object_set(cell,"cell-background-set",TRUE,"cell-background",color.c_str(),NULL);
+//TODO:check?
+		ColorList* cl = HighlightManager::getInstance()->getList();
+		bool isSet = false;
+		for(auto& l:*cl)
+		{
+			if(l.isSet(ColorSettings::CONTEXT_NICKLIST)) {
+				string match = l.getMatch();
+				if(nick == match){
+					if(l.getHasBgColor())	
+					{
+						g_object_set(cell,"cell-background-set",TRUE,"cell-background",l.getBgColor().c_str(),NULL);
+						isSet = true;
+					}
+					if(l.getHasFgColor())	
+					{
+						g_object_set(cell,"cell-foreground-set",TRUE,"cell-foreground",l.getFgColor().c_str(),NULL);
+					}
+				}
+			}
+		}
+		if(isSet == false)
+			g_object_set(cell,"cell-background-set",TRUE,"cell-background",color.c_str(),NULL);
 		gchar *title = const_cast<gchar*>(gtk_tree_view_column_get_title(column));
 
 		if(strcmp(title,_("Shared")) == 0)
