@@ -869,5 +869,6 @@ Add ablity save per-fav columns in Userslist
 some cleanup
 ----
 added status column to FavoriteHubs Tab.
+----
 
 

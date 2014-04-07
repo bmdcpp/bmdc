@@ -85,11 +85,13 @@ Hub::Hub(const string &address, const string &encoding):
 	//BMDC++
 	nickView.insertHiddenColumn("Pixbuf", GDK_TYPE_PIXBUF);
 	nickView.insertHiddenColumn("Client Type", G_TYPE_STRING);
+
 	if(faventry){
 		nickView.restoreSettings(faventry->getHubOrder(),faventry->getHubWidth(),faventry->getHubVisible());
 	}else{
 		nickView.restoreSettings(WGETS("hub-order"),WGETS("hub-width"),WGETS("hub-visibility"));
 	}	
+
 	nickView.finalize();
 	nickStore = gtk_list_store_newv(nickView.getColCount(), nickView.getGTypes());
 	gtk_tree_view_set_model(nickView.get(), GTK_TREE_MODEL(nickStore));
@@ -368,7 +370,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 {
 		Hub* hub = (Hub *)data;
 		if(hub == NULL) return;
-		string color = "#A52A2A";
+		string color;
 		gchar *cltype = NULL, *nickp = NULL;
 		int64_t size;
 		string sizeString;
@@ -387,7 +389,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 						hub->nickView.col("Client Type"),&cltype,
 						-1);
 		string nick(nickp);
-		//g_free(nickp);
+
 		string tmp(cltype);
 		char a = tmp[0];
 		switch(a){
@@ -432,6 +434,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 				}
 			}
 		}
+//END		
 		if(isSet == false)
 			g_object_set(cell,"cell-background-set",TRUE,"cell-background",color.c_str(),NULL);
 		gchar *title = const_cast<gchar*>(gtk_tree_view_column_get_title(column));
@@ -471,10 +474,10 @@ Hub::~Hub()
 		entry->get(HubSettings::PackName) = emotdialog->getCurrent(address);
 		entry->setShowUserList(showUL);
 		FavoriteManager::getInstance()->save();
-	}else{//not Fav save to main setting
-		WSET("hub-order",order);
-		WSET("hub-width",hwidth);
-		WSET("hub-visibility",visible);
+	}else{//not Fav save to main setting@Possible Made Enable/Disable of this also ?
+		WSET("hub-order", order);
+		WSET("hub-width", hwidth);
+		WSET("hub-visibility", visible);
 	}
 
 	disconnect_client(TRUE);
@@ -686,8 +689,6 @@ void Hub::updateUser_gui(ParamMap params)
 		isProtected = it->second.isSet(FlagUser::FLAG_PROTECT);
 	}
 
-	//GdkPixbuf *pixbuf = WulforUtil::LoadCountryPixbuf(params["Abbrevation"]);
-
 	if (findUser_gui(cid, &iter))
 	{
 		totalShared += shared - nickView.getValue<int64_t>(&iter, _("Shared"));
@@ -886,8 +887,8 @@ void Hub::popupNickMenu_gui()
 
 	userCommandMenu->addHub(client->getHubUrl());
 	userCommandMenu->buildMenu_gui();
-	gchar *markup;
-	markup = g_markup_printf_escaped ("<span fgcolor=\"blue\" ><b>%s</b></span>", nick.c_str());//TODO: maybe custom color
+	string color = WGETS("menu-userlist-color");
+	gchar *markup = g_markup_printf_escaped ("<span fgcolor=\"%s\" ><b>%s</b></span>",color.c_str(),nick.c_str());
 	GtkMenuItem *item = GTK_MENU_ITEM(getWidget("nickItem"));
 	GtkWidget *label = gtk_bin_get_child(GTK_BIN(item));
 	gtk_label_set_markup (GTK_LABEL (label), markup);

@@ -471,6 +471,8 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("double-click-action",(int)CActions::BROWSE));
 	defaultInt.insert(IntMap::value_type("hide-transfers",0));
 
+	defaultString.insert(StringMap::value_type("menu-userlist-color","blue"));
+
 	load();
 
 	string path_image = Util::getPath(Util::PATH_USER_CONFIG) + "Images/";
