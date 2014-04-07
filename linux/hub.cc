@@ -2518,8 +2518,11 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			info[_("External / WAN IP")] = hub->client->get(HubSettings::UserIp);
 			info[_("Encoding")] =  hub->client->getEncoding();
 			info[_("Hide Share")] = hub->client->getHideShare() ? "Yes" : "No";
-			info[_("Notification")] = hub->client->getNotify() ? "Yes" : "No";
-			info[_("Mode")] = Util::toString(hub->client->getMode());
+			FavoriteHubEntry* fav = FavoriteManager::getInstance()->getFavoriteHubEntry(hub->address);
+			if(fav){
+				info[_("Notification")] = fav->getNotify() ? "Yes" : "No";
+				info[_("Mode")] = Util::toString(fav->getMode());
+			}	
             string text;
 
             for(auto i = info.begin();i!=info.end();++i) {
