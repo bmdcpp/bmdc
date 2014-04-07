@@ -21,7 +21,7 @@
  */
 
 #include "hub.hh"
-
+#include <gdk/gdk.h>
 #include <dcpp/FavoriteManager.h>
 #include <dcpp/HashManager.h>
 #include <dcpp/SearchManager.h>
@@ -919,7 +919,7 @@ void Hub::getPassword_gui()
 		return;
 
 	// Create password dialog
-	string title = client->getHubUrl(); //_("Enter hub password")
+	string title = _("Enter hub password for ") + client->getHubUrl();
 	GtkWidget *dialog = gtk_dialog_new_with_buttons(title.c_str(),
 		GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 		GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -1604,7 +1604,6 @@ void Hub::applyEmoticons_gui()
  * Unfortunately, we can't underline the tag on mouse over since it would
  * underline all the tags with that name.
  */
- #include <gdk/gdk.h>
 void Hub::updateCursor_gui(GtkWidget *widget)
 {
 	gint x, y, buf_x, buf_y;
@@ -1675,7 +1674,7 @@ void Hub::preferences_gui()
 	for (int i = Tag::TAG_FIRST; i < Tag::TAG_LAST; i++)
 	{
 		if(i == Tag::TAG_PRIVATE)
-           		continue;
+				continue;
 
 		getSettingTag_gui(wsm, (Tag::TypeTag)i, fore, back, bold, italic);
 
@@ -2479,8 +2478,8 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			const auto list = pm->getPluginList();
 			for(auto i = list.begin(); i != list.end(); ++i, ++idx) {
 				Plugin p = pm->getPlugin(*i);
-				status += *i +"\t"+p.name+ "\n";
-				status += pm->isLoaded(p.guid) ? "Loaded" : "Not loaded";
+				status += *i +"\t"+p.name+ ":\t";
+				status += pm->isLoaded(p.guid) ? "Loaded\n" : "Not loaded\n";
 			}
 			hub->addMessage_gui("",status,Msg::SYSTEM);
 		}
@@ -2519,16 +2518,21 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			info[_("External / WAN IP")] = hub->client->get(HubSettings::UserIp);
 			info[_("Encoding")] =  hub->client->getEncoding();
 			info[_("Hide Share")] = hub->client->getHideShare() ? "Yes" : "No";
+			info[_("Notification")] = hub->client->getNotify() ? "Yes" : "No";
+			info[_("Mode")] = Util::toString(hub->client->getMode());
             string text;
+
             for(auto i = info.begin();i!=info.end();++i) {
                   	text += _("\n") + (*i).first + _(": ") + Text::toT((*i).second);
             }
 
 			hub->addMessage_gui("",text,Msg::SYSTEM);
 
-		} else if ( command == "conn"){
+		} else if ( command == "conn") {
+
 			string info = ConnectivityManager::getInstance()->getInformation();
 			hub->addMessage_gui("", info, Msg::SYSTEM);
+
 		}else if (command == "pm")
 		{
 			size_t j = params.find(" ");
