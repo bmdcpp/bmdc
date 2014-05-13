@@ -136,8 +136,10 @@ inline int readable(socket_t sock0, socket_t sock1) {
 	struct timeval tv = { 0 };
 
 	FD_ZERO(&rfd);
-	FD_SET(sock0, &rfd);
-	FD_SET(sock1, &rfd);
+	if(sock0 != -1)
+		FD_SET(sock0, &rfd);
+	if(sock1 != -1)		
+		FD_SET(sock1, &rfd);
 
     if(::select(std::max(sock0, sock1) + 1, &rfd, NULL, NULL, &tv) > 0) {
         return FD_ISSET(sock0, &rfd) ? sock0 : sock1;

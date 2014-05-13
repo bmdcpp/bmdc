@@ -514,6 +514,13 @@ void BookEntry::setBackForeGround(const EntryType type)
     //We need also overide color on icon...
     gtk_widget_override_background_color (icon, (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
     gtk_widget_override_background_color (icon, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
+
+	if(IsCloseButton || WGETB("use-close-button")) {
+		gtk_widget_override_background_color(labelBox,(GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
+		gtk_widget_override_background_color(labelBox,(GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
+		gtk_widget_override_background_color(closeButton,(GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
+		gtk_widget_override_background_color(closeButton,(GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
+	}
 }
 
 void BookEntry::setBackForeGround_unread(const EntryType type)
@@ -624,5 +631,12 @@ void BookEntry::setBackForeGround_unread(const EntryType type)
     //We need also overide color on icon...
     gtk_widget_override_background_color (icon, (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
     gtk_widget_override_background_color (icon, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
+
+	if(IsCloseButton || WGETB("use-close-button")) {
+		gtk_widget_override_background_color(labelBox,(GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
+		gtk_widget_override_background_color(labelBox,(GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
+		gtk_widget_override_background_color(closeButton,(GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
+		gtk_widget_override_background_color(closeButton,(GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
+	}
 
 }
