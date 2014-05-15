@@ -70,27 +70,20 @@ class Hub:
 
 	private:
 		//this represent state of user and nick of it
-		struct FlagUser: public dcpp::Flags
+		enum FlagUser
 		{
-		  public:
-			FlagUser(): dcpp::Flags(FLAG_PASIVE) {
-			}
-			FlagUser(int _flags): dcpp::Flags((dcpp::Flags::MaskType)_flags) { };
-			enum FlagUserFlags
-			{
-				FLAG_OP = 1 << 1,
-				FLAG_PASIVE = 1 << 2,
-				FLAG_IGNORE = 1 << 3,
-				FLAG_PROTECT = 1 << 4,
-				FLAG_FAVORITE = 1 << 5
-			};
+			FLAG_OP = 1,
+			FLAG_PASIVE = 2,
+			FLAG_IGNORE = 3,
+			FLAG_PROTECT = 4,
+			FLAG_FAVORITE = 5
 		};
 
 		typedef std::map<std::string, std::string> ParamMap;
 		typedef std::unordered_map<std::string, std::string> UserMap;
 		typedef std::unordered_map<GtkWidget*, std::string> ImageList;
 		typedef std::pair<std::string, GtkWidget*> ImageLoad;
-		typedef std::unordered_map<std::string, FlagUser > UserFlags; //for flags
+		typedef std::unordered_map<std::string, int > UserFlags; //for flags
 
 		// GUI functions
 		void setStatus_gui(std::string statusBar, std::string text);

@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
 
 	// Start the DC++ client core
 	dcpp::Util::initialize();
-
+   
 	gtk_init(&argc, &argv);
 
 	Splash* sp = new Splash();

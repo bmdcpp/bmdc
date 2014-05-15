@@ -683,10 +683,10 @@ void Hub::updateUser_gui(ParamMap params)
 	bool isProtected = false;
 	if(isIn) {
 		auto it = users.find(cid);
-		isOperator = it->second.isSet(FlagUser::FLAG_OP);
-		isPasive = it->second.isSet(FlagUser::FLAG_PASIVE);
-		isIgnore = it->second.isSet(FlagUser::FLAG_IGNORE);
-		isProtected = it->second.isSet(FlagUser::FLAG_PROTECT);
+		isOperator = it->second == FlagUser::FLAG_OP;
+		isPasive = it->second == FlagUser::FLAG_PASIVE;
+		isIgnore = it->second == FlagUser::FLAG_IGNORE;
+		isProtected = it->second == FlagUser::FLAG_PROTECT;
 	}
 
 	if (findUser_gui(cid, &iter))
@@ -705,13 +705,13 @@ void Hub::updateUser_gui(ParamMap params)
 			if (favorite)
 				userFavoriteMap[cid] = Nick;
 			if(isProtected)
-				users[cid] = (FlagUser((int)FlagUser::FLAG_PROTECT));
+				users[cid] = FlagUser::FLAG_PROTECT;
 			if(isIgnore)
-				users[cid] = (FlagUser((int)FlagUser::FLAG_IGNORE));
+				users[cid] = FlagUser::FLAG_IGNORE;
 			if(isPasive)
-				users[cid] = (FlagUser((int)FlagUser::FLAG_PASIVE));
+				users[cid] = FlagUser::FLAG_PASIVE;
 			if(isOperator)
-				users[cid] = (FlagUser((int)FlagUser::FLAG_OP));
+				users[cid] = FlagUser::FLAG_OP;
 		}
 
 		gtk_list_store_set(nickStore, &iter,
@@ -3401,7 +3401,7 @@ void Hub::addPasive_gui(ParamMap params)
 	{
 		GtkTreeIter iter;
 		const string &nick = params["Nick"];
-		users.insert(UserFlags::value_type(cid,FlagUser(FlagUser::FLAG_PASIVE)));
+		users.insert(UserFlags::value_type(cid,FlagUser::FLAG_PASIVE));
 
 		// resort users
 		if (findUser_gui(cid, &iter))
@@ -3423,7 +3423,7 @@ void Hub::addOperator_gui(ParamMap params)
 	{
 		GtkTreeIter iter;
 		const string &nick = params["Nick"];
-		users.insert(UserFlags::value_type(cid, FlagUser(FlagUser::FLAG_OP)));
+		users.insert(UserFlags::value_type(cid, FlagUser::FLAG_OP));
 
 		// resort users
 		if (findUser_gui(cid, &iter))
@@ -3445,7 +3445,7 @@ void Hub::addProtected_gui(ParamMap params)
 	{
 		GtkTreeIter iter;
 		const string &nick = params["Nick"];
-		users.insert(UserFlags::value_type(cid, FlagUser(FlagUser::FLAG_PROTECT)));
+		users.insert(UserFlags::value_type(cid, FlagUser::FLAG_PROTECT));
 
 		// resort users
 		if (findUser_gui(cid, &iter))
@@ -3467,7 +3467,7 @@ void Hub::addIgnore_gui(ParamMap params)
 	{
 		GtkTreeIter iter;
 		const string &nick = params["Nick"];
-		users.insert(UserFlags::value_type(cid, FlagUser(FlagUser::FLAG_IGNORE)));
+		users.insert(UserFlags::value_type(cid, FlagUser::FLAG_IGNORE));
 
 		// resort users
 		if (findUser_gui(cid, &iter))
@@ -3484,13 +3484,13 @@ void Hub::addIgnore_gui(ParamMap params)
 void Hub::removeIgnore_gui(ParamMap params)
 {
     const string &cid = params["CID"];
-	std::unordered_map<std::string, FlagUser >::iterator it;
+	std::unordered_map<std::string, int >::iterator it;
     if( (it = users.find(cid))!= users.end())
     {
        GtkTreeIter iter;
-        if(findUser_gui(cid,&iter) && it->second.isSet(FlagUser::FLAG_IGNORE))
+        if(findUser_gui(cid,&iter) && it->second == FlagUser::FLAG_IGNORE)
         {
-			it->second.unsetFlag(FlagUser::FLAG_IGNORE);
+			it->second = 0;
             gtk_list_store_set(nickStore,&iter,
                                nickView.col("NickColor"), WGETS("userlist-text-normal").c_str(),
                                nickView.col("Client Type"), ("U"+params["nick"]).c_str(),

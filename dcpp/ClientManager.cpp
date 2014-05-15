@@ -263,7 +263,6 @@ UserPtr ClientManager::getUser(const string& aNick, const string& aHubUrl) noexc
 
 	UserPtr p = make_shared<User>(User(cid));
 	p->setFlag(User::NMDC);
-	//p->inc();
 	users.emplace(cid,p);
 
 	return p;
@@ -279,9 +278,7 @@ UserPtr ClientManager::getUser(const CID& cid) noexcept {
 		return getMe();
 	}
 
-	//UserPtr p(new User(cid));
 	UserPtr p = make_shared<User>(User(cid));
-	//p->inc();
 	users.emplace(cid,p);
 	return p;
 }
@@ -336,7 +333,7 @@ void ClientManager::putOffline(OnlineUser* ou, bool disconnect) noexcept {
 		auto op = onlineUsers.equal_range(ou->getUser()->getCID());
 		dcassert(op.first != op.second);
 		for(auto i = op.first; i != op.second; ++i) {
-			auto ou2 = i->second;
+			OnlineUser* ou2 = i->second;
 			if(ou == ou2) {
 				diff = distance(op.first, op.second);
 				onlineUsers.erase(i);
@@ -352,10 +349,13 @@ void ClientManager::putOffline(OnlineUser* ou, bool disconnect) noexcept {
 		if(disconnect)
 			ConnectionManager::getInstance()->disconnect(u);
 		fire(ClientManagerListener::UserDisconnected(), u);
-		//u.get()->dec();
 		if(u.unique())
 		{
 			Lock l(cs);
+				auto in = nicks.find(u->getCID());
+				if(in != nicks.end())
+				{ nicks.erase(u->getCID());}
+				
 			delete u.get();
 		}
 
@@ -409,7 +409,7 @@ string ClientManager::findMySID(const HintedUser& p) {
 
 	return Util::emptyString;
 }
-///...
+//
 void ClientManager::connect(const HintedUser& user, const string& token) {
 	Lock l(cs);
 	OnlineUser* u = findOnlineUser(user);

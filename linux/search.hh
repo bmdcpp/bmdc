@@ -170,8 +170,8 @@ class Search:
 			return menu;
 		}
 		private:
-		static void onCloseItem(gpointer data);
-		static void onAddItem(gpointer data);
+			static void onCloseItem(gpointer data);
+			static void onAddItem(gpointer data);
 };
 
 #else
