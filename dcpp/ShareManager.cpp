@@ -790,7 +790,7 @@ void ShareManager::rebuildIndices() {
 void ShareManager::updateIndices(Directory& dir, const decltype(std::declval<Directory>().files.begin())& i) {
 	const Directory::File& f = *i;
 
-	if(!f.tth) {
+	if(f.tth == NULL) {
 		return;
 	}
 	auto j = tthIndex.find(*f.tth);
@@ -808,7 +808,7 @@ void ShareManager::updateIndices(Directory& dir, const decltype(std::declval<Dir
 		}
 	}
 	{
-		tthIndex[*(f.tth)] = &f;
+		tthIndex[*f.tth] = &f;
 		bloom.add(Text::toLower(f.getName()));
 	}
 }
@@ -1090,8 +1090,8 @@ void ShareManager::Directory::filesToXml(OutputStream& xmlFile, string& indent, 
 		xmlFile.write(LITERAL("\" Size=\""));
 		xmlFile.write(Util::toString(f.getSize()));
 		xmlFile.write(LITERAL("\" TTH=\""));
-		xmlFile.write(f.tth->toBase32(tmp2));
 		tmp2.clear();
+		xmlFile.write(f.tth->toBase32(tmp2));
 		xmlFile.write(LITERAL("\"/>\r\n"));
 	}
 }
