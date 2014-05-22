@@ -72,7 +72,6 @@ Plugin::Plugin() {
 Plugin::~Plugin() {
 	Hooks::clear();
 }
-static Plugin* instance;
 Bool DCAPI Plugin::main(PluginState state, DCCorePtr core, dcptr_t) {
 
 	switch(state) {

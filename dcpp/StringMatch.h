@@ -23,7 +23,7 @@
 #include "StringSearch.h"
 #include "RegEx.h"
 #include <string>
-
+#include "Util.h"
 
 namespace dcpp {
 
@@ -36,7 +36,10 @@ struct StringMatch {
 		EXACT, /// case-sensitive, character-for-character equality
 		REGEX /// regular expression
 	};
-
+	StringMatch(): i_method(-1),
+	search(Util::emptyString),reg(Util::emptyString)
+	{ } 
+	
 	string pattern;
 
 	Method getMethod() const;
@@ -47,7 +50,7 @@ struct StringMatch {
 	bool match(const string& str) const;
 
 private:
-	int i_method = -1;
+	int i_method;
 	StringSearch::List searchlist;
 	string search;
 	string reg;

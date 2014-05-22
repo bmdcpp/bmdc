@@ -1080,7 +1080,7 @@ std::string Util::formatRegExp(const string& msg, ParamMap& params) {
 		return result;
 }
 
-bool Util::fileExists(const string aFile) {
+bool Util::fileExists(const string& aFile) {
     struct stat stFileInfo;
 	bool blnReturn;
 	int intStat;
@@ -1175,8 +1175,9 @@ string Util::getIETFLang() {
 
 	return lang;
 #else
-	const gchar* const* x = g_get_language_names();
-	return string(x[0]);///return only 1st locale ...and hope its existing :p
+//	const gchar* const* x = g_get_language_names();
+//	string s(x[0]);///return only 1st locale ...and hope its existing :p
+	return string(g_get_language_names()[0]);
 #endif
 }
 

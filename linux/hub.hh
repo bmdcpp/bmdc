@@ -293,6 +293,8 @@ class Hub:
 		std::string ip;
 		GtkWidget *tab_image;
 		GtkWidget *tab_button;
+		GtkWidget *m_menu;
+		bool notCreated;
 
 };
 #else

@@ -44,7 +44,7 @@ private:
 	bool onChatCommandPM(UserDataPtr user, CommandDataPtr cmd);
 	GDBusProxy *proxy = NULL;
 	string parse(GVariant *var,string suffix);
-
+	static Plugin* instance;
 	string fixedftime(const string& format, struct tm* t) {
 		string ret = format;
 		const char codes[] = "aAbBcdHIjmMpSUwWxXyYzZ%";

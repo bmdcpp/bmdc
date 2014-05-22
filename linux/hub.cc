@@ -55,7 +55,7 @@ Hub::Hub(const string &address, const string &encoding):
 	totalShared(0),	address(address),
 	encoding(encoding), scrollToBottom(TRUE),
 	PasswordDialog(FALSE), WaitingPassword(FALSE),
-	ImgLimit(0)
+	ImgLimit(0) , notCreated(true)
 {
 	FavoriteHubEntry* faventry =  FavoriteManager::getInstance()->getFavoriteHubEntry(address);
 
@@ -150,7 +150,8 @@ Hub::Hub(const string &address, const string &encoding):
 	userCommandMenu = new UserCommandMenu(getWidget("usercommandMenu"), ::UserCommand::CONTEXT_USER);
 	addChild(userCommandMenu);
 	// Hub ...
-	userCommandMenu1 = new UserCommandMenu(BookEntry::createmenu(), ::UserCommand::CONTEXT_HUB);
+	m_menu = BookEntry::createmenu();
+	userCommandMenu1 = new UserCommandMenu(gtk_menu_new(), ::UserCommand::CONTEXT_HUB);
 	addChild(userCommandMenu1);
 	// Ip ...
 	userCommandMenu2 = new UserCommandMenu(getWidget("ipmenu"), ::UserCommand::CONTEXT_IP);
@@ -474,7 +475,8 @@ Hub::~Hub()
 		entry->get(HubSettings::PackName) = emotdialog->getCurrent(address);
 		entry->setShowUserList(showUL);
 		FavoriteManager::getInstance()->save();
-	}else{//not Fav save to main setting@Possible Made Enable/Disable of this also ?
+	}else{
+		//not Fav save to main setting @Possible Made Enable/Disable of this also ?
 		WSET("hub-order", order);
 		WSET("hub-width", hwidth);
 		WSET("hub-visibility", visible);
@@ -626,8 +628,8 @@ void Hub::setStatus_gui(string statusBar, string text)
 
 			while(!tmp.empty())
             {
-                		statusTextOnToolTip += "\n" + tmp.front();
-                		tmp.pop();
+                	statusTextOnToolTip += "\n" + tmp.front();
+                	tmp.pop();
 			}
 
 			statustext.push(text);
@@ -800,7 +802,7 @@ void Hub::removeUser_gui(string cid)
 
 	if (findUser_gui(cid, &iter))
 	{
-		order = nickView.getString(&iter, "Client Type");//F
+		order = nickView.getString(&iter, "Client Type");
 		nick = nickView.getString(&iter, _("Nick"));
 		totalShared -= nickView.getValue<int64_t>(&iter, _("Shared"));
 		gtk_list_store_remove(nickStore, &iter);
@@ -1608,7 +1610,7 @@ void Hub::updateCursor_gui(GtkWidget *widget)
 {
 	gint x, y, buf_x, buf_y;
 	GtkTextIter iter;
-	GSList *tagList;
+	GSList *tagList = NULL;
 	GtkTextTag *newTag = NULL;
 //@NOTE: GTK3
 	GdkDeviceManager *device_manager = gdk_display_get_device_manager (gdk_window_get_display (gtk_widget_get_window(widget)));
@@ -2168,7 +2170,7 @@ void Hub::onCopyIpItem_gui(GtkWidget *wid, gpointer data)
 void Hub::onRipeDbItem_gui(GtkWidget *wid, gpointer data)
 {
 	Hub *hub = (Hub *)data;
-	string error;
+	string error = Util::emptyString;
 	dcpp::ParamMap params;
 	params["IP"] = hub->ip;
 	string result = dcpp::Util::formatParams(SETTING(RIPE_DB),params);
@@ -2517,10 +2519,10 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			info[_("Email")] = hub->client->get(HubSettings::Email);
 			info[_("External / WAN IP")] = hub->client->get(HubSettings::UserIp);
 			info[_("Encoding")] =  hub->client->getEncoding();
-			info[_("Hide Share")] = hub->client->getHideShare() ? "Yes" : "No";
+			info[_("Hide Share")] = hub->client->getHideShare() ? _("Yes") : _("No");
 			FavoriteHubEntry* fav = FavoriteManager::getInstance()->getFavoriteHubEntry(hub->address);
 			if(fav){
-				info[_("Notification")] = fav->getNotify() ? "Yes" : "No";
+				info[_("Notification")] = fav->getNotify() ? _("Yes") : _("No");
 				info[_("Mode")] = Util::toString(fav->getMode());
 			}	
             string text;
@@ -2567,13 +2569,11 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		{
 			FILE *pipe = popen( param.c_str(), "r" );
 			gchar *command_res = NULL;
-			gsize command_length;
+			gsize command_length = -1;
 			GIOChannel* gio_chanel = g_io_channel_unix_new( fileno( pipe ) );
 			GIOStatus gio_status = g_io_channel_read_to_end( gio_chanel, &command_res, &command_length, NULL );
 			if( gio_status == G_IO_STATUS_NORMAL )
 			{
-				//command_res[command_length-1]='\0';
-				//command_res[command_length]=NULL;
 				F2 *func = new F2( hub, &Hub::sendMessage_client, string(command_res,command_length-1), false );
 				WulforManager::get()->dispatchClientFunc(func);
 			}
@@ -3552,7 +3552,7 @@ void Hub::connectClient_client(string address, string encoding)
 	QueueManager::getInstance()->addListener(this);
 }
 
-void Hub::disconnect_client(bool shutdownHub /*= FALSE*/)
+void Hub::disconnect_client(bool shutdownHub /* = FALSE */)
 {
 	if (client)
 	{
@@ -3562,7 +3562,7 @@ void Hub::disconnect_client(bool shutdownHub /*= FALSE*/)
 		if(shutdownHub)
 			client->disconnect(true);
 		ClientManager::getInstance()->putClient(client);
-		client = nullptr;//NULL;
+		client = nullptr;
 	}
 }
 
@@ -3867,7 +3867,7 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 	params.insert(ParamMap::value_type("eMail", id.getEmail()));
 	params.insert(ParamMap::value_type("CID", id.getUser()->getCID().toBase32()));
 	//BMDC++
-	if( !id.isHub() || !id.isBot() ) {//should *not* getting CC from Bot/Hub User
+	if( !id.isHub() || !id.isBot() ) { //should *not* getting CC from Bot/Hub User
 		params.insert(ParamMap::value_type("Country", (SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountry(id.getIp()): Util::emptyString ));
 		params.insert(ParamMap::value_type("Abbrevation", (SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountryAbbrevation(id.getIp()): Util::emptyString ));
 	}
@@ -3959,7 +3959,7 @@ string Hub::realFile_client(string tth)
 	catch (const Exception&)
 	{
 	}
-	return "";
+	return Util::emptyString;
 }
 
 void Hub::on(QueueManagerListener::Finished, QueueItem *item, const string& dir, int64_t avSpeed) noexcept
@@ -4035,8 +4035,8 @@ void Hub::onImageDestroy_gui(GtkWidget *widget, gpointer data)
 	Hub *hub = (Hub*) data;
 
 	// fix crash, if entry delete...
-//	if (!WulforManager::get()->isEntry_gui(hub))
-//		return;
+	if (!WulforManager::get()->isEntry_gui(hub))
+		return;
 	if(hub == NULL) return;
 
 	ImageList::const_iterator j = hub->imageList.find(widget);
@@ -4114,7 +4114,7 @@ void Hub::onDownloadImageClicked_gui(GtkMenuItem *item, gpointer data)
 
 void Hub::onRemoveImageClicked_gui(GtkMenuItem *item, gpointer data)
 {
-	GtkWidget *container = (GtkWidget*) g_object_get_data(G_OBJECT(item), "container");
+	GtkWidget *container = (GtkWidget *)g_object_get_data(G_OBJECT(item), "container");
 
 	// if image destroy
 	if (container == NULL)
@@ -4163,8 +4163,7 @@ void Hub::openImage_gui(string target)
 
 gboolean Hub::expose(GtkWidget *widget, cairo_t *event, gpointer data)
 {
-	GTK_WIDGET_CLASS(GTK_WIDGET_GET_CLASS(widget))->draw(widget, event);
-	return true;
+	return GTK_WIDGET_CLASS(GTK_WIDGET_GET_CLASS(widget))->draw(widget, event);
 }
 
 void Hub::onItalicButtonClicked_gui(GtkWidget *widget, gpointer data)
@@ -4674,41 +4673,42 @@ void Hub::on(ClientListener::ClientLine, Client* , const string &mess, int type)
 GtkWidget *Hub::createmenu()
 {
 	gtk_menu_item_set_label(GTK_MENU_ITEM(getFItem()),address.c_str());
+	if(notCreated) {
 
 	userCommandMenu1->cleanMenu_gui();
 	userCommandMenu1->addUser(client->getMyIdentity().getUser()->getCID().toBase32());
 	userCommandMenu1->addHub(client->getHubUrl());
 	userCommandMenu1->buildMenu_gui();
-	GtkWidget *menu = userCommandMenu1->getContainer();
-
+	GtkWidget *u_item = gtk_menu_item_new_with_label(_("Users Commands"));
 	GtkWidget *copyHubUrl = gtk_menu_item_new_with_label(_("Copy URL"));
-	GtkWidget *close = gtk_menu_item_new_with_label(_("Close"));
 	GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite hubs"));
 	GtkWidget *remfav = gtk_menu_item_new_with_label(_("Remove from Favorite hubs"));
 	GtkWidget *setTab = gtk_menu_item_new_with_label(_("Set Tab Name"));
 	GtkWidget *reconectItem = gtk_menu_item_new_with_label(_("Reconnect this hub"));
-
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), close);
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), copyHubUrl);
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), addFav);
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), remfav);
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), setTab);
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), reconectItem);
-	gtk_widget_show(close);
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(u_item),userCommandMenu1->getContainer());
+	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), copyHubUrl);
+	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), addFav);
+	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), remfav);
+	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), setTab);
+	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), reconectItem);
+	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), u_item);
 	gtk_widget_show(copyHubUrl);
 	gtk_widget_show(addFav);
 	gtk_widget_show(remfav);
 	gtk_widget_show(setTab);
+	gtk_widget_show(u_item);
 	gtk_widget_show(reconectItem);
 	gtk_widget_show_all(userCommandMenu1->getContainer());
+	gtk_widget_show_all(m_menu);
 
 	g_signal_connect_swapped(copyHubUrl, "activate", G_CALLBACK(onCopyHubUrl), (gpointer)this);
-	g_signal_connect_swapped(close, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
 	g_signal_connect_swapped(addFav, "activate", G_CALLBACK(onAddFavItem), (gpointer)this);
 	g_signal_connect_swapped(remfav, "activate", G_CALLBACK(onRemoveFavHub), (gpointer)this);
 	g_signal_connect_swapped(setTab, "activate", G_CALLBACK(onSetTabText), (gpointer)this);
 	g_signal_connect_swapped(reconectItem, "activate",G_CALLBACK(onReconnectItemTab), (gpointer)this);
-	return menu;
+	notCreated = false;
+	}
+	return m_menu;
 }
 
 void Hub::onReconnectItemTab(gpointer data)

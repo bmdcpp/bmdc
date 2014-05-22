@@ -35,7 +35,7 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	bold(false), urgent(false),
 	labelSize((glong)WGETI("size-label-box-bookentry")),
 	icon(NULL), popTabMenuItem(NULL),
-	type(type), IsCloseButton(false)
+	type(type), IsCloseButton(false),bCreated(true)
 {
 	GSList *group = NULL;
 	#if GTK_CHECK_VERSION(3, 2, 0)
@@ -291,7 +291,7 @@ void BookEntry::removeBooK_GUI()
 
 GtkWidget *BookEntry::createmenu()
 {
-    GtkWidget *closeTabMenuItem;
+    GtkWidget *closeTabMenuItem = NULL;
     popTabMenuItem = gtk_menu_new();
     if(!IsCloseButton) {
 		closeTabMenuItem = gtk_menu_item_new_with_label(_("Close"));
@@ -331,78 +331,80 @@ GtkWidget *BookEntry::createItemFirstMenu()
 {
 	GtkWidget *item = NULL;
 	string stock, info;
-
-	switch (this->type)
-	{
-		case Entry::FAVORITE_HUBS :
+	if(bCreated) {
+		switch (this->type)
+		{
+			case Entry::FAVORITE_HUBS :
 					stock = WGETS("icon-favorite-hubs");
 					info = _("Favorite Hubs");
 					break;
-		case Entry::FAVORITE_USERS :
+			case Entry::FAVORITE_USERS :
 					stock = WGETS("icon-favorite-users");
 					info = _("Favorite Users");
 					break;
-		case Entry::PUBLIC_HUBS :
+			case Entry::PUBLIC_HUBS :
 					stock = WGETS("icon-public-hubs");
 					info = _("Public Hubs");
 					break;
-		case Entry::DOWNLOAD_QUEUE :
+			case Entry::DOWNLOAD_QUEUE :
 					stock = WGETS("icon-queue");
 					info = _("Download Queue");
 					break;
-		case Entry::SEARCHS:
-		case Entry::SEARCH :
+			case Entry::SEARCHS:
+			case Entry::SEARCH :
 					stock = WGETS("icon-search");
 					info = _("Search");
 					break;
-		case Entry::SEARCH_ADL :
+			case Entry::SEARCH_ADL :
 					stock = WGETS("icon-search-adl");
 					info = _("ADL Search");
 					break;
-		case Entry::SEARCH_SPY :
+			case Entry::SEARCH_SPY :
 					stock = WGETS("icon-search-spy");
 					info = _("Spy Search");
 					break;
-		case Entry::FINISHED_DOWNLOADS :
+			case Entry::FINISHED_DOWNLOADS :
 					stock = WGETS("icon-finished-downloads");
 					info = _("Finished Downloads");
 					break;
-		case Entry::FINISHED_UPLOADS :
+			case Entry::FINISHED_UPLOADS :
 					stock = WGETS("icon-finished-uploads");
 					info = _("Finished Uploads");
 					break;
-		case Entry::PRIVATE_MESSAGE :
+			case Entry::PRIVATE_MESSAGE :
 					stock = WGETS("icon-pm-online");
 					info = _("Private Message");
 					break;
-		case Entry::HUB :
+			case Entry::HUB :
 					stock = WGETS("icon-hub-offline");
 					info = _("Hub");
 					break;
-		case Entry::SHARE_BROWSER :
+			case Entry::SHARE_BROWSER :
 					stock = WGETS("icon-directory");
 					info = _("Share Browser");
 					break;
-		case Entry::NOTEPAD :
+			case Entry::NOTEPAD :
 					stock = WGETS("icon-notepad");
 					info = _("Notepad");
 					break;
-		case Entry::SYSTEML :
+			case Entry::SYSTEML :
 					stock = WGETS("icon-system");
 					info = _("System Log");
 					break;
-		case Entry::ABOUT_CONFIG:
+			case Entry::ABOUT_CONFIG:
 					stock = WGETS("icon-system"); //for now
 					info = _("About:Config");
 					break;
-		default: ;
-	}
-	#if GTK_CHECK_VERSION(3,9,0)
-	item = gtk_menu_item_new();
-	#else
-	item = gtk_image_menu_item_new_from_stock(stock.c_str(),NULL);
-	#endif
-		gtk_menu_item_set_label(GTK_MENU_ITEM(item),info.c_str());
+			default: ;
+		}
+		#if GTK_CHECK_VERSION(3,9,0)
+			item = gtk_menu_item_new();
+		#else
+			item = gtk_image_menu_item_new_from_stock(stock.c_str(),NULL);
+		#endif
+			gtk_menu_item_set_label(GTK_MENU_ITEM(item),info.c_str());
+		bCreated = false;
+	}	
 	return item;
 }
 

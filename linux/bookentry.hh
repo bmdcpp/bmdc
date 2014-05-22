@@ -69,7 +69,7 @@ class BookEntry : public Entry
 		GtkWidget *closeButton;
 		GtkLabel *label;
 		GtkWidget *fItem;
-
+		bool bCreated;
 		bool bold;
 		bool urgent;
 		const glong labelSize;//@ size of Chars in Tab value in WulforSettingsManager 

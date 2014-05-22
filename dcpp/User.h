@@ -61,13 +61,8 @@ public:
 
 	bool isOnline() const { return isSet(ONLINE); }
 	bool isNMDC() const { return isSet(NMDC); }
-	//...
-	//bool unique() const { return counter == 1;}
-	//void inc() { ++counter;}
-	//void dec() { --counter;}
 private:
 	CID cid;
-	//static std::atomic<long> counter;
 };
 
 } // namespace dcpp
