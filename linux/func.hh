@@ -28,10 +28,9 @@ class FuncBase
 		FuncBase() {}
 		virtual ~FuncBase() {}
 		static bool call_(gpointer d) {
-		 // FuncBase *f = (FuncBase*)d;	
-			return ((FuncBase*)d)->call(d);
+			return ((FuncBase*)d)->call();
 		};
-		virtual bool call(gpointer d) = 0;
+		virtual bool call() = 0;
 		virtual const std::string& getID() = 0;
 };
 
@@ -45,7 +44,7 @@ class Func0: public FuncBase
 			this->func = func;
 		}
 
-		bool call(gpointer d) {
+		bool call() {
 			(*obj.*func)();
 			return FALSE;
 		}
@@ -71,7 +70,7 @@ class Func1: public FuncBase
 			this->func = func;
 		}
 
-		bool call(gpointer d) {
+		bool call() {
 			(*obj.*func)(_param1);
 			return FALSE;
 		}
@@ -99,7 +98,7 @@ class Func2: public FuncBase
 			this->func = func;
 		}
 
-		bool call(gpointer d) {
+		bool call() {
 			(*obj.*func)(_param1, _param2);
 			return FALSE;
 		}
@@ -129,7 +128,7 @@ class Func3: public FuncBase
 			this->func = func;
 		}
 
-		bool call(gpointer d) {
+		bool call() {
 			(*obj.*func)(_param1, _param2, _param3);
 			return FALSE;
 		}
@@ -162,7 +161,7 @@ class Func4: public FuncBase
 			this->func = func;
 		}
 
-		bool call(gpointer d) {
+		bool call() {
 			(*obj.*func)(_param1, _param2, _param3, _param4);
 			return FALSE;
 		}
@@ -197,7 +196,7 @@ class Func5: public FuncBase
 			this->func = func;
 		}
 
-		bool call(gpointer d) {
+		bool call() {
 			(*obj.*func)(_param1, _param2, _param3, _param4, _param5);
 			return FALSE;
 		}
@@ -234,7 +233,7 @@ class Func6: public FuncBase
 			this->func = func;
 		}
 
-		bool call(gpointer d) {
+		bool call() {
 			(*obj.*func)(_param1, _param2, _param3, _param4, _param5, _param6);
 			return FALSE;
 		}
@@ -273,7 +272,7 @@ class Func7: public FuncBase
 			this->func = func;
 		}
 
-		bool call(gpointer d) {
+		bool call() {
 			(*obj.*func)(_param1, _param2, _param3, _param4, _param5, _param6, _param7);
 			return FALSE;
 		}
@@ -316,7 +315,7 @@ class Func8: public FuncBase
 			this->func = func;
 		}
 
-		bool call(gpointer d) {
+		bool call() {
 			(*obj.*func)(_param1, _param2, _param3, _param4, _param5, _param6,
 				_param7, _param8);
 				return FALSE;
@@ -362,7 +361,7 @@ class Func9: public FuncBase
 			this->func = func;
 		}
 
-		bool call(gpointer d) {
+		bool call() {
 			(*obj.*func)(_param1, _param2, _param3, _param4, _param5, _param6,
 				_param7, _param8, _param9);
 				return FALSE;

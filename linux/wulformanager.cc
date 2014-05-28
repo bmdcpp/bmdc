@@ -126,7 +126,7 @@ void WulforManager::dispatchGuiFunc(FuncBase *func)
 
 void WulforManager::dispatchClientFunc(FuncBase *func)
 {
-	func->call((gpointer)func);
+	func->call();
 }
 
 MainWindow *WulforManager::getMainWindow()

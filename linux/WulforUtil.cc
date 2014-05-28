@@ -1212,8 +1212,8 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 			bool tBold = false;
 			bool tItalic = false;
 			bool tUnderline = false;
-			bool tPopup = false;
-			bool tSound = false;
+//			bool tPopup = false;
+//			bool tSound = false;
 			string fore("");
 			string back("");
 
@@ -1227,19 +1227,19 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 			if(cs->getHasBgColor())
 				back = cs->getBgColor();
 			else
-				back = "#FFFFFF";
+				back = "#FFFFFF";//TODO: More Generic ?
 
 			if(cs->getHasFgColor())
 				fore = cs->getFgColor();
 			else
-				fore = "#000000";//TODO global color?
+				fore = "#000000";//TODO: global color?
 
-			if(cs->getPopup())
-				tPopup = true;
+//			if(cs->getPopup())
+//				tPopup = true;
 			if(cs->getTab())
 				tTab = true;
-			if(cs->getPlaySound())
-				tSound = true;
+//			if(cs->getPlaySound())
+//				tSound = true;
 
 			string _w = cs->getMatch();
 			string _sW;
@@ -1278,11 +1278,11 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 			if(cs->usingRegexp())
 			{
 				string q = cs->getMatch().substr(4);
-				bool rematch = false;
+				bool reMatch = false;
 
-				rematch = dcpp::RegEx::match<string>(word,q,cs->getCaseSensitive());
+				reMatch = dcpp::RegEx::match<string>(word,q,cs->getCaseSensitive());
 
-				if(!rematch)
+				if(!reMatch)
 					ret = false;
 				else
 				{
@@ -1315,10 +1315,10 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 					NULL);
 
 				}
-				if(tPopup)
+				if(cs->getPopup())
 					WulforManager::get()->getMainWindow()->showNotification_gui(cs->getNoti()+" : ", word, Notify::HIGHLITING);
 
-				if(tSound)
+				if(cs->getPlaySound())
 				{
 					Sound::get()->playSound(cs->getSoundFile());
 				}
@@ -1457,6 +1457,7 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 		if(error){
 			g_print("Failed %s",error->message);
 			g_error_free(error);
+			return NULL;
 		}	
 		return buf;
 		#else
@@ -1574,7 +1575,7 @@ std::string WulforUtil::formatSized(std::string& nonf)
 	return nonf;
 }
 
-/* Inspired by StrongDC catch code ips */
+/* Inspired by StrongDC catch code ips, but works with IPv6 as well :p */
 gboolean WulforUtil::HitIP(string& name, string &sIp)
 {
 	bool isOkIpV6 = false;
