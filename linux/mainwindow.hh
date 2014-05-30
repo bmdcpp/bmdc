@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2014 Mank
+ * Copyright © 2010-2014 Mank, freedcpp@seznam.cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,6 +43,7 @@
 #include "SearchEntry.hh"
 
 #include <queue>
+#include <vector>
 
 class BookEntry;
 class SearchEntry;
@@ -149,6 +150,7 @@ class MainWindow:
 		{
 			setStatusOfIcons(AWAY,isAway);
 		}
+		 
 		SearchEntry *getSearchEntry () { return dynamic_cast<SearchEntry*>(findBookEntry(Entry::SEARCHS));}
 
 	private:
@@ -363,7 +365,7 @@ class MainWindow:
 
 		FileListQueue listQueue;
 
-		std::queue<std::string> statustext;
+		std::queue<std::string> statustext;//quene
 };
 
 #else

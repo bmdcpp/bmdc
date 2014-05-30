@@ -17,8 +17,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef BMDC_SEARCH_ENTRY_HH
-#define BMDC_SEARCH_ENTRY_HH
+#ifndef _BMDC_SEARCH_ENTRY_HH
+#define _BMDC_SEARCH_ENTRY_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>

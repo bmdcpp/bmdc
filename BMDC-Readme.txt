@@ -17,8 +17,8 @@ libssl
 libGeoIP >= 1.4.7
 --------------
 optional:
- libtar (Note: for Backup/Restore options)
- libnotify >= 0.4.1
+ libtar (Note: for Backup/Restore options )
+ libnotify >= 0.4.1 ( Note: for popups )
 -------------- 
  lua5.1 >= 5.0 or lua >= 5.0 (Note: not needed by main binary)
 
@@ -47,7 +47,7 @@ or if you used scons to install into the file system then use the same scons com
 
 License:
 --------
-GNU GPL Version 2
+GNU GPL Version 2 or later
 See License.txt for details.
 
 Contact:
