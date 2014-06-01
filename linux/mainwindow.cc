@@ -396,7 +396,7 @@ MainWindow::MainWindow():
 	//@fix hideing transfers
 	if(WGETB("hide-transfers"))
 		gtk_widget_hide(transfers->getContainer());
-	//
+	//@end
 
 	setToolbarButton_gui();
 	setTabPosition_gui(WGETI("tab-position"));
@@ -590,6 +590,7 @@ void MainWindow::onLimitingMenuItem_gui(GtkWidget *widget, gpointer data)
 	MainWindow *mw = (MainWindow *)data;
 	string speed = (gchar *)g_object_get_data(G_OBJECT(widget), "speed");
 	string type = (gchar *)g_object_get_data(G_OBJECT(widget), "type");
+
 	if(speed.empty() || type.length() == 2)
 		return;
 
@@ -603,6 +604,7 @@ void MainWindow::onLimitingMenuItem_gui(GtkWidget *widget, gpointer data)
 		ThrottleManager::setSetting(SettingsManager::MAX_DOWNLOAD_SPEED_MAIN, Util::toInt(speed)/1024 );
 		mw->setLimitingIcon(true);
 	}
+	
 	SettingsManager::getInstance()->set(SettingsManager::THROTTLE_ENABLE, true);
 	mw->setStatRate_gui();
 
@@ -618,8 +620,10 @@ void MainWindow::onLimitingDisable(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 	string type = (gchar *)g_object_get_data(G_OBJECT(widget), "type");
+
 	if(type.empty() || type.length() == 2)
 		return;
+	
 	if(type == "dw")
 	{
 		ThrottleManager::setSetting(SettingsManager::MAX_DOWNLOAD_SPEED_MAIN, 0);
@@ -647,7 +651,7 @@ void MainWindow::setInitThrotles()
 		setLimitingIcon(true);
 		return;
 	}
-//disabled
+//@disabled
 	if(!enabled && (up == 0)) {
 		setLimitingIcon(false);
 		return;
@@ -914,12 +918,11 @@ void MainWindow::setMainStatus_gui(string text, time_t t)
 		string statusTextOnToolTip;
       	  while(!tmp.empty())
       	  {
-      	     statusTextOnToolTip += "\n" + tmp.front();
+      	     statusTextOnToolTip += "\n" + tmp.back();
       	     tmp.pop();
       	  }
-   		  statustext.push(text);
-
-       gtk_widget_set_tooltip_text(getWidget("labelStatus"), statusTextOnToolTip.c_str());
+		  statustext.push(text);
+    gtk_widget_set_tooltip_text(getWidget("labelStatus"), statusTextOnToolTip.c_str());
 
 	}
 }
@@ -1976,7 +1979,7 @@ gboolean MainWindow::onAddButtonClicked_gui(GtkWidget *widget, gpointer data)
 
 void MainWindow::onToolToggled_gui(GtkWidget *widget, gpointer data)
 {
-	string key = (gchar*) g_object_get_data(G_OBJECT(widget), "key");
+	string key = (gchar *)g_object_get_data(G_OBJECT(widget), "key");
 	GtkWidget *button = (GtkWidget*) data;
 	bool active = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget));
 	active ? gtk_widget_show(button) : gtk_widget_hide(button);
@@ -2276,7 +2279,7 @@ void MainWindow::onAwayClicked_gui(GtkWidget *widget, gpointer data)
 	{
 		Util::switchAway();
 		Util::setManualAway(false);
-		mw->setMainStatus_gui(_("Away mode off"), time(NULL));
+		mw->setMainStatus_gui(_("Away mode off"));
 
 		F1 *func = new F1(mw,&MainWindow::setAwayIcon, false);
 		WulforManager::get()->dispatchGuiFunc(func);
@@ -2285,7 +2288,7 @@ void MainWindow::onAwayClicked_gui(GtkWidget *widget, gpointer data)
 	{
 		Util::switchAway();
 		Util::setManualAway(true);
-		mw->setMainStatus_gui(_("Away mode on"), time(NULL));
+		mw->setMainStatus_gui(_("Away mode on"));
 		F1 *func = new F1(mw,&MainWindow::setAwayIcon, true);
 		WulforManager::get()->dispatchGuiFunc(func);
 	}
@@ -2588,7 +2591,7 @@ void MainWindow::autoConnect_client()
 	if (WulforUtil::isHubURL(link) && SETTING(URL_HANDLER))
 	{
 		typedef Func2<MainWindow, string, string> F2;
-		F2 *func = new F2(this, &MainWindow::showHub_gui, link, "");//TODO: core 0.762
+		F2 *func = new F2(this, &MainWindow::showHub_gui, link, "");
 		WulforManager::get()->dispatchGuiFunc(func);
 	}
 	else if (WulforUtil::isMagnet(link) && SETTING(MAGNET_REGISTER))

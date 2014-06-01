@@ -153,7 +153,7 @@ Hub::Hub(const string &address, const string &encoding):
 	m_menu = BookEntry::createmenu();
 	userCommandMenu1 = new UserCommandMenu(gtk_menu_new(), ::UserCommand::CONTEXT_HUB);
 	addChild(userCommandMenu1);
-	// Ip ...
+	// IP ...
 	userCommandMenu2 = new UserCommandMenu(getWidget("ipmenu"), ::UserCommand::CONTEXT_IP);
 	addChild(userCommandMenu2);
 
@@ -965,7 +965,7 @@ void Hub::getPassword_gui()
 void Hub::onPasswordDialog(GtkWidget *dialog, gint response, gpointer data)
 {
 	Hub *hub = (Hub *) data;
-	GtkWidget *entry = (GtkWidget *) g_object_get_data(G_OBJECT(dialog), "password-entry");
+	GtkWidget *entry = (GtkWidget *)g_object_get_data(G_OBJECT(dialog), "password-entry");
 
 	if (response == GTK_RESPONSE_OK)
 	{
@@ -1193,7 +1193,7 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 					tagStyle = Tag::TAG_MYNICK;
 				else if (order[0] == 'C')
 					tagStyle = Tag::TAG_FAVORITE;
-				else if (order[0] == 'B'  || order[0] == 'A')//bot fix (for now)
+				else if (order[0] == 'B'  || order[0] == 'A')//bot fix
 					tagStyle = Tag::TAG_OPERATOR;
 				else if (order[0] == 'U' || order[0] == 'Z' || order[0] == 'R')
 					tagStyle = Tag::TAG_NICK;
@@ -2524,7 +2524,12 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			if(fav){
 				info[_("Notification")] = fav->getNotify() ? _("Yes") : _("No");
 				info[_("Mode")] = Util::toString(fav->getMode());
-			}	
+			}
+			info[_("Log Chat")] = hub->client->get(HubSettings::LogChat) ? _("Yes") : _("No");
+			info[_("Bold Tab")] = hub->client->get(HubSettings::BoldTab) ? _("Yes") : _("No");
+			info[_("Show Country")] = hub->client->get(HubSettings::ShowCountry) ? _("Yes") : _("No");
+			info[_("Show IPs")] = hub->client->get(HubSettings::ShowIps) ? _("Yes") : _("No");
+		
             string text;
 
             for(auto i = info.begin();i!=info.end();++i) {

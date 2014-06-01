@@ -1,5 +1,5 @@
 //Class to take care of communication with the shell
-//Author: Irene//Modified by Mank
+//Author: Irene //@Modified by Mank
 
 #ifndef SHELL_COMMAND_HH
 #define SHELL_COMMAND_HH
