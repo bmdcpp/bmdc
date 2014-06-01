@@ -299,7 +299,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			}
 		} else {
 			// Hub:seeker
-			if(Util::stricmp(seeker.c_str() + 4, getMyNick().c_str()) == 0) {
+			if( (seeker.size() == 5) &&  (Util::stricmp(seeker.c_str() + 4, getMyNick().c_str()) == 0)) {
 				return;
 			}
 		}

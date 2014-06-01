@@ -229,12 +229,12 @@ File::File(const string& aFileName, int access, int mode) {
 		throw FileException(Util::translateError(errno));
 }
 
-uint32_t File::getLastModified() noexcept {
+time_t File::getLastModified() noexcept {
 	struct stat s;
 	if (::fstat(h, &s) == -1)
 		return 0;
 
-	return (uint32_t)s.st_mtime;
+	return s.st_mtime;
 }
 
 bool File::isOpen() const noexcept {

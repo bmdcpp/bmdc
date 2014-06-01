@@ -25,7 +25,7 @@
 #include <cassert>
 #define dcdebug printf
 #ifdef _MSC_VER
-#include <crtdbg.h>
+	#include <crtdbg.h>
 
 #define dcassert(exp) \
 do { if (!(exp)) { \
@@ -37,7 +37,8 @@ _CrtDbgBreak(); } } while(false)
 #endif
 #define dcdrun(exp) exp
 #else //_DEBUG
-#define dcdebug if (false) printf
+//#define dcdebug if (false) printf
+#define dcdebug printf
 #define dcassert(exp)
 #define dcdrun(exp)
 #endif //_DEBUG

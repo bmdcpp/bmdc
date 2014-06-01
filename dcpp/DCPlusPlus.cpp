@@ -92,7 +92,7 @@ void startup(function<void (const string&)> f) {
 	ConnectivityManager::newInstance();
 	MappingManager::newInstance();
 	GeoManager::newInstance();
-	WindowManager::newInstance();
+//	WindowManager::newInstance();
 	PluginManager::newInstance();
         PluginApiImpl::init();
 #ifdef HAVE_LIBTAR
@@ -182,7 +182,7 @@ void shutdown() {
 	HighlightManager::deleteInstance();
 	DetectionManager::deleteInstance();
 
-	WindowManager::deleteInstance();
+//	WindowManager::deleteInstance();
 	GeoManager::deleteInstance();
 	MappingManager::deleteInstance();
 	ConnectivityManager::deleteInstance();

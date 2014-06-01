@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2014 Mank
+ * Copyright © 2010-2014 Mank, freedcpp@seznam.cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -111,7 +111,7 @@ MainWindow::MainWindow():
 	gtk_window_set_transient_for(GTK_WINDOW(getWidget("flistDialog")), window);
 	gtk_window_set_transient_for(GTK_WINDOW(getWidget("ucLineDialog")), window);
 
-	setStatRate_gui();//NOTE: core 0.762
+	setStatRate_gui();
 
 	// toolbar
 	setToolbarMenu_gui("connectMenuItemBar", "connect", "toolbar-button-connect");
@@ -757,7 +757,6 @@ void MainWindow::removeBookEntry_gui(BookEntry *entry)
 			gtk_widget_set_sensitive(getWidget("closeMenuItem"), FALSE);
 			setTitle(""); // Reset window title to default
 		}
-
 	}
 }
 

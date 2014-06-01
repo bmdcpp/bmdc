@@ -895,7 +895,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			#elif defined(__GNUC__)
 				build += "gcc " __VERSION__;
 			#endif
-		message =   "\n-= Stats " + dcpp::fullVersionString
+		message =   "\n-= Stats " + dcpp::fullVersionString+" =-"
 					+"\n-= " +build+" =-\n"
 					+ "-= " + rel + " " + mach + " =-\n"
 					+ "-= Uptime: " + Util::formatSeconds(Util::getUptime()) + " =-\n"

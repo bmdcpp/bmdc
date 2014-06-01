@@ -81,11 +81,6 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 			return false;
 		}
 	}
-	/*if(aSource.getHubUrl().empty())//should always be not empty
-	{
-		aSource.fileNotAvail();
-		return false;
-	}*/	
 
 	string sourceFile;
 	Transfer::Type type;

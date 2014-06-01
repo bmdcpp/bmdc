@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2014-02-22 23:27+0100\n"
+"POT-Creation-Date: 2014-05-31 13:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2014-05-28 12:58+0200\n"
+"POT-Creation-Date: 2014-06-01 14:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -659,7 +659,7 @@ msgid "Away mode message on/off"
 msgstr ""
 
 #: ui/hub.glade.ui:25 ui/privatemessage.glade.ui:26 linux/WulforUtil.cc:790
-#: linux/WulforUtil.cc:810 linux/mainwindow.cc:2280
+#: linux/WulforUtil.cc:810 linux/mainwindow.cc:2279
 #: linux/privatemessage.cc:1068
 msgid "Away mode off"
 msgstr ""
@@ -839,8 +839,8 @@ msgid "Choose a File"
 msgstr ""
 
 #: ui/search.glade.ui:7 ui/settingsdialog.glade.ui:8901
-#: ui/sharebrowser.glade.ui:7 linux/hub.cc:2960 linux/mainwindow.cc:1623
-#: linux/mainwindow.cc:1691 linux/privatemessage.cc:1345
+#: ui/sharebrowser.glade.ui:7 linux/hub.cc:2960 linux/mainwindow.cc:1622
+#: linux/mainwindow.cc:1690 linux/privatemessage.cc:1345
 msgid "Choose a directory"
 msgstr ""
 
@@ -2418,7 +2418,7 @@ msgstr ""
 msgid "Select Text Color"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:771 linux/mainwindow.cc:2376
+#: ui/mainwindow.glade.ui:771 linux/mainwindow.cc:2375
 msgid "Select filelist to browse"
 msgstr ""
 
@@ -3040,8 +3040,8 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:3297 ui/settingsdialog.glade.ui:3313
 #: ui/settingsdialog.glade.ui:3357 linux/hashdialog.cc:77
-#: linux/mainwindow.cc:953 linux/mainwindow.cc:954 linux/mainwindow.cc:2740
-#: linux/mainwindow.cc:2742 linux/treeview.cc:220
+#: linux/mainwindow.cc:952 linux/mainwindow.cc:953 linux/mainwindow.cc:2739
+#: linux/mainwindow.cc:2741 linux/treeview.cc:220
 msgid "s"
 msgstr ""
 
@@ -3269,7 +3269,7 @@ msgstr ""
 msgid "<b>Under what name you see the directory</b>"
 msgstr ""
 
-#: linux/mainwindow.cc:2715
+#: linux/mainwindow.cc:2714
 msgid "<b>file:</b> "
 msgstr ""
 
@@ -3420,7 +3420,7 @@ msgstr ""
 msgid "Away Icon"
 msgstr ""
 
-#: linux/mainwindow.cc:2289
+#: linux/mainwindow.cc:2288
 msgid "Away mode on"
 msgstr ""
 
@@ -3721,7 +3721,7 @@ msgstr ""
 msgid "Download starting: "
 msgstr ""
 
-#: linux/mainwindow.cc:899
+#: linux/mainwindow.cc:898
 msgid "Download: "
 msgstr ""
 
@@ -3754,7 +3754,7 @@ msgstr ""
 msgid "Emotion packs"
 msgstr ""
 
-#: linux/mainwindow.cc:1052
+#: linux/mainwindow.cc:1051
 msgid "Empty hub address specified"
 msgstr ""
 
@@ -4155,7 +4155,7 @@ msgstr ""
 msgid "Loaded plugins: "
 msgstr ""
 
-#: linux/mainwindow.cc:2413
+#: linux/mainwindow.cc:2412
 msgid "Loading Own file list"
 msgstr ""
 
@@ -4163,11 +4163,11 @@ msgstr ""
 msgid "Log Ignored Messages as STATUS mess"
 msgstr ""
 
-#: linux/mainwindow.cc:1684
+#: linux/mainwindow.cc:1683
 msgid "Magnet Choice"
 msgstr ""
 
-#: linux/mainwindow.cc:1614
+#: linux/mainwindow.cc:1613
 msgid "Magnet Properties / Choice"
 msgstr ""
 
@@ -4479,7 +4479,7 @@ msgstr ""
 msgid "Select Font"
 msgstr ""
 
-#: linux/mainwindow.cc:2779
+#: linux/mainwindow.cc:2778
 msgid "Select file to Get TTH"
 msgstr ""
 
@@ -4552,7 +4552,7 @@ msgstr ""
 msgid "Shared"
 msgstr ""
 
-#: linux/mainwindow.cc:944
+#: linux/mainwindow.cc:943
 msgid "Shared: "
 msgstr ""
 
@@ -4655,7 +4655,7 @@ msgstr ""
 msgid "Slots"
 msgstr ""
 
-#: linux/mainwindow.cc:943
+#: linux/mainwindow.cc:942
 msgid "Slots: "
 msgstr ""
 
@@ -4757,11 +4757,11 @@ msgstr ""
 msgid "Tag"
 msgstr ""
 
-#: linux/mainwindow.cc:2907
+#: linux/mainwindow.cc:2906
 msgid "The GeoIP database could not be updated...v"
 msgstr ""
 
-#: linux/mainwindow.cc:2902
+#: linux/mainwindow.cc:2901
 msgid ""
 "The GeoIP database has been successfully updated; restart DC++ to apply....v"
 msgstr ""
@@ -4847,7 +4847,7 @@ msgstr ""
 msgid "Unable to load file list: "
 msgstr ""
 
-#: linux/mainwindow.cc:2401
+#: linux/mainwindow.cc:2400
 msgid "Unable to load file list: Invalid file list name"
 msgstr ""
 
@@ -4868,7 +4868,7 @@ msgstr ""
 msgid "Updated frame search"
 msgstr ""
 
-#: linux/mainwindow.cc:2892
+#: linux/mainwindow.cc:2891
 msgid "Updating the GeoIP database...v"
 msgstr ""
 
@@ -4896,7 +4896,7 @@ msgstr ""
 msgid "Upload starting..."
 msgstr ""
 
-#: linux/mainwindow.cc:899
+#: linux/mainwindow.cc:898
 msgid "Upload: "
 msgstr ""
 
@@ -5266,7 +5266,7 @@ msgstr ""
 msgid "default theme"
 msgstr ""
 
-#: linux/mainwindow.cc:2691
+#: linux/mainwindow.cc:2690
 msgid "file list from "
 msgstr ""
 

@@ -87,7 +87,7 @@ void HashManager::HashStore::addFile(const string& aFileName, uint32_t aTimeStam
 
 	string fname = Util::getFileName(aFileName), fpath = Util::getFilePath(aFileName);
 
-	auto& fileList = fileIndex[fpath];
+	vector<FileInfo>& fileList = fileIndex[fpath];
 
 	auto j = find(fileList.begin(), fileList.end(), fname);
 	if (j != fileList.end()) {
@@ -146,6 +146,7 @@ bool HashManager::HashStore::loadTree(File& f, const TreeInfo& ti, const TTHValu
 		uint8_t* buf = new uint8_t[datalen];
 		f.read(&buf[0], datalen);
 		tt = TigerTree(ti.getSize(), ti.getBlockSize(), &buf[0]);
+		delete [] buf;
 		if (!(tt.getRoot() == root))
 			return false;
 	} catch (const Exception&) {
@@ -212,8 +213,8 @@ void HashManager::HashStore::rebuild() {
 			}
 		}
 
-		auto tmpName = getDataFile() + ".tmp";
-		auto origName = getDataFile();
+		string tmpName = getDataFile() + ".tmp";
+		string origName = getDataFile();
 
 		createDataFile(tmpName);
 
@@ -330,7 +331,7 @@ public:
 		inHashStore(false)
 	{ }
 	void startTag(const string& name, StringPairList& attribs, bool simple);
-        void endTag(const string&, const string&){};//@Why say pure ?
+	void endTag(const string&, const string&){};//@Why say pure ?
 private:
 	HashManager::HashStore& store;
 
@@ -469,7 +470,7 @@ void HashLoader::startTag(const string& name, StringPairList& attribs, bool simp
 		if(readBytes != streamPos) {
 			streamPos = readBytes;
 		    if(progressF)	
-			progressF(static_cast<float>(readBytes) / static_cast<float>(fileSize));
+				progressF(static_cast<float>(readBytes) / static_cast<float>(fileSize));
 		}
 	});
 
@@ -491,10 +492,10 @@ void HashLoader::startTag(const string& name, StringPairList& attribs, bool simp
 			}
 		} else if (inFiles && name == sFile) {
 			file = getAttrib(attribs, sName, 0);
-			auto timeStamp = Util::toUInt32(getAttrib(attribs, sTimeStamp, 1));
+			uint32_t timeStamp = Util::toUInt32(getAttrib(attribs, sTimeStamp, 1));
 			const auto& root = getAttrib(attribs, sRoot, 2);
 			if(!file.empty() && timeStamp > 0 && !root.empty() && (version != 2 || upgradeFromV2(file))) {
-				auto fname = Util::getFileName(file), fpath = Util::getFilePath(file);
+				string fname = Util::getFileName(file), fpath = Util::getFilePath(file);
 				store.fileIndex[fpath].emplace_back(fname, TTHValue(root), timeStamp, false);
 			}
 		} else if (name == sTrees) {
@@ -635,14 +636,14 @@ int HashManager::Hasher::run() {
 
 		if(!fname.empty()) {
 			try {
-				auto start = GET_TICK();
+				int64_t start = GET_TICK();
 
 				File f(fname, File::READ, File::OPEN);
-				auto size = f.getSize();
-				auto timestamp = f.getLastModified();
+				int64_t size = f.getSize();
+				time_t timestamp = f.getLastModified();
 
-				auto sizeLeft = size;
-				auto bs = max(TigerTree::calcBlockSize(size, 10), MIN_BLOCK_SIZE);
+				int64_t sizeLeft = size;
+				int64_t bs = max(TigerTree::calcBlockSize(size, 10), MIN_BLOCK_SIZE);
 
 				TigerTree tt(bs);
 
@@ -652,7 +653,7 @@ int HashManager::Hasher::run() {
 				if(sfv.hasCRC())
 					xcrc32 = &crc32;
 
-				auto lastRead = GET_TICK();
+				uint64_t lastRead = GET_TICK();
 
 				FileReader fr(true);
 
@@ -660,7 +661,7 @@ int HashManager::Hasher::run() {
 					if(SETTING(MAX_HASH_SPEED)> 0) {
 						uint64_t now = GET_TICK();
 						uint64_t minTime = n * 1000LL / (SETTING(MAX_HASH_SPEED) * 1024LL * 1024LL);
-						if(lastRead + minTime> now) {
+						if(lastRead + minTime > now) {
 							Thread::sleep(minTime - (now - lastRead));
 						}
 						lastRead = lastRead + minTime;
@@ -685,7 +686,7 @@ int HashManager::Hasher::run() {
 				f.close();
 				tt.finalize();
 				uint64_t end = GET_TICK();
-				int64_t speed = 0;
+				uint64_t speed = 0;
 				if(end > start) {
 					speed = size * 1000 / (end - start);
 				}
@@ -693,7 +694,7 @@ int HashManager::Hasher::run() {
 				if(xcrc32 && xcrc32->getValue() != sfv.getCRC()) {
 					LogManager::getInstance()->message(_("%1% not shared; calculated CRC32 does not match the one found in SFV file.") + Util::addBrackets(fname));
 				} else {
-					HashManager::getInstance()->hashDone(fname, timestamp, tt, speed, size);
+					HashManager::getInstance()->hashDone(fname, (int64_t)timestamp, tt, speed, size);
 				}
 			} catch(const FileException& e) {
 				LogManager::getInstance()->message(_("Error hashing %1%: %2%") + Util::addBrackets(fname) + e.getError());

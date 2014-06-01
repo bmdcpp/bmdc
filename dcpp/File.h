@@ -82,7 +82,7 @@ public:
 	virtual size_t write(const void* buf, size_t len);
 	virtual size_t flush();
 
-	uint32_t getLastModified() noexcept;
+	time_t getLastModified() noexcept;
 
 	static void copyFile(const string& src, const string& target);
 	static void renameFile(const string& source, const string& target);

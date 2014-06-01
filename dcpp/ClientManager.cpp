@@ -352,11 +352,12 @@ void ClientManager::putOffline(OnlineUser* ou, bool disconnect) noexcept {
 		if(u.unique())
 		{
 			Lock l(cs);
-				auto in = nicks.find(u->getCID());
-				if(in != nicks.end())
-				{ nicks.erase(u->getCID());}
+			auto in = nicks.find(u->getCID());
+			if(in != nicks.end())
+			{ nicks.erase(u->getCID());}
 				
-			delete u.get();
+			//delete u.get();
+			u.reset();//think =P
 		}
 
 	} else if(diff > 1) {
@@ -397,7 +398,7 @@ OnlineUser* ClientManager::findOnlineUser(const CID& cid, const string& hintUrl)
 	// return a random user that matches the given CID but not the hint.
 	return p.first->second;
 }
-//TODO ? needed??
+//TODO ? needed....
 string ClientManager::findMySID(const HintedUser& p) {
 	//this could also be done by just finding in the client list... better?
 	if(p.hint.empty()) // we cannot find the correct SID without a hubUrl
@@ -575,11 +576,12 @@ void ClientManager::on(TimerManagerListener::Minute, uint64_t /* aTick */) noexc
 	auto i = users.begin();
 	while(i != users.end()) {
 		if(i->second->unique()) {
-				auto n = nicks.find(i->second->getCID());//should also remove from nicks...
-				if(n != nicks.end())
-					nicks.erase(n);
+			unordered_map<CID, NickMapEntry>::const_iterator n = nicks.find(i->second->getCID());//should also remove from nicks...
+			if(n != nicks.end())
+				nicks.erase(n);
 			users.erase(i++);
-			delete i->second.get();
+			//delete i->second.get();
+			i->second.reset ();//think ?
 		} else {
 			++i;
 		}
@@ -727,7 +729,7 @@ void ClientManager::sendAction(OnlineUser& ou, const int aAction) {
 }
 //TODO is this Suite to FakeChecker?
 void ClientManager::addCheckToQueue(const HintedUser hintedUser, bool filelist) {
-	OnlineUser* ou = NULL;
+	OnlineUser* ou = nullptr;
 	bool addCheck = false;
 	{
 		Lock l(cs);
@@ -798,7 +800,7 @@ void ClientManager::on(HubUserCommand, Client* client, int aType, int ctx, const
 //..suite of FakeChecker ?
 void ClientManager::checkCheating(const HintedUser& p, DirectoryListing* dl) {
 	string report;
-	OnlineUser* ou = NULL;
+	OnlineUser* ou = nullptr;
 
 	{
 		Lock l(cs);
