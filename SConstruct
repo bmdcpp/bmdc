@@ -204,7 +204,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		Exit(1)
 
 	if not conf.CheckPKG('gtk+-3.0 >= 3.00'):
-		print '\tgtk+ >= 2.12 not found.'
+		print '\tgtk+ >= 3.4 not found.'
 		print '\tNote: You might have the lib but not the headers'
 		Exit(1)
 

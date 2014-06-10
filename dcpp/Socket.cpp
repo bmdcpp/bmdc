@@ -42,7 +42,10 @@
 #endif
 
 namespace dcpp {
-
+bool Socket::isV6Valid() const noexcept {
+	return sock6.valid();
+}
+	 
 namespace {
 
 #ifdef _WIN32

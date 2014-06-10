@@ -177,6 +177,8 @@ public:
 	/** When socks settings are updated, this has to be called... */
 	static void socksUpdated();
 
+	bool isV6Valid() const noexcept;
+
 	static int getLastError();
 	static string getRemoteHost(const string& aIp);
 

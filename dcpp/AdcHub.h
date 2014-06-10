@@ -159,6 +159,7 @@ private:
 	virtual void on(Failed, const string& aLine) noexcept;
 	//TimerManagerListener
 	virtual void on(Second, uint64_t aTick) noexcept;
+	void appendConnectivity(StringMap& lastInfoMap, AdcCommand& c, bool v4, bool v6);
 
 };
 

@@ -1044,6 +1044,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 	} else {
 		addParam(lastInfoMap, c, "I4", "0.0.0.0");
 	}
+	
 	if(ClientManager::getInstance()->isActive(getHubUrl())) {
 		addParam(lastInfoMap, c, "U4", SearchManager::getInstance()->getPort());
 		su += "," + TCP4_FEATURE;
@@ -1054,7 +1055,29 @@ void AdcHub::info(bool /*alwaysSend*/) {
 	}
 	addParam(lastInfoMap, c, "LC", Util::getIETFLang());
 
+	bool addV4 = !sock->isV6Valid() || ( get(HubSettings::Connection) == true) ;
+	bool addV6 = sock->isV6Valid() || ( get(HubSettings::Connection6) == true) ;
+	
+	
+	if(addV4 && isActiveV4()) {
+		su += "," + TCP4_FEATURE;
+		su += "," + UDP4_FEATURE;
+	}
+
+	if(addV6 && isActiveV6()) {
+		su += "," + TCP6_FEATURE;
+		su += "," + UDP6_FEATURE;
+	}
+
+	if ( addV6 && !isActiveV6() && (get(HubSettings::Connection6) == true) 
+		|| (addV4 && !isActiveV4() && get(HubSettings::Connection) == true)) 
+	{
+		su += "," + NAT0_FEATURE;
+	}
+
 	addParam(lastInfoMap, c, "SU", su);
+
+	appendConnectivity(lastInfoMap, c, addV4, addV6);
 
 	if(!c.getParameters().empty()) {
 		send(c);
@@ -1159,4 +1182,43 @@ void AdcHub::refreshuserlist(bool) {
 	}
 	fire(ClientListener::UsersUpdated(), this, v);
 }
+
+
+void AdcHub::appendConnectivity(StringMap& lastInfoMap, AdcCommand& c, bool v4, bool v6) {
+	if (v4) {
+		if(CONNSETTING(NO_IP_OVERRIDE) && !getUserIp4().empty()) {
+			addParam(lastInfoMap, c, "I4", Socket::resolve(getUserIp4(), AF_INET));
+		} else {
+			addParam(lastInfoMap, c, "I4", "0.0.0.0");
+		}
+
+		if(isActiveV4()) {
+			addParam(lastInfoMap, c, "U4", SearchManager::getInstance()->getPort());
+		} else {
+			addParam(lastInfoMap, c, "U4", "");
+		}
+	} else {
+		addParam(lastInfoMap, c, "I4", "");
+		addParam(lastInfoMap, c, "U4", "");
+	}
+
+	if (v6) {
+		if (CONNSETTING(NO_IP_OVERRIDE) && !getUserIp6().empty()) {
+			addParam(lastInfoMap, c, "I6", Socket::resolve(getUserIp6(), AF_INET6));
+		} else {
+			addParam(lastInfoMap, c, "I6", "::");
+		}
+
+		if(isActiveV6()) {
+			addParam(lastInfoMap, c, "U6", SearchManager::getInstance()->getPort());
+		} else {
+			addParam(lastInfoMap, c, "U6", "");
+		}
+	} else {
+		addParam(lastInfoMap, c, "I6", "");
+		addParam(lastInfoMap, c, "U6", "");
+	}
+}
+
+
 } // namespace dcpp

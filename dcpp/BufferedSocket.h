@@ -108,7 +108,8 @@ public:
 
 	string getLocalIp() const { return sock->getLocalIp(); }
 	uint16_t getLocalPort() const { return sock->getLocalPort(); }
-
+	bool isV6Valid() const { return sock->isV6Valid(); }
+	 
 	GETSET(char, separator, Separator)
 private:
 	enum Tasks {

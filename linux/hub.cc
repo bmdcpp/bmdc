@@ -60,7 +60,7 @@ Hub::Hub(const string &address, const string &encoding):
 	FavoriteHubEntry* faventry =  FavoriteManager::getInstance()->getFavoriteHubEntry(address);
 
 	// Initialize nick treeview
-	nickView.setView(GTK_TREE_VIEW(getWidget("nickView")), true, "hub");
+	nickView.setView(GTK_TREE_VIEW(getWidget("nickView")), /*true*/false, "hub");
 	nickView.insertColumn(_("Nick"), G_TYPE_STRING, TreeView::ICON_STRING_TEXT_COLOR, 100, "Icon", "NickColor");
 	nickView.insertColumn(_("Shared"), G_TYPE_INT64, TreeView::SIZE, 75);
 	nickView.insertColumn(_("Description"), G_TYPE_STRING, TreeView::STRING, 85);
@@ -213,7 +213,13 @@ Hub::Hub(const string &address, const string &encoding):
 	g_signal_connect(getWidget("openImageItem"), "activate", G_CALLBACK(onOpenImageClicked_gui), (gpointer)this);
 
 	GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("chatScroll")));
-
+/**/
+	//GtkAdjustment* scroll = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW(getWidget("scrolledwindow2")));
+	//gtk_adjustment_configure (scroll,0,0,200,1,1,10);
+	//gtk_adjustment_changed (scroll);  
+	//gtk_scrolled_window_set_hadjustment(GTK_SCROLLED_WINDOW(getWidget("scrolledwindow2")),scroll);
+	//gtk_scrolled_window_set_hadjustment(GTK_SCROLLED_WINDOW(nickView.get()),scroll);	
+		
 	// Connect the signals to their callback functions.
 	g_signal_connect(getContainer(), "focus-in-event", G_CALLBACK(onFocusIn_gui), (gpointer)this);
 	g_signal_connect(nickView.get(), "button-press-event", G_CALLBACK(onNickListButtonPress_gui), (gpointer)this);

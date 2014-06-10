@@ -110,6 +110,8 @@ public:
 	const string& getHubUrl() const { return hubUrl; }
 
 	bool isActive() const;
+	bool isActiveV4() const;
+	bool isActiveV6() const; 
 	void putDetectors() { stopMyInfoCheck(); stopChecking();  }
 
 	HubData* getPluginObject() noexcept;
@@ -167,6 +169,8 @@ protected:
 	void reloadSettings(bool updateNick);
 	/// Get the external IP the user has defined for this hub, if any.
 	const string& getUserIp() const;
+	const string& getUserIp4() const;
+	const string& getUserIp6() const; 
 
 	virtual void checkNick(string& nick) = 0;
 

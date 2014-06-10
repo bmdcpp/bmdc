@@ -686,6 +686,19 @@ void ClientManager::saveUser(const CID& cid) {
 		i->second.second = true;
 }
 
+bool ClientManager::getMode6(const string& url) const
+{
+	if(url.empty ()) return true;//
+	const FavoriteHubEntry* hub = FavoriteManager::getInstance()->getFavoriteHubEntry (url);
+	if(!hub->get(HubSettings::UserIp).empty () && hub->get(HubSettings::UserIp6).empty ())
+		return false;
+	if(hub->get(HubSettings::UserIp6).empty ())
+		return true;
+	if(!hub->get(HubSettings::UserIp6).empty ())
+		return true;
+	return true;
+}
+
 int ClientManager::getMode(const string& aHubUrl) const {
 
 	if(aHubUrl.empty())
@@ -704,9 +717,9 @@ int ClientManager::getMode(const string& aHubUrl) const {
 
 bool ClientManager::isActive(const string& aHubUrl /*= Util::emptyString*/) const
 {
-	return getMode(aHubUrl) != SettingsManager::INCOMING_FIREWALL_PASSIVE;
+	return ( (getMode(aHubUrl) != SettingsManager::INCOMING_FIREWALL_PASSIVE) || (getMode6(aHubUrl) == true) );
 }
-//..TODO IPv6(may done)
+//..TODO IPv6
 void ClientManager::setIpAddress(const UserPtr& p, const string& ip) {
     Lock l(cs);
 	OnlineIterC i = onlineUsers.find(p->getCID());

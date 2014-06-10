@@ -224,6 +224,15 @@ bool Client::isActive() const {
 	return ClientManager::getInstance()->isActive(hubUrl);
 }
 
+
+bool Client::isActiveV4() const {
+	return get(HubSettings::Connection) == true;
+}
+
+bool Client::isActiveV6() const {
+	return !v4only() && get(HubSettings::Connection6) == true;
+}
+
 void Client::updateCounts(bool aRemove) {
 	// We always remove the count and then add the correct one if requested...
 	if(countType != COUNT_UNCOUNTED) {
@@ -274,6 +283,21 @@ void Client::sendActionCommand(const OnlineUser& ou, int actionId) {
 bool Client::isActionActive(const int aAction) const {
 	FavoriteHubEntry* hub = FavoriteManager::getInstance()->getFavoriteHubEntry(getHubUrl());
 	return hub ? FavoriteManager::getInstance()->getEnabledAction(hub, aAction) : true;
+}
+
+
+const string& Client::getUserIp4() const {
+	if(!get(UserIp).empty()) {
+		return get(UserIp);
+	}
+	return CONNSETTING(EXTERNAL_IP);
+}
+
+const string& Client::getUserIp6() const {
+	if(!get(UserIp6).empty()) {
+		return get(UserIp6);
+	}
+	return CONNSETTING(EXTERNAL_IP6);
 }
 
 } // namespace dcpp

@@ -38,6 +38,7 @@ struct HubSettings
 		Description,
 		Email,
 		UserIp,
+		UserIp6,
 		// don't forget to edit stringNames in HubSettings.cpp when adding a def here!
 		AwayMessage,
 		PackName,
@@ -55,6 +56,8 @@ struct HubSettings
 		ShowIps,
 		ShowCountry,
 		BoldTab,
+		Connection,
+		Connection6,
 
 		HubBoolLast
 	};
