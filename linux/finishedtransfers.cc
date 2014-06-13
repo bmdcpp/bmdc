@@ -53,8 +53,8 @@ FinishedTransfers::FinishedTransfers(const EntryType type, const string &title, 
 	// Initialize transfer treeview
 	fileView.setView(GTK_TREE_VIEW(getWidget("fileView")), true, "finished");
 	fileView.insertColumn(_("Time"), G_TYPE_STRING, TreeView::STRING, 150);
-	fileView.insertColumn(_("Filename"), G_TYPE_STRING, TreeView::STRING, 100);
-	fileView.insertColumn(_("Path"), G_TYPE_STRING, TreeView::STRING, 200);
+	fileView.insertColumn(_("Filename"), G_TYPE_STRING, TreeView::STRING, 70);
+	fileView.insertColumn(_("Path"), G_TYPE_STRING, TreeView::STRING, 90);
 	fileView.insertColumn(_("Nicks"), G_TYPE_STRING, TreeView::STRING, 100);
 	fileView.insertColumn(_("Transferred"), G_TYPE_INT64, TreeView::SIZE, 100);
 	fileView.insertColumn(_("Speed"), G_TYPE_INT64, TreeView::SPEED, 100);
@@ -73,10 +73,10 @@ FinishedTransfers::FinishedTransfers(const EntryType type, const string &title, 
 
 	// Initialize user treeview
 	userView.setView(GTK_TREE_VIEW(getWidget("userView")), true, "finished");
-	userView.insertColumn(_("Time"), G_TYPE_STRING, TreeView::STRING, 150);
+	userView.insertColumn(_("Time"), G_TYPE_STRING, TreeView::STRING, 50);
 	userView.insertColumn(_("Nick"), G_TYPE_STRING, TreeView::STRING, 100);
-	userView.insertColumn(_("Hub"), G_TYPE_STRING, TreeView::STRING, 200);
-	userView.insertColumn(_("Files"), G_TYPE_STRING, TreeView::STRING, 100);
+	userView.insertColumn(_("Hub"), G_TYPE_STRING, TreeView::STRING, 100);
+	userView.insertColumn(_("Files"), G_TYPE_STRING, TreeView::STRING, 70);
 	userView.insertColumn(_("Transferred"), G_TYPE_INT64, TreeView::SIZE, 100);
 	userView.insertColumn(_("Speed"), G_TYPE_INT64, TreeView::SPEED, 100);
 	userView.insertHiddenColumn("CID", G_TYPE_STRING);

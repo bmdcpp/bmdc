@@ -873,5 +873,7 @@ added status column to FavoriteHubs Tab.
 Made Settings for menu item on right click in User Action in HubFrame
 ----
 Add some more info to /info cmd
+----
+Fix horizontal scrollbars
 
 

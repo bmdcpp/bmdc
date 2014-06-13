@@ -202,7 +202,7 @@ class Hub:
 		void disconnect_client(bool shutdownHub = false);
 		void setPassword_client(std::string password);
 		void sendMessage_client(std::string message, bool thirdPerson);
-		void getFileList_client(std::string cid, bool match);
+		void getFileList_client(std::string cid, bool match,bool partial);
 		void grantSlot_client(std::string cid);
 		void removeUserFromQueue_client(std::string cid);
 		void redirect_client(std::string address, bool follow);

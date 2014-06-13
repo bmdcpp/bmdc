@@ -38,15 +38,15 @@ FavoriteHubs::FavoriteHubs():
 
 	// Initialize favorite hub list treeview
 	favoriteView.setView(GTK_TREE_VIEW(getWidget("favoriteView")), TRUE, "favoritehubs");
-	favoriteView.insertColumn(_("Name"), G_TYPE_STRING, TreeView::STRING, 200);
-	favoriteView.insertColumn(_("Description"), G_TYPE_STRING, TreeView::STRING, 200);
-	favoriteView.insertColumn(_("Address"), G_TYPE_STRING, TreeView::STRING, 175);
-	favoriteView.insertColumn(_("Nick"), G_TYPE_STRING, TreeView::STRING, 100);
-	favoriteView.insertColumn(_("Password"), G_TYPE_STRING, TreeView::STRING, 100);
-	favoriteView.insertColumn(_("User Description"), G_TYPE_STRING, TreeView::STRING, 125);
-	favoriteView.insertColumn(_("Encoding"), G_TYPE_STRING, TreeView::STRING, 125);
-	favoriteView.insertColumn(_("Group"), G_TYPE_STRING, TreeView::STRING, 125);
-	favoriteView.insertColumn(_("Status"), G_TYPE_STRING, TreeView::STRING, 50);
+	favoriteView.insertColumn(_("Name"), G_TYPE_STRING, TreeView::STRING, 100);
+	favoriteView.insertColumn(_("Description"), G_TYPE_STRING, TreeView::STRING, 100);
+	favoriteView.insertColumn(_("Address"), G_TYPE_STRING, TreeView::STRING, 150);
+	favoriteView.insertColumn(_("Nick"), G_TYPE_STRING, TreeView::STRING, 60);
+	favoriteView.insertColumn(_("Password"), G_TYPE_STRING, TreeView::STRING, 10);
+	favoriteView.insertColumn(_("User Description"), G_TYPE_STRING, TreeView::STRING, 70);
+	favoriteView.insertColumn(_("Encoding"), G_TYPE_STRING, TreeView::STRING, 80);
+	favoriteView.insertColumn(_("Group"), G_TYPE_STRING, TreeView::STRING, 100);
+	favoriteView.insertColumn(_("Status"), G_TYPE_STRING, TreeView::STRING, 60);
 	favoriteView.insertHiddenColumn("Hidden Password", G_TYPE_STRING);
 	favoriteView.insertHiddenColumn("FavPointer",G_TYPE_POINTER);
 	favoriteView.insertHiddenColumn("Action", G_TYPE_INT);

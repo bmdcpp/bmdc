@@ -37,17 +37,18 @@ using namespace dcpp;
 FavoriteUsers::FavoriteUsers():
 	BookEntry(Entry::FAVORITE_USERS, _("Favorite Users"), "favoriteusers.glade")
 {
+	#if !GTK_CHECK_VERSION(3,12,0)	
 	// Configure the dialog
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("DescriptionDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
-
+	#endif
 	// menu
 	g_object_ref_sink(getWidget("menu"));
 
 	// Initialize favorite users list treeview
 	favoriteUserView.setView(GTK_TREE_VIEW(getWidget("favoriteUserView")), TRUE, "favoriteusers");
-	favoriteUserView.insertColumn(_("Auto grant slot"), G_TYPE_BOOLEAN, TreeView::BOOL, 100);
+	favoriteUserView.insertColumn(_("Auto grant slot"), G_TYPE_BOOLEAN, TreeView::BOOL, 30);
 	favoriteUserView.insertColumn(_("Nick"), G_TYPE_STRING, TreeView::ICON_STRING, 100, "Icon");
-	favoriteUserView.insertColumn(_("Hub (last seen in, if offline)"), G_TYPE_STRING, TreeView::STRING, 200);
+	favoriteUserView.insertColumn(_("Hub (last seen in, if offline)"), G_TYPE_STRING, TreeView::STRING, 100);
 	favoriteUserView.insertColumn(_("Time last seen"), G_TYPE_STRING, TreeView::STRING, 120);
 	favoriteUserView.insertColumn(_("Description"), G_TYPE_STRING, TreeView::STRING, 100);
 	favoriteUserView.insertColumn(_("Nicks History (if it have CID)"), G_TYPE_STRING, TreeView::STRING, 100);

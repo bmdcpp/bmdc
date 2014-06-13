@@ -162,7 +162,9 @@ void TreeView::finalize()
 	{
 		GtkTreeViewColumn *col = gtk_tree_view_column_new();
 		// Set to fixed so that gtk_tree_view_set_fixed_height() doesn't complain.
-		//gtk_tree_view_column_set_sizing(col, GTK_TREE_VIEW_COLUMN_FIXED);
+	#if !GTK_CHECK_VERSION(3,8,0)
+		gtk_tree_view_column_set_sizing(col, GTK_TREE_VIEW_COLUMN_FIXED);
+	#endif	
 		gtk_tree_view_insert_column(view, col, count);
 	}
 }
@@ -402,12 +404,15 @@ void TreeView::addColumn_gui(Column& column)
 	// If columns are too small, they can't be manipulated
 	if (column.width >= 20)
 	{
-		//gtk_tree_view_column_set_fixed_width(col, column.width);
+		#if !GTK_CHECK_VERSION(3,8,0)
+		gtk_tree_view_column_set_fixed_width(col, column.width);
+		#endif
 		gtk_tree_view_column_set_resizable(col, TRUE);
 	}
-	//if (column.width != -1)
-	//	gtk_tree_view_column_set_sizing(col, GTK_TREE_VIEW_COLUMN_FIXED);
-
+	#if !GTK_CHECK_VERSION(3,8,0)
+	if (column.width != -1)
+		gtk_tree_view_column_set_sizing(col, GTK_TREE_VIEW_COLUMN_FIXED);
+	#endif
 	//make columns sortable
 	if (column.type != BOOL && column.type != PIXBUF && column.type != EDIT_STRING)
 	{

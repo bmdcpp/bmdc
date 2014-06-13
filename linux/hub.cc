@@ -213,13 +213,6 @@ Hub::Hub(const string &address, const string &encoding):
 	g_signal_connect(getWidget("openImageItem"), "activate", G_CALLBACK(onOpenImageClicked_gui), (gpointer)this);
 
 	GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("chatScroll")));
-/**/
-	//GtkAdjustment* scroll = gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW(getWidget("scrolledwindow2")));
-	//gtk_adjustment_configure (scroll,0,0,200,1,1,10);
-	//gtk_adjustment_changed (scroll);  
-	//gtk_scrolled_window_set_hadjustment(GTK_SCROLLED_WINDOW(getWidget("scrolledwindow2")),scroll);
-	//gtk_scrolled_window_set_hadjustment(GTK_SCROLLED_WINDOW(nickView.get()),scroll);	
-		
 	// Connect the signals to their callback functions.
 	g_signal_connect(getContainer(), "focus-in-event", G_CALLBACK(onFocusIn_gui), (gpointer)this);
 	g_signal_connect(nickView.get(), "button-press-event", G_CALLBACK(onNickListButtonPress_gui), (gpointer)this);
@@ -2393,8 +2386,9 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		{
 			if (hub->userMap.find(params) != hub->userMap.end())
 			{
-				func2 = new F2(hub, &Hub::getFileList_client, hub->userMap[params], FALSE);
-				WulforManager::get()->dispatchClientFunc(func2);
+				typedef Func3<Hub, string, bool,bool> F3;
+				F3 *func = new F3(hub, &Hub::getFileList_client, hub->userMap[params], FALSE,FALSE);
+				WulforManager::get()->dispatchClientFunc(func);
 			}
 			else
 				hub->addStatusMessage_gui(_("User not found: ") + param, Msg::SYSTEM, Sound::NONE);
@@ -2738,8 +2732,8 @@ void Hub::onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data)
 		string cid;
 		GtkTreeIter iter;
 		GtkTreePath *path;
-		typedef Func2<Hub, string, bool> F2;
-		F2 *func;
+		typedef Func3<Hub, string, bool,bool> F3;
+		F3 *func;
 		GList *list = gtk_tree_selection_get_selected_rows(hub->nickSelection, NULL);
 
 		for (GList *i = list; i; i = i->next)
@@ -2748,7 +2742,7 @@ void Hub::onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data)
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(hub->nickStore), &iter, path))
 			{
 				cid = hub->nickView.getString(&iter, "CID");
-				func = new F2(hub, &Hub::getFileList_client, cid, FALSE);
+				func = new F3(hub, &Hub::getFileList_client, cid, FALSE,FALSE);
 				WulforManager::get()->dispatchClientFunc(func);
 			}
 			gtk_tree_path_free(path);
@@ -2766,8 +2760,8 @@ void Hub::onPartialFileListOpen_gui(GtkMenuItem *item, gpointer data)
 		string cid;
 		GtkTreeIter iter;
 		GtkTreePath *path;
-		typedef Func1<Hub, string> F1;
-		F1 *func;
+		typedef Func3<Hub, string,bool,bool> F3;
+		F3 *func;
 		GList *list = gtk_tree_selection_get_selected_rows(hub->nickSelection, NULL);
 
 		for (GList *i = list; i; i = i->next)
@@ -2776,7 +2770,7 @@ void Hub::onPartialFileListOpen_gui(GtkMenuItem *item, gpointer data)
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(hub->nickStore), &iter, path))
 			{
 				cid = hub->nickView.getString(&iter, "CID");
-				func = new F1(hub, &Hub::getPartialFileList_client, cid);
+				func = new F3(hub, &Hub::getFileList_client, cid,FALSE,TRUE);
 				WulforManager::get()->dispatchClientFunc(func);
 			}
 			gtk_tree_path_free(path);
@@ -2794,8 +2788,8 @@ void Hub::onMatchItemClicked_gui(GtkMenuItem *item, gpointer data)
 		string cid;
 		GtkTreeIter iter;
 		GtkTreePath *path;
-		typedef Func2<Hub, string, bool> F2;
-		F2 *func;
+		typedef Func3<Hub, string, bool,bool> F3;
+		F3 *func;
 		GList *list = gtk_tree_selection_get_selected_rows(hub->nickSelection, NULL);
 
 		for (GList *i = list; i; i = i->next)
@@ -2804,7 +2798,7 @@ void Hub::onMatchItemClicked_gui(GtkMenuItem *item, gpointer data)
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(hub->nickStore), &iter, path))
 			{
 				cid = hub->nickView.getString(&iter, "CID");
-				func = new F2(hub, &Hub::getFileList_client, cid, TRUE);
+				func = new F3(hub, &Hub::getFileList_client, cid, TRUE,FALSE);
 				WulforManager::get()->dispatchClientFunc(func);
 			}
 			gtk_tree_path_free(path);
@@ -3592,7 +3586,7 @@ void Hub::sendMessage_client(string message, bool thirdPerson)
 		client->hubMessage(message, thirdPerson);
 }
 
-void Hub::getFileList_client(string cid, bool match)
+void Hub::getFileList_client(string cid, bool match,bool partial)
 {
 	string message;
 
@@ -3603,7 +3597,7 @@ void Hub::getFileList_client(string cid, bool match)
 			UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
 			if (user)
 			{
-				const HintedUser hintedUser(user, client->getHubUrl());//NOTE: core 0.762
+				const HintedUser hintedUser(user, client->getHubUrl());
 
 				if (user == ClientManager::getInstance()->getMe())
 				{
@@ -3612,11 +3606,11 @@ void Hub::getFileList_client(string cid, bool match)
 				}
 				else if (match)
 				{
-					QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_MATCH_QUEUE);//NOTE: core 0.762
+					QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_MATCH_QUEUE);
 				}
 				else
 				{
-					QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW);//NOTE: core 0.762
+					QueueManager::getInstance()->addList(hintedUser,partial ? (QueueItem::FLAG_CLIENT_VIEW | QueueItem::FLAG_PARTIAL_LIST): (QueueItem::FLAG_CLIENT_VIEW));
 				}
 			}
 			else
@@ -3637,49 +3631,6 @@ void Hub::getFileList_client(string cid, bool match)
 		F3 *func = new F3(this, &Hub::addStatusMessage_gui, message, Msg::SYSTEM, Sound::NONE);
 		WulforManager::get()->dispatchGuiFunc(func);
 	}
-}
-
-void Hub::getPartialFileList_client(string cid)
-{
-	string message = Util::emptyString;
-	if(!cid.empty())
-	{
-		try
-		{
-			UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
-			if (user)
-			{
-				const HintedUser hintedUser(user, client->getHubUrl());//NOTE: core 0.762
-
-				if (user == ClientManager::getInstance()->getMe())
-				{
-					// Don't download file list, open locally instead
-					WulforManager::get()->getMainWindow()->openOwnList_client(TRUE);
-				}
-				else
-				{
-					QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW | QueueItem::FLAG_PARTIAL_LIST);
-				}
-			}
-			else
-			{
-				message = _("User not found");
-			}
-		}
-		catch (const Exception &e)
-		{
-			message = e.getError();
-			LogManager::getInstance()->message(message);
-		}
-	}
-
-	if (!message.empty())
-	{
-		typedef Func3<Hub, string, Msg::TypeMsg, Sound::TypeSound> F3;
-		F3 *func = new F3(this, &Hub::addStatusMessage_gui, message, Msg::SYSTEM, Sound::NONE);
-		WulforManager::get()->dispatchGuiFunc(func);
-	}
-
 }
 
 void Hub::grantSlot_client(string cid)

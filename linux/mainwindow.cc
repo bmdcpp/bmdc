@@ -100,12 +100,13 @@ MainWindow::MainWindow():
 {
 	window = GTK_WINDOW(getWidget("mainWindow"));
 	gtk_window_set_role(window, getID().c_str());
-
 	// Configure the dialogs
+	#if !GTK_CHECK_VERSION(3,12,0)		
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("exitDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("connectDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("flistDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("ucLineDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
+	#endif	
 	gtk_window_set_transient_for(GTK_WINDOW(getWidget("exitDialog")), window);
 	gtk_window_set_transient_for(GTK_WINDOW(getWidget("connectDialog")), window);
 	gtk_window_set_transient_for(GTK_WINDOW(getWidget("flistDialog")), window);
@@ -224,7 +225,9 @@ MainWindow::MainWindow():
 	g_object_ref_sink(getWidget("toolbarMenu"));
 
 	// magnet dialog
+	#if !GTK_CHECK_VERSION(3,12,0)	
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("MagnetDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
+	#endif	
 	gtk_window_set_transient_for(GTK_WINDOW(getWidget("MagnetDialog")), window);
 	setChooseMagnetDialog_gui();
 	g_signal_connect(getWidget("MagnetDialog"), "response", G_CALLBACK(onResponseMagnetDialog_gui), (gpointer) this);
@@ -312,7 +315,6 @@ MainWindow::MainWindow():
 	#else
 		gtk_widget_set_sensitive(getWidget("exportitem"), FALSE);
 	#endif
-	/*-*/
 	g_signal_connect(getWidget("searchMenuItem"), "activate", G_CALLBACK(onSearchClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("searchADLMenuItem"), "activate", G_CALLBACK(onSearchADLClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("searchSpyMenuItem"), "activate", G_CALLBACK(onSearchSpyClicked_gui), (gpointer)this);
@@ -643,6 +645,7 @@ void MainWindow::setInitThrotles()
 	int up = SETTING(MAX_UPLOAD_SPEED_MAIN);
 	int down = SETTING(MAX_DOWNLOAD_SPEED_MAIN);
 	bool enabled = SETTING(THROTTLE_ENABLE);
+//@:Enabled
 	if(enabled && (up > 0) ) {
 		setLimitingIcon(true);
 		return;
@@ -651,7 +654,7 @@ void MainWindow::setInitThrotles()
 		setLimitingIcon(true);
 		return;
 	}
-//@disabled
+//@:disabled
 	if(!enabled && (up == 0)) {
 		setLimitingIcon(false);
 		return;
@@ -916,11 +919,11 @@ void MainWindow::setMainStatus_gui(string text, time_t t)
 		}
 		queue<string> tmp = statustext;
 		string statusTextOnToolTip;
-      	  while(!tmp.empty())
-      	  {
+      	while(!tmp.empty())
+      	{
       	     statusTextOnToolTip += "\n" + tmp.back();
       	     tmp.pop();
-      	  }
+      	}
 		  statustext.push(text);
     gtk_widget_set_tooltip_text(getWidget("labelStatus"), statusTextOnToolTip.c_str());
 
@@ -1528,6 +1531,7 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 
 		   if(wid->widget == NULL)
 				continue;
+			
 			if(GTK_IS_COMBO_BOX_TEXT(wid->widget))
 			{
 				const gchar *value = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(wid->widget));
@@ -2142,7 +2146,7 @@ void MainWindow::onFavoriteUsersClicked_gui(GtkWidget *widget, gpointer data)
 	MainWindow *mw = (MainWindow *)data;
 	mw->showFavoriteUsers_gui();
 }
-//BMDC++
+
 void MainWindow::onCmdDebugClicked_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
@@ -2178,7 +2182,7 @@ void MainWindow::onDetectionClicked_gui(GtkWidget *widget, gpointer data)
 	MainWindow *mw = (MainWindow *)data;
 	mw->showDetection_gui();
 }
-//]
+
 void MainWindow::onPublicHubsClicked_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
@@ -2942,7 +2946,7 @@ void MainWindow::onCloseAllPM_gui(GtkWidget *widget, gpointer data)
 
 	mw->privateMessage.clear();
 }
-///ofline
+///offline
 void MainWindow::onReconectAllHub_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
