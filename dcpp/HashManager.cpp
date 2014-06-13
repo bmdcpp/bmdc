@@ -692,12 +692,12 @@ int HashManager::Hasher::run() {
 				}
 
 				if(xcrc32 && xcrc32->getValue() != sfv.getCRC()) {
-					LogManager::getInstance()->message(_("%1% not shared; calculated CRC32 does not match the one found in SFV file.") + Util::addBrackets(fname));
+					LogManager::getInstance()->message(Util::addBrackets(fname)+_(" not shared; calculated CRC32 does not match the one found in SFV file."));
 				} else {
 					HashManager::getInstance()->hashDone(fname, (int64_t)timestamp, tt, speed, size);
 				}
 			} catch(const FileException& e) {
-				LogManager::getInstance()->message(_("Error hashing %1%: %2%") + Util::addBrackets(fname) + e.getError());
+				LogManager::getInstance()->message(_("Error hashing : ") + Util::addBrackets(fname) +":"+ e.getError());
 			}
 		}
 		{
