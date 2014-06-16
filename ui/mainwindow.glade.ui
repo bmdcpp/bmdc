@@ -1815,6 +1815,8 @@ Contributors:
               <object class="GtkProgressBar" id="progressbarHashBar">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="show-text">True</property>
+                <property name="text"></property>
               </object>
               <packing>
                 <property name="expand">False</property>
