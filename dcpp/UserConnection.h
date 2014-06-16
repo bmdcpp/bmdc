@@ -203,13 +203,13 @@ private:
 	};
 
 	UserConnection() : encoding(Text::systemCharset), state(STATE_UNCONNECTED),
-		lastActivity(0), speed(0), chunkSize(0), socket(nullptr), secure(true), download(NULL) {
+		lastActivity(0), speed(0), chunkSize(0), socket(nullptr), secure(true), download(nullptr) {
 
 	}
 
 	// We only want ConnectionManager to create this...
 	UserConnection(bool secure_) noexcept : encoding(Text::systemCharset), state(STATE_UNCONNECTED),
-		lastActivity(0), speed(0), chunkSize(0), socket(nullptr), secure(secure_), download(NULL) {
+		lastActivity(0), speed(0), chunkSize(0), socket(nullptr), secure(secure_), download(nullptr) {
 
 	}
 

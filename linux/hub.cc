@@ -114,7 +114,7 @@ Hub::Hub(const string &address, const string &encoding):
 	/* Set a tooltip on the column */
 	set_Header_tooltip_gui();
 
-	// Initialize the chat window
+	//Initialize the chat window
 	//Set Colors
 	WulforUtil::setTextDeufaults(getWidget("chatText"),WGETS("background-color-chat"));
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
@@ -2649,6 +2649,10 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		{
 			if (SETTING(SEND_UNKNOWN_COMMANDS))
 			{
+					if(SETTING(SERVER_COMMANDS)) {
+						if(text[0] == '!' || text[0] == '+' || text[0] == '-')
+							hub->addMessage_gui("",_("Server command: ") + text,Msg::SYSTEM);
+					}
 				hub->sendMessage_client(text, false);
 			}
 			else {
@@ -2658,6 +2662,10 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 	}
 	else
 	{
+		if(SETTING(SERVER_COMMANDS)) {
+			if(text[0] == '!' || text[0] == '+' || text[0] == '-')
+				hub->addMessage_gui("",_("Server command: ") + text,Msg::SYSTEM);
+		}
 		hub->sendMessage_client(text, false);
 	}
 }

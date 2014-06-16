@@ -84,7 +84,7 @@ public:
 	void start();
 	void join() {
 		if (threadHandle) {
-			pthread_join(threadHandle, NULL);//0
+			pthread_join(threadHandle, NULL);
 			threadHandle = 0;
 		}
 	}

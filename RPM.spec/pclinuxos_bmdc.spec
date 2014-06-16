@@ -1,8 +1,8 @@
 Summary: A Client of DC with Ignore User&few Others Features
 Name: bmdc
-Version: 0.1.0
+Version: 0.1.6
 Release: 1
-License: GNU GPL
+License: LGPL
 Group: Applications/Internet
 Source: http://launchpad.net/bmdc++/%{name}%{version}.tar.gz
 Buildroot: %{_tmppath}/%{name}-%{version}-buildroot

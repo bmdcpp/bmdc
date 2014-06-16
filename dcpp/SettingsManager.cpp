@@ -154,7 +154,7 @@ const string SettingsManager::settingTags[] =
 	"ShowFileListVersionMismatch",
 	"UseWildCardProtectUsers",
 	"DisplayCheatsInMainChat",
-	"UseOemFont",
+	"UseOemFont", "ServerCommands",
 	"SENTRY",
 	// Int64
 	"TotalUpload", "TotalDownload","SharingSkiplistMinSize", "SharingSkiplistMaxSize",
@@ -420,6 +420,7 @@ SettingsManager::SettingsManager()
 	setDefault(VERSION_MISMATCH_RAW,0);
 	setDefault(SDL_RAW,0);
 	setDefault(RIPE_DB,"https://apps.db.ripe.net/search/query.html?searchtext=%[IP]&search%3AdoSearch=Search#resultsAnchor");
+	setDefault(SERVER_COMMANDS,true);
 
 	setSearchTypeDefaults();
 

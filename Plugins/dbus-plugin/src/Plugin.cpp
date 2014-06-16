@@ -225,7 +225,7 @@ string Plugin::getSpam(bool& status)
 				return error->message;
 			}
 			//string format = Config::getConfig("MediaPlayerFormat");
-			string format = "playing %[artist] - %[album] - %[title]";
+			string format = "playing %[artist] - %[album] - %[title] - %[genre]";
 			 printf("\n%s\n", format.c_str());
 			string pr = parse(var,format);
 			g_variant_unref(var);
