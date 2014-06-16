@@ -1811,6 +1811,17 @@ Contributors:
                 <property name="position">17</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkProgressBar" id="progressbarHashBar">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">18</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>

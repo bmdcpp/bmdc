@@ -39,6 +39,9 @@
 #include <dcpp/PluginManager.h>
 #include <dcpp/ConnectivityManager.h>
 
+#include <dcpp/HashManager.h>
+
+
 #include "downloadqueue.hh"
 #include "favoritehubs.hh"
 #include "favoriteusers.hh"
@@ -98,6 +101,12 @@ MainWindow::MainWindow():
 	minimized(FALSE), timer(0),
 	statusFrame(1)
 {
+	string tmp;
+	startTime = GET_TICK();
+	HashManager::getInstance()->getStats(tmp, startBytes, startFiles);
+	HashManager::getInstance()->setPriority(Thread::NORMAL);//good or not ?
+	updateStats_gui("", 0, 0, 0);
+	
 	window = GTK_WINDOW(getWidget("mainWindow"));
 	gtk_window_set_role(window, getID().c_str());
 	// Configure the dialogs
@@ -2766,6 +2775,15 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) noexcept
 		F2 *f2 = new F2(this, &MainWindow::updateStatusIconTooltip_gui, downloadSpeed, uploadSpeed);
 		WulforManager::get()->dispatchGuiFunc(f2);
 	}
+	string file;
+	uint64_t bytes = 0;
+	size_t files = 0;
+
+	HashManager::getInstance()->getStats(file, bytes, files);
+
+	typedef Func4<MainWindow, string, uint64_t, size_t, uint32_t> FX;
+	FX *funcx = new FX(this, &MainWindow::updateStats_gui, file, bytes, files, GET_TICK());
+	WulforManager::get()->dispatchGuiFunc(funcx);
 }
 
 void MainWindow::onTTHFileDialog_gui(GtkWidget *widget, gpointer data)
@@ -3008,3 +3026,60 @@ void MainWindow::on(QueueManagerListener::PartialList, const HintedUser& aUser, 
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
+void MainWindow::updateStats_gui(string file, uint64_t bytes, size_t files, uint32_t tick)
+{
+	if (bytes > startBytes)
+		startBytes = bytes;
+
+	if (files > startFiles)
+		startFiles = files;
+
+	double diff = tick - startTime;
+	bool paused = HashManager::getInstance()->isHashingPaused(); //NOTE: core 0.762
+
+	if (diff < 1000 || files == 0 || bytes == 0 || paused)
+	{
+		gtk_progress_bar_set_text (GTK_PROGRESS_BAR(getWidget("progressbarHashBar")), "0%");
+		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(getWidget("progressbarHashBar")), 0.0);
+	}
+	else
+	{
+		double speedStat = (((double)(startBytes - bytes)) * 1000) / diff;
+
+		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(getWidget("progressbar")), string(Util::formatBytes((int64_t)speedStat) + "/" + _("s") + ", " + Util::formatBytes(bytes) + _(" left")).c_str());
+
+		if (speedStat == 0)
+		{
+			gtk_progress_bar_set_text(GTK_PROGRESS_BAR(getWidget("progressbarHashBar")), _("-:--:-- left"));
+		}
+		else
+		{
+			double ss = (double)bytes / speedStat;
+			gtk_progress_bar_set_text(GTK_PROGRESS_BAR(getWidget("progressbarHashBar")), string(Util::formatSeconds((int64_t)ss) + _(" left")).c_str());
+		}
+	}
+
+	if (startFiles == 0 || startBytes == 0)
+	{
+		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(getWidget("progressbarHashBar")), "100%");
+		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(getWidget("progressbarHashBar")), 1.0);
+	}
+	else
+	{
+		double progress = ((0.5 * (double)(startFiles - files)/(double)startFiles) + (0.5 * (double)(startBytes - bytes)/(double)startBytes));
+		char buf[24];
+		snprintf(buf, sizeof(buf), "%.0lf%%", progress * 100);
+		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(getWidget("progressbarHashBar")), buf);
+		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(getWidget("progressbarHashBar")), progress);
+	}
+
+	if (files == 0)
+	{
+		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(getWidget("progressbar")), _("100% Done"));
+		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(getWidget("progressbar")), 1.0);
+	}
+	else
+	{
+		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(getWidget("progressbar")), file.c_str());
+	}
+}

@@ -366,6 +366,12 @@ class MainWindow:
 		FileListQueue listQueue;
 
 		std::queue<std::string> statustext;//quene
+		//hash statusbar :p
+		uint64_t startBytes;
+		size_t startFiles;
+		uint32_t startTime;
+		void updateStats_gui(std::string file, uint64_t bytes, size_t files, uint32_t tick);
+
 };
 
 #else
