@@ -17,7 +17,7 @@ errormessage(""),thirdPerson(false), resultsize(len), path(WulforManager::get()-
 		errormessage = output = _("File doesn't exist");
 		return;
 	}
-	output = new char[resultsize+1];
+	output = new char[resultsize];
 	FILE *p = NULL;
 	p = popen( (path).c_str(), "r");
 	fgets(output,resultsize,p);
@@ -131,4 +131,3 @@ bool ShellCommand::isThirdPerson()
 {
 	return thirdPerson;
 }
-

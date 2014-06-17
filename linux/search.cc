@@ -66,10 +66,11 @@ Search::Search(const string& str):
 	// Configure the dialog
 	File::ensureDirectory(SETTING(DOWNLOAD_DIRECTORY));
 	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(getWidget("dirChooserDialog")), Text::fromUtf8(SETTING(DOWNLOAD_DIRECTORY)).c_str());
+	#if !GTK_CHECK_VERSION(3,12,0)		
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("dirChooserDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
-
+	#endif
 	// menu
-	//g_object_ref_sink(getWidget("mainMenu"));
+	g_object_ref_sink(getWidget("mainMenu"));
 
 	// Initialize check button options.
 	onlyFree = SETTING(SEARCH_ONLY_FREE_SLOTS);

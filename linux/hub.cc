@@ -3618,7 +3618,7 @@ void Hub::getFileList_client(string cid, bool match,bool partial)
 				}
 				else
 				{
-					QueueManager::getInstance()->addList(hintedUser,partial ? (QueueItem::FLAG_CLIENT_VIEW | QueueItem::FLAG_PARTIAL_LIST): (QueueItem::FLAG_CLIENT_VIEW));
+					QueueManager::getInstance()->addList(hintedUser,partial ? (QueueItem::FLAG_CLIENT_VIEW | QueueItem::FLAG_PARTIAL_LIST) : (QueueItem::FLAG_CLIENT_VIEW));
 				}
 			}
 			else

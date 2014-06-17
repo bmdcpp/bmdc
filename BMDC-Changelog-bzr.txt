@@ -877,3 +877,6 @@ Add some more info to /info cmd
 Fix horizontal scrollbars
 ----
 Add info about if send server cmd
+----
+Fix some of deprecated warning on 3.12+ gtk
+Fix bad char in Shellcommand class

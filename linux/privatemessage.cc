@@ -45,15 +45,6 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	scrollToBottom(TRUE),
 	offline(false)
 {
-	// Intialize the chat window
-	/*if (SETTING(USE_OEM_MONOFONT))
-	{
-		PangoFontDescription *fontDesc = pango_font_description_new();
-		pango_font_description_set_family(fontDesc, "Mono");
-		gtk_widget_override_font(getWidget("text"), fontDesc);
-		pango_font_description_free(fontDesc);
-	}*/
-
 	//set Colors
 	WulforUtil::setTextDeufaults(getWidget("text"),WGETS("background-color-chat"));
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.

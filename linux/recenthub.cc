@@ -33,9 +33,10 @@ using namespace dcpp;
 RecentHubs::RecentHubs():
 BookEntry(Entry::RECENT,_("Recent Hubs"),"recenthub.glade")
 {
+		#if !GTK_CHECK_VERSION(3,12,0)		
 		// Configure the dialog
 		gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("DescriptionDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
-
+		#endif
 		// Initialize Recent Hub list treeview
 		recentView.setView(GTK_TREE_VIEW(getWidget("favoriteUserView")));
 		recentView.insertColumn(_("Name"), G_TYPE_STRING, TreeView::STRING, 100);

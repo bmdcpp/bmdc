@@ -32,9 +32,10 @@ PublicHubs::PublicHubs():
 	hubs(0),
 	filter("")
 {
+	#if !GTK_CHECK_VERSION(3,12,0)		
 	// Configure the dialog
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("configureDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
-
+	#endif
 	// menu
 	g_object_ref_sink(getWidget("menu"));
 
