@@ -586,7 +586,7 @@ void WulforSettingsManager::load()
 void WulforSettingsManager::save()
 {
 	SimpleXML xml;
-	xml.addTag("BMDCPlusPlus");//prg name
+	xml.addTag("BMDCPlusPlus");//@prg name
 	xml.stepIn();
 	xml.addTag("Settings");
 	xml.stepIn();

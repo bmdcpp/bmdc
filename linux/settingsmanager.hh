@@ -85,6 +85,8 @@ class WulforSettingsManager : public dcpp::Singleton<WulforSettingsManager>
 
 		const PreviewApp::List& getPreviewApps() const {return previewApps;}
 		//[BMDC
+		IntMap getIntDMap() { return defaultInt; }
+		StringMap getStringDMap() { return defaultString; }
 		IntMap getIntMap() { return intMap; }
 		StringMap getStringMap() { return stringMap; }
 

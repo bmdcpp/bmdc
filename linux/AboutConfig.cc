@@ -118,28 +118,33 @@ void AboutConfig::show()
 	
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
 	WulforSettingsManager::StringMap map = wsm->getStringMap();
+	WulforSettingsManager::StringMap defMap = wsm->getStringDMap();
 	string types = Util::emptyString;
 	string value = Util::emptyString;
-	
-	for(auto i = map.begin();i!= map.end();++i)
+	string dvalue = value;
+	types = _("String");	
+	for(auto d = defMap.begin();d!= defMap.end();++d)
 	{
-		string rowname = i->first;
-		types = _("String");
-		value = i->second;
-		string isdefault = wsm->isDefaultString(rowname) ? _("Default") : _("User set");
-		addItem_gui(rowname, isdefault, types, value, true);
+		string rowname = d->first;
+		dvalue = d->second;
+		bool isOk = map.find(rowname) != map.end();
+		value = isOk ? map.find(rowname)->second : Util::emptyString;
+		string isDef = !isOk ? _("Default") : _("User set");
+		addItem_gui(rowname,isDef, types, ( !isOk ? dvalue : value), true);
 	}
 	
 	WulforSettingsManager::IntMap imap = wsm->getIntMap();
-	
-	for(auto i = imap.begin();i!= imap.end();++i)
-	{
-		string rowname = i->first;
-		types = _("Integer");
-		value = Util::toString(i->second);
-		string isdefault = wsm->isDefaultInt(rowname) ? _("Default") : _("User set");
-		addItem_gui(rowname, isdefault, types, value, true);
+	WulforSettingsManager::IntMap defIMap = wsm->getIntDMap();
+	types = _("Integer");
+	for(auto j = defIMap.begin();j != defIMap.end();++j) {
+			string rowname = j->first;
+			dvalue = Util::toString(j->second);
+			bool isOk = imap.find(rowname) != imap.end();
+			value = isOk ? Util::toString(imap.find(rowname)->second) : Util::emptyString;
+			string isDef = !isOk ? _("Default") : _("User set");
+			addItem_gui(rowname, isDef, types, ( !isOk ? dvalue : value), true);
 	}
+	
 }
 
 void AboutConfig::addItem_gui(string rowname, string isdefault, string types, string value, bool isWulf)
@@ -266,21 +271,21 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget *widget, gpointer data)
 	{
 		string name = s->aboutView.getString(&iter,_("Name"));
 		string value = s->aboutView.getString(&iter, _("Value"));
-		bool isWsm = s->aboutView.getString(&iter, "WS") == "1" ? TRUE : FALSE;
+		bool isWsm = (s->aboutView.getString(&iter, "WS") == "1") ? true : false;
 		int n;
-		auto sm = SettingsManager::getInstance();
+		SettingsManager *sm = SettingsManager::getInstance();
 		bool run = s->getDialog(name, value, data);
 		if(!run)
 			return;
 		
 		if(isWsm)
 		{
-			auto wsm = WulforSettingsManager::getInstance();	
+			WulforSettingsManager* wsm = WulforSettingsManager::getInstance();	
 			if(wsm->isString(name))
 				wsm->set(name,value);
 			if(wsm->isInt(name))
 				wsm->set(name,Util::toInt(value));
-				s->updateItem_gui(name,value);
+			s->updateItem_gui(name,value);
 			return;	
 		}
 		
@@ -332,7 +337,7 @@ void AboutConfig::onSetDefault(GtkWidget *widget, gpointer data)
 				value = Util::toString(wsm->getInt(i));
 			}
 			s->updateItem_gui(i,value);
-			s->setStatus("Value"+i+"Setted to Default"+value);
+			s->setStatus("Value "+i+" Setted to Default "+value);
 			return;		
 		}
 		
