@@ -102,7 +102,8 @@ class WulforUtil
 		static const std::string ENCODING_LOCALE;
 		static const std::string commands;
 		
-		static void setTextDeufaults(GtkWidget* widget, std::string strcolor)
+		static void setTextDeufaults(GtkWidget* widget, std::string strcolor, std::string back_image_path = dcpp::Util::emptyString,bool pm = false)
+		//todo move to c/cpp file :p
 		{
 			// Intialize the chat window
 			if (SETTING(USE_OEM_MONOFONT))
@@ -118,7 +119,26 @@ class WulforUtil
 			gtk_widget_override_background_color(widget, GTK_STATE_FLAG_NORMAL, &color);
 			gtk_widget_override_background_color(widget, GTK_STATE_FLAG_PRELIGHT, &color);
 			gtk_widget_override_background_color(widget, GTK_STATE_FLAG_ACTIVE, &color);
-			gtk_widget_override_background_color(widget, GTK_STATE_FLAG_INSENSITIVE, &color);	
+			gtk_widget_override_background_color(widget, GTK_STATE_FLAG_INSENSITIVE, &color);
+			
+			if( !back_image_path.empty() && (dcpp::Util::fileExists(back_image_path) == true) ) {
+			/*------------- CSS  --------------------------------------------------------------------------------------------------*/
+			GtkCssProvider *provider = gtk_css_provider_new ();
+			GdkDisplay *display = gdk_display_get_default ();
+			GdkScreen *screen = gdk_display_get_default_screen (display);
+
+			gtk_style_context_add_provider_for_screen (screen,
+                                             GTK_STYLE_PROVIDER(provider),
+                                             GTK_STYLE_PROVIDER_PRIORITY_USER);
+			//todo some about per-fav?
+			std::string t_css = std::string("GtkTextView#")+ (pm ? "pm" : "Hub") +"{\n"                         
+                            "   background: url('"+back_image_path+"');\n"   
+                            "}\n";
+
+			gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
+			g_object_unref (provider);
+			/*----------------------------------------------------------------------------------------------------------------------*/
+			}
 		}
 
 	private:

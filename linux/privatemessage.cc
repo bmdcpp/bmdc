@@ -46,7 +46,8 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	offline(false)
 {
 	//set Colors
-	WulforUtil::setTextDeufaults(getWidget("text"),WGETS("background-color-chat"));
+	gtk_widget_set_name(getWidget("text"),"pm");
+	WulforUtil::setTextDeufaults(getWidget("text"),WGETS("background-color-chat"),WGETS("pm-background-image"),true);
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
 	messageBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(getWidget("text")));
 

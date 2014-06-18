@@ -472,7 +472,10 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("hide-transfers",0));
 
 	defaultString.insert(StringMap::value_type("menu-userlist-color","blue"));
-
+	
+	defaultString.insert(StringMap::value_type("hub-background-image",dcpp::Util::emptyString));//Full Path
+	defaultString.insert(StringMap::value_type("pm-background-image",dcpp::Util::emptyString));//Full Path
+	
 	load();
 
 	string path_image = Util::getPath(Util::PATH_USER_CONFIG) + "Images/";

@@ -116,7 +116,8 @@ Hub::Hub(const string &address, const string &encoding):
 
 	//Initialize the chat window
 	//Set Colors
-	WulforUtil::setTextDeufaults(getWidget("chatText"),WGETS("background-color-chat"));
+	gtk_widget_set_name(getWidget("chatText"),"Hub");//TODO: per Fav?
+	WulforUtil::setTextDeufaults(getWidget("chatText"),WGETS("background-color-chat"),WGETS("hub-background-image"));
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
 	chatBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(getWidget("chatText")));
 
