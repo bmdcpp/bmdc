@@ -132,7 +132,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("toolbar-small", 1));
 	///[BMDC++
 	defaultInt.insert(IntMap::value_type("use-flag", 1));
-	defaultInt.insert(IntMap::value_type("bold-all-tab", 1));//
+	defaultInt.insert(IntMap::value_type("bold-all-tab", 1));
 	defaultInt.insert(IntMap::value_type("use-close-button", 0));
 	defaultInt.insert(IntMap::value_type("size-label-box-bookentry",15));
 	defaultInt.insert(IntMap::value_type("max-tooltips", 10));
@@ -156,7 +156,6 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("toolbar-button-limiting", 1));
 	defaultInt.insert(IntMap::value_type("open-notepad", 0));
 	defaultInt.insert(IntMap::value_type("open-system", 1));
-//	defaultInt.insert(IntMap::value_type("open-ignore", 0));
 	defaultInt.insert(IntMap::value_type("open-upload-queue", 0));
 	defaultInt.insert(IntMap::value_type("cmd-debug-hub-in", 1));
 	defaultInt.insert(IntMap::value_type("cmd-debug-hub-out", 1));

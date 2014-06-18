@@ -86,8 +86,9 @@ class FavoriteHubDialog: public Entry
 			string text = file.substr(0,nedle);
 			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxEmot")), text.c_str() );
 		}
-
+#if !GTK_CHECK_VERSION(3,12,0)		
 		gtk_dialog_set_alternative_button_order(GTK_DIALOG(getContainer()), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
+#endif
 		gtk_widget_set_sensitive(getWidget("comboboxCharset"), FALSE);
 		gtk_widget_set_sensitive(getWidget("entryNick"), FALSE);
 		gtk_widget_set_sensitive(getWidget("entryUserDescription"), FALSE);
