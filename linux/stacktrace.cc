@@ -1,5 +1,5 @@
 /*
- * Copyright © 2005-2006 Markus Lindqvist <nanodc.developer@gmail.com>
+ * Copyright © 2005-2014 Markus Lindqvist <nanodc.developer@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -163,4 +163,3 @@ std::string StackTrace::demangle(const std::string &name)
 }
 
 } // namespace cow
-

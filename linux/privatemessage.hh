@@ -127,6 +127,7 @@ class PrivateMessage:
 		UserCommandMenu *userCommandMenu;
 		bool offline;
 		std::string ip;
+		bool notCreated;
 
 };
 

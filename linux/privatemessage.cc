@@ -43,7 +43,8 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	historyIndex(0),
 	sentAwayMessage(FALSE),
 	scrollToBottom(TRUE),
-	offline(false)
+	offline(false),
+	notCreated(true)
 {
 	//set Colors
 	gtk_widget_set_name(getWidget("text"),"pm");
@@ -1541,7 +1542,7 @@ GtkWidget *PrivateMessage::createmenu()
 {
 	string nicks = WulforUtil::getNicks(this->cid, this->hubUrl);
 	gtk_menu_item_set_label(GTK_MENU_ITEM(getFItem()), nicks.c_str());
-
+if(notCreated) {
 	userCommandMenu->cleanMenu_gui();
 	userCommandMenu->addUser(cid);
 	userCommandMenu->addHub(hubUrl);
@@ -1567,7 +1568,9 @@ GtkWidget *PrivateMessage::createmenu()
 	g_signal_connect_swapped(close, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
 	g_signal_connect_swapped(addFav, "activate", G_CALLBACK(onAddFavItem), (gpointer)this);
 	g_signal_connect_swapped(copyNicks, "activate", G_CALLBACK(onCopyNicks), (gpointer)this);
-    return menu;
+	notCreated = false;
+	}	
+    return userCommandMenu->getContainer();//menu
 }
 
 void PrivateMessage::onCloseItem(gpointer data)

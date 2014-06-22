@@ -4416,7 +4416,7 @@ string Hub::formatAdditionalInfo(const string& aIp, bool sIp, bool sCC) {
 	return ret;
 }
 
-void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexcept //NOTE: core 0.762
+void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexcept 
 {
 	string txt = message.text;
 	if(PluginManager::getInstance()->onChatDisplay(txt))
@@ -4429,15 +4429,16 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 	string line;
 	string tmp_text = message.text;
 
-	if( (!message.from->getIdentity().isHub()) && (!message.from->getIdentity().isBot()) )
+	Identity fid = message.from->getIdentity();
+	if( (!fid.isHub()) && (!fid.isBot()) )
 	{
-		string info = formatAdditionalInfo(message.from->getIdentity().getIp(), client->get(HubSettings::ShowIps) == 1, client->get(HubSettings::ShowCountry) == 1);
+		string info = formatAdditionalInfo(fid.getIp(), client->get(HubSettings::ShowIps) == 1, client->get(HubSettings::ShowCountry) == 1);
 		//Extra Info
 		dcpp::ParamMap params;
 		params["hubURL"] = client->getHubUrl();
 		client->getHubIdentity().getParams(params, "hub", false);
 		client->getMyIdentity().getParams(params, "my", true);
-		message.from->getIdentity().getParams(params, "user", true);
+		fid.getParams(params, "user", true);
 		string extraInfo = Util::formatParams(client->getChatExtraInfo(), params);
 		if(!extraInfo.empty())
 			info += " " + extraInfo + " ";
@@ -4461,13 +4462,13 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 	}
 
 	if (third || message.thirdPerson)
-		line += "* " + message.from->getIdentity().getNick() + " " +  (mess.empty() ? message.text : mess);
+		line += "* " + fid.getNick() + " " +  (mess.empty() ? message.text : mess);
 	else
-		line += "<" + message.from->getIdentity().getNick() + "> " + message.text;
+		line += "<" + fid.getNick() + "> " + message.text;
 
-	    if(FavoriteManager::getInstance()->getFavoriteUser(message.from->getIdentity().getUser()) && FavoriteManager::getInstance()->getFavoriteUser(message.from->getIdentity().getUser())->isSet(FavoriteUser::FLAG_IGNORE))
+	    if(FavoriteManager::getInstance()->getFavoriteUser(fid.getUser()) && FavoriteManager::getInstance()->getFavoriteUser(fid.getUser())->isSet(FavoriteUser::FLAG_IGNORE))
 	{
-		string error = _("Ignored message from User ") + message.from->getIdentity().getNick() + " from " + ((message.to && message.replyTo) ? "PM" : "Mainchat");
+		string error = _("Ignored message from User ") + fid.getNick() + " from " + ((message.to && message.replyTo) ? "PM" : "Mainchat");
 		error += _("\nMessage: ") + message.text + "\n";
 
 		dcpp::ParamMap params;
@@ -4490,7 +4491,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 		const OnlineUser *user = (message.replyTo->getUser() == ClientManager::getInstance()->getMe())?
 			message.to : message.replyTo;
 
-		if (message.from->getIdentity().isOp()) typemsg = Msg::OPERATOR;
+		if (fid.isOp()) typemsg = Msg::OPERATOR;
 		else if (message.from->getUser() == client->getMyIdentity().getUser()) typemsg = Msg::MYOWN;
 		else typemsg = Msg::PRIVATE;
 
@@ -4519,9 +4520,9 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 	else
 	{
 		 // chat message
-		string cid = message.from->getIdentity().getUser()->getCID().toBase32();
+		string cid = fid.getUser()->getCID().toBase32();
 
-		if (message.from->getIdentity().isHub()) typemsg = Msg::STATUS;
+		if (fid.isHub()) typemsg = Msg::STATUS;
 		else if (message.from->getUser() == client->getMyIdentity().getUser()) typemsg = Msg::MYOWN;
 		else typemsg = Msg::GENERAL;
 
@@ -4554,7 +4555,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 		WulforManager::get()->dispatchGuiFunc(func);
 
 		// Set urgency hint if message contains user's nick
-		if (  (client->get(HubSettings::BoldTab) == 1) && message.from->getIdentity().getUser() != client->getMyIdentity().getUser())
+		if (  (client->get(HubSettings::BoldTab) == 1) && fid.getUser() != client->getMyIdentity().getUser())
 		{
 			typedef Func0<Hub> F0;
               if( !isActive_gui() && WGETB("bold-all-tab"))
@@ -4566,7 +4567,6 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 
 			if (message.text.find(client->getMyIdentity().getNick()) != string::npos)
 			{
-				//typedef Func0<Hub> F0;
 				F0 *func = new F0(this, &Hub::setUrgent_gui);
 				WulforManager::get()->dispatchGuiFunc(func);
 			}
@@ -4645,11 +4645,11 @@ GtkWidget *Hub::createmenu()
 {
 	gtk_menu_item_set_label(GTK_MENU_ITEM(getFItem()),address.c_str());
 	if(notCreated) {
-
-	userCommandMenu1->cleanMenu_gui();
-	userCommandMenu1->addUser(client->getMyIdentity().getUser()->getCID().toBase32());
-	userCommandMenu1->addHub(client->getHubUrl());
-	userCommandMenu1->buildMenu_gui();
+		
+		userCommandMenu1->cleanMenu_gui();
+		userCommandMenu1->addUser(client->getMyIdentity().getUser()->getCID().toBase32());
+		userCommandMenu1->addHub(client->getHubUrl());
+		userCommandMenu1->buildMenu_gui();
 	GtkWidget *u_item = gtk_menu_item_new_with_label(_("Users Commands"));
 	GtkWidget *copyHubUrl = gtk_menu_item_new_with_label(_("Copy URL"));
 	GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite hubs"));
