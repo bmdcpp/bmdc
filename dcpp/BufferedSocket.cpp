@@ -205,7 +205,6 @@ void BufferedSocket::threadRead() {
 					const int BUF_SIZE = 1024;
 					// Special to autodetect nmdc connections...
 					string::size_type pos = 0;
-					//std::shared_ptr<char> buffer(new char[BUF_SIZE]);
 					char *buffer = new char[BUF_SIZE];
 					l = line;
 					bool deleted = false;

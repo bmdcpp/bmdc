@@ -38,9 +38,7 @@
 #include <dcpp/ThrottleManager.h>
 #include <dcpp/PluginManager.h>
 #include <dcpp/ConnectivityManager.h>
-
 #include <dcpp/HashManager.h>
-
 
 #include "downloadqueue.hh"
 #include "favoritehubs.hh"

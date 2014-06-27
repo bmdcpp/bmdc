@@ -1653,4 +1653,3 @@ bool WulforUtil::Ipv4Hit(string &name, string &sIp) {
 	return isOk;
 
 }
-

@@ -336,6 +336,7 @@ void ClientManager::putOffline(OnlineUser* ou, bool disconnect) noexcept {
 			OnlineUser* ou2 = i->second;
 			if(ou == ou2) {
 				diff = distance(op.first, op.second);
+				//diff = distance(op.first,i);
 				onlineUsers.erase(i);
 				break;
 			}
@@ -355,8 +356,6 @@ void ClientManager::putOffline(OnlineUser* ou, bool disconnect) noexcept {
 			auto in = nicks.find(u->getCID());
 			if(in != nicks.end())
 			{ nicks.erase(u->getCID());}
-				
-			//delete u.get();
 			u.reset();//think =P
 		}
 

@@ -134,7 +134,6 @@ void SearchManager::disconnect() noexcept {
 
 #define BUFSIZE 8192
 int SearchManager::run() {
-	//std::shared_ptr<uint8_t> buf(new uint8_t[BUFSIZE]);
 	int len;
 	string remoteAddr;
 

@@ -372,8 +372,8 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		Hub* hub = (Hub *)data;
 		if(hub == NULL) return;
 		string color;
-		gchar *cltype = NULL, *nickp = NULL;
-		int64_t size;
+		//gchar *cltype = NULL, *nickp = NULL;
+		//int64_t size;
 		string sizeString;
 		if(model == NULL)
 			return;
@@ -384,14 +384,18 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		if(cell == NULL)
 			return;
 
-		gtk_tree_model_get(model,iter,
-						hub->nickView.col(_("Nick")), &nickp,
-		                hub->nickView.col(_("Shared")) , &size,
-						hub->nickView.col("Client Type"),&cltype,
-						-1);
-		string nick(nickp);
+		//gtk_tree_model_get(model,iter,
+		//				hub->nickView.col(_("Nick")), &nickp,
+		//              hub->nickView.col(_("Shared")) , &size,
+		//				hub->nickView.col("Client Type"),&cltype,
+		//				-1);
+		string nick = hub->nickView.getString(iter,_("Nick"),model);
+		int64_t size = hub->nickView.getValue<gint64>(iter,_("Shared"),model);
+		string tmp = hub->nickView.getString(iter,_("Client Type"),model);		
+		
+		//string nick(nickp);
 
-		string tmp(cltype);
+		//string tmp(cltype);
 		char a = tmp[0];
 		switch(a){
 			case 'A':
@@ -448,7 +452,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 			}
 			g_object_set(cell, "text", sizeString.c_str(), NULL);
 		}
-		g_free(cltype);
+		//g_free(cltype);
 }
 
 Hub::~Hub()
@@ -765,7 +769,7 @@ void Hub::updateUser_gui(ParamMap params)
 			nickView.col("Nick Order"), nickOrder.c_str(),
 			nickView.col("CID"), cid.c_str(),
 			nickView.col("NickColor"), params["NickColor"].c_str(),
-            nickView.col("Pixbuf"), WulforUtil::LoadCountryPixbuf(params["Abbrevation"]),
+            nickView.col("Pixbuf"),WulforUtil::LoadCountryPixbuf(params["Abbrevation"]),
             nickView.col("Client Type"), params["Type"].c_str(),
 			-1);
 
@@ -1051,7 +1055,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 		default:
 			tagMsg = Tag::TAG_GENERAL;
 
-			FavoriteHubEntryPtr entry = FavoriteManager::getInstance()->getFavoriteHubEntry(client->getHubUrl());
+			FavoriteHubEntry* entry = FavoriteManager::getInstance()->getFavoriteHubEntry(client->getHubUrl());
 
 			bool isFavBool =  entry ? entry->getNotify() : WGETI("notify-hub-chat-use");
 
@@ -1304,7 +1308,7 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 					GtkWidget *image = gtk_image_new_from_pixbuf(buffer);
 					gtk_container_add(GTK_CONTAINER(event_box),image);
 					gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW(getWidget("chatText")), event_box, anchor);
-					g_signal_connect(G_OBJECT(image), "draw", G_CALLBACK(expose), NULL);
+					//g_signal_connect(G_OBJECT(image), "draw", G_CALLBACK(expose), NULL);
 					gtk_widget_show_all(event_box);
 					gtk_widget_set_tooltip_text(event_box, country_text.c_str());
 				}
@@ -1337,7 +1341,7 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 				gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW(getWidget("chatText")), event_box, anchor);
 				g_object_set_data_full(G_OBJECT(event_box), "magnet", g_strdup(image_magnet.c_str()), g_free);
 				g_object_set_data_full(G_OBJECT(event_box), "cid", g_strdup(cid.c_str()), g_free);
-				g_signal_connect(G_OBJECT(image), "draw", G_CALLBACK(expose), NULL);
+				//g_signal_connect(G_OBJECT(image), "draw", G_CALLBACK(expose), NULL);
 				g_signal_connect(G_OBJECT(event_box), "event", G_CALLBACK(onImageEvent_gui), (gpointer)this);
 				gtk_widget_show_all(event_box);
 				imageList.insert(ImageList::value_type(image, tth));
@@ -1817,7 +1821,7 @@ void Hub::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, strin
 GtkTextTag* Hub::createTag_gui(const string &tagname, Tag::TypeTag type)
 {
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
-	GtkTextTag *tag = gtk_text_tag_table_lookup(gtk_text_buffer_get_tag_table(chatBuffer), tagname.c_str());
+	GtkTextTag *tag = gtk_text_tag_table_lookup( gtk_text_buffer_get_tag_table(chatBuffer), tagname.c_str());
 
 	if (!tag)
 	{
