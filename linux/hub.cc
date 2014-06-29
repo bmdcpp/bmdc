@@ -223,7 +223,7 @@ Hub::Hub(const string &address, const string &encoding):
 	g_signal_connect(getWidget("chatEntry"), "key-press-event", G_CALLBACK(onEntryKeyPress_gui), (gpointer)this);
 	g_signal_connect(getWidget("chatText"), "motion-notify-event", G_CALLBACK(onChatPointerMoved_gui), (gpointer)this);
 	g_signal_connect(getWidget("chatText"), "visibility-notify-event", G_CALLBACK(onChatVisibilityChanged_gui), (gpointer)this);
-	g_signal_connect(getWidget("chatText"), "draw", G_CALLBACK(expose), (gpointer)this);
+//	g_signal_connect(getWidget("chatText"), "draw", G_CALLBACK(expose), (gpointer)this);
 	g_signal_connect(adjustment, "value_changed", G_CALLBACK(onChatScroll_gui), (gpointer)this);
 	g_signal_connect(adjustment, "changed", G_CALLBACK(onChatResize_gui), (gpointer)this);
 	g_signal_connect(getWidget("nickToChatItem"), "activate", G_CALLBACK(onNickToChat_gui), (gpointer)this);
@@ -1308,7 +1308,6 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 					GtkWidget *image = gtk_image_new_from_pixbuf(buffer);
 					gtk_container_add(GTK_CONTAINER(event_box),image);
 					gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW(getWidget("chatText")), event_box, anchor);
-					//g_signal_connect(G_OBJECT(image), "draw", G_CALLBACK(expose), NULL);
 					gtk_widget_show_all(event_box);
 					gtk_widget_set_tooltip_text(event_box, country_text.c_str());
 				}
@@ -1341,7 +1340,6 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 				gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW(getWidget("chatText")), event_box, anchor);
 				g_object_set_data_full(G_OBJECT(event_box), "magnet", g_strdup(image_magnet.c_str()), g_free);
 				g_object_set_data_full(G_OBJECT(event_box), "cid", g_strdup(cid.c_str()), g_free);
-				//g_signal_connect(G_OBJECT(image), "draw", G_CALLBACK(expose), NULL);
 				g_signal_connect(G_OBJECT(event_box), "event", G_CALLBACK(onImageEvent_gui), (gpointer)this);
 				gtk_widget_show_all(event_box);
 				imageList.insert(ImageList::value_type(image, tth));

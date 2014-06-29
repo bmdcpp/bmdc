@@ -119,7 +119,7 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	g_signal_connect(getWidget("entry"), "key-press-event", G_CALLBACK(onKeyPress_gui), (gpointer)this);
 	g_signal_connect(getWidget("text"), "motion-notify-event", G_CALLBACK(onChatPointerMoved_gui), (gpointer)this);
 	g_signal_connect(getWidget("text"), "visibility-notify-event", G_CALLBACK(onChatVisibilityChanged_gui), (gpointer)this);
-	g_signal_connect(getWidget("text"), "draw", G_CALLBACK(expose), (gpointer)this);
+//	g_signal_connect(getWidget("text"), "draw", G_CALLBACK(expose), (gpointer)this);
 	g_signal_connect(adjustment, "value_changed", G_CALLBACK(onChatScroll_gui), (gpointer)this);
 	g_signal_connect(adjustment, "changed", G_CALLBACK(onChatResize_gui), (gpointer)this);
 	g_signal_connect(getWidget("copyLinkItem"), "activate", G_CALLBACK(onCopyURIClicked_gui), (gpointer)this);
@@ -547,7 +547,7 @@ void PrivateMessage::applyTags_gui(const string &line)
                 GtkWidget *image = gtk_image_new_from_pixbuf(buffer);
                 gtk_container_add(GTK_CONTAINER(event_box),image);
                 gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW(getWidget("text")), event_box, anchor);
-                g_signal_connect(G_OBJECT(image), "draw", G_CALLBACK(expose), NULL);
+                //g_signal_connect(G_OBJECT(image), "draw", G_CALLBACK(expose), NULL);
 
                 gtk_widget_show_all(event_box);
                 gtk_widget_set_tooltip_text(event_box, country_text.c_str());
