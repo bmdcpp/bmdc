@@ -830,14 +830,14 @@ void FavoriteHubs::removeEntry_client(string address)
 	}
 }
 
-void FavoriteHubs::on(FavoriteManagerListener::FavoriteAdded, const FavoriteHubEntryPtr entry) throw()
+void FavoriteHubs::on(FavoriteManagerListener::FavoriteAdded, const FavoriteHubEntryPtr entry) noexcept
 {
 	typedef Func1<FavoriteHubs, FavoriteHubEntry*> F1;
 	F1 *func = new F1(this, &FavoriteHubs::addEntry_gui,entry);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
-void FavoriteHubs::on(FavoriteManagerListener::FavoriteRemoved, const FavoriteHubEntryPtr entry) throw()
+void FavoriteHubs::on(FavoriteManagerListener::FavoriteRemoved, const FavoriteHubEntryPtr entry) noexcept
 {
 	typedef Func1<FavoriteHubs, string> F1;
 	F1 *func = new F1(this, &FavoriteHubs::removeEntry_gui, entry->getServer());

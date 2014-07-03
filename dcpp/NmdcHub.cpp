@@ -608,6 +608,9 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				feat.push_back("TTHSearch");
 				feat.push_back("ZPipe0");
 				feat.push_back("SaltPass");
+				//IP64 IPv4
+				feat.push_back("IP64");
+				feat.push_back("IPv4");
 
 				supports(feat);
 			}
@@ -804,7 +807,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			dcdebug("NmdcHub::onLine %s failed with error: %s\n", cmd.c_str(), e.getError().c_str());
 		}
 	} else if (cmd == "$LogedIn") {
-		//we dont interested in it...
+		//we don't interested in it...
 	} else
 	{
 		dcassert(cmd[0] == '$');

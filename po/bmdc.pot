@@ -5,6 +5,11 @@
 #, fuzzy
 msgid ""
 msgstr ""
+<<<<<<< TREE
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
+"POT-Creation-Date: 2014-07-03 21:04+0200\n"
+=======
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
@@ -20,6 +25,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
 "POT-Creation-Date: 2014-06-29 16:20+0200\n"
+>>>>>>> MERGE-SOURCE
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -554,7 +560,11 @@ msgstr ""
 msgid "Add User as Favorite"
 msgstr ""
 
+<<<<<<< TREE
+#: ui/hub.glade.ui:47 linux/hub.cc:2436
+=======
 #: ui/hub.glade.ui:47 linux/hub.cc:2448
+>>>>>>> MERGE-SOURCE
 msgid "Add a hub to favorites"
 msgstr ""
 
@@ -586,8 +596,13 @@ msgstr ""
 msgid "Add to the list"
 msgstr ""
 
+<<<<<<< TREE
+#: ui/privatemessage.glade.ui:59 linux/hub.cc:2437
+#: linux/privatemessage.cc:1063
+=======
 #: ui/privatemessage.glade.ui:59 linux/hub.cc:2449
 #: linux/privatemessage.cc:1064
+>>>>>>> MERGE-SOURCE
 msgid "Add user to favorites list"
 msgstr ""
 
@@ -654,13 +669,22 @@ msgid "Away message"
 msgstr ""
 
 #: ui/hub.glade.ui:14 ui/privatemessage.glade.ui:15
+<<<<<<< TREE
+#: linux/privatemessage.cc:1059
+=======
 #: linux/privatemessage.cc:1060
+>>>>>>> MERGE-SOURCE
 msgid "Away mode message on/off"
 msgstr ""
 
 #: ui/hub.glade.ui:25 ui/privatemessage.glade.ui:26 linux/WulforUtil.cc:790
+<<<<<<< TREE
+#: linux/WulforUtil.cc:810 linux/mainwindow.cc:2293
+#: linux/privatemessage.cc:1060
+=======
 #: linux/WulforUtil.cc:810 linux/mainwindow.cc:2293
 #: linux/privatemessage.cc:1061
+>>>>>>> MERGE-SOURCE
 msgid "Away mode off"
 msgstr ""
 
@@ -724,7 +748,11 @@ msgstr ""
 msgid "Bold Authors of message in chat"
 msgstr ""
 
+<<<<<<< TREE
+#: ui/FavDialog.glade.ui:812 ui/settingsdialog.glade.ui:483 linux/hub.cc:2520
+=======
 #: ui/FavDialog.glade.ui:812 ui/settingsdialog.glade.ui:483 linux/hub.cc:2532
+>>>>>>> MERGE-SOURCE
 msgid "Bold Tab"
 msgstr ""
 
@@ -803,10 +831,17 @@ msgid "Chat Menu"
 msgstr ""
 
 #: ui/detection.glade.ui:650 linux/detectiontab.cc:43
+<<<<<<< TREE
+#: linux/detectiontab.cc:335 linux/detectiontab.cc:830
+#: linux/detectiontab.cc:900 linux/detectiontab.cc:915 linux/hub.cc:77
+#: linux/hub.cc:348 linux/hub.cc:535 linux/hub.cc:570 linux/hub.cc:724
+#: linux/hub.cc:753
+=======
 #: linux/detectiontab.cc:335 linux/detectiontab.cc:830
 #: linux/detectiontab.cc:900 linux/detectiontab.cc:915 linux/hub.cc:77
 #: linux/hub.cc:348 linux/hub.cc:547 linux/hub.cc:582 linux/hub.cc:736
 #: linux/hub.cc:765
+>>>>>>> MERGE-SOURCE
 msgid "Cheat"
 msgstr ""
 
@@ -839,8 +874,13 @@ msgid "Choose a File"
 msgstr ""
 
 #: ui/search.glade.ui:7 ui/settingsdialog.glade.ui:8901
+<<<<<<< TREE
+#: ui/sharebrowser.glade.ui:7 linux/hub.cc:2964 linux/mainwindow.cc:1636
+#: linux/mainwindow.cc:1704 linux/privatemessage.cc:1337
+=======
 #: ui/sharebrowser.glade.ui:7 linux/hub.cc:2976 linux/mainwindow.cc:1636
 #: linux/mainwindow.cc:1704 linux/privatemessage.cc:1338
+>>>>>>> MERGE-SOURCE
 msgid "Choose a directory"
 msgstr ""
 
@@ -853,11 +893,19 @@ msgstr ""
 msgid "Clear Chat"
 msgstr ""
 
+<<<<<<< TREE
+#: ui/privatemessage.glade.ui:37 linux/privatemessage.cc:1061
+=======
 #: ui/privatemessage.glade.ui:37 linux/privatemessage.cc:1062
+>>>>>>> MERGE-SOURCE
 msgid "Clear PM"
 msgstr ""
 
+<<<<<<< TREE
+#: ui/hub.glade.ui:36 linux/hub.cc:2434
+=======
 #: ui/hub.glade.ui:36 linux/hub.cc:2446
+>>>>>>> MERGE-SOURCE
 msgid "Clear chat"
 msgstr ""
 
@@ -889,7 +937,11 @@ msgstr ""
 msgid "Close Connection"
 msgstr ""
 
+<<<<<<< TREE
+#: ui/privatemessage.glade.ui:48 linux/privatemessage.cc:1062
+=======
 #: ui/privatemessage.glade.ui:48 linux/privatemessage.cc:1063
+>>>>>>> MERGE-SOURCE
 msgid "Close PM"
 msgstr ""
 
@@ -950,15 +1002,25 @@ msgstr ""
 msgid "Connect to all hubs in this group when the program starts"
 msgstr ""
 
+<<<<<<< TREE
+#: ui/hub.glade.ui:80 linux/hub.cc:2443
+=======
 #: ui/hub.glade.ui:80 linux/hub.cc:2455
+>>>>>>> MERGE-SOURCE
 msgid "Connect to the hub"
 msgstr ""
 
 #: ui/search.glade.ui:842 ui/settingsdialog.glade.ui:2290
 #: ui/settingsdialog.glade.ui:2374 linux/hub.cc:68 linux/hub.cc:340
+<<<<<<< TREE
+#: linux/hub.cc:527 linux/hub.cc:562 linux/hub.cc:716 linux/hub.cc:745
+#: linux/search.cc:104 linux/search.cc:642 linux/search.cc:703
+#: linux/search.cc:851 linux/search.cc:1743
+=======
 #: linux/hub.cc:539 linux/hub.cc:574 linux/hub.cc:728 linux/hub.cc:757
 #: linux/search.cc:104 linux/search.cc:642 linux/search.cc:703
 #: linux/search.cc:851 linux/search.cc:1743
+>>>>>>> MERGE-SOURCE
 msgid "Connection"
 msgstr ""
 
@@ -1030,6 +1092,16 @@ msgstr ""
 
 #: ui/favoritehubs.glade.ui:177 ui/settingsdialog.glade.ui:1545
 #: linux/favoritehubs.cc:42 linux/favoritehubs.cc:130
+<<<<<<< TREE
+#: linux/favoriteusers.cc:53 linux/favoriteusers.cc:118
+#: linux/favoriteusers.cc:143 linux/favoriteusers.cc:443
+#: linux/favoriteusers.cc:467 linux/favoriteusers.cc:477
+#: linux/favoriteusers.cc:726 linux/favoriteusers.cc:754 linux/hub.cc:66
+#: linux/hub.cc:338 linux/hub.cc:525 linux/hub.cc:560 linux/hub.cc:714
+#: linux/hub.cc:743 linux/hub.cc:2509 linux/publichubs.cc:45
+#: linux/publichubs.cc:157 linux/publichubs.cc:294 linux/recenthub.cc:44
+#: linux/recenthub.cc:84 linux/recenthub.cc:271 linux/recenthub.cc:284
+=======
 #: linux/favoriteusers.cc:53 linux/favoriteusers.cc:118
 #: linux/favoriteusers.cc:143 linux/favoriteusers.cc:443
 #: linux/favoriteusers.cc:467 linux/favoriteusers.cc:477
@@ -1038,6 +1110,7 @@ msgstr ""
 #: linux/hub.cc:755 linux/hub.cc:2521 linux/publichubs.cc:45
 #: linux/publichubs.cc:157 linux/publichubs.cc:294 linux/recenthub.cc:44
 #: linux/recenthub.cc:84 linux/recenthub.cc:271 linux/recenthub.cc:284
+>>>>>>> MERGE-SOURCE
 msgid "Description"
 msgstr ""
 
@@ -1258,7 +1331,11 @@ msgstr ""
 msgid "Export..."
 msgstr ""
 
+<<<<<<< TREE
+#: ui/settingsdialog.glade.ui:1899 linux/hub.cc:2511
+=======
 #: ui/settingsdialog.glade.ui:1899 linux/hub.cc:2523
+>>>>>>> MERGE-SOURCE
 msgid "External / WAN IP"
 msgstr ""
 
@@ -1319,6 +1396,27 @@ msgstr ""
 msgid "Filelist Menu"
 msgstr ""
 
+<<<<<<< TREE
+#: ui/adlsearch.glade.ui:769 ui/search.glade.ui:833 linux/downloadqueue.cc:64
+#: linux/downloadqueue.cc:88 linux/downloadqueue.cc:89
+#: linux/downloadqueue.cc:274 linux/downloadqueue.cc:381
+#: linux/downloadqueue.cc:748 linux/downloadqueue.cc:791
+#: linux/downloadqueue.cc:842 linux/finishedtransfers.cc:56
+#: linux/finishedtransfers.cc:228 linux/search.cc:98 linux/search.cc:134
+#: linux/search.cc:366 linux/search.cc:637 linux/search.cc:678
+#: linux/search.cc:842 linux/search.cc:1077 linux/search.cc:1118
+#: linux/search.cc:1177 linux/search.cc:1258 linux/search.cc:1297
+#: linux/search.cc:1354 linux/search.cc:1657 linux/search.cc:1705
+#: linux/search.cc:1709 linux/search.cc:1713 linux/search.cc:1714
+#: linux/search.cc:1725 linux/search.cc:1729 linux/search.cc:1989
+#: linux/sharebrowser.cc:80 linux/sharebrowser.cc:102
+#: linux/sharebrowser.cc:104 linux/sharebrowser.cc:294
+#: linux/sharebrowser.cc:324 linux/sharebrowser.cc:522
+#: linux/sharebrowser.cc:614 linux/sharebrowser.cc:974
+#: linux/sharebrowser.cc:1008 linux/transfers.cc:67 linux/transfers.cc:715
+#: linux/transfers.cc:755 linux/transfers.cc:761 linux/transfers.cc:925
+#: linux/transfers.cc:927 linux/transfers.cc:929
+=======
 #: ui/adlsearch.glade.ui:769 ui/search.glade.ui:833 linux/downloadqueue.cc:66
 #: linux/downloadqueue.cc:90 linux/downloadqueue.cc:91
 #: linux/downloadqueue.cc:276 linux/downloadqueue.cc:383
@@ -1338,6 +1436,7 @@ msgstr ""
 #: linux/sharebrowser.cc:1008 linux/transfers.cc:67 linux/transfers.cc:715
 #: linux/transfers.cc:755 linux/transfers.cc:761 linux/transfers.cc:925
 #: linux/transfers.cc:927 linux/transfers.cc:929
+>>>>>>> MERGE-SOURCE
 msgid "Filename"
 msgstr ""
 
@@ -1447,8 +1546,13 @@ msgstr ""
 msgid "Get User Info"
 msgstr ""
 
+<<<<<<< TREE
+#: ui/privatemessage.glade.ui:81 linux/hub.cc:2440
+#: linux/privatemessage.cc:1065
+=======
 #: ui/privatemessage.glade.ui:81 linux/hub.cc:2452
 #: linux/privatemessage.cc:1066
+>>>>>>> MERGE-SOURCE
 msgid "Get file list"
 msgstr ""
 
@@ -1469,8 +1573,13 @@ msgstr ""
 msgid "Grant Slots"
 msgstr ""
 
+<<<<<<< TREE
+#: ui/privatemessage.glade.ui:92 linux/hub.cc:2441
+#: linux/privatemessage.cc:1066
+=======
 #: ui/privatemessage.glade.ui:92 linux/hub.cc:2453
 #: linux/privatemessage.cc:1067
+>>>>>>> MERGE-SOURCE
 msgid "Grant extra slot"
 msgstr ""
 
@@ -1511,12 +1620,20 @@ msgstr ""
 msgid "Hidden"
 msgstr ""
 
+<<<<<<< TREE
+#: ui/FavDialog.glade.ui:593 ui/favoritehubs.glade.ui:1055 linux/hub.cc:2513
+=======
 #: ui/FavDialog.glade.ui:593 ui/favoritehubs.glade.ui:1055 linux/hub.cc:2525
+>>>>>>> MERGE-SOURCE
 msgid "Hide Share"
 msgstr ""
 
 #: ui/downloadqueue.glade.ui:122 ui/downloadqueue.glade.ui:244
+<<<<<<< TREE
+#: linux/downloadqueue.cc:1319
+=======
 #: linux/downloadqueue.cc:1321
+>>>>>>> MERGE-SOURCE
 msgid "High"
 msgstr ""
 
@@ -1525,7 +1642,11 @@ msgid "High priority max size"
 msgstr ""
 
 #: ui/downloadqueue.glade.ui:130 ui/downloadqueue.glade.ui:252
+<<<<<<< TREE
+#: linux/downloadqueue.cc:1322
+=======
 #: linux/downloadqueue.cc:1324
+>>>>>>> MERGE-SOURCE
 msgid "Highest"
 msgstr ""
 
@@ -1561,9 +1682,15 @@ msgstr ""
 msgid "Hub Menu"
 msgstr ""
 
+<<<<<<< TREE
+#: ui/mainwindow.glade.ui:1906 ui/search.glade.ui:422 linux/hub.cc:75
+#: linux/hub.cc:346 linux/hub.cc:533 linux/hub.cc:568 linux/hub.cc:722
+#: linux/hub.cc:751
+=======
 #: ui/mainwindow.glade.ui:1906 ui/search.glade.ui:422 linux/hub.cc:75
 #: linux/hub.cc:346 linux/hub.cc:545 linux/hub.cc:580 linux/hub.cc:734
 #: linux/hub.cc:763
+>>>>>>> MERGE-SOURCE
 msgid "Hubs"
 msgstr ""
 
@@ -1702,7 +1829,11 @@ msgid "Logs"
 msgstr ""
 
 #: ui/downloadqueue.glade.ui:106 ui/downloadqueue.glade.ui:228
+<<<<<<< TREE
+#: linux/downloadqueue.cc:1316
+=======
 #: linux/downloadqueue.cc:1318
+>>>>>>> MERGE-SOURCE
 msgid "Low"
 msgstr ""
 
@@ -1711,7 +1842,11 @@ msgid "Low priority size"
 msgstr ""
 
 #: ui/downloadqueue.glade.ui:98 ui/downloadqueue.glade.ui:220
+<<<<<<< TREE
+#: linux/downloadqueue.cc:1313
+=======
 #: linux/downloadqueue.cc:1315
+>>>>>>> MERGE-SOURCE
 msgid "Lowest"
 msgstr ""
 
@@ -1823,7 +1958,11 @@ msgstr ""
 msgid "MisMatch FL Version"
 msgstr ""
 
+<<<<<<< TREE
+#: ui/FavDialog.glade.ui:715 ui/favoritehubs.glade.ui:1176 linux/hub.cc:2517
+=======
 #: ui/FavDialog.glade.ui:715 ui/favoritehubs.glade.ui:1176 linux/hub.cc:2529
+>>>>>>> MERGE-SOURCE
 msgid "Mode"
 msgstr ""
 
@@ -1923,12 +2062,21 @@ msgstr ""
 #: linux/favoriteusers.cc:723 linux/favoriteusers.cc:751
 #: linux/finishedtransfers.cc:77 linux/finishedtransfers.cc:184
 #: linux/hub.cc:64 linux/hub.cc:103 linux/hub.cc:105 linux/hub.cc:336
+<<<<<<< TREE
+#: linux/hub.cc:384 linux/hub.cc:523 linux/hub.cc:559 linux/hub.cc:689
+#: linux/hub.cc:712 linux/hub.cc:741 linux/hub.cc:798 linux/hub.cc:876
+#: linux/hub.cc:1696 linux/hub.cc:2017 linux/hub.cc:2078 linux/hub.cc:2508
+#: linux/hub.cc:2680 linux/hub.cc:2711 linux/hub.cc:3026 linux/hub.cc:3065
+#: linux/search.cc:99 linux/search.cc:636 linux/search.cc:709
+#: linux/search.cc:857 linux/search.cc:1740
+=======
 #: linux/hub.cc:392 linux/hub.cc:535 linux/hub.cc:571 linux/hub.cc:701
 #: linux/hub.cc:724 linux/hub.cc:753 linux/hub.cc:810 linux/hub.cc:888
 #: linux/hub.cc:1708 linux/hub.cc:2029 linux/hub.cc:2090 linux/hub.cc:2520
 #: linux/hub.cc:2692 linux/hub.cc:2723 linux/hub.cc:3038 linux/hub.cc:3077
 #: linux/search.cc:99 linux/search.cc:636 linux/search.cc:709
 #: linux/search.cc:857 linux/search.cc:1740
+>>>>>>> MERGE-SOURCE
 msgid "Nick"
 msgstr ""
 
@@ -1949,9 +2097,15 @@ msgid "Noon"
 msgstr ""
 
 #: ui/downloadqueue.glade.ui:114 ui/downloadqueue.glade.ui:236
+<<<<<<< TREE
+#: ui/search.glade.ui:793 linux/downloadqueue.cc:1325
+#: linux/settingsdialog.cc:1657 linux/settingsdialog.cc:1676
+#: linux/settingsdialog.cc:3746 linux/settingsdialog.cc:3779
+=======
 #: ui/search.glade.ui:793 linux/downloadqueue.cc:1327
 #: linux/settingsdialog.cc:1657 linux/settingsdialog.cc:1676
 #: linux/settingsdialog.cc:3746 linux/settingsdialog.cc:3779
+>>>>>>> MERGE-SOURCE
 msgid "Normal"
 msgstr ""
 
@@ -2062,8 +2216,13 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
+<<<<<<< TREE
+#: ui/search.glade.ui:836 linux/downloadqueue.cc:70 linux/downloadqueue.cc:283
+#: linux/downloadqueue.cc:390 linux/finishedtransfers.cc:57
+=======
 #: ui/search.glade.ui:836 linux/downloadqueue.cc:72 linux/downloadqueue.cc:285
 #: linux/downloadqueue.cc:392 linux/finishedtransfers.cc:57
+>>>>>>> MERGE-SOURCE
 #: linux/finishedtransfers.cc:229 linux/finishedtransfers.cc:500
 #: linux/search.cc:102 linux/search.cc:640 linux/search.cc:693
 #: linux/search.cc:845 linux/search.cc:1076 linux/search.cc:1117
@@ -2084,7 +2243,11 @@ msgid "Pause"
 msgstr ""
 
 #: ui/downloadqueue.glade.ui:90 ui/downloadqueue.glade.ui:212
+<<<<<<< TREE
+#: linux/downloadqueue.cc:1310
+=======
 #: linux/downloadqueue.cc:1312
+>>>>>>> MERGE-SOURCE
 msgid "Paused"
 msgstr ""
 
@@ -2144,8 +2307,13 @@ msgid "Prewien"
 msgstr ""
 
 #: ui/downloadqueue.glade.ui:81 ui/downloadqueue.glade.ui:203
+<<<<<<< TREE
+#: linux/downloadqueue.cc:68 linux/downloadqueue.cc:282
+#: linux/downloadqueue.cc:389
+=======
 #: linux/downloadqueue.cc:70 linux/downloadqueue.cc:284
 #: linux/downloadqueue.cc:391
+>>>>>>> MERGE-SOURCE
 msgid "Priority"
 msgstr ""
 
@@ -2298,8 +2466,13 @@ msgstr ""
 msgid "Remove from Queue"
 msgstr ""
 
+<<<<<<< TREE
+#: ui/privatemessage.glade.ui:70 linux/hub.cc:2438
+#: linux/privatemessage.cc:1064
+=======
 #: ui/privatemessage.glade.ui:70 linux/hub.cc:2450
 #: linux/privatemessage.cc:1065
+>>>>>>> MERGE-SOURCE
 msgid "Remove user favorite"
 msgstr ""
 
@@ -2327,7 +2500,11 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
+<<<<<<< TREE
+#: ui/hub.glade.ui:91 linux/hub.cc:2444
+=======
 #: ui/hub.glade.ui:91 linux/hub.cc:2456
+>>>>>>> MERGE-SOURCE
 msgid "Say a third person"
 msgstr ""
 
@@ -2512,7 +2689,11 @@ msgstr ""
 msgid "Show Cheats on Mc"
 msgstr ""
 
+<<<<<<< TREE
+#: ui/FavDialog.glade.ui:826 linux/hub.cc:2521
+=======
 #: ui/FavDialog.glade.ui:826 linux/hub.cc:2533
+>>>>>>> MERGE-SOURCE
 msgid "Show Country"
 msgstr ""
 
@@ -2524,7 +2705,11 @@ msgstr ""
 msgid "Show Favorie List"
 msgstr ""
 
+<<<<<<< TREE
+#: ui/FavDialog.glade.ui:842 linux/hub.cc:2522
+=======
 #: ui/FavDialog.glade.ui:842 linux/hub.cc:2534
+>>>>>>> MERGE-SOURCE
 msgid "Show IPs"
 msgstr ""
 
@@ -2540,12 +2725,21 @@ msgstr ""
 msgid "Show Join/parts in chat for Favorite Users"
 msgstr ""
 
+<<<<<<< TREE
+#: ui/hub.glade.ui:58 linux/hub.cc:2439
+=======
 #: ui/hub.glade.ui:58 linux/hub.cc:2451
+>>>>>>> MERGE-SOURCE
 msgid "Show favorites list"
 msgstr ""
 
+<<<<<<< TREE
+#: ui/hub.glade.ui:69 ui/privatemessage.glade.ui:103 linux/hub.cc:2442
+#: linux/privatemessage.cc:1068
+=======
 #: ui/hub.glade.ui:69 ui/privatemessage.glade.ui:103 linux/hub.cc:2454
 #: linux/privatemessage.cc:1069
+>>>>>>> MERGE-SOURCE
 msgid "Show help"
 msgstr ""
 
@@ -2573,6 +2767,18 @@ msgid "Show version"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:115 ui/search.glade.ui:147 ui/search.glade.ui:839
+<<<<<<< TREE
+#: linux/downloadqueue.cc:66 linux/downloadqueue.cc:85
+#: linux/downloadqueue.cc:277 linux/downloadqueue.cc:384 linux/search.cc:101
+#: linux/search.cc:131 linux/search.cc:639 linux/search.cc:698
+#: linux/search.cc:848 linux/search.cc:1717 linux/search.cc:1735
+#: linux/settingsdialog.cc:1081 linux/settingsdialog.cc:1087
+#: linux/settingsdialog.cc:4304 linux/settingsdialog.cc:4373
+#: linux/sharebrowser.cc:81 linux/sharebrowser.cc:105
+#: linux/sharebrowser.cc:301 linux/sharebrowser.cc:341 linux/transfers.cc:68
+#: linux/transfers.cc:588 linux/transfers.cc:669 linux/transfers.cc:763
+#: linux/transfers.cc:780 linux/transfers.cc:933
+=======
 #: linux/downloadqueue.cc:68 linux/downloadqueue.cc:87
 #: linux/downloadqueue.cc:279 linux/downloadqueue.cc:386 linux/search.cc:101
 #: linux/search.cc:131 linux/search.cc:639 linux/search.cc:698
@@ -2583,6 +2789,7 @@ msgstr ""
 #: linux/sharebrowser.cc:301 linux/sharebrowser.cc:341 linux/transfers.cc:68
 #: linux/transfers.cc:588 linux/transfers.cc:669 linux/transfers.cc:763
 #: linux/transfers.cc:780 linux/transfers.cc:933
+>>>>>>> MERGE-SOURCE
 msgid "Size"
 msgstr ""
 
@@ -2839,11 +3046,19 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
+<<<<<<< TREE
+#: ui/mainwindow.glade.ui:1922 linux/downloadqueue.cc:69
+#: linux/downloadqueue.cc:275 linux/downloadqueue.cc:382
+#: linux/publichubs.cc:46 linux/publichubs.cc:61 linux/publichubs.cc:62
+#: linux/publichubs.cc:158 linux/recenthub.cc:45 linux/recenthub.cc:85
+#: linux/recenthub.cc:274 linux/recenthub.cc:283
+=======
 #: ui/mainwindow.glade.ui:1922 linux/downloadqueue.cc:71
 #: linux/downloadqueue.cc:277 linux/downloadqueue.cc:384
 #: linux/publichubs.cc:46 linux/publichubs.cc:61 linux/publichubs.cc:62
 #: linux/publichubs.cc:158 linux/recenthub.cc:45 linux/recenthub.cc:85
 #: linux/recenthub.cc:274 linux/recenthub.cc:283
+>>>>>>> MERGE-SOURCE
 msgid "Users"
 msgstr ""
 
@@ -2975,7 +3190,11 @@ msgid "dowload Image Limit"
 msgstr ""
 
 #: ui/favoritehubs.glade.ui:216 linux/hub.cc:70 linux/hub.cc:342
+<<<<<<< TREE
+#: linux/hub.cc:529 linux/hub.cc:564 linux/hub.cc:718 linux/hub.cc:747
+=======
 #: linux/hub.cc:541 linux/hub.cc:576 linux/hub.cc:730 linux/hub.cc:759
+>>>>>>> MERGE-SOURCE
 msgid "eMail"
 msgstr ""
 
@@ -3041,8 +3260,13 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:3297 ui/settingsdialog.glade.ui:3313
 #: ui/settingsdialog.glade.ui:3357 linux/hashdialog.cc:77
+<<<<<<< TREE
+#: linux/mainwindow.cc:965 linux/mainwindow.cc:966 linux/mainwindow.cc:2753
+#: linux/mainwindow.cc:2755 linux/mainwindow.cc:3048 linux/treeview.cc:222
+=======
 #: linux/mainwindow.cc:965 linux/mainwindow.cc:966 linux/mainwindow.cc:2753
 #: linux/mainwindow.cc:2755 linux/mainwindow.cc:3047 linux/treeview.cc:222
+>>>>>>> MERGE-SOURCE
 msgid "s"
 msgstr ""
 
@@ -3070,26 +3294,47 @@ msgstr ""
 msgid "usercommand"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2469 linux/hub.cc:2527
+=======
 #: linux/hub.cc:2481 linux/hub.cc:2539
+>>>>>>> MERGE-SOURCE
 msgid "\n"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:4462
+=======
 #: linux/hub.cc:4474
+>>>>>>> MERGE-SOURCE
 msgid ""
 "\n"
 "Message: "
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:1489 linux/hub.cc:1569 linux/privatemessage.cc:664
+#: linux/privatemessage.cc:743
+=======
 #: linux/hub.cc:1501 linux/hub.cc:1581 linux/privatemessage.cc:665
 #: linux/privatemessage.cc:744
+>>>>>>> MERGE-SOURCE
 msgid " *** Emoticons limit"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:1484 linux/privatemessage.cc:659
+=======
 #: linux/hub.cc:1496 linux/privatemessage.cc:660
+>>>>>>> MERGE-SOURCE
 msgid " *** Emoticons mode off"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:1479 linux/privatemessage.cc:654
+=======
 #: linux/hub.cc:1491 linux/privatemessage.cc:655
+>>>>>>> MERGE-SOURCE
 msgid " *** Emoticons not loaded"
 msgstr ""
 
@@ -3097,11 +3342,19 @@ msgstr ""
 msgid " + system icons"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:786 linux/hub.cc:807
+=======
 #: linux/hub.cc:798 linux/hub.cc:819
+>>>>>>> MERGE-SOURCE
 msgid " Users"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:3368
+=======
 #: linux/hub.cc:3380
+>>>>>>> MERGE-SOURCE
 msgid " added to favorites list"
 msgstr ""
 
@@ -3109,7 +3362,11 @@ msgstr ""
 msgid " dropped"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2374
+=======
 #: linux/hub.cc:2386
+>>>>>>> MERGE-SOURCE
 msgid " empty..."
 msgstr ""
 
@@ -3125,27 +3382,51 @@ msgstr ""
 msgid " from Coral"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:769 linux/hub.cc:780
+=======
 #: linux/hub.cc:781 linux/hub.cc:792
+>>>>>>> MERGE-SOURCE
 msgid " has joined"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:770 linux/hub.cc:779
+=======
 #: linux/hub.cc:782 linux/hub.cc:791
+>>>>>>> MERGE-SOURCE
 msgid " has joined hub "
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:814 linux/hub.cc:824
+=======
 #: linux/hub.cc:826 linux/hub.cc:836
+>>>>>>> MERGE-SOURCE
 msgid " has quit"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:813 linux/hub.cc:823
+=======
 #: linux/hub.cc:825 linux/hub.cc:835
+>>>>>>> MERGE-SOURCE
 msgid " has quit hub "
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2347 linux/hub.cc:3037 linux/privatemessage.cc:1430
+=======
 #: linux/hub.cc:2359 linux/hub.cc:3049 linux/privatemessage.cc:1431
+>>>>>>> MERGE-SOURCE
 msgid " is favorite user"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2365 linux/hub.cc:3076 linux/privatemessage.cc:1451
+=======
 #: linux/hub.cc:2377 linux/hub.cc:3088 linux/privatemessage.cc:1452
+>>>>>>> MERGE-SOURCE
 msgid " is not favorite user"
 msgstr ""
 
@@ -3154,15 +3435,27 @@ msgid " items"
 msgstr ""
 
 #: linux/hashdialog.cc:68 linux/hashdialog.cc:77 linux/hashdialog.cc:86
+<<<<<<< TREE
+#: linux/mainwindow.cc:3048 linux/mainwindow.cc:3057
+=======
 #: linux/mainwindow.cc:3047 linux/mainwindow.cc:3056
+>>>>>>> MERGE-SOURCE
 msgid " left"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/downloadqueue.cc:1277
+=======
 #: linux/downloadqueue.cc:1279
+>>>>>>> MERGE-SOURCE
 msgid " of "
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:3394
+=======
 #: linux/hub.cc:3406
+>>>>>>> MERGE-SOURCE
 msgid " removed from favorites list"
 msgstr ""
 
@@ -3174,7 +3467,11 @@ msgstr ""
 msgid " user(s)"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/downloadqueue.cc:1277
+=======
 #: linux/downloadqueue.cc:1279
+>>>>>>> MERGE-SOURCE
 msgid " user(s) online"
 msgstr ""
 
@@ -3186,11 +3483,19 @@ msgstr ""
 msgid "%) from "
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2650
+=======
 #: linux/hub.cc:2662
+>>>>>>> MERGE-SOURCE
 msgid "': type /help for a list of available commands"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2433 linux/privatemessage.cc:1058
+=======
 #: linux/hub.cc:2445 linux/privatemessage.cc:1059
+>>>>>>> MERGE-SOURCE
 msgid "*** Available commands:"
 msgstr ""
 
@@ -3202,7 +3507,11 @@ msgstr ""
 msgid "*** T E S T ***"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hashdialog.cc:69 linux/hashdialog.cc:81 linux/mainwindow.cc:3052
+=======
 #: linux/hashdialog.cc:69 linux/hashdialog.cc:81 linux/mainwindow.cc:3051
+>>>>>>> MERGE-SOURCE
 msgid "-:--:-- left"
 msgstr ""
 
@@ -3223,7 +3532,11 @@ msgstr ""
 msgid "0"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:857
+=======
 #: linux/hub.cc:869
+>>>>>>> MERGE-SOURCE
 msgid "0 Users"
 msgstr ""
 
@@ -3239,19 +3552,35 @@ msgstr ""
 msgid "1"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/mainwindow.cc:3077
+msgid "100% Done"
+msgstr ""
+
+#: linux/hub.cc:2527
+=======
 #: linux/mainwindow.cc:3076
 msgid "100% Done"
 msgstr ""
 
 #: linux/hub.cc:2539
+>>>>>>> MERGE-SOURCE
 msgid ": "
 msgstr ""
 
+<<<<<<< TREE
+#: linux/privatemessage.cc:1073
+=======
 #: linux/privatemessage.cc:1074
+>>>>>>> MERGE-SOURCE
 msgid ": type /help for a list of available commands"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:942
+=======
 #: linux/hub.cc:954
+>>>>>>> MERGE-SOURCE
 msgid "<b>Enter your password</b>"
 msgstr ""
 
@@ -3287,11 +3616,19 @@ msgstr ""
 msgid "Accept custom user commands from hub"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2456
+=======
 #: linux/hub.cc:2468
+>>>>>>> MERGE-SOURCE
 msgid "Add Indepent Fav"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2454
+=======
 #: linux/hub.cc:2466
+>>>>>>> MERGE-SOURCE
 msgid "Add Plugin"
 msgstr ""
 
@@ -3303,20 +3640,37 @@ msgstr ""
 msgid "Add finished files to share instantly (if shared)"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/privatemessage.cc:1553
+=======
 #: linux/privatemessage.cc:1554
+>>>>>>> MERGE-SOURCE
 msgid "Add to Favorite Users"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:4645
+=======
 #: linux/hub.cc:4657
+>>>>>>> MERGE-SOURCE
 msgid "Add to Favorite hubs"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/downloadqueue.cc:73 linux/downloadqueue.cc:285
+#: linux/downloadqueue.cc:392
+=======
 #: linux/downloadqueue.cc:75 linux/downloadqueue.cc:287
 #: linux/downloadqueue.cc:394
+>>>>>>> MERGE-SOURCE
 msgid "Added"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2587
+=======
 #: linux/hub.cc:2599
+>>>>>>> MERGE-SOURCE
 msgid "Added Indepent Fav "
 msgstr ""
 
@@ -3454,7 +3808,11 @@ msgstr ""
 msgid "Button smile"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:3178 linux/hub.cc:3211 linux/hub.cc:3317
+=======
 #: linux/hub.cc:3190 linux/hub.cc:3223 linux/hub.cc:3329
+>>>>>>> MERGE-SOURCE
 msgid "CID"
 msgstr ""
 
@@ -3490,7 +3848,11 @@ msgstr ""
 msgid "CRC Checked"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/downloadqueue.cc:1347
+=======
 #: linux/downloadqueue.cc:1349
+>>>>>>> MERGE-SOURCE
 msgid "CRC32 inconsistency (SFV-Check)"
 msgstr ""
 
@@ -3518,16 +3880,29 @@ msgstr ""
 msgid "Clear search box after each search"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:386
+msgid "Client Type"
+msgstr ""
+
+#: linux/bookentry.cc:297 linux/privatemessage.cc:1552
+#: linux/sharebrowser.cc:1078 linux/search.hh:161
+=======
 #: linux/hub.cc:394
 msgid "Client Type"
 msgstr ""
 
 #: linux/bookentry.cc:297 linux/privatemessage.cc:1553
 #: linux/sharebrowser.cc:1078 linux/search.hh:161
+>>>>>>> MERGE-SOURCE
 msgid "Close"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2435
+=======
 #: linux/hub.cc:2447
+>>>>>>> MERGE-SOURCE
 msgid "Close chat"
 msgstr ""
 
@@ -3560,11 +3935,19 @@ msgstr ""
 msgid "Confirm favorite hub removal"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:4325
+=======
 #: linux/hub.cc:4337
+>>>>>>> MERGE-SOURCE
 msgid "Connect failed: "
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:4269 linux/transfers.cc:1067
+=======
 #: linux/hub.cc:4281 linux/transfers.cc:1067
+>>>>>>> MERGE-SOURCE
 msgid "Connected"
 msgstr ""
 
@@ -3576,7 +3959,11 @@ msgstr ""
 msgid "Connecting (forced)..."
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:4262
+=======
 #: linux/hub.cc:4274
+>>>>>>> MERGE-SOURCE
 msgid "Connecting to "
 msgstr ""
 
@@ -3588,15 +3975,27 @@ msgstr ""
 msgid "Copy All"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/privatemessage.cc:1551 linux/sharebrowser.cc:1077
+=======
 #: linux/privatemessage.cc:1552 linux/sharebrowser.cc:1077
+>>>>>>> MERGE-SOURCE
 msgid "Copy CID"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/privatemessage.cc:1554
+=======
 #: linux/privatemessage.cc:1555
+>>>>>>> MERGE-SOURCE
 msgid "Copy Nick(s)"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:4644
+=======
 #: linux/hub.cc:4656
+>>>>>>> MERGE-SOURCE
 msgid "Copy URL"
 msgstr ""
 
@@ -3605,9 +4004,15 @@ msgstr ""
 msgid "Count"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:72 linux/hub.cc:343 linux/hub.cc:530 linux/hub.cc:565
+#: linux/hub.cc:719 linux/hub.cc:748 linux/publichubs.cc:48
+#: linux/publichubs.cc:160
+=======
 #: linux/hub.cc:72 linux/hub.cc:343 linux/hub.cc:542 linux/hub.cc:577
 #: linux/hub.cc:731 linux/hub.cc:760 linux/publichubs.cc:48
 #: linux/publichubs.cc:160
+>>>>>>> MERGE-SOURCE
 msgid "Country"
 msgstr ""
 
@@ -3645,7 +4050,11 @@ msgstr ""
 msgid "Don't Add Duplicty"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2603
+=======
 #: linux/hub.cc:2615
+>>>>>>> MERGE-SOURCE
 msgid "Don't connected to hub"
 msgstr ""
 
@@ -3703,19 +4112,35 @@ msgstr ""
 msgid "Download finished: "
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2418
+=======
 #: linux/hub.cc:2430
+>>>>>>> MERGE-SOURCE
 msgid "Download image: disable"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2420
+=======
 #: linux/hub.cc:2432
+>>>>>>> MERGE-SOURCE
 msgid "Download image: unlimit"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2422
+=======
 #: linux/hub.cc:2434
+>>>>>>> MERGE-SOURCE
 msgid "Download limit image: "
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2448
+=======
 #: linux/hub.cc:2460
+>>>>>>> MERGE-SOURCE
 msgid "Download limit image: 0 - disable, n < 0 - unlimit, empty - info"
 msgstr ""
 
@@ -3735,8 +4160,13 @@ msgstr ""
 msgid "Download: "
 msgstr ""
 
+<<<<<<< TREE
+#: linux/downloadqueue.cc:67 linux/downloadqueue.cc:87
+#: linux/downloadqueue.cc:280 linux/downloadqueue.cc:387
+=======
 #: linux/downloadqueue.cc:69 linux/downloadqueue.cc:89
 #: linux/downloadqueue.cc:282 linux/downloadqueue.cc:389
+>>>>>>> MERGE-SOURCE
 msgid "Downloaded"
 msgstr ""
 
@@ -3744,19 +4174,35 @@ msgstr ""
 msgid "Downloaded "
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2510
+=======
 #: linux/hub.cc:2522
+>>>>>>> MERGE-SOURCE
 msgid "Email"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2402 linux/privatemessage.cc:1048
+=======
 #: linux/hub.cc:2414 linux/privatemessage.cc:1049
+>>>>>>> MERGE-SOURCE
 msgid "Emoticons mode off"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2407 linux/privatemessage.cc:1053
+=======
 #: linux/hub.cc:2419 linux/privatemessage.cc:1054
+>>>>>>> MERGE-SOURCE
 msgid "Emoticons mode on"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2449 linux/privatemessage.cc:1067
+=======
 #: linux/hub.cc:2461 linux/privatemessage.cc:1068
+>>>>>>> MERGE-SOURCE
 msgid "Emoticons on/off"
 msgstr ""
 
@@ -3782,11 +4228,19 @@ msgstr ""
 
 #: linux/favoritehubs.cc:47 linux/favoritehubs.cc:136
 #: linux/favoritehubs.cc:226 linux/favoritehubs.cc:248
+<<<<<<< TREE
+#: linux/favoritehubs.cc:469 linux/hub.cc:2512
+=======
 #: linux/favoritehubs.cc:469 linux/hub.cc:2524
+>>>>>>> MERGE-SOURCE
 msgid "Encoding"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:916
+=======
 #: linux/hub.cc:928
+>>>>>>> MERGE-SOURCE
 msgid "Enter hub password for "
 msgstr ""
 
@@ -3803,25 +4257,47 @@ msgstr ""
 msgid "Error: setting not found!"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/downloadqueue.cc:72 linux/downloadqueue.cc:284
+#: linux/downloadqueue.cc:391
+=======
 #: linux/downloadqueue.cc:74 linux/downloadqueue.cc:286
 #: linux/downloadqueue.cc:393
+>>>>>>> MERGE-SOURCE
 msgid "Errors"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:73 linux/hub.cc:344 linux/hub.cc:531 linux/hub.cc:566
+#: linux/hub.cc:720 linux/hub.cc:749
+=======
 #: linux/hub.cc:73 linux/hub.cc:344 linux/hub.cc:543 linux/hub.cc:578
 #: linux/hub.cc:732 linux/hub.cc:761
+>>>>>>> MERGE-SOURCE
 msgid "Exact Share"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/downloadqueue.cc:71 linux/downloadqueue.cc:86
+#: linux/downloadqueue.cc:278 linux/downloadqueue.cc:385 linux/search.cc:106
+#: linux/search.cc:132 linux/search.cc:644 linux/search.cc:697
+#: linux/sharebrowser.cc:84 linux/sharebrowser.cc:106
+#: linux/sharebrowser.cc:302 linux/sharebrowser.cc:342
+=======
 #: linux/downloadqueue.cc:73 linux/downloadqueue.cc:88
 #: linux/downloadqueue.cc:280 linux/downloadqueue.cc:387 linux/search.cc:106
 #: linux/search.cc:132 linux/search.cc:644 linux/search.cc:697
 #: linux/sharebrowser.cc:84 linux/sharebrowser.cc:106
 #: linux/sharebrowser.cc:302 linux/sharebrowser.cc:342
+>>>>>>> MERGE-SOURCE
 msgid "Exact Size"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2446
+=======
 #: linux/hub.cc:2458
+>>>>>>> MERGE-SOURCE
 msgid "Execute Bash chunk"
 msgstr ""
 
@@ -3841,7 +4317,11 @@ msgstr ""
 msgid "Extensions"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2453
+=======
 #: linux/hub.cc:2465
+>>>>>>> MERGE-SOURCE
 msgid "Fav Joins/Parts: 1 - enable , other disable"
 msgstr ""
 
@@ -3859,15 +4339,27 @@ msgstr ""
 msgid "Favorite User"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:3722
+=======
 #: linux/hub.cc:3734
+>>>>>>> MERGE-SOURCE
 msgid "Favorite hub added"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:3727
+=======
 #: linux/hub.cc:3739
+>>>>>>> MERGE-SOURCE
 msgid "Favorite hub already exists"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:3742
+=======
 #: linux/hub.cc:3754
+>>>>>>> MERGE-SOURCE
 msgid "Favorite hub removed"
 msgstr ""
 
@@ -3902,7 +4394,11 @@ msgstr ""
 msgid "File list loading"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/downloadqueue.cc:1343
+=======
 #: linux/downloadqueue.cc:1345
+>>>>>>> MERGE-SOURCE
 msgid "File not available"
 msgstr ""
 
@@ -3910,7 +4406,11 @@ msgstr ""
 msgid "Files"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/downloadqueue.cc:237 linux/sharebrowser.cc:367
+=======
 #: linux/downloadqueue.cc:239 linux/sharebrowser.cc:367
+>>>>>>> MERGE-SOURCE
 msgid "Files: "
 msgstr ""
 
@@ -3937,7 +4437,11 @@ msgstr ""
 msgid "Found a match"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/downloadqueue.cc:1349
+=======
 #: linux/downloadqueue.cc:1351
+>>>>>>> MERGE-SOURCE
 msgid "Full tree does not match TTH root"
 msgstr ""
 
@@ -3949,8 +4453,13 @@ msgstr ""
 msgid "General text"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:78 linux/hub.cc:349 linux/hub.cc:536 linux/hub.cc:571
+#: linux/hub.cc:725 linux/hub.cc:754
+=======
 #: linux/hub.cc:78 linux/hub.cc:349 linux/hub.cc:548 linux/hub.cc:583
 #: linux/hub.cc:737 linux/hub.cc:766
+>>>>>>> MERGE-SOURCE
 msgid "Generator"
 msgstr ""
 
@@ -3993,7 +4502,11 @@ msgstr ""
 msgid "Hub Chat"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2505
+=======
 #: linux/hub.cc:2517
+>>>>>>> MERGE-SOURCE
 msgid "Hub IP & port"
 msgstr ""
 
@@ -4002,7 +4515,11 @@ msgstr ""
 msgid "Hub Name"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2504
+=======
 #: linux/hub.cc:2516
+>>>>>>> MERGE-SOURCE
 msgid "Hub address"
 msgstr ""
 
@@ -4087,15 +4604,27 @@ msgstr ""
 msgid "Ignored User "
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:4461
+=======
 #: linux/hub.cc:4473
+>>>>>>> MERGE-SOURCE
 msgid "Ignored message from User "
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:4497
+=======
 #: linux/hub.cc:4509
+>>>>>>> MERGE-SOURCE
 msgid "Ignored private message from bot "
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:4490
+=======
 #: linux/hub.cc:4502
+>>>>>>> MERGE-SOURCE
 msgid "Ignored private message from hub"
 msgstr ""
 
@@ -4115,7 +4644,11 @@ msgstr ""
 msgid "Invalid number of slots"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/downloadqueue.cc:235 linux/sharebrowser.cc:372
+=======
 #: linux/downloadqueue.cc:237 linux/sharebrowser.cc:372
+>>>>>>> MERGE-SOURCE
 msgid "Items: "
 msgstr ""
 
@@ -4123,15 +4656,27 @@ msgstr ""
 msgid "Items: 0"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2452
+=======
 #: linux/hub.cc:2464
+>>>>>>> MERGE-SOURCE
 msgid "Join/Parts: 1 - enable , other disable "
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2614
+msgid "Join/part showing off"
+msgstr ""
+
+#: linux/hub.cc:2611
+=======
 #: linux/hub.cc:2626
 msgid "Join/part showing off"
 msgstr ""
 
 #: linux/hub.cc:2623
+>>>>>>> MERGE-SOURCE
 msgid "Join/part showing on"
 msgstr ""
 
@@ -4153,7 +4698,11 @@ msgstr ""
 msgid "List Aliases\n"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2455
+=======
 #: linux/hub.cc:2467
+>>>>>>> MERGE-SOURCE
 msgid "List Plugins"
 msgstr ""
 
@@ -4161,7 +4710,11 @@ msgstr ""
 msgid "List: "
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2469
+=======
 #: linux/hub.cc:2481
+>>>>>>> MERGE-SOURCE
 msgid "Loaded plugins: "
 msgstr ""
 
@@ -4169,7 +4722,11 @@ msgstr ""
 msgid "Loading Own file list"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2519
+=======
 #: linux/hub.cc:2531
+>>>>>>> MERGE-SOURCE
 msgid "Log Chat"
 msgstr ""
 
@@ -4252,7 +4809,11 @@ msgstr ""
 msgid "New search type"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:4602
+=======
 #: linux/hub.cc:4614
+>>>>>>> MERGE-SOURCE
 msgid "Nick already taken"
 msgstr ""
 
@@ -4264,16 +4825,29 @@ msgstr ""
 msgid "Nicks History (if it have CID)"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/favoritehubs.cc:398 linux/favoritehubs.cc:525
+#: linux/favoritehubs.cc:705 linux/favoriteusers.cc:110
+#: linux/favoriteusers.cc:804 linux/favoriteusers.cc:824
+#: linux/favoriteusers.cc:915 linux/finishedtransfers.cc:663 linux/hub.cc:2513
+#: linux/hub.cc:2516 linux/hub.cc:2519 linux/hub.cc:2520 linux/hub.cc:2521
+#: linux/hub.cc:2522
+=======
 #: linux/favoritehubs.cc:398 linux/favoritehubs.cc:525
 #: linux/favoritehubs.cc:705 linux/favoriteusers.cc:110
 #: linux/favoriteusers.cc:804 linux/favoriteusers.cc:824
 #: linux/favoriteusers.cc:915 linux/finishedtransfers.cc:663 linux/hub.cc:2525
 #: linux/hub.cc:2528 linux/hub.cc:2531 linux/hub.cc:2532 linux/hub.cc:2533
 #: linux/hub.cc:2534
+>>>>>>> MERGE-SOURCE
 msgid "No"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/downloadqueue.cc:1359
+=======
 #: linux/downloadqueue.cc:1361
+>>>>>>> MERGE-SOURCE
 msgid "No errors"
 msgstr ""
 
@@ -4285,15 +4859,27 @@ msgstr ""
 msgid "No search text entered"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/downloadqueue.cc:1272
+=======
 #: linux/downloadqueue.cc:1274
+>>>>>>> MERGE-SOURCE
 msgid "No users"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2395
+=======
 #: linux/hub.cc:2407
+>>>>>>> MERGE-SOURCE
 msgid "Not found user: "
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2516
+=======
 #: linux/hub.cc:2528
+>>>>>>> MERGE-SOURCE
 msgid "Notification"
 msgstr ""
 
@@ -4306,7 +4892,11 @@ msgstr ""
 msgid "Online"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2506
+=======
 #: linux/hub.cc:2518
+>>>>>>> MERGE-SOURCE
 msgid "Online users"
 msgstr ""
 
@@ -4344,7 +4934,11 @@ msgstr ""
 msgid "PM: "
 msgstr ""
 
+<<<<<<< TREE
+#: linux/downloadqueue.cc:1345
+=======
 #: linux/downloadqueue.cc:1347
+>>>>>>> MERGE-SOURCE
 msgid "Passive user"
 msgstr ""
 
@@ -4369,8 +4963,13 @@ msgstr ""
 msgid "Private Message (also sets urgency hint)"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2445 linux/settingsdialog.cc:1209 linux/settingsdialog.cc:1255
+#: linux/settingsdialog.cc:1390 linux/settingsmanager.cc:247
+=======
 #: linux/hub.cc:2457 linux/settingsdialog.cc:1209 linux/settingsdialog.cc:1255
 #: linux/settingsdialog.cc:1390 linux/settingsmanager.cc:247
+>>>>>>> MERGE-SOURCE
 msgid "Private message"
 msgstr ""
 
@@ -4399,7 +4998,11 @@ msgstr ""
 msgid "Recent Hubs"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:4648
+=======
 #: linux/hub.cc:4660
+>>>>>>> MERGE-SOURCE
 msgid "Reconnect this hub"
 msgstr ""
 
@@ -4415,11 +5018,19 @@ msgstr ""
 msgid "Register with the OS to handle magnet: URL links"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/downloadqueue.cc:1353
+=======
 #: linux/downloadqueue.cc:1355
+>>>>>>> MERGE-SOURCE
 msgid "Remote client does not fully support TTH - cannot download"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:4646
+=======
 #: linux/hub.cc:4658
+>>>>>>> MERGE-SOURCE
 msgid "Remove from Favorite hubs"
 msgstr ""
 
@@ -4439,7 +5050,11 @@ msgstr ""
 msgid "Resolution"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/downloadqueue.cc:1279
+=======
 #: linux/downloadqueue.cc:1281
+>>>>>>> MERGE-SOURCE
 msgid "Running..."
 msgstr ""
 
@@ -4464,7 +5079,11 @@ msgstr ""
 msgid "Search on imdb\n"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:4609
+=======
 #: linux/hub.cc:4621
+>>>>>>> MERGE-SOURCE
 msgid "Search spam detected from "
 msgstr ""
 
@@ -4494,7 +5113,11 @@ msgstr ""
 msgid "Select Font"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/mainwindow.cc:2802
+=======
 #: linux/mainwindow.cc:2801
+>>>>>>> MERGE-SOURCE
 msgid "Select file to Get TTH"
 msgstr ""
 
@@ -4502,11 +5125,19 @@ msgstr ""
 msgid "Send PM when double clicked in the user list"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2458
+=======
 #: linux/hub.cc:2470
+>>>>>>> MERGE-SOURCE
 msgid "Send Raw data"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:4335
+=======
 #: linux/hub.cc:4347
+>>>>>>> MERGE-SOURCE
 msgid "Send Stored password... "
 msgstr ""
 
@@ -4519,11 +5150,19 @@ msgstr ""
 msgid "Server"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2645 linux/hub.cc:2658
+msgid "Server command: "
+msgstr ""
+
+#: linux/settingsdialog.cc:1762
+=======
 #: linux/hub.cc:2657 linux/hub.cc:2670
 msgid "Server command: "
 msgstr ""
 
 #: linux/settingsdialog.cc:1762
+>>>>>>> MERGE-SOURCE
 msgid "Set Color"
 msgstr ""
 
@@ -4539,7 +5178,11 @@ msgstr ""
 msgid "Set Slots to:"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:4647
+=======
 #: linux/hub.cc:4659
+>>>>>>> MERGE-SOURCE
 msgid "Set Tab Name"
 msgstr ""
 
@@ -4547,7 +5190,11 @@ msgstr ""
 msgid "Set away mode\n"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2428
+=======
 #: linux/hub.cc:2440
+>>>>>>> MERGE-SOURCE
 msgid "Set download limit image: "
 msgstr ""
 
@@ -4563,11 +5210,19 @@ msgstr ""
 msgid "Share Browser"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:65 linux/hub.cc:337 linux/hub.cc:385 linux/hub.cc:436
+#: linux/hub.cc:524 linux/hub.cc:688 linux/hub.cc:713 linux/hub.cc:742
+#: linux/hub.cc:799 linux/hub.cc:2507 linux/publichubs.cc:49
+#: linux/publichubs.cc:161 linux/recenthub.cc:46 linux/recenthub.cc:86
+#: linux/recenthub.cc:273 linux/recenthub.cc:285
+=======
 #: linux/hub.cc:65 linux/hub.cc:337 linux/hub.cc:393 linux/hub.cc:447
 #: linux/hub.cc:536 linux/hub.cc:700 linux/hub.cc:725 linux/hub.cc:754
 #: linux/hub.cc:811 linux/hub.cc:2519 linux/publichubs.cc:49
 #: linux/publichubs.cc:161 linux/recenthub.cc:46 linux/recenthub.cc:86
 #: linux/recenthub.cc:273 linux/recenthub.cc:285
+>>>>>>> MERGE-SOURCE
 msgid "Shared"
 msgstr ""
 
@@ -4579,7 +5234,11 @@ msgstr ""
 msgid "Show Close Icon in Tab"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2459
+=======
 #: linux/hub.cc:2471
+>>>>>>> MERGE-SOURCE
 msgid "Show Conection Setup Info\n"
 msgstr ""
 
@@ -4631,7 +5290,11 @@ msgstr ""
 msgid "Show timestamps in chat by default"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2457
+=======
 #: linux/hub.cc:2469
+>>>>>>> MERGE-SOURCE
 msgid "Show topic"
 msgstr ""
 
@@ -4647,8 +5310,13 @@ msgstr ""
 msgid "Shutting down dcpp client..."
 msgstr ""
 
+<<<<<<< TREE
+#: linux/downloadqueue.cc:236 linux/downloadqueue.cc:238
+#: linux/sharebrowser.cc:373
+=======
 #: linux/downloadqueue.cc:238 linux/downloadqueue.cc:240
 #: linux/sharebrowser.cc:373
+>>>>>>> MERGE-SOURCE
 msgid "Size: "
 msgstr ""
 
@@ -4660,17 +5328,31 @@ msgstr ""
 msgid "Skip zero-byte files"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/privatemessage.cc:1483
+=======
 #: linux/privatemessage.cc:1484
+>>>>>>> MERGE-SOURCE
 msgid "Slot granted"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/favoriteusers.cc:628 linux/hub.cc:3646
+=======
 #: linux/favoriteusers.cc:628 linux/hub.cc:3658
+>>>>>>> MERGE-SOURCE
 msgid "Slot granted to "
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:74 linux/hub.cc:345 linux/hub.cc:532 linux/hub.cc:567
+#: linux/hub.cc:721 linux/hub.cc:750 linux/search.cc:103 linux/search.cc:133
+#: linux/search.cc:638
+=======
 #: linux/hub.cc:74 linux/hub.cc:345 linux/hub.cc:544 linux/hub.cc:579
 #: linux/hub.cc:733 linux/hub.cc:762 linux/search.cc:103 linux/search.cc:133
 #: linux/search.cc:638
+>>>>>>> MERGE-SOURCE
 msgid "Slots"
 msgstr ""
 
@@ -4687,7 +5369,11 @@ msgstr ""
 msgid "Source Type"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/downloadqueue.cc:1351
+=======
 #: linux/downloadqueue.cc:1353
+>>>>>>> MERGE-SOURCE
 msgid "Source too slow"
 msgstr ""
 
@@ -4712,20 +5398,37 @@ msgstr ""
 msgid "Spy Search"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2450
+=======
 #: linux/hub.cc:2462
+>>>>>>> MERGE-SOURCE
 msgid "Start/Stop checkers"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2451
+=======
 #: linux/hub.cc:2463
+>>>>>>> MERGE-SOURCE
 msgid "Start/Stop checkers myinfo"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2596
+=======
 #: linux/hub.cc:2608
+>>>>>>> MERGE-SOURCE
 msgid "Started MyInfo check"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/AboutConfig.cc:33 linux/AboutConfig.cc:157 linux/downloadqueue.cc:65
+#: linux/downloadqueue.cc:276 linux/downloadqueue.cc:383
+=======
 #: linux/AboutConfig.cc:33 linux/AboutConfig.cc:157 linux/downloadqueue.cc:67
 #: linux/downloadqueue.cc:278 linux/downloadqueue.cc:385
+>>>>>>> MERGE-SOURCE
 #: linux/favoritehubs.cc:49 linux/favoritehubs.cc:138 linux/searchspy.cc:57
 #: linux/searchspy.cc:295 linux/searchspy.cc:377 linux/transfers.cc:64
 #: linux/transfers.cc:414 linux/transfers.cc:447 linux/transfers.cc:541
@@ -4742,7 +5445,11 @@ msgstr ""
 msgid "Status message"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2593
+=======
 #: linux/hub.cc:2605
+>>>>>>> MERGE-SOURCE
 msgid "Stop MyInfo check"
 msgstr ""
 
@@ -4753,8 +5460,13 @@ msgstr ""
 msgid "Style"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:79 linux/hub.cc:350 linux/hub.cc:537 linux/hub.cc:572
+#: linux/hub.cc:726 linux/hub.cc:755
+=======
 #: linux/hub.cc:79 linux/hub.cc:350 linux/hub.cc:549 linux/hub.cc:584
 #: linux/hub.cc:738 linux/hub.cc:767
+>>>>>>> MERGE-SOURCE
 msgid "Support"
 msgstr ""
 
@@ -4771,16 +5483,29 @@ msgstr ""
 msgid "TIS-620 (Thai)"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:67 linux/hub.cc:339 linux/hub.cc:526 linux/hub.cc:561
+#: linux/hub.cc:715 linux/hub.cc:744
+=======
 #: linux/hub.cc:67 linux/hub.cc:339 linux/hub.cc:538 linux/hub.cc:573
 #: linux/hub.cc:727 linux/hub.cc:756
+>>>>>>> MERGE-SOURCE
 msgid "Tag"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/mainwindow.cc:2930
+=======
 #: linux/mainwindow.cc:2929
+>>>>>>> MERGE-SOURCE
 msgid "The GeoIP database could not be updated...v"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/mainwindow.cc:2925
+=======
 #: linux/mainwindow.cc:2924
+>>>>>>> MERGE-SOURCE
 msgid ""
 "The GeoIP database has been successfully updated; restart DC++ to apply....v"
 msgstr ""
@@ -4789,7 +5514,11 @@ msgstr ""
 msgid "The name and address fields are required"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:3747
+=======
 #: linux/hub.cc:3759
+>>>>>>> MERGE-SOURCE
 msgid "This hub is not a favorite hub"
 msgstr ""
 
@@ -4832,7 +5561,11 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2499 linux/hub.cc:4623
+=======
 #: linux/hub.cc:2511 linux/hub.cc:4635
+>>>>>>> MERGE-SOURCE
 msgid "Topic: "
 msgstr ""
 
@@ -4858,7 +5591,11 @@ msgstr ""
 msgid "UTF-8 (Unicode)"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:3671
+=======
 #: linux/hub.cc:3683
+>>>>>>> MERGE-SOURCE
 msgid "Unable to connect: already connected to the requested hub"
 msgstr ""
 
@@ -4870,16 +5607,29 @@ msgstr ""
 msgid "Unable to load file list: Invalid file list name"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/WulforUtil.cc:361 linux/WulforUtil.cc:363 linux/downloadqueue.cc:1285
+#: linux/downloadqueue.cc:1286
+=======
 #: linux/WulforUtil.cc:361 linux/WulforUtil.cc:363 linux/downloadqueue.cc:1287
 #: linux/downloadqueue.cc:1288
+>>>>>>> MERGE-SOURCE
 msgid "Unknown"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/privatemessage.cc:1073
+=======
 #: linux/privatemessage.cc:1074
+>>>>>>> MERGE-SOURCE
 msgid "Unknown command "
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2650
+=======
 #: linux/hub.cc:2662
+>>>>>>> MERGE-SOURCE
 msgid "Unknown command '"
 msgstr ""
 
@@ -4887,7 +5637,11 @@ msgstr ""
 msgid "Updated frame search"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/mainwindow.cc:2915
+=======
 #: linux/mainwindow.cc:2914
+>>>>>>> MERGE-SOURCE
 msgid "Updating the GeoIP database...v"
 msgstr ""
 
@@ -4936,7 +5690,11 @@ msgstr ""
 msgid "Use DNS in Transfers"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2234 linux/privatemessage.cc:1259
+=======
 #: linux/hub.cc:2246 linux/privatemessage.cc:1260
+>>>>>>> MERGE-SOURCE
 msgid "Use Emoticons"
 msgstr ""
 
@@ -4989,27 +5747,51 @@ msgstr ""
 msgid "User Description"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:3110
+=======
 #: linux/hub.cc:3122
+>>>>>>> MERGE-SOURCE
 msgid "User Ignored "
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2374
+=======
 #: linux/hub.cc:2386
+>>>>>>> MERGE-SOURCE
 msgid "User favorite list:"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2447
+=======
 #: linux/hub.cc:2459
+>>>>>>> MERGE-SOURCE
 msgid "User list show/hide"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:3617 linux/hub.cc:3637
+=======
 #: linux/hub.cc:3629 linux/hub.cc:3649
+>>>>>>> MERGE-SOURCE
 msgid "User not found"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2349 linux/hub.cc:2385
+=======
 #: linux/hub.cc:2361 linux/hub.cc:2397
+>>>>>>> MERGE-SOURCE
 msgid "User not found: "
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:2554
+=======
 #: linux/hub.cc:2566
+>>>>>>> MERGE-SOURCE
 msgid "User not found:: "
 msgstr ""
 
@@ -5035,7 +5817,11 @@ msgstr ""
 msgid "User set"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:3150
+=======
 #: linux/hub.cc:3162
+>>>>>>> MERGE-SOURCE
 msgid "User unIgnored "
 msgstr ""
 
@@ -5043,7 +5829,11 @@ msgstr ""
 msgid "User went Offline"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/privatemessage.cc:1418
+=======
 #: linux/privatemessage.cc:1419
+>>>>>>> MERGE-SOURCE
 msgid "User went offline"
 msgstr ""
 
@@ -5191,7 +5981,11 @@ msgstr ""
 msgid "User with other connection type or unknown (pasive)"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:4643
+=======
 #: linux/hub.cc:4655
+>>>>>>> MERGE-SOURCE
 msgid "Users Commands"
 msgstr ""
 
@@ -5216,7 +6010,11 @@ msgstr ""
 msgid "Virtual name"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:899
+=======
 #: linux/hub.cc:911
+>>>>>>> MERGE-SOURCE
 msgid ""
 "Waiting for input password (don't remove /password before your password)"
 msgstr ""
@@ -5237,12 +6035,21 @@ msgstr ""
 msgid "Xine player"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/favoritehubs.cc:398 linux/favoritehubs.cc:525
+#: linux/favoritehubs.cc:705 linux/favoriteusers.cc:110
+#: linux/favoriteusers.cc:804 linux/favoriteusers.cc:824
+#: linux/favoriteusers.cc:915 linux/finishedtransfers.cc:663 linux/hub.cc:2513
+#: linux/hub.cc:2516 linux/hub.cc:2519 linux/hub.cc:2520 linux/hub.cc:2521
+#: linux/hub.cc:2522
+=======
 #: linux/favoritehubs.cc:398 linux/favoritehubs.cc:525
 #: linux/favoritehubs.cc:705 linux/favoriteusers.cc:110
 #: linux/favoriteusers.cc:804 linux/favoriteusers.cc:824
 #: linux/favoriteusers.cc:915 linux/finishedtransfers.cc:663 linux/hub.cc:2525
 #: linux/hub.cc:2528 linux/hub.cc:2531 linux/hub.cc:2532 linux/hub.cc:2533
 #: linux/hub.cc:2534
+>>>>>>> MERGE-SOURCE
 msgid "Yes"
 msgstr ""
 
@@ -5274,7 +6081,11 @@ msgstr ""
 msgid "add alias A with uname -a exec\n"
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:3960
+=======
 #: linux/hub.cc:3972
+>>>>>>> MERGE-SOURCE
 msgid "bad image"
 msgstr ""
 
@@ -5290,7 +6101,11 @@ msgstr ""
 msgid "file list from "
 msgstr ""
 
+<<<<<<< TREE
+#: linux/hub.cc:3951
+=======
 #: linux/hub.cc:3963
+>>>>>>> MERGE-SOURCE
 msgid "loading error"
 msgstr ""
 

@@ -28,8 +28,7 @@
 using namespace std;
 
 Entry::Entry(const EntryType type, const string &ui, const string &id):
-	xml(NULL),
-	type(type),
+	xml(NULL),	type(type),
 	id(dcpp::Util::toString(type) + ":" + id)
 {
 	dcdebug("%s",ui.c_str());
@@ -84,15 +83,6 @@ GtkWidget *Entry::getWidget(const string &name)
 	dcassert(widget);
 	return widget;
 }
-
-GtkWidget *Entry::getWidget(string* name)
-{
-	dcassert(xml && !name->empty());
-	GtkWidget *widget = GTK_WIDGET(gtk_builder_get_object(xml,g_strdup(name->c_str())));
-	dcassert(widget);
-    return widget;
-}
-
 void Entry::addChild(Entry *entry)
 {
 	children.insert(make_pair(entry->getID(), entry));
@@ -131,4 +121,3 @@ void Entry::removeChildren()
 	while (!children.empty())
 		removeChild(children.begin()->second);
 }
-

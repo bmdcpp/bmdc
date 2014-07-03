@@ -60,7 +60,7 @@ Hub::Hub(const string &address, const string &encoding):
 	FavoriteHubEntry* faventry =  FavoriteManager::getInstance()->getFavoriteHubEntry(address);
 
 	// Initialize nick treeview
-	nickView.setView(GTK_TREE_VIEW(getWidget("nickView")), /*true*/false, "hub");
+	nickView.setView(GTK_TREE_VIEW(getWidget("nickView")), false, "hub");
 	nickView.insertColumn(_("Nick"), G_TYPE_STRING, TreeView::ICON_STRING_TEXT_COLOR, 100, "Icon", "NickColor");
 	nickView.insertColumn(_("Shared"), G_TYPE_INT64, TreeView::SIZE, 75);
 	nickView.insertColumn(_("Description"), G_TYPE_STRING, TreeView::STRING, 85);
@@ -372,8 +372,6 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		Hub* hub = (Hub *)data;
 		if(hub == NULL) return;
 		string color;
-		//gchar *cltype = NULL, *nickp = NULL;
-		//int64_t size;
 		string sizeString;
 		if(model == NULL)
 			return;
@@ -383,19 +381,10 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 			return;
 		if(cell == NULL)
 			return;
-
-		//gtk_tree_model_get(model,iter,
-		//				hub->nickView.col(_("Nick")), &nickp,
-		//              hub->nickView.col(_("Shared")) , &size,
-		//				hub->nickView.col("Client Type"),&cltype,
-		//				-1);
 		string nick = hub->nickView.getString(iter,_("Nick"),model);
 		int64_t size = hub->nickView.getValue<gint64>(iter,_("Shared"),model);
 		string tmp = hub->nickView.getString(iter,_("Client Type"),model);		
-		
-		//string nick(nickp);
 
-		//string tmp(cltype);
 		char a = tmp[0];
 		switch(a){
 			case 'A':
@@ -452,7 +441,6 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 			}
 			g_object_set(cell, "text", sizeString.c_str(), NULL);
 		}
-		//g_free(cltype);
 }
 
 Hub::~Hub()
@@ -552,7 +540,7 @@ void Hub::set_Header_tooltip_gui()
 gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer data)
 {
 	Hub* hub = (Hub*)data;
-	if(hub == NULL)return FALSE;//@Should never hapen but :-D
+	if(hub == NULL)return FALSE; //@Should never hapen but :-D
   	
   GtkTreeIter iter;
   GtkTreeView *tree_view = GTK_TREE_VIEW (widget);
@@ -769,7 +757,7 @@ void Hub::updateUser_gui(ParamMap params)
 			nickView.col("Nick Order"), nickOrder.c_str(),
 			nickView.col("CID"), cid.c_str(),
 			nickView.col("NickColor"), params["NickColor"].c_str(),
-            nickView.col("Pixbuf"),WulforUtil::LoadCountryPixbuf(params["Abbrevation"]),
+            nickView.col("Pixbuf"), WulforUtil::LoadCountryPixbuf(params["Abbrevation"]),
             nickView.col("Client Type"), params["Type"].c_str(),
 			-1);
 
@@ -860,7 +848,7 @@ void Hub::clearNickList_gui()
 
 	gtk_list_store_clear(nickStore);
 	userMap.clear();
-	//BMDC++
+	//@BMDC++
 	users.clear();
 	userFavoriteMap.clear();
 	//END
@@ -1303,7 +1291,7 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 					gtk_text_buffer_delete(chatBuffer, &tag_start_iter, &tag_end_iter);
 					GtkTextChildAnchor *anchor = gtk_text_buffer_create_child_anchor(chatBuffer, &tag_start_iter);
 					GtkWidget *event_box = gtk_event_box_new();
-	//          Creating a visible window may cause artifacts that are visible to the user.
+					//	Creating a visible window may cause artifacts that are visible to the user.
 					gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
 					GtkWidget *image = gtk_image_new_from_pixbuf(buffer);
 					gtk_container_add(GTK_CONTAINER(event_box),image);

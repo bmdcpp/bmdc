@@ -1876,7 +1876,7 @@ void Search::removeSource_client(string cid)
 	}
 }
 
-void Search::on(ClientManagerListener::ClientConnected, Client *client) throw()
+void Search::on(ClientManagerListener::ClientConnected, Client *client) noexcept
 {
 	if (client)
 	{
@@ -1886,7 +1886,7 @@ void Search::on(ClientManagerListener::ClientConnected, Client *client) throw()
 	}
 }
 
-void Search::on(ClientManagerListener::ClientUpdated, Client *client) throw()
+void Search::on(ClientManagerListener::ClientUpdated, Client *client) noexcept
 {
 	if (client)
 	{
@@ -1906,7 +1906,7 @@ void Search::on(ClientManagerListener::ClientDisconnected, Client *client) throw
 	}
 }
 
-void Search::on(SearchManagerListener::SR, const SearchResultPtr& result) throw()
+void Search::on(SearchManagerListener::SR, const SearchResultPtr& result) noexcept
 {
 	if (searchlist.empty() || result == NULL)
 		return;

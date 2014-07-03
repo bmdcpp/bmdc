@@ -32,10 +32,8 @@ using namespace dcpp;
 
 DownloadQueue::DownloadQueue():
 	BookEntry(Entry::DOWNLOAD_QUEUE, _("Download Queue"), "downloadqueue.glade"),
-	currentItems(0),
-	totalItems(0),
-	currentSize(0),
-	totalSize(0)
+	currentItems(0), totalItems(0),
+	currentSize(0),	totalSize(0)
 {
 	// Configure the dialogs
 	File::ensureDirectory(SETTING(DOWNLOAD_DIRECTORY));
@@ -287,7 +285,7 @@ void DownloadQueue::addFile_gui(StringMap params, bool updateDirs)
 			fileView.col(_("Added")), params["Added"].c_str(),
 			fileView.col("TTH"), params["TTH"].c_str(),
 			fileView.col("Target"), params["Target"].c_str(),
-			fileView.col("Icon"), /*"bmdc-file"*/WulforUtil::loadIconShare(Util::getFileExt(params["Filename"])),
+			fileView.col("Icon"), WulforUtil::loadIconShare(Util::getFileExt(params["Filename"])),
 			-1);
 
 		if (SETTING(BOLD_QUEUE))
@@ -1368,7 +1366,7 @@ void DownloadQueue::getQueueParams_client(QueueItem *item, StringMap &params)
 	params["TTH"] = item->getTTH().toBase32();
 }
 
-void DownloadQueue::on(QueueManagerListener::Added, QueueItem *item) throw()
+void DownloadQueue::on(QueueManagerListener::Added, QueueItem *item) noexcept
 {
 	StringMap params;
 	getQueueParams_client(item, params);
@@ -1378,7 +1376,7 @@ void DownloadQueue::on(QueueManagerListener::Added, QueueItem *item) throw()
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
-void DownloadQueue::on(QueueManagerListener::Moved, QueueItem *item, const string &oldTarget) throw()
+void DownloadQueue::on(QueueManagerListener::Moved, QueueItem *item, const string &oldTarget) noexcept
 {
 	// Remove the old file
 	typedef Func2<DownloadQueue, string, int64_t> F2a;
@@ -1394,14 +1392,14 @@ void DownloadQueue::on(QueueManagerListener::Moved, QueueItem *item, const strin
 	WulforManager::get()->dispatchGuiFunc(func2);
 }
 
-void DownloadQueue::on(QueueManagerListener::Removed, QueueItem *item) throw()
+void DownloadQueue::on(QueueManagerListener::Removed, QueueItem *item) noexcept
 {
 	typedef Func2<DownloadQueue, string, int64_t> F2;
 	F2 *func = new F2(this, &DownloadQueue::removeFile_gui, item->getTarget(), item->getSize());
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
-void DownloadQueue::on(QueueManagerListener::SourcesUpdated, QueueItem *item) throw()
+void DownloadQueue::on(QueueManagerListener::SourcesUpdated, QueueItem *item) noexcept
 {
 	StringMap params;
 	getQueueParams_client(item, params);
@@ -1411,7 +1409,7 @@ void DownloadQueue::on(QueueManagerListener::SourcesUpdated, QueueItem *item) th
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
-void DownloadQueue::on(QueueManagerListener::StatusUpdated, QueueItem *item) throw()
+void DownloadQueue::on(QueueManagerListener::StatusUpdated, QueueItem *item) noexcept
 {
 	StringMap params;
 	getQueueParams_client(item, params);

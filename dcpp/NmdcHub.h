@@ -139,7 +139,7 @@ private:
 	void refreshLocalIp() noexcept;
 
 	virtual void checkNick(string& aNick);
-	virtual bool v4only() const { return true; }
+	virtual bool v4only() const { return false; }//true
 
 	// TimerManagerListener
 	virtual void on(Second, uint64_t aTick) noexcept;
