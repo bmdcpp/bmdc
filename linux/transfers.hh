@@ -95,24 +95,24 @@ class Transfers:
 
 		// DownloadManager
 		virtual void on(dcpp::DownloadManagerListener::Requesting, dcpp::Download* dl) noexcept;
-		virtual void on(dcpp::DownloadManagerListener::Starting, dcpp::Download* dl) noexcept;
-		virtual void on(dcpp::DownloadManagerListener::Tick, const dcpp::DownloadList& dls) noexcept;
-		virtual void on(dcpp::DownloadManagerListener::Complete, dcpp::Download* dl) noexcept;
-		virtual void on(dcpp::DownloadManagerListener::Failed, dcpp::Download* dl, const std::string& reason) noexcept;
+		virtual void on(dcpp::DownloadManagerListener::Starting, dcpp::Download* dl) throw();
+		virtual void on(dcpp::DownloadManagerListener::Tick, const dcpp::DownloadList& dls) throw();
+		virtual void on(dcpp::DownloadManagerListener::Complete, dcpp::Download* dl) throw();
+		virtual void on(dcpp::DownloadManagerListener::Failed, dcpp::Download* dl, const std::string& reason) throw();
 		// ConnectionManager
-		virtual void on(dcpp::ConnectionManagerListener::Added, dcpp::ConnectionQueueItem* cqi) noexcept;
-		virtual void on(dcpp::ConnectionManagerListener::Connected, dcpp::ConnectionQueueItem* cqi) noexcept;
-		virtual void on(dcpp::ConnectionManagerListener::Removed, dcpp::ConnectionQueueItem* cqi) noexcept;
-		virtual void on(dcpp::ConnectionManagerListener::Failed, dcpp::ConnectionQueueItem* cqi, const std::string&) noexcept;
-		virtual void on(dcpp::ConnectionManagerListener::StatusChanged, dcpp::ConnectionQueueItem* cqi) noexcept;
+		virtual void on(dcpp::ConnectionManagerListener::Added, dcpp::ConnectionQueueItem* cqi) throw();
+		virtual void on(dcpp::ConnectionManagerListener::Connected, dcpp::ConnectionQueueItem* cqi) throw();
+		virtual void on(dcpp::ConnectionManagerListener::Removed, dcpp::ConnectionQueueItem* cqi) throw();
+		virtual void on(dcpp::ConnectionManagerListener::Failed, dcpp::ConnectionQueueItem* cqi, const std::string&) throw();
+		virtual void on(dcpp::ConnectionManagerListener::StatusChanged, dcpp::ConnectionQueueItem* cqi) throw();
 		// QueueManager
-		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem* qi, const std::string&, int64_t size) noexcept;
-		virtual void on(dcpp::QueueManagerListener::Removed, dcpp::QueueItem* qi) noexcept;
+		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem* qi, const std::string&, int64_t size) throw();
+		virtual void on(dcpp::QueueManagerListener::Removed, dcpp::QueueItem* qi) throw();
 		// UploadManager
-		virtual void on(dcpp::UploadManagerListener::Starting, dcpp::Upload* ul) noexcept;
-		virtual void on(dcpp::UploadManagerListener::Tick, const dcpp::UploadList& uls) noexcept;
-		virtual void on(dcpp::UploadManagerListener::Complete, dcpp::Upload* ul) noexcept;
-		virtual void on(dcpp::UploadManagerListener::Failed, dcpp::Upload* ul, const std::string& reason) noexcept;
+		virtual void on(dcpp::UploadManagerListener::Starting, dcpp::Upload* ul) throw();
+		virtual void on(dcpp::UploadManagerListener::Tick, const dcpp::UploadList& uls) throw();
+		virtual void on(dcpp::UploadManagerListener::Complete, dcpp::Upload* ul) throw();
+		virtual void on(dcpp::UploadManagerListener::Failed, dcpp::Upload* ul, const std::string& reason) throw();
 
 		TreeView transferView;
 		GtkTreeStore *transferStore;
@@ -122,3 +122,4 @@ class Transfers:
 };
 
 #endif // BMDC_TRANSFERS_HH
+

@@ -33,8 +33,7 @@ public:
 
 	enum Flags {
 		FLAG_GRANTSLOT = 1 << 0,
-		FLAG_IGNORE = 2 << 0,
-		FLAG_IP = 3 << 0
+		FLAG_IGNORE = 2 << 0
 	};
 
 	UserPtr& getUser() { return user; }
@@ -51,7 +50,7 @@ public:
 	{
 		uint64_t count = 0;
 		for(auto& i:nicks){
-				if( Util::stricmp(i,_nick) != 0 ) ++count;
+				if(i==_nick) ++count;
 		}
 		if(count > 1)		
 			nicks.push_back(_nick);

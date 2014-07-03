@@ -74,7 +74,7 @@ class Entry
 	protected:
 		std::string generateID();
 		GtkWidget *getWidget(const std::string &name);
-		//GtkWidget *getWidget(std::string* name);
+		GtkWidget *getWidget(std::string* name);
 		void addChild(Entry *entry);
 		Entry *getChild(const EntryType childType, const std::string &childId);
 		void removeChild(const EntryType childType, const std::string &childId);

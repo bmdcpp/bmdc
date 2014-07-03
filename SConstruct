@@ -24,9 +24,10 @@ LIB_IS_NATPMP = True
 LIB_IS_GEO = False
 LIB_IS_TAR = False
 # , '-Werror' ,'-Wfatal-errors'
-BUILD_FLAGS = {
-	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib' , '-ldl', '-DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED','-DGSEAL_ENABLE','-DUSE_STACKTRACE'], #,'-fpermissive' ],,'-Wno-missing-field-initializers', '-Wno-address''-pipe',
-	'debug'   : ['-O1','-g','-g3','-ggdb', '-Wall', '-D_DEBUG'],
+#'-fno-stack-protector',
+BUILD_FLAGS = {#'-Wno-unused-parameter','-Wno-unused-value',
+	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib','-Wno-missing-field-initializers', '-Wno-address','-g3', '-ldl', '-pipe','-DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED','-DGSEAL_ENABLE','-DUSE_STACKTRACE'], #,'-fpermissive' ],
+	'debug'   : ['-O1','-g', '-ggdb', '-Wall', '-D_DEBUG'],
 	'release' : ['-O3', '-fomit-frame-pointer', '-DNDEBUG']
 }
 
@@ -354,6 +355,8 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if env.get('PREFIX'):
 		data_dir = '\'\"%sshare\"\'' % env['PREFIX']
 		env.Append(CPPDEFINES = ('_DATADIR', data_dir))
+
+
 # ----------------------------------------------------------------------
 # Build
 # ----------------------------------------------------------------------
@@ -420,3 +423,4 @@ else:
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'extensions/Scripts'), source = py_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'country'), source = country_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'bin'), source = PACKAGE))
+

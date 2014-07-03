@@ -815,8 +815,8 @@ void MainWindow::removeItemFromList(Entry::EntryType type, string id)
 			if(Hubs.empty()) break;
 			 for(auto it = Hubs.begin();it != Hubs.end();++it)
 			 {
-				 //Hub *hub = *it;
-				 string hubId = (dynamic_cast<Entry*>(*it))->getID();
+				 Hub *hub = *it;
+				 string hubId = (dynamic_cast<Entry*>(hub))->getID();
 				 if(hubId == id)
 					 continue;
 				hubs.push_back(*it);
@@ -1863,7 +1863,7 @@ gboolean MainWindow::onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpoi
 		entry->setActive_gui();
 	}
 
-	gtk_window_set_urgency_hint(mw->window, FALSE);//TODO : settings?
+	gtk_window_set_urgency_hint(mw->window, FALSE);
 	return FALSE;
 }
 
@@ -2773,7 +2773,6 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) noexcept
 		F2 *f2 = new F2(this, &MainWindow::updateStatusIconTooltip_gui, downloadSpeed, uploadSpeed);
 		WulforManager::get()->dispatchGuiFunc(f2);
 	}
-	
 	string file;
 	uint64_t bytes = 0;
 	size_t files = 0;
@@ -2787,7 +2786,7 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) noexcept
 
 void MainWindow::onTTHFileDialog_gui(GtkWidget *widget, gpointer data)
 {
-	MainWindow *mw = (MainWindow *)data;
+	MainWindow *mw =(MainWindow *)data;
 	GtkWidget *dialog = mw->getWidget("TTHFileDialog");
 	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 	if(response == GTK_RESPONSE_NONE)

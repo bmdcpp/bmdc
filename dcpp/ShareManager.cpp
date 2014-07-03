@@ -79,7 +79,6 @@ ShareManager::ShareManager() : hits(0), xmlListLen(0), bzXmlListLen(0),
 }
 
 ShareManager::~ShareManager() {
-	
 	SettingsManager::getInstance()->removeListener(this);
 	TimerManager::getInstance()->removeListener(this);
 	QueueManager::getInstance()->removeListener(this);

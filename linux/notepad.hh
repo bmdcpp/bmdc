@@ -17,8 +17,8 @@
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //      MA 02110-1301, USA.
 
-#ifndef _BMDC_NOTEPAD_HH
-#define _BMDC_NOTEPAD_HH
+#ifndef BMDC_NOTEPAD_HH
+#define BMDC_NOTEPAD_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>

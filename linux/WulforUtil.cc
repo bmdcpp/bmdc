@@ -679,7 +679,7 @@ void WulforUtil::registerIcons()
 	loadmimetypes();
 }
 
-GdkPixbuf* WulforUtil::LoadCountryPixbuf(const string &country)
+GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
 {
 	if(country.empty())
 	{
@@ -1212,6 +1212,8 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 			bool tBold = false;
 			bool tItalic = false;
 			bool tUnderline = false;
+//			bool tPopup = false;
+//			bool tSound = false;
 			string fore("");
 			string back("");
 

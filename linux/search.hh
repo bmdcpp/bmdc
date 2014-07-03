@@ -124,10 +124,10 @@ class Search:
 		void removeSource_client(std::string cid);
 
 		// Client callbacks
-		virtual void on(dcpp::ClientManagerListener::ClientConnected, dcpp::Client *client) noexcept;
-	 	virtual void on(dcpp::ClientManagerListener::ClientUpdated, dcpp::Client *client) noexcept;
-		virtual void on(dcpp::ClientManagerListener::ClientDisconnected, dcpp::Client *client) noexcept;
-		virtual void on(dcpp::SearchManagerListener::SR, const dcpp::SearchResultPtr &result) noexcept;
+		virtual void on(dcpp::ClientManagerListener::ClientConnected, dcpp::Client *client) throw();
+	 	virtual void on(dcpp::ClientManagerListener::ClientUpdated, dcpp::Client *client) throw();
+		virtual void on(dcpp::ClientManagerListener::ClientDisconnected, dcpp::Client *client) throw();
+		virtual void on(dcpp::SearchManagerListener::SR, const dcpp::SearchResultPtr &result) throw();
 
 		TreeView hubView, resultView;
 		GtkListStore *hubStore;

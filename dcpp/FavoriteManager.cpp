@@ -1,4 +1,4 @@
-h/*
+/*
  * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
@@ -800,19 +800,18 @@ void FavoriteManager::userUpdated(const OnlineUser& info) {
 		fire(FavoriteManagerListener::FavoriteIUpdate(), info.getIdentity().getNick(), fiu);
 		isToSave = true;
 	}
-	
 	if(isToSave)
 		save();
 }
 
-FavoriteHubEntry* FavoriteManager::getFavoriteHubEntry(const string& aServer) const {
+FavoriteHubEntryPtr FavoriteManager::getFavoriteHubEntry(const string& aServer) const {
 	for(FavoriteHubEntryList::const_iterator i = favoriteHubs.begin(), iend = favoriteHubs.end(); i != iend; ++i) {
 		FavoriteHubEntry* hub = *i;
 		if(Util::stricmp(hub->getServer(), aServer) == 0) {
 			return hub;
 		}
 	}
-	return (nullptr);
+	return NULL;
 }
 
 FavoriteHubEntryList FavoriteManager::getFavoriteHubs(const string& group) const {
@@ -850,7 +849,6 @@ void FavoriteManager::setAutoGrant(const UserPtr& aUser, bool grant) {
 	FavoriteMap::iterator i = users.find(aUser->getCID());
 	if(i == users.end())
 		return;
-	
 	if(grant)
 		i->second.setFlag(FavoriteUser::FLAG_GRANTSLOT);
 	else
@@ -866,7 +864,6 @@ void FavoriteManager::setIgnore(const UserPtr& aUser, bool ignore) {
 	FavoriteMap::iterator i = users.find(aUser->getCID());
 	if(i == users.end())
 		return;
-	
 	if(ignore)
 		i->second.setFlag(FavoriteUser::FLAG_IGNORE);
 	else

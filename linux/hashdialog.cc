@@ -130,7 +130,7 @@ void Hash::onPauseHashing_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Hash::on(TimerManagerListener::Second, uint64_t tics) noexcept
+void Hash::on(TimerManagerListener::Second, uint64_t tics) throw()
 {
 	string file;
 	uint64_t bytes = 0;

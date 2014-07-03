@@ -119,6 +119,7 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	g_signal_connect(getWidget("entry"), "key-press-event", G_CALLBACK(onKeyPress_gui), (gpointer)this);
 	g_signal_connect(getWidget("text"), "motion-notify-event", G_CALLBACK(onChatPointerMoved_gui), (gpointer)this);
 	g_signal_connect(getWidget("text"), "visibility-notify-event", G_CALLBACK(onChatVisibilityChanged_gui), (gpointer)this);
+//	g_signal_connect(getWidget("text"), "draw", G_CALLBACK(expose), (gpointer)this);
 	g_signal_connect(adjustment, "value_changed", G_CALLBACK(onChatScroll_gui), (gpointer)this);
 	g_signal_connect(adjustment, "changed", G_CALLBACK(onChatResize_gui), (gpointer)this);
 	g_signal_connect(getWidget("copyLinkItem"), "activate", G_CALLBACK(onCopyURIClicked_gui), (gpointer)this);
@@ -1485,7 +1486,7 @@ void PrivateMessage::grantSlot_client()
 	}
 }
 
-void PrivateMessage::on(ClientManagerListener::UserConnected, const UserPtr& aUser) noexcept
+void PrivateMessage::on(ClientManagerListener::UserConnected, const UserPtr& aUser) throw()
 {
 	if (aUser->getCID() == CID(cid))
 	{
@@ -1495,7 +1496,7 @@ void PrivateMessage::on(ClientManagerListener::UserConnected, const UserPtr& aUs
 	}
 }
 
-void PrivateMessage::on(ClientManagerListener::UserDisconnected, const UserPtr& aUser) noexcept
+void PrivateMessage::on(ClientManagerListener::UserDisconnected, const UserPtr& aUser) throw()
 {
 	if (aUser->getCID() == CID(cid))
 	{
@@ -1596,6 +1597,7 @@ void PrivateMessage::onAddFavItem(gpointer data)
 	PrivateMessage *pm = (PrivateMessage *)data;
 	pm->addFavoriteUser_client();
 }
+//EnD
 
 void PrivateMessage::onCopyIpItem_gui(GtkWidget *wid, gpointer data)
 {

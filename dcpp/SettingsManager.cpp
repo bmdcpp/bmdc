@@ -274,7 +274,7 @@ SettingsManager::SettingsManager()
 	setDefault(SETTINGS_HEIGHT, 600);//not used?
 	setDefault(SOCKS_PORT, 1080);
 	setDefault(SOCKS_RESOLVE, 1);
-	setDefault(CONFIG_VERSION, "0.181");	// 0.181 is the last version missing configversion
+	setDefault(CONFIG_VERSION, "0.181");		// 0.181 is the last version missing configversion
 	setDefault(KEEP_LISTS, false);
 	setDefault(AUTO_KICK, false);
 	setDefault(QUEUEFRAME_SHOW_TREE, true);
@@ -413,14 +413,14 @@ SettingsManager::SettingsManager()
 	setDefault(MAX_TESTSURS, 50);
 	setDefault(MAX_FILELISTS, 10);
 	setDefault(SLEEP_TIME, 0);
-	setDefault(MIN_POINTS_TO_DISPLAY_CHEAT, 0);
+	setDefault(MIN_POINTS_TO_DISPLAY_CHEAT,0);
 	setDefault(DETECTIONF, 0);
 	setDefault(DETECTIONS, 0);
-	setDefault(DCPP_EMULATION_RAW, 0);
-	setDefault(VERSION_MISMATCH_RAW, 0);
-	setDefault(SDL_RAW, 0);
-	setDefault(RIPE_DB, "https://apps.db.ripe.net/search/query.html?searchtext=%[IP]&search%3AdoSearch=Search#resultsAnchor");
-	setDefault(SERVER_COMMANDS, true);
+	setDefault(DCPP_EMULATION_RAW,0);
+	setDefault(VERSION_MISMATCH_RAW,0);
+	setDefault(SDL_RAW,0);
+	setDefault(RIPE_DB,"https://apps.db.ripe.net/search/query.html?searchtext=%[IP]&search%3AdoSearch=Search#resultsAnchor");
+	setDefault(SERVER_COMMANDS,true);
 
 	setSearchTypeDefaults();
 
