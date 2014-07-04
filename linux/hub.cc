@@ -223,7 +223,7 @@ Hub::Hub(const string &address, const string &encoding):
 	g_signal_connect(getWidget("chatEntry"), "key-press-event", G_CALLBACK(onEntryKeyPress_gui), (gpointer)this);
 	g_signal_connect(getWidget("chatText"), "motion-notify-event", G_CALLBACK(onChatPointerMoved_gui), (gpointer)this);
 	g_signal_connect(getWidget("chatText"), "visibility-notify-event", G_CALLBACK(onChatVisibilityChanged_gui), (gpointer)this);
-//	g_signal_connect(getWidget("chatText"), "draw", G_CALLBACK(expose), (gpointer)this);
+
 	g_signal_connect(adjustment, "value_changed", G_CALLBACK(onChatScroll_gui), (gpointer)this);
 	g_signal_connect(adjustment, "changed", G_CALLBACK(onChatResize_gui), (gpointer)this);
 	g_signal_connect(getWidget("nickToChatItem"), "activate", G_CALLBACK(onNickToChat_gui), (gpointer)this);
@@ -372,8 +372,6 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		Hub* hub = (Hub *)data;
 		if(hub == NULL) return;
 		string color;
-		//gchar *cltype = NULL, *nickp = NULL;
-		//int64_t size;
 		string sizeString;
 		if(model == NULL)
 			return;
@@ -383,19 +381,10 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 			return;
 		if(cell == NULL)
 			return;
-
-		//gtk_tree_model_get(model,iter,
-		//				hub->nickView.col(_("Nick")), &nickp,
-		//              hub->nickView.col(_("Shared")) , &size,
-		//				hub->nickView.col("Client Type"),&cltype,
-		//				-1);
 		string nick = hub->nickView.getString(iter,_("Nick"),model);
 		int64_t size = hub->nickView.getValue<gint64>(iter,_("Shared"),model);
 		string tmp = hub->nickView.getString(iter,_("Client Type"),model);		
 		
-		//string nick(nickp);
-
-		//string tmp(cltype);
 		char a = tmp[0];
 		switch(a){
 			case 'A':
@@ -688,7 +677,7 @@ void Hub::updateUser_gui(ParamMap params)
 	bool isIgnore = false;
 	bool isProtected = false;
 	if(isIn) {
-		auto it = users.find(cid);
+		UserFlags::iterator it = users.find(cid);
 		isOperator = it->second == FlagUser::FLAG_OP;
 		isPasive = it->second == FlagUser::FLAG_PASIVE;
 		isIgnore = it->second == FlagUser::FLAG_IGNORE;

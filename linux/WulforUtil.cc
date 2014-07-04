@@ -315,7 +315,10 @@ string WulforUtil::colorToString(const GdkColor *color)
 #else
 string WulforUtil::colorToString(const GdkRGBA *color)
 {
-	return string(gdk_rgba_to_string(color));
+	gchar* tmp = gdk_rgba_to_string(color);
+	string s(tmp);
+	g_free(tmp);
+	return s;
 }
 #endif
 GdkPixbuf* WulforUtil::scalePixbuf(const GdkPixbuf *pixbuf, const int width, const int height, GdkInterpType type)
