@@ -123,8 +123,8 @@ void Encoder::fromBase16(const char* src, uint8_t* dst, size_t len) {
 	memset(dst, 0, len);
 	for(size_t i = 0; src[i] && src[i+1] && i < len * 2; i += 2) {
 		// Skip what we don't recognise
-		auto tmp = decode16(src[i]);
-		auto tmp2 = decode16(src[i+1]);
+		uint8_t tmp = decode16(src[i]);
+		uint8_t tmp2 = decode16(src[i+1]);
 		dst[i/2] = (tmp << 4) + tmp2;
 	}
 }

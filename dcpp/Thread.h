@@ -75,6 +75,7 @@ public:
 		NORMAL = 0,
 		HIGH = -1
 	};
+	
 	Thread() : threadHandle(0) { }
 	virtual ~Thread() {
 		if(threadHandle != 0) {

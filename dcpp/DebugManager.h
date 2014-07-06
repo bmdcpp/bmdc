@@ -29,6 +29,7 @@ public:
 	void DebugDetection(const string& aMess){ fire(DebugManagerListener::DebugDetection(),aMess);}
 	
 	~DebugManager() { };
+
 	enum Type {
 		TYPE_HUB, TYPE_CLIENT
 	};
@@ -37,6 +38,7 @@ public:
 		INCOMING, OUTGOING
 	};
 };
+
 #define COMMAND_DEBUG(a,b,c,d) DebugManager::getInstance()->SendCommandMessage(a,DebugManager::b,DebugManager::c,d);
 #define DETECTION_DEBUG(a) DebugManager::getInstance()->DebugDetection(a);
 } // namespace dcpp

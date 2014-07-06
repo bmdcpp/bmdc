@@ -81,19 +81,6 @@ struct Plugin {
 	StringMap settings;
 };
 
-/** Information about a dcext-packaged plugin that has just been extracted. */
-/*struct DcextInfo {
-	string uuid;
-	string name;
-	double version;
-	string author;
-	string description;
-	string website;
-	string plugin;
-	StringList files;
-	bool updating;
-};
-*/
 class PluginManager : public Singleton<PluginManager>, private TimerManagerListener,
 	private ClientManagerListener, private QueueManagerListener, private SettingsManagerListener
 {

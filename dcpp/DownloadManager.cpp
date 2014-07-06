@@ -314,7 +314,6 @@ void DownloadManager::on(UserConnectionListener::Data, UserConnection* aSource, 
 	Download* d = aSource->getDownload();
 	dcassert(d != NULL);
 
-
 	try {
 		d->addPos(d->getFile()->write(aData, aLen), aLen);
 		d->tick();

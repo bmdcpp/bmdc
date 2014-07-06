@@ -57,7 +57,7 @@ public:
 	/** Call once all data has been processed. */
 	uint8_t* finalize();
 
-	uint8_t* getResult() { return (uint8_t*) res; }
+	uint8_t* getResult() { return (uint8_t*)res; }
 private:
 	enum { BLOCK_SIZE = 512/8 };
 	/** 512 bit blocks for the compress function */

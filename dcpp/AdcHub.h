@@ -100,8 +100,6 @@ private:
 	virtual ~AdcHub();
 
 	/** Map session id to OnlineUser */
-	//typedef unordered_map<uint32_t, OnlineUser*> SIDMap;
-	//typedef SIDMap::iterator SIDIter;
 	typedef unordered_map<uint32_t, OnlineUser*> ADCMap;
 	typedef HubUsersMap<true, ADCMap> SIDMap;
 	typedef SIDMap::const_iterator SIDIter;

@@ -26,9 +26,8 @@ namespace dcpp {
 class TarFile
 {
 	public:
-		static void CreateTarredFile(const string _path, const StringPairList& files);
-		static void DecompresTarredFile(const string _file, const string& _prefix);
-
+		static void CreateTarredFile(const string& _path, const StringPairList& files);
+		static void DecompresTarredFile(const string& _file, const string& _prefix);
 };
 
 }

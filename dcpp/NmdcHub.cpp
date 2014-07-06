@@ -44,6 +44,7 @@ Client(aHubURL, '|', false),
 supportFlags(0), lastUpdate(0),
 lastProtectedIPsUpdate(0)
 {
+	
 }
 
 NmdcHub::~NmdcHub() {

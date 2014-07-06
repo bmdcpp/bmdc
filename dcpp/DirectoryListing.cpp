@@ -159,7 +159,7 @@ void ListLoader::startTag(const string& name, StringPairList& attribs, bool simp
 			const string& s = getAttrib(attribs, sSize, 1);
 			if(s.empty())
 				return;
-			auto size = Util::toInt64(s);
+			int64_t size = Util::toInt64(s);
 
 			const string& h = getAttrib(attribs, sTTH, 2);
 			if(h.empty())

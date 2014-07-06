@@ -81,8 +81,6 @@ private:
 		SUPPORTS_USERIP2 = 0x04
 	};
 	
-	/*typedef unordered_map<string, OnlineUser*, noCaseStringHash, noCaseStringEq> NickMap;
-	typedef NickMap::iterator NickIter;*/
 	typedef unordered_map<string, OnlineUser*, noCaseStringHash, noCaseStringEq> NMDCMap;
 	typedef HubUsersMap<false, NMDCMap> NickMap;
 	typedef NickMap::const_iterator NickIter;

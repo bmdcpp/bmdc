@@ -37,7 +37,6 @@
 #include "ShareManager.h"
 #include "ThrottleManager.h"
 #include "UploadManager.h"
-#include "WindowManager.h"
 
 #include "DetectionManager.h"
 #include "RawManager.h"
@@ -92,9 +91,8 @@ void startup(function<void (const string&)> f) {
 	ConnectivityManager::newInstance();
 	MappingManager::newInstance();
 	GeoManager::newInstance();
-//	WindowManager::newInstance();
 	PluginManager::newInstance();
-        PluginApiImpl::init();
+    PluginApiImpl::init();
 #ifdef HAVE_LIBTAR
 	ExportManager::newInstance();
 #endif
@@ -174,7 +172,6 @@ void shutdown() {
 	GeoManager::getInstance()->close();
 	BufferedSocket::waitShutdown();
 
-	WindowManager::getInstance()->prepareSave();
 	QueueManager::getInstance()->saveQueue(true);
 	ClientManager::getInstance()->saveUsers();
 	SettingsManager::getInstance()->save();
@@ -182,7 +179,6 @@ void shutdown() {
 	HighlightManager::deleteInstance();
 	DetectionManager::deleteInstance();
 
-//	WindowManager::deleteInstance();
 	GeoManager::deleteInstance();
 	MappingManager::deleteInstance();
 	ConnectivityManager::deleteInstance();

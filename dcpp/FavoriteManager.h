@@ -151,7 +151,7 @@ public:
 				return r;
 			}
 		}
-		return NULL;
+		return (nullptr);
 	}
 	RecentHubEntry::List getRecentHubs() { return recentHubs;}
 // Favorite Directories

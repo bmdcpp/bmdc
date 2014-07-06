@@ -21,7 +21,6 @@
 
 #include "ClientManager.h"
 #include "CryptoManager.h"
-#include "WindowManager.h"
 //[BMDC
 #include "RawManager.h"
 //]
@@ -29,7 +28,6 @@
 #include "StringTokenizer.h"
 #include "SimpleXML.h"
 #include "UserCommand.h"
-#include "WindowInfo.h"
 #include "File.h"
 #include "BZUtils.h"
 #include "FilteredFile.h"
