@@ -1038,13 +1038,13 @@ void AdcHub::info(bool /*alwaysSend*/) {
 		const vector<uint8_t> kp = CryptoManager::getInstance()->getKeyprint();
 		addParam(lastInfoMap, c, "KP", "SHA256/" + Encoder::toBase32(&kp[0], kp.size()));
 	}
-
+/*
 	if(CONNSETTING(NO_IP_OVERRIDE) && !getUserIp().empty()) {
 		addParam(lastInfoMap, c, "I4", Socket::resolve(getUserIp(), AF_UNSPEC));
 	} else {
 		addParam(lastInfoMap, c, "I4", "0.0.0.0");
 	}
-	
+*/	
 	if(ClientManager::getInstance()->isActive(getHubUrl())) {
 		addParam(lastInfoMap, c, "U4", SearchManager::getInstance()->getPort());
 		su += "," + TCP4_FEATURE;

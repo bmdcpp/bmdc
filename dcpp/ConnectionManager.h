@@ -128,7 +128,7 @@ private:
 
 	class Server : public Thread {
 	public:
-		Server(bool secure, const string& port_, const string& ip);
+		Server(bool secure, const string& port_, const string& ip, const string& ipv6);
 		virtual ~Server() { die = true; join(); }
 
 		const string& getPort() const { return port; }

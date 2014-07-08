@@ -230,7 +230,7 @@ bool Client::isActiveV4() const {
 }
 
 bool Client::isActiveV6() const {
-	return !v4only() && get(HubSettings::Connection6) == true;
+	return get(HubSettings::Connection6) == true;
 }
 
 void Client::updateCounts(bool aRemove) {

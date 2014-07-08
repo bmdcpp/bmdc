@@ -78,7 +78,8 @@ private:
 	enum SupportFlags {
 		SUPPORTS_USERCOMMAND = 0x01,
 		SUPPORTS_NOGETINFO = 0x02,
-		SUPPORTS_USERIP2 = 0x04
+		SUPPORTS_USERIP2 = 0x04,
+		SUPPORTS_IP64 = 0x08,
 	};
 	
 	typedef unordered_map<string, OnlineUser*, noCaseStringHash, noCaseStringEq> NMDCMap;
@@ -137,8 +138,8 @@ private:
 	void refreshLocalIp() noexcept;
 
 	virtual void checkNick(string& aNick);
-	virtual bool v4only() const { return true; }
-
+	virtual bool v4only() const { return false; }
+	bool bIPv6;
 	// TimerManagerListener
 	virtual void on(Second, uint64_t aTick) noexcept;
 	virtual void on(Minute, uint64_t aTick) noexcept;

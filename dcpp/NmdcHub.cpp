@@ -426,6 +426,11 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		{
 			u.getIdentity().set("AW", Util::emptyString);
 		}
+		if(aMode & 0x80) {
+			u.getUser()->setFlag(User::IPV6);
+		}	
+		else
+			u.getUser()->setFlag(User::IPV4);
 		//end
 		i = j + 1;
 		j = param.find('$', i);
@@ -468,9 +473,9 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			return;
 		}
 	} else if(cmd == "$ConnectToMe") {
-		if(state != STATE_NORMAL || getHideShare()) {
-			return;
-		}
+		//if(/*state != STATE_NORMAL ||*/ getHideShare()) {
+		//	return;
+		//}
 		string::size_type i = param.find(' ');
 		string::size_type j;
 		if( (i == string::npos) || ((i + 1) >= param.size()) ) {
@@ -547,6 +552,9 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				supportFlags |= SUPPORTS_NOGETINFO;
 			} else if(*i == "UserIP2") {
 				supportFlags |= SUPPORTS_USERIP2;
+			} else if (*i == "IP64")
+			{
+				supportFlags |= SUPPORTS_IP64;				
 			}
 		}
 	} else if(cmd == "$UserCommand") {
@@ -609,6 +617,8 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				feat.push_back("TTHSearch");
 				feat.push_back("ZPipe0");
 				feat.push_back("SaltPass");
+				feat.push_back("IP64");
+				feat.push_back("IPv4");
 
 				supports(feat);
 			}
@@ -826,7 +836,14 @@ void NmdcHub::connectToMe(const OnlineUser& aUser) {
 	dcdebug("NmdcHub::connectToMe %s\n", aUser.getIdentity().getNick().c_str());
 	string nick = fromUtf8(aUser.getIdentity().getNick());
 	ConnectionManager::getInstance()->nmdcExpect(nick, getMyNick(), getHubUrl());
-	send("$ConnectToMe " + nick + " " + localIp + ":" + ConnectionManager::getInstance()->getPort() + "|");
+	
+	//bool isOkIp6 = !aUser.getIdentity().getIp6().empty(); 
+	bool isOkIp6 = aUser.getUser()->isSet(User::IPV6);
+	
+	if(isOkIp6 && isActiveV6() && ((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ) ) 
+		send("$ConnectToMe " + nick + " [" + getUserIp6() + "]:" + ConnectionManager::getInstance()->getPort() + "|");
+	else
+		send("$ConnectToMe " + nick + " " + localIp + ":" + ConnectionManager::getInstance()->getPort() + "|");
 }
 
 void NmdcHub::revConnectToMe(const OnlineUser& aUser) {
@@ -883,7 +900,7 @@ void NmdcHub::myInfo(bool alwaysSend) {
 	string uMin = (SETTING(MIN_UPLOAD_SPEED) == 0) ? Util::emptyString : tmp5 + Util::toString(SETTING(MIN_UPLOAD_SPEED));
 	string myInfoA =
 		"$MyINFO $ALL " + fromUtf8(get(Nick)) + " " + fromUtf8(escape(gslotf ? gslot + get(Description) : get(Description))) +
-		tmp1 + VERSIONSTRING + tmp2 + modeChar + tmp3 + getCounts();
+		tmp1 + VERSIONSTRING + tmp2 + modeChar + ( ( isActiveV6() && (supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ) ? "A" : Util::emptyString ) + tmp3 + getCounts();
 	string myInfoB = tmp4 + Util::toString(SETTING(SLOTS));
 	string myInfoC = uMin +
 		">$ $" + uploadSpeed + staFlag + '$' + fromUtf8(escape(get(Email))) + '$';

@@ -71,7 +71,7 @@ void startup(function<void (const string&)> f) {
 	SettingsManager::newInstance();
 
 	LogManager::newInstance();
-	TimerManager::newInstance();
+	//TimerManager::newInstance();
 	HashManager::newInstance();
 	CryptoManager::newInstance();
 	DebugManager::newInstance();

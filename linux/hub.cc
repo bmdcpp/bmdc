@@ -349,6 +349,8 @@ void Hub::setColorsRows()
 	setColorRow(_("Generator"));
 	setColorRow(_("Support"));
 }
+static void hub_notify(gpointer data)
+{ }
 
 void Hub::setColorRow(string cell)
 {
@@ -358,13 +360,14 @@ void Hub::setColorRow(string cell)
 								nickView.getCellRenderOf(cell),
 								Hub::makeColor,
 								(gpointer)this,
-								NULL);
+								(GDestroyNotify)hub_notify);
+	
 	if(nickView.getCellRenderOf2(cell) != NULL)
 		gtk_tree_view_column_set_cell_data_func(nickView.getColumn(cell),
 								nickView.getCellRenderOf2(cell),
 								Hub::makeColor,
 								(gpointer)this,
-								NULL);
+								(GDestroyNotify)hub_notify);
 }
 
 void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data)
@@ -441,7 +444,6 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 			}
 			g_object_set(cell, "text", sizeString.c_str(), NULL);
 		}
-		//g_free(cltype);
 }
 
 Hub::~Hub()

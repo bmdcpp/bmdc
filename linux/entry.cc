@@ -27,6 +27,8 @@
 
 using namespace std;
 
+//static GtkBuilder *xml = NULL;
+
 Entry::Entry(const EntryType type, const string &ui, const string &id):
 	xml(NULL),
 	type(type),
@@ -38,7 +40,8 @@ Entry::Entry(const EntryType type, const string &ui, const string &id):
 	// Load the Builder XML file, if applicable
 	string file = WulforManager::get()->getPath() + "/ui/" + ui + ".ui";
 	GError *error = NULL;
-	xml = gtk_builder_new();
+	//if(xml == NULL)
+		xml = gtk_builder_new();
 	gtk_builder_add_from_file(xml, file.c_str(), &error);
 	if(error != NULL)
 	{
@@ -131,4 +134,3 @@ void Entry::removeChildren()
 	while (!children.empty())
 		removeChild(children.begin()->second);
 }
-
