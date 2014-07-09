@@ -891,16 +891,18 @@ void NmdcHub::myInfo(bool alwaysSend) {
 	} else {
 		uploadSpeed = SETTING(UPLOAD_SPEED);
 	}
+	char modeChar6 = 'P';
+	if ( isActiveV6() && (supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ) modeChar6 = 'A';
+	else; 
 
 	bool gslotf = SETTING(SHOW_FREE_SLOTS_DESC);
 	string gslot = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
 	//away status
     char staFlag = Util::getAway() ? '\x02' : '\x01';
-
 	string uMin = (SETTING(MIN_UPLOAD_SPEED) == 0) ? Util::emptyString : tmp5 + Util::toString(SETTING(MIN_UPLOAD_SPEED));
 	string myInfoA =
 		"$MyINFO $ALL " + fromUtf8(get(Nick)) + " " + fromUtf8(escape(gslotf ? gslot + get(Description) : get(Description))) +
-		tmp1 + VERSIONSTRING + tmp2 + modeChar + ( ( isActiveV6() && (supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ) ? "A" : Util::emptyString ) + tmp3 + getCounts();
+		tmp1 + VERSIONSTRING + tmp2 + modeChar + modeChar6 + tmp3 + getCounts();
 	string myInfoB = tmp4 + Util::toString(SETTING(SLOTS));
 	string myInfoC = uMin +
 		">$ $" + uploadSpeed + staFlag + '$' + fromUtf8(escape(get(Email))) + '$';
