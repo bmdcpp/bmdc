@@ -426,7 +426,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		{
 			u.getIdentity().set("AW", Util::emptyString);
 		}
-		if(aMode & 0x80) {
+		if(sock->isV6Valid() && (aMode & 0x80)) {
 			u.getUser()->setFlag(User::IPV6);
 		}	
 		else
@@ -617,9 +617,10 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				feat.push_back("TTHSearch");
 				feat.push_back("ZPipe0");
 				feat.push_back("SaltPass");
-				feat.push_back("IP64");
 				feat.push_back("IPv4");
-
+				if(sock->isV6Valid()) {
+					feat.push_back("IP64");
+				}
 				supports(feat);
 			}
 			key(CryptoManager::getInstance()->makeKey(lock));
@@ -837,10 +838,9 @@ void NmdcHub::connectToMe(const OnlineUser& aUser) {
 	string nick = fromUtf8(aUser.getIdentity().getNick());
 	ConnectionManager::getInstance()->nmdcExpect(nick, getMyNick(), getHubUrl());
 	
-	//bool isOkIp6 = !aUser.getIdentity().getIp6().empty(); 
 	bool isOkIp6 = aUser.getUser()->isSet(User::IPV6);
 	
-	if(isOkIp6 && isActiveV6() && ((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ) ) 
+	if(sock->isV6Valid() && isOkIp6 && isActiveV6() && ((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ) ) 
 		send("$ConnectToMe " + nick + " [" + getUserIp6() + "]:" + ConnectionManager::getInstance()->getPort() + "|");
 	else
 		send("$ConnectToMe " + nick + " " + localIp + ":" + ConnectionManager::getInstance()->getPort() + "|");
@@ -876,14 +876,23 @@ void NmdcHub::myInfo(bool alwaysSend) {
 	for(i = 0; i < 3; i++) {
 		tmp2[i]++; tmp3[i]++; tmp4[i]++; tmp5[i]++;
 	}
-	char modeChar = '?';
+	char modeChar[2];
+	modeChar[0] = '?';
+	modeChar[1] = '\0';
 	if(CONNSETTING(OUTGOING_CONNECTIONS) == SettingsManager::OUTGOING_SOCKS5)
-		modeChar = '5';
-	else if(ClientManager::getInstance()->isActive(getHubUrl()))
-		modeChar = 'A';
-	else
-		modeChar = 'P';
-
+		modeChar[0] = '5';
+	else if(ClientManager::getInstance()->isActive(getHubUrl())) {
+		modeChar[0] = 'A';
+		if(sock->isV6Valid() && isActiveV6())
+			modeChar[1] = 'A';
+	} else {
+		modeChar[0] = 'P';
+		if(sock->isV6Valid() && isActiveV6())
+			modeChar[1] = 'P';
+	}
+	modeChar[2] =  '\0';
+	
+	
 	string uploadSpeed;
 	int upLimit = ThrottleManager::getInstance()->getUpLimit();
 	if (upLimit > 0) {
@@ -891,9 +900,6 @@ void NmdcHub::myInfo(bool alwaysSend) {
 	} else {
 		uploadSpeed = SETTING(UPLOAD_SPEED);
 	}
-	char modeChar6 = 'P';
-	if ( isActiveV6() && (supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ) modeChar6 = 'A';
-	else; 
 
 	bool gslotf = SETTING(SHOW_FREE_SLOTS_DESC);
 	string gslot = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
@@ -902,7 +908,7 @@ void NmdcHub::myInfo(bool alwaysSend) {
 	string uMin = (SETTING(MIN_UPLOAD_SPEED) == 0) ? Util::emptyString : tmp5 + Util::toString(SETTING(MIN_UPLOAD_SPEED));
 	string myInfoA =
 		"$MyINFO $ALL " + fromUtf8(get(Nick)) + " " + fromUtf8(escape(gslotf ? gslot + get(Description) : get(Description))) +
-		tmp1 + VERSIONSTRING + tmp2 + modeChar + modeChar6 + tmp3 + getCounts();
+		tmp1 + VERSIONSTRING + tmp2 + modeChar + tmp3 + getCounts();
 	string myInfoB = tmp4 + Util::toString(SETTING(SLOTS));
 	string myInfoC = uMin +
 		">$ $" + uploadSpeed + staFlag + '$' + fromUtf8(escape(get(Email))) + '$';
