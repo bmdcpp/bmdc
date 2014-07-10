@@ -412,8 +412,9 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 			  color = WGETS("userlist-bg-normal");
 		}
 //TODO:check?
+bool isSet = false;
+if(WGETB("use-highlighting")) {
 		ColorList* cl = HighlightManager::getInstance()->getList();
-		bool isSet = false;
 		for(auto& l:*cl)
 		{
 			if(l.isSet(ColorSettings::CONTEXT_NICKLIST)) {
@@ -427,11 +428,12 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 					if(l.getHasFgColor())	
 					{
 						g_object_set(cell,"cell-foreground-set",TRUE,"cell-foreground",l.getFgColor().c_str(),NULL);
+						isSet = true;
 					}
 				}
 			}
 		}
-//END		
+}//END
 		if(isSet == false)
 			g_object_set(cell,"cell-background-set",TRUE,"cell-background",color.c_str(),NULL);
 		gchar *title = const_cast<gchar*>(gtk_tree_view_column_get_title(column));

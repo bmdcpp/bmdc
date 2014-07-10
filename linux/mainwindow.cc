@@ -600,7 +600,7 @@ void MainWindow::onLimitingMenuItem_gui(GtkWidget *widget, gpointer data)
 	string speed = (gchar *)g_object_get_data(G_OBJECT(widget), "speed");
 	string type = (gchar *)g_object_get_data(G_OBJECT(widget), "type");
 
-	if(speed.empty() || type.length() == 2)
+	if(speed.empty() || type.empty())
 		return;
 
 	if(type == "up")
@@ -630,7 +630,7 @@ void MainWindow::onLimitingDisable(GtkWidget *widget, gpointer data)
 	MainWindow *mw = (MainWindow *)data;
 	string type = (gchar *)g_object_get_data(G_OBJECT(widget), "type");
 
-	if(type.empty() || type.length() == 2)
+	if(type.empty() || type.empty())
 		return;
 	
 	if(type == "dw")
