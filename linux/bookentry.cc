@@ -57,7 +57,14 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	gtk_container_add(GTK_CONTAINER(eventBox), GTK_WIDGET(label));
 
 	// Align text to the left (x = 0) and in the vertical center (0.5)
+	#if !GTK_CHECK_VERSION(3, 12, 0)
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	#else
+	gtk_widget_set_margin_start(GTK_WIDGET(label),0);
+	gtk_widget_set_margin_end(GTK_WIDGET(label),0);
+	gtk_widget_set_margin_top(GTK_WIDGET(label),0.5);
+	gtk_widget_set_margin_bottom(GTK_WIDGET(label),0.5);
+    #endif
     if(IsCloseButton || WGETB("use-close-button"))
      {
 	   closeButton = gtk_button_new();
