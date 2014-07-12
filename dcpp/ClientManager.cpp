@@ -684,7 +684,7 @@ void ClientManager::saveUser(const CID& cid) {
 	if(i != nicks.end())
 		i->second.second = true;
 }
-
+/*
 bool ClientManager::getMode6(const string& url) const
 {	if(url.empty ()) return false;
 
@@ -702,7 +702,7 @@ bool ClientManager::getMode6(const string& url) const
 		
 	return false;
 }
-
+*/
 int ClientManager::getMode(const string& aHubUrl) const {
 
 	if(aHubUrl.empty())

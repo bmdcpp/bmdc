@@ -3879,7 +3879,7 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 		params.insert(ParamMap::value_type("NickColor", WGETS("userlist-text-pasive")));
 	}
 	else {
-        	params.insert(ParamMap::value_type("Type", "U" + id.getNick()));
+        params.insert(ParamMap::value_type("Type", "U" + id.getNick()));
 		params.insert(ParamMap::value_type("NickColor",WGETS("userlist-text-normal")));
 	}
 }

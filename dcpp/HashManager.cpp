@@ -691,7 +691,7 @@ int HashManager::Hasher::run() {
 					speed = size * 1000 / (end - start);
 				}
 
-				if(xcrc32 && xcrc32->getValue() != sfv.getCRC()) {
+				if( (SETTING(SFV_CHECK) == true) && xcrc32 && xcrc32->getValue() != sfv.getCRC()) {
 					LogManager::getInstance()->message(Util::addBrackets(fname)+_(" not shared; calculated CRC32 does not match the one found in SFV file."));
 				} else {
 					HashManager::getInstance()->hashDone(fname, (int64_t)timestamp, tt, speed, size);
