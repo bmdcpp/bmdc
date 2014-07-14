@@ -68,7 +68,7 @@ FinishedTransfers::FinishedTransfers(const EntryType type, const string &title, 
 	fileSelection = gtk_tree_view_get_selection(fileView.get());
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(fileView.get(), fileView.col(_("Time"))), TRUE);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(fileStore), fileView.col(_("Time")), GTK_SORT_ASCENDING);
-	gtk_tree_view_set_fixed_height_mode(fileView.get(), TRUE);
+//	gtk_tree_view_set_fixed_height_mode(fileView.get(), TRUE);
 	gtk_tree_selection_set_mode(gtk_tree_view_get_selection(fileView.get()), GTK_SELECTION_MULTIPLE);
 
 	// Initialize user treeview
@@ -88,7 +88,7 @@ FinishedTransfers::FinishedTransfers(const EntryType type, const string &title, 
 	userSelection = gtk_tree_view_get_selection(userView.get());
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(userView.get(), userView.col(_("Time"))), TRUE);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(userStore), userView.col(_("Time")), GTK_SORT_ASCENDING);
-	gtk_tree_view_set_fixed_height_mode(userView.get(), TRUE);
+//	gtk_tree_view_set_fixed_height_mode(userView.get(), TRUE);
 	gtk_tree_selection_set_mode(gtk_tree_view_get_selection(userView.get()), GTK_SELECTION_MULTIPLE);
 
 	// Initialize the preview menu

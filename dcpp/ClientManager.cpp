@@ -684,25 +684,7 @@ void ClientManager::saveUser(const CID& cid) {
 	if(i != nicks.end())
 		i->second.second = true;
 }
-/*
-bool ClientManager::getMode6(const string& url) const
-{	if(url.empty ()) return false;
 
-	const FavoriteHubEntry* hub = FavoriteManager::getInstance()->getFavoriteHubEntry (url);
-
-	if(hub->get(HubSettings::UserIp6).empty ())
-		return false;
-	if(!hub->get(HubSettings::UserIp6).empty ())
-		return true;
-	
-	if(SETTING(EXTERNAL_IP6).empty())
-		return false;
-	if(SETTING(EXTERNAL_IP6).empty())
-		return true;	
-		
-	return false;
-}
-*/
 int ClientManager::getMode(const string& aHubUrl) const {
 
 	if(aHubUrl.empty())

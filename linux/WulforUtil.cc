@@ -527,7 +527,7 @@ GtkTreeIter WulforUtil::copyRow_gui(GtkTreeStore *store, GtkTreeIter *fromIter, 
 
 void WulforUtil::copyValue_gui(GtkTreeStore *store, GtkTreeIter *fromIter, GtkTreeIter *toIter, int position)
 {
-	GValue value =  G_VALUE_INIT;
+	GValue value = G_VALUE_INIT;
 	gtk_tree_model_get_value(GTK_TREE_MODEL(store), fromIter, position, &value);
 	gtk_tree_store_set_value(store, toIter, position, &value);
 	g_value_unset(&value);
@@ -1215,8 +1215,6 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 			bool tBold = false;
 			bool tItalic = false;
 			bool tUnderline = false;
-//			bool tPopup = false;
-//			bool tSound = false;
 			string fore("");
 			string back("");
 
@@ -1237,12 +1235,8 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 			else
 				fore = "#000000";//TODO: global color?
 
-//			if(cs->getPopup())
-//				tPopup = true;
 			if(cs->getTab())
 				tTab = true;
-//			if(cs->getPlaySound())
-//				tSound = true;
 
 			string _w = cs->getMatch();
 			string _sW;

@@ -100,7 +100,7 @@ ShareBrowser::ShareBrowser(UserPtr user, const string &file, const string &initi
 	gtk_tree_selection_set_mode(gtk_tree_view_get_selection(fileView.get()), GTK_SELECTION_MULTIPLE);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(fileStore), fileView.col("File Order"), GTK_SORT_ASCENDING);
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(fileView.get(), fileView.col(_("Filename"))), TRUE);
-	gtk_tree_view_set_fixed_height_mode(fileView.get(), TRUE);
+//	gtk_tree_view_set_fixed_height_mode(fileView.get(), TRUE);
 	fileView.setSortColumn_gui(_("Filename"), "File Order");
 	fileView.setSortColumn_gui(_("Size"), "Size Order");
 	fileView.setSortColumn_gui(_("Exact Size"), "Size Order");

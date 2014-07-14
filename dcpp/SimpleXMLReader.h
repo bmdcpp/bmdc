@@ -34,7 +34,7 @@ public:
 	protected:
 		static const std::string& getAttrib(StringPairList& attribs, const std::string& name, size_t hint);
 	private:
-		CallBack& operator=(CallBack&) = delete;
+		CallBack& operator=(CallBack&);
 	};
 
 	SimpleXMLReader(CallBack* callback);

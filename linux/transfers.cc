@@ -92,7 +92,7 @@ Transfers::Transfers() :
 	transferView.setSortColumn_gui(_("User"), "Sort Order");
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(transferStore), transferView.col("Sort Order"), GTK_SORT_ASCENDING);
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(transferView.get(), transferView.col(_("User"))), TRUE);
-	gtk_tree_view_set_fixed_height_mode(transferView.get(), TRUE);
+//	gtk_tree_view_set_fixed_height_mode(transferView.get(), TRUE);
 
 	g_signal_connect(transferView.get(), "button-press-event", G_CALLBACK(onTransferButtonPressed_gui), (gpointer)this);
 	g_signal_connect(transferView.get(), "button-release-event", G_CALLBACK(onTransferButtonReleased_gui), (gpointer)this);

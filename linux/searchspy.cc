@@ -72,7 +72,7 @@ SearchSpy::SearchSpy():
 	searchView.setSortColumn_gui(_("Search String"), "count");
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(searchStore), searchView.col("count"), GTK_SORT_DESCENDING);
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(searchView.get(), searchView.col(_("Search String"))), TRUE);
-	gtk_tree_view_set_fixed_height_mode(searchView.get(), TRUE);
+//	gtk_tree_view_set_fixed_height_mode(searchView.get(), TRUE);
 
 	topView.setView(GTK_TREE_VIEW(getWidget("topView")));
 	topView.insertColumn(_("Search String"), G_TYPE_STRING, TreeView::STRING, -1);

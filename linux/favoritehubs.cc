@@ -54,7 +54,7 @@ FavoriteHubs::FavoriteHubs():
 	favoriteStore = gtk_list_store_newv(favoriteView.getColCount(), favoriteView.getGTypes());
 	gtk_tree_view_set_model(favoriteView.get(), GTK_TREE_MODEL(favoriteStore));
 	g_object_unref(favoriteStore);
-	gtk_tree_view_set_fixed_height_mode(favoriteView.get(), TRUE);
+//	gtk_tree_view_set_fixed_height_mode(favoriteView.get(), TRUE);
 	favoriteSelection = gtk_tree_view_get_selection(favoriteView.get());
 	gtk_tree_view_set_search_column(favoriteView.get(), favoriteView.col(_("Name")));
 
@@ -75,7 +75,7 @@ FavoriteHubs::FavoriteHubs():
 	groupsStore = gtk_list_store_newv(groupsView.getColCount(), groupsView.getGTypes());
 	gtk_tree_view_set_model(groupsView.get(), GTK_TREE_MODEL(groupsStore));
 	g_object_unref(groupsStore);
-	gtk_tree_view_set_fixed_height_mode(groupsView.get(), TRUE);
+//	gtk_tree_view_set_fixed_height_mode(groupsView.get(), TRUE);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(groupsStore), groupsView.col(_("Group name")), GTK_SORT_ASCENDING);
 	groupsSelection = gtk_tree_view_get_selection(groupsView.get());
 

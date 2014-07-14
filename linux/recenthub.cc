@@ -48,7 +48,7 @@ BookEntry(Entry::RECENT,_("Recent Hubs"),"recenthub.glade")
 		recentStore = gtk_list_store_newv(recentView.getColCount(), recentView.getGTypes());
 		gtk_tree_view_set_model(recentView.get(), GTK_TREE_MODEL(recentStore));
 		g_object_unref(recentStore);
-		gtk_tree_view_set_fixed_height_mode(recentView.get(), TRUE);
+//		gtk_tree_view_set_fixed_height_mode(recentView.get(), TRUE);
 		recentSelection = gtk_tree_view_get_selection(recentView.get());
 
 		/* CONECT TO SIGNAL */

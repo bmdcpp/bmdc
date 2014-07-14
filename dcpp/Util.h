@@ -24,6 +24,10 @@
 #include <glib/gi18n.h>
 #include <cstdlib>
 #include <ctime>
+#include <arpa/inet.h>
+#include <fcntl.h>
+#include <sys/utsname.h>
+#include <sys/sysinfo.h>
 
 #include <map>
 #include <cstring>
@@ -463,6 +467,47 @@ public:
 	}
 	
 	static string getIETFLang();
+	static bool isIp6(string name)
+	{
+		
+	bool isOkIpV6 = false;
+	if(name.empty()) return false;
+	size_t n = std::count(name.begin(), name.end(), ':');
+	if( (n==2) && (name.size() == 2) ) return true;//Fix for "::"
+	if(n == 0 || n < 2)
+			return false;
+	bool ok = false;
+	for(auto i = name.begin();i!=name.end();++i) {
+			if(*i==':') {
+				for(int j = 5; j>0;--j){
+						if(isxdigit(name[j])){ok = true;}
+				}
+		}
+			if(ok){break;}
+	}
+	bool ok2 = false;
+	for(auto i = name.end();i!=name.begin();--i) {
+			if(*i==':') {
+				for(int q = 0; q<5;++q){
+						if(isxdigit(name[q])){ok2 = true;}
+				}
+			}
+		if(ok2) {break;}
+	}
+	if( (ok == true ) || (ok2 == true)) {
+		struct sockaddr_in sa;
+		int result = inet_pton(AF_INET6,name.c_str() , &(sa.sin_addr));
+		isOkIpV6 = result == 1;
+	}
+
+	if(isOkIpV6)
+	{
+		return isOkIpV6;
+	}
+	return false;
+	}
+	
+
 private:
 	/** In local mode, all config and temp files are kept in the same dir as the executable */
 	static bool localMode;

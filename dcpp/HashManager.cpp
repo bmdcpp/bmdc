@@ -353,9 +353,11 @@ void HashManager::HashStore::load(function<void (float)> progressF) {
 		Util::migrate(getIndexFile());
 
 		File f(getIndexFile(), File::READ, File::OPEN);
-		CountedInputStream<false> countedStream(&f);
+		CountedInputStream<false> countedStream(&f);//false
 		HashLoader l(*this, countedStream, f.getSize(), progressF);
 		SimpleXMLReader(&l).parse(countedStream);
+		f.flush();
+		f.close();
 	} catch (const Exception&) {
 		// ...
 	}
@@ -538,7 +540,8 @@ void HashManager::HashStore::createDataFile(const string& name) {
 		dat.setPos(0);
 		int64_t start = sizeof(start);
 		dat.write(&start, sizeof(start));
-
+		dat.flush();
+		dat.close();
 	} catch (const FileException& e) {
 		LogManager::getInstance()->message(_("Error creating hash data file: ") + e.getError());
 	}

@@ -132,7 +132,7 @@ Search::Search(const string& str):
 	resultView.setSortColumn_gui(_("Exact Size"), "Real Size");
 	resultView.setSortColumn_gui(_("Slots"), "Slots Order");
 	resultView.setSortColumn_gui(_("Filename"), "File Order");
-	gtk_tree_view_set_fixed_height_mode(resultView.get(), TRUE);
+//	gtk_tree_view_set_fixed_height_mode(resultView.get(), TRUE);
 	//
 	resultView.setSelection(selection);
 	resultView.buildCopyMenu(getWidget("CopyMenu"));

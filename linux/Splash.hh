@@ -61,8 +61,9 @@ class Splash
 
 	void update() {
 						gtk_label_set_text(GTK_LABEL(label),("Loading ..."+Text).c_str());
-						 while (gtk_events_pending ())
-							gtk_main_iteration_do (FALSE);
+						 //while (gtk_events_pending ())
+						//	gtk_main_iteration_do (FALSE);
+						while (g_main_context_iteration(NULL, FALSE));
 			 }
 	void destroy() { gtk_widget_destroy(win); }
 

@@ -103,7 +103,7 @@ Hub::Hub(const string &address, const string &encoding):
 	nickView.setSortColumn_gui(_("Nick"), sort);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(nickView.get(), nickView.col(_("Nick"))), TRUE);
-	gtk_tree_view_set_fixed_height_mode(nickView.get(), TRUE);
+//	gtk_tree_view_set_fixed_height_mode(nickView.get(), TRUE);
 	//BMDC++
 	nickView.setSelection(nickSelection);
 	nickView.buildCopyMenu(getWidget("CopyMenu"));

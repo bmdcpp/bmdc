@@ -91,7 +91,7 @@ public:
 	}
 
 	virtual ~MemoryInputStream() {
-		delete[] buf;
+		delete [] buf;
 	}
 
 	virtual size_t read(void* tgt, size_t& len) {

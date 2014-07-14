@@ -473,9 +473,6 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			return;
 		}
 	} else if(cmd == "$ConnectToMe") {
-		//if(/*state != STATE_NORMAL ||*/ getHideShare()) {
-		//	return;
-		//}
 		string::size_type i = param.find(' ');
 		string::size_type j;
 		if( (i == string::npos) || ((i + 1) >= param.size()) ) {
@@ -486,7 +483,16 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		if(j == string::npos) {
 			return;
 		}
-		string server = Socket::resolve(param.substr(i, j-i), AF_INET);
+		string server = Util::emptyString;
+		
+		if(Util::isIp6(param.substr(i+1,j-i-1)))
+		{
+			server = Socket::resolve( param.substr(i+1,j-i-1));
+			j++;
+		}
+		else
+			server = Socket::resolve(param.substr(i, j-i), AF_INET);
+		
 		if(isProtectedIP(server))
 			return;
 		if(j+1 >= param.size()) {
