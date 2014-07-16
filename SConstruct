@@ -23,6 +23,7 @@ LIB_IS_UPNP = True
 LIB_IS_NATPMP = True
 LIB_IS_GEO = False
 LIB_IS_TAR = False
+LIB_HAVE_XATTR = False
 # , '-Werror' ,'-Wfatal-errors'
 #'-fno-stack-protector',
 BUILD_FLAGS = {#'-Wno-unused-parameter','-Wno-unused-value',
@@ -250,7 +251,12 @@ if not 'install' in COMMAND_LINE_TARGETS:
 
 	if conf.CheckHeader(['sys/types.h', 'sys/socket.h', 'ifaddrs.h', 'net/if.h']):
 		conf.env.Append(CPPDEFINES = 'HAVE_IFADDRS_H')
-
+	
+	#assumes we had also headers..
+	if conf.CheckLib('attr'):
+		conf.env.Append(CPPDEFINES = 'USE_XATTR')
+		LIB_HAVE_XATTR = True
+			
 	# TODO: Implement a plugin system so libnotify doesn't have compile-time dependencies
 	if conf.env.get('libnotify'):
 			if not conf.CheckPKG('libnotify >= 0.4.1'):
@@ -316,6 +322,10 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	env.Append(LIBS = 'natpmp')
 	env.Append(CPPPATH = '#/miniupnp')
 	env.Append(LIBS = 'miniupnpc')
+	
+	if LIB_HAVE_XATTR:
+		env.Append(LIBS='attr')
+		env.Append(LINKFLAGS='-lattr')
 
 	env.ParseConfig('pkg-config --libs gtk+-3.0')
 
@@ -423,4 +433,3 @@ else:
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'extensions/Scripts'), source = py_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'country'), source = country_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'bin'), source = PACKAGE))
-

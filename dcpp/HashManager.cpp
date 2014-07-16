@@ -27,6 +27,13 @@
 #include "SFVReader.h"
 #include "ZUtils.h"
 
+#ifdef USE_XATTR
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <attr/attributes.h>
+#endif
+
 namespace dcpp {
 
 using std::swap;
@@ -39,10 +46,133 @@ using std::swap;
 static const uint32_t HASH_FILE_VERSION = 3;
 const int64_t HashManager::MIN_BLOCK_SIZE = 64 * 1024;
 
+const string HashManager::StreamStore::g_streamName(".gltth");
+
+inline void HashManager::StreamStore::setCheckSum(TTHStreamHeader& p_header) {
+    p_header.magic = g_MAGIC;
+    uint32_t l_sum = 0;
+
+    for (size_t i = 0; i < sizeof(TTHStreamHeader) / sizeof(uint32_t); i++)
+        l_sum ^= ((uint32_t*) & p_header)[i];
+
+    p_header.checksum ^= l_sum;
+}
+
+inline bool HashManager::StreamStore::validateCheckSum(const TTHStreamHeader& p_header) {
+    if (p_header.magic != g_MAGIC)
+        return false;
+
+    uint32_t l_sum = 0;
+
+    for (size_t i = 0; i < sizeof(TTHStreamHeader) / sizeof(uint32_t); i++)
+        l_sum ^= ((uint32_t*) & p_header)[i];
+
+    return (l_sum == 0);
+}
+
+
+#ifdef USE_XATTR
+static const uint64_t SIGNIFIC_VALUE    = 10000000;
+static const uint64_t NTFS_TIME_OFFSET  = ((uint64_t)(369 * 365 + 89) * 24 * 3600 * SIGNIFIC_VALUE);
+
+static uint64_t getTimeStamp(const string &fname){
+    struct stat st;
+
+    /* WARNING: this is not completly portable conversion!
+       For more information about portable conversion of linux time to windows filetime see
+       ntfs-3g_ntfsprogs/include/ntfs-3g/ntfstime.h from NTFS-3G sources. */
+    if (::stat(fname.c_str(), &st) == 0)
+        return (uint64_t)st.st_mtime * SIGNIFIC_VALUE + NTFS_TIME_OFFSET + st.st_mtim.tv_nsec/100;
+
+    return 0;
+}
+
+#endif // USE_XATTR
+
+bool HashManager::StreamStore::loadTree(const string& p_filePath, TigerTree &tree, int64_t p_aFileSize)
+{
+#ifdef USE_XATTR
+    const int64_t fileSize  = (p_aFileSize == -1) ? File::getSize(p_filePath) : p_aFileSize;
+    const size_t hdrSz      = sizeof(TTHStreamHeader);
+    const size_t totalSz    = ATTR_MAX_VALUELEN;
+    int blockSize           = totalSz;
+    TTHStreamHeader h;
+
+    std::unique_ptr<uint8_t[]> buf(new uint8_t[totalSz]);
+
+    if (attr_get(p_filePath.c_str(), g_streamName.c_str(), (char*)(void*)buf.get(), &blockSize, 0) == 0){
+        memcpy(&h, buf.get(), hdrSz);
+
+        printf("%s: timestamps header=0x%llx, current=0x%llx, difference(should be zero)=%lld\n",
+               p_filePath.c_str(), h.timeStamp, getTimeStamp(p_filePath), h.timeStamp - getTimeStamp(p_filePath));
+
+        if (!(h.timeStamp == getTimeStamp(p_filePath) && validateCheckSum(h))){ // File was modified and we should reset attr.
+            deleteStream(p_filePath);
+
+            return false;
+        }
+
+        const size_t datalen = blockSize - hdrSz;
+        std::unique_ptr<uint8_t[]> tail(new uint8_t[datalen]);
+
+        memcpy(tail.get(), (uint8_t*)buf.get() + hdrSz, datalen);
+
+        TigerTree p_Tree = TigerTree(fileSize, h.blockSize, tail.get());
+
+        if (p_Tree.getRoot() == h.root){
+            tree = p_Tree;
+
+            return true;
+        }
+        else
+            return false;
+    }
+#endif //USE_XATTR
+    return false;
+}
+
+bool HashManager::StreamStore::saveTree(const string& p_filePath, const TigerTree& p_Tree)
+{
+#ifdef USE_XATTR
+    TTHStreamHeader h;
+	printf("XATTRSET:%s-%s",p_filePath.c_str(),p_Tree.getRoot().toBase32().c_str());
+    h.fileSize = File::getSize(p_filePath);
+    h.timeStamp = getTimeStamp(p_filePath);
+    h.root = p_Tree.getRoot();
+    h.blockSize = p_Tree.getBlockSize();
+
+    setCheckSum(h);
+    {
+        const size_t sz = sizeof(TTHStreamHeader) + p_Tree.getLeaves().size() * TTHValue::BYTES;
+        std::unique_ptr<uint8_t[]> buf(new uint8_t[sz]);
+
+        memcpy(buf.get(), &h, sizeof(TTHStreamHeader));
+        memcpy(buf.get() + sizeof(TTHStreamHeader), p_Tree.getLeaves()[0].data, p_Tree.getLeaves().size() * TTHValue::BYTES);
+
+        return (attr_set(p_filePath.c_str(), g_streamName.c_str(), (char*)(void*)buf.get(), sz, 0) == 0);
+    }
+#endif //USE_XATTR
+    return false;
+}
+
+void HashManager::StreamStore::deleteStream(const string& p_filePath)
+{
+#ifdef USE_XATTR
+    printf("Resetting Xattr for %s\n", p_filePath.c_str());
+    attr_remove(p_filePath.c_str(), g_streamName.c_str(), 0);
+#endif //USE_XATTR
+}
+
 TTHValue* HashManager::getTTH(const string& aFileName, int64_t aSize, uint32_t aTimeStamp) noexcept {
 	Lock l(cs);
+	
 	TTHValue* tth = store.getTTH(aFileName, aSize, aTimeStamp);
 	if(tth == NULL) {
+		TigerTree _tth;
+		if(m_streamstore.loadTree(aFileName,_tth,-1)){
+			printf ("%s: hash [%s] was loaded from Xattr.\n", aFileName.c_str(), _tth.getRoot().toBase32().c_str());
+			return &(_tth.getRoot());
+		}	
 		hasher.hashFile(aFileName, aSize);
 	}
 	return tth;
@@ -61,6 +191,7 @@ int64_t HashManager::getBlockSize(const TTHValue& root) {
 void HashManager::hashDone(const string& aFileName, uint32_t aTimeStamp, const TigerTree& tth, int64_t speed, int64_t size) {
 	try {
 		Lock l(cs);
+		m_streamstore.saveTree(aFileName, tth);
 		store.addFile(aFileName, aTimeStamp, tth, true);
 	} catch (const Exception& e) {
 		LogManager::getInstance()->message(_("Hashing failed: ")+ e.getError());
@@ -612,7 +743,7 @@ void HashManager::Hasher::instantPause() {
 
 int HashManager::Hasher::run() {
 	setThreadPriority(Thread::IDLE);
-
+	StreamStore streamstore;
 	string fname;
 
 	for(;;) {
@@ -698,6 +829,7 @@ int HashManager::Hasher::run() {
 					LogManager::getInstance()->message(Util::addBrackets(fname)+_(" not shared; calculated CRC32 does not match the one found in SFV file."));
 				} else {
 					HashManager::getInstance()->hashDone(fname, (int64_t)timestamp, tt, speed, size);
+					streamstore.saveTree(fname, tt);
 				}
 			} catch(const FileException& e) {
 				LogManager::getInstance()->message(_("Error hashing : ") + Util::addBrackets(fname) +":"+ e.getError());

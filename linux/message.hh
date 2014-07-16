@@ -74,7 +74,8 @@ class Tag
 	 * 3 - match quene
 	 * 4 - grant slot
 	 * 5 - add to fav users
-	 * 6 - Partial FL	*/
+	 * 6 - Partial FL	
+*/
 class CActions
 {
 	public:

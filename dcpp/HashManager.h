@@ -197,6 +197,32 @@ private:
 		static string getIndexFile();
 		static string getDataFile();
 	};
+	
+    class StreamStore
+    {
+    public:
+        struct TTHStreamHeader
+        {
+            uint32_t magic;
+            uint32_t checksum;
+            uint64_t fileSize;
+            uint64_t timeStamp;
+            uint64_t blockSize;
+            TTHValue root;
+        };
+
+        bool loadTree(const string& p_filePath, TigerTree &tree, int64_t p_aFileSize = -1);
+        bool saveTree(const string& p_filePath, const TigerTree& p_Tree);
+        void deleteStream(const string& p_filePath);
+
+    private:
+        static const uint32_t g_MAGIC = 0x2b2b6c67;
+        static const string g_streamName;
+
+        void setCheckSum(TTHStreamHeader& p_header);
+        bool validateCheckSum(const TTHStreamHeader& p_header);
+    };
+    StreamStore m_streamstore;
 
 	friend class HashLoader;
 
