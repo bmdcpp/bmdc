@@ -63,7 +63,7 @@ void BufferedSocket::setMode (Modes aMode, size_t aRollback) {
 			rollback = aRollback;
 			break;
 		case MODE_ZPIPE:
-			filterIn = std::unique_ptr<UnZFilter>(new UnZFilter);
+			filterIn = /*std::unique_ptr<UnZFilter>(*/new UnZFilter();
 			break;
 		case MODE_DATA:
 			break;
@@ -202,19 +202,21 @@ void BufferedSocket::threadRead() {
 	while (left > 0) {
 		switch (mode) {
 			case MODE_ZPIPE: {
+				if(filterIn != NULL) {//no reason get filter' if its dont created :p
 					const int BUF_SIZE = 1024;
 					// Special to autodetect nmdc connections...
 					string::size_type pos = 0;
 					char *buffer = new char[BUF_SIZE];
 					l = line;
 					bool deleted = false;
+					size_t in;
 					// decompress all input data and store in l.
 					while (left) {
-						size_t in = BUF_SIZE;
+						in = BUF_SIZE;
 						size_t used = left;
-						bool ret = (*filterIn) (&inbuf[0] + total - left, used, &buffer/*.get()*/[0], in);
+						bool ret = (*filterIn) (&inbuf[0] + total - left, used, &buffer[0], in);
 						left -= used;
-						l.append (&buffer/*.get()*/[0], in);
+						l.append (&buffer[0], in);
 						// if the stream ends before the data runs out, keep remainder of data in inbuf
 						if (!ret) {
 							bufpos = total-left;
@@ -251,6 +253,7 @@ void BufferedSocket::threadRead() {
 						delete [] buffer;
 					break;
 				}
+			}	
 			case MODE_LINE:
 				// Special to autodetect nmdc connections...
 				if(separator == 0) {

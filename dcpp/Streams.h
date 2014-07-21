@@ -23,7 +23,7 @@
 
 #include "typedefs.h"
 #include "format.h"
-
+#include "noncopyable.h"
 #include "SettingsManager.h"
 #include "Exception.h"
 
@@ -36,7 +36,7 @@ STANDARD_EXCEPTION(FileException);
 /**
  * A simple output stream. Intended to be used for nesting streams one inside the other.
  */
-class OutputStream {
+class OutputStream: private NonCopyable {
 public:
 	OutputStream() { }
 	virtual ~OutputStream() { }
@@ -61,9 +61,9 @@ public:
 	virtual bool eof() { return false; }
 
 	size_t write(const string& str) { return write(str.c_str(), str.size()); }
-private:
-	OutputStream(const OutputStream&);
-	OutputStream& operator=(const OutputStream&);
+//private:
+//	OutputStream(const OutputStream&);
+//	OutputStream& operator=(const OutputStream&);
 };
 
 class InputStream {
@@ -211,17 +211,21 @@ private:
 
 class StringOutputStream : public OutputStream {
 public:
-	StringOutputStream(string& out) : str(out) { }
+	StringOutputStream() { }
 	virtual ~StringOutputStream() { }
 	using OutputStream::write;
 
 	virtual size_t flush() { return 0; }
 	virtual size_t write(const void* buf, size_t len) {
-		str.append((char*)buf, len);
+		str.append(reinterpret_cast<const char*>(buf), len);
 		return len;
 	}
+
+	string getString() { return move(str); }
+	string& stringRef() { return str; }
+
 private:
-	string& str;
+	string str;
 };
 
 

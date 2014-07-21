@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2013 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,8 +19,9 @@
 #ifndef DCPLUSPLUS_DCPP_SIMPLE_XML_H
 #define DCPLUSPLUS_DCPP_SIMPLE_XML_H
 
+#include "noncopyable.h"
+
 #include "forward.h"
-#include "noexcept.h"
 #include "Exception.h"
 #include "Util.h"
 
@@ -34,7 +35,7 @@ STANDARD_EXCEPTION(SimpleXMLException);
  * A simple XML class that loads an XML-ish structure into an internal tree
  * and allows easy access to each element through a "current location".
  */
-class SimpleXML 
+class SimpleXML : private NonCopyable
 {
 public:
 	SimpleXML() : root("BOGUSROOT", Util::emptyString, NULL), current(&root), found(false) {
@@ -100,7 +101,12 @@ public:
 	}
 
 	bool findChild(const string& aName) noexcept;
-	//Plugins using this
+
+	const string& getChildData() const {
+		checkChildSelected();
+		return (*currentChild)->data;
+	}
+
 	StringMap getCurrentChildren() {
 		dcassert(current != NULL);
 		StringMap d;
@@ -108,11 +114,6 @@ public:
 			d[(*i)->name] = (*i)->data;
 		}
 		return d;
-	}
-
-	const string& getChildData() const {
-		checkChildSelected();
-		return (*currentChild)->data;
 	}
 
 	const string& getChildAttrib(const string& aName, const string& aDefault = Util::emptyString) {
@@ -132,7 +133,7 @@ public:
 		checkChildSelected();
 		const string& tmp = getChildAttrib(aName);
 
-		return (tmp.size() > 0) && tmp[0] == '1';
+		return (!tmp.empty()) && tmp[0] == '1';
 	}
 
 	void fromXML(const string& aXML);
@@ -157,7 +158,7 @@ public:
 	}
 	static const string utf8Header;
 private:
-	class Tag {
+	class Tag : private NonCopyable {
 	public:
 		typedef Tag* Ptr;
 		typedef vector<Ptr> List;
@@ -191,7 +192,7 @@ private:
 		}
 
 		const string& getAttrib(const string& aName, const string& aDefault = Util::emptyString) {
-			StringPairIter i = find_if(attribs.begin(), attribs.end(), CompareFirst<string,string>(aName));
+			auto i = find_if(attribs.begin(), attribs.end(), CompareFirst<string,string>(aName));
 			return (i == attribs.end()) ? aDefault : i->second;
 		}
 		void toXML(int indent, OutputStream* f);
@@ -199,28 +200,24 @@ private:
 		void appendAttribString(string& tmp);
 		/** Delete all children! */
 		~Tag() {
-			for(Iter i = children.begin(); i != children.end(); ++i) {
-				delete *i;
+			for(auto i: children) {
+				delete i;
 			}
 		}
-
-	private:
-		Tag(const Tag&);
-		Tag& operator=(Tag&);
 	};
 
 	class TagReader : public SimpleXMLReader::CallBack {
 	public:
 		TagReader(Tag* root) : cur(root) { }
-		virtual ~TagReader() {};
-		virtual bool getData(string&) { return false; }
-		virtual void startTag(const string& name, StringPairList& attribs, bool simple) {
+		void startTag(const string& name, StringPairList& attribs, bool simple) {
 			cur->children.push_back(new Tag(name, attribs, cur));
 			if(!simple)
 				cur = cur->children.back();
 		}
-		virtual void endTag(const string&, const string& d) {
-			cur->data = d;
+		void data(const string& data) {
+			cur->data += data;
+		}
+		void endTag(const string&) {
 			if(cur->parent == NULL)
 				throw SimpleXMLException("Invalid end tag");
 			cur = cur->parent;
@@ -243,10 +240,6 @@ private:
 	}
 
 	bool found;
-	private:
-		SimpleXML(SimpleXML&);
-		SimpleXML operator=(SimpleXML&);
-		
 };
 
 } // namespace dcpp

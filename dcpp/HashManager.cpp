@@ -164,14 +164,19 @@ void HashManager::StreamStore::deleteStream(const string& p_filePath)
 }
 
 TTHValue* HashManager::getTTH(const string& aFileName, int64_t aSize, uint32_t aTimeStamp) noexcept {
+	string fpath = Util::getFilePath(aFileName);
 	Lock l(cs);
 	
 	TTHValue* tth = store.getTTH(aFileName, aSize, aTimeStamp);
 	if(tth == NULL) {
 		TigerTree _tth;
-		if(m_streamstore.loadTree(aFileName,_tth,-1)){
+		if(m_streamstore.loadTree(fpath+PATH_SEPARATOR_STR+aFileName,_tth,-1)) {
 			printf ("%s: hash [%s] was loaded from Xattr.\n", aFileName.c_str(), _tth.getRoot().toBase32().c_str());
-			return &(_tth.getRoot());
+			TTHValue* check = &(_tth.getRoot());
+			if(check == NULL)
+			{
+				hasher.hashFile(aFileName, aSize);
+			}else return check;
 		}	
 		hasher.hashFile(aFileName, aSize);
 	}
@@ -191,8 +196,8 @@ int64_t HashManager::getBlockSize(const TTHValue& root) {
 void HashManager::hashDone(const string& aFileName, uint32_t aTimeStamp, const TigerTree& tth, int64_t speed, int64_t size) {
 	try {
 		Lock l(cs);
-		m_streamstore.saveTree(aFileName, tth);
 		store.addFile(aFileName, aTimeStamp, tth, true);
+		m_streamstore.saveTree(aFileName, tth);
 	} catch (const Exception& e) {
 		LogManager::getInstance()->message(_("Hashing failed: ")+ e.getError());
 		return;
@@ -462,7 +467,6 @@ public:
 		inHashStore(false)
 	{ }
 	void startTag(const string& name, StringPairList& attribs, bool simple);
-	void endTag(const string&, const string&){};//@Why say pure ?
 private:
 	HashManager::HashStore& store;
 
@@ -743,7 +747,7 @@ void HashManager::Hasher::instantPause() {
 
 int HashManager::Hasher::run() {
 	setThreadPriority(Thread::IDLE);
-	StreamStore streamstore;
+	static StreamStore streamstore;
 	string fname;
 
 	for(;;) {
@@ -814,6 +818,9 @@ int HashManager::Hasher::run() {
 					sizeLeft -= n;
 
 					instantPause();
+					if (sizeLeft == File::getSize(fname)) {
+						streamstore.saveTree(fname, tt);
+					}
 					return !stop;
 				});
 
@@ -827,9 +834,13 @@ int HashManager::Hasher::run() {
 
 				if( (SETTING(SFV_CHECK) == true) && xcrc32 && xcrc32->getValue() != sfv.getCRC()) {
 					LogManager::getInstance()->message(Util::addBrackets(fname)+_(" not shared; calculated CRC32 does not match the one found in SFV file."));
-				} else {
+				} if (streamstore.loadTree(Util::getFilePath(fname)+PATH_SEPARATOR_STR+fname, tt, -1)) {
+					printf ("%s: hash [%s] was loaded from Xattr.\n", fname.c_str(), tt.getRoot().toBase32().c_str());
 					HashManager::getInstance()->hashDone(fname, (int64_t)timestamp, tt, speed, size);
-					streamstore.saveTree(fname, tt);
+				}
+				else {
+					HashManager::getInstance()->hashDone(fname, (int64_t)timestamp, tt, speed, size);
+					
 				}
 			} catch(const FileException& e) {
 				LogManager::getInstance()->message(_("Error hashing : ") + Util::addBrackets(fname) +":"+ e.getError());

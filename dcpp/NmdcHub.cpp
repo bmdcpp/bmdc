@@ -882,7 +882,7 @@ void NmdcHub::myInfo(bool alwaysSend) {
 	for(i = 0; i < 3; i++) {
 		tmp2[i]++; tmp3[i]++; tmp4[i]++; tmp5[i]++;
 	}
-	char modeChar[2];
+	char modeChar[3];
 	modeChar[0] = '?';
 	modeChar[1] = '\0';
 	if(CONNSETTING(OUTGOING_CONNECTIONS) == SettingsManager::OUTGOING_SOCKS5)

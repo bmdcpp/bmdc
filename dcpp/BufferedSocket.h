@@ -158,7 +158,8 @@ private:
 	deque<pair<Tasks, unique_ptr<TaskData> > > tasks;
 
 	Modes mode;
-	std::unique_ptr<UnZFilter> filterIn;
+	//std::unique_ptr<UnZFilter> filterIn;
+	UnZFilter* filterIn;
 	int64_t dataBytes;
 	size_t rollback;
 	string line;

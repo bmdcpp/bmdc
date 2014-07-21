@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2013 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -77,15 +77,15 @@ string& SimpleXML::escape(string& aString, bool aAttrib, bool aLoading /* = fals
 }
 
 void SimpleXML::Tag::appendAttribString(string& tmp) {
-	for(StringPairIter i = attribs.begin(); i!= attribs.end(); ++i) {
-		tmp.append(i->first);
+	for(auto& i: attribs) {
+		tmp.append(i.first);
 		tmp.append("=\"", 2);
-		if(needsEscape(i->second, true)) {
-			string tmp2(i->second);
+		if(needsEscape(i.second, true)) {
+			string tmp2(i.second);
 			escape(tmp2, true);
 			tmp.append(tmp2);
 		} else {
-			tmp.append(i->second);
+			tmp.append(i.second);
 		}
 		tmp.append("\" ", 2);
 	}
@@ -128,8 +128,8 @@ void SimpleXML::Tag::toXML(int indent, OutputStream* f) {
 			tmp.append(">\r\n", 3);
 			f->write(tmp);
 			tmp.clear();
-			for(Iter i = children.begin(); i!=children.end(); ++i) {
-				(*i)->toXML(indent + 1, f);
+			for(auto& i: children) {
+				i->toXML(indent + 1, f);
 			}
 			tmp.append(indent, '\t');
 		}
@@ -144,14 +144,14 @@ bool SimpleXML::findChild(const string& aName) noexcept {
 	dcassert(current != NULL);
 
 	if(found && currentChild != current->children.end())
-		++currentChild;
+		currentChild++;
 
 	while(currentChild!=current->children.end()) {
 		if((*currentChild)->name == aName) {
 			found = true;
 			return true;
 		} else
-			++currentChild;
+			currentChild++;
 	}
 	return false;
 }
@@ -173,13 +173,13 @@ void SimpleXML::addAttrib(const string& aName, const string& aData) {
 	if(current == &root)
 		throw SimpleXMLException("No tag is currently selected");
 
-	current->attribs.push_back(make_pair(aName, aData));
+	current->attribs.emplace_back(aName, aData);
 }
 
 void SimpleXML::addChildAttrib(const string& aName, const string& aData) {
 	checkChildSelected();
 
-	(*currentChild)->attribs.push_back(make_pair(aName, aData));
+	(*currentChild)->attribs.emplace_back(aName, aData);
 }
 
 void SimpleXML::fromXML(const string& aXML) {
@@ -189,7 +189,7 @@ void SimpleXML::fromXML(const string& aXML) {
 	}
 
 	TagReader t(&root);
-	SimpleXMLReader(&t).parse(aXML.c_str(), aXML.size(), false);
+	SimpleXMLReader(&t).parse(aXML);
 
 	if(root.children.size() != 1) {
 		throw SimpleXMLException("Invalid XML file, missing or multiple root tags");
@@ -200,10 +200,9 @@ void SimpleXML::fromXML(const string& aXML) {
 }
 
 string SimpleXML::toXML() {
-	string tmp;
-	StringOutputStream os(tmp);
+	StringOutputStream os;
 	toXML(&os);
-	return tmp;
+	return os.getString();
 }
 
 } // namespace dcpp

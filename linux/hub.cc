@@ -1857,12 +1857,13 @@ gboolean Hub::onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer da
 gboolean Hub::onNickListButtonPress_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
 	Hub *hub = (Hub *)data;
-
+	
 	if (event->type == GDK_BUTTON_PRESS || event->type == GDK_2BUTTON_PRESS)
 		hub->oldType = event->type;
 
 	if (event->button == 3)
 	{
+		
 		GtkTreePath *path;
 		if (gtk_tree_view_get_path_at_pos(hub->nickView.get(), (gint)event->x, (gint)event->y, &path, NULL, NULL, NULL))
 		{

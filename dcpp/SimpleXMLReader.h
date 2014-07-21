@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2013 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,27 +21,44 @@
 
 #include "typedefs.h"
 
+#include "noncopyable.h"
+
 namespace dcpp {
 
 class SimpleXMLReader {
 public:
-	class CallBack  {
-		public:
+	struct CallBack : private NonCopyable {
 		virtual ~CallBack() { }
-		virtual void startTag(const std::string& name, StringPairList& attribs, bool simple) = 0;
-		virtual void endTag(const std::string& name, const std::string& data) = 0;
+
+		/** A new XML tag has been encountered.
+		@param name Name of the tag.
+		@param attribs List of attribute name / contents pairs representing attributes of the tag.
+		Use the getAttrib function to retrieve one particular attribute.
+		@param simple Whether this tag is void of any data (<example/>). */
+		virtual void startTag(const std::string& name, StringPairList& attribs, bool simple) { }
+
+		/** Contents of an XML tag have been read.
+		@param data Contents of the tag.
+		@note This may be called several times per tag with partial contents in mixed content
+		situations, such as: <outer>Data1<inner>Data2</inner>Data3</outer> (data will be called
+		once for "Data1", once for "Data2", once for "Data3"). */
+		virtual void data(const std::string& data) { }
+
+		/** Contents of an XML tag have been read.
+		@param name Name of the tag. */
+		virtual void endTag(const std::string& name) { }
 
 	protected:
 		static const std::string& getAttrib(StringPairList& attribs, const std::string& name, size_t hint);
-	private:
-		CallBack& operator=(CallBack&);
 	};
 
 	SimpleXMLReader(CallBack* callback);
 	virtual ~SimpleXMLReader() { }
 
 	void parse(InputStream& is, size_t maxSize = 0);
-	bool parse(const char* data, size_t len, bool more);
+	bool parse(const char* data, size_t len);
+	bool parse(const string& str);
+
 private:
 
 	static const size_t MAX_NAME_SIZE = 256;
@@ -116,6 +133,8 @@ private:
 
 		STATE_CONTENT,
 
+		STATE_CDATA,
+
 		STATE_END
 	};
 
@@ -160,6 +179,7 @@ private:
 	bool elementAttrValue();
 
 	bool comment();
+	bool cdata();
 
 	bool content();
 
