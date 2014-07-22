@@ -792,12 +792,12 @@ typedef unordered_map<TTHValue, const DirectoryListing::File*> TTHMap;
 static TTHMap tthMap;
 
 void buildMap(const DirectoryListing::Directory* dir) noexcept {
-	for(DirectoryListing::Directory::List::const_iterator j = dir->directories.begin(); j != dir->directories.end(); ++j) {
+	for(auto j = dir->directories.begin(); j != dir->directories.end(); ++j) {
 		if(!(*j)->getAdls())
 			buildMap(*j);
 	}
 
-	for(DirectoryListing::File::List::const_iterator i = dir->files.begin(); i != dir->files.end(); ++i) {
+	for(auto i = dir->files.begin(); i != dir->files.end(); ++i) {
 		const DirectoryListing::File* df = *i;
 		tthMap.insert(make_pair(df->getTTH(), df));
 	}

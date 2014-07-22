@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2013 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,29 +19,24 @@
 #include "stdinc.h"
 #include "DirectoryListing.h"
 
-#include "QueueManager.h"
-#include "ClientManager.h"
-
-#include "StringTokenizer.h"
-#include "SimpleXML.h"
-#include "FilteredFile.h"
 #include "BZUtils.h"
+#include "ClientManager.h"
 #include "CryptoManager.h"
-#include "ShareManager.h"
-#include "SimpleXMLReader.h"
 #include "File.h"
-#include "MediaInfo.h"
-
-#ifdef ff
-#undef ff
-#endif
+#include "FilteredFile.h"
+#include "QueueManager.h"
+#include "ShareManager.h"
+#include "SimpleXML.h"
+#include "SimpleXMLReader.h"
+#include "StringTokenizer.h"
+#include "version.h"
 
 namespace dcpp {
 
 DirectoryListing::DirectoryListing(const HintedUser& aUser) :
 user(aUser),
 abort(false),
-root(new Directory(NULL, Util::emptyString, false, false))
+root(new Directory(nullptr, Util::emptyString, false, false))
 {
 }
 
@@ -81,30 +76,58 @@ UserPtr DirectoryListing::getUserFromFilename(const string& fileName) {
 	return ClientManager::getInstance()->getUser(cid);
 }
 
-void DirectoryListing::loadFile(const string& name) {
-	// For now, we detect type by ending...
-	string ext = Util::getFileExt(name);
+void DirectoryListing::loadFile(const string& path) {
+	string actualPath;
+	if(dcpp::File::getSize(path + ".bz2") != -1) {
+		actualPath = path + ".bz2";
+	}
 
-    dcpp::File ff(name, dcpp::File::READ, dcpp::File::OPEN);
-	if(Util::stricmp(ext, ".bz2") == 0) {
-		FilteredInputStream<UnBZFilter, false> f(&ff);
-		loadXML(f, false);
-	} else if(Util::stricmp(ext, ".xml") == 0) {
-		loadXML(ff, false);
+	// For now, we detect type by ending...
+	auto ext = Util::getFileExt(actualPath.empty() ? path : actualPath);
+
+	{
+		dcpp::File file(actualPath.empty() ? path : actualPath, dcpp::File::READ, dcpp::File::OPEN);
+
+		if(Util::stricmp(ext, ".bz2") == 0) {
+			FilteredInputStream<UnBZFilter, false> f(&file);
+			loadXML(f, false);
+		} else if(Util::stricmp(ext, ".xml") == 0) {
+			loadXML(file, false);
+		} else {
+			throw Exception(_("Invalid file list extension (must be .xml or .bz2)"));
+		}
+	}
+
+	if(!actualPath.empty()) {
+		// save the uncompressed file.
+		save(path);
+		dcpp::File::deleteFile(actualPath);
 	}
 }
 
 class ListLoader : public SimpleXMLReader::CallBack {
 public:
-	ListLoader(DirectoryListing* list,DirectoryListing::Directory* root, bool aUpdating, const HintedUser& user) : list(list), cur(root), base("/"), inListing(false), updating(aUpdating) , user(user) {
+	ListLoader(DirectoryListing* list, DirectoryListing::Directory* root, bool aUpdating) :
+	list(list),
+	cur(root),
+	base("/"),
+	inListing(false),
+	updating(aUpdating)
+	{
 	}
 
-	virtual ~ListLoader() { }
+	virtual ~ListLoader() {
+		// some clients forget the "Base" param...
+		if(list->base.empty()) {
+			list->base = base;
+		}
+	}
 
-	virtual void startTag(const string& name, StringPairList& attribs, bool simple);
-	virtual void endTag(const string& name, const string& data);
+	void startTag(const string& name, StringPairList& attribs, bool simple);
+	void endTag(const string& name);
 
 	const string& getBase() const { return base; }
+
 private:
 	DirectoryListing* list;
 	DirectoryListing::Directory* cur;
@@ -113,7 +136,6 @@ private:
 	string base;
 	bool inListing;
 	bool updating;
-	HintedUser user;
 };
 
 string DirectoryListing::updateXML(const string& xml) {
@@ -122,7 +144,7 @@ string DirectoryListing::updateXML(const string& xml) {
 }
 
 string DirectoryListing::loadXML(InputStream& is, bool updating) {
-	ListLoader ll(this,getRoot(), updating, getUser());
+	ListLoader ll(this, getRoot(), updating);
 
 	SimpleXMLReader(&ll).parse(is, SETTING(MAX_FILELIST_SIZE) ? (size_t)SETTING(MAX_FILELIST_SIZE)*1024*1024 : 0);
 
@@ -131,21 +153,12 @@ string DirectoryListing::loadXML(InputStream& is, bool updating) {
 
 static const string sFileListing = "FileListing";
 static const string sBase = "Base";
-static const string sGenerator = "Generator";//
-static const string sCID = "CID"; //
 static const string sDirectory = "Directory";
 static const string sIncomplete = "Incomplete";
 static const string sFile = "File";
 static const string sName = "Name";
 static const string sSize = "Size";
 static const string sTTH = "TTH";
-///...
-static const string sTS = "TS";
-static const string sBR = "BR";
-static const string sWH = "WH";
-static const string sMVideo = "MV";
-static const string sMAudio = "MA";
-
 
 void ListLoader::startTag(const string& name, StringPairList& attribs, bool simple) {
 	if(list->getAbort()) { throw Exception(); }
@@ -159,107 +172,99 @@ void ListLoader::startTag(const string& name, StringPairList& attribs, bool simp
 			const string& s = getAttrib(attribs, sSize, 1);
 			if(s.empty())
 				return;
-			int64_t size = Util::toInt64(s);
+			auto size = Util::toInt64(s);
 
 			const string& h = getAttrib(attribs, sTTH, 2);
 			if(h.empty())
 				return;
 			TTHValue tth(h); /// @todo verify validity?
 
-			if(updating) {
-				// just update the current file if it is already there.
-				for(auto i = cur->files.cbegin(), iend = cur->files.cend(); i != iend; ++i) {
-					auto& file = **i;
-					/// @todo comparisons should be case-insensitive but it takes too long - add a cache
-					if(file.getTTH() == tth || file.getName() == n) {
-						file.setName(n);
-						file.setSize(size);
-						file.setTTH(tth);
-						return;
-					}
+			auto f = new DirectoryListing::File(cur, n, size, tth);
+			auto insert = cur->files.insert(f);
+
+			if(!insert.second) {
+				// the file was already there
+				delete f;
+				if(updating) {
+					// partial file list
+					f = *insert.first;
+					f->setName(n); // the casing might have changed
+					f->setSize(size);
+					f->setTTH(tth);
+				} else {
+					// duplicates are forbidden in complete file lists
+					throw Exception(_("Duplicate item in the file list"));
 				}
 			}
-			string l_br;
-			MediaInfo l_mediaXY;
-			const string& l_ts = getAttrib(attribs, sTS, 3);
-
-			if(!l_ts.empty()) // Extended tags - exists only FlylinkDC++ or StrongDC++ sqlite or clones
-			{
-				l_br = getAttrib(attribs, sBR, 4);
-				l_mediaXY.init(getAttrib(attribs, sWH, 3), atoi(l_br.c_str()));
-				l_mediaXY.m_audio = getAttrib(attribs, sMAudio, 3);
-				l_mediaXY.m_video = getAttrib(attribs, sMVideo, 3);
-			}
-
-			DirectoryListing::File* f = new DirectoryListing::File(cur, n, size, tth,atoi(l_ts.c_str()),l_mediaXY);
-
-			cur->files.push_back(f);
 
 		} else if(name == sDirectory) {
 			const string& n = getAttrib(attribs, sName, 0);
 			if(n.empty()) {
 				throw SimpleXMLException(_("Directory missing name attribute"));
 			}
+
 			bool incomp = getAttrib(attribs, sIncomplete, 1) == "1";
-			DirectoryListing::Directory* d = NULL;
-			if(updating) {
-				for(DirectoryListing::Directory::Iter i = cur->directories.begin(); i != cur->directories.end(); ++i) {
-					/// @todo comparisons should be case-insensitive but it takes too long - add a cache
-					if((*i)->getName() == n) {
-						d = *i;
-						if(!d->getComplete())
-							d->setComplete(!incomp);
-						break;
-					}
+
+			auto d = new DirectoryListing::Directory(cur, n, false, !incomp);
+			auto insert = cur->directories.insert(d);
+
+			if(!insert.second) {
+				// the dir was already there
+				delete d;
+				if(updating) {
+					// partial file list
+					d = *insert.first;
+					if(!d->getComplete())
+						d->setComplete(!incomp);
+				} else {
+					// duplicates are forbidden in complete file lists
+					throw Exception(_("Duplicate item in the file list"));
 				}
 			}
-			if(d == NULL) {
-				d = new DirectoryListing::Directory(cur, n, false, !incomp);
-				cur->directories.push_back(d);
-			}
+
 			cur = d;
 
 			if(simple) {
 				// To handle <Directory Name="..." />
-				endTag(name, Util::emptyString);
+				endTag(name);
 			}
 		}
+
 	} else if(name == sFileListing) {
 		const string& b = getAttrib(attribs, sBase, 2);
-		if(b.size() >= 1 && b[0] == '/' && b[b.size()-1] == '/') {
+		if(b.size() >= 1 && b[0] == '/' && *(b.end() - 1) == '/') {
 			base = b;
+			if(list->base.empty() || base.size() < list->base.size()) {
+				list->base = base;
+			}
 		}
+
 		StringList sl = StringTokenizer<string>(base.substr(1), '/').getTokens();
-		for(StringIter i = sl.begin(); i != sl.end(); ++i) {
-			DirectoryListing::Directory* d = NULL;
-			for(DirectoryListing::Directory::Iter j = cur->directories.begin(); j != cur->directories.end(); ++j) {
-				if((*j)->getName() == *i) {
-					d = *j;
+		for(auto& i: sl) {
+			DirectoryListing::Directory* d = nullptr;
+			for(auto j: cur->directories) {
+				if(j->getName() == i) {
+					d = j;
 					break;
 				}
 			}
-			if(d == NULL) {
-				d = new DirectoryListing::Directory(cur, *i, false, false);
-				cur->directories.push_back(d);
+			if(!d) {
+				d = new DirectoryListing::Directory(cur, i, false, false);
+				cur->directories.insert(d);
 			}
 			cur = d;
 		}
 		cur->setComplete(true);
 		inListing = true;
-		//
-		string generator = getAttrib(attribs, sGenerator, 2);
-		string fileCID = getAttrib(attribs, sCID, 3);
-		string base = getAttrib(attribs, sBase, 4);
-		ClientManager::getInstance()->setGenerator(user, generator, fileCID, base);
 
 		if(simple) {
 			// To handle <Directory Name="..." />
-			endTag(name, Util::emptyString);
+			endTag(name);
 		}
 	}
 }
 
-void ListLoader::endTag(const string& name, const string&) {
+void ListLoader::endTag(const string& name) {
 	if(inListing) {
 		if(name == sDirectory) {
 			cur = cur->getParent();
@@ -268,6 +273,86 @@ void ListLoader::endTag(const string& name, const string&) {
 			inListing = false;
 		}
 	}
+}
+
+void DirectoryListing::save(const string& path) const {
+	dcassert(!base.empty());
+
+	dcpp::File stream(path, dcpp::File::WRITE, dcpp::File::CREATE | dcpp::File::TRUNCATE);
+	stream.write(SimpleXML::utf8Header);
+
+	string indent("\t"), tmp;
+
+	stream.write(LIT("<FileListing Version=\"1\" CID=\""));
+	stream.write(user.user->getCID().toBase32());
+	stream.write(LIT("\" Base=\""));
+	stream.write(SimpleXML::escape(base, tmp, true));
+	stream.write(LIT("\" Generator=\"" APPNAME " " VERSIONSTRING "\">\r\n"));
+
+	auto start = (base == "/") ? root : find(Util::toNmdcFile(base), root);
+	if(start) {
+		std::for_each(start->directories.cbegin(), start->directories.cend(), [&](Directory* d) {
+			d->save(stream, indent, tmp);
+		});
+		std::for_each(start->files.cbegin(), start->files.cend(), [&](File* f) {
+			f->save(stream, indent, tmp);
+		});
+	}
+
+	stream.write(LIT("</FileListing>"));
+}
+
+void DirectoryListing::Directory::save(OutputStream& stream, string& indent, string& tmp) const {
+	if(adls)
+		return;
+
+	stream.write(indent);
+	stream.write(LIT("<Directory Name=\""));
+	stream.write(SimpleXML::escape(name, tmp, true));
+
+	if(!getComplete()) {
+		stream.write(LIT("\" Incomplete=\"1"));
+	}
+
+	if(directories.empty() && files.empty()) {
+		stream.write(LIT("\" />\r\n"));
+	} else {
+		stream.write(LIT("\">\r\n"));
+		indent += '\t';
+
+		std::for_each(directories.cbegin(), directories.cend(), [&](Directory* d) {
+			d->save(stream, indent, tmp);
+		});
+		std::for_each(files.cbegin(), files.cend(), [&](File* f) {
+			f->save(stream, indent, tmp);
+		});
+
+		indent.erase(indent.end() - 1);
+		stream.write(indent);
+		stream.write(LIT("</Directory>\r\n"));
+	}
+}
+
+void DirectoryListing::File::save(OutputStream& stream, string& indent, string& tmp) const {
+	stream.write(indent);
+	stream.write(LIT("<File Name=\""));
+	stream.write(SimpleXML::escape(getName(), tmp, true));
+	stream.write(LIT("\" Size=\""));
+	stream.write(Util::toString(getSize()));
+	stream.write(LIT("\" TTH=\""));
+	tmp.clear();
+	stream.write(getTTH().toBase32(tmp));
+	stream.write(LIT("\"/>\r\n"));
+}
+void DirectoryListing::setComplete(bool complete) {
+	root->setAllComplete(complete);
+}
+
+void DirectoryListing::Directory::setAllComplete(bool complete) {
+	for(auto d: directories) {
+		d->setAllComplete(complete);
+	}
+	setComplete(complete);
 }
 
 string DirectoryListing::getPath(const Directory* d) const {
@@ -306,16 +391,11 @@ StringList DirectoryListing::getLocalPaths(const Directory* d) const {
 void DirectoryListing::download(Directory* aDir, const string& aTarget, bool highPrio) {
 	string target = (aDir == getRoot()) ? aTarget : aTarget + aDir->getName() + PATH_SEPARATOR;
 	// First, recurse over the directories
-	Directory::List& lst = aDir->directories;
-	sort(lst.begin(), lst.end(), Directory::Sort());
-	for(auto j = lst.begin(); j != lst.end(); ++j) {
-		download(*j, target, highPrio);
+	for(auto& j: aDir->directories) {
+		download(j, target, highPrio);
 	}
 	// Then add the files
-	File::List& l = aDir->files;
-	sort(l.begin(), l.end(), File::FileSort());
-	for(auto i = aDir->files.begin(); i != aDir->files.end(); ++i) {
-		File* file = *i;
+	for(auto file: aDir->files) {
 		try {
 			download(file, target + file->getName(), false, highPrio);
 		} catch(const QueueException&) {
@@ -330,7 +410,7 @@ void DirectoryListing::download(const string& aDir, const string& aTarget, bool 
 	dcassert(aDir.size() > 2);
 	dcassert(aDir[aDir.size() - 1] == '\\'); // This should not be PATH_SEPARATOR
 	Directory* d = find(aDir, getRoot());
-	if(d != NULL)
+	if(d)
 		download(d, aTarget, highPrio);
 }
 
@@ -344,41 +424,23 @@ void DirectoryListing::download(File* aFile, const string& aTarget, bool view, b
 }
 
 DirectoryListing::Directory* DirectoryListing::find(const string& aName, Directory* current) const {
-	string::size_type end = aName.find('\\');
+	auto end = aName.find('\\');
 	dcassert(end != string::npos);
-	string name = aName.substr(0, end);
+	auto name = aName.substr(0, end);
 
-	Directory::Iter i = std::find(current->directories.begin(), current->directories.end(), name);
-	if(i != current->directories.end()) {
+	auto i = std::find(current->directories.cbegin(), current->directories.cend(), name);
+	if(i != current->directories.cend()) {
 		if(end == (aName.size() - 1))
 			return *i;
 		else
 			return find(aName.substr(end + 1), *i);
 	}
-	return NULL;
+	return nullptr;
 }
 
-struct HashContained {
-	HashContained(const DirectoryListing::Directory::TTHSet& l) : tl(l) { }
-	const DirectoryListing::Directory::TTHSet& tl;
-	bool operator()(const DirectoryListing::File::Ptr i) const {
-		return tl.count((i->getTTH())) && (DeleteFunction()(i), true);
-	}
-private:
-	HashContained& operator=(HashContained&);
-};
-
-struct DirectoryEmpty {
-	bool operator()(const DirectoryListing::Directory::Ptr i) const {
-		bool r = i->getFileCount() + i->directories.size() == 0;
-		if (r) DeleteFunction()(i);
-		return r;
-	}
-};
-
 DirectoryListing::Directory::~Directory() {
-	for_each(directories.begin(), directories.end(), DeleteFunction());
-	for_each(files.begin(), files.end(), DeleteFunction());
+	std::for_each(directories.begin(), directories.end(), DeleteFunction());
+	std::for_each(files.begin(), files.end(), DeleteFunction());
 }
 
 void DirectoryListing::Directory::filterList(DirectoryListing& dirList) {
@@ -390,40 +452,59 @@ void DirectoryListing::Directory::filterList(DirectoryListing& dirList) {
 }
 
 void DirectoryListing::Directory::filterList(DirectoryListing::Directory::TTHSet& l) {
-	for(Iter i = directories.begin(); i != directories.end(); ++i) (*i)->filterList(l);
-	directories.erase(std::remove_if(directories.begin(),directories.end(),DirectoryEmpty()),directories.end());
-	files.erase(std::remove_if(files.begin(),files.end(),HashContained(l)),files.end());
+	for(auto i = directories.begin(); i != directories.end();) {
+		auto d = *i;
+
+		d->filterList(l);
+
+		if(d->directories.empty() && d->files.empty()) {
+			i = directories.erase(i);
+			delete d;
+		} else {
+			++i;
+		}
+	}
+
+	for(auto i = files.begin(); i != files.end();) {
+		auto f = *i;
+		if(l.find(f->getTTH()) != l.end()) {
+			i = files.erase(i);
+			delete f;
+		} else {
+			++i;
+		}
+	}
 }
 
 void DirectoryListing::Directory::getHashList(DirectoryListing::Directory::TTHSet& l) {
-	for(Iter i = directories.begin(); i != directories.end(); ++i) (*i)->getHashList(l);
-	for(DirectoryListing::File::Iter i = files.begin(); i != files.end(); ++i) l.insert((*i)->getTTH());
+	for(auto i: directories) i->getHashList(l);
+	for(auto i: files) l.insert(i->getTTH());
 }
 
 int64_t DirectoryListing::Directory::getTotalSize(bool adl) {
 	int64_t x = getSize();
-	for(Iter i = directories.begin(); i != directories.end(); ++i) {
-		if(!(adl && (*i)->getAdls()))
-			x += (*i)->getTotalSize(adls);
+	for(auto i: directories) {
+		if(!(adl && i->getAdls()))
+			x += i->getTotalSize(adls);
 	}
 	return x;
 }
 
 size_t DirectoryListing::Directory::getTotalFileCount(bool adl) {
 	size_t x = getFileCount();
-	for(Iter i = directories.begin(); i != directories.end(); ++i) {
-		if(!(adl && (*i)->getAdls()))
-			x += (*i)->getTotalFileCount(adls);
+	for(auto i: directories) {
+		if(!(adl && i->getAdls()))
+			x += i->getTotalFileCount(adls);
 	}
 	return x;
 }
 
 DirectoryListing::Directory::List DirectoryListing::getForbiddenDirs() {
 	DirectoryListing::Directory::List forbiddenDirList;
-	for(DirectoryListing::Directory::Iter di = root->directories.begin() ; di != root->directories.end() ; ++di) {
+	for(auto di = root->directories.begin() ; di != root->directories.end() ; ++di) {
 		if((*di)->getName().find("Forbidden Directories") != string::npos) {
-			DirectoryListing::Directory::Iter fd;
-			for(fd = (*di)->directories.begin(); fd != (*di)->directories.end() ; ++fd) {
+			//DirectoryListing::Directory::Iter fd;
+			for(auto fd = (*di)->directories.begin(); fd != (*di)->directories.end() ; ++fd) {
 				forbiddenDirList.push_back(*fd);
 			}
 		}
@@ -433,57 +514,17 @@ DirectoryListing::Directory::List DirectoryListing::getForbiddenDirs() {
 
 DirectoryListing::File::List DirectoryListing::getForbiddenFiles() {
 	DirectoryListing::File::List forbiddenList;
-	for(DirectoryListing::Directory::Iter di = root->directories.begin() ; di != root->directories.end() ; ++di) {
+	for(auto di = root->directories.begin() ; di != root->directories.end() ; ++di) {
 		if((*di)->getName().find("Forbidden Files") != string::npos ||
 			(*di)->getName().find("Forbidden Full Path") != string::npos ||
 			(*di)->getName().find("Forbidden TTHS") != string::npos) {
-			DirectoryListing::File::Iter fi;
-			for(fi = (*di)->files.begin() ; fi != (*di)->files.end() ; ++fi) {
+			//DirectoryListing::File::Iter fi;
+			for(auto fi = (*di)->files.begin() ; fi != (*di)->files.end() ; ++fi) {
 				forbiddenList.push_back(*fi);
 			}
 		}
 	}
 	return forbiddenList;
-}
-
-uint32_t DirectoryListing::Directory::getTotalTS() const
-{
-	uint32_t x = getTS();
- 	for (auto i = directories.begin(); i != directories.end(); ++i)
- 	{
-		x = std::max((*i)->getTS(), x);
-  	}
-	return x;
-}
-
-uint16_t DirectoryListing::Directory::getTotalBitrate() const
-{
-   uint16_t x = getBitrate();
-   for (auto i = directories.begin(); i != directories.end(); ++i)
-   {
-	x = std::max((*i)->getBitrate(), x);
-   }
-	return x;
-}
-
-void DirectoryListing::sortDirs() {
-	root->sortDirs();
-}
-
-void DirectoryListing::Directory::sortDirs() {
-	for(auto d = directories.begin();d!= directories.end();++d)
-	{
-		(*d)->sortDirs();
-	}
-	sort(directories.begin(), directories.end(), Directory::Sort());
-}
-
-bool DirectoryListing::Directory::Sort::operator()(const Ptr& a, const Ptr& b) const {
-	return compare(a->getName(), b->getName()) < 0;
-}
-
-bool DirectoryListing::File::Sort::operator()(const Ptr& a, const Ptr& b) const {
-	return compare(a->getName(), b->getName()) < 0;
 }
 
 } // namespace dcpp

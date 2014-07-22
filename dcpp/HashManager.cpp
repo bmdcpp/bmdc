@@ -488,7 +488,7 @@ void HashManager::HashStore::load(function<void (float)> progressF) {
 		Util::migrate(getIndexFile());
 
 		File f(getIndexFile(), File::READ, File::OPEN);
-		CountedInputStream<false> countedStream(&f);//false
+		CountedInputStream<false> countedStream(&f);
 		HashLoader l(*this, countedStream, f.getSize(), progressF);
 		SimpleXMLReader(&l).parse(countedStream);
 		f.flush();

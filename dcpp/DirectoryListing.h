@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2013 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,14 +19,17 @@
 #ifndef DCPLUSPLUS_DCPP_DIRECTORY_LISTING_H
 #define DCPLUSPLUS_DCPP_DIRECTORY_LISTING_H
 
+#include <set>
 #include "forward.h"
-#include "noexcept.h"
 #include "HintedUser.h"
 #include "MerkleTree.h"
+#include "GetSet.h"
 #include "Util.h"
 #include "MediaInfo.h"
 
 namespace dcpp {
+
+using std::set;
 
 class ListLoader;
 
@@ -38,38 +41,20 @@ public:
 	class File  {
 	public:
 		typedef File* Ptr;
-		struct FileSort {
-			bool operator()(const Ptr& a, const Ptr& b) const {
-				return Util::stricmp(a->getName().c_str(), b->getName().c_str()) < 0;
-			}
-		};
 		typedef vector<Ptr> List;
 		typedef List::const_iterator Iter;
 
-		File(Directory* aDir, const string& aName, int64_t aSize, const TTHValue& aTTH, uint32_t p_ts, const MediaInfo& p_media) noexcept :
-			name(aName), size(aSize), parent(aDir), tthRoot(aTTH), adls(false), ts(p_ts), m_media(p_media)
+		File(Directory* aDir, const string& aName, int64_t aSize, const TTHValue& aTTH) noexcept :
+			name(aName), size(aSize), parent(aDir), tthRoot(aTTH), adls(false)
 		{
 		}
 
-		File(const File& rhs, bool _adls = false) : name(rhs.name), size(rhs.size), parent(rhs.parent), tthRoot(rhs.tthRoot), adls(_adls), ts(rhs.ts), m_media(rhs.m_media)
+		File(const File& rhs, bool _adls = false) :
+			name(rhs.name), size(rhs.size), parent(rhs.parent), tthRoot(rhs.tthRoot), adls(_adls)
 		{
 		}
 
-		File& operator=(const File& rhs) {
-			name = rhs.name; size = rhs.size; parent = rhs.parent; tthRoot = rhs.tthRoot;
-			adls = rhs.adls;
-			fromFavs = rhs.fromFavs;
-			adlsComment = rhs.adlsComment;
-			overRidePoints = rhs.overRidePoints;
-			points = rhs.points;
-			ts = rhs.ts;
-			m_media = rhs.m_media;
-			return *this;
-		}
-
-		~File() { }
-
-		struct Sort { bool operator()(const Ptr& a, const Ptr& b) const; };
+		void save(OutputStream& stream, string& indent, string& tmp) const;
 
 		GETSET(string, name, Name);
 		GETSET(int64_t, size, Size);
@@ -86,24 +71,24 @@ public:
 		
 		GETSET(uint32_t, ts, TS);
 		MediaInfo m_media;
-		
 	};
 
 	class Directory  {
 	public:
+		template<typename T> struct Less {
+			bool operator()(typename T::Ptr a, typename T::Ptr b) const { return compare(a->getName(), b->getName()) < 0; }
+		};
 		typedef Directory* Ptr;
 		typedef vector<Ptr> List;
+		typedef set<File::Ptr, Less<File> > FList;
 		typedef List::iterator Iter;
-
 		typedef unordered_set<TTHValue> TTHSet;
 
-		List directories;
-		File::List files;
+		set<Ptr, Less<Directory> > directories;
+		set<File::Ptr, Less<File> > files;
 
-		Directory(Directory* aParent, const string& aName, bool _adls, bool aComplete)
-			: name(aName), parent(aParent), adls(_adls), complete(aComplete),
-			points(0), overRidePoints(false), fromFavs(false), adlsRaw(0)
-			 { }
+		Directory(Directory* aParent, const string& aName, bool _adls, bool aComplete) :
+			name(aName), parent(aParent), adls(_adls), complete(aComplete) { }
 
 		virtual ~Directory();
 
@@ -112,26 +97,22 @@ public:
 		void filterList(DirectoryListing& dirList);
 		void filterList(TTHSet& l);
 		void getHashList(TTHSet& l);
-		void sortDirs();
+		void save(OutputStream& stream, string& indent, string& tmp) const;
+		void setAllComplete(bool complete);
 
 		size_t getFileCount() const { return files.size(); }
-		
-		uint32_t getTotalTS() const;
-		uint16_t getTotalBitrate() const;
-		struct Sort { bool operator()(const Ptr& a, const Ptr& b) const; };
 
 		int64_t getSize() const {
 			int64_t x = 0;
-			for(File::Iter i = files.begin(); i != files.end(); ++i) {
-				x+=(*i)->getSize();
+			for(auto& i: files) {
+				x += i->getSize();
 			}
 			return x;
-		}
-		//Flink
+		}//Flink
 		uint16_t getBitrate() const
 		{
 			uint16_t x = 0;
-			for (File::Iter i = files.begin(); i != files.end(); ++i)
+			for (auto i = files.begin(); i != files.end(); ++i)
 			{
 				x = std::max((*i)->m_media.m_bitrate, x);
 			}
@@ -140,7 +121,7 @@ public:
 		uint32_t getTS() const
 		{
 			uint32_t x = 0;
-			for (File::Iter i = files.begin(); i != files.end(); ++i)
+			for (auto i = files.begin(); i != files.end(); ++i)
 			{
 				x = std::max((*i)->getTS(), x);
 			}
@@ -159,9 +140,6 @@ public:
 		GETSET(int, adlsRaw, AdlsRaw);
 		GETSET(string, kickString, KickString)
 		GETSET(string, fullFileName ,FullFileName);
-	  private:
-			Directory(Directory&);
-			Directory operator=(Directory&);
 	};
 
 	class AdlDirectory : public Directory {
@@ -178,8 +156,11 @@ public:
 
 	string updateXML(const std::string&);
 	string loadXML(InputStream& xml, bool updating);
-	/** sort directories and sub-directories recursively (case-insensitive). */
-	void sortDirs();
+
+	/** write an XML representation of this file list to the specified file. */
+	void save(const string& path) const;
+	/** recursively mark directories and sub-directories as complete or incomplete. */
+	void setComplete(bool complete);
 
 	void download(const string& aDir, const string& aTarget, bool highPrio);
 	void download(Directory* aDir, const string& aTarget, bool highPrio);
@@ -213,9 +194,6 @@ private:
 	string base;
 
 	Directory* find(const string& aName, Directory* current) const;
-	
-	DirectoryListing(DirectoryListing&);
-	DirectoryListing operator=(DirectoryListing&);
 };
 
 inline bool operator==(DirectoryListing::Directory::Ptr a, const string& b) { return Util::stricmp(a->getName(), b) == 0; }

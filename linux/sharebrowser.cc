@@ -243,8 +243,8 @@ bool ShareBrowser::findDir_gui(const string &dir, GtkTreeIter *parent)
 
 void ShareBrowser::buildDirs_gui(DirectoryListing::Directory *dir, GtkTreeIter *iter)
 {
-	DirectoryListing::Directory::Iter it;
-	DirectoryListing::File::Iter file;
+	//DirectoryListing::Directory::Iter it;
+	//DirectoryListing::File::Iter file;
 	GtkTreeIter newIter;
 
 	gtk_tree_store_append(dirStore, &newIter, iter);
@@ -255,24 +255,26 @@ void ShareBrowser::buildDirs_gui(DirectoryListing::Directory *dir, GtkTreeIter *
 		dirView.col("Icon"), "bmdc-directory",
 		-1);
 
-	for (file = dir->files.begin(); file != dir->files.end(); ++file)
+	for (auto file = dir->files.begin(); file != dir->files.end(); ++file)
 	{
 		shareItems++;
 		shareSize += (*file)->getSize();
 	}
 
 	// Recursive call for all subdirs of current dir.
-	std::sort(dir->directories.begin(), dir->directories.end(), DirectoryListing::Directory::Sort());
-	for (it = dir->directories.begin(); it != dir->directories.end(); ++it)
+	//std::sort(dir->directories.begin(), dir->directories.end(), DirectoryListing::Directory::Sort());
+	for (auto it = dir->directories.begin(); it != dir->directories.end(); ++it)
 		buildDirs_gui(*it, &newIter);
 }
 
 void ShareBrowser::updateFiles_gui(DirectoryListing::Directory *dir)
 {
-	DirectoryListing::Directory::List *dirs = &(dir->directories);
-	DirectoryListing::Directory::Iter it_dir;
-	DirectoryListing::File::List *files = &(dir->files);
-	DirectoryListing::File::Iter it_file;
+	std::set<dcpp::DirectoryListing::Directory*, dcpp::DirectoryListing::Directory::Less<dcpp::DirectoryListing::Directory> > *dirs = &(dir->directories);
+	//DirectoryListing::Directory::Iter it_dir;
+	set<DirectoryListing::File::Ptr, DirectoryListing::Directory::Less<DirectoryListing::File> >::iterator it_file;
+	DirectoryListing::Directory::FList *files = &(dir->files);
+	//DirectoryListing::File::Iter it_file;
+	//std::set<dcpp::DirectoryListing::File*, dcpp::DirectoryListing::Directory::Less<dcpp::DirectoryListing::File> >::iterator it_dir;
 	GtkTreeIter iter;
 	int64_t size;
 	gint sortColumn;
@@ -287,7 +289,7 @@ void ShareBrowser::updateFiles_gui(DirectoryListing::Directory *dir)
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(fileStore), GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID, sortType);
 
 	// Add directories to the store.
-	for (it_dir = dirs->begin(); it_dir != dirs->end(); ++it_dir)
+	for (auto it_dir = dirs->begin(); it_dir != dirs->end(); ++it_dir)
 	{
 		gtk_list_store_append(fileStore, &iter);
 		gtk_list_store_set(fileStore, &iter,
@@ -295,7 +297,8 @@ void ShareBrowser::updateFiles_gui(DirectoryListing::Directory *dir)
 			fileView.col("File Order"), Util::getFileName("d"+(*it_dir)->getName()).c_str(),
 			-1);
 		GdkPixbuf *buf = WulforUtil::loadIconShare("directory");
-		size = (*it_dir)->getTotalSize(false);
+		//size = (*it_dir)->getTotalSize(false);
+		size = (*it_dir)->getSize();
 		gtk_list_store_set(fileStore, &iter,
 			fileView.col("Icon"), buf,
 			fileView.col(_("Size")), Util::formatBytes(size).c_str(),
@@ -593,8 +596,9 @@ void ShareBrowser::find_gui()
 	string name;
 	bool findLeafNode = TRUE;
 	int cursorPos, hits = 0;
-	DirectoryListing::Directory *dir;
-	DirectoryListing::File::Iter file;
+	DirectoryListing::Directory *dir = nullptr;
+	//DirectoryListing::File::Iter _file;
+	set<DirectoryListing::File::Ptr, DirectoryListing::Directory::Less<DirectoryListing::File>>::const_iterator _file;
 	GtkTreeIter iter;
 	GtkTreeModel *m = GTK_TREE_MODEL(dirStore);
 	GtkTreePath *dirPath = gtk_tree_path_new_first();
@@ -652,12 +656,12 @@ void ShareBrowser::find_gui()
 
 		// Search the files that are contained in this directory.
 		dir = dirView.getValue<gpointer, DirectoryListing::Directory *>(&iter, "DL Dir");
-		std::sort(dir->files.begin(), dir->files.end(), DirectoryListing::File::FileSort());
+		//std::sort(dir->files.begin(), dir->files.end(), DirectoryListing::File::FileSort());
 
-		for (file = dir->files.begin(), cursorPos = dir->directories.size(); file != dir->files.end(); file++, cursorPos++)
+		for (_file = dir->files.begin(), cursorPos = dir->directories.size(); _file != dir->files.end(); _file++, cursorPos++)
 		{
-			name = Text::toLower((*file)->getName());
-
+			name = Text::toLower((*_file)->getName());
+			
 			// We found a matching file. Update the cursors and the fileView if necessary.
 			if (name.find(search, 0) != string::npos && hits++ == skipHits)
 			{
@@ -1177,6 +1181,7 @@ int ShareBrowser::ThreadedDirectoryListing::run()
  	try
  	{
 		mWindow->listing.getRoot()->setName(mWindow->nick);
+ 	
  	if(!mFile.empty())
  	{
 		mWindow->listing.loadFile(mFile);

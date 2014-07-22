@@ -639,7 +639,7 @@ ShareManager::Directory::Ptr ShareManager::buildTree(const string& realPath, con
 			if(fileName == SETTING(TLS_PRIVATE_KEY_FILE)) { continue; }
 
 			Directory::File f(name, size, dir,
-				HashManager::getInstance()->getTTH(fileName, size,i->getLastWriteTime()));
+				HashManager::getInstance()->getTTH(fileName, size, i->getLastWriteTime()));
 			f.validateName(realPath);
 			lastFileIter = dir->files.insert(lastFileIter, move(f));
 		}
@@ -947,8 +947,8 @@ void ShareManager::generateXmlList() {
 				newXmlFile.getFilter().getTree().finalize();
 				bzTree.getFilter().getTree().finalize();
 
-				xmlRoot = &(newXmlFile.getFilter().getTree().getRoot());
-				bzXmlRoot = &(bzTree.getFilter().getTree().getRoot());
+				xmlRoot = &newXmlFile.getFilter().getTree().getRoot();
+				bzXmlRoot = &bzTree.getFilter().getTree().getRoot();
 			}
 
 			if(bzXmlRef.get()) {
@@ -965,7 +965,7 @@ void ShareManager::generateXmlList() {
 			bzXmlRef = unique_ptr<File>(new File(newXmlName, File::READ, File::OPEN));
 			setBZXmlFile(newXmlName);
 			bzXmlListLen = File::getSize(newXmlName);
-			LogManager::getInstance()->message(_("File list ")+Util::addBrackets(bzXmlFile)+_("generated"));
+			LogManager::getInstance()->message(_("File list generated") + Util::addBrackets(bzXmlFile));
 		} catch(const Exception&) {
 			// No new file lists...
 		}

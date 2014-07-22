@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2013 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,9 +21,11 @@
 
 #include <algorithm>
 
+#include "noncopyable.h"
+
 #include "typedefs.h"
 #include "format.h"
-#include "noncopyable.h"
+
 #include "SettingsManager.h"
 #include "Exception.h"
 
@@ -36,7 +38,7 @@ STANDARD_EXCEPTION(FileException);
 /**
  * A simple output stream. Intended to be used for nesting streams one inside the other.
  */
-class OutputStream: private NonCopyable {
+class OutputStream : private NonCopyable {
 public:
 	OutputStream() { }
 	virtual ~OutputStream() { }
@@ -61,12 +63,9 @@ public:
 	virtual bool eof() { return false; }
 
 	size_t write(const string& str) { return write(str.c_str(), str.size()); }
-//private:
-//	OutputStream(const OutputStream&);
-//	OutputStream& operator=(const OutputStream&);
 };
 
-class InputStream {
+class InputStream : private NonCopyable {
 public:
 	InputStream() { }
 	virtual ~InputStream() { }
@@ -76,9 +75,6 @@ public:
 	 *		   actually read from the stream source in this call.
 	 */
 	virtual size_t read(void* buf, size_t& len) = 0;
-private:
-	InputStream(const InputStream&);
-	InputStream& operator=(const InputStream&);
 };
 
 class MemoryInputStream : public InputStream {
@@ -101,7 +97,7 @@ public:
 		return len;
 	}
 
-	size_t getSize() const { return size; }
+	size_t getSize() { return size; }
 
 private:
 	size_t pos;
@@ -110,6 +106,26 @@ private:
 };
 
 class IOStream : public InputStream, public OutputStream {
+};
+
+/** Count how many bytes have been read. */
+template<bool managed>
+class CountedInputStream : public InputStream {
+public:
+	CountedInputStream(InputStream* is) : s(is), readBytes(0) { }
+	virtual ~CountedInputStream() { if(managed) delete s; }
+
+	size_t read(void* buf, size_t& len) {
+		auto ret = s->read(buf, len);
+		readBytes += len;
+		return ret;
+	}
+
+	uint64_t getReadBytes() const { return readBytes; }
+
+private:
+	InputStream* s;
+	uint64_t readBytes;
 };
 
 template<bool managed>
@@ -141,7 +157,7 @@ public:
 
 	virtual size_t write(const void* buf, size_t len) {
 		if(maxBytes < len) {
-			throw FileException("More bytes written than requested");
+			throw FileException(_("More bytes written than requested"));
 		}
 		maxBytes -= len;
 		return s->write(buf, len);
@@ -228,7 +244,6 @@ private:
 	string str;
 };
 
-
 class StringRefOutputStream : public OutputStream {
 public:
 	StringRefOutputStream(string& out) : str(out) { }
@@ -243,27 +258,6 @@ public:
 
 private:
 	string& str;
-};
-
-
-/** Count how many bytes have been read. */
-template<bool managed>
-class CountedInputStream : public InputStream {
-public:
-	CountedInputStream(InputStream* is) : s(is), readBytes(0) { }
-	virtual ~CountedInputStream() { if(managed) delete s; }
-
-	size_t read(void* buf, size_t& len) {
-		auto ret = s->read(buf, len);
-		readBytes += len;
-		return ret;
-	}
-
-	uint64_t getReadBytes() const { return readBytes; }
-
-private:
-	InputStream* s;
-	uint64_t readBytes;
 };
 
 } // namespace dcpp
