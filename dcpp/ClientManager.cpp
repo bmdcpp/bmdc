@@ -349,6 +349,7 @@ void ClientManager::putOffline(OnlineUser* ou, bool disconnect) noexcept {
 		u->unsetFlag(User::PROTECT);
 		if(disconnect)
 			ConnectionManager::getInstance()->disconnect(u);
+
 		fire(ClientManagerListener::UserDisconnected(), u);
 		if(u.unique())
 		{
@@ -356,7 +357,7 @@ void ClientManager::putOffline(OnlineUser* ou, bool disconnect) noexcept {
 			auto in = nicks.find(u->getCID());
 			if(in != nicks.end())
 			{ nicks.erase(u->getCID());}
-			u.reset();//think =P
+			u.reset();// =P
 		}
 
 	} else if(diff > 1) {
@@ -579,8 +580,7 @@ void ClientManager::on(TimerManagerListener::Minute, uint64_t /* aTick */) noexc
 			if(n != nicks.end())
 				nicks.erase(n);
 			users.erase(i++);
-			//delete i->second.get();
-			i->second.reset ();//think ?
+			i->second.reset();//think ?
 		} else {
 			++i;
 		}
@@ -626,7 +626,7 @@ void ClientManager::updateNick(const OnlineUser& user) noexcept {
 		}
 	}
 }
-
+/*
 void ClientManager::loadUsers() {
 	try {
 		SimpleXML xml;
@@ -646,7 +646,7 @@ void ClientManager::loadUsers() {
 		}
 	} catch(const Exception&) { }
 }
-
+/*
 void ClientManager::saveUsers() const {
 	try {
 		SimpleXML xml;
@@ -677,14 +677,14 @@ void ClientManager::saveUsers() const {
 		File::renameFile(fName + ".tmp", fName);
 	} catch(const Exception&) { }
 }
-
+/*
 void ClientManager::saveUser(const CID& cid) {
 	Lock l(cs);
 	NickMap::iterator i = nicks.find(cid);
 	if(i != nicks.end())
 		i->second.second = true;
 }
-
+*/
 int ClientManager::getMode(const string& aHubUrl) const {
 
 	if(aHubUrl.empty())

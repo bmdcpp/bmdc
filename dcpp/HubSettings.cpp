@@ -32,7 +32,7 @@ const string HubSettings::boolNames[BoolCount] = {
 
 namespace {
 inline bool defined(const string& s) { return !s.empty(); }
-inline bool defined(int b) { return b >= 0 && b <= 2; }
+inline bool defined(int b) { return b > 0 && b <= 2; }
 }
 
 HubSettings::HubSettings() {

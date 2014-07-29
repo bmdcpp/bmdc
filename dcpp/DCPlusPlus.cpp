@@ -120,7 +120,7 @@ void startup(function<void (const string&)> f) {
 	};
 
 	announce(_("Users"));
-	ClientManager::getInstance()->loadUsers();
+	//ClientManager::getInstance()->loadUsers();
 	FavoriteManager::getInstance()->load();
 
 	announce(_("Security certificates"));
@@ -173,7 +173,7 @@ void shutdown() {
 	BufferedSocket::waitShutdown();
 
 	QueueManager::getInstance()->saveQueue(true);
-	ClientManager::getInstance()->saveUsers();
+	//ClientManager::getInstance()->saveUsers();
 	SettingsManager::getInstance()->save();
 
 	HighlightManager::deleteInstance();

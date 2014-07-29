@@ -64,7 +64,6 @@ class Emoticons
 		std::string getCurrPackName_gui() {return currPackName;}
 		void setCurrPackName_gui(const std::string &name) {currPackName = name;}
 		void reloadPack_gui() {create();}
-
 	private:
 		static Emoticons *emoticons;
 

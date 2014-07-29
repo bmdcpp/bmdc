@@ -27,27 +27,27 @@
 
 using namespace std;
 
-//static GtkBuilder *xml = NULL;
-
 Entry::Entry(const EntryType type, const string &ui, const string &id):
 	xml(NULL),
 	type(type),
 	id(dcpp::Util::toString(type) + ":" + id)
 {
-	dcdebug("%s",ui.c_str());
 	if(!ui.empty()) {
-
 	// Load the Builder XML file, if applicable
 	string file = WulforManager::get()->getPath() + "/ui/" + ui + ".ui";
+#if !GTK_CHECK_VERSION(3, 10, 0)
 	GError *error = NULL;
-	//if(xml == NULL)
-		xml = gtk_builder_new();
+	xml = gtk_builder_new();
 	gtk_builder_add_from_file(xml, file.c_str(), &error);
+
 	if(error != NULL)
 	{
 			g_print("[BMDC][GTKBUILDER] ERROR file => %s , => %s\n", file.c_str(), error->message);
 			g_error_free(error);
 	}
+#else
+	xml = gtk_builder_new_from_file(file.c_str());
+#endif		
   }
 }
 
@@ -86,14 +86,6 @@ GtkWidget *Entry::getWidget(const string &name)
 	GtkWidget *widget = GTK_WIDGET(gtk_builder_get_object(xml,name.c_str()));
 	dcassert(widget);
 	return widget;
-}
-
-GtkWidget *Entry::getWidget(string* name)
-{
-	dcassert(xml && !name->empty());
-	GtkWidget *widget = GTK_WIDGET(gtk_builder_get_object(xml,g_strdup(name->c_str())));
-	dcassert(widget);
-    return widget;
 }
 
 void Entry::addChild(Entry *entry)

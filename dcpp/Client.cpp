@@ -226,7 +226,7 @@ bool Client::isActive() const {
 
 
 bool Client::isActiveV4() const {
-	return get(HubSettings::Connection) == true;
+	return ClientManager::getInstance()->isActive(getHubUrl()) && get(HubSettings::Connection) == true;
 }
 
 bool Client::isActiveV6() const {

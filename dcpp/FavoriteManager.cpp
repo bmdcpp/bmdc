@@ -193,7 +193,7 @@ void FavoriteManager::addFavoriteUser(const UserPtr& aUser) {
 		}
 	}
 
-	ClientManager::getInstance()->saveUser(aUser->getCID());
+	//ClientManager::getInstance()->saveUser(aUser->getCID());
 }
 
 void FavoriteManager::removeFavoriteUser(const UserPtr& aUser) {
@@ -697,7 +697,7 @@ void FavoriteManager::load(SimpleXML& aXml) {
 				u = ClientManager::getInstance()->getUser(CID(cid));
 			}
 
-			ClientManager::getInstance()->saveUser(u->getCID());
+			//ClientManager::getInstance()->saveUser(u->getCID());
 			FavoriteMap::iterator i = users.insert(make_pair(u->getCID(), FavoriteUser(u, nick, hubUrl))).first;
 
 			if(aXml.getBoolChildAttrib("GrantSlot"))

@@ -281,6 +281,7 @@ void AdcHub::handle(AdcCommand::MSG, AdcCommand& c) noexcept {
 void AdcHub::handle(AdcCommand::GPA, AdcCommand& c) noexcept {
 	if(c.getParameters().empty())
 		return;
+
 	salt = c.getParam(0);
 	state = STATE_VERIFY;
 
@@ -737,6 +738,7 @@ void AdcHub::privateMessage(const OnlineUser& user, const string& aMessage, bool
 void AdcHub::sendUserCmd(const UserCommand& command, const ParamMap& params) {
 	if(state != STATE_NORMAL)
 		return;
+
 	string cmd = Util::formatParams(command.getCommand(), params, escape);
 	if(command.isChat()) {
 		if(command.getTo().empty()) {
@@ -1038,13 +1040,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 		const vector<uint8_t> kp = CryptoManager::getInstance()->getKeyprint();
 		addParam(lastInfoMap, c, "KP", "SHA256/" + Encoder::toBase32(&kp[0], kp.size()));
 	}
-/*
-	if(CONNSETTING(NO_IP_OVERRIDE) && !getUserIp().empty()) {
-		addParam(lastInfoMap, c, "I4", Socket::resolve(getUserIp(), AF_UNSPEC));
-	} else {
-		addParam(lastInfoMap, c, "I4", "0.0.0.0");
-	}
-*/	
+/*--------
 	if(ClientManager::getInstance()->isActive(getHubUrl())) {
 		addParam(lastInfoMap, c, "U4", SearchManager::getInstance()->getPort());
 		su += "," + TCP4_FEATURE;
@@ -1052,7 +1048,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 	} else {
 		addParam(lastInfoMap, c, "U4", "");
 		su += "," + NAT0_FEATURE;
-	}
+	}*/
 	addParam(lastInfoMap, c, "LC", Util::getIETFLang());
 
 	bool addV4 = !sock->isV6Valid() || ( get(HubSettings::Connection) == true) ;

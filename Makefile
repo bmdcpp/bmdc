@@ -4,7 +4,7 @@ all:
 	scons install
 Release:
 	mkdir -p ${HOME}/BMDC/
-	scons PREFIX=${HOME}/BMDC/ release=1
+	scons PREFIX=${HOME}/BMDC/ release=1 libtar=0
 	scons install
 Debug:
 	mkdir -p ${HOME}/BMDC/

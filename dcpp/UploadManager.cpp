@@ -607,11 +607,11 @@ void UploadManager::on(AdcCommand::GFI, UserConnection* aSource, const AdcComman
 // TimerManagerListener
 void UploadManager::on(TimerManagerListener::Second, uint64_t) noexcept {
 	Lock l(cs);
-	UploadList ticks;
+	//UploadList ticks;
 
 	for(UploadList::iterator u = uploads.begin(); u != uploads.end(); ++u) {
 		if((*u)->getPos() > 0) {
-			ticks.push_back(*u);
+		//	ticks.push_back(*u);
 			(*u)->tick();
 		}
 	}

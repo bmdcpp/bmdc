@@ -433,8 +433,9 @@ if(WGETB("use-highlighting")) {
 			}
 		}
 }//END
-		if(isSet == false)
+		if(isSet == false) {
 			g_object_set(cell,"cell-background-set",TRUE,"cell-background",color.c_str(),NULL);
+		}
 		gchar *title = const_cast<gchar*>(gtk_tree_view_column_get_title(column));
 
 		if(strcmp(title,_("Shared")) == 0)
@@ -1170,6 +1171,7 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 		if (!C_EMPTY(temp))
 		{
 			tagName = temp;
+			g_free(temp);
 			GtkTreeIter iter;
 
 			// Special case: catch nicks in the form <nick> at the beginning of the line.
@@ -1282,7 +1284,7 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 			}
 		}
 
-		g_free(temp);
+		//g_free(temp);
 
 		if(countryTag)
 		{

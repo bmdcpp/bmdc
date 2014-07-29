@@ -166,10 +166,28 @@ void NmdcHub::updateFromTag(Identity& id, const string& tag) {
 			id.set("VE", *i);
 		} else if(i->compare(0, 2, "M:") == 0) {
 			if(i->size() == 3) {
-				if((*i)[2] == 'A')
+				if((*i)[2] == 'A') {
 					id.getUser()->unsetFlag(User::PASSIVE);
-				else
+				}
+				else {
 					id.getUser()->setFlag(User::PASSIVE);
+				}
+			}
+			if(i->size() == 4) {
+
+				if((*i)[2] == 'A') {
+					id.getUser()->unsetFlag(User::PASSIVE);
+				}
+				else {
+					id.getUser()->setFlag(User::PASSIVE);
+				}
+
+				if((*i)[3] == 'A') {
+					id.getUser()->setFlag(User::IPV6);
+				}
+				else {
+					id.getUser()->unsetFlag(User::IPV6);
+				}
 			}
 		}
 	}
@@ -222,9 +240,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		}
 	*/	
 //		iconv_close(test);
-//		if(aLine.length() > SIZE_TEXT)
 		string line = toUtf8(aLine);
-//..		
 		if(line[0] != '<') {
 			fire(ClientListener::StatusMessage(), this, unescape(line));
 			return;
@@ -426,6 +442,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		{
 			u.getIdentity().set("AW", Util::emptyString);
 		}
+
 		if(sock->isV6Valid() && (aMode & 0x80)) {
 			u.getUser()->setFlag(User::IPV6);
 		}	
@@ -1131,7 +1148,7 @@ void NmdcHub::on(Minute, uint64_t aTick) noexcept {
 }
 
 void NmdcHub::password(const string& aPass) {
-	if(!salt.empty()) {//$SaltPass in Support
+	if(!salt.empty()) {//$SaltPass in $Support
 		string filteredPass = fromUtf8(aPass);
 		size_t saltBytes = salt.size() * 5 / 8;
 		uint8_t *buf = new uint8_t[saltBytes];

@@ -32,7 +32,11 @@ class BookEntry : public Entry
 				label(NULL), fItem(NULL), bCreated(true),bold(false), urgent(false), labelSize(20), icon(NULL) , popTabMenuItem(NULL), type((EntryType)0), IsCloseButton(true)  { }
 		BookEntry(const EntryType type, const std::string &text, const std::string &glade, const std::string &id = "");
 		virtual ~BookEntry()
-		{	}
+		{
+			eventBox = NULL;
+			labelBox = NULL;
+
+		}
 
 		GtkWidget *getContainer(); //@ return Main Container of Book
 		GtkWidget *getLabelBox() { return labelBox; }

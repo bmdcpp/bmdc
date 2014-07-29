@@ -10,14 +10,15 @@
 using namespace std;
 
 ShellCommand::ShellCommand(std::string input, int len):
-errormessage(""),thirdPerson(false), resultsize(len), path(WulforManager::get()->getPath()+"/extensions/Scripts/"+input)
+errormessage(""),thirdPerson(false), resultsize(len),
+path(WulforManager::get()->getPath()+"/extensions/Scripts/"+input)
 {
 	if(!dcpp::Util::fileExists(path))
 	{
 		errormessage = output = _("File doesn't exist");
 		return;
 	}
-	output = new char[resultsize];
+	output = new char[resultsize+1];
 	FILE *p = NULL;
 	p = popen( (path).c_str(), "r");
 	fgets(output,resultsize,p);

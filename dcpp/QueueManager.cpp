@@ -1519,7 +1519,7 @@ void QueueManager::saveQueue(bool force) noexcept {
 	// Put this here to avoid very many saves tries when disk is full...
 	lastSave = GET_TICK();
 
-	std::for_each(cids.begin(), cids.end(), [](const CID& cid) { ClientManager::getInstance()->saveUser(cid); });
+	//std::for_each(cids.begin(), cids.end(), [](const CID& cid) { ClientManager::getInstance()->saveUser(cid); });
 }
 
 class QueueLoader : public SimpleXMLReader::CallBack {

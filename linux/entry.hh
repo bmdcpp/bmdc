@@ -61,7 +61,7 @@ class Entry
 			FAV_HUB
 		} EntryType;
 
-		Entry() : xml(NULL), type((EntryType)0) {}
+		Entry() : xml(NULL), type((EntryType)0) { }
 		Entry(const EntryType type, const std::string &ui, const std::string &id = "");
 		virtual ~Entry();
 

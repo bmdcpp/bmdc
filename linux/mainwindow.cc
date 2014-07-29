@@ -154,7 +154,7 @@ MainWindow::MainWindow():
 	if (WGETI("toolbar-position") == 1)
 	{
 		box = GTK_BOX(getWidget("vbox1"));
-		 gtk_orientable_set_orientation(GTK_ORIENTABLE(child), GTK_ORIENTATION_HORIZONTAL);
+		gtk_orientable_set_orientation(GTK_ORIENTABLE(child), GTK_ORIENTATION_HORIZONTAL);
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("topToolbarItem")), TRUE);
 		pos = 1;
 	}

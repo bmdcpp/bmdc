@@ -490,6 +490,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 		if (!C_EMPTY(temp))
 		{
 			tagName = temp;
+			g_free(temp);
 			bool notlink = FALSE;
 
 			if(g_ascii_strncasecmp(tagName.c_str(), "[ccc]", 5) == 0)
@@ -529,7 +530,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 
 		}
 
-		g_free(temp);
+		//g_free(temp);
 
 		if(isCountryFlag)
 		{

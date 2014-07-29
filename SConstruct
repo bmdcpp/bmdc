@@ -26,8 +26,9 @@ LIB_IS_TAR = False
 LIB_HAVE_XATTR = False
 # , '-Werror' ,'-Wfatal-errors'
 #'-fno-stack-protector',
+#,'-DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED','-DGSEAL_ENABLE'
 BUILD_FLAGS = {#'-Wno-unused-parameter','-Wno-unused-value',
-	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib','-ldl', '-pipe','-DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED','-DGSEAL_ENABLE','-DUSE_STACKTRACE'], #,'-fpermissive' ],
+	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib','-ldl', '-pipe','-DUSE_STACKTRACE'], #,'-fpermissive' ],
 	'debug'   : ['-O1','-g', '-ggdb', '-Wall', '-D_DEBUG'],
 	'release' : ['-O3', '-fomit-frame-pointer', '-DNDEBUG']
 }
@@ -322,6 +323,11 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	env.Append(LIBS = 'natpmp')
 	env.Append(CPPPATH = '#/miniupnp')
 	env.Append(LIBS = 'miniupnpc')
+
+	#debuging stuff
+	#env.Append(LIBS = ['tcmalloc'])
+	#env.Append(LINKFLAGS='-ltcmalloc')
+	
 	
 	if LIB_HAVE_XATTR:
 		env.Append(LIBS='attr')
