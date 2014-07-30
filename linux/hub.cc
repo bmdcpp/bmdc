@@ -3711,7 +3711,7 @@ void Hub::addAsFavorite_client()
 		FavoriteHubEntry entry;
 		entry.setServer(client->getHubUrl());
 		entry.setName(client->getHubName());
-		entry.get(HubSettings::Description) = client->getHubDescription();
+		entry.get(HubSettings::Description) = client->get(HubSettings::Description);
 		entry.get(HubSettings::Nick) = client->getMyNick();
 		entry.setEncoding(encoding);
 		if(!client->getPassword().empty())
