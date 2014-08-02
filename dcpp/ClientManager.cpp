@@ -478,6 +478,8 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 									int aFileType, const string& aString) noexcept
 {
 	Speaker<ClientManagerListener>::fire(ClientManagerListener::IncomingSearch(), aString);
+	if(aSeeker.empty())return;
+
 
 	bool isPassive = (aSeeker.compare(0, 4, "Hub:") == 0);
 

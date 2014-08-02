@@ -155,7 +155,7 @@ void startup(function<void (const string&)> f) {
 
 void shutdown() {
 	RsxUtil::uinit();
-        PluginApiImpl::shutdown();
+    PluginApiImpl::shutdown();
 #ifdef HAVE_LIBTAR
 	ExportManager::deleteInstance();
 	RestoreManager::deleteInstance();
@@ -173,12 +173,11 @@ void shutdown() {
 	BufferedSocket::waitShutdown();
 
 	QueueManager::getInstance()->saveQueue(true);
-	//ClientManager::getInstance()->saveUsers();
 	SettingsManager::getInstance()->save();
 
 	HighlightManager::deleteInstance();
 	DetectionManager::deleteInstance();
-
+	PluginManager::deleteInstance();//
 	GeoManager::deleteInstance();
 	MappingManager::deleteInstance();
 	ConnectivityManager::deleteInstance();

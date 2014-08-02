@@ -30,25 +30,26 @@ template<typename T>
 bool match(const T& text, const T& pattern, bool ignoreCase = true) /*throw()*/ {
 	if(pattern.empty())
 		return false;
+	if(text.empty())
+		return false;	
 
-	try {
-		const char *error;
-		int   erroffset;
-		pcre *re;
-		int rc;
-		int ovector[OVECCOUNT];
-		re = pcre_compile (
+	const char *error;
+	int   erroffset;
+	pcre *re;
+	int rc;
+	int ovector[OVECCOUNT];
+	re = pcre_compile (
              pattern.c_str(),       /* the pattern */
              ignoreCase ? PCRE_CASELESS : 0,           /* default options */
              &error,      /* for error message */
              &erroffset,   /* for error offset */
              0);           /* use default character tables */
-		if (!re) {
+	if (!re) {
 			printf("pcre_compile failed (offset: %d), %s\n", erroffset, error);
 			return false;
-		}
+	}
 
-		rc = pcre_exec (
+	rc = pcre_exec (
         re,                   /* the compiled pattern */
         0,                    /* no extra data - pattern was not studied */
         text.c_str(),                  /* the string to match */
@@ -58,19 +59,20 @@ bool match(const T& text, const T& pattern, bool ignoreCase = true) /*throw()*/ 
         ovector,              /* output vector for substring information */
         OVECCOUNT);           /* number of elements in the output vector */
 
-		if (rc < 0) {
-        switch (rc) {
+	if (rc < 0) {
+       switch (rc) {
             case PCRE_ERROR_NOMATCH:
                 dcdebug("String didn't match");
                 free(re);
 				return false;
             default:
                 printf("Error while matching: %d\n", rc);
+                free(re);
+                return false;
         }
         free(re);
         return true;
     }
-	} catch(...) { /* ... */ }
 	return false;
 }
 

@@ -72,11 +72,11 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
         gtk_button_set_focus_on_click(GTK_BUTTON(closeButton), FALSE);
 
         // Shrink the padding around the close button
-		GtkCssProvider *provider =  gtk_css_provider_new();
+		GtkCssProvider *provider =  gtk_css_provider_get_default ();
 		GdkDisplay *display = gdk_display_get_default ();
 		GdkScreen *screen = gdk_display_get_default_screen (display);
 		gtk_style_context_add_provider_for_screen (screen, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-
+		gdk_display_close (display);
 		gtk_css_provider_load_from_data(provider,".button {\n"
                 "-GtkButton-default-border : 0px;\n"
                 "-GtkButton-default-outside-border : 0px;\n"
@@ -298,10 +298,9 @@ void BookEntry::removeBooK_GUI()
 
 GtkWidget *BookEntry::createmenu()
 {
-    GtkWidget *closeTabMenuItem = NULL;
     popTabMenuItem = gtk_menu_new();
     if(!IsCloseButton) {
-		closeTabMenuItem = gtk_menu_item_new_with_label(_("Close"));
+		GtkWidget *closeTabMenuItem = gtk_menu_item_new_with_label(_("Close"));
 		gtk_menu_shell_append(GTK_MENU_SHELL(popTabMenuItem),closeTabMenuItem);
 		gtk_widget_show(closeTabMenuItem);
 		g_signal_connect_swapped(closeTabMenuItem, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
@@ -336,7 +335,6 @@ gboolean BookEntry::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *even
 
 GtkWidget *BookEntry::createItemFirstMenu()
 {
-	GtkWidget *item = NULL;
 	string stock, info;
 	if(bCreated) {
 		switch (this->type)
@@ -404,15 +402,16 @@ GtkWidget *BookEntry::createItemFirstMenu()
 					break;
 			default: ;
 		}
-		#if GTK_CHECK_VERSION(3,9,0)
-			item = gtk_menu_item_new();
-		#else
-			item = gtk_image_menu_item_new_from_stock(stock.c_str(),NULL);
-		#endif
-			gtk_menu_item_set_label(GTK_MENU_ITEM(item),info.c_str());
 		bCreated = false;
+		#if GTK_CHECK_VERSION(3,9,0)
+			GtkWidget *item = NULL;
+			item = gtk_menu_item_new();
+			gtk_menu_item_set_label(GTK_MENU_ITEM(item),info.c_str());
+			return item;
+		#else
+			return gtk_image_menu_item_new_from_stock(stock.c_str(),NULL);	
+		#endif
 	}	
-	return item;
 }
 
 void BookEntry::setBackForeGround(const EntryType type)
