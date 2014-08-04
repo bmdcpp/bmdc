@@ -125,7 +125,9 @@ int main(int argc, char *argv[])
 
 	Splash* sp = new Splash();
 	sp->show();
-	dcpp::startup([sp](const string& str){ sp->setText(str); sp->update(); } );
+	dcpp::startup();
+	dcpp::load([sp](const string& str){ sp->setText(str); sp->update(); },
+	[sp](const float& str){ sp->setPercentage(str); sp->update(); }  );
 	sp->destroy();
 	delete sp;
 	dcpp::TimerManager::getInstance()->start();

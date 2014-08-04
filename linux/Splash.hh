@@ -21,13 +21,14 @@
 #define _BMDC_SPLASH_HH_
 #include <iostream>
 #include <gtk/gtk.h>
-
+#include <dcpp/Util.h>
 using namespace std;
-
+using namespace dcpp;
 class Splash
 {
 	public:
-		Splash() : Text("") ,win(NULL), label(NULL), box(NULL), image(NULL) { }
+		Splash() : Text("") , percentage("0")
+		,win(NULL), label(NULL), box(NULL), image(NULL) { }
 		void show() {
 			win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 			gtk_window_set_decorated(GTK_WINDOW(win),FALSE);
@@ -58,17 +59,21 @@ class Splash
 						Text = text;
 						cout << "Loading: " << text << endl;
 					}
+	void setPercentage(const float& ii)
+	{
+		percentage = Util::toString(ii);
+		
+	}					
 
 	void update() {
-						gtk_label_set_text(GTK_LABEL(label),("Loading ..."+Text).c_str());
-						 //while (gtk_events_pending ())
-						//	gtk_main_iteration_do (FALSE);
-						while (g_main_context_iteration(NULL, FALSE));
+					gtk_label_set_text(GTK_LABEL(label),("Loading ..."+Text+" "+percentage+" %s").c_str());
+					while (g_main_context_iteration(NULL, FALSE));
 			 }
 	void destroy() { gtk_widget_destroy(win); }
 
 	private:
 		string Text;
+		string percentage;
 		GtkWidget *win;
 		GtkWidget *label;
 		GtkWidget *box;

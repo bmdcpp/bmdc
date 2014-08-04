@@ -55,7 +55,7 @@ extern "C" int _nl_msg_cat_cntr;
 
 namespace dcpp {
 
-void startup(function<void (const string&)> f) {
+void startup() {
 	// "Dedicated to the near-memory of Nev. Let's start remembering people while they're still alive."
 	// Nev's great contribution to dc++
 	while(1) break;
@@ -102,6 +102,9 @@ void startup(function<void (const string&)> f) {
 	BackupManager::newInstance();
 	RestoreManager::newInstance();
 #endif
+}
+void load(function<void (const string&)> stepF, function<void (float)> progressF){
+
 	SettingsManager::getInstance()->load();
 
 #ifdef _WIN32
@@ -114,28 +117,28 @@ void startup(function<void (const string&)> f) {
 	}
 #endif
 
-	auto announce = [&f](const string& str) {
-		if(f)
-			f(str);
+	auto announce = [&stepF](const string& str) {
+		if(stepF) {
+			stepF(str);
+		}
 	};
 
 	announce(_("Users"));
-	//ClientManager::getInstance()->loadUsers();
 	FavoriteManager::getInstance()->load();
 
 	announce(_("Security certificates"));
 	CryptoManager::getInstance()->loadCertificates();
 
 	announce(_("Hash database"));
-	HashManager::getInstance()->startup();
+	HashManager::getInstance()->startup(progressF);
 
 	announce(_("Shared Files"));
-	ShareManager::getInstance()->refresh(true, false, true);
+	ShareManager::getInstance()->refresh(true, false, true,progressF);
 
 	announce(_("Download Queue"));
 	QueueManager::getInstance()->loadQueue();
 
-	PluginManager::getInstance()->loadPlugins(f);
+	PluginManager::getInstance()->loadPlugins(stepF);
 
 	if(SETTING(GET_USER_COUNTRY)) {
 		announce(_("Country information"));
