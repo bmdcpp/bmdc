@@ -57,8 +57,8 @@ const string GeoIP::getCountryAB(const string& ip) const {
         auto id = v6() ? GeoIP_id_by_addr_v6(geo,ip.c_str()) : GeoIP_id_by_addr(geo,ip.c_str());
         if(id > 0)
         {
-            string code = GeoIP_code_by_id(id);
-            return code;
+            //string code = GeoIP_code_by_id(id);
+            return GeoIP_code_by_id(id);
         }
      }
     return Util::emptyString;
@@ -99,7 +99,7 @@ string getGeoInfo(int id, GEOTYPE type) {
 void GeoIP::rebuild() {
 	Lock l(cs);
 	if(geo) {
-		const auto& setting = SETTING(COUNTRY_FORMAT);
+		const string& setting = SETTING(COUNTRY_FORMAT);
 
 		auto size = GeoIP_num_countries();
 		cache.resize(size);
@@ -153,7 +153,7 @@ void GeoIP::close() {
 	cache.clear();
 
 	GeoIP_delete(geo);
-	geo = 0;
+	geo = NULL;
 }
 
 bool GeoIP::v6() const {

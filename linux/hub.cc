@@ -60,7 +60,7 @@ Hub::Hub(const string &address, const string &encoding):
 	FavoriteHubEntry* faventry =  FavoriteManager::getInstance()->getFavoriteHubEntry(address);
 
 	// Initialize nick treeview
-	nickView.setView(GTK_TREE_VIEW(getWidget("nickView")), /*true*/false, "hub");
+	nickView.setView(GTK_TREE_VIEW(getWidget("nickView")), false, "hub");
 	nickView.insertColumn(_("Nick"), G_TYPE_STRING, TreeView::ICON_STRING_TEXT_COLOR, 100, "Icon", "NickColor");
 	nickView.insertColumn(_("Shared"), G_TYPE_INT64, TreeView::SIZE, 75);
 	nickView.insertColumn(_("Description"), G_TYPE_STRING, TreeView::STRING, 85);
@@ -1294,7 +1294,7 @@ void Hub::applyTags_gui(const string &cid, const string &line)
                 GdkPixbuf *buffer = WulforUtil::LoadCountryPixbuf(country_text);
                 if(buffer != NULL)
 				{
-					gtk_text_buffer_delete(chatBuffer, &tag_start_iter, &tag_end_iter);
+				/*	gtk_text_buffer_delete(chatBuffer, &tag_start_iter, &tag_end_iter);
 					GtkTextChildAnchor *anchor = gtk_text_buffer_create_child_anchor(chatBuffer, &tag_start_iter);
 					GtkWidget *event_box = gtk_event_box_new();
 	//          Creating a visible window may cause artifacts that are visible to the user.
@@ -1303,9 +1303,11 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 					gtk_container_add(GTK_CONTAINER(event_box),image);
 					gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW(getWidget("chatText")), event_box, anchor);
 					gtk_widget_show_all(event_box);
-					gtk_widget_set_tooltip_text(event_box, country_text.c_str());
+					gtk_widget_set_tooltip_text(event_box, country_text.c_str());*/
+					gtk_text_buffer_delete(chatBuffer,&tag_start_iter,&tag_end_iter);
+					gtk_text_buffer_insert_pixbuf(chatBuffer, &tag_start_iter , buffer);
 				}
-				g_object_unref(buffer);
+				//g_object_unref(buffer);
             }
 
 		}

@@ -628,65 +628,6 @@ void ClientManager::updateNick(const OnlineUser& user) noexcept {
 		}
 	}
 }
-/*
-void ClientManager::loadUsers() {
-	try {
-		SimpleXML xml;
-		xml.fromXML(File(getUsersFile(), File::READ, File::OPEN).read());
-
-		if(xml.findChild("Users")) {
-			xml.stepIn();
-
-			{
-				Lock l(cs);
-				while(xml.findChild("User")) {
-					nicks[CID(xml.getChildAttrib("CID"))] = std::make_pair(xml.getChildAttrib("Nick"), false);
-				}
-			}
-
-			xml.stepOut();
-		}
-	} catch(const Exception&) { }
-}
-/*
-void ClientManager::saveUsers() const {
-	try {
-		SimpleXML xml;
-		xml.addTag("Users");
-		xml.stepIn();
-
-		{
-			Lock l(cs);
-			for(auto i = nicks.begin(), iend = nicks.end(); i != iend; ++i) {
-				if(i->second.second) {
-					xml.addTag("User");
-					xml.addChildAttrib("CID", i->first.toBase32());
-					xml.addChildAttrib("Nick", i->second.first);
-				}
-			}
-		}
-
-		xml.stepOut();
-
-		const string fName = getUsersFile();
-		File out(fName + ".tmp", File::WRITE, File::CREATE | File::TRUNCATE);
-		BufferedOutputStream<false> f(&out);
-		f.write(SimpleXML::utf8Header);
-		xml.toXML(&f);
-		f.flush();
-		out.close();
-		File::deleteFile(fName);
-		File::renameFile(fName + ".tmp", fName);
-	} catch(const Exception&) { }
-}
-/*
-void ClientManager::saveUser(const CID& cid) {
-	Lock l(cs);
-	NickMap::iterator i = nicks.find(cid);
-	if(i != nicks.end())
-		i->second.second = true;
-}
-*/
 int ClientManager::getMode(const string& aHubUrl) const {
 
 	if(aHubUrl.empty())
@@ -712,9 +653,13 @@ void ClientManager::setIpAddress(const UserPtr& p, const string& ip) {
     Lock l(cs);
 	OnlineIterC i = onlineUsers.find(p->getCID());
 	if(i != onlineUsers.end()) {
-		i->second->getIdentity().set("I4", ip);
+		bool ipv6 = false;	
 		if(ip.find_first_of(':') != ip.find_last_of(':')) {//ipv6
-				i->second->getIdentity().set("I6", ip);
+			i->second->getIdentity().set("I6", ip);
+			ipv6 = true;
+		}
+		if( ipv6 == false) {
+			i->second->getIdentity().set("I4", ip);
 		}
 		fire(ClientManagerListener::UserUpdated(),(dynamic_cast<const OnlineUser&>(*i->second)));
 	}

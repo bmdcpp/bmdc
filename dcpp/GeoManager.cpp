@@ -72,16 +72,16 @@ const string GeoManager::getCountryAbbrevation(const string& ip, int flags)
 	{
 		if((flags & V6) && geo6.get()) {
 		const string& ret = geo6->getCountryAB(ip);
-		if(!ret.empty())
+		if(!ret.empty()) {
 			return ret;
 		}
 		if((flags & V4) && geo4.get()) {
 			return geo4->getCountryAB(ip);
 		}
+	  }	
 	}
 	return Util::emptyString;
 }
-
 string GeoManager::getDbPath(bool v6) {
 	return Util::getPath(Util::PATH_USER_LOCAL) + (v6 ? "GeoIPv6.dat" : "GeoIP.dat");
 }

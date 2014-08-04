@@ -74,7 +74,7 @@ ShareManager::ShareManager() : hits(0), xmlListLen(0), bzXmlListLen(0),
 		emptyXmlFile.write("<FileListing Version=\"1\" CID=\"" + ClientManager::getInstance()->getMe()->getCID().toBase32() + "\" Base=\"/\" Generator=\"BMDC++ " VERSIONSTRING "\">\r\n");
 		emptyXmlFile.write("</FileListing>");
 		emptyXmlFile.flush();
-	}
+	}//no reason create this on every refresh
 	
 }
 
@@ -148,9 +148,9 @@ int64_t ShareManager::Directory::getSize() const noexcept {
 }
 
 string ShareManager::toVirtual(const TTHValue& tth) const {
-	if(bzXmlRoot && tth == *bzXmlRoot) {
+	if( (bzXmlRoot != NULL ) && (tth == *bzXmlRoot)) {
 		return Transfer::USER_LIST_NAME_BZ;
-	} else if(xmlRoot && tth == *xmlRoot) {
+	} else if((xmlRoot != NULL) && (tth == *xmlRoot)) {
 		return Transfer::USER_LIST_NAME;
 	}
 
@@ -235,8 +235,8 @@ MemoryInputStream* ShareManager::getTree(const string& virtualFile) const {
 			return nullptr;
 	} else {
 		try {
-			auto tth = getTTH(virtualFile);
-			if(!tth) { return nullptr; }
+			TTHValue* tth = getTTH(virtualFile);
+			if(tth == NULL) { return nullptr; }
 			HashManager::getInstance()->getTree(*tth, tree);
 		} catch(const Exception&) {
 			return nullptr;
@@ -521,7 +521,7 @@ void ShareManager::removeDirectory(const string& realPath) {
 		return;
 	}
 
-	auto vName = i->second;
+	string vName = i->second;
 	directories.erase(vName);
 
 	shares.erase(i);
@@ -1427,7 +1427,7 @@ void ShareManager::on(HashManagerListener::TTHDone, const string& realPath, cons
 	Lock l(cs);
 	auto f = getFile(realPath);
 	if(f) {
-		if(f->tth && root != (*f->tth)){
+		if( (f->tth != NULL) && (root != (*f->tth)) ){
 			tthIndex.erase(*(f->tth));
 		}	
 		const_cast<Directory::File&>(*f).tth = const_cast<TTHValue*>(&root);

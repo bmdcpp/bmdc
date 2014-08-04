@@ -809,7 +809,7 @@ FavoriteHubEntryPtr FavoriteManager::getFavoriteHubEntry(const string& aServer) 
 			return hub;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 FavoriteHubEntryList FavoriteManager::getFavoriteHubs(const string& group) const {

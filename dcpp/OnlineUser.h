@@ -153,7 +153,7 @@ public:
 	//CMD
 	string setCheat(const string& aCheat, bool aBadClient, bool aBadFilelist = false, bool aDisplayCheat = true)
 	{
-        return identity.setCheat(client,aCheat,aBadClient, aBadFilelist, aDisplayCheat);
+        return identity.setCheat(client,aCheat, aBadClient, aBadFilelist, aDisplayCheat);
 	}
 
 	bool isProtectedUser(bool checkOp = true) const {
