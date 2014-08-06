@@ -675,6 +675,7 @@ void Hub::updateUser_gui(ParamMap params)
 	const string &nickOrder = params["Nick Order"];
 	bool favorite = userFavoriteMap.find(cid) != userFavoriteMap.end();
 	//[BMDC++
+/*
 	bool isIn = users.find(cid) != users.end();
 	bool isOperator = false;
 	bool isPasive = false;
@@ -687,7 +688,7 @@ void Hub::updateUser_gui(ParamMap params)
 		isIgnore = it->second == FlagUser::FLAG_IGNORE;
 		isProtected = it->second == FlagUser::FLAG_PROTECT;
 	}
-
+*/
 	if (findUser_gui(cid, &iter))
 	{
 		totalShared += shared - nickView.getValue<int64_t>(&iter, _("Shared"));
@@ -703,14 +704,14 @@ void Hub::updateUser_gui(ParamMap params)
 			// update favorite
 			if (favorite)
 				userFavoriteMap[cid] = Nick;
-			if(isProtected)
+			/*if(isProtected)
 				users[cid] = FlagUser::FLAG_PROTECT;
 			if(isIgnore)
 				users[cid] = FlagUser::FLAG_IGNORE;
 			if(isPasive)
 				users[cid] = FlagUser::FLAG_PASIVE;
 			if(isOperator)
-				users[cid] = FlagUser::FLAG_OP;
+				users[cid] = FlagUser::FLAG_OP;*/
 		}
 
 		gtk_list_store_set(nickStore, &iter,
@@ -806,7 +807,7 @@ void Hub::removeUser_gui(string cid)
 		removeTag_gui(nick);
 		userMap.erase(nick);
 		//BMDC++
-		users.erase(cid);
+//		users.erase(cid);
 		userFavoriteMap.erase(nick);
 		userIters.erase(cid);
 		setStatus_gui("statusUsers", Util::toString(userMap.size()) + _(" Users"));
@@ -854,7 +855,7 @@ void Hub::clearNickList_gui()
 	gtk_list_store_clear(nickStore);
 	userMap.clear();
 	//BMDC++
-	users.clear();
+	//users.clear();
 	userFavoriteMap.clear();
 	//END
 	userIters.clear();
@@ -1307,7 +1308,6 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 					gtk_text_buffer_delete(chatBuffer,&tag_start_iter,&tag_end_iter);
 					gtk_text_buffer_insert_pixbuf(chatBuffer, &tag_start_iter , buffer);
 				}
-				//g_object_unref(buffer);
             }
 
 		}
@@ -2342,8 +2342,8 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if (command == "fuser" || command == "fu")
 		{
-			if (hub->client->getMyNick() == params)
-				return;
+			if (hub->client->getMyNick() == params)//dont add yoursefl
+					return;
 
 			if (hub->userMap.find(param) != hub->userMap.end())
 			{
@@ -3405,7 +3405,7 @@ void Hub::removeFavoriteUser_gui(ParamMap params)
 		WulforManager::get()->getMainWindow()->addPrivateStatusMessage_gui(Msg::STATUS, cid, message);
 	}
 }
-
+/*
 void Hub::addPasive_gui(ParamMap params)
 {
 	const string &cid = params["CID"];
@@ -3449,16 +3449,16 @@ void Hub::addOperator_gui(ParamMap params)
 		}
 	}
 }
-
+*/
 void Hub::addProtected_gui(ParamMap params)
 {
 	const string &cid = params["CID"];
 
-	if(users.find(cid) == users.end())
+	//if(users.find(cid) == users.end())
 	{
 		GtkTreeIter iter;
 		const string &nick = params["Nick"];
-		users.insert(UserFlags::value_type(cid, FlagUser::FLAG_PROTECT));
+		//users.insert(UserFlags::value_type(cid, FlagUser::FLAG_PROTECT));
 
 		// resort users
 		if (findUser_gui(cid, &iter))
@@ -3476,11 +3476,11 @@ void Hub::addIgnore_gui(ParamMap params)
 {
 	const string &cid = params["CID"];
 
-	if (users.find(cid) == users.end())
+	//if (users.find(cid) == users.end())
 	{
 		GtkTreeIter iter;
 		const string &nick = params["Nick"];
-		users.insert(UserFlags::value_type(cid, FlagUser::FLAG_IGNORE));
+//		users.insert(UserFlags::value_type(cid, FlagUser::FLAG_IGNORE));
 
 		// resort users
 		if (findUser_gui(cid, &iter))
@@ -3497,13 +3497,13 @@ void Hub::addIgnore_gui(ParamMap params)
 void Hub::removeIgnore_gui(ParamMap params)
 {
     const string &cid = params["CID"];
-	std::unordered_map<std::string, int >::iterator it;
-    if( (it = users.find(cid))!= users.end())
+	//std::unordered_map<std::string, int >::iterator it;
+    //if( (it = users.find(cid))!= users.end())
     {
        GtkTreeIter iter;
-        if(findUser_gui(cid,&iter) && it->second == FlagUser::FLAG_IGNORE)
+        if(findUser_gui(cid,&iter))
         {
-			it->second = 0;
+			//it->second = 0;
             gtk_list_store_set(nickStore,&iter,
                                nickView.col("NickColor"), WGETS("userlist-text-normal").c_str(),
                                nickView.col("Client Type"), ("U"+params["nick"]).c_str(),

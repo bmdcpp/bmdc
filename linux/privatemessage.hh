@@ -125,8 +125,8 @@ class PrivateMessage:
 		gint totalEmoticons;
 		EmoticonsDialog *emotdialog;
 		UserCommandMenu *userCommandMenu;
-		bool offline;
 		std::string ip;
+		bool offline;
 		bool notCreated;
 
 };

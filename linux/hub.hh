@@ -69,21 +69,10 @@ class Hub:
 		}
 
 	private:
-		//this represent state of user and nick of it
-		enum FlagUser
-		{
-			FLAG_OP = 1,
-			FLAG_PASIVE = 2,
-			FLAG_IGNORE = 3,
-			FLAG_PROTECT = 4,
-			FLAG_FAVORITE = 5
-		};
-
 		typedef std::map<std::string, std::string> ParamMap;
 		typedef std::unordered_map<std::string, std::string> UserMap;
 		typedef std::unordered_map<GtkWidget*, std::string> ImageList;
 		typedef std::pair<std::string, GtkWidget*> ImageLoad;
-		typedef std::unordered_map<std::string, int > UserFlags; //for flags
 
 		// GUI functions
 		void setStatus_gui(std::string statusBar, std::string text);
@@ -108,8 +97,6 @@ class Hub:
 		void addFavoriteUser_gui(ParamMap params);
 		void removeFavoriteUser_gui(ParamMap params);
 		//BMDC++
-		void addPasive_gui(ParamMap params);
-		void addOperator_gui(ParamMap params);
 		void addProtected_gui(ParamMap params);
 		void addIgnore_gui(ParamMap params);
 
@@ -251,7 +238,7 @@ class Hub:
 		virtual void on(dcpp::ClientListener::ClientLine, dcpp::Client* , const std::string &mess, int type) noexcept;
 		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) noexcept;
 
-		UserFlags users;//for OP flag etc
+		//UserFlags users;//for OP flag etc
 		UserMap userMap;
 		UnMapIter userIters;
 		UserMap userFavoriteMap;

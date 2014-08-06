@@ -127,13 +127,13 @@ int RawManager::getValidAction(int actionId) {
 	return 0;
 }
 
-tstring RawManager::getNameActionId(int actionId) {
+string RawManager::getNameActionId(int actionId) {
 	Lock l(cs);
 	for(auto i = actions.begin(); i != actions.end(); ++i) {
 		if((*i)->getId() == actionId)
 			return Text::toT((*i)->getName());
 	}
-	return Text::toT("Undefined Action");
+	return _("Undefined Action");
 }
 
 Action* RawManager::addAction(int id, const std::string& name, bool enabled) throw(Exception) {
@@ -199,11 +199,11 @@ Action* RawManager::findAction(const std::string& name) noexcept {
 		if(Util::stricmp(name, (*i)->getName()) == 0)
 			return *i;
 	}
-	return NULL;
+	return nullptr;
 }
 
 void RawManager::addRaw(Action* a, Raw& r) throw(Exception) {
-	if(a == NULL) return;//; NULL; // nothing to do
+	if(a == NULL) return; // nothing to do
 
 	if(r.getName().empty())
 		throw Exception("NO NAME SPECIFIED");

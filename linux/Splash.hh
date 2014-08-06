@@ -62,11 +62,10 @@ class Splash
 	void setPercentage(const float& ii)
 	{
 		percentage = Util::toString(ii);
-		
 	}					
 
 	void update() {
-					gtk_label_set_text(GTK_LABEL(label),("Loading ..."+Text+" "+percentage+" %s").c_str());
+					gtk_label_set_text(GTK_LABEL(label),("Loading ..."+Text+" "+percentage+" %").c_str());
 					while (g_main_context_iteration(NULL, FALSE));
 			 }
 	void destroy() { gtk_widget_destroy(win); }

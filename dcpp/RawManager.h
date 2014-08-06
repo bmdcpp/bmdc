@@ -46,7 +46,7 @@ public:
 	void loadActionRaws();
 	void saveActionRaws();
 
-	tstring getNameActionId(int actionId);
+	string getNameActionId(int actionId);
 	int getValidAction(int actionId);
 
 private:

@@ -24,13 +24,13 @@
 using namespace std;
 using namespace dcpp;
 
-notepad::notepad():
+Notepad::Notepad():
 BookEntry(Entry::NOTEPAD, _("Notepad"), "notepad.glade")
 {
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("textview1")));
 }
 
-notepad::~notepad()
+Notepad::~Notepad()
 {
 	GtkTextIter start;
 	GtkTextIter end;
@@ -57,12 +57,12 @@ notepad::~notepad()
 
 }
 
-void notepad::add_gui(string file)
+void Notepad::add_gui(string file)
 {
 	gtk_text_buffer_set_text (buffer, file.c_str(), -1);
 }
 
-void notepad::ini_client()
+void Notepad::ini_client()
 {
 	try {
 		string path = dcpp::Util::getNotepadFile();
@@ -79,7 +79,7 @@ void notepad::ini_client()
 	}
 }
 
-void notepad::show()
+void Notepad::show()
 {
     ini_client();
 }

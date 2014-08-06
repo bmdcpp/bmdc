@@ -1024,7 +1024,7 @@ void MainWindow::showSystemLog_gui()
 
 void MainWindow::showNotepad_gui()
 {
-	showBook(Entry::NOTEPAD, new notepad());
+	showBook(Entry::NOTEPAD, new Notepad());
 	setStatusOfIcons(NOTEPAD, true);
 }
 

@@ -28,9 +28,9 @@ namespace dcpp {
 using std::function;
 using std::string;
 
-/*extern */void startup();
+void startup();
 void load(function<void (const string&)> stepF, function<void (float)> progressF);
-/*extern*/ void shutdown();
+void shutdown();
 
 } // namespace dcpp
 
