@@ -249,8 +249,8 @@ MainWindow::MainWindow():
 	g_free(comments);
 
 	// set logo 96x96
-	GtkIconTheme *iconTheme = gtk_icon_theme_get_default();
-	GdkPixbuf *logo = gtk_icon_theme_load_icon(iconTheme, g_get_prgname(), 96, GTK_ICON_LOOKUP_FORCE_SVG, NULL);
+	//GtkIconTheme *iconTheme = gtk_icon_theme_get_default();
+	GdkPixbuf *logo = gtk_icon_theme_load_icon(WulforUtil::icon_theme, g_get_prgname(), 96, GTK_ICON_LOOKUP_FORCE_SVG, NULL);
 
 	if (logo != NULL)
 	{
@@ -630,7 +630,7 @@ void MainWindow::onLimitingDisable(GtkWidget *widget, gpointer data)
 	MainWindow *mw = (MainWindow *)data;
 	string type = (gchar *)g_object_get_data(G_OBJECT(widget), "type");
 
-	if(type.empty() || type.empty())
+	if(type.empty())
 		return;
 	
 	if(type == "dw")
@@ -776,9 +776,8 @@ void MainWindow::removeBookEntry_gui(BookEntry *entry)
 
 void MainWindow::removeItemFromList(Entry::EntryType type, string id)
 {
-	vector<Hub*> hubs;
-	vector<PrivateMessage*> pms;
-	vector<Search*> searchs;
+	vector<Entry*> hubs;
+	vector<Entry*> pms;
 	switch(type)
 	{
 		case Entry::FAVORITE_HUBS:
@@ -815,8 +814,7 @@ void MainWindow::removeItemFromList(Entry::EntryType type, string id)
 			if(Hubs.empty()) break;
 			 for(auto it = Hubs.begin();it != Hubs.end();++it)
 			 {
-				 Hub *hub = *it;
-				 string hubId = (dynamic_cast<Entry*>(hub))->getID();
+				 string hubId = (*it)->getID();
 				 if(hubId == id)
 					 continue;
 				hubs.push_back(*it);
@@ -827,7 +825,7 @@ void MainWindow::removeItemFromList(Entry::EntryType type, string id)
 			if(privateMessage.empty()) break;
 			for(auto it = privateMessage.begin();it != privateMessage.end();++it)
 			 {
-				 string pId = (dynamic_cast<Entry*>(*it))->getID();
+				 string pId = (*it)->getID();
 				 if(pId == id)
 					 continue;
 				pms.push_back(*it);
@@ -1073,7 +1071,7 @@ void MainWindow::showHub_gui(string address, string encoding)
 		addBookEntry_gui(entry);
 
 		EntryList.push_back(address);
-		Hubs.push_back(dynamic_cast<Hub *>(entry));
+		Hubs.push_back(dynamic_cast<Entry*>(entry));
 	}
 
 	raisePage_gui(entry->getContainer());
@@ -1106,7 +1104,7 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 		addBookEntry_gui(entry);
 
 		EntryList.push_back(cid);
-		privateMessage.push_back(dynamic_cast<PrivateMessage*>(entry));
+		privateMessage.push_back(dynamic_cast<Entry*>(entry));
 	}
 
 	if(!message.empty() && hubUrl.empty())
@@ -2936,7 +2934,7 @@ void MainWindow::onCloseAllHub_gui(GtkWidget *widget, gpointer data)
 
 	while(!mw->Hubs.empty())
 	{
-		Hub *hub = mw->Hubs.back();
+		Hub *hub = dynamic_cast<Hub*>(mw->Hubs.back());
 		if(hub == NULL) continue;//should never hapen but :-D
 		typedef Func1<MainWindow,BookEntry*> F1;
 		F1 *func = new F1(mw,&MainWindow::removeBookEntry_gui,hub);
@@ -2953,7 +2951,7 @@ void MainWindow::onCloseAllPM_gui(GtkWidget *widget, gpointer data)
 
 	for(auto i= mw->privateMessage.begin(); i != mw->privateMessage.end();++i)
 	{
-		PrivateMessage *pm = *i;
+		PrivateMessage *pm = dynamic_cast<PrivateMessage*>(*i);
 		if(pm == NULL) continue;
 		typedef Func1<MainWindow,BookEntry*> F1;
 		F1 *func = new F1(mw,&MainWindow::removeBookEntry_gui,pm);
@@ -2962,14 +2960,14 @@ void MainWindow::onCloseAllPM_gui(GtkWidget *widget, gpointer data)
 
 	mw->privateMessage.clear();
 }
-///offline
+///rec-all
 void MainWindow::onReconectAllHub_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 
 	for(auto i= mw->Hubs.begin(); i != mw->Hubs.end();++i)
 	{
-		Hub *hub = *i;
+		Hub *hub = dynamic_cast<Hub*>(*i);
 		hub->reconnect_client();
 	}
 }
@@ -2977,7 +2975,7 @@ void MainWindow::onReconectAllHub_gui(GtkWidget *widget, gpointer data)
 void MainWindow::onCloseAlloffPM_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	vector<PrivateMessage*> noff;
+	vector<Entry*> noff;
 
 	for(auto i= mw->privateMessage.begin(); i != mw->privateMessage.end();++i)
 	{

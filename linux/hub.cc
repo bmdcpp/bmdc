@@ -1285,8 +1285,6 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 			}
 		}
 
-		//g_free(temp);
-
 		if(countryTag)
 		{
             gtk_text_buffer_move_mark(chatBuffer, tag_mark, &tag_end_iter);

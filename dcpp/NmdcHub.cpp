@@ -113,7 +113,7 @@ void NmdcHub::supports(const StringList& feat) {
 OnlineUser* NmdcHub::findUser(const string& aNick) {
 	Lock l(cs);
 	NickIter i = users.find(aNick);
-	return i == users.end() ? NULL : i->second;
+	return i == users.end() ? (nullptr) : i->second;
 }
 
 void NmdcHub::putUser(const string& aNick) {
@@ -436,14 +436,14 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 
 		u.getIdentity().set("CO", Text::utf8ToAcp(connection));//dont fucked up CO string with weird chars (unix)
 		char aMode = param[j-1];
-		if(aMode & 0x02) {
+		if( (aMode & 0x02) == 0x02 ) {//@ if(x & y) is wrong beter this variant
 			u.getIdentity().set("AW", "1");
 		}else
 		{
 			u.getIdentity().set("AW", Util::emptyString);
 		}
 
-		if(sock->isV6Valid() && (aMode & 0x80)) {
+		if(sock->isV6Valid() && ( (aMode & 0x80) == 0x80)  ) {//same as above
 			u.getUser()->setFlag(User::IPV6);
 		}	
 		else
@@ -642,6 +642,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				feat.push_back("SaltPass");
 				feat.push_back("IPv4");
 				if(sock->isV6Valid()) {
+					//@ Add to $Support IP64 only when we had IP6 connectivity
 					feat.push_back("IP64");
 				}
 				supports(feat);
@@ -721,7 +722,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				v.push_back(&getUser(*it));
 			}
 
-			if(!(supportFlags & SUPPORTS_NOGETINFO)) {
+			if(!( (supportFlags & SUPPORTS_NOGETINFO) == SUPPORTS_NOGETINFO) ) {
 				string tmp;
 				// Let's assume 10 characters per nick...
 				tmp.reserve(v.size() * (11 + 10 + getMyNick().length()));
@@ -1078,7 +1079,7 @@ void NmdcHub::refreshLocalIp() noexcept {
 	if(localIp.empty()) {
 		localIp = getUserIp();
 		if(!localIp.empty()) {
-			localIp = Socket::resolve(localIp, AF_INET);
+			localIp = Socket::resolve(localIp);//can be as well IP6
 		}
 		if(localIp.empty()) {
 			localIp = sock->getLocalIp();
@@ -1136,7 +1137,7 @@ void NmdcHub::on(Minute, uint64_t aTick) noexcept {
 		protectedIPs.push_back("hublista.hu");
 		protectedIPs.push_back("dcbase.org");
 		for(auto i = protectedIPs.begin(); i != protectedIPs.end();) {
-			*i = Socket::resolve(*i, AF_INET);
+			*i = Socket::resolve(*i);//can be also ip6
 			if(Util::isPrivateIp(*i))
 				i = protectedIPs.erase(i);
 			else

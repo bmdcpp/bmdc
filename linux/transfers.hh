@@ -47,7 +47,7 @@ class Transfers:
 {
 	public:
 		Transfers();
-		~Transfers();
+		virtual ~Transfers();
 
 		GtkWidget *getContainer() { return getWidget("mainBox"); }
 		virtual void show();

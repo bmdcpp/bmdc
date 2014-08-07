@@ -59,7 +59,7 @@ class MainWindow:
 {
 	public:
 		MainWindow();
-		~MainWindow();
+		virtual ~MainWindow();
 
 		// Inherited from Entry
 		GtkWidget *getContainer();
@@ -277,7 +277,7 @@ class MainWindow:
 		virtual void on(dcpp::LogManagerListener::Message, time_t t, const std::string &m) noexcept;
 		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) noexcept;
 		virtual void on(dcpp::TimerManagerListener::Second, uint64_t ticks) noexcept;
-		//partial filelist
+		//Partial filelist
 		virtual void on(dcpp::QueueManagerListener::PartialList, const dcpp::HintedUser& aUser, const std::string& text) noexcept;
 
 		GtkWindow *window;
@@ -359,14 +359,13 @@ class MainWindow:
 
 		std::unique_ptr<dcpp::HttpDownload> conns[CONN_LAST];
 
-		std::vector<PrivateMessage*> privateMessage;
-		std::vector<Hub*> Hubs;
-		std::vector<Search*> search;
+		std::vector<Entry*> privateMessage;
+		std::vector<Entry*> Hubs;
 
 		FileListQueue listQueue;
 
 		std::queue<std::string> statustext;
-		//hash statusbar :p
+		//Hash statusbar :p
 		uint64_t startBytes;
 		size_t startFiles;
 		uint32_t startTime;
