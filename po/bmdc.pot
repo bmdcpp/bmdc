@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2014-08-07 13:35+0200\n"
+"POT-Creation-Date: 2014-08-08 13:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2014-08-07 13:19+0200\n"
+"POT-Creation-Date: 2014-08-06 14:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2019,7 +2019,7 @@ msgstr ""
 msgid "Open Filelist"
 msgstr ""
 
-#: ui/finishedtransfers.glade.ui:165
+#: ui/finishedtransfers.glade.ui:162
 msgid "Open Folder"
 msgstr ""
 
@@ -2139,7 +2139,7 @@ msgstr ""
 msgid "Previous Tab"
 msgstr ""
 
-#: ui/finishedtransfers.glade.ui:155 ui/transfers.glade.ui:111
+#: ui/finishedtransfers.glade.ui:152 ui/transfers.glade.ui:111
 msgid "Prewien"
 msgstr ""
 
@@ -2270,7 +2270,7 @@ msgstr ""
 #: ui/detection.glade.ui:2997 ui/detection.glade.ui:3016
 #: ui/detection.glade.ui:3035 ui/downloadqueue.glade.ui:162
 #: ui/downloadqueue.glade.ui:335 ui/favoritehubs.glade.ui:418
-#: ui/favoriteusers.glade.ui:229 ui/finishedtransfers.glade.ui:187
+#: ui/favoriteusers.glade.ui:229 ui/finishedtransfers.glade.ui:184
 #: ui/hub.glade.ui:181 ui/recenthub.glade.ui:166 ui/search.glade.ui:782
 #: ui/settingsdialog.glade.ui:8084 ui/settingsdialog.glade.ui:8662
 #: ui/settingsdialog.glade.ui:8815 ui/transfers.glade.ui:84
