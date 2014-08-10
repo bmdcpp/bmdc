@@ -132,7 +132,6 @@ Search::Search(const string& str):
 	resultView.setSortColumn_gui(_("Exact Size"), "Real Size");
 	resultView.setSortColumn_gui(_("Slots"), "Slots Order");
 	resultView.setSortColumn_gui(_("Filename"), "File Order");
-//	gtk_tree_view_set_fixed_height_mode(resultView.get(), TRUE);
 	//
 	resultView.setSelection(selection);
 	resultView.buildCopyMenu(getWidget("CopyMenu"));
@@ -152,7 +151,6 @@ Search::Search(const string& str):
 	GtkComboBox *combo_box = GTK_COMBO_BOX(getWidget("comboboxFile"));
 	GtkTreeModel *model = gtk_combo_box_get_model(combo_box);
 	GtkListStore *store = GTK_LIST_STORE(model);
-	//const SettingsManager::SearchTypes &searchTypes = SettingsManager::getInstance()->getSearchTypes();
 
 	// Predefined
 	for (int i = SearchManager::TYPE_ANY; i < SearchManager::TYPE_LAST; i++)
@@ -209,7 +207,7 @@ Search::~Search()
 	SearchManager::getInstance()->removeListener(this);
 
 	gtk_widget_destroy(getWidget("dirChooserDialog"));
-	//g_object_unref(getWidget("mainMenu"));
+	g_object_unref(getWidget("mainMenu"));
 }
 
 void Search::show()

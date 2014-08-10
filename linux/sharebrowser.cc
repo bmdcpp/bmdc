@@ -156,6 +156,7 @@ ShareBrowser::~ShareBrowser()
 
 	g_object_unref(getWidget("dirMenu"));
 	g_object_unref(getWidget("fileMenu"));
+	
 }
 
 void ShareBrowser::show()

@@ -51,7 +51,7 @@ using namespace dcpp;
 
 const string WulforUtil::ENCODING_LOCALE = _("System default");
 vector<string> WulforUtil::charsets;
-std::map<std::string,GdkPixbuf*> WulforUtil::countryIcon;
+unordered_map<std::string,GdkPixbuf*> WulforUtil::countryIcon;
 const string WulforUtil::magnetSignature = "magnet:?xt=urn:tree:tiger:";
 #if GTK_CHECK_VERSION(3,9,0)
 	GtkIconTheme* WulforUtil::icon_theme = NULL;
@@ -701,7 +701,7 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
 		#endif
 		return buf;
 	}
-	map<string,GdkPixbuf*>::const_iterator it = countryIcon.find(country);
+	unordered_map<string,GdkPixbuf*>::const_iterator it = countryIcon.find(country);
 	if( it  != countryIcon.end() )
 			return it->second;
 	GError *error = NULL;

@@ -336,7 +336,6 @@ void ClientManager::putOffline(OnlineUser* ou, bool disconnect) noexcept {
 			OnlineUser* ou2 = i->second;
 			if(ou == ou2) {
 				diff = distance(op.first, op.second);
-				//diff = distance(op.first,i);
 				onlineUsers.erase(i);
 				break;
 			}
@@ -351,14 +350,14 @@ void ClientManager::putOffline(OnlineUser* ou, bool disconnect) noexcept {
 			ConnectionManager::getInstance()->disconnect(u);
 
 		fire(ClientManagerListener::UserDisconnected(), u);
-		if(u.unique())
+		/*if(u.unique())
 		{
 			Lock l(cs);
 			auto in = nicks.find(u->getCID());
 			if(in != nicks.end())
 			{ nicks.erase(u->getCID());}
 			u.reset();// =P
-		}
+		}*/
 
 	} else if(diff > 1) {
 			fire(ClientManagerListener::UserUpdated(), *ou);
@@ -579,8 +578,7 @@ void ClientManager::on(TimerManagerListener::Minute, uint64_t /* aTick */) noexc
 	while(i != users.end()) {
 		if(i->second->unique()) {
 			unordered_map<CID, NickMapEntry>::const_iterator n = nicks.find(i->second->getCID());//should also remove from nicks...
-			if(n != nicks.end())
-				nicks.erase(n);
+			if(n != nicks.end()) nicks.erase(n);
 			users.erase(i++);
 			i->second.reset();//think ?
 		} else {

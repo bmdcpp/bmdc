@@ -29,13 +29,16 @@
 #include "message.hh"
 #include "UserCommandMenu.hh"
 #include <vector>
+#include <dcpp/Flags.h>
+
 
 class WulforSettingsManager;
 class EmoticonsDialog;
 
 class PrivateMessage:
 	public BookEntry,
-	public dcpp::ClientManagerListener
+	public dcpp::ClientManagerListener,
+	public dcpp::Flags
 {
 	public:
 		PrivateMessage(const std::string &cid, const std::string &hubUrl);
@@ -48,9 +51,16 @@ class PrivateMessage:
 		void addStatusMessage_gui(std::string message, Msg::TypeMsg typemsg);
 		void preferences_gui();
 		void sendMessage_p(std::string message) { sendMessage_client(message);}
-		bool getIsOffline() const { return offline;}
+		bool getIsOffline() const { return isSet(OFFLINE);}
 
 	private:
+		enum
+		{
+			NORMAL = 0,
+			OFFLINE = 1,
+			BOT = 2,
+		};
+	
 		// GUI functions
 		void setStatus_gui(std::string text);
 		void addLine_gui(Msg::TypeMsg typemsg, const std::string &line);
@@ -109,7 +119,7 @@ class PrivateMessage:
 		GtkTextMark *mark, *start_mark, *end_mark, *tag_mark, *emot_mark;
 		std::string cid;
 		std::string hubUrl;
-		bool isBot;
+//		bool isBot;
 		std::vector<std::string> history;
 		int historyIndex;
 		bool sentAwayMessage;
@@ -126,7 +136,7 @@ class PrivateMessage:
 		EmoticonsDialog *emotdialog;
 		UserCommandMenu *userCommandMenu;
 		std::string ip;
-		bool offline;
+//		bool offline;
 		bool notCreated;
 
 };

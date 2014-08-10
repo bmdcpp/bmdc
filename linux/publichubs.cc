@@ -29,8 +29,7 @@ using namespace dcpp;
 
 PublicHubs::PublicHubs():
 	BookEntry(Entry::PUBLIC_HUBS, _("Public Hubs"), "publichubs.glade"),
-	hubs(0),
-	filter("")
+	hubs(0), filter("")
 {
 	#if !GTK_CHECK_VERSION(3,12,0)		
 	// Configure the dialog
@@ -60,7 +59,6 @@ PublicHubs::PublicHubs():
 	hubSelection = gtk_tree_view_get_selection(hubView.get());
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(hubStore), hubView.col(_("Users")), GTK_SORT_DESCENDING);
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(hubView.get(), hubView.col(_("Users"))), TRUE);
-//	gtk_tree_view_set_fixed_height_mode(hubView.get(), TRUE);
 
 	// Initialize list of public hub lists treeview
 	listsView.setView(GTK_TREE_VIEW(getWidget("listsView")));

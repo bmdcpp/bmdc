@@ -38,12 +38,12 @@ using namespace dcpp;
 
 PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	BookEntry(Entry::PRIVATE_MESSAGE, _("PM: ") + WulforUtil::getNicks(cid, hubUrl), "privatemessage.glade", cid),
-	cid(cid),
-	hubUrl(hubUrl),
+	dcpp::Flags(NORMAL),
+	cid(cid), hubUrl(hubUrl),
 	historyIndex(0),
 	sentAwayMessage(FALSE),
 	scrollToBottom(TRUE),
-	offline(false),
+//	offline(false),
 	notCreated(true)
 {
 	//set Colors
@@ -67,7 +67,6 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("scroll")));
 
 	// menu
-	
 	g_object_ref_sink(getWidget("magnetMenu"));
 	g_object_ref_sink(getWidget("linkMenu"));
 	g_object_ref_sink(getWidget("hubMenu"));
@@ -137,8 +136,10 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	gtk_widget_grab_focus(getWidget("entry"));
 	history.push_back("");
 	const OnlineUser* user = ClientManager::getInstance()->findOnlineUser(CID(cid), hubUrl);
-	isBot = user ? user->getIdentity().isBot() : FALSE;
-
+//	isBot = user ? user->getIdentity().isBot() : FALSE;
+	if(user != NULL) {
+		setFlag(user->getIdentity().isBot());
+	}	
 	setLabel_gui(WulforUtil::getNicks(cid, hubUrl) + " [" + WulforUtil::getHubNames(cid, hubUrl) + "]");
 
 	/* initial tags map */
@@ -216,7 +217,7 @@ void PrivateMessage::addMessage_gui(string message, Msg::TypeMsg typemsg)
 	{
 		sentAwayMessage = FALSE;
 	}
-	else if (!sentAwayMessage && !(SETTING(NO_AWAYMSG_TO_BOTS) && isBot))
+	else if (!sentAwayMessage && !(SETTING(NO_AWAYMSG_TO_BOTS) && isSet(BOT)))
 	{
 		/*What away message to send*/
 		auto what = [this](ParamMap& params) -> std::string {
@@ -227,12 +228,11 @@ void PrivateMessage::addMessage_gui(string message, Msg::TypeMsg typemsg)
 
 		ParamMap params;
 		params["message"] = message;
-		params["hubNI"] = WulforUtil::getHubNames(cid, hubUrl);//NOTE: core 0.762
+		params["hubNI"] = WulforUtil::getHubNames(cid, hubUrl);
 		params["hubURL"] = hubUrl;
 		params["userCID"] = cid;
 		params["userNI"] = ClientManager::getInstance()->getNicks(CID(cid), hubUrl)[0];//NOTE: core 0.762
 		params["myCID"] = ClientManager::getInstance()->getMe()->getCID().toBase32();
-		/**/
 
 		sentAwayMessage = TRUE;
 		typedef Func1<PrivateMessage, string> F1;
@@ -1503,7 +1503,8 @@ void PrivateMessage::on(ClientManagerListener::UserDisconnected, const UserPtr& 
 		typedef Func1<PrivateMessage, bool> F1;
 		F1 *func = new F1(this, &PrivateMessage::updateOnlineStatus_gui, aUser->isOnline());
 		WulforManager::get()->dispatchGuiFunc(func);
-		offline = true;
+//		offline = true;
+		setFlag(OFFLINE);
 	}
 }
 

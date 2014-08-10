@@ -35,7 +35,7 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	bold(false), urgent(false),
 	labelSize((glong)WGETI("size-label-box-bookentry")),
 	icon(NULL), popTabMenuItem(NULL),
-	type(type), IsCloseButton(false),bCreated(true)
+	type(type), IsCloseButton(false), bCreated(true)
 {
 	GSList *group = NULL;
 	#if GTK_CHECK_VERSION(3, 2, 0)
@@ -257,7 +257,6 @@ void BookEntry::setActive_gui()
 bool BookEntry::isActive_gui()
 {
 	MainWindow *mw = WulforManager::get()->getMainWindow();
-
 	return mw->isActive_gui() && mw->currentPage_gui() == getContainer();
 }
 
@@ -287,8 +286,9 @@ const string& BookEntry::getLabelText() const
 //BMDC++
 void BookEntry::onCloseItem(gpointer data)
 {
-	BookEntry *book = reinterpret_cast<BookEntry *>(data);
-	book->removeBooK_GUI();
+	BookEntry *book = (BookEntry *)data;
+	if(book != NULL)
+		book->removeBooK_GUI();
 }
 
 void BookEntry::removeBooK_GUI()
@@ -310,16 +310,16 @@ GtkWidget *BookEntry::createmenu()
 
 gboolean BookEntry::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	BookEntry *book = reinterpret_cast<BookEntry *>(data);
+	BookEntry *book = (BookEntry *)data;
 	book->previous = event->type;
 	return FALSE;
 }
 
 gboolean BookEntry::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	BookEntry *book = reinterpret_cast<BookEntry *>(data);
+	BookEntry *book = (BookEntry *)data;
 
-	if (event->button == 3 && event->type == GDK_BUTTON_RELEASE)
+	if ( (book != NULL) && ((event->button == 3) && (event->type == GDK_BUTTON_RELEASE) ) )
 	{
 		book->fItem = (book->createItemFirstMenu());
 		// show menu
@@ -404,8 +404,7 @@ GtkWidget *BookEntry::createItemFirstMenu()
 		}
 		bCreated = false;
 		#if GTK_CHECK_VERSION(3,9,0)
-			GtkWidget *item = NULL;
-			item = gtk_menu_item_new();
+			GtkWidget *item = gtk_menu_item_new();
 			gtk_menu_item_set_label(GTK_MENU_ITEM(item),info.c_str());
 			return item;
 		#else
