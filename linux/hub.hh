@@ -69,7 +69,7 @@ class Hub:
 		}
 
 	private:
-		typedef std::map<std::string, std::string> ParamMap;
+		typedef dcpp::StringMap ParamMap;
 		typedef std::unordered_map<std::string, std::string> UserMap;
 		typedef std::unordered_map<GtkWidget*, std::string> ImageList;
 		typedef std::pair<std::string, GtkWidget*> ImageLoad;
@@ -238,7 +238,6 @@ class Hub:
 		virtual void on(dcpp::ClientListener::ClientLine, dcpp::Client* , const std::string &mess, int type) noexcept;
 		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) noexcept;
 
-		//UserFlags users;//for OP flag etc
 		UserMap userMap;
 		UnMapIter userIters;
 		UserMap userFavoriteMap;
@@ -282,6 +281,7 @@ class Hub:
 		GtkWidget *tab_button;
 		GtkWidget *m_menu;
 		bool notCreated;
+		bool isFavBool; 
 
 };
 #else

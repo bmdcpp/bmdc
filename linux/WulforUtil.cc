@@ -690,7 +690,7 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
 		#if GTK_CHECK_VERSION(3,9,0)
 		GError* error = NULL;
 		buf = gtk_icon_theme_load_icon(icon_theme,"gtk-dialog-question",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,&error);
-		if(error){
+		if(error != NULL || buf == NULL) {
 			g_print("[BMDC:Country] Failed %s",error->message);
 			g_error_free(error);
 			return NULL;
@@ -1585,7 +1585,7 @@ gboolean WulforUtil::HitIP(string& name, string &sIp)
 	for(auto i = name.begin();i!=name.end();++i) {
 			if(*i==':') {
 				for(int j = 5; j>0;--j){
-						if(isxdigit(name[j])){ok = true;}
+						if(isxdigit(name[j])){ ok = true; }
 				}
 		}
 			if(ok){break;}
@@ -1594,7 +1594,7 @@ gboolean WulforUtil::HitIP(string& name, string &sIp)
 	for(auto i = name.end();i!=name.begin();--i) {
 			if(*i==':') {
 				for(int q = 0; q<5;++q){
-						if(isxdigit(name[q])){ok2 = true;}
+						if(isxdigit(name[q])) { ok2 = true; }
 				}
 			}
 		if(ok2) {break;}

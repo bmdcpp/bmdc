@@ -55,7 +55,7 @@ Hub::Hub(const string &address, const string &encoding):
 	totalShared(0),	address(address),
 	encoding(encoding), scrollToBottom(TRUE),
 	PasswordDialog(FALSE), WaitingPassword(FALSE),
-	ImgLimit(0) , notCreated(true)
+	ImgLimit(0) , notCreated(true) , isFavBool(true)
 {
 	FavoriteHubEntry* faventry =  FavoriteManager::getInstance()->getFavoriteHubEntry(address);
 
@@ -323,10 +323,11 @@ Hub::Hub(const string &address, const string &encoding):
 	if(r == NULL)
 		FavoriteManager::getInstance()->addRecent(entry);
 
-	if(faventry)
+	if(faventry != NULL)
 	{
 		bool showUserList = faventry->getShowUserList();
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")), showUserList);
+		isFavBool =  faventry ? faventry->getNotify() : WGETI("notify-hub-chat-use");
 	}
 }
 
@@ -452,7 +453,7 @@ Hub::~Hub()
 {
 	RecentHubEntry* r = FavoriteManager::getInstance()->getRecentHubEntry(address);
 
-	if(r)
+	if(r != NULL)
 	{
 		r->setName(client->getHubName());
 		r->setDescription(client->getHubDescription());
@@ -545,7 +546,7 @@ void Hub::set_Header_tooltip_gui()
 gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer data)
 {
 	Hub* hub = (Hub*)data;
-	if(hub == NULL)return FALSE;//@Should never hapen but :-D
+	if(hub == NULL) return FALSE;//@Should never hapen but :-D
   	
   GtkTreeIter iter;
   GtkTreeView *tree_view = GTK_TREE_VIEW (widget);
@@ -675,20 +676,6 @@ void Hub::updateUser_gui(ParamMap params)
 	const string &nickOrder = params["Nick Order"];
 	bool favorite = userFavoriteMap.find(cid) != userFavoriteMap.end();
 	//[BMDC++
-/*
-	bool isIn = users.find(cid) != users.end();
-	bool isOperator = false;
-	bool isPasive = false;
-	bool isIgnore = false;
-	bool isProtected = false;
-	if(isIn) {
-		UserFlags::iterator it = users.find(cid);
-		isOperator = it->second == FlagUser::FLAG_OP;
-		isPasive = it->second == FlagUser::FLAG_PASIVE;
-		isIgnore = it->second == FlagUser::FLAG_IGNORE;
-		isProtected = it->second == FlagUser::FLAG_PROTECT;
-	}
-*/
 	if (findUser_gui(cid, &iter))
 	{
 		totalShared += shared - nickView.getValue<int64_t>(&iter, _("Shared"));
@@ -704,14 +691,6 @@ void Hub::updateUser_gui(ParamMap params)
 			// update favorite
 			if (favorite)
 				userFavoriteMap[cid] = Nick;
-			/*if(isProtected)
-				users[cid] = FlagUser::FLAG_PROTECT;
-			if(isIgnore)
-				users[cid] = FlagUser::FLAG_IGNORE;
-			if(isPasive)
-				users[cid] = FlagUser::FLAG_PASIVE;
-			if(isOperator)
-				users[cid] = FlagUser::FLAG_OP;*/
 		}
 
 		gtk_list_store_set(nickStore, &iter,
@@ -807,7 +786,6 @@ void Hub::removeUser_gui(string cid)
 		removeTag_gui(nick);
 		userMap.erase(nick);
 		//BMDC++
-//		users.erase(cid);
 		userFavoriteMap.erase(nick);
 		userIters.erase(cid);
 		setStatus_gui("statusUsers", Util::toString(userMap.size()) + _(" Users"));
@@ -855,7 +833,6 @@ void Hub::clearNickList_gui()
 	gtk_list_store_clear(nickStore);
 	userMap.clear();
 	//BMDC++
-	//users.clear();
 	userFavoriteMap.clear();
 	//END
 	userIters.clear();
@@ -1049,9 +1026,9 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 		default:
 			tagMsg = Tag::TAG_GENERAL;
 
-			FavoriteHubEntry* entry = FavoriteManager::getInstance()->getFavoriteHubEntry(client->getHubUrl());
-
-			bool isFavBool =  entry ? entry->getNotify() : WGETI("notify-hub-chat-use");
+//			FavoriteHubEntry* entry = FavoriteManager::getInstance()->getFavoriteHubEntry(client->getHubUrl());
+// there is no reason check this on every message or ?
+//			bool isFavBool =  entry ? entry->getNotify() : WGETI("notify-hub-chat-use");
 
 			if(isFavBool)
 			{
@@ -1623,7 +1600,6 @@ void Hub::updateCursor_gui(GtkWidget *widget)
 		newTag = GTK_TEXT_TAG(tagList->data);
 
 		if (find(TagsMap + Tag::TAG_GENERAL, TagsMap + Tag::TAG_LAST, newTag) != TagsMap + Tag::TAG_LAST)
-		//if (find(TagsMap + Tag::TAG_MYNICK, TagsMap + Tag::TAG_LAST, newTag) != TagsMap + Tag::TAG_LAST)
 		{
 			GSList *nextList = g_slist_next(tagList);
 

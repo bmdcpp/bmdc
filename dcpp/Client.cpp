@@ -162,11 +162,10 @@ void Client::send(const char* aMessage, size_t aLen) {
 		LogManager::getInstance()->message("Not Connected returning");
 		return;
 	}
-	COMMAND_DEBUG(aMessage,TYPE_HUB,OUTGOING, getHubUrl());
-
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_OUT, this, aMessage))
 		return;
-
+	
+	COMMAND_DEBUG(aMessage,TYPE_HUB,OUTGOING, getHubUrl());
 	updateActivity();
 	sock->write(aMessage, aLen);
 }
