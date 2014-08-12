@@ -83,9 +83,7 @@ string Entry::generateID()
 GtkWidget *Entry::getWidget(const string &name)
 {
 	dcassert(xml && !name.empty());
-	/*GtkWidget *widget =*/ return GTK_WIDGET(gtk_builder_get_object(xml,name.c_str()));
-//	dcassert(widget);
-//	return widget;
+	return GTK_WIDGET(gtk_builder_get_object(xml,name.c_str()));
 }
 
 void Entry::addChild(Entry *entry)
@@ -97,7 +95,7 @@ void Entry::addChild(Entry *entry)
 Entry *Entry::getChild(const EntryType childType, const string &childId)
 {
 	string id = dcpp::Util::toString(childType) + ":" + childId;
-	map<string, Entry *>::const_iterator it = children.find(id);
+	unordered_map<string, Entry *>::const_iterator it = children.find(id);
 
 	if (it == children.end())
 		return NULL;

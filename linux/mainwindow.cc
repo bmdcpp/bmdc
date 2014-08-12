@@ -929,8 +929,8 @@ void MainWindow::setMainStatus_gui(string text, time_t t)
       	     statusTextOnToolTip += "\n" + tmp.back();
       	     tmp.pop();
       	}
-		  statustext.push(text);
-    gtk_widget_set_tooltip_text(getWidget("labelStatus"), statusTextOnToolTip.c_str());
+			statustext.push(text);
+			gtk_widget_set_tooltip_text(getWidget("labelStatus"), statusTextOnToolTip.c_str());
 
 	}
 }

@@ -128,12 +128,12 @@ string ShareManager::findRealRoot(const string& virtualRoot, const string& virtu
 		if(Util::stricmp(i.second, virtualRoot) == 0) {
 			std::string name = i.first + virtualPath;
 			dcdebug("Matching %s\n", name.c_str());
-			//if(FileFindIter(name) != FileFindIter()) {
-			//	return name;
-			//}
-			if(Util::fileExists(name)){
+			if(FileFindIter(name) != FileFindIter()) {
 				return name;
 			}
+			//if(Util::fileExists(name)){
+			//	return name;
+			//}
 		}
 	}
 

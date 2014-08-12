@@ -25,7 +25,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <string>
-#include <map>
+#include <unordered_map>
 
 class Entry
 {
@@ -85,7 +85,7 @@ class Entry
 		GtkBuilder *xml;
 		const EntryType type;
 		std::string id;
-		std::map<std::string, Entry *> children;
+		std::unordered_map<std::string, Entry *> children;
 };
 
 #else

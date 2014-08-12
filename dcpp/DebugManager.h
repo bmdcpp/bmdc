@@ -8,8 +8,9 @@ namespace dcpp {
 
 class DebugManagerListener {
 public:
-template<int I>	struct X { enum { TYPE = I };  };
-
+	template<int I>	struct X { enum { TYPE = I };  };
+	virtual ~DebugManagerListener() { }
+	
 	typedef X<0> DebugCommand;
 	typedef X<1> DebugDetection;
 

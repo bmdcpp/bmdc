@@ -134,8 +134,11 @@ class cmddebug:
 				model = gtk_combo_box_get_model( GTK_COMBO_BOX(getWidget("comboboxadr")) );
 				gtk_tree_model_get( model, &piter, 0, &fUrl, -1 );
 			}
-			std::string tmp(fUrl);
-			g_free(fUrl);
+			std::string tmp = dcpp::Util::emptyString;
+			if(fUrl != NULL) {
+				tmp= std::string(fUrl);
+				g_free(fUrl);
+			}	
 			if((gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("by_ip_button"))) == TRUE) || ( !tmp.empty() && (ip == tmp) ))
 				addCmd("\t"+getType(type,dir)+"\tIP (Address): \t"+ip+" \t:\t "+m);
 			else
