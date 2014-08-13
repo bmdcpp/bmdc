@@ -138,18 +138,24 @@ int SearchManager::run() {
 	string remoteAddr;
 
 	while(!stop) {
+		bool delBuf = false;
 		try {
 			uint8_t *buf = new uint8_t[BUFSIZE];
 
 			if(!socket->wait(400, true, false).first) {
+				delete [] buf; delBuf = true;
 				continue;
 			}
 
 			if((len = socket->read(&buf[0], BUFSIZE, remoteAddr)) > 0) {
 				onData(&buf[0], len, remoteAddr);
+				if(delBuf == false) {
+					delete [] buf; delBuf = true;
+				}	
 				continue;
 			}
-			delete [] buf;
+			if(delBuf == false)
+				delete [] buf;
 		} catch(const SocketException& e) {
 			dcdebug("SearchManager::run Error: %s\n", e.getError().c_str());
 		}

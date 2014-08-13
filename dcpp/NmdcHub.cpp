@@ -207,39 +207,6 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			}
 		}
 				
-//		string line = aLine;
-		//[BMDC
-		//check to if it utf-8 . if not convert to it
-		//90 is magic value because motd's
-/*		#define SIZE_TEXT 90
-		iconv_t test = iconv_open("UTF-8", "UTF-8");
-		char* result = new char[aLine.length()*SIZE_TEXT];
-		char* teststr = const_cast<char*>(aLine.c_str());
-		size_t ilen = aLine.length()+1;
-		size_t olen = aLine.length()*SIZE_TEXT;
-		size_t szRet = iconv(test, &teststr,&ilen, &result, &olen);
-		if(szRet == -1) {
-			// chyba, neni to utf-8
-				string enco = getEncoding();
-				if(!enco.empty()){
-				size_t f = enco.find(0x20);
-				if(f != string::npos){
-				enco = enco.substr(f);
-				const char* enc = enco.c_str();
-				iconv_t conv = iconv_open(enc,"utf-8");
-				szRet = iconv(conv,&teststr,&ilen,&result,&olen);
-				if( (szRet == 0) || (szRet != -1) || (szRet > 1))
-				{
-					line = result;
-					delete [] result;
-					free(teststr);
-				}
-				iconv_close(conv);
-				}
-			}
-		}
-	*/	
-//		iconv_close(test);
 		string line = toUtf8(aLine);
 		if(line[0] != '<') {
 			fire(ClientListener::StatusMessage(), this, unescape(line));
@@ -326,14 +293,14 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		uint64_t tick = GET_TICK();
 		clearFlooders(tick);
 
-		seekers.push_back(make_pair(seeker, tick));
-
 		// First, check if it's a flooder
 		for(auto fi = flooders.begin(); fi != flooders.end(); ++fi) {
 			if(fi->first == seeker) {
 				return;
 			}
 		}
+
+		seekers.push_back(make_pair(seeker, tick));
 
 		int count = 0;
 		for(auto fi = seekers.begin(); fi != seekers.end(); ++fi) {

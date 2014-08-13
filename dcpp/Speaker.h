@@ -19,7 +19,6 @@
 #ifndef DCPLUSPLUS_DCPP_SPEAKER_H
 #define DCPLUSPLUS_DCPP_SPEAKER_H
 
-//#include <boost/range/algorithm/find.hpp>
 #include <utility>
 #include <vector>
 

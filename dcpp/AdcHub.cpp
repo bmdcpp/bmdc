@@ -1040,15 +1040,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 		const vector<uint8_t> kp = CryptoManager::getInstance()->getKeyprint();
 		addParam(lastInfoMap, c, "KP", "SHA256/" + Encoder::toBase32(&kp[0], kp.size()));
 	}
-/*--------
-	if(ClientManager::getInstance()->isActive(getHubUrl())) {
-		addParam(lastInfoMap, c, "U4", SearchManager::getInstance()->getPort());
-		su += "," + TCP4_FEATURE;
-		su += "," + UDP4_FEATURE;
-	} else {
-		addParam(lastInfoMap, c, "U4", "");
-		su += "," + NAT0_FEATURE;
-	}*/
+
 	addParam(lastInfoMap, c, "LC", Util::getIETFLang());
 
 	bool addV4 = !sock->isV6Valid() || ( get(HubSettings::Connection) == true) ;
@@ -1065,8 +1057,8 @@ void AdcHub::info(bool /*alwaysSend*/) {
 		su += "," + UDP6_FEATURE;
 	}
 
-	if ( addV6 && !isActiveV6() && (get(HubSettings::Connection6) == true) 
-		|| (addV4 && !isActiveV4() && get(HubSettings::Connection) == true)) 
+	if (  (addV6 && !isActiveV6() && (get(HubSettings::Connection6) == true)) 
+		|| ( (addV4 && !isActiveV4()) && (get(HubSettings::Connection) == true)) ) 
 	{
 		su += "," + NAT0_FEATURE;
 	}

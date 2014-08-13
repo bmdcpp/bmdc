@@ -1176,8 +1176,6 @@ string Util::getIETFLang() {
 
 	return lang;
 #else
-//	const gchar* const* x = g_get_language_names();
-//	string s(x[0]);///return only 1st locale ...and hope its existing :p
 	return string(g_get_language_names()[0]);
 #endif
 }
