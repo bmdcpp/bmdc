@@ -28,8 +28,6 @@
 
 namespace dcpp {
 	
-//using std::shared_ptr;	
-
 /** A user connected to one or more hubs. */
 class User : public std::shared_ptr<User> ,public Flags
 {
