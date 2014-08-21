@@ -217,7 +217,6 @@ void Util::loadBootConfig() {
 
 		if(boot.findChild("ConfigPath")) {
 			ParamMap params;
-//#ifdef _WIN32
 			/// @todo load environment variables instead? would make it more useful on *nix
 			params["APPDATA"] = []() -> string {
 				TCHAR path[MAX_PATH];
@@ -227,7 +226,6 @@ void Util::loadBootConfig() {
 				TCHAR path[MAX_PATH];
 				return Text::fromT((::SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, path), path));
 			};
-//#endif
 			paths[PATH_USER_CONFIG] = Util::formatParams(boot.getChildData(), params);
 		}
 	} catch(const Exception& ) {

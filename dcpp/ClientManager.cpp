@@ -510,8 +510,8 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				string ip, port, file, proto, query, fragment;
 
 				Util::decodeUrl(aSeeker, proto, ip, port, file, query, fragment);
-				ip = Socket::resolve(ip, AF_UNSPEC);
-				if(static_cast<NmdcHub*>(aClient)->isProtectedIP(ip))//should be checked if after cast existi or not ?
+				ip = Socket::resolve(ip);
+				if(static_cast<NmdcHub*>(aClient)->isProtectedIP(ip))//should be checked if after cast exist or not ?
 					return;
 				if(port.empty())
 					port = "412";
