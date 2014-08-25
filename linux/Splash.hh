@@ -38,7 +38,7 @@ class Splash
 			gtk_window_set_position(GTK_WINDOW(win),GTK_WIN_POS_CENTER);
 			label = gtk_label_new("Loading...");
 			progressbar = gtk_progress_bar_new ();
-				#if GTK_CHECK_VERSION(3, 2, 0)
+			#if GTK_CHECK_VERSION(3, 2, 0)
 			box = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
 			#else
 			box = gtk_vbox_new(TRUE, 0);
@@ -55,7 +55,7 @@ class Splash
 			gtk_widget_show_now(win);
 			update();
 		}
-		~Splash() {	win = NULL;label= NULL;box= NULL;image= NULL; }
+		~Splash() {	win = NULL;label= NULL;box= NULL;image= NULL;progressbar= NULL; }
 
 	void setText(const string &text) {
 						if(text.empty()) return;
@@ -64,7 +64,7 @@ class Splash
 					}
 	void setPercentage(const float& ii)
 	{
-		percentage = Util::toString(ii);
+		percentage = Util::toString(ii*100);
 		perc = ii;
 	}					
 

@@ -18,10 +18,9 @@ libGeoIP >= 1.4.7
 --------------
 optional:
  libtar (Note: for Backup/Restore options )
- libnotify >= 0.4.1 ( Note: for popups )
+ libnotify >= 0.4.1 ( Note: For popups notifications )
  xattr 
--------------- 
- lua5.1 >= 5.0 or lua >= 5.0 (Note: not needed by main binary)
+--------------
 
 Compiling:
 ----------

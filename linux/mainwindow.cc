@@ -1016,7 +1016,7 @@ void MainWindow::showCmdDebug_gui()
 
 void MainWindow::showSystemLog_gui()
 {
-	showBook(Entry::SYSTEML, new systemlog());
+	showBook(Entry::SYSTEML, new SystemLog());
 	setStatusOfIcons(SYSTEM, true);
 }
 

@@ -42,7 +42,7 @@ public:
 	void clear() {
 		Lock l(cs);
 		queue.clear();
-		clientPtr = NULL;
+		clientPtr = nullptr;
 	}
 	void addCommand(const OnlineUser& ou, int actionId);
 private:

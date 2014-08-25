@@ -25,7 +25,7 @@
 using namespace std;
 using namespace dcpp;
 
-systemlog::systemlog():
+SystemLog::SystemLog():
 BookEntry(Entry::SYSTEML,_("System Log"),"system.glade"),
  buffer(NULL),sysMark(NULL)
 {
@@ -41,12 +41,12 @@ BookEntry(Entry::SYSTEML,_("System Log"),"system.glade"),
 	g_signal_connect(getWidget("buttonClear"), "clicked", G_CALLBACK(onClearButton), (gpointer)this);
 }
 
-systemlog::~systemlog()
+SystemLog::~SystemLog()
 {
 	LogManager::getInstance()->removeListener(this);
 }
 
-void systemlog::add_gui(time_t t, string file)
+void SystemLog::add_gui(time_t t, string file)
 {
 	gtk_text_buffer_get_end_iter(buffer, &iter);
 
@@ -66,16 +66,16 @@ void systemlog::add_gui(time_t t, string file)
 	gtk_text_view_place_cursor_onscreen(GTK_TEXT_VIEW(getWidget("systextview")));
 }
 
-void systemlog::onScroll_gui(GtkAdjustment *adjustment, gpointer data)
+void SystemLog::onScroll_gui(GtkAdjustment *adjustment, gpointer data)
 {
-    systemlog *sys = (systemlog *)data;
+    SystemLog *sys = (SystemLog *)data;
     gdouble value = gtk_adjustment_get_value(adjustment);
     sys->scrollToBottom = value >= ( gtk_adjustment_get_upper(adjustment) - gtk_adjustment_get_page_size (adjustment));
 }
 
-void systemlog::onResize_gui(GtkAdjustment *adjustment, gpointer data)
+void SystemLog::onResize_gui(GtkAdjustment *adjustment, gpointer data)
 {
-    systemlog *sys = (systemlog *)data;
+    SystemLog *sys = (SystemLog *)data;
     gdouble value = gtk_adjustment_get_value(adjustment);
 
     if (sys->scrollToBottom && value < (gtk_adjustment_get_upper(adjustment) - gtk_adjustment_get_page_size (adjustment)))
@@ -87,9 +87,9 @@ void systemlog::onResize_gui(GtkAdjustment *adjustment, gpointer data)
     }
 }
 
-void systemlog::onClearButton(GtkWidget *widget, gpointer data)
+void SystemLog::onClearButton(GtkWidget *widget, gpointer data)
 {
-	systemlog *sys = (systemlog *)data;
+	SystemLog *sys = (SystemLog *)data;
 	GtkTextIter startIter, endIter;
 	gtk_text_buffer_get_start_iter(sys->buffer, &startIter);
 	gtk_text_buffer_get_end_iter(sys->buffer, &endIter);
@@ -97,7 +97,7 @@ void systemlog::onClearButton(GtkWidget *widget, gpointer data)
 	LogManager::getInstance()->clearLogs();
 
 }
-void systemlog::ini_client()
+void SystemLog::ini_client()
 {
 	LogManager::List oldMessages = LogManager::getInstance()->getLastLogs();
 
@@ -108,14 +108,14 @@ void systemlog::ini_client()
 	}
 }
 
-void systemlog::show()
+void SystemLog::show()
 {
     ini_client();
 }
 
-void systemlog::on(LogManagerListener::Message, time_t t, const string& message) noexcept
+void SystemLog::on(LogManagerListener::Message, time_t t, const string& message) noexcept
 {
-    typedef Func2<systemlog,time_t,std::string> F2;
-    F2 *func = new F2(this,&systemlog::add_gui, t, message);
+    typedef Func2<SystemLog,time_t,std::string> F2;
+    F2 *func = new F2(this,&SystemLog::add_gui, t, message);
     WulforManager::get()->dispatchGuiFunc(func);
 }

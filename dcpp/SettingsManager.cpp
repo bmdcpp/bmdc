@@ -413,13 +413,13 @@ SettingsManager::SettingsManager()
 	setDefault(MAX_TESTSURS, 50);
 	setDefault(MAX_FILELISTS, 10);
 	setDefault(SLEEP_TIME, 0);
-	setDefault(MIN_POINTS_TO_DISPLAY_CHEAT,0);
+	setDefault(MIN_POINTS_TO_DISPLAY_CHEAT, 0);
 	setDefault(DETECTIONF, 0);
 	setDefault(DETECTIONS, 0);
-	setDefault(DCPP_EMULATION_RAW,0);
-	setDefault(VERSION_MISMATCH_RAW,0);
-	setDefault(SDL_RAW,0);
-	setDefault(RIPE_DB,"https://apps.db.ripe.net/search/query.html?searchtext=%[IP]&search%3AdoSearch=Search#resultsAnchor");
+	setDefault(DCPP_EMULATION_RAW, 0);
+	setDefault(VERSION_MISMATCH_RAW, 0);
+	setDefault(SDL_RAW, 0);
+	setDefault(RIPE_DB, "https://apps.db.ripe.net/search/query.html?searchtext=%[IP]&search%3AdoSearch=Search#resultsAnchor");
 	setDefault(SERVER_COMMANDS,true);
 
 	setSearchTypeDefaults();

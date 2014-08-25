@@ -122,7 +122,7 @@ void UploadQueue::AddFile_gui(StringMap params)
 {
 	GtkTreeIter iter;
 	gchar *file;
-	map<string,GtkTreeIter>::iterator it = mapUsers.find(params["CID"]);
+	unordered_map<string,GtkTreeIter>::iterator it = mapUsers.find(params["CID"]);
 	if(it != mapUsers.end())
 	{
 		iter = it->second;
@@ -137,7 +137,7 @@ void UploadQueue::AddFile_gui(StringMap params)
 void UploadQueue::removeUser(const string &cid)
 {
 	GtkTreeIter iter;
-	map<string, GtkTreeIter>::iterator it = mapUsers.find(cid);
+	unordered_map<string, GtkTreeIter>::iterator it = mapUsers.find(cid);
 	if(it != mapUsers.end())
 	{
 		iter = it->second;

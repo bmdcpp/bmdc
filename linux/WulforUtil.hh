@@ -122,7 +122,7 @@ class WulforUtil
 			gtk_widget_override_background_color(widget, GTK_STATE_FLAG_INSENSITIVE, &color);
 			
 			if( !back_image_path.empty() && (dcpp::Util::fileExists(back_image_path) == true) ) {
-			/*------------- CSS  --------------------------------------------------------------------------------------------------*/
+			///NOTE: CSS
 			GtkCssProvider *provider = gtk_css_provider_new ();
 			GdkDisplay *display = gdk_display_get_default ();
 			GdkScreen *screen = gdk_display_get_default_screen (display);
@@ -137,7 +137,6 @@ class WulforUtil
 
 			gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
 			g_object_unref (provider);
-			/*----------------------------------------------------------------------------------------------------------------------*/
 			}
 		}
 

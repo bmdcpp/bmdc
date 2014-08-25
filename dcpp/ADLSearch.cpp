@@ -121,7 +121,7 @@ bool ADLSearch::isRegEx() const {
 }
 
 void ADLSearch::setRegEx(bool b) {
-		v = b;
+	v = b;
 
 }
 

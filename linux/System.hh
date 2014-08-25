@@ -30,12 +30,12 @@
 #include "bookentry.hh"
 #include "treeview.hh"
 
-class systemlog:
+class SystemLog:
 	public BookEntry, private dcpp::LogManagerListener
 {
 	public:
-		systemlog();
-		virtual ~systemlog();
+		SystemLog();
+		virtual ~SystemLog();
 		virtual void show();
 
 	private:
