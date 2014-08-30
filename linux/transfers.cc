@@ -44,7 +44,7 @@ using namespace std;
 using namespace dcpp;
 
 Transfers::Transfers() :
-	Entry(Entry::TRANSFERS, "transfers.glade"),
+	Entry(Entry::TRANSFERS, "transfers"),
 	transferStore(NULL), transferSelection(NULL),  appsPreviewMenu(NULL)
 {
 	// menu

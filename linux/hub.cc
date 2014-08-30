@@ -50,7 +50,7 @@ using namespace dcpp;
 const string Hub::tagPrefix = "#";
 
 Hub::Hub(const string &address, const string &encoding):
-	BookEntry(Entry::HUB, address, "hub.glade", address),
+	BookEntry(Entry::HUB, address, "hub", address),
 	client(NULL), historyIndex(0),
 	totalShared(0),	address(address),
 	encoding(encoding), scrollToBottom(TRUE),
@@ -114,7 +114,6 @@ Hub::Hub(const string &address, const string &encoding):
 	set_Header_tooltip_gui();
 
 	//Initialize the chat window
-	//Set Colors
 	gtk_widget_set_name(getWidget("chatText"),"Hub");//TODO: per Fav?
 	WulforUtil::setTextDeufaults(getWidget("chatText"),WGETS("background-color-chat"),WGETS("hub-background-image"));
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
@@ -270,7 +269,7 @@ Hub::Hub(const string &address, const string &encoding):
 
 	// Set the pane position
 	gint panePosition = WGETI("nick-pane-position");
-	//if (panePosition > 10)
+	//if (panePosition > 10)//@this seems unneeded
 	{
 		gint width;
 		GtkWindow *window = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
@@ -384,6 +383,9 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 			return;
 		if(cell == NULL)
 			return;
+		if( iter == NULL)
+			return;
+	
 		string nick = hub->nickView.getString(iter,_("Nick"),model);
 		int64_t size = hub->nickView.getValue<gint64>(iter,_("Shared"),model);
 		string tmp = hub->nickView.getString(iter,_("Client Type"),model);		
@@ -411,7 +413,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 			default:
 			  color = WGETS("userlist-bg-normal");
 		}
-//TODO:check?
+//TODO: check? & UI
 bool isSet = false;
 if(WGETB("use-highlighting")) {
 		ColorList* cl = HighlightManager::getInstance()->getList();
@@ -487,7 +489,7 @@ Hub::~Hub()
 	GtkWindow *window = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
 	gtk_window_get_size(window, &width, NULL);
 	gint panePosition = width - gtk_paned_get_position(GTK_PANED(getWidget("pane")));
-	//if (panePosition > 10)
+	//if (panePosition > 10)//not needed?
 		WSET("nick-pane-position", panePosition);
 
 	if (handCursor)
@@ -546,23 +548,24 @@ void Hub::set_Header_tooltip_gui()
 gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer data)
 {
 	Hub* hub = (Hub*)data;
-	if(hub == NULL) return FALSE;//@Should never hapen but :-D
-  	
-  GtkTreeIter iter;
-  GtkTreeView *tree_view = GTK_TREE_VIEW (widget);
-  GtkTreeModel *model = gtk_tree_view_get_model (tree_view);
-  GtkTreePath *path = NULL;
-  gchar *nick, *tag, *desc,*con,*ip,*e,*country,*slots,*hubs,*pk,*cheat,*gen,*sup,*cid;
-  gint64 ssize;
+	if(hub == NULL) return FALSE; //@Should never hapen but :-D
+	if( _tooltip == NULL) return FALSE;
+	
+	GtkTreeIter iter;
+	GtkTreeView *tree_view = GTK_TREE_VIEW (widget);
+	GtkTreeModel *model = gtk_tree_view_get_model (tree_view);
+	GtkTreePath *path = NULL;
+	gchar *nick, *tag, *desc,*con,*ip,*e,*country,*slots,*hubs,*pk,*cheat,*gen,*sup,*cid;
+	gint64 ssize;
 
-  char buffer[1000];
+	char buffer[1000];
 
-  if (!gtk_tree_view_get_tooltip_context (tree_view, &x, &y,
+	if (!gtk_tree_view_get_tooltip_context (tree_view, &x, &y,
 					  keyboard_tip,
 					  &model, &path, &iter))
-    return FALSE;
+	return FALSE;
 
-  gtk_tree_model_get (model, &iter, hub->nickView.col(_("Nick")), &nick,
+	gtk_tree_model_get (model, &iter, hub->nickView.col(_("Nick")), &nick,
 									hub->nickView.col(_("Description")), &desc,
 									hub->nickView.col(_("Tag")), &tag,
 									hub->nickView.col(_("Connection")), &con,
@@ -582,6 +585,9 @@ gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean 
   string sharesize  = Util::formatBytes(ssize);
   g_snprintf (buffer, 1000, " Nick: %s\n Connection: %s\n Description: %s\n Tag: %s\n Share: %s\n IP: %s\n eMail: %s\nCountry: %s\n Slots: %s\n Hubs: %s\n PK: %s\n Cheat: %s\n Generator: %s\n Support: %s\n CID: %s", nick, con,desc, tag , sharesize.c_str() ,ip, e, country, slots, hubs, pk, cheat, gen, sup, cid);
   gtk_tooltip_set_text (_tooltip, buffer);
+	if(path == NULL) return FALSE;
+	if(tree_view == NULL) return FALSE;
+  		
 
   gtk_tree_view_set_tooltip_row (tree_view, _tooltip, path);
 
@@ -608,7 +614,7 @@ void Hub::setStatus_gui(string statusBar, string text)
 	{
 		if(!g_utf8_validate(text.c_str(),-1,NULL))
 		{
-			dcdebug("Should be aware about codepage ?");
+			dcdebug("Should be aware about codepage ?");//TODO inform user?
 			string _text = Text::toUtf8(text,client->getEncoding());
 			text = _text;
 		}
@@ -1026,10 +1032,6 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 		default:
 			tagMsg = Tag::TAG_GENERAL;
 
-//			FavoriteHubEntry* entry = FavoriteManager::getInstance()->getFavoriteHubEntry(client->getHubUrl());
-// there is no reason check this on every message or ?
-//			bool isFavBool =  entry ? entry->getNotify() : WGETI("notify-hub-chat-use");
-
 			if(isFavBool)
 			{
 				MainWindow *mw = WulforManager::get()->getMainWindow();
@@ -1273,7 +1275,6 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 				/*	gtk_text_buffer_delete(chatBuffer, &tag_start_iter, &tag_end_iter);
 					GtkTextChildAnchor *anchor = gtk_text_buffer_create_child_anchor(chatBuffer, &tag_start_iter);
 					GtkWidget *event_box = gtk_event_box_new();
-	//          Creating a visible window may cause artifacts that are visible to the user.
 					gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
 					GtkWidget *image = gtk_image_new_from_pixbuf(buffer);
 					gtk_container_add(GTK_CONTAINER(event_box),image);
@@ -4661,30 +4662,35 @@ void Hub::onReconnectItemTab(gpointer data)
 void Hub::onCloseItem(gpointer data)
 {
     BookEntry *entry = (BookEntry *)data;
+	if(entry == NULL) return;
     WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
 }
 
 void Hub::onCopyHubUrl(gpointer data)
 {
     Hub *hub = (Hub *)data;
+	if(hub == NULL) return;
     gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), hub->address.c_str(), hub->address.length());
 }
 
 void Hub::onAddFavItem(gpointer data)
 {
 	Hub *hub = (Hub *)data;
+	if(hub == NULL) return;
 	hub->addAsFavorite_client();
 }
 
 void Hub::onRemoveFavHub(gpointer data)
 {
     Hub *hub = (Hub *)data;
+	if(hub == NULL) return;
     hub->removeAsFavorite_client();
 }
 
 void Hub::on_setImage_tab(GtkButton *widget, gpointer data)
 {
 	Hub *hub = (Hub *)data;
+	if(hub == NULL) return;
 	GtkWidget *dialog = gtk_file_chooser_dialog_new ("Open Icon File to Set to Tab",
 						GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 				        GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -4725,6 +4731,7 @@ void Hub::onSetTabText(gpointer data)
 void Hub::SetTabText(gpointer data)
 {
 	Hub *hub = (Hub *)data;
+	if(hub == NULL) return;
 	GtkDialog *dialog =  GTK_DIALOG(gtk_dialog_new_with_buttons ("Setting for a Tab Text",
                                          GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
                                          GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -4788,6 +4795,8 @@ void Hub::SetTabText(gpointer data)
 void Hub::onToglleButtonIcon(GtkToggleButton *button, gpointer data)
 {
 	Hub *hub = (Hub *)data;
+	if(hub == NULL) return;
+	if(button == NULL) return;
 	gboolean active = gtk_toggle_button_get_active(button);
 	if(active)
 	{
@@ -4800,6 +4809,8 @@ void Hub::onToglleButtonIcon(GtkToggleButton *button, gpointer data)
 			FavoriteManager::getInstance()->save();
 		}
 	}
+	if( hub->tab_button == NULL) return;
 	gtk_widget_set_sensitive(hub->tab_button, !active);
+	if( hub->tab_image == NULL ) return;
 	gtk_widget_set_sensitive(hub->tab_image, !active);
 }

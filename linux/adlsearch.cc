@@ -28,7 +28,7 @@ using namespace std;
 using namespace dcpp;
 
 SearchADL::SearchADL():
-	BookEntry(Entry::SEARCH_ADL, _("ADL Search"), "adlsearch.glade"),
+	BookEntry(Entry::SEARCH_ADL, _("ADL Search"), "adlsearch"),
 	sens(TRUE),	acts(TRUE),
 	forbid(TRUE)
 {

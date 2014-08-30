@@ -25,7 +25,7 @@ using namespace std;
 using namespace dcpp;
 
 AboutConfig::AboutConfig():
-BookEntry(Entry::ABOUT_CONFIG, _("About:config"), "config.glade")
+BookEntry(Entry::ABOUT_CONFIG, _("About:config"), "config")
 {
 
 	aboutView.setView(GTK_TREE_VIEW(getWidget("aboutTree")));
@@ -54,7 +54,7 @@ BookEntry(Entry::ABOUT_CONFIG, _("About:config"), "config.glade")
 	if(!SETTING(AC_DISCLAIM)) {
 			gtk_widget_set_sensitive(getWidget("scrolledwindow"),FALSE);
 	}
-	g_signal_connect(getWidget("infobar"),
+	g_signal_connect(GTK_INFO_BAR(getWidget("infobar")),
                             "response",
                             G_CALLBACK (onInfoResponse),
                             (gpointer)this);
@@ -201,14 +201,14 @@ void AboutConfig::setStatus(string msg)
 
 gboolean AboutConfig::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	AboutConfig *s = reinterpret_cast<AboutConfig *>(data);
+	AboutConfig *s = (AboutConfig *)data;
 	s->previous = event->type;
 	return FALSE;
 }
 
 gboolean AboutConfig::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	AboutConfig *s = reinterpret_cast<AboutConfig *>(data);
+	AboutConfig *s = (AboutConfig *)data;
 
 	if (gtk_tree_selection_get_selected(s->aboutSelection, NULL, NULL))
 	{
@@ -229,7 +229,7 @@ gboolean AboutConfig::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *ev
 
 gboolean AboutConfig::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
-	AboutConfig *s = reinterpret_cast<AboutConfig *>(data);
+	AboutConfig *s = (AboutConfig *)data;
 
 	if (gtk_tree_selection_get_selected(s->aboutSelection, NULL, NULL))
 	{
@@ -264,7 +264,7 @@ void AboutConfig::onInfoResponse(GtkWidget *info_bar, gint response_id,  gpointe
 
 void AboutConfig::onPropertiesClicked_gui(GtkWidget *widget, gpointer data)
 {
-	AboutConfig *s = reinterpret_cast<AboutConfig *>(data);
+	AboutConfig *s = (AboutConfig *)data;
 
 	GtkTreeIter iter;
 	if (gtk_tree_selection_get_selected(s->aboutSelection, NULL, &iter))

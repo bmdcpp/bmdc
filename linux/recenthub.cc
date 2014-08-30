@@ -31,7 +31,7 @@ using namespace std;
 using namespace dcpp;
 
 RecentHubs::RecentHubs():
-BookEntry(Entry::RECENT,_("Recent Hubs"),"recenthub.glade")
+BookEntry(Entry::RECENT,_("Recent Hubs"),"recenthub")
 {
 		#if !GTK_CHECK_VERSION(3,12,0)		
 		// Configure the dialog

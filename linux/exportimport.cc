@@ -29,7 +29,7 @@ using namespace std;
 using namespace dcpp;
 
 ExportDialog::ExportDialog(GtkWindow *parent):
-DialogEntry(Entry::EXPORT_DIALOG,"export.glade",parent),
+DialogEntry(Entry::EXPORT_DIALOG,"export",parent),
 exportStore(NULL),
 exportSelection(NULL)
 {

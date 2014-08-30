@@ -25,7 +25,7 @@ using namespace std;
 using namespace dcpp;
 
 Notepad::Notepad():
-BookEntry(Entry::NOTEPAD, _("Notepad"), "notepad.glade")
+BookEntry(Entry::NOTEPAD, _("Notepad"), "notepad")
 {
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("textview1")));
 }

@@ -27,7 +27,7 @@ using namespace std;
 using namespace dcpp;
 
 SearchEntry::SearchEntry():
-	BookEntry(Entry::SEARCHS, "Searches","SearchEntry.glade")
+	BookEntry(Entry::SEARCHS, "Searches","SearchEntry")
 {
 	// All notebooks created in glade/ui need one page.
 	// In our case, this is just a placeholder, so we remove it.

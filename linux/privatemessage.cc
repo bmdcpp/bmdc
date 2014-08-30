@@ -37,7 +37,7 @@ using namespace std;
 using namespace dcpp;
 
 PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
-	BookEntry(Entry::PRIVATE_MESSAGE, _("PM: ") + WulforUtil::getNicks(cid, hubUrl), "privatemessage.glade", cid),
+	BookEntry(Entry::PRIVATE_MESSAGE, _("PM: ") + WulforUtil::getNicks(cid, hubUrl), "privatemessage", cid),
 	dcpp::Flags(NORMAL),
 	cid(cid), hubUrl(hubUrl),
 	historyIndex(0),

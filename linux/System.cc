@@ -26,7 +26,7 @@ using namespace std;
 using namespace dcpp;
 
 SystemLog::SystemLog():
-BookEntry(Entry::SYSTEML,_("System Log"),"system.glade"),
+BookEntry(Entry::SYSTEML,_("System Log"),"system"),
  buffer(NULL),sysMark(NULL)
 {
 	WulforUtil::setTextDeufaults(getWidget("systextview"),WGETS("background-color-chat"));

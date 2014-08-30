@@ -93,7 +93,7 @@ const char* MainWindow::icons[(MainWindow::IconsToolbar)END][3] =
 };
 
 MainWindow::MainWindow():
-	Entry(Entry::MAIN_WINDOW, "mainwindow.glade"),
+	Entry(Entry::MAIN_WINDOW, "mainwindow"),
 	transfers(NULL), lastUpdate(0),
 	lastUp(0), lastDown(0),
 	minimized(FALSE), timer(0),

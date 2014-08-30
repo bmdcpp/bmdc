@@ -1,6 +1,6 @@
 Summary: A Client of DC with Ignore User&few Others Features
 Name: bmdc
-Version: 0.1.6
+Version: 0.1.8
 Release: 1
 License: LGPL
 Group: Applications/Internet
@@ -16,11 +16,11 @@ BuildRequires:	scons
 BuildRequires:	libtar-devel
 
 %description
-A BMDC++ Client Mod of FreeDC++.
-Media Spam, Higlitings Words & Few Others
+A BMDC++ Client Mod of FreeDC++ ported to GTK3.
+Media Spam, Higlitings Words & Few Others Features
 
 %prep
-%setup
+%setup -q
 
 %build
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
@@ -28,7 +28,6 @@ mkdir $RPM_BUILD_ROOT
 scons PREFIX=/usr/
 
 %install
-#[ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
 scons FAKE_ROOT=$RPM_BUILD_ROOT release=1 install
 
 %clean
@@ -45,6 +44,6 @@ scons FAKE_ROOT=$RPM_BUILD_ROOT release=1 install
 %{_datadir}/locale/*
 
 %changelog
-* Sat Mar 24 2011 Mank <freedcpp@seznam.cz> 0.0.3-1
+* Fri Aug 29 2014 Mank <freedcpp@seznam.cz> 0.1.8-1
 - intial version of spec file
  	

@@ -130,7 +130,7 @@ class WulforUtil
 			gtk_style_context_add_provider_for_screen (screen,
                                              GTK_STYLE_PROVIDER(provider),
                                              GTK_STYLE_PROVIDER_PRIORITY_USER);
-			//todo some about per-fav?
+			//TODO: about per-fav?
 			std::string t_css = std::string("GtkTextView#")+ (pm ? "pm" : "Hub") +"{\n"                         
                             "   background: url('"+back_image_path+"');\n"   
                             "}\n";

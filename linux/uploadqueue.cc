@@ -35,7 +35,7 @@ using namespace std;
 using namespace dcpp;
 
 UploadQueue::UploadQueue():
-BookEntry(Entry::UPLOADQUEUE, _("Upload Queue"), "uploadqueue.glade"),
+BookEntry(Entry::UPLOADQUEUE, _("Upload Queue"), "uploadqueue"),
 store(NULL), selection(NULL)
 {
 

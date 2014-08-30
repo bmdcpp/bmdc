@@ -59,7 +59,7 @@ using namespace std;
 using namespace dcpp;
 
 Settings::Settings(GtkWindow* parent):
-	DialogEntry(Entry::SETTINGS_DIALOG, "settingsdialog.glade", parent)
+	DialogEntry(Entry::SETTINGS_DIALOG, "settingsdialog", parent)
 {
 	#if !GTK_CHECK_VERSION(3,12,0)		
 	// Configure the dialogs.

@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011-2014 Mank freedcpp@seznam.cz
+ * Copyright © 2011-2014 Mank, freedcpp@seznam.cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ using namespace std;
 using namespace dcpp;
 
 FavoriteHubs::FavoriteHubs():
-	BookEntry(Entry::FAVORITE_HUBS, _("Favorite Hubs"), "favoritehubs.glade")
+	BookEntry(Entry::FAVORITE_HUBS, _("Favorite Hubs"), "favoritehubs")
 {
 	// menu
 	g_object_ref_sink(getWidget("menu"));
@@ -54,7 +54,6 @@ FavoriteHubs::FavoriteHubs():
 	favoriteStore = gtk_list_store_newv(favoriteView.getColCount(), favoriteView.getGTypes());
 	gtk_tree_view_set_model(favoriteView.get(), GTK_TREE_MODEL(favoriteStore));
 	g_object_unref(favoriteStore);
-//	gtk_tree_view_set_fixed_height_mode(favoriteView.get(), TRUE);
 	favoriteSelection = gtk_tree_view_get_selection(favoriteView.get());
 	gtk_tree_view_set_search_column(favoriteView.get(), favoriteView.col(_("Name")));
 

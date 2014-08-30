@@ -35,7 +35,7 @@ using namespace std;
 using namespace dcpp;
 
 ShareBrowser::ShareBrowser(UserPtr user, const string &file, const string &initialDirectory, int64_t speed, bool full):
-	BookEntry(Entry::SHARE_BROWSER, _("List: ") + WulforUtil::getNicks(user, ""), "sharebrowser.glade", user->getCID().toBase32()),
+	BookEntry(Entry::SHARE_BROWSER, _("List: ") + WulforUtil::getNicks(user, ""), "sharebrowser", user->getCID().toBase32()),
 	user(user),
 	file(file),
 	initialDirectory(initialDirectory),

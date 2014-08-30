@@ -324,11 +324,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	env.Append(CPPPATH = '#/miniupnp')
 	env.Append(LIBS = 'miniupnpc')
 
-	#debuging stuff
-	#env.Append(LIBS = ['tcmalloc'])
-	#env.Append(LINKFLAGS='-ltcmalloc')
-	
-	
 	if LIB_HAVE_XATTR:
 		env.Append(LIBS='attr')
 		env.Append(LINKFLAGS='-lattr')

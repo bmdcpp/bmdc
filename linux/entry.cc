@@ -34,7 +34,7 @@ Entry::Entry(const EntryType type, const string &ui, const string &id):
 {
 	if(!ui.empty()) {
 	// Load the Builder XML file, if applicable
-	string file = WulforManager::get()->getPath() + "/ui/" + ui + ".ui";
+	string file = WulforManager::get()->getPath() + "/ui/" + ui + ".glade.ui";
 #if !GTK_CHECK_VERSION(3, 10, 0)
 	GError *error = NULL;
 	xml = gtk_builder_new();

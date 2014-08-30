@@ -40,7 +40,7 @@ FinishedTransfers* FinishedTransfers::createFinishedUploads()
 }
 
 FinishedTransfers::FinishedTransfers(const EntryType type, const string &title, bool isUpload):
-	BookEntry(type, title, "finishedtransfers.glade"),
+	BookEntry(type, title, "finishedtransfers"),
 	isUpload(isUpload),
 	totalFiles(0),
 	totalUsers(0),

@@ -30,7 +30,7 @@ using namespace std;
 using namespace dcpp;
 
 cmddebug::cmddebug():
-BookEntry(Entry::CMD,_("CMD"),"cmddebug.glade"),
+BookEntry(Entry::CMD,_("CMD"),"cmddebug"),
 stop(false)
 {
 	WulforUtil::setTextDeufaults(getWidget("cmdtextview"),WGETS("background-color-chat"));

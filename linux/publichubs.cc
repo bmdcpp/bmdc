@@ -28,7 +28,7 @@ using namespace std;
 using namespace dcpp;
 
 PublicHubs::PublicHubs():
-	BookEntry(Entry::PUBLIC_HUBS, _("Public Hubs"), "publichubs.glade"),
+	BookEntry(Entry::PUBLIC_HUBS, _("Public Hubs"), "publichubs"),
 	hubs(0), filter("")
 {
 	#if !GTK_CHECK_VERSION(3,12,0)		

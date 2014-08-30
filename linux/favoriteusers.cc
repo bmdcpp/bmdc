@@ -35,7 +35,7 @@ using namespace std;
 using namespace dcpp;
 
 FavoriteUsers::FavoriteUsers():
-	BookEntry(Entry::FAVORITE_USERS, _("Favorite Users"), "favoriteusers.glade")
+	BookEntry(Entry::FAVORITE_USERS, _("Favorite Users"), "favoriteusers")
 {
 	#if !GTK_CHECK_VERSION(3,12,0)	
 	// Configure the dialog

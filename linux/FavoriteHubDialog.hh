@@ -37,7 +37,7 @@ class FavoriteHubDialog: public Entry
    public:
 
 	FavoriteHubDialog(FavoriteHubEntry* entry, bool add = true):
-	Entry(Entry::FAV_HUB,"FavDialog.glade"),
+	Entry(Entry::FAV_HUB,"FavDialog"),
 	p_entry(entry),
 	init(add), actionStore(NULL), actionSel(NULL)
 	{
@@ -207,6 +207,10 @@ class FavoriteHubDialog: public Entry
 			p_entry->get(HubSettings::ShowJoins) =  gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("comboboxParts")));
 			p_entry->get(HubSettings::FavShowJoins) = gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("comboboxFavParts")));
 			p_entry->get(HubSettings::AwayMessage) = gtk_entry_get_text(GTK_ENTRY(getWidget("entryAway")));
+			//temp fix
+			p_entry->get(HubSettings::Connection) = 1;
+			p_entry->get(HubSettings::Connection6) = 0;
+			
 
 			if (gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("groupsComboBox"))) != 0)
 			{

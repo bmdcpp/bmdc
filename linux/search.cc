@@ -38,7 +38,7 @@ using namespace std;
 using namespace dcpp;
 
 Search::Search(const string& str):
-	BookEntry(Entry::SEARCH, _("Search: "), "search.glade", str.empty() ? generateID() : str),
+	BookEntry(Entry::SEARCH, _("Search: "), "search", str.empty() ? generateID() : str),
 	previousGrouping(NOGROUPING)
 {
 	setSearchButtons(true);

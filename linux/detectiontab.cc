@@ -25,7 +25,7 @@ using namespace std;
 using namespace dcpp;
 
 DetectionTab::DetectionTab():
-BookEntry(Entry::DETECTION, _("Detection Settings"), "detection.glade")
+BookEntry(Entry::DETECTION, _("Detection Settings"), "detection")
 {
 	gtk_window_set_transient_for(GTK_WINDOW(getWidget("ActRawDialog")), GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()));
 	gtk_window_set_destroy_with_parent(GTK_WINDOW(getWidget("ActRawDialog")), TRUE);
