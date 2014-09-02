@@ -67,7 +67,6 @@ FavoriteUsers::FavoriteUsers():
 	gtk_tree_selection_set_mode(favoriteUserSelection, GTK_SELECTION_MULTIPLE);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(favoriteUserStore), favoriteUserView.col(_("Nick")), GTK_SORT_ASCENDING);
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(favoriteUserView.get(), favoriteUserView.col(_("Nick"))), TRUE);
-//	gtk_tree_view_set_fixed_height_mode(favoriteUserView.get(), TRUE);
 
 	g_signal_connect(favoriteUserView.getCellRenderOf(_("Auto grant slot")), "toggled", G_CALLBACK(onAutoGrantSlotToggled_gui), (gpointer)this);
 

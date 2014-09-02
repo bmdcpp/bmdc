@@ -24,10 +24,14 @@
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
+#include <dcpp/File.h>
 #include <dcpp/FavoriteManager.h>
 #include <dcpp/RawManager.h>
 #include "entry.hh"
+#include "wulformanager.hh"
 #include "WulforUtil.hh"
+#include "treeview.hh"
+
 
 using namespace std;
 using namespace dcpp;
@@ -207,7 +211,7 @@ class FavoriteHubDialog: public Entry
 			p_entry->get(HubSettings::ShowJoins) =  gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("comboboxParts")));
 			p_entry->get(HubSettings::FavShowJoins) = gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("comboboxFavParts")));
 			p_entry->get(HubSettings::AwayMessage) = gtk_entry_get_text(GTK_ENTRY(getWidget("entryAway")));
-			//temp fix
+			//temp fix ( disabling IPv6 by default)
 			p_entry->get(HubSettings::Connection) = 1;
 			p_entry->get(HubSettings::Connection6) = 0;
 			
@@ -313,52 +317,15 @@ private:
 		}
 	}
 
+	static void onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
+	static void onCheckButtonToggled_gui(GtkToggleButton *button, gpointer data);
+	bool showErrorDialog_gui(const string &description);
+
 	FavoriteHubEntry* p_entry;
 	bool init;
 	GtkTreeStore *actionStore;
 	TreeView actionView;
 	GtkTreeSelection *actionSel;
-	static void onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data)
-	{
-		FavoriteHubDialog *fh = (FavoriteHubDialog *)data;
-		GtkTreeIter iter;
-
-		if (gtk_tree_model_get_iter_from_string(GTK_TREE_MODEL(fh->actionStore), &iter, path))
-		{
-			bool fixed = fh->actionView.getValue<gboolean>(&iter, _("Enabled"));
-			fixed = !fixed;
-			gtk_tree_store_set(fh->actionStore, &iter, fh->actionView.col(_("Enabled")), fixed, -1);
-		}
-
-	}
-
-	static void onCheckButtonToggled_gui(GtkToggleButton *button, gpointer data){
-			GtkWidget *widget = (GtkWidget*)data;
-			bool override = gtk_toggle_button_get_active(button);
-
-			gtk_widget_set_sensitive(widget, override);
-
-			if (override)
-			{
-				gtk_widget_grab_focus(widget);
-			}
-	}
-
-	bool showErrorDialog_gui(const string &description)
-	{
-		GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(getContainer()),
-		GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_WARNING, GTK_BUTTONS_OK, "%s", description.c_str());
-
-		gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-
-		// Fix crash, if the dialog gets programmatically destroyed.
-		if (response == GTK_RESPONSE_NONE)
-			return FALSE;
-
-		gtk_widget_destroy(dialog);
-
-		return TRUE;
-	}
 
 };
 
