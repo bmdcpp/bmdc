@@ -115,7 +115,7 @@ void UploadQueue::addFile(StringMap &params,GtkTreeIter *iter)
 				users.col("CID"), params["CID"].c_str(),
 				users.col("Icon"), "bmdc-normal",
 				-1);
-	mapUsers.insert(MapUsers::value_type(params["CID"], *iter));
+	mapUsers.insert(UnMapIter::value_type(params["CID"], *iter));
 }
 
 void UploadQueue::AddFile_gui(StringMap params)

@@ -329,6 +329,7 @@ gboolean BookEntry::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *even
 		gtk_widget_show(book->popTabMenuItem);
 		g_object_ref_sink(book->popTabMenuItem);
 		gtk_menu_popup(GTK_MENU(book->popTabMenuItem),NULL, NULL, NULL,NULL,0,0);
+		return TRUE;
 	}
 	return FALSE;
 }

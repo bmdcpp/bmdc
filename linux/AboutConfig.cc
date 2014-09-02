@@ -273,7 +273,6 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget *widget, gpointer data)
 		string value = s->aboutView.getString(&iter, _("Value"));
 		bool isWsm = (s->aboutView.getString(&iter, "WS") == "1") ? true : false;
 		int n;
-		SettingsManager *sm = SettingsManager::getInstance();
 		bool run = s->getDialog(name, value, data);
 		if(!run)
 			return;
@@ -288,7 +287,7 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget *widget, gpointer data)
 			s->updateItem_gui(name,value);
 			return;	
 		}
-		
+		SettingsManager *sm = SettingsManager::getInstance();		
 		SettingsManager::Types type;		
 		sm->getType(name.c_str(), n, type);
 		switch(type)
@@ -341,7 +340,7 @@ void AboutConfig::onSetDefault(GtkWidget *widget, gpointer data)
 			return;		
 		}
 		
-		auto sm = SettingsManager::getInstance();
+		SettingsManager *sm = SettingsManager::getInstance();
 		int n ;
 		SettingsManager::Types type;
 		
