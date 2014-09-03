@@ -43,10 +43,9 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	historyIndex(0),
 	sentAwayMessage(FALSE),
 	scrollToBottom(TRUE),
-//	offline(false),
 	notCreated(true)
 {
-	//set Colors
+	//Set Colors
 	gtk_widget_set_name(getWidget("text"),"pm");
 	WulforUtil::setTextDeufaults(getWidget("text"),WGETS("background-color-chat"),WGETS("pm-background-image"),true);
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
@@ -72,7 +71,7 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	g_object_ref_sink(getWidget("hubMenu"));
 	g_object_ref_sink(getWidget("chatCommandsMenu"));
 
-	userCommandMenu = new UserCommandMenu(BookEntry::createmenu(), ::UserCommand::CONTEXT_USER);
+	userCommandMenu = new UserCommandMenu(gtk_menu_new(), ::UserCommand::CONTEXT_USER);
 	addChild(userCommandMenu);
 
 	// Emoticons dialog
@@ -136,7 +135,6 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	gtk_widget_grab_focus(getWidget("entry"));
 	history.push_back("");
 	const OnlineUser* user = ClientManager::getInstance()->findOnlineUser(CID(cid), hubUrl);
-//	isBot = user ? user->getIdentity().isBot() : FALSE;
 	if(user != NULL) {
 		setFlag(user->getIdentity().isBot());
 	}	
@@ -1542,28 +1540,34 @@ void PrivateMessage::readLog(const string& logPath, const unsigned setting)
 GtkWidget *PrivateMessage::createmenu()
 {
 	string nicks = WulforUtil::getNicks(this->cid, this->hubUrl);
-	gtk_menu_item_set_label(GTK_MENU_ITEM(getFItem()), nicks.c_str());
+	GtkWidget* fitem = BookEntry::createItemFirstMenu();
+	gtk_menu_item_set_label(GTK_MENU_ITEM(fitem), nicks.c_str());
 if(notCreated) {
+	m_menu = gtk_menu_new();
 	userCommandMenu->cleanMenu_gui();
 	userCommandMenu->addUser(cid);
 	userCommandMenu->addHub(hubUrl);
 	userCommandMenu->buildMenu_gui();
-	GtkWidget *menu = userCommandMenu->getContainer();
-
+		
+	GtkWidget *u_item = gtk_menu_item_new_with_label(_("Users Commands"));
 	GtkWidget *copyHubUrl = gtk_menu_item_new_with_label(_("Copy CID"));
 	GtkWidget *close = gtk_menu_item_new_with_label(_("Close"));
 	GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite Users"));
 	GtkWidget *copyNicks = gtk_menu_item_new_with_label(_("Copy Nick(s)"));
-
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu),close);
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu),copyHubUrl);
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu),addFav);
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu),copyNicks);
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(u_item),userCommandMenu->getContainer());
+	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), fitem);
+	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu),close);
+	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu),copyHubUrl);
+	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu),addFav);
+	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu),copyNicks);
+	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), u_item);
 	gtk_widget_show(close);
 	gtk_widget_show(copyHubUrl);
 	gtk_widget_show(addFav);
 	gtk_widget_show(copyNicks);
-	gtk_widget_show_all(userCommandMenu->getContainer());
+	gtk_widget_show(fitem);
+	gtk_widget_show(u_item);
+	gtk_widget_show_all(m_menu);
 
 	g_signal_connect_swapped(copyHubUrl, "activate", G_CALLBACK(onCopyCID), (gpointer)this);
 	g_signal_connect_swapped(close, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
@@ -1571,7 +1575,7 @@ if(notCreated) {
 	g_signal_connect_swapped(copyNicks, "activate", G_CALLBACK(onCopyNicks), (gpointer)this);
 	notCreated = false;
 	}	
-    return userCommandMenu->getContainer();//menu
+    return m_menu;
 }
 
 void PrivateMessage::onCloseItem(gpointer data)

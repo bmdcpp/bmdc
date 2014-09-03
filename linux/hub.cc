@@ -149,10 +149,9 @@ Hub::Hub(const string &address, const string &encoding):
 	userCommandMenu = new UserCommandMenu(getWidget("usercommandMenu"), ::UserCommand::CONTEXT_USER);
 	addChild(userCommandMenu);
 	// Hub ...
-	m_menu = BookEntry::createmenu();
 	userCommandMenu1 = new UserCommandMenu(gtk_menu_new(), ::UserCommand::CONTEXT_HUB);
 	addChild(userCommandMenu1);
-	// IP ...
+	// IP Address...
 	userCommandMenu2 = new UserCommandMenu(getWidget("ipmenu"), ::UserCommand::CONTEXT_IP);
 	addChild(userCommandMenu2);
 
@@ -4617,9 +4616,10 @@ void Hub::on(ClientListener::ClientLine, Client* , const string &mess, int type)
 //custom popup menu
 GtkWidget *Hub::createmenu()
 {
-	gtk_menu_item_set_label(GTK_MENU_ITEM(getFItem()),address.c_str());
+	GtkWidget* fitem = BookEntry::createItemFirstMenu();
+	gtk_menu_item_set_label(GTK_MENU_ITEM(fitem),address.c_str());
 	if(notCreated) {
-		
+		m_menu = gtk_menu_new();
 		userCommandMenu1->cleanMenu_gui();
 		userCommandMenu1->addUser(client->getMyIdentity().getUser()->getCID().toBase32());
 		userCommandMenu1->addHub(client->getHubUrl());
@@ -4631,6 +4631,7 @@ GtkWidget *Hub::createmenu()
 	GtkWidget *setTab = gtk_menu_item_new_with_label(_("Set Tab Name"));
 	GtkWidget *reconectItem = gtk_menu_item_new_with_label(_("Reconnect this hub"));
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(u_item),userCommandMenu1->getContainer());
+	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), fitem);
 	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), copyHubUrl);
 	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), addFav);
 	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), remfav);
@@ -4642,6 +4643,7 @@ GtkWidget *Hub::createmenu()
 	gtk_widget_show(remfav);
 	gtk_widget_show(setTab);
 	gtk_widget_show(u_item);
+	gtk_widget_show(fitem);
 	gtk_widget_show(reconectItem);
 	gtk_widget_show_all(userCommandMenu1->getContainer());
 	gtk_widget_show_all(m_menu);

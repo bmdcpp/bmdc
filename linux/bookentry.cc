@@ -298,14 +298,18 @@ void BookEntry::removeBooK_GUI()
 
 GtkWidget *BookEntry::createmenu()
 {
-    popTabMenuItem = gtk_menu_new();
     if(!IsCloseButton) {
+		popTabMenuItem = gtk_menu_new();
+		GtkWidget *menuItemFirst =  createItemFirstMenu();
 		GtkWidget *closeTabMenuItem = gtk_menu_item_new_with_label(_("Close"));
+		gtk_menu_shell_append(GTK_MENU_SHELL(popTabMenuItem),menuItemFirst);
 		gtk_menu_shell_append(GTK_MENU_SHELL(popTabMenuItem),closeTabMenuItem);
 		gtk_widget_show(closeTabMenuItem);
+		gtk_widget_show( menuItemFirst);
 		g_signal_connect_swapped(closeTabMenuItem, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
+		return popTabMenuItem;		
 	}
-    return popTabMenuItem;
+	return NULL;
 }
 
 gboolean BookEntry::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
@@ -321,11 +325,8 @@ gboolean BookEntry::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *even
 
 	if ( (book != NULL) && ((event->button == 3) && (event->type == GDK_BUTTON_RELEASE) ) )
 	{
-		book->fItem = (book->createItemFirstMenu());
 		// show menu
-		book->createmenu();
-		gtk_menu_shell_prepend(GTK_MENU_SHELL(book->popTabMenuItem),book->fItem);
-		gtk_widget_show(book->fItem);
+		book->popTabMenuItem = book->createmenu();
 		gtk_widget_show(book->popTabMenuItem);
 		g_object_ref_sink(book->popTabMenuItem);
 		gtk_menu_popup(GTK_MENU(book->popTabMenuItem),NULL, NULL, NULL,NULL,0,0);

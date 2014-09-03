@@ -60,7 +60,7 @@ class Hub:
 		// GUI functions
 		void preferences_gui();
 
-		virtual GtkWidget *createmenu();
+		GtkWidget *createmenu() override;
 
 		bool findNick_gui_p(std::string &word)
 		{

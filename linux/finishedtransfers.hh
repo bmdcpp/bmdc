@@ -80,7 +80,6 @@ class FinishedTransfers:
 		virtual void on(dcpp::FinishedManagerListener::RemovedFile, bool upload, const std::string &file) noexcept;
 		virtual void on(dcpp::FinishedManagerListener::UpdatedUser, bool upload, const dcpp::HintedUser &user) noexcept;//NOTE: core 0.762
 		virtual void on(dcpp::FinishedManagerListener::RemovedUser, bool upload, const dcpp::HintedUser &user) noexcept;//NOTE: core 0.762
-		/* virtual void on(dcpp::FinishedManagerListener::RemoveAll, bool upload) throw();  Implement? */
 
 		GtkListStore *fileStore, *userStore;
 		TreeView userView;

@@ -19,8 +19,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef WULFOR_DOWNLOAD_QUEUE_HH
-#define WULFOR_DOWNLOAD_QUEUE_HH
+#ifndef BMDC_DOWNLOAD_QUEUE_HH
+#define BMDC_DOWNLOAD_QUEUE_HH
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>

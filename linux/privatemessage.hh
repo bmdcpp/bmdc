@@ -44,7 +44,7 @@ class PrivateMessage:
 		PrivateMessage(const std::string &cid, const std::string &hubUrl);
 		virtual ~PrivateMessage();
 		virtual void show();
-		virtual GtkWidget *createmenu();
+		GtkWidget *createmenu() override;
 
 		// GUI functions
 		void addMessage_gui(std::string message, Msg::TypeMsg typemsg);
@@ -54,6 +54,7 @@ class PrivateMessage:
 		bool getIsOffline() const { return isSet(OFFLINE);}
 
 	private:
+		//@Status of PM's user
 		enum
 		{
 			NORMAL = 0,
@@ -119,7 +120,6 @@ class PrivateMessage:
 		GtkTextMark *mark, *start_mark, *end_mark, *tag_mark, *emot_mark;
 		std::string cid;
 		std::string hubUrl;
-//		bool isBot;
 		std::vector<std::string> history;
 		int historyIndex;
 		bool sentAwayMessage;
@@ -136,8 +136,8 @@ class PrivateMessage:
 		EmoticonsDialog *emotdialog;
 		UserCommandMenu *userCommandMenu;
 		std::string ip;
-//		bool offline;
 		bool notCreated;
+		GtkWidget* m_menu;
 
 };
 

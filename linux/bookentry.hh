@@ -35,7 +35,6 @@ class BookEntry : public Entry
 		{
 			eventBox = NULL;
 			labelBox = NULL;
-
 		}
 
 		GtkWidget *getContainer(); //@ return Main Container of Book
@@ -55,14 +54,16 @@ class BookEntry : public Entry
 		bool isActive_gui();
 		virtual void show() = 0;
 		virtual GtkWidget *createmenu();
-		GtkWidget *getFItem() { return fItem;}
+		GtkWidget *getFItem() { return (createItemFirstMenu());}
 		
 		void setSearchButtons(bool s) { IsCloseButton = s;}
+	protected:
+		GtkWidget *createItemFirstMenu();
 	private:
 		void updateLabel_gui();
 		static void onCloseItem(gpointer data);
 		void removeBooK_GUI();
-		GtkWidget *createItemFirstMenu();
+
 		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		std::string labelText;
