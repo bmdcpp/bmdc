@@ -32,7 +32,6 @@
 #include "WulforUtil.hh"
 #include "treeview.hh"
 
-
 using namespace std;
 using namespace dcpp;
 

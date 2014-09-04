@@ -256,7 +256,7 @@ class Hub:
 		std::vector<std::string> history;
 		unsigned int historyIndex;
 		static const int maxLines = 1000;
-		static const int maxHistory = 30;//+10
+		static const int maxHistory = 30;
 		int64_t totalShared;
 		GdkCursor *handCursor;
 		GtkTextTag *selectedTag;

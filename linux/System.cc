@@ -30,6 +30,14 @@ BookEntry(Entry::SYSTEML,_("System Log"),"system"),
  buffer(NULL),sysMark(NULL)
 {
 	WulforUtil::setTextDeufaults(getWidget("systextview"),WGETS("background-color-chat"));
+	string strcolor = "black";//TODO : Settings?	
+	GdkRGBA color;
+	gdk_rgba_parse(&color,strcolor.c_str());
+	gtk_widget_override_color(getWidget("systextview"), GTK_STATE_FLAG_NORMAL, &color);
+	gtk_widget_override_color(getWidget("systextview"), GTK_STATE_FLAG_PRELIGHT, &color);
+	gtk_widget_override_color(getWidget("systextview"), GTK_STATE_FLAG_ACTIVE, &color);
+	gtk_widget_override_color(getWidget("systextview"), GTK_STATE_FLAG_INSENSITIVE, &color);
+	
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("systextview")));
 	gtk_text_buffer_get_end_iter(buffer, &iter);
 	sysMark = gtk_text_buffer_create_mark(buffer, NULL, &iter, FALSE);

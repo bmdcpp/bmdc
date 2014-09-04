@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2014-09-03 15:54+0200\n"
+"POT-Creation-Date: 2014-09-04 00:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1000,7 +1000,7 @@ msgstr ""
 #: linux/AboutConfig.cc:93 linux/AboutConfig.cc:98 linux/AboutConfig.cc:104
 #: linux/AboutConfig.cc:109 linux/AboutConfig.cc:132 linux/AboutConfig.cc:144
 #: linux/emoticonsdialog.cc:140 linux/previewmenu.cc:88
-#: linux/FavoriteHubDialog.hh:74 linux/FavoriteHubDialog.hh:75
+#: linux/FavoriteHubDialog.hh:73 linux/FavoriteHubDialog.hh:74
 msgid "Default"
 msgstr ""
 
@@ -1213,8 +1213,8 @@ msgstr ""
 #: linux/exportimport.cc:126 linux/settingsdialog.cc:1858
 #: linux/settingsdialog.cc:1877 linux/settingsdialog.cc:1889
 #: linux/settingsdialog.cc:1900 linux/settingsdialog.cc:1902
-#: linux/FavoriteHubDialog.hh:51 linux/FavoriteHubDialog.hh:63
-#: linux/FavoriteHubDialog.hh:299 linux/FavoriteHubDialog.hh:312
+#: linux/FavoriteHubDialog.hh:50 linux/FavoriteHubDialog.hh:62
+#: linux/FavoriteHubDialog.hh:298 linux/FavoriteHubDialog.hh:311
 msgid "Enabled"
 msgstr ""
 
@@ -1891,8 +1891,8 @@ msgstr ""
 #: linux/settingsdialog.cc:3856 linux/settingsdialog.cc:3935
 #: linux/settingsdialog.cc:4482 linux/settingsdialog.cc:4575
 #: linux/settingsdialog.cc:4598 linux/settingsdialog.cc:4617
-#: linux/FavoriteHubDialog.hh:50 linux/FavoriteHubDialog.hh:298
-#: linux/FavoriteHubDialog.hh:311
+#: linux/FavoriteHubDialog.hh:49 linux/FavoriteHubDialog.hh:297
+#: linux/FavoriteHubDialog.hh:310
 msgid "Name"
 msgstr ""
 
@@ -4785,7 +4785,7 @@ msgid ""
 "The GeoIP database has been successfully updated; restart DC++ to apply....v"
 msgstr ""
 
-#: linux/FavoriteHubDialog.hh:257
+#: linux/FavoriteHubDialog.hh:256
 msgid "The name and address fields are required"
 msgstr ""
 
