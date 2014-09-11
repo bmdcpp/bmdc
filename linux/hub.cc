@@ -33,6 +33,7 @@
 #include <dcpp/PluginManager.h>
 #include <dcpp/ConnectivityManager.h>
 #include <dcpp/HighlightManager.h>
+#include <dcpp/AVManager.h>
 #include "WulforUtil.hh"
 #include "privatemessage.hh"
 #include "search.hh"
@@ -435,6 +436,14 @@ if(WGETB("use-highlighting")) {
 			}
 		}
 }//END
+		if(AVManager::getInstance()->isNickVirused(nick))
+		{
+			AVManager::AVEntry entry = AVManager::getInstance()->getEntryByNick(nick);
+			if(size == Util::toInt64(entry.ss))
+				color = "red";//hardcode for now
+			color = "#A52A2A";//another red		
+		}
+
 		if(isSet == false) {
 			g_object_set(cell,"cell-background-set",TRUE,"cell-background",color.c_str(),NULL);
 		}
@@ -4547,7 +4556,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 	}
 }
 
-void Hub::on(ClientListener::StatusMessage, Client *, const string &message, int /* flag */) noexcept
+void Hub::on(ClientListener::StatusMessage, Client *, const string &message, int flag) noexcept
 {
 	if (!message.empty())
 	{
@@ -4576,6 +4585,12 @@ void Hub::on(ClientListener::StatusMessage, Client *, const string &message, int
 		typedef Func3<Hub, string, string, Msg::TypeMsg> F3;
 		F3 *func = new F3(this, &Hub::addMessage_gui, "", message, Msg::STATUS);
 		WulforManager::get()->dispatchGuiFunc(func);
+
+		if(flag == FLAG_VIRUS){
+			typedef Func3<Hub, string, string, Msg::TypeMsg> F3;
+			F3 *func = new F3(this, &Hub::addMessage_gui, "", message, Msg::CHEAT);
+			WulforManager::get()->dispatchGuiFunc(func);
+		}
 	}
 }
 

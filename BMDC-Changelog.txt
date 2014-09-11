@@ -41,7 +41,7 @@
 * Added initial support of checking of Users
 * Added color-widget setting (from CrZDC)
 * Added Country, flag, ip in chat
-* Added /Alias commands
+* Added /alias commands
 * Added tooltips on main/hub status bar
 * Added tooltips in UserList / Search
 * Added Lua Script Supports

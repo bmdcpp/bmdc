@@ -125,9 +125,6 @@ public:
 	CID getMyCID();
 	const CID& getMyPID();
 
-	//void loadUsers();
-	//void saveUsers() const;
-	//void saveUser(const CID& cid);
 	//HideShare
 	bool getSharingHub(const HintedUser& p) {
 		Lock l(cs);

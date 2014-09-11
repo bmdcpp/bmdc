@@ -776,8 +776,7 @@ void MainWindow::removeBookEntry_gui(BookEntry *entry)
 
 void MainWindow::removeItemFromList(Entry::EntryType type, string id)
 {
-	vector<Entry*> hubs;
-	vector<Entry*> pms;
+	vector<Entry*> tmp;
 	switch(type)
 	{
 		case Entry::FAVORITE_HUBS:
@@ -817,9 +816,9 @@ void MainWindow::removeItemFromList(Entry::EntryType type, string id)
 				 string hubId = (*it)->getID();
 				 if(hubId == id)
 					 continue;
-				hubs.push_back(*it);
+				tmp.push_back(*it);
 			 }
-			 Hubs = hubs;
+			 Hubs = tmp;
 			 break;
 		case Entry::PRIVATE_MESSAGE:
 			if(privateMessage.empty()) break;
@@ -828,9 +827,9 @@ void MainWindow::removeItemFromList(Entry::EntryType type, string id)
 				 string pId = (*it)->getID();
 				 if(pId == id)
 					 continue;
-				pms.push_back(*it);
+				tmp.push_back(*it);
 			 }
-			 privateMessage = pms;
+			 privateMessage = tmp;
 			 break;
 		case Entry::SEARCHS:
 		default:break;
@@ -1008,7 +1007,7 @@ void MainWindow::showFavoriteUsers_gui()
 	showBook(Entry::FAVORITE_USERS, new FavoriteUsers());
 	setStatusOfIcons(FAVORITE_USERS,true);
 }
-//[BMDC++
+//
 void MainWindow::showCmdDebug_gui()
 {
 	showBook(Entry::CMD, new cmddebug());
@@ -1155,6 +1154,7 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 				string::size_type j = message.size();
 
 				Notify::get()->showNotify("", message.substr(0, j - i) + "...", Notify::PRIVATE_MESSAGE);
+				
 			}
 			else
 				Notify::get()->showNotify("", message, Notify::PRIVATE_MESSAGE);

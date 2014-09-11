@@ -26,7 +26,7 @@ namespace dcpp {
 using std::string;
 
 /** Helper struct to manage a single HTTP download. Calls a completion function when finished. */
-struct HttpDownload : private HttpConnectionListener/*, private boost::noncopyable*/ {
+struct HttpDownload : private HttpConnectionListener {
 	typedef std::function<void (bool success, const string& result)> CompletionFunc;
 	
 	explicit HttpDownload(const string& address, CompletionFunc f, bool coralize = true);

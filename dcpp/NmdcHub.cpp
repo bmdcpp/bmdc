@@ -36,6 +36,8 @@
 #include "format.h"
 #include "PluginManager.h"
 #include <iconv.h>
+#include "AVManager.h"
+
 
 namespace dcpp {
 
@@ -474,9 +476,14 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			server = Socket::resolve( param.substr(i+1,j-i-1));
 			j++;
 		}
-		else
+		else {
+			if(!getMyIdentity().isOp() && AVManager::getInstance()->isIpVirused(param.substr(i,j-i))){
+				fire(ClientListener::StatusMessage(), this, unescape("This user "+param.substr(i,j-i)+" has the viruses in share!"), ClientListener::FLAG_VIRUS);
+				return;
+			}				
+			
 			server = Socket::resolve(param.substr(i, j-i), AF_INET);
-		
+		}		
 		if(isProtectedIP(server))
 			return;
 		if(j+1 >= param.size()) {
@@ -829,6 +836,11 @@ void NmdcHub::connectToMe(const OnlineUser& aUser) {
 	string nick = fromUtf8(aUser.getIdentity().getNick());
 	ConnectionManager::getInstance()->nmdcExpect(nick, getMyNick(), getHubUrl());
 	
+	if(!getMyIdentity().isOp() && AVManager::getInstance()->isNickVirused(aUser.getIdentity().getNick())){
+			fire(ClientListener::StatusMessage(), this, unescape("This user "+aUser.getIdentity().getNick()+" has the viruses in share!"), ClientListener::FLAG_VIRUS);
+			return;
+	}	
+	
 	bool isOkIp6 = aUser.getUser()->isSet(User::IPV6);
 	
 	if(sock->isV6Valid() && isOkIp6 && isActiveV6() && ((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ) ) 
@@ -839,6 +851,10 @@ void NmdcHub::connectToMe(const OnlineUser& aUser) {
 
 void NmdcHub::revConnectToMe(const OnlineUser& aUser) {
 	checkstate();
+	if(!getMyIdentity().isOp() && AVManager::getInstance()->isNickVirused(aUser.getIdentity().getNick())){
+		fire(ClientListener::StatusMessage(), this, unescape("This user"+aUser.getIdentity().getNick()+" has the viruses in share!"), ClientListener::FLAG_VIRUS);
+		return;
+	}	
 	dcdebug("NmdcHub::revConnectToMe %s\n", aUser.getIdentity().getNick().c_str());
 	send("$RevConnectToMe " + fromUtf8(getMyNick()) + " " + fromUtf8(aUser.getIdentity().getNick()) + "|");
 }

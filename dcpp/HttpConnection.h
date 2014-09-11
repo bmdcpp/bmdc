@@ -27,7 +27,7 @@ namespace dcpp {
 
 using std::string;
 
-class HttpConnection : BufferedSocketListener, public Speaker<HttpConnectionListener>//, boost::noncopyable
+class HttpConnection : BufferedSocketListener, public Speaker<HttpConnectionListener>
 {
 public:
 	HttpConnection(bool coralize = true, const string& aUserAgent = Util::emptyString);

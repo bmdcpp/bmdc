@@ -53,7 +53,8 @@ public:
 
 	enum StatusFlags {
 		FLAG_NORMAL = 0x00,
-		FLAG_IS_SPAM = 0x01
+		FLAG_IS_SPAM = 0x01,
+		FLAG_VIRUS = 0x05
 	};
 
 	virtual void on(Connecting, Client*) noexcept { }

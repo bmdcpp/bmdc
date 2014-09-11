@@ -321,7 +321,8 @@ private:
 	bool showErrorDialog_gui(const string &description);
 
 	FavoriteHubEntry* p_entry;
-	bool init;
+	bool init; //@ new or edit?
+	//@The Kick/Ban Action part
 	GtkTreeStore *actionStore;
 	TreeView actionView;
 	GtkTreeSelection *actionSel;

@@ -93,13 +93,14 @@ void HttpConnection::prepareRequest(RequestType type) {
 	method = (connType == TYPE_POST) ? "POST" : "GET";
 
 	// set download type
-	if(currentUrl.substr(currentUrl.size() - 4) == ".bz2") {//strcmp
+	if(currentUrl.substr(currentUrl.size() - 4) == ".bz2") {
 		mimeType = "application/x-bzip2";
 	} else mimeType.clear();
 
 	string proto, query, fragment;
 	if(SETTING(HTTP_PROXY).empty()) {
 		Util::decodeUrl(currentUrl, proto, server, port, file, query, fragment);
+		dcdebug( "\np %s q %s f %s\n",proto.c_str(),query.c_str(),file.c_str());
 		if(file.empty())
 			file = "/";
 	} else {
@@ -131,8 +132,10 @@ void HttpConnection::prepareRequest(RequestType type) {
 
 	socket->addListener(this);
 	try {
+		dcdebug("HttpC %s - %s\n",server.c_str(),port.c_str());
 		socket->connect(server, port, (proto == "https"), true, false);
 	} catch(const Exception& e) {
+		dcdebug( "err %s %s", e.getError().c_str(), currentUrl.c_str());
 		fire(HttpConnectionListener::Failed(), this, e.getError() + " (" + currentUrl + ")");
 		connState = CONN_FAILED;
 	}
@@ -151,6 +154,7 @@ void HttpConnection::abortRequest(bool disconnect) {
 void HttpConnection::on(BufferedSocketListener::Connected) noexcept {
 	dcassert(socket);
 	socket->write("GET " + file + " HTTP/1.1\r\n");
+	dcdebug("\nG %s\n",file.c_str());
 	socket->write("User-Agent: " APPNAME " v" VERSIONSTRING "\r\n");
 
 	string sRemoteServer = server;
@@ -213,7 +217,6 @@ void HttpConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 		abortRequest(true);
 
 		string location = aLine.substr(10, aLine.length() - 10);
-//		Util::sanitizeUrl(location);
 		location = Util::trimUrl(location);
 
 		// make sure we can also handle redirects with relative paths

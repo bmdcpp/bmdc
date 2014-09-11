@@ -51,6 +51,8 @@
 #include "PluginManager.h"
 #include "RsxUtil.h"
 
+#include "AVManager.h"
+
 extern "C" int _nl_msg_cat_cntr;
 
 namespace dcpp {
@@ -102,6 +104,7 @@ void startup() {
 	BackupManager::newInstance();
 	RestoreManager::newInstance();
 #endif
+	AVManager::newInstance();
 }
 void load(function<void (const string&)> stepF, function<void (float)> progressF){
 
@@ -178,6 +181,8 @@ void shutdown() {
 	QueueManager::getInstance()->saveQueue(true);
 	SettingsManager::getInstance()->save();
 
+
+	AVManager::deleteInstance();
 	HighlightManager::deleteInstance();
 	DetectionManager::deleteInstance();
 	PluginManager::deleteInstance();//
