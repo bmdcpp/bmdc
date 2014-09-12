@@ -113,6 +113,9 @@ class Search:
 
 		// GUI functions
 		void parseSearchResult_gui(dcpp::SearchResultPtr result, dcpp::StringMap &resultMap);
+		void setColorRow(std::string cell);
+		void setColorsRows();
+		static void makeColor(GtkTreeViewColumn*, GtkCellRenderer*, GtkTreeModel*, GtkTreeIter*, gpointer);
 
 		// Client functions
 		void download_client(std::string target, std::string cid, std::string filename, int64_t size, std::string tth, std::string hubUrl);

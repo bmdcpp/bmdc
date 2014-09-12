@@ -438,10 +438,10 @@ if(WGETB("use-highlighting")) {
 }//END
 		if(AVManager::getInstance()->isNickVirused(nick))
 		{
+			color = "#A52A2A";//another red
 			AVManager::AVEntry entry = AVManager::getInstance()->getEntryByNick(nick);
-			if(size == Util::toInt64(entry.ss))
+			if(Util::toInt64(entry.ss) == size)
 				color = "red";//hardcode for now
-			color = "#A52A2A";//another red		
 		}
 
 		if(isSet == false) {
@@ -4645,8 +4645,10 @@ GtkWidget *Hub::createmenu()
 	GtkWidget *remfav = gtk_menu_item_new_with_label(_("Remove from Favorite hubs"));
 	GtkWidget *setTab = gtk_menu_item_new_with_label(_("Set Tab Name"));
 	GtkWidget *reconectItem = gtk_menu_item_new_with_label(_("Reconnect this hub"));
+	GtkWidget *closeItem = gtk_menu_item_new_with_label (_("Close Hub"));	
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(u_item),userCommandMenu1->getContainer());
 	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), fitem);
+	gtk_menu_shell_append (GTK_MENU_SHELL(m_menu), closeItem);	
 	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), copyHubUrl);
 	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), addFav);
 	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), remfav);
@@ -4668,6 +4670,7 @@ GtkWidget *Hub::createmenu()
 	g_signal_connect_swapped(remfav, "activate", G_CALLBACK(onRemoveFavHub), (gpointer)this);
 	g_signal_connect_swapped(setTab, "activate", G_CALLBACK(onSetTabText), (gpointer)this);
 	g_signal_connect_swapped(reconectItem, "activate",G_CALLBACK(onReconnectItemTab), (gpointer)this);
+	g_signal_connect_swapped(closeItem, "activate" , G_CALLBACK(onCloseItem), (gpointer)this);	
 	notCreated = false;
 	}
 	return m_menu;

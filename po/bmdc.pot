@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2014-09-11 19:15+0200\n"
+"POT-Creation-Date: 2014-09-12 17:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -757,7 +757,7 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:2487 ui/settingsdialog.glade.ui:4729
 #: ui/settingsdialog.glade.ui:6454 ui/settingsdialog.glade.ui:7608
 #: ui/settingsdialog.glade.ui:7624 ui/settingsdialog.glade.ui:7640
-#: linux/search.cc:349 linux/search.cc:419 linux/sharebrowser.cc:508
+#: linux/search.cc:423 linux/search.cc:493 linux/sharebrowser.cc:508
 #: linux/sharebrowser.cc:560
 msgid "Browse..."
 msgstr ""
@@ -957,8 +957,8 @@ msgstr ""
 #: ui/search.glade.ui:842 ui/settingsdialog.glade.ui:2290
 #: ui/settingsdialog.glade.ui:2374 linux/hub.cc:69 linux/hub.cc:339
 #: linux/hub.cc:543 linux/hub.cc:579 linux/hub.cc:715 linux/hub.cc:744
-#: linux/search.cc:104 linux/search.cc:640 linux/search.cc:701
-#: linux/search.cc:849 linux/search.cc:1741
+#: linux/search.cc:105 linux/search.cc:229 linux/search.cc:714
+#: linux/search.cc:777 linux/search.cc:925 linux/search.cc:1817
 msgid "Connection"
 msgstr ""
 
@@ -1054,7 +1054,7 @@ msgid "Direct connection"
 msgstr ""
 
 #: ui/adlsearch.glade.ui:772 ui/settingsdialog.glade.ui:6430
-#: linux/UserCommandMenu.cc:74 linux/search.cc:1728
+#: linux/UserCommandMenu.cc:74 linux/search.cc:1804
 #: linux/settingsdialog.cc:978 linux/settingsdialog.cc:992
 #: linux/settingsdialog.cc:1080 linux/settingsdialog.cc:1515
 #: linux/settingsdialog.cc:4253 linux/settingsdialog.cc:4273
@@ -1324,14 +1324,14 @@ msgstr ""
 #: linux/downloadqueue.cc:276 linux/downloadqueue.cc:383
 #: linux/downloadqueue.cc:750 linux/downloadqueue.cc:793
 #: linux/downloadqueue.cc:844 linux/finishedtransfers.cc:56
-#: linux/finishedtransfers.cc:228 linux/search.cc:98 linux/search.cc:134
-#: linux/search.cc:364 linux/search.cc:635 linux/search.cc:676
-#: linux/search.cc:840 linux/search.cc:1075 linux/search.cc:1116
-#: linux/search.cc:1175 linux/search.cc:1256 linux/search.cc:1295
-#: linux/search.cc:1352 linux/search.cc:1655 linux/search.cc:1703
-#: linux/search.cc:1707 linux/search.cc:1711 linux/search.cc:1712
-#: linux/search.cc:1723 linux/search.cc:1727 linux/search.cc:1987
-#: linux/sharebrowser.cc:80 linux/sharebrowser.cc:102
+#: linux/finishedtransfers.cc:228 linux/search.cc:99 linux/search.cc:135
+#: linux/search.cc:223 linux/search.cc:438 linux/search.cc:709
+#: linux/search.cc:752 linux/search.cc:916 linux/search.cc:1151
+#: linux/search.cc:1192 linux/search.cc:1251 linux/search.cc:1332
+#: linux/search.cc:1371 linux/search.cc:1428 linux/search.cc:1731
+#: linux/search.cc:1779 linux/search.cc:1783 linux/search.cc:1787
+#: linux/search.cc:1788 linux/search.cc:1799 linux/search.cc:1803
+#: linux/search.cc:2064 linux/sharebrowser.cc:80 linux/sharebrowser.cc:102
 #: linux/sharebrowser.cc:103 linux/sharebrowser.cc:296
 #: linux/sharebrowser.cc:327 linux/sharebrowser.cc:525
 #: linux/sharebrowser.cc:618 linux/sharebrowser.cc:978
@@ -1544,12 +1544,13 @@ msgstr ""
 #: ui/search.glade.ui:851 linux/bookentry.cc:387 linux/detectiontab.cc:108
 #: linux/detectiontab.cc:1029 linux/detectiontab.cc:1132
 #: linux/detectiontab.cc:1229 linux/finishedtransfers.cc:78
-#: linux/finishedtransfers.cc:185 linux/search.cc:105 linux/search.cc:641
-#: linux/search.cc:711 linux/search.cc:858 linux/search.cc:1742
-#: linux/settingsdialog.cc:2090 linux/settingsdialog.cc:2100
-#: linux/settingsdialog.cc:3857 linux/settingsdialog.cc:3936
-#: linux/settingsdialog.cc:4483 linux/settingsdialog.cc:4576
-#: linux/settingsdialog.cc:4599 linux/settingsdialog.cc:4618
+#: linux/finishedtransfers.cc:185 linux/search.cc:106 linux/search.cc:230
+#: linux/search.cc:715 linux/search.cc:787 linux/search.cc:934
+#: linux/search.cc:1818 linux/settingsdialog.cc:2090
+#: linux/settingsdialog.cc:2100 linux/settingsdialog.cc:3857
+#: linux/settingsdialog.cc:3936 linux/settingsdialog.cc:4483
+#: linux/settingsdialog.cc:4576 linux/settingsdialog.cc:4599
+#: linux/settingsdialog.cc:4618
 msgid "Hub"
 msgstr ""
 
@@ -1927,8 +1928,9 @@ msgstr ""
 #: linux/hub.cc:711 linux/hub.cc:740 linux/hub.cc:797 linux/hub.cc:873
 #: linux/hub.cc:1688 linux/hub.cc:2010 linux/hub.cc:2071 linux/hub.cc:2500
 #: linux/hub.cc:2672 linux/hub.cc:2703 linux/hub.cc:3018 linux/hub.cc:3057
-#: linux/search.cc:99 linux/search.cc:634 linux/search.cc:707
-#: linux/search.cc:855 linux/search.cc:1738
+#: linux/search.cc:100 linux/search.cc:224 linux/search.cc:272
+#: linux/search.cc:708 linux/search.cc:783 linux/search.cc:931
+#: linux/search.cc:1814
 msgid "Nick"
 msgstr ""
 
@@ -2065,13 +2067,13 @@ msgstr ""
 #: ui/search.glade.ui:836 linux/downloadqueue.cc:72 linux/downloadqueue.cc:285
 #: linux/downloadqueue.cc:392 linux/finishedtransfers.cc:57
 #: linux/finishedtransfers.cc:229 linux/finishedtransfers.cc:500
-#: linux/search.cc:102 linux/search.cc:638 linux/search.cc:691
-#: linux/search.cc:843 linux/search.cc:1074 linux/search.cc:1115
-#: linux/search.cc:1174 linux/search.cc:1255 linux/search.cc:1294
-#: linux/search.cc:1351 linux/search.cc:1416 linux/search.cc:1708
-#: linux/search.cc:1724 linux/search.cc:1725 linux/search.cc:1726
-#: linux/search.cc:1988 linux/transfers.cc:69 linux/transfers.cc:761
-#: linux/transfers.cc:931
+#: linux/search.cc:103 linux/search.cc:227 linux/search.cc:712
+#: linux/search.cc:767 linux/search.cc:919 linux/search.cc:1150
+#: linux/search.cc:1191 linux/search.cc:1250 linux/search.cc:1331
+#: linux/search.cc:1370 linux/search.cc:1427 linux/search.cc:1492
+#: linux/search.cc:1784 linux/search.cc:1800 linux/search.cc:1801
+#: linux/search.cc:1802 linux/search.cc:2065 linux/transfers.cc:69
+#: linux/transfers.cc:761 linux/transfers.cc:931
 msgid "Path"
 msgstr ""
 
@@ -2574,15 +2576,16 @@ msgstr ""
 
 #: ui/mainwindow.glade.ui:115 ui/search.glade.ui:147 ui/search.glade.ui:839
 #: linux/downloadqueue.cc:68 linux/downloadqueue.cc:87
-#: linux/downloadqueue.cc:279 linux/downloadqueue.cc:386 linux/search.cc:101
-#: linux/search.cc:131 linux/search.cc:637 linux/search.cc:696
-#: linux/search.cc:846 linux/search.cc:1715 linux/search.cc:1733
-#: linux/settingsdialog.cc:1081 linux/settingsdialog.cc:1087
-#: linux/settingsdialog.cc:4304 linux/settingsdialog.cc:4373
-#: linux/sharebrowser.cc:81 linux/sharebrowser.cc:104
-#: linux/sharebrowser.cc:304 linux/sharebrowser.cc:344 linux/transfers.cc:68
-#: linux/transfers.cc:587 linux/transfers.cc:668 linux/transfers.cc:762
-#: linux/transfers.cc:779 linux/transfers.cc:932
+#: linux/downloadqueue.cc:279 linux/downloadqueue.cc:386 linux/search.cc:102
+#: linux/search.cc:132 linux/search.cc:226 linux/search.cc:711
+#: linux/search.cc:772 linux/search.cc:922 linux/search.cc:1791
+#: linux/search.cc:1809 linux/settingsdialog.cc:1081
+#: linux/settingsdialog.cc:1087 linux/settingsdialog.cc:4304
+#: linux/settingsdialog.cc:4373 linux/sharebrowser.cc:81
+#: linux/sharebrowser.cc:104 linux/sharebrowser.cc:304
+#: linux/sharebrowser.cc:344 linux/transfers.cc:68 linux/transfers.cc:587
+#: linux/transfers.cc:668 linux/transfers.cc:762 linux/transfers.cc:779
+#: linux/transfers.cc:932
 msgid "Size"
 msgstr ""
 
@@ -2748,11 +2751,11 @@ msgid "Trusted certificates path"
 msgstr ""
 
 #: ui/detection.glade.ui:288 ui/detection.glade.ui:967 linux/AboutConfig.cc:34
-#: linux/AboutConfig.cc:40 linux/AboutConfig.cc:158 linux/search.cc:100
-#: linux/search.cc:639 linux/search.cc:716 linux/search.cc:861
-#: linux/search.cc:1712 linux/search.cc:1713 linux/search.cc:1714
-#: linux/search.cc:1728 linux/sharebrowser.cc:82 linux/sharebrowser.cc:307
-#: linux/sharebrowser.cc:328
+#: linux/AboutConfig.cc:40 linux/AboutConfig.cc:158 linux/search.cc:101
+#: linux/search.cc:225 linux/search.cc:713 linux/search.cc:792
+#: linux/search.cc:937 linux/search.cc:1788 linux/search.cc:1789
+#: linux/search.cc:1790 linux/search.cc:1804 linux/sharebrowser.cc:82
+#: linux/sharebrowser.cc:307 linux/sharebrowser.cc:328
 msgid "Type"
 msgstr ""
 
@@ -3105,7 +3108,7 @@ msgstr ""
 msgid " added to favorites list"
 msgstr ""
 
-#: linux/search.cc:1932
+#: linux/search.cc:2009
 msgid " dropped"
 msgstr ""
 
@@ -3117,7 +3120,7 @@ msgstr ""
 msgid " files"
 msgstr ""
 
-#: linux/search.cc:1919
+#: linux/search.cc:1996
 msgid " filtered"
 msgstr ""
 
@@ -3149,7 +3152,7 @@ msgstr ""
 msgid " is not favorite user"
 msgstr ""
 
-#: linux/search.cc:662
+#: linux/search.cc:736
 msgid " items"
 msgstr ""
 
@@ -3227,11 +3230,11 @@ msgstr ""
 msgid "0 Users"
 msgstr ""
 
-#: linux/search.cc:536
+#: linux/search.cc:610
 msgid "0 filtered"
 msgstr ""
 
-#: linux/search.cc:535
+#: linux/search.cc:609
 msgid "0 items"
 msgstr ""
 
@@ -3295,7 +3298,7 @@ msgstr ""
 msgid "Add Plugin"
 msgstr ""
 
-#: linux/search.hh:160
+#: linux/search.hh:163
 msgid "Add Search Tab"
 msgstr ""
 
@@ -3523,8 +3526,12 @@ msgid "Client Type"
 msgstr ""
 
 #: linux/bookentry.cc:304 linux/privatemessage.cc:1554
-#: linux/sharebrowser.cc:1082 linux/search.hh:161
+#: linux/sharebrowser.cc:1082 linux/search.hh:164
 msgid "Close"
+msgstr ""
+
+#: linux/hub.cc:4648
+msgid "Close Hub"
 msgstr ""
 
 #: linux/hub.cc:2427
@@ -3814,9 +3821,9 @@ msgid "Exact Share"
 msgstr ""
 
 #: linux/downloadqueue.cc:73 linux/downloadqueue.cc:88
-#: linux/downloadqueue.cc:280 linux/downloadqueue.cc:387 linux/search.cc:106
-#: linux/search.cc:132 linux/search.cc:642 linux/search.cc:695
-#: linux/sharebrowser.cc:84 linux/sharebrowser.cc:105
+#: linux/downloadqueue.cc:280 linux/downloadqueue.cc:387 linux/search.cc:107
+#: linux/search.cc:133 linux/search.cc:231 linux/search.cc:716
+#: linux/search.cc:771 linux/sharebrowser.cc:84 linux/sharebrowser.cc:105
 #: linux/sharebrowser.cc:305 linux/sharebrowser.cc:345
 msgid "Exact Size"
 msgstr ""
@@ -4474,15 +4481,15 @@ msgstr ""
 msgid "Search type"
 msgstr ""
 
-#: linux/search.cc:41 linux/search.cc:537
+#: linux/search.cc:42 linux/search.cc:611
 msgid "Search: "
 msgstr ""
 
-#: linux/search.cc:534
+#: linux/search.cc:608
 msgid "Searching for "
 msgstr ""
 
-#: linux/search.cc:550
+#: linux/search.cc:624
 msgid "Searching too soon, retry in "
 msgstr ""
 
@@ -4669,8 +4676,8 @@ msgid "Slot granted to "
 msgstr ""
 
 #: linux/hub.cc:75 linux/hub.cc:344 linux/hub.cc:548 linux/hub.cc:584
-#: linux/hub.cc:720 linux/hub.cc:749 linux/search.cc:103 linux/search.cc:133
-#: linux/search.cc:636
+#: linux/hub.cc:720 linux/hub.cc:749 linux/search.cc:104 linux/search.cc:134
+#: linux/search.cc:228 linux/search.cc:710
 msgid "Slots"
 msgstr ""
 

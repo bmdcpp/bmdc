@@ -19,20 +19,20 @@ namespace dcpp {
 class AVManager: public Singleton<AVManager>, private TimerManagerListener
 {
 	public:
-		AVManager():timestamp_db(0), temp_tick(GET_TICK())
+		AVManager(): timestamp_db(0), temp_tick(GET_TICK())
 	{	TimerManager::getInstance()->addListener(this); }
 		virtual ~AVManager(){	TimerManager::getInstance()->removeListener(this); }
 		string getPath(){ return Util::getPath(Util::PATH_USER_LOCAL)+"avdb"; }
-		bool isNickVirused(string nick) { return entries.find(nick) != entries.end();}
-		bool isIpVirused(string ip) {return entip.find(ip) != entip.end();}
+		bool isNickVirused(string nick) { Lock l(cs); return entries.find(nick) != entries.end();}
+		bool isIpVirused(string ip) {Lock l(cs); return entip.find(ip) != entip.end();}
 		struct AVEntry
 		{
 			string nick;
 			string ss;
 			string ip;
 		};
-		AVEntry getEntryByNick(string nick) { return entries.find(nick)->second;}
-		AVEntry getEntryByIP(string ip) { return entip.find(ip)->second;}
+		AVEntry getEntryByNick(string nick) { Lock l(cs); return entries.find(nick)->second;}
+		AVEntry getEntryByIP(string ip) { Lock l(cs); return entip.find(ip)->second;}
 		std::map<string /*nick*/,AVEntry> entries;
 		std::map<string /*ip*/,AVEntry> entip;
 		//@ <nick>|<ip>|<share>|<time>\n
@@ -94,7 +94,8 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 				conn.reset( new HttpDownload(address,[this](bool s,const string& b) { if(s) loadDb(b); }, false));
 			}
 			temp_tick = aTick;
-		}	
+		}
+		CriticalSection cs;
 };
 
 }

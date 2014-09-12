@@ -28,6 +28,7 @@
 #include <dcpp/Text.h>
 #include <dcpp/UserCommand.h>
 #include <dcpp/Client.h>
+#include <dcpp/AVManager.h>
 #include <dcpp/GeoManager.h>
 #include "UserCommandMenu.hh"
 #include "wulformanager.hh"
@@ -216,6 +217,79 @@ void Search::show()
 	ClientManager::getInstance()->addListener(this);
 	SearchManager::getInstance()->addListener(this);
 }
+
+void Search::setColorsRows()
+{
+	setColorRow(_("Filename"));
+	setColorRow(_("Nick"));
+	setColorRow(_("Type"));
+	setColorRow(_("Size"));
+	setColorRow(_("Path"));
+	setColorRow(_("Slots"));
+	setColorRow(_("Connection"));
+	setColorRow(_("Hub"));
+	setColorRow(_("Exact Size"));
+	setColorRow("Country");
+	setColorRow("IP");
+	setColorRow("TTH");
+}
+static void hub_notify(gpointer data)
+{ }
+
+void Search::setColorRow(string cell)
+{
+
+	if(resultView.getCellRenderOf(cell) != NULL)
+		gtk_tree_view_column_set_cell_data_func(resultView.getColumn(cell),
+								resultView.getCellRenderOf(cell),
+								Search::makeColor,
+								(gpointer)this,
+								(GDestroyNotify)hub_notify);
+	
+	if(resultView.getCellRenderOf2(cell) != NULL)
+		gtk_tree_view_column_set_cell_data_func(resultView.getColumn(cell),
+								resultView.getCellRenderOf2(cell),
+								Search::makeColor,
+								(gpointer)this,
+								(GDestroyNotify)hub_notify);
+}
+
+void Search::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data)
+{
+		Search* se = (Search *)data;
+		if(se == NULL) return;
+		if(model == NULL)
+			return;
+		if(iter == NULL)
+			return;
+		if(column == NULL)
+			return;
+		if(cell == NULL)
+			return;
+		if( iter == NULL)
+			return;
+	string color = Util::emptyString;
+	string nick = se->resultView.getString(iter,_("Nick"),model);
+	string ip = se->resultView.getString(iter,"IP",model);
+
+	if(!nick.empty() &&  AVManager::getInstance()->isNickVirused(nick))
+	{
+		//color = "blue";//another red
+		AVManager::AVEntry entry = AVManager::getInstance()->getEntryByNick(nick);
+			if(entry.ip == ip)
+				color = "red";//hardcode for now
+	}
+	if(!ip.empty() && AVManager::getInstance()->isIpVirused(ip))
+	{
+		//color = "blue";//another red
+		AVManager::AVEntry entry = AVManager::getInstance()->getEntryByIP(ip);
+		if(entry.nick == nick)
+			color = "red";
+	}
+	if(!color.empty())
+		g_object_set(cell,"cell-background-set",TRUE,"cell-background",color.c_str(),NULL);
+}
+
 
 void Search::putValue_gui(const string &str, int64_t size, SearchManager::SizeModes mode, SearchManager::TypeModes type)
 {
@@ -663,6 +737,8 @@ void Search::addResult_gui(const SearchResultPtr result)
 
 	if (SETTING(BOLD_SEARCH))
 		setBold_gui();
+
+	setColorsRows();
 }
 
 void Search::updateParentRow_gui(GtkTreeIter *parent, GtkTreeIter *child)
@@ -1749,6 +1825,7 @@ void Search::parseSearchResult_gui(SearchResultPtr result, StringMap &resultMap)
 	// assumption: total slots is never above 999
 	resultMap["Slots Order"] = Util::toString(-1000 * result->getFreeSlots() - result->getSlots());
 	resultMap["Free Slots"] = Util::toString(result->getFreeSlots());
+	
 }
 
 void Search::download_client(string target, string cid, string filename, int64_t size, string tth, string hubUrl)
