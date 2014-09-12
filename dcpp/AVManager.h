@@ -39,6 +39,7 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 		//@ parf of code is same as in Flylink
 		void loadDb(const string& buf)
 		{
+			timestamp_db = time(NULL);
 			if((buf.length() == 1) && (buf == "0")) return;
 			try {
 			File::renameFile(getPath()+".txt",getPath()+".txt.bak");
@@ -78,8 +79,7 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 				entries.insert(make_pair(nick,entry));
 				entries.insert(make_pair(ip,entry));
 		}	
-	
-			timestamp_db = time(NULL);
+
 		};
 		std::unique_ptr<dcpp::HttpDownload> conn;
 		time_t timestamp_db;
@@ -87,7 +87,7 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 		virtual void on(TimerManagerListener::Minute, uint64_t aTick) noexcept
 		{
 			uint64_t backupTime = temp_tick * 30;
-			if( (timestamp_db == 0) || (aTick >= backupTime)) {
+			if( (aTick >= backupTime)) {
 			string address =
 			(timestamp_db == 0) ? ("http://te-home.net/?do=tools&action=avdbload&time=0&notime=1") : ("http://te-home.net/?do=tools&action=avdbload&time="+Util::toString(timestamp_db)+"&notime=1");
 				dcdebug("avdb %s ,%d\n",address.c_str(),timestamp_db);
