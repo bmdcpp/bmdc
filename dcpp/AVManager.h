@@ -87,7 +87,7 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 		virtual void on(TimerManagerListener::Minute, uint64_t aTick) noexcept
 		{
 			uint64_t backupTime = temp_tick * 30;
-			if( (aTick >= backupTime)) {
+			if( (aTick > backupTime)) {
 			string address =
 			(timestamp_db == 0) ? ("http://te-home.net/?do=tools&action=avdbload&time=0&notime=1") : ("http://te-home.net/?do=tools&action=avdbload&time="+Util::toString(timestamp_db)+"&notime=1");
 				dcdebug("avdb %s ,%d\n",address.c_str(),timestamp_db);

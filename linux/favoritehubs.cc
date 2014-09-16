@@ -265,7 +265,7 @@ void FavoriteHubs::onAddEntry_gui(GtkWidget *widget, gpointer data)
 	FavoriteHubDialog *f = new FavoriteHubDialog(&entry,true);
 	bool updatedEntry = f->initDialog(fh->GroupsIter);
 
-	if(!(fh->checkAddys(entry.getServer())))
+	if(fh->checkAddys(entry.getServer()))
 	{
 		fh->showErrorDialog_gui(_("Don't Add Duplicty"),fh);
 		return;	
@@ -284,9 +284,8 @@ bool FavoriteHubs::checkAddys(string url)
 	string tmp = url;
 	size_t i = tmp.find("dchub://");
 	if(i == string::npos)
-		return TRUE;
+		return FALSE;
 	string newhubaddy = tmp.substr(i+1);
-	
 	GtkTreeIter iter;
 	GtkTreeModel *m = GTK_TREE_MODEL(favoriteStore);
 	bool valid = gtk_tree_model_get_iter_first(m, &iter);
@@ -295,11 +294,12 @@ bool FavoriteHubs::checkAddys(string url)
 	{
 		if (favoriteView.getString(&iter, _("Address")) == newhubaddy)
 		{
-			return FALSE;//not add to client
+			return TRUE;//not add to client
 		}
 		valid = gtk_tree_model_iter_next(m, &iter);
 	}
-	return TRUE;
+
+	return FALSE;
 }
 
 void FavoriteHubs::onEditEntry_gui(GtkWidget *widget, gpointer data)
@@ -322,8 +322,8 @@ void FavoriteHubs::onEditEntry_gui(GtkWidget *widget, gpointer data)
 		{
 			fh->editEntry_gui(entry,&iter);
 
-			typedef Func2<FavoriteHubs,FavoriteHubEntry* , string> F2;
-			F2 *func = new F2(fh, &FavoriteHubs::editEntry_client,entry,address_old);
+			typedef Func1<FavoriteHubs,FavoriteHubEntry* > F1;
+			F1 *func = new F1(fh, &FavoriteHubs::editEntry_client,entry);
 			WulforManager::get()->dispatchClientFunc(func);
 		}
 	}
@@ -599,8 +599,8 @@ void FavoriteHubs::updateFavHubGroups_gui(bool updated)
 				entry->setGroup(Util::emptyString);
 				editEntry_gui(entry,&iter);
 
-				typedef Func2<FavoriteHubs,FavoriteHubEntry*, string> F2;
-				F2 *func = new F2(this, &FavoriteHubs::editEntry_client, entry, address);
+				typedef Func1<FavoriteHubs,FavoriteHubEntry* > F1;
+				F1 *func = new F1(this, &FavoriteHubs::editEntry_client, entry);
 				WulforManager::get()->dispatchClientFunc(func);
 			}
 		}
@@ -805,7 +805,7 @@ void FavoriteHubs::addEntry_client(dcpp::FavoriteHubEntry entry)
 	WulforManager::get()->getMainWindow()->updateFavoriteHubMenu_client(fh);
 }
 
-void FavoriteHubs::editEntry_client(dcpp::FavoriteHubEntry *entry,string address)
+void FavoriteHubs::editEntry_client(dcpp::FavoriteHubEntry *entry)
 {
 	if (entry)
 	{

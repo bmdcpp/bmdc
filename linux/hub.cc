@@ -441,7 +441,7 @@ if(WGETB("use-highlighting")) {
 			color = "#A52A2A";//another red
 			AVManager::AVEntry entry = AVManager::getInstance()->getEntryByNick(nick);
 			if(Util::toInt64(entry.ss) == size)
-				color = "red";//hardcode for now
+				color = "red";//hardcode for now @ if size and nick is ok
 		}
 
 		if(isSet == false) {
@@ -878,7 +878,7 @@ void Hub::popupNickMenu_gui()
 
 	userCommandMenu->addHub(client->getHubUrl());
 	userCommandMenu->buildMenu_gui();
-	string color = WGETS("menu-userlist-color");
+	string color = WGETS("menu-userlist-color");//@ Settings of UserList Menu  text color (1st item)
 	gchar *markup = g_markup_printf_escaped ("<span fgcolor=\"%s\" ><b>%s</b></span>",color.c_str(),nick.c_str());
 	GtkMenuItem *item = GTK_MENU_ITEM(getWidget("nickItem"));
 	GtkWidget *label = gtk_bin_get_child(GTK_BIN(item));
@@ -4540,6 +4540,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 		if (  (client->get(HubSettings::BoldTab) == 1) && fid.getUser() != client->getMyIdentity().getUser())
 		{
 			typedef Func0<Hub> F0;
+			//@ only if not active tab and not setted to notify always
               if( !isActive_gui() && WGETB("bold-all-tab"))
 			{
 				F0 *func = new F0(this, &Hub::setUrgent_gui);
@@ -4582,15 +4583,16 @@ void Hub::on(ClientListener::StatusMessage, Client *, const string &message, int
 			LOG(LogManager::STATUS, params);
 		}
 
-		typedef Func3<Hub, string, string, Msg::TypeMsg> F3;
-		F3 *func = new F3(this, &Hub::addMessage_gui, "", message, Msg::STATUS);
-		WulforManager::get()->dispatchGuiFunc(func);
-
 		if(flag == FLAG_VIRUS){
 			typedef Func3<Hub, string, string, Msg::TypeMsg> F3;
 			F3 *func = new F3(this, &Hub::addMessage_gui, "", message, Msg::CHEAT);
 			WulforManager::get()->dispatchGuiFunc(func);
+			return;
 		}
+
+		typedef Func3<Hub, string, string, Msg::TypeMsg> F3;
+		F3 *func = new F3(this, &Hub::addMessage_gui, "", message, Msg::STATUS);
+		WulforManager::get()->dispatchGuiFunc(func);
 	}
 }
 

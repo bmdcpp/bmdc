@@ -76,7 +76,7 @@ class FavoriteHubs:
 		// Client functions
 		void initializeList_client();
 		void addEntry_client(dcpp::FavoriteHubEntry entry);
-		void editEntry_client(dcpp::FavoriteHubEntry* entry,std::string address);
+		void editEntry_client(dcpp::FavoriteHubEntry* entry);
 		void removeEntry_client(std::string address);
 
 		// Client callbacks
@@ -93,7 +93,7 @@ class FavoriteHubs:
 		GdkEventType previous;
 		UnMapIter GroupsIter;
 		
-		bool checkAddys(std::string url);//True if not find in FavList
+		bool checkAddys(std::string url);//@True if not find in FavList
 
 };
 

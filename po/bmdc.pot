@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2014-09-12 17:53+0200\n"
+"POT-Creation-Date: 2014-09-16 18:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -999,8 +999,8 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:8828 linux/AboutConfig.cc:88
 #: linux/AboutConfig.cc:93 linux/AboutConfig.cc:98 linux/AboutConfig.cc:104
 #: linux/AboutConfig.cc:109 linux/AboutConfig.cc:132 linux/AboutConfig.cc:144
+#: linux/FavoriteHubDialog.cc:53 linux/FavoriteHubDialog.cc:54
 #: linux/emoticonsdialog.cc:140 linux/previewmenu.cc:88
-#: linux/FavoriteHubDialog.hh:73 linux/FavoriteHubDialog.hh:74
 msgid "Default"
 msgstr ""
 
@@ -1205,16 +1205,16 @@ msgid "Enable Text Color"
 msgstr ""
 
 #: ui/adlsearch.glade.ui:331 ui/detection.glade.ui:267
-#: ui/detection.glade.ui:800 linux/FavoriteHubDialog.cc:56
-#: linux/FavoriteHubDialog.cc:58 linux/adlsearch.cc:47 linux/adlsearch.cc:76
+#: ui/detection.glade.ui:800 linux/FavoriteHubDialog.cc:30
+#: linux/FavoriteHubDialog.cc:42 linux/FavoriteHubDialog.cc:293
+#: linux/FavoriteHubDialog.cc:295 linux/FavoriteHubDialog.cc:316
+#: linux/FavoriteHubDialog.cc:329 linux/adlsearch.cc:47 linux/adlsearch.cc:76
 #: linux/adlsearch.cc:83 linux/adlsearch.cc:139 linux/adlsearch.cc:250
 #: linux/adlsearch.cc:295 linux/adlsearch.cc:493 linux/adlsearch.cc:495
 #: linux/exportimport.cc:51 linux/exportimport.cc:85 linux/exportimport.cc:124
 #: linux/exportimport.cc:126 linux/settingsdialog.cc:1858
 #: linux/settingsdialog.cc:1877 linux/settingsdialog.cc:1889
 #: linux/settingsdialog.cc:1900 linux/settingsdialog.cc:1902
-#: linux/FavoriteHubDialog.hh:50 linux/FavoriteHubDialog.hh:62
-#: linux/FavoriteHubDialog.hh:298 linux/FavoriteHubDialog.hh:311
 msgid "Enabled"
 msgstr ""
 
@@ -1866,34 +1866,34 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:1156 linux/AboutConfig.cc:32
 #: linux/AboutConfig.cc:41 linux/AboutConfig.cc:43 linux/AboutConfig.cc:156
 #: linux/AboutConfig.cc:174 linux/AboutConfig.cc:272 linux/AboutConfig.cc:324
-#: linux/detectiontab.cc:42 linux/detectiontab.cc:61 linux/detectiontab.cc:72
-#: linux/detectiontab.cc:313 linux/detectiontab.cc:334
-#: linux/detectiontab.cc:405 linux/detectiontab.cc:454
-#: linux/detectiontab.cc:476 linux/detectiontab.cc:500
-#: linux/detectiontab.cc:524 linux/detectiontab.cc:558
-#: linux/detectiontab.cc:643 linux/detectiontab.cc:652
-#: linux/detectiontab.cc:669 linux/detectiontab.cc:681
-#: linux/detectiontab.cc:829 linux/detectiontab.cc:856
-#: linux/detectiontab.cc:899 linux/detectiontab.cc:914
-#: linux/favoritehubs.cc:41 linux/favoritehubs.cc:58 linux/favoritehubs.cc:127
-#: linux/favoritehubs.cc:419 linux/publichubs.cc:43 linux/publichubs.cc:154
-#: linux/publichubs.cc:291 linux/recenthub.cc:42 linux/recenthub.cc:82
-#: linux/recenthub.cc:193 linux/recenthub.cc:272 linux/recenthub.cc:281
-#: linux/settingsdialog.cc:809 linux/settingsdialog.cc:818
-#: linux/settingsdialog.cc:999 linux/settingsdialog.cc:1034
-#: linux/settingsdialog.cc:1433 linux/settingsdialog.cc:1531
-#: linux/settingsdialog.cc:1646 linux/settingsdialog.cc:1666
-#: linux/settingsdialog.cc:1687 linux/settingsdialog.cc:2089
-#: linux/settingsdialog.cc:2098 linux/settingsdialog.cc:3380
-#: linux/settingsdialog.cc:3396 linux/settingsdialog.cc:3414
-#: linux/settingsdialog.cc:3432 linux/settingsdialog.cc:3458
-#: linux/settingsdialog.cc:3463 linux/settingsdialog.cc:3730
-#: linux/settingsdialog.cc:3762 linux/settingsdialog.cc:3812
-#: linux/settingsdialog.cc:3856 linux/settingsdialog.cc:3935
-#: linux/settingsdialog.cc:4482 linux/settingsdialog.cc:4575
-#: linux/settingsdialog.cc:4598 linux/settingsdialog.cc:4617
-#: linux/FavoriteHubDialog.hh:49 linux/FavoriteHubDialog.hh:297
-#: linux/FavoriteHubDialog.hh:310
+#: linux/FavoriteHubDialog.cc:29 linux/FavoriteHubDialog.cc:315
+#: linux/FavoriteHubDialog.cc:328 linux/detectiontab.cc:42
+#: linux/detectiontab.cc:61 linux/detectiontab.cc:72 linux/detectiontab.cc:313
+#: linux/detectiontab.cc:334 linux/detectiontab.cc:405
+#: linux/detectiontab.cc:454 linux/detectiontab.cc:476
+#: linux/detectiontab.cc:500 linux/detectiontab.cc:524
+#: linux/detectiontab.cc:558 linux/detectiontab.cc:643
+#: linux/detectiontab.cc:652 linux/detectiontab.cc:669
+#: linux/detectiontab.cc:681 linux/detectiontab.cc:829
+#: linux/detectiontab.cc:856 linux/detectiontab.cc:899
+#: linux/detectiontab.cc:914 linux/favoritehubs.cc:41 linux/favoritehubs.cc:58
+#: linux/favoritehubs.cc:127 linux/favoritehubs.cc:419 linux/publichubs.cc:43
+#: linux/publichubs.cc:154 linux/publichubs.cc:291 linux/recenthub.cc:42
+#: linux/recenthub.cc:82 linux/recenthub.cc:193 linux/recenthub.cc:272
+#: linux/recenthub.cc:281 linux/settingsdialog.cc:809
+#: linux/settingsdialog.cc:818 linux/settingsdialog.cc:999
+#: linux/settingsdialog.cc:1034 linux/settingsdialog.cc:1433
+#: linux/settingsdialog.cc:1531 linux/settingsdialog.cc:1646
+#: linux/settingsdialog.cc:1666 linux/settingsdialog.cc:1687
+#: linux/settingsdialog.cc:2089 linux/settingsdialog.cc:2098
+#: linux/settingsdialog.cc:3380 linux/settingsdialog.cc:3396
+#: linux/settingsdialog.cc:3414 linux/settingsdialog.cc:3432
+#: linux/settingsdialog.cc:3458 linux/settingsdialog.cc:3463
+#: linux/settingsdialog.cc:3730 linux/settingsdialog.cc:3762
+#: linux/settingsdialog.cc:3812 linux/settingsdialog.cc:3856
+#: linux/settingsdialog.cc:3935 linux/settingsdialog.cc:4482
+#: linux/settingsdialog.cc:4575 linux/settingsdialog.cc:4598
+#: linux/settingsdialog.cc:4617
 msgid "Name"
 msgstr ""
 
@@ -3310,7 +3310,7 @@ msgstr ""
 msgid "Add to Favorite Users"
 msgstr ""
 
-#: linux/hub.cc:4644
+#: linux/hub.cc:4646
 msgid "Add to Favorite hubs"
 msgstr ""
 
@@ -3325,7 +3325,7 @@ msgstr ""
 
 #: linux/favoritehubs.cc:43 linux/favoritehubs.cc:132
 #: linux/favoritehubs.cc:150 linux/favoritehubs.cc:223
-#: linux/favoritehubs.cc:245 linux/favoritehubs.cc:296
+#: linux/favoritehubs.cc:245 linux/favoritehubs.cc:295
 #: linux/favoritehubs.cc:319 linux/favoritehubs.cc:343
 #: linux/favoritehubs.cc:439 linux/favoritehubs.cc:454
 #: linux/favoritehubs.cc:466 linux/favoritehubs.cc:585 linux/publichubs.cc:46
@@ -3530,7 +3530,7 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: linux/hub.cc:4648
+#: linux/hub.cc:4650
 msgid "Close Hub"
 msgstr ""
 
@@ -3603,7 +3603,7 @@ msgstr ""
 msgid "Copy Nick(s)"
 msgstr ""
 
-#: linux/hub.cc:4643
+#: linux/hub.cc:4645
 msgid "Copy URL"
 msgstr ""
 
@@ -4259,7 +4259,7 @@ msgstr ""
 msgid "New search type"
 msgstr ""
 
-#: linux/hub.cc:4600
+#: linux/hub.cc:4602
 msgid "Nick already taken"
 msgstr ""
 
@@ -4406,7 +4406,7 @@ msgstr ""
 msgid "Recent Hubs"
 msgstr ""
 
-#: linux/hub.cc:4647
+#: linux/hub.cc:4649
 msgid "Reconnect this hub"
 msgstr ""
 
@@ -4426,7 +4426,7 @@ msgstr ""
 msgid "Remote client does not fully support TTH - cannot download"
 msgstr ""
 
-#: linux/hub.cc:4645
+#: linux/hub.cc:4647
 msgid "Remove from Favorite hubs"
 msgstr ""
 
@@ -4471,7 +4471,7 @@ msgstr ""
 msgid "Search on imdb\n"
 msgstr ""
 
-#: linux/hub.cc:4607
+#: linux/hub.cc:4609
 msgid "Search spam detected from "
 msgstr ""
 
@@ -4546,7 +4546,7 @@ msgstr ""
 msgid "Set Slots to:"
 msgstr ""
 
-#: linux/hub.cc:4646
+#: linux/hub.cc:4648
 msgid "Set Tab Name"
 msgstr ""
 
@@ -4792,7 +4792,7 @@ msgid ""
 "The GeoIP database has been successfully updated; restart DC++ to apply....v"
 msgstr ""
 
-#: linux/FavoriteHubDialog.hh:256
+#: linux/FavoriteHubDialog.cc:236
 msgid "The name and address fields are required"
 msgstr ""
 
@@ -4839,7 +4839,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: linux/hub.cc:2491 linux/hub.cc:4621
+#: linux/hub.cc:2491 linux/hub.cc:4623
 msgid "Topic: "
 msgstr ""
 
@@ -5198,7 +5198,7 @@ msgstr ""
 msgid "User with other connection type or unknown (pasive)"
 msgstr ""
 
-#: linux/hub.cc:4642 linux/privatemessage.cc:1552
+#: linux/hub.cc:4644 linux/privatemessage.cc:1552
 msgid "Users Commands"
 msgstr ""
 
