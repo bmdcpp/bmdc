@@ -68,7 +68,7 @@ int TimerManager::run() {
 
 	return 0;
 }
-
+//@this is in Milisecunds
 uint64_t TimerManager::getTick() {
 #ifdef _WIN32
     static volatile long state = 0;

@@ -21,10 +21,10 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 	public:
 		AVManager(): timestamp_db(0), temp_tick(GET_TICK())
 	{	TimerManager::getInstance()->addListener(this); }
-		virtual ~AVManager(){	TimerManager::getInstance()->removeListener(this); }
-		string getPath(){ return Util::getPath(Util::PATH_USER_LOCAL)+"avdb"; }
-		bool isNickVirused(string nick) { Lock l(cs); return entries.find(nick) != entries.end();}
-		bool isIpVirused(string ip) {Lock l(cs); return entip.find(ip) != entip.end();}
+		virtual ~AVManager() {	TimerManager::getInstance()->removeListener(this); }
+		string getPath() { return Util::getPath(Util::PATH_USER_LOCAL)+"avdb"; }
+		bool isNickVirused(string nick) { Lock l(cs); return entries.find(nick) != entries.end(); }
+		bool isIpVirused(string ip) { Lock l(cs); return entip.find(ip) != entip.end(); }
 		struct AVEntry
 		{
 			string nick;
@@ -39,12 +39,13 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 		//@ parf of code is same as in Flylink
 		void loadDb(const string& buf)
 		{
-			timestamp_db = time(NULL);
 			if((buf.length() == 1) && (buf == "0")) return;
 			try {
 			File::renameFile(getPath()+".txt",getPath()+".txt.bak");
 			File(getPath() + ".txt", File::WRITE, File::CREATE | File::TRUNCATE).write(buf);
-			}catch(...){return;}
+			}catch(...){
+//..
+			}
 			size_t l_pos = 0;
 			int l_nick_pos = 0;
 			int l_nick_len = 0;
@@ -78,7 +79,7 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 				entry.ip = ip;
 				entries.insert(make_pair(nick,entry));
 				entries.insert(make_pair(ip,entry));
-		}	
+			}	
 
 		};
 		std::unique_ptr<dcpp::HttpDownload> conn;
@@ -86,16 +87,20 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 		uint64_t temp_tick;
 		virtual void on(TimerManagerListener::Minute, uint64_t aTick) noexcept
 		{
-			uint64_t backupTime = temp_tick * 30;
-			if( (aTick > backupTime)) {
+			uint64_t bTime = temp_tick +(60 *60* 1000);
+			if( aTick > bTime) {
 			string address =
 			(timestamp_db == 0) ? ("http://te-home.net/?do=tools&action=avdbload&time=0&notime=1") : ("http://te-home.net/?do=tools&action=avdbload&time="+Util::toString(timestamp_db)+"&notime=1");
 				dcdebug("avdb %s ,%d\n",address.c_str(),timestamp_db);
 				conn.reset( new HttpDownload(address,[this](bool s,const string& b) { if(s) loadDb(b); }, false));
+				timestamp_db = time(NULL);
+				LogManager::getInstance()->message(_("[AVDB] load ")+Util::toString(temp_tick)+" - "+Util::toString(timestamp_db)+" - "+Util::toString(aTick));	
 			}
+			LogManager::getInstance()->message(_("[AVDB] next ")+Util::toString(temp_tick)+" - "+Util::toString(timestamp_db)+" - "+Util::toString(aTick));
 			temp_tick = aTick;
 		}
 		CriticalSection cs;
+		friend class Singleton<AVManager>;
 };
 
 }

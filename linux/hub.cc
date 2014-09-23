@@ -373,8 +373,6 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 {
 		Hub* hub = (Hub *)data;
 		if(hub == NULL) return;
-		string color;
-		string sizeString;
 		if(model == NULL)
 			return;
 		if(iter == NULL)
@@ -385,7 +383,9 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 			return;
 		if( iter == NULL)
 			return;
-	
+		string color;
+		string sizeString;
+
 		string nick = hub->nickView.getString(iter,_("Nick"),model);
 		int64_t size = hub->nickView.getValue<gint64>(iter,_("Shared"),model);
 		string tmp = hub->nickView.getString(iter,_("Client Type"),model);		
@@ -622,7 +622,7 @@ void Hub::setStatus_gui(string statusBar, string text)
 	{
 		if(!g_utf8_validate(text.c_str(),-1,NULL))
 		{
-			dcdebug("Should be aware about codepage ?");//TODO inform user?
+			dcdebug("Should be aware about codepage ?");//@TODO inform user?
 			string _text = Text::toUtf8(text,client->getEncoding());
 			text = _text;
 		}
@@ -2422,33 +2422,33 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if (command == "help")
 		{
-			hub->addMessage_gui("", string(_("*** Available commands:")) + "\n\n" +
-			"/clear\t\t\t\t - " + _("Clear chat") + "\n" +
-			"/close\t\t\t\t - " + _("Close chat") + "\n" +
-			"/favorite, /fav\t\t\t - " + _("Add a hub to favorites") + "\n" +
-			"/fuser, /fu <nick>\t\t - " + _("Add user to favorites list") + "\n" +
-			"/removefu, /rmfu <nick>\t - " + _("Remove user favorite") + "\n" +
-			"/listfu, /lsfu\t\t\t - " + _("Show favorites list") + "\n" +
-			"/getlist <nick>\t\t\t - " + _("Get file list") + "\n" +
-			"/grant <nick>\t\t\t - " + _("Grant extra slot") + "\n" +
-			"/help\t\t\t\t - " + _("Show help") + "\n" +
-			"/join <address>\t\t - " + _("Connect to the hub") + "\n" +
-			"/me <message>\t\t - " + _("Say a third person") + "\n" +
-			"/pm <nick>\t\t\t - " + _("Private message") + "\n" +
-			"/exec <cmd>-\t\t\t    "    + _("Execute Bash chunk") + "\n"+
-			"/userlist\t\t\t\t - " + _("User list show/hide") + "\n" +
-			"/limitimg <n>, limg <n>\t - " + _("Download limit image: 0 - disable, n < 0 - unlimit, empty - info") + "\n" +
-			"/emoticons, /emot\t\t - " + _("Emoticons on/off") + "\n" +
-			"/sc\t\t\t" + _("Start/Stop checkers") + "\n" +
-			"/scmyinfo\t\t\t" + _("Start/Stop checkers myinfo") + "\n" +
-			"/showjoins\t\t\t" + _("Join/Parts: 1 - enable , other disable ") + "\n" +
-			"/showfavjoins\t\t\t" + _("Fav Joins/Parts: 1 - enable , other disable") + "\n" +
-			"/plgadd\t\t\t" + _("Add Plugin") + "\n" +
-			"/plist\t\t\t" + _("List Plugins") + "\n" +
-			"/addfavorite\t\t\t" + _("Add Indepent Fav") + "\n" +
-			"/topic\t\t\t" + _("Show topic") + "\n" +
-			"/raw\t\t\t" + _("Send Raw data") + "\n"+
-			"/conn" + _("Show Conection Setup Info\n")+
+			hub->addMessage_gui("", string(_("*** Available commands:")) + "\n" +
+			"\r\n/clear\r\n\t" + _("Clear chat") + 
+			"\r\n/close\r\n\t" + _("Close chat") + 
+			"\r\n/favorite, /fav\r\n\t" + _("Add a hub to favorites") + 
+			"\r\n/fuser, /fu <nick>\r\n\t" + _("Add user to favorites list") +
+			"\r\n/removefu, /rmfu <nick>\r\n\t" + _("Remove user favorite") + 
+			"\r\n/listfu, /lsfu\r\n\t" + _("Show favorites list") + 
+			"\r\n/getlist <nick>\r\n\t" + _("Get file list") + 
+			"\r\n/grant <nick>\r\n\t" + _("Grant extra slot") +
+			"\r\n/help\r\n\t" + _("Show help") + 
+			"\r\n/join <address>\r\n\t" + _("Connect to the hub") +
+			"\r\n/me <message>\r\n\t" + _("Say a third person") + 
+			"\r\n/pm <nick>\r\n\t" + _("Private message") + 
+			"\r\n/exec <cmd>\r\n\t" + _("Execute Bash chunk") + 
+			"\r\n/userlist\r\n\t" + _("User list show/hide") +
+			"\r\n/limitimg <n>, limg <n>\r\n\t" + _("Download limit image: 0 - disable, n < 0 - unlimit, empty - info") + 
+			"\r\n/emoticons, /emot\r\n\t" + _("Emoticons on/off") + 
+			"\r\n/sc <stop/start>\r\n\t" + _("Start/Stop checkers") + 
+			"\r\n/scmyinfo\r\n\t" + _("Start/Stop checkers myinfo") + 
+			"\r\n/showjoins\r\n\t" + _("Join/Parts: 1 - enable , other disable ") +
+			"\r\n/showfavjoins\r\n\t" + _("Fav Joins/Parts: 1 - enable , other disable") + 
+			"\r\n/plgadd\r\n\t" + _("Add Plugin") + 
+			"\r\n/plist\r\n\t" + _("List Plugins") +
+			"\r\n/addfavorite\r\n\t" + _("Add Indepent Fav") + 
+			"\r\n/topic\r\n\t" + _("Show topic") + 
+			"\r\n/raw <rawtext>\r\n\t" + _("Send Raw data") + 
+			"\r\n/conn\r\n\t" + _("Show Conection Setup Info")+
 			WulforUtil::commands
             , Msg::SYSTEM);
 		}

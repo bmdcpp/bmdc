@@ -1998,13 +1998,6 @@ void Settings::onAboutPlugin_gui(GtkWidget *widget, gpointer data)
 
 void Settings::addToGuiPlg()
 {
-	/*GtkTreeIter iter;
-	gtk_list_store_append(plStore,&iter);
-		gtk_list_store_set(plStore,&iter,
-			     plView.col("Name"),info.name,
-				 plView.col("Description"),info.description,
-				 plView.col("Version"), Util::toString(info.version).c_str(),
-				-1);*/
  	auto pm = PluginManager::getInstance();
          const auto& list = pm->getPluginList();
          gtk_list_store_clear(plStore);
@@ -5140,6 +5133,7 @@ void Settings::saveHighlighting(dcpp::StringMap &params, bool add, const string 
 void Settings::addHighlighting_to_gui(ColorSettings &cs, bool add)
 {
 	GtkTreeIter iter;
+	
 	if(add)
 		gtk_list_store_append(hStore,&iter);
 

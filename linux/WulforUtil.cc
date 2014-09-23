@@ -60,33 +60,33 @@ const string WulforUtil::magnetSignature = "magnet:?xt=urn:tree:tiger:";
 #endif
 std::map<std::string,std::string> WulforUtil::m_mimetyp;
 const string WulforUtil::commands =
-string("/away\t\t\t\t") + _("Set away mode\n") +
-+"/back\t\t\t" + _("Set normal mode\n") +
-+"/bmdc [mc]\t\t\t" + _("Show version\n") +
-+"/ratio [mc]\t\t\t\t" + _("Show ratio\n") +
-+"/refresh\t\t\t" + _("Refresh share\n") +
-+"/slots [n]\t\t\t" + _("Set Slots to n\n") +
-+"/stats\t\t\t" + _("Show stats\n") +
-+"/amar\t\t\t" + _("Media Spam\n") +
-+"/auda,/w\t\t" + _("Media Spam\n") +
-+"/kaff\t\t\t" + _("Media Spam\n") +
-+"/rb\t\t\t" + _("Media Spam\n") +
-+"/vlc\t\t\t" + _("Media Spam\n") +
-+"/debf\t\t\t" + _("Media Spam\n") +
-+"/df\t\t\t" + _("Show df of disk(s)\n") +
-+"/uptime\t\t\t" + _("Show uptime\n") +
-+"/rebuild\t\t" + _("Rebuild Share\n") +
-+"/cleanmc\t\t" + _("Clean Mainchat\n") +
-+"/leech [mc]\t\t" + _("Show Leech stats\n") +
-+"/ws [set] [value]" + _("set GUI settings\n") +
-+"/dcpp [set] [value] " + _("set dcpp settings\n") +
-+"/alias list \t\t" + _("List Aliases\n") +
-+"/alias purge ::A\t\t" + _("remove Aliases A\n") +
-+"/alias A::uname -a\t\t" + _("add alias A with uname -a exec\n") +
-+"/A\t\t\t\t"+ _("Execution of alias A\n") +
-+"/g\t\t\t\t"+ _("Search on Google\n")+
-+"/google\t"+ _("Search on Google\n")+
-+"/imdb\t\t\t\t"+ _("Search on imdb\n")
+string("\r\n/away\r\n\t") + _("Set away mode") +
++"\r\n/back\r\n\t" + _("Set normal mode") +
++"\r\n/bmdc [mc]\r\n\t" + _("Show version") +
++"\r\n/ratio [mc]\r\n\t" + _("Show ratio") +
++"\r\n/refresh\r\n\t" + _("Refresh share") +
++"\r\n/slots [n]\r\n\t" + _("Set Slots to n") +
++"\r\n/stats\r\n\t" + _("Show stats") +
++"\r\n/amar\r\n\t" + _("Media Spam") +
++"\r\n/auda,/w\r\n\t" + _("Media Spam") +
++"\r\n/kaff\r\n\t" + _("Media Spam") +
++"\r\n/rb\r\n\t" + _("Media Spam") +
++"\r\n/vlc\r\n\t" + _("Media Spam") +
++"\r\n/debf\r\n\t" + _("Media Spam") +
++"\r\n/df\r\n\t" + _("Show df of disk(s)") +
++"\r\n/uptime\r\n\t" + _("Show uptime") +
++"\r\n/rebuild\r\n\t" + _("Rebuild Share") +
++"\r\n/cleanmc\r\n\t" + _("Clean Mainchat") +
++"\r\n/leech [mc]\r\n\t" + _("Show Leech stats") +
++"\r\n/ws [set] [value]\r\n\t" + _("Set GUI settings") +
++"\r\n/dcpp [set] [value]\r\n\t" + _("Set dcpp settings") +
++"\r\n/alias list\r\n\t" + _("List Aliases") +
++"\r\n/alias purge ::A\r\n\t" + _("Remove Aliases A") +
++"\r\n/alias A::uname -a\r\n\t" + _("Add alias A with uname -a exec") +
++"\r\n/A\r\n\t"+ _("Execution of alias A") +
++"\r\n/g\r\n\t"+ _("Search on Google")+
++"\r\n/google\r\n\t"+ _("Search on Google")+
++"\r\n/imdb\r\n\t"+ _("Search on imdb")
 ;
 
 const char* WulforUtil::CountryNames[] = {
