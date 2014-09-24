@@ -240,7 +240,6 @@ StringList WulforUtil::getHubAddress(const UserPtr& user, const string& hintUrl)
 	return getHubAddress(user->getCID(), hintUrl);
 }
 
-//NOTE: core 0.762
 string WulforUtil::getTextFromMenu(GtkMenuItem *item)
 {
 	string text;

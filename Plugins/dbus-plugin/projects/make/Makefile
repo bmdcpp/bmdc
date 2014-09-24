@@ -91,9 +91,6 @@ endif
 TARGET := $(OUTPUT_DIR)/$(TARGET)$(LIBEXT)
 OBJS := $(addprefix $(OUTPUT_DIR)/, $(OBJS))
 
-#PACKAGER = $(OUTPUT_DIR)/packaging/packager$(BINEXT)
-#PACK_INFO = ../../packaging/info_generated.xml
-
 all: $(TARGET) $(PDB) $(PACK_INFO)
 
 $(TARGET): $(OBJS)
@@ -103,9 +100,6 @@ ifdef WIN_TARGET
 $(PDB): $(TARGET)
 	strip --only-keep-debug $< $(OUTPUT_OPTION) && strip $<
 endif
-
-#$(PACKAGER): $(OUTPUT_DIR)/packaging/packager/packager.o
-#	$(CXX) $^ $(subst -shared,,$(LINKFLAGS) $(LINKXXFLAGS)) $(OUTPUT_OPTION)
 
 $(PACK_INFO): $(PACKAGER)
 	$(PACKAGER) $(PACK_INFO)

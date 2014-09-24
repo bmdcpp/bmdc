@@ -20,7 +20,8 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 {
 	public:
 		AVManager(): timestamp_db(0), temp_tick(GET_TICK())
-	{	TimerManager::getInstance()->addListener(this); }
+	{	TimerManager::getInstance()->addListener(this);
+	}
 		virtual ~AVManager() {	TimerManager::getInstance()->removeListener(this); }
 		string getPath() { return Util::getPath(Util::PATH_USER_LOCAL)+"avdb"; }
 		bool isNickVirused(string nick) { Lock l(cs); return entries.find(nick) != entries.end(); }
@@ -31,8 +32,8 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 			string ss;
 			string ip;
 		};
-		AVEntry getEntryByNick(string nick) { Lock l(cs); return entries.find(nick)->second;}
-		AVEntry getEntryByIP(string ip) { Lock l(cs); return entip.find(ip)->second;}
+		AVEntry getEntryByNick(string nick) { Lock l(cs); return entries.find(nick)->second; }
+		AVEntry getEntryByIP(string ip) { Lock l(cs); return entip.find(ip)->second; }
 		std::map<string /*nick*/,AVEntry> entries;
 		std::map<string /*ip*/,AVEntry> entip;
 		//@ <nick>|<ip>|<share>|<time>\n
@@ -88,10 +89,10 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 		virtual void on(TimerManagerListener::Minute, uint64_t aTick) noexcept
 		{
 			uint64_t bTime = temp_tick +(60 *60* 1000);
-			if( aTick > bTime) {
+			if( aTick >= bTime) {
 			string address =
 			(timestamp_db == 0) ? ("http://te-home.net/?do=tools&action=avdbload&time=0&notime=1") : ("http://te-home.net/?do=tools&action=avdbload&time="+Util::toString(timestamp_db)+"&notime=1");
-				dcdebug("avdb %s ,%d\n",address.c_str(),timestamp_db);
+				//dcdebug("avdb %s ,%d\n",address.c_str(),timestamp_db);
 				conn.reset( new HttpDownload(address,[this](bool s,const string& b) { if(s) loadDb(b); }, false));
 				timestamp_db = time(NULL);
 				LogManager::getInstance()->message(_("[AVDB] load ")+Util::toString(temp_tick)+" - "+Util::toString(timestamp_db)+" - "+Util::toString(aTick));	

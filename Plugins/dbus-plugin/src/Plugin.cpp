@@ -65,7 +65,7 @@ using dcapi::Logger;
 using dcapi::Util;
 
 static const string commandName = "Configure media broadcasts";
-
+Plugin* Plugin::instance = NULL;
 Plugin::Plugin() {
 }
 

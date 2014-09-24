@@ -2597,7 +2597,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if ( command == "showjoins")
 		{
-			if(params.empty())return;
+			if(params.empty()) return;
 
 	        if(params[0] == '1') {
         	     hub->addStatusMessage_gui(_("Join/part showing on"), Msg::SYSTEM, Sound::NONE);
@@ -2609,7 +2609,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if ( command == "showfavjoins")
 		{
-			if(params.empty())return;
+			if(params.empty()) return;
 
             if(params[0] == '1') {
                  hub->addStatusMessage_gui("Join/part for Fav showing on", Msg::SYSTEM, Sound::NONE);
