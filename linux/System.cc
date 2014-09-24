@@ -35,7 +35,6 @@ BookEntry(Entry::SYSTEML,_("System Log"),"system"),
 	gdk_rgba_parse(&color,strcolor.c_str());
 	gtk_widget_override_color(getWidget("systextview"), GTK_STATE_FLAG_NORMAL, &color);
 	gtk_widget_override_color(getWidget("systextview"), GTK_STATE_FLAG_PRELIGHT, &color);
-	gtk_widget_override_color(getWidget("systextview"), GTK_STATE_FLAG_ACTIVE, &color);
 	gtk_widget_override_color(getWidget("systextview"), GTK_STATE_FLAG_INSENSITIVE, &color);
 	
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("systextview")));

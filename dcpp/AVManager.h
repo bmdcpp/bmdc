@@ -20,10 +20,10 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 {
 	public:
 		AVManager(): timestamp_db(0), temp_tick(GET_TICK())
-	{	TimerManager::getInstance()->addListener(this);
-	}
+		{	
+			TimerManager::getInstance()->addListener(this);
+		}
 		virtual ~AVManager() {	TimerManager::getInstance()->removeListener(this); }
-		string getPath() { return Util::getPath(Util::PATH_USER_LOCAL)+"avdb"; }
 		bool isNickVirused(string nick) { Lock l(cs); return entries.find(nick) != entries.end(); }
 		bool isIpVirused(string ip) { Lock l(cs); return entip.find(ip) != entip.end(); }
 		struct AVEntry
@@ -40,13 +40,8 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 		//@ parf of code is same as in Flylink
 		void loadDb(const string& buf)
 		{
-			if((buf.length() == 1) && (buf == "0")) return;
-			try {
-			File::renameFile(getPath()+".txt",getPath()+".txt.bak");
-			File(getPath() + ".txt", File::WRITE, File::CREATE | File::TRUNCATE).write(buf);
-			}catch(...){
-//..
-			}
+			if((!buf.length()) || ((buf.length() == 1) && (buf == "0") )) return;
+			if (buf.length() < 12) return;
 			size_t l_pos = 0;
 			int l_nick_pos = 0;
 			int l_nick_len = 0;
@@ -74,6 +69,10 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 				l_pos = l_sep_pos + 1;
 				++l_count_new_user;
 				
+				if(nick.empty() || ip.empty() || share.empty()){
+						continue
+				}
+				
 				AVEntry entry;
 				entry.nick = nick;
 				entry.ss = share;
@@ -88,17 +87,15 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 		uint64_t temp_tick;
 		virtual void on(TimerManagerListener::Minute, uint64_t aTick) noexcept
 		{
-			uint64_t bTime = temp_tick +(60 *60* 1000);
-			if( aTick >= bTime) {
+			if(aTick >= temp_tick) {
 			string address =
-			(timestamp_db == 0) ? ("http://te-home.net/?do=tools&action=avdbload&time=0&notime=1") : ("http://te-home.net/?do=tools&action=avdbload&time="+Util::toString(timestamp_db)+"&notime=1");
-				//dcdebug("avdb %s ,%d\n",address.c_str(),timestamp_db);
+			 ("http://te-home.net/?do=tools&action=avdbload&time="+Util::toString(timestamp_db)+"&notime=1");
 				conn.reset( new HttpDownload(address,[this](bool s,const string& b) { if(s) loadDb(b); }, false));
 				timestamp_db = time(NULL);
 				LogManager::getInstance()->message(_("[AVDB] load ")+Util::toString(temp_tick)+" - "+Util::toString(timestamp_db)+" - "+Util::toString(aTick));	
+				temp_tick = aTick+(60*60*1000);
 			}
 			LogManager::getInstance()->message(_("[AVDB] next ")+Util::toString(temp_tick)+" - "+Util::toString(timestamp_db)+" - "+Util::toString(aTick));
-			temp_tick = aTick;
 		}
 		CriticalSection cs;
 		friend class Singleton<AVManager>;
