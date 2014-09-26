@@ -70,7 +70,7 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 				++l_count_new_user;
 				
 				if(nick.empty() || ip.empty() || share.empty()){
-						continue
+						continue;
 				}
 				
 				AVEntry entry;
