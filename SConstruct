@@ -244,7 +244,11 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		print '\tOpenSSL library (libssl) not found'
 		print '\tNote: You might have the lib but not the headers'
 		Exit(1)
-
+	#Fedora dont have EC	
+	if not conf.CheckHeader('openssl/ec.h'):
+		print '\tOpenSSL Don`t have an EC Extesions'
+		conf.env.Append(CPPDEFINES = ('DHAVE_EC_CRYPTO'))
+		
 	if not conf.CheckHeader('iconv.h'):
 		Exit(1)
 	elif conf.CheckLibWithHeader('iconv', 'iconv.h', 'c', 'iconv(0, (const char **)0, 0, (char**)0, 0);'):

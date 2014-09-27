@@ -27,8 +27,9 @@
 #include <openssl/bn.h>
 #include <openssl/err.h>
 #include <openssl/rand.h>
+#ifndef DHAVE_EC_CRYPTO
 #include <openssl/ec.h>
- 
+#endif 
 #include <bzlib.h>
 
 namespace dcpp {
@@ -70,7 +71,7 @@ CryptoManager::CryptoManager()
 
 		SSL_CTX_set_options(clientContext, SSL_OP_NO_SSLv2 | SSL_OP_NO_SSLv3);
 		SSL_CTX_set_options(serverContext, SSL_OP_SINGLE_DH_USE | SSL_OP_NO_SSLv2 | SSL_OP_NO_SSLv3);
-
+#ifndef DHAVE_EC_CRYPTO
 		EC_KEY* tmp_ecdh;
 		if ((tmp_ecdh = EC_KEY_new_by_curve_name(NID_X9_62_prime256v1)) != NULL) {
 			SSL_CTX_set_options(serverContext, SSL_OP_SINGLE_ECDH_USE);
@@ -78,7 +79,7 @@ CryptoManager::CryptoManager()
 
 			EC_KEY_free(tmp_ecdh);
 		}
-
+#endif
 		SSL_CTX_set_tmp_dh_callback(serverContext, CryptoManager::tmp_dh_cb);
 		SSL_CTX_set_tmp_rsa_callback(serverContext, CryptoManager::tmp_rsa_cb);
 
