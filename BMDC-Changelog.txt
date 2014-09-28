@@ -1,5 +1,43 @@
-0.0.3
+0.1.4
  ======
+0.1.3
+ ======
+* Fix IPv6 coloring in chat
+* Fix DebugManager
+* Update Hash/Share Manager from dcpp (this may req re-Hash)
+* Fix UserList icons
+* Fix some free'ing memory
+* Fix chat commands
+* Fix Translate of tooltip in UserList
+* Add ablity save per-fav columns in Userslist
+* Add status column to FavoriteHubs Tab.
+* Add Settings for menu item on right click in User Action in HubFrame
+* Add some more info to /info cmd
+* Fix horizontal scrollbars
+* Add info about if send server cmd
+* Fix some of deprecated warning on 3.12+ gtk
+* Fix bad char in Shellcommand class
+* Fix build on Fedora
+* Fix Arch PKGBUILD dependiens
+* Add AVDB Support
+* Improve /help command
+* Fix dbus Plugin
+* Sub-menu'ing User Commands Menu (PM&HUB tab) 
+* Add progress bar to Splash screen
+* Fix potetional leak in SearchManager
+* Update miniupnpc to 1.9
+* Fix GeoIP abrevation
+* Fix dont get to IP6 field IP4
+* Fix some country icons
+* Fix Full Filelisting 
+* Update SimpleXML/SimpleXMLReader from DC++
+* Add Optional deps on xattr
+* Fix SFC checker in HashManager
+* Update dcpp/Speaker.h with changes from DC++ 
+* Init IPv6 changes to NMDC
+* Fix About:Config not showing all options 
+* Integrate HashStatus to statusBar on MainWindow
+* Some gtk+ Fixies
 0.0.2
  ======
 * Add Copy Nicks to PM
@@ -7,29 +45,29 @@
 * Possible set custom font size in BookEntry class (/ws custom-font-size 1/0 for enable/disable and /ws book-font-size for settings itself)
 * Possible Higliting IPv6 (with it callback as ipv4 have)
 * Add Icon to menu on right click on Tabs
-* Add ACTab
-* Add UC to IPs
+* Add About:Config Tab
+* Add UserCommands to IPs
 * Change Next/Prev tab to ctrl + right  and ctrl + left keys
-* Fixed repareted message about emoticon if its disabled
+* Fixed reperated message about emoticon if it's disabled
 * Possible do nothing on middle button on Tabs
 * Possible use ctrl + arrow only to chat history
 * Fix Limiting Icon
 * Removed Internal Lua Scripting
 * User ConnectivityManager and AutoConfigure Connection 
 * Add commands /conn and /info and /raw
-* Remove /lua and /luafile from GUI
-* Fixed . after copy IP
+* Remove /lua and /luafile from GUI ( and lua deps)
+* Fixed "." after copy IP
 * Threaded Loading of FileList (eiskaltdcpp (dhamp))
 * Partialy update to 2972 dcpp
 * Update to 2923 dcpp
 * Add Export Dialog
-* Made libtar optional depedience
+* Made libtar optional dependience
 * Make /bmdc++ mc with random messages
 * GTK_ICON_SIZE_BUTTON -> GTK_ICON_SIZE_MENU in stock/icon in BookEntry
 * Made Tabbed Searches
 * Add /imdb [param] and /g /google [param] for search in default browser/application on Google/imdb
 * Moved Ignore Users as Flag of FavoriteUsers
-* Switech to GTK3
+* Switch to GTK3
  ======
 0.0.1
  ======

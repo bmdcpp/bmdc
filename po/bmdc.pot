@@ -5,21 +5,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2014-08-11 14:11+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
-"Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  linux.pot  #-#-#-#-#\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2014-09-24 15:42+0200\n"
+"POT-Creation-Date: 2014-09-28 17:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -659,7 +647,7 @@ msgid "Away mode message on/off"
 msgstr ""
 
 #: ui/hub.glade.ui:25 ui/privatemessage.glade.ui:26 linux/WulforUtil.cc:792
-#: linux/WulforUtil.cc:812 linux/mainwindow.cc:2291
+#: linux/WulforUtil.cc:812 linux/mainwindow.cc:2295
 #: linux/privatemessage.cc:1059
 msgid "Away mode off"
 msgstr ""
@@ -839,8 +827,8 @@ msgid "Choose a File"
 msgstr ""
 
 #: ui/search.glade.ui:7 ui/settingsdialog.glade.ui:8901
-#: ui/sharebrowser.glade.ui:7 linux/hub.cc:2956 linux/mainwindow.cc:1634
-#: linux/mainwindow.cc:1702 linux/privatemessage.cc:1336
+#: ui/sharebrowser.glade.ui:7 linux/hub.cc:2956 linux/mainwindow.cc:1638
+#: linux/mainwindow.cc:1706 linux/privatemessage.cc:1336
 msgid "Choose a directory"
 msgstr ""
 
@@ -2421,7 +2409,7 @@ msgstr ""
 msgid "Select Text Color"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:771 linux/mainwindow.cc:2387
+#: ui/mainwindow.glade.ui:771 linux/mainwindow.cc:2391
 msgid "Select filelist to browse"
 msgstr ""
 
@@ -3044,8 +3032,8 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:3297 ui/settingsdialog.glade.ui:3313
 #: ui/settingsdialog.glade.ui:3357 linux/hashdialog.cc:77
-#: linux/mainwindow.cc:962 linux/mainwindow.cc:963 linux/mainwindow.cc:2751
-#: linux/mainwindow.cc:2753 linux/mainwindow.cc:3045 linux/treeview.cc:222
+#: linux/mainwindow.cc:966 linux/mainwindow.cc:967 linux/mainwindow.cc:2755
+#: linux/mainwindow.cc:2757 linux/mainwindow.cc:3049 linux/treeview.cc:222
 msgid "s"
 msgstr ""
 
@@ -3157,7 +3145,7 @@ msgid " items"
 msgstr ""
 
 #: linux/hashdialog.cc:68 linux/hashdialog.cc:77 linux/hashdialog.cc:86
-#: linux/mainwindow.cc:3045 linux/mainwindow.cc:3054
+#: linux/mainwindow.cc:3049 linux/mainwindow.cc:3058
 msgid " left"
 msgstr ""
 
@@ -3205,7 +3193,7 @@ msgstr ""
 msgid "*** T E S T ***"
 msgstr ""
 
-#: linux/hashdialog.cc:69 linux/hashdialog.cc:81 linux/mainwindow.cc:3049
+#: linux/hashdialog.cc:69 linux/hashdialog.cc:81 linux/mainwindow.cc:3053
 msgid "-:--:-- left"
 msgstr ""
 
@@ -3242,7 +3230,7 @@ msgstr ""
 msgid "1"
 msgstr ""
 
-#: linux/mainwindow.cc:3074
+#: linux/mainwindow.cc:3078
 msgid "100% Done"
 msgstr ""
 
@@ -3278,7 +3266,7 @@ msgstr ""
 msgid "<b>Under what name you see the directory</b>"
 msgstr ""
 
-#: linux/mainwindow.cc:2726
+#: linux/mainwindow.cc:2730
 msgid "<b>file:</b> "
 msgstr ""
 
@@ -3433,7 +3421,7 @@ msgstr ""
 msgid "Away Icon"
 msgstr ""
 
-#: linux/mainwindow.cc:2300
+#: linux/mainwindow.cc:2304
 msgid "Away mode on"
 msgstr ""
 
@@ -3742,7 +3730,7 @@ msgstr ""
 msgid "Download starting: "
 msgstr ""
 
-#: linux/mainwindow.cc:909
+#: linux/mainwindow.cc:913
 msgid "Download: "
 msgstr ""
 
@@ -3775,7 +3763,7 @@ msgstr ""
 msgid "Emotion packs"
 msgstr ""
 
-#: linux/mainwindow.cc:1061
+#: linux/mainwindow.cc:1065
 msgid "Empty hub address specified"
 msgstr ""
 
@@ -4176,7 +4164,7 @@ msgstr ""
 msgid "Loaded plugins: "
 msgstr ""
 
-#: linux/mainwindow.cc:2424
+#: linux/mainwindow.cc:2428
 msgid "Loading Own file list"
 msgstr ""
 
@@ -4188,11 +4176,11 @@ msgstr ""
 msgid "Log Ignored Messages as STATUS mess"
 msgstr ""
 
-#: linux/mainwindow.cc:1695
+#: linux/mainwindow.cc:1699
 msgid "Magnet Choice"
 msgstr ""
 
-#: linux/mainwindow.cc:1625
+#: linux/mainwindow.cc:1629
 msgid "Magnet Properties / Choice"
 msgstr ""
 
@@ -4509,7 +4497,7 @@ msgstr ""
 msgid "Select Font"
 msgstr ""
 
-#: linux/mainwindow.cc:2799
+#: linux/mainwindow.cc:2803
 msgid "Select file to Get TTH"
 msgstr ""
 
@@ -4594,7 +4582,7 @@ msgstr ""
 msgid "Shared"
 msgstr ""
 
-#: linux/mainwindow.cc:953
+#: linux/mainwindow.cc:957
 msgid "Shared: "
 msgstr ""
 
@@ -4693,7 +4681,7 @@ msgstr ""
 msgid "Slots"
 msgstr ""
 
-#: linux/mainwindow.cc:952
+#: linux/mainwindow.cc:956
 msgid "Slots: "
 msgstr ""
 
@@ -4795,11 +4783,11 @@ msgstr ""
 msgid "Tag"
 msgstr ""
 
-#: linux/mainwindow.cc:2927
+#: linux/mainwindow.cc:2931
 msgid "The GeoIP database could not be updated...v"
 msgstr ""
 
-#: linux/mainwindow.cc:2922
+#: linux/mainwindow.cc:2926
 msgid ""
 "The GeoIP database has been successfully updated; restart DC++ to apply....v"
 msgstr ""
@@ -4812,7 +4800,7 @@ msgstr ""
 msgid "This hub is not a favorite hub"
 msgstr ""
 
-#: linux/mainwindow.cc:624
+#: linux/mainwindow.cc:628
 msgid "Throtle "
 msgstr ""
 
@@ -4885,7 +4873,7 @@ msgstr ""
 msgid "Unable to load file list: "
 msgstr ""
 
-#: linux/mainwindow.cc:2412
+#: linux/mainwindow.cc:2416
 msgid "Unable to load file list: Invalid file list name"
 msgstr ""
 
@@ -4906,7 +4894,7 @@ msgstr ""
 msgid "Updated frame search"
 msgstr ""
 
-#: linux/mainwindow.cc:2912
+#: linux/mainwindow.cc:2916
 msgid "Updating the GeoIP database...v"
 msgstr ""
 
@@ -4934,7 +4922,7 @@ msgstr ""
 msgid "Upload starting..."
 msgstr ""
 
-#: linux/mainwindow.cc:909
+#: linux/mainwindow.cc:913
 msgid "Upload: "
 msgstr ""
 
@@ -5248,7 +5236,7 @@ msgstr ""
 msgid "Waiting to retry"
 msgstr ""
 
-#: linux/mainwindow.cc:395
+#: linux/mainwindow.cc:399
 msgid "Welcome to "
 msgstr ""
 
@@ -5301,7 +5289,7 @@ msgstr ""
 msgid "default theme"
 msgstr ""
 
-#: linux/mainwindow.cc:2702
+#: linux/mainwindow.cc:2706
 msgid "file list from "
 msgstr ""
 
@@ -5309,11 +5297,11 @@ msgstr ""
 msgid "loading error"
 msgstr ""
 
-#: linux/mainwindow.cc:624
+#: linux/mainwindow.cc:628
 msgid "off"
 msgstr ""
 
-#: linux/mainwindow.cc:624
+#: linux/mainwindow.cc:628
 msgid "on"
 msgstr ""
 
