@@ -372,7 +372,8 @@ void Hub::setColorRow(string cell)
 void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data)
 {
 		Hub* hub = (Hub *)data;
-		if(hub == NULL) return;
+		if(hub == NULL)
+			return;
 		if(model == NULL)
 			return;
 		if(iter == NULL)
@@ -1280,15 +1281,6 @@ void Hub::applyTags_gui(const string &cid, const string &line)
                 GdkPixbuf *buffer = WulforUtil::LoadCountryPixbuf(country_text);
                 if(buffer != NULL)
 				{
-				/*	gtk_text_buffer_delete(chatBuffer, &tag_start_iter, &tag_end_iter);
-					GtkTextChildAnchor *anchor = gtk_text_buffer_create_child_anchor(chatBuffer, &tag_start_iter);
-					GtkWidget *event_box = gtk_event_box_new();
-					gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
-					GtkWidget *image = gtk_image_new_from_pixbuf(buffer);
-					gtk_container_add(GTK_CONTAINER(event_box),image);
-					gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW(getWidget("chatText")), event_box, anchor);
-					gtk_widget_show_all(event_box);
-					gtk_widget_set_tooltip_text(event_box, country_text.c_str());*/
 					gtk_text_buffer_delete(chatBuffer,&tag_start_iter,&tag_end_iter);
 					gtk_text_buffer_insert_pixbuf(chatBuffer, &tag_start_iter , buffer);
 				}
@@ -3275,10 +3267,12 @@ void Hub::onTestSURItemClicked_gui(GtkMenuItem *item, gpointer data)
 		   	string nick = Util::emptyString;
 			nick += nicks.front();
 			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser( CID(nick),hub->client->getHubUrl());
-			if(ou->getIdentity().isHub()) return;
 
 			if(ou)
 			{
+
+				if(ou->getIdentity().isHub()) return;
+
 				try {
 					HintedUser hintedUser(ou->getUser(), hub->client->getHubUrl());
 					ClientManager::getInstance()->addCheckToQueue(hintedUser, false);
@@ -3315,10 +3309,10 @@ void Hub::onCheckFLItemClicked_gui(GtkMenuItem *item , gpointer data)
 		if (!nick.empty())
 		{
 			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(nick),hub->client->getHubUrl());
-			if(ou->getIdentity().isHub()) return;
-
-			if(ou != NULL)
+			if(ou)
 			{
+				if(ou->getIdentity().isHub()) return;
+
 				try {
 					 HintedUser hintedUser(ou->getUser(), hub->client->getHubUrl());
 					 ClientManager::getInstance()->addCheckToQueue(hintedUser, true);
@@ -3388,70 +3382,20 @@ void Hub::removeFavoriteUser_gui(ParamMap params)
 		WulforManager::get()->getMainWindow()->addPrivateStatusMessage_gui(Msg::STATUS, cid, message);
 	}
 }
-/*
-void Hub::addPasive_gui(ParamMap params)
-{
-	const string &cid = params["CID"];
 
-	if (users.find(cid) == users.end())
-	{
-		GtkTreeIter iter;
-		const string &nick = params["Nick"];
-		users.insert(UserFlags::value_type(cid,FlagUser::FLAG_PASIVE));
-
-		// resort users
-		if (findUser_gui(cid, &iter))
-		{
-			gtk_list_store_set(nickStore, &iter,
-                    nickView.col("NickColor"), WGETS("userlist-text-pasive").c_str(),
-                    nickView.col("Client Type"), params["Type"].c_str(),
-				-1);
-			removeTag_gui(nick);
-		}
-	}
-}
-
-void Hub::addOperator_gui(ParamMap params)
-{
-	const string &cid = params["CID"];
-
-	if(users.find(cid) == users.end())
-	{
-		GtkTreeIter iter;
-		const string &nick = params["Nick"];
-		users.insert(UserFlags::value_type(cid, FlagUser::FLAG_OP));
-
-		// resort users
-		if (findUser_gui(cid, &iter))
-		{
-			gtk_list_store_set(nickStore, &iter,
-			nickView.col("NickColor"), WGETS("userlist-text-operator").c_str(),
-			nickView.col("Client Type"), params["Type"].c_str(),
-				-1);
-			removeTag_gui(nick);
-		}
-	}
-}
-*/
 void Hub::addProtected_gui(ParamMap params)
 {
 	const string &cid = params["CID"];
-
-	//if(users.find(cid) == users.end())
+	GtkTreeIter iter;
+	const string &nick = params["Nick"];
+	// resort users
+	if (findUser_gui(cid, &iter))
 	{
-		GtkTreeIter iter;
-		const string &nick = params["Nick"];
-		//users.insert(UserFlags::value_type(cid, FlagUser::FLAG_PROTECT));
-
-		// resort users
-		if (findUser_gui(cid, &iter))
-		{
-			gtk_list_store_set(nickStore, &iter,
-                    nickView.col("NickColor"), WGETS("userlist-text-protected").c_str(),
-                    nickView.col("Client Type"), params["Type"].c_str(),
-				-1);
-			removeTag_gui(nick);
-		}
+		gtk_list_store_set(nickStore, &iter,
+                   nickView.col("NickColor"), WGETS("userlist-text-protected").c_str(),
+                   nickView.col("Client Type"), params["Type"].c_str(),
+			-1);
+		removeTag_gui(nick);
 	}
 }
 
@@ -3459,42 +3403,34 @@ void Hub::addIgnore_gui(ParamMap params)
 {
 	const string &cid = params["CID"];
 
-	//if (users.find(cid) == users.end())
+	GtkTreeIter iter;
+	const string &nick = params["Nick"];
+	// resort users
+	if (findUser_gui(cid, &iter))
 	{
-		GtkTreeIter iter;
-		const string &nick = params["Nick"];
-//		users.insert(UserFlags::value_type(cid, FlagUser::FLAG_IGNORE));
-
-		// resort users
-		if (findUser_gui(cid, &iter))
-		{
 			gtk_list_store_set(nickStore, &iter,
                     nickView.col("NickColor"), WGETS("userlist-text-ignored").c_str(),
                     nickView.col("Client Type"), params["Type"].c_str(),
 				-1);
 			removeTag_gui(nick);
-		}
 	}
 }
+
 
 void Hub::removeIgnore_gui(ParamMap params)
 {
     const string &cid = params["CID"];
-	//std::unordered_map<std::string, int >::iterator it;
-    //if( (it = users.find(cid))!= users.end())
+    GtkTreeIter iter;
+    if(findUser_gui(cid,&iter))
     {
-       GtkTreeIter iter;
-        if(findUser_gui(cid,&iter))
-        {
-			//it->second = 0;
             gtk_list_store_set(nickStore,&iter,
                                nickView.col("NickColor"), WGETS("userlist-text-normal").c_str(),
                                nickView.col("Client Type"), ("U"+params["nick"]).c_str(),
                                -1);
-        }
-    }
-
+     }
 }
+
+
 void Hub::addPrivateMessage_gui(Msg::TypeMsg typemsg, string CID, string cid, string url, string message, bool useSetting)
 {
 	if (userFavoriteMap.find(CID) != userFavoriteMap.end())
@@ -3750,7 +3686,7 @@ void Hub::reconnect_client()
 		client->reconnect();
 }
 
-/* Inspipred by code UserInfoBase getImageIndex */
+/* Inspipred by code UserInfoBase::getImageIndex */
 string Hub::getIcons(const Identity& id)
 {
 	string tmp = "other";

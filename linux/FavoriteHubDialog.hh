@@ -1,6 +1,4 @@
 /*
- * FavoriteHubDialog.hh
- * This file is part of BMDC++
  *
  * Copyright (C) 2012 - 2014 - Mank
  *

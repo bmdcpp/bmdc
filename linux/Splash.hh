@@ -28,7 +28,7 @@ class Splash
 {
 	public:
 		Splash() : Text("") , percentage("0")
-		,win(NULL), label(NULL), box(NULL), image(NULL), progressbar(NULL) { }
+		,perc(0),win(NULL), label(NULL), box(NULL), image(NULL), progressbar(NULL) { }
 		void show() {
 			win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 			gtk_window_set_decorated(GTK_WINDOW(win),FALSE);
