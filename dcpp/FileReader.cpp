@@ -334,7 +334,7 @@ size_t FileReader::readMapped(const string& filename, const DataCallback& callba
 			break;
 		}
 		#ifndef __clang__
-		if (sigsetjmp(sb_env, 1)) {//set
+		if (sigsetjmp(sb_env, 1)) {
 			dcdebug("Caught SIGBUS for file %s\n", filename.c_str());
 			break;
 		}

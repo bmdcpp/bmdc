@@ -414,8 +414,9 @@ MainWindow::MainWindow():
 	setToolbarButton_gui();
 	setTabPosition_gui(WGETI("tab-position"));
 	setToolbarStyle_gui(WGETI("toolbar-style"));
-
+#if !GTK_CHECK_VERSION(3,14,1)
 	createStatusIcon_gui();
+#endif	
 	setInitThrotles();
 	Sound::start();
 	Emoticons::start();
@@ -888,6 +889,7 @@ void MainWindow::removeTabMenuItem_gui(GtkWidget *menuItem)
 /*
  * Create status icon.
  */
+ #if !GTK_CHECK_VERSION(3,14,1)
 void MainWindow::createStatusIcon_gui()
 {
 	useStatusIconBlink = WGETB("status-icon-blink-use");
@@ -913,7 +915,7 @@ void MainWindow::updateStatusIconTooltip_gui(string download, string upload)
 	toolTip << g_get_application_name() << endl << _("Download: ") << download << endl << _("Upload: ") << upload;
 	gtk_status_icon_set_tooltip_text(statusIcon, toolTip.str().c_str());
 }
-
+#endif
 void MainWindow::setMainStatus_gui(string text, time_t t)
 {
 	if (!text.empty())
@@ -1127,10 +1129,12 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 		if (!isActive_gui())
 		{
 			show = true;
+		#if	!GTK_CHECK_VERSION(3,14,1)
 			if (useStatusIconBlink && timer == 0)
 			{
 				timer = g_timeout_add(1000, animationStatusIcon_gui, (gpointer)this);
 			}
+		#endif	
 		}
 		else if (currentPage_gui() != entry->getContainer() && !WGETI("notify-only-not-active"))
 		{
@@ -1168,7 +1172,7 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 	if (raise)
 		raisePage_gui(entry->getContainer());
 }
-
+#if !GTK_CHECK_VERSION(3,14,1)
 void MainWindow::removeTimerSource_gui()
 {
 	if (timer > 0)
@@ -1178,7 +1182,7 @@ void MainWindow::removeTimerSource_gui()
 		gtk_status_icon_set_from_icon_name(statusIcon, g_get_prgname());
 	}
 }
-
+#endif
 void MainWindow::addPrivateStatusMessage_gui(Msg::TypeMsg typemsg, string cid, string message)
 {
 	BookEntry *entry = findBookEntry(Entry::PRIVATE_MESSAGE, cid);

@@ -192,8 +192,6 @@ void FavoriteManager::addFavoriteUser(const UserPtr& aUser) {
 			save();
 		}
 	}
-
-	//ClientManager::getInstance()->saveUser(aUser->getCID());
 }
 
 void FavoriteManager::removeFavoriteUser(const UserPtr& aUser) {

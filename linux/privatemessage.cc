@@ -517,7 +517,6 @@ void PrivateMessage::applyTags_gui(const string &line)
 			if(WulforUtil::HitIP(tagName,ip))
 			{
 				callback = G_CALLBACK(onIpTagEvent_gui);
-//				tagStyle = Tag::TAG_IPADR;
 				isIp = true;
 				userCommandMenu->cleanMenu_gui();
 				userCommandMenu->addIp(ip);
@@ -843,11 +842,8 @@ void PrivateMessage::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag 
 			fore = wsm->getString("text-private-fore-color");
 			back = wsm->getString("text-private-back-color");
 			italic = (bool)wsm->getInt("text-private-italic");
+			bold = wsm->getBool("text-bold-autors");
 
-			if (wsm->getBool("text-bold-autors"))
-				bold = true;
-			else
-				bold = false;
 		break;
 
 		case Tag::TAG_PRIVATE:

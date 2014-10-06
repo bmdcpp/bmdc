@@ -1771,11 +1771,8 @@ void Hub::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, strin
 			fore = wsm->getString("text-general-fore-color");
 			back = wsm->getString("text-general-back-color");
 			italic = wsm->getInt("text-general-italic");
-
-			if (wsm->getBool("text-bold-autors"))
-				bold = true;
-			else
-				bold = false;
+			bold = wsm->getBool("text-bold-autors");
+				
 		break;
 
 		case Tag::TAG_GENERAL:
@@ -2235,7 +2232,7 @@ void Hub::onChatScroll_gui(GtkAdjustment *adjustment, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	gdouble value = gtk_adjustment_get_value(adjustment);
-  	hub->scrollToBottom = value >= ( gtk_adjustment_get_upper(adjustment) - gtk_adjustment_get_page_size (adjustment));
+  hub->scrollToBottom = value >= ( gtk_adjustment_get_upper(adjustment) - gtk_adjustment_get_page_size (adjustment));
 }
 
 void Hub::onChatResize_gui(GtkAdjustment *adjustment, gpointer data)

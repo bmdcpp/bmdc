@@ -93,12 +93,14 @@ OnlineUser* AdcHub::findUser(const uint32_t aSID) const {
 
 OnlineUser* AdcHub::findUser(const CID& aCID) const {
 	Lock l(cs);
+	OnlineUser* ou = nullptr;
 	for(SIDIter i = users.begin(); i != users.end(); ++i) {
 		if(i->second->getUser()->getCID() == aCID) {
-			return i->second;
+				ou =	i->second;
+				break;
 		}
 	}
-	return nullptr;
+		return ou;
 }
 
 void AdcHub::putUser(const uint32_t aSID, bool disconnect) {
