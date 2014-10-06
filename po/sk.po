@@ -1,4 +1,4 @@
-# Turkish translation for bmdc++
+# Slovak translation for bmdc++
 # Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
 # This file is distributed under the same license as the bmdc++ package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: bmdc++\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-10-06 10:44+0200\n"
-"PO-Revision-Date: 2013-03-31 20:46+0000\n"
-"Last-Translator: Mank <Unknown>\n"
-"Language-Team: Turkish <tr@li.org>\n"
+"PO-Revision-Date: 2012-04-28 23:46+0000\n"
+"Last-Translator: DAG Software <Unknown>\n"
+"Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -155,39 +155,39 @@ msgstr ""
 
 #: ui/detection.glade.ui:350
 msgid "<b>Actions and Raws</b>"
-msgstr ""
+msgstr "<b>Akcie a Rawy</b>"
 
 #: ui/detection.glade.ui:487
 msgid "<b>Actions</b>"
-msgstr ""
+msgstr "<b>Úkony</b>"
 
 #: ui/settingsdialog.glade.ui:3618
 msgid "<b>Add player</b>"
-msgstr ""
+msgstr "<b>Vložiť prehrávač</b>"
 
 #: ui/settingsdialog.glade.ui:3414
 msgid "<b>Auto-drop settings</b>"
-msgstr ""
+msgstr "<b>Automatické odpojenie</b>"
 
 #: ui/settingsdialog.glade.ui:4537
 msgid "<b>Auto-open on startup</b>"
-msgstr ""
+msgstr "<b>Automatické otváranie po štartu</b>"
 
 #: ui/settingsdialog.glade.ui:3104
 msgid "<b>Auto-priority settings</b>"
-msgstr ""
+msgstr "<b>Automatická priorita</b>"
 
 #: ui/settingsdialog.glade.ui:4864
 msgid "<b>Available styles</b>"
-msgstr ""
+msgstr "<b>Dostupné štýly</b>"
 
 #: ui/settingsdialog.glade.ui:7980
 msgid "<b>Backup and Restore</b>"
-msgstr ""
+msgstr "<b>Zálohy a Obnova</b>"
 
 #: ui/settingsdialog.glade.ui:7744
 msgid "<b>Certificate Paths</b>"
-msgstr "<b>Sertifika Yolları</b>"
+msgstr "<b>Cesta k Certifikátu</b>"
 
 #: ui/settingsdialog.glade.ui:6252
 msgid "<b>Colors of Userlist</b>"
@@ -195,15 +195,15 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:5988
 msgid "<b>Colors</b>"
-msgstr "<b>Renkler</b>"
+msgstr "<b>Farby</b>"
 
 #: ui/settingsdialog.glade.ui:1015
 msgid "<b>Command Type</b>"
-msgstr "<b>Komut Türü</b>"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:4625
 msgid "<b>Confirmation Dialog Options</b>"
-msgstr "<b>Onaylama İletişim Kutusu Seçenekleri</b>"
+msgstr ""
 
 #: ui/mainwindow.glade.ui:678
 msgid "<b>Connect to address:</b>"
@@ -211,7 +211,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:1125
 msgid "<b>Context</b>"
-msgstr ""
+msgstr "<b>Kontext</b>"
 
 #: ui/settingsdialog.glade.ui:4321
 msgid "<b>Country Format</b>"
@@ -231,7 +231,7 @@ msgstr ""
 
 #: ui/config.glade.ui:91 ui/favoriteusers.glade.ui:96 ui/recenthub.glade.ui:96
 msgid "<b>Description</b>"
-msgstr "<b>Açıklama</b>"
+msgstr "<b>Popis</b>"
 
 #: ui/adlsearch.glade.ui:314
 msgid "<b>Destination Directory</b>"
@@ -239,7 +239,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:2512
 msgid "<b>Directories</b>"
-msgstr "<b>Dizinler</b>"
+msgstr "<b>Priečinky</b>"
 
 #: ui/export.glade.ui:55
 msgid "<b>Export:</b>"
@@ -251,11 +251,11 @@ msgstr ""
 
 #: ui/publichubs.glade.ui:235
 msgid "<b>Filter</b>"
-msgstr "<b> Filtre </ b>"
+msgstr "<b>Filter</b>"
 
 #: ui/settingsdialog.glade.ui:6172
 msgid "<b>Frame</b>"
-msgstr ""
+msgstr "<b>Rám</b>"
 
 #: ui/favoritehubs.glade.ui:446
 msgid "<b>Group properties</b>"
@@ -263,31 +263,31 @@ msgstr ""
 
 #: ui/FavDialog.glade.ui:386 ui/favoritehubs.glade.ui:850
 msgid "<b>Group</b>"
-msgstr ""
+msgstr "<b>Skupina</b>"
 
 #: ui/settingsdialog.glade.ui:8110
 msgid "<b>Highlighting</b>"
-msgstr ""
+msgstr "<b>Zvýrazňovanie</b>"
 
 #: ui/publichubs.glade.ui:289
 msgid "<b>Hub List</b>"
-msgstr "<b>Merkez Listesi</b>"
+msgstr "<b>Hub List</b>"
 
 #: ui/FavDialog.glade.ui:345 ui/favoritehubs.glade.ui:808
 msgid "<b>Hub</b>"
-msgstr "<b>Merkez</b>"
+msgstr "<b>Hub</b>"
 
 #: ui/settingsdialog.glade.ui:5181
 msgid "<b>Icon size</b>"
-msgstr "<b>Simge boyutu</b>"
+msgstr "<b>Veľkosť ikon</b>"
 
 #: ui/settingsdialog.glade.ui:5477
 msgid "<b>Icons</b>"
-msgstr "<b>Simgeler</b>"
+msgstr "<b>Ikony</b>"
 
 #: ui/FavDialog.glade.ui:203 ui/favoritehubs.glade.ui:668
 msgid "<b>Identification</b>"
-msgstr ""
+msgstr "<b>Identifikácia</b>"
 
 #: ui/settingsdialog.glade.ui:2001
 msgid "<b>Incoming connection settings</b>"
@@ -299,19 +299,19 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:2628
 msgid "<b>Limits</b>"
-msgstr "<b>Sınırlamalar</b>"
+msgstr "<b>Limity</b>"
 
 #: ui/settingsdialog.glade.ui:6796
 msgid "<b>Logging</b>"
-msgstr "<b>Günlükleme</b>"
+msgstr "<b>Zaznamenávanie</b>"
 
 #: ui/mainwindow.glade.ui:247
 msgid "<b>Magnet properties</b>"
-msgstr ""
+msgstr "<b>Vlastnosti Magnetu</b>"
 
 #: ui/settingsdialog.glade.ui:4185
 msgid "<b>Main Toolbar Style</b>"
-msgstr "<b>Ana Araç Çubuğu Biçemi</b>"
+msgstr ""
 
 #: ui/adlsearch.glade.ui:230
 msgid "<b>Max FileSize</b>"
@@ -332,11 +332,11 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:4075
 msgid "<b>Options</b>"
-msgstr "<b>Seçenekler</b>"
+msgstr "<b>Možnosti</b>"
 
 #: ui/settingsdialog.glade.ui:7787
 msgid "<b>Other Security Options</b>"
-msgstr "<b>Diğer Güvenlik Seçenekleri</b>"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:3453
 msgid "<b>Other queue options</b>"
@@ -348,11 +348,11 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:1321
 msgid "<b>Parameters</b>"
-msgstr ""
+msgstr "<b>Parametre</b>"
 
 #: ui/settingsdialog.glade.ui:1612
 msgid "<b>Personal Information</b>"
-msgstr "<b>Kişisel Bilgi</b>"
+msgstr "<b>Osobné informácie</b>"
 
 #: ui/settingsdialog.glade.ui:3511
 msgid "<b>Players list</b>"
@@ -364,11 +364,11 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:4900
 msgid "<b>Preview styles</b>"
-msgstr "<b>Önizleme biçemleri</b>"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:6295
 msgid "<b>Preview</b>"
-msgstr ""
+msgstr "<b>Ukážka</b>"
 
 #: ui/settingsdialog.glade.ui:4793
 msgid "<b>Private message sound</b>"
@@ -380,7 +380,7 @@ msgstr ""
 
 #: ui/hash.glade.ui:55
 msgid "<b>Processing file:</b>"
-msgstr "<b>İşlenilen dosya:</b>"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:2745
 msgid "<b>Public Hubs list</b>"
@@ -396,11 +396,11 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:8378
 msgid "<b>Secondary Transfer Rate Limiting</b>"
-msgstr "<b>İkincil Aktarım Hızı Sınırlandırması</b>"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:8564
 msgid "<b>Secondary Transfer Rate Settings</b>"
-msgstr "<b>İkincil Aktarım Hızı Sınırlandırma Seçenekleri</b>"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:3884
 msgid "<b>Shared directories</b>"
@@ -412,19 +412,19 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:4684
 msgid "<b>Sounds</b>"
-msgstr "<b>Sesler</b>"
+msgstr "<b>Zvuky</b>"
 
 #: ui/adlsearch.glade.ui:147
 msgid "<b>Source Type</b>"
-msgstr ""
+msgstr "<b>Typ zdroja</b>"
 
 #: ui/hash.glade.ui:124
 msgid "<b>Statistics</b>"
-msgstr "<b>İstatistikler</b>"
+msgstr "<b>Štatistiky</b>"
 
 #: ui/settingsdialog.glade.ui:4133
 msgid "<b>Tab Position</b>"
-msgstr ""
+msgstr "<b>Pozícia karty</b>"
 
 #: ui/settingsdialog.glade.ui:4403
 msgid "<b>Tab bolding on content change</b>"
@@ -432,7 +432,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:1362
 msgid "<b>Text sent to hub</b>"
-msgstr ""
+msgstr "<b>Text poslaný na hub</b>"
 
 #: ui/settingsdialog.glade.ui:5513
 msgid "<b>Text styles</b>"
@@ -444,15 +444,15 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:5148
 msgid "<b>Title</b>"
-msgstr "<b>Başlık</b>"
+msgstr "<b>Názov</b>"
 
 #: ui/settingsdialog.glade.ui:5711
 msgid "<b>Toolbar buttons</b>"
-msgstr "<b>Araç çubuğu düğmeleri</b>"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:8259
 msgid "<b>Transfer Rate Limiting</b>"
-msgstr "<b>Aktarım Hızı Sınırlandırması</b>"
+msgstr ""
 
 #: ui/mainwindow.glade.ui:415
 msgid "<b>What would you like to do?</b>"
@@ -460,7 +460,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:4581
 msgid "<b>Window Options</b>"
-msgstr "<b>Pencere Seçenekleri</b>"
+msgstr "<b>Možnosti okna</b>"
 
 #: ui/FavDialog.glade.ui:354 ui/favoritehubs.glade.ui:817
 msgid "<small>Note: Leave unchecked for default values</small>"
@@ -474,11 +474,11 @@ msgstr ""
 #: ui/mainwindow.glade.ui:2234 linux/adlsearch.cc:31 linux/bookentry.cc:367
 #: linux/settingsdialog.cc:1508 linux/settingsdialog.cc:1571
 msgid "ADL Search"
-msgstr "ADL arama"
+msgstr "Automatické hľadanie v zoznamoch súboru"
 
 #: ui/adlsearch.glade.ui:27
 msgid "ADLSearch Properties"
-msgstr "ADLArama Özellikleri"
+msgstr "Vlastnosti ADL hľadania"
 
 #: ui/mainwindow.glade.ui:1354
 msgid "About"
@@ -492,11 +492,11 @@ msgstr ""
 #: linux/detectiontab.cc:178 linux/detectiontab.cc:1349
 #: linux/detectiontab.cc:1387 linux/detectiontab.cc:1443
 msgid "Action"
-msgstr "Eylem"
+msgstr "Akcia"
 
 #: ui/detection.glade.ui:1227
 msgid "Actions"
-msgstr "Eylemler"
+msgstr "Akcie"
 
 #: ui/detection.glade.ui:2967
 msgid "Actions Setup"
@@ -510,7 +510,7 @@ msgstr ""
 #: ui/FavDialog.glade.ui:993 ui/favoritehubs.glade.ui:1580
 #: ui/settingsdialog.glade.ui:1862
 msgid "Active"
-msgstr "Aktif"
+msgstr "Aktívny"
 
 #: ui/adlsearch.glade.ui:742 ui/detection.glade.ui:1089
 #: ui/detection.glade.ui:1487 ui/detection.glade.ui:2989
@@ -518,15 +518,15 @@ msgstr "Aktif"
 #: ui/settingsdialog.glade.ui:8058 ui/settingsdialog.glade.ui:8649
 #: ui/settingsdialog.glade.ui:8776
 msgid "Add"
-msgstr "Ekle"
+msgstr "Pridať"
 
 #: ui/mainwindow.glade.ui:2166
 msgid "Add / Remove"
-msgstr ""
+msgstr "Pridať / odstrániť"
 
 #: ui/detection.glade.ui:1357
 msgid "Add Action"
-msgstr "Eylem Ekle"
+msgstr "Pridať úkon"
 
 #: ui/publichubs.glade.ui:411
 msgid "Add Favorite"
@@ -583,13 +583,13 @@ msgstr ""
 
 #: ui/adlsearch.glade.ui:659
 msgid "Add..."
-msgstr "Ekle..."
+msgstr "Pridať..."
 
 #: ui/FavDialog.glade.ui:900 ui/favoritehubs.glade.ui:1287
 #: ui/settingsdialog.glade.ui:2358 ui/settingsdialog.glade.ui:6862
 #: ui/settingsdialog.glade.ui:8009
 msgid "Advanced"
-msgstr "İleri düzey"
+msgstr "Porkočilé"
 
 #: ui/detection.glade.ui:1782
 msgid "Advanced ADL Points"
@@ -597,15 +597,15 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:4359 ui/settingsdialog.glade.ui:6396
 msgid "Appearance"
-msgstr "Görünüm"
+msgstr "Vzhľad"
 
 #: ui/settingsdialog.glade.ui:3565
 msgid "Application:"
-msgstr "Uygulama:"
+msgstr "Aplikácia:"
 
 #: ui/searchspy.glade.ui:243
 msgid "Apply settings"
-msgstr ""
+msgstr "Použiť nastavenia"
 
 #: ui/settingsdialog.glade.ui:3591
 msgid "Apply to Extensions: (avi;mov;divx)"
@@ -625,7 +625,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:7331
 msgid "Auto refresh time"
-msgstr "Otomatik yenileme zamanı"
+msgstr "Čas automatického obnovenia"
 
 #: ui/settingsdialog.glade.ui:3911
 msgid "Automatically open extra slot if speed is below (0 = disable)"
@@ -633,7 +633,7 @@ msgstr ""
 
 #: ui/hub.glade.ui:15 ui/mainwindow.glade.ui:2120 ui/mainwindow.glade.ui:2290
 msgid "Away"
-msgstr ""
+msgstr "Preč"
 
 #: ui/FavDialog.glade.ui:509 ui/favoritehubs.glade.ui:972
 msgid "Away Message"
@@ -652,7 +652,7 @@ msgstr ""
 #: linux/WulforUtil.cc:812 linux/mainwindow.cc:2299
 #: linux/privatemessage.cc:1055
 msgid "Away mode off"
-msgstr ""
+msgstr "Režim Preč vypnutý"
 
 #: ui/adlsearch.glade.ui:789 ui/detection.glade.ui:1884
 #: ui/detection.glade.ui:2237 ui/search.glade.ui:810
@@ -674,7 +674,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:5015
 msgid "Background Color"
-msgstr ""
+msgstr "Farba pozadia"
 
 #: ui/settingsdialog.glade.ui:7888
 msgid "Backup File Pattern"
@@ -689,20 +689,18 @@ msgid ""
 "Bandwidth\n"
 "Limiting"
 msgstr ""
-"Bant Genişliği\n"
-"Sınırlandırma"
 
 #: ui/settingsdialog.glade.ui:7292
 msgid "Bind address"
-msgstr ""
+msgstr "Bind adresa"
 
 #: ui/settingsdialog.glade.ui:7343
 msgid "Bind6 address"
-msgstr ""
+msgstr "Bind6 adresa"
 
 #: ui/settingsdialog.glade.ui:5000
 msgid "Black/White"
-msgstr "Siyah/Beyaz"
+msgstr "Čiernobiele"
 
 #: ui/mainwindow.glade.ui:1858
 msgid "Blink"
@@ -722,7 +720,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:394
 msgid "Bold Text"
-msgstr ""
+msgstr "Hrubý text"
 
 #: ui/settingsdialog.glade.ui:9161
 msgid "Both"
@@ -752,7 +750,7 @@ msgstr ""
 #: linux/search.cc:423 linux/search.cc:493 linux/sharebrowser.cc:508
 #: linux/sharebrowser.cc:560
 msgid "Browse..."
-msgstr "Göz at..."
+msgstr "Prehľadávať..."
 
 #: ui/cmddebug.glade.ui:69
 msgid "CLIENT IN"
@@ -768,15 +766,15 @@ msgstr ""
 
 #: ui/adlsearch.glade.ui:546 ui/settingsdialog.glade.ui:454
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Rozlišovať veľkosť písmen"
 
 #: ui/settingsdialog.glade.ui:7712
 msgid "Certificate file"
-msgstr ""
+msgstr "Súbor s certifikátom"
 
 #: ui/detection.glade.ui:3043
 msgid "Change"
-msgstr "Değiştir"
+msgstr "Zmeniť"
 
 #: ui/mainwindow.glade.ui:1307
 msgid "Changelog"
@@ -784,7 +782,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:980
 msgid "Chat"
-msgstr "Sohbet"
+msgstr "Konverzácia"
 
 #: ui/privatemessage.glade.ui:285
 msgid "Chat Commands"
@@ -792,7 +790,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:1059
 msgid "Chat Menu"
-msgstr ""
+msgstr "Menu konverzácie"
 
 #: ui/detection.glade.ui:650 linux/detectiontab.cc:43
 #: linux/detectiontab.cc:335 linux/detectiontab.cc:830
@@ -824,22 +822,22 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:3267
 msgid "Check every"
-msgstr ""
+msgstr "Kontrolovať každých"
 
 #: ui/settingsdialog.glade.ui:8969
 msgid "Choose a File"
-msgstr "Bir Dosya Seç"
+msgstr "Vyberte súbor"
 
 #: ui/search.glade.ui:7 ui/settingsdialog.glade.ui:8901
 #: ui/sharebrowser.glade.ui:7 linux/hub.cc:2945 linux/mainwindow.cc:1642
 #: linux/mainwindow.cc:1710 linux/privatemessage.cc:1332
 msgid "Choose a directory"
-msgstr "Dizin seç"
+msgstr "Vyberte priečinok"
 
 #: ui/cmddebug.glade.ui:140 ui/searchspy.glade.ui:124
 #: ui/searchspy.glade.ui:340 ui/system.glade.ui:60
 msgid "Clear"
-msgstr "Temizle"
+msgstr "Vyprázdniť"
 
 #: ui/hub.glade.ui:37
 msgid "Clear Chat"
@@ -893,7 +891,7 @@ msgstr ""
 #: linux/settingsdialog.cc:2092 linux/settingsdialog.cc:3851
 #: linux/settingsdialog.cc:3930
 msgid "Command"
-msgstr "Komut"
+msgstr "Príkaz"
 
 #: ui/hub.glade.ui:369
 msgid "Commands"
@@ -904,19 +902,19 @@ msgstr ""
 #: linux/detectiontab.cc:336 linux/detectiontab.cc:831
 #: linux/detectiontab.cc:901 linux/detectiontab.cc:916
 msgid "Comment"
-msgstr "Yorum"
+msgstr "Komentár"
 
 #: ui/detection.glade.ui:690
 msgid "Comments"
-msgstr "Yorumlar"
+msgstr "Komentáre"
 
 #: ui/settingsdialog.glade.ui:8675
 msgid "Config"
-msgstr ""
+msgstr "Konfigurácia"
 
 #: ui/settingsdialog.glade.ui:2673
 msgid "Configure Public Hub Lists"
-msgstr ""
+msgstr "Nastaviť zoznam verejných hubov"
 
 #: ui/publichubs.glade.ui:9 ui/settingsdialog.glade.ui:9471
 msgid "Configure hub lists"
@@ -928,7 +926,7 @@ msgstr ""
 #: linux/favoritehubs.cc:523 linux/favoritehubs.cc:703
 #: linux/settingsdialog.cc:1513 linux/settingsdialog.cc:1542
 msgid "Connect"
-msgstr "Bağlan"
+msgstr "Pripojiť"
 
 #: ui/hub.glade.ui:81
 msgid "Connect To.."
@@ -952,14 +950,14 @@ msgstr ""
 #: linux/search.cc:105 linux/search.cc:229 linux/search.cc:714
 #: linux/search.cc:777 linux/search.cc:925 linux/search.cc:1817
 msgid "Connection"
-msgstr ""
+msgstr "Pripojenie"
 
 #: ui/hub.glade.ui:139 ui/hub.glade.ui:193 ui/hub.glade.ui:226
 #: ui/hub.glade.ui:282 ui/hub.glade.ui:582 ui/privatemessage.glade.ui:118
 #: ui/privatemessage.glade.ui:138 ui/privatemessage.glade.ui:171
 #: ui/privatemessage.glade.ui:227 ui/search.glade.ui:639
 msgid "Copy"
-msgstr "Kopyala"
+msgstr "Kopírovať"
 
 #: ui/downloadqueue.glade.ui:181 ui/search.glade.ui:701
 #: ui/sharebrowser.glade.ui:166
@@ -994,11 +992,11 @@ msgstr ""
 #: linux/FavoriteHubDialog.cc:53 linux/FavoriteHubDialog.cc:54
 #: linux/emoticonsdialog.cc:140 linux/previewmenu.cc:88
 msgid "Default"
-msgstr "Öntanımlı"
+msgstr "Predvolené"
 
 #: ui/settingsdialog.glade.ui:2407
 msgid "Default download directory"
-msgstr "Varsayılan indirme dizini"
+msgstr "Štandardný priečinok pre sťahované súbory"
 
 #: ui/settingsdialog.glade.ui:1585
 msgid "Default hub encoding"
@@ -1014,11 +1012,11 @@ msgstr ""
 
 #: ui/detection.glade.ui:1117 ui/detection.glade.ui:1515
 msgid "Delete"
-msgstr "Sil"
+msgstr "Vymazať"
 
 #: ui/searchspy.glade.ui:113
 msgid "Delete item"
-msgstr "Ögeyi Sil"
+msgstr "Vymazať položku"
 
 #: ui/favoritehubs.glade.ui:177 ui/settingsdialog.glade.ui:1545
 #: linux/favoritehubs.cc:42 linux/favoritehubs.cc:128
@@ -1031,7 +1029,7 @@ msgstr "Ögeyi Sil"
 #: linux/publichubs.cc:155 linux/publichubs.cc:292 linux/recenthub.cc:44
 #: linux/recenthub.cc:84 linux/recenthub.cc:271 linux/recenthub.cc:284
 msgid "Description"
-msgstr "Açıklama"
+msgstr "Popis"
 
 #: ui/mainwindow.glade.ui:929 linux/detectiontab.cc:28
 msgid "Detection Settings"
@@ -1043,7 +1041,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:2236
 msgid "Direct connection"
-msgstr "Direk Bağlantı"
+msgstr "Priame spojenie"
 
 #: ui/adlsearch.glade.ui:772 ui/settingsdialog.glade.ui:6430
 #: linux/UserCommandMenu.cc:74 linux/search.cc:1804
@@ -1053,7 +1051,7 @@ msgstr "Direk Bağlantı"
 #: linux/settingsdialog.cc:4296 linux/settingsdialog.cc:4310
 #: linux/settingsdialog.cc:4365 linux/sharebrowser.cc:307
 msgid "Directory"
-msgstr "Dizin"
+msgstr "Priečinok"
 
 #: ui/FavDialog.glade.ui:962 ui/FavDialog.glade.ui:979
 #: ui/favoritehubs.glade.ui:1515 ui/favoritehubs.glade.ui:1532
@@ -1063,7 +1061,7 @@ msgstr ""
 
 #: ui/detection.glade.ui:1637
 msgid "Disconect"
-msgstr ""
+msgstr "Odpojené"
 
 #: ui/mainwindow.glade.ui:754
 msgid "Do you really want to exit?"
@@ -1085,7 +1083,7 @@ msgstr ""
 #: ui/privatemessage.glade.ui:198 ui/search.glade.ui:631
 #: ui/sharebrowser.glade.ui:131 linux/settingsdialog.cc:1496
 msgid "Download"
-msgstr ""
+msgstr "Stiahnuť"
 
 #: ui/search.glade.ui:666
 msgid "Download Dir"
@@ -1097,13 +1095,13 @@ msgstr ""
 
 #: ui/adlsearch.glade.ui:346
 msgid "Download Matches"
-msgstr ""
+msgstr "Zhody pri sťahovaní"
 
 #: ui/mainwindow.glade.ui:1057 linux/bookentry.cc:358
 #: linux/downloadqueue.cc:34 linux/settingsdialog.cc:1148
 #: linux/settingsdialog.cc:1617
 msgid "Download Queue"
-msgstr ""
+msgstr "Poradie sťahovania"
 
 #: ui/hub.glade.ui:261 ui/privatemessage.glade.ui:206 ui/search.glade.ui:653
 #: ui/sharebrowser.glade.ui:139
@@ -1112,7 +1110,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:2882 ui/sharebrowser.glade.ui:88
 msgid "Download to"
-msgstr ""
+msgstr "Stiahnuť do"
 
 #: ui/privatemessage.glade.ui:215
 msgid "Download to.."
@@ -1120,23 +1118,23 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:2762 ui/settingsdialog.glade.ui:3723
 msgid "Downloads"
-msgstr ""
+msgstr "Sťahovania"
 
 #: ui/settingsdialog.glade.ui:3401
 msgid "Drop sources below"
-msgstr ""
+msgstr "Odpojiť zdroje nižšie"
 
 #: ui/settingsdialog.glade.ui:1559
 msgid "E-Mail"
-msgstr "E-Posta"
+msgstr "E-Mail"
 
 #: ui/settingsdialog.glade.ui:8071
 msgid "Edit"
-msgstr ""
+msgstr "Upraviť"
 
 #: ui/detection.glade.ui:1385
 msgid "Edit Action"
-msgstr "Eylem Düzenle"
+msgstr "Upraviť úkon"
 
 #: ui/detection.glade.ui:1427
 msgid "Edit Raw"
@@ -1144,7 +1142,7 @@ msgstr ""
 
 #: ui/mainwindow.glade.ui:1954
 msgid "Edit the preferences"
-msgstr ""
+msgstr "Upraviť nastavenia"
 
 #: ui/FavDialog.glade.ui:884
 msgid "Emot Pack"
@@ -1152,7 +1150,7 @@ msgstr ""
 
 #: ui/privatemessage.glade.ui:315
 msgid "Emoticons"
-msgstr ""
+msgstr "Emotikony"
 
 #: ui/detection.glade.ui:1589
 msgid "Emulation Action"
@@ -1170,7 +1168,7 @@ msgstr ""
 #: linux/detectiontab.cc:828 linux/detectiontab.cc:898
 #: linux/detectiontab.cc:913 linux/detectiontab.cc:1084
 msgid "Enable"
-msgstr "Etkin"
+msgstr "Povoliť"
 
 #: ui/settingsdialog.glade.ui:1645
 msgid "Enable Auto Detection"
@@ -1208,7 +1206,7 @@ msgstr ""
 #: linux/settingsdialog.cc:1877 linux/settingsdialog.cc:1889
 #: linux/settingsdialog.cc:1900 linux/settingsdialog.cc:1902
 msgid "Enabled"
-msgstr ""
+msgstr "Povolené"
 
 #: ui/mainwindow.glade.ui:2303
 msgid "Enter line for user command"
@@ -1220,11 +1218,11 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:4759
 msgid "Every time a private message is received"
-msgstr ""
+msgstr "Vždy po prijatí súkromnej správy"
 
 #: ui/mainwindow.glade.ui:207
 msgid "Exact size"
-msgstr ""
+msgstr "Presná veľkosť"
 
 #: ui/mainwindow.glade.ui:965 ui/mainwindow.glade.ui:1870
 msgid "Exit"
@@ -1248,19 +1246,19 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:5577
 msgid "Export..."
-msgstr ""
+msgstr "Exportovať..."
 
 #: ui/settingsdialog.glade.ui:1899 linux/hub.cc:2492
 msgid "External / WAN IP"
-msgstr ""
+msgstr "Externá (WAN) IP"
 
 #: ui/settingsdialog.glade.ui:1986
 msgid "External/WAN IPv6"
-msgstr ""
+msgstr "Externé/WAN IPv6"
 
 #: ui/FavDialog.glade.ui:661 ui/favoritehubs.glade.ui:1123
 msgid "Extra Info"
-msgstr "Ek Bilgi"
+msgstr "Ďalšie informácie"
 
 #: ui/detection.glade.ui:1567
 msgid "Fake Share Action"
@@ -1272,44 +1270,44 @@ msgstr ""
 
 #: ui/FavDialog.glade.ui:7 ui/favoritehubs.glade.ui:472
 msgid "Favorite Hub Properties"
-msgstr ""
+msgstr "Vlastnosti obľúbeného hubu"
 
 #: ui/mainwindow.glade.ui:985 ui/mainwindow.glade.ui:1904
 #: ui/mainwindow.glade.ui:2192 linux/bookentry.cc:346 linux/favoritehubs.cc:34
 #: linux/settingsdialog.cc:1498 linux/settingsdialog.cc:1546
 #: linux/settingsdialog.cc:1616
 msgid "Favorite Hubs"
-msgstr ""
+msgstr "Obľúbené huby"
 
 #: ui/mainwindow.glade.ui:994 ui/mainwindow.glade.ui:1920
 #: ui/mainwindow.glade.ui:2199 linux/bookentry.cc:350
 #: linux/favoriteusers.cc:38 linux/settingsdialog.cc:1499
 #: linux/settingsdialog.cc:1548 linux/settingsdialog.cc:1620
 msgid "Favorite Users"
-msgstr "Favori kullanıcılar"
+msgstr "Obľúbení používatelia"
 
 #: ui/settingsdialog.glade.ui:9368 linux/settingsdialog.cc:4228
 msgid "Favorite name"
-msgstr ""
+msgstr "Názov obľúbeného"
 
 #: ui/mainwindow.glade.ui:851 linux/UserCommandMenu.cc:76
 #: linux/settingsdialog.cc:405 linux/settingsdialog.cc:1194
 #: linux/settingsdialog.cc:1514 linux/settingsdialog.cc:3295
 #: linux/settingsdialog.cc:3311
 msgid "File"
-msgstr "Dosya"
+msgstr "Súbor"
 
 #: ui/mainwindow.glade.ui:101
 msgid "File name"
-msgstr "Dosya adı"
+msgstr "Názov súboru"
 
 #: ui/search.glade.ui:237 ui/search.glade.ui:854
 msgid "File type"
-msgstr "Dosya türü"
+msgstr "Typ súboru"
 
 #: ui/settingsdialog.glade.ui:1075
 msgid "Filelist Menu"
-msgstr ""
+msgstr "Menu zonamu súborov"
 
 #: ui/adlsearch.glade.ui:769 ui/search.glade.ui:833 linux/downloadqueue.cc:66
 #: linux/downloadqueue.cc:90 linux/downloadqueue.cc:91
@@ -1331,7 +1329,7 @@ msgstr ""
 #: linux/transfers.cc:754 linux/transfers.cc:760 linux/transfers.cc:924
 #: linux/transfers.cc:926 linux/transfers.cc:928
 msgid "Filename"
-msgstr "Dosya adı"
+msgstr "Názov súboru"
 
 #: ui/cmddebug.glade.ui:114
 msgid "Filter by IP"
@@ -1343,7 +1341,7 @@ msgstr ""
 
 #: ui/sharebrowser.glade.ui:452
 msgid "Find"
-msgstr "Bul"
+msgstr "Nájsť"
 
 #: ui/sharebrowser.glade.ui:203
 msgid "Find files"
@@ -1355,7 +1353,7 @@ msgstr ""
 #: linux/settingsdialog.cc:1500 linux/settingsdialog.cc:1562
 #: linux/settingsdialog.cc:1618
 msgid "Finished Downloads"
-msgstr ""
+msgstr "Dokončené sťahovania"
 
 #: ui/mainwindow.glade.ui:1074 ui/mainwindow.glade.ui:2075
 #: ui/mainwindow.glade.ui:2262 linux/bookentry.cc:379
@@ -1363,7 +1361,7 @@ msgstr ""
 #: linux/settingsdialog.cc:1501 linux/settingsdialog.cc:1564
 #: linux/settingsdialog.cc:1619
 msgid "Finished Uploads"
-msgstr ""
+msgstr "Dokončené odosielania"
 
 #: ui/settingsdialog.glade.ui:1878
 msgid "Firewall (passive, last resort)"
@@ -1388,7 +1386,7 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:6500 ui/settingsdialog.glade.ui:6557
 #: ui/settingsdialog.glade.ui:6614 ui/settingsdialog.glade.ui:6671
 msgid "Format"
-msgstr "Biçim"
+msgstr "Formát"
 
 #: ui/settingsdialog.glade.ui:6035
 msgid "Frame (size)"
@@ -1396,11 +1394,11 @@ msgstr ""
 
 #: ui/searchspy.glade.ui:325 ui/settingsdialog.glade.ui:6020
 msgid "Frame size"
-msgstr "Çerçeve boyutu"
+msgstr "Veľkosť rámu"
 
 #: ui/searchspy.glade.ui:313
 msgid "Frame:"
-msgstr "Çerçeve:"
+msgstr "Rámček:"
 
 #: ui/adlsearch.glade.ui:481
 msgid "From Fav"
@@ -1412,11 +1410,11 @@ msgstr ""
 
 #: ui/FavDialog.glade.ui:578 ui/favoritehubs.glade.ui:1040
 msgid "General"
-msgstr ""
+msgstr "Všeobecné"
 
 #: ui/settingsdialog.glade.ui:7804
 msgid "Generate certificates"
-msgstr "Sertifika oluştur"
+msgstr "Vytvoriť certifikáty"
 
 #: ui/downloadqueue.glade.ui:264 ui/privatemessage.glade.ui:82
 #: ui/transfers.glade.ui:36
@@ -1442,7 +1440,7 @@ msgstr ""
 #: ui/privatemessage.glade.ui:81 linux/hub.cc:2421
 #: linux/privatemessage.cc:1060
 msgid "Get file list"
-msgstr "Dosya listesini al"
+msgstr ""
 
 #: ui/adlsearch.glade.ui:798 ui/search.glade.ui:819
 msgid "GiB"
@@ -1468,7 +1466,7 @@ msgstr ""
 
 #: ui/search.glade.ui:279
 msgid "Group by"
-msgstr ""
+msgstr "Zoskupiť podľa"
 
 #: ui/finishedtransfers.glade.ui:33
 msgid "Grouped by Files"
@@ -1480,7 +1478,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:2711
 msgid "HTTP Proxy (for hublist only)"
-msgstr ""
+msgstr "HTTP proxy (iba pre zoznamy hubov)"
 
 #: ui/cmddebug.glade.ui:39
 msgid "HUB IN"
@@ -1493,7 +1491,7 @@ msgstr ""
 #: ui/mainwindow.glade.ui:1973 ui/mainwindow.glade.ui:2220
 #: linux/settingsdialog.cc:1502 linux/settingsdialog.cc:1554
 msgid "Hash"
-msgstr ""
+msgstr "Hash"
 
 #: ui/mainwindow.glade.ui:1263
 msgid "Help"
@@ -1510,7 +1508,7 @@ msgstr ""
 #: ui/downloadqueue.glade.ui:122 ui/downloadqueue.glade.ui:244
 #: linux/downloadqueue.cc:1321
 msgid "High"
-msgstr "Yüksek"
+msgstr "Vysoký"
 
 #: ui/settingsdialog.glade.ui:2969
 msgid "High priority max size"
@@ -1519,7 +1517,7 @@ msgstr ""
 #: ui/downloadqueue.glade.ui:130 ui/downloadqueue.glade.ui:252
 #: linux/downloadqueue.cc:1324
 msgid "Highest"
-msgstr "En Yüksek"
+msgstr "Najvyšší"
 
 #: ui/settingsdialog.glade.ui:3091
 msgid "Highest priority max size"
@@ -1527,7 +1525,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:8123
 msgid "Highlighting"
-msgstr ""
+msgstr "Zvýrazňovanie"
 
 #: ui/mainwindow.glade.ui:1269
 msgid "Home"
@@ -1544,7 +1542,7 @@ msgstr ""
 #: linux/settingsdialog.cc:4569 linux/settingsdialog.cc:4592
 #: linux/settingsdialog.cc:4611
 msgid "Hub"
-msgstr ""
+msgstr "Hub"
 
 #: ui/settingsdialog.glade.ui:1232
 msgid "Hub IP / DNS (empty = All, 'op' = where operator)"
@@ -1552,13 +1550,13 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:1093
 msgid "Hub Menu"
-msgstr ""
+msgstr "Menu hubu"
 
 #: ui/mainwindow.glade.ui:1906 ui/search.glade.ui:422 linux/hub.cc:76
 #: linux/hub.cc:345 linux/hub.cc:550 linux/hub.cc:586 linux/hub.cc:722
 #: linux/hub.cc:751
 msgid "Hubs"
-msgstr ""
+msgstr "Huby"
 
 #: ui/detection.glade.ui:110 linux/detectiontab.cc:46 linux/detectiontab.cc:62
 #: linux/detectiontab.cc:75 linux/detectiontab.cc:315
@@ -1571,11 +1569,11 @@ msgstr ""
 #: linux/detectiontab.cc:857 linux/detectiontab.cc:903
 #: linux/detectiontab.cc:918 linux/detectiontab.cc:1083
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: ui/FavDialog.glade.ui:732 ui/favoritehubs.glade.ui:1193
 msgid "IP"
-msgstr ""
+msgstr "IP"
 
 #: ui/settingsdialog.glade.ui:1107
 msgid "IP Address"
@@ -1583,7 +1581,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:5232
 msgid "Icon..."
-msgstr ""
+msgstr "Ikona..."
 
 #: ui/settingsdialog.glade.ui:9155
 msgid "Icons"
@@ -1591,7 +1589,7 @@ msgstr ""
 
 #: ui/searchspy.glade.ui:209
 msgid "Ignore TTH"
-msgstr ""
+msgstr "Ignorovať TTH"
 
 #: ui/searchspy.glade.ui:214
 msgid "Ignore TTH search"
@@ -1603,7 +1601,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:5590
 msgid "Import..."
-msgstr ""
+msgstr "Importovať..."
 
 #: ui/mainwindow.glade.ui:1095
 msgid "Indexing Progress"
@@ -1611,7 +1609,7 @@ msgstr ""
 
 #: ui/hash.glade.ui:7 linux/hashdialog.cc:43 linux/hashdialog.cc:123
 msgid "Indexing files..."
-msgstr ""
+msgstr "Indexujú sa súbory..."
 
 #: ui/mainwindow.glade.ui:1285
 msgid "Isue Tracker"
@@ -1635,7 +1633,7 @@ msgstr "KiB"
 
 #: ui/adlsearch.glade.ui:502
 msgid "Kick"
-msgstr ""
+msgstr "Vykopnúť"
 
 #: ui/settingsdialog.glade.ui:9138
 msgid "Left"
@@ -1644,7 +1642,7 @@ msgstr ""
 #: ui/mainwindow.glade.ui:2135 ui/mainwindow.glade.ui:2283
 #: linux/settingsdialog.cc:1516 linux/settingsdialog.cc:1577
 msgid "Limiting"
-msgstr "Sınırlandırma"
+msgstr ""
 
 #: ui/detection.glade.ui:1613
 msgid "ListLen Action"
@@ -1668,36 +1666,36 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:6735
 msgid "Log filelist transfers"
-msgstr ""
+msgstr "Zaznamenávať prenosy zoznamov súborov"
 
 #: ui/settingsdialog.glade.ui:6475
 msgid "Log main chat"
-msgstr ""
+msgstr "Zaznamenávať hlavnú konverzáciu"
 
 #: ui/settingsdialog.glade.ui:6532
 msgid "Log private chat"
-msgstr ""
+msgstr "Zaznamenávať súkromnú konverzáciu"
 
 #: ui/settingsdialog.glade.ui:6719
 msgid "Log status messages"
-msgstr ""
+msgstr "Zaznamenávať stavové správy"
 
 #: ui/settingsdialog.glade.ui:6703
 msgid "Log system messages"
-msgstr ""
+msgstr "Zaznamenávať systémové správy"
 
 #: ui/settingsdialog.glade.ui:6646
 msgid "Log uploads"
-msgstr ""
+msgstr "Zaznamenávať odosielania"
 
 #: ui/settingsdialog.glade.ui:6816
 msgid "Logs"
-msgstr ""
+msgstr "Záznamy"
 
 #: ui/downloadqueue.glade.ui:106 ui/downloadqueue.glade.ui:228
 #: linux/downloadqueue.cc:1318
 msgid "Low"
-msgstr "Düşük"
+msgstr "Nízky"
 
 #: ui/settingsdialog.glade.ui:2983
 msgid "Low priority size"
@@ -1706,15 +1704,15 @@ msgstr ""
 #: ui/downloadqueue.glade.ui:98 ui/downloadqueue.glade.ui:220
 #: linux/downloadqueue.cc:1315
 msgid "Lowest"
-msgstr "En düşük"
+msgstr "Najnižšie"
 
 #: ui/mainwindow.glade.ui:7 ui/mainwindow.glade.ui:89
 msgid "Magnet"
-msgstr ""
+msgstr "Magnet"
 
 #: ui/favoritehubs.glade.ui:1431
 msgid "Manage groups"
-msgstr ""
+msgstr "Spravovať skupiny"
 
 #: ui/favoriteusers.glade.ui:167 ui/hub.glade.ui:620 ui/search.glade.ui:723
 #: ui/sharebrowser.glade.ui:437 ui/transfers.glade.ui:44
@@ -1723,7 +1721,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:5892
 msgid "Matches"
-msgstr ""
+msgstr "Zhody"
 
 #: ui/detection.glade.ui:1908
 msgid "Max Disconects"
@@ -1739,15 +1737,15 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:7054
 msgid "Max filelist size"
-msgstr "Azami dosya boyutu"
+msgstr "Max. veľkosť zoznamu súborov"
 
 #: ui/settingsdialog.glade.ui:7015
 msgid "Max hash speed"
-msgstr ""
+msgstr "Max. rýchlosť hashovania"
 
 #: ui/settingsdialog.glade.ui:3251
 msgid "Max inactivity"
-msgstr ""
+msgstr "Max. neaktivita"
 
 #: ui/settingsdialog.glade.ui:1531
 msgid "Max upload speed (MiB/s)"
@@ -1755,11 +1753,11 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:8224 ui/settingsdialog.glade.ui:8477
 msgid "Maximum Download Rate (KiB/s) (0 = infinite)"
-msgstr "En yüksek İndirme Oranı (KiB/s) (0 = sonsuz)"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:8172 ui/settingsdialog.glade.ui:8425
 msgid "Maximum Upload Rate (KiB/s) (0 = infinite)"
-msgstr "En Yüksek Yükleme Hızı (KiB/s) (0 = sınırsız)"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:5341
 msgid "Maximum message length (0 = infinite)"
@@ -1767,16 +1765,16 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:2563
 msgid "Maximum simultaneous downloads (0 = infinite)"
-msgstr ""
+msgstr "Max. počet súčasných sťahovaní (0 = nekonečno)"
 
 #: ui/adlsearch.glade.ui:795 ui/search.glade.ui:816
 #: ui/settingsdialog.glade.ui:7226
 msgid "MiB"
-msgstr "MB"
+msgstr "MiB"
 
 #: ui/settingsdialog.glade.ui:7189
 msgid "MiB/s"
-msgstr "MB/sn"
+msgstr "MiB/s"
 
 #: ui/settingsdialog.glade.ui:9213 ui/settingsdialog.glade.ui:9293
 msgid "Midnight"
@@ -1788,15 +1786,15 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:3387
 msgid "Min elapsed"
-msgstr ""
+msgstr "Min. uplynutý čas"
 
 #: ui/settingsdialog.glade.ui:3235
 msgid "Min filesize"
-msgstr "Asgari dosya boyutu"
+msgstr "Min. veľkosť súboru"
 
 #: ui/settingsdialog.glade.ui:3373
 msgid "Min sources online"
-msgstr ""
+msgstr "Min. počet zdrojov online"
 
 #: ui/detection.glade.ui:2101
 msgid "Min. ADL Points to Display"
@@ -1804,7 +1802,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:7041
 msgid "Mini slot size"
-msgstr ""
+msgstr "Veľkosť mini slotu"
 
 #: ui/detection.glade.ui:816 linux/detectiontab.cc:48
 #: linux/detectiontab.cc:340 linux/detectiontab.cc:905
@@ -1818,12 +1816,12 @@ msgstr ""
 
 #: ui/FavDialog.glade.ui:715 ui/favoritehubs.glade.ui:1176 linux/hub.cc:2498
 msgid "Mode"
-msgstr "Mod"
+msgstr "Režim"
 
 #: ui/detection.glade.ui:1103 ui/detection.glade.ui:1501
 #: ui/settingsdialog.glade.ui:8789
 msgid "Modify"
-msgstr ""
+msgstr "Upraviť"
 
 #: ui/settingsdialog.glade.ui:869
 msgid "Modify User Command"
@@ -1835,15 +1833,15 @@ msgstr ""
 
 #: ui/adlsearch.glade.ui:701
 msgid "Move Down"
-msgstr "Aşağıya Taşı"
+msgstr "Posunúť nižšie"
 
 #: ui/adlsearch.glade.ui:687
 msgid "Move Up"
-msgstr "Yukarıya Taşı"
+msgstr "Posunúť vyššie"
 
 #: ui/downloadqueue.glade.ui:7
 msgid "Move to..."
-msgstr "Taşı..."
+msgstr "Premiestniť do..."
 
 #: ui/hub.glade.ui:574
 msgid "NICK"
@@ -1887,11 +1885,11 @@ msgstr ""
 #: linux/settingsdialog.cc:4568 linux/settingsdialog.cc:4591
 #: linux/settingsdialog.cc:4610
 msgid "Name"
-msgstr "İsim"
+msgstr "Názov"
 
 #: ui/settingsdialog.glade.ui:3539
 msgid "Name:"
-msgstr "İsim:"
+msgstr "Názov:"
 
 #: ui/settingsdialog.glade.ui:5781
 msgid "New string or TTH"
@@ -1899,7 +1897,7 @@ msgstr ""
 
 #: ui/sharebrowser.glade.ui:467
 msgid "Next"
-msgstr ""
+msgstr "Ďalší"
 
 #: ui/mainwindow.glade.ui:1162
 msgid "Next Tab"
@@ -1924,7 +1922,7 @@ msgstr ""
 #: linux/search.cc:708 linux/search.cc:783 linux/search.cc:931
 #: linux/search.cc:1814
 msgid "Nick"
-msgstr "Rumuz"
+msgstr "Prezývka"
 
 #: ui/search.glade.ui:830
 msgid "No grouping"
@@ -1932,7 +1930,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:2547
 msgid "No new downloads if speed exceeds (KiB/s, 0 = disable)"
-msgstr ""
+msgstr "Žiadne nové sťahovania ak rýchlosť prekročí (KiB/s, 0 = zakázať)"
 
 #: ui/settingsdialog.glade.ui:5259
 msgid "None icon"
@@ -1947,7 +1945,7 @@ msgstr ""
 #: linux/settingsdialog.cc:1657 linux/settingsdialog.cc:1676
 #: linux/settingsdialog.cc:3739 linux/settingsdialog.cc:3772
 msgid "Normal"
-msgstr "Olağan"
+msgstr "Normálny"
 
 #: ui/settingsdialog.glade.ui:3077
 msgid "Normal priority max size"
@@ -1969,17 +1967,18 @@ msgstr ""
 msgid ""
 "Note; because of changing download speeds, this is not 100% accurate..."
 msgstr ""
+"Pozn.: kvôli meniacej sa rýchlosti sťahovania toto nie je 100% presné..."
 
 #: ui/mainwindow.glade.ui:1237 ui/mainwindow.glade.ui:2090
 #: ui/mainwindow.glade.ui:2269 linux/bookentry.cc:395 linux/notepad.cc:28
 #: linux/settingsdialog.cc:1509 linux/settingsdialog.cc:1569
 #: linux/settingsdialog.cc:1622
 msgid "Notepad"
-msgstr ""
+msgstr "Poznámkový blok"
 
 #: ui/settingsdialog.glade.ui:5431 linux/settingsdialog.cc:1365
 msgid "Notify"
-msgstr "Bildirim"
+msgstr "Upozorniť"
 
 #: ui/FavDialog.glade.ui:798 ui/favoritehubs.glade.ui:1266
 msgid "Notify Chat"
@@ -2003,7 +2002,7 @@ msgstr ""
 
 #: ui/search.glade.ui:352
 msgid "Only users with free slots"
-msgstr ""
+msgstr "Iba používatelia s voľnými slotmi"
 
 #: ui/hub.glade.ui:147 ui/hub.glade.ui:167 ui/hub.glade.ui:234
 #: ui/privatemessage.glade.ui:126 ui/privatemessage.glade.ui:179
@@ -2036,7 +2035,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:961 ui/settingsdialog.glade.ui:5408
 msgid "PM"
-msgstr ""
+msgstr "PM"
 
 #: ui/settingsdialog.glade.ui:7028
 msgid "PM history"
@@ -2055,7 +2054,7 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:2149 linux/favoritehubs.cc:45
 #: linux/favoritehubs.cc:130
 msgid "Password"
-msgstr "Parola"
+msgstr "Heslo"
 
 #: ui/search.glade.ui:836 linux/downloadqueue.cc:72 linux/downloadqueue.cc:285
 #: linux/downloadqueue.cc:392 linux/finishedtransfers.cc:57
@@ -2068,7 +2067,7 @@ msgstr "Parola"
 #: linux/search.cc:1802 linux/search.cc:2065 linux/transfers.cc:69
 #: linux/transfers.cc:761 linux/transfers.cc:931
 msgid "Path"
-msgstr ""
+msgstr "Cesta"
 
 #: ui/export.glade.ui:139
 msgid "Path to"
@@ -2076,12 +2075,12 @@ msgstr ""
 
 #: ui/hash.glade.ui:155
 msgid "Pause"
-msgstr ""
+msgstr "Pozastaviť"
 
 #: ui/downloadqueue.glade.ui:90 ui/downloadqueue.glade.ui:212
 #: linux/downloadqueue.cc:1312
 msgid "Paused"
-msgstr ""
+msgstr "Pozastavené"
 
 #: ui/detection.glade.ui:2182
 msgid "Percent Fake"
@@ -2089,46 +2088,46 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:1629
 msgid "Personal"
-msgstr "Kişisel"
+msgstr "Osobné"
 
 #: ui/settingsdialog.glade.ui:3987
 msgid "Pictures"
-msgstr "Resimler"
+msgstr "Obrázky"
 
 #: ui/settingsdialog.glade.ui:4702
 msgid "Play"
-msgstr ""
+msgstr "Hrať"
 
 #: ui/settingsdialog.glade.ui:8728
 msgid "Plugins"
-msgstr ""
+msgstr "Pluginy"
 
 #: ui/detection.glade.ui:1215 linux/detectiontab.cc:177
 #: linux/detectiontab.cc:1348 linux/detectiontab.cc:1386
 #: linux/detectiontab.cc:1442
 msgid "Points"
-msgstr ""
+msgstr "Bodov"
 
 #: ui/adlsearch.glade.ui:578
 msgid "Points:"
-msgstr ""
+msgstr "Bodov:"
 
 #: ui/settingsdialog.glade.ui:2183
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: ui/settingsdialog.glade.ui:1851
 msgid "Ports"
-msgstr ""
+msgstr "Porty"
 
 #: ui/mainwindow.glade.ui:1956 ui/settingsdialog.glade.ui:1392
 #: linux/settingsdialog.cc:1503 linux/settingsdialog.cc:1552
 msgid "Preferences"
-msgstr ""
+msgstr "Nastavenia"
 
 #: ui/settingsdialog.glade.ui:3707
 msgid "Preview"
-msgstr "Ön İzleme"
+msgstr "Ukážka"
 
 #: ui/mainwindow.glade.ui:1153
 msgid "Previous Tab"
@@ -2142,15 +2141,15 @@ msgstr ""
 #: linux/downloadqueue.cc:70 linux/downloadqueue.cc:284
 #: linux/downloadqueue.cc:391
 msgid "Priority"
-msgstr ""
+msgstr "Priorita"
 
 #: ui/settingsdialog.glade.ui:7727
 msgid "Private key file"
-msgstr ""
+msgstr "Súbor súkromného kľúča"
 
 #: ui/adlsearch.glade.ui:673
 msgid "Properties"
-msgstr ""
+msgstr "Vlastnosť"
 
 #: ui/adlsearch.glade.ui:750 ui/config.glade.ui:253 ui/hub.glade.ui:296
 #: ui/privatemessage.glade.ui:241
@@ -2174,17 +2173,17 @@ msgstr ""
 #: linux/settingsdialog.cc:1504 linux/settingsdialog.cc:1550
 #: linux/settingsdialog.cc:1615
 msgid "Public Hubs"
-msgstr ""
+msgstr "Verejné huby"
 
 #: ui/settingsdialog.glade.ui:2659
 msgid "Public Hubs list URL"
-msgstr ""
+msgstr "URL zoznamu verejných hubov"
 
 #: ui/mainwindow.glade.ui:2041 ui/mainwindow.glade.ui:2248
 #: ui/settingsdialog.glade.ui:3473 linux/settingsdialog.cc:1505
 #: linux/settingsdialog.cc:1560
 msgid "Queue"
-msgstr ""
+msgstr "Poradie"
 
 #: ui/mainwindow.glade.ui:888
 msgid "Quick connect"
@@ -2197,11 +2196,11 @@ msgstr ""
 #: ui/mainwindow.glade.ui:2151 ui/mainwindow.glade.ui:2297
 #: linux/settingsdialog.cc:1512 linux/settingsdialog.cc:1566
 msgid "Quit"
-msgstr "Çıkış"
+msgstr "Ukončiť"
 
 #: ui/mainwindow.glade.ui:2149
 msgid "Quit the program"
-msgstr "Programdan çık"
+msgstr "Ukončiť program"
 
 #: ui/detection.glade.ui:1577
 msgid "RMDC Action"
@@ -2247,7 +2246,7 @@ msgstr ""
 
 #: ui/hub.glade.ui:541
 msgid "Refresh"
-msgstr ""
+msgstr "Obnoviť"
 
 #: ui/mainwindow.glade.ui:873
 msgid "Refresh Filelist"
@@ -2259,7 +2258,7 @@ msgstr ""
 
 #: ui/mainwindow.glade.ui:375
 msgid "Remember choice"
-msgstr ""
+msgstr "Zapamätať si výver"
 
 #: ui/adlsearch.glade.ui:715 ui/adlsearch.glade.ui:758
 #: ui/detection.glade.ui:2997 ui/detection.glade.ui:3016
@@ -2271,11 +2270,11 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:8815 ui/transfers.glade.ui:84
 #: ui/uploadqueue.glade.ui:67
 msgid "Remove"
-msgstr "Kaldır"
+msgstr "Odstrániť"
 
 #: ui/recenthub.glade.ui:174
 msgid "Remove All"
-msgstr "Tümünü Kaldır"
+msgstr "Odstrániť všetko"
 
 #: ui/downloadqueue.glade.ui:322
 msgid "Remove User from Queue"
@@ -2300,11 +2299,11 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:8802
 msgid "Rename"
-msgstr "Yeniden adlandır"
+msgstr "Premenovať"
 
 #: ui/settingsdialog.glade.ui:7957
 msgid "Restore Backup"
-msgstr ""
+msgstr "Obnoviť zálohu"
 
 #: ui/settingsdialog.glade.ui:9141
 msgid "Right"
@@ -2316,11 +2315,11 @@ msgstr ""
 
 #: ui/hash.glade.ui:21
 msgid "Run in background"
-msgstr ""
+msgstr "Spustiť na pozadí"
 
 #: ui/detection.glade.ui:1683
 msgid "Save"
-msgstr "Kaydet"
+msgstr "Uložiť"
 
 #: ui/hub.glade.ui:91 linux/hub.cc:2425
 msgid "Say a third person"
@@ -2333,7 +2332,7 @@ msgstr ""
 #: linux/settingsdialog.cc:1151 linux/settingsdialog.cc:1506
 #: linux/settingsdialog.cc:1556
 msgid "Search"
-msgstr "Ara"
+msgstr "Hľadať"
 
 #: ui/sharebrowser.glade.ui:158
 msgid "Search Alternative"
@@ -2345,7 +2344,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:1043
 msgid "Search Menu"
-msgstr ""
+msgstr "Menu hľadania"
 
 #: ui/mainwindow.glade.ui:1042 ui/mainwindow.glade.ui:2241
 msgid "Search SPY"
@@ -2356,7 +2355,7 @@ msgstr ""
 #: linux/settingsdialog.cc:1507 linux/settingsdialog.cc:1558
 #: linux/settingsdialog.cc:1621
 msgid "Search Spy"
-msgstr ""
+msgstr "Špión vyhľadávaní"
 
 #: ui/search.glade.ui:693
 msgid "Search by TTH"
@@ -2364,7 +2363,7 @@ msgstr ""
 
 #: ui/search.glade.ui:107
 msgid "Search for"
-msgstr "Arama için"
+msgstr "Hľadať"
 
 #: ui/mainwindow.glade.ui:1988
 msgid "Search for files to download"
@@ -2372,11 +2371,11 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:7279
 msgid "Search history"
-msgstr ""
+msgstr "História hľadania"
 
 #: ui/search.glade.ui:321
 msgid "Search options"
-msgstr "Arama seçenekleri"
+msgstr "Možnosti hľadania"
 
 #: ui/search.glade.ui:331
 msgid "Search within local results"
@@ -2384,7 +2383,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:7835
 msgid "Security Certificates"
-msgstr "Güvenlik Sertifikaları"
+msgstr "Bezpečnostné certifikáty"
 
 #: ui/detection.glade.ui:2378 ui/detection.glade.ui:2431
 #: ui/detection.glade.ui:2486 ui/detection.glade.ui:2541
@@ -2392,7 +2391,7 @@ msgstr "Güvenlik Sertifikaları"
 #: ui/detection.glade.ui:2706 ui/detection.glade.ui:2761
 #: ui/detection.glade.ui:2816 ui/detection.glade.ui:2871
 msgid "Select"
-msgstr ""
+msgstr "Vybrať"
 
 #: ui/detection.glade.ui:406
 msgid "Select Actions"
@@ -2400,19 +2399,19 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:348
 msgid "Select Background Color"
-msgstr ""
+msgstr "Vybrať farbu pozadia"
 
 #: ui/mainwindow.glade.ui:452
 msgid "Select File"
-msgstr ""
+msgstr "Vybrať súbor"
 
 #: ui/settingsdialog.glade.ui:377
 msgid "Select Sound File"
-msgstr ""
+msgstr "Vybrať zvukový súbor"
 
 #: ui/settingsdialog.glade.ui:334
 msgid "Select Text Color"
-msgstr ""
+msgstr "Vybrať farbu textu"
 
 #: ui/mainwindow.glade.ui:771 linux/mainwindow.cc:2395
 msgid "Select filelist to browse"
@@ -2437,11 +2436,11 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:1301
 msgid "Send once per nick"
-msgstr ""
+msgstr "Poslať raz za prezývku"
 
 #: ui/settingsdialog.glade.ui:997 linux/settingsdialog.cc:3880
 msgid "Separator"
-msgstr "Ayırıcı"
+msgstr "Oddeľovač"
 
 #: ui/mainwindow.glade.ui:2119
 msgid "Set Away on/off"
@@ -2449,7 +2448,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:6346
 msgid "Set Background Color"
-msgstr ""
+msgstr "Nastaviť farbu pozadia"
 
 #: ui/config.glade.ui:260
 msgid "Set Default Value"
@@ -2485,7 +2484,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:3806
 msgid "Share hidden files"
-msgstr ""
+msgstr "Zdieľať skryté súbory"
 
 #: ui/mainwindow.glade.ui:1486
 msgid "Share: 0"
@@ -2493,7 +2492,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:4024
 msgid "Sharing"
-msgstr ""
+msgstr "Zdieľanie"
 
 #: ui/mainwindow.glade.ui:1844
 msgid "Show"
@@ -2542,7 +2541,7 @@ msgstr ""
 #: ui/hub.glade.ui:69 ui/privatemessage.glade.ui:103 linux/hub.cc:2423
 #: linux/privatemessage.cc:1063
 msgid "Show help"
-msgstr "Yardımı göster"
+msgstr "Zobraziť nápovedu"
 
 #: ui/mainwindow.glade.ui:344
 msgid "Show magnet dialog"
@@ -2565,7 +2564,7 @@ msgstr ""
 
 #: ui/hub.glade.ui:124 ui/hub.glade.ui:125 linux/WulforUtil.cc:65
 msgid "Show version"
-msgstr "Sürümü göster"
+msgstr "Zobraziť verziu"
 
 #: ui/mainwindow.glade.ui:115 ui/search.glade.ui:147 ui/search.glade.ui:839
 #: linux/downloadqueue.cc:68 linux/downloadqueue.cc:87
@@ -2580,7 +2579,7 @@ msgstr "Sürümü göster"
 #: linux/transfers.cc:668 linux/transfers.cc:762 linux/transfers.cc:779
 #: linux/transfers.cc:932
 msgid "Size"
-msgstr "Boyut"
+msgstr "Veľkosť"
 
 #: ui/detection.glade.ui:2058
 msgid "Sleep Time"
@@ -2588,7 +2587,7 @@ msgstr ""
 
 #: ui/mainwindow.glade.ui:1498
 msgid "Slots: 0"
-msgstr ""
+msgstr "Sloty: 0"
 
 #: ui/detection.glade.ui:2263
 msgid "Slow Download Time"
@@ -2604,7 +2603,7 @@ msgstr ""
 
 #: ui/mainwindow.glade.ui:1211
 msgid "Small"
-msgstr ""
+msgstr "Malé"
 
 #: ui/hub.glade.ui:385
 msgid "Smile"
@@ -2612,11 +2611,11 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:7305
 msgid "Socket read buffer"
-msgstr ""
+msgstr "Buffer čítania zo socketu"
 
 #: ui/settingsdialog.glade.ui:7318
 msgid "Socket write buffer"
-msgstr ""
+msgstr "Buffer zápisu do socketu"
 
 #: ui/settingsdialog.glade.ui:2202
 msgid "Socks IP"
@@ -2624,7 +2623,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:4813 linux/settingsdialog.cc:1193
 msgid "Sounds"
-msgstr "Sesler"
+msgstr "Zvuky"
 
 #: ui/mainwindow.glade.ui:1277
 msgid "Source"
@@ -2632,11 +2631,11 @@ msgstr ""
 
 #: ui/mainwindow.glade.ui:2024
 msgid "Spy"
-msgstr ""
+msgstr "Špión"
 
 #: ui/mainwindow.glade.ui:328
 msgid "Start a search for this file"
-msgstr ""
+msgstr "Začať hľadanie tohto súboru"
 
 #: ui/settingsdialog.glade.ui:286 linux/AboutConfig.cc:86
 #: linux/AboutConfig.cc:125 linux/settingsdialog.cc:1786
@@ -2644,7 +2643,7 @@ msgstr ""
 #: linux/settingsdialog.cc:4984 linux/settingsdialog.cc:5000
 #: linux/settingsdialog.cc:5141
 msgid "String"
-msgstr "Dizgi"
+msgstr "Reťazec"
 
 #: ui/mainwindow.glade.ui:2276
 msgid "System"
@@ -2652,15 +2651,15 @@ msgstr ""
 
 #: ui/mainwindow.glade.ui:2105 linux/System.cc:29 linux/bookentry.cc:399
 msgid "System Log"
-msgstr ""
+msgstr "Systémový záznam"
 
 #: ui/settingsdialog.glade.ui:9170 linux/WulforUtil.cc:52
 msgid "System default"
-msgstr "Sistem varsayılanı"
+msgstr "Systémové predvolené"
 
 #: ui/settingsdialog.glade.ui:5631
 msgid "System icons"
-msgstr ""
+msgstr "Systémové ikony"
 
 #: ui/adlsearch.glade.ui:778 ui/mainwindow.glade.ui:129 ui/search.glade.ui:845
 msgid "TTH"
@@ -2668,11 +2667,11 @@ msgstr "TTH"
 
 #: ui/mainwindow.glade.ui:1116 ui/settingsdialog.glade.ui:4492
 msgid "Tabs"
-msgstr ""
+msgstr "Karty"
 
 #: ui/settingsdialog.glade.ui:5206
 msgid "Test"
-msgstr ""
+msgstr "Testovať"
 
 #: ui/settingsdialog.glade.ui:9158
 msgid "Text"
@@ -2680,11 +2679,11 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:4955
 msgid "Text color"
-msgstr "Metin rengi"
+msgstr "Farba textu"
 
 #: ui/settingsdialog.glade.ui:4970
 msgid "Text style"
-msgstr ""
+msgstr "Štýl textu"
 
 #: ui/settingsdialog.glade.ui:5644
 msgid "Theme default"
@@ -2692,15 +2691,15 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:5671
 msgid "Themes"
-msgstr "Temalar"
+msgstr "Témy"
 
 #: ui/settingsdialog.glade.ui:7899
 msgid "Time (minutes)"
-msgstr ""
+msgstr "Čas (minúty)"
 
 #: ui/detection.glade.ui:230
 msgid "Time:"
-msgstr "Zaman:"
+msgstr "Čas:"
 
 #: ui/settingsdialog.glade.ui:7877
 msgid "TimeStamp"
@@ -2716,16 +2715,16 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:5731
 msgid "Toolbar"
-msgstr "Araç çubuğu"
+msgstr "Panel nástrojov"
 
 #: ui/mainwindow.glade.ui:1180
 msgid "Tools"
-msgstr ""
+msgstr "Nástroje"
 
 #: ui/searchspy.glade.ui:10 ui/searchspy.glade.ui:372
 #: ui/settingsdialog.glade.ui:9135
 msgid "Top"
-msgstr ""
+msgstr "Hore"
 
 #: ui/settingsdialog.glade.ui:6113
 msgid "Top (count matches, >)"
@@ -2741,7 +2740,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:7697
 msgid "Trusted certificates path"
-msgstr ""
+msgstr "Cesta k dôveryhodným certifikátom"
 
 #: ui/detection.glade.ui:288 ui/detection.glade.ui:967 linux/AboutConfig.cc:34
 #: linux/AboutConfig.cc:40 linux/AboutConfig.cc:158 linux/search.cc:101
@@ -2750,7 +2749,7 @@ msgstr ""
 #: linux/search.cc:1790 linux/search.cc:1804 linux/sharebrowser.cc:82
 #: linux/sharebrowser.cc:307 linux/sharebrowser.cc:328
 msgid "Type"
-msgstr "Tür"
+msgstr "Typ"
 
 #: ui/hub.glade.ui:463
 msgid "UnderLine"
@@ -2762,11 +2761,11 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:2459
 msgid "Unfinished downloads directory"
-msgstr ""
+msgstr "Priečinok pre nedokončené sťahovania"
 
 #: ui/favoritehubs.glade.ui:404 ui/searchspy.glade.ui:356
 msgid "Update"
-msgstr "Güncelleme"
+msgstr "Aktualizovať"
 
 #: ui/settingsdialog.glade.ui:5929
 msgid "Update a string or TTH"
@@ -2786,7 +2785,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:3951
 msgid "Upload slots"
-msgstr ""
+msgstr "Sloty pre nahrávanie"
 
 #: ui/detection.glade.ui:2139
 msgid "Use Delay Raw"
@@ -2820,7 +2819,7 @@ msgstr ""
 
 #: ui/hub.glade.ui:702 ui/search.glade.ui:763 ui/settingsdialog.glade.ui:6986
 msgid "User Commands"
-msgstr "Kullanıcı Komutları"
+msgstr "Používateľské príkazy"
 
 #: ui/hub.glade.ui:209 ui/sharebrowser.glade.ui:107
 #: ui/sharebrowser.glade.ui:182 ui/transfers.glade.ui:92
@@ -2833,7 +2832,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:2096
 msgid "Username"
-msgstr "Kullanıcı Adı"
+msgstr "Meno používateľa"
 
 #: ui/mainwindow.glade.ui:1922 linux/downloadqueue.cc:71
 #: linux/downloadqueue.cc:277 linux/downloadqueue.cc:384
@@ -2841,14 +2840,14 @@ msgstr "Kullanıcı Adı"
 #: linux/publichubs.cc:156 linux/recenthub.cc:45 linux/recenthub.cc:85
 #: linux/recenthub.cc:274 linux/recenthub.cc:283
 msgid "Users"
-msgstr "Kullanıcılar"
+msgstr "Používatelia"
 
 #: ui/detection.glade.ui:956 linux/AboutConfig.cc:35 linux/AboutConfig.cc:159
 #: linux/AboutConfig.cc:175 linux/AboutConfig.cc:273 linux/detectiontab.cc:107
 #: linux/detectiontab.cc:1028 linux/detectiontab.cc:1131
 #: linux/detectiontab.cc:1228
 msgid "Value"
-msgstr "Değer"
+msgstr "Hodnota"
 
 #: ui/detection.glade.ui:1625
 msgid "Version Mismatch"
@@ -2904,47 +2903,47 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:4774
 msgid "When a private message window is opened"
-msgstr ""
+msgstr "Po otvorení okna so súkromnou správou"
 
 #: ui/settingsdialog.glade.ui:4645
 msgid "Windows"
-msgstr "Pencereler"
+msgstr "Okná"
 
 #: ui/settingsdialog.glade.ui:7266
 msgid "Write buffer size"
-msgstr "Yazma önbelleği boyutu"
+msgstr "Veľkosť buffera pre zápis"
 
 #: ui/FavDialog.glade.ui:133 ui/favoritehubs.glade.ui:597
 msgid "_Address:"
-msgstr ""
+msgstr "_Adresa:"
 
 #: ui/FavDialog.glade.ui:149 ui/favoritehubs.glade.ui:614
 msgid "_Description:"
-msgstr ""
+msgstr "_Popis:"
 
 #: ui/FavDialog.glade.ui:182 ui/favoritehubs.glade.ui:647
 msgid "_Encoding:"
-msgstr ""
+msgstr "_Kódovanie:"
 
 #: ui/FavDialog.glade.ui:370 ui/favoritehubs.glade.ui:833
 msgid "_Groups:"
-msgstr ""
+msgstr "_Skupiny:"
 
 #: ui/FavDialog.glade.ui:77 ui/favoritehubs.glade.ui:542
 msgid "_Name:"
-msgstr ""
+msgstr "_Názov:"
 
 #: ui/FavDialog.glade.ui:257 ui/favoritehubs.glade.ui:721
 msgid "_Password:"
-msgstr ""
+msgstr "_Heslo:"
 
 #: ui/searchspy.glade.ui:108
 msgid "_Remove"
-msgstr "_Kaldır"
+msgstr "Odst_rániť"
 
 #: ui/search.glade.ui:508
 msgid "_Search"
-msgstr "_Arama"
+msgstr "_Hľadať"
 
 #: ui/FavDialog.glade.ui:291 ui/favoritehubs.glade.ui:755
 msgid "_User Description:"
@@ -2973,7 +2972,7 @@ msgstr ""
 #: ui/favoritehubs.glade.ui:216 linux/hub.cc:71 linux/hub.cc:341
 #: linux/hub.cc:546 linux/hub.cc:582 linux/hub.cc:718 linux/hub.cc:747
 msgid "eMail"
-msgstr "E-posta"
+msgstr ""
 
 #: ui/FavDialog.glade.ui:418 ui/favoritehubs.glade.ui:881
 msgid "e_Mail:"
@@ -2985,7 +2984,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:8316
 msgid "from"
-msgstr ""
+msgstr "z"
 
 #: ui/hub.glade.ui:70 ui/privatemessage.glade.ui:104
 msgid "help"
@@ -3040,19 +3039,19 @@ msgstr ""
 #: linux/mainwindow.cc:968 linux/mainwindow.cc:969 linux/mainwindow.cc:2759
 #: linux/mainwindow.cc:2761 linux/mainwindow.cc:3053 linux/treeview.cc:222
 msgid "s"
-msgstr ""
+msgstr "s"
 
 #: ui/detection.glade.ui:2295
 msgid "sec"
-msgstr ""
+msgstr "sek"
 
 #: ui/settingsdialog.glade.ui:5554
 msgid "theme"
-msgstr "tema"
+msgstr "téma"
 
 #: ui/settingsdialog.glade.ui:8346
 msgid "to"
-msgstr ""
+msgstr "do"
 
 #: ui/mainwindow.glade.ui:1188
 msgid "top"
@@ -3068,15 +3067,13 @@ msgstr ""
 
 #: linux/hub.cc:2450 linux/hub.cc:2508
 msgid "\n"
-msgstr ""
+msgstr "\n"
 
 #: linux/hub.cc:4387
 msgid ""
 "\n"
 "Message: "
 msgstr ""
-"\n"
-"Mesaj: "
 
 #: linux/hub.cc:1473 linux/hub.cc:1553 linux/privatemessage.cc:662
 #: linux/privatemessage.cc:741
@@ -3093,11 +3090,11 @@ msgstr ""
 
 #: linux/settingsdialog.cc:2966
 msgid " + system icons"
-msgstr " + sistem simgeleri"
+msgstr " + systémové ikony"
 
 #: linux/hub.cc:786 linux/hub.cc:806
 msgid " Users"
-msgstr " Kullanıcılar"
+msgstr " Používatelia"
 
 #: linux/hub.cc:3351
 msgid " added to favorites list"
@@ -3113,7 +3110,7 @@ msgstr ""
 
 #: linux/finishedtransfers.cc:256 linux/sharebrowser.cc:1064
 msgid " files"
-msgstr " dosyalar"
+msgstr ""
 
 #: linux/search.cc:1996
 msgid " filtered"
@@ -3149,7 +3146,7 @@ msgstr ""
 
 #: linux/search.cc:736
 msgid " items"
-msgstr " ögeler"
+msgstr ""
 
 #: linux/hashdialog.cc:68 linux/hashdialog.cc:77 linux/hashdialog.cc:86
 #: linux/mainwindow.cc:3053 linux/mainwindow.cc:3062
@@ -3158,7 +3155,7 @@ msgstr ""
 
 #: linux/downloadqueue.cc:1279
 msgid " of "
-msgstr ""
+msgstr " z "
 
 #: linux/hub.cc:3377
 msgid " removed from favorites list"
@@ -3166,7 +3163,7 @@ msgstr ""
 
 #: linux/settingsmanager.cc:708
 msgid " to "
-msgstr ""
+msgstr " do "
 
 #: linux/transfers.cc:625
 msgid " user(s)"
@@ -3182,7 +3179,7 @@ msgstr ""
 
 #: linux/transfers.cc:625
 msgid "%) from "
-msgstr ""
+msgstr "%) z "
 
 #: linux/hub.cc:2631
 msgid "': type /help for a list of available commands"
@@ -3190,7 +3187,7 @@ msgstr ""
 
 #: linux/hub.cc:2414 linux/privatemessage.cc:1053
 msgid "*** Available commands:"
-msgstr ""
+msgstr "*** Dostupné príkazy"
 
 #: linux/WulforUtil.cc:740
 msgid "*** Info on "
@@ -3202,7 +3199,7 @@ msgstr "*** T E S T ***"
 
 #: linux/hashdialog.cc:69 linux/hashdialog.cc:81 linux/mainwindow.cc:3057
 msgid "-:--:-- left"
-msgstr ""
+msgstr "-:--:-- ubehlo"
 
 #: linux/settingsdialog.cc:2918 linux/settingsdialog.cc:2942
 msgid "...must be *.theme"
@@ -3223,7 +3220,7 @@ msgstr "0"
 
 #: linux/hub.cc:855
 msgid "0 Users"
-msgstr "0 Kullanıcı"
+msgstr ""
 
 #: linux/search.cc:610
 msgid "0 filtered"
@@ -3231,7 +3228,7 @@ msgstr ""
 
 #: linux/search.cc:609
 msgid "0 items"
-msgstr "0 öge"
+msgstr "0 položiek"
 
 #: linux/adlsearch.cc:145 linux/adlsearch.cc:256 linux/adlsearch.cc:323
 msgid "1"
@@ -3251,11 +3248,11 @@ msgstr ""
 
 #: linux/hub.cc:940
 msgid "<b>Enter your password</b>"
-msgstr "<b>Parolanızı girin</b>"
+msgstr "<b>Vložte svoje heslo</b>"
 
 #: linux/settingsdialog.cc:2661
 msgid "<b>Extension</b>"
-msgstr "<b>Uzantı</b>"
+msgstr "<b>Prípony</b>"
 
 #: linux/settingsdialog.cc:2308
 msgid "<b>Name of the new search type</b>"
@@ -3267,7 +3264,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:2561
 msgid "<b>New name</b>"
-msgstr "<b>Yeni isim</b>"
+msgstr "<b>Nové meno</b>"
 
 #: linux/settingsdialog.cc:4230
 msgid "<b>Under what name you see the directory</b>"
@@ -3275,7 +3272,7 @@ msgstr ""
 
 #: linux/mainwindow.cc:2734
 msgid "<b>file:</b> "
-msgstr "<b>dosya:</b> "
+msgstr "<b>súbor:</b> "
 
 #: linux/AboutConfig.cc:28
 msgid "About:config"
@@ -3283,7 +3280,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:2072
 msgid "Accept custom user commands from hub"
-msgstr ""
+msgstr "Akceptovať používateľské príkazy z hubu"
 
 #: linux/hub.cc:2437
 msgid "Add Indepent Fav"
@@ -3303,7 +3300,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:2074
 msgid "Add finished files to share instantly (if shared)"
-msgstr ""
+msgstr "Automaticky pridať stiahnuté súbory medzi zdieľané"
 
 #: linux/privatemessage.cc:1551
 msgid "Add to Favorite Users"
@@ -3316,7 +3313,7 @@ msgstr ""
 #: linux/downloadqueue.cc:75 linux/downloadqueue.cc:287
 #: linux/downloadqueue.cc:394
 msgid "Added"
-msgstr "Eklendi"
+msgstr "Pridané"
 
 #: linux/hub.cc:2568
 msgid "Added Indepent Fav "
@@ -3330,7 +3327,7 @@ msgstr ""
 #: linux/favoritehubs.cc:466 linux/favoritehubs.cc:585 linux/publichubs.cc:46
 #: linux/publichubs.cc:157 linux/publichubs.cc:268 linux/publichubs.cc:293
 msgid "Address"
-msgstr "Adres"
+msgstr "Adresa"
 
 #: linux/WulforUtil.cc:1103
 msgid "Aliases not found."
@@ -3338,11 +3335,11 @@ msgstr ""
 
 #: linux/settingsdialog.cc:2138
 msgid "Allow TLS connections to clients without trusted certificate"
-msgstr ""
+msgstr "Povoliť TLS pripájanie sa k klientom bez doveryhodného certifikátu"
 
 #: linux/settingsdialog.cc:2137
 msgid "Allow TLS connections to hubs without trusted certificate"
-msgstr ""
+msgstr "Povoliť TLS spojenia na hub bez dôveryhodného certifikátu"
 
 #: linux/settingsdialog.cc:1027
 msgid "Amarok player"
@@ -3356,7 +3353,7 @@ msgstr ""
 #: linux/settingsdialog.cc:3374 linux/settingsdialog.cc:3408
 #: linux/settingsdialog.cc:3426 linux/settingsdialog.cc:3457
 msgid "Application"
-msgstr "Uygulama"
+msgstr "Aplikácia"
 
 #: linux/detectiontab.cc:864
 #, boost-format, c-format
@@ -3379,7 +3376,7 @@ msgstr ""
 
 #: linux/detectiontab.cc:1056 linux/detectiontab.cc:1463
 msgid "Are you sure you want to delete item?"
-msgstr "Ögeyi silmek istediğinizden emin misiniz?"
+msgstr ""
 
 #: linux/recenthub.cc:205
 msgid "Are you sure you want to delete recent hub(s)?"
@@ -3392,7 +3389,7 @@ msgstr ""
 
 #: linux/sharebrowser.cc:89 linux/sharebrowser.cc:350
 msgid "Audio"
-msgstr ""
+msgstr "Zvuk"
 
 #: linux/favoriteusers.cc:49 linux/favoriteusers.cc:71
 #: linux/favoriteusers.cc:113 linux/favoriteusers.cc:138
@@ -3403,6 +3400,8 @@ msgstr ""
 #: linux/settingsdialog.cc:2063
 msgid "Auto-away on minimize (and back on restore)"
 msgstr ""
+"Pri minimalizovaní automaticky nastaviť neprítomnosť (pri obnovení vrátiť "
+"späť)"
 
 #: linux/settingsdialog.cc:1060
 msgid "Auto-drop slow sources for all queue items (except filelists)"
@@ -3410,11 +3409,11 @@ msgstr ""
 
 #: linux/settingsdialog.cc:2068
 msgid "Automatically disconnect users who leave the hub"
-msgstr ""
+msgstr "Automaticky odpojiť používateľov, ktorí opustia hub"
 
 #: linux/settingsdialog.cc:2064
 msgid "Automatically follow redirects"
-msgstr ""
+msgstr "Automaticky nasledovať presmerovania"
 
 #: linux/settingsdialog.cc:1064
 msgid "Automatically match queue for auto search hits"
@@ -3422,7 +3421,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1063
 msgid "Automatically search for alternative download locations"
-msgstr ""
+msgstr "Automaticky hľadať alternatívne ciele sťahovania"
 
 #: linux/settingsdialog.cc:1511 linux/settingsdialog.cc:1575
 msgid "Away Icon"
@@ -3438,7 +3437,7 @@ msgstr ""
 
 #: linux/sharebrowser.cc:86 linux/sharebrowser.cc:347
 msgid "Bitrate"
-msgstr ""
+msgstr "Dátový tok"
 
 #: linux/AboutConfig.cc:107
 msgid "Bool"
@@ -3446,7 +3445,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:3743
 msgid "Bot"
-msgstr ""
+msgstr "Bot"
 
 #: linux/settingsdialog.cc:1682
 msgid "Bot or Hub (adc(s) only)"
@@ -3466,35 +3465,35 @@ msgstr "CMD"
 
 #: linux/WulforUtil.cc:261
 msgid "CP1250 (Central Europe)"
-msgstr "CP1250 (Orta Avrupa)"
+msgstr "CP1250 (Central Europe)"
 
 #: linux/WulforUtil.cc:270
 msgid "CP1251 (Cyrillic)"
-msgstr "CP1251 (Kiril)"
+msgstr "CP1251 (Cyrillic)"
 
 #: linux/WulforUtil.cc:260
 msgid "CP1252 (Western Europe)"
-msgstr "CP1252 (Batı Avrupa)"
+msgstr "CP1252 (Western Europe)"
 
 #: linux/WulforUtil.cc:271
 msgid "CP1256 (Arabic)"
-msgstr "CP1256 (Arapça)"
+msgstr "CP1256 (Arabské)"
 
 #: linux/WulforUtil.cc:272
 msgid "CP1257 (Baltic)"
-msgstr "CP1257 (Baltık Dili)"
+msgstr "CP1257 (Baltic)"
 
 #: linux/WulforUtil.cc:268
 msgid "CP949 (Korean)"
-msgstr "CP949 (Korece)"
+msgstr "CP949 (Kórejské)"
 
 #: linux/finishedtransfers.cc:61 linux/finishedtransfers.cc:233
 msgid "CRC Checked"
-msgstr ""
+msgstr "CRC skontrolovaný"
 
 #: linux/downloadqueue.cc:1349
 msgid "CRC32 inconsistency (SFV-Check)"
-msgstr "CRC32 tutarsızlığı (SFV-Denetimi)"
+msgstr "nekonzistentný CRC32 (kontrola v SFV)"
 
 #: linux/settingsmanager.cc:708
 msgid "Change setting "
@@ -3518,7 +3517,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:2065
 msgid "Clear search box after each search"
-msgstr ""
+msgstr "Vyčistiť vyhľadávacie pole po každom hľadaní"
 
 #: linux/hub.cc:392
 msgid "Client Type"
@@ -3527,7 +3526,7 @@ msgstr ""
 #: linux/bookentry.cc:304 linux/privatemessage.cc:1550
 #: linux/sharebrowser.cc:1082 linux/search.hh:164
 msgid "Close"
-msgstr "Kapat"
+msgstr "Zatvoriť"
 
 #: linux/hub.cc:4583
 msgid "Close Hub"
@@ -3535,15 +3534,15 @@ msgstr ""
 
 #: linux/hub.cc:2416
 msgid "Close chat"
-msgstr "Sohbeti sonlandır"
+msgstr "Zatvoriť chat"
 
 #: linux/bookentry.cc:98
 msgid "Close tab"
-msgstr "Sekmeyi kapat"
+msgstr "Zatvoriť kartu"
 
 #: linux/transfers.cc:446
 msgid "Closing connection..."
-msgstr "Bağlantı kapatılıyor..."
+msgstr ""
 
 #: linux/settingsdialog.cc:3719 linux/settingsdialog.cc:3800
 #: linux/settingsdialog.cc:5013 linux/settingsdialog.cc:5032
@@ -3560,11 +3559,11 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1638
 msgid "Confirm application exit"
-msgstr "Uygulamadan çıkarken onay iste"
+msgstr "Potvrdzovať ukončenie aplikácie"
 
 #: linux/settingsdialog.cc:1639
 msgid "Confirm favorite hub removal"
-msgstr ""
+msgstr "Potvrdiť odstránenie obľúbeného hubu"
 
 #: linux/hub.cc:4250
 msgid "Connect failed: "
@@ -3572,11 +3571,11 @@ msgstr ""
 
 #: linux/hub.cc:4194 linux/transfers.cc:1066
 msgid "Connected"
-msgstr "Bağlandı"
+msgstr "Pripojené"
 
 #: linux/transfers.cc:1102
 msgid "Connecting"
-msgstr "Bağlanıyor"
+msgstr "Pripája sa"
 
 #: linux/transfers.cc:413
 msgid "Connecting (forced)..."
@@ -3588,15 +3587,15 @@ msgstr ""
 
 #: linux/transfers.cc:1055
 msgid "Connecting..."
-msgstr "Bağlanılıyor..."
+msgstr "Pripája sa..."
 
 #: linux/treeview.cc:601
 msgid "Copy All"
-msgstr "Tümünü Kopyala"
+msgstr "Kopírovať všetky"
 
 #: linux/privatemessage.cc:1549 linux/sharebrowser.cc:1081
 msgid "Copy CID"
-msgstr ""
+msgstr "Kopírovať CID"
 
 #: linux/privatemessage.cc:1552
 msgid "Copy Nick(s)"
@@ -3604,18 +3603,18 @@ msgstr ""
 
 #: linux/hub.cc:4578
 msgid "Copy URL"
-msgstr "URL'yi Kopyala"
+msgstr "Kopírovať URL"
 
 #: linux/searchspy.cc:55 linux/searchspy.cc:153 linux/searchspy.cc:267
 #: linux/searchspy.cc:292 linux/searchspy.cc:308 linux/searchspy.cc:430
 msgid "Count"
-msgstr ""
+msgstr "Počet"
 
 #: linux/hub.cc:73 linux/hub.cc:342 linux/hub.cc:547 linux/hub.cc:583
 #: linux/hub.cc:719 linux/hub.cc:748 linux/publichubs.cc:47
 #: linux/publichubs.cc:158
 msgid "Country"
-msgstr "Ülke"
+msgstr "Krajina"
 
 #: linux/mainwindow.cc:246
 #, boost-format, c-format
@@ -3628,12 +3627,12 @@ msgstr ""
 
 #: linux/sharebrowser.cc:85 linux/sharebrowser.cc:346
 msgid "Date"
-msgstr ""
+msgstr "Dátum"
 
 #: linux/adlsearch.cc:50 linux/adlsearch.cc:79 linux/adlsearch.cc:142
 #: linux/adlsearch.cc:253 linux/adlsearch.cc:290
 msgid "Destination Directory"
-msgstr "Hedef Dizin"
+msgstr "Cieľový priečinok"
 
 #: linux/settingsdialog.cc:4251
 msgid "Directory or favorite name already exists"
@@ -3657,15 +3656,15 @@ msgstr ""
 
 #: linux/settingsdialog.cc:2067
 msgid "Don't delete file lists when exiting"
-msgstr ""
+msgstr "Nemazať zoznamy súborov pri ukončení"
 
 #: linux/settingsdialog.cc:1066
 msgid "Don't download files already in share"
-msgstr ""
+msgstr "Nesťahovať už zdieľané súbory"
 
 #: linux/settingsdialog.cc:1067
 msgid "Don't download files already in the queue"
-msgstr ""
+msgstr "Nesťahovať súbory už  zaradené vo fronte"
 
 #: linux/settingsdialog.cc:1062
 msgid "Don't remove the source when auto-dropping, only disconnect"
@@ -3673,11 +3672,11 @@ msgstr ""
 
 #: linux/settingsdialog.cc:2075
 msgid "Don't send the away message to bots"
-msgstr ""
+msgstr "Neposielať správu o neprítomnosti robotom"
 
 #: linux/hashdialog.cc:106
 msgid "Done"
-msgstr "Bitti"
+msgstr "Hotovo"
 
 #: linux/mainwindow.cc:211
 msgid "Download Limit (disable)"
@@ -3698,7 +3697,7 @@ msgstr ""
 #: linux/settingsdialog.cc:1206 linux/settingsdialog.cc:1382
 #: linux/settingsmanager.cc:243 linux/transfers.cc:1127
 msgid "Download finished"
-msgstr ""
+msgstr "Sťahovanie dokončené"
 
 #: linux/settingsdialog.cc:1207 linux/settingsdialog.cc:1386
 #: linux/settingsmanager.cc:245
@@ -3727,7 +3726,7 @@ msgstr ""
 
 #: linux/transfers.cc:1136
 msgid "Download removed"
-msgstr "İndirme kaldırıldı"
+msgstr ""
 
 #: linux/transfers.cc:967
 msgid "Download starting..."
@@ -3739,16 +3738,16 @@ msgstr ""
 
 #: linux/mainwindow.cc:915
 msgid "Download: "
-msgstr ""
+msgstr "Sťahovanie: "
 
 #: linux/downloadqueue.cc:69 linux/downloadqueue.cc:89
 #: linux/downloadqueue.cc:282 linux/downloadqueue.cc:389
 msgid "Downloaded"
-msgstr ""
+msgstr "Stiahnuté"
 
 #: linux/transfers.cc:620 linux/transfers.cc:1000
 msgid "Downloaded "
-msgstr ""
+msgstr "Stiahnuté "
 
 #: linux/hub.cc:2491
 msgid "Email"
@@ -3776,7 +3775,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:2070
 msgid "Enable automatic SFV checking"
-msgstr ""
+msgstr "Povoliť automatickú kontrolu SFV"
 
 #: linux/settingsdialog.cc:2071
 msgid "Enable safe and compressed transfers"
@@ -3784,13 +3783,13 @@ msgstr ""
 
 #: linux/settingsdialog.cc:2069
 msgid "Enable segmented downloads"
-msgstr ""
+msgstr "Zapnúť segmentové sťahovanie"
 
 #: linux/favoritehubs.cc:47 linux/favoritehubs.cc:134
 #: linux/favoritehubs.cc:224 linux/favoritehubs.cc:246
 #: linux/favoritehubs.cc:467 linux/hub.cc:2493
 msgid "Encoding"
-msgstr ""
+msgstr "Kódovanie"
 
 #: linux/hub.cc:914
 msgid "Enter hub password for "
@@ -3799,7 +3798,7 @@ msgstr ""
 #: linux/settingsdialog.cc:2369 linux/settingsdialog.cc:2413
 #: linux/settingsdialog.cc:3364
 msgid "Error"
-msgstr "Hata"
+msgstr "Chyba"
 
 #: linux/settingsmanager.cc:711
 msgid "Error: params have been not 2!"
@@ -3812,7 +3811,7 @@ msgstr ""
 #: linux/downloadqueue.cc:74 linux/downloadqueue.cc:286
 #: linux/downloadqueue.cc:393
 msgid "Errors"
-msgstr "Hatalar"
+msgstr "Chyby"
 
 #: linux/hub.cc:74 linux/hub.cc:343 linux/hub.cc:548 linux/hub.cc:584
 #: linux/hub.cc:720 linux/hub.cc:749
@@ -3837,7 +3836,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:2660
 msgid "Extension edition"
-msgstr "Uzantı düzenleme"
+msgstr ""
 
 #: linux/settingsdialog.cc:1001 linux/settingsdialog.cc:1036
 #: linux/settingsdialog.cc:2184 linux/settingsdialog.cc:2336
@@ -3845,7 +3844,7 @@ msgstr "Uzantı düzenleme"
 #: linux/settingsdialog.cc:3375 linux/settingsdialog.cc:3409
 #: linux/settingsdialog.cc:3427 linux/settingsdialog.cc:3458
 msgid "Extensions"
-msgstr "Uzantılar"
+msgstr "Rozšírenia"
 
 #: linux/hub.cc:2434
 msgid "Fav Joins/Parts: 1 - enable , other disable"
@@ -3854,7 +3853,7 @@ msgstr ""
 #: linux/settingsdialog.cc:1660 linux/settingsdialog.cc:1679
 #: linux/settingsdialog.cc:3749 linux/settingsdialog.cc:3781
 msgid "Favorite"
-msgstr ""
+msgstr "Obľúbené"
 
 #: linux/settingsdialog.cc:977 linux/settingsdialog.cc:991
 #: linux/settingsdialog.cc:4245
@@ -3867,7 +3866,7 @@ msgstr ""
 
 #: linux/hub.cc:3647
 msgid "Favorite hub added"
-msgstr ""
+msgstr "Bol pridaný obľúbený hub"
 
 #: linux/hub.cc:3652
 msgid "Favorite hub already exists"
@@ -3875,7 +3874,7 @@ msgstr ""
 
 #: linux/hub.cc:3667
 msgid "Favorite hub removed"
-msgstr ""
+msgstr "Bol odstránený obľúbený hub"
 
 #: linux/settingsdialog.cc:1212 linux/settingsdialog.cc:1402
 #: linux/settingsmanager.cc:253
@@ -3890,7 +3889,7 @@ msgstr ""
 #: linux/detectiontab.cc:106 linux/detectiontab.cc:1027
 #: linux/detectiontab.cc:1130 linux/detectiontab.cc:1227
 msgid "Field"
-msgstr ""
+msgstr "Pole"
 
 #: linux/detectiontab.cc:1249
 msgid "Fields Name, ID and detection fields are required"
@@ -3902,7 +3901,7 @@ msgstr ""
 
 #: linux/transfers.cc:714 linux/transfers.cc:924
 msgid "File list"
-msgstr "Dosya listesi"
+msgstr ""
 
 #: linux/sharebrowser.cc:167
 msgid "File list loading"
@@ -3910,15 +3909,15 @@ msgstr ""
 
 #: linux/downloadqueue.cc:1345
 msgid "File not available"
-msgstr "Dosya mevcut değil"
+msgstr "Súbor nie je dostupný"
 
 #: linux/finishedtransfers.cc:79 linux/finishedtransfers.cc:186
 msgid "Files"
-msgstr ""
+msgstr "Súbory"
 
 #: linux/downloadqueue.cc:239 linux/sharebrowser.cc:370
 msgid "Files: "
-msgstr "Dosyalar: "
+msgstr "Súbory: "
 
 #: linux/settingsdialog.cc:1106
 msgid "Filter kick and NMDC debug messages"
@@ -3928,7 +3927,7 @@ msgstr ""
 #: linux/detectiontab.cc:834 linux/detectiontab.cc:904
 #: linux/detectiontab.cc:919
 msgid "Flag"
-msgstr ""
+msgstr "Vlajka"
 
 #: linux/AboutConfig.cc:102
 msgid "Float"
@@ -3941,15 +3940,15 @@ msgstr ""
 
 #: linux/sharebrowser.cc:640 linux/sharebrowser.cc:683
 msgid "Found a match"
-msgstr "Bir eşleşme bulundu"
+msgstr ""
 
 #: linux/downloadqueue.cc:1351
 msgid "Full tree does not match TTH root"
-msgstr ""
+msgstr "Úplný strom nezodpovedá TTH koreňu"
 
 #: linux/WulforUtil.cc:273
 msgid "GB18030 (Chinese)"
-msgstr "GB18030 (Çince)"
+msgstr "GB18030 (Čínske)"
 
 #: linux/settingsdialog.cc:1246
 msgid "General text"
@@ -3958,12 +3957,12 @@ msgstr ""
 #: linux/hub.cc:79 linux/hub.cc:348 linux/hub.cc:553 linux/hub.cc:589
 #: linux/hub.cc:725 linux/hub.cc:754
 msgid "Generator"
-msgstr ""
+msgstr "Generátor"
 
 #: linux/favoritehubs.cc:48 linux/favoritehubs.cc:135
 #: linux/favoritehubs.cc:664
 msgid "Group"
-msgstr "Grup"
+msgstr "Skupina"
 
 #: linux/favoritehubs.cc:62 linux/favoritehubs.cc:77 linux/favoritehubs.cc:395
 #: linux/favoritehubs.cc:501 linux/favoritehubs.cc:522
@@ -3971,7 +3970,7 @@ msgstr "Grup"
 #: linux/favoritehubs.cc:702 linux/favoritehubs.cc:725
 #: linux/favoritehubs.cc:764
 msgid "Group name"
-msgstr "Grup adı"
+msgstr "Názov skupiny"
 
 #: linux/settingsdialog.cc:1409
 msgid "Highlighting string"
@@ -4032,37 +4031,37 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1273
 msgid "IP address"
-msgstr ""
+msgstr "IP adresa"
 
 #: linux/WulforUtil.cc:266
 msgid "ISO-2022-JP (Japanese)"
-msgstr "ISO-2022-JP (Japonca)"
+msgstr "ISO-2022-JP (Japonské)"
 
 #: linux/WulforUtil.cc:262
 msgid "ISO-8859-2 (Central Europe)"
-msgstr "ISO-8859-2 (Orta Avrupa)"
+msgstr "ISO-8859-2 (Stredourópske)"
 
 #: linux/WulforUtil.cc:263
 msgid "ISO-8859-7 (Greek)"
-msgstr "ISO-8859-7 (Yunanca)"
+msgstr "ISO-8859-7 (Grécke)"
 
 #: linux/WulforUtil.cc:264
 msgid "ISO-8859-8 (Hebrew)"
-msgstr "ISO-8859-8 (İbranice)"
+msgstr "ISO-8859-8 (Hebrejské)"
 
 #: linux/WulforUtil.cc:265
 msgid "ISO-8859-9 (Turkish)"
-msgstr "ISO-8859-9 (Türkçe)"
+msgstr "ISO-8859-9 (Turecké)"
 
 #: linux/settingsdialog.cc:442 linux/settingsdialog.cc:1367
 #: linux/settingsdialog.cc:2735 linux/settingsdialog.cc:2771
 #: linux/settingsdialog.cc:2848 linux/settingsdialog.cc:2884
 msgid "Icon"
-msgstr "Simge"
+msgstr "Ikona"
 
 #: linux/emoticonsdialog.cc:108
 msgid "Icon size"
-msgstr "Simge boyutu"
+msgstr "Veľkosť ikony"
 
 #: linux/favoritehubs.cc:548
 msgid ""
@@ -4078,16 +4077,16 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1632
 msgid "Ignore private messages from bots"
-msgstr "Botlardan gelen özel iletileri yoksay"
+msgstr "Ignorovať súkromné správy od robotov"
 
 #: linux/settingsdialog.cc:1631
 msgid "Ignore private messages from the hub"
-msgstr ""
+msgstr "Ignorovať súkromné správy od hubu"
 
 #: linux/settingsdialog.cc:1662 linux/settingsdialog.cc:1681
 #: linux/settingsdialog.cc:3751 linux/settingsdialog.cc:3787
 msgid "Ignored"
-msgstr ""
+msgstr "Ignorované"
 
 #: linux/favoriteusers.cc:906
 msgid "Ignored User "
@@ -4115,7 +4114,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:2489 linux/settingsdialog.cc:2677
 msgid "Invalid extension: "
-msgstr "Geçersiz uzantı: "
+msgstr ""
 
 #: linux/WulforUtil.cc:859
 msgid "Invalid number of slots"
@@ -4123,11 +4122,11 @@ msgstr ""
 
 #: linux/downloadqueue.cc:237 linux/sharebrowser.cc:375
 msgid "Items: "
-msgstr "Ögeler: "
+msgstr ""
 
 #: linux/sharebrowser.cc:380
 msgid "Items: 0"
-msgstr "Ögeler: 0"
+msgstr ""
 
 #: linux/hub.cc:2433
 msgid "Join/Parts: 1 - enable , other disable "
@@ -4143,11 +4142,11 @@ msgstr ""
 
 #: linux/WulforUtil.cc:269
 msgid "KOI8-R (Cyrillic)"
-msgstr "KOI8-R (Kiril)"
+msgstr "KOI8-R (Cyrillic)"
 
 #: linux/settingsdialog.cc:1025
 msgid "Kaffeine player"
-msgstr ""
+msgstr "Kaffeine player"
 
 #: linux/settingsdialog.cc:2066
 msgid ""
@@ -4165,7 +4164,7 @@ msgstr ""
 
 #: linux/sharebrowser.cc:38 linux/sharebrowser.cc:59
 msgid "List: "
-msgstr "Liste: "
+msgstr ""
 
 #: linux/hub.cc:2450
 msgid "Loaded plugins: "
@@ -4202,11 +4201,11 @@ msgstr ""
 #: linux/adlsearch.cc:52 linux/adlsearch.cc:81 linux/adlsearch.cc:144
 #: linux/adlsearch.cc:255
 msgid "Max Size"
-msgstr "Azami Boyut"
+msgstr "Maximálna veľkosť"
 
 #: linux/publichubs.cc:52 linux/publichubs.cc:163
 msgid "Max Users"
-msgstr "Azami Kullanıcı"
+msgstr ""
 
 #: linux/WulforUtil.cc:70 linux/WulforUtil.cc:71 linux/WulforUtil.cc:72
 #: linux/WulforUtil.cc:73 linux/WulforUtil.cc:74 linux/WulforUtil.cc:75
@@ -4220,7 +4219,7 @@ msgstr ""
 #: linux/adlsearch.cc:51 linux/adlsearch.cc:80 linux/adlsearch.cc:143
 #: linux/adlsearch.cc:254
 msgid "Min Size"
-msgstr "Asgari Boyut"
+msgstr "Minimálna veľkosť"
 
 #: linux/publichubs.cc:50 linux/publichubs.cc:161
 msgid "Min Slots"
@@ -4244,7 +4243,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:3967
 msgid "Name and command must not be empty"
-msgstr ""
+msgstr "Názov a príkaz nesmú zostať nevyplnené"
 
 #: linux/settingsdialog.cc:4848 linux/settingsdialog.cc:4919
 msgid "New Highlighting Item"
@@ -4252,11 +4251,11 @@ msgstr ""
 
 #: linux/publichubs.cc:361 linux/settingsdialog.cc:4153
 msgid "New list"
-msgstr "Yeni liste"
+msgstr "Nový zoznam"
 
 #: linux/settingsdialog.cc:2307
 msgid "New search type"
-msgstr "Yeni arama türü"
+msgstr ""
 
 #: linux/hub.cc:4535
 msgid "Nick already taken"
@@ -4264,7 +4263,7 @@ msgstr ""
 
 #: linux/finishedtransfers.cc:58 linux/finishedtransfers.cc:230
 msgid "Nicks"
-msgstr ""
+msgstr "Prezývky"
 
 #: linux/favoriteusers.cc:54 linux/favoriteusers.cc:118
 msgid "Nicks History (if it have CID)"
@@ -4277,27 +4276,27 @@ msgstr ""
 #: linux/hub.cc:2497 linux/hub.cc:2500 linux/hub.cc:2501 linux/hub.cc:2502
 #: linux/hub.cc:2503
 msgid "No"
-msgstr "Hayır"
+msgstr "Nie"
 
 #: linux/downloadqueue.cc:1361
 msgid "No errors"
-msgstr "Hata yok"
+msgstr "Žiadne chyby"
 
 #: linux/sharebrowser.cc:652 linux/sharebrowser.cc:841
 msgid "No matches"
-msgstr "Eşleşme yok"
+msgstr "Žiadne zhody"
 
 #: linux/sharebrowser.cc:852
 msgid "No search text entered"
-msgstr "Arama metni girilmedi"
+msgstr ""
 
 #: linux/downloadqueue.cc:1274
 msgid "No users"
-msgstr "Kullanıcı yok"
+msgstr "Žiadni používatelia"
 
 #: linux/hub.cc:2376
 msgid "Not found user: "
-msgstr "Kullanıcı bulunamadı : "
+msgstr ""
 
 #: linux/hub.cc:2497
 msgid "Notification"
@@ -4305,12 +4304,12 @@ msgstr ""
 
 #: linux/WulforUtil.cc:223
 msgid "Offline"
-msgstr "Çevrimdışı"
+msgstr "Odhlásený"
 
 #: linux/favoriteusers.cc:107 linux/favoriteusers.cc:799
 #: linux/favoriteusers.cc:820 linux/favoriteusers.cc:911
 msgid "Online"
-msgstr "Çevrimiçi"
+msgstr "Prihlásený"
 
 #: linux/hub.cc:2487
 msgid "Online users"
@@ -4322,7 +4321,7 @@ msgstr ""
 
 #: linux/notify.cc:156
 msgid "Open file"
-msgstr "Dosya Aç"
+msgstr "Otvoriť súbor"
 
 #: linux/settingsdialog.cc:1628
 msgid "Open file list window in the background"
@@ -4330,7 +4329,7 @@ msgstr ""
 
 #: linux/notify.cc:159
 msgid "Open folder"
-msgstr "Klasör aç"
+msgstr "Otvoriť priečinok"
 
 #: linux/settingsdialog.cc:1629
 msgid "Open new private messages from other users in the background"
@@ -4338,13 +4337,13 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1630
 msgid "Open new window when using /join"
-msgstr ""
+msgstr "Otvárať nové okná pri použítí /join"
 
 #: linux/settingsdialog.cc:1279 linux/settingsdialog.cc:1658
 #: linux/settingsdialog.cc:1677 linux/settingsdialog.cc:3741
 #: linux/settingsdialog.cc:3775
 msgid "Operator"
-msgstr ""
+msgstr "Operátor"
 
 #: linux/privatemessage.cc:40
 msgid "PM: "
@@ -4352,11 +4351,11 @@ msgstr ""
 
 #: linux/downloadqueue.cc:1347
 msgid "Passive user"
-msgstr ""
+msgstr "Pasívny používateľ"
 
 #: linux/hashdialog.cc:41 linux/hashdialog.cc:128
 msgid "Paused..."
-msgstr ""
+msgstr "Zastavený..."
 
 #: linux/settingsdialog.cc:1633
 msgid "Popup box to input password for hubs"
@@ -4365,7 +4364,7 @@ msgstr ""
 #: linux/settingsdialog.cc:2183 linux/settingsdialog.cc:2282
 #: linux/settingsdialog.cc:2386
 msgid "Predefined"
-msgstr ""
+msgstr "Preddefinované"
 
 #: linux/bookentry.cc:383
 msgid "Private Message"
@@ -4378,24 +4377,24 @@ msgstr ""
 #: linux/hub.cc:2426 linux/settingsdialog.cc:1209 linux/settingsdialog.cc:1255
 #: linux/settingsdialog.cc:1390 linux/settingsmanager.cc:247
 msgid "Private message"
-msgstr "Özel ileti"
+msgstr "Súkromná správa"
 
 #: linux/settingsdialog.cc:3745
 msgid "Protect"
-msgstr ""
+msgstr "Chrániť"
 
 #: linux/settingsdialog.cc:1661 linux/settingsdialog.cc:1680
 #: linux/settingsdialog.cc:3784
 msgid "Protected"
-msgstr ""
+msgstr "Chránené"
 
 #: linux/wulfor.cc:153
 msgid "Quit..."
-msgstr ""
+msgstr "Ukončiť..."
 
 #: linux/publichubs.cc:53 linux/publichubs.cc:164
 msgid "Rating"
-msgstr ""
+msgstr "Hodnotenie"
 
 #: linux/WulforUtil.cc:78
 msgid "Rebuild Share"
@@ -4423,7 +4422,7 @@ msgstr ""
 
 #: linux/downloadqueue.cc:1355
 msgid "Remote client does not fully support TTH - cannot download"
-msgstr ""
+msgstr "Vzdialený klient nepodporuje plne TTH - nie je možné stiahnuť"
 
 #: linux/WulforUtil.cc:84
 msgid "Remove Aliases A"
@@ -4435,7 +4434,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1061
 msgid "Remove slow filelists"
-msgstr ""
+msgstr "Odstrániť pomalé zoznamy súborov"
 
 #: linux/settingsdialog.cc:2560
 msgid "Rename a search type"
@@ -4443,19 +4442,19 @@ msgstr ""
 
 #: linux/transfers.cc:954
 msgid "Requesting"
-msgstr ""
+msgstr "Vyžiadava sa"
 
 #: linux/sharebrowser.cc:87 linux/sharebrowser.cc:348
 msgid "Resolution"
-msgstr ""
+msgstr "Rozlíšenie"
 
 #: linux/downloadqueue.cc:1281
 msgid "Running..."
-msgstr "Çalışıyor..."
+msgstr "Spúšťa sa..."
 
 #: linux/WulforUtil.cc:267
 msgid "SJIS (Japanese)"
-msgstr "SJIS (Japonca)"
+msgstr "SJIS (Japonské)"
 
 #: linux/adlsearch.cc:48 linux/adlsearch.cc:77 linux/adlsearch.cc:140
 #: linux/adlsearch.cc:251 linux/adlsearch.cc:289 linux/searchspy.cc:54
@@ -4464,7 +4463,7 @@ msgstr "SJIS (Japonca)"
 #: linux/searchspy.cc:291 linux/searchspy.cc:307 linux/searchspy.cc:466
 #: linux/searchspy.cc:531 linux/searchspy.cc:564
 msgid "Search String"
-msgstr "Arama Dizgisi"
+msgstr "Vyhľadávaný reťazec"
 
 #: linux/WulforUtil.cc:87 linux/WulforUtil.cc:88
 msgid "Search on Google"
@@ -4482,15 +4481,15 @@ msgstr ""
 #: linux/settingsdialog.cc:2418 linux/settingsdialog.cc:2504
 #: linux/settingsdialog.cc:2553 linux/settingsdialog.cc:2601
 msgid "Search type"
-msgstr "Arama Türü"
+msgstr ""
 
 #: linux/search.cc:42 linux/search.cc:611
 msgid "Search: "
-msgstr "Ara: "
+msgstr "Hľadať: "
 
 #: linux/search.cc:608
 msgid "Searching for "
-msgstr "Aramak için "
+msgstr ""
 
 #: linux/search.cc:624
 msgid "Searching too soon, retry in "
@@ -4522,12 +4521,12 @@ msgstr ""
 
 #: linux/settingsdialog.cc:2073
 msgid "Send unknown /commands to the hub"
-msgstr ""
+msgstr "Posielať neznáme /príkazy hubu"
 
 #: linux/recenthub.cc:43 linux/recenthub.cc:83 linux/recenthub.cc:166
 #: linux/recenthub.cc:192 linux/recenthub.cc:282
 msgid "Server"
-msgstr "Sunucu"
+msgstr "Server"
 
 #: linux/hub.cc:2626 linux/hub.cc:2639
 msgid "Server command: "
@@ -4588,7 +4587,7 @@ msgstr ""
 #: linux/publichubs.cc:159 linux/recenthub.cc:46 linux/recenthub.cc:86
 #: linux/recenthub.cc:273 linux/recenthub.cc:285
 msgid "Shared"
-msgstr ""
+msgstr "Zdieľané"
 
 #: linux/mainwindow.cc:959
 msgid "Shared: "
@@ -4628,7 +4627,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1110
 msgid "Show joins / parts in chat by default"
-msgstr ""
+msgstr "Štandardne v chate zobrazovať príchody/odchody"
 
 #: linux/WulforUtil.cc:66
 msgid "Show ratio"
@@ -4644,11 +4643,11 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1107
 msgid "Show status icon"
-msgstr "Durum simgesi göster"
+msgstr ""
 
 #: linux/settingsdialog.cc:1108
 msgid "Show timestamps in chat by default"
-msgstr ""
+msgstr "Štandardne v chate zobrazovať časové známky"
 
 #: linux/hub.cc:2438
 msgid "Show topic"
@@ -4665,7 +4664,7 @@ msgstr ""
 #: linux/downloadqueue.cc:238 linux/downloadqueue.cc:240
 #: linux/sharebrowser.cc:376
 msgid "Size: "
-msgstr "Boyut: "
+msgstr "Veľkosť: "
 
 #: linux/sharebrowser.cc:381
 msgid "Size: 0 B"
@@ -4673,11 +4672,11 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1065
 msgid "Skip zero-byte files"
-msgstr ""
+msgstr "Preskočiť súbory s veľkosťou nula najtov"
 
 #: linux/privatemessage.cc:1478
 msgid "Slot granted"
-msgstr ""
+msgstr "Slot udelený"
 
 #: linux/favoriteusers.cc:627 linux/hub.cc:3571
 msgid "Slot granted to "
@@ -4687,7 +4686,7 @@ msgstr ""
 #: linux/hub.cc:721 linux/hub.cc:750 linux/search.cc:104 linux/search.cc:134
 #: linux/search.cc:228 linux/search.cc:710
 msgid "Slots"
-msgstr ""
+msgstr "Sloty"
 
 #: linux/mainwindow.cc:958
 msgid "Slots: "
@@ -4695,16 +4694,16 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1112
 msgid "Sort favorite users first"
-msgstr ""
+msgstr "Obľúbených používateľov navrch zoznamu"
 
 #: linux/adlsearch.cc:49 linux/adlsearch.cc:78 linux/adlsearch.cc:141
 #: linux/adlsearch.cc:252
 msgid "Source Type"
-msgstr "Kaynak Türü"
+msgstr "Typ zdroja"
 
 #: linux/downloadqueue.cc:1353
 msgid "Source too slow"
-msgstr ""
+msgstr "Zdroj je príliš pomalý"
 
 #: linux/WulforUtil.cc:911 linux/WulforUtil.cc:917
 msgid "Specify a search string"
@@ -4717,11 +4716,11 @@ msgstr ""
 #: linux/transfers.cc:1017 linux/transfers.cc:1037 linux/transfers.cc:1088
 #: linux/transfers.cc:1193 linux/transfers.cc:1207
 msgid "Speed"
-msgstr ""
+msgstr "Rýchlosť"
 
 #: linux/sharebrowser.cc:388
 msgid "Speed: "
-msgstr ""
+msgstr "Rýchlosť: "
 
 #: linux/bookentry.cc:371
 msgid "Spy Search"
@@ -4751,11 +4750,11 @@ msgstr ""
 #: linux/transfers.cc:1104 linux/transfers.cc:1145 linux/transfers.cc:1178
 #: linux/transfers.cc:1191 linux/transfers.cc:1204
 msgid "Status"
-msgstr "Durum"
+msgstr "Stav"
 
 #: linux/settingsdialog.cc:1261
 msgid "Status message"
-msgstr "Durum mesajı"
+msgstr "Stavová správa"
 
 #: linux/hub.cc:2574
 msgid "Stop MyInfo check"
@@ -4766,12 +4765,12 @@ msgstr ""
 #: linux/settingsdialog.cc:3584 linux/settingsdialog.cc:3625
 #: linux/settingsdialog.cc:3679
 msgid "Style"
-msgstr "Stil"
+msgstr "Štýl"
 
 #: linux/hub.cc:80 linux/hub.cc:349 linux/hub.cc:554 linux/hub.cc:590
 #: linux/hub.cc:726 linux/hub.cc:755
 msgid "Support"
-msgstr "Destek"
+msgstr "Podpora"
 
 #: linux/settingsdialog.cc:1510 linux/settingsdialog.cc:1573
 #: linux/settingsdialog.cc:1623
@@ -4780,16 +4779,16 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1258
 msgid "System message"
-msgstr "Sistem mesajı"
+msgstr ""
 
 #: linux/WulforUtil.cc:274
 msgid "TIS-620 (Thai)"
-msgstr "TIS-620 (Tay Dili)"
+msgstr "TIS-620 (Thai)"
 
 #: linux/hub.cc:68 linux/hub.cc:338 linux/hub.cc:543 linux/hub.cc:579
 #: linux/hub.cc:715 linux/hub.cc:744
 msgid "Tag"
-msgstr "Etiket"
+msgstr "Štítok"
 
 #: linux/mainwindow.cc:2935
 msgid "The GeoIP database could not be updated...v"
@@ -4806,7 +4805,7 @@ msgstr ""
 
 #: linux/hub.cc:3672
 msgid "This hub is not a favorite hub"
-msgstr ""
+msgstr "Tento hub nepatrí medzi obľúbené"
 
 #: linux/mainwindow.cc:629
 msgid "Throtle "
@@ -4821,13 +4820,13 @@ msgstr ""
 #: linux/finishedtransfers.cc:227 linux/searchspy.cc:56 linux/searchspy.cc:268
 #: linux/searchspy.cc:293 linux/searchspy.cc:309
 msgid "Time"
-msgstr "Zaman"
+msgstr "Čas"
 
 #: linux/transfers.cc:65 linux/transfers.cc:638 linux/transfers.cc:668
 #: linux/transfers.cc:939 linux/transfers.cc:1038 linux/transfers.cc:1089
 #: linux/transfers.cc:1208
 msgid "Time Left"
-msgstr "Kalan Süre"
+msgstr "Zostávajúci čas"
 
 #: linux/favoriteusers.cc:52 linux/favoriteusers.cc:116
 #: linux/favoriteusers.cc:141 linux/favoriteusers.cc:716
@@ -4838,14 +4837,14 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1267 linux/settingsdialog.cc:1298
 msgid "Timestamp"
-msgstr ""
+msgstr "Časová známka"
 
 #: linux/settingsdialog.cc:441 linux/settingsdialog.cc:1366
 #: linux/settingsdialog.cc:2734 linux/settingsdialog.cc:2792
 #: linux/settingsdialog.cc:2808 linux/settingsdialog.cc:2830
 #: linux/settingsdialog.cc:2834 linux/settingsdialog.cc:2884
 msgid "Title"
-msgstr "Başlık"
+msgstr "Názov"
 
 #: linux/hub.cc:2480 linux/hub.cc:4556
 msgid "Topic: "
@@ -4853,21 +4852,21 @@ msgstr ""
 
 #: linux/settingsdialog.cc:4371
 msgid "Total size: "
-msgstr "Toplam boyut: "
+msgstr ""
 
 #: linux/sharebrowser.cc:371
 msgid "Total: "
-msgstr "Toplam: "
+msgstr ""
 
 #: linux/finishedtransfers.cc:59 linux/finishedtransfers.cc:80
 #: linux/finishedtransfers.cc:178 linux/finishedtransfers.cc:187
 #: linux/finishedtransfers.cc:231 linux/finishedtransfers.cc:592
 msgid "Transferred"
-msgstr ""
+msgstr "Premiestnené"
 
 #: linux/settingsdialog.cc:1270
 msgid "URL"
-msgstr "URL (Bağlantı adresi)"
+msgstr "URL"
 
 #: linux/WulforUtil.cc:259
 msgid "UTF-8 (Unicode)"
@@ -4888,7 +4887,7 @@ msgstr ""
 #: linux/WulforUtil.cc:363 linux/WulforUtil.cc:365 linux/downloadqueue.cc:1287
 #: linux/downloadqueue.cc:1288
 msgid "Unknown"
-msgstr "Bilinmiyor"
+msgstr "Neznáme"
 
 #: linux/privatemessage.cc:1068
 msgid "Unknown command "
@@ -4896,7 +4895,7 @@ msgstr ""
 
 #: linux/hub.cc:2631
 msgid "Unknown command '"
-msgstr "Bilinmeyen komut '"
+msgstr ""
 
 #: linux/searchspy.cc:388
 msgid "Updated frame search"
@@ -4908,7 +4907,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1497
 msgid "Upload"
-msgstr "Yükle"
+msgstr "Nahrať"
 
 #: linux/mainwindow.cc:193
 msgid "Upload Limit (disable)"
@@ -4924,7 +4923,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1208
 msgid "Upload finished"
-msgstr "Yükleme tamamlandı"
+msgstr "Nahrávanie dokončené"
 
 #: linux/transfers.cc:1145
 msgid "Upload starting..."
@@ -4936,7 +4935,7 @@ msgstr ""
 
 #: linux/transfers.cc:1176
 msgid "Uploaded "
-msgstr "Yüklendi "
+msgstr ""
 
 #: linux/settingsdialog.cc:404 linux/settingsdialog.cc:440
 #: linux/settingsdialog.cc:474 linux/settingsdialog.cc:808
@@ -4945,7 +4944,7 @@ msgstr "Yüklendi "
 #: linux/settingsdialog.cc:1364 linux/settingsdialog.cc:1379
 #: linux/settingsdialog.cc:1530 linux/settingsdialog.cc:1539
 msgid "Use"
-msgstr ""
+msgstr "Použiť"
 
 #: linux/settingsdialog.cc:1126
 msgid "Use DNS in Transfers"
@@ -4965,7 +4964,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:2136
 msgid "Use TLS when remote client supports it"
-msgstr ""
+msgstr "Použiť TLS ak ho vzdialený klient podporuje"
 
 #: linux/settingsdialog.cc:1115
 msgid "Use blinking status icon"
@@ -4990,7 +4989,7 @@ msgstr ""
 #: linux/transfers.cc:1087 linux/transfers.cc:1105 linux/transfers.cc:1146
 #: linux/transfers.cc:1192 linux/transfers.cc:1205
 msgid "User"
-msgstr "Kullanıcı"
+msgstr "Používateľ"
 
 #: linux/settingsdialog.cc:1676 linux/settingsdialog.cc:1677
 #: linux/settingsdialog.cc:1678 linux/settingsdialog.cc:1679
@@ -5002,7 +5001,7 @@ msgstr ""
 
 #: linux/favoritehubs.cc:46 linux/favoritehubs.cc:133
 msgid "User Description"
-msgstr "Kullanıcı Tanımı"
+msgstr "Popis používateľa"
 
 #: linux/hub.cc:3091
 msgid "User Ignored "
@@ -5018,7 +5017,7 @@ msgstr ""
 
 #: linux/hub.cc:3542 linux/hub.cc:3562
 msgid "User not found"
-msgstr "Kullanıcı bulunamadı"
+msgstr "Používateľ nebol nájdený"
 
 #: linux/hub.cc:2330 linux/hub.cc:2366
 msgid "User not found: "
@@ -5060,7 +5059,7 @@ msgstr ""
 
 #: linux/privatemessage.cc:1413
 msgid "User went offline"
-msgstr ""
+msgstr "Používateľ sa odpojil"
 
 #: linux/settingsdialog.cc:1485
 msgid "User with connection type 0.0x or low"
@@ -5212,24 +5211,24 @@ msgstr ""
 
 #: linux/publichubs.cc:176
 msgid "Users: "
-msgstr "Kullanıcılar: "
+msgstr ""
 
 #: linux/sharebrowser.cc:88 linux/sharebrowser.cc:349
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #: linux/settingsdialog.cc:1109
 msgid "View status messages in main chat"
-msgstr "Genel konuşma penceresinde durum iletilerini göster"
+msgstr "Zobrazovať stavové správy v hlavnom chate"
 
 #: linux/settingsdialog.cc:1079 linux/settingsdialog.cc:4295
 #: linux/settingsdialog.cc:4364
 msgid "Virtual Name"
-msgstr "Sanal Adı"
+msgstr ""
 
 #: linux/settingsdialog.cc:3484
 msgid "Virtual name"
-msgstr "Sanal Adı"
+msgstr "Virtuálny názov"
 
 #: linux/hub.cc:897
 msgid ""
@@ -5242,15 +5241,15 @@ msgstr ""
 
 #: linux/transfers.cc:1104
 msgid "Waiting to retry"
-msgstr ""
+msgstr "Čaká sa na opätovný pokus"
 
 #: linux/mainwindow.cc:399
 msgid "Welcome to "
-msgstr "Hoşgeldiniz "
+msgstr "Vitajte v "
 
 #: linux/settingsdialog.cc:1024
 msgid "Xine player"
-msgstr ""
+msgstr "Xine player"
 
 #: linux/favoritehubs.cc:396 linux/favoritehubs.cc:523
 #: linux/favoritehubs.cc:703 linux/favoriteusers.cc:109
@@ -5259,11 +5258,11 @@ msgstr ""
 #: linux/hub.cc:2497 linux/hub.cc:2500 linux/hub.cc:2501 linux/hub.cc:2502
 #: linux/hub.cc:2503
 msgid "Yes"
-msgstr "Evet"
+msgstr "Áno"
 
 #: linux/favoritehubs.cc:491
 msgid "You must enter a name"
-msgstr "Bir isim girin"
+msgstr "Musíte zadať meno"
 
 #: linux/settingsdialog.cc:4357
 msgid "[HIDDEN SHARE] "
@@ -5271,7 +5270,7 @@ msgstr ""
 
 #: linux/transfers.cc:990 linux/transfers.cc:1168
 msgid "[S]"
-msgstr ""
+msgstr "[S]"
 
 #: linux/transfers.cc:995
 msgid "[T]"
@@ -5279,11 +5278,11 @@ msgstr "[T]"
 
 #: linux/transfers.cc:992 linux/transfers.cc:1170
 msgid "[U]"
-msgstr ""
+msgstr "[U]"
 
 #: linux/transfers.cc:997 linux/transfers.cc:1173
 msgid "[Z]"
-msgstr ""
+msgstr "[Z]"
 
 #: linux/hub.cc:3885
 msgid "bad image"
@@ -5291,11 +5290,11 @@ msgstr ""
 
 #: linux/settingsdialog.cc:2957
 msgid "default icons"
-msgstr "öntanımlı simgeler"
+msgstr ""
 
 #: linux/settingsdialog.cc:2994
 msgid "default theme"
-msgstr "öntanımlı tema"
+msgstr ""
 
 #: linux/mainwindow.cc:2710
 msgid "file list from "
@@ -5315,7 +5314,7 @@ msgstr ""
 
 #: linux/WulforUtil.cc:824
 msgid "project home: "
-msgstr "Proje Sayfası: "
+msgstr ""
 
 #: linux/settingsdialog.cc:3713 linux/settingsdialog.cc:3797
 msgid "selected color failed"
@@ -5339,7 +5338,4 @@ msgstr ""
 
 #: linux/searchspy.cc:294 linux/searchspy.cc:362
 msgid "waiting..."
-msgstr "bekleniyor..."
-
-#~ msgid "File list loaded"
-#~ msgstr "Dosya listesi yüklendi"
+msgstr "čakám..."

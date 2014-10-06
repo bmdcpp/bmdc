@@ -1,4 +1,4 @@
-# Turkish translation for bmdc++
+# Russian translation for bmdc++
 # Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
 # This file is distributed under the same license as the bmdc++ package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
@@ -8,14 +8,16 @@ msgstr ""
 "Project-Id-Version: bmdc++\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-10-06 10:44+0200\n"
-"PO-Revision-Date: 2013-03-31 20:46+0000\n"
-"Last-Translator: Mank <Unknown>\n"
-"Language-Team: Turkish <tr@li.org>\n"
+"PO-Revision-Date: 2013-01-20 20:05+0000\n"
+"Last-Translator: Цымбарович Петр <mentaljam119@gmail.com>\n"
+"Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-10-06 13:21+0000\n"
+"X-Launchpad-Export-Date: 2014-10-06 13:20+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-Language: Russian\n"
 
 #: ui/mainwindow.glade.ui:546
 msgid ""
@@ -40,6 +42,26 @@ msgid ""
 "This program uses the MiniUPnP client library by Thomas Bernard "
 "http://miniupnp.tuxfamily.org http://miniupnp.free.fr\n"
 msgstr ""
+"\n"
+"Данная программа является свободной; вы можете распространять и/или "
+"модифицировать ее под условиями Открытого лицензионного соглашения GNU Фонда "
+"свободного программного; также вы можете использовать более поздние версии "
+"лицензии по своему усмотрению.\n"
+"\n"
+"Данная программа распространяется с целью оказаться полезной, но БЕЗ КАКИХ-"
+"ЛИБО ГАРАНТИЙ; в том числе без гарантий на коммерческую ценность и "
+"извлечение выгоды. Подробнее в GNU GPL.\n"
+"\n"
+"Вместе с данной программой вы должны были получить копию Открытого "
+"лицензионного соглашения GNU; если вы ее не получили, то можете написать в "
+"Фонд свободного программного обеспечения, 51 Franklin Street, пятый этаж, "
+"Бостон, Штат Массачусетс 02110-1301 США.\n"
+"\n"
+"В качестве особого исключения, для данной программы разрешены компиляция, "
+"компоновка, а так же использование OpenSSL.\n"
+"\n"
+"В данной программе используется клиентская библиотека MiniUPnP Томаса "
+"Бернарда http://miniupnp.tuxfamily.org http://miniupnp.free.fr.\n"
 
 #: ui/settingsdialog.glade.ui:4261
 msgid ""
@@ -52,6 +74,14 @@ msgid ""
 "\n"
 "see man strftime for details."
 msgstr ""
+"%a сокращённое название дня недели.\n"
+"%b сокращённое название месяца.\n"
+"%H часы как десятичное число в 24-часовом представлении.\n"
+"%M минуты как десятичное число (от 00 до 59).\n"
+"%S секунды как десятичное число (от 00 до 59).\n"
+"%% символ '%'.\n"
+"\n"
+"подробнее смотрите man strftime."
 
 #: ui/hub.glade.ui:523 ui/mainwindow.glade.ui:238 ui/mainwindow.glade.ui:2168
 msgid "+/-"
@@ -163,7 +193,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:3618
 msgid "<b>Add player</b>"
-msgstr ""
+msgstr "<b>Добавить плеер</b>"
 
 #: ui/settingsdialog.glade.ui:3414
 msgid "<b>Auto-drop settings</b>"
@@ -171,43 +201,43 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:4537
 msgid "<b>Auto-open on startup</b>"
-msgstr ""
+msgstr "<b>Открывать автоматически при запуске</b>"
 
 #: ui/settingsdialog.glade.ui:3104
 msgid "<b>Auto-priority settings</b>"
-msgstr ""
+msgstr "<b>Настройки автоприоритета</b>"
 
 #: ui/settingsdialog.glade.ui:4864
 msgid "<b>Available styles</b>"
-msgstr ""
+msgstr "<b>Доступные стили</b>"
 
 #: ui/settingsdialog.glade.ui:7980
 msgid "<b>Backup and Restore</b>"
-msgstr ""
+msgstr "<b>Резервирование и восстановление</b>"
 
 #: ui/settingsdialog.glade.ui:7744
 msgid "<b>Certificate Paths</b>"
-msgstr "<b>Sertifika Yolları</b>"
+msgstr "<b>Пути к сертификатам</b>"
 
 #: ui/settingsdialog.glade.ui:6252
 msgid "<b>Colors of Userlist</b>"
-msgstr ""
+msgstr "<b>Цвета в списке пользователей</b>"
 
 #: ui/settingsdialog.glade.ui:5988
 msgid "<b>Colors</b>"
-msgstr "<b>Renkler</b>"
+msgstr "<b>Цвета</b>"
 
 #: ui/settingsdialog.glade.ui:1015
 msgid "<b>Command Type</b>"
-msgstr "<b>Komut Türü</b>"
+msgstr "<b>Тип команды</b>"
 
 #: ui/settingsdialog.glade.ui:4625
 msgid "<b>Confirmation Dialog Options</b>"
-msgstr "<b>Onaylama İletişim Kutusu Seçenekleri</b>"
+msgstr "<b>Настройки диалога подтверждения</b>"
 
 #: ui/mainwindow.glade.ui:678
 msgid "<b>Connect to address:</b>"
-msgstr ""
+msgstr "<b>Соединиться с адресом:</b>"
 
 #: ui/settingsdialog.glade.ui:1125
 msgid "<b>Context</b>"
@@ -215,35 +245,35 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:4321
 msgid "<b>Country Format</b>"
-msgstr ""
+msgstr "<b>Формат вывода стран</b>"
 
 #: ui/settingsdialog.glade.ui:5541
 msgid "<b>Current theme name:</b>"
-msgstr ""
+msgstr "<b>Выбранная тема:</b>"
 
 #: ui/export.glade.ui:107
 msgid "<b>Data To Export</b>"
-msgstr ""
+msgstr "<b>Экспортировать данные</b>"
 
 #: ui/settingsdialog.glade.ui:4236
 msgid "<b>Default away message</b>"
-msgstr ""
+msgstr "<b>Сообщение \"Нет на месте\"</b>"
 
 #: ui/config.glade.ui:91 ui/favoriteusers.glade.ui:96 ui/recenthub.glade.ui:96
 msgid "<b>Description</b>"
-msgstr "<b>Açıklama</b>"
+msgstr "<b>Описание</b>"
 
 #: ui/adlsearch.glade.ui:314
 msgid "<b>Destination Directory</b>"
-msgstr ""
+msgstr "<b>Каталог назначения</b>"
 
 #: ui/settingsdialog.glade.ui:2512
 msgid "<b>Directories</b>"
-msgstr "<b>Dizinler</b>"
+msgstr "<b>Каталоги</b>"
 
 #: ui/export.glade.ui:55
 msgid "<b>Export:</b>"
-msgstr ""
+msgstr "<b>Экспорт:</b>"
 
 #: ui/settingsdialog.glade.ui:2869
 msgid "<b>Favorite download to directories</b>"
@@ -251,7 +281,7 @@ msgstr ""
 
 #: ui/publichubs.glade.ui:235
 msgid "<b>Filter</b>"
-msgstr "<b> Filtre </ b>"
+msgstr "<b>Фильтр</b>"
 
 #: ui/settingsdialog.glade.ui:6172
 msgid "<b>Frame</b>"
@@ -259,39 +289,39 @@ msgstr ""
 
 #: ui/favoritehubs.glade.ui:446
 msgid "<b>Group properties</b>"
-msgstr ""
+msgstr "<b>Свойства группы</b>"
 
 #: ui/FavDialog.glade.ui:386 ui/favoritehubs.glade.ui:850
 msgid "<b>Group</b>"
-msgstr ""
+msgstr "<b>Группа</b>"
 
 #: ui/settingsdialog.glade.ui:8110
 msgid "<b>Highlighting</b>"
-msgstr ""
+msgstr "<b>Выделение</b>"
 
 #: ui/publichubs.glade.ui:289
 msgid "<b>Hub List</b>"
-msgstr "<b>Merkez Listesi</b>"
+msgstr "<b>Хаблист</b>"
 
 #: ui/FavDialog.glade.ui:345 ui/favoritehubs.glade.ui:808
 msgid "<b>Hub</b>"
-msgstr "<b>Merkez</b>"
+msgstr "<b>Хаб</b>"
 
 #: ui/settingsdialog.glade.ui:5181
 msgid "<b>Icon size</b>"
-msgstr "<b>Simge boyutu</b>"
+msgstr "<b>Размер значков</b>"
 
 #: ui/settingsdialog.glade.ui:5477
 msgid "<b>Icons</b>"
-msgstr "<b>Simgeler</b>"
+msgstr "<b>Значки</b>"
 
 #: ui/FavDialog.glade.ui:203 ui/favoritehubs.glade.ui:668
 msgid "<b>Identification</b>"
-msgstr ""
+msgstr "<b>Идентификация</b>"
 
 #: ui/settingsdialog.glade.ui:2001
 msgid "<b>Incoming connection settings</b>"
-msgstr ""
+msgstr "<b>Настройки входящих соединений</b>"
 
 #: ui/settingsdialog.glade.ui:561
 msgid "<b>Item of Highlighting</b>"
@@ -299,48 +329,50 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:2628
 msgid "<b>Limits</b>"
-msgstr "<b>Sınırlamalar</b>"
+msgstr "<b>Ограничения</b>"
 
 #: ui/settingsdialog.glade.ui:6796
 msgid "<b>Logging</b>"
-msgstr "<b>Günlükleme</b>"
+msgstr "<b>Вести лог</b>"
 
 #: ui/mainwindow.glade.ui:247
 msgid "<b>Magnet properties</b>"
-msgstr ""
+msgstr "<b>Настройки магнетов</b>"
 
 #: ui/settingsdialog.glade.ui:4185
 msgid "<b>Main Toolbar Style</b>"
-msgstr "<b>Ana Araç Çubuğu Biçemi</b>"
+msgstr "<b>Стиль панели инструментов</b>"
 
 #: ui/adlsearch.glade.ui:230
 msgid "<b>Max FileSize</b>"
-msgstr ""
+msgstr "<b>Макс. размер файла</b>"
 
 #: ui/adlsearch.glade.ui:197
 msgid "<b>Min FileSize</b>"
-msgstr ""
+msgstr "<b>Мин. размер файла</b>"
 
 #: ui/publichubs.glade.ui:150 ui/settingsdialog.glade.ui:9610
 msgid ""
 "<b>Note:</b> Edit urls in the list by clicking them once when selected"
 msgstr ""
+"<b>Замечание:</b> Для редактирования адреса в списке, щелкните по нему после "
+"выделения"
 
 #: ui/settingsdialog.glade.ui:5105
 msgid "<b>Notify</b>"
-msgstr ""
+msgstr "<b>Уведомления</b>"
 
 #: ui/settingsdialog.glade.ui:4075
 msgid "<b>Options</b>"
-msgstr "<b>Seçenekler</b>"
+msgstr "<b>Параметры</b>"
 
 #: ui/settingsdialog.glade.ui:7787
 msgid "<b>Other Security Options</b>"
-msgstr "<b>Diğer Güvenlik Seçenekleri</b>"
+msgstr "<b>Другие опции безопасности</b>"
 
 #: ui/settingsdialog.glade.ui:3453
 msgid "<b>Other queue options</b>"
-msgstr ""
+msgstr "<b>Другие опции очереди</b>"
 
 #: ui/settingsdialog.glade.ui:2266
 msgid "<b>Outgoing connection settings</b>"
@@ -348,11 +380,11 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:1321
 msgid "<b>Parameters</b>"
-msgstr ""
+msgstr "<b>Параметры</b>"
 
 #: ui/settingsdialog.glade.ui:1612
 msgid "<b>Personal Information</b>"
-msgstr "<b>Kişisel Bilgi</b>"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:3511
 msgid "<b>Players list</b>"
@@ -364,7 +396,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:4900
 msgid "<b>Preview styles</b>"
-msgstr "<b>Önizleme biçemleri</b>"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:6295
 msgid "<b>Preview</b>"
@@ -372,15 +404,15 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:4793
 msgid "<b>Private message sound</b>"
-msgstr ""
+msgstr "<b>Звук личного сообщения</b>"
 
 #: ui/settingsdialog.glade.ui:5388
 msgid "<b>Private message</b>"
-msgstr ""
+msgstr "<b>Личное сообщение</b>"
 
 #: ui/hash.glade.ui:55
 msgid "<b>Processing file:</b>"
-msgstr "<b>İşlenilen dosya:</b>"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:2745
 msgid "<b>Public Hubs list</b>"
@@ -396,11 +428,11 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:8378
 msgid "<b>Secondary Transfer Rate Limiting</b>"
-msgstr "<b>İkincil Aktarım Hızı Sınırlandırması</b>"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:8564
 msgid "<b>Secondary Transfer Rate Settings</b>"
-msgstr "<b>İkincil Aktarım Hızı Sınırlandırma Seçenekleri</b>"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:3884
 msgid "<b>Shared directories</b>"
@@ -412,15 +444,15 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:4684
 msgid "<b>Sounds</b>"
-msgstr "<b>Sesler</b>"
+msgstr "<b>Звуки</b>"
 
 #: ui/adlsearch.glade.ui:147
 msgid "<b>Source Type</b>"
-msgstr ""
+msgstr "<b>Тип источника</b>"
 
 #: ui/hash.glade.ui:124
 msgid "<b>Statistics</b>"
-msgstr "<b>İstatistikler</b>"
+msgstr "<b>Статистика</b>"
 
 #: ui/settingsdialog.glade.ui:4133
 msgid "<b>Tab Position</b>"
@@ -440,19 +472,19 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:4284
 msgid "<b>Timestamps</b>"
-msgstr ""
+msgstr "<b>Метки времени</b>"
 
 #: ui/settingsdialog.glade.ui:5148
 msgid "<b>Title</b>"
-msgstr "<b>Başlık</b>"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:5711
 msgid "<b>Toolbar buttons</b>"
-msgstr "<b>Araç çubuğu düğmeleri</b>"
+msgstr "<b>Кнопки панели инструментов</b>"
 
 #: ui/settingsdialog.glade.ui:8259
 msgid "<b>Transfer Rate Limiting</b>"
-msgstr "<b>Aktarım Hızı Sınırlandırması</b>"
+msgstr ""
 
 #: ui/mainwindow.glade.ui:415
 msgid "<b>What would you like to do?</b>"
@@ -460,7 +492,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:4581
 msgid "<b>Window Options</b>"
-msgstr "<b>Pencere Seçenekleri</b>"
+msgstr ""
 
 #: ui/FavDialog.glade.ui:354 ui/favoritehubs.glade.ui:817
 msgid "<small>Note: Leave unchecked for default values</small>"
@@ -474,11 +506,11 @@ msgstr ""
 #: ui/mainwindow.glade.ui:2234 linux/adlsearch.cc:31 linux/bookentry.cc:367
 #: linux/settingsdialog.cc:1508 linux/settingsdialog.cc:1571
 msgid "ADL Search"
-msgstr "ADL arama"
+msgstr ""
 
 #: ui/adlsearch.glade.ui:27
 msgid "ADLSearch Properties"
-msgstr "ADLArama Özellikleri"
+msgstr ""
 
 #: ui/mainwindow.glade.ui:1354
 msgid "About"
@@ -492,11 +524,11 @@ msgstr ""
 #: linux/detectiontab.cc:178 linux/detectiontab.cc:1349
 #: linux/detectiontab.cc:1387 linux/detectiontab.cc:1443
 msgid "Action"
-msgstr "Eylem"
+msgstr ""
 
 #: ui/detection.glade.ui:1227
 msgid "Actions"
-msgstr "Eylemler"
+msgstr ""
 
 #: ui/detection.glade.ui:2967
 msgid "Actions Setup"
@@ -510,7 +542,7 @@ msgstr ""
 #: ui/FavDialog.glade.ui:993 ui/favoritehubs.glade.ui:1580
 #: ui/settingsdialog.glade.ui:1862
 msgid "Active"
-msgstr "Aktif"
+msgstr ""
 
 #: ui/adlsearch.glade.ui:742 ui/detection.glade.ui:1089
 #: ui/detection.glade.ui:1487 ui/detection.glade.ui:2989
@@ -518,15 +550,15 @@ msgstr "Aktif"
 #: ui/settingsdialog.glade.ui:8058 ui/settingsdialog.glade.ui:8649
 #: ui/settingsdialog.glade.ui:8776
 msgid "Add"
-msgstr "Ekle"
+msgstr "Добавить"
 
 #: ui/mainwindow.glade.ui:2166
 msgid "Add / Remove"
-msgstr ""
+msgstr "Добавить / удалить"
 
 #: ui/detection.glade.ui:1357
 msgid "Add Action"
-msgstr "Eylem Ekle"
+msgstr ""
 
 #: ui/publichubs.glade.ui:411
 msgid "Add Favorite"
@@ -546,7 +578,7 @@ msgstr ""
 
 #: ui/hub.glade.ui:47 linux/hub.cc:2417
 msgid "Add a hub to favorites"
-msgstr ""
+msgstr "Добавить хаб в избранные"
 
 #: ui/uploadqueue.glade.ui:59
 msgid "Add as Favorite"
@@ -570,11 +602,11 @@ msgstr ""
 
 #: ui/mainwindow.glade.ui:275
 msgid "Add this file to your download queue"
-msgstr ""
+msgstr "Добавить этот файл в вашу очередь загрузки"
 
 #: ui/favoritehubs.glade.ui:390
 msgid "Add to the list"
-msgstr ""
+msgstr "Добавить в список"
 
 #: ui/privatemessage.glade.ui:59 linux/hub.cc:2418
 #: linux/privatemessage.cc:1058
@@ -583,13 +615,13 @@ msgstr ""
 
 #: ui/adlsearch.glade.ui:659
 msgid "Add..."
-msgstr "Ekle..."
+msgstr "Добавить..."
 
 #: ui/FavDialog.glade.ui:900 ui/favoritehubs.glade.ui:1287
 #: ui/settingsdialog.glade.ui:2358 ui/settingsdialog.glade.ui:6862
 #: ui/settingsdialog.glade.ui:8009
 msgid "Advanced"
-msgstr "İleri düzey"
+msgstr ""
 
 #: ui/detection.glade.ui:1782
 msgid "Advanced ADL Points"
@@ -597,19 +629,19 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:4359 ui/settingsdialog.glade.ui:6396
 msgid "Appearance"
-msgstr "Görünüm"
+msgstr "Внешний вид"
 
 #: ui/settingsdialog.glade.ui:3565
 msgid "Application:"
-msgstr "Uygulama:"
+msgstr "Приложение:"
 
 #: ui/searchspy.glade.ui:243
 msgid "Apply settings"
-msgstr ""
+msgstr "Применить настройки"
 
 #: ui/settingsdialog.glade.ui:3591
 msgid "Apply to Extensions: (avi;mov;divx)"
-msgstr ""
+msgstr "Применить к расширениям : (avi;mov;divx)"
 
 #: ui/search.glade.ui:796
 msgid "At least"
@@ -625,11 +657,12 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:7331
 msgid "Auto refresh time"
-msgstr "Otomatik yenileme zamanı"
+msgstr "Время автообновления"
 
 #: ui/settingsdialog.glade.ui:3911
 msgid "Automatically open extra slot if speed is below (0 = disable)"
 msgstr ""
+"Автоматически открыть дополнительный слот, если скорость ниже (0 = отключено)"
 
 #: ui/hub.glade.ui:15 ui/mainwindow.glade.ui:2120 ui/mainwindow.glade.ui:2290
 msgid "Away"
@@ -658,11 +691,11 @@ msgstr ""
 #: ui/detection.glade.ui:2237 ui/search.glade.ui:810
 #: ui/settingsdialog.glade.ui:7524 ui/settingsdialog.glade.ui:7537
 msgid "B"
-msgstr "B"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:3327 linux/hashdialog.cc:68
 msgid "B/s"
-msgstr "B/s"
+msgstr ""
 
 #: ui/hub.glade.ui:26
 msgid "Back"
@@ -689,8 +722,6 @@ msgid ""
 "Bandwidth\n"
 "Limiting"
 msgstr ""
-"Bant Genişliği\n"
-"Sınırlandırma"
 
 #: ui/settingsdialog.glade.ui:7292
 msgid "Bind address"
@@ -702,7 +733,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:5000
 msgid "Black/White"
-msgstr "Siyah/Beyaz"
+msgstr ""
 
 #: ui/mainwindow.glade.ui:1858
 msgid "Blink"
@@ -752,7 +783,7 @@ msgstr ""
 #: linux/search.cc:423 linux/search.cc:493 linux/sharebrowser.cc:508
 #: linux/sharebrowser.cc:560
 msgid "Browse..."
-msgstr "Göz at..."
+msgstr ""
 
 #: ui/cmddebug.glade.ui:69
 msgid "CLIENT IN"
@@ -776,7 +807,7 @@ msgstr ""
 
 #: ui/detection.glade.ui:3043
 msgid "Change"
-msgstr "Değiştir"
+msgstr ""
 
 #: ui/mainwindow.glade.ui:1307
 msgid "Changelog"
@@ -784,15 +815,15 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:980
 msgid "Chat"
-msgstr "Sohbet"
+msgstr "Чат"
 
 #: ui/privatemessage.glade.ui:285
 msgid "Chat Commands"
-msgstr ""
+msgstr "Команды чата"
 
 #: ui/settingsdialog.glade.ui:1059
 msgid "Chat Menu"
-msgstr ""
+msgstr "Меню чата"
 
 #: ui/detection.glade.ui:650 linux/detectiontab.cc:43
 #: linux/detectiontab.cc:335 linux/detectiontab.cc:830
@@ -828,18 +859,18 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:8969
 msgid "Choose a File"
-msgstr "Bir Dosya Seç"
+msgstr ""
 
 #: ui/search.glade.ui:7 ui/settingsdialog.glade.ui:8901
 #: ui/sharebrowser.glade.ui:7 linux/hub.cc:2945 linux/mainwindow.cc:1642
 #: linux/mainwindow.cc:1710 linux/privatemessage.cc:1332
 msgid "Choose a directory"
-msgstr "Dizin seç"
+msgstr ""
 
 #: ui/cmddebug.glade.ui:140 ui/searchspy.glade.ui:124
 #: ui/searchspy.glade.ui:340 ui/system.glade.ui:60
 msgid "Clear"
-msgstr "Temizle"
+msgstr ""
 
 #: ui/hub.glade.ui:37
 msgid "Clear Chat"
@@ -851,7 +882,7 @@ msgstr ""
 
 #: ui/hub.glade.ui:36 linux/hub.cc:2415
 msgid "Clear chat"
-msgstr ""
+msgstr "Очистить чат"
 
 #: ui/searchspy.glade.ui:345
 msgid "Clear frame search"
@@ -863,7 +894,7 @@ msgstr ""
 
 #: ui/mainwindow.glade.ui:1124
 msgid "Close All Hubs"
-msgstr ""
+msgstr "Закрыть все хабы"
 
 #: ui/mainwindow.glade.ui:1138
 msgid "Close All Offline PM"
@@ -887,13 +918,13 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:5065
 msgid "Colors & Fonts"
-msgstr ""
+msgstr "Цвета и шрифты"
 
 #: ui/settingsdialog.glade.ui:1194 linux/settingsdialog.cc:2084
 #: linux/settingsdialog.cc:2092 linux/settingsdialog.cc:3851
 #: linux/settingsdialog.cc:3930
 msgid "Command"
-msgstr "Komut"
+msgstr ""
 
 #: ui/hub.glade.ui:369
 msgid "Commands"
@@ -904,11 +935,11 @@ msgstr ""
 #: linux/detectiontab.cc:336 linux/detectiontab.cc:831
 #: linux/detectiontab.cc:901 linux/detectiontab.cc:916
 msgid "Comment"
-msgstr "Yorum"
+msgstr "Комментарий"
 
 #: ui/detection.glade.ui:690
 msgid "Comments"
-msgstr "Yorumlar"
+msgstr "Комментарии"
 
 #: ui/settingsdialog.glade.ui:8675
 msgid "Config"
@@ -928,7 +959,7 @@ msgstr ""
 #: linux/favoritehubs.cc:523 linux/favoritehubs.cc:703
 #: linux/settingsdialog.cc:1513 linux/settingsdialog.cc:1542
 msgid "Connect"
-msgstr "Bağlan"
+msgstr ""
 
 #: ui/hub.glade.ui:81
 msgid "Connect To.."
@@ -936,11 +967,11 @@ msgstr ""
 
 #: ui/mainwindow.glade.ui:588
 msgid "Connect to a hub"
-msgstr ""
+msgstr "Подключиться к хабу"
 
 #: ui/favoritehubs.glade.ui:117
 msgid "Connect to all hubs in this group when the program starts"
-msgstr ""
+msgstr "Подключиться ко всем хабам в этой группе при запуске программы"
 
 #: ui/hub.glade.ui:80 linux/hub.cc:2424
 msgid "Connect to the hub"
@@ -959,7 +990,7 @@ msgstr ""
 #: ui/privatemessage.glade.ui:138 ui/privatemessage.glade.ui:171
 #: ui/privatemessage.glade.ui:227 ui/search.glade.ui:639
 msgid "Copy"
-msgstr "Kopyala"
+msgstr ""
 
 #: ui/downloadqueue.glade.ui:181 ui/search.glade.ui:701
 #: ui/sharebrowser.glade.ui:166
@@ -994,11 +1025,11 @@ msgstr ""
 #: linux/FavoriteHubDialog.cc:53 linux/FavoriteHubDialog.cc:54
 #: linux/emoticonsdialog.cc:140 linux/previewmenu.cc:88
 msgid "Default"
-msgstr "Öntanımlı"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:2407
 msgid "Default download directory"
-msgstr "Varsayılan indirme dizini"
+msgstr "Каталог загрузки по умолчанию"
 
 #: ui/settingsdialog.glade.ui:1585
 msgid "Default hub encoding"
@@ -1006,19 +1037,19 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:5618
 msgid "Default icons"
-msgstr ""
+msgstr "Значки по умолчанию"
 
 #: ui/settingsdialog.glade.ui:4985
 msgid "Default styles"
-msgstr ""
+msgstr "Стили по умолчанию"
 
 #: ui/detection.glade.ui:1117 ui/detection.glade.ui:1515
 msgid "Delete"
-msgstr "Sil"
+msgstr "Удалить"
 
 #: ui/searchspy.glade.ui:113
 msgid "Delete item"
-msgstr "Ögeyi Sil"
+msgstr "Удалить объект"
 
 #: ui/favoritehubs.glade.ui:177 ui/settingsdialog.glade.ui:1545
 #: linux/favoritehubs.cc:42 linux/favoritehubs.cc:128
@@ -1031,7 +1062,7 @@ msgstr "Ögeyi Sil"
 #: linux/publichubs.cc:155 linux/publichubs.cc:292 linux/recenthub.cc:44
 #: linux/recenthub.cc:84 linux/recenthub.cc:271 linux/recenthub.cc:284
 msgid "Description"
-msgstr "Açıklama"
+msgstr "Описание"
 
 #: ui/mainwindow.glade.ui:929 linux/detectiontab.cc:28
 msgid "Detection Settings"
@@ -1043,7 +1074,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:2236
 msgid "Direct connection"
-msgstr "Direk Bağlantı"
+msgstr ""
 
 #: ui/adlsearch.glade.ui:772 ui/settingsdialog.glade.ui:6430
 #: linux/UserCommandMenu.cc:74 linux/search.cc:1804
@@ -1053,7 +1084,7 @@ msgstr "Direk Bağlantı"
 #: linux/settingsdialog.cc:4296 linux/settingsdialog.cc:4310
 #: linux/settingsdialog.cc:4365 linux/sharebrowser.cc:307
 msgid "Directory"
-msgstr "Dizin"
+msgstr "Каталог"
 
 #: ui/FavDialog.glade.ui:962 ui/FavDialog.glade.ui:979
 #: ui/favoritehubs.glade.ui:1515 ui/favoritehubs.glade.ui:1532
@@ -1067,7 +1098,7 @@ msgstr ""
 
 #: ui/mainwindow.glade.ui:754
 msgid "Do you really want to exit?"
-msgstr ""
+msgstr "Вы действительно хотите выйти?"
 
 #: ui/settingsdialog.glade.ui:1912
 msgid "Don't allow hub/UPnP to override"
@@ -1128,7 +1159,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:1559
 msgid "E-Mail"
-msgstr "E-Posta"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:8071
 msgid "Edit"
@@ -1136,7 +1167,7 @@ msgstr ""
 
 #: ui/detection.glade.ui:1385
 msgid "Edit Action"
-msgstr "Eylem Düzenle"
+msgstr ""
 
 #: ui/detection.glade.ui:1427
 msgid "Edit Raw"
@@ -1152,7 +1183,7 @@ msgstr ""
 
 #: ui/privatemessage.glade.ui:315
 msgid "Emoticons"
-msgstr ""
+msgstr "Эмотиконы"
 
 #: ui/detection.glade.ui:1589
 msgid "Emulation Action"
@@ -1170,7 +1201,7 @@ msgstr ""
 #: linux/detectiontab.cc:828 linux/detectiontab.cc:898
 #: linux/detectiontab.cc:913 linux/detectiontab.cc:1084
 msgid "Enable"
-msgstr "Etkin"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:1645
 msgid "Enable Auto Detection"
@@ -1216,7 +1247,7 @@ msgstr ""
 
 #: ui/sharebrowser.glade.ui:285
 msgid "Enter text to search for"
-msgstr ""
+msgstr "Введите текст для поиска"
 
 #: ui/settingsdialog.glade.ui:4759
 msgid "Every time a private message is received"
@@ -1224,7 +1255,7 @@ msgstr ""
 
 #: ui/mainwindow.glade.ui:207
 msgid "Exact size"
-msgstr ""
+msgstr "Точный размер"
 
 #: ui/mainwindow.glade.ui:965 ui/mainwindow.glade.ui:1870
 msgid "Exit"
@@ -1248,7 +1279,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:5577
 msgid "Export..."
-msgstr ""
+msgstr "Экспорт..."
 
 #: ui/settingsdialog.glade.ui:1899 linux/hub.cc:2492
 msgid "External / WAN IP"
@@ -1260,7 +1291,7 @@ msgstr ""
 
 #: ui/FavDialog.glade.ui:661 ui/favoritehubs.glade.ui:1123
 msgid "Extra Info"
-msgstr "Ek Bilgi"
+msgstr ""
 
 #: ui/detection.glade.ui:1567
 msgid "Fake Share Action"
@@ -1268,7 +1299,7 @@ msgstr ""
 
 #: ui/favoritehubs.glade.ui:9
 msgid "Favorite Hub Groups"
-msgstr ""
+msgstr "Избранные группы хабов"
 
 #: ui/FavDialog.glade.ui:7 ui/favoritehubs.glade.ui:472
 msgid "Favorite Hub Properties"
@@ -1279,14 +1310,14 @@ msgstr ""
 #: linux/settingsdialog.cc:1498 linux/settingsdialog.cc:1546
 #: linux/settingsdialog.cc:1616
 msgid "Favorite Hubs"
-msgstr ""
+msgstr "Избранные хабы"
 
 #: ui/mainwindow.glade.ui:994 ui/mainwindow.glade.ui:1920
 #: ui/mainwindow.glade.ui:2199 linux/bookentry.cc:350
 #: linux/favoriteusers.cc:38 linux/settingsdialog.cc:1499
 #: linux/settingsdialog.cc:1548 linux/settingsdialog.cc:1620
 msgid "Favorite Users"
-msgstr "Favori kullanıcılar"
+msgstr "Избранные пользователи"
 
 #: ui/settingsdialog.glade.ui:9368 linux/settingsdialog.cc:4228
 msgid "Favorite name"
@@ -1297,15 +1328,15 @@ msgstr ""
 #: linux/settingsdialog.cc:1514 linux/settingsdialog.cc:3295
 #: linux/settingsdialog.cc:3311
 msgid "File"
-msgstr "Dosya"
+msgstr "Файл"
 
 #: ui/mainwindow.glade.ui:101
 msgid "File name"
-msgstr "Dosya adı"
+msgstr "Имя файла"
 
 #: ui/search.glade.ui:237 ui/search.glade.ui:854
 msgid "File type"
-msgstr "Dosya türü"
+msgstr "Тип файла"
 
 #: ui/settingsdialog.glade.ui:1075
 msgid "Filelist Menu"
@@ -1331,7 +1362,7 @@ msgstr ""
 #: linux/transfers.cc:754 linux/transfers.cc:760 linux/transfers.cc:924
 #: linux/transfers.cc:926 linux/transfers.cc:928
 msgid "Filename"
-msgstr "Dosya adı"
+msgstr "Имя файла"
 
 #: ui/cmddebug.glade.ui:114
 msgid "Filter by IP"
@@ -1343,11 +1374,11 @@ msgstr ""
 
 #: ui/sharebrowser.glade.ui:452
 msgid "Find"
-msgstr "Bul"
+msgstr "Найти"
 
 #: ui/sharebrowser.glade.ui:203
 msgid "Find files"
-msgstr ""
+msgstr "Найти файлы"
 
 #: ui/mainwindow.glade.ui:1066 ui/mainwindow.glade.ui:2058
 #: ui/mainwindow.glade.ui:2255 linux/bookentry.cc:375
@@ -1355,7 +1386,7 @@ msgstr ""
 #: linux/settingsdialog.cc:1500 linux/settingsdialog.cc:1562
 #: linux/settingsdialog.cc:1618
 msgid "Finished Downloads"
-msgstr ""
+msgstr "Завершённые загрузки"
 
 #: ui/mainwindow.glade.ui:1074 ui/mainwindow.glade.ui:2075
 #: ui/mainwindow.glade.ui:2262 linux/bookentry.cc:379
@@ -1363,7 +1394,7 @@ msgstr ""
 #: linux/settingsdialog.cc:1501 linux/settingsdialog.cc:1564
 #: linux/settingsdialog.cc:1619
 msgid "Finished Uploads"
-msgstr ""
+msgstr "Завершённые раздачи"
 
 #: ui/settingsdialog.glade.ui:1878
 msgid "Firewall (passive, last resort)"
@@ -1388,7 +1419,7 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:6500 ui/settingsdialog.glade.ui:6557
 #: ui/settingsdialog.glade.ui:6614 ui/settingsdialog.glade.ui:6671
 msgid "Format"
-msgstr "Biçim"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:6035
 msgid "Frame (size)"
@@ -1396,11 +1427,11 @@ msgstr ""
 
 #: ui/searchspy.glade.ui:325 ui/settingsdialog.glade.ui:6020
 msgid "Frame size"
-msgstr "Çerçeve boyutu"
+msgstr ""
 
 #: ui/searchspy.glade.ui:313
 msgid "Frame:"
-msgstr "Çerçeve:"
+msgstr ""
 
 #: ui/adlsearch.glade.ui:481
 msgid "From Fav"
@@ -1416,7 +1447,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:7804
 msgid "Generate certificates"
-msgstr "Sertifika oluştur"
+msgstr ""
 
 #: ui/downloadqueue.glade.ui:264 ui/privatemessage.glade.ui:82
 #: ui/transfers.glade.ui:36
@@ -1442,7 +1473,7 @@ msgstr ""
 #: ui/privatemessage.glade.ui:81 linux/hub.cc:2421
 #: linux/privatemessage.cc:1060
 msgid "Get file list"
-msgstr "Dosya listesini al"
+msgstr "Получить список файлов"
 
 #: ui/adlsearch.glade.ui:798 ui/search.glade.ui:819
 msgid "GiB"
@@ -1510,7 +1541,7 @@ msgstr ""
 #: ui/downloadqueue.glade.ui:122 ui/downloadqueue.glade.ui:244
 #: linux/downloadqueue.cc:1321
 msgid "High"
-msgstr "Yüksek"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:2969
 msgid "High priority max size"
@@ -1519,7 +1550,7 @@ msgstr ""
 #: ui/downloadqueue.glade.ui:130 ui/downloadqueue.glade.ui:252
 #: linux/downloadqueue.cc:1324
 msgid "Highest"
-msgstr "En Yüksek"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:3091
 msgid "Highest priority max size"
@@ -1544,7 +1575,7 @@ msgstr ""
 #: linux/settingsdialog.cc:4569 linux/settingsdialog.cc:4592
 #: linux/settingsdialog.cc:4611
 msgid "Hub"
-msgstr ""
+msgstr "Хаб"
 
 #: ui/settingsdialog.glade.ui:1232
 msgid "Hub IP / DNS (empty = All, 'op' = where operator)"
@@ -1558,7 +1589,7 @@ msgstr ""
 #: linux/hub.cc:345 linux/hub.cc:550 linux/hub.cc:586 linux/hub.cc:722
 #: linux/hub.cc:751
 msgid "Hubs"
-msgstr ""
+msgstr "Хабы"
 
 #: ui/detection.glade.ui:110 linux/detectiontab.cc:46 linux/detectiontab.cc:62
 #: linux/detectiontab.cc:75 linux/detectiontab.cc:315
@@ -1583,7 +1614,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:5232
 msgid "Icon..."
-msgstr ""
+msgstr "Значок..."
 
 #: ui/settingsdialog.glade.ui:9155
 msgid "Icons"
@@ -1603,7 +1634,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:5590
 msgid "Import..."
-msgstr ""
+msgstr "Импорт..."
 
 #: ui/mainwindow.glade.ui:1095
 msgid "Indexing Progress"
@@ -1611,7 +1642,7 @@ msgstr ""
 
 #: ui/hash.glade.ui:7 linux/hashdialog.cc:43 linux/hashdialog.cc:123
 msgid "Indexing files..."
-msgstr ""
+msgstr "Индексация файлов..."
 
 #: ui/mainwindow.glade.ui:1285
 msgid "Isue Tracker"
@@ -1631,7 +1662,7 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:3281 ui/settingsdialog.glade.ui:7213
 #: ui/settingsdialog.glade.ui:7489
 msgid "KiB"
-msgstr "KiB"
+msgstr ""
 
 #: ui/adlsearch.glade.ui:502
 msgid "Kick"
@@ -1644,7 +1675,7 @@ msgstr ""
 #: ui/mainwindow.glade.ui:2135 ui/mainwindow.glade.ui:2283
 #: linux/settingsdialog.cc:1516 linux/settingsdialog.cc:1577
 msgid "Limiting"
-msgstr "Sınırlandırma"
+msgstr ""
 
 #: ui/detection.glade.ui:1613
 msgid "ListLen Action"
@@ -1692,12 +1723,12 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:6816
 msgid "Logs"
-msgstr ""
+msgstr "Журналы"
 
 #: ui/downloadqueue.glade.ui:106 ui/downloadqueue.glade.ui:228
 #: linux/downloadqueue.cc:1318
 msgid "Low"
-msgstr "Düşük"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:2983
 msgid "Low priority size"
@@ -1706,7 +1737,7 @@ msgstr ""
 #: ui/downloadqueue.glade.ui:98 ui/downloadqueue.glade.ui:220
 #: linux/downloadqueue.cc:1315
 msgid "Lowest"
-msgstr "En düşük"
+msgstr ""
 
 #: ui/mainwindow.glade.ui:7 ui/mainwindow.glade.ui:89
 msgid "Magnet"
@@ -1739,7 +1770,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:7054
 msgid "Max filelist size"
-msgstr "Azami dosya boyutu"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:7015
 msgid "Max hash speed"
@@ -1755,28 +1786,28 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:8224 ui/settingsdialog.glade.ui:8477
 msgid "Maximum Download Rate (KiB/s) (0 = infinite)"
-msgstr "En yüksek İndirme Oranı (KiB/s) (0 = sonsuz)"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:8172 ui/settingsdialog.glade.ui:8425
 msgid "Maximum Upload Rate (KiB/s) (0 = infinite)"
-msgstr "En Yüksek Yükleme Hızı (KiB/s) (0 = sınırsız)"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:5341
 msgid "Maximum message length (0 = infinite)"
-msgstr ""
+msgstr "Максимальная длина сообщения (0 = не ограничена)"
 
 #: ui/settingsdialog.glade.ui:2563
 msgid "Maximum simultaneous downloads (0 = infinite)"
-msgstr ""
+msgstr "Макс. число одновременных загрузок (0 = не ограничено)"
 
 #: ui/adlsearch.glade.ui:795 ui/search.glade.ui:816
 #: ui/settingsdialog.glade.ui:7226
 msgid "MiB"
-msgstr "MB"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:7189
 msgid "MiB/s"
-msgstr "MB/sn"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:9213 ui/settingsdialog.glade.ui:9293
 msgid "Midnight"
@@ -1792,7 +1823,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:3235
 msgid "Min filesize"
-msgstr "Asgari dosya boyutu"
+msgstr "Мин. размер файла"
 
 #: ui/settingsdialog.glade.ui:3373
 msgid "Min sources online"
@@ -1818,7 +1849,7 @@ msgstr ""
 
 #: ui/FavDialog.glade.ui:715 ui/favoritehubs.glade.ui:1176 linux/hub.cc:2498
 msgid "Mode"
-msgstr "Mod"
+msgstr ""
 
 #: ui/detection.glade.ui:1103 ui/detection.glade.ui:1501
 #: ui/settingsdialog.glade.ui:8789
@@ -1835,15 +1866,15 @@ msgstr ""
 
 #: ui/adlsearch.glade.ui:701
 msgid "Move Down"
-msgstr "Aşağıya Taşı"
+msgstr "Переместить вниз"
 
 #: ui/adlsearch.glade.ui:687
 msgid "Move Up"
-msgstr "Yukarıya Taşı"
+msgstr "Переместить вверх"
 
 #: ui/downloadqueue.glade.ui:7
 msgid "Move to..."
-msgstr "Taşı..."
+msgstr ""
 
 #: ui/hub.glade.ui:574
 msgid "NICK"
@@ -1887,11 +1918,11 @@ msgstr ""
 #: linux/settingsdialog.cc:4568 linux/settingsdialog.cc:4591
 #: linux/settingsdialog.cc:4610
 msgid "Name"
-msgstr "İsim"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:3539
 msgid "Name:"
-msgstr "İsim:"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:5781
 msgid "New string or TTH"
@@ -1924,7 +1955,7 @@ msgstr ""
 #: linux/search.cc:708 linux/search.cc:783 linux/search.cc:931
 #: linux/search.cc:1814
 msgid "Nick"
-msgstr "Rumuz"
+msgstr ""
 
 #: ui/search.glade.ui:830
 msgid "No grouping"
@@ -1947,7 +1978,7 @@ msgstr ""
 #: linux/settingsdialog.cc:1657 linux/settingsdialog.cc:1676
 #: linux/settingsdialog.cc:3739 linux/settingsdialog.cc:3772
 msgid "Normal"
-msgstr "Olağan"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:3077
 msgid "Normal priority max size"
@@ -1979,7 +2010,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:5431 linux/settingsdialog.cc:1365
 msgid "Notify"
-msgstr "Bildirim"
+msgstr ""
 
 #: ui/FavDialog.glade.ui:798 ui/favoritehubs.glade.ui:1266
 msgid "Notify Chat"
@@ -2055,7 +2086,7 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:2149 linux/favoritehubs.cc:45
 #: linux/favoritehubs.cc:130
 msgid "Password"
-msgstr "Parola"
+msgstr "Пароль"
 
 #: ui/search.glade.ui:836 linux/downloadqueue.cc:72 linux/downloadqueue.cc:285
 #: linux/downloadqueue.cc:392 linux/finishedtransfers.cc:57
@@ -2068,7 +2099,7 @@ msgstr "Parola"
 #: linux/search.cc:1802 linux/search.cc:2065 linux/transfers.cc:69
 #: linux/transfers.cc:761 linux/transfers.cc:931
 msgid "Path"
-msgstr ""
+msgstr "Путь"
 
 #: ui/export.glade.ui:139
 msgid "Path to"
@@ -2076,7 +2107,7 @@ msgstr ""
 
 #: ui/hash.glade.ui:155
 msgid "Pause"
-msgstr ""
+msgstr "Пауза"
 
 #: ui/downloadqueue.glade.ui:90 ui/downloadqueue.glade.ui:212
 #: linux/downloadqueue.cc:1312
@@ -2089,11 +2120,11 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:1629
 msgid "Personal"
-msgstr "Kişisel"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:3987
 msgid "Pictures"
-msgstr "Resimler"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:4702
 msgid "Play"
@@ -2124,11 +2155,11 @@ msgstr ""
 #: ui/mainwindow.glade.ui:1956 ui/settingsdialog.glade.ui:1392
 #: linux/settingsdialog.cc:1503 linux/settingsdialog.cc:1552
 msgid "Preferences"
-msgstr ""
+msgstr "Настройки"
 
 #: ui/settingsdialog.glade.ui:3707
 msgid "Preview"
-msgstr "Ön İzleme"
+msgstr ""
 
 #: ui/mainwindow.glade.ui:1153
 msgid "Previous Tab"
@@ -2150,7 +2181,7 @@ msgstr ""
 
 #: ui/adlsearch.glade.ui:673
 msgid "Properties"
-msgstr ""
+msgstr "Свойства"
 
 #: ui/adlsearch.glade.ui:750 ui/config.glade.ui:253 ui/hub.glade.ui:296
 #: ui/privatemessage.glade.ui:241
@@ -2184,7 +2215,7 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:3473 linux/settingsdialog.cc:1505
 #: linux/settingsdialog.cc:1560
 msgid "Queue"
-msgstr ""
+msgstr "Очередь"
 
 #: ui/mainwindow.glade.ui:888
 msgid "Quick connect"
@@ -2197,11 +2228,11 @@ msgstr ""
 #: ui/mainwindow.glade.ui:2151 ui/mainwindow.glade.ui:2297
 #: linux/settingsdialog.cc:1512 linux/settingsdialog.cc:1566
 msgid "Quit"
-msgstr "Çıkış"
+msgstr "Выход"
 
 #: ui/mainwindow.glade.ui:2149
 msgid "Quit the program"
-msgstr "Programdan çık"
+msgstr "Выйти из программы"
 
 #: ui/detection.glade.ui:1577
 msgid "RMDC Action"
@@ -2259,7 +2290,7 @@ msgstr ""
 
 #: ui/mainwindow.glade.ui:375
 msgid "Remember choice"
-msgstr ""
+msgstr "Запомнить выбор"
 
 #: ui/adlsearch.glade.ui:715 ui/adlsearch.glade.ui:758
 #: ui/detection.glade.ui:2997 ui/detection.glade.ui:3016
@@ -2271,11 +2302,11 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:8815 ui/transfers.glade.ui:84
 #: ui/uploadqueue.glade.ui:67
 msgid "Remove"
-msgstr "Kaldır"
+msgstr "Удалить"
 
 #: ui/recenthub.glade.ui:174
 msgid "Remove All"
-msgstr "Tümünü Kaldır"
+msgstr "Удалить все"
 
 #: ui/downloadqueue.glade.ui:322
 msgid "Remove User from Queue"
@@ -2300,7 +2331,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:8802
 msgid "Rename"
-msgstr "Yeniden adlandır"
+msgstr "Переименовать"
 
 #: ui/settingsdialog.glade.ui:7957
 msgid "Restore Backup"
@@ -2320,7 +2351,7 @@ msgstr ""
 
 #: ui/detection.glade.ui:1683
 msgid "Save"
-msgstr "Kaydet"
+msgstr "Сохранить"
 
 #: ui/hub.glade.ui:91 linux/hub.cc:2425
 msgid "Say a third person"
@@ -2333,7 +2364,7 @@ msgstr ""
 #: linux/settingsdialog.cc:1151 linux/settingsdialog.cc:1506
 #: linux/settingsdialog.cc:1556
 msgid "Search"
-msgstr "Ara"
+msgstr "Поиск"
 
 #: ui/sharebrowser.glade.ui:158
 msgid "Search Alternative"
@@ -2364,7 +2395,7 @@ msgstr ""
 
 #: ui/search.glade.ui:107
 msgid "Search for"
-msgstr "Arama için"
+msgstr ""
 
 #: ui/mainwindow.glade.ui:1988
 msgid "Search for files to download"
@@ -2372,11 +2403,11 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:7279
 msgid "Search history"
-msgstr ""
+msgstr "История поиска"
 
 #: ui/search.glade.ui:321
 msgid "Search options"
-msgstr "Arama seçenekleri"
+msgstr "Опции поиска"
 
 #: ui/search.glade.ui:331
 msgid "Search within local results"
@@ -2384,7 +2415,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:7835
 msgid "Security Certificates"
-msgstr "Güvenlik Sertifikaları"
+msgstr "Сертификаты безопасности"
 
 #: ui/detection.glade.ui:2378 ui/detection.glade.ui:2431
 #: ui/detection.glade.ui:2486 ui/detection.glade.ui:2541
@@ -2441,7 +2472,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:997 linux/settingsdialog.cc:3880
 msgid "Separator"
-msgstr "Ayırıcı"
+msgstr ""
 
 #: ui/mainwindow.glade.ui:2119
 msgid "Set Away on/off"
@@ -2537,12 +2568,12 @@ msgstr ""
 
 #: ui/hub.glade.ui:58 linux/hub.cc:2420
 msgid "Show favorites list"
-msgstr ""
+msgstr "Показать список избранных"
 
 #: ui/hub.glade.ui:69 ui/privatemessage.glade.ui:103 linux/hub.cc:2423
 #: linux/privatemessage.cc:1063
 msgid "Show help"
-msgstr "Yardımı göster"
+msgstr "Показать справку"
 
 #: ui/mainwindow.glade.ui:344
 msgid "Show magnet dialog"
@@ -2565,7 +2596,7 @@ msgstr ""
 
 #: ui/hub.glade.ui:124 ui/hub.glade.ui:125 linux/WulforUtil.cc:65
 msgid "Show version"
-msgstr "Sürümü göster"
+msgstr "Показать версию"
 
 #: ui/mainwindow.glade.ui:115 ui/search.glade.ui:147 ui/search.glade.ui:839
 #: linux/downloadqueue.cc:68 linux/downloadqueue.cc:87
@@ -2580,7 +2611,7 @@ msgstr "Sürümü göster"
 #: linux/transfers.cc:668 linux/transfers.cc:762 linux/transfers.cc:779
 #: linux/transfers.cc:932
 msgid "Size"
-msgstr "Boyut"
+msgstr "Размер"
 
 #: ui/detection.glade.ui:2058
 msgid "Sleep Time"
@@ -2624,7 +2655,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:4813 linux/settingsdialog.cc:1193
 msgid "Sounds"
-msgstr "Sesler"
+msgstr "Звуки"
 
 #: ui/mainwindow.glade.ui:1277
 msgid "Source"
@@ -2636,7 +2667,7 @@ msgstr ""
 
 #: ui/mainwindow.glade.ui:328
 msgid "Start a search for this file"
-msgstr ""
+msgstr "Начать поиск этого файла"
 
 #: ui/settingsdialog.glade.ui:286 linux/AboutConfig.cc:86
 #: linux/AboutConfig.cc:125 linux/settingsdialog.cc:1786
@@ -2644,7 +2675,7 @@ msgstr ""
 #: linux/settingsdialog.cc:4984 linux/settingsdialog.cc:5000
 #: linux/settingsdialog.cc:5141
 msgid "String"
-msgstr "Dizgi"
+msgstr ""
 
 #: ui/mainwindow.glade.ui:2276
 msgid "System"
@@ -2656,7 +2687,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:9170 linux/WulforUtil.cc:52
 msgid "System default"
-msgstr "Sistem varsayılanı"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:5631
 msgid "System icons"
@@ -2664,7 +2695,7 @@ msgstr ""
 
 #: ui/adlsearch.glade.ui:778 ui/mainwindow.glade.ui:129 ui/search.glade.ui:845
 msgid "TTH"
-msgstr "TTH"
+msgstr ""
 
 #: ui/mainwindow.glade.ui:1116 ui/settingsdialog.glade.ui:4492
 msgid "Tabs"
@@ -2680,11 +2711,11 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:4955
 msgid "Text color"
-msgstr "Metin rengi"
+msgstr "Цвет текста"
 
 #: ui/settingsdialog.glade.ui:4970
 msgid "Text style"
-msgstr ""
+msgstr "Стиль текста"
 
 #: ui/settingsdialog.glade.ui:5644
 msgid "Theme default"
@@ -2692,19 +2723,19 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:5671
 msgid "Themes"
-msgstr "Temalar"
+msgstr "Темы"
 
 #: ui/settingsdialog.glade.ui:7899
 msgid "Time (minutes)"
-msgstr ""
+msgstr "Время (минуты)"
 
 #: ui/detection.glade.ui:230
 msgid "Time:"
-msgstr "Zaman:"
+msgstr "Время:"
 
 #: ui/settingsdialog.glade.ui:7877
 msgid "TimeStamp"
-msgstr ""
+msgstr "Метка времени"
 
 #: ui/settingsdialog.glade.ui:1270
 msgid "To (empty for selected user)"
@@ -2716,7 +2747,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:5731
 msgid "Toolbar"
-msgstr "Araç çubuğu"
+msgstr "Панель инструментов"
 
 #: ui/mainwindow.glade.ui:1180
 msgid "Tools"
@@ -2750,7 +2781,7 @@ msgstr ""
 #: linux/search.cc:1790 linux/search.cc:1804 linux/sharebrowser.cc:82
 #: linux/sharebrowser.cc:307 linux/sharebrowser.cc:328
 msgid "Type"
-msgstr "Tür"
+msgstr ""
 
 #: ui/hub.glade.ui:463
 msgid "UnderLine"
@@ -2766,7 +2797,7 @@ msgstr ""
 
 #: ui/favoritehubs.glade.ui:404 ui/searchspy.glade.ui:356
 msgid "Update"
-msgstr "Güncelleme"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:5929
 msgid "Update a string or TTH"
@@ -2778,7 +2809,7 @@ msgstr ""
 
 #: ui/mainwindow.glade.ui:1084 linux/uploadqueue.cc:38
 msgid "Upload Queue"
-msgstr ""
+msgstr "Очередь раздачи"
 
 #: ui/settingsdialog.glade.ui:8529
 msgid "Upload Slots"
@@ -2820,7 +2851,7 @@ msgstr ""
 
 #: ui/hub.glade.ui:702 ui/search.glade.ui:763 ui/settingsdialog.glade.ui:6986
 msgid "User Commands"
-msgstr "Kullanıcı Komutları"
+msgstr ""
 
 #: ui/hub.glade.ui:209 ui/sharebrowser.glade.ui:107
 #: ui/sharebrowser.glade.ui:182 ui/transfers.glade.ui:92
@@ -2833,7 +2864,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:2096
 msgid "Username"
-msgstr "Kullanıcı Adı"
+msgstr ""
 
 #: ui/mainwindow.glade.ui:1922 linux/downloadqueue.cc:71
 #: linux/downloadqueue.cc:277 linux/downloadqueue.cc:384
@@ -2841,14 +2872,14 @@ msgstr "Kullanıcı Adı"
 #: linux/publichubs.cc:156 linux/recenthub.cc:45 linux/recenthub.cc:85
 #: linux/recenthub.cc:274 linux/recenthub.cc:283
 msgid "Users"
-msgstr "Kullanıcılar"
+msgstr ""
 
 #: ui/detection.glade.ui:956 linux/AboutConfig.cc:35 linux/AboutConfig.cc:159
 #: linux/AboutConfig.cc:175 linux/AboutConfig.cc:273 linux/detectiontab.cc:107
 #: linux/detectiontab.cc:1028 linux/detectiontab.cc:1131
 #: linux/detectiontab.cc:1228
 msgid "Value"
-msgstr "Değer"
+msgstr ""
 
 #: ui/detection.glade.ui:1625
 msgid "Version Mismatch"
@@ -2876,19 +2907,19 @@ msgstr ""
 
 #: ui/mainwindow.glade.ui:2056
 msgid "View the list of finished downloads"
-msgstr ""
+msgstr "Просмотреть список завершённых загрузок"
 
 #: ui/mainwindow.glade.ui:2073
 msgid "View the list of finished uploads"
-msgstr ""
+msgstr "Просмотреть список завершённых раздач"
 
 #: ui/settingsdialog.glade.ui:6074
 msgid "Waiting (sec)"
-msgstr ""
+msgstr "Ожидание (сек.)"
 
 #: ui/searchspy.glade.ui:296 ui/settingsdialog.glade.ui:6059
 msgid "Waiting time(sec)"
-msgstr ""
+msgstr "Время ожидания (сек.)"
 
 #: ui/searchspy.glade.ui:284
 msgid "Waiting:"
@@ -2908,19 +2939,19 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:4645
 msgid "Windows"
-msgstr "Pencereler"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:7266
 msgid "Write buffer size"
-msgstr "Yazma önbelleği boyutu"
+msgstr ""
 
 #: ui/FavDialog.glade.ui:133 ui/favoritehubs.glade.ui:597
 msgid "_Address:"
-msgstr ""
+msgstr "_Адрес:"
 
 #: ui/FavDialog.glade.ui:149 ui/favoritehubs.glade.ui:614
 msgid "_Description:"
-msgstr ""
+msgstr "_Описание:"
 
 #: ui/FavDialog.glade.ui:182 ui/favoritehubs.glade.ui:647
 msgid "_Encoding:"
@@ -2928,7 +2959,7 @@ msgstr ""
 
 #: ui/FavDialog.glade.ui:370 ui/favoritehubs.glade.ui:833
 msgid "_Groups:"
-msgstr ""
+msgstr "_Группы:"
 
 #: ui/FavDialog.glade.ui:77 ui/favoritehubs.glade.ui:542
 msgid "_Name:"
@@ -2936,15 +2967,15 @@ msgstr ""
 
 #: ui/FavDialog.glade.ui:257 ui/favoritehubs.glade.ui:721
 msgid "_Password:"
-msgstr ""
+msgstr "_Пароль:"
 
 #: ui/searchspy.glade.ui:108
 msgid "_Remove"
-msgstr "_Kaldır"
+msgstr "_Удалить"
 
 #: ui/search.glade.ui:508
 msgid "_Search"
-msgstr "_Arama"
+msgstr "_Поиск"
 
 #: ui/FavDialog.glade.ui:291 ui/favoritehubs.glade.ui:755
 msgid "_User Description:"
@@ -2973,7 +3004,7 @@ msgstr ""
 #: ui/favoritehubs.glade.ui:216 linux/hub.cc:71 linux/hub.cc:341
 #: linux/hub.cc:546 linux/hub.cc:582 linux/hub.cc:718 linux/hub.cc:747
 msgid "eMail"
-msgstr "E-posta"
+msgstr ""
 
 #: ui/FavDialog.glade.ui:418 ui/favoritehubs.glade.ui:881
 msgid "e_Mail:"
@@ -3048,7 +3079,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:5554
 msgid "theme"
-msgstr "tema"
+msgstr ""
 
 #: ui/settingsdialog.glade.ui:8346
 msgid "to"
@@ -3075,8 +3106,6 @@ msgid ""
 "\n"
 "Message: "
 msgstr ""
-"\n"
-"Mesaj: "
 
 #: linux/hub.cc:1473 linux/hub.cc:1553 linux/privatemessage.cc:662
 #: linux/privatemessage.cc:741
@@ -3093,11 +3122,11 @@ msgstr ""
 
 #: linux/settingsdialog.cc:2966
 msgid " + system icons"
-msgstr " + sistem simgeleri"
+msgstr ""
 
 #: linux/hub.cc:786 linux/hub.cc:806
 msgid " Users"
-msgstr " Kullanıcılar"
+msgstr ""
 
 #: linux/hub.cc:3351
 msgid " added to favorites list"
@@ -3113,7 +3142,7 @@ msgstr ""
 
 #: linux/finishedtransfers.cc:256 linux/sharebrowser.cc:1064
 msgid " files"
-msgstr " dosyalar"
+msgstr ""
 
 #: linux/search.cc:1996
 msgid " filtered"
@@ -3149,7 +3178,7 @@ msgstr ""
 
 #: linux/search.cc:736
 msgid " items"
-msgstr " ögeler"
+msgstr ""
 
 #: linux/hashdialog.cc:68 linux/hashdialog.cc:77 linux/hashdialog.cc:86
 #: linux/mainwindow.cc:3053 linux/mainwindow.cc:3062
@@ -3190,7 +3219,7 @@ msgstr ""
 
 #: linux/hub.cc:2414 linux/privatemessage.cc:1053
 msgid "*** Available commands:"
-msgstr ""
+msgstr "*** Доступные команды:"
 
 #: linux/WulforUtil.cc:740
 msgid "*** Info on "
@@ -3198,7 +3227,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:2738
 msgid "*** T E S T ***"
-msgstr "*** T E S T ***"
+msgstr ""
 
 #: linux/hashdialog.cc:69 linux/hashdialog.cc:81 linux/mainwindow.cc:3057
 msgid "-:--:-- left"
@@ -3215,7 +3244,7 @@ msgstr ""
 
 #: linux/mainwindow.cc:201 linux/mainwindow.cc:219
 msgid "/s"
-msgstr "/s"
+msgstr ""
 
 #: linux/adlsearch.cc:145 linux/adlsearch.cc:256
 msgid "0"
@@ -3223,7 +3252,7 @@ msgstr "0"
 
 #: linux/hub.cc:855
 msgid "0 Users"
-msgstr "0 Kullanıcı"
+msgstr ""
 
 #: linux/search.cc:610
 msgid "0 filtered"
@@ -3231,7 +3260,7 @@ msgstr ""
 
 #: linux/search.cc:609
 msgid "0 items"
-msgstr "0 öge"
+msgstr ""
 
 #: linux/adlsearch.cc:145 linux/adlsearch.cc:256 linux/adlsearch.cc:323
 msgid "1"
@@ -3251,11 +3280,11 @@ msgstr ""
 
 #: linux/hub.cc:940
 msgid "<b>Enter your password</b>"
-msgstr "<b>Parolanızı girin</b>"
+msgstr "<b>Введите пароль</b>"
 
 #: linux/settingsdialog.cc:2661
 msgid "<b>Extension</b>"
-msgstr "<b>Uzantı</b>"
+msgstr ""
 
 #: linux/settingsdialog.cc:2308
 msgid "<b>Name of the new search type</b>"
@@ -3267,7 +3296,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:2561
 msgid "<b>New name</b>"
-msgstr "<b>Yeni isim</b>"
+msgstr "<b>Новое имя</b>"
 
 #: linux/settingsdialog.cc:4230
 msgid "<b>Under what name you see the directory</b>"
@@ -3275,7 +3304,7 @@ msgstr ""
 
 #: linux/mainwindow.cc:2734
 msgid "<b>file:</b> "
-msgstr "<b>dosya:</b> "
+msgstr "<b>файл:</b> "
 
 #: linux/AboutConfig.cc:28
 msgid "About:config"
@@ -3316,7 +3345,7 @@ msgstr ""
 #: linux/downloadqueue.cc:75 linux/downloadqueue.cc:287
 #: linux/downloadqueue.cc:394
 msgid "Added"
-msgstr "Eklendi"
+msgstr ""
 
 #: linux/hub.cc:2568
 msgid "Added Indepent Fav "
@@ -3330,7 +3359,7 @@ msgstr ""
 #: linux/favoritehubs.cc:466 linux/favoritehubs.cc:585 linux/publichubs.cc:46
 #: linux/publichubs.cc:157 linux/publichubs.cc:268 linux/publichubs.cc:293
 msgid "Address"
-msgstr "Adres"
+msgstr ""
 
 #: linux/WulforUtil.cc:1103
 msgid "Aliases not found."
@@ -3346,17 +3375,17 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1027
 msgid "Amarok player"
-msgstr ""
+msgstr "Проигрыватель Amarok"
 
 #: linux/favoritehubs.cc:505
 msgid "Another group with the name already exists"
-msgstr ""
+msgstr "Уже существует другая группа с этим именем"
 
 #: linux/settingsdialog.cc:1000 linux/settingsdialog.cc:1035
 #: linux/settingsdialog.cc:3374 linux/settingsdialog.cc:3408
 #: linux/settingsdialog.cc:3426 linux/settingsdialog.cc:3457
 msgid "Application"
-msgstr "Uygulama"
+msgstr ""
 
 #: linux/detectiontab.cc:864
 #, boost-format, c-format
@@ -3371,7 +3400,7 @@ msgstr ""
 #: linux/favoritehubs.cc:423
 #, boost-format, c-format
 msgid "Are you sure you want to delete favorite hub \"%s\"?"
-msgstr ""
+msgstr "Вы действительно хотите удалить избранный хаб \"%s\"?"
 
 #: linux/favoriteusers.cc:522
 msgid "Are you sure you want to delete favorite user(s)?"
@@ -3379,7 +3408,7 @@ msgstr ""
 
 #: linux/detectiontab.cc:1056 linux/detectiontab.cc:1463
 msgid "Are you sure you want to delete item?"
-msgstr "Ögeyi silmek istediğinizden emin misiniz?"
+msgstr ""
 
 #: linux/recenthub.cc:205
 msgid "Are you sure you want to delete recent hub(s)?"
@@ -3458,35 +3487,35 @@ msgstr ""
 
 #: linux/hub.cc:3159 linux/hub.cc:3192 linux/hub.cc:3300
 msgid "CID"
-msgstr "CID"
+msgstr ""
 
 #: linux/cmddebug.cc:33
 msgid "CMD"
-msgstr "CMD"
+msgstr ""
 
 #: linux/WulforUtil.cc:261
 msgid "CP1250 (Central Europe)"
-msgstr "CP1250 (Orta Avrupa)"
+msgstr "CP1250 (Центральная Европа)"
 
 #: linux/WulforUtil.cc:270
 msgid "CP1251 (Cyrillic)"
-msgstr "CP1251 (Kiril)"
+msgstr "CP1251 (Кириллица)"
 
 #: linux/WulforUtil.cc:260
 msgid "CP1252 (Western Europe)"
-msgstr "CP1252 (Batı Avrupa)"
+msgstr "CP1252 (Западная Европа)"
 
 #: linux/WulforUtil.cc:271
 msgid "CP1256 (Arabic)"
-msgstr "CP1256 (Arapça)"
+msgstr "CP1256 (Арабская)"
 
 #: linux/WulforUtil.cc:272
 msgid "CP1257 (Baltic)"
-msgstr "CP1257 (Baltık Dili)"
+msgstr ""
 
 #: linux/WulforUtil.cc:268
 msgid "CP949 (Korean)"
-msgstr "CP949 (Korece)"
+msgstr "CP949 (Корейская)"
 
 #: linux/finishedtransfers.cc:61 linux/finishedtransfers.cc:233
 msgid "CRC Checked"
@@ -3494,7 +3523,7 @@ msgstr ""
 
 #: linux/downloadqueue.cc:1349
 msgid "CRC32 inconsistency (SFV-Check)"
-msgstr "CRC32 tutarsızlığı (SFV-Denetimi)"
+msgstr ""
 
 #: linux/settingsmanager.cc:708
 msgid "Change setting "
@@ -3527,7 +3556,7 @@ msgstr ""
 #: linux/bookentry.cc:304 linux/privatemessage.cc:1550
 #: linux/sharebrowser.cc:1082 linux/search.hh:164
 msgid "Close"
-msgstr "Kapat"
+msgstr "Закрыть"
 
 #: linux/hub.cc:4583
 msgid "Close Hub"
@@ -3535,15 +3564,15 @@ msgstr ""
 
 #: linux/hub.cc:2416
 msgid "Close chat"
-msgstr "Sohbeti sonlandır"
+msgstr "Закрыть чат"
 
 #: linux/bookentry.cc:98
 msgid "Close tab"
-msgstr "Sekmeyi kapat"
+msgstr ""
 
 #: linux/transfers.cc:446
 msgid "Closing connection..."
-msgstr "Bağlantı kapatılıyor..."
+msgstr ""
 
 #: linux/settingsdialog.cc:3719 linux/settingsdialog.cc:3800
 #: linux/settingsdialog.cc:5013 linux/settingsdialog.cc:5032
@@ -3560,7 +3589,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1638
 msgid "Confirm application exit"
-msgstr "Uygulamadan çıkarken onay iste"
+msgstr ""
 
 #: linux/settingsdialog.cc:1639
 msgid "Confirm favorite hub removal"
@@ -3572,11 +3601,11 @@ msgstr ""
 
 #: linux/hub.cc:4194 linux/transfers.cc:1066
 msgid "Connected"
-msgstr "Bağlandı"
+msgstr ""
 
 #: linux/transfers.cc:1102
 msgid "Connecting"
-msgstr "Bağlanıyor"
+msgstr ""
 
 #: linux/transfers.cc:413
 msgid "Connecting (forced)..."
@@ -3588,11 +3617,11 @@ msgstr ""
 
 #: linux/transfers.cc:1055
 msgid "Connecting..."
-msgstr "Bağlanılıyor..."
+msgstr ""
 
 #: linux/treeview.cc:601
 msgid "Copy All"
-msgstr "Tümünü Kopyala"
+msgstr "Копировать все"
 
 #: linux/privatemessage.cc:1549 linux/sharebrowser.cc:1081
 msgid "Copy CID"
@@ -3604,7 +3633,7 @@ msgstr ""
 
 #: linux/hub.cc:4578
 msgid "Copy URL"
-msgstr "URL'yi Kopyala"
+msgstr ""
 
 #: linux/searchspy.cc:55 linux/searchspy.cc:153 linux/searchspy.cc:267
 #: linux/searchspy.cc:292 linux/searchspy.cc:308 linux/searchspy.cc:430
@@ -3615,7 +3644,7 @@ msgstr ""
 #: linux/hub.cc:719 linux/hub.cc:748 linux/publichubs.cc:47
 #: linux/publichubs.cc:158
 msgid "Country"
-msgstr "Ülke"
+msgstr ""
 
 #: linux/mainwindow.cc:246
 #, boost-format, c-format
@@ -3633,7 +3662,7 @@ msgstr ""
 #: linux/adlsearch.cc:50 linux/adlsearch.cc:79 linux/adlsearch.cc:142
 #: linux/adlsearch.cc:253 linux/adlsearch.cc:290
 msgid "Destination Directory"
-msgstr "Hedef Dizin"
+msgstr ""
 
 #: linux/settingsdialog.cc:4251
 msgid "Directory or favorite name already exists"
@@ -3677,7 +3706,7 @@ msgstr ""
 
 #: linux/hashdialog.cc:106
 msgid "Done"
-msgstr "Bitti"
+msgstr ""
 
 #: linux/mainwindow.cc:211
 msgid "Download Limit (disable)"
@@ -3727,7 +3756,7 @@ msgstr ""
 
 #: linux/transfers.cc:1136
 msgid "Download removed"
-msgstr "İndirme kaldırıldı"
+msgstr ""
 
 #: linux/transfers.cc:967
 msgid "Download starting..."
@@ -3799,7 +3828,7 @@ msgstr ""
 #: linux/settingsdialog.cc:2369 linux/settingsdialog.cc:2413
 #: linux/settingsdialog.cc:3364
 msgid "Error"
-msgstr "Hata"
+msgstr "Ошибка"
 
 #: linux/settingsmanager.cc:711
 msgid "Error: params have been not 2!"
@@ -3812,7 +3841,7 @@ msgstr ""
 #: linux/downloadqueue.cc:74 linux/downloadqueue.cc:286
 #: linux/downloadqueue.cc:393
 msgid "Errors"
-msgstr "Hatalar"
+msgstr "Ошибки"
 
 #: linux/hub.cc:74 linux/hub.cc:343 linux/hub.cc:548 linux/hub.cc:584
 #: linux/hub.cc:720 linux/hub.cc:749
@@ -3837,7 +3866,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:2660
 msgid "Extension edition"
-msgstr "Uzantı düzenleme"
+msgstr ""
 
 #: linux/settingsdialog.cc:1001 linux/settingsdialog.cc:1036
 #: linux/settingsdialog.cc:2184 linux/settingsdialog.cc:2336
@@ -3845,7 +3874,7 @@ msgstr "Uzantı düzenleme"
 #: linux/settingsdialog.cc:3375 linux/settingsdialog.cc:3409
 #: linux/settingsdialog.cc:3427 linux/settingsdialog.cc:3458
 msgid "Extensions"
-msgstr "Uzantılar"
+msgstr ""
 
 #: linux/hub.cc:2434
 msgid "Fav Joins/Parts: 1 - enable , other disable"
@@ -3902,7 +3931,7 @@ msgstr ""
 
 #: linux/transfers.cc:714 linux/transfers.cc:924
 msgid "File list"
-msgstr "Dosya listesi"
+msgstr "Список файлов"
 
 #: linux/sharebrowser.cc:167
 msgid "File list loading"
@@ -3910,15 +3939,15 @@ msgstr ""
 
 #: linux/downloadqueue.cc:1345
 msgid "File not available"
-msgstr "Dosya mevcut değil"
+msgstr "Список файлов доступен"
 
 #: linux/finishedtransfers.cc:79 linux/finishedtransfers.cc:186
 msgid "Files"
-msgstr ""
+msgstr "Файлы"
 
 #: linux/downloadqueue.cc:239 linux/sharebrowser.cc:370
 msgid "Files: "
-msgstr "Dosyalar: "
+msgstr "Файлы: "
 
 #: linux/settingsdialog.cc:1106
 msgid "Filter kick and NMDC debug messages"
@@ -3941,7 +3970,7 @@ msgstr ""
 
 #: linux/sharebrowser.cc:640 linux/sharebrowser.cc:683
 msgid "Found a match"
-msgstr "Bir eşleşme bulundu"
+msgstr ""
 
 #: linux/downloadqueue.cc:1351
 msgid "Full tree does not match TTH root"
@@ -3949,7 +3978,7 @@ msgstr ""
 
 #: linux/WulforUtil.cc:273
 msgid "GB18030 (Chinese)"
-msgstr "GB18030 (Çince)"
+msgstr "GB18030 (Китайская)"
 
 #: linux/settingsdialog.cc:1246
 msgid "General text"
@@ -3963,7 +3992,7 @@ msgstr ""
 #: linux/favoritehubs.cc:48 linux/favoritehubs.cc:135
 #: linux/favoritehubs.cc:664
 msgid "Group"
-msgstr "Grup"
+msgstr "Группа"
 
 #: linux/favoritehubs.cc:62 linux/favoritehubs.cc:77 linux/favoritehubs.cc:395
 #: linux/favoritehubs.cc:501 linux/favoritehubs.cc:522
@@ -3971,7 +4000,7 @@ msgstr "Grup"
 #: linux/favoritehubs.cc:702 linux/favoritehubs.cc:725
 #: linux/favoritehubs.cc:764
 msgid "Group name"
-msgstr "Grup adı"
+msgstr "Имя группы"
 
 #: linux/settingsdialog.cc:1409
 msgid "Highlighting string"
@@ -4006,7 +4035,7 @@ msgstr ""
 #: linux/transfers.cc:63 linux/transfers.cc:539 linux/transfers.cc:605
 #: linux/transfers.cc:636 linux/transfers.cc:912 linux/transfers.cc:930
 msgid "Hub Name"
-msgstr ""
+msgstr "Имя хаба"
 
 #: linux/hub.cc:2485
 msgid "Hub address"
@@ -4028,41 +4057,41 @@ msgstr ""
 
 #: linux/publichubs.cc:175
 msgid "Hubs: "
-msgstr ""
+msgstr "Хабы: "
 
 #: linux/settingsdialog.cc:1273
 msgid "IP address"
-msgstr ""
+msgstr "IP-адрес"
 
 #: linux/WulforUtil.cc:266
 msgid "ISO-2022-JP (Japanese)"
-msgstr "ISO-2022-JP (Japonca)"
+msgstr "ISO-2022-JP (Японская)"
 
 #: linux/WulforUtil.cc:262
 msgid "ISO-8859-2 (Central Europe)"
-msgstr "ISO-8859-2 (Orta Avrupa)"
+msgstr "ISO-8859-2 (Центральная Европа)"
 
 #: linux/WulforUtil.cc:263
 msgid "ISO-8859-7 (Greek)"
-msgstr "ISO-8859-7 (Yunanca)"
+msgstr "ISO-8859-7 (Греческая)"
 
 #: linux/WulforUtil.cc:264
 msgid "ISO-8859-8 (Hebrew)"
-msgstr "ISO-8859-8 (İbranice)"
+msgstr "ISO-8859-8 (Иврит)"
 
 #: linux/WulforUtil.cc:265
 msgid "ISO-8859-9 (Turkish)"
-msgstr "ISO-8859-9 (Türkçe)"
+msgstr "ISO-8859-9 (Турецкая)"
 
 #: linux/settingsdialog.cc:442 linux/settingsdialog.cc:1367
 #: linux/settingsdialog.cc:2735 linux/settingsdialog.cc:2771
 #: linux/settingsdialog.cc:2848 linux/settingsdialog.cc:2884
 msgid "Icon"
-msgstr "Simge"
+msgstr "Значок"
 
 #: linux/emoticonsdialog.cc:108
 msgid "Icon size"
-msgstr "Simge boyutu"
+msgstr "Размер значков"
 
 #: linux/favoritehubs.cc:548
 msgid ""
@@ -4078,11 +4107,11 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1632
 msgid "Ignore private messages from bots"
-msgstr "Botlardan gelen özel iletileri yoksay"
+msgstr "Игнорировать личные сообщения от ботов"
 
 #: linux/settingsdialog.cc:1631
 msgid "Ignore private messages from the hub"
-msgstr ""
+msgstr "Игнорировать личные сообщения из хаба"
 
 #: linux/settingsdialog.cc:1662 linux/settingsdialog.cc:1681
 #: linux/settingsdialog.cc:3751 linux/settingsdialog.cc:3787
@@ -4115,7 +4144,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:2489 linux/settingsdialog.cc:2677
 msgid "Invalid extension: "
-msgstr "Geçersiz uzantı: "
+msgstr ""
 
 #: linux/WulforUtil.cc:859
 msgid "Invalid number of slots"
@@ -4123,11 +4152,11 @@ msgstr ""
 
 #: linux/downloadqueue.cc:237 linux/sharebrowser.cc:375
 msgid "Items: "
-msgstr "Ögeler: "
+msgstr ""
 
 #: linux/sharebrowser.cc:380
 msgid "Items: 0"
-msgstr "Ögeler: 0"
+msgstr ""
 
 #: linux/hub.cc:2433
 msgid "Join/Parts: 1 - enable , other disable "
@@ -4143,11 +4172,11 @@ msgstr ""
 
 #: linux/WulforUtil.cc:269
 msgid "KOI8-R (Cyrillic)"
-msgstr "KOI8-R (Kiril)"
+msgstr "KOI8-R (Кириллица)"
 
 #: linux/settingsdialog.cc:1025
 msgid "Kaffeine player"
-msgstr ""
+msgstr "Проигрыватель Kaffeine"
 
 #: linux/settingsdialog.cc:2066
 msgid ""
@@ -4165,7 +4194,7 @@ msgstr ""
 
 #: linux/sharebrowser.cc:38 linux/sharebrowser.cc:59
 msgid "List: "
-msgstr "Liste: "
+msgstr ""
 
 #: linux/hub.cc:2450
 msgid "Loaded plugins: "
@@ -4202,11 +4231,11 @@ msgstr ""
 #: linux/adlsearch.cc:52 linux/adlsearch.cc:81 linux/adlsearch.cc:144
 #: linux/adlsearch.cc:255
 msgid "Max Size"
-msgstr "Azami Boyut"
+msgstr ""
 
 #: linux/publichubs.cc:52 linux/publichubs.cc:163
 msgid "Max Users"
-msgstr "Azami Kullanıcı"
+msgstr ""
 
 #: linux/WulforUtil.cc:70 linux/WulforUtil.cc:71 linux/WulforUtil.cc:72
 #: linux/WulforUtil.cc:73 linux/WulforUtil.cc:74 linux/WulforUtil.cc:75
@@ -4220,7 +4249,7 @@ msgstr ""
 #: linux/adlsearch.cc:51 linux/adlsearch.cc:80 linux/adlsearch.cc:143
 #: linux/adlsearch.cc:254
 msgid "Min Size"
-msgstr "Asgari Boyut"
+msgstr ""
 
 #: linux/publichubs.cc:50 linux/publichubs.cc:161
 msgid "Min Slots"
@@ -4252,11 +4281,11 @@ msgstr ""
 
 #: linux/publichubs.cc:361 linux/settingsdialog.cc:4153
 msgid "New list"
-msgstr "Yeni liste"
+msgstr ""
 
 #: linux/settingsdialog.cc:2307
 msgid "New search type"
-msgstr "Yeni arama türü"
+msgstr ""
 
 #: linux/hub.cc:4535
 msgid "Nick already taken"
@@ -4277,27 +4306,27 @@ msgstr ""
 #: linux/hub.cc:2497 linux/hub.cc:2500 linux/hub.cc:2501 linux/hub.cc:2502
 #: linux/hub.cc:2503
 msgid "No"
-msgstr "Hayır"
+msgstr "Нет"
 
 #: linux/downloadqueue.cc:1361
 msgid "No errors"
-msgstr "Hata yok"
+msgstr "Нет ошибок"
 
 #: linux/sharebrowser.cc:652 linux/sharebrowser.cc:841
 msgid "No matches"
-msgstr "Eşleşme yok"
+msgstr "Нет совпадений"
 
 #: linux/sharebrowser.cc:852
 msgid "No search text entered"
-msgstr "Arama metni girilmedi"
+msgstr "Не введён текст поиска"
 
 #: linux/downloadqueue.cc:1274
 msgid "No users"
-msgstr "Kullanıcı yok"
+msgstr "Нет пользователей"
 
 #: linux/hub.cc:2376
 msgid "Not found user: "
-msgstr "Kullanıcı bulunamadı : "
+msgstr "Не найден пользователь: "
 
 #: linux/hub.cc:2497
 msgid "Notification"
@@ -4305,12 +4334,12 @@ msgstr ""
 
 #: linux/WulforUtil.cc:223
 msgid "Offline"
-msgstr "Çevrimdışı"
+msgstr ""
 
 #: linux/favoriteusers.cc:107 linux/favoriteusers.cc:799
 #: linux/favoriteusers.cc:820 linux/favoriteusers.cc:911
 msgid "Online"
-msgstr "Çevrimiçi"
+msgstr ""
 
 #: linux/hub.cc:2487
 msgid "Online users"
@@ -4322,7 +4351,7 @@ msgstr ""
 
 #: linux/notify.cc:156
 msgid "Open file"
-msgstr "Dosya Aç"
+msgstr "Открыть файл"
 
 #: linux/settingsdialog.cc:1628
 msgid "Open file list window in the background"
@@ -4330,7 +4359,7 @@ msgstr ""
 
 #: linux/notify.cc:159
 msgid "Open folder"
-msgstr "Klasör aç"
+msgstr "Открыть папку"
 
 #: linux/settingsdialog.cc:1629
 msgid "Open new private messages from other users in the background"
@@ -4378,7 +4407,7 @@ msgstr ""
 #: linux/hub.cc:2426 linux/settingsdialog.cc:1209 linux/settingsdialog.cc:1255
 #: linux/settingsdialog.cc:1390 linux/settingsmanager.cc:247
 msgid "Private message"
-msgstr "Özel ileti"
+msgstr ""
 
 #: linux/settingsdialog.cc:3745
 msgid "Protect"
@@ -4451,11 +4480,11 @@ msgstr ""
 
 #: linux/downloadqueue.cc:1281
 msgid "Running..."
-msgstr "Çalışıyor..."
+msgstr ""
 
 #: linux/WulforUtil.cc:267
 msgid "SJIS (Japanese)"
-msgstr "SJIS (Japonca)"
+msgstr ""
 
 #: linux/adlsearch.cc:48 linux/adlsearch.cc:77 linux/adlsearch.cc:140
 #: linux/adlsearch.cc:251 linux/adlsearch.cc:289 linux/searchspy.cc:54
@@ -4464,7 +4493,7 @@ msgstr "SJIS (Japonca)"
 #: linux/searchspy.cc:291 linux/searchspy.cc:307 linux/searchspy.cc:466
 #: linux/searchspy.cc:531 linux/searchspy.cc:564
 msgid "Search String"
-msgstr "Arama Dizgisi"
+msgstr ""
 
 #: linux/WulforUtil.cc:87 linux/WulforUtil.cc:88
 msgid "Search on Google"
@@ -4482,15 +4511,15 @@ msgstr ""
 #: linux/settingsdialog.cc:2418 linux/settingsdialog.cc:2504
 #: linux/settingsdialog.cc:2553 linux/settingsdialog.cc:2601
 msgid "Search type"
-msgstr "Arama Türü"
+msgstr ""
 
 #: linux/search.cc:42 linux/search.cc:611
 msgid "Search: "
-msgstr "Ara: "
+msgstr ""
 
 #: linux/search.cc:608
 msgid "Searching for "
-msgstr "Aramak için "
+msgstr ""
 
 #: linux/search.cc:624
 msgid "Searching too soon, retry in "
@@ -4527,7 +4556,7 @@ msgstr ""
 #: linux/recenthub.cc:43 linux/recenthub.cc:83 linux/recenthub.cc:166
 #: linux/recenthub.cc:192 linux/recenthub.cc:282
 msgid "Server"
-msgstr "Sunucu"
+msgstr "Сервер"
 
 #: linux/hub.cc:2626 linux/hub.cc:2639
 msgid "Server command: "
@@ -4644,7 +4673,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1107
 msgid "Show status icon"
-msgstr "Durum simgesi göster"
+msgstr ""
 
 #: linux/settingsdialog.cc:1108
 msgid "Show timestamps in chat by default"
@@ -4665,7 +4694,7 @@ msgstr ""
 #: linux/downloadqueue.cc:238 linux/downloadqueue.cc:240
 #: linux/sharebrowser.cc:376
 msgid "Size: "
-msgstr "Boyut: "
+msgstr "Размер: "
 
 #: linux/sharebrowser.cc:381
 msgid "Size: 0 B"
@@ -4687,11 +4716,11 @@ msgstr ""
 #: linux/hub.cc:721 linux/hub.cc:750 linux/search.cc:104 linux/search.cc:134
 #: linux/search.cc:228 linux/search.cc:710
 msgid "Slots"
-msgstr ""
+msgstr "Слоты"
 
 #: linux/mainwindow.cc:958
 msgid "Slots: "
-msgstr ""
+msgstr "Слоты: "
 
 #: linux/settingsdialog.cc:1112
 msgid "Sort favorite users first"
@@ -4700,7 +4729,7 @@ msgstr ""
 #: linux/adlsearch.cc:49 linux/adlsearch.cc:78 linux/adlsearch.cc:141
 #: linux/adlsearch.cc:252
 msgid "Source Type"
-msgstr "Kaynak Türü"
+msgstr ""
 
 #: linux/downloadqueue.cc:1353
 msgid "Source too slow"
@@ -4717,11 +4746,11 @@ msgstr ""
 #: linux/transfers.cc:1017 linux/transfers.cc:1037 linux/transfers.cc:1088
 #: linux/transfers.cc:1193 linux/transfers.cc:1207
 msgid "Speed"
-msgstr ""
+msgstr "Скорость"
 
 #: linux/sharebrowser.cc:388
 msgid "Speed: "
-msgstr ""
+msgstr "Скорость: "
 
 #: linux/bookentry.cc:371
 msgid "Spy Search"
@@ -4751,11 +4780,11 @@ msgstr ""
 #: linux/transfers.cc:1104 linux/transfers.cc:1145 linux/transfers.cc:1178
 #: linux/transfers.cc:1191 linux/transfers.cc:1204
 msgid "Status"
-msgstr "Durum"
+msgstr ""
 
 #: linux/settingsdialog.cc:1261
 msgid "Status message"
-msgstr "Durum mesajı"
+msgstr ""
 
 #: linux/hub.cc:2574
 msgid "Stop MyInfo check"
@@ -4766,12 +4795,12 @@ msgstr ""
 #: linux/settingsdialog.cc:3584 linux/settingsdialog.cc:3625
 #: linux/settingsdialog.cc:3679
 msgid "Style"
-msgstr "Stil"
+msgstr ""
 
 #: linux/hub.cc:80 linux/hub.cc:349 linux/hub.cc:554 linux/hub.cc:590
 #: linux/hub.cc:726 linux/hub.cc:755
 msgid "Support"
-msgstr "Destek"
+msgstr ""
 
 #: linux/settingsdialog.cc:1510 linux/settingsdialog.cc:1573
 #: linux/settingsdialog.cc:1623
@@ -4780,16 +4809,16 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1258
 msgid "System message"
-msgstr "Sistem mesajı"
+msgstr ""
 
 #: linux/WulforUtil.cc:274
 msgid "TIS-620 (Thai)"
-msgstr "TIS-620 (Tay Dili)"
+msgstr ""
 
 #: linux/hub.cc:68 linux/hub.cc:338 linux/hub.cc:543 linux/hub.cc:579
 #: linux/hub.cc:715 linux/hub.cc:744
 msgid "Tag"
-msgstr "Etiket"
+msgstr ""
 
 #: linux/mainwindow.cc:2935
 msgid "The GeoIP database could not be updated...v"
@@ -4821,13 +4850,13 @@ msgstr ""
 #: linux/finishedtransfers.cc:227 linux/searchspy.cc:56 linux/searchspy.cc:268
 #: linux/searchspy.cc:293 linux/searchspy.cc:309
 msgid "Time"
-msgstr "Zaman"
+msgstr ""
 
 #: linux/transfers.cc:65 linux/transfers.cc:638 linux/transfers.cc:668
 #: linux/transfers.cc:939 linux/transfers.cc:1038 linux/transfers.cc:1089
 #: linux/transfers.cc:1208
 msgid "Time Left"
-msgstr "Kalan Süre"
+msgstr ""
 
 #: linux/favoriteusers.cc:52 linux/favoriteusers.cc:116
 #: linux/favoriteusers.cc:141 linux/favoriteusers.cc:716
@@ -4845,7 +4874,7 @@ msgstr ""
 #: linux/settingsdialog.cc:2808 linux/settingsdialog.cc:2830
 #: linux/settingsdialog.cc:2834 linux/settingsdialog.cc:2884
 msgid "Title"
-msgstr "Başlık"
+msgstr ""
 
 #: linux/hub.cc:2480 linux/hub.cc:4556
 msgid "Topic: "
@@ -4853,11 +4882,11 @@ msgstr ""
 
 #: linux/settingsdialog.cc:4371
 msgid "Total size: "
-msgstr "Toplam boyut: "
+msgstr ""
 
 #: linux/sharebrowser.cc:371
 msgid "Total: "
-msgstr "Toplam: "
+msgstr ""
 
 #: linux/finishedtransfers.cc:59 linux/finishedtransfers.cc:80
 #: linux/finishedtransfers.cc:178 linux/finishedtransfers.cc:187
@@ -4867,7 +4896,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1270
 msgid "URL"
-msgstr "URL (Bağlantı adresi)"
+msgstr ""
 
 #: linux/WulforUtil.cc:259
 msgid "UTF-8 (Unicode)"
@@ -4888,15 +4917,15 @@ msgstr ""
 #: linux/WulforUtil.cc:363 linux/WulforUtil.cc:365 linux/downloadqueue.cc:1287
 #: linux/downloadqueue.cc:1288
 msgid "Unknown"
-msgstr "Bilinmiyor"
+msgstr ""
 
 #: linux/privatemessage.cc:1068
 msgid "Unknown command "
-msgstr ""
+msgstr "Неизвестная команда "
 
 #: linux/hub.cc:2631
 msgid "Unknown command '"
-msgstr "Bilinmeyen komut '"
+msgstr ""
 
 #: linux/searchspy.cc:388
 msgid "Updated frame search"
@@ -4908,7 +4937,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1497
 msgid "Upload"
-msgstr "Yükle"
+msgstr ""
 
 #: linux/mainwindow.cc:193
 msgid "Upload Limit (disable)"
@@ -4924,7 +4953,7 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1208
 msgid "Upload finished"
-msgstr "Yükleme tamamlandı"
+msgstr "Раздача завершена"
 
 #: linux/transfers.cc:1145
 msgid "Upload starting..."
@@ -4932,11 +4961,11 @@ msgstr ""
 
 #: linux/mainwindow.cc:915
 msgid "Upload: "
-msgstr ""
+msgstr "Раздача: "
 
 #: linux/transfers.cc:1176
 msgid "Uploaded "
-msgstr "Yüklendi "
+msgstr "Роздано "
 
 #: linux/settingsdialog.cc:404 linux/settingsdialog.cc:440
 #: linux/settingsdialog.cc:474 linux/settingsdialog.cc:808
@@ -4953,7 +4982,7 @@ msgstr ""
 
 #: linux/hub.cc:2215 linux/privatemessage.cc:1254
 msgid "Use Emoticons"
-msgstr ""
+msgstr "Использовать эмотиконы"
 
 #: linux/settingsdialog.cc:1122
 msgid "Use Highlighting"
@@ -4990,7 +5019,7 @@ msgstr ""
 #: linux/transfers.cc:1087 linux/transfers.cc:1105 linux/transfers.cc:1146
 #: linux/transfers.cc:1192 linux/transfers.cc:1205
 msgid "User"
-msgstr "Kullanıcı"
+msgstr ""
 
 #: linux/settingsdialog.cc:1676 linux/settingsdialog.cc:1677
 #: linux/settingsdialog.cc:1678 linux/settingsdialog.cc:1679
@@ -5002,7 +5031,7 @@ msgstr ""
 
 #: linux/favoritehubs.cc:46 linux/favoritehubs.cc:133
 msgid "User Description"
-msgstr "Kullanıcı Tanımı"
+msgstr ""
 
 #: linux/hub.cc:3091
 msgid "User Ignored "
@@ -5018,7 +5047,7 @@ msgstr ""
 
 #: linux/hub.cc:3542 linux/hub.cc:3562
 msgid "User not found"
-msgstr "Kullanıcı bulunamadı"
+msgstr "Пользователь не найден"
 
 #: linux/hub.cc:2330 linux/hub.cc:2366
 msgid "User not found: "
@@ -5212,24 +5241,24 @@ msgstr ""
 
 #: linux/publichubs.cc:176
 msgid "Users: "
-msgstr "Kullanıcılar: "
+msgstr "Пользователи: "
 
 #: linux/sharebrowser.cc:88 linux/sharebrowser.cc:349
 msgid "Video"
-msgstr ""
+msgstr "Видео"
 
 #: linux/settingsdialog.cc:1109
 msgid "View status messages in main chat"
-msgstr "Genel konuşma penceresinde durum iletilerini göster"
+msgstr ""
 
 #: linux/settingsdialog.cc:1079 linux/settingsdialog.cc:4295
 #: linux/settingsdialog.cc:4364
 msgid "Virtual Name"
-msgstr "Sanal Adı"
+msgstr ""
 
 #: linux/settingsdialog.cc:3484
 msgid "Virtual name"
-msgstr "Sanal Adı"
+msgstr ""
 
 #: linux/hub.cc:897
 msgid ""
@@ -5246,11 +5275,11 @@ msgstr ""
 
 #: linux/mainwindow.cc:399
 msgid "Welcome to "
-msgstr "Hoşgeldiniz "
+msgstr "Добро пожаловать в "
 
 #: linux/settingsdialog.cc:1024
 msgid "Xine player"
-msgstr ""
+msgstr "Проигрыватель Xine"
 
 #: linux/favoritehubs.cc:396 linux/favoritehubs.cc:523
 #: linux/favoritehubs.cc:703 linux/favoriteusers.cc:109
@@ -5259,11 +5288,11 @@ msgstr ""
 #: linux/hub.cc:2497 linux/hub.cc:2500 linux/hub.cc:2501 linux/hub.cc:2502
 #: linux/hub.cc:2503
 msgid "Yes"
-msgstr "Evet"
+msgstr "Да"
 
 #: linux/favoritehubs.cc:491
 msgid "You must enter a name"
-msgstr "Bir isim girin"
+msgstr "Нужно ввести имя"
 
 #: linux/settingsdialog.cc:4357
 msgid "[HIDDEN SHARE] "
@@ -5275,7 +5304,7 @@ msgstr ""
 
 #: linux/transfers.cc:995
 msgid "[T]"
-msgstr "[T]"
+msgstr ""
 
 #: linux/transfers.cc:992 linux/transfers.cc:1170
 msgid "[U]"
@@ -5291,11 +5320,11 @@ msgstr ""
 
 #: linux/settingsdialog.cc:2957
 msgid "default icons"
-msgstr "öntanımlı simgeler"
+msgstr "значки по умолчанию"
 
 #: linux/settingsdialog.cc:2994
 msgid "default theme"
-msgstr "öntanımlı tema"
+msgstr "тема по умолчанию"
 
 #: linux/mainwindow.cc:2710
 msgid "file list from "
@@ -5303,7 +5332,7 @@ msgstr ""
 
 #: linux/hub.cc:3876
 msgid "loading error"
-msgstr ""
+msgstr "ошибка загрузки"
 
 #: linux/mainwindow.cc:629
 msgid "off"
@@ -5315,7 +5344,7 @@ msgstr ""
 
 #: linux/WulforUtil.cc:824
 msgid "project home: "
-msgstr "Proje Sayfası: "
+msgstr ""
 
 #: linux/settingsdialog.cc:3713 linux/settingsdialog.cc:3797
 msgid "selected color failed"
@@ -5339,7 +5368,10 @@ msgstr ""
 
 #: linux/searchspy.cc:294 linux/searchspy.cc:362
 msgid "waiting..."
-msgstr "bekleniyor..."
+msgstr "ожидание..."
+
+#~ msgid "Ignore Users"
+#~ msgstr "Игнорировать пользователей"
 
 #~ msgid "File list loaded"
-#~ msgstr "Dosya listesi yüklendi"
+#~ msgstr "Список файлов загружен"
