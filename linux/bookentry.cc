@@ -83,7 +83,7 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
                 "-GtkButton-inner-border: 0px;\n"
                 "-GtkWidget-focus-line-width : 0px;\n"
                 "-GtkWidget-focus-padding : 0px;\n"
-                "padding: 0px;\n\0",-1, NULL);
+                "padding: 0px;}\n\0",-1, NULL);
      
      // Add the stock icon to the close button
      #if GTK_CHECK_VERSION(3,9,0)
