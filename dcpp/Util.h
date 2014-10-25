@@ -440,7 +440,7 @@ public:
 	static bool getManualAway() { return manualAway; }
 	static void setManualAway(bool aManualAway) { manualAway = aManualAway;	}
 
-	static string getAwayMessage(ParamMap& params );//BMDC@add ParamMap&
+	static string getAwayMessage(ParamMap& params );//BMDC @add ParamMap&
 	static void setAwayMessage(const string& aMsg) { awayMsg = aMsg; }
 
 	static uint32_t rand();
@@ -469,8 +469,6 @@ public:
 	static string getIETFLang();
 	static bool isIp6(string name)
 	{
-		
-	bool isOkIpV6 = false;
 	if(name.empty()) return false;
 	size_t n = std::count(name.begin(), name.end(), ':');
 	if( (n==2) && (name.size() == 2) ) return true;//Fix for "::"
@@ -494,6 +492,7 @@ public:
 			}
 		if(ok2) {break;}
 	}
+	bool isOkIpV6 = false;
 	if( (ok == true ) || (ok2 == true)) {
 		struct sockaddr_in sa;
 		int result = inet_pton(AF_INET6,name.c_str() , &(sa.sin_addr));

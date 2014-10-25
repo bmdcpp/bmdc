@@ -4,6 +4,7 @@
 
 struct NonCopyable {
     NonCopyable() = default;
+	virtual ~NonCopyable(){}
     NonCopyable(const NonCopyable&) = delete;
     NonCopyable & operator=(const NonCopyable&) = delete;
 };

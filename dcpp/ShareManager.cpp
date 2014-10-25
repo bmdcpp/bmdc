@@ -148,18 +148,21 @@ int64_t ShareManager::Directory::getSize() const noexcept {
 }
 
 string ShareManager::toVirtual(const TTHValue& tth) const {
-	if( (bzXmlRoot != NULL ) && (tth == *bzXmlRoot)) {
-		return Transfer::USER_LIST_NAME_BZ;
-	} else if((xmlRoot != NULL) && (tth == *xmlRoot)) {
-		return Transfer::USER_LIST_NAME;
-	}
+if(!tth) {	
 
-	Lock l(cs);
-	auto i = tthIndex.find(tth);
-	if(i != tthIndex.end()) {
-		return i->second->getADCPath();
-	} else {
-		throw ShareException(UserConnection::FILE_NOT_AVAILABLE);
+		if( (bzXmlRoot != NULL ) && (tth == *bzXmlRoot)) {
+			return Transfer::USER_LIST_NAME_BZ;
+		} else if((xmlRoot != NULL) && (tth == *xmlRoot)) {
+			return Transfer::USER_LIST_NAME;
+		}
+
+		Lock l(cs);
+		auto i = tthIndex.find(tth);
+		if(i != tthIndex.end()) {
+			return i->second->getADCPath();
+		} else {
+			throw ShareException(UserConnection::FILE_NOT_AVAILABLE);
+		}
 	}
 }
 

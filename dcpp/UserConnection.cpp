@@ -175,7 +175,7 @@ void UserConnection::accept(const Socket& aServer) {
    // Technically only one side needs to verify KeyPrint, also since we most likely requested to be connected to (and we have insufficent info otherwise) deal with TLS options check post handshake
     // -> SSLSocket::verifyKeyprint does full certificate verification after INF
     /*setPort(Util::toString(*/socket->accept(aServer, secure, true); //);
-	//socket->accept(aServer, secure, SETTING(ALLOW_UNTRUSTED_CLIENTS));
+
 }
 
 void UserConnection::inf(bool withToken) {

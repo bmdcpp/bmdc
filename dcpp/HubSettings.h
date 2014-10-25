@@ -65,6 +65,7 @@ struct HubSettings
 	HubSettings();
 	HubSettings(const HubSettings& rhs) { *this = rhs; }
 	HubSettings& operator=(const HubSettings& rhs);
+	virtual ~HubSettings(){}
 
 	const string& get(HubStrSetting setting) const;
 	const int& get(HubBoolSetting setting) const;

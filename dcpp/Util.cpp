@@ -1111,7 +1111,7 @@ string Util::getBackupTimeString(time_t t /*= time(NULL) */ ) {
  		} else {
  			strftime(buf, 254, SETTING(BACKUP_TIMESTAMP).c_str(), _tm);
  		}
- 		return Text::toUtf8(buf);
+ 		return buf;
 }
 
 string Util::convertCEscapes(string tmp)

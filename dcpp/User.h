@@ -55,7 +55,7 @@ public:
 		setFlag(UNDEFINED);
 	}
 
-	virtual ~User() noexcept { }
+//	virtual ~User() noexcept { }
 
 	const CID& getCID() const { return cid; }
 	operator const CID&() const { return cid; }
