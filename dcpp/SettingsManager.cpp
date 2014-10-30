@@ -155,6 +155,7 @@ const string SettingsManager::settingTags[] =
 	"UseWildCardProtectUsers",
 	"DisplayCheatsInMainChat",
 	"UseOemFont", "ServerCommands",
+	"UseAvFilter", 
 	"SENTRY",
 	// Int64
 	"TotalUpload", "TotalDownload","SharingSkiplistMinSize", "SharingSkiplistMaxSize",
@@ -421,6 +422,7 @@ SettingsManager::SettingsManager()
 	setDefault(SDL_RAW, 0);
 	setDefault(RIPE_DB, "https://apps.db.ripe.net/search/query.html?searchtext=%[IP]&search%3AdoSearch=Search#resultsAnchor");
 	setDefault(SERVER_COMMANDS,true);
+	setDefault(USE_AV_FILTER,true);
 
 	setSearchTypeDefaults();
 

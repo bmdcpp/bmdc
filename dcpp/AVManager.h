@@ -87,6 +87,8 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 		uint64_t temp_tick;
 		virtual void on(TimerManagerListener::Minute, uint64_t aTick) noexcept
 		{
+			if(SETTING(USE_AV_FILTER)) {
+
 			if(aTick >= temp_tick) {
 			string address =
 			 ("http://te-home.net/?do=tools&action=avdbload&time="+Util::toString(timestamp_db)+"&notime=1");
@@ -96,6 +98,7 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 				temp_tick = aTick+(60*60*1000);
 			}
 			LogManager::getInstance()->message(_("[AVDB] next ")+Util::toString(temp_tick)+" - "+Util::toString(timestamp_db)+" - "+Util::toString(aTick));
+		  }					
 		}
 		CriticalSection cs;
 		friend class Singleton<AVManager>;
