@@ -78,7 +78,7 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 				entry.ss = share;
 				entry.ip = ip;
 				entries.insert(make_pair(nick,entry));
-				entries.insert(make_pair(ip,entry));
+				entip.insert(make_pair(ip,entry));
 			}	
 
 		};
