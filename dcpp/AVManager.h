@@ -57,7 +57,7 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 				l_pos = l_sep_pos + 1;
 				l_sep_pos = buf.find('|', l_pos);
 				if (l_sep_pos == string::npos)
-				break;
+					break;
 				string ip = buf.substr(l_pos, l_sep_pos - l_pos);
 
 				l_pos = l_sep_pos + 1;
@@ -65,7 +65,7 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 				l_pos = l_sep_pos + 1;
 				l_sep_pos = buf.find('\n', l_pos);
 				if (l_sep_pos == string::npos)
-				break;
+					break;
 				l_pos = l_sep_pos + 1;
 				++l_count_new_user;
 				

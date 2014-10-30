@@ -58,21 +58,25 @@ bool match(const T& text, const T& pattern, bool ignoreCase = true) /*throw()*/ 
         0,                    /* default options */
         ovector,              /* output vector for substring information */
         OVECCOUNT);           /* number of elements in the output vector */
-
+	free(re);
 	if (rc < 0) {
        switch (rc) {
             case PCRE_ERROR_NOMATCH:
                 dcdebug("String didn't match");
-                free(re);
+  //              free(re);
 				return false;
             default:
                 printf("Error while matching: %d\n", rc);
-                free(re);
+  //              free(re);
                 return false;
         }
-        free(re);
+//        free(re);
         return true;
     }
+ //   free(re);
+    if(rc > 1)
+		return true;
+
 	return false;
 }
 
