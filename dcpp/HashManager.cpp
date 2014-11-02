@@ -774,7 +774,7 @@ int HashManager::Hasher::run() {
 
 		if(!fname.empty()) {
 			try {
-				int64_t start = GET_TICK();
+				uint64_t start = GET_TICK();
 
 				File f(fname, File::READ, File::OPEN);
 				int64_t size = f.getSize();
