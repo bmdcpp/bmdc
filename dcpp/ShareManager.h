@@ -312,10 +312,10 @@ private:
 	virtual void on(HashManagerListener::TTHDone, const string& realPath, const TTHValue& root) noexcept;
 
 	// SettingsManagerListener
-	virtual void on(SettingsManagerListener::Save, SimpleXML& xml) noexcept {
+	virtual void on(SettingsManagerListener::Save, SimpleXML& xml)  {
 		save(xml);
 	}
-	virtual void on(SettingsManagerListener::Load, SimpleXML& xml) noexcept {
+	virtual void on(SettingsManagerListener::Load, SimpleXML& xml)  {
 		load(xml);
 	}
 

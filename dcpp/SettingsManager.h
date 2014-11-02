@@ -40,8 +40,8 @@ public:
 	typedef X<1> Save;
 	typedef X<2> SearchTypesChanged;
 
-	virtual void on(Load, SimpleXML&) noexcept { }
-	virtual void on(Save, SimpleXML&) noexcept { }
+	virtual void on(Load, SimpleXML&)  { }
+	virtual void on(Save, SimpleXML&)  { }
 	virtual void on(SearchTypesChanged) noexcept { }
 };
 
