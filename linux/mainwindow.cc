@@ -468,7 +468,9 @@ MainWindow::~MainWindow()
 
 	WSET("status-icon-blink-use", useStatusIconBlink);
 	gtk_widget_destroy(GTK_WIDGET(window));
+#if !GTK_CHECK_VERSION(3,14,1)
 	g_object_unref(statusIcon);
+#endif	
 	g_object_unref(getWidget("statusIconMenu"));
 	g_object_unref(getWidget("toolbarMenu"));
 	Sound::stop();
@@ -2060,7 +2062,7 @@ gboolean MainWindow::onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton *
 
 	return FALSE;
 }
-
+#if !GTK_CHECK_VERSION(3,14,1)
 gboolean MainWindow::animationStatusIcon_gui(gpointer data)
 {
 	MainWindow *mw = (MainWindow *) data;
@@ -2077,7 +2079,7 @@ gboolean MainWindow::animationStatusIcon_gui(gpointer data)
 
 	return TRUE;
 }
-
+#endif
 void MainWindow::onRaisePage_gui(GtkMenuItem *item, gpointer data)
 {
 	WulforManager::get()->getMainWindow()->raisePage_gui((GtkWidget *)data);
@@ -2238,12 +2240,12 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 			Socket::socksUpdated();
 		}
 		//END
-
+#if !GTK_CHECK_VERSION(3,14,1)
 		if (SETTING(ALWAYS_TRAY))
 			gtk_status_icon_set_visible(mw->statusIcon, TRUE);
 		else
 			gtk_status_icon_set_visible(mw->statusIcon, FALSE);
-
+#endif
 		mw->setTabPosition_gui(WGETI("tab-position"));
 		mw->setToolbarStyle_gui(WGETI("toolbar-style"));
 
@@ -2508,7 +2510,7 @@ void MainWindow::onCloseBookEntry_gui(GtkWidget *widget, gpointer data)
 	BookEntry *entry = (BookEntry *)data;
 	WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
 }
-
+#if !GTK_CHECK_VERSION(3,14,1)
 void MainWindow::onStatusIconActivated_gui(GtkStatusIcon *statusIcon, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
@@ -2525,7 +2527,7 @@ void MainWindow::onStatusIconPopupMenu_gui(GtkStatusIcon *statusIcon, guint butt
 	GtkMenu *menu = GTK_MENU(mw->getWidget("statusIconMenu"));
 	gtk_menu_popup(menu, NULL, NULL, gtk_status_icon_position_menu, statusIcon, button, time);
 }
-
+#endif
 void MainWindow::onShowInterfaceToggled_gui(GtkCheckMenuItem *item, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
@@ -2550,7 +2552,7 @@ void MainWindow::onShowInterfaceToggled_gui(GtkCheckMenuItem *item, gpointer dat
 		gtk_widget_show(GTK_WIDGET(win));
 	}
 }
-
+#if !GTK_CHECK_VERSION(3,14,1)
 void MainWindow::onStatusIconBlinkUseToggled_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
@@ -2561,7 +2563,7 @@ void MainWindow::onStatusIconBlinkUseToggled_gui(GtkWidget *widget, gpointer dat
 	else
 		mw->useStatusIconBlink = FALSE;
 }
-
+#endif
 void MainWindow::onLinkClicked_gui(GtkWidget *widget, gpointer data)
 {
 	string link = (gchar *)g_object_get_data(G_OBJECT(widget), "link");
@@ -2772,13 +2774,14 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) noexcept
 	typedef Func5<MainWindow, string, string, string, string, string> F5;
 	F5 *func = new F5(this, &MainWindow::setStats_gui, hubs, downloadSpeed, downloaded, uploadSpeed, uploaded);
 	WulforManager::get()->dispatchGuiFunc(func);
-
+#if !GTK_CHECK_VERSION(3,14,1)
 	if (SETTING(ALWAYS_TRAY) && !downloadSpeed.empty() && !uploadSpeed.empty())
 	{
 		typedef Func2<MainWindow, string, string> F2;
 		F2 *f2 = new F2(this, &MainWindow::updateStatusIconTooltip_gui, downloadSpeed, uploadSpeed);
 		WulforManager::get()->dispatchGuiFunc(f2);
 	}
+#endif	
 	string file;
 	uint64_t bytes = 0;
 	size_t files = 0;

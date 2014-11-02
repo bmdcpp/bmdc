@@ -45,16 +45,16 @@ class FavoriteHubDialog: public Entry
 		}
 		GtkWidget *getContainer() { return getWidget("dialog"); }
 private:
-	void initActions();
-	static void onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
-	static void onCheckButtonToggled_gui(GtkToggleButton *button, gpointer data);
-	bool showErrorDialog_gui(const string &description);
-	FavoriteHubEntry* p_entry; //@ The Fav Entry pointer
-	bool init; //@ new or edit?
-	//@The Kick/Ban Action part
-	GtkTreeStore *actionStore;
-	TreeView actionView;
-	GtkTreeSelection *actionSel;
+		void initActions();
+		static void onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
+		static void onCheckButtonToggled_gui(GtkToggleButton *button, gpointer data);
+		bool showErrorDialog_gui(const string &description);
+		FavoriteHubEntry* p_entry; //@ The Fav Entry pointer
+		bool init; //@ new or edit?
+		//@The Kick/Ban Action part
+		GtkTreeStore *actionStore;
+		TreeView actionView;
+		GtkTreeSelection *actionSel;
 
 };
 

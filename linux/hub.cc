@@ -3802,6 +3802,12 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
         params.insert(ParamMap::value_type("Type", "U" + id.getNick()));
 		params.insert(ParamMap::value_type("NickColor",WGETS("userlist-text-normal")));
 	}
+
+	if ( AVManager::getInstance()->isNickVirused(id.getNick()) )
+	{
+		params.insert(ParamMap::value_type("NickColor","white"));//TODO maybe too settabel ?
+	}	
+
 }
 
 void Hub::download_client(string target, int64_t size, string tth, string cid)

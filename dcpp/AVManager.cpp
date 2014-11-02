@@ -15,7 +15,8 @@
 namespace dcpp {
 //@ <nick>|<ip>|<share>|<time>\n
 //@ parf of code is same as in Flylink
-AVManager::loadDb
+void AVManager::loadDb(const string& buf)
+
 {
 			if((!buf.length()) || ((buf.length() == 1) && (buf == "0") )) return;
 			if (buf.length() < 12) return;

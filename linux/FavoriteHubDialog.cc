@@ -19,7 +19,7 @@
 using namespace std;
 using namespace dcpp;
 
-FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add):
+FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* =true */):
 	Entry(Entry::FAV_HUB,"FavDialog"),
 	p_entry(entry),
 	init(add), actionStore(NULL), actionSel(NULL)
@@ -296,7 +296,6 @@ void FavoriteHubDialog::onToggledClicked_gui(GtkCellRendererToggle *cell, gchar 
 		}
 
 }
-
 
 void FavoriteHubDialog::initActions()
 {
