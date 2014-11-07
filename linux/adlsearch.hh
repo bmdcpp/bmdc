@@ -59,7 +59,7 @@ class SearchADL:
 		static void onToggleActions(GtkWidget *widget, gpointer data);
 		static void onToggleForb(GtkWidget *widget, gpointer data);
 		static void onChangeCombo(GtkWidget *widget, gpointer data);
-
+		// Util functions
 		int find_raw(std::string rawString);
 		int find_rawInt(int raw);
 

@@ -248,7 +248,7 @@ bool RawManager::remRaw(Action* a, Raw* r) noexcept {
 	return false;
 }
 
-void CalcADLAction::on(SettingsManagerListener::Load, SimpleXML& xml) noexcept {
+void CalcADLAction::on(SettingsManagerListener::Load, SimpleXML& xml)  {
 	if(xml.findChild("ADLSPoints")) {
 		xml.stepIn();
 		while(xml.findChild("PointsSetting")) {
@@ -267,7 +267,7 @@ void CalcADLAction::on(SettingsManagerListener::Load, SimpleXML& xml) noexcept {
 	}
 }
 
-void CalcADLAction::on(SettingsManagerListener::Save, SimpleXML& xml) noexcept {
+void CalcADLAction::on(SettingsManagerListener::Save, SimpleXML& xml) {
 	xml.addTag("ADLSPoints");
 	xml.stepIn();
 	for(auto i = points.begin(); i != points.end(); ++i) {

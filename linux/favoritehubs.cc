@@ -165,11 +165,11 @@ bool FavoriteHubs::showErrorDialog_gui(const string &description, FavoriteHubs *
 
 	// Fix crash, if the dialog gets programmatically destroyed.
 	if (response == GTK_RESPONSE_NONE)
-		return FALSE;
+		return false;
 
 	gtk_widget_destroy(dialog);
 
-	return TRUE;
+	return true;
 }
 
 void FavoriteHubs::popupMenu_gui()
@@ -284,7 +284,7 @@ bool FavoriteHubs::checkAddys(string url)
 	string tmp = url;
 	size_t i = tmp.find("dchub://");
 	if(i == string::npos)
-		return FALSE;
+		return false;
 	string newhubaddy = tmp.substr(i+1);
 	GtkTreeIter iter;
 	GtkTreeModel *m = GTK_TREE_MODEL(favoriteStore);
@@ -294,12 +294,12 @@ bool FavoriteHubs::checkAddys(string url)
 	{
 		if (favoriteView.getString(&iter, _("Address")) == newhubaddy)
 		{
-			return TRUE;//not add to client
+			return true;//not add to client
 		}
 		valid = gtk_tree_model_iter_next(m, &iter);
 	}
 
-	return FALSE;
+	return false;
 }
 
 void FavoriteHubs::onEditEntry_gui(GtkWidget *widget, gpointer data)
@@ -309,8 +309,8 @@ void FavoriteHubs::onEditEntry_gui(GtkWidget *widget, gpointer data)
 
 	if (!gtk_tree_selection_get_selected(fh->favoriteSelection, NULL, &iter))
 		return;
-	FavoriteHubEntry* entry;
-	entry = (FavoriteHubEntry*)fh->favoriteView.getValue<gpointer>(&iter, "FavPointer");
+		
+	FavoriteHubEntry* entry = (FavoriteHubEntry *)fh->favoriteView.getValue<gpointer>(&iter, "FavPointer");
 	FavoriteHubDialog* f = new FavoriteHubDialog(entry,false);
 	bool entryUpdated = f->initDialog(fh->GroupsIter);
 
@@ -332,7 +332,7 @@ void FavoriteHubs::onEditEntry_gui(GtkWidget *widget, gpointer data)
 bool FavoriteHubs::checkEntry_gui(string address_old, string address_new)
 {
 	if (address_old == address_new)
-		return TRUE;
+		return true;
 
 	GtkTreeIter iter;
 	GtkTreeModel *m = GTK_TREE_MODEL(favoriteStore);
@@ -342,12 +342,12 @@ bool FavoriteHubs::checkEntry_gui(string address_old, string address_new)
 	{
 		if (favoriteView.getString(&iter, _("Address")) == address_new)
 		{
-			return FALSE;
+			return false;
 		}
 		valid = gtk_tree_model_iter_next(m, &iter);
 	}
 
-	return TRUE;
+	return true;
 }
 
 void FavoriteHubs::onManageGroupsClicked_gui(GtkWidget *widget, gpointer data)

@@ -271,7 +271,8 @@ bool FavoriteHubDialog::showErrorDialog_gui(const string &description)
 		return TRUE;
 }
 
-void FavoriteHubDialog::onCheckButtonToggled_gui(GtkToggleButton *button, gpointer data){
+void FavoriteHubDialog::onCheckButtonToggled_gui(GtkToggleButton *button, gpointer data)
+{
 		GtkWidget *widget = (GtkWidget*)data;
 		bool override = gtk_toggle_button_get_active(button);
 

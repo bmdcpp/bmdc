@@ -219,7 +219,7 @@ void BookEntry::setBold_gui()
 {
 	if (!bold && !isActive_gui())
 	{
-		bold = TRUE;
+		bold = true;
 		updateLabel_gui();
 	}
 }
@@ -232,8 +232,8 @@ void BookEntry::setUrgent_gui()
 
 		if (!urgent)
 		{
-			bold = TRUE;
-			urgent = TRUE;
+			bold = true;
+			urgent = true;
 			updateLabel_gui();
 			setBackForeGround_unread(type);
 		}
@@ -247,8 +247,8 @@ void BookEntry::setActive_gui()
 {
 	if (bold || urgent)
 	{
-		bold = FALSE;
-		urgent = FALSE;
+		bold = false;
+		urgent = false;
 		updateLabel_gui();
 		setBackForeGround(type);
 	}

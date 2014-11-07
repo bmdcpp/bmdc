@@ -93,11 +93,11 @@ void HighlightManager::save(SimpleXML& aXml){
 	aXml.stepOut();
 }
 
-void HighlightManager::on(SettingsManagerListener::Load, SimpleXML& xml) noexcept {
+void HighlightManager::on(SettingsManagerListener::Load, SimpleXML& xml) {
 	load(xml);
 }
 
-void HighlightManager::on(SettingsManagerListener::Save, SimpleXML& xml) noexcept {
+void HighlightManager::on(SettingsManagerListener::Save, SimpleXML& xml) {
 	save(xml);
 }
 }

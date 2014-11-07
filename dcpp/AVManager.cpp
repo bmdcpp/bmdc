@@ -16,10 +16,9 @@ namespace dcpp {
 //@ <nick>|<ip>|<share>|<time>\n
 //@ parf of code is same as in Flylink
 void AVManager::loadDb(const string& buf)
-
-{
-			if((!buf.length()) || ((buf.length() == 1) && (buf == "0") )) return;
-			if (buf.length() < 12) return;
+	{
+		if((!buf.length()) || ((buf.length() == 1) && (buf == "0") )) return;
+		if (buf.length() < 12) return;
 			size_t l_pos = 0;
 			int l_nick_pos = 0;
 			int l_nick_len = 0;
@@ -59,11 +58,11 @@ void AVManager::loadDb(const string& buf)
 				entip.insert(make_pair(ip,entry));
 			}	
 
-}
+	}
 
 void AVManager::on(TimerManagerListener::Minute, uint64_t aTick) noexcept
 {
-			if(SETTING(USE_AV_FILTER)) {
+		if(SETTING(USE_AV_FILTER)) {
 
 			if(aTick >= temp_tick) {
 			string address =

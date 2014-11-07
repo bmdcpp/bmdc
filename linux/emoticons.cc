@@ -127,13 +127,13 @@ void Emoticons::clean()
 		filter.clear();
 	}
 
-	useEmotions = FALSE;
+	useEmotions = false;
 }
 
 bool Emoticons::load(const string &file)
 {
 	if (file.empty())
-		return FALSE;
+		return false;
 
 	string path = WulforManager::get()->getPath() + G_DIR_SEPARATOR_S + "emoticons" + G_DIR_SEPARATOR_S;
 	countfile = 0;
@@ -187,7 +187,7 @@ bool Emoticons::load(const string &file)
 	catch (const Exception &e)
 	{
 		dcdebug("[BMDC]: %s...\n", e.getError().c_str());
-		return FALSE;
+		return false;
 	}
 
 	return !pack.empty();

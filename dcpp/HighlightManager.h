@@ -49,8 +49,8 @@ private:
 	void load(SimpleXML& aXml);
 	void save(SimpleXML& aXml);
 
-	virtual void on(SettingsManagerListener::Load, SimpleXML& xml) noexcept;
-	virtual void on(SettingsManagerListener::Save, SimpleXML& xml) noexcept;
+	virtual void on(SettingsManagerListener::Load, SimpleXML& xml) ;
+	virtual void on(SettingsManagerListener::Save, SimpleXML& xml) ;
 };
 }
 #endif

@@ -122,7 +122,8 @@ void AboutConfig::show()
 	string types = Util::emptyString;
 	string value = Util::emptyString;
 	string dvalue = value;
-	types = _("String");	
+	types = _("String");
+		
 	for(auto d = defMap.begin();d!= defMap.end();++d)
 	{
 		string rowname = d->first;
@@ -136,6 +137,7 @@ void AboutConfig::show()
 	WulforSettingsManager::IntMap imap = wsm->getIntMap();
 	WulforSettingsManager::IntMap defIMap = wsm->getIntDMap();
 	types = _("Integer");
+	
 	for(auto j = defIMap.begin();j != defIMap.end();++j) {
 			string rowname = j->first;
 			dvalue = Util::toString(j->second);
@@ -187,10 +189,10 @@ bool AboutConfig::findAboutItem_gui(const string &about, GtkTreeIter *iter)
 		if (iter)
 			*iter = it->second;
 
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 void AboutConfig::setStatus(string msg)
@@ -245,6 +247,7 @@ gboolean AboutConfig::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, g
 void AboutConfig::onInfoResponse(GtkWidget *info_bar, gint response_id,  gpointer data)
 {
 	AboutConfig *s = (AboutConfig *)data;
+	
 	switch(response_id)
 	{
 		case -6://not allowing
@@ -272,7 +275,7 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget *widget, gpointer data)
 		string name = s->aboutView.getString(&iter,_("Name"));
 		string value = s->aboutView.getString(&iter, _("Value"));
 		bool isWsm = (s->aboutView.getString(&iter, "WS") == "1") ? true : false;
-		int n;
+		int n = -1;
 		bool run = s->getDialog(name, value, data);
 		if(!run)
 			return;
@@ -280,16 +283,20 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget *widget, gpointer data)
 		if(isWsm)
 		{
 			WulforSettingsManager* wsm = WulforSettingsManager::getInstance();	
+			
 			if(wsm->isString(name))
 				wsm->set(name,value);
+			
 			if(wsm->isInt(name))
 				wsm->set(name,Util::toInt(value));
+				
 			s->updateItem_gui(name,value);
 			return;	
 		}
 		SettingsManager *sm = SettingsManager::getInstance();		
 		SettingsManager::Types type;		
 		sm->getType(name.c_str(), n, type);
+		
 		switch(type)
 		{
 			case SettingsManager::TYPE_STRING:
@@ -307,7 +314,7 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget *widget, gpointer data)
 			case SettingsManager::TYPE_BOOL:
 				sm->set((SettingsManager::BoolSetting)n, Util::toInt(value));
 				break;	
-			default:;
+			default: return;
 		}
 		s->updateItem_gui(name,value);
 	}
@@ -322,16 +329,18 @@ void AboutConfig::onSetDefault(GtkWidget *widget, gpointer data)
 	if (gtk_tree_selection_get_selected(s->aboutSelection, NULL, &iter))
 	{
 		string i = s->aboutView.getString(&iter,_("Name"));
-		bool isWsm = s->aboutView.getString(&iter, "WS") == "1" ? TRUE : FALSE;
+		bool isWsm = s->aboutView.getString(&iter, "WS") == "1" ? true : false;
 		
 		if(isWsm)
 		{
-			auto wsm = WulforSettingsManager::getInstance();
+			WulforSettingsManager* wsm = WulforSettingsManager::getInstance();
 			string value = Util::emptyString;
+			
 			if(wsm->isString(i)) {
 				wsm->SetStringDef(i);
 				value = wsm->getString(i);
-			} if(wsm->isInt(i)) {
+			} 
+			if(wsm->isInt(i)) {
 				wsm->SetIntDef(i);
 				value = Util::toString(wsm->getInt(i));
 			}
@@ -341,13 +350,15 @@ void AboutConfig::onSetDefault(GtkWidget *widget, gpointer data)
 		}
 		
 		SettingsManager *sm = SettingsManager::getInstance();
-		int n ;
+		int n = -1 ;
 		SettingsManager::Types type;
 		
-		if (sm->getType(Text::fromT(i).c_str(), n, type))
+		if (sm->getType(i.c_str(), n, type))
 		{
 			sm->unset(n);
+			
 			string value = Util::emptyString;
+			
 			switch(type) {
 				case SettingsManager::TYPE_STRING:
 					value = Text::toT(sm->get(static_cast<SettingsManager::StrSetting>(n)));
@@ -368,7 +379,7 @@ void AboutConfig::onSetDefault(GtkWidget *widget, gpointer data)
 					value = Text::toT(Util::toString((int)sm->get(static_cast<SettingsManager::BoolSetting>(n))));
 					break;	
 				default:
-					dcassert(0);
+					return;
 			}
 			s->updateItem_gui(i, value);
 			s->setStatus("Value" + i + "Setted to Default" + value);

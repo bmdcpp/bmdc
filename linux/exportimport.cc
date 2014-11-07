@@ -30,8 +30,7 @@ using namespace dcpp;
 
 ExportDialog::ExportDialog(GtkWindow *parent):
 DialogEntry(Entry::EXPORT_DIALOG,"export",parent),
-exportStore(NULL),
-exportSelection(NULL)
+exportStore(NULL), exportSelection(NULL)
 {
 	
 	exportView.setView(GTK_TREE_VIEW(getWidget("treeviewexport")));
@@ -52,10 +51,12 @@ exportSelection(NULL)
 	
 	gtk_list_store_clear(exportStore);
 	GtkTreeIter iter;
+	
 	const auto& paths = File::findFiles(Util::getPath(Util::PATH_USER_CONFIG), "*");
 		
 	for(auto i = paths.cbegin(); i != paths.cend(); ++i) {
 		if( (*i).empty() ) continue;
+		
 		if(Wildcard::match(Util::getFileName(*i), string("profile.lck;Emptyfiles.xml.bz2;..;.;GeoIP*.dat;GeoIP*.gz;TestSUR*;"), ';')){//TODO own match
 			continue;
 		}
@@ -80,6 +81,7 @@ void ExportDialog::onButtonExportedClicked(GtkWidget *widget,gpointer data)
 	GtkTreeIter iter;
 	GtkTreeModel *m = GTK_TREE_MODEL(ed->exportStore);
 	gboolean valid = gtk_tree_model_get_iter_first(m, &iter);
+	
 	while(valid)
 	{
 		bool isSelected = ed->exportView.getValue<gboolean>(&iter, _("Enabled"));

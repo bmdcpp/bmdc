@@ -50,6 +50,7 @@ EmoticonsDialog::EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *
 	g_object_ref_sink(Menu);
 
 	if(!address.empty()) {
+		
 		bool dontCreate = false;
 		Emoticons *em = nullptr; 
 		for(auto i:hubs)
@@ -59,9 +60,11 @@ EmoticonsDialog::EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *
 			   dontCreate = true;break;
 			}
 		}
+		
 		if(dontCreate == false) {
 			em = Emoticons::start(packName,false);
 		}
+		
 		if(em != NULL)
 			hubs.insert(make_pair(address,em));
 		

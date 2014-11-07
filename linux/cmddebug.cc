@@ -126,6 +126,7 @@ void cmddebug::on(ClientConnected, Client* c) noexcept {
 }
 
 void cmddebug::on(ClientDisconnected, Client* c) noexcept {
+	
 	typedef Func2<cmddebug, Client*, bool> F2;
 	F2 *func = new F2(this,&cmddebug::UpdateCombo,c, false);
 	WulforManager::get()->dispatchGuiFunc(func);

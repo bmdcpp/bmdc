@@ -38,7 +38,8 @@ DownloadQueue::DownloadQueue():
 	totalSize(0)
 {
 	// Configure the dialogs
-	File::ensureDirectory(SETTING(DOWNLOAD_DIRECTORY));
+	File::ensureDirectory(SETTING(DOWNLOAD_DIRECTORY));//@ Possible unneeded?
+	
 	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(getWidget("dirChooserDialog")), Text::fromUtf8(SETTING(DOWNLOAD_DIRECTORY)).c_str());
 	#if !GTK_CHECK_VERSION(3,12,0)		
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("dirChooserDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
@@ -145,8 +146,8 @@ void DownloadQueue::show()
 
 void DownloadQueue::buildDynamicMenu_gui()
 {
-	bool showMenus = FALSE;
-	bool showReAddMenu = FALSE;
+	bool showMenus = false;
+	bool showReAddMenu = false;
 	int count = gtk_tree_selection_count_selected_rows(fileSelection);
 
 	if (count == 1)
@@ -169,7 +170,7 @@ void DownloadQueue::buildDynamicMenu_gui()
 			///@todo: Fix this. sources & badSources should not be accessible from gui thread.
 			for (SourceIter it = sources[target].begin(); it != sources[target].end(); ++it)
 			{
-				showMenus = TRUE;
+				showMenus = true;
 				menuItem = gtk_menu_item_new_with_label(it->first.c_str());
 				gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("browseMenu")), menuItem);
 				g_signal_connect(menuItem, "activate", G_CALLBACK(onFileGetListClicked_gui), (gpointer)this);
@@ -189,7 +190,7 @@ void DownloadQueue::buildDynamicMenu_gui()
 
 			for (SourceIter it = badSources[target].begin(); it != badSources[target].end(); ++it)
 			{
-				showReAddMenu = TRUE;
+				showReAddMenu = true;
 				menuItem = gtk_menu_item_new_with_label(it->first.c_str());
 				gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("reAddMenu")), menuItem);
 				g_signal_connect(menuItem, "activate", G_CALLBACK(onFileReAddSourceClicked_gui), (gpointer)this);

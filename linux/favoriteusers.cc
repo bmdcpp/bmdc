@@ -17,9 +17,7 @@
  *
  * In addition, as a special exception, compiling, linking, and/or
  * using OpenSSL with this program is allowed.
- */
-/*
- * Changelog of Changes in BMDC:
+ * Changelog @BMDC:
  * Added Indepent Favorites
  * 
  */

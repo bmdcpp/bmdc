@@ -44,6 +44,7 @@ class FavoriteHubDialog: public Entry
 			WulforManager::get()->deleteEntry_gui(this);
 		}
 		GtkWidget *getContainer() { return getWidget("dialog"); }
+		
 private:
 		void initActions();
 		static void onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);

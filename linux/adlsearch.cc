@@ -1,6 +1,6 @@
 /*
  * Copyright © 2009-2012 freedcpp, http://code.google.com/p/freedcpp
- * Copyright © 2011-2014 of Parts (CMD supports) of Code BMDC++ , https://launchpad.net/bmdc++
+ * Copyright © 2011-2014 Parts (CMD supports) of Code BMDC++ , https://launchpad.net/bmdc++
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -391,6 +391,7 @@ bool SearchADL::showPropertiesDialog_gui(ADLSearch &search, bool edit, SearchADL
 	isFavs = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkFromFav")));
 	kickStr = gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryKick")));
 	point = (int)gtk_spin_button_get_value (GTK_SPIN_BUTTON(s->getWidget("spinbuttonPoints")));
+	
 	if(gtk_widget_is_sensitive(s->getWidget("checkoveride1")))
 		overide = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkoveride1")));
 
@@ -561,18 +562,21 @@ gboolean SearchADL::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpo
 
 	return FALSE;
 }
-/* Util func */
+/* Util funtions */
 int SearchADL::find_raw(string rawString)
 {
 	if(rawString.empty())
 		return 0;
 	int raw = 0;
+	
 	vector<std::pair<std::string,int> > act = WulforUtil::getActions();
+	
 	for (auto it = act.begin(); it != act.end(); ++it)
 	{
 		if(it->first == rawString)
 			raw = it->second;
 	}
+	
   return raw;
 }
 
