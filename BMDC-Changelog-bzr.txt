@@ -882,3 +882,4 @@ Fix bad char in Shellcommand class
 ---
 Fix deprecation with 3.14+
 add AVDB
+add global settings for UL_VISIBLE/ORDER/SIZE, TAB_TEXT/ICON

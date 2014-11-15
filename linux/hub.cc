@@ -90,7 +90,8 @@ Hub::Hub(const string &address, const string &encoding):
 	if(faventry){
 		nickView.restoreSettings(faventry->getHubOrder(),faventry->getHubWidth(),faventry->getHubVisible());
 	}else{
-		nickView.restoreSettings(WGETS("hub-order"),WGETS("hub-width"),WGETS("hub-visibility"));
+		//maybe usefull disabling?
+		nickView.restoreSettings(SETTING(HUB_UL_ORDER),SETTING(HUB_UL_SIZE),SETTING(HUB_UL_VISIBLE));
 	}	
 
 	nickView.finalize();
@@ -157,6 +158,7 @@ Hub::Hub(const string &address, const string &encoding):
 	addChild(userCommandMenu2);
 
 	string packName = SETTING(EMOT_PACK);
+	
 	if(faventry)
 	{
 		packName = faventry->get(HubSettings::PackName);
@@ -167,7 +169,8 @@ Hub::Hub(const string &address, const string &encoding):
 	emotdialog = new EmoticonsDialog(getWidget("chatEntry"), getWidget("emotButton"), getWidget("emotPacksMenu"), packName, address);
 	if (!WGETB("emoticons-use"))
 		gtk_widget_set_sensitive(getWidget("emotButton"), FALSE);
-	useEmoticons = TRUE;
+	
+	useEmoticons = true;
 
 	// Chat commands
 	g_object_set_data_full(G_OBJECT(getWidget("awayCommandItem")), "command", g_strdup("/away"), g_free);
@@ -319,6 +322,7 @@ Hub::Hub(const string &address, const string &encoding):
 	entry.setShared("*");
 	entry.setServer(address);
 	RecentHubEntry* r = FavoriteManager::getInstance()->getRecentHubEntry(address);
+	
 	if(r == NULL)
 		FavoriteManager::getInstance()->addRecent(entry);
 
@@ -485,10 +489,11 @@ Hub::~Hub()
 		entry->setShowUserList(showUL);
 		FavoriteManager::getInstance()->save();
 	}else{
-		//not Fav save to main setting @Possible Made Enable/Disable of this also ?
-		WSET("hub-order", order);
-		WSET("hub-width", hwidth);
-		WSET("hub-visibility", visible);
+		SettingsManager* sm = SettingsManager::getInstance();
+		//No Fav Save to main setting @Possible Made Enable/Disable of this also ?
+		sm->set(SettingsManager::HUB_UL_ORDER, order);
+		sm->set(SettingsManager::HUB_UL_SIZE, hwidth);
+		sm->set(SettingsManager::HUB_UL_VISIBLE ,visible);
 	}
 
 	disconnect_client(TRUE);
@@ -665,10 +670,10 @@ bool Hub::findUser_gui(const string &cid, GtkTreeIter *iter)
 		if (iter)
 			*iter = it->second;
 
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 bool Hub::findNick_gui(const string &nick, GtkTreeIter *iter)
@@ -678,7 +683,7 @@ bool Hub::findNick_gui(const string &nick, GtkTreeIter *iter)
 	if (it != userMap.end())
 		return findUser_gui(it->second, iter);
 
-	return FALSE;
+	return false;
 }
 
 void Hub::updateUser_gui(ParamMap params)
@@ -690,7 +695,7 @@ void Hub::updateUser_gui(ParamMap params)
 	const string &Nick = params["Nick"];
 	const string &nickOrder = params["Nick Order"];
 	bool favorite = userFavoriteMap.find(cid) != userFavoriteMap.end();
-	//[BMDC++
+	
 	if (findUser_gui(cid, &iter))
 	{
 		totalShared += shared - nickView.getValue<int64_t>(&iter, _("Shared"));
@@ -903,7 +908,7 @@ void Hub::getPassword_gui()
 		gtk_editable_set_position(GTK_EDITABLE(chatEntry), pos);
 
 		if (!WaitingPassword)
-			WaitingPassword = TRUE;
+			WaitingPassword = true;
 		return;
 	}
 
@@ -948,13 +953,14 @@ void Hub::getPassword_gui()
 	g_signal_connect(dialog, "response", G_CALLBACK(onPasswordDialog), (gpointer) this);
 	gtk_widget_show_all(dialog);
 
-	PasswordDialog = TRUE;
-	WaitingPassword = TRUE;
+	PasswordDialog = true;
+	WaitingPassword = true;
 }
 
 void Hub::onPasswordDialog(GtkWidget *dialog, gint response, gpointer data)
 {
 	Hub *hub = (Hub *) data;
+	
 	GtkWidget *entry = (GtkWidget *)g_object_get_data(G_OBJECT(dialog), "password-entry");
 
 	if (response == GTK_RESPONSE_OK)
@@ -963,11 +969,11 @@ void Hub::onPasswordDialog(GtkWidget *dialog, gint response, gpointer data)
 		hub->setPassword_client(password);
 	}
 	else
-		hub->client->disconnect(TRUE);
+		hub->client->disconnect(true);
 
 	gtk_widget_destroy(dialog);
-	hub->PasswordDialog = FALSE;
-	hub->WaitingPassword = FALSE;
+	hub->PasswordDialog = false;
+	hub->WaitingPassword = false;
 }
 
 void Hub::addStatusMessage_gui(string message, Msg::TypeMsg typemsg, Sound::TypeSound sound)
@@ -1131,12 +1137,12 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 		tag_end_iter = start_iter;
 
 		GCallback callback = NULL;
-		bool isNick = FALSE;
-		bool image_tag = FALSE;
-		bool bold_tag = FALSE;
-		bool italic_tag = FALSE;
-		bool underline_tag = FALSE;
-		bool countryTag = FALSE;
+		bool isNick = false;
+		bool image_tag = false;
+		bool bold_tag = false;
+		bool italic_tag = false;
+		bool underline_tag = false;
+		bool countryTag = false;
 		string image_magnet, bold_text, italic_text, underline_text, country_text;
 		gchar *temp = gtk_text_iter_get_text(&tag_start_iter, &tag_end_iter);
 
@@ -1144,6 +1150,7 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 		{
 			GtkTextTag *tag = gtk_text_tag_table_lookup(gtk_text_buffer_get_tag_table(chatBuffer), temp);
 			bool isTab = false;
+			
 			if(WulforUtil::isHighlightingWorld(chatBuffer,tag,string(temp),isTab,(gpointer)this))
 			{
 				gtk_text_buffer_apply_tag(chatBuffer, tag, &tag_start_iter, &tag_end_iter);
@@ -1189,8 +1196,8 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 			}
 			else
 			{
-			   bool notlink = FALSE;
-			   bool country = FALSE;
+			   bool notlink = false;
+			   bool country = false;
 
                 if(g_ascii_strncasecmp(tagName.c_str(), "[ccc]", 5) == 0)
                 {
@@ -1200,7 +1207,7 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 						country_text = tagName.substr(5, i - 5);
 						if(country_text.length() == 2 )
 						{
-							country = notlink = countryTag = TRUE;
+							country = notlink = countryTag = true;
 
 						}
                     }
@@ -1215,7 +1222,7 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 					{
 						image_magnet = tagName.substr(5, i - 5);
 						if (WulforUtil::isMagnet(image_magnet))
-							notlink = image_tag = TRUE;
+							notlink = image_tag = true;
 					}
 				}
 				else if (g_ascii_strncasecmp(tagName.c_str(), "[b]", 3) == 0)
@@ -1224,7 +1231,7 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 					if (i != string::npos)
 					{
 						bold_text = tagName.substr(3, i - 3);
-						notlink = bold_tag = TRUE;
+						notlink = bold_tag = true;
 					}
 				}
 				else if (g_ascii_strncasecmp(tagName.c_str(), "[i]", 3) == 0)
@@ -1233,7 +1240,7 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 					if (i != string::npos)
 					{
 						italic_text = tagName.substr(3, i - 3);
-						notlink = italic_tag = TRUE;
+						notlink = italic_tag = true;
 					}
 				}
 				else if (g_ascii_strncasecmp(tagName.c_str(), "[u]", 3) == 0)
@@ -1242,7 +1249,7 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 					if (i != string::npos)
 					{
 						underline_text = tagName.substr(3, i - 3);
-						notlink = underline_tag = TRUE;
+						notlink = underline_tag = true;
 					}
 				}
             }
@@ -1882,6 +1889,7 @@ gboolean Hub::onNickListButtonRelease_gui(GtkWidget *widget, GdkEventButton *eve
 
 void Hub::clickAction(gpointer data)
 {
+	//TODO:maybe..some other & UI
 	switch((CActions::User)WGETI("double-click-action"))
 	{
 		case CActions::BROWSE:
@@ -2232,7 +2240,7 @@ void Hub::onChatScroll_gui(GtkAdjustment *adjustment, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	gdouble value = gtk_adjustment_get_value(adjustment);
-  hub->scrollToBottom = value >= ( gtk_adjustment_get_upper(adjustment) - gtk_adjustment_get_page_size (adjustment));
+	hub->scrollToBottom = value >= ( gtk_adjustment_get_upper(adjustment) - gtk_adjustment_get_page_size (adjustment));
 }
 
 void Hub::onChatResize_gui(GtkAdjustment *adjustment, gpointer data)
@@ -2379,12 +2387,12 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		{
 			if (hub->useEmoticons)
 			{
-				hub->useEmoticons = FALSE;
+				hub->useEmoticons = false;
 				hub->addStatusMessage_gui(_("Emoticons mode off"), Msg::SYSTEM, Sound::NONE);
 			}
 			else
 			{
-				hub->useEmoticons = TRUE;
+				hub->useEmoticons = true;
 				hub->addStatusMessage_gui(_("Emoticons mode on"), Msg::SYSTEM, Sound::NONE);
 			}
 		}

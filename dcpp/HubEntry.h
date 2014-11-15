@@ -73,10 +73,10 @@ public:
 
 	FavoriteHubEntry(const HubEntry& rhs) : name(rhs.getName()), server(rhs.getServer()),
 		hubDescription(rhs.getDescription()), password(Util::emptyString), encoding(Text::systemCharset), group(Util::emptyString),
-hideShare(false),autoConnect(false),mode(0),chatExtraInfo(Util::emptyString), protectUsers(Util::emptyString), 
-checkAtConn(false), checkClients(false), checkFilelists(false),  checkMyInfo(false), showUserList(true),
-order("0,1,2,3,4,5,6,7,8,9,10,11,12,13,14"),visible("1,1,1,1,1,1,1,1,1,1,1,1,1,1,1"),width("157,75,85,100,85,85,90,70,100,50,50,80,80,80,80"),
-tabText(Util::emptyString) , tabIconStr(Util::emptyString) , notify(false)
+	hideShare(false), autoConnect(false), mode(0), chatExtraInfo(Util::emptyString), protectUsers(Util::emptyString), 
+	checkAtConn(false), checkClients(false), checkFilelists(false),  checkMyInfo(false), showUserList(true),
+	order(SETTING(HUB_UL_ORDER)),visible(SETTING(HUB_UL_VISIBLE)),width(SETTING(HUB_UL_SIZE)),
+	tabText(SETTING(HUB_TEXT_STR)) , tabIconStr(SETTING(HUB_ICON_STR)) , notify(false)
 		{ }
 
 	FavoriteHubEntry(const FavoriteHubEntry& rhs) :
@@ -85,7 +85,7 @@ tabText(Util::emptyString) , tabIconStr(Util::emptyString) , notify(false)
 		password(rhs.getPassword()), encoding(rhs.getEncoding()), group(rhs.getGroup()), hideShare(rhs.hideShare),
 		autoConnect(rhs.autoConnect),  mode(rhs.mode), chatExtraInfo(rhs.chatExtraInfo),
 		protectUsers(rhs.protectUsers),	checkAtConn(rhs.checkAtConn), checkClients(rhs.checkClients), checkFilelists(rhs.checkFilelists),  checkMyInfo(rhs.checkMyInfo),
-		showUserList(rhs.showUserList), order(rhs.order),visible(rhs.visible),width(rhs.width),tabText(rhs.tabText), tabIconStr(rhs.tabIconStr), notify(rhs.notify)
+		showUserList(rhs.showUserList), order(rhs.order), visible(rhs.visible), width(rhs.width), tabText(rhs.tabText), tabIconStr(rhs.tabIconStr), notify(rhs.notify)
 		{ }
 
 	~FavoriteHubEntry() { }
@@ -98,7 +98,7 @@ tabText(Util::emptyString) , tabIconStr(Util::emptyString) , notify(false)
 	GETSET(string, group, Group);
 	//BMDC++
 	GETSET(bool, hideShare, HideShare);
-	GETSET(bool, autoConnect, AutoConnect)
+	GETSET(bool, autoConnect, AutoConnect);
 	GETSET(int, mode, Mode);
 	GETSET(string, chatExtraInfo, ChatExtraInfo);
 	GETSET(string, protectUsers, ProtectUsers);

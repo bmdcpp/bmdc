@@ -56,6 +56,7 @@ const string SettingsManager::settingTags[] =
 	"SharingSkiplistExtensions", "SharingSkiplistRegEx", "SharingSkiplistPaths",
 	//[BMDC
 	"BackupFilePattern", "LogFileRaw", "LogFormatRaw", "ProtectedUsers", "BackupTimeStamp", "EmotPack", "RipeDB",
+	"HubIconStr", "HubTextStr", "HubULOrder", "HubULVisible", "HubULSize",
 	//]
 	"SENTRY",
 	// Ints
@@ -421,8 +422,14 @@ SettingsManager::SettingsManager()
 	setDefault(VERSION_MISMATCH_RAW, 0);
 	setDefault(SDL_RAW, 0);
 	setDefault(RIPE_DB, "https://apps.db.ripe.net/search/query.html?searchtext=%[IP]&search%3AdoSearch=Search#resultsAnchor");
-	setDefault(SERVER_COMMANDS,true);
-	setDefault(USE_AV_FILTER,true);
+	setDefault(SERVER_COMMANDS, true);
+	setDefault(USE_AV_FILTER, true);
+	//not used yet
+	setDefault(HUB_ICON_STR, Util::emptyString);
+	setDefault(HUB_TEXT_STR, Util::emptyString);
+	setDefault(HUB_UL_ORDER, "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14");
+	setDefault(HUB_UL_VISIBLE, "1,1,1,1,1,1,1,1,1,1,1,1,1,1,1");
+	setDefault(HUB_UL_SIZE, "157,75,85,100,85,85,90,70,100,50,50,80,80,80,80");
 
 	setSearchTypeDefaults();
 
