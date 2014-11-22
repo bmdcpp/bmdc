@@ -225,7 +225,7 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonNick"))))
 		{
-			p_entry->get(SettingsManager::NICK, gtk_entry_get_text(GTK_ENTRY(getWidget("entryNick"))));
+			p_entry->set(SettingsManager::NICK, gtk_entry_get_text(GTK_ENTRY(getWidget("entryNick"))));
 		}
 
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonUserDescription"))))
