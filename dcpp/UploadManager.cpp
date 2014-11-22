@@ -63,7 +63,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 		return false;
 	}
 	///@BMDC++
-	if(aFile.find("TestSUR") != string::npos) {
+	if((aFile.length() > 6) && (aFile.find("TestSUR") != string::npos)) {//more check of size
 		LogManager::getInstance()->message("User: " + ClientManager::getInstance()->getNicks((*aSource.getUser()),"")[0] + " (" + aSource.getRemoteIp() + ") testing me!");
 	}
 
@@ -130,7 +130,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 			} else {
 				// Check for tth root identifier
 				string tFile = aFile;
-				if (tFile.compare(0, 4, "TTH/") == 0)
+				if ( (tFile.compare(0, 4, "TTH/") == 0) && (aFile.length() > 4))//check also size...
 					tFile = ShareManager::getInstance()->toVirtual(TTHValue(aFile.substr(4)));
 
 				aSource.maxedOut(addFailedUpload(aSource, tFile +

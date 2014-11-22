@@ -164,6 +164,8 @@ if(!tth) {
 			throw ShareException(UserConnection::FILE_NOT_AVAILABLE);
 		}
 	}
+	throw ShareException(UserConnection::FILE_NOT_AVAILABLE);
+	return Util::emptyString;
 }
 
 string ShareManager::toReal(const string& virtualFile,bool isShared) {
