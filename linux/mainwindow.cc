@@ -2220,7 +2220,8 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 
 	if (mw->useStatusIconBlink != WGETB("status-icon-blink-use"))
 		WSET("status-icon-blink-use", mw->useStatusIconBlink);
-	bool emoticons = WGETB("emoticons-use");
+	
+	bool emoticons = SETTING(USE_EMOTS);//WGETB("emoticons-use");
 
 	gint response = WulforManager::get()->openSettingsDialog_gui();
 
@@ -2278,7 +2279,7 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(mw->getWidget("statusIconBlinkUseItem")), WGETB("status-icon-blink-use"));
 
 		// Emoticons
-		if (emoticons != WGETB("emoticons-use"))
+		if (emoticons != SETTING(USE_EMOTS)/*WGETB("emoticons-use")*/)
 			Emoticons::get()->reloadPack_gui();
 
 		// Toolbar
@@ -2581,7 +2582,7 @@ void MainWindow::autoConnect_client()
 		string group = hub->getGroup();
 		FavHubGroups::const_iterator it = favHubGroups.find(group);
 
-		if (it != favHubGroups.end())
+		/*if (it != favHubGroups.end())
 		{
 			const HubSettings* p = &(it->second);
 			if (p->get(HubSettings::Connect) == 1)
@@ -2590,7 +2591,7 @@ void MainWindow::autoConnect_client()
 				F2 *func = new F2(this, &MainWindow::showHub_gui, hub->getServer(), hub->getEncoding());
 				WulforManager::get()->dispatchGuiFunc(func);
 			}
-		}
+		}*/
 
 		if(hub->getAutoConnect())
 		{

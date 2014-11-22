@@ -126,11 +126,11 @@ void FavoriteHubs::editEntry_gui(FavoriteHubEntry* entry, GtkTreeIter *iter)
 	gtk_list_store_set(favoriteStore, iter,
 		favoriteView.col(_("Name")), entry->getName().c_str(),
 		favoriteView.col(_("Description")), entry->getHubDescription().c_str(),
-		favoriteView.col(_("Nick")),  entry->get(HubSettings::Nick).c_str(),
+		favoriteView.col(_("Nick")),  entry->get(SettingsManager::NICK,SETTING(NICK)).c_str(),
 		favoriteView.col(_("Password")), password.c_str(),
 		favoriteView.col("Hidden Password"), entry->getPassword().c_str(),
 		favoriteView.col(_("Address")), entry->getServer().c_str(),
-		favoriteView.col(_("User Description")), entry->get(HubSettings::Description).c_str(),
+		favoriteView.col(_("User Description")), entry->get(SettingsManager::DESCRIPTION,SETTING(DESCRIPTION)).c_str(),
 		favoriteView.col(_("Encoding")), entry->getEncoding().c_str(),
 		favoriteView.col(_("Group")), entry->getGroup().c_str(),
 		favoriteView.col(_("Status")), ClientManager::getInstance()->isHubConnected(entry->getServer()) ? "Online" : "Offline",
@@ -385,23 +385,24 @@ void FavoriteHubs::initFavHubGroupsDialog_gui()
 	for (auto i = favHubGroups.begin(); i != favHubGroups.end(); ++i)
 	{
 		// favorite hub groups list
-		int showJoins = i->second.get(HubSettings::ShowJoins);
-		int FavShowJoins = i->second.get(HubSettings::FavShowJoins);
-		int connect = i->second.get(HubSettings::Connect);
-		int log = i->second.get(HubSettings::LogChat);
+		int showJoins = i->second.get(SettingsManager::SHOW_JOINS,SETTING(SHOW_JOINS));
+		int FavShowJoins = i->second.get(SettingsManager::FAV_SHOW_JOINS,SETTING(FAV_SHOW_JOINS));
+		//int connect = i->second.get(HubSettings::Connect);
+		int connect = 1;
+		int log = i->second.get(SettingsManager::LOG_CHAT_B,SETTING(LOG_CHAT_B));
 		
 		gtk_list_store_append(groupsStore, &iter);
 		gtk_list_store_set(groupsStore, &iter,
 			groupsView.col(_("Group name")), i->first.c_str(),
-			groupsView.col(_("Connect")), i->second.get(HubSettings::Connect) ? _("Yes") : _("No"),
-			groupsView.col("Nick"), i->second.get(HubSettings::Nick).c_str(),
-			groupsView.col("eMail"), i->second.get(HubSettings::Email).c_str(),
-			groupsView.col("Desc"), i->second.get(HubSettings::Description).c_str(),
+			groupsView.col(_("Connect")), connect == 1 ? _("Yes") : _("No"),
+			groupsView.col("Nick"), i->second.get(SettingsManager::NICK,SETTING(NICK)).c_str(),
+			groupsView.col("eMail"), i->second.get(SettingsManager::EMAIL,SETTING(EMAIL)).c_str(),
+			groupsView.col("Desc"), i->second.get(SettingsManager::DESCRIPTION,SETTING(DESCRIPTION)).c_str(),
 			groupsView.col("Parts"), Util::toString(showJoins).c_str() ,
 			groupsView.col("FavParts"),Util::toString(FavShowJoins).c_str(),
 			groupsView.col("Connect hub"),Util::toString(connect).c_str(),
 			groupsView.col("LogChat"),  Util::toString(log).c_str() ,
-			groupsView.col("AwayMessage"), i->second.get(HubSettings::AwayMessage).c_str(),
+			groupsView.col("AwayMessage"), i->second.get(SettingsManager::DEFAULT_AWAY_MESSAGE,SETTING(DEFAULT_AWAY_MESSAGE)).c_str(),
 			-1);
 			//Parts 1 = Enable 2 = disable 0 = def
 	}
@@ -636,14 +637,14 @@ void FavoriteHubs::saveFavHubGroups()
 		int showJoins = Util::toInt(groupsView.getString(&iter,"Parts"));
 		string away = groupsView.getString(&iter, "AwayMessage");
 		
-		p.get(HubSettings::Nick) = nick;
-		p.get(HubSettings::Email) = email;
-		p.get(HubSettings::Description) = desc;
-		p.get(HubSettings::FavShowJoins) = favShowJoins;
-		p.get(HubSettings::ShowJoins) = showJoins;
-		p.get(HubSettings::LogChat)= log_hub;
-		p.get(HubSettings::Connect) = connect_hub;
-		p.get(HubSettings::AwayMessage) = away;
+		p.set(SettingsManager::NICK, nick);
+		p.get(SettingsManager::EMAIL,email);
+		p.get(SettingsManager::DESCRIPTION, desc);
+		p.get(SettingsManager::FAV_SHOW_JOINS, favShowJoins);
+		p.get(SettingsManager::SHOW_JOINS, showJoins);
+		p.get(SettingsManager::LOG_CHAT_B, log_hub);
+		//p.get(SettingsManager::Connect) = connect_hub);
+		p.get(SettingsManager::DEFAULT_AWAY_MESSAGE, away);
 
 		favHubGroups.insert(FavHubGroup(group, p));
 

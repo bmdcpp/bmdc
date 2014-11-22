@@ -438,8 +438,8 @@ void FavoriteManager::save() {
 			xml.addChildAttrib("CheckClients", (*i)->getCheckClients());
 			xml.addChildAttrib("CheckFilelists", (*i)->getCheckFilelists());
 			xml.addChildAttrib("Protects", (*i)->getProtectUsers());
-			xml.addChildAttrib("TabText", (*i)->getTabText());
-			xml.addChildAttrib("TabIcon", (*i)->getTabIconStr());
+			xml.addChildAttrib("TabText", (*i)->getTabText());//TODO: rem
+			xml.addChildAttrib("TabIcon", (*i)->getTabIconStr());//TODO: rem
 			xml.addChildAttrib("UserListToggle", (*i)->getShowUserList());
 			xml.addChildAttrib("NotifyToggle", (*i)->getNotify());
 			xml.addChildAttrib("Order",(*i)->getHubOrder());
@@ -1191,10 +1191,10 @@ string FavoriteManager::getAwayMessage(const string& aServer, ParamMap& params) 
 	string name = hub->getGroup();
 	auto group = favHubGroups.find(name);
 	if(group != favHubGroups.end())
-		return (group->second.get(HubSettings::AwayMessage).empty() ?
+		return (group->second.get(SettingsManager::DEFAULT_AWAY_MESSAGE,SETTING(DEFAULT_AWAY_MESSAGE)).empty() ?
 			(hub ?
-			( hub->get(HubSettings::AwayMessage).empty() ?
-				Util::getAwayMessage(params) : Util::formatParams(hub->get(HubSettings::AwayMessage), params) ) : Util::getAwayMessage(params) ) : Util::formatParams(group->second.get(HubSettings::AwayMessage), params));
+			( hub->get(SettingsManager::DEFAULT_AWAY_MESSAGE,SETTING(DEFAULT_AWAY_MESSAGE)).empty() ?
+				Util::getAwayMessage(params) : Util::formatParams(hub->get(SettingsManager::DEFAULT_AWAY_MESSAGE,SETTING(DEFAULT_AWAY_MESSAGE)), params) ) : Util::getAwayMessage(params) ) : Util::formatParams(group->second.get(SettingsManager::DEFAULT_AWAY_MESSAGE,SETTING(DEFAULT_AWAY_MESSAGE)), params));
 
 	return Util::getAwayMessage(params);
 }

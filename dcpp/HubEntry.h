@@ -69,11 +69,17 @@ public:
 
 class FavoriteHubEntry: public HubSettings {
 public:
-	FavoriteHubEntry() : encoding(Text::systemCharset), showUserList(true) , notify(false) { }
+	FavoriteHubEntry() :
+	name(Util::emptyString), server(Util::emptyString), hubDescription(Util::emptyString), password(Util::emptyString),
+	encoding(Text::systemCharset), group(Util::emptyString), hideShare(false), autoConnect(false), mode(0),
+	chatExtraInfo(SETTING(CHAT_EXTRA_INFO)), protectUsers(Util::emptyString), checkAtConn(false), checkClients(false),
+	checkFilelists(false), checkMyInfo(false), showUserList(true), 
+	order(SETTING(HUB_UL_ORDER)), visible(SETTING(HUB_UL_VISIBLE)), width(SETTING(HUB_UL_SIZE)), 
+	tabText(SETTING(HUB_TEXT_STR)) , tabIconStr(SETTING(HUB_ICON_STR)) , notify(false) { }
 
 	FavoriteHubEntry(const HubEntry& rhs) : name(rhs.getName()), server(rhs.getServer()),
 		hubDescription(rhs.getDescription()), password(Util::emptyString), encoding(Text::systemCharset), group(Util::emptyString),
-	hideShare(false), autoConnect(false), mode(0), chatExtraInfo(Util::emptyString), protectUsers(Util::emptyString), 
+	hideShare(false), autoConnect(false), mode(0), chatExtraInfo(SETTING(CHAT_EXTRA_INFO)), protectUsers(Util::emptyString), 
 	checkAtConn(false), checkClients(false), checkFilelists(false),  checkMyInfo(false), showUserList(true),
 	order(SETTING(HUB_UL_ORDER)),visible(SETTING(HUB_UL_VISIBLE)),width(SETTING(HUB_UL_SIZE)),
 	tabText(SETTING(HUB_TEXT_STR)) , tabIconStr(SETTING(HUB_ICON_STR)) , notify(false)
@@ -100,21 +106,22 @@ public:
 	GETSET(bool, hideShare, HideShare);
 	GETSET(bool, autoConnect, AutoConnect);
 	GETSET(int, mode, Mode);
-	GETSET(string, chatExtraInfo, ChatExtraInfo);
-	GETSET(string, protectUsers, ProtectUsers);
+	
+	GETSET(string, chatExtraInfo, ChatExtraInfo);//HubGroup?
+	GETSET(string, protectUsers, ProtectUsers);//Hub Group?
 	GETSET(bool, checkAtConn, CheckAtConn);
 	GETSET(bool, checkClients, CheckClients);
 	GETSET(bool, checkFilelists, CheckFilelists);
 	GETSET(bool, checkMyInfo,CheckMyInfo);
 
-	GETSET(bool, showUserList , ShowUserList);
+	GETSET(bool, showUserList , ShowUserList);//TODO Hub Group?
 	GETSET(string, order, HubOrder);
 	GETSET(string, visible, HubVisible);
 	GETSET(string, width, HubWidth);
 	
-	GETSET(string, tabText, TabText);
-	GETSET(string, tabIconStr, TabIconStr);
-	GETSET(bool, notify , Notify );
+	GETSET(string, tabText, TabText);//bad idea 
+	GETSET(string, tabIconStr, TabIconStr);//TODO HubGroup
+	GETSET(bool, notify , Notify );//TODO HubGroup
 
 	//Raw Manager
 	struct FavAction {

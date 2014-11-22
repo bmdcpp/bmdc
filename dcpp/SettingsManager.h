@@ -23,7 +23,6 @@
 #include "Speaker.h"
 #include "Singleton.h"
 #include "Exception.h"
-#include "HubSettings.h"
 
 namespace dcpp {
 
@@ -84,7 +83,8 @@ public:
 		//[BMDC++
 		BACKUP_FILE_PATTERN,
 		LOG_FILE_RAW, LOG_FORMAT_RAW, PROTECTED_USERS, BACKUP_TIMESTAMP, EMOT_PACK, RIPE_DB,
-		HUB_ICON_STR, HUB_TEXT_STR, HUB_UL_ORDER, HUB_UL_VISIBLE, HUB_UL_SIZE, 
+		HUB_ICON_STR, HUB_TEXT_STR, HUB_UL_ORDER, HUB_UL_VISIBLE, HUB_UL_SIZE, CHAT_EXTRA_INFO,
+		BACKGROUND_CHAT_COLOR, BACKGROUND_CHAT_IMAGE, 
 		STR_LAST };
 
 	enum IntSetting { INT_FIRST = STR_LAST + 1,
@@ -193,7 +193,8 @@ public:
 		USE_WILDCARDS_TO_PROTECT,
 		DISPLAY_CHEATS_IN_MAIN_CHAT,
 		USE_OEM_MONOFONT, SERVER_COMMANDS,
-		USE_AV_FILTER,
+		USE_AV_FILTER, LOG_CHAT_B,
+		USE_COUNTRY_FLAG, USE_EMOTS,
 		BOOL_LAST };
 
 	enum Int64Setting { INT64_FIRST = BOOL_LAST + 1,
@@ -208,16 +209,8 @@ public:
 	enum {	INCOMING_DIRECT, INCOMING_FIREWALL_UPNP, INCOMING_FIREWALL_NAT,
 		INCOMING_FIREWALL_PASSIVE };
 	enum {	OUTGOING_DIRECT, OUTGOING_SOCKS5 };
-/*
-	enum {
-		TAB_STYLE_BUTTONS = 1 << 1,
-		TAB_STYLE_OD = 1 << 2,
-		TAB_STYLE_BROWSER = 1 << 3
-	};*/
 
 	enum {	MAGNET_AUTO_SEARCH, MAGNET_AUTO_DOWNLOAD };
-
-//	enum { BALLOON_DISABLED, BALLOON_ALWAYS, BALLOON_BACKGROUND };
 
 	const string& get(StrSetting key, bool useDefault = true) const {
 		return (isSet[key] || !useDefault) ? strSettings[key - STR_FIRST] : strDefaults[key - STR_FIRST];
@@ -354,8 +347,6 @@ public:
 		return settingTags;
 	}
 
-	HubSettings getHubSettings() const;
-
 	// Search types
 	void validateSearchTypeName(const string& name) const;
 	void setSearchTypeDefaults();
@@ -370,6 +361,7 @@ public:
 	const StringList& getExtensions(const string& name);
 
 private:
+	friend struct HubSettings;
 	friend class Singleton<SettingsManager>;
 	SettingsManager();
 	virtual ~SettingsManager() { }

@@ -29,7 +29,7 @@ SystemLog::SystemLog():
 BookEntry(Entry::SYSTEML,_("System Log"),"system"),
  buffer(NULL),sysMark(NULL)
 {
-	WulforUtil::setTextDeufaults(getWidget("systextview"),WGETS("background-color-chat"));
+	WulforUtil::setTextDeufaults(getWidget("systextview"),/*WGETS("background-color-chat")*/SETTING(BACKGROUND_CHAT_COLOR));
 	string strcolor = "black";//TODO : Settings?	
 	GdkRGBA color;
 	gdk_rgba_parse(&color,strcolor.c_str());

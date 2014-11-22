@@ -20,77 +20,47 @@
 #define DCPLUSPLUS_DCPP_HUBSETTINGS_H
 
 #include <string>
-
+#include <map>
 #include "SimpleXML.h"
+
+#include "SettingsManager.h"
 
 namespace dcpp {
 
 using std::string;
+using std::map;
 
 /** Stores settings to be applied to a hub. There are 3 HubSettings levels in DC++: global; per
 favorite hub group; per favorite hub entry. */
 struct HubSettings
 {
-	enum HubStrSetting {
-		HubStrFirst,
-
-		Nick = HubStrFirst,
-		Description,
-		Email,
-		UserIp,
-		UserIp6,
-		// don't forget to edit stringNames in HubSettings.cpp when adding a def here!
-		AwayMessage,
-		PackName,
-		HubStrLast
-	};
-
-	enum HubBoolSetting {
-		HubBoolFirst = HubStrLast + 1,
-
-		ShowJoins = HubBoolFirst,
-		FavShowJoins,
-		// don't forget to edit boolNames in HubSettings.cpp when adding a def here!
-		LogChat,//BMDC++
-		Connect,
-		ShowIps,
-		ShowCountry,
-		BoldTab,
-		Connection,
-		Connection6,
-
-		HubBoolLast
-	};
-
 	HubSettings();
 	HubSettings(const HubSettings& rhs) { *this = rhs; }
 	HubSettings& operator=(const HubSettings& rhs);
-	virtual ~HubSettings(){}
+	~HubSettings() { }
 
-	const string& get(HubStrSetting setting) const;
-	const int& get(HubBoolSetting setting) const;
-	string& get(HubStrSetting setting);
-	int& get(HubBoolSetting setting);
+	const string& get(SettingsManager::StrSetting key, const std::string& defValue) const;
+	int get(SettingsManager::IntSetting key, int defValue) const;
+	bool get(SettingsManager::BoolSetting key, bool defValue);
 
-	/** Apply a set of sub-settings that may override current ones. Strings are overridden when not
-	null. Tribools are overridden when not in an indeterminate state. */
+	void set(SettingsManager::StrSetting key, string const& value);
+	void set(SettingsManager::IntSetting key, const string& value);
+	void set(SettingsManager::IntSetting key, int value);
+	void set(SettingsManager::BoolSetting key, bool value);
+
+	/** Apply a set of sub-settings that may override current ones. */
 	void merge(const HubSettings& sub);
 
 	void load(SimpleXML& xml);
 	void save(SimpleXML& xml) const;
 
 private:
-	enum { StringCount = HubStrLast - HubStrFirst,
-		BoolCount = HubBoolLast - HubBoolFirst };
-
-	static const string stringNames[StringCount];
-	static const string boolNames[BoolCount];
-
-	string strings[StringCount];
-	int bools[BoolCount];
-
+	map<SettingsManager::StrSetting, string> strings;
+	map<SettingsManager::IntSetting, int> ints;
+	map<SettingsManager::BoolSetting, bool> bools;
 };
 
+#define HUBSETTING(a) get(SettingsManager::a, SettingsManager::getInstance()->get(SettingsManager::a))
 } // namespace dcpp
 
 #endif

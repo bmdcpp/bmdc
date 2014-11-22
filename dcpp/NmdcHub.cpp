@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,7 +37,6 @@
 #include "PluginManager.h"
 #include <iconv.h>
 #include "AVManager.h"
-
 
 namespace dcpp {
 
@@ -85,7 +84,7 @@ OnlineUser& NmdcHub::getUser(const string& aNick) {
 	}
 
 	UserPtr p;
-	if(aNick == get(Nick)) {
+	if(aNick == HUBSETTING(NICK)) {
 		p = ClientManager::getInstance()->getMe();
 	} else {
 		p = ClientManager::getInstance()->getUser(aNick, getHubUrl());
@@ -247,6 +246,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 
 			chatMessage.from = &o;
 		}
+		
 		COMMAND_DEBUG(aLine,TYPE_HUB,INCOMING,getHubUrl());
 		if(PluginManager::getInstance()->runHook(HOOK_CHAT_IN, this, message))
 			return;
@@ -622,7 +622,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				supports(feat);
 			}
 			key(CryptoManager::getInstance()->makeKey(lock));
-			OnlineUser& ou = getUser( get(Nick));
+			OnlineUser& ou = getUser( HUBSETTING(NICK));
 			validateNick(ou.getIdentity().getNick());
 
 		}
@@ -823,6 +823,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 }
 
 void NmdcHub::checkNick(string& nick) {
+	
 	for(size_t i = 0, n = nick.size(); i < n; ++i) {
           if(static_cast<uint8_t>(nick[i]) <= 32 || nick[i] == '|' || nick[i] == '$' || nick[i] == '<' || nick[i] == '>') {
                 nick[i] = '_';
@@ -837,7 +838,7 @@ void NmdcHub::connectToMe(const OnlineUser& aUser) {
 	ConnectionManager::getInstance()->nmdcExpect(nick, getMyNick(), getHubUrl());
 	
 	if(!getMyIdentity().isOp() && AVManager::getInstance()->isNickVirused(aUser.getIdentity().getNick())){
-			fire(ClientListener::StatusMessage(), this, unescape("This user "+aUser.getIdentity().getNick()+" has the viruses in share!"), ClientListener::FLAG_VIRUS);
+			fire(ClientListener::StatusMessage(), this, unescape("This user "+aUser.getIdentity().getNick()+" possible had the viruses in share!"), ClientListener::FLAG_VIRUS);
 			return;
 	}	
 	
@@ -887,6 +888,7 @@ void NmdcHub::myInfo(bool alwaysSend) {
 	char modeChar[3];
 	modeChar[0] = '?';
 	modeChar[1] = '\0';
+	//TODO per fav?
 	if(CONNSETTING(OUTGOING_CONNECTIONS) == SettingsManager::OUTGOING_SOCKS5)
 		modeChar[0] = '5';
 	else if(ClientManager::getInstance()->isActive(getHubUrl())) {
@@ -915,11 +917,11 @@ void NmdcHub::myInfo(bool alwaysSend) {
     char staFlag = Util::getAway() ? '\x02' : '\x01';
 	string uMin = (SETTING(MIN_UPLOAD_SPEED) == 0) ? Util::emptyString : tmp5 + Util::toString(SETTING(MIN_UPLOAD_SPEED));
 	string myInfoA =
-		"$MyINFO $ALL " + fromUtf8(get(Nick)) + " " + fromUtf8(escape(gslotf ? gslot + get(Description) : get(Description))) +
+		"$MyINFO $ALL " + fromUtf8(HUBSETTING(NICK)) + " " + fromUtf8(escape(gslotf ? gslot + HUBSETTING(DESCRIPTION) : HUBSETTING(DESCRIPTION))) +
 		tmp1 + VERSIONSTRING + tmp2 + modeChar + tmp3 + getCounts();
 	string myInfoB = tmp4 + Util::toString(SETTING(SLOTS));
 	string myInfoC = uMin +
-		">$ $" + uploadSpeed + staFlag + '$' + fromUtf8(escape(get(Email))) + '$';
+		">$ $" + uploadSpeed + staFlag + '$' + fromUtf8(escape(HUBSETTING(EMAIL))) + '$';
 	string share = getHideShare() ? "0" : ShareManager::getInstance()->getShareSizeString();//no share NMDC
 	string myInfoD = share + "$|";
 	// we always send A and C; however, B (slots) and D (share size) can frequently change so we delay them if needed
@@ -1063,7 +1065,7 @@ void NmdcHub::refreshLocalIp() noexcept {
 	if(localIp.empty()) {
 		localIp = getUserIp();
 		if(!localIp.empty()) {
-			localIp = Socket::resolve(localIp);//can be as well IP6
+			localIp = Socket::resolve(localIp);//can be as well IPv6
 		}
 		if(localIp.empty()) {
 			localIp = sock->getLocalIp();

@@ -102,9 +102,18 @@ class WulforUtil
 		static const std::string ENCODING_LOCALE;
 		static const std::string commands;
 		
-		static void setTextDeufaults(GtkWidget* widget, std::string strcolor, std::string back_image_path = dcpp::Util::emptyString,bool pm = false)
+		static void setTextDeufaults(GtkWidget* widget, std::string strcolor, std::string back_image_path = dcpp::Util::emptyString,bool pm = false,std::string hubUrl = dcpp::Util::emptyString)
 		//todo move to c/cpp file :p
 		{
+			if( (pm == false) && hubUrl.empty())
+				gtk_widget_set_name(widget,"Hub");
+			
+			if( pm == true)
+				gtk_widget_set_name(widget,"pm");
+			
+			if(!hubUrl.empty() && (pm == false))
+				gtk_widget_set_name(widget,hubUrl.c_str());
+				
 			// Intialize the chat window
 			if (SETTING(USE_OEM_MONOFONT))
 			{
@@ -130,8 +139,7 @@ class WulforUtil
 			gtk_style_context_add_provider_for_screen (screen,
                                              GTK_STYLE_PROVIDER(provider),
                                              GTK_STYLE_PROVIDER_PRIORITY_USER);
-			//TODO: about per-fav?
-			std::string t_css = std::string("GtkTextView#")+ (pm ? "pm" : "Hub") +"{\n"                         
+			std::string t_css = std::string("GtkTextView#") + (pm ? "pm" : ( hubUrl.empty() ? "Hub": hubUrl  )) +"{\n"                         
                             "   background: url('"+back_image_path+"');\n"   
                             "}\n";
 

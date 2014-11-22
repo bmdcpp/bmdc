@@ -47,7 +47,7 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 {
 	//Set Colors
 	gtk_widget_set_name(getWidget("text"),"pm");
-	WulforUtil::setTextDeufaults(getWidget("text"),WGETS("background-color-chat"),WGETS("pm-background-image"),true);
+	WulforUtil::setTextDeufaults(getWidget("text"),/*WGETS("background-color-chat")*/SETTING(BACKGROUND_CHAT_COLOR),WGETS("pm-background-image"),true);
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
 	messageBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(getWidget("text")));
 
@@ -76,7 +76,7 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 
 	// Emoticons dialog
 	emotdialog = new EmoticonsDialog(getWidget("entry"), getWidget("emotButton"), getWidget("emotMenu"));
-	if (!WGETB("emoticons-use"))
+	if (!SETTING(USE_EMOTS))
 		gtk_widget_set_sensitive(getWidget("emotButton"), FALSE);
 	useEmoticons = TRUE;
 
@@ -280,7 +280,7 @@ void PrivateMessage::preferences_gui()
 
 	gtk_widget_queue_draw(getWidget("emotButton"));
 
-	if (!WGETB("emoticons-use"))
+	if (!SETTING(USE_EMOTS)/*WGETB("emoticons-use")*/)
 	{
 		if (gtk_widget_is_sensitive(getWidget("emotButton")))
 			gtk_widget_set_sensitive(getWidget("emotButton"), FALSE);
@@ -289,7 +289,7 @@ void PrivateMessage::preferences_gui()
 	{
 		gtk_widget_set_sensitive(getWidget("emotButton"), TRUE);
 	}
-	WulforUtil::setTextDeufaults(getWidget("text"),WGETS("background-color-chat"));
+//	WulforUtil::setTextDeufaults(getWidget("text"),WGETS("background-color-chat"));
 	gtk_widget_queue_draw(getWidget("text"));
 }
 
@@ -648,7 +648,7 @@ void PrivateMessage::applyEmoticons_gui()
 	}
 	else if (!emotdialog->getEmot()->useEmoticons_gui())
 	{
-		if (WGETB("emoticons-use"))
+		if (/*WGETB("emoticons-use")*/SETTING(USE_EMOTS))
 			setStatus_gui(_(" *** Emoticons not loaded"));
 		return;
 	}

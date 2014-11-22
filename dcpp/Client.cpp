@@ -80,14 +80,17 @@ void Client::reloadSettings(bool updateNick) {
 	/// @todo update the nick in ADC hubs?
 	string prevNick = Util::emptyString;
 	if(!updateNick)
-		prevNick = get(Nick);
+		prevNick = HUBSETTING(NICK);
 
-	*static_cast<HubSettings*>(this) = SettingsManager::getInstance()->getHubSettings();
-
+// reset HubSettings to refresh it without a need to reopen hub window
+	HubSettings emptySettings;
+	*static_cast<HubSettings*>(this) = emptySettings;
+	
 	FavoriteHubEntry* fav = FavoriteManager::getInstance()->getFavoriteHubEntry(getHubUrl());
 	if(fav)
 	{
 		FavoriteManager::getInstance()->mergeHubSettings(*fav, *this);
+		
 		if(!fav->getPassword().empty())
 			setPassword(fav->getPassword());
 		//[BMDC
@@ -97,8 +100,6 @@ void Client::reloadSettings(bool updateNick) {
 		setCheckAtConnect(fav->getCheckAtConn());
 		setCheckClients(fav->getCheckClients());
 		setCheckFilelists(fav->getCheckFilelists());
-		setTabText(fav->getTabText());
-		setTabIconStr(fav->getTabIconStr());
 		//]
 	}else{
 		//[BMDC++
@@ -108,19 +109,19 @@ void Client::reloadSettings(bool updateNick) {
 		setCheckAtConnect(false);
 		setCheckClients(false);
 		setCheckFilelists(false);
-		setTabText(Util::emptyString);
-		setTabIconStr(Util::emptyString);
         //]
 	}
-	if(updateNick)
-        checkNick(get(Nick));
-	else
-		get(Nick) = prevNick;
+	if(updateNick) {
+        string curNick = HUBSETTING(NICK);
+		checkNick(curNick);
+		set(SettingsManager::NICK, curNick);
+	}else
+		set(SettingsManager::NICK,prevNick);
 }
 
 const string& Client::getUserIp() const {
-	if(!get(UserIp).empty()) {
-		return get(UserIp);
+	if(!HUBSETTING(EXTERNAL_IP).empty()) {
+		return HUBSETTING(EXTERNAL_IP);
 	}
 	return CONNSETTING(EXTERNAL_IP);
 }
@@ -133,8 +134,8 @@ void Client::connect() {
 
 	setAutoReconnect(true);
 	
-	if((uint32_t)SETTING(TIME_RECCON) > 10)
-        setReconnDelay((uint32_t)(SETTING(TIME_RECCON)));
+	if((uint32_t)HUBSETTING(TIME_RECCON) > 10)
+        setReconnDelay((uint32_t)(HUBSETTING(TIME_RECCON)));
 	else
        	setReconnDelay(120 + Util::rand(0, 60));
 	
@@ -225,11 +226,11 @@ bool Client::isActive() const {
 
 
 bool Client::isActiveV4() const {
-	return ClientManager::getInstance()->isActive(getHubUrl()) && get(HubSettings::Connection) == true;
+	return ClientManager::getInstance()->isActive(getHubUrl()) && (HUBSETTING(INCOMING_CONNECTIONS) <= 2);//TODO: beter?
 }
 
 bool Client::isActiveV6() const {
-	return get(HubSettings::Connection6) == true;
+	return !HUBSETTING(EXTERNAL_IP6).empty();
 }
 
 void Client::updateCounts(bool aRemove) {
@@ -276,6 +277,7 @@ void Client::on(Second, uint64_t aTick) noexcept {
 void Client::sendActionCommand(const OnlineUser& ou, int actionId) {
 	if(!isConnected() /*|| (userCount < getUsersLimit())*/)
 		return;
+		
 	cmdQueue.addCommand(ou, actionId);
 }
 
@@ -284,17 +286,16 @@ bool Client::isActionActive(const int aAction) const {
 	return hub ? FavoriteManager::getInstance()->getEnabledAction(hub, aAction) : true;
 }
 
-
 const string& Client::getUserIp4() const {
-	if(!get(UserIp).empty()) {
-		return get(UserIp);
+	if(!HUBSETTING(EXTERNAL_IP).empty()) {
+		return HUBSETTING(EXTERNAL_IP);
 	}
 	return CONNSETTING(EXTERNAL_IP);
 }
 
 const string& Client::getUserIp6() const {
-	if(!get(UserIp6).empty()) {
-		return get(UserIp6);
+	if(!HUBSETTING(EXTERNAL_IP6).empty()) {
+		return HUBSETTING(EXTERNAL_IP6);
 	}
 	return CONNSETTING(EXTERNAL_IP6);
 }

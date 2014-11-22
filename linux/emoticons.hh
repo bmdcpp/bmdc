@@ -50,7 +50,7 @@ class Emot
 class Emoticons
 {
 	public:
-		static Emoticons* start(const std::string &packName = WGETS("emoticons-pack"), bool _global = true);
+		static Emoticons* start(const std::string &packName = SETTING(EMOT_PACK), bool _global = true);
 		static void stop();
 		static Emoticons* get();
 

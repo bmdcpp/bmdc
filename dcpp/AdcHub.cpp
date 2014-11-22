@@ -990,7 +990,7 @@ static void addParam(StringMap& lastInfoMap, AdcCommand& c, const string& var, c
 
 void AdcHub::info(bool /*alwaysSend*/) {
 	if(state != STATE_IDENTIFY && state != STATE_NORMAL)
-		return;
+						return;
 
 	reloadSettings(false);
 
@@ -1005,13 +1005,13 @@ void AdcHub::info(bool /*alwaysSend*/) {
 
 	addParam(lastInfoMap, c, "ID", ClientManager::getInstance()->getMyCID().toBase32());
 	addParam(lastInfoMap, c, "PD", ClientManager::getInstance()->getMyPID().toBase32());
-	addParam(lastInfoMap, c, "NI", get(Nick));
-	addParam(lastInfoMap, c, "DE", isfreeslots ? fslots + " " + get(Description) : get(Description) );
+	addParam(lastInfoMap, c, "NI", HUBSETTING(NICK));
+	addParam(lastInfoMap, c, "DE", isfreeslots ? fslots + " " + HUBSETTING(DESCRIPTION) : HUBSETTING(DESCRIPTION) );
 	addParam(lastInfoMap, c, "SL", Util::toString(SETTING(SLOTS)));
 	addParam(lastInfoMap, c, "FS", Util::toString(UploadManager::getInstance()->getFreeSlots()));
 	addParam(lastInfoMap, c, "SS", getHideShare() ? "0" : ShareManager::getInstance()->getShareSizeString());
 	addParam(lastInfoMap, c, "SF", getHideShare() ? "0" : Util::toString(ShareManager::getInstance()->getSharedFiles()));
-	addParam(lastInfoMap, c, "EM", get(Email));
+	addParam(lastInfoMap, c, "EM", HUBSETTING(EMAIL));
 	addParam(lastInfoMap, c, "HN", Util::toString(counts[COUNT_NORMAL]));
 	addParam(lastInfoMap, c, "HR", Util::toString(counts[COUNT_REGISTERED]));
 	addParam(lastInfoMap, c, "HO", Util::toString(counts[COUNT_OP]));
@@ -1045,8 +1045,8 @@ void AdcHub::info(bool /*alwaysSend*/) {
 
 	addParam(lastInfoMap, c, "LC", Util::getIETFLang());
 
-	bool addV4 = !sock->isV6Valid() || ( get(HubSettings::Connection) == true) ;
-	bool addV6 = sock->isV6Valid() || ( get(HubSettings::Connection6) == true) ;
+	bool addV4 = !sock->isV6Valid() || ( ((int)HUBSETTING(INCOMING_CONNECTIONS)) <= 2); 
+	bool addV6 = sock->isV6Valid() || ( !((string)HUBSETTING(EXTERNAL_IP6)).empty()) ;
 	
 	
 	if(addV4 && isActiveV4()) {
@@ -1059,8 +1059,8 @@ void AdcHub::info(bool /*alwaysSend*/) {
 		su += "," + UDP6_FEATURE;
 	}
 
-	if (  (addV6 && !isActiveV6() && (get(HubSettings::Connection6) == true)) 
-		|| ( (addV4 && !isActiveV4()) && (get(HubSettings::Connection) == true)) ) 
+	if (  (addV6 && !isActiveV6() && (!HUBSETTING(EXTERNAL_IP6).empty())) 
+		|| ( (addV4 && !isActiveV4()) && ((int)HUBSETTING(INCOMING_CONNECTIONS) <= 2) )) 
 	{
 		su += "," + NAT0_FEATURE;
 	}

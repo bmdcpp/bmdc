@@ -17,10 +17,10 @@
  */
 
 #include "stdinc.h"
+#include "SettingsManager.h"
 #include "HubSettings.h"
-
 namespace dcpp {
-
+/*
 const string HubSettings::stringNames[StringCount] = {
 	"Nick", "UserDescription", "Email", "UserIp", "UserIp6" // not "Description" for compat with prev fav hub lists
 	, "AwayMessage", "PackName",
@@ -29,81 +29,141 @@ const string HubSettings::boolNames[BoolCount] = {
 	"ShowJoins", "FavShowJoins", "LogChat", "Connect", "ShowIps", "ShowCountry", "BoldTab",
 	"Connection", "Connection6",
 };
-
-namespace {
-inline bool defined(const string& s) { return !s.empty(); }
-inline bool defined(int b) { return b > 0 && b <= 2; }
-}
-
+*/
 HubSettings::HubSettings() {
-	// bools default to false; 
-	for(int i = (int)ShowJoins; i>BoldTab; ++i) {
-		bools[i] = 0;
-	}
-}
 
-const string& HubSettings::get(HubStrSetting setting) const {
-	return strings[setting - HubStrFirst];
-}
-
-const int& HubSettings::get(HubBoolSetting setting) const {
-	return bools[setting - HubBoolFirst];
-}
-
-string& HubSettings::get(HubStrSetting setting) {
-	return strings[setting - HubStrFirst];
-}
-
-int& HubSettings::get(HubBoolSetting setting) {
-	return bools[setting - HubBoolFirst];
 }
 
 void HubSettings::merge(const HubSettings& sub) {
-	for(uint8_t i = 0; i < StringCount; ++i) {
-		if(defined(sub.strings[i])) {
-			strings[i] = sub.strings[i];
-		}
+	
+	for(auto i = sub.strings.begin(); i != sub.strings.end(); ++i) {
+		strings[i->first] = i->second;
 	}
-	for(uint8_t i = 0; i < BoolCount; ++i) {
-		if(defined(sub.bools[i])) {
-			bools[i] = sub.bools[i];
-		}
+	for(auto i = sub.ints.begin(); i != sub.ints.end(); ++i) {
+		ints[i->first] = i->second;
+	}
+	for(auto i = sub.bools.begin(); i != sub.bools.end(); ++i) {
+		bools[i->first] = i->second;
 	}
 }
 
 void HubSettings::load(SimpleXML& xml) {
-	for(uint8_t i = 0; i < StringCount; ++i) {
-		strings[i] = xml.getChildAttrib(stringNames[i]);
+	
+	// convert old settings
+	set(SettingsManager::NICK, xml.getChildAttrib("Nick"));
+	set(SettingsManager::DESCRIPTION, xml.getChildAttrib("UserDescription"));
+	set(SettingsManager::EMAIL, xml.getChildAttrib("Email"));
+	//
+	set(SettingsManager::EXTERNAL_IP, xml.getChildAttrib("UserIp"));
+	set(SettingsManager::HUB_TEXT_STR, xml.getChildAttrib("TabText"));
+	set(SettingsManager::HUB_ICON_STR, xml.getChildAttrib("TabIcon"));
+	//TODO:convert others
+	xml.stepIn();
+	for(int i = SettingsManager::STR_FIRST; i < SettingsManager::STR_LAST; i++)
+	{
+		const string& attr = SettingsManager::settingTags[i];
+		if(xml.findChild(attr))
+			set(SettingsManager::StrSetting(i), xml.getChildData());
+		xml.resetCurrentChild();
 	}
-	for(uint8_t i = 0; i < BoolCount; ++i) {
-		bools[i] = (xml.getIntChildAttrib(boolNames[i]));
+	for(int i = SettingsManager::INT_FIRST; i < SettingsManager::INT_LAST; i++)
+	{
+		const string& attr = SettingsManager::settingTags[i];
+		if(xml.findChild(attr))
+			set(SettingsManager::IntSetting(i), Util::toInt(xml.getChildData()));
+		xml.resetCurrentChild();
 	}
+	for(int i = SettingsManager::BOOL_FIRST; i < SettingsManager::BOOL_LAST; i++)
+	{
+		const string& attr = SettingsManager::settingTags[i];
+		if(xml.findChild(attr))
+			set(SettingsManager::BoolSetting(i), Util::toInt(xml.getChildData()) > 0);
+		xml.resetCurrentChild();
+	}
+	xml.stepOut();
 
 }
 
 void HubSettings::save(SimpleXML& xml) const {
-	for(uint8_t i = 0; i < StringCount; ++i) {
-		if(defined(strings[i])) {
-			xml.addChildAttrib(stringNames[i], strings[i]);
-		}
-	}
-	for(uint8_t i = 0; i < BoolCount; ++i) {
-		if(defined(bools[i])) {
-			xml.addChildAttrib(boolNames[i], bools[i]);
-		}
-	}
-}
+	
+	xml.stepIn();
 
+	string type("type"), curType("string");
+	for(auto i = strings.begin(); i != strings.end(); ++i) {
+		xml.addTag(SettingsManager::settingTags[i->first], i->second);
+		xml.addChildAttrib(type, curType);
+	}
+
+	curType = "int";
+	for(auto i = ints.begin(); i != ints.end(); ++i) {
+		xml.addTag(SettingsManager::settingTags[i->first], i->second);
+		xml.addChildAttrib(type, curType);
+	}
+
+	curType = "bool";
+	for(auto i = bools.begin(); i != bools.end(); ++i) {
+		xml.addTag(SettingsManager::settingTags[i->first], i->second);
+		xml.addChildAttrib(type, curType);
+	}
+
+	xml.stepOut();
+}
 
 HubSettings& HubSettings::operator=(const HubSettings& rhs)
 {
-	for(int i = 0; i <BoolCount;++i)
-			bools[i] = rhs.bools[i];
-
-	for(int i = 0; i <StringCount;++i)
-			strings[i] = rhs.strings[i];
-
+	strings = rhs.strings;
+	ints = rhs.ints;
+	bools = rhs.bools;
 	return *this;
+}
+
+const string& HubSettings::get(SettingsManager::StrSetting key, const string& defValue) const
+{
+	auto i = strings.find(key);
+	return (i == strings.end()) ? defValue : i->second;
+}
+
+int HubSettings::get(SettingsManager::IntSetting key, int defValue) const
+{
+	auto i = ints.find(key);
+	return (i == ints.end()) ? defValue : i->second;
+}
+
+bool HubSettings::get(SettingsManager::BoolSetting key, bool defValue)
+{
+	auto i = bools.find(key);
+	return (i == bools.end()) ? defValue : (i->second != 0);
+}
+
+void HubSettings::set(SettingsManager::StrSetting key, string const& value)
+{
+	// clearing the string will set up the default value (but to set empty strings???)
+	if(value.empty() || value == SettingsManager::getInstance()->get(key))	
+		strings.erase(key);
+	else
+		strings[key] = value;
+}
+
+void HubSettings::set(SettingsManager::IntSetting key, const string& value)
+{
+	auto intValue = value.empty() ? 0 : Util::toInt(value);
+	set(key, intValue);
+}
+
+void HubSettings::set(SettingsManager::IntSetting key, int value)
+{
+	if(value == SettingsManager::getInstance()->get(key))
+		ints.erase(key);
+	else
+		ints[key] = value;
+}
+
+void HubSettings::set(SettingsManager::BoolSetting key, bool value)
+{
+	if(value == SettingsManager::getInstance()->get(key))
+		bools.erase(key);
+	else
+		bools[key] = value;
 }
 
 } // namespace dcpp

@@ -29,7 +29,7 @@
 class EmoticonsDialog
 {
 	public:
-		EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *menu, std::string packName = WGETS("emoticons-pack"), const std::string& address = dcpp::Util::emptyString);
+		EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *menu, std::string packName = SETTING(EMOT_PACK), const std::string& address = dcpp::Util::emptyString);
 		~EmoticonsDialog();
 
 		// GUI functions

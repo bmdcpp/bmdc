@@ -56,7 +56,8 @@ const string SettingsManager::settingTags[] =
 	"SharingSkiplistExtensions", "SharingSkiplistRegEx", "SharingSkiplistPaths",
 	//[BMDC
 	"BackupFilePattern", "LogFileRaw", "LogFormatRaw", "ProtectedUsers", "BackupTimeStamp", "EmotPack", "RipeDB",
-	"HubIconStr", "HubTextStr", "HubULOrder", "HubULVisible", "HubULSize",
+	"HubIconStr", "HubTextStr", "HubULOrder", "HubULVisible", "HubULSize", "ChatExtraInfo", 
+	"BackgroundChatColor", "BackgroundChatImage", 
 	//]
 	"SENTRY",
 	// Ints
@@ -156,7 +157,8 @@ const string SettingsManager::settingTags[] =
 	"UseWildCardProtectUsers",
 	"DisplayCheatsInMainChat",
 	"UseOemFont", "ServerCommands",
-	"UseAvFilter", 
+	"UseAvFilter", "LogChatB",
+	"UseCountryFlag", "UseEmots", 
 	"SENTRY",
 	// Int64
 	"TotalUpload", "TotalDownload","SharingSkiplistMinSize", "SharingSkiplistMaxSize",
@@ -427,9 +429,19 @@ SettingsManager::SettingsManager()
 	//not used yet
 	setDefault(HUB_ICON_STR, Util::emptyString);
 	setDefault(HUB_TEXT_STR, Util::emptyString);
+///
 	setDefault(HUB_UL_ORDER, "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14");
 	setDefault(HUB_UL_VISIBLE, "1,1,1,1,1,1,1,1,1,1,1,1,1,1,1");
 	setDefault(HUB_UL_SIZE, "157,75,85,100,85,85,90,70,100,50,50,80,80,80,80");
+	setDefault(CHAT_EXTRA_INFO, Util::emptyString);
+	setDefault(LOG_CHAT_B, true);
+	setDefault(USE_COUNTRY_FLAG, true);
+	
+	setDefault(USE_EMOTS, true);
+	
+	setDefault(BACKGROUND_CHAT_COLOR, "white");
+	setDefault(BACKGROUND_CHAT_IMAGE, Util::emptyString);
+
 
 	setSearchTypeDefaults();
 
@@ -675,7 +687,7 @@ void SettingsManager::save(string const& aFileName) {
 		// ...
 	}
 }
-
+/*
 HubSettings SettingsManager::getHubSettings() const {
 	HubSettings ret;
     ret.get(HubSettings::Nick) = get(NICK);
@@ -692,7 +704,7 @@ HubSettings SettingsManager::getHubSettings() const {
 	//]
     return ret;
 }
-
+*/
 void SettingsManager::validateSearchTypeName(const string& name) const {
 	if(name.empty() || (name.size() == 1 && name[0] >= '1' && name[0] <= '6')) {
 		throw SearchTypeException(_("Invalid search type name"));

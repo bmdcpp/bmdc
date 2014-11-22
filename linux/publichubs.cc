@@ -295,9 +295,9 @@ void PublicHubs::onAddFav_gui(GtkMenuItem *item, gpointer data)
 		entry.setName(name);
 		entry.setServer(address);
 		entry.setHubDescription(description);
-		entry.get(HubSettings::Nick) = SETTING(NICK);
+		entry.set(SettingsManager::NICK,SETTING(NICK));
 		entry.setPassword("");
-		entry.get(HubSettings::Description) = SETTING(DESCRIPTION);
+		entry.set(SettingsManager::DESCRIPTION, SETTING(DESCRIPTION));
 
 		typedef Func1<PublicHubs, FavoriteHubEntry> F1;
 		F1 *func = new F1(ph, &PublicHubs::addFav_client, entry);

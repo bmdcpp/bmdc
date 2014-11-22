@@ -19,7 +19,7 @@
 using namespace std;
 using namespace dcpp;
 
-FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* =true */):
+FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* = true */):
 	Entry(Entry::FAV_HUB,"FavDialog"),
 	p_entry(entry),
 	init(add), actionStore(NULL), actionSel(NULL)
@@ -92,19 +92,19 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 		gtk_entry_set_text(GTK_ENTRY(getWidget("entryName")), p_entry->getName().c_str());
 		gtk_entry_set_text(GTK_ENTRY(getWidget("entryAddress")), p_entry->getServer().c_str());
 		gtk_entry_set_text(GTK_ENTRY(getWidget("entryDescription")), p_entry->getHubDescription().c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryNick")), p_entry->get(HubSettings::Nick).c_str());
+		gtk_entry_set_text(GTK_ENTRY(getWidget("entryNick")), p_entry->get(SettingsManager::NICK,SETTING(NICK)).c_str());
 		gtk_entry_set_text(GTK_ENTRY(getWidget("entryPassword")), p_entry->getPassword().c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryUserDescription")),p_entry->get(HubSettings::Description).c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryIp")), p_entry->get(HubSettings::UserIp).c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryExtraInfo")), p_entry->getChatExtraInfo().c_str());
+		gtk_entry_set_text(GTK_ENTRY(getWidget("entryUserDescription")),p_entry->get(SettingsManager::DESCRIPTION,SETTING(DESCRIPTION)).c_str());
+		gtk_entry_set_text(GTK_ENTRY(getWidget("entryIp")), p_entry->get(SettingsManager::EXTERNAL_IP,SETTING(EXTERNAL_IP)).c_str());
+		gtk_entry_set_text(GTK_ENTRY(getWidget("entryExtraInfo")), p_entry->get(SettingsManager::CHAT_EXTRA_INFO,SETTING(CHAT_EXTRA_INFO)).c_str());
 		gtk_entry_set_text(GTK_ENTRY(getWidget("entryprotected")), p_entry->getProtectUsers().c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryeMail")), p_entry->get(HubSettings::Email).c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryAway")), p_entry->get(HubSettings::AwayMessage).c_str());
+		gtk_entry_set_text(GTK_ENTRY(getWidget("entryeMail")), p_entry->get(SettingsManager::EMAIL,SETTING(EMAIL)).c_str());
+		gtk_entry_set_text(GTK_ENTRY(getWidget("entryAway")), p_entry->get(SettingsManager::DEFAULT_AWAY_MESSAGE,SETTING(DEFAULT_AWAY_MESSAGE)).c_str());
 
 
 		gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxMode")), p_entry->getMode());
-		gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxParts")), p_entry->get(HubSettings::ShowJoins));
-		gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxFavParts")), p_entry->get(HubSettings::FavShowJoins));
+		gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxParts")), p_entry->get(SettingsManager::SHOW_JOINS,SETTING(SHOW_JOINS)));
+		gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxFavParts")), p_entry->get(SettingsManager::FAV_SHOW_JOINS,SETTING(FAV_SHOW_JOINS)));
 
 		auto it = groups.find(p_entry->getGroup());
 		if (it != groups.end())
@@ -126,7 +126,7 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 				gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxCharset")), (ii - charsets.begin()));
 			}
 		}
-		string pack_name = p_entry->get(HubSettings::PackName);
+		string pack_name = p_entry->get(SettingsManager::EMOT_PACK,SETTING(EMOT_PACK));
 		for(auto fii = files.begin(); fii!= files.end(); ++fii) {
 			size_t needle = Util::getFileName(*fii).find(".");
 			string tmp  = Util::getFileName(*fii).substr(0,needle);
@@ -136,12 +136,12 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 		}
 
 		// Set the override default nick checkbox
-		string nick = p_entry->get(HubSettings::Nick);
+		string nick = p_entry->get(SettingsManager::NICK,SETTING(NICK));
 		gboolean overrideNick = !(nick.empty() || nick == SETTING(NICK));
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonNick")), overrideNick);
 
 		// Set the override default user description checkbox
-		string desc = p_entry->get(HubSettings::Description);
+		string desc = p_entry->get(SettingsManager::DESCRIPTION,SETTING(DESCRIPTION));
 		gboolean overrideUserDescription = !(desc.empty() || desc == SETTING(DESCRIPTION));
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonUserDescription")), overrideUserDescription);
 
@@ -151,11 +151,12 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkFilelist")), p_entry->getCheckFilelists()   );
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkClients")), p_entry->getCheckClients() );
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkoncon")),  p_entry->getCheckAtConn()  );
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkLog")),   p_entry->get(HubSettings::LogChat)  );
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkLog")),   p_entry->get(SettingsManager::LOG_CHAT_B,SETTING(LOG_CHAT_B))  );
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkNoti")), p_entry->getNotify() );
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkShowCountry")), p_entry->get(HubSettings::ShowCountry) );
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkShowIp")), p_entry->get(HubSettings::ShowIps) );
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkTabBold")), p_entry->get(HubSettings::BoldTab) );
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkShowCountry")), p_entry->get(SettingsManager::GET_USER_COUNTRY,SETTING(GET_USER_COUNTRY)) );
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkShowIp")), p_entry->get(SettingsManager::USE_IP,SETTING(USE_IP)) );
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkTabBold")), p_entry->get(SettingsManager::BOLD_HUB,SETTING(BOLD_HUB)) );
+		
 		WulforManager::get()->insertEntry_gui(this);
 
 		// Show the dialog
@@ -172,27 +173,28 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 			p_entry->setHubDescription(gtk_entry_get_text(GTK_ENTRY(getWidget("entryDescription"))));
 			p_entry->setPassword(gtk_entry_get_text(GTK_ENTRY(getWidget("entryPassword"))));
 			p_entry->setGroup(Util::emptyString);
-			p_entry->setChatExtraInfo(gtk_entry_get_text(GTK_ENTRY(getWidget("entryExtraInfo"))));
-			p_entry->get(HubSettings::UserIp) = gtk_entry_get_text(GTK_ENTRY(getWidget("entryIp")));
+			p_entry->set(SettingsManager::CHAT_EXTRA_INFO ,gtk_entry_get_text(GTK_ENTRY(getWidget("entryExtraInfo"))));
+			p_entry->set(SettingsManager::EXTERNAL_IP, gtk_entry_get_text(GTK_ENTRY(getWidget("entryIp"))));
 			p_entry->setProtectUsers(gtk_entry_get_text(GTK_ENTRY(getWidget("entryprotected"))));
 			p_entry->setNotify(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkNoti"))));
 			p_entry->setMode(gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("comboboxMode"))));
 			p_entry->setAutoConnect(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkButtonAutoConnect"))));
-			p_entry->get(HubSettings::LogChat) = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkLog")));
+			p_entry->set(SettingsManager::LOG_CHAT_B, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkLog"))));
 			p_entry->setHideShare(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkHide"))));
 			p_entry->setCheckAtConn(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkoncon"))));
 			p_entry->setCheckFilelists(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkFilelist"))));
 			p_entry->setCheckClients(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkClients"))));
-			p_entry->get(HubSettings::ShowIps) = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkShowIp")));
-			p_entry->get(HubSettings::BoldTab) = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkTabBold")));
-			p_entry->get(HubSettings::ShowCountry) = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkShowCountry")));
-			p_entry->get(HubSettings::Email) = gtk_entry_get_text(GTK_ENTRY(getWidget("entryeMail")));
-			p_entry->get(HubSettings::ShowJoins) =  gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("comboboxParts")));
-			p_entry->get(HubSettings::FavShowJoins) = gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("comboboxFavParts")));
-			p_entry->get(HubSettings::AwayMessage) = gtk_entry_get_text(GTK_ENTRY(getWidget("entryAway")));
+			
+			p_entry->set(SettingsManager::USE_IP ,gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkShowIp"))));
+			p_entry->set(SettingsManager::BOLD_HUB ,gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkTabBold"))));
+			p_entry->set(SettingsManager::GET_USER_COUNTRY, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkShowCountry"))));
+			p_entry->set(SettingsManager::EMAIL, gtk_entry_get_text(GTK_ENTRY(getWidget("entryeMail"))));
+			p_entry->set(SettingsManager::SHOW_JOINS, gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("comboboxParts"))));
+			p_entry->set(SettingsManager::FAV_SHOW_JOINS, gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("comboboxFavParts"))));
+			p_entry->set(SettingsManager::DEFAULT_AWAY_MESSAGE, gtk_entry_get_text(GTK_ENTRY(getWidget("entryAway"))));
 			//temp fix ( disabling IPv6 by default)
-			p_entry->get(HubSettings::Connection) = 1;
-			p_entry->get(HubSettings::Connection6) = 0;
+			//p_entry->set(HubSettings::Connection) = 1;
+			p_entry->set(SettingsManager::EXTERNAL_IP6, Util::emptyString);
 			
 
 			if (gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("groupsComboBox"))) != 0)
@@ -217,18 +219,18 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 		gchar *pack = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxEmot")));
 		if(pack)
 		{
-			p_entry->get(HubSettings::PackName) = string(pack);
+			p_entry->set(SettingsManager::EMOT_PACK,string(pack));
 			g_free(pack);
 		}
 
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonNick"))))
 		{
-			p_entry->get(HubSettings::Nick) = gtk_entry_get_text(GTK_ENTRY(getWidget("entryNick")));
+			p_entry->get(SettingsManager::NICK, gtk_entry_get_text(GTK_ENTRY(getWidget("entryNick"))));
 		}
 
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonUserDescription"))))
 		{
-			p_entry->get(HubSettings::Description) = gtk_entry_get_text(GTK_ENTRY(getWidget("entryUserDescription")));
+			p_entry->set(SettingsManager::DESCRIPTION,gtk_entry_get_text(GTK_ENTRY(getWidget("entryUserDescription"))));
 		}
 
 		if (p_entry->getName().empty() || p_entry->getServer().empty())

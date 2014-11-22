@@ -61,12 +61,12 @@ public:
 			list.push_back(i->second);
 		}
 	}
+	
 	string startCheck(const string& params) { return users.startChecking(this,params);}
 	void startMyInfoCheck() { users.startMyINFOCheck(this);}
 	void stopMyInfoCheck() { users.stopMyINFOCheck();}
 	void stopChecking() {  users.stopCheck(); }
 	
-
 	static string escape(const string& str) { return validateMessage(str, false); }
 	static string unescape(const string& str) { return validateMessage(str, true); }
 
@@ -75,6 +75,7 @@ public:
 	static string validateMessage(string tmp, bool reverse);
 private:
 	friend class ClientManager;
+	
 	enum SupportFlags {
 		SUPPORTS_USERCOMMAND = 0x01,
 		SUPPORTS_NOGETINFO = 0x02,

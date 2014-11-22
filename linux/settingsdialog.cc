@@ -307,7 +307,7 @@ void Settings::saveSettings_client()
 			sm->set(SettingsManager::INCOMING_CONNECTIONS, SettingsManager::INCOMING_FIREWALL_PASSIVE);
 
 		sm->set(SettingsManager::EXTERNAL_IP, gtk_entry_get_text(GTK_ENTRY(getWidget("entryIpExt"))));//ipEntry
-		sm->set(SettingsManager::EXTERNAL_IP6, gtk_entry_get_text(GTK_ENTRY(getWidget("entryipv6"))));//ipEntry
+		sm->set(SettingsManager::EXTERNAL_IP6, gtk_entry_get_text(GTK_ENTRY(getWidget("entryipv6"))));//ip6Entry
 
 		sm->set(SettingsManager::NO_IP_OVERRIDE, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("forceIPCheckButton"))));
 
@@ -1113,7 +1113,7 @@ void Settings::initAppearance_gui()
 		addOption_gui(appearanceStore, _("Use OEM monospaced font for chat windows"), SettingsManager::USE_OEM_MONOFONT);
 		addOption_gui(appearanceStore, _("Use magnet split"), "use-magnet-split");
 		addOption_gui(appearanceStore, _("Use blinking status icon"), "status-icon-blink-use");
-		addOption_gui(appearanceStore, _("Use emoticons"), "emoticons-use");
+		addOption_gui(appearanceStore, _("Use emoticons"), SettingsManager::USE_EMOTS);//"emoticons-use");
 		addOption_gui(appearanceStore, _("Do not close the program, hide in the system tray"), "main-window-no-close");
 		addOption_gui(appearanceStore, _("Send PM when double clicked in the user list"), "pm");
 		addOption_gui(appearanceStore, _("Show Country in chat"), SettingsManager::GET_USER_COUNTRY);
@@ -1122,7 +1122,7 @@ void Settings::initAppearance_gui()
 		addOption_gui(appearanceStore, _("Use Highlighting"), "use-highlighting");
 		addOption_gui(appearanceStore, _("Show Close Icon in Tab"), "use-close-button");
 		addOption_gui(appearanceStore, _("Show send /commnads in status message"), "show-commands");
-		addOption_gui(appearanceStore, _("Show Flags in main chat"), "use-flag");
+		addOption_gui(appearanceStore, _("Show Country Flags in main chat"), SettingsManager::USE_COUNTRY_FLAG);
 		addOption_gui(appearanceStore, _("Use DNS in Transfers"), "use-dns");
 		addOption_gui(appearanceStore, _("Log Ignored Messages as STATUS mess"), "log-messages");
 		addOption_gui(appearanceStore, _("Do not close Tab on middle button (wheel)"), "book-three-button-disable");
@@ -1347,7 +1347,7 @@ void Settings::initAppearance_gui()
 
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkBoldAuthors")), WGETB("text-bold-autors"));
 		//[BMDC
-		string strcolor = WGETS("background-color-chat");
+		string strcolor = SETTING(BACKGROUND_CHAT_COLOR);//WGETS("background-color-chat");
 		GdkRGBA color;
 		gdk_rgba_parse(&color,strcolor.c_str());
 
@@ -1761,7 +1761,7 @@ void Settings::onSetBackGroundChat(GtkWidget *widget , gpointer data)
 	Settings *s = (Settings *)data;
 	GtkWidget *dialog = gtk_color_chooser_dialog_new(_("Set Color"),GTK_WINDOW(s->getContainer()));
 	GdkRGBA color;
-	if (gdk_rgba_parse(&color,WGETS("background-color-chat").c_str()))
+	if (gdk_rgba_parse(&color,/*WGETS("background-color-chat").c_str()*/SETTING(BACKGROUND_CHAT_COLOR).c_str()))
 		gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog), &color);
 
 	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
@@ -1771,7 +1771,9 @@ void Settings::onSetBackGroundChat(GtkWidget *widget , gpointer data)
 	{
 		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(dialog),&color);
 		string strcolor = WulforUtil::colorToString(&color);
-		WSET("background-color-chat", strcolor);
+		//WSET("background-color-chat", strcolor);
+		SettingsManager::getInstance()->set(SettingsManager::BACKGROUND_CHAT_COLOR, strcolor);
+		SettingsManager::getInstance()->save();
 		gtk_widget_override_background_color(s->getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_NORMAL,&color);
 		gtk_widget_override_background_color(s->getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_PRELIGHT,&color);
 		gtk_widget_override_background_color(s->getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_ACTIVE,&color);

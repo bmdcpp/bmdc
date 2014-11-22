@@ -44,12 +44,12 @@ WulforSettingsManager::WulforSettingsManager():
 	g_object_get(gtk_settings_get_default(),"gtk-theme-name",&name_theme,NULL);
 	GtkThemingEngine *engine = gtk_theming_engine_load(name_theme);
 	gtk_theming_engine_get_background_color (engine,(GtkStateFlags)GTK_STATE_FLAG_NORMAL,&color);
-	//
 	#else
 	//TODO: get from theme/sys/
 		GdkRGBA color;
 		gdk_rgba_parse (&color,"white");
 	#endif
+	
 	defaultInt.insert(IntMap::value_type("main-window-maximized", 0));
 	defaultInt.insert(IntMap::value_type("main-window-size-x", 875));
 	defaultInt.insert(IntMap::value_type("main-window-size-y", 685));
@@ -57,7 +57,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("main-window-pos-y", 100));
 	defaultInt.insert(IntMap::value_type("main-window-no-close", 0));
 	defaultInt.insert(IntMap::value_type("transfer-pane-position", 482));
-	defaultInt.insert(IntMap::value_type("nick-pane-position", 500));
+	defaultInt.insert(IntMap::value_type("nick-pane-position", 500));//per Fav
 	defaultInt.insert(IntMap::value_type("downloadqueue-pane-position", 200));
 	defaultInt.insert(IntMap::value_type("sharebrowser-pane-position", 200));
 	defaultInt.insert(IntMap::value_type("tab-position", 0));
@@ -119,7 +119,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("notify-icon-size", 3));
 	defaultInt.insert(IntMap::value_type("notify-only-not-active", 0));
 	defaultInt.insert(IntMap::value_type("status-icon-blink-use", 1));
-	defaultInt.insert(IntMap::value_type("emoticons-use", 1));
+//	defaultInt.insert(IntMap::value_type("emoticons-use", 1));//per fav?
 	defaultInt.insert(IntMap::value_type("pm", 0));//Send private message when double clicked in the user list.//@TODO remove ?//Not yet still used
 	defaultInt.insert(IntMap::value_type("search-spy-frame", 50));
 	defaultInt.insert(IntMap::value_type("search-spy-waiting", 40));
@@ -137,15 +137,15 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("toolbar-position", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-small", 1));
 	///[BMDC++
-	defaultInt.insert(IntMap::value_type("use-flag", 1));
+//	defaultInt.insert(IntMap::value_type("use-flag", 1));//todo : rem
 	defaultInt.insert(IntMap::value_type("bold-all-tab", 1));
 	defaultInt.insert(IntMap::value_type("use-close-button", 0));
 	defaultInt.insert(IntMap::value_type("size-label-box-bookentry",15));
 	defaultInt.insert(IntMap::value_type("max-tooltips", 10));
-	defaultInt.insert(IntMap::value_type("show-commands", 0));
-	defaultInt.insert(IntMap::value_type("use-highlighting", 0));
+	defaultInt.insert(IntMap::value_type("show-commands", 0));//per Fav dcpp
+	defaultInt.insert(IntMap::value_type("use-highlighting", 0));//per Fav?
 	defaultInt.insert(IntMap::value_type("use-dns", 0));
-	defaultInt.insert(IntMap::value_type("log-messages", 0));
+	defaultInt.insert(IntMap::value_type("log-messages", 0));//per fav
 	defaultInt.insert(IntMap::value_type("text-cheat-bold", 1));
 	defaultInt.insert(IntMap::value_type("text-cheat-italic", 0));
 	defaultInt.insert(IntMap::value_type("text-ip-bold", 1));
@@ -188,9 +188,11 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("finished-order", ""));
 	defaultString.insert(StringMap::value_type("finished-width", ""));
 	defaultString.insert(StringMap::value_type("finished-visibility", ""));
+	//redo this or rem?
 	defaultString.insert(StringMap::value_type("hub-order", "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14"));
 	defaultString.insert(StringMap::value_type("hub-width", "157,75,85,100,85,85,90,70,100,50,50,80,80,80,80"));
 	defaultString.insert(StringMap::value_type("hub-visibility", "1,1,1,1,1,1,1,1,1,1,1,1,1,1,1"));
+	//end
 	defaultString.insert(StringMap::value_type("transfers-order", ""));
 	defaultString.insert(StringMap::value_type("transfers-width", ""));
 	defaultString.insert(StringMap::value_type("transfers-visibility", ""));
@@ -244,8 +246,8 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("search-spy-q-color", "#b0b0b0"));
 	defaultString.insert(StringMap::value_type("search-spy-c-color", "#b28600"));
 	defaultString.insert(StringMap::value_type("search-spy-r-color", "#6c85ca"));
-	defaultString.insert(StringMap::value_type("emoticons-pack", "bmicon"));
-	defaultString.insert(StringMap::value_type("emoticons-icon-size", "24x24"));
+//	defaultString.insert(StringMap::value_type("emoticons-pack", "bmicon"));//per Fav dcpp
+	defaultString.insert(StringMap::value_type("emoticons-icon-size", "24x24"));//per Fav?
 	defaultString.insert(StringMap::value_type("notify-download-finished-title", _("Download finished")));
 	defaultString.insert(StringMap::value_type("notify-download-finished-icon", ""));
 	defaultString.insert(StringMap::value_type("notify-download-finished-ul-title", _("Download finished file list")));
@@ -362,6 +364,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("icon-zeroone-away-pasive", "bmdc-zeroone-away-pasive"));
 	defaultString.insert(StringMap::value_type("icon-zerozeroone-away-pasive", "bmdc-zerozeroone-away-pasive"));
 	defaultString.insert(StringMap::value_type("icon-other-away-pasive", "bmdc-other-away-pasive"));
+	//TODO ? Per Fav?
 	/* for UL color text */
 	defaultString.insert(StringMap::value_type("userlist-text-operator", "#000000"));
 	defaultString.insert(StringMap::value_type("userlist-text-pasive", "#747677"));
@@ -378,7 +381,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("userlist-bg-pasive", "#BFBFBF"));
 	defaultString.insert(StringMap::value_type("userlist-bg-protected", "#BFBFBF"));
 	defaultString.insert(StringMap::value_type("userlist-bg-ignored", "#BFBFBF"));
-	/**/
+	/*end*/
 	defaultString.insert(StringMap::value_type("custom-aliases", "#"));
 	/* Extended text color*/
 	defaultString.insert(StringMap::value_type("text-cheat-fore-color", "red"));
@@ -399,7 +402,8 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("share-default", "black"));
 	defaultString.insert(StringMap::value_type("sound-command", "aplay -q"));
 	defaultString.insert(StringMap::value_type("last-searchs", "."));
-	defaultString.insert(StringMap::value_type("background-color-chat", WulforUtil::colorToString(&color)));
+	
+	//defaultString.insert(StringMap::value_type("background-color-chat", WulforUtil::colorToString(&color)));//dcpp set
 
 	defaultString.insert(StringMap::value_type("color-tab-text-bold", "blue"));
 	defaultString.insert(StringMap::value_type("color-tab-text-urgent", "blue"));
@@ -476,9 +480,9 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("double-click-action",(int)CActions::BROWSE));
 	defaultInt.insert(IntMap::value_type("hide-transfers",0));
 
-	defaultString.insert(StringMap::value_type("menu-userlist-color","blue"));
+	defaultString.insert(StringMap::value_type("menu-userlist-color","blue"));//TODO: dcpp set
 	
-	defaultString.insert(StringMap::value_type("hub-background-image",dcpp::Util::emptyString));//Full Path
+	defaultString.insert(StringMap::value_type("hub-background-image",dcpp::Util::emptyString));//Full Path//TODO: dcpp set
 	defaultString.insert(StringMap::value_type("pm-background-image",dcpp::Util::emptyString));//Full Path
 	
 	load();
