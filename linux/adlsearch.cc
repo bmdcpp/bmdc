@@ -1,6 +1,6 @@
 /*
  * Copyright © 2009-2012 freedcpp, http://code.google.com/p/freedcpp
- * Copyright © 2011-2014 Parts (CMD supports) of Code BMDC++ , https://launchpad.net/bmdc++
+ * Copyright © 2011-2015 Parts (CMD supports) of Code BMDC++ , https://launchpad.net/bmdc++
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

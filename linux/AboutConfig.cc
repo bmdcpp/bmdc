@@ -1,5 +1,5 @@
 //
-//      Copyright 2011 - 2014 Mank <freedcpp at seznam dot cz>
+//      Copyright 2011 - 2015 Mank <freedcpp at seznam dot cz>
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ BookEntry(Entry::ABOUT_CONFIG, _("About:config"), "config")
 	g_signal_connect(getWidget("propteriesItem"), "activate", G_CALLBACK(onPropertiesClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("DefaultItem"), "activate", G_CALLBACK(onSetDefault), (gpointer)this);
 	
-	if(!SETTING(AC_DISCLAIM)) {
+	if(SETTING(AC_DISCLAIM) == false) {
 			gtk_widget_set_sensitive(getWidget("scrolledwindow"),FALSE);
 	}
 	g_signal_connect(GTK_INFO_BAR(getWidget("infobar")),
@@ -260,7 +260,7 @@ void AboutConfig::onInfoResponse(GtkWidget *info_bar, gint response_id,  gpointe
 			SettingsManager::getInstance()->save();
 			break;
 		default:		
-			return;
+			break;
 	}
 	
 }                 
