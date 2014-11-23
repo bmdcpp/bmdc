@@ -884,4 +884,7 @@ Fix deprecation with 3.14+
 add AVDB
 add global settings for UL_VISIBLE/ORDER/SIZE, TAB_TEXT/ICON
 ---
-Another HubSetting with respektive UI changes
+HubSetting changes with respektive UI changes
+checking size of aFile in UploadManager
+Fix deabeef a bit,Fix set nick
+
