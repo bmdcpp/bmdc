@@ -40,7 +40,7 @@ public:
 	bool match(const string& s) const {
 		if(s.length() >= N) {
 			string::size_type l = s.length() - N;
-			for(auto i = 0; i <= l; ++i) {
+			for(size_t i = 0; i <= l; ++i) {
 				if(!table[getPos(s, i, N)]) {
 					return false;
 				}

@@ -32,10 +32,11 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	eventBox(NULL),	labelBox(NULL),
 	tabMenuItem(NULL), closeButton(NULL),
 	label(NULL), fItem(NULL),
+	bCreated(true),
 	bold(false), urgent(false),
 	labelSize((glong)WGETI("size-label-box-bookentry")),
 	icon(NULL), popTabMenuItem(NULL),
-	type(type), IsCloseButton(false), bCreated(true)
+	type(type), IsCloseButton(false)
 {
 	GSList *group = NULL;
 	#if GTK_CHECK_VERSION(3, 2, 0)
@@ -412,7 +413,8 @@ GtkWidget *BookEntry::createItemFirstMenu()
 		#else
 			return gtk_image_menu_item_new_from_stock(stock.c_str(),NULL);	
 		#endif
-	}	
+	}
+	return NULL;	
 }
 
 void BookEntry::setBackForeGround(const EntryType type)

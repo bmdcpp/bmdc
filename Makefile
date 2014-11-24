@@ -8,7 +8,7 @@ Release:
 	scons install
 Debug:
 	mkdir -p ${HOME}/BMDC/
-	scons PREFIX=${HOME}/BMDC/ debug=1 profile=0 -j2
+	scons PREFIX=${HOME}/BMDC/ debug=1 profile=0
 	scons install
 cleanrelease:
 	scons -c

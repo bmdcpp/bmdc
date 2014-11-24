@@ -103,7 +103,7 @@ bool HashManager::StreamStore::loadTree(const string& p_filePath, TigerTree &tre
     if (attr_get(p_filePath.c_str(), g_streamName.c_str(), (char*)(void*)buf.get(), &blockSize, 0) == 0){
         memcpy(&h, buf.get(), hdrSz);
 
-        printf("%s: timestamps header=0x%llx, current=0x%llx, difference(should be zero)=%lld\n",
+        printf("%s: timestamps header=0x%lu, current=0x%lu, difference(should be zero)=%lu\n",
                p_filePath.c_str(), h.timeStamp, getTimeStamp(p_filePath), h.timeStamp - getTimeStamp(p_filePath));
 
         if (!(h.timeStamp == getTimeStamp(p_filePath) && validateCheckSum(h))){ // File was modified and we should reset attr.

@@ -629,7 +629,7 @@ void FavoriteHubs::saveFavHubGroups()
 		HubSettings p;
 
 		int log_hub = groupsView.getString(&iter, "LogChat") == "1" ? 1 : 0;
-		int connect_hub = groupsView.getValue<int>(&iter, "Connect hub");
+//		int connect_hub = groupsView.getValue<int>(&iter, "Connect hub");
 		string nick = groupsView.getString(&iter, "Nick");
 		string email = groupsView.getString(&iter, "eMail");
 		string desc = groupsView.getString(&iter, "Desc");

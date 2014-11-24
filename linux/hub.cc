@@ -118,7 +118,6 @@ Hub::Hub(const string &address, const string &encoding):
 	set_Header_tooltip_gui();
 
 	// Initialize the chat window
-	//gtk_widget_set_name(getWidget("chatText"),"Hub");//TODO: per Fav?
 	string color = faventry ? faventry->get(SettingsManager::BACKGROUND_CHAT_COLOR, SETTING(BACKGROUND_CHAT_COLOR)) : SETTING(BACKGROUND_CHAT_COLOR);
 	string image = faventry ? faventry->get(SettingsManager::BACKGROUND_CHAT_IMAGE, SETTING(BACKGROUND_CHAT_IMAGE)) : SETTING(BACKGROUND_CHAT_IMAGE);
 	
@@ -171,7 +170,7 @@ Hub::Hub(const string &address, const string &encoding):
 	}
 	// Emoticons dialog
 	emotdialog = new EmoticonsDialog(getWidget("chatEntry"), getWidget("emotButton"), getWidget("emotPacksMenu"), packName, address);
-	if (!SETTING(USE_EMOTS))
+	if (!SETTING(USE_EMOTS))//FAV?
 		gtk_widget_set_sensitive(getWidget("emotButton"), FALSE);
 	
 	useEmoticons = true;
@@ -276,13 +275,10 @@ Hub::Hub(const string &address, const string &encoding):
 
 	// Set the pane position
 	gint panePosition = WGETI("nick-pane-position");
-	//if (panePosition > 10)//@this seems unneeded
-	{
-		gint width;
-		GtkWindow *window = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
-		gtk_window_get_size(window, &width, NULL);
-		gtk_paned_set_position(GTK_PANED(getWidget("pane")), width - panePosition);
-	}
+	gint width;
+	GtkWindow *window = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
+	gtk_window_get_size(window, &width, NULL);
+	gtk_paned_set_position(GTK_PANED(getWidget("pane")), width - panePosition);
 
 	history.push_back("");
 
@@ -320,10 +316,10 @@ Hub::Hub(const string &address, const string &encoding):
 	selectedTag = TagsMap[Tag::TAG_GENERAL];
 
 	RecentHubEntry entry;
-	entry.setName("*");
+	entry.setName("***");
 	entry.setDescription("***");
 	entry.setUsers("0");
-	entry.setShared("*");
+	entry.setShared("0");
 	entry.setServer(address);
 	RecentHubEntry* r = FavoriteManager::getInstance()->getRecentHubEntry(address);
 	
@@ -398,6 +394,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		string nick = hub->nickView.getString(iter,_("Nick"),model);
 		int64_t size = hub->nickView.getValue<gint64>(iter,_("Shared"),model);
 		string tmp = hub->nickView.getString(iter,_("Client Type"),model);		
+//		string cid = hub->nickView.getString(iter,"CID",model);
 		
 		char a = tmp[0];
 		switch(a){
@@ -449,8 +446,14 @@ if(WGETB("use-highlighting")) {//maybe hub-based?
 		{
 			color = "#A52A2A";//another red
 			AVManager::AVEntry entry = AVManager::getInstance()->getEntryByNick(nick);
-			if(Util::toInt64(entry.ss) == size)
+			if(Util::toInt64(entry.ss) == size) {
 				color = "red";//hardcode for now @ if size and nick is ok
+				//TODO?
+				//UserPtr u = make_shared<User>(CID(cid));
+				//HintedUser h(u,hub->address);
+				//ClientManager::getInstance()->setCheating( h,
+				//						Util::emptyString, "User "+nick+"is virus spreader",0,true,true,true,true,true);
+			}	
 		}
 
 		if(isSet == false) {
@@ -2517,7 +2520,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 				info[_("Mode")] = Util::toString(fav->getMode());
 			}
 			info[_("Log Chat")] = (hub->client->get(SettingsManager::LOG_CHAT_B,SETTING(LOG_CHAT_B)) ? string(_("Yes")) : _("No")) +_(" ") + (isGlobalBool(hub->client->get(SettingsManager::LOG_CHAT_B,SETTING(LOG_CHAT_B)),SETTING(LOG_CHAT_B)) ? _("Global") : _("User Per Fav Set"));
-			info[_("Bold Tab")] = (hub->client->get(SettingsManager::BOLD_HUB,SETTING(BOLD_HUB)) ? string(_("Yes")) : _("No")) + +_(" ")(isGlobalBool(hub->client->get(SettingsManager::BOLD_HUB,SETTING(BOLD_HUB)),SETTING(BOLD_HUB)) ? _("Global") : _("User Per Fav Set"));
+			info[_("Bold Tab")] = (hub->client->get(SettingsManager::BOLD_HUB,SETTING(BOLD_HUB)) ? string(_("Yes")) : _("No"))  +_(" ")+(isGlobalBool(hub->client->get(SettingsManager::BOLD_HUB,SETTING(BOLD_HUB)),SETTING(BOLD_HUB)) ? _("Global") : _("User Per Fav Set"));
 			info[_("Show Country")] = (hub->client->get(SettingsManager::GET_USER_COUNTRY,SETTING(GET_USER_COUNTRY)) ? string(_("Yes")) : _("No"))+_(" ")+(isGlobalBool(hub->client->get(SettingsManager::GET_USER_COUNTRY,SETTING(GET_USER_COUNTRY)),SETTING(GET_USER_COUNTRY)) ? _(" Global ") : _(" User Per Fav Set "));
 			info[_("Show IPs")] = (hub->client->get(SettingsManager::USE_IP,SETTING(USE_IP)) ? string(_("Yes")) : _("No"))+_(" ")+(isGlobalBool(hub->client->get(SettingsManager::USE_IP,SETTING(USE_IP)),SETTING(USE_IP)) ? _(" Global") : _(" User Per Fav Set "));
 		

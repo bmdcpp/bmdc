@@ -32,13 +32,13 @@ path(WulforManager::get()->getPath()+"/extensions/Scripts/"+input)
 		output = const_cast<char*>(tmp.c_str());
 	}
 
-//	resultsize=len;
-/*	output = new char[resultsize];
+/*	resultsize=len;
+	output = new char[resultsize];
 	strcpy(output,"");
 	errormessage = new char[strlen(input)+100];
 	strcpy(errormessage,"");
 	error = 0;
-	char command[strlen(input)+11];//declaration for the final command that will be executed
+	char command[strlen(input)+11];declaration for the final command that will be executed
 	if (shell == 0)
 	{
 		char testscript[strlen(input)+28];
@@ -76,14 +76,14 @@ path(WulforManager::get()->getPath()+"/extensions/Scripts/"+input)
 						strcpy(errormessage,"Unable to execute ");
 						strcat(errormessage,com);
 					}
-				/*}
+				}
 				else
 				{
 					strcpy(errormessage,"File ");
 					strcat(errormessage,input);
 					strcat(errormessage," is not an executable. Please use chmod +x to set file permissions.");
-				}*/
-/*			}
+				}
+		}
 		}
 		if (error == 0)
 		{
@@ -94,8 +94,8 @@ path(WulforManager::get()->getPath()+"/extensions/Scripts/"+input)
 	else
 	{
 		strcpy(command,input);
-	}*/
-/*	if (error == 0)
+	}
+	if (error == 0)
 	{
 	        FILE* f;
         	f=popen(command,"r");

@@ -1,4 +1,4 @@
-// Copyright (C) 2014  Mank <freedppp@seznam.cz>
+// Copyright (C) 2015  Mank <freedppp@seznam.cz>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -173,7 +173,9 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 			p_entry->setServer(gtk_entry_get_text(GTK_ENTRY(getWidget("entryAddress"))));
 			p_entry->setHubDescription(gtk_entry_get_text(GTK_ENTRY(getWidget("entryDescription"))));
 			p_entry->setPassword(gtk_entry_get_text(GTK_ENTRY(getWidget("entryPassword"))));
+			
 			p_entry->setGroup(Util::emptyString);
+			
 			p_entry->set(SettingsManager::CHAT_EXTRA_INFO ,gtk_entry_get_text(GTK_ENTRY(getWidget("entryExtraInfo"))));
 			p_entry->set(SettingsManager::EXTERNAL_IP, gtk_entry_get_text(GTK_ENTRY(getWidget("entryIp"))));
 			p_entry->setProtectUsers(gtk_entry_get_text(GTK_ENTRY(getWidget("entryprotected"))));
@@ -219,6 +221,7 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 		}
 
 		gchar *pack = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxEmot")));
+		
 		if(pack)
 		{
 			p_entry->set(SettingsManager::EMOT_PACK,string(pack));
