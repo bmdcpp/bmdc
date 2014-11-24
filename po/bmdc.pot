@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2014-11-22 19:46+0100\n"
+"POT-Creation-Date: 2014-11-23 20:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2014-11-23 16:03+0100\n"
+"POT-Creation-Date: 2014-11-23 20:24+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -512,12 +512,12 @@ msgstr ""
 msgid "Actions Setup"
 msgstr ""
 
-#: ui/FavDialog.glade.ui:928 ui/detection.glade.ui:1452
+#: ui/FavDialog.glade.ui:944 ui/detection.glade.ui:1452
 #: ui/favoritehubs.glade.ui:1315
 msgid "Actions and Raws"
 msgstr ""
 
-#: ui/FavDialog.glade.ui:993 ui/favoritehubs.glade.ui:1580
+#: ui/FavDialog.glade.ui:1009 ui/favoritehubs.glade.ui:1580
 #: ui/settingsdialog.glade.ui:1862
 msgid "Active"
 msgstr ""
@@ -595,7 +595,7 @@ msgstr ""
 msgid "Add..."
 msgstr ""
 
-#: ui/FavDialog.glade.ui:900 ui/favoritehubs.glade.ui:1287
+#: ui/FavDialog.glade.ui:916 ui/favoritehubs.glade.ui:1287
 #: ui/settingsdialog.glade.ui:2358 ui/settingsdialog.glade.ui:6862
 #: ui/settingsdialog.glade.ui:8009
 msgid "Advanced"
@@ -990,8 +990,8 @@ msgstr ""
 msgid "Debug CMD"
 msgstr ""
 
-#: ui/FavDialog.glade.ui:956 ui/FavDialog.glade.ui:973
-#: ui/FavDialog.glade.ui:990 ui/favoritehubs.glade.ui:1509
+#: ui/FavDialog.glade.ui:972 ui/FavDialog.glade.ui:989
+#: ui/FavDialog.glade.ui:1006 ui/favoritehubs.glade.ui:1509
 #: ui/favoritehubs.glade.ui:1526 ui/favoritehubs.glade.ui:1543
 #: ui/favoritehubs.glade.ui:1560 ui/favoritehubs.glade.ui:1577
 #: ui/settingsdialog.glade.ui:5272 ui/settingsdialog.glade.ui:5964
@@ -1063,7 +1063,7 @@ msgstr ""
 msgid "Directory"
 msgstr ""
 
-#: ui/FavDialog.glade.ui:962 ui/FavDialog.glade.ui:979
+#: ui/FavDialog.glade.ui:978 ui/FavDialog.glade.ui:995
 #: ui/favoritehubs.glade.ui:1515 ui/favoritehubs.glade.ui:1532
 #: ui/favoritehubs.glade.ui:1549 ui/favoritehubs.glade.ui:1566
 msgid "Disable"
@@ -1154,7 +1154,7 @@ msgstr ""
 msgid "Edit the preferences"
 msgstr ""
 
-#: ui/FavDialog.glade.ui:884
+#: ui/FavDialog.glade.ui:900
 msgid "Emot Pack"
 msgstr ""
 
@@ -1166,7 +1166,7 @@ msgstr ""
 msgid "Emulation Action"
 msgstr ""
 
-#: ui/FavDialog.glade.ui:959 ui/FavDialog.glade.ui:976
+#: ui/FavDialog.glade.ui:975 ui/FavDialog.glade.ui:992
 #: ui/favoritehubs.glade.ui:1512 ui/favoritehubs.glade.ui:1529
 #: ui/favoritehubs.glade.ui:1546 ui/favoritehubs.glade.ui:1563
 #: linux/detectiontab.cc:41 linux/detectiontab.cc:60 linux/detectiontab.cc:71
@@ -1206,9 +1206,9 @@ msgstr ""
 
 #: ui/adlsearch.glade.ui:331 ui/detection.glade.ui:267
 #: ui/detection.glade.ui:800 linux/FavoriteHubDialog.cc:30
-#: linux/FavoriteHubDialog.cc:42 linux/FavoriteHubDialog.cc:296
-#: linux/FavoriteHubDialog.cc:298 linux/FavoriteHubDialog.cc:318
-#: linux/FavoriteHubDialog.cc:331 linux/adlsearch.cc:47 linux/adlsearch.cc:76
+#: linux/FavoriteHubDialog.cc:42 linux/FavoriteHubDialog.cc:298
+#: linux/FavoriteHubDialog.cc:300 linux/FavoriteHubDialog.cc:320
+#: linux/FavoriteHubDialog.cc:333 linux/adlsearch.cc:47 linux/adlsearch.cc:76
 #: linux/adlsearch.cc:83 linux/adlsearch.cc:139 linux/adlsearch.cc:250
 #: linux/adlsearch.cc:295 linux/adlsearch.cc:494 linux/adlsearch.cc:496
 #: linux/exportimport.cc:50 linux/exportimport.cc:87 linux/exportimport.cc:126
@@ -1866,8 +1866,8 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:1156 linux/AboutConfig.cc:32
 #: linux/AboutConfig.cc:41 linux/AboutConfig.cc:43 linux/AboutConfig.cc:158
 #: linux/AboutConfig.cc:176 linux/AboutConfig.cc:275 linux/AboutConfig.cc:331
-#: linux/FavoriteHubDialog.cc:29 linux/FavoriteHubDialog.cc:317
-#: linux/FavoriteHubDialog.cc:330 linux/detectiontab.cc:42
+#: linux/FavoriteHubDialog.cc:29 linux/FavoriteHubDialog.cc:319
+#: linux/FavoriteHubDialog.cc:332 linux/detectiontab.cc:42
 #: linux/detectiontab.cc:61 linux/detectiontab.cc:72 linux/detectiontab.cc:313
 #: linux/detectiontab.cc:334 linux/detectiontab.cc:405
 #: linux/detectiontab.cc:454 linux/detectiontab.cc:476
@@ -2053,7 +2053,7 @@ msgstr ""
 msgid "Package in PPA"
 msgstr ""
 
-#: ui/FavDialog.glade.ui:996 ui/favoritehubs.glade.ui:1583
+#: ui/FavDialog.glade.ui:1012 ui/favoritehubs.glade.ui:1583
 #: linux/settingsdialog.cc:1659 linux/settingsdialog.cc:1678
 #: linux/settingsdialog.cc:3749 linux/settingsdialog.cc:3780
 msgid "Pasive"
@@ -4804,7 +4804,7 @@ msgid ""
 "The GeoIP database has been successfully updated; restart DC++ to apply....v"
 msgstr ""
 
-#: linux/FavoriteHubDialog.cc:238
+#: linux/FavoriteHubDialog.cc:240
 msgid "The name and address fields are required"
 msgstr ""
 

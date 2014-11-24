@@ -100,7 +100,8 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 		gtk_entry_set_text(GTK_ENTRY(getWidget("entryprotected")), p_entry->getProtectUsers().c_str());
 		gtk_entry_set_text(GTK_ENTRY(getWidget("entryeMail")), p_entry->get(SettingsManager::EMAIL,SETTING(EMAIL)).c_str());
 		gtk_entry_set_text(GTK_ENTRY(getWidget("entryAway")), p_entry->get(SettingsManager::DEFAULT_AWAY_MESSAGE,SETTING(DEFAULT_AWAY_MESSAGE)).c_str());
-
+		
+		gtk_entry_set_text(GTK_ENTRY(getWidget("entryColor")), p_entry->get(SettingsManager::BACKGROUND_CHAT_COLOR,SETTING(BACKGROUND_CHAT_COLOR)).c_str());
 
 		gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxMode")), p_entry->getMode());
 		gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxParts")), p_entry->get(SettingsManager::SHOW_JOINS,SETTING(SHOW_JOINS)));
@@ -196,6 +197,7 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 			//p_entry->set(HubSettings::Connection) = 1;
 			p_entry->set(SettingsManager::EXTERNAL_IP6, Util::emptyString);
 			
+			p_entry->set(SettingsManager::BACKGROUND_CHAT_COLOR, gtk_entry_get_text(GTK_ENTRY(getWidget("entryColor"))));
 
 			if (gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("groupsComboBox"))) != 0)
 			{

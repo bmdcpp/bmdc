@@ -66,7 +66,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="border_width">8</property>
-                <property name="n_rows">16</property>
+                <property name="n_rows">17</property>
                 <property name="n_columns">2</property>
                 <property name="row_spacing">2</property>
                 <child>
@@ -851,6 +851,22 @@
                     <property name="right_attach">3</property>
                     <property name="top_attach">5</property>
                     <property name="bottom_attach">6</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="entryColor">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="primary_icon_activatable">False</property>
+                    <property name="secondary_icon_activatable">False</property>
+                    <property name="primary_icon_sensitive">True</property>
+                    <property name="secondary_icon_sensitive">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">2</property>
+                    <property name="right_attach">1</property>
+                    <property name="top_attach">6</property>
+                    <property name="bottom_attach">7</property>
                   </packing>
                 </child>
                 <child>
