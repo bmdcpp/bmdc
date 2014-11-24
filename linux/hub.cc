@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2014 Mank, freedcpp@seznam.cz
+ * Copyright © 2010-2015 Mank, freedcpp@seznam.cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -2495,15 +2495,20 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		else if ( command == "info" )
 		{
 			
+			auto isGlobalString = [hub](std::string i,std::string n) -> bool { return i == n;};
+			auto isGlobalBool = [hub](bool i,bool n) -> bool { return i == n;};
+			
 			map<string, string> info;
             info[_("Hub address")] = hub->address;
 			info[_("Hub IP & port")] = hub->client->getIpPort();
 			info[_("Online users")] = Util::toString(hub->client->getUserCount()-1);
 			info[_("Shared")] = Util::formatBytes(hub->client->getAvailable());
-			info[_("Nick")] = hub->client->get(SettingsManager::NICK,SETTING(NICK));
-			info[_("Description")] = hub->client->get(SettingsManager::DESCRIPTION,SETTING(DESCRIPTION));
-			info[_("Email")] = hub->client->get(SettingsManager::EMAIL,SETTING(EMAIL));
-			info[_("External / WAN IP")] = hub->client->get(SettingsManager::EXTERNAL_IP,SETTING(EXTERNAL_IP));
+			
+			info[_("Nick")] = hub->client->get(SettingsManager::NICK,SETTING(NICK)) +_(" ") + (isGlobalString(hub->client->get(SettingsManager::NICK,SETTING(NICK)),SETTING(NICK)) ? _("Global") : _("User Per Fav Set"));
+			info[_("Description")] = hub->client->get(SettingsManager::DESCRIPTION,SETTING(DESCRIPTION)) +_(" ") + (isGlobalString(hub->client->get(SettingsManager::DESCRIPTION,SETTING(DESCRIPTION)),SETTING(DESCRIPTION)) ? _("Global") : _("User Per Fav Set"));
+			info[_("Email")] = hub->client->get(SettingsManager::EMAIL,SETTING(EMAIL)) +_(" ")+(isGlobalString(hub->client->get(SettingsManager::EMAIL,SETTING(EMAIL)),SETTING(EMAIL)) ? _("Global") : _("User Per Fav Set"));
+			info[_("External / WAN IP")] = hub->client->get(SettingsManager::EXTERNAL_IP,SETTING(EXTERNAL_IP))+_(" ")+(isGlobalString(hub->client->get(SettingsManager::EXTERNAL_IP,SETTING(EXTERNAL_IP)),SETTING(EXTERNAL_IP)) ? _("Global") : _("User Per Fav Set"));
+			info[_("External / WAN IP")] = hub->client->get(SettingsManager::EXTERNAL_IP6,SETTING(EXTERNAL_IP6))+_(" ")+(isGlobalString(hub->client->get(SettingsManager::EXTERNAL_IP6,SETTING(EXTERNAL_IP6)),SETTING(EXTERNAL_IP6)) ? _("Global") : _("User Per Fav Set"));
 			info[_("Encoding")] =  hub->client->getEncoding();
 			info[_("Hide Share")] = hub->client->getHideShare() ? _("Yes") : _("No");
 			FavoriteHubEntry* fav = FavoriteManager::getInstance()->getFavoriteHubEntry(hub->address);
@@ -2511,10 +2516,10 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 				info[_("Notification")] = fav->getNotify() ? _("Yes") : _("No");
 				info[_("Mode")] = Util::toString(fav->getMode());
 			}
-			info[_("Log Chat")] = hub->client->get(SettingsManager::LOG_CHAT_B,SETTING(LOG_CHAT_B)) ? _("Yes") : _("No");
-			info[_("Bold Tab")] = hub->client->get(SettingsManager::BOLD_HUB,SETTING(BOLD_HUB)) ? _("Yes") : _("No");
-			info[_("Show Country")] = hub->client->get(SettingsManager::GET_USER_COUNTRY,SETTING(GET_USER_COUNTRY)) ? _("Yes") : _("No");
-			info[_("Show IPs")] = hub->client->get(SettingsManager::USE_IP,SETTING(USE_IP)) ? _("Yes") : _("No");
+			info[_("Log Chat")] = (hub->client->get(SettingsManager::LOG_CHAT_B,SETTING(LOG_CHAT_B)) ? string(_("Yes")) : _("No")) +_(" ") + (isGlobalBool(hub->client->get(SettingsManager::LOG_CHAT_B,SETTING(LOG_CHAT_B)),SETTING(LOG_CHAT_B)) ? _("Global") : _("User Per Fav Set"));
+			info[_("Bold Tab")] = (hub->client->get(SettingsManager::BOLD_HUB,SETTING(BOLD_HUB)) ? string(_("Yes")) : _("No")) + +_(" ")(isGlobalBool(hub->client->get(SettingsManager::BOLD_HUB,SETTING(BOLD_HUB)),SETTING(BOLD_HUB)) ? _("Global") : _("User Per Fav Set"));
+			info[_("Show Country")] = (hub->client->get(SettingsManager::GET_USER_COUNTRY,SETTING(GET_USER_COUNTRY)) ? string(_("Yes")) : _("No"))+_(" ")+(isGlobalBool(hub->client->get(SettingsManager::GET_USER_COUNTRY,SETTING(GET_USER_COUNTRY)),SETTING(GET_USER_COUNTRY)) ? _(" Global ") : _(" User Per Fav Set "));
+			info[_("Show IPs")] = (hub->client->get(SettingsManager::USE_IP,SETTING(USE_IP)) ? string(_("Yes")) : _("No"))+_(" ")+(isGlobalBool(hub->client->get(SettingsManager::USE_IP,SETTING(USE_IP)),SETTING(USE_IP)) ? _(" Global") : _(" User Per Fav Set "));
 		
             string text;
 

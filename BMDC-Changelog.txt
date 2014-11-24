@@ -1,6 +1,6 @@
 0.1.4
  ======
- Changes HubSetting & respective UI Changes
+ HubSetting & respective UI Changes
  Check aFile in UploadManager to size
  Some Fixies in ShareManager::toVirtual
  Add global settings for UL_VISIBLE/ORDER/SIZE, TAB_TEXT/ICON
