@@ -910,7 +910,11 @@ void ShareManager::runRefresh(function<void (float)> progressF) {
 }
 
 void ShareManager::getBloom(ByteVector& v, size_t k, size_t m, size_t h) const {
+#ifdef __i386__
+	dcdebug("Creating bloom filter, k=%u, m=%u, h=%u\n", k, m, h);
+#else
 	dcdebug("Creating bloom filter, k=%lu, m=%lu, h=%lu\n", k, m, h);
+#endif	
 	Lock l(cs);
 
 	HashBloom bloom;

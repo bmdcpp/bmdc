@@ -58,7 +58,7 @@ public:
 	virtual void connect(const string& aIp, const string& aPort);
 	virtual int read(void* aBuffer, int aBufLen);
 	virtual int write(const void* aBuffer, int aLen);
-	virtual std::pair<bool, bool> wait(uint32_t millis, bool checkRead, bool checkWrite);
+	virtual std::pair<bool, bool> wait(int32_t millis, bool checkRead, bool checkWrite);
 	virtual void shutdown() noexcept;
 	virtual void close() noexcept;
 
@@ -68,8 +68,8 @@ public:
 	virtual ByteVector getKeyprint() const noexcept;
 	virtual bool verifyKeyprint(const string& expKeyp, bool allowUntrusted) noexcept;
 
-	virtual bool waitConnected(uint32_t millis);
-	virtual bool waitAccepted(uint32_t millis);
+	virtual bool waitConnected(int32_t millis);
+	virtual bool waitAccepted(int32_t millis);
 
 private:
 
@@ -79,7 +79,7 @@ private:
 	unique_ptr<CryptoManager::SSLVerifyData> verifyData;	// application data used by CryptoManager::verify_callback(...)
 
 	int checkSSL(int ret);
-	bool waitWant(int ret, uint32_t millis);
+	bool waitWant(int ret, int32_t millis);
 };
 
 } // namespace dcpp

@@ -117,8 +117,8 @@ public:
 	virtual void close() noexcept;
 	void disconnect() noexcept;
 
-	virtual bool waitConnected(uint32_t millis);
-	virtual bool waitAccepted(uint32_t millis);
+	virtual bool waitConnected(int32_t millis);
+	virtual bool waitAccepted(int32_t millis);
 
 	/**
 	 * Reads zero to aBufLen characters from this socket,
@@ -145,7 +145,7 @@ public:
 	 */
 	int readAll(void* aBuffer, int aBufLen, uint32_t timeout = 0);
 
-	virtual std::pair<bool, bool> wait(uint32_t millis, bool checkRead, bool checkWrite);
+	virtual std::pair<bool, bool> wait(int32_t millis, bool checkRead, bool checkWrite);
 
 	typedef std::unique_ptr<addrinfo, decltype(&freeaddrinfo)> addrinfo_p;
 	static string resolve(const string& aDns, int af = AF_UNSPEC) noexcept;

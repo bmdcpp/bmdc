@@ -678,7 +678,7 @@ void Socket::writeTo(const string& aAddr, const string& aPort, const void* aBuff
  * @return pair with read/write state respectively
  * @throw SocketException Select or the connection attempt failed.
  */
-std::pair<bool, bool> Socket::wait(uint32_t millis, bool checkRead, bool checkWrite) {
+std::pair<bool, bool> Socket::wait(int32_t millis, bool checkRead, bool checkWrite) {
 	timeval tv = { millis/1000, (millis%1000)*1000 };
 	fd_set rfd, wfd;
 	fd_set *rfdp = NULL, *wfdp = NULL;
@@ -720,7 +720,7 @@ std::pair<bool, bool> Socket::wait(uint32_t millis, bool checkRead, bool checkWr
 		wfdp && ((sock4.valid() && FD_ISSET(sock4, wfdp)) || (sock6.valid() && FD_ISSET(sock6, wfdp))));
 }
 
-bool Socket::waitConnected(uint32_t millis) {
+bool Socket::waitConnected(int32_t millis) {
 	timeval tv = { millis/1000, (millis%1000)*1000 };
 	fd_set fd;
 	FD_ZERO(&fd);
@@ -769,7 +769,7 @@ bool Socket::waitConnected(uint32_t millis) {
 	return false;
 }
 
-bool Socket::waitAccepted(uint32_t millis) {
+bool Socket::waitAccepted(int32_t millis) {
 	// Normal sockets are always connected after a call to accept
 	return true;
 }
