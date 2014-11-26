@@ -748,7 +748,7 @@
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Protec User</property>
+        <property name="label" translatable="yes">Protect User</property>
       </object>
     </child>
     <child>
@@ -756,7 +756,7 @@
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="label" translatable="yes">unProtec User</property>
+        <property name="label" translatable="yes">Disable Protect on User</property>
       </object>
     </child>
     <child>

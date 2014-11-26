@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -589,10 +589,10 @@ void Identity::logDetection(bool successful) {
 	{
 		if(successful) {
 			int a = SETTING(DETECTIONS);
-			sm->set(SettingsManager::DETECTIONS , a + 1);
+			sm->set(SettingsManager::DETECTIONS , ++a);
 		} else {
 			int b = SETTING(DETECTIONF);
-			sm->set(SettingsManager::DETECTIONF , b + 1);
+			sm->set(SettingsManager::DETECTIONF , ++b);
 		}
 	}
 }

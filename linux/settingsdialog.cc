@@ -1121,12 +1121,12 @@ void Settings::initAppearance_gui()
 		addOption_gui(appearanceStore, _("Show Free Slots in Desc"), SettingsManager::SHOW_FREE_SLOTS_DESC);
 		addOption_gui(appearanceStore, _("Use Highlighting"), "use-highlighting");
 		addOption_gui(appearanceStore, _("Show Close Icon in Tab"), "use-close-button");
-		addOption_gui(appearanceStore, _("Show send /commnads in status message"), "show-commands");
+		addOption_gui(appearanceStore, _("Show send /commands in status message"), "show-commands");
 		addOption_gui(appearanceStore, _("Show Country Flags in main chat"), SettingsManager::USE_COUNTRY_FLAG);
 		addOption_gui(appearanceStore, _("Use DNS in Transfers"), "use-dns");
 		addOption_gui(appearanceStore, _("Log Ignored Messages as STATUS mess"), "log-messages");
 		addOption_gui(appearanceStore, _("Do not close Tab on middle button (wheel)"), "book-three-button-disable");
-		addOption_gui(appearanceStore, _("Use ctrl for histori in chat Books"), "key-hub-with-ctrl");
+		addOption_gui(appearanceStore, _("Use ctrl for history in chat Books"), "key-hub-with-ctrl");
 
 		/// @todo: Uncomment when implemented
 		//addOption_gui(appearanceStore, _("Minimize to tray"), SettingsManager::MINIMIZE_TRAY);
@@ -1150,7 +1150,7 @@ void Settings::initAppearance_gui()
 		addOption_gui(tabStore, _("Private Message (also sets urgency hint)"), SettingsManager::BOLD_PM);
 		addOption_gui(tabStore, _("Search"), SettingsManager::BOLD_SEARCH);
 		addOption_gui(tabStore, _("Search Spy"), SettingsManager::BOLD_SEARCH_SPY);
-		addOption_gui(tabStore, _("Set Hub to Bold all time when change whats in it"), "bold-all-tab");
+		addOption_gui(tabStore, _("Set Hub to Bold everytime the content changes"), "bold-all-tab");
 		//@tabs Colors
 		tabsColors.setView(GTK_TREE_VIEW(getWidget("tabsColors")));
 		tabsColors.insertColumn("Type", G_TYPE_STRING, TreeView::ICON_STRING,30,"Icon");
@@ -1444,53 +1444,53 @@ void Settings::initAppearance_gui()
         /**/
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User operator "), "icon-op");
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User operator (away) "), "icon-op-away");
-        addOption_gui(themeIconsStore, wsm, iconTheme, _("User operator (pasive) "), "icon-op-pasive");
-        addOption_gui(themeIconsStore, wsm, iconTheme, _("User operator (pasive&away) "), "icon-op-away-pasive");
+        addOption_gui(themeIconsStore, wsm, iconTheme, _("User operator (passive) "), "icon-op-pasive");
+        addOption_gui(themeIconsStore, wsm, iconTheme, _("User operator (passive & away) "), "icon-op-away-pasive");
         /* modem */
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type modem "), "icon-modem");
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type modem (away)"), "icon-modem-away");
-        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type modem (pasive)"), "icon-modem-pasive");
-        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type modem (pasive&away)"), "icon-modem-away-pasive");
+        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type modem (passive)"), "icon-modem-pasive");
+        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type modem (passive & away)"), "icon-modem-away-pasive");
         /* wireles */
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type wireless "), "icon-wireless");
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type wireless (away)"), "icon-wireless-away");
-        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type wireless (pasive)"), "icon-wireless-pasive");
-        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type wireless (pasive&away)"), "icon-wireless-away-pasive");
+        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type wireless (passive)"), "icon-wireless-pasive");
+        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type wireless (passive & away)"), "icon-wireless-away-pasive");
         /* dsl */
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type dsl "), "icon-dsl");
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type dsl (away)"), "icon-dsl-away");
-        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type dsl (pasive)"), "icon-dsl-pasive");
-        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type dsl (pasive&away)"), "icon-dsl-away-pasive");
+        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type dsl (passive)"), "icon-dsl-pasive");
+        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type dsl (passive & away)"), "icon-dsl-away-pasive");
         /* lan */
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type LAN "), "icon-lan");
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type LAN (away)"), "icon-lan-away");
-        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type LAN (pasive)"), "icon-lan-pasive");
-        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type LAN (pasive&away)"), "icon-lan-away-pasive");
+        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type LAN (passive)"), "icon-lan-pasive");
+        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type LAN (passive & away)"), "icon-lan-away-pasive");
         /* lan */
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type Netlimiter "), "icon-netlimiter");
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type Netlimiter (away)"), "icon-netlimiter-away");
-        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type Netlimiter (pasive)"), "icon-netlimiter-pasive");
-        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type Netlimiter (pasive&away)"), "icon-netlimiter-away-pasive");
+        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type Netlimiter (passive)"), "icon-netlimiter-pasive");
+        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type Netlimiter (passive & away)"), "icon-netlimiter-away-pasive");
         /* ten** */
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type 10 or more "), "icon-ten");
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type 10 or more (away)"), "icon-ten-away");
-        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type 10 or more (pasive)"), "icon-ten-pasive");
-        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type 10 or more (pasive&away)"), "icon-ten-away-pasive");
+        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type 10 or more (passive)"), "icon-ten-pasive");
+        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type 10 or more (passive & away)"), "icon-ten-away-pasive");
         /* zeroone (0.x) */
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type 0.x"), "icon-zeroone");
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type 0.x (away)"), "icon-zeroone-away");
-        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type 0.x (pasive)"), "icon-zeroone-pasive");
-        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type 0.x (pasive&away)"), "icon-zeroone-away-pasive");
+        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type 0.x (passive)"), "icon-zeroone-pasive");
+        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type 0.x (passive & away)"), "icon-zeroone-away-pasive");
         /* zeroone (0.x) */
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type 0.0x or low"), "icon-zerozeroone");
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type 0.0x or low (away)"), "icon-zerozeroone-away");
-        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type 0.0x or low (pasive)"), "icon-zerozeroone-pasive");
-        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type 0.0x or low (pasive&away)"), "icon-zerozeroone-away-pasive");
+        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type 0.0x or low (passive)"), "icon-zerozeroone-pasive");
+        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with connection type 0.0x or low (passive & away)"), "icon-zerozeroone-away-pasive");
         /* zeroone (0.x) */
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with other connection type or unknown"), "icon-other");
         addOption_gui(themeIconsStore, wsm, iconTheme, _("User with other connection type or unknown (away)"), "icon-other-away");
-        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with other connection type or unknown (pasive)"), "icon-other-pasive");
-        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with other connection type or unknown (pasive&away)"), "icon-other-away-pasive");
+        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with other connection type or unknown (passive)"), "icon-other-pasive");
+        addOption_gui(themeIconsStore, wsm, iconTheme, _("User with other connection type or unknown (passive & away)"), "icon-other-away-pasive");
   		/**/
 		addOption_gui(themeIconsStore, wsm, iconTheme, _("Button smile"), "icon-smile");
 		addOption_gui(themeIconsStore, wsm, iconTheme, _("Download"), "icon-download");
@@ -1675,7 +1675,7 @@ void Settings::initAppearance_gui()
 
 		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Normal"), WGETS("userlist-text-normal"), WGETS("icon-normal"), "n");
 		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Operator"), WGETS("userlist-text-operator"), WGETS("icon-normal"), "o");
-		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Pasive"), WGETS("userlist-text-pasive"), WGETS("icon-normal"), "p");
+		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Passive"), WGETS("userlist-text-pasive"), WGETS("icon-normal"), "p");
 		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Favorite"), WGETS("userlist-text-favorite"), WGETS("icon-normal"), "f");
 		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Protected"), WGETS("userlist-text-protected"), WGETS("icon-normal"), "r");
 		addPreviewUL_gui(userListStore2, string(_("User ")) + _("Ignored"), WGETS("userlist-text-ignored"), WGETS("icon-normal"), "i");

@@ -1695,7 +1695,12 @@ void Hub::preferences_gui()
 	nickView.setSortColumn_gui(_("Nick"), sort);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);
 	//Set Colors
-	//WulforUtil::setTextDeufaults(getWidget("chatText"),WGETS("background-color-chat"));
+// Re-Initialize the chat window
+	FavoriteHubEntry* faventry =  FavoriteManager::getInstance()->getFavoriteHubEntry(address);
+	string color = faventry ? faventry->get(SettingsManager::BACKGROUND_CHAT_COLOR, SETTING(BACKGROUND_CHAT_COLOR)) : SETTING(BACKGROUND_CHAT_COLOR);
+	string image = faventry ? faventry->get(SettingsManager::BACKGROUND_CHAT_IMAGE, SETTING(BACKGROUND_CHAT_IMAGE)) : SETTING(BACKGROUND_CHAT_IMAGE);
+
+	WulforUtil::setTextDeufaults(getWidget("chatText"),color,image,false,address);
 	gtk_widget_queue_draw(getWidget("chatText"));
 	setColorsRows();
 }

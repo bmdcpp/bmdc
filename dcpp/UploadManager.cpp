@@ -63,7 +63,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 		return false;
 	}
 	///@BMDC++
-	if((aFile.length() > 6) && (aFile.find("TestSUR") != string::npos)) {//more check of size
+	if((aFile.length() > 6) && (aFile.find("TestSUR") != string::npos)) {//Check also size
 		LogManager::getInstance()->message("User: " + ClientManager::getInstance()->getNicks((*aSource.getUser()),"")[0] + " (" + aSource.getRemoteIp() + ") testing me!");
 	}
 

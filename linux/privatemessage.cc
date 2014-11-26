@@ -280,7 +280,7 @@ void PrivateMessage::preferences_gui()
 
 	gtk_widget_queue_draw(getWidget("emotButton"));
 
-	if (!SETTING(USE_EMOTS)/*WGETB("emoticons-use")*/)
+	if (!SETTING(USE_EMOTS))
 	{
 		if (gtk_widget_is_sensitive(getWidget("emotButton")))
 			gtk_widget_set_sensitive(getWidget("emotButton"), FALSE);
@@ -289,7 +289,7 @@ void PrivateMessage::preferences_gui()
 	{
 		gtk_widget_set_sensitive(getWidget("emotButton"), TRUE);
 	}
-//	WulforUtil::setTextDeufaults(getWidget("text"),WGETS("background-color-chat"));
+	WulforUtil::setTextDeufaults(getWidget("text"),SETTING(BACKGROUND_CHAT_COLOR));
 	gtk_widget_queue_draw(getWidget("text"));
 }
 

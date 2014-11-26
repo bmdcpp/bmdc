@@ -915,7 +915,7 @@ Contributors:
                     </child>
                     <child>
                       <object class="GtkImageMenuItem" id="settingsMenuItem">
-                        <property name="label" translatable="yes">Setings</property>
+                        <property name="label" translatable="yes">Settings</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_stock">False</property>
@@ -1011,7 +1011,7 @@ Contributors:
                       <object class="GtkMenuItem" id="RecentHubMenuItem">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Recents Hubs</property>
+                        <property name="label" translatable="yes">Recent Hubs</property>
                       </object>
                     </child>
                     <child>
@@ -1282,7 +1282,7 @@ Contributors:
                     </child>
                     <child>
                       <object class="GtkImageMenuItem" id="issueMenuItem">
-                        <property name="label" translatable="yes">Isue Tracker</property>
+                        <property name="label" translatable="yes">Issue Tracker</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_stock">False</property>

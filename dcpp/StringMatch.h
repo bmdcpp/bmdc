@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@ using std::string;
 
 /** Provides ways of matching a pattern against strings. */
 struct StringMatch {
+	
 	enum Method {
 		PARTIAL, /// case-insensitive pattern matching (multiple patterns separated with spaces)
 		EXACT, /// case-sensitive, character-for-character equality

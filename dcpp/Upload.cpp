@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ Upload::Upload(UserConnection& conn, const string& path, const TTHValue& tth) : 
 }
 
 Upload::~Upload() {
-	getUserConnection().setUpload(0);
+	getUserConnection().setUpload(nullptr);
 	delete stream;
 }
 
