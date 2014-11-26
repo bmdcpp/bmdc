@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -926,10 +926,12 @@ static void sgenrand(unsigned long seed) {
 
 uint32_t Util::rand() {
 	unsigned long y;
-	static unsigned long mag01[2]={0x0, MATRIX_A};
-	/* mag01[x] = x * MATRIX_A  for x=0,1 */
 
 	if (mti >= N) { /* generate N words at one time */
+		//...
+		static unsigned long mag01[2]={0x0, MATRIX_A};
+		/* mag01[x] = x * MATRIX_A  for x=0,1 */
+		
 		int kk;
 
 		if (mti == N+1)   /* if sgenrand() has not been called, */

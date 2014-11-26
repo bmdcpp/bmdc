@@ -138,8 +138,9 @@ int SearchManager::run() {
 	string remoteAddr;
 
 	while(!stop) {
-		bool delBuf = false;
+
 		try {
+			bool delBuf = false;
 			uint8_t *buf = new uint8_t[BUFSIZE];
 
 			if(!socket->wait(400, true, false).first) {
