@@ -42,7 +42,7 @@ void SSLSocket::connect(const string& aIp, const string& aPort) {
 	waitConnected(0);
 }
 
-bool SSLSocket::waitConnected(uint32_t millis) {
+bool SSLSocket::waitConnected(int32_t millis) {
 	if(!ssl) {
 		if(!Socket::waitConnected(millis)) {
 			return false;
@@ -82,7 +82,7 @@ uint16_t SSLSocket::accept(const Socket& listeningSocket) {
 	return ret;
 }
 
-bool SSLSocket::waitAccepted(uint32_t millis) {
+bool SSLSocket::waitAccepted(int32_t millis) {
 	if(!ssl) {
 		if(!Socket::waitAccepted(millis)) {
 			return false;
@@ -114,7 +114,7 @@ bool SSLSocket::waitAccepted(uint32_t millis) {
 	}
 }
 
-bool SSLSocket::waitWant(int ret, uint32_t millis) {
+bool SSLSocket::waitWant(int ret, int32_t millis) {
 	int err = SSL_get_error(ssl, ret);
 	switch(err) {
 	case SSL_ERROR_WANT_READ:
@@ -192,7 +192,7 @@ int SSLSocket::checkSSL(int ret) {
 	return ret;
 }
 
-std::pair<bool, bool> SSLSocket::wait(uint32_t millis, bool checkRead, bool checkWrite) {
+std::pair<bool, bool> SSLSocket::wait(int32_t millis, bool checkRead, bool checkWrite) {
 	if(ssl && checkRead) {
 		/** @todo Take writing into account as well if reading is possible? */
 		char c;
