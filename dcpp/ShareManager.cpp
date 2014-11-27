@@ -164,7 +164,7 @@ if(!tth) {
 			throw ShareException(UserConnection::FILE_NOT_AVAILABLE);
 		}
 	}
-	throw ShareException(UserConnection::FILE_NOT_AVAILABLE);
+//	throw ShareException(UserConnection::FILE_NOT_AVAILABLE);
 	return Util::emptyString;
 }
 
