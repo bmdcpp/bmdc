@@ -4,7 +4,7 @@
  Check aFile in UploadManager to size
  Some Fixies in ShareManager::toVirtual
  Add global settings for UL_VISIBLE/ORDER/SIZE, TAB_TEXT/ICON
- Fix GTK+ 3.14 compactibilty
+ Fix GTK+ 3.14 Compatibility
  Add info about if send server cmd
 0.1.3
  ======

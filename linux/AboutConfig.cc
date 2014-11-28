@@ -53,7 +53,12 @@ BookEntry(Entry::ABOUT_CONFIG, _("About:config"), "config")
 	
 	if(SETTING(AC_DISCLAIM) == false) {
 			gtk_widget_set_sensitive(getWidget("scrolledwindow"),FALSE);
+			gtk_widget_hide(getWidget("infobar"));
 	}
+	if(SETTING(AC_DISCLAIM) == true) {
+		gtk_widget_set_sensitive(getWidget("scrolledwindow"),TRUE);
+	}	
+	
 	g_signal_connect(GTK_INFO_BAR(getWidget("infobar")),
                             "response",
                             G_CALLBACK (onInfoResponse),
@@ -67,11 +72,11 @@ AboutConfig::~AboutConfig()
 
 void AboutConfig::show()
 {
-	SettingsManager::getInstance()->addListener(this);	
+	SettingsManager* sm = SettingsManager::getInstance();
+	sm->addListener(this);	
 	
 	int n;
 	SettingsManager::Types type;
-	SettingsManager* sm = SettingsManager::getInstance();
 	
 	for(int i = 0; i < SettingsManager::SETTINGS_LAST; i++ ) {
 		string b = sm->getSettingTags()[i];
@@ -250,15 +255,18 @@ void AboutConfig::onInfoResponse(GtkWidget *info_bar, gint response_id,  gpointe
 	
 	switch(response_id)
 	{
-		case -6://not allowing
-			gtk_widget_hide(info_bar);
-			break;
 		case -5://alowing
 			gtk_widget_hide(info_bar);
 			gtk_widget_set_sensitive(s->getWidget("scrolledwindow"),TRUE);
-			SettingsManager::getInstance()->set(SettingsManager::AC_DISCLAIM,true);
+			SettingsManager::getInstance()->set(static_cast<SettingsManager::BoolSetting>(SettingsManager::AC_DISCLAIM), true);
 			SettingsManager::getInstance()->save();
 			break;
+		case -6://not allowing
+			gtk_widget_set_sensitive(s->getWidget("scrolledwindow"),FALSE);
+			gtk_widget_hide(info_bar);
+			SettingsManager::getInstance()->set(static_cast<SettingsManager::BoolSetting>(SettingsManager::AC_DISCLAIM), false);
+			SettingsManager::getInstance()->save();
+			break;	
 		default:		
 			break;
 	}
@@ -363,15 +371,12 @@ void AboutConfig::onSetDefault(GtkWidget *widget, gpointer data)
 				case SettingsManager::TYPE_STRING:
 					value = Text::toT(sm->get(static_cast<SettingsManager::StrSetting>(n)));
 					break;
-
 				case SettingsManager::TYPE_INT:
 					value = Text::toT(Util::toString(sm->get(static_cast<SettingsManager::IntSetting>(n))));
-				break;
-
+					break;
 				case SettingsManager::TYPE_INT64:
 					value = Text::toT(Util::toString(sm->get(static_cast<SettingsManager::Int64Setting>(n))));
 					break;
-
 				case SettingsManager::TYPE_FLOAT:
 					value = Text::toT(Util::toString(sm->get(static_cast<SettingsManager::FloatSetting>(n))));
 					break;

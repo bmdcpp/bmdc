@@ -79,7 +79,7 @@ string("\r\n/away\r\n\t") + _("Set away mode") +
 +"\r\n/cleanmc\r\n\t" + _("Clean Mainchat") +
 +"\r\n/leech [mc]\r\n\t" + _("Show Leech stats") +
 +"\r\n/ws [set] [value]\r\n\t" + _("Set GUI settings") +
-+"\r\n/dcpp [set] [value]\r\n\t" + _("Set dcpp settings") +
++"\r\n/dcpps [set] [value]\r\n\t" + _("Set dcpp settings") +
 +"\r\n/alias list\r\n\t" + _("List Aliases") +
 +"\r\n/alias purge ::A\r\n\t" + _("Remove Aliases A") +
 +"\r\n/alias A::uname -a\r\n\t" + _("Add alias A with uname -a exec") +

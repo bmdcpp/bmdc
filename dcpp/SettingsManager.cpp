@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -253,7 +253,7 @@ SettingsManager::SettingsManager()
 	setDefault(STATUS_IN_CHAT, false);
 	setDefault(SHOW_JOINS, false);
 	setDefault(UPLOAD_SPEED, connectionSpeeds[0]);
-	setDefault(USE_SYSTEM_ICONS, true);//TODO?
+	setDefault(USE_SYSTEM_ICONS, true);//TODO: yes?
 	setDefault(POPUP_PMS, true);
 	setDefault(MIN_UPLOAD_SPEED, 0);
 	setDefault(LOG_FORMAT_POST_DOWNLOAD, "%Y-%m-%d %H:%M: %[target] " + string(_("downloaded from")) + " %[userNI] (%[userCID]), %[fileSI] (%[fileSIactual]), %[speed], %[time], %[fileTR]");
@@ -271,7 +271,7 @@ SettingsManager::SettingsManager()
 	setDefault(LOG_FILE_DOWNLOAD, "Downloads.log");
 	setDefault(LOG_FILE_FINISHED_DOWNLOAD, "Finished_downloads.log");
 	setDefault(LOG_FILE_SYSTEM, "system.log");
-	setDefault(LOG_FILE_RAW, "Raws.log");//BMDC
+	setDefault(LOG_FILE_RAW, "Raws.log");// BMDC : UI?
 	setDefault(GET_USER_INFO, true);
 	setDefault(URL_HANDLER, false);
 	setDefault(SETTINGS_WIDTH, 700);//not used?
@@ -426,22 +426,18 @@ SettingsManager::SettingsManager()
 	setDefault(RIPE_DB, "https://apps.db.ripe.net/search/query.html?searchtext=%[IP]&search%3AdoSearch=Search#resultsAnchor");
 	setDefault(SERVER_COMMANDS, true);
 	setDefault(USE_AV_FILTER, true);
-	//not used yet
+	//not UI for it
 	setDefault(HUB_ICON_STR, Util::emptyString);
 	setDefault(HUB_TEXT_STR, Util::emptyString);
-///
 	setDefault(HUB_UL_ORDER, "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14");
 	setDefault(HUB_UL_VISIBLE, "1,1,1,1,1,1,1,1,1,1,1,1,1,1,1");
 	setDefault(HUB_UL_SIZE, "157,75,85,100,85,85,90,70,100,50,50,80,80,80,80");
 	setDefault(CHAT_EXTRA_INFO, Util::emptyString);
 	setDefault(LOG_CHAT_B, true);
 	setDefault(USE_COUNTRY_FLAG, true);
-	
 	setDefault(USE_EMOTS, true);
-	
 	setDefault(BACKGROUND_CHAT_COLOR, "white");
 	setDefault(BACKGROUND_CHAT_IMAGE, Util::emptyString);
-
 
 	setSearchTypeDefaults();
 

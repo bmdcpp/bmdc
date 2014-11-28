@@ -887,4 +887,6 @@ add global settings for UL_VISIBLE/ORDER/SIZE, TAB_TEXT/ICON
 HubSetting changes with respective UI changes
 checking size of aFile in UploadManager
 Fix deabeef a bit,Fix set nick
+---
+Fix Behavior of About:Config's GtkInfoBar,Fix typpo in / commands ( dcpp vs dcpps)
 
