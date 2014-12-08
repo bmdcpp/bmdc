@@ -122,6 +122,7 @@ Hub::Hub(const string &address, const string &encoding):
 	string image = faventry ? faventry->get(SettingsManager::BACKGROUND_CHAT_IMAGE, SETTING(BACKGROUND_CHAT_IMAGE)) : SETTING(BACKGROUND_CHAT_IMAGE);
 	
 	WulforUtil::setTextDeufaults(getWidget("chatText"),color,image,false,address);
+	g_signal_connect(getWidget("chatText"),"draw",G_CALLBACK(expose),(gpointer)this);
 	
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
 	chatBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(getWidget("chatText")));

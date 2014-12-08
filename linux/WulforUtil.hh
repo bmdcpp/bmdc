@@ -105,6 +105,7 @@ class WulforUtil
 		static void setTextDeufaults(GtkWidget* widget, std::string strcolor, std::string back_image_path = dcpp::Util::emptyString,bool pm = false,std::string hubUrl = dcpp::Util::emptyString)
 		//todo move to c/cpp file :p
 		{
+			std::string hubCid = dcpp::CID(hubUrl.c_str()).toBase32();
 			if( (pm == false) && hubUrl.empty())
 				gtk_widget_set_name(widget,"Hub");
 			
@@ -112,7 +113,7 @@ class WulforUtil
 				gtk_widget_set_name(widget,"pm");
 			
 			if(!hubUrl.empty() && (pm == false))
-				gtk_widget_set_name(widget,hubUrl.c_str());
+				gtk_widget_set_name(widget,hubCid.c_str());
 				
 			// Intialize the chat window
 			if (SETTING(USE_OEM_MONOFONT))
@@ -123,29 +124,33 @@ class WulforUtil
 				pango_font_description_free(fontDesc);
 			}
 
+			if( !back_image_path.empty() && (dcpp::Util::fileExists(back_image_path) == true) ) {
+			///NOTE: CSS
+			dcdebug("Test:img %s\n",hubUrl.c_str());
+			GtkCssProvider *provider = gtk_css_provider_new ();
+			GdkDisplay *display = gdk_display_get_default ();
+			GdkScreen *screen = gdk_display_get_default_screen (display);
+			
+			std::string t_css = std::string("GtkTextView#") + (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid )) +"{\n"                         
+                            "   background: url('"+back_image_path+"');\n"   
+                            "}\n\0";
+
+			gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
+			
+			gtk_style_context_add_provider_for_screen (screen,
+                                             GTK_STYLE_PROVIDER(provider),
+                                             GTK_STYLE_PROVIDER_PRIORITY_USER);
+			
+			g_object_unref (provider);
+			return;
+			}
 			GdkRGBA color;
 			gdk_rgba_parse(&color,strcolor.c_str());
 			gtk_widget_override_background_color(widget, GTK_STATE_FLAG_NORMAL, &color);
 			gtk_widget_override_background_color(widget, GTK_STATE_FLAG_PRELIGHT, &color);
 			gtk_widget_override_background_color(widget, GTK_STATE_FLAG_ACTIVE, &color);
 			gtk_widget_override_background_color(widget, GTK_STATE_FLAG_INSENSITIVE, &color);
-			
-			if( !back_image_path.empty() && (dcpp::Util::fileExists(back_image_path) == true) ) {
-			///NOTE: CSS
-			GtkCssProvider *provider = gtk_css_provider_new ();
-			GdkDisplay *display = gdk_display_get_default ();
-			GdkScreen *screen = gdk_display_get_default_screen (display);
 
-			gtk_style_context_add_provider_for_screen (screen,
-                                             GTK_STYLE_PROVIDER(provider),
-                                             GTK_STYLE_PROVIDER_PRIORITY_USER);
-			std::string t_css = std::string("GtkTextView#") + (pm ? "pm" : ( hubUrl.empty() ? "Hub": hubUrl  )) +"{\n"                         
-                            "   background: url('"+back_image_path+"');\n"   
-                            "}\n";
-
-			gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
-			g_object_unref (provider);
-			}
 		}
 
 	private:

@@ -1,6 +1,6 @@
 /*
  *
- * Copyright (C) 2012 - 2014 - Mank
+ * Copyright (C) 2012 - 2015 - Mank
  *
  * BMDC++ is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -43,19 +43,61 @@ class FavoriteHubDialog: public Entry
 		~FavoriteHubDialog() {
 			WulforManager::get()->deleteEntry_gui(this);
 		}
-		GtkWidget *getContainer() { return getWidget("dialog"); }
+		GtkWidget *getContainer() { return mainDialog; }
 		
 private:
 		void initActions();
 		static void onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
 		static void onCheckButtonToggled_gui(GtkToggleButton *button, gpointer data);
 		bool showErrorDialog_gui(const string &description);
+
 		FavoriteHubEntry* p_entry; //@ The Fav Entry pointer
 		bool init; //@ new or edit?
 		//@The Kick/Ban Action part
 		GtkTreeStore *actionStore;
 		TreeView actionView;
 		GtkTreeSelection *actionSel;
+		//Widgets
+		GtkWidget* mainDialog;
+		GtkWidget* mainBox;
+		GtkWidget* notebook;
+		GtkWidget* boxSimple;
+		GtkWidget* boxAdvanced;
+		//Hub-stuff
+		GtkWidget* entryAddress;
+		GtkWidget* entryName;
+		GtkWidget* entryDesc;
+		GtkWidget* comboCodepage;
+		GtkWidget* checkAutoConnect;
+		//User-info related stuff
+		GtkWidget* entryUsername;
+		GtkWidget* entryPassword;
+		GtkWidget* entryUserDescriptio;
+		GtkWidget* entryMail;
+		//Checking
+		GtkWidget* entryProtectedUser;
+		GtkWidget* checkFilelists;
+		GtkWidget* checkClients;
+		GtkWidget* checkOnConn;
+		//Chat&Others
+		GtkWidget* extraChatInfoEntry;
+		GtkWidget* checkHideShare;
+		GtkWidget* entryAwayMessage;
+		GtkWidget* comboParts,*comboFavParts;
+		GtkWidget* colorBack;
+		GtkWidget* backImage;
+		GtkWidget* comboEmot;
+		GtkWidget* enableNoti;
+		GtkWidget* enableLog;
+		GtkWidget* enableCountry;
+		GtkWidget* enableIp;
+		GtkWidget* enableBold;
+		//
+		GtkWidget* comboMode;
+		GtkWidget* entryIp;
+		//
+		GtkWidget * treeView;
+			
 
 };
 

@@ -21,7 +21,8 @@
 
 #ifndef _BMDC_ENTRY_HH
 #define _BMDC_ENTRY_HH
-
+#include <dcpp/stdinc.h>
+#include <dcpp/Util.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <string>
@@ -62,7 +63,7 @@ class Entry
 		} EntryType;
 
 		Entry() : xml(NULL), type((EntryType)0) { }
-		Entry(const EntryType type, const std::string &ui, const std::string &id = "");
+		Entry(const EntryType type, const std::string &ui = dcpp::Util::emptyString, const std::string &id = "");
 		virtual ~Entry();
 
 		const EntryType getType();

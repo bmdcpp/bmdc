@@ -49,6 +49,7 @@ Entry::Entry(const EntryType type, const string &ui, const string &id):
 	xml = gtk_builder_new_from_file(file.c_str());
 #endif		
   }
+  //Do nothink if ui empty
 }
 
 Entry::~Entry()
