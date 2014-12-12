@@ -6,6 +6,7 @@
  Add global settings for UL_VISIBLE/ORDER/SIZE, TAB_TEXT/ICON
  Fix GTK+ 3.14 Compatibility
  Add info about if send server cmd
+ Re-write Fav Hub Dialog
 0.1.3
  ======
 * Fix IPv6 coloring in chat

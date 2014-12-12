@@ -1,4 +1,4 @@
-// Copyright (C) 2015  Mank <freedppp@seznam.cz>
+// Copyright (C) 2014-2015  Mank <freedppp@seznam.cz>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -30,7 +30,6 @@ using namespace dcpp;
 
 #define g_c_b_n(label) gtk_check_button_new_with_label(label)
 
-
 static GtkWidget* createComboBoxWith3Options(const gchar* a,const gchar* b,const gchar* c)
 {
 	GtkWidget* combo = gtk_combo_box_text_new();
@@ -55,7 +54,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* = true
 	mainBox = gtk_dialog_get_content_area ( GTK_DIALOG(mainDialog) );
 	notebook = gtk_notebook_new();
 	gtk_container_add(GTK_CONTAINER(mainBox), notebook);
-	GtkWidget* labelSimple = gtk_label_new("Simple Settings");
+//	GtkWidget* labelSimple = gtk_label_new("Simple Settings");
 	boxSimple = gtk_grid_new();
 	GtkWidget* labelName = lan("Name:");	
 	g_g_a(labelName,0,0,1,1);
@@ -122,7 +121,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* = true
 	
 	g_g_a(checkAutoConnect,0,8,1,1);
 	
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxSimple ,labelSimple);
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxSimple ,lan("Simple Settings"));
 	//check
 	GtkWidget* checkInfo  = lan("Checking");
 	GtkWidget* boxCheck = gtk_grid_new();
