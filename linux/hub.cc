@@ -58,7 +58,7 @@ Hub::Hub(const string &address, const string &encoding):
 	PasswordDialog(FALSE), WaitingPassword(FALSE),
 	ImgLimit(0) , notCreated(true) , isFavBool(true)
 {
-	FavoriteHubEntry* faventry =  FavoriteManager::getInstance()->getFavoriteHubEntry(address);
+	FavoriteHubEntry* faventry =  getFavoriteHubEntry();
 
 	// Initialize nick treeview
 	nickView.setView(GTK_TREE_VIEW(getWidget("nickView")), false, "hub");
@@ -122,7 +122,6 @@ Hub::Hub(const string &address, const string &encoding):
 	string image = faventry ? faventry->get(SettingsManager::BACKGROUND_CHAT_IMAGE, SETTING(BACKGROUND_CHAT_IMAGE)) : SETTING(BACKGROUND_CHAT_IMAGE);
 	
 	WulforUtil::setTextDeufaults(getWidget("chatText"),color,image,false,address);
-	g_signal_connect(getWidget("chatText"),"draw",G_CALLBACK(expose),(gpointer)this);
 	
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
 	chatBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(getWidget("chatText")));
@@ -333,6 +332,11 @@ Hub::Hub(const string &address, const string &encoding):
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")), showUserList);
 		isFavBool =  faventry ? faventry->getNotify() : WGETI("notify-hub-chat-use");
 	}
+}
+//
+FavoriteHubEntry* Hub::getFavoriteHubEntry()
+{
+	return FavoriteManager::getInstance()->getFavoriteHubEntry(address);	
 }
 
 void Hub::setColorsRows()
@@ -893,7 +897,7 @@ void Hub::popupNickMenu_gui()
 
 	userCommandMenu->addHub(client->getHubUrl());
 	userCommandMenu->buildMenu_gui();
-	string color = WGETS("menu-userlist-color");//@ Settings of UserList Menu  text color (1st item)
+	string color = WGETS("menu-userlist-color");//@ Settings of UserList Menu  text color (1st item) //maybe...?
 	gchar *markup = g_markup_printf_escaped ("<span fgcolor=\"%s\" ><b>%s</b></span>",color.c_str(),nick.c_str());
 	GtkMenuItem *item = GTK_MENU_ITEM(getWidget("nickItem"));
 	GtkWidget *label = gtk_bin_get_child(GTK_BIN(item));
@@ -994,7 +998,14 @@ void Hub::addStatusMessage_gui(string message, Msg::TypeMsg typemsg, Sound::Type
 
 		setStatus_gui("statusMain", message);
 
-		if (SETTING(STATUS_IN_CHAT))//FAV?
+		if((getFavoriteHubEntry() != NULL) && getFavoriteHubEntry()->get(SettingsManager::STATUS_IN_CHAT,SETTING(STATUS_IN_CHAT)))
+		{
+			string line = "*** " + message;
+			addMessage_gui("", line, typemsg);
+			return;
+		}	
+
+		if( SETTING(STATUS_IN_CHAT) )
 		{
 			string line = "*** " + message;
 			addMessage_gui("", line, typemsg);
@@ -1048,9 +1059,11 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 		case Msg::STATUS:
 			tagMsg = Tag::TAG_STATUS;
 			break;
+			
 		case Msg::CHEAT:
 			tagMsg = Tag::TAG_CHEAT;
 			break;
+			
 		case Msg::GENERAL:
 
 		default:
@@ -3195,7 +3208,7 @@ void Hub::onProtectUserClicked_gui(GtkMenuItem *item , gpointer data)
 			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hub->client->getHubUrl());
 			if(ou->getUser() && !ou->getUser()->isSet(User::PROTECT))
 				const_cast<UserPtr&>(ou->getUser())->setFlag(User::PROTECT);
-			ParamMap params;
+			dcpp::StringMap params;
 			hub->getParams_client(params, ou->getIdentity());
 			hub->addProtected_gui(params);
 		}
@@ -3228,7 +3241,7 @@ void Hub::onUnProtectUserClicked_gui(GtkMenuItem *item , gpointer data)
 			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hub->client->getHubUrl());
 			if(ou->getUser() && !ou->getUser()->isSet(User::PROTECT))
 				const_cast<UserPtr&>(ou->getUser())->unsetFlag(User::PROTECT);
-			ParamMap params;
+			dcpp::StringMap params;
 			hub->getParams_client(params, ou->getIdentity());
 		}
 	}
@@ -3356,7 +3369,7 @@ void Hub::onRefreshUserListClicked_gui(GtkWidget *wid, gpointer data)
 	hub->client->refreshuserlist(true);
 }
 
-void Hub::addFavoriteUser_gui(ParamMap params)
+void Hub::addFavoriteUser_gui(dcpp::StringMap params)
 {
 	const string &cid = params["CID"];
 
@@ -3383,7 +3396,7 @@ void Hub::addFavoriteUser_gui(ParamMap params)
 	}
 }
 
-void Hub::removeFavoriteUser_gui(ParamMap params)
+void Hub::removeFavoriteUser_gui(dcpp::StringMap params)
 {
 	const string &cid = params["CID"];
 

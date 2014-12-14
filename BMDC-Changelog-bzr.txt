@@ -890,3 +890,7 @@ Fix deabeef a bit,Fix set nick
 ---
 Fix Behavior of About:Config's GtkInfoBar,Fix typpo in / commands ( dcpp vs dcpps)
 
+Alow only jpg,png,gif and svg in FavoriteHubDialog as backgroud image
+remove typedef StringMap to ParamMap from Hub UI Class
+Add per Fav STATUS_IN_CHAT value
+

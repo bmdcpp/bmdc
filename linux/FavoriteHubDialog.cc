@@ -231,6 +231,10 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* = true
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enableBold), p_entry->get(SettingsManager::BOLD_HUB,SETTING(BOLD_HUB)));
 	g_g_a_a(enableBold,0,10,1,1);
 	
+	enableStatusChat = g_c_b_n("Enable Status Chat message");
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enableStatusChat), p_entry->get(SettingsManager::STATUS_IN_CHAT,SETTING(STATUS_IN_CHAT)));
+	g_g_a_a(enableStatusChat,1,10,1,1);
+	
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxAdvanced ,labelAdvanced );
 	//
 	GtkWidget* labelConn = lan("Connection Setup");
@@ -448,6 +452,7 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 			p_entry->set(SettingsManager::USE_IP ,gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(enableIp)));
 			p_entry->set(SettingsManager::BOLD_HUB ,gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(enableBold)));
 			p_entry->set(SettingsManager::GET_USER_COUNTRY, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(enableCountry)));
+			p_entry->set(SettingsManager::STATUS_IN_CHAT,gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(enableStatusChat)));
 			p_entry->set(SettingsManager::EMAIL, gtk_entry_get_text(GTK_ENTRY(entryMail)));
 			p_entry->set(SettingsManager::SHOW_JOINS, gtk_combo_box_get_active(GTK_COMBO_BOX(comboParts)));
 			p_entry->set(SettingsManager::FAV_SHOW_JOINS, gtk_combo_box_get_active(GTK_COMBO_BOX(comboFavParts)));
@@ -461,7 +466,15 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 			
 			p_entry->set(SettingsManager::BACKGROUND_CHAT_COLOR, WulforUtil::colorToString(&color) );
 			
-			p_entry->set(SettingsManager::BACKGROUND_CHAT_IMAGE, gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(backImage)));
+			gchar* image_path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(backImage));
+			
+			string tmp = Util::getFileExt(string(image_path));
+			std::transform(tmp.begin(), tmp.end(), tmp.begin(), (int(*)(int))toupper);
+
+			if(tmp == ".png" || tmp == ".jpg" || tmp == ".gif" || tmp == ".svg")//alow only these types
+			{
+				p_entry->set(SettingsManager::BACKGROUND_CHAT_IMAGE,string(image_path));
+			}
 /*
 			if (gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("groupsComboBox"))) != 0)
 			{

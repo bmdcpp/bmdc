@@ -372,7 +372,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		data_dir = '\'\"%sshare\"\'' % env['PREFIX']
 		env.Append(CPPDEFINES = ('_DATADIR', data_dir))
 
-
 # ----------------------------------------------------------------------
 # Build
 # ----------------------------------------------------------------------

@@ -1,5 +1,4 @@
 /*
- *
  * Copyright (C) 2012 - 2015 - Mank
  *
  * BMDC++ is free software; you can redistribute it and/or
@@ -92,10 +91,11 @@ private:
 		GtkWidget* enableCountry;
 		GtkWidget* enableIp;
 		GtkWidget* enableBold;
+		GtkWidget* enableStatusChat;
 		//
 		GtkWidget* comboMode;
 		GtkWidget* entryIp;
-		//
+		//Kick View
 		GtkWidget * treeView;
 			
 

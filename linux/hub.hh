@@ -69,7 +69,7 @@ class Hub:
 		}
 
 	private:
-		typedef dcpp::StringMap ParamMap;
+		dcpp::FavoriteHubEntry* getFavoriteHubEntry();
 		typedef std::unordered_map<std::string, std::string> UserMap;
 		typedef std::unordered_map<GtkWidget*, std::string> ImageList;
 		typedef std::pair<std::string, GtkWidget*> ImageLoad;
@@ -78,7 +78,7 @@ class Hub:
 		void setStatus_gui(std::string statusBar, std::string text);
 		bool findUser_gui(const std::string &cid, GtkTreeIter *iter);
 		bool findNick_gui(const std::string &nick, GtkTreeIter *iter);
-		void updateUser_gui(ParamMap params);
+		void updateUser_gui(dcpp::StringMap params);
 		void removeUser_gui(std::string cid);
 		void removeTag_gui(const std::string &nick);
 		void clearNickList_gui();
@@ -94,11 +94,11 @@ class Hub:
 		GtkTextTag* createTag_gui(const std::string &tagname, Tag::TypeTag type);
 		void addStatusMessage_gui(std::string message, Msg::TypeMsg typemsg, Sound::TypeSound sound, Notify::TypeNotify notify);
 		void nickToChat_gui(const std::string &nick);
-		void addFavoriteUser_gui(ParamMap params);
-		void removeFavoriteUser_gui(ParamMap params);
+		void addFavoriteUser_gui(dcpp::StringMap params);
+		void removeFavoriteUser_gui(dcpp::StringMap params);
 		//BMDC++
-		void addProtected_gui(ParamMap params);
-		void addIgnore_gui(ParamMap params);
+		void addProtected_gui(dcpp::StringMap params);
+		void addIgnore_gui(dcpp::StringMap params);
 
 		void addPrivateMessage_gui(Msg::TypeMsg typemsg, std::string nick, std::string cid, std::string url, std::string message, bool useSetting);
 		//[BBCodes
@@ -196,7 +196,7 @@ class Hub:
 		void addAsFavorite_client();
 		void removeAsFavorite_client();
 
-		void getParams_client(ParamMap &user, dcpp::Identity &id);
+		void getParams_client(dcpp::StringMap &user, dcpp::Identity &id);
 		void download_client(std::string target, int64_t size, std::string tth, std::string cid);
 		std::string realFile_client(std::string tth);
 		void openImage_client(std::string tth);
@@ -206,7 +206,7 @@ class Hub:
 
 		void getPartialFileList_client(std::string cid);
 
-		void removeIgnore_gui(ParamMap params);
+		void removeIgnore_gui(dcpp::StringMap params);
 		void SetTabText(gpointer data);
 
 		void setColorRow(std::string cell);
