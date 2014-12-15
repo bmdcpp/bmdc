@@ -92,6 +92,7 @@ private:
 		GtkWidget* enableIp;
 		GtkWidget* enableBold;
 		GtkWidget* enableStatusChat;
+		GtkWidget* enableFavFirst;
 		//
 		GtkWidget* comboMode;
 		GtkWidget* entryIp;

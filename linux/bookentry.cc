@@ -239,7 +239,7 @@ void BookEntry::setUrgent_gui()
 			setBackForeGround_unread(type);
 		}
 
-		if (!mw->isActive_gui())
+		if (mw && !mw->isActive_gui())
 			mw->setUrgent_gui();
 	}
 }

@@ -87,7 +87,7 @@ Hub::Hub(const string &address, const string &encoding):
 	nickView.insertHiddenColumn("Pixbuf", GDK_TYPE_PIXBUF);
 	nickView.insertHiddenColumn("Client Type", G_TYPE_STRING);
 
-	if(faventry){
+	if(faventry) {
 		nickView.restoreSettings(faventry->get(SettingsManager::HUB_UL_ORDER,SETTING(HUB_UL_ORDER)),
 												faventry->get(SettingsManager::HUB_UL_SIZE,SETTING(HUB_UL_SIZE)),
 												faventry->get(SettingsManager::HUB_UL_VISIBLE,SETTING(HUB_UL_VISIBLE)));
@@ -103,7 +103,11 @@ Hub::Hub(const string &address, const string &encoding):
 
 	nickSelection = gtk_tree_view_get_selection(nickView.get());
 	gtk_tree_selection_set_mode(gtk_tree_view_get_selection(nickView.get()), GTK_SELECTION_MULTIPLE);
-	string sort = SETTING(SORT_FAVUSERS_FIRST) ? "Client Type" : "Nick Order";//TODO: per fav/hub
+	
+	string sort = SETTING(SORT_FAVUSERS_FIRST) ? "Client Type" : "Nick Order";
+	if(faventry)
+		sort = faventry->get(SettingsManager::SORT_FAVUSERS_FIRST,SETTING(SORT_FAVUSERS_FIRST)) ? "Client Type" : "Nick Order";
+	
 	nickView.setSortColumn_gui(_("Nick"), sort);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(nickView.get(), nickView.col(_("Nick"))), TRUE);
@@ -274,7 +278,7 @@ Hub::Hub(const string &address, const string &encoding):
 	gtk_widget_grab_focus(getWidget("chatEntry"));
 
 	// Set the pane position
-	gint panePosition = WGETI("nick-pane-position");
+	gint panePosition = WGETI("nick-pane-position");//move to general & fav?
 	gint width;
 	GtkWindow *window = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
 	gtk_window_get_size(window, &width, NULL);
@@ -315,18 +319,18 @@ Hub::Hub(const string &address, const string &encoding):
 	// set default select tag (fix error show cursor in neutral space).
 	selectedTag = TagsMap[Tag::TAG_GENERAL];
 
-	RecentHubEntry entry;
-	entry.setName("***");
-	entry.setDescription("***");
-	entry.setUsers("0");
-	entry.setShared("0");
-	entry.setServer(address);
 	RecentHubEntry* r = FavoriteManager::getInstance()->getRecentHubEntry(address);
 	
-	if(r == NULL)
+	if(r == NULL) {
+		RecentHubEntry entry;
+		entry.setName("***");
+		entry.setDescription("***");
+		entry.setUsers("0");
+		entry.setShared("0");
+		entry.setServer(address);
 		FavoriteManager::getInstance()->addRecent(entry);
-
-	if(faventry != NULL)
+	}
+	if(faventry)
 	{
 		bool showUserList = faventry->getShowUserList();
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")), showUserList);
@@ -490,7 +494,7 @@ Hub::~Hub()
 	}
 
 	bool showUL = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")));
-	FavoriteHubEntry* entry = FavoriteManager::getInstance()->getFavoriteHubEntry(address);
+	FavoriteHubEntry* entry = getFavoriteHubEntry();
 	string order = Util::emptyString,hwidth = Util::emptyString,visible = Util::emptyString;
 	nickView.saveSettings(order,hwidth,visible);
 	
@@ -781,7 +785,7 @@ void Hub::updateUser_gui(ParamMap params)
 
 		userIters.insert(UnMapIter::value_type(cid, iter));
 
-		if(client->get(SettingsManager::SHOW_JOINS,SETTING(SHOW_JOINS)))
+		if(client && client->get(SettingsManager::SHOW_JOINS,SETTING(SHOW_JOINS)))
 		{
 			// Show joins in chat by default
 			addStatusMessage_gui(Nick + _(" has joined"), Msg::STATUS, favorite ? Sound::FAVORITE_USER_JOIN : Sound::NONE);
@@ -791,7 +795,7 @@ void Hub::updateUser_gui(ParamMap params)
 			if (favorite)
 				Notify::get()->showNotify("", message, Notify::FAVORITE_USER_JOIN);
 		}
-		else if ( (client->get(SettingsManager::FAV_SHOW_JOINS,SETTING(FAV_SHOW_JOINS))) && favorite )
+		else if ( client && ( (client->get(SettingsManager::FAV_SHOW_JOINS,SETTING(FAV_SHOW_JOINS))) && favorite ))
 		{
 			// Only show joins for favorite users
 			string message = Nick + _(" has joined hub ") + client->getHubName();
@@ -823,8 +827,8 @@ void Hub::removeUser_gui(string cid)
 		userIters.erase(cid);
 		setStatus_gui("statusUsers", Util::toString(userMap.size()) + _(" Users"));
 		setStatus_gui("statusShared", Util::formatBytes(totalShared));
-
-		if (client->get(SettingsManager::SHOW_JOINS,SETTING(SHOW_JOINS)))
+		//there is no reason do this if client == null
+		if (client && client->get(SettingsManager::SHOW_JOINS,SETTING(SHOW_JOINS)))
 		{
 			// Show parts in chat
 			string message = nick + _(" has quit hub ") + client->getHubName();
@@ -834,7 +838,7 @@ void Hub::removeUser_gui(string cid)
 			if (order[0] == 'C')
 				Notify::get()->showNotify("", message, Notify::FAVORITE_USER_QUIT);
 		}
-		else if ( (client->get(SettingsManager::FAV_SHOW_JOINS,SETTING(FAV_SHOW_JOINS))) && order[0] == 'C')
+		else if ( client && ( (client->get(SettingsManager::FAV_SHOW_JOINS,SETTING(FAV_SHOW_JOINS))) && order[0] == 'C'))
 		{
 			// Only show parts for favorite users
 			string message = nick + _(" has quit hub ") + client->getHubName();
@@ -1705,12 +1709,16 @@ void Hub::preferences_gui()
 	}
 
 	// resort users
-	string sort = SETTING(SORT_FAVUSERS_FIRST) ? "Client Type" : "Nick Order";//TODO
+	string sort = SETTING(SORT_FAVUSERS_FIRST) ? "Client Type" : "Nick Order";
+	
+	FavoriteHubEntry* faventry = getFavoriteHubEntry();
+	if(faventry)
+		sort = faventry->get(SettingsManager::SORT_FAVUSERS_FIRST, SETTING(SORT_FAVUSERS_FIRST)) ? "Client Type" : "Nick Order";
+	
 	nickView.setSortColumn_gui(_("Nick"), sort);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);
 	//Set Colors
 // Re-Initialize the chat window
-	FavoriteHubEntry* faventry =  FavoriteManager::getInstance()->getFavoriteHubEntry(address);
 	string color = faventry ? faventry->get(SettingsManager::BACKGROUND_CHAT_COLOR, SETTING(BACKGROUND_CHAT_COLOR)) : SETTING(BACKGROUND_CHAT_COLOR);
 	string image = faventry ? faventry->get(SettingsManager::BACKGROUND_CHAT_IMAGE, SETTING(BACKGROUND_CHAT_IMAGE)) : SETTING(BACKGROUND_CHAT_IMAGE);
 
@@ -1916,7 +1924,7 @@ gboolean Hub::onNickListButtonRelease_gui(GtkWidget *widget, GdkEventButton *eve
 
 void Hub::clickAction(gpointer data)
 {
-	//TODO:maybe..some other & UI
+	//TODO:maybe..some other & UI & fav?
 	switch((CActions::User)WGETI("double-click-action"))
 	{
 		case CActions::BROWSE:
@@ -2488,7 +2496,8 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			for(auto i = list.begin(); i != list.end(); ++i, ++idx) {
 				Plugin p = pm->getPlugin(*i);
 				status += *i +"\t"+p.name+ ":\t";
-				status += pm->isLoaded(p.guid) ? "Loaded\n" : "Not loaded\n";
+				status += pm->isLoaded(p.guid) ? _("Loaded") : _("Not loaded");
+				status += "\n";
 			}
 			hub->addMessage_gui("",status,Msg::SYSTEM);
 		}
@@ -4627,7 +4636,7 @@ GtkWidget *Hub::createmenu()
 	GtkWidget *setTab = gtk_menu_item_new_with_label(_("Set Tab Name"));
 	GtkWidget *reconectItem = gtk_menu_item_new_with_label(_("Reconnect this hub"));
 	GtkWidget *closeItem = gtk_menu_item_new_with_label (_("Close Hub"));	
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(u_item),userCommandMenu1->getContainer());
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(u_item), userCommandMenu1->getContainer());
 	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), fitem);
 	gtk_menu_shell_append (GTK_MENU_SHELL(m_menu), closeItem);	
 	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), copyHubUrl);

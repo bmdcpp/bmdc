@@ -41,60 +41,59 @@ static GtkWidget* createComboBoxWith3Options(const gchar* a,const gchar* b,const
 }
 
 FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* = true */):
-	Entry(Entry::FAV_HUB),//FavDialog=>empty
+	Entry(Entry::FAV_HUB),
 	p_entry(entry),
 	init(add), actionStore(NULL), actionSel(NULL)
 {
 	mainDialog = gtk_dialog_new();
 	if(!p_entry->getServer().empty())
-		gtk_window_set_title (GTK_WINDOW(mainDialog), ("Favorite Propteries for "+p_entry->getServer()).c_str());
+		gtk_window_set_title (GTK_WINDOW(mainDialog), (_("Favorite Propteries for ")+p_entry->getServer()).c_str());
 	else 
-		gtk_window_set_title (GTK_WINDOW(mainDialog), "Favorite Propteries for New Favorite Hub");	
+		gtk_window_set_title (GTK_WINDOW(mainDialog), _("Favorite Propteries for New Favorite Hub"));	
 	
 	mainBox = gtk_dialog_get_content_area ( GTK_DIALOG(mainDialog) );
 	notebook = gtk_notebook_new();
 	gtk_container_add(GTK_CONTAINER(mainBox), notebook);
-//	GtkWidget* labelSimple = gtk_label_new("Simple Settings");
 	boxSimple = gtk_grid_new();
-	GtkWidget* labelName = lan("Name:");	
+	GtkWidget* labelName = lan(_("Name: "));	
 	g_g_a(labelName,0,0,1,1);
 	entryName = gen;
 	gtk_entry_set_text (GTK_ENTRY(entryName), p_entry->getName().c_str());
 	g_g_a(entryName,1,0,1,1);
-	GtkWidget*  labelAddress = lan("Address:");
+	GtkWidget*  labelAddress = lan("Address: ");
 	g_g_a(labelAddress,0,1,1,1);
 	entryAddress = gen;
 	gtk_entry_set_text (GTK_ENTRY(entryAddress), p_entry->getServer().c_str());
 	g_g_a(entryAddress,1,1,1,1);
-	GtkWidget* labelDesc = lan("Description:");
+	GtkWidget* labelDesc = lan("Description: ");
 	g_g_a(labelDesc,0,2,1,1);
 	entryDesc = gen;
 	gtk_entry_set_text (GTK_ENTRY(entryDesc), p_entry->getHubDescription().c_str());
 	g_g_a(entryDesc,1,2,1,1);
 	//
-	GtkWidget* labelUsername = lan("Username:");
+	GtkWidget* labelUsername = lan("Username: ");
 	g_g_a(labelUsername,0,3,1,1);
 	entryUsername = gen;
 	gtk_entry_set_text (GTK_ENTRY(entryUsername), p_entry->get(SettingsManager::NICK,SETTING(NICK)).c_str());
 	g_g_a(entryUsername,1,3,1,1);
-	GtkWidget* labelPassword = lan("Password:");
+	GtkWidget* labelPassword = lan("Password: ");
 	g_g_a(labelPassword,0,4,1,1);
 	entryPassword = gen;
 	gtk_entry_set_text (GTK_ENTRY(entryPassword), p_entry->getPassword().c_str());
 	g_g_a(entryPassword,1,4,1,1);
-	GtkWidget* labelUserName = lan("User Description:");
+	GtkWidget* labelUserName = lan("User Description: ");
 	g_g_a(labelUserName,0,5,1,1);
 	entryUserDescriptio = gen;
 	gtk_entry_set_text (GTK_ENTRY(entryUserDescriptio), p_entry->get(SettingsManager::DESCRIPTION,SETTING(DESCRIPTION)).c_str());
 	g_g_a(entryUserDescriptio,1,5,1,1);
 	
-	GtkWidget* labelmail = lan("e-Mail:");
+	GtkWidget* labelmail = lan("e-Mail: ");
 	g_g_a(labelmail,0,6,1,1);
 	entryMail = gen;
 	gtk_entry_set_text (GTK_ENTRY(entryMail), p_entry->get(SettingsManager::EMAIL,SETTING(EMAIL)).c_str());
 	g_g_a(entryMail,1,6,1,1);
 	
-	GtkWidget* labelCodePage = lan("Codepage:");
+	GtkWidget* labelCodePage = lan("Codepage: ");
 	g_g_a(labelCodePage,0,7,1,1);
 	comboCodepage = gtk_combo_box_text_new();
 	g_g_a(comboCodepage,1,7,1,1);
@@ -234,6 +233,10 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* = true
 	enableStatusChat = g_c_b_n("Enable Status Chat message");
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enableStatusChat), p_entry->get(SettingsManager::STATUS_IN_CHAT,SETTING(STATUS_IN_CHAT)));
 	g_g_a_a(enableStatusChat,1,10,1,1);
+	
+	enableFavFirst = g_c_b_n("Enable Favorite Users First in UserList");
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enableFavFirst), p_entry->get(SettingsManager::SORT_FAVUSERS_FIRST,SETTING(SORT_FAVUSERS_FIRST)));
+	g_g_a_a(enableFavFirst,0,11,1,1);
 	
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxAdvanced ,labelAdvanced );
 	//
@@ -453,6 +456,7 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 			p_entry->set(SettingsManager::BOLD_HUB ,gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(enableBold)));
 			p_entry->set(SettingsManager::GET_USER_COUNTRY, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(enableCountry)));
 			p_entry->set(SettingsManager::STATUS_IN_CHAT,gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(enableStatusChat)));
+			p_entry->set(SettingsManager::SORT_FAVUSERS_FIRST,gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(enableFavFirst)));
 			p_entry->set(SettingsManager::EMAIL, gtk_entry_get_text(GTK_ENTRY(entryMail)));
 			p_entry->set(SettingsManager::SHOW_JOINS, gtk_combo_box_get_active(GTK_COMBO_BOX(comboParts)));
 			p_entry->set(SettingsManager::FAV_SHOW_JOINS, gtk_combo_box_get_active(GTK_COMBO_BOX(comboFavParts)));
