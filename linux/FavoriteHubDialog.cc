@@ -120,7 +120,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* = true
 	
 	g_g_a(checkAutoConnect,0,8,1,1);
 	
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxSimple ,lan("Simple Settings"));
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxSimple ,lan("General Settings"));
 	//check
 	GtkWidget* checkInfo  = lan("Checking");
 	GtkWidget* boxCheck = gtk_grid_new();

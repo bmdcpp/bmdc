@@ -4571,7 +4571,7 @@ void Hub::on(ClientListener::StatusMessage, Client *, const string &message, int
 			LOG(LogManager::STATUS, params);
 		}
 
-		if(flag == FLAG_VIRUS){
+		if(flag == FLAG_VIRUS) {
 			typedef Func3<Hub, string, string, Msg::TypeMsg> F3;
 			F3 *func = new F3(this, &Hub::addMessage_gui, "", message, Msg::CHEAT);
 			WulforManager::get()->dispatchGuiFunc(func);
@@ -4775,7 +4775,6 @@ void Hub::SetTabText(gpointer data)
    gtk_container_add(GTK_CONTAINER(content_area), entry);
    gtk_container_add(GTK_CONTAINER(content_area), hbox);
 
-
    gtk_widget_show(hub->tab_button);
    gtk_widget_show(hub->tab_image);
    gtk_widget_show(entry);
@@ -4813,7 +4812,7 @@ void Hub::onToglleButtonIcon(GtkToggleButton *button, gpointer data)
 		hub->client->set(SettingsManager::HUB_ICON_STR,Util::emptyString);
 		hub->client->fire(ClientListener::HubUpdated(), hub->client);
 
-		FavoriteHubEntryPtr fav = FavoriteManager::getInstance()->getFavoriteHubEntry(hub->client->getHubUrl());
+		FavoriteHubEntry* fav = FavoriteManager::getInstance()->getFavoriteHubEntry(hub->client->getHubUrl());
 		if(fav != NULL) {
 			fav->set(SettingsManager::HUB_ICON_STR,Util::emptyString);
 			FavoriteManager::getInstance()->save();
