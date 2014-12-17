@@ -139,9 +139,12 @@ Hub::Hub(const string &address, const string &encoding):
 	end_mark = gtk_text_buffer_create_mark(chatBuffer, NULL, &iter, TRUE);
 	tag_mark = gtk_text_buffer_create_mark(chatBuffer, NULL, &iter, FALSE);
 	emot_mark = gtk_text_buffer_create_mark(chatBuffer, NULL, &iter, TRUE);
-
+#if !GTK_CHECK_VERSION(3, 16, 0)
 	handCursor = gdk_cursor_new(GDK_HAND2);
-
+#endif
+#if GTK_CHECK_VERSION(3, 16, 0)
+	handCursor = gdk_cursor_new_for_display(gdk_display_get_default (),GDK_HAND2); 
+#endif
 	// image magnet
 	imageLoad.first = "";
 	imageLoad.second = NULL;

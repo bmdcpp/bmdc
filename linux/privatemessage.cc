@@ -47,7 +47,7 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 {
 	//Set Colors
 	gtk_widget_set_name(getWidget("text"),"pm");
-	WulforUtil::setTextDeufaults(getWidget("text"),/*WGETS("background-color-chat")*/SETTING(BACKGROUND_CHAT_COLOR),WGETS("pm-background-image"),true);
+	WulforUtil::setTextDeufaults(getWidget("text"),SETTING(BACKGROUND_CHAT_COLOR),WGETS("pm-background-image"),true);
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
 	messageBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(getWidget("text")));
 
@@ -60,9 +60,12 @@ PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
 	end_mark = gtk_text_buffer_create_mark(messageBuffer, NULL, &iter, TRUE);
 	tag_mark = gtk_text_buffer_create_mark(messageBuffer, NULL, &iter, FALSE);
 	emot_mark = gtk_text_buffer_create_mark(messageBuffer, NULL, &iter, TRUE);
-
+#if !GTK_CHECK_VERSION(3, 16, 0)
 	handCursor = gdk_cursor_new(GDK_HAND2);
-
+#endif
+#if GTK_CHECK_VERSION(3, 16, 0)
+	handCursor = gdk_cursor_new_for_display(gdk_display_get_default (),GDK_HAND2); 
+#endif
 	GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("scroll")));
 
 	// menu
