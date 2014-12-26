@@ -79,6 +79,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* = true
 	GtkWidget* labelPassword = lan("Password: ");
 	g_g_a(labelPassword,0,4,1,1);
 	entryPassword = gen;
+	gtk_entry_set_visibility (GTK_ENTRY(entryPassword,FALSE);
 	gtk_entry_set_text (GTK_ENTRY(entryPassword), p_entry->getPassword().c_str());
 	g_g_a(entryPassword,1,4,1,1);
 	GtkWidget* labelUserName = lan("User Description: ");
