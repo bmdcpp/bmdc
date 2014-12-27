@@ -2358,7 +2358,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if (command == "fuser" || command == "fu")
 		{
-			if (hub->client->getMyNick() == params)//dont add yoursefl
+			if (hub->client->getMyNick() == params) //dont add yoursefl
 					return;
 
 			if (hub->userMap.find(param) != hub->userMap.end())
@@ -3312,8 +3312,7 @@ void Hub::onTestSURItemClicked_gui(GtkMenuItem *item, gpointer data)
 
 		while (!nicks.empty())
 		{
-		   	string nick = Util::emptyString;
-			nick += nicks.front();
+		   	string 	nick = nicks.front();
 			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser( CID(nick),hub->client->getHubUrl());
 
 			if(ou)
