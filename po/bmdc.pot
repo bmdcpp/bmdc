@@ -5,9 +5,21 @@
 #, fuzzy
 msgid ""
 msgstr ""
+"#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2014-12-20 13:43+0100\n"
+"POT-Creation-Date: 2014-12-25 23:34+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"#-#-#-#-#  linux.pot  #-#-#-#-#\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
+"POT-Creation-Date: 2014-12-27 16:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1196,10 +1208,10 @@ msgid "Enable Text Color"
 msgstr ""
 
 #: ui/adlsearch.glade.ui:331 ui/detection.glade.ui:267
-#: ui/detection.glade.ui:800 linux/FavoriteHubDialog.cc:274
-#: linux/FavoriteHubDialog.cc:286 linux/FavoriteHubDialog.cc:580
-#: linux/FavoriteHubDialog.cc:582 linux/FavoriteHubDialog.cc:602
-#: linux/FavoriteHubDialog.cc:615 linux/adlsearch.cc:47 linux/adlsearch.cc:76
+#: ui/detection.glade.ui:800 linux/FavoriteHubDialog.cc:275
+#: linux/FavoriteHubDialog.cc:287 linux/FavoriteHubDialog.cc:581
+#: linux/FavoriteHubDialog.cc:583 linux/FavoriteHubDialog.cc:603
+#: linux/FavoriteHubDialog.cc:616 linux/adlsearch.cc:47 linux/adlsearch.cc:76
 #: linux/adlsearch.cc:83 linux/adlsearch.cc:139 linux/adlsearch.cc:250
 #: linux/adlsearch.cc:295 linux/adlsearch.cc:494 linux/adlsearch.cc:496
 #: linux/exportimport.cc:50 linux/exportimport.cc:87 linux/exportimport.cc:126
@@ -1857,8 +1869,8 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:1156 linux/AboutConfig.cc:32
 #: linux/AboutConfig.cc:41 linux/AboutConfig.cc:43 linux/AboutConfig.cc:163
 #: linux/AboutConfig.cc:181 linux/AboutConfig.cc:283 linux/AboutConfig.cc:339
-#: linux/FavoriteHubDialog.cc:273 linux/FavoriteHubDialog.cc:601
-#: linux/FavoriteHubDialog.cc:614 linux/detectiontab.cc:42
+#: linux/FavoriteHubDialog.cc:274 linux/FavoriteHubDialog.cc:602
+#: linux/FavoriteHubDialog.cc:615 linux/detectiontab.cc:42
 #: linux/detectiontab.cc:61 linux/detectiontab.cc:72 linux/detectiontab.cc:313
 #: linux/detectiontab.cc:334 linux/detectiontab.cc:405
 #: linux/detectiontab.cc:454 linux/detectiontab.cc:476
@@ -4424,7 +4436,7 @@ msgstr ""
 msgid "Protected"
 msgstr ""
 
-#: linux/wulfor.cc:153
+#: linux/wulfor.cc:170
 msgid "Quit..."
 msgstr ""
 
@@ -4688,7 +4700,7 @@ msgstr ""
 msgid "Show uptime"
 msgstr ""
 
-#: linux/wulfor.cc:151
+#: linux/wulfor.cc:168
 msgid "Shutting down dcpp client..."
 msgstr ""
 
@@ -4830,7 +4842,7 @@ msgid ""
 "The GeoIP database has been successfully updated; restart DC++ to apply....v"
 msgstr ""
 
-#: linux/FavoriteHubDialog.cc:522
+#: linux/FavoriteHubDialog.cc:523
 msgid "The name and address fields are required"
 msgstr ""
 

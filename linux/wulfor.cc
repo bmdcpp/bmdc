@@ -68,10 +68,27 @@ void handle_crash(int sig)
 
 	string stackPath = Util::getPath(Util::PATH_USER_CONFIG) + "exceptioninfo.txt";
 	std::ofstream f;
-	f.open(stackPath.c_str());
+	f.open(stackPath.c_str(),ios_base::out | ios_base::app);
 	std::copy(trace.begin(), trace.end(),
 		std::ostream_iterator<cow::StackFrame>(f, "\n"));
+	f << "\nGTK Version: \n";
+	printf("Version");
+	f << gtk_get_major_version();
+	f << ".";
+	f << gtk_get_minor_version();
+	f << ".";
+	f << gtk_get_micro_version();
+	printf("compiler ver");
+	f << "\n Version Compiler\n";
+	#ifdef __clang__
+	f << "clang " __clang_version__;
+	#elif defined(__GNUC__)
+	f << "gcc " __VERSION__;
+	#endif
+	f << "\n";
+	printf("Close");
 	f.close();
+	
 	std::cout << "\nException info to be posted on the bug tracker has also been saved in " + stackPath << std::endl;
 #else
     std::cerr << "Stacktrace is not enabled\n";

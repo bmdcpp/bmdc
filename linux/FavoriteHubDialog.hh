@@ -93,7 +93,7 @@ private:
 		GtkWidget* enableBold;
 		GtkWidget* enableStatusChat;
 		GtkWidget* enableFavFirst;
-		//Connections
+		//
 		GtkWidget* comboMode;
 		GtkWidget* entryIp;
 		//Kick View
