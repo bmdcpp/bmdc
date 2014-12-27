@@ -177,7 +177,7 @@ Hub::Hub(const string &address, const string &encoding):
 	}
 	// Emoticons dialog
 	emotdialog = new EmoticonsDialog(getWidget("chatEntry"), getWidget("emotButton"), getWidget("emotPacksMenu"), packName, address);
-	if (!SETTING(USE_EMOTS))//FAV?
+	if (!faventry->get(SettingsManager::USE_EMOTS,SETTING(USE_EMOTS)))
 		gtk_widget_set_sensitive(getWidget("emotButton"), FALSE);
 	
 	useEmoticons = true;
@@ -406,7 +406,6 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		string nick = hub->nickView.getString(iter,_("Nick"),model);
 		int64_t size = hub->nickView.getValue<gint64>(iter,_("Shared"),model);
 		string tmp = hub->nickView.getString(iter,_("Client Type"),model);		
-//		string cid = hub->nickView.getString(iter,"CID",model);
 		
 		char a = tmp[0];
 		switch(a){
@@ -621,7 +620,6 @@ gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean 
   gtk_tooltip_set_text (_tooltip, buffer);
 	if(path == NULL) return FALSE;
 	if(tree_view == NULL) return FALSE;
-  		
 
   gtk_tree_view_set_tooltip_row (tree_view, _tooltip, path);
 
@@ -917,7 +915,7 @@ void Hub::popupNickMenu_gui()
 
 void Hub::getPassword_gui()
 {
-	if(!SETTING(PROMPT_PASSWORD))//TODO: Fav?
+	if(!SETTING(PROMPT_PASSWORD))//TODO: Fav? possible bad?
 	{
 		addStatusMessage_gui(_("Waiting for input password (don't remove /password before your password)"), Msg::STATUS, Sound::NONE);
 
@@ -1700,8 +1698,9 @@ void Hub::preferences_gui()
 
 	gtk_widget_queue_draw(getWidget("nickView"));
 	gtk_widget_queue_draw(getWidget("emotButton"));
-
-	if (!SETTING(USE_EMOTS))
+	FavoriteHubEntry* faventry = getFavoriteHubEntry();
+	
+	if (!faventry->get(SettingsManager::USE_EMOTS,SETTING(USE_EMOTS)))
 	{
 		if (gtk_widget_is_sensitive(getWidget("emotButton")))
 			gtk_widget_set_sensitive(getWidget("emotButton"), FALSE);
@@ -1713,8 +1712,7 @@ void Hub::preferences_gui()
 
 	// resort users
 	string sort = SETTING(SORT_FAVUSERS_FIRST) ? "Client Type" : "Nick Order";
-	
-	FavoriteHubEntry* faventry = getFavoriteHubEntry();
+
 	if(faventry)
 		sort = faventry->get(SettingsManager::SORT_FAVUSERS_FIRST, SETTING(SORT_FAVUSERS_FIRST)) ? "Client Type" : "Nick Order";
 	
