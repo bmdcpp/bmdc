@@ -286,7 +286,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* = true
 	//	g_signal_connect(getWidget("checkbuttonUserDescription"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("entryUserDescription"));
 	g_signal_connect(actionView.getCellRenderOf(_("Enabled")), "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxKickAction ,lan("Kick Actions") );	
-	
+	initActions();
 	//need be after all contain stuff
 	gtk_widget_show_all(notebook);			
 	GtkWidget* okButton = gtk_button_new_with_label(_("Ok"));
@@ -305,8 +305,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* = true
 
 bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 {
-	/*gint  response = gtk_dialog_run(GTK_DIALOG(mainDialog));
-	
+	/*	
 		FavHubGroups favHubGroups = FavoriteManager::getInstance()->getFavHubGroups();
 
 		GtkTreeIter iter;
@@ -324,51 +323,10 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 			groups.insert(UnMapIter::value_type(i->first, iter));
 		}
 
-		string path = WulforManager::get()->getPath() + G_DIR_SEPARATOR_S + "emoticons" + G_DIR_SEPARATOR_S;
-		StringList files = File::findFiles(path, "*.xml");
-		for(auto fi = files.begin(); fi != files.end();++fi) {
-			string file = Util::getFileName((*fi));
-			size_t nedle =  file.find(".");
-			string text = file.substr(0,nedle);
-			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxEmot")), text.c_str() );
-		}
-#if !GTK_CHECK_VERSION(3,12,0)		
-		gtk_dialog_set_alternative_button_order(GTK_DIALOG(getContainer()), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
-#endif
-		gtk_widget_set_sensitive(getWidget("comboboxCharset"), FALSE);
-		gtk_widget_set_sensitive(getWidget("entryNick"), FALSE);
-		gtk_widget_set_sensitive(getWidget("entryUserDescription"), FALSE);
 		gtk_window_set_destroy_with_parent(GTK_WINDOW(getContainer()), TRUE);
 
 		gtk_window_set_transient_for(GTK_WINDOW(getContainer()),
 		GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()));
-
-		// Fill the charset drop-down list in edit fav hub dialog.
-		auto& charsets = WulforUtil::getCharsets();
-		for (auto ic = charsets.begin(); ic != charsets.end(); ++ic)
-		{
-			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxCharset")), (*ic).c_str());
-		}
-
-		initActions();
-		// Populate the dialog with initial values
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryName")), p_entry->getName().c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryAddress")), p_entry->getServer().c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryDescription")), p_entry->getHubDescription().c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryNick")), p_entry->get(SettingsManager::NICK,SETTING(NICK)).c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryPassword")), p_entry->getPassword().c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryUserDescription")),p_entry->get(SettingsManager::DESCRIPTION,SETTING(DESCRIPTION)).c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryIp")), p_entry->get(SettingsManager::EXTERNAL_IP,SETTING(EXTERNAL_IP)).c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryExtraInfo")), p_entry->get(SettingsManager::CHAT_EXTRA_INFO,SETTING(CHAT_EXTRA_INFO)).c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryprotected")), p_entry->getProtectUsers().c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryeMail")), p_entry->get(SettingsManager::EMAIL,SETTING(EMAIL)).c_str());
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryAway")), p_entry->get(SettingsManager::DEFAULT_AWAY_MESSAGE,SETTING(DEFAULT_AWAY_MESSAGE)).c_str());
-		
-		gtk_entry_set_text(GTK_ENTRY(getWidget("entryColor")), p_entry->get(SettingsManager::BACKGROUND_CHAT_COLOR,SETTING(BACKGROUND_CHAT_COLOR)).c_str());
-
-		gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxMode")), p_entry->getMode());
-		gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxParts")), p_entry->get(SettingsManager::SHOW_JOINS,SETTING(SHOW_JOINS)));
-		gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxFavParts")), p_entry->get(SettingsManager::FAV_SHOW_JOINS,SETTING(FAV_SHOW_JOINS)));
 
 		auto it = groups.find(p_entry->getGroup());
 		if (it != groups.end())
@@ -379,26 +337,6 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 		else
 			gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("groupsComboBox")), 0);
 
-		// Set the override default encoding checkbox. Check for "Global hub default"
-		// for backwards compatability w/ 1.0.3. Should be removed at some point.
-		string enc = p_entry->getEncoding();
-		gboolean overrideEncoding = !(enc.empty() || enc == "Global hub default");
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonEncoding")), overrideEncoding);
-
-		for(auto ii = charsets.begin(); ii!=charsets.end(); ++ii) {
-			if(enc == *ii) {
-				gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxCharset")), (ii - charsets.begin()));
-			}
-		}
-		string pack_name = p_entry->get(SettingsManager::EMOT_PACK,SETTING(EMOT_PACK));
-		for(auto fii = files.begin(); fii!= files.end(); ++fii) {
-			size_t needle = Util::getFileName(*fii).find(".");
-			string tmp  = Util::getFileName(*fii).substr(0,needle);
-			if(pack_name == tmp) {
-				gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxEmot")), (fii - files.begin()));
-			}
-		}
-
 		// Set the override default nick checkbox
 		string nick = p_entry->get(SettingsManager::NICK,SETTING(NICK));
 		gboolean overrideNick = !(nick.empty() || nick == SETTING(NICK));
@@ -408,20 +346,6 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 		string desc = p_entry->get(SettingsManager::DESCRIPTION,SETTING(DESCRIPTION));
 		gboolean overrideUserDescription = !(desc.empty() || desc == SETTING(DESCRIPTION));
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonUserDescription")), overrideUserDescription);
-
-		// Set the auto connect checkbox
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkButtonAutoConnect")), p_entry->getAutoConnect());
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkHide")), p_entry->getHideShare() );
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkFilelist")), p_entry->getCheckFilelists()   );
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkClients")), p_entry->getCheckClients() );
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkoncon")),  p_entry->getCheckAtConn()  );
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkLog")),   p_entry->get(SettingsManager::LOG_CHAT_B,SETTING(LOG_CHAT_B))  );
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkNoti")), p_entry->getNotify() );
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkShowCountry")), p_entry->get(SettingsManager::GET_USER_COUNTRY,SETTING(GET_USER_COUNTRY)) );
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkShowIp")), p_entry->get(SettingsManager::USE_IP,SETTING(USE_IP)) );
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkTabBold")), p_entry->get(SettingsManager::BOLD_HUB,SETTING(BOLD_HUB)) );
-		
-		WulforManager::get()->insertEntry_gui(this);
 */
 		// Show the dialog
 		gint response = gtk_dialog_run(GTK_DIALOG(mainDialog));
@@ -432,6 +356,7 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 
 		while (response == GTK_RESPONSE_OK)
 		{
+			//Hub
 			p_entry->setName(gtk_entry_get_text(GTK_ENTRY(entryName)));
 			p_entry->setServer(gtk_entry_get_text(GTK_ENTRY(entryAddress)));
 			p_entry->setHubDescription(gtk_entry_get_text(GTK_ENTRY(entryDesc)));

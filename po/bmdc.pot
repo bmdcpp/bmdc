@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2014-12-27 17:52+0100\n"
+"POT-Creation-Date: 2014-12-27 18:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1211,9 +1211,9 @@ msgstr ""
 
 #: ui/adlsearch.glade.ui:331 ui/detection.glade.ui:267
 #: ui/detection.glade.ui:800 linux/FavoriteHubDialog.cc:275
-#: linux/FavoriteHubDialog.cc:287 linux/FavoriteHubDialog.cc:581
-#: linux/FavoriteHubDialog.cc:583 linux/FavoriteHubDialog.cc:603
-#: linux/FavoriteHubDialog.cc:616 linux/adlsearch.cc:47 linux/adlsearch.cc:76
+#: linux/FavoriteHubDialog.cc:287 linux/FavoriteHubDialog.cc:506
+#: linux/FavoriteHubDialog.cc:508 linux/FavoriteHubDialog.cc:528
+#: linux/FavoriteHubDialog.cc:541 linux/adlsearch.cc:47 linux/adlsearch.cc:76
 #: linux/adlsearch.cc:83 linux/adlsearch.cc:139 linux/adlsearch.cc:250
 #: linux/adlsearch.cc:295 linux/adlsearch.cc:494 linux/adlsearch.cc:496
 #: linux/exportimport.cc:50 linux/exportimport.cc:87 linux/exportimport.cc:126
@@ -1872,8 +1872,8 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:1156 linux/AboutConfig.cc:32
 #: linux/AboutConfig.cc:41 linux/AboutConfig.cc:43 linux/AboutConfig.cc:163
 #: linux/AboutConfig.cc:181 linux/AboutConfig.cc:283 linux/AboutConfig.cc:339
-#: linux/FavoriteHubDialog.cc:274 linux/FavoriteHubDialog.cc:602
-#: linux/FavoriteHubDialog.cc:615 linux/detectiontab.cc:42
+#: linux/FavoriteHubDialog.cc:274 linux/FavoriteHubDialog.cc:527
+#: linux/FavoriteHubDialog.cc:540 linux/detectiontab.cc:42
 #: linux/detectiontab.cc:61 linux/detectiontab.cc:72 linux/detectiontab.cc:313
 #: linux/detectiontab.cc:334 linux/detectiontab.cc:405
 #: linux/detectiontab.cc:454 linux/detectiontab.cc:476
@@ -4957,7 +4957,7 @@ msgid ""
 "The GeoIP database has been successfully updated; restart DC++ to apply....v"
 msgstr ""
 
-#: linux/FavoriteHubDialog.cc:523
+#: linux/FavoriteHubDialog.cc:448
 msgid "The name and address fields are required"
 msgstr ""
 

@@ -539,6 +539,10 @@ void WulforUtil::copyValue_gui(GtkTreeStore *store, GtkTreeIter *fromIter, GtkTr
  */
 void WulforUtil::registerIcons()
 {
+	#if GTK_CHECK_VERSION(3,9,0)
+	icon_theme = gtk_icon_theme_get_default ();
+	gtk_icon_theme_prepend_search_path(icon_theme,_DATADIR PATH_SEPARATOR_STR GUI_LOCALE_PACKAGE "icons");
+	#else
 	// Holds a mapping of custom icon names -> stock icon names.
 	// Not all icons have stock representations.
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
@@ -652,10 +656,6 @@ void WulforUtil::registerIcons()
 	icons["bmdc-zerozeroone-away-pasive"] = wsm->getString("icon-zerozeroone-away-pasive");
 	icons["bmdc-other-away-pasive"] = wsm->getString("icon-other-away-pasive");
 
-	#if GTK_CHECK_VERSION(3,9,0)
-	icon_theme = gtk_icon_theme_get_default ();
-	gtk_icon_theme_prepend_search_path(icon_theme,_DATADIR PATH_SEPARATOR_STR GUI_LOCALE_PACKAGE "icons");
-	#else
 	if (iconFactory)
 	{
 		gtk_icon_factory_remove_default(iconFactory);
@@ -758,7 +758,7 @@ string WulforUtil::generateLeech() {
 		Util::toString(DownloadManager::getInstance()->getDownloadCount()).c_str(), Util::formatBytes(DownloadManager::getInstance()->getRunningAverage()).c_str());
 	return buf;
 }
-//return True if hadles by this func otherwise False
+//Return True if hadles by this func otherwise False
 bool WulforUtil::checkCommand(string& cmd, string& param, string& message, string& status, bool& thirdperson)
 {
 	string::size_type separator = cmd.find_first_of(' ');

@@ -98,7 +98,6 @@ private:
 		GtkWidget* entryIp;
 		//Kick View
 		GtkWidget * treeView;
-			
 
 };
 
