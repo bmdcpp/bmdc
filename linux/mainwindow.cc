@@ -1199,10 +1199,10 @@ void MainWindow::showPublicHubs_gui()
 	setStatusOfIcons(PUBLIC_HUBS,true);
 }
 
-void MainWindow::showShareBrowser_gui(UserPtr user, string filename, string dir, int64_t speed ,bool useSetting)
+void MainWindow::showShareBrowser_gui(HintedUser user, string filename, string dir, int64_t speed ,bool useSetting)
 {
 	bool raise = useSetting ? !SETTING(POPUNDER_FILELIST) : true;
-	BookEntry *entry = findBookEntry(Entry::SHARE_BROWSER, user->getCID().toBase32());
+	BookEntry *entry = findBookEntry(Entry::SHARE_BROWSER, user.user->getCID().toBase32());
 
 	if (entry == NULL)
 	{
@@ -2418,7 +2418,7 @@ void MainWindow::onOpenFileListClicked_gui(GtkWidget *widget, gpointer data)
 
 			UserPtr user = DirectoryListing::getUserFromFilename(path);
 			if (user)
-				mw->showShareBrowser_gui(user, path, "", 0, FALSE);
+				mw->showShareBrowser_gui(HintedUser(user,dcpp::Util::emptyString), path, "", 0, FALSE);
 			else
 				mw->setMainStatus_gui(_("Unable to load file list: Invalid file list name"));
 		}
@@ -2653,8 +2653,8 @@ void MainWindow::openOwnList_client(bool useSetting)
 	UserPtr user = ClientManager::getInstance()->getMe();
 	string path = ShareManager::getInstance()->getOwnListFile();
 
-	typedef Func5<MainWindow, UserPtr, string, string, int64_t,bool> F5;
-	F5 *func = new F5(this, &MainWindow::showShareBrowser_gui, user, path, "",0, useSetting);
+	typedef Func5<MainWindow, HintedUser, string, string, int64_t,bool> F5;
+	F5 *func = new F5(this, &MainWindow::showShareBrowser_gui,HintedUser(user,dcpp::Util::emptyString), path, "",0, useSetting);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
@@ -2715,8 +2715,8 @@ void MainWindow::on(QueueManagerListener::Finished, QueueItem *item, const strin
 
 		WulforManager::get()->dispatchGuiFunc(f3);
 
-		typedef Func5<MainWindow, UserPtr, string, string, int64_t ,bool> F5;
-		F5 *func = new F5(this, &MainWindow::showShareBrowser_gui, user.user, listName, dir,avSpeed, TRUE);//NOTE: core 0.762
+		typedef Func5<MainWindow, HintedUser, string, string, int64_t ,bool> F5;
+		F5 *func = new F5(this, &MainWindow::showShareBrowser_gui, user, listName, dir,avSpeed, TRUE);//NOTE: core 0.762
 		WulforManager::get()->dispatchGuiFunc(func);
 	}
 	else if(item->isSet(QueueItem::FLAG_USER_LIST) && item->isSet(QueueItem::FLAG_CHECK_FILE_LIST))
@@ -3019,7 +3019,7 @@ void MainWindow::parsePartial(HintedUser aUser, string txt)
 	{
 		if ( (entry == NULL) && !path.empty())
 		{
-			entry = new ShareBrowser(aUser.user, path, "/", 0, false);
+			entry = new ShareBrowser(aUser, path, "/", 0, false);
 			addBookEntry_gui(entry);
 			dynamic_cast<ShareBrowser*>(entry)->loadXML(txt);
 		}

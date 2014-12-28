@@ -96,7 +96,7 @@ class MainWindow:
 		void addPrivateMessage_gui(Msg::TypeMsg typemsg, std::string cid, std::string hubUrl = "", std::string message = "", bool useSetting = FALSE);
 		void addPrivateStatusMessage_gui(Msg::TypeMsg typemsg, std::string cid, std::string message = "");
 		void showPublicHubs_gui();
-		void showShareBrowser_gui(dcpp::UserPtr user, std::string file, std::string dir, int64_t speed ,bool useSetting);
+		void showShareBrowser_gui(dcpp::HintedUser user, std::string file, std::string dir, int64_t speed ,bool useSetting);
 		SearchEntry *addSearch_gui();
 		void addSearch_gui(std::string magnet);
 		void actionMagnet_gui(std::string magnet);

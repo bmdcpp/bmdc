@@ -79,7 +79,7 @@ void handle_crash(int sig)
 	f << ".";
 	f << gtk_get_micro_version();
 	printf("compiler ver");
-	f << "\n Version Compiler\n";
+	f << "\n Version Compiler: \n";
 	#ifdef __clang__
 	f << "clang " __clang_version__;
 	#elif defined(__GNUC__)

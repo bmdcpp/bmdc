@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2014 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ class ShareBrowser:
 	public BookEntry
 {
 	public:
-		ShareBrowser(dcpp::UserPtr user, const std::string &file, const std::string &initialDirectory, int64_t speed, bool full = true);
+		ShareBrowser(dcpp::HintedUser user, const std::string &file, const std::string &initialDirectory, int64_t speed, bool full = true);
 		virtual ~ShareBrowser();
 		virtual void show();
 		virtual GtkWidget* createmenu();
@@ -88,7 +88,7 @@ class ShareBrowser:
 		void downloadChangedDir(dcpp::DirectoryListing::Directory* d);
 
 		GdkEventType oldType;
-		dcpp::UserPtr user;
+		dcpp::HintedUser user;
 		std::string file;
 		std::string initialDirectory;
 		std::string nick;

@@ -34,12 +34,12 @@
 using namespace std;
 using namespace dcpp;
 
-ShareBrowser::ShareBrowser(UserPtr user, const string &file, const string &initialDirectory, int64_t speed, bool full):
-	BookEntry(Entry::SHARE_BROWSER, _("List: ") + WulforUtil::getNicks(user, ""), "sharebrowser", user->getCID().toBase32()),
+ShareBrowser::ShareBrowser(HintedUser user, const string &file, const string &initialDirectory, int64_t speed, bool full):
+	BookEntry(Entry::SHARE_BROWSER, _("List: ") + WulforUtil::getNicks(user), "sharebrowser", user.user->getCID().toBase32()),
 	user(user),
 	file(file),
 	initialDirectory(initialDirectory),
-	listing(HintedUser(user, "")),
+	listing(user),
 	shareSize(0),
 	currentSize(0),
 	shareItems(0),
@@ -50,8 +50,8 @@ ShareBrowser::ShareBrowser(UserPtr user, const string &file, const string &initi
 	fullfl(full)
 {
 	// Use the nick from the file name in case the user is offline and core only returns CID
-	nick = WulforUtil::getNicks(user, "");
-	if (nick.find(user->getCID().toBase32(), 1) != string::npos)
+	nick = WulforUtil::getNicks(user);
+	if (nick.find(user.user->getCID().toBase32(), 1) != string::npos)
 	{
 		string name = Util::getFileName(file);
 		string::size_type loc = name.find('.');
@@ -1072,7 +1072,7 @@ void ShareBrowser::matchQueue_client()
 GtkWidget *ShareBrowser::createmenu()
 {
     TabUserCommandMenu->cleanMenu_gui();
-    TabUserCommandMenu->addUser(user->getCID().toBase32());
+    TabUserCommandMenu->addUser(user.user->getCID().toBase32());
     StringList hubs = WulforUtil::getHubAddress(listing.getUser().user->getCID(), "");
     TabUserCommandMenu->addHub(hubs);
     TabUserCommandMenu->buildMenu_gui();
@@ -1101,7 +1101,7 @@ void ShareBrowser::onCloseItem(gpointer data)
 void ShareBrowser::onCopyCID(gpointer data)
 {
     ShareBrowser *sb = (ShareBrowser *)data;
-    gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), sb->user->getCID().toBase32().c_str(), sb->user->getCID().toBase32().length());
+    gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), sb->user.user->getCID().toBase32().c_str(), sb->user.user->getCID().toBase32().length());
 }
 void ShareBrowser::loadXML(string txt) {
 
