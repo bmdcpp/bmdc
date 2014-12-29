@@ -1,4 +1,4 @@
-//      Copyright 2011-2014 Mank <freedcpp at seznam dot cz>
+//      Copyright 2011-2015 Mank <freedcpp at seznam dot cz>
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ SystemLog::SystemLog():
 BookEntry(Entry::SYSTEML,_("System Log"),"system"),
  buffer(NULL),sysMark(NULL)
 {
-	WulforUtil::setTextDeufaults(getWidget("systextview"),/*WGETS("background-color-chat")*/SETTING(BACKGROUND_CHAT_COLOR));
+	WulforUtil::setTextDeufaults(getWidget("systextview"),SETTING(BACKGROUND_CHAT_COLOR));
 	string strcolor = "black";//TODO : Settings?	
 	GdkRGBA color;
 	gdk_rgba_parse(&color,strcolor.c_str());

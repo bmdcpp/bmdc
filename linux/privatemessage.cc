@@ -36,10 +36,10 @@
 using namespace std;
 using namespace dcpp;
 
-PrivateMessage::PrivateMessage(const string &cid, const string &hubUrl):
-	BookEntry(Entry::PRIVATE_MESSAGE, _("PM: ") + WulforUtil::getNicks(cid, hubUrl), "privatemessage", cid),
+PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
+	BookEntry(Entry::PRIVATE_MESSAGE, _("PM: ") + WulforUtil::getNicks(_cid, _hubUrl), "privatemessage", _cid),
 	dcpp::Flags(NORMAL),
-	cid(cid), hubUrl(hubUrl),
+	cid(_cid), hubUrl(_hubUrl),
 	historyIndex(0),
 	sentAwayMessage(FALSE),
 	scrollToBottom(TRUE),
@@ -266,9 +266,9 @@ void PrivateMessage::preferences_gui()
 
 	for (int i = Tag::TAG_FIRST; i < Tag::TAG_LAST; i++)
 	{
-		if(i == Tag::TAG_GENERAL)//@mainchat Tag
+		if(i == Tag::TAG_GENERAL) //@mainchat Tag
             		continue;
-       	if(i == Tag::TAG_CHEAT)//@Cheating on mainchat
+       	if(i == Tag::TAG_CHEAT) //@Cheating on mainchat
 					continue;
 
 		getSettingTag_gui(wsm, (Tag::TypeTag)i, fore, back, bold, italic);
@@ -990,6 +990,7 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		bool isThirdPerson = false;
 		string message = Util::emptyString, status = Util::emptyString;
+		
 		if(PluginManager::getInstance()->onChatCommandPM(HintedUser(make_shared<User>(User(CID(pm->cid))),pm->hubUrl),command)) {
 			// Plugins, chat commands
 		  return;
@@ -1490,6 +1491,7 @@ void PrivateMessage::on(ClientManagerListener::UserConnected, const UserPtr& aUs
 		typedef Func1<PrivateMessage, bool> F1;
 		F1 *func = new F1(this, &PrivateMessage::updateOnlineStatus_gui, aUser->isOnline());
 		WulforManager::get()->dispatchGuiFunc(func);
+		setFlag(NORMAL);
 	}
 }
 
@@ -1500,14 +1502,13 @@ void PrivateMessage::on(ClientManagerListener::UserDisconnected, const UserPtr& 
 		typedef Func1<PrivateMessage, bool> F1;
 		F1 *func = new F1(this, &PrivateMessage::updateOnlineStatus_gui, aUser->isOnline());
 		WulforManager::get()->dispatchGuiFunc(func);
-//		offline = true;
 		setFlag(OFFLINE);
 	}
 }
 
 void PrivateMessage::readLog(const string& logPath, const unsigned setting)
 {
-	if(setting == 0)
+	if(setting == 0) // Do not show log
 		return;
 	if(logPath.empty())
 		return;
@@ -1601,7 +1602,6 @@ void PrivateMessage::onAddFavItem(gpointer data)
 	PrivateMessage *pm = (PrivateMessage *)data;
 	pm->addFavoriteUser_client();
 }
-//EnD
 
 void PrivateMessage::onCopyIpItem_gui(GtkWidget *wid, gpointer data)
 {

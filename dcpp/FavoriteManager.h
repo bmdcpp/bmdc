@@ -237,7 +237,7 @@ private:
 	bool onHttpFinished(bool fromHttp) noexcept;
 
 	// SettingsManagerListener
-	void on(SettingsManagerListener::Load, SimpleXML& xml) noexcept {
+	void on(SettingsManagerListener::Load, SimpleXML& xml) {
 		load(xml);
 	}
 

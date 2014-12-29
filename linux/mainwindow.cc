@@ -1475,7 +1475,7 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 				if(combo_values.empty())
 				{ combo_sel = -1; }
 
-				combo_values.erase(first);
+				combo_values.erase(sec);
 				if(static_cast<size_t>(combo_sel) >= combo_values.size())
 					combo_sel = -1; // default selection value too high
 			}

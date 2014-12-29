@@ -563,7 +563,7 @@ string QueueManager::getListPath(const HintedUser& user) {
 }
 
 void QueueManager::add(const string& aTarget, int64_t aSize, const TTHValue& root, const HintedUser& aUser,
-	int aFlags /* = 0 */, bool addBad /* = true , const BundlePtr &bundle*/)
+	int aFlags /* = 0 */, bool addBad /* = true */)
 {
 	auto gotoend = [this,&aUser] (bool wantConnection) -> void {
 		if(wantConnection && aUser.user->isOnline())
