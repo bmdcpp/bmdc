@@ -59,6 +59,8 @@ const string AdcHub::TIGR_SUPPORT("ADTIGR");
 const string AdcHub::UCM0_SUPPORT("ADUCM0");
 const string AdcHub::BLO0_SUPPORT("ADBLO0");
 const string AdcHub::ZLIF_SUPPORT("ADZLIF");
+const string AdcHub::DFAV_FEATURE("DFAV");
+const string AdcHub::DFAV_SUPPORT("ADDFAV");
 
 const vector<StringList> AdcHub::searchExts;
 
@@ -990,7 +992,7 @@ static void addParam(StringMap& lastInfoMap, AdcCommand& c, const string& var, c
 
 void AdcHub::info(bool /*alwaysSend*/) {
 	if(state != STATE_IDENTIFY && state != STATE_NORMAL)
-						return;
+					return;
 
 	reloadSettings(false);
 
@@ -1065,6 +1067,7 @@ void AdcHub::info(bool /*alwaysSend*/) {
 		su += "," + NAT0_FEATURE;
 	}
 
+	su +=  "," + DFAV_FEATURE;
 	addParam(lastInfoMap, c, "SU", su);
 
 	appendConnectivity(lastInfoMap, c, addV4, addV6);
@@ -1128,7 +1131,7 @@ void AdcHub::on(Connected c) noexcept {
 	if(SETTING(SEND_BLOOM)) {
 		cmd.addParam(BLO0_SUPPORT);
 	}
-
+	cmd.addParam(DFAV_SUPPORT);
 	cmd.addParam(ZLIF_SUPPORT);
 
 	send(cmd);

@@ -75,14 +75,14 @@ public:
 	chatExtraInfo(SETTING(CHAT_EXTRA_INFO)), protectUsers(Util::emptyString), checkAtConn(false), checkClients(false),
 	checkFilelists(false), checkMyInfo(false), showUserList(true), 
 	order(SETTING(HUB_UL_ORDER)), visible(SETTING(HUB_UL_VISIBLE)), width(SETTING(HUB_UL_SIZE)), 
-	tabText(SETTING(HUB_TEXT_STR)) , tabIconStr(SETTING(HUB_ICON_STR)) , notify(false) { }
+	tabText(SETTING(HUB_TEXT_STR)) , tabIconStr(SETTING(HUB_ICON_STR)) , notify(false) ,priv(false) { }
 
 	FavoriteHubEntry(const HubEntry& rhs) : name(rhs.getName()), server(rhs.getServer()),
 		hubDescription(rhs.getDescription()), password(Util::emptyString), encoding(Text::systemCharset), group(Util::emptyString),
 	hideShare(false), autoConnect(false), mode(0), chatExtraInfo(SETTING(CHAT_EXTRA_INFO)), protectUsers(Util::emptyString), 
 	checkAtConn(false), checkClients(false), checkFilelists(false),  checkMyInfo(false), showUserList(true),
 	order(SETTING(HUB_UL_ORDER)),visible(SETTING(HUB_UL_VISIBLE)),width(SETTING(HUB_UL_SIZE)),
-	tabText(SETTING(HUB_TEXT_STR)) , tabIconStr(SETTING(HUB_ICON_STR)) , notify(false)
+	tabText(SETTING(HUB_TEXT_STR)) , tabIconStr(SETTING(HUB_ICON_STR)) , notify(false), priv(false)
 		{ }
 
 	FavoriteHubEntry(const FavoriteHubEntry& rhs) :
@@ -91,7 +91,7 @@ public:
 		password(rhs.getPassword()), encoding(rhs.getEncoding()), group(rhs.getGroup()), hideShare(rhs.hideShare),
 		autoConnect(rhs.autoConnect),  mode(rhs.mode), chatExtraInfo(rhs.chatExtraInfo),
 		protectUsers(rhs.protectUsers),	checkAtConn(rhs.checkAtConn), checkClients(rhs.checkClients), checkFilelists(rhs.checkFilelists),  checkMyInfo(rhs.checkMyInfo),
-		showUserList(rhs.showUserList), order(rhs.order), visible(rhs.visible), width(rhs.width), tabText(rhs.tabText), tabIconStr(rhs.tabIconStr), notify(rhs.notify)
+		showUserList(rhs.showUserList), order(rhs.order), visible(rhs.visible), width(rhs.width), tabText(rhs.tabText), tabIconStr(rhs.tabIconStr), notify(rhs.notify) ,priv(rhs.priv)
 		{ }
 
 	~FavoriteHubEntry() { }
@@ -122,6 +122,7 @@ public:
 	GETSET(string, tabText, TabText);//bad idea 
 	GETSET(string, tabIconStr, TabIconStr);//TODO HubGroup
 	GETSET(bool, notify , Notify );//TODO HubGroup
+	GETSET(bool, priv, Private);
 
 	//Raw Manager
 	struct FavAction {

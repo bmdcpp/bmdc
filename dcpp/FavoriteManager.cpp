@@ -445,7 +445,8 @@ void FavoriteManager::save() {
 			xml.addChildAttrib("Order",(*i)->getHubOrder());
 			xml.addChildAttrib("Visible",(*i)->getHubVisible());
 			xml.addChildAttrib("Width",(*i)->getHubWidth());
-			
+			xml.addChildAttrib("Private", (*i)->getPrivate());
+
 			(*i)->save(xml);
 			//RSX++
 			xml.stepIn();
@@ -661,6 +662,7 @@ void FavoriteManager::load(SimpleXML& aXml) {
 			e->setHubOrder(aXml.getChildAttrib("Order"));
 			e->setHubVisible(aXml.getChildAttrib("Visible"));
 			e->setHubWidth(aXml.getChildAttrib("Width"));
+			e->setPrivate(Util::toInt(aXml.getChildAttrib("Private")));//add
 			e->load(aXml);
 			favoriteHubs.push_back(e);
 

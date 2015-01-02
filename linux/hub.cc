@@ -4444,7 +4444,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 		dcpp::ParamMap params;
 		params["message"] = error;
 
-		if(WGETB("log-messages") )//main set & fav
+		if (client->get(SettingsManager::LOG_CHAT_B,SETTING(LOG_CHAT_B)))
 			LOG(LogManager::SYSTEM, params);
 
 		typedef Func3<Hub, string, Msg::TypeMsg, Sound::TypeSound> F3;
@@ -4510,7 +4510,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 			}
 		}
 
-		if (client->get(SettingsManager::LOG_CHAT_B,SETTING(LOG_CHAT_B)))
+		if (client->get(SettingsManager::LOG_MAIN_CHAT,SETTING(LOG_MAIN_CHAT)))
 		{
 			dcpp::ParamMap params;
 			params["message"] = tmp_text;

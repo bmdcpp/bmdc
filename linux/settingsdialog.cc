@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2014 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1124,7 +1124,8 @@ void Settings::initAppearance_gui()
 		addOption_gui(appearanceStore, _("Show send /commands in status message"), "show-commands");
 		addOption_gui(appearanceStore, _("Show Country Flags in main chat"), SettingsManager::USE_COUNTRY_FLAG);
 		addOption_gui(appearanceStore, _("Use DNS in Transfers"), "use-dns");
-		addOption_gui(appearanceStore, _("Log Ignored Messages as STATUS mess"), "log-messages");
+		addOption_gui(appearanceStore, _("Log Ignored Messages as STATUS messages"), SettingsManager::LOG_CHAT_B);
+		addOption_gui(appearanceStore, _("Log Mainchat by default"), SettingsManager::LOG_MAIN_CHAT);
 		addOption_gui(appearanceStore, _("Do not close Tab on middle button (wheel)"), "book-three-button-disable");
 		addOption_gui(appearanceStore, _("Use ctrl for history in chat Books"), "key-hub-with-ctrl");
 

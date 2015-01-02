@@ -25,6 +25,7 @@
 #include "AdcCommand.h"
 #include "Socket.h"
 #include "HubUsersMap.h"
+#include "FavoriteManager.h"
 
 namespace dcpp {
 
@@ -89,6 +90,8 @@ public:
 	static const string UCM0_SUPPORT;
 	static const string BLO0_SUPPORT;
 	static const string ZLIF_SUPPORT;
+	static const string DFAV_FEATURE;
+	static const string DFAV_SUPPORT;
 
 private:
 	friend class ClientManager;
@@ -142,6 +145,28 @@ private:
 	void handle(AdcCommand::RNT, AdcCommand& c) noexcept;
 	void handle(AdcCommand::ZON, AdcCommand& c) noexcept;
 	void handle(AdcCommand::ZOF, AdcCommand& c) noexcept;
+	void handle(AdcCommand::GFA, AdcCommand& c) noexcept
+	{
+		if(state != STATE_PROTOCOL) {
+			return;
+		}
+		if((c.getType() == AdcCommand::TYPE_HUB) || ( c.getType() == AdcCommand::TYPE_INFO))
+		{
+			auto entries = FavoriteManager::getInstance()->getFavoriteHubs();
+			for(auto i:entries) {
+				string hubUrl = i->getServer();
+				bool isNotPrivate = i->getPrivate();
+				if(isNotPrivate == false) {
+					AdcCommand x(AdcCommand::CMD_RFA,AdcCommand::HUB_SID,AdcCommand::TYPE_INFO);
+					x.addParam("HA",hubUrl);
+					x.addParam("LG","0");
+					send(x);
+				}
+			}
+		}
+		
+	}
+	
 
 	template<typename T> void handle(T, AdcCommand&) { }
 
