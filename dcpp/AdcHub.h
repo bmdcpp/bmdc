@@ -145,19 +145,22 @@ private:
 	void handle(AdcCommand::RNT, AdcCommand& c) noexcept;
 	void handle(AdcCommand::ZON, AdcCommand& c) noexcept;
 	void handle(AdcCommand::ZOF, AdcCommand& c) noexcept;
+	
 	void handle(AdcCommand::GFA, AdcCommand& c) noexcept
 	{
 		if(state != STATE_PROTOCOL) {
 			return;
 		}
-		if((c.getType() == AdcCommand::TYPE_HUB) || ( c.getType() == AdcCommand::TYPE_INFO))
+		if(c.getType() == AdcCommand::TYPE_BROADCAST)
 		{
 			auto entries = FavoriteManager::getInstance()->getFavoriteHubs();
 			for(auto i:entries) {
 				string hubUrl = i->getServer();
 				bool isNotPrivate = i->getPrivate();
 				if(isNotPrivate == false) {
-					AdcCommand x(AdcCommand::CMD_RFA,AdcCommand::HUB_SID,AdcCommand::TYPE_INFO);
+					AdcCommand x(AdcCommand::CMD_RFA,c.getTo(),AdcCommand::TYPE_CLIENT);
+					x.addParam("NI",i->getName());
+					x.addParam("DE",i->getHubDescription());
 					x.addParam("HA",hubUrl);
 					x.addParam("LG","0");
 					send(x);
@@ -165,6 +168,35 @@ private:
 			}
 		}
 		
+	}
+	void handle(AdcCommand::RFA, AdcCommand& c) noexcept
+	{
+		
+		if(c.getType() == AdcCommand::TYPE_CLIENT)
+		{
+			if(c.getFrom()== sid)
+			{
+				string nick,desc,url,login;
+				if(!c.getParam("NI",0, nick))
+					nick = "Unknow Hub";
+					
+				if(!c.getParam("DE",1,desc))
+					desc = "No Desc";
+				
+				if(!c.getParam("LO",3,login))
+					login = "-1";
+				if(!c.getParam("HA",2,url))
+					return;
+				
+				FavoriteHubEntry fu;
+				fu.setName(nick);
+				fu.setHubDescription(desc);
+				fu.setServer(url);
+				fu.setGroup("RFA HUBS");//todo beter name?
+				FavoriteManager::getInstance()->addFavorite(fu);
+				
+			}
+		}
 	}
 	
 
