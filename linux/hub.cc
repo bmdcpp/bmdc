@@ -177,7 +177,7 @@ Hub::Hub(const string &address, const string &encoding):
 	}
 	// Emoticons dialog
 	emotdialog = new EmoticonsDialog(getWidget("chatEntry"), getWidget("emotButton"), getWidget("emotPacksMenu"), packName, address);
-	if (!faventry->get(SettingsManager::USE_EMOTS,SETTING(USE_EMOTS)))
+	if ( (faventry) &&  ( !faventry->get(SettingsManager::USE_EMOTS,SETTING(USE_EMOTS))))
 		gtk_widget_set_sensitive(getWidget("emotButton"), FALSE);
 	
 	useEmoticons = true;
@@ -1700,7 +1700,7 @@ void Hub::preferences_gui()
 	gtk_widget_queue_draw(getWidget("emotButton"));
 	FavoriteHubEntry* faventry = getFavoriteHubEntry();
 	
-	if (!faventry->get(SettingsManager::USE_EMOTS,SETTING(USE_EMOTS)))
+	if ( (faventry) && (!faventry->get(SettingsManager::USE_EMOTS,SETTING(USE_EMOTS))))
 	{
 		if (gtk_widget_is_sensitive(getWidget("emotButton")))
 			gtk_widget_set_sensitive(getWidget("emotButton"), FALSE);
