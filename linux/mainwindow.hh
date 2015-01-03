@@ -292,11 +292,11 @@ class MainWindow:
 		Transfers* transfers;
 #if !GTK_CHECK_VERSION(3,14,1)		
 		GtkStatusIcon *statusIcon;
+		guint timer;
 #endif
 		int64_t lastUpdate, lastUp, lastDown;
 		bool minimized;
 		dcpp::StringList EntryList;
-		guint timer;
 		int statusFrame;
 		bool useStatusIconBlink;
 		bool onQuit;

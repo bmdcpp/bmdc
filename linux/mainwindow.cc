@@ -96,7 +96,10 @@ MainWindow::MainWindow():
 	Entry(Entry::MAIN_WINDOW, "mainwindow"),
 	transfers(NULL), lastUpdate(0),
 	lastUp(0), lastDown(0),
-	minimized(FALSE), timer(0),
+	minimized(FALSE),
+#if !GTK_CHECK_VERSION(3,12,0)		
+	 timer(0),
+#endif	 
 	statusFrame(1)
 {
 	string tmp;
@@ -462,10 +465,10 @@ MainWindow::~MainWindow()
 	
 	if (transferPanePosition > 10)
 		WSET("transfer-pane-position", transferPanePosition);
-
+#if !GTK_CHECK_VERSION(3,14,1)
 	if (timer > 0)
 		g_source_remove(timer);
-
+#endif
 	WSET("status-icon-blink-use", useStatusIconBlink);
 	gtk_widget_destroy(GTK_WIDGET(window));
 #if !GTK_CHECK_VERSION(3,14,1)
