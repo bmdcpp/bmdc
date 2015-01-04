@@ -364,8 +364,6 @@ void Hub::setColorsRows()
 	setColorRow(_("Generator"));
 	setColorRow(_("Support"));
 }
-static void hub_notify(gpointer data)
-{ }
 
 void Hub::setColorRow(string cell)
 {
@@ -375,17 +373,17 @@ void Hub::setColorRow(string cell)
 								nickView.getCellRenderOf(cell),
 								Hub::makeColor,
 								(gpointer)this,
-								(GDestroyNotify)hub_notify);
+								NULL);
 	
 	if(nickView.getCellRenderOf2(cell) != NULL)
 		gtk_tree_view_column_set_cell_data_func(nickView.getColumn(cell),
 								nickView.getCellRenderOf2(cell),
 								Hub::makeColor,
 								(gpointer)this,
-								(GDestroyNotify)hub_notify);
+								NULL);
 }
 
-void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data)
+void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
 {
 		Hub* hub = (Hub *)data;
 		if(hub == NULL)
@@ -515,7 +513,7 @@ Hub::~Hub()
 		sm->set(SettingsManager::HUB_UL_VISIBLE ,visible);
 	}
 
-	disconnect_client(TRUE);
+	disconnect_client(true);
 
 	// Save the pane position
 	gint width;
@@ -915,7 +913,7 @@ void Hub::popupNickMenu_gui()
 
 void Hub::getPassword_gui()
 {
-	if(!SETTING(PROMPT_PASSWORD))//TODO: Fav? possible bad?
+	if(!SETTING(PROMPT_PASSWORD))
 	{
 		addStatusMessage_gui(_("Waiting for input password (don't remove /password before your password)"), Msg::STATUS, Sound::NONE);
 

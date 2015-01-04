@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2014 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -139,7 +139,8 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 	history.push_back("");
 	const OnlineUser* user = ClientManager::getInstance()->findOnlineUser(CID(cid), hubUrl);
 	if(user != NULL) {
-		setFlag(user->getIdentity().isBot());
+		if(user->getIdentity().isBot() == true)
+			setFlag(BOT);
 	}	
 	setLabel_gui(WulforUtil::getNicks(cid, hubUrl) + " [" + WulforUtil::getHubNames(cid, hubUrl) + "]");
 
@@ -220,7 +221,7 @@ void PrivateMessage::addMessage_gui(string message, Msg::TypeMsg typemsg)
 	}
 	else if (!sentAwayMessage && !(SETTING(NO_AWAYMSG_TO_BOTS) && isSet(BOT)))
 	{
-		/*What away message to send*/
+		/* What away message to send */
 		auto what = [this](ParamMap& params) -> std::string {
 			if(hubUrl.empty())
 					return Util::getAwayMessage(params);
