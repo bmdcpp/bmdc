@@ -160,7 +160,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* = true
 	
 	GtkWidget* label_FavParts = lan(_("Favorite Users Joins/Parts:"));
 	g_g_a_a(label_FavParts ,0,3,1,1);
-	comboFavParts = createComboBoxWith3Options("Default","Enable","Disable");
+	comboFavParts = createComboBoxWith3Options(_("Default"),_("Enable"),_("Disable"));
 	if(p_entry->get(SettingsManager::FAV_SHOW_JOINS,SETTING(FAV_SHOW_JOINS)) == SETTING(FAV_SHOW_JOINS))
 		gtk_combo_box_set_active(GTK_COMBO_BOX(comboFavParts), 0);
 	else
@@ -169,7 +169,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* = true
 	
 	GtkWidget* label_Parts = lan(_("Users Joins/Parts:"));
 	g_g_a_a(label_Parts,0,4,1,1);
-	comboParts = createComboBoxWith3Options("Default","Enable","Disable");
+	comboParts = createComboBoxWith3Options(_("Default"),_("Enable"),_("Disable"));
 
 	if(p_entry->get(SettingsManager::FAV_SHOW_JOINS,SETTING(SHOW_JOINS)) == SETTING(SHOW_JOINS))
 		gtk_combo_box_set_active(GTK_COMBO_BOX(comboParts), 0);
@@ -245,7 +245,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* = true
 	GtkWidget* boxConnection = gtk_grid_new();
 	GtkWidget* labelMode = lan(_("Mode:"));
 	g_g_a_c_s(labelMode,0,0,1,1);
-	comboMode = createComboBoxWith3Options("Default","Active","Pasive");
+	comboMode = createComboBoxWith3Options(_("Default"),_("Active"),_("Pasive"));
 	
 	if(p_entry->getMode() == SETTING(INCOMING_CONNECTIONS))
 		gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode), 0);
