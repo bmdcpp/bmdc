@@ -105,16 +105,18 @@ class WulforUtil
 		static void setTextDeufaults(GtkWidget* widget, std::string strcolor, std::string back_image_path = dcpp::Util::emptyString,bool pm = false,std::string hubUrl = dcpp::Util::emptyString)
 		//todo move to c/cpp file :p
 		{
-			std::string hubCid = dcpp::CID(hubUrl.c_str()).toBase32();
 			if( (pm == false) && hubUrl.empty())
 				gtk_widget_set_name(widget,"Hub");
 			
 			if( pm == true)
 				gtk_widget_set_name(widget,"pm");
 			
-			if(!hubUrl.empty() && (pm == false))
+			std::string hubCid;
+			if(!hubUrl.empty() && (pm == false)) {
+				hubCid = dcpp::CID(hubUrl.c_str()).toBase32();
 				gtk_widget_set_name(widget,hubCid.c_str());
-				
+			}
+			
 			// Intialize the chat window
 			if (SETTING(USE_OEM_MONOFONT))
 			{
