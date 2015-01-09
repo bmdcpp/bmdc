@@ -30,7 +30,7 @@ LIB_HAVE_XATTR = False
 #,'-Weffc++'
 BUILD_FLAGS = {#'-Wno-unused-parameter','-Wno-unused-value',
 	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib','-ldl', '-pipe','-DUSE_STACKTRACE','-DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED','-DGSEAL_ENABLE'],
-	'debug'   : ['-O1','-g', '-ggdb', '-Wall', '-D_DEBUG','-Werror' ,'-Wfatal-errors'],
+	'debug'   : ['-O1','-g', '-ggdb', '-Wall', '-D_DEBUG'],
 	'release' : ['-O3', '-fomit-frame-pointer', '-DNDEBUG']
 }
 

@@ -72,8 +72,8 @@ int FS::get_fs_usage (char const *file, char const *disk, struct fs_usage *fsp) 
 
   /* f_frsize isn't guaranteed to be supported.  */
   fsp->fsu_blocksize = (fsd.f_frsize
-            ? PROPAGATE_ALL_ONES (fsd.f_frsize)
-            : PROPAGATE_ALL_ONES (fsd.f_bsize));
+            ? (PROPAGATE_ALL_ONES (fsd.f_frsize))
+            : (PROPAGATE_ALL_ONES (fsd.f_bsize)));
 
   fsp->fsu_blocks = PROPAGATE_ALL_ONES (fsd.f_blocks);
   fsp->fsu_bfree = PROPAGATE_ALL_ONES (fsd.f_bfree);
