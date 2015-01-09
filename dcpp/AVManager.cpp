@@ -34,13 +34,14 @@ namespace dcpp {
 //@ <nick>|<ip>|<share>|<time>\n
 //@ parf of code is same as in Flylink
 void AVManager::loadDb(const string& buf)
-	{
+{
 		if((!buf.length()) || ((buf.length() == 1) && (buf == "0") )) return;
 		if (buf.length() < 12) return;
 			size_t l_pos = 0;
 			int l_nick_pos = 0;
 			int l_nick_len = 0;
 			int l_count_new_user = 0;
+			
 			while (true)
 			{
 				l_nick_pos = l_pos;
@@ -72,11 +73,28 @@ void AVManager::loadDb(const string& buf)
 				entry.nick = nick;
 				entry.ss = share;
 				entry.ip = ip;
-				entries.insert(make_pair(nick,entry));
-				entip.insert(make_pair(ip,entry));
+//				entries.insert(make_pair(nick,entry));
+//				entip.insert(make_pair(ip,entry));
+				addItemNick(nick,entry);
+				addItemIp(ip,entry);
 			}	
 
-	}
+}
+
+void AVManager::addItemNick(const string& nick,const AVEntry entry)
+{
+	Lock l(cs);	
+	if(isNickVirused(nick) == false)
+		entries.insert(make_pair(nick,entry));
+	
+}
+
+void AVManager::addItemIp(const string& ip,const AVEntry entry)
+{
+	Lock l(cs);	
+	if(isIpVirused(ip) == false)
+		entip.insert(make_pair(ip,entry));
+}
 
 void AVManager::on(TimerManagerListener::Minute, uint64_t aTick) noexcept
 {

@@ -444,6 +444,10 @@ void TreeView::setSortColumn_gui(const string &column, const string &sortColumn)
 int TreeView::col(const string &title)
 {
 	dcassert(!title.empty());
+	
+	if(columns.empty() || hiddenColumns.empty())
+		return -1;
+		
 	dcassert(columns.find(title) != columns.end() || hiddenColumns.find(title) != hiddenColumns.end());
 	int retval = -1;
 
