@@ -72,6 +72,11 @@
 #include "settingsdialog.hh"
 #include "hashdialog.hh"
 
+#ifdef HAVE_APPINDCATOR
+//header
+#include <libappindicator/app-indicator.h>
+#endif
+
 using namespace std;
 using namespace dcpp;
 
@@ -419,7 +424,11 @@ MainWindow::MainWindow():
 	setToolbarStyle_gui(WGETI("toolbar-style"));
 #if !GTK_CHECK_VERSION(3,14,1)
 	createStatusIcon_gui();
-#endif	
+#endif
+#ifdef HAVE_APPINDCATOR
+	createAppIndicator();
+#endif
+	
 	setInitThrotles();
 	Sound::start();
 	Emoticons::start();
@@ -919,6 +928,17 @@ void MainWindow::updateStatusIconTooltip_gui(string download, string upload)
 	ostringstream toolTip;
 	toolTip << g_get_application_name() << endl << _("Download: ") << download << endl << _("Upload: ") << upload;
 	gtk_status_icon_set_tooltip_text(statusIcon, toolTip.str().c_str());
+}
+#endif
+#ifdef HAVE_APPINDCATOR
+void MainWindow::createAppIndicator()
+{
+	AppIndicator * indicator = app_indicator_new ( "bmdc","bmdc",APP_INDICATOR_CATEGORY_SYSTEM_SERVICES );
+	app_indicator_set_status ( indicator, APP_INDICATOR_STATUS_ACTIVE );
+	g_signal_connect(getWidget("statusIconQuitItem"), "activate", G_CALLBACK(onQuitClicked_gui), (gpointer)this);
+	g_signal_connect(getWidget("statusIconShowInterfaceItem"), "toggled", G_CALLBACK(onShowInterfaceToggled_gui), (gpointer)this);
+	gtk_widget_set_sensitive(getWidget("statusIconBlinkUseItem"),FALSE);
+	app_indicator_set_menu ( indicator, GTK_MENU (getWidget("statusIconMenu") ));
 }
 #endif
 void MainWindow::setMainStatus_gui(string text, time_t t)

@@ -122,7 +122,8 @@ vars.AddVariables(
 	BoolVariable('release', 'Compile the program with optimizations', 0),
 	BoolVariable('profile', 'Compile the program with profiling information', 0),
 	BoolVariable('libnotify', 'Enable notifications through libnotify', 1),
-	BoolVariable("libtar", 'Enable Backup&Export with libtar', 1),
+	BoolVariable('libtar', 'Enable Backup&Export with libtar', 1),
+	BoolVariable('libappindicator', 'Enable AppIndicator Support', 0),
 	PathVariable('PREFIX', 'Compile the program with PREFIX as the root for installation', '/usr/local/', PathVariable.PathIsDir),
 	('FAKE_ROOT', 'Make scons install the program under a fake root', '')
 )
@@ -308,7 +309,13 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		else:
 			print 'Dont Found libtar headers'
 			LIB_IS_TAR = False
-
+	#Possible need adjuts ver etc? # Support of appindicator # Very Experimetal!
+	if conf.env.get('libappindicator'):
+		if conf.CheckPKG('appindicator-0.1'):
+			print "Found appindicator"
+			conf.env.Append(CPPDEFINES = 'HAVE_APPINDCATOR')
+		
+		
 	conf.CheckBZRRevision(env)
 	env = conf.Finish()
 

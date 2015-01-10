@@ -171,6 +171,9 @@ class MainWindow:
 		void createStatusIcon_gui();
 		void updateStatusIconTooltip_gui(std::string download, std::string upload);
 		#endif
+#ifdef HAVE_APPINDCATOR
+		void createAppIndicator();
+#endif		
 		void setStats_gui(std::string hubs, std::string downloadSpeed,
 			std::string downloaded, std::string uploadSpeed, std::string uploaded);
 		void setToolbarButton_gui();
