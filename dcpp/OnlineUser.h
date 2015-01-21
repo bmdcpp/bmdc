@@ -119,7 +119,7 @@ public:
 	bool isClientQueued() const { return isSet("TQ"); }
 
 	void getParams(ParamMap& params, const string& prefix, bool compatibility) const;
-	UserPtr& getUser() { return user; }
+	//UserPtr& getUser() { return user; }
 	GETSET(UserPtr, user, User);
 	GETSET(uint32_t, sid, SID);
 	GETSET(uint64_t, loggedIn, LoggedIn);
@@ -142,11 +142,11 @@ public:
 
 	OnlineUser(const UserPtr& ptr, Client& client_, uint32_t sid_);
 
-	operator UserPtr&() { return getUser(); }
-	operator const UserPtr&() const { return getUser(); }
+	operator UserPtr/*&*/() { return getUser(); }
+	operator const UserPtr/*&*/() const { return getUser(); }
 
-	UserPtr& getUser() { return identity.getUser(); }
-	const UserPtr& getUser() const { return identity.getUser(); }
+	UserPtr/*&*/ getUser() { return identity.getUser(); }
+	const UserPtr/*&*/ getUser() const { return identity.getUser(); }
 	Identity& getIdentity() { return identity; }
 	Client& getClient() { return client; }
 	const Client& getClient() const { return client; }

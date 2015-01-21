@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -111,6 +111,7 @@ void Client::reloadSettings(bool updateNick) {
 		setCheckFilelists(false);
         //]
 	}
+	
 	if(updateNick) {
         string curNick = HUBSETTING(NICK);
 		checkNick(curNick);
@@ -224,12 +225,11 @@ bool Client::isActive() const {
 	return ClientManager::getInstance()->isActive(hubUrl);
 }
 
-
 bool Client::isActiveV4() const {
 	return ClientManager::getInstance()->isActive(getHubUrl()) && (HUBSETTING(INCOMING_CONNECTIONS) <= 2);//TODO: beter?
 }
 
-bool Client::isActiveV6() const {
+bool Client::isActiveV6() const {//this is not ideal?
 	return !HUBSETTING(EXTERNAL_IP6).empty();
 }
 

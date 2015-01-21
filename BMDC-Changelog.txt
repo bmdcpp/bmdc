@@ -1,5 +1,6 @@
 0.1.4
  ======
+ Add Appindicator support
  HubSetting & respective UI Changes
  Check aFile in UploadManager to size
  Some Fixies in ShareManager::toVirtual

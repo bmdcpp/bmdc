@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -274,7 +274,7 @@ UserPtr ClientManager::getUser(const CID& cid) noexcept {
 	if(ui != users.end()) {
 		return ui->second;
 	}
-	if(cid == getMe()->getCID()) {//should create only one instance of yourself
+	if(cid == getMe()->getCID()) { //should create only one instance of yourself
 		return getMe();
 	}
 
@@ -343,7 +343,7 @@ void ClientManager::putOffline(OnlineUser* ou, bool disconnect) noexcept {
 	}
 
 	if(diff == 1) { //last user
-		UserPtr& u = ou->getUser();
+		UserPtr u = ou->getUser();
 		u->unsetFlag(User::ONLINE);
 		u->unsetFlag(User::PROTECT);
 		if(disconnect)
@@ -626,7 +626,7 @@ void ClientManager::updateNick(const OnlineUser& user) noexcept {
 		}
 	}
 }
-int ClientManager::getMode(const string& aHubUrl) const {
+int ClientManager::getMode(const string& aHubUrl) const {//todo ipv6?
 
 	if(aHubUrl.empty())
 		return SETTING(INCOMING_CONNECTIONS);

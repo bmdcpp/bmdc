@@ -309,12 +309,15 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		else:
 			print 'Dont Found libtar headers'
 			LIB_IS_TAR = False
-	#Possible need adjuts ver etc? # Support of appindicator # Very Experimetal!
+	# Support of appindicator # Very Experimetal!
 	if conf.env.get('libappindicator'):
-		if conf.CheckPKG('appindicator-0.1'):
-			print "Found appindicator"
+		if conf.CheckPKG('appindicator3-0.1'):
+			print "Found appindicator3"
 			conf.env.Append(CPPDEFINES = 'HAVE_APPINDCATOR')
-		
+			conf.env.Append(CXXFLAGS = '/usr/include/libappindicator3-0.1') 
+			conf.env.Append(LIBS = 'appindicator3')
+			conf.env.Append(LINKFLAGS = '-lappindicator3')
+			conf.env.ParseConfig('pkg-config --libs --cflags appindicator3-0.1')
 		
 	conf.CheckBZRRevision(env)
 	env = conf.Finish()

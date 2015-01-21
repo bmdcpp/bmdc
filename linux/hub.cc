@@ -3215,7 +3215,7 @@ void Hub::onProtectUserClicked_gui(GtkMenuItem *item , gpointer data)
 		{
 			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hub->client->getHubUrl());
 			if(ou->getUser() && !ou->getUser()->isSet(User::PROTECT))
-				const_cast<UserPtr&>(ou->getUser())->setFlag(User::PROTECT);
+				ou->getUser()->setFlag(User::PROTECT);
 			dcpp::StringMap params;
 			hub->getParams_client(params, ou->getIdentity());
 			hub->addProtected_gui(params);
@@ -3248,7 +3248,7 @@ void Hub::onUnProtectUserClicked_gui(GtkMenuItem *item , gpointer data)
 		{
 			OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hub->client->getHubUrl());
 			if(ou->getUser() && !ou->getUser()->isSet(User::PROTECT))
-				const_cast<UserPtr&>(ou->getUser())->unsetFlag(User::PROTECT);
+				ou->getUser()->unsetFlag(User::PROTECT);
 			dcpp::StringMap params;
 			hub->getParams_client(params, ou->getIdentity());
 		}
