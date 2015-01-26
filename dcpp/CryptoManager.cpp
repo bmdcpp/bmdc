@@ -611,7 +611,7 @@ int CryptoManager::verify_callback(int preverify_ok, X509_STORE_CTX *ctx) {
 				tmp = getNameEntryByNID(subject, NID_commonName);
 				if(!tmp.empty()) {
 					CID certCID(tmp);
-					if(certCID.isZero())
+					if(!certCID)
 						tmp = Util::toString(ClientManager::getInstance()->getNicks(certCID,Util::emptyString));
 					line += (!line.empty() ? ", " : "") + tmp;
 				}

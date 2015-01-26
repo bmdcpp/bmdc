@@ -538,7 +538,7 @@ void SettingsManager::load(string const& aFileName)
 			xml.stepOut();
 		}
 
-		if(SETTING(PRIVATE_ID).length() != 39 || CID(SETTING(PRIVATE_ID)).isZero()) {
+		if(SETTING(PRIVATE_ID).length() != 39 || !CID(SETTING(PRIVATE_ID))) {
 			set(PRIVATE_ID, CID::generate().toBase32());
 		}
 
@@ -600,7 +600,7 @@ void SettingsManager::load(string const& aFileName)
 		xml.stepOut();
 
 	} catch(const Exception&) {
-		if(CID(SETTING(PRIVATE_ID)).isZero())
+		if(!CID(SETTING(PRIVATE_ID)))
 			set(PRIVATE_ID, CID::generate().toBase32());
 	}
 }

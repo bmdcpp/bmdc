@@ -73,8 +73,6 @@ void AVManager::loadDb(const string& buf)
 				entry.nick = nick;
 				entry.ss = share;
 				entry.ip = ip;
-//				entries.insert(make_pair(nick,entry));
-//				entip.insert(make_pair(ip,entry));
 				addItemNick(nick,entry);
 				addItemIp(ip,entry);
 			}	
