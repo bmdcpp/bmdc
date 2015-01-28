@@ -426,7 +426,9 @@ MainWindow::MainWindow():
 	createStatusIcon_gui();
 #endif
 #ifdef HAVE_APPINDCATOR
+#if GTK_CHECK_VERSION(3,14,1)
 	createAppIndicator();
+#endif	
 #endif
 	
 	setInitThrotles();
@@ -931,15 +933,17 @@ void MainWindow::updateStatusIconTooltip_gui(string download, string upload)
 }
 #endif
 #ifdef HAVE_APPINDCATOR
+#if GTK_CHECK_VERSION(3,14,1)
 void MainWindow::createAppIndicator()
 {
-	AppIndicator * indicator = app_indicator_new ( "bmdc","bmdc",APP_INDICATOR_CATEGORY_SYSTEM_SERVICES );
-	app_indicator_set_status ( indicator, APP_INDICATOR_STATUS_ACTIVE );
+	/*AppIndicator * */indicator = app_indicator_new ( "bmdc","bmdc",APP_INDICATOR_CATEGORY_SYSTEM_SERVICES );
+	app_indicator_set_status ( indicator, APP_INDICATOR_STATUS_PASIVE );
 	g_signal_connect(getWidget("statusIconQuitItem"), "activate", G_CALLBACK(onQuitClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("statusIconShowInterfaceItem"), "toggled", G_CALLBACK(onShowInterfaceToggled_gui), (gpointer)this);
 	gtk_widget_set_sensitive(getWidget("statusIconBlinkUseItem"),FALSE);
 	app_indicator_set_menu ( indicator, GTK_MENU (getWidget("statusIconMenu") ));
 }
+#endif
 #endif
 void MainWindow::setMainStatus_gui(string text, time_t t)
 {
@@ -2554,6 +2558,12 @@ void MainWindow::onStatusIconPopupMenu_gui(GtkStatusIcon *statusIcon, guint butt
 #endif
 void MainWindow::onShowInterfaceToggled_gui(GtkCheckMenuItem *item, gpointer data)
 {
+#ifdef HAVE_APPINDCATOR
+#if GTK_CHECK_VERSION(3,14,1)	
+	app_indicator_set_status(indicator,APP_INDICATOR_STATUS_ACTIVE);
+#endif
+#endif	
+	
 	MainWindow *mw = (MainWindow *)data;
 	GtkWindow *win = mw->window;
 	static int x, y;

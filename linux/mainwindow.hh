@@ -172,7 +172,10 @@ class MainWindow:
 		void updateStatusIconTooltip_gui(std::string download, std::string upload);
 		#endif
 #ifdef HAVE_APPINDCATOR
+#if GTK_CHECK_VERSION(3,14,1)
 		void createAppIndicator();
+		AppIndicator * indicator;
+#endif		
 #endif		
 		void setStats_gui(std::string hubs, std::string downloadSpeed,
 			std::string downloaded, std::string uploadSpeed, std::string uploaded);

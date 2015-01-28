@@ -17,9 +17,10 @@ libssl
 libGeoIP >= 1.4.7
 --------------
 optional:
- libtar (Note: for Backup/Restore options )
+ libtar (Note: For Backup/Restore options )
  libnotify >= 0.4.1 ( Note: For popups notifications )
- xattr 
+ libappindicator3 ( Note: For appindicators in gtk314 and above )
+ xattr ( Note: for storing hashes beside files to not always re-hash )
 --------------
 
 Compiling:
