@@ -2114,7 +2114,7 @@ void MainWindow::onRaisePage_gui(GtkMenuItem *item, gpointer data)
 
 void MainWindow::onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *page, guint num, gpointer data)
 {
-	MainWindow* mw = (MainWindow*)data;
+	MainWindow* mw = (MainWindow *)data;
 	GtkWidget *child = gtk_notebook_get_nth_page(notebook, num);
 	BookEntry *entry = (BookEntry *)g_object_get_data(G_OBJECT(child), "entry");
 
