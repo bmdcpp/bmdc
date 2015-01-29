@@ -205,6 +205,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* = true
 			string text = file.substr(0,nedle);
 			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(comboEmot), text.c_str() );
 	}
+	
 	string pack_name = p_entry->get(SettingsManager::EMOT_PACK,SETTING(EMOT_PACK));
 	for(auto fii = files.begin(); fii!= files.end(); ++fii) {
 			size_t needle = Util::getFileName(*fii).find(".");

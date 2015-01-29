@@ -897,7 +897,7 @@ void FavoriteUsers::setIgnore(const string cid, bool ignore)
 		FavoriteManager::getInstance()->addFavoriteUser(uptr);
 		if(ignore)
 			FavoriteManager::getInstance()->setIgnore(uptr, true);
-		else 	FavoriteManager::getInstance()->setIgnore(uptr, false);
+		else FavoriteManager::getInstance()->setIgnore(uptr, false);
 	
 
 		typedef Func1<FavoriteUsers, string> F1;

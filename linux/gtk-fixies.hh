@@ -1,4 +1,5 @@
 // @because GtkFactory -> GtkIconTheme and stock -> icon_name
+#ifdef GTK_DISABLE_DEPRECATED
 #if GTK_CHECK_VERSION(3,9,0)
 	#define GTK_STOCK_CANCEL "_Cancel"
 	#define GTK_STOCK_REMOVE "list-remove"
@@ -18,4 +19,5 @@
 	#define GTK_STOCK_NETWORK "network-workgroup"
 	#define GTK_STOCK_CONNECT "gtk-connect"
 	#define GTK_STOCK_QUIT "application-exit"
+#endif
 #endif

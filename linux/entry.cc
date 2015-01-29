@@ -42,7 +42,7 @@ Entry::Entry(const EntryType type, const string &ui, const string &id):
 
 	if(error != NULL)
 	{
-			g_print("[BMDC][GTKBUILDER] ERROR file => %s , => %s\n", file.c_str(), error->message);
+			g_print("[BMDC][GTKBUILDER][Error] file => %s , => %s\n", file.c_str(), error->message);
 			g_error_free(error);
 	}
 #else

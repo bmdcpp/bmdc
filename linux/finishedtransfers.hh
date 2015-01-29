@@ -19,8 +19,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef WULFOR_FINISHED_TRANSFERS
-#define WULFOR_FINISHED_TRANSFERS
+#ifndef BMDC_FINISHED_TRANSFERS
+#define BMDC_FINISHED_TRANSFERS
 
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
@@ -68,7 +68,7 @@ class FinishedTransfers:
 		void initializeList_client();
 		void getFinishedParams_client(const dcpp::FinishedFileItemPtr &item, const std::string &file,  dcpp::StringMap &params);
 		void getFinishedParams_client(const dcpp::FinishedUserItemPtr &item, const dcpp::HintedUser &user,
-			dcpp::StringMap &params);//NOTE: core 0.762
+			dcpp::StringMap &params);
 		void removeFile_client(std::string target);
 		void removeUser_client(std::string cid);
 		void removeAll_client();

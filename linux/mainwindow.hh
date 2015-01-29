@@ -167,10 +167,16 @@ class MainWindow:
 		void previousTab_gui();
 		void nextTab_gui();
 		BookEntry *findBookEntry(const EntryType type, const std::string &id = "");
-		#if !GTK_CHECK_VERSION(3,14,1)
+#ifdef GTK_DISABLE_DEPRECATED
+#if !GTK_CHECK_VERSION(3,14,1)
 		void createStatusIcon_gui();
 		void updateStatusIconTooltip_gui(std::string download, std::string upload);
-		#endif
+#endif
+#else
+		void createStatusIcon_gui();
+		void updateStatusIconTooltip_gui(std::string download, std::string upload);
+#endif
+
 #ifdef HAVE_APPINDCATOR
 #if GTK_CHECK_VERSION(3,14,1)
 		void createAppIndicator();
@@ -182,9 +188,14 @@ class MainWindow:
 		void setToolbarButton_gui();
 		void setTabPosition_gui(int position);
 		void setToolbarStyle_gui(int style);
+		#ifdef GTK_DISABLE_DEPRECATED
 		#if !GTK_CHECK_VERSION(3,14,1)
 		void removeTimerSource_gui();
 		#endif
+		#else
+		void removeTimerSource_gui();
+		#endif
+		
 		void setChooseMagnetDialog_gui();
 		void showMagnetDialog_gui(const std::string &magnet, const std::string &name, const int64_t size,
 			const std::string &tth);
@@ -199,9 +210,13 @@ class MainWindow:
 		static gboolean onCloseWindow_gui(GtkWidget *widget, GdkEvent *event, gpointer data);
 		static gboolean onKeyPressed_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static gboolean onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+#ifdef GTK_DISABLE_DEPRECATED
 #if !GTK_CHECK_VERSION(3,14,1)
 		static gboolean animationStatusIcon_gui(gpointer data);
-#endif		
+#endif
+#else
+		static gboolean animationStatusIcon_gui(gpointer data);
+#endif
 		static void onRaisePage_gui(GtkMenuItem *item, gpointer data);
 		static void onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *page, guint num, gpointer data);
 		static void onPaneRealized_gui(GtkWidget *pane, gpointer data);
@@ -228,7 +243,13 @@ class MainWindow:
 		static void onAboutClicked_gui(GtkWidget *widget, gpointer data);
 		static void onAboutDialogActivateLink_gui(GtkAboutDialog *dialog, const gchar *link, gpointer data);
 		static void onCloseBookEntry_gui(GtkWidget *widget, gpointer data);
+#ifdef GTK_DISABLE_DEPRECATED
 #if !GTK_CHECK_VERSION(3,14,1)
+		static void onStatusIconActivated_gui(GtkStatusIcon *statusIcon, gpointer data);
+		static void onStatusIconPopupMenu_gui(GtkStatusIcon *statusIcon, guint button, guint time, gpointer data);
+		static void onStatusIconBlinkUseToggled_gui(GtkWidget *widget, gpointer data);
+#endif		
+#else
 		static void onStatusIconActivated_gui(GtkStatusIcon *statusIcon, gpointer data);
 		static void onStatusIconPopupMenu_gui(GtkStatusIcon *statusIcon, guint button, guint time, gpointer data);
 		static void onStatusIconBlinkUseToggled_gui(GtkWidget *widget, gpointer data);
@@ -296,7 +317,12 @@ class MainWindow:
 
 		GtkWindow *window;
 		Transfers* transfers;
+#ifdef GTK_DISABLE_DEPRECATED
 #if !GTK_CHECK_VERSION(3,14,1)		
+		GtkStatusIcon *statusIcon;
+		guint timer;
+#endif
+#else
 		GtkStatusIcon *statusIcon;
 		guint timer;
 #endif

@@ -139,7 +139,7 @@ class cmddebug:
 				tmp= std::string(fUrl);
 				g_free(fUrl);
 			}	
-			if((gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("by_ip_button"))) == TRUE) || ( !tmp.empty() && (ip == tmp) ))
+			if((gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("by_ip_button"))) == TRUE) && ( !tmp.empty() && (ip == tmp) ))
 				addCmd("\t"+getType(type,dir)+"\tIP (Address): \t"+ip+" \t:\t "+m);
 			else
 				addCmd("\t"+getType(type,dir)+"\tIP (Address): \t"+ip+" \t:\t "+m);

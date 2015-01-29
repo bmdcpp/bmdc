@@ -31,7 +31,6 @@ scons PREFIX=/usr/
 scons FAKE_ROOT=$RPM_BUILD_ROOT release=1 install
 
 %clean
-[ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
@@ -44,6 +43,6 @@ scons FAKE_ROOT=$RPM_BUILD_ROOT release=1 install
 %{_datadir}/locale/*
 
 %changelog
-* Fri Aug 29 2014 Mank <freedcpp@seznam.cz> 0.1.8-1
+* Fri Jan 29 2015 Mank <freedcpp@seznam.cz> 0.1.8-1
 - intial version of spec file
  	

@@ -72,7 +72,7 @@ void Emoticons::create()
 {
 	clean();
 
-	if (!/*WGETB("emoticons-use")*/SETTING(USE_EMOTS))
+	if (!SETTING(USE_EMOTS))
 		return;
 
 	string file = currPackName;
