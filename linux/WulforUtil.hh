@@ -149,8 +149,8 @@ class WulforUtil
 			GdkRGBA color;
 			gdk_rgba_parse(&color,strcolor.c_str());
 			gtk_widget_override_background_color(widget, GTK_STATE_FLAG_NORMAL, &color);
-			gtk_widget_override_background_color(widget, GTK_STATE_FLAG_PRELIGHT, &color);
-			gtk_widget_override_background_color(widget, GTK_STATE_FLAG_ACTIVE, &color);
+			//gtk_widget_override_background_color(widget, GTK_STATE_FLAG_PRELIGHT, &color);
+			//gtk_widget_override_background_color(widget, GTK_STATE_FLAG_ACTIVE, &color);
 			gtk_widget_override_background_color(widget, GTK_STATE_FLAG_INSENSITIVE, &color);
 
 		}
