@@ -246,7 +246,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* = true
 	GtkWidget* boxConnection = gtk_grid_new();
 	GtkWidget* labelMode = lan(_("Mode:"));
 	g_g_a_c_s(labelMode,0,0,1,1);
-	comboMode = createComboBoxWith3Options(_("Default"),_("Active"),_("Pasive"));
+	comboMode = createComboBoxWith3Options(_("Default"),_("Active"),_("Passive"));
 	
 	if(p_entry->getMode() == SETTING(INCOMING_CONNECTIONS))
 		gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode), 0);
@@ -254,7 +254,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* = true
 		int mode_i = p_entry->getMode();
 		if(mode_i <= 1)
 			gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode),1);//active
-		else gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode),2);//pasive	
+		else gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode),2);//passive	
 	}
 	g_g_a_c_s(comboMode,1,0,1,1);
 	GtkWidget* labelIp = lan(_("IP Address:"));
