@@ -340,7 +340,7 @@ Hub::Hub(const string &address, const string &encoding):
 		isFavBool =  faventry ? faventry->getNotify() : WGETI("notify-hub-chat-use");
 	}
 }
-//
+
 FavoriteHubEntry* Hub::getFavoriteHubEntry()
 {
 	return FavoriteManager::getInstance()->getFavoriteHubEntry(address);	
@@ -495,7 +495,7 @@ Hub::~Hub()
 
 	bool showUL = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")));
 	FavoriteHubEntry* entry = getFavoriteHubEntry();
-	string order = Util::emptyString,hwidth = Util::emptyString,visible = Util::emptyString;
+	string order = Util::emptyString, hwidth = Util::emptyString, visible = Util::emptyString;
 	nickView.saveSettings(order,hwidth,visible);
 	
 	if(entry) {

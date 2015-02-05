@@ -982,12 +982,12 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 	// Process special commands
 	if (text[0] == '/')
 	{
-		string command = text, param = Util::emptyString;
+		string command = text, params = Util::emptyString, param;
 		string::size_type separator = text.find_first_of(' ');
 		if (separator != string::npos && text.size() > separator + 1)
 		{
 			command = text.substr(1, separator - 1);
-			param = text.substr(separator + 1);
+			params = text.substr(separator + 1);
 		}
 		bool isThirdPerson = false;
 		string message = Util::emptyString, status = Util::emptyString;
@@ -997,15 +997,16 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		  return;
 	    }
 
-		if(WulforUtil::checkCommand(command, param, message, status, isThirdPerson))
+		else if(WulforUtil::checkCommand(text, param, message, status, isThirdPerson))
 		{
 			if(!message.empty())
 				pm->addMessage_gui(message, Msg::MYOWN);
 
 			if(!status.empty())
 				pm->addStatusMessage_gui(status, Msg::STATUS);
+			return;	
 		}
-		else if (command == "clear")
+		if (command == "clear")
 		{
 			GtkTextIter startIter, endIter;
 			gtk_text_buffer_get_start_iter(pm->messageBuffer, &startIter);

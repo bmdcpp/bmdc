@@ -1,6 +1,4 @@
-//      recenthub.cc
-//
-//      Copyright 2010-2014 Mank <freedcpp@seznam.cz>
+//      Copyright 2010-2015 Mank <freedcpp@seznam.cz>
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -48,10 +46,8 @@ BookEntry(Entry::RECENT,_("Recent Hubs"),"recenthub")
 		recentStore = gtk_list_store_newv(recentView.getColCount(), recentView.getGTypes());
 		gtk_tree_view_set_model(recentView.get(), GTK_TREE_MODEL(recentStore));
 		g_object_unref(recentStore);
-//		gtk_tree_view_set_fixed_height_mode(recentView.get(), TRUE);
-		recentSelection = gtk_tree_view_get_selection(recentView.get());
 
-		/* CONECT TO SIGNAL */
+		recentSelection = gtk_tree_view_get_selection(recentView.get());
 
 		g_signal_connect(getWidget("connectItem"), "activate", G_CALLBACK(onConnectItemClicked_gui), (gpointer)this);
 		g_signal_connect(getWidget("removeItem"), "activate", G_CALLBACK(onRemoveItemClicked_gui), (gpointer)this);
