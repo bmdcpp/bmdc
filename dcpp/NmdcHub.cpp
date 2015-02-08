@@ -1048,7 +1048,8 @@ void NmdcHub::clearFlooders(uint64_t aTick) {
 }
 
 bool NmdcHub::isProtectedIP(const string& ip) {
-	if(find(protectedIPs.begin(), protectedIPs.end(), ip) != protectedIPs.end()) {
+	string _ip = Socket::resolve(ip);
+	if(find(protectedIPs.begin(), protectedIPs.end(), _ip) != protectedIPs.end()) {
 		fire(ClientListener::StatusMessage(), this, string(F_("This hub is trying to use your client to spam "+ip+", please urge hub owner to fix this") ));
 		return true;
 	}

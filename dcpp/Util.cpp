@@ -450,6 +450,10 @@ void Util::decodeUrl(const string& url, string& protocol, string& host, string& 
 		} else {
 			dcdebug("p");
 			port = url.substr(portStart, authorityEnd - portStart);
+			uint32_t p_port = Util::toInt(port);
+			if(! (p_port >= 1 || p_port <= 65535))
+					port = "-1";
+			
 		}
 	}
 

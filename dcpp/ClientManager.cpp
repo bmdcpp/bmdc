@@ -477,7 +477,7 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 									int aFileType, const string& aString) noexcept
 {
 	Speaker<ClientManagerListener>::fire(ClientManagerListener::IncomingSearch(), aString);
-	if(aSeeker.empty())return;
+	if(aSeeker.empty()) return;
 
 
 	bool isPassive = (aSeeker.compare(0, 4, "Hub:") == 0);
@@ -507,18 +507,53 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 
 		} else {
 			try {
-				string ip, port, file, proto, query, fragment;
-
-				Util::decodeUrl(aSeeker, proto, ip, port, file, query, fragment);
-				ip = Socket::resolve(ip);
-				if(static_cast<NmdcHub*>(aClient)->isProtectedIP(ip))//should be checked if after cast exist or not ?
+				string ip, port;
+				//Util::decodeUrl(aSeeker, proto, ip, port, file, query, fragment);//no needed here
+				size_t x = aSeeker.find_last_of(':');
+				size_t y = aSeeker.find_first_of(':');
+				if(x == string::npos) return;
+				if(y == string::npos) return;
+				if( x == y) return;
+				if( (x-1) == string::npos) return;
+				
+				bool bIPv6 = aSeeker[x-1] == ']';
+				bool isOk2IP6 = false;
+				if(bIPv6)
+				{
+				   isOk2IP6 = aSeeker[0] == '[';
+				   ip = aSeeker.substr(y+1,x-1);
+				}
+				else {
+					ip = aSeeker.substr(y,x);
+				}	
+				port = aSeeker.substr(x);
+				
+				if(aClient && static_cast<NmdcHub*>(aClient)->isProtectedIP(ip))
 					return;
+				if( ip.empty() )
+					return;	
+				bool isOk = false;
+				if(Util::isIp6(ip) == false)
+					isOk =	inet_addr(ip.c_str()) == (in_addr_t)(-1);
+				if( (isOk2IP6 == true) &&  Util::isIp6(ip) == true)
+					isOk = true;
+				
 				if(port.empty())
 					port = "412";
+				//port should be number	
+				uint32_t p_port = Util::toInt(port);
+				if(! (p_port >= 1 || p_port <= 65535))
+						return;
+				port = Util::toString(p_port);		
+				if(port == "-1") return;
+				
+				if( isOk == false) {
+					
 				for(SearchResultList::const_iterator i = l.begin(); i != l.end(); ++i) {
 					const SearchResultPtr& sr = *i;
 					udp.writeTo(ip, port, sr->toSR(*aClient));
 				}
+			  }
 			} catch(const SocketException& /* e */) {
 				dcdebug("Search caught error\n");
 			}
