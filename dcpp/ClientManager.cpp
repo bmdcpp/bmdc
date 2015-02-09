@@ -513,18 +513,17 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				size_t y = aSeeker.find_first_of(':');
 				if(x == string::npos) return;
 				if(y == string::npos) return;
-				if( x == y) return;
 				if( (x-1) == string::npos) return;
-				
+				//IP( 8.8.8.8:888
 				bool bIPv6 = aSeeker[x-1] == ']';
 				bool isOk2IP6 = false;
 				if(bIPv6)
 				{
 				   isOk2IP6 = aSeeker[0] == '[';
-				   ip = aSeeker.substr(y+1,x-1);
+				   ip = aSeeker.substr(1,x-1);
 				}
 				else {
-					ip = aSeeker.substr(y,x);
+					ip = aSeeker.substr(0,x);
 				}	
 				port = aSeeker.substr(x);
 				
