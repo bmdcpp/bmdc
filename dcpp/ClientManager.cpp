@@ -350,15 +350,6 @@ void ClientManager::putOffline(OnlineUser* ou, bool disconnect) noexcept {
 			ConnectionManager::getInstance()->disconnect(u);
 
 		fire(ClientManagerListener::UserDisconnected(), u);
-		/*if(u.unique())
-		{
-			Lock l(cs);
-			auto in = nicks.find(u->getCID());
-			if(in != nicks.end())
-			{ nicks.erase(u->getCID());}
-			u.reset();// =P
-		}*/
-
 	} else if(diff > 1) {
 			fire(ClientManagerListener::UserUpdated(), *ou);
 	}
@@ -510,20 +501,18 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				string ip, port;
 				//Util::decodeUrl(aSeeker, proto, ip, port, file, query, fragment);//no needed here
 				size_t x = aSeeker.find_last_of(':');
-				size_t y = aSeeker.find_first_of(':');
 				if(x == string::npos) return;
-				if(y == string::npos) return;
 				if( (x-1) == string::npos) return;
-				//IP( 8.8.8.8:888
+				//IP:port(8.8.8.8:8888)
 				bool bIPv6 = aSeeker[x-1] == ']';
 				bool isOk2IP6 = false;
 				if(bIPv6)
 				{
 				   isOk2IP6 = aSeeker[0] == '[';
-				   ip = aSeeker.substr(1,x-1);
+				   ip = aSeeker.substr(1,x-2);
 				}
 				else {
-					ip = aSeeker.substr(0,x);
+					ip = aSeeker.substr(0,x-1);
 				}	
 				port = aSeeker.substr(x);
 				
@@ -534,7 +523,8 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				bool isOk = false;
 				if(Util::isIp6(ip) == false)
 					isOk =	inet_addr(ip.c_str()) == (in_addr_t)(-1);
-				if( (isOk2IP6 == true) &&  Util::isIp6(ip) == true)
+				
+				if( (isOk2IP6 == true) &&  Util::isIp6(ip) == true) //this already check is it IPv6
 					isOk = true;
 				
 				if(port.empty())
@@ -543,6 +533,7 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				uint32_t p_port = Util::toInt(port);
 				if(! (p_port >= 1 || p_port <= 65535))
 						return;
+						
 				port = Util::toString(p_port);		
 				if(port == "-1") return;
 				

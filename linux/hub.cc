@@ -2721,37 +2721,7 @@ void Hub::onNickToChat_gui(GtkMenuItem *item, gpointer data)
 		}
 	}
 }
-/*
-void Hub::onCopyNickItemClicked_gui(GtkMenuItem *item, gpointer data)
-{
-	Hub *hub = (Hub *)data;
 
-	if (gtk_tree_selection_count_selected_rows(hub->nickSelection) > 0)
-	{
-		string nicks;
-		GtkTreeIter iter;
-		GtkTreePath *path;
-		GList *list = gtk_tree_selection_get_selected_rows(hub->nickSelection, NULL);
-
-		for (GList *i = list; i; i = i->next)
-		{
-			path = (GtkTreePath *)i->data;
-			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(hub->nickStore), &iter, path))
-			{
-				nicks += hub->nickView.getString(&iter, _("Nick")) + ' ';
-			}
-			gtk_tree_path_free(path);
-		}
-		g_list_free(list);
-
-		if (!nicks.empty())
-		{
-			nicks.erase(nicks.length() - 1);
-			gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), nicks.c_str(), nicks.length());
-		}
-	}
-}
-*/
 void Hub::onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data)
 {
 	Hub *hub = (Hub *)data;
