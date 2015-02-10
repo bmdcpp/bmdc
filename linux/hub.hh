@@ -126,7 +126,7 @@ class Hub:
 		static void onChatResize_gui(GtkAdjustment *adjustment, gpointer data);
 		static void onSendMessage_gui(GtkEntry *entry, gpointer data);
 		static void onNickToChat_gui(GtkMenuItem *item, gpointer data);
-		static void onCopyNickItemClicked_gui(GtkMenuItem *item, gpointer data);
+		//static void onCopyNickItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onMatchItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onMsgItemClicked_gui(GtkMenuItem *item, gpointer data);

@@ -238,7 +238,7 @@ Hub::Hub(const string &address, const string &encoding):
 	g_signal_connect(adjustment, "value_changed", G_CALLBACK(onChatScroll_gui), (gpointer)this);
 	g_signal_connect(adjustment, "changed", G_CALLBACK(onChatResize_gui), (gpointer)this);
 	g_signal_connect(getWidget("nickToChatItem"), "activate", G_CALLBACK(onNickToChat_gui), (gpointer)this);
-	g_signal_connect(getWidget("copyNickItem"), "activate", G_CALLBACK(onCopyNickItemClicked_gui), (gpointer)this);
+	//g_signal_connect(getWidget("copyNickItem"), "activate", G_CALLBACK(onCopyNickItemClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("browseItem"), "activate", G_CALLBACK(onBrowseItemClicked_gui), (gpointer)this);
 	//[BMDC: Partial Filelists
 	g_signal_connect(getWidget("openPartial"), "activate", G_CALLBACK(onPartialFileListOpen_gui), (gpointer)this);
@@ -1918,7 +1918,7 @@ gboolean Hub::onNickListButtonRelease_gui(GtkWidget *widget, GdkEventButton *eve
 		}
 	}
 
-	return FALSE;
+	return TRUE;//FALSE
 }
 
 void Hub::clickAction(gpointer data)
@@ -2721,7 +2721,7 @@ void Hub::onNickToChat_gui(GtkMenuItem *item, gpointer data)
 		}
 	}
 }
-
+/*
 void Hub::onCopyNickItemClicked_gui(GtkMenuItem *item, gpointer data)
 {
 	Hub *hub = (Hub *)data;
@@ -2751,7 +2751,7 @@ void Hub::onCopyNickItemClicked_gui(GtkMenuItem *item, gpointer data)
 		}
 	}
 }
-
+*/
 void Hub::onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data)
 {
 	Hub *hub = (Hub *)data;
