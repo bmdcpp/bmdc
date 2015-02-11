@@ -66,7 +66,7 @@ void SearchEntry::addBookEntry_gui(BookEntry *entry)
 	entry->show();
 	books.push_back(entry);
 }
-
+/*
 GtkWidget *SearchEntry::currentPage_gui()
 {
 	int pageNum = gtk_notebook_get_current_page(GTK_NOTEBOOK(getWidget("sebook")));
@@ -76,7 +76,7 @@ GtkWidget *SearchEntry::currentPage_gui()
 	else
 		return gtk_notebook_get_nth_page(GTK_NOTEBOOK(getWidget("sebook")), pageNum);
 }
-
+*/
 void SearchEntry::raisePage_gui(GtkWidget *page)
 {
 	int num = gtk_notebook_page_num(GTK_NOTEBOOK(getWidget("sebook")), page);
@@ -100,7 +100,6 @@ void SearchEntry::onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *page, gui
 		g_signal_handlers_block_by_func(item, (gpointer)onRaisePage_gui, child);
 
 		entry->setActive_gui();
-//		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(entry->getTabMenuItem()), TRUE);
 		g_object_set_data(G_OBJECT(item),"data",(gpointer)data);
 		g_signal_handlers_unblock_by_func(item, (gpointer)onRaisePage_gui, (gpointer)child);
 	}

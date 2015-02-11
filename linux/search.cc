@@ -154,7 +154,7 @@ Search::Search(const string& str):
 	GtkListStore *store = GTK_LIST_STORE(model);
 
 	// Predefined
-	for (int i = SearchManager::TYPE_ANY; i < SearchManager::TYPE_LAST; i++)
+	for(int i = SearchManager::TYPE_ANY; i != SearchManager::TYPE_LAST; ++i)
 	{
 		gtk_list_store_append(store, &iter);
 		gtk_list_store_set(store, &iter, 0, SearchManager::getTypeStr(i), -1);
@@ -162,10 +162,10 @@ Search::Search(const string& str):
 
 	// Customs
 	for(auto& i: SettingsManager::getInstance()->getSearchTypes()) {
-		if(i.first.size() > 1 || i.first[0] < '1' || i.first[0] > '6') { //Custom type
-		string type = i.first;
-		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store, &iter, 0, type.c_str(), -1);
+		if( !(i.first.size() == 1 || i.first[0] <= '1' || i.first[0] >= '6')) { //Custom type
+			string type = i.first;
+			gtk_list_store_append(store, &iter);
+			gtk_list_store_set(store, &iter, 0, type.c_str(), -1);
 		}
 	}
 	gtk_combo_box_set_active(combo_box, 0);
@@ -198,7 +198,7 @@ Search::Search(const string& str):
 	g_signal_connect(getWidget("comboboxUnit"), "changed", G_CALLBACK(onComboBoxChanged_gui), (gpointer)this);
 	g_signal_connect(getWidget("comboboxFile"), "changed", G_CALLBACK(onComboBoxChanged_gui), (gpointer)this);
 	g_signal_connect(getWidget("comboboxGroupBy"), "changed", G_CALLBACK(onGroupByComboBoxChanged_gui), (gpointer)this);
-	/*...*/
+
 	g_signal_connect(getWidget("checkop"), "toggled", G_CALLBACK(onCheckOp_gui), (gpointer)this);
 }
 

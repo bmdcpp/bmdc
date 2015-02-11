@@ -64,7 +64,7 @@ class SearchEntry: public BookEntry
 			((SearchEntry*)sp)->raisePage_gui((GtkWidget*)data);
 		}
 	private:
-		GtkWidget *currentPage_gui();
+		//GtkWidget *currentPage_gui();
 		void raisePage_gui(GtkWidget *page);
 		static void onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *page, guint num , gpointer data);
 		static gboolean onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);

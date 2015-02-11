@@ -124,10 +124,9 @@ void AboutConfig::show()
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
 	WulforSettingsManager::StringMap map = wsm->getStringMap();
 	WulforSettingsManager::StringMap defMap = wsm->getStringDMap();
-	string types = Util::emptyString;
 	string value = Util::emptyString;
 	string dvalue = value;
-	types = _("String");
+	string types = _("String");
 		
 	for(auto d = defMap.begin();d!= defMap.end();++d)
 	{
