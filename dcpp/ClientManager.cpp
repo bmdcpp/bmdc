@@ -530,8 +530,8 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				if(port.empty())
 					port = "412";
 				//port should be number	
-				uint32_t p_port = Util::toInt(port);
-				if(! (p_port >= 1 || p_port <= 65535))
+				int p_port = Util::toInt(port);
+				if(! ((p_port > 0) && (p_port <= 65535)) )
 						return;
 						
 				port = Util::toString(p_port);		

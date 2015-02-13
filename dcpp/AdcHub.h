@@ -176,7 +176,7 @@ private:
 		{
 			if(c.getFrom()== sid)
 			{
-				string nick,desc,url,login;
+				string nick,desc,url;
 				if(!c.getParam("NI",0, nick))
 					nick = "Unknow Hub";
 					

@@ -79,7 +79,7 @@ void AVManager::loadDb(const string& buf)
 
 }
 
-void AVManager::addItemNick(const string& nick,const AVEntry entry)
+void AVManager::addItemNick(const string& nick,const AVEntry& entry)
 {
 	Lock l(cs);	
 	if(isNickVirused(nick) == false)
@@ -87,7 +87,7 @@ void AVManager::addItemNick(const string& nick,const AVEntry entry)
 	
 }
 
-void AVManager::addItemIp(const string& ip,const AVEntry entry)
+void AVManager::addItemIp(const string& ip,const AVEntry& entry)
 {
 	Lock l(cs);	
 	if(isIpVirused(ip) == false)
