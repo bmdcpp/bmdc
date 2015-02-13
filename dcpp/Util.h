@@ -465,7 +465,7 @@ public:
 		}
 		return currentUrl;
 	}
-	
+
 	static string getIETFLang();
 	static bool isIp6(string name)
 	{

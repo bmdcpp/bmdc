@@ -176,15 +176,16 @@ private:
 		{
 			if(c.getFrom()== sid)
 			{
-				string nick,desc,url;
+				string nick,desc,url,login;
 				if(!c.getParam("NI",0, nick))
-					nick = "Unknow Hub";
+					nick = "Unknown Hub";
 					
 				if(!c.getParam("DE",1,desc))
-					desc = "No Desc";
+					desc = "No Description";
 				
 				if(!c.getParam("LO",3,login))
 					login = "-1";
+					
 				if(!c.getParam("HA",2,url))
 					return;
 				
@@ -192,7 +193,7 @@ private:
 				fu.setName(nick);
 				fu.setHubDescription(desc);
 				fu.setServer(url);
-				fu.setGroup("RFA HUBS");//todo beter name?
+				fu.setGroup("RFA HUBS");//todo beter name? maybe setable
 				FavoriteManager::getInstance()->addFavorite(fu);
 				
 			}

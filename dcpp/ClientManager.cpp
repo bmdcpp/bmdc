@@ -498,23 +498,25 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 
 		} else {
 			try {
-				string ip, port;
+				string ip, port = "-1";
+				string seek = Util::trimUrl(aSeeker);
+				
 				//Util::decodeUrl(aSeeker, proto, ip, port, file, query, fragment);//no needed here
-				size_t x = aSeeker.find_last_of(':');
+				size_t x = seek.find_last_of(':');
 				if(x == string::npos) return;
 				if( (x-1) == string::npos) return;
-				//IP:port(8.8.8.8:8888)
-				bool bIPv6 = aSeeker[x-1] == ']';
+				//IP:port( 8.8.8.8:8888 )
+				bool bIPv6 = seek[x-1] == ']';
 				bool isOk2IP6 = false;
 				if(bIPv6)
 				{
-				   isOk2IP6 = aSeeker[0] == '[';
-				   ip = aSeeker.substr(1,x-2);
+				   isOk2IP6 = seek[0] == '[';
+				   ip = seek.substr(1,x-2);
 				}
 				else {
-					ip = aSeeker.substr(0,x-1);
+					ip = seek.substr(0,x-1);
 				}	
-				port = aSeeker.substr(x);
+				port = seek.substr(x);
 				
 				if(aClient && static_cast<NmdcHub*>(aClient)->isProtectedIP(ip))
 					return;
@@ -526,13 +528,12 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				
 				if( (isOk2IP6 == true) &&  Util::isIp6(ip) == true) //this already check is it IPv6
 					isOk = true;
-				
-				if(port.empty())
-					port = "412";
 				//port should be number	
 				int p_port = Util::toInt(port);
-				if(! ((p_port > 0) && (p_port <= 65535)) )
+				if( p_port < 0)
 						return;
+				if( p_port > 65535)
+						return;	
 						
 				port = Util::toString(p_port);		
 				if(port == "-1") return;
