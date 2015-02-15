@@ -778,7 +778,7 @@ string Socket::resolve(const string& aDns, int af) noexcept {
 	addrinfo hints = { 0 };
 	hints.ai_family = af;
 
-	addrinfo *result = 0;
+	addrinfo *result = nullptr;
 
 	string ret;
 

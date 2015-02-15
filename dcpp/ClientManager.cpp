@@ -527,7 +527,7 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 					isOk =	inet_addr(ip.c_str()) == (in_addr_t)(-1);
 				
 				if( (isOk2IP6 == true) &&  Util::isIp6(ip) == true) //this already check is it IPv6
-					isOk = true;
+					isOk = false;
 				//port should be number	
 				int p_port = Util::toInt(port);
 				if( p_port < 0)
@@ -535,7 +535,6 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				if( p_port > 65535)
 						return;	
 						
-				port = Util::toString(p_port);		
 				if(port == "-1") return;
 				
 				if( isOk == false) {
@@ -606,7 +605,7 @@ void ClientManager::on(TimerManagerListener::Minute, uint64_t /* aTick */) noexc
 			unordered_map<CID, NickMapEntry>::const_iterator n = nicks.find(i->second->getCID());//should also remove from nicks...
 			if(n != nicks.end()) nicks.erase(n);
 			users.erase(i++);
-			i->second.reset();//think ?
+			i->second.reset();
 		} else {
 			++i;
 		}
