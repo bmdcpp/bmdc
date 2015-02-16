@@ -1537,7 +1537,7 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 
 	string::size_type i = 0;
 	StringList names;
-
+	guint row = 0;guint acolums= 0;
 	vector<Widgets*> WidgList;
 	while((i = commands.find("%[line:", i)) != string::npos) {
 		i += 7;
@@ -1572,6 +1572,7 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 			}
 
 			if(combo_sel >= 0) {
+				acolums = 0;
 				for(auto i = combo_values.begin(), iend = combo_values.end(); i != iend; ++i)
 					Util::replace("\t", "/", *i);
 
@@ -1592,13 +1593,13 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 				wid->widget = comboBox;
 				wid->label = label;
 				WidgList.push_back(wid);
-				guint row = 0; guint acolums = 0;
-				gtk_grid_attach(GTK_GRID(table), label, acolums, row,acolums+1,row+1);
-				gtk_grid_attach(GTK_GRID(table), comboBox, acolums+1, row,acolums+2,row+1);
+				gtk_grid_attach(GTK_GRID(table), label, acolums++, row,1,1);
+				gtk_grid_attach(GTK_GRID(table), comboBox, acolums, ++row,1,1);
 				gtk_widget_show(label);
 				gtk_widget_show(comboBox);
 
 		  } else {
+				acolums = 0;
 				GtkWidget *label = gtk_label_new(caption.c_str());
 				GtkWidget *entry = gtk_entry_new();
 				gtk_entry_set_text(GTK_ENTRY(entry),(ucParams["line:"+ name]).c_str());
@@ -1606,9 +1607,8 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 				wid->widget = entry;
 				wid->label = label;
 				WidgList.push_back(wid);
-				guint row = 0;guint acolums= 0;
-				gtk_grid_attach(GTK_GRID(table),label,acolums,row,acolums+1,row+1);
-				gtk_grid_attach(GTK_GRID(table),entry,acolums+1,row,acolums+2,row+1);
+				gtk_grid_attach(GTK_GRID(table),label,acolums++,row,1,1);
+				gtk_grid_attach(GTK_GRID(table),entry,acolums,++row,1,1);
 
 				gtk_widget_show(label);
 				gtk_widget_show(entry);
