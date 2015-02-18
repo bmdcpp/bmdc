@@ -105,6 +105,7 @@ Transfers::Transfers() :
 	g_signal_connect(getWidget("closeConnectionItem"), "activate", G_CALLBACK(onCloseConnectionClicked_gui), (gpointer)this);
 
 	g_signal_connect(getWidget("SearchItem"), "activate", G_CALLBACK(onSearchAlternateClicked_gui), (gpointer)this);
+	gtk_tree_view_set_fixed_height_mode (transferView.get(),TRUE);
 }
 
 Transfers::~Transfers()

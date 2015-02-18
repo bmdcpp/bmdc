@@ -447,7 +447,17 @@ void ClientManager::send(AdcCommand& cmd, const CID& cid) {
 			u.getClient().send(cmd);
 		} else {
 			try {
-				udp.writeTo(u.getIdentity().getIp(), u.getIdentity().getUdpPort(), cmd.toString(getMe()->getCID()));
+				string ip = u.getIdentity().getIp();
+				string port = u.getIdentity().getUdpPort();
+				bool ok = false;
+				if(Util::isIp6(ip) == true)
+					ok = false;
+				else
+					ok = inet_addr(ip.c_str()) == (in_addr_t)(-1);
+				
+				if(ok == false) {
+					udp.writeTo(ip, port, cmd.toString(getMe()->getCID()));
+				}	
 			} catch(const SocketException&) {
 				dcdebug("Socket exception sending ADC UDP command\n");
 			}
@@ -501,7 +511,6 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				string ip, port = "-1";
 				string seek = Util::trimUrl(aSeeker);
 				
-				//Util::decodeUrl(aSeeker, proto, ip, port, file, query, fragment);//no needed here
 				size_t x = seek.find_last_of(':');
 				if(x == string::npos) return;
 				if( (x-1) == string::npos) return;
@@ -535,8 +544,6 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				if( p_port > 65535)
 						return;	
 						
-				if(port == "-1") return;
-				
 				if( isOk == false) {
 					
 				for(SearchResultList::const_iterator i = l.begin(); i != l.end(); ++i) {

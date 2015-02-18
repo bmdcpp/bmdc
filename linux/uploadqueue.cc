@@ -1,4 +1,3 @@
-//      uploadqueue.cc
 //
 //      Copyright 2011 - 2015 Mank <freedcpp@seznam.cz>
 //
