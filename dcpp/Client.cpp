@@ -270,7 +270,7 @@ void Client::on(Second, uint64_t aTick) noexcept {
 	}
 
 	if(isConnected()){
-		cmdQueue.onSecond(aTick); //RSX++/BMDC++
+		cmdQueue.onSecond(aTick); //BMDC++
 	}
 }
 

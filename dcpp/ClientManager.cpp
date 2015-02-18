@@ -511,7 +511,7 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				string ip, port = "-1";
 				string seek = Util::trimUrl(aSeeker);
 				
-				size_t x = seek.find_last_of(':');
+				size_t x = seek.rfind(':');
 				if(x == string::npos) return;
 				if( (x-1) == string::npos) return;
 				//IP:port( 8.8.8.8:8888 )
@@ -525,12 +525,13 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				else {
 					ip = seek.substr(0,x-1);
 				}	
-				port = seek.substr(x);
+				port = seek.substr(x+1);
 				
-				if(aClient && static_cast<NmdcHub*>(aClient)->isProtectedIP(ip))
+				if( (aClient ) || static_cast<NmdcHub*>(aClient)->isProtectedIP(ip))
 					return;
 				if( ip.empty() )
-					return;	
+					return;
+						
 				bool isOk = false;
 				if(Util::isIp6(ip) == false)
 					isOk =	inet_addr(ip.c_str()) == (in_addr_t)(-1);
