@@ -238,7 +238,6 @@ Hub::Hub(const string &address, const string &encoding):
 	g_signal_connect(adjustment, "value_changed", G_CALLBACK(onChatScroll_gui), (gpointer)this);
 	g_signal_connect(adjustment, "changed", G_CALLBACK(onChatResize_gui), (gpointer)this);
 	g_signal_connect(getWidget("nickToChatItem"), "activate", G_CALLBACK(onNickToChat_gui), (gpointer)this);
-	//g_signal_connect(getWidget("copyNickItem"), "activate", G_CALLBACK(onCopyNickItemClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("browseItem"), "activate", G_CALLBACK(onBrowseItemClicked_gui), (gpointer)this);
 	//[BMDC: Partial Filelists
 	g_signal_connect(getWidget("openPartial"), "activate", G_CALLBACK(onPartialFileListOpen_gui), (gpointer)this);
@@ -457,11 +456,6 @@ if(WGETB("use-highlighting")) {//maybe hub-based?
 			AVManager::AVEntry entry = AVManager::getInstance()->getEntryByNick(nick);
 			if(Util::toInt64(entry.ss) == size) {
 				color = "red";//hardcode for now @ if size and nick is ok
-				//TODO?
-				//UserPtr u = make_shared<User>(CID(cid));
-				//HintedUser h(u,hub->address);
-				//ClientManager::getInstance()->setCheating( h,
-				//						Util::emptyString, "User "+nick+"is virus spreader",0,true,true,true,true,true);
 			}	
 		}
 
@@ -507,7 +501,7 @@ Hub::~Hub()
 		FavoriteManager::getInstance()->save();
 	}else{
 		SettingsManager* sm = SettingsManager::getInstance();
-		//No Fav Save to main setting @Possible Made Enable/Disable of this also ?
+		//No Favotite, Save to main setting @Possible Made Enable/Disable of this also ?
 		sm->set(SettingsManager::HUB_UL_ORDER, order);
 		sm->set(SettingsManager::HUB_UL_SIZE, hwidth);
 		sm->set(SettingsManager::HUB_UL_VISIBLE ,visible);
@@ -868,9 +862,8 @@ void Hub::clearNickList_gui()
 
 	gtk_list_store_clear(nickStore);
 	userMap.clear();
-	//BMDC++
 	userFavoriteMap.clear();
-	//END
+
 	userIters.clear();
 	totalShared = 0;
 	setStatus_gui("statusUsers", _("0 Users"));
@@ -1918,7 +1911,7 @@ gboolean Hub::onNickListButtonRelease_gui(GtkWidget *widget, GdkEventButton *eve
 		}
 	}
 
-	return TRUE;//FALSE
+	return TRUE;
 }
 
 void Hub::clickAction(gpointer data)
@@ -2502,7 +2495,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if (command == "join" && !param.empty())
 		{
-			if (SETTING(JOIN_OPEN_NEW_WINDOW))//FAV?
+			if (SETTING(JOIN_OPEN_NEW_WINDOW))
 			{
 				// Assumption: new hub is same encoding as current hub.
 				WulforManager::get()->getMainWindow()->showHub_gui(param, hub->encoding);
@@ -2534,11 +2527,11 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			info[_("Online users")] = Util::toString(hub->client->getUserCount()-1);
 			info[_("Shared")] = Util::formatBytes(hub->client->getAvailable());
 			
-			info[_("Nick")] = hub->client->get(SettingsManager::NICK,SETTING(NICK)) +_(" ") + (isGlobalString(hub->client->get(SettingsManager::NICK,SETTING(NICK)),SETTING(NICK)) ? _("Global") : _("User Per Fav Set"));
-			info[_("Description")] = hub->client->get(SettingsManager::DESCRIPTION,SETTING(DESCRIPTION)) +_(" ") + (isGlobalString(hub->client->get(SettingsManager::DESCRIPTION,SETTING(DESCRIPTION)),SETTING(DESCRIPTION)) ? _("Global") : _("User Per Fav Set"));
-			info[_("Email")] = hub->client->get(SettingsManager::EMAIL,SETTING(EMAIL)) +_(" ")+(isGlobalString(hub->client->get(SettingsManager::EMAIL,SETTING(EMAIL)),SETTING(EMAIL)) ? _("Global") : _("User Per Fav Set"));
-			info[_("External / WAN IP")] = hub->client->get(SettingsManager::EXTERNAL_IP,SETTING(EXTERNAL_IP))+_(" ")+(isGlobalString(hub->client->get(SettingsManager::EXTERNAL_IP,SETTING(EXTERNAL_IP)),SETTING(EXTERNAL_IP)) ? _("Global") : _("User Per Fav Set"));
-			info[_("External / WAN IP")] = hub->client->get(SettingsManager::EXTERNAL_IP6,SETTING(EXTERNAL_IP6))+_(" ")+(isGlobalString(hub->client->get(SettingsManager::EXTERNAL_IP6,SETTING(EXTERNAL_IP6)),SETTING(EXTERNAL_IP6)) ? _("Global") : _("User Per Fav Set"));
+			info[_("Nick")] = hub->client->get(SettingsManager::NICK,SETTING(NICK)) +_(" - ") + (isGlobalString(hub->client->get(SettingsManager::NICK,SETTING(NICK)),SETTING(NICK)) ? _("Global") : _("User Per Favorite Hub Set"));
+			info[_("Description")] = hub->client->get(SettingsManager::DESCRIPTION,SETTING(DESCRIPTION)) +_(" - ") + (isGlobalString(hub->client->get(SettingsManager::DESCRIPTION,SETTING(DESCRIPTION)),SETTING(DESCRIPTION)) ? _("Global") : _("User Per Favorite Hub Set"));
+			info[_("Email")] = hub->client->get(SettingsManager::EMAIL,SETTING(EMAIL)) +_(" - ")+(isGlobalString(hub->client->get(SettingsManager::EMAIL,SETTING(EMAIL)),SETTING(EMAIL)) ? _("Global") : _("User Per Favorite Hub Set"));
+			info[_("External / WAN IP")] = hub->client->get(SettingsManager::EXTERNAL_IP,SETTING(EXTERNAL_IP))+_(" - ")+(isGlobalString(hub->client->get(SettingsManager::EXTERNAL_IP,SETTING(EXTERNAL_IP)),SETTING(EXTERNAL_IP)) ? _("Global") : _("User Per Favorite Hub Set"));
+			info[_("External / WAN IP")] = hub->client->get(SettingsManager::EXTERNAL_IP6,SETTING(EXTERNAL_IP6))+_(" - ")+(isGlobalString(hub->client->get(SettingsManager::EXTERNAL_IP6,SETTING(EXTERNAL_IP6)),SETTING(EXTERNAL_IP6)) ? _("Global") : _("User Per Favorite Hub Set"));
 			info[_("Encoding")] =  hub->client->getEncoding();
 			info[_("Hide Share")] = hub->client->getHideShare() ? _("Yes") : _("No");
 			FavoriteHubEntry* fav = FavoriteManager::getInstance()->getFavoriteHubEntry(hub->address);
@@ -2546,10 +2539,10 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 				info[_("Notification")] = fav->getNotify() ? _("Yes") : _("No");
 				info[_("Mode")] = Util::toString(fav->getMode());
 			}
-			info[_("Log Chat")] = (hub->client->get(SettingsManager::LOG_CHAT_B,SETTING(LOG_CHAT_B)) ? string(_("Yes")) : _("No")) +_(" ") + (isGlobalBool(hub->client->get(SettingsManager::LOG_CHAT_B,SETTING(LOG_CHAT_B)),SETTING(LOG_CHAT_B)) ? _("Global") : _("User Per Fav Set"));
-			info[_("Bold Tab")] = (hub->client->get(SettingsManager::BOLD_HUB,SETTING(BOLD_HUB)) ? string(_("Yes")) : _("No"))  +_(" ")+(isGlobalBool(hub->client->get(SettingsManager::BOLD_HUB,SETTING(BOLD_HUB)),SETTING(BOLD_HUB)) ? _("Global") : _("User Per Fav Set"));
-			info[_("Show Country")] = (hub->client->get(SettingsManager::GET_USER_COUNTRY,SETTING(GET_USER_COUNTRY)) ? string(_("Yes")) : _("No"))+_(" ")+(isGlobalBool(hub->client->get(SettingsManager::GET_USER_COUNTRY,SETTING(GET_USER_COUNTRY)),SETTING(GET_USER_COUNTRY)) ? _(" Global ") : _(" User Per Fav Set "));
-			info[_("Show IPs")] = (hub->client->get(SettingsManager::USE_IP,SETTING(USE_IP)) ? string(_("Yes")) : _("No"))+_(" ")+(isGlobalBool(hub->client->get(SettingsManager::USE_IP,SETTING(USE_IP)),SETTING(USE_IP)) ? _(" Global") : _(" User Per Fav Set "));
+			info[_("Log Chat")] = (hub->client->get(SettingsManager::LOG_CHAT_B,SETTING(LOG_CHAT_B)) ? string(_("Yes")) : _("No")) +_(" ") + (isGlobalBool(hub->client->get(SettingsManager::LOG_CHAT_B,SETTING(LOG_CHAT_B)),SETTING(LOG_CHAT_B)) ? _("Global") : _("User Per Favorite Hub Set"));
+			info[_("Bold Tab")] = (hub->client->get(SettingsManager::BOLD_HUB,SETTING(BOLD_HUB)) ? string(_("Yes")) : _("No"))  +_(" ")+(isGlobalBool(hub->client->get(SettingsManager::BOLD_HUB,SETTING(BOLD_HUB)),SETTING(BOLD_HUB)) ? _("Global") : _("User Per Favorite Hub Set"));
+			info[_("Show Country")] = (hub->client->get(SettingsManager::GET_USER_COUNTRY,SETTING(GET_USER_COUNTRY)) ? string(_("Yes")) : _("No"))+_(" ")+(isGlobalBool(hub->client->get(SettingsManager::GET_USER_COUNTRY,SETTING(GET_USER_COUNTRY)),SETTING(GET_USER_COUNTRY)) ? _(" Global ") : _(" User Per Favorite Hub Set "));
+			info[_("Show IPs")] = (hub->client->get(SettingsManager::USE_IP,SETTING(USE_IP)) ? string(_("Yes")) : _("No"))+_(" ")+(isGlobalBool(hub->client->get(SettingsManager::USE_IP,SETTING(USE_IP)),SETTING(USE_IP)) ? _(" Global") : _(" User Per Favorite Hub Set "));
 		
             string text;
 
@@ -2668,9 +2661,9 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else
 		{
-			if (SETTING(SEND_UNKNOWN_COMMANDS))//FAV?
+			if (SETTING(SEND_UNKNOWN_COMMANDS))
 			{
-					if(SETTING(SERVER_COMMANDS)) {//Fav?
+					if(SETTING(SERVER_COMMANDS)) {
 						if(text[0] == '!' || text[0] == '+' || text[0] == '-')
 							hub->addMessage_gui("",_("Server command: ") + text,Msg::SYSTEM);
 					}
@@ -2683,7 +2676,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 	}
 	else
 	{
-		if(SETTING(SERVER_COMMANDS)) {//Fav?
+		if(SETTING(SERVER_COMMANDS)) {
 			if(text[0] == '!' || text[0] == '+' || text[0] == '-')
 				hub->addMessage_gui("",_("Server command: ") + text,Msg::SYSTEM);
 		}
@@ -3413,37 +3406,6 @@ void Hub::addProtected_gui(ParamMap params)
 		removeTag_gui(nick);
 	}
 }
-
-void Hub::addIgnore_gui(ParamMap params)
-{
-	const string &cid = params["CID"];
-
-	GtkTreeIter iter;
-	const string &nick = params["Nick"];
-	// resort users
-	if (findUser_gui(cid, &iter))
-	{
-			gtk_list_store_set(nickStore, &iter,
-                    nickView.col("NickColor"), WGETS("userlist-text-ignored").c_str(),
-                    nickView.col("Client Type"), params["Type"].c_str(),
-				-1);
-			removeTag_gui(nick);
-	}
-}
-
-void Hub::removeIgnore_gui(ParamMap params)
-{
-    const string &cid = params["CID"];
-    GtkTreeIter iter;
-    if(findUser_gui(cid,&iter))
-    {
-            gtk_list_store_set(nickStore,&iter,
-                               nickView.col("NickColor"), WGETS("userlist-text-normal").c_str(),
-                               nickView.col("Client Type"), ("U"+params["nick"]).c_str(),
-                               -1);
-     }
-}
-
 
 void Hub::addPrivateMessage_gui(Msg::TypeMsg typemsg, string CID, string cid, string url, string message, bool useSetting)
 {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -83,9 +83,10 @@ public:
 	string getUserURL(const UserPtr& aUser) const;
 	void setIgnore(const UserPtr& aUser, bool ignore);
 // Indepent Favorites on CID
-	typedef map<string, FavoriteUser*> FavoriteIMap;
-	FavoriteIMap favoritesNoCid;
-	FavoriteIMap getFavoritesIndepentOnCid() { Lock l(cs); return favoritesNoCid; }
+	typedef map<string, FavoriteUser*> FavoriteNoCid;
+	FavoriteNoCid favoritesNoCid;
+	
+	FavoriteNoCid getFavoritesIndepentOnCid() { Lock l(cs); return favoritesNoCid; }
 	FavoriteUser* getIndepentFavorite(const string& nick)
 	{
 		auto fit = favoritesNoCid.find(nick);
@@ -106,7 +107,7 @@ public:
 		Lock l(cs);
 		if ( favoritesNoCid.find(nick) == favoritesNoCid.end() )
 		{
-			FavoriteUser *fav = new FavoriteUser();
+			FavoriteUser *fav = new FavoriteUser(FavoriteUser::Flags::FLAG_NICK);
 			fav->setDescription(desc);
 			fav->setLastSeen(lastSeen);
 			fire(FavoriteManagerListener::FavoriteIAdded(),nick,fav);
@@ -125,6 +126,26 @@ public:
 			save();
 		}
 	}
+	typedef map<string /*IP*/,FavoriteUser*> iplist;
+	iplist ips;
+	
+	iplist getListIp() {Lock l(cs); return ips;}
+	
+	void addFavoriteIp(const string& ip)
+	{
+		Lock l(cs);
+		
+		if(ips.find(ip) == ips.end())
+		{
+			FavoriteUser* fav = new FavoriteUser(FavoriteUser::Flags::FLAG_IP);	
+			fav->setIp(ip);
+			fav->setLastSeen(time(NULL));
+			ips.insert(make_pair(ip,fav));
+			save();
+		}	
+	}
+	
+	
 // Favorite Hubs
 	const FavoriteHubEntryList& getFavoriteHubs() const { return favoriteHubs; }
 	FavoriteHubEntryList& getFavoriteHubs() { return favoriteHubs; }
@@ -185,7 +206,7 @@ public:
 		recentHubs.clear();
 		recentsave();
 	}
-	//
+
 	void mergeHubSettings(const FavoriteHubEntry& entry, HubSettings& settings) const;
 
 private:

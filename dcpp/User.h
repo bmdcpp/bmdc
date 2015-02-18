@@ -18,6 +18,7 @@
 
 #ifndef DCPLUSPLUS_DCPP_USER_H
 #define DCPLUSPLUS_DCPP_USER_H
+
 #include "forward.h"
 #include "Pointer.h"
 #include "CID.h"
@@ -54,8 +55,6 @@ public:
 	User(const CID& aCID) : cid(aCID) {
 		setFlag(UNDEFINED);
 	}
-
-//	virtual ~User() noexcept { }
 
 	const CID& getCID() const { return cid; }
 	operator const CID&() const { return cid; }

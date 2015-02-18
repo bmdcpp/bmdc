@@ -28,7 +28,6 @@ namespace dcpp {
 
 using std::forward;
 using std::vector;
-//using boost::range::find;
 
 template<typename Listener>
 class Speaker {

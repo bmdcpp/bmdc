@@ -98,7 +98,6 @@ class Hub:
 		void removeFavoriteUser_gui(dcpp::StringMap params);
 		//BMDC++
 		void addProtected_gui(dcpp::StringMap params);
-		void addIgnore_gui(dcpp::StringMap params);
 
 		void addPrivateMessage_gui(Msg::TypeMsg typemsg, std::string nick, std::string cid, std::string url, std::string message, bool useSetting);
 		//[BBCodes
@@ -205,7 +204,6 @@ class Hub:
 
 		void getPartialFileList_client(std::string cid);
 
-		void removeIgnore_gui(dcpp::StringMap params);
 		void SetTabText(gpointer data);
 
 		void setColorRow(std::string cell);

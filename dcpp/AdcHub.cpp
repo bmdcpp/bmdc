@@ -192,6 +192,10 @@ void AdcHub::handle(AdcCommand::INF, AdcCommand& c) noexcept {
 			updated(*u);
 		}
 	}
+	auto list = FavoriteManager::getInstance()->getListIp();
+	if(list.find(u->getIdentity().getIp()) != list.end())
+		fire(ClientListener::StatusMessage(),this,"IP"+u->getIdentity().getIp()+"Connected");
+	
 
 	if(u->getUser() == getMyIdentity().getUser()) {
 		state = STATE_NORMAL;
@@ -518,7 +522,7 @@ void AdcHub::handle(AdcCommand::SCH, AdcCommand& c) noexcept {
 
 	OnlineUser* ou = findUser(c.getFrom());
 	if(!ou) {
-		dcdebug("Invalid user in AdcHub::onSCH\n");//should be loged ?
+		dcdebug("Invalid user in AdcHub::onSCH\n");//should be logged ?
 		return;
 	}
 
@@ -1002,13 +1006,13 @@ void AdcHub::info(bool /*alwaysSend*/) {
 		updateCounts(false);
 	}
 
-	bool isfreeslots = SETTING(SHOW_FREE_SLOTS_DESC);//TODO: is good per Fav ?
-	string fslots = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
+	bool IsFreeSlots = SETTING(SHOW_FREE_SLOTS_DESC);//TODO: is good per Fav ?
+	string freeslots = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
 
 	addParam(lastInfoMap, c, "ID", ClientManager::getInstance()->getMyCID().toBase32());
 	addParam(lastInfoMap, c, "PD", ClientManager::getInstance()->getMyPID().toBase32());
 	addParam(lastInfoMap, c, "NI", HUBSETTING(NICK));
-	addParam(lastInfoMap, c, "DE", isfreeslots ? fslots + " " + HUBSETTING(DESCRIPTION) : HUBSETTING(DESCRIPTION) );
+	addParam(lastInfoMap, c, "DE", IsFreeSlots ? freeslots + " " + HUBSETTING(DESCRIPTION) : HUBSETTING(DESCRIPTION) );
 	addParam(lastInfoMap, c, "SL", Util::toString(SETTING(SLOTS)));
 	addParam(lastInfoMap, c, "FS", Util::toString(UploadManager::getInstance()->getFreeSlots()));
 	addParam(lastInfoMap, c, "SS", getHideShare() ? "0" : ShareManager::getInstance()->getShareSizeString());
@@ -1131,6 +1135,7 @@ void AdcHub::on(Connected c) noexcept {
 	if(SETTING(SEND_BLOOM)) {
 		cmd.addParam(BLO0_SUPPORT);
 	}
+	
 	cmd.addParam(DFAV_SUPPORT);
 	cmd.addParam(ZLIF_SUPPORT);
 

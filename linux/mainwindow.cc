@@ -391,9 +391,13 @@ MainWindow::MainWindow():
 
 	onQuit = FALSE;
 
-	// colourstuff added by curse //add to BMDC++ by Mank
-	//string res = WulforManager::get()->getPath() + "/glade/resources.rc";//@TODO CSS?
-	//gtk_rc_parse(res.c_str());
+	// colourstuff 
+	string css = WulforManager::get()->getPath() + "/ui/resources.css";
+	if(Util::fileExists(css) == true) {
+		GtkCssProvider *provider =  gtk_css_provider_get_default ();
+		GError *error = nullptr;
+		gtk_css_provider_load_from_path (provider,css.c_str(),&error);
+	}	
 	// colourstuff end
 
 	// Load window state and position from settings manager
@@ -583,6 +587,7 @@ void MainWindow::loadIcons_gui()
 		#define g_tool_set gtk_tool_button_set_stock_id
 		#define g_image_set gtk_image_set_from_stock
 	#endif
+	
 	g_tool_set(GTK_TOOL_BUTTON(getWidget("favHubs")), "bmdc-favorite-hubs");
 	g_tool_set(GTK_TOOL_BUTTON(getWidget("favUsers")), "bmdc-favorite-users");
 	g_tool_set(GTK_TOOL_BUTTON(getWidget("publicHubs")), "bmdc-public-hubs");
@@ -732,6 +737,7 @@ void MainWindow::addBookEntry_gui(BookEntry *entry)
 	gtk_notebook_append_page(GTK_NOTEBOOK(getWidget("book")), page, label);
 
 	g_signal_connect(label, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
+	
 	if(WGETB("use-close-button"))
 	{
 		GtkWidget *closeButton = entry->getCloseButton();
@@ -1005,11 +1011,12 @@ void MainWindow::setMainStatus_gui(string text, time_t t)
 		string statusTextOnToolTip;
       	while(!tmp.empty())
       	{
-      	     statusTextOnToolTip += "\n" + tmp.back();
+      	     statusTextOnToolTip += "\n" + tmp.front();
       	     tmp.pop();
       	}
-			statustext.push(text);
-			gtk_widget_set_tooltip_text(getWidget("labelStatus"), statusTextOnToolTip.c_str());
+		statustext.push(text);
+		statusTextOnToolTip += "\n" + text;
+		gtk_widget_set_tooltip_text(getWidget("labelStatus"), statusTextOnToolTip.c_str());
 
 	}
 }
@@ -1452,7 +1459,7 @@ void MainWindow::setToolbarButton_gui()
 		gtk_widget_hide(getWidget("finishedDownloads"));
 	if (!WGETB("toolbar-button-finished-uploads"))
 		gtk_widget_hide(getWidget("finishedUploads"));
-	//[BMDC
+	//-------------------------------------------
 	if (!WGETB("toolbar-button-notepad"))
 		gtk_widget_hide(getWidget("notepad"));
 	if (!WGETB("toolbar-button-system"))
@@ -1461,7 +1468,7 @@ void MainWindow::setToolbarButton_gui()
 		gtk_widget_hide(getWidget("AwayIcon"));
 	if (!WGETB("toolbar-button-limiting"))
 		gtk_widget_hide(getWidget("limitingButton"));
-	//]
+	//--------------------------------------------
 }
 
 void MainWindow::setTabPosition_gui(int position)
@@ -1522,7 +1529,7 @@ void MainWindow::setToolbarStyle_gui(int style)
 bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucParams)
 {
 	MainWindow *mw = WulforManager::get()->getMainWindow();
-	GtkDialog *dialog =  GTK_DIALOG(gtk_dialog_new_with_buttons ("User Commands Dialog",
+	GtkDialog *dialog =  GTK_DIALOG(gtk_dialog_new_with_buttons (_("User Commands Dialog"),
                                          GTK_WINDOW(mw->getContainer()),
                                          GTK_DIALOG_DESTROY_WITH_PARENT,
                                          GTK_STOCK_OK,
@@ -1657,58 +1664,6 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 	}
 	gtk_widget_destroy(GTK_WIDGET(dialog));
 	return false;
-	/*
-	string name;
-	string label;
-	string line;
-	StringMap done;
-	string::size_type i = 0;
-	string::size_type j = 0;
-	string text = string("<b>") + _("Enter value for ") + "\'";
-	MainWindow *mw = WulforManager::get()->getMainWindow();
-
-	while ((i = command.find("%[line:", i)) != string::npos)
-	{
-		i += 7;
-		j = command.find(']', i);
-		if (j == string::npos)
-			break;
-
-		name = command.substr(i, j - i);
-
-
-		if (done.find(name) == done.end())
-		{
-			line.clear();
-			label = text + name + "\'</b>";
-
-			gtk_label_set_label(GTK_LABEL(mw->getWidget("ucLabel")), label.c_str());
-			gtk_entry_set_text(GTK_ENTRY(mw->getWidget("ucLineEntry")), "");
-			gtk_widget_grab_focus(mw->getWidget("ucLineEntry"));
-
-			gint response = gtk_dialog_run(GTK_DIALOG(mw->getWidget("ucLineDialog")));
-
-			// Fix crash, if the dialog gets programmatically destroyed.
-			if (response == GTK_RESPONSE_NONE)
-				return false;
-
-			gtk_widget_hide(mw->getWidget("ucLineDialog"));
-
-			if (response == GTK_RESPONSE_OK)
-				line = gtk_entry_get_text(GTK_ENTRY(mw->getWidget("ucLineEntry")));
-
-			if (!line.empty())
-			{
-				ucParams["line:" + name] = line;
-				done[name] = line;
-			}
-			else
-				return false;
-		}
-		i = j + 1;
-	}
-*/
-//	return true;
 }
 
 void MainWindow::propertiesMagnetDialog_gui(string magnet)
@@ -2323,7 +2278,7 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 	int prevTLS = SETTING(TLS_PORT);
 
 	auto prevConn = SETTING(INCOMING_CONNECTIONS);
-	auto prevMapper = SETTING(MAPPER);
+	string prevMapper = SETTING(MAPPER);
 	string prevBind = SETTING(BIND_ADDRESS);
 	string prevBind6 = SETTING(BIND_ADDRESS6);
 	auto prevProxy = CONNSETTING(OUTGOING_CONNECTIONS);
@@ -2670,12 +2625,6 @@ void MainWindow::onStatusIconPopupMenu_gui(GtkStatusIcon *statusIcon, guint butt
 
 void MainWindow::onShowInterfaceToggled_gui(GtkCheckMenuItem *item, gpointer data)
 {
-#ifdef HAVE_APPINDCATOR
-#if GTK_CHECK_VERSION(3,14,1)	
-	app_indicator_set_status(indicator,APP_INDICATOR_STATUS_ACTIVE);
-#endif
-#endif	
-	
 	MainWindow *mw = (MainWindow *)data;
 	GtkWindow *win = mw->window;
 	static int x, y;
@@ -2689,6 +2638,12 @@ void MainWindow::onShowInterfaceToggled_gui(GtkCheckMenuItem *item, gpointer dat
 		isMaximized = (state & GDK_WINDOW_STATE_MAXIMIZED);
 		isIconified = (state & GDK_WINDOW_STATE_ICONIFIED);
 		gtk_widget_hide(GTK_WIDGET(win));
+		
+		#ifdef HAVE_APPINDCATOR
+			#if GTK_CHECK_VERSION(3,14,1)	
+				app_indicator_set_status(indicator,APP_INDICATOR_STATUS_INACTIVE);
+			#endif
+		#endif	
 	}
 	else
 	{
@@ -2696,6 +2651,12 @@ void MainWindow::onShowInterfaceToggled_gui(GtkCheckMenuItem *item, gpointer dat
 		if (isMaximized) gtk_window_maximize(win);
 		if (isIconified) gtk_window_iconify(win);
 		gtk_widget_show(GTK_WIDGET(win));
+		
+		#ifdef HAVE_APPINDCATOR
+			#if GTK_CHECK_VERSION(3,14,1)	
+			app_indicator_set_status(indicator,APP_INDICATOR_STATUS_ACTIVE);
+			#endif
+		#endif
 	}
 }
 #ifdef GTK_DISABLE_DEPRECATED
@@ -2723,6 +2684,7 @@ void MainWindow::onStatusIconBlinkUseToggled_gui(GtkWidget *widget, gpointer dat
 		mw->useStatusIconBlink = FALSE;
 }
 #endif
+
 void MainWindow::onLinkClicked_gui(GtkWidget *widget, gpointer data)
 {
 	string link = (gchar *)g_object_get_data(G_OBJECT(widget), "link");
@@ -3004,11 +2966,11 @@ void MainWindow::onTTHFileButton_gui(GtkWidget *widget , gpointer data)
 	}
 }
 
-void MainWindow::back(string TTH, string filename, int64_t size)
+void MainWindow::back(string tth, string filename, int64_t size)
 {
-	string magnetlink = "magnet:?xt=urn:tree:tiger:" + TTH + "&xl=" + Util::toString(size) + "&dn=" + Util::encodeURI(Text::fromT(Util::getFileName(filename)));
+	string magnetlink = "magnet:?xt=urn:tree:tiger:" + tth + "&xl=" + Util::toString(size) + "&dn=" + Util::encodeURI(Text::fromT(Util::getFileName(filename)));
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entrymagnet")), magnetlink.c_str());
-	gtk_entry_set_text(GTK_ENTRY(getWidget("entrytthfileresult")), TTH.c_str());
+	gtk_entry_set_text(GTK_ENTRY(getWidget("entrytthfileresult")), tth.c_str());
 }
 
 void MainWindow::progress(bool progress)

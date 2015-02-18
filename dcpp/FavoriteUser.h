@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,15 +25,21 @@ namespace dcpp {
 
 class FavoriteUser : public Flags {
 public:
-	FavoriteUser() : lastSeen(time(NULL)) { }
+	FavoriteUser(int flag = 0) : lastSeen(time(NULL)) {
+			setFlag(flag);
+	}
 	FavoriteUser(const UserPtr& user_, const string& nick_, const string& hubUrl_) : user(user_), url(hubUrl_), lastSeen(0), nick(nick_) 
 	{ 
 		nicks.push_back(nick);
 	}
 
+	enum FlagUseItems {
+		FLAG_GRANTSLOT = 1 << 0
+	};	
 	enum Flags {
-		FLAG_GRANTSLOT = 1 << 0,
-		FLAG_IGNORE = 2 << 0
+		FLAG_IGNORE = 2 << 0,
+		FLAG_IP = 3 << 0,
+		FLAG_NICK = 4 << 0
 	};
 
 	UserPtr& getUser() { return user; }
@@ -45,6 +51,7 @@ public:
 	GETSET(time_t, lastSeen, LastSeen);
 	GETSET(string, description, Description);
 	GETSET(string, cid, Cid);
+	GETSET(string, ip, Ip);
 	
 	void setNick(string _nick)
 	{

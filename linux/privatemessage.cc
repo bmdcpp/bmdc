@@ -37,7 +37,7 @@ using namespace std;
 using namespace dcpp;
 
 PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
-	BookEntry(Entry::PRIVATE_MESSAGE, _("PM: ") + WulforUtil::getNicks(_cid, _hubUrl), "privatemessage", _cid),
+	BookEntry(Entry::PRIVATE_MESSAGE, WulforUtil::getNicks(_cid, _hubUrl), "privatemessage", _cid),
 	dcpp::Flags(NORMAL),
 	cid(_cid), hubUrl(_hubUrl),
 	historyIndex(0),
@@ -530,8 +530,6 @@ void PrivateMessage::applyTags_gui(const string &line)
 			}
 
 		}
-
-		//g_free(temp);
 
 		if(isCountryFlag)
 		{
