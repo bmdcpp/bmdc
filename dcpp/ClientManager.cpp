@@ -516,25 +516,21 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				
 				if( (aClient ) || static_cast<NmdcHub*>(aClient)->isProtectedIP(ip))
 					return;
-				if( ip.empty() )
-					return;
 						
 				bool isOk = false;
-				if(Util::isIp6(ip) == false)
-					isOk =	inet_addr(ip.c_str()) == (in_addr_t)(-1);
-				
 				if(Util::isIp6(ip) == true)
-					isOk = false;
+					isOk = true;
+				else
+					isOk = (inet_addr(ip.c_str()) != INADDR_NONE);
+				
 				if(port.empty())
 					return;
 				//port should be number	
 				int p_port = Util::toInt(port);
-				if( p_port < 0)
-						return;
-				if( p_port > 65535)
-						return;	
+				if( p_port < 1 || p_port > 65535)
+							return;
 						
-				if( isOk == false) {
+				if(isOk == true) {
 					
 				for(SearchResultList::const_iterator i = l.begin(); i != l.end(); ++i) {
 					const SearchResultPtr& sr = *i;
