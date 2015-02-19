@@ -135,9 +135,9 @@ public:
 	}
 
 	int getMode(const string& aHubUrl) const;
-	//bool getMode6(const string&) const;
+	//bool getMode6(const string&) const;//@TODO
 	bool isActive(const string& aHubUrl = Util::emptyString) const;
-	//TODO: ? IPv6 ( may done :p)
+
 	void setIpAddress(const UserPtr& p, const string& ip);
 
 	void sendAction(OnlineUser& ou, const int aAction);
@@ -145,6 +145,18 @@ public:
 	//TODO: ? suite for FakeChecker ?
 	void addCheckToQueue(const HintedUser hintedUser, bool filelist);
 	void checkCheating(const HintedUser& p, DirectoryListing* dl);
+//
+	static void parsePortIp(string aIpPort,string& ip, string& port)
+	{
+		
+			string::size_type i = aIpPort.rfind(':');
+			if (i == string::npos) {
+				ip = aIpPort;
+			} else {
+				ip = aIpPort.substr(0, i);
+				port = aIpPort.substr(i + 1);
+			}	
+	}
 
 private:
 	typedef unordered_map<string, UserPtr> LegacyMap;

@@ -202,13 +202,14 @@ string ClientManager::findHub(const string& ipPort) const {
 
 	string ip;
 	string port = "411";
-	string::size_type i = ipPort.rfind(':');
+	/*string::size_type i = ipPort.rfind(':');
 	if(i == string::npos) {
 		ip = ipPort;
 	} else {
 		ip = ipPort.substr(0, i);
 		port = ipPort.substr(i+1);
-	}
+	}*/
+	parsePortIp(ipPort,ip, port);
 
 	string url;
 	for(auto i = clients.begin(); i != clients.end(); ++i) {
@@ -511,21 +512,7 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				string ip, port = "-1";
 				string seek = Util::trimUrl(aSeeker);
 				
-				size_t x = seek.rfind(':');
-				if(x == string::npos) return;
-				if( (x-1) == string::npos) return;
-				//IP:port( 8.8.8.8:8888 )
-				bool bIPv6 = seek[x-1] == ']';
-				bool isOk2IP6 = false;
-				if(bIPv6)
-				{
-				   isOk2IP6 = seek[0] == '[';
-				   ip = seek.substr(1,x-2);
-				}
-				else {
-					ip = seek.substr(0,x-1);
-				}	
-				port = seek.substr(x+1);
+				parsePortIp(seek,port,ip);
 				
 				if( (aClient ) || static_cast<NmdcHub*>(aClient)->isProtectedIP(ip))
 					return;
@@ -536,8 +523,10 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				if(Util::isIp6(ip) == false)
 					isOk =	inet_addr(ip.c_str()) == (in_addr_t)(-1);
 				
-				if( (isOk2IP6 == true) &&  Util::isIp6(ip) == true) //this already check is it IPv6
+				if(Util::isIp6(ip) == true)
 					isOk = false;
+				if(port.empty())
+					return;
 				//port should be number	
 				int p_port = Util::toInt(port);
 				if( p_port < 0)

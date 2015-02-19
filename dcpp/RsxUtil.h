@@ -14,8 +14,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef RSXUTIL_H
-#define RSXUTIL_H
+#ifndef BUTIL_H
+#define BUTIL_H
 
 namespace dcpp {
 

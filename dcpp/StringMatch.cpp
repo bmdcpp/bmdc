@@ -83,7 +83,7 @@ bool StringMatch::matchreg(const string& str) const {
 }
 
 bool StringMatch::match(const string& str) const {
-	if(str.empty())return false;//should never hapened but :-D
+	if(str.empty()) return false;
 
 	switch(getMethod())
 	{
