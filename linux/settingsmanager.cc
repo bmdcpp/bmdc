@@ -119,7 +119,6 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("notify-icon-size", 3));
 	defaultInt.insert(IntMap::value_type("notify-only-not-active", 0));
 	defaultInt.insert(IntMap::value_type("status-icon-blink-use", 1));
-//	defaultInt.insert(IntMap::value_type("emoticons-use", 1));//per fav?
 	defaultInt.insert(IntMap::value_type("pm", 0));//Send private message when double clicked in the user list.//@TODO remove ?//Not yet still used
 	defaultInt.insert(IntMap::value_type("search-spy-frame", 50));
 	defaultInt.insert(IntMap::value_type("search-spy-waiting", 40));
@@ -137,7 +136,6 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("toolbar-position", 1));
 	defaultInt.insert(IntMap::value_type("toolbar-small", 1));
 	///[BMDC++
-//	defaultInt.insert(IntMap::value_type("use-flag", 1));//todo : rem
 	defaultInt.insert(IntMap::value_type("bold-all-tab", 1));
 	defaultInt.insert(IntMap::value_type("use-close-button", 0));
 	defaultInt.insert(IntMap::value_type("size-label-box-bookentry",15));
@@ -246,7 +244,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("search-spy-q-color", "#b0b0b0"));
 	defaultString.insert(StringMap::value_type("search-spy-c-color", "#b28600"));
 	defaultString.insert(StringMap::value_type("search-spy-r-color", "#6c85ca"));
-//	defaultString.insert(StringMap::value_type("emoticons-pack", "bmicon"));//per Fav dcpp
+
 	defaultString.insert(StringMap::value_type("emoticons-icon-size", "24x24"));//per Fav?
 	defaultString.insert(StringMap::value_type("notify-download-finished-title", _("Download finished")));
 	defaultString.insert(StringMap::value_type("notify-download-finished-icon", ""));
@@ -403,8 +401,6 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("sound-command", "aplay -q"));
 	defaultString.insert(StringMap::value_type("last-searchs", "."));
 	
-	//defaultString.insert(StringMap::value_type("background-color-chat", WulforUtil::colorToString(&color)));//dcpp set
-
 	defaultString.insert(StringMap::value_type("color-tab-text-bold", "blue"));
 	defaultString.insert(StringMap::value_type("color-tab-text-urgent", "blue"));
 	

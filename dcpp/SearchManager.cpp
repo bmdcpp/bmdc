@@ -259,6 +259,9 @@ void SearchManager::onData(const uint8_t* buf, size_t aLen, const string& remote
 
 		string hubIpPort = x.substr(i, j-i);
 		string url = ClientManager::getInstance()->findHub(hubIpPort);
+		
+		if(url.empty()) return;
+		
 
 		string encoding = ClientManager::getInstance()->findHubEncoding(url);
 		nick = Text::toUtf8(nick, encoding);

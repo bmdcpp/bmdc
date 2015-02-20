@@ -202,29 +202,36 @@ string ClientManager::findHub(const string& ipPort) const {
 
 	string ip;
 	string port = "411";
-	/*string::size_type i = ipPort.rfind(':');
-	if(i == string::npos) {
-		ip = ipPort;
-	} else {
-		ip = ipPort.substr(0, i);
-		port = ipPort.substr(i+1);
-	}*/
+
 	parsePortIp(ipPort,ip, port);
 
-	string url;
-	for(auto i = clients.begin(); i != clients.end(); ++i) {
-		const Client* c = *i;
-		if(c->getIp() == ip) {
-			// If exact match is found, return it
-			if(c->getPort() == port)
-				return c->getHubUrl();
+	int p_port = Util::toInt(port);
+	if( p_port < 1 || p_port > 65535)
+			return Util::emptyString;//good idea?
+	bool ok = false;
+	if(Util::isIp6(ip) == true)
+			ok = true;
+	else
+			ok = (inet_addr(ip.c_str()) != INADDR_NONE);
+				
+	if(ok == true) {
 
-			// Port is not always correct, so use this as a best guess...
-			url = c->getHubUrl();
+		string url;
+		for(auto i = clients.begin(); i != clients.end(); ++i) {
+			const Client* c = *i;
+			if(c->getIp() == ip) {
+				// If exact match is found, return it
+				if(c->getPort() == port)
+					return c->getHubUrl();
+
+				// Port is not always correct, so use this as a best guess...
+				url = c->getHubUrl();
 		}
 	}
 
-	return url;
+		return url;
+	}
+	return Util::emptyString;
 }
 
 string ClientManager::findHubEncoding(const string& aUrl) const {
@@ -452,11 +459,11 @@ void ClientManager::send(AdcCommand& cmd, const CID& cid) {
 				string port = u.getIdentity().getUdpPort();
 				bool ok = false;
 				if(Util::isIp6(ip) == true)
-					ok = false;
+					ok = true;
 				else
-					ok = inet_addr(ip.c_str()) == (in_addr_t)(-1);
+					ok = (inet_addr(ip.c_str()) != INADDR_NONE);
 				
-				if(ok == false) {
+				if(ok == true) {
 					udp.writeTo(ip, port, cmd.toString(getMe()->getCID()));
 				}	
 			} catch(const SocketException&) {
