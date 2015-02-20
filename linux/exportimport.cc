@@ -34,8 +34,8 @@ exportStore(NULL), exportSelection(NULL)
 {
 	
 	exportView.setView(GTK_TREE_VIEW(getWidget("treeviewexport")));
-	exportView.insertColumn("Enabled", G_TYPE_BOOLEAN, TreeView::BOOL, 100);
-	exportView.insertColumn("Name", G_TYPE_STRING, TreeView::STRING, 100);
+	exportView.insertColumn(_("Enabled"), G_TYPE_BOOLEAN, TreeView::BOOL, 100);
+	exportView.insertColumn(_("Name"), G_TYPE_STRING, TreeView::STRING, 100);
 	exportView.insertHiddenColumn("Name Hidden", G_TYPE_STRING);
 	exportView.finalize();
 	
@@ -62,8 +62,8 @@ exportStore(NULL), exportSelection(NULL)
 		}
 		gtk_list_store_append(exportStore,&iter);					
 		gtk_list_store_set(exportStore,&iter,
-						exportView.col("Enabled"), TRUE,
-						exportView.col("Name"),Util::getFileName(*i).c_str(),
+						exportView.col(_("Enabled")), TRUE,
+						exportView.col(_("Name")),Util::getFileName(*i).c_str(),
 						exportView.col("Name Hidden"),(*i).c_str(),
 						-1);
 	
