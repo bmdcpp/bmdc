@@ -46,7 +46,6 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 		{
 			string nick;
 			uint64_t share;
-			//string ip;
 		};
 		void addItemNick(const string& nick,const AVEntry& entry);
 		void addItemIp(const string& ip,const AVEntry& entry);

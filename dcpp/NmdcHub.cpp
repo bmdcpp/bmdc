@@ -57,7 +57,7 @@ NmdcHub::~NmdcHub() {
 void NmdcHub::connect(const OnlineUser& aUser, const string&) {
 	checkstate();
 	dcdebug("NmdcHub::connect %s\n", aUser.getIdentity().getNick().c_str());
-	if(ClientManager::getInstance()->isActive(getHubUrl())) {
+	if(ClientManager::getInstance()->isActive(getHubUrl()) || ( (sock->isV6Valid() && isActiveV6()) && aUser.getUser()->isSet(User::IPV6) ) ) {
 		connectToMe(aUser);
 	} else {
 		revConnectToMe(aUser);
@@ -517,8 +517,12 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		if(u == NULL)
 			return;
 
-		if(ClientManager::getInstance()->isActive(getHubUrl())) {
+		if(ClientManager::getInstance()->isActive(getHubUrl()) || ( sock->isV6Valid() && isActiveV6())   ) {
 			connectToMe(*u);
+			if(u->getUser()->isSet(User::PASSIVE) == false) {
+        			u->getUser()->setFlag(User::PASSIVE);
+        			updated(*u);
+             }
 		} else {
 			if(!u->getUser()->isSet(User::PASSIVE)) {
 				u->getUser()->setFlag(User::PASSIVE);
@@ -853,10 +857,8 @@ void NmdcHub::connectToMe(const OnlineUser& aUser) {
 			return;
 	}	
 	
-	bool isOkIp6 = aUser.getUser()->isSet(User::IPV6);
-	string adr = getHubUrl();
-	bool isIp6Ok =	(adr.find("[") != string::npos) && (adr.find_last_of("[") != string::npos); 
-	if(sock->isV6Valid() && (isOkIp6 || isIp6Ok)  && isActiveV6() && ((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ) ) 
+	bool isOkIp6 = aUser.getUser()->isSet(User::IPV6);//TODO check if user have ipv6 too
+	if(sock->isV6Valid() && isActiveV6() && ((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ) && isOkIp6) 
 		send("$ConnectToMe " + nick + " [" + getUserIp6() + "]:" + ConnectionManager::getInstance()->getPort() + "|");
 	else
 		send("$ConnectToMe " + nick + " " + localIp + ":" + ConnectionManager::getInstance()->getPort() + "|");
