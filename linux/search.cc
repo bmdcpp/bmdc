@@ -274,14 +274,11 @@ void Search::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeM
 
 	if(!nick.empty() &&  AVManager::getInstance()->isNickVirused(nick))
 	{
-		//color = "blue";//another red
-		AVManager::AVEntry entry = AVManager::getInstance()->getEntryByNick(nick);
-			if(entry.ip == ip)
-				color = "red";//hardcode for now
+		if( AVManager::getInstance()->isIpVirused(ip) == true)
+			color = "red";//hardcode for now
 	}
 	if(!ip.empty() && AVManager::getInstance()->isIpVirused(ip))
 	{
-		//color = "blue";//another red
 		AVManager::AVEntry entry = AVManager::getInstance()->getEntryByIP(ip);
 		if(entry.nick == nick)
 			color = "red";

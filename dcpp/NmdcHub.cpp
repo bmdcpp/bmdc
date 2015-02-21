@@ -473,7 +473,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		bool isOk = false;
 		if(Util::isIp6(param.substr(i+1,j-i-1)))
 		{
-			server = /*Socket::resolve( */param.substr(i+1,j-i-1)/*)*/;
+			server = param.substr(i+1,j-i-1);
 			j++;
 			//already check we have ip
 			isOk = false;
@@ -484,7 +484,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				return;
 			}				
 			
-			server = /*Socket::resolve(*/param.substr(i, j-i)/*, AF_INET)*/;
+			server = param.substr(i, j-i);
 			
 			isOk =	inet_addr(server.c_str()) == (in_addr_t)(-1);
 
@@ -497,10 +497,8 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		string port = param.substr(j+1);
 		int p_port = Util::toInt(port);
 		//Port should be in this range
-		if( p_port < 0)
+		if( p_port < 0 || p_port > 65535)
 				return;
-		if( p_port > 65535)
-				return;	
 		if(isOk == true)//we have somethink else that IP in server 
 				return;	
 		// For simplicity, we make the assumption that users on a hub have the same character encoding

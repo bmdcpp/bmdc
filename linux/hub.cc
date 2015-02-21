@@ -454,7 +454,7 @@ if(WGETB("use-highlighting")) {//maybe hub-based?
 		{
 			color = "#A52A2A";//another red
 			AVManager::AVEntry entry = AVManager::getInstance()->getEntryByNick(nick);
-			if(Util::toInt64(entry.ss) == size) {
+			if(entry.share == size) {
 				color = "red";//hardcode for now @ if size and nick is ok
 			}	
 		}
@@ -3603,7 +3603,7 @@ void Hub::addAsFavorite_client()
 	size_t i = tmp.find("dchub://");
 	if(i != string::npos) exHub = FavoriteManager::getInstance()->getFavoriteHubEntry(tmp.substr(i));
 
-	if (!exHub || !existingHub)
+	if (!exHub && !existingHub)
 	{
 		FavoriteHubEntry entry;
 		entry.setServer(client->getHubUrl());
@@ -3733,8 +3733,8 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 	params.insert(ParamMap::value_type("CID", id.getUser()->getCID().toBase32()));
 	//BMDC++
 	if( !id.isHub() || !id.isBot() ) { //should *not* getting CC from Bot/Hub User
-		params.insert(ParamMap::value_type("Country", (SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountry(id.getIp()): Util::emptyString ));//Fav?
-		params.insert(ParamMap::value_type("Abbrevation", (SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountryAbbrevation(id.getIp()): Util::emptyString ));//Fav?
+		params.insert(ParamMap::value_type("Country", (SETTING(GET_USER_COUNTRY)) ? id.getCountry() : Util::emptyString ));
+		params.insert(ParamMap::value_type("Abbrevation", (SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountryAbbrevation(id.getIp()): Util::emptyString ));
 	}
 	params.insert(ParamMap::value_type("Slots", id.get("SL")));
 	const string hubs = Util::toString(Util::toInt(id.get("HN")) + Util::toInt(id.get("HR")) + Util::toInt(id.get("HO")));//hubs
@@ -3784,7 +3784,7 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 
 	if ( AVManager::getInstance()->isNickVirused(id.getNick()) )
 	{
-		params.insert(ParamMap::value_type("NickColor","white"));//TODO maybe too settabel ?
+		params.insert(ParamMap::value_type("NickColor","white"));//@TODO: maybe too set ?
 	}	
 
 }
