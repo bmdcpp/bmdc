@@ -298,7 +298,7 @@ string Socket::listen(const string& port) {
 	addrinfo_p ai(nullptr, nullptr);
 
 	if(!v4only) {
-		try { ai = resolveAddr(localIp6, port, AF_INET6, AI_PASSIVE | AI_ADDRCONFIG); }
+		try { ai = resolveAddr(localIp6, Util::toInt(port), AF_INET6, AI_PASSIVE | AI_ADDRCONFIG); }
 		catch(const SocketException&) { ai.reset(); }
 		for(auto a = ai.get(); a && !sock6.valid(); a = a->ai_next) {
 			try {
@@ -318,7 +318,7 @@ string Socket::listen(const string& port) {
 		}
 	}
 
-	try { ai = resolveAddr(localIp4, port, AF_INET, AI_PASSIVE | AI_ADDRCONFIG); }
+	try { ai = resolveAddr(localIp4, Util::toInt(port), AF_INET, AI_PASSIVE | AI_ADDRCONFIG); }
 	catch(const SocketException&) { ai.reset(); }
 	for(auto a = ai.get(); a && !sock4.valid(); a = a->ai_next) {
 		try {
@@ -343,7 +343,7 @@ string Socket::listen(const string& port) {
 	return Util::toString(ntohs(ret));
 }
 
-void Socket::connect(const string& aAddr, const string& aPort, const string& localPort) {
+void Socket::connect(const string& aAddr, const int16_t& aPort, const string& localPort) {
 	disconnect();
 
 	// We try to connect to both IPv4 and IPv6 if available
@@ -360,7 +360,7 @@ void Socket::connect(const string& aAddr, const string& aPort, const string& loc
 				auto &localIp = ai->ai_family == AF_INET ? getLocalIp4() : getLocalIp6();
 
 				if(!localPort.empty() || !localIp.empty()) {
-					auto local = resolveAddr(localIp, localPort, ai->ai_family);
+					auto local = resolveAddr(localIp,Util::toInt(localPort), ai->ai_family);
 					check([&] { return ::bind(sock, local->ai_addr, local->ai_addrlen); });
 				}
 
@@ -392,14 +392,14 @@ namespace {
 	}
 }
 
-void Socket::socksConnect(const string& aAddr, const string& aPort, uint32_t timeout) {
+void Socket::socksConnect(const string& aAddr, const int16_t& aPort, uint32_t timeout) {
 	if(SETTING(SOCKS_SERVER).empty() || SETTING(SOCKS_PORT) == 0) {
 		throw SocketException(_("The socks server failed establish a connection"));
 	}
 
 	uint64_t start = GET_TICK();
 
-	connect(SETTING(SOCKS_SERVER), Util::toString(SETTING(SOCKS_PORT)));
+	connect(SETTING(SOCKS_SERVER), SETTING(SOCKS_PORT),Util::emptyString);
 
 	if(!waitConnected(timeLeft(start, timeout))) {
 		throw SocketException(_("The socks server failed establish a connection"));
@@ -425,7 +425,7 @@ void Socket::socksConnect(const string& aAddr, const string& aPort, uint32_t tim
 		connStr.insert(connStr.end(), paddr, paddr+4);
 	}
 
-	uint16_t port = htons(static_cast<uint16_t>(Util::toInt(aPort)));
+	uint16_t port = htons(aPort);
 	uint8_t* pport = (uint8_t*)&port;
 	connStr.push_back(pport[0]);
 	connStr.push_back(pport[1]);
@@ -641,7 +641,7 @@ void Socket::writeTo(const string& aAddr, const string& aPort, const void* aBuff
 			connStr.push_back((uint8_t)aAddr.size());
 			connStr.insert(connStr.end(), aAddr.begin(), aAddr.end());
 		} else {
-			auto ai = resolveAddr(aAddr, aPort);
+			auto ai = resolveAddr(aAddr, Util::toInt(aPort));
 
 			if(ai->ai_family == AF_INET) {
 				connStr.push_back(1);		// Address type: IPv4
@@ -659,7 +659,7 @@ void Socket::writeTo(const string& aAddr, const string& aPort, const void* aBuff
 		sent = check([&] { return ::sendto(udpAddr.sa.sa_family == AF_INET ? sock4 : sock6,
 			(const char*)&connStr[0], (int)connStr.size(), 0, &udpAddr.sa, udpAddrLen); });
 	} else {
-		auto ai = resolveAddr(aAddr, aPort);
+		auto ai = resolveAddr(aAddr, Util::toInt(aPort));
 		if((ai->ai_family == AF_INET && !sock4.valid()) || (ai->ai_family == AF_INET6 && !sock6.valid())) {
 			create(*ai);
 		}
@@ -792,7 +792,7 @@ string Socket::resolve(const string& aDns, int af) noexcept {
 	return ret;
 }
 
-Socket::addrinfo_p Socket::resolveAddr(const string& name, const string& port, int family, int flags) {
+Socket::addrinfo_p Socket::resolveAddr(const string& name, const uint16_t& port, int family, int flags) {
 	addrinfo hints = { 0 };
 	hints.ai_family = family;
 	hints.ai_flags = flags;
@@ -801,12 +801,12 @@ Socket::addrinfo_p Socket::resolveAddr(const string& name, const string& port, i
 
 	addrinfo *result = 0;
 
-	auto err = ::getaddrinfo(name.c_str(), port.empty() ? NULL : port.c_str(), &hints, &result);
+	auto err = ::getaddrinfo(name.c_str(), Util::toString(port).c_str(), &hints, &result);
 	if(err) {
 		throw SocketException(err);
 	}
 
-	dcdebug("Resolved %s:%s to %s, next is %p\n", name.c_str(), port.c_str(),
+	dcdebug("Resolved %s:%d to %s, next is %p\n", name.c_str(), port,
 		resolveName(result->ai_addr, result->ai_addrlen).c_str(), result->ai_next);
 
 	return addrinfo_p(result, &freeaddrinfo);

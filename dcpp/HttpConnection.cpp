@@ -32,7 +32,7 @@ static const std::string CORAL_SUFFIX = ".nyud.net";
 
 HttpConnection::HttpConnection(bool coralize, const string& aUserAgent) :
 userAgent(aUserAgent),
-port("80"),
+port(-1),
 size(-1),
 done(0),
 connState(CONN_UNKNOWN),
@@ -120,8 +120,8 @@ void HttpConnection::prepareRequest(RequestType type) {
 
 	}
 
-	if(port.empty())
-		port = "80";
+	if(port == -1)
+		port = 80;
 
 	if(userAgent.empty())
 		userAgent = dcpp::fullVersionString;
@@ -132,7 +132,7 @@ void HttpConnection::prepareRequest(RequestType type) {
 
 	socket->addListener(this);
 	try {
-		dcdebug("HttpC %s - %s\n",server.c_str(),port.c_str());
+		dcdebug("HttpC %s - %d\n",server.c_str(),port);
 		socket->connect(server, port, (proto == "https"), true, false);
 	} catch(const Exception& e) {
 		dcdebug( "err %s %s", e.getError().c_str(), currentUrl.c_str());
@@ -160,7 +160,8 @@ void HttpConnection::on(BufferedSocketListener::Connected) noexcept {
 	string sRemoteServer = server;
 	if(!SETTING(HTTP_PROXY).empty())
 	{
-		string tfile, tport, proto, query, fragment;
+		int16_t tport = -1;
+		string tfile, proto, query, fragment;
 		Util::decodeUrl(file, proto, sRemoteServer, tport, tfile, query, fragment);
 	}
 
@@ -225,7 +226,7 @@ void HttpConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 				string proto, query, fragment;
 				Util::decodeUrl(currentUrl, proto, server, port, file, query, fragment);
 				string tmp = proto + "://" + server;
-				if(port != "80" || port != "443")
+				if(port != 80 || port != 443)
 					tmp += ':' + port;
 				location = tmp + location;
 			} else {

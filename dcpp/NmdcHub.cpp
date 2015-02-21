@@ -475,8 +475,6 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		{
 			server = param.substr(i+1,j-i-1);
 			j++;
-			//already check we have ip
-			isOk = false;
 		}
 		else {
 			if(!getMyIdentity().isOp() && AVManager::getInstance()->isIpVirused(param.substr(i,j-i))){

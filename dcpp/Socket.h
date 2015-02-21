@@ -94,13 +94,13 @@ public:
 	 * @param aPort Server port.
 	 * @throw SocketException If any connection error occurs.
 	 */
-	virtual void connect(const string& aIp, const string& aPort, const string& localPort = Util::emptyString);
-	void connect(const string& aIp, uint16_t aPort, uint16_t localPort = 0) { connect(aIp, aPort == 0 ? Util::emptyString : Util::toString(aPort), localPort == 0 ? Util::emptyString : Util::toString(localPort)); }
+	virtual void connect(const string& aIp, const int16_t& aPort, const string& localPort = Util::emptyString);
+	void connect(const string& aIp, uint16_t aPort, uint16_t localPort = 0) { connect(aIp, aPort == 0 ? -1 : aPort, localPort == 0 ? Util::emptyString : Util::toString(localPort)); }
 
 	/**
 	 * Same as connect(), but through the SOCKS5 server
 	 */
-	void socksConnect(const string& aIp, const string& aPort, uint32_t timeout = 0);
+	void socksConnect(const string& aIp, const int16_t& aPort, uint32_t timeout = 0);
 
 	/**
 	 * Sends data, will block until all data has been sent or an exception occurs
@@ -149,7 +149,7 @@ public:
 
 	typedef std::unique_ptr<addrinfo, decltype(&freeaddrinfo)> addrinfo_p;
 	static string resolve(const string& aDns, int af = AF_UNSPEC) noexcept;
-	addrinfo_p resolveAddr(const string& name, const string& port, int family = AF_UNSPEC, int flags = 0);
+	addrinfo_p resolveAddr(const string& name, const uint16_t& port, int family = AF_UNSPEC, int flags = 0);
 
 	static uint64_t getTotalDown() { return stats.totalDown; }
 	static uint64_t getTotalUp() { return stats.totalUp; }

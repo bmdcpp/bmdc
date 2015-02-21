@@ -221,7 +221,7 @@ string ClientManager::findHub(const string& ipPort) const {
 			const Client* c = *i;
 			if(c->getIp() == ip) {
 				// If exact match is found, return it
-				if(c->getPort() == port)
+				if(c->getPort() == p_port)
 					return c->getHubUrl();
 
 				// Port is not always correct, so use this as a best guess...

@@ -78,11 +78,11 @@ public:
 
 	bool isOp() const { return getMyIdentity().isOp(); }
 
-	const string& getPort() const { return port; }
+	const int16_t& getPort() const { return port; }
 	const string& getAddress() const { return address; }
 
 	const string& getIp() const { return ip; }
-	string getIpPort() const { return getIp() + ':' + port; }
+	string getIpPort() const { return getIp() + ':' + Util::toString(port); }
 
 	void updated(const OnlineUser& aUser) { fire(ClientListener::UserUpdated(), this, aUser); }
 
@@ -189,7 +189,7 @@ private:
 	string address;
 	string ip;
 	string keyprint;
-	string port;
+	int16_t port;
 	char separator;
 	bool secure;
 	CountType countType;
