@@ -183,12 +183,12 @@ void NmdcHub::updateFromTag(Identity& id, const string& tag) {
 					id.getUser()->setFlag(User::PASSIVE);
 				}
 
-				if((*i)[3] == 'A') {
+				/*if((*i)[3] == 'A') {
 					id.getUser()->setFlag(User::IPV6);
 				}
 				else {
 					id.getUser()->unsetFlag(User::IPV6);
-				}
+				}*/
 			}
 		}
 	}
@@ -411,8 +411,8 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		{
 			u.getIdentity().set("AW", Util::emptyString);
 		}
-
-		if(sock->isV6Valid() && ( (aMode & 0x80) == 0x80)  ) {//same as above
+		//ipv6
+		if( (aMode & 0x80) == 0x80) {//same as above
 			u.getUser()->setFlag(User::IPV6);
 		}	
 		else
