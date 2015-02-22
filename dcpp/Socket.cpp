@@ -274,13 +274,19 @@ uint16_t Socket::accept(const Socket& listeningSocket) {
 #endif
 
 	// remote IP
-	setIp(resolveName(&sock_addr.sa, sz));
-
+	//setIp(/*resolveName(&*/sock_addr.sa/*, sz)*/);
+	char ipstr[INET6_ADDRSTRLEN + 1];
 	// return the remote port
 	if(sock_addr.sa.sa_family == AF_INET) {
+		struct sockaddr_in *s = (struct sockaddr_in *)&sock_addr.sa;
+		inet_ntop(AF_INET, &s->sin_addr, ipstr, sizeof ipstr);
+		setIp(ipstr);
 		return ntohs(sock_addr.sai.sin_port);
 	}
-	if(sock_addr.sa.sa_family == AF_INET6) {
+	else if(sock_addr.sa.sa_family == AF_INET6) {
+		struct sockaddr_in6 *s = (struct sockaddr_in6 *)&sock_addr.sa;
+		inet_ntop(AF_INET6, &s->sin6_addr, ipstr, sizeof ipstr);
+		setIp(ipstr);
 		return ntohs(sock_addr.sai6.sin6_port);
 	}
 	return 0;
@@ -348,6 +354,16 @@ void Socket::connect(const string& aAddr, const int16_t& aPort, const string& lo
 
 	// We try to connect to both IPv4 and IPv6 if available
 	auto addr = resolveAddr(aAddr, aPort);
+	string address;
+	if(addr->ai_family == AF_INET6) {
+        char sIP[46];
+        sIP[0] = '\0';
+        inet_ntop(AF_INET6, &((struct sockaddr_in6 *)addr->ai_addr)->sin6_addr, sIP, 46);
+        address = sIP;
+    } else {
+        address = inet_ntoa(((sockaddr_in *)addr->ai_addr)->sin_addr);
+    }
+	setIp(address);
 
 	string lastError;
 
@@ -365,8 +381,7 @@ void Socket::connect(const string& aAddr, const int16_t& aPort, const string& lo
 				}
 
 				check([&] { return ::connect(sock, ai->ai_addr, ai->ai_addrlen); }, true);
-				setIp(resolveName(ai->ai_addr, ai->ai_addrlen));
-
+				
 			} catch(const SocketException& e) {
 				ai->ai_family == AF_INET ? sock4.reset() : sock6.reset();
 				lastError = e.getError();
