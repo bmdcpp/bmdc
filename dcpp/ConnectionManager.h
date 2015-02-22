@@ -105,9 +105,9 @@ public:
 		expectedConnections.add(aNick, aMyNick, aHubUrl);
 	}
 
-	void nmdcConnect(const string& aServer, const string& aPort, const string& aMyNick, const string& hubUrl, const string& encoding);
-	void adcConnect(const OnlineUser& aUser, const string& aPort, const string& aToken, bool secure);
-	void adcConnect(const OnlineUser& aUser, const string& aPort, const string& localPort, BufferedSocket::NatRoles natRole, const string& aToken, bool secure);
+	void nmdcConnect(const string& aServer, const int16_t& aPort, const string& aMyNick, const string& hubUrl, const string& encoding);
+	void adcConnect(const OnlineUser& aUser, const int16_t& aPort, const string& aToken, bool secure);
+	void adcConnect(const OnlineUser& aUser, const int16_t& aPort, const string& localPort, BufferedSocket::NatRoles natRole, const string& aToken, bool secure);
 
 	void getDownloadConnection(const HintedUser& aUser);
 	void force(const UserPtr& aUser);

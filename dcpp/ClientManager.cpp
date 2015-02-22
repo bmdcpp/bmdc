@@ -201,18 +201,17 @@ string ClientManager::findHub(const string& ipPort) const {
 	Lock l(cs);
 
 	string ip;
-	string port = "411";
+	int16_t port = 411;
 
 	parsePortIp(ipPort,ip, port);
 
-	int p_port = Util::toInt(port);
-	if( p_port < 1 || p_port > 65535)
+	if( port < 1 || port > 65535)
 			return Util::emptyString;//good idea?
 	bool ok = false;
 	if(Util::isIp6(ip) == true)
-			ok = true;
+		ok = true;
 	else
-			ok = (inet_addr(ip.c_str()) != INADDR_NONE);
+		ok = (inet_addr(ip.c_str()) != INADDR_NONE);
 				
 	if(ok == true) {
 
@@ -221,7 +220,7 @@ string ClientManager::findHub(const string& ipPort) const {
 			const Client* c = *i;
 			if(c->getIp() == ip) {
 				// If exact match is found, return it
-				if(c->getPort() == p_port)
+				if(c->getPort() == port)
 					return c->getHubUrl();
 
 				// Port is not always correct, so use this as a best guess...
@@ -516,10 +515,11 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 
 		} else {
 			try {
-				string ip, port = "-1";
+				string ip;
+				int16_t port = -1 ;
 				string seek = Util::trimUrl(aSeeker);
 				
-				parsePortIp(seek,port,ip);
+				parsePortIp(seek,ip,port);
 				
 				if( (aClient ) || static_cast<NmdcHub*>(aClient)->isProtectedIP(ip))
 					return;
@@ -530,18 +530,17 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				else
 					isOk = (inet_addr(ip.c_str()) != INADDR_NONE);
 				
-				if(port.empty())
+				if(port == -1)
 					return;
 				//port should be number	
-				int p_port = Util::toInt(port);
-				if( p_port < 1 || p_port > 65535)
+				if( port < 1 || port > 65535)
 							return;
 						
 				if(isOk == true) {
 					
 				for(SearchResultList::const_iterator i = l.begin(); i != l.end(); ++i) {
 					const SearchResultPtr& sr = *i;
-					udp.writeTo(ip, port, sr->toSR(*aClient));
+					udp.writeTo(ip, Util::toString(port), sr->toSR(*aClient));
 				}
 			  }
 			} catch(const SocketException& /* e */) {

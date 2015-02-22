@@ -158,14 +158,14 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 	}
 }
 
-void UserConnection::connect(const string& aServer, const string& aPort, const string& localPort, BufferedSocket::NatRoles natRole, const UserPtr& user) {
+void UserConnection::connect(const string& aServer, const int16_t& aPort, const string& localPort, BufferedSocket::NatRoles natRole, const UserPtr& user) {
 	dcassert(!socket);
 
 	socket = BufferedSocket::getSocket(0);
 	socket->addListener(this);
 	// TODO: verify that this KeyPrint was mediated by a trusted hub?
     string expKP = user ? ClientManager::getInstance()->getField(user->getCID(), hubUrl, "KP") : Util::emptyString;
-    socket->connect(aServer, Util::toInt(aPort), localPort, natRole, secure, SETTING(ALLOW_UNTRUSTED_CLIENTS), true, expKP);
+    socket->connect(aServer, aPort, localPort, natRole, secure, SETTING(ALLOW_UNTRUSTED_CLIENTS), true, expKP);
 }
 
 void UserConnection::accept(const Socket& aServer) {
