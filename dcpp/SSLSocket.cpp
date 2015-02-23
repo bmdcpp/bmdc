@@ -74,12 +74,9 @@ bool SSLSocket::waitConnected(int32_t millis) {
 	}
 }
 
-uint16_t SSLSocket::accept(const Socket& listeningSocket) {
-	auto ret = Socket::accept(listeningSocket);
-
+void SSLSocket::accept(const Socket& listeningSocket) {
+	Socket::accept(listeningSocket);
 	waitAccepted(0);
-
-	return ret;
 }
 
 bool SSLSocket::waitAccepted(int32_t millis) {

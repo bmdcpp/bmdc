@@ -88,7 +88,7 @@ public:
 	void setMode(Modes mode, size_t aRollback = 0);
 	Modes getMode() const { return mode; }
 	const string& getIp() const { return sock->getIp(); }
-	const string getPort() const { return Util::toString(port); }
+
 	bool isSecure() const { return sock->isSecure(); }
 	bool isTrusted() const { return sock->isTrusted(); }
 	
@@ -158,7 +158,6 @@ private:
 	deque<pair<Tasks, unique_ptr<TaskData> > > tasks;
 
 	Modes mode;
-	//std::unique_ptr<UnZFilter> filterIn;
 	UnZFilter* filterIn;
 	int64_t dataBytes;
 	size_t rollback;
@@ -166,7 +165,6 @@ private:
 	ByteVector inbuf;
 	ByteVector writeBuf;
 	ByteVector sendBuf;
-	uint16_t port;
 
 	std::unique_ptr<Socket> sock;
 	State state;

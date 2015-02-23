@@ -259,7 +259,7 @@ socket_t Socket::create(const addrinfo& ai) {
 	return setSock(check([&] { return ::socket(ai.ai_family, ai.ai_socktype, ai.ai_protocol); }), ai.ai_family);
 }
 
-uint16_t Socket::accept(const Socket& listeningSocket) {
+void Socket::accept(const Socket& listeningSocket) {
 	disconnect();
 
 	addr sock_addr = { { 0 } };
@@ -274,22 +274,20 @@ uint16_t Socket::accept(const Socket& listeningSocket) {
 #endif
 
 	// remote IP
-	//setIp(/*resolveName(&*/sock_addr.sa/*, sz)*/);
 	char ipstr[INET6_ADDRSTRLEN + 1];
 	// return the remote port
 	if(sock_addr.sa.sa_family == AF_INET) {
 		struct sockaddr_in *s = (struct sockaddr_in *)&sock_addr.sa;
 		inet_ntop(AF_INET, &s->sin_addr, ipstr, sizeof ipstr);
 		setIp(ipstr);
-		return ntohs(sock_addr.sai.sin_port);
+//		return ntohs(sock_addr.sai.sin_port);
 	}
 	else if(sock_addr.sa.sa_family == AF_INET6) {
 		struct sockaddr_in6 *s = (struct sockaddr_in6 *)&sock_addr.sa;
 		inet_ntop(AF_INET6, &s->sin6_addr, ipstr, sizeof ipstr);
 		setIp(ipstr);
-		return ntohs(sock_addr.sai6.sin6_port);
+		//return ntohs(sock_addr.sai6.sin6_port);
 	}
-	return 0;
 }
 
 int16_t Socket::listen(const int16_t& port) {

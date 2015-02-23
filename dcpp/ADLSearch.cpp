@@ -122,7 +122,6 @@ bool ADLSearch::isRegEx() const {
 
 void ADLSearch::setRegEx(bool b) {
 	v = b;
-
 }
 
 bool ADLSearch::matchesFile(const string& f, const string& fp, int64_t size, const TTHValue& root) {

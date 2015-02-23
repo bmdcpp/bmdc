@@ -24,7 +24,7 @@
 
 #include "Flags.h"
 #include "Util.h"
-#include "noexcept.h"
+
 
 namespace dcpp {
 

@@ -19,7 +19,6 @@
 #include "stdinc.h"
 #include "UserCommand.h"
 
-#include "StringTokenizer.h"
 
 namespace dcpp {
 

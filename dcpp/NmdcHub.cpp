@@ -35,7 +35,6 @@
 #include "StringTokenizer.h"
 #include "format.h"
 #include "PluginManager.h"
-#include <iconv.h>
 #include "AVManager.h"
 
 namespace dcpp {
@@ -57,7 +56,7 @@ NmdcHub::~NmdcHub() {
 void NmdcHub::connect(const OnlineUser& aUser, const string&) {
 	checkstate();
 	dcdebug("NmdcHub::connect %s\n", aUser.getIdentity().getNick().c_str());
-	if(ClientManager::getInstance()->isActive(getHubUrl()) || ( (sock->isV6Valid() && isActiveV6()) && aUser.getUser()->isSet(User::IPV6) ) ) {
+	if(ClientManager::getInstance()->isActive(getHubUrl()) || ( (sock->isV6Valid() && isActiveV6()) && aUser.getIdentity().isSet("IX") ) ) {
 		connectToMe(aUser);
 	} else {
 		revConnectToMe(aUser);

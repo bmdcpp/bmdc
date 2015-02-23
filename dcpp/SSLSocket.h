@@ -54,7 +54,7 @@ public:
 
 	virtual ~SSLSocket() { verifyData.reset(); }
 
-	virtual uint16_t accept(const Socket& listeningSocket);
+	virtual void accept(const Socket& listeningSocket);
 	virtual void connect(const string& aIp, const int16_t& aPort);
 	virtual int read(void* aBuffer, int aBufLen);
 	virtual int write(const void* aBuffer, int aLen);

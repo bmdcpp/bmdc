@@ -90,6 +90,7 @@ public:
 	static const string UCM0_SUPPORT;
 	static const string BLO0_SUPPORT;
 	static const string ZLIF_SUPPORT;
+
 	static const string DFAV_FEATURE;
 	static const string DFAV_SUPPORT;
 
@@ -169,12 +170,13 @@ private:
 		}
 		
 	}
+	
 	void handle(AdcCommand::RFA, AdcCommand& c) noexcept
 	{
 		
 		if(c.getType() == AdcCommand::TYPE_CLIENT)
 		{
-			if(c.getFrom()== sid)
+			if(c.getFrom() == sid)
 			{
 				string nick,desc,url,login;
 				if(!c.getParam("NI",0, nick))

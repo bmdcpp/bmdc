@@ -163,7 +163,7 @@ public:
 	virtual int16_t listen(const int16_t& port);
 	/** Accept a socket.
 	@return remote port */
-	virtual uint16_t accept(const Socket& listeningSocket);
+	virtual void accept(const Socket& listeningSocket);
 
 	int getSocketOptInt(int option);
 	void setSocketOpt(int option, int value);

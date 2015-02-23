@@ -89,7 +89,7 @@ void BufferedSocket::accept(const Socket& srv, bool secure, bool allowUntrusted,
 
 	unique_ptr<Socket> s(secure ? new SSLSocket(CryptoManager::SSL_SERVER, allowUntrusted, expKP) : new Socket(Socket::TYPE_TCP));
 	
-	port = s->accept(srv);
+	/*port = */s->accept(srv);
 
 	setSocket(move(s));
 	setOptions();

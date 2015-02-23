@@ -72,7 +72,6 @@ void AVManager::loadDb(const string& buf)
 				AVEntry entry;
 				entry.nick = nick;
 				entry.share = Util::toInt64(share);
-				//entry.ip = ip;
 				addItemNick(nick,entry);
 				addItemIp(ip,entry);
 			}	

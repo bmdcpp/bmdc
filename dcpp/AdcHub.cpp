@@ -689,19 +689,19 @@ void AdcHub::connect(const OnlineUser& user, string const& token, bool secure) {
 	if(state != STATE_NORMAL)
 		return;
 
-	const string* proto;
+	string proto;
 	if(secure) {
 		if(user.getUser()->isSet(User::NO_ADCS_0_10_PROTOCOL)) {
 			/// @todo log
 			return;
 		}
-		proto = &SECURE_CLIENT_PROTOCOL_TEST;
+		proto = SECURE_CLIENT_PROTOCOL_TEST;
 	} else {
 		if(user.getUser()->isSet(User::NO_ADC_1_0_PROTOCOL)) {
 			/// @todo log
 			return;
 		}
-		proto = &CLIENT_PROTOCOL;
+		proto = CLIENT_PROTOCOL;
 	}
 
 	if(ClientManager::getInstance()->isActive(getHubUrl())) {
@@ -711,9 +711,9 @@ void AdcHub::connect(const OnlineUser& user, string const& token, bool secure) {
 			LogManager::getInstance()->message((F_(("Not listening for connections - please restart "+string(APPNAME)).c_str())));
 			return;
 		}
-		send(AdcCommand(AdcCommand::CMD_CTM, user.getIdentity().getSID(), AdcCommand::TYPE_DIRECT).addParam(*proto).addParam(port).addParam(token));
+		send(AdcCommand(AdcCommand::CMD_CTM, user.getIdentity().getSID(), AdcCommand::TYPE_DIRECT).addParam(proto).addParam(port).addParam(token));
 	} else {
-		send(AdcCommand(AdcCommand::CMD_RCM, user.getIdentity().getSID(), AdcCommand::TYPE_DIRECT).addParam(*proto).addParam(token));
+		send(AdcCommand(AdcCommand::CMD_RCM, user.getIdentity().getSID(), AdcCommand::TYPE_DIRECT).addParam(proto).addParam(token));
 	}
 }
 
