@@ -148,7 +148,6 @@ public:
 //
 	static void parsePortIp(string aIpPort,string& ip, int16_t& port)
 	{
-		
 			string::size_type i = aIpPort.rfind(':');
 			if (i == string::npos) {
 				ip = aIpPort;

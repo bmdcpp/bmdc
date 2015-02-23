@@ -160,7 +160,7 @@ public:
 	uint16_t getLocalPort() noexcept;
 
 	/** Binds a socket to a certain local port and possibly IP. */
-	virtual string listen(const string& port);
+	virtual int16_t listen(const int16_t& port);
 	/** Accept a socket.
 	@return remote port */
 	virtual uint16_t accept(const Socket& listeningSocket);

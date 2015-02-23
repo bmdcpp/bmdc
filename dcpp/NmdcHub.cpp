@@ -280,7 +280,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 
 		// Filter own searches
 		if(ClientManager::getInstance()->isActive(getHubUrl())) {
-			if(seeker == localIp + ":" + SearchManager::getInstance()->getPort()) {
+			if(seeker == localIp + ":" + Util::toString(SearchManager::getInstance()->getPort())) {
 				return;
 			}
 		} else {
@@ -857,9 +857,9 @@ void NmdcHub::connectToMe(const OnlineUser& aUser) {
 	
 	bool isOkIp6 = aUser.getUser()->isSet(User::IPV6);//TODO check if user have ipv6 too
 	if(sock->isV6Valid() && isActiveV6() && ((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ) && isOkIp6) 
-		send("$ConnectToMe " + nick + " [" + getUserIp6() + "]:" + ConnectionManager::getInstance()->getPort() + "|");
+		send("$ConnectToMe " + nick + " [" + getUserIp6() + "]:" + Util::toString(ConnectionManager::getInstance()->getPort()) + "|");
 	else
-		send("$ConnectToMe " + nick + " " + localIp + ":" + ConnectionManager::getInstance()->getPort() + "|");
+		send("$ConnectToMe " + nick + " " + localIp + ":" + Util::toString(ConnectionManager::getInstance()->getPort()) + "|");
 }
 
 void NmdcHub::revConnectToMe(const OnlineUser& aUser) {
@@ -959,7 +959,7 @@ void NmdcHub::search(int aSizeType, int64_t aSize, int aFileType, const string& 
 	}
 	string tmp2;
 	if(ClientManager::getInstance()->isActive(getHubUrl())) {
-		tmp2 = localIp + ':' + SearchManager::getInstance()->getPort();
+		tmp2 = localIp + ':' + Util::toString(SearchManager::getInstance()->getPort());
 	} else {
 		tmp2 = "Hub:" + fromUtf8(getMyNick());
 	}

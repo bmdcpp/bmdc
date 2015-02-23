@@ -110,7 +110,7 @@ void SearchManager::listen() {
 		socket.reset(new Socket(Socket::TYPE_UDP));
 		socket->setLocalIp4(CONNSETTING(BIND_ADDRESS));
 		socket->setLocalIp6(CONNSETTING(BIND_ADDRESS6));
-		port = socket->listen(Util::toString(CONNSETTING(UDP_PORT)));
+		port = socket->listen(CONNSETTING(UDP_PORT));
 		start();
 	} catch(...) {
 		socket.reset();
@@ -122,7 +122,7 @@ void SearchManager::disconnect() noexcept {
 	if(socket.get()) {
 		stop = true;
 		socket->disconnect();
-		port.clear();
+		port = 0;
 
 		join();
 
@@ -165,7 +165,7 @@ int SearchManager::run() {
 		while(!stop) {
 			try {
 				socket->disconnect();
-				port = socket->listen(Util::toString(CONNSETTING(UDP_PORT)));
+				port = socket->listen(CONNSETTING(UDP_PORT));
 				if(failed) {
 					LogManager::getInstance()->message(_("Search enabled again"));
 					failed = false;
@@ -261,7 +261,6 @@ void SearchManager::onData(const uint8_t* buf, size_t aLen, const string& remote
 		string url = ClientManager::getInstance()->findHub(hubIpPort);
 		
 		if(url.empty()) return;
-		
 
 		string encoding = ClientManager::getInstance()->findHubEncoding(url);
 		nick = Text::toUtf8(nick, encoding);
@@ -286,7 +285,6 @@ void SearchManager::onData(const uint8_t* buf, size_t aLen, const string& remote
 		if(tth.empty() && type == SearchResult::TYPE_FILE) {
 			return;
 		}
-
 
 		SearchResultPtr sr(new SearchResult(user, type, slots, freeSlots, size,
 			file, hubName, url, remoteIp, TTHValue(tth), Util::emptyString));

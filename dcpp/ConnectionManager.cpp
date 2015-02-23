@@ -52,13 +52,13 @@ ConnectionManager::ConnectionManager() : floodCounter(0), shuttingDown(false) {
 }
 
 void ConnectionManager::listen() {
-	server.reset(new Server(false, Util::toString(CONNSETTING(TCP_PORT)), CONNSETTING(BIND_ADDRESS),CONNSETTING(BIND_ADDRESS6)));
+	server.reset(new Server(false, CONNSETTING(TCP_PORT), CONNSETTING(BIND_ADDRESS),CONNSETTING(BIND_ADDRESS6)));
 
 	if(!CryptoManager::getInstance()->TLSOk()) {
 		dcdebug("Skipping secure port: %d\n", CONNSETTING(TLS_PORT));
 		return;
 	}
-	secureServer.reset(new Server(true, Util::toString(CONNSETTING(TLS_PORT)), CONNSETTING(BIND_ADDRESS),CONNSETTING(BIND_ADDRESS6)));
+	secureServer.reset(new Server(true, CONNSETTING(TLS_PORT), CONNSETTING(BIND_ADDRESS),CONNSETTING(BIND_ADDRESS6)));
 }
 
 /**
@@ -221,18 +221,18 @@ void ConnectionManager::on(TimerManagerListener::Minute, uint64_t aTick) noexcep
 	}
 }
 
-const string& ConnectionManager::getPort() const {
-	return server.get() ? server->getPort() : Util::emptyString;
+const int16_t& ConnectionManager::getPort() const {
+	return server->getPort();
 }
 
-const string& ConnectionManager::getSecurePort() const {
-	return secureServer.get() ? secureServer->getPort() : Util::emptyString;
+const int16_t& ConnectionManager::getSecurePort() const {
+	return secureServer->getPort();
 }
 
 static const uint32_t FLOOD_TRIGGER = 20000;
 static const uint32_t FLOOD_ADD = 2000;
 
-ConnectionManager::Server::Server(bool secure, const string& port_, const string& ip, const string& ipv6) :
+ConnectionManager::Server::Server(bool secure, const int16_t& port_, const string& ip, const string& ipv6) :
 sock(Socket::TYPE_TCP), secure(secure), die(false) 
 {
 	sock.setLocalIp4(ip);

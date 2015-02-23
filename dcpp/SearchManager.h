@@ -83,7 +83,7 @@ public:
 
 	void respond(const AdcCommand& cmd, const CID& cid,  bool isUdpActive);
 
-	const string& getPort() const { return port; }
+	const int16_t& getPort() const { return port; }
 
 	void listen();
 	void disconnect() noexcept;
@@ -104,7 +104,7 @@ public:
 private:
 
 	std::unique_ptr<Socket> socket;
-	string port;
+	int16_t port;
 	bool stop;
 	uint64_t lastSearch;
 	friend class Singleton<SearchManager>;

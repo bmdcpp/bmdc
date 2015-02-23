@@ -92,10 +92,9 @@ int MappingManager::run() {
 	//ScopedFunctor([this] { busy.clear(); });
 
 	// cache ports
-	string
-		conn_port = ConnectionManager::getInstance()->getPort(),
-		secure_port = ConnectionManager::getInstance()->getSecurePort(),
-		search_port = SearchManager::getInstance()->getPort();
+	int16_t	conn_port = ConnectionManager::getInstance()->getPort();
+	int16_t	secure_port = ConnectionManager::getInstance()->getSecurePort();
+	int16_t	search_port = SearchManager::getInstance()->getPort();
 
 	if(renewal) {
 		Mapper& mapper = *working;
@@ -107,10 +106,10 @@ int MappingManager::run() {
 			return 0;
 		}
 
-		auto addRule = [this, &mapper](const string& port, Mapper::Protocol protocol, const string& description) {
+		auto addRule = [this, &mapper](const int16_t& port, Mapper::Protocol protocol, const string& description) {
 			// just launch renewal requests - don't bother with possible failures.
-			if(!port.empty()) {
-				mapper.open(port, protocol, string(F_(string(APPNAME)+" "+description+" port ("+port+" "+Mapper::protocols[protocol]+")")));
+			if((port > 0 || port < 65535)) {
+				mapper.open(Util::toString(port), protocol, string(F_(string(APPNAME)+" "+description+" port ("+Util::toString(port)+" "+Mapper::protocols[protocol]+")")));
 			}
 		};
 
@@ -139,17 +138,17 @@ int MappingManager::run() {
 		unique_ptr<Mapper> pMapper(i->second(Util::getLocalIp()));
 		Mapper& mapper = *pMapper;
 
-		//ScopedFunctor([&mapper] { mapper.uninit(); });
+		ScopedFunctor([&mapper] { mapper.uninit(); });
 		if(!mapper.init()) {
 			log(string(F_("Failed to initalize the "+mapper.getName()+" interface")));
 			continue;
 		}
 
-		auto addRule = [this, &mapper](const string& port, Mapper::Protocol protocol, const string& description) -> bool {
-			if(!port.empty() && !mapper.open(port, protocol, string(F_(string(APPNAME)+" "+description+" port ("+port+" "+Mapper::protocols[protocol]+")")
+		auto addRule = [this, &mapper](const int16_t& port, Mapper::Protocol protocol, const string& description) -> bool {
+			if( ((port > 0 || port < 65535)) && !mapper.open(Util::toString(port), protocol, string(F_(string(APPNAME)+" "+description+" port ("+Util::toString(port)+" "+Mapper::protocols[protocol]+")")
 				 )))
 			{
-				this->log(string(F_("Failed to map the "+description+" port ("+port+" "+Mapper::protocols[protocol]+") with the "+mapper.getName()+" interface")));
+				this->log(string(F_("Failed to map the "+description+" port ("+Util::toString(port)+" "+Mapper::protocols[protocol]+") with the "+mapper.getName()+" interface")));
 				mapper.close();
 				mapper.uninit();
 				return false;
@@ -162,7 +161,7 @@ int MappingManager::run() {
 			addRule(search_port, Mapper::PROTOCOL_UDP, _("Search"))))
 			continue;
 
-		log(string(F_("Successfully created port mappings (Transfers: "+conn_port+", Encrypted transfers: "+secure_port +", Search: "+search_port+") on the "+deviceString(mapper)+" device with the "+mapper.getName()+" interface") ));
+		log(string(F_("Successfully created port mappings (Transfers: "+Util::toString(conn_port)+", Encrypted transfers: "+Util::toString(secure_port) +", Search: "+Util::toString(search_port)+") on the "+deviceString(mapper)+" device with the "+mapper.getName()+" interface") ));
 
 		working = move(pMapper);
 

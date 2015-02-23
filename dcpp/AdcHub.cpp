@@ -705,7 +705,7 @@ void AdcHub::connect(const OnlineUser& user, string const& token, bool secure) {
 	}
 
 	if(ClientManager::getInstance()->isActive(getHubUrl())) {
-		const string& port = secure ? ConnectionManager::getInstance()->getSecurePort() : ConnectionManager::getInstance()->getPort();
+		const string& port = secure ? Util::toString(ConnectionManager::getInstance()->getSecurePort()) : Util::toString(ConnectionManager::getInstance()->getPort());
 		if(port.empty()) {
 			// Oops?
 			LogManager::getInstance()->message((F_(("Not listening for connections - please restart "+string(APPNAME)).c_str())));
@@ -1191,7 +1191,7 @@ void AdcHub::appendConnectivity(StringMap& lastInfoMap, AdcCommand& c, bool v4, 
 		}
 
 		if(isActiveV4()) {
-			addParam(lastInfoMap, c, "U4", SearchManager::getInstance()->getPort());
+			addParam(lastInfoMap, c, "U4", Util::toString(SearchManager::getInstance()->getPort()));
 		} else {
 			addParam(lastInfoMap, c, "U4", "");
 		}
@@ -1208,7 +1208,7 @@ void AdcHub::appendConnectivity(StringMap& lastInfoMap, AdcCommand& c, bool v4, 
 		}
 
 		if(isActiveV6()) {
-			addParam(lastInfoMap, c, "U6", SearchManager::getInstance()->getPort());
+			addParam(lastInfoMap, c, "U6", Util::toString(SearchManager::getInstance()->getPort()));
 		} else {
 			addParam(lastInfoMap, c, "U6", "");
 		}

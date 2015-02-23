@@ -292,7 +292,7 @@ uint16_t Socket::accept(const Socket& listeningSocket) {
 	return 0;
 }
 
-string Socket::listen(const string& port) {
+int16_t Socket::listen(const int16_t& port) {
 	disconnect();
 
 	// For server sockets we create both ipv4 and ipv6 if possible
@@ -304,7 +304,7 @@ string Socket::listen(const string& port) {
 	addrinfo_p ai(nullptr, nullptr);
 
 	if(!v4only) {
-		try { ai = resolveAddr(localIp6, Util::toInt(port), AF_INET6, AI_PASSIVE | AI_ADDRCONFIG); }
+		try { ai = resolveAddr(localIp6, port, AF_INET6, AI_PASSIVE | AI_ADDRCONFIG); }
 		catch(const SocketException&) { ai.reset(); }
 		for(auto a = ai.get(); a && !sock6.valid(); a = a->ai_next) {
 			try {
@@ -324,7 +324,7 @@ string Socket::listen(const string& port) {
 		}
 	}
 
-	try { ai = resolveAddr(localIp4, Util::toInt(port), AF_INET, AI_PASSIVE | AI_ADDRCONFIG); }
+	try { ai = resolveAddr(localIp4, port, AF_INET, AI_PASSIVE | AI_ADDRCONFIG); }
 	catch(const SocketException&) { ai.reset(); }
 	for(auto a = ai.get(); a && !sock4.valid(); a = a->ai_next) {
 		try {
@@ -346,7 +346,7 @@ string Socket::listen(const string& port) {
 	if(ret == 0) {
 		throw SocketException(_("Could not open port for listening"));
 	}
-	return Util::toString(ntohs(ret));
+	return ntohs(ret);
 }
 
 void Socket::connect(const string& aAddr, const int16_t& aPort, const string& localPort) {

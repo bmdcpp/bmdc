@@ -217,9 +217,9 @@ string ConnectivityManager::getInformation() const {
 		"\tExternal IP (v6): "+field(CONNSETTING(EXTERNAL_IP6))+"\n"+
 		"\tBound interface (v4): "+field(CONNSETTING(BIND_ADDRESS))+"\n"+
 		"\tBound interface (v6): "+field(CONNSETTING(BIND_ADDRESS6))+"\n"+
-		"\tTransfer port: "+field(ConnectionManager::getInstance()->getPort())+"\n"+
-		"\tEncrypted transfer port: "+field(ConnectionManager::getInstance()->getSecurePort()) +"\n"+
-		"\tSearch port: "+field(SearchManager::getInstance()->getPort())+"\n");
+		"\tTransfer port: "+field(Util::toString(ConnectionManager::getInstance()->getPort()))+"\n"+
+		"\tEncrypted transfer port: "+field(Util::toString(ConnectionManager::getInstance()->getSecurePort())) +"\n"+
+		"\tSearch port: "+field(Util::toString(SearchManager::getInstance()->getPort()))+"\n");
 }
 
 void ConnectivityManager::startMapping() {

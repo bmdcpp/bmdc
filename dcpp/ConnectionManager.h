@@ -121,23 +121,23 @@ public:
 	void listen();
 	void disconnect() noexcept;
 
-	const string& getPort() const;
-	const string& getSecurePort() const;
+	const int16_t& getPort() const;
+	const int16_t& getSecurePort() const;
 
 private:
 
 	class Server : public Thread {
 	public:
-		Server(bool secure, const string& port_, const string& ip, const string& ipv6);
+		Server(bool secure, const int16_t& port_, const string& ip, const string& ipv6);
 		virtual ~Server() { die = true; join(); }
 
-		const string& getPort() const { return port; }
+		const int16_t& getPort() const { return port; }
 
 	private:
 		virtual int run() noexcept;
 
 		Socket sock;
-		string port;
+		int16_t port;
 		bool secure;
 		bool die;
 	};
