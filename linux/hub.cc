@@ -3336,7 +3336,7 @@ void Hub::onRefreshUserListClicked_gui(GtkWidget *wid, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	hub->clearNickList_gui();
-	hub->client->refreshuserlist(true);
+	hub->client->refreshuserlist();
 }
 
 void Hub::addFavoriteUser_gui(dcpp::StringMap params)

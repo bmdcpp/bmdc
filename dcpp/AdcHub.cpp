@@ -1169,7 +1169,7 @@ void AdcHub::on(Second s, uint64_t aTick) noexcept {
 	}
 }
 //Refresh UL
-void AdcHub::refreshuserlist(bool) {
+void AdcHub::refreshuserlist() {
 	Lock l(cs);
 
 	OnlineUserList v;

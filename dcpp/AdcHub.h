@@ -49,7 +49,7 @@ public:
 
 	virtual size_t getUserCount() const { Lock l(cs); return users.size(); }
 	virtual int64_t getAvailable() const;
-	virtual void refreshuserlist(bool);
+	virtual void refreshuserlist();
 	//Plugins API...
 	virtual void emulateCommand(const string& cmd) { dispatch(cmd); }
 

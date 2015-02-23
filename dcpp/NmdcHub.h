@@ -53,7 +53,7 @@ public:
 	virtual int64_t getAvailable() const;
 	
 	virtual void emulateCommand(const string& cmd) { onLine(cmd); }
-	virtual void refreshuserlist(bool);
+	virtual void refreshuserlist();
 	
 	void getUserList(OnlineUserList& list) const {
 		Lock l(cs);
@@ -140,7 +140,6 @@ private:
 
 	virtual void checkNick(string& aNick);
 	virtual bool v4only() const { return false; }
-	bool bIPv6;
 	// TimerManagerListener
 	virtual void on(Second, uint64_t aTick) noexcept;
 	virtual void on(Minute, uint64_t aTick) noexcept;

@@ -358,6 +358,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			fire(ClientListener::NmdcSearch(), this, seeker, a, Util::toInt64(size), type, terms);
 		}
 	} else if(cmd == "$MyINFO") {
+//		$MyINFO $ALL <nick> <description>$ $<connection><magic byte>$<email>$<share size>$|
 		string::size_type i = 5, j;
 		j = param.find(' ', i);
 		if( (j == string::npos) || (j == i) )
@@ -367,7 +368,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		if(nick.empty())
 			return;
 
-		i = j + 1;//11
+		i = j + 1;
 
 		OnlineUser& u = getUser(nick);
 
@@ -404,7 +405,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		u.getIdentity().setHub(false);
 
 		u.getIdentity().set("CO", Text::utf8ToAcp(connection));//dont fucked up CO string with weird chars (unix)
-		char aMode = param[j-1];
+		unsigned char aMode = param[j-i+1];
 		if( (aMode & 0x02) == 0x02 ) {//@ if(x & y) is wrong beter this variant
 			u.getIdentity().set("AW", "1");
 		}else
@@ -413,10 +414,10 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		}
 		//ipv6
 		if( (aMode & 0x80) == 0x80) {//same as above
-			u.getUser()->setFlag(User::IPV6);
+			u.getIdentity().set("IX","1");
 		}	
 		else
-			u.getUser()->setFlag(User::IPV4);
+			u.getIdentity().set("IX","0");
 		//end
 		i = j + 1;
 		j = param.find('$', i);
@@ -629,7 +630,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				feat.push_back("SaltPass");
 				feat.push_back("IPv4");
 				if(sock->isV6Valid()) {
-					//@ Add to $Support IP64 only when we had IP6 connectivity
+					//@ Add to $Support IP64 only when we had IPv6 connectivity
 					feat.push_back("IP64");
 				}
 				supports(feat);
@@ -855,7 +856,7 @@ void NmdcHub::connectToMe(const OnlineUser& aUser) {
 			return;
 	}	
 	
-	bool isOkIp6 = aUser.getUser()->isSet(User::IPV6);//TODO check if user have ipv6 too
+	bool isOkIp6 = aUser.getIdentity().get("IX") == "1";
 	if(sock->isV6Valid() && isActiveV6() && ((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ) && isOkIp6) 
 		send("$ConnectToMe " + nick + " [" + getUserIp6() + "]:" + Util::toString(ConnectionManager::getInstance()->getPort()) + "|");
 	else
@@ -1077,7 +1078,7 @@ void NmdcHub::refreshLocalIp() noexcept {
 	if(localIp.empty()) {
 		localIp = getUserIp();
 		if(!localIp.empty()) {
-			localIp = Socket::resolve(localIp);//can be as well IPv6
+			localIp = Socket::resolve(localIp);
 		}
 		if(localIp.empty()) {
 			localIp = sock->getLocalIp();
@@ -1135,7 +1136,7 @@ void NmdcHub::on(Minute, uint64_t aTick) noexcept {
 		protectedIPs.push_back("hublista.hu");
 		protectedIPs.push_back("dcbase.org");
 		for(auto i = protectedIPs.begin(); i != protectedIPs.end();) {
-			*i = Socket::resolve(*i);//can be also ip6
+			*i = Socket::resolve(*i);
 			if(Util::isPrivateIp(*i))
 				i = protectedIPs.erase(i);
 			else
@@ -1164,8 +1165,8 @@ void NmdcHub::password(const string& aPass) {
 }
 
 //Refresh UL
-void NmdcHub::refreshuserlist(bool refreshOnly) {
-	if(refreshOnly) {
+void NmdcHub::refreshuserlist() {
+//	if(refreshOnly) {
 		Lock l(cs);
 
 		OnlineUserList v;
@@ -1173,10 +1174,10 @@ void NmdcHub::refreshuserlist(bool refreshOnly) {
 			v.push_back(i->second);
 		}
 		fire(ClientListener::UsersUpdated(), this, v);
-	} else {
-		clearUsers();
-		getNickList();
-	}
+//	} else {
+//		clearUsers();
+//		getNickList();
+//	}
 }
 
 } // namespace dcpp

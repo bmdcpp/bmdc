@@ -61,7 +61,7 @@ public:
 	virtual size_t getUserCount() const = 0;
 	virtual int64_t getAvailable() const = 0;
 	virtual void getUserList(OnlineUserList& list) const = 0;
-	virtual void refreshuserlist(bool) = 0;
+	virtual void refreshuserlist() = 0;
 
 	virtual string startCheck(const string &params) = 0;
 	virtual void startMyInfoCheck() = 0;
