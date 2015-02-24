@@ -13,12 +13,12 @@
  ======
 * Fix IPv6 coloring in chat
 * Fix DebugManager
-* Update Hash/Share Manager from dcpp (this may req re-Hash)
+* Update Hash/Share Manager from dcpp (this may need re-Hash)
 * Fix UserList icons
 * Fix some free'ing memory
 * Fix chat commands
 * Fix Translate of tooltip in UserList
-* Add ablity save per-fav columns in Userslist
+* Add ability save per-fav columns in Userslist
 * Add status column to FavoriteHubs Tab.
 * Add Settings for menu item on right click in User Action in HubFrame
 * Add some more info to /info cmd
@@ -27,50 +27,50 @@
 * Fix some of deprecated warning on 3.12+ gtk
 * Fix bad char in Shellcommand class
 * Fix build on Fedora
-* Fix Arch PKGBUILD dependiens
+* Fix Arch PKGBUILD dependences
 * Add AVDB Support
 * Improve /help command
-* Fix dbus Plugin
-* Sub-menu'ing User Commands Menu (PM&HUB tab) 
+* Fix dbus Plug-in
+* Sub-menu'ing User Commands Menu (PM&HUB tab)
 * Add progress bar to Splash screen
-* Fix potetional leak in SearchManager
+* Fix potential leak in SearchManager
 * Update miniupnpc to 1.9
-* Fix GeoIP abrevation
-* Fix dont get to IP6 field IP4
+* Fix GeoIP abbreviation
+* Fix don't get to IP6 field IP4
 * Fix some country icons
-* Fix Full Filelisting 
+* Fix Full Filelisting
 * Update SimpleXML/SimpleXMLReader from DC++
-* Add Optional deps on xattr
+* Add Optional dependence on xattr
 * Fix SFC checker in HashManager
-* Update dcpp/Speaker.h with changes from DC++ 
+* Update dcpp/Speaker.h with changes from DC++
 * Init IPv6 changes to NMDC
-* Fix About:Config not showing all options 
+* Fix About:Config not showing all options
 * Integrate HashStatus to statusBar on MainWindow
-* Some gtk+ Fixies
+* Some gtk+ Fixes
 0.0.2
  ======
 * Add Copy Nicks to PM
-* Add Favorites indepent on CID & History of Favorite with CID
+* Add Favorites independent on CID & History of Favorite with CID
 * Possible set custom font size in BookEntry class (/ws custom-font-size 1/0 for enable/disable and /ws book-font-size for settings itself)
-* Possible Higliting IPv6 (with it callback as ipv4 have)
+* Possible Highlighting IPv6 (with it callback as ipv4 have)
 * Add Icon to menu on right click on Tabs
 * Add About:Config Tab
 * Add UserCommands to IPs
 * Change Next/Prev tab to ctrl + right  and ctrl + left keys
-* Fixed reperated message about emoticon if it's disabled
+* Fixed repeated message about emoticon if it's disabled
 * Possible do nothing on middle button on Tabs
 * Possible use ctrl + arrow only to chat history
 * Fix Limiting Icon
 * Removed Internal Lua Scripting
-* User ConnectivityManager and AutoConfigure Connection 
+* User ConnectivityManager and AutoConfigure Connection
 * Add commands /conn and /info and /raw
 * Remove /lua and /luafile from GUI ( and lua deps)
 * Fixed "." after copy IP
 * Threaded Loading of FileList (eiskaltdcpp (dhamp))
-* Partialy update to 2972 dcpp
+* Partially update to 2972 dcpp
 * Update to 2923 dcpp
 * Add Export Dialog
-* Made libtar optional dependience
+* Made libtar optional dependence
 * Make /bmdc++ mc with random messages
 * GTK_ICON_SIZE_BUTTON -> GTK_ICON_SIZE_MENU in stock/icon in BookEntry
 * Made Tabbed Searches
@@ -95,19 +95,19 @@
 * Added DNS Column in trasnfers
 * Added Get TTH from file
 * Added Recent Hubs
-* Added Higliting
+* Added Highlighting
 * Added Detection tab
 * Added PK,Support to UserList
 * Added Country to Search Tab
-* Added Close All Hubs.PM , offline PM, Searchs
+* Added Close All Hubs.PM , off-line PM, Search
 * Added menu´s item Protect/Unprotect Users
 * Added Refresh UserList button,menu´s item,cmd
 * Added Menu´s item to userlist menu with Nick what clicked on
 * Added Contex Menu to Tabs ,along with option remove X on tab
-* Added Toolbar item to limit conection
+* Added Toolbar item to limit connection
 * Added toolbar item to Away
-* Added Show redirect addres as status message
-* Added GUI for patern of Protect Users
+* Added Show redirect address as status message
+* Added GUI for pattern of Protect Users
 * Added Extra Info in Chat
 * Added Fav-Hub Based connection mode
 * Added Option to disable DNS in transfer View
@@ -125,22 +125,22 @@
 * Added Save IP on connect to it
 * Added Splash class
 * Added MediaInfo
-* Added emoticon to install
+* Added emotions to install
 * Added System-wide Icons to Queue/Search Tab too (for files)
 * Added minupnp and support of it
 * Added Setting of time to reconnect
 * Added Raw and Detection Supports
 * Added ShellCommand support (used for media spam and df)
 * Added read log in PM´s
-* Added Country icon to PublicHub tab
-* Added Plugins supports
+* Added Country icon to Public Hub tab
+* Added Plug-ins supports
 * Added Custom Hub Tab Text&Icon
 * Added ComboBox-like UserCommands (%[line:caption/default/val0/val1])
 * Added Colorize of background UserList
 * Added Support NATPMP
 * Added clicked-like status of button on Toolbar
 * Fixed scons on Arch
-* Fixed Handling /me comand
+* Fixed Handling /me command
 * Fixed magnet Handling
 * [LP#908039] Fixed Hash Dialog
 * Change GtkComboxBoxEntry to Entry with GtkCompletion in Search Tab
