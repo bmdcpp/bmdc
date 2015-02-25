@@ -373,6 +373,7 @@ void DownloadManager::endData(UserConnection* aSource) {
 		if(SETTING(LOG_DOWNLOADS) && (SETTING(LOG_FILELIST_TRANSFERS) || d->getType() == Transfer::TYPE_FILE) ) {
 			logDownload(aSource, d);
 		}
+		aSource->disconnect();
 	}
 
 	removeDownload(d);
@@ -380,6 +381,7 @@ void DownloadManager::endData(UserConnection* aSource) {
 
 	QueueManager::getInstance()->putDownload(d, true);
 	checkDownloads(aSource);
+
 }
 
 
@@ -453,6 +455,9 @@ void DownloadManager::removeConnection(UserConnectionPtr aConn) {
 	dcassert(aConn->getDownload() == NULL);
 	aConn->removeListener(this);
 	aConn->disconnect();
+	Lock l(cs);
+	if( find(idlers.begin(), idlers.end(), aConn) != idlers.end())
+		idlers.erase(remove(idlers.begin(), idlers.end(), aConn), idlers.end());
 }
 
 void DownloadManager::removeDownload(Download* d) {
@@ -471,6 +476,7 @@ void DownloadManager::removeDownload(Download* d) {
 
 		downloads.erase(remove(downloads.begin(), downloads.end(), d), downloads.end());
 	}
+	
 }
 
 void DownloadManager::on(UserConnectionListener::FileNotAvailable, UserConnection* aSource) noexcept {
@@ -532,8 +538,11 @@ void DownloadManager::fileNotAvailable(UserConnection* aSource) {
 	}
 
 	Download* d = aSource->getDownload();
-	//dcassert(d != NULL);
-	if(d == NULL)return;
+
+	if(d == NULL)
+	{ aSource->disconnect(true);
+	  return;
+	}
 	dcdebug("File Not Available: %s\n", d->getPath().c_str());
 
 	removeDownload(d);

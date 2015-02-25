@@ -56,7 +56,7 @@ public:
 
 	void resetPos() { pos = 0; }
 
-	void addPos(int64_t aBytes, int64_t aActual) { pos += aBytes; actual+= aActual; }
+	void addPos(int64_t aBytes, int64_t aActual) { pos += aBytes; actual += aActual; }
 
 	enum { MIN_SAMPLES = 15, MIN_SECS = 15 };
 

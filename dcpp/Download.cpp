@@ -66,7 +66,7 @@ Download::Download(UserConnection& conn, QueueItem& qi, const string& path, bool
 }
 
 Download::~Download() {
-	getUserConnection().setDownload(0);
+	getUserConnection().setDownload(nullptr);
 }
 
 AdcCommand Download::getCommand(bool zlib, const string& mySID) {

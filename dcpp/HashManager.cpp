@@ -98,10 +98,10 @@ bool HashManager::StreamStore::loadTree(const string& p_filePath, TigerTree &tre
     int blockSize           = totalSz;
     TTHStreamHeader h;
 
-    /*std::unique_ptr<*/uint8_t*/*[]>*/ buf = (new uint8_t[totalSz]);
+    uint8_t* buf = (new uint8_t[totalSz]);
 
     if (attr_get(p_filePath.c_str(), g_streamName.c_str(), (char*)(void*)buf/*.get()*/, &blockSize, 0) == 0) {
-        memcpy(&h, buf/*.get()*/, hdrSz);
+        memcpy(&h, buf, hdrSz);
 #ifdef __i386__
         printf("%s: timestamps header=0x%llu, current=0x%llu, difference(should be zero)=%llu\n",
                p_filePath.c_str(), h.timeStamp, getTimeStamp(p_filePath), h.timeStamp - getTimeStamp(p_filePath));
@@ -116,10 +116,9 @@ bool HashManager::StreamStore::loadTree(const string& p_filePath, TigerTree &tre
         }
 
         const size_t datalen = blockSize - hdrSz;
-//        std::unique_ptr<uint8_t[]> tail(new uint8_t[datalen]);
         uint8_t* tail = new uint8_t[datalen];
 
-        memcpy(tail/*.get()*/, (uint8_t*)buf/*.get()*/ + hdrSz, datalen);
+        memcpy(tail, (uint8_t*)buf + hdrSz, datalen);
 
         TigerTree p_Tree = TigerTree(fileSize, h.blockSize, tail/*.get()*/);
 

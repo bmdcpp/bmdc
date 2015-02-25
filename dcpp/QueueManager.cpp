@@ -956,7 +956,7 @@ Download* QueueManager::getDownload(UserConnection& aSource, bool supportsTrees)
 		}
 	}
 
-	Download* d = new Download(aSource, *q, /*q->isSet(QueueItem::FLAG_PARTIAL_LIST) ? q->getTempTarget() :*/ q->getTarget(), supportsTrees);
+	Download* d = new Download(aSource, *q, q->getTarget(), supportsTrees);
 
 	userQueue.addDownload(q, d);
 
