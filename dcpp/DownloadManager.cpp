@@ -540,8 +540,7 @@ void DownloadManager::fileNotAvailable(UserConnection* aSource) {
 	Download* d = aSource->getDownload();
 
 	if(d == NULL)
-	{ aSource->disconnect(true);
-	  return;
+	{  return;
 	}
 	dcdebug("File Not Available: %s\n", d->getPath().c_str());
 
