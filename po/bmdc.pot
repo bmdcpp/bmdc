@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2015-02-26 22:01+0100\n"
+"POT-Creation-Date: 2015-02-26 22:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3192,7 +3192,7 @@ msgstr ""
 msgid " removed from favorites list"
 msgstr ""
 
-#: linux/settingsmanager.cc:714
+#: linux/settingsmanager.cc:716
 msgid " to "
 msgstr ""
 
@@ -3548,7 +3548,7 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: linux/settingsmanager.cc:714
+#: linux/settingsmanager.cc:716
 msgid "Change setting "
 msgstr ""
 
@@ -3576,7 +3576,7 @@ msgstr ""
 msgid "Clean Mainchat"
 msgstr ""
 
-#: linux/searchspy.cc:499
+#: linux/searchspy.cc:503
 msgid "Cleaned frame search"
 msgstr ""
 
@@ -3679,7 +3679,7 @@ msgid "Copy URL"
 msgstr ""
 
 #: linux/searchspy.cc:55 linux/searchspy.cc:153 linux/searchspy.cc:267
-#: linux/searchspy.cc:292 linux/searchspy.cc:308 linux/searchspy.cc:430
+#: linux/searchspy.cc:293 linux/searchspy.cc:310 linux/searchspy.cc:434
 msgid "Count"
 msgstr ""
 
@@ -3909,11 +3909,11 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: linux/settingsmanager.cc:717
+#: linux/settingsmanager.cc:719
 msgid "Error: params have been not 2!"
 msgstr ""
 
-#: linux/settingsmanager.cc:713
+#: linux/settingsmanager.cc:715
 msgid "Error: setting not found!"
 msgstr ""
 
@@ -4118,7 +4118,7 @@ msgstr ""
 msgid "Highlightings"
 msgstr ""
 
-#: linux/settingsmanager.cc:392
+#: linux/settingsmanager.cc:395
 msgid "Highliting"
 msgstr ""
 
@@ -4132,7 +4132,7 @@ msgstr ""
 msgid "Hub (last seen in, if offline)"
 msgstr ""
 
-#: linux/settingsmanager.cc:395
+#: linux/settingsmanager.cc:398
 msgid "Hub Chat"
 msgstr ""
 
@@ -4630,8 +4630,8 @@ msgstr ""
 #: linux/adlsearch.cc:251 linux/adlsearch.cc:289 linux/searchspy.cc:54
 #: linux/searchspy.cc:72 linux/searchspy.cc:74 linux/searchspy.cc:77
 #: linux/searchspy.cc:219 linux/searchspy.cc:230 linux/searchspy.cc:284
-#: linux/searchspy.cc:291 linux/searchspy.cc:307 linux/searchspy.cc:466
-#: linux/searchspy.cc:531 linux/searchspy.cc:564
+#: linux/searchspy.cc:292 linux/searchspy.cc:309 linux/searchspy.cc:470
+#: linux/searchspy.cc:535 linux/searchspy.cc:568
 msgid "Search String"
 msgstr ""
 
@@ -4910,7 +4910,7 @@ msgstr ""
 #: linux/AboutConfig.cc:33 linux/AboutConfig.cc:163 linux/downloadqueue.cc:68
 #: linux/downloadqueue.cc:279 linux/downloadqueue.cc:386
 #: linux/favoritehubs.cc:49 linux/favoritehubs.cc:136 linux/searchspy.cc:57
-#: linux/searchspy.cc:294 linux/searchspy.cc:376 linux/transfers.cc:64
+#: linux/searchspy.cc:295 linux/searchspy.cc:380 linux/transfers.cc:64
 #: linux/transfers.cc:414 linux/transfers.cc:447 linux/transfers.cc:541
 #: linux/transfers.cc:630 linux/transfers.cc:640 linux/transfers.cc:815
 #: linux/transfers.cc:955 linux/transfers.cc:968 linux/transfers.cc:1003
@@ -4987,7 +4987,7 @@ msgstr ""
 #: linux/finishedtransfers.cc:75 linux/finishedtransfers.cc:88
 #: linux/finishedtransfers.cc:89 linux/finishedtransfers.cc:181
 #: linux/finishedtransfers.cc:225 linux/searchspy.cc:56 linux/searchspy.cc:268
-#: linux/searchspy.cc:293 linux/searchspy.cc:309
+#: linux/searchspy.cc:294 linux/searchspy.cc:311
 msgid "Time"
 msgstr ""
 
@@ -5066,7 +5066,7 @@ msgstr ""
 msgid "Unknown command '"
 msgstr ""
 
-#: linux/searchspy.cc:388
+#: linux/searchspy.cc:392
 msgid "Updated frame search"
 msgstr ""
 
@@ -5522,14 +5522,14 @@ msgstr ""
 msgid "selected style failed"
 msgstr ""
 
-#: linux/searchspy.cc:357
+#: linux/searchspy.cc:360
 msgid "top..."
 msgstr ""
 
-#: linux/searchspy.cc:411
+#: linux/searchspy.cc:415
 msgid "top/waiting/frame: "
 msgstr ""
 
-#: linux/searchspy.cc:294 linux/searchspy.cc:362
+#: linux/searchspy.cc:295 linux/searchspy.cc:365
 msgid "waiting..."
 msgstr ""

@@ -286,7 +286,8 @@ void SearchSpy::updateFrameSearch_gui(const string search, const string type)
 				searchIters.insert(UnMapIter::value_type(search, iter));
 
 				tick = GET_TICK();
-
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 				gtk_list_store_set(searchStore, &iter,
 					searchView.col(_("Search String")), search.c_str(),
 					searchView.col(_("Count")), "1",
@@ -299,6 +300,7 @@ void SearchSpy::updateFrameSearch_gui(const string search, const string type)
 					searchView.col("order"), "r",
 					searchView.col("color"), rSearchColor.c_str(),
 					-1);
+	#pragma GCC diagnostic pop					
 			}
 			return;
 		}
@@ -336,7 +338,8 @@ bool SearchSpy::updateFrameStatus_gui(GtkTreeIter *iter, uint64_t tick)
 		string order = searchView.getString(&itree, "order");
 
 		dcassert(tick >= gettick);
-
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 		if (tick - gettick > second)
 		{
 			if (iter)
@@ -372,6 +375,7 @@ bool SearchSpy::updateFrameStatus_gui(GtkTreeIter *iter, uint64_t tick)
 				default:  color = qSearchColor; // fix don't know color
 			}
 		}
+#pragma GCC diagnostic pop		
 		gtk_list_store_set(searchStore, &itree,
 			searchView.col(_("Status")), status.c_str(),
 			searchView.col("icon"), icon.c_str(),
