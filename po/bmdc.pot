@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2015-02-25 12:01+0100\n"
+"POT-Creation-Date: 2015-02-26 13:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1268,7 +1268,7 @@ msgstr ""
 msgid "Export..."
 msgstr ""
 
-#: ui/settingsdialog.glade.ui:1899 linux/hub.cc:2535 linux/hub.cc:2536
+#: ui/settingsdialog.glade.ui:1899 linux/hub.cc:2535
 msgid "External / WAN IP"
 msgstr ""
 
@@ -3953,6 +3953,10 @@ msgstr ""
 #: linux/settingsdialog.cc:3379 linux/settingsdialog.cc:3413
 #: linux/settingsdialog.cc:3431 linux/settingsdialog.cc:3462
 msgid "Extensions"
+msgstr ""
+
+#: linux/hub.cc:2536
+msgid "External / WAN IP6"
 msgstr ""
 
 #: linux/FavoriteHubDialog.cc:141

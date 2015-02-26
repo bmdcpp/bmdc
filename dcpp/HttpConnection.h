@@ -51,7 +51,7 @@ private:
 	string method;
 	string file;
 	string server;
-	int16_t port;
+	uint16_t port;
 
 	string requestBody;
 

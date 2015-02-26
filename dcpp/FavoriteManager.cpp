@@ -894,7 +894,7 @@ const string& FavoriteManager::blacklisted() const {
 		return Util::emptyString;
 
 	// get the host
-	int16_t port = -1;
+	uint16_t port = 0;
 	string server, file, query, proto, fragment;
 	Util::decodeUrl(publicListServer, proto, server, port, file, query, fragment);
 	// only keep the last 2 words (example.com)

@@ -78,7 +78,7 @@ public:
 
 	bool isOp() const { return getMyIdentity().isOp(); }
 
-	const int16_t& getPort() const { return port; }
+	const uint16_t& getPort() const { return port; }
 	const string& getAddress() const { return address; }
 
 	const string& getIp() const { return ip; }
@@ -189,7 +189,7 @@ private:
 	string address;
 	string ip;
 	string keyprint;
-	int16_t port;
+	uint16_t port;
 	char separator;
 	bool secure;
 	CountType countType;

@@ -28,6 +28,7 @@
 #include "ScopedFunctor.h"
 #include "SearchManager.h"
 #include "version.h"
+#include <cstdint>
 
 namespace dcpp {
 
@@ -92,9 +93,9 @@ int MappingManager::run() {
 	//ScopedFunctor([this] { busy.clear(); });
 
 	// cache ports
-	int16_t	conn_port = ConnectionManager::getInstance()->getPort();
-	int16_t	secure_port = ConnectionManager::getInstance()->getSecurePort();
-	int16_t	search_port = SearchManager::getInstance()->getPort();
+	uint16_t	conn_port = ConnectionManager::getInstance()->getPort();
+	uint16_t	secure_port = ConnectionManager::getInstance()->getSecurePort();
+	uint16_t	search_port = SearchManager::getInstance()->getPort();
 
 	if(renewal) {
 		Mapper& mapper = *working;
@@ -106,9 +107,9 @@ int MappingManager::run() {
 			return 0;
 		}
 
-		auto addRule = [this, &mapper](const int16_t& port, Mapper::Protocol protocol, const string& description) {
+		auto addRule = [this, &mapper](const uint16_t& port, Mapper::Protocol protocol, const string& description) {
 			// just launch renewal requests - don't bother with possible failures.
-			if((port > 0 || port < 65535)) {
+			if( port  != UINT16_MAX ) {
 				mapper.open(Util::toString(port), protocol, string(F_(string(APPNAME)+" "+description+" port ("+Util::toString(port)+" "+Mapper::protocols[protocol]+")")));
 			}
 		};
@@ -144,8 +145,8 @@ int MappingManager::run() {
 			continue;
 		}
 
-		auto addRule = [this, &mapper](const int16_t& port, Mapper::Protocol protocol, const string& description) -> bool {
-			if( ((port > 0 || port < 65535)) && !mapper.open(Util::toString(port), protocol, string(F_(string(APPNAME)+" "+description+" port ("+Util::toString(port)+" "+Mapper::protocols[protocol]+")")
+		auto addRule = [this, &mapper](const uint16_t& port, Mapper::Protocol protocol, const string& description) -> bool {
+			if( (port != UINT16_MAX ) && !mapper.open(Util::toString(port), protocol, string(F_(string(APPNAME)+" "+description+" port ("+Util::toString(port)+" "+Mapper::protocols[protocol]+")")
 				 )))
 			{
 				this->log(string(F_("Failed to map the "+description+" port ("+Util::toString(port)+" "+Mapper::protocols[protocol]+") with the "+mapper.getName()+" interface")));

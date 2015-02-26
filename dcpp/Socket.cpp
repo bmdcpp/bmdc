@@ -364,22 +364,25 @@ void Socket::connect(const string& aAddr, const int16_t& aPort, const string& lo
 	setIp(address);
 
 	string lastError;
-
+	
+	auto sock = create(*(addr.get()));
+	
+/*
 	for(auto ai = addr.get(); ai; ai = ai->ai_next) {
 		if((ai->ai_family == AF_INET && !sock4.valid()) ||
 			(ai->ai_family == AF_INET6 && !sock6.valid() && !v4only))
 		{
 			try {
 				auto sock = create(*ai);
-				auto &localIp = ai->ai_family == AF_INET ? getLocalIp4() : getLocalIp6();
-
+				auto localIp = getLocalIp();/*ai->ai_family == AF_INET6 ? getLocalIp6() : getLocalIp4();*/
+/*
 				if(!localPort.empty() || !localIp.empty()) {
 					auto local = resolveAddr(localIp,Util::toInt(localPort), ai->ai_family);
 					check([&] { return ::bind(sock, local->ai_addr, local->ai_addrlen); });
-				}
+				}*/
 
-				check([&] { return ::connect(sock, ai->ai_addr, ai->ai_addrlen); }, true);
-				
+				check([&] { return ::connect(sock, addr.get()->ai_addr, addr.get()->ai_addrlen); }, true);//ai
+/*				
 			} catch(const SocketException& e) {
 				ai->ai_family == AF_INET ? sock4.reset() : sock6.reset();
 				lastError = e.getError();
@@ -390,7 +393,7 @@ void Socket::connect(const string& aAddr, const int16_t& aPort, const string& lo
 	// An IP should be set if at least one connection attempt succeeded
 	if(ip.empty()) {
 		throw SocketException(lastError);
-	}
+	}*/
 }
 
 namespace {
@@ -835,7 +838,7 @@ string Socket::resolveName(const sockaddr* sa, socklen_t sa_len, int flags) {
 
 	return string(buf);
 }
-
+/*
 string Socket::getLocalIp() noexcept {
 	if(getSock() == INVALID_SOCKET)
 		return Util::emptyString;
@@ -849,7 +852,7 @@ string Socket::getLocalIp() noexcept {
 
 	return Util::emptyString;
 }
-
+*/
 uint16_t Socket::getLocalPort() noexcept {
 	if(getSock() == INVALID_SOCKET)
 		return 0;
@@ -940,6 +943,32 @@ string Socket::getRemoteHost(const string& aIp) {
 	} else {
 		return h->h_name;
 	}
+}
+
+string Socket::getLocalIp() noexcept  {
+	if(getSock() == INVALID_SOCKET) {
+		return Util::emptyString;
+    }
+ 
+    sockaddr_storage sas_addr;
+	socklen_t sas_len = sizeof(sockaddr_storage);
+
+	if(getsockname(getSock(), (struct sockaddr *)&sas_addr, &sas_len) == 0) {
+		if(sas_addr.ss_family == AF_INET6) {
+            if(IN6_IS_ADDR_V4MAPPED(&((struct sockaddr_in6 *)&sas_addr)->sin6_addr)) {
+                return inet_ntoa(*((in_addr *)(((struct sockaddr_in6 *)&sas_addr)->sin6_addr.s6_addr + 12)));
+            } else {
+                char sIP[46];
+                sIP[0] = '\0';
+                inet_ntop(AF_INET6,&((struct sockaddr_in6 *)&sas_addr)->sin6_addr, sIP, 46);
+                return sIP;
+            }
+        } else {
+            return inet_ntoa(((sockaddr_in *)&sas_addr)->sin_addr);
+        }
+	}
+
+	return Util::emptyString;
 }
 
 } // namespace dcpp

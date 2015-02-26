@@ -160,7 +160,7 @@ void HttpConnection::on(BufferedSocketListener::Connected) noexcept {
 	string sRemoteServer = server;
 	if(!SETTING(HTTP_PROXY).empty())
 	{
-		int16_t tport = -1;
+		uint16_t tport = 0;
 		string tfile, proto, query, fragment;
 		Util::decodeUrl(file, proto, sRemoteServer, tport, tfile, query, fragment);
 	}
@@ -226,7 +226,7 @@ void HttpConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 				string proto, query, fragment;
 				Util::decodeUrl(currentUrl, proto, server, port, file, query, fragment);
 				string tmp = proto + "://" + server;
-				if(port != 80 || port != 443)
+				if(port != UINT16_MAX  /*!= 80 || port != 443*/)
 					tmp += ':' + port;
 				location = tmp + location;
 			} else {

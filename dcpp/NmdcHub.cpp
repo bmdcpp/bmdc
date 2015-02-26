@@ -73,10 +73,8 @@ int64_t NmdcHub::getAvailable() const {
 }
 
 OnlineUser& NmdcHub::getUser(const string& aNick) {
-	OnlineUser* u = nullptr;
 	{
 		Lock l(cs);
-
 		NickIter i = users.find(aNick);
 		if(i != users.end())
 			return *i->second;
@@ -88,7 +86,7 @@ OnlineUser& NmdcHub::getUser(const string& aNick) {
 	} else {
 		p = ClientManager::getInstance()->getUser(aNick, getHubUrl());
 	}
-
+	OnlineUser* u = nullptr;
 	{
 		Lock l(cs);
 		u = users.emplace(aNick, new OnlineUser(p, *this, 0)).first->second;
@@ -403,8 +401,9 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		u.getIdentity().setBot(connection.empty()); // No connection = bot...
 		u.getIdentity().setHub(false);
 
-		u.getIdentity().set("CO", Text::utf8ToAcp(connection));//dont fucked up CO string with weird chars (unix)
-		unsigned char aMode = param[j-i+1];
+		u.getIdentity().set("CO", connection);//dont fucked up CO string with weird chars (unix)
+		unsigned char aMode = param[j-1];
+				
 		if( (aMode & 0x02) == 0x02 ) {//@ if(x & y) is wrong beter this variant
 			u.getIdentity().set("AW", "1");
 		}else
@@ -459,48 +458,45 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			return;
 		}
 	} else if(cmd == "$ConnectToMe") {
+		//$ConnectToMe PPK [::1]:1234| 
 		string::size_type i = param.find(' ');
 		string::size_type j;
 		if( (i == string::npos) || ((i + 1) >= param.size()) ) {
 			return;
 		}
-		i++;
-		j = param.find(':', i);
+//		i++;
+		j = param.rfind(':');
 		if(j == string::npos) {
 			return;
 		}
+		int16_t p_port = -1;
 		string server = Util::emptyString;
 		bool isOk = false;
-		if(Util::isIp6(param.substr(i+1,j-i-1)))
+		ClientManager::parsePortIp(param.substr(++i),server,p_port);
+
+		if(sock->isV6Valid() && Util::isIp6(server) == true)
 		{
-			server = param.substr(i+1,j-i-1);
-			j++;
+			unsigned char buf[sizeof(struct in6_addr)];
+			server=server.substr(1,server.length()-1);
+			isOk = inet_pton(AF_INET6,server.c_str(), buf) != 0;
 		}
 		else {
 			if(!getMyIdentity().isOp() && AVManager::getInstance()->isIpVirused(param.substr(i,j-i))){
 				fire(ClientListener::StatusMessage(), this, unescape("This user "+param.substr(i,j-i)+" has the viruses in share!"), ClientListener::FLAG_VIRUS);
 				return;
 			}				
-			
-			server = param.substr(i, j-i);
-			
-			isOk =	inet_addr(server.c_str()) == (in_addr_t)(-1);
-
+			isOk =	inet_addr(server.c_str()) != INADDR_NONE;
 		}		
 		if(isProtectedIP(server))
 			return;
 		if(j+1 >= param.size()) {
 			return;
 		}
-		string port = param.substr(j+1);
-		int p_port = Util::toInt(port);
-		//Port should be in this range
 		if( p_port < 0 || p_port > 65535)
 				return;
-		if(isOk == true)//we have somethink else that IP in server 
-				return;	
-		// For simplicity, we make the assumption that users on a hub have the same character encoding
-		ConnectionManager::getInstance()->nmdcConnect(server, p_port, getMyNick(), getHubUrl(), getEncoding());
+		if(isOk == true)
+			ConnectionManager::getInstance()->nmdcConnect(server, p_port, getMyNick(), getHubUrl(), getEncoding());
+			// For simplicity, we make the assumption that users on a hub have the same character encoding
 	} else if(cmd == "$RevConnectToMe") {
 		if(state != STATE_NORMAL) {
 			return;
@@ -926,6 +922,9 @@ void NmdcHub::myInfo(bool alwaysSend) {
 	string gslot = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
 	//away status
     char staFlag = Util::getAway() ? '\x02' : '\x01';
+//    if(sock->isV6Valid())
+//		staFlag |= 0x80;//IP6
+		
 	string uMin = (SETTING(MIN_UPLOAD_SPEED) == 0) ? Util::emptyString : tmp5 + Util::toString(SETTING(MIN_UPLOAD_SPEED));
 	string myInfoA =
 		"$MyINFO $ALL " + fromUtf8(HUBSETTING(NICK)) + " " + fromUtf8(escape(gslotf ? gslot + HUBSETTING(DESCRIPTION) : HUBSETTING(DESCRIPTION))) +
