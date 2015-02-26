@@ -92,8 +92,8 @@ public:
 	OnlineUser* findOnlineUser(const HintedUser& user);
 	OnlineUser* findOnlineUser(const CID& cid, const string& hintUrl);
 
-	UserPtr findUser(const string& aNick, const string& aHubUrl) const noexcept { return findUser(makeCid(aNick, aHubUrl)); }
-	UserPtr findUser(const CID& cid) const noexcept;
+	UserPtr findUser(const string& aNick, const string& aHubUrl) const noexcept { return findUser(makeCid(aNick, aHubUrl),aHubUrl); }
+	UserPtr findUser(const CID& cid,const string& hubUrl = Util::emptyString) const noexcept;
 	UserPtr findLegacyUser(const string& aNick) const noexcept;
 
 	bool isOnline(const UserPtr& aUser) const {
@@ -203,7 +203,7 @@ private:
 	*/
 	OnlineUser* findOnlineUserHint(const CID& cid, const string& hintUrl, OnlinePairC& p) const;
 
-	string getUsersFile() const { return Util::getPath(Util::PATH_USER_LOCAL) + "Users.xml"; }
+//	string getUsersFile() const { return Util::getPath(Util::PATH_USER_LOCAL) + "Users.xml"; }
 
 	// ClientListener
 	virtual void on(Connected, Client* c) noexcept;

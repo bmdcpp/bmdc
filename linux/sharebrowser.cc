@@ -243,8 +243,6 @@ bool ShareBrowser::findDir_gui(const string &dir, GtkTreeIter *parent)
 
 void ShareBrowser::buildDirs_gui(DirectoryListing::Directory *dir, GtkTreeIter *iter)
 {
-	//DirectoryListing::Directory::Iter it;
-	//DirectoryListing::File::Iter file;
 	GtkTreeIter newIter;
 
 	gtk_tree_store_append(dirStore, &newIter, iter);

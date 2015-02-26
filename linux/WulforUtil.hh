@@ -154,6 +154,7 @@ class WulforUtil
 		}
 
 	private:
+		static std::string formatTimeDifference(uint64_t diff, size_t levels = 3);
 		static std::string generateLeech();
 		static void loadmimetypes();
 		static std::string getStatsForMem();

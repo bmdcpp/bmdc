@@ -3093,7 +3093,7 @@ void Hub::onAddIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data)
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(hub->nickStore), &iter, path))
 			{
 				cid = hub->nickView.getString(&iter, "CID");
-				UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
+				UserPtr user = ClientManager::getInstance()->findUser(CID(cid),hub->client->getHubUrl());
 
 				if (user)
 				{
@@ -3130,7 +3130,7 @@ void Hub::onRemoveIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data)
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(hub->nickStore), &iter, path))
 			{
 				cid = hub->nickView.getString(&iter, "CID");
-				UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
+				UserPtr user = ClientManager::getInstance()->findUser(CID(cid),hub->client->getHubUrl());
 
 				if (user)
 				{
@@ -3419,7 +3419,7 @@ void Hub::addPrivateMessage_gui(Msg::TypeMsg typemsg, string CID, string cid, st
 
 void Hub::addFavoriteUser_client(const string& cid)
 {
-	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
+	UserPtr user = ClientManager::getInstance()->findUser(CID(cid),client->getHubUrl());
 
 	if (user)
 	{
@@ -3429,7 +3429,7 @@ void Hub::addFavoriteUser_client(const string& cid)
 
 void Hub::removeFavoriteUser_client(const string &cid)
 {
-	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
+	UserPtr user = ClientManager::getInstance()->findUser(CID(cid),client->getHubUrl());
 
 	if (user)
 	{
@@ -3499,7 +3499,7 @@ void Hub::getFileList_client(string cid, bool match,bool partial)
 	{
 		try
 		{
-			UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
+			UserPtr user = ClientManager::getInstance()->findUser(CID(cid),client->getHubUrl());//
 			if (user)
 			{
 				const HintedUser hintedUser(user, client->getHubUrl());
@@ -3544,7 +3544,7 @@ void Hub::grantSlot_client(string cid)
 
 	if (!cid.empty())
 	{
-		UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
+		UserPtr user = ClientManager::getInstance()->findUser(CID(cid),client->getHubUrl());
 		if (user)
 		{
 			const string hubUrl = client->getHubUrl();
@@ -3562,7 +3562,7 @@ void Hub::removeUserFromQueue_client(string cid)
 {
 	if (!cid.empty())
 	{
-		UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
+		UserPtr user = ClientManager::getInstance()->findUser(CID(cid),client->getHubUrl());
 		if (user)
 			QueueManager::getInstance()->removeSource(user, QueueItem::Source::FLAG_REMOVED);
 	}
@@ -3805,7 +3805,7 @@ void Hub::download_client(string target, int64_t size, string tth, string cid)
 
 	try
 	{
-		UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
+		UserPtr user = ClientManager::getInstance()->findUser(CID(cid),client->getHubUrl());//
 		if (user == NULL)
 			return;
 

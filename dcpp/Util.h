@@ -451,7 +451,6 @@ public:
 	static bool fileExists(const string& aFile);// true if File exist otherwise false
 	static string formatRegExp(const string& msg, ParamMap& params);
 	static uint64_t getUptime() { return uptime;}
-	static void setUptime() { uptime++; }
 	static string convertCEscapes(string tmp);
 
 	static string trimUrl(string url)

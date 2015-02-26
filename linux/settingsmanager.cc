@@ -478,7 +478,7 @@ WulforSettingsManager::WulforSettingsManager():
 
 	defaultString.insert(StringMap::value_type("menu-userlist-color","blue"));//TODO: dcpp set
 	
-	defaultString.insert(StringMap::value_type("hub-background-image",dcpp::Util::emptyString));//Full Path//TODO: dcpp set
+	//defaultString.insert(StringMap::value_type("hub-background-image",dcpp::Util::emptyString));//Full Path//TODO: dcpp set
 	defaultString.insert(StringMap::value_type("pm-background-image",dcpp::Util::emptyString));//Full Path
 	
 	load();

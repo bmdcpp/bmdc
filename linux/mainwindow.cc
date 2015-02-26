@@ -2861,7 +2861,7 @@ void MainWindow::on(QueueManagerListener::Finished, QueueItem *item, const strin
 
 void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) noexcept
 {
-	Util::setUptime();
+//	Util::setUptime();
 	// Avoid calculating status update if it's not needed
 	if (!SETTING(ALWAYS_TRAY) && minimized)
 		return;

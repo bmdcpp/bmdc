@@ -1405,7 +1405,7 @@ void PrivateMessage::updateOnlineStatus_gui(bool online)
 
 void PrivateMessage::sendMessage_client(string message)
 {
-	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
+	UserPtr user = ClientManager::getInstance()->findUser(CID(cid),hubUrl);
 	if (user && user->isOnline())
 	{
 		// NOTE: WTF does the 3rd param (bool thirdPerson) do? A: Used for /me stuff
@@ -1421,7 +1421,7 @@ void PrivateMessage::sendMessage_client(string message)
 
 void PrivateMessage::addFavoriteUser_client()
 {
-	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
+	UserPtr user = ClientManager::getInstance()->findUser(CID(cid),hubUrl);
 
 	if (user && FavoriteManager::getInstance()->isFavoriteUser(user))
 	{
@@ -1438,7 +1438,7 @@ void PrivateMessage::addFavoriteUser_client()
 
 void PrivateMessage::removeFavoriteUser_client()
 {
-	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
+	UserPtr user = ClientManager::getInstance()->findUser(CID(cid),hubUrl);
 
 	if (user && FavoriteManager::getInstance()->isFavoriteUser(user))
 	{
@@ -1457,7 +1457,7 @@ void PrivateMessage::getFileList_client()
 {
 	try
 	{
-		UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
+		UserPtr user = ClientManager::getInstance()->findUser(CID(cid),hubUrl);
 		if (user)
 			QueueManager::getInstance()->addList(HintedUser(user, hubUrl), QueueItem::FLAG_CLIENT_VIEW);
 	}
@@ -1471,7 +1471,7 @@ void PrivateMessage::getFileList_client()
 
 void PrivateMessage::grantSlot_client()
 {
-	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
+	UserPtr user = ClientManager::getInstance()->findUser(CID(cid),hubUrl);
 	if (user)
 	{
 		UploadManager::getInstance()->reserveSlot(HintedUser(user, hubUrl));

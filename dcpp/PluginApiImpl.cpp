@@ -535,7 +535,7 @@ void PluginApiImpl::replaceText(TagDataPtr hTags, size_t start, size_t end, cons
 */
 // Functions for DCQueue
 QueueDataPtr PluginApiImpl::addList(UserDataPtr user, Bool silent) {
-	auto u = ClientManager::getInstance()->findUser(CID(user->cid));
+	auto u = ClientManager::getInstance()->findUser(CID(user->cid),user->hubHint);
 	if(!u) return NULL;
 
 	QueueData* data = NULL;

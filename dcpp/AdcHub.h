@@ -61,6 +61,22 @@ public:
 			}
 		}
 	}
+	///
+	virtual UserPtr findUserWithCID(const CID& cid)
+	{
+		Lock l(cs);
+		UserPtr u = nullptr;
+		for(auto i = users.begin(); i != users.end();++i)
+		{
+			OnlineUser *ou = i->second;
+			u = ou->getUser();
+			CID pcid = u->getCID();
+			if(pcid == cid)
+				break;
+			
+		}
+		return u;
+	}
 	//[CMD
 	string startCheck(const string &params) { return users.startChecking(this,params);}
 	void startMyInfoCheck() { users.startMyINFOCheck(this);}

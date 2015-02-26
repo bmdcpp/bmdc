@@ -893,3 +893,7 @@ Alow only jpg,png,gif and svg in FavoriteHubDialog as background image
 remove typedef StringMap to ParamMap from Hub UI Class
 Add per Favorite STATUS_IN_CHAT value
 Bug Fixes
+---
+some code around users
+Fix conf of kaffeine script
+Use real time units in client uptime

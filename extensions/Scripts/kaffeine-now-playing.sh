@@ -76,7 +76,7 @@ esac
 #
 if [ "\${PLAYER}" ]
 then
-	NOW_LISTENING_TO="/me is listening to \${tag[artist]} - \${tag[title]} (\${tag[album]}) via \${PLAYER} <magnet>\${LOCATION}</magnet>"
+	NOW_LISTENING_TO="/me is listening to \${tag[artist]} - \${tag[title]} (\${tag[album]}) via \${PLAYER}"
 else
 	NOW_LISTENING_TO="/me is listening to mouse clicks"
 fi

@@ -897,11 +897,12 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			#elif defined(__GNUC__)
 				build += "gcc " __VERSION__;
 			#endif
+			///*Seconds*/;
 		message =   "\n-= Stats " + dcpp::fullVersionString+" =-"
 					+"\n-= " +build+" =-\n"
 					+ "-= " + rel + " " + mach + " =-\n"
-					+ "-= Uptime: " + Util::formatSeconds(Util::getUptime()) + " =-\n"
-					+ "-= Sys Uptime: " + Util::toString(udays) + " days," + Util::toString(uhour) + " Hours," + Util::toString(umin) + " min. =-\n"
+					+ "-= Uptime: " + formatTimeDifference(time(NULL) - Util::getUptime()) + " =-\n"
+					+ "-= System Uptime: " + Util::toString(udays) + " days," + Util::toString(uhour) + " Hours," + Util::toString(umin) + " min. =-\n"
 					+ "-= Detection (Failed/Successful): " + Util::toString(detfail) + " /" + Util::toString(dettotal) + " =-\n"
 					+ "-=" + getStatsForMem() + " =-\n";
 		return true;
@@ -1200,6 +1201,33 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 
   return false;
 }
+//dice/sddc originaly
+string WulforUtil::formatTimeDifference(uint64_t diff, size_t levels /*= 3*/) {
+	string	buf;
+	int		n;
+
+#define SDDCPP_FORMATTIME(calc, name) \
+	if((n = (diff / (calc))) != 0) { \
+		if(!buf.empty()) \
+			buf += L' '; \
+		buf += Util::toString(n); \
+		buf += L' '; \
+		buf += name; \
+		if(n != 1) \
+			buf += L's'; \
+		levels--; \
+		if(levels == 0) \
+			return buf; \
+		diff %= (calc); \
+	}
+
+	SDDCPP_FORMATTIME(60 * 60 * 24 * 7,	"week");
+	SDDCPP_FORMATTIME(60 * 60 * 24,		"day");
+	SDDCPP_FORMATTIME(60 * 60,			"hour");
+	SDDCPP_FORMATTIME(60,				"minute");
+	SDDCPP_FORMATTIME(1,				"second");
+	return buf;
+}	
 
 bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, string word, bool &tTab, gpointer hub)
 {

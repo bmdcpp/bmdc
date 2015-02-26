@@ -50,7 +50,7 @@ bool Util::away = false;
 bool Util::manualAway = false;
 string Util::awayMsg;
 time_t Util::awayTime;
-uint64_t Util::uptime = 0;
+uint64_t Util::uptime = time(NULL);
 string Util::paths[Util::PATH_LAST];
 
 bool Util::localMode = true;

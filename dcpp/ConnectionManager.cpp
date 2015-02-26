@@ -495,7 +495,7 @@ void ConnectionManager::on(UserConnectionListener::MyNick, UserConnection* aSour
 	if(!aSource->getUser()) {
 		// Make sure we know who it is, i e that he/she is connected...
 
-		aSource->setUser(ClientManager::getInstance()->findUser(cid));
+		aSource->setUser(ClientManager::getInstance()->findUser(cid,aSource->getHubUrl()));
 		if(!aSource->getUser() || !ClientManager::getInstance()->isOnline(aSource->getUser())) {
 			dcdebug("CM::onMyNick Incoming connection from unknown user %s\n", nick.c_str());
 			putConnection(aSource);
@@ -663,7 +663,7 @@ void ConnectionManager::on(AdcCommand::INF, UserConnection* aSource, const AdcCo
 		return;
 	}
 
-	aSource->setUser(ClientManager::getInstance()->findUser(CID(cid)));
+	aSource->setUser(ClientManager::getInstance()->findUser(CID(cid),aSource->getHubUrl()));
 
 	ClientManager::getInstance()->setIpAddress(aSource->getUser(),aSource->getRemoteIp());
 

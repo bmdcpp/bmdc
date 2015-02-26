@@ -86,7 +86,8 @@ StringList ClientManager::getHubs(const CID& cid, const string& hintUrl) {
 	StringList lst;
 	OnlinePairC op = onlineUsers.equal_range(cid);
 	for(auto i = op.first; i != op.second; ++i) {
-		lst.push_back(i->second->getClient().getHubUrl());
+		if(i->second->getClient().getHubUrl() == hintUrl)
+				lst.push_back(i->second->getClient().getHubUrl());
 	}
 	return lst;
 }
@@ -96,7 +97,8 @@ StringList ClientManager::getHubNames(const CID& cid, const string& hintUrl) {
 	StringList lst;
 	OnlinePairC op = onlineUsers.equal_range(cid);
 	for(auto i = op.first; i != op.second; ++i) {
-		lst.push_back(i->second->getClient().getHubName());
+		if(i->second->getClient().getHubUrl() == hintUrl)
+			lst.push_back(i->second->getClient().getHubName());
 	}
 	return lst;
 }
@@ -107,7 +109,8 @@ StringList ClientManager::getNicks(const CID& cid, const string& hintUrl) {
 
 	OnlinePairC op = onlineUsers.equal_range(cid);
 	for(auto i = op.first; i != op.second; ++i) {
-		ret.insert(i->second->getIdentity().getNick());
+		if(i->second->getClient().getHubUrl() == hintUrl)
+				ret.insert(i->second->getIdentity().getNick());
 	}
 
 	if(ret.empty()) {
@@ -290,13 +293,29 @@ UserPtr ClientManager::getUser(const CID& cid) noexcept {
 	return p;
 }
 
-UserPtr ClientManager::findUser(const CID& cid) const noexcept {
-	Lock l(cs);
-	UserMap::const_iterator ui = users.find(cid);
-	if(ui != users.end()) {
-		return ui->second;
+UserPtr ClientManager::findUser(const CID& cid,const string& hubUrl /*=empty*/) const noexcept {
+	if( !hubUrl.empty() &&  isConnected(hubUrl))
+	{
+		UserPtr u = nullptr;
+		Lock l(cs);
+		for(auto& c:clients)
+		{
+			if(c->getHubUrl() == hubUrl){
+				u =	c->findUserWithCID(cid);
+				break;
+			}	
+		}
+		return u;
+	}else
+	{
+		Lock l(cs);
+		UserMap::const_iterator ui = users.find(cid);
+		if(ui != users.end()) {
+			return ui->second;
+		}
 	}
 	return nullptr;
+	
 }
 
 bool ClientManager::isOp(const UserPtr& user, const string& aHubUrl) const {

@@ -214,7 +214,7 @@ void UserCommandMenu::sendUserCommand_client(string cid, string commandName, str
 		if (id == -1 || !FavoriteManager::getInstance()->getUserCommand(id, uc))
 			return;
 
-		UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
+		UserPtr user = ClientManager::getInstance()->findUser(CID(cid),hub);
 		if (user)
 		{
                 	ClientManager::getInstance()->userCommand(HintedUser(user, hub), uc, params, true);

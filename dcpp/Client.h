@@ -106,6 +106,8 @@ public:
 	string getHubDescription() const { return getHubIdentity().getDescription(); }
 
 	Identity& getHubIdentity() { return hubIdentity; }
+	
+	virtual UserPtr findUserWithCID(const CID& cid) = 0;
 
 	const string& getHubUrl() const { return hubUrl; }
 
