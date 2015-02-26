@@ -959,7 +959,10 @@ void MainWindow::createStatusIcon_gui()
 #else
 void MainWindow::createStatusIcon_gui()
 {
+	//neeed check how behave if not gcc and so
 	useStatusIconBlink = WGETB("status-icon-blink-use");
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 	statusIcon = gtk_status_icon_new_from_icon_name(g_get_prgname());
 
 	g_signal_connect(getWidget("statusIconQuitItem"), "activate", G_CALLBACK(onQuitClicked_gui), (gpointer)this);
@@ -974,20 +977,24 @@ void MainWindow::createStatusIcon_gui()
 		gtk_status_icon_set_visible(statusIcon, TRUE);
 	else
 		gtk_status_icon_set_visible(statusIcon, FALSE);
+	#pragma GCC diagnostic pop	
 }
 
 void MainWindow::updateStatusIconTooltip_gui(string download, string upload)
 {
 	ostringstream toolTip;
 	toolTip << g_get_application_name() << endl << _("Download: ") << download << endl << _("Upload: ") << upload;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 	gtk_status_icon_set_tooltip_text(statusIcon, toolTip.str().c_str());
+#pragma GCC diagnostic pop	
 }
 #endif
 #ifdef HAVE_APPINDCATOR
 #if GTK_CHECK_VERSION(3,14,1)
 void MainWindow::createAppIndicator()
 {
-	/*AppIndicator * */indicator = app_indicator_new ( "bmdc","bmdc",APP_INDICATOR_CATEGORY_SYSTEM_SERVICES );
+	indicator = app_indicator_new ( "bmdc","bmdc",APP_INDICATOR_CATEGORY_SYSTEM_SERVICES );
 	app_indicator_set_status ( indicator, APP_INDICATOR_STATUS_PASIVE );
 	g_signal_connect(getWidget("statusIconQuitItem"), "activate", G_CALLBACK(onQuitClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("statusIconShowInterfaceItem"), "toggled", G_CALLBACK(onShowInterfaceToggled_gui), (gpointer)this);
@@ -2861,7 +2868,6 @@ void MainWindow::on(QueueManagerListener::Finished, QueueItem *item, const strin
 
 void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) noexcept
 {
-//	Util::setUptime();
 	// Avoid calculating status update if it's not needed
 	if (!SETTING(ALWAYS_TRAY) && minimized)
 		return;
@@ -2904,7 +2910,8 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) noexcept
 		WulforManager::get()->dispatchGuiFunc(f2);
 	}
 #endif	
-#else
+#else	
+//#if !GTK_CHECK_VERSION(3,14,1)
 if (SETTING(ALWAYS_TRAY) && !downloadSpeed.empty() && !uploadSpeed.empty())
 	{
 		typedef Func2<MainWindow, string, string> F2;

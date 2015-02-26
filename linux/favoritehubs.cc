@@ -422,7 +422,11 @@ void FavoriteHubs::onRemoveEntry_gui(GtkWidget *widget, gpointer data)
 			GtkWidget* dialog = gtk_message_dialog_new(parent,
 				GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
 				_("Are you sure you want to delete favorite hub \"%s\"?"), name.c_str());
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 			gtk_dialog_add_buttons(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
+#pragma GCC diagnostic pop			
+			
 #if !GTK_CHECK_VERSION(3,12,0)		
 			gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_CANCEL, -1);
 #endif			
@@ -541,15 +545,16 @@ void FavoriteHubs::onRemoveGroupClicked_gui(GtkWidget *widget, gpointer data)
 	if (gtk_tree_selection_get_selected(fh->groupsSelection, NULL, &iter))
 	{
 		string group = fh->groupsView.getString(&iter, _("Group name"));
-
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 		GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 			GTK_DIALOG_DESTROY_WITH_PARENT,
 			GTK_MESSAGE_WARNING,
 			GTK_BUTTONS_NONE,
 			_("If you select 'Yes', all of these hubs are going to be deleted!\nIf you select 'No', these hubs will simply be moved to the main default group."));
-
 		gtk_dialog_add_buttons(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_YES,
 			GTK_RESPONSE_YES, GTK_STOCK_NO, GTK_RESPONSE_NO, NULL);
+#pragma GCC diagnostic pop			
 #if !GTK_CHECK_VERSION(3,12,0)		
 		gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_NO, GTK_RESPONSE_CANCEL, -1);
 #endif		

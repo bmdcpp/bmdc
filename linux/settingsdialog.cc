@@ -157,8 +157,11 @@ Settings::Settings(GtkWindow* parent):
 	defaultStringTheme.insert(StringMap::value_type("icon-zerozeroone-away-pasive", "bmdc-zerozeroone-away-pasive"));
 	defaultStringTheme.insert(StringMap::value_type("icon-other-away-pasive", "bmdc-other-away-pasive"));
 	/**/
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 	defaultStringTheme.insert(StringMap::value_type("icon-file", GTK_STOCK_FILE));
 	defaultStringTheme.insert(StringMap::value_type("icon-directory", GTK_STOCK_DIRECTORY));
+	#pragma GCC diagnostic pop
 	defaultStringTheme.insert(StringMap::value_type("text-general-back-color", "#FFFFFF"));
 	defaultStringTheme.insert(StringMap::value_type("text-general-fore-color", "#4D4D4D"));
 	defaultStringTheme.insert(StringMap::value_type("text-myown-back-color", "#FFFFFF"));
@@ -2969,6 +2972,8 @@ void Settings::onSystemIconsThemeButton_gui(GtkWidget *widget, gpointer data)
 	string theme = gtk_label_get_text(GTK_LABEL(s->getWidget("currentThemeLabel")));
 	theme += _(" + system icons");
 	gtk_label_set_text(GTK_LABEL(s->getWidget("currentThemeLabel")), theme.c_str());
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 	s->set("icon-download", GTK_STOCK_GO_DOWN);
 	s->set("icon-favorite-hubs", GTK_STOCK_HOME);
 	s->set("icon-finished-downloads", GTK_STOCK_GO_DOWN);
@@ -2987,7 +2992,7 @@ void Settings::onSystemIconsThemeButton_gui(GtkWidget *widget, gpointer data)
 	s->set("icon-adlsearch",GTK_STOCK_GO_UP);
 	s->set("icon-system",GTK_STOCK_FIND);
 	s->set("icon-away", GTK_STOCK_NETWORK);
-
+#pragma GCC diagnostic pop
 	s->applyIconsTheme();
 }
 
@@ -4990,7 +4995,10 @@ void Settings::onRemoveHighlighting_gui(GtkWidget *widget, gpointer data)
 			GtkWidget* dialog = gtk_message_dialog_new(parent,
 				GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
 				_("Are you sure you want to delete Highlighting \"%s\"?"), name.c_str());
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 			gtk_dialog_add_buttons(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
+#pragma GCC diagnostic pop			
 #if !GTK_CHECK_VERSION(3,12,0)		
 			gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_CANCEL, -1);
 #endif

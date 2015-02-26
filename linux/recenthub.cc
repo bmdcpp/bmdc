@@ -194,6 +194,8 @@ void RecentHubs::onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data)
 
 		if (SETTING(CONFIRM_USER_REMOVAL))
 		{
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"			
 			GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 				GTK_DIALOG_DESTROY_WITH_PARENT,
 				GTK_MESSAGE_QUESTION,
@@ -205,7 +207,7 @@ void RecentHubs::onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data)
 			gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_CANCEL, -1);
 #endif			
 			gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-
+#pragma GCC diagnostic pop
 			// Widget failed if the dialog gets programmatically destroyed.
 			if (response == GTK_RESPONSE_NONE)
 				return;

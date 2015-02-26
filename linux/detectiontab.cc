@@ -525,6 +525,8 @@ void DetectionTab::onRemoveAct(GtkWidget *widget , gpointer data)
 
 		if(SETTING(CONFIRM_HUB_REMOVAL))
 		{
+			#pragma GCC diagnostic push
+			#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 			GtkWindow* parent = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
 			GtkWidget* dialog = gtk_message_dialog_new(parent,
 				GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
@@ -538,6 +540,7 @@ void DetectionTab::onRemoveAct(GtkWidget *widget , gpointer data)
 
 				if (response != GTK_RESPONSE_YES)
 					return;
+				#pragma GCC diagnostic pop	
 		}
 
 		gint id = dt->actionView.getValue<gint>(&iter, N_("ID"));
@@ -559,6 +562,9 @@ void DetectionTab::onRemoveRaw(GtkWidget *widget , gpointer data)
 
 		if(SETTING(CONFIRM_HUB_REMOVAL))
 		{
+			#pragma GCC diagnostic push
+			#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+			
 			GtkWindow* parent = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
 			GtkWidget* dialog = gtk_message_dialog_new(parent,
 				GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
@@ -573,7 +579,7 @@ void DetectionTab::onRemoveRaw(GtkWidget *widget , gpointer data)
 				if (response != GTK_RESPONSE_YES)
 					return;
 		}
-
+			#pragma GCC diagnostic pop
 		gint id = dt->RawView.getValue<gint>(&iter, N_("ID"));
 		dt->removeRaw_gui(Util::toString((int)id),name);
 		typedef Func1<DetectionTab, int> F1;
@@ -858,6 +864,8 @@ void DetectionTab::onRemoveEntryDet(GtkWidget *widget, gpointer data)
 
 				if(SETTING(CONFIRM_HUB_REMOVAL))
 				{
+					#pragma GCC diagnostic push
+					#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 					GtkWindow* parent = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
 					GtkWidget* dialog = gtk_message_dialog_new(parent,
 					GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
@@ -871,7 +879,7 @@ void DetectionTab::onRemoveEntryDet(GtkWidget *widget, gpointer data)
 
 					if (response != GTK_RESPONSE_YES)
 						return;
-
+					#pragma GCC diagnostic pop
 				}
 
 		dt->removeEntryDet_gui((uint32_t)id);
@@ -1049,6 +1057,9 @@ void DetectionTab::onRemItemDlg_gui(GtkWidget *widget, gpointer data)
 
 	if (SETTING(CONFIRM_USER_REMOVAL))
 	{
+		#pragma GCC diagnostic push
+		#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+		
 			GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 					GTK_DIALOG_DESTROY_WITH_PARENT,
 					GTK_MESSAGE_QUESTION,
@@ -1060,7 +1071,7 @@ void DetectionTab::onRemItemDlg_gui(GtkWidget *widget, gpointer data)
 				gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_CANCEL, -1);
 #endif				
 				gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-
+		#pragma GCC diagnostic pop
 				// Widget failed if the dialog gets programmatically destroyed.
 				if (response == GTK_RESPONSE_NONE)
 					return;
@@ -1456,6 +1467,8 @@ void DetectionTab::onADSLPointsDEL(GtkWidget *widget, gpointer data)
 
 	 if (SETTING(CONFIRM_USER_REMOVAL))
 	 {
+			#pragma GCC diagnostic push
+			#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 					GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 						GTK_DIALOG_DESTROY_WITH_PARENT,
 						GTK_MESSAGE_QUESTION,
@@ -1467,7 +1480,7 @@ void DetectionTab::onADSLPointsDEL(GtkWidget *widget, gpointer data)
 					gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_CANCEL, -1);
 #endif					
 					gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-
+			#pragma GCC diagnostic pop
 					// Widget failed if the dialog gets programmatically destroyed.
 					if (response == GTK_RESPONSE_NONE)
 						return;
