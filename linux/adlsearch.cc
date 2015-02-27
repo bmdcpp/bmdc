@@ -39,7 +39,7 @@ SearchADL::SearchADL():
 	g_object_ref_sink(getWidget("menu"));
 
 	// Fill drop down actions
-	vector<std::pair<std::string,int> > action = WulforUtil::getActions();
+	/*vector<std::pair<std::string,int> >*/ auto action = WulforUtil::getActions();
 	WulforUtil::drop_combo(getWidget("comboboxAction"),action);
 	
 	// Initialize search list treeview
@@ -569,7 +569,7 @@ int SearchADL::find_raw(string rawString)
 		return 0;
 	int raw = 0;
 	
-	vector<std::pair<std::string,int> > act = WulforUtil::getActions();
+	/*vector<std::pair<std::string,int> >*/auto act = WulforUtil::getActions();
 	
 	for (auto it = act.begin(); it != act.end(); ++it)
 	{
@@ -587,7 +587,7 @@ int SearchADL::find_rawInt(int raw)
 		
 	int _raw = 0;
 	int i = 0;
-	vector<std::pair<std::string,int> > act = WulforUtil::getActions();
+	/*vector<std::pair<std::string,int> >*/ auto act = WulforUtil::getActions();
 	for (auto it = act.begin(); it != act.end(); ++it)
 	{
 		i++;

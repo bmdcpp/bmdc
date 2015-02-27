@@ -279,7 +279,7 @@ void DetectionTab::show() {
 	fake = sm->get(SettingsManager::IntSetting::LISTLEN_MISMATCH);
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entrylis")), Util::toString(fake).c_str());
 
-	fake = (int)sm->get(SettingsManager::BoolSetting::VERSION_MISMATCH);
+	fake = sm->get(SettingsManager::IntSetting::VERSION_MISMATCH_RAW);
 	gtk_entry_set_text(GTK_ENTRY(getWidget("entryvermis")), Util::toString(fake).c_str());
 
 	fake = sm->get(SettingsManager::IntSetting::DISCONNECT_RAW);
@@ -602,8 +602,7 @@ bool DetectionTab::showAddActRawDialog(StringMap &params,DetectionTab *dt)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(dt->getWidget("checkEnabled")), enabled);
 		gtk_combo_box_set_active(GTK_COMBO_BOX(dt->getWidget("comboboxType")),Util::toInt(params["Type"]));
 
-		vector< pair <string,int> >& act = actionsn;
-		WulforUtil::drop_combo(dt->getWidget("comboboxentryAct"), act);
+		WulforUtil::drop_combo(dt->getWidget("comboboxentryAct"), actionsn);
 
 		gtk_entry_set_text(GTK_ENTRY(dt->getWidget("comboboxentry-entry22")), params["Action"].c_str());
 
@@ -661,7 +660,7 @@ void DetectionTab::addAct_gui(StringMap params)
 										-1);
 
 			actions.insert(Prof::value_type(Id,iter));
-			actionsn.push_back(make_pair(params["Name"],Id));
+			actionsn.insert(make_pair(params["Name"],Id));
 	}
 }
 
@@ -1158,7 +1157,7 @@ bool DetectionTab::showAddEntryDetDialog(StringMap &params, DetectionTab *dt)
 		gboolean mismatch = (((params["MisMatch"] == "1") ? TRUE : FALSE) || params["MisMatch"].empty());
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(dt->getWidget("checkbuttonCheckMis")), mismatch);
 		///Set Action
-		vector< pair <string,int> > act = WulforUtil::getActions();
+		auto act = WulforUtil::getActions();
 		dt->set_combo(dt->getWidget("comboboxentry1Act"),act,Util::toInt(params["RAW"]),true,dt);
 		//Flag
 		gtk_combo_box_set_active(GTK_COMBO_BOX(dt->getWidget("comboboxFlag")), Util::toInt(params["Flag"]));
@@ -1309,8 +1308,8 @@ bool DetectionTab::findRaw_gui(const int &Id, GtkTreeIter *iter)
 /*Util func*/
 int DetectionTab::find_raw(string rawString)
 {
-	vector<std::pair<std::string,int> > act = WulforUtil::getActions();
-	for (vector<std::pair<std::string,int> >::const_iterator it = act.begin(); it != act.end(); ++it)
+	auto act = WulforUtil::getActions();
+	for (auto it = act.begin(); it != act.end(); ++it)
 	{
 		if(it->first == rawString)
 			return it->second;
@@ -1321,8 +1320,8 @@ int DetectionTab::find_rawInt(int raw)
 {
 	int _raw = 0;
 	int i = 0;
-	vector<std::pair<std::string,int> > act = WulforUtil::getActions();
-	for (vector<std::pair<std::string,int> >::const_iterator it = act.begin(); it != act.end(); ++it,i++)
+	auto act = WulforUtil::getActions();
+	for (auto it = act.begin(); it != act.end(); ++it,i++)
 	{
 		if(it->second == raw)
 		{
@@ -1633,10 +1632,10 @@ void DetectionTab::onSelectAction(GtkWidget *widget, gpointer data)
 
 void DetectionTab::initDialogWithValues()
 {
-	vector<pair<string,int> > act = WulforUtil::getActions();
+	auto act = WulforUtil::getActions();
 	GtkTreeIter iter;
 	gtk_list_store_clear(actionsSelectionsRStore);
-	for(vector<pair<string,int> >::const_iterator it = act.begin();it!= act.end();++it)
+	for(auto it = act.begin();it!= act.end();++it)
     {
        gtk_list_store_append( actionsSelectionsRStore, &iter );
         gtk_list_store_set( actionsSelectionsRStore, &iter,
@@ -1647,7 +1646,7 @@ void DetectionTab::initDialogWithValues()
 
 }
 
-void DetectionTab::set_combo(GtkWidget *place, vector<pair<string,int> > act, int set, bool det, gpointer data)
+void DetectionTab::set_combo(GtkWidget *place, std::map<std::string,int> act, int set, bool det, gpointer data)
 {
     DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
     GtkListStore *store;
@@ -1656,7 +1655,7 @@ void DetectionTab::set_combo(GtkWidget *place, vector<pair<string,int> > act, in
     GtkCellRenderer *cells,*celli;
     store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
 
-    for(vector<pair<string,int> >::const_iterator it = act.begin();it!= act.end();++it)
+    for(auto it = act.begin();it!= act.end();++it)
     {
        gtk_list_store_append( store, &iter );
         gtk_list_store_set( store, &iter,

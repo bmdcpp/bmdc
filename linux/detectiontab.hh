@@ -29,6 +29,8 @@
 #include "bookentry.hh"
 #include "treeview.hh"
 
+#include <map>
+
 class DetectionTab:
 	public BookEntry
 {
@@ -74,7 +76,7 @@ class DetectionTab:
 		GtkTreeSelection *RawSelection,*actionSelection;
 		GdkEventType actPrevious;
 
-		std::vector<std::pair<std::string,int> > actionsn;
+		std::map<std::string,int> actionsn;
 
 		ActRaw actions;
 		ActRaw raws;
@@ -132,7 +134,7 @@ class DetectionTab:
 		bool showAddPointsDialog(dcpp::StringMap &params, DetectionTab *dt);
 		dcpp::IntMap imap;
 
-		void set_combo(GtkWidget *place, std::vector<std::pair<std::string,int> > act, int set, bool det, gpointer data);
+		void set_combo(GtkWidget *place, std::map<std::string,int> act, int set, bool det, gpointer data);
 		void loadAgain(GtkWidget *widget, std::vector<std::pair<std::string,int> >act, int set, gpointer data);
 		int save_combo(GtkWidget *widget);
 		enum

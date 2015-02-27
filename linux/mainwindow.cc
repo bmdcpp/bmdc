@@ -1535,6 +1535,9 @@ void MainWindow::setToolbarStyle_gui(int style)
 
 bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucParams)
 {
+	
+	#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 	MainWindow *mw = WulforManager::get()->getMainWindow();
 	GtkDialog *dialog =  GTK_DIALOG(gtk_dialog_new_with_buttons (_("User Commands Dialog"),
                                          GTK_WINDOW(mw->getContainer()),
@@ -1544,7 +1547,7 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
                                          GTK_STOCK_CANCEL,
                                          GTK_RESPONSE_CANCEL,
                                          NULL));
-
+#pragma GCC diagnostic pop
      GtkWidget *content_area = gtk_dialog_get_content_area (dialog);
      GtkWidget *table = gtk_grid_new();
      gtk_container_add(GTK_CONTAINER(content_area), table);

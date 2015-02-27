@@ -1358,20 +1358,20 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 	}
 	return ret;
 }
-vector<std::pair<std::string,int> > WulforUtil::getActions()
+map<string,int> WulforUtil::getActions()
 {
-	vector<std::pair<std::string,int> > actions;
+	map<string,int> actions;
 	const dcpp::Action::ActionList& a = dcpp::RawManager::getInstance()->getActions();
 		for(auto i = a.begin(); i != a.end(); ++i) {
 				const std::string name = (*i)->getName();
 				const int Id = (*i)->getId();
 				if((*i)->getEnabled())
-						actions.push_back(make_pair(name,Id));
+						actions.insert(make_pair(name,Id));
 		}
 	return actions;
 }
 // TODO: remove if not used...
-void WulforUtil::drop_combo(GtkWidget *widget, vector<pair<std::string,int> > CONTEUDO)
+void WulforUtil::drop_combo(GtkWidget *widget, map<std::string,int> m)
 {
 	gtk_cell_layout_clear(GTK_CELL_LAYOUT(widget));
 	unsigned int cont;
@@ -1381,10 +1381,10 @@ void WulforUtil::drop_combo(GtkWidget *widget, vector<pair<std::string,int> > CO
 
 	list_store = gtk_list_store_new(1,G_TYPE_STRING);
 
-	for (cont=0; cont < CONTEUDO.size(); cont++)
+	for (auto i=m.begin();i!=m.end();++i)
 	{
 		char conteude[130];
-		sprintf(conteude,"%s",CONTEUDO.at(cont).first.c_str());
+		sprintf(conteude,"%s",i->first.c_str());
 		gtk_list_store_append(list_store,&iter);
 		gtk_list_store_set(list_store,&iter,0,conteude,-1);
 	}
@@ -1395,7 +1395,7 @@ void WulforUtil::drop_combo(GtkWidget *widget, vector<pair<std::string,int> > CO
 	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(widget), renderer, TRUE);
 	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(widget),renderer, "text", 0, NULL);
 
-    gtk_combo_box_set_active(GTK_COMBO_BOX(widget),  0);
+    gtk_combo_box_set_active(GTK_COMBO_BOX(widget), 0);
 
 }
 

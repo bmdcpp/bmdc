@@ -923,7 +923,8 @@ void Hub::getPassword_gui()
 
 	if (PasswordDialog)
 		return;
-
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 	// Create password dialog
 	string title = _("Enter hub password for ") + client->getHubUrl();
 	GtkWidget *dialog = gtk_dialog_new_with_buttons(title.c_str(),
@@ -934,6 +935,7 @@ void Hub::getPassword_gui()
 		GTK_STOCK_CANCEL,
 		GTK_RESPONSE_CANCEL,
 		NULL);
+#pragma GCC diagnostic pop		
 	gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_OK);
 #if GTK_CHECK_VERSION(3, 2, 0)
@@ -4633,13 +4635,15 @@ void Hub::on_setImage_tab(GtkButton *widget, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	if(hub == NULL) return;
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 	GtkWidget *dialog = gtk_file_chooser_dialog_new ("Open Icon File to Set to Tab",
 						GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 				        GTK_FILE_CHOOSER_ACTION_OPEN,
 				        GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				        GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 				        NULL);
-
+	#pragma GCC diagnostic pop
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
 	{
 		char *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
@@ -4674,6 +4678,8 @@ void Hub::SetTabText(gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	if(hub == NULL) return;
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 	GtkDialog *dialog =  GTK_DIALOG(gtk_dialog_new_with_buttons ("Setting for a Tab Text",
                                          GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
                                          GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -4682,6 +4688,7 @@ void Hub::SetTabText(gpointer data)
                                          GTK_STOCK_CANCEL,
                                          GTK_RESPONSE_CANCEL,
                                          NULL));
+	#pragma GCC diagnostic pop
    GtkWidget *content_area = gtk_dialog_get_content_area (dialog);
    GtkWidget *entry = gtk_entry_new();
    GtkWidget *label = gtk_label_new("Text: ");
