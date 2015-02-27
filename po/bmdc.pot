@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2015-02-26 23:05+0100\n"
+"POT-Creation-Date: 2015-02-27 18:55+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2015-02-27 14:17+0100\n"
+"POT-Creation-Date: 2015-02-27 19:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -846,7 +846,7 @@ msgstr ""
 msgid "Choose a directory"
 msgstr ""
 
-#: ui/cmddebug.glade.ui:140 ui/searchspy.glade.ui:124
+#: ui/cmddebug.glade.ui:141 ui/searchspy.glade.ui:124
 #: ui/searchspy.glade.ui:339 ui/system.glade.ui:59
 msgid "Clear"
 msgstr ""
@@ -3050,8 +3050,8 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:3297 ui/settingsdialog.glade.ui:3313
 #: ui/settingsdialog.glade.ui:3357 linux/hashdialog.cc:77
-#: linux/mainwindow.cc:1056 linux/mainwindow.cc:1057 linux/mainwindow.cc:2891
-#: linux/mainwindow.cc:2893 linux/mainwindow.cc:3196 linux/treeview.cc:225
+#: linux/mainwindow.cc:1056 linux/mainwindow.cc:1057 linux/mainwindow.cc:2892
+#: linux/mainwindow.cc:2894 linux/mainwindow.cc:3196 linux/treeview.cc:225
 msgid "s"
 msgstr ""
 
@@ -3301,7 +3301,7 @@ msgstr ""
 msgid "<b>Under what name you see the directory</b>"
 msgstr ""
 
-#: linux/mainwindow.cc:2867
+#: linux/mainwindow.cc:2868
 msgid "<b>file:</b> "
 msgstr ""
 
@@ -5490,7 +5490,7 @@ msgstr ""
 msgid "e-Mail: "
 msgstr ""
 
-#: linux/mainwindow.cc:2843
+#: linux/mainwindow.cc:2844
 msgid "file list from "
 msgstr ""
 

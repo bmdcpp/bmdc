@@ -38,16 +38,17 @@ stop(false)
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("cmdtextview")));
     gtk_text_buffer_get_end_iter(buffer, &iter);
     cmdMark = gtk_text_buffer_create_mark(buffer, NULL, &iter, FALSE);
+    
     gboolean hubin = WGETB("cmd-debug-hub-in");
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("hub_in_button")) , hubin);//TRUE
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("hub_in_button")) , hubin);
     gboolean hubout = WGETB("cmd-debug-hub-out");
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("hub_out_button")) , hubout);//TRUE
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("hub_out_button")) , hubout);
     gboolean clientin = WGETB("cmd-debug-client-in");
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("client_in_button")) , clientin);//TRUE
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("client_in_button")) , clientin);
     gboolean clientout = WGETB("cmd-debug-client-out");
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("client_out_button")) , clientout);//TRUE
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("client_out_button")) , clientout);
     gboolean detection = WGETB("cmd-debug-detection");
-    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("detection_button")) , detection);//FALSE
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("detection_button")) , detection);
     
     GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("cmdscroll")));
     g_signal_connect(adjustment, "value_changed", G_CALLBACK(onScroll_gui), (gpointer)this);
@@ -64,8 +65,8 @@ stop(false)
 			Client* client = *it;
 			if(!client->isConnected())
 				continue;
-			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxadr")),client->getIpPort().c_str());
-			iters.insert(Iters::value_type(client->getIpPort(), i));	
+			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxadr")),client->getHubUrl().c_str());
+			iters.insert(Iters::value_type(client->getHubUrl(), i));	
 			i++;
 		}		
 	}
@@ -142,14 +143,14 @@ void cmddebug::UpdateCombo(Client* c, bool add)
 		{
 			if(!c->isConnected())
 				return;
-			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(widget),c->getIpPort().c_str());
+			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(widget),c->getHubUrl().c_str());
 			i = iters.size()+1;
-			iters.insert(Iters::value_type(c->getIpPort(),i));		
+			iters.insert(Iters::value_type(c->getHubUrl(),i));		
 		}
 	}else {
 		if(c == NULL)
 			return;
-		string url = c->getIpPort();   
+		string url = c->getHubUrl();   
 		auto it = iters.find(url);
 		if(it != iters.end())
 		{

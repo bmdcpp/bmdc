@@ -106,21 +106,46 @@ class cmddebug:
 	GtkTextMark *cmdMark;
 	GtkListStore *store;
 	Iters iters;
-	std::string getDirection(unsigned int dir)
+	/*std::string getDirection(unsigned int type,unsigned int dir)
 	{
 		std::string tmp = dcpp::Util::emptyString;
 		switch(dir){
-		case dcpp::DebugManager::INCOMING: tmp+="\t\tIncoming: "; break;
-		case dcpp::DebugManager::OUTGOING: tmp+="\t\tOutcoming: "; break;
+		case dcpp::DebugManager::INCOMING: 
+					swit
+					tmp+="\t\tIncoming: "; break;
+		case dcpp::DebugManager::OUTGOING: 
+					tmp+="\t\tOutcoming: "; break;
 		default:break;
 		}	
 		return tmp;
-	}
+	}*/
 	std::string getType(unsigned int type,unsigned int dir)
 	{	std::string tmp = dcpp::Util::emptyString;
 		switch(type){
-			case dcpp::DebugManager::TYPE_HUB: tmp += "Hub:\t"+getDirection(dir); break;
-			case dcpp::DebugManager::TYPE_CLIENT: tmp += "Client:\t"+getDirection(dir); break;
+			case dcpp::DebugManager::TYPE_HUB: 
+							tmp += "Hub:\t"; 
+							switch(dir){
+							case dcpp::DebugManager::INCOMING: 
+								if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget("hub_in_button"))) == TRUE)
+									tmp+="\t\tIncoming: "; break;
+							case dcpp::DebugManager::OUTGOING: 
+								if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget("hub_out_button"))) == TRUE)
+										tmp+="\t\tOutcoming: "; break;
+							default:break;
+							}	
+			break;
+			case dcpp::DebugManager::TYPE_CLIENT: 
+							tmp += "Client:\t"; 
+							switch(dir){
+							case dcpp::DebugManager::INCOMING: 
+								if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget("client_in_button"))) == TRUE)
+										tmp+="\t\tIncoming: "; break;
+							case dcpp::DebugManager::OUTGOING: 
+							if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget("client_out_button"))) == TRUE)							
+								tmp+="\t\tOutcoming: "; break;
+							default:break;
+							}
+						break;
 			default:break;
 		}
 		return tmp;
@@ -128,20 +153,12 @@ class cmddebug:
 		
 	virtual void on(dcpp::DebugManagerListener::DebugCommand, const std::string& m, uint8_t type, uint8_t dir, const std::string& ip) noexcept {
 			gchar *fUrl = NULL;
-			GtkTreeIter piter;
-			GtkTreeModel *model = NULL;
-			if( gtk_combo_box_get_active_iter( GTK_COMBO_BOX(getWidget("comboboxadr")), &piter ) ) {
-				model = gtk_combo_box_get_model( GTK_COMBO_BOX(getWidget("comboboxadr")) );
-				gtk_tree_model_get( model, &piter, 0, &fUrl, -1 );
-			}
-			std::string tmp = dcpp::Util::emptyString;
-			if(fUrl != NULL) {
-				tmp= std::string(fUrl);
-				g_free(fUrl);
-			}	
-			if((gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("by_ip_button"))) == TRUE) && ( !tmp.empty() && (ip == tmp) ))
-				addCmd("\t"+getType(type,dir)+"\tIP (Address): \t"+ip+" \t:\t "+m);
-			else
+			fUrl = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(getWidget("comboboxadr")));
+			if(fUrl == NULL) return;
+			if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("by_ip_button"))) == TRUE)  {
+				if(!strcmp(fUrl, ip.c_str())) 
+					addCmd("\t"+getType(type,dir)+"\tIP (Address): \t"+ip+" \t:\t "+m);
+			}else
 				addCmd("\t"+getType(type,dir)+"\tIP (Address): \t"+ip+" \t:\t "+m);
 	}
 	virtual void on(dcpp::DebugManagerListener::DebugDetection, const std::string& m) noexcept {

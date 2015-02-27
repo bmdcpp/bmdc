@@ -108,7 +108,7 @@ class MainWindow:
 		// Client functions
 		void openOwnList_client(bool useSetting);
 		void updateFavoriteHubMenu_client(const dcpp::FavoriteHubEntryList &fh);
-		/**/
+		/*----*/
 		typedef enum {
 			QUICKCON = 0,
 			FAVORITE_HUBS,

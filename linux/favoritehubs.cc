@@ -285,7 +285,7 @@ bool FavoriteHubs::checkAddys(string url)
 	size_t i = tmp.find("dchub://");
 	if(i == string::npos)
 		return false;
-	string newhubaddy = tmp.substr(i+1);
+	string newhubaddy = tmp.substr(i);
 	GtkTreeIter iter;
 	GtkTreeModel *m = GTK_TREE_MODEL(favoriteStore);
 	bool valid = gtk_tree_model_get_iter_first(m, &iter);

@@ -2595,6 +2595,7 @@ void MainWindow::onCloseBookEntry_gui(GtkWidget *widget, gpointer data)
 	BookEntry *entry = (BookEntry *)data;
 	WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
 }
+
 #ifdef GTK_DISABLE_DEPRECATED
 #if !GTK_CHECK_VERSION(3,14,1)
 void MainWindow::onStatusIconActivated_gui(GtkStatusIcon *statusIcon, gpointer data)
@@ -2914,7 +2915,6 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) noexcept
 	}
 #endif	
 #else	
-//#if !GTK_CHECK_VERSION(3,14,1)
 if (SETTING(ALWAYS_TRAY) && !downloadSpeed.empty() && !uploadSpeed.empty())
 	{
 		typedef Func2<MainWindow, string, string> F2;
