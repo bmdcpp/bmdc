@@ -34,6 +34,7 @@
 #include <dcpp/ConnectivityManager.h>
 #include <dcpp/HighlightManager.h>
 #include <dcpp/AVManager.h>
+#include <dcpp/Text.h>
 #include "WulforUtil.hh"
 #include "privatemessage.hh"
 #include "search.hh"
@@ -3731,7 +3732,7 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 	params.insert(ParamMap::value_type("Shared", Util::toString(id.getBytesShared())));
 	params.insert(ParamMap::value_type("Description", id.getDescription()));
 	params.insert(ParamMap::value_type("Tag", id.getTag()));
-	params.insert(ParamMap::value_type("Connection", id.getConnection()));
+	params.insert(ParamMap::value_type("Connection", /*Text::acpToUtf8(*/id.getConnection()/*)*/));
 	params.insert(ParamMap::value_type("IP", id.getIp()));
 	params.insert(ParamMap::value_type("eMail", id.getEmail()));
 	params.insert(ParamMap::value_type("CID", id.getUser()->getCID().toBase32()));

@@ -261,7 +261,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 	} else {
 		cmd = aLine.substr(0, x);
 		if( (x+1) != string::npos)
-			param = toUtf8(aLine.substr(x+1));
+			param = /*toUtf8(*/aLine.substr(x+1)/*)*/;
 	}
 
 	if(cmd == "$Search") {
@@ -360,7 +360,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		j = param.find(' ', i);
 		if( (j == string::npos) || (j == i) )
 			return;
-		string nick = param.substr(i, j-i);
+		string nick = toUtf8(param.substr(i, j-i));
 
 		if(nick.empty())
 			return;
@@ -401,7 +401,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		u.getIdentity().setBot(connection.empty()); // No connection = bot...
 		u.getIdentity().setHub(false);
 
-		u.getIdentity().set("CO", connection);//dont fucked up CO string with weird chars (unix)
+		u.getIdentity().set("CO", connection);
 		unsigned char aMode = param[j-1];
 				
 		if( (aMode & 0x02) == 0x02 ) {//@ if(x & y) is wrong beter this variant
@@ -447,7 +447,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		fire(ClientListener::UserUpdated(), this, u);
 	} else if(cmd == "$Quit") {
 		if(!param.empty()) {
-			const string& nick = param;
+			const string& nick = toUtf8(param);
 			OnlineUser* u = findUser(nick);
 			if(!u)
 				return;
@@ -507,7 +507,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			return;
 		}
 
-		OnlineUser* u = findUser(param.substr(0, j));
+		OnlineUser* u = findUser(toUtf8(param.substr(0, j)));
 		if(u == NULL)
 			return;
 
@@ -537,15 +537,15 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		if(i == string::npos) {
 			i = param.find(' ');
 			if(i == string::npos) {
-				getHubIdentity().setNick(unescape(param));
+				getHubIdentity().setNick(toUtf8(unescape(param)));
 				getHubIdentity().setDescription(Util::emptyString);
 			} else {
-				getHubIdentity().setNick(unescape(param.substr(0, i)));
-				getHubIdentity().setDescription(unescape(param.substr(i+1)));
+				getHubIdentity().setNick(toUtf8(unescape(param.substr(0, i))));
+				getHubIdentity().setDescription(toUtf8(unescape(param.substr(i+1))));
 			}
 		} else {
-			getHubIdentity().setNick(unescape(param.substr(0, i)));
-			getHubIdentity().setDescription(unescape(param.substr(i+3)));
+			getHubIdentity().setNick(toUtf8(unescape(param.substr(0, i))));
+			getHubIdentity().setDescription(toUtf8(unescape(param.substr(i+3))));
 		}
 		fire(ClientListener::HubUpdated(), this);
 	} else if(cmd == "$Supports") {
@@ -637,7 +637,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		}
 	} else if(cmd == "$Hello") {
 		if(!param.empty()) {
-			OnlineUser& u = getUser(param);
+			OnlineUser& u = getUser(toUtf8(param));
 
 			if(u.getUser() == getMyIdentity().getUser()) {
 				if(ClientManager::getInstance()->isActive(getHubUrl()))
@@ -702,7 +702,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				if(it->empty())
 					continue;
 
-				v.push_back(&getUser(*it));
+				v.push_back(&getUser(toUtf8(*it)));
 			}
 
 			if(!( (supportFlags & SUPPORTS_NOGETINFO) == SUPPORTS_NOGETINFO) ) {
@@ -730,7 +730,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			for(auto it = sl.begin(); it != sl.end(); ++it) {
 				if(it->empty())
 					continue;
-				OnlineUser& ou = getUser(*it);
+				OnlineUser& ou = getUser(toUtf8(*it));
 				ou.getIdentity().setOp(true);
 				if(ou.getUser() == getMyIdentity().getUser()) {
 					setMyIdentity(ou.getIdentity());
@@ -755,7 +755,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		if(j == string::npos)
 			return;
 
-		string rtNick = param.substr(i, j - 1 - i);
+		string rtNick = toUtf8(param.substr(i, j - 1 - i));
 		if(rtNick.empty())
 			return;
 		i = j + 1;
@@ -767,7 +767,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		if(j == string::npos)
 			return;
 
-		string fromNick = param.substr(i+1, j-i-1);
+		string fromNick = toUtf8(param.substr(i+1, j-i-1));
 		if(fromNick.empty())
 			return;
 
@@ -815,7 +815,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 	} else if(cmd == "$HubTopic") {
         string line = aLine;
         line.replace(0,9,Util::emptyString);
-        fire(ClientListener::HubTopic(), this, unescape(line) );
+        fire(ClientListener::HubTopic(), this,toUtf8(unescape(line)) );
 	} else if(cmd == "$ZOn") {
 		try {
 			sock->setMode(BufferedSocket::MODE_ZPIPE);
