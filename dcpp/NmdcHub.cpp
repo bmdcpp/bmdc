@@ -389,7 +389,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				tmpDesc.erase(x);
 			}
 		}
-		u.getIdentity().setDescription(tmpDesc);
+		u.getIdentity().setDescription(toUtf8(tmpDesc));
 
 		i = j + 3;
 		j = param.find('$', i);
@@ -423,7 +423,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		if(j == string::npos)
 			return;
 
-		u.getIdentity().setEmail(unescape(param.substr(i, j-i)));
+		u.getIdentity().setEmail(toUtf8(unescape(param.substr(i, j-i))));
 
 		i = j + 1;
 		j = param.find('$', i);
