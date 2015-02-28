@@ -1374,7 +1374,6 @@ map<string,int> WulforUtil::getActions()
 void WulforUtil::drop_combo(GtkWidget *widget, map<std::string,int> m)
 {
 	gtk_cell_layout_clear(GTK_CELL_LAYOUT(widget));
-	unsigned int cont;
 	GtkListStore *list_store;
 	GtkCellRenderer *renderer;
 	GtkTreeIter iter;

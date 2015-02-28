@@ -108,19 +108,7 @@ class cmddebug:
 	GtkTextMark *cmdMark;
 	GtkListStore *store;
 	Iters iters;
-	/*std::string getDirection(unsigned int type,unsigned int dir)
-	{
-		std::string tmp = dcpp::Util::emptyString;
-		switch(dir){
-		case dcpp::DebugManager::INCOMING: 
-					swit
-					tmp+="\t\tIncoming: "; break;
-		case dcpp::DebugManager::OUTGOING: 
-					tmp+="\t\tOutcoming: "; break;
-		default:break;
-		}	
-		return tmp;
-	}*/
+
 	std::string getType(unsigned int type,unsigned int dir)
 	{	std::string tmp = dcpp::Util::emptyString;
 		switch(type){

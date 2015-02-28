@@ -117,6 +117,7 @@ void FavoriteHubs::addEntry_gui(FavoriteHubEntry* entry)
 	GtkTreeIter iter;
 	gtk_list_store_append(favoriteStore, &iter);
 	editEntry_gui(entry,&iter);
+	HubsIter.insert(UnMapIter::value_type(entry->getServer(),iter));
 }
 
 void FavoriteHubs::editEntry_gui(FavoriteHubEntry* entry, GtkTreeIter *iter)
@@ -422,6 +423,7 @@ void FavoriteHubs::onRemoveEntry_gui(GtkWidget *widget, gpointer data)
 			GtkWidget* dialog = gtk_message_dialog_new(parent,
 				GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
 				_("Are you sure you want to delete favorite hub \"%s\"?"), name.c_str());
+
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 			gtk_dialog_add_buttons(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
@@ -545,6 +547,7 @@ void FavoriteHubs::onRemoveGroupClicked_gui(GtkWidget *widget, gpointer data)
 	if (gtk_tree_selection_get_selected(fh->groupsSelection, NULL, &iter))
 	{
 		string group = fh->groupsView.getString(&iter, _("Group name"));
+
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 		GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
@@ -793,6 +796,19 @@ gboolean FavoriteHubs::onGroupsButtonReleased_gui(GtkWidget *widget, GdkEventBut
 	return FALSE;
 }
 
+void FavoriteHubs::edit_online_status(std::string url,bool online)
+{
+	auto it = HubsIter.find(url);
+	GtkTreeIter iter;
+	
+	if(it != HubsIter.end())
+		 iter = it->second;
+	
+	gtk_list_store_set(favoriteStore,&iter,
+		favoriteView.col(_("Status")), online ? _("Online") : _("Offline"));
+	
+}
+
 void FavoriteHubs::initializeList_client()
 {
 	gtk_list_store_clear(favoriteStore);//Clean empty ?
@@ -850,15 +866,15 @@ void FavoriteHubs::on(FavoriteManagerListener::FavoriteRemoved, const FavoriteHu
 
 void FavoriteHubs::on(ClientManagerListener::ClientConnected, Client* c) noexcept
 {
-	typedef Func0<FavoriteHubs> F0;
-	F0 *func = new F0(this,&FavoriteHubs::initializeList_client);
+	typedef Func2<FavoriteHubs,string,bool> F2;
+	F2 *func = new F2(this,&FavoriteHubs::edit_online_status,c->getHubUrl(),true);
 	WulforManager::get()->dispatchGuiFunc(func);
 	
 }
 void FavoriteHubs::on(ClientManagerListener::ClientDisconnected, Client* c) noexcept {
 
-	typedef Func0<FavoriteHubs> F0;
-	F0 *func = new F0(this,&FavoriteHubs::initializeList_client);
+	typedef Func2<FavoriteHubs,string,bool> F2;
+	F2 *func = new F2(this,&FavoriteHubs::edit_online_status,c->getHubUrl(),false);
 	WulforManager::get()->dispatchGuiFunc(func);
 	
 }

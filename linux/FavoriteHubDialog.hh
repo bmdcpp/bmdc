@@ -35,9 +35,9 @@ using namespace dcpp;
 class FavoriteHubDialog: public Entry
 {
    public:
-   		//@ entry : the Fav Entry to procces to dialog, add = if new or editing existing one
+   		//@: entry : The Fav Entry to process to dialog, add = if new or editing existing one
 		FavoriteHubDialog(FavoriteHubEntry* entry, bool add = true);
-		//@ groups : wich groups should dialog show up
+		//@: groups : wich groups should dialog show up
 		bool initDialog(UnMapIter &groups);
 		~FavoriteHubDialog() {
 			WulforManager::get()->deleteEntry_gui(this);
@@ -52,11 +52,11 @@ private:
 
 		FavoriteHubEntry* p_entry; //@ The Fav Entry pointer
 		bool init; //@ new or edit?
-		//@The Kick/Ban Action part
+		//@: The Kick/Ban Action part
 		GtkTreeStore *actionStore;
 		TreeView actionView;
 		GtkTreeSelection *actionSel;
-		//Widgets
+		//@: Widgets
 		GtkWidget* mainDialog;
 		GtkWidget* mainBox;
 		GtkWidget* notebook;
