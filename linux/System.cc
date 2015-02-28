@@ -54,6 +54,11 @@ BookEntry(Entry::SYSTEML,_("System Log"),"system"),
 	g_signal_connect(getWidget("buttonClear"), "clicked", G_CALLBACK(onClearButton), (gpointer)this);
 }
 
+void SystemLog::preferences_gui()
+{
+	WulforUtil::setTextDeufaults(getWidget("systextview"),SETTING(BACKGROUND_CHAT_COLOR));
+}
+
 SystemLog::~SystemLog()
 {
 	LogManager::getInstance()->removeListener(this);

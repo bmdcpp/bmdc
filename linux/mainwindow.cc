@@ -2352,12 +2352,28 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 					dynamic_cast<PrivateMessage*>(entry)->preferences_gui();
 			}
 		}
-
+		{
 		// Search Spy
 		BookEntry *entry = mw->findBookEntry(Entry::SEARCH_SPY);
 
 		if (entry != NULL)
 			dynamic_cast<SearchSpy *>(entry)->preferences_gui();
+		}	
+		{
+		// System Log
+		BookEntry *entry = mw->findBookEntry(Entry::SYSTEML);	
+		
+		if (entry != NULL)
+			dynamic_cast<SystemLog *>(entry)->preferences_gui();
+		}
+		
+		{
+		// CMD Log
+		BookEntry *entry = mw->findBookEntry(Entry::CMD);	
+		
+		if (entry != NULL)
+			dynamic_cast<SystemLog *>(entry)->preferences_gui();
+		}
 
 		// Status menu
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(mw->getWidget("statusIconBlinkUseItem")), WGETB("status-icon-blink-use"));

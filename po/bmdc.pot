@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2015-02-27 22:22+0100\n"
+"POT-Creation-Date: 2015-02-28 15:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -659,7 +659,7 @@ msgid "Away mode message on/off"
 msgstr ""
 
 #: ui/hub.glade.ui:25 ui/privatemessage.glade.ui:26 linux/WulforUtil.cc:792
-#: linux/WulforUtil.cc:812 linux/mainwindow.cc:2386
+#: linux/WulforUtil.cc:812 linux/mainwindow.cc:2402
 #: linux/privatemessage.cc:1059
 msgid "Away mode off"
 msgstr ""
@@ -2431,7 +2431,7 @@ msgstr ""
 msgid "Select Text Color"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:772 linux/mainwindow.cc:2482
+#: ui/mainwindow.glade.ui:772 linux/mainwindow.cc:2498
 msgid "Select filelist to browse"
 msgstr ""
 
@@ -3050,8 +3050,8 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:3297 ui/settingsdialog.glade.ui:3313
 #: ui/settingsdialog.glade.ui:3357 linux/hashdialog.cc:77
-#: linux/mainwindow.cc:1056 linux/mainwindow.cc:1057 linux/mainwindow.cc:2892
-#: linux/mainwindow.cc:2894 linux/mainwindow.cc:3196 linux/treeview.cc:225
+#: linux/mainwindow.cc:1056 linux/mainwindow.cc:1057 linux/mainwindow.cc:2908
+#: linux/mainwindow.cc:2910 linux/mainwindow.cc:3212 linux/treeview.cc:225
 msgid "s"
 msgstr ""
 
@@ -3180,7 +3180,7 @@ msgid " items"
 msgstr ""
 
 #: linux/hashdialog.cc:68 linux/hashdialog.cc:77 linux/hashdialog.cc:86
-#: linux/mainwindow.cc:3196 linux/mainwindow.cc:3205
+#: linux/mainwindow.cc:3212 linux/mainwindow.cc:3221
 msgid " left"
 msgstr ""
 
@@ -3228,7 +3228,7 @@ msgstr ""
 msgid "*** T E S T ***"
 msgstr ""
 
-#: linux/hashdialog.cc:69 linux/hashdialog.cc:81 linux/mainwindow.cc:3200
+#: linux/hashdialog.cc:69 linux/hashdialog.cc:81 linux/mainwindow.cc:3216
 msgid "-:--:-- left"
 msgstr ""
 
@@ -3265,7 +3265,7 @@ msgstr ""
 msgid "1"
 msgstr ""
 
-#: linux/mainwindow.cc:3225
+#: linux/mainwindow.cc:3241
 msgid "100% Done"
 msgstr ""
 
@@ -3301,7 +3301,7 @@ msgstr ""
 msgid "<b>Under what name you see the directory</b>"
 msgstr ""
 
-#: linux/mainwindow.cc:2868
+#: linux/mainwindow.cc:2884
 msgid "<b>file:</b> "
 msgstr ""
 
@@ -3468,7 +3468,7 @@ msgstr ""
 msgid "Away Message:"
 msgstr ""
 
-#: linux/mainwindow.cc:2395
+#: linux/mainwindow.cc:2411
 msgid "Away mode on"
 msgstr ""
 
@@ -4316,7 +4316,7 @@ msgstr ""
 msgid "Loaded plugins: "
 msgstr ""
 
-#: linux/mainwindow.cc:2519
+#: linux/mainwindow.cc:2535
 msgid "Loading Own file list"
 msgstr ""
 
@@ -4673,7 +4673,7 @@ msgstr ""
 msgid "Select Font"
 msgstr ""
 
-#: linux/mainwindow.cc:2950
+#: linux/mainwindow.cc:2966
 msgid "Select file to Get TTH"
 msgstr ""
 
@@ -4959,11 +4959,11 @@ msgstr ""
 msgid "Tag"
 msgstr ""
 
-#: linux/mainwindow.cc:3078
+#: linux/mainwindow.cc:3094
 msgid "The GeoIP database could not be updated...v"
 msgstr ""
 
-#: linux/mainwindow.cc:3073
+#: linux/mainwindow.cc:3089
 msgid ""
 "The GeoIP database has been successfully updated; restart DC++ to apply....v"
 msgstr ""
@@ -5049,7 +5049,7 @@ msgstr ""
 msgid "Unable to load file list: "
 msgstr ""
 
-#: linux/mainwindow.cc:2507
+#: linux/mainwindow.cc:2523
 msgid "Unable to load file list: Invalid file list name"
 msgstr ""
 
@@ -5070,7 +5070,7 @@ msgstr ""
 msgid "Updated frame search"
 msgstr ""
 
-#: linux/mainwindow.cc:3063
+#: linux/mainwindow.cc:3079
 msgid "Updating the GeoIP database...v"
 msgstr ""
 
@@ -5490,7 +5490,7 @@ msgstr ""
 msgid "e-Mail: "
 msgstr ""
 
-#: linux/mainwindow.cc:2844
+#: linux/mainwindow.cc:2860
 msgid "file list from "
 msgstr ""
 

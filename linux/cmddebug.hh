@@ -43,6 +43,8 @@ class cmddebug:
         cmddebug();
         virtual ~cmddebug();
         virtual void show();
+   		void preferences_gui();
+
         //Gui
         void add_gui(time_t t, std::string file);
 

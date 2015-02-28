@@ -37,6 +37,7 @@ class SystemLog:
 		SystemLog();
 		virtual ~SystemLog();
 		virtual void show();
+		void preferences_gui();
 
 	private:
 		// Client functions

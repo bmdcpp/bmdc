@@ -73,6 +73,10 @@ stop(false)
 	DebugManager::getInstance()->addListener(this);
 }
 
+void cmddebug::preferences_gui()
+{
+	WulforUtil::setTextDeufaults(getWidget("cmdtextview"),SETTING(BACKGROUND_CHAT_COLOR));
+}
 cmddebug::~cmddebug()
 {
 	stop = true;

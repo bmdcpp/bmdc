@@ -1158,7 +1158,6 @@ void NmdcHub::password(const string& aPass) {
 
 //Refresh UL
 void NmdcHub::refreshuserlist() {
-//	if(refreshOnly) {
 		Lock l(cs);
 
 		OnlineUserList v;
@@ -1166,10 +1165,6 @@ void NmdcHub::refreshuserlist() {
 			v.push_back(i->second);
 		}
 		fire(ClientListener::UsersUpdated(), this, v);
-//	} else {
-//		clearUsers();
-//		getNickList();
-//	}
 }
 
 } // namespace dcpp
