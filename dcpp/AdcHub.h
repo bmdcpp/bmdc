@@ -64,17 +64,11 @@ public:
 	///
 	virtual UserPtr findUserWithCID(const CID& cid)
 	{
+		UserPtr u;
 		Lock l(cs);
-		UserPtr u = nullptr;
-		for(auto i = users.begin(); i != users.end();++i)
-		{
-			OnlineUser *ou = i->second;
+		OnlineUser *ou = findUser(cid);
+		if(ou)
 			u = ou->getUser();
-			CID pcid = u->getCID();
-			if(pcid == cid)
-				break;
-			
-		}
 		return u;
 	}
 	//[CMD

@@ -1406,7 +1406,7 @@ void PrivateMessage::updateOnlineStatus_gui(bool online)
 void PrivateMessage::sendMessage_client(string message)
 {
 	UserPtr user = ClientManager::getInstance()->findUser(CID(cid),hubUrl);
-	if (user && user->isOnline())
+	if (user && !isSet(OFFLINE) /*&& user->isOnline()*/)
 	{
 		// NOTE: WTF does the 3rd param (bool thirdPerson) do? A: Used for /me stuff
 		ClientManager::getInstance()->privateMessage(HintedUser(user, hubUrl), message, false);
