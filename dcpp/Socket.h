@@ -156,7 +156,7 @@ public:
 
 	void setBlocking(bool block) noexcept;
 
-	string getLocalIp() noexcept;
+	string getLocalIp(socket_t sock) noexcept;
 	uint16_t getLocalPort() noexcept;
 
 	/** Binds a socket to a certain local port and possibly IP. */
@@ -186,7 +186,7 @@ public:
 	GETSET(string, localIp4, LocalIp4);
 	GETSET(string, localIp6, LocalIp6);
 	GETSET(bool, v4only, V4only);
-
+	socket_t getSock() const;
 protected:
 	typedef union {
 		sockaddr sa;
@@ -195,7 +195,7 @@ protected:
 		sockaddr_storage sas;
 	} addr;
 
-	socket_t getSock() const;
+//	socket_t getSock() const;
 
 	mutable SocketHandle sock4;
 	mutable SocketHandle sock6;

@@ -56,11 +56,12 @@ NmdcHub::~NmdcHub() {
 void NmdcHub::connect(const OnlineUser& aUser, const string&) {
 	checkstate();
 	dcdebug("NmdcHub::connect %s\n", aUser.getIdentity().getNick().c_str());
-	if(ClientManager::getInstance()->isActive(getHubUrl()) || ( (sock->isV6Valid() && isActiveV6()) && aUser.getIdentity().isSet("IX") ) ) {
+	if(ClientManager::getInstance()->isActive(getHubUrl()) || ( sock->isV6Valid() && isActiveV6() && aUser.getIdentity().isSet("IX") ) ) {
 		connectToMe(aUser);
-	} else {
+		return;
+	} /*else {*/
 		revConnectToMe(aUser);
-	}
+	/*}*/
 }
 
 int64_t NmdcHub::getAvailable() const {
@@ -179,13 +180,6 @@ void NmdcHub::updateFromTag(Identity& id, const string& tag) {
 				else {
 					id.getUser()->setFlag(User::PASSIVE);
 				}
-
-				/*if((*i)[3] == 'A') {
-					id.getUser()->setFlag(User::IPV6);
-				}
-				else {
-					id.getUser()->unsetFlag(User::IPV6);
-				}*/
 			}
 		}
 	}
@@ -415,7 +409,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			u.getIdentity().set("IX","1");
 		}	
 		else
-			u.getIdentity().set("IX","0");
+			u.getIdentity().set("IX",Util::emptyString);
 		//end
 		i = j + 1;
 		j = param.find('$', i);
@@ -511,7 +505,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		if(u == NULL)
 			return;
 
-		if(ClientManager::getInstance()->isActive(getHubUrl()) || ( sock->isV6Valid() && isActiveV6())   ) {
+		if(ClientManager::getInstance()->isActive(getHubUrl()) || ( sock->isV6Valid() && isActiveV6() && u->getIdentity().isSet("IX"))   ) {
 			connectToMe(*u);
 			if(u->getUser()->isSet(User::PASSIVE) == false) {
         			u->getUser()->setFlag(User::PASSIVE);
@@ -775,7 +769,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			return;
 		}
 
-		ChatMessage message = { unescape(param.substr(j + 2)), findUser(fromNick) , &getUser(getMyNick()), findUser(rtNick) };
+		ChatMessage message = { toUtf8(unescape(param.substr(j + 2))), findUser(fromNick) , &getUser(getMyNick()), findUser(rtNick) };
 
 		if(!message.replyTo || !message.from) {
 			if(!message.replyTo) {
@@ -851,7 +845,7 @@ void NmdcHub::connectToMe(const OnlineUser& aUser) {
 			return;
 	}	
 	
-	bool isOkIp6 = aUser.getIdentity().get("IX") == "1";
+	bool isOkIp6 = aUser.getIdentity().isSet("IX");
 	if(sock->isV6Valid() && isActiveV6() && ((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ) && isOkIp6) 
 		send("$ConnectToMe " + nick + " [" + getUserIp6() + "]:" + Util::toString(ConnectionManager::getInstance()->getPort()) + "|");
 	else

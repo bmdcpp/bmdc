@@ -365,24 +365,21 @@ void Socket::connect(const string& aAddr, const int16_t& aPort, const string& lo
 
 	string lastError;
 	
-	auto sock = create(*(addr.get()));
-	
-/*
 	for(auto ai = addr.get(); ai; ai = ai->ai_next) {
 		if((ai->ai_family == AF_INET && !sock4.valid()) ||
 			(ai->ai_family == AF_INET6 && !sock6.valid() && !v4only))
 		{
 			try {
 				auto sock = create(*ai);
-				auto localIp = getLocalIp();/*ai->ai_family == AF_INET6 ? getLocalIp6() : getLocalIp4();*/
-/*
+				auto localIp = getLocalIp(sock);/*ai->ai_family == AF_INET6 ? getLocalIp6() : getLocalIp4();*/
+
 				if(!localPort.empty() || !localIp.empty()) {
 					auto local = resolveAddr(localIp,Util::toInt(localPort), ai->ai_family);
 					check([&] { return ::bind(sock, local->ai_addr, local->ai_addrlen); });
-				}*/
+				}
 
 				check([&] { return ::connect(sock, addr.get()->ai_addr, addr.get()->ai_addrlen); }, true);//ai
-/*				
+				
 			} catch(const SocketException& e) {
 				ai->ai_family == AF_INET ? sock4.reset() : sock6.reset();
 				lastError = e.getError();
@@ -393,7 +390,7 @@ void Socket::connect(const string& aAddr, const int16_t& aPort, const string& lo
 	// An IP should be set if at least one connection attempt succeeded
 	if(ip.empty()) {
 		throw SocketException(lastError);
-	}*/
+	}
 }
 
 namespace {
@@ -945,15 +942,15 @@ string Socket::getRemoteHost(const string& aIp) {
 	}
 }
 
-string Socket::getLocalIp() noexcept  {
-	if(getSock() == INVALID_SOCKET) {
+string Socket::getLocalIp(socket_t sock) noexcept  {
+	if(sock == INVALID_SOCKET) {
 		return Util::emptyString;
     }
  
     sockaddr_storage sas_addr;
 	socklen_t sas_len = sizeof(sockaddr_storage);
 
-	if(getsockname(getSock(), (struct sockaddr *)&sas_addr, &sas_len) == 0) {
+	if(getsockname(sock, (struct sockaddr *)&sas_addr, &sas_len) == 0) {
 		if(sas_addr.ss_family == AF_INET6) {
             if(IN6_IS_ADDR_V4MAPPED(&((struct sockaddr_in6 *)&sas_addr)->sin6_addr)) {
                 return inet_ntoa(*((in_addr *)(((struct sockaddr_in6 *)&sas_addr)->sin6_addr.s6_addr + 12)));
