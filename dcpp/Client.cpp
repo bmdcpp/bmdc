@@ -229,8 +229,8 @@ bool Client::isActiveV4() const {
 	return ClientManager::getInstance()->isActive(getHubUrl()) && (HUBSETTING(INCOMING_CONNECTIONS) <= 2);//TODO: beter?
 }
 
-bool Client::isActiveV6() const {//this is not ideal?
-	return !HUBSETTING(EXTERNAL_IP6).empty();
+bool Client::isActiveV6() const {
+	return !getUserIp6().empty();
 }
 
 void Client::updateCounts(bool aRemove) {

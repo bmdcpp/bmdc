@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -132,10 +132,10 @@ private:
 		virtual ~TaskData() { }
 	};
 	struct ConnectInfo : public TaskData {
-		ConnectInfo(string addr_, int16_t port_, string localPort_, NatRoles natRole_, bool proxy_) : addr(addr_), port(port_), localPort(localPort_), natRole(natRole_), proxy(proxy_) { }
+		ConnectInfo(string addr_, int16_t port_, int16_t localPort_, NatRoles natRole_, bool proxy_) : addr(addr_), port(port_), localPort(localPort_), natRole(natRole_), proxy(proxy_) { }
 		string addr;
 		int16_t port;
-		string localPort;
+		int16_t localPort;
 		NatRoles natRole;
 		bool proxy;
 	};
@@ -173,7 +173,7 @@ private:
 
 	virtual int run();
 
-	void threadConnect(const string& aAddr, const int16_t& aPort, const string& localPort, NatRoles natRole, bool proxy);
+	void threadConnect(const string& aAddr, const int16_t& aPort, const int16_t& localPort, NatRoles natRole, bool proxy);
 	void threadAccept();
 	void threadRead();
 	void threadSendFile(InputStream* is);

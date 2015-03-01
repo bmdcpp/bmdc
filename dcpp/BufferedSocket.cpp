@@ -112,12 +112,12 @@ void BufferedSocket::connect(const string& aAddress, const int16_t& aPort, const
 	setSocket(move(s));
 
 	Lock l(cs);
-	addTask(CONNECT, new ConnectInfo(aAddress, aPort, localPort, natRole, proxy && (CONNSETTING(OUTGOING_CONNECTIONS) == SettingsManager::OUTGOING_SOCKS5)));
+	addTask(CONNECT, new ConnectInfo(aAddress, aPort, Util::toInt(localPort), natRole, proxy && (CONNSETTING(OUTGOING_CONNECTIONS) == SettingsManager::OUTGOING_SOCKS5)));
 }
 
 #define LONG_TIMEOUT 30000
 #define SHORT_TIMEOUT 1000
-void BufferedSocket::threadConnect(const string& aAddr, const int16_t& aPort, const string& localPort, NatRoles natRole, bool proxy) {
+void BufferedSocket::threadConnect(const string& aAddr, const int16_t& aPort, const int16_t& localPort, NatRoles natRole, bool proxy) {
 	dcassert(state == STARTING);
 
 	fire(BufferedSocketListener::Connecting());
@@ -126,7 +126,7 @@ void BufferedSocket::threadConnect(const string& aAddr, const int16_t& aPort, co
 	state = RUNNING;
 
 	while (GET_TICK() < endTime) {
-		dcdebug("threadConnect attempt %s %s:%d\n", localPort.c_str(), aAddr.c_str(), aPort);
+		dcdebug("threadConnect attempt %d %s:%d\n", localPort, aAddr.c_str(), aPort);
 		try {
 
 			if(proxy) {

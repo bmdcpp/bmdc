@@ -1136,7 +1136,7 @@ void AdcHub::on(Connected c) noexcept {
 		cmd.addParam(BLO0_SUPPORT);
 	}
 	
-	cmd.addParam(DFAV_SUPPORT);
+	cmd.addParam(DFAV_SUPPORT);//
 	cmd.addParam(ZLIF_SUPPORT);
 
 	send(cmd);
