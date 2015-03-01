@@ -221,12 +221,16 @@ void ConnectionManager::on(TimerManagerListener::Minute, uint64_t aTick) noexcep
 	}
 }
 
-const int16_t& ConnectionManager::getPort() const {
-	return server->getPort();
+const int16_t ConnectionManager::getPort() const {
+	if(server.get())
+		return server->getPort();
+	return 0;	
 }
 
-const int16_t& ConnectionManager::getSecurePort() const {
-	return secureServer->getPort();
+const int16_t ConnectionManager::getSecurePort() const {
+	if(secureServer.get())
+		return secureServer->getPort();
+	return 0;	
 }
 
 static const uint32_t FLOOD_TRIGGER = 20000;

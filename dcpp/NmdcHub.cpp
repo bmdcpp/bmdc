@@ -55,13 +55,13 @@ NmdcHub::~NmdcHub() {
 
 void NmdcHub::connect(const OnlineUser& aUser, const string&) {
 	checkstate();
+	Lock l(cs);
 	dcdebug("NmdcHub::connect %s\n", aUser.getIdentity().getNick().c_str());
 	if(ClientManager::getInstance()->isActive(getHubUrl()) || ( sock->isV6Valid() && isActiveV6() && aUser.getIdentity().isSet("IX") ) ) {
 		connectToMe(aUser);
-		return;
-	} /*else {*/
+	} else {
 		revConnectToMe(aUser);
-	/*}*/
+	}
 }
 
 int64_t NmdcHub::getAvailable() const {
@@ -836,6 +836,7 @@ void NmdcHub::checkNick(string& nick) {
 
 void NmdcHub::connectToMe(const OnlineUser& aUser) {
 	checkstate();
+	Lock l(cs);
 	dcdebug("NmdcHub::connectToMe %s\n", aUser.getIdentity().getNick().c_str());
 	string nick = fromUtf8(aUser.getIdentity().getNick());
 	ConnectionManager::getInstance()->nmdcExpect(nick, getMyNick(), getHubUrl());

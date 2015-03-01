@@ -688,7 +688,7 @@ void AdcHub::connect(const OnlineUser& user, const string& token) {
 void AdcHub::connect(const OnlineUser& user, string const& token, bool secure) {
 	if(state != STATE_NORMAL)
 		return;
-
+	Lock l(cs);
 	string proto;
 	if(secure) {
 		if(user.getUser()->isSet(User::NO_ADCS_0_10_PROTOCOL)) {

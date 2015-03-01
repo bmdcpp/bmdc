@@ -166,7 +166,7 @@ void Client::send(const char* aMessage, size_t aLen) {
 	}
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_OUT, this, aMessage))
 		return;
-	
+	Lock l(cs);
 	COMMAND_DEBUG(aMessage,TYPE_HUB,OUTGOING, getHubUrl());
 	updateActivity();
 	sock->write(aMessage, aLen);
