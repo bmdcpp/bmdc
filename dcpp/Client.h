@@ -172,7 +172,7 @@ protected:
 	/// Get the external IP the user has defined for this hub, if any.
 	const string& getUserIp() const;
 	const string& getUserIp4() const;
-	const string& getUserIp6() const; 
+	const string getUserIp6() const; 
 
 	virtual void checkNick(string& nick) = 0;
 

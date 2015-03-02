@@ -805,7 +805,7 @@ void FavoriteHubs::edit_online_status(std::string url,bool online)
 		 iter = it->second;
 	
 	gtk_list_store_set(favoriteStore,&iter,
-		favoriteView.col(_("Status")), online ? _("Online") : _("Offline"));
+		favoriteView.col(_("Status")), online ? _("Online") : _("Offline"),-1);
 	
 }
 

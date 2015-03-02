@@ -458,7 +458,6 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		if( (i == string::npos) || ((i + 1) >= param.size()) ) {
 			return;
 		}
-//		i++;
 		j = param.rfind(':');
 		if(j == string::npos) {
 			return;
@@ -467,26 +466,28 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		string server = Util::emptyString;
 		bool isOk = false;
 		ClientManager::parsePortIp(param.substr(++i),server,p_port);
-
-		if(sock->isV6Valid() && Util::isIp6(server) == true)
+		dcdebug("%s %d",server.c_str(),p_port);
+		if(sock->isV6Valid() && Util::isIp6(server.substr(1,server.length()-1)) == true)
 		{
 			unsigned char buf[sizeof(struct in6_addr)];
+		    //struct sockaddr_in buf;
 			server=server.substr(1,server.length()-1);
-			isOk = inet_pton(AF_INET6,server.c_str(), buf) != 0;
+			isOk = (inet_pton(AF_INET6,server.c_str(), buf) == 1) || (inet_pton(AF_INET6,server.c_str(), buf) != -1);
+			dcdebug("%s",server.c_str());
 		}
 		else {
 			if(!getMyIdentity().isOp() && AVManager::getInstance()->isIpVirused(param.substr(i,j-i))){
 				fire(ClientListener::StatusMessage(), this, unescape("This user "+param.substr(i,j-i)+" has the viruses in share!"), ClientListener::FLAG_VIRUS);
 				return;
 			}				
-			isOk =	inet_addr(server.c_str()) != INADDR_NONE;
+			isOk =	(inet_addr(server.c_str()) != INADDR_NONE);
 		}		
 		if(isProtectedIP(server))
 			return;
-		if(j+1 >= param.size()) {
-			return;
-		}
-		if( p_port < 0 || p_port > 65535)
+		//if(j+1 >= param.size()) {
+		//	return;
+		//}
+		if( p_port < 1 || p_port > 65535)
 				return;
 		if(isOk == true)
 			ConnectionManager::getInstance()->nmdcConnect(server, p_port, getMyNick(), getHubUrl(), getEncoding());
@@ -552,8 +553,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				supportFlags |= SUPPORTS_NOGETINFO;
 			} else if(*i == "UserIP2") {
 				supportFlags |= SUPPORTS_USERIP2;
-			} else if (*i == "IP64")
-			{
+			} else if (*i == "IP64") {
 				supportFlags |= SUPPORTS_IP64;				
 			}
 		}
@@ -847,9 +847,11 @@ void NmdcHub::connectToMe(const OnlineUser& aUser) {
 	}	
 	
 	bool isOkIp6 = aUser.getIdentity().isSet("IX");
-	if(sock->isV6Valid() && isActiveV6() && ((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ) && isOkIp6) 
+	dcdebug("%d - %d - %d - %d",(int)sock->isV6Valid(),isActiveV6(),(int)((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ),isOkIp6);
+	if(sock->isV6Valid() && isActiveV6() && ((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ) && isOkIp6) {
 		send("$ConnectToMe " + nick + " [" + getUserIp6() + "]:" + Util::toString(ConnectionManager::getInstance()->getPort()) + "|");
-	else
+		dcdebug("%s",getUserIp6().c_str());
+	} else
 		send("$ConnectToMe " + nick + " " + localIp + ":" + Util::toString(ConnectionManager::getInstance()->getPort()) + "|");
 }
 

@@ -293,7 +293,13 @@ const string& Client::getUserIp4() const {
 	return CONNSETTING(EXTERNAL_IP);
 }
 
-const string& Client::getUserIp6() const {
+const string Client::getUserIp6() const {
+	if(!sock->getLocalIp().empty())//best case
+			return sock->getLocalIp();
+
+	if(!getMyIdentity().getIp().empty())
+				return getMyIdentity().getIp();
+	
 	if(!HUBSETTING(EXTERNAL_IP6).empty()) {
 		return HUBSETTING(EXTERNAL_IP6);
 	}

@@ -144,9 +144,11 @@ void DownloadManager::addConnection(UserConnectionPtr conn) {
 		conn->disconnect();
 		return;
 	}
-
-	conn->addListener(this);
-	checkDownloads(conn);
+	if(conn != NULL)
+	{
+		conn->addListener(this);
+		checkDownloads(conn);
+	}	
 }
 
 bool DownloadManager::startDownload(QueueItem::Priority prio) {
