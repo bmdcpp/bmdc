@@ -105,9 +105,9 @@ public:
 		expectedConnections.add(aNick, aMyNick, aHubUrl);
 	}
 
-	void nmdcConnect(const string& aServer, const int16_t& aPort, const string& aMyNick, const string& hubUrl, const string& encoding);
-	void adcConnect(const OnlineUser& aUser, const int16_t& aPort, const string& aToken, bool secure);
-	void adcConnect(const OnlineUser& aUser, const int16_t& aPort, const string& localPort, BufferedSocket::NatRoles natRole, const string& aToken, bool secure);
+	void nmdcConnect(const string& aServer, const uint16_t& aPort, const string& aMyNick, const string& hubUrl, const string& encoding);
+	void adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& aToken, bool secure,const string& hubUrl = Util::emptyString);
+	void adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& localPort, BufferedSocket::NatRoles natRole, const string& aToken, bool secure,const string& hubUrl=  Util::emptyString);
 
 	void getDownloadConnection(const HintedUser& aUser);
 	void force(const UserPtr& aUser);
@@ -121,25 +121,28 @@ public:
 	void listen();
 	void disconnect() noexcept;
 
-	const int16_t getPort() const;
-	const int16_t getSecurePort() const;
+	const uint16_t getPort() const;
+	const uint16_t getSecurePort() const;
+	const uint16_t getNmdcIp6Port() const
+	{ if(nmdcIp6Server.get())return nmdcIp6Server->getPort();else return 0;}
 
 private:
 
 	class Server : public Thread {
 	public:
-		Server(bool secure, const int16_t& port_, const string& ip, const string& ipv6);
+		Server(bool secure, const uint16_t& port_, const string& ip, const string& ipv6,bool nmdc_ = false);
 		virtual ~Server() { die = true; join(); }
 
-		const int16_t getPort() const { return port; }
+		const uint16_t getPort() const { return port; }
 
 	private:
 		virtual int run() noexcept;
 
 		Socket sock;
-		int16_t port;
+		uint16_t port;
 		bool secure;
 		bool die;
+		bool nmdc;
 	};
 	friend class Server;
 
@@ -165,6 +168,7 @@ private:
 
 	unique_ptr<Server> server;
 	unique_ptr<Server> secureServer;
+	unique_ptr<Server> nmdcIp6Server;
 
 	bool shuttingDown;
 
@@ -182,7 +186,7 @@ private:
 	ConnectionQueueItem* getCQI(const HintedUser& aUser, bool download);
 	void putCQI(ConnectionQueueItem* cqi);
 
-	void accept(const Socket& sock, bool secure) noexcept;
+	void accept(const Socket& sock, bool secure,bool nmdc = false) noexcept;
 
 	bool checkKeyprint(UserConnection *aSource);
 

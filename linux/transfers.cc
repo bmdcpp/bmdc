@@ -927,8 +927,8 @@ void Transfers::getParams_client(StringMap& params, Transfer* tr)
 		params[_("Filename")] = "TTH: " + Util::getFileName(tr->getPath());
 	else
 		params[_("Filename")] = Util::getFileName(tr->getPath());
-	params[_("User")] = WulforUtil::getNicks(user);//NOTE: core 0.762
-	params[_("Hub Name")] = WulforUtil::getHubNames(user);//NOTE: core 0.762
+	params[_("User")] = WulforUtil::getNicks(user);
+	params[_("Hub Name")] = WulforUtil::getHubNames(user);
 	params[_("Path")] = Util::getFilePath(tr->getPath());
 	params[_("Size")] = Util::toString(tr->getSize());
 	params["Download Position"] = Util::toString(tr->getPos());

@@ -159,17 +159,21 @@ void Client::connect() {
 }
 
 void Client::send(const char* aMessage, size_t aLen) {
+	dcdebug("%s",aMessage);
 	if(!isConnected()) {
 		dcassert(0);
+		dcdebug("\nno connected");
 		LogManager::getInstance()->message("Not Connected returning");
 		return;
 	}
+	dcdebug("\nPlugins");
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_OUT, this, aMessage))
 		return;
 	Lock l(cs);
-	COMMAND_DEBUG(aMessage,TYPE_HUB,OUTGOING, getHubUrl());
+	dcdebug("\nall ok send");
 	updateActivity();
 	sock->write(aMessage, aLen);
+	COMMAND_DEBUG(aMessage,TYPE_HUB,OUTGOING, getHubUrl());
 }
 
 HubData* Client::getPluginObject() noexcept {

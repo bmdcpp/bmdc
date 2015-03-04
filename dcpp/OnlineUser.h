@@ -20,13 +20,14 @@
 #define DCPLUSPLUS_DCPP_ONLINEUSER_H_
 
 #include <map>
-
 #include "forward.h"
 #include "Flags.h"
 #include "Util.h"
 #include "User.h"
 #include "PluginEntity.h"
 #include "TimerManager.h"
+//#include "OnlineUser.h"
+//#include "Client.h"
 
 namespace dcpp {
 

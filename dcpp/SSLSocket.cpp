@@ -36,7 +36,7 @@ SSLSocket::SSLSocket(CryptoManager::SSLContext context) : Socket(TYPE_TCP), ctx(
 	ctx = CryptoManager::getInstance()->getSSLContext(context);
 }
 
-void SSLSocket::connect(const string& aIp, const int16_t& aPort) {
+void SSLSocket::connect(const string& aIp, const uint16_t& aPort) {
 	Socket::connect(aIp, aPort);
 
 	waitConnected(0);

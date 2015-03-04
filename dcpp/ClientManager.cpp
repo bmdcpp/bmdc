@@ -97,7 +97,7 @@ StringList ClientManager::getHubNames(const CID& cid, const string& hintUrl) {
 	StringList lst;
 	OnlinePairC op = onlineUsers.equal_range(cid);
 	for(auto i = op.first; i != op.second; ++i) {
-		if(i->second->getClient().getHubUrl() == hintUrl)
+		//if(i->second->getClient().getHubUrl() == hintUrl)
 			lst.push_back(i->second->getClient().getHubName());
 	}
 	return lst;
@@ -204,7 +204,7 @@ string ClientManager::findHub(const string& ipPort) const {
 	Lock l(cs);
 
 	string ip;
-	int16_t port = 411;
+	uint16_t port = 411;
 
 	parsePortIp(ipPort,ip, port);
 
@@ -535,7 +535,7 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 		} else {
 			try {
 				string ip;
-				int16_t port = -1 ;
+				uint16_t port = 0 ;
 				string seek = Util::trimUrl(aSeeker);
 				
 				parsePortIp(seek,ip,port);

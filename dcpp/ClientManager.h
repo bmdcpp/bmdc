@@ -146,7 +146,7 @@ public:
 	void addCheckToQueue(const HintedUser hintedUser, bool filelist);
 	void checkCheating(const HintedUser& p, DirectoryListing* dl);
 //
-	static void parsePortIp(string aIpPort,string& ip, int16_t& port)
+	static void parsePortIp(string aIpPort,string& ip, uint16_t& port)
 	{
 			string::size_type i = aIpPort.rfind(':');
 			if (i == string::npos) {

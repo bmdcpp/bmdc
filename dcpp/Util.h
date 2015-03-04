@@ -493,8 +493,8 @@ public:
 	}
 	bool isOkIpV6 = false;
 	if( (ok == true ) || (ok2 == true)) {
-		struct sockaddr_in sa;
-		int result = inet_pton(AF_INET6,name.c_str() , &(sa.sin_addr));
+		struct sockaddr_in sa;//6
+		int result = inet_pton(AF_INET6,name.c_str() , &(sa.sin_addr));//6
 		isOkIpV6 = result == 1;
 	}
 

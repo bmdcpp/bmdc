@@ -453,6 +453,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		}
 	} else if(cmd == "$ConnectToMe") {
 		//$ConnectToMe PPK [::1]:1234| 
+		dcdebug("%s",param.c_str());
 		string::size_type i = param.find(' ');
 		string::size_type j;
 		if( (i == string::npos) || ((i + 1) >= param.size()) ) {
@@ -462,20 +463,38 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		if(j == string::npos) {
 			return;
 		}
-		int16_t p_port = -1;
+		uint16_t p_port = -1;
 		string server = Util::emptyString;
-		bool isOk = false;
-		ClientManager::parsePortIp(param.substr(++i),server,p_port);
+		bool isOk = false,isOk2 =false;
+		
+		string p = param.substr(++i);
+		size_t y = p.find('[');
+		bool b_ip6 = false;
+		if(!p.empty() &&  p[0] == '[') {//demangle ip6
+
+			size_t x = p.rfind(']');
+			if(x == string::npos)return;
+			server=p.substr(y+1,x-1);	
+			p_port = Util::toInt(p.substr(x+1));
+			b_ip6 = true;
+		}		
 		dcdebug("%s %d",server.c_str(),p_port);
-		if(sock->isV6Valid() && Util::isIp6(server.substr(1,server.length()-1)) == true)
+		string nick = param.substr(0,i-1);
+		dcdebug("%s",nick.c_str());
+		if(nick != getMyNick())
+			return;
+			
+		dcdebug("Port %d",p_port);
+		if(b_ip6 && !server.empty()/* &&  sock->isV6Valid() && Util::isIp6(server) == true*/)
 		{
-			unsigned char buf[sizeof(struct in6_addr)];
-		    //struct sockaddr_in buf;
-			server=server.substr(1,server.length()-1);
-			isOk = (inet_pton(AF_INET6,server.c_str(), buf) == 1) || (inet_pton(AF_INET6,server.c_str(), buf) != -1);
+		//	unsigned char buf[sizeof(struct in6_addr)];
+		//	isOk = inet_pton(AF_INET6,server.c_str(), buf) == 1;
+		//	isOk2 = inet_pton(AF_INET6,server.c_str(), buf) != -1;
 			dcdebug("%s",server.c_str());
+			isOk = isOk2 = true;
 		}
 		else {
+			ClientManager::parsePortIp(p,server,p_port);
 			if(!getMyIdentity().isOp() && AVManager::getInstance()->isIpVirused(param.substr(i,j-i))){
 				fire(ClientListener::StatusMessage(), this, unescape("This user "+param.substr(i,j-i)+" has the viruses in share!"), ClientListener::FLAG_VIRUS);
 				return;
@@ -489,8 +508,8 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		//}
 		if( p_port < 1 || p_port > 65535)
 				return;
-		if(isOk == true)
-			ConnectionManager::getInstance()->nmdcConnect(server, p_port, getMyNick(), getHubUrl(), getEncoding());
+		//if(isOk == true || isOk2 == true)
+		ConnectionManager::getInstance()->nmdcConnect(server, p_port, getMyNick(), getHubUrl(), getEncoding());
 			// For simplicity, we make the assumption that users on a hub have the same character encoding
 	} else if(cmd == "$RevConnectToMe") {
 		if(state != STATE_NORMAL) {
@@ -506,9 +525,9 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		if(u == NULL)
 			return;
 
-		if(ClientManager::getInstance()->isActive(getHubUrl()) || ( sock->isV6Valid() && isActiveV6() && u->getIdentity().isSet("IX"))   ) {
+		if(ClientManager::getInstance()->isActive(getHubUrl()) || ( /*sock->isV6Valid() && */isActiveV6() && u->getIdentity().isSet("IX"))   ) {
 			connectToMe(*u);
-			if(u->getUser()->isSet(User::PASSIVE) == false) {
+			if(u->getUser()->isSet(User::PASSIVE)) {
         			u->getUser()->setFlag(User::PASSIVE);
         			updated(*u);
              }
@@ -849,8 +868,8 @@ void NmdcHub::connectToMe(const OnlineUser& aUser) {
 	bool isOkIp6 = aUser.getIdentity().isSet("IX");
 	dcdebug("%d - %d - %d - %d",(int)sock->isV6Valid(),isActiveV6(),(int)((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ),isOkIp6);
 	if(sock->isV6Valid() && isActiveV6() && ((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ) && isOkIp6) {
-		send("$ConnectToMe " + nick + " [" + getUserIp6() + "]:" + Util::toString(ConnectionManager::getInstance()->getPort()) + "|");
-		dcdebug("%s",getUserIp6().c_str());
+		send("$ConnectToMe " + nick + " [" + getUserIp6() + "]:" + Util::toString(ConnectionManager::getInstance()->getNmdcIp6Port()) + "|");
+		dcdebug("\n%s",getUserIp6().c_str());
 	} else
 		send("$ConnectToMe " + nick + " " + localIp + ":" + Util::toString(ConnectionManager::getInstance()->getPort()) + "|");
 }
@@ -919,8 +938,6 @@ void NmdcHub::myInfo(bool alwaysSend) {
 	string gslot = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
 	//away status
     char staFlag = Util::getAway() ? '\x02' : '\x01';
-//    if(sock->isV6Valid())
-//		staFlag |= 0x80;//IP6
 		
 	string uMin = (SETTING(MIN_UPLOAD_SPEED) == 0) ? Util::emptyString : tmp5 + Util::toString(SETTING(MIN_UPLOAD_SPEED));
 	string myInfoA =

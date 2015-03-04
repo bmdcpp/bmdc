@@ -39,7 +39,11 @@ struct HintedUser {
 		return user == rhs;
 	}
 	bool operator==(const HintedUser& rhs) const {
-		return user == rhs.user;
+		if(hint.empty())
+			return user == rhs.user;
+		if(hint == rhs.hint)
+				return true;
+		return false;//not same user
 		// ignore the hint, we don't want lists with multiple instances of the same user...
 	}
 

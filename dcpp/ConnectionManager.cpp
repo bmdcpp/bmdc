@@ -59,6 +59,13 @@ void ConnectionManager::listen() {
 		return;
 	}
 	secureServer.reset(new Server(true, CONNSETTING(TLS_PORT), CONNSETTING(BIND_ADDRESS),CONNSETTING(BIND_ADDRESS6)));
+	
+	if(!CONNSETTING(EXTERNAL_IP6).empty())//todo beter
+	{
+		nmdcIp6Server.reset(new Server(false, CONNSETTING(TCP_PORT)+1, CONNSETTING(BIND_ADDRESS),CONNSETTING(BIND_ADDRESS6),true));
+		
+	}
+	
 }
 
 /**
@@ -165,8 +172,9 @@ void ConnectionManager::on(TimerManagerListener::Second, uint64_t aTick) noexcep
 					continue;
 				}
 
-				if(cqi->getLastAttempt() == 0 || (!attemptDone &&
-					cqi->getLastAttempt() + 60 * 1000 * max(1, cqi->getErrors()) < aTick))
+				//if(cqi->getLastAttempt() == 0 || (!attemptDone &&
+				//	cqi->getLastAttempt() + 60 * 1000 * max(1, cqi->getErrors()) < aTick))
+				if(cqi->getLastAttempt() == 0 || (((cqi->getLastAttempt() + 60*1000) < aTick) && !attemptDone))
 				{
 					cqi->setLastAttempt(aTick);
 
@@ -193,7 +201,7 @@ void ConnectionManager::on(TimerManagerListener::Second, uint64_t aTick) noexcep
 						cqi->setState(ConnectionQueueItem::WAITING);
 					}
 				} else if(cqi->getState() == ConnectionQueueItem::CONNECTING && cqi->getLastAttempt() + 50 * 1000 < aTick) {
-					cqi->setErrors(cqi->getErrors() + 1);
+					//cqi->setErrors(cqi->getErrors() + 1);
 					fire(ConnectionManagerListener::Failed(), cqi, _("Connection timeout"));
 					cqi->setState(ConnectionQueueItem::WAITING);
 				}
@@ -221,13 +229,13 @@ void ConnectionManager::on(TimerManagerListener::Minute, uint64_t aTick) noexcep
 	}
 }
 
-const int16_t ConnectionManager::getPort() const {
+const uint16_t ConnectionManager::getPort() const {
 	if(server.get())
 		return server->getPort();
 	return 0;	
 }
 
-const int16_t ConnectionManager::getSecurePort() const {
+const uint16_t ConnectionManager::getSecurePort() const {
 	if(secureServer.get())
 		return secureServer->getPort();
 	return 0;	
@@ -236,8 +244,8 @@ const int16_t ConnectionManager::getSecurePort() const {
 static const uint32_t FLOOD_TRIGGER = 20000;
 static const uint32_t FLOOD_ADD = 2000;
 
-ConnectionManager::Server::Server(bool secure, const int16_t& port_, const string& ip, const string& ipv6) :
-sock(Socket::TYPE_TCP), secure(secure), die(false) 
+ConnectionManager::Server::Server(bool secure, const uint16_t& port_, const string& ip, const string& ipv6,bool nmdc_) :
+sock(Socket::TYPE_TCP), secure(secure), die(false) , nmdc(nmdc_)
 {
 	sock.setLocalIp4(ip);
 	sock.setLocalIp6(ipv6);
@@ -255,7 +263,7 @@ int ConnectionManager::Server::run() noexcept {
 			while(!die) {
 				auto ret = sock.wait(POLL_TIMEOUT, true, false);
 				if(ret.first) {
-					ConnectionManager::getInstance()->accept(sock, secure);
+					ConnectionManager::getInstance()->accept(sock, secure,nmdc);
 				}
 			}
 		} catch(const Exception& e) {
@@ -295,7 +303,7 @@ int ConnectionManager::Server::run() noexcept {
  * Someone's connecting, accept the connection and wait for identification...
  * It's always the other fellow that starts sending if he made the connection.
  */
-void ConnectionManager::accept(const Socket& sock, bool secure) noexcept {
+void ConnectionManager::accept(const Socket& sock, bool secure,bool nmdc) noexcept {
 	uint64_t now = GET_TICK();
 
 	if(now > floodCounter) {
@@ -314,7 +322,7 @@ void ConnectionManager::accept(const Socket& sock, bool secure) noexcept {
 			floodCounter += FLOOD_ADD;
 		}
 	}
-	UserConnection* uc = getConnection(false, secure);
+	UserConnection* uc = getConnection(nmdc, secure);
 	uc->setFlag(UserConnection::FLAG_INCOMING);
 	uc->setState(UserConnection::STATE_SUPNICK);
 	uc->setLastActivity(GET_TICK());
@@ -326,7 +334,7 @@ void ConnectionManager::accept(const Socket& sock, bool secure) noexcept {
 	}
 }
 
-void ConnectionManager::nmdcConnect(const string& aServer, const int16_t& aPort, const string& aNick, const string& hubUrl, const string& encoding) {
+void ConnectionManager::nmdcConnect(const string& aServer, const uint16_t& aPort, const string& aNick, const string& hubUrl, const string& encoding) {
 	if(shuttingDown)
 		return;
 
@@ -345,11 +353,11 @@ void ConnectionManager::nmdcConnect(const string& aServer, const int16_t& aPort,
 	}
 }
 
-void ConnectionManager::adcConnect(const OnlineUser& aUser, const int16_t& aPort, const string& aToken, bool secure) {
-	adcConnect(aUser, aPort, Util::emptyString, BufferedSocket::NAT_NONE, aToken, secure);
+void ConnectionManager::adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& aToken, bool secure,const string& hubUrl) {
+	adcConnect(aUser, aPort, Util::emptyString, BufferedSocket::NAT_NONE, aToken, secure,hubUrl);
 }
 
-void ConnectionManager::adcConnect(const OnlineUser& aUser, const int16_t& aPort, const string& localPort, BufferedSocket::NatRoles natRole, const string& aToken, bool secure) {
+void ConnectionManager::adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& localPort, BufferedSocket::NatRoles natRole, const string& aToken, bool secure,const string& hubUrl) {
 	if(shuttingDown)
 		return;
 
@@ -358,6 +366,11 @@ void ConnectionManager::adcConnect(const OnlineUser& aUser, const int16_t& aPort
 	uc->setEncoding(Text::utf8);
 	uc->setState(UserConnection::STATE_CONNECT);
 	uc->setHubUrl(aUser.getClient().getHubUrl());
+	
+	if(uc->getHubUrl().empty() || !hubUrl.empty())
+		uc->setHubUrl(hubUrl);
+	
+	
 	if(aUser.getIdentity().isOp()) {
 		uc->setFlag(UserConnection::FLAG_OP);
 	}
