@@ -868,7 +868,7 @@ void NmdcHub::connectToMe(const OnlineUser& aUser) {
 	bool isOkIp6 = aUser.getIdentity().isSet("IX");
 	dcdebug("%d - %d - %d - %d",(int)sock->isV6Valid(),isActiveV6(),(int)((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ),isOkIp6);
 	if(sock->isV6Valid() && isActiveV6() && ((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ) && isOkIp6) {
-		send("$ConnectToMe " + nick + " [" + getUserIp6() + "]:" + Util::toString(ConnectionManager::getInstance()->getNmdcIp6Port()) + "|");
+		send("$ConnectToMe " + nick + " [" + getUserIp6() + "]:" + Util::toString(ConnectionManager::getInstance()->getPort()) + "|");
 		dcdebug("\n%s",getUserIp6().c_str());
 	} else
 		send("$ConnectToMe " + nick + " " + localIp + ":" + Util::toString(ConnectionManager::getInstance()->getPort()) + "|");

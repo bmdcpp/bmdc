@@ -59,13 +59,6 @@ void ConnectionManager::listen() {
 		return;
 	}
 	secureServer.reset(new Server(true, CONNSETTING(TLS_PORT), CONNSETTING(BIND_ADDRESS),CONNSETTING(BIND_ADDRESS6)));
-	
-	if(!CONNSETTING(EXTERNAL_IP6).empty())//todo beter
-	{
-		nmdcIp6Server.reset(new Server(false, CONNSETTING(TCP_PORT)+1, CONNSETTING(BIND_ADDRESS),CONNSETTING(BIND_ADDRESS6),true));
-		
-	}
-	
 }
 
 /**

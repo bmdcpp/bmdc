@@ -123,8 +123,6 @@ public:
 
 	const uint16_t getPort() const;
 	const uint16_t getSecurePort() const;
-	const uint16_t getNmdcIp6Port() const
-	{ if(nmdcIp6Server.get())return nmdcIp6Server->getPort();else return 0;}
 
 private:
 
@@ -168,7 +166,6 @@ private:
 
 	unique_ptr<Server> server;
 	unique_ptr<Server> secureServer;
-	unique_ptr<Server> nmdcIp6Server;
 
 	bool shuttingDown;
 

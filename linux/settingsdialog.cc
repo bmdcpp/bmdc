@@ -315,7 +315,7 @@ void Settings::saveSettings_client()
 
 		sm->set(SettingsManager::NO_IP_OVERRIDE, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("forceIPCheckButton"))));
 
-		int port = Util::toInt(gtk_entry_get_text(GTK_ENTRY(getWidget("tcpEntry"))));
+		uint16_t port = Util::toInt(gtk_entry_get_text(GTK_ENTRY(getWidget("tcpEntry"))));
 		if (port > 0 && port <= 65535)
 			sm->set(SettingsManager::TCP_PORT, port);
 		port = Util::toInt(gtk_entry_get_text(GTK_ENTRY(getWidget("udpEntry"))));

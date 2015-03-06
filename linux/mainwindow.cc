@@ -2283,9 +2283,9 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 
-	int prevTCP = SETTING(TCP_PORT);
-	int prevUDP = SETTING(UDP_PORT);
-	int prevTLS = SETTING(TLS_PORT);
+	uint16_t prevTCP = SETTING(TCP_PORT);
+	uint16_t prevUDP = SETTING(UDP_PORT);
+	uint16_t prevTLS = SETTING(TLS_PORT);
 
 	auto prevConn = SETTING(INCOMING_CONNECTIONS);
 	string prevMapper = SETTING(MAPPER);
