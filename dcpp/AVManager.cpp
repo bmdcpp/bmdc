@@ -105,7 +105,7 @@ void AVManager::on(TimerManagerListener::Minute, uint64_t aTick) noexcept
 				LogManager::getInstance()->message(_("[AVDB] load ")+Util::toString(temp_tick)+" - "+Util::toString(timestamp_db)+" - "+Util::toString(aTick));	
 				temp_tick = aTick+(60*60*1000);
 			}
-			LogManager::getInstance()->message(_("[AVDB] next ")+Util::toString(temp_tick)+" - "+Util::toString(timestamp_db)+" - "+Util::toString(aTick));
+			LogManager::getInstance()->message(_("[AVDB] next ")+Util::toString(temp_tick)+" - "+Util::toString(timestamp_db)+" - "+Util::toString(aTick), LogManager::Sev::LOW);
 		  }					
 }
 

@@ -42,16 +42,17 @@ public:
 
 	enum Area { CHAT, PM, DOWNLOAD, FINISHED_DOWNLOAD, UPLOAD, SYSTEM, STATUS, RAW , CHECK_USER ,LAST };
 	enum { FILE, FORMAT };
+	enum Sev { LOW, NORMAL, HIGH };
 
-	void log(Area area, const string &message)
+	void log(Area area, const string &message, int sev = Sev::NORMAL)
 	{
 		ParamMap params;
 		params["message"] = message;
 		log(area,params);
 	}
 
-	void log(Area area, ParamMap& params) noexcept;
-	void message(const string& msg);
+	void log(Area area, ParamMap& params, int sev = Sev::NORMAL) noexcept;
+	void message(const string& msg,int sev = Sev::NORMAL);
 
 	List getLastLogs();
 	string getPath(Area area, ParamMap& params) const;
@@ -61,7 +62,7 @@ public:
 	void saveSetting(int area, int sel, const string& setting);
 	void clearLogs(){ Lock l(cs); lastLogs.clear(); }
 private:
-	void log(const string& area, const string& msg) noexcept;
+	void log(const string& area, const string& msg,int sev = Sev::NORMAL) noexcept;
 
 	friend class Singleton<LogManager>;
 	CriticalSection cs;

@@ -131,9 +131,16 @@ void SystemLog::show()
     ini_client();
 }
 
-void SystemLog::on(LogManagerListener::Message, time_t t, const string& message) noexcept
+void SystemLog::on(LogManagerListener::Message, time_t t, const string& message,int sev) noexcept
 {
+#ifndef _DEBUG	
+	if(sev == LogManager::Sev::NORMAL)
+	{	
+#endif		
     typedef Func2<SystemLog,time_t,std::string> F2;
     F2 *func = new F2(this,&SystemLog::add_gui, t, message);
     WulforManager::get()->dispatchGuiFunc(func);
+ #ifndef _DEBUG	   
+	} 	  
+#endif	
 }

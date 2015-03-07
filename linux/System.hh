@@ -48,7 +48,7 @@ class SystemLog:
 		static void onResize_gui(GtkAdjustment *adjustment, gpointer data);
 		static void onClearButton(GtkWidget *widget, gpointer data);
 		// LogManagerListener
-		virtual void on(dcpp::LogManagerListener::Message, time_t t, const std::string& message) noexcept;
+		virtual void on(dcpp::LogManagerListener::Message, time_t t, const std::string& message,int sev) noexcept;
 
 		GtkTextBuffer *buffer;
 		GtkTextIter iter;
