@@ -274,19 +274,19 @@ SettingsManager::SettingsManager()
 	setDefault(LOG_FILE_RAW, "Raws.log");// BMDC : UI?
 	setDefault(GET_USER_INFO, true);
 	setDefault(URL_HANDLER, false);
-	setDefault(SETTINGS_WIDTH, 700);//not used?
-	setDefault(SETTINGS_HEIGHT, 600);//not used?
+	setDefault(SETTINGS_WIDTH, 700); //not used?
+	setDefault(SETTINGS_HEIGHT, 600); //not used?
 	setDefault(SOCKS_PORT, 1080);
 	setDefault(SOCKS_RESOLVE, 1);
 	setDefault(CONFIG_VERSION, "0.181");		// 0.181 is the last version missing configversion
 	setDefault(KEEP_LISTS, false);
 	setDefault(AUTO_KICK, false);
-	setDefault(QUEUEFRAME_SHOW_TREE, true);
+	setDefault(QUEUEFRAME_SHOW_TREE, true);//not used?
 	setDefault(COMPRESS_TRANSFERS, true);
 	setDefault(SFV_CHECK, true);
 	setDefault(AUTO_AWAY, false);
 	setDefault(AWAY_COMP_LOCK, true);
-	setDefault(AWAY_IDLE, 10);
+	setDefault(AWAY_IDLE, 10);//not used
 	setDefault(TIME_STAMPS_FORMAT, "%H:%M:%S");
 	setDefault(COUNTRY_FORMAT, "%[2code] - %[name]");
 	setDefault(MAX_COMPRESSION, 6);
@@ -316,7 +316,7 @@ SettingsManager::SettingsManager()
 	setDefault(DONT_DL_ALREADY_SHARED, false);
 	setDefault(USE_CTRL_FOR_LINE_HISTORY, true);
 	setDefault(JOIN_OPEN_NEW_WINDOW, false);
-	setDefault(HUB_LAST_LOG_LINES, 10);
+	setDefault(HUB_LAST_LOG_LINES, 10);//possible todo
 	setDefault(PM_LAST_LOG_LINES, 10);
 	setDefault(TOGGLE_ACTIVE_WINDOW, false);
 	setDefault(SEARCH_HISTORY, 10);

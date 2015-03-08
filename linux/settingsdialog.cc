@@ -1132,6 +1132,8 @@ void Settings::initAppearance_gui()
 		addOption_gui(appearanceStore, _("Log Mainchat by default"), SettingsManager::LOG_MAIN_CHAT);
 		addOption_gui(appearanceStore, _("Do not close Tab on middle button (wheel)"), "book-three-button-disable");
 		addOption_gui(appearanceStore, _("Use ctrl for history in chat Books"), "key-hub-with-ctrl");
+		addOption_gui(appearanceStore, _("Show Server Commands as Status Messages in Chat"),SettingsManager::SERVER_COMMANDS);
+		addOption_gui(appearanceStore, _("Filter download by antivirus db"),SettingsManager::USE_AV_FILTER);
 
 		/// @todo: Uncomment when implemented
 		//addOption_gui(appearanceStore, _("Minimize to tray"), SettingsManager::MINIMIZE_TRAY);
@@ -2082,6 +2084,7 @@ void Settings::initAdvanced_gui()
 		addOption_gui(advancedStore, _("Don't send the away message to bots"), SettingsManager::NO_AWAYMSG_TO_BOTS);
 		addOption_gui(advancedStore, _("Register with the OS to handle dchub:// and adc:// URL links"), SettingsManager::URL_HANDLER);
 		addOption_gui(advancedStore, _("Register with the OS to handle magnet: URL links"), SettingsManager::MAGNET_REGISTER);
+		addOption_gui(advancedStore, _("Use Coral"), SettingsManager::CORAL);
 	}
 
 	{ // User Commands
