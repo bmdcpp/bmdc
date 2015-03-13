@@ -153,8 +153,8 @@ public:
 				ip = aIpPort;
 			} else {
 				ip = aIpPort.substr(0, i);
-				port = Util::toInt(aIpPort.substr(i + 1));
-			}	
+				port = (uint16_t)Util::toInt(aIpPort.substr(i + 1));
+			}
 	}
 
 private:

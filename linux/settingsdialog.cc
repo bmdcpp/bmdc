@@ -1355,13 +1355,25 @@ void Settings::initAppearance_gui()
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkBoldAuthors")), WGETB("text-bold-autors"));
 		//[BMDC
 		string strcolor = SETTING(BACKGROUND_CHAT_COLOR);//WGETS("background-color-chat");
-		GdkRGBA color;
+		/*GdkRGBA color;
 		gdk_rgba_parse(&color,strcolor.c_str());
 
 		gtk_widget_override_background_color(getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_NORMAL,&color);
 		gtk_widget_override_background_color(getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_PRELIGHT,&color);
 		gtk_widget_override_background_color(getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_ACTIVE,&color);
-		gtk_widget_override_background_color(getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_INSENSITIVE,&color);
+		gtk_widget_override_background_color(getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_INSENSITIVE,&color);*/
+		gtk_widget_set_name(getWidget("textViewPreviewStyles"),"prewienTextView");
+		GtkCssProvider *provider = gtk_css_provider_new ();
+		GdkDisplay *display = gdk_display_get_default ();
+		GdkScreen *screen = gdk_display_get_default_screen (display);
+		std::string t_css = std::string("#prewienTextView { background: "+strcolor+" ;}\n\0");
+		gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
+	
+		gtk_style_context_add_provider_for_screen (screen,
+											GTK_STYLE_PROVIDER(provider),
+											GTK_STYLE_PROVIDER_PRIORITY_USER);
+		g_object_unref (provider);
+		
 		g_signal_connect(getWidget("setBackGroundChatWin"), "clicked", G_CALLBACK(onSetBackGroundChat), (gpointer)this);
 		//]
 	}
@@ -1781,10 +1793,20 @@ void Settings::onSetBackGroundChat(GtkWidget *widget , gpointer data)
 		//WSET("background-color-chat", strcolor);
 		SettingsManager::getInstance()->set(SettingsManager::BACKGROUND_CHAT_COLOR, strcolor);
 		SettingsManager::getInstance()->save();
-		gtk_widget_override_background_color(s->getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_NORMAL,&color);
+		GtkCssProvider *provider = gtk_css_provider_new ();
+		GdkDisplay *display = gdk_display_get_default ();
+		GdkScreen *screen = gdk_display_get_default_screen (display);
+		std::string t_css = std::string("#prewienTextView { background: "+strcolor+" ;}\n\0");
+		gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
+
+		gtk_style_context_add_provider_for_screen (screen,
+											GTK_STYLE_PROVIDER(provider),
+											GTK_STYLE_PROVIDER_PRIORITY_USER);
+		g_object_unref (provider);
+		/*gtk_widget_override_background_color(s->getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_NORMAL,&color);
 		gtk_widget_override_background_color(s->getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_PRELIGHT,&color);
 		gtk_widget_override_background_color(s->getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_ACTIVE,&color);
-		gtk_widget_override_background_color(s->getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_INSENSITIVE,&color);
+		gtk_widget_override_background_color(s->getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_INSENSITIVE,&color);*/
 	}
 }
 

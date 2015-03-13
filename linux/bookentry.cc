@@ -45,16 +45,19 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	labelBox = gtk_hbox_new(FALSE, 0);
 	#endif
 	eventBox = gtk_event_box_new();
+	gtk_widget_set_name(eventBox,getID().c_str());//
 	gtk_event_box_set_above_child(GTK_EVENT_BOX(eventBox), TRUE);
 	gtk_event_box_set_visible_window(GTK_EVENT_BOX(eventBox), FALSE);
 	// icon
 	icon = gtk_image_new();
+	gtk_widget_set_name(icon,getID().c_str());//
 	gtk_box_pack_start(GTK_BOX(labelBox), icon, FALSE, FALSE, 0);
 
 	// Make the eventbox fill to all left-over space.
 	gtk_box_pack_start(GTK_BOX(labelBox), GTK_WIDGET(eventBox), TRUE, TRUE, 0);
 
 	label = GTK_LABEL(gtk_label_new(text.c_str()));
+	gtk_widget_set_name(GTK_WIDGET(label),getID().c_str());//
 	gtk_container_add(GTK_CONTAINER(eventBox), GTK_WIDGET(label));
 
 	// Align text to the left (x = 0) and in the vertical center (0.5)
@@ -68,7 +71,8 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
     #endif
     if(IsCloseButton || WGETB("use-close-button"))
      {
-	   closeButton = gtk_button_new();
+		closeButton = gtk_button_new();
+		gtk_widget_set_name(closeButton,getID().c_str());
         gtk_button_set_relief(GTK_BUTTON(closeButton), GTK_RELIEF_NONE);
         gtk_button_set_focus_on_click(GTK_BUTTON(closeButton), FALSE);
 
@@ -92,6 +96,7 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
     #else
         GtkWidget *image = gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
     #endif
+		//gtk_widget_set_name(image,getID().c_str());
 
         gtk_container_add(GTK_CONTAINER(closeButton), image);
         gtk_box_pack_start(GTK_BOX(labelBox), closeButton, FALSE, FALSE, 0);
@@ -518,13 +523,27 @@ void BookEntry::setBackForeGround(const EntryType type)
 
 	gtk_event_box_set_visible_window (GTK_EVENT_BOX(eventBox)
 	,TRUE);
+	
+	GtkCssProvider *provider = gtk_css_provider_new ();
+	GdkDisplay *display = gdk_display_get_default ();
+	GdkScreen *screen = gdk_display_get_default_screen (display);
+	std::string t_css = std::string("GtkEventBox#"+getID()+", GtkLabel#"+getID()+", GtkImage#"+getID()+" GtkEventBox#"+getID()+":active, GtkLabel#"+getID()+":active, GtkImage#"+getID()+":active { color:"+fg+"; background: "+bg+"; }\n\0");
+	gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
+
+	gtk_style_context_add_provider_for_screen (screen,
+											GTK_STYLE_PROVIDER(provider),
+											GTK_STYLE_PROVIDER_PRIORITY_USER);
+	g_object_unref (provider);
+	
+/*	
+	
     gtk_widget_override_color (GTK_WIDGET(label), (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &fg_color);
     gtk_widget_override_color (GTK_WIDGET(label), (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &fg_color);
     gtk_widget_override_background_color (eventBox, (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
-    gtk_widget_override_background_color (eventBox, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
+    gtk_widget_override_background_color (eventBox, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);*/
     //We need also overide color on icon...
-    gtk_widget_override_background_color (icon, (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
-    gtk_widget_override_background_color (icon, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
+    //gtk_widget_override_background_color (icon, (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
+    //gtk_widget_override_background_color (icon, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
 
 	if(IsCloseButton || WGETB("use-close-button")) {
 		gtk_widget_override_background_color(labelBox,(GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
@@ -635,13 +654,23 @@ void BookEntry::setBackForeGround_unread(const EntryType type)
 
 	gtk_event_box_set_visible_window (GTK_EVENT_BOX(eventBox)
 	,TRUE);
-    gtk_widget_override_color (GTK_WIDGET(label), (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &fg_color);
+    /*gtk_widget_override_color (GTK_WIDGET(label), (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &fg_color);
     gtk_widget_override_color (GTK_WIDGET(label), (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &fg_color);
     gtk_widget_override_background_color (eventBox, (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
     gtk_widget_override_background_color (eventBox, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
     //We need also overide color on icon...
     gtk_widget_override_background_color (icon, (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
-    gtk_widget_override_background_color (icon, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
+    gtk_widget_override_background_color (icon, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);*/
+    GtkCssProvider *provider = gtk_css_provider_new ();
+	GdkDisplay *display = gdk_display_get_default ();
+	GdkScreen *screen = gdk_display_get_default_screen (display);
+	std::string t_css = std::string("GtkEventBox#"+getID()+", GtkLabel#"+getID()+", GtkImage#"+getID()+" GtkEventBox#"+getID()+":active, GtkLabel#"+getID()+":active, GtkImage#"+getID()+":active { color:"+fg+"; background: "+bg+"; }\n\0");
+	gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
+
+	gtk_style_context_add_provider_for_screen (screen,
+											GTK_STYLE_PROVIDER(provider),
+											GTK_STYLE_PROVIDER_PRIORITY_USER);
+	g_object_unref (provider);
 
 	if(IsCloseButton || WGETB("use-close-button")) {
 		gtk_widget_override_background_color(labelBox,(GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);

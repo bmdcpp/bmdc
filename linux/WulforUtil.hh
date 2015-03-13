@@ -101,22 +101,24 @@ class WulforUtil
 
 		static const std::string ENCODING_LOCALE;
 		static const std::string commands;
-		
-		static void setTextDeufaults(GtkWidget* widget, std::string strcolor, std::string back_image_path = dcpp::Util::emptyString,bool pm = false,std::string hubUrl = dcpp::Util::emptyString)
+
+		static void setTextDeufaults(GtkWidget* widget, std::string strcolor, std::string back_image_path = dcpp::Util::emptyString,bool pm = false,std::string hubUrl = dcpp::Util::emptyString,std::string where = dcpp::Util::emptyString)
 		//todo move to c/cpp file :p
 		{
 			if( (pm == false) && hubUrl.empty())
 				gtk_widget_set_name(widget,"Hub");
-			
+
 			if( pm == true)
 				gtk_widget_set_name(widget,"pm");
-			
+
 			std::string hubCid;
 			if(!hubUrl.empty() && (pm == false)) {
 				hubCid = dcpp::CID(hubUrl.c_str()).toBase32();
 				gtk_widget_set_name(widget,hubCid.c_str());
 			}
-			
+			if(!where.empty())
+				gtk_widget_set_name(widget,where.c_str());
+
 			// Intialize the chat window
 			if (SETTING(USE_OEM_MONOFONT))
 			{
@@ -132,27 +134,55 @@ class WulforUtil
 			GtkCssProvider *provider = gtk_css_provider_new ();
 			GdkDisplay *display = gdk_display_get_default ();
 			GdkScreen *screen = gdk_display_get_default_screen (display);
-			
-			std::string t_css = std::string("GtkTextView#") + (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid )) +"{\n"                         
-                            "   background: url('"+back_image_path+"');\n"   
+
+			std::string t_css = std::string("GtkTextView#") + (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid )) +"{\n"
+                            "   background: url('"+back_image_path+"');\n"
                             "}\n\0";
 
 			gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
-			
+
 			gtk_style_context_add_provider_for_screen (screen,
                                              GTK_STYLE_PROVIDER(provider),
                                              GTK_STYLE_PROVIDER_PRIORITY_USER);
-			
+
 			g_object_unref (provider);
 			return;
 			}
+/* @NOTE: old code
 			GdkRGBA color;
 			gdk_rgba_parse(&color,strcolor.c_str());
 			gtk_widget_override_background_color(widget, GTK_STATE_FLAG_NORMAL, &color);
 			gtk_widget_override_background_color(widget, GTK_STATE_FLAG_INSENSITIVE, &color);
+*/
+				GtkCssProvider *provider = gtk_css_provider_new ();
+				GdkDisplay *display = gdk_display_get_default ();
+				GdkScreen *screen = gdk_display_get_default_screen (display);
+				std::string strwhat = (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid ));
+				if(!where.empty()) strwhat = where;
+				std::string t_css =std::string("GtkTextView#"+strwhat+":insensitive, GtkTextView#"+strwhat+" { background: "+strcolor+" ;}\n\0");
 
+				gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
+
+				gtk_style_context_add_provider_for_screen (screen,
+																							GTK_STYLE_PROVIDER(provider),
+																							GTK_STYLE_PROVIDER_PRIORITY_USER);
+				g_object_unref (provider);
 		}
 
+		static void setTextColor(std::string color,std::string where = dcpp::Util::emptyString)//Note : selected is red, because most themes get white or black
+		{
+			GtkCssProvider *provider = gtk_css_provider_new ();
+			GdkDisplay *display = gdk_display_get_default ();
+			GdkScreen *screen = gdk_display_get_default_screen (display);
+			std::string t_css =std::string("GtkTextView#"+where+" ,GtkTextView#"+where+":insensitive, GtkTextView#"+where+":focused, GtkTextView#"+where+":active { color: "+color+" ;} GtkTextView#"+where+":selected { color: red ; }	\n\0");
+
+			gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
+
+			gtk_style_context_add_provider_for_screen (screen,
+																						GTK_STYLE_PROVIDER(provider),
+																						GTK_STYLE_PROVIDER_PRIORITY_USER);
+			g_object_unref (provider);
+		}
 	private:
 		static std::string formatTimeDifference(uint64_t diff, size_t levels = 3);
 		static std::string generateLeech();
@@ -164,7 +194,7 @@ class WulforUtil
 	public:
 		static GtkIconTheme *icon_theme;
 	#else
-	private:	
+	private:
 		static GtkIconFactory *iconFactory;
 	#endif
 		static std::vector<std::string> charsets;

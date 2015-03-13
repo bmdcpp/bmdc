@@ -29,20 +29,9 @@ SystemLog::SystemLog():
 BookEntry(Entry::SYSTEML,_("System Log"),"system"),
  buffer(NULL),sysMark(NULL)
 {
-	WulforUtil::setTextDeufaults(getWidget("systextview"),SETTING(BACKGROUND_CHAT_COLOR));
-	string strcolor = "black";//TODO : Settings?	yes?
-	GdkRGBA color;
-	gdk_rgba_parse(&color,strcolor.c_str());
-	
-	strcolor = "white";//TODO : Settings? yes?	
-	GdkRGBA color2;
-	gdk_rgba_parse(&color2,strcolor.c_str());
-	
-	gtk_widget_override_color(getWidget("systextview"), GTK_STATE_FLAG_NORMAL, &color);
+	WulforUtil::setTextDeufaults(getWidget("systextview"),SETTING(BACKGROUND_CHAT_COLOR),dcpp::Util::emptyString,false,dcpp::Util::emptyString,"SystemLog");
+    WulforUtil::setTextColor(string("black"),string("SystemLog"));//TODO: Settings
 
-	gtk_widget_override_color(getWidget("systextview"), GTK_STATE_FLAG_SELECTED, &color2);
-	gtk_widget_override_color(getWidget("systextview"), GTK_STATE_FLAG_INSENSITIVE, &color);
-	
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("systextview")));
 	gtk_text_buffer_get_end_iter(buffer, &iter);
 	sysMark = gtk_text_buffer_create_mark(buffer, NULL, &iter, FALSE);
@@ -133,14 +122,14 @@ void SystemLog::show()
 
 void SystemLog::on(LogManagerListener::Message, time_t t, const string& message,int sev) noexcept
 {
-#ifndef _DEBUG	
+#ifndef _DEBUG
 	if(sev == LogManager::Sev::NORMAL)
-	{	
-#endif		
+	{
+#endif
     typedef Func2<SystemLog,time_t,std::string> F2;
     F2 *func = new F2(this,&SystemLog::add_gui, t, message);
     WulforManager::get()->dispatchGuiFunc(func);
- #ifndef _DEBUG	   
-	} 	  
-#endif	
+ #ifndef _DEBUG
+	}
+#endif
 }

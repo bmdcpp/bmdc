@@ -67,6 +67,7 @@ Download::Download(UserConnection& conn, QueueItem& qi, const string& path, bool
 
 Download::~Download() {
 	getUserConnection().setDownload(nullptr);
+	delete file;
 }
 
 AdcCommand Download::getCommand(bool zlib, const string& mySID) {

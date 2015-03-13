@@ -33,12 +33,14 @@ cmddebug::cmddebug():
 BookEntry(Entry::CMD,_("CMD"),"cmddebug"),
 stop(false)
 {
-	WulforUtil::setTextDeufaults(getWidget("cmdtextview"),SETTING(BACKGROUND_CHAT_COLOR));
-    
+	WulforUtil::setTextDeufaults(getWidget("cmdtextview"),SETTING(BACKGROUND_CHAT_COLOR),dcpp::Util::emptyString,false,dcpp::Util::emptyString,"CmdLog");
+	//gtk_widget_set_name(getWidget("cmdtextview"),"CmdLog");
+  WulforUtil::setTextColor(string("black"),string("CmdLog"));//TODO: Settings
+
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("cmdtextview")));
     gtk_text_buffer_get_end_iter(buffer, &iter);
     cmdMark = gtk_text_buffer_create_mark(buffer, NULL, &iter, FALSE);
-    
+
     gboolean hubin = WGETB("cmd-debug-hub-in");
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("hub_in_button")) , hubin);
     gboolean hubout = WGETB("cmd-debug-hub-out");
@@ -49,12 +51,12 @@ stop(false)
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("client_out_button")) , clientout);
     gboolean detection = WGETB("cmd-debug-detection");
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(getWidget("detection_button")) , detection);
-    
+
     GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("cmdscroll")));
     g_signal_connect(adjustment, "value_changed", G_CALLBACK(onScroll_gui), (gpointer)this);
     g_signal_connect(adjustment, "changed", G_CALLBACK(onResize_gui), (gpointer)this);
     g_signal_connect(getWidget("buttonClear"), "clicked", G_CALLBACK(onClearButton), (gpointer)this);
-    
+
     ClientManager *clientMgr = ClientManager::getInstance();
     {
 		auto lock = clientMgr->lock();
@@ -66,9 +68,9 @@ stop(false)
 			if(!client->isConnected())
 				continue;
 			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxadr")),client->getHubUrl().c_str());
-			iters.insert(Iters::value_type(client->getHubUrl(), i));	
+			iters.insert(Iters::value_type(client->getHubUrl(), i));
 			i++;
-		}		
+		}
 	}
 	DebugManager::getInstance()->addListener(this);
 }
@@ -124,14 +126,14 @@ void cmddebug::show()
 }
 
 void cmddebug::on(ClientConnected, Client* c) noexcept {
-	
+
 	typedef Func2<cmddebug, Client*, bool> F2;
 	F2 *func = new F2(this,&cmddebug::UpdateCombo,c, true);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
 void cmddebug::on(ClientDisconnected, Client* c) noexcept {
-	
+
 	typedef Func2<cmddebug, Client*, bool> F2;
 	F2 *func = new F2(this,&cmddebug::UpdateCombo,c, false);
 	WulforManager::get()->dispatchGuiFunc(func);
@@ -142,29 +144,29 @@ void cmddebug::UpdateCombo(Client* c, bool add)
 	GtkWidget *widget = getWidget("comboboxadr");
 	int i = 0;
 	if(add)
-	{ 	
+	{
 		if(iters.find(c->getHubUrl()) == iters.end())
 		{
 			if(!c->isConnected())
 				return;
 			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(widget),c->getHubUrl().c_str());
 			i = iters.size()+1;
-			iters.insert(Iters::value_type(c->getHubUrl(),i));		
+			iters.insert(Iters::value_type(c->getHubUrl(),i));
 		}
 	}else {
 		if(c == NULL)
 			return;
-		string url = c->getHubUrl();   
+		string url = c->getHubUrl();
 		auto it = iters.find(url);
 		if(it != iters.end())
 		{
 			i = it->second;
 			gtk_combo_box_text_remove(GTK_COMBO_BOX_TEXT(widget),i);
-			iters.erase(url);	
+			iters.erase(url);
 		}
 	}
 }
-		
+
 void cmddebug::onScroll_gui(GtkAdjustment *adjustment, gpointer data)
 {
     cmddebug *cmd = (cmddebug *)data;
@@ -193,5 +195,5 @@ void cmddebug::onClearButton(GtkWidget *widget, gpointer data)
 	gtk_text_buffer_get_start_iter(cmd->buffer, &startIter);
 	gtk_text_buffer_get_end_iter(cmd->buffer, &endIter);
 	gtk_text_buffer_delete(cmd->buffer, &startIter, &endIter);
-	
+
 }

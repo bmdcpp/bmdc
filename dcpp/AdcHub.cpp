@@ -79,7 +79,7 @@ OnlineUser& AdcHub::getUser(const uint32_t aSID, const CID& aCID) {
 	}
 	UserPtr p = ClientManager::getInstance()->getUser(aCID);
 
-	{	
+	{
 		Lock l(cs);
 		ou = users.emplace(aSID, new OnlineUser(p, *this, aSID)).first->second;
 	}
@@ -195,7 +195,7 @@ void AdcHub::handle(AdcCommand::INF, AdcCommand& c) noexcept {
 	auto list = FavoriteManager::getInstance()->getListIp();
 	if(list.find(u->getIdentity().getIp()) != list.end())
 		fire(ClientListener::StatusMessage(),this,"IP"+u->getIdentity().getIp()+"Connected");
-	
+
 
 	if(u->getUser() == getMyIdentity().getUser()) {
 		state = STATE_NORMAL;
@@ -364,7 +364,7 @@ void AdcHub::handle(AdcCommand::CTM, AdcCommand& c) noexcept {
 		return;
 	}
 
-	if(!u->getIdentity().isTcpActive()) {
+	if(!u->getIdentity().isTcpActive(this)) {
 		send(AdcCommand(AdcCommand::SEV_FATAL, AdcCommand::ERROR_PROTOCOL_GENERIC, "IP unknown", AdcCommand::TYPE_DIRECT).setTo(c.getFrom()));
 		return;
 	}
@@ -394,7 +394,7 @@ void AdcHub::handle(AdcCommand::RCM, AdcCommand& c) noexcept {
 		return;
 	}
 
-	if(ClientManager::getInstance()->isActive()) {
+	if(ClientManager::getInstance()->isActive(getHubUrl())) {
 		connect(*u, token, secure);
 		return;
 	}
@@ -1051,10 +1051,10 @@ void AdcHub::info(bool /*alwaysSend*/) {
 
 	addParam(lastInfoMap, c, "LC", Util::getIETFLang());
 
-	bool addV4 = !sock->isV6Valid() || ( ((int)HUBSETTING(INCOMING_CONNECTIONS)) <= 2); 
+	bool addV4 = !sock->isV6Valid() || ( ((int)HUBSETTING(INCOMING_CONNECTIONS)) <= 2);
 	bool addV6 = sock->isV6Valid() || ( !((string)HUBSETTING(EXTERNAL_IP6)).empty()) ;
-	
-	
+
+
 	if(addV4 && isActiveV4()) {
 		su += "," + TCP4_FEATURE;
 		su += "," + UDP4_FEATURE;
@@ -1065,8 +1065,8 @@ void AdcHub::info(bool /*alwaysSend*/) {
 		su += "," + UDP6_FEATURE;
 	}
 
-	if (  (addV6 && !isActiveV6() && (!HUBSETTING(EXTERNAL_IP6).empty())) 
-		|| ( (addV4 && !isActiveV4()) && ((int)HUBSETTING(INCOMING_CONNECTIONS) <= 2) )) 
+	if (  (addV6 && !isActiveV6() && (!HUBSETTING(EXTERNAL_IP6).empty()))
+		|| ( (addV4 && !isActiveV4()) && ((int)HUBSETTING(INCOMING_CONNECTIONS) <= 2) ))
 	{
 		su += "," + NAT0_FEATURE;
 	}
@@ -1135,7 +1135,7 @@ void AdcHub::on(Connected c) noexcept {
 	if(SETTING(SEND_BLOOM)) {
 		cmd.addParam(BLO0_SUPPORT);
 	}
-	
+
 	cmd.addParam(DFAV_SUPPORT);//
 	cmd.addParam(ZLIF_SUPPORT);
 

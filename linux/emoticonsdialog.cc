@@ -244,6 +244,7 @@ void EmoticonsDialog::showEmotDialog_gui()
 
 	/* create popup dialog */
 	dialog = gtk_window_new(GTK_WINDOW_POPUP);
+	gtk_widget_set_name(dialog,"EmoticonsDialog");//todo string?
 
 	build();
 	position();
@@ -268,13 +269,22 @@ void EmoticonsDialog::build()
 		if ((++columns*rows) < (guint)sizetable) rows++;
 
 	/* set options dialog */
-	GdkRGBA color;
-	string back = "#faddab";
-
+//GdkRGBA color;//old
+//	string back = "#faddab";
+/*
 	if (gdk_rgba_parse (&color,back.c_str()))
 		gtk_widget_override_background_color(dialog, GTK_STATE_FLAG_NORMAL, &color);
-
-
+*/
+	GtkCssProvider *provider = gtk_css_provider_new ();
+	GdkDisplay *display = gdk_display_get_default ();
+	GdkScreen *screen = gdk_display_get_default_screen (display);
+	std::string t_css = "GtkDialog#EmoticonsDialog { background: #faddab; }\n\0";
+	gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
+	gtk_style_context_add_provider_for_screen (screen,
+														GTK_STYLE_PROVIDER(provider),
+														GTK_STYLE_PROVIDER_PRIORITY_USER);
+	g_object_unref (provider);
+/*-------*/
 	/* create dialog body */
 	GtkWidget *frame = gtk_frame_new(NULL);
 	gtk_container_add(GTK_CONTAINER(dialog), frame);
