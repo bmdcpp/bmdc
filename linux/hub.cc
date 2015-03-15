@@ -60,7 +60,7 @@ Hub::Hub(const string &address, const string &encoding):
 	ImgLimit(0) , notCreated(true) , isFavBool(true)
 {
 	FavoriteHubEntry* faventry =  getFavoriteHubEntry();
-
+	setName(CID(address).toBase32());
 	// Initialize nick treeview
 	nickView.setView(GTK_TREE_VIEW(getWidget("nickView")), false, "hub");
 	nickView.insertColumn(_("Nick"), G_TYPE_STRING, TreeView::ICON_STRING_TEXT_COLOR, 100, "Icon", "NickColor");
@@ -402,7 +402,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		string sizeString;
 
 		string nick = hub->nickView.getString(iter,_("Nick"),model);
-		int64_t size = hub->nickView.getValue<gint64>(iter,_("Shared"),model);
+		uint64_t size = hub->nickView.getValue<gint64>(iter,_("Shared"),model);
 		string tmp = hub->nickView.getString(iter,_("Client Type"),model);
 
 		char a = tmp[0];

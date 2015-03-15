@@ -57,17 +57,20 @@ class BookEntry : public Entry
 		GtkWidget *getFItem() { return (createItemFirstMenu());}
 		
 		void setSearchButtons(bool s) { IsCloseButton = s;}
+		void setName(const std::string& name)
+		{ h_name= name;}
 	protected:
 		GtkWidget *createItemFirstMenu();
 	private:
 		void updateLabel_gui();
 		static void onCloseItem(gpointer data);
 		void removeBooK_GUI();
-
+		std::string getName();//For CSS
 		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		std::string labelText;
 		std::string truncatedLabelText;
+		std::string h_name;
 		GtkWidget *eventBox;
 		GtkWidget *labelBox;
 		GtkWidget *tabMenuItem;

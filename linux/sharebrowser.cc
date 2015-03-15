@@ -58,6 +58,7 @@ ShareBrowser::ShareBrowser(HintedUser user, const string &file, const string &in
 		nick = name.substr(0, loc);
 		setLabel_gui(_("List: ") + nick);
 	}
+	setName(CID(nick).toBase32());
 
 	// Configure the dialogs
 	File::ensureDirectory(SETTING(DOWNLOAD_DIRECTORY));

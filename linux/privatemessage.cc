@@ -45,6 +45,7 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 	scrollToBottom(TRUE),
 	notCreated(true)
 {
+	setName(cid);
 	//Set Colors
 	gtk_widget_set_name(getWidget("text"),"pm");
 	WulforUtil::setTextDeufaults(getWidget("text"),SETTING(BACKGROUND_CHAT_COLOR),WGETS("pm-background-image"),true);

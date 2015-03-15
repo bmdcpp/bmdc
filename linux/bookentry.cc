@@ -44,20 +44,21 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	#else
 	labelBox = gtk_hbox_new(FALSE, 0);
 	#endif
+	gtk_widget_set_name(labelBox,getName().c_str());//
 	eventBox = gtk_event_box_new();
-	gtk_widget_set_name(eventBox,getID().c_str());//
+	gtk_widget_set_name(eventBox,getName().c_str());//
 	gtk_event_box_set_above_child(GTK_EVENT_BOX(eventBox), TRUE);
 	gtk_event_box_set_visible_window(GTK_EVENT_BOX(eventBox), FALSE);
 	// icon
 	icon = gtk_image_new();
-	gtk_widget_set_name(icon,getID().c_str());//
+	gtk_widget_set_name(icon,getName().c_str());//
 	gtk_box_pack_start(GTK_BOX(labelBox), icon, FALSE, FALSE, 0);
 
 	// Make the eventbox fill to all left-over space.
 	gtk_box_pack_start(GTK_BOX(labelBox), GTK_WIDGET(eventBox), TRUE, TRUE, 0);
 
 	label = GTK_LABEL(gtk_label_new(text.c_str()));
-	gtk_widget_set_name(GTK_WIDGET(label),getID().c_str());//
+	gtk_widget_set_name(GTK_WIDGET(label),getName().c_str());//
 	gtk_container_add(GTK_CONTAINER(eventBox), GTK_WIDGET(label));
 
 	// Align text to the left (x = 0) and in the vertical center (0.5)
@@ -72,7 +73,7 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
     if(IsCloseButton || WGETB("use-close-button"))
      {
 		closeButton = gtk_button_new();
-		gtk_widget_set_name(closeButton,getID().c_str());
+		gtk_widget_set_name(closeButton,getName().c_str());
         gtk_button_set_relief(GTK_BUTTON(closeButton), GTK_RELIEF_NONE);
         gtk_button_set_focus_on_click(GTK_BUTTON(closeButton), FALSE);
 
@@ -96,7 +97,7 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
     #else
         GtkWidget *image = gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
     #endif
-		//gtk_widget_set_name(image,getID().c_str());
+		gtk_widget_set_name(image,getName().c_str());
 
         gtk_container_add(GTK_CONTAINER(closeButton), image);
         gtk_box_pack_start(GTK_BOX(labelBox), closeButton, FALSE, FALSE, 0);
@@ -527,12 +528,13 @@ void BookEntry::setBackForeGround(const EntryType type)
 	GtkCssProvider *provider = gtk_css_provider_new ();
 	GdkDisplay *display = gdk_display_get_default ();
 	GdkScreen *screen = gdk_display_get_default_screen (display);
-	std::string t_css = std::string("GtkEventBox#"+getID()+", GtkLabel#"+getID()+", GtkImage#"+getID()+" GtkEventBox#"+getID()+":active, GtkLabel#"+getID()+":active, GtkImage#"+getID()+":active { color:"+fg+"; background: "+bg+"; }\n\0");
+	std::string t_css = std::string("#"+getName()+" , #"+getName()+":active { color:"+fg+"; background: "+bg+"; }\n\0");
 	gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
 
 	gtk_style_context_add_provider_for_screen (screen,
 											GTK_STYLE_PROVIDER(provider),
 											GTK_STYLE_PROVIDER_PRIORITY_USER);
+	//gdk_display_close (display);
 	g_object_unref (provider);
 	
 /*	
@@ -664,15 +666,16 @@ void BookEntry::setBackForeGround_unread(const EntryType type)
     GtkCssProvider *provider = gtk_css_provider_new ();
 	GdkDisplay *display = gdk_display_get_default ();
 	GdkScreen *screen = gdk_display_get_default_screen (display);
-	std::string t_css = std::string("GtkEventBox#"+getID()+", GtkLabel#"+getID()+", GtkImage#"+getID()+" GtkEventBox#"+getID()+":active, GtkLabel#"+getID()+":active, GtkImage#"+getID()+":active { color:"+fg+"; background: "+bg+"; }\n\0");
+	std::string t_css = std::string("#"+getName()+" , #"+getName()+":active { color:"+fg+"; background: "+bg+"; }\n\0");
 	gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
 
 	gtk_style_context_add_provider_for_screen (screen,
 											GTK_STYLE_PROVIDER(provider),
 											GTK_STYLE_PROVIDER_PRIORITY_USER);
+	//gdk_display_close (display);
 	g_object_unref (provider);
 
-	if(IsCloseButton || WGETB("use-close-button")) {
+	if(IsCloseButton || WGETB("use-close-button")) {//TODO: did we need this here?
 		gtk_widget_override_background_color(labelBox,(GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
 		gtk_widget_override_background_color(labelBox,(GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
 		gtk_widget_override_background_color(closeButton,(GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
@@ -680,3 +683,91 @@ void BookEntry::setBackForeGround_unread(const EntryType type)
 	}
 
 }
+
+string BookEntry::getName() // In this should not include : ,spaces and so #dialog(s) is there only for is it in one enum
+{
+	string str = dcpp::Util::emptyString;
+	const Entry::EntryType  type = getType();
+	
+	switch(type)
+	{
+		
+		case	DOWNLOAD_QUEUE:
+				str = "DownloadQueue";
+				break;
+		case	FAVORITE_HUBS:
+				str = "FavoriteHubs";
+				break;
+		case	FAVORITE_USERS:
+				str = "FavoriteUsers";
+				break;
+		case	FINISHED_DOWNLOADS:
+				str = "FinishedDowloads";
+				break;
+		case	FINISHED_UPLOADS:
+				str = "FinishedUploads";
+				break;
+		case	HASH_DIALOG:
+				break;	
+		case	CMD:
+				str = "CMDDebug";
+				break;
+		case	HUB:
+				str = "Hub"+h_name;
+				break;
+		case	MAIN_WINDOW:
+				break;
+		case	PRIVATE_MESSAGE:
+				str = "PrivateMessage"+h_name;
+				break;
+		case	PUBLIC_HUBS:
+				str = "PublicHubs";
+				break;
+		case	SEARCH:
+				str = "Search";
+				break;
+		case	SETTINGS_DIALOG:
+				break;
+		case	SHARE_BROWSER:
+				str = "ShareBrowser"+h_name;
+				break;
+		case	TRANSFERS:
+				break;
+		case	USER_COMMAND_MENU:
+				break;
+		case	SEARCH_SPY:
+				str = "SearchSpy";
+				break;
+		case	SEARCH_ADL:
+				str = "SearchADL";
+				break;
+		case	NOTEPAD:
+				str = "Notepad";
+				break;
+		case	SYSTEML:
+				str = "SystemLog";
+				break;
+		case	UPLOADQUEUE:
+				str = "UploadQueue";
+				break;
+		case	RECENT:
+				str = "RecentHubs";
+				break;
+		case	DETECTION:
+				str = "Detection";
+				break;	
+		case	ABOUT_CONFIG:
+				str = "AboutConfig";
+				break;
+		case	EXPORT_DIALOG:
+				break;
+		case	SEARCHS:
+				str = "SearchEntry";
+		case	FAV_HUB:
+		default:break;
+	};
+	
+	return str;	
+}
+
+
