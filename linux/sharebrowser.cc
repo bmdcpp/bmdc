@@ -58,7 +58,7 @@ ShareBrowser::ShareBrowser(HintedUser user, const string &file, const string &in
 		nick = name.substr(0, loc);
 		setLabel_gui(_("List: ") + nick);
 	}
-	setName(CID(nick).toBase32());
+	setName(CID(nick).toBase32());//@Nick can have in it .% and so thus reason why we use CID'ed ver
 
 	// Configure the dialogs
 	File::ensureDirectory(SETTING(DOWNLOAD_DIRECTORY));

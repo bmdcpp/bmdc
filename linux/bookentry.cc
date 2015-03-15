@@ -81,8 +81,6 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 		GtkCssProvider *provider =  gtk_css_provider_get_default ();
 		GdkDisplay *display = gdk_display_get_default ();
 		GdkScreen *screen = gdk_display_get_default_screen (display);
-		gtk_style_context_add_provider_for_screen (screen, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-		gdk_display_close (display);
 		gtk_css_provider_load_from_data(provider,".button {\n"
                 "-GtkButton-default-border : 0px;\n"
                 "-GtkButton-default-outside-border : 0px;\n"
@@ -90,7 +88,7 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
                 "-GtkWidget-focus-line-width : 0px;\n"
                 "-GtkWidget-focus-padding : 0px;\n"
                 "padding: 0px;}\n\0",-1, NULL);
-     
+		gtk_style_context_add_provider_for_screen (screen, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);     
      // Add the stock icon to the close button
      #if GTK_CHECK_VERSION(3,9,0)
 	    GtkWidget *image = gtk_image_new_from_icon_name("window-close",GTK_ICON_SIZE_MENU);
@@ -425,8 +423,6 @@ GtkWidget *BookEntry::createItemFirstMenu()
 
 void BookEntry::setBackForeGround(const EntryType type)
 {
-	GdkRGBA fg_color;
-	GdkRGBA bg_color;
 	string fg,bg;
 	switch (type)
 	{
@@ -519,9 +515,6 @@ void BookEntry::setBackForeGround(const EntryType type)
 		default: return;
 	}
 
-	gdk_rgba_parse(&fg_color,fg.c_str());
-	gdk_rgba_parse(&bg_color,bg.c_str());
-
 	gtk_event_box_set_visible_window (GTK_EVENT_BOX(eventBox)
 	,TRUE);
 	
@@ -534,31 +527,19 @@ void BookEntry::setBackForeGround(const EntryType type)
 	gtk_style_context_add_provider_for_screen (screen,
 											GTK_STYLE_PROVIDER(provider),
 											GTK_STYLE_PROVIDER_PRIORITY_USER);
-	//gdk_display_close (display);
 	g_object_unref (provider);
 	
-/*	
-	
-    gtk_widget_override_color (GTK_WIDGET(label), (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &fg_color);
-    gtk_widget_override_color (GTK_WIDGET(label), (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &fg_color);
-    gtk_widget_override_background_color (eventBox, (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
-    gtk_widget_override_background_color (eventBox, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);*/
-    //We need also overide color on icon...
-    //gtk_widget_override_background_color (icon, (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
-    //gtk_widget_override_background_color (icon, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
-
+/*
 	if(IsCloseButton || WGETB("use-close-button")) {
 		gtk_widget_override_background_color(labelBox,(GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
 		gtk_widget_override_background_color(labelBox,(GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
 		gtk_widget_override_background_color(closeButton,(GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
 		gtk_widget_override_background_color(closeButton,(GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
-	}
+	}*/
 }
 
 void BookEntry::setBackForeGround_unread(const EntryType type)
 {
-	GdkRGBA fg_color;
-	GdkRGBA bg_color;
 	string fg,bg;
 	switch (type)
 	{
@@ -651,18 +632,9 @@ void BookEntry::setBackForeGround_unread(const EntryType type)
 		default: return;
 	}
 
-	gdk_rgba_parse(&fg_color,fg.c_str());
-	gdk_rgba_parse(&bg_color,bg.c_str());
-
 	gtk_event_box_set_visible_window (GTK_EVENT_BOX(eventBox)
 	,TRUE);
-    /*gtk_widget_override_color (GTK_WIDGET(label), (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &fg_color);
-    gtk_widget_override_color (GTK_WIDGET(label), (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &fg_color);
-    gtk_widget_override_background_color (eventBox, (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
-    gtk_widget_override_background_color (eventBox, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
-    //We need also overide color on icon...
-    gtk_widget_override_background_color (icon, (GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
-    gtk_widget_override_background_color (icon, (GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);*/
+
     GtkCssProvider *provider = gtk_css_provider_new ();
 	GdkDisplay *display = gdk_display_get_default ();
 	GdkScreen *screen = gdk_display_get_default_screen (display);
@@ -672,19 +644,18 @@ void BookEntry::setBackForeGround_unread(const EntryType type)
 	gtk_style_context_add_provider_for_screen (screen,
 											GTK_STYLE_PROVIDER(provider),
 											GTK_STYLE_PROVIDER_PRIORITY_USER);
-	//gdk_display_close (display);
 	g_object_unref (provider);
-
+/*
 	if(IsCloseButton || WGETB("use-close-button")) {//TODO: did we need this here?
 		gtk_widget_override_background_color(labelBox,(GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
 		gtk_widget_override_background_color(labelBox,(GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
 		gtk_widget_override_background_color(closeButton,(GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
 		gtk_widget_override_background_color(closeButton,(GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
-	}
+	}*/
 
 }
 
-string BookEntry::getName() // In this should not include : ,spaces and so #dialog(s) is there only for is it in one enum
+string BookEntry::getName() //CSS:getName() In this should not include : ,spaces and so #dialog(s) is there only for is it in one enum
 {
 	string str = dcpp::Util::emptyString;
 	const Entry::EntryType  type = getType();

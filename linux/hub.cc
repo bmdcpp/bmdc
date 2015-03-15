@@ -4689,7 +4689,7 @@ void Hub::SetTabText(gpointer data)
                                          GTK_STOCK_CANCEL,
                                          GTK_RESPONSE_CANCEL,
                                          NULL));
-	#pragma GCC diagnostic pop
+#pragma GCC diagnostic pop
    GtkWidget *content_area = gtk_dialog_get_content_area (dialog);
    GtkWidget *entry = gtk_entry_new();
    GtkWidget *label = gtk_label_new("Text: ");

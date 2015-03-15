@@ -43,7 +43,7 @@ class BookEntry : public Entry
 		GtkWidget *getTabMenuItem() { return tabMenuItem; }
 		void setIcon_gui(const EntryType type);
 		void setBackForeGround(const EntryType type); //@ Setting BackGround and ForeGround of Book
-		void setBackForeGround_unread(const EntryType type);
+		void setBackForeGround_unread(const EntryType type);//@ unread version of func above
 		void setIcon_gui(const std::string stock);
 		void setIconPixbufs_gui(const std::string iconspath);
 		void setLabel_gui(std::string text);
@@ -65,7 +65,7 @@ class BookEntry : public Entry
 		void updateLabel_gui();
 		static void onCloseItem(gpointer data);
 		void removeBooK_GUI();
-		std::string getName();//For CSS
+		std::string getName();//NOTE:For CSS
 		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		std::string labelText;
