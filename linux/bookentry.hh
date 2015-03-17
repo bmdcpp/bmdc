@@ -59,6 +59,11 @@ class BookEntry : public Entry
 		void setSearchButtons(bool s) { IsCloseButton = s;}
 		void setName(const std::string& name)
 		{ h_name= name;}
+		void setUnread()
+		{
+			gtk_widget_set_state_flags (eventBox,GTK_STATE_FLAG_ACTIVE,TRUE);
+			gtk_widget_set_state_flags (labelBox,GTK_STATE_FLAG_ACTIVE,TRUE);
+		}
 	protected:
 		GtkWidget *createItemFirstMenu();
 	private:

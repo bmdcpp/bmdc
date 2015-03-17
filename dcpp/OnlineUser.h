@@ -26,8 +26,6 @@
 #include "User.h"
 #include "PluginEntity.h"
 #include "TimerManager.h"
-//#include "OnlineUser.h"
-//#include "Client.h"
 
 namespace dcpp {
 

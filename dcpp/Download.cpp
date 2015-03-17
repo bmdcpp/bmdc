@@ -27,7 +27,7 @@
 namespace dcpp {
 
 Download::Download(UserConnection& conn, QueueItem& qi, const string& path, bool supportsTrees) noexcept : Transfer(conn, path, qi.getTTH()),
-	tempTarget(qi.getTempTarget()), file(0), treeValid(false)
+	tempTarget(qi.getTempTarget()), file(nullptr), treeValid(false)
 {
 	conn.setDownload(this);
 

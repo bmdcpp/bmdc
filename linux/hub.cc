@@ -797,7 +797,14 @@ void Hub::updateUser_gui(ParamMap params)
 			WulforManager::get()->getMainWindow()->addPrivateStatusMessage_gui(Msg::STATUS, cid, message);
 			Notify::get()->showNotify("", message, Notify::FAVORITE_USER_JOIN);
 		}
-	}
+	}		
+	if( !params["IP"].empty()) {
+		auto list = FavoriteManager::getInstance()->getListIp();	
+		auto i = list.find(params["IP"]);
+		if( i != list.end())
+			addStatusMessage_gui(params["IP"] + _(" Has been connected "), Msg::STATUS, Sound::NONE);
+	}	
+	
 	setColorsRows();
 	setStatus_gui("statusUsers", Util::toString(userMap.size()) + _(" Users"));
 	setStatus_gui("statusShared", Util::formatBytes(totalShared));
@@ -2414,6 +2421,13 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			}
 			else
 				hub->addStatusMessage_gui(_("Not found user: ") + param, Msg::SYSTEM, Sound::NONE);
+		}
+		else if(command == "addip")
+		{	
+			if(!params.empty()) {
+				FavoriteManager::getInstance()->addFavoriteIp(params);
+			}else
+				hub->addStatusMessage_gui(_("No IP given to command"), Msg::SYSTEM , Sound::NONE );
 		}
 		else if (command == "emoticons" || command == "emot")
 		{

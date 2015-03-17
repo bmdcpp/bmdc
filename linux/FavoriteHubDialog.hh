@@ -62,23 +62,23 @@ private:
 		GtkWidget* notebook;
 		GtkWidget* boxSimple;
 		GtkWidget* boxAdvanced;
-		//Hub-stuff
+		//@: Hub-stuff
 		GtkWidget* entryAddress;
 		GtkWidget* entryName;
 		GtkWidget* entryDesc;
 		GtkWidget* comboCodepage;
 		GtkWidget* checkAutoConnect;
-		//User-info related stuff
+		//@: User-info related stuff
 		GtkWidget* entryUsername;
 		GtkWidget* entryPassword;
 		GtkWidget* entryUserDescriptio;
 		GtkWidget* entryMail;
-		//Checking
+		//@: Checking
 		GtkWidget* entryProtectedUser;
 		GtkWidget* checkFilelists;
 		GtkWidget* checkClients;
 		GtkWidget* checkOnConn;
-		//Chat&Others
+		//@: Chat&Others
 		GtkWidget* extraChatInfoEntry;
 		GtkWidget* checkHideShare;
 		GtkWidget* entryAwayMessage;
@@ -93,7 +93,7 @@ private:
 		GtkWidget* enableBold;
 		GtkWidget* enableStatusChat;
 		GtkWidget* enableFavFirst;
-		//
+		//@: Connection
 		GtkWidget* comboMode;
 		GtkWidget* entryIp;
 		//Kick View

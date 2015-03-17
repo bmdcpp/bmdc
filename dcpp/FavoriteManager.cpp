@@ -18,7 +18,7 @@
 
 #include "stdinc.h"
 #include "FavoriteManager.h"
-
+#include "Pointer.h"
 #include "ClientManager.h"
 #include "CryptoManager.h"
 //[BMDC
@@ -521,7 +521,17 @@ void FavoriteManager::save() {
 			xml.addChildAttrib("Description",it->second->getDescription());
 			xml.addChildAttrib("GrantSlot", it->second->isSet(FavoriteUser::FLAG_GRANTSLOT));
 		}
-
+		
+		xml.stepOut();
+		xml.addTag("FavoriteIpAddress");
+		xml.stepIn();
+		for(auto it:ips)
+		{
+			xml.addTag("FavoriteIP");
+			xml.addChildAttrib("IP",it.second->getIp());
+			xml.addChildAttrib("LastSeen",it.second->getLastSeen());
+			
+		}
 		xml.stepOut();
 
 		xml.stepOut();
@@ -755,6 +765,20 @@ void FavoriteManager::load(SimpleXML& aXml) {
 			}
 		}
 		aXml.stepOut();
+	}
+	aXml.resetCurrentChild();
+	if(aXml.findChild("FavoriteIpAddress"))
+	{
+			aXml.stepIn();
+			while(aXml.findChild("FavoriteIP"))
+			{
+				string ip = aXml.getChildAttrib("IP");
+				time_t lastSeen = (time_t)aXml.getIntChildAttrib("LastSeen");	
+				addFavoriteIp(ip,lastSeen);
+			}
+		
+		
+			aXml.stepOut();
 	}
 
 	dontSave = false;

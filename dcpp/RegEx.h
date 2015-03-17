@@ -22,6 +22,7 @@
 #include <pcre.h>  /* PCRE lib */
 #include "StringTokenizer.h"
 #include "debug.h"
+
 namespace dcpp {
 
 namespace RegEx {

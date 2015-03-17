@@ -1037,7 +1037,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	// End of "Now Playing"
 	else if ( cmd == "df" )
 	{
-		string tmp = "\n\t\t\t-=Free Spaces=-\t\t\t\n" +  FreeSpace::process_mounts("/etc/mtab");
+		string tmp = "\n\t\t\t-=Free Space=-\t\t\t\n" +  FreeSpace::process_mounts("/etc/mtab");
 		tmp += "\n\t\t\tTotal:\t" + Util::formatBytes(FreeSpace::_aviable) + "/" + Util::formatBytes(FreeSpace::_total) + "\t\n";
 		message += tmp;
 		return true;

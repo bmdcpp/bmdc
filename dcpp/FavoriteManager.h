@@ -131,7 +131,7 @@ public:
 	
 	iplist getListIp() {Lock l(cs); return ips;}
 	
-	void addFavoriteIp(const string& ip)
+	void addFavoriteIp(const string& ip,time_t lastSeen = time(NULL))
 	{
 		Lock l(cs);
 		
@@ -139,7 +139,7 @@ public:
 		{
 			FavoriteUser* fav = new FavoriteUser(FavoriteUser::Flags::FLAG_IP);	
 			fav->setIp(ip);
-			fav->setLastSeen(time(NULL));
+			fav->setLastSeen(lastSeen);
 			ips.insert(make_pair(ip,fav));
 			save();
 		}	

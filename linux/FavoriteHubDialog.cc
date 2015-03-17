@@ -108,6 +108,8 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* = true
 	if(set == false){
 		gtk_combo_box_set_active(GTK_COMBO_BOX(comboCodepage),0);
 	}
+	
+	//group combo
 	checkAutoConnect = g_c_b_n(_("Auto-Connect to this Hub"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkAutoConnect), p_entry->getAutoConnect());
 	
@@ -133,7 +135,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* = true
 	//
 	boxAdvanced	= gtk_grid_new();
 	GtkWidget* labelAdvanced = lan(_("Chat&Misc"));
-	checkHideShare = g_c_b_n(_("Hide Share"));//@TODO: move
+	checkHideShare = g_c_b_n(_("Hide Share"));//@TODO: Possible move
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkHideShare), p_entry->getHideShare() );
 
 	g_g_a_a(checkHideShare,0,0,1,1);

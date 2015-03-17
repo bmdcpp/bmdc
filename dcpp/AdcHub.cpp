@@ -192,10 +192,6 @@ void AdcHub::handle(AdcCommand::INF, AdcCommand& c) noexcept {
 			updated(*u);
 		}
 	}
-	auto list = FavoriteManager::getInstance()->getListIp();
-	if(list.find(u->getIdentity().getIp()) != list.end())
-		fire(ClientListener::StatusMessage(),this,"IP"+u->getIdentity().getIp()+"Connected");
-
 
 	if(u->getUser() == getMyIdentity().getUser()) {
 		state = STATE_NORMAL;

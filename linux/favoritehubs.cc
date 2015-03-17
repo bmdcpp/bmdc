@@ -811,7 +811,7 @@ void FavoriteHubs::edit_online_status(std::string url,bool online)
 
 void FavoriteHubs::initializeList_client()
 {
-	gtk_list_store_clear(favoriteStore);//Clean empty ?
+//	gtk_list_store_clear(favoriteStore);//Clean empty ?
 	const FavoriteHubEntryList& fl = FavoriteManager::getInstance()->getFavoriteHubs();
 
 	for (auto it = fl.begin(); it != fl.end(); ++it)

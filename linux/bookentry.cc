@@ -240,7 +240,8 @@ void BookEntry::setUrgent_gui()
 			bold = true;
 			urgent = true;
 			updateLabel_gui();
-			setBackForeGround_unread(type);
+			//setBackForeGround_unread(type);
+			setUnread();
 		}
 
 		if (mw && !mw->isActive_gui())
@@ -521,7 +522,8 @@ void BookEntry::setBackForeGround(const EntryType type)
 	GtkCssProvider *provider = gtk_css_provider_new ();
 	GdkDisplay *display = gdk_display_get_default ();
 	GdkScreen *screen = gdk_display_get_default_screen (display);
-	std::string t_css = std::string("#"+getName()+" , #"+getName()+":active { color:"+fg+"; background: "+bg+"; }\n\0");
+	//std::string t_css = std::string("#"+getName()+" , #"+getName()+":active { color:"+fg+"; background: "+bg+"; }\n\0");
+	std::string t_css = std::string("#"+getName()+" { color:"+fg+"; background: "+bg+"; }\n\0");
 	gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
 
 	gtk_style_context_add_provider_for_screen (screen,
@@ -536,6 +538,7 @@ void BookEntry::setBackForeGround(const EntryType type)
 		gtk_widget_override_background_color(closeButton,(GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);
 		gtk_widget_override_background_color(closeButton,(GtkStateFlags)GTK_STATE_FLAG_ACTIVE, &bg_color);
 	}*/
+	setBackForeGround_unread(type);//set unread status
 }
 
 void BookEntry::setBackForeGround_unread(const EntryType type)
@@ -634,17 +637,18 @@ void BookEntry::setBackForeGround_unread(const EntryType type)
 
 	gtk_event_box_set_visible_window (GTK_EVENT_BOX(eventBox)
 	,TRUE);
-
+	
     GtkCssProvider *provider = gtk_css_provider_new ();
 	GdkDisplay *display = gdk_display_get_default ();
 	GdkScreen *screen = gdk_display_get_default_screen (display);
-	std::string t_css = std::string("#"+getName()+" , #"+getName()+":active { color:"+fg+"; background: "+bg+"; }\n\0");
+	std::string t_css = std::string("#"+getName()+":active { color:"+fg+"; background: "+bg+"; }\n\0");
 	gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
 
 	gtk_style_context_add_provider_for_screen (screen,
 											GTK_STYLE_PROVIDER(provider),
 											GTK_STYLE_PROVIDER_PRIORITY_USER);
 	g_object_unref (provider);
+	
 /*
 	if(IsCloseButton || WGETB("use-close-button")) {//TODO: did we need this here?
 		gtk_widget_override_background_color(labelBox,(GtkStateFlags)GTK_STATE_FLAG_NORMAL, &bg_color);

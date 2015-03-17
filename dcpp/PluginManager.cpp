@@ -18,7 +18,7 @@
 
 #include "stdinc.h"
 #include "PluginManager.h"
-
+#include "Pointer.h"
 #include "Client.h"
 #include "ClientManager.h"
 #include "ConnectionManager.h"
