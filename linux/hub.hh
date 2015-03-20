@@ -179,6 +179,8 @@ class Hub:
 		static void onToglleButtonIcon(GtkToggleButton *button, gpointer data);
 		//[colorize userlist
 		static void makeColor(GtkTreeViewColumn *column, GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data);
+		static gint sort_iter_compare_func_nick(GtkTreeModel *model, GtkTreeIter  *a,GtkTreeIter  *b,  gpointer  data);
+
 
 		// Client functions
 		void addFavoriteUser_client(const std::string& cid);
@@ -279,6 +281,7 @@ class Hub:
 		GtkWidget *m_menu;
 		bool notCreated;
 		bool isFavBool; 
+		std::string sort;//sort order for TreeView
 
 };
 #else

@@ -47,7 +47,7 @@ public:
 	virtual void sendUserCmd(const UserCommand& command, const ParamMap& params);
 	virtual void search(int aSizeType, int64_t aSize, int aFileType, const string& aString, const string& aToken, const StringList& aExtList);
 	virtual void password(const string& aPass);
-	virtual void info(bool force) { myInfo(force); }
+	virtual void infoImpl() { myInfo(false); }
 
 	virtual size_t getUserCount() const { Lock l(cs); return users.size(); }
 	virtual int64_t getAvailable() const;

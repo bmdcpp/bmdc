@@ -19,13 +19,14 @@
 #include "stdinc.h"
 #include "Client.h"
 #include "BufferedSocket.h"
+#include "ClientManager.h"
+#include "ConnectivityManager.h"
 #include "FavoriteManager.h"
 #include "TimerManager.h"
-#include "ClientManager.h"
-#include "LogManager.h"
-#include "DebugManager.h"
 #include "PluginManager.h"
-#include "ConnectivityManager.h"
+#include "DebugManager.h"
+#include "LogManager.h"
+
 #include "AdcHub.h" // for dynamic_cast
 
 namespace dcpp {
@@ -47,6 +48,12 @@ Client::Client(const string& hubURL, char separator_, bool secure_) :
 	//RSX++
 	setCheckAtConnect(false);
 	cmdQueue.setClientPtr(this);
+}
+
+void Client::info() {
+		if(isConnected()) {
+			sock->callAsync([this] { infoImpl(); });
+		}
 }
 
 Client::~Client() {

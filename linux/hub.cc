@@ -105,13 +105,18 @@ Hub::Hub(const string &address, const string &encoding):
 	nickSelection = gtk_tree_view_get_selection(nickView.get());
 	gtk_tree_selection_set_mode(gtk_tree_view_get_selection(nickView.get()), GTK_SELECTION_MULTIPLE);
 
-	string sort = SETTING(SORT_FAVUSERS_FIRST) ? "Client Type" : "Nick Order";
+	sort = SETTING(SORT_FAVUSERS_FIRST) ? "Client Type" : "Nick Order";
 	if(faventry)
 		sort = faventry->get(SettingsManager::SORT_FAVUSERS_FIRST,SETTING(SORT_FAVUSERS_FIRST)) ? "Client Type" : "Nick Order";
-
+/*
 	nickView.setSortColumn_gui(_("Nick"), sort);
-	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);
+	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);*/
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(nickView.get(), nickView.col(_("Nick"))), TRUE);
+	gtk_tree_sortable_set_sort_func(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), sort_iter_compare_func_nick,
+                                    (gpointer)this, NULL);
+	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);
+                                     
+	
 	//BMDC++
 	nickView.setSelection(nickSelection);
 	nickView.buildCopyMenu(getWidget("CopyMenu"));
@@ -345,6 +350,28 @@ Hub::Hub(const string &address, const string &encoding):
 FavoriteHubEntry* Hub::getFavoriteHubEntry()
 {
 	return FavoriteManager::getInstance()->getFavoriteHubEntry(address);
+}
+//There we should be case-insestive!
+gint Hub::sort_iter_compare_func_nick(GtkTreeModel *model, GtkTreeIter  *a,
+									GtkTreeIter  *b,  gpointer  data)
+{
+		Hub* hub = (Hub *)data;
+		gchar *nick_a = NULL , *nick_b = NULL;
+		gtk_tree_model_get(model, a, hub->nickView.col(hub->sort), &nick_a, -1);
+        gtk_tree_model_get(model, b, hub->nickView.col(hub->sort), &nick_b, -1);
+		gint ret = 0;
+		if (nick_a == NULL || nick_b == NULL)
+        {
+          if (nick_a == NULL && nick_b == NULL)
+              ret = 0;
+ 
+          ret = (nick_a == NULL) ? -1 : 1;
+        }
+        else
+        {
+          ret = dcpp::Util::stricmp(nick_a,nick_b);
+        }
+        return ret;
 }
 
 void Hub::setColorsRows()
@@ -583,7 +610,7 @@ gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean 
 	GtkTreeView *tree_view = GTK_TREE_VIEW (widget);
 	GtkTreeModel *model = gtk_tree_view_get_model (tree_view);
 	GtkTreePath *path = NULL;
-	gchar *nick, *tag, *desc,*con,*ip,*e,*country,*slots,*hubs,*pk,*cheat,*gen,*sup,*cid;
+	gchar *nick, *tag, *desc,*con,*ip,*e,*country,*slots,*hubs,*pk,*cheat,*gen,*sup,*cid,*type;
 	gint64 ssize;
 
 	char buffer[1000];
@@ -608,10 +635,11 @@ gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean 
 									hub->nickView.col(_("Generator")), &gen,
 									hub->nickView.col(_("Support")), &sup,
 									hub->nickView.col("CID"), &cid,
+									hub->nickView.col("Client Type"),&type,
   									-1);
 
   string sharesize  = Util::formatBytes(ssize);
-  g_snprintf (buffer, 1000, " Nick: %s\n Connection: %s\n Description: %s\n Tag: %s\n Share: %s\n IP: %s\n eMail: %s\nCountry: %s\n Slots: %s\n Hubs: %s\n PK: %s\n Cheat: %s\n Generator: %s\n Support: %s\n CID: %s", nick, con,desc, tag , sharesize.c_str() ,ip, e, country, slots, hubs, pk, cheat, gen, sup, cid);
+  g_snprintf (buffer, 1000, " Nick: %s\n Connection: %s\n Description: %s\n Tag: %s\n Share: %s\n IP: %s\n eMail: %s\nCountry: %s\n Slots: %s\n Hubs: %s\n PK: %s\n Cheat: %s\n Generator: %s\n Support: %s\n CID: %s,\n Type %s", nick, con,desc, tag , sharesize.c_str() ,ip, e, country, slots, hubs, pk, cheat, gen, sup, cid,type);
   gtk_tooltip_set_text (_tooltip, buffer);
 	if(path == NULL) return FALSE;
 	if(tree_view == NULL) return FALSE;

@@ -495,7 +495,7 @@ void ClientManager::infoUpdated() {
 	Lock l(cs);
 	for(auto i = clients.begin(); i != clients.end(); ++i) {
 		if((*i)->isConnected()) {
-			(*i)->info(false);
+			(*i)->info();
 		}
 	}
 }
@@ -631,7 +631,7 @@ void ClientManager::on(TimerManagerListener::Minute, uint64_t /* aTick */) noexc
 
 	for(auto j = clients.begin(); j != clients.end(); ++j) {
 		if((*j)->isConnected())
-			(*j)->info(false);
+			(*j)->info();
 	}
 }
 
@@ -689,7 +689,7 @@ bool ClientManager::isActive(const string& aHubUrl /*= Util::emptyString*/) cons
 {
 	return ( (getMode(aHubUrl) != SettingsManager::INCOMING_FIREWALL_PASSIVE) );
 }
-//..TODO IPv6
+//TODO:check ip6 if ok
 void ClientManager::setIpAddress(const UserPtr& p, const string& ip) {
     Lock l(cs);
 	OnlineIterC i = onlineUsers.find(p->getCID());

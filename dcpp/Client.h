@@ -57,7 +57,9 @@ public:
 	virtual void sendUserCmd(const UserCommand& command, const ParamMap& params) = 0;
 	virtual void search(int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken, const StringList& aExtList) = 0;
 	virtual void password(const string& pwd) = 0;
-	virtual void info(bool force) = 0;
+	
+	/** Send new information about oneself. Thread-safe. */
+	void info();
 
 	virtual void emulateCommand(const string& cmd) = 0;
 	virtual size_t getUserCount() const = 0;
@@ -188,6 +190,7 @@ protected:
 
 	virtual bool v4only() const = 0;
 private:
+	virtual void infoImpl() = 0;
 
 	string hubUrl;
 	string address;
