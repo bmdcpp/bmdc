@@ -57,7 +57,7 @@ const string SettingsManager::settingTags[] =
 	//[BMDC
 	"BackupFilePattern", "LogFileRaw", "LogFormatRaw", "ProtectedUsers", "BackupTimeStamp", "EmotPack", "RipeDB",
 	"HubIconStr", "HubTextStr", "HubULOrder", "HubULVisible", "HubULSize", "ChatExtraInfo", 
-	"BackgroundChatColor", "BackgroundChatImage", 
+	"BackgroundChatColor", "BackgroundChatImage", "RatioTemplate",
 	//]
 	"SENTRY",
 	// Ints
@@ -438,6 +438,7 @@ SettingsManager::SettingsManager()
 	setDefault(USE_EMOTS, true);
 	setDefault(BACKGROUND_CHAT_COLOR, "white");
 	setDefault(BACKGROUND_CHAT_IMAGE, Util::emptyString);
+	setDefault(RATIO_TEMPLATE, "%[client] Ratio: %[ratio]  Uploads: %[up] / Downloads %[down] ");
 
 	setSearchTypeDefaults();
 
@@ -683,24 +684,7 @@ void SettingsManager::save(string const& aFileName) {
 		// ...
 	}
 }
-/*
-HubSettings SettingsManager::getHubSettings() const {
-	HubSettings ret;
-    ret.get(HubSettings::Nick) = get(NICK);
-    ret.get(HubSettings::Description) = get(DESCRIPTION);
-	ret.get(HubSettings::Email) = get(EMAIL);
-    ret.get(HubSettings::ShowJoins) = get(SHOW_JOINS);
-    ret.get(HubSettings::FavShowJoins) = get(FAV_SHOW_JOINS);
-	//[BMDC++
-	ret.get(HubSettings::LogChat) = get(LOG_MAIN_CHAT);
-	ret.get(HubSettings::ShowIps) = get(USE_IP);
-	ret.get(HubSettings::ShowCountry) = get(GET_USER_COUNTRY);
-	ret.get(HubSettings::BoldTab) = get(BOLD_HUB);
-	ret.get(HubSettings::PackName) = get(EMOT_PACK);
-	//]
-    return ret;
-}
-*/
+
 void SettingsManager::validateSearchTypeName(const string& name) const {
 	if(name.empty() || (name.size() == 1 && name[0] >= '1' && name[0] <= '6')) {
 		throw SearchTypeException(_("Invalid search type name"));

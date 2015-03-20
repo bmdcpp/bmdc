@@ -9,6 +9,7 @@
  Add info about if send server cmd
  Re-write Fav Hub Dialog
  Fix focus of chatEntry
+ Add customizaable /ratio cmd
 0.1.3
  ======
 * Fix IPv6 coloring in chat

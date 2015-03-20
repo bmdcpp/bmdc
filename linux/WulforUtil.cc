@@ -825,6 +825,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 		return true;
 	} else if ( cmd == "ratio")
 	{
+			dcpp::ParamMap map;
 			double ratio;
 			double dw =  static_cast<double>(SETTING(TOTAL_DOWNLOAD));
 			double up = static_cast<double>(SETTING(TOTAL_UPLOAD));
@@ -832,11 +833,18 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 				ratio = up / dw;
 			else
 				ratio = 0;
+				
+			map["ratio"] = Util::toString(ratio);
+			map["down"]	= Util::formatBytes(dw);
+			map["up"] = Util::formatBytes(up);
+			map["client"] = GUI_PACKAGE;
+			
+			string result = dcpp::Util::formatParams(SETTING(RATIO_TEMPLATE),map);
 
 			if(param == "mc")
-				message = string("Ratio: " ) + Util::toString(ratio) + string(" ( Uploads: ") + Util::formatBytes(up) + "/ Downloads " + Util::formatBytes(dw) + " )";
+				message = result;
 			else
-				status += string("Ratio: " ) + Util::toString(ratio) + string(" ( Uploads: ") + Util::formatBytes(up) + "/ Downloads " + Util::formatBytes(dw) + " )";
+				status += result;
 
 			return true;
 	}
@@ -856,7 +864,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	else if ( cmd == "slots")
 	{
 		if (param == "0")
-					status = _("Invalid number of slots");
+					status += _("Invalid number of slots");
 		else
 		{
 			SettingsManager *sm = SettingsManager::getInstance();

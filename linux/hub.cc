@@ -53,11 +53,11 @@ const string Hub::tagPrefix = "#";
 
 Hub::Hub(const string &address, const string &encoding):
 	BookEntry(Entry::HUB, address, "hub", address),
-	client(NULL), historyIndex(0),
+	client(nullptr), historyIndex(0),
 	totalShared(0),	address(address),
 	encoding(encoding), scrollToBottom(TRUE),
 	PasswordDialog(FALSE), WaitingPassword(FALSE),
-	ImgLimit(0) , notCreated(true) , isFavBool(true)
+	ImgLimit(0), notCreated(true), isFavBool(true)
 {
 	FavoriteHubEntry* faventry =  getFavoriteHubEntry();
 	setName(CID(address).toBase32());
@@ -140,6 +140,7 @@ Hub::Hub(const string &address, const string &encoding):
 	end_mark = gtk_text_buffer_create_mark(chatBuffer, NULL, &iter, TRUE);
 	tag_mark = gtk_text_buffer_create_mark(chatBuffer, NULL, &iter, FALSE);
 	emot_mark = gtk_text_buffer_create_mark(chatBuffer, NULL, &iter, TRUE);
+
 #if !GTK_CHECK_VERSION(3, 16, 0)
 	handCursor = gdk_cursor_new(GDK_HAND2);
 #endif
@@ -463,6 +464,7 @@ if(WGETB("use-highlighting")) {//maybe hub-based?
 		if(isSet == false) {
 			g_object_set(cell,"cell-background-set",TRUE,"cell-background",color.c_str(),NULL);
 		}
+		
 		gchar *title = const_cast<gchar*>(gtk_tree_view_column_get_title(column));
 
 		if(strcmp(title,_("Shared")) == 0)
