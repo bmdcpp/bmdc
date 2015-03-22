@@ -59,9 +59,8 @@ class BookEntry : public Entry
 		void setSearchButtons(bool s) { IsCloseButton = s;}
 		void setName(const std::string& name)
 		{ h_name= name;}
-		void setUnread()
+		void setUnread()//@set flag for tab
 		{
-			gtk_widget_set_state_flags (eventBox,GTK_STATE_FLAG_ACTIVE,TRUE);
 			gtk_widget_set_state_flags (labelBox,GTK_STATE_FLAG_ACTIVE,TRUE);
 		}
 	protected:
@@ -70,7 +69,7 @@ class BookEntry : public Entry
 		void updateLabel_gui();
 		static void onCloseItem(gpointer data);
 		void removeBooK_GUI();
-		std::string getName();//NOTE:For CSS
+		std::string getName();//@NOTE: For CSS
 		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		std::string labelText;
