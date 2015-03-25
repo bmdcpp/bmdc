@@ -47,7 +47,7 @@
 #define _LL(x) x##ll
 #define _ULL(x) x##ull
 #define I64_FMT "%I64d"
-#define U64_FMT "%I64d"
+#define U64_FMT "%I64u"
 
 #elif defined(SIZEOF_LONG) && SIZEOF_LONG == 8
 #define _LL(x) x##l
@@ -58,7 +58,7 @@
 #define _LL(x) x##ll
 #define _ULL(x) x##ull
 #define I64_FMT "%lld"
-#define U64_FMT "%lld"
+#define U64_FMT "%llu"
 #endif
 
 #ifndef _REENTRANT
