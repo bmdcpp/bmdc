@@ -188,6 +188,7 @@ class WulforUtil
 		static std::string generateLeech();
 		static void loadmimetypes();
 		static std::string getStatsForMem();
+		static std::string cpuinfo();
 		static bool Ipv4Hit(std::string &name, std::string &sIp);
 		static std::string formatSized(std::string& nonf);
 	#if GTK_CHECK_VERSION(3,9,0)

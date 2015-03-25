@@ -4338,13 +4338,18 @@ void Hub::on(ClientListener::HubUpdated, Client *) noexcept
 	WulforManager::get()->dispatchGuiFunc(func1);
 }
 
-/* Inspired by code of RSX*/
+/* 
+ * Inspired by code of RSX
+ * Addtions is support
+ * of flags
+ * 
+ * */
 string Hub::formatAdditionalInfo(const string& aIp, bool sIp, bool sCC) {
 	string ret = Util::emptyString;
 
 	if(!aIp.empty()) {
-		string cc = sCC ? GeoManager::getInstance()->getCountryAbbrevation(aIp) : Util::emptyString;
-		string countryn = sCC ? GeoManager::getInstance()->getCountry(aIp) : Util::emptyString;
+		string cc = GeoManager::getInstance()->getCountryAbbrevation(aIp);
+		string country_name = sCC ? GeoManager::getInstance()->getCountry(aIp) : Util::emptyString;
 		bool showIp = sIp;
 		bool showCc = sCC && !cc.empty();
 		bool useFlagIcons = (client->get(SettingsManager::USE_COUNTRY_FLAG,SETTING(USE_COUNTRY_FLAG)) && !cc.empty());
@@ -4354,7 +4359,7 @@ string Hub::formatAdditionalInfo(const string& aIp, bool sIp, bool sCC) {
 		}
 
 		if(showCc) {
-			ret += "[" + countryn + "] ";
+			ret += "[" + country_name + "] ";
 		}
 
 		if(useFlagIcons) {

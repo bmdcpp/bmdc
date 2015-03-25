@@ -912,7 +912,8 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 					+ "-= Uptime: " + formatTimeDifference(time(NULL) - Util::getUptime()) + " =-\n"
 					+ "-= System Uptime: " + Util::toString(udays) + " days," + Util::toString(uhour) + " Hours," + Util::toString(umin) + " min. =-\n"
 					+ "-= Detection (Failed/Successful): " + Util::toString(detfail) + " /" + Util::toString(dettotal) + " =-\n"
-					+ "-=" + getStatsForMem() + " =-\n";
+					+ "-=" + getStatsForMem() + " =-\n"
+					+ "-=" + cpuinfo() + " =-\n";
 		return true;
 	}
 	else if ( cmd == "g" || cmd == "google"){
@@ -1683,4 +1684,33 @@ bool WulforUtil::Ipv4Hit(string &name, string &sIp) {
 	}
 	return isOk;
 
+}
+
+string WulforUtil::cpuinfo()
+{
+	int num_cpus = 0;
+	char cpu_type[256] = {0};
+	char cpu_info[2048];
+	FILE* cpuinfo = fopen("/proc/cpuinfo", "r");
+	if (cpuinfo) {
+		char line[1024] = {0};
+		while (fgets(line, sizeof(line), cpuinfo) != NULL) {
+			const char* sep = strchr(line, ':');
+			if (sep == NULL || strlen(sep) < 10)
+				continue;
+
+			char key[1024] = {0};
+			char val[1024] = {0};
+			strncpy(key, line, sep - 1 - line);
+			strncpy(val, sep + 1, strlen(sep) - 1);
+			if (strcmp("model name", key) == 0) {
+				num_cpus++;
+				strcpy(cpu_type, val);
+			} 
+		}
+
+		fclose(cpuinfo);
+		sprintf(cpu_info," CPU:  %d * %s ", num_cpus, cpu_type);
+	}	
+	return string(cpu_info);
 }
