@@ -18,10 +18,11 @@
 
 #include "stdinc.h"
 #include "ZUtils.h"
-
+#include "debug.h"
 #include "Exception.h"
 #include "File.h"
 #include "format.h"
+#include "noexcept.h"
 #include "ScopedFunctor.h"
 
 namespace dcpp {

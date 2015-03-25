@@ -22,15 +22,25 @@
  */
 
 #include "stdinc.h"
-#include "ADLSearch.h"
+#include "compiler.h"
+#include "nullptr.h"
+#include "Util.h"
 #include "RegEx.h"
+#include "Text.h"
 #include "ClientManager.h"
 #include "File.h"
 #include "LogManager.h"
 #include "QueueManager.h"
 #include "RawManager.h"
+#include "SimpleXMLReader.h"
 #include "SimpleXML.h"
 #include "StringTokenizer.h"
+#include "ActionRaw.h"
+#include "Text.h"
+#include "SettingsManager.h"
+#include "ADLSearch.h"
+#include "ActionRaw.h"
+#include "CalcADLAction.h"
 
 namespace dcpp {
 

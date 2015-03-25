@@ -64,17 +64,13 @@ bool match(const T& text, const T& pattern, bool ignoreCase = true) /*throw()*/ 
        switch (rc) {
             case PCRE_ERROR_NOMATCH:
                 dcdebug("String didn't match");
-  //              free(re);
 				return false;
             default:
                 printf("Error while matching: %d\n", rc);
-  //              free(re);
                 return false;
         }
-//        free(re);
         return true;
     }
- //   free(re);
     if(rc > 1)
 		return true;
 

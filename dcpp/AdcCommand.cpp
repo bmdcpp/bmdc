@@ -18,8 +18,11 @@
 
 #include "stdinc.h"
 #include "AdcCommand.h"
-
-#include "ClientManager.h"
+#include "CID.h"
+#include "Text.h"
+#include "noexcept.h"
+#include "GetSet.h"
+#include "Encoder.h"
 
 namespace dcpp {
 

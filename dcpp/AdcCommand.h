@@ -20,9 +20,14 @@
 #define DCPLUSPLUS_DCPP_ADC_COMMAND_H
 
 #include "typedefs.h"
-
+#include "debug.h"
+#include "compiler.h"
+#include "Text.h"
 #include "Exception.h"
 #include "Util.h"
+#include "noexcept.h"
+#include "GetSet.h"
+
 
 namespace dcpp {
 

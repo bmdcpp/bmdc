@@ -20,11 +20,10 @@
 #define DCPLUSPLUS_DCPP_USER_H
 
 #include "forward.h"
-//#include "Pointer.h"
 #include "CID.h"
+#include "Encoder.h"
 #include "CriticalSection.h"
 #include "Flags.h"
-//#include "noncopyable.h"
 #include <memory>
 
 namespace dcpp {

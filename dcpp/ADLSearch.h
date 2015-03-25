@@ -25,12 +25,13 @@
 #define DCPLUSPLUS_DCPP_A_D_L_SEARCH_H
 
 #include "Util.h"
-//#include "GetSet.h"
+#include "GetSet.h"
 #include "SettingsManager.h"
 #include "StringSearch.h"
 #include "Singleton.h"
 #include "DirectoryListing.h"
 #include "HintedUser.h"
+
 namespace dcpp {
 
 class AdlSearchManager;

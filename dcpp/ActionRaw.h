@@ -16,8 +16,14 @@
 
 #ifndef _BMDC_ACTION_RAW_
 #define _BMDC_ACTION_RAW_
-
+#include "compiler.h"
 #include "Util.h"
+#include "Text.h"
+#include "debug.h"
+#include "typedefs.h" 
+#include "forward.h"
+#include "noexcept.h"
+#include "GetSet.h"
 
 namespace dcpp {
 	

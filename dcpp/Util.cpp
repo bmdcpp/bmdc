@@ -18,7 +18,8 @@
 
 #include "stdinc.h"
 #include "Util.h"
-
+#include "nullptr.h"
+#include "Encoder.h"
 #include "CID.h"
 #include "ClientManager.h"
 #include "ConnectivityManager.h"
@@ -467,13 +468,13 @@ map<string, string> Util::decodeQuery(const string& query) {
 	map<string, string> ret;
 	size_t start = 0;
 	while(start < query.size()) {
-		auto eq = query.find('=', start);
+		size_t eq = query.find('=', start);
 		if(eq == string::npos) {
 			break;
 		}
 
-		auto param = eq + 1;
-		auto end = query.find('&', param);
+		size_t param = eq + 1;
+		size_t end = query.find('&', param);
 
 		if(end == string::npos) {
 			end = query.size();

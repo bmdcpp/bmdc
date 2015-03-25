@@ -26,6 +26,8 @@
 #include "OnlineUser.h"
 #include "SettingsManager.h"
 #include "ADLSearch.h"
+#include "CriticalSection.h"
+
 #include "FakeChecker.h"
 
 namespace dcpp {
