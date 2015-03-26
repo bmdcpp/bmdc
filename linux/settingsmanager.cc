@@ -119,7 +119,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("notify-icon-size", 3));
 	defaultInt.insert(IntMap::value_type("notify-only-not-active", 0));
 	defaultInt.insert(IntMap::value_type("status-icon-blink-use", 1));
-	defaultInt.insert(IntMap::value_type("pm", 0));//Send private message when double clicked in the user list.//@TODO remove ?//Not yet still used
+//	defaultInt.insert(IntMap::value_type("pm", 0));//Send private message when double clicked in the user list.//@TODO remove ?//Not yet still used
 	defaultInt.insert(IntMap::value_type("search-spy-frame", 50));
 	defaultInt.insert(IntMap::value_type("search-spy-waiting", 40));
 	defaultInt.insert(IntMap::value_type("search-spy-top", 4));
@@ -477,8 +477,6 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("hide-transfers",0));
 
 	defaultString.insert(StringMap::value_type("menu-userlist-color","blue"));//TODO: dcpp set
-	
-	defaultString.insert(StringMap::value_type("pm-background-image",dcpp::Util::emptyString));//Full Path
 	
 	load();
 

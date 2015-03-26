@@ -75,6 +75,7 @@ class FavoriteUsers:
 		void setUserDescription_client(const std::string cid, const std::string description);
 		void setDesc_client(const std::string nick, const std::string desc);
 		void setIgnore(const std::string cid , const bool set);
+		void clickAction(gpointer data);
 
 		// Favorite callbacks
 		virtual void on(dcpp::FavoriteManagerListener::UserAdded, const dcpp::FavoriteUser &user) noexcept;

@@ -1116,7 +1116,6 @@ void Settings::initAppearance_gui()
 		addOption_gui(appearanceStore, _("Use blinking status icon"), "status-icon-blink-use");
 		addOption_gui(appearanceStore, _("Use emoticons"), SettingsManager::USE_EMOTS);//"emoticons-use");
 		addOption_gui(appearanceStore, _("Do not close the program, hide in the system tray"), "main-window-no-close");
-		addOption_gui(appearanceStore, _("Send PM when double clicked in the user list"), "pm");
 		addOption_gui(appearanceStore, _("Show Country in chat"), SettingsManager::GET_USER_COUNTRY);
 		addOption_gui(appearanceStore, _("Show IP in chat"), SettingsManager::USE_IP);
 		addOption_gui(appearanceStore, _("Show Free Slots in Desc"), SettingsManager::SHOW_FREE_SLOTS_DESC);

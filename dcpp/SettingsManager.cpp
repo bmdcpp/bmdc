@@ -57,7 +57,8 @@ const string SettingsManager::settingTags[] =
 	//[BMDC
 	"BackupFilePattern", "LogFileRaw", "LogFormatRaw", "ProtectedUsers", "BackupTimeStamp", "EmotPack", "RipeDB",
 	"HubIconStr", "HubTextStr", "HubULOrder", "HubULVisible", "HubULSize", "ChatExtraInfo", 
-	"BackgroundChatColor", "BackgroundChatImage", "RatioTemplate",
+	"BackgroundChatColor", "BackgroundChatImage", "BackgroundPmColor", "BackgroundPmImage",
+	"RatioTemplate",
 	//]
 	"SENTRY",
 	// Ints
@@ -438,6 +439,8 @@ SettingsManager::SettingsManager()
 	setDefault(USE_EMOTS, true);
 	setDefault(BACKGROUND_CHAT_COLOR, "white");
 	setDefault(BACKGROUND_CHAT_IMAGE, Util::emptyString);
+	setDefault(BACKGROUND_PM_COLOR, "white");
+	setDefault(BACKGROUND_PM_IMAGE, Util::emptyString);
 	setDefault(RATIO_TEMPLATE, "%[client] Ratio: %[ratio]  Uploads: %[up] / Downloads %[down] ");
 
 	setSearchTypeDefaults();

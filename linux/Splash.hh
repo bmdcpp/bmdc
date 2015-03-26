@@ -1,5 +1,4 @@
 /*
- * Splash.hh
  *
  * Copyright (C) 2011 - 2015 - Mank - freedcpp at seznam dot cz
  *

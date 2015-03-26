@@ -1942,10 +1942,7 @@ gboolean Hub::onNickListButtonRelease_gui(GtkWidget *widget, GdkEventButton *eve
 		}
 		else if (event->button == 2 && event->type == GDK_BUTTON_RELEASE)
 		{
-			if (WGETB("pm"))
-				hub->onBrowseItemClicked_gui(NULL, data);
-			else
-				hub->onMsgItemClicked_gui(NULL, data);
+			hub->clickAction(data);
 		}
 		else if (event->button == 3 && event->type == GDK_BUTTON_RELEASE)
 		{

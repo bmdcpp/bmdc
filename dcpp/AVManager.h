@@ -47,8 +47,8 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 			string nick;
 			uint64_t share;
 		};
-		void addItemNick(const string& nick,const AVEntry& entry);
-		void addItemIp(const string& ip,const AVEntry& entry);
+		void addItemNick(const string& nick, const AVEntry& entry);
+		void addItemIp(const string& ip, const AVEntry& entry);
 		AVEntry getEntryByNick(string nick) { Lock l(cs); return entries.find(Text::toLower(nick))->second; }
 		AVEntry getEntryByIP(string ip) { Lock l(cs); return entip.find(ip)->second; }
 		std::map<string /*nick*/,AVEntry> entries;

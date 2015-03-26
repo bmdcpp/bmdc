@@ -45,6 +45,10 @@
 #include <queue>
 #include <vector>
 
+#ifdef HAVE_APPINDCATOR
+	#include <libappindicator/app-indicator.h>
+#endif
+
 class BookEntry;
 class SearchEntry;
 class Search;
@@ -317,6 +321,7 @@ class MainWindow:
 
 		GtkWindow *window;
 		Transfers* transfers;
+		bool minimized;
 #ifdef GTK_DISABLE_DEPRECATED
 #if !GTK_CHECK_VERSION(3,14,1)		
 		GtkStatusIcon *statusIcon;
@@ -327,7 +332,6 @@ class MainWindow:
 		guint timer;
 #endif
 		int64_t lastUpdate, lastUp, lastDown;
-		bool minimized;
 		dcpp::StringList EntryList;
 		int statusFrame;
 		bool useStatusIconBlink;

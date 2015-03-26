@@ -19,8 +19,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef WULFOR_SETTINGSMANAGER_HH
-#define WULFOR_SETTINGSMANAGER_HH
+#ifndef _BMDC_SETTINGSMANAGER_HH
+#define _BMDC_SETTINGSMANAGER_HH
 
 #include <string>
 #include <map>

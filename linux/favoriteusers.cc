@@ -196,19 +196,11 @@ gboolean FavoriteUsers::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *
 	{
 		if (event->button == 1 && fu->previous == GDK_2BUTTON_PRESS)
 		{
-			if (WGETB("pm"))
-
-				fu->onSendPMItemClicked_gui(NULL, data);
-			else
-				fu->onBrowseItemClicked_gui(NULL, data);
+			fu->clickAction(data);
 		}
 		else if (event->button == 2 && event->type == GDK_BUTTON_RELEASE)
 		{
-			if (WGETB("pm"))
-
-				fu->onBrowseItemClicked_gui(NULL, data);
-			else
-				fu->onSendPMItemClicked_gui(NULL, data);
+			fu->clickAction(data);
 		}
 		else if (event->button == 3 && event->type == GDK_BUTTON_RELEASE)
 		{
@@ -217,6 +209,35 @@ gboolean FavoriteUsers::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *
 	}
 
 	return FALSE;
+}
+
+
+void FavoriteUsers::clickAction(gpointer data)
+{
+	//TODO:maybe..some other & UI & fav?
+	switch((CActions::User)WGETI("double-click-action"))
+	{
+		case CActions::BROWSE:
+			onBrowseItemClicked_gui(NULL, data);
+			break;
+		case CActions::NICK_TO_CHAT:
+			break;
+	    case CActions::PM_TO_NICK:
+			onSendPMItemClicked_gui(NULL, data);
+			break;
+		case CActions::MATCH_Q:
+			onMatchQueueItemClicked_gui(NULL ,data);
+			break;
+		case CActions::GRANT_SLOT:
+			onGrantSlotItemClicked_gui(NULL, data);
+			break;
+		case CActions::ADD_AS_FAV:
+			break;
+		case CActions::GET_PARTIAL_FILELIST:
+			//onPartialFileListOpen_gui(NULL, data);//TODO
+			break;
+		default: break;
+	}
 }
 
 void FavoriteUsers::onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data)

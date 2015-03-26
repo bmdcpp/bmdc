@@ -505,7 +505,7 @@ void ShareManager::Directory::File::validateName(const string& sourcePath) {
 			++num;
 			vname = base + " (" + Util::toString(num) + ")" + ext;
 		} while(parent->nameInUse(vname));
-		dcdebug("Renaming duplicate <%s> to <%s>\n", name.c_str(), vname.c_str());
+		dcdebug("Renaming duplicate <%s> to <%s> with Path <%s> \n", name.c_str(), vname.c_str(), sourcePath.c_str());//Possible log?
 		realPath = sourcePath + move(name);
 		name = move(vname);
 	} else {
