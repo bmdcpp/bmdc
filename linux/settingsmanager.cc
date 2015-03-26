@@ -294,11 +294,8 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("icon-upload", "bmdc-upload"));
 	defaultString.insert(StringMap::value_type("icon-quit", "bmdc-quit"));
 	defaultString.insert(StringMap::value_type("icon-connect", "bmdc-connect"));
-	#pragma GCC diagnostic push
-	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-	defaultString.insert(StringMap::value_type("icon-file", GTK_STOCK_FILE));
-	defaultString.insert(StringMap::value_type("icon-directory", GTK_STOCK_DIRECTORY));
-	#pragma GCC diagnostic pop
+	defaultString.insert(StringMap::value_type("icon-file", BMDC_STOCK_FILE));
+	defaultString.insert(StringMap::value_type("icon-directory", BMDC_STOCK_DIRECTORY));
 	defaultString.insert(StringMap::value_type("icon-pm-online", "bmdc-pm-online"));
 	defaultString.insert(StringMap::value_type("icon-pm-offline", "bmdc-pm-offline"));
 	defaultString.insert(StringMap::value_type("icon-hub-online", "bmdc-hub-online"));

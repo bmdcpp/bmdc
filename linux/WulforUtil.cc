@@ -696,7 +696,7 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
 		}	
 		#else
 		GtkWidget* iwid = gtk_invisible_new ();
-		buf = gtk_widget_render_icon_pixbuf(iwid, GTK_STOCK_DIALOG_QUESTION, GTK_ICON_SIZE_MENU);
+		buf = gtk_widget_render_icon_pixbuf(iwid, BMDC_STOCK_DIALOG_QUESTION, GTK_ICON_SIZE_MENU);
 		#endif
 		return buf;
 	}
@@ -878,13 +878,13 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	else if (cmd == "stats")
 	{
 			int z = 0 ,y = 0;
-			struct utsname u_name;//instance of utsname
+			struct utsname u_name; //instance of utsname
 			z = uname(&u_name);
 			if (z == -1)
 				dcdebug("Failed on uname");
 			string rel(u_name.release);
 			string mach(u_name.machine);
-			struct sysinfo sys;//instance of acct;
+			struct sysinfo sys; //instance of acct;
 			y = sysinfo(&sys);
 			if(y != 0)
 				dcdebug("Failed on sysinfo");
@@ -904,8 +904,12 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 				build += "clang " __clang_version__;
 			#elif defined(__GNUC__)
 				build += "gcc " __VERSION__;
+				#ifdef _DEBUG
+				build += " Debug";
+				#else
+				build += " Release";
+				#endif
 			#endif
-			///*Seconds*/;
 		message =   "\n-= Stats " + dcpp::fullVersionString+" =-"
 					+"\n-= " +build+" =-\n"
 					+ "-= " + rel + " " + mach + " =-\n"
@@ -1494,7 +1498,7 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 		return buf;
 		#else
 		GtkWidget* iwid = gtk_invisible_new ();
-		GdkPixbuf* buf = gtk_widget_render_icon_pixbuf(iwid, GTK_STOCK_DIRECTORY, GTK_ICON_SIZE_MENU);
+		GdkPixbuf* buf = gtk_widget_render_icon_pixbuf(iwid, BMDC_STOCK_DIRECTORY, GTK_ICON_SIZE_MENU);
 		return buf;
 		#endif
 	}
@@ -1514,7 +1518,7 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 		return buf;
 		#else
 		GtkWidget *iwid = gtk_invisible_new ();
-		GdkPixbuf *buf = gtk_widget_render_icon_pixbuf(iwid, GTK_STOCK_FILE, GTK_ICON_SIZE_MENU);
+		GdkPixbuf *buf = gtk_widget_render_icon_pixbuf(iwid, BMDC_STOCK_FILE, GTK_ICON_SIZE_MENU);
 		return buf;
 		#endif
 	}
@@ -1710,7 +1714,7 @@ string WulforUtil::cpuinfo()
 		}
 
 		fclose(cpuinfo);
-		sprintf(cpu_info," CPU:  %d * %s ", num_cpus, cpu_type);
+		sprintf(cpu_info," CPU:  %d Core, %s ", num_cpus, cpu_type);
 	}	
 	return string(cpu_info);
 }

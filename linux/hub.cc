@@ -961,19 +961,19 @@ void Hub::getPassword_gui()
 
 	if (PasswordDialog)
 		return;
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+//#pragma GCC diagnostic push
+//#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 	// Create password dialog
 	string title = _("Enter hub password for ") + client->getHubUrl();
 	GtkWidget *dialog = gtk_dialog_new_with_buttons(title.c_str(),
 		GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_STOCK_OK,
+		BMDC_STOCK_OK,
 		GTK_RESPONSE_OK,
-		GTK_STOCK_CANCEL,
+		BMDC_STOCK_CANCEL,
 		GTK_RESPONSE_CANCEL,
 		NULL);
-#pragma GCC diagnostic pop		
+//#pragma GCC diagnostic pop		
 	gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_OK);
 #if GTK_CHECK_VERSION(3, 2, 0)
@@ -1373,7 +1373,7 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 #if GTK_CHECK_VERSION(3,9,0)
 				GtkWidget *image = gtk_image_new_from_icon_name("text-x-generic",GTK_ICON_SIZE_BUTTON);
 #else
-				GtkWidget *image = gtk_image_new_from_stock(GTK_STOCK_FILE, GTK_ICON_SIZE_BUTTON);
+				GtkWidget *image = gtk_image_new_from_stock(BMDC_STOCK_FILE, GTK_ICON_SIZE_BUTTON);
 #endif
 				gtk_container_add(GTK_CONTAINER(event_box), image);
 				gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW(getWidget("chatText")), event_box, anchor);
@@ -4047,7 +4047,7 @@ void Hub::onRemoveImageClicked_gui(GtkMenuItem *item, gpointer data)
 	#if GTK_CHECK_VERSION(3,9,0)
 		gtk_image_set_from_icon_name(GTK_IMAGE(image),"text-x-generic", GTK_ICON_SIZE_BUTTON);
 	#else
-		gtk_image_set_from_stock(GTK_IMAGE(image), GTK_STOCK_FILE, GTK_ICON_SIZE_BUTTON);
+		gtk_image_set_from_stock(GTK_IMAGE(image), BMDC_STOCK_FILE, GTK_ICON_SIZE_BUTTON);
 	#endif
 	hub->imageLoad.first = "";
 	hub->imageLoad.second = NULL;
@@ -4685,15 +4685,15 @@ void Hub::on_setImage_tab(GtkButton *widget, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	if(hub == NULL) return;
-	#pragma GCC diagnostic push
-	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+//	#pragma GCC diagnostic push
+//	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 	GtkWidget *dialog = gtk_file_chooser_dialog_new ("Open Icon File to Set to Tab",
 						GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 				        GTK_FILE_CHOOSER_ACTION_OPEN,
-				        GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				        GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+				        BMDC_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				        BMDC_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 				        NULL);
-	#pragma GCC diagnostic pop
+//	#pragma GCC diagnostic pop
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
 	{
 		char *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
@@ -4728,17 +4728,15 @@ void Hub::SetTabText(gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	if(hub == NULL) return;
-	#pragma GCC diagnostic push
-	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 	GtkDialog *dialog =  GTK_DIALOG(gtk_dialog_new_with_buttons ("Setting for a Tab Text",
                                          GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
                                          GTK_DIALOG_DESTROY_WITH_PARENT,
-                                         GTK_STOCK_OK,
+                                         BMDC_STOCK_OK,
                                          GTK_RESPONSE_OK,
-                                         GTK_STOCK_CANCEL,
+                                         BMDC_STOCK_CANCEL,
                                          GTK_RESPONSE_CANCEL,
                                          NULL));
-#pragma GCC diagnostic pop
+
    GtkWidget *content_area = gtk_dialog_get_content_area (dialog);
    GtkWidget *entry = gtk_entry_new();
    GtkWidget *label = gtk_label_new("Text: ");

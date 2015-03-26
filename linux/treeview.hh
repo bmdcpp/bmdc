@@ -20,8 +20,8 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef _TREE_VIEW_HH
-#define _TREE_VIEW_HH
+#ifndef _BMDC_TREE_VIEW_HH
+#define _BMDC_TREE_VIEW_HH
 
 #include <gtk/gtk.h>
 #include <cassert>
@@ -66,7 +66,7 @@ class TreeView
 		void setSortColumn_gui(const std::string &column, const std::string &sortColumn);
 		int col(const std::string &title);
 		void saveSettings();
-		//custom
+		//Custom save
 		void saveSettings(std::string &columnOrder,std::string &columnWidth, std::string &columnVisibility);
 		void restoreSettings(std::string order, std::string width, std::string visible);
 		//end

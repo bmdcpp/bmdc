@@ -93,7 +93,7 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
      #if GTK_CHECK_VERSION(3,9,0)
 	    GtkWidget *image = gtk_image_new_from_icon_name("window-close",GTK_ICON_SIZE_MENU);
     #else
-        GtkWidget *image = gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
+        GtkWidget *image = gtk_image_new_from_stock(BMDC_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
     #endif
 		gtk_widget_set_name(image,getName().c_str());
 

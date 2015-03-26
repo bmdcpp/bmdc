@@ -286,8 +286,6 @@ void SearchSpy::updateFrameSearch_gui(const string search, const string type)
 				searchIters.insert(UnMapIter::value_type(search, iter));
 
 				tick = GET_TICK();
-	#pragma GCC diagnostic push
-	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 				gtk_list_store_set(searchStore, &iter,
 					searchView.col(_("Search String")), search.c_str(),
 					searchView.col(_("Count")), "1",
@@ -296,11 +294,10 @@ void SearchSpy::updateFrameSearch_gui(const string search, const string type)
 					searchView.col("type"), type.c_str(),
 					searchView.col("count"), 1,
 					searchView.col("tick"), tick,
-					searchView.col("icon"), GTK_STOCK_FIND,
+					searchView.col("icon"), BMDC_STOCK_FIND,
 					searchView.col("order"), "r",
 					searchView.col("color"), rSearchColor.c_str(),
 					-1);
-	#pragma GCC diagnostic pop					
 			}
 			return;
 		}
@@ -348,7 +345,7 @@ bool SearchSpy::updateFrameStatus_gui(GtkTreeIter *iter, uint64_t tick)
 				n = TRUE;
 			}
 			status = "?";
-			icon = GTK_STOCK_DIALOG_QUESTION;
+			icon = BMDC_STOCK_DIALOG_QUESTION;
 
 			color = qSearchColor;
 			gtk_list_store_set(searchStore, &itree, searchView.col("order"), "q", -1);
@@ -358,12 +355,12 @@ bool SearchSpy::updateFrameStatus_gui(GtkTreeIter *iter, uint64_t tick)
 			if (order[0] == 't')
 			{
 				status = _("top...");
-				icon = GTK_STOCK_DIALOG_QUESTION;
+				icon = BMDC_STOCK_DIALOG_QUESTION;
 			}
 			else
 			{
 				status = _("waiting...");
-				icon = GTK_STOCK_FIND;
+				icon = BMDC_STOCK_FIND;
 			}
 
 			switch (order[0])
@@ -375,7 +372,7 @@ bool SearchSpy::updateFrameStatus_gui(GtkTreeIter *iter, uint64_t tick)
 				default:  color = qSearchColor; // fix don't know color
 			}
 		}
-#pragma GCC diagnostic pop		
+
 		gtk_list_store_set(searchStore, &itree,
 			searchView.col(_("Status")), status.c_str(),
 			searchView.col("icon"), icon.c_str(),

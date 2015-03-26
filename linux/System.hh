@@ -1,4 +1,3 @@
-//      System.hh
 //
 //      Copyright 2011-2015 Mank <fredcpp at seznam dot cz>
 //

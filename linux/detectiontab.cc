@@ -525,13 +525,13 @@ void DetectionTab::onRemoveAct(GtkWidget *widget , gpointer data)
 
 		if(SETTING(CONFIRM_HUB_REMOVAL))
 		{
-			#pragma GCC diagnostic push
-			#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+//			#pragma GCC diagnostic push
+//			#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 			GtkWindow* parent = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
 			GtkWidget* dialog = gtk_message_dialog_new(parent,
 				GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
 				_("Are you sure you want to delete this item \"%s\"?"), name.c_str());
-				gtk_dialog_add_buttons(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
+				gtk_dialog_add_buttons(GTK_DIALOG(dialog), BMDC_STOCK_CANCEL, GTK_RESPONSE_CANCEL, BMDC_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
 #if !GTK_CHECK_VERSION(3,12,0)		
 				gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_CANCEL, -1);
 #endif
@@ -569,7 +569,7 @@ void DetectionTab::onRemoveRaw(GtkWidget *widget , gpointer data)
 			GtkWidget* dialog = gtk_message_dialog_new(parent,
 				GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
 				_("Are you sure you want to delete this item \"%s\"?"), name.c_str());
-				gtk_dialog_add_buttons(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
+				gtk_dialog_add_buttons(GTK_DIALOG(dialog), BMDC_STOCK_CANCEL, GTK_RESPONSE_CANCEL, BMDC_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
 #if !GTK_CHECK_VERSION(3,12,0)		
 				gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_CANCEL, -1);
 #endif				
@@ -869,7 +869,7 @@ void DetectionTab::onRemoveEntryDet(GtkWidget *widget, gpointer data)
 					GtkWidget* dialog = gtk_message_dialog_new(parent,
 					GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
 					_("Are you sure you want to delete Entry \"%s\"?"), name.c_str());
-					gtk_dialog_add_buttons(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
+					gtk_dialog_add_buttons(GTK_DIALOG(dialog), BMDC_STOCK_CANCEL, GTK_RESPONSE_CANCEL, BMDC_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
 					#if !GTK_CHECK_VERSION(3,12,0)		
 					gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_CANCEL, -1);
 					#endif
@@ -1056,21 +1056,21 @@ void DetectionTab::onRemItemDlg_gui(GtkWidget *widget, gpointer data)
 
 	if (SETTING(CONFIRM_USER_REMOVAL))
 	{
-		#pragma GCC diagnostic push
-		#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+//		#pragma GCC diagnostic push
+//		#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 		
 			GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 					GTK_DIALOG_DESTROY_WITH_PARENT,
 					GTK_MESSAGE_QUESTION,
 					GTK_BUTTONS_NONE,
 					_("Are you sure you want to delete item?"));
-				gtk_dialog_add_buttons(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_REMOVE,
+				gtk_dialog_add_buttons(GTK_DIALOG(dialog), BMDC_STOCK_CANCEL, GTK_RESPONSE_CANCEL, BMDC_STOCK_REMOVE,
 				GTK_RESPONSE_YES, NULL);
 #if !GTK_CHECK_VERSION(3,12,0)		
 				gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_CANCEL, -1);
 #endif				
 				gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-		#pragma GCC diagnostic pop
+//		#pragma GCC diagnostic pop
 				// Widget failed if the dialog gets programmatically destroyed.
 				if (response == GTK_RESPONSE_NONE)
 					return;
@@ -1466,20 +1466,20 @@ void DetectionTab::onADSLPointsDEL(GtkWidget *widget, gpointer data)
 
 	 if (SETTING(CONFIRM_USER_REMOVAL))
 	 {
-			#pragma GCC diagnostic push
-			#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+//			#pragma GCC diagnostic push
+//			#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 					GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 						GTK_DIALOG_DESTROY_WITH_PARENT,
 						GTK_MESSAGE_QUESTION,
 						GTK_BUTTONS_NONE,
 						_("Are you sure you want to delete item?"));
-					gtk_dialog_add_buttons(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_REMOVE,
+					gtk_dialog_add_buttons(GTK_DIALOG(dialog), BMDC_STOCK_CANCEL, GTK_RESPONSE_CANCEL, BMDC_STOCK_REMOVE,
 					GTK_RESPONSE_YES, NULL);
 #if !GTK_CHECK_VERSION(3,12,0)		
 					gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_CANCEL, -1);
 #endif					
 					gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-			#pragma GCC diagnostic pop
+//			#pragma GCC diagnostic pop
 					// Widget failed if the dialog gets programmatically destroyed.
 					if (response == GTK_RESPONSE_NONE)
 						return;

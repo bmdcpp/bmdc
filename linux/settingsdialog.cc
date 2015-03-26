@@ -157,11 +157,8 @@ Settings::Settings(GtkWindow* parent):
 	defaultStringTheme.insert(StringMap::value_type("icon-zerozeroone-away-pasive", "bmdc-zerozeroone-away-pasive"));
 	defaultStringTheme.insert(StringMap::value_type("icon-other-away-pasive", "bmdc-other-away-pasive"));
 	/**/
-	#pragma GCC diagnostic push
-	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-	defaultStringTheme.insert(StringMap::value_type("icon-file", GTK_STOCK_FILE));
-	defaultStringTheme.insert(StringMap::value_type("icon-directory", GTK_STOCK_DIRECTORY));
-	#pragma GCC diagnostic pop
+	defaultStringTheme.insert(StringMap::value_type("icon-file", BMDC_STOCK_FILE));
+	defaultStringTheme.insert(StringMap::value_type("icon-directory", BMDC_STOCK_DIRECTORY));
 	defaultStringTheme.insert(StringMap::value_type("text-general-back-color", "#FFFFFF"));
 	defaultStringTheme.insert(StringMap::value_type("text-general-fore-color", "#4D4D4D"));
 	defaultStringTheme.insert(StringMap::value_type("text-myown-back-color", "#FFFFFF"));
@@ -2997,27 +2994,27 @@ void Settings::onSystemIconsThemeButton_gui(GtkWidget *widget, gpointer data)
 	string theme = gtk_label_get_text(GTK_LABEL(s->getWidget("currentThemeLabel")));
 	theme += _(" + system icons");
 	gtk_label_set_text(GTK_LABEL(s->getWidget("currentThemeLabel")), theme.c_str());
-	#pragma GCC diagnostic push
-	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-	s->set("icon-download", GTK_STOCK_GO_DOWN);
-	s->set("icon-favorite-hubs", GTK_STOCK_HOME);
-	s->set("icon-finished-downloads", GTK_STOCK_GO_DOWN);
-	s->set("icon-finished-uploads", GTK_STOCK_GO_UP);
-	s->set("icon-hash", GTK_STOCK_CONVERT);
-	s->set("icon-preferences", GTK_STOCK_PREFERENCES);
-	s->set("icon-public-hubs", GTK_STOCK_NETWORK);
-	s->set("icon-queue", GTK_STOCK_DIRECTORY);
-	s->set("icon-search", GTK_STOCK_FIND);
-	s->set("icon-upload", GTK_STOCK_GO_UP);
-	s->set("icon-quit", GTK_STOCK_QUIT);
-	s->set("icon-connect", GTK_STOCK_CONNECT);
-	s->set("icon-file", GTK_STOCK_FILE);
-	s->set("icon-directory", GTK_STOCK_DIRECTORY);
-	s->set("icon-notepad",GTK_STOCK_FILE);//me icon
-	s->set("icon-adlsearch",GTK_STOCK_GO_UP);
-	s->set("icon-system",GTK_STOCK_FIND);
-	s->set("icon-away", GTK_STOCK_NETWORK);
-#pragma GCC diagnostic pop
+//	#pragma GCC diagnostic push
+//	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+	s->set("icon-download", BMDC_STOCK_GO_DOWN);
+	s->set("icon-favorite-hubs", BMDC_STOCK_HOME);
+	s->set("icon-finished-downloads", BMDC_STOCK_GO_DOWN);
+	s->set("icon-finished-uploads", BMDC_STOCK_GO_UP);
+	s->set("icon-hash", BMDC_STOCK_CONVERT);
+	s->set("icon-preferences", BMDC_STOCK_PREFERENCES);
+	s->set("icon-public-hubs", BMDC_STOCK_NETWORK);
+	s->set("icon-queue", BMDC_STOCK_DIRECTORY);
+	s->set("icon-search", BMDC_STOCK_FIND);
+	s->set("icon-upload", BMDC_STOCK_GO_UP);
+	s->set("icon-quit", BMDC_STOCK_QUIT);
+	s->set("icon-connect", BMDC_STOCK_CONNECT);
+	s->set("icon-file", BMDC_STOCK_FILE);
+	s->set("icon-directory", BMDC_STOCK_DIRECTORY);
+	s->set("icon-notepad",BMDC_STOCK_FILE);//me icon
+	s->set("icon-adlsearch",BMDC_STOCK_GO_UP);
+	s->set("icon-system",BMDC_STOCK_FIND);
+	s->set("icon-away", BMDC_STOCK_NETWORK);
+//#pragma GCC diagnostic pop
 	s->applyIconsTheme();
 }
 
@@ -5020,10 +5017,8 @@ void Settings::onRemoveHighlighting_gui(GtkWidget *widget, gpointer data)
 			GtkWidget* dialog = gtk_message_dialog_new(parent,
 				GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
 				_("Are you sure you want to delete Highlighting \"%s\"?"), name.c_str());
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-			gtk_dialog_add_buttons(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
-#pragma GCC diagnostic pop			
+
+			gtk_dialog_add_buttons(GTK_DIALOG(dialog), BMDC_STOCK_CANCEL, GTK_RESPONSE_CANCEL, BMDC_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
 #if !GTK_CHECK_VERSION(3,12,0)		
 			gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_CANCEL, -1);
 #endif

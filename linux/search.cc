@@ -686,7 +686,7 @@ void Search::addResult_gui(const SearchResultPtr result)
 		GdkPixbuf* buf = gtk_icon_theme_load_icon(WulforUtil::icon_theme,"dnd-multiple",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,&error);
 		#else
 		GtkWidget *iwid = gtk_invisible_new ();
-		GdkPixbuf *buf = gtk_widget_render_icon_pixbuf(iwid, GTK_STOCK_DND_MULTIPLE, GTK_ICON_SIZE_MENU);
+		GdkPixbuf *buf = gtk_widget_render_icon_pixbuf(iwid, BMDC_STOCK_DND_MULTIPLE, GTK_ICON_SIZE_MENU);
 		#endif
 		// Insert the new parent row
 		gtk_tree_store_insert_with_values(resultStore, &parent, NULL, -1,
