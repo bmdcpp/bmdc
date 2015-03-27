@@ -555,7 +555,7 @@ void FavoriteHubs::onRemoveGroupClicked_gui(GtkWidget *widget, gpointer data)
 		gtk_dialog_add_buttons(GTK_DIALOG(dialog), BMDC_STOCK_CANCEL, GTK_RESPONSE_CANCEL, BMDC_STOCK_YES,
 			GTK_RESPONSE_YES, BMDC_STOCK_NO, GTK_RESPONSE_NO, NULL);
 #if !GTK_CHECK_VERSION(3,12,0)		
-		gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), BMDC_RESPONSE_YES, GTK_RESPONSE_NO, GTK_RESPONSE_CANCEL, -1);
+		gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_NO, GTK_RESPONSE_CANCEL, -1);
 #endif		
 		gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 

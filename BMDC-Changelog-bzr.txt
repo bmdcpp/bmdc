@@ -897,7 +897,8 @@ Bug Fixes
 some code around users
 Fix conf of kaffeine script
 Use real time units in client uptime
-
-partialy deprecated 
-use VCS log (bzr log) for this purpose
+--------------------------------------------------------
+deprecated file!!
+Use VCS log (bzr log) for this purpose
+--------------------------------------------------------
 

@@ -1,6 +1,6 @@
 Summary: A Client of DC with Ignore User&few Others Features
 Name: bmdc
-Version: 0.1.8
+Version: 0.1.9
 Release: 1
 License: LGPL
 Group: Applications/Internet
