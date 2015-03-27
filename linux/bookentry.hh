@@ -63,6 +63,10 @@ class BookEntry : public Entry
 		{
 			gtk_widget_set_state_flags (labelBox,GTK_STATE_FLAG_ACTIVE,TRUE);
 		}
+		void setNormal()
+		{
+			gtk_widget_set_state_flags (labelBox,GTK_STATE_FLAG_NORMAL,TRUE);
+		}
 	protected:
 		GtkWidget *createItemFirstMenu();
 	private:

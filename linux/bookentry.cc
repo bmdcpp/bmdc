@@ -240,7 +240,6 @@ void BookEntry::setUrgent_gui()
 			bold = true;
 			urgent = true;
 			updateLabel_gui();
-			//setBackForeGround_unread(type);
 			setUnread();
 		}
 
@@ -256,7 +255,8 @@ void BookEntry::setActive_gui()
 		bold = false;
 		urgent = false;
 		updateLabel_gui();
-		setBackForeGround(type);
+//		setBackForeGround(type);
+		setNormal();
 	}
 }
 

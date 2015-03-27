@@ -16,8 +16,13 @@ md5sums=()
 _bzrmod="bmdc++"
 _bzrtrunk=lp:${_bzrmod}
 
+pkgver() {
+    cd "${_bzrmod}"
+	printf "r%s" "$(bzr revno)"
+}
+
 build() {
-    cd ${srcdir}
+    cd "${srcdir}"
         
     msg "Getting source ..."
     if [ ! -d ./${_bzrmod} ]; then
