@@ -271,7 +271,7 @@ UserPtr ClientManager::getUser(const string& aNick, const string& aHubUrl) noexc
 		return ui->second;
 	}
 
-	UserPtr p = make_shared<User>(User(cid));
+	UserPtr p = shared_ptr<User>(new User(cid));
 	p->setFlag(User::NMDC);
 	users.emplace(cid,p);
 
@@ -288,7 +288,7 @@ UserPtr ClientManager::getUser(const CID& cid) noexcept {
 		return getMe();
 	}
 
-	UserPtr p = make_shared<User>(User(cid));
+	UserPtr p = shared_ptr<User>(new User(cid));
 	users.emplace(cid,p);
 	return p;
 }
@@ -619,7 +619,7 @@ void ClientManager::on(TimerManagerListener::Minute, uint64_t /* aTick */) noexc
 	// Collect some garbage...
 	auto i = users.begin();
 	while(i != users.end()) {
-		if(i->second->unique()) {
+		if(i->second.unique()) {
 			unordered_map<CID, NickMapEntry>::const_iterator n = nicks.find(i->second->getCID());//should also remove from nicks...
 			if(n != nicks.end()) nicks.erase(n);
 			users.erase(i++);
@@ -639,7 +639,7 @@ UserPtr& ClientManager::getMe() {
 	if(!me) {
 		Lock l(cs);
 		if(!me) {
-			me = std::make_shared<User>(User(getMyCID()));
+			me = shared_ptr<User>(new User(getMyCID()));
 			users.emplace(me->getCID(), me);
 		}
 	}

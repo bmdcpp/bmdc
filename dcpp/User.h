@@ -29,7 +29,7 @@
 namespace dcpp {
 	
 /** A user connected to one or more hubs. */
-class User : public std::shared_ptr<User> ,public Flags
+class User : public Flags
 {
 public:
 	/** Each flag is set if it's true in at least one hub */
