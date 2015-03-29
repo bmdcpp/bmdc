@@ -267,11 +267,14 @@ UserPtr ClientManager::getUser(const string& aNick, const string& aHubUrl) noexc
 
 	UserIter ui = users.find(cid);
 	if(ui != users.end()) {
-		ui->second->setFlag(User::NMDC);
-		return ui->second;
+		if(ui->second)
+		{
+			ui->second->setFlag(User::NMDC);
+			return ui->second;
+		}
 	}
 
-	UserPtr p = shared_ptr<User>(new User(cid));
+	UserPtr p = make_shared<User>(cid);
 	p->setFlag(User::NMDC);
 	users.emplace(cid,p);
 
@@ -288,13 +291,13 @@ UserPtr ClientManager::getUser(const CID& cid) noexcept {
 		return getMe();
 	}
 
-	UserPtr p = shared_ptr<User>(new User(cid));
+	UserPtr p = make_shared<User>(cid);
 	users.emplace(cid,p);
 	return p;
 }
 
 UserPtr ClientManager::findUser(const CID& cid,const string& hubUrl /*=empty*/) const noexcept {
-	if( !hubUrl.empty() &&  isConnected(hubUrl))
+	/*if( !hubUrl.empty() &&  isConnected(hubUrl))
 	{
 		UserPtr u = nullptr;
 		Lock l(cs);
@@ -306,15 +309,18 @@ UserPtr ClientManager::findUser(const CID& cid,const string& hubUrl /*=empty*/) 
 			}	
 		}
 		return u;
-	}else
-	{
+	}else*/
+	/*{
 		Lock l(cs);
 		UserMap::const_iterator ui = users.find(cid);
 		if(ui != users.end()) {
 			return ui->second;
 		}
 	}
-	return nullptr;
+	return nullptr;*/
+	Lock l(cs);
+	auto ui = users.find(cid);
+	return ui == users.end() ? nullptr : ui->second;
 	
 }
 
@@ -639,7 +645,7 @@ UserPtr& ClientManager::getMe() {
 	if(!me) {
 		Lock l(cs);
 		if(!me) {
-			me = shared_ptr<User>(new User(getMyCID()));
+			me = make_shared<User>(getMyCID());
 			users.emplace(me->getCID(), me);
 		}
 	}
