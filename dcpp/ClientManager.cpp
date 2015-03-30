@@ -317,7 +317,10 @@ UserPtr ClientManager::findUser(const CID& cid,const string& hubUrl /*=empty*/) 
 		}
 	}
 	return nullptr;
-	
+/*	Lock l(cs);
+	auto ui = users.find(cid);
+	return ui == users.end() ? nullptr : ui->second;
+	*/
 }
 
 bool ClientManager::isOp(const UserPtr& user, const string& aHubUrl) const {
