@@ -267,11 +267,13 @@ UserPtr ClientManager::getUser(const string& aNick, const string& aHubUrl) noexc
 
 	UserIter ui = users.find(cid);
 	if(ui != users.end()) {
-		ui->second->setFlag(User::NMDC);
-		return ui->second;
+		if(ui->second) {
+			ui->second->setFlag(User::NMDC);
+			return ui->second;
+		}
 	}
 
-	UserPtr p = shared_ptr<User>(new User(cid));
+	UserPtr p = make_shared<User>(cid);
 	p->setFlag(User::NMDC);
 	users.emplace(cid,p);
 
@@ -288,13 +290,13 @@ UserPtr ClientManager::getUser(const CID& cid) noexcept {
 		return getMe();
 	}
 
-	UserPtr p = shared_ptr<User>(new User(cid));
+	UserPtr p = make_shared<User>(cid);
 	users.emplace(cid,p);
 	return p;
 }
 
 UserPtr ClientManager::findUser(const CID& cid,const string& hubUrl /*=empty*/) const noexcept {
-	if( !hubUrl.empty() &&  isConnected(hubUrl))
+	/*if( !hubUrl.empty() &&  isConnected(hubUrl))
 	{
 		UserPtr u = nullptr;
 		Lock l(cs);
@@ -306,7 +308,7 @@ UserPtr ClientManager::findUser(const CID& cid,const string& hubUrl /*=empty*/) 
 			}	
 		}
 		return u;
-	}else
+	}else*/
 	{
 		Lock l(cs);
 		UserMap::const_iterator ui = users.find(cid);
@@ -345,7 +347,7 @@ void ClientManager::putOnline(OnlineUser* ou) noexcept {
 		onlineUsers.emplace(ou->getUser()->getCID(),ou);
 	}
 
-	if(!ou->getUser()->isOnline()) {
+	if(ou &&  !ou->getUser()->isOnline()) {
 		ou->getUser()->setFlag(User::ONLINE);
 		ou->initializeData(); //RSX++-like
 		fire(ClientManagerListener::UserConnected(), ou->getUser());
@@ -623,7 +625,7 @@ void ClientManager::on(TimerManagerListener::Minute, uint64_t /* aTick */) noexc
 			unordered_map<CID, NickMapEntry>::const_iterator n = nicks.find(i->second->getCID());//should also remove from nicks...
 			if(n != nicks.end()) nicks.erase(n);
 			users.erase(i++);
-			i->second.reset();
+//			i->second.reset();
 		} else {
 			++i;
 		}
@@ -639,7 +641,7 @@ UserPtr& ClientManager::getMe() {
 	if(!me) {
 		Lock l(cs);
 		if(!me) {
-			me = shared_ptr<User>(new User(getMyCID()));
+			me = make_shared<User>(getMyCID());
 			users.emplace(me->getCID(), me);
 		}
 	}

@@ -96,8 +96,8 @@ OnlineUser& NmdcHub::getUser(const string& aNick) {
 			setMyIdentity(u->getIdentity());
 		}
 	}
-
-	ClientManager::getInstance()->putOnline(u);
+	if(u->getUser()->getCID())
+		ClientManager::getInstance()->putOnline(u);
 	return *u;
 }
 

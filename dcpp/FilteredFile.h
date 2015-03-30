@@ -96,7 +96,7 @@ public:
 	using OutputStream::write;
 
 	FilteredOutputStream(OutputStream* aFile) : f(aFile), buf(new uint8_t[BUF_SIZE]), flushed(false), more(true) { }
-	virtual ~FilteredOutputStream() { if(manage) delete f; delete [] buf; }
+	/*virtual*/ ~FilteredOutputStream() { if(manage) delete f; delete [] buf; }
 
 	size_t flush() {
 		if(flushed)

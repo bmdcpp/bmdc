@@ -38,7 +38,7 @@ STANDARD_EXCEPTION(FileException);
 /**
  * A simple output stream. Intended to be used for nesting streams one inside the other.
  */
-class OutputStream : private NonCopyable {
+class OutputStream /*: private NonCopyable*/ {
 public:
 	OutputStream() { }
 	virtual ~OutputStream() { }
@@ -132,7 +132,7 @@ template<bool managed>
 class LimitedInputStream : public InputStream {
 public:
 	LimitedInputStream(InputStream* is, uint64_t aMaxBytes) : s(is), maxBytes(aMaxBytes) { 	}
-	virtual ~LimitedInputStream() { if(managed) delete s; }
+	/*virtual*/ ~LimitedInputStream() { if(managed) delete s; }
 
 	size_t read(void* buf, size_t& len) {
 		len = (size_t)min(maxBytes, (uint64_t)len);

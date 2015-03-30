@@ -3543,7 +3543,7 @@ void Hub::getFileList_client(string cid, bool match,bool partial)
 	{
 		try
 		{
-			UserPtr user = ClientManager::getInstance()->findUser(CID(cid),client->getHubUrl());//
+			UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
 			if (user)
 			{
 				const HintedUser hintedUser(user, client->getHubUrl());
