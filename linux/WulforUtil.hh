@@ -120,12 +120,10 @@ class WulforUtil
 				gtk_widget_set_name(widget,where.c_str());
 
 			// Intialize the chat window
+			std::string mono = dcpp::Util::emptyString;
 			if (SETTING(USE_OEM_MONOFONT))
 			{
-				PangoFontDescription *fontDesc = pango_font_description_new();
-				pango_font_description_set_family(fontDesc, "Mono");
-				gtk_widget_override_font(widget, fontDesc);
-				pango_font_description_free(fontDesc);
+				mono = "Monospace";
 			}
 
 			if( !back_image_path.empty() && (dcpp::Util::fileExists(back_image_path) == true) ) {
@@ -135,9 +133,16 @@ class WulforUtil
 			GdkDisplay *display = gdk_display_get_default ();
 			GdkScreen *screen = gdk_display_get_default_screen (display);
 
-			std::string t_css = std::string("GtkTextView#") + (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid )) +"{\n"
+			std::string t_css = std::string("GtkTextView#") + (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid )) + "{\n"
                             "   background: url('"+back_image_path+"');\n"
                             "}\n\0";
+			
+			if(!mono.empty()) {
+			t_css = std::string("GtkTextView#") + (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid )) + "{\n"
+                            "   background: url('"+back_image_path+"');\n"
+                            "	font: "+mono+";\n"
+                            "}\n\0";
+            }                
 
 			gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
 
@@ -148,24 +153,23 @@ class WulforUtil
 			g_object_unref (provider);
 			return;
 			}
-/* @NOTE: old code
-			GdkRGBA color;
-			gdk_rgba_parse(&color,strcolor.c_str());
-			gtk_widget_override_background_color(widget, GTK_STATE_FLAG_NORMAL, &color);
-			gtk_widget_override_background_color(widget, GTK_STATE_FLAG_INSENSITIVE, &color);
-*/
 				GtkCssProvider *provider = gtk_css_provider_new ();
 				GdkDisplay *display = gdk_display_get_default ();
 				GdkScreen *screen = gdk_display_get_default_screen (display);
 				std::string strwhat = (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid ));
 				if(!where.empty()) strwhat = where;
+				
 				std::string t_css =std::string("GtkTextView#"+strwhat+":insensitive, GtkTextView#"+strwhat+" { background: "+strcolor+" ;}\n\0");
+				
+				if(!mono.empty()) {
+						t_css =	std::string("GtkTextView#"+strwhat+":insensitive, GtkTextView#"+strwhat+" { background: "+strcolor+" ;\n font: "+mono+"; }\n\0");	
+				}	
 
 				gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
 
 				gtk_style_context_add_provider_for_screen (screen,
-																							GTK_STYLE_PROVIDER(provider),
-																							GTK_STYLE_PROVIDER_PRIORITY_USER);
+																	GTK_STYLE_PROVIDER(provider),
+																	GTK_STYLE_PROVIDER_PRIORITY_USER);
 				g_object_unref (provider);
 		}
 

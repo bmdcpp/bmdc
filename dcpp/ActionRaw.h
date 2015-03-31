@@ -16,6 +16,7 @@
 
 #ifndef _BMDC_ACTION_RAW_
 #define _BMDC_ACTION_RAW_
+
 #include "compiler.h"
 #include "Util.h"
 #include "Text.h"
