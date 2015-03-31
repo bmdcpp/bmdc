@@ -10,6 +10,7 @@
 using namespace std;
 
 ShellCommand::ShellCommand(std::string input, int len):
+output(dcpp::Util::emptyString),
 errormessage(""),thirdPerson(false), resultsize(len),
 path(WulforManager::get()->getPath()+"/extensions/Scripts/"+input)
 {
@@ -18,19 +19,19 @@ path(WulforManager::get()->getPath()+"/extensions/Scripts/"+input)
 		errormessage = output = _("File doesn't exist");
 		return;
 	}
-	output = new char[resultsize+1];
-	FILE *p = NULL;
-	p = popen( (path).c_str(), "r");
-	fgets(output,resultsize,p);
+	char* temp = new char[resultsize+1];
+	FILE *p = popen( (path).c_str(), "r");
+	fgets(temp,resultsize,p);
 	pclose(p);
-	output[strlen(output)-1]='\0';
-	if(strncmp(output,"/me",3) ==0)
+	temp[resultsize]='\0';
+	if(strncmp(temp,"/me",3) ==0)
 	{
 		thirdPerson = true;
-		string out(output);
-		string tmp = out.substr(4);
-		output = const_cast<char*>(tmp.c_str());
+		output = temp+4;
+	} else {
+		output = temp;
 	}
+	delete [] temp;
 
 /*	resultsize=len;
 	output = new char[resultsize];
@@ -118,9 +119,9 @@ ShellCommand::~ShellCommand()
 
 }
 
-char* ShellCommand::Output()
+const char* ShellCommand::Output()
 {
-	return output;
+	return output.c_str();
 }
 
 const char* ShellCommand::ErrorMessage()

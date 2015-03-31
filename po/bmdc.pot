@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2015-03-31 14:46+0200\n"
+"POT-Creation-Date: 2015-03-31 16:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4028,7 +4028,7 @@ msgstr ""
 msgid "Fields Name, ID and detection fields are required"
 msgstr ""
 
-#: linux/ShellCommand.cc:18
+#: linux/ShellCommand.cc:19
 msgid "File doesn't exist"
 msgstr ""
 

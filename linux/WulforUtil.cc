@@ -1714,7 +1714,8 @@ string WulforUtil::cpuinfo()
 		}
 
 		fclose(cpuinfo);
+		cpu_type[strlen(cpu_type)-1] = '\0';
 		sprintf(cpu_info," CPU:  %d Core, %s ", num_cpus, cpu_type);
-	}	
+	}
 	return string(cpu_info);
 }

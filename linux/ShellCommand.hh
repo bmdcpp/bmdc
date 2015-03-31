@@ -16,11 +16,11 @@ class ShellCommand
 		*/
 		ShellCommand(std::string input, int len=256);
 		~ShellCommand();
-		char* Output(); //Returns output. If unfixable error has occurred, output = ""
+		const char* Output(); //Returns output. If unfixable error has occurred, output = ""
 		const char* ErrorMessage(); //Returns errormessage. If no error has occurred, errormessage = ""
 		bool isThirdPerson();
 	private:
-		char* output;
+		std::string output;
 		std::string errormessage;
 		bool thirdPerson;
 		int resultsize;
