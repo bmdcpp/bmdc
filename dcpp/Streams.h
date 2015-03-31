@@ -153,7 +153,7 @@ template<bool managed>
 class LimitedOutputStream : public OutputStream {
 public:
 	LimitedOutputStream(OutputStream* os, uint64_t aMaxBytes) : s(os), maxBytes(aMaxBytes) {	}
-	virtual ~LimitedOutputStream() { if(managed) delete s; }
+	/*virtual*/ ~LimitedOutputStream() { if(managed) delete s; }
 
 	virtual size_t write(const void* buf, size_t len) {
 		if(maxBytes < len) {

@@ -160,7 +160,7 @@ template<class Filter, bool managed>
 class FilteredInputStream : public InputStream {
 public:
 	FilteredInputStream(InputStream* aFile) : f(aFile), buf(new uint8_t[BUF_SIZE]), pos(0), valid(0), more(true) { }
-	virtual ~FilteredInputStream() { if(managed) delete f; delete [] buf; }
+	/*virtual*/ ~FilteredInputStream() { if(managed) delete f; delete [] buf; }
 
 	/**
 	* Read data through filter, keep calling until len returns 0.

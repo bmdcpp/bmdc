@@ -8,11 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-<<<<<<< TREE
-"POT-Creation-Date: 2015-03-30 14:15+0200\n"
-=======
-"POT-Creation-Date: 2015-03-08 16:58+0100\n"
->>>>>>> MERGE-SOURCE
+"POT-Creation-Date: 2015-03-03 15:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,11 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-<<<<<<< TREE
-"POT-Creation-Date: 2015-03-30 17:06+0200\n"
-=======
-"POT-Creation-Date: 2015-03-29 15:45+0200\n"
->>>>>>> MERGE-SOURCE
+"POT-Creation-Date: 2015-03-30 20:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
