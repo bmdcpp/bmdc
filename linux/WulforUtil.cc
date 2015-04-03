@@ -1268,7 +1268,7 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 			if(cs->getHasBgColor())
 				back = cs->getBgColor();
 			else
-				back = "#FFFFFF";//TODO: More Generic ?
+				back = "#FFFFFF";//TODO: More global ?
 
 			if(cs->getHasFgColor())
 				fore = cs->getFgColor();

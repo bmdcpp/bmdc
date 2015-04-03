@@ -98,7 +98,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* = true
 			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(comboCodepage), (*ic).c_str());
 	}
 	bool set = false;
-	for(auto ii = charsets.begin(); ii!=charsets.end(); ++ii) {
+	for(auto ii = charsets.begin(); ii != charsets.end(); ++ii) {
 			if(enc == *ii) {
 				gtk_combo_box_set_active(GTK_COMBO_BOX(comboCodepage), (ii - charsets.begin()));
 				set = true;

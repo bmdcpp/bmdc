@@ -244,7 +244,7 @@ void EmoticonsDialog::showEmotDialog_gui()
 
 	/* create popup dialog */
 	dialog = gtk_window_new(GTK_WINDOW_POPUP);
-	gtk_widget_set_name(dialog,"EmoticonsDialog");//todo string?
+	gtk_widget_set_name(dialog,"EmoticonsDialog");//name to CSS'ing
 
 	build();
 	position();

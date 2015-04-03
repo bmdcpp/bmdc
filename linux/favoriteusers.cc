@@ -234,7 +234,6 @@ void FavoriteUsers::clickAction(gpointer data)
 		case CActions::ADD_AS_FAV:
 			break;
 		case CActions::GET_PARTIAL_FILELIST:
-			//onPartialFileListOpen_gui(NULL, data);//TODO
 			break;
 		default: break;
 	}

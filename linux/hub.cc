@@ -111,6 +111,7 @@ Hub::Hub(const string &address, const string &encoding):
 /*
 	nickView.setSortColumn_gui(_("Nick"), sort);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);*/
+	//Own sort
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(nickView.get(), nickView.col(_("Nick"))), TRUE);
 	gtk_tree_sortable_set_sort_func(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), sort_iter_compare_func_nick,
                                     (gpointer)this, NULL);
@@ -1128,6 +1129,16 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 		gtk_text_buffer_get_iter_at_line(chatBuffer, &next, 1);
 		gtk_text_buffer_delete(chatBuffer, &iter, &next);
 	}
+	if(gtk_text_buffer_get_char_count (chatBuffer) > 25000)
+	{
+		
+		GtkTextIter next;
+		gtk_text_buffer_get_start_iter(chatBuffer, &iter);
+		gtk_text_buffer_get_iter_at_line(chatBuffer, &next, 1);
+		gtk_text_buffer_delete(chatBuffer, &iter, &next);
+		
+	}
+	
 }
 
 void Hub::applyTags_gui(const string &cid, const string &line)

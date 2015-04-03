@@ -310,6 +310,7 @@ void PrivateMessage::setStatus_gui(string text)
 
 void PrivateMessage::addLine_gui(Msg::TypeMsg typemsg, const string &message)
 {
+	message = message.c_str();
 	if (message.empty())
 		return;
 
@@ -378,6 +379,17 @@ void PrivateMessage::addLine_gui(Msg::TypeMsg typemsg, const string &message)
 		gtk_text_buffer_get_iter_at_line(messageBuffer, &next, 1);
 		gtk_text_buffer_delete(messageBuffer, &iter, &next);
 	}
+	
+	if(gtk_text_buffer_get_char_count (messageBuffer) > 25000)
+	{
+		
+		GtkTextIter next;
+		gtk_text_buffer_get_start_iter(messageBuffer, &iter);
+		gtk_text_buffer_get_iter_at_line(messageBuffer, &next, 1);
+		gtk_text_buffer_delete(messageBuffer, &iter, &next);
+		
+	}
+	
 }
 
 void PrivateMessage::applyTags_gui(const string &line)
