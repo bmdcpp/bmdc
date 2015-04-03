@@ -310,7 +310,6 @@ void PrivateMessage::setStatus_gui(string text)
 
 void PrivateMessage::addLine_gui(Msg::TypeMsg typemsg, const string &message)
 {
-	message = message.c_str();
 	if (message.empty())
 		return;
 
