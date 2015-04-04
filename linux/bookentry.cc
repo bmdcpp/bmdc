@@ -255,7 +255,6 @@ void BookEntry::setActive_gui()
 		bold = false;
 		urgent = false;
 		updateLabel_gui();
-//		setBackForeGround(type);
 		setNormal();
 	}
 }
@@ -269,15 +268,15 @@ bool BookEntry::isActive_gui()
 void BookEntry::updateLabel_gui()
 {
 	const char *format = "%s";
-	bool color = WGETB("colorize-tab-text");
-	string colortext = "<span foreground=\"";
-	colortext +=  urgent ? WGETS("color-tab-text-urgent") : WGETS("color-tab-text-bold");
-	colortext += "\">%s</span>";
+	bool b_color = WGETB("colorize-tab-text");
+	char color_format[256];
+	const char* color =  string(urgent ? WGETS("color-tab-text-urgent") : WGETS("color-tab-text-bold")).c_str();
+	sprintf(color_format,"<span foreground=\"%s\">%%s</span>",color);	
 
 	if (urgent)
-		format = color ? colortext.c_str() : "<i><b>%s</b></i>";
+		format = b_color ? color_format : "<i><b>%s</b></i>";
 	else if (bold)
-		format = color ? colortext.c_str() : "<b>%s</b>";
+		format = b_color ? color_format : "<b>%s</b>";
 
 	char *markup = g_markup_printf_escaped(format, truncatedLabelText.c_str());
 	gtk_label_set_markup(label, markup);

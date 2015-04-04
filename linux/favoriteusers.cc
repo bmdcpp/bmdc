@@ -101,7 +101,7 @@ void FavoriteUsers::show()
 		GtkTreeIter iter;
 		const FavoriteUser &user = it->second;
 		bool online = user.getUser()->isOnline();
-		string hub = online ? WulforUtil::getHubNames(user.getUser(), user.getUrl()) : user.getUrl();//NOTE: core 0.762
+		string hub = online ? WulforUtil::getHubNames(user.getUser(), user.getUrl()) : user.getUrl();
 		string seen = online ? _("Online") : Util::formatTime("%Y-%m-%d %H:%M", user.getLastSeen());
 		string cid = user.getUser()->getCID().toBase32();
 		string ignore = user.isSet(FavoriteUser::FLAG_IGNORE) ? _("Yes") : _("No");
@@ -257,9 +257,9 @@ void FavoriteUsers::onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data)
 
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(fu->favoriteUserStore), &iter, path))
 			{
-				string cidn = fu->favoriteUserView.getString(&iter, "CID");
+				string cid = fu->favoriteUserView.getString(&iter, "CID");
 				string nick = fu->favoriteUserView.getString(&iter, _("Nick"));
-				if(cidn == "n/a")
+				if(cid == "n/a")
 				{
 					F2 *func = new F2(fu, &FavoriteUsers::getFileListNick_client,
 						nick,
@@ -298,9 +298,9 @@ void FavoriteUsers::onMatchQueueItemClicked_gui(GtkMenuItem *item, gpointer data
 
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(fu->favoriteUserStore), &iter, path))
 			{
-				string cidn = fu->favoriteUserView.getString(&iter, "CID");
+				string cid = fu->favoriteUserView.getString(&iter, "CID");
 				string nick = fu->favoriteUserView.getString(&iter, _("Nick"));
-				if(cidn == "n/a")
+				if(cid == "n/a")
 				{
 					F2 *func = new F2(fu, &FavoriteUsers::getFileListNick_client,
 					nick,
@@ -336,8 +336,8 @@ void FavoriteUsers::onSendPMItemClicked_gui(GtkMenuItem *item, gpointer data)
 
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(fu->favoriteUserStore), &iter, path))
 			{
-				string cidn = fu->favoriteUserView.getString(&iter, "CID");
-				if(cidn == "n/a") return;
+				string cid = fu->favoriteUserView.getString(&iter, "CID");
+				if(cid == "n/a") return;
 				
 				WulforManager::get()->getMainWindow()->addPrivateMessage_gui(Msg::UNKNOWN,
 					fu->favoriteUserView.getString(&iter, "CID"),
@@ -366,9 +366,9 @@ void FavoriteUsers::onGrantSlotItemClicked_gui(GtkMenuItem *item, gpointer data)
 
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(fu->favoriteUserStore), &iter, path))
 			{
-				string cidn = fu->favoriteUserView.getString(&iter, "CID");
+				string cid = fu->favoriteUserView.getString(&iter, "CID");
 				string nick = fu->favoriteUserView.getString(&iter, _("Nick"));
-				if(cidn == "n/a")
+				if(cid == "n/a")
 				{
 					FavoriteUser* f = FavoriteManager::getInstance()->getIndepentFavorite(nick);
 					f->setFlag(FavoriteUser::FLAG_GRANTSLOT);
@@ -402,8 +402,9 @@ void FavoriteUsers::onConnectItemClicked_gui(GtkMenuItem *item, gpointer data)
 
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(fu->favoriteUserStore), &iter, path))
 			{
-				string cidn = fu->favoriteUserView.getString(&iter, "CID");
-				if(cidn == "n/a")return;
+				string cid = fu->favoriteUserView.getString(&iter, "CID");
+				if(cid == "n/a")return;
+				
 				WulforManager::get()->getMainWindow()->showHub_gui(fu->favoriteUserView.getString(&iter, "URL"));
 			}
 			gtk_tree_path_free(path);
@@ -429,8 +430,8 @@ void FavoriteUsers::onRemoveFromQueueItemClicked_gui(GtkMenuItem *item, gpointer
 
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(fu->favoriteUserStore), &iter, path))
 			{
-				string cidn = fu->favoriteUserView.getString(&iter, "CID");
-				if(cidn == "n/a")return;
+				string cid = fu->favoriteUserView.getString(&iter, "CID");
+				if(cid == "n/a")return;
 				
 				F1 *func = new F1(fu, &FavoriteUsers::removeUserFromQueue_client, fu->favoriteUserView.getString(&iter, "CID"));
 				WulforManager::get()->dispatchClientFunc(func);
@@ -534,8 +535,6 @@ void FavoriteUsers::onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data)
 		if (SETTING(CONFIRM_USER_REMOVAL))
 		{
 			
-//			#pragma GCC diagnostic push
-//			#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 			GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 				GTK_DIALOG_DESTROY_WITH_PARENT,
 				GTK_MESSAGE_QUESTION,
@@ -547,7 +546,6 @@ void FavoriteUsers::onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data)
 			gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_CANCEL, -1);
 #endif			
 			gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-//			#pragma GCC diagnostic pop
 			// Widget failed if the dialog gets programmatically destroyed.
 			if (response == GTK_RESPONSE_NONE)
 				return;
@@ -900,7 +898,7 @@ void FavoriteUsers::onIgnoreSetUserClicked_gui(GtkWidget *widget, gpointer data)
 			{
 				string cid = fu->favoriteUserView.getString(&iter, "CID");
 				bool ign = fu->favoriteUserView.getString(&iter, "Ign") == "1" ? true : false ;
-					if(cid == "n/a")return;
+				if(cid == "n/a")return;
 
 				F2 *func = new F2(fu,&FavoriteUsers::setIgnore,cid,ign);
 				WulforManager::get()->dispatchClientFunc(func);
@@ -927,7 +925,7 @@ void FavoriteUsers::setIgnore(const string cid, bool ignore)
 		F1 *func = new F1(this, &FavoriteUsers::setStatus_gui, _("Ignored User ") + WulforUtil::getNicks(uptr, Util::emptyString));
 		WulforManager::get()->dispatchGuiFunc(func);
 
-		auto user = FavoriteManager::getInstance()->getFavoriteUser(uptr);
+		const FavoriteUser* user = FavoriteManager::getInstance()->getFavoriteUser(uptr);
 		ParamMap params;
 		string seen = (*user).getUser()->isOnline() ? _("Online") : Util::formatTime("%Y-%m-%d %H:%M", (*user).getLastSeen());
 		params.insert(ParamMap::value_type("Time", seen));

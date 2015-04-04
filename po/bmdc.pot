@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2015-04-04 15:40+0200\n"
+"POT-Creation-Date: 2015-04-04 17:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -481,7 +481,7 @@ msgid "ADL Action"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1035 ui/mainwindow.glade.ui:2006
-#: ui/mainwindow.glade.ui:2235 linux/adlsearch.cc:31 linux/bookentry.cc:373
+#: ui/mainwindow.glade.ui:2235 linux/adlsearch.cc:31 linux/bookentry.cc:375
 #: linux/settingsdialog.cc:1523 linux/settingsdialog.cc:1586
 msgid "ADL Search"
 msgstr ""
@@ -494,7 +494,7 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:1246 linux/bookentry.cc:409
+#: ui/mainwindow.glade.ui:1246 linux/bookentry.cc:411
 msgid "About:Config"
 msgstr ""
 
@@ -1034,9 +1034,9 @@ msgstr ""
 #: ui/favoritehubs.glade.ui:177 ui/settingsdialog.glade.ui:1545
 #: linux/favoritehubs.cc:42 linux/favoritehubs.cc:129
 #: linux/favoriteusers.cc:51 linux/favoriteusers.cc:115
-#: linux/favoriteusers.cc:140 linux/favoriteusers.cc:460
-#: linux/favoriteusers.cc:484 linux/favoriteusers.cc:494
-#: linux/favoriteusers.cc:746 linux/favoriteusers.cc:774 linux/hub.cc:68
+#: linux/favoriteusers.cc:140 linux/favoriteusers.cc:461
+#: linux/favoriteusers.cc:485 linux/favoriteusers.cc:495
+#: linux/favoriteusers.cc:744 linux/favoriteusers.cc:772 linux/hub.cc:68
 #: linux/hub.cc:382 linux/hub.cc:589 linux/hub.cc:625 linux/hub.cc:761
 #: linux/hub.cc:790 linux/hub.cc:2588 linux/publichubs.cc:44
 #: linux/publichubs.cc:152 linux/publichubs.cc:289 linux/recenthub.cc:42
@@ -1115,7 +1115,7 @@ msgstr ""
 msgid "Download Matches"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:1058 linux/bookentry.cc:364
+#: ui/mainwindow.glade.ui:1058 linux/bookentry.cc:366
 #: linux/downloadqueue.cc:34 linux/settingsdialog.cc:1151
 #: linux/settingsdialog.cc:1632
 msgid "Download Queue"
@@ -1293,14 +1293,14 @@ msgid "Favorite Hub Properties"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:986 ui/mainwindow.glade.ui:1905
-#: ui/mainwindow.glade.ui:2193 linux/bookentry.cc:352 linux/favoritehubs.cc:34
+#: ui/mainwindow.glade.ui:2193 linux/bookentry.cc:354 linux/favoritehubs.cc:34
 #: linux/settingsdialog.cc:1513 linux/settingsdialog.cc:1561
 #: linux/settingsdialog.cc:1631
 msgid "Favorite Hubs"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:995 ui/mainwindow.glade.ui:1921
-#: ui/mainwindow.glade.ui:2200 linux/bookentry.cc:356
+#: ui/mainwindow.glade.ui:2200 linux/bookentry.cc:358
 #: linux/favoriteusers.cc:36 linux/settingsdialog.cc:1514
 #: linux/settingsdialog.cc:1563 linux/settingsdialog.cc:1635
 msgid "Favorite Users"
@@ -1368,7 +1368,7 @@ msgid "Find files"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1067 ui/mainwindow.glade.ui:2059
-#: ui/mainwindow.glade.ui:2256 linux/bookentry.cc:381
+#: ui/mainwindow.glade.ui:2256 linux/bookentry.cc:383
 #: linux/finishedtransfers.cc:34 linux/settingsdialog.cc:1149
 #: linux/settingsdialog.cc:1515 linux/settingsdialog.cc:1577
 #: linux/settingsdialog.cc:1633
@@ -1376,7 +1376,7 @@ msgid "Finished Downloads"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1075 ui/mainwindow.glade.ui:2076
-#: ui/mainwindow.glade.ui:2263 linux/bookentry.cc:385
+#: ui/mainwindow.glade.ui:2263 linux/bookentry.cc:387
 #: linux/finishedtransfers.cc:39 linux/settingsdialog.cc:1150
 #: linux/settingsdialog.cc:1516 linux/settingsdialog.cc:1579
 #: linux/settingsdialog.cc:1634
@@ -1552,7 +1552,7 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: ui/search.glade.ui:851 linux/bookentry.cc:393 linux/detectiontab.cc:108
+#: ui/search.glade.ui:851 linux/bookentry.cc:395 linux/detectiontab.cc:108
 #: linux/detectiontab.cc:1036 linux/detectiontab.cc:1142
 #: linux/detectiontab.cc:1239 linux/finishedtransfers.cc:77
 #: linux/finishedtransfers.cc:183 linux/search.cc:106 linux/search.cc:230
@@ -1930,9 +1930,9 @@ msgstr ""
 #: linux/favoriteusers.cc:66 linux/favoriteusers.cc:67
 #: linux/favoriteusers.cc:112 linux/favoriteusers.cc:137
 #: linux/favoriteusers.cc:261 linux/favoriteusers.cc:302
-#: linux/favoriteusers.cc:370 linux/favoriteusers.cc:461
-#: linux/favoriteusers.cc:524 linux/favoriteusers.cc:583
-#: linux/favoriteusers.cc:743 linux/favoriteusers.cc:771
+#: linux/favoriteusers.cc:370 linux/favoriteusers.cc:462
+#: linux/favoriteusers.cc:525 linux/favoriteusers.cc:581
+#: linux/favoriteusers.cc:741 linux/favoriteusers.cc:769
 #: linux/finishedtransfers.cc:76 linux/finishedtransfers.cc:182
 #: linux/hub.cc:66 linux/hub.cc:115 linux/hub.cc:380 linux/hub.cc:433
 #: linux/hub.cc:587 linux/hub.cc:624 linux/hub.cc:744 linux/hub.cc:759
@@ -1988,7 +1988,7 @@ msgid "Note; because of changing download speeds, this is not 100% accurate..."
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1238 ui/mainwindow.glade.ui:2091
-#: ui/mainwindow.glade.ui:2270 linux/bookentry.cc:401 linux/notepad.cc:26
+#: ui/mainwindow.glade.ui:2270 linux/bookentry.cc:403 linux/notepad.cc:26
 #: linux/settingsdialog.cc:1524 linux/settingsdialog.cc:1584
 #: linux/settingsdialog.cc:1637
 msgid "Notepad"
@@ -2187,7 +2187,7 @@ msgid "Protected Users"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1004 ui/mainwindow.glade.ui:1940
-#: ui/mainwindow.glade.ui:2207 linux/bookentry.cc:360 linux/publichubs.cc:31
+#: ui/mainwindow.glade.ui:2207 linux/bookentry.cc:362 linux/publichubs.cc:31
 #: linux/settingsdialog.cc:1519 linux/settingsdialog.cc:1565
 #: linux/settingsdialog.cc:1630
 msgid "Public Hubs"
@@ -2346,7 +2346,7 @@ msgstr ""
 #: ui/hub.glade.ui:245 ui/mainwindow.glade.ui:1026 ui/mainwindow.glade.ui:1991
 #: ui/mainwindow.glade.ui:2228 ui/privatemessage.glade.ui:190
 #: ui/searchspy.glade.ui:94 ui/settingsdialog.glade.ui:8878
-#: ui/transfers.glade.ui:52 linux/bookentry.cc:369
+#: ui/transfers.glade.ui:52 linux/bookentry.cc:371
 #: linux/settingsdialog.cc:1154 linux/settingsdialog.cc:1521
 #: linux/settingsdialog.cc:1571
 msgid "Search"
@@ -2663,7 +2663,7 @@ msgstr ""
 msgid "System"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:2106 linux/System.cc:29 linux/bookentry.cc:405
+#: ui/mainwindow.glade.ui:2106 linux/System.cc:29 linux/bookentry.cc:407
 msgid "System Log"
 msgstr ""
 
@@ -3409,7 +3409,7 @@ msgstr ""
 msgid "Are you sure you want to delete favorite hub \"%s\"?"
 msgstr ""
 
-#: linux/favoriteusers.cc:543
+#: linux/favoriteusers.cc:542
 msgid "Are you sure you want to delete favorite user(s)?"
 msgstr ""
 
@@ -3432,7 +3432,7 @@ msgstr ""
 
 #: linux/favoriteusers.cc:47 linux/favoriteusers.cc:69
 #: linux/favoriteusers.cc:111 linux/favoriteusers.cc:136
-#: linux/favoriteusers.cc:577 linux/favoriteusers.cc:579
+#: linux/favoriteusers.cc:575 linux/favoriteusers.cc:577
 msgid "Auto grant slot"
 msgstr ""
 
@@ -3592,7 +3592,7 @@ msgstr ""
 msgid "Client Type"
 msgstr ""
 
-#: linux/bookentry.cc:310 linux/privatemessage.cc:1566
+#: linux/bookentry.cc:312 linux/privatemessage.cc:1566
 #: linux/sharebrowser.cc:1081 linux/search.hh:164
 msgid "Close"
 msgstr ""
@@ -4135,8 +4135,8 @@ msgid "Hub (also sets urgency hint)"
 msgstr ""
 
 #: linux/favoriteusers.cc:49 linux/favoriteusers.cc:113
-#: linux/favoriteusers.cc:138 linux/favoriteusers.cc:744
-#: linux/favoriteusers.cc:772
+#: linux/favoriteusers.cc:138 linux/favoriteusers.cc:742
+#: linux/favoriteusers.cc:770
 msgid "Hub (last seen in, if offline)"
 msgstr ""
 
@@ -4221,7 +4221,7 @@ msgid ""
 msgstr ""
 
 #: linux/favoriteusers.cc:53 linux/favoriteusers.cc:117
-#: linux/favoriteusers.cc:747
+#: linux/favoriteusers.cc:745
 msgid "Ignore"
 msgstr ""
 
@@ -4238,7 +4238,7 @@ msgstr ""
 msgid "Ignored"
 msgstr ""
 
-#: linux/favoriteusers.cc:927
+#: linux/favoriteusers.cc:925
 msgid "Ignored User "
 msgstr ""
 
@@ -4437,8 +4437,8 @@ msgstr ""
 
 #: linux/favoritehubs.cc:398 linux/favoritehubs.cc:527
 #: linux/favoritehubs.cc:708 linux/favoriteusers.cc:107
-#: linux/favoriteusers.cc:824 linux/favoriteusers.cc:844
-#: linux/favoriteusers.cc:935 linux/finishedtransfers.cc:661 linux/hub.cc:2593
+#: linux/favoriteusers.cc:822 linux/favoriteusers.cc:842
+#: linux/favoriteusers.cc:933 linux/finishedtransfers.cc:661 linux/hub.cc:2593
 #: linux/hub.cc:2596 linux/hub.cc:2599 linux/hub.cc:2600 linux/hub.cc:2601
 #: linux/hub.cc:2602
 msgid "No"
@@ -4481,8 +4481,8 @@ msgid "Offline"
 msgstr ""
 
 #: linux/favoritehubs.cc:804 linux/favoriteusers.cc:105
-#: linux/favoriteusers.cc:820 linux/favoriteusers.cc:841
-#: linux/favoriteusers.cc:932
+#: linux/favoriteusers.cc:818 linux/favoriteusers.cc:839
+#: linux/favoriteusers.cc:930
 msgid "Online"
 msgstr ""
 
@@ -4549,7 +4549,7 @@ msgstr ""
 msgid "Predefined"
 msgstr ""
 
-#: linux/bookentry.cc:389
+#: linux/bookentry.cc:391
 msgid "Private Message"
 msgstr ""
 
@@ -4755,7 +4755,7 @@ msgstr ""
 msgid "Set normal mode"
 msgstr ""
 
-#: linux/bookentry.cc:397
+#: linux/bookentry.cc:399
 msgid "Share Browser"
 msgstr ""
 
@@ -4860,7 +4860,7 @@ msgstr ""
 msgid "Slot granted"
 msgstr ""
 
-#: linux/favoriteusers.cc:648 linux/hub.cc:3607
+#: linux/favoriteusers.cc:646 linux/hub.cc:3607
 msgid "Slot granted to "
 msgstr ""
 
@@ -4904,7 +4904,7 @@ msgstr ""
 msgid "Speed: "
 msgstr ""
 
-#: linux/bookentry.cc:377
+#: linux/bookentry.cc:379
 msgid "Spy Search"
 msgstr ""
 
@@ -5012,9 +5012,9 @@ msgid "Time Left"
 msgstr ""
 
 #: linux/favoriteusers.cc:50 linux/favoriteusers.cc:114
-#: linux/favoriteusers.cc:139 linux/favoriteusers.cc:737
-#: linux/favoriteusers.cc:745 linux/favoriteusers.cc:765
-#: linux/favoriteusers.cc:773
+#: linux/favoriteusers.cc:139 linux/favoriteusers.cc:735
+#: linux/favoriteusers.cc:743 linux/favoriteusers.cc:763
+#: linux/favoriteusers.cc:771
 msgid "Time last seen"
 msgstr ""
 
@@ -5461,8 +5461,8 @@ msgstr ""
 
 #: linux/favoritehubs.cc:398 linux/favoritehubs.cc:527
 #: linux/favoritehubs.cc:708 linux/favoriteusers.cc:107
-#: linux/favoriteusers.cc:824 linux/favoriteusers.cc:844
-#: linux/favoriteusers.cc:935 linux/finishedtransfers.cc:661 linux/hub.cc:2593
+#: linux/favoriteusers.cc:822 linux/favoriteusers.cc:842
+#: linux/favoriteusers.cc:933 linux/finishedtransfers.cc:661 linux/hub.cc:2593
 #: linux/hub.cc:2596 linux/hub.cc:2599 linux/hub.cc:2600 linux/hub.cc:2601
 #: linux/hub.cc:2602
 msgid "Yes"
