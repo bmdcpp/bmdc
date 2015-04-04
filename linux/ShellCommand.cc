@@ -23,7 +23,11 @@ path(WulforManager::get()->getPath()+"/extensions/Scripts/"+input)
 	FILE *p = popen( (path).c_str(), "r");
 	fgets(temp,resultsize,p);
 	pclose(p);
+	//char* t = strrchr(temp,'\n');
+	//t = '\0';
+	temp[strlen(temp)-1]='\0';
 	temp[resultsize]='\0';
+		
 	if(strncmp(temp,"/me",3) ==0)
 	{
 		thirdPerson = true;
