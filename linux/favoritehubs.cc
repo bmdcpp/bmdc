@@ -43,7 +43,7 @@ FavoriteHubs::FavoriteHubs():
 	favoriteView.insertColumn(_("Address"), G_TYPE_STRING, TreeView::STRING, 150);
 	favoriteView.insertColumn(_("Nick"), G_TYPE_STRING, TreeView::STRING, 60);
 	favoriteView.insertColumn(_("Password"), G_TYPE_STRING, TreeView::STRING, 10);
-	favoriteView.insertColumn(_("User Description"), G_TYPE_STRING, TreeView::STRING, 70);
+	favoriteView.insertColumn(_("User Description"), G_TYPE_STRING, TreeView::STRING, 50);
 	favoriteView.insertColumn(_("Encoding"), G_TYPE_STRING, TreeView::STRING, 80);
 	favoriteView.insertColumn(_("Group"), G_TYPE_STRING, TreeView::STRING, 100);
 	favoriteView.insertColumn(_("Status"), G_TYPE_STRING, TreeView::STRING, 60);
@@ -324,7 +324,7 @@ void FavoriteHubs::onEditEntry_gui(GtkWidget *widget, gpointer data)
 			fh->editEntry_gui(entry,&iter);
 
 			typedef Func1<FavoriteHubs,FavoriteHubEntry* > F1;
-			F1 *func = new F1(fh, &FavoriteHubs::editEntry_client,entry);
+			F1 *func = new F1(fh, &FavoriteHubs::editEntry_client, entry);
 			WulforManager::get()->dispatchClientFunc(func);
 		}
 	}
@@ -545,8 +545,6 @@ void FavoriteHubs::onRemoveGroupClicked_gui(GtkWidget *widget, gpointer data)
 	{
 		string group = fh->groupsView.getString(&iter, _("Group name"));
 
-//#pragma GCC diagnostic push
-//#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 		GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 			GTK_DIALOG_DESTROY_WITH_PARENT,
 			GTK_MESSAGE_WARNING,
@@ -807,7 +805,6 @@ void FavoriteHubs::edit_online_status(std::string url,bool online)
 
 void FavoriteHubs::initializeList_client()
 {
-//	gtk_list_store_clear(favoriteStore);//Clean empty ?
 	const FavoriteHubEntryList& fl = FavoriteManager::getInstance()->getFavoriteHubs();
 
 	for (auto it = fl.begin(); it != fl.end(); ++it)
@@ -840,7 +837,6 @@ void FavoriteHubs::removeEntry_client(string address)
 	if (entry)
 	{
 		FavoriteManager::getInstance()->removeFavorite(entry);
-
 		const FavoriteHubEntryList &fh = FavoriteManager::getInstance()->getFavoriteHubs();
 		WulforManager::get()->getMainWindow()->updateFavoriteHubMenu_client(fh);
 	}

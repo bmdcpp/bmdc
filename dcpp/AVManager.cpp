@@ -29,6 +29,7 @@
 #include "TimerManager.h"
 #include "Util.h"
 #include "Text.h"
+#include "debug.h"
 
 namespace dcpp {
 //@ <nick>|<ip>|<share>|<time>\n

@@ -124,7 +124,7 @@ void AdcHub::putUser(const uint32_t aSID, bool disconnect) {
 
 void AdcHub::clearUsers() {
 	SIDMap tmp;
-	stopMyInfoCheck();//BMDC++//RSX-like
+	stopMyInfoCheck(); //BMDC++//RSX-like
 	{
 		Lock l(cs);
 		users.swap(tmp);
@@ -992,7 +992,7 @@ static void addParam(StringMap& lastInfoMap, AdcCommand& c, const string& var, c
 
 void AdcHub::infoImpl() {
 	if(state != STATE_IDENTIFY && state != STATE_NORMAL)
-					return;
+				return;
 
 	reloadSettings(false);
 
@@ -1050,7 +1050,6 @@ void AdcHub::infoImpl() {
 	bool addV4 = !sock->isV6Valid() || ( ((int)HUBSETTING(INCOMING_CONNECTIONS)) <= 2);
 	bool addV6 = sock->isV6Valid() || ( !((string)HUBSETTING(EXTERNAL_IP6)).empty()) ;
 
-
 	if(addV4 && isActiveV4()) {
 		su += "," + TCP4_FEATURE;
 		su += "," + UDP4_FEATURE;
@@ -1061,7 +1060,7 @@ void AdcHub::infoImpl() {
 		su += "," + UDP6_FEATURE;
 	}
 
-	if (  (addV6 && !isActiveV6() && (!HUBSETTING(EXTERNAL_IP6).empty()))
+	if ( (addV6 && !isActiveV6() && (!HUBSETTING(EXTERNAL_IP6).empty()))
 		|| ( (addV4 && !isActiveV4()) && ((int)HUBSETTING(INCOMING_CONNECTIONS) <= 2) ))
 	{
 		su += "," + NAT0_FEATURE;
@@ -1132,7 +1131,7 @@ void AdcHub::on(Connected c) noexcept {
 		cmd.addParam(BLO0_SUPPORT);
 	}
 
-	cmd.addParam(DFAV_SUPPORT);//
+	cmd.addParam(DFAV_SUPPORT);//TODO: option to disable
 	cmd.addParam(ZLIF_SUPPORT);
 
 	send(cmd);

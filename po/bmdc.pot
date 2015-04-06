@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2015-04-04 11:15+0200\n"
+"POT-Creation-Date: 2015-04-05 20:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2015-04-05 14:12+0200\n"
+"POT-Creation-Date: 2015-04-06 16:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -935,7 +935,7 @@ msgstr ""
 #: ui/favoriteusers.glade.ui:206 ui/mainwindow.glade.ui:1890
 #: ui/mainwindow.glade.ui:2186 ui/recenthub.glade.ui:158
 #: linux/favoritehubs.cc:63 linux/favoritehubs.cc:398
-#: linux/favoritehubs.cc:527 linux/favoritehubs.cc:708
+#: linux/favoritehubs.cc:527 linux/favoritehubs.cc:706
 #: linux/settingsdialog.cc:1528 linux/settingsdialog.cc:1557
 msgid "Connect"
 msgstr ""
@@ -3359,7 +3359,7 @@ msgstr ""
 #: linux/favoritehubs.cc:246 linux/favoritehubs.cc:296
 #: linux/favoritehubs.cc:320 linux/favoritehubs.cc:344
 #: linux/favoritehubs.cc:443 linux/favoritehubs.cc:458
-#: linux/favoritehubs.cc:470 linux/favoritehubs.cc:590 linux/publichubs.cc:46
+#: linux/favoritehubs.cc:470 linux/favoritehubs.cc:588 linux/publichubs.cc:46
 #: linux/publichubs.cc:154 linux/publichubs.cc:265 linux/publichubs.cc:290
 msgid "Address"
 msgstr ""
@@ -4106,15 +4106,15 @@ msgid "Global"
 msgstr ""
 
 #: linux/favoritehubs.cc:48 linux/favoritehubs.cc:136
-#: linux/favoritehubs.cc:669
+#: linux/favoritehubs.cc:667
 msgid "Group"
 msgstr ""
 
 #: linux/favoritehubs.cc:62 linux/favoritehubs.cc:77 linux/favoritehubs.cc:397
 #: linux/favoritehubs.cc:505 linux/favoritehubs.cc:526
-#: linux/favoritehubs.cc:546 linux/favoritehubs.cc:630
-#: linux/favoritehubs.cc:707 linux/favoritehubs.cc:730
-#: linux/favoritehubs.cc:769
+#: linux/favoritehubs.cc:546 linux/favoritehubs.cc:628
+#: linux/favoritehubs.cc:705 linux/favoritehubs.cc:728
+#: linux/favoritehubs.cc:767
 msgid "Group name"
 msgstr ""
 
@@ -4213,7 +4213,7 @@ msgstr ""
 msgid "Icon size"
 msgstr ""
 
-#: linux/favoritehubs.cc:554
+#: linux/favoritehubs.cc:552
 msgid ""
 "If you select 'Yes', all of these hubs are going to be deleted!\n"
 "If you select 'No', these hubs will simply be moved to the main default "
@@ -4436,7 +4436,7 @@ msgid "Nicks History (if it have CID)"
 msgstr ""
 
 #: linux/favoritehubs.cc:398 linux/favoritehubs.cc:527
-#: linux/favoritehubs.cc:708 linux/favoriteusers.cc:107
+#: linux/favoritehubs.cc:706 linux/favoriteusers.cc:107
 #: linux/favoriteusers.cc:822 linux/favoriteusers.cc:842
 #: linux/favoriteusers.cc:933 linux/finishedtransfers.cc:661 linux/hub.cc:2594
 #: linux/hub.cc:2597 linux/hub.cc:2600 linux/hub.cc:2601 linux/hub.cc:2602
@@ -4476,11 +4476,11 @@ msgstr ""
 msgid "Notification"
 msgstr ""
 
-#: linux/WulforUtil.cc:223 linux/favoritehubs.cc:804
+#: linux/WulforUtil.cc:223 linux/favoritehubs.cc:802
 msgid "Offline"
 msgstr ""
 
-#: linux/favoritehubs.cc:804 linux/favoriteusers.cc:105
+#: linux/favoritehubs.cc:802 linux/favoriteusers.cc:105
 #: linux/favoriteusers.cc:818 linux/favoriteusers.cc:839
 #: linux/favoriteusers.cc:930
 msgid "Online"
@@ -4923,7 +4923,7 @@ msgstr ""
 #: linux/AboutConfig.cc:35 linux/AboutConfig.cc:165 linux/downloadqueue.cc:68
 #: linux/downloadqueue.cc:279 linux/downloadqueue.cc:386
 #: linux/favoritehubs.cc:49 linux/favoritehubs.cc:137
-#: linux/favoritehubs.cc:804 linux/searchspy.cc:57 linux/searchspy.cc:293
+#: linux/favoritehubs.cc:802 linux/searchspy.cc:57 linux/searchspy.cc:293
 #: linux/searchspy.cc:377 linux/transfers.cc:64 linux/transfers.cc:414
 #: linux/transfers.cc:447 linux/transfers.cc:541 linux/transfers.cc:630
 #: linux/transfers.cc:640 linux/transfers.cc:815 linux/transfers.cc:955
@@ -5460,7 +5460,7 @@ msgid "Xine player"
 msgstr ""
 
 #: linux/favoritehubs.cc:398 linux/favoritehubs.cc:527
-#: linux/favoritehubs.cc:708 linux/favoriteusers.cc:107
+#: linux/favoritehubs.cc:706 linux/favoriteusers.cc:107
 #: linux/favoriteusers.cc:822 linux/favoriteusers.cc:842
 #: linux/favoriteusers.cc:933 linux/finishedtransfers.cc:661 linux/hub.cc:2594
 #: linux/hub.cc:2597 linux/hub.cc:2600 linux/hub.cc:2601 linux/hub.cc:2602

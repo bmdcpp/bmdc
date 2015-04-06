@@ -44,8 +44,8 @@ class CalcADLAction: public Singleton<CalcADLAction>, public SettingsManagerList
 	private:
 		IntMap points;
 		CriticalSection cs;
-		void on(SettingsManagerListener::Load, SimpleXML& xml) ;
-		void on(SettingsManagerListener::Save, SimpleXML& xml) ;
+		void on(SettingsManagerListener::Load, SimpleXML& xml);
+		void on(SettingsManagerListener::Save, SimpleXML& xml);
 
 };
 }//dcpp

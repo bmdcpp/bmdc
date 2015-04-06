@@ -296,19 +296,6 @@ UserPtr ClientManager::getUser(const CID& cid) noexcept {
 }
 
 UserPtr ClientManager::findUser(const CID& cid,const string& hubUrl /*=empty*/) const noexcept {
-	/*if( !hubUrl.empty() &&  isConnected(hubUrl))
-	{
-		UserPtr u = nullptr;
-		Lock l(cs);
-		for(auto& c:clients)
-		{
-			if(c->getHubUrl() == hubUrl){
-				u =	c->findUserWithCID(cid);
-				break;
-			}	
-		}
-		return u;
-	}else*/
 	{
 		Lock l(cs);
 		UserMap::const_iterator ui = users.find(cid);
@@ -317,10 +304,6 @@ UserPtr ClientManager::findUser(const CID& cid,const string& hubUrl /*=empty*/) 
 		}
 	}
 	return nullptr;
-/*	Lock l(cs);
-	auto ui = users.find(cid);
-	return ui == users.end() ? nullptr : ui->second;
-	*/
 }
 
 bool ClientManager::isOp(const UserPtr& user, const string& aHubUrl) const {

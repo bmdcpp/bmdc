@@ -61,16 +61,6 @@ public:
 			}
 		}
 	}
-	///
-	virtual UserPtr findUserWithCID(const CID& cid)
-	{
-		UserPtr u;
-		Lock l(cs);
-		OnlineUser *ou = findUser(cid);
-		if(ou)
-			u = ou->getUser();
-		return u;
-	}
 	//[CMD
 	string startCheck(const string &params) { return users.startChecking(this,params);}
 	void startMyInfoCheck() { users.startMyINFOCheck(this);}
@@ -100,7 +90,7 @@ public:
 	static const string UCM0_SUPPORT;
 	static const string BLO0_SUPPORT;
 	static const string ZLIF_SUPPORT;
-
+//new
 	static const string DFAV_FEATURE;
 	static const string DFAV_SUPPORT;
 
@@ -170,10 +160,10 @@ private:
 				bool isNotPrivate = i->getPrivate();
 				if(isNotPrivate == false) {
 					AdcCommand x(AdcCommand::CMD_RFA,c.getTo(),AdcCommand::TYPE_CLIENT);
-					x.addParam("NI",i->getName());
-					x.addParam("DE",i->getHubDescription());
-					x.addParam("HA",hubUrl);
-					x.addParam("LG","0");
+					x.addParam("NI", i->getName());
+					x.addParam("DE", i->getHubDescription());
+					x.addParam("HA", hubUrl);
+					x.addParam("LG", "0");
 					send(x);
 				}
 			}
@@ -211,7 +201,6 @@ private:
 			}
 		}
 	}
-	
 
 	template<typename T> void handle(T, AdcCommand&) { }
 

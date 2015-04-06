@@ -281,7 +281,7 @@ class Hub:
 		GtkWidget *m_menu;
 		bool notCreated;
 		bool isFavBool; 
-		std::string sort;//sort order for TreeView
+		std::string sort; //sort order for TreeView
 
 };
 #else

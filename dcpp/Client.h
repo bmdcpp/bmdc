@@ -20,9 +20,7 @@
 #define DCPLUSPLUS_DCPP_CLIENT_H
 
 #include "compiler.h"
-
 #include <atomic>
-
 #include "forward.h"
 #include "Speaker.h"
 
@@ -110,8 +108,6 @@ public:
 	string getHubDescription() const { return getHubIdentity().getDescription(); }
 
 	Identity& getHubIdentity() { return hubIdentity; }
-	
-	virtual UserPtr findUserWithCID(const CID& cid) = 0;
 
 	const string& getHubUrl() const { return hubUrl; }
 
@@ -205,6 +201,11 @@ private:
 
 	Client(const Client&);
 	Client& operator=(const Client&);
+	
+	bool isAdc(std::string& h)
+	{
+		return !h.empty() ?  h.compare(0, 6, "adc://") == 0 || h.compare(0, 7, "adcs://") == 0 : false;
+	}
 	
 };
 
