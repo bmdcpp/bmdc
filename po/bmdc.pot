@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2015-04-05 20:32+0200\n"
+"POT-Creation-Date: 2015-04-06 19:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -794,7 +794,7 @@ msgstr ""
 msgid "Chat"
 msgstr ""
 
-#: ui/privatemessage.glade.ui:285
+#: ui/privatemessage.glade.ui:296
 msgid "Chat Commands"
 msgstr ""
 
@@ -855,7 +855,8 @@ msgstr ""
 msgid "Clear Chat"
 msgstr ""
 
-#: ui/privatemessage.glade.ui:37 linux/privatemessage.cc:1072
+#: ui/privatemessage.glade.ui:37 ui/privatemessage.glade.ui:38
+#: linux/privatemessage.cc:1072
 msgid "Clear PM"
 msgstr ""
 
@@ -1166,7 +1167,7 @@ msgstr ""
 msgid "Emot Pack"
 msgstr ""
 
-#: ui/privatemessage.glade.ui:315
+#: ui/privatemessage.glade.ui:327
 msgid "Emoticons"
 msgstr ""
 
@@ -2969,10 +2970,6 @@ msgstr ""
 
 #: ui/privatemessage.glade.ui:27
 msgid "back"
-msgstr ""
-
-#: ui/privatemessage.glade.ui:38
-msgid "clear PM"
 msgstr ""
 
 #: ui/privatemessage.glade.ui:49

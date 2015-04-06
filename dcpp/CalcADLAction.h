@@ -1,5 +1,4 @@
 /*
- * CalcADLAction.h
  * This file is part of BMDC++ 
  *
  * Copyright (C) 2012 - 2015 Mank

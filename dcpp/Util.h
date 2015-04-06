@@ -20,6 +20,7 @@
 #define DCPLUSPLUS_DCPP_UTIL_H
 
 #include "compiler.h"
+//for locale
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <cstdlib>
@@ -466,8 +467,9 @@ public:
 	}
 
 	static string getIETFLang();
-	static bool isIp6(string name)
+	static bool isIp6(const string& name)
 	{
+		//5 = :xxxx:xxxx:
 	if(name.empty()) return false;
 	size_t n = std::count(name.begin(), name.end(), ':');
 	if( (n==2) && (name.size() == 2) ) return true;//Fix for "::"
@@ -493,7 +495,7 @@ public:
 	}
 	bool isOkIpV6 = false;
 	if( (ok == true ) || (ok2 == true)) {
-		struct sockaddr_in sa;//6
+		struct sockaddr_in sa;
 		int result = inet_pton(AF_INET6,name.c_str() , &(sa.sin_addr));//6
 		isOkIpV6 = result == 1;
 	}

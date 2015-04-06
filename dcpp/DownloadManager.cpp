@@ -134,10 +134,10 @@ void DownloadManager::revive(UserConnection* uc) {
 }
 
 void DownloadManager::addConnection(UserConnectionPtr conn) {
-	if(!conn->isSet(UserConnection::FLAG_SUPPORTS_TTHL) || !conn->isSet(UserConnection::FLAG_SUPPORTS_ADCGET)) {//BMDC TTHF->TTHL
+	if(conn && (/*!conn->isSet(UserConnection::FLAG_SUPPORTS_TTHF) ||*/ !conn->isSet(UserConnection::FLAG_SUPPORTS_ADCGET))) {
 		// Can't download from these...
-		// No TTHL/ADCGET support///BMDC++ F->L
-		ClientManager::getInstance()->setCheating(conn->getHintedUser(), "", "No TTHL/ADCGET support", 0,true , true, true, true, true);//TODO: add settings NO_TTHF
+		// No TTHF/ADCGET support
+		ClientManager::getInstance()->setCheating(conn->getHintedUser(), "", "No ADCGET support", 0, true , true, true, true, true);
 		//END
 		conn->getUser()->setFlag(User::OLD_CLIENT);
 		QueueManager::getInstance()->removeSource(conn->getUser(), QueueItem::Source::FLAG_NO_TTHF);

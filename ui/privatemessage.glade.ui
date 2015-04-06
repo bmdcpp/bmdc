@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="2.24"/>
-  <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkMenu" id="chatCommandsMenu">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -35,7 +34,7 @@
         <property name="has_tooltip">True</property>
         <property name="tooltip_markup">Clear PM</property>
         <property name="tooltip_text" translatable="yes">Clear PM</property>
-        <property name="label" translatable="yes">clear PM</property>
+        <property name="label" translatable="yes">Clear PM</property>
       </object>
     </child>
     <child>
@@ -242,22 +241,24 @@
       </object>
     </child>
   </object>
-  <object class="GtkVBox" id="mainBox">
+  <object class="GtkGrid" id="mainBox">
     <property name="visible">True</property>
     <property name="can_focus">True</property>
-    <property name="border_width">4</property>
-    <property name="spacing">4</property>
+    <property name="hexpand">True</property>
+    <property name="vexpand">True</property>
+    <property name="orientation">vertical</property>
     <child>
       <object class="GtkScrolledWindow" id="scroll">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="hscrollbar_policy">never</property>
-        <property name="vscrollbar_policy">automatic</property>
+        <property name="window_placement_set">False</property>
         <property name="shadow_type">in</property>
         <child>
           <object class="GtkTextView" id="text">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
             <property name="editable">False</property>
             <property name="wrap_mode">word-char</property>
             <property name="cursor_visible">False</property>
@@ -265,16 +266,31 @@
         </child>
       </object>
       <packing>
-        <property name="expand">True</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
+        <property name="left_attach">0</property>
+        <property name="top_attach">0</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkStatusbar" id="status">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">6</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
       </packing>
     </child>
     <child>
       <object class="GtkHBox" id="chatHBox">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="hexpand">True</property>
         <property name="spacing">4</property>
+        <property name="baseline_position">bottom</property>
         <child>
           <object class="GtkButton" id="chatCommandsButton">
             <property name="label">/</property>
@@ -283,6 +299,7 @@
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <property name="tooltip_text" translatable="yes">Chat Commands</property>
+            <property name="use_action_appearance">False</property>
             <property name="focus_on_click">False</property>
           </object>
           <packing>
@@ -297,8 +314,6 @@
             <property name="can_focus">True</property>
             <property name="primary_icon_activatable">False</property>
             <property name="secondary_icon_activatable">False</property>
-            <property name="primary_icon_sensitive">True</property>
-            <property name="secondary_icon_sensitive">True</property>
           </object>
           <packing>
             <property name="expand">True</property>
@@ -313,6 +328,7 @@
             <property name="can_focus">False</property>
             <property name="receives_default">False</property>
             <property name="tooltip_text" translatable="yes">Emoticons</property>
+            <property name="use_action_appearance">False</property>
             <property name="focus_on_click">False</property>
             <child>
               <object class="GtkImage" id="emotButtonImage">
@@ -325,26 +341,16 @@
           </object>
           <packing>
             <property name="expand">False</property>
-            <property name="fill">True</property>
+            <property name="fill">False</property>
             <property name="position">2</property>
           </packing>
         </child>
       </object>
       <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">2</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkStatusbar" id="status">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">3</property>
+        <property name="left_attach">0</property>
+        <property name="top_attach">5</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
       </packing>
     </child>
   </object>
