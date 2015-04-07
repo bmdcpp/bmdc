@@ -354,7 +354,7 @@ FavoriteHubEntry* Hub::getFavoriteHubEntry()
 {
 	return FavoriteManager::getInstance()->getFavoriteHubEntry(address);
 }
-//There we should be case-insestive!
+//There we should be case-insestive
 gint Hub::sort_iter_compare_func_nick(GtkTreeModel *model, GtkTreeIter  *a,
 									GtkTreeIter  *b,  gpointer  data)
 {
@@ -2463,9 +2463,18 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			if(!params.empty()) {
 				FavoriteManager::getInstance()->addFavoriteIp(params);
 			}else
-				hub->addStatusMessage_gui(_("No IP given to command"), Msg::SYSTEM , Sound::NONE );
+				hub->addStatusMessage_gui(_("No IP given to the command"), Msg::SYSTEM , Sound::NONE );
 		}
-		else if (command == "emoticons" || command == "emot")
+		else if( command == "listip")
+		{
+			auto list = FavoriteManager::getInstance()->getListIp();
+			string tmp;
+			for(auto it:list)
+					tmp =+_("IP: ") + it.first + _("Last Seen: ")+Util::formatTime("%Y-%m-%d %H:%M", it.second->getLastSeen())+"\n";
+			
+			hub->addMessage_gui("",tmp,Msg::SYSTEM);
+		
+		}else if (command == "emoticons" || command == "emot")
 		{
 			if (hub->useEmoticons)
 			{

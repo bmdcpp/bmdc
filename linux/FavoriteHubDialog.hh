@@ -39,10 +39,11 @@ class FavoriteHubDialog: public Entry
 		FavoriteHubDialog(FavoriteHubEntry* entry, bool add = true);
 		//@: groups : wich groups should dialog show up
 		bool initDialog(UnMapIter &groups);
+		
 		~FavoriteHubDialog() {
 			WulforManager::get()->deleteEntry_gui(this);
 		}
-		GtkWidget *getContainer() { return mainDialog; }
+		GtkWidget* getContainer() { return mainDialog; }
 		
 private:
 		void initActions();
@@ -50,54 +51,54 @@ private:
 		static void onCheckButtonToggled_gui(GtkToggleButton *button, gpointer data);
 		bool showErrorDialog_gui(const string &description);
 
-		FavoriteHubEntry* p_entry; //@ The Fav Entry pointer
-		bool init; //@ new or edit?
+		FavoriteHubEntry* p_entry; //@: The Fav Entry pointer
+		bool init; //@: new or edit?
 		//@: The Kick/Ban Action part
 		GtkTreeStore *actionStore;
 		TreeView actionView;
 		GtkTreeSelection *actionSel;
 		//@: Widgets
-		GtkWidget* mainDialog;
-		GtkWidget* mainBox;
-		GtkWidget* notebook;
-		GtkWidget* boxSimple;
-		GtkWidget* boxAdvanced;
+		GtkWidget	*mainDialog,
+					*mainBox,
+					*notebook,
+					*boxSimple,
+					*boxAdvanced,
 		//@: Hub-stuff
-		GtkWidget* entryAddress;
-		GtkWidget* entryName;
-		GtkWidget* entryDesc;
-		GtkWidget* comboCodepage;
-		GtkWidget* checkAutoConnect;
+					*entryAddress,
+					*entryName,
+					*entryDesc,
+					*comboCodepage,
+					*checkAutoConnect,
 		//@: User-info related stuff
-		GtkWidget* entryUsername;
-		GtkWidget* entryPassword;
-		GtkWidget* entryUserDescriptio;
-		GtkWidget* entryMail;
+					*entryUsername,
+					*entryPassword,
+					*entryUserDescriptio,
+					*entryMail,
 		//@: Checking
-		GtkWidget* entryProtectedUser;
-		GtkWidget* checkFilelists;
-		GtkWidget* checkClients;
-		GtkWidget* checkOnConn;
+					*entryProtectedUser,
+					*checkFilelists,
+					*checkClients,
+					*checkOnConn,
 		//@: Chat&Others
-		GtkWidget* extraChatInfoEntry;
-		GtkWidget* checkHideShare;
-		GtkWidget* entryAwayMessage;
-		GtkWidget* comboParts,*comboFavParts;
-		GtkWidget* colorBack;
-		GtkWidget* backImage;
-		GtkWidget* comboEmot;
-		GtkWidget* enableNoti;
-		GtkWidget* enableLog;
-		GtkWidget* enableCountry;
-		GtkWidget* enableIp;
-		GtkWidget* enableBold;
-		GtkWidget* enableStatusChat;
-		GtkWidget* enableFavFirst;
+					*extraChatInfoEntry,
+					*checkHideShare,
+					*entryAwayMessage,
+					*comboParts,*comboFavParts,
+					*colorBack,
+					*backImage,
+					*comboEmot,
+					*enableNoti,
+					*enableLog,
+					*enableCountry,
+					*enableIp,
+					*enableBold,
+					*enableStatusChat,
+					*enableFavFirst,
 		//@: Connection
-		GtkWidget* comboMode;
-		GtkWidget* entryIp;
-		//Kick View
-		GtkWidget * treeView;
+					*comboMode,
+					*entryIp,
+		//@: Kick View
+					*treeView;
 
 };
 
