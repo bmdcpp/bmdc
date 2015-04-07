@@ -110,7 +110,8 @@ Hub::Hub(const string &address, const string &encoding):
 		sort = faventry->get(SettingsManager::SORT_FAVUSERS_FIRST,SETTING(SORT_FAVUSERS_FIRST)) ? "Client Type" : "Nick Order";
 /*
 	nickView.setSortColumn_gui(_("Nick"), sort);
-	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);*/
+	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);
+*/	
 	//Own sort
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(nickView.get(), nickView.col(_("Nick"))), TRUE);
 	gtk_tree_sortable_set_sort_func(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), sort_iter_compare_func_nick,
@@ -346,6 +347,7 @@ Hub::Hub(const string &address, const string &encoding):
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")), showUserList);
 		isFavBool =  faventry ? faventry->getNotify() : WGETI("notify-hub-chat-use");
 	}
+	setColorsRows();
 }
 
 FavoriteHubEntry* Hub::getFavoriteHubEntry()
@@ -836,7 +838,6 @@ void Hub::updateUser_gui(ParamMap params)
 			addStatusMessage_gui(params["IP"] + _(" Has been connected "), Msg::STATUS, Sound::NONE);
 	}	
 	
-	setColorsRows();
 	setStatus_gui("statusUsers", Util::toString(userMap.size()) + _(" Users"));
 	setStatus_gui("statusShared", Util::formatBytes(totalShared));
 }
@@ -962,8 +963,6 @@ void Hub::getPassword_gui()
 
 	if (PasswordDialog)
 		return;
-//#pragma GCC diagnostic push
-//#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 	// Create password dialog
 	string title = _("Enter hub password for ") + client->getHubUrl();
 	GtkWidget *dialog = gtk_dialog_new_with_buttons(title.c_str(),
@@ -1122,15 +1121,14 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 	gtk_text_buffer_get_end_iter(chatBuffer, &iter);
 
 	// Limit size of chat text
-	if (gtk_text_buffer_get_line_count(chatBuffer) > maxLines + 1)
+	if ( (gtk_text_buffer_get_char_count (chatBuffer) > 24999) || ( gtk_text_buffer_get_line_count(chatBuffer) > maxLines + 1))
 	{
 		GtkTextIter next;
 		gtk_text_buffer_get_start_iter(chatBuffer, &iter);
 		gtk_text_buffer_get_iter_at_line(chatBuffer, &next, 1);
 		gtk_text_buffer_delete(chatBuffer, &iter, &next);
-		return;
 	}
-	if(gtk_text_buffer_get_char_count (chatBuffer) > 25000)
+	/*if(gtk_text_buffer_get_char_count (chatBuffer) > 25000)
 	{
 		
 		GtkTextIter next;
@@ -1138,7 +1136,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 		gtk_text_buffer_get_iter_at_line(chatBuffer, &next, 1);
 		gtk_text_buffer_delete(chatBuffer, &iter, &next);
 		return;
-	}
+	}*/
 	
 }
 
@@ -1173,8 +1171,8 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 	string tagName;
 	Tag::TypeTag tagStyle = Tag::TAG_GENERAL;
 
-	bool firstNick = FALSE;
-	bool start = FALSE;
+	bool firstNick = false;
+	bool start = false;
 	bool isIp = false;
 	for(;;)
 	{
@@ -1191,7 +1189,7 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 			gtk_text_buffer_move_mark(chatBuffer, start_mark, &start_iter);
 			gtk_text_buffer_move_mark(chatBuffer, end_mark, &start_iter);
 
-			start = TRUE;
+			start = true;
 		}
 
 		tag_start_iter = start_iter;
@@ -1761,7 +1759,6 @@ void Hub::preferences_gui()
 	if(faventry)
 		sort = faventry->get(SettingsManager::SORT_FAVUSERS_FIRST, SETTING(SORT_FAVUSERS_FIRST)) ? "Client Type" : "Nick Order";
 
-	nickView.setSortColumn_gui(_("Nick"), sort);
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);
 	//Set Colors
 // Re-Initialize the chat window
@@ -1967,7 +1964,7 @@ gboolean Hub::onNickListButtonRelease_gui(GtkWidget *widget, GdkEventButton *eve
 
 void Hub::clickAction(gpointer data)
 {
-	//TODO:maybe..some other & UI & fav?
+	//TODO:maybe..some other & UI settings & fav?
 	switch((CActions::User)WGETI("double-click-action"))
 	{
 		case CActions::BROWSE:
@@ -2231,7 +2228,7 @@ void Hub::onRipeDbItem_gui(GtkWidget *wid, gpointer data)
 	string error = Util::emptyString;
 	dcpp::ParamMap params;
 	params["IP"] = hub->ip;
-	string result = dcpp::Util::formatParams(SETTING(RIPE_DB),params);//Possible per Fav?
+	string result = dcpp::Util::formatParams(SETTING(RIPE_DB),params);
 	WulforUtil::openURI(result,error);
 	hub->setStatus_gui("statusMain",error);
 }
@@ -2592,7 +2589,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			info[_("External / WAN IP6")] = hub->client->get(SettingsManager::EXTERNAL_IP6,SETTING(EXTERNAL_IP6))+_(" - ")+(isGlobalString(hub->client->get(SettingsManager::EXTERNAL_IP6,SETTING(EXTERNAL_IP6)),SETTING(EXTERNAL_IP6)) ? _("Global") : _("User Per Favorite Hub Set"));
 			info[_("Encoding")] =  hub->client->getEncoding();
 			info[_("Hide Share")] = hub->client->getHideShare() ? _("Yes") : _("No");
-			FavoriteHubEntry* fav = FavoriteManager::getInstance()->getFavoriteHubEntry(hub->address);
+			FavoriteHubEntry* fav = hub->getFavoriteHubEntry();
 			if(fav){
 				info[_("Notification")] = fav->getNotify() ? _("Yes") : _("No");
 				info[_("Mode")] = Util::toString(fav->getMode());
@@ -2626,7 +2623,6 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			  if(ui)
 			  {
 			  		WulforManager::get()->getMainWindow()->addPrivateMessage_gui(Msg::PRIVATE, ui->getCID().toBase32(), "",mess,true);
-
 			  }
 			}
 			else if (hub->userMap.find(params) != hub->userMap.end())
@@ -2701,10 +2697,10 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			if(params.empty()) return;
 
             if(params[0] == '1') {
-                 hub->addStatusMessage_gui("Join/part for Fav showing on", Msg::SYSTEM, Sound::NONE);
+                 hub->addStatusMessage_gui(_("Join/part for Fav showing on"), Msg::SYSTEM, Sound::NONE);
                  hub->client->set(SettingsManager::FAV_SHOW_JOINS,true);
             } else {
-                 hub->addStatusMessage_gui("Join/part for fav showing off", Msg::SYSTEM, Sound::NONE);
+                 hub->addStatusMessage_gui(_("Join/part for fav showing off"), Msg::SYSTEM, Sound::NONE);
                  hub->client->set(SettingsManager::FAV_SHOW_JOINS,false);
             }
 		}
@@ -3272,6 +3268,7 @@ void Hub::onUnProtectUserClicked_gui(GtkMenuItem *item , gpointer data)
 				ou->getUser()->unsetFlag(User::PROTECT);
 			dcpp::StringMap params;
 			hub->getParams_client(params, ou->getIdentity());
+			
 		}
 	}
 }
@@ -4694,15 +4691,12 @@ void Hub::on_setImage_tab(GtkButton *widget, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	if(hub == NULL) return;
-//	#pragma GCC diagnostic push
-//	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 	GtkWidget *dialog = gtk_file_chooser_dialog_new ("Open Icon File to Set to Tab",
 						GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 				        GTK_FILE_CHOOSER_ACTION_OPEN,
 				        BMDC_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				        BMDC_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 				        NULL);
-//	#pragma GCC diagnostic pop
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
 	{
 		char *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));

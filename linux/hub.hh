@@ -181,7 +181,6 @@ class Hub:
 		static void makeColor(GtkTreeViewColumn *column, GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data);
 		static gint sort_iter_compare_func_nick(GtkTreeModel *model, GtkTreeIter  *a,GtkTreeIter  *b,  gpointer  data);
 
-
 		// Client functions
 		void addFavoriteUser_client(const std::string& cid);
 		void removeFavoriteUser_client(const std::string& cid);
