@@ -5,21 +5,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2015-04-07 14:13+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
-"Content-Transfer-Encoding: 8bit\n"
-"#-#-#-#-#  linux.pot  #-#-#-#-#\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2015-04-07 16:34+0200\n"
+"POT-Creation-Date: 2015-04-09 15:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1593,7 +1581,7 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
-#: ui/FavDialog.glade.ui:732 ui/favoritehubs.glade.ui:1193 linux/hub.cc:2473
+#: ui/FavDialog.glade.ui:732 ui/favoritehubs.glade.ui:1193
 msgid "IP"
 msgstr ""
 
@@ -3663,7 +3651,7 @@ msgstr ""
 msgid "Connection Setup"
 msgstr ""
 
-#: linux/treeview.cc:612
+#: linux/treeview.cc:606
 msgid "Copy All"
 msgstr ""
 
@@ -4180,6 +4168,10 @@ msgstr ""
 msgid "IP address"
 msgstr ""
 
+#: linux/hub.cc:2473
+msgid "IP: "
+msgstr ""
+
 #: linux/WulforUtil.cc:266
 msgid "ISO-2022-JP (Japanese)"
 msgstr ""
@@ -4310,7 +4302,7 @@ msgid ""
 msgstr ""
 
 #: linux/hub.cc:2473
-msgid "Last Seen"
+msgid "Last Seen: "
 msgstr ""
 
 #: linux/WulforUtil.cc:83
