@@ -42,29 +42,28 @@ bool Mapper_MiniUPnPc::init() {
 	if(!url.empty())
 		return true;
 
-	UPNPDev* devices = upnpDiscover(2000, localIp.empty() ? nullptr : localIp.c_str(), NULL, 0,0,0);
+	UPNPDev* devices = upnpDiscover(2000, localIp.empty() ? nullptr : localIp.c_str(), NULL, 0,0,NULL);
 	if(!devices)
 		return false;
 
 	UPNPUrls urls;
 	IGDdatas data;
 
-	auto ret = UPNP_GetValidIGD(devices, &urls, &data, 0, 0);
+	int ret = UPNP_GetValidIGD(devices, &urls, &data, 0, 0);
 
-	bool ok = ret == 1;
-	if(ok) {
+	if(ret == 1) {
 		url = urls.controlURL;
 		service = data.first.servicetype;
 		//device = data.CIF.friendlyName;
 		device = data.cureltname;
 	}
 
-	if(ret) {
+	if(ret != 0) {
 		FreeUPNPUrls(&urls);
-		freeUPNPDevlist(devices);
 	}
+	freeUPNPDevlist(devices);
 
-	return ok;
+	return ret == 1;
 }
 
 void Mapper_MiniUPnPc::uninit() {

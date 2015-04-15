@@ -1359,7 +1359,11 @@ void Hub::applyTags_gui(const string &cid, const string &line)
                 if(buffer != NULL)
 				{
 					gtk_text_buffer_delete(chatBuffer,&tag_start_iter,&tag_end_iter);
-					gtk_text_buffer_insert_pixbuf(chatBuffer, &tag_start_iter , buffer);
+					
+					gtk_text_buffer_insert_pixbuf(chatBuffer, &tag_end_iter , buffer);
+
+					gtk_text_buffer_move_mark(chatBuffer, tag_mark, &tag_end_iter);
+
 				}
             }
 
@@ -1445,6 +1449,8 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 			if (gtk_text_iter_is_end(&start_iter))
 				return;
 
+			gtk_text_buffer_move_mark(chatBuffer, end_mark, &tag_end_iter);///new
+
 			start = FALSE;
 
 			continue;
@@ -1495,7 +1501,8 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 
 			if (gtk_text_iter_is_end(&start_iter))
 				return;
-
+			
+			gtk_text_buffer_move_mark(chatBuffer, end_mark, &tag_end_iter);////new
 			start = FALSE;
 		}
 		else

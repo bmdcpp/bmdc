@@ -567,11 +567,11 @@ string Util::getLocalIp() {//@TODO:IPv6?
 	// We take the first ip as default, but if we can find a better one, use it instead...
 	memcpy(&(dest.sin_addr), he->h_addr_list[i++], he->h_length);
 	tmp = inet_ntoa(dest.sin_addr);
-	if(Util::isPrivateIp(tmp) || strncmp(tmp.c_str(), "169", 3) == 0) {
+	if(Util::isPrivateIp(tmp) || strncmp(tmp.c_str(), "169.254", 7) == 0) {
 		while(he->h_addr_list[i]) {
 			memcpy(&(dest.sin_addr), he->h_addr_list[i], he->h_length);
 			string tmp2 = inet_ntoa(dest.sin_addr);
-			if(!Util::isPrivateIp(tmp2) && strncmp(tmp2.c_str(), "169", 3) != 0) {
+			if(!Util::isPrivateIp(tmp2) && strncmp(tmp2.c_str(), "169.254", 7) != 0) {
 				tmp = tmp2;
 			}
 			i++;
