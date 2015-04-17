@@ -3615,12 +3615,12 @@ void Settings::selectTextColor_gui(const int select)
 
 		if (select == 0)
 		{
-			ground = "foreground";
+			ground = "foreground-rgba";
 			gtk_list_store_set(textStyleStore, &iter, textStyleView.col("ForeColor"), strcolor.c_str(), -1);
 		}
 		else
 		{
-			ground = "background";
+			ground = "background-rgba";
 			gtk_list_store_set(textStyleStore, &iter, textStyleView.col("BackColor"), strcolor.c_str(), -1);
 		}
 

@@ -382,11 +382,11 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("custom-aliases", "#"));
 	/* Extended text color*/
 	defaultString.insert(StringMap::value_type("text-cheat-fore-color", "red"));
-	defaultString.insert(StringMap::value_type("text-cheat-back-color", "white"));
+	defaultString.insert(StringMap::value_type("text-cheat-back-color", WulforUtil::colorToString(&color)));
 	defaultString.insert(StringMap::value_type("text-ip-fore-color", "black"));
-	defaultString.insert(StringMap::value_type("text-ip-back-color", "white"));
+	defaultString.insert(StringMap::value_type("text-ip-back-color", WulforUtil::colorToString(&color)));
 	defaultString.insert(StringMap::value_type("text-high-fore-color", "black"));
-	defaultString.insert(StringMap::value_type("text-high-back-color", "white"));
+	defaultString.insert(StringMap::value_type("text-high-back-color", WulforUtil::colorToString(&color)));
 
 	defaultString.insert(StringMap::value_type("notify-high-title", _("Highliting")));
 	defaultString.insert(StringMap::value_type("notify-high-icon", "bmdc-icon-highliting"));

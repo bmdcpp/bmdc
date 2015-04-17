@@ -125,6 +125,7 @@ vars.AddVariables(
 	BoolVariable('libnotify', 'Enable notifications through libnotify', 1),
 	BoolVariable('libtar', 'Enable Backup&Export with libtar', 1),
 	BoolVariable('libappindicator', 'Enable AppIndicator Support', 0),
+	BoolVariable('libxattr', 'Enable xattr',1),
 	PathVariable('PREFIX', 'Compile the program with PREFIX as the root for installation', '/usr/local/', PathVariable.PathIsDir),
 	('FAKE_ROOT', 'Make scons install the program under a fake root', '')
 )
@@ -259,11 +260,12 @@ if not 'install' in COMMAND_LINE_TARGETS:
 
 	if conf.CheckHeader(['sys/types.h', 'sys/socket.h', 'ifaddrs.h', 'net/if.h']):
 		conf.env.Append(CPPDEFINES = 'HAVE_IFADDRS_H')
-	
+
 	#assumes we had also headers..
-	if conf.CheckLib('attr'):
-		conf.env.Append(CPPDEFINES = 'USE_XATTR')
-		LIB_HAVE_XATTR = True
+	if conf.env.get('libxattr'):
+		if conf.CheckLib('attr'):
+			conf.env.Append(CPPDEFINES = 'USE_XATTR')
+			LIB_HAVE_XATTR = True
 			
 	# TODO: Implement a plugin system so libnotify doesn't have compile-time dependencies
 	if conf.env.get('libnotify'):
@@ -310,6 +312,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		else:
 			print 'Dont Found libtar headers'
 			LIB_IS_TAR = False
+
 	# Support of appindicator # Very Experimetal!
 	if conf.env.get('libappindicator'):
 		if conf.CheckPKG('appindicator3-0.1'):
