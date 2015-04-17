@@ -317,9 +317,9 @@ void FavoriteHubs::onEditEntry_gui(GtkWidget *widget, gpointer data)
 
 	if (entryUpdated)
 	{
-		string address_old = fh->favoriteView.getString(&iter, _("Address"));
+//		string address_old = fh->favoriteView.getString(&iter, _("Address"));
 
-		if (fh->checkEntry_gui(address_old, entry->getServer()))
+//		if (fh->checkEntry_gui(address_old, entry->getServer()))
 		{
 			fh->editEntry_gui(entry,&iter);
 
