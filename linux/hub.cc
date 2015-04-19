@@ -1121,22 +1121,27 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 	gtk_text_buffer_get_end_iter(chatBuffer, &iter);
 
 	// Limit size of chat text
-	if ( (gtk_text_buffer_get_char_count (chatBuffer) > 24999) || ( gtk_text_buffer_get_line_count(chatBuffer) > maxLines + 1))
+	if ( /*(gtk_text_buffer_get_char_count (chatBuffer) > 24999) || (*/ gtk_text_buffer_get_line_count(chatBuffer) > maxLines + 1)
 	{
-		GtkTextIter next;
-		gtk_text_buffer_get_start_iter(chatBuffer, &iter);
-		gtk_text_buffer_get_iter_at_line(chatBuffer, &next, 1);
-		gtk_text_buffer_delete(chatBuffer, &iter, &next);
-	}
-	/*if(gtk_text_buffer_get_char_count (chatBuffer) > 25000)
-	{
-		
 		GtkTextIter next;
 		gtk_text_buffer_get_start_iter(chatBuffer, &iter);
 		gtk_text_buffer_get_iter_at_line(chatBuffer, &next, 1);
 		gtk_text_buffer_delete(chatBuffer, &iter, &next);
 		return;
-	}*/
+	}
+	if(gtk_text_buffer_get_char_count (chatBuffer) > 25000)
+	{
+		///try avoid chat-bug
+	/*	GtkTextIter next;
+		gtk_text_buffer_get_start_iter(chatBuffer, &iter);
+		gtk_text_buffer_get_iter_at_line(chatBuffer, &next, 1);
+		gtk_text_buffer_delete(chatBuffer, &iter, &next);
+		return;*/
+		GtkTextIter startIter, endIter;
+		gtk_text_buffer_get_start_iter(chatBuffer, &startIter);
+		gtk_text_buffer_get_end_iter(chatBuffer, &endIter);
+		gtk_text_buffer_delete(chatBuffer, &startIter, &endIter);
+	}
 	
 }
 
