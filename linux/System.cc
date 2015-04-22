@@ -53,15 +53,17 @@ SystemLog::~SystemLog()
 	LogManager::getInstance()->removeListener(this);
 }
 
-void SystemLog::add_gui(time_t t, string file)
+void SystemLog::add_gui(time_t t, string file,int sev)
 {
+	gtk_text_buffer_move_mark(buffer, sysMark, &iter);
 	gtk_text_buffer_get_end_iter(buffer, &iter);
-
+	gtk_text_buffer_insert_pixbuf(buffer, &iter , getImageSev(sev));
+	gtk_text_buffer_move_mark(buffer, sysMark, &iter);
 	string line = Text::toUtf8("[ " + Util::getShortTimeString(t)+" ] " + file + "\n\0");
 
 	gtk_text_buffer_insert(buffer, &iter, line.c_str(), line.size());
 	gtk_text_buffer_get_end_iter(buffer, &iter);
-
+	gtk_text_buffer_move_mark(buffer, sysMark, &iter);
 	// Limit size of chat text
 	if (gtk_text_buffer_get_line_count(buffer) > maxLines + 1)
 	{
@@ -69,7 +71,18 @@ void SystemLog::add_gui(time_t t, string file)
 		gtk_text_buffer_get_start_iter(buffer, &iter);
 		gtk_text_buffer_get_iter_at_line(buffer, &next, 1);
 		gtk_text_buffer_delete(buffer, &iter, &next);
+		//gtk_text_view_place_cursor_onscreen(GTK_TEXT_VIEW(getWidget("systextview")));
+	//	return;
 	}
+	/*
+	if(gtk_text_buffer_get_char_count (buffer) > 25000)
+	{
+		GtkTextIter startIter, endIter;
+		gtk_text_buffer_get_start_iter(buffer, &startIter);
+		gtk_text_buffer_get_end_iter(buffer, &endIter);
+		gtk_text_buffer_delete(buffer, &startIter, &endIter);
+	}
+*/
 	gtk_text_view_place_cursor_onscreen(GTK_TEXT_VIEW(getWidget("systextview")));
 }
 
@@ -126,10 +139,35 @@ void SystemLog::on(LogManagerListener::Message, time_t t, const string& message,
 	if(sev == LogManager::Sev::NORMAL)
 	{
 #endif
-    typedef Func2<SystemLog,time_t,std::string> F2;
-    F2 *func = new F2(this,&SystemLog::add_gui, t, message);
+    typedef Func3<SystemLog,time_t,std::string,int> F3;
+    F3 *func = new F3(this,&SystemLog::add_gui, t, message, sev);
     WulforManager::get()->dispatchGuiFunc(func);
  #ifndef _DEBUG
 	}
 #endif
 }
+
+GdkPixbuf* SystemLog::getImageSev(int sev)
+{
+	string tmp = Util::emptyString; 
+	switch(sev)
+	{
+		case LogManager::Sev::LOW: tmp = "info";break;
+		case LogManager::Sev::NORMAL: tmp = "warning";break;
+		case LogManager::Sev::HIGH: tmp = "error"; break;
+		default:break;
+	};
+	GError* error = NULL;
+	
+	gchar *path = g_strdup_printf(_DATADIR PATH_SEPARATOR_STR "bmdc/country/%s.png",
+		                              (gchar *)tmp.c_str());
+	
+	GdkPixbuf* 	buf = gdk_pixbuf_new_from_file_at_size(path,15,15,&error);
+	
+	if(error != NULL || buf == NULL) {
+			g_error_free(error);
+			return NULL;
+	}	
+	return buf;
+}
+

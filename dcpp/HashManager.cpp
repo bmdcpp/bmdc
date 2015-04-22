@@ -206,7 +206,7 @@ void HashManager::hashDone(const string& aFileName, uint32_t aTimeStamp, const T
 		store.addFile(aFileName, aTimeStamp, tth, true);
 		m_streamstore.saveTree(aFileName, tth);
 	} catch (const Exception& e) {
-		LogManager::getInstance()->message(_("Hashing failed: ")+ e.getError());
+		LogManager::getInstance()->message(_("Hashing failed: ")+ e.getError(), LogManager::Sev::HIGH);
 		return;
 	}
 
@@ -249,7 +249,7 @@ void HashManager::HashStore::addTree(const TigerTree& tt) noexcept {
 			treeIndex.emplace(tt.getRoot(), TreeInfo(tt.getFileSize(), index, tt.getBlockSize()));
 			dirty = true;
 		} catch (const FileException& e) {
-			LogManager::getInstance()->message(_("Error saving hash data: ") + e.getError());
+			LogManager::getInstance()->message(_("Error saving hash data: ") + e.getError(), LogManager::Sev::HIGH);
 		}
 	}
 }
@@ -397,7 +397,7 @@ void HashManager::HashStore::rebuild() {
 		dirty = true;
 		save();
 	} catch (const Exception& e) {
-		LogManager::getInstance()->message(_("Hashing failed: ") + e.getError());
+		LogManager::getInstance()->message(_("Hashing failed: ") + e.getError(), LogManager::Sev::HIGH);
 	}
 }
 
@@ -452,7 +452,7 @@ void HashManager::HashStore::save() {
 
 			dirty = false;
 		} catch (const FileException& e) {
-			LogManager::getInstance()->message(_("Error saving hash data: ") + e.getError());
+			LogManager::getInstance()->message(_("Error saving hash data: ") + e.getError(), LogManager::Sev::HIGH);
 		}
 	}
 }
@@ -685,7 +685,7 @@ void HashManager::HashStore::createDataFile(const string& name) {
 		dat.flush();
 		dat.close();
 	} catch (const FileException& e) {
-		LogManager::getInstance()->message(_("Error creating hash data file: ") + e.getError());
+		LogManager::getInstance()->message(_("Error creating hash data file: ") + e.getError(), LogManager::Sev::HIGH);
 	}
 }
 
@@ -840,7 +840,7 @@ int HashManager::Hasher::run() {
 				}
 
 				if( (SETTING(SFV_CHECK) == true) && xcrc32 && xcrc32->getValue() != sfv.getCRC()) {
-					LogManager::getInstance()->message(Util::addBrackets(fname)+_(" not shared; calculated CRC32 does not match the one found in SFV file."));
+					LogManager::getInstance()->message(Util::addBrackets(fname)+_(" not shared; calculated CRC32 does not match the one found in SFV file."), LogManager::Sev::HIGH);
 				} if (streamstore.loadTree(Util::getFilePath(fname)+PATH_SEPARATOR_STR+fname, tt, -1)) {
 					printf ("%s: hash [%s] was loaded from Xattr.\n", fname.c_str(), tt.getRoot().toBase32().c_str());
 					HashManager::getInstance()->hashDone(fname, (int64_t)timestamp, tt, speed, size);
@@ -850,7 +850,7 @@ int HashManager::Hasher::run() {
 					
 				}
 			} catch(const FileException& e) {
-				LogManager::getInstance()->message(_("Error hashing : ") + Util::addBrackets(fname) +":"+ e.getError());
+				LogManager::getInstance()->message(_("Error hashing : ") + Util::addBrackets(fname) +":"+ e.getError(), LogManager::Sev::HIGH);
 			}
 		}
 		{

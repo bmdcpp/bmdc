@@ -56,7 +56,7 @@ int BackupManager::run() {
 			}
 			TarFile tar;
 			tar.CreateTarredFile(zipFile,files);
-			LogManager::getInstance()->message(_("Settings have been backed up!"));
+			LogManager::getInstance()->message(_("Settings have been backed up!"), LogManager::Sev::NORMAL);
 			
 			} catch (...)
 			{
@@ -80,7 +80,7 @@ void BackupManager::on(TimerManagerListener::Minute, uint64_t aTick) noexcept {
 	if(SETTING(ENABLE_AUTOBACKUP) && aTick >= backupTime) {
 		stop = false;
 		start();
-		LogManager::getInstance()->message(_("Settings files have been automatically backed up!"));
+		LogManager::getInstance()->message(_("Settings files have been automatically backed up!"), LogManager::Sev::NORMAL);
 	}
 	ui64LastBackUpTime = aTick;
 	//save old tick for backuping only once a setted time

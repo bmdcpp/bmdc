@@ -201,7 +201,7 @@ void PluginManager::loadPlugins(function<void (const string&)> f) {
 		if(f) { f(plugin.name); }
 		try { enable(plugin, false, false); }
 		catch(const Exception& e) {
-			LogManager::getInstance()->message(e.getError());
+			LogManager::getInstance()->message(e.getError(),LogManager::Sev::HIGH);
 		}
 	}
 }

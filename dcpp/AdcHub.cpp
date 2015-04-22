@@ -704,7 +704,7 @@ void AdcHub::connect(const OnlineUser& user, string const& token, bool secure) {
 		const string& port = secure ? Util::toString(ConnectionManager::getInstance()->getSecurePort()) : Util::toString(ConnectionManager::getInstance()->getPort());
 		if(port.empty()) {
 			// Oops?
-			LogManager::getInstance()->message((F_(("Not listening for connections - please restart "+string(APPNAME)).c_str())));
+			LogManager::getInstance()->message((F_(("Not listening for connections - please restart "+string(APPNAME)).c_str())),LogManager::Sev::HIGH);
 			return;
 		}
 		send(AdcCommand(AdcCommand::CMD_CTM, user.getIdentity().getSID(), AdcCommand::TYPE_DIRECT).addParam(proto).addParam(port).addParam(token));

@@ -42,7 +42,7 @@ class SystemLog:
 		// Client functions
 		void ini_client();
 		//Gui functions
-		void add_gui(time_t t,std::string file);
+		void add_gui(time_t t,std::string file,int sev = dcpp::LogManager::Sev::NORMAL);
 		static void onScroll_gui(GtkAdjustment *adjustment, gpointer data);
 		static void onResize_gui(GtkAdjustment *adjustment, gpointer data);
 		static void onClearButton(GtkWidget *widget, gpointer data);
@@ -54,6 +54,7 @@ class SystemLog:
 		GtkTextMark *sysMark;
 		static const int maxLines = 1000;
 		bool scrollToBottom;
+		GdkPixbuf* getImageSev(int sev);
 
 };
 

@@ -1067,9 +1067,9 @@ void QueueManager::moveFile_(const string& source, const string& target) {
 		string newTarget = Util::getFilePath(source) + Util::getFileName(target);
 		try {
 			File::renameFile(source, newTarget);
-			LogManager::getInstance()->message( F_( ("Unable to move "+Util::addBrackets(source)+" to "+Util::addBrackets(target)+" ("+e1.getError()+") renamed to "+ Util::addBrackets(newTarget)).c_str()));
+			LogManager::getInstance()->message( F_( ("Unable to move "+Util::addBrackets(source)+" to "+Util::addBrackets(target)+" ("+e1.getError()+") renamed to "+ Util::addBrackets(newTarget)).c_str()),LogManager::Sev::HIGH);
 		} catch(const FileException& e2) {
-			LogManager::getInstance()->message( F_( ("Unable to move "+Util::addBrackets(source)+" to "+Util::addBrackets(target)+" ("+e1.getError()+") nor to rename to "+Util::addBrackets(newTarget)+" ("+e2.getError()+")").c_str()   ));
+			LogManager::getInstance()->message( F_( ("Unable to move "+Util::addBrackets(source)+" to "+Util::addBrackets(target)+" ("+e1.getError()+") nor to rename to "+Util::addBrackets(newTarget)+" ("+e2.getError()+")").c_str()   ),LogManager::Sev::HIGH);
 		}
 	}
 }
@@ -1253,7 +1253,7 @@ void QueueManager::processList(const string& name, const HintedUser& user, int f
 	try {
 		dirList.loadFile(name);
 	} catch(const Exception&) {
-		LogManager::getInstance()->message(string(F_("Unable to open filelist: ") + Util::addBrackets(name)));
+		LogManager::getInstance()->message(string(F_("Unable to open filelist: ") + Util::addBrackets(name)),LogManager::Sev::HIGH);
 		return;
 	}
 
@@ -1767,7 +1767,7 @@ bool QueueManager::checkSfv(QueueItem* qi, Download* d) {
 			File::deleteFile(qi->getTempTarget());
 			qi->resetDownloaded();
 			dcdebug("QueueManager: CRC32 mismatch for %s\n", qi->getTarget().c_str());
-			LogManager::getInstance()->message(string(F_("CRC32 inconsistency (SFV-Check): ") + Util::addBrackets(qi->getTarget())));
+			LogManager::getInstance()->message(string(F_("CRC32 inconsistency (SFV-Check): ") + Util::addBrackets(qi->getTarget())),LogManager::Sev::LOW);
 
 			setPriority(qi->getTarget(), QueueItem::PAUSED);
 

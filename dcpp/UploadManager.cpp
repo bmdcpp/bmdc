@@ -163,7 +163,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 					start = 0;
 					size = xml.size();
 				} else {
-					auto isList = (aFile == Transfer::USER_LIST_NAME_BZ) ? true : false; // Will have to re-think this later
+					bool isList = (aFile == Transfer::USER_LIST_NAME_BZ); // Will have to re-think this later
 					if(!isInSharingHub && !isList) { aSource.fileNotAvail(); return false; } // Hiding share, no file should be available besides filelists which should be empty anyways
 					File* f = new File(sourceFile, File::READ, File::OPEN);
 

@@ -430,7 +430,7 @@ void CryptoManager::loadCertificates() noexcept {
 			SSL_CTX_load_verify_locations(clientContext, i.c_str(), NULL) != SSL_SUCCESS ||
 			SSL_CTX_load_verify_locations(serverContext, i.c_str(), NULL) != SSL_SUCCESS
 		) {
-			LogManager::getInstance()->message(_("Failed to load trusted certificate from ") + Util::addBrackets(i));
+			LogManager::getInstance()->message(_("Failed to load trusted certificate from ") + Util::addBrackets(i), LogManager::Sev::HIGH);
 		}
 	}
 
@@ -626,7 +626,7 @@ int CryptoManager::verify_callback(int preverify_ok, X509_STORE_CTX *ctx) {
 				ByteVector kp = ssl::X509_digest(cert, EVP_sha256());
 				string keyp = "SHA256/" + Encoder::toBase32(&kp[0], kp.size());
 
-				LogManager::getInstance()->message(string(_("Certificate verification for failed with error: ")+line+_("certificate KeyPrint: )")+  X509_verify_cert_error_string(err) + keyp));
+				LogManager::getInstance()->message(string(_("Certificate verification for failed with error: ")+line+_("certificate KeyPrint: )")+  X509_verify_cert_error_string(err) + keyp, LogManager::Sev::HIGH));
 			}
 		}
 

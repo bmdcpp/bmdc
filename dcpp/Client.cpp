@@ -170,7 +170,7 @@ void Client::send(const char* aMessage, size_t aLen) {
 	if(!isConnected()) {
 		dcassert(0);
 		dcdebug("\nno connected");
-		LogManager::getInstance()->message("Not Connected returning");
+		LogManager::getInstance()->message("Not Connected returning", LogManager::Sev::LOW);
 		return;
 	}
 	dcdebug("\nPlugins");
