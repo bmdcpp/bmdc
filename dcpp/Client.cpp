@@ -190,7 +190,7 @@ HubData* Client::getPluginObject() noexcept {
 	pod.ip = pluginString(ip);
 	pod.object = this;
 	pod.port = port;
-	pod.protocol = /*dynamic_cast<AdcHub*>(this)*/isAdc(hubUrl) ? PROTOCOL_ADC : PROTOCOL_NMDC; // TODO: dynamic_cast not practical if more than two protocols
+	pod.protocol = isAdc(hubUrl) ? PROTOCOL_ADC : PROTOCOL_NMDC; // TODO: dynamic_cast not practical if more than two protocols
 	pod.isOp = isOp() ? True : False;
 	pod.isSecure = isSecure() ? True : False;
 

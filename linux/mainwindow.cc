@@ -2839,7 +2839,7 @@ int MainWindow::FileListQueue::run() {
 	return 0;
 }
 
-void MainWindow::on(LogManagerListener::Message, time_t t, const string &message) throw()
+void MainWindow::on(LogManagerListener::Message, time_t t, const string &message,int sev) noexcept
 {
 	typedef Func2<MainWindow, string, time_t> F2;
 	F2 *func = new F2(this, &MainWindow::setMainStatus_gui, message, t);

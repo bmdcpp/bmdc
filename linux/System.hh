@@ -1,5 +1,5 @@
 //
-//      Copyright 2011-2015 Mank <fredcpp at seznam dot cz>
+//      Copyright 2011-2015 Mank <freedcpp at seznam dot cz>
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ class SystemLog:
 		// Client functions
 		void ini_client();
 		//Gui functions
-		void add_gui(time_t t,std::string file,int sev = dcpp::LogManager::Sev::NORMAL);
+		void add_gui(time_t t,std::string file,int sev = dcpp::LogManager::Sev::LOW);
 		static void onScroll_gui(GtkAdjustment *adjustment, gpointer data);
 		static void onResize_gui(GtkAdjustment *adjustment, gpointer data);
 		static void onClearButton(GtkWidget *widget, gpointer data);

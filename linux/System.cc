@@ -57,7 +57,7 @@ void SystemLog::add_gui(time_t t, string file,int sev)
 {
 	gtk_text_buffer_move_mark(buffer, sysMark, &iter);
 	gtk_text_buffer_get_end_iter(buffer, &iter);
-	gtk_text_buffer_insert_pixbuf(buffer, &iter , getImageSev(sev));
+	gtk_text_buffer_insert_pixbuf(buffer, &iter , getImageSev(sev));//The Severinity image
 	gtk_text_buffer_move_mark(buffer, sysMark, &iter);
 	string line = Text::toUtf8("[ " + Util::getShortTimeString(t)+" ] " + file + "\n\0");
 
@@ -71,19 +71,20 @@ void SystemLog::add_gui(time_t t, string file,int sev)
 		gtk_text_buffer_get_start_iter(buffer, &iter);
 		gtk_text_buffer_get_iter_at_line(buffer, &next, 1);
 		gtk_text_buffer_delete(buffer, &iter, &next);
-		//gtk_text_view_place_cursor_onscreen(GTK_TEXT_VIEW(getWidget("systextview")));
-	//	return;
+		gtk_text_view_place_cursor_onscreen(GTK_TEXT_VIEW(getWidget("systextview")));//did we need this?
+		return;
 	}
-	/*
+	
 	if(gtk_text_buffer_get_char_count (buffer) > 25000)
 	{
 		GtkTextIter startIter, endIter;
 		gtk_text_buffer_get_start_iter(buffer, &startIter);
 		gtk_text_buffer_get_end_iter(buffer, &endIter);
 		gtk_text_buffer_delete(buffer, &startIter, &endIter);
+		gtk_text_view_place_cursor_onscreen(GTK_TEXT_VIEW(getWidget("systextview")));
+		return;
 	}
-*/
-	gtk_text_view_place_cursor_onscreen(GTK_TEXT_VIEW(getWidget("systextview")));
+	
 }
 
 void SystemLog::onScroll_gui(GtkAdjustment *adjustment, gpointer data)
@@ -135,6 +136,7 @@ void SystemLog::show()
 
 void SystemLog::on(LogManagerListener::Message, time_t t, const string& message,int sev) noexcept
 {
+	//TODO: did we still need those ifdef?
 #ifndef _DEBUG
 	if(sev == LogManager::Sev::NORMAL)
 	{
@@ -163,7 +165,7 @@ GdkPixbuf* SystemLog::getImageSev(int sev)
 		                              (gchar *)tmp.c_str());
 	
 	GdkPixbuf* 	buf = gdk_pixbuf_new_from_file_at_size(path,15,15,&error);
-	
+	g_free(path);
 	if(error != NULL || buf == NULL) {
 			g_error_free(error);
 			return NULL;

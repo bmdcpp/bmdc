@@ -48,7 +48,7 @@ public:
 	{
 		ParamMap params;
 		params["message"] = message;
-		log(area,params);
+		log(area,params,sev);
 	}
 
 	void log(Area area, ParamMap& params, int sev = Sev::NORMAL) noexcept;
