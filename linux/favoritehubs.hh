@@ -54,7 +54,6 @@ class FavoriteHubs:
 		void updateFavHubGroups_gui(bool updated);
 		void saveFavHubGroups();
 		void initFavHubGroupsDialog_gui();
-		bool checkEntry_gui(std::string address_old, std::string address_new);
 
 		// GUI callbacks
 		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
@@ -65,7 +64,6 @@ class FavoriteHubs:
 		static void onRemoveEntry_gui(GtkWidget *widget, gpointer data);
 		static void onConnect_gui(GtkButton *widget, gpointer data);
 		static void onCopyAddress(GtkWidget *item, gpointer data);
-		static void onCheckButtonToggled_gui(GtkToggleButton *button, gpointer data);
 		static void onAddGroupClicked_gui(GtkWidget *widget, gpointer data);
 		static void onRemoveGroupClicked_gui(GtkWidget *widget, gpointer data);
 		static void onUpdateGroupClicked_gui(GtkWidget *widget, gpointer data);

@@ -184,7 +184,7 @@ class MainWindow:
 #ifdef HAVE_APPINDCATOR
 #if GTK_CHECK_VERSION(3,14,1)
 		void createAppIndicator();
-		AppIndicator * indicator;
+		::AppIndicator * indicator;
 #endif		
 #endif		
 		void setStats_gui(std::string hubs, std::string downloadSpeed,

@@ -317,19 +317,14 @@ void FavoriteHubs::onEditEntry_gui(GtkWidget *widget, gpointer data)
 
 	if (entryUpdated)
 	{
-//		string address_old = fh->favoriteView.getString(&iter, _("Address"));
-
-//		if (fh->checkEntry_gui(address_old, entry->getServer()))
-		{
 			fh->editEntry_gui(entry,&iter);
 
 			typedef Func1<FavoriteHubs,FavoriteHubEntry* > F1;
 			F1 *func = new F1(fh, &FavoriteHubs::editEntry_client, entry);
 			WulforManager::get()->dispatchClientFunc(func);
-		}
 	}
 }
-
+/*
 bool FavoriteHubs::checkEntry_gui(string address_old, string address_new)
 {
 	if (address_old == address_new)
@@ -350,7 +345,7 @@ bool FavoriteHubs::checkEntry_gui(string address_old, string address_new)
 
 	return true;
 }
-
+*/
 void FavoriteHubs::onManageGroupsClicked_gui(GtkWidget *widget, gpointer data)
 {
 	FavoriteHubs *fh = (FavoriteHubs *)data;
@@ -469,19 +464,6 @@ void FavoriteHubs::onConnect_gui(GtkButton *widget, gpointer data)
 		WulforManager::get()->getMainWindow()->showHub_gui(
 			fh->favoriteView.getString(&iter, _("Address")),
 			fh->favoriteView.getString(&iter, _("Encoding")));
-}
-
-void FavoriteHubs::onCheckButtonToggled_gui(GtkToggleButton *button, gpointer data)
-{
-	GtkWidget *widget = (GtkWidget*)data;
-	bool override = gtk_toggle_button_get_active(button);
-
-	gtk_widget_set_sensitive(widget, override);
-
-	if (override)
-	{
-		gtk_widget_grab_focus(widget);
-	}
 }
 
 void FavoriteHubs::onAddGroupClicked_gui(GtkWidget *widget, gpointer data)

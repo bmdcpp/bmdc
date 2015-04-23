@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2015-04-23 11:40+0200\n"
+"POT-Creation-Date: 2015-04-23 12:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -659,7 +659,7 @@ msgid "Away mode message on/off"
 msgstr ""
 
 #: ui/hub.glade.ui:25 ui/privatemessage.glade.ui:25 linux/WulforUtil.cc:792
-#: linux/WulforUtil.cc:812 linux/mainwindow.cc:2402
+#: linux/WulforUtil.cc:812 linux/mainwindow.cc:2398
 #: linux/privatemessage.cc:1071
 msgid "Away mode off"
 msgstr ""
@@ -841,8 +841,8 @@ msgid "Choose a File"
 msgstr ""
 
 #: ui/search.glade.ui:7 ui/settingsdialog.glade.ui:8901
-#: ui/sharebrowser.glade.ui:7 linux/hub.cc:3032 linux/mainwindow.cc:1700
-#: linux/mainwindow.cc:1768 linux/privatemessage.cc:1348
+#: ui/sharebrowser.glade.ui:7 linux/hub.cc:3032 linux/mainwindow.cc:1696
+#: linux/mainwindow.cc:1764 linux/privatemessage.cc:1348
 msgid "Choose a directory"
 msgstr ""
 
@@ -935,8 +935,8 @@ msgstr ""
 
 #: ui/favoriteusers.glade.ui:206 ui/mainwindow.glade.ui:1890
 #: ui/mainwindow.glade.ui:2186 ui/recenthub.glade.ui:158
-#: linux/favoritehubs.cc:63 linux/favoritehubs.cc:398
-#: linux/favoritehubs.cc:527 linux/favoritehubs.cc:706
+#: linux/favoritehubs.cc:63 linux/favoritehubs.cc:393
+#: linux/favoritehubs.cc:509 linux/favoritehubs.cc:688
 #: linux/settingsdialog.cc:1528 linux/settingsdialog.cc:1557
 msgid "Connect"
 msgstr ""
@@ -1890,7 +1890,7 @@ msgstr ""
 #: linux/detectiontab.cc:861 linux/detectiontab.cc:906
 #: linux/detectiontab.cc:921 linux/exportimport.cc:38 linux/exportimport.cc:66
 #: linux/favoritehubs.cc:41 linux/favoritehubs.cc:58 linux/favoritehubs.cc:128
-#: linux/favoritehubs.cc:421 linux/publichubs.cc:43 linux/publichubs.cc:151
+#: linux/favoritehubs.cc:416 linux/publichubs.cc:43 linux/publichubs.cc:151
 #: linux/publichubs.cc:288 linux/recenthub.cc:40 linux/recenthub.cc:78
 #: linux/recenthub.cc:189 linux/recenthub.cc:269 linux/recenthub.cc:278
 #: linux/settingsdialog.cc:810 linux/settingsdialog.cc:819
@@ -2432,7 +2432,7 @@ msgstr ""
 msgid "Select Text Color"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:772 linux/mainwindow.cc:2498
+#: ui/mainwindow.glade.ui:772 linux/mainwindow.cc:2494
 msgid "Select filelist to browse"
 msgstr ""
 
@@ -3047,8 +3047,8 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:3297 ui/settingsdialog.glade.ui:3313
 #: ui/settingsdialog.glade.ui:3357 linux/hashdialog.cc:77
-#: linux/mainwindow.cc:1056 linux/mainwindow.cc:1057 linux/mainwindow.cc:2908
-#: linux/mainwindow.cc:2910 linux/mainwindow.cc:3212 linux/treeview.cc:225
+#: linux/mainwindow.cc:1056 linux/mainwindow.cc:1057 linux/mainwindow.cc:2904
+#: linux/mainwindow.cc:2906 linux/mainwindow.cc:3209 linux/treeview.cc:225
 msgid "s"
 msgstr ""
 
@@ -3181,7 +3181,7 @@ msgid " items"
 msgstr ""
 
 #: linux/hashdialog.cc:68 linux/hashdialog.cc:77 linux/hashdialog.cc:86
-#: linux/mainwindow.cc:3212 linux/mainwindow.cc:3221
+#: linux/mainwindow.cc:3209 linux/mainwindow.cc:3218
 msgid " left"
 msgstr ""
 
@@ -3229,7 +3229,7 @@ msgstr ""
 msgid "*** T E S T ***"
 msgstr ""
 
-#: linux/hashdialog.cc:69 linux/hashdialog.cc:81 linux/mainwindow.cc:3216
+#: linux/hashdialog.cc:69 linux/hashdialog.cc:81 linux/mainwindow.cc:3213
 msgid "-:--:-- left"
 msgstr ""
 
@@ -3266,7 +3266,7 @@ msgstr ""
 msgid "1"
 msgstr ""
 
-#: linux/mainwindow.cc:3241
+#: linux/mainwindow.cc:3238
 msgid "100% Done"
 msgstr ""
 
@@ -3302,7 +3302,7 @@ msgstr ""
 msgid "<b>Under what name you see the directory</b>"
 msgstr ""
 
-#: linux/mainwindow.cc:2884
+#: linux/mainwindow.cc:2880
 msgid "<b>file:</b> "
 msgstr ""
 
@@ -3354,10 +3354,9 @@ msgstr ""
 #: linux/favoritehubs.cc:43 linux/favoritehubs.cc:133
 #: linux/favoritehubs.cc:151 linux/favoritehubs.cc:224
 #: linux/favoritehubs.cc:246 linux/favoritehubs.cc:296
-#: linux/favoritehubs.cc:344 linux/favoritehubs.cc:443
-#: linux/favoritehubs.cc:458 linux/favoritehubs.cc:470
-#: linux/favoritehubs.cc:588 linux/publichubs.cc:46 linux/publichubs.cc:154
-#: linux/publichubs.cc:265 linux/publichubs.cc:290
+#: linux/favoritehubs.cc:438 linux/favoritehubs.cc:453
+#: linux/favoritehubs.cc:465 linux/favoritehubs.cc:570 linux/publichubs.cc:46
+#: linux/publichubs.cc:154 linux/publichubs.cc:265 linux/publichubs.cc:290
 msgid "Address"
 msgstr ""
 
@@ -3381,7 +3380,7 @@ msgstr ""
 msgid "Amarok player"
 msgstr ""
 
-#: linux/favoritehubs.cc:509
+#: linux/favoritehubs.cc:491
 msgid "Another group with the name already exists"
 msgstr ""
 
@@ -3401,7 +3400,7 @@ msgstr ""
 msgid "Are you sure you want to delete Highlighting \"%s\"?"
 msgstr ""
 
-#: linux/favoritehubs.cc:425
+#: linux/favoritehubs.cc:420
 #, c-format, boost-format
 msgid "Are you sure you want to delete favorite hub \"%s\"?"
 msgstr ""
@@ -3469,7 +3468,7 @@ msgstr ""
 msgid "Away Message:"
 msgstr ""
 
-#: linux/mainwindow.cc:2411
+#: linux/mainwindow.cc:2407
 msgid "Away mode on"
 msgstr ""
 
@@ -3897,7 +3896,7 @@ msgstr ""
 
 #: linux/favoritehubs.cc:47 linux/favoritehubs.cc:135
 #: linux/favoritehubs.cc:225 linux/favoritehubs.cc:247
-#: linux/favoritehubs.cc:471 linux/hub.cc:2611
+#: linux/favoritehubs.cc:466 linux/hub.cc:2611
 msgid "Encoding"
 msgstr ""
 
@@ -4103,15 +4102,15 @@ msgid "Global"
 msgstr ""
 
 #: linux/favoritehubs.cc:48 linux/favoritehubs.cc:136
-#: linux/favoritehubs.cc:667
+#: linux/favoritehubs.cc:649
 msgid "Group"
 msgstr ""
 
-#: linux/favoritehubs.cc:62 linux/favoritehubs.cc:77 linux/favoritehubs.cc:397
-#: linux/favoritehubs.cc:505 linux/favoritehubs.cc:526
-#: linux/favoritehubs.cc:546 linux/favoritehubs.cc:628
-#: linux/favoritehubs.cc:705 linux/favoritehubs.cc:728
-#: linux/favoritehubs.cc:767
+#: linux/favoritehubs.cc:62 linux/favoritehubs.cc:77 linux/favoritehubs.cc:392
+#: linux/favoritehubs.cc:487 linux/favoritehubs.cc:508
+#: linux/favoritehubs.cc:528 linux/favoritehubs.cc:610
+#: linux/favoritehubs.cc:687 linux/favoritehubs.cc:710
+#: linux/favoritehubs.cc:749
 msgid "Group name"
 msgstr ""
 
@@ -4214,7 +4213,7 @@ msgstr ""
 msgid "Icon size"
 msgstr ""
 
-#: linux/favoritehubs.cc:552
+#: linux/favoritehubs.cc:534
 msgid ""
 "If you select 'Yes', all of these hubs are going to be deleted!\n"
 "If you select 'No', these hubs will simply be moved to the main default "
@@ -4337,7 +4336,7 @@ msgstr ""
 msgid "Loaded plugins: "
 msgstr ""
 
-#: linux/mainwindow.cc:2535
+#: linux/mainwindow.cc:2531
 msgid "Loading Own file list"
 msgstr ""
 
@@ -4353,11 +4352,11 @@ msgstr ""
 msgid "Log Mainchat by default"
 msgstr ""
 
-#: linux/mainwindow.cc:1761
+#: linux/mainwindow.cc:1757
 msgid "Magnet Choice"
 msgstr ""
 
-#: linux/mainwindow.cc:1691
+#: linux/mainwindow.cc:1687
 msgid "Magnet Properties / Choice"
 msgstr ""
 
@@ -4448,8 +4447,8 @@ msgstr ""
 msgid "Nicks History (if it have CID)"
 msgstr ""
 
-#: linux/favoritehubs.cc:398 linux/favoritehubs.cc:527
-#: linux/favoritehubs.cc:706 linux/favoriteusers.cc:107
+#: linux/favoritehubs.cc:393 linux/favoritehubs.cc:509
+#: linux/favoritehubs.cc:688 linux/favoriteusers.cc:107
 #: linux/favoriteusers.cc:822 linux/favoriteusers.cc:842
 #: linux/favoriteusers.cc:933 linux/finishedtransfers.cc:661 linux/hub.cc:2612
 #: linux/hub.cc:2615 linux/hub.cc:2618 linux/hub.cc:2619 linux/hub.cc:2620
@@ -4489,11 +4488,11 @@ msgstr ""
 msgid "Notification"
 msgstr ""
 
-#: linux/WulforUtil.cc:223 linux/favoritehubs.cc:802
+#: linux/WulforUtil.cc:223 linux/favoritehubs.cc:784
 msgid "Offline"
 msgstr ""
 
-#: linux/favoritehubs.cc:802 linux/favoriteusers.cc:105
+#: linux/favoritehubs.cc:784 linux/favoriteusers.cc:105
 #: linux/favoriteusers.cc:818 linux/favoriteusers.cc:839
 #: linux/favoriteusers.cc:930
 msgid "Online"
@@ -4699,7 +4698,7 @@ msgstr ""
 msgid "Select Font"
 msgstr ""
 
-#: linux/mainwindow.cc:2966
+#: linux/mainwindow.cc:2962
 msgid "Select file to Get TTH"
 msgstr ""
 
@@ -4936,7 +4935,7 @@ msgstr ""
 #: linux/AboutConfig.cc:35 linux/AboutConfig.cc:165 linux/downloadqueue.cc:68
 #: linux/downloadqueue.cc:279 linux/downloadqueue.cc:386
 #: linux/favoritehubs.cc:49 linux/favoritehubs.cc:137
-#: linux/favoritehubs.cc:802 linux/searchspy.cc:57 linux/searchspy.cc:293
+#: linux/favoritehubs.cc:784 linux/searchspy.cc:57 linux/searchspy.cc:293
 #: linux/searchspy.cc:377 linux/transfers.cc:64 linux/transfers.cc:414
 #: linux/transfers.cc:447 linux/transfers.cc:541 linux/transfers.cc:630
 #: linux/transfers.cc:640 linux/transfers.cc:815 linux/transfers.cc:955
@@ -4986,11 +4985,11 @@ msgstr ""
 msgid "Tag"
 msgstr ""
 
-#: linux/mainwindow.cc:3094
+#: linux/mainwindow.cc:3090
 msgid "The GeoIP database could not be updated...v"
 msgstr ""
 
-#: linux/mainwindow.cc:3089
+#: linux/mainwindow.cc:3085
 msgid ""
 "The GeoIP database has been successfully updated; restart DC++ to apply....v"
 msgstr ""
@@ -5076,7 +5075,7 @@ msgstr ""
 msgid "Unable to load file list: "
 msgstr ""
 
-#: linux/mainwindow.cc:2523
+#: linux/mainwindow.cc:2519
 msgid "Unable to load file list: Invalid file list name"
 msgstr ""
 
@@ -5097,7 +5096,7 @@ msgstr ""
 msgid "Updated frame search"
 msgstr ""
 
-#: linux/mainwindow.cc:3079
+#: linux/mainwindow.cc:3075
 msgid "Updating the GeoIP database...v"
 msgstr ""
 
@@ -5199,7 +5198,7 @@ msgstr ""
 msgid "User "
 msgstr ""
 
-#: linux/mainwindow.cc:1542
+#: linux/mainwindow.cc:1539
 msgid "User Commands Dialog"
 msgstr ""
 
@@ -5472,8 +5471,8 @@ msgstr ""
 msgid "Xine player"
 msgstr ""
 
-#: linux/favoritehubs.cc:398 linux/favoritehubs.cc:527
-#: linux/favoritehubs.cc:706 linux/favoriteusers.cc:107
+#: linux/favoritehubs.cc:393 linux/favoritehubs.cc:509
+#: linux/favoritehubs.cc:688 linux/favoriteusers.cc:107
 #: linux/favoriteusers.cc:822 linux/favoriteusers.cc:842
 #: linux/favoriteusers.cc:933 linux/finishedtransfers.cc:661 linux/hub.cc:2612
 #: linux/hub.cc:2615 linux/hub.cc:2618 linux/hub.cc:2619 linux/hub.cc:2620
@@ -5481,7 +5480,7 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: linux/favoritehubs.cc:495
+#: linux/favoritehubs.cc:477
 msgid "You must enter a name"
 msgstr ""
 
@@ -5521,7 +5520,7 @@ msgstr ""
 msgid "e-Mail: "
 msgstr ""
 
-#: linux/mainwindow.cc:2860
+#: linux/mainwindow.cc:2856
 msgid "file list from "
 msgstr ""
 
