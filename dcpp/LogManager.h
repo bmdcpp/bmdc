@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,18 +31,24 @@
 
 namespace dcpp {
 
-using std::deque;
 using std::pair;
+using std::deque;
 
 class LogManager : public Singleton<LogManager>, public Speaker<LogManagerListener>
 {
 public:
-	typedef pair<time_t, string> Pair;
-	typedef deque<Pair> List;
-
 	enum Area { CHAT, PM, DOWNLOAD, FINISHED_DOWNLOAD, UPLOAD, SYSTEM, STATUS, RAW , CHECK_USER ,LAST };
 	enum { FILE, FORMAT };
 	enum Sev { LOW, NORMAL, HIGH };
+	
+	struct MessageData
+	{
+		MessageData(Sev _sev = Sev::LOW,time_t _t = time(NULL)):
+		sev(_sev),tim(_t) {}
+		Sev sev;
+		time_t tim;
+	};
+	typedef std::deque<pair<std::string,MessageData> > List;	
 
 	void log(Area area, const string &message, int sev = Sev::NORMAL)
 	{

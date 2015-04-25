@@ -690,7 +690,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				if((j+1) == it->length())
 					continue;
 
-				OnlineUser* u = findUser(it->substr(0, j));
+				OnlineUser* u = findUser(toUtf8(it->substr(0, j)));
 
 				if(!u)
 					continue;

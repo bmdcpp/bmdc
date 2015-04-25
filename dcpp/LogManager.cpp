@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ void LogManager::message(const string& msg,int sev ) {
 		// Keep the last 100 messages (completely arbitrary number...)
 		while(lastLogs.size() > 100)
 			lastLogs.pop_front();
-		lastLogs.push_back(make_pair(t, msg));
+		lastLogs.emplace_back( msg , MessageData((Sev)sev,t) );
 	}
 	
 	fire(LogManagerListener::Message(), t, msg,sev);

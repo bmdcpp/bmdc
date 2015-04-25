@@ -36,6 +36,8 @@
 
 namespace dcpp {
 	
+using std::deque;	
+	
 class ExportManager:
 		public Singleton<ExportManager>,
 		private Thread

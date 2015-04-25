@@ -125,7 +125,7 @@ void SystemLog::ini_client()
 	// Technically, we might miss a message or two here, but who cares...
 	LogManager::getInstance()->addListener(this);
 	for(auto i = oldMessages.begin(); i != oldMessages.end(); ++i) {
-		add_gui(i->first, Text::toT(i->second));
+		add_gui(i->second.tim, i->first , i->second.sev);
 	}
 }
 
