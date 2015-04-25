@@ -74,7 +74,7 @@ void SystemLog::add_gui(time_t t, string file,int sev)
 		gtk_text_view_place_cursor_onscreen(GTK_TEXT_VIEW(getWidget("systextview")));//did we need this?
 		return;
 	}
-	
+
 	if(gtk_text_buffer_get_char_count (buffer) > 25000)
 	{
 		GtkTextIter startIter, endIter;
@@ -84,7 +84,7 @@ void SystemLog::add_gui(time_t t, string file,int sev)
 		gtk_text_view_place_cursor_onscreen(GTK_TEXT_VIEW(getWidget("systextview")));
 		return;
 	}
-	
+
 }
 
 void SystemLog::onScroll_gui(GtkAdjustment *adjustment, gpointer data)
@@ -151,7 +151,7 @@ void SystemLog::on(LogManagerListener::Message, time_t t, const string& message,
 
 GdkPixbuf* SystemLog::getImageSev(int sev)
 {
-	string tmp = Util::emptyString; 
+	string tmp = Util::emptyString;
 	switch(sev)
 	{
 		case LogManager::Sev::LOW: tmp = "info";break;
@@ -160,16 +160,16 @@ GdkPixbuf* SystemLog::getImageSev(int sev)
 		default:break;
 	};
 	GError* error = NULL;
-	
-	gchar *path = g_strdup_printf(_DATADIR PATH_SEPARATOR_STR "bmdc/country/%s.png",
+
+	gchar *path = g_strdup_printf(_DATADIR PATH_SEPARATOR_STR "bmdc/info/%s.png",
 		                              (gchar *)tmp.c_str());
-	
+
 	GdkPixbuf* 	buf = gdk_pixbuf_new_from_file_at_size(path,15,15,&error);
 	g_free(path);
 	if(error != NULL || buf == NULL) {
 			g_error_free(error);
 			return NULL;
-	}	
+	}
 	return buf;
 }
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
- 
+
 import os
 import commands
 import string
@@ -248,11 +248,11 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		print '\tOpenSSL library (libssl) not found'
 		print '\tNote: You might have the lib but not the headers'
 		Exit(1)
-	#Fedora dont have EC	
+	#Fedora dont have EC
 	if not conf.CheckHeader('openssl/ec.h'):
 		print '\tOpenSSL Don`t have an EC Extesions'
 		conf.env.Append(CPPDEFINES = ('DHAVE_EC_CRYPTO'))
-		
+
 	if not conf.CheckHeader('iconv.h'):
 		Exit(1)
 	elif conf.CheckLibWithHeader('iconv', 'iconv.h', 'c', 'iconv(0, (const char **)0, 0, (char**)0, 0);'):
@@ -266,7 +266,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		if conf.CheckLib('attr'):
 			conf.env.Append(CPPDEFINES = 'USE_XATTR')
 			LIB_HAVE_XATTR = True
-			
+
 	# TODO: Implement a plugin system so libnotify doesn't have compile-time dependencies
 	if conf.env.get('libnotify'):
 			if not conf.CheckPKG('libnotify >= 0.4.1'):
@@ -318,12 +318,12 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		if conf.CheckPKG('appindicator3-0.1'):
 			print "Found appindicator3"
 			conf.env.Append(CPPDEFINES = 'HAVE_APPINDCATOR')
-			conf.env.Append(CXXFLAGS = '-I/usr/include/libappindicator3-0.1') 
+			conf.env.Append(CXXFLAGS = '-I/usr/include/libappindicator3-0.1')
 			conf.env.Append(LIBS = 'appindicator3')
 			conf.env.Append(LINKFLAGS = '-lappindicator3')
 			conf.env.ParseConfig('pkg-config --libs --cflags appindicator3-0.1')
-		
-		
+
+
 	conf.CheckBZRRevision(env)
 	env = conf.Finish()
 
@@ -437,6 +437,7 @@ else:
 	shell_files = env.Glob('extensions/Scripts/*.sh')
 	py_files = env.Glob('extensions/Scripts/*.py')
 	country_files = env.Glob('country/*.png')
+	info_image_files = env.Glob('info/*.png')
 	desktop_file = os.path.join('data', PACKAGE + '.desktop')
 	app_icon_filter = lambda icon: os.path.splitext(icon)[0] == PACKAGE
 	regular_icon_filter = lambda icon: os.path.splitext(icon)[0] != PACKAGE
@@ -452,5 +453,6 @@ else:
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'extensions/Scripts'), source = shell_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'extensions/Scripts'), source = py_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'country'), source = country_files))
+ 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'info'), source = info_image_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'bin'), source = PACKAGE))
 
