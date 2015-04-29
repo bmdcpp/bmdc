@@ -113,7 +113,7 @@ MainWindow::MainWindow():
 	string tmp;
 	startTime = GET_TICK();
 	HashManager::getInstance()->getStats(tmp, startBytes, startFiles);
-	HashManager::getInstance()->setPriority(Thread::NORMAL);
+//	HashManager::getInstance()->setPriority(Thread::NORMAL);
 	updateStats_gui("", 0, 0, 0);
 	
 	window = GTK_WINDOW(getWidget("mainWindow"));
@@ -395,8 +395,12 @@ MainWindow::MainWindow():
 	string css = WulforManager::get()->getPath() + "/ui/resources.css";
 	if(Util::fileExists(css) == true) {
 		GtkCssProvider *provider =  gtk_css_provider_get_default ();
-		GError *error = nullptr;
+		GError *error = NULL;
 		gtk_css_provider_load_from_path (provider,css.c_str(),&error);
+		if(error != NULL) {
+			g_print("Error while loading custom CSS for BMDC %s",error->message);
+			g_error_free(error);
+		}	
 	}	
 	// colourstuff end
 
@@ -1899,14 +1903,14 @@ gboolean MainWindow::onWindowState_gui(GtkWidget *widget, GdkEventWindowState *e
 	{
 		mw->minimized = TRUE;
 		if (SETTING(SettingsManager::AUTO_AWAY) && !Util::getAway())
-			Util::setAway(TRUE);
+			Util::setAway(true);
 	}
 	else if (mw->minimized && (event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED ||
 		event->new_window_state == 0))
 	{
 		mw->minimized = FALSE;
 		if (SETTING(SettingsManager::AUTO_AWAY) && !Util::getManualAway())
-			Util::setAway(FALSE);
+			Util::setAway(false);
 	}
 
 	return TRUE;
@@ -2975,14 +2979,15 @@ void MainWindow::onTTHFileButton_gui(GtkWidget *widget , gpointer data)
 	{
 		gchar *temp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
 		gtk_widget_set_sensitive(mw->getWidget("buttonok"),FALSE);
-		if(mw->hasht.stop)
+		TTHHash hasht;
+		if(hasht.stop)
 		{
-			mw->hasht.stop = false;
-			Lock l(mw->hasht.cs);
-			mw->hasht.mw = mw;
-			mw->hasht.filename = temp;
-			mw->hasht.start();
-			mw->hasht.s.signal();
+			hasht.stop = false;
+			Lock l(hasht.cs);
+			hasht.mw = mw;
+			hasht.filename = temp;
+			hasht.start();
+			hasht.s.signal();
 		}
 		g_free(temp);
 	}

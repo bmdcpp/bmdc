@@ -53,7 +53,9 @@
 
 #include "AVManager.h"
 
+#ifdef _WIN32
 extern "C" int _nl_msg_cat_cntr;
+#endif
 
 namespace dcpp {
 

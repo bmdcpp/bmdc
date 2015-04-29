@@ -611,7 +611,6 @@ void ClientManager::on(TimerManagerListener::Minute, uint64_t /* aTick */) noexc
 			unordered_map<CID, NickMapEntry>::const_iterator n = nicks.find(i->second->getCID());//should also remove from nicks...
 			if(n != nicks.end()) nicks.erase(n);
 			users.erase(i++);
-//			i->second.reset();
 		} else {
 			++i;
 		}

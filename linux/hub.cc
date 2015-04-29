@@ -3008,7 +3008,7 @@ void Hub::onCommandClicked_gui(GtkWidget *widget, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
-	string command = (gchar*) g_object_get_data(G_OBJECT(widget), "command");
+	string command = (gchar*)g_object_get_data(G_OBJECT(widget), "command");
 
 	gint pos = 0;
 	GtkWidget *chatEntry = hub->getWidget("chatEntry");
@@ -3860,7 +3860,7 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 
 	if ( AVManager::getInstance()->isNickVirused(id.getNick()) )
 	{
-		params.insert(ParamMap::value_type("NickColor","white"));//@TODO: maybe too set ?
+		params.insert(ParamMap::value_type("NickColor","white"));//@TODO: maybe too setable ?
 	}
 
 }
@@ -4718,6 +4718,7 @@ void Hub::on_setImage_tab(GtkButton *widget, gpointer data)
 				        BMDC_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				        BMDC_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 				        NULL);
+				        
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
 	{
 		char *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));

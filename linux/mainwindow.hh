@@ -386,7 +386,7 @@ class MainWindow:
 				}
 				int run();
 		};
-		TTHHash hasht;
+		//TTHHash hasht;
 
 		enum
 		{
