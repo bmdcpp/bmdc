@@ -20,10 +20,11 @@
 #define DETECTION_ENTRY_H
 
 #include <deque>
+#include "Flags.h"
 
 namespace dcpp {
 
-class DetectionEntry {
+class DetectionEntry: public Flags {
 public:
 	typedef std::deque<pair<std::string, std::string> > INFMap;
 

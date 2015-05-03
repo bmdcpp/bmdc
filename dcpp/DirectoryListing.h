@@ -61,11 +61,11 @@ public:
 		GETSET(Directory*, parent, Parent);
 		GETSET(TTHValue, tthRoot, TTH);
 		GETSET(bool, adls, Adls);
-		GETSET(int , points, Points);
+		GETSET(int64_t , points, Points);
 		GETSET(bool, overRidePoints ,OverRidePoints);
 		GETSET(string, adlsComment ,AdlsComment);
 		GETSET(bool, fromFavs, FromFavs);
-		GETSET(int, adlsRaw, AdlsRaw);
+		GETSET(int64_t, adlsRaw, AdlsRaw);
 		GETSET(string, kickString, KickString)
 		GETSET(string, fullFileName ,FullFileName);
 		
@@ -133,11 +133,11 @@ public:
 		GETSET(bool, adls, Adls);
 		GETSET(bool, complete, Complete);
 				
-		GETSET(int , points, Points);
+		GETSET(int64_t , points, Points);
 		GETSET(bool, overRidePoints ,OverRidePoints);
 		GETSET(string, adlsComment ,AdlsComment);
 		GETSET(bool, fromFavs, FromFavs);
-		GETSET(int, adlsRaw, AdlsRaw);
+		GETSET(int64_t, adlsRaw, AdlsRaw);
 		GETSET(string, kickString, KickString)
 		GETSET(string, fullFileName ,FullFileName);
 	};

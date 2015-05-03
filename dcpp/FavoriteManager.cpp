@@ -438,8 +438,6 @@ void FavoriteManager::save() {
 			xml.addChildAttrib("CheckClients", (*i)->getCheckClients());
 			xml.addChildAttrib("CheckFilelists", (*i)->getCheckFilelists());
 			xml.addChildAttrib("Protects", (*i)->getProtectUsers());
-//			xml.addChildAttrib("TabText", (*i)->getTabText());//TODO: rem
-//			xml.addChildAttrib("TabIcon", (*i)->getTabIconStr());//TODO: rem
 			xml.addChildAttrib("UserListToggle", (*i)->getShowUserList());
 			xml.addChildAttrib("NotifyToggle", (*i)->getNotify());
 			xml.addChildAttrib("Order",(*i)->getHubOrder());
@@ -665,8 +663,6 @@ void FavoriteManager::load(SimpleXML& aXml) {
 			e->setCheckClients(Util::toInt(aXml.getChildAttrib("CheckClients")));
 			e->setCheckFilelists(Util::toInt(aXml.getChildAttrib("CheckFilelists")));
 			e->setProtectUsers(aXml.getChildAttrib("Protects"));
-//			e->setTabText(aXml.getChildAttrib("TabText"));
-//			e->setTabIconStr(aXml.getChildAttrib("TabIcon"));
 			e->setShowUserList(Util::toInt(aXml.getChildAttrib("UserListToggle")));
 			e->setNotify(Util::toInt(aXml.getChildAttrib("NotifyToggle")));
 			e->setHubOrder(aXml.getChildAttrib("Order"));

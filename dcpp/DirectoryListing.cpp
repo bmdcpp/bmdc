@@ -83,7 +83,7 @@ void DirectoryListing::loadFile(const string& path) {
 	}
 
 	// For now, we detect type by ending...
-	auto ext = Util::getFileExt(actualPath.empty() ? path : actualPath);
+	string ext = Util::getFileExt(actualPath.empty() ? path : actualPath);
 
 	{
 		dcpp::File file(actualPath.empty() ? path : actualPath, dcpp::File::READ, dcpp::File::OPEN);
