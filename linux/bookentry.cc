@@ -190,7 +190,7 @@ void BookEntry::setLabel_gui(string text)
 		if(font_sized != (gint)WGETI("book-font-size"))
 		{
 			gint fsize = (gint)WGETI("book-font-size")*10*PANGO_SCALE;
-			if(fsize >=1)
+			if(fsize >= 1)
 				pango_font_description_set_size (desc, fsize);
 		}
 		gtk_widget_override_font (GTK_WIDGET(label),desc);
@@ -423,7 +423,7 @@ GtkWidget *BookEntry::createItemFirstMenu()
 
 void BookEntry::setBackForeGround(const EntryType type)
 {
-	string fg,bg;
+	string fg,bg,fg_unread,bg_unread;
 	switch (type)
 	{
 		case Entry::FAVORITE_HUBS :
@@ -455,7 +455,11 @@ void BookEntry::setBackForeGround(const EntryType type)
 				if(WGETB("colored-tabs-searchs")) {
 						fg = WGETS("colored-tabs-searchs-color-fg");
 						bg = WGETS("colored-tabs-searchs-color-bg");
-					}
+				}
+				if(WGETB("colored-tabs-searchs-unread")) {
+						fg_unread = WGETS("colored-tabs-searchs-color-fg-unread");
+						bg_unread = WGETS("colored-tabs-searchs-color-bg-unread");
+				}	
 					break;
 		case Entry::SEARCH_ADL :
 					if(WGETB("colored-tabs-adl")) {
@@ -486,11 +490,19 @@ void BookEntry::setBackForeGround(const EntryType type)
 						fg = WGETS("colored-tabs-pm-color-fg");
 						bg = WGETS("colored-tabs-pm-color-bg");
 					}
+					if(WGETB("colored-tabs-pm-unread")) {
+						fg_unread = WGETS("colored-tabs-pm-color-fg-unread");
+						bg_unread = WGETS("colored-tabs-pm-color-bg-unread");
+					}
 					break;
 		case Entry::HUB :
 					if(WGETB("colored-tabs-hub")) {
 						fg = WGETS("colored-tabs-hub-color-fg");
 						bg = WGETS("colored-tabs-hub-color-bg");
+					}
+					if(WGETB("colored-tabs-hub-unread")) {
+						fg_unread = WGETS("colored-tabs-hub-color-fg-unread");
+						bg_unread = WGETS("colored-tabs-hub-color-bg-unread");
 					}
 					break;
 		case Entry::SHARE_BROWSER :
@@ -510,6 +522,10 @@ void BookEntry::setBackForeGround(const EntryType type)
 						fg = WGETS("colored-tabs-system-color-fg");
 						bg = WGETS("colored-tabs-system-color-bg");
 				}
+				if(WGETB("colored-tabs-system-unread")) {
+						fg_unread = WGETS("colored-tabs-system-color-fg-unread");
+						bg_unread = WGETS("colored-tabs-system-color-bg-unread");
+				}
 				break;
 		case Entry::ABOUT_CONFIG:
 		default: return;
@@ -525,10 +541,22 @@ void BookEntry::setBackForeGround(const EntryType type)
 											GTK_STYLE_PROVIDER(provider),
 											GTK_STYLE_PROVIDER_PRIORITY_USER);
 	g_object_unref (provider);
-	
-	setBackForeGround_unread(type);
-}
 
+
+	provider = gtk_css_provider_new ();
+	display = gdk_display_get_default ();
+	screen = gdk_display_get_default_screen (display);
+	std::string t_css2 = std::string("#"+getName()+":active { color:"+fg_unread+"; background: "+bg_unread+"; }\n\0");
+	gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css2.c_str(),-1, NULL);
+
+	gtk_style_context_add_provider_for_screen (screen,
+											GTK_STYLE_PROVIDER(provider),
+											GTK_STYLE_PROVIDER_PRIORITY_USER);
+	g_object_unref (provider);
+	
+//	setBackForeGround_unread(type);
+}
+/*
 void BookEntry::setBackForeGround_unread(const EntryType type)
 {
 	string fg,bg;
@@ -634,7 +662,7 @@ void BookEntry::setBackForeGround_unread(const EntryType type)
 											GTK_STYLE_PROVIDER_PRIORITY_USER);
 	g_object_unref (provider);
 }
-
+*/
 string BookEntry::getName() //CSS:getName() In this should not include : ,spaces and so #dialog(s) is there only for is it in one enum
 {
 	string str = dcpp::Util::emptyString;
