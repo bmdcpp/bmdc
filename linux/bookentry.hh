@@ -42,8 +42,7 @@ class BookEntry : public Entry
 		GtkWidget *getCloseButton() { return closeButton; }
 		GtkWidget *getTabMenuItem() { return tabMenuItem; }
 		void setIcon_gui(const EntryType type);
-		void setBackForeGround(const EntryType type); //@ Setting BackGround and ForeGround of Book
-//		void setBackForeGround_unread(const EntryType type);//@ since CSS unneeded
+		void setBackForeGround(const EntryType type); //@ Setting BackGround and ForeGround of BookEntry
 		void setIcon_gui(const std::string stock);
 		void setIconPixbufs_gui(const std::string iconspath);
 		void setLabel_gui(std::string text);
@@ -58,8 +57,8 @@ class BookEntry : public Entry
 		
 		void setSearchButtons(bool s) { IsCloseButton = s;}
 		void setName(const std::string& name)
-		{ h_name = name;}
-		void setUnread()//@set flag for tab
+		{ h_name = name; }
+		void setUnread() //@set flag for tab
 		{
 			gtk_widget_set_state_flags (labelBox,GTK_STATE_FLAG_ACTIVE,TRUE);
 		}

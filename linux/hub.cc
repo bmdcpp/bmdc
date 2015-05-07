@@ -973,7 +973,6 @@ void Hub::getPassword_gui()
 		BMDC_STOCK_CANCEL,
 		GTK_RESPONSE_CANCEL,
 		NULL);
-//#pragma GCC diagnostic pop		
 	gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_OK);
 #if GTK_CHECK_VERSION(3, 2, 0)
@@ -1132,11 +1131,6 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 	if(gtk_text_buffer_get_char_count (chatBuffer) > 25000)
 	{
 		///try avoid chat-bug
-	/*	GtkTextIter next;
-		gtk_text_buffer_get_start_iter(chatBuffer, &iter);
-		gtk_text_buffer_get_iter_at_line(chatBuffer, &next, 1);
-		gtk_text_buffer_delete(chatBuffer, &iter, &next);
-		return;*/
 		GtkTextIter startIter, endIter;
 		gtk_text_buffer_get_start_iter(chatBuffer, &startIter);
 		gtk_text_buffer_get_end_iter(chatBuffer, &endIter);
@@ -4712,7 +4706,7 @@ void Hub::on_setImage_tab(GtkButton *widget, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	if(hub == NULL) return;
-	GtkWidget *dialog = gtk_file_chooser_dialog_new ("Open Icon File to Set to Tab",
+	GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Open Icon File to Set to Tab"),
 						GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 				        GTK_FILE_CHOOSER_ACTION_OPEN,
 				        BMDC_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -4753,7 +4747,7 @@ void Hub::SetTabText(gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	if(hub == NULL) return;
-	GtkDialog *dialog =  GTK_DIALOG(gtk_dialog_new_with_buttons ("Setting for a Tab Text",
+	GtkDialog *dialog =  GTK_DIALOG(gtk_dialog_new_with_buttons (_("Setting for a Tab Text"),
                                          GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
                                          GTK_DIALOG_DESTROY_WITH_PARENT,
                                          BMDC_STOCK_OK,
@@ -4764,18 +4758,18 @@ void Hub::SetTabText(gpointer data)
 
    GtkWidget *content_area = gtk_dialog_get_content_area (dialog);
    GtkWidget *entry = gtk_entry_new();
-   GtkWidget *label = gtk_label_new("Text: ");
+   GtkWidget *label = gtk_label_new(_("Text: "));
 #if GTK_CHECK_VERSION(3, 2, 0)
 	GtkWidget *hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
 #else
 	GtkWidget *hbox = gtk_hbox_new(TRUE,0);
 #endif
 
-   GtkWidget *check = gtk_toggle_button_new_with_label("Set Icon Aviable");
+   GtkWidget *check = gtk_toggle_button_new_with_label(_("Set Icon Aviable"));
    GdkPixbuf *pixbuf =	gdk_pixbuf_new_from_file_at_scale(hub->client->get(SettingsManager::HUB_ICON_STR,SETTING(HUB_ICON_STR)).c_str(),15,15,FALSE,NULL);
 
    hub->tab_image = gtk_image_new_from_pixbuf(pixbuf);
-   hub->tab_button = gtk_button_new_with_label("Set Icon: ");
+   hub->tab_button = gtk_button_new_with_label(_("Set Icon: "));
 
    g_signal_connect(GTK_BUTTON(hub->tab_button), "clicked", G_CALLBACK(on_setImage_tab), hub);
    g_signal_connect(GTK_TOGGLE_BUTTON(check), "toggled", G_CALLBACK(onToglleButtonIcon),hub);
