@@ -136,17 +136,9 @@ void SystemLog::show()
 
 void SystemLog::on(LogManagerListener::Message, time_t t, const string& message,int sev) noexcept
 {
-	//TODO: did we still need those ifdef?
-#ifndef _DEBUG
-	if(sev == LogManager::Sev::NORMAL)
-	{
-#endif
     typedef Func3<SystemLog,time_t,std::string,int> F3;
     F3 *func = new F3(this,&SystemLog::add_gui, t, message, sev);
     WulforManager::get()->dispatchGuiFunc(func);
- #ifndef _DEBUG
-	}
-#endif
 }
 
 GdkPixbuf* SystemLog::getImageSev(int sev)
