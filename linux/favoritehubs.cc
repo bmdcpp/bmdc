@@ -25,7 +25,7 @@
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
 #include "FavoriteHubDialog.hh"
-#include <dcpp/RawManager.h>
+//#include <dcpp/RawManager.h>
 
 using namespace std;
 using namespace dcpp;

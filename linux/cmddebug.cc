@@ -34,8 +34,7 @@ BookEntry(Entry::CMD,_("CMD"),"cmddebug"),
 stop(false)
 {
 	WulforUtil::setTextDeufaults(getWidget("cmdtextview"),SETTING(BACKGROUND_CHAT_COLOR),dcpp::Util::emptyString,false,dcpp::Util::emptyString,"CmdLog");
-	//gtk_widget_set_name(getWidget("cmdtextview"),"CmdLog");
-  WulforUtil::setTextColor(string("black"),string("CmdLog"));//TODO: Settings
+	WulforUtil::setTextColor(string("black"),string("CmdLog"));//TODO: Settings
 
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("cmdtextview")));
     gtk_text_buffer_get_end_iter(buffer, &iter);

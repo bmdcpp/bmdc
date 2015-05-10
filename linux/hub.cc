@@ -933,7 +933,7 @@ void Hub::popupNickMenu_gui()
 
 	userCommandMenu->addHub(client->getHubUrl());
 	userCommandMenu->buildMenu_gui();
-	string color = WGETS("menu-userlist-color");//@ Settings of UserList Menu  text color (1st item) //maybe...?
+	string color = WGETS("menu-userlist-color");//@ Settings of UserList Menu  text color (1st item)?
 	gchar *markup = g_markup_printf_escaped ("<span fgcolor=\"%s\" ><b>%s</b></span>",color.c_str(),nick.c_str());
 	GtkMenuItem *item = GTK_MENU_ITEM(getWidget("nickItem"));
 	GtkWidget *label = gtk_bin_get_child(GTK_BIN(item));
