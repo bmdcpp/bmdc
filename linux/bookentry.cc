@@ -186,10 +186,11 @@ void BookEntry::setLabel_gui(string text)
     {
 		PangoContext *cnx = gtk_widget_get_pango_context (GTK_WIDGET(label));
 		PangoFontDescription * desc = pango_context_get_font_description(cnx);
-		gint font_sized = pango_font_description_get_size (desc);
-		if(font_sized != (gint)WGETI("book-font-size"))
+		gint font_size = pango_font_description_get_size (desc);
+		gint font_set_size = (gint)WGETI("book-font-size");
+		if(font_size != font_set_size)
 		{
-			gint fsize = (gint)WGETI("book-font-size")*10*PANGO_SCALE;
+			gint fsize = font_set_size*10*PANGO_SCALE;
 			if(fsize >= 1)
 				pango_font_description_set_size (desc, fsize);
 		}
@@ -310,7 +311,7 @@ GtkWidget *BookEntry::createmenu()
 		gtk_menu_shell_append(GTK_MENU_SHELL(popTabMenuItem),menuItemFirst);
 		gtk_menu_shell_append(GTK_MENU_SHELL(popTabMenuItem),closeTabMenuItem);
 		gtk_widget_show(closeTabMenuItem);
-		gtk_widget_show( menuItemFirst);
+		gtk_widget_show(menuItemFirst);
 		g_signal_connect_swapped(closeTabMenuItem, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
 		return popTabMenuItem;		
 	}
@@ -530,11 +531,11 @@ void BookEntry::setBackForeGround(const EntryType type)
 		case Entry::ABOUT_CONFIG:
 		default: return;
 	}
-
+	string name = getName();
 	GtkCssProvider *provider = gtk_css_provider_new ();
 	GdkDisplay *display = gdk_display_get_default ();
 	GdkScreen *screen = gdk_display_get_default_screen (display);
-	std::string t_css = std::string("#"+getName()+" { color:"+fg+"; background: "+bg+"; }\n\0");
+	std::string t_css = std::string("#"+name+" { color:"+fg+"; background: "+bg+"; }\n\0");
 	gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
 
 	gtk_style_context_add_provider_for_screen (screen,
@@ -546,7 +547,7 @@ void BookEntry::setBackForeGround(const EntryType type)
 	provider = gtk_css_provider_new ();
 	display = gdk_display_get_default ();
 	screen = gdk_display_get_default_screen (display);
-	std::string t_css2 = std::string("#"+getName()+":active { color:"+fg_unread+"; background: "+bg_unread+"; }\n\0");
+	std::string t_css2 = std::string("#"+name+":active { color:"+fg_unread+"; background: "+bg_unread+"; }\n\0");
 	gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css2.c_str(),-1, NULL);
 
 	gtk_style_context_add_provider_for_screen (screen,
@@ -555,7 +556,7 @@ void BookEntry::setBackForeGround(const EntryType type)
 	g_object_unref (provider);
 
 }
-
+//Dont Translate string in this function below!
 string BookEntry::getName() //CSS:getName() In this should not include : ,spaces and so #dialog(s) is there only for is it in one enum
 {
 	string str = dcpp::Util::emptyString;
