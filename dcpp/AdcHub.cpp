@@ -253,7 +253,7 @@ void AdcHub::handle(AdcCommand::SID, AdcCommand& c) noexcept {
 }
 
 void AdcHub::handle(AdcCommand::MSG, AdcCommand& c) noexcept {
-	if(c.getParameters().empty())
+	/*if(c.getParameters().empty())
 		return;
 
 	ChatMessage message = { c.getParam(0), findUser(c.getFrom()) };
@@ -279,7 +279,32 @@ void AdcHub::handle(AdcCommand::MSG, AdcCommand& c) noexcept {
 	if(c.getParam("TS", 1, temp))
 		message.timestamp = Util::toInt64(temp);
 
-	fire(ClientListener::Message(), this, message);
+	fire(ClientListener::Message(), this, message);*/
+	if(c.getParameters().empty())
+		return;
+
+	OnlineUser* from = findUser(c.getFrom());
+	if(!from )
+		return;
+
+	OnlineUser* to = nullptr, *replyTo = nullptr;
+
+	string temp;
+	string chatMessage = c.getParam(0);
+	if(c.getParam("PM", 1, temp)) { // add PM<group-cid> as well
+
+		to = findUser(c.getTo());
+		if(!to)
+			return;
+
+		replyTo = findUser(AdcCommand::toSID(temp));
+		if(!replyTo || PluginManager::getInstance()->runHook(HOOK_CHAT_PM_IN, replyTo, chatMessage))
+			return;
+	} else if(PluginManager::getInstance()->runHook(HOOK_CHAT_IN, this, chatMessage))
+		return;
+
+	fire(ClientListener::Message(), this, ChatMessage(chatMessage, from, to, replyTo, c.hasFlag("ME", 1),
+		c.getParam("TS", 1, temp) ? Util::toInt64(temp) : 0));
 }
 
 void AdcHub::handle(AdcCommand::GPA, AdcCommand& c) noexcept {

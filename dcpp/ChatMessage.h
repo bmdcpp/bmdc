@@ -21,20 +21,40 @@
 
 #include "forward.h"
 #include <string>
+#include "OnlineUser.h"
+
 
 namespace dcpp {
 
 using std::string;
 
 struct ChatMessage {
+	ChatMessage(const string& _text, OnlineUser* from,
+		const OnlineUser* to = nullptr, const OnlineUser* replyTo = nullptr,
+		bool thirdPerson = false, time_t messageTimestamp = 0):
+	from(from->getUser()), to(to ? to->getUser() : nullptr),
+	replyTo(replyTo ? replyTo->getUser() : nullptr),timestamp(time(0)),
+	thirdPerson(thirdPerson), messageTimestamp(messageTimestamp),text(_text)
+	{ 
+
+	}
+
 	string text;
 
-	const OnlineUser* from;
-	const OnlineUser* to;
-	const OnlineUser* replyTo;
+//	const OnlineUser* from;
+//	const OnlineUser* to;
+//	const OnlineUser* replyTo;
 
 	bool thirdPerson;
 	time_t timestamp;//[ADC-only]
+	time_t messageTimestamp;
+
+
+	UserPtr from;
+	UserPtr to;
+	UserPtr replyTo;
+
+
 
 };
 

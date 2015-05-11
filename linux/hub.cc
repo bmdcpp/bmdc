@@ -1120,7 +1120,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 	gtk_text_buffer_get_end_iter(chatBuffer, &iter);
 
 	// Limit size of chat text
-	if ( /*(gtk_text_buffer_get_char_count (chatBuffer) > 24999) || (*/ gtk_text_buffer_get_line_count(chatBuffer) > maxLines + 1)
+	if (  gtk_text_buffer_get_line_count(chatBuffer) > maxLines + 1)
 	{
 		GtkTextIter next;
 		gtk_text_buffer_get_start_iter(chatBuffer, &iter);
@@ -4403,8 +4403,14 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 	Msg::TypeMsg typemsg;
 	string line;
 	string tmp_text = message.text;
-
-	Identity fid = message.from->getIdentity();
+	OnlineUser* ou = nullptr; 
+	ClientManager * cm = ClientManager::getInstance();
+	{
+		cm->lock();
+		ou = cm->findOnlineUser(message.from->getCID(),client->getHubUrl());
+	}
+	//Identity fid = message.from->getIdentity();
+	Identity fid = ou->getIdentity();
 	if( (!fid.isHub()) && (!fid.isBot()) )
 	{
 		string info = formatAdditionalInfo(fid.getIp(), client->get(SettingsManager::USE_IP,SETTING(USE_IP)), client->get(SettingsManager::GET_USER_COUNTRY,SETTING(GET_USER_COUNTRY)));
@@ -4463,23 +4469,28 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 		//private message
 
 		string error;
-		const OnlineUser *user = (message.replyTo->getUser() == ClientManager::getInstance()->getMe())?
+		UserPtr user = (message.replyTo == ClientManager::getInstance()->getMe())?
 			message.to : message.replyTo;
-
+		Identity uid; 
+		{	
+			cm->lock();
+			auto ou2 = cm->findOnlineUser(user->getCID(), client->getHubUrl());
+			uid =	ou2->getIdentity();
+		}
 		if (fid.isOp()) typemsg = Msg::OPERATOR;
-		else if (message.from->getUser() == client->getMyIdentity().getUser()) typemsg = Msg::MYOWN;
+		else if (message.from == client->getMyIdentity().getUser()) typemsg = Msg::MYOWN;
 		else typemsg = Msg::PRIVATE;
 
-		if (user->getIdentity().isHub() && SETTING(IGNORE_HUB_PMS))
+		if (uid.isHub() && SETTING(IGNORE_HUB_PMS))
 		{
 			error = _("Ignored private message from hub");
 			typedef Func3<Hub, string, Msg::TypeMsg, Sound::TypeSound> F3;
 			F3 *func = new F3(this, &Hub::addStatusMessage_gui, error, Msg::STATUS, Sound::NONE);
 			WulforManager::get()->dispatchGuiFunc(func);
 		}
-		else if (user->getIdentity().isBot() && SETTING(IGNORE_BOT_PMS))
+		else if (uid.isBot() && SETTING(IGNORE_BOT_PMS))
 		{
-			error = _("Ignored private message from bot ") + user->getIdentity().getNick();
+			error = _("Ignored private message from bot ") + uid.getNick();
 			typedef Func3<Hub, string, Msg::TypeMsg, Sound::TypeSound> F3;
 			F3 *func = new F3(this, &Hub::addStatusMessage_gui, error, Msg::STATUS, Sound::NONE);
 			WulforManager::get()->dispatchGuiFunc(func);
@@ -4487,8 +4498,8 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 		else
 		{
 			typedef Func6<Hub, Msg::TypeMsg, string, string, string, string, bool> F6;
-			F6 *func = new F6(this, &Hub::addPrivateMessage_gui, typemsg, message.from->getUser()->getCID().toBase32(),
-			user->getUser()->getCID().toBase32(), client->getHubUrl(), line, TRUE);
+			F6 *func = new F6(this, &Hub::addPrivateMessage_gui, typemsg, message.from->getCID().toBase32(),
+			uid.getUser()->getCID().toBase32(), client->getHubUrl(), line, TRUE);
 			WulforManager::get()->dispatchGuiFunc(func);
 		}
 	}
@@ -4498,7 +4509,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 		string cid = fid.getUser()->getCID().toBase32();
 
 		if (fid.isHub()) typemsg = Msg::STATUS;
-		else if (message.from->getUser() == client->getMyIdentity().getUser()) typemsg = Msg::MYOWN;
+		else if (message.from == client->getMyIdentity().getUser()) typemsg = Msg::MYOWN;
 		else typemsg = Msg::GENERAL;
 
 		if (SETTING(FILTER_MESSAGES))

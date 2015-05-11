@@ -226,23 +226,22 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			return;
 		}
 
-		ChatMessage chatMessage = { unescape(message), findUser(nick) };
+		auto from = findUser(nick);
 
-		if(!chatMessage.from) {
+		if(!from) {
 			OnlineUser& o = getUser(nick);
 			// Assume that messages from unknown users come from the hub
 			o.getIdentity().setHub(true);
 			o.getIdentity().setHidden(true);
-			fire(ClientListener::UserUpdated(), this, o);
-
-			chatMessage.from = &o;
+			updated(o);
+			from = &o;
 		}
-		
 		COMMAND_DEBUG(aLine,TYPE_HUB,INCOMING,getHubUrl());
-		if(PluginManager::getInstance()->runHook(HOOK_CHAT_IN, this, message))
+		auto chatMessage = unescape(message);
+		if(PluginManager::getInstance()->runHook(HOOK_CHAT_IN, this, chatMessage))
 			return;
-		
-		fire(ClientListener::Message(), this, chatMessage);
+
+		fire(ClientListener::Message(), this, ChatMessage(chatMessage, from));
 		return;
 	}
 
@@ -788,33 +787,36 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			return;
 		}
 
-		ChatMessage message = { toUtf8(unescape(param.substr(j + 2))), findUser(fromNick) , &getUser(getMyNick()), findUser(rtNick) };
-
-		if(!message.replyTo || !message.from) {
-			if(!message.replyTo) {
-				// Assume it's from the hub
-				OnlineUser& replyTo = getUser(rtNick);
-				replyTo.getIdentity().setHub(true);
-				replyTo.getIdentity().setHidden(true);
-				fire(ClientListener::UserUpdated(), this, replyTo);
-			}
-			if(!message.from) {
-				// Assume it's from the hub
-				OnlineUser& from = getUser(fromNick);
-				from.getIdentity().setHub(true);
-				from.getIdentity().setHidden(true);
-				fire(ClientListener::UserUpdated(), this, from);
-			}
-
-			// Update pointers just in case they've been invalidated
-			message.replyTo = findUser(rtNick);
-			message.from = findUser(fromNick);
-		}
-
-		if(PluginManager::getInstance()->runHook(HOOK_CHAT_PM_IN, &(message.replyTo), &(message.text)))
+		auto from = findUser(fromNick);
+		if(!from /*&& from->getIdentity().noChat()*/)
 			return;
 
-		fire(ClientListener::Message(), this, message);
+		auto replyTo = findUser(rtNick);
+
+		if(!replyTo || !from) {
+			if(!replyTo) {
+				// Assume it's from the hub
+				OnlineUser& ou = getUser(rtNick);
+				ou.getIdentity().setHub(true);
+				ou.getIdentity().setHidden(true);
+				updated(ou);
+				replyTo = &ou;
+			}
+			if(!from) {
+				// Assume it's from the hub
+				OnlineUser& ou = getUser(fromNick);
+				ou.getIdentity().setHub(true);
+				ou.getIdentity().setHidden(true);
+				updated(ou);
+				from = &ou;
+			}
+		}
+
+		auto chatMessage = unescape(param.substr(j + 2));
+		if(PluginManager::getInstance()->runHook(HOOK_CHAT_PM_IN, replyTo, chatMessage))
+			return;
+
+		fire(ClientListener::Message(), this, ChatMessage(chatMessage, from, &getUser(getMyNick()), replyTo));
 	} else if(cmd == "$GetPass") {
 		OnlineUser& ou = getUser(getMyNick());
 		ou.getIdentity().set("RG", "1");
