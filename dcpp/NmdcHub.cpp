@@ -788,9 +788,6 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		}
 
 		auto from = findUser(fromNick);
-		if(!from /*&& from->getIdentity().noChat()*/)
-			return;
-
 		auto replyTo = findUser(rtNick);
 
 		if(!replyTo || !from) {
