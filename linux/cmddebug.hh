@@ -46,7 +46,7 @@ class cmddebug:
    		void preferences_gui();
 
         //Gui
-        void add_gui(time_t t, std::string file);
+        void add_gui(std::string str);
 
     private:
 		typedef std::unordered_map<std::string, int> Iters;
@@ -78,8 +78,8 @@ class cmddebug:
 					x = cmdList.front();
 					cmdList.pop_front();
 				}
-				typedef Func2<cmddebug,time_t,std::string> F2;
-				F2 *func = new F2(this, &cmddebug::add_gui, time(NULL), x);
+				typedef Func1<cmddebug,std::string> F1;
+				F1 *func = new F1(this, &cmddebug::add_gui, x);
 				WulforManager::get()->dispatchGuiFunc(func);
 			}
 
@@ -93,7 +93,7 @@ class cmddebug:
 		s.signal();
 	}
 
-	//ClientManager*/
+	// ClientManager
 	void on(dcpp::ClientManagerListener::ClientConnected, dcpp::Client* c) noexcept;
 	void on(dcpp::ClientManagerListener::ClientDisconnected, dcpp::Client* c) noexcept;
 
