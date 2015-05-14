@@ -19,6 +19,7 @@
 
 #if !defined(GZIP_H)
 #define GZIP_H
+#include "stdinc.h"
 #include "typedefs.h"
 
 namespace dcpp {

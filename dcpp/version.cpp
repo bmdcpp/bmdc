@@ -17,12 +17,14 @@
  */
 
 #include "stdinc.h"
+#include "compiler.h"
+#include "nullptr.h"
 #include "DCPlusPlus.h"
 
 #include "version.h"
 
-#define xstrver(s) strver(s)
 #define strver(s) #s
+#define xstrver(s) strver(s)
 
 namespace dcpp {
 const string fullVersionString(APPNAME " r" xstrver(BMDC_REVISION) " / v" VERSIONSTRING " (r" xstrver(DCPP_REVISION) ")");

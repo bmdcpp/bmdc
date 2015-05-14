@@ -23,9 +23,10 @@
 #include "LogManager.h"
 #include <string>
 #include <stdio.h>
+#include <libtar.h>
 #include "File.h"
 #include "TarFile.h"
-#include <libtar.h>
+
 
 namespace dcpp {
 	

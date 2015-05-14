@@ -90,7 +90,6 @@ string MappingManager::getStatus() const {
 }
 
 int MappingManager::run() {
-	//ScopedFunctor([this] { busy.clear(); });
 
 	// cache ports
 	uint16_t	conn_port = ConnectionManager::getInstance()->getPort();

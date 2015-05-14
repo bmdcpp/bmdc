@@ -809,7 +809,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			}
 		}
 
-		auto chatMessage = unescape(param.substr(j + 2));
+		auto chatMessage = unescape(toUtf8(param.substr(j + 2)));
 		if(PluginManager::getInstance()->runHook(HOOK_CHAT_PM_IN, replyTo, chatMessage))
 			return;
 
