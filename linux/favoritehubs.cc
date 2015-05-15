@@ -25,7 +25,6 @@
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
 #include "FavoriteHubDialog.hh"
-//#include <dcpp/RawManager.h>
 
 using namespace std;
 using namespace dcpp;
@@ -324,28 +323,7 @@ void FavoriteHubs::onEditEntry_gui(GtkWidget *widget, gpointer data)
 			WulforManager::get()->dispatchClientFunc(func);
 	}
 }
-/*
-bool FavoriteHubs::checkEntry_gui(string address_old, string address_new)
-{
-	if (address_old == address_new)
-		return true;
 
-	GtkTreeIter iter;
-	GtkTreeModel *m = GTK_TREE_MODEL(favoriteStore);
-	bool valid = gtk_tree_model_get_iter_first(m, &iter);
-
-	while (valid)
-	{
-		if (favoriteView.getString(&iter, _("Address")) == address_new)
-		{
-			return false;
-		}
-		valid = gtk_tree_model_iter_next(m, &iter);
-	}
-
-	return true;
-}
-*/
 void FavoriteHubs::onManageGroupsClicked_gui(GtkWidget *widget, gpointer data)
 {
 	FavoriteHubs *fh = (FavoriteHubs *)data;

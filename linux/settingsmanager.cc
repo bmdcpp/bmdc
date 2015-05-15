@@ -462,14 +462,16 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("colored-tabs-hub-color-fg-unread","#90EE90"));
 	defaultString.insert(StringMap::value_type("colored-tabs-system-color-fg-unread","#4D4D4D"));
 	defaultString.insert(StringMap::value_type("colored-tabs-searchs-color-fg-unread","#E5E5E5"));
-	/*hub db click /ws double-click-action
+	/*
+	 * hub db click 
+	 * /ws double-click-action #
 	 * 0 - Browse FL
 	 * 1 - Nick to Chat
 	 * 2 - PM to nick
 	 * 3 - match quene
 	 * 4 - grant slot
 	 * 5 - add to fav users
-	 * 6 - Partial FL	
+	 * 6 - Partial Filelist
 	 * message.hh
 	*/
 	defaultInt.insert(IntMap::value_type("double-click-action",(int)CActions::BROWSE));

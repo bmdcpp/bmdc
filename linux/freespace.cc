@@ -13,9 +13,9 @@
     #include <dcpp/stdinc.h>
     #include <dcpp/Text.h>
 #else //WIN32
-//    extern "C" {
+extern "C" {
     #include "fsusage.h"
-//    }
+}
 #endif //WIN32
 #include "freespace.h"
 

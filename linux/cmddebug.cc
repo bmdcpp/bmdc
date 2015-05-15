@@ -109,9 +109,19 @@ void cmddebug::add_gui(string str)
             gtk_text_buffer_get_start_iter(buffer, &iter);
             gtk_text_buffer_get_iter_at_line(buffer, &next, 1);
             gtk_text_buffer_delete(buffer, &iter, &next);
+            gtk_text_view_place_cursor_onscreen(GTK_TEXT_VIEW(getWidget("cmdtextview")));
+            return;
     }
-    gtk_text_view_place_cursor_onscreen(GTK_TEXT_VIEW(getWidget("cmdtextview")));
-
+    
+	if(gtk_text_buffer_get_char_count (buffer) > 25000)
+	{
+		GtkTextIter startIter, endIter;
+		gtk_text_buffer_get_start_iter(buffer, &startIter);
+		gtk_text_buffer_get_end_iter(buffer, &endIter);
+		gtk_text_buffer_delete(buffer, &startIter, &endIter);
+		gtk_text_view_place_cursor_onscreen(GTK_TEXT_VIEW(getWidget("cmdtextview")));
+		return;
+	}
 }
 
 void cmddebug::ini_client()
