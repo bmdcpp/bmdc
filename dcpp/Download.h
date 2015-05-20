@@ -19,7 +19,7 @@
 #ifndef DCPLUSPLUS_DCPP_DOWNLOAD_H_
 #define DCPLUSPLUS_DCPP_DOWNLOAD_H_
 
-#include "forward.h"
+#include "Streams.h"
 #include "noexcept.h"
 #include "Transfer.h"
 #include "MerkleTree.h"
