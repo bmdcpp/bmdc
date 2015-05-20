@@ -20,16 +20,7 @@
 #include "SettingsManager.h"
 #include "HubSettings.h"
 namespace dcpp {
-/*
-const string HubSettings::stringNames[StringCount] = {
-	"Nick", "UserDescription", "Email", "UserIp", "UserIp6" // not "Description" for compat with prev fav hub lists
-	, "AwayMessage", "PackName",
-};
-const string HubSettings::boolNames[BoolCount] = {
-	"ShowJoins", "FavShowJoins", "LogChat", "Connect", "ShowIps", "ShowCountry", "BoldTab",
-	"Connection", "Connection6",
-};
-*/
+
 HubSettings::HubSettings() {
 
 }
@@ -45,6 +36,7 @@ void HubSettings::merge(const HubSettings& sub) {
 	for(auto i = sub.bools.begin(); i != sub.bools.end(); ++i) {
 		bools[i->first] = i->second;
 	}
+	setAutoConnect(sub.getAutoConnect());
 }
 
 void HubSettings::load(SimpleXML& xml) {
@@ -58,6 +50,7 @@ void HubSettings::load(SimpleXML& xml) {
 	set(SettingsManager::HUB_TEXT_STR, xml.getChildAttrib("TabText"));
 	set(SettingsManager::HUB_ICON_STR, xml.getChildAttrib("TabIcon"));
 	//TODO:convert others
+	setAutoConnect(Util::toInt(xml.getChildAttrib("AutoConnect")));
 	xml.stepIn();
 	for(int i = SettingsManager::STR_FIRST; i < SettingsManager::STR_LAST; i++)
 	{
@@ -80,6 +73,7 @@ void HubSettings::load(SimpleXML& xml) {
 			set(SettingsManager::BoolSetting(i), Util::toInt(xml.getChildData()) > 0);
 		xml.resetCurrentChild();
 	}
+	
 	xml.stepOut();
 
 }
@@ -105,7 +99,8 @@ void HubSettings::save(SimpleXML& xml) const {
 		xml.addTag(SettingsManager::settingTags[i->first], i->second);
 		xml.addChildAttrib(type, curType);
 	}
-
+	xml.addTag("AutoConnect",getAutoConnect());
+	xml.addChildAttrib(type,curType);
 	xml.stepOut();
 }
 

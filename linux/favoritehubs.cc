@@ -361,8 +361,7 @@ void FavoriteHubs::initFavHubGroupsDialog_gui()
 		// favorite hub groups list
 		int showJoins = i->second.get(SettingsManager::SHOW_JOINS,SETTING(SHOW_JOINS));
 		int FavShowJoins = i->second.get(SettingsManager::FAV_SHOW_JOINS,SETTING(FAV_SHOW_JOINS));
-		//int connect = i->second.get(HubSettings::Connect);
-		int connect = 1;
+		int connect = i->second.getAutoConnect();
 		int log = i->second.get(SettingsManager::LOG_CHAT_B,SETTING(LOG_CHAT_B));
 		
 		gtk_list_store_append(groupsStore, &iter);
@@ -378,7 +377,6 @@ void FavoriteHubs::initFavHubGroupsDialog_gui()
 			groupsView.col("LogChat"),  Util::toString(log).c_str() ,
 			groupsView.col("AwayMessage"), i->second.get(SettingsManager::DEFAULT_AWAY_MESSAGE,SETTING(DEFAULT_AWAY_MESSAGE)).c_str(),
 			-1);
-			//Parts 1 = Enable 2 = disable 0 = def
 	}
 }
 
@@ -591,7 +589,7 @@ void FavoriteHubs::saveFavHubGroups()
 		HubSettings p;
 
 		int log_hub = groupsView.getString(&iter, "LogChat") == "1" ? 1 : 0;
-//		int connect_hub = groupsView.getValue<int>(&iter, "Connect hub");
+		int connect_hub = groupsView.getValue<int>(&iter, "Connect hub");
 		string nick = groupsView.getString(&iter, "Nick");
 		string email = groupsView.getString(&iter, "eMail");
 		string desc = groupsView.getString(&iter, "Desc");
@@ -605,7 +603,7 @@ void FavoriteHubs::saveFavHubGroups()
 		p.get(SettingsManager::FAV_SHOW_JOINS, favShowJoins);
 		p.get(SettingsManager::SHOW_JOINS, showJoins);
 		p.get(SettingsManager::LOG_CHAT_B, log_hub);
-		//p.get(SettingsManager::Connect) = connect_hub);
+		p.setAutoConnect(connect_hub);
 		p.get(SettingsManager::DEFAULT_AWAY_MESSAGE, away);
 
 		favHubGroups.insert(FavHubGroup(group, p));

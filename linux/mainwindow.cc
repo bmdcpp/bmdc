@@ -2729,16 +2729,16 @@ void MainWindow::autoConnect_client()
 		string group = hub->getGroup();
 		FavHubGroups::const_iterator it = favHubGroups.find(group);
 
-		/*if (it != favHubGroups.end())
+		if (it != favHubGroups.end())
 		{
 			const HubSettings* p = &(it->second);
-			if (p->get(HubSettings::Connect) == 1)
+			if (p->getAutoConnect())
 			{
 				typedef Func2<MainWindow, string, string> F2;
 				F2 *func = new F2(this, &MainWindow::showHub_gui, hub->getServer(), hub->getEncoding());
 				WulforManager::get()->dispatchGuiFunc(func);
 			}
-		}*/
+		}
 
 		if(hub->getAutoConnect())
 		{

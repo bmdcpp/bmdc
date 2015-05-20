@@ -22,7 +22,7 @@
 #include <string>
 #include <map>
 #include "SimpleXML.h"
-
+#include "GetSet.h"
 #include "SettingsManager.h"
 
 namespace dcpp {
@@ -53,6 +53,7 @@ struct HubSettings
 
 	void load(SimpleXML& xml);
 	void save(SimpleXML& xml) const;
+	GETSET(bool, autoConnect, AutoConnect);
 
 private:
 	map<SettingsManager::StrSetting, string> strings;

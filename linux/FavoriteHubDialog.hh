@@ -69,6 +69,7 @@ private:
 					*entryDesc,
 					*comboCodepage,
 					*checkAutoConnect,
+					*comboGroup,
 		//@: User-info related stuff
 					*entryUsername,
 					*entryPassword,

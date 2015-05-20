@@ -109,11 +109,15 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* = true
 		gtk_combo_box_set_active(GTK_COMBO_BOX(comboCodepage),0);
 	}
 	
+	g_g_a( lan(_("Group")),0,8,1,1);
+	comboGroup = gtk_combo_box_text_new();
+	g_g_a(comboGroup, 1,8,1,1);
+	
 	//group combo
 	checkAutoConnect = g_c_b_n(_("Auto-Connect to this Hub"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkAutoConnect), p_entry->getAutoConnect());
 	
-	g_g_a(checkAutoConnect,0,8,1,1);
+	g_g_a(checkAutoConnect,0,9,1,1);
 	
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxSimple ,lan(_("General Settings")));
 	//check
@@ -294,11 +298,11 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* = true
 
 bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 {
-	/*	
+		
 		FavHubGroups favHubGroups = FavoriteManager::getInstance()->getFavHubGroups();
 
 		GtkTreeIter iter;
-		GtkListStore *store = GTK_LIST_STORE(gtk_combo_box_get_model(GTK_COMBO_BOX(getWidget("groupsComboBox"))));
+		GtkListStore *store = GTK_LIST_STORE(gtk_combo_box_get_model(GTK_COMBO_BOX(comboGroup)));
 
 		gtk_list_store_append(store, &iter);
 		gtk_list_store_set(store, &iter, 0, _("Default"), -1);
@@ -321,11 +325,11 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 		if (it != groups.end())
 		{
 			GtkTreeIter iter = it->second;
-			gtk_combo_box_set_active_iter(GTK_COMBO_BOX(getWidget("groupsComboBox")), &iter);
+			gtk_combo_box_set_active_iter(GTK_COMBO_BOX(comboGroup), &iter);
 		}
 		else
-			gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("groupsComboBox")), 0);
-
+			gtk_combo_box_set_active(GTK_COMBO_BOX(comboGroup), 0);
+/*
 		// Set the override default nick checkbox
 		string nick = p_entry->get(SettingsManager::NICK,SETTING(NICK));
 		gboolean overrideNick = !(nick.empty() || nick == SETTING(NICK));
@@ -394,16 +398,16 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 			{
 				p_entry->set(SettingsManager::BACKGROUND_CHAT_IMAGE,string(image_path));
 			}
-/*
-			if (gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("groupsComboBox"))) != 0)
+
+			if (gtk_combo_box_get_active(GTK_COMBO_BOX(comboGroup)) != 0)
 			{
-				gchar *group = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(getWidget("groupsComboBox")));
+				gchar *group = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboGroup));
 				if(group) {
 					p_entry->setGroup(string(group));
 					g_free(group);
 			   	}
 			}
-*//*
+/*
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonEncoding"))))
 		{*/
 			gchar *encoding = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboCodepage));
