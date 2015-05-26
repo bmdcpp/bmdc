@@ -1927,8 +1927,11 @@ void Settings::onToggledPluginsClicked_gui(GtkCellRendererToggle *cell, gchar *p
 			bool fixed = fh->plView.getValue<gboolean>(&iter, _("Enabled"));
 			fixed = !fixed;
 			gtk_list_store_set(fh->plStore, &iter, fh->plView.col(_("Enabled")), fixed, -1);
-			if(!fixed)	PluginManager::getInstance()->enablePlugin(guid);
-			else PluginManager::getInstance()->disablePlugin(guid);	
+			
+			if(fixed)
+				PluginManager::getInstance()->enablePlugin(guid);
+			else 
+				PluginManager::getInstance()->disablePlugin(guid);	
 		}
 
 }
@@ -1946,17 +1949,12 @@ void Settings::onAddPluginTo_gui(GtkWidget *widget, gpointer data)
 
 		if (path)
 		{
-//			size_t idx = PluginManager::getInstance()->getPluginList().size();
-//			if(PluginManager::getInstance()->loadPlugin(string(path), true)) {
-				//const MetaData& info = PluginManager::getInstance()->getPlugin(idx)->getInfo();
-				//s->addToGuiPlg(info);
-				PluginManager::getInstance()->addPlugin(string(path));
- 	                        s->addToGuiPlg();
-
-			}
+			PluginManager::getInstance()->addPlugin(string(path));
+            s->addToGuiPlg();
 		}
 	}
-//}
+}
+
 
 void Settings::onRemPluginFrom_gui(GtkWidget *widget, gpointer data)
 {
@@ -1964,8 +1962,7 @@ void Settings::onRemPluginFrom_gui(GtkWidget *widget, gpointer data)
 	GtkTreeIter iter;
 	if (gtk_tree_selection_get_selected(s->plselection, NULL, &iter))
 	{
-	//	gint sel = Util::toInt(s->plView.getString(&iter, "Index"));
-                string sel = s->plView.getString(&iter, "Index");
+        string sel = s->plView.getString(&iter, "Index");
 		typedef Func1<Settings, string> F1;
 		F1 *func = new F1(s,&Settings::RemovePlg_client,sel);
 		WulforManager::get()->dispatchClientFunc(func);
@@ -1982,10 +1979,7 @@ void Settings::onConfigurePlugin_gui(GtkWidget *widget, gpointer data)
 	GtkTreeIter iter;
 	if(gtk_tree_selection_get_selected(s->plselection, NULL, &iter))
 	{
-//		gint sel = Util::toInt(s->plView.getString(&iter, "Index"));
 		string sel = s->plView.getString(&iter, "Index");
-//		const PluginInfo *p = PluginManager::getInstance()->getPlugin(sel);
-//		if(!p->dcMain(ON_CONFIGURE, PluginManager::getInstance()->getCore(),s->getContainer())) {
 		if(!PluginManager::getInstance()->configPlugin(sel, s->getContainer())) {
 			GtkDialog *dialog =  GTK_DIALOG(gtk_message_dialog_new (GTK_WINDOW(s->getContainer()),
                                  GTK_DIALOG_DESTROY_WITH_PARENT,

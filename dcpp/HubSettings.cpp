@@ -83,7 +83,6 @@ void HubSettings::load(SimpleXML& xml) {
 void HubSettings::save(SimpleXML& xml) const {
 	
 	xml.stepIn();
-//	xml.addTag("AutoConnect", getAutoConnect());
 
 	string type("type"), curType("string");
 	for(auto i = strings.begin(); i != strings.end(); ++i) {

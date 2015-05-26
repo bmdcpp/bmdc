@@ -39,23 +39,15 @@ struct ChatMessage {
 
 	}
 
-	string text;
-
-//	const OnlineUser* from;
-//	const OnlineUser* to;
-//	const OnlineUser* replyTo;
-
-	bool thirdPerson;
-	time_t timestamp;//[ADC-only]
-	time_t messageTimestamp;
-
-
 	UserPtr from;
 	UserPtr to;
 	UserPtr replyTo;
 
-
-
+	time_t timestamp;//[ADC-only]
+	bool thirdPerson;
+	time_t messageTimestamp;
+	
+	string text;
 };
 
 } // namespace dcpp
