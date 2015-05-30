@@ -332,7 +332,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		string terms = unescape(param.substr(i));
 
 		if(!terms.empty()) {
-			if(seeker.compare(0, 4, "Hub:") == 0) {
+			if((seeker.size() > 4) &&   seeker.compare(0, 4, "Hub:") == 0) {
 				OnlineUser* u = findUser(seeker.substr(4));
 
 				if(u == NULL) {
@@ -607,6 +607,8 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		if(state != STATE_PROTOCOL) {
 			return;
 		}
+		if(aLine.size() < 5) return;
+		
 		state = STATE_IDENTIFY;
 
 		// Param must not be toUtf8'd...

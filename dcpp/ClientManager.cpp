@@ -493,6 +493,7 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 {
 	Speaker<ClientManagerListener>::fire(ClientManagerListener::IncomingSearch(), aString);
 	if(aSeeker.empty()) return;
+	if(aSeeker.length() < 4) return;
 
 
 	bool isPassive = (aSeeker.compare(0, 4, "Hub:") == 0);
@@ -517,7 +518,7 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				str += '|';
 			}
 
-			if(!str.empty())
+			if(!aClient && !str.empty())
 				aClient->send(str);
 
 		} else {
