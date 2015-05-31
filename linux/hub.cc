@@ -1126,6 +1126,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 		gtk_text_buffer_get_start_iter(chatBuffer, &iter);
 		gtk_text_buffer_get_iter_at_line(chatBuffer, &next, 1);
 		gtk_text_buffer_delete(chatBuffer, &iter, &next);
+		addMessage_gui(cid, message,typemsg);
 		return;
 	}
 	if(gtk_text_buffer_get_char_count (chatBuffer) > 25000)
@@ -1135,6 +1136,8 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 		gtk_text_buffer_get_start_iter(chatBuffer, &startIter);
 		gtk_text_buffer_get_end_iter(chatBuffer, &endIter);
 		gtk_text_buffer_delete(chatBuffer, &startIter, &endIter);
+		addMessage_gui(cid, message,typemsg);
+		return;
 	}
 	
 }
