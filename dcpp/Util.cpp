@@ -44,6 +44,7 @@
 namespace dcpp {
 
 using std::make_pair;
+
 string Util::emptyString;
 wstring Util::emptyStringW;
 tstring Util::emptyStringT;

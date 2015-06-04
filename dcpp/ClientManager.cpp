@@ -76,11 +76,6 @@ void ClientManager::putClient(Client* aClient) {
 	delete aClient;
 }
 
-size_t ClientManager::getUserCount() const {
-	Lock l(cs);
-	return onlineUsers.size();
-}
-
 StringList ClientManager::getHubs(const CID& cid, const string& hintUrl) {
 	Lock l(cs);
 	StringList lst;
@@ -167,7 +162,7 @@ string ClientManager::getConnection(const CID& cid) const {
 	}
 	return _("Offline");
 }
-
+/*
 int64_t ClientManager::getAvailable() const {
 	Lock l(cs);
 	int64_t bytes = 0;
@@ -177,7 +172,7 @@ int64_t ClientManager::getAvailable() const {
 
 	return bytes;
 }
-
+*/
 bool ClientManager::isConnected(const string& aUrl) const {
 	Lock l(cs);
 
@@ -209,7 +204,7 @@ string ClientManager::findHub(const string& ipPort) const {
 	parsePortIp(ipPort,ip, port);
 
 	if( port < 1 || port > 65535)
-			return Util::emptyString;//good idea?
+			return Util::emptyString;//@TODO: check good idea?
 	bool ok = false;
 	if(Util::isIp6(ip) == true)
 		ok = true;
@@ -333,7 +328,7 @@ void ClientManager::putOnline(OnlineUser* ou) noexcept {
 		onlineUsers.emplace(ou->getUser()->getCID(),ou);
 	}
 
-	if(ou &&  !ou->getUser()->isOnline()) {
+	if(ou && !ou->getUser()->isOnline()) {
 		ou->getUser()->setFlag(User::ONLINE);
 		ou->initializeData(); //RSX++-like
 		fire(ClientManagerListener::UserConnected(), ou->getUser());
@@ -657,7 +652,7 @@ void ClientManager::updateNick(const OnlineUser& user) noexcept {
 		}
 	}
 }
-int ClientManager::getMode(const string& aHubUrl) const {//todo ipv6?
+int ClientManager::getMode(const string& aHubUrl) const {
 
 	if(aHubUrl.empty())
 		return SETTING(INCOMING_CONNECTIONS);
@@ -677,7 +672,8 @@ bool ClientManager::isActive(const string& aHubUrl /*= Util::emptyString*/) cons
 {
 	return ( (getMode(aHubUrl) != SettingsManager::INCOMING_FIREWALL_PASSIVE) );
 }
-//TODO:check ip6 if ok
+
+//@TODO: Check ipv6 if ok
 void ClientManager::setIpAddress(const UserPtr& p, const string& ip) {
     Lock l(cs);
 	OnlineIterC i = onlineUsers.find(p->getCID());
@@ -702,8 +698,8 @@ void ClientManager::sendAction(OnlineUser& ou, const int aAction) {
 		ou.getClient().sendActionCommand(ou, aAction);
     }
 }
-//TODO is this Suite to FakeChecker?
-void ClientManager::addCheckToQueue(const HintedUser hintedUser, bool filelist) {
+//@TODO: is this Suite to FakeChecker?
+void ClientManager::addCheckToQueue(const HintedUser& hintedUser, bool filelist) {
 	OnlineUser* ou = nullptr;
 	bool addCheck = false;
 	{

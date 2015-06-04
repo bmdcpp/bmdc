@@ -30,7 +30,6 @@
 #error MSVC 10 (2010) is required
 #endif
 
-
 //disable the deprecated warnings for the CRT functions.
 #define _CRT_SECURE_NO_DEPRECATE 1
 #define _ATL_SECURE_NO_DEPRECATE 1

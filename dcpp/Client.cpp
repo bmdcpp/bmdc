@@ -27,7 +27,7 @@
 #include "DebugManager.h"
 #include "LogManager.h"
 
-#include "AdcHub.h" // for dynamic_cast//Plugins
+//#include "AdcHub.h" // for dynamic_cast//Plugins
 
 namespace dcpp {
 

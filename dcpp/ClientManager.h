@@ -56,9 +56,6 @@ public:
 	Client* getClient(const string& aHubURL);
 	void putClient(Client* aClient);
 
-	size_t getUserCount() const;
-	int64_t getAvailable() const;
-
 	StringList getHubs(const CID& cid, const string& hintUrl);
 	StringList getHubNames(const CID& cid, const string& hintUrl);
 	StringList getNicks(const CID& cid, const string& hintUrl);
@@ -116,6 +113,7 @@ public:
 	void connect(const HintedUser& user, const string& token);
 	void privateMessage(const HintedUser& user, const string& msg, bool thirdPerson);
 	void userCommand(const HintedUser& user, const UserCommand& uc, ParamMap& params, bool compatibility);
+	
 	Lock lock() { return Lock(cs); }
 
 	const ClientList& getClients() const { return clients; }
@@ -143,7 +141,7 @@ public:
 	void sendAction(OnlineUser& ou, const int aAction);
 	void sendRawCommand(OnlineUser& user, const string& aRaw, bool checkProtection = false);
 	//TODO: ? suite for FakeChecker ?
-	void addCheckToQueue(const HintedUser hintedUser, bool filelist);
+	void addCheckToQueue(const HintedUser& hintedUser, bool filelist);
 	void checkCheating(const HintedUser& p, DirectoryListing* dl);
 //
 	static void parsePortIp(string aIpPort,string& ip, uint16_t& port)
