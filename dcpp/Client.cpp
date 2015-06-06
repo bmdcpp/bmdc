@@ -27,7 +27,6 @@
 #include "DebugManager.h"
 #include "LogManager.h"
 
-//#include "AdcHub.h" // for dynamic_cast//Plugins
 
 namespace dcpp {
 
@@ -166,7 +165,6 @@ void Client::connect() {
 }
 
 void Client::send(const char* aMessage, size_t aLen) {
-	dcdebug("%s",aMessage);
 	if(!isConnected()) {
 		dcassert(0);
 		dcdebug("\nno connected");
@@ -177,7 +175,6 @@ void Client::send(const char* aMessage, size_t aLen) {
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_OUT, this, aMessage))
 		return;
 	Lock l(cs);
-	dcdebug("\nall ok send");
 	updateActivity();
 	sock->write(aMessage, aLen);
 	COMMAND_DEBUG(aMessage,TYPE_HUB,OUTGOING, getHubUrl());
@@ -190,7 +187,7 @@ HubData* Client::getPluginObject() noexcept {
 	pod.ip = pluginString(ip);
 	pod.object = this;
 	pod.port = port;
-	pod.protocol = isAdc(hubUrl) ? PROTOCOL_ADC : PROTOCOL_NMDC; // TODO: dynamic_cast not practical if more than two protocols
+	pod.protocol = isAdc(hubUrl) ? PROTOCOL_ADC : PROTOCOL_NMDC; 
 	pod.isOp = isOp() ? True : False;
 	pod.isSecure = isSecure() ? True : False;
 

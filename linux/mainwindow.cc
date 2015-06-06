@@ -113,7 +113,6 @@ MainWindow::MainWindow():
 	string tmp;
 	startTime = GET_TICK();
 	HashManager::getInstance()->getStats(tmp, startBytes, startFiles);
-//	HashManager::getInstance()->setPriority(Thread::NORMAL);
 	updateStats_gui("", 0, 0, 0);
 	
 	window = GTK_WINDOW(getWidget("mainWindow"));

@@ -71,7 +71,7 @@ class Notify
 
 	private:
 		static Notify *notify;
-		enum {x16, x22, x24, x32, x36, x48, x64, DEFAULT};
+		enum { x16, x22, x24, x32, x36, x48, x64, DEFAULT };
 
 		void init();
 		void finalize() ;

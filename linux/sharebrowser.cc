@@ -261,7 +261,6 @@ void ShareBrowser::buildDirs_gui(DirectoryListing::Directory *dir, GtkTreeIter *
 	}
 
 	// Recursive call for all subdirs of current dir.
-	//std::sort(dir->directories.begin(), dir->directories.end(), DirectoryListing::Directory::Sort());
 	for (auto it = dir->directories.begin(); it != dir->directories.end(); ++it)
 		buildDirs_gui(*it, &newIter);
 }
@@ -269,11 +268,9 @@ void ShareBrowser::buildDirs_gui(DirectoryListing::Directory *dir, GtkTreeIter *
 void ShareBrowser::updateFiles_gui(DirectoryListing::Directory *dir)
 {
 	std::set<dcpp::DirectoryListing::Directory*, dcpp::DirectoryListing::Directory::Less<dcpp::DirectoryListing::Directory> > *dirs = &(dir->directories);
-	//DirectoryListing::Directory::Iter it_dir;
 	set<DirectoryListing::File::Ptr, DirectoryListing::Directory::Less<DirectoryListing::File> >::iterator it_file;
 	DirectoryListing::Directory::FList *files = &(dir->files);
-	//DirectoryListing::File::Iter it_file;
-	//std::set<dcpp::DirectoryListing::File*, dcpp::DirectoryListing::Directory::Less<dcpp::DirectoryListing::File> >::iterator it_dir;
+
 	GtkTreeIter iter;
 	int64_t size;
 	gint sortColumn;
@@ -596,7 +593,7 @@ void ShareBrowser::find_gui()
 	bool findLeafNode = TRUE;
 	int cursorPos, hits = 0;
 	DirectoryListing::Directory *dir = nullptr;
-	//DirectoryListing::File::Iter _file;
+
 	set<DirectoryListing::File::Ptr, DirectoryListing::Directory::Less<DirectoryListing::File>>::const_iterator _file;
 	GtkTreeIter iter;
 	GtkTreeModel *m = GTK_TREE_MODEL(dirStore);
@@ -655,7 +652,6 @@ void ShareBrowser::find_gui()
 
 		// Search the files that are contained in this directory.
 		dir = dirView.getValue<gpointer, DirectoryListing::Directory *>(&iter, "DL Dir");
-		//std::sort(dir->files.begin(), dir->files.end(), DirectoryListing::File::FileSort());
 
 		for (_file = dir->files.begin(), cursorPos = dir->directories.size(); _file != dir->files.end(); _file++, cursorPos++)
 		{

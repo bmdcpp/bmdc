@@ -50,8 +50,8 @@ class PrivateMessage:
 		void addMessage_gui(std::string message, Msg::TypeMsg typemsg);
 		void addStatusMessage_gui(std::string message, Msg::TypeMsg typemsg);
 		void preferences_gui();
-		void sendMessage_p(std::string message) { sendMessage_client(message);}
-		bool getIsOffline() const { return isSet(OFFLINE);}
+		void sendMessage_p(std::string message) { sendMessage_client(message); }
+		bool getIsOffline() const { return isSet(OFFLINE); }
 
 	private:
 		//@Status of PM's user

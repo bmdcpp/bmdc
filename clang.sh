@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 export CC="clang -std=c++11";
 export CXX="clang++ -std=c++11";
 export CCFLAGS="${CCFLAGS} -std=c++11 -pthread -stdlib=libstdc++";

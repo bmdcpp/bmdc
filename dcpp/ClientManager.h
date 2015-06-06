@@ -201,8 +201,6 @@ private:
 	*/
 	OnlineUser* findOnlineUserHint(const CID& cid, const string& hintUrl, OnlinePairC& p) const;
 
-//	string getUsersFile() const { return Util::getPath(Util::PATH_USER_LOCAL) + "Users.xml"; }
-
 	// ClientListener
 	virtual void on(Connected, Client* c) noexcept;
 	virtual void on(UserUpdated, Client*, const OnlineUser& user) noexcept;

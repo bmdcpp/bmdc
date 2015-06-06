@@ -162,17 +162,7 @@ string ClientManager::getConnection(const CID& cid) const {
 	}
 	return _("Offline");
 }
-/*
-int64_t ClientManager::getAvailable() const {
-	Lock l(cs);
-	int64_t bytes = 0;
-	for(OnlineIterC i = onlineUsers.begin(); i != onlineUsers.end(); ++i) {
-		bytes += i->second->getIdentity().getBytesShared();
-	}
 
-	return bytes;
-}
-*/
 bool ClientManager::isConnected(const string& aUrl) const {
 	Lock l(cs);
 
