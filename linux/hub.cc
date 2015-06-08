@@ -860,7 +860,7 @@ void Hub::removeUser_gui(string cid)
 		userIters.erase(cid);
 		setStatus_gui("statusUsers", Util::toString(userMap.size()) + _(" Users"));
 		setStatus_gui("statusShared", Util::formatBytes(totalShared));
-		//there is no reason do this if client == null
+		//There is no reason do this if client == null
 		if (client && client->get(SettingsManager::SHOW_JOINS,SETTING(SHOW_JOINS)))
 		{
 			// Show parts in chat

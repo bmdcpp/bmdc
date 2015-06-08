@@ -8,7 +8,7 @@ Release:
 	scons install
 Debug:
 	mkdir -p ${HOME}/BMDC/
-	scons PREFIX=${HOME}/BMDC/ debug=1 profile=0 libappindicator=0 libxattr=0
+	scons PREFIX=${HOME}/BMDC/ debug=1 profile=0 libappindicator=0 libxattr=1
 	scons install
 cleanrelease:
 	scons -c

@@ -100,7 +100,7 @@ bool HashManager::StreamStore::loadTree(const string& p_filePath, TigerTree &tre
 
     uint8_t* buf = (new uint8_t[totalSz]);
 
-    if (attr_get(p_filePath.c_str(), g_streamName.c_str(), (char*)(void*)buf/*.get()*/, &blockSize, 0) == 0) {
+    if (attr_get(p_filePath.c_str(), g_streamName.c_str(), (char*)(void*)buf, &blockSize, 0) == 0) {
         memcpy(&h, buf, hdrSz);
 #ifdef __i386__
         printf("%s: timestamps header=0x%llu, current=0x%llu, difference(should be zero)=%llu\n",
@@ -111,7 +111,7 @@ bool HashManager::StreamStore::loadTree(const string& p_filePath, TigerTree &tre
 #endif
         if (!(h.timeStamp == getTimeStamp(p_filePath) && validateCheckSum(h))){ // File was modified and we should reset attr.
             deleteStream(p_filePath);
-			delete [] buf;//Mank
+			delete [] buf;//@Mank
             return false;
         }
 
@@ -120,7 +120,7 @@ bool HashManager::StreamStore::loadTree(const string& p_filePath, TigerTree &tre
 
         memcpy(tail, (uint8_t*)buf + hdrSz, datalen);
 
-        TigerTree p_Tree = TigerTree(fileSize, h.blockSize, tail/*.get()*/);
+        TigerTree p_Tree = TigerTree(fileSize, h.blockSize, tail);
 
         if (p_Tree.getRoot() == h.root){
             tree = p_Tree;
@@ -151,12 +151,15 @@ bool HashManager::StreamStore::saveTree(const string& p_filePath, const TigerTre
     setCheckSum(h);
     {
         const size_t sz = sizeof(TTHStreamHeader) + p_Tree.getLeaves().size() * TTHValue::BYTES;
-        std::unique_ptr<uint8_t[]> buf(new uint8_t[sz]);
+        //std::unique_ptr<uint8_t[]> buf(new uint8_t[sz]);
+        uint8_t *buf = new uint8_t[sz];
 
-        memcpy(buf.get(), &h, sizeof(TTHStreamHeader));
-        memcpy(buf.get() + sizeof(TTHStreamHeader), p_Tree.getLeaves()[0].data, p_Tree.getLeaves().size() * TTHValue::BYTES);
+        memcpy(buf/*.get()*/, &h, sizeof(TTHStreamHeader));
+        memcpy(buf/*.get()*/ + sizeof(TTHStreamHeader), p_Tree.getLeaves()[0].data, p_Tree.getLeaves().size() * TTHValue::BYTES);
 
-        return (attr_set(p_filePath.c_str(), g_streamName.c_str(), (char*)(void*)buf.get(), sz, 0) == 0);
+        int ret = attr_set(p_filePath.c_str(), g_streamName.c_str(), (char*)(void*)buf/*.get()*/, sz, 0);
+        delete [] buf;
+        return ret == 0;//Succesfull
     }
 #endif //USE_XATTR
     return false;
@@ -177,13 +180,13 @@ TTHValue* HashManager::getTTH(const string& aFileName, int64_t aSize, uint32_t a
 	TTHValue* tth = store.getTTH(aFileName, aSize, aTimeStamp);
 	if(tth == NULL) {
 		TigerTree _tth;
-		if(m_streamstore.loadTree(fpath+PATH_SEPARATOR_STR+aFileName,_tth,-1)) {
+		if(m_streamstore.loadTree(/*fpath+PATH_SEPARATOR_STR+aFileName*/aFileName,_tth,-1)) {
 			printf ("%s: hash [%s] was loaded from Xattr.\n", aFileName.c_str(), _tth.getRoot().toBase32().c_str());
 			TTHValue* check = &(_tth.getRoot());
 			if(check == NULL)
 			{
 				hasher.hashFile(aFileName, aSize);
-			}else return check;
+			} else return check;
 		}	
 		hasher.hashFile(aFileName, aSize);
 	}
@@ -213,11 +216,11 @@ void HashManager::hashDone(const string& aFileName, uint32_t aTimeStamp, const T
 	fire(HashManagerListener::TTHDone(), aFileName, tth.getRoot());
 
 	if(speed > 0) {
-		char buf[8024];
+		char buf[4024];
 		sprintf(buf,_("Finished hashing: %s (%s at %s/s)"),Util::addBrackets(aFileName).c_str(),Util::formatBytes(size).c_str(),Util::formatBytes(speed).c_str());
 		LogManager::getInstance()->message(string(buf));
 	} else if(size >= 0) {
-		char buf[6024];
+		char buf[4024];
 		sprintf(buf,_("Finished hashing: %s (%s %%)"), Util::addBrackets(aFileName).c_str(),Util::formatBytes(size).c_str());
 		LogManager::getInstance()->message(string(buf));
 	} else {
@@ -841,7 +844,7 @@ int HashManager::Hasher::run() {
 
 				if( (SETTING(SFV_CHECK) == true) && xcrc32 && xcrc32->getValue() != sfv.getCRC()) {
 					LogManager::getInstance()->message(Util::addBrackets(fname)+_(" not shared; calculated CRC32 does not match the one found in SFV file."), LogManager::Sev::HIGH);
-				} if (streamstore.loadTree(Util::getFilePath(fname)+PATH_SEPARATOR_STR+fname, tt, -1)) {
+				} if (streamstore.loadTree(/*Util::getFilePath(fname)+PATH_SEPARATOR_STR+*/fname, tt, -1)) {
 					printf ("%s: hash [%s] was loaded from Xattr.\n", fname.c_str(), tt.getRoot().toBase32().c_str());
 					HashManager::getInstance()->hashDone(fname, (int64_t)timestamp, tt, speed, size);
 				}
