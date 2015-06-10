@@ -15,6 +15,7 @@ zlib
 libbz2
 libssl
 libGeoIP >= 1.4.7
+libXss # for idle detection
 --------------
 optional:
  libtar (Note: For Backup/Restore options )

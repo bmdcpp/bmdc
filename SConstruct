@@ -24,6 +24,8 @@ LIB_IS_NATPMP = True
 LIB_IS_GEO = False
 LIB_IS_TAR = False
 LIB_HAVE_XATTR = False
+# For Idle Detection
+LIB_HAVE_XSS = True
 # , '-Werror' ,'-Wfatal-errors'
 #'-fno-stack-protector',
 # #,'-fpermissive' ],
@@ -347,6 +349,10 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if LIB_HAVE_XATTR:
 		env.Append(LIBS='attr')
 		env.Append(LINKFLAGS='-lattr')
+		
+	if LIB_HAVE_XSS:
+		env.Append(LIBS='Xss')
+		env.Append(LINKFLAGS='-lXss')	
 
 	env.ParseConfig('pkg-config --libs gtk+-3.0')
 

@@ -48,6 +48,11 @@
 #ifdef HAVE_APPINDCATOR
 	#include <libappindicator/app-indicator.h>
 #endif
+//Note Idle detection
+#include <X11/extensions/scrnsaver.h>
+#include <gdk/gdkx.h>
+
+
 
 class BookEntry;
 class SearchEntry;
@@ -316,6 +321,10 @@ class MainWindow:
 		virtual void on(dcpp::LogManagerListener::Message, time_t t, const std::string &m,int sev) noexcept;
 		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) noexcept;
 		virtual void on(dcpp::TimerManagerListener::Second, uint64_t ticks) noexcept;
+		
+		//lib64x11-static-devel
+		virtual void on(dcpp::TimerManagerListener::Minute, uint64_t ticks) noexcept;
+		
 		//Partial filelist
 		virtual void on(dcpp::QueueManagerListener::PartialList, const dcpp::HintedUser& aUser, const std::string& text) noexcept;
 

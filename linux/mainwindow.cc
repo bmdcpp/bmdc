@@ -98,8 +98,7 @@ const char* MainWindow::icons[(MainWindow::IconsToolbar)END][3] =
 
 MainWindow::MainWindow():
 	Entry(Entry::MAIN_WINDOW, "mainwindow"),
-	transfers(NULL), lastUpdate(0),
-	lastUp(0), lastDown(0),
+	transfers(NULL), 
 	minimized(FALSE),
 #ifdef GTK_DISABLE_DEPRECATED
 #if !GTK_CHECK_VERSION(3,14,0)		
@@ -108,6 +107,8 @@ MainWindow::MainWindow():
 #else
 	timer(0),
 #endif
+	lastUpdate(0),
+	lastUp(0), lastDown(0),
 	statusFrame(1)
 {
 	string tmp;
@@ -2946,6 +2947,43 @@ if (SETTING(ALWAYS_TRAY) && !downloadSpeed.empty() && !uploadSpeed.empty())
 	typedef Func4<MainWindow, string, uint64_t, size_t, uint32_t> FX;
 	FX *funcx = new FX(this, &MainWindow::updateStats_gui, file, bytes, files, GET_TICK());
 	WulforManager::get()->dispatchGuiFunc(funcx);
+}
+
+void MainWindow::on(dcpp::TimerManagerListener::Minute, uint64_t ticks) noexcept
+{
+	dcdebug("Detection Part 1");
+	bool _idleDetectionPossible;
+	XScreenSaverInfo *_mit_info;
+
+	int event_base, error_base;
+	Display* display = gdk_x11_display_get_xdisplay(gdk_display_get_default());
+	if(XScreenSaverQueryExtension(display   , &event_base, &error_base))
+			_idleDetectionPossible = true;
+	else
+			_idleDetectionPossible = false;
+	_mit_info = XScreenSaverAllocInfo();
+			
+	XScreenSaverQueryInfo(display, DefaultRootWindow(display), _mit_info);
+			
+if(_idleDetectionPossible) {
+	dcdebug("Detection Part 2");
+		long idlesecs = (_mit_info->idle/1000); // in sec
+		//TODO: not hardcode (1000 ms = 1s)
+		if (idlesecs > 60*5) {
+			dcdebug("Idle: Away Mode on");
+				if(!dcpp::Util::getAway()) {//dont set away twice
+					
+					dcpp::Util::setAway(true);
+					dcpp::Util::setManualAway(true);
+					
+					setStatusOfIcons(AWAY,true);
+
+					typedef Func2<MainWindow, std::string,time_t> FX;
+					FX *funcx = new FX(this, &MainWindow::setMainStatus_gui,_("Away mode on"),time(NULL));
+					WulforManager::get()->dispatchGuiFunc(funcx);
+			}
+		}
+	}
 }
 
 void MainWindow::onTTHFileDialog_gui(GtkWidget *widget, gpointer data)

@@ -151,7 +151,6 @@ bool HashManager::StreamStore::saveTree(const string& p_filePath, const TigerTre
     setCheckSum(h);
     {
         const size_t sz = sizeof(TTHStreamHeader) + p_Tree.getLeaves().size() * TTHValue::BYTES;
-        //std::unique_ptr<uint8_t[]> buf(new uint8_t[sz]);
         uint8_t *buf = new uint8_t[sz];
 
         memcpy(buf/*.get()*/, &h, sizeof(TTHStreamHeader));
