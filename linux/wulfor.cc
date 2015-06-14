@@ -51,6 +51,7 @@ using namespace std;
 using namespace dcpp;
 
 static bool m_crash = false;
+
 void handle_crash(int sig)
 {
     if(m_crash)

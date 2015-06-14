@@ -66,17 +66,7 @@ void SearchEntry::addBookEntry_gui(BookEntry *entry)
 	entry->show();
 	books.push_back(entry);
 }
-/*
-GtkWidget *SearchEntry::currentPage_gui()
-{
-	int pageNum = gtk_notebook_get_current_page(GTK_NOTEBOOK(getWidget("sebook")));
 
-	if (pageNum == -1)
-		return NULL;
-	else
-		return gtk_notebook_get_nth_page(GTK_NOTEBOOK(getWidget("sebook")), pageNum);
-}
-*/
 void SearchEntry::raisePage_gui(GtkWidget *page)
 {
 	int num = gtk_notebook_page_num(GTK_NOTEBOOK(getWidget("sebook")), page);
@@ -119,9 +109,9 @@ BookEntry* SearchEntry::findBookEntry(const EntryType type, const string &id)
 	return dynamic_cast<BookEntry*>(entry);
 }
 
-void SearchEntry::showBook(Entry::EntryType type,BookEntry *book)
+void SearchEntry::showBook(/*Entry::EntryType type,*/ BookEntry *book)
 {
-	BookEntry *entry = findBookEntry(type);
+	BookEntry *entry = findBookEntry(Entry::SEARCH);
 
 	if(entry == NULL)
 	{

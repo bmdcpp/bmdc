@@ -158,8 +158,7 @@ void WulforManager::deleteEntry_gui(Entry *entry)
 
 	// Remove the bookentry from the list.
 	g_rw_lock_writer_lock(&entryMutex);
-//	if (entries.find(id) != entries.end())
-		entries.erase(id);
+	entries.erase(id);
 	g_rw_lock_writer_unlock(&entryMutex);
 
 	delete entry;

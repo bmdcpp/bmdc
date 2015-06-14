@@ -24,13 +24,12 @@ LIB_IS_NATPMP = True
 LIB_IS_GEO = False
 LIB_IS_TAR = False
 LIB_HAVE_XATTR = False
-# For Idle Detection
+# For Idle Detection, Enabled by defualt
 LIB_HAVE_XSS = True
 # , '-Werror' ,'-Wfatal-errors'
 #'-fno-stack-protector',
 # #,'-fpermissive' ],
 #,'-Weffc++'
-# ,'-DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED','-DGSEAL_ENABLE'
 BUILD_FLAGS = {#'-Wno-unused-parameter','-Wno-unused-value',
 	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib','-ldl', '-pipe','-DUSE_STACKTRACE'],
 	'debug'   : ['-O1','-g', '-ggdb', '-Wall', '-D_DEBUG','-fpermissive'],
@@ -143,6 +142,8 @@ env['build_path'] = BUILD_PATH + env['mode'] + '/'
 
 if os.environ.has_key('CXX'):
 	env['CXX'] = os.environ['CXX']
+	if(os.environ['CXX'] == 'clang'):
+		env.Append( CPPPATH ='/usr/include/')
 else:
 	print 'CXX env variable is not set, attempting to use g++'
 	env['CXX'] = 'g++'
@@ -158,6 +159,9 @@ if os.environ.has_key('LDFLAGS'):
 
 if os.environ.has_key('CFLAGS'):
 	env['CFLAGS'] = os.environ['CFLAGS'].split()
+
+if os.environ.has_key('CPPPATH'):
+	env['CPPPATH'] = os.environ['CPPPATH'].split()	
 
 env['CPPDEFINES'] = [] # Initialize as a list so Append doesn't concat strings
 
@@ -202,10 +206,19 @@ conf = env.Configure(
 # ----------------------------------------------------------------------
 
 if not 'install' in COMMAND_LINE_TARGETS:
-
-	if not conf.CheckCXXVersion(env['CXX'], 4, 1):
-		print 'Compiler version check failed. g++ 4.1 or later is needed'
+	if not conf.CheckCXXVersion(env['CXX'], 4, 1): 
+		print 'Compiler version check failed. g++ 4.6 or later is needed'
 		Exit(1)
+	elif env['CXX'] == 'clang':	
+		print 'Use clang compiler'
+		env.Append(CXXFLAGS = ["-I/usr/include/"])
+		env.Append(CFLAGS = '-I/usr/include/')
+		env.Append( CPPPATH ='/usr/include/')
+	#if not conf.CheckCC():
+	#	print "C Compiler dont find in your path (gcc or clang)"
+
+	#if not conf.CheckCXX():
+	#	print "C++ Compiler dont find in your path (g++ or clang++)"
 
 	if not conf.CheckPKGConfig():
 		print '\tpkg-config not found.'
@@ -217,7 +230,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		Exit(1)
 
 	if not conf.CheckHeader('time.h'):
-		Exit(1)
+		 Exit(1)
 
 	if not conf.CheckHeader('signal.h'):
 		Exit(1)

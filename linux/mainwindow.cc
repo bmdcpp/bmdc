@@ -2957,10 +2957,11 @@ void MainWindow::on(dcpp::TimerManagerListener::Minute, uint64_t ticks) noexcept
 
 	int event_base, error_base;
 	Display* display = gdk_x11_display_get_xdisplay(gdk_display_get_default());
-	if(XScreenSaverQueryExtension(display   , &event_base, &error_base))
+	if(XScreenSaverQueryExtension(display, &event_base, &error_base))
 			_idleDetectionPossible = true;
 	else
 			_idleDetectionPossible = false;
+	
 	_mit_info = XScreenSaverAllocInfo();
 			
 	XScreenSaverQueryInfo(display, DefaultRootWindow(display), _mit_info);

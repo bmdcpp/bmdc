@@ -93,7 +93,9 @@ class Hub:
 		void getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, std::string &fore, std::string &back, bool &bold, bool &italic);
 		GtkTextTag* createTag_gui(const std::string &tagname, Tag::TypeTag type);
 		void addStatusMessage_gui(std::string message, Msg::TypeMsg typemsg, Sound::TypeSound sound, Notify::TypeNotify notify);
+public:
 		void nickToChat_gui(const std::string &nick);
+private:		
 		void addFavoriteUser_gui(dcpp::StringMap params);
 		void removeFavoriteUser_gui(dcpp::StringMap params);
 		//BMDC++

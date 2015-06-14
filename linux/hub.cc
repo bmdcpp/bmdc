@@ -46,6 +46,8 @@
 #include "WulforUtil.hh"
 #include "version.hh"
 
+//#include "UserMenu.hh"
+
 using namespace std;
 using namespace dcpp;
 
@@ -93,7 +95,7 @@ Hub::Hub(const string &address, const string &encoding):
 												faventry->get(SettingsManager::HUB_UL_SIZE,SETTING(HUB_UL_SIZE)),
 												faventry->get(SettingsManager::HUB_UL_VISIBLE,SETTING(HUB_UL_VISIBLE)));
 	}else{
-		//maybe usefull also disabling?
+		//Maybe usefull also disabling?
 		nickView.restoreSettings(SETTING(HUB_UL_ORDER),SETTING(HUB_UL_SIZE),SETTING(HUB_UL_VISIBLE));
 	}
 
