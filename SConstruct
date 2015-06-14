@@ -144,6 +144,7 @@ if os.environ.has_key('CXX'):
 	env['CXX'] = os.environ['CXX']
 	if(os.environ['CXX'] == 'clang'):
 		env.Append( CPPPATH ='/usr/include/')
+		env.Append( CXXFLAGS ='-Wno-overloaded-virtual')
 else:
 	print 'CXX env variable is not set, attempting to use g++'
 	env['CXX'] = 'g++'
@@ -211,7 +212,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		Exit(1)
 	elif env['CXX'] == 'clang':	
 		print 'Use clang compiler'
-		env.Append(CXXFLAGS = ["-I/usr/include/"])
+		env.Append(CXXFLAGS = ["-I/usr/include/",'-Wno-overloaded-virtual'])
 		env.Append(CFLAGS = '-I/usr/include/')
 		env.Append( CPPPATH ='/usr/include/')
 	#if not conf.CheckCC():

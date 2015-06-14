@@ -143,7 +143,7 @@ private:
 							}
 						}
 					}
-					sleep(0.0001);
+					sleep(0);
 				}
 			}
 			stop = true;
