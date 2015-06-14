@@ -32,7 +32,7 @@ static const std::string CORAL_SUFFIX = ".nyud.net";
 
 HttpConnection::HttpConnection(bool coralize, const string& aUserAgent) :
 userAgent(aUserAgent),
-port(-1),
+port(80),
 size(-1),
 done(0),
 connState(CONN_UNKNOWN),
@@ -119,9 +119,6 @@ void HttpConnection::prepareRequest(RequestType type) {
 		}
 
 	}
-
-	if(port == -1)
-		port = 80;
 
 	if(userAgent.empty())
 		userAgent = dcpp::fullVersionString;

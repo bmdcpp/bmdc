@@ -489,7 +489,7 @@ if(WGETB("use-highlighting")) {//maybe hub-based?
 			color = "#A52A2A";//another red
 			AVManager::AVEntry entry = AVManager::getInstance()->getEntryByNick(nick);
 			if(entry.share == size) {
-				color = "red";//hardcode for now @ if size and nick is ok
+				color = "red"; //hardcode for now @ if size and nick is ok
 			}
 		}
 
@@ -501,10 +501,7 @@ if(WGETB("use-highlighting")) {//maybe hub-based?
 
 		if(strcmp(title,_("Shared")) == 0)
 		{
-			if (size >= 0)
-			{
-				sizeString = dcpp::Util::formatBytes(size);
-			}
+			sizeString = dcpp::Util::formatBytes(size);
 			g_object_set(cell, "text", sizeString.c_str(), NULL);
 		}
 }
