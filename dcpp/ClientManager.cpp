@@ -522,9 +522,6 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 					isOk = true;
 				else
 					isOk = (inet_addr(ip.c_str()) != INADDR_NONE);
-				
-				if(port == -1)
-					return;
 				//port should be number	
 				if( port < 1 || port > 65535)
 							return;
