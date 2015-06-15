@@ -16,6 +16,7 @@ Build-Depends:
  libnotify-dev,
  libgeoip-dev,
  libtar-dev,
+ libxss-dev,
  bzr
 Homepage: http://launchpad.net/bmdc++/
 Standards-Version: 3.9.2
