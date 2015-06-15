@@ -39,6 +39,9 @@ class DownloadManager : public Speaker<DownloadManagerListener>,
 	private UserConnectionListener, private TimerManagerListener,
 	public Singleton<DownloadManager>
 {
+private:
+	using UserConnectionListener::on;
+	using TimerManagerListener::on;	
 public:
 
 	/** @internal */

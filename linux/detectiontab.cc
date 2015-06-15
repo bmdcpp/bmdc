@@ -525,8 +525,6 @@ void DetectionTab::onRemoveAct(GtkWidget *widget , gpointer data)
 
 		if(SETTING(CONFIRM_HUB_REMOVAL))
 		{
-//			#pragma GCC diagnostic push
-//			#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 			GtkWindow* parent = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
 			GtkWidget* dialog = gtk_message_dialog_new(parent,
 				GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
@@ -540,7 +538,6 @@ void DetectionTab::onRemoveAct(GtkWidget *widget , gpointer data)
 
 				if (response != GTK_RESPONSE_YES)
 					return;
-				#pragma GCC diagnostic pop	
 		}
 
 		gint id = dt->actionView.getValue<gint>(&iter, N_("ID"));
@@ -1702,7 +1699,7 @@ int DetectionTab::save_combo(GtkWidget *widget)
     GtkTreeIter iter;
     GtkTreeModel *model;
     gchar *str;
-    gint ints;
+    gint ints = 0;
     if(!GTK_IS_COMBO_BOX(combo))
             return 0;
 

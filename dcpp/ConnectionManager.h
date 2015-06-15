@@ -100,6 +100,9 @@ class ConnectionManager : public Speaker<ConnectionManagerListener>,
 	public UserConnectionListener, TimerManagerListener,
 	public Singleton<ConnectionManager>
 {
+private:
+	using UserConnectionListener::on;
+	using TimerManagerListener::on;	
 public:
 	void nmdcExpect(const string& aNick, const string& aMyNick, const string& aHubUrl) {
 		expectedConnections.add(aNick, aMyNick, aHubUrl);

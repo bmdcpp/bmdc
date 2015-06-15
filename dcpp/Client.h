@@ -45,6 +45,11 @@ class Client :
 	protected TimerManagerListener,
 	public HubSettings
 {
+// for clang	
+private:
+	using BufferedSocketListener::on;
+	using TimerManagerListener::on;
+// end	
 public:
 	virtual void connect();
 	virtual void disconnect(bool graceless);

@@ -84,6 +84,10 @@ struct Plugin {
 class PluginManager : public Singleton<PluginManager>, private TimerManagerListener,
 	private ClientManagerListener, private QueueManagerListener, private SettingsManagerListener
 {
+private:
+	using ClientManagerListener::on;
+	using QueueManagerListener::on;
+	using SettingsManagerListener::on;	
 public:
 	PluginManager();
 	~PluginManager();

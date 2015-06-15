@@ -83,6 +83,10 @@ class QueueLoader;
 class QueueManager : public Singleton<QueueManager>, public Speaker<QueueManagerListener>, private TimerManagerListener,
 	private SearchManagerListener, private ClientManagerListener
 {
+private:
+	using SearchManagerListener::on;
+	using ClientManagerListener::on;
+	using TimerManagerListener::on;	
 public:
 	typedef list<QueueItemPtr> QueueItemList;
 

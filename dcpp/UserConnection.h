@@ -35,6 +35,10 @@ namespace dcpp {
 class UserConnection : public PluginEntity<ConnectionData>, public Speaker<UserConnectionListener>,
 	private BufferedSocketListener, public Flags, private CommandHandler<UserConnection>
 {
+// for clang	
+private:
+	using BufferedSocketListener::on;
+//end	
 public:
 	friend class ConnectionManager;
 

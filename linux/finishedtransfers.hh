@@ -35,6 +35,8 @@ class FinishedTransfers:
 	public BookEntry,
 	public dcpp::FinishedManagerListener
 {
+	private:	
+		using dcpp::FinishedManagerListener::on;
 	public:
 		static FinishedTransfers* createFinishedUploads();
 		static FinishedTransfers* createFinishedDownloads();

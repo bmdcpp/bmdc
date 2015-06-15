@@ -30,6 +30,8 @@ class AboutConfig:
 	public BookEntry,
 	private dcpp::SettingsManagerListener	
 {
+	private:
+		using dcpp::SettingsManagerListener::on;
 	public:
 		AboutConfig();
 		virtual ~AboutConfig();

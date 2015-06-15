@@ -39,6 +39,7 @@ class FavoriteUsers:
 		virtual void show();
 
 	private:
+		using dcpp::FavoriteManagerListener::on;
 		typedef std::map<std::string, std::string> ParamMap;
 
 		// GUI functions

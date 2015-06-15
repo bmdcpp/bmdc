@@ -3,8 +3,8 @@ all:
 	scons PREFIX=${HOME}/BMDC/ release=1
 	scons install
 Release:
-	mkdir -p ${HOME}/BMDC/
-	scons PREFIX=${HOME}/BMDC/ release=1
+	mkdir -p ${HOME}/BMDC-release/
+	scons PREFIX=${HOME}/BMDC-release/ release=1
 	scons install
 Debug:
 	mkdir -p ${HOME}/BMDC/

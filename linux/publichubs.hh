@@ -39,8 +39,8 @@ class PublicHubs:
 		PublicHubs();
 		virtual ~PublicHubs();
 		virtual void show();
-
 	private:
+		using dcpp::FavoriteManagerListener::on;
 		// GUI functions
 		void buildHubList_gui();
 		void updateList_gui();

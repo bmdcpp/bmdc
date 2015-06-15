@@ -29,6 +29,8 @@ namespace dcpp {
 
 class HighlightManager : public Singleton<HighlightManager>, private SettingsManagerListener
 {
+private:
+	using SettingsManagerListener::on;	
 public:
 	HighlightManager();
 	~HighlightManager();

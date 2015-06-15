@@ -64,6 +64,11 @@ struct ShareLoader;
 class ShareManager : public Singleton<ShareManager>, private SettingsManagerListener, private Thread, private TimerManagerListener,
 	private HashManagerListener, private QueueManagerListener
 {
+private:
+	using SettingsManagerListener::on;
+	using TimerManagerListener::on;
+	using HashManagerListener::on;
+	using QueueManagerListener::on;	
 public:
 	/**
 	 * @param aDirectory Physical directory location

@@ -54,6 +54,7 @@ class PrivateMessage:
 		bool getIsOffline() const { return isSet(OFFLINE); }
 
 	private:
+		using dcpp::ClientManagerListener::on;
 		//@Status of PM's user
 		enum
 		{

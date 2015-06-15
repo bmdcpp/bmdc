@@ -33,6 +33,8 @@ namespace dcpp
 	class ThrottleManager :
 		public Singleton<ThrottleManager>, private TimerManagerListener
 	{
+	private:
+		using TimerManagerListener::on;	
 	public:
 
 		/*

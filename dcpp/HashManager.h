@@ -43,6 +43,8 @@ class HashLoader;
 class HashManager : public Singleton<HashManager>, public Speaker<HashManagerListener>,
 	private TimerManagerListener
 {
+private:
+	using TimerManagerListener::on;	
 public:
 
 	/** We don't keep leaves for blocks smaller than this... */

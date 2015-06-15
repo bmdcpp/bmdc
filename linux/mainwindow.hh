@@ -66,6 +66,10 @@ class MainWindow:
 	public dcpp::QueueManagerListener,
 	public dcpp::TimerManagerListener
 {
+	private:
+		using dcpp::LogManagerListener::on;
+		using dcpp::QueueManagerListener::on;
+		using dcpp::TimerManagerListener::on;
 	public:
 		MainWindow();
 		virtual ~MainWindow();

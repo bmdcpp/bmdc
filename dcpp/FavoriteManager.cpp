@@ -361,6 +361,8 @@ public:
 
 	}
 private:
+	//made clang happy
+	using SimpleXMLReader::CallBack::endTag;
 	HubEntryList& publicHubs;
 };
 

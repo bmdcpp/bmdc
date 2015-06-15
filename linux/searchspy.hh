@@ -42,6 +42,8 @@ class SearchSpy:
 		void preferences_gui();
 
 	private:
+		using dcpp::ClientManagerListener::on;
+		using dcpp::TimerManagerListener::on;
 		typedef UnMapIter::size_type SearchType;
 
 		// GUI functions

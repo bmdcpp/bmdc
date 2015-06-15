@@ -42,6 +42,8 @@ class MappingManager :
 	private Thread,
 	private TimerManagerListener
 {
+private:
+	using TimerManagerListener::on;	
 public:
 	/** add an implementation derived from the base Mapper class, passed as template parameter.
 	the first added mapper will be tried first, unless the "MAPPER" setting is not empty. */

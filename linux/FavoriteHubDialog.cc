@@ -43,7 +43,7 @@ static GtkWidget* createComboBoxWith3Options(const gchar* a,const gchar* b,const
 FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* = true */):
 	Entry(Entry::FAV_HUB),
 	p_entry(entry),
-	init(add), actionStore(NULL), actionSel(NULL)
+	actionStore(NULL), actionSel(NULL)
 {
 	mainDialog = gtk_dialog_new();
 	if(!p_entry->getServer().empty())

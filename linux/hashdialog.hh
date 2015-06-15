@@ -38,6 +38,7 @@ class Hash:
 		~Hash();
 
 	private:
+		using dcpp::TimerManagerListener::on;
 		// GUI functions
 		void updateStats_gui(std::string file, uint64_t bytes, size_t files, uint32_t tick);
 

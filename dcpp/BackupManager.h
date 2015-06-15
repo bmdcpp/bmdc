@@ -50,6 +50,9 @@ public:
 	virtual void on(TimerManagerListener::Minute, uint64_t aTick) noexcept;
 
 private:
+	using LogManagerListener::on;
+	using SettingsManagerListener::on;
+	using TimerManagerListener::on;
 	friend class Singleton<BackupManager>;
 
 	BackupManager() : stop(false), ui64LastBackUpTime(GET_TICK()) { TimerManager::getInstance()->addListener(this); }

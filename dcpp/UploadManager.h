@@ -53,6 +53,10 @@ struct WaitingUser {
 
 class UploadManager : private ClientManagerListener, private UserConnectionListener, public Speaker<UploadManagerListener>, private TimerManagerListener, public Singleton<UploadManager>
 {
+private:
+	using ClientManagerListener::on;
+	using UserConnectionListener::on;
+	using TimerManagerListener::on;	
 public:
 	/** @return Number of uploads. */
 	size_t getUploadCount() { Lock l(cs); return uploads.size(); }

@@ -31,7 +31,7 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	Entry(type, glade, id),
 	eventBox(NULL),	labelBox(NULL),
 	tabMenuItem(NULL), closeButton(NULL),
-	label(NULL), fItem(NULL),
+	label(NULL)/*, fItem(NULL)*/,
 	bCreated(true),
 	bold(false), urgent(false),
 	labelSize((glong)WGETI("size-label-box-bookentry")),
@@ -67,8 +67,8 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	#else
 	gtk_widget_set_margin_start(GTK_WIDGET(label),0);
 	gtk_widget_set_margin_end(GTK_WIDGET(label),0);
-	gtk_widget_set_margin_top(GTK_WIDGET(label),0.5);
-	gtk_widget_set_margin_bottom(GTK_WIDGET(label),0.5);
+	gtk_widget_set_margin_top(GTK_WIDGET(label),0);
+	gtk_widget_set_margin_bottom(GTK_WIDGET(label),0);
     #endif
     if(IsCloseButton || WGETB("use-close-button"))
      {

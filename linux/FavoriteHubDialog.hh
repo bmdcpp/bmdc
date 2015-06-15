@@ -52,7 +52,7 @@ private:
 		bool showErrorDialog_gui(const string &description);
 
 		FavoriteHubEntry* p_entry; //@: The Fav Entry pointer
-		bool init; //@: new or edit?
+		//bool init; //@: new or edit?
 		//@: The Kick/Ban Action part
 		GtkTreeStore *actionStore;
 		TreeView actionView;

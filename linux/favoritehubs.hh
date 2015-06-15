@@ -36,6 +36,9 @@ class FavoriteHubs:
 	public dcpp::FavoriteManagerListener,
 	public dcpp::ClientManagerListener
 {
+	private:
+		using dcpp::FavoriteManagerListener::on;
+		using dcpp::ClientManagerListener::on;
 	public:
 		FavoriteHubs();
 		virtual ~FavoriteHubs();

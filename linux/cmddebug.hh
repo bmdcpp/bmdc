@@ -39,6 +39,9 @@ class cmddebug:
 	private dcpp::DebugManagerListener,
     public dcpp::Thread
 {
+	private:
+		using dcpp::ClientManagerListener::on;
+		using dcpp::DebugManagerListener::on;
     public:
         cmddebug();
         virtual ~cmddebug();
@@ -106,7 +109,7 @@ class cmddebug:
 	GtkTextIter iter;
 	bool scrollToBottom;
 	GtkTextMark *cmdMark;
-	GtkListStore *store;
+//	GtkListStore *store;
 	Iters iters;
 
 	std::string getType(unsigned int type,unsigned int dir)

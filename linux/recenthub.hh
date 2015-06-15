@@ -40,6 +40,7 @@ class RecentHubs:
 		virtual void show();
 
 	private:
+		using dcpp::FavoriteManagerListener::on;
 		typedef std::map<std::string, std::string> ParamMap;
 
 		bool findRecent_gui(const std::string &cid, GtkTreeIter *iter);

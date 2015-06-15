@@ -32,6 +32,8 @@
 class SystemLog:
 	public BookEntry, private dcpp::LogManagerListener
 {
+	private:
+		using dcpp::LogManagerListener::on;
 	public:
 		SystemLog();
 		virtual ~SystemLog();

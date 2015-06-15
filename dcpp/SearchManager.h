@@ -36,6 +36,8 @@ class SocketException;
 class SearchManager : public Speaker<SearchManagerListener>, public Singleton<SearchManager>, public Thread,
 private TimerManagerListener
 {
+private:
+	using TimerManagerListener::on;	
 public:
 	enum SizeModes {
 		SIZE_DONTCARE = 0x00,

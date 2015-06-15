@@ -49,6 +49,10 @@ class Hub:
 	public dcpp::FavoriteManagerListener,
 	public dcpp::QueueManagerListener
 {
+	private:
+		using dcpp::ClientListener::on;
+		using dcpp::FavoriteManagerListener::on;
+		using dcpp::QueueManagerListener::on;	
 	public:
 		Hub(const std::string &address, const std::string &encoding);
 		virtual ~Hub();

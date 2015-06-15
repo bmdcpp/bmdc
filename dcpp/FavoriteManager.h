@@ -45,6 +45,9 @@ class SimpleXML;
 class FavoriteManager : public Speaker<FavoriteManagerListener>, private HttpConnectionListener, public Singleton<FavoriteManager>,
 	private SettingsManagerListener, private ClientManagerListener
 {
+private:
+	using SettingsManagerListener::on;
+	using ClientManagerListener::on;	
 public:
 // Public Hubs
 	enum HubTypes {

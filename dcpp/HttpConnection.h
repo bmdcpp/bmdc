@@ -29,6 +29,10 @@ using std::string;
 
 class HttpConnection : BufferedSocketListener, public Speaker<HttpConnectionListener>
 {
+// for clang	
+private:
+	using BufferedSocketListener::on;
+//end	
 public:
 	HttpConnection(bool coralize = true, const string& aUserAgent = Util::emptyString);
 	virtual ~HttpConnection();

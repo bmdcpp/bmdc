@@ -34,6 +34,7 @@ struct HttpDownload : private HttpConnectionListener {
 	~HttpDownload();
 
 private:
+	using HttpConnectionListener::on;
 	HttpConnection c;
 	string buf;
 	CompletionFunc f;

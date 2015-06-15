@@ -49,6 +49,10 @@ class ClientManager : public Speaker<ClientManagerListener>,
 	private ClientListener, public Singleton<ClientManager>,
 	private TimerManagerListener, public FakeChecker
 {
+//made clang happy
+private:
+	using ClientListener::on;
+	using TimerManagerListener::on;	
 public:
 	typedef unordered_set<Client*> ClientList;
 	typedef unordered_map<CID, UserPtr> UserMap;

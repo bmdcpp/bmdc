@@ -45,6 +45,8 @@ class Search:
 		void putValue_gui(const std::string &str, int64_t size, dcpp::SearchManager::SizeModes mode, dcpp::SearchManager::TypeModes type);
 
 	private:
+		using dcpp::SearchManagerListener::on;
+		using dcpp::ClientManagerListener::on;
 		// Keep these and the items in .glade file in same order, otherwise it will break
 		typedef enum
 		{

@@ -39,6 +39,7 @@ class DownloadQueue:
 		virtual void show();
 
 	private:
+		using dcpp::QueueManagerListener::on;
 		// GUI functions
 		void buildDynamicMenu_gui();
 		void setStatus_gui(std::string text, std::string statusItem);

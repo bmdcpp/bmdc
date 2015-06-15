@@ -35,6 +35,10 @@ namespace dcpp {
 class FinishedManager : public Singleton<FinishedManager>,
 	public Speaker<FinishedManagerListener>, private DownloadManagerListener, private UploadManagerListener, private QueueManagerListener
 {
+private:
+	using DownloadManagerListener::on;
+	using QueueManagerListener::on;
+	using UploadManagerListener::on;	
 public:
 	typedef unordered_map<string, FinishedFileItemPtr> MapByFile;
 	typedef unordered_map<HintedUser, FinishedUserItemPtr, User::Hash> MapByUser;
