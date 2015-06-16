@@ -2977,7 +2977,11 @@ if(_idleDetectionPossible) {
 					dcpp::Util::setAway(true);
 					dcpp::Util::setManualAway(true);
 					
-					setStatusOfIcons(AWAY,true);
+					//setStatusOfIcons(AWAY,true);
+					
+					typedef Func2<MainWindow, IconsToolbar ,bool> F2;
+					F2 *func = new F2(this, &MainWindow::setStatusOfIcons, AWAY,true);
+					WulforManager::get()->dispatchGuiFunc(func);
 
 					typedef Func2<MainWindow, std::string,time_t> FX;
 					FX *funcx = new FX(this, &MainWindow::setMainStatus_gui,_("Away mode on"),time(NULL));

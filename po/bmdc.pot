@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2015-06-15 13:54+0200\n"
+"POT-Creation-Date: 2015-06-16 14:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3049,7 +3049,7 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:3297 ui/settingsdialog.glade.ui:3313
 #: ui/settingsdialog.glade.ui:3357 linux/hashdialog.cc:77
 #: linux/mainwindow.cc:1060 linux/mainwindow.cc:1061 linux/mainwindow.cc:2908
-#: linux/mainwindow.cc:2910 linux/mainwindow.cc:3252 linux/treeview.cc:225
+#: linux/mainwindow.cc:2910 linux/mainwindow.cc:3256 linux/treeview.cc:225
 msgid "s"
 msgstr ""
 
@@ -3182,7 +3182,7 @@ msgid " items"
 msgstr ""
 
 #: linux/hashdialog.cc:68 linux/hashdialog.cc:77 linux/hashdialog.cc:86
-#: linux/mainwindow.cc:3252 linux/mainwindow.cc:3261
+#: linux/mainwindow.cc:3256 linux/mainwindow.cc:3265
 msgid " left"
 msgstr ""
 
@@ -3230,7 +3230,7 @@ msgstr ""
 msgid "*** T E S T ***"
 msgstr ""
 
-#: linux/hashdialog.cc:69 linux/hashdialog.cc:81 linux/mainwindow.cc:3256
+#: linux/hashdialog.cc:69 linux/hashdialog.cc:81 linux/mainwindow.cc:3260
 msgid "-:--:-- left"
 msgstr ""
 
@@ -3267,7 +3267,7 @@ msgstr ""
 msgid "1"
 msgstr ""
 
-#: linux/mainwindow.cc:3281
+#: linux/mainwindow.cc:3285
 msgid "100% Done"
 msgstr ""
 
@@ -3469,7 +3469,7 @@ msgstr ""
 msgid "Away Message:"
 msgstr ""
 
-#: linux/mainwindow.cc:2411 linux/mainwindow.cc:2983
+#: linux/mainwindow.cc:2411 linux/mainwindow.cc:2987
 msgid "Away mode on"
 msgstr ""
 
@@ -4703,7 +4703,7 @@ msgstr ""
 msgid "Select Font"
 msgstr ""
 
-#: linux/mainwindow.cc:3004
+#: linux/mainwindow.cc:3008
 msgid "Select file to Get TTH"
 msgstr ""
 
@@ -5006,11 +5006,11 @@ msgstr ""
 msgid "Text: "
 msgstr ""
 
-#: linux/mainwindow.cc:3133
+#: linux/mainwindow.cc:3137
 msgid "The GeoIP database could not be updated...v"
 msgstr ""
 
-#: linux/mainwindow.cc:3128
+#: linux/mainwindow.cc:3132
 msgid ""
 "The GeoIP database has been successfully updated; restart DC++ to apply....v"
 msgstr ""
@@ -5117,7 +5117,7 @@ msgstr ""
 msgid "Updated frame search"
 msgstr ""
 
-#: linux/mainwindow.cc:3118
+#: linux/mainwindow.cc:3122
 msgid "Updating the GeoIP database...v"
 msgstr ""
 
