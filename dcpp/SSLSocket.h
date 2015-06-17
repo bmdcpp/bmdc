@@ -48,6 +48,7 @@ public:
 class SSLSocket : public Socket 
 {
 public:
+	using Socket::connect;
 	SSLSocket(CryptoManager::SSLContext context, bool allowUntrusted, const string& expKP);
 	/** Creates an SSL socket without any verification */
 	SSLSocket(CryptoManager::SSLContext context);

@@ -2951,7 +2951,14 @@ if (SETTING(ALWAYS_TRAY) && !downloadSpeed.empty() && !uploadSpeed.empty())
 
 void MainWindow::on(dcpp::TimerManagerListener::Minute, uint64_t ticks) noexcept
 {
-	dcdebug("Detection Part 1");
+	typedef Func0<MainWindow> F0;
+	F0 *func = new F0(this,&MainWindow::onIdle);
+	WulforManager::get()->dispatchGuiFunc(func);
+}
+
+void MainWindow::onIdle()
+{	
+	g_print("Detection Part 1");
 	bool _idleDetectionPossible;
 	XScreenSaverInfo *_mit_info;
 
@@ -2967,25 +2974,19 @@ void MainWindow::on(dcpp::TimerManagerListener::Minute, uint64_t ticks) noexcept
 	XScreenSaverQueryInfo(display, DefaultRootWindow(display), _mit_info);
 			
 if(_idleDetectionPossible) {
-	dcdebug("Detection Part 2");
+	g_print("Detection Part 2");
 		long idlesecs = (_mit_info->idle/1000); // in sec
 		//TODO: not hardcode (1000 ms = 1s)
 		if (idlesecs > 60*5) {
-			dcdebug("Idle: Away Mode on");
+			g_print("Idle: Away Mode on");
 				if(!dcpp::Util::getAway()) {//dont set away twice
 					
 					dcpp::Util::setAway(true);
 					dcpp::Util::setManualAway(true);
 					
-					//setStatusOfIcons(AWAY,true);
-					
-					typedef Func2<MainWindow, IconsToolbar ,bool> F2;
-					F2 *func = new F2(this, &MainWindow::setStatusOfIcons, AWAY,true);
-					WulforManager::get()->dispatchGuiFunc(func);
+					setStatusOfIcons(AWAY,true);
+					setMainStatus_gui(_("Away mode on"));
 
-					typedef Func2<MainWindow, std::string,time_t> FX;
-					FX *funcx = new FX(this, &MainWindow::setMainStatus_gui,_("Away mode on"),time(NULL));
-					WulforManager::get()->dispatchGuiFunc(funcx);
 			}
 		}
 	}

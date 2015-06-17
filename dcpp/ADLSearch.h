@@ -114,8 +114,9 @@ private:
 	bool searchAll(const string& s);
 	//BMDC++
 	bool SearchAllTTH(const TTHValue& root) {
-		if(!(&root)) { return false; }
-		return TTHValue(root).toBase32() == searchString;
+		//if(!(&root)) { return false; }
+		//return TTHValue(root).toBase32() == searchString;
+		return (&root)->toBase32() == searchString;
 	}
 	//END
 };

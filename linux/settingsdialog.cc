@@ -2000,20 +2000,21 @@ void Settings::onAboutPlugin_gui(GtkWidget *widget, gpointer data)
 	if(gtk_tree_selection_get_selected(s->plselection, NULL, &iter))
 	{
 		string sel = s->plView.getString(&iter, "Index");
-                auto meta = PluginManager::getInstance()->getPlugin(sel);
-                string
-                about = "Name: " + meta.name + "\n";
-                about += "Author: " + meta.author + "\n";
-                about += "Description: " + meta.description + "\n";
-                about += "Web: " + meta.website + "\n";
-		GtkDialog *dialog;
-		dialog = GTK_DIALOG(gtk_message_dialog_new_with_markup(GTK_WINDOW(s->getContainer()),
-		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_MESSAGE_INFO,
-		GTK_BUTTONS_CLOSE,
-		about.c_str()));
-		gtk_dialog_run(dialog);
-		gtk_widget_hide(GTK_WIDGET(dialog));
+        auto meta = PluginManager::getInstance()->getPlugin(sel);
+        string
+                about = _("Name: ") + meta.name + "\n";
+                about += _("Author: ") + meta.author + "\n";
+                about += _("Description: ") + meta.description + "\n";
+                about += _("Web: ") + meta.website + "\n";
+			
+			GtkDialog *dialog = GTK_DIALOG(gtk_message_dialog_new_with_markup(GTK_WINDOW(s->getContainer()),
+			GTK_DIALOG_DESTROY_WITH_PARENT,
+			GTK_MESSAGE_INFO,
+			GTK_BUTTONS_CLOSE,"%s",
+			about.c_str()));
+			gtk_dialog_run(dialog);
+			
+			gtk_widget_hide(GTK_WIDGET(dialog));
 	}
 }
 
@@ -5037,7 +5038,7 @@ void Settings::onColorText_gui(GtkWidget *widget, gpointer data)
 	Settings *s = (Settings *)data;
 	GtkWidget *dialog = gtk_color_chooser_dialog_new (_("Color Select"),GTK_WINDOW(s->getContainer()));
 	GdkRGBA color;
-	if(gdk_rgba_parse(&color,gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryHGColorBack")))));
+	if(gdk_rgba_parse(&color,gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryHGColorBack")))))
 		gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog),&color);
 
 	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
@@ -5056,7 +5057,7 @@ void Settings::onColorBack_gui(GtkWidget *widget, gpointer data)
 	Settings *s = (Settings *)data;
 	GtkWidget *dialog = gtk_color_chooser_dialog_new (_("Color Select"),GTK_WINDOW(s->getContainer()));
 	GdkRGBA color;
-	if(gdk_rgba_parse(&color,gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryHGColorBack")))));
+	if(gdk_rgba_parse(&color,gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryHGColorBack")))))
 		gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog),&color);
 
 	gint response = gtk_dialog_run(GTK_DIALOG(dialog));

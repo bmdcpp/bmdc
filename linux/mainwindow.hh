@@ -171,6 +171,7 @@ class MainWindow:
 		typedef std::vector<ParamPair> ListParamPair;
 		static const char* icons[(MainWindow::IconsToolbar)END][3];
 		// GUI functions
+		void onIdle();
 		void loadIcons_gui();
 		void showTransfersPane_gui();
 		void autoOpen_gui();

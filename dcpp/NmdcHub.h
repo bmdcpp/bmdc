@@ -29,6 +29,8 @@
 #include "Text.h"
 #include "Client.h"
 #include "HubUsersMap.h"
+#include "BufferedSocketListener.h"
+
 
 namespace dcpp {
 
@@ -39,6 +41,8 @@ class NmdcHub : public Client
 public:
 	using Client::send;
 	using Client::connect;
+	using TimerManagerListener::on;
+	using BufferedSocketListener::on;
 
 	virtual void connect(const OnlineUser& aUser, const string&);
 
@@ -141,12 +145,12 @@ private:
 	virtual void checkNick(string& aNick);
 	virtual bool v4only() const { return false; }
 	// TimerManagerListener
-	virtual void on(Second, uint64_t aTick) noexcept;
-	virtual void on(Minute, uint64_t aTick) noexcept;
+	void on(Second, uint64_t aTick) noexcept;
+	void on(Minute, uint64_t aTick) noexcept;
 
-	virtual void on(Connected) noexcept;
-	virtual void on(Line, const string& l) noexcept;
-	virtual void on(Failed, const string&) noexcept;
+	/*virtual */void on(Connected) noexcept;
+	/*virtual */void on(Line, const string& l) noexcept;
+	/*virtual */void on(Failed, const string&) noexcept;
 
 };
 
