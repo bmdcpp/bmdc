@@ -124,8 +124,8 @@ public:
 	void listen();
 	void disconnect() noexcept;
 
-	const uint16_t getPort() const;
-	const uint16_t getSecurePort() const;
+	uint16_t getPort() const;
+	uint16_t getSecurePort() const;
 
 private:
 
@@ -134,7 +134,7 @@ private:
 		Server(bool secure, const uint16_t& port_, const string& ip, const string& ipv6,bool nmdc_ = false);
 		virtual ~Server() { die = true; join(); }
 
-		const uint16_t getPort() const { return port; }
+		uint16_t getPort() const { return port; }
 
 	private:
 		virtual int run() noexcept;

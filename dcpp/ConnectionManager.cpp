@@ -222,13 +222,13 @@ void ConnectionManager::on(TimerManagerListener::Minute, uint64_t aTick) noexcep
 	}
 }
 
-const uint16_t ConnectionManager::getPort() const {
+uint16_t ConnectionManager::getPort() const {
 	if(server.get())
 		return server->getPort();
 	return 0;	
 }
 
-const uint16_t ConnectionManager::getSecurePort() const {
+uint16_t ConnectionManager::getSecurePort() const {
 	if(secureServer.get())
 		return secureServer->getPort();
 	return 0;	
