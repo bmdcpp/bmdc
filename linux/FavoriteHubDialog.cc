@@ -489,7 +489,7 @@ void FavoriteHubDialog::onCheckButtonToggled_gui(GtkToggleButton *button, gpoint
 		}
 }
 
-void FavoriteHubDialog::onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data)
+void FavoriteHubDialog::onToggledClicked_gui(GtkCellRendererToggle*, gchar *path, gpointer data)
 {
 		FavoriteHubDialog *fh = (FavoriteHubDialog *)data;
 		GtkTreeIter iter;

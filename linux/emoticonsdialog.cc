@@ -244,7 +244,7 @@ void EmoticonsDialog::showEmotDialog_gui()
 
 	/* create popup dialog */
 	dialog = gtk_window_new(GTK_WINDOW_POPUP);
-	gtk_widget_set_name(dialog,"EmoticonsDialog");//name to CSS'ing
+	gtk_widget_set_name(dialog,"EmoticonsDialog");//name for CSS'ing
 
 	build();
 	position();
@@ -269,12 +269,6 @@ void EmoticonsDialog::build()
 		if ((++columns*rows) < (guint)sizetable) rows++;
 
 	/* set options dialog */
-//GdkRGBA color;//old
-//	string back = "#faddab";
-/*
-	if (gdk_rgba_parse (&color,back.c_str()))
-		gtk_widget_override_background_color(dialog, GTK_STATE_FLAG_NORMAL, &color);
-*/
 	GtkCssProvider *provider = gtk_css_provider_new ();
 	GdkDisplay *display = gdk_display_get_default ();
 	GdkScreen *screen = gdk_display_get_default_screen (display);
@@ -284,7 +278,7 @@ void EmoticonsDialog::build()
 														GTK_STYLE_PROVIDER(provider),
 														GTK_STYLE_PROVIDER_PRIORITY_USER);
 	g_object_unref (provider);
-/*-------*/
+	/*-------*/
 	/* create dialog body */
 	GtkWidget *frame = gtk_frame_new(NULL);
 	gtk_container_add(GTK_CONTAINER(dialog), frame);
@@ -386,7 +380,7 @@ void EmoticonsDialog::graber()
 		gtk_grab_add(dialog);
 }
 
-void EmoticonsDialog::onChat(GtkWidget *widget /*button*/, gpointer data /*this*/)
+void EmoticonsDialog::onChat(GtkWidget *widget , gpointer data /*this*/)
 {
 	EmoticonsDialog *ed = (EmoticonsDialog *) data;
 

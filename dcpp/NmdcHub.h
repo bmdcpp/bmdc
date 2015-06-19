@@ -41,9 +41,10 @@ class NmdcHub : public Client
 public:
 	using Client::send;
 	using Client::connect;
+#ifdef __clang__
 	using TimerManagerListener::on;
 	using BufferedSocketListener::on;
-
+#endif
 	virtual void connect(const OnlineUser& aUser, const string&);
 
 	virtual void hubMessage(const string& aMessage, bool /*thirdPerson*/ = false);

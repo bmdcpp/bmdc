@@ -142,7 +142,7 @@ env['build_path'] = BUILD_PATH + env['mode'] + '/'
 
 if os.environ.has_key('CXX'):
 	env['CXX'] = os.environ['CXX']
-	if(os.environ['CXX'] == 'clang'):
+	if(os.environ['CXX'] == 'clang++'):
 		env.Append( CPPPATH ='/usr/include/')
 		env.Append( CXXFLAGS ='-Wno-overloaded-virtual')
 else:
@@ -210,11 +210,13 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if not conf.CheckCXXVersion(env['CXX'], 4, 1): 
 		print 'Compiler version check failed. g++ 4.6 or later is needed'
 		Exit(1)
-	elif env['CXX'] == 'clang':	
+	elif env['CXX'] == 'clang++':	
 		print 'Use clang compiler'
-		env.Append(CXXFLAGS = ["-I/usr/include/",'-Wno-overloaded-virtual'])
+		env.Append(CXXFLAGS = ["-I/usr/include/",'-Wno-overloaded-virtual','-pthread'])
 		env.Append(CFLAGS = '-I/usr/include/')
 		env.Append( CPPPATH ='/usr/include/')
+		env.Append( LIBS = 'pthread')
+		env.Append( LINKFLAGS = '-lpthread')
 	#if not conf.CheckCC():
 	#	print "C Compiler dont find in your path (gcc or clang)"
 

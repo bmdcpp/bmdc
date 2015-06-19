@@ -109,7 +109,7 @@ BookEntry* SearchEntry::findBookEntry(const EntryType type, const string &id)
 	return dynamic_cast<BookEntry*>(entry);
 }
 
-void SearchEntry::showBook(/*Entry::EntryType type,*/ BookEntry *book)
+void SearchEntry::showBook(BookEntry *book)
 {
 	BookEntry *entry = findBookEntry(Entry::SEARCH);
 
@@ -154,7 +154,7 @@ void SearchEntry::removeBookEntry_gui(BookEntry *entry)
 	}
 }
 
-gboolean SearchEntry::onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean SearchEntry::onButtonReleasePage_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	gint width, height;
 	width = gdk_window_get_width(event->window);
@@ -172,7 +172,7 @@ gboolean SearchEntry::onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton 
 	return FALSE;
 }
 
-void SearchEntry::onCloseBookEntry_gui(GtkWidget *widget, gpointer data)
+void SearchEntry::onCloseBookEntry_gui(GtkWidget*, gpointer data)
 {
 	BookEntry *entry = (BookEntry *)data;
 	WulforManager::get()->getMainWindow()->getSearchEntry()->removeBookEntry_gui(entry);

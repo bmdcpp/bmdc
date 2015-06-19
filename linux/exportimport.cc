@@ -74,7 +74,7 @@ ExportDialog::~ExportDialog(){
 	
 }
 
-void ExportDialog::onButtonExportedClicked(GtkWidget *widget,gpointer data)
+void ExportDialog::onButtonExportedClicked(GtkWidget*,gpointer data)
 {
 	ExportDialog *ed = (ExportDialog *)data;
 	StringList list;
@@ -97,7 +97,7 @@ void ExportDialog::onButtonExportedClicked(GtkWidget *widget,gpointer data)
 	ExportManager::getInstance()->export_(to,list);
 }
 
-void ExportDialog::onGetPathGui(GtkWidget *widget, gpointer data)
+void ExportDialog::onGetPathGui(GtkWidget*, gpointer data)
 {
 	ExportDialog *ed = (ExportDialog *)data;
 	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(ed->getWidget("fileChooserDialog")), GTK_FILE_CHOOSER_ACTION_SAVE);
@@ -116,7 +116,7 @@ void ExportDialog::onGetPathGui(GtkWidget *widget, gpointer data)
 	}
 }		
 
-void ExportDialog::onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data)
+void ExportDialog::onToggledClicked_gui(GtkCellRendererToggle*, gchar *path, gpointer data)
 {
 	ExportDialog *ed = (ExportDialog *)data;
 	GtkTreeIter iter;

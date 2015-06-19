@@ -197,7 +197,7 @@ void cmddebug::onResize_gui(GtkAdjustment *adjustment, gpointer data)
     }
 }
 
-void cmddebug::onClearButton(GtkWidget *widget, gpointer data)
+void cmddebug::onClearButton(GtkWidget*, gpointer data)
 {
 	cmddebug *cmd = (cmddebug *)data;
 	GtkTextIter startIter, endIter;

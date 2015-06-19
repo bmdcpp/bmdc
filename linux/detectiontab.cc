@@ -343,14 +343,14 @@ void DetectionTab::create_profiles()
 	}
 }
 
-gboolean DetectionTab::onActButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean DetectionTab::onActButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	dt->actPrevious = event->type;
 	return FALSE;
 }
 
-gboolean DetectionTab::onActButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean DetectionTab::onActButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 
@@ -368,7 +368,7 @@ gboolean DetectionTab::onActButtonReleased_gui(GtkWidget *widget, GdkEventButton
 	return FALSE;
 }
 
-gboolean DetectionTab::onActKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
+gboolean DetectionTab::onActKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer data)
 {
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter iter;
@@ -415,7 +415,7 @@ void DetectionTab::updateRawView_gui()
         }
     }
 }
-void DetectionTab::onAddAct(GtkWidget *widget,gpointer data)
+void DetectionTab::onAddAct(GtkWidget*,gpointer data)
 {
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	const string emptyStr = "";
@@ -439,7 +439,7 @@ void DetectionTab::onAddAct(GtkWidget *widget,gpointer data)
 
 }
 
-void DetectionTab::onAddRaw(GtkWidget *widget , gpointer data)
+void DetectionTab::onAddRaw(GtkWidget*, gpointer data)
 {
      DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	const string emptyStr = "";
@@ -450,8 +450,10 @@ void DetectionTab::onAddRaw(GtkWidget *widget , gpointer data)
 	params["ID"] = Util::toString(Util::rand(1, 2147483647));
 	params["Enabled"] = "0";
 	GtkTreeIter iter;
+	
 	if (gtk_tree_selection_get_selected(dt->actionSelection,NULL, &iter))
         params["Action"] = dt->actionView.getString(&iter,N_("Name"));
+	
 	params["Type"] = "1";
 
 	bool isOk = dt->showAddActRawDialog(params,dt);
@@ -464,7 +466,7 @@ void DetectionTab::onAddRaw(GtkWidget *widget , gpointer data)
 		WulforManager::get()->dispatchClientFunc(func);
 	}
 }
-void DetectionTab::onEditAct(GtkWidget *widget, gpointer data)
+void DetectionTab::onEditAct(GtkWidget*, gpointer data)
 {
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter	iter;
@@ -488,7 +490,7 @@ void DetectionTab::onEditAct(GtkWidget *widget, gpointer data)
 	}
 }
 
-void DetectionTab::onEditRaw(GtkWidget *widget,gpointer data)
+void DetectionTab::onEditRaw(GtkWidget*,gpointer data)
 {
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter	iter;
@@ -514,7 +516,7 @@ void DetectionTab::onEditRaw(GtkWidget *widget,gpointer data)
 	}
 }
 
-void DetectionTab::onRemoveAct(GtkWidget *widget , gpointer data)
+void DetectionTab::onRemoveAct(GtkWidget* , gpointer data)
 {
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter iter;
@@ -548,7 +550,7 @@ void DetectionTab::onRemoveAct(GtkWidget *widget , gpointer data)
 	}
 }
 
-void DetectionTab::onRemoveRaw(GtkWidget *widget , gpointer data)
+void DetectionTab::onRemoveRaw(GtkWidget* , gpointer data)
 {
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter iter;
@@ -559,9 +561,6 @@ void DetectionTab::onRemoveRaw(GtkWidget *widget , gpointer data)
 
 		if(SETTING(CONFIRM_HUB_REMOVAL))
 		{
-			#pragma GCC diagnostic push
-			#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-			
 			GtkWindow* parent = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
 			GtkWidget* dialog = gtk_message_dialog_new(parent,
 				GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
@@ -576,7 +575,6 @@ void DetectionTab::onRemoveRaw(GtkWidget *widget , gpointer data)
 				if (response != GTK_RESPONSE_YES)
 					return;
 		}
-			#pragma GCC diagnostic pop
 		gint id = dt->RawView.getValue<gint>(&iter, N_("ID"));
 		dt->removeRaw_gui(Util::toString((int)id),name);
 		typedef Func1<DetectionTab, int> F1;
@@ -818,7 +816,7 @@ void DetectionTab::onAddEntryDet(GtkWidget *widget, gpointer data)
 
 	}
 }
-void DetectionTab::ondModEntryDet(GtkWidget *widget, gpointer data)
+void DetectionTab::ondModEntryDet(GtkWidget*, gpointer data)
 {
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter iter;
@@ -848,7 +846,7 @@ void DetectionTab::ondModEntryDet(GtkWidget *widget, gpointer data)
 }
 
 
-void DetectionTab::onRemoveEntryDet(GtkWidget *widget, gpointer data)
+void DetectionTab::onRemoveEntryDet(GtkWidget*, gpointer data)
 {
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter iter;
@@ -860,8 +858,6 @@ void DetectionTab::onRemoveEntryDet(GtkWidget *widget, gpointer data)
 
 				if(SETTING(CONFIRM_HUB_REMOVAL))
 				{
-					#pragma GCC diagnostic push
-					#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 					GtkWindow* parent = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
 					GtkWidget* dialog = gtk_message_dialog_new(parent,
 					GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
@@ -875,7 +871,6 @@ void DetectionTab::onRemoveEntryDet(GtkWidget *widget, gpointer data)
 
 					if (response != GTK_RESPONSE_YES)
 						return;
-					#pragma GCC diagnostic pop
 				}
 
 		dt->removeEntryDet_gui((uint32_t)id);
@@ -974,14 +969,14 @@ void DetectionTab::removeEntryDet_client(int id)
 	DetectionManager::getInstance()->removeDetectionItem(id,false);
 }
 
-gboolean DetectionTab::onButtonItemPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean DetectionTab::onButtonItemPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	dt->previous = event->type;
 	return FALSE;
 }
 
-gboolean DetectionTab::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean DetectionTab::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter iter;
@@ -1008,7 +1003,7 @@ void DetectionTab::popupMenu_gui()
 	gtk_menu_popup(GTK_MENU(getWidget("menuItem")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 }
 
-void DetectionTab::onAddItemDlg_gui(GtkWidget *widget, gpointer data)
+void DetectionTab::onAddItemDlg_gui(GtkWidget*, gpointer data)
 {
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	StringMap params;
@@ -1021,7 +1016,7 @@ void DetectionTab::onAddItemDlg_gui(GtkWidget *widget, gpointer data)
 		dt->addMap_gui(params);
 	}
 }
-void DetectionTab::onModItemDlg_gui(GtkWidget *widget, gpointer data)
+void DetectionTab::onModItemDlg_gui(GtkWidget*, gpointer data)
 {
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter iter;
@@ -1044,7 +1039,7 @@ void DetectionTab::onModItemDlg_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void DetectionTab::onRemItemDlg_gui(GtkWidget *widget, gpointer data)
+void DetectionTab::onRemItemDlg_gui(GtkWidget*, gpointer data)
 {
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter iter;
@@ -1053,10 +1048,7 @@ void DetectionTab::onRemItemDlg_gui(GtkWidget *widget, gpointer data)
 
 	if (SETTING(CONFIRM_USER_REMOVAL))
 	{
-//		#pragma GCC diagnostic push
-//		#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-		
-			GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
+		GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 					GTK_DIALOG_DESTROY_WITH_PARENT,
 					GTK_MESSAGE_QUESTION,
 					GTK_BUTTONS_NONE,
@@ -1067,7 +1059,6 @@ void DetectionTab::onRemItemDlg_gui(GtkWidget *widget, gpointer data)
 				gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_CANCEL, -1);
 #endif				
 				gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-//		#pragma GCC diagnostic pop
 				// Widget failed if the dialog gets programmatically destroyed.
 				if (response == GTK_RESPONSE_NONE)
 					return;
@@ -1081,7 +1072,7 @@ void DetectionTab::onRemItemDlg_gui(GtkWidget *widget, gpointer data)
 				gtk_list_store_remove(dt->itemstore, &iter);
 }
 
-void DetectionTab::onToggleDet(GtkCellRendererToggle *cell, gchar *path, gpointer data)
+void DetectionTab::onToggleDet(GtkCellRendererToggle*, gchar *path, gpointer data)
 {
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter iter;
@@ -1357,7 +1348,7 @@ void DetectionTab::editPoints_gui(StringMap& params,GtkTreeIter *iter)
 	-1);
 }
 
-void DetectionTab::onADLPoints(GtkWidget *widget, gpointer data)
+void DetectionTab::onADLPoints(GtkWidget*, gpointer data)
 {
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	bool isOk = dt->showADLPoints(dt);
@@ -1425,7 +1416,7 @@ bool DetectionTab::showAddPointsDialog(StringMap &params,DetectionTab *dt)
 	return FALSE;
 }
 
-void DetectionTab::onADSLPointsADD(GtkWidget *widget, gpointer data)
+void DetectionTab::onADSLPointsADD(GtkWidget*, gpointer data)
 {
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	StringMap params;
@@ -1438,7 +1429,7 @@ void DetectionTab::onADSLPointsADD(GtkWidget *widget, gpointer data)
 	}
 }
 
-void DetectionTab::onADSLPointsMOD(GtkWidget *widget, gpointer data)
+void DetectionTab::onADSLPointsMOD(GtkWidget*, gpointer data)
 {
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	StringMap params;
@@ -1454,7 +1445,7 @@ void DetectionTab::onADSLPointsMOD(GtkWidget *widget, gpointer data)
 		dt->editPoints_gui(params, &iter);
 	}
 }
-void DetectionTab::onADSLPointsDEL(GtkWidget *widget, gpointer data)
+void DetectionTab::onADSLPointsDEL(GtkWidget*, gpointer data)
 {
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	GtkTreeIter iter;
@@ -1463,9 +1454,7 @@ void DetectionTab::onADSLPointsDEL(GtkWidget *widget, gpointer data)
 
 	 if (SETTING(CONFIRM_USER_REMOVAL))
 	 {
-//			#pragma GCC diagnostic push
-//			#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-					GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
+			GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 						GTK_DIALOG_DESTROY_WITH_PARENT,
 						GTK_MESSAGE_QUESTION,
 						GTK_BUTTONS_NONE,
@@ -1476,7 +1465,6 @@ void DetectionTab::onADSLPointsDEL(GtkWidget *widget, gpointer data)
 					gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_CANCEL, -1);
 #endif					
 					gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-//			#pragma GCC diagnostic pop
 					// Widget failed if the dialog gets programmatically destroyed.
 					if (response == GTK_RESPONSE_NONE)
 						return;
@@ -1540,8 +1528,6 @@ void DetectionTab::onSave(GtkWidget *widget , gpointer data)
 	///ADLD
 	bool showadla = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(dt->getWidget("checkADLACtionShow")));
 	st->set(SettingsManager::SHOW_ADLSEARCH_DEFAULT_ACTION,showadla);
-
-
 
 	st->set(SettingsManager::ADLSEARCH_DEFAULT_ACTION,Util::toInt(gtk_entry_get_text(GTK_ENTRY(dt->getWidget("entryadl")))));
 	///MINFLSIZE

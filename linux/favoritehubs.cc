@@ -189,14 +189,14 @@ void FavoriteHubs::popupMenu_gui()
 	gtk_menu_popup(GTK_MENU(getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 }
 
-gboolean FavoriteHubs::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean FavoriteHubs::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	FavoriteHubs *fh = (FavoriteHubs *)data;
 	fh->previous = event->type;
 	return FALSE;
 }
 
-gboolean FavoriteHubs::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean FavoriteHubs::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	FavoriteHubs *fh = (FavoriteHubs *)data;
 	GtkTreeIter iter;
@@ -228,7 +228,7 @@ gboolean FavoriteHubs::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *e
 	return FALSE;
 }
 
-gboolean FavoriteHubs::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
+gboolean FavoriteHubs::onKeyReleased_gui(GtkWidget* widget, GdkEventKey *event, gpointer data)
 {
 	FavoriteHubs *fh = (FavoriteHubs *)data;
 	GtkTreeIter iter;
@@ -258,7 +258,7 @@ gboolean FavoriteHubs::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, 
 	return FALSE;
 }
 
-void FavoriteHubs::onAddEntry_gui(GtkWidget *widget, gpointer data)
+void FavoriteHubs::onAddEntry_gui(GtkWidget*, gpointer data)
 {
 	FavoriteHubs *fh = (FavoriteHubs *)data;
 	FavoriteHubEntry entry;
@@ -302,7 +302,7 @@ bool FavoriteHubs::checkAddys(string url)
 	return false;
 }
 
-void FavoriteHubs::onEditEntry_gui(GtkWidget *widget, gpointer data)
+void FavoriteHubs::onEditEntry_gui(GtkWidget*, gpointer data)
 {
 	FavoriteHubs *fh = (FavoriteHubs *)data;
 	GtkTreeIter iter;
@@ -324,7 +324,7 @@ void FavoriteHubs::onEditEntry_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void FavoriteHubs::onManageGroupsClicked_gui(GtkWidget *widget, gpointer data)
+void FavoriteHubs::onManageGroupsClicked_gui(GtkWidget*, gpointer data)
 {
 	FavoriteHubs *fh = (FavoriteHubs *)data;
 
@@ -380,7 +380,7 @@ void FavoriteHubs::initFavHubGroupsDialog_gui()
 	}
 }
 
-void FavoriteHubs::onRemoveEntry_gui(GtkWidget *widget, gpointer data)
+void FavoriteHubs::onRemoveEntry_gui(GtkWidget*, gpointer data)
 {
 	FavoriteHubs *fh = (FavoriteHubs *)data;
 	GtkTreeIter iter;
@@ -419,7 +419,7 @@ void FavoriteHubs::onRemoveEntry_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void FavoriteHubs::onCopyAddress(GtkWidget *item, gpointer data)
+void FavoriteHubs::onCopyAddress(GtkWidget*, gpointer data)
 {
 	FavoriteHubs *fh = (FavoriteHubs *)data;
 	GtkTreeIter iter;
@@ -431,7 +431,7 @@ void FavoriteHubs::onCopyAddress(GtkWidget *item, gpointer data)
 	}
 }
 
-void FavoriteHubs::onConnect_gui(GtkButton *widget, gpointer data)
+void FavoriteHubs::onConnect_gui(GtkButton*, gpointer data)
 {
 	FavoriteHubs *fh = (FavoriteHubs *)data;
 	GtkTreeIter iter;
@@ -442,7 +442,7 @@ void FavoriteHubs::onConnect_gui(GtkButton *widget, gpointer data)
 			fh->favoriteView.getString(&iter, _("Encoding")));
 }
 
-void FavoriteHubs::onAddGroupClicked_gui(GtkWidget *widget, gpointer data)
+void FavoriteHubs::onAddGroupClicked_gui(GtkWidget*, gpointer data)
 {
 	FavoriteHubs *fh = (FavoriteHubs *)data;
 
@@ -494,7 +494,7 @@ void FavoriteHubs::onAddGroupClicked_gui(GtkWidget *widget, gpointer data)
 		-1);
 }
 
-void FavoriteHubs::onRemoveGroupClicked_gui(GtkWidget *widget, gpointer data)
+void FavoriteHubs::onRemoveGroupClicked_gui(GtkWidget*, gpointer data)
 {
 	FavoriteHubs *fh = (FavoriteHubs *)data;
 	GtkTreeIter iter;
@@ -641,7 +641,7 @@ void FavoriteHubs::setFavoriteHubs_gui(bool remove, const string &group)
 	}
 }
 
-void FavoriteHubs::onUpdateGroupClicked_gui(GtkWidget *widget, gpointer data)
+void FavoriteHubs::onUpdateGroupClicked_gui(GtkWidget*, gpointer data)
 {
 	FavoriteHubs *fh = (FavoriteHubs *)data;
 
@@ -674,7 +674,7 @@ void FavoriteHubs::onUpdateGroupClicked_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-gboolean FavoriteHubs::onGroupsKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
+gboolean FavoriteHubs::onGroupsKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer data)
 {
 	FavoriteHubs *fh = (FavoriteHubs *)data;
 	GtkTreeIter iter;
@@ -713,7 +713,7 @@ gboolean FavoriteHubs::onGroupsKeyReleased_gui(GtkWidget *widget, GdkEventKey *e
 	return FALSE;
 }
 
-gboolean FavoriteHubs::onGroupsButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean FavoriteHubs::onGroupsButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	FavoriteHubs *fh = (FavoriteHubs *)data;
 	GtkTreeIter iter;

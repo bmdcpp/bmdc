@@ -146,7 +146,7 @@ void UploadQueue::removeUser(const string &cid)
 	}
 }
 
-void UploadQueue::onGrantSlotItemClicked_gui(GtkMenuItem *item, gpointer data)
+void UploadQueue::onGrantSlotItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	UploadQueue *qp = (UploadQueue *)data;
 
@@ -173,7 +173,7 @@ void UploadQueue::onGrantSlotItemClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void UploadQueue::onRemoveItem_gui(GtkMenuItem *item, gpointer data)
+void UploadQueue::onRemoveItem_gui(GtkMenuItem*, gpointer data)
 {
 	UploadQueue *qp = (UploadQueue *)data;
 
@@ -200,7 +200,7 @@ void UploadQueue::onRemoveItem_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void UploadQueue::onSendPMItemClicked_gui(GtkMenuItem *item, gpointer data)
+void UploadQueue::onSendPMItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	UploadQueue *qp = (UploadQueue *)data;
 
@@ -225,7 +225,7 @@ void UploadQueue::onSendPMItemClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void UploadQueue::onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data)
+void UploadQueue::onBrowseItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	UploadQueue *qp = (UploadQueue *)data;
 
@@ -252,7 +252,7 @@ void UploadQueue::onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void UploadQueue::onFavoriteUserAddItemClicked_gui(GtkMenuItem *item, gpointer data)
+void UploadQueue::onFavoriteUserAddItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	UploadQueue *qp = (UploadQueue *)data;
 
@@ -279,7 +279,7 @@ void UploadQueue::onFavoriteUserAddItemClicked_gui(GtkMenuItem *item, gpointer d
 	}
 }
 
-gboolean UploadQueue::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
+gboolean UploadQueue::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer data)
 {
 	UploadQueue *qp = (UploadQueue *)data;
 
@@ -294,7 +294,7 @@ gboolean UploadQueue::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, g
 	return FALSE;
 }
 
-gboolean UploadQueue::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean UploadQueue::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	UploadQueue *qp = (UploadQueue *)data;
 	qp->previous = event->type;
@@ -315,7 +315,7 @@ gboolean UploadQueue::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *eve
 	return FALSE;
 }
 
-gboolean UploadQueue::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean UploadQueue::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	UploadQueue *qp = (UploadQueue *)data;
 

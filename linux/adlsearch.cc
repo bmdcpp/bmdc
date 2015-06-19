@@ -158,7 +158,7 @@ void SearchADL::show()
 	}
 }
 
-void SearchADL::onRemoveClicked_gui(GtkWidget *widget, gpointer data)
+void SearchADL::onRemoveClicked_gui(GtkWidget*, gpointer data)
 {
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 
@@ -179,7 +179,7 @@ void SearchADL::onRemoveClicked_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void SearchADL::onAddClicked_gui(GtkWidget *widget, gpointer data)
+void SearchADL::onAddClicked_gui(GtkWidget*, gpointer data)
 {
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 
@@ -213,7 +213,7 @@ void SearchADL::onAddClicked_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void SearchADL::onPropertiesClicked_gui(GtkWidget *widget, gpointer data)
+void SearchADL::onPropertiesClicked_gui(GtkWidget*, gpointer data)
 {
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 
@@ -415,7 +415,7 @@ bool SearchADL::showPropertiesDialog_gui(ADLSearch &search, bool edit, SearchADL
 	return true;
 }
 
-void SearchADL::onMoveUpClicked_gui(GtkWidget *widget, gpointer data)
+void SearchADL::onMoveUpClicked_gui(GtkWidget*, gpointer data)
 {
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 
@@ -447,7 +447,7 @@ void SearchADL::onMoveUpClicked_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void SearchADL::onMoveDownClicked_gui(GtkWidget *widget, gpointer data)
+void SearchADL::onMoveDownClicked_gui(GtkWidget*, gpointer data)
 {
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 
@@ -477,7 +477,7 @@ void SearchADL::onMoveDownClicked_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void SearchADL::onActiveToggled_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data)
+void SearchADL::onActiveToggled_gui(GtkCellRendererToggle* , gchar *path, gpointer data)
 {
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 	GtkTreeIter iter;
@@ -502,7 +502,7 @@ void SearchADL::onActiveToggled_gui(GtkCellRendererToggle *cell, gchar *path, gp
 	}
 }
 
-gboolean SearchADL::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean SearchADL::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 	s->previous = event->type;
@@ -523,7 +523,7 @@ gboolean SearchADL::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event
 	return FALSE;
 }
 
-gboolean SearchADL::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean SearchADL::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 
@@ -544,7 +544,7 @@ gboolean SearchADL::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *even
 	return FALSE;
 }
 
-gboolean SearchADL::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
+gboolean SearchADL::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer data)
 {
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 
@@ -597,7 +597,7 @@ int SearchADL::find_rawInt(int raw)
   return _raw;
 }
 //end
-void SearchADL::onToggleOveride(GtkWidget *widget, gpointer data) 
+void SearchADL::onToggleOveride(GtkWidget*, gpointer data) 
 {
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 
@@ -608,7 +608,7 @@ void SearchADL::onToggleOveride(GtkWidget *widget, gpointer data)
 	s->sens = !s->sens;
 }
 
-void SearchADL::onToggleActions(GtkWidget *widget, gpointer data)
+void SearchADL::onToggleActions(GtkWidget*, gpointer data)
 {
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 
@@ -645,7 +645,7 @@ void SearchADL::onChangeCombo(GtkWidget *widget, gpointer data)
   
 }
 
-void SearchADL::onToggleForb(GtkWidget *widget, gpointer data)
+void SearchADL::onToggleForb(GtkWidget*, gpointer data)
 {
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 	string tmp;

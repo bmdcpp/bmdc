@@ -1,6 +1,7 @@
 0.1.10
  ======
  Add Idle Detection after 5 minutes and set away status
+ Fix some warn wich pop up with clang 4.x.x
 0.1.7
  ======
  Add Appindicator support

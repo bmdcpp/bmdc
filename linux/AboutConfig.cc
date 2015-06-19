@@ -206,14 +206,14 @@ void AboutConfig::setStatus(string msg)
 	gtk_statusbar_push(GTK_STATUSBAR(getWidget("status")), 0, msg.c_str());
 }
 
-gboolean AboutConfig::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean AboutConfig::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	AboutConfig *s = (AboutConfig *)data;
 	s->previous = event->type;
 	return FALSE;
 }
 
-gboolean AboutConfig::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean AboutConfig::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	AboutConfig *s = (AboutConfig *)data;
 
@@ -234,7 +234,7 @@ gboolean AboutConfig::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *ev
 	return FALSE;
 }
 
-gboolean AboutConfig::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
+gboolean AboutConfig::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer data)
 {
 	AboutConfig *s = (AboutConfig *)data;
 
@@ -273,7 +273,7 @@ void AboutConfig::onInfoResponse(GtkWidget *info_bar, gint response_id,  gpointe
 	
 }                 
 
-void AboutConfig::onPropertiesClicked_gui(GtkWidget *widget, gpointer data)
+void AboutConfig::onPropertiesClicked_gui(GtkWidget*, gpointer data)
 {
 	AboutConfig *s = (AboutConfig *)data;
 
@@ -328,7 +328,7 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void AboutConfig::onSetDefault(GtkWidget *widget, gpointer data)
+void AboutConfig::onSetDefault(GtkWidget*, gpointer data)
 {
 	AboutConfig *s = (AboutConfig *)data;
 	

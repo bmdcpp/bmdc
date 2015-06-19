@@ -108,7 +108,7 @@ void SystemLog::onResize_gui(GtkAdjustment *adjustment, gpointer data)
     }
 }
 
-void SystemLog::onClearButton(GtkWidget *widget, gpointer data)
+void SystemLog::onClearButton(GtkWidget*, gpointer data)
 {
 	SystemLog *sys = (SystemLog *)data;
 	GtkTextIter startIter, endIter;

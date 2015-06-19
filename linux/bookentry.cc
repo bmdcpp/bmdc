@@ -31,8 +31,7 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	Entry(type, glade, id),
 	eventBox(NULL),	labelBox(NULL),
 	tabMenuItem(NULL), closeButton(NULL),
-	label(NULL)/*, fItem(NULL)*/,
-	bCreated(true),
+	label(NULL), bCreated(true),
 	bold(false), urgent(false),
 	labelSize((glong)WGETI("size-label-box-bookentry")),
 	icon(NULL), popTabMenuItem(NULL),
@@ -318,14 +317,14 @@ GtkWidget *BookEntry::createmenu()
 	return NULL;
 }
 
-gboolean BookEntry::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean BookEntry::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	BookEntry *book = (BookEntry *)data;
 	book->previous = event->type;
 	return FALSE;
 }
 
-gboolean BookEntry::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean BookEntry::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	BookEntry *book = (BookEntry *)data;
 
