@@ -68,7 +68,7 @@ void LogManager::saveSetting(int area, int sel, const string& setting) {
 	SettingsManager::getInstance()->set(static_cast<SettingsManager::StrSetting>(options[area][sel]), setting);
 }
 
-void LogManager::log(const string& area, const string& msg,int sev) noexcept {
+void LogManager::log(const string& area, const string& msg,int) noexcept {
 	Lock l(cs);
 	try {
 		string aArea = Util::validateFileName(area);
