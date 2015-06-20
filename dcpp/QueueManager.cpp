@@ -1794,7 +1794,7 @@ uint32_t QueueManager::calcCrc32(const string& file) {
 	return crc32.getValue();
 }
 
-void QueueManager::logFinishedDownload(QueueItem* qi, Download* d, bool crcChecked)
+void QueueManager::logFinishedDownload(QueueItem* qi, Download*, bool crcChecked)
 {
 	ParamMap params;
 	params["target"] = qi->getTarget();

@@ -459,7 +459,7 @@ void ADLSearchManager::stepUpDirectory(DestDirList& destDirVector) {
 	}
 }
 
-void ADLSearchManager::prepareDestinationDirectories(DestDirList& destDirVector, DirectoryListing::Directory* root, ParamMap& params) {
+void ADLSearchManager::prepareDestinationDirectories(DestDirList& destDirVector, DirectoryListing::Directory* root) {
 	// Load default destination directory (index = 0)
 	destDirVector.clear();
 	vector<DestDir>::iterator id = destDirVector.insert(destDirVector.end(), DestDir());
@@ -522,7 +522,7 @@ void ADLSearchManager::matchListing(DirectoryListing& aDirList) {
 	auto root = aDirList.getRoot();
 
 	DestDirList destDirs;
-	prepareDestinationDirectories(destDirs, aDirList.getRoot(), params);
+	prepareDestinationDirectories(destDirs, aDirList.getRoot());
 	setBreakOnFirst(SETTING(ADLS_BREAK_ON_FIRST));
 
 	string path(root->getName());

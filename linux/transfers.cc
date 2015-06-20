@@ -171,7 +171,7 @@ void Transfers::popupTransferMenu_gui()
 	gtk_widget_show_all(getWidget("transferMenu"));
 }
 
-void Transfers::onGetFileListClicked_gui(GtkMenuItem *item, gpointer data)
+void Transfers::onGetFileListClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
 	GtkTreeIter iter;
@@ -203,7 +203,7 @@ void Transfers::onGetFileListClicked_gui(GtkMenuItem *item, gpointer data)
 	g_list_free(list);
 }
 
-void Transfers::onMatchQueueClicked_gui(GtkMenuItem *item, gpointer data)
+void Transfers::onMatchQueueClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
 	GtkTreeIter iter;
@@ -235,7 +235,7 @@ void Transfers::onMatchQueueClicked_gui(GtkMenuItem *item, gpointer data)
 	g_list_free(list);
 }
 
-void Transfers::onPrivateMessageClicked_gui(GtkMenuItem *item, gpointer data)
+void Transfers::onPrivateMessageClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
 	string cid;
@@ -263,7 +263,7 @@ void Transfers::onPrivateMessageClicked_gui(GtkMenuItem *item, gpointer data)
 	g_list_free(list);
 }
 
-void Transfers::onAddFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data)
+void Transfers::onAddFavoriteUserClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
 	string cid;
@@ -296,7 +296,7 @@ void Transfers::onAddFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data)
 	g_list_free(list);
 }
 
-void Transfers::onGrantExtraSlotClicked_gui(GtkMenuItem *item, gpointer data)
+void Transfers::onGrantExtraSlotClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
 	GtkTreeIter iter;
@@ -328,7 +328,7 @@ void Transfers::onGrantExtraSlotClicked_gui(GtkMenuItem *item, gpointer data)
 	g_list_free(list);
 }
 
-void Transfers::onRemoveUserFromQueueClicked_gui(GtkMenuItem *item, gpointer data)
+void Transfers::onRemoveUserFromQueueClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
 	string cid;
@@ -361,7 +361,7 @@ void Transfers::onRemoveUserFromQueueClicked_gui(GtkMenuItem *item, gpointer dat
 	g_list_free(list);
 }
 
-void Transfers::onSearchAlternateClicked_gui(GtkMenuItem *item, gpointer data)
+void Transfers::onSearchAlternateClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
 	string tth;
@@ -395,7 +395,7 @@ void Transfers::onSearchAlternateClicked_gui(GtkMenuItem *item, gpointer data)
 	g_list_free(list);
 }
 
-void Transfers::onForceAttemptClicked_gui(GtkMenuItem *menuItem, gpointer data)
+void Transfers::onForceAttemptClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
 	string cid;
@@ -421,7 +421,7 @@ void Transfers::onForceAttemptClicked_gui(GtkMenuItem *menuItem, gpointer data)
 	g_list_free(list);
 }
 
-void Transfers::onCloseConnectionClicked_gui(GtkMenuItem *menuItem, gpointer data)
+void Transfers::onCloseConnectionClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
 	string cid;
@@ -458,7 +458,7 @@ void Transfers::onCloseConnectionClicked_gui(GtkMenuItem *menuItem, gpointer dat
 	g_list_free(list);
 }
 
-gboolean Transfers::onTransferButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean Transfers::onTransferButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
 
@@ -478,7 +478,7 @@ gboolean Transfers::onTransferButtonPressed_gui(GtkWidget *widget, GdkEventButto
 	return FALSE;
 }
 
-gboolean Transfers::onTransferButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean Transfers::onTransferButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
 	int count = gtk_tree_selection_count_selected_rows(tr->transferSelection);
@@ -1110,7 +1110,7 @@ void Transfers::on(ConnectionManagerListener::StatusChanged, ConnectionQueueItem
 	WulforManager::get()->dispatchGuiFunc(f3);
 }
 
-void Transfers::on(QueueManagerListener::Finished, QueueItem* qi, const string& dir, int64_t size) throw()
+void Transfers::on(QueueManagerListener::Finished, QueueItem* qi, const string& , int64_t) throw()
 {
 	string target = qi->getTarget();
 	Sound::TypeSound sound = Sound::DOWNLOAD_FINISHED;

@@ -172,7 +172,7 @@ public:
 	virtual bool isTrusted() const noexcept { return false; }
 	virtual string getCipherName() const noexcept { return Util::emptyString; }
 	virtual ByteVector getKeyprint() const noexcept { return ByteVector(); }
-	virtual bool verifyKeyprint(const string& expKeyp, bool allowUntrusted) noexcept { return true; };
+	virtual bool verifyKeyprint(const string&, bool) noexcept { return true; };
 
 	/** When socks settings are updated, this has to be called... */
 	static void socksUpdated();
@@ -194,8 +194,6 @@ protected:
 		sockaddr_in6 sai6;
 		sockaddr_storage sas;
 	} addr;
-
-//	socket_t getSock() const;
 
 	mutable SocketHandle sock4;
 	mutable SocketHandle sock6;

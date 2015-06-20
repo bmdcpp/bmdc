@@ -57,7 +57,7 @@ public:
 	 * @param sep Line separator
 	 * @return An unconnected socket
 	 */
-	static BufferedSocket* getSocket(char sep, bool v4only = false) {
+	static BufferedSocket* getSocket(char sep, bool) {
 		return new BufferedSocket(sep, false);
 	}
 

@@ -638,7 +638,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 	}
 }
 
-gboolean PrivateMessage::expose(GtkWidget *widget, cairo_t *event, gpointer data)
+gboolean PrivateMessage::expose(GtkWidget *widget, cairo_t *event, gpointer )
 {
 	GTK_WIDGET_CLASS(GTK_WIDGET_GET_CLASS(widget))->draw(widget, event);
 	return true;
@@ -961,7 +961,7 @@ void PrivateMessage::updateCursor(GtkWidget *widget)
 	}
 }
 
-gboolean PrivateMessage::onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data)
+gboolean PrivateMessage::onFocusIn_gui(GtkWidget*, GdkEventFocus*, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 
@@ -1129,7 +1129,7 @@ gboolean PrivateMessage::onKeyPress_gui(GtkWidget *widget, GdkEventKey *event, g
 	return FALSE;
 }
 
-gboolean PrivateMessage::onLinkTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data)
+gboolean PrivateMessage::onLinkTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *event, GtkTextIter*, gpointer data)
 {
 	if (event->type == GDK_BUTTON_PRESS)
 	{
@@ -1155,7 +1155,7 @@ gboolean PrivateMessage::onLinkTagEvent_gui(GtkTextTag *tag, GObject *textView, 
 	return FALSE;
 }
 
-gboolean PrivateMessage::onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data)
+gboolean PrivateMessage::onHubTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *event, GtkTextIter*, gpointer data)
 {
 	if (event->type == GDK_BUTTON_PRESS)
 	{
@@ -1181,7 +1181,7 @@ gboolean PrivateMessage::onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, G
 	return FALSE;
 }
 
-gboolean PrivateMessage::onMagnetTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data)
+gboolean PrivateMessage::onMagnetTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *event, GtkTextIter*, gpointer data)
 {
 	if (event->type == GDK_BUTTON_PRESS)
 	{
@@ -1208,7 +1208,7 @@ gboolean PrivateMessage::onMagnetTagEvent_gui(GtkTextTag *tag, GObject *textView
 	return FALSE;
 }
 
-gboolean PrivateMessage::onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event , GtkTextIter *iter, gpointer data)
+gboolean PrivateMessage::onIpTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *event , GtkTextIter*, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 	gchar *tmp = NULL;
@@ -1228,7 +1228,7 @@ gboolean PrivateMessage::onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, Gd
 	return FALSE;
 }
 
-gboolean PrivateMessage::onChatPointerMoved_gui(GtkWidget* widget, GdkEventMotion* event, gpointer data)
+gboolean PrivateMessage::onChatPointerMoved_gui(GtkWidget* widget, GdkEventMotion* , gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 
@@ -1237,7 +1237,7 @@ gboolean PrivateMessage::onChatPointerMoved_gui(GtkWidget* widget, GdkEventMotio
 	return FALSE;
 }
 
-gboolean PrivateMessage::onChatVisibilityChanged_gui(GtkWidget* widget, GdkEventVisibility* event, gpointer data)
+gboolean PrivateMessage::onChatVisibilityChanged_gui(GtkWidget* widget, GdkEventVisibility* , gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 
@@ -1246,7 +1246,7 @@ gboolean PrivateMessage::onChatVisibilityChanged_gui(GtkWidget* widget, GdkEvent
 	return FALSE;
 }
 
-gboolean PrivateMessage::onEmotButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean PrivateMessage::onEmotButtonRelease_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 
@@ -1306,14 +1306,14 @@ void PrivateMessage::onChatResize_gui(GtkAdjustment *adjustment, gpointer data)
 	}
 }
 
-void PrivateMessage::onCopyURIClicked_gui(GtkMenuItem *item, gpointer data)
+void PrivateMessage::onCopyURIClicked_gui(GtkMenuItem*, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 
 	gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), pm->selectedTagStr.c_str(), pm->selectedTagStr.length());
 }
 
-void PrivateMessage::onOpenLinkClicked_gui(GtkMenuItem *item, gpointer data)
+void PrivateMessage::onOpenLinkClicked_gui(GtkMenuItem*, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 	string error = Util::emptyString;
@@ -1323,27 +1323,27 @@ void PrivateMessage::onOpenLinkClicked_gui(GtkMenuItem *item, gpointer data)
 		pm->setStatus_gui(error);
 }
 
-void PrivateMessage::onOpenHubClicked_gui(GtkMenuItem *item, gpointer data)
+void PrivateMessage::onOpenHubClicked_gui(GtkMenuItem*, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 
 	WulforManager::get()->getMainWindow()->showHub_gui(pm->selectedTagStr);
 }
 
-void PrivateMessage::onSearchMagnetClicked_gui(GtkMenuItem *item, gpointer data)
+void PrivateMessage::onSearchMagnetClicked_gui(GtkMenuItem*, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 
 	WulforManager::get()->getMainWindow()->addSearch_gui(pm->selectedTagStr);
 }
 
-void PrivateMessage::onDownloadClicked_gui(GtkMenuItem *item, gpointer data)
+void PrivateMessage::onDownloadClicked_gui(GtkMenuItem*, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 	WulforManager::get()->getMainWindow()->fileToDownload_gui(pm->selectedTagStr, SETTING(DOWNLOAD_DIRECTORY));
 }
 
-void PrivateMessage::onDownloadToClicked_gui(GtkMenuItem *item, gpointer data)
+void PrivateMessage::onDownloadToClicked_gui(GtkMenuItem*, gpointer data)
 {
 	GtkWidget *dialog = WulforManager::get()->getMainWindow()->getChooserDialog_gui();
 	gtk_window_set_title(GTK_WINDOW(dialog), _("Choose a directory"));
@@ -1371,7 +1371,7 @@ void PrivateMessage::onDownloadToClicked_gui(GtkMenuItem *item, gpointer data)
 	gtk_widget_hide(dialog);
 }
 
-void PrivateMessage::onMagnetPropertiesClicked_gui(GtkMenuItem *item, gpointer data)
+void PrivateMessage::onMagnetPropertiesClicked_gui(GtkMenuItem*, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 
@@ -1393,7 +1393,7 @@ void PrivateMessage::onCommandClicked_gui(GtkWidget *widget, gpointer data)
 	gtk_editable_set_position(GTK_EDITABLE(entry), pos);
 }
 
-gboolean PrivateMessage::onChatCommandButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean PrivateMessage::onChatCommandButtonRelease_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	if (event->button == 1)
 	{
@@ -1404,7 +1404,7 @@ gboolean PrivateMessage::onChatCommandButtonRelease_gui(GtkWidget *widget, GdkEv
 	return FALSE;
 }
 
-void PrivateMessage::onUseEmoticons_gui(GtkWidget *widget, gpointer data)
+void PrivateMessage::onUseEmoticons_gui(GtkWidget*, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 
@@ -1616,13 +1616,13 @@ void PrivateMessage::onAddFavItem(gpointer data)
 	pm->addFavoriteUser_client();
 }
 
-void PrivateMessage::onCopyIpItem_gui(GtkWidget *wid, gpointer data)
+void PrivateMessage::onCopyIpItem_gui(GtkWidget*, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 	gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), pm->ip.c_str(), pm->ip.length());
 }
 
-void PrivateMessage::onRipeDbItem_gui(GtkWidget *wid, gpointer data)
+void PrivateMessage::onRipeDbItem_gui(GtkWidget*, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 	string error = Util::emptyString;

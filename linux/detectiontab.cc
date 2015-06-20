@@ -687,7 +687,7 @@ void DetectionTab::addRaw_gui(StringMap params)
 	}
 }
 
-void DetectionTab::removeAction_gui(string Id, string name)
+void DetectionTab::removeAction_gui(string Id, string)
 {
     GtkTreeIter iter;
 	if(findAct_gui(Util::toInt(Id),&iter))
@@ -697,7 +697,7 @@ void DetectionTab::removeAction_gui(string Id, string name)
     }
 }
 
-void DetectionTab::removeRaw_gui(string Id, string name)
+void DetectionTab::removeRaw_gui(string Id, string )
 {
     GtkTreeIter iter;
 	if(findRaw_gui(Util::toInt(Id),&iter))
@@ -791,7 +791,7 @@ void DetectionTab::removeRaw_client(int id)
 }
 
 /* 2page */
-void DetectionTab::onAddEntryDet(GtkWidget *widget, gpointer data)
+void DetectionTab::onAddEntryDet(GtkWidget*, gpointer data)
 {
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	StringMap params;
@@ -1478,7 +1478,7 @@ void DetectionTab::onADSLPointsDEL(GtkWidget*, gpointer data)
 	gtk_list_store_remove(dt->pointstore, &iter);
 }
 /**/
-void DetectionTab::onSave(GtkWidget *widget , gpointer data)
+void DetectionTab::onSave(GtkWidget* , gpointer data)
 {
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
 	SettingsManager *st = SettingsManager::getInstance();

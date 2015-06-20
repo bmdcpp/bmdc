@@ -40,7 +40,7 @@ static GtkWidget* createComboBoxWith3Options(const gchar* a,const gchar* b,const
 	return combo;
 }
 
-FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool add /* = true */):
+FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool /* = true */):
 	Entry(Entry::FAV_HUB),
 	p_entry(entry),
 	actionStore(NULL), actionSel(NULL)

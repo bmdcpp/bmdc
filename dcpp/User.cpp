@@ -222,7 +222,7 @@ void Identity::checkTagState(OnlineUser& ou) const {
 		ou.getClient().cheatMessage("*** " + getNick() + " - Tag states active mode, but user is using passive mode");
 	}
 }
-string Identity::setCheat(const Client& c, const string& aCheatDescription, bool aBadClient, bool aBadFilelist /*=false*/, bool aDisplayCheat /* = true*/) {
+string Identity::setCheat(const Client&, const string& aCheatDescription, bool aBadClient, bool aBadFilelist /*=false*/, bool aDisplayCheat /* = true*/) {
 	ParamMap ucParams;
 	getParams(ucParams, "user", true);
 	string cheat = Util::formatParams(aCheatDescription, ucParams);

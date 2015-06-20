@@ -571,7 +571,7 @@ void Hub::show()
 	connectClient_client(address, encoding);
 }
 
-void Hub::selection_changed_userlist_gui(GtkTreeSelection *selection, GtkWidget *tree_view)
+void Hub::selection_changed_userlist_gui(GtkTreeSelection*, GtkWidget *tree_view)
 {
 	gtk_widget_trigger_tooltip_query (tree_view);
 }
@@ -1911,7 +1911,7 @@ void Hub::addStatusMessage_gui(string message, Msg::TypeMsg typemsg, Sound::Type
 	Notify::get()->showNotify("<b>" + client->getHubUrl() + ":</b> ", message, notify);
 }
 
-gboolean Hub::onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data)
+gboolean Hub::onFocusIn_gui(GtkWidget*, GdkEventFocus*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -1923,7 +1923,7 @@ gboolean Hub::onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer da
 	return TRUE;
 }
 
-gboolean Hub::onNickListButtonPress_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean Hub::onNickListButtonPress_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -1947,7 +1947,7 @@ gboolean Hub::onNickListButtonPress_gui(GtkWidget *widget, GdkEventButton *event
 	return FALSE;
 }
 
-gboolean Hub::onNickListButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean Hub::onNickListButtonRelease_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -2000,7 +2000,7 @@ void Hub::clickAction(gpointer data)
 	}
 }
 
-gboolean Hub::onNickListKeyRelease_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
+gboolean Hub::onNickListKeyRelease_gui(GtkWidget*, GdkEventKey *event, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -2120,7 +2120,7 @@ gboolean Hub::onEntryKeyPress_gui(GtkWidget *entry, GdkEventKey *event, gpointer
 	return FALSE;
 }
 
-gboolean Hub::onNickTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data)
+gboolean Hub::onNickTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *event, GtkTextIter*, gpointer data)
 {
 	if (event->type == GDK_2BUTTON_PRESS)
 	{
@@ -2162,7 +2162,7 @@ gboolean Hub::onNickTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *e
 	return FALSE;
 }
 
-gboolean Hub::onLinkTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data)
+gboolean Hub::onLinkTagEvent_gui(GtkTextTag*, GObject*, GdkEvent *event, GtkTextIter*, gpointer data)
 {
 	if (event->type == GDK_BUTTON_PRESS)
 	{
@@ -2183,7 +2183,7 @@ gboolean Hub::onLinkTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *e
 	return FALSE;
 }
 
-gboolean Hub::onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data)
+gboolean Hub::onHubTagEvent_gui(GtkTextTag*, GObject*, GdkEvent *event, GtkTextIter*, gpointer data)
 {
 	if (event->type == GDK_BUTTON_PRESS)
 	{
@@ -2204,7 +2204,7 @@ gboolean Hub::onHubTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *ev
 	return FALSE;
 }
 
-gboolean Hub::onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event , GtkTextIter *iter, gpointer data)
+gboolean Hub::onIpTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *event , GtkTextIter*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	gchar *tmp = NULL;
@@ -2224,13 +2224,13 @@ gboolean Hub::onIpTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *eve
 	return FALSE;
 }
 
-void Hub::onCopyIpItem_gui(GtkWidget *wid, gpointer data)
+void Hub::onCopyIpItem_gui(GtkWidget*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), hub->ip.c_str(), hub->ip.length());
 }
 
-void Hub::onRipeDbItem_gui(GtkWidget *wid, gpointer data)
+void Hub::onRipeDbItem_gui(GtkWidget*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	string error = Util::emptyString;
@@ -2241,7 +2241,7 @@ void Hub::onRipeDbItem_gui(GtkWidget *wid, gpointer data)
 	hub->setStatus_gui("statusMain",error);
 }
 
-gboolean Hub::onMagnetTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data)
+gboolean Hub::onMagnetTagEvent_gui(GtkTextTag*, GObject*, GdkEvent *event, GtkTextIter*, gpointer data)
 {
 	if (event->type == GDK_BUTTON_PRESS)
 	{
@@ -2263,7 +2263,7 @@ gboolean Hub::onMagnetTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent 
 	return FALSE;
 }
 
-gboolean Hub::onChatPointerMoved_gui(GtkWidget *widget, GdkEventMotion *event, gpointer data)
+gboolean Hub::onChatPointerMoved_gui(GtkWidget *widget, GdkEventMotion*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -2272,7 +2272,7 @@ gboolean Hub::onChatPointerMoved_gui(GtkWidget *widget, GdkEventMotion *event, g
 	return FALSE;
 }
 
-gboolean Hub::onChatVisibilityChanged_gui(GtkWidget *widget, GdkEventVisibility *event, gpointer data)
+gboolean Hub::onChatVisibilityChanged_gui(GtkWidget *widget, GdkEventVisibility*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -2281,7 +2281,7 @@ gboolean Hub::onChatVisibilityChanged_gui(GtkWidget *widget, GdkEventVisibility 
 	return FALSE;
 }
 
-gboolean Hub::onEmotButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean Hub::onEmotButtonRelease_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -2755,7 +2755,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 	}
 }
 
-void Hub::onNickToChat_gui(GtkMenuItem *item, gpointer data)
+void Hub::onNickToChat_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -2786,7 +2786,7 @@ void Hub::onNickToChat_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void Hub::onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data)
+void Hub::onBrowseItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -2814,7 +2814,7 @@ void Hub::onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void Hub::onPartialFileListOpen_gui(GtkMenuItem *item, gpointer data)
+void Hub::onPartialFileListOpen_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -2842,7 +2842,7 @@ void Hub::onPartialFileListOpen_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void Hub::onMatchItemClicked_gui(GtkMenuItem *item, gpointer data)
+void Hub::onMatchItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -2870,7 +2870,7 @@ void Hub::onMatchItemClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void Hub::onMsgItemClicked_gui(GtkMenuItem *item, gpointer data)
+void Hub::onMsgItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -2896,7 +2896,7 @@ void Hub::onMsgItemClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void Hub::onGrantItemClicked_gui(GtkMenuItem *item, gpointer data)
+void Hub::onGrantItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -2924,7 +2924,7 @@ void Hub::onGrantItemClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void Hub::onRemoveUserItemClicked_gui(GtkMenuItem *item, gpointer data)
+void Hub::onRemoveUserItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -2952,13 +2952,13 @@ void Hub::onRemoveUserItemClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void Hub::onCopyURIClicked_gui(GtkMenuItem *item, gpointer data)
+void Hub::onCopyURIClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), hub->selectedTagStr.c_str(), hub->selectedTagStr.length());
 }
 
-void Hub::onOpenLinkClicked_gui(GtkMenuItem *item, gpointer data)
+void Hub::onOpenLinkClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	string error = Util::emptyString;
@@ -2968,27 +2968,27 @@ void Hub::onOpenLinkClicked_gui(GtkMenuItem *item, gpointer data)
 		hub->setStatus_gui("statusMain", error);
 }
 
-void Hub::onOpenHubClicked_gui(GtkMenuItem *item, gpointer data)
+void Hub::onOpenHubClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
 	WulforManager::get()->getMainWindow()->showHub_gui(hub->selectedTagStr);
 }
 
-void Hub::onSearchMagnetClicked_gui(GtkMenuItem *item, gpointer data)
+void Hub::onSearchMagnetClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
 	WulforManager::get()->getMainWindow()->addSearch_gui(hub->selectedTagStr);
 }
 
-void Hub::onDownloadClicked_gui(GtkMenuItem *item, gpointer data)
+void Hub::onDownloadClicked_gui(GtkMenuItem* , gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	WulforManager::get()->getMainWindow()->fileToDownload_gui(hub->selectedTagStr, SETTING(DOWNLOAD_DIRECTORY));
 }
 
-gboolean Hub::onChatCommandButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean Hub::onChatCommandButtonRelease_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	if (event->button == 1)
 	{
@@ -3015,14 +3015,14 @@ void Hub::onCommandClicked_gui(GtkWidget *widget, gpointer data)
 	gtk_editable_set_position(GTK_EDITABLE(chatEntry), pos);
 }
 
-void Hub::onUseEmoticons_gui(GtkWidget *widget, gpointer data)
+void Hub::onUseEmoticons_gui(GtkWidget*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
 	hub->useEmoticons = !hub->useEmoticons;
 }
 
-void Hub::onDownloadToClicked_gui(GtkMenuItem *item, gpointer data)
+void Hub::onDownloadToClicked_gui(GtkMenuItem*, gpointer data)
 {
 	GtkWidget *dialog = WulforManager::get()->getMainWindow()->getChooserDialog_gui();
 	gtk_window_set_title(GTK_WINDOW(dialog), _("Choose a directory"));
@@ -3050,14 +3050,14 @@ void Hub::onDownloadToClicked_gui(GtkMenuItem *item, gpointer data)
 	gtk_widget_hide(dialog);
 }
 
-void Hub::onMagnetPropertiesClicked_gui(GtkMenuItem *item, gpointer data)
+void Hub::onMagnetPropertiesClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
 	WulforManager::get()->getMainWindow()->propertiesMagnetDialog_gui(hub->selectedTagStr);
 }
 
-void Hub::onUserListToggled_gui(GtkWidget *widget, gpointer data)
+void Hub::onUserListToggled_gui(GtkWidget*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -3068,7 +3068,7 @@ void Hub::onUserListToggled_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Hub::onAddFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data)
+void Hub::onAddFavoriteUserClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -3107,7 +3107,7 @@ void Hub::onAddFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void Hub::onRemoveFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data)
+void Hub::onRemoveFavoriteUserClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -3146,7 +3146,7 @@ void Hub::onRemoveFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void Hub::onAddIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data)
+void Hub::onAddIgnoreUserItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -3182,7 +3182,7 @@ void Hub::onAddIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data)
     }
 }
 
-void Hub::onRemoveIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data)
+void Hub::onRemoveIgnoreUserItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -3224,7 +3224,7 @@ void Hub::onRemoveIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data)
 }
 
 //Protect Users
-void Hub::onProtectUserClicked_gui(GtkMenuItem *item , gpointer data)
+void Hub::onProtectUserClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub =(Hub *)data;
 	if (gtk_tree_selection_count_selected_rows(hub->nickSelection) == 1)
@@ -3257,7 +3257,7 @@ void Hub::onProtectUserClicked_gui(GtkMenuItem *item , gpointer data)
 	}
 }
 
-void Hub::onUnProtectUserClicked_gui(GtkMenuItem *item , gpointer data)
+void Hub::onUnProtectUserClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub =(Hub *)data;
 	if (gtk_tree_selection_count_selected_rows(hub->nickSelection) == 1)
@@ -3290,7 +3290,7 @@ void Hub::onUnProtectUserClicked_gui(GtkMenuItem *item , gpointer data)
 	}
 }
 
-void Hub::onShowReportClicked_gui(GtkMenuItem *item , gpointer data)
+void Hub::onShowReportClicked_gui(GtkMenuItem* , gpointer data)
 {
     Hub *hub = (Hub *)data;
 	string cid,icon;
@@ -3321,7 +3321,7 @@ void Hub::onShowReportClicked_gui(GtkMenuItem *item , gpointer data)
 	}
 }
 //Test SUR
-void Hub::onTestSURItemClicked_gui(GtkMenuItem *item, gpointer data)
+void Hub::onTestSURItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -3364,7 +3364,7 @@ void Hub::onTestSURItemClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 //check FL
-void Hub::onCheckFLItemClicked_gui(GtkMenuItem *item , gpointer data)
+void Hub::onCheckFLItemClicked_gui(GtkMenuItem* , gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -3404,7 +3404,7 @@ void Hub::onCheckFLItemClicked_gui(GtkMenuItem *item , gpointer data)
 	}
 }
 
-void Hub::onRefreshUserListClicked_gui(GtkWidget *wid, gpointer data)
+void Hub::onRefreshUserListClicked_gui(GtkWidget*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	hub->clearNickList_gui();
@@ -3905,7 +3905,7 @@ string Hub::realFile_client(string tth)
 	return Util::emptyString;
 }
 
-void Hub::on(QueueManagerListener::Finished, QueueItem *item, const string& dir, int64_t avSpeed) noexcept
+void Hub::on(QueueManagerListener::Finished, QueueItem *item, const string& , int64_t ) noexcept
 {
 	if(item->isSet(QueueItem::FLAG_TESTSUR))
 		return;
@@ -4076,7 +4076,7 @@ void Hub::onRemoveImageClicked_gui(GtkMenuItem *item, gpointer data)
 	hub->imageLoad.second = NULL;
 }
 
-void Hub::onOpenImageClicked_gui(GtkMenuItem *item, gpointer data)
+void Hub::onOpenImageClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub = (Hub*) data;
 
@@ -4104,26 +4104,26 @@ void Hub::openImage_gui(string target)
 	WulforUtil::openURI(target);
 }
 
-gboolean Hub::expose(GtkWidget *widget, cairo_t *event, gpointer data)
+gboolean Hub::expose(GtkWidget *widget, cairo_t *event, gpointer )
 {
 	return GTK_WIDGET_CLASS(GTK_WIDGET_GET_CLASS(widget))->draw(widget, event);
 }
 
-void Hub::onItalicButtonClicked_gui(GtkWidget *widget, gpointer data)
+void Hub::onItalicButtonClicked_gui(GtkWidget*, gpointer data)
 {
 	Hub *hub = (Hub*) data;
 
 	hub->insertBBcodeEntry_gui("i");
 }
 
-void Hub::onBoldButtonClicked_gui(GtkWidget *widget, gpointer data)
+void Hub::onBoldButtonClicked_gui(GtkWidget*, gpointer data)
 {
 	Hub *hub = (Hub*) data;
 
 	hub->insertBBcodeEntry_gui("b");
 }
 
-void Hub::onUnderlineButtonClicked_gui(GtkWidget *widget, gpointer data)
+void Hub::onUnderlineButtonClicked_gui(GtkWidget*, gpointer data)
 {
 	Hub *hub = (Hub*) data;
 
@@ -4630,7 +4630,7 @@ void Hub::on(ClientListener::HubTopic, Client *, const string &top) noexcept
     WulforManager::get()->dispatchGuiFunc(func);
 }
 
-void Hub::on(ClientListener::ClientLine, Client* , const string &mess, int type) noexcept
+void Hub::on(ClientListener::ClientLine, Client* , const string &mess, int) noexcept
 {
 	typedef Func3<Hub, string, Msg::TypeMsg, Sound::TypeSound> F3;
 	F3 *func = new F3(this, &Hub::addStatusMessage_gui, mess, Msg::STATUS, Sound::NONE);
@@ -4715,7 +4715,7 @@ void Hub::onRemoveFavHub(gpointer data)
     hub->removeAsFavorite_client();
 }
 
-void Hub::on_setImage_tab(GtkButton *widget, gpointer data)
+void Hub::on_setImage_tab(GtkButton*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	if(hub == NULL) return;

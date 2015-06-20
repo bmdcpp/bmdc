@@ -586,7 +586,7 @@ bool upgradeFromV2(string& file) {
 
 #else
 
-bool upgradeFromV2(string& file) {
+bool upgradeFromV2(string& ) {
 	/// @todo implement this on Linux; by default, force re-hashing.
 	return false;
 }

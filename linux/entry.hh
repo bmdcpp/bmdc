@@ -67,7 +67,7 @@ class Entry
 		Entry(const EntryType type, const std::string &ui = dcpp::Util::emptyString, const std::string &id = "");
 		virtual ~Entry();
 
-		const EntryType getType();
+		EntryType getType();
 		const std::string& getID();
 		virtual GtkWidget *getContainer() = 0;
 		void remove();

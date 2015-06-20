@@ -41,7 +41,7 @@
 
 BaconMessageConnection *connection = NULL;
 
-void receiver(const char *link, gpointer data)
+void receiver(const char *link, gpointer )
 {
 	g_return_if_fail(link != NULL);
 	WulforManager::get()->onReceived_gui(link);
@@ -52,7 +52,7 @@ using namespace dcpp;
 
 static bool m_crash = false;
 
-void handle_crash(int sig)
+void handle_crash(int )
 {
     if(m_crash)
         abort();

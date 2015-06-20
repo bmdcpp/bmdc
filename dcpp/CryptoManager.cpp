@@ -473,7 +473,7 @@ const ByteVector& CryptoManager::getKeyprint() const noexcept {
 	return keyprint;
 }
 
-void CryptoManager::loadKeyprint(const string& file) noexcept {
+void CryptoManager::loadKeyprint(const string& ) noexcept {
 	auto x509 = ssl::getX509(SETTING(TLS_CERTIFICATE_FILE).c_str());
 	if(x509) {
 		keyprint = ssl::X509_digest(x509, EVP_sha256());
@@ -661,7 +661,8 @@ string CryptoManager::getNameEntryByNID(X509_NAME* name, int nid) noexcept {
 }
 
 void CryptoManager::decodeBZ2(const uint8_t* is, size_t sz, string& os) {
-	bz_stream bs = { 0 };
+	bz_stream bs = { NULL,0,0,0,NULL,0,0,0,NULL,NULL,NULL,NULL };
+
 
 	if(BZ2_bzDecompressInit(&bs, 0, 0) != BZ_OK)
 		throw CryptoException(_("Error during decompression"));

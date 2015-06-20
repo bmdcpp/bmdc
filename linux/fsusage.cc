@@ -63,7 +63,7 @@
    Return 0 if successful, -1 if not.  When returning -1, ensure that
    ERRNO is either a system error value, or zero if DISK is NULL
    on a system that requires a non-NULL value.  */
-int FS::get_fs_usage (char const *file, char const *disk, struct fs_usage *fsp) {
+int FS::get_fs_usage (char const *file, char const*, struct fs_usage *fsp) {
 
   struct statvfs fsd;
 

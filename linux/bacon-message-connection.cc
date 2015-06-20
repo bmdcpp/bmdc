@@ -127,7 +127,7 @@ accept_new_connection (BaconMessageConnection *server_conn)
 }
 
 static gboolean
-server_cb (GIOChannel *source, GIOCondition condition, gpointer data)
+server_cb (GIOChannel *source, GIOCondition, gpointer data)
 {
 	BaconMessageConnection *conn = reinterpret_cast<BaconMessageConnection *>(data);
 	char *message, *subs, buf;

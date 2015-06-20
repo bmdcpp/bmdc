@@ -233,7 +233,7 @@ void Search::setColorsRows()
 	setColorRow("IP");
 	setColorRow("TTH");
 }
-static void hub_notify(gpointer data)
+static void hub_notify(gpointer )
 { }
 
 void Search::setColorRow(string cell)
@@ -941,7 +941,7 @@ string Search::getGroupingColumn(GroupType groupBy)
 	return column;
 }
 
-gboolean Search::onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data)
+gboolean Search::onFocusIn_gui(GtkWidget*, GdkEventFocus*, gpointer data)
 {
 	Search *s = (Search *)data;
 	gtk_widget_grab_focus(s->getWidget("SearchEntry"));
@@ -949,7 +949,7 @@ gboolean Search::onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer
 	return TRUE;
 }
 
-gboolean Search::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean Search::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	Search *s = (Search *)data;
 	s->oldEventType = event->type;
@@ -969,7 +969,7 @@ gboolean Search::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, g
 	return FALSE;
 }
 
-gboolean Search::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean Search::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	Search *s = (Search *)data;
 	gint count = gtk_tree_selection_count_selected_rows(s->selection);
@@ -982,7 +982,7 @@ gboolean Search::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, 
 	return FALSE;
 }
 
-gboolean Search::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
+gboolean Search::onKeyReleased_gui(GtkWidget* widget, GdkEventKey *event, gpointer data)
 {
 	Search *s = (Search *)data;
 	if (widget == GTK_WIDGET(s->resultView.get()))
@@ -1008,7 +1008,7 @@ gboolean Search::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpoint
 	return FALSE;
 }
 
-gboolean Search::onSearchEntryKeyPressed_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
+gboolean Search::onSearchEntryKeyPressed_gui(GtkWidget*, GdkEventKey *event, gpointer data)
 {
 	Search *s = (Search *)data;
 
@@ -1020,7 +1020,7 @@ gboolean Search::onSearchEntryKeyPressed_gui(GtkWidget *widget, GdkEventKey *eve
 	return FALSE;
 }
 
-void Search::onComboBoxChanged_gui(GtkWidget* widget, gpointer data)
+void Search::onComboBoxChanged_gui(GtkWidget* , gpointer data)
 {
 	Search *s = (Search *)data;
 
@@ -1050,7 +1050,7 @@ void Search::onGroupByComboBoxChanged_gui(GtkWidget *comboBox, gpointer data)
 	}
 }
 
-void Search::onSearchButtonClicked_gui(GtkWidget *widget, gpointer data)
+void Search::onSearchButtonClicked_gui(GtkWidget*, gpointer data)
 {
 	Search *s = (Search *)data;
 	s->search_gui();
@@ -1095,7 +1095,7 @@ void Search::onSlotsButtonToggled_gui(GtkToggleButton *button, gpointer data)
 		gtk_tree_model_filter_refilter(GTK_TREE_MODEL_FILTER(s->searchFilterModel));
 }
 
-void Search::onSharedButtonToggled_gui(GtkToggleButton *button, gpointer data)
+void Search::onSharedButtonToggled_gui(GtkToggleButton*, gpointer data)
 {
 	Search *s = (Search *)data;
 
@@ -1104,7 +1104,7 @@ void Search::onSharedButtonToggled_gui(GtkToggleButton *button, gpointer data)
 		gtk_tree_model_filter_refilter(GTK_TREE_MODEL_FILTER(s->searchFilterModel));
 }
 
-void Search::onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data)
+void Search::onToggledClicked_gui(GtkCellRendererToggle*, gchar *path, gpointer data)
 {
 	Search *s = (Search *)data;
 	GtkTreeIter iter;
@@ -1120,7 +1120,7 @@ void Search::onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpoi
 		gtk_tree_model_filter_refilter(GTK_TREE_MODEL_FILTER(s->searchFilterModel));
 }
 
-void Search::onDownloadClicked_gui(GtkMenuItem *item, gpointer data)
+void Search::onDownloadClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Search *s = (Search *)data;
 
@@ -1202,7 +1202,7 @@ void Search::onDownloadFavoriteClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void Search::onDownloadToClicked_gui(GtkMenuItem *item, gpointer data)
+void Search::onDownloadToClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Search *s = (Search *)data;
 
@@ -1301,7 +1301,7 @@ void Search::onDownloadToMatchClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void Search::onDownloadDirClicked_gui(GtkMenuItem *item, gpointer data)
+void Search::onDownloadDirClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Search *s = (Search *)data;
 
@@ -1379,7 +1379,7 @@ void Search::onDownloadFavoriteDirClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void Search::onDownloadDirToClicked_gui(GtkMenuItem *item, gpointer data)
+void Search::onDownloadDirToClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Search *s = (Search *)data;
 
@@ -1437,7 +1437,7 @@ void Search::onDownloadDirToClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void Search::onSearchByTTHClicked_gui(GtkMenuItem *item, gpointer data)
+void Search::onSearchByTTHClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Search *s = (Search *)data;
 
@@ -1465,7 +1465,7 @@ void Search::onSearchByTTHClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void Search::onGetFileListClicked_gui(GtkMenuItem *item, gpointer data)
+void Search::onGetFileListClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Search *s = (Search *)data;
 
@@ -1499,7 +1499,7 @@ void Search::onGetFileListClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void Search::onMatchQueueClicked_gui(GtkMenuItem *item, gpointer data)
+void Search::onMatchQueueClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Search *s = (Search *)data;
 
@@ -1532,7 +1532,7 @@ void Search::onMatchQueueClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void Search::onPrivateMessageClicked_gui(GtkMenuItem *item, gpointer data)
+void Search::onPrivateMessageClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Search *s = (Search *)data;
 
@@ -1564,7 +1564,7 @@ void Search::onPrivateMessageClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void Search::onAddFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data)
+void Search::onAddFavoriteUserClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Search *s = (Search *)data;
 
@@ -1598,7 +1598,7 @@ void Search::onAddFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void Search::onGrantExtraSlotClicked_gui(GtkMenuItem *item, gpointer data)
+void Search::onGrantExtraSlotClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Search *s = (Search *)data;
 
@@ -1631,7 +1631,7 @@ void Search::onGrantExtraSlotClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void Search::onRemoveUserFromQueueClicked_gui(GtkMenuItem *item, gpointer data)
+void Search::onRemoveUserFromQueueClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Search *s = (Search *)data;
 
@@ -1667,7 +1667,7 @@ void Search::onRemoveUserFromQueueClicked_gui(GtkMenuItem *item, gpointer data)
 
 // Removing a row from treeStore still leaves the SearchResultPtr to results map. This way if a duplicate
 // result comes in later it won't be readded, before the results map is cleared with a new search.
-void Search::onRemoveClicked_gui(GtkMenuItem *item, gpointer data)
+void Search::onRemoveClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Search *s = (Search *)data;
 
@@ -1704,7 +1704,7 @@ void Search::onRemoveClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void Search::onCopyMagnetClicked_gui(GtkMenuItem* item, gpointer data)
+void Search::onCopyMagnetClicked_gui(GtkMenuItem* , gpointer data)
 {
 	Search *s = (Search *)data;
 
@@ -1748,7 +1748,7 @@ void Search::onCopyMagnetClicked_gui(GtkMenuItem* item, gpointer data)
 	}
 }
 
-void Search::onCheckOp_gui(GtkToggleButton *button, gpointer data)
+void Search::onCheckOp_gui(GtkToggleButton*, gpointer data)
 {
 	Search *s = (Search *)data;
 	ClientManager::getInstance()->lock();
@@ -2115,16 +2115,16 @@ gboolean Search::searchFilterFunc_gui(GtkTreeModel *model, GtkTreeIter *iter, gp
 	return TRUE;
 }
 
-gboolean Search::on_match_select_entry(GtkEntryCompletion *widget,GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
+gboolean Search::on_match_select_entry(GtkEntryCompletion*,GtkTreeModel *model, GtkTreeIter *iter, gpointer )
 {
-	GValue value = {0,};
+	GValue value = G_VALUE_INIT;
 	gtk_tree_model_get_value(model, iter, EN_STRING, &value);
 	fprintf(stdout, "You have selected %s\n", g_value_get_string(&value));
 	g_value_unset(&value);
 	return FALSE;
 }
 
-gboolean Search::onResultView_gui(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer data)
+gboolean Search::onResultView_gui(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer )
 {
 	GtkTreeIter iter;
 	GtkTreeView *view = GTK_TREE_VIEW(widget);
@@ -2165,7 +2165,7 @@ gboolean Search::onResultView_gui(GtkWidget *widget, gint x, gint y, gboolean ke
 	return TRUE;
 }
 
-void Search::selection_changed_result_gui(GtkTreeSelection *selection, GtkWidget *tree_view)
+void Search::selection_changed_result_gui(GtkTreeSelection*, GtkWidget *tree_view)
 {
 	gtk_widget_trigger_tooltip_query (tree_view);
 }
@@ -2200,7 +2200,7 @@ void Search::onCloseItem(gpointer data)
 	Search *entry = (Search *)data;
 	WulforManager::get()->getMainWindow()->getSearchEntry()->removeBookEntry_gui(entry);
 }
-void Search::onAddItem(gpointer data)
+void Search::onAddItem(gpointer )
 {
 	BookEntry* entry = new Search(dcpp::Util::emptyString);
 	WulforManager::get()->getMainWindow()->getSearchEntry()->addBookEntry_gui(entry);

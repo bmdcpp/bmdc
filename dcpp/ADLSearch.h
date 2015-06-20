@@ -164,7 +164,7 @@ private:
 	void stepUpDirectory(DestDirList& destDirVector);
 
 	// Prepare destination directory indexing
-	void prepareDestinationDirectories(DestDirList& destDirs, DirectoryListing::Directory* root, ParamMap& params);
+	void prepareDestinationDirectories(DestDirList& destDirs, DirectoryListing::Directory* root);
 	// Finalize destination directories
 	void finalizeDestinationDirectories(DestDirList& destDirs, DirectoryListing::Directory* root);
 

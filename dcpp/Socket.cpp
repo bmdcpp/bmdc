@@ -120,7 +120,7 @@ inline int setSocketOpt2(socket_t sock, int level, int option, int val) {
 
 inline bool isConnected(socket_t sock) {
 	fd_set wfd;
-	struct timeval tv = { 0 };
+	struct timeval tv = { 0,0 };
 
 	FD_ZERO(&wfd);
 	FD_SET(sock, &wfd);
@@ -136,7 +136,7 @@ inline bool isConnected(socket_t sock) {
 
 inline int readable(socket_t sock0, socket_t sock1) {
 	fd_set rfd;
-	struct timeval tv = { 0 };
+	struct timeval tv = { 0,0 };
 
 	FD_ZERO(&rfd);
 	if(sock0 != -1)
@@ -262,11 +262,11 @@ socket_t Socket::create(const addrinfo& ai) {
 void Socket::accept(const Socket& listeningSocket) {
 	disconnect();
 
-	addr sock_addr = { { 0 } };
+	sockaddr_storage sock_addr;
 	socklen_t sz = sizeof(sock_addr);
 
-	auto sock = check([&] { return ::accept(readable(listeningSocket.sock4, listeningSocket.sock6), &sock_addr.sa, &sz); });
-	setSock(sock, sock_addr.sa.sa_family);
+	auto sock = check([&] { return ::accept(readable(listeningSocket.sock4, listeningSocket.sock6), (struct sockaddr*)&sock_addr, &sz); });
+	setSock(sock,  ((struct sockaddr*)&sock_addr)->sa_family);
 
 #ifdef _WIN32
 	// Make sure we disable any inherited windows message things for this socket.
@@ -276,17 +276,15 @@ void Socket::accept(const Socket& listeningSocket) {
 	// remote IP
 	char ipstr[INET6_ADDRSTRLEN + 1];
 	// return the remote port
-	if(sock_addr.sa.sa_family == AF_INET) {
-		struct sockaddr_in *s = (struct sockaddr_in *)&sock_addr.sa;
+	if(((struct sockaddr*)&sock_addr)->sa_family == AF_INET) {
+		struct sockaddr_in *s = (struct sockaddr_in *)&sock_addr;
 		inet_ntop(AF_INET, &s->sin_addr, ipstr, sizeof ipstr);
 		setIp(ipstr);
-//		return ntohs(sock_addr.sai.sin_port);
 	}
-	else if(sock_addr.sa.sa_family == AF_INET6) {
-		struct sockaddr_in6 *s = (struct sockaddr_in6 *)&sock_addr.sa;
+	else if(((struct sockaddr*)&sock_addr)->sa_family == AF_INET6) {
+		struct sockaddr_in6 *s = (struct sockaddr_in6 *)&sock_addr;
 		inet_ntop(AF_INET6, &s->sin6_addr, ipstr, sizeof ipstr);
 		setIp(ipstr);
-		//return ntohs(sock_addr.sai6.sin6_port);
 	}
 }
 
@@ -556,15 +554,15 @@ int Socket::read(void* aBuffer, int aBufLen, string &aIP) {
               return 0;
 	dcassert(type == TYPE_UDP);
 
-	addr remote_addr = { { 0 } };
+	sockaddr_storage remote_addr;
 	socklen_t addr_length = sizeof(remote_addr);
 
 	int len = check([&] {
-		return ::recvfrom(readable(sock4, sock6), (char*)aBuffer, aBufLen, 0, &remote_addr.sa, &addr_length);
+		return ::recvfrom(readable(sock4, sock6), (char*)aBuffer, aBufLen, 0, (struct sockaddr*)&remote_addr, &addr_length);
 	}, true);
 
 	if(len > 0) {
-		aIP = resolveName(&remote_addr.sa, addr_length);
+		aIP = resolveName((struct sockaddr*)&remote_addr, addr_length);
 		stats.totalDown += len;
 	} else {
 		aIP.clear();
@@ -782,13 +780,14 @@ bool Socket::waitConnected(int32_t millis) {
 	return false;
 }
 
-bool Socket::waitAccepted(int32_t millis) {
+bool Socket::waitAccepted(int32_t ) {
 	// Normal sockets are always connected after a call to accept
 	return true;
 }
 
 string Socket::resolve(const string& aDns, int af) noexcept {
-	addrinfo hints = { 0 };
+	struct addrinfo hints;
+	memset(&hints, 0, sizeof(addrinfo));
 	hints.ai_family = af;
 
 	addrinfo *result = nullptr;
@@ -806,7 +805,8 @@ string Socket::resolve(const string& aDns, int af) noexcept {
 }
 
 Socket::addrinfo_p Socket::resolveAddr(const string& name, const uint16_t& port, int family, int flags) {
-	addrinfo hints = { 0 };
+	struct addrinfo hints;
+	memset(&hints, 0, sizeof(addrinfo));
 	hints.ai_family = family;
 	hints.ai_flags = flags;
 	hints.ai_socktype = type == TYPE_TCP ? SOCK_STREAM : SOCK_DGRAM;

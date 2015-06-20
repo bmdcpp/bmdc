@@ -1715,7 +1715,7 @@ void Settings::setColorRow(string cell)
 
 }
 
-void Settings::makeColor(GtkTreeViewColumn *column, GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
+void Settings::makeColor(GtkTreeViewColumn *column, GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter, gpointer )
 {
 		string color = "#A52A2A";
 		gchar *cltype;
@@ -1771,12 +1771,12 @@ void Settings::makeColor(GtkTreeViewColumn *column, GtkCellRenderer *cell, GtkTr
 		g_free(a);
 }
 
-void Settings::onSetBackGroundChat(GtkWidget *widget , gpointer data)
+void Settings::onSetBackGroundChat(GtkWidget* , gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkWidget *dialog = gtk_color_chooser_dialog_new(_("Set Color"),GTK_WINDOW(s->getContainer()));
 	GdkRGBA color;
-	if (gdk_rgba_parse(&color,/*WGETS("background-color-chat").c_str()*/SETTING(BACKGROUND_CHAT_COLOR).c_str()))
+	if (gdk_rgba_parse(&color,SETTING(BACKGROUND_CHAT_COLOR).c_str()))
 		gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog), &color);
 
 	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
@@ -1786,7 +1786,6 @@ void Settings::onSetBackGroundChat(GtkWidget *widget , gpointer data)
 	{
 		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(dialog),&color);
 		string strcolor = WulforUtil::colorToString(&color);
-		//WSET("background-color-chat", strcolor);
 		SettingsManager::getInstance()->set(SettingsManager::BACKGROUND_CHAT_COLOR, strcolor);
 		SettingsManager::getInstance()->save();
 		GtkCssProvider *provider = gtk_css_provider_new ();
@@ -1799,10 +1798,6 @@ void Settings::onSetBackGroundChat(GtkWidget *widget , gpointer data)
 											GTK_STYLE_PROVIDER(provider),
 											GTK_STYLE_PROVIDER_PRIORITY_USER);
 		g_object_unref (provider);
-		/*gtk_widget_override_background_color(s->getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_NORMAL,&color);
-		gtk_widget_override_background_color(s->getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_PRELIGHT,&color);
-		gtk_widget_override_background_color(s->getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_ACTIVE,&color);
-		gtk_widget_override_background_color(s->getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_INSENSITIVE,&color);*/
 	}
 }
 
@@ -1916,7 +1911,7 @@ void Settings::initPlugins_gui()
 	g_signal_connect(plView.getCellRenderOf(_("Enabled")), "toggled", G_CALLBACK(onToggledPluginsClicked_gui), (gpointer)this);
 }
 
-void Settings::onToggledPluginsClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data)
+void Settings::onToggledPluginsClicked_gui(GtkCellRendererToggle*, gchar *path, gpointer data)
 {
 		Settings *fh = (Settings *)data;
 		GtkTreeIter iter;
@@ -1936,7 +1931,7 @@ void Settings::onToggledPluginsClicked_gui(GtkCellRendererToggle *cell, gchar *p
 
 }
 
-void Settings::onAddPluginTo_gui(GtkWidget *widget, gpointer data)
+void Settings::onAddPluginTo_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(s->getWidget("fileChooserDialog")), GTK_FILE_CHOOSER_ACTION_OPEN);
@@ -1956,7 +1951,7 @@ void Settings::onAddPluginTo_gui(GtkWidget *widget, gpointer data)
 }
 
 
-void Settings::onRemPluginFrom_gui(GtkWidget *widget, gpointer data)
+void Settings::onRemPluginFrom_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkTreeIter iter;
@@ -1973,7 +1968,7 @@ void Settings::onRemPluginFrom_gui(GtkWidget *widget, gpointer data)
 void Settings::RemovePlg_client(string sel)
 { PluginManager::getInstance()->disablePlugin(sel); }
 
-void Settings::onConfigurePlugin_gui(GtkWidget *widget, gpointer data)
+void Settings::onConfigurePlugin_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkTreeIter iter;
@@ -1993,7 +1988,7 @@ void Settings::onConfigurePlugin_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onAboutPlugin_gui(GtkWidget *widget, gpointer data)
+void Settings::onAboutPlugin_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkTreeIter iter;
@@ -2254,7 +2249,7 @@ void Settings::initSearchTypes_gui()
 	g_signal_connect(searchTypeView.get(), "button-release-event", G_CALLBACK(onSTButtonReleased_gui), (gpointer)this);
 }
 
-void Settings::onSTKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
+void Settings::onSTKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -2275,7 +2270,7 @@ void Settings::onSTKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpoint
 	}
 }
 
-void Settings::onSTButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+void Settings::onSTButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -2321,7 +2316,7 @@ void Settings::addPreviewUL_gui(GtkListStore *store, const std::string &name, co
 	colorsIters.insert(UnMapIter::value_type(name, iter));
 }
 
-void Settings::onAddSTButton_gui(GtkWidget *widget, gpointer data)
+void Settings::onAddSTButton_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -2487,7 +2482,7 @@ void Settings::addExtension_gui(const string ext)
 		-1);
 }
 
-void Settings::onAddExtensionButton_gui(GtkWidget *widget, gpointer data)
+void Settings::onAddExtensionButton_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -2512,7 +2507,7 @@ void Settings::onAddExtensionButton_gui(GtkWidget *widget, gpointer data)
 		s->showErrorDialog(string(_("Invalid extension: ")) + error);
 }
 
-void Settings::onModifySTButton_gui(GtkWidget *widget, gpointer data)
+void Settings::onModifySTButton_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -2563,7 +2558,7 @@ void Settings::onModifySTButton_gui(GtkWidget *widget, gpointer data)
 	s->showExtensionDialog_gui(FALSE);
 }
 
-void Settings::onRenameSTButton_gui(GtkWidget *widget, gpointer data)
+void Settings::onRenameSTButton_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -2611,7 +2606,7 @@ void Settings::onRenameSTButton_gui(GtkWidget *widget, gpointer data)
 		-1);
 }
 
-void Settings::onRemoveSTButton_gui(GtkWidget *widget, gpointer data)
+void Settings::onRemoveSTButton_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -2638,7 +2633,7 @@ void Settings::onRemoveSTButton_gui(GtkWidget *widget, gpointer data)
 	gtk_list_store_remove(s->searchTypeStore, &iter);
 }
 
-void Settings::onDefaultSTButton_gui(GtkWidget *widget, gpointer data)
+void Settings::onDefaultSTButton_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -2663,7 +2658,7 @@ void Settings::onDefaultSTButton_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onEditExtensionButton_gui(GtkWidget *widget, gpointer data)
+void Settings::onEditExtensionButton_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -2702,7 +2697,7 @@ void Settings::onEditExtensionButton_gui(GtkWidget *widget, gpointer data)
 	gtk_widget_hide(dialog);
 }
 
-void Settings::onRemoveExtensionButton_gui(GtkWidget *widget, gpointer data)
+void Settings::onRemoveExtensionButton_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -2715,7 +2710,7 @@ void Settings::onRemoveExtensionButton_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onUpExtensionButton_gui(GtkWidget *widget, gpointer data)
+void Settings::onUpExtensionButton_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkTreeIter prev, current;
@@ -2731,7 +2726,7 @@ void Settings::onUpExtensionButton_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onDownExtensionButton_gui(GtkWidget *widget, gpointer data)
+void Settings::onDownExtensionButton_gui(GtkWidget *, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkTreeIter current, next;
@@ -2745,7 +2740,7 @@ void Settings::onDownExtensionButton_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onNotifyTestButton_gui(GtkWidget *widget, gpointer data)
+void Settings::onNotifyTestButton_gui(GtkWidget *, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -2764,7 +2759,7 @@ void Settings::onNotifyTestButton_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onNotifyIconFileBrowseClicked_gui(GtkWidget *widget, gpointer data)
+void Settings::onNotifyIconFileBrowseClicked_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -2801,7 +2796,7 @@ void Settings::onNotifyIconFileBrowseClicked_gui(GtkWidget *widget, gpointer dat
 	}
 }
 
-void Settings::onNotifyKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
+void Settings::onNotifyKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -2817,7 +2812,7 @@ void Settings::onNotifyKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gp
 	}
 }
 
-void Settings::onNotifyButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+void Settings::onNotifyButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -2833,7 +2828,7 @@ void Settings::onNotifyButtonReleased_gui(GtkWidget *widget, GdkEventButton *eve
 	}
 }
 
-void Settings::onNotifyOKClicked_gui(GtkWidget *widget, gpointer data)
+void Settings::onNotifyOKClicked_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -2859,7 +2854,7 @@ void Settings::onNotifyOKClicked_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onNotifyIconNoneButton_gui(GtkWidget *widget, gpointer data)
+void Settings::onNotifyIconNoneButton_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -2873,7 +2868,7 @@ void Settings::onNotifyIconNoneButton_gui(GtkWidget *widget, gpointer data)
 		s->showErrorDialog(_("...must not be empty"));
 }
 
-void Settings::onNotifyDefaultButton_gui(GtkWidget *widget, gpointer data)
+void Settings::onNotifyDefaultButton_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -2910,7 +2905,7 @@ void Settings::onNotifyDefaultButton_gui(GtkWidget *widget, gpointer data)
 		s->showErrorDialog(_("...must not be empty"));
 }
 
-void Settings::onImportThemeButton_gui(GtkWidget *widget, gpointer data)
+void Settings::onImportThemeButton_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -2943,7 +2938,7 @@ void Settings::onImportThemeButton_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onExportThemeButton_gui(GtkWidget *widget, gpointer data)
+void Settings::onExportThemeButton_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -2973,7 +2968,7 @@ void Settings::onExportThemeButton_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onDefaultIconsThemeButton_gui(GtkWidget *widget, gpointer data)
+void Settings::onDefaultIconsThemeButton_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -2981,15 +2976,14 @@ void Settings::onDefaultIconsThemeButton_gui(GtkWidget *widget, gpointer data)
 	s->applyIconsTheme(TRUE);
 }
 
-void Settings::onSystemIconsThemeButton_gui(GtkWidget *widget, gpointer data)
+void Settings::onSystemIconsThemeButton_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
 	string theme = gtk_label_get_text(GTK_LABEL(s->getWidget("currentThemeLabel")));
 	theme += _(" + system icons");
 	gtk_label_set_text(GTK_LABEL(s->getWidget("currentThemeLabel")), theme.c_str());
-//	#pragma GCC diagnostic push
-//	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
 	s->set("icon-download", BMDC_STOCK_GO_DOWN);
 	s->set("icon-favorite-hubs", BMDC_STOCK_HOME);
 	s->set("icon-finished-downloads", BMDC_STOCK_GO_DOWN);
@@ -3008,11 +3002,11 @@ void Settings::onSystemIconsThemeButton_gui(GtkWidget *widget, gpointer data)
 	s->set("icon-adlsearch",BMDC_STOCK_GO_UP);
 	s->set("icon-system",BMDC_STOCK_FIND);
 	s->set("icon-away", BMDC_STOCK_NETWORK);
-//#pragma GCC diagnostic pop
+
 	s->applyIconsTheme();
 }
 
-void Settings::onDefaultThemeButton_gui(GtkWidget *widget, gpointer data)
+void Settings::onDefaultThemeButton_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -3021,7 +3015,7 @@ void Settings::onDefaultThemeButton_gui(GtkWidget *widget, gpointer data)
 	s->applyTextTheme(TRUE);
 }
 
-void Settings::onDefaultColorsSPButton_gui(GtkWidget *widget, gpointer data)
+void Settings::onDefaultColorsSPButton_gui(GtkWidget *, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	#if !GTK_CHECK_VERSION(3,4,0)
@@ -3047,7 +3041,7 @@ void Settings::onDefaultColorsSPButton_gui(GtkWidget *widget, gpointer data)
 		g_c_b_s(G_C_B(s->getWidget("rSPColorButton")), &color);
 }
 
-void Settings::onDefaultFrameSPButton_gui(GtkWidget *widget, gpointer data)
+void Settings::onDefaultFrameSPButton_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -3057,7 +3051,7 @@ void Settings::onDefaultFrameSPButton_gui(GtkWidget *widget, gpointer data)
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(s->getWidget("topSPSpinButton")), double(wsm->getInt("search-spy-top", TRUE)));
 }
 //NOTE: core 0.762
-void Settings::onLimitSecondToggled_gui(GtkWidget *widget, gpointer data)
+void Settings::onLimitSecondToggled_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -3297,7 +3291,7 @@ void Settings::set(const string &key, const string &value)
 	stringMapTheme[key] = value;
 }
 
-void Settings::onSoundFileBrowseClicked_gui(GtkWidget *widget, gpointer data)
+void Settings::onSoundFileBrowseClicked_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -3324,7 +3318,7 @@ void Settings::onSoundFileBrowseClicked_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onSoundPlayButton_gui(GtkWidget *widget, gpointer data)
+void Settings::onSoundPlayButton_gui(GtkWidget *, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -3338,37 +3332,37 @@ void Settings::onSoundPlayButton_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onTextColorForeClicked_gui(GtkWidget *widget, gpointer data)
+void Settings::onTextColorForeClicked_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	s->selectTextColor_gui(0);
 }
 
-void Settings::onTextColorBackClicked_gui(GtkWidget *widget, gpointer data)
+void Settings::onTextColorBackClicked_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	s->selectTextColor_gui(1);
 }
 
-void Settings::onTextColorBWClicked_gui(GtkWidget *widget, gpointer data)
+void Settings::onTextColorBWClicked_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	s->selectTextColor_gui(2);
 }
 
-void Settings::onTextStyleClicked_gui(GtkWidget *widget, gpointer data)
+void Settings::onTextStyleClicked_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	s->selectTextStyle_gui(0);
 }
 
-void Settings::onTextStyleDefaultClicked_gui(GtkWidget *widget, gpointer data)
+void Settings::onTextStyleDefaultClicked_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	s->selectTextStyle_gui(1);
 }
 
-void Settings::onPreviewAdd_gui(GtkWidget *widget, gpointer data)
+void Settings::onPreviewAdd_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings*)data;
 
@@ -3402,7 +3396,7 @@ void Settings::onPreviewAdd_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onPreviewRemove_gui(GtkWidget *widget, gpointer data)
+void Settings::onPreviewRemove_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -3418,7 +3412,7 @@ void Settings::onPreviewRemove_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onPreviewKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
+void Settings::onPreviewKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -3436,7 +3430,7 @@ void Settings::onPreviewKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, g
 	}
 }
 
-void Settings::onPreviewButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+void Settings::onPreviewButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -3454,7 +3448,7 @@ void Settings::onPreviewButtonReleased_gui(GtkWidget *widget, GdkEventButton *ev
 	}
 }
 
-void Settings::onPreviewApply_gui(GtkWidget *widget, gpointer data)
+void Settings::onPreviewApply_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -3486,7 +3480,7 @@ void Settings::onPreviewApply_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onAddShare_gui(GtkWidget *widget, gpointer data)
+void Settings::onAddShare_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -3516,28 +3510,18 @@ void Settings::onAddShare_gui(GtkWidget *widget, gpointer data)
 
 			if (response == GTK_RESPONSE_OK)
 			{
-				//typedef Func2<Settings, string, string> F2;
-				//F2 *func = new F2(s, &Settings::addShare_client, path, name);
-				//WulforManager::get()->dispatchClientFunc(func);
 				try
 				{
 					ShareManager::getInstance()->addDirectory(path, name);
-					//size = ShareManager::getInstance()->getShareSize(path);
 				}
 				catch (const ShareException &e)
 				{
-					//typedef Func1<Settings, const string> F1;
-					//F1 *func = new F1(this, &Settings::showErrorDialog, e.getError());
-					//WulforManager::get()->dispatchGuiFunc(func);
 					s->showErrorDialog(e.getError());
 					return;//should not update GUI if any Share* exception hapened
 				}
 				catch(...){g_print("Some other exception");}
 				
 				s->addShare_gui(path, name);
-				//typedef Func2<Settings, string, string> F3;
-				//F3 *func = new F3(this, &Settings::addShare_gui, path, name);
-				//WulforManager::get()->dispatchGuiFunc(func);
 			}
 		}
 	}
@@ -3716,13 +3700,13 @@ void Settings::selectTextStyle_gui(const int select)
 	}
 }
 /*BMDC++*/
-void Settings::onTextColorForeULClicked_gui(GtkWidget *widget, gpointer data)
+void Settings::onTextColorForeULClicked_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	s->setColorUL();
 }
 
-void Settings::onBgColorULClicked_gui(GtkWidget *widget, gpointer data)
+void Settings::onBgColorULClicked_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	s->setBgColorUserList();
@@ -3781,7 +3765,7 @@ void Settings::setBgColorUserList()
 	}
 }
 
-void Settings::onTextColorDefaultULClicked_gui(GtkWidget *widget, gpointer data)
+void Settings::onTextColorDefaultULClicked_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkTreeIter iter;
@@ -4012,7 +3996,7 @@ void Settings::showErrorDialog(const string error)
 	gtk_widget_show(errorDialog);
 }
 
-void Settings::onOptionsViewToggled_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data)
+void Settings::onOptionsViewToggled_gui(GtkCellRendererToggle*, gchar *path, gpointer data)
 {
 	GtkTreeIter iter;
 	GtkListStore *store = (GtkListStore *)data;
@@ -4026,7 +4010,7 @@ void Settings::onOptionsViewToggled_gui(GtkCellRendererToggle *cell, gchar *path
 	}
 }
 
-void Settings::onInDirect_gui(GtkToggleButton *button, gpointer data)
+void Settings::onInDirect_gui(GtkToggleButton*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	gtk_widget_set_sensitive(s->getWidget("entryipv6"), TRUE);
@@ -4041,7 +4025,7 @@ void Settings::onInDirect_gui(GtkToggleButton *button, gpointer data)
 	gtk_widget_set_sensitive(s->getWidget("forceIPCheckButton"), TRUE);
 }
 
-void Settings::onInFW_NAT_gui(GtkToggleButton *button, gpointer data)
+void Settings::onInFW_NAT_gui(GtkToggleButton*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	gtk_widget_set_sensitive(s->getWidget("entryipv6"), TRUE);
@@ -4056,7 +4040,7 @@ void Settings::onInFW_NAT_gui(GtkToggleButton *button, gpointer data)
 	gtk_widget_set_sensitive(s->getWidget("forceIPCheckButton"), TRUE);
 }
 
-void Settings::onInPassive_gui(GtkToggleButton *button, gpointer data)
+void Settings::onInPassive_gui(GtkToggleButton*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	gtk_widget_set_sensitive(s->getWidget("entryipv6"), FALSE);
@@ -4071,7 +4055,7 @@ void Settings::onInPassive_gui(GtkToggleButton *button, gpointer data)
 	gtk_widget_set_sensitive(s->getWidget("forceIPCheckButton"), FALSE);
 }
 
-void Settings::onOutDirect_gui(GtkToggleButton *button, gpointer data)
+void Settings::onOutDirect_gui(GtkToggleButton*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	gtk_widget_set_sensitive(s->getWidget("socksIPEntry"), FALSE);
@@ -4085,7 +4069,7 @@ void Settings::onOutDirect_gui(GtkToggleButton *button, gpointer data)
 	gtk_widget_set_sensitive(s->getWidget("socksCheckButton"), FALSE);
 }
 
-void Settings::onSocks5_gui(GtkToggleButton *button, gpointer data)
+void Settings::onSocks5_gui(GtkToggleButton*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	gtk_widget_set_sensitive(s->getWidget("socksIPEntry"), TRUE);
@@ -4099,7 +4083,7 @@ void Settings::onSocks5_gui(GtkToggleButton *button, gpointer data)
 	gtk_widget_set_sensitive(s->getWidget("socksCheckButton"), TRUE);
 }
 
-void Settings::onBrowseFinished_gui(GtkWidget *widget, gpointer data)
+void Settings::onBrowseFinished_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -4117,7 +4101,7 @@ void Settings::onBrowseFinished_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onBrowseUnfinished_gui(GtkWidget *widget, gpointer data)
+void Settings::onBrowseUnfinished_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -4135,7 +4119,7 @@ void Settings::onBrowseUnfinished_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onPublicHubs_gui(GtkWidget *widget, gpointer data)
+void Settings::onPublicHubs_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkTreeIter iter;
@@ -4167,7 +4151,7 @@ void Settings::onPublicHubs_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onPublicAdd_gui(GtkWidget *widget, gpointer data)
+void Settings::onPublicAdd_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkTreeIter iter;
@@ -4182,7 +4166,7 @@ void Settings::onPublicAdd_gui(GtkWidget *widget, gpointer data)
 	gtk_tree_path_free(path);
 }
 
-void Settings::onPublicMoveUp_gui(GtkWidget *widget, gpointer data)
+void Settings::onPublicMoveUp_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkTreeIter prev, current;
@@ -4198,7 +4182,7 @@ void Settings::onPublicMoveUp_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onPublicMoveDown_gui(GtkWidget *widget, gpointer data)
+void Settings::onPublicMoveDown_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkTreeIter current, next;
@@ -4212,7 +4196,7 @@ void Settings::onPublicMoveDown_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onPublicEdit_gui(GtkCellRendererText *cell, char *path, char *text, gpointer data)
+void Settings::onPublicEdit_gui(GtkCellRendererText*, char *path, char *text, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkTreeIter iter;
@@ -4221,7 +4205,7 @@ void Settings::onPublicEdit_gui(GtkCellRendererText *cell, char *path, char *tex
 		gtk_list_store_set(s->publicListStore, &iter, 0, text, -1);
 }
 
-void Settings::onPublicRemove_gui(GtkWidget *widget, gpointer data)
+void Settings::onPublicRemove_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkTreeIter iter;
@@ -4231,7 +4215,7 @@ void Settings::onPublicRemove_gui(GtkWidget *widget, gpointer data)
 		gtk_list_store_remove(s->publicListStore, &iter);
 }
 
-void Settings::onAddFavorite_gui(GtkWidget *widget, gpointer data)
+void Settings::onAddFavorite_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -4245,10 +4229,6 @@ void Settings::onAddFavorite_gui(GtkWidget *widget, gpointer data)
 		{
 			string path = Text::toUtf8(temp);
 			g_free(temp);
-
-			/*gtk_entry_set_text(GTK_ENTRY(s->getWidget("favoriteNameDialogEntry")), "");
-			response = gtk_dialog_run(GTK_DIALOG(s->getWidget("favoriteNameDialog")));
-			gtk_widget_hide(s->getWidget("favoriteNameDialog"));*/
 			GtkWidget *dialog = s->getWidget("nameDialog");
 			gtk_window_set_title(GTK_WINDOW(dialog), _("Favorite name"));
 			gtk_entry_set_text(GTK_ENTRY(s->getWidget("nameDialogEntry")), "");
@@ -4280,7 +4260,7 @@ void Settings::onAddFavorite_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onRemoveFavorite_gui(GtkWidget *widget, gpointer data)
+void Settings::onRemoveFavorite_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkTreeIter iter;
@@ -4297,7 +4277,7 @@ void Settings::onRemoveFavorite_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-gboolean Settings::onFavoriteButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean Settings::onFavoriteButtonReleased_gui(GtkWidget*, GdkEventButton*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkTreeIter iter;
@@ -4324,7 +4304,7 @@ void Settings::addShare_gui(string path, string name)
 		-1);
 }
 
-void Settings::onRemoveShare_gui(GtkWidget *widget, gpointer data)
+void Settings::onRemoveShare_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkTreeIter iter;
@@ -4340,7 +4320,7 @@ void Settings::onRemoveShare_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-gboolean Settings::onShareButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean Settings::onShareButtonReleased_gui(GtkWidget*, GdkEventButton*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection(s->shareView.get());
@@ -4353,7 +4333,7 @@ gboolean Settings::onShareButtonReleased_gui(GtkWidget *widget, GdkEventButton *
 	return FALSE;
 }
 
-gboolean Settings::onShareHiddenPressed_gui(GtkToggleButton *togglebutton, gpointer data)
+gboolean Settings::onShareHiddenPressed_gui(GtkToggleButton*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -4397,7 +4377,7 @@ void Settings::updateShares_gui()
 	gtk_label_set_text(GTK_LABEL(getWidget("sharedSizeLabel")), text.c_str());
 }
 //NOTE: core 0.762
-void Settings::onLogBrowseClicked_gui(GtkWidget *widget, gpointer data)
+void Settings::onLogBrowseClicked_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -4454,7 +4434,7 @@ void Settings::onRawsClicked_gui(GtkToggleButton *button, gpointer data)
 	gtk_widget_set_sensitive(s->getWidget("entryraws"),toggled);
 }
 //BMDC
-void Settings::onUserCommandAdd_gui(GtkWidget *widget, gpointer data)
+void Settings::onUserCommandAdd_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -4489,7 +4469,7 @@ void Settings::onUserCommandAdd_gui(GtkWidget *widget, gpointer data)
 		s->saveUserCommand(NULL);
 }
 
-void Settings::onUserCommandEdit_gui(GtkWidget *widget, gpointer data)
+void Settings::onUserCommandEdit_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkTreeIter iter;
@@ -4578,7 +4558,7 @@ void Settings::onUserCommandEdit_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onUserCommandMoveUp_gui(GtkWidget *widget, gpointer data)
+void Settings::onUserCommandMoveUp_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkTreeIter prev, current;
@@ -4602,7 +4582,7 @@ void Settings::onUserCommandMoveUp_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onUserCommandMoveDown_gui(GtkWidget *widget, gpointer data)
+void Settings::onUserCommandMoveDown_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkTreeIter current, next;
@@ -4624,7 +4604,7 @@ void Settings::onUserCommandMoveDown_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onUserCommandRemove_gui(GtkWidget *widget, gpointer data)
+void Settings::onUserCommandRemove_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkTreeIter iter;
@@ -4706,7 +4686,7 @@ void Settings::onUserCommandTypePM_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-gboolean Settings::onUserCommandKeyPress_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
+gboolean Settings::onUserCommandKeyPress_gui(GtkWidget*, GdkEventKey*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -4715,7 +4695,7 @@ gboolean Settings::onUserCommandKeyPress_gui(GtkWidget *widget, GdkEventKey *eve
 	return FALSE;
 }
 
-void Settings::onCertificatesPrivateBrowseClicked_gui(GtkWidget *widget, gpointer data)
+void Settings::onCertificatesPrivateBrowseClicked_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -4734,7 +4714,7 @@ void Settings::onCertificatesPrivateBrowseClicked_gui(GtkWidget *widget, gpointe
 	}
 }
 
-void Settings::onCertificatesFileBrowseClicked_gui(GtkWidget *widget, gpointer data)
+void Settings::onCertificatesFileBrowseClicked_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -4753,7 +4733,7 @@ void Settings::onCertificatesFileBrowseClicked_gui(GtkWidget *widget, gpointer d
 	}
 }
 
-void Settings::onCertificatesPathBrowseClicked_gui(GtkWidget *widget, gpointer data)
+void Settings::onCertificatesPathBrowseClicked_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -4771,7 +4751,7 @@ void Settings::onCertificatesPathBrowseClicked_gui(GtkWidget *widget, gpointer d
 	}
 }
 
-void Settings::onGenerateCertificatesClicked_gui(GtkWidget *widget, gpointer data)
+void Settings::onGenerateCertificatesClicked_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	Func0<Settings> *func = new Func0<Settings>(s, &Settings::generateCertificates_client);
@@ -4791,12 +4771,9 @@ void Settings::shareHidden_client(bool show)
 
 void Settings::addShare_client(string path, string name)
 {
-//	int64_t size = 0;
-
 	try
 	{
 		ShareManager::getInstance()->addDirectory(path, name);
-		//size = ShareManager::getInstance()->getShareSize(path);
 	}
 	catch (const ShareException &e)
 	{
@@ -4840,7 +4817,7 @@ void Settings::generateCertificates_client()
 	}
 }
 
-void Settings::onInFW_UPnP_gui(GtkToggleButton *button, gpointer data)//NOTE: core 0.762
+void Settings::onInFW_UPnP_gui(GtkToggleButton*, gpointer data)//NOTE: core 0.762
 {
 	Settings *s = (Settings *)data;
 	gtk_widget_set_sensitive(s->getWidget("entryIpExt"), TRUE);
@@ -4853,7 +4830,7 @@ void Settings::onInFW_UPnP_gui(GtkToggleButton *button, gpointer data)//NOTE: co
 	gtk_widget_set_sensitive(s->getWidget("tlsLabel"), TRUE);
 	gtk_widget_set_sensitive(s->getWidget("forceIPCheckButton"), TRUE);
 }
-void Settings::onPictureShare_gui(GtkWidget *widget, gpointer data)
+void Settings::onPictureShare_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -4865,7 +4842,7 @@ void Settings::onPictureShare_gui(GtkWidget *widget, gpointer data)
 }
 
 //BMDC++
-void Settings::onAddHighlighting_gui(GtkWidget *widget, gpointer data)
+void Settings::onAddHighlighting_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -4915,7 +4892,7 @@ void Settings::onAddHighlighting_gui(GtkWidget *widget, gpointer data)
 		gtk_widget_hide(dialog);
 }
 
-void Settings::onEditHighlighting_gui(GtkWidget *widget, gpointer data)
+void Settings::onEditHighlighting_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -4997,7 +4974,7 @@ void Settings::onEditHighlighting_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onRemoveHighlighting_gui(GtkWidget *widget, gpointer data)
+void Settings::onRemoveHighlighting_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkTreeIter iter;
@@ -5033,7 +5010,7 @@ void Settings::onRemoveHighlighting_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onColorText_gui(GtkWidget *widget, gpointer data)
+void Settings::onColorText_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkWidget *dialog = gtk_color_chooser_dialog_new (_("Color Select"),GTK_WINDOW(s->getContainer()));
@@ -5052,7 +5029,7 @@ void Settings::onColorText_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onColorBack_gui(GtkWidget *widget, gpointer data)
+void Settings::onColorBack_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	GtkWidget *dialog = gtk_color_chooser_dialog_new (_("Color Select"),GTK_WINDOW(s->getContainer()));
@@ -5071,7 +5048,7 @@ void Settings::onColorBack_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void Settings::onSound_gui(GtkWidget *widget, gpointer data)
+void Settings::onSound_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 
@@ -5087,7 +5064,7 @@ void Settings::onSound_gui(GtkWidget *widget, gpointer data)
 	}
 }
 /**/
-void Settings::onToggledHGText_gui(GtkWidget *widget, gpointer data)
+void Settings::onToggledHGText_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	gtk_widget_set_sensitive(s->getWidget("entryHGColorText"), s->isSensitiveHG[0]);
@@ -5095,7 +5072,7 @@ void Settings::onToggledHGText_gui(GtkWidget *widget, gpointer data)
 	s->isSensitiveHG[0] = !s->isSensitiveHG[0];
 }
 
-void Settings::onToggledHGColor_gui(GtkWidget *widget, gpointer data)
+void Settings::onToggledHGColor_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	gtk_widget_set_sensitive(s->getWidget("entryHGColorBack"), s->isSensitiveHG[1]);
@@ -5103,7 +5080,7 @@ void Settings::onToggledHGColor_gui(GtkWidget *widget, gpointer data)
 	s->isSensitiveHG[1] = !s->isSensitiveHG[1];
 }
 
-void Settings::onToggledHGSound_gui(GtkWidget *widget, gpointer data)
+void Settings::onToggledHGSound_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	gtk_widget_set_sensitive(s->getWidget("entryHGSoundFile"), s->isSensitiveHG[2]);
@@ -5111,14 +5088,14 @@ void Settings::onToggledHGSound_gui(GtkWidget *widget, gpointer data)
 	s->isSensitiveHG[2] = !s->isSensitiveHG[2];
 }
 
-void Settings::onToggledHGNotify_gui(GtkWidget *widget, gpointer data)
+void Settings::onToggledHGNotify_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
 	gtk_widget_set_sensitive(s->getWidget("entryHGPopup"), s->isSensitiveHG[3]);
 	s->isSensitiveHG[3] = !s->isSensitiveHG[3];
 }
 /**/
-void Settings::saveHighlighting(dcpp::StringMap &params, bool add, const string &name /*""*/)
+void Settings::saveHighlighting(dcpp::StringMap &params, bool add, const string&/*""*/)
 {
 	ColorSettings cs;
 

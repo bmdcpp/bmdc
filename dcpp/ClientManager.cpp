@@ -87,7 +87,7 @@ StringList ClientManager::getHubs(const CID& cid, const string& hintUrl) {
 	return lst;
 }
 
-StringList ClientManager::getHubNames(const CID& cid, const string& hintUrl) {
+StringList ClientManager::getHubNames(const CID& cid, const string&) {
 	Lock l(cs);
 	StringList lst;
 	OnlinePairC op = onlineUsers.equal_range(cid);
@@ -280,7 +280,7 @@ UserPtr ClientManager::getUser(const CID& cid) noexcept {
 	return p;
 }
 
-UserPtr ClientManager::findUser(const CID& cid,const string& hubUrl /*=empty*/) const noexcept {
+UserPtr ClientManager::findUser(const CID& cid,const string&) const noexcept {
 	{
 		Lock l(cs);
 		UserMap::const_iterator ui = users.find(cid);
@@ -727,7 +727,7 @@ void ClientManager::on(UserUpdated, Client*, const OnlineUser& user) noexcept {
 	fire(ClientManagerListener::UserUpdated(), user);
 }
 
-void ClientManager::on(UsersUpdated, Client* c, const OnlineUserList& l) noexcept {
+void ClientManager::on(UsersUpdated, Client* , const OnlineUserList& l) noexcept {
 	for(OnlineUserList::const_iterator i = l.begin(), iend = l.end(); i != iend; ++i) {
 		updateNick(*(*i));
 		fire(ClientManagerListener::UserUpdated(), *(*i));

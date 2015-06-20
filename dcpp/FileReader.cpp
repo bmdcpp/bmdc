@@ -271,7 +271,7 @@ size_t FileReader::readMapped(const string& file, const DataCallback& callback) 
 #include <unistd.h>
 
 
-size_t FileReader::readDirect(const string& file, const DataCallback& callback) {
+size_t FileReader::readDirect(const string&, const DataCallback& ) {
 	return READ_FAILED;
 }
 

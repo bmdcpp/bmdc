@@ -24,21 +24,17 @@
 
 using namespace std;
 
-DialogEntry::DialogEntry(const EntryType type, const string &glade, GtkWindow* parent):
+DialogEntry::DialogEntry(const EntryType type, const string &glade, GtkWindow*):
 	Entry(type, glade),
-	parent(parent),
 	responseID(GTK_RESPONSE_NONE)
 {
 	GtkWindow* window = GTK_WINDOW(getContainer());
 
 	gtk_window_set_role(window, getID().c_str());
 
-	if (parent == NULL)
-		parent = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
-
 	gboolean modal = gtk_window_get_modal(window);
 	if (modal)
-		gtk_window_set_transient_for(window, parent);
+		gtk_window_set_transient_for(window, NULL);
 
 	WulforManager::get()->insertEntry_gui(this);
 }

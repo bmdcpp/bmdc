@@ -214,7 +214,7 @@ GType* TreeView::getGTypes()
 	return gtypes;
 }
 
-void TreeView::speedDataFunc(GtkTreeViewColumn *col, GtkCellRenderer *renderer, GtkTreeModel *model, GtkTreeIter *iter, gpointer column)
+void TreeView::speedDataFunc(GtkTreeViewColumn*, GtkCellRenderer *renderer, GtkTreeModel *model, GtkTreeIter *iter, gpointer column)
 {
 	string speedString;
 	int64_t speed;
@@ -228,7 +228,7 @@ void TreeView::speedDataFunc(GtkTreeViewColumn *col, GtkCellRenderer *renderer, 
 	g_object_set(renderer, "text", speedString.c_str(), NULL);
 }
 
-void TreeView::sizeDataFunc(GtkTreeViewColumn *col, GtkCellRenderer *renderer, GtkTreeModel *model, GtkTreeIter *iter, gpointer column)
+void TreeView::sizeDataFunc(GtkTreeViewColumn*, GtkCellRenderer *renderer, GtkTreeModel *model, GtkTreeIter *iter, gpointer column)
 {
 	string sizeString;
 	int64_t size;
@@ -242,7 +242,7 @@ void TreeView::sizeDataFunc(GtkTreeViewColumn *col, GtkCellRenderer *renderer, G
 	g_object_set(renderer, "text", sizeString.c_str(), NULL);
 }
 
-void TreeView::exactsizeDataFunc(GtkTreeViewColumn *col, GtkCellRenderer *renderer, GtkTreeModel *model, GtkTreeIter *iter, gpointer column)
+void TreeView::exactsizeDataFunc(GtkTreeViewColumn*, GtkCellRenderer *renderer, GtkTreeModel *model, GtkTreeIter *iter, gpointer column)
 {
 	string sizeString;
 	int64_t size;
@@ -257,7 +257,7 @@ void TreeView::exactsizeDataFunc(GtkTreeViewColumn *col, GtkCellRenderer *render
 }
 
 
-void TreeView::timeLeftDataFunc(GtkTreeViewColumn *col, GtkCellRenderer *renderer, GtkTreeModel *model, GtkTreeIter *iter, gpointer column)
+void TreeView::timeLeftDataFunc(GtkTreeViewColumn*, GtkCellRenderer *renderer, GtkTreeModel *model, GtkTreeIter *iter, gpointer column)
 {
 	string timeLeftString;
 	int64_t seconds;
@@ -466,7 +466,7 @@ GtkTreeViewColumn *TreeView::getColumn(const std::string &title)
 	return columns[title].column;
 }
 
-gboolean TreeView::popupMenu_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean TreeView::popupMenu_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	TreeView *tv = (TreeView*)data;
 
@@ -628,7 +628,7 @@ void TreeView::buildCopyMenu(GtkWidget *wid)
     }
 }
 
-void TreeView::onCopyRowClicked_gui(GtkMenuItem *item, gpointer data)
+void TreeView::onCopyRowClicked_gui(GtkMenuItem*, gpointer data)
 {
 	TreeView *tv = (TreeView *)data;
 
@@ -710,7 +710,7 @@ void TreeView::onCopyDataItemClicked_gui(GtkMenuItem *item, gpointer data)
  	}
 }
 
-string TreeView::getValueAsText(GtkTreeIter *i, const string &title)
+string TreeView::getValueAsText(GtkTreeIter* i, const string &title)
 {
 	GtkTreeModel *m = gtk_tree_view_get_model(view);
 

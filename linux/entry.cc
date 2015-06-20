@@ -57,7 +57,7 @@ Entry::~Entry()
 
 }
 
-const Entry::EntryType Entry::getType()
+Entry::EntryType Entry::getType()
 {
 	return type;
 }

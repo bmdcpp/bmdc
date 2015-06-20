@@ -42,7 +42,7 @@ public:
 		@note This may be called several times per tag with partial contents in mixed content
 		situations, such as: <outer>Data1<inner>Data2</inner>Data3</outer> (data will be called
 		once for "Data1", once for "Data2", once for "Data3"). */
-		virtual void data(const std::string& data) {};
+		virtual void data(const std::string& ) {};
 
 		/** Contents of an XML tag have been read.
 		@param name Name of the tag. */

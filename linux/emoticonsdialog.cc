@@ -398,7 +398,7 @@ void EmoticonsDialog::onChat(GtkWidget *widget , gpointer data /*this*/)
 	ed->dialog = NULL;
 }
 
-gboolean EmoticonsDialog::event(GtkWidget *widget /*dialog*/, GdkEvent *event, gpointer data /*this*/)
+gboolean EmoticonsDialog::event(GtkWidget*, GdkEvent *event, gpointer data /*this*/)
 {
 	EmoticonsDialog *ed = (EmoticonsDialog *) data;
 

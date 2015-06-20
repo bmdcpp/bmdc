@@ -148,7 +148,7 @@ void FavoriteUsers::show()
 	FavoriteManager::getInstance()->addListener(this);
 }
 
-gboolean FavoriteUsers::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
+gboolean FavoriteUsers::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
 
@@ -167,7 +167,7 @@ gboolean FavoriteUsers::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event,
 	return FALSE;
 }
 
-gboolean FavoriteUsers::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean FavoriteUsers::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
 	fu->previous = event->type;
@@ -188,7 +188,7 @@ gboolean FavoriteUsers::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *e
 	return FALSE;
 }
 
-gboolean FavoriteUsers::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean FavoriteUsers::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
 
@@ -239,7 +239,7 @@ void FavoriteUsers::clickAction(gpointer data)
 	}
 }
 
-void FavoriteUsers::onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data)
+void FavoriteUsers::onBrowseItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
 
@@ -280,7 +280,7 @@ void FavoriteUsers::onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void FavoriteUsers::onMatchQueueItemClicked_gui(GtkMenuItem *item, gpointer data)
+void FavoriteUsers::onMatchQueueItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
 
@@ -320,7 +320,7 @@ void FavoriteUsers::onMatchQueueItemClicked_gui(GtkMenuItem *item, gpointer data
 	}
 }
 
-void FavoriteUsers::onSendPMItemClicked_gui(GtkMenuItem *item, gpointer data)
+void FavoriteUsers::onSendPMItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
 
@@ -349,7 +349,7 @@ void FavoriteUsers::onSendPMItemClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void FavoriteUsers::onGrantSlotItemClicked_gui(GtkMenuItem *item, gpointer data)
+void FavoriteUsers::onGrantSlotItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
 
@@ -386,7 +386,7 @@ void FavoriteUsers::onGrantSlotItemClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void FavoriteUsers::onConnectItemClicked_gui(GtkMenuItem *item, gpointer data)
+void FavoriteUsers::onConnectItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
 
@@ -413,7 +413,7 @@ void FavoriteUsers::onConnectItemClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void FavoriteUsers::onRemoveFromQueueItemClicked_gui(GtkMenuItem *item, gpointer data)
+void FavoriteUsers::onRemoveFromQueueItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
 
@@ -442,7 +442,7 @@ void FavoriteUsers::onRemoveFromQueueItemClicked_gui(GtkMenuItem *item, gpointer
 	}
 }
 
-void FavoriteUsers::onDescriptionItemClicked_gui(GtkMenuItem *item, gpointer data)
+void FavoriteUsers::onDescriptionItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
 
@@ -501,7 +501,7 @@ void FavoriteUsers::onDescriptionItemClicked_gui(GtkMenuItem *item, gpointer dat
 	}
 }
 
-void FavoriteUsers::onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data)
+void FavoriteUsers::onRemoveItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
 
@@ -564,7 +564,7 @@ void FavoriteUsers::onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void FavoriteUsers::onAutoGrantSlotToggled_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data)
+void FavoriteUsers::onAutoGrantSlotToggled_gui(GtkCellRendererToggle*, gchar *path, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
 	GtkTreeIter iter;
@@ -860,7 +860,7 @@ void FavoriteUsers::on(FavoriteManagerListener::FavoriteIAdded, const string &ni
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
-void FavoriteUsers::on(FavoriteManagerListener::FavoriteIRemoved, const string &nick, FavoriteUser* &user) noexcept
+void FavoriteUsers::on(FavoriteManagerListener::FavoriteIRemoved, const string &nick, FavoriteUser*&) noexcept
 {
 	Func1<FavoriteUsers, string> *func = new Func1<FavoriteUsers, string>(this, &FavoriteUsers::removeFavoriteNicks_gui,
 		nick);
@@ -879,7 +879,7 @@ void FavoriteUsers::on(FavoriteManagerListener::FavoriteIUpdate, const string &n
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
-void FavoriteUsers::onIgnoreSetUserClicked_gui(GtkWidget *widget, gpointer data)
+void FavoriteUsers::onIgnoreSetUserClicked_gui(GtkWidget*, gpointer data)
 {
 	FavoriteUsers *fu = (FavoriteUsers *)data;
 

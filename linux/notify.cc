@@ -281,7 +281,7 @@ void Notify::showNotify(const string &title, const string &head, const string &b
 	#endif
 }
 
-void Notify::onAction(NotifyNotification *notify, const char *action, gpointer data)
+void Notify::onAction(NotifyNotification *notify, const char*, gpointer data)
 {
 	#ifdef HAVE_NOTIFY
 	string target = (gchar *)data;

@@ -33,7 +33,7 @@
 
 namespace dcpp {
 
-class BackupManager: public Singleton<BackupManager>, public Thread, public LogManagerListener, public SettingsManagerListener, private TimerManagerListener {
+class BackupManager: public Singleton<BackupManager>, public Thread,  public SettingsManagerListener, private TimerManagerListener {
 public:
 	bool stop;
 	CriticalSection cs;
@@ -50,7 +50,6 @@ public:
 	virtual void on(TimerManagerListener::Minute, uint64_t aTick) noexcept;
 
 private:
-	using LogManagerListener::on;
 	using SettingsManagerListener::on;
 	using TimerManagerListener::on;
 	friend class Singleton<BackupManager>;
@@ -63,7 +62,7 @@ private:
 	uint64_t ui64LastBackUpTime;
 };
 
-class RestoreManager: public Singleton<RestoreManager>, public Thread, public LogManagerListener, public SettingsManagerListener {
+class RestoreManager: public Singleton<RestoreManager>, public Thread, public SettingsManagerListener {
 public:
 	bool stop;
 	CriticalSection cs;

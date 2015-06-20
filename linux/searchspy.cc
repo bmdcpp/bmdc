@@ -335,8 +335,6 @@ bool SearchSpy::updateFrameStatus_gui(GtkTreeIter *iter, uint64_t tick)
 		string order = searchView.getString(&itree, "order");
 
 		dcassert(tick >= gettick);
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 		if (tick - gettick > second)
 		{
 			if (iter)
@@ -399,7 +397,7 @@ void SearchSpy::setStatus_gui(const string text)
 	}
 }
 
-void SearchSpy::onOKButtonClicked_gui(GtkWidget *widget, gpointer data)
+void SearchSpy::onOKButtonClicked_gui(GtkWidget *, gpointer data)
 {
 	SearchSpy *s =  (SearchSpy *) data;
 
@@ -435,7 +433,7 @@ void SearchSpy::resetCount()
 	}
 }
 
-void SearchSpy::onShowTopClicked_gui(GtkWidget *widget, gpointer data)
+void SearchSpy::onShowTopClicked_gui(GtkWidget*, gpointer data)
 {
 	SearchSpy *s = (SearchSpy *)data;
 
@@ -448,13 +446,13 @@ void SearchSpy::onShowTopClicked_gui(GtkWidget *widget, gpointer data)
 	gtk_widget_hide(dialog);
 }
 
-void SearchSpy::onClearTopClicked_gui(GtkWidget *widget, gpointer data)
+void SearchSpy::onClearTopClicked_gui(GtkWidget*, gpointer data)
 {
 	SearchSpy *s = (SearchSpy *)data;
 	gtk_list_store_clear(s->topStore);
 }
 
-void SearchSpy::onSearchTopClicked_gui(GtkWidget *widget, gpointer data)
+void SearchSpy::onSearchTopClicked_gui(GtkWidget*, gpointer data)
 {
 	SearchSpy *s = (SearchSpy *)data;
 
@@ -478,7 +476,7 @@ void SearchSpy::onSearchTopClicked_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void SearchSpy::onRemoveTopClicked_gui(GtkWidget *widget, gpointer data)
+void SearchSpy::onRemoveTopClicked_gui(GtkWidget*, gpointer data)
 {
 	SearchSpy *s = (SearchSpy *)data;
 
@@ -491,7 +489,7 @@ void SearchSpy::onRemoveTopClicked_gui(GtkWidget *widget, gpointer data)
 	}
 }
 
-void SearchSpy::onClearFrameClicked_gui(GtkWidget *widget, gpointer data)
+void SearchSpy::onClearFrameClicked_gui(GtkWidget*, gpointer data)
 {
 	SearchSpy *s = (SearchSpy *)data;
 
@@ -500,20 +498,20 @@ void SearchSpy::onClearFrameClicked_gui(GtkWidget *widget, gpointer data)
 	s->setStatus_gui(_("Cleaned frame search"));
 }
 
-void SearchSpy::onUpdateFrameClicked_gui(GtkWidget *widget, gpointer data)
+void SearchSpy::onUpdateFrameClicked_gui(GtkWidget*, gpointer data)
 {
 	SearchSpy *s = (SearchSpy *)data;
 
 	s->updateFrameStatus_gui();
 }
 
-void SearchSpy::onIgnoreTTHSearchToggled_gui(GtkWidget *widget, gpointer data)
+void SearchSpy::onIgnoreTTHSearchToggled_gui(GtkWidget *widget, gpointer )
 {
 	gboolean toggle = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 	SettingsManager::getInstance()->set(SettingsManager::SPY_FRAME_IGNORE_TTH_SEARCHES, toggle);
 }
 
-void SearchSpy::onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data)
+void SearchSpy::onRemoveItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	SearchSpy *s = (SearchSpy *)data;
 
@@ -546,7 +544,7 @@ void SearchSpy::onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void SearchSpy::onSearchItemClicked_gui(GtkMenuItem *item, gpointer data)
+void SearchSpy::onSearchItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	SearchSpy *s = (SearchSpy *)data;
 
@@ -580,7 +578,7 @@ void SearchSpy::onSearchItemClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-gboolean SearchSpy::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean SearchSpy::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	SearchSpy *s = (SearchSpy *)data;
 	s->previous = event->type;
@@ -601,7 +599,7 @@ gboolean SearchSpy::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event
 	return FALSE;
 }
 
-gboolean SearchSpy::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean SearchSpy::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	SearchSpy *s = (SearchSpy *)data;
 
@@ -622,7 +620,7 @@ gboolean SearchSpy::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *even
 	return FALSE;
 }
 
-gboolean SearchSpy::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
+gboolean SearchSpy::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer data)
 {
 	SearchSpy *s = (SearchSpy *)data;
 
@@ -665,7 +663,7 @@ void SearchSpy::on(ClientManagerListener::IncomingSearch, const string& s) throw
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
-void SearchSpy::on(TimerManagerListener::Minute, uint32_t tick) throw()
+void SearchSpy::on(TimerManagerListener::Minute, uint32_t ) throw()
 {
 	typedef Func0<SearchSpy> F0;
 	F0 *func = new F0(this, &SearchSpy::updateFrameStatus_gui);

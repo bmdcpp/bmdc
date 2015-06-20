@@ -88,7 +88,7 @@ void RecentHubs::show()
 	FavoriteManager::getInstance()->addListener(this);
 }
 
-gboolean RecentHubs::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data)
+gboolean RecentHubs::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer data)
 {
 	RecentHubs *fu = (RecentHubs *)data;
 
@@ -107,7 +107,7 @@ gboolean RecentHubs::onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gp
 	return FALSE;
 }
 
-gboolean RecentHubs::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean RecentHubs::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	RecentHubs *fu = (RecentHubs *)data;
 	fu->previous = event->type;
@@ -128,7 +128,7 @@ gboolean RecentHubs::onButtonPressed_gui(GtkWidget *widget, GdkEventButton *even
 	return FALSE;
 }
 
-gboolean RecentHubs::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
+gboolean RecentHubs::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	RecentHubs *fu = (RecentHubs *)data;
 
@@ -143,7 +143,7 @@ gboolean RecentHubs::onButtonReleased_gui(GtkWidget *widget, GdkEventButton *eve
 	return FALSE;
 }
 
-void RecentHubs::onConnectItemClicked_gui(GtkMenuItem *item, gpointer data)
+void RecentHubs::onConnectItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	RecentHubs *fu = (RecentHubs *)data;
 
@@ -167,7 +167,7 @@ void RecentHubs::onConnectItemClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void RecentHubs::onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data)
+void RecentHubs::onRemoveItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	RecentHubs *fu = (RecentHubs *)data;
 
@@ -225,7 +225,7 @@ void RecentHubs::onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data)
 	}
 }
 
-void RecentHubs::onDeleteAll_gui(GtkWidget *widget, gpointer data)
+void RecentHubs::onDeleteAll_gui(GtkWidget*, gpointer data)
 {
 	RecentHubs *rt = (RecentHubs *)data;
 	gtk_list_store_clear(rt->recentStore);

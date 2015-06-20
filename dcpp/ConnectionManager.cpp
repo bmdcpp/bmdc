@@ -428,7 +428,7 @@ void ConnectionManager::on(AdcCommand::SUP, UserConnection* aSource, const AdcCo
 	aSource->setState(UserConnection::STATE_INF);
 }
 
-void ConnectionManager::on(AdcCommand::STA, UserConnection* uc, const AdcCommand& cmd) noexcept {
+void ConnectionManager::on(AdcCommand::STA, UserConnection* , const AdcCommand& ) noexcept {
 }
 
 void ConnectionManager::on(UserConnectionListener::Connected, UserConnection* aSource) noexcept {

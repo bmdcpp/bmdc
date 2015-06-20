@@ -194,7 +194,7 @@ bool PluginManager::onUDP(bool out, const string& ip, const string& port, const 
 		reinterpret_cast<dcptr_t>(const_cast<char*>(data.c_str())));
 }
 bool PluginManager::onChatDisplay(string& htmlMessage, OnlineUser* from) {
-	StringData data = { htmlMessage.c_str() };
+	StringData data = { htmlMessage.c_str(), const_cast<char*>(htmlMessage.c_str()) };
 	bool handled = runHook(HOOK_UI_CHAT_DISPLAY, from, &data);
 	if(handled && data.out) {
 		htmlMessage = data.out;
@@ -530,7 +530,7 @@ void PluginManager::loadSettings() noexcept {
 					Util::toDouble(xml.getChildAttrib("Version")), xml.getChildAttrib("Author"),
 					xml.getChildAttrib("Description"), xml.getChildAttrib("Website"),
 					xml.getChildAttrib("Path"), nullptr,
-					reinterpret_cast<DCMAIN>(xml.getBoolChildAttrib("Enabled")) };
+					reinterpret_cast<DCMAIN>(xml.getBoolChildAttrib("Enabled")), StringMap() };
 
 				if(plugin.guid.empty() || plugin.path.empty()) { continue; }
 				if(plugin.name.empty()) { plugin.name = Util::getFileName(plugin.path); }
