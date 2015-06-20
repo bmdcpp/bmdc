@@ -464,7 +464,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		}
 		uint16_t p_port = -1;
 		string server = Util::emptyString;
-		bool isOk = false,isOk2 =false;
+		bool isOk = false;
 		
 		string p = param.substr(++i);
 		size_t y = p.find('[');
@@ -490,7 +490,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		//	isOk = inet_pton(AF_INET6,server.c_str(), buf) == 1;
 		//	isOk2 = inet_pton(AF_INET6,server.c_str(), buf) != -1;
 			dcdebug("%s",server.c_str());
-			isOk = isOk2 = true;
+			isOk = true;
 		}
 		else {
 			ClientManager::parsePortIp(p,server,p_port);
@@ -502,9 +502,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		}		
 		if(isProtectedIP(server))
 			return;
-		//if(j+1 >= param.size()) {
-		//	return;
-		//}
+
 		if( p_port < 1 || p_port > 65535)
 				return;
 		//if(isOk == true || isOk2 == true)

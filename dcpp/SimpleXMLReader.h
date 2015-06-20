@@ -35,18 +35,18 @@ public:
 		@param attribs List of attribute name / contents pairs representing attributes of the tag.
 		Use the getAttrib function to retrieve one particular attribute.
 		@param simple Whether this tag is void of any data (<example/>). */
-		virtual void startTag(const std::string& name, StringPairList& attribs, bool simple);
+		virtual void startTag(const std::string& name, StringPairList& attribs, bool simple) = 0;
 
 		/** Contents of an XML tag have been read.
 		@param data Contents of the tag.
 		@note This may be called several times per tag with partial contents in mixed content
 		situations, such as: <outer>Data1<inner>Data2</inner>Data3</outer> (data will be called
 		once for "Data1", once for "Data2", once for "Data3"). */
-		virtual void data(const std::string& data);
+		virtual void data(const std::string& data) {};
 
 		/** Contents of an XML tag have been read.
 		@param name Name of the tag. */
-		virtual void endTag(const std::string& name);
+		virtual void endTag(const std::string& name) = 0;
 
 	protected:
 		static const std::string& getAttrib(StringPairList& attribs, const std::string& name, size_t hint);

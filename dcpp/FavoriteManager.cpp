@@ -357,7 +357,7 @@ public:
 			publicHubs.push_back(HubEntry(name, server, description, users, country, shared, minShare, minSlots, maxHubs, maxUsers, reliability, rating));
 		}
 	}
-	virtual void endTag(const string&, const string&) {
+	virtual void endTag(const string&) {
 
 	}
 private:

@@ -371,7 +371,7 @@ void Socket::connect(const string& aAddr, const int16_t& aPort, const string& lo
 		{
 			try {
 				auto sock = create(*ai);
-				/*auto localIp = getLocalIp(sock);/**/auto localIp =  ai->ai_family == AF_INET6 ? getLocalIp6() : getLocalIp4();
+				auto localIp =  ai->ai_family == AF_INET6 ? getLocalIp6() : getLocalIp4();
 
 				if(!localPort.empty() || !localIp.empty()) {
 					auto local = resolveAddr(localIp,Util::toInt(localPort), ai->ai_family);

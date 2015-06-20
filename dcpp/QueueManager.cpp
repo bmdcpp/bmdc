@@ -1527,7 +1527,7 @@ public:
 	QueueLoader() : cur(NULL), inDownloads(false) { }
 	virtual ~QueueLoader() { }
 	virtual void startTag(const string& name, StringPairList& attribs, bool simple);
-	virtual void endTag(const string& name, const string& data);
+	virtual void endTag(const string& name);
 private:
 	string target;
 
@@ -1649,7 +1649,7 @@ void QueueLoader::startTag(const string& name, StringPairList& attribs, bool sim
 	}
 }
 
-void QueueLoader::endTag(const string& name, const string&) {
+void QueueLoader::endTag(const string& name) {
 	if(inDownloads) {
 		if(name == sDownload) {
 			cur = NULL;

@@ -476,6 +476,7 @@ public:
 		inHashStore(false)
 	{ }
 	void startTag(const string& name, StringPairList& attribs, bool simple);
+	void endTag(const string&){}
 private:
 	HashManager::HashStore& store;
 
