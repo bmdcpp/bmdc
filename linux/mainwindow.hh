@@ -48,10 +48,11 @@
 #ifdef HAVE_APPINDCATOR
 	#include <libappindicator/app-indicator.h>
 #endif
+#ifdef HAVE_XSSLIB
 //Note Idle detection
 #include <X11/extensions/scrnsaver.h>
 #include <gdk/gdkx.h>
-
+#endif
 
 
 class BookEntry;
@@ -171,7 +172,9 @@ class MainWindow:
 		typedef std::vector<ParamPair> ListParamPair;
 		static const char* icons[(MainWindow::IconsToolbar)END][3];
 		// GUI functions
+#ifdef HAVE_XSSLIB			
 		void onIdle();
+#endif		
 		void loadIcons_gui();
 		void showTransfersPane_gui();
 		void autoOpen_gui();
@@ -400,7 +403,6 @@ class MainWindow:
 				}
 				int run();
 		};
-		//TTHHash hasht;
 
 		enum
 		{

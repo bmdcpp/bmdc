@@ -2951,11 +2951,14 @@ if (SETTING(ALWAYS_TRAY) && !downloadSpeed.empty() && !uploadSpeed.empty())
 
 void MainWindow::on(dcpp::TimerManagerListener::Minute, uint64_t ) noexcept
 {
+#ifdef HAVE_XSSLIB	
 	typedef Func0<MainWindow> F0;
 	F0 *func = new F0(this,&MainWindow::onIdle);
 	WulforManager::get()->dispatchGuiFunc(func);
+#endif	
 }
 
+#ifdef HAVE_XSSLIB	
 void MainWindow::onIdle()
 {	
 	g_print("Detection Part 1");
@@ -2991,7 +2994,7 @@ if(_idleDetectionPossible) {
 		}
 	}
 }
-
+#endif
 void MainWindow::onTTHFileDialog_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw =(MainWindow *)data;

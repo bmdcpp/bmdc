@@ -129,8 +129,8 @@
               <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Warning!&#13;
-Changing these settings can be harmful to the stability, security, and performance of this application.&#13;
+                <property name="label" translatable="yes">Warning!
+Changing these settings can be harmful to the stability, security, and performance of this application.
 You should only continue if you know what you're doing!</property>
               </object>
               <packing>

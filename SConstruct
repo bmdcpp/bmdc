@@ -25,7 +25,7 @@ LIB_IS_GEO = False
 LIB_IS_TAR = False
 LIB_HAVE_XATTR = False
 # For Idle Detection, Enabled by defualt
-LIB_HAVE_XSS = True
+LIB_HAVE_XSS = False
 # , '-Werror' ,'-Wfatal-errors'
 #'-fno-stack-protector',
 # #,'-fpermissive' ],
@@ -127,6 +127,7 @@ vars.AddVariables(
 	BoolVariable('libtar', 'Enable Backup&Export with libtar', 1),
 	BoolVariable('libappindicator', 'Enable AppIndicator Support', 0),
 	BoolVariable('libxattr', 'Enable xattr',1),
+	BoolVariable('libXss', 'Enable libxss support for AutoAway on idle',1),
 	PathVariable('PREFIX', 'Compile the program with PREFIX as the root for installation', '/usr/local/', PathVariable.PathIsDir),
 	('FAKE_ROOT', 'Make scons install the program under a fake root', '')
 )
@@ -212,7 +213,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		Exit(1)
 	elif env['CXX'] == 'clang++':	
 		print 'Use clang compiler'
-		env.Append(CXXFLAGS = ["-I/usr/include/",'-Wno-overloaded-virtual','-pthread'])
+		env.Append(CXXFLAGS = ['-I/usr/include/','-Wno-overloaded-virtual','-pthread'])
 		env.Append(CFLAGS = '-I/usr/include/')
 		env.Append( CPPPATH ='/usr/include/')
 		env.Append( LIBS = 'pthread')
@@ -309,7 +310,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if not conf.CheckLib('libminiupnpc'):
 		LIB_IS_UPNP = False
 	# Check for natpmp
-	if not conf.CheckLib("libnatpmp"):
+	if not conf.CheckLib('libnatpmp'):
 		LIB_IS_NATPMP = False
 
 	# GeoIp
@@ -323,8 +324,8 @@ if not 'install' in COMMAND_LINE_TARGETS:
 
 	# libtar for Backup/Restore man...
 	if conf.env.get('libtar'):
-		if conf.CheckHeader("libtar.h"):
-			print "Found Libtar"
+		if conf.CheckHeader('libtar.h'):
+			print 'Found Libtar\n'
 			conf.env.Append(CPPDEFINES = 'HAVE_LIBTAR')
 			LIB_IS_TAR = True
 		else:
@@ -334,13 +335,19 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	# Support of appindicator # Very Experimetal!
 	if conf.env.get('libappindicator'):
 		if conf.CheckPKG('appindicator3-0.1'):
-			print "Found appindicator3"
+			print 'Found appindicator3'
 			conf.env.Append(CPPDEFINES = 'HAVE_APPINDCATOR')
 			conf.env.Append(CXXFLAGS = '-I/usr/include/libappindicator3-0.1')
 			conf.env.Append(LIBS = 'appindicator3')
 			conf.env.Append(LINKFLAGS = '-lappindicator3')
 			conf.env.ParseConfig('pkg-config --libs --cflags appindicator3-0.1')
-
+	
+	if conf.env.get('libXss'):
+		if conf.CheckLibWithHeader('libXss','X11/extensions/scrnsaver.h' ,'c'):
+			print 'Found Xss'
+			conf.env.Append(CPPDEFINES = 'HAVE_XSSLIB')
+			LIB_HAVE_XSS = True
+		
 
 	conf.CheckBZRRevision(env)
 	env = conf.Finish()
