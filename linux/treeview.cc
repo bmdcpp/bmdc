@@ -472,7 +472,7 @@ gboolean TreeView::popupMenu_gui(GtkWidget*, GdkEventButton *event, gpointer dat
 
 	if (event->button == 3)
 	{
-		gtk_menu_popup(tv->menu, NULL, NULL, NULL, NULL, (event != NULL) ? event->button : 0, gdk_event_get_time((GdkEvent*)event));
+		gtk_menu_popup(tv->menu, NULL, NULL, NULL, NULL, event->button, gdk_event_get_time((GdkEvent*)event));
 		gtk_widget_show_all(GTK_WIDGET(tv->menu));
 		return true;
 	}

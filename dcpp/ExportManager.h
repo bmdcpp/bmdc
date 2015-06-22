@@ -52,8 +52,7 @@ private:
 	Semaphore s;
 
 	int run();
-	void 	exportData(const string &path, StringList &paths);
-	string	importData(const string &from);
+	void exportData(const string &path, StringList &paths);
 	deque< map<string, StringList> > ofexporteddata;
 	bool stop;	
 };	

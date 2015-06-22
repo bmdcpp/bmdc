@@ -513,10 +513,10 @@ void ADLSearchManager::finalizeDestinationDirectories(DestDirList& destDirVector
 }
 
 void ADLSearchManager::matchListing(DirectoryListing& aDirList) {
-	ParamMap params;
+	/*ParamMap params;
 	params["userNI"] = ClientManager::getInstance()->getNicks(aDirList.getUser())[0];
 	params["userCID"] = aDirList.getUser().user->getCID().toBase32();
-
+*/
 	setUser(aDirList.getUser());
 
 	auto root = aDirList.getRoot();

@@ -185,8 +185,8 @@ private:
 				if(!c.getParam("DE",1,desc))
 					desc = "No Description";
 				
-				if(!c.getParam("LO",3,login))
-					login = "-1";
+				//if(!c.getParam("LO",3,login))
+				//	login = "-1";
 					
 				if(!c.getParam("HA",2,url))
 					return;

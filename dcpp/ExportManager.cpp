@@ -48,7 +48,7 @@ void ExportManager::exportData(const string &to, StringList &paths)
 	catch(...){
 	}
 }
-
+/*
 string ExportManager::importData(const string &from)
 {
 	Lock l(cs);
@@ -61,7 +61,7 @@ string ExportManager::importData(const string &from)
 	}
 	return _("Import of path") + from + _("is Succesfull");
 }
-
+*/
 int ExportManager::run()
 {
 	setThreadPriority(Thread::LOW);

@@ -42,7 +42,7 @@ public:
 	StringSearch(const StringSearch& rhs) noexcept : pattern(rhs.pattern) {
 		memcpy(delta1, rhs.delta1, sizeof(delta1));
 	}
-	const StringSearch& operator=(const StringSearch& rhs) {
+	StringSearch& operator=(const StringSearch& rhs) {
 		memcpy(delta1, rhs.delta1, sizeof(delta1));
 		pattern = rhs.pattern;
 		return *this;
