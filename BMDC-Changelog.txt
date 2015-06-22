@@ -1,7 +1,12 @@
 0.1.10
  ======
  Add Idle Detection after 5 minutes and set away status
- Fix some warn wich pop up with clang 4.x.x
+ Fix some warns wich pop up with clang 3.x.x
+ Add libXss detection and its off while dont find it
+ Fix one translating string in /ui/config.glade.ui
+ Add back groups to UI
+ Fix overlaping of Text in Hub, PM Debug and System Log tabs
+ 
 0.1.7
  ======
  Add Appindicator support

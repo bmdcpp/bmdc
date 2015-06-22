@@ -1237,7 +1237,7 @@ bool DetectionTab::showAddEntryDetDialog(StringMap &params, DetectionTab *dt)
 					{
 						dt->map.push_back(make_pair(a,b));
 					}
-					else ;
+					else g_print("dont go here");
 
 					valid = gtk_tree_model_iter_next(tmodel, &iter);
 

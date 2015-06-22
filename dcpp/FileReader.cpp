@@ -279,7 +279,7 @@ static const int64_t BUF_SIZE = 0x1000000 - (0x1000000 % getpagesize());
 #ifndef __clang__
 static sigjmp_buf sb_env;
 
-static void sigbus_handler(int signum, siginfo_t* info, void* context) {
+static void sigbus_handler(int signum, siginfo_t* info, void* ) {
 	// Jump back to the readMapped which will return error. Apparently truncating
 	// a file in Solaris sets si_code to BUS_OBJERR
 	if (signum == SIGBUS && (info->si_code == BUS_ADRERR || info->si_code == BUS_OBJERR))

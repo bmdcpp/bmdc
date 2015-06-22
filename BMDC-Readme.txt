@@ -15,9 +15,9 @@ zlib
 libbz2
 libssl
 libGeoIP >= 1.4.7
-libXss # for idle detection
 --------------
 optional:
+ libXss (Note: for idle detection)
  libtar (Note: For Backup/Restore options )
  libnotify >= 0.4.1 ( Note: For popups notifications )
  libappindicator3 ( Note: For appindicators in gtk 3.14 and above )

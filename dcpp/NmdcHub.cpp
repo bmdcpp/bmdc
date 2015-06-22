@@ -464,7 +464,6 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		}
 		uint16_t p_port = -1;
 		string server = Util::emptyString;
-		bool isOk = false;
 		
 		string p = param.substr(++i);
 		size_t y = p.find('[');
@@ -486,11 +485,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		dcdebug("Port %d",p_port);
 		if(b_ip6 && !server.empty()/* &&  sock->isV6Valid() && Util::isIp6(server) == true*/)
 		{
-		//	unsigned char buf[sizeof(struct in6_addr)];
-		//	isOk = inet_pton(AF_INET6,server.c_str(), buf) == 1;
-		//	isOk2 = inet_pton(AF_INET6,server.c_str(), buf) != -1;
 			dcdebug("%s",server.c_str());
-			isOk = true;
 		}
 		else {
 			ClientManager::parsePortIp(p,server,p_port);
@@ -498,14 +493,13 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				fire(ClientListener::StatusMessage(), this, unescape("This user "+param.substr(i,j-i)+" has the viruses in share!"), ClientListener::FLAG_VIRUS);
 				return;
 			}				
-			isOk =	(inet_addr(server.c_str()) != INADDR_NONE);
+			//isOk =	(inet_addr(server.c_str()) != INADDR_NONE);
 		}		
 		if(isProtectedIP(server))
 			return;
 
-		if( p_port < 1 || p_port > 65535)
+		if( p_port < 1/* || p_port > 65535*/)
 				return;
-		//if(isOk == true || isOk2 == true)
 		ConnectionManager::getInstance()->nmdcConnect(server, p_port, getMyNick(), getHubUrl(), getEncoding());
 			// For simplicity, we make the assumption that users on a hub have the same character encoding
 	} else if(cmd == "$RevConnectToMe") {

@@ -193,7 +193,7 @@ string ClientManager::findHub(const string& ipPort) const {
 
 	parsePortIp(ipPort,ip, port);
 
-	if( port < 1 || port > 65535)
+	if( port < 1 /*|| port > 65535*/)
 			return Util::emptyString;//@TODO: check good idea?
 	bool ok = false;
 	if(Util::isIp6(ip) == true)
@@ -523,8 +523,8 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				else
 					isOk = (inet_addr(ip.c_str()) != INADDR_NONE);
 				//port should be number	
-				if( port < 1 || port > 65535)
-							return;
+				if( port < 1 /*|| port > 65535*/)
+					return;
 						
 				if(isOk == true) {
 					

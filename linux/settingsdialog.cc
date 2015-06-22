@@ -313,13 +313,13 @@ void Settings::saveSettings_client()
 		sm->set(SettingsManager::NO_IP_OVERRIDE, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("forceIPCheckButton"))));
 
 		uint16_t port = Util::toInt(gtk_entry_get_text(GTK_ENTRY(getWidget("tcpEntry"))));
-		if (port > 0 && port <= 65535)
+		if (port > 0)
 			sm->set(SettingsManager::TCP_PORT, port);
 		port = Util::toInt(gtk_entry_get_text(GTK_ENTRY(getWidget("udpEntry"))));
-		if (port > 0 && port <= 65535)
+		if (port > 0)
 			sm->set(SettingsManager::UDP_PORT, port);
 		port = Util::toInt(gtk_entry_get_text(GTK_ENTRY(getWidget("tlsEntry"))));
-		if (port > 0 && port <= 65535)
+		if (port > 0)
 			sm->set(SettingsManager::TLS_PORT, port);
 
 		// Outgoing connection
@@ -334,7 +334,7 @@ void Settings::saveSettings_client()
 		sm->set(SettingsManager::SOCKS_RESOLVE, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("socksCheckButton"))));
 
 		port = Util::toInt(gtk_entry_get_text(GTK_ENTRY(getWidget("socksPortEntry"))));
-		if (port > 0 && port <= 65535)
+		if (port > 0)
 			sm->set(SettingsManager::SOCKS_PORT, port);
 
 		sm->set(SettingsManager::TIME_RECCON, gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(getWidget("spinReconect"))));
@@ -3759,7 +3759,9 @@ void Settings::setBgColorUserList()
 			WSET("userlist-bg-favorite",strcolor);
 		else if (currname.find(_("Ignored")) != string::npos)
 			WSET("userlist-bg-ignored",strcolor);
-		else;
+		else
+			dcdebug("dont go here");
+			
 		WulforSettingsManager::getInstance()->save();
 		setColorRow(_("Name"));
 	}

@@ -274,6 +274,11 @@ typedef struct tagTagData {
 
 /* Plugin meta data */
 typedef struct tagMetaData { 
+	tagMetaData():
+	name(""),author(""),description(""), web(""), guid("0"),
+	dependencies(NULL), numDependencies(0), apiVersion(0), version(1.0)
+	{}
+	
 	const char* name;											/* Name of the plugin */
 	const char* author;											/* Name/Nick of the plugin author */
 	const char* description;									/* *Short* description of plugin functionality (may be multiple lines) */

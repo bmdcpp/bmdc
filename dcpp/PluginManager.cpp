@@ -106,7 +106,7 @@ void PluginManager::unloadPlugins() {
 void PluginManager::addPlugin(const string& path) {
 	Lock l(cs);
 
-	Plugin plugin { };
+	Plugin plugin;
 	plugin.name = Util::getFileName(path);
 	plugin.path = path;
 
@@ -117,7 +117,7 @@ void PluginManager::addPluginStart(const string& path)
 {
 	Lock l(cs);
 
-	Plugin plugin { };
+	Plugin plugin;
 	plugin.name = Util::getFileName(path);
 	plugin.path = path;
 
@@ -410,7 +410,7 @@ void PluginManager::enable(Plugin& plugin, bool install, bool runtime) {
 	ScopedFunctor(([&plugin, &unload] { if(unload) { FREE_LIBRARY(plugin.handle); plugin.handle = nullptr; plugin.dcMain = nullptr; } }));
 
 	auto pluginInfo = reinterpret_cast<DCMAIN (DCAPI *)(MetaDataPtr)>(GET_ADDRESS(plugin.handle, "pluginInit"));
-	MetaData info { };
+	MetaData info;
 	if(!pluginInfo || !(plugin.dcMain = pluginInfo(&info))) {
 		char buf[1024];
 		sprintf(buf,_("%s is not a valid plugin"), plugin.name.c_str());
@@ -526,11 +526,16 @@ void PluginManager::loadSettings() noexcept {
 			xml.stepIn();
 
 			while(xml.findChild("Plugin")) {
-				Plugin plugin { xml.getChildAttrib("Guid"), xml.getChildAttrib("Name"),
-					Util::toDouble(xml.getChildAttrib("Version")), xml.getChildAttrib("Author"),
-					xml.getChildAttrib("Description"), xml.getChildAttrib("Website"),
-					xml.getChildAttrib("Path"), nullptr,
-					reinterpret_cast<DCMAIN>(xml.getBoolChildAttrib("Enabled")), StringMap() };
+				Plugin plugin;
+				plugin.guid = xml.getChildAttrib("Guid");
+				plugin.name = xml.getChildAttrib("Name");
+				plugin.version = Util::toDouble(xml.getChildAttrib("Version"));
+				plugin.author =  xml.getChildAttrib("Author");
+				plugin.description = xml.getChildAttrib("Description");
+				plugin.website = xml.getChildAttrib("Website");
+				plugin.path = xml.getChildAttrib("Path");
+				plugin.handle = nullptr;
+				plugin.dcMain =	reinterpret_cast<DCMAIN>(xml.getBoolChildAttrib("Enabled"));
 
 				if(plugin.guid.empty() || plugin.path.empty()) { continue; }
 				if(plugin.name.empty()) { plugin.name = Util::getFileName(plugin.path); }

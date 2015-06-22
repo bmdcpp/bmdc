@@ -36,8 +36,6 @@
 
 namespace dcpp {
 
-//using std::set;
-
 class QueueManager;
 class QueueItem : public Flags, public PluginEntity<QueueData> {
 public:
@@ -123,7 +121,7 @@ public:
 	}
 
 	QueueItem(const QueueItem& rhs) :
-		/*Flags(rhs),*/ done(rhs.done), downloads(rhs.downloads), target(rhs.target),
+		Flags(rhs), done(rhs.done), downloads(rhs.downloads), target(rhs.target),
 		size(rhs.size), priority(rhs.priority), added(rhs.added), tthRoot(rhs.tthRoot),
 		sources(rhs.sources), badSources(rhs.badSources), tempTarget(rhs.tempTarget)
 	{

@@ -67,6 +67,12 @@ struct PluginHook {
 
 /** Information about a registered plugin. It may or may not be loaded. */
 struct Plugin {
+	Plugin():
+	guid(Util::emptyString),name(Util::emptyString),
+	version(0.0),author(Util::emptyString),description(Util::emptyString),
+	website(Util::emptyString), path(Util::emptyString),handle(nullptr),dcMain(nullptr),
+	settings() { }
+	
 	string guid;
 	string name;
 	double version;

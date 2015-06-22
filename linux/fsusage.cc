@@ -36,10 +36,17 @@
    not applicable or unknown.  Propagate this information by returning
    a uintmax_t value that is all 1 bits if X is all 1 bits, even if X
    is unsigned and narrower than uintmax_t.  */
-#define PROPAGATE_ALL_ONES(x) \
+/*#define PROPAGATE_ALL_ONES(x) \
   ((sizeof (x) < sizeof (uintmax_t) \
     && (~ (x) == (sizeof (x) < sizeof (int) \
           ? - (1 << (sizeof (x) * CHAR_BIT)) \
+          : 0))) \
+   ? UINTMAX_MAX : (uintmax_t) (x))
+*/
+#define PROPAGATE_ALL_ONES(x) \
+  ((sizeof (x) < sizeof (uintmax_t) \
+    && (~ (x) == (sizeof (x) < sizeof (int) \
+          ? (~(x & 0)) \
           : 0))) \
    ? UINTMAX_MAX : (uintmax_t) (x))
 
