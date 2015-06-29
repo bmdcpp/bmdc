@@ -3,6 +3,7 @@
 Import('env')
 env = env.Clone()
 files = env.Glob('*.c')
+env.Append(CPPFLAGS = '-Wno-unused-parameter')
 env.Append(CPPDEFINES = ['STATICLIB'])
 ret = env.StaticLibrary(target = 'miniupnpc', source = files)
 Return('ret')
