@@ -192,8 +192,8 @@ string ClientManager::findHub(const string& ipPort) const {
 	uint16_t port = 411;
 
 	parsePortIp(ipPort,ip, port);
-
-	if( port < 1 /*|| port > 65535*/)
+	//NOTE: *should* never get valua over 65535 since is it uint16_t
+	if( port < 1)
 			return Util::emptyString;//@TODO: check good idea?
 	bool ok = false;
 	if(Util::isIp6(ip) == true)
@@ -271,6 +271,7 @@ UserPtr ClientManager::getUser(const CID& cid) noexcept {
 	if(ui != users.end()) {
 		return ui->second;
 	}
+	//or?
 	if(cid == getMe()->getCID()) { //should create only one instance of yourself
 		return getMe();
 	}
@@ -449,6 +450,7 @@ void ClientManager::send(AdcCommand& cmd, const CID& cid) {
 				string ip = u.getIdentity().getIp();
 				string port = u.getIdentity().getUdpPort();
 				bool ok = false;
+
 				if(Util::isIp6(ip) == true)
 					ok = true;
 				else
@@ -522,8 +524,8 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 					isOk = true;
 				else
 					isOk = (inet_addr(ip.c_str()) != INADDR_NONE);
-				//port should be number	
-				if( port < 1 /*|| port > 65535*/)
+				//port should be number and since is it uint16 no need check again 65535	
+				if( port < 1)
 					return;
 						
 				if(isOk == true) {
@@ -666,7 +668,7 @@ void ClientManager::setIpAddress(const UserPtr& p, const string& ip) {
 	OnlineIterC i = onlineUsers.find(p->getCID());
 	if(i != onlineUsers.end()) {
 		bool ipv6 = false;	
-		if(ip.find_first_of(':') != ip.find_last_of(':')) {//ipv6
+		if(ip.find_first_of(':') != ip.find_last_of(':')) {//IPv6
 			i->second->getIdentity().set("I6", ip);
 			ipv6 = true;
 		}

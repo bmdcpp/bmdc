@@ -21,7 +21,8 @@ path(WulforManager::get()->getPath()+"/extensions/Scripts/"+input)
 	}
 	char* temp = new char[resultsize+1];
 	FILE *p = popen( (path).c_str(), "r");
-	fgets(temp,resultsize,p);
+	char* x = fgets(temp,resultsize,p);
+	dcdebug("%s",x);
 	pclose(p);
 	temp[strlen(temp)-1]='\0';
 	temp[resultsize]='\0';

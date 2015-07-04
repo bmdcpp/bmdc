@@ -72,12 +72,15 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
-
 #include <bzlib.h>
-
 #include <openssl/ssl.h>
 
 #endif
+
+//NOTE for uint64
+// see http://stackoverflow.com/questions/8132399/how-to-printf-uint64-t
+#define __STDC_FORMAT_MACROS
+#include <inttypes.h>
 
 // always include
 #include <utility>

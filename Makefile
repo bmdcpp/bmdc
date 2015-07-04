@@ -4,7 +4,7 @@ all:
 	scons install
 Release:
 	mkdir -p ${HOME}/BMDC-release/
-	scons PREFIX=${HOME}/BMDC-release/ release=1
+	scons PREFIX=${HOME}/BMDC-release/ release=1 libxattr=1
 	scons install
 Debug:
 	mkdir -p ${HOME}/BMDC/

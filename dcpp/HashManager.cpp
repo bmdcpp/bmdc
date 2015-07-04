@@ -88,7 +88,7 @@ static uint64_t getTimeStamp(const string &fname){
 }
 
 #endif // USE_XATTR
-
+/*
 bool HashManager::StreamStore::loadTree(const string& p_filePath, TigerTree &tree, int64_t p_aFileSize)
 {
 #ifdef USE_XATTR
@@ -137,6 +137,41 @@ bool HashManager::StreamStore::loadTree(const string& p_filePath, TigerTree &tre
 #endif //USE_XATTR
     return false;
 }
+*/
+ bool HashManager::StreamStore::loadTree(const string& p_filePath, TigerTree &tree, int64_t p_aFileSize)
+{
+#ifdef USE_XATTR
+    const int64_t fileSize  = (p_aFileSize == -1) ?  File::getSize(p_filePath) : p_aFileSize;
+    const size_t hdrSz      = sizeof(TTHStreamHeader);
+    int totalSz    = ATTR_MAX_VALUELEN;
+    TTHStreamHeader h;
+
+    uint8_t buf[ATTR_MAX_VALUELEN];
+
+    if (attr_get(p_filePath.c_str(), g_streamName.c_str(), (char*)buf, &totalSz, 0) == 0) {
+        memcpy(&h, buf, hdrSz);
+        //Note: see http://stackoverflow.com/questions/8132399/how-to-printf-uint64-t
+		printf("%s: timestamps header%" PRIu64 ", current%" PRIu64 ", difference(should be zero)%" PRIu64 "\n",
+               p_filePath.c_str(), h.timeStamp, getTimeStamp(p_filePath), h.timeStamp - getTimeStamp(p_filePath));
+               
+        if ( (h.timeStamp == getTimeStamp(p_filePath) && validateCheckSum(h))){ // File was modified and we should reset attr.
+            deleteStream(p_filePath);
+            return false;
+        }
+
+        TigerTree p_Tree = TigerTree(fileSize, h.blockSize, buf + hdrSz);
+
+        if (p_Tree.getRoot() == h.root){
+            tree = p_Tree;
+            return true;
+        }
+        else {
+            return false;
+        }    
+    }
+#endif //USE_XATTR
+    return false;
+}
 
 bool HashManager::StreamStore::saveTree(const string& p_filePath, const TigerTree& p_Tree)
 {
@@ -153,10 +188,10 @@ bool HashManager::StreamStore::saveTree(const string& p_filePath, const TigerTre
         const size_t sz = sizeof(TTHStreamHeader) + p_Tree.getLeaves().size() * TTHValue::BYTES;
         uint8_t *buf = new uint8_t[sz];
 
-        memcpy(buf/*.get()*/, &h, sizeof(TTHStreamHeader));
-        memcpy(buf/*.get()*/ + sizeof(TTHStreamHeader), p_Tree.getLeaves()[0].data, p_Tree.getLeaves().size() * TTHValue::BYTES);
+        memcpy(buf, &h, sizeof(TTHStreamHeader));
+        memcpy(buf + sizeof(TTHStreamHeader), p_Tree.getLeaves()[0].data, p_Tree.getLeaves().size() * TTHValue::BYTES);
 
-        int ret = attr_set(p_filePath.c_str(), g_streamName.c_str(), (char*)(void*)buf/*.get()*/, sz, 0);
+        int ret = attr_set(p_filePath.c_str(), g_streamName.c_str(), (char*)buf, sz, 0);
         delete [] buf;
         return ret == 0;//Succesfull
     }

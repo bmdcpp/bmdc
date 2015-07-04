@@ -29,8 +29,9 @@ namespace dcpp {
 
 void CommandQueue::onSecond(uint64_t tick) {
 	Lock l(cs);
-	if(clientPtr == NULL)
+	if(!clientPtr)
 		return;
+	
 	for(auto i = queue.begin(); i != queue.end(); ++i) {
 		const pair<uint64_t, CommandItem>& p = *i;
 		if(tick >= p.first) {
