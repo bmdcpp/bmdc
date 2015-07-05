@@ -57,8 +57,6 @@ namespace dcpp
 
 		static void setSetting(SettingsManager::IntSetting setting, int value);
 
-//		static const int MAX_LIMIT = 1024 * 1024; // 1 GiB/s
-
 	private:
 		// stack up throttled read & write threads
 		CriticalSection stateCS;

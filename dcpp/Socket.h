@@ -188,13 +188,6 @@ public:
 	GETSET(bool, v4only, V4only);
 	socket_t getSock() const;
 protected:
-	typedef union {
-		sockaddr sa;
-		sockaddr_in sai;
-		sockaddr_in6 sai6;
-		sockaddr_storage sas;
-	} addr;
-
 	mutable SocketHandle sock4;
 	mutable SocketHandle sock6;
 
@@ -207,7 +200,7 @@ protected:
 	};
 	static Stats stats;
 
-	static addr udpAddr;
+	static sockaddr_storage udpAddr;
 	static socklen_t udpAddrLen;
 
 private:

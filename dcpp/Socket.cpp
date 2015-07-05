@@ -153,7 +153,7 @@ inline int readable(socket_t sock0, socket_t sock1) {
 
 }
 
-Socket::addr Socket::udpAddr;
+sockaddr_storage Socket::udpAddr;
 socklen_t Socket::udpAddrLen;
 
 #ifdef _DEBUG
@@ -635,7 +635,7 @@ void Socket::writeTo(const string& aAddr, const string& aPort, const void* aBuff
 
 	int sent;
 	if(proxy && CONNSETTING(OUTGOING_CONNECTIONS) == SettingsManager::OUTGOING_SOCKS5) {
-		if(udpAddr.sa.sa_family == 0) {
+		if( ((struct sockaddr*)&udpAddr)->sa_family == 0) {
 			throw SocketException(_("Failed to set up the socks server for UDP relay (check socks address and port)"));
 		}
 
@@ -667,8 +667,8 @@ void Socket::writeTo(const string& aAddr, const string& aPort, const void* aBuff
 
 		connStr.insert(connStr.end(), buf, buf + aLen);
 
-		sent = check([&] { return ::sendto(udpAddr.sa.sa_family == AF_INET ? sock4 : sock6,
-			(const char*)&connStr[0], (int)connStr.size(), 0, &udpAddr.sa, udpAddrLen); });
+		sent = check([&] { return ::sendto( (((struct sockaddr*)&udpAddr)->sa_family == AF_INET) ? sock4 : sock6,
+			(const char*)&connStr[0], (int)connStr.size(), 0, (struct sockaddr*)&udpAddr, udpAddrLen); });
 	} else {
 		auto ai = resolveAddr(aAddr, Util::toInt(aPort));
 		if((ai->ai_family == AF_INET && !sock4.valid()) || (ai->ai_family == AF_INET6 && !sock6.valid())) {
@@ -854,13 +854,13 @@ uint16_t Socket::getLocalPort() noexcept {
 	if(getSock() == INVALID_SOCKET)
 		return 0;
 
-	addr sock_addr;
+	sockaddr_storage sock_addr;
 	socklen_t len = sizeof(sock_addr);
-	if(::getsockname(getSock(), &sock_addr.sa, &len) == 0) {
-		if(sock_addr.sa.sa_family == AF_INET) {
-			return ntohs(sock_addr.sai.sin_port);
-		} else if(sock_addr.sa.sa_family == AF_INET6) {
-			return ntohs(sock_addr.sai6.sin6_port);
+	if(::getsockname(getSock(),(struct sockaddr*)&sock_addr, &len) == 0) {
+		if((((struct sockaddr_in*)&sock_addr)->sin_family) == AF_INET) {
+			return ntohs(((struct sockaddr_in*)&sock_addr)->sin_port);
+		} else if(((struct sockaddr_in6*)&sock_addr)->sin6_family == AF_INET6) {
+			return ntohs(((struct sockaddr_in6*)&sock_addr)->sin6_port);
 		}
 	}
 	return 0;
@@ -897,14 +897,16 @@ void Socket::socksUpdated() {
 				return;
 			}
 
-			udpAddr.sa.sa_family = AF_INET;
-			udpAddr.sai.sin_port = *((uint16_t*)(&connStr[8]));
+			((struct sockaddr_in*)&udpAddr)->sin_family = AF_INET;
+			((struct sockaddr_in*)&udpAddr)->sin_port = *((uint16_t*)(&connStr[8]));
 #ifdef _WIN32
 			udpAddr.sai.sin_addr.S_un.S_addr = *((long*)(&connStr[4]));
 #else
-			udpAddr.sai.sin_addr.s_addr = *((long*)(&connStr[4]));
+//
+//			((struct sockaddr_in*)&udpAddr)->sin_addr = (struct in_addr)*((long*)(&connStr[4]));
+			inet_pton(AF_INET,&connStr[4],&((struct sockaddr_in*)&udpAddr)->sin_addr);
 #endif
-			udpAddrLen = sizeof(udpAddr.sai);
+			udpAddrLen = sizeof(udpAddr);
 		} catch(const SocketException&) {
 			dcdebug("Socket: Failed to register with socks server\n");
 		}

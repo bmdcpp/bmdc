@@ -21,7 +21,7 @@
 
 #include <algorithm>
 #include <list>
-//#include <set>
+
 #include <unordered_map>
 
 #include "forward.h"
@@ -39,7 +39,6 @@ namespace dcpp {
 
 using std::max;
 using std::list;
-//using std::set;
 using std::unordered_map;
 
 struct WaitingUser {
