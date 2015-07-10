@@ -61,7 +61,9 @@ static void print_mount(std::string &s,const struct mntent *fs)
 			return;		
 		if(strcmp (fs->mnt_fsname,"udev")	== 0)
 			return;	
-		if(strcmp (fs->mnt_fsname,"cgroup_root")	== 0)
+		if(strcmp (fs->mnt_fsname,"shm")	== 0)
+			return;
+		if(strcmp (fs->mnt_fsname,"cgroup_root") == 0)
 			return;			
 			
 		if(std::string(fs->mnt_fsname).find("fuse") != std::string::npos)	
