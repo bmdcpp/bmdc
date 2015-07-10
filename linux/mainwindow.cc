@@ -3133,7 +3133,7 @@ void MainWindow::completeGeoIpUpdate(const string &buf, bool v6)
 		try {
 			File(GeoManager::getInstance()->getDbPath(v6) + ".gz", File::WRITE, File::CREATE | File::TRUNCATE).write(buf);
 			File f(GeoManager::getInstance()->getDbPath(v6), File::WRITE, File::CREATE | File::TRUNCATE); // clear the previous db
-			LogManager::getInstance()->message(string(_("The GeoIP database has been successfully updated; restart DC++ to apply....v")) + (v6 ? "IPv6" : "IPv4"));
+			LogManager::getInstance()->message(string(_("The GeoIP database has been successfully updated; restart BMDC++ to apply....v")) + (v6 ? "IPv6" : "IPv4"));
 			GeoManager::getInstance()->update(v6);
 			return;
 		} catch(const FileException&) {}
