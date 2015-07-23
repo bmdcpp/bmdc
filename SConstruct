@@ -218,11 +218,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		env.Append( CPPPATH ='/usr/include/')
 		env.Append( LIBS = 'pthread')
 		env.Append( LINKFLAGS = '-lpthread')
-	#if not conf.CheckCC():
-	#	print "C Compiler dont find in your path (gcc or clang)"
-
-	#if not conf.CheckCXX():
-	#	print "C++ Compiler dont find in your path (g++ or clang++)"
 
 	if not conf.CheckPKGConfig():
 		print '\tpkg-config not found.'

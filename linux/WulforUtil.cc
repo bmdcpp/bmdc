@@ -1057,7 +1057,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	}
 	else if (cmd == "uptime")
 	{
-		message = "Uptime: " + Util::formatSeconds(Util::getUptime());
+		message = "Uptime: " +  formatTimeDifference(time(NULL) - Util::getUptime());
 		return true;
 	}
 	else if ( cmd == "rebuild" )
