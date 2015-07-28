@@ -23,6 +23,8 @@ struct FreeSpace {
 		{
 			FILE *fp;
 			struct mntent *fs;
+			_aviable = 0;
+			_total =0;
 
 			fp = setmntent(filename, "r");	/* read only */
 			if (fp == NULL) {
@@ -68,6 +70,7 @@ static void print_mount(std::string &s,const struct mntent *fs)
 			
 		if(std::string(fs->mnt_fsname).find("fuse") != std::string::npos)	
 			return;
+			
 		if(aviable == 0 || total == 0)
 				return;
 		
