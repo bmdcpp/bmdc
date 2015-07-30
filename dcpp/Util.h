@@ -53,6 +53,7 @@
 #include "Text.h"
 #include "GetSet.h"
 
+
 namespace dcpp {
 
 using std::find_if;

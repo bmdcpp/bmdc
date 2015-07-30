@@ -770,7 +770,12 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	}
 	else
 	{
-		cmd = cmd.substr(1);
+		if(separator != string::npos){
+			cmd = cmd.substr(1,separator - 1);
+		}else{
+			cmd = cmd.substr(1);
+			
+		}
 	}
 
 	std::transform(cmd.begin(), cmd.end(), cmd.begin(), (int(*)(int))tolower);

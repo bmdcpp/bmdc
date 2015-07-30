@@ -169,6 +169,7 @@ void Util::initialize(PathsMap pathOverrides) {
 	paths[PATH_RESOURCES] = "/usr/share/";
 	paths[PATH_LOCALE] = paths[PATH_RESOURCES] + "locale/";
 	paths[PATH_DOWNLOADS] = home + "/Downloads/";
+	
 #endif
 
 	paths[PATH_FILE_LISTS] = paths[PATH_USER_LOCAL] + "FileLists" PATH_SEPARATOR_STR;

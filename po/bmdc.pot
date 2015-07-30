@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2015-07-23 19:11+0200\n"
+"POT-Creation-Date: 2015-07-30 14:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -658,8 +658,8 @@ msgstr ""
 msgid "Away mode message on/off"
 msgstr ""
 
-#: ui/hub.glade.ui:25 ui/privatemessage.glade.ui:25 linux/WulforUtil.cc:792
-#: linux/WulforUtil.cc:812 linux/mainwindow.cc:2402
+#: ui/hub.glade.ui:25 ui/privatemessage.glade.ui:25 linux/WulforUtil.cc:797
+#: linux/WulforUtil.cc:817 linux/mainwindow.cc:2402
 #: linux/privatemessage.cc:1072
 msgid "Away mode off"
 msgstr ""
@@ -3365,7 +3365,7 @@ msgstr ""
 msgid "Address: "
 msgstr ""
 
-#: linux/WulforUtil.cc:1117
+#: linux/WulforUtil.cc:1122
 msgid "Aliases not found."
 msgstr ""
 
@@ -3477,7 +3477,7 @@ msgstr ""
 msgid "Away mode on"
 msgstr ""
 
-#: linux/WulforUtil.cc:803
+#: linux/WulforUtil.cc:808
 msgid "Away mode on: "
 msgstr ""
 
@@ -3627,7 +3627,7 @@ msgstr ""
 msgid "Command name already exists"
 msgstr ""
 
-#: linux/WulforUtil.cc:780
+#: linux/WulforUtil.cc:785
 msgid "Command send: "
 msgstr ""
 
@@ -4271,7 +4271,7 @@ msgstr ""
 msgid "Invalid extension: "
 msgstr ""
 
-#: linux/WulforUtil.cc:867
+#: linux/WulforUtil.cc:872
 msgid "Invalid number of slots"
 msgstr ""
 
@@ -4756,7 +4756,7 @@ msgstr ""
 msgid "Set Slots to n"
 msgstr ""
 
-#: linux/WulforUtil.cc:874
+#: linux/WulforUtil.cc:879
 msgid "Set Slots to:"
 msgstr ""
 
@@ -4920,7 +4920,7 @@ msgstr ""
 msgid "Source too slow"
 msgstr ""
 
-#: linux/WulforUtil.cc:925 linux/WulforUtil.cc:931
+#: linux/WulforUtil.cc:930 linux/WulforUtil.cc:936
 msgid "Specify a search string"
 msgstr ""
 
@@ -5566,7 +5566,7 @@ msgstr ""
 msgid "on"
 msgstr ""
 
-#: linux/WulforUtil.cc:824
+#: linux/WulforUtil.cc:829
 msgid "project home: "
 msgstr ""
 
