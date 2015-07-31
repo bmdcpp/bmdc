@@ -1,5 +1,6 @@
-﻿//Implementation of ShellCommand.hh
+//Implementation of ShellCommand.hh
 //Author: Irene//Modified by Mank
+// * Copyright © 2012-2015 BMDC++
 #include <cstring>
 #include <dcpp/stdinc.h>
 #include <dcpp/Util.h>

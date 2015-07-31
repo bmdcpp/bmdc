@@ -233,7 +233,7 @@ void Search::setColorsRows()
 	setColorRow("IP");
 	setColorRow("TTH");
 }
-static void hub_notify(gpointer )
+static void se_notify(gpointer )
 { }
 
 void Search::setColorRow(string cell)
@@ -244,14 +244,14 @@ void Search::setColorRow(string cell)
 								resultView.getCellRenderOf(cell),
 								Search::makeColor,
 								(gpointer)this,
-								(GDestroyNotify)hub_notify);
+								(GDestroyNotify)se_notify);
 	
 	if(resultView.getCellRenderOf2(cell) != NULL)
 		gtk_tree_view_column_set_cell_data_func(resultView.getColumn(cell),
 								resultView.getCellRenderOf2(cell),
 								Search::makeColor,
 								(gpointer)this,
-								(GDestroyNotify)hub_notify);
+								(GDestroyNotify)se_notify);
 }
 
 void Search::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data)
@@ -304,7 +304,7 @@ void Search::initHubs_gui()
 
 	const ClientManager::ClientList clients = ClientManager::getInstance()->getClients();
 
-	Client *client = NULL;
+	Client *client = nullptr;
 	for (auto it = clients.begin(); it != clients.end(); ++it)
 	{
 		client = *it;
@@ -391,8 +391,6 @@ void Search::popupMenu_gui()
 
 	GtkWidget *menuItem;
 	string tth;
-	bool firstTTH;
-	bool hasTTH;
 
 	// Clean menus
 	gtk_container_foreach(GTK_CONTAINER(getWidget("downloadMenu")), (GtkCallback)gtk_widget_destroy, NULL);
@@ -422,8 +420,7 @@ void Search::popupMenu_gui()
 	gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("downloadMenu")), menuItem);
 
 	// Add search results with the same TTH to menu
-	firstTTH = TRUE;
-	hasTTH = FALSE;
+	bool firstTTH = TRUE,	hasTTH = FALSE;
 
 	for (GList *i = list; i; i = i->next)
 	{
@@ -564,7 +561,6 @@ void Search::search_gui()
 
 	int ftype = gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("comboboxFile")));
 
-//NOTE: core 0.770
 	string ftypeStr;
 	if (ftype > SearchManager::TYPE_ANY && ftype < SearchManager::TYPE_LAST)
 	{
@@ -2161,7 +2157,18 @@ gboolean Search::onResultView_gui(GtkWidget *widget, gint x, gint y, gboolean ke
 	gtk_tree_view_set_tooltip_row (view, _tooltip, path);
 
 	gtk_tree_path_free (path);
-
+	g_free(filename);
+	g_free(nick);
+	g_free(type);
+	g_free(size);
+	g_free(ppath);
+	g_free(slots);
+	g_free(con);
+	g_free(hub);
+	g_free(exsize);
+	g_free(country);
+	g_free(ip);
+	g_free(tth);
 	return TRUE;
 }
 

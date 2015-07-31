@@ -156,7 +156,7 @@ GdkPixbuf* SystemLog::getImageSev(int sev)
 	gchar *path = g_strdup_printf(_DATADIR PATH_SEPARATOR_STR "bmdc/info/%s.png",
 		                              (gchar *)tmp.c_str());
 
-	GdkPixbuf* 	buf = gdk_pixbuf_new_from_file_at_size(path,15,15,&error);
+	GdkPixbuf* buf = gdk_pixbuf_new_from_file_at_size(path,15,15,&error);
 	g_free(path);
 	if(error != NULL || buf == NULL) {
 			g_error_free(error);
