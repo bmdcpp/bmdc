@@ -35,7 +35,7 @@
 #include <iterator>
 #include <fstream>
 #include <signal.h>
-#include "stacktrace.h"
+#include "stacktrace.hh"
 
 #define GUI_LOCALE_DIR _DATADIR PATH_SEPARATOR_STR "locale"
 

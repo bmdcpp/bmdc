@@ -25,7 +25,7 @@
 #include <execinfo.h> // backtrace_symbols
 #endif
 
-#include "stacktrace.h"
+#include "stacktrace.hh"
 
 namespace cow {
 
