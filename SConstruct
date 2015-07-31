@@ -126,8 +126,8 @@ vars.AddVariables(
 	BoolVariable('libnotify', 'Enable notifications through libnotify', 1),
 	BoolVariable('libtar', 'Enable Backup&Export with libtar', 1),
 	BoolVariable('libappindicator', 'Enable AppIndicator Support', 0),
-	BoolVariable('libxattr', 'Enable xattr',1),
-	BoolVariable('libXss', 'Enable libxss support for AutoAway on idle',1),
+	BoolVariable('libxattr', 'Enable xattr support for storing calucated Hash in extended attributes of file',1),
+	BoolVariable('libXss', 'Enable libxss support for AutoAway on idle feat',1),
 	PathVariable('PREFIX', 'Compile the program with PREFIX as the root for installation', '/usr/local/', PathVariable.PathIsDir),
 	('FAKE_ROOT', 'Make scons install the program under a fake root', '')
 )
@@ -327,7 +327,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 			print 'Dont Found libtar headers'
 			LIB_IS_TAR = False
 
-	# Support of appindicator # Very Experimetal!
+	# Support of appindicator # Very Experimental!
 	if conf.env.get('libappindicator'):
 		if conf.CheckPKG('appindicator3-0.1'):
 			print 'Found appindicator3'
