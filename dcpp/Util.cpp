@@ -43,7 +43,10 @@
 
 #define __STDC_LIMIT_MACROS
 #include <stdint.h>
-
+//Some old glibc didnt follow that much C++11 see stdinc.h
+#ifndef UINT16_MAX
+#define UINT16_MAX 65535
+#endif
 
 namespace dcpp {
 
