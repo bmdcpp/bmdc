@@ -41,6 +41,10 @@
 #endif
 #include <clocale>
 
+#define __STDC_LIMIT_MACROS
+#include <stdint.h>
+
+
 namespace dcpp {
 
 using std::make_pair;
