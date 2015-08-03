@@ -79,8 +79,13 @@
 
 //NOTE for uint64
 // see http://stackoverflow.com/questions/8132399/how-to-printf-uint64-t
+// also https://sourceware.org/bugzilla/show_bug.cgi?id=15366
+// and http://stackoverflow.com/questions/986426/what-do-stdc-limit-macros-and-stdc-constant-macros-mean
 #define __STDC_FORMAT_MACROS
 #include <inttypes.h>
+#define __STDC_CONSTANT_MACROS
+#define __STDC_LIMIT_MACROS
+#include <stdint.h>
 
 // always include
 #include <utility>
