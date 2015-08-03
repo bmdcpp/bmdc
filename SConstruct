@@ -5,6 +5,8 @@ import os
 import commands
 import string
 import re
+import fileinput
+import sys
 
 try:
 	from bzrlib import branch
@@ -108,6 +110,11 @@ def check_bzr_revision(context,env):
 	context.Result(revision)
 	return revision
 
+def replaceAll(env,file,searchExp,replaceExp):
+    for line in fileinput.input(file, inplace=1):
+        if searchExp in line:
+            line = line.replace(searchExp,replaceExp)
+        sys.stdout.write(line)
 
 # ----------------------------------------------------------------------
 # Command-line options
@@ -126,7 +133,7 @@ vars.AddVariables(
 	BoolVariable('libnotify', 'Enable notifications through libnotify', 1),
 	BoolVariable('libtar', 'Enable Backup&Export with libtar', 1),
 	BoolVariable('libappindicator', 'Enable AppIndicator Support', 0),
-	BoolVariable('libxattr', 'Enable xattr support for storing calucated Hash in extended attributes of file',1),
+	BoolVariable('libxattr', 'Enable xattr support for storing calculated Hash in extended attributes of file',1),
 	BoolVariable('libXss', 'Enable libxss support for AutoAway on idle feat',1),
 	PathVariable('PREFIX', 'Compile the program with PREFIX as the root for installation', '/usr/local/', PathVariable.PathIsDir),
 	('FAKE_ROOT', 'Make scons install the program under a fake root', '')
@@ -191,6 +198,8 @@ env.Append(BUILDERS = {'MoBuild' : mo_build})
 
 env.AddMethod(generate_message_catalogs, 'GenerateMessageCatalogs')
 env.AddMethod(recursive_install, 'RecursiveInstall')
+
+env.AddMethod(replaceAll,'ReplaceAll')
 
 conf = env.Configure(
 	custom_tests =
@@ -463,6 +472,10 @@ else:
 	country_files = env.Glob('country/*.png')
 	info_image_files = env.Glob('info/*.png')
 	desktop_file = os.path.join('data', PACKAGE + '.desktop')
+
+	env.ReplaceAll(desktop_file,"/usr/share/",prefix+"share/")
+	
+	
 	app_icon_filter = lambda icon: os.path.splitext(icon)[0] == PACKAGE
 	regular_icon_filter = lambda icon: os.path.splitext(icon)[0] != PACKAGE
 
