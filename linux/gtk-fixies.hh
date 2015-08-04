@@ -19,6 +19,7 @@
 // @because GtkFactory -> GtkIconTheme and stock -> icon_name
 #include <gtk/gtk.h>
 #if GTK_CHECK_VERSION(3,9,0)
+	#define BMDC_STOCK_CLOSE  "_Close"
 	#define BMDC_STOCK_CANCEL "_Cancel"
 	#define BMDC_STOCK_REMOVE "list-remove"
 	#define BMDC_STOCK_OPEN "_Open"
@@ -58,6 +59,7 @@
 	#define BMDC_STOCK_NETWORK GTK_STOCK_NETWORK
 	#define BMDC_STOCK_CONNECT GTK_STOCK_CONNECT
 	#define BMDC_STOCK_QUIT GTK_STOCK_QUIT
+	#define BMDC_STOCK_CLOSE GTK_STOCK_CLOSE
 	#pragma GCC diagnostic pop		
 #endif
 

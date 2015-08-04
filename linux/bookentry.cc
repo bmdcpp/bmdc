@@ -24,6 +24,8 @@
 #include "wulformanager.hh"
 #include "settingsmanager.hh"
 #include "WulforUtil.hh"
+#include "gtk-fixies.hh"
+
 
 using namespace std;
 
