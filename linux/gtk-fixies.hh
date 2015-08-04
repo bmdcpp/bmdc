@@ -38,6 +38,7 @@
 	#define BMDC_STOCK_NETWORK "network-workgroup"
 	#define BMDC_STOCK_CONNECT "gtk-connect"
 	#define BMDC_STOCK_QUIT "application-exit"
+	#define BMDC_STOCK_DND_MULTIPLE "gtk-dnd-multiple"
 #else
 	#pragma GCC diagnostic push
 	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"	
@@ -60,6 +61,7 @@
 	#define BMDC_STOCK_CONNECT GTK_STOCK_CONNECT
 	#define BMDC_STOCK_QUIT GTK_STOCK_QUIT
 	#define BMDC_STOCK_CLOSE GTK_STOCK_CLOSE
+	#define BMDC_STOCK_DND_MULTIPLE GTK_STOCK_DND_MULTIPLE
 	#pragma GCC diagnostic pop		
 #endif
 
