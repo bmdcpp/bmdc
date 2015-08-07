@@ -19,9 +19,11 @@
  * In addition, as a special exception, compiling, linking, and/or
  * using OpenSSL with this program is allowed.
  */
+ 
 #ifdef _HAVECANBERRA
 	#include <canberra-gtk.h> 
 #endif
+
 #include "settingsmanager.hh"
 #include <dcpp/Text.h>
 #include "sound.hh"

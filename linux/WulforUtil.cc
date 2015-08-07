@@ -678,7 +678,6 @@ void WulforUtil::registerIcons()
 	gtk_icon_factory_add_default(iconFactory);
 	g_object_unref(iconFactory);
 	#endif
-	loadmimetypes();
 }
 
 GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
@@ -915,7 +914,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 				build += " Release";
 				#endif
 			#endif
-		message =   "\n-= Stats " + dcpp::fullVersionString+" =-"
+		message =  "\n-= Stats " + dcpp::fullVersionString+" =-"
 					+"\n-= " +build+" =-\n"
 					+ "-= " + rel + " " + mach + " =-\n"
 					+ "-= Uptime: " + formatTimeDifference(time(NULL) - Util::getUptime()) + " =-\n"
@@ -1219,7 +1218,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 
   return false;
 }
-//dice/sddc originaly
+//SDDCPP Originaly
 string WulforUtil::formatTimeDifference(uint64_t diff, size_t levels /*= 3*/) {
 	string	buf;
 	int		n;
@@ -1376,6 +1375,7 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 	}
 	return ret;
 }
+
 map<string,int> WulforUtil::getActions()
 {
 	map<string,int> actions;
@@ -1416,78 +1416,6 @@ void WulforUtil::drop_combo(GtkWidget *widget, map<std::string,int> m)
 
 }
 
-void WulforUtil::loadmimetypes()
-{
-	if(m_mimetyp.empty()) {//any other way TODO this ?
-	m_mimetyp.insert( std::pair<std::string, std::string>(".zip", "application/zip"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".pdf", "application/pdf"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".py",  "text/python"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".bin", "application/octet-stream"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".iso", "application/octet-stream"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".tar", "application/x-tar"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".gz",  "application/x-tar"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".mid", "audio/mid"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".rmi", "audio/mid"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".midi","audio/mid"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".jpeg","image/jpeg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".jpe", "image/jpeg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".jpg", "image/jpeg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".png", "image/png"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".svg", "image/svg+xml"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".mpg", "video/mpeg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".mpeg","video/mpeg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".mpe", "video/mpeg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".mov", "video/quicktime"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".qt",  "video/quicktime"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".bmp", "image/bmp"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".doc", "application/msword"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".docx","application/vnd.openxmlformats-officedocument.wordprocessingml.document"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".rtf", "application/rtf"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".xls", "application/vnd.ms-excel"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".xlsx","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".pptx","application/vnd.openxmlformats-officedocument.presentationml.presentation"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".ppt", "application/vnd.ms-powerpoint"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".gif", "image/gif"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".exe", "application/octet-stream"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".dll", "application/x-msdownload"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".css", "text/css"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".html","text/html"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".htm", "text/html"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".xml", "text/html"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".txt", "text/plain"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".c",   "text/plain"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".h",   "text/plain"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".srt", "text/plain"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".sfv", "text/plain"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".nfo", "text/plain"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".lua", "text/plain"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".ini", "text/plain"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".mp3", "audio/mpeg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".mp4", "audio/mpeg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".avi", "audio/mpeg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".vob", "audio/mpeg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".mkv", "video/x-matroska"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".xhtml", "application/xhtml+xml"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".7z", "application/x-7z-compressed"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".wmv", "video/x-ms-wmv"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".wma", "audio/x-ms-wma"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".m3u", "audio/x-mpegurl"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".xcf", "image/x-xcf"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".chm", "application/x-chm"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".rar", "application/rar"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".ogg", "application/ogg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".ogv", "application/ogg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".oga", "application/ogg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".flac", "audio/x-flac"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".wav", "audio/x-wav"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".cue", "application/x-cue"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".rm", "application/vnd.rn-realmedia"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".flv", "video/x-flv"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".mpg", "audio/mpeg"));
-	m_mimetyp.insert( std::pair<std::string, std::string>(".mpeg", "audio/mpeg"));
-	}
-}
-
 GdkPixbuf *WulforUtil::loadIconShare(string ext)
 {
 	if(ext == "directory" || ext.empty())
@@ -1509,9 +1437,11 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 	}
 	std::transform(ext.begin(), ext.end(), ext.begin(), (int(*)(int))tolower);
 
-	std::map<std::string,std::string>::iterator it = m_mimetyp.find(ext);
-	if(it == m_mimetyp.end())
+	gboolean is_certain = FALSE;
+	gchar *content_type = g_content_type_guess ( (gchar*)(string("dummy.")+ext).c_str(), NULL, 0, &is_certain);
+	if (content_type == NULL)
 	{
+		
 		#if GTK_CHECK_VERSION(3,9,0)
 		GError* error = NULL;
 		GdkPixbuf* buf = gtk_icon_theme_load_icon(icon_theme,"text-x-generic",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,&error);
@@ -1527,17 +1457,19 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 		return buf;
 		#endif
 	}
-
-	GIcon *icon = g_content_type_get_icon((const gchar *)it->second.c_str());
+	char *mime_type = g_content_type_get_mime_type (content_type);
+	GIcon *icon = g_content_type_get_icon(mime_type);
 	GtkIconTheme *theme = gtk_icon_theme_get_default ();
 	GtkIconInfo *info = gtk_icon_theme_lookup_by_gicon(theme,icon, (GtkIconSize)16, GTK_ICON_LOOKUP_GENERIC_FALLBACK);
 	GdkPixbuf *icon_d = gtk_icon_info_load_icon (info, NULL);
 	g_object_unref(icon);
+	g_free (mime_type);
+	g_free (content_type);
 	return icon_d;
 }
-
+//main point of this code is from ? Px
 string WulforUtil::getStatsForMem() {
-	//main point of this code is from ? PtoXa
+	
 	string tmp = Util::emptyString;
 	FILE *fp = fopen("/proc/self/status", "r");
 				if(fp != NULL) {
@@ -1723,4 +1655,91 @@ string WulforUtil::cpuinfo()
 		sprintf(cpu_info," CPU:  %d Core, %s ", num_cpus, cpu_type);
 	}
 	return string(cpu_info);
+}
+
+void WulforUtil::setTextDeufaults(GtkWidget* widget, std::string strcolor, std::string back_image_path /*= dcpp::Util::emptyString*/,bool pm/* = false*/,std::string hubUrl /*= dcpp::Util::emptyString*/,std::string where /*= dcpp::Util::emptyString*/)
+{
+		if( (pm == false) && hubUrl.empty())
+			gtk_widget_set_name(widget,"Hub");
+
+		if( pm == true)
+			gtk_widget_set_name(widget,"pm");
+
+		std::string hubCid;
+		if(!hubUrl.empty() && (pm == false)) {
+			hubCid = dcpp::CID(hubUrl.c_str()).toBase32();
+			gtk_widget_set_name(widget,hubCid.c_str());
+		}
+		if(!where.empty())
+			gtk_widget_set_name(widget,where.c_str());
+
+		// Intialize the chat window
+		std::string mono = dcpp::Util::emptyString;
+		if (SETTING(USE_OEM_MONOFONT))
+		{
+			mono = "Monospace";
+		}
+
+		if( !back_image_path.empty() && (dcpp::Util::fileExists(back_image_path) == true) ) {
+		///NOTE: CSS
+			dcdebug("Test:img %s\n",hubUrl.c_str());
+			GtkCssProvider *provider = gtk_css_provider_new ();
+			GdkDisplay *display = gdk_display_get_default ();
+			GdkScreen *screen = gdk_display_get_default_screen (display);
+
+			std::string t_css = std::string("GtkTextView#") + (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid )) + "{\n"
+                            "   background: url('"+back_image_path+"');\n"
+                            "}\n\0";
+			
+			if(!mono.empty()) {
+				t_css = std::string("GtkTextView#") + (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid )) + "{\n"
+                            "   background: url('"+back_image_path+"');\n"
+                            "	font: "+mono+";\n"
+                            "}\n\0";
+           }                
+
+			gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
+
+			gtk_style_context_add_provider_for_screen (screen,
+                                             GTK_STYLE_PROVIDER(provider),
+                                             GTK_STYLE_PROVIDER_PRIORITY_USER);
+
+			g_object_unref (provider);
+			return;
+		}
+		
+		GtkCssProvider *provider = gtk_css_provider_new ();
+		GdkDisplay *display = gdk_display_get_default ();
+		GdkScreen *screen = gdk_display_get_default_screen (display);
+		std::string strwhat = (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid ));
+		if(!where.empty()) strwhat = where;
+				
+		std::string t_css =std::string("GtkTextView#"+strwhat+":insensitive, GtkTextView#"+strwhat+" { background: "+strcolor+" ;}\n\0");
+				
+		if(!mono.empty()) {
+			t_css =	std::string("GtkTextView#"+strwhat+":insensitive, GtkTextView#"+strwhat+" { background: "+strcolor+" ;\n font: "+mono+"; }\n\0");	
+		}	
+
+		gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
+
+		gtk_style_context_add_provider_for_screen (screen,
+														GTK_STYLE_PROVIDER(provider),
+														GTK_STYLE_PROVIDER_PRIORITY_USER);
+		g_object_unref (provider);
+}
+
+void WulforUtil::setTextColor(std::string color,std::string where /*= dcpp::Util::emptyString*/)
+//Note : selected is red, because most themes get white or black
+{
+		GtkCssProvider *provider = gtk_css_provider_new ();
+		GdkDisplay *display = gdk_display_get_default ();
+		GdkScreen *screen = gdk_display_get_default_screen (display);
+		std::string t_css = std::string("GtkTextView#"+where+" ,GtkTextView#"+where+":insensitive, GtkTextView#"+where+":focused, GtkTextView#"+where+":active { color: "+color+" ;} GtkTextView#"+where+":selected { color: red ; }	\n\0");
+
+		gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
+
+		gtk_style_context_add_provider_for_screen (screen,
+																GTK_STYLE_PROVIDER(provider),
+																GTK_STYLE_PROVIDER_PRIORITY_USER);
+		g_object_unref (provider);
 }

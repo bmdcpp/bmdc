@@ -1,5 +1,6 @@
 /*
- * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2011-2015 BMDC Team , Mank, <freedcpp at seznam dot cz>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -55,7 +56,7 @@ class WulforUtil
 		/** get hub address */
 		static dcpp::StringList getHubAddress(const dcpp::CID& cid, const std::string& hintUrl);
 		static dcpp::StringList getHubAddress(const dcpp::UserPtr& user, const std::string& hintUrl);
-//NOTE: FreeDC++
+
 		static std::string getTextFromMenu(GtkMenuItem *item);
 		static std::vector<std::string>& getCharsets();
 		static void openURI(const std::string &uri, std::string &_error = dcpp::Util::emptyString);
@@ -102,95 +103,12 @@ class WulforUtil
 		static const std::string ENCODING_LOCALE;
 		static const std::string commands;
 
-		static void setTextDeufaults(GtkWidget* widget, std::string strcolor, std::string back_image_path = dcpp::Util::emptyString,bool pm = false,std::string hubUrl = dcpp::Util::emptyString,std::string where = dcpp::Util::emptyString)
-		//todo move to c/cpp file :p
-		{
-			if( (pm == false) && hubUrl.empty())
-				gtk_widget_set_name(widget,"Hub");
-
-			if( pm == true)
-				gtk_widget_set_name(widget,"pm");
-
-			std::string hubCid;
-			if(!hubUrl.empty() && (pm == false)) {
-				hubCid = dcpp::CID(hubUrl.c_str()).toBase32();
-				gtk_widget_set_name(widget,hubCid.c_str());
-			}
-			if(!where.empty())
-				gtk_widget_set_name(widget,where.c_str());
-
-			// Intialize the chat window
-			std::string mono = dcpp::Util::emptyString;
-			if (SETTING(USE_OEM_MONOFONT))
-			{
-				mono = "Monospace";
-			}
-
-			if( !back_image_path.empty() && (dcpp::Util::fileExists(back_image_path) == true) ) {
-			///NOTE: CSS
-			dcdebug("Test:img %s\n",hubUrl.c_str());
-			GtkCssProvider *provider = gtk_css_provider_new ();
-			GdkDisplay *display = gdk_display_get_default ();
-			GdkScreen *screen = gdk_display_get_default_screen (display);
-
-			std::string t_css = std::string("GtkTextView#") + (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid )) + "{\n"
-                            "   background: url('"+back_image_path+"');\n"
-                            "}\n\0";
-			
-			if(!mono.empty()) {
-			t_css = std::string("GtkTextView#") + (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid )) + "{\n"
-                            "   background: url('"+back_image_path+"');\n"
-                            "	font: "+mono+";\n"
-                            "}\n\0";
-            }                
-
-			gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
-
-			gtk_style_context_add_provider_for_screen (screen,
-                                             GTK_STYLE_PROVIDER(provider),
-                                             GTK_STYLE_PROVIDER_PRIORITY_USER);
-
-			g_object_unref (provider);
-			return;
-			}
-				GtkCssProvider *provider = gtk_css_provider_new ();
-				GdkDisplay *display = gdk_display_get_default ();
-				GdkScreen *screen = gdk_display_get_default_screen (display);
-				std::string strwhat = (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid ));
-				if(!where.empty()) strwhat = where;
-				
-				std::string t_css =std::string("GtkTextView#"+strwhat+":insensitive, GtkTextView#"+strwhat+" { background: "+strcolor+" ;}\n\0");
-				
-				if(!mono.empty()) {
-						t_css =	std::string("GtkTextView#"+strwhat+":insensitive, GtkTextView#"+strwhat+" { background: "+strcolor+" ;\n font: "+mono+"; }\n\0");	
-				}	
-
-				gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
-
-				gtk_style_context_add_provider_for_screen (screen,
-																	GTK_STYLE_PROVIDER(provider),
-																	GTK_STYLE_PROVIDER_PRIORITY_USER);
-				g_object_unref (provider);
-		}
-
-		static void setTextColor(std::string color,std::string where = dcpp::Util::emptyString)//Note : selected is red, because most themes get white or black
-		{
-			GtkCssProvider *provider = gtk_css_provider_new ();
-			GdkDisplay *display = gdk_display_get_default ();
-			GdkScreen *screen = gdk_display_get_default_screen (display);
-			std::string t_css = std::string("GtkTextView#"+where+" ,GtkTextView#"+where+":insensitive, GtkTextView#"+where+":focused, GtkTextView#"+where+":active { color: "+color+" ;} GtkTextView#"+where+":selected { color: red ; }	\n\0");
-
-			gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
-
-			gtk_style_context_add_provider_for_screen (screen,
-																						GTK_STYLE_PROVIDER(provider),
-																						GTK_STYLE_PROVIDER_PRIORITY_USER);
-			g_object_unref (provider);
-		}
+		static void setTextDeufaults(GtkWidget* widget, std::string strcolor, std::string back_image_path = dcpp::Util::emptyString,bool pm = false,std::string hubUrl = dcpp::Util::emptyString,std::string where = dcpp::Util::emptyString);
+		//Note : selected is red, because most themes get white or black
+		static void setTextColor(std::string color,std::string where = dcpp::Util::emptyString);
 	private:
 		static std::string formatTimeDifference(uint64_t diff, size_t levels = 3);
 		static std::string generateLeech();
-		static void loadmimetypes();
 		static std::string getStatsForMem();
 		static std::string cpuinfo();
 		static bool Ipv4Hit(std::string &name, std::string &sIp);
