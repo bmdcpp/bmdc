@@ -335,6 +335,7 @@ Hub::Hub(const string &address, const string &encoding):
 	RecentHubEntry* r = FavoriteManager::getInstance()->getRecentHubEntry(address);
 
 	if(r == NULL) {
+		
 		RecentHubEntry entry;
 		entry.setName("***");
 		entry.setDescription("***");
@@ -342,6 +343,7 @@ Hub::Hub(const string &address, const string &encoding):
 		entry.setShared("0");
 		entry.setServer(address);
 		FavoriteManager::getInstance()->addRecent(entry);
+		
 	}
 	if(faventry)
 	{
@@ -2545,6 +2547,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			"\r\n/topic\r\n\t" + _("Show topic") +
 			"\r\n/raw <rawtext>\r\n\t" + _("Send Raw data") +
 			"\r\n/conn\r\n\t" + _("Show Conection Setup Info")+
+			"\r\n/getuserinfo <param>\r\n\t" +_("Show Get Report")+
 			WulforUtil::commands
             , Msg::SYSTEM);
 		}
@@ -2721,6 +2724,20 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
                  hub->client->set(SettingsManager::FAV_SHOW_JOINS,false);
             }
 		}
+		else if ( command == "getuserinfo")
+		{
+			if(params.empty()) {
+				hub->addStatusMessage_gui(_("No user given to command"),Msg::SYSTEM,Sound::NONE);
+			} else {
+				ClientManager* cm = ClientManager::getInstance();
+				UserPtr ui = cm->findUser(params,hub->client->getHubUrl());
+				OnlineUser* ou = cm->findOnlineUser(ui->getCID(),hub->client->getHubUrl());
+				Identity& id = ou->getIdentity();
+				hub->addStatusMessage_gui(string(_("Report for"))+params+_("\n")+WulforUtil::formatReport(id)+"\n",Msg::SYSTEM,Sound::NONE);
+				
+			}
+
+		}	
 		// protect command
 		else if (command == "password")
 		{
