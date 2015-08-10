@@ -122,7 +122,6 @@ class WulforUtil
 	#endif
 		static std::vector<std::string> charsets;
 		static const std::string magnetSignature;
-		static std::map<std::string,std::string> m_mimetyp;
 		static std::unordered_map<std::string,GdkPixbuf*> countryIcon;
 		static const char* CountryNames[];
 		static const char* CountryCodes[];

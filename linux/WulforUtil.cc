@@ -58,7 +58,6 @@ const string WulforUtil::magnetSignature = "magnet:?xt=urn:tree:tiger:";
 #else
 	GtkIconFactory* WulforUtil::iconFactory = NULL;
 #endif
-std::map<std::string,std::string> WulforUtil::m_mimetyp;
 const string WulforUtil::commands =
 string("\r\n/away\r\n\t") + _("Set away mode") +
 +"\r\n/back\r\n\t" + _("Set normal mode") +
@@ -1272,22 +1271,24 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 			if(cs->getHasBgColor())
 				back = cs->getBgColor();
 			else
-				back = "#FFFFFF";//TODO: More global ?
+				back = WGETS("text-general-back-color");
+				//back = "#FFFFFF";//TODO: More global ?
 
 			if(cs->getHasFgColor())
 				fore = cs->getFgColor();
 			else
-				fore = "#000000";//TODO: global color?
+				fore = WGETS("text-general-fore-color");
+				//fore = "#000000";//TODO: global color?
 
 			if(cs->getTab())
 				tTab = true;
 
-			string _w = cs->getMatch();
-			string _sW;
-			_sW.resize(_w.size()+1);
-			std::transform(_w.begin(), _w.end(), _sW.begin(), _tolower);
+			string w = cs->getMatch();
+			string sW;
+			sW.resize(w.size()+1);
+			std::transform(w.begin(), w.end(), sW.begin(), _tolower);
 
-			int ffound = sMsgLower.compare(_sW);
+			int ffound = sMsgLower.compare(sW);
 
 			if(!ffound) {
 				if((Hub *)hub)
@@ -1311,17 +1312,12 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 				}
 			}
 
-			string w = cs->getMatch();
-			string sW;
-			sW.resize(w.size()+1);
-			std::transform(w.begin(), w.end(), sW.begin(), _tolower);
-
 			if(cs->usingRegexp())
 			{
 				string q = cs->getMatch().substr(4);
 				bool reMatch = false;
 
-				reMatch = dcpp::RegEx::match<string>(word,q,cs->getCaseSensitive());
+				reMatch = dcpp::RegEx::match<string>(sMsgLower,q,cs->getCaseSensitive());
 
 				if(!reMatch)
 					ret = false;
@@ -1412,7 +1408,7 @@ void WulforUtil::drop_combo(GtkWidget *widget, map<std::string,int> m)
 	gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(widget), renderer, TRUE);
 	gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(widget),renderer, "text", 0, NULL);
 
-    gtk_combo_box_set_active(GTK_COMBO_BOX(widget), 0);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(widget), 0);
 
 }
 

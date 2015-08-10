@@ -2382,7 +2382,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 
 	    else if(WulforUtil::checkCommand(command, param, mess, status, thirdPerson))
         {
-            if(!mess.empty())
+			if(!mess.empty())
 				hub->sendMessage_client(mess, thirdPerson);
 
 			if(!status.empty())
@@ -2538,24 +2538,30 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			"\r\n/limitimg <n>, limg <n>\r\n\t" + _("Download limit image: 0 - disable, n < 0 - unlimit, empty - info") +
 			"\r\n/emoticons, /emot\r\n\t" + _("Emoticons on/off") +
 			"\r\n/sc <stop/start>\r\n\t" + _("Start/Stop checkers") +
-			"\r\n/scmyinfo\r\n\t" + _("Start/Stop checkers myinfo") +
+			"\r\n/scmyinfo\r\n\t" + _("Start/Stop checkers of Myinfo") +
 			"\r\n/showjoins\r\n\t" + _("Join/Parts: 1 - enable , other disable ") +
 			"\r\n/showfavjoins\r\n\t" + _("Fav Joins/Parts: 1 - enable , other disable") +
 			"\r\n/plgadd\r\n\t" + _("Add Plugin") +
-			"\r\n/plist\r\n\t" + _("List Plugins") +
+			"\r\n/plist\r\n\t" + _("List of Plugins") +
 			"\r\n/addfavorite\r\n\t" + _("Add Indepent Fav") +
 			"\r\n/topic\r\n\t" + _("Show topic") +
 			"\r\n/raw <rawtext>\r\n\t" + _("Send Raw data") +
-			"\r\n/conn\r\n\t" + _("Show Conection Setup Info")+
-			"\r\n/getuserinfo <param>\r\n\t" +_("Show Get Report")+
+			"\r\n/conn\r\n\t" + _("Show Conection Setup Info") +
+			"\r\n/getuserinfo <nick>\r\n\t" +_("Show Get User Info") +
+			"\r\n/addip <ip>\r\n\t" + _("Get <ip> to watchlist") +
+			"\r\n/listip\r\n\t" + _("List watched ips") +
+			"\r\n/info\r\n\t" + _("Get Info about hub connection & favorite hub info") +
+			"\r\n/addfavorite\r\n\t" + _("Add Nick to Favorite users") +
 			WulforUtil::commands
-            , Msg::SYSTEM);
+			,Msg::SYSTEM);
 		}
 		else if(command == "plgadd")
 		{
-			PluginManager::getInstance()->addPlugin(param);
+			if(!param.empty())
+				PluginManager::getInstance()->addPlugin(param);
 		}
-		else if(command == "plist") {
+		else if(command == "plist") 
+		{
 			size_t idx = 0;
 			string status = string(_("Loaded plugins: ")) + _("\n");
 			PluginManager* pm = PluginManager::getInstance();
@@ -2618,12 +2624,12 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			info[_("Bold Tab")] = (hub->client->get(SettingsManager::BOLD_HUB,SETTING(BOLD_HUB)) ? string(_("Yes")) : _("No"))  +_(" ")+(isGlobalBool(hub->client->get(SettingsManager::BOLD_HUB,SETTING(BOLD_HUB)),SETTING(BOLD_HUB)) ? _("Global") : _("User Per Favorite Hub Set"));
 			info[_("Show Country")] = (hub->client->get(SettingsManager::GET_USER_COUNTRY,SETTING(GET_USER_COUNTRY)) ? string(_("Yes")) : _("No"))+_(" ")+(isGlobalBool(hub->client->get(SettingsManager::GET_USER_COUNTRY,SETTING(GET_USER_COUNTRY)),SETTING(GET_USER_COUNTRY)) ? _(" Global ") : _(" User Per Favorite Hub Set "));
 			info[_("Show IPs")] = (hub->client->get(SettingsManager::USE_IP,SETTING(USE_IP)) ? string(_("Yes")) : _("No"))+_(" ")+(isGlobalBool(hub->client->get(SettingsManager::USE_IP,SETTING(USE_IP)),SETTING(USE_IP)) ? _(" Global") : _(" User Per Favorite Hub Set "));
+			
+			string text;
 
-            string text;
-
-            for(auto i = info.begin();i!=info.end();++i) {
-                  	text += _("\n") + (*i).first + _(": ") + Text::toT((*i).second);
-            }
+			for(auto i = info.begin();i!=info.end();++i) {
+				text += _("\n") + (*i).first + _(": ") + Text::toT((*i).second);
+			}
 
 			hub->addMessage_gui("",text,Msg::SYSTEM);
 
@@ -2705,24 +2711,24 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			if(params.empty()) return;
 
 	        if(params[0] == '1') {
-        	     hub->addStatusMessage_gui(_("Join/part showing on"), Msg::SYSTEM, Sound::NONE);
-        	     hub->client->set(SettingsManager::SHOW_JOINS,true);
-	        } else {
-        	     hub->addStatusMessage_gui(_("Join/part showing off"), Msg::SYSTEM, Sound::NONE);
-        	     hub->client->set(SettingsManager::SHOW_JOINS,false);
-       		}
+				hub->addStatusMessage_gui(_("Join/part showing on"), Msg::SYSTEM, Sound::NONE);
+				hub->client->set(SettingsManager::SHOW_JOINS,true);
+			} else {
+				hub->addStatusMessage_gui(_("Join/part showing off"), Msg::SYSTEM, Sound::NONE);
+				hub->client->set(SettingsManager::SHOW_JOINS,false);
+       	}
 		}
 		else if ( command == "showfavjoins")
 		{
 			if(params.empty()) return;
 
-            if(params[0] == '1') {
-                 hub->addStatusMessage_gui(_("Join/part for Fav showing on"), Msg::SYSTEM, Sound::NONE);
-                 hub->client->set(SettingsManager::FAV_SHOW_JOINS,true);
-            } else {
-                 hub->addStatusMessage_gui(_("Join/part for fav showing off"), Msg::SYSTEM, Sound::NONE);
-                 hub->client->set(SettingsManager::FAV_SHOW_JOINS,false);
-            }
+			if(params[0] == '1') {
+				hub->addStatusMessage_gui(_("Join/part for Fav showing on"), Msg::SYSTEM, Sound::NONE);
+				hub->client->set(SettingsManager::FAV_SHOW_JOINS,true);
+			} else {
+				hub->addStatusMessage_gui(_("Join/part for fav showing off"), Msg::SYSTEM, Sound::NONE);
+				hub->client->set(SettingsManager::FAV_SHOW_JOINS,false);
+			}
 		}
 		else if ( command == "getuserinfo")
 		{
@@ -2736,7 +2742,6 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 				hub->addStatusMessage_gui(string(_("Report for"))+params+_("\n")+WulforUtil::formatReport(id)+"\n",Msg::SYSTEM,Sound::NONE);
 				
 			}
-
 		}	
 		// protect command
 		else if (command == "password")
@@ -3169,11 +3174,11 @@ void Hub::onAddIgnoreUserItemClicked_gui(GtkMenuItem*, gpointer data)
 
 	if (gtk_tree_selection_count_selected_rows(hub->nickSelection) > 0)
 	{
-        string cid;
-        GtkTreeIter iter;
-        GtkTreePath *path;
-        GList *list = gtk_tree_selection_get_selected_rows(hub->nickSelection, NULL);
-        for (GList *i = list; i; i = i->next)
+		string cid;
+		GtkTreeIter iter;
+		GtkTreePath *path;
+		GList *list = gtk_tree_selection_get_selected_rows(hub->nickSelection, NULL);
+		for (GList *i = list; i; i = i->next)
 		{
 			path = (GtkTreePath *)i->data;
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(hub->nickStore), &iter, path))
@@ -4120,7 +4125,7 @@ void Hub::openImage_gui(string target)
 		target = Util::getPath(Util::PATH_USER_CONFIG) + "Images" + PATH_SEPARATOR_STR + target;
 	WulforUtil::openURI(target);
 }
-
+//@TODO: did this get realy use?
 gboolean Hub::expose(GtkWidget *widget, cairo_t *event, gpointer )
 {
 	return GTK_WIDGET_CLASS(GTK_WIDGET_GET_CLASS(widget))->draw(widget, event);
@@ -4194,7 +4199,7 @@ void Hub::insertBBcodeEntry_gui(string ch)
 	}
 }
 
-void Hub::on(FavoriteManagerListener::UserAdded, const FavoriteUser &user) throw()
+void Hub::on(FavoriteManagerListener::UserAdded, const FavoriteUser &user) noexcept
 {
 	if (user.getUrl() != client->getHubUrl())
 		return;
@@ -4213,6 +4218,7 @@ void Hub::on(dcpp::FavoriteManagerListener::StatusChanged, const FavoriteUser& f
 {
 	if (fu.getUrl() != client->getHubUrl())
 		return;
+		
 	ParamMap params;
 	params.insert(ParamMap::value_type("Nick", fu.getNick()));
 	params.insert(ParamMap::value_type("CID", fu.getUser()->getCID().toBase32()));
@@ -4223,7 +4229,7 @@ void Hub::on(dcpp::FavoriteManagerListener::StatusChanged, const FavoriteUser& f
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 
-void Hub::on(FavoriteManagerListener::UserRemoved, const FavoriteUser &user) throw()
+void Hub::on(FavoriteManagerListener::UserRemoved, const FavoriteUser &user) noexcept
 {
 	if (user.getUrl() != client->getHubUrl())
 		return;
@@ -4428,7 +4434,6 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 		cm->lock();
 		ou = cm->findOnlineUser(message.from->getCID(),client->getHubUrl());
 	}
-	//Identity fid = message.from->getIdentity();
 	Identity fid = ou->getIdentity();
 	if( (!fid.isHub()) && (!fid.isBot()) )
 	{
@@ -4488,13 +4493,13 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 		//private message
 
 		string error;
-		UserPtr user = (message.replyTo == ClientManager::getInstance()->getMe())?
+		UserPtr user = (message.replyTo == ClientManager::getInstance()->getMe()) ?
 			message.to : message.replyTo;
 		Identity uid; 
 		{	
 			cm->lock();
-			auto ou2 = cm->findOnlineUser(user->getCID(), client->getHubUrl());
-			uid =	ou2->getIdentity();
+			OnlineUser* ou2 = cm->findOnlineUser(user->getCID(), client->getHubUrl());
+			uid = ou2->getIdentity();
 		}
 		if (fid.isOp()) typemsg = Msg::OPERATOR;
 		else if (message.from == client->getMyIdentity().getUser()) typemsg = Msg::MYOWN;
@@ -4564,7 +4569,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 		{
 			typedef Func0<Hub> F0;
 			//@ only if not active tab and not setted to notify always
-              if( !isActive_gui() && WGETB("bold-all-tab"))
+			if( !isActive_gui() && WGETB("bold-all-tab"))
 			{
 				F0 *func = new F0(this, &Hub::setUrgent_gui);
 				WulforManager::get()->dispatchGuiFunc(func);
@@ -4653,50 +4658,53 @@ void Hub::on(ClientListener::ClientLine, Client* , const string &mess, int) noex
 	F3 *func = new F3(this, &Hub::addStatusMessage_gui, mess, Msg::STATUS, Sound::NONE);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
-//custom popup menu
+//Custom popup menu
 GtkWidget *Hub::createmenu()
 {
 	GtkWidget* fitem = BookEntry::createItemFirstMenu();
 	gtk_menu_item_set_label(GTK_MENU_ITEM(fitem),address.c_str());
+	
 	if(notCreated) {
+		
 		m_menu = gtk_menu_new();
 		userCommandMenu1->cleanMenu_gui();
 		userCommandMenu1->addUser(client->getMyIdentity().getUser()->getCID().toBase32());
 		userCommandMenu1->addHub(client->getHubUrl());
 		userCommandMenu1->buildMenu_gui();
-	GtkWidget *u_item = gtk_menu_item_new_with_label(_("Users Commands"));
-	GtkWidget *copyHubUrl = gtk_menu_item_new_with_label(_("Copy URL"));
-	GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite hubs"));
-	GtkWidget *remfav = gtk_menu_item_new_with_label(_("Remove from Favorite hubs"));
-	GtkWidget *setTab = gtk_menu_item_new_with_label(_("Set Tab Name"));
-	GtkWidget *reconectItem = gtk_menu_item_new_with_label(_("Reconnect this hub"));
-	GtkWidget *closeItem = gtk_menu_item_new_with_label (_("Close Hub"));
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(u_item), userCommandMenu1->getContainer());
-	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), fitem);
-	gtk_menu_shell_append (GTK_MENU_SHELL(m_menu), closeItem);
-	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), copyHubUrl);
-	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), addFav);
-	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), remfav);
-	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), setTab);
-	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), reconectItem);
-	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), u_item);
-	gtk_widget_show(copyHubUrl);
-	gtk_widget_show(addFav);
-	gtk_widget_show(remfav);
-	gtk_widget_show(setTab);
-	gtk_widget_show(u_item);
-	gtk_widget_show(fitem);
-	gtk_widget_show(reconectItem);
-	gtk_widget_show_all(userCommandMenu1->getContainer());
-	gtk_widget_show_all(m_menu);
+		GtkWidget *u_item = gtk_menu_item_new_with_label(_("Users Commands"));
+		GtkWidget *copyHubUrl = gtk_menu_item_new_with_label(_("Copy URL"));
+		GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite hubs"));
+		GtkWidget *remfav = gtk_menu_item_new_with_label(_("Remove from Favorite hubs"));
+		GtkWidget *setTab = gtk_menu_item_new_with_label(_("Set Tab Name"));
+		GtkWidget *reconectItem = gtk_menu_item_new_with_label(_("Reconnect this hub"));
+		GtkWidget *closeItem = gtk_menu_item_new_with_label (_("Close Hub"));
+	
+		gtk_menu_item_set_submenu(GTK_MENU_ITEM(u_item), userCommandMenu1->getContainer());
+		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), fitem);
+		gtk_menu_shell_append (GTK_MENU_SHELL(m_menu), closeItem);
+		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), copyHubUrl);
+		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), addFav);
+		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), remfav);
+		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), setTab);
+		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), reconectItem);
+		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), u_item);
+		gtk_widget_show(copyHubUrl);
+		gtk_widget_show(addFav);
+		gtk_widget_show(remfav);
+		gtk_widget_show(setTab);
+		gtk_widget_show(u_item);
+		gtk_widget_show(fitem);
+		gtk_widget_show(reconectItem);
+		gtk_widget_show_all(userCommandMenu1->getContainer());
+		gtk_widget_show_all(m_menu);
 
-	g_signal_connect_swapped(copyHubUrl, "activate", G_CALLBACK(onCopyHubUrl), (gpointer)this);
-	g_signal_connect_swapped(addFav, "activate", G_CALLBACK(onAddFavItem), (gpointer)this);
-	g_signal_connect_swapped(remfav, "activate", G_CALLBACK(onRemoveFavHub), (gpointer)this);
-	g_signal_connect_swapped(setTab, "activate", G_CALLBACK(onSetTabText), (gpointer)this);
-	g_signal_connect_swapped(reconectItem, "activate",G_CALLBACK(onReconnectItemTab), (gpointer)this);
-	g_signal_connect_swapped(closeItem, "activate" , G_CALLBACK(onCloseItem), (gpointer)this);
-	notCreated = false;
+		g_signal_connect_swapped(copyHubUrl, "activate", G_CALLBACK(onCopyHubUrl), (gpointer)this);
+		g_signal_connect_swapped(addFav, "activate", G_CALLBACK(onAddFavItem), (gpointer)this);
+		g_signal_connect_swapped(remfav, "activate", G_CALLBACK(onRemoveFavHub), (gpointer)this);
+		g_signal_connect_swapped(setTab, "activate", G_CALLBACK(onSetTabText), (gpointer)this);
+		g_signal_connect_swapped(reconectItem, "activate",G_CALLBACK(onReconnectItemTab), (gpointer)this);
+		g_signal_connect_swapped(closeItem, "activate" , G_CALLBACK(onCloseItem), (gpointer)this);
+		notCreated = false;
 	}
 	return m_menu;
 }
@@ -4736,12 +4744,13 @@ void Hub::on_setImage_tab(GtkButton*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 	if(hub == NULL) return;
+	
 	GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Open Icon File to Set to Tab"),
-						GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
-				        GTK_FILE_CHOOSER_ACTION_OPEN,
-				        BMDC_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				        BMDC_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
-				        NULL);
+				GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
+				GTK_FILE_CHOOSER_ACTION_OPEN,
+				BMDC_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				BMDC_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+				NULL);
 				        
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
 	{
@@ -4778,51 +4787,51 @@ void Hub::SetTabText(gpointer data)
 	Hub *hub = (Hub *)data;
 	if(hub == NULL) return;
 	GtkDialog *dialog =  GTK_DIALOG(gtk_dialog_new_with_buttons (_("Setting for a Tab Text"),
-                                         GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
-                                         GTK_DIALOG_DESTROY_WITH_PARENT,
-                                         BMDC_STOCK_OK,
-                                         GTK_RESPONSE_OK,
-                                         BMDC_STOCK_CANCEL,
-                                         GTK_RESPONSE_CANCEL,
-                                         NULL));
+								GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
+								GTK_DIALOG_DESTROY_WITH_PARENT,
+								BMDC_STOCK_OK,
+								GTK_RESPONSE_OK,
+								BMDC_STOCK_CANCEL,
+								GTK_RESPONSE_CANCEL,
+								NULL));
 
-   GtkWidget *content_area = gtk_dialog_get_content_area (dialog);
-   GtkWidget *entry = gtk_entry_new();
-   GtkWidget *label = gtk_label_new(_("Text: "));
+	GtkWidget *content_area = gtk_dialog_get_content_area (dialog);
+	GtkWidget *entry = gtk_entry_new();
+	GtkWidget *label = gtk_label_new(_("Text: "));
 #if GTK_CHECK_VERSION(3, 2, 0)
 	GtkWidget *hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
 #else
 	GtkWidget *hbox = gtk_hbox_new(TRUE,0);
 #endif
 
-   GtkWidget *check = gtk_toggle_button_new_with_label(_("Set Icon Aviable"));
-   GdkPixbuf *pixbuf =	gdk_pixbuf_new_from_file_at_scale(hub->client->get(SettingsManager::HUB_ICON_STR,SETTING(HUB_ICON_STR)).c_str(),15,15,FALSE,NULL);
+	GtkWidget *check = gtk_toggle_button_new_with_label(_("Set Icon Aviable"));
+	GdkPixbuf *pixbuf =	gdk_pixbuf_new_from_file_at_scale(hub->client->get(SettingsManager::HUB_ICON_STR,SETTING(HUB_ICON_STR)).c_str(),15,15,FALSE,NULL);
 
-   hub->tab_image = gtk_image_new_from_pixbuf(pixbuf);
-   hub->tab_button = gtk_button_new_with_label(_("Set Icon: "));
+	hub->tab_image = gtk_image_new_from_pixbuf(pixbuf);
+	hub->tab_button = gtk_button_new_with_label(_("Set Icon: "));
 
-   g_signal_connect(GTK_BUTTON(hub->tab_button), "clicked", G_CALLBACK(on_setImage_tab), hub);
-   g_signal_connect(GTK_TOGGLE_BUTTON(check), "toggled", G_CALLBACK(onToglleButtonIcon),hub);
+	g_signal_connect(GTK_BUTTON(hub->tab_button), "clicked", G_CALLBACK(on_setImage_tab), hub);
+	g_signal_connect(GTK_TOGGLE_BUTTON(check), "toggled", G_CALLBACK(onToglleButtonIcon),hub);
 
-   gtk_box_pack_start(GTK_BOX(hbox),check, FALSE, TRUE, 0);
-   gtk_box_pack_start(GTK_BOX(hbox), hub->tab_button, FALSE, TRUE, 0);
-   gtk_box_pack_start(GTK_BOX(hbox), hub->tab_image, FALSE, TRUE, 0);
-   gtk_container_add(GTK_CONTAINER(content_area), label);
-   gtk_container_add(GTK_CONTAINER(content_area), entry);
-   gtk_container_add(GTK_CONTAINER(content_area), hbox);
+	gtk_box_pack_start(GTK_BOX(hbox),check, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), hub->tab_button, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), hub->tab_image, FALSE, TRUE, 0);
+	gtk_container_add(GTK_CONTAINER(content_area), label);
+	gtk_container_add(GTK_CONTAINER(content_area), entry);
+	gtk_container_add(GTK_CONTAINER(content_area), hbox);
 
-   gtk_widget_show(hub->tab_button);
-   gtk_widget_show(hub->tab_image);
-   gtk_widget_show(entry);
-   gtk_widget_show(label);
-   gtk_widget_show(hbox);
-   gtk_widget_show(check);
-   gtk_entry_set_text(GTK_ENTRY(entry) , hub->client->get(SettingsManager::HUB_TEXT_STR,SETTING(HUB_TEXT_STR)).c_str());
+	gtk_widget_show(hub->tab_button);
+	gtk_widget_show(hub->tab_image);
+	gtk_widget_show(entry);
+	gtk_widget_show(label);
+	gtk_widget_show(hbox);
+	gtk_widget_show(check);
+	gtk_entry_set_text(GTK_ENTRY(entry) , hub->client->get(SettingsManager::HUB_TEXT_STR,SETTING(HUB_TEXT_STR)).c_str());
 
-   gint response  = gtk_dialog_run(dialog);
+	gint response  = gtk_dialog_run(dialog);
 
-   if(response == GTK_RESPONSE_OK)
-    {
+	if(response == GTK_RESPONSE_OK)
+	{
 		const gchar *text = gtk_entry_get_text(GTK_ENTRY(entry));
 		hub->client->set(SettingsManager::HUB_TEXT_STR,string(text));
 		hub->client->fire(ClientListener::HubUpdated(), hub->client);

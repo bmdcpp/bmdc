@@ -147,7 +147,7 @@ public:
 	//TODO: ? suite for FakeChecker ?
 	void addCheckToQueue(const HintedUser& hintedUser, bool filelist);
 	void checkCheating(const HintedUser& p, DirectoryListing* dl);
-//
+
 	static void parsePortIp(string aIpPort,string& ip, uint16_t& port)
 	{
 			string::size_type i = aIpPort.rfind(':');
