@@ -4125,11 +4125,6 @@ void Hub::openImage_gui(string target)
 		target = Util::getPath(Util::PATH_USER_CONFIG) + "Images" + PATH_SEPARATOR_STR + target;
 	WulforUtil::openURI(target);
 }
-//@TODO: did this get realy use?
-gboolean Hub::expose(GtkWidget *widget, cairo_t *event, gpointer )
-{
-	return GTK_WIDGET_CLASS(GTK_WIDGET_GET_CLASS(widget))->draw(widget, event);
-}
 
 void Hub::onItalicButtonClicked_gui(GtkWidget*, gpointer data)
 {

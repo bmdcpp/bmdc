@@ -269,9 +269,9 @@ void PrivateMessage::preferences_gui()
 	for (int i = Tag::TAG_FIRST; i < Tag::TAG_LAST; i++)
 	{
 		if(i == Tag::TAG_GENERAL) //@mainchat Tag
-            		continue;
-       	if(i == Tag::TAG_CHEAT) //@Cheating on mainchat
-					continue;
+			continue;
+		if(i == Tag::TAG_CHEAT) //@Cheating on mainchat
+			continue;
 
 		getSettingTag_gui(wsm, (Tag::TypeTag)i, fore, back, bold, italic);
 
@@ -546,25 +546,23 @@ void PrivateMessage::applyTags_gui(const string &line)
 
 		if(isCountryFlag)
 		{
-            gtk_text_buffer_move_mark(messageBuffer, tag_mark, &tag_end_iter);
+			gtk_text_buffer_move_mark(messageBuffer, tag_mark, &tag_end_iter);
 
-            if(country_text.length() == 2)
-            {
-                GdkPixbuf *buffer = WulforUtil::LoadCountryPixbuf(country_text);
-                gtk_text_buffer_delete(messageBuffer, &tag_start_iter, &tag_end_iter);
-                GtkTextChildAnchor *anchor = gtk_text_buffer_create_child_anchor(messageBuffer, &tag_start_iter);
-                GtkWidget *event_box = gtk_event_box_new();
-                // Creating a visible window may cause artifacts that are visible to the user.
-                gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
-                GtkWidget *image = gtk_image_new_from_pixbuf(buffer);
-                gtk_container_add(GTK_CONTAINER(event_box),image);
-                gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW(getWidget("text")), event_box, anchor);
-                //g_signal_connect(G_OBJECT(image), "draw", G_CALLBACK(expose), NULL);
-
-                gtk_widget_show_all(event_box);
-                gtk_widget_set_tooltip_text(event_box, country_text.c_str());
-                g_object_unref(buffer);
-            }
+			if(country_text.length() == 2)
+			{
+				GdkPixbuf *buffer = WulforUtil::LoadCountryPixbuf(country_text);
+				gtk_text_buffer_delete(messageBuffer, &tag_start_iter, &tag_end_iter);
+				GtkTextChildAnchor *anchor = gtk_text_buffer_create_child_anchor(messageBuffer, &tag_start_iter);
+				GtkWidget *event_box = gtk_event_box_new();
+				// Creating a visible window may cause artifacts that are visible to the user.
+				gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
+				GtkWidget *image = gtk_image_new_from_pixbuf(buffer);
+				gtk_container_add(GTK_CONTAINER(event_box),image);
+				gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW(getWidget("text")), event_box, anchor);
+				gtk_widget_show_all(event_box);
+				gtk_widget_set_tooltip_text(event_box, country_text.c_str());
+				g_object_unref(buffer);
+			}
 
 			applyEmoticons_gui();
 
@@ -636,12 +634,6 @@ void PrivateMessage::applyTags_gui(const string &line)
 			gtk_text_buffer_move_mark(messageBuffer, end_mark, &tag_end_iter);
 		}
 	}
-}
-
-gboolean PrivateMessage::expose(GtkWidget *widget, cairo_t *event, gpointer )
-{
-	GTK_WIDGET_CLASS(GTK_WIDGET_GET_CLASS(widget))->draw(widget, event);
-	return true;
 }
 
 void PrivateMessage::applyEmoticons_gui()

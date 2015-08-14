@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2015-08-10 14:39+0200\n"
+"POT-Creation-Date: 2015-08-14 14:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -587,7 +587,7 @@ msgid "Add to the list"
 msgstr ""
 
 #: ui/privatemessage.glade.ui:58 linux/hub.cc:2527
-#: linux/privatemessage.cc:1075
+#: linux/privatemessage.cc:1073
 msgid "Add user to favorites list"
 msgstr ""
 
@@ -654,13 +654,13 @@ msgid "Away message"
 msgstr ""
 
 #: ui/hub.glade.ui:14 ui/privatemessage.glade.ui:14
-#: linux/privatemessage.cc:1071
+#: linux/privatemessage.cc:1069
 msgid "Away mode message on/off"
 msgstr ""
 
 #: ui/hub.glade.ui:25 ui/privatemessage.glade.ui:25 linux/WulforUtil.cc:795
 #: linux/WulforUtil.cc:815 linux/mainwindow.cc:2402
-#: linux/privatemessage.cc:1072
+#: linux/privatemessage.cc:1070
 msgid "Away mode off"
 msgstr ""
 
@@ -842,7 +842,7 @@ msgstr ""
 
 #: ui/search.glade.ui:7 ui/settingsdialog.glade.ui:8901
 #: ui/sharebrowser.glade.ui:7 linux/hub.cc:3050 linux/mainwindow.cc:1700
-#: linux/mainwindow.cc:1768 linux/privatemessage.cc:1349
+#: linux/mainwindow.cc:1768 linux/privatemessage.cc:1347
 msgid "Choose a directory"
 msgstr ""
 
@@ -856,7 +856,7 @@ msgid "Clear Chat"
 msgstr ""
 
 #: ui/privatemessage.glade.ui:36 ui/privatemessage.glade.ui:37
-#: linux/privatemessage.cc:1073
+#: linux/privatemessage.cc:1071
 msgid "Clear PM"
 msgstr ""
 
@@ -892,7 +892,7 @@ msgstr ""
 msgid "Close Connection"
 msgstr ""
 
-#: ui/privatemessage.glade.ui:47 linux/privatemessage.cc:1074
+#: ui/privatemessage.glade.ui:47 linux/privatemessage.cc:1072
 msgid "Close PM"
 msgstr ""
 
@@ -1460,7 +1460,7 @@ msgid "Get User Info"
 msgstr ""
 
 #: ui/privatemessage.glade.ui:80 linux/hub.cc:2530
-#: linux/privatemessage.cc:1077
+#: linux/privatemessage.cc:1075
 msgid "Get file list"
 msgstr ""
 
@@ -1482,7 +1482,7 @@ msgid "Grant Slots"
 msgstr ""
 
 #: ui/privatemessage.glade.ui:91 linux/hub.cc:2531
-#: linux/privatemessage.cc:1078
+#: linux/privatemessage.cc:1076
 msgid "Grant extra slot"
 msgstr ""
 
@@ -2313,7 +2313,7 @@ msgid "Remove from Queue"
 msgstr ""
 
 #: ui/privatemessage.glade.ui:69 linux/hub.cc:2528
-#: linux/privatemessage.cc:1076
+#: linux/privatemessage.cc:1074
 msgid "Remove user favorite"
 msgstr ""
 
@@ -2555,7 +2555,7 @@ msgid "Show favorites list"
 msgstr ""
 
 #: ui/hub.glade.ui:69 ui/privatemessage.glade.ui:102 linux/hub.cc:2532
-#: linux/privatemessage.cc:1080
+#: linux/privatemessage.cc:1078
 msgid "Show help"
 msgstr ""
 
@@ -3087,16 +3087,16 @@ msgstr ""
 msgid " "
 msgstr ""
 
-#: linux/hub.cc:1560 linux/hub.cc:1640 linux/privatemessage.cc:677
-#: linux/privatemessage.cc:756
+#: linux/hub.cc:1560 linux/hub.cc:1640 linux/privatemessage.cc:675
+#: linux/privatemessage.cc:754
 msgid " *** Emoticons limit"
 msgstr ""
 
-#: linux/hub.cc:1555 linux/privatemessage.cc:672
+#: linux/hub.cc:1555 linux/privatemessage.cc:670
 msgid " *** Emoticons mode off"
 msgstr ""
 
-#: linux/hub.cc:1550 linux/privatemessage.cc:667
+#: linux/hub.cc:1550 linux/privatemessage.cc:665
 msgid " *** Emoticons not loaded"
 msgstr ""
 
@@ -3169,11 +3169,11 @@ msgstr ""
 msgid " has quit hub "
 msgstr ""
 
-#: linux/hub.cc:2421 linux/hub.cc:3123 linux/privatemessage.cc:1442
+#: linux/hub.cc:2421 linux/hub.cc:3123 linux/privatemessage.cc:1440
 msgid " is favorite user"
 msgstr ""
 
-#: linux/hub.cc:2439 linux/hub.cc:3162 linux/privatemessage.cc:1463
+#: linux/hub.cc:2439 linux/hub.cc:3162 linux/privatemessage.cc:1461
 msgid " is not favorite user"
 msgstr ""
 
@@ -3218,7 +3218,7 @@ msgstr ""
 msgid "': type /help for a list of available commands"
 msgstr ""
 
-#: linux/hub.cc:2523 linux/privatemessage.cc:1070
+#: linux/hub.cc:2523 linux/privatemessage.cc:1068
 msgid "*** Available commands:"
 msgstr ""
 
@@ -3275,7 +3275,7 @@ msgstr ""
 msgid ": "
 msgstr ""
 
-#: linux/privatemessage.cc:1085
+#: linux/privatemessage.cc:1083
 msgid ": type /help for a list of available commands"
 msgstr ""
 
@@ -3339,7 +3339,7 @@ msgstr ""
 msgid "Add finished files to share instantly (if shared)"
 msgstr ""
 
-#: linux/privatemessage.cc:1568
+#: linux/privatemessage.cc:1566
 msgid "Add to Favorite Users"
 msgstr ""
 
@@ -3597,7 +3597,7 @@ msgstr ""
 msgid "Client Type"
 msgstr ""
 
-#: linux/bookentry.cc:311 linux/privatemessage.cc:1567
+#: linux/bookentry.cc:311 linux/privatemessage.cc:1565
 #: linux/sharebrowser.cc:1077 linux/search.hh:166
 msgid "Close"
 msgstr ""
@@ -3675,11 +3675,11 @@ msgstr ""
 msgid "Copy All"
 msgstr ""
 
-#: linux/privatemessage.cc:1566 linux/sharebrowser.cc:1076
+#: linux/privatemessage.cc:1564 linux/sharebrowser.cc:1076
 msgid "Copy CID"
 msgstr ""
 
-#: linux/privatemessage.cc:1569
+#: linux/privatemessage.cc:1567
 msgid "Copy Nick(s)"
 msgstr ""
 
@@ -3839,15 +3839,15 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: linux/hub.cc:2492 linux/privatemessage.cc:1060
+#: linux/hub.cc:2492 linux/privatemessage.cc:1058
 msgid "Emoticons mode off"
 msgstr ""
 
-#: linux/hub.cc:2497 linux/privatemessage.cc:1065
+#: linux/hub.cc:2497 linux/privatemessage.cc:1063
 msgid "Emoticons mode on"
 msgstr ""
 
-#: linux/hub.cc:2539 linux/privatemessage.cc:1079
+#: linux/hub.cc:2539 linux/privatemessage.cc:1077
 msgid "Emoticons on/off"
 msgstr ""
 
@@ -4917,7 +4917,7 @@ msgstr ""
 msgid "Skip zero-byte files"
 msgstr ""
 
-#: linux/privatemessage.cc:1495
+#: linux/privatemessage.cc:1493
 msgid "Slot granted"
 msgstr ""
 
@@ -5138,7 +5138,7 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: linux/privatemessage.cc:1085
+#: linux/privatemessage.cc:1083
 msgid "Unknown command "
 msgstr ""
 
@@ -5203,7 +5203,7 @@ msgstr ""
 msgid "Use DNS in Transfers"
 msgstr ""
 
-#: linux/hub.cc:2308 linux/privatemessage.cc:1271
+#: linux/hub.cc:2308 linux/privatemessage.cc:1269
 msgid "Use Emoticons"
 msgstr ""
 
@@ -5323,7 +5323,7 @@ msgstr ""
 msgid "User went Offline"
 msgstr ""
 
-#: linux/privatemessage.cc:1430
+#: linux/privatemessage.cc:1428
 msgid "User went offline"
 msgstr ""
 
@@ -5475,7 +5475,7 @@ msgstr ""
 msgid "Username: "
 msgstr ""
 
-#: linux/hub.cc:4674 linux/privatemessage.cc:1565
+#: linux/hub.cc:4674 linux/privatemessage.cc:1563
 msgid "Users Commands"
 msgstr ""
 

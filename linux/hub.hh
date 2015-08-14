@@ -155,7 +155,6 @@ private:
 		static void onRemoveImageClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onOpenImageClicked_gui(GtkMenuItem *item, gpointer data);
 		static gboolean onImageEvent_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean expose(GtkWidget *widget, cairo_t *event, gpointer data);
 		static void onItalicButtonClicked_gui(GtkWidget *widget, gpointer data);
 		static void onBoldButtonClicked_gui(GtkWidget *widget, gpointer data);
 		static void onUnderlineButtonClicked_gui(GtkWidget *widget, gpointer data);
