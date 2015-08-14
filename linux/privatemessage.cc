@@ -655,7 +655,7 @@ void PrivateMessage::applyEmoticons_gui()
 	}
 	else if (!emotdialog->getEmot()->useEmoticons_gui())
 	{
-		if (/*WGETB("emoticons-use")*/SETTING(USE_EMOTS))
+		if (SETTING(USE_EMOTS))
 			setStatus_gui(_(" *** Emoticons not loaded"));
 		return;
 	}
@@ -1059,18 +1059,18 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if (command == "help")
 		{
-			pm->addLine_gui(Msg::SYSTEM, string(_("*** Available commands:")) + "\n\n" +
-			"/away <message>\t\t - " + _("Away mode message on/off") + "\n" +
-			"/back\t\t\t\t - " + _("Away mode off") + "\n" +
-			"/clear\t\t\t\t - " + _("Clear PM") + "\n" +
-			"/close\t\t\t\t - " + _("Close PM") + "\n" +
-			"/fuser, /fu\t\t\t\t - " + _("Add user to favorites list") + "\n" +
-			"/removefu, /rmfu\t\t - " + _("Remove user favorite") + "\n" +
-			"/getlist\t\t\t\t - " + _("Get file list") + "\n" +
-			"/grant\t\t\t\t - " + _("Grant extra slot") + "\n" +
-			"/emoticons, /emot\t\t - " + _("Emoticons on/off") + "\n" +
-			"/help\t\t\t\t - " + _("Show help") + "\n" +
-			WulforUtil::commands+"\n") ;
+			pm->addLine_gui(Msg::SYSTEM, string(_("*** Available commands:")) + "\n" +
+			"\r\n/away <message>\r\n\t - " + _("Away mode message on/off") + 
+			"\r\n/back \r\n\t - " + _("Away mode off") + 
+			"\r\n/clear \r\n\t - " + _("Clear PM") + 
+			"\r\n/close \r\n\t - " + _("Close PM") + 
+			"\r\n/fuser, /fu \r\n\t - " + _("Add user to favorites list") + 
+			"\r\n/removefu, /rmfu\r\n\t - " + _("Remove user favorite") + 
+			"\r\n/getlist \r\n\t - " + _("Get file list") + 
+			"\r\n/grant \r\n\t - " + _("Grant extra slot") +
+			"\r\n/emoticons, /emot \r\n\t - " + _("Emoticons on/off") +
+			"\r\n/help \r\n\t - " + _("Show help") +
+			WulforUtil::commands+" \n") ;
 		}
 		else
 		{
