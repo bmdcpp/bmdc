@@ -2739,7 +2739,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 				UserPtr ui = cm->findUser(params,hub->client->getHubUrl());
 				OnlineUser* ou = cm->findOnlineUser(ui->getCID(),hub->client->getHubUrl());
 				Identity& id = ou->getIdentity();
-				hub->addStatusMessage_gui(string(_("Report for"))+params+_("\n")+WulforUtil::formatReport(id)+"\n",Msg::SYSTEM,Sound::NONE);
+				hub->addMessage_gui("",WulforUtil::formatReport(id)+"\n",Msg::SYSTEM);
 				
 			}
 		}	
