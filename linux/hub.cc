@@ -2477,13 +2477,13 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		else if(command == "addip")
 		{	
 			if(!params.empty()) {
-				auto i = params.find(' ')
+				auto i = params.find(' ');
 				if(i == string::npos)
 					FavoriteManager::getInstance()->addFavoriteIp(params);
 				else{
 					string r = params.substr(i+1);
 					if(r == "range")
-						FavoriteManager::getInstance()->addFavoriteIp(params,time(NULL),FavoriteUser::FLAG_IP_RANGE);
+						FavoriteManager::getInstance()->addFavoriteIp(params.substr(0,i),time(NULL),FavoriteUser::FLAG_IP_RANGE);
 					else;	
 				}
 			}else
