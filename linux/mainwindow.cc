@@ -3146,7 +3146,7 @@ void MainWindow::completeGeoIpUpdate(const string &buf, bool v6)
 	LogManager::getInstance()->message(string(_("The GeoIP database could not be updated...v")) + (v6 ? "IPv6" : "IPv4"));
 
 }
-///close all
+///Close all
 void MainWindow::onCloseAllHub_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;

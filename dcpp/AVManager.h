@@ -35,18 +35,21 @@ namespace dcpp {
 class AVManager: public Singleton<AVManager>, private TimerManagerListener
 {
 	public:
-		AVManager(): timestamp_db(0), temp_tick(GET_TICK())
-		{	
-			TimerManager::getInstance()->addListener(this);
-		}
-		virtual ~AVManager() {	TimerManager::getInstance()->removeListener(this); }
-		bool isNickVirused(string nick) { Lock l(cs); return entries.find(Text::toLower(nick)) != entries.end(); }
-		bool isIpVirused(string ip) { Lock l(cs); return entip.find(ip) != entip.end(); }
 		struct AVEntry
 		{
 			string nick;
 			uint64_t share;
 		};
+
+		AVManager(): timestamp_db(0), temp_tick(GET_TICK())
+		{	
+			TimerManager::getInstance()->addListener(this);
+		}
+		
+		virtual ~AVManager() {	TimerManager::getInstance()->removeListener(this); }
+		
+		bool isNickVirused(string nick) { Lock l(cs); return entries.find(Text::toLower(nick)) != entries.end(); }
+		bool isIpVirused(string ip) { Lock l(cs); return entip.find(ip) != entip.end(); }
 		void addItemNick(const string& nick, const AVEntry& entry);
 		void addItemIp(const string& ip, const AVEntry& entry);
 		AVEntry getEntryByNick(string nick) { Lock l(cs); return entries.find(Text::toLower(nick))->second; }
