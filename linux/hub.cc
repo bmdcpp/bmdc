@@ -2477,9 +2477,17 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		else if(command == "addip")
 		{	
 			if(!params.empty()) {
-				FavoriteManager::getInstance()->addFavoriteIp(params);
+				auto i = params.find(' ')
+				if(i == string::npos)
+					FavoriteManager::getInstance()->addFavoriteIp(params);
+				else{
+					string r = params.substr(i+1);
+					if(r == "range")
+						FavoriteManager::getInstance()->addFavoriteIp(params,time(NULL),FavoriteUser::FLAG_IP_RANGE);
+					else;	
+				}
 			}else
-				hub->addStatusMessage_gui(_("No IP given to the command"), Msg::SYSTEM , Sound::NONE );
+				hub->addStatusMessage_gui(_("No IP/range given to the command"), Msg::SYSTEM , Sound::NONE );
 		}
 		else if( command == "listip")
 		{
