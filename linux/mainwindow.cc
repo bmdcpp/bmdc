@@ -101,7 +101,7 @@ MainWindow::MainWindow():
 	transfers(NULL), 
 	minimized(FALSE),
 #ifdef GTK_DISABLE_DEPRECATED
-#if !GTK_CHECK_VERSION(3,14,0)		
+#if !GTK_CHECK_VERSION(3,14,0)
 	 timer(0),
 #endif
 #else
@@ -217,14 +217,15 @@ MainWindow::MainWindow():
 		g_object_set_data_full(G_OBJECT(item), "type", g_strdup("up"), g_free);
 		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(onLimitingMenuItem_gui), (gpointer)this);
 	}
-	GtkWidget *sep3 = gtk_separator_menu_item_new();
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep3);
+	
+	sep = gtk_separator_menu_item_new();
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep);
 	GtkWidget *dwitem = gtk_menu_item_new_with_label(_("Download Limit (disable)"));
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), dwitem);
 	g_object_set_data_full(G_OBJECT(dwitem), "type", g_strdup("dw"), g_free);
 	g_signal_connect(G_OBJECT(dwitem), "activate", G_CALLBACK(onLimitingDisable), (gpointer)this);
-	GtkWidget *sep2 = gtk_separator_menu_item_new();
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep2);
+	sep = gtk_separator_menu_item_new();
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep);
 
 	for(int j = 10240; j<2097152; j = j*2+40960/2) {
 		string tmenu = Util::formatBytes(j) + (_("/s"));
@@ -648,7 +649,7 @@ void MainWindow::onLimitingMenuItem_gui(GtkWidget *widget, gpointer data)
 	string type = (gchar *)g_object_get_data(G_OBJECT(widget), "type");
 
 	if(speed.empty() || type.empty())
-		return;
+			return;
 
 	if(type == "up")
 	{
@@ -688,8 +689,8 @@ void MainWindow::onLimitingDisable(GtkWidget *widget, gpointer data)
 	{
 		ThrottleManager::setSetting(SettingsManager::MAX_UPLOAD_SPEED_MAIN, 0);
 	}
+	
 	SettingsManager::getInstance()->set(SettingsManager::THROTTLE_ENABLE, false);
-
 	mw->setLimitingIcon(false);
 	mw->setStatRate_gui();
 }
@@ -994,6 +995,7 @@ void MainWindow::updateStatusIconTooltip_gui(string download, string upload)
 #pragma GCC diagnostic pop	
 }
 #endif
+//is possible use APPIND indepent on gtk ver?
 #ifdef HAVE_APPINDCATOR
 #if GTK_CHECK_VERSION(3,14,1)
 void MainWindow::createAppIndicator()
@@ -1020,11 +1022,11 @@ void MainWindow::setMainStatus_gui(string text, time_t t)
 		}
 		queue<string> tmp = statustext;
 		string statusTextOnToolTip;
-      	while(!tmp.empty())
-      	{
-      	     statusTextOnToolTip += "\n" + tmp.front();
-      	     tmp.pop();
-      	}
+		while(!tmp.empty())
+		{
+			statusTextOnToolTip += "\n" + tmp.front();
+			tmp.pop();
+		}
 		statustext.push(text);
 		statusTextOnToolTip += "\n" + text;
 		gtk_widget_set_tooltip_text(getWidget("labelStatus"), statusTextOnToolTip.c_str());
@@ -1046,8 +1048,8 @@ void MainWindow::setStats_gui(string hubs, string downloadSpeed,
 	gtk_label_set_text(GTK_LABEL(getWidget("labelUploadSpeed")), uploadSpeed.c_str());
 	gtk_label_set_text(GTK_LABEL(getWidget("labelUploaded")), uploaded.c_str());
 
-	string fslots = Util::toString(UploadManager::getInstance()->getFreeSlots());
-	string slots = _("Slots: ") + fslots + "/" + Util::toString(SETTING(SLOTS));
+	string freeslots = Util::toString(UploadManager::getInstance()->getFreeSlots());
+	string slots = _("Slots: ") + freeslots + "/" + Util::toString(SETTING(SLOTS));
 	string shared = _("Shared: ") + Util::formatBytes(ShareManager::getInstance()->getShareSize());
 	gtk_label_set_text(GTK_LABEL(getWidget("labelShare")), shared.c_str());
 	gtk_label_set_text(GTK_LABEL(getWidget("labelSlots")), slots.c_str());
@@ -1541,16 +1543,17 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 {
 	MainWindow *mw = WulforManager::get()->getMainWindow();
 	GtkDialog *dialog =  GTK_DIALOG(gtk_dialog_new_with_buttons (_("User Commands Dialog"),
-                                         GTK_WINDOW(mw->getContainer()),
-                                         GTK_DIALOG_DESTROY_WITH_PARENT,
-                                         BMDC_STOCK_OK,
-                                         GTK_RESPONSE_OK,
-                                         BMDC_STOCK_CANCEL,
-                                         GTK_RESPONSE_CANCEL,
-                                         NULL));
-     GtkWidget *content_area = gtk_dialog_get_content_area (dialog);
-     GtkWidget *table = gtk_grid_new();
-     gtk_container_add(GTK_CONTAINER(content_area), table);
+								GTK_WINDOW(mw->getContainer()),
+								GTK_DIALOG_DESTROY_WITH_PARENT,
+								BMDC_STOCK_OK,
+								GTK_RESPONSE_OK,
+								BMDC_STOCK_CANCEL,
+								GTK_RESPONSE_CANCEL,
+								NULL));
+								
+	GtkWidget *content_area = gtk_dialog_get_content_area (dialog);
+	GtkWidget *table = gtk_grid_new();
+	gtk_container_add(GTK_CONTAINER(content_area), table);
 
 	string::size_type i = 0;
 	StringList names;
@@ -2119,8 +2122,8 @@ gboolean MainWindow::onButtonReleasePage_gui(GtkWidget*, GdkEventButton *event, 
 	return FALSE;
 }
 #ifdef GTK_DISABLE_DEPRECATED
-	#if !GTK_CHECK_VERSION(3,14,1)
-	gboolean MainWindow::animationStatusIcon_gui(gpointer data)
+#if !GTK_CHECK_VERSION(3,14,1)
+gboolean MainWindow::animationStatusIcon_gui(gpointer data)
 	{
 		MainWindow *mw = (MainWindow *) data;
 
@@ -2146,7 +2149,6 @@ gboolean MainWindow::animationStatusIcon_gui(gpointer data)
 	{
 		gtk_status_icon_set_from_icon_name(mw->statusIcon, g_get_prgname());
 		mw->timer = 0;
-
 		return FALSE;
 	}
 
@@ -2155,6 +2157,7 @@ gboolean MainWindow::animationStatusIcon_gui(gpointer data)
 	return TRUE;
 }
 #endif
+
 void MainWindow::onRaisePage_gui(GtkMenuItem*, gpointer data)
 {
 	WulforManager::get()->getMainWindow()->raisePage_gui((GtkWidget *)data);
@@ -2296,7 +2299,7 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget*, gpointer data)
 	if (mw->useStatusIconBlink != WGETB("status-icon-blink-use"))
 		WSET("status-icon-blink-use", mw->useStatusIconBlink);
 	
-	bool emoticons = SETTING(USE_EMOTS);//WGETB("emoticons-use");
+	bool emoticons = SETTING(USE_EMOTS);
 
 	gint response = WulforManager::get()->openSettingsDialog_gui();
 
@@ -2921,6 +2924,7 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) noexcept
 	typedef Func5<MainWindow, string, string, string, string, string> F5;
 	F5 *func = new F5(this, &MainWindow::setStats_gui, hubs, downloadSpeed, downloaded, uploadSpeed, uploaded);
 	WulforManager::get()->dispatchGuiFunc(func);
+
 #ifdef GTK_DISABLE_DEPRECATED
 #if !GTK_CHECK_VERSION(3,14,1)
 	if (SETTING(ALWAYS_TRAY) && !downloadSpeed.empty() && !uploadSpeed.empty())
@@ -2937,7 +2941,8 @@ if (SETTING(ALWAYS_TRAY) && !downloadSpeed.empty() && !uploadSpeed.empty())
 		F2 *f2 = new F2(this, &MainWindow::updateStatusIconTooltip_gui, downloadSpeed, uploadSpeed);
 		WulforManager::get()->dispatchGuiFunc(f2);
 	}
-#endif	
+#endif
+
 	string file;
 	uint64_t bytes = 0;
 	size_t files = 0;
@@ -2980,7 +2985,7 @@ if(_idleDetectionPossible) {
 	g_print("Detection Part 2");
 		long idlesecs = (_mit_info->idle/1000); // in sec
 		//TODO: not hardcode (1000 ms = 1s)
-		if (idlesecs > 60*5) {
+		if (idlesecs > WGETI("idle-time")) {
 			g_print("Idle: Away Mode on");
 				if(!dcpp::Util::getAway()) {//dont set away twice
 					

@@ -476,6 +476,7 @@ WulforSettingsManager::WulforSettingsManager():
 	*/
 	defaultInt.insert(IntMap::value_type("double-click-action",(int)CActions::BROWSE));
 	defaultInt.insert(IntMap::value_type("hide-transfers",0));
+	defaultInt.insert(IntMap::value_type("idle-time",60*5));//@in minutes
 
 	defaultString.insert(StringMap::value_type("menu-userlist-color","blue"));//TODO: dcpp set
 	
