@@ -35,11 +35,13 @@ public:
 
 	enum FlagUseItems {
 		FLAG_GRANTSLOT = 1 << 0
-	};	
+	};
+	
 	enum Flags {
 		FLAG_IGNORE = 2 << 0,
 		FLAG_IP = 3 << 0,
-		FLAG_NICK = 4 << 0
+		FLAG_IP_RANGE = 4 << 0,
+		FLAG_NICK = 5 << 0
 	};
 
 	UserPtr& getUser() { return user; }
@@ -63,6 +65,7 @@ public:
 			nicks.push_back(_nick);
 		nick = _nick;
 	}
+	
 	string getNick() const
 	{ return nick; }
 
@@ -78,9 +81,9 @@ public:
 			}
 			num++;
 		 }
-
 		return _nicks+string( num == 0 ? "" : ";");
 	}
+	
 	void setNicks(vector<string> _nicks) {
 			nicks = _nicks;
 	}

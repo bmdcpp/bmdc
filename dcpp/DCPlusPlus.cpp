@@ -49,7 +49,7 @@
 #include "DebugManager.h"
 #include "HighlightManager.h"
 #include "PluginManager.h"
-#include "RsxUtil.h"
+#include "BMDCUtil.h"
 
 #include "AVManager.h"
 
@@ -153,7 +153,7 @@ void load(function<void (const string&)> stepF, function<void (float)> progressF
 	announce(_("Detections"));
 	DetectionManager::getInstance()->load();
 
-	RsxUtil::init();
+	bmUtil::init();
 #ifdef HAVE_LIBTAR
 	if(SETTING(ENABLE_AUTOBACKUP)) {
 		BackupManager::getInstance()->createBackup();
@@ -162,7 +162,7 @@ void load(function<void (const string&)> stepF, function<void (float)> progressF
 }
 
 void shutdown() {
-	RsxUtil::uinit();
+	bmUtil::uinit();
     PluginApiImpl::shutdown();
 #ifdef HAVE_LIBTAR
 	ExportManager::deleteInstance();

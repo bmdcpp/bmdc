@@ -37,7 +37,7 @@
 #include "SearchManagerListener.h"
 #include "ClientManagerListener.h"
 
-#include "RsxUtil.h"
+#include "BMDCUtil.h"
 #include "ClientManager.h"
 
 namespace dcpp {
@@ -105,9 +105,9 @@ public:
 	string addClientCheck(const HintedUser& aUser) {
 		StringList nicks = ClientManager::getInstance()->getNicks(aUser);
 		string nick = nicks.empty() ? Util::emptyString : Util::cleanPathChars(nicks[0]) + ".";
-		string filename = RsxUtil::getTestSURString() + nick + aUser.user->getCID().toBase32();
+		string filename = bmUtil::getTestSURString() + nick + aUser.user->getCID().toBase32();
 		if(aUser.user == ClientManager::getInstance()->getMe())
-			return RsxUtil::getTestSURString();
+			return bmUtil::getTestSURString();
 
 		add(Util::getPath(Util::PATH_USER_CONFIG) + "TestSURs//" + filename, -1, TTHValue(), aUser, QueueItem::FLAG_TESTSUR);
 		return filename;
@@ -120,7 +120,7 @@ public:
 		try {
 			StringList nicks = ClientManager::getInstance()->getNicks(hintedUser);
 			string nick = nicks.empty() ? Util::emptyString : Util::cleanPathChars(nicks[0]) + ".";
-			string target = Util::getPath(Util::PATH_USER_CONFIG) + "TestSURs//" + RsxUtil::getTestSURString() + nick + hintedUser.user->getCID().toBase32();
+			string target = Util::getPath(Util::PATH_USER_CONFIG) + "TestSURs//" + bmUtil::getTestSURString() + nick + hintedUser.user->getCID().toBase32();
 
 			remove(target);
 		} catch(...) {

@@ -18,25 +18,25 @@
 #include "DCPlusPlus.h"
 #include "version.h"
 #include <cstring>
-#include "RsxUtil.h"
+#include "BMDCUtil.h"
 #include "Util.h"
 #include "Text.h"
 
 namespace dcpp {
 
-string RsxUtil::tmpTestSur;
+string bmUtil::tmpTestSur;
 
 const string defaultTestSURName = "TestSUR";
 
-void RsxUtil::init() {
+void bmUtil::init() {
 	generateTestSURString();
 }
 
-void RsxUtil::uinit() {
+void bmUtil::uinit() {
 	//...
 }
 
-bool RsxUtil::checkVersion(const string& tag) {
+bool bmUtil::checkVersion(const string& tag) {
 	const char* aTag = tag.c_str();
 	if(strncmp(aTag, "<++ V:0.69", 10) == 0) {
 		return true;
@@ -49,8 +49,8 @@ bool RsxUtil::checkVersion(const string& tag) {
 /*
 string RsxUtil::toIP(const uint32_t ipnum) {
 	return Util::toString((ipnum / 16777216) % 256) + '.' + Util::toString((ipnum / 65536) % 256) + '.' + Util::toString((ipnum / 256) % 256) + '.' + Util::toString(ipnum % 256);
-}
-uint32_t RsxUtil::toIpNumber(const string& aIp) {
+}*/
+uint32_t bmUtil::toIpNumber(const string& aIp) {
 	// you must supply a valid ip!!
 	string::size_type a = aIp.find('.');
 	string::size_type b = aIp.find('.', a+1);
@@ -61,7 +61,7 @@ uint32_t RsxUtil::toIpNumber(const string& aIp) {
 		(Util::toUInt32(aIp.c_str() + b + 1) << 8) |
 		(Util::toUInt32(aIp.c_str() + c + 1) );
 }
-bool RsxUtil::isIpInRange(const string& aIp, const string& aRange) {
+bool bmUtil::isIpInRange(const string& aIp, const string& aRange) {
 	string::size_type j = aRange.find('-') + 1;
 	if(j == string::npos)
 		return false;
@@ -71,7 +71,7 @@ bool RsxUtil::isIpInRange(const string& aIp, const string& aRange) {
 	if(lower <= ip && ip <= upper)
 		return true;
 	return false;
-}
+}/**
 uint32_t RsxUtil::getUpperRange(const string& aRange) {
 	string::size_type j = aRange.find('-') + 1;
 	return toIpNumber(aRange.substr(j, aRange.size() - j));
@@ -81,7 +81,7 @@ uint32_t RsxUtil::getLowerRange(const string& aRange) {
 	return toIpNumber(aRange.substr(0, aRange.find('-')));
 }
 */
-void RsxUtil::generateTestSURString() {
+void bmUtil::generateTestSURString() {
 	string tmp;
 	tmp.reserve(3);
 	for(int i = 0; i < 3; i++) {
@@ -91,7 +91,7 @@ void RsxUtil::generateTestSURString() {
 	tmpTestSur = tmp;
 }
 
-const string& RsxUtil::getTestSURString() {
+const string& bmUtil::getTestSURString() {
 	return tmpTestSur.empty() ? defaultTestSURName : tmpTestSur;
 }
 

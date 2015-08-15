@@ -835,8 +835,14 @@ void Hub::updateUser_gui(ParamMap params)
 	if( !params["IP"].empty()) {
 		auto list = FavoriteManager::getInstance()->getListIp();	
 		auto i = list.find(params["IP"]);
-		if( i != list.end())
+		if( i != list.end()) {
 			addStatusMessage_gui(params["IP"] + _(" Has been connected "), Msg::STATUS, Sound::NONE);
+		}
+		for(auto& b:list)
+		{
+			if(b.second->isSet(FavoriteUser::FLAG_IP_RANGE) && dcpp::bmUtil::isIpInRange(params["IP"],b.first))
+				addStatusMessage_gui(params["IP"] +_(" From range")+b.first+ _(" Has been connected "), Msg::STATUS, Sound::NONE);
+		}
 	}	
 	
 	setStatus_gui("statusUsers", Util::toString(userMap.size()) + _(" Users"));

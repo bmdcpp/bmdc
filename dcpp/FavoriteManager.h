@@ -134,13 +134,13 @@ public:
 	
 	iplist getListIp() {Lock l(cs); return ips;}
 	
-	void addFavoriteIp(const string& ip,time_t lastSeen = time(NULL))
+	void addFavoriteIp(const string& ip, time_t lastSeen = time(NULL), int type = FavoriteUser::Flags::FLAG_IP)
 	{
 		Lock l(cs);
 		
 		if(ips.find(ip) == ips.end())
 		{
-			FavoriteUser* fav = new FavoriteUser(FavoriteUser::Flags::FLAG_IP);	
+			FavoriteUser* fav = new FavoriteUser(type);
 			fav->setIp(ip);
 			fav->setLastSeen(lastSeen);
 			ips.insert(make_pair(ip,fav));

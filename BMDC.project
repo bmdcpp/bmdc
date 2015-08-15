@@ -240,6 +240,8 @@
     <File Name="dcpp/Mapper.h"/>
     <File Name="dcpp/Mapper_MiniUPnPc.cpp"/>
     <File Name="dcpp/Mapper_MiniUPnPc.h"/>
+    <File Name="dcpp/BMDCUtil.cpp"/>
+    <File Name="dcpp/BMDCUtil.h"/>
   </VirtualDirectory>
   <VirtualDirectory Name="linux">
     <File Name="linux/AboutConfig.cc"/>
