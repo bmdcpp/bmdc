@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2015-08-15 14:05+0200\n"
+"POT-Creation-Date: 2015-08-16 13:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3128,6 +3128,10 @@ msgstr ""
 msgid " Has been connected "
 msgstr ""
 
+#: linux/hub.cc:2497
+msgid " Last Seen: "
+msgstr ""
+
 #: linux/hub.cc:2639 linux/hub.cc:2640
 msgid " User Per Favorite Hub Set "
 msgstr ""
@@ -4334,10 +4338,6 @@ msgstr ""
 msgid ""
 "Keep duplicate files in your file list (duplicates never count towards your "
 "share size)"
-msgstr ""
-
-#: linux/hub.cc:2497
-msgid "Last Seen: "
 msgstr ""
 
 #: linux/WulforUtil.cc:82

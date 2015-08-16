@@ -2494,7 +2494,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			auto list = FavoriteManager::getInstance()->getListIp();
 			string tmp;
 			for(auto it:list)
-					tmp =+_("IP: ") + it.first + _("Last Seen: ")+Util::formatTime("%Y-%m-%d %H:%M", it.second->getLastSeen())+"\n";
+					tmp += _("IP: ") + it.first + _(" Last Seen: ")+Util::formatTime("%Y-%m-%d %H:%M", it.second->getLastSeen())+"\n";
 			
 			hub->addMessage_gui("",tmp,Msg::SYSTEM);
 		

@@ -530,6 +530,7 @@ void FavoriteManager::save() {
 			xml.addTag("FavoriteIP");
 			xml.addChildAttrib("IP",it.second->getIp());
 			xml.addChildAttrib("LastSeen",it.second->getLastSeen());
+			xml.addChildAttrib("Range",it.second->isSet(FavoriteUser::FLAG_IP_RANGE) );
 			
 		}
 		xml.stepOut();
@@ -771,11 +772,10 @@ void FavoriteManager::load(SimpleXML& aXml) {
 			while(aXml.findChild("FavoriteIP"))
 			{
 				string ip = aXml.getChildAttrib("IP");
-				time_t lastSeen = (time_t)aXml.getIntChildAttrib("LastSeen");	
-				addFavoriteIp(ip,lastSeen);
+				time_t lastSeen = (time_t)aXml.getIntChildAttrib("LastSeen");
+				bool type = aXml.getBoolChildAttrib("Range");
+				addFavoriteIp(ip,lastSeen, type ? FavoriteUser::Flags::FLAG_IP_RANGE : FavoriteUser::Flags::FLAG_IP);
 			}
-		
-		
 			aXml.stepOut();
 	}
 
