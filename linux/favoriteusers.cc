@@ -55,6 +55,7 @@ FavoriteUsers::FavoriteUsers():
 	favoriteUserView.insertHiddenColumn("URL", G_TYPE_STRING);
 	favoriteUserView.insertHiddenColumn("Icon", G_TYPE_STRING);
 	favoriteUserView.insertHiddenColumn("Ign", G_TYPE_STRING);
+	favoriteUserView.insertHiddenColumn("Type", G_TYPE_STRING);
 	favoriteUserView.finalize();
 
 	favoriteUserStore = gtk_list_store_newv(favoriteUserView.getColCount(), favoriteUserView.getGTypes());
@@ -119,6 +120,7 @@ void FavoriteUsers::show()
 			favoriteUserView.col("URL"), user.getUrl().c_str(),
 			favoriteUserView.col("Icon"), "bmdc-normal",
 			favoriteUserView.col("Ign"), string(user.isSet(FavoriteUser::FLAG_IGNORE) ? "1" : "0").c_str(),
+			favoriteUserView.col("Type"), "cid",
 			-1);
 
 		userIters.insert(UnMapIter::value_type(cid, iter));
@@ -141,6 +143,8 @@ void FavoriteUsers::show()
 			favoriteUserView.col("CID"), "n/a",
 			favoriteUserView.col("URL"), "n/a",
 			favoriteUserView.col("Icon"), "bmdc-normal",
+			favoriteUserView.col("Type"), "nick",
+
 		-1);
 		nicksIters.insert(UnMapIter::value_type(nt->first, iter));
 		
@@ -164,6 +168,8 @@ void FavoriteUsers::show()
 			favoriteUserView.col("CID"), "n/a",
 			favoriteUserView.col("URL"), "n/a",
 			favoriteUserView.col("Icon"), "bmdc-normal",
+			favoriteUserView.col("Type"), "ip",
+
 		-1);
 	
 	
@@ -282,7 +288,9 @@ void FavoriteUsers::onBrowseItemClicked_gui(GtkMenuItem*, gpointer data)
 			{
 				string cid = fu->favoriteUserView.getString(&iter, "CID");
 				string nick = fu->favoriteUserView.getString(&iter, _("Nick"));
-				if(cid == "n/a")
+				string type = fu->favoriteUserView.getString(&iter, "Type");
+				
+				if(type == "nick")
 				{
 					F2 *func = new F2(fu, &FavoriteUsers::getFileListNick_client,
 						nick,
@@ -290,12 +298,15 @@ void FavoriteUsers::onBrowseItemClicked_gui(GtkMenuItem*, gpointer data)
 					WulforManager::get()->dispatchClientFunc(func);	
 					return;	
 				}
-				
-				F3 *func = new F3(fu, &FavoriteUsers::getFileList_client,
+				if(type == "cid")
+				{
+					F3 *func = new F3(fu, &FavoriteUsers::getFileList_client,
 					fu->favoriteUserView.getString(&iter, "CID"),
 					fu->favoriteUserView.getString(&iter, "URL"),
 					FALSE);
-				WulforManager::get()->dispatchClientFunc(func);
+					WulforManager::get()->dispatchClientFunc(func);
+				}
+				if(type == "ip")continue;//TODO	
 			}
 			gtk_tree_path_free(path);
 		}
@@ -323,7 +334,9 @@ void FavoriteUsers::onMatchQueueItemClicked_gui(GtkMenuItem*, gpointer data)
 			{
 				string cid = fu->favoriteUserView.getString(&iter, "CID");
 				string nick = fu->favoriteUserView.getString(&iter, _("Nick"));
-				if(cid == "n/a")
+				string type = fu->favoriteUserView.getString(&iter, "Type");
+				
+				if(type == "nick")
 				{
 					F2 *func = new F2(fu, &FavoriteUsers::getFileListNick_client,
 					nick,
@@ -331,11 +344,14 @@ void FavoriteUsers::onMatchQueueItemClicked_gui(GtkMenuItem*, gpointer data)
 					WulforManager::get()->dispatchClientFunc(func);
 					return;
 				}
+				if(type == "cid") {
 				F3 *func = new F3(fu, &FavoriteUsers::getFileList_client,
 					fu->favoriteUserView.getString(&iter, "CID"),
 					fu->favoriteUserView.getString(&iter, "URL"),
 					TRUE);
 				WulforManager::get()->dispatchClientFunc(func);
+				}
+				if(type == "ip") continue;
 			}
 			gtk_tree_path_free(path);
 		}
@@ -360,7 +376,9 @@ void FavoriteUsers::onSendPMItemClicked_gui(GtkMenuItem*, gpointer data)
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(fu->favoriteUserStore), &iter, path))
 			{
 				string cid = fu->favoriteUserView.getString(&iter, "CID");
-				if(cid == "n/a") return;
+				string type = fu->favoriteUserView.getString(&iter, "Type");
+				if(type == "nick") return;
+				if(type == "ip") return;
 				
 				WulforManager::get()->getMainWindow()->addPrivateMessage_gui(Msg::UNKNOWN,
 					fu->favoriteUserView.getString(&iter, "CID"),
@@ -391,17 +409,20 @@ void FavoriteUsers::onGrantSlotItemClicked_gui(GtkMenuItem*, gpointer data)
 			{
 				string cid = fu->favoriteUserView.getString(&iter, "CID");
 				string nick = fu->favoriteUserView.getString(&iter, _("Nick"));
-				if(cid == "n/a")
+				string type = fu->favoriteUserView.getString(&iter, "Type");
+				if(type == "nick")
 				{
 					FavoriteUser* f = FavoriteManager::getInstance()->getIndepentFavorite(nick);
 					f->setFlag(FavoriteUser::FLAG_GRANTSLOT);
 					return;	
 				}
-				
-				F2 *func = new F2(fu, &FavoriteUsers::grantSlot_client,
+				if(type == "cid") {
+					F2 *func = new F2(fu, &FavoriteUsers::grantSlot_client,
 					fu->favoriteUserView.getString(&iter, "CID"),
 					fu->favoriteUserView.getString(&iter, "URL"));
-				WulforManager::get()->dispatchClientFunc(func);
+					WulforManager::get()->dispatchClientFunc(func);
+				}
+				if(type == "ip") return;
 			}
 			gtk_tree_path_free(path);
 		}
@@ -426,7 +447,9 @@ void FavoriteUsers::onConnectItemClicked_gui(GtkMenuItem*, gpointer data)
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(fu->favoriteUserStore), &iter, path))
 			{
 				string cid = fu->favoriteUserView.getString(&iter, "CID");
-				if(cid == "n/a")return;
+				string type = fu->favoriteUserView.getString(&iter, "Type");
+				if(type == "nick") return;
+				if(type == "ip") return;
 				
 				WulforManager::get()->getMainWindow()->showHub_gui(fu->favoriteUserView.getString(&iter, "URL"));
 			}
@@ -454,7 +477,9 @@ void FavoriteUsers::onRemoveFromQueueItemClicked_gui(GtkMenuItem*, gpointer data
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(fu->favoriteUserStore), &iter, path))
 			{
 				string cid = fu->favoriteUserView.getString(&iter, "CID");
-				if(cid == "n/a")return;
+				string type = fu->favoriteUserView.getString(&iter, "Type");
+				if(type == "nick")return;
+				if(type == "ip")return;
 				
 				F1 *func = new F1(fu, &FavoriteUsers::removeUserFromQueue_client, fu->favoriteUserView.getString(&iter, "CID"));
 				WulforManager::get()->dispatchClientFunc(func);
@@ -477,13 +502,14 @@ void FavoriteUsers::onDescriptionItemClicked_gui(GtkMenuItem*, gpointer data)
 		{
 			GtkTreeIter iter;
 			GtkTreePath *path = (GtkTreePath *) list->data;
-			string description, nick, cid;
+			string description, nick, cid,type;
 
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(fu->favoriteUserStore), &iter, path))
 			{
 				description = fu->favoriteUserView.getString(&iter, _("Description"));
 				nick = fu->favoriteUserView.getString(&iter, _("Nick"));
 				cid = fu->favoriteUserView.getString(&iter, "CID");
+				type = fu->favoriteUserView.getString(&iter, "Type");
 			}
 			gtk_tree_path_free(path);
 			g_list_free(list);
@@ -502,8 +528,9 @@ void FavoriteUsers::onDescriptionItemClicked_gui(GtkMenuItem*, gpointer data)
 
 			if (response != GTK_RESPONSE_OK)
 				return;
+			if(type == "ip") return;	
 
-			if(cid == "n/a") {
+			if(type == "nick") {
 				description = gtk_entry_get_text(GTK_ENTRY(fu->getWidget("descriptionEntry")));
 				gtk_list_store_set(fu->favoriteUserStore, &iter, fu->favoriteUserView.col(_("Description")), description.c_str(), -1);
 				typedef Func2<FavoriteUsers, string, string> F2;
@@ -543,12 +570,18 @@ void FavoriteUsers::onRemoveItemClicked_gui(GtkMenuItem*, gpointer data)
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(fu->favoriteUserStore), &iter, path))
 			{
 				string cid = fu->favoriteUserView.getString(&iter, "CID");
-				if(cid == "n/a")
+				string type = fu->favoriteUserView.getString(&iter, "Type");
+				if(type == "nick")
 				{
 					string nick = fu->favoriteUserView.getString(&iter, _("Nick"));		
 					FavoriteManager::getInstance()->removeFavoriteIUser(nick);
 					return;
-				}	
+				}
+				if(type == "ip")
+			{//todo
+			return;	
+			}
+					
 				remove.push_back(cid);
 			}
 			gtk_tree_path_free(path);
@@ -595,11 +628,14 @@ void FavoriteUsers::onAutoGrantSlotToggled_gui(GtkCellRendererToggle*, gchar *pa
 	if (gtk_tree_model_get_iter_from_string(GTK_TREE_MODEL(fu->favoriteUserStore), &iter, path))
 	{
 		string cid = fu->favoriteUserView.getString(&iter, "CID");
+		string type = fu->favoriteUserView.getString(&iter, "Type");
 		gboolean grant = fu->favoriteUserView.getValue<gboolean>(&iter, _("Auto grant slot"));
 		grant = !grant;
 		gtk_list_store_set(fu->favoriteUserStore, &iter, fu->favoriteUserView.col(_("Auto grant slot")), grant, -1);
 
-		if(cid == "n/a")
+		if(type == "ip")
+			return;
+		if(type == "nick")
 		{
 			FavoriteUser* u = FavoriteManager::getInstance()->getIndepentFavorite(fu->favoriteUserView.getString(&iter,_("Nick")));
 			if(u != NULL) {
@@ -622,11 +658,11 @@ void FavoriteUsers::getFileList_client(const string cid, const string hubUrl, bo
 
 		if (user)
 		{
-			const HintedUser hintedUser(user, hubUrl);//NOTE: core 0.762
+			const HintedUser hintedUser(user, hubUrl);
 			if (match)
-				QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_MATCH_QUEUE);//NOTE: core 0.762
+				QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_MATCH_QUEUE);
 			else
-				QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW);//NOTE: core 0.762
+				QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW);
 		}
 	}
 	catch (const Exception& e)
@@ -646,9 +682,9 @@ void FavoriteUsers::getFileListNick_client(const string nick, bool match)
 		{
 			const HintedUser hintedUser(u,Util::emptyString);
 			if (match)
-				QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_MATCH_QUEUE);//NOTE: core 0.762
+				QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_MATCH_QUEUE);
 			else
-				QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW);//NOTE: core 0.762
+				QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW);
 		}
 	}catch(const Exception& e)
 	{
@@ -664,9 +700,9 @@ void FavoriteUsers::grantSlot_client(const string cid, const string hubUrl)
 	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
 	if (user)
 	{
-		UploadManager::getInstance()->reserveSlot(HintedUser(user, hubUrl));//NOTE: core 0.762
+		UploadManager::getInstance()->reserveSlot(HintedUser(user, hubUrl));
 		typedef Func1<FavoriteUsers, string> F1;
-		F1 *func = new F1(this, &FavoriteUsers::setStatus_gui, _("Slot granted to ") + WulforUtil::getNicks(user, hubUrl));//NOTE: core 0.762
+		F1 *func = new F1(this, &FavoriteUsers::setStatus_gui, _("Slot granted to ") + WulforUtil::getNicks(user, hubUrl));
 		WulforManager::get()->dispatchGuiFunc(func);
 	}
 }
