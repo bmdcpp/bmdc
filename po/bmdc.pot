@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2015-08-16 13:58+0200\n"
+"POT-Creation-Date: 2015-08-19 18:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1039,13 +1039,14 @@ msgstr ""
 #: ui/favoritehubs.glade.ui:177 ui/settingsdialog.glade.ui:1545
 #: linux/favoritehubs.cc:41 linux/favoritehubs.cc:128
 #: linux/favoriteusers.cc:51 linux/favoriteusers.cc:115
-#: linux/favoriteusers.cc:140 linux/favoriteusers.cc:461
-#: linux/favoriteusers.cc:485 linux/favoriteusers.cc:495
-#: linux/favoriteusers.cc:744 linux/favoriteusers.cc:772 linux/hub.cc:70
-#: linux/hub.cc:388 linux/hub.cc:592 linux/hub.cc:628 linux/hub.cc:764
-#: linux/hub.cc:793 linux/hub.cc:2626 linux/publichubs.cc:44
-#: linux/publichubs.cc:152 linux/publichubs.cc:289 linux/recenthub.cc:42
-#: linux/recenthub.cc:80 linux/recenthub.cc:268 linux/recenthub.cc:281
+#: linux/favoriteusers.cc:140 linux/favoriteusers.cc:163
+#: linux/favoriteusers.cc:484 linux/favoriteusers.cc:508
+#: linux/favoriteusers.cc:518 linux/favoriteusers.cc:767
+#: linux/favoriteusers.cc:795 linux/hub.cc:70 linux/hub.cc:388
+#: linux/hub.cc:592 linux/hub.cc:628 linux/hub.cc:764 linux/hub.cc:793
+#: linux/hub.cc:2626 linux/publichubs.cc:44 linux/publichubs.cc:152
+#: linux/publichubs.cc:289 linux/recenthub.cc:42 linux/recenthub.cc:80
+#: linux/recenthub.cc:268 linux/recenthub.cc:281
 msgid "Description"
 msgstr ""
 
@@ -1934,18 +1935,18 @@ msgstr ""
 #: linux/favoritehubs.cc:129 linux/favoriteusers.cc:48
 #: linux/favoriteusers.cc:66 linux/favoriteusers.cc:67
 #: linux/favoriteusers.cc:112 linux/favoriteusers.cc:137
-#: linux/favoriteusers.cc:261 linux/favoriteusers.cc:302
-#: linux/favoriteusers.cc:370 linux/favoriteusers.cc:462
-#: linux/favoriteusers.cc:525 linux/favoriteusers.cc:581
-#: linux/favoriteusers.cc:741 linux/favoriteusers.cc:769
-#: linux/finishedtransfers.cc:76 linux/finishedtransfers.cc:182
-#: linux/hub.cc:68 linux/hub.cc:118 linux/hub.cc:386 linux/hub.cc:439
-#: linux/hub.cc:590 linux/hub.cc:627 linux/hub.cc:747 linux/hub.cc:762
-#: linux/hub.cc:791 linux/hub.cc:860 linux/hub.cc:935 linux/hub.cc:2098
-#: linux/hub.cc:2159 linux/hub.cc:2625 linux/hub.cc:2810 linux/hub.cc:3126
-#: linux/hub.cc:3165 linux/search.cc:101 linux/search.cc:225
-#: linux/search.cc:273 linux/search.cc:702 linux/search.cc:777
-#: linux/search.cc:925 linux/search.cc:1808
+#: linux/favoriteusers.cc:160 linux/favoriteusers.cc:284
+#: linux/favoriteusers.cc:325 linux/favoriteusers.cc:393
+#: linux/favoriteusers.cc:485 linux/favoriteusers.cc:548
+#: linux/favoriteusers.cc:604 linux/favoriteusers.cc:764
+#: linux/favoriteusers.cc:792 linux/finishedtransfers.cc:76
+#: linux/finishedtransfers.cc:182 linux/hub.cc:68 linux/hub.cc:118
+#: linux/hub.cc:386 linux/hub.cc:439 linux/hub.cc:590 linux/hub.cc:627
+#: linux/hub.cc:747 linux/hub.cc:762 linux/hub.cc:791 linux/hub.cc:860
+#: linux/hub.cc:935 linux/hub.cc:2098 linux/hub.cc:2159 linux/hub.cc:2625
+#: linux/hub.cc:2810 linux/hub.cc:3126 linux/hub.cc:3165 linux/search.cc:101
+#: linux/search.cc:225 linux/search.cc:273 linux/search.cc:702
+#: linux/search.cc:777 linux/search.cc:925 linux/search.cc:1808
 msgid "Nick"
 msgstr ""
 
@@ -3421,7 +3422,7 @@ msgstr ""
 msgid "Are you sure you want to delete favorite hub \"%s\"?"
 msgstr ""
 
-#: linux/favoriteusers.cc:542
+#: linux/favoriteusers.cc:565
 msgid "Are you sure you want to delete favorite user(s)?"
 msgstr ""
 
@@ -3448,7 +3449,8 @@ msgstr ""
 
 #: linux/favoriteusers.cc:47 linux/favoriteusers.cc:69
 #: linux/favoriteusers.cc:111 linux/favoriteusers.cc:136
-#: linux/favoriteusers.cc:575 linux/favoriteusers.cc:577
+#: linux/favoriteusers.cc:159 linux/favoriteusers.cc:598
+#: linux/favoriteusers.cc:600
 msgid "Auto grant slot"
 msgstr ""
 
@@ -4159,8 +4161,8 @@ msgid "Hub (also sets urgency hint)"
 msgstr ""
 
 #: linux/favoriteusers.cc:49 linux/favoriteusers.cc:113
-#: linux/favoriteusers.cc:138 linux/favoriteusers.cc:742
-#: linux/favoriteusers.cc:770
+#: linux/favoriteusers.cc:138 linux/favoriteusers.cc:161
+#: linux/favoriteusers.cc:765 linux/favoriteusers.cc:793
 msgid "Hub (last seen in, if offline)"
 msgstr ""
 
@@ -4249,7 +4251,7 @@ msgid ""
 msgstr ""
 
 #: linux/favoriteusers.cc:53 linux/favoriteusers.cc:117
-#: linux/favoriteusers.cc:745
+#: linux/favoriteusers.cc:768
 msgid "Ignore"
 msgstr ""
 
@@ -4266,7 +4268,7 @@ msgstr ""
 msgid "Ignored"
 msgstr ""
 
-#: linux/favoriteusers.cc:925
+#: linux/favoriteusers.cc:948
 msgid "Ignored User "
 msgstr ""
 
@@ -4477,8 +4479,8 @@ msgstr ""
 
 #: linux/favoritehubs.cc:370 linux/favoritehubs.cc:485
 #: linux/favoritehubs.cc:664 linux/favoriteusers.cc:107
-#: linux/favoriteusers.cc:822 linux/favoriteusers.cc:842
-#: linux/favoriteusers.cc:933 linux/finishedtransfers.cc:661 linux/hub.cc:2631
+#: linux/favoriteusers.cc:845 linux/favoriteusers.cc:865
+#: linux/favoriteusers.cc:956 linux/finishedtransfers.cc:661 linux/hub.cc:2631
 #: linux/hub.cc:2634 linux/hub.cc:2637 linux/hub.cc:2638 linux/hub.cc:2639
 #: linux/hub.cc:2640
 msgid "No"
@@ -4525,8 +4527,8 @@ msgid "Offline"
 msgstr ""
 
 #: linux/favoritehubs.cc:760 linux/favoriteusers.cc:105
-#: linux/favoriteusers.cc:818 linux/favoriteusers.cc:839
-#: linux/favoriteusers.cc:930
+#: linux/favoriteusers.cc:841 linux/favoriteusers.cc:862
+#: linux/favoriteusers.cc:953
 msgid "Online"
 msgstr ""
 
@@ -4924,7 +4926,7 @@ msgstr ""
 msgid "Slot granted"
 msgstr ""
 
-#: linux/favoriteusers.cc:646 linux/hub.cc:3658
+#: linux/favoriteusers.cc:669 linux/hub.cc:3658
 msgid "Slot granted to "
 msgstr ""
 
@@ -5081,9 +5083,9 @@ msgid "Time Left"
 msgstr ""
 
 #: linux/favoriteusers.cc:50 linux/favoriteusers.cc:114
-#: linux/favoriteusers.cc:139 linux/favoriteusers.cc:735
-#: linux/favoriteusers.cc:743 linux/favoriteusers.cc:763
-#: linux/favoriteusers.cc:771
+#: linux/favoriteusers.cc:139 linux/favoriteusers.cc:162
+#: linux/favoriteusers.cc:758 linux/favoriteusers.cc:766
+#: linux/favoriteusers.cc:786 linux/favoriteusers.cc:794
 msgid "Time last seen"
 msgstr ""
 
@@ -5534,8 +5536,8 @@ msgstr ""
 
 #: linux/favoritehubs.cc:370 linux/favoritehubs.cc:485
 #: linux/favoritehubs.cc:664 linux/favoriteusers.cc:107
-#: linux/favoriteusers.cc:822 linux/favoriteusers.cc:842
-#: linux/favoriteusers.cc:933 linux/finishedtransfers.cc:661 linux/hub.cc:2631
+#: linux/favoriteusers.cc:845 linux/favoriteusers.cc:865
+#: linux/favoriteusers.cc:956 linux/finishedtransfers.cc:661 linux/hub.cc:2631
 #: linux/hub.cc:2634 linux/hub.cc:2637 linux/hub.cc:2638 linux/hub.cc:2639
 #: linux/hub.cc:2640
 msgid "Yes"

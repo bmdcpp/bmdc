@@ -67,8 +67,6 @@
     <File Name="dcpp/RawManager.cpp"/>
     <File Name="dcpp/RawManager.h"/>
     <File Name="dcpp/RegEx.h"/>
-    <File Name="dcpp/RsxUtil.cpp"/>
-    <File Name="dcpp/RsxUtil.h"/>
     <File Name="dcpp/SConscript"/>
     <File Name="dcpp/ScopedFunctor.h"/>
     <File Name="dcpp/SearchManager.cpp"/>

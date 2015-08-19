@@ -144,7 +144,30 @@ void FavoriteUsers::show()
 		-1);
 		nicksIters.insert(UnMapIter::value_type(nt->first, iter));
 		
-	}	
+	}
+	
+	auto list = FavoriteManager::getInstance()->getListIp();
+
+	for(auto it:list)
+	{
+		GtkTreeIter iter;
+		FavoriteUser* u = it.second;
+		string seen = Util::formatTime("%Y-%m-%d %H:%M", u->getLastSeen());
+		
+		gtk_list_store_append(favoriteUserStore,&iter);
+		gtk_list_store_set(favoriteUserStore, &iter,
+			favoriteUserView.col(_("Auto grant slot")), u->isSet(FavoriteUser::FLAG_GRANTSLOT) ? TRUE : FALSE,
+			favoriteUserView.col(_("Nick")), it.first.c_str(),	
+			favoriteUserView.col(_("Hub (last seen in, if offline)")), Util::emptyString.c_str(),
+			favoriteUserView.col(_("Time last seen")), seen.c_str(),
+			favoriteUserView.col(_("Description")), u->getDescription().c_str(),
+			favoriteUserView.col("CID"), "n/a",
+			favoriteUserView.col("URL"), "n/a",
+			favoriteUserView.col("Icon"), "bmdc-normal",
+		-1);
+	
+	
+	}
 	FavoriteManager::getInstance()->addListener(this);
 }
 

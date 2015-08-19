@@ -32,8 +32,6 @@
 #include "PluginEntity.h"
 #include "HubSettings.h"
 
-
-
 namespace dcpp {
 
 using std::atomic;
