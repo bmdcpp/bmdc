@@ -45,12 +45,15 @@ public:
 		typedef List::const_iterator Iter;
 
 		File(Directory* aDir, const string& aName, int64_t aSize, const TTHValue& aTTH) noexcept :
-			name(aName), size(aSize), parent(aDir), tthRoot(aTTH), adls(false)
+			name(aName), size(aSize), parent(aDir), tthRoot(aTTH), adls(false), points(0),
+			overRidePoints(false), fromFavs(false),adlsRaw(0),kickString(""),fullFileName(aName), ts(0)
 		{
 		}
 
 		File(const File& rhs, bool _adls = false) :
-			name(rhs.name), size(rhs.size), parent(rhs.parent), tthRoot(rhs.tthRoot), adls(_adls)
+			name(rhs.name), size(rhs.size), parent(rhs.parent), tthRoot(rhs.tthRoot), adls(_adls),
+			points(rhs.points), overRidePoints(rhs.overRidePoints), fromFavs(rhs.fromFavs), 
+			adlsRaw(rhs.adlsRaw), kickString(rhs.kickString),fullFileName(rhs.fullFileName),ts(rhs.ts)
 		{
 		}
 
@@ -88,7 +91,10 @@ public:
 		set<File::Ptr, Less<File> > files;
 
 		Directory(Directory* aParent, const string& aName, bool _adls, bool aComplete) :
-			name(aName), parent(aParent), adls(_adls), complete(aComplete) { }
+			name(aName), parent(aParent), adls(_adls), complete(aComplete),
+			points(0), overRidePoints(false), adlsComment("") , fromFavs(false), 
+			kickString(""), fullFileName("")
+			{ }
 
 		virtual ~Directory();
 

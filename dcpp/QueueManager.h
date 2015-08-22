@@ -113,7 +113,7 @@ public:
 		return filename;
 	}
 
-	string addFileListCheck(const HintedUser& user) noexcept;
+	string addFileListCheck(const HintedUser& user);
 
 	void removeTestSUR(HintedUser hintedUser)
 	{

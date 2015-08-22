@@ -1139,7 +1139,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
  				{
 					///pridani aliasu
  					StringTokenizer<string> command( param, "::" );//'
- 					string store(""), name("");
+ 					string name("");
  					bool exists = false;
  					for(StringIter i = aliases.getTokens().begin(); i != aliases.getTokens().end(); ++i)
  					{
@@ -1313,9 +1313,7 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 			if(cs->usingRegexp())
 			{
 				string q = cs->getMatch().substr(4);
-				bool reMatch = false;
-
-				reMatch = dcpp::RegEx::match<string>(sMsgLower,q,cs->getCaseSensitive());
+				bool reMatch  = dcpp::RegEx::match<string>(sMsgLower,q,cs->getCaseSensitive());
 
 				if(!reMatch)
 					ret = false;

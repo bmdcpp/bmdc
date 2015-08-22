@@ -21,7 +21,9 @@
 #include "HubSettings.h"
 namespace dcpp {
 
-HubSettings::HubSettings() {
+HubSettings::HubSettings():
+autoConnect(false)
+{
 
 }
 

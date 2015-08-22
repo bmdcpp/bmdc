@@ -37,6 +37,7 @@ size(-1),
 done(0),
 connState(CONN_UNKNOWN),
 coralizeState(coralize ? CST_DEFAULT : CST_NOCORALIZE),
+connType(TYPE_GET),
 socket(0)
 {
 }

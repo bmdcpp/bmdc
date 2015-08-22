@@ -31,10 +31,10 @@ using std::string;
 struct ChatMessage {
 	ChatMessage(const string& _text, OnlineUser* from,
 		const OnlineUser* to = nullptr, const OnlineUser* replyTo = nullptr,
-		bool thirdPerson = false, time_t messageTimestamp = 0):
+		bool _thirdPerson = false, time_t _messageTimestamp = 0):
 	from(from->getUser()), to(to ? to->getUser() : nullptr),
 	replyTo(replyTo ? replyTo->getUser() : nullptr),timestamp(time(0)),
-	thirdPerson(thirdPerson), messageTimestamp(messageTimestamp),text(_text)
+	thirdPerson(_thirdPerson), messageTimestamp(_messageTimestamp),text(_text)
 	{ 
 
 	}

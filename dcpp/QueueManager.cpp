@@ -662,10 +662,6 @@ void QueueManager::add(const string& aTarget, int64_t aSize, const TTHValue& roo
 		wantConnection = addSource(q, aUser, addBad ? QueueItem::Source::FLAG_MASK : 0);
 	}
 	gotoend(wantConnection);
-/*
-connect:
-	if(wantConnection && aUser.user->isOnline())
-		ConnectionManager::getInstance()->getDownloadConnection(aUser);*/
 }
 
 void QueueManager::readd(const string& target, const HintedUser& aUser) {
@@ -1862,7 +1858,7 @@ void QueueManager::logFinishedDownload(QueueItem* qi, Download*, bool crcChecked
 }
 
 //RSX++
-string QueueManager::addFileListCheck(const HintedUser& aUser) noexcept {
+string QueueManager::addFileListCheck(const HintedUser& aUser) {
 	StringList nicks = ClientManager::getInstance()->getNicks(aUser);
 	string nick = nicks.empty() ? Util::emptyString : Util::cleanPathChars(nicks[0]) + ".";
 	string fname = nick + aUser.user->getCID().toBase32();
