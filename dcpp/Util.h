@@ -20,9 +20,10 @@
 #define DCPLUSPLUS_DCPP_UTIL_H
 
 #include "compiler.h"
-//for locale
+//For locale
 #include <glib.h>
 #include <glib/gi18n.h>
+//---
 #include <cstdlib>
 #include <ctime>
 #include <arpa/inet.h>

@@ -21,13 +21,12 @@
 
 #include "typedefs.h"
 
-#include "noncopyable.h"
-
 namespace dcpp {
 
 class SimpleXMLReader {
 public:
-	struct CallBack : private NonCopyable {
+	struct CallBack  {
+		CallBack() { }
 		virtual ~CallBack() { }
 
 		/** A new XML tag has been encountered.
@@ -50,6 +49,8 @@ public:
 
 	protected:
 		static const std::string& getAttrib(StringPairList& attribs, const std::string& name, size_t hint);
+	private:
+		CallBack(CallBack&);	
 	};
 
 	SimpleXMLReader(CallBack* callback);

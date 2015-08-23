@@ -63,14 +63,12 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 		return false;
 	}
 	///@BMDC++
-	if((aFile.length() > 6) && (aFile.find("TestSUR") != string::npos)) {//Check also size
+	if((aFile.length() > 6) && (aFile.find("TestSUR") != string::npos)) { //Check also size
 		LogManager::getInstance()->message("User: " + ClientManager::getInstance()->getNicks((*aSource.getUser()),"")[0] + " (" + aSource.getRemoteIp() + ") testing me!");
 	}
 
 	/* do some preliminary checking of the transfer request that doesn't involve any filesystem
 	access. we want to know the type of the upload to see if the user deserves a mini-slot. */
-
-	bool miniSlot;
 
 	bool isInSharingHub = true;
 
@@ -82,6 +80,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 		}
 	}
 
+	bool miniSlot;
 	string sourceFile;
 	Transfer::Type type;
 
@@ -404,7 +403,6 @@ void UploadManager::on(UserConnectionListener::Failed, UserConnection* aSource, 
 
 	if(u) {
 		fire(UploadManagerListener::Failed(), u, aError);
-
 		dcdebug("UM::onFailed (%s): Removing upload\n", aError.c_str());
 		removeUpload(u);
 	}

@@ -222,6 +222,7 @@ void Identity::checkTagState(OnlineUser& ou) const {
 		ou.getClient().cheatMessage("*** " + getNick() + " - Tag states active mode, but user is using passive mode");
 	}
 }
+
 string Identity::setCheat(const Client&, const string& aCheatDescription, bool aBadClient, bool aBadFilelist /*=false*/, bool aDisplayCheat /* = true*/) {
 	ParamMap ucParams;
 	getParams(ucParams, "user", true);
@@ -417,6 +418,7 @@ string Identity::updateClientType(OnlineUser& ou) {
 				break;
 			}
 		}
+		
 		if(_continue)
 			continue;
 
@@ -461,23 +463,24 @@ void Identity::getDetectionParams(ParamMap& p) {
 	} else {
 		p["VEformat"] = get("VE");
 	}
-   // convert all special chars to make regex happy
-	for(ParamMap::iterator i = p.begin(); i != p.end(); ++i) {
-		// looks really bad... but do the job
-			Util::replace( "\\", "\\\\",   (i->second)); // this one must be first
-			Util::replace( "[", "\\[",   (i->second));
-			Util::replace( "]", "\\]",   (i->second));
-			Util::replace( "^", "\\^",   (i->second));
-			Util::replace( "$", "\\$",   (i->second));
-			Util::replace( ".", "\\.",   (i->second));
-			Util::replace( "|", "\\|",   (i->second));
-			Util::replace( "?", "\\?",   (i->second));
-			Util::replace( "*", "\\*",   (i->second));
-			Util::replace( "+", "\\+",   (i->second));
-			Util::replace( "(", "\\(",   (i->second));
-			Util::replace( ")", "\\)",   (i->second));
-			Util::replace( "{", "\\{",   (i->second));
-			Util::replace( "}", "\\}",   (i->second));
+		
+	// convert all special chars to make regex happy
+	for(auto i:p) {
+	// looks really bad... but do the job
+		Util::replace( "\\", "\\\\",   (i.second)); // this one must be first
+		Util::replace( "[", "\\[",   (i.second));
+		Util::replace( "]", "\\]",   (i.second));
+		Util::replace( "^", "\\^",   (i.second));
+		Util::replace( "$", "\\$",   (i.second));
+		Util::replace( ".", "\\.",   (i.second));
+		Util::replace( "|", "\\|",   (i.second));
+		Util::replace( "?", "\\?",   (i.second));
+		Util::replace( "*", "\\*",   (i.second));
+		Util::replace( "+", "\\+",   (i.second));
+		Util::replace( "(", "\\(",   (i.second));
+		Util::replace( ")", "\\)",   (i.second));
+		Util::replace( "{", "\\{",   (i.second));
+		Util::replace( "}", "\\}",   (i.second));
 	}
 }
 

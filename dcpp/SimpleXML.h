@@ -19,8 +19,6 @@
 #ifndef DCPLUSPLUS_DCPP_SIMPLE_XML_H
 #define DCPLUSPLUS_DCPP_SIMPLE_XML_H
 
-#include "noncopyable.h"
-
 #include "forward.h"
 #include "Exception.h"
 #include "Util.h"
@@ -35,7 +33,7 @@ STANDARD_EXCEPTION(SimpleXMLException);
  * A simple XML class that loads an XML-ish structure into an internal tree
  * and allows easy access to each element through a "current location".
  */
-class SimpleXML : private NonCopyable
+class SimpleXML 
 {
 public:
 	SimpleXML() : root("BOGUSROOT", Util::emptyString, NULL), current(&root), found(false) {
@@ -158,7 +156,7 @@ public:
 	}
 	static const string utf8Header;
 private:
-	class Tag : private NonCopyable {
+	class Tag  {
 	public:
 		typedef Tag* Ptr;
 		typedef vector<Ptr> List;

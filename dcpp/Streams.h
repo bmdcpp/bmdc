@@ -21,8 +21,6 @@
 
 #include <algorithm>
 
-#include "noncopyable.h"
-
 #include "typedefs.h"
 #include "format.h"
 
@@ -38,7 +36,7 @@ STANDARD_EXCEPTION(FileException);
 /**
  * A simple output stream. Intended to be used for nesting streams one inside the other.
  */
-class OutputStream /*: private NonCopyable*/ {
+class OutputStream {
 public:
 	OutputStream() { }
 	virtual ~OutputStream() { }
@@ -65,7 +63,7 @@ public:
 	size_t write(const string& str) { return write(str.c_str(), str.size()); }
 };
 
-class InputStream : private NonCopyable {
+class InputStream {
 public:
 	InputStream() { }
 	virtual ~InputStream() { }
