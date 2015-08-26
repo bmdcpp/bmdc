@@ -377,6 +377,9 @@ gint Hub::sort_iter_compare_func_nick(GtkTreeModel *model, GtkTreeIter  *a,
         else
         {
           ret = dcpp::Util::stricmp(nick_a,nick_b);
+          //
+          g_free(nick_a);
+          g_free(nick_b);
         }
         return ret;
 }
