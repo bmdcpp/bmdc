@@ -28,6 +28,7 @@ LIB_IS_TAR = False
 LIB_HAVE_XATTR = False
 # For Idle Detection, Enabled by defualt
 LIB_HAVE_XSS = False
+NEW_SETTING = False
 # , '-Werror' ,'-Wfatal-errors'
 #'-fno-stack-protector',
 # #,'-fpermissive' ],
@@ -135,6 +136,7 @@ vars.AddVariables(
 	BoolVariable('libappindicator', 'Enable AppIndicator Support', 0),
 	BoolVariable('libxattr', 'Enable xattr support for storing calculated Hash in extended attributes of file',1),
 	BoolVariable('libXss', 'Enable libxss support for AutoAway on idle feat',1),
+	BoolVariable('newSettings', "Use new Settings dialog UI",0),
 	PathVariable('PREFIX', 'Compile the program with PREFIX as the root for installation', '/usr/local/', PathVariable.PathIsDir),
 	('FAKE_ROOT', 'Make scons install the program under a fake root', '')
 )
@@ -351,7 +353,10 @@ if not 'install' in COMMAND_LINE_TARGETS:
 			print 'Found Xss'
 			conf.env.Append(CPPDEFINES = 'HAVE_XSSLIB')
 			LIB_HAVE_XSS = True
-		
+	
+	if conf.env.get('newSettings'):
+		conf.env.Append(CPPDEFINES = 'USE_NEW_SETTINGS')
+		NEW_SETTING = True	
 
 	conf.CheckBZRRevision(env)
 	env = conf.Finish()
@@ -438,18 +443,32 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	# Build the GUI
 	ui_env = env.Clone()
 	glade_pot_file = SConscript(dirs = 'ui', variant_dir = env['build_path'] + 'ui', duplicate = 0, exports = {'env': ui_env})
-
+	if NEW_SETTING:
+		settings_files = SConscript(dirs = 'settings', variant_dir = env['build_path']+'settings', duplicate = 0, exports = { 'env': ui_env})
 	(linux_pot_file, obj_files) = SConscript(dirs = 'linux', variant_dir = env['build_path'] + 'gui', duplicate = 0, exports = {'env': ui_env})
 
 	# Create the executable
-	if not LIB_IS_UPNP and not LIB_IS_NATPMP:
-		env.Program(target = PACKAGE, source = [libdcpp, upnp, pmp,  obj_files])
-	elif not LIB_IS_UPNP:
-		env.Program(target = PACKAGE, source = [libdcpp, upnp, obj_files])
-	elif not LIB_IS_NATPMP:
-		env.Program(target = PACKAGE, source = [libdcpp, pmp, obj_files])
+	if not LIB_IS_UPNP and not LIB_IS_NATPMP and NEW_SETTING:
+		env.Program(target = PACKAGE, source = [libdcpp, upnp, pmp, settings_files, obj_files])
+	elif not LIB_IS_UPNP and NEW_SETTING:
+		env.Program(target = PACKAGE, source = [libdcpp, upnp,settings_files, obj_files])
+	elif not LIB_IS_NATPMP and NEW_SETTING:
+		env.Program(target = PACKAGE, source = [libdcpp, pmp,settings_files, obj_files])
+	elif NEW_SETTING:
+		env.Program(target = PACKAGE, source = [libdcpp,settings_files, obj_files])
+	elif not NEW_SETTING and not LIB_IS_NATPMP and not LIB_IS_UPNP:
+		env.Program(target = PACKAGE, source = [libdcpp,obj_files])	
+	elif not NEW_SETTING and not LIB_IS_NATPMP:
+		env.Program(target = PACKAGE, source = [libdcpp,upnp,obj_files])
+	elif not NEW_SETTING and not LIB_IS_UPNP:
+		env.Program(target = PACKAGE, source = [libdcpp,pmp,obj_files])
+	elif not NEW_SETTING:
+		env.Program(target = PACKAGE, source = [libdcpp,obj_files])	
 	else:
-		env.Program(target = PACKAGE, source = [libdcpp, obj_files])
+		env.Program(target = PACKAGE, source = [libdcpp,obj_files])		
+		
+		
+		
 
 	# i18n
 	env.MergePotFiles(source = [glade_pot_file, linux_pot_file], target = 'po/%s.pot' % PACKAGE)

@@ -26,7 +26,12 @@
 #include <iostream>
 #include <glib/gi18n.h>
 #include "hashdialog.hh"
+
+#ifdef USE_NEW_SETTINGS
+#include "../settings/SettingsDialog.hh"
+#else
 #include "settingsdialog.hh"
+#endif
 
 using namespace std;
 using namespace dcpp;
@@ -101,17 +106,19 @@ void WulforManager::deleteMainWindow()
 {
 	// response dialogs: hash, settings
 	DialogEntry *hashDialogEntry = getHashDialog_gui();
+#ifndef USE_NEW_SETTINGS
 	DialogEntry *settingsDialogEntry = getSettingsDialog_gui();
-
+#endif
 	if (hashDialogEntry != NULL)
 	{
 		gtk_dialog_response(GTK_DIALOG(hashDialogEntry->getContainer()), GTK_RESPONSE_OK);
 	}
+#ifndef USE_NEW_SETTINGS	
 	if (settingsDialogEntry != NULL)
 	{
 		dynamic_cast<Settings*>(settingsDialogEntry)->response_gui();
 	}
-
+#endif
 	mainWin->remove();
 	mainWin = NULL;
 	gtk_main_quit();
@@ -214,10 +221,17 @@ gint WulforManager::openHashDialog_gui()
 
 gint WulforManager::openSettingsDialog_gui()
 {
+#ifdef USE_NEW_SETTINGS
+	SettingsDialog *s = new SettingsDialog();
+	/*gint response = */s->run();
+
+	return 1;
+#else	
 	Settings *s = new Settings();
 	gint response = s->run();
 
 	return response;
+#endif	
 }
 
 DialogEntry *WulforManager::getHashDialog_gui()

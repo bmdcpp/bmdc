@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2015-08-26 13:39+0200\n"
+"POT-Creation-Date: 2015-08-28 14:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3081,7 +3081,7 @@ msgstr ""
 msgid "\n"
 msgstr ""
 
-#: linux/hub.cc:4489
+#: linux/hub.cc:4491
 msgid ""
 "\n"
 "Message: "
@@ -3355,7 +3355,7 @@ msgstr ""
 msgid "Add to Favorite Users"
 msgstr ""
 
-#: linux/hub.cc:4688
+#: linux/hub.cc:4690
 msgid "Add to Favorite hubs"
 msgstr ""
 
@@ -3615,7 +3615,7 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: linux/hub.cc:4692
+#: linux/hub.cc:4694
 msgid "Close Hub"
 msgstr ""
 
@@ -3696,7 +3696,7 @@ msgstr ""
 msgid "Copy Nick(s)"
 msgstr ""
 
-#: linux/hub.cc:4687
+#: linux/hub.cc:4689
 msgid "Copy URL"
 msgstr ""
 
@@ -4272,15 +4272,15 @@ msgstr ""
 msgid "Ignored User "
 msgstr ""
 
-#: linux/hub.cc:4488
+#: linux/hub.cc:4490
 msgid "Ignored message from User "
 msgstr ""
 
-#: linux/hub.cc:4529
+#: linux/hub.cc:4531
 msgid "Ignored private message from bot "
 msgstr ""
 
-#: linux/hub.cc:4522
+#: linux/hub.cc:4524
 msgid "Ignored private message from hub"
 msgstr ""
 
@@ -4465,7 +4465,7 @@ msgstr ""
 msgid "New search type"
 msgstr ""
 
-#: linux/hub.cc:4642
+#: linux/hub.cc:4644
 msgid "Nick already taken"
 msgstr ""
 
@@ -4540,7 +4540,7 @@ msgstr ""
 msgid "Only show joins / parts for favorite users"
 msgstr ""
 
-#: linux/hub.cc:4760
+#: linux/hub.cc:4762
 msgid "Open Icon File to Set to Tab"
 msgstr ""
 
@@ -4637,7 +4637,7 @@ msgstr ""
 msgid "Rebuild Share"
 msgstr ""
 
-#: linux/hub.cc:4691
+#: linux/hub.cc:4693
 msgid "Reconnect this hub"
 msgstr ""
 
@@ -4661,7 +4661,7 @@ msgstr ""
 msgid "Remove Aliases A"
 msgstr ""
 
-#: linux/hub.cc:4689
+#: linux/hub.cc:4691
 msgid "Remove from Favorite hubs"
 msgstr ""
 
@@ -4706,7 +4706,7 @@ msgstr ""
 msgid "Search on imdb"
 msgstr ""
 
-#: linux/hub.cc:4649
+#: linux/hub.cc:4651
 msgid "Search spam detected from "
 msgstr ""
 
@@ -4773,11 +4773,11 @@ msgstr ""
 msgid "Set Hub to Bold everytime the content changes"
 msgstr ""
 
-#: linux/hub.cc:4819
+#: linux/hub.cc:4821
 msgid "Set Icon Aviable"
 msgstr ""
 
-#: linux/hub.cc:4823
+#: linux/hub.cc:4825
 msgid "Set Icon: "
 msgstr ""
 
@@ -4789,7 +4789,7 @@ msgstr ""
 msgid "Set Slots to:"
 msgstr ""
 
-#: linux/hub.cc:4690
+#: linux/hub.cc:4692
 msgid "Set Tab Name"
 msgstr ""
 
@@ -4813,7 +4813,7 @@ msgstr ""
 msgid "Set normal mode"
 msgstr ""
 
-#: linux/hub.cc:4801
+#: linux/hub.cc:4803
 msgid "Setting for a Tab Text"
 msgstr ""
 
@@ -5039,7 +5039,7 @@ msgstr ""
 msgid "Tag"
 msgstr ""
 
-#: linux/hub.cc:4812
+#: linux/hub.cc:4814
 msgid "Text: "
 msgstr ""
 
@@ -5100,7 +5100,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: linux/hub.cc:2614 linux/hub.cc:4663
+#: linux/hub.cc:2614 linux/hub.cc:4665
 msgid "Topic: "
 msgstr ""
 
@@ -5480,7 +5480,7 @@ msgstr ""
 msgid "Username: "
 msgstr ""
 
-#: linux/hub.cc:4686 linux/privatemessage.cc:1557
+#: linux/hub.cc:4688 linux/privatemessage.cc:1557
 msgid "Users Commands"
 msgstr ""
 

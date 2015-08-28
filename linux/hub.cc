@@ -4441,12 +4441,14 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 	string line;
 	string tmp_text = message.text;
 	OnlineUser* ou = nullptr; 
+	Identity fid;
 	ClientManager * cm = ClientManager::getInstance();
 	{
 		cm->lock();
 		ou = cm->findOnlineUser(message.from->getCID(),client->getHubUrl());
+		fid = ou->getIdentity();
 	}
-	Identity fid = ou->getIdentity();
+	
 	if( (!fid.isHub()) && (!fid.isBot()) )
 	{
 		string info = formatAdditionalInfo(fid.getIp(), client->get(SettingsManager::USE_IP,SETTING(USE_IP)), client->get(SettingsManager::GET_USER_COUNTRY,SETTING(GET_USER_COUNTRY)));
