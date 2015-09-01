@@ -91,8 +91,8 @@ public:
 	static const string BLO0_SUPPORT;
 	static const string ZLIF_SUPPORT;
 //new
-	static const string DFAV_FEATURE;
-	static const string DFAV_SUPPORT;
+//	static const string DFAV_FEATURE;
+//	static const string DFAV_SUPPORT;
 
 private:
 	friend class ClientManager;
@@ -146,7 +146,7 @@ private:
 	void handle(AdcCommand::RNT, AdcCommand& c) noexcept;
 	void handle(AdcCommand::ZON, AdcCommand& c) noexcept;
 	void handle(AdcCommand::ZOF, AdcCommand& c) noexcept;
-	
+/*	
 	void handle(AdcCommand::GFA, AdcCommand& c) noexcept
 	{
 		if(state != STATE_PROTOCOL) {
@@ -201,7 +201,7 @@ private:
 			}
 		}
 	}
-
+*/
 	template<typename T> void handle(T, AdcCommand&) { }
 
 	void sendSearch(AdcCommand& c);

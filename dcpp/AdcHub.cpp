@@ -59,8 +59,8 @@ const string AdcHub::TIGR_SUPPORT("ADTIGR");
 const string AdcHub::UCM0_SUPPORT("ADUCM0");
 const string AdcHub::BLO0_SUPPORT("ADBLO0");
 const string AdcHub::ZLIF_SUPPORT("ADZLIF");
-const string AdcHub::DFAV_FEATURE("DFAV");
-const string AdcHub::DFAV_SUPPORT("ADDFAV");
+//const string AdcHub::DFAV_FEATURE("DFAV");
+//const string AdcHub::DFAV_SUPPORT("ADDFAV");
 
 const vector<StringList> AdcHub::searchExts;
 
@@ -660,7 +660,7 @@ void AdcHub::handle(AdcCommand::ZON, AdcCommand& c) noexcept {
 		try {
 			sock->setMode(BufferedSocket::MODE_ZPIPE);
 		} catch (const Exception& e) {
-				dcdebug("AdcHub::handleZON failed with error: %s\n", e.getError().c_str());
+			dcdebug("AdcHub::handleZON failed with error: %s\n", e.getError().c_str());
 		}
 	}
 }
@@ -668,9 +668,9 @@ void AdcHub::handle(AdcCommand::ZON, AdcCommand& c) noexcept {
 void AdcHub::handle(AdcCommand::ZOF, AdcCommand& c) noexcept {
 	if(c.getType() == AdcCommand::TYPE_INFO) {
 		try {
-				sock->setMode(BufferedSocket::MODE_LINE);
+			sock->setMode(BufferedSocket::MODE_LINE);
 		} catch (const Exception& e) {
-				dcdebug("AdcHub::handleZOF failed with error: %s\n", e.getError().c_str());
+			dcdebug("AdcHub::handleZOF failed with error: %s\n", e.getError().c_str());
 		}
 	}
 }
@@ -1064,7 +1064,7 @@ void AdcHub::infoImpl() {
 		su += "," + NAT0_FEATURE;
 	}
 
-	su +=  "," + DFAV_FEATURE;
+//	su +=  "," + DFAV_FEATURE;
 	addParam(lastInfoMap, c, "SU", su);
 
 	appendConnectivity(lastInfoMap, c, addV4, addV6);
@@ -1129,7 +1129,7 @@ void AdcHub::on(Connected c) noexcept {
 		cmd.addParam(BLO0_SUPPORT);
 	}
 
-	cmd.addParam(DFAV_SUPPORT);//TODO: option to disable
+//	cmd.addParam(DFAV_SUPPORT);//TODO: option to disable
 	cmd.addParam(ZLIF_SUPPORT);
 
 	send(cmd);

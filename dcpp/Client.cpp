@@ -142,9 +142,9 @@ void Client::connect() {
 	setAutoReconnect(true);
 	
 	if((uint32_t)HUBSETTING(TIME_RECCON) > 10)
-        setReconnDelay((uint32_t)(HUBSETTING(TIME_RECCON)));
+		setReconnDelay((uint32_t)(HUBSETTING(TIME_RECCON)));
 	else
-       	setReconnDelay(120 + Util::rand(0, 60));
+		setReconnDelay(120 + Util::rand(0, 60));
 	
 	reloadSettings(true);
 	setRegistered(false);
@@ -174,6 +174,7 @@ void Client::send(const char* aMessage, size_t aLen) {
 	dcdebug("\nPlugins");
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_OUT, this, aMessage))
 		return;
+		
 	Lock l(cs);
 	updateActivity();
 	sock->write(aMessage, aLen);
@@ -197,6 +198,14 @@ HubData* Client::getPluginObject() noexcept {
 void Client::on(Connected) noexcept {
 	updateActivity();
 	ip = sock->getIp();
+	sLocalIP = sock->getLocalIp();
+	
+	 if(sock->isV6Valid() && sLocalIP.empty() == false && strchr(sLocalIP.c_str(), '.') == false) {
+        bIPv6 = true;
+    } else {
+        bIPv4 = true;
+    }
+	
 	fire(ClientListener::Connected(), this);
 	state = STATE_PROTOCOL;
 }
@@ -283,7 +292,7 @@ void Client::on(Second, uint64_t aTick) noexcept {
 }
 
 void Client::sendActionCommand(const OnlineUser& ou, int actionId) {
-	if(!isConnected() /*|| (userCount < getUsersLimit())*/)
+	if(!isConnected())
 		return;
 		
 	cmdQueue.addCommand(ou, actionId);
@@ -301,12 +310,12 @@ const string& Client::getUserIp4() const {
 	return CONNSETTING(EXTERNAL_IP);
 }
 
-const string Client::getUserIp6() const {
+const string& Client::getUserIp6() const {
 	if(!sock->getLocalIp().empty())//best case
-			return sock->getLocalIp();
+		return sock->getLocalIp();
 
-	if(!getMyIdentity().getIp().empty())
-				return getMyIdentity().getIp();
+	if(!getMyIdentity().getIp6().empty())
+		return getMyIdentity().getIp6();
 	
 	if(!HUBSETTING(EXTERNAL_IP6).empty()) {
 		return HUBSETTING(EXTERNAL_IP6);

@@ -255,7 +255,7 @@ string AdcCommand::getParamString(bool nmdc) const {
 
 bool AdcCommand::getParam(const char* name, size_t start, string& ret) const {
 	for(string::size_type i = start; i < getParameters().size(); ++i) {
-		if(toCode(name) == toCode(getParameters()[i].c_str())) {
+		if( (strlen(name) == 2) && (toCode(name) == toCode(getParameters()[i].c_str()))) {
 			ret = getParameters()[i].substr(2);
 			return true;
 		}
@@ -265,9 +265,9 @@ bool AdcCommand::getParam(const char* name, size_t start, string& ret) const {
 
 bool AdcCommand::hasFlag(const char* name, size_t start) const {
 	for(string::size_type i = start; i < getParameters().size(); ++i) {
-		if(toCode(name) == toCode(getParameters()[i].c_str()) &&
+		if( (strlen(name) == 2) &&  (toCode(name) == toCode(getParameters()[i].c_str()) &&
 			getParameters()[i].size() == 3 &&
-			getParameters()[i][2] == '1')
+			getParameters()[i][2] == '1'))
 		{
 			return true;
 		}

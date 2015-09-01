@@ -116,8 +116,8 @@ public:
 	C(RNT, 'R','N','T');
 	C(ZON, 'Z','O','N');
 	C(ZOF, 'Z','O','F');
-	C(GFA, 'G','F','A');
-	C(RFA, 'R','F','A');
+//	C(GFA, 'G','F','A');
+//	C(RFA, 'R','F','A');
 #undef C
 
 	static const uint32_t HUB_SID = 0xffffffff;		// No client will have this sid
@@ -150,6 +150,7 @@ public:
 		parameters.back() += value;
 		return *this;
 	}
+	
 	AdcCommand& addParam(const string& str) {
 		parameters.push_back(str);
 		return *this;
@@ -217,8 +218,8 @@ public:
 				C(RNT);
 				C(ZON);
 				C(ZOF);
-				C(GFA);
-				C(RFA);
+//				C(GFA);
+//				C(RFA);
 			default:
 				dcdebug("Unknown ADC command: %.50s\n", aLine.c_str());
 				break;

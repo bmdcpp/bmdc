@@ -43,7 +43,7 @@ class Client :
 	protected TimerManagerListener,
 	public HubSettings
 {
-// for clang	
+// for clang
 private:
 	using BufferedSocketListener::on;
 	using TimerManagerListener::on;
@@ -172,7 +172,7 @@ protected:
 	/// Get the external IP the user has defined for this hub, if any.
 	const string& getUserIp() const;
 	const string& getUserIp4() const;
-	const string getUserIp6() const; 
+	const string& getUserIp6() const; 
 
 	virtual void checkNick(string& nick) = 0;
 
@@ -206,6 +206,9 @@ private:
 	{
 		return !h.empty() ?  h.compare(0, 6, "adc://") == 0 || h.compare(0, 7, "adcs://") == 0 : false;
 	}
+public:	
+	bool bIPv6,bIPv4;
+	string sLocalIP;
 	
 };
 

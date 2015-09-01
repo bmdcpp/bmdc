@@ -909,11 +909,11 @@ void NmdcHub::myInfo(bool alwaysSend) {
 		modeChar[0] = '5';
 	else if(ClientManager::getInstance()->isActive(getHubUrl())) {
 		modeChar[0] = 'A';
-		if(sock->isV6Valid() && isActiveV6())
+		if(bIPv6)
 			modeChar[1] = 'A';
 	} else {
 		modeChar[0] = 'P';
-		if(sock->isV6Valid() && isActiveV6())
+		if(/*sock->isV6Valid() && isActiveV6()*/bIPv6)
 			modeChar[1] = 'P';
 	}
 	modeChar[2] =  '\0';
