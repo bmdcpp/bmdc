@@ -311,8 +311,8 @@ const string& Client::getUserIp4() const {
 }
 
 const string& Client::getUserIp6() const {
-	if(!sock->getLocalIp().empty())//best case
-		return sock->getLocalIp();
+	//if(!sock->getLocalIp().empty())//best case
+	//	return sock->getLocalIp();
 
 	if(!getMyIdentity().getIp6().empty())
 		return getMyIdentity().getIp6();

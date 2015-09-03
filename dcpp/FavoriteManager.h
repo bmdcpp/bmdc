@@ -54,6 +54,7 @@ public:
 		TYPE_NORMAL,
 		TYPE_BZIP2
 	};
+	
 	StringList getHubLists();
 	void setHubList(int aHubList);
 	int getSelectedHubList() { return lastServer; }
@@ -105,6 +106,7 @@ public:
 		return (u != NULL) ? (u->isSet(FavoriteUser::FLAG_GRANTSLOT)) : false;
 	}
 	bool isFavoriteIUser(string nick) { return favoritesNoCid.find(nick) != favoritesNoCid.end(); }
+	
 	void addFavoriteIUser(const string& nick, const time_t lastSeen = 0, const string& desc = Util::emptyString)
 	{
 		Lock l(cs);

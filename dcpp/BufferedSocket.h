@@ -106,7 +106,7 @@ public:
 
 	void disconnect(bool graceless = false) noexcept { Lock l(cs); if(graceless) disconnecting = true; addTask(DISCONNECT, 0); }
 
-	string getLocalIp() const { return sock->getLocalIp(sock->getSock()); }
+	string getLocalIp() const { return sock->getLocalIp(/*sock->getSock()*/); }
 	uint16_t getLocalPort() const { return sock->getLocalPort(); }
 	bool isV6Valid() const { return sock->isV6Valid(); }
 	 

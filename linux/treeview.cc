@@ -231,7 +231,7 @@ void TreeView::speedDataFunc(GtkTreeViewColumn*, GtkCellRenderer *renderer, GtkT
 void TreeView::sizeDataFunc(GtkTreeViewColumn*, GtkCellRenderer *renderer, GtkTreeModel *model, GtkTreeIter *iter, gpointer column)
 {
 	string sizeString;
-	int64_t size;
+	int64_t size = 0;
 	gtk_tree_model_get(model, iter, static_cast<Column*>(column)->pos, &size, -1);
 
 	if (size >= 0)
@@ -245,7 +245,7 @@ void TreeView::sizeDataFunc(GtkTreeViewColumn*, GtkCellRenderer *renderer, GtkTr
 void TreeView::exactsizeDataFunc(GtkTreeViewColumn*, GtkCellRenderer *renderer, GtkTreeModel *model, GtkTreeIter *iter, gpointer column)
 {
 	string sizeString;
-	int64_t size;
+	int64_t size = 0;
 	gtk_tree_model_get(model, iter, static_cast<Column*>(column)->pos, &size, -1);
 
 	if (size >= 0)
@@ -394,7 +394,7 @@ void TreeView::addColumn_gui(Column& column)
 				renderer, "text", column.pos, "value", TreeView::col(column.linkedCol), NULL);
 			break;
 		case EXSIZE:
-            renderer = gtk_cell_renderer_text_new();
+			renderer = gtk_cell_renderer_text_new();
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(),
 					renderer, "text", column.pos, NULL);
 			gtk_tree_view_column_set_cell_data_func(col, renderer, TreeView::exactsizeDataFunc, &column, NULL);
@@ -525,6 +525,7 @@ void TreeView::toggleColumnVisibility(GtkMenuItem *item, gpointer data)
 void TreeView::restoreSettings()
 {
 	if(name == "hub")return;//@Not load hub-based prop to main setttings	
+	
 	vector<int> columnOrder, columnWidth, columnVisibility;
 	columnOrder = WulforUtil::splitString(WGETS(name + "-order"), ",");
 	columnWidth = WulforUtil::splitString(WGETS(name + "-width"), ",");
@@ -555,7 +556,7 @@ void TreeView::restoreSettings()
 
 void TreeView::saveSettings()
 {
-	if(name == "hub")return;//@Not save hub-based prop to main setttings
+	if(name == "hub") return;//@Not save hub-based prop to main setttings
 
 	string columnOrder, columnWidth, columnVisibility, title;
 	GtkTreeViewColumn *col;
@@ -648,22 +649,22 @@ void TreeView::onCopyRowClicked_gui(GtkMenuItem*, gpointer data)
 	        {
 		        GtkTreeViewColumn *col = gtk_tree_view_get_column(tv->view, j);
 		        if (col == NULL)
-			        continue;
+						continue;
 
-		        string title = gtk_tree_view_column_get_title(col);
-		        gboolean visible = gtk_tree_view_column_get_visible(col);
+				string title = gtk_tree_view_column_get_title(col);
+				gboolean visible = gtk_tree_view_column_get_visible(col);
 
-                if (visible && !title.empty())
-                {
+				if (visible && !title.empty())
+				{
 			        if (gtk_tree_model_get_iter(GTK_TREE_MODEL(gtk_tree_view_get_model(tv->view)), &iter, path))
-			        {
-					data += title + ": ";
-			            data += tv->getValueAsText(&iter, title) + "\n";
-			        }
+					{
+						data += title + ": ";
+						data += tv->getValueAsText(&iter, title) + "\n";
+					}
 			    }
 	        }
 
-	        data += G_DIR_SEPARATOR;
+			data += G_DIR_SEPARATOR;
 
 			gtk_tree_path_free(path);
 		}
@@ -718,14 +719,14 @@ string TreeView::getValueAsText(GtkTreeIter* i, const string &title)
 	if (!title.empty())
 	{
 		GtkTreeViewColumn *col = NULL;
-        col = gtk_tree_view_get_column(view, this->col(title));
+		col = gtk_tree_view_get_column(view, this->col(title));
 		if (col != NULL)
 		{
 			int64_t size = 0;
-		    Column *column = (Column*)g_object_get_data(G_OBJECT(col), "column");
+			Column *column = (Column*)g_object_get_data(G_OBJECT(col), "column");
 
-	        switch (column->type)
-	        {
+			switch (column->type)
+			{
 		        case STRING:
 		        case STRINGR:
 		        case ICON_STRING:
@@ -738,14 +739,14 @@ string TreeView::getValueAsText(GtkTreeIter* i, const string &title)
 		        case EXSIZE:
 		        	char buf[512];
 					size = getValue<int64_t>(i, title);
-		            snprintf(buf, sizeof(buf), "%.f", (double)(size));
-		            return buf;
+					snprintf(buf, sizeof(buf), "%.f", (double)(size));
+					return buf;
 				default: ;
-	        }
-        }
-    }
+			}
+		}
+	}
 
-    return dcpp::Util::emptyString;
+	return dcpp::Util::emptyString;
 }
 
 GtkCellRenderer *TreeView::getCellRenderOf(const string &title)

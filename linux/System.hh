@@ -32,6 +32,7 @@
 class SystemLog:
 	public BookEntry, private dcpp::LogManagerListener
 {
+//this is for clang	
 	private:
 		using dcpp::LogManagerListener::on;
 	public:
@@ -44,7 +45,7 @@ class SystemLog:
 		// Client functions
 		void ini_client();
 		//Gui functions
-		void add_gui(time_t t,std::string file,int sev = dcpp::LogManager::Sev::LOW);
+		void add_gui(time_t t,std::string message,int sev = dcpp::LogManager::Sev::LOW);
 		static void onScroll_gui(GtkAdjustment *adjustment, gpointer data);
 		static void onResize_gui(GtkAdjustment *adjustment, gpointer data);
 		static void onClearButton(GtkWidget *widget, gpointer data);

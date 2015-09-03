@@ -96,7 +96,7 @@ void handle_crash(int )
 #endif
 	return exit(0);
 }
-
+//GMainLoop *main_loop;
 int main(int argc, char *argv[])
 {
 	// Initialize i18n support
@@ -159,7 +159,6 @@ int main(int argc, char *argv[])
 	signal(SIGFPE,  handle_crash);
 	signal(SIGABRT, handle_crash);
 	signal(SIGTERM, handle_crash);
-
 	WulforManager::start(argc, argv);
 	gtk_main();
 	bacon_message_connection_free(connection);

@@ -668,7 +668,8 @@ void ClientManager::setIpAddress(const UserPtr& p, const string& ip) {
 	OnlineIterC i = onlineUsers.find(p->getCID());
 	if(i != onlineUsers.end()) {
 		bool ipv6 = false;	
-		if(ip.find_first_of(':') != ip.find_last_of(':')) {//IPv6
+		//if(ip.find_first_of(':') != ip.find_last_of(':')) {//IPv6
+		if(Util::isIp6(ip)) {
 			i->second->getIdentity().set("I6", ip);
 			ipv6 = true;
 		}

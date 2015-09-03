@@ -88,57 +88,8 @@ static uint64_t getTimeStamp(const string &fname){
 }
 
 #endif // USE_XATTR
-/*
+
 bool HashManager::StreamStore::loadTree(const string& p_filePath, TigerTree &tree, int64_t p_aFileSize)
-{
-#ifdef USE_XATTR
-    const int64_t fileSize  = (p_aFileSize == -1) ? File::getSize(p_filePath) : p_aFileSize;
-    const size_t hdrSz      = sizeof(TTHStreamHeader);
-    const size_t totalSz    = ATTR_MAX_VALUELEN;
-    int blockSize           = totalSz;
-    TTHStreamHeader h;
-
-    uint8_t* buf = (new uint8_t[totalSz]);
-
-    if (attr_get(p_filePath.c_str(), g_streamName.c_str(), (char*)(void*)buf, &blockSize, 0) == 0) {
-        memcpy(&h, buf, hdrSz);
-#ifdef __i386__
-        printf("%s: timestamps header=0x%llu, current=0x%llu, difference(should be zero)=%llu\n",
-               p_filePath.c_str(), h.timeStamp, getTimeStamp(p_filePath), h.timeStamp - getTimeStamp(p_filePath));
-#else
-        printf("%s: timestamps header=0x%lu, current=0x%lu, difference(should be zero)=%lu\n",
-               p_filePath.c_str(), h.timeStamp, getTimeStamp(p_filePath), h.timeStamp - getTimeStamp(p_filePath));
-#endif
-        if (!(h.timeStamp == getTimeStamp(p_filePath) && validateCheckSum(h))){ // File was modified and we should reset attr.
-            deleteStream(p_filePath);
-			delete [] buf;//@Mank
-            return false;
-        }
-
-        const size_t datalen = blockSize - hdrSz;
-        uint8_t* tail = new uint8_t[datalen];
-
-        memcpy(tail, (uint8_t*)buf + hdrSz, datalen);
-
-        TigerTree p_Tree = TigerTree(fileSize, h.blockSize, tail);
-
-        if (p_Tree.getRoot() == h.root){
-            tree = p_Tree;
-			delete [] buf;
-			delete [] tail;
-            return true;
-        }
-        else {
-        	delete [] buf;
-			delete [] tail;
-            return false;
-        }    
-    }
-#endif //USE_XATTR
-    return false;
-}
-*/
- bool HashManager::StreamStore::loadTree(const string& p_filePath, TigerTree &tree, int64_t p_aFileSize)
 {
 #ifdef USE_XATTR
     const int64_t fileSize  = (p_aFileSize == -1) ?  File::getSize(p_filePath) : p_aFileSize;
@@ -214,7 +165,7 @@ TTHValue* HashManager::getTTH(const string& aFileName, int64_t aSize, uint32_t a
 	TTHValue* tth = store.getTTH(aFileName, aSize, aTimeStamp);
 	if(tth == NULL) {
 		TigerTree _tth;
-		if(m_streamstore.loadTree(/*fpath+PATH_SEPARATOR_STR+aFileName*/aFileName,_tth,-1)) {
+		if(m_streamstore.loadTree(aFileName,_tth,-1)) {
 			printf ("%s: hash [%s] was loaded from Xattr.\n", aFileName.c_str(), _tth.getRoot().toBase32().c_str());
 			TTHValue* check = &(_tth.getRoot());
 			if(check == NULL)

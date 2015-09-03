@@ -64,6 +64,7 @@ struct ShareLoader;
 class ShareManager : public Singleton<ShareManager>, private SettingsManagerListener, private Thread, private TimerManagerListener,
 	private HashManagerListener, private QueueManagerListener
 {
+//for clang
 private:
 	using SettingsManagerListener::on;
 	using TimerManagerListener::on;

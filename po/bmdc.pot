@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2015-08-28 14:16+0200\n"
+"POT-Creation-Date: 2015-09-03 18:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3684,7 +3684,7 @@ msgstr ""
 msgid "Connection Setup"
 msgstr ""
 
-#: linux/treeview.cc:605
+#: linux/treeview.cc:606
 msgid "Copy All"
 msgstr ""
 
@@ -4625,7 +4625,7 @@ msgstr ""
 msgid "Protected Users:"
 msgstr ""
 
-#: linux/wulfor.cc:171
+#: linux/wulfor.cc:170
 msgid "Quit..."
 msgstr ""
 
@@ -4905,7 +4905,7 @@ msgstr ""
 msgid "Show uptime"
 msgstr ""
 
-#: linux/wulfor.cc:169
+#: linux/wulfor.cc:168
 msgid "Shutting down dcpp client..."
 msgstr ""
 

@@ -156,7 +156,7 @@ public:
 
 	void setBlocking(bool block) noexcept;
 
-	string getLocalIp(socket_t sock) noexcept;
+	string getLocalIp() noexcept;
 	uint16_t getLocalPort() noexcept;
 
 	/** Binds a socket to a certain local port and possibly IP. */

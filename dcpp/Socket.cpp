@@ -944,15 +944,17 @@ string Socket::getRemoteHost(const string& aIp) {
 	}
 }
 
-string Socket::getLocalIp(socket_t sock) noexcept  {
-	if(sock == INVALID_SOCKET) {
+string Socket::getLocalIp() noexcept  {
+	if(sock6.valid()) {
+	
+	if(sock6.get() == INVALID_SOCKET) {
 		return Util::emptyString;
     }
  
     sockaddr_storage sas_addr;
 	socklen_t sas_len = sizeof(sockaddr_storage);
 
-	if(getsockname(sock, (struct sockaddr *)&sas_addr, &sas_len) == 0) {
+	if(getsockname(sock6.get(), (struct sockaddr *)&sas_addr, &sas_len) == 0) {
 		if(sas_addr.ss_family == AF_INET6) {
             if(IN6_IS_ADDR_V4MAPPED(&((struct sockaddr_in6 *)&sas_addr)->sin6_addr)) {
                 return (inet_ntoa(*((in_addr *)(((struct sockaddr_in6 *)&sas_addr)->sin6_addr.s6_addr + 12))));
@@ -966,7 +968,30 @@ string Socket::getLocalIp(socket_t sock) noexcept  {
             return (inet_ntoa(((sockaddr_in *)&sas_addr)->sin_addr));
         }
 	}
+ }else if(sock4.valid()) {
+	
+	if(sock4.get() == INVALID_SOCKET) {
+		return Util::emptyString;
+    }
+ 
+    sockaddr_storage sas_addr;
+	socklen_t sas_len = sizeof(sockaddr_storage);
 
+	if(getsockname(sock4.get(), (struct sockaddr *)&sas_addr, &sas_len) == 0) {
+		if(sas_addr.ss_family == AF_INET6) {
+            if(IN6_IS_ADDR_V4MAPPED(&((struct sockaddr_in6 *)&sas_addr)->sin6_addr)) {
+                return (inet_ntoa(*((in_addr *)(((struct sockaddr_in6 *)&sas_addr)->sin6_addr.s6_addr + 12))));
+            } else {
+                char sIP[46];
+                sIP[0] = '\0';
+                inet_ntop(AF_INET6,&((struct sockaddr_in6 *)&sas_addr)->sin6_addr, sIP, 46);
+                return (sIP);
+            }
+        } else {
+            return (inet_ntoa(((sockaddr_in *)&sas_addr)->sin_addr));
+        }
+	}
+ }
 	return Util::emptyString;
 }
 

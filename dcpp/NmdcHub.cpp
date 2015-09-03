@@ -57,7 +57,7 @@ void NmdcHub::connect(const OnlineUser& aUser, const string&) {
 	checkstate();
 	Lock l(cs);
 	dcdebug("NmdcHub::connect %s\n", aUser.getIdentity().getNick().c_str());
-	if(ClientManager::getInstance()->isActive(getHubUrl()) || ( sock->isV6Valid() && isActiveV6() && aUser.getIdentity().isSet("IX") ) ) {
+	if(ClientManager::getInstance()->isActive(getHubUrl()) || ( bIPv6 && !aUser.getIdentity().getIp6().empty() ) ) {
 		connectToMe(aUser);
 	} else {
 		revConnectToMe(aUser);
@@ -858,9 +858,10 @@ void NmdcHub::connectToMe(const OnlineUser& aUser) {
 			return;
 	}	
 	
-	bool isOkIp6 = aUser.getIdentity().isSet("IX");
+	bool isOkIp6 = aUser.getIdentity().getIp6().empty() == true;
 	dcdebug("%d - %d - %d - %d",(int)sock->isV6Valid(),isActiveV6(),(int)((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ),isOkIp6);
-	if(sock->isV6Valid() && isActiveV6() && ((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ) && isOkIp6) {
+	
+	if(bIPv6 && ((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ) && isOkIp6) {
 		send("$ConnectToMe " + nick + " [" + getUserIp6() + "]:" + Util::toString(ConnectionManager::getInstance()->getPort()) + "|");
 		dcdebug("\n%s",getUserIp6().c_str());
 	} else
