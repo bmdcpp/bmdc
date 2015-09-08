@@ -145,10 +145,13 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("log-messages", 0));//per fav
 	defaultInt.insert(IntMap::value_type("text-cheat-bold", 1));
 	defaultInt.insert(IntMap::value_type("text-cheat-italic", 0));
+	
 	defaultInt.insert(IntMap::value_type("text-ip-bold", 1));
 	defaultInt.insert(IntMap::value_type("text-ip-italic", 1));
-	defaultInt.insert(IntMap::value_type("text-high-bold", 0));
+	
+	defaultInt.insert(IntMap::value_type("text-high-bold", 1));
 	defaultInt.insert(IntMap::value_type("text-high-italic", 1));
+	
 	defaultInt.insert(IntMap::value_type("notify-high-use", 1));
 	defaultInt.insert(IntMap::value_type("notify-hub-chat-use", 1));
 

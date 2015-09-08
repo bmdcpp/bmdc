@@ -1003,7 +1003,7 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		else if(WulforUtil::checkCommand(text, param, message, status, isThirdPerson))
 		{
 			if(!message.empty())
-				pm->addMessage_gui(message, Msg::MYOWN);
+				pm->sendMessage_client(message);
 
 			if(!status.empty())
 				pm->addStatusMessage_gui(status, Msg::STATUS);

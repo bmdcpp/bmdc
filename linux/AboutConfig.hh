@@ -45,16 +45,14 @@ class AboutConfig:
 		static void onInfoResponse(GtkWidget *info_bar, gint response_id,  gpointer data );
 	
 		bool getDialog(std::string name , std::string& value , gpointer data);
-		void addItem_gui(std::string rowname, std::string isdefault, std::string types, std::string value, bool isWulf = false);
-		void updateItem_gui(std::string rowname, std::string value);
-		bool findAboutItem_gui(const std::string& about, GtkTreeIter *iter);
+		void addItem_gui(const gchar* rowname, const gchar* isdefault, const gchar* types, const gchar* value, bool isWulf = false);
+		void updateItem_gui(std::string rowname, std::string value, GtkTreeIter *iter, gchar* status = _("Default"));
 		void setStatus(std::string msg);
 		
 		TreeView aboutView;
 		GtkListStore *aboutStore;
 		GtkTreeSelection *aboutSelection;
 		GdkEventType previous;
-		UnMapIter aboutIters;
 };
 #else
 class AboutConfig;

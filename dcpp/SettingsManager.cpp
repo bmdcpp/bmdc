@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify

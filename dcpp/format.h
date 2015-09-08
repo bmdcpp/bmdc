@@ -19,6 +19,7 @@
 #ifndef DCPLUSPLUS_DCPP_FORMAT_H_
 #define DCPLUSPLUS_DCPP_FORMAT_H_
 #include <string>
+//
 #include <libintl.h>
 #include <glib/gi18n.h>
 
@@ -26,8 +27,7 @@
 
 #define PACKAGE "libdcpp"
 #define LOCALEDIR dcpp::Util::getPath(Util::PATH_LOCALE).c_str()
-#define gettext_noop(String) String
-#define F_(String) Q_(string(String).c_str())
+#define F_(String) _(string(String).c_str())
 #endif
 
 namespace dcpp {

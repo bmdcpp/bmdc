@@ -29,7 +29,7 @@ using namespace std;
 using namespace dcpp;
 /*-----------------------------------------------*/
 const char* GeneralPage::page_name =  "General";
-/*------------------------------------------------*/
+/*-----------------------------------------------*/
 GeneralPage::GeneralPage()
 {
 	connectionSpeeds.push_back("0.005");

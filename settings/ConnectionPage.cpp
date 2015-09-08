@@ -223,34 +223,41 @@ void ConnectionPage::write()
 	dcpp::SettingsManager *sm = dcpp::SettingsManager::getInstance();
 	
 // Incoming connection
-		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio_direct)))
+		if ( (GTK_IS_TOGGLE_BUTTON(radio_direct)) && gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio_direct)))
 			sm->set(SettingsManager::INCOMING_CONNECTIONS, SettingsManager::INCOMING_DIRECT);
-		else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio_upnp)))
+		else if ( (GTK_IS_TOGGLE_BUTTON(radio_upnp)) && gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio_upnp)))
 			sm->set(SettingsManager::INCOMING_CONNECTIONS, SettingsManager::INCOMING_FIREWALL_UPNP);
-		else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio_manual)))
+		else if ( (GTK_IS_TOGGLE_BUTTON(radio_manual)) && gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio_manual)))
 			sm->set(SettingsManager::INCOMING_CONNECTIONS, SettingsManager::INCOMING_FIREWALL_NAT);
-		else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio_pasive)))
+		else if ( (GTK_IS_TOGGLE_BUTTON(radio_pasive)) && gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio_pasive)))
 			sm->set(SettingsManager::INCOMING_CONNECTIONS, SettingsManager::INCOMING_FIREWALL_PASSIVE);
+		const gchar* ipv4 = NULL,*ipv6 = NULL,*s_port = NULL,*s_uport = NULL,*s_sport = NULL,*s_server = NULL,
+		*s_pass = NULL, *s_user = NULL;
 		
-		const gchar* ipv4 = gtk_entry_get_text(GTK_ENTRY(entry_ip));
+		if(GTK_IS_ENTRY(entry_ip))
+			ipv4 = gtk_entry_get_text(GTK_ENTRY(entry_ip));
 		
 		if(ipv4 != NULL)
 			sm->set(SettingsManager::EXTERNAL_IP, ipv4);
-		const gchar* ipv6 = gtk_entry_get_text(GTK_ENTRY(entry_ip6));
+		if(GTK_IS_ENTRY(entry_ip6))
+			ipv6 = gtk_entry_get_text(GTK_ENTRY(entry_ip6));
+		
 		if(ipv6 != NULL)
 			sm->set(SettingsManager::EXTERNAL_IP6, ipv6 );
 
 		sm->set(SettingsManager::NO_IP_OVERRIDE,  gtk_switch_get_active(GTK_SWITCH((overide_button))));
 
-		const gchar* s_port = gtk_entry_get_text(GTK_ENTRY(entry_tcp));
+		if(GTK_IS_ENTRY(entry_tcp))
+			s_port = gtk_entry_get_text(GTK_ENTRY(entry_tcp));
 		int port = 0;
 		if(s_port != NULL) {
 			port = Util::toInt(s_port);
 		}
 		if (port >= 0 && port <= 65535)
 			sm->set(SettingsManager::TCP_PORT, port);
-
-		const gchar* s_uport = gtk_entry_get_text(GTK_ENTRY(entry_udp));
+		
+		if(GTK_IS_ENTRY(entry_udp))
+			s_uport = gtk_entry_get_text(GTK_ENTRY(entry_udp));
 		int uport = 0;
 		if(s_uport != NULL) {
 			uport = Util::toInt(s_uport);
@@ -258,7 +265,8 @@ void ConnectionPage::write()
 		if (uport >= 0 && uport <= 65535)
 			sm->set(SettingsManager::UDP_PORT, uport);
 		int sport = 0;
-		const gchar* s_sport = gtk_entry_get_text(GTK_ENTRY(entry_tls));
+		if(GTK_IS_ENTRY(entry_tls))
+			s_sport = gtk_entry_get_text(GTK_ENTRY(entry_tls));
 		if(s_sport != NULL) {
 			sport = Util::toInt(s_sport);
 		}	
@@ -267,26 +275,33 @@ void ConnectionPage::write()
 		else ;/*thow dialog?*/
 		
 		// Outgoing connection
-		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio_direct_out)))
+		if ((GTK_IS_TOGGLE_BUTTON(radio_direct_out)) && gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio_direct_out)))
 			sm->set(SettingsManager::OUTGOING_CONNECTIONS, SettingsManager::OUTGOING_DIRECT);
-		else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio_sock)))
+		else if ((GTK_IS_TOGGLE_BUTTON(radio_sock)) &&  gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio_sock)))
 			sm->set(SettingsManager::OUTGOING_CONNECTIONS, SettingsManager::OUTGOING_SOCKS5);
-
-		const gchar* s_server = gtk_entry_get_text(GTK_ENTRY(entry_ip_sock)); 
+		
+		if(GTK_IS_ENTRY(entry_ip_sock))
+			s_server = gtk_entry_get_text(GTK_ENTRY(entry_ip_sock)); 
 		if(s_server !=  NULL)
 			sm->set(SettingsManager::SOCKS_SERVER, s_server );
-
-		const gchar* s_user = gtk_entry_get_text(GTK_ENTRY(entry_username));
+		
+		if(GTK_IS_ENTRY(entry_username))
+			s_user = gtk_entry_get_text(GTK_ENTRY(entry_username));
+		
 		if(s_user != NULL)
 		sm->set(SettingsManager::SOCKS_USER, s_user);
 
-		const gchar* s_pass = gtk_entry_get_text(GTK_ENTRY(entry_password));
+		if(GTK_IS_ENTRY(entry_password))
+			s_pass = gtk_entry_get_text(GTK_ENTRY(entry_password));
 		if(s_pass != NULL)
 			sm->set(SettingsManager::SOCKS_PASSWORD, s_pass);
 
 		sm->set(SettingsManager::SOCKS_RESOLVE, gtk_switch_get_active(GTK_SWITCH(check_hostname)));
-
-		s_sport = gtk_entry_get_text(GTK_ENTRY(entry_sport));
+		
+		s_sport = 0;
+		if(GTK_IS_ENTRY(entry_sport))
+			s_sport = gtk_entry_get_text(GTK_ENTRY(entry_sport));
+		
 		if(s_sport != NULL) {
 			int port = Util::toInt(s_sport);
 			if (port > 0 && port <= 65535)
