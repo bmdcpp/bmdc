@@ -2487,7 +2487,6 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 					string r = params.substr(i+1);
 					if(r == "range")
 						FavoriteManager::getInstance()->addFavoriteIp(params.substr(0,i),time(NULL),FavoriteUser::FLAG_IP_RANGE);
-					else;	
 				}
 			}else
 				hub->addStatusMessage_gui(_("No IP/range given to the command"), Msg::SYSTEM , Sound::NONE );
@@ -2621,7 +2620,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 
 			map<string, string> info;
             info[_("Hub address")] = hub->address;
-			info[_("Hub IP & port")] = hub->client->getIpPort();
+			info[_("Hub IP & port")] = (dcpp::Util::isIp6(hub->client->getIp()) == true) ? ("["+hub->client->getIp()+"]:"+Util::toString(hub->client->getPort()))  : hub->client->getIpPort();
 			info[_("Online users")] = Util::toString(hub->client->getUserCount()-1);
 			info[_("Shared")] = Util::formatBytes(hub->client->getAvailable());
 

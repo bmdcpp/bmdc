@@ -324,7 +324,7 @@ void TreeView::addColumn_gui(Column& column)
 			break;
 		case PIXBUF_STRING:
 			renderer = gtk_cell_renderer_pixbuf_new();
-			g_object_set(G_OBJECT(renderer),"height",(gint)GTK_ICON_SIZE_MENU);//This Fixes bogus Icon ( not at all but still beter)
+			g_object_set(G_OBJECT(renderer),"height",(gint)GTK_ICON_SIZE_MENU,NULL);//This Fixes bogus Icon ( not at all but still beter)
 			col = gtk_tree_view_column_new();
 			gtk_tree_view_column_set_title(col, column.title.c_str());
 			gtk_tree_view_column_pack_start(col, renderer, false);
