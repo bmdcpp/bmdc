@@ -27,7 +27,7 @@ namespace dcpp {
 namespace RegEx {
 #define OVECCOUNT 200
 template<typename T>
-bool match(const T& text, const T& pattern, bool ignoreCase = true) /*throw()*/ {
+bool match(const T& text, const T& pattern, bool ignoreCase = true)  {
 	if(pattern.empty())
 		return false;
 	if(text.empty())

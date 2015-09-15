@@ -471,7 +471,7 @@ if(WGETB("use-highlighting")) {//maybe hub-based?
 		{
 			if(l.isSet(ColorSettings::CONTEXT_NICKLIST)) {
 				string match = l.getMatch();
-				if(nick == match){
+				if( (nick == match) || (l.usingRegexp() && dcpp::RegEx::match<string>(nick,match))){
 					if(l.getHasBgColor())
 					{
 						g_object_set(cell,"cell-background-set",TRUE,"cell-background",l.getBgColor().c_str(),NULL);
