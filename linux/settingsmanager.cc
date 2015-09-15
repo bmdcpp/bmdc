@@ -381,6 +381,11 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("userlist-bg-pasive", "#BFBFBF"));
 	defaultString.insert(StringMap::value_type("userlist-bg-protected", "#BFBFBF"));
 	defaultString.insert(StringMap::value_type("userlist-bg-ignored", "#BFBFBF"));
+	
+	defaultString.insert(StringMap::value_type("userlist-text-virus","white"));
+	defaultString.insert(StringMap::value_type("userlist-bg-virus","red"));
+	defaultString.insert(StringMap::value_type("userlist-bg-virus-an","#A52A2A"));
+	
 	/*end*/
 	defaultString.insert(StringMap::value_type("custom-aliases", "#"));
 	/* Extended text color*/

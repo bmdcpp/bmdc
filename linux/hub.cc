@@ -56,7 +56,7 @@ const string Hub::tagPrefix = "#";
 Hub::Hub(const string &address, const string &encoding):
 	BookEntry(Entry::HUB, address, "hub", address),
 	client(nullptr),address(address),
-	encoding(encoding),	ImgLimit(0),historyIndex(0),totalShared(0), 
+	encoding(encoding),	ImgLimit(0),historyIndex(0),totalShared(0)
 	,scrollToBottom(true), PasswordDialog(false), WaitingPassword(false),
 	notCreated(true), isFavBool(true)
 {
@@ -488,10 +488,10 @@ if(WGETB("use-highlighting")) {//maybe hub-based?
 }//END
 		if(AVManager::getInstance()->isNickVirused(nick))
 		{
-			color = "#A52A2A";//another red
+			color = WGETS("userlist-bg-virus-an");//"#A52A2A";//another red
 			AVManager::AVEntry entry = AVManager::getInstance()->getEntryByNick(nick);
 			if(entry.share == size) {
-				color = "red"; //hardcode for now @ if size and nick is ok
+				color = WGETS("userlist-bg-virus"); // if size and nick is ok
 			}
 		}
 
@@ -3891,7 +3891,7 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 
 	if ( AVManager::getInstance()->isNickVirused(id.getNick()) )
 	{
-		params.insert(ParamMap::value_type("NickColor","white"));//@TODO: maybe too setable ?
+		params.insert(ParamMap::value_type("NickColor",WGETS("userlist-text-virus")));
 	}
 
 }
