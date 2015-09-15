@@ -39,6 +39,15 @@ class ColorSettings: public Flags
 		bHasFgColor(false) , strSoundFile(Util::emptyString), strMatch(Util::emptyString), bUsingRegexp(false)  {	}
 	~ColorSettings(){ };
 
+private:
+	//string to match against
+	string strMatch;	
+public:	
+	GETSET(string, bNoti, Noti);
+	GETSET(string,  iBgColor, BgColor);
+	GETSET(string,  iFgColor, FgColor);
+	GETSET(string, strSoundFile, SoundFile);
+	GETSET(int,  iMatchType, MatchType);
 	GETSET(bool, bIncludeNick, IncludeNick);
 	GETSET(bool, bCaseSensitive, CaseSensitive);
 	GETSET(bool, bPopup, Popup);
@@ -47,14 +56,8 @@ class ColorSettings: public Flags
 	GETSET(bool, bBold, Bold);
 	GETSET(bool, bUnderline, Underline);
 	GETSET(bool, bItalic, Italic);
-	GETSET(string, bNoti, Noti);
-	GETSET(int,  iMatchType, MatchType);
-	GETSET(string,  iBgColor, BgColor);
-	GETSET(string,  iFgColor, FgColor);
 	GETSET(bool, bHasBgColor, HasBgColor);
 	GETSET(bool, bHasFgColor, HasFgColor);
-	GETSET(string, strSoundFile, SoundFile);
-	//..
 
 	void setMatch(string match){
 		if(match.find(("$Re:")) == 0) {
@@ -76,9 +79,6 @@ class ColorSettings: public Flags
 		return 0;	
 	}
 private:
-	//string to match against
-	string strMatch;
-
 	bool bUsingRegexp;
 
    };

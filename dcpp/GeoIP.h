@@ -48,9 +48,9 @@ private:
 
 	mutable CriticalSection cs;
 	::GeoIP* geo;
-
-	const string path;
 	vector<string> cache;
+	const string path;
+
 	GeoIP(GeoIP&);
 	GeoIP operator=(GeoIP&);
 };

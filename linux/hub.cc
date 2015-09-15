@@ -55,11 +55,10 @@ const string Hub::tagPrefix = "#";
 
 Hub::Hub(const string &address, const string &encoding):
 	BookEntry(Entry::HUB, address, "hub", address),
-	client(nullptr), historyIndex(0),
-	totalShared(0),	address(address),
-	encoding(encoding), scrollToBottom(TRUE),
-	PasswordDialog(FALSE), WaitingPassword(FALSE),
-	ImgLimit(0), notCreated(true), isFavBool(true)
+	client(nullptr),address(address),
+	encoding(encoding),	ImgLimit(0),historyIndex(0),totalShared(0), 
+	,scrollToBottom(true), PasswordDialog(false), WaitingPassword(false),
+	notCreated(true), isFavBool(true)
 {
 	FavoriteHubEntry* faventry =  getFavoriteHubEntry();
 	setName(CID(address).toBase32());
@@ -291,8 +290,8 @@ Hub::Hub(const string &address, const string &encoding):
 	gtk_widget_grab_focus(getWidget("chatEntry"));
 
 	// Set the pane position
-	gint panePosition = WGETI("nick-pane-position");//move to general & fav?
-	gint width;
+	gint panePosition = WGETI("nick-pane-position");//TODO: move to general & fav?
+	gint width = 0;
 	GtkWindow *window = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
 	gtk_window_get_size(window, &width, NULL);
 	gtk_paned_set_position(GTK_PANED(getWidget("pane")), width - panePosition);
@@ -335,7 +334,6 @@ Hub::Hub(const string &address, const string &encoding):
 	RecentHubEntry* r = FavoriteManager::getInstance()->getRecentHubEntry(address);
 
 	if(r == NULL) {
-		
 		RecentHubEntry entry;
 		entry.setName("***");
 		entry.setDescription("***");
@@ -343,7 +341,6 @@ Hub::Hub(const string &address, const string &encoding):
 		entry.setShared("0");
 		entry.setServer(address);
 		FavoriteManager::getInstance()->addRecent(entry);
-		
 	}
 	if(faventry)
 	{
@@ -381,7 +378,7 @@ gint Hub::sort_iter_compare_func_nick(GtkTreeModel *model, GtkTreeIter  *a,
           g_free(nick_a);
           g_free(nick_b);
         }
-        return ret;
+  return ret;
 }
 
 void Hub::setColorsRows()
@@ -547,7 +544,7 @@ Hub::~Hub()
 	disconnect_client(true);
 
 	// Save the pane position
-	gint width;
+	gint width = 0;
 	GtkWindow *window = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
 	gtk_window_get_size(window, &width, NULL);
 	gint panePosition = width - gtk_paned_get_position(GTK_PANED(getWidget("pane")));
@@ -617,16 +614,16 @@ gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean 
 	GtkTreeView *tree_view = GTK_TREE_VIEW (widget);
 	GtkTreeModel *model = gtk_tree_view_get_model (tree_view);
 	GtkTreePath *path = NULL;
-	gchar *nick, *tag, *desc,*con,*ip,*e,*country,*slots,*hubs,*pk,*cheat,*gen,*sup,*cid,*type;
-	gint64 ssize;
-
-	char buffer[1000];
 
 	if (!gtk_tree_view_get_tooltip_context (tree_view, &x, &y,
 					  keyboard_tip,
 					  &model, &path, &iter))
 	return FALSE;
 
+	gchar *nick, *tag, *desc,*con,*ip,*e,*country,*slots,*hubs,*pk,*cheat,*gen,*sup,*cid,*type;
+	gint64 ssize;
+	char buffer[1000];
+	
 	gtk_tree_model_get (model, &iter, hub->nickView.col(_("Nick")), &nick,
 									hub->nickView.col(_("Description")), &desc,
 									hub->nickView.col(_("Tag")), &tag,

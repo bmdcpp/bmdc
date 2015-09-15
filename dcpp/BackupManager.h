@@ -35,7 +35,6 @@ namespace dcpp {
 
 class BackupManager: public Singleton<BackupManager>, public Thread,  public SettingsManagerListener, private TimerManagerListener {
 public:
-	bool stop;
 	CriticalSection cs;
 	Semaphore s;
 
@@ -60,14 +59,15 @@ private:
 			TimerManager::getInstance()->removeListener(this);
 		}
 	uint64_t ui64LastBackUpTime;
+public:	
+	bool stop;
 };
 
 class RestoreManager: public Singleton<RestoreManager>, public Thread, public SettingsManagerListener {
 public:
-	bool stop;
 	CriticalSection cs;
 	Semaphore s;
-
+	bool stop;
 	virtual int run();
 	void shutdown() {
 			stop = true;

@@ -42,12 +42,11 @@ struct ChatMessage {
 	UserPtr from;
 	UserPtr to;
 	UserPtr replyTo;
-
-	time_t timestamp;//[ADC-only]
-	bool thirdPerson;
-	time_t messageTimestamp;
-	
 	string text;
+	time_t timestamp; //[ADC-only]
+	time_t messageTimestamp;
+	bool thirdPerson;	
+
 };
 
 } // namespace dcpp

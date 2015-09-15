@@ -60,14 +60,13 @@ public:
 	size_t read(const string& file, const DataCallback& callback);
 
 private:
+	vector<uint8_t> buffer;
+	string file;
 	static const size_t DEFAULT_BLOCK_SIZE = 256*1024;
 	static const size_t DEFAULT_MMAP_SIZE = 64*1024*1024;
-
-	string file;
-	bool direct;
 	size_t blockSize;
+	bool direct;
 
-	vector<uint8_t> buffer;
 
 	/** Return an aligned buffer which is at least twice the size of ret.second */
 	size_t getBlockSize(size_t alignment);

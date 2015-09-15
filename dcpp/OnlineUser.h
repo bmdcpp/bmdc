@@ -120,8 +120,8 @@ public:
 	void getParams(ParamMap& params, const string& prefix, bool compatibility) const;
 	//UserPtr& getUser() { return user; }
 	GETSET(UserPtr, user, User);
-	GETSET(uint32_t, sid, SID);
 	GETSET(uint64_t, loggedIn, LoggedIn);
+	GETSET(uint32_t, sid, SID);
 private:
 	typedef std::unordered_map<short, string> InfMap;
 	typedef InfMap::iterator InfIter;

@@ -64,7 +64,6 @@ public:
 
 protected:
 	const string localIp;
-
 private:
 	/** add a port mapping rule. */
 	virtual bool add(const string& port, const Protocol protocol, const string& description) = 0;

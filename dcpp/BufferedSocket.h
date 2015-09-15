@@ -109,8 +109,7 @@ public:
 	string getLocalIp() const { return sock->getLocalIp(/*sock->getSock()*/); }
 	uint16_t getLocalPort() const { return sock->getLocalPort(); }
 	bool isV6Valid() const { return sock->isV6Valid(); }
-	 
-	GETSET(char, separator, Separator)
+
 private:
 	enum Tasks {
 		CONNECT,
@@ -134,9 +133,9 @@ private:
 	struct ConnectInfo : public TaskData {
 		ConnectInfo(string addr_, int16_t port_, int16_t localPort_, NatRoles natRole_, bool proxy_) : addr(addr_), port(port_), localPort(localPort_), natRole(natRole_), proxy(proxy_) { }
 		string addr;
+		NatRoles natRole;
 		int16_t port;
 		int16_t localPort;
-		NatRoles natRole;
 		bool proxy;
 	};
 	struct SendFileInfo : public TaskData {
@@ -151,23 +150,25 @@ private:
 	BufferedSocket(char aSeparator, bool v4only);
 
 	virtual ~BufferedSocket();
-
-	CriticalSection cs;
-
-	Semaphore taskSem;
+	
 	deque<pair<Tasks, unique_ptr<TaskData> > > tasks;
-
-	Modes mode;
+	CriticalSection cs;
+	Semaphore taskSem;
+	static atomic<long> sockets;
 	UnZFilter* filterIn;
-	int64_t dataBytes;
-	size_t rollback;
-	string line;
 	ByteVector inbuf;
 	ByteVector writeBuf;
 	ByteVector sendBuf;
 
 	std::unique_ptr<Socket> sock;
+	string line;
+	Modes mode;
 	State state;
+	int64_t dataBytes;
+	size_t rollback;
+public:	
+	GETSET(char, separator, Separator)
+private:	
 	bool disconnecting;
 	bool v4only;
 
@@ -180,7 +181,6 @@ private:
 	void threadSendData();
 
 	void fail(const string& aError);
-	static atomic<long> sockets;
 
 	bool checkEvents();
 	void checkSocket();

@@ -220,8 +220,6 @@ private:
 	FavHubGroups favHubGroups;
 	StringPairList favoriteDirs;
 	UserCommand::List userCommands;
-	int lastId;
-
 	FavoriteMap users;
 
 	mutable CriticalSection cs;
@@ -229,14 +227,14 @@ private:
 	// Public Hubs
 	typedef unordered_map<string, HubEntryList> PubListMap;
 	PubListMap publicListMatrix;
-	string publicListServer;
-	bool useHttp, running;
 	HttpConnection* c;
-	int lastServer;
 	HubTypes listType;
-	string downloadBuf;
 	StringMap blacklist;
-
+	string downloadBuf;
+	string publicListServer;
+	int lastServer;
+	int lastId;
+	bool useHttp, running;
 	/** Used during loading to prevent saving. */
 	bool dontSave;
 

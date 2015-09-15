@@ -93,10 +93,6 @@ private:
 	typedef NickMap::const_iterator NickIter;
 
 	NickMap users;
-
-	int supportFlags;
-
-	uint64_t lastUpdate;
 	string lastMyInfoA;
 	string lastMyInfoB;
 	string lastMyInfoC;
@@ -115,6 +111,9 @@ private:
 	virtual ~NmdcHub();
 
 	string salt;
+	
+	uint64_t lastUpdate;	
+	int supportFlags;
 	void clearUsers();
 public:
 	void onLine(const string& aLine) noexcept;

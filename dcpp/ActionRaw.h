@@ -30,14 +30,14 @@ namespace dcpp {
 	
 struct Raw {
 	
-	Raw() : id(0), name(Util::emptyString), raw(Util::emptyString), time(0), enabled(false) { }
+	Raw() : name(Util::emptyString), raw(Util::emptyString),id(0),time(0), enabled(false) { }
 	
 	Raw(int _id, const std::string& _name, const std::string& _raw, int _time, bool _enabled)
-		: id(_id), name(_name), raw(_raw), time(_time), enabled(_enabled) { }
+		: name(_name), raw(_raw),id(_id), time(_time), enabled(_enabled) { }
 	
-	GETSET(int, id, Id);
 	GETSET(std::string, name, Name);
 	GETSET(std::string, raw, Raw);
+	GETSET(int, id, Id);
 	GETSET(int, time, Time);
 	GETSET(bool, enabled, Enabled);
 
@@ -51,8 +51,8 @@ struct Action {
 	Action(int _id, const std::string& _name, bool _enabled): id(_id), name(_name), enabled(_enabled) { }
 	~Action() { raw.clear(); }
 
-	GETSET(int, id, Id);
 	GETSET(std::string, name, Name);
+	GETSET(int, id, Id);
 	GETSET(bool, enabled, Enabled);
 
 	RawsList raw;

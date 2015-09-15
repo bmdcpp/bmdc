@@ -45,8 +45,8 @@ public:
 		typedef List::const_iterator Iter;
 
 		File(Directory* aDir, const string& aName, int64_t aSize, const TTHValue& aTTH) noexcept :
-			name(aName), size(aSize), parent(aDir), tthRoot(aTTH), adls(false), points(0),
-			overRidePoints(false), fromFavs(false),adlsRaw(0),kickString(""),fullFileName(aName), ts(0)
+			parent(aDir),tthRoot(aTTH), name(aName),kickString(""),fullFileName(aName), size(aSize), points(0), 
+			adlsRaw(0),ts(0), adls(false),	overRidePoints(false), fromFavs(false)
 		{
 		}
 
@@ -59,21 +59,21 @@ public:
 
 		void save(OutputStream& stream, string& indent, string& tmp) const;
 
-		GETSET(string, name, Name);
-		GETSET(int64_t, size, Size);
+		MediaInfo m_media;
 		GETSET(Directory*, parent, Parent);
 		GETSET(TTHValue, tthRoot, TTH);
-		GETSET(bool, adls, Adls);
-		GETSET(int64_t , points, Points);
-		GETSET(bool, overRidePoints ,OverRidePoints);
+		GETSET(string, name, Name);
 		GETSET(string, adlsComment ,AdlsComment);
-		GETSET(bool, fromFavs, FromFavs);
-		GETSET(int64_t, adlsRaw, AdlsRaw);
 		GETSET(string, kickString, KickString)
 		GETSET(string, fullFileName ,FullFileName);
-		
+		GETSET(int64_t, size, Size);
+		GETSET(int64_t , points, Points);
+		GETSET(int64_t, adlsRaw, AdlsRaw);
 		GETSET(uint32_t, ts, TS);
-		MediaInfo m_media;
+		GETSET(bool, adls, Adls);
+		GETSET(bool, overRidePoints ,OverRidePoints);
+		GETSET(bool, fromFavs, FromFavs);
+		
 	};
 
 	class Directory  {
@@ -91,9 +91,9 @@ public:
 		set<File::Ptr, Less<File> > files;
 
 		Directory(Directory* aParent, const string& aName, bool _adls, bool aComplete) :
-			name(aName), parent(aParent), adls(_adls), complete(aComplete),
-			points(0), overRidePoints(false), adlsComment("") , fromFavs(false), 
-			kickString(""), fullFileName("")
+			parent(aParent),name(aName), adlsComment(""), 
+			kickString(""), fullFileName("") ,adls(_adls), complete(aComplete),
+			points(0), overRidePoints(false),  fromFavs(false)
 			{ }
 
 		virtual ~Directory();
@@ -133,19 +133,18 @@ public:
 			}
 			return x;
 		}
-
-		GETSET(string, name, Name);
+		
 		GETSET(Directory*, parent, Parent);
-		GETSET(bool, adls, Adls);
-		GETSET(bool, complete, Complete);
-				
-		GETSET(int64_t , points, Points);
-		GETSET(bool, overRidePoints ,OverRidePoints);
+		GETSET(string, name, Name);
 		GETSET(string, adlsComment ,AdlsComment);
-		GETSET(bool, fromFavs, FromFavs);
-		GETSET(int64_t, adlsRaw, AdlsRaw);
 		GETSET(string, kickString, KickString)
 		GETSET(string, fullFileName ,FullFileName);
+		GETSET(int64_t , points, Points);
+		GETSET(int64_t, adlsRaw, AdlsRaw);
+		GETSET(bool, adls, Adls);
+		GETSET(bool, complete, Complete);
+		GETSET(bool, overRidePoints ,OverRidePoints);				
+		GETSET(bool, fromFavs, FromFavs);
 	};
 
 	class AdlDirectory : public Directory {
@@ -191,14 +190,14 @@ public:
 	DirectoryListing::File::List getForbiddenFiles();
 
 	GETSET(HintedUser, user, User);
-	GETSET(bool, abort, Abort);
-
 private:
 	friend class ListLoader;
 
 	Directory* root;
 	string base;
-
+public:
+	GETSET(bool, abort, Abort);
+private:	
 	Directory* find(const string& aName, Directory* current) const;
 };
 

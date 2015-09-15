@@ -44,13 +44,20 @@ public:
 
 	/// The search string
 	string searchString;
-
-	/// Active search
-	bool isActive;
-
-	/// Auto Queue Results
-	bool isAutoQueue;
-
+	/// Name of the destination directory (empty = 'ADLSearch')
+	string destDir;
+	//cmd
+	string adlsComment;
+	string kickString;
+	// Maximum & minimum file sizes (in bytes).
+	// Negative values means do not check.
+	int64_t minFileSize;
+	int64_t maxFileSize;
+	
+	// dest dir index
+	unsigned long ddIndex;
+	int adlsRaw;
+	int adlsPoints;
 	/// Search source type
 	enum SourceType {
 		TypeFirst = 0,
@@ -60,15 +67,7 @@ public:
 		TTHFile,
 		TypeLast
 	} sourceType;
-
-	SourceType StringToSourceType(const string& s);
-	string SourceTypeToString(SourceType t);
-
-	// Maximum & minimum file sizes (in bytes).
-	// Negative values means do not check.
-	int64_t minFileSize;
-	int64_t maxFileSize;
-
+	
 	enum SizeType {
 		SizeBytes	= TypeFirst,
 		SizeKibiBytes,
@@ -77,25 +76,25 @@ public:
 	};
 
 	SizeType typeFileSize;
+	/// Active search
+	bool isActive;
+
+	/// Auto Queue Results
+	bool isAutoQueue;
+
+	SourceType StringToSourceType(const string& s);
+	string SourceTypeToString(SourceType t);
 
 	SizeType StringToSizeType(const string& s);
 	string SizeTypeToString(SizeType t);
 	int64_t GetSizeBase();
-
-	/// Name of the destination directory (empty = 'ADLSearch') and its index
-	string destDir;
-	unsigned long ddIndex;
-
+	
 	bool isRegEx() const;
 	void setRegEx(bool b);
 	///@BMDC++
 	/* Forbiden */
 	bool isForbidden;
 	bool overRidePoints;
-	int adlsRaw;
-	int adlsPoints;
-	string adlsComment;
-	string kickString;
 	bool fromFavs;
 	bool isCaseSensitive;
 
@@ -114,8 +113,6 @@ private:
 	bool searchAll(const string& s);
 	//BMDC++
 	bool SearchAllTTH(const TTHValue& root) {
-		//if(!(&root)) { return false; }
-		//return TTHValue(root).toBase32() == searchString;
 		return (&root)->toBase32() == searchString;
 	}
 	//END
@@ -127,9 +124,9 @@ class ADLSearchManager : public Singleton<ADLSearchManager>
 public:
 	// Destination directory indexing
 	struct DestDir {
-		string name;
 		DirectoryListing::Directory* dir;
 		DirectoryListing::Directory* subdir;
+		string name;
 		bool fileAdded;
 		DestDir() : name(""), dir(NULL), subdir(NULL), fileAdded(false) {}
 	};
@@ -147,8 +144,8 @@ public:
 	void save();
 
 	// Settings
-	GETSET(bool, breakOnFirst, BreakOnFirst)
 	GETSET(HintedUser, user, User)
+	GETSET(bool, breakOnFirst, BreakOnFirst)
 
 	/// @remarks Used to add ADLSearch directories to an existing DirectoryListing
 	void matchListing(DirectoryListing& aDirList);

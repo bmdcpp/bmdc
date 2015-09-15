@@ -342,6 +342,29 @@
   <VirtualDirectory Name="ui">
     <File Name="ui/SConscript"/>
   </VirtualDirectory>
+  <VirtualDirectory Name="settings">
+    <File Name="settings/HiglitingPage.cpp"/>
+    <File Name="settings/AdvancedConnectionPage.cpp"/>
+    <File Name="settings/ApearencePage.cpp"/>
+    <File Name="settings/ChatPage.cpp"/>
+    <File Name="settings/ConnectionPage.cpp"/>
+    <File Name="settings/DownloadsPage.cpp"/>
+    <File Name="settings/DownloadToPage.cpp"/>
+    <File Name="settings/ExtraSharePage.cpp"/>
+    <File Name="settings/GeneralPage.cpp"/>
+    <File Name="settings/HigDialog.cpp"/>
+    <File Name="settings/NotifyPage.cpp"/>
+    <File Name="settings/OtherApearencePage.cpp"/>
+    <File Name="settings/OutConnectionPage.cpp"/>
+    <File Name="settings/PreviewPage.cpp"/>
+    <File Name="settings/QuenePage.cpp"/>
+    <File Name="settings/SConscript"/>
+    <File Name="settings/SettingsDialog.cpp"/>
+    <File Name="settings/SharingPage.cpp"/>
+    <File Name="settings/SoundPage.cpp"/>
+    <File Name="settings/TabsPage.cpp"/>
+    <File Name="settings/WindowPage.cpp"/>
+  </VirtualDirectory>
   <Settings Type="Dynamic Library">
     <GlobalSettings>
       <Compiler Options="" C_Options="" Assembler="">
@@ -372,7 +395,7 @@
       <CustomBuild Enabled="yes">
         <RebuildCommand>make Release</RebuildCommand>
         <CleanCommand>make clean</CleanCommand>
-        <BuildCommand>make Release</BuildCommand>
+        <BuildCommand>make Debug</BuildCommand>
         <PreprocessFileCommand/>
         <SingleFileCommand>make Release</SingleFileCommand>
         <MakefileGenerationCommand/>
@@ -429,27 +452,4 @@
       </Completion>
     </Configuration>
   </Settings>
-  <VirtualDirectory Name="settings">
-    <File Name="settings/HiglitingPage.cpp"/>
-    <File Name="settings/AdvancedConnectionPage.cpp"/>
-    <File Name="settings/ApearencePage.cpp"/>
-    <File Name="settings/ChatPage.cpp"/>
-    <File Name="settings/ConnectionPage.cpp"/>
-    <File Name="settings/DownloadsPage.cpp"/>
-    <File Name="settings/DownloadToPage.cpp"/>
-    <File Name="settings/ExtraSharePage.cpp"/>
-    <File Name="settings/GeneralPage.cpp"/>
-    <File Name="settings/HigDialog.cpp"/>
-    <File Name="settings/NotifyPage.cpp"/>
-    <File Name="settings/OtherApearencePage.cpp"/>
-    <File Name="settings/OutConnectionPage.cpp"/>
-    <File Name="settings/PreviewPage.cpp"/>
-    <File Name="settings/QuenePage.cpp"/>
-    <File Name="settings/SConscript"/>
-    <File Name="settings/SettingsDialog.cpp"/>
-    <File Name="settings/SharingPage.cpp"/>
-    <File Name="settings/SoundPage.cpp"/>
-    <File Name="settings/TabsPage.cpp"/>
-    <File Name="settings/WindowPage.cpp"/>
-  </VirtualDirectory>
 </CodeLite_Project>

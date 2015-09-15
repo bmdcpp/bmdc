@@ -49,12 +49,18 @@ public:
 	void update(const OnlineUser& info);
 
 	GETSET(UserPtr, user, User);
+private:
+	vector<string> nicks;
+public:	
 	GETSET(string, url, Url);
-	GETSET(time_t, lastSeen, LastSeen);
 	GETSET(string, description, Description);
 	GETSET(string, cid, Cid);
 	GETSET(string, ip, Ip);
-	
+private:
+	string nick;
+public:	
+	GETSET(time_t, lastSeen, LastSeen);
+		
 	void setNick(string _nick)
 	{
 		uint64_t count = 0;
@@ -87,9 +93,7 @@ public:
 	void setNicks(vector<string> _nicks) {
 			nicks = _nicks;
 	}
-private:
-	vector<string> nicks;
-	string nick;
+
 };
 
 } // namespace dcpp

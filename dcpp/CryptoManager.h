@@ -96,8 +96,6 @@ private:
 	DH* getTmpDH(int keyLen);
 	RSA* getTmpRSA(int keyLen);
 
-	bool certsLoaded;
-
 	static void* tmpKeysMap[KEY_LAST];
 	static CriticalSection* cs;
 	static char idxVerifyDataName[];
@@ -106,7 +104,8 @@ private:
 	ByteVector keyprint;
 	const string lock;
 	const string pk;
-
+	bool certsLoaded;
+	
 	string keySubst(const uint8_t* aKey, size_t len, size_t n);
 	
 	bool isExtra(uint8_t b) {

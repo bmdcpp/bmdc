@@ -36,6 +36,9 @@ STANDARD_EXCEPTION(ParseException);
 class CID;
 
 class AdcCommand {
+private:
+	StringList parameters;
+	string features;	
 public:
 	template<uint32_t T>
 	struct Type {
@@ -80,15 +83,6 @@ public:
 		SEV_FATAL = 2
 	};
 
-	static const char TYPE_BROADCAST = 'B';
-	static const char TYPE_CLIENT = 'C';
-	static const char TYPE_DIRECT = 'D';
-	static const char TYPE_ECHO = 'E';
-	static const char TYPE_FEATURE = 'F';
-	static const char TYPE_INFO = 'I';
-	static const char TYPE_HUB = 'H';
-	static const char TYPE_UDP = 'U';
-
 #if defined(_WIN32) || defined(__i386__) || defined(__x86_64__) || defined(__alpha)
 #define C(n, a, b, c) static const uint32_t CMD_##n = (((uint32_t)a) | (((uint32_t)b)<<8) | (((uint32_t)c)<<16)); typedef Type<CMD_##n> n
 #else
@@ -116,11 +110,26 @@ public:
 	C(RNT, 'R','N','T');
 	C(ZON, 'Z','O','N');
 	C(ZOF, 'Z','O','F');
-//	C(GFA, 'G','F','A');
-//	C(RFA, 'R','F','A');
 #undef C
 
 	static const uint32_t HUB_SID = 0xffffffff;		// No client will have this sid
+private:
+	union {
+		char cmdChar[4];
+		uint8_t cmd[4];
+		uint32_t cmdInt;
+	};
+	uint32_t from;
+	uint32_t to;
+public:
+	static const char TYPE_BROADCAST = 'B';
+	static const char TYPE_CLIENT = 'C';
+	static const char TYPE_DIRECT = 'D';
+	static const char TYPE_ECHO = 'E';
+	static const char TYPE_FEATURE = 'F';
+	static const char TYPE_INFO = 'I';
+	static const char TYPE_HUB = 'H';
+	static const char TYPE_UDP = 'U';
 
 	static uint32_t toFourCC(const char* x) { return *reinterpret_cast<const uint32_t*>(x); }
 	static string fromFourCC(uint32_t x) { return std::string(reinterpret_cast<const char*>(&x), sizeof(x)); }
@@ -176,15 +185,6 @@ private:
 	string getHeaderString(const CID& cid) const;
 	string getHeaderString(uint32_t sid, bool nmdc) const;
 	string getParamString(bool nmdc) const;
-	StringList parameters;
-	string features;
-	union {
-		char cmdChar[4];
-		uint8_t cmd[4];
-		uint32_t cmdInt;
-	};
-	uint32_t from;
-	uint32_t to;
 	char type;
 
 };

@@ -75,6 +75,27 @@ public:
 	static const vector<StringList>& getSearchExts();
 	static StringList parseSearchExts(int flag);
 
+private:
+	friend class ClientManager;
+	friend class CommandHandler<AdcHub>;
+	friend class Identity;
+
+	AdcHub(const string& aHubURL, bool secure);
+
+	virtual ~AdcHub();
+
+	/** Map session id to OnlineUser */
+	typedef unordered_map<uint32_t, OnlineUser*> ADCMap;
+	typedef HubUsersMap<true, ADCMap> SIDMap;
+	typedef SIDMap::const_iterator SIDIter;
+
+	Socket udp;
+	SIDMap users;
+	static const vector<StringList> searchExts;
+	StringMap lastInfoMap;
+	std::unordered_set<uint32_t> forbiddenCommands;
+	string salt;
+public:
 	static const string CLIENT_PROTOCOL;
 	static const string SECURE_CLIENT_PROTOCOL_TEST;
 	static const string ADCS_FEATURE;
@@ -90,35 +111,9 @@ public:
 	static const string UCM0_SUPPORT;
 	static const string BLO0_SUPPORT;
 	static const string ZLIF_SUPPORT;
-//new
-//	static const string DFAV_FEATURE;
-//	static const string DFAV_SUPPORT;
-
-private:
-	friend class ClientManager;
-	friend class CommandHandler<AdcHub>;
-	friend class Identity;
-
-	AdcHub(const string& aHubURL, bool secure);
-
-	virtual ~AdcHub();
-
-	/** Map session id to OnlineUser */
-	typedef unordered_map<uint32_t, OnlineUser*> ADCMap;
-	typedef HubUsersMap<true, ADCMap> SIDMap;
-	typedef SIDMap::const_iterator SIDIter;
-
-	bool oldPassword;
-	Socket udp;
-	SIDMap users;
-	StringMap lastInfoMap;
-
-	string salt;
+private:	
 	uint32_t sid;
-
-	std::unordered_set<uint32_t> forbiddenCommands;
-
-	static const vector<StringList> searchExts;
+	bool oldPassword;
 
 	virtual void checkNick(string& nick);
 
@@ -146,62 +141,7 @@ private:
 	void handle(AdcCommand::RNT, AdcCommand& c) noexcept;
 	void handle(AdcCommand::ZON, AdcCommand& c) noexcept;
 	void handle(AdcCommand::ZOF, AdcCommand& c) noexcept;
-/*	
-	void handle(AdcCommand::GFA, AdcCommand& c) noexcept
-	{
-		if(state != STATE_PROTOCOL) {
-			return;
-		}
-		if(c.getType() == AdcCommand::TYPE_BROADCAST)
-		{
-			auto entries = FavoriteManager::getInstance()->getFavoriteHubs();
-			for(auto i:entries) {
-				string hubUrl = i->getServer();
-				bool isNotPrivate = i->getPrivate();
-				if(isNotPrivate == false) {
-					AdcCommand x(AdcCommand::CMD_RFA,c.getTo(),AdcCommand::TYPE_CLIENT);
-					x.addParam("NI", i->getName());
-					x.addParam("DE", i->getHubDescription());
-					x.addParam("HA", hubUrl);
-					x.addParam("LG", "0");
-					send(x);
-				}
-			}
-		}
-		
-	}
-	
-	void handle(AdcCommand::RFA, AdcCommand& c) noexcept
-	{
-		
-		if(c.getType() == AdcCommand::TYPE_CLIENT)
-		{
-			if(c.getFrom() == sid)
-			{
-				string nick,desc,url,login;
-				if(!c.getParam("NI",0, nick))
-					nick = "Unknown Hub";
-					
-				if(!c.getParam("DE",1,desc))
-					desc = "No Description";
-				
-				//if(!c.getParam("LO",3,login))
-				//	login = "-1";
-					
-				if(!c.getParam("HA",2,url))
-					return;
-				
-				FavoriteHubEntry fu;
-				fu.setName(nick);
-				fu.setHubDescription(desc);
-				fu.setServer(url);
-				fu.setGroup("RFA HUBS");//todo beter name? maybe setable
-				FavoriteManager::getInstance()->addFavorite(fu);
-				
-			}
-		}
-	}
-*/
+
 	template<typename T> void handle(T, AdcCommand&) { }
 
 	void sendSearch(AdcCommand& c);

@@ -248,44 +248,43 @@ private:
 		ImageLoad imageLoad;
 		dcpp::StringPair imageMagnet;
 		GtkTextTag *TagsMap[Tag::TAG_LAST];
-		std::string completionKey;
 		dcpp::Client *client;
 		TreeView nickView;
 		GtkListStore *nickStore;
 		GtkTreeSelection *nickSelection;
 		GtkTextBuffer *chatBuffer;
 		GtkTextMark *chatMark, *start_mark, *end_mark, *tag_mark, *emot_mark;
-		gint oldType;
 		std::vector<std::string> history;
+		GdkCursor *handCursor;
+		GtkTextTag *selectedTag;
+		UserCommandMenu *userCommandMenu, *userCommandMenu1, *userCommandMenu2;
+		EmoticonsDialog *emotdialog;
+		GtkTextTag *BoldTag, *UnderlineTag, *ItalicTag;
+		std::queue<std::string> statustext;
+		static const std::string tagPrefix;
+		std::string completionKey;
+		std::string ip;
+		std::string sort; //sort order for TreeView
+		std::string address;
+		std::string encoding;
+		std::string selectedTagStr;
+		GtkWidget *tab_image;
+		GtkWidget *tab_button;
+		GtkWidget *m_menu;
+		Tag::TypeTag tagMsg;
 		unsigned int historyIndex;
 		static const int maxLines = 1000;
 		static const int maxHistory = 30;
 		int64_t totalShared;
-		GdkCursor *handCursor;
-		GtkTextTag *selectedTag;
-		std::string selectedTagStr;
-		UserCommandMenu *userCommandMenu, *userCommandMenu1, *userCommandMenu2;
-		std::string address;
-		std::string encoding;
-		bool scrollToBottom;
-		static const std::string tagPrefix;
-		Tag::TypeTag tagMsg;
-		bool useEmoticons;
+		int ImgLimit;
 		gint totalEmoticons;
-		EmoticonsDialog *emotdialog;
+		gint oldType;
+		bool scrollToBottom;
 		bool PasswordDialog;
 		bool WaitingPassword;
-
-		int ImgLimit;
-		GtkTextTag *BoldTag, *UnderlineTag, *ItalicTag;
-		std::queue<std::string> statustext;
-		std::string ip;
-		GtkWidget *tab_image;
-		GtkWidget *tab_button;
-		GtkWidget *m_menu;
+		bool useEmoticons;
 		bool notCreated;
 		bool isFavBool; 
-		std::string sort; //sort order for TreeView
 
 };
 #else

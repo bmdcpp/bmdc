@@ -130,14 +130,13 @@ private:
 		map<string, int64_t> w;
 		mutable CriticalSection cs;
 		Semaphore s;
-
-		bool stop;
-		bool running;
-		unsigned paused;
-		bool rebuild;
 		string currentFile;
 		int64_t currentSize;
-
+		unsigned paused;
+		bool stop;
+		bool running;
+		bool rebuild;
+		
 		void instantPause();
 	};
 
@@ -178,8 +177,8 @@ private:
 
 			bool operator==(const string& name) { return name == fileName; }
 
-			GETSET(string, fileName, FileName);
 			GETSET(TTHValue, root, Root);
+			GETSET(string, fileName, FileName);
 			GETSET(uint32_t, timeStamp, TimeStamp);
 			GETSET(bool, used, Used);
 		};
