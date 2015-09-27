@@ -159,6 +159,7 @@ MainWindow::MainWindow():
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("leftToolbarItem")), FALSE);
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("hideToolbarItem")), (WGETI("toolbar-style") == 4) ? TRUE : FALSE);
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("sizeToolbarItem")), WGETB("toolbar-small"));
+	
 	if (WGETB("toolbar-small"))
 		g_object_set(G_OBJECT(child), "icon-size", GTK_ICON_SIZE_SMALL_TOOLBAR, NULL);
 
@@ -452,12 +453,12 @@ MainWindow::MainWindow():
 	Sound::start();
 	Emoticons::start();
 	Notify::start();
-
+/*
 	if(SETTING(GET_USER_COUNTRY)) {
 			checkUpdateofGeoIp(true);
 			checkUpdateofGeoIp(false);
 	}
-
+*/
 	PluginManager::getInstance()->runHook(HOOK_UI_CREATED, getContainer(), NULL);
 }
 
@@ -474,7 +475,7 @@ MainWindow::~MainWindow()
 
 	// Save window state and position
 	gint posX, posY, sizeX, sizeY, transferPanePosition;
-	bool maximized = TRUE;
+	bool maximized = true;
 	GdkWindowState gdkState;
 
 	gtk_window_get_position(window, &posX, &posY);
@@ -483,7 +484,7 @@ MainWindow::~MainWindow()
 	transferPanePosition = sizeY - gtk_paned_get_position(GTK_PANED(getWidget("pane")));
 
 	if (!(gdkState & GDK_WINDOW_STATE_MAXIMIZED)) {
-		maximized = FALSE;
+		maximized = false;
 		WSET("main-window-pos-x", posX);
 		WSET("main-window-pos-y", posY);
 		WSET("main-window-size-x", sizeX);
@@ -2382,7 +2383,7 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget*, gpointer data)
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(mw->getWidget("statusIconBlinkUseItem")), WGETB("status-icon-blink-use"));
 
 		// Emoticons
-		if (emoticons != SETTING(USE_EMOTS)/*WGETB("emoticons-use")*/)
+		if (emoticons != SETTING(USE_EMOTS))
 			Emoticons::get()->reloadPack_gui();
 
 		// Toolbar
@@ -2988,13 +2989,11 @@ if(_idleDetectionPossible) {
 		if (idlesecs > WGETI("idle-time")) {
 			g_print("Idle: Away Mode on");
 				if(!dcpp::Util::getAway()) {//dont set away twice
-					
+
 					dcpp::Util::setAway(true);
 					dcpp::Util::setManualAway(true);
-					
 					setStatusOfIcons(AWAY,true);
 					setMainStatus_gui(_("Away mode on"));
-
 			}
 		}
 	}
@@ -3109,7 +3108,7 @@ int MainWindow::TTHHash::run()
 	stop = true;
 	return 0;
 }
-
+/*
 void MainWindow::checkUpdateofGeoIp(bool v6)
 {
 	try {
@@ -3145,7 +3144,7 @@ void MainWindow::completeGeoIpUpdate(const string &buf, bool v6)
 	}
 	LogManager::getInstance()->message(string(_("The GeoIP database could not be updated...v")) + (v6 ? "IPv6" : "IPv4"));
 
-}
+}*/
 ///Close all
 void MainWindow::onCloseAllHub_gui(GtkWidget*, gpointer data)
 {

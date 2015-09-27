@@ -316,9 +316,9 @@ class MainWindow:
 		void startSocket_client();
 		void refreshFileList_client();
 		void addFileDownloadQueue_client(std::string name, int64_t size, std::string tth);
-		void checkUpdateofGeoIp(bool v6);
-		void updateGeoIp(bool v6);
-		void completeGeoIpUpdate(const std::string& buf, bool v6);
+//		void checkUpdateofGeoIp(bool v6);
+//		void updateGeoIp(bool v6);
+//		void completeGeoIpUpdate(const std::string& buf, bool v6);
 		void removeItemFromList(Entry::EntryType type, std::string id);
 		//[BMDC++
 		void setInitThrotles();
@@ -403,14 +403,14 @@ class MainWindow:
 				}
 				int run();
 		};
-
+/*
 		enum
 		{
 			CONN_GEOIP_V4,
 			CONN_GEOIP_V6,
 			CONN_LAST
 		};
-
+*/
 		struct Widgets
 		{
 		  public:
@@ -419,7 +419,7 @@ class MainWindow:
 			GtkWidget *label;
 		};
 
-		std::unique_ptr<dcpp::HttpDownload> conns[CONN_LAST];
+//		std::unique_ptr<dcpp::HttpDownload> conns[CONN_LAST];
 
 		std::vector<Entry*> privateMessage;
 		std::vector<Entry*> Hubs;

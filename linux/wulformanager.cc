@@ -170,7 +170,6 @@ void WulforManager::deleteEntry_gui(Entry *entry)
 	g_rw_lock_writer_unlock(&entryMutex);
 
 	delete entry;
-	entry = NULL;
 }
 
 bool WulforManager::isEntry_gui(Entry *entry)
@@ -223,13 +222,11 @@ gint WulforManager::openSettingsDialog_gui()
 {
 #ifdef USE_NEW_SETTINGS
 	SettingsDialog *s = new SettingsDialog();
-	/*gint response = */s->run();
-
+	s->run();
 	return 1;
 #else	
 	Settings *s = new Settings();
 	gint response = s->run();
-
 	return response;
 #endif	
 }

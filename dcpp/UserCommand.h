@@ -34,7 +34,7 @@ using std::vector;
 class UserCommand : public Flags {
 public:
 	typedef vector<UserCommand> List;
-
+ 
 	enum {
 		TYPE_SEPARATOR,
 		TYPE_RAW,

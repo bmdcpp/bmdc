@@ -405,7 +405,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		}
 		//ipv6
 		if( (aMode & 0x80) == 0x80) {//same as above
-			u.getIdentity().set("IX","1");
+			u.getIdentity().set("IX", "1");
 		}	
 		else
 			u.getIdentity().set("IX",Util::emptyString);
@@ -451,7 +451,9 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			return;
 		}
 	} else if(cmd == "$ConnectToMe") {
-		//$ConnectToMe PPK [::1]:1234| 
+		//$ConnectToMe PPK [::1]:1234|
+		//or
+		//$ConnectToMe PPK 10.0.0.34:1234|
 		dcdebug("%s",param.c_str());
 		string::size_type i = param.find(' ');
 		string::size_type j;
@@ -469,7 +471,6 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		size_t y = p.find('[');
 		bool b_ip6 = false;
 		if(!p.empty() &&  p[0] == '[') {//demangle ip6
-
 			size_t x = p.rfind(']');
 			if(x == string::npos)return;
 			server=p.substr(y+1,x-1);	
@@ -483,7 +484,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			return;
 			
 		dcdebug("Port %d",p_port);
-		if(b_ip6 && !server.empty()/* &&  sock->isV6Valid() && Util::isIp6(server) == true*/)
+		if(b_ip6 && !server.empty())
 		{
 			dcdebug("%s",server.c_str());
 		}
@@ -493,15 +494,15 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				fire(ClientListener::StatusMessage(), this, unescape("This user "+param.substr(i,j-i)+" has the viruses in share!"), ClientListener::FLAG_VIRUS);
 				return;
 			}				
-			//isOk =	(inet_addr(server.c_str()) != INADDR_NONE);
 		}		
 		if(isProtectedIP(server))
 			return;
 
-		if( p_port < 1/* || p_port > 65535*/)
-				return;
+		if( p_port < 1)
+			return;
+				
 		ConnectionManager::getInstance()->nmdcConnect(server, p_port, getMyNick(), getHubUrl(), getEncoding());
-			// For simplicity, we make the assumption that users on a hub have the same character encoding
+		// For simplicity, we make the assumption that users on a hub have the same character encoding
 	} else if(cmd == "$RevConnectToMe") {
 		if(state != STATE_NORMAL) {
 			return;
@@ -516,7 +517,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		if(u == NULL)
 			return;
 
-		if(ClientManager::getInstance()->isActive(getHubUrl()) || ( /*sock->isV6Valid() && */isActiveV6() && u->getIdentity().isSet("IX"))   ) {
+		if(ClientManager::getInstance()->isActive(getHubUrl()) || ( isActiveV6() && u->getIdentity().isSet("IX")) ) {
 			connectToMe(*u);
 			if(u->getUser()->isSet(User::PASSIVE)) {
         			u->getUser()->setFlag(User::PASSIVE);

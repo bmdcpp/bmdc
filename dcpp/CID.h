@@ -27,10 +27,10 @@
 namespace dcpp {
 
 using std::find_if;
-
+#define CIDSIZE 24
 class CID {
 public:
-	enum { SIZE = 192 / 8 };
+	//enum { SIZE = 192 / 8 };
 
 	CID() { memset(cid, (uint8_t)0, sizeof(cid)); }
 	explicit CID(const uint8_t* data) { memcpy(cid, data, sizeof(cid)); }
@@ -50,12 +50,12 @@ public:
 	}
 	const uint8_t* data() const { return cid; }
 
-	explicit operator bool() const { return find_if(cid, cid + SIZE, [](uint8_t c) { return c != 0; }) != cid + SIZE; }
+	explicit operator bool() const { return find_if(cid, cid + CIDSIZE, [](uint8_t c) { return c != 0; }) != cid + CIDSIZE; }
 
 	static CID generate();
 
 private:
-	uint8_t cid[SIZE];
+	uint8_t cid[CIDSIZE];
 };
 
 } // namespace dcpp

@@ -252,7 +252,7 @@ UserPtr ClientManager::getUser(const string& aNick, const string& aHubUrl) noexc
 
 	UserIter ui = users.find(cid);
 	if(ui != users.end()) {
-		if(ui->second) {
+		if(ui->second->getCID()) {//there should always have CID
 			ui->second->setFlag(User::NMDC);
 			return ui->second;
 		}
@@ -271,7 +271,7 @@ UserPtr ClientManager::getUser(const CID& cid) noexcept {
 	if(ui != users.end()) {
 		return ui->second;
 	}
-	//or?
+
 	if(cid == getMe()->getCID()) { //should create only one instance of yourself
 		return getMe();
 	}
@@ -323,6 +323,7 @@ void ClientManager::putOnline(OnlineUser* ou) noexcept {
 		ou->getUser()->setFlag(User::ONLINE);
 		ou->initializeData(); //RSX++-like
 		fire(ClientManagerListener::UserConnected(), ou->getUser());
+	//	LogManager::getInstance()->message("[ClientManager] User with cid"+ou->getUser()->getCID().toBase32()+"Connected");
 	}
 }
 
@@ -332,8 +333,9 @@ void ClientManager::putOffline(OnlineUser* ou, bool disconnect) noexcept {
 		Lock l(cs);
 		auto op = onlineUsers.equal_range(ou->getUser()->getCID());
 		dcassert(op.first != op.second);
+		OnlineUser* ou2 = nullptr;
 		for(auto i = op.first; i != op.second; ++i) {
-			OnlineUser* ou2 = i->second;
+			ou2 = i->second;
 			if(ou == ou2) {
 				diff = distance(op.first, op.second);
 				onlineUsers.erase(i);
@@ -341,7 +343,11 @@ void ClientManager::putOffline(OnlineUser* ou, bool disconnect) noexcept {
 			}
 		}
 	}
-
+/*
+	string nick = ou->getIdentity().getNick();
+	string cid = ou->getUser()->getCID().toBase32();
+	string hub = ou->getClient().getHubUrl();
+*/
 	if(diff == 1) { //last user
 		UserPtr u = ou->getUser();
 		u->unsetFlag(User::ONLINE);
@@ -350,6 +356,7 @@ void ClientManager::putOffline(OnlineUser* ou, bool disconnect) noexcept {
 			ConnectionManager::getInstance()->disconnect(u);
 
 		fire(ClientManagerListener::UserDisconnected(), u);
+	//	LogManager::getInstance()->message("[ClientManager] User:"+nick+"CID:"+cid+"from HUB:"+hub+"disconnected");
 	} else if(diff > 1) {
 			fire(ClientManagerListener::UserUpdated(), *ou);
 	}
@@ -516,7 +523,7 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				
 				parsePortIp(seek,ip,port);
 				
-				if( (aClient ) || static_cast<NmdcHub*>(aClient)->isProtectedIP(ip))
+				if( (aClient) || static_cast<NmdcHub*>(aClient)->isProtectedIP(ip))
 					return;
 						
 				bool isOk = false;
@@ -524,7 +531,8 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 					isOk = true;
 				else
 					isOk = (inet_addr(ip.c_str()) != INADDR_NONE);
-				//port should be number and since is it uint16 no need check again 65535	
+				//port should be number and since is it uint16 no need check again 65535
+				//and IP is already checked above	
 				if( port < 1)
 					return;
 						
@@ -626,7 +634,7 @@ const CID& ClientManager::getMyPID() {
 
 CID ClientManager::getMyCID() {
 	TigerHash tiger;
-	tiger.update(getMyPID().data(), CID::SIZE);
+	tiger.update(getMyPID().data(), CIDSIZE);
 	return CID(tiger.finalize());
 }
 
@@ -668,11 +676,12 @@ void ClientManager::setIpAddress(const UserPtr& p, const string& ip) {
 	OnlineIterC i = onlineUsers.find(p->getCID());
 	if(i != onlineUsers.end()) {
 		bool ipv6 = false;	
-		//if(ip.find_first_of(':') != ip.find_last_of(':')) {//IPv6
+
 		if(Util::isIp6(ip)) {
 			i->second->getIdentity().set("I6", ip);
 			ipv6 = true;
 		}
+		
 		if( ipv6 == false) {
 			i->second->getIdentity().set("I4", ip);
 		}

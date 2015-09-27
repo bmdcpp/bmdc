@@ -59,8 +59,6 @@ const string AdcHub::TIGR_SUPPORT("ADTIGR");
 const string AdcHub::UCM0_SUPPORT("ADUCM0");
 const string AdcHub::BLO0_SUPPORT("ADBLO0");
 const string AdcHub::ZLIF_SUPPORT("ADZLIF");
-//const string AdcHub::DFAV_FEATURE("DFAV");
-//const string AdcHub::DFAV_SUPPORT("ADDFAV");
 
 const vector<StringList> AdcHub::searchExts;
 
@@ -960,7 +958,7 @@ void AdcHub::password(const string& pwd) {
 		TigerHash th;
 		if(oldPassword) {
 			CID cid = getMyIdentity().getUser()->getCID();
-			th.update(cid.data(), CID::SIZE);
+			th.update(cid.data(), CIDSIZE);
 		}
 		th.update(pwd.data(), pwd.length());
 		th.update(buf, saltBytes);

@@ -29,8 +29,15 @@
 
 namespace dcpp {
 
-GeoIP::GeoIP(string&& path) : geo(nullptr), path(move(path)) {
-	if(File::getSize(path) > 0 || decompress()) {
+GeoIP::GeoIP(string&& _path) : geo(nullptr), path(move(_path)) {
+#ifdef _WIN32	
+	if(File::getSize(path) > 0 
+	|| decompress()
+	)
+#else 
+	if(Util::fileExists(path) == true)
+#endif	
+	{
 		open();
 	}
 }
@@ -57,7 +64,6 @@ const string GeoIP::getCountryAB(const string& ip) const {
         auto id = v6() ? GeoIP_id_by_addr_v6(geo,ip.c_str()) : GeoIP_id_by_addr(geo,ip.c_str());
         if(id > 0)
         {
-            //string code = GeoIP_code_by_id(id);
             return GeoIP_code_by_id(id);
         }
      }
@@ -68,10 +74,13 @@ void GeoIP::update() {
 	Lock l(cs);
 
 	close();
-
+#ifdef _WIN32
 	if(decompress()) {
+#endif		
 		open();
+#ifdef _WIN32		
 	}
+#endif	
 }
 
 namespace {
@@ -130,7 +139,7 @@ void GeoIP::rebuild() {
 		}
 	}
 }
-
+#ifdef _WIN32
 bool GeoIP::decompress() const {
 	if(File::getSize(path + ".gz") <= 0) {
 		return false;
@@ -141,7 +150,7 @@ bool GeoIP::decompress() const {
 
 	return true;
 }
-
+#endif
 void GeoIP::open() {
 	geo = GeoIP_open(path.c_str(), GEOIP_STANDARD);
 	if(geo) {

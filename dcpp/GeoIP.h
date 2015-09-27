@@ -32,7 +32,7 @@ using std::vector;
 
 class GeoIP {
 public:
-	explicit GeoIP(string&& path);
+	explicit GeoIP(string&& _path);
 	~GeoIP();
 
 	const string& getCountry(const string& ip) const;
@@ -41,7 +41,9 @@ public:
 	void rebuild();
 
 private:
+#ifdef _WIN32
 	bool decompress() const;
+#endif	
 	void open();
 	void close();
 	bool v6() const;
