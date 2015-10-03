@@ -218,8 +218,6 @@ public:
 				C(RNT);
 				C(ZON);
 				C(ZOF);
-//				C(GFA);
-//				C(RFA);
 			default:
 				dcdebug("Unknown ADC command: %.50s\n", aLine.c_str());
 				break;

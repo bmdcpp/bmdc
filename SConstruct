@@ -35,7 +35,7 @@ NEW_SETTING = False
 #,'-Weffc++'
 BUILD_FLAGS = {#'-Wno-unused-parameter','-Wno-unused-value',
 	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib','-ldl', '-pipe','-DUSE_STACKTRACE'],
-	'debug'   : ['-O1','-g', '-ggdb', '-Wall','-Wextra','-D_DEBUG','-Wpadded'],#'-fpermissive'
+	'debug'   : ['-O1','-g', '-ggdb', '-Wall','-Wextra','-D_DEBUG'],#'-fpermissive' ,'-Wpadded'
 	'release' : ['-O3', '-fomit-frame-pointer', '-DNDEBUG']
 }
 

@@ -40,9 +40,11 @@ struct HintedUser {
 	}
 	bool operator==(const HintedUser& rhs) const {
 		if(hint.empty())
-			return user == rhs.user;
+			return user.get()->getCID() == rhs.user.get()->getCID();
+		
 		if(hint == rhs.hint)
-				return true;
+			return true;
+		
 		return false;//not same user
 		// ignore the hint, we don't want lists with multiple instances of the same user...
 	}
@@ -50,7 +52,7 @@ struct HintedUser {
 	operator UserPtr() const { return user; }
 	operator const CID&() const { return user->getCID(); }
 
-	explicit operator bool() const { return user.get(); }
+	//explicit operator bool() const { return user.get(); }
 };
 
 }

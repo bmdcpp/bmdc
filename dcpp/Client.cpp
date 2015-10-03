@@ -115,11 +115,11 @@ void Client::reloadSettings(bool updateNick) {
 		setCheckAtConnect(false);
 		setCheckClients(false);
 		setCheckFilelists(false);
-        //]
+		//]
 	}
 	
 	if(updateNick) {
-        string curNick = HUBSETTING(NICK);
+		string curNick = HUBSETTING(NICK);
 		checkNick(curNick);
 		set(SettingsManager::NICK, curNick);
 	}else
@@ -172,6 +172,7 @@ void Client::send(const char* aMessage, size_t aLen) {
 		return;
 	}
 	dcdebug("\nPlugins");
+	
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_OUT, this, aMessage))
 		return;
 		
@@ -201,10 +202,10 @@ void Client::on(Connected) noexcept {
 	sLocalIP = sock->getLocalIp();
 	
 	 if(sock->isV6Valid() && sLocalIP.empty() == false && strchr(sLocalIP.c_str(), '.') == false) {
-        bIPv6 = true;
-    } else {
-        bIPv4 = true;
-    }
+		bIPv6 = true;
+	} else {
+		bIPv4 = true;
+	}
 	
 	fire(ClientListener::Connected(), this);
 	state = STATE_PROTOCOL;
@@ -311,8 +312,6 @@ const string& Client::getUserIp4() const {
 }
 
 const string& Client::getUserIp6() const {
-	//if(!sock->getLocalIp().empty())//best case
-	//	return sock->getLocalIp();
 
 	if(!getMyIdentity().getIp6().empty())
 		return getMyIdentity().getIp6();

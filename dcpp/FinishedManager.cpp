@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -87,6 +87,7 @@ void FinishedManager::removeAll(bool upload) {
 		clearULs();
 	else
 		clearDLs();
+		
 	fire(FinishedManagerListener::RemovedAll(), upload);
 }
 

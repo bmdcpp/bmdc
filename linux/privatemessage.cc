@@ -189,6 +189,7 @@ PrivateMessage::~PrivateMessage()
 	g_object_unref(getWidget("chatCommandsMenu"));
 
 	delete emotdialog;
+	
 }
 
 void PrivateMessage::show()

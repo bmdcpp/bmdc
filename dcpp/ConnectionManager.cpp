@@ -283,7 +283,7 @@ int ConnectionManager::Server::run() noexcept {
 				}
 
 				// Spin for 60 seconds
-				for(auto i = 0; i < 60 && !die; ++i) {
+				for(int i = 0; i < 60 && !die; ++i) {
 					Thread::sleep(1000);
 				}
 			}
@@ -362,7 +362,6 @@ void ConnectionManager::adcConnect(const OnlineUser& aUser, const uint16_t& aPor
 	
 	if(uc->getHubUrl().empty() || !hubUrl.empty())
 		uc->setHubUrl(hubUrl);
-	
 	
 	if(aUser.getIdentity().isOp()) {
 		uc->setFlag(UserConnection::FLAG_OP);

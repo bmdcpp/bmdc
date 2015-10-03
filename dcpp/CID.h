@@ -27,6 +27,7 @@
 namespace dcpp {
 
 using std::find_if;
+//192/8 == 24
 #define CIDSIZE 24
 class CID {
 public:
