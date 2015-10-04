@@ -19,18 +19,19 @@
  * using OpenSSL with this program is allowed.
  */
 
-#ifndef WULFOR_FUNC_HH
-#define WULFOR_FUNC_HH
+#ifndef _FUNC_HH
+#define _FUNC_HH
 
 class FuncBase
 {
 	public:
 		FuncBase() {}
 		virtual ~FuncBase() {}
-		static bool call_(gpointer d) {
-			return ((FuncBase*)d)->call();
+		static gboolean call_(gpointer d) {
+			((FuncBase*)d)->call();
+                        return FALSE;
 		};
-		virtual bool call() = 0;
+		virtual void call() = 0;
 		virtual const std::string& getID() = 0;
 };
 
@@ -44,9 +45,8 @@ class Func0: public FuncBase
 			this->func = func;
 		}
 
-		bool call() {
+		void call() {
 			(*obj.*func)();
-			return FALSE;
 		}
 
 		const std::string& getID()
@@ -70,9 +70,8 @@ class Func1: public FuncBase
 			this->func = func;
 		}
 
-		bool call() {
+		void call() {
 			(*obj.*func)(_param1);
-			return FALSE;
 		}
 
 		const std::string& getID()
@@ -98,9 +97,8 @@ class Func2: public FuncBase
 			this->func = func;
 		}
 
-		bool call() {
+		void call() {
 			(*obj.*func)(_param1, _param2);
-			return FALSE;
 		}
 
 		const std::string& getID()
@@ -128,9 +126,8 @@ class Func3: public FuncBase
 			this->func = func;
 		}
 
-		bool call() {
+		void call() {
 			(*obj.*func)(_param1, _param2, _param3);
-			return FALSE;
 		}
 
 		const std::string& getID()
@@ -161,9 +158,8 @@ class Func4: public FuncBase
 			this->func = func;
 		}
 
-		bool call() {
+		void call() {
 			(*obj.*func)(_param1, _param2, _param3, _param4);
-			return FALSE;
 		}
 
 		const std::string& getID()
@@ -196,9 +192,8 @@ class Func5: public FuncBase
 			this->func = func;
 		}
 
-		bool call() {
+		void call() {
 			(*obj.*func)(_param1, _param2, _param3, _param4, _param5);
-			return FALSE;
 		}
 
 		const std::string& getID()
@@ -233,9 +228,8 @@ class Func6: public FuncBase
 			this->func = func;
 		}
 
-		bool call() {
+		void call() {
 			(*obj.*func)(_param1, _param2, _param3, _param4, _param5, _param6);
-			return FALSE;
 		}
 
 		const std::string& getID()
@@ -272,9 +266,8 @@ class Func7: public FuncBase
 			this->func = func;
 		}
 
-		bool call() {
+		void call() {
 			(*obj.*func)(_param1, _param2, _param3, _param4, _param5, _param6, _param7);
-			return FALSE;
 		}
 
 		const std::string& getID()
@@ -315,10 +308,10 @@ class Func8: public FuncBase
 			this->func = func;
 		}
 
-		bool call() {
+		void call() {
 			(*obj.*func)(_param1, _param2, _param3, _param4, _param5, _param6,
 				_param7, _param8);
-				return FALSE;
+			
 		}
 
 		const std::string& getID()
@@ -361,10 +354,9 @@ class Func9: public FuncBase
 			this->func = func;
 		}
 
-		bool call() {
+		void call() {
 			(*obj.*func)(_param1, _param2, _param3, _param4, _param5, _param6,
 				_param7, _param8, _param9);
-				return FALSE;
 		}
 
 		const std::string& getID()

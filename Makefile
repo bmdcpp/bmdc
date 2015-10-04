@@ -4,7 +4,7 @@ all:
 	scons install
 Release:
 	mkdir -p ${HOME}/BMDC-release/
-	scons PREFIX=${HOME}/BMDC-release/ release=1 libxattr=1 newSettings=1 -j9
+	scons PREFIX=${HOME}/BMDC-release/ release=1 libxattr=1 newSettings=0 -j9
 	scons install
 	chmod +x ${HOME}/BMDC-release/bin/bmdc
 Debug:

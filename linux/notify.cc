@@ -228,9 +228,16 @@ void Notify::showNotify(const string &head, const string &body, TypeNotify notif
 
 void Notify::showNotify(const string &title, const string &head, const string &body, const string &icon, const int iconSize, NotifyUrgency urgency)
 {
+	dcdebug("1 Notify?");	
 	#ifdef HAVE_NOTIFY
-	if (title.empty() || notification == NULL || head.empty() || body.empty() || urgency < 1)
+//@ only title is Fatal	
+	if(title.empty())
 		return;
+	
+	//if (title.empty() || notification == NULL || head.empty() || body.empty() || urgency < 1)
+	//	return;
+		
+	dcdebug("2 Notify?");	
 
 	gchar *esc_title = g_markup_escape_text(title.c_str(), -1);
 	gchar *esc_body = g_markup_escape_text(body.c_str(), -1);

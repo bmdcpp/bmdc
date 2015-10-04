@@ -453,12 +453,7 @@ MainWindow::MainWindow():
 	Sound::start();
 	Emoticons::start();
 	Notify::start();
-/*
-	if(SETTING(GET_USER_COUNTRY)) {
-			checkUpdateofGeoIp(true);
-			checkUpdateofGeoIp(false);
-	}
-*/
+
 	PluginManager::getInstance()->runHook(HOOK_UI_CREATED, getContainer(), NULL);
 }
 
