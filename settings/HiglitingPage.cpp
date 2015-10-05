@@ -34,7 +34,7 @@ void HigPage::show(GtkWidget* parent, GtkWidget* old)
 	higTree = TreeView();
 	higTree.setView(GTK_TREE_VIEW(gtk_tree_view_new()));
 
-	higTree.insertColumn(_("Name"), G_TYPE_STRING, TreeView::STRING,-1);
+	higTree.insertColumn(_("String"), G_TYPE_STRING, TreeView::STRING,-1);
 	higTree.insertHiddenColumn("HigPointer", G_TYPE_POINTER);
 	higTree.finalize();
 
