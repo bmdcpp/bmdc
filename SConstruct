@@ -456,11 +456,11 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		env.Program(target = PACKAGE, source = [libdcpp, pmp,settings_files, obj_files])
 	elif NEW_SETTING:
 		env.Program(target = PACKAGE, source = [libdcpp,settings_files, obj_files])
-	elif not NEW_SETTING and not LIB_IS_NATPMP and not LIB_IS_UPNP:
+	elif not NEW_SETTING and not LIB_IS_UPNP and not LIB_IS_NATPMP:
 		env.Program(target = PACKAGE, source = [libdcpp,obj_files])	
-	elif not NEW_SETTING and not LIB_IS_NATPMP:
-		env.Program(target = PACKAGE, source = [libdcpp,upnp,obj_files])
 	elif not NEW_SETTING and not LIB_IS_UPNP:
+		env.Program(target = PACKAGE, source = [libdcpp,upnp,obj_files])
+	elif not NEW_SETTING and not LIB_IS_NATPMP:
 		env.Program(target = PACKAGE, source = [libdcpp,pmp,obj_files])
 	elif not NEW_SETTING:
 		env.Program(target = PACKAGE, source = [libdcpp,obj_files])	
