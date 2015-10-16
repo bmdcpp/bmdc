@@ -36,7 +36,7 @@ class FavoriteHubDialog: public Entry
 {
    public:
    		//@: entry : The Fav Entry to process to dialog, add = if new or editing existing one
-		FavoriteHubDialog(FavoriteHubEntry* entry, bool );
+		FavoriteHubDialog(FavoriteHubEntry* entry);
 		//@: groups : wich groups should dialog show up
 		bool initDialog(UnMapIter &groups);
 		

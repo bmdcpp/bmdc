@@ -262,7 +262,7 @@ void FavoriteHubs::onAddEntry_gui(GtkWidget*, gpointer data)
 {
 	FavoriteHubs *fh = (FavoriteHubs *)data;
 	FavoriteHubEntry entry;
-	FavoriteHubDialog *f = new FavoriteHubDialog(&entry,true);
+	FavoriteHubDialog *f = new FavoriteHubDialog(&entry);
 	bool updatedEntry = f->initDialog(fh->GroupsIter);
 
 	if(fh->checkAddys(entry.getServer()))
@@ -311,7 +311,7 @@ void FavoriteHubs::onEditEntry_gui(GtkWidget*, gpointer data)
 		return;
 		
 	FavoriteHubEntry* entry = (FavoriteHubEntry *)fh->favoriteView.getValue<gpointer>(&iter, "FavPointer");
-	FavoriteHubDialog* f = new FavoriteHubDialog(entry,false);
+	FavoriteHubDialog* f = new FavoriteHubDialog(entry);
 	bool entryUpdated = f->initDialog(fh->GroupsIter);
 
 	if (entryUpdated)
