@@ -312,9 +312,8 @@ const string& Client::getUserIp4() const {
 }
 
 const string& Client::getUserIp6() const {
-
-	if(!getMyIdentity().getIp6().empty())
-		return getMyIdentity().getIp6();
+	if(bIPv6 && sLocalIP.empty())
+	{return sLocalIP;}
 	
 	if(!HUBSETTING(EXTERNAL_IP6).empty()) {
 		return HUBSETTING(EXTERNAL_IP6);

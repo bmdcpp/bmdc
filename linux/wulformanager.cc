@@ -129,7 +129,7 @@ static void xnotify(gpointer data)
 
 void WulforManager::dispatchGuiFunc(FuncBase *func)
 {
-//	g_idle_add_full ((gint)G_PRIORITY_DEFAULT_IDLE,(GSourceFunc)((func)->call_),func, xnotify);
+//g_idle_add_full ((gint)G_PRIORITY_DEFAULT_IDLE,(GSourceFunc)((func)->call_),func, xnotify);
     g_idle_add((GSourceFunc)(func)->call_,(gpointer)func);
 }
 

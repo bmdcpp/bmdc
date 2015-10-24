@@ -149,6 +149,13 @@ public:
 			save();
 		}	
 	}
+	void remFavoriteIp(const string& iporange)
+	{
+		iplist::const_iterator it = ips.find(iporange);
+		if(it == ips.end() || it == ips.begin())
+		ips.erase(it);
+		save();
+	}
 	
 	
 // Favorite Hubs

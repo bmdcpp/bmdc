@@ -3,13 +3,13 @@ all:
 	scons PREFIX=${HOME}/BMDC/ release=1
 	scons install
 Release:
-	mkdir -p ${HOME}/BMDC-release/
-	scons PREFIX=${HOME}/BMDC-release/ release=1 libxattr=1 newSettings=0 -j9
+	mkdir -p /media/CLS/BMDC-release/
+	scons PREFIX=/media/CLS/BMDC-release/ release=1 libxattr=1 newSettings=0
 	scons install
-	chmod +x ${HOME}/BMDC-release/bin/bmdc
+	chmod +x /media/CLS/BMDC-release/bin/bmdc
 Debug:
-	mkdir -p ${HOME}/BMDC/
-	scons PREFIX=${HOME}/BMDC/ debug=1 profile=0 libappindicator=0 libxattr=1 newSettings=1 -j2
+	mkdir -p /media/CLS/BMDC/
+	scons PREFIX=/media/CLS/BMDC/ debug=1 profile=0 libappindicator=0 libxattr=1 newSettings=1 -j2
 	scons install
 cleanrelease:
 	scons -c

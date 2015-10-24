@@ -2496,7 +2496,11 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 					tmp += _("IP: ") + it.first + _(" Last Seen: ")+Util::formatTime("%Y-%m-%d %H:%M", it.second->getLastSeen())+"\n";
 			
 			hub->addMessage_gui("",tmp,Msg::SYSTEM);
-		
+		} else if ( command == "remip") {
+			if(!params.empty()) {
+				FavoriteManager::getInstance()->remFavoriteIp(params);
+			}else
+				hub->addStatusMessage_gui(_("No IP/range given to the command"), Msg::SYSTEM , Sound::NONE );	
 		}else if (command == "emoticons" || command == "emot")
 		{
 			if (hub->useEmoticons)

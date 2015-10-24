@@ -991,7 +991,7 @@ void MainWindow::updateStatusIconTooltip_gui(string download, string upload)
 #pragma GCC diagnostic pop	
 }
 #endif
-//is possible use APPIND indepent on gtk ver?
+//is possible use APPIND indepent on gtk ver? aka did we need check over gtk ver here?
 #ifdef HAVE_APPINDCATOR
 #if GTK_CHECK_VERSION(3,14,1)
 void MainWindow::createAppIndicator()
