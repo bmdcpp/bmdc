@@ -737,7 +737,7 @@ string WulforUtil::formatReport(const Identity& identity)
 
 	string report = _("*** Info on " )+ identity.getNick() + " ***" + "\n";
 
-	for(auto i = reportMap.begin(); i != reportMap.end(); ++i)
+	for(map<string,string>::const_iterator i = reportMap.begin(); i != reportMap.end(); ++i)
 	{
 		report += "\n" + i->first + ": " +  i->second;
 	}
@@ -913,6 +913,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 				build += " Release";
 				#endif
 			#endif
+			
 		message =  "\n-= Stats " + dcpp::fullVersionString+" =-"
 					+"\n-= " +build+" =-\n"
 					+ "-= " + rel + " " + mach + " =-\n"
@@ -1065,7 +1066,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	}
 	else if ( cmd == "rebuild" )
 	{
-			HashManager::getInstance()->rebuild();
+		HashManager::getInstance()->rebuild();
 		return true;
 	}
 	else if ( cmd == "cleanmc" )
@@ -1289,6 +1290,7 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 			int ffound = sMsgLower.compare(sW);
 
 			if(!ffound) {
+				
 				if((Hub *)hub)
 				{
 					Hub *p = (Hub *)hub;
@@ -1459,10 +1461,10 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 	g_free (content_type);
 	return icon_d;
 }
-//main point of this code is from ? Px
+//Main point of this code is from ? Px
 string WulforUtil::getStatsForMem() {
 	
-	string tmp = Util::emptyString;
+	string temp = Util::emptyString;
 	FILE *fp = fopen("/proc/self/status", "r");
 				if(fp != NULL) {
 					string memrss, memhwm, memvms, memvmp, memstk, memlib;
@@ -1510,22 +1512,22 @@ string WulforUtil::getStatsForMem() {
 					fclose(fp);
 
 					if(!memhwm.empty() && !memrss.empty()) {
-						tmp+=" Mem usage (Peak): "+formatSized(memrss)+ " ("+formatSized(memhwm)+") =-\n";
+						temp+=" Mem usage (Peak): "+formatSized(memrss)+ " ("+formatSized(memhwm)+") =-\n";
 					} else if(memrss.size() != 0) {
-						tmp+="-= Mem usage: "+memrss+"\n =-";
+						temp+="-= Mem usage: "+memrss+"\n =-";
 					}
 
 					if(!memvmp.empty() && !memvms.empty()) {
-						tmp+="-= VM size (Peak): "+formatSized(memvms)+ " ("+formatSized(memvmp)+") =-\n";
+						temp+="-= VM size (Peak): "+formatSized(memvms)+ " ("+formatSized(memvmp)+") =-\n";
 					} else if(memrss.size() != 0) {
-						tmp+="-= VM size: "+memvms+" =-\n";
+						temp+="-= VM size: "+memvms+" =-\n";
 					}
 
 					if(!memstk.empty() && !memlib.empty()) {
-						tmp+="-= Stack size / Libs size: "+memstk+ " / "+formatSized(memlib)+" ";
+						temp+="-= Stack size / Libs size: "+memstk+ " / "+formatSized(memlib)+" ";
 					}
 			}
-			return tmp;
+			return temp;
 }
 
 std::string WulforUtil::formatSized(std::string& nonf)
