@@ -1,5 +1,4 @@
 #!/bin/sh
-#~/exailenp org.mpris.exaile
 PROG=banshee
 TITLE=`banshee --query-title`
 ALBUM=`banshee --query-album`
