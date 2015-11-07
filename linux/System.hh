@@ -48,7 +48,7 @@ class SystemLog:
 		void add_gui(time_t t,std::string message,int sev = dcpp::LogManager::Sev::LOW);
 		static void onScroll_gui(GtkAdjustment *adjustment, gpointer data);
 		static void onResize_gui(GtkAdjustment *adjustment, gpointer data);
-		static void onClearButton(GtkWidget *widget, gpointer data);
+		static void onClearButton(GtkWidget*, gpointer data);
 		// LogManagerListener
 		virtual void on(dcpp::LogManagerListener::Message, time_t t, const std::string& message,int sev) noexcept;
 

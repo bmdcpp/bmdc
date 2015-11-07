@@ -184,16 +184,16 @@ class MainWindow:
 		void previousTab_gui();
 		void nextTab_gui();
 		BookEntry *findBookEntry(const EntryType type, const std::string &id = "");
-#ifdef GTK_DISABLE_DEPRECATED
+///*#ifdef GTK_DISABLE_DEPRECATED
 #if !GTK_CHECK_VERSION(3,14,1)
 		void createStatusIcon_gui();
 		void updateStatusIconTooltip_gui(std::string download, std::string upload);
 #endif
-#else
+/*#else
 		void createStatusIcon_gui();
 		void updateStatusIconTooltip_gui(std::string download, std::string upload);
-#endif
-
+//#endif*/
+//TODO: is APP* depens on gtk ver or not?
 #ifdef HAVE_APPINDCATOR
 #if GTK_CHECK_VERSION(3,14,1)
 		void createAppIndicator();
@@ -205,13 +205,13 @@ class MainWindow:
 		void setToolbarButton_gui();
 		void setTabPosition_gui(int position);
 		void setToolbarStyle_gui(int style);
-		#ifdef GTK_DISABLE_DEPRECATED
+//		#ifdef GTK_DISABLE_DEPRECATED
 		#if !GTK_CHECK_VERSION(3,14,1)
 		void removeTimerSource_gui();
 		#endif
-		#else
-		void removeTimerSource_gui();
-		#endif
+//		#else
+//		void removeTimerSource_gui();
+//		#endif
 		
 		void setChooseMagnetDialog_gui();
 		void showMagnetDialog_gui(const std::string &magnet, const std::string &name, const int64_t size,
@@ -227,13 +227,13 @@ class MainWindow:
 		static gboolean onCloseWindow_gui(GtkWidget *widget, GdkEvent *event, gpointer data);
 		static gboolean onKeyPressed_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static gboolean onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-#ifdef GTK_DISABLE_DEPRECATED
+//#ifdef GTK_DISABLE_DEPRECATED
 #if !GTK_CHECK_VERSION(3,14,1)
 		static gboolean animationStatusIcon_gui(gpointer data);
 #endif
-#else
-		static gboolean animationStatusIcon_gui(gpointer data);
-#endif
+//#else
+//		static gboolean animationStatusIcon_gui(gpointer data);
+//#endif
 		static void onRaisePage_gui(GtkMenuItem *item, gpointer data);
 		static void onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *page, guint num, gpointer data);
 		static void onPaneRealized_gui(GtkWidget *pane, gpointer data);
@@ -260,17 +260,17 @@ class MainWindow:
 		static void onAboutClicked_gui(GtkWidget *widget, gpointer data);
 		static void onAboutDialogActivateLink_gui(GtkAboutDialog *dialog, const gchar *link, gpointer data);
 		static void onCloseBookEntry_gui(GtkWidget *widget, gpointer data);
-#ifdef GTK_DISABLE_DEPRECATED
+/*#ifdef GTK_DISABLE_DEPRECATED*/
 #if !GTK_CHECK_VERSION(3,14,1)
 		static void onStatusIconActivated_gui(GtkStatusIcon *statusIcon, gpointer data);
 		static void onStatusIconPopupMenu_gui(GtkStatusIcon *statusIcon, guint button, guint time, gpointer data);
 		static void onStatusIconBlinkUseToggled_gui(GtkWidget *widget, gpointer data);
 #endif		
-#else
+/*#else
 		static void onStatusIconActivated_gui(GtkStatusIcon *statusIcon, gpointer data);
 		static void onStatusIconPopupMenu_gui(GtkStatusIcon *statusIcon, guint button, guint time, gpointer data);
 		static void onStatusIconBlinkUseToggled_gui(GtkWidget *widget, gpointer data);
-#endif		
+#endif	*/
 		static void onShowInterfaceToggled_gui(GtkCheckMenuItem *item, gpointer data);
 		static void onLinkClicked_gui(GtkWidget *widget, gpointer data);
 		static void onTransferToggled_gui(GtkWidget *widget, gpointer data);
@@ -316,9 +316,7 @@ class MainWindow:
 		void startSocket_client();
 		void refreshFileList_client();
 		void addFileDownloadQueue_client(std::string name, int64_t size, std::string tth);
-//		void checkUpdateofGeoIp(bool v6);
-//		void updateGeoIp(bool v6);
-//		void completeGeoIpUpdate(const std::string& buf, bool v6);
+
 		void removeItemFromList(Entry::EntryType type, std::string id);
 		//[BMDC++
 		void setInitThrotles();
@@ -339,15 +337,15 @@ class MainWindow:
 		GtkWindow *window;
 		Transfers* transfers;
 		bool minimized;
-#ifdef GTK_DISABLE_DEPRECATED
+//#ifdef GTK_DISABLE_DEPRECATED
 #if !GTK_CHECK_VERSION(3,14,1)		
 		GtkStatusIcon *statusIcon;
 		guint timer;
 #endif
-#else
-		GtkStatusIcon *statusIcon;
-		guint timer;
-#endif
+//#else
+//		GtkStatusIcon *statusIcon;
+//		guint timer;
+//#endif
 		int64_t lastUpdate, lastUp, lastDown;
 		dcpp::StringList EntryList;
 		int statusFrame;
@@ -403,14 +401,7 @@ class MainWindow:
 				}
 				int run();
 		};
-/*
-		enum
-		{
-			CONN_GEOIP_V4,
-			CONN_GEOIP_V6,
-			CONN_LAST
-		};
-*/
+
 		struct Widgets
 		{
 		  public:
@@ -418,8 +409,6 @@ class MainWindow:
 			GtkWidget *widget;
 			GtkWidget *label;
 		};
-
-//		std::unique_ptr<dcpp::HttpDownload> conns[CONN_LAST];
 
 		std::vector<Entry*> privateMessage;
 		std::vector<Entry*> Hubs;

@@ -1,5 +1,5 @@
 ﻿//
-//		Copyright (C) 2011 - 2015 - Mank
+//	Copyright (C) 2011 - 2015 - Mank
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
 //      the Free Software Foundation; either version 2 of the License, or
@@ -44,21 +44,21 @@ BookEntry(Entry::ABOUT_CONFIG, _("About:config"), "config")
 	g_object_unref(aboutStore);
 
 	aboutSelection = gtk_tree_view_get_selection(aboutView.get());
-	
+
 	g_signal_connect(aboutView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
 	g_signal_connect(aboutView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 	g_signal_connect(aboutView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 	g_signal_connect(getWidget("propteriesItem"), "activate", G_CALLBACK(onPropertiesClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("DefaultItem"), "activate", G_CALLBACK(onSetDefault), (gpointer)this);
-	
+
 	if(SETTING(AC_DISCLAIM) == false) {
 			gtk_widget_set_sensitive(getWidget("scrolledwindow"),FALSE);
 			gtk_widget_hide(getWidget("infobar"));
 	}
 	if(SETTING(AC_DISCLAIM) == true) {
 		gtk_widget_set_sensitive(getWidget("scrolledwindow"),TRUE);
-	}	
-	
+	}
+
 	g_signal_connect(GTK_INFO_BAR(getWidget("infobar")),
                             "response",
                             G_CALLBACK (onInfoResponse),
@@ -73,19 +73,20 @@ AboutConfig::~AboutConfig()
 void AboutConfig::show()
 {
 	SettingsManager* sm = SettingsManager::getInstance();
-	sm->addListener(this);	
+	sm->addListener(this);
 
 	SettingsManager::Types type;
 	gchar* rowname;
 	gchar* isdefault;
 	gchar* types;
 	gchar* value;
-	
+	gchar* tmp;
+
 	for(int n = 0; n < SettingsManager::SETTINGS_LAST; n++ ) {
-		gchar* b = g_strdup(sm->getSettingTags()[n].data());
-		if (strncasecmp(b,"SENTRY",7)== 0) continue;
-		if (sm->getType(b, n, type)) {
-			rowname = b;
+		tmp = g_strdup(sm->getSettingTags()[n].data());
+		if (strncasecmp(tmp,"SENTRY",7)== 0) continue;
+		if (sm->getType(tmp, n, type)) {
+			rowname = tmp;
 			switch(type) {
 				case SettingsManager::TYPE_STRING:
 					types =  ("String");
@@ -117,10 +118,10 @@ void AboutConfig::show()
 					dcassert(0);
 			}
 			addItem_gui(rowname, isdefault, types, value,false);
-			
+
 		}
 	}
-	
+
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
 	WulforSettingsManager::StringMap map = wsm->getStringMap();
 	WulforSettingsManager::StringMap defMap = wsm->getStringDMap();
@@ -128,7 +129,7 @@ void AboutConfig::show()
 	types = g_strdup(_("String"));
 	bool isOk = false;
 	gchar* isDef = g_strdup(Util::emptyString.c_str());
-		
+
 	for(auto d = defMap.begin();d!= defMap.end();++d)
 	{
 		rowname = g_strdup(d->first.c_str());
@@ -138,12 +139,12 @@ void AboutConfig::show()
 		isDef = !isOk ? _("Default") : _("User set");
 		addItem_gui(rowname,isDef, types, ( !isOk ? dvalue : value), true);
 	}
-	
+
 	WulforSettingsManager::IntMap imap = wsm->getIntMap();
 	WulforSettingsManager::IntMap defIMap = wsm->getIntDMap();
 	types = g_strdup(_("Integer"));
 	isOk = false;
-	
+
 	for(auto j = defIMap.begin();j != defIMap.end();++j) {
 		rowname = g_strdup(j->first.c_str());
 		dvalue = g_strdup(Util::toString(j->second).c_str());
@@ -152,7 +153,7 @@ void AboutConfig::show()
 		isDef = !isOk ? _("Default") : _("User set");
 		addItem_gui(rowname, isDef, types, ( !isOk ? dvalue : value), true);
 	}
-	
+
 }
 
 void AboutConfig::addItem_gui(const gchar* rowname, const gchar* isdefault, const gchar* types, const gchar* value, bool isWulf)
@@ -179,14 +180,14 @@ void AboutConfig::addItem_gui(const gchar* rowname, const gchar* isdefault, cons
 		dcdebug("types\n");
 		return;
 	}
-		
+
 	gtk_list_store_append(aboutStore,&iter);
 	gtk_list_store_set(aboutStore,&iter,
 				aboutView.col(_("Name")),rowname,
 				aboutView.col(_("Status")), isdefault,
 				aboutView.col(_("Type")), types,
 				aboutView.col(_("Value")), value,
-				aboutView.col("WS"), (isWulf ? "1" : "0"), 
+				aboutView.col("WS"), (isWulf ? "1" : "0"),
 	-1);
 
 }
@@ -199,7 +200,7 @@ void AboutConfig::updateItem_gui(string rowname, string value, GtkTreeIter *iter
 				aboutView.col(_("Status")), status,
 				aboutView.col(_("Value")), value.c_str(),
 		-1);
-	}	
+	}
 }
 
 void AboutConfig::setStatus(string msg)
@@ -254,7 +255,7 @@ gboolean AboutConfig::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer
 void AboutConfig::onInfoResponse(GtkWidget *info_bar, gint response_id,  gpointer data)
 {
 	AboutConfig *s = (AboutConfig *)data;
-	
+
 	switch(response_id)
 	{
 		case -5://alowing
@@ -268,12 +269,12 @@ void AboutConfig::onInfoResponse(GtkWidget *info_bar, gint response_id,  gpointe
 			gtk_widget_hide(info_bar);
 			SettingsManager::getInstance()->set(static_cast<SettingsManager::BoolSetting>(SettingsManager::AC_DISCLAIM), false);
 			SettingsManager::getInstance()->save();
-			break;	
-		default:		
+			break;
+		default:
 			break;
 	}
-	
-}                 
+
+}
 
 void AboutConfig::onPropertiesClicked_gui(GtkWidget*, gpointer data)
 {
@@ -289,24 +290,24 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget*, gpointer data)
 		bool run = s->getDialog(name, value, data);
 		if(!run)
 			return;
-		
+
 		if(isWsm)
 		{
-			WulforSettingsManager* wsm = WulforSettingsManager::getInstance();	
-			
+			WulforSettingsManager* wsm = WulforSettingsManager::getInstance();
+
 			if(wsm->isString(name))
 				wsm->set(name,value);
-			
+
 			if(wsm->isInt(name))
 				wsm->set(name,Util::toInt(value));
-				
+
 			s->updateItem_gui(name,value,&iter);
-			return;	
+			return;
 		}
-		SettingsManager *sm = SettingsManager::getInstance();		
-		SettingsManager::Types type;		
+		SettingsManager *sm = SettingsManager::getInstance();
+		SettingsManager::Types type;
 		sm->getType(name.c_str(), n, type);
-		
+
 		switch(type)
 		{
 			case SettingsManager::TYPE_STRING:
@@ -323,7 +324,7 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget*, gpointer data)
 				break;
 			case SettingsManager::TYPE_BOOL:
 				sm->set((SettingsManager::BoolSetting)n, Util::toInt(value));
-				break;	
+				break;
 			default: return;
 		}
 		s->updateItem_gui(name,value,&iter);
@@ -333,42 +334,42 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget*, gpointer data)
 void AboutConfig::onSetDefault(GtkWidget*, gpointer data)
 {
 	AboutConfig *s = (AboutConfig *)data;
-	
+
 	GtkTreeIter iter;
-	
+
 	if (gtk_tree_selection_get_selected(s->aboutSelection, NULL, &iter))
 	{
 		string i = s->aboutView.getString(&iter,_("Name"));
 		bool isWsm = s->aboutView.getString(&iter, "WS") == "1" ? true : false;
-		
+
 		if(isWsm)
 		{
 			WulforSettingsManager* wsm = WulforSettingsManager::getInstance();
 			string value = Util::emptyString;
-			
+
 			if(wsm->isString(i)) {
 				wsm->SetStringDef(i);
 				value = wsm->getString(i);
-			} 
+			}
 			if(wsm->isInt(i)) {
 				wsm->SetIntDef(i);
 				value = Util::toString(wsm->getInt(i));
 			}
 			s->updateItem_gui(i,value,&iter);
 			s->setStatus("Value "+i+" Setted to Default "+value);
-			return;		
+			return;
 		}
-		
+
 		SettingsManager *sm = SettingsManager::getInstance();
 		int n = -1 ;
 		SettingsManager::Types type;
-		
+
 		if (sm->getType(i.c_str(), n, type))
 		{
 			sm->unset(n);
-			
+
 			string value = Util::emptyString;
-			
+
 			switch(type) {
 				case SettingsManager::TYPE_STRING:
 					value = Text::toT(sm->get(static_cast<SettingsManager::StrSetting>(n)));
@@ -384,7 +385,7 @@ void AboutConfig::onSetDefault(GtkWidget*, gpointer data)
 					break;
 				case SettingsManager::TYPE_BOOL:
 					value = Text::toT(Util::toString((int)sm->get(static_cast<SettingsManager::BoolSetting>(n))));
-					break;	
+					break;
 				default:
 					return;
 			}
@@ -400,7 +401,7 @@ bool AboutConfig::getDialog(string name, string& value , gpointer data)
 	gtk_label_set_text(GTK_LABEL(s->getWidget("label")), name.c_str());
 	gtk_entry_set_text(GTK_ENTRY(s->getWidget("entry")), value.c_str());
 	int response = gtk_dialog_run(GTK_DIALOG(s->getWidget("dialog")));
-	
+
 	// Fix crash, if the dialog gets programmatically destroyed.
 	if (response == GTK_RESPONSE_NONE)
 		return false;
@@ -409,8 +410,8 @@ bool AboutConfig::getDialog(string name, string& value , gpointer data)
 
 	if (response == GTK_RESPONSE_OK)
 	{
-		value = gtk_entry_get_text(GTK_ENTRY(getWidget("entry")));	
+		value = gtk_entry_get_text(GTK_ENTRY(getWidget("entry")));
 		return true;
 	}
-	return false;	
+	return false;
 }

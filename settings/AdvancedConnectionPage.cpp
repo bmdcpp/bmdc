@@ -45,8 +45,8 @@ void AdvancedConnectionPage::show(GtkWidget *parent, GtkWidget* old)
 
 //set values
 	gtk_entry_set_text(GTK_ENTRY(http_proxy), SETTING(HTTP_PROXY).c_str());
-	gtk_entry_set_text(GTK_ENTRY(entry_bind),SETTING(BIND_ADDRESS).c_str());
-	gtk_entry_set_text(GTK_ENTRY(entry_bind6),SETTING(BIND_ADDRESS6).c_str());
+	gtk_entry_set_text(GTK_ENTRY(entry_bind), SETTING(BIND_ADDRESS).c_str());
+	gtk_entry_set_text(GTK_ENTRY(entry_bind6), SETTING(BIND_ADDRESS6).c_str());
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin_recon), SETTING(TIME_RECCON));
 
 	/*@Add to parent*/

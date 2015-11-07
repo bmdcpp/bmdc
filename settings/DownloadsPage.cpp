@@ -67,10 +67,10 @@ void DownloadsPage::write()
 	// Downloads
 	const gchar* s_path = gtk_entry_get_text(GTK_ENTRY(entry_down_path));
 	if(s_path) {
-	string path = s_path;
-	if (path[path.length() - 1] != PATH_SEPARATOR)
-		path += PATH_SEPARATOR;
-	sm->set(SettingsManager::DOWNLOAD_DIRECTORY, path);
+		string path = s_path;
+		if (path[path.length() - 1] != PATH_SEPARATOR)
+			path += PATH_SEPARATOR;
+		sm->set(SettingsManager::DOWNLOAD_DIRECTORY, path);
 	}
 	const gchar* s_path2 = gtk_entry_get_text(GTK_ENTRY(entry_down_path_temp));
 	if(s_path2) {

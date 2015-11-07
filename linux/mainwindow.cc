@@ -100,13 +100,13 @@ MainWindow::MainWindow():
 	Entry(Entry::MAIN_WINDOW, "mainwindow"),
 	transfers(NULL), 
 	minimized(FALSE),
-#ifdef GTK_DISABLE_DEPRECATED
+/*#ifdef GTK_DISABLE_DEPRECATED
 #if !GTK_CHECK_VERSION(3,14,0)
 	 timer(0),
 #endif
-#else
+#else*/
 	timer(0),
-#endif
+//#endif
 	lastUpdate(0),
 	lastUp(0), lastDown(0),
 	statusFrame(1)
@@ -435,14 +435,14 @@ MainWindow::MainWindow():
 	setToolbarButton_gui();
 	setTabPosition_gui(WGETI("tab-position"));
 	setToolbarStyle_gui(WGETI("toolbar-style"));
-
+/*
 #ifdef GTK_DISABLE_DEPRECATED
-	#if !GTK_CHECK_VERSION(3,14,1)
+*/	#if !GTK_CHECK_VERSION(3,14,1)
 		createStatusIcon_gui();
 	#endif
-#else
-	createStatusIcon_gui();
-#endif
+//#else*/
+//	createStatusIcon_gui();
+//#endif
 #ifdef HAVE_APPINDCATOR
 #if GTK_CHECK_VERSION(3,14,1)
 	createAppIndicator();
@@ -489,24 +489,24 @@ MainWindow::~MainWindow()
 	
 	if (transferPanePosition > 10)
 		WSET("transfer-pane-position", transferPanePosition);
-#ifdef GTK_DISABLE_DEPRECATED
+//#ifdef GTK_DISABLE_DEPRECATED
 	#if !GTK_CHECK_VERSION(3,14,1)
 		if (timer > 0)
 		g_source_remove(timer);
 	#endif
-#else
+/*#else
 	if (timer > 0)
 		g_source_remove(timer);
-#endif	
+#endif	*/
 	WSET("status-icon-blink-use", useStatusIconBlink);
 	gtk_widget_destroy(GTK_WIDGET(window));
-#ifdef GTK_DISABLE_DEPRECATED
+//#ifdef GTK_DISABLE_DEPRECATED
 	#if !GTK_CHECK_VERSION(3,14,1)
 		g_object_unref(statusIcon);
 	#endif	
-#else	
-	g_object_unref(statusIcon);
-#endif	
+//#else	
+//	g_object_unref(statusIcon);
+//#endif	
 	g_object_unref(getWidget("statusIconMenu"));
 	g_object_unref(getWidget("toolbarMenu"));
 	Sound::stop();
@@ -929,8 +929,8 @@ void MainWindow::removeTabMenuItem_gui(GtkWidget *menuItem)
 /*
  * Create status icon.
  */
-#ifdef GTK_DISABLE_DEPRECATED
-	#if !GTK_CHECK_VERSION(3,14,1)
+//#ifdef GTK_DISABLE_DEPRECATED
+#if !GTK_CHECK_VERSION(3,14,1)
 void MainWindow::createStatusIcon_gui()
 {
 	useStatusIconBlink = WGETB("status-icon-blink-use");
@@ -957,7 +957,7 @@ void MainWindow::createStatusIcon_gui()
 		gtk_status_icon_set_tooltip_text(statusIcon, toolTip.str().c_str());
 	}
 	#endif
-#else
+/*#else
 void MainWindow::createStatusIcon_gui()
 {
 	//neeed check how behave if not gcc and so
@@ -990,7 +990,7 @@ void MainWindow::updateStatusIconTooltip_gui(string download, string upload)
 	gtk_status_icon_set_tooltip_text(statusIcon, toolTip.str().c_str());
 #pragma GCC diagnostic pop	
 }
-#endif
+#endif*/
 //is possible use APPIND indepent on gtk ver? aka did we need check over gtk ver here?
 #ifdef HAVE_APPINDCATOR
 #if GTK_CHECK_VERSION(3,14,1)
@@ -1005,6 +1005,7 @@ void MainWindow::createAppIndicator()
 }
 #endif
 #endif
+
 void MainWindow::setMainStatus_gui(string text, time_t t)
 {
 	if (!text.empty())
@@ -1219,19 +1220,19 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 		if (!isActive_gui())
 		{
 			show = true;
-		#ifdef GTK_DISABLE_DEPRECATED
+//		#ifdef GTK_DISABLE_DEPRECATED
 		#if	!GTK_CHECK_VERSION(3,14,1)
 				if (useStatusIconBlink && timer == 0)
 				{
 					timer = g_timeout_add(1000, animationStatusIcon_gui, (gpointer)this);
 				}
 			#endif	
-		#else
-		if (useStatusIconBlink && timer == 0)
-			{
-				timer = g_timeout_add(1000, animationStatusIcon_gui, (gpointer)this);
-			}
-		#endif	
+//		#else
+//		if (useStatusIconBlink && timer == 0)
+//			{
+//				timer = g_timeout_add(1000, animationStatusIcon_gui, (gpointer)this);
+//			}
+//		#endif	
 		}
 		else if (currentPage_gui() != entry->getContainer() && !WGETI("notify-only-not-active"))
 		{
@@ -1269,7 +1270,7 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 	if (raise)
 		raisePage_gui(entry->getContainer());
 }
-#ifdef GTK_DISABLE_DEPRECATED
+//#ifdef GTK_DISABLE_DEPRECATED
 #if !GTK_CHECK_VERSION(3,14,1)
 void MainWindow::removeTimerSource_gui()
 {
@@ -1281,7 +1282,7 @@ void MainWindow::removeTimerSource_gui()
 	}
 }
 #endif
-#else
+/*#else
 void MainWindow::removeTimerSource_gui()
 {
 	if (timer > 0)
@@ -1291,7 +1292,7 @@ void MainWindow::removeTimerSource_gui()
 		gtk_status_icon_set_from_icon_name(statusIcon, g_get_prgname());
 	}
 }
-#endif
+#endif*/
 void MainWindow::addPrivateStatusMessage_gui(Msg::TypeMsg typemsg, string cid, string message)
 {
 	BookEntry *entry = findBookEntry(Entry::PRIVATE_MESSAGE, cid);
@@ -2117,7 +2118,7 @@ gboolean MainWindow::onButtonReleasePage_gui(GtkWidget*, GdkEventButton *event, 
 
 	return FALSE;
 }
-#ifdef GTK_DISABLE_DEPRECATED
+//#ifdef GTK_DISABLE_DEPRECATED
 #if !GTK_CHECK_VERSION(3,14,1)
 gboolean MainWindow::animationStatusIcon_gui(gpointer data)
 	{
@@ -2136,7 +2137,7 @@ gboolean MainWindow::animationStatusIcon_gui(gpointer data)
 		return TRUE;
 }
 #endif
-#else
+/*#else
 gboolean MainWindow::animationStatusIcon_gui(gpointer data)
 {
 	MainWindow *mw = (MainWindow *) data;
@@ -2153,7 +2154,7 @@ gboolean MainWindow::animationStatusIcon_gui(gpointer data)
 	return TRUE;
 }
 #endif
-
+*/
 void MainWindow::onRaisePage_gui(GtkMenuItem*, gpointer data)
 {
 	WulforManager::get()->getMainWindow()->raisePage_gui((GtkWidget *)data);
@@ -2315,19 +2316,19 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget*, gpointer data)
 			Socket::socksUpdated();
 		}
 		//END
-#ifdef GTK_DISABLE_DEPRECATED
+//#ifdef GTK_DISABLE_DEPRECATED
 #if !GTK_CHECK_VERSION(3,14,1)
 		if (SETTING(ALWAYS_TRAY))
 			gtk_status_icon_set_visible(mw->statusIcon, TRUE);
 		else
 			gtk_status_icon_set_visible(mw->statusIcon, FALSE);
 #endif
-#else
-	if (SETTING(ALWAYS_TRAY))
-			gtk_status_icon_set_visible(mw->statusIcon, TRUE);
-		else
-			gtk_status_icon_set_visible(mw->statusIcon, FALSE);
-#endif
+//#else
+//	if (SETTING(ALWAYS_TRAY))
+//			gtk_status_icon_set_visible(mw->statusIcon, TRUE);
+//		else
+//			gtk_status_icon_set_visible(mw->statusIcon, FALSE);
+//#endif
 
 
 		mw->setTabPosition_gui(WGETI("tab-position"));
@@ -2611,7 +2612,7 @@ void MainWindow::onCloseBookEntry_gui(GtkWidget*, gpointer data)
 	WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
 }
 
-#ifdef GTK_DISABLE_DEPRECATED
+//#ifdef GTK_DISABLE_DEPRECATED
 #if !GTK_CHECK_VERSION(3,14,1)
 void MainWindow::onStatusIconActivated_gui(GtkStatusIcon*, gpointer data)
 {
@@ -2630,7 +2631,7 @@ void MainWindow::onStatusIconPopupMenu_gui(GtkStatusIcon *statusIcon, guint butt
 	gtk_menu_popup(menu, NULL, NULL, gtk_status_icon_position_menu, statusIcon, button, time);
 }
 #endif
-#else
+/*#else
 void MainWindow::onStatusIconActivated_gui(GtkStatusIcon*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
@@ -2648,7 +2649,7 @@ void MainWindow::onStatusIconPopupMenu_gui(GtkStatusIcon *statusIcon, guint butt
 	gtk_menu_popup(menu, NULL, NULL, gtk_status_icon_position_menu, statusIcon, button, time);
 }
 #endif
-
+*/
 void MainWindow::onShowInterfaceToggled_gui(GtkCheckMenuItem*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
@@ -2685,7 +2686,7 @@ void MainWindow::onShowInterfaceToggled_gui(GtkCheckMenuItem*, gpointer data)
 		#endif
 	}
 }
-#ifdef GTK_DISABLE_DEPRECATED
+//#ifdef GTK_DISABLE_DEPRECATED
 #if !GTK_CHECK_VERSION(3,14,1)
 void MainWindow::onStatusIconBlinkUseToggled_gui(GtkWidget*, gpointer data)
 {
@@ -2698,7 +2699,7 @@ void MainWindow::onStatusIconBlinkUseToggled_gui(GtkWidget*, gpointer data)
 		mw->useStatusIconBlink = FALSE;
 }
 #endif
-#else
+/*#else
 void MainWindow::onStatusIconBlinkUseToggled_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
@@ -2710,7 +2711,7 @@ void MainWindow::onStatusIconBlinkUseToggled_gui(GtkWidget*, gpointer data)
 		mw->useStatusIconBlink = FALSE;
 }
 #endif
-
+*/
 void MainWindow::onLinkClicked_gui(GtkWidget *widget, gpointer )
 {
 	string link = (gchar *)g_object_get_data(G_OBJECT(widget), "link");
@@ -2719,8 +2720,9 @@ void MainWindow::onLinkClicked_gui(GtkWidget *widget, gpointer )
 
 void MainWindow::autoConnect_client()
 {
-	const FavHubGroups &favHubGroups = FavoriteManager::getInstance()->getFavHubGroups();
-	const FavoriteHubEntryList &favoriteHubs = FavoriteManager::getInstance()->getFavoriteHubs();
+	FavoriteManager* fm = FavoriteManager::getInstance();
+	const FavHubGroups &favHubGroups = fm->getFavHubGroups();
+	const FavoriteHubEntryList &favoriteHubs = fm->getFavoriteHubs();
 
 	for (auto i = favoriteHubs.begin(); i != favoriteHubs.end(); ++i)
 	{
@@ -2921,7 +2923,7 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) noexcept
 	F5 *func = new F5(this, &MainWindow::setStats_gui, hubs, downloadSpeed, downloaded, uploadSpeed, uploaded);
 	WulforManager::get()->dispatchGuiFunc(func);
 
-#ifdef GTK_DISABLE_DEPRECATED
+//#ifdef GTK_DISABLE_DEPRECATED
 #if !GTK_CHECK_VERSION(3,14,1)
 	if (SETTING(ALWAYS_TRAY) && !downloadSpeed.empty() && !uploadSpeed.empty())
 	{
@@ -2930,7 +2932,7 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) noexcept
 		WulforManager::get()->dispatchGuiFunc(f2);
 	}
 #endif	
-#else	
+/*#else	
 if (SETTING(ALWAYS_TRAY) && !downloadSpeed.empty() && !uploadSpeed.empty())
 	{
 		typedef Func2<MainWindow, string, string> F2;
@@ -2938,7 +2940,7 @@ if (SETTING(ALWAYS_TRAY) && !downloadSpeed.empty() && !uploadSpeed.empty())
 		WulforManager::get()->dispatchGuiFunc(f2);
 	}
 #endif
-
+*/
 	string file;
 	uint64_t bytes = 0;
 	size_t files = 0;
@@ -2962,7 +2964,7 @@ void MainWindow::on(dcpp::TimerManagerListener::Minute, uint64_t ) noexcept
 #ifdef HAVE_XSSLIB	
 void MainWindow::onIdle()
 {	
-	g_print("Detection Part 1");
+//	g_print("Detection Part 1");
 	bool _idleDetectionPossible;
 	XScreenSaverInfo *_mit_info;
 
@@ -2980,9 +2982,9 @@ void MainWindow::onIdle()
 if(_idleDetectionPossible) {
 	g_print("Detection Part 2");
 		long idlesecs = (_mit_info->idle/1000); // in sec
-		//TODO: not hardcode (1000 ms = 1s)
+		//TODO: (1000 ms = 1s)
 		if (idlesecs > WGETI("idle-time")) {
-			g_print("Idle: Away Mode on");
+			//g_print("Idle: Away Mode on");
 				if(!dcpp::Util::getAway()) {//dont set away twice
 
 					dcpp::Util::setAway(true);
@@ -3103,43 +3105,6 @@ int MainWindow::TTHHash::run()
 	stop = true;
 	return 0;
 }
-/*
-void MainWindow::checkUpdateofGeoIp(bool v6)
-{
-	try {
-		File f(GeoManager::getInstance()->getDbPath(v6) + ".gz", File::READ, File::OPEN);
-		if(f.getSize() > 0 && static_cast<time_t>(f.getLastModified()) > GET_TIME() - 3600 * 24 * 16) {
-			return;
-		}
-	} catch(const FileException&) { }
-	updateGeoIp(v6);
-}
-
-void MainWindow::updateGeoIp(bool v6)
-{
-	string v6str = "http://geolite.maxmind.com/download/geoip/database/GeoIPv6.dat.gz";
-	string v4str = "http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz";
-	auto& conn = conns[v6 ? CONN_GEOIP_V6 : CONN_GEOIP_V4];
-	if(conn.get())
-		return;
-	LogManager::getInstance()->message(string(_("Updating the GeoIP database...v")) + (v6 ? "IPv6" : "IPv4"));
-	conn.reset(new HttpDownload(v6 ? v6str : v4str, [this, v6](bool s,const string& b) { if(s) completeGeoIpUpdate(b,v6); }, false));
-}
-
-void MainWindow::completeGeoIpUpdate(const string &buf, bool v6)
-{
-	if(!buf.empty()) {
-		try {
-			File(GeoManager::getInstance()->getDbPath(v6) + ".gz", File::WRITE, File::CREATE | File::TRUNCATE).write(buf);
-			File f(GeoManager::getInstance()->getDbPath(v6), File::WRITE, File::CREATE | File::TRUNCATE); // clear the previous db
-			LogManager::getInstance()->message(string(_("The GeoIP database has been successfully updated; restart BMDC++ to apply....v")) + (v6 ? "IPv6" : "IPv4"));
-			GeoManager::getInstance()->update(v6);
-			return;
-		} catch(const FileException&) {}
-	}
-	LogManager::getInstance()->message(string(_("The GeoIP database could not be updated...v")) + (v6 ? "IPv6" : "IPv4"));
-
-}*/
 ///Close all
 void MainWindow::onCloseAllHub_gui(GtkWidget*, gpointer data)
 {

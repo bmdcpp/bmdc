@@ -578,22 +578,22 @@ void Transfers::updateParent_gui(GtkTreeIter* iter)
 	string users;
 	vector<string> hubs;
 	int64_t speed = 0;
-	int64_t position = 0;
-	int64_t totalSize = 0;
+//	int64_t position = 0;
+//	int64_t totalSize = 0;
 	int64_t timeLeft = 0;
 	double progress = 0.0;
 	ostringstream stream;
 	ostringstream tmpHubs;
 
-	position = transferView.getValue<int64_t>(iter, "Download Position");
-	totalSize = transferView.getValue<int64_t>(iter, _("Size"));
+	int64_t position = transferView.getValue<int64_t>(iter, "Download Position");
+	int64_t totalSize = transferView.getValue<int64_t>(iter, _("Size"));
 
 	// Get Totals
 	if (gtk_tree_model_iter_has_child(GTK_TREE_MODEL(transferStore), iter))
 	{
-		bool valid;
+//		bool valid;
 		child = *iter;
-		valid = WulforUtil::getNextIter_gui(GTK_TREE_MODEL(transferStore), &child, TRUE, FALSE);
+		bool valid = WulforUtil::getNextIter_gui(GTK_TREE_MODEL(transferStore), &child, TRUE, FALSE);
 		while (valid)
 		{
 			if (transferView.getValue<int>(&child, "Failed") == 0 &&
@@ -702,9 +702,9 @@ void Transfers::initTransfer_gui(StringMap params)
 {
 	dcassert(!params["CID"].empty() && !params["Target"].empty());
 
-	bool oldParentValid = FALSE;
-	bool newParentValid = FALSE;
-	bool needParent;
+	bool oldParentValid = false;
+	bool newParentValid = false;
+//	bool needParent;
 	GtkTreeIter iter;
 	GtkTreeIter oldParent;
 	GtkTreeIter newParent;
@@ -713,7 +713,7 @@ void Transfers::initTransfer_gui(StringMap params)
 	// We could use && BOOLSETTING(SEGMENTED_DL) here to group only when segmented is enabled,
 	// but then the transfer should be worked out to display the whole size of the file. As
 	// it currently only shows the size of a transfer (and always starts from 0)
-	needParent = params[_("Filename")] != string(_("File list"));
+	bool needParent = params[_("Filename")] != string(_("File list"));
 
 	if (!findTransfer_gui(params["CID"], TRUE, &iter))
 	{
@@ -746,7 +746,7 @@ void Transfers::initTransfer_gui(StringMap params)
 						-1);
 				}
 
-				oldParentValid = FALSE;	// Don't update the parentRow twice, since old and new are the same (and definately don't remove twice)
+				oldParentValid = false;	// Don't update the parentRow twice, since old and new are the same (and definately don't remove twice)
 			}
 		}
 		else
@@ -909,8 +909,8 @@ void Transfers::getParams_client(StringMap& params, ConnectionQueueItem* cqi)
 	// NOTE: const HintedUser& getUser() const { return user; }
 	const HintedUser &user = cqi->getUser();
 
-	params["CID"] = user.user->getCID().toBase32();//NOTE: core 0.762
-	params[_("User")] = WulforUtil::getNicks(user);//NOTE: core 0.762
+	params["CID"] = user.user->getCID().toBase32();
+	params[_("User")] = WulforUtil::getNicks(user);
 	params[_("Hub Name")] = WulforUtil::getHubNames(user);//NOTE: core 0.762
 	params["Failed"] = "0";
 	params["Hub URL"] = user.hint;//NOTE: core 0.762

@@ -18,6 +18,7 @@
  */
 // @because GtkFactory -> GtkIconTheme and stock -> icon_name
 #include <gtk/gtk.h>
+
 #if GTK_CHECK_VERSION(3,9,0)
 	#define BMDC_STOCK_CLOSE  "_Close"
 	#define BMDC_STOCK_CANCEL "_Cancel"
