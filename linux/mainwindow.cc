@@ -100,12 +100,12 @@ MainWindow::MainWindow():
 	Entry(Entry::MAIN_WINDOW, "mainwindow"),
 	transfers(NULL), 
 	minimized(FALSE),
-/*#ifdef GTK_DISABLE_DEPRECATED
+//#ifdef GTK_DISABLE_DEPRECATED
 #if !GTK_CHECK_VERSION(3,14,0)
 	 timer(0),
-#endif
+#endif/*
 #else*/
-	timer(0),
+//	timer(0),
 //#endif
 	lastUpdate(0),
 	lastUp(0), lastDown(0),
