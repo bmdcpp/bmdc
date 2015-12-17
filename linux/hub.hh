@@ -39,7 +39,7 @@
 #include <queue>
 #include <map>
 
-#include "UserMenu.hh"
+//#include "UserMenu.hh"
 
 class UserCommandMenu;
 class WulforSettingsManager;

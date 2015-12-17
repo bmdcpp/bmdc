@@ -46,7 +46,7 @@
 #include "WulforUtil.hh"
 #include "version.hh"
 
-#include "UserMenu.hh"
+//#include "UserMenu.hh"
 
 using namespace std;
 using namespace dcpp;
