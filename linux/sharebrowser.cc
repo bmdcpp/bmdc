@@ -44,9 +44,9 @@ ShareBrowser::ShareBrowser(HintedUser user, const string &file, const string &in
 	currentSize(0),
 	shareItems(0),
 	currentItems(0),
-	updateFileView(TRUE),
 	skipHits(0),
 	speed(speed),
+	updateFileView(true),
 	fullfl(full)
 {
 	// Use the nick from the file name in case the user is offline and core only returns CID
@@ -357,7 +357,7 @@ void ShareBrowser::updateFiles_gui(DirectoryListing::Directory *dir)
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(fileStore), sortColumn, sortType);
 	gtk_tree_view_scroll_to_point(fileView.get(), 0, 0);
 	updateStatus_gui();
-	updateFileView = TRUE;
+	updateFileView = true;
 }
 
 void ShareBrowser::updateStatus_gui()
@@ -590,7 +590,7 @@ void ShareBrowser::popupDirMenu_gui()
 void ShareBrowser::find_gui()
 {
 	string name;
-	bool findLeafNode = TRUE;
+	bool findLeafNode = true;
 	int cursorPos, hits = 0;
 	DirectoryListing::Directory *dir = nullptr;
 
@@ -631,7 +631,7 @@ void ShareBrowser::find_gui()
 					dir = dirView.getValue<gpointer, DirectoryListing::Directory *>(&iter, "DL Dir");
 					updateFiles_gui(dir);
 					gtk_widget_grab_focus(GTK_WIDGET(dirView.get()));
-					updateFileView = FALSE;
+					updateFileView = false;
 					gtk_tree_path_free(dirPath);
 					setStatus_gui("mainStatus", _("Found a match"));
 					return;
@@ -665,7 +665,7 @@ void ShareBrowser::find_gui()
 					gtk_tree_view_expand_to_path(dirView.get(), dirPath);
 					gtk_tree_view_set_cursor(dirView.get(), dirPath, NULL, FALSE);
 					updateFiles_gui(dir);
-					updateFileView = FALSE;
+					updateFileView = false;
 				}
 
 				skipHits = hits;
@@ -679,14 +679,14 @@ void ShareBrowser::find_gui()
 				return;
 			}
 		}
-		updateFileView = TRUE;
+		updateFileView = true;
 
 		// Determine if we are to go to the next sibling or back to the parent dir.
 		gtk_tree_path_next(dirPath);
 		if (!gtk_tree_model_get_iter(m, &iter, dirPath))
-			findLeafNode = FALSE;
+			findLeafNode = false;
 		else
-			findLeafNode = TRUE;
+			findLeafNode = true;
 	}
 }
 
@@ -1125,7 +1125,7 @@ void ShareBrowser::load(string xml)
 			listing.updateXML(File(path, File::READ, File::OPEN).read());
 		}
 		auto base = listing.updateXML(xml);
-		//listing.save(path);
+
 		ADLSearchManager::getInstance()->matchListing(listing);
 		gtk_tree_store_clear(dirStore);
 		gtk_list_store_clear(fileStore);

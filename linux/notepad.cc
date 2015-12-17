@@ -1,4 +1,4 @@
-//      Copyright 2011 - 2015 Mank <freedcpp at seznam dot cz>
+//      Copyright 2011 - 2016 Mank <freedcpp at seznam dot cz>
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -26,7 +26,6 @@ Notepad::Notepad():
 BookEntry(Entry::NOTEPAD, _("Notepad"), "notepad")
 {
 	WulforUtil::setTextDeufaults(getWidget("textview1"),SETTING(BACKGROUND_CHAT_COLOR),dcpp::Util::emptyString,false,dcpp::Util::emptyString,"Notepad");
-	//gtk_widget_set_name(getWidget("textview1"),"Notepad");
 	WulforUtil::setTextColor(string("black"),string("Notepad"));
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("textview1")));
 }
@@ -76,7 +75,7 @@ void Notepad::ini_client()
 	}
 	catch (const Exception &e)
 	{
-		dcdebug("Failed Load Notepad.txt");
+		dcdebug("Failed Load Notepad.txt %s",e.what());
 	}
 }
 

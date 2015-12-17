@@ -170,7 +170,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("cmd-debug-detection", 0));
 
 	defaultInt.insert(IntMap::value_type("custom-font-size", 0));
-	defaultInt.insert(IntMap::value_type("book-font-size", 0.1));
+	defaultInt.insert(IntMap::value_type("book-font-size", 1));// in %
 	defaultInt.insert(IntMap::value_type("book-three-button-disable", 0));
 	defaultInt.insert(IntMap::value_type("key-hub-with-ctrl", 0));
 	defaultInt.insert(IntMap::value_type("colorize-tab-text", 1));
@@ -484,7 +484,7 @@ WulforSettingsManager::WulforSettingsManager():
 	*/
 	defaultInt.insert(IntMap::value_type("double-click-action",(int)CActions::BROWSE));
 	defaultInt.insert(IntMap::value_type("hide-transfers",0));
-	defaultInt.insert(IntMap::value_type("idle-time",60*5));//@in minutes
+	defaultInt.insert(IntMap::value_type("idle-time", 60*5));//@in minutes
 
 	defaultString.insert(StringMap::value_type("menu-userlist-color","blue"));//TODO: dcpp set
 	

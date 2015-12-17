@@ -631,7 +631,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				feat.push_back("ZPipe0");
 				feat.push_back("SaltPass");
 				feat.push_back("IPv4");
-				if(sock->isV6Valid()) {
+				if(bIPv6) {
 					//@ Add to $Support IP64 only when we had IPv6 connectivity
 					feat.push_back("IP64");
 				}
@@ -860,7 +860,7 @@ void NmdcHub::connectToMe(const OnlineUser& aUser) {
 	}	
 	
 	bool isOkIp6 = aUser.getIdentity().getIp6().empty() == true;
-	dcdebug("%d - %d - %d - %d",(int)sock->isV6Valid(),isActiveV6(),(int)((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ),isOkIp6);
+	dcdebug("%d - %d - %d - %d",(int)bIPv6,isActiveV6(),(int)((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ),isOkIp6);
 	
 	if(bIPv6 && ((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ) && isOkIp6) {
 		send("$ConnectToMe " + nick + " [" + getUserIp6() + "]:" + Util::toString(ConnectionManager::getInstance()->getPort()) + "|");
@@ -911,11 +911,11 @@ void NmdcHub::myInfo(bool alwaysSend) {
 		modeChar[0] = '5';
 	else if(ClientManager::getInstance()->isActive(getHubUrl())) {
 		modeChar[0] = 'A';
-		if(bIPv6)
+		if(bIPv6 /*&& isSet(SUPPORTS_IP64)*/ )
 			modeChar[1] = 'A';
 	} else {
 		modeChar[0] = 'P';
-		if(/*sock->isV6Valid() && isActiveV6()*/bIPv6)
+		if(bIPv6 /*&& isSet(SUPPORTS_IP64)*/ )
 			modeChar[1] = 'P';
 	}
 	modeChar[2] =  '\0';

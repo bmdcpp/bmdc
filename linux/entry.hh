@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2016 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
 #include <dcpp/stdinc.h>
 #include <dcpp/Util.h>
 #include <gtk/gtk.h>
-#include <glib/gi18n.h>
+//#include <glib/gi18n.h>
 #include <string>
 #include <unordered_map>
 

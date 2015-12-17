@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2015 Mank, freedcpp@seznam.cz
+ * Copyright © 2010-2016 BMDC, freedcpp@seznam.cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1299,6 +1299,13 @@ void MainWindow::addPrivateStatusMessage_gui(Msg::TypeMsg typemsg, string cid, s
 
 	if (entry != NULL)
 		dynamic_cast<PrivateMessage*>(entry)->addStatusMessage_gui(message, typemsg);
+}
+
+void MainWindow::addPublicStatusMessage_gui(std::string hub,std::string message, Msg::TypeMsg typemsg, Sound::TypeSound sound, Notify::TypeNotify notify)
+{
+	BookEntry *entry = findBookEntry(Entry::HUB, hub);
+	if(entry != NULL)
+		dynamic_cast<Hub*>(entry)->addStatusMessage_gui(message,typemsg,sound ,notify);
 }
 
 void MainWindow::showPublicHubs_gui()

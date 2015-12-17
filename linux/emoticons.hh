@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2015 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2016 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,11 +25,12 @@
 #include <gtk/gtk.h>
 
 #define EMOTICONS_MAX 255
+#define SIZE_NAME 255
 
 class Emot
 {
 	public:
-		enum {SIZE_NAME = 255};
+		//enum {SIZE_NAME = 255};
 		typedef std::vector<Emot *> List;
 		typedef List::const_iterator Iter;
 

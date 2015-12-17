@@ -31,12 +31,13 @@
 #include "HubUsersMap.h"
 #include "BufferedSocketListener.h"
 
+#include "Flags.h"
 
 namespace dcpp {
 
 using std::list;
 
-class NmdcHub : public Client
+class NmdcHub : public Client, public Flags
 {
 public:
 	using Client::send;

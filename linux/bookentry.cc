@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2015 Mank freedcpp <at> seznam <dot> cz
+ * Copyright © 2010-2016 BMDC freedcpp <at> seznam <dot> cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,11 +40,8 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	type(type), IsCloseButton(false)
 {
 	GSList *group = NULL;
-	#if GTK_CHECK_VERSION(3, 2, 0)
 	labelBox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
-	#else
-	labelBox = gtk_hbox_new(FALSE, 0);
-	#endif
+
 	gtk_widget_set_name(labelBox,getName().c_str());//CSS
 	eventBox = gtk_event_box_new();
 	gtk_widget_set_name(eventBox,getName().c_str());//CSS
@@ -182,7 +179,7 @@ void BookEntry::setLabel_gui(string text)
         // Update the notebook tab label
        gtk_widget_set_tooltip_text(eventBox, text.c_str());
     }
-
+/*
     if(WGETB("custom-font-size"))
     {
 		PangoContext *cnx = gtk_widget_get_pango_context (GTK_WIDGET(label));
@@ -197,7 +194,7 @@ void BookEntry::setLabel_gui(string text)
 		}
 		gtk_widget_override_font (GTK_WIDGET(label),desc);
     }
-
+*/
 	glong len = g_utf8_strlen(text.c_str(), -1);
 
 	// Truncate the label text
@@ -536,7 +533,14 @@ void BookEntry::setBackForeGround(const EntryType type)
 	GtkCssProvider *provider = gtk_css_provider_new ();
 	GdkDisplay *display = gdk_display_get_default ();
 	GdkScreen *screen = gdk_display_get_default_screen (display);
-	std::string t_css = std::string("#"+name+" { color:"+fg+"; background: "+bg+"; }\n\0");
+	
+	string t_css = dcpp::Util::emptyString;
+	if(WGETB("custom-font-size")) {
+		string size = dcpp::Util::toString(WGETI("book-font-size"))+" %";
+		t_css = std::string("#"+name+" { color:"+fg+"; background: "+bg+"; font-size:"+size+"; }\n\0");
+	} else
+		t_css = std::string("#"+name+" { color:"+fg+"; background: "+bg+"; }\n\0");
+	
 	gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
 
 	gtk_style_context_add_provider_for_screen (screen,
@@ -548,7 +552,7 @@ void BookEntry::setBackForeGround(const EntryType type)
 	provider = gtk_css_provider_new ();
 	display = gdk_display_get_default ();
 	screen = gdk_display_get_default_screen (display);
-	std::string t_css2 = std::string("#"+name+":active { color:"+fg_unread+"; background: "+bg_unread+"; }\n\0");
+	std::string t_css2 = std::string("#"+name+":active { color:"+fg_unread+"; background: "+bg_unread+"; font-weight: bold; }\n\0");
 	gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css2.c_str(),-1, NULL);
 
 	gtk_style_context_add_provider_for_screen (screen,

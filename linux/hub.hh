@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2015 Mank freedcpp at seznam dot cz
+ * Copyright © 2010-2016 BMDC freedcpp at seznam dot cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,6 +39,8 @@
 #include <queue>
 #include <map>
 
+#include "UserMenu.hh"
+
 class UserCommandMenu;
 class WulforSettingsManager;
 class EmoticonsDialog;
@@ -72,7 +74,7 @@ class Hub:
 			return findNick_gui(word,&iter);
 		}
 
-	private:
+private:
 		dcpp::FavoriteHubEntry* getFavoriteHubEntry();
 		typedef std::unordered_map<std::string, std::string> UserMap;
 		typedef std::unordered_map<GtkWidget*, std::string> ImageList;
@@ -91,13 +93,13 @@ class Hub:
 		void addMessage_gui(std::string cid, std::string message, Msg::TypeMsg typemsg);
 		void applyTags_gui(const std::string &cid, const std::string &line);
 
-		void addStatusMessage_gui(std::string message, Msg::TypeMsg typemsg, Sound::TypeSound sound);
 		void applyEmoticons_gui();
 		void updateCursor_gui(GtkWidget *widget);
 		void getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, std::string &fore, std::string &back, bool &bold, bool &italic);
 		GtkTextTag* createTag_gui(const std::string &tagname, Tag::TypeTag type);
-		void addStatusMessage_gui(std::string message, Msg::TypeMsg typemsg, Sound::TypeSound sound, Notify::TypeNotify notify);
 public:
+		void addStatusMessage_gui(std::string message, Msg::TypeMsg typemsg, Sound::TypeSound sound);
+		void addStatusMessage_gui(std::string message, Msg::TypeMsg typemsg, Sound::TypeSound sound, Notify::TypeNotify notify);
 		void nickToChat_gui(const std::string &nick);
 private:		
 		void addFavoriteUser_gui(dcpp::StringMap params);
@@ -258,6 +260,7 @@ private:
 		GdkCursor *handCursor;
 		GtkTextTag *selectedTag;
 		UserCommandMenu *userCommandMenu, *userCommandMenu1, *userCommandMenu2;
+		//UserMenu* userMenu;
 		EmoticonsDialog *emotdialog;
 		GtkTextTag *BoldTag, *UnderlineTag, *ItalicTag;
 		std::queue<std::string> statustext;

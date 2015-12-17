@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
 
 #define APPNAME "BMDC++"
 
-#define VERSIONSTRING "0.810"
-#define VERSIONFLOAT 0.810
+#define VERSIONSTRING "0.851"
+#define VERSIONFLOAT 0.851
 
 #ifndef DCPP_REVISION
 	#define DCPP_REVISION 2972

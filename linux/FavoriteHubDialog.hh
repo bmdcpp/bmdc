@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 - 2015 - Mank
+ * Copyright (C) 2012 - 2016 - BMDC
  *
  * BMDC++ is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -58,10 +58,10 @@ private:
 		TreeView actionView;
 		GtkTreeSelection *actionSel;
 		//@: Widgets
-		GtkWidget	*mainDialog,
-					*mainBox,
-					*notebook,
-					*boxSimple,
+		GtkWidget	*mainDialog, //@ dialog container
+					*mainBox, //@ main Things container from Dialog
+					*notebook, //  Switchable pages
+					*boxSimple, //1st page
 					*boxAdvanced,
 		//@: Hub-stuff
 					*entryAddress,

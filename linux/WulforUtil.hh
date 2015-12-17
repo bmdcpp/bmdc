@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011-2015 BMDC Team , Mank, <freedcpp at seznam dot cz>
+ * Copyright © 2011-2016 BMDC Team, <freedcpp at seznam dot cz>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,6 +32,8 @@
 #include <dcpp/typedefs.h>
 #include <dcpp/SettingsManager.h>
 #include <dcpp/Util.h>
+
+#include <glib/gi18n.h>
 
 #define C_EMPTY(x) ((x) == NULL || (x)[0] == '\0')
 // Some Global typedefs

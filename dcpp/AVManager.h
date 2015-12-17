@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Mank, freedcpp on seznam point cz
+ * Copyright (C) 2014-2016 BMDC, freedcpp on seznam point cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

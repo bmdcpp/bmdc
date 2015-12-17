@@ -1,6 +1,5 @@
 /*
- *
- * Copyright (C) 2011 - 2015 - Mank - freedcpp at seznam dot cz
+ * Copyright (C) 2011 - 2016 - BMDC - freedcpp at seznam dot cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +17,7 @@
 
 #ifndef _BMDC_SPLASH_HH_
 #define _BMDC_SPLASH_HH_
+
 #include <iostream>
 #include <gtk/gtk.h>
 #include <dcpp/Util.h>
@@ -39,11 +39,7 @@ class Splash
 			gtk_window_set_position(GTK_WINDOW(win),GTK_WIN_POS_CENTER);
 			label = gtk_label_new("Loading...");
 			progressbar = gtk_progress_bar_new ();
-			#if GTK_CHECK_VERSION(3, 2, 0)
 			box = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
-			#else
-			box = gtk_vbox_new(TRUE, 0);
-			#endif
 			image = gtk_image_new_from_file(_DATADIR "/icons/hicolor/scalable/apps/bmdc.svg");
 			gtk_container_add(GTK_CONTAINER(box),image);
 			gtk_container_add(GTK_CONTAINER(box),label);

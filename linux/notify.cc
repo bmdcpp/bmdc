@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2015 Leliksan Floyd <leliksan@Quadrafon2>
+ * Copyright © 2009-2016 Leliksan Floyd <leliksan@Quadrafon2>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -60,7 +60,6 @@ void Notify::stop()
 {
 	dcassert(notify);
 	delete notify;
-	notify = NULL;
 }
 
 Notify* Notify::get()
@@ -79,7 +78,7 @@ void Notify::init()
 	#else
 		notification = notify_notification_new("template", "template", NULL, NULL);
 	#endif
-		action = FALSE;
+		bAction = false;
 #endif
 }
 
@@ -145,10 +144,10 @@ void Notify::showNotify(const string &head, const string &body, TypeNotify notif
 	{
 		case DOWNLOAD_FINISHED:
 
-			if (action)
+			if(bAction)
 			{
 				notify_notification_clear_actions(notification);
-				action = FALSE;
+				bAction = false;
 			}
 
 			if (wsm->getInt("notify-download-finished-use"))
@@ -162,7 +161,7 @@ void Notify::showNotify(const string &head, const string &body, TypeNotify notif
 				showNotify(wsm->getString("notify-download-finished-title"), head, Util::getFileName(body),
 					wsm->getString("notify-download-finished-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_NORMAL);
 
-				action = TRUE;
+				bAction = true;
 			}
 
 			break;
@@ -228,17 +227,11 @@ void Notify::showNotify(const string &head, const string &body, TypeNotify notif
 
 void Notify::showNotify(const string &title, const string &head, const string &body, const string &icon, const int iconSize, NotifyUrgency urgency)
 {
-	dcdebug("1 Notify?");	
 	#ifdef HAVE_NOTIFY
 //@ only title is Fatal	
 	if(title.empty())
 		return;
 	
-	//if (title.empty() || notification == NULL || head.empty() || body.empty() || urgency < 1)
-	//	return;
-		
-	dcdebug("2 Notify?");	
-
 	gchar *esc_title = g_markup_escape_text(title.c_str(), -1);
 	gchar *esc_body = g_markup_escape_text(body.c_str(), -1);
 	string message = head + esc_body;
@@ -278,10 +271,10 @@ void Notify::showNotify(const string &title, const string &head, const string &b
 		}
 	}
 
-	if (action)
+	if (bAction)
 	{
 		notify_notification_clear_actions(notification);
-		action = FALSE;
+		bAction = false;
 	}
 
 	notify_notification_show(notification, NULL);

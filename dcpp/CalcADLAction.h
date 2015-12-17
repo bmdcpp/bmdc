@@ -1,7 +1,7 @@
 /*
  * This file is part of BMDC++ 
  *
- * Copyright (C) 2012 - 2015 Mank
+ * Copyright (C) 2012 - 2016 
  *
  * BMDC++ is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public

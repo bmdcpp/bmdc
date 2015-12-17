@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2016 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -93,14 +93,7 @@ class ShareBrowser:
 		std::string initialDirectory;
 		std::string nick;
 		dcpp::DirectoryListing listing;
-		int64_t shareSize;
-		int64_t currentSize;
-		int shareItems;
-		int currentItems;
 		std::string search;
-		bool updateFileView;
-		int skipHits;
-		int64_t speed;
 		TreeView dirView, fileView;
 		GtkListStore *fileStore;
 		GtkTreeStore *dirStore;
@@ -108,23 +101,30 @@ class ShareBrowser:
 		UserCommandMenu *fileUserCommandMenu;
 		UserCommandMenu *dirUserCommandMenu;
 		UserCommandMenu *TabUserCommandMenu;
+		int64_t shareSize;
+		int64_t currentSize;
+		int64_t speed;
+		int64_t currentItems;
+		int shareItems;
+		int skipHits;
+		bool updateFileView;
 		bool fullfl;
 		
 		class ThreadedDirectoryListing : public dcpp::Thread
  	{
- 	public:
-		ThreadedDirectoryListing(ShareBrowser* pWindow,
-		const std::string& pFile, const std::string& pTxt, const std::string& aDir = dcpp::Util::emptyString) : mWindow(pWindow),
-		mFile(pFile), mTxt(pTxt), mDir(aDir) { }
+		public:
+			ThreadedDirectoryListing(ShareBrowser* pWindow,
+			const std::string& pFile, const std::string& pTxt, const std::string& aDir = dcpp::Util::emptyString) : mWindow(pWindow),
+			mFile(pFile), mTxt(pTxt), mDir(aDir) { }
  	
- 	protected:
-		ShareBrowser* mWindow;
-		std::string mFile;
-		std::string mTxt;
-		std::string mDir;
+		protected:
+			ShareBrowser* mWindow;
+			std::string mFile;
+			std::string mTxt;
+			std::string mDir;
  	
 		private:
-		int run();
+			int run();
  	};
 	
 };

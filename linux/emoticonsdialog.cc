@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2015 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2016 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -57,7 +57,7 @@ EmoticonsDialog::EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *
 		{
 			em = i.second;
 			if( (em != NULL) && (em->getCurrPackName_gui() == packName) ){
-			   dontCreate = true;break;
+			   dontCreate = true; break;
 			}
 		}
 		

@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2015 Mank <freedcpp at seznam dot cz>
+ * Copyright © 2010-2016 BMDC <freedcpp at seznam dot cz>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1223,7 +1223,7 @@ string WulforUtil::formatTimeDifference(uint64_t diff, size_t levels /*= 3*/) {
 	string	buf;
 	int		n;
 
-#define SDDCPP_FORMATTIME(calc, name) \
+#define DCPP_FORMATTIME(calc, name) \
 	if((n = (diff / (calc))) != 0) { \
 		if(!buf.empty()) \
 			buf += L' '; \
@@ -1238,11 +1238,11 @@ string WulforUtil::formatTimeDifference(uint64_t diff, size_t levels /*= 3*/) {
 		diff %= (calc); \
 	}
 
-	SDDCPP_FORMATTIME(60 * 60 * 24 * 7,	"week");
-	SDDCPP_FORMATTIME(60 * 60 * 24,		"day");
-	SDDCPP_FORMATTIME(60 * 60,			"hour");
-	SDDCPP_FORMATTIME(60,				"minute");
-	SDDCPP_FORMATTIME(1,				"second");
+	DCPP_FORMATTIME(60 * 60 * 24 * 7,	"week");
+	DCPP_FORMATTIME(60 * 60 * 24,		"day");
+	DCPP_FORMATTIME(60 * 60,			"hour");
+	DCPP_FORMATTIME(60,				"minute");
+	DCPP_FORMATTIME(1,				"second");
 	return buf;
 }	
 

@@ -1,4 +1,4 @@
-// Copyright (C) 2014-2015  Mank <freedppp@seznam.cz>
+// Copyright (C) 2014-2016  BMDC <freedppp@seznam.cz>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -139,7 +139,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	//
 	boxAdvanced	= gtk_grid_new();
 	GtkWidget* labelAdvanced = lan(_("Chat&Misc"));
-	checkHideShare = g_c_b_n(_("Hide Share"));//@TODO: Possible move
+	checkHideShare = g_c_b_n(_("Hide Share")); //@TODO: Possible move
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkHideShare), p_entry->getHideShare() );
 
 	g_g_a_a(checkHideShare,0,0,1,1);
@@ -156,13 +156,16 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	
 	g_g_a_a( lan(_("Favorite Users Joins/Parts:")) ,0,3,1,1);
 	comboFavParts = createComboBoxWith3Options(_("Default"),_("Enable"),_("Disable"));
+	
 	if(p_entry->get(SettingsManager::FAV_SHOW_JOINS,SETTING(FAV_SHOW_JOINS)) == SETTING(FAV_SHOW_JOINS))
 		gtk_combo_box_set_active(GTK_COMBO_BOX(comboFavParts), 0);
 	else
 		gtk_combo_box_set_active(GTK_COMBO_BOX(comboFavParts),p_entry->get(SettingsManager::FAV_SHOW_JOINS,SETTING(FAV_SHOW_JOINS))+1);
+	
 	g_g_a_a(comboFavParts,1,3,1,1);
 	
 	g_g_a_a( lan(_("Users Joins/Parts:")) ,0,4,1,1);
+	
 	comboParts = createComboBoxWith3Options(_("Default"),_("Enable"),_("Disable"));
 
 	if(p_entry->get(SettingsManager::FAV_SHOW_JOINS,SETTING(SHOW_JOINS)) == SETTING(SHOW_JOINS))
@@ -237,15 +240,35 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	GtkWidget* boxConnection = gtk_grid_new();
 	g_g_a_c_s(lan(_("Mode:")),0,0,1,1);
 	comboMode = createComboBoxWith3Options(_("Default"),_("Active"),_("Passive"));
-	
-	if(p_entry->getMode() == SETTING(INCOMING_CONNECTIONS))
+	//this need clarifiaction
+	/*if(p_entry->getMode() == SETTING(INCOMING_CONNECTIONS))
 		gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode), 0);
 	else{
 		int mode_i = p_entry->getMode();
 		if(mode_i <= 1)
-			gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode),1);//active
-		else gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode),2);//passive	
-	}
+			gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode),1);//1active
+		else gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode),2);//2passive	
+	}*/
+	bool b_ip = true;
+	switch(p_entry->getMode())
+	{
+		
+		case SettingsManager::INCOMING_DIRECT:
+									
+		case SettingsManager::INCOMING_FIREWALL_UPNP:
+						b_ip = false;
+						gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode), 0);
+						break;
+		case SettingsManager::INCOMING_FIREWALL_NAT:
+						gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode), 1);
+						break;
+		case SettingsManager::INCOMING_FIREWALL_PASSIVE:
+		default:
+			gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode), 2);
+		break;
+	};
+	
+	
 
 	g_g_a_c_s(comboMode,1,0,1,1);
 
@@ -254,6 +277,9 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	entryIp = gen;
 	gtk_entry_set_text(GTK_ENTRY(entryIp), p_entry->get(SettingsManager::EXTERNAL_IP,SETTING(EXTERNAL_IP)).c_str());
 	g_g_a_c_s(entryIp,1,2,1,1);
+	//if(b_ip)
+	//	gtk_widget_set_sensitive(GTK_WIDGET(entryIp),FALSE);
+	
 	//GtkWidget* enableIp6 = g_c_b_n("Enable IPv6");
 	//g_g_a_c_s(enableIp6,0,3,1,1);
 	
@@ -274,9 +300,6 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	g_object_unref(actionStore);
 	actionSel = gtk_tree_view_get_selection(actionView.get());
 
-	//	g_signal_connect(getWidget("checkbuttonEncoding"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("comboboxCharset"));
-	//	g_signal_connect(getWidget("checkbuttonNick"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("entryNick"));
-	//	g_signal_connect(getWidget("checkbuttonUserDescription"), "toggled", G_CALLBACK(onCheckButtonToggled_gui), getWidget("entryUserDescription"));
 	g_signal_connect(actionView.getCellRenderOf(_("Enabled")), "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxKickAction ,lan("Kick Actions") );	
 	initActions();
@@ -329,17 +352,7 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 		}
 		else
 			gtk_combo_box_set_active(GTK_COMBO_BOX(comboGroup), 0);
-/*
-		// Set the override default nick checkbox
-		string nick = p_entry->get(SettingsManager::NICK,SETTING(NICK));
-		gboolean overrideNick = !(nick.empty() || nick == SETTING(NICK));
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonNick")), overrideNick);
 
-		// Set the override default user description checkbox
-		string desc = p_entry->get(SettingsManager::DESCRIPTION,SETTING(DESCRIPTION));
-		gboolean overrideUserDescription = !(desc.empty() || desc == SETTING(DESCRIPTION));
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonUserDescription")), overrideUserDescription);
-*/
 		// Show the dialog
 		gint response = gtk_dialog_run(GTK_DIALOG(mainDialog));
 
@@ -354,8 +367,6 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 			p_entry->setServer(gtk_entry_get_text(GTK_ENTRY(entryAddress)));
 			p_entry->setHubDescription(gtk_entry_get_text(GTK_ENTRY(entryDesc)));
 			p_entry->setPassword(gtk_entry_get_text(GTK_ENTRY(entryPassword)));
-			
-			p_entry->setGroup(Util::emptyString);
 			
 			p_entry->set(SettingsManager::CHAT_EXTRA_INFO ,gtk_entry_get_text(GTK_ENTRY(extraChatInfoEntry)));
 			p_entry->set(SettingsManager::EXTERNAL_IP, gtk_entry_get_text(GTK_ENTRY(entryIp)));
@@ -380,8 +391,7 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 			p_entry->set(SettingsManager::SHOW_JOINS, gtk_combo_box_get_active(GTK_COMBO_BOX(comboParts)));
 			p_entry->set(SettingsManager::FAV_SHOW_JOINS, gtk_combo_box_get_active(GTK_COMBO_BOX(comboFavParts)));
 			p_entry->set(SettingsManager::DEFAULT_AWAY_MESSAGE, gtk_entry_get_text(GTK_ENTRY(entryAwayMessage)));
-			//temp fix ( disabling IPv6 by default)
-			//p_entry->set(HubSettings::Connection) = 1;
+
 			p_entry->set(SettingsManager::EXTERNAL_IP6, Util::emptyString);
 			GdkRGBA color;	
 			gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER(colorBack),
@@ -398,25 +408,27 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 			{
 				p_entry->set(SettingsManager::BACKGROUND_CHAT_IMAGE,string(image_path));
 			}
+			
+			if(image_path)
+				g_free(image_path);
+			
+			p_entry->setGroup(Util::emptyString);
+			
+		if (gtk_combo_box_get_active(GTK_COMBO_BOX(comboGroup)) != 0)
+		{
+			gchar *group = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboGroup));
+			if(group) {
+				p_entry->setGroup(string(group));
+				g_free(group);
+		   	}
+		}
 
-			if (gtk_combo_box_get_active(GTK_COMBO_BOX(comboGroup)) != 0)
-			{
-				gchar *group = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboGroup));
-				if(group) {
-					p_entry->setGroup(string(group));
-					g_free(group);
-			   	}
-			}
-/*
-		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonEncoding"))))
-		{*/
-			gchar *encoding = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboCodepage));
-			if(encoding)
-			{
+		gchar *encoding = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboCodepage));
+		if(encoding)
+		{
 				p_entry->setEncoding(string(encoding));
 				g_free(encoding);
-			}
-//		}
+		}
 
 		gchar *pack = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboEmot));
 		
@@ -425,17 +437,11 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 			p_entry->set(SettingsManager::EMOT_PACK,string(pack));
 			g_free(pack);
 		}
-/*
-		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonNick"))))
-		{*/
-			p_entry->set(SettingsManager::NICK, gtk_entry_get_text(GTK_ENTRY(entryUsername)));
-/*		}
 
-		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkbuttonUserDescription"))))
-		{
-*/			p_entry->set(SettingsManager::DESCRIPTION,gtk_entry_get_text(GTK_ENTRY(entryUserDescriptio)));
-	/*	}
-*/
+		p_entry->set(SettingsManager::NICK, gtk_entry_get_text(GTK_ENTRY(entryUsername)));
+
+		p_entry->set(SettingsManager::DESCRIPTION,gtk_entry_get_text(GTK_ENTRY(entryUserDescriptio)));
+
 		if (p_entry->getName().empty() || p_entry->getServer().empty())
 		{
 			if (showErrorDialog_gui(_("The name and address fields are required")))

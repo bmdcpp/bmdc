@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2015 Mank, freedcpp at seznam dot cz
+ * Copyright © 2010-2016 BMDC, freedcpp at seznam dot cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -79,7 +79,7 @@ void handle_crash(int )
 	f << gtk_get_minor_version();
 	f << ".";
 	f << gtk_get_micro_version();
-	printf("Compiler version");
+	printf("\nCompiler version\n");
 	f << "\n Compiler Version: \n";
 	#ifdef __clang__
 	f << "clang " __clang_version__;

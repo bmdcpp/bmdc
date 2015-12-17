@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2015 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2016 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,8 +36,10 @@ Emoticons* Emoticons::start(const string &packName, bool _global)
 {
 	global = _global;
 	if(_global) {
+		
 		dcassert(!emoticons);
 		emoticons = new Emoticons(packName);
+		
 	}
 	return (new Emoticons(packName));
 }
@@ -47,7 +49,6 @@ void Emoticons::stop()
 	if(global) {
 		dcassert(emoticons);
 		delete emoticons;
-		emoticons = NULL;
 	}
 }
 
@@ -82,7 +83,7 @@ void Emoticons::create()
 	/* load current pack */
 	if (load(path + packName + ".xml"))
 	{
-		useEmotions = TRUE;
+		useEmotions = true;
 		return;
 	}
 
@@ -99,7 +100,7 @@ void Emoticons::create()
 		{
 			if (load(path + file + ".xml"))
 			{
-				useEmotions = TRUE;
+				useEmotions = true;
 				currPackName = file;
 				return;
 			}
@@ -166,7 +167,7 @@ bool Emoticons::load(const string &file)
 				{
 					emotName = xml.getChildAttrib("text");
 
-					if (emotName.empty() || g_utf8_strlen(emotName.c_str(), -1) > Emot::SIZE_NAME || filter.count(emotName))
+					if (emotName.empty() || g_utf8_strlen(emotName.c_str(), -1) > SIZE_NAME || filter.count(emotName))
 						continue;
 
 					list = g_list_append(list, g_strdup(emotName.c_str()));
@@ -186,7 +187,7 @@ bool Emoticons::load(const string &file)
 	}
 	catch (const Exception &e)
 	{
-		dcdebug("[BMDC]: %s...\n", e.getError().c_str());
+		dcdebug("[BMDC]: %s...\n", e.what());
 		return false;
 	}
 

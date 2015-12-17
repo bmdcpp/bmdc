@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2016 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,8 +41,8 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 	dcpp::Flags(NORMAL),
 	cid(_cid), hubUrl(_hubUrl),
 	historyIndex(0),
-	sentAwayMessage(FALSE),
-	scrollToBottom(TRUE),
+	sentAwayMessage(false),
+	scrollToBottom(true),
 	notCreated(true)
 {
 	setName(cid);
@@ -61,12 +61,12 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 	end_mark = gtk_text_buffer_create_mark(messageBuffer, NULL, &iter, TRUE);
 	tag_mark = gtk_text_buffer_create_mark(messageBuffer, NULL, &iter, FALSE);
 	emot_mark = gtk_text_buffer_create_mark(messageBuffer, NULL, &iter, TRUE);
-#if !GTK_CHECK_VERSION(3, 16, 0)
-	handCursor = gdk_cursor_new(GDK_HAND2);
-#endif
 #if GTK_CHECK_VERSION(3, 16, 0)
 	handCursor = gdk_cursor_new_for_display(gdk_display_get_default (),GDK_HAND2); 
+#else
+	handCursor = gdk_cursor_new(GDK_HAND2);
 #endif
+
 	GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("scroll")));
 
 	// menu
@@ -271,7 +271,7 @@ void PrivateMessage::preferences_gui()
 	{
 		if(i == Tag::TAG_GENERAL) //@mainchat Tag
 			continue;
-		if(i == Tag::TAG_CHEAT) //@Cheating on mainchat
+		if(i == Tag::TAG_CHEAT) //@Cheating on mainchat Tag
 			continue;
 
 		getSettingTag_gui(wsm, (Tag::TypeTag)i, fore, back, bold, italic);
@@ -450,7 +450,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 	gtk_text_buffer_move_mark(messageBuffer, end_mark, &start_iter);
 
 	string tagName;
-	bool start = FALSE;
+	bool start = false;
 	bool isIp = false;
 	for(;;)
 	{
@@ -467,7 +467,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 			gtk_text_buffer_move_mark(messageBuffer, start_mark, &start_iter);
 			gtk_text_buffer_move_mark(messageBuffer, end_mark, &start_iter);
 
-			start = TRUE;
+			start = true;
 		}
 
 		tag_start_iter = start_iter;
@@ -485,12 +485,13 @@ void PrivateMessage::applyTags_gui(const string &line)
 		GCallback callback = NULL;
 		gchar *temp = gtk_text_iter_get_text(&tag_start_iter, &tag_end_iter);
 		string country_text;
-		bool isCountryFlag = FALSE;
+		bool isCountryFlag = false;
 
 		if(WGETB("use-highlighting"))
 		{
 			GtkTextTag *tag = gtk_text_tag_table_lookup(gtk_text_buffer_get_tag_table(messageBuffer), temp);
 			bool isTab = false;
+			
 			if(WulforUtil::isHighlightingWorld(messageBuffer,tag,string(temp),isTab,(gpointer)NULL))
 			{
 				gtk_text_buffer_apply_tag(messageBuffer, tag, &tag_start_iter, &tag_end_iter);
@@ -507,7 +508,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 		{
 			tagName = temp;
 			g_free(temp);
-			bool notlink = FALSE;
+			bool notlink = false;
 
 			if(g_ascii_strncasecmp(tagName.c_str(), "[ccc]", 5) == 0)
 			{
@@ -517,7 +518,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 					country_text = tagName.substr(5, i - 5);
 					if(country_text.length() == 2 )
 					{
-							notlink = isCountryFlag = TRUE;
+							notlink = isCountryFlag = true;
 					}
                 		}
             	}
@@ -572,7 +573,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 			if (gtk_text_iter_is_end(&start_iter))
 				return;
 
-			start = FALSE;
+			start = false;
 
 			continue;
 		}
@@ -618,7 +619,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 			if (gtk_text_iter_is_end(&start_iter))
 				return;
 
-			start = FALSE;
+			start = false;
 		}
 		else
 		{
@@ -671,7 +672,7 @@ void PrivateMessage::applyEmoticons_gui()
 		return;
 	}
 
-	bool search;
+	bool search = false;
 	gint searchEmoticons = 0;
 
 	GtkTextIter tmp_end_iter,
@@ -693,7 +694,7 @@ void PrivateMessage::applyEmoticons_gui()
 		gtk_text_buffer_get_iter_at_mark(messageBuffer, &start_iter, emot_mark);
 		gtk_text_buffer_get_iter_at_mark(messageBuffer, &end_iter, end_mark);
 
-		search = FALSE;
+		search = false;
 		set_start = gtk_text_iter_get_offset(&end_iter);
 
 		for (Emot::Iter it = list.begin(); it != list.end(); ++it)
@@ -711,12 +712,12 @@ void PrivateMessage::applyEmoticons_gui()
 				{
 					if (!search)
 					{
-						search = TRUE;
+						search = true;
 						end_iter = match_start;
 
 						/* set new limit search */
 						gtk_text_buffer_get_iter_at_mark(messageBuffer, &tmp_end_iter, end_mark);
-						for (int i = 1; !gtk_text_iter_equal(&end_iter, &tmp_end_iter) && i <= Emot::SIZE_NAME;
+						for (int i = 1; !gtk_text_iter_equal(&end_iter, &tmp_end_iter) && i <= SIZE_NAME;
 							gtk_text_iter_forward_chars(&end_iter, 1), i++);
 
 					}
@@ -1375,7 +1376,7 @@ void PrivateMessage::onCommandClicked_gui(GtkWidget *widget, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 
-	string command = (gchar*)g_object_get_data(G_OBJECT(widget), "command");
+	string command = (gchar *)g_object_get_data(G_OBJECT(widget), "command");
 
 	gint pos = 0;
 	GtkWidget *entry = pm->getWidget("entry");
@@ -1497,7 +1498,9 @@ void PrivateMessage::on(ClientManagerListener::UserConnected, const UserPtr& aUs
 		typedef Func1<PrivateMessage, bool> F1;
 		F1 *func = new F1(this, &PrivateMessage::updateOnlineStatus_gui, aUser->isOnline());
 		WulforManager::get()->dispatchGuiFunc(func);
-		setFlag(NORMAL);
+		
+		if(aUser->isOnline() == true)
+			setFlag(NORMAL);
 	}
 }
 
@@ -1508,7 +1511,9 @@ void PrivateMessage::on(ClientManagerListener::UserDisconnected, const UserPtr& 
 		typedef Func1<PrivateMessage, bool> F1;
 		F1 *func = new F1(this, &PrivateMessage::updateOnlineStatus_gui, aUser->isOnline());
 		WulforManager::get()->dispatchGuiFunc(func);
-		setFlag(OFFLINE);
+		
+		if(aUser->isOnline() == false)
+			setFlag(OFFLINE);
 	}
 }
 
@@ -1548,6 +1553,7 @@ GtkWidget *PrivateMessage::createmenu()
 	string nicks = WulforUtil::getNicks(this->cid, this->hubUrl);
 	GtkWidget* fitem = BookEntry::createItemFirstMenu();
 	gtk_menu_item_set_label(GTK_MENU_ITEM(fitem), nicks.c_str());
+
 if(notCreated) {
 	m_menu = gtk_menu_new();
 	userCommandMenu->cleanMenu_gui();
@@ -1560,6 +1566,7 @@ if(notCreated) {
 	GtkWidget *close = gtk_menu_item_new_with_label(_("Close"));
 	GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite Users"));
 	GtkWidget *copyNicks = gtk_menu_item_new_with_label(_("Copy Nick(s)"));
+	
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(u_item),userCommandMenu->getContainer());
 	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), fitem);
 	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu),close);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -475,8 +475,9 @@ public:
 	if(name.empty()) return false;
 	size_t n = std::count(name.begin(), name.end(), ':');
 	if( (n==2) && (name.size() == 2) ) return true;//Fix for "::"
-	if(n == 0 || n < 2)
+	if(/*n == 0 ||*/ n < 2)
 			return false;
+			
 	bool ok = false;
 	for(auto i = name.begin();i!=name.end();++i) {
 			if(*i==':') {

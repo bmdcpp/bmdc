@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2015 Mank, freedcpp@seznam.cz
+ * Copyright © 2010-2016 BMDC, freedcpp@seznam.cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -109,6 +109,7 @@ class MainWindow:
 
 		void addPrivateMessage_gui(Msg::TypeMsg typemsg, std::string cid, std::string hubUrl = "", std::string message = "", bool useSetting = FALSE);
 		void addPrivateStatusMessage_gui(Msg::TypeMsg typemsg, std::string cid, std::string message = "");
+		void addPublicStatusMessage_gui(std::string hub,std::string message, Msg::TypeMsg typemsg, Sound::TypeSound sound, Notify::TypeNotify notify);
 		void showPublicHubs_gui();
 		void showShareBrowser_gui(dcpp::HintedUser user, std::string file, std::string dir, int64_t speed ,bool useSetting);
 		SearchEntry *addSearch_gui();
@@ -184,15 +185,10 @@ class MainWindow:
 		void previousTab_gui();
 		void nextTab_gui();
 		BookEntry *findBookEntry(const EntryType type, const std::string &id = "");
-///*#ifdef GTK_DISABLE_DEPRECATED
 #if !GTK_CHECK_VERSION(3,14,1)
 		void createStatusIcon_gui();
 		void updateStatusIconTooltip_gui(std::string download, std::string upload);
 #endif
-/*#else
-		void createStatusIcon_gui();
-		void updateStatusIconTooltip_gui(std::string download, std::string upload);
-//#endif*/
 //TODO: is APP* depens on gtk ver or not?
 #ifdef HAVE_APPINDCATOR
 #if GTK_CHECK_VERSION(3,14,1)
@@ -205,18 +201,14 @@ class MainWindow:
 		void setToolbarButton_gui();
 		void setTabPosition_gui(int position);
 		void setToolbarStyle_gui(int style);
-//		#ifdef GTK_DISABLE_DEPRECATED
-		#if !GTK_CHECK_VERSION(3,14,1)
+#if !GTK_CHECK_VERSION(3,14,1)
 		void removeTimerSource_gui();
-		#endif
-//		#else
-//		void removeTimerSource_gui();
-//		#endif
+#endif
 		
 		void setChooseMagnetDialog_gui();
 		void showMagnetDialog_gui(const std::string &magnet, const std::string &name, const int64_t size,
 			const std::string &tth);
-		void setStatRate_gui();//NOTE: core 0.762
+		void setStatRate_gui();
 		void setToolbarMenu_gui(const std::string &item_key, const std::string &button_key, const std::string &key);
 		void updateFavoriteHubMenu_gui(ListParamPair list);
 		void checkToolbarMenu_gui();
@@ -227,13 +219,10 @@ class MainWindow:
 		static gboolean onCloseWindow_gui(GtkWidget *widget, GdkEvent *event, gpointer data);
 		static gboolean onKeyPressed_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static gboolean onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-//#ifdef GTK_DISABLE_DEPRECATED
+
 #if !GTK_CHECK_VERSION(3,14,1)
 		static gboolean animationStatusIcon_gui(gpointer data);
 #endif
-//#else
-//		static gboolean animationStatusIcon_gui(gpointer data);
-//#endif
 		static void onRaisePage_gui(GtkMenuItem *item, gpointer data);
 		static void onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *page, guint num, gpointer data);
 		static void onPaneRealized_gui(GtkWidget *pane, gpointer data);
@@ -260,17 +249,11 @@ class MainWindow:
 		static void onAboutClicked_gui(GtkWidget *widget, gpointer data);
 		static void onAboutDialogActivateLink_gui(GtkAboutDialog *dialog, const gchar *link, gpointer data);
 		static void onCloseBookEntry_gui(GtkWidget *widget, gpointer data);
-/*#ifdef GTK_DISABLE_DEPRECATED*/
 #if !GTK_CHECK_VERSION(3,14,1)
 		static void onStatusIconActivated_gui(GtkStatusIcon *statusIcon, gpointer data);
 		static void onStatusIconPopupMenu_gui(GtkStatusIcon *statusIcon, guint button, guint time, gpointer data);
 		static void onStatusIconBlinkUseToggled_gui(GtkWidget *widget, gpointer data);
 #endif		
-/*#else
-		static void onStatusIconActivated_gui(GtkStatusIcon *statusIcon, gpointer data);
-		static void onStatusIconPopupMenu_gui(GtkStatusIcon *statusIcon, guint button, guint time, gpointer data);
-		static void onStatusIconBlinkUseToggled_gui(GtkWidget *widget, gpointer data);
-#endif	*/
 		static void onShowInterfaceToggled_gui(GtkCheckMenuItem *item, gpointer data);
 		static void onLinkClicked_gui(GtkWidget *widget, gpointer data);
 		static void onTransferToggled_gui(GtkWidget *widget, gpointer data);
@@ -337,15 +320,10 @@ class MainWindow:
 		GtkWindow *window;
 		Transfers* transfers;
 		bool minimized;
-//#ifdef GTK_DISABLE_DEPRECATED
 #if !GTK_CHECK_VERSION(3,14,1)		
 		GtkStatusIcon *statusIcon;
 		guint timer;
 #endif
-//#else
-//		GtkStatusIcon *statusIcon;
-//		guint timer;
-//#endif
 		int64_t lastUpdate, lastUp, lastDown;
 		dcpp::StringList EntryList;
 		int statusFrame;

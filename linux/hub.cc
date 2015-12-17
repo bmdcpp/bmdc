@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2015 Mank, freedcpp@seznam.cz
+ * Copyright © 2010-2016 BMDC, freedcpp@seznam.cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@
 #include "WulforUtil.hh"
 #include "version.hh"
 
-//#include "UserMenu.hh"
+#include "UserMenu.hh"
 
 using namespace std;
 using namespace dcpp;
@@ -178,6 +178,9 @@ Hub::Hub(const string &address, const string &encoding):
 	// IP Address...
 	userCommandMenu2 = new UserCommandMenu(getWidget("ipmenu"), ::UserCommand::CONTEXT_IP);
 	addChild(userCommandMenu2);
+	
+	//userMenu = new UserMenu(getWidget("nickMenu"));
+	//addChild(userMenu);
 
 	string packName = SETTING(EMOT_PACK);
 
@@ -921,18 +924,23 @@ void Hub::popupNickMenu_gui()
 {
 	// Build user command menu
 	userCommandMenu->cleanMenu_gui();
+	//userMenu->cleanMenu_gui();
 
 	GtkTreeIter iter;
 	GList *list = gtk_tree_selection_get_selected_rows(nickSelection, NULL);
-	string nick;
+	string nicks;
 
 	for (GList *i = list; i; i = i->next)
 	{
 		GtkTreePath *path = (GtkTreePath *)i->data;
 		if (gtk_tree_model_get_iter(GTK_TREE_MODEL(nickStore), &iter, path))
 		{
-			userCommandMenu->addUser(nickView.getString(&iter, "CID"));
-			nick += " " + nickView.getString(&iter, _("Nick"));
+			string cid = nickView.getString(&iter, "CID");
+			string ni = nickView.getString(&iter, _("Nick"));
+			userCommandMenu->addUser(cid);
+			//userMenu->addNick(ni);
+			//userMenu->buildMenu_gui(cid);
+			nicks += " " + ni/*ckView.getString(&iter, _("Nick"))*/;
 		}
 		gtk_tree_path_free(path);
 	}
@@ -941,12 +949,14 @@ void Hub::popupNickMenu_gui()
 	userCommandMenu->addHub(client->getHubUrl());
 	userCommandMenu->buildMenu_gui();
 	string color = WGETS("menu-userlist-color");//@ Settings of UserList Menu  text color (1st item)?
-	gchar *markup = g_markup_printf_escaped ("<span fgcolor=\"%s\" ><b>%s</b></span>",color.c_str(),nick.c_str());
+	gchar *markup = g_markup_printf_escaped ("<span fgcolor=\"%s\" ><b>%s</b></span>",color.c_str(),nicks.c_str());
 	GtkMenuItem *item = GTK_MENU_ITEM(getWidget("nickItem"));
 	GtkWidget *label = gtk_bin_get_child(GTK_BIN(item));
 	gtk_label_set_markup (GTK_LABEL (label), markup);
 	g_free(markup);
-
+	///
+	//userMenu->setHub(client->getHubUrl());
+	
 	gtk_menu_popup(GTK_MENU(getWidget("nickMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 	gtk_widget_show_all(getWidget("nickMenu"));
 }
@@ -982,11 +992,11 @@ void Hub::getPassword_gui()
 		NULL);
 	gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_OK);
-#if GTK_CHECK_VERSION(3, 2, 0)
+//#if GTK_CHECK_VERSION(3, 2, 0)
 	GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
-#else
-	GtkWidget *box = gtk_vbox_new(TRUE, 0);
-#endif
+//#else
+//	GtkWidget *box = gtk_vbox_new(TRUE, 0);
+//#endif
 
 	GtkWidget *entry = gtk_entry_new();
 	g_object_set(entry, "can-focus", TRUE, "visibility", FALSE, "activates-default", TRUE, NULL);
@@ -1613,7 +1623,7 @@ void Hub::applyEmoticons_gui()
 
 						/* set new limit search */
 						gtk_text_buffer_get_iter_at_mark(chatBuffer, &tmp_end_iter, end_mark);
-						for (int i = 1; !gtk_text_iter_equal(&end_iter, &tmp_end_iter) && i <= Emot::SIZE_NAME;
+						for (int i = 1; !gtk_text_iter_equal(&end_iter, &tmp_end_iter) && i <= SIZE_NAME;
 							gtk_text_iter_forward_chars(&end_iter, 1), i++);
 
 					}
@@ -4812,11 +4822,7 @@ void Hub::SetTabText(gpointer data)
 	GtkWidget *content_area = gtk_dialog_get_content_area (dialog);
 	GtkWidget *entry = gtk_entry_new();
 	GtkWidget *label = gtk_label_new(_("Text: "));
-#if GTK_CHECK_VERSION(3, 2, 0)
 	GtkWidget *hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
-#else
-	GtkWidget *hbox = gtk_hbox_new(TRUE,0);
-#endif
 
 	GtkWidget *check = gtk_toggle_button_new_with_label(_("Set Icon Aviable"));
 	GdkPixbuf *pixbuf =	gdk_pixbuf_new_from_file_at_scale(hub->client->get(SettingsManager::HUB_ICON_STR,SETTING(HUB_ICON_STR)).c_str(),15,15,FALSE,NULL);

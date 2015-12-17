@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2015 Leliksan Floyd <leliksan@Quadrafon2>
+ * Copyright © 2009-2016 Leliksan Floyd <leliksan@Quadrafon2>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,7 +62,7 @@ class Notify
 		static void start();
 		static void stop();
 
-		Notify() : icon_width(0), icon_height(0), currIconSize(32) ,action(FALSE) { init(); }
+		Notify() : icon_width(0), icon_height(0), currIconSize(32) ,bAction(false) { init(); }
 		~Notify() { finalize(); }
 
 		void showNotify(const std::string &head, const std::string &body, TypeNotify notify);
@@ -83,7 +83,7 @@ class Notify
 		#ifdef HAVE_NOTIFY
 		NotifyNotification *notification;
 		#endif
-		bool action;
+		bool bAction;
 
 		//GUI callback functions
 		static void onAction(NotifyNotification *notify, const char *action, gpointer data);
