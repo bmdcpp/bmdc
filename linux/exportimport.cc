@@ -92,7 +92,6 @@ void ExportDialog::onButtonExportedClicked(GtkWidget*,gpointer data)
 		valid = gtk_tree_model_iter_next(m, &iter);	
 	}
 	
-	///getpath
 	string to = gtk_entry_get_text(GTK_ENTRY(ed->getWidget("entry")));
 	ExportManager::getInstance()->export_(to,list);
 }

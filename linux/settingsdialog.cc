@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2014-2015 BMDC++
+ * Copyright © 2014-2016 BMDC++
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1020,7 +1020,7 @@ void Settings::initDownloads_gui()
 		const PreviewApp::List &Apps = wsm->getPreviewApps();
 
 		// add default applications players
-		if (Apps.empty())
+		if (Apps.empty())//maybe diff on Winblows?
 		{
 			wsm->addPreviewApp(_("Xine player"), "xine --no-logo --session volume=50", "avi; mov; vob; mpg; mp3");
 			wsm->addPreviewApp(_("Kaffeine player"), "kaffeine -p", "avi; mov; mpg; vob; mp3");
@@ -1089,7 +1089,7 @@ void Settings::initSharing_gui()
 	g_signal_connect(shareView.get(), "button-release-event", G_CALLBACK(onShareButtonReleased_gui), (gpointer)this);
 	gtk_widget_set_sensitive(getWidget("sharedRemoveButton"), FALSE);
 
-	updateShares_gui();//NOTE: core 0.762
+	updateShares_gui();
 
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("shareHiddenCheckButton")), SETTING(SHARE_HIDDEN));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("followLinksCheckButton")), SETTING(FOLLOW_LINKS));
@@ -1351,13 +1351,7 @@ void Settings::initAppearance_gui()
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkBoldAuthors")), WGETB("text-bold-autors"));
 		//[BMDC
 		string strcolor = SETTING(BACKGROUND_CHAT_COLOR);//WGETS("background-color-chat");
-		/*GdkRGBA color;
-		gdk_rgba_parse(&color,strcolor.c_str());
-
-		gtk_widget_override_background_color(getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_NORMAL,&color);
-		gtk_widget_override_background_color(getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_PRELIGHT,&color);
-		gtk_widget_override_background_color(getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_ACTIVE,&color);
-		gtk_widget_override_background_color(getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_INSENSITIVE,&color);*/
+		/**/
 		gtk_widget_set_name(getWidget("textViewPreviewStyles"),"prewienTextView");
 		GtkCssProvider *provider = gtk_css_provider_new ();
 		GdkDisplay *display = gdk_display_get_default ();
@@ -1724,7 +1718,7 @@ void Settings::makeColor(GtkTreeViewColumn *column, GtkCellRenderer *cell, GtkTr
 			return;
 		if(iter == NULL)
 			return;
-		if( cell == NULL)
+		if(cell == NULL)
 			return;
 		if(column == NULL)
 			return;
@@ -2016,19 +2010,20 @@ void Settings::onAboutPlugin_gui(GtkWidget*, gpointer data)
 void Settings::addToGuiPlg()
 {
  	auto pm = PluginManager::getInstance();
-         const auto& list = pm->getPluginList();
-         gtk_list_store_clear(plStore);
-         GtkTreeIter iter;
-         for(auto i = list.cbegin(), iend = list.cend() ; i != iend; ++i) {
-          auto info = pm->getPlugin(*i);
+	const auto& list = pm->getPluginList();
+	gtk_list_store_clear(plStore);
+	GtkTreeIter iter;
+         for(auto i = list.cbegin(), iend = list.cend() ; i != iend; ++i) 
+         {
+			auto info = pm->getPlugin(*i);
   
-                 gtk_list_store_append(plStore,&iter);
-                         gtk_list_store_set(plStore,&iter,
-                                      plView.col("Name"),info.name.c_str(),
-                                          plView.col("Description"),info.description.c_str(),
-                                          plView.col("Version"), Util::toString(info.version).c_str(),
-                                          plView.col("Index"), info.guid.c_str() ,
-                                         -1);
+			gtk_list_store_append(plStore,&iter);
+			gtk_list_store_set(plStore,&iter,
+				plView.col("Name"),info.name.c_str(),
+				plView.col("Description"),info.description.c_str(),
+				plView.col("Version"), Util::toString(info.version).c_str(),
+				plView.col("Index"), info.guid.c_str() ,
+				-1);
          }
 }
 
@@ -2192,7 +2187,7 @@ void Settings::initBandwidthLimiting_gui()
 	onLimitSecondToggled_gui(NULL, (gpointer)this);
 	g_signal_connect(getWidget("useLimitSecondCheckButton"), "toggled", G_CALLBACK(onLimitSecondToggled_gui), (gpointer)this);
 }
-//NOTE: core 0.770
+
 void Settings::initSearchTypes_gui()
 {
 	// search type list
@@ -3139,7 +3134,7 @@ void Settings::applyTextTheme(bool useDefault)
 bool Settings::loadFileTheme(const string &file)
 {
 	if (Util::getFileExt(file) != ".theme" || Util::getFileName(file) == ".theme")
-		return FALSE;
+		return false;
 
 	intMapTheme.clear();
 	stringMapTheme.clear();
@@ -3179,10 +3174,10 @@ bool Settings::loadFileTheme(const string &file)
 	catch (const Exception& e)
 	{
 		dcdebug("bmdc: load theme %s...\n", e.getError().c_str());
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 void Settings::setTheme()
@@ -3741,8 +3736,6 @@ void Settings::setBgColorUserList()
 		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(dialog), &color);
 
 		string strcolor = WulforUtil::colorToString(&color);
-
-//		auto qp = colorsIters.find(_("User ") + currname);
 
 		gtk_list_store_set(userListStore1, &iter, userListNames.col("BackSet"), strcolor.c_str(), -1);
 		if(currname.find(_("Normal")) != string::npos)
@@ -4346,7 +4339,7 @@ gboolean Settings::onShareHiddenPressed_gui(GtkToggleButton*, gpointer data)
 
 	return FALSE;
 }
-//NOTE: core 0.762
+
 void Settings::updateShares_gui()
 {
 	GtkTreeIter iter;
@@ -4378,7 +4371,7 @@ void Settings::updateShares_gui()
 	string text = _("Total size: ") + Util::formatBytes(ShareManager::getInstance()->getShareSize());
 	gtk_label_set_text(GTK_LABEL(getWidget("sharedSizeLabel")), text.c_str());
 }
-//NOTE: core 0.762
+
 void Settings::onLogBrowseClicked_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
@@ -4766,7 +4759,7 @@ void Settings::shareHidden_client(bool show)
 	ShareManager::getInstance()->setDirty();
 	ShareManager::getInstance()->refresh(TRUE, FALSE, FALSE);//3TRUE
 
-	//NOTE: updated share ui core 0.762
+	//NOTE: updated share ui
 	Func0<Settings> *func = new Func0<Settings>(this, &Settings::updateShares_gui);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
@@ -5280,7 +5273,6 @@ void Settings::onForeColorChooserTab(GtkWidget *button, gpointer data)
 	gtk_widget_destroy(dialog);
 	
 }
-
 
 void Settings::onBackColorChooserTab_unread(GtkWidget *button, gpointer data) 
 {	

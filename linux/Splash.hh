@@ -40,7 +40,7 @@ class Splash
 			label = gtk_label_new("Loading...");
 			progressbar = gtk_progress_bar_new ();
 			box = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
-			image = gtk_image_new_from_file(_DATADIR "/icons/hicolor/scalable/apps/bmdc.svg");
+			image = gtk_image_new_from_file(_DATADIR G_DIR_SEPARATOR_S "icons" G_DIR_SEPARATOR_S "hicolor" G_DIR_SEPARATOR_S "scalable" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "bmdc.svg");
 			gtk_container_add(GTK_CONTAINER(box),image);
 			gtk_container_add(GTK_CONTAINER(box),label);
 			gtk_container_add(GTK_CONTAINER(box), progressbar);
