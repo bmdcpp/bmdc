@@ -98,6 +98,9 @@ private:
 		//@: Connection
 					*comboMode,
 					*entryIp,
+					*radioDefault,
+					*radioActive,
+					*radioPasive,
 		//@: Kick View
 					*treeView;
 

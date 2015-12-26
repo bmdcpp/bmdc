@@ -238,8 +238,30 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxAdvanced ,labelAdvanced );
 	//
 	GtkWidget* boxConnection = gtk_grid_new();
-	g_g_a_c_s(lan(_("Mode:")),0,0,1,1);
-	comboMode = createComboBoxWith3Options(_("Default"),_("Active"),_("Passive"));
+	radioDefault = gtk_radio_button_new_with_label(NULL,_("Direct Connect"));
+	g_g_a_c_s(radioDefault,0,0,1,1);
+	radioActive = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(radioDefault),_("Active"));
+	g_g_a_c_s(radioActive,0,1,1,1);
+	radioPasive = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(radioDefault),_("Pasive"));
+	g_g_a_c_s(radioPasive,0,2,1,1);
+	
+	
+	switch (p_entry->getMode())
+	{
+		case SettingsManager::INCOMING_DIRECT:
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radioDefault), TRUE);
+			break;
+		case SettingsManager::INCOMING_FIREWALL_NAT:
+		case SettingsManager::INCOMING_FIREWALL_UPNP:
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radioActive), TRUE);
+			break;
+		case SettingsManager::INCOMING_FIREWALL_PASSIVE:
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radioPasive), TRUE);
+			break;
+	}
+	
+	//g_g_a_c_s(lan(_("Mode:")),0,0,1,1);
+	//comboMode = createComboBoxWith3Options(_("Default"),_("Active"),_("Passive"));
 	//this need clarifiaction
 	/*if(p_entry->getMode() == SETTING(INCOMING_CONNECTIONS))
 		gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode), 0);
@@ -249,7 +271,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 			gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode),1);//1active
 		else gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode),2);//2passive	
 	}*/
-	bool b_ip = true;
+	/*bool b_ip = true;
 	switch(p_entry->getMode())
 	{
 		
@@ -267,16 +289,16 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 			gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode), 2);
 		break;
 	};
-	
+	*/
 	
 
-	g_g_a_c_s(comboMode,1,0,1,1);
+//	g_g_a_c_s(comboMode,1,0,1,1);
 
-	g_g_a_c_s(lan(_("IP Address:")),0,2,1,1);
+	g_g_a_c_s(lan(_("IP Address:")),0,3,1,1);
 
 	entryIp = gen;
 	gtk_entry_set_text(GTK_ENTRY(entryIp), p_entry->get(SettingsManager::EXTERNAL_IP,SETTING(EXTERNAL_IP)).c_str());
-	g_g_a_c_s(entryIp,1,2,1,1);
+	g_g_a_c_s(entryIp,1,3,1,1);
 	//if(b_ip)
 	//	gtk_widget_set_sensitive(GTK_WIDGET(entryIp),FALSE);
 	
@@ -373,7 +395,16 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 			p_entry->setProtectUsers(gtk_entry_get_text(GTK_ENTRY(entryProtectedUser)));
 			p_entry->setNotify(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON( enableNoti)));
 			
-			p_entry->setMode(gtk_combo_box_get_active(GTK_COMBO_BOX(comboMode)));
+			//p_entry->setMode(gtk_combo_box_get_active(GTK_COMBO_BOX(comboMode)));
+			// Incoming connection
+		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radioDefault)))
+			p_entry->setMode(0);
+		else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radioActive)))
+			p_entry->setMode(1);
+		else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radioActive)))
+			p_entry->setMode(1);
+		else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radioPasive)))
+			p_entry->setMode(3);
 			
 			p_entry->setAutoConnect(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkAutoConnect)));
 			p_entry->set(SettingsManager::LOG_CHAT_B, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(enableLog)));
