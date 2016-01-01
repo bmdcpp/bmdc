@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2015-12-26 00:11+0100\n"
+"POT-Creation-Date: 2015-12-31 18:07+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -481,7 +481,7 @@ msgid "ADL Action"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1035 ui/mainwindow.glade.ui:2006
-#: ui/mainwindow.glade.ui:2235 linux/adlsearch.cc:31 linux/bookentry.cc:371
+#: ui/mainwindow.glade.ui:2235 linux/adlsearch.cc:31 linux/bookentry.cc:356
 #: linux/settingsdialog.cc:1517 linux/settingsdialog.cc:1580
 msgid "ADL Search"
 msgstr ""
@@ -494,7 +494,7 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:1246 linux/bookentry.cc:407
+#: ui/mainwindow.glade.ui:1246 linux/bookentry.cc:392
 msgid "About:Config"
 msgstr ""
 
@@ -1117,7 +1117,7 @@ msgstr ""
 msgid "Download Matches"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:1058 linux/bookentry.cc:362 linux/downloadqueue.cc:34
+#: ui/mainwindow.glade.ui:1058 linux/bookentry.cc:347 linux/downloadqueue.cc:34
 #: linux/settingsdialog.cc:1151 linux/settingsdialog.cc:1626
 msgid "Download Queue"
 msgstr ""
@@ -1294,14 +1294,14 @@ msgid "Favorite Hub Properties"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:986 ui/mainwindow.glade.ui:1905
-#: ui/mainwindow.glade.ui:2193 linux/bookentry.cc:350 linux/favoritehubs.cc:33
+#: ui/mainwindow.glade.ui:2193 linux/bookentry.cc:335 linux/favoritehubs.cc:33
 #: linux/settingsdialog.cc:1507 linux/settingsdialog.cc:1555
 #: linux/settingsdialog.cc:1625
 msgid "Favorite Hubs"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:995 ui/mainwindow.glade.ui:1921
-#: ui/mainwindow.glade.ui:2200 linux/bookentry.cc:354 linux/favoriteusers.cc:36
+#: ui/mainwindow.glade.ui:2200 linux/bookentry.cc:339 linux/favoriteusers.cc:36
 #: linux/settingsdialog.cc:1508 linux/settingsdialog.cc:1557
 #: linux/settingsdialog.cc:1629
 msgid "Favorite Users"
@@ -1369,7 +1369,7 @@ msgid "Find files"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1067 ui/mainwindow.glade.ui:2059
-#: ui/mainwindow.glade.ui:2256 linux/bookentry.cc:379
+#: ui/mainwindow.glade.ui:2256 linux/bookentry.cc:364
 #: linux/finishedtransfers.cc:34 linux/settingsdialog.cc:1149
 #: linux/settingsdialog.cc:1509 linux/settingsdialog.cc:1571
 #: linux/settingsdialog.cc:1627
@@ -1377,7 +1377,7 @@ msgid "Finished Downloads"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1075 ui/mainwindow.glade.ui:2076
-#: ui/mainwindow.glade.ui:2263 linux/bookentry.cc:383
+#: ui/mainwindow.glade.ui:2263 linux/bookentry.cc:368
 #: linux/finishedtransfers.cc:39 linux/settingsdialog.cc:1150
 #: linux/settingsdialog.cc:1510 linux/settingsdialog.cc:1573
 #: linux/settingsdialog.cc:1628
@@ -1551,7 +1551,7 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: ui/search.glade.ui:851 linux/bookentry.cc:391 linux/detectiontab.cc:108
+#: ui/search.glade.ui:851 linux/bookentry.cc:376 linux/detectiontab.cc:108
 #: linux/detectiontab.cc:1028 linux/detectiontab.cc:1130
 #: linux/detectiontab.cc:1227 linux/finishedtransfers.cc:77
 #: linux/finishedtransfers.cc:183 linux/search.cc:109 linux/search.cc:233
@@ -1986,7 +1986,7 @@ msgid "Note; because of changing download speeds, this is not 100% accurate..."
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1238 ui/mainwindow.glade.ui:2091
-#: ui/mainwindow.glade.ui:2270 linux/bookentry.cc:399 linux/notepad.cc:26
+#: ui/mainwindow.glade.ui:2270 linux/bookentry.cc:384 linux/notepad.cc:26
 #: linux/settingsdialog.cc:1518 linux/settingsdialog.cc:1578
 #: linux/settingsdialog.cc:1631
 msgid "Notepad"
@@ -2185,7 +2185,7 @@ msgid "Protected Users"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1004 ui/mainwindow.glade.ui:1940
-#: ui/mainwindow.glade.ui:2207 linux/bookentry.cc:358 linux/publichubs.cc:31
+#: ui/mainwindow.glade.ui:2207 linux/bookentry.cc:343 linux/publichubs.cc:31
 #: linux/settingsdialog.cc:1513 linux/settingsdialog.cc:1559
 #: linux/settingsdialog.cc:1624
 msgid "Public Hubs"
@@ -2343,7 +2343,7 @@ msgstr ""
 #: ui/hub.glade.ui:245 ui/mainwindow.glade.ui:1026 ui/mainwindow.glade.ui:1991
 #: ui/mainwindow.glade.ui:2228 ui/privatemessage.glade.ui:189
 #: ui/searchspy.glade.ui:94 ui/settingsdialog.glade.ui:8878
-#: ui/transfers.glade.ui:52 linux/bookentry.cc:367 linux/settingsdialog.cc:1154
+#: ui/transfers.glade.ui:52 linux/bookentry.cc:352 linux/settingsdialog.cc:1154
 #: linux/settingsdialog.cc:1515 linux/settingsdialog.cc:1565
 msgid "Search"
 msgstr ""
@@ -2658,7 +2658,7 @@ msgstr ""
 msgid "System"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:2106 linux/System.cc:29 linux/bookentry.cc:403
+#: ui/mainwindow.glade.ui:2106 linux/System.cc:29 linux/bookentry.cc:388
 msgid "System Log"
 msgstr ""
 
@@ -3071,7 +3071,7 @@ msgstr ""
 msgid "\n"
 msgstr ""
 
-#: linux/hub.cc:4501
+#: linux/hub.cc:4502
 msgid ""
 "\n"
 "Message: "
@@ -3345,7 +3345,7 @@ msgstr ""
 msgid "Add to Favorite Users"
 msgstr ""
 
-#: linux/hub.cc:4700
+#: linux/hub.cc:4701
 msgid "Add to Favorite hubs"
 msgstr ""
 
@@ -3596,12 +3596,12 @@ msgstr ""
 msgid "Client Type"
 msgstr ""
 
-#: linux/bookentry.cc:308 linux/privatemessage.cc:1566
+#: linux/bookentry.cc:293 linux/privatemessage.cc:1566
 #: linux/sharebrowser.cc:1077 linux/search.hh:164
 msgid "Close"
 msgstr ""
 
-#: linux/hub.cc:4704
+#: linux/hub.cc:4705
 msgid "Close Hub"
 msgstr ""
 
@@ -3682,7 +3682,7 @@ msgstr ""
 msgid "Copy Nick(s)"
 msgstr ""
 
-#: linux/hub.cc:4699
+#: linux/hub.cc:4700
 msgid "Copy URL"
 msgstr ""
 
@@ -4256,15 +4256,15 @@ msgstr ""
 msgid "Ignored User "
 msgstr ""
 
-#: linux/hub.cc:4500
+#: linux/hub.cc:4501
 msgid "Ignored message from User "
 msgstr ""
 
-#: linux/hub.cc:4541
+#: linux/hub.cc:4542
 msgid "Ignored private message from bot "
 msgstr ""
 
-#: linux/hub.cc:4534
+#: linux/hub.cc:4535
 msgid "Ignored private message from hub"
 msgstr ""
 
@@ -4441,7 +4441,7 @@ msgstr ""
 msgid "New search type"
 msgstr ""
 
-#: linux/hub.cc:4654
+#: linux/hub.cc:4655
 msgid "Nick already taken"
 msgstr ""
 
@@ -4516,7 +4516,7 @@ msgstr ""
 msgid "Only show joins / parts for favorite users"
 msgstr ""
 
-#: linux/hub.cc:4772
+#: linux/hub.cc:4773
 msgid "Open Icon File to Set to Tab"
 msgstr ""
 
@@ -4575,7 +4575,7 @@ msgstr ""
 msgid "Predefined"
 msgstr ""
 
-#: linux/bookentry.cc:387
+#: linux/bookentry.cc:372
 msgid "Private Message"
 msgstr ""
 
@@ -4613,7 +4613,7 @@ msgstr ""
 msgid "Rebuild Share"
 msgstr ""
 
-#: linux/hub.cc:4703
+#: linux/hub.cc:4704
 msgid "Reconnect this hub"
 msgstr ""
 
@@ -4637,7 +4637,7 @@ msgstr ""
 msgid "Remove Aliases A"
 msgstr ""
 
-#: linux/hub.cc:4701
+#: linux/hub.cc:4702
 msgid "Remove from Favorite hubs"
 msgstr ""
 
@@ -4682,7 +4682,7 @@ msgstr ""
 msgid "Search on imdb"
 msgstr ""
 
-#: linux/hub.cc:4661
+#: linux/hub.cc:4662
 msgid "Search spam detected from "
 msgstr ""
 
@@ -4749,11 +4749,11 @@ msgstr ""
 msgid "Set Hub to Bold everytime the content changes"
 msgstr ""
 
-#: linux/hub.cc:4827
+#: linux/hub.cc:4828
 msgid "Set Icon Aviable"
 msgstr ""
 
-#: linux/hub.cc:4831
+#: linux/hub.cc:4832
 msgid "Set Icon: "
 msgstr ""
 
@@ -4765,7 +4765,7 @@ msgstr ""
 msgid "Set Slots to:"
 msgstr ""
 
-#: linux/hub.cc:4702
+#: linux/hub.cc:4703
 msgid "Set Tab Name"
 msgstr ""
 
@@ -4789,11 +4789,11 @@ msgstr ""
 msgid "Set normal mode"
 msgstr ""
 
-#: linux/hub.cc:4813
+#: linux/hub.cc:4814
 msgid "Setting for a Tab Text"
 msgstr ""
 
-#: linux/bookentry.cc:395
+#: linux/bookentry.cc:380
 msgid "Share Browser"
 msgstr ""
 
@@ -4946,7 +4946,7 @@ msgstr ""
 msgid "Speed: "
 msgstr ""
 
-#: linux/bookentry.cc:375
+#: linux/bookentry.cc:360
 msgid "Spy Search"
 msgstr ""
 
@@ -5015,7 +5015,7 @@ msgstr ""
 msgid "Tag"
 msgstr ""
 
-#: linux/hub.cc:4824
+#: linux/hub.cc:4825
 msgid "Text: "
 msgstr ""
 
@@ -5066,7 +5066,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: linux/hub.cc:2624 linux/hub.cc:4675
+#: linux/hub.cc:2624 linux/hub.cc:4676
 msgid "Topic: "
 msgstr ""
 
@@ -5442,7 +5442,7 @@ msgstr ""
 msgid "Username: "
 msgstr ""
 
-#: linux/hub.cc:4698 linux/privatemessage.cc:1564
+#: linux/hub.cc:4699 linux/privatemessage.cc:1564
 msgid "Users Commands"
 msgstr ""
 

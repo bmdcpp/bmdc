@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2016 BMDC, freedcpp@seznam.cz
+ * Copyright © 2010-2016 BMDC++
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -4465,6 +4465,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 		//Extra Info
 		dcpp::ParamMap params;
 		params["hubURL"] = client->getHubUrl();
+		params["adctime"] = Util::formatTime("%H:%M:%S",message.timestamp);
 		client->getHubIdentity().getParams(params, "hub", false);
 		client->getMyIdentity().getParams(params, "my", true);
 		fid.getParams(params, "user", true);

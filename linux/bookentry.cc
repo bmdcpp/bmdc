@@ -179,22 +179,7 @@ void BookEntry::setLabel_gui(string text)
         // Update the notebook tab label
        gtk_widget_set_tooltip_text(eventBox, text.c_str());
     }
-/*
-    if(WGETB("custom-font-size"))
-    {
-		PangoContext *cnx = gtk_widget_get_pango_context (GTK_WIDGET(label));
-		PangoFontDescription * desc = pango_context_get_font_description(cnx);
-		gint font_size = pango_font_description_get_size (desc);
-		gint font_set_size = (gint)WGETI("book-font-size");
-		if(font_size != font_set_size)
-		{
-			gint fsize = font_set_size*10*PANGO_SCALE;
-			if(fsize >= 1)
-				pango_font_description_set_size (desc, fsize);
-		}
-		gtk_widget_override_font (GTK_WIDGET(label),desc);
-    }
-*/
+
 	glong len = g_utf8_strlen(text.c_str(), -1);
 
 	// Truncate the label text
