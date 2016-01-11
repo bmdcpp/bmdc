@@ -424,7 +424,8 @@ MainWindow::MainWindow():
 	gtk_widget_show_all(GTK_WIDGET(window));
 	
 	//@fix hideing transfers
-	if(WGETB("hide-transfers"))
+	if(WGETB("hide-transfers") ||
+		SETTING(SHOW_TRANSFERVIEW))
 		gtk_widget_hide(transfers->getContainer());
 	//@end
 
@@ -552,7 +553,7 @@ void MainWindow::showTransfersPane_gui()
 	gtk_paned_pack2(GTK_PANED(getWidget("pane")), transfers->getContainer(), TRUE, TRUE);
 	addChild(transfers);
 	transfers->show();
-	if(WGETB("hide-transfers"))
+	if(WGETB("hide-transfers") || SETTING(SHOW_TRANSFERVIEW))
 		gtk_widget_hide(transfers->getContainer());
 	
 }
@@ -2338,9 +2339,11 @@ void MainWindow::onTransferToggled_gui(GtkWidget*, gpointer data)
 	if (gtk_widget_get_visible(transfer)) {
 		gtk_widget_hide(transfer);
 		WSET("hide-transfers",TRUE);
+		SettingsManager::getInstance()->set(SettingsManager::SHOW_TRANSFERVIEW,false);
 	} else {
 		gtk_widget_show_all(transfer);
 		WSET("hide-transfers",FALSE);
+		SettingsManager::getInstance()->set(SettingsManager::SHOW_TRANSFERVIEW,true);
 	}	
 }
 

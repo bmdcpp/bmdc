@@ -37,8 +37,8 @@ struct Raw {
 	
 	GETSET(std::string, name, Name);
 	GETSET(std::string, raw, Raw);
-	GETSET(int, id, Id);
-	GETSET(int, time, Time);
+	GETSET(int64_t, id, Id);
+	GETSET(int64_t, time, Time);
 	GETSET(bool, enabled, Enabled);
 
 };
@@ -52,7 +52,7 @@ struct Action {
 	~Action() { raw.clear(); }
 
 	GETSET(std::string, name, Name);
-	GETSET(int, id, Id);
+	GETSET(int64_t, id, Id);
 	GETSET(bool, enabled, Enabled);
 
 	RawsList raw;
