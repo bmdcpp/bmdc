@@ -343,11 +343,7 @@ void ClientManager::putOffline(OnlineUser* ou, bool disconnect) noexcept {
 			}
 		}
 	}
-/*
-	string nick = ou->getIdentity().getNick();
-	string cid = ou->getUser()->getCID().toBase32();
-	string hub = ou->getClient().getHubUrl();
-*/
+
 	if(diff == 1) { //last user
 		UserPtr u = ou->getUser();
 		u->unsetFlag(User::ONLINE);

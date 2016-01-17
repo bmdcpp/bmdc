@@ -95,6 +95,7 @@ private:
 					*enableBold,
 					*enableStatusChat,
 					*enableFavFirst,
+					*enableVisibleUl,
 		//@: Connection
 					*comboMode,
 					*entryIp,

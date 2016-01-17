@@ -235,6 +235,10 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enableFavFirst), p_entry->get(SettingsManager::SORT_FAVUSERS_FIRST,SETTING(SORT_FAVUSERS_FIRST)));
 	g_g_a_a(enableFavFirst,0,11,1,1);
 	
+	enableVisibleUl = g_c_b_n(_("Show Userlist"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enableVisibleUl), p_entry->getShowUserList());
+	g_g_a_a(enableVisibleUl,0,12,1,1);
+	
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxAdvanced ,labelAdvanced );
 	//
 	GtkWidget* boxConnection = gtk_grid_new();

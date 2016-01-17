@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1032,15 +1032,11 @@ UserCommand::List FavoriteManager::getUserCommands(int ctx, const StringList& hu
 			const string& hub = hubs[j];
 			bool hubAdc = hub.compare(0, 6, "adc://") == 0 || hub.compare(0, 7, "adcs://") == 0;
 			bool commandAdc = uc.adc();
-			//uc.getHub().compare(0, 6, "adc://") == 0 || uc.getHub().compare(0, 7, "adcs://") == 0;
 			if(hubAdc && commandAdc) {//its already know is it adc's no reason check again
-				//if((uc.getHub() == "adc://" || uc.getHub() == "adcs://") ||
-				//	((uc.getHub() == "adc://op" || uc.getHub() == "adcs://op") && isOp[j]) ||
-				//	(uc.getHub() == hub) )
-				{
+			{
 					lst.push_back(*i);
 					break;
-				}
+			}
 			} else if((!hubAdc && !commandAdc) || uc.isChat()) {
 				if((uc.getHub().length() == 0) ||
 					(uc.getHub() == "op" && isOp[j]) ||

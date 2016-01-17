@@ -5,9 +5,21 @@
 #, fuzzy
 msgid ""
 msgstr ""
+"#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
 "POT-Creation-Date: 2016-01-11 15:59+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"#-#-#-#-#  linux.pot  #-#-#-#-#\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
+"POT-Creation-Date: 2016-01-14 14:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -506,7 +518,7 @@ msgid "Actions and Raws"
 msgstr ""
 
 #: ui/FavDialog.glade.ui:1009 ui/favoritehubs.glade.ui:1580
-#: ui/settingsdialog.glade.ui:1862 linux/FavoriteHubDialog.cc:243
+#: ui/settingsdialog.glade.ui:1862 linux/FavoriteHubDialog.cc:247
 msgid "Active"
 msgstr ""
 
@@ -992,7 +1004,7 @@ msgstr ""
 #: linux/AboutConfig.cc:99 linux/AboutConfig.cc:104 linux/AboutConfig.cc:110
 #: linux/AboutConfig.cc:115 linux/AboutConfig.cc:139 linux/AboutConfig.cc:153
 #: linux/FavoriteHubDialog.cc:158 linux/FavoriteHubDialog.cc:169
-#: linux/FavoriteHubDialog.cc:353 linux/FavoriteHubDialog.cc:354
+#: linux/FavoriteHubDialog.cc:357 linux/FavoriteHubDialog.cc:358
 #: linux/emoticonsdialog.cc:143 linux/previewmenu.cc:88 linux/AboutConfig.hh:49
 msgid "Default"
 msgstr ""
@@ -1203,10 +1215,10 @@ msgid "Enable Text Color"
 msgstr ""
 
 #: ui/adlsearch.glade.ui:331 ui/detection.glade.ui:267
-#: ui/detection.glade.ui:800 linux/FavoriteHubDialog.cc:316
-#: linux/FavoriteHubDialog.cc:325 linux/FavoriteHubDialog.cc:536
-#: linux/FavoriteHubDialog.cc:538 linux/FavoriteHubDialog.cc:558
-#: linux/FavoriteHubDialog.cc:571 linux/adlsearch.cc:47 linux/adlsearch.cc:76
+#: ui/detection.glade.ui:800 linux/FavoriteHubDialog.cc:320
+#: linux/FavoriteHubDialog.cc:329 linux/FavoriteHubDialog.cc:540
+#: linux/FavoriteHubDialog.cc:542 linux/FavoriteHubDialog.cc:562
+#: linux/FavoriteHubDialog.cc:575 linux/adlsearch.cc:47 linux/adlsearch.cc:76
 #: linux/adlsearch.cc:83 linux/adlsearch.cc:139 linux/adlsearch.cc:250
 #: linux/adlsearch.cc:295 linux/adlsearch.cc:494 linux/adlsearch.cc:496
 #: linux/exportimport.cc:37 linux/exportimport.cc:50 linux/exportimport.cc:65
@@ -1863,8 +1875,8 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:1156 linux/AboutConfig.cc:32
 #: linux/AboutConfig.cc:41 linux/AboutConfig.cc:43 linux/AboutConfig.cc:186
 #: linux/AboutConfig.cc:199 linux/AboutConfig.cc:286 linux/AboutConfig.cc:342
-#: linux/FavoriteHubDialog.cc:315 linux/FavoriteHubDialog.cc:557
-#: linux/FavoriteHubDialog.cc:570 linux/detectiontab.cc:42
+#: linux/FavoriteHubDialog.cc:319 linux/FavoriteHubDialog.cc:561
+#: linux/FavoriteHubDialog.cc:574 linux/detectiontab.cc:42
 #: linux/detectiontab.cc:61 linux/detectiontab.cc:72 linux/detectiontab.cc:313
 #: linux/detectiontab.cc:334 linux/detectiontab.cc:405
 #: linux/detectiontab.cc:455 linux/detectiontab.cc:478
@@ -1992,7 +2004,7 @@ msgstr ""
 msgid "Official"
 msgstr ""
 
-#: ui/export.glade.ui:21 linux/FavoriteHubDialog.cc:330
+#: ui/export.glade.ui:21 linux/FavoriteHubDialog.cc:334
 msgid "Ok"
 msgstr ""
 
@@ -2050,7 +2062,7 @@ msgid "Package in PPA"
 msgstr ""
 
 #: ui/FavDialog.glade.ui:1012 ui/favoritehubs.glade.ui:1583
-#: linux/FavoriteHubDialog.cc:245 linux/settingsdialog.cc:1668
+#: linux/FavoriteHubDialog.cc:249 linux/settingsdialog.cc:1668
 #: linux/settingsdialog.cc:3749 linux/settingsdialog.cc:3782
 msgid "Pasive"
 msgstr ""
@@ -3540,7 +3552,7 @@ msgstr ""
 msgid "CRC32 inconsistency (SFV-Check)"
 msgstr ""
 
-#: linux/FavoriteHubDialog.cc:331
+#: linux/FavoriteHubDialog.cc:335
 msgid "Cancel"
 msgstr ""
 
@@ -3654,7 +3666,7 @@ msgstr ""
 msgid "Connecting..."
 msgstr ""
 
-#: linux/FavoriteHubDialog.cc:308
+#: linux/FavoriteHubDialog.cc:312
 msgid "Connection Setup"
 msgstr ""
 
@@ -3707,7 +3719,7 @@ msgstr ""
 msgid "Destination Directory"
 msgstr ""
 
-#: linux/FavoriteHubDialog.cc:241
+#: linux/FavoriteHubDialog.cc:245
 msgid "Direct Connect"
 msgstr ""
 
@@ -4173,7 +4185,7 @@ msgstr ""
 msgid "Hubs: "
 msgstr ""
 
-#: linux/FavoriteHubDialog.cc:297
+#: linux/FavoriteHubDialog.cc:301
 msgid "IP Address:"
 msgstr ""
 
@@ -5007,7 +5019,7 @@ msgstr ""
 msgid "Text: "
 msgstr ""
 
-#: linux/FavoriteHubDialog.cc:478
+#: linux/FavoriteHubDialog.cc:482
 msgid "The name and address fields are required"
 msgstr ""
 
@@ -5547,6 +5559,10 @@ msgstr ""
 
 #: linux/mainwindow.cc:653
 msgid "on"
+msgstr ""
+
+#: linux/FavoriteHubDialog.cc:238
+msgid "on/off Userlist"
 msgstr ""
 
 #: linux/WulforUtil.cc:827

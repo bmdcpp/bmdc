@@ -451,10 +451,10 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			return;
 		}
 	} else if(cmd == "$ConnectToMe") {
-		//$ConnectToMe PPK [::1]:1234|
+		//$ConnectToMe User [::1]:1234|
 		//or
-		//$ConnectToMe PPK 10.0.0.34:1234|
-		dcdebug("%s",param.c_str());
+		//$ConnectToMe User 10.0.0.34:1234|
+		//dcdebug("%s",param.c_str());
 		string::size_type i = param.find(' ');
 		string::size_type j;
 		if( (i == string::npos) || ((i + 1) >= param.size()) ) {
@@ -479,14 +479,14 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		}		
 		dcdebug("%s %d",server.c_str(),p_port);
 		string nick = param.substr(0,i-1);
-		dcdebug("%s",nick.c_str());
-		if(nick != getMyNick())
+		dcdebug("Nick to %s",nick.c_str());
+		if(nick != getMyNick()) //dont allow spoof
 			return;
 			
 		dcdebug("Port %d",p_port);
 		if(b_ip6 && !server.empty())
 		{
-			dcdebug("%s",server.c_str());
+			dcdebug("Server to connect to %s",server.c_str());
 		}
 		else {
 			ClientManager::parsePortIp(p,server,p_port);

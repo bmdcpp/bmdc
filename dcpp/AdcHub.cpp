@@ -432,6 +432,7 @@ void AdcHub::sendUDP(const AdcCommand& cmd) noexcept {
 	string command;
 	string ip;
 	string port;
+	bool ok = false;
 	{
 		Lock l(cs);
 		SIDIter i = users.find(cmd.getTo());
@@ -446,9 +447,15 @@ void AdcHub::sendUDP(const AdcCommand& cmd) noexcept {
 		ip = ou.getIdentity().getIp();
 		port = ou.getIdentity().getUdpPort();
 		command = cmd.toString(ou.getUser()->getCID());
+		
+		if(Util::isIp6(ip) == true)
+			ok = true;
+		else
+			ok = (inet_addr(ip.c_str()) != INADDR_NONE);
 	}
 	try {
-		udp.writeTo(ip, port, command);
+		if(ok == true)
+			udp.writeTo(ip, port, command);
 	} catch(const SocketException& e) {
 		dcdebug("AdcHub::sendUDP: write failed: %s\n", e.getError().c_str());
 		udp.close();
@@ -1127,7 +1134,6 @@ void AdcHub::on(Connected c) noexcept {
 		cmd.addParam(BLO0_SUPPORT);
 	}
 
-//	cmd.addParam(DFAV_SUPPORT);//TODO: option to disable
 	cmd.addParam(ZLIF_SUPPORT);
 
 	send(cmd);

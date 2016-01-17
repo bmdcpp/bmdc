@@ -47,6 +47,7 @@ public:
 class SettingsManager : public Singleton<SettingsManager>, public Speaker<SettingsManagerListener>
 {
 public:
+
 	typedef std::unordered_map<string, StringList> SearchTypes;
 
 	enum Types {

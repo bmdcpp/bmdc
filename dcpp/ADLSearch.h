@@ -56,8 +56,8 @@ public:
 	
 	// dest dir index
 	unsigned long ddIndex;
-	int adlsRaw;
-	int adlsPoints;
+	int64_t adlsRaw;
+	int64_t adlsPoints;
 	/// Search source type
 	enum SourceType {
 		TypeFirst = 0,

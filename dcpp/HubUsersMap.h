@@ -94,7 +94,7 @@ public:
 
 	void stopCheck() noexcept {
 		if(clientEngine != NULL) {
-            		delete clientEngine;
+            delete clientEngine;
 			clientEngine = NULL;
 		}
 	}
