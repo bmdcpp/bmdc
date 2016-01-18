@@ -1176,7 +1176,7 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 				{
 					timer = g_timeout_add(1000, animationStatusIcon_gui, (gpointer)this);
 				}
-			#endif	
+		#endif	
 		}
 		else if (currentPage_gui() != entry->getContainer() && !WGETI("notify-only-not-active"))
 		{
@@ -2059,7 +2059,6 @@ gboolean MainWindow::onButtonReleasePage_gui(GtkWidget*, GdkEventButton *event, 
 
 	return FALSE;
 }
-//#ifdef GTK_DISABLE_DEPRECATED
 #if !GTK_CHECK_VERSION(3,14,1)
 gboolean MainWindow::animationStatusIcon_gui(gpointer data)
 	{

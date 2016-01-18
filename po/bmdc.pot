@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2016-01-14 14:00+0100\n"
+"POT-Creation-Date: 2016-01-18 18:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -658,7 +658,7 @@ msgid "Away mode message on/off"
 msgstr ""
 
 #: ui/hub.glade.ui:25 ui/privatemessage.glade.ui:25 linux/WulforUtil.cc:795
-#: linux/WulforUtil.cc:815 linux/mainwindow.cc:2319
+#: linux/WulforUtil.cc:815 linux/mainwindow.cc:2318
 #: linux/privatemessage.cc:1066
 msgid "Away mode off"
 msgstr ""
@@ -2427,7 +2427,7 @@ msgstr ""
 msgid "Select Text Color"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:772 linux/mainwindow.cc:2417
+#: ui/mainwindow.glade.ui:772 linux/mainwindow.cc:2416
 msgid "Select filelist to browse"
 msgstr ""
 
@@ -3042,8 +3042,8 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:3297 ui/settingsdialog.glade.ui:3313
 #: ui/settingsdialog.glade.ui:3357 linux/hashdialog.cc:77
-#: linux/mainwindow.cc:1010 linux/mainwindow.cc:1011 linux/mainwindow.cc:2796
-#: linux/mainwindow.cc:2798 linux/mainwindow.cc:3097 linux/treeview.cc:225
+#: linux/mainwindow.cc:1010 linux/mainwindow.cc:1011 linux/mainwindow.cc:2795
+#: linux/mainwindow.cc:2797 linux/mainwindow.cc:3096 linux/treeview.cc:225
 msgid "s"
 msgstr ""
 
@@ -3184,7 +3184,7 @@ msgid " items"
 msgstr ""
 
 #: linux/hashdialog.cc:68 linux/hashdialog.cc:77 linux/hashdialog.cc:86
-#: linux/mainwindow.cc:3097 linux/mainwindow.cc:3106
+#: linux/mainwindow.cc:3096 linux/mainwindow.cc:3105
 msgid " left"
 msgstr ""
 
@@ -3232,7 +3232,7 @@ msgstr ""
 msgid "*** T E S T ***"
 msgstr ""
 
-#: linux/hashdialog.cc:69 linux/hashdialog.cc:81 linux/mainwindow.cc:3101
+#: linux/hashdialog.cc:69 linux/hashdialog.cc:81 linux/mainwindow.cc:3100
 msgid "-:--:-- left"
 msgstr ""
 
@@ -3269,7 +3269,7 @@ msgstr ""
 msgid "1"
 msgstr ""
 
-#: linux/mainwindow.cc:3126
+#: linux/mainwindow.cc:3125
 msgid "100% Done"
 msgstr ""
 
@@ -3305,7 +3305,7 @@ msgstr ""
 msgid "<b>Under what name you see the directory</b>"
 msgstr ""
 
-#: linux/mainwindow.cc:2772
+#: linux/mainwindow.cc:2771
 msgid "<b>file:</b> "
 msgstr ""
 
@@ -3480,7 +3480,7 @@ msgstr ""
 msgid "Away Message:"
 msgstr ""
 
-#: linux/mainwindow.cc:2328 linux/mainwindow.cc:2866
+#: linux/mainwindow.cc:2327 linux/mainwindow.cc:2865
 msgid "Away mode on"
 msgstr ""
 
@@ -4346,7 +4346,7 @@ msgstr ""
 msgid "Loaded plugins: "
 msgstr ""
 
-#: linux/mainwindow.cc:2454
+#: linux/mainwindow.cc:2453
 msgid "Loading Own file list"
 msgstr ""
 
@@ -4712,7 +4712,7 @@ msgstr ""
 msgid "Select Font"
 msgstr ""
 
-#: linux/mainwindow.cc:2886
+#: linux/mainwindow.cc:2885
 msgid "Select file to Get TTH"
 msgstr ""
 
@@ -4843,6 +4843,10 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1131
 msgid "Show Server Commands as Status Messages in Chat"
+msgstr ""
+
+#: linux/FavoriteHubDialog.cc:238
+msgid "Show Userlist"
 msgstr ""
 
 #: linux/WulforUtil.cc:75
@@ -5100,7 +5104,7 @@ msgstr ""
 msgid "Unable to load file list: "
 msgstr ""
 
-#: linux/mainwindow.cc:2442
+#: linux/mainwindow.cc:2441
 msgid "Unable to load file list: Invalid file list name"
 msgstr ""
 
@@ -5545,7 +5549,7 @@ msgstr ""
 msgid "e-Mail: "
 msgstr ""
 
-#: linux/mainwindow.cc:2748
+#: linux/mainwindow.cc:2747
 msgid "file list from "
 msgstr ""
 
@@ -5559,10 +5563,6 @@ msgstr ""
 
 #: linux/mainwindow.cc:653
 msgid "on"
-msgstr ""
-
-#: linux/FavoriteHubDialog.cc:238
-msgid "on/off Userlist"
 msgstr ""
 
 #: linux/WulforUtil.cc:827

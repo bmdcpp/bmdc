@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -71,7 +71,7 @@ class FavoriteHubEntry: public HubSettings {
 public:
 	FavoriteHubEntry() :
 	name(Util::emptyString), server(Util::emptyString), hubDescription(Util::emptyString), password(Util::emptyString),
-	encoding(Text::systemCharset), group(Util::emptyString), hideShare(false), autoConnect(false), mode(1),
+	encoding(Text::systemCharset), group(Util::emptyString), hideShare(false), mode(1),
 	chatExtraInfo(SETTING(CHAT_EXTRA_INFO)), protectUsers(Util::emptyString), checkAtConn(false), checkClients(false),
 	checkFilelists(false), checkMyInfo(false), showUserList(true), 
 	order(SETTING(HUB_UL_ORDER)), visible(SETTING(HUB_UL_VISIBLE)), width(SETTING(HUB_UL_SIZE)), 
@@ -79,7 +79,7 @@ public:
 
 	FavoriteHubEntry(const HubEntry& rhs) : name(rhs.getName()), server(rhs.getServer()),
 		hubDescription(rhs.getDescription()), password(Util::emptyString), encoding(Text::systemCharset), group(Util::emptyString),
-	hideShare(false), autoConnect(false), mode(1), chatExtraInfo(SETTING(CHAT_EXTRA_INFO)), protectUsers(Util::emptyString), 
+	hideShare(false),  mode(1), chatExtraInfo(SETTING(CHAT_EXTRA_INFO)), protectUsers(Util::emptyString), 
 	checkAtConn(false), checkClients(false), checkFilelists(false),  checkMyInfo(false), showUserList(true),
 	order(SETTING(HUB_UL_ORDER)),visible(SETTING(HUB_UL_VISIBLE)),width(SETTING(HUB_UL_SIZE)),
 	notify(false), priv(false)
@@ -89,7 +89,7 @@ public:
 		HubSettings(rhs),
 		name(rhs.getName()), server(rhs.getServer()), hubDescription(rhs.getHubDescription()),
 		password(rhs.getPassword()), encoding(rhs.getEncoding()), group(rhs.getGroup()), hideShare(rhs.hideShare),
-		autoConnect(rhs.autoConnect),  mode(rhs.mode), chatExtraInfo(rhs.chatExtraInfo),
+		mode(rhs.mode), chatExtraInfo(rhs.chatExtraInfo),
 		protectUsers(rhs.protectUsers),	checkAtConn(rhs.checkAtConn), checkClients(rhs.checkClients), checkFilelists(rhs.checkFilelists),  checkMyInfo(rhs.checkMyInfo),
 		showUserList(rhs.showUserList), order(rhs.order), visible(rhs.visible), width(rhs.width), /*tabText(rhs.tabText), tabIconStr(rhs.tabIconStr), */notify(rhs.notify) ,priv(rhs.priv)
 		{ }
@@ -104,7 +104,6 @@ public:
 	GETSET(string, group, Group);
 	//BMDC++
 	GETSET(bool, hideShare, HideShare);
-	GETSET(bool, autoConnect, AutoConnect);
 	GETSET(int, mode, Mode);
 	
 	GETSET(string, chatExtraInfo, ChatExtraInfo);//HubGroup?
@@ -124,12 +123,12 @@ public:
 
 	//Raw Manager
 	struct FavAction {
-		typedef unordered_map<int, FavAction*> List;
+		typedef unordered_map<int64_t, FavAction*> List;
 		FavAction(): enabled(false) { }
-		FavAction(bool _enabled, string _raw = Util::emptyString, int id = 0) noexcept;
+		FavAction(bool _enabled, string _raw = Util::emptyString, int64_t id = 0) noexcept;
 
 		GETSET(bool, enabled, Enabled);
-		std::list<int> raws;
+		std::list<int64_t> raws;
 	};
 
 	FavAction::List action;

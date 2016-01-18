@@ -38,7 +38,7 @@ using std::make_pair;
 using std::swap;
 
 //RSX++//BMDC++
-FavoriteHubEntry::FavAction::FavAction(bool _enabled, string _raw /*= Util::emptyString*/, int id /*=0*/) noexcept: enabled(_enabled) {
+FavoriteHubEntry::FavAction::FavAction(bool _enabled, string _raw /*= Util::emptyString*/, int64_t id /*=0*/) noexcept: enabled(_enabled) {
 	if(_raw.empty()) return;
 	StringTokenizer<string> tok(_raw, ',');
 	const Action* a = RawManager::getInstance()->findAction(id);
@@ -430,7 +430,6 @@ void FavoriteManager::save() {
 			xml.addChildAttrib("Encoding", (*i)->getEncoding());
 			//BMDC++
 			xml.addChildAttrib("HideShare", (*i)->getHideShare());
-			xml.addChildAttrib("AutoConnect", (*i)->getAutoConnect());
 			//BMDC++
 			xml.addChildAttrib("Group", (*i)->getGroup());
 			//BMDC++
@@ -657,7 +656,6 @@ void FavoriteManager::load(SimpleXML& aXml) {
 			e->setEncoding(aXml.getChildAttrib("Encoding"));
 			//BMDC++
 			e->setHideShare(Util::toInt(aXml.getChildAttrib("HideShare")));
-			e->setAutoConnect(Util::toInt(aXml.getChildAttrib("AutoConnect")));
 			//BMDC++
 			e->setGroup(aXml.getChildAttrib("Group"));
 			e->setMode(aXml.getIntChildAttrib("Mode"));
@@ -1052,7 +1050,7 @@ UserCommand::List FavoriteManager::getUserCommands(int ctx, const StringList& hu
 }
 
 //Raw Manager
-bool FavoriteManager::getEnabledAction(FavoriteHubEntry* entry, int actionId) {
+bool FavoriteManager::getEnabledAction(FavoriteHubEntry* entry, int64_t actionId) {
 	auto h = find(favoriteHubs.begin(), favoriteHubs.end(), entry);
 	if(h == favoriteHubs.end())
 		return false;
@@ -1066,7 +1064,7 @@ bool FavoriteManager::getEnabledAction(FavoriteHubEntry* entry, int actionId) {
 	}
 }
 
-void FavoriteManager::setEnabledAction(FavoriteHubEntry* entry, int actionId, bool enabled) {
+void FavoriteManager::setEnabledAction(FavoriteHubEntry* entry, int64_t actionId, bool enabled) {
 	auto h = find(favoriteHubs.begin(), favoriteHubs.end(), entry);
 	if(h == favoriteHubs.end())
 		return;
@@ -1080,7 +1078,7 @@ void FavoriteManager::setEnabledAction(FavoriteHubEntry* entry, int actionId, bo
 		(*h)->action.insert(make_pair(actionId, new FavoriteHubEntry::FavAction(true)));
 }
 
-bool FavoriteManager::getEnabledRaw(FavoriteHubEntry* entry, int actionId, int rawId) {
+bool FavoriteManager::getEnabledRaw(FavoriteHubEntry* entry, int64_t actionId, int64_t rawId) {
 	auto h = find(favoriteHubs.begin(), favoriteHubs.end(), entry);
 	if(h == favoriteHubs.end())
 		return false;
@@ -1088,7 +1086,7 @@ bool FavoriteManager::getEnabledRaw(FavoriteHubEntry* entry, int actionId, int r
 	FavoriteHubEntry::FavAction::List::const_iterator i = (*h)->action.find(actionId);
 	if(i == (*h)->action.end())
 		return false;
-	for(std::list<int>::const_iterator j = i->second->raws.begin(); j != i->second->raws.end(); ++j) {
+	for(std::list<int64_t>::const_iterator j = i->second->raws.begin(); j != i->second->raws.end(); ++j) {
 		if(*j == rawId) {
 			return true;
 		}
@@ -1096,14 +1094,14 @@ bool FavoriteManager::getEnabledRaw(FavoriteHubEntry* entry, int actionId, int r
 	return false;
 }
 
-void FavoriteManager::setEnabledRaw(FavoriteHubEntry* entry, int actionId, int rawId, bool enabled) {
+void FavoriteManager::setEnabledRaw(FavoriteHubEntry* entry, int64_t actionId, int64_t rawId, bool enabled) {
 	auto h = find(favoriteHubs.begin(), favoriteHubs.end(), entry);
 	if(h == favoriteHubs.end())
 		return;
 
 	FavoriteHubEntry::FavAction::List::const_iterator i = (*h)->action.find(actionId);
 	if(i != (*h)->action.end()) {
-		for(std::list<int>::iterator j = i->second->raws.begin(); j != i->second->raws.end(); ++j) {
+		for(std::list<int64_t>::iterator j = i->second->raws.begin(); j != i->second->raws.end(); ++j) {
 			if(*j == rawId) {
 				if(!enabled)
 					i->second->raws.erase(j);

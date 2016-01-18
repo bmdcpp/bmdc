@@ -53,8 +53,8 @@ struct HubSettings
 
 	void load(SimpleXML& xml);
 	void save(SimpleXML& xml) const;
-	GETSET(bool, autoConnect, AutoConnect);//used by group
-
+public:	
+	GETSET(bool, autoConnect, AutoConnect);
 private:
 	map<SettingsManager::StrSetting, string> strings;
 	map<SettingsManager::IntSetting, int> ints;
