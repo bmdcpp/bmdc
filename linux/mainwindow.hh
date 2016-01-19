@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2016 BMDC, freedcpp@seznam.cz
+ * Copyright © 2010-2016 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -185,23 +185,20 @@ class MainWindow:
 		void previousTab_gui();
 		void nextTab_gui();
 		BookEntry *findBookEntry(const EntryType type, const std::string &id = "");
-#if !GTK_CHECK_VERSION(3,14,1)
+#ifdef USE_STATUS_ICON
 		void createStatusIcon_gui();
 		void updateStatusIconTooltip_gui(std::string download, std::string upload);
 #endif
-//TODO: is APP* depens on gtk ver or not?
 #ifdef HAVE_APPINDCATOR
-#if GTK_CHECK_VERSION(3,14,1)
 		void createAppIndicator();
 		::AppIndicator * indicator;
-#endif		
 #endif		
 		void setStats_gui(std::string hubs, std::string downloadSpeed,
 			std::string downloaded, std::string uploadSpeed, std::string uploaded);
 		void setToolbarButton_gui();
 		void setTabPosition_gui(int position);
 		void setToolbarStyle_gui(int style);
-#if !GTK_CHECK_VERSION(3,14,1)
+#ifdef USE_STATUS_ICON
 		void removeTimerSource_gui();
 #endif
 		
@@ -220,7 +217,7 @@ class MainWindow:
 		static gboolean onKeyPressed_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static gboolean onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 
-#if !GTK_CHECK_VERSION(3,14,1)
+#ifdef USE_STATUS_ICON
 		static gboolean animationStatusIcon_gui(gpointer data);
 #endif
 		static void onRaisePage_gui(GtkMenuItem *item, gpointer data);
@@ -249,7 +246,7 @@ class MainWindow:
 		static void onAboutClicked_gui(GtkWidget *widget, gpointer data);
 		static void onAboutDialogActivateLink_gui(GtkAboutDialog *dialog, const gchar *link, gpointer data);
 		static void onCloseBookEntry_gui(GtkWidget *widget, gpointer data);
-#if !GTK_CHECK_VERSION(3,14,1)
+#ifdef USE_STATUS_ICON
 		static void onStatusIconActivated_gui(GtkStatusIcon *statusIcon, gpointer data);
 		static void onStatusIconPopupMenu_gui(GtkStatusIcon *statusIcon, guint button, guint time, gpointer data);
 		static void onStatusIconBlinkUseToggled_gui(GtkWidget *widget, gpointer data);
@@ -320,7 +317,7 @@ class MainWindow:
 		GtkWindow *window;
 		Transfers* transfers;
 		bool minimized;
-#if !GTK_CHECK_VERSION(3,14,1)		
+#ifdef USE_STATUS_ICON
 		GtkStatusIcon *statusIcon;
 		guint timer;
 #endif

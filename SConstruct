@@ -137,6 +137,7 @@ vars.AddVariables(
 	BoolVariable('libxattr', 'Enable xattr support for storing calculated Hash in extended attributes of file',1),
 	BoolVariable('libXss', 'Enable libxss support for AutoAway on idle feat',1),
 	BoolVariable('newSettings', 'Use new Settings dialog UI',0),
+	BoolVariable('enableStatusIcon', 'Enable deprecated calls of GtkStatusIcon',1),
 	PathVariable('PREFIX', 'Compile the program with PREFIX as the root for installation', '/usr/local/', PathVariable.PathIsDir),
 	('FAKE_ROOT', 'Make scons install the program under a fake root', '')
 )
@@ -356,7 +357,10 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	
 	if conf.env.get('newSettings'):
 		conf.env.Append(CPPDEFINES = 'USE_NEW_SETTINGS')
-		NEW_SETTING = True	
+		NEW_SETTING = True
+	
+	if conf.env.get('enableStatusIcon'):
+		conf.env.Append(CPPDEFINES = 'USE_STATUS_ICON')
 
 	conf.CheckBZRRevision(env)
 	env = conf.Finish()

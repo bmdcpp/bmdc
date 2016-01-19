@@ -675,7 +675,7 @@ void FavoriteManager::load(SimpleXML& aXml) {
 
 			aXml.stepIn();
 			while(aXml.findChild("Action")) {
-				int actionId = aXml.getIntChildAttrib("ID");
+				int64_t actionId = aXml.getIntChildAttrib("ID");
 				bool enabled = aXml.getBoolChildAttrib("Active");
 				const string& raw = aXml.getChildAttrib("Raw");
 				if(RawManager::getInstance()->getValidAction(actionId))
@@ -704,7 +704,6 @@ void FavoriteManager::load(SimpleXML& aXml) {
 				u = ClientManager::getInstance()->getUser(CID(cid));
 			}
 
-			//ClientManager::getInstance()->saveUser(u->getCID());
 			FavoriteMap::iterator i = users.insert(make_pair(u->getCID(), FavoriteUser(u, nick, hubUrl))).first;
 
 			if(aXml.getBoolChildAttrib("GrantSlot"))

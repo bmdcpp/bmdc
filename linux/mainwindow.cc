@@ -100,7 +100,7 @@ MainWindow::MainWindow():
 	Entry(Entry::MAIN_WINDOW, "mainwindow"),
 	transfers(NULL), 
 	minimized(FALSE),
-#if !GTK_CHECK_VERSION(3,14,0)
+#ifdef USE_STATUS_ICON
 	 timer(0),
 #endif
 	lastUpdate(0),
@@ -432,13 +432,13 @@ MainWindow::MainWindow():
 	setToolbarButton_gui();
 	setTabPosition_gui(WGETI("tab-position"));
 	setToolbarStyle_gui(WGETI("toolbar-style"));
-	#if !GTK_CHECK_VERSION(3,14,1)
-		createStatusIcon_gui();
-	#endif
+
+#ifdef USE_STATUS_ICON
+	createStatusIcon_gui();
+#endif
+
 #ifdef HAVE_APPINDCATOR
-#if GTK_CHECK_VERSION(3,14,1)
 	createAppIndicator();
-#endif	
 #endif
 	
 	setInitThrotles();
@@ -481,7 +481,7 @@ MainWindow::~MainWindow()
 	
 	if (transferPanePosition > 10)
 		WSET("transfer-pane-position", transferPanePosition);
-	#if !GTK_CHECK_VERSION(3,14,1)
+	#ifdef USE_STATUS_ICON
 		if (timer > 0)
 		g_source_remove(timer);
 	#endif
@@ -489,7 +489,7 @@ MainWindow::~MainWindow()
 	WSET("status-icon-blink-use", useStatusIconBlink);
 	gtk_widget_destroy(GTK_WIDGET(window));
 
-	#if !GTK_CHECK_VERSION(3,14,1)
+	#ifdef USE_STATUS_ICON
 		g_object_unref(statusIcon);
 	#endif	
 	g_object_unref(getWidget("statusIconMenu"));
@@ -914,7 +914,7 @@ void MainWindow::removeTabMenuItem_gui(GtkWidget *menuItem)
 /*
  * Create status icon.
  */
-#if !GTK_CHECK_VERSION(3,14,0)
+#ifdef USE_STATUS_ICON
 void MainWindow::createStatusIcon_gui()
 {
 	useStatusIconBlink = WGETB("status-icon-blink-use");
@@ -940,11 +940,9 @@ void MainWindow::updateStatusIconTooltip_gui(string download, string upload)
 	toolTip << g_get_application_name() << endl << _("Download: ") << download << endl << _("Upload: ") << upload;
 	gtk_status_icon_set_tooltip_text(statusIcon, toolTip.str().c_str());
 }
-	#endif
+#endif
 
-//is possible use APPIND indepent on gtk ver? aka did we need check over gtk ver here?
 #ifdef HAVE_APPINDCATOR
-#if GTK_CHECK_VERSION(3,14,1)
 void MainWindow::createAppIndicator()
 {
 	indicator = app_indicator_new ( "bmdc","bmdc",APP_INDICATOR_CATEGORY_SYSTEM_SERVICES );
@@ -954,7 +952,6 @@ void MainWindow::createAppIndicator()
 	gtk_widget_set_sensitive(getWidget("statusIconBlinkUseItem"),FALSE);
 	app_indicator_set_menu ( indicator, GTK_MENU (getWidget("statusIconMenu") ));
 }
-#endif
 #endif
 
 void MainWindow::setMainStatus_gui(string text, time_t t)
@@ -1171,7 +1168,7 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 		if (!isActive_gui())
 		{
 			show = true;
-		#if	!GTK_CHECK_VERSION(3,14,0)
+		#ifdef	USE_STATUS_ICON
 				if (useStatusIconBlink && timer == 0)
 				{
 					timer = g_timeout_add(1000, animationStatusIcon_gui, (gpointer)this);
@@ -1215,7 +1212,7 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 		raisePage_gui(entry->getContainer());
 }
 
-#if !GTK_CHECK_VERSION(3,14,1)
+#ifdef USE_STATUS_ICON
 void MainWindow::removeTimerSource_gui()
 {
 	if (timer > 0)
@@ -2043,9 +2040,8 @@ gboolean MainWindow::onKeyPressed_gui(GtkWidget*, GdkEventKey *event, gpointer d
 
 gboolean MainWindow::onButtonReleasePage_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
-	gint width, height;
-	height = gdk_window_get_height(event->window);
-	width = gdk_window_get_width(event->window);
+	gint height = gdk_window_get_height(event->window);
+	gint width = gdk_window_get_width(event->window);
 
 	// If middle mouse button was released when hovering over tab label
 	// with setting to it
@@ -2059,7 +2055,7 @@ gboolean MainWindow::onButtonReleasePage_gui(GtkWidget*, GdkEventButton *event, 
 
 	return FALSE;
 }
-#if !GTK_CHECK_VERSION(3,14,1)
+#ifdef USE_STATUS_ICON
 gboolean MainWindow::animationStatusIcon_gui(gpointer data)
 	{
 		MainWindow *mw = (MainWindow *) data;
@@ -2240,7 +2236,7 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget*, gpointer data)
 		}
 		//END
 
-#if !GTK_CHECK_VERSION(3,14,1)
+#ifdef USE_STATUS_ICON
 		if (SETTING(ALWAYS_TRAY))
 			gtk_status_icon_set_visible(mw->statusIcon, TRUE);
 		else
@@ -2530,7 +2526,7 @@ void MainWindow::onCloseBookEntry_gui(GtkWidget*, gpointer data)
 	WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
 }
 
-#if !GTK_CHECK_VERSION(3,14,1)
+#ifdef USE_STATUS_ICON
 void MainWindow::onStatusIconActivated_gui(GtkStatusIcon*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
@@ -2565,9 +2561,7 @@ void MainWindow::onShowInterfaceToggled_gui(GtkCheckMenuItem*, gpointer data)
 		gtk_widget_hide(GTK_WIDGET(win));
 		
 		#ifdef HAVE_APPINDCATOR
-			#if GTK_CHECK_VERSION(3,14,1)	
-				app_indicator_set_status(indicator,APP_INDICATOR_STATUS_INACTIVE);
-			#endif
+			app_indicator_set_status(indicator,APP_INDICATOR_STATUS_INACTIVE);
 		#endif	
 	}
 	else
@@ -2578,14 +2572,13 @@ void MainWindow::onShowInterfaceToggled_gui(GtkCheckMenuItem*, gpointer data)
 		gtk_widget_show(GTK_WIDGET(win));
 		
 		#ifdef HAVE_APPINDCATOR
-			#if GTK_CHECK_VERSION(3,14,1)	
 			app_indicator_set_status(indicator,APP_INDICATOR_STATUS_ACTIVE);
-			#endif
 		#endif
+		
 	}
 }
 
-#if !GTK_CHECK_VERSION(3,14,1)
+#ifdef USE_STATUS_ICON
 void MainWindow::onStatusIconBlinkUseToggled_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
@@ -2809,7 +2802,7 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) noexcept
 	F5 *func = new F5(this, &MainWindow::setStats_gui, hubs, downloadSpeed, downloaded, uploadSpeed, uploaded);
 	WulforManager::get()->dispatchGuiFunc(func);
 
-#if !GTK_CHECK_VERSION(3,14,1)
+#ifdef USE_STATUS_ICON
 	if (SETTING(ALWAYS_TRAY) && !downloadSpeed.empty() && !uploadSpeed.empty())
 	{
 		typedef Func2<MainWindow, string, string> F2;
