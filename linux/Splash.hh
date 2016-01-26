@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 - 2016 - BMDC - freedcpp at seznam dot cz
+ * Copyright (C) 2011 - 2016 - BMDC++
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ class Splash
 {
 	public:
 		Splash() : Text("") , percentage("0")
-		,perc(0),win(NULL), label(NULL), box(NULL), image(NULL), progressbar(NULL) { }
+		,perc(0),win(NULL), label(NULL), box(NULL), progressbar(NULL) { }
 		void show() {
 			win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 			gtk_window_set_decorated(GTK_WINDOW(win),FALSE);
@@ -40,11 +40,11 @@ class Splash
 			label = gtk_label_new("Loading...");
 			progressbar = gtk_progress_bar_new ();
 			box = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
-			image = gtk_image_new_from_file(_DATADIR G_DIR_SEPARATOR_S "icons" G_DIR_SEPARATOR_S "hicolor" G_DIR_SEPARATOR_S "scalable" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "bmdc.svg");
-			gtk_container_add(GTK_CONTAINER(box),image);
-			gtk_container_add(GTK_CONTAINER(box),label);
+			GtkWidget* image = gtk_image_new_from_file(_DATADIR G_DIR_SEPARATOR_S "icons" G_DIR_SEPARATOR_S "hicolor" G_DIR_SEPARATOR_S "scalable" G_DIR_SEPARATOR_S "apps" G_DIR_SEPARATOR_S "bmdc.svg");
+			gtk_container_add(GTK_CONTAINER(box), image);
+			gtk_container_add(GTK_CONTAINER(box), label);
 			gtk_container_add(GTK_CONTAINER(box), progressbar);
-			gtk_container_add(GTK_CONTAINER(win),box);
+			gtk_container_add(GTK_CONTAINER(win), box);
 			gtk_widget_show_now(image);
 			gtk_widget_show_now(label);
 			gtk_widget_show_now(progressbar);
@@ -52,7 +52,7 @@ class Splash
 			gtk_widget_show_now(win);
 			update();
 		}
-		~Splash() {	win = NULL;label= NULL;box= NULL;image= NULL;progressbar= NULL; }
+		~Splash() {	win = NULL;label= NULL;box= NULL;progressbar= NULL; }
 
 	void setText(const string &text) {
 						if(text.empty()) return;
@@ -79,7 +79,7 @@ class Splash
 		GtkWidget *win;
 		GtkWidget *label;
 		GtkWidget *box;
-		GtkWidget *image;
+		//GtkWidget *image;
 		GtkWidget *progressbar;
 
 };

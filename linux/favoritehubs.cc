@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011-2016 BMDC, freedcpp <at> seznam <dot> cz
+ * Copyright © 2011-2016 BMDC++
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -283,8 +283,10 @@ bool FavoriteHubs::checkAddys(string url)
 {
 	string tmp = url;
 	size_t i = tmp.find("dchub://");
+	
 	if(i == string::npos)
 		return false;
+	
 	string newhubaddy = tmp.substr(i);
 	GtkTreeIter iter;
 	GtkTreeModel *m = GTK_TREE_MODEL(favoriteStore);
