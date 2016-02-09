@@ -1291,7 +1291,7 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 
 			int ffound = sMsgLower.compare(sW);
 
-			if(!ffound) {
+			if(!ffound && cs->usingRegexp() == false) {
 				
 				if((Hub *)hub)
 				{
@@ -1308,7 +1308,7 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 							"underline", tUnderline ? PANGO_UNDERLINE_DOUBLE : PANGO_UNDERLINE_NONE,
 							NULL);
 						}
-						ret = TRUE;
+						ret = true;
 						continue;
 					}
 				}
@@ -1317,11 +1317,10 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 			if(cs->usingRegexp())
 			{
 				string q = cs->getMatch().substr(4);
-				bool reMatch  = dcpp::RegEx::match<string>(sMsgLower,q,cs->getCaseSensitive());
-
-				if(!reMatch)
-					ret = false;
-				else
+				//bool reMatch  = dcpp::RegEx::match<string>(sMsgLower,q,cs->getCaseSensitive());
+				bool reMatch = g_pattern_match_simple (q.c_str(),word.c_str());
+				ret = false;
+				if(reMatch)
 				{
 					if(!tag) {
 						tag = gtk_text_buffer_create_tag(buffer, word.c_str(),
@@ -1332,7 +1331,7 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 						"underline", tUnderline ? PANGO_UNDERLINE_DOUBLE : PANGO_UNDERLINE_NONE,
 						NULL);
 					}
-
+					dcdebug("regexp hilg");
 					ret = true;
 					continue;
 				}
@@ -1352,22 +1351,21 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 					NULL);
 
 				}
-				if(cs->getPopup())
-					WulforManager::get()->getMainWindow()->showNotification_gui(cs->getNoti()+" : ", word, Notify::HIGHLITING);
-
-				if(cs->getPlaySound())
-				{
-					Sound::get()->playSound(cs->getSoundFile());
-				}
-
 				ret = true;
-				break;
-			}
-			else
-			{
-				ret = false;
 				continue;
+			}	
+
+			if(ret && cs->getPopup())
+				WulforManager::get()->getMainWindow()->showNotification_gui(cs->getNoti()+" : ", word, Notify::HIGHLITING);
+
+			if(ret && cs->getPlaySound())
+			{
+					Sound::get()->playSound(cs->getSoundFile());
 			}
+		
+			if(ret)
+				break;
+		
 	}
 	return ret;
 }

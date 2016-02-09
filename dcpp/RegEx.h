@@ -19,6 +19,7 @@
 #define REG_EX_H
 
 #include <pcre.h>  /* PCRE lib */
+#include <glib.h>
 #include "StringTokenizer.h"
 #include "debug.h"
 
@@ -31,8 +32,22 @@ bool match(const T& text, const T& pattern, bool ignoreCase = true)  {
 	if(pattern.empty())
 		return false;
 	if(text.empty())
-		return false;	
-
+		return false;
+	
+	int flags = G_REGEX_OPTIMIZE;
+	if(ignoreCase)
+		flags = G_REGEX_OPTIMIZE | G_REGEX_CASELESS;
+	
+	gboolean m = g_regex_match_simple(pattern.c_str(),text.c_str(),(GRegexCompileFlags)flags,G_REGEX_MATCH_PARTIAL);
+		
+	if(!m)
+	{
+		dcdebug("error while pattern");
+		return false;
+	}	
+	return m;	
+			
+/*
 	const char *error;
 	int   erroffset;
 	pcre *re;
@@ -40,11 +55,11 @@ bool match(const T& text, const T& pattern, bool ignoreCase = true)  {
 	int ovector[OVECCOUNT];
 	re = pcre_compile (
 		pattern.c_str(),					/* the pattern */
-		ignoreCase ? PCRE_CASELESS : 0,	/* default options */
-		&error,							/* for error message */
-		&erroffset,						/* for error offset */
-		0);									/* use default character tables */
-			 
+/*		ignoreCase ? PCRE_CASELESS : 0,	/* default options */
+/*		&error,							/* for error message */
+/*		&erroffset,						/* for error offset */
+/*		0);									/* use default character tables */
+/*			 
 	if (!re) {
 			printf("pcre_compile failed (offset: %d), %s\n", erroffset, error);
 			return false;
@@ -52,14 +67,14 @@ bool match(const T& text, const T& pattern, bool ignoreCase = true)  {
 
 	rc = pcre_exec (
 		re,						/* the compiled pattern */
-		0,						/* no extra data - pattern was not studied */
-		text.c_str(),			/* the string to match */
-		text.length(),			/* the length of the string */
-		0,						/* start at offset 0 in the subject */
-		0,						/* default options */
-		ovector,				/* output vector for substring information */
-		OVECCOUNT);			/* number of elements in the output vector */
-	free(re);
+/*		0,						/* no extra data - pattern was not studied */
+/*		text.c_str(),			/* the string to match */
+/*		text.length(),			/* the length of the string */
+/*		0,						/* start at offset 0 in the subject */
+/*		0,						/* default options */
+/*		ovector,				/* output vector for substring information */
+/*		OVECCOUNT);			/* number of elements in the output vector */
+/*	free(re);
 	if (rc < 0) {
        switch (rc) {
             case PCRE_ERROR_NOMATCH:
@@ -73,7 +88,7 @@ bool match(const T& text, const T& pattern, bool ignoreCase = true)  {
     }
     if(rc > 1)
 		return true;
-
+*/
 	return false;
 }
 
