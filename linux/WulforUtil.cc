@@ -1309,12 +1309,12 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 							NULL);
 						}
 						ret = true;
-						continue;
+//						continue;
 					}
 				}
 			}
 
-			if(cs->usingRegexp())
+			if((ret == false) && cs->usingRegexp())
 			{
 				string q = cs->getMatch().substr(4);
 				//bool reMatch  = dcpp::RegEx::match<string>(sMsgLower,q,cs->getCaseSensitive());
@@ -1333,12 +1333,12 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 					}
 					dcdebug("regexp hilg");
 					ret = true;
-					continue;
+//					continue;
 				}
 			}
 
 			int found = sMsgLower.compare(sW);
-			if(!found) {
+			if( (ret == false) && (!found) ) {
 
 				if(!tag)
 				{
@@ -1352,19 +1352,17 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 
 				}
 				ret = true;
-				continue;
+//				continue;
 			}	
 
 			if(ret && cs->getPopup())
 				WulforManager::get()->getMainWindow()->showNotification_gui(cs->getNoti()+" : ", word, Notify::HIGHLITING);
 
 			if(ret && cs->getPlaySound())
-			{
-					Sound::get()->playSound(cs->getSoundFile());
-			}
-		
-			if(ret)
-				break;
+				Sound::get()->playSound(cs->getSoundFile());
+					
+			if(!ret)
+				continue;
 		
 	}
 	return ret;
