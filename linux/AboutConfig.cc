@@ -1,4 +1,4 @@
-﻿//
+//
 //		Copyright (C) 2011 - 2016 - BMDC
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -89,28 +89,28 @@ void AboutConfig::show()
 			rowname = tmp;
 			switch(type) {
 				case SettingsManager::TYPE_STRING:
-					types =  ("String");
+					types =  g_strdup("String");
 					value = g_strdup(Text::toUtf8(sm->get(static_cast<SettingsManager::StrSetting>(n))).c_str());
 					isdefault = sm->isDefault(static_cast<SettingsManager::StrSetting>(n)) ? _("Default") : _("User set");
 					break;
 				case SettingsManager::TYPE_INT:
-					types = ("Integer");
+					types = g_strdup("Integer");
 					value = g_strdup(Util::toString((int)sm->get(static_cast<SettingsManager::IntSetting>(n))).c_str());
 					isdefault = sm->isDefault(static_cast<SettingsManager::IntSetting>(n)) ? _("Default") : _("User set");
 					break;
 				case SettingsManager::TYPE_INT64:
-					types = ("Int64");
+					types = g_strdup("Int64");
 					value = g_strdup(Util::toString((int64_t)sm->get(static_cast<SettingsManager::Int64Setting>(n))).c_str());
 					isdefault = sm->isDefault(static_cast<SettingsManager::Int64Setting>(n)) ? _("Default") : _("User set");
 					break;
 
 				case SettingsManager::TYPE_FLOAT:
-					types = ("Float");
+					types = g_strdup("Float");
 					value = g_strdup(Util::toString((float)sm->get(static_cast<SettingsManager::FloatSetting>(n))).c_str());
 					isdefault = sm->isDefault(static_cast<SettingsManager::FloatSetting>(n)) ? _("Default") : _("User set");
 					break;
 				case SettingsManager::TYPE_BOOL:
-					types = ("Bool");
+					types = g_strdup("Bool");
 					value = g_strdup(Util::toString((int)sm->get(static_cast<SettingsManager::BoolSetting>(n))).c_str());
 					isdefault = sm->isDefault(static_cast<SettingsManager::BoolSetting>(n)) ? _("Default") : _("User set");
 					break;

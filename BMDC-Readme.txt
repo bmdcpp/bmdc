@@ -23,6 +23,7 @@ optional:
  libappindicator3 ( Note: For appindicators in gtk 3.14 and above )
  xattr ( Note: for storing hashes beside files to not always re-hash )
 --------------
+Runtime optional is also glib-networking.( for open URIs)
 
 Compiling:
 ----------
