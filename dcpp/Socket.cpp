@@ -549,9 +549,22 @@ int Socket::read(void* aBuffer, int aBufLen) {
 	return len;
 }
 
+static string AddressToString(const sockaddr_storage * sasAddr) {
+    if(sasAddr->ss_family == AF_INET6) {
+        if(IN6_IS_ADDR_V4MAPPED(&((struct sockaddr_in6 *)sasAddr)->sin6_addr)) {
+            return inet_ntoa(*((in_addr *)(((struct sockaddr_in6 *)sasAddr)->sin6_addr.s6_addr + 12)));
+        } else {
+            char sIP[40];
+            sIP[0] = '\0';
+            inet_ntop(AF_INET6,&((struct sockaddr_in6 *)sasAddr)->sin6_addr, sIP, 40);
+            return sIP;
+        }
+    } else {
+	   return inet_ntoa(((struct sockaddr_in *)sasAddr)->sin_addr);
+    }
+}
+
 int Socket::read(void* aBuffer, int aBufLen, string &aIP) {
-		if(aBufLen == 0)
-              return 0;
 	dcassert(type == TYPE_UDP);
 
 	sockaddr_storage remote_addr;
@@ -562,7 +575,7 @@ int Socket::read(void* aBuffer, int aBufLen, string &aIP) {
 	}, true);
 
 	if(len > 0) {
-		aIP = resolveName((struct sockaddr*)&remote_addr, addr_length);
+		aIP = AddressToString(&remote_addr);
 		stats.totalDown += len;
 	} else {
 		aIP.clear();
@@ -828,28 +841,14 @@ Socket::addrinfo_p Socket::resolveAddr(const string& name, const uint16_t& port,
 string Socket::resolveName(const sockaddr* sa, socklen_t sa_len, int flags) {
 	char buf[1024];
 
-	auto err = ::getnameinfo(sa, sa_len, buf, sizeof(buf), NULL, 0, flags);
+	int err = ::getnameinfo(sa, sa_len, buf, sizeof(buf), NULL, 0, flags);
 	if(err) {
 		throw SocketException(err);
 	}
 
 	return string(buf);
 }
-/*
-uint16_t Socket::getLocalIp() noexcept {
-	if(getSock() == INVALID_SOCKET)
-		return 0;
 
-	addr sock_addr;
-	socklen_t len = sizeof(sock_addr);
-	if(::getsockname(getSock(), &sock_addr.sa, &len) == 0) {
-		try { return resolveName(&sock_addr.sa, len); }
-		catch(const SocketException&) { }
-	}
-
-	return 0;
-}
-*/
 uint16_t Socket::getLocalPort() noexcept {
 	if(getSock() == INVALID_SOCKET)
 		return 0;

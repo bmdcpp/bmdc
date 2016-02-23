@@ -149,6 +149,7 @@ int SearchManager::run() {
 			}
 
 			if((len = socket->read(&buf[0], BUFSIZE, remoteAddr)) > 0) {
+				dcdebug("IP %s",remoteAddr.c_str());
 				onData(&buf[0], len, remoteAddr);
 				if(delBuf == false) {
 					delete [] buf; delBuf = true;
@@ -285,9 +286,21 @@ void SearchManager::onData(const uint8_t* buf, size_t aLen, const string& remote
 		if(tth.empty() && type == SearchResult::TYPE_FILE) {
 			return;
 		}
+		string _remoteIp;
+		uint16_t port = 0;
+		if(remoteIp.empty())
+		{
+			size_t end = x.rfind(')');
+			size_t start=x.rfind('(');
+			if(end == string::npos)return;
+			if(start == string::npos)return;
+
+			ClientManager::parsePortIp(x.substr(start+1,end-1),_remoteIp,port);
+			ClientManager::getInstance()->setIpAddress(user,_remoteIp);
+		}
 
 		SearchResultPtr sr(new SearchResult(user, type, slots, freeSlots, size,
-			file, hubName, url, remoteIp, TTHValue(tth), Util::emptyString));
+			file, hubName, url, ( (!remoteIp.empty()) ?  remoteIp : _remoteIp ), TTHValue(tth), Util::emptyString));
 		fire(SearchManagerListener::SR(), sr);
 
 	} else if(x.compare(1, 4, "RES ") == 0 && x[x.length() - 1] == 0x0a) {

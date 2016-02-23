@@ -403,8 +403,8 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 			// Incoming connection
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radioDefault)))
 			p_entry->setMode(0);
-		else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radioActive)))
-			p_entry->setMode(1);
+		//else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radioActive)))
+		//	p_entry->setMode(1);
 		else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radioActive)))
 			p_entry->setMode(1);
 		else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radioPasive)))
