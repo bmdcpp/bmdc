@@ -296,7 +296,7 @@ void PublicHubs::onAddFav_gui(GtkMenuItem*, gpointer data)
 		entry.setPassword("");
 		entry.set(SettingsManager::DESCRIPTION, SETTING(DESCRIPTION));
 
-		typedef Func1<PublicHubs, FavoriteHubEntry> F1;
+		typedef Func1<PublicHubs, FavoriteHubEntry&> F1;
 		F1 *func = new F1(ph, &PublicHubs::addFav_client, entry);
 		WulforManager::get()->dispatchClientFunc(func);
 	}
@@ -427,7 +427,7 @@ void PublicHubs::refresh_client(int pos)
 	FavoriteManager::getInstance()->refresh();
 }
 
-void PublicHubs::addFav_client(FavoriteHubEntry entry)
+void PublicHubs::addFav_client(FavoriteHubEntry& entry)
 {
 	FavoriteManager::getInstance()->addFavorite(entry);
 }

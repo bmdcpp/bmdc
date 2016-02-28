@@ -133,7 +133,7 @@ void StackTrace::run_addr2line(const std::string &object, const std::string &add
         }
         pclose(fd);
 
-        unsigned int newline = output.find('\n');
+        size_t newline = output.find('\n');
         std::string temp = output.substr(0, newline);
         if(function == "[unknown]" && temp != "??")
             function = temp;

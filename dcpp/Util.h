@@ -469,47 +469,11 @@ public:
 	}
 
 	static string getIETFLang();
-	static bool isIp6(const string& name)
-	{
-		//5 = :xxxx:xxxx:
-	if(name.empty()) return false;
-	size_t n = std::count(name.begin(), name.end(), ':');
-	if( (n==2) && (name.size() == 2) ) return true;//Fix for "::"
-	if(/*n == 0 ||*/ n < 2)
-			return false;
-			
-	bool ok = false;
-	for(auto i = name.begin();i!=name.end();++i) {
-			if(*i==':') {
-				for(int j = 5; j>0;--j){
-						if(isxdigit(name[j])){ok = true;}
-				}
-		}
-			if(ok){break;}
-	}
-	bool ok2 = false;
-	for(auto i = name.end();i!=name.begin();--i) {
-			if(*i==':') {
-				for(int q = 0; q<5;++q){
-						if(isxdigit(name[q])){ok2 = true;}
-				}
-			}
-		if(ok2) {break;}
-	}
-	bool isOkIpV6 = false;
-	if( (ok == true ) || (ok2 == true)) {
-		struct sockaddr_in sa;
-		int result = inet_pton(AF_INET6,name.c_str() , &(sa.sin_addr));//6
-		isOkIpV6 = result == 1;
-	}
-
-	if(isOkIpV6)
-	{
-		return isOkIpV6;
-	}
-	return false;
-	}
+	static bool isIp6(const string& name);
 	
+	static bool isAdc(const string& h) {
+		return !h.empty() ?  h.compare(0, 6, "adc://") == 0 || h.compare(0, 7, "adcs://") == 0 : false;
+	}
 
 private:
 	/** In local mode, all config and temp files are kept in the same dir as the executable */

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 namespace dcpp {
 
 HubSettings::HubSettings():
-autoConnect(false)
+autoConnect(false),share(NULL)
 {
 
 }
@@ -39,6 +39,7 @@ void HubSettings::merge(const HubSettings& sub) {
 		bools[i->first] = i->second;
 	}
 	setAutoConnect(sub.getAutoConnect());
+	share = sub.share;
 }
 
 void HubSettings::load(SimpleXML& xml) {
@@ -75,8 +76,14 @@ void HubSettings::load(SimpleXML& xml) {
 			set(SettingsManager::BoolSetting(i), Util::toInt(xml.getChildData()) > 0);
 		xml.resetCurrentChild();
 	}
+	
 	if(xml.findChild("AutoConnect"))
 		setAutoConnect(Util::toInt(xml.getChildData()));
+	
+	share = new ShareManager();
+	share->setName(getId());
+	share->load(xml);
+	share->refresh(true,true,false);
 	
 	xml.stepOut();
 
@@ -105,6 +112,10 @@ void HubSettings::save(SimpleXML& xml) const {
 	}
 	xml.addTag("AutoConnect",getAutoConnect());
 	xml.addChildAttrib(type,curType);
+	
+	if(share != NULL)
+		share->save(xml);
+
 	xml.stepOut();
 }
 
@@ -113,6 +124,8 @@ HubSettings& HubSettings::operator=(const HubSettings& rhs)
 	strings = rhs.strings;
 	ints = rhs.ints;
 	bools = rhs.bools;
+	share = rhs.share;
+	autoConnect = rhs.autoConnect;
 	return *this;
 }
 

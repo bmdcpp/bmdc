@@ -37,9 +37,9 @@ using std::max;
 // Polling is used for tasks...should be fixed...
 #define POLL_TIMEOUT 250
 
-BufferedSocket::BufferedSocket(char aSeparator, bool v4only) :
+BufferedSocket::BufferedSocket(char aSeparator/*, bool v4only*/) :
 separator(aSeparator), mode(MODE_LINE), dataBytes(0), rollback(0), state(STARTING),
-disconnecting(false), v4only(v4only)
+disconnecting(false),filterIn(NULL)//, v4only(v4only)
 {
 	start();
 
@@ -74,7 +74,7 @@ void BufferedSocket::setMode (Modes aMode, size_t aRollback) {
 void BufferedSocket::setSocket(unique_ptr<Socket>&& s) {
 	dcassert(!sock.get());
 	sock = move(s);
-	sock->setV4only(v4only);
+	//sock->setV4only(v4only);
 }
 
 void BufferedSocket::setOptions() {
@@ -117,7 +117,7 @@ void BufferedSocket::connect(const string& aAddress, const uint16_t& aPort, cons
 
 #define LONG_TIMEOUT 30000
 #define SHORT_TIMEOUT 1000
-void BufferedSocket::threadConnect(const string& aAddr, const int16_t& aPort, const int16_t& localPort, NatRoles natRole, bool proxy) {
+void BufferedSocket::threadConnect(const string& aAddr, const uint16_t& aPort, const uint16_t& localPort, NatRoles natRole, bool proxy) {
 	dcassert(state == STARTING);
 
 	fire(BufferedSocketListener::Connecting());

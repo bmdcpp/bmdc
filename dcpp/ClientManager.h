@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,6 +35,8 @@
 #include "DirectoryListing.h"
 
 #include "FakeChecker.h"
+
+#include "ShareManager.h"
 
 namespace dcpp {
 
@@ -134,6 +136,13 @@ public:
 		if(ou)
 			return (!ou->getClient().getHideShare());
 		return true;
+	}
+	ShareManager* getShareManagerClient(const HintedUser& p){
+		Lock l(cs);
+		OnlineUser* ou = findOnlineUserHint(p.user->getCID(), p.hint);
+		if(ou)
+			return ou->getClient().getShareManager();
+		return ShareManager::getInstance();
 	}
 
 	int getMode(const string& aHubUrl) const;

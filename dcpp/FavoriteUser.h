@@ -28,7 +28,7 @@ public:
 	FavoriteUser(int flag = 0) : lastSeen(time(NULL)) {
 			setFlag(flag);
 	}
-	FavoriteUser(const UserPtr& user_, const string& nick_, const string& hubUrl_) : user(user_), url(hubUrl_), lastSeen(0), nick(nick_) 
+	FavoriteUser(const UserPtr& user_, const string& nick_, const string& hubUrl_) : user(user_), url(hubUrl_), nick(nick_),lastSeen(0) 
 	{ 
 		nicks.push_back(nick);
 	}

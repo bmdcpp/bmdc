@@ -65,7 +65,7 @@ class PublicHubs:
 		// Client functions
 		void downloadList_client();
 		void refresh_client(int pos);
-		void addFav_client(dcpp::FavoriteHubEntry entry);
+		void addFav_client(dcpp::FavoriteHubEntry& entry);
 
 		// Client callbacks
 		virtual void on(dcpp::FavoriteManagerListener::DownloadStarting, const std::string &file) throw();

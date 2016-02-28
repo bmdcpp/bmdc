@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,7 +37,9 @@ Client::Client(const string& hubURL, char separator_, bool secure_) :
 	reconnDelay(120), lastActivity(GET_TICK()), registered(false), autoReconnect(false),
 	encoding(Text::systemCharset), state(STATE_DISCONNECTED), sock(nullptr),
 	hubUrl(hubURL),separator(separator_),
-	secure(secure_), countType(COUNT_UNCOUNTED)
+	secure(secure_), countType(COUNT_UNCOUNTED),
+	hideShare(true),checkClients(false), checkFilelists(false),
+	port(0),bIPv6(false),bIPv4(true)//defualt is ipv4
 {
 	string file, proto, query, fragment;
 	Util::decodeUrl(hubURL, proto, address, port, file, query, fragment);
@@ -154,7 +156,7 @@ void Client::connect() {
 	state = STATE_CONNECTING;
 
 	try {
-		sock = BufferedSocket::getSocket(separator, v4only());
+		sock = BufferedSocket::getSocket(separator/*, v4only()*/);
 		sock->addListener(this);
 		sock->connect(address, port, secure, SETTING(ALLOW_UNTRUSTED_HUBS), true);
 	} catch(const Exception& e) {
@@ -189,7 +191,7 @@ HubData* Client::getPluginObject() noexcept {
 	pod.ip = pluginString(ip);
 	pod.object = this;
 	pod.port = port;
-	pod.protocol = isAdc(hubUrl) ? PROTOCOL_ADC : PROTOCOL_NMDC; 
+	pod.protocol = Util::isAdc(hubUrl) ? PROTOCOL_ADC : PROTOCOL_NMDC; 
 	pod.isOp = isOp() ? True : False;
 	pod.isSecure = isSecure() ? True : False;
 
@@ -201,7 +203,7 @@ void Client::on(Connected) noexcept {
 	ip = sock->getIp();
 	sLocalIP = sock->getLocalIp();
 	
-	 if(sock->isV6Valid() && sLocalIP.empty() == false && strchr(sLocalIP.c_str(), '.') == false) {
+	 if(sock->isV6Valid() && sLocalIP.empty() == false && strchr(sLocalIP.c_str(), '.') == NULL) {
 		bIPv6 = true;
 	} else {
 		bIPv4 = true;

@@ -18,6 +18,8 @@
 
 #include "stdinc.h"
 #include "File.h"
+#include <glib.h>
+#include <glib/gstdio.h>
 
 namespace dcpp {
 
@@ -216,15 +218,17 @@ File::File(const string& aFileName, int access, int mode) {
 		m |= O_TRUNC;
 	}
 
-	string filename = Text::fromUtf8(aFileName);
+	//string filename = Text::fromUtf8(aFileName);
+	string filename = aFileName;
 
 	struct stat s;
-	if(lstat(filename.c_str(), &s) != -1) {
+	if(stat(filename.c_str(), &s) != -1) {
 		if(!S_ISREG(s.st_mode) && !S_ISLNK(s.st_mode))
 			throw FileException("Invalid file type");
 	}
+	
 
-	h = open(filename.c_str(), m, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+	h = g_open(filename.c_str(), m, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);//glib
 	if(h == -1)
 		throw FileException(Util::translateError(errno));
 }
@@ -261,15 +265,21 @@ int64_t File::getPos() noexcept {
 }
 
 void File::setPos(int64_t pos) noexcept {
-	lseek(h, (off_t)pos, SEEK_SET);
+	int ret = lseek(h, (off_t)pos, SEEK_SET);
+	if(ret == -1)
+		dcdebug("Error %d",errno);
 }
 
 void File::setEndPos(int64_t pos) noexcept {
-	lseek(h, (off_t)pos, SEEK_END);
+	int ret = lseek(h, (off_t)pos, SEEK_END);
+	if(ret == -1)
+		dcdebug("Error %d",errno);
 }
 
 void File::movePos(int64_t pos) noexcept {
-	lseek(h, (off_t)pos, SEEK_CUR);
+	int ret =lseek(h, (off_t)pos, SEEK_CUR);
+	if(ret == -1)
+		dcdebug("Error %d",errno);
 }
 
 size_t File::read(void* buf, size_t& len) {
@@ -303,7 +313,7 @@ size_t File::write(const void* buf, size_t len) {
 // some ftruncate implementations can't extend files like SetEndOfFile,
 // not sure if the client code needs this...
 int File::extendFile(int64_t len) noexcept {
-	char zero;
+	char zero = ' ';
 
 	if( (lseek(h, (off_t)len, SEEK_SET) != -1) && (::write(h, &zero,1) != -1) ) {
 		int x = ftruncate(h,(off_t)len);
@@ -314,17 +324,20 @@ int File::extendFile(int64_t len) noexcept {
 }
 
 void File::setEOF() {
-	int64_t pos;
-	int64_t eof;
+	off_t pos;
+	off_t eof;
 	int ret;
 
-	pos = (int64_t)lseek(h, 0, SEEK_CUR);
-	eof = (int64_t)lseek(h, 0, SEEK_END);
+	pos = lseek(h, 0, SEEK_CUR);
+	eof = lseek(h, 0, SEEK_END);
+	if((pos == -1 ) || (eof	== -1))
+		dcdebug("error while lseek %d",errno);
+	
 	if (eof < pos)
 		ret = extendFile(pos);
 	else
-		ret = ftruncate(h, (off_t)pos);
-	lseek(h, (off_t)pos, SEEK_SET);
+		ret = ftruncate(h, pos);
+	lseek(h, pos, SEEK_SET);
 	if (ret == -1)
 		throw FileException(Util::translateError(errno));
 }

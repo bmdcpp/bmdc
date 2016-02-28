@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2016 Mank freedcpp <at> seznam <dot> cz
+ * Copyright © 2010-2016 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,11 +25,12 @@
 
 #include "entry.hh"
 
+#include <gtk/gtk.h>
 class BookEntry : public Entry
 {
 	public:
 		BookEntry(): eventBox(NULL), labelBox(NULL), tabMenuItem(NULL),	closeButton(NULL),
-				label(NULL)/*, fItem(NULL)*/, bCreated(true),bold(false), urgent(false), labelSize(20), icon(NULL) , popTabMenuItem(NULL), type((EntryType)0), IsCloseButton(true)  { }
+				label(NULL), bCreated(true),bold(false), urgent(false), labelSize(20), icon(NULL) , popTabMenuItem(NULL), type((EntryType)0), IsCloseButton(true)  { }
 		BookEntry(const EntryType type, const std::string &text, const std::string &glade, const std::string &id = "");
 		virtual ~BookEntry()
 		{

@@ -71,7 +71,7 @@ bool bmUtil::isIpInRange(const string& aIp, const string& aRange) {
 	if(lower <= ip && ip <= upper)
 		return true;
 	return false;
-}/**
+}/*
 uint32_t RsxUtil::getUpperRange(const string& aRange) {
 	string::size_type j = aRange.find('-') + 1;
 	return toIpNumber(aRange.substr(j, aRange.size() - j));

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2016
+ * Copyright © 2009-2016 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ using namespace dcpp;
 const string EmoticonsDialog::sizeIcon[] = {
 	"16x16", "22x22", "24x24", "32x32", "36x36", "48x48", "64x64", "0"
 };
-
+Emoticons* EmoticonsDialog::em_global = NULL;
 EmoticonsDialog::EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *menu, string packName /*Util::emptyString*/, const string& address /*Util::empty*/) :
 	Chat(chat),
 	Button(button),
@@ -62,24 +62,25 @@ EmoticonsDialog::EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *
 		}
 		
 		if(dontCreate == false) {
-			em = Emoticons::start(packName,false);
+			em = Emoticons::start(packName);
 		}
 		
 		if(em != NULL)
 			hubs.insert(make_pair(address,em));
-		
+	} else{
+		if(!em_global)
+			em_global = Emoticons::start();
 	}
-		
 }
 
 Emoticons *EmoticonsDialog::getEmot(const std::string &address)
 {
-	if(address.empty()) return Emoticons::get();	
+	if(address.empty()) return em_global;
 
 	map<std::string,Emoticons*>::iterator it;
 	if( (it = hubs.find(address) ) != hubs.end())
 		return it->second;
-	else return Emoticons::get();
+	else return em_global;
 }
 
 EmoticonsDialog::~EmoticonsDialog()
@@ -91,6 +92,8 @@ EmoticonsDialog::~EmoticonsDialog()
 			delete it->second;
 			hubs.erase(it);
 	}
+	delete em_global;
+
 
 	if (dialog != NULL)
 		gtk_widget_destroy(dialog);
@@ -256,7 +259,7 @@ void EmoticonsDialog::showEmotDialog_gui()
 void EmoticonsDialog::build()
 {
 	guint left_attach = 0,
-		right_attach = 1,
+		right_attach,
 		top_attach = 0;
 
 	const int sizetable = getEmot(address)->getCountFile_gui();

@@ -124,8 +124,8 @@ void HttpConnection::prepareRequest(RequestType type) {
 	if(userAgent.empty())
 		userAgent = dcpp::fullVersionString;
 
-	if(!socket)
-		socket = BufferedSocket::getSocket(0x0a,true);//ipv6?
+	if(!socket) 
+		socket = BufferedSocket::getSocket(0x0a);
 
 
 	socket->addListener(this);

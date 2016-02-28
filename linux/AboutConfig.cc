@@ -1,4 +1,4 @@
-//
+﻿//
 //		Copyright (C) 2011 - 2016 - BMDC
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -79,7 +79,7 @@ void AboutConfig::show()
 	gchar* rowname;
 	gchar* isdefault;
 	gchar* types;
-	gchar* value;
+	gchar* value = "";
 	gchar* tmp;
 
 	for(int n = 0; n < SettingsManager::SETTINGS_LAST; n++ ) {
@@ -103,7 +103,6 @@ void AboutConfig::show()
 					value = g_strdup(Util::toString((int64_t)sm->get(static_cast<SettingsManager::Int64Setting>(n))).c_str());
 					isdefault = sm->isDefault(static_cast<SettingsManager::Int64Setting>(n)) ? _("Default") : _("User set");
 					break;
-
 				case SettingsManager::TYPE_FLOAT:
 					types = g_strdup("Float");
 					value = g_strdup(Util::toString((float)sm->get(static_cast<SettingsManager::FloatSetting>(n))).c_str());

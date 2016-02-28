@@ -1,4 +1,4 @@
-// Copyright (C) 2014-2016  BMDC++
+// Copyright (C) 2014-2016  BMDC
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -19,16 +19,30 @@
 using namespace std;
 using namespace dcpp;
 
+#ifndef gen
 #define gen gtk_entry_new()
+#endif
+#ifndef lan
 #define lan(x) gtk_label_new(x)
-
+#endif
+#ifndef grid_add
 #define grid_add(box,widget,x,y,z,c) gtk_grid_attach(GTK_GRID(box), widget ,x,y,z,c)
+#endif
 #define g_g_a(widget,x,y,z,c) grid_add(boxSimple,widget,x,y,z,c)
 #define g_g_a_c(widget,x,y,z,c) grid_add( boxCheck, widget ,x,y,z,c)
 #define g_g_a_a(widget,x,y,z,c) grid_add( boxAdvanced, widget ,x,y,z,c)
 #define g_g_a_c_s(widget,x,y,z,c) grid_add(boxConnection, widget, x,y,z,c)
 
 #define g_c_b_n(label) gtk_check_button_new_with_label(label)
+
+#ifndef b_file_dialog_widget
+#define b_file_dialog_widget(a) gtk_file_chooser_dialog_new (a, NULL, GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,\
+                                      "_Cancel",\
+                                      GTK_RESPONSE_CANCEL,\
+                                      "_Open",\
+                                      GTK_RESPONSE_OK,\
+                                      NULL);
+#endif                                      
 
 static GtkWidget* createComboBoxWith3Options(const gchar* a,const gchar* b,const gchar* c)
 {
@@ -235,37 +249,11 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enableFavFirst), p_entry->get(SettingsManager::SORT_FAVUSERS_FIRST,SETTING(SORT_FAVUSERS_FIRST)));
 	g_g_a_a(enableFavFirst,0,11,1,1);
 	
-	enableVisibleUl = g_c_b_n(_("Show Userlist"));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enableVisibleUl), p_entry->getShowUserList());
-	g_g_a_a(enableVisibleUl,0,12,1,1);
-	
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxAdvanced ,labelAdvanced );
 	//
 	GtkWidget* boxConnection = gtk_grid_new();
-	radioDefault = gtk_radio_button_new_with_label(NULL,_("Direct Connect"));
-	g_g_a_c_s(radioDefault,0,0,1,1);
-	radioActive = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(radioDefault),_("Active"));
-	g_g_a_c_s(radioActive,0,1,1,1);
-	radioPasive = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(radioDefault),_("Pasive"));
-	g_g_a_c_s(radioPasive,0,2,1,1);
-	
-	
-	switch (p_entry->getMode())
-	{
-		case SettingsManager::INCOMING_DIRECT:
-			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radioDefault), TRUE);
-			break;
-		case SettingsManager::INCOMING_FIREWALL_NAT:
-		case SettingsManager::INCOMING_FIREWALL_UPNP:
-			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radioActive), TRUE);
-			break;
-		case SettingsManager::INCOMING_FIREWALL_PASSIVE:
-			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radioPasive), TRUE);
-			break;
-	}
-	
-	//g_g_a_c_s(lan(_("Mode:")),0,0,1,1);
-	//comboMode = createComboBoxWith3Options(_("Default"),_("Active"),_("Passive"));
+	g_g_a_c_s(lan(_("Mode:")),0,0,1,1);
+	comboMode = createComboBoxWith3Options(_("Default"),_("Active"),_("Passive"));
 	//this need clarifiaction
 	/*if(p_entry->getMode() == SETTING(INCOMING_CONNECTIONS))
 		gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode), 0);
@@ -275,7 +263,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 			gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode),1);//1active
 		else gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode),2);//2passive	
 	}*/
-	/*bool b_ip = true;
+	bool b_ip = true;
 	switch(p_entry->getMode())
 	{
 		
@@ -293,16 +281,16 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 			gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode), 2);
 		break;
 	};
-	*/
+	
 	
 
-//	g_g_a_c_s(comboMode,1,0,1,1);
+	g_g_a_c_s(comboMode,1,0,1,1);
 
-	g_g_a_c_s(lan(_("IP Address:")),0,3,1,1);
+	g_g_a_c_s(lan(_("IP Address:")),0,2,1,1);
 
 	entryIp = gen;
 	gtk_entry_set_text(GTK_ENTRY(entryIp), p_entry->get(SettingsManager::EXTERNAL_IP,SETTING(EXTERNAL_IP)).c_str());
-	g_g_a_c_s(entryIp,1,3,1,1);
+	g_g_a_c_s(entryIp,1,2,1,1);
 	//if(b_ip)
 	//	gtk_widget_set_sensitive(GTK_WIDGET(entryIp),FALSE);
 	
@@ -329,6 +317,40 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	g_signal_connect(actionView.getCellRenderOf(_("Enabled")), "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxKickAction ,lan("Kick Actions") );	
 	initActions();
+	
+	GtkWidget* boxShare = gtk_grid_new();
+	
+	GtkWidget *scroll = gtk_scrolled_window_new(NULL,NULL);
+	GtkWidget *shareTree = gtk_tree_view_new();
+	shareView.setView(GTK_TREE_VIEW(shareTree));
+	shareView.insertColumn(_("Virtual Name"), G_TYPE_STRING, TreeView::STRING, -1);
+	shareView.insertColumn(_("Directory"), G_TYPE_STRING, TreeView::STRING, -1);
+	shareView.insertColumn(_("Size"), G_TYPE_STRING, TreeView::STRING, -1);
+	shareView.insertHiddenColumn("Real Size", G_TYPE_INT64);
+	shareView.finalize();
+	shareStore = gtk_list_store_newv(shareView.getColCount(), shareView.getGTypes());
+	gtk_tree_view_set_model(shareView.get(), GTK_TREE_MODEL(shareStore));
+	shareView.setSortColumn_gui(_("Size"), "Real Size");
+	gtk_container_add(GTK_CONTAINER(scroll),GTK_WIDGET(shareView.get()));
+
+	gtk_box_pack_start(GTK_BOX(boxShare),scroll,TRUE,TRUE,0);
+
+	button_add = gtk_button_new_with_label("Add");
+	button_rem = gtk_button_new_with_label("Remove");
+//	button_edit = gtk_button_new_with_label("Remove");
+	GtkWidget* grid = gtk_grid_new();	
+	gtk_grid_attach(GTK_GRID(grid),button_add,0,1,1,1);
+	gtk_grid_attach(GTK_GRID(grid),button_rem,1,1,1,1);
+//	gtk_grid_attach(GTK_GRID(grid),button_edit,2,0,1,1);
+	labelShareSize = gtk_label_new("");
+	gtk_grid_attach(GTK_GRID(grid),labelShareSize,2,2,1,1);
+	gtk_box_pack_start(GTK_BOX(boxShare),grid,TRUE,TRUE,0);
+	
+	g_signal_connect(button_add, "clicked", G_CALLBACK(onAddShare_gui), (gpointer)this);
+	g_signal_connect(button_rem, "clicked", G_CALLBACK(onRemoveShare_gui), (gpointer)this);
+	
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook) , boxShare, lan("Share Setup"));
+	
 	//need be after all contain stuff
 	gtk_widget_show_all(notebook);			
 	GtkWidget* okButton = gtk_button_new_with_label(_("Ok"));
@@ -399,16 +421,7 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 			p_entry->setProtectUsers(gtk_entry_get_text(GTK_ENTRY(entryProtectedUser)));
 			p_entry->setNotify(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON( enableNoti)));
 			
-			//p_entry->setMode(gtk_combo_box_get_active(GTK_COMBO_BOX(comboMode)));
-			// Incoming connection
-		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radioDefault)))
-			p_entry->setMode(0);
-		//else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radioActive)))
-		//	p_entry->setMode(1);
-		else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radioActive)))
-			p_entry->setMode(1);
-		else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radioPasive)))
-			p_entry->setMode(3);
+			p_entry->setMode(gtk_combo_box_get_active(GTK_COMBO_BOX(comboMode)));
 			
 			p_entry->setAutoConnect(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkAutoConnect)));
 			p_entry->set(SettingsManager::LOG_CHAT_B, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(enableLog)));
@@ -436,7 +449,7 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 			
 			gchar* image_path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(backImage));
 			
-			string tmp = Util::getFileExt(string(image_path));
+			string tmp = Util::getFileExt(image_path);
 			std::transform(tmp.begin(), tmp.end(), tmp.begin(), (int(*)(int))toupper);
 
 			if(tmp == ".png" || tmp == ".jpg" || tmp == ".gif" || tmp == ".svg")//alow only these types
@@ -444,7 +457,7 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 				p_entry->set(SettingsManager::BACKGROUND_CHAT_IMAGE,string(image_path));
 			}
 			
-			if(image_path)
+			if(image_path)//todo check if need
 				g_free(image_path);
 			
 			p_entry->setGroup(Util::emptyString);
@@ -579,4 +592,125 @@ void FavoriteHubDialog::initActions()
 			}
 		}
 	}
+	
+	void FavoriteHubDialog::onAddShare_gui(GtkWidget*, gpointer data)
+{
+	FavoriteHubDialog *s = (FavoriteHubDialog*)data;
+	GtkWidget* fileDialog = b_file_dialog_widget("Open Directory");
+	
+ 	gint response = gtk_dialog_run(GTK_DIALOG(fileDialog));
+	gtk_widget_hide(fileDialog);
+
+	if (response == GTK_RESPONSE_OK)
+	{
+		gchar *temp = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(fileDialog));
+		if (temp)
+		{
+			string path = temp;
+			g_free(temp);
+
+			if (path[path.length() - 1] != PATH_SEPARATOR)
+				path += PATH_SEPARATOR;
+
+			GtkWidget* dialog = gtk_dialog_new_with_buttons ("Favorite name",
+                                      NULL,
+                                     (GtkDialogFlags)(GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT),
+                                      _("_OK"),
+                                      GTK_RESPONSE_OK,
+                                      _("_Cancel"),
+                                      GTK_RESPONSE_CANCEL,
+                                      NULL);
+
+			GtkWidget *box = gtk_dialog_get_content_area (GTK_DIALOG(dialog));
+			GtkWidget *entry = gtk_entry_new();
+			GtkWidget *label = gtk_label_new("");
+			gtk_box_pack_start(GTK_BOX(box),label,TRUE,TRUE,0);
+			gtk_box_pack_start(GTK_BOX(box),entry,TRUE,TRUE,0);
+			gtk_window_set_title(GTK_WINDOW(dialog), _("Virtual name"));
+			gtk_entry_set_text(GTK_ENTRY(entry), "");
+			gtk_label_set_markup(GTK_LABEL(label), _("<b>Name under which the others see the directory</b>"));
+			gtk_widget_show_all(box);
+			response = gtk_dialog_run(GTK_DIALOG(dialog));
+			string name = gtk_entry_get_text(GTK_ENTRY(entry));
+			gtk_widget_hide(dialog);
+
+			if (response == GTK_RESPONSE_OK)
+			{
+				try
+				{
+					s->p_entry->getShareManager()->addDirectory(path, name);
+				}
+				catch (const ShareException &e)
+				{
+					return;//should not update GUI if any Share* exception hapened
+				}
+				catch(...){g_print("Some other exception");}
+				
+				s->addShare_gui(path, name);
+			}
+		}
+	}
+}
+
+void FavoriteHubDialog::onRemoveShare_gui(GtkWidget*, gpointer data)
+{
+	FavoriteHubDialog *s = (FavoriteHubDialog *)data;
+	GtkTreeIter iter;
+	GtkTreeSelection *selection = gtk_tree_view_get_selection(s->shareView.get());
+
+	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
+	{
+		string path = s->shareView.getString(&iter, _("Directory"));
+		gtk_list_store_remove(s->shareStore, &iter);
+		gtk_widget_set_sensitive(s->button_rem, FALSE);
+
+		s->p_entry->getShareManager()->removeDirectory(path);
+	}
+}
+
+
+void FavoriteHubDialog::updateShares_gui()
+{
+	GtkTreeIter iter;
+	int64_t size = 0;
+	string vname;
+
+	gtk_list_store_clear(shareStore);
+	StringPairList directories = p_entry->getShareManager()->getDirectories();
+	for (StringPairList::iterator it = directories.begin(); it != directories.end(); ++it)
+	{
+		size = p_entry->getShareManager()->getShareSize(it->second);
+
+		if (size == -1 && !SETTING(SHARE_HIDDEN))
+		{
+			vname = _("[HIDDEN SHARE] ") + it->first;
+			size = 0;
+		} else
+			vname = it->first;
+
+		gtk_list_store_append(shareStore, &iter);
+		gtk_list_store_set(shareStore, &iter,
+			shareView.col(_("Virtual Name")), vname.c_str(),
+			shareView.col(_("Directory")), it->second.c_str(),
+			shareView.col(_("Size")), Util::formatBytes(size).c_str(),
+			shareView.col("Real Size"), size,
+			-1);
+	}
+
+	string text = _("Total size: ") + Util::formatBytes(p_entry->getShareManager()->getShareSize());
+	gtk_label_set_text(GTK_LABEL(labelShareSize), text.c_str());
+}
+
+void FavoriteHubDialog::addShare_gui(string path, string name)
+{
+	int64_t size = p_entry->getShareManager()->getShareSize(path);
+	GtkTreeIter iter;
+	gtk_list_store_append(shareStore, &iter);
+	gtk_list_store_set(shareStore, &iter,
+		shareView.col(_("Virtual Name")), name.c_str(),
+		shareView.col(_("Directory")), path.c_str(),
+		shareView.col(_("Size")), Util::formatBytes(size).c_str(),
+		shareView.col("Real Size"), size,
+		-1);
+}
 

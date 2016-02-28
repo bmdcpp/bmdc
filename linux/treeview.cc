@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011-2016 BMDC, freedcpp at seznam dot cz
+ * Copyright © 2011-2016 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -449,7 +449,7 @@ int TreeView::col(const string &title)
 {
 	dcassert(!title.empty());
 	int retval = -1;
-	dcassert(columns.find(title) != columns.end() || hiddenColumns.find(title) != hiddenColumns.end());
+	dcassert(columns.find(title) == columns.end() || hiddenColumns.find(title) == hiddenColumns.end());
 
 	if (columns.find(title) != columns.end())
 		retval = columns[title].pos;
@@ -524,7 +524,7 @@ void TreeView::toggleColumnVisibility(GtkMenuItem *item, gpointer data)
 
 void TreeView::restoreSettings()
 {
-	if(name == "hub")return;//@Not load hub-based prop to main setttings	
+	if(name == "hub") return;//@Not load hub-based prop to main setttings	
 	
 	vector<int> columnOrder, columnWidth, columnVisibility;
 	columnOrder = WulforUtil::splitString(WGETS(name + "-order"), ",");
@@ -722,7 +722,7 @@ string TreeView::getValueAsText(GtkTreeIter* i, const string &title)
 		col = gtk_tree_view_get_column(view, this->col(title));
 		if (col != NULL)
 		{
-			int64_t size = 0;
+			//int64_t size = 0;
 			Column *column = (Column*)g_object_get_data(G_OBJECT(col), "column");
 
 			switch (column->type)
@@ -737,10 +737,13 @@ string TreeView::getValueAsText(GtkTreeIter* i, const string &title)
 		        case SIZE:
 		        case INT:
 		        case EXSIZE:
+		        {
+					//int64_t size = 0;
 		        	char buf[512];
-					size = getValue<int64_t>(i, title);
-					snprintf(buf, sizeof(buf), "%.f", (double)(size));
+					int64_t isize = getValue<int64_t>(i, title);
+					snprintf(buf, sizeof(buf), "%.f", (double)(isize));
 					return buf;
+				}	
 				default: ;
 			}
 		}

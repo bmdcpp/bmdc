@@ -57,8 +57,8 @@ public:
 	 * @param sep Line separator
 	 * @return An unconnected socket
 	 */
-	static BufferedSocket* getSocket(char sep, bool) {
-		return new BufferedSocket(sep, false);
+	static BufferedSocket* getSocket(char sep/*, bool*/) {
+		return new BufferedSocket(sep/*, false*/);
 	}
 
 	static void putSocket(BufferedSocket* aSock) {
@@ -106,8 +106,10 @@ public:
 
 	void disconnect(bool graceless = false) noexcept { Lock l(cs); if(graceless) disconnecting = true; addTask(DISCONNECT, 0); }
 
-	string getLocalIp() const { return sock->getLocalIp(/*sock->getSock()*/); }
+	string getLocalIp() const { return sock->getLocalIp(); }
 	uint16_t getLocalPort() const { return sock->getLocalPort(); }
+	
+	
 	bool isV6Valid() const { return sock->isV6Valid(); }
 
 private:
@@ -131,11 +133,11 @@ private:
 		virtual ~TaskData() { }
 	};
 	struct ConnectInfo : public TaskData {
-		ConnectInfo(string addr_, int16_t port_, int16_t localPort_, NatRoles natRole_, bool proxy_) : addr(addr_), port(port_), localPort(localPort_), natRole(natRole_), proxy(proxy_) { }
+		ConnectInfo(string addr_, uint16_t port_, uint16_t localPort_, NatRoles natRole_, bool proxy_) : addr(addr_), port(port_), localPort(localPort_), natRole(natRole_), proxy(proxy_) { }
 		string addr;
 		NatRoles natRole;
-		int16_t port;
-		int16_t localPort;
+		uint16_t port;
+		uint16_t localPort;
 		bool proxy;
 	};
 	struct SendFileInfo : public TaskData {
@@ -147,7 +149,7 @@ private:
 		function<void ()> f;
 	};
 
-	BufferedSocket(char aSeparator, bool v4only);
+	BufferedSocket(char aSeparator/*, bool v4only*/);
 
 	virtual ~BufferedSocket();
 	
@@ -170,11 +172,11 @@ public:
 	GETSET(char, separator, Separator)
 private:	
 	bool disconnecting;
-	bool v4only;
+//	bool v4only;
 
 	virtual int run();
 
-	void threadConnect(const string& aAddr, const int16_t& aPort, const int16_t& localPort, NatRoles natRole, bool proxy);
+	void threadConnect(const string& aAddr, const uint16_t& aPort, const uint16_t& localPort, NatRoles natRole, bool proxy);
 	void threadAccept();
 	void threadRead();
 	void threadSendFile(InputStream* is);

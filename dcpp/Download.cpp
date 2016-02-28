@@ -72,6 +72,7 @@ Download::~Download() {
 
 AdcCommand Download::getCommand(bool zlib, const string& mySID) {
 	AdcCommand cmd(AdcCommand::CMD_GET);
+	
 
 	cmd.addParam(Transfer::names[getType()]);
 

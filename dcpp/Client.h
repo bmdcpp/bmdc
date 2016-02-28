@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -64,7 +64,7 @@ public:
 
 	virtual void emulateCommand(const string& cmd) = 0;
 	virtual size_t getUserCount() const = 0;
-	virtual int64_t getAvailable() const = 0;
+	virtual uint64_t getAvailable() const = 0;
 	virtual void getUserList(OnlineUserList& list) const = 0;
 	virtual void refreshuserlist() = 0;
 
@@ -184,7 +184,7 @@ protected:
 	virtual void on(Line, const string& aLine) noexcept;
 	virtual void on(Failed, const string&) noexcept;
 
-	virtual bool v4only() const = 0;
+	//virtual bool v4only() const = 0;
 private:
 	virtual void infoImpl() = 0;
 
@@ -201,11 +201,7 @@ private:
 
 	Client(const Client&);
 	Client& operator=(const Client&);
-	
-	bool isAdc(std::string& h)
-	{
-		return !h.empty() ?  h.compare(0, 6, "adc://") == 0 || h.compare(0, 7, "adcs://") == 0 : false;
-	}
+
 public:	
 	bool bIPv6,bIPv4;
 	string sLocalIP;

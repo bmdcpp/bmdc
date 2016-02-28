@@ -25,6 +25,7 @@
 #include <dcpp/stdinc.h>
 #include <dcpp/Util.h>
 #include <gtk/gtk.h>
+//#include <glib/gi18n.h>
 #include <string>
 #include <unordered_map>
 

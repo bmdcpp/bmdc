@@ -50,7 +50,8 @@ const char* SearchManager::getTypeStr(int type) {
 
 SearchManager::SearchManager() :
 	stop(false),
-	lastSearch(GET_TICK())
+	lastSearch(GET_TICK()),
+	port(0)
 {
 	TimerManager::getInstance()->addListener(this);
 }
@@ -385,7 +386,7 @@ void SearchManager::respond(const AdcCommand& adc, const CID& from,  bool isUdpA
 
 	string token;
 
-	adc.getParam("TO", 0, token);
+	//adc.getParam("TO", 0, token);
 
 	if(results.empty())
 		return;

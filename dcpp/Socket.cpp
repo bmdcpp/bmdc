@@ -299,7 +299,7 @@ int16_t Socket::listen(const int16_t& port) {
 
 	addrinfo_p ai(nullptr, nullptr);
 
-	if(!v4only) {
+//	if(!v4only) {
 		try { ai = resolveAddr(localIp6, port, AF_INET6, AI_PASSIVE | AI_ADDRCONFIG); }
 		catch(const SocketException&) { ai.reset(); }
 		for(auto a = ai.get(); a && !sock6.valid(); a = a->ai_next) {
@@ -318,7 +318,7 @@ int16_t Socket::listen(const int16_t& port) {
 				}
 			} catch(const SocketException&) { }
 		}
-	}
+//	}
 
 	try { ai = resolveAddr(localIp4, port, AF_INET, AI_PASSIVE | AI_ADDRCONFIG); }
 	catch(const SocketException&) { ai.reset(); }
@@ -365,7 +365,7 @@ void Socket::connect(const string& aAddr, const int16_t& aPort, const string& lo
 	
 	for(auto ai = addr.get(); ai; ai = ai->ai_next) {
 		if((ai->ai_family == AF_INET && !sock4.valid()) ||
-			(ai->ai_family == AF_INET6 && !sock6.valid() && !v4only))
+			(ai->ai_family == AF_INET6 && !sock6.valid() /*&& !v4only*/))
 		{
 			try {
 				auto sock = create(*ai);

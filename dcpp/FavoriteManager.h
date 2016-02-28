@@ -206,10 +206,10 @@ public:
 	UserCommand::List getUserCommands() { Lock l(cs); return userCommands; }
 	UserCommand::List getUserCommands(int ctx, const StringList& hub);
     //Raw Manager
-	bool getEnabledAction(FavoriteHubEntry* entry, int64_t actionId);
-	void setEnabledAction(FavoriteHubEntry* entry, int64_t actionId, bool enabled);
-	bool getEnabledRaw(FavoriteHubEntry* entry, int64_t actionId, int64_t rawId);
-	void setEnabledRaw(FavoriteHubEntry* entry, int64_t actionId, int64_t rawId, bool enabled);
+	bool getEnabledAction(FavoriteHubEntry* entry, int actionId);
+	void setEnabledAction(FavoriteHubEntry* entry, int actionId, bool enabled);
+	bool getEnabledRaw(FavoriteHubEntry* entry, int actionId, int rawId);
+	void setEnabledRaw(FavoriteHubEntry* entry, int actionId, int rawId, bool enabled);
 
 	void load();
 	void save();

@@ -58,7 +58,11 @@ string& SimpleXML::escape(string& aString, bool aAttrib, bool aLoading /* = fals
 				}
 			}
 		}
-		aString = Text::toUtf8(aString, encoding);
+		//aString = Text::toUtf8(aString, encoding);
+		gsize oread,owrite;
+		aString = g_filename_to_utf8(aString.c_str(),-1,&oread,&owrite,NULL);
+		
+		
 	} else {
 		while( (i = aString.find_first_of(chars, i)) != string::npos) {
 			switch(aString[i]) {

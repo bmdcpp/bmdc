@@ -40,7 +40,7 @@ int ThrottleManager::read(Socket* sock, void* buffer, size_t len)
 {
 	int64_t readSize = -1;
 	size_t downs = DownloadManager::getInstance()->getDownloadCount();
-	int downLimit = getDownLimit(); // avoid even intra-function races
+	int64_t downLimit = getDownLimit(); // avoid even intra-function races
 	if(!getCurThrottling() || downLimit == 0 || downs == 0)
 		return sock->read(buffer, len);
 
@@ -78,7 +78,7 @@ int ThrottleManager::write(Socket* sock, void* buffer, size_t& len)
 {
 	bool gotToken = false;
 	size_t ups = UploadManager::getInstance()->getUploadCount();
-	int upLimit = getUpLimit(); // avoid even intra-function races
+	int64_t upLimit = getUpLimit(); // avoid even intra-function races
 	if(!getCurThrottling() || upLimit == 0 || ups == 0)
 		return sock->write(buffer, len);
 
@@ -140,11 +140,11 @@ SettingsManager::IntSetting ThrottleManager::getCurSetting(SettingsManager::IntS
 	}
 }
 
-int ThrottleManager::getUpLimit() {
+int64_t ThrottleManager::getUpLimit() {
 	return SettingsManager::getInstance()->get(getCurSetting(SettingsManager::MAX_UPLOAD_SPEED_MAIN));
 }
 
-int ThrottleManager::getDownLimit() {
+int64_t ThrottleManager::getDownLimit() {
 	return SettingsManager::getInstance()->get(getCurSetting(SettingsManager::MAX_DOWNLOAD_SPEED_MAIN));
 }
 

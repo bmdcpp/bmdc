@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011-2016 BMDC++
+ * Copyright © 2011-2016 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -273,7 +273,7 @@ void FavoriteHubs::onAddEntry_gui(GtkWidget*, gpointer data)
 
 	if (updatedEntry)
 	{
-		typedef Func1<FavoriteHubs, FavoriteHubEntry> F1;
+		typedef Func1<FavoriteHubs, FavoriteHubEntry& > F1;
 		F1 *func = new F1(fh, &FavoriteHubs::addEntry_client, entry);
 		WulforManager::get()->dispatchClientFunc(func);
 	}
@@ -283,10 +283,8 @@ bool FavoriteHubs::checkAddys(string url)
 {
 	string tmp = url;
 	size_t i = tmp.find("dchub://");
-	
 	if(i == string::npos)
 		return false;
-	
 	string newhubaddy = tmp.substr(i);
 	GtkTreeIter iter;
 	GtkTreeModel *m = GTK_TREE_MODEL(favoriteStore);
@@ -600,13 +598,13 @@ void FavoriteHubs::saveFavHubGroups()
 		string awayMsg = groupsView.getString(&iter, "AwayMessage");
 		
 		p.set(SettingsManager::NICK, nick);
-		p.get(SettingsManager::EMAIL,email);
-		p.get(SettingsManager::DESCRIPTION, desc);
-		p.get(SettingsManager::FAV_SHOW_JOINS, favShowJoins);
-		p.get(SettingsManager::SHOW_JOINS, showJoins);
-		p.get(SettingsManager::LOG_CHAT_B, log_hub);
+		p.set(SettingsManager::EMAIL,email);
+		p.set(SettingsManager::DESCRIPTION, desc);
+		p.set(SettingsManager::FAV_SHOW_JOINS, favShowJoins);
+		p.set(SettingsManager::SHOW_JOINS, showJoins);
+		p.set(SettingsManager::LOG_CHAT_B, log_hub);
 		p.setAutoConnect((bool)connect_hub);
-		p.get(SettingsManager::DEFAULT_AWAY_MESSAGE, awayMsg);
+		p.set(SettingsManager::DEFAULT_AWAY_MESSAGE, awayMsg);
 
 		favHubGroups.insert(FavHubGroup(group, p));
 
@@ -773,7 +771,7 @@ void FavoriteHubs::initializeList_client()
 	}
 }
 
-void FavoriteHubs::addEntry_client(dcpp::FavoriteHubEntry entry)
+void FavoriteHubs::addEntry_client(dcpp::FavoriteHubEntry& entry)
 {
 	FavoriteManager::getInstance()->addFavorite(entry);
 	const FavoriteHubEntryList &fh = FavoriteManager::getInstance()->getFavoriteHubs();

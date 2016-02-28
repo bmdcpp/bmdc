@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -64,9 +64,9 @@ void NmdcHub::connect(const OnlineUser& aUser, const string&) {
 	}
 }
 
-int64_t NmdcHub::getAvailable() const {
+uint64_t NmdcHub::getAvailable() const {
 	Lock l(cs);
-	int64_t x = 0;
+	uint64_t x = 0;
 	for(auto i = users.begin(); i != users.end(); ++i) {
 		x += i->second->getIdentity().getBytesShared();
 	}
@@ -190,6 +190,7 @@ void NmdcHub::updateFromTag(Identity& id, const string& tag) {
 void NmdcHub::onLine(const string& aLine) noexcept {
 	if(aLine.empty())
 		return;
+	dcdebug("%s",aLine.c_str());	
 
 	if(aLine[0] != '$') {
 		// Check if we're being banned...
@@ -226,7 +227,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			return;
 		}
 
-		auto from = findUser(nick);
+		OnlineUser* from = findUser(nick);
 
 		if(!from) {
 			OnlineUser& o = getUser(nick);
@@ -300,7 +301,8 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				count++;
 
 			if(count > 7) {
-				if(seeker.compare(0, 4, "Hub:") == 0)
+				
+				if( (seeker.size() > 4) && seeker.compare(0, 4, "Hub:") == 0)
 					fire(ClientListener::SearchFlood(), this, seeker.substr(4));
 				else
 					fire(ClientListener::SearchFlood(), this, string(seeker+F_(" (Nick unknown)")));
@@ -332,7 +334,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		string terms = unescape(param.substr(i));
 
 		if(!terms.empty()) {
-			if((seeker.size() > 4) &&   seeker.compare(0, 4, "Hub:") == 0) {
+			if((seeker.size() > 4) &&  seeker.compare(0, 4, "Hub:") == 0) {
 				OnlineUser* u = findUser(seeker.substr(4));
 
 				if(u == NULL) {
@@ -353,7 +355,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		j = param.find(' ', i);
 		if( (j == string::npos) || (j == i) )
 			return;
-		string nick = toUtf8(param.substr(i, j-i));
+		string nick = toUtf8(unescape(param.substr(i, j-i)));
 
 		if(nick.empty())
 			return;
@@ -382,7 +384,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				tmpDesc.erase(x);
 			}
 		}
-		u.getIdentity().setDescription(toUtf8(tmpDesc));
+		u.getIdentity().setDescription(tmpDesc);
 
 		i = j + 3;
 		j = param.find('$', i);
@@ -451,10 +453,11 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			return;
 		}
 	} else if(cmd == "$ConnectToMe") {
-		//$ConnectToMe User [::1]:1234|
+		//$ConnectToMe PPK [::1]:1234|
 		//or
-		//$ConnectToMe User 10.0.0.34:1234|
-		//dcdebug("%s",param.c_str());
+		//$ConnectToMe PPK 10.0.0.34:1234|
+		// And also port 0 isnt valid
+		dcdebug("%s",param.c_str());
 		string::size_type i = param.find(' ');
 		string::size_type j;
 		if( (i == string::npos) || ((i + 1) >= param.size()) ) {
@@ -472,23 +475,29 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		bool b_ip6 = false;
 		if(!p.empty() &&  p[0] == '[') {//demangle ip6
 			size_t x = p.rfind(']');
-			if(x == string::npos)return;
-			server=p.substr(y+1,x-1);	
+			if(x == string::npos) return;
+			server = p.substr(y+1,x-1);	
 			p_port = Util::toInt(p.substr(x+1));
 			b_ip6 = true;
 		}		
+		
 		dcdebug("%s %d",server.c_str(),p_port);
+		
 		string nick = param.substr(0,i-1);
-		dcdebug("Nick to %s",nick.c_str());
-		if(nick != getMyNick()) //dont allow spoof
+		
+		dcdebug("%s",nick.c_str());
+		
+		if(nick != getMyNick())
 			return;
 			
 		dcdebug("Port %d",p_port);
+		
 		if(b_ip6 && !server.empty())
 		{
-			dcdebug("Server to connect to %s",server.c_str());
+			dcdebug("%s",server.c_str());
 		}
-		else {
+		else 
+		{
 			ClientManager::parsePortIp(p,server,p_port);
 			if(!getMyIdentity().isOp() && AVManager::getInstance()->isIpVirused(param.substr(i,j-i))){
 				fire(ClientListener::StatusMessage(), this, unescape("This user "+param.substr(i,j-i)+" has the viruses in share!"), ClientListener::FLAG_VIRUS);
@@ -555,8 +564,10 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		}
 		fire(ClientListener::HubUpdated(), this);
 	} else if(cmd == "$Supports") {
+		
 		StringTokenizer<string> st(param, ' ');
 		StringList& sl = st.getTokens();
+		
 		for(auto i = sl.begin(); i != sl.end(); ++i) {
 			if(*i == "UserCommand") {
 				supportFlags |= SUPPORTS_USERCOMMAND;
@@ -862,11 +873,16 @@ void NmdcHub::connectToMe(const OnlineUser& aUser) {
 	bool isOkIp6 = aUser.getIdentity().getIp6().empty() == true;
 	dcdebug("%d - %d - %d - %d",(int)bIPv6,isActiveV6(),(int)((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ),isOkIp6);
 	
+	//alows ports only above 0
+	uint16_t cport = ConnectionManager::getInstance()->getPort();
+	if(cport == 0)
+		return;
+	
 	if(bIPv6 && ((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ) && isOkIp6) {
-		send("$ConnectToMe " + nick + " [" + getUserIp6() + "]:" + Util::toString(ConnectionManager::getInstance()->getPort()) + "|");
+		send("$ConnectToMe " + nick + " [" + getUserIp6() + "]:" + Util::toString(cport) + "|");
 		dcdebug("\n%s",getUserIp6().c_str());
 	} else
-		send("$ConnectToMe " + nick + " " + localIp + ":" + Util::toString(ConnectionManager::getInstance()->getPort()) + "|");
+		send("$ConnectToMe " + nick + " " + localIp + ":" + Util::toString(cport) + "|");
 }
 
 void NmdcHub::revConnectToMe(const OnlineUser& aUser) {
@@ -911,11 +927,11 @@ void NmdcHub::myInfo(bool alwaysSend) {
 		modeChar[0] = '5';
 	else if(ClientManager::getInstance()->isActive(getHubUrl())) {
 		modeChar[0] = 'A';
-		if(bIPv6 /*&& isSet(SUPPORTS_IP64)*/ )
+		if(bIPv6)
 			modeChar[1] = 'A';
 	} else {
 		modeChar[0] = 'P';
-		if(bIPv6 /*&& isSet(SUPPORTS_IP64)*/ )
+		if(bIPv6)
 			modeChar[1] = 'P';
 	}
 	modeChar[2] =  '\0';
@@ -929,19 +945,20 @@ void NmdcHub::myInfo(bool alwaysSend) {
 		uploadSpeed = SETTING(UPLOAD_SPEED);
 	}
 
-	bool gslotf = SETTING(SHOW_FREE_SLOTS_DESC);
-	string gslot = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
+	bool bFreeSlot = SETTING(SHOW_FREE_SLOTS_DESC);
+	string sFreeSlot = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
 	//away status
     char staFlag = Util::getAway() ? '\x02' : '\x01';
 		
 	string uMin = (SETTING(MIN_UPLOAD_SPEED) == 0) ? Util::emptyString : tmp5 + Util::toString(SETTING(MIN_UPLOAD_SPEED));
 	string myInfoA =
-		"$MyINFO $ALL " + fromUtf8(HUBSETTING(NICK)) + " " + fromUtf8(escape(gslotf ? gslot + HUBSETTING(DESCRIPTION) : HUBSETTING(DESCRIPTION))) +
+		"$MyINFO $ALL " + fromUtf8(HUBSETTING(NICK)) + " " + fromUtf8(escape(bFreeSlot ? sFreeSlot + HUBSETTING(DESCRIPTION) : HUBSETTING(DESCRIPTION))) +
 		tmp1 + VERSIONSTRING + tmp2 + modeChar + tmp3 + getCounts();
 	string myInfoB = tmp4 + Util::toString(SETTING(SLOTS));
 	string myInfoC = uMin +
 		">$ $" + uploadSpeed + staFlag + '$' + fromUtf8(escape(HUBSETTING(EMAIL))) + '$';
-	string share = getHideShare() ? "0" : ShareManager::getInstance()->getShareSizeString();//no share NMDC
+	ShareManager* sm = getShareManager();
+	string share = getHideShare() ? "0" : sm->getShareSizeString(); //@Custom/Hide share NMDC
 	string myInfoD = share + "$|";
 	// we always send A and C; however, B (slots) and D (share size) can frequently change so we delay them if needed
  	if(lastMyInfoA != myInfoA || lastMyInfoC != myInfoC ||
@@ -1138,7 +1155,7 @@ void NmdcHub::on(Minute, uint64_t aTick) noexcept {
 	if(aTick > (lastProtectedIPsUpdate + 24*3600*1000)) {
 		protectedIPs.clear();
 
-		protectedIPs.push_back("dcpp.net");
+		//protectedIPs.push_back("dcpp.net");
 		protectedIPs.push_back("dchublist.com");
 		protectedIPs.push_back("hublista.hu");
 		protectedIPs.push_back("dcbase.org");
@@ -1155,7 +1172,8 @@ void NmdcHub::on(Minute, uint64_t aTick) noexcept {
 }
 
 void NmdcHub::password(const string& aPass) {
-	if(!salt.empty()) {//$SaltPass in $Support
+	if(!salt.empty()) {
+		//$SaltPass in $Support
 		string filteredPass = fromUtf8(aPass);
 		size_t saltBytes = salt.size() * 5 / 8;
 		uint8_t *buf = new uint8_t[saltBytes];

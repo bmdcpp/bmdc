@@ -71,14 +71,17 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 	access. we want to know the type of the upload to see if the user deserves a mini-slot. */
 
 	bool isInSharingHub = true;
-
+	ShareManager* sm = ShareManager::getInstance();
 	if(aSource.getUser()) {
 		isInSharingHub = ClientManager::getInstance()->getSharingHub(aSource.getHintedUser());
 		if(!isInSharingHub && (aType != Transfer::names[Transfer::TYPE_FULL_LIST] || aType != Transfer::names[Transfer::TYPE_PARTIAL_LIST])) {
 			aSource.fileNotAvail();
 			return false;
 		}
+		sm = ClientManager::getInstance()->getShareManagerClient(aSource.getHintedUser());
+		
 	}
+	
 
 	bool miniSlot;
 	string sourceFile;
@@ -86,14 +89,14 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 
 	try {
 		if(aType == Transfer::names[Transfer::TYPE_FILE]) {
-			auto info = ShareManager::getInstance()->toRealWithSize(aFile, isInSharingHub);
+			auto info = /*ShareManager::getInstance()*/sm->toRealWithSize(aFile, isInSharingHub);
 			sourceFile = move(info.first);
 			type = (aFile == Transfer::USER_LIST_NAME_BZ || aFile == Transfer::USER_LIST_NAME) ?
 				Transfer::TYPE_FULL_LIST : Transfer::TYPE_FILE;
 			miniSlot = type == Transfer::TYPE_FULL_LIST || info.second <= static_cast<int64_t>(SETTING(SET_MINISLOT_SIZE) * 1024);
 
 		} else if(aType == Transfer::names[Transfer::TYPE_TREE]) {
-			sourceFile = ShareManager::getInstance()->toReal(aFile, isInSharingHub);
+			sourceFile = /*ShareManager::getInstance()*/sm->toReal(aFile, isInSharingHub);
 			type = Transfer::TYPE_TREE;
 			miniSlot = true;
 
@@ -130,7 +133,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 				// Check for tth root identifier
 				string tFile = aFile;
 				if ( (tFile.compare(0, 4, "TTH/") == 0) && (aFile.length() > 4))//check also size...
-					tFile = ShareManager::getInstance()->toVirtual(TTHValue(aFile.substr(4)));
+					tFile = /*ShareManager::getInstance()*/sm->toVirtual(TTHValue(aFile.substr(4)));
 
 				aSource.maxedOut(addFailedUpload(aSource, tFile +
 					" (" +  Util::formatBytes(aStartPos) + " - " + Util::formatBytes(aStartPos + aBytes) + ")"));

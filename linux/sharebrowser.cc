@@ -1145,8 +1145,8 @@ void ShareBrowser::onClickedPartial(GtkWidget*, gpointer data)
 	if (gtk_tree_selection_get_selected(sb->dirSelection, NULL, &iter))
 	{
 		dirList = (DirectoryListing::Directory *)sb->dirView.getValue<gpointer>(&iter,"DL Dir");
-	}
-	sb->downloadChangedDir(dirList);
+		sb->downloadChangedDir(dirList);
+	}	
 }
 
 void ShareBrowser::downloadChangedDir(DirectoryListing::Directory* d) {

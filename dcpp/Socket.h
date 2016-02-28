@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -83,7 +83,7 @@ public:
 		TYPE_UDP = IPPROTO_UDP
 	};
 
-	explicit Socket(SocketType type) : v4only(false),type(type) { }
+	explicit Socket(SocketType type) : /*v4only(false),*/type(type) { }
 
 	virtual ~Socket() { }
 
@@ -185,7 +185,7 @@ public:
 	GETSET(string, ip, Ip);
 	GETSET(string, localIp4, LocalIp4);
 	GETSET(string, localIp6, LocalIp6);
-	GETSET(bool, v4only, V4only);
+//	GETSET(bool, v4only, V4only);
 	socket_t getSock() const;
 protected:
 	mutable SocketHandle sock4;

@@ -45,7 +45,7 @@ public:
 
 	Identity() : sid(0) , loggedIn(0) { }
 	Identity(const UserPtr& ptr, uint32_t aSID) : user(ptr), sid(aSID), loggedIn(0) { }
-	Identity(const Identity& rhs) : Flags(), sid(0) { *this = rhs; } // Use operator= since we have to lock before reading...
+	Identity(const Identity& rhs) : Flags(), sid(0), loggedIn(0) { *this = rhs; } // Use operator= since we have to lock before reading...
 	Identity& operator=(const Identity& rhs) { FastLock l(cs); *static_cast<Flags*>(this) = rhs; user = rhs.user; sid = rhs.sid; info = rhs.info; return *this; }
 
 #define GESET(n, x) string get##n() const { return get(x); } void set##n(const string& v) { set(x, v); }

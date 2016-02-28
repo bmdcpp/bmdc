@@ -292,20 +292,23 @@ void AdcHub::handle(AdcCommand::QUI, AdcCommand& c) noexcept {
 	uint32_t s = AdcCommand::toSID(c.getParam(0));
 
 	OnlineUser* victim = findUser(s);
+	string tmp;
 	if(victim) {
 
-		string tmp;
-		if(c.getParam("MS", 1, tmp)) {
+		string dMessage;
+		if(c.getParam("MS", 1, dMessage)) {
 			OnlineUser* source = nullptr;
 			string tmp2;
 			if(c.getParam("ID", 1, tmp2)) {
 				source = findUser(AdcCommand::toSID(tmp2));
 			}
 
+			tmp = victim->getIdentity().getNick();
+				
 			if(source) {
-				tmp = (F_((victim->getIdentity().getNick() + " was kicked by " + source->getIdentity().getNick() + ": " + tmp).c_str()));
+				tmp += F_(" was kicked by ") + source->getIdentity().getNick() + ": " + dMessage;
 			} else {
-				tmp = (F_((victim->getIdentity().getNick() +" was kicked: " + tmp).c_str()) );
+				tmp += F_(" was kicked: " ) + dMessage;
 			}
 			fire(ClientListener::StatusMessage(), this, tmp, ClientListener::FLAG_IS_SPAM);
 		}
@@ -432,7 +435,6 @@ void AdcHub::sendUDP(const AdcCommand& cmd) noexcept {
 	string command;
 	string ip;
 	string port;
-	bool ok = false;
 	{
 		Lock l(cs);
 		SIDIter i = users.find(cmd.getTo());
@@ -447,15 +449,9 @@ void AdcHub::sendUDP(const AdcCommand& cmd) noexcept {
 		ip = ou.getIdentity().getIp();
 		port = ou.getIdentity().getUdpPort();
 		command = cmd.toString(ou.getUser()->getCID());
-		
-		if(Util::isIp6(ip) == true)
-			ok = true;
-		else
-			ok = (inet_addr(ip.c_str()) != INADDR_NONE);
 	}
 	try {
-		if(ok == true)
-			udp.writeTo(ip, port, command);
+		udp.writeTo(ip, port, command);
 	} catch(const SocketException& e) {
 		dcdebug("AdcHub::sendUDP: write failed: %s\n", e.getError().c_str());
 		udp.close();
@@ -521,7 +517,7 @@ void AdcHub::handle(AdcCommand::SCH, AdcCommand& c) noexcept {
 
 	OnlineUser* ou = findUser(c.getFrom());
 	if(!ou) {
-		dcdebug("Invalid user in AdcHub::onSCH\n");//should be logged ?
+		dcdebug("Invalid user in AdcHub::onSCH\n");//should be logged ? sql...
 		return;
 	}
 
@@ -531,7 +527,7 @@ void AdcHub::handle(AdcCommand::SCH, AdcCommand& c) noexcept {
 void AdcHub::handle(AdcCommand::RES, AdcCommand& c) noexcept {
 	OnlineUser* ou = findUser(c.getFrom());
 	if(!ou) {
-		dcdebug("Invalid user in AdcHub::onRES\n");//logging?
+		dcdebug("Invalid user in AdcHub::onRES\n");//logging? sql
 		return;
 	}
 	SearchManager::getInstance()->onRES(c, ou->getUser());
@@ -572,8 +568,10 @@ void AdcHub::handle(AdcCommand::GET, AdcCommand& c) noexcept {
 				"Unsupported h", AdcCommand::TYPE_HUB));
 			return;
 		}
+		
+		ShareManager* sm = getShareManager();
 
-		size_t n = ShareManager::getInstance()->getSharedFiles();
+		size_t n = /*ShareManager::getInstance()->*/sm->getSharedFiles();
 
 		// When h >= 32, m can't go above 2^h anyway since it's stored in a size_t.
         if(m > (5 * (size_t)Util::roundUp((int64_t)(n * k / log(2.)), (int64_t)64)) || (h < 32 && m > static_cast<size_t>(1U << h))) {
@@ -583,7 +581,7 @@ void AdcHub::handle(AdcCommand::GET, AdcCommand& c) noexcept {
 		}
 
 		if (m > 0) {
-			ShareManager::getInstance()->getBloom(v, k, m, h);
+			/*ShareManager::getInstance()*/sm->getBloom(v, k, m, h);
 		}
 
 		AdcCommand cmd(AdcCommand::CMD_SND, AdcCommand::TYPE_HUB);
@@ -707,7 +705,7 @@ void AdcHub::connect(const OnlineUser& user, string const& token, bool secure) {
 		const string& port = secure ? Util::toString(ConnectionManager::getInstance()->getSecurePort()) : Util::toString(ConnectionManager::getInstance()->getPort());
 		if(port.empty()) {
 			// Oops?
-			LogManager::getInstance()->message((F_(("Not listening for connections - please restart "+string(APPNAME)).c_str())),LogManager::Sev::HIGH);
+			LogManager::getInstance()->message((F_("Not listening for connections - please restart ")+string(APPNAME)),LogManager::Sev::HIGH);
 			return;
 		}
 		send(AdcCommand(AdcCommand::CMD_CTM, user.getIdentity().getSID(), AdcCommand::TYPE_DIRECT).addParam(proto).addParam(port).addParam(token));
@@ -1007,15 +1005,15 @@ void AdcHub::infoImpl() {
 
 	bool IsFreeSlots = SETTING(SHOW_FREE_SLOTS_DESC);//TODO: is good per Fav ?
 	string freeslots = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
-
+	ShareManager* sm = getShareManager();
 	addParam(lastInfoMap, c, "ID", ClientManager::getInstance()->getMyCID().toBase32());
 	addParam(lastInfoMap, c, "PD", ClientManager::getInstance()->getMyPID().toBase32());
 	addParam(lastInfoMap, c, "NI", HUBSETTING(NICK));
 	addParam(lastInfoMap, c, "DE", IsFreeSlots ? freeslots + " " + HUBSETTING(DESCRIPTION) : HUBSETTING(DESCRIPTION) );
 	addParam(lastInfoMap, c, "SL", Util::toString(SETTING(SLOTS)));
 	addParam(lastInfoMap, c, "FS", Util::toString(UploadManager::getInstance()->getFreeSlots()));
-	addParam(lastInfoMap, c, "SS", getHideShare() ? "0" : ShareManager::getInstance()->getShareSizeString());
-	addParam(lastInfoMap, c, "SF", getHideShare() ? "0" : Util::toString(ShareManager::getInstance()->getSharedFiles()));
+	addParam(lastInfoMap, c, "SS", getHideShare() ? "0" : /*ShareManager::getInstance()*/sm->getShareSizeString());
+	addParam(lastInfoMap, c, "SF", getHideShare() ? "0" : Util::toString(/*ShareManager::getInstance()*/sm->getSharedFiles()));
 	addParam(lastInfoMap, c, "EM", HUBSETTING(EMAIL));
 	addParam(lastInfoMap, c, "HN", Util::toString(counts[COUNT_NORMAL]));
 	addParam(lastInfoMap, c, "HR", Util::toString(counts[COUNT_REGISTERED]));
@@ -1023,7 +1021,7 @@ void AdcHub::infoImpl() {
 	addParam(lastInfoMap, c, "AP", "++");
 	addParam(lastInfoMap, c, "VE", VERSIONSTRING);
 	addParam(lastInfoMap, c, "AW", Util::getAway() ? "1" : Util::emptyString);
-	// RF = ref address from connected..
+	// RF = ref address from connected...
 	addParam(lastInfoMap, c, "RF", getHubUrl());
 
 	int limit = ThrottleManager::getInstance()->getDownLimit();
@@ -1069,7 +1067,6 @@ void AdcHub::infoImpl() {
 		su += "," + NAT0_FEATURE;
 	}
 
-//	su +=  "," + DFAV_FEATURE;
 	addParam(lastInfoMap, c, "SU", su);
 
 	appendConnectivity(lastInfoMap, c, addV4, addV6);
@@ -1079,9 +1076,9 @@ void AdcHub::infoImpl() {
 	}
 }
 
-int64_t AdcHub::getAvailable() const {
+uint64_t AdcHub::getAvailable() const {
 	Lock l(cs);
-	int64_t x = 0;
+	uint64_t x = 0;
 	for(SIDIter i = users.begin(); i != users.end(); ++i) {
 		x += i->second->getIdentity().getBytesShared();
 	}
@@ -1143,15 +1140,21 @@ void AdcHub::on(Connected c) noexcept {
 void AdcHub::on(Line l, const string& aLine) noexcept {
 	Client::on(l, aLine);
 
-	if(!Text::validateUtf8(aLine)) {
+	//if(!Text::validateUtf8(aLine)) {
 		// @todo report to user?
+	//	return;
+	//}
+	if(!g_utf8_validate(aLine.c_str(),-1,NULL))
 		return;
-	}
+	gsize oread,owrite;
+	gchar* out = g_filename_to_utf8(aLine.c_str(),-1,&oread,&owrite,NULL);
+	
+	
 	COMMAND_DEBUG(aLine,TYPE_HUB,INCOMING,getHubUrl());
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_IN, this, aLine))
 		return;
 
-	dispatch(aLine);
+	dispatch(string(out));
 }
 
 void AdcHub::on(Failed f, const string& aLine) noexcept {

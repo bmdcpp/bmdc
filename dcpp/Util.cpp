@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -154,11 +154,11 @@ void Util::initialize(PathsMap pathOverrides) {
 	paths[PATH_LOCALE] = Text::fromT(buf);
 
 #else
-	paths[PATH_GLOBAL_CONFIG] = "/etc/";
-	const char* home_ = getenv("HOME");
-	string home = home_ ? Text::toUtf8(home_) : "/tmp/";
-
-	paths[PATH_USER_CONFIG] = home + "/.bmdc++/";
+	//paths[PATH_GLOBAL_CONFIG] = "/etc/";
+	//const char* home_ = getenv("HOME");
+	//string home = home_ ? Text::toUtf8(home_) : "/tmp/";
+	string home = g_get_home_dir ();//glib
+	paths[PATH_GLOBAL_CONFIG] = paths[PATH_USER_CONFIG] = home + "/.bmdc++-s/";
 
 	loadBootConfig();
 
@@ -368,7 +368,7 @@ string Util::getShortTimeString(time_t t) {
 	} else {
 		strftime(buf, 254, SETTING(TIME_STAMPS_FORMAT).c_str(), _tm);
 	}
-	return Text::toUtf8(buf);
+	return buf;
 }
 
 /**
@@ -378,8 +378,8 @@ string Util::getShortTimeString(time_t t) {
  * dchub:// -> port 411
  */
 void Util::decodeUrl(const string& url, string& protocol, string& host, uint16_t& port, string& path, string& query, string& fragment) {
-	auto fragmentEnd = url.size();
-	auto fragmentStart = url.rfind('#');
+	size_t fragmentEnd = url.size();
+	size_t fragmentStart = url.rfind('#');
 
 	size_t queryEnd;
 	if(fragmentStart == string::npos) {
@@ -390,7 +390,7 @@ void Util::decodeUrl(const string& url, string& protocol, string& host, uint16_t
 		fragmentStart++;
 	}
 
-	auto queryStart = url.rfind('?', queryEnd);
+	size_t queryStart = url.rfind('?', queryEnd);
 	size_t fileEnd;
 
 	if(queryStart == string::npos) {
@@ -401,11 +401,11 @@ void Util::decodeUrl(const string& url, string& protocol, string& host, uint16_t
 		queryStart++;
 	}
 
-	auto protoStart = 0;
-	auto protoEnd = url.find("://", protoStart);
+	size_t protoStart = 0;
+	size_t protoEnd = url.find("://", protoStart);
 
-	auto authorityStart = protoEnd == string::npos ? protoStart : protoEnd + 3;
-	auto authorityEnd = url.find_first_of("/#?", authorityStart);
+	size_t authorityStart = protoEnd == string::npos ? protoStart : protoEnd + 3;
+	size_t authorityEnd = url.find_first_of("/#?", authorityStart);
 
 	size_t fileStart;
 	if(authorityEnd == string::npos) {
@@ -422,7 +422,7 @@ void Util::decodeUrl(const string& url, string& protocol, string& host, uint16_t
 		size_t portStart = string::npos;
 		if(url[authorityStart] == '[') {
 			// IPv6?
-			auto hostEnd = url.find(']');
+			size_t hostEnd = url.find(']');
 			if(hostEnd == string::npos) {
 				return;
 			}
@@ -558,7 +558,7 @@ string Util::formatExactSize(int64_t aBytes) {
 }
 
 string Util::getLocalIp() {//@TODO:IPv6?
-	const auto& bindAddr = CONNSETTING(BIND_ADDRESS);
+	const string& bindAddr = CONNSETTING(BIND_ADDRESS);
 	if(!bindAddr.empty() && bindAddr != SettingsManager::getInstance()->getDefault(SettingsManager::BIND_ADDRESS)) {
 		return bindAddr;
 	}
@@ -890,13 +890,18 @@ string Util::formatTime(const string &msg, const time_t t) {
 			buf.resize(bufsize);
 			buf.resize(strftime(&buf[0], bufsize-1, msg.c_str(), loc));
 		}
-
+/*
 #ifdef _WIN32
 		if(!Text::validateUtf8(buf))
 #endif
 		{
 			buf = Text::toUtf8(buf);
-		}
+		}*/
+		if(!g_utf8_validate(buf.c_str(),-1,NULL))
+			return Util::emptyString;
+		gsize oread,owrite;
+		buf = g_filename_to_utf8(buf.c_str(),-1,&oread,&owrite,NULL);
+		
 		return buf;
 	}
 	return Util::emptyString;
@@ -1120,14 +1125,14 @@ bool Util::fileExists(const string& aFile) {
 }
 
 string Util::getBackupTimeString(time_t t /*= time(NULL) */ ) {
- 		char buf[255];
- 		tm* _tm = localtime(&t);
- 		if(_tm == NULL) {
- 			strcpy(buf, "xx:xx");
- 		} else {
- 			strftime(buf, 254, SETTING(BACKUP_TIMESTAMP).c_str(), _tm);
- 		}
- 		return buf;
+ 	char buf[255];
+ 	tm* _tm = localtime(&t);
+ 	if(_tm == NULL) {
+ 		strcpy(buf, "xx:xx");
+ 	} else {
+ 		strftime(buf, 254, SETTING(BACKUP_TIMESTAMP).c_str(), _tm);
+ 	}
+ 	return buf;
 }
 
 string Util::convertCEscapes(string tmp)
@@ -1136,8 +1141,10 @@ string Util::convertCEscapes(string tmp)
 	while( (i = tmp.find('\\', i)) != string::npos) {
 		switch(tmp[i + 1]) {
 			case '\0':
+			{
 				return tmp;
 				break;
+			}	
 			case 'a': tmp.replace(i, 2, "\a"); break;
 			case 'b': tmp.replace(i, 2, "\b"); break;
 			case 'e': tmp.replace(i, 2, "\033"); break;
@@ -1148,11 +1155,13 @@ string Util::convertCEscapes(string tmp)
 			case 'v': tmp.replace(i, 2, "\v"); break;
 			case '\\': tmp.replace(i, 2, "\\"); break;
 			case 'x':
+			{
 				if(i < tmp.length() - 3) {
 					int num = strtol(tmp.substr(i + 2, 2).c_str(), NULL, 16);
 					tmp.replace(i, 4, string(1, (char)num));
 				}
 				break;
+			}	
 			default:
 				if(tmp[i + 1] >= '0' && tmp[i + 1] <= '7') {
 					int c = 1;
@@ -1193,6 +1202,48 @@ string Util::getIETFLang() {
 	return string(g_get_language_names()[0]);
 #endif
 }
+
+bool Util::isIp6(const string& name)
+{
+	//5 = :xxxx:xxxx:
+	if(name.empty()) return false;
+	size_t n = std::count(name.begin(), name.end(), ':');
+	if( (n==2) && (name.size() == 2) ) return true;//Fix for "::"
+	if( n < 2)
+			return false;
+			
+	bool ok = false;
+	for(auto i = name.begin();i!=name.end();++i) {
+			if(*i==':') {//cechk this
+				for(int j = 5; j>0;--j){
+						if(isxdigit(name[j])){ok = true;}
+				}
+		}
+			if(ok){break;}
+	}
+	bool ok2 = false;
+	for(auto i = name.end();i!=name.begin();--i) {
+			if(*i==':') {//check
+				for(int q = 0; q<5;++q){
+						if(isxdigit(name[q])){ok2 = true;}
+				}
+			}
+		if(ok2) {break;}
+	}
+	bool isOkIpV6 = false;
+	if( (ok == true ) || (ok2 == true)) {
+		struct sockaddr_in sa;
+		int result = inet_pton(AF_INET6,name.c_str() , &(sa.sin_addr));//6
+		isOkIpV6 = result == 1;
+	}
+
+	if(isOkIpV6)
+	{
+		return isOkIpV6;
+	}
+	return false;
+}
+
 
 
 } // namespace dcpp

@@ -658,6 +658,7 @@ void SearchADL::onToggleForb(GtkWidget*, gpointer data)
 	tmp = string(gtk_entry_get_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry"))));
 	if( (tmp != "Forbidden Files") || (tmp != "Forbidden TTHS") || (tmp != "Forbidden Directories"))
 	{
+		//todo check this...
         type = gtk_combo_box_get_active(GTK_COMBO_BOX(s->getWidget("sourceTypeComboBox")));
         switch(type)
         {

@@ -1,29 +1,30 @@
 Introduction:
 -------------
-BMDC++ - DC++ client based on FreeDC++ with Ignore Users,... see
- BMDC-Changelog.txt for detailed info.
+BMDC++ - DC++ client based on FreeDC++ with Ignore Users,... 
+see BMDC-Changelog.txt for detailed info.
 
 Dependencies:
 -------------
-scons >= 0.96
-pkg-config
-g++ >= 4.7
-glib >= 2.32
-gtk+-3.0 >= 3.6
-pthread
-zlib
-libbz2
-libssl
-libGeoIP >= 1.4.7
---------------
-optional:
- libXss (Note: for idle detection)
- libtar (Note: For Backup/Restore options )
- libnotify >= 0.4.1 ( Note: For popups notifications )
- libappindicator3 ( Note: For appindicators in gtk 3.14 and above )
- xattr ( Note: for storing hashes beside files to not always re-hash )
---------------
-Runtime optional is also glib-networking.( for open URIs)
+- scons >= 0.96
+- pkg-config
+- g++ >= 4.7
+- glib >= 2.32
+- gtk+-3.0 >= 3.6
+- pthread
+- zlib
+- libbz2
+- libssl
+- libGeoIP >= 1.4.7
+
+--optional--
+
+- libXss (Note: for idle detection)
+- libtar (Note: For Backup/Restore options )
+- libnotify >= 0.4.1 ( Note: For popups notifications )
+- libappindicator3 ( Note: For appindicators)
+- xattr ( Note: for storing hashes beside files to not always re-hash )
+- Runtime-deps is also glib-networking ( or similar) for open URI
+
 
 Compiling:
 ----------
@@ -37,6 +38,8 @@ Installing:
 Running:
 --------
 $ bmdc
+or
+$ /path/to/install/bin/bmdc
 
 Uninstalling:
 -------------

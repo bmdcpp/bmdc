@@ -24,6 +24,7 @@
 #include "SimpleXML.h"
 #include "GetSet.h"
 #include "SettingsManager.h"
+#include "ShareManager.h"
 
 namespace dcpp {
 
@@ -53,12 +54,15 @@ struct HubSettings
 
 	void load(SimpleXML& xml);
 	void save(SimpleXML& xml) const;
-public:	
 	GETSET(bool, autoConnect, AutoConnect);
+	GETSET(string , id , Id);
+	ShareManager* getShareManager() {return share != NULL ? share : ShareManager::getInstance();}
+	void setShareManager(ShareManager* sm) { share = sm;}
 private:
 	map<SettingsManager::StrSetting, string> strings;
 	map<SettingsManager::IntSetting, int> ints;
 	map<SettingsManager::BoolSetting, bool> bools;
+	ShareManager* share;
 };
 
 #define HUBSETTING(a) get(SettingsManager::a, SettingsManager::getInstance()->get(SettingsManager::a))

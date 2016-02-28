@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011-2016 BMDC, freedcpp at seznam dot cz
+ * Copyright © 2011-2016 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,10 +54,12 @@ class Transfers:
 		virtual void show();
 
 	private:
+		//Made clang happy
 		using dcpp::ConnectionManagerListener::on;
 		using dcpp::DownloadManagerListener::on;
 		using dcpp::QueueManagerListener::on;
 		using dcpp::UploadManagerListener::on;
+		//End
 		// GUI functions
 		void addConnection_gui(dcpp::StringMap params, bool download);
 		void removeConnection_gui(const std::string cid, bool download);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ class MerkleCheckOutputStream : public OutputStream {
 public:
 	MerkleCheckOutputStream(const TreeType& aTree, OutputStream* aStream, int64_t start) : s(aStream), real(aTree), cur(aTree.getBlockSize()), verified(0), bufPos(0) {
 		// Only start at block boundaries
+		//dcassert(start % aTree.getBlockSize() == 0);
 		cur.setFileSize(start);
 
 		size_t nBlocks = static_cast<size_t>(start / aTree.getBlockSize());
@@ -39,7 +40,7 @@ public:
 		cur.getLeaves().insert(cur.getLeaves().begin(), aTree.getLeaves().begin(), aTree.getLeaves().begin() + nBlocks);
 	}
 
-	~MerkleCheckOutputStream() { if(managed) delete s; }
+	/*virtual*/ ~MerkleCheckOutputStream() { if(managed) delete s; }
 
 	virtual size_t flush() {
 		if (bufPos != 0)

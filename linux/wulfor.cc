@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2016 BMDC++
+ * Copyright © 2010-2016 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -96,7 +96,7 @@ void handle_crash(int )
 #endif
 	return exit(0);
 }
-//GMainLoop *main_loop;
+
 int main(int argc, char *argv[])
 {
 	// Initialize i18n support
@@ -137,6 +137,7 @@ int main(int argc, char *argv[])
 	}
 
 	// Start the DC++ client core
+
 	dcpp::Util::initialize();
    
 	gtk_init(&argc, &argv);
@@ -144,12 +145,19 @@ int main(int argc, char *argv[])
 	Splash* sp = new Splash();
 	sp->show();
 	dcpp::startup();
-	dcpp::load([sp](const string& str){ sp->setText(str); sp->update(); },
-	[sp](const float& str){ sp->setPercentage(str); sp->update(); }  );
+	try{
+		dcpp::load([sp](const string& str){ sp->setText(str); sp->update(); },
+		[sp](const float& str){ sp->setPercentage(str); sp->update(); }  );
+	}catch(...){
+	///	
+	}
 	sp->destroy();
 	delete sp;
+	try {
 	dcpp::TimerManager::getInstance()->start();
-
+	}catch(...){
+	///	
+	}
 	g_set_application_name("BMDC++");
 	WulforSettingsManager::newInstance();
 	signal(SIGPIPE, SIG_IGN);
@@ -166,7 +174,9 @@ int main(int argc, char *argv[])
 	WulforSettingsManager::deleteInstance();
 
 	std::cout << _("Shutting down dcpp client...") << std::endl;
+	try{
 	dcpp::shutdown();
+}catch(...){}
 	std::cout << _("Quit...") << std::endl;
 
 	return 0;

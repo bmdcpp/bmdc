@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ public:
 	virtual void infoImpl();
 
 	virtual size_t getUserCount() const { Lock l(cs); return users.size(); }
-	virtual int64_t getAvailable() const;
+	virtual uint64_t getAvailable() const;
 	virtual void refreshuserlist();
 	//Plugins API...
 	virtual void emulateCommand(const string& cmd) { dispatch(cmd); }
@@ -149,7 +149,7 @@ private:
 	void unknownProtocol(uint32_t target, const string& protocol, const string& token);
 	bool secureAvail(uint32_t target, const string& protocol, const string& token);
 
-	virtual bool v4only() const { return false; }
+	//virtual bool v4only() const { return false; }
 	virtual void on(Connecting) noexcept { fire(ClientListener::Connecting(), this); }
 	virtual void on(Connected) noexcept;
 	virtual void on(Line, const string& aLine) noexcept;

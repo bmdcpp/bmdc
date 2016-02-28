@@ -1,5 +1,5 @@
 /*
- * Copyright © 2010-2016 BMDC <freedcpp at seznam dot cz>
+ * Copyright © 2010-2016 BMDC++
  * Copyright © 2010-2011 Eugene Petrov <dhamp@ya.ru>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -154,6 +154,7 @@ class cmddebug:
 					return;
 				}	
 			}
+			else
 				addCmd("\t"+getType(type,dir)+"\tIP (Address): \t"+ip+" \t:\t "+m);
 	}
 	virtual void on(dcpp::DebugManagerListener::DebugDetection, const std::string& m) noexcept {

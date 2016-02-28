@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -92,8 +92,7 @@ StringList ClientManager::getHubNames(const CID& cid, const string&) {
 	StringList lst;
 	OnlinePairC op = onlineUsers.equal_range(cid);
 	for(auto i = op.first; i != op.second; ++i) {
-		//if(i->second->getClient().getHubUrl() == hintUrl)
-			lst.push_back(i->second->getClient().getHubName());
+		lst.push_back(i->second->getClient().getHubName());
 	}
 	return lst;
 }
@@ -194,7 +193,7 @@ string ClientManager::findHub(const string& ipPort) const {
 	parsePortIp(ipPort,ip, port);
 	//NOTE: *should* never get valua over 65535 since is it uint16_t
 	if( port < 1)
-			return Util::emptyString;//@TODO: check good idea?
+		return Util::emptyString;
 	bool ok = false;
 	if(Util::isIp6(ip) == true)
 		ok = true;
@@ -323,7 +322,6 @@ void ClientManager::putOnline(OnlineUser* ou) noexcept {
 		ou->getUser()->setFlag(User::ONLINE);
 		ou->initializeData(); //RSX++-like
 		fire(ClientManagerListener::UserConnected(), ou->getUser());
-	//	LogManager::getInstance()->message("[ClientManager] User with cid"+ou->getUser()->getCID().toBase32()+"Connected");
 	}
 }
 
@@ -352,7 +350,6 @@ void ClientManager::putOffline(OnlineUser* ou, bool disconnect) noexcept {
 			ConnectionManager::getInstance()->disconnect(u);
 
 		fire(ClientManagerListener::UserDisconnected(), u);
-	//	LogManager::getInstance()->message("[ClientManager] User:"+nick+"CID:"+cid+"from HUB:"+hub+"disconnected");
 	} else if(diff > 1) {
 			fire(ClientManagerListener::UserUpdated(), *ou);
 	}
@@ -492,8 +489,9 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 	if(isPassive && !ClientManager::getInstance()->isActive()) {
 		return;
 	}
+	ShareManager* sm = aClient->getShareManager();
 
-	SearchResultList l = ShareManager::getInstance()->search(aString, aSearchType, aSize, aFileType, isPassive ? 5 : 10);
+	SearchResultList l = /*ShareManager::getInstance()*/sm->search(aString, aSearchType, aSize, aFileType, isPassive ? 5 : 10);
 //		dcdebug("Found %d items (%s)\n", l.size(), aString.c_str());
 	if(!l.empty()) {
 		if(isPassive) {

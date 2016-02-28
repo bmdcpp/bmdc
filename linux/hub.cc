@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2016 BMDC++
+ * Copyright © 2010-2016 BMDC, freedcpp@seznam.cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,8 +46,6 @@
 #include "WulforUtil.hh"
 #include "version.hh"
 
-//#include "UserMenu.hh"
-
 using namespace std;
 using namespace dcpp;
 
@@ -55,9 +53,9 @@ const string Hub::tagPrefix = "#";
 
 Hub::Hub(const string &address, const string &encoding):
 	BookEntry(Entry::HUB, address, "hub", address),
-	client(nullptr),address(address),
-	encoding(encoding),	ImgLimit(0),historyIndex(0),totalShared(0)
-	,scrollToBottom(true), PasswordDialog(false), WaitingPassword(false),
+	client(NULL),address(address),
+	encoding(encoding),	ImgLimit(0),historyIndex(0),totalShared(0),
+	scrollToBottom(true), PasswordDialog(false), WaitingPassword(false),
 	notCreated(true), isFavBool(true)
 {
 	FavoriteHubEntry* faventry =  getFavoriteHubEntry();
@@ -281,8 +279,8 @@ Hub::Hub(const string &address, const string &encoding):
 	g_signal_connect(getWidget("menurefresh"), "activate", G_CALLBACK(onRefreshUserListClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonrefresh"), "clicked", G_CALLBACK(onRefreshUserListClicked_gui), (gpointer)this);
 	/**/
-	g_signal_connect(getWidget("ripeitem"), "activate", G_CALLBACK(onRipeDbItem_gui),(gpointer)this);
-	g_signal_connect(getWidget("copyipItem"), "activate", G_CALLBACK(onCopyIpItem_gui),(gpointer)this);
+	//g_signal_connect(getWidget("ripeitem"), "activate", G_CALLBACK(onRipeDbItem_gui),(gpointer)this);
+	//g_signal_connect(getWidget("copyipItem"), "activate", G_CALLBACK(onCopyIpItem_gui),(gpointer)this);
 	//end
 	g_signal_connect(getWidget("downloadBrowseItem"), "activate", G_CALLBACK(onDownloadToClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("downloadItem"), "activate", G_CALLBACK(onDownloadClicked_gui), (gpointer)this);
@@ -334,9 +332,9 @@ Hub::Hub(const string &address, const string &encoding):
 	// set default select tag (fix error show cursor in neutral space).
 	selectedTag = TagsMap[Tag::TAG_GENERAL];
 
-	RecentHubEntry* r = FavoriteManager::getInstance()->getRecentHubEntry(address);
+	RecentHubEntry* rhe = FavoriteManager::getInstance()->getRecentHubEntry(address);
 
-	if(r == NULL) {
+	if(rhe == NULL) {
 		RecentHubEntry entry;
 		entry.setName("***");
 		entry.setDescription("***");
@@ -362,26 +360,26 @@ FavoriteHubEntry* Hub::getFavoriteHubEntry()
 gint Hub::sort_iter_compare_func_nick(GtkTreeModel *model, GtkTreeIter  *a,
 									GtkTreeIter  *b,  gpointer  data)
 {
-		Hub* hub = (Hub *)data;
-		gchar *nick_a = NULL , *nick_b = NULL;
-		gtk_tree_model_get(model, a, hub->nickView.col(hub->sort), &nick_a, -1);
-        gtk_tree_model_get(model, b, hub->nickView.col(hub->sort), &nick_b, -1);
-		gint ret = 0;
-		if (nick_a == NULL || nick_b == NULL)
-        {
-          if (nick_a == NULL && nick_b == NULL)
-              ret = 0;
- 
-          ret = (nick_a == NULL) ? -1 : 1;
-        }
-        else
-        {
-          ret = dcpp::Util::stricmp(nick_a,nick_b);
-          //
-          g_free(nick_a);
-          g_free(nick_b);
-        }
-  return ret;
+	Hub* hub = (Hub *)data;
+	gchar *nick_a = NULL , *nick_b = NULL;
+	gtk_tree_model_get(model, a, hub->nickView.col(hub->sort), &nick_a, -1);
+	gtk_tree_model_get(model, b, hub->nickView.col(hub->sort), &nick_b, -1);
+	gint ret = 0;
+	if (nick_a == NULL || nick_b == NULL)
+	{
+		if (nick_a == NULL && nick_b == NULL)
+			ret = 0;
+
+		ret = (nick_a == NULL) ? -1 : 1;
+	}
+	else
+	{
+		ret = dcpp::Util::stricmp(nick_a,nick_b);
+		
+		g_free(nick_a);
+		g_free(nick_b);
+	}
+	return ret;
 }
 
 void Hub::setColorsRows()
@@ -434,8 +432,8 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 			return;
 		if(cell == NULL)
 			return;
-		if( iter == NULL)
-			return;
+//		if( iter == NULL)
+//			return;
 		string color;
 		string sizeString;
 
@@ -468,7 +466,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		}
 //TODO: check? & UI
 bool isSet = false;
-if(WGETB("use-highlighting")) {//maybe hub-based?
+if(WGETB("use-highlighting")) {//TODO:May hub-based?
 		ColorList* cl = HighlightManager::getInstance()->getList();
 		for(auto& l:*cl)
 		{
@@ -513,15 +511,15 @@ if(WGETB("use-highlighting")) {//maybe hub-based?
 
 Hub::~Hub()
 {
-	RecentHubEntry* r = FavoriteManager::getInstance()->getRecentHubEntry(address);
+	RecentHubEntry* rhe = FavoriteManager::getInstance()->getRecentHubEntry(address);
 
-	if(r != NULL)
+	if(rhe != NULL)
 	{
-		r->setName(client->getHubName());
-		r->setDescription(client->getHubDescription());
-		r->setUsers(Util::toString(client->getUserCount()));
-		r->setShared(Util::toString(client->getAvailable()));
-		FavoriteManager::getInstance()->updateRecent(r);
+		rhe->setName(client->getHubName());
+		rhe->setDescription(client->getHubDescription());
+		rhe->setUsers(Util::toString(client->getUserCount()));
+		rhe->setShared(Util::toString(client->getAvailable()));
+		FavoriteManager::getInstance()->updateRecent(rhe);
 	}
 
 	bool showUL = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")));
@@ -536,7 +534,7 @@ Hub::~Hub()
 		entry->set(SettingsManager::EMOT_PACK, emotdialog->getCurrent(address));
 		entry->setShowUserList(showUL);
 		FavoriteManager::getInstance()->save();
-	}else{
+	} else {
 		SettingsManager* sm = SettingsManager::getInstance();
 		//No Favotite, Save to main setting @Possible Made Enable/Disable of this also ?
 		sm->set(SettingsManager::HUB_UL_ORDER, order);
@@ -643,31 +641,30 @@ gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean 
 									hub->nickView.col(_("Support")), &sup,
 									hub->nickView.col("CID"), &cid,
 									hub->nickView.col("Client Type"),&type,
-  									-1);
+									-1);
 
-  string sharesize  = Util::formatBytes(ssize);
-  g_snprintf (buffer, 1000, " Nick: %s\n Connection: %s\n Description: %s\n Tag: %s\n Share: %s\n IP: %s\n eMail: %s\nCountry: %s\n Slots: %s\n Hubs: %s\n PK: %s\n Cheat: %s\n Generator: %s\n Support: %s\n CID: %s,\n Type %s", nick, con,desc, tag , sharesize.c_str() ,ip, e, country, slots, hubs, pk, cheat, gen, sup, cid,type);
-  gtk_tooltip_set_text (_tooltip, buffer);
+	string sharesize  = Util::formatBytes(ssize);
+	g_snprintf (buffer, 1000, " Nick: %s\n Connection: %s\n Description: %s\n Tag: %s\n Share: %s\n IP: %s\n eMail: %s\nCountry: %s\n Slots: %s\n Hubs: %s\n PK: %s\n Cheat: %s\n Generator: %s\n Support: %s\n CID: %s,\n Type %s", nick, con,desc, tag , sharesize.c_str() ,ip, e, country, slots, hubs, pk, cheat, gen, sup, cid,type);
+	gtk_tooltip_set_text (_tooltip, buffer);
 	if(path == NULL) return FALSE;
 	if(tree_view == NULL) return FALSE;
 
-  gtk_tree_view_set_tooltip_row (tree_view, _tooltip, path);
-
-  gtk_tree_path_free (path);
-  g_free (nick);
-  g_free (tag);
-  g_free (desc);
-  g_free (con);
-  g_free (e);
-  g_free (country);
-  g_free (slots);
-  g_free (hubs);
-  g_free (pk);
-  g_free (cheat);
-  g_free (gen);
-  g_free (sup);
-  g_free (cid);
-  return TRUE;
+	gtk_tree_view_set_tooltip_row (tree_view, _tooltip, path);
+	gtk_tree_path_free (path);
+	g_free (nick);
+	g_free (tag);
+	g_free (desc);
+	g_free (con);
+	g_free (e);
+	g_free (country);
+	g_free (slots);
+	g_free (hubs);
+	g_free (pk);
+	g_free (cheat);
+	g_free (gen);
+	g_free (sup);
+	g_free (cid);
+	return TRUE;
 }
 
 void Hub::setStatus_gui(string statusBar, string text)
@@ -834,12 +831,15 @@ void Hub::updateUser_gui(ParamMap params)
 			WulforManager::get()->getMainWindow()->addPrivateStatusMessage_gui(Msg::STATUS, cid, message);
 			Notify::get()->showNotify("", message, Notify::FAVORITE_USER_JOIN);
 		}
-	}		
+	}
+			
 	if( !params["IP"].empty()) {
 		auto list = FavoriteManager::getInstance()->getListIp();	
 		auto i = list.find(params["IP"]);
 		if( i != list.end()) {
+			
 			addStatusMessage_gui(params["IP"] + _(" Has been connected "), Msg::STATUS, Sound::NONE);
+			
 		}
 		for(auto& b:list)
 		{
@@ -924,7 +924,6 @@ void Hub::popupNickMenu_gui()
 {
 	// Build user command menu
 	userCommandMenu->cleanMenu_gui();
-	//userMenu->cleanMenu_gui();
 
 	GtkTreeIter iter;
 	GList *list = gtk_tree_selection_get_selected_rows(nickSelection, NULL);
@@ -938,9 +937,7 @@ void Hub::popupNickMenu_gui()
 			string cid = nickView.getString(&iter, "CID");
 			string ni = nickView.getString(&iter, _("Nick"));
 			userCommandMenu->addUser(cid);
-			//userMenu->addNick(ni);
-			//userMenu->buildMenu_gui(cid);
-			nicks += " " + ni/*ckView.getString(&iter, _("Nick"))*/;
+			nicks += " " + ni;
 		}
 		gtk_tree_path_free(path);
 	}
@@ -948,14 +945,12 @@ void Hub::popupNickMenu_gui()
 
 	userCommandMenu->addHub(client->getHubUrl());
 	userCommandMenu->buildMenu_gui();
-	string color = WGETS("menu-userlist-color");//@ Settings of UserList Menu  text color (1st item)?
+	string color = WGETS("menu-userlist-color");//@ Settings of UserList Menu  text color (1st item)
 	gchar *markup = g_markup_printf_escaped ("<span fgcolor=\"%s\" ><b>%s</b></span>",color.c_str(),nicks.c_str());
 	GtkMenuItem *item = GTK_MENU_ITEM(getWidget("nickItem"));
 	GtkWidget *label = gtk_bin_get_child(GTK_BIN(item));
 	gtk_label_set_markup (GTK_LABEL (label), markup);
 	g_free(markup);
-	///
-	//userMenu->setHub(client->getHubUrl());
 	
 	gtk_menu_popup(GTK_MENU(getWidget("nickMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 	gtk_widget_show_all(getWidget("nickMenu"));
@@ -992,11 +987,7 @@ void Hub::getPassword_gui()
 		NULL);
 	gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_OK);
-//#if GTK_CHECK_VERSION(3, 2, 0)
 	GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
-//#else
-//	GtkWidget *box = gtk_vbox_new(TRUE, 0);
-//#endif
 
 	GtkWidget *entry = gtk_entry_new();
 	g_object_set(entry, "can-focus", TRUE, "visibility", FALSE, "activates-default", TRUE, NULL);
@@ -1090,7 +1081,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 	if (gtk_text_buffer_get_char_count(chatBuffer) > 0)
 		line += "\n";
 
-	if (SETTING(TIME_STAMPS))//FAV?
+	if (SETTING(TIME_STAMPS))//may Fav?
 		line += "[" + Util::getShortTimeString() + "] ";
 
 	line += message;
@@ -1119,6 +1110,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 		case Msg::GENERAL:
 
 		default:
+		{
 			tagMsg = Tag::TAG_GENERAL;
 
 			if(isFavBool)
@@ -1128,6 +1120,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 				F3 *func = new F3(mw,&MainWindow::showNotification_gui, client->getHubName(), message, Notify::HUB_CHAT);
 				WulforManager::get()->dispatchGuiFunc(func);
 			}
+		}	
 	}
 
 	totalEmoticons = 0;
@@ -1137,7 +1130,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 	gtk_text_buffer_get_end_iter(chatBuffer, &iter);
 
 	// Limit size of chat text
-	if (  gtk_text_buffer_get_line_count(chatBuffer) > maxLines + 1)
+	if ( gtk_text_buffer_get_line_count(chatBuffer) > maxLines + 1)
 	{
 		GtkTextIter next;
 		gtk_text_buffer_get_start_iter(chatBuffer, &iter);
@@ -1233,7 +1226,7 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 		string image_magnet, bold_text, italic_text, underline_text, country_text;
 		gchar *temp = gtk_text_iter_get_text(&tag_start_iter, &tag_end_iter);
 
-		if(WGETB("use-highlighting"))
+		if(WGETB("use-highlighting"))//may per Fav?
 		{
 			GtkTextTag *tag = gtk_text_tag_table_lookup(gtk_text_buffer_get_tag_table(chatBuffer), temp);
 			bool isTab = false;
@@ -1354,14 +1347,14 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 
 					tagStyle = Tag::TAG_URL;
 				}
-
-				if(WulforUtil::HitIP(tagName,ip))
+				//string ip = Util::emptyString;
+				if(WulforUtil::HitIP(tagName/*,ip*/))
 				{
 					callback = G_CALLBACK(onIpTagEvent_gui);
 					tagStyle = Tag::TAG_IPADR;
 					isIp = true;
 					userCommandMenu2->cleanMenu_gui();
-					userCommandMenu2->addIp(ip);
+					userCommandMenu2->addIp(tagName);
 					userCommandMenu2->addHub(address);
 					userCommandMenu2->buildMenu_gui();
 					gtk_widget_show_all(userCommandMenu2->getContainer());
@@ -1522,7 +1515,7 @@ void Hub::applyTags_gui(const string &cid, const string &line)
 				return;
 			
 			gtk_text_buffer_move_mark(chatBuffer, end_mark, &tag_end_iter);////new
-			start = FALSE;
+			start = false;
 		}
 		else
 		{
@@ -1599,7 +1592,7 @@ void Hub::applyEmoticons_gui()
 		gtk_text_buffer_get_iter_at_mark(chatBuffer, &start_iter, emot_mark);
 		gtk_text_buffer_get_iter_at_mark(chatBuffer, &end_iter, end_mark);
 
-		search = FALSE;
+		search = false;
 		set_start = gtk_text_iter_get_offset(&end_iter);
 
 		for (Emot::Iter it = list.begin(); it != list.end(); ++it)
@@ -1618,7 +1611,7 @@ void Hub::applyEmoticons_gui()
 				{
 					if (!search)
 					{
-						search = TRUE;
+						search = true;
 						end_iter = match_start;
 
 						/* set new limit search */
@@ -1659,7 +1652,8 @@ void Hub::applyEmoticons_gui()
 
 			/* delete text-emoticon and insert pixbuf-emoticon */
 			gtk_text_buffer_delete(chatBuffer, &p_start, &p_end);
-			gtk_text_buffer_insert_pixbuf(chatBuffer, &p_start, (*p_it)->getPixbuf());
+			if(*p_it)
+				gtk_text_buffer_insert_pixbuf(chatBuffer, &p_start, (*p_it)->getPixbuf());
 
 			searchEmoticons++;
 			totalEmoticons++;
@@ -2137,7 +2131,13 @@ gboolean Hub::onEntryKeyPress_gui(GtkWidget *entry, GdkEventKey *event, gpointer
 	hub->completionKey.clear();
 	return FALSE;
 }
-
+/*
+#define GETTAG(t,tagn) \
+gchar* tmp = NULL; \
+g_object_get(G_OBJECT(t), "name", &tmp, NULL); \
+string tagn = string(tmp); \
+g_free(tmp); \
+*/
 gboolean Hub::onNickTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *event, GtkTextIter*, gpointer data)
 {
 	if (event->type == GDK_2BUTTON_PRESS)
@@ -2225,15 +2225,17 @@ gboolean Hub::onHubTagEvent_gui(GtkTextTag*, GObject*, GdkEvent *event, GtkTextI
 gboolean Hub::onIpTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *event , GtkTextIter*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
-	gchar *tmp = NULL;
-	g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
-	hub->ip = string(tmp);
-	g_free(tmp);
-
 	if(event->type == GDK_BUTTON_PRESS)
 	{
 		if(event->button.button == 3)
 		{
+			gchar *tmp = NULL;
+			g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
+			g_signal_connect(hub->getWidget("ripeitem"), "activate", G_CALLBACK(onRipeDbItem_gui),(gpointer)hub);
+			g_signal_connect(hub->getWidget("copyipItem"), "activate", G_CALLBACK(onCopyIpItem_gui),(gpointer)hub);
+			g_object_set_data_full(G_OBJECT(hub->getWidget("ripeitem")),"ip_addr",g_strdup(tmp),g_free);
+			g_object_set_data_full(G_OBJECT(hub->getWidget("copyipItem")),"ip_addr",g_strdup(tmp),g_free);
+			
 			gtk_widget_show_all(hub->getWidget("ipMenu"));
 			gtk_menu_popup(GTK_MENU(hub->getWidget("ipMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 			return TRUE;
@@ -2242,18 +2244,19 @@ gboolean Hub::onIpTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *event , GtkT
 	return FALSE;
 }
 
-void Hub::onCopyIpItem_gui(GtkWidget*, gpointer data)
+void Hub::onCopyIpItem_gui(GtkWidget* widget, gpointer)
 {
-	Hub *hub = (Hub *)data;
-	gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), hub->ip.c_str(), hub->ip.length());
+	gchar* ip = (gchar*)g_object_get_data(G_OBJECT(widget),"ip_addr");
+	gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), ip, strlen(ip));
 }
 
-void Hub::onRipeDbItem_gui(GtkWidget*, gpointer data)
+void Hub::onRipeDbItem_gui(GtkWidget* widget, gpointer data)
 {
-	Hub *hub = (Hub *)data;
+	Hub* hub=(Hub*)data;
+	string ip = (char*)g_object_get_data(G_OBJECT(widget),"ip_addr");
 	string error = Util::emptyString;
 	dcpp::ParamMap params;
-	params["IP"] = hub->ip;
+	params["IP"] = ip;
 	string result = dcpp::Util::formatParams(SETTING(RIPE_DB),params);
 	WulforUtil::openURI(result,error);
 	hub->setStatus_gui("statusMain",error);
@@ -4465,7 +4468,6 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 		//Extra Info
 		dcpp::ParamMap params;
 		params["hubURL"] = client->getHubUrl();
-		params["adctime"] = Util::formatTime("%H:%M:%S",message.timestamp);
 		client->getHubIdentity().getParams(params, "hub", false);
 		client->getMyIdentity().getParams(params, "my", true);
 		fid.getParams(params, "user", true);

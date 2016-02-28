@@ -29,35 +29,25 @@
 using namespace std;
 using namespace dcpp;
 
-Emoticons *Emoticons::emoticons = NULL;
-bool Emoticons::global = true;
+//Emoticons *Emoticons::emoticons = NULL;
+//bool Emoticons::global = true;
 
-Emoticons* Emoticons::start(const string &packName, bool _global)
+Emoticons* Emoticons::start(const string &packName)
 {
-	global = _global;
-	if(_global) {
-		
-		dcassert(!emoticons);
-		emoticons = new Emoticons(packName);
-		
-	}
 	return (new Emoticons(packName));
 }
 
 void Emoticons::stop()
 {
-	if(global) {
-		dcassert(emoticons);
-		delete emoticons;
-	}
-}
 
+}
+/*
 Emoticons* Emoticons::get()
 {
 	dcassert(emoticons);
 	return emoticons;
 }
-
+*/
 Emoticons::Emoticons(const string &packName):
 currPackName(packName)
 {

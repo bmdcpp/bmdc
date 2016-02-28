@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2003-2014 Pär Björklund, per.bjorklund@gmail.com
+* Copyright (C) 2003-2016 Pär Björklund, per.bjorklund@gmail.com
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ class ColorSettings: public Flags
 	ColorSettings(): Flags(CONTEXT_CHAT), bIncludeNick(false), bCaseSensitive(false), bPopup(false), bTab(false),
 		bPlaySound(false), bBold(false), bUnderline(false), bItalic(false),
 		bNoti(Util::emptyString), iMatchType(1), iBgColor(Util::emptyString), iFgColor(Util::emptyString), bHasBgColor(false),
-		bHasFgColor(false) , strSoundFile(Util::emptyString), strMatch(Util::emptyString)  {	}
+		bHasFgColor(false) , strSoundFile(Util::emptyString), strMatch(Util::emptyString), bUsingRegexp(false)  {	}
 	~ColorSettings(){ };
 
 private:
@@ -60,13 +60,14 @@ public:
 	GETSET(bool, bHasFgColor, HasFgColor);
 
 	void setMatch(string match){
+		if(match.find(("$Re:")) == 0) {
+			bUsingRegexp = true;
+		}
 		strMatch = match;
 	}
-	bool usingRegexp() const { return (strMatch.find(("$Re:")) == 0); }
+	bool usingRegexp() const { return bUsingRegexp; }
 
-	const string & getMatch() const{ 
-		return strMatch; 
-	}
+	const string & getMatch() const { return strMatch; }
 	int getFlag() const
 	{
 		if(isSet(CONTEXT_CHAT))
@@ -77,6 +78,8 @@ public:
 			return 3;
 		return 0;	
 	}
+private:
+	bool bUsingRegexp;
 
    };
 }

@@ -52,8 +52,8 @@ namespace dcpp
 
 		static SettingsManager::IntSetting getCurSetting(SettingsManager::IntSetting setting);
 
-		static int getUpLimit();
-		static int getDownLimit();
+		static int64_t getUpLimit();
+		static int64_t getDownLimit();
 
 		static void setSetting(SettingsManager::IntSetting setting, int value);
 

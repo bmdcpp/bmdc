@@ -1,5 +1,5 @@
 /*
- * Copyright © 2010-2016 BMDC++
+ * Copyright © 2010-2016 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -92,6 +92,7 @@ void ExportDialog::onButtonExportedClicked(GtkWidget*,gpointer data)
 		valid = gtk_tree_model_iter_next(m, &iter);	
 	}
 	
+	///getpath
 	string to = gtk_entry_get_text(GTK_ENTRY(ed->getWidget("entry")));
 	ExportManager::getInstance()->export_(to,list);
 }

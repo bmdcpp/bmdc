@@ -1,6 +1,5 @@
 /*
  * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011-2016 BMDC++
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,7 +34,7 @@ Entry::Entry(const EntryType type, const string &ui, const string &id):
 {
 	if(!ui.empty()) {
 	// Load the Builder XML file, if applicable
-	string file = WulforManager::get()->getPath() + G_DIR_SEPARATOR_S + "ui"+ G_DIR_SEPARATOR_S + ui + ".glade.ui";
+	string file = WulforManager::get()->getPath() + "/ui/" + ui + ".glade.ui";
 #if !GTK_CHECK_VERSION(3, 10, 0)
 	GError *error = NULL;
 	xml = gtk_builder_new();

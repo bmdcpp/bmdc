@@ -352,7 +352,7 @@ const string& convert(const string& str, string& tmp, const string& fromCharset,
 #else
 
 	// Initialize the converter
-	iconv_t cd = iconv_open(toCharset.c_str(), fromCharset.c_str());
+	/*iconv_t cd = iconv_open(toCharset.c_str(), fromCharset.c_str());
 	if(cd == (iconv_t)-1)
 		return str;
 
@@ -360,25 +360,36 @@ const string& convert(const string& str, string& tmp, const string& fromCharset,
 	size_t len = str.length() * 2; // optimization
 	size_t inleft = str.length();
 	size_t outleft = len;
-	tmp.resize(len);
+	//tmp.resize(len);
 	const char *inbuf = str.data();
-	char *outbuf = (char *)tmp.data();
+	//char *outbuf = (char *)tmp.data();
+	char* outbuf = (char*)malloc(len);
 
 	while(inleft > 0) {
-		rv = iconv(cd, (ICONV_CONST char **)&inbuf, &inleft, &outbuf, &outleft);
+		rv = iconv(cd, (ICONV_CONST char **)&inbuf, &inleft, &(outbuf), &outleft);
 		if(rv == (size_t)-1) {
-			size_t used = outbuf - tmp.data();
+			//size_t used = outbuf - tmp.data();
+			size_t used = (len / 2  ) - outleft;
 			if(errno == E2BIG) {
 				len *= 2;
-				tmp.resize(len);
-				outbuf = (char *)tmp.data() + used;
+				//tmp.resize(len);
+				//outbuf = (char *)tmp.data() + used;
+				//if(used < len)
+				outbuf = outbuf + used;
 				outleft = len - used;
+				//tmp = outbuf;
 			} else if(errno == EILSEQ) {
 				++inbuf;
 				--inleft;
-				tmp[used] = '_';
+				outbuf[used] = '_';//tmp
+				//tmp = outbuf;
 			} else {
-				tmp.replace(used, inleft, string(inleft, '_'));
+				//string tmp = string(outbuf);
+				//tmp.replace(used, inleft, string(inleft, '_'));
+				for(size_t i = used; i > inleft;++i)
+						outbuf[i] = '_';
+				
+				//outbuf = (char*)tmp.data();
 				inleft = 0;
 			}
 		}
@@ -387,7 +398,20 @@ const string& convert(const string& str, string& tmp, const string& fromCharset,
 	if(outleft > 0) {
 		tmp.resize(len - outleft);
 	}
-	return tmp;
+	//return tmp;
+	dcdebug("%s",outbuf);
+	tmp = strdup(outbuf);
+	return tmp;*/
+	GError* error = NULL;
+	gsize readb,writeb;
+	gchar *x = g_convert(str.c_str(),-1,toCharset.c_str(),fromCharset.c_str(),&readb,&writeb,&error);
+	if(error != NULL) {
+		g_print("%s",error->message);
+		return str;
+	}	
+	tmp = g_strdup(x);
+	g_free(x);	
+	return tmp;	
 #endif
 }
 }

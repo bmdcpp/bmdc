@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2016	BMDC
+ * Copyright © 2010-2016 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -79,28 +79,46 @@
 using namespace std;
 using namespace dcpp;
 
+
+string MainWindow::icons[(MainWindow::IconsToolbar)END][2] =
+{
+	{"connect", "connect"},
+	{"favorite-hubs", "favHubs"},
+	{"favorite-users", "favUsers"},
+	{"public-hubs", "publicHubs"},
+	{"search-adl", "searchADL"},
+	{"search-spy", "searchSpy"},
+	{"queue", "queue"},
+	{"finished-dowloads", "finishedDownloads"},
+	{"finished-uploads", "finishedUploads"},
+	{"notepad", "notepad"},
+	{"system", "system"},
+	{"away", "AwayIcon"},
+	{"limiting", "limitingButton"}
+};
+/*
 const char* MainWindow::icons[(MainWindow::IconsToolbar)END][3] =
 {
-{ /*( QUICKCON),*/ "bmdc-connect", "bmdc-connect-on", "connect"},
-{ /*( FAVORITE_HUBS),*/  "bmdc-favorite-hubs", "bmdc-favorite-hubs-on", "favHubs"},
-{ /*( FAVORITE_USERS),*/  "bmdc-favorite-users", "bmdc-favorite-users-on", "favUsers"},
-{ /*( PUBLIC_HUBS),*/  "bmdc-public-hubs", "bmdc-public-hubs-on", "publicHubs"},
-{ /*( SEARCH_ADL),*/  "bmdc-search-adl", "bmdc-search-adl-on", "searchADL"},
-{ /*( SEARCH_SPY),*/  "bmdc-search-spy", "bmdc-search-spy-on", "searchSpy"},
-{ /*( QUEUE),*/  "bmdc-queue", "bmdc-queue-on", "queue"},
-{ /*( FDOWNLOADS),*/  "bmdc-finished-downloads", "bmdc-finished-downloads-on", "finishedDownloads"},
-{ /*( FUPLOADS),*/  "bmdc-finished-uploads", "bmdc-finished-uploads-on", "finishedUploads"},
-{ /*( NOTEPAD),*/  "bmdc-notepad", "bmdc-notepad-on", "notepad"},
-{ /*( SYSTEM),*/  "bmdc-system", "bmdc-system-on", "system"},
-{ /*( AWAY),*/  "bmdc-away", "bmdc-away-on", "AwayIcon"},
-{ /*( LIMITING),*/  "bmdc-limiting", "bmdc-limiting-on", "limitingButton"}
-};
+{ /*( QUICKCON),*/ //"bmdc-connect", "bmdc-connect-on", "connect"},
+//{ /*( FAVORITE_HUBS),*/  "bmdc-favorite-hubs", "bmdc-favorite-hubs-on", "favHubs"},
+//{ /*( FAVORITE_USERS),*/  "bmdc-favorite-users", "bmdc-favorite-users-on", "favUsers"},
+//{ /*( PUBLIC_HUBS),*/  "bmdc-public-hubs", "bmdc-public-hubs-on", "publicHubs"},
+//{ /*( SEARCH_ADL),*/  "bmdc-search-adl", "bmdc-search-adl-on", "searchADL"},
+//{ /*( SEARCH_SPY),*/  "bmdc-search-spy", "bmdc-search-spy-on", "searchSpy"},
+//{ /*( QUEUE),*/  "bmdc-queue", "bmdc-queue-on", "queue"},
+//{ /*( FDOWNLOADS),*/  "bmdc-finished-downloads", "bmdc-finished-downloads-on", "finishedDownloads"},
+//{ /*( FUPLOADS),*/  "bmdc-finished-uploads", "bmdc-finished-uploads-on", "finishedUploads"},
+//{ /*( NOTEPAD),*/  "bmdc-notepad", "bmdc-notepad-on", "notepad"},
+//{ /*( SYSTEM),*/  "bmdc-system", "bmdc-system-on", "system"},
+//{ /*( AWAY),*/  "bmdc-away", "bmdc-away-on", "AwayIcon"},
+//{ /*( LIMITING),*/  "bmdc-limiting", "bmdc-limiting-on", "limitingButton"}
+//};
 
 MainWindow::MainWindow():
 	Entry(Entry::MAIN_WINDOW, "mainwindow"),
 	transfers(NULL), 
-	minimized(FALSE),
-#ifdef USE_STATUS_ICON
+	minimized(false),
+#ifdef USE_STATUSICON
 	 timer(0),
 #endif
 	lastUpdate(0),
@@ -424,8 +442,7 @@ MainWindow::MainWindow():
 	gtk_widget_show_all(GTK_WIDGET(window));
 	
 	//@fix hideing transfers
-	if(WGETB("hide-transfers") ||
-		SETTING(SHOW_TRANSFERVIEW))
+	if(WGETB("hide-transfers"))
 		gtk_widget_hide(transfers->getContainer());
 	//@end
 
@@ -433,8 +450,8 @@ MainWindow::MainWindow():
 	setTabPosition_gui(WGETI("tab-position"));
 	setToolbarStyle_gui(WGETI("toolbar-style"));
 
-#ifdef USE_STATUS_ICON
-	createStatusIcon_gui();
+#ifdef USE_STATUSICON
+		createStatusIcon_gui();
 #endif
 
 #ifdef HAVE_APPINDCATOR
@@ -443,7 +460,7 @@ MainWindow::MainWindow():
 	
 	setInitThrotles();
 	Sound::start();
-	Emoticons::start();
+	//Emoticons::start();
 	Notify::start();
 
 	PluginManager::getInstance()->runHook(HOOK_UI_CREATED, getContainer(), NULL);
@@ -481,21 +498,21 @@ MainWindow::~MainWindow()
 	
 	if (transferPanePosition > 10)
 		WSET("transfer-pane-position", transferPanePosition);
-	#ifdef USE_STATUS_ICON
+	#ifdef USE_STATUSICON
 		if (timer > 0)
 		g_source_remove(timer);
 	#endif
 
 	WSET("status-icon-blink-use", useStatusIconBlink);
 	gtk_widget_destroy(GTK_WIDGET(window));
-
-	#ifdef USE_STATUS_ICON
+#ifdef USE_STATUSICON
 		g_object_unref(statusIcon);
-	#endif	
+#endif	
+
 	g_object_unref(getWidget("statusIconMenu"));
 	g_object_unref(getWidget("toolbarMenu"));
 	Sound::stop();
-	Emoticons::stop();
+	//Emoticons::stop();
 	Notify::stop();
 }
 
@@ -553,7 +570,7 @@ void MainWindow::showTransfersPane_gui()
 	gtk_paned_pack2(GTK_PANED(getWidget("pane")), transfers->getContainer(), TRUE, TRUE);
 	addChild(transfers);
 	transfers->show();
-	if(WGETB("hide-transfers") || SETTING(SHOW_TRANSFERVIEW))
+	if(WGETB("hide-transfers"))
 		gtk_widget_hide(transfers->getContainer());
 	
 }
@@ -914,7 +931,7 @@ void MainWindow::removeTabMenuItem_gui(GtkWidget *menuItem)
 /*
  * Create status icon.
  */
-#ifdef USE_STATUS_ICON
+#ifdef USE_STATUSICON
 void MainWindow::createStatusIcon_gui()
 {
 	useStatusIconBlink = WGETB("status-icon-blink-use");
@@ -928,17 +945,17 @@ void MainWindow::createStatusIcon_gui()
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("statusIconBlinkUseItem")), useStatusIconBlink);
 	g_signal_connect(getWidget("statusIconBlinkUseItem"), "toggled", G_CALLBACK(onStatusIconBlinkUseToggled_gui), (gpointer)this);
 
-	if (SETTING(ALWAYS_TRAY))
-		gtk_status_icon_set_visible(statusIcon, TRUE);
-	else
-		gtk_status_icon_set_visible(statusIcon, FALSE);
+		if (SETTING(ALWAYS_TRAY))
+			gtk_status_icon_set_visible(statusIcon, TRUE);
+		else
+			gtk_status_icon_set_visible(statusIcon, FALSE);
 }
 
 void MainWindow::updateStatusIconTooltip_gui(string download, string upload)
 {
-	ostringstream toolTip;
-	toolTip << g_get_application_name() << endl << _("Download: ") << download << endl << _("Upload: ") << upload;
-	gtk_status_icon_set_tooltip_text(statusIcon, toolTip.str().c_str());
+		ostringstream toolTip;
+		toolTip << g_get_application_name() << endl << _("Download: ") << download << endl << _("Upload: ") << upload;
+		gtk_status_icon_set_tooltip_text(statusIcon, toolTip.str().c_str());
 }
 #endif
 
@@ -1168,12 +1185,12 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 		if (!isActive_gui())
 		{
 			show = true;
-		#ifdef	USE_STATUS_ICON
+	#ifdef USE_STATUSICON
 				if (useStatusIconBlink && timer == 0)
 				{
 					timer = g_timeout_add(1000, animationStatusIcon_gui, (gpointer)this);
 				}
-		#endif	
+	#endif	
 		}
 		else if (currentPage_gui() != entry->getContainer() && !WGETI("notify-only-not-active"))
 		{
@@ -1211,8 +1228,7 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 	if (raise)
 		raisePage_gui(entry->getContainer());
 }
-
-#ifdef USE_STATUS_ICON
+#ifdef USE_STATUSICON
 void MainWindow::removeTimerSource_gui()
 {
 	if (timer > 0)
@@ -1416,7 +1432,6 @@ void MainWindow::setToolbarButton_gui()
 		gtk_widget_hide(getWidget("AwayIcon"));
 	if (!WGETB("toolbar-button-limiting"))
 		gtk_widget_hide(getWidget("limitingButton"));
-	//--------------------------------------------
 }
 
 void MainWindow::setTabPosition_gui(int position)
@@ -1497,8 +1512,6 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 	while((i = commands.find("%[line:", i)) != string::npos) {
 		i += 7;
 		string::size_type j = commands.find(']', i);
-		if(j == string::npos)
-			break;
 		if(j == string::npos && i == string::npos)
 			break;
 
@@ -2040,8 +2053,9 @@ gboolean MainWindow::onKeyPressed_gui(GtkWidget*, GdkEventKey *event, gpointer d
 
 gboolean MainWindow::onButtonReleasePage_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
-	gint height = gdk_window_get_height(event->window);
-	gint width = gdk_window_get_width(event->window);
+	gint width, height;
+	height = gdk_window_get_height(event->window);
+	width = gdk_window_get_width(event->window);
 
 	// If middle mouse button was released when hovering over tab label
 	// with setting to it
@@ -2055,7 +2069,7 @@ gboolean MainWindow::onButtonReleasePage_gui(GtkWidget*, GdkEventButton *event, 
 
 	return FALSE;
 }
-#ifdef USE_STATUS_ICON
+#ifdef USE_STATUSICON
 gboolean MainWindow::animationStatusIcon_gui(gpointer data)
 	{
 		MainWindow *mw = (MainWindow *) data;
@@ -2073,7 +2087,6 @@ gboolean MainWindow::animationStatusIcon_gui(gpointer data)
 		return TRUE;
 }
 #endif
-
 void MainWindow::onRaisePage_gui(GtkMenuItem*, gpointer data)
 {
 	WulforManager::get()->getMainWindow()->raisePage_gui((GtkWidget *)data);
@@ -2215,7 +2228,7 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget*, gpointer data)
 	if (mw->useStatusIconBlink != WGETB("status-icon-blink-use"))
 		WSET("status-icon-blink-use", mw->useStatusIconBlink);
 	
-	bool emoticons = SETTING(USE_EMOTS);
+	//bool emoticons = SETTING(USE_EMOTS);
 
 	gint response = WulforManager::get()->openSettingsDialog_gui();
 
@@ -2235,8 +2248,7 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget*, gpointer data)
 			Socket::socksUpdated();
 		}
 		//END
-
-#ifdef USE_STATUS_ICON
+#ifdef USE_STATUSICON
 		if (SETTING(ALWAYS_TRAY))
 			gtk_status_icon_set_visible(mw->statusIcon, TRUE);
 		else
@@ -2291,8 +2303,8 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget*, gpointer data)
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(mw->getWidget("statusIconBlinkUseItem")), WGETB("status-icon-blink-use"));
 
 		// Emoticons
-		if (emoticons != SETTING(USE_EMOTS))
-			Emoticons::get()->reloadPack_gui();
+		//if (emoticons != SETTING(USE_EMOTS))
+		//	Emoticons::get()->reloadPack_gui();
 
 		// Toolbar
 		mw->checkToolbarMenu_gui();
@@ -2334,11 +2346,9 @@ void MainWindow::onTransferToggled_gui(GtkWidget*, gpointer data)
 	if (gtk_widget_get_visible(transfer)) {
 		gtk_widget_hide(transfer);
 		WSET("hide-transfers",TRUE);
-		SettingsManager::getInstance()->set(SettingsManager::SHOW_TRANSFERVIEW,false);
 	} else {
 		gtk_widget_show_all(transfer);
 		WSET("hide-transfers",FALSE);
-		SettingsManager::getInstance()->set(SettingsManager::SHOW_TRANSFERVIEW,true);
 	}	
 }
 
@@ -2526,7 +2536,7 @@ void MainWindow::onCloseBookEntry_gui(GtkWidget*, gpointer data)
 	WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
 }
 
-#ifdef USE_STATUS_ICON
+#ifdef USE_STATUSICON
 void MainWindow::onStatusIconActivated_gui(GtkStatusIcon*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
@@ -2544,6 +2554,7 @@ void MainWindow::onStatusIconPopupMenu_gui(GtkStatusIcon *statusIcon, guint butt
 	gtk_menu_popup(menu, NULL, NULL, gtk_status_icon_position_menu, statusIcon, button, time);
 }
 #endif
+
 void MainWindow::onShowInterfaceToggled_gui(GtkCheckMenuItem*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
@@ -2574,11 +2585,9 @@ void MainWindow::onShowInterfaceToggled_gui(GtkCheckMenuItem*, gpointer data)
 		#ifdef HAVE_APPINDCATOR
 			app_indicator_set_status(indicator,APP_INDICATOR_STATUS_ACTIVE);
 		#endif
-		
 	}
 }
-
-#ifdef USE_STATUS_ICON
+#ifdef USE_STATUSICON
 void MainWindow::onStatusIconBlinkUseToggled_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
@@ -2590,7 +2599,6 @@ void MainWindow::onStatusIconBlinkUseToggled_gui(GtkWidget*, gpointer data)
 		mw->useStatusIconBlink = FALSE;
 }
 #endif
-
 void MainWindow::onLinkClicked_gui(GtkWidget *widget, gpointer )
 {
 	string link = (gchar *)g_object_get_data(G_OBJECT(widget), "link");
@@ -2749,6 +2757,7 @@ void MainWindow::on(QueueManagerListener::Finished, QueueItem *item, const strin
 	else if(item->isSet(QueueItem::FLAG_USER_LIST) && item->isSet(QueueItem::FLAG_CHECK_FILE_LIST))
 	{
         DirectoryListInfo* i = new DirectoryListInfo(item->getDownloads()[0]->getHintedUser(), item->getListName(), dir, avSpeed);
+        try {
         if(listQueue.stop) {
 			listQueue.stop = false;
 			listQueue.start();
@@ -2758,8 +2767,8 @@ void MainWindow::on(QueueManagerListener::Finished, QueueItem *item, const strin
 			listQueue.fileLists.push_back(i);
 		}
 		listQueue.s.signal();
-	}
-	else if (!item->isSet(QueueItem::FLAG_XML_BZLIST))
+	}catch(...){}
+	}else if (!item->isSet(QueueItem::FLAG_XML_BZLIST))
 	{
 		F3 *f3 = new F3(this, &MainWindow::showNotification_gui, _("<b>file:</b> "), item->getTarget(), Notify::DOWNLOAD_FINISHED);
 		WulforManager::get()->dispatchGuiFunc(f3);
@@ -2802,14 +2811,14 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) noexcept
 	F5 *func = new F5(this, &MainWindow::setStats_gui, hubs, downloadSpeed, downloaded, uploadSpeed, uploaded);
 	WulforManager::get()->dispatchGuiFunc(func);
 
-#ifdef USE_STATUS_ICON
+#ifdef USE_STATUSICON
 	if (SETTING(ALWAYS_TRAY) && !downloadSpeed.empty() && !uploadSpeed.empty())
 	{
 		typedef Func2<MainWindow, string, string> F2;
 		F2 *f2 = new F2(this, &MainWindow::updateStatusIconTooltip_gui, downloadSpeed, uploadSpeed);
 		WulforManager::get()->dispatchGuiFunc(f2);
 	}
-#endif	
+#endif
 	string file;
 	uint64_t bytes = 0;
 	size_t files = 0;
@@ -2848,10 +2857,13 @@ void MainWindow::onIdle()
 	XScreenSaverQueryInfo(display, DefaultRootWindow(display), _mit_info);
 			
 if(_idleDetectionPossible) {
+	g_print("Detection Part 2");
 		long idlesecs = (_mit_info->idle/1000); // in sec
 		//TODO: (1000 ms = 1s)
 		if (idlesecs > WGETI("idle-time")) {
+			//g_print("Idle: Away Mode on");
 				if(!dcpp::Util::getAway()) {//dont set away twice
+
 					dcpp::Util::setAway(true);
 					dcpp::Util::setManualAway(true);
 					setStatusOfIcons(AWAY,true);
@@ -3056,7 +3068,7 @@ void MainWindow::parsePartial(HintedUser aUser, string txt)
 			dynamic_cast<ShareBrowser*>(entry)->loadXML(txt);
 		}
 	}
-	if (raise)
+	if (entry && raise)
 		raisePage_gui(entry->getContainer());
 }
 

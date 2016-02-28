@@ -216,9 +216,10 @@ private:
 	friend struct ShareLoader;
 
 	friend class Singleton<ShareManager>;
+public:	
 	ShareManager();
-
 	virtual ~ShareManager();
+private:	
 
 	struct SearchQuery {
 		SearchQuery();
@@ -327,6 +328,8 @@ private:
 
 	// TimerManagerListener
 	virtual void on(TimerManagerListener::Minute, uint64_t tick) noexcept;
+public:
+	GETSET(string, name , Name);	
 	void load(SimpleXML& aXml);
 	void save(SimpleXML& aXml);
 

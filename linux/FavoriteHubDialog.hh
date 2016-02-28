@@ -35,7 +35,7 @@ using namespace dcpp;
 class FavoriteHubDialog: public Entry
 {
    public:
-   		//@: entry : The Fav Entry to process to dialog, add = if new or editing existing one
+   		//@: entry : The Fav Entry to process to dialog
 		FavoriteHubDialog(FavoriteHubEntry* entry);
 		//@: groups : wich groups should dialog show up
 		bool initDialog(UnMapIter &groups);
@@ -49,13 +49,20 @@ private:
 		void initActions();
 		static void onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
 		static void onCheckButtonToggled_gui(GtkToggleButton *button, gpointer data);
+		
+		static void onAddShare_gui(GtkWidget *widget, gpointer data);
+		static void onRemoveShare_gui(GtkWidget *widget, gpointer data);
+		
 		bool showErrorDialog_gui(const string &description);
+		void updateShares_gui();
+		void addShare_gui(string path, string name);
 
 		FavoriteHubEntry* p_entry; //@: The Fav Entry pointer
-		//bool init; //@: new or edit?
-		//@: The Kick/Ban Action part
+		//@: The Kick/Ban Action part// share
 		GtkTreeStore *actionStore;
+		GtkListStore *shareStore;
 		TreeView actionView;
+		TreeView shareView;
 		GtkTreeSelection *actionSel;
 		//@: Widgets
 		GtkWidget	*mainDialog, //@ dialog container
@@ -95,15 +102,16 @@ private:
 					*enableBold,
 					*enableStatusChat,
 					*enableFavFirst,
-					*enableVisibleUl,
 		//@: Connection
 					*comboMode,
 					*entryIp,
-					*radioDefault,
-					*radioActive,
-					*radioPasive,
 		//@: Kick View
-					*treeView;
+					*treeView,
+		//@Share
+					*button_add,
+					*button_rem,
+					*labelShareSize,
+					*shareTree;
 
 };
 

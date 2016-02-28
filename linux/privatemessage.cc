@@ -133,8 +133,8 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 	g_signal_connect(getWidget("emotButton"), "button-release-event", G_CALLBACK(onEmotButtonRelease_gui), (gpointer)this);
 	g_signal_connect(getWidget("downloadBrowseItem"), "activate", G_CALLBACK(onDownloadToClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("downloadItem"), "activate", G_CALLBACK(onDownloadClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("ripeitem"), "activate", G_CALLBACK(onRipeDbItem_gui),(gpointer)this);
-	g_signal_connect(getWidget("copyipItem"), "activate", G_CALLBACK(onCopyIpItem_gui),(gpointer)this);
+//	g_signal_connect(getWidget("ripeitem"), "activate", G_CALLBACK(onRipeDbItem_gui),(gpointer)this);
+//	g_signal_connect(getWidget("copyipItem"), "activate", G_CALLBACK(onCopyIpItem_gui),(gpointer)this);
 
 	gtk_widget_grab_focus(getWidget("entry"));
 	history.push_back("");
@@ -188,7 +188,7 @@ PrivateMessage::~PrivateMessage()
 	g_object_unref(getWidget("hubMenu"));
 	g_object_unref(getWidget("chatCommandsMenu"));
 
-	delete emotdialog;
+	//delete emotdialog;
 	
 }
 
@@ -533,12 +533,12 @@ void PrivateMessage::applyTags_gui(const string &line)
 					callback = G_CALLBACK(onMagnetTagEvent_gui);
 			}
 
-			if(WulforUtil::HitIP(tagName,ip))
+			if(WulforUtil::HitIP(tagName))
 			{
 				callback = G_CALLBACK(onIpTagEvent_gui);
 				isIp = true;
 				userCommandMenu->cleanMenu_gui();
-				userCommandMenu->addIp(ip);
+				userCommandMenu->addIp(tagName);
 				userCommandMenu->addHub(cid);
 				userCommandMenu->buildMenu_gui();
 				gtk_widget_show_all(userCommandMenu->getContainer());
@@ -753,7 +753,8 @@ void PrivateMessage::applyEmoticons_gui()
 
 			/* delete text-emoticon and insert pixbuf-emoticon */
 			gtk_text_buffer_delete(messageBuffer, &p_start, &p_end);
-			gtk_text_buffer_insert_pixbuf(messageBuffer, &p_start, (*p_it)->getPixbuf());
+			if(*p_it)
+				gtk_text_buffer_insert_pixbuf(messageBuffer, &p_start, (*p_it)->getPixbuf());
 
 			searchEmoticons++;
 			totalEmoticons++;
@@ -1205,15 +1206,23 @@ gboolean PrivateMessage::onMagnetTagEvent_gui(GtkTextTag *tag, GObject*, GdkEven
 gboolean PrivateMessage::onIpTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *event , GtkTextIter*, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
-	gchar *tmp = NULL;
-	g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
-	pm->ip = string(tmp);
-	g_free(tmp);
+	//gchar *tmp = NULL;
+	//g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
+	//pm->ip = string(tmp);
+	//g_free(tmp);
 
 	if(event->type == GDK_BUTTON_PRESS)
 	{
 		if(event->button.button == 3)
 		{
+			
+			gchar *tmp = NULL;
+			g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
+			g_signal_connect(pm->getWidget("ripeitem"), "activate", G_CALLBACK(onRipeDbItem_gui),(gpointer)pm);
+			g_signal_connect(pm->getWidget("copyipItem"), "activate", G_CALLBACK(onCopyIpItem_gui),(gpointer)pm);
+			g_object_set_data_full(G_OBJECT(pm->getWidget("ripeitem")),"ip_addr",g_strdup(tmp),g_free);
+			g_object_set_data_full(G_OBJECT(pm->getWidget("copyipItem")),"ip_addr",g_strdup(tmp),g_free);
+			
 			gtk_widget_show_all(pm->getWidget("ipMenu"));
 			gtk_menu_popup(GTK_MENU(pm->getWidget("ipMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 			return TRUE;
@@ -1593,8 +1602,9 @@ if(notCreated) {
 
 void PrivateMessage::onCloseItem(gpointer data)
 {
-    PrivateMessage *entry = (PrivateMessage *)data;
-    WulforManager::get()->getMainWindow()->removeBookEntry_gui(dynamic_cast<BookEntry*>(entry));
+    BookEntry *entry = dynamic_cast<BookEntry*>((PrivateMessage *)data);
+    if(entry!= NULL)
+		WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
 }
 
 void PrivateMessage::onCopyCID(gpointer data)
@@ -1616,18 +1626,19 @@ void PrivateMessage::onAddFavItem(gpointer data)
 	pm->addFavoriteUser_client();
 }
 
-void PrivateMessage::onCopyIpItem_gui(GtkWidget*, gpointer data)
+void PrivateMessage::onCopyIpItem_gui(GtkWidget* widget, gpointer)
 {
-	PrivateMessage *pm = (PrivateMessage *)data;
-	gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), pm->ip.c_str(), pm->ip.length());
+	gchar* ip = (gchar*)g_object_get_data(G_OBJECT(widget),"ip_addr");
+	gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), ip, strlen(ip));
 }
 
-void PrivateMessage::onRipeDbItem_gui(GtkWidget*, gpointer data)
+void PrivateMessage::onRipeDbItem_gui(GtkWidget* widget, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
+	string ip = (char*)g_object_get_data(G_OBJECT(widget),"ip_addr");
 	string error = Util::emptyString;
 	dcpp::ParamMap params;
-	params["IP"] = pm->ip;
+	params["IP"] = ip;
 	string result = dcpp::Util::formatParams(SETTING(RIPE_DB),params);
 	WulforUtil::openURI(result,error);
 	pm->setStatus_gui(error);

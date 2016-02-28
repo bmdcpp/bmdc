@@ -254,9 +254,13 @@ try_server (BaconMessageConnection *conn)
 	strncpy (uaddr.sun_path, conn->path,
 			MIN (strlen(conn->path)+1, UNIX_PATH_MAX));
 	conn->fd = socket (PF_UNIX, SOCK_STREAM, 0);
+	
+	if(conn->fd == -1)
+		return FALSE;
+	
 	if (bind (conn->fd, (struct sockaddr *) &uaddr, sizeof (uaddr)) == -1)
 	{
-		conn->fd = -1;
+//		conn->fd = -1;
 		return FALSE;
 	}
 	listen (conn->fd, 5);
@@ -275,10 +279,13 @@ try_client (BaconMessageConnection *conn)
 	strncpy (uaddr.sun_path, conn->path,
 			MIN(strlen(conn->path)+1, UNIX_PATH_MAX));
 	conn->fd = socket (PF_UNIX, SOCK_STREAM, 0);
+	if(conn->fd == -1)
+		return FALSE;
+	
 	if (connect (conn->fd, (struct sockaddr *) &uaddr,
 				sizeof (uaddr)) == -1)
 	{
-		conn->fd = -1;
+		//conn->fd = -1;
 		return FALSE;
 	}
 

@@ -39,8 +39,6 @@
 #include <queue>
 #include <map>
 
-//#include "UserMenu.hh"
-
 class UserCommandMenu;
 class WulforSettingsManager;
 class EmoticonsDialog;
@@ -74,7 +72,7 @@ class Hub:
 			return findNick_gui(word,&iter);
 		}
 
-private:
+	private:
 		dcpp::FavoriteHubEntry* getFavoriteHubEntry();
 		typedef std::unordered_map<std::string, std::string> UserMap;
 		typedef std::unordered_map<GtkWidget*, std::string> ImageList;
@@ -260,13 +258,12 @@ private:
 		GdkCursor *handCursor;
 		GtkTextTag *selectedTag;
 		UserCommandMenu *userCommandMenu, *userCommandMenu1, *userCommandMenu2;
-		//UserMenu* userMenu;
 		EmoticonsDialog *emotdialog;
 		GtkTextTag *BoldTag, *UnderlineTag, *ItalicTag;
 		std::queue<std::string> statustext;
 		static const std::string tagPrefix;
 		std::string completionKey;
-		std::string ip;
+		//std::string ip;
 		std::string sort; //sort order for TreeView
 		std::string address;
 		std::string encoding;

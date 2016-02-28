@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ using std::make_pair;
 using std::swap;
 
 //RSX++//BMDC++
-FavoriteHubEntry::FavAction::FavAction(bool _enabled, string _raw /*= Util::emptyString*/, int64_t id /*=0*/) noexcept: enabled(_enabled) {
+FavoriteHubEntry::FavAction::FavAction(bool _enabled, string _raw /*= Util::emptyString*/, int id /*=0*/) noexcept: enabled(_enabled) {
 	if(_raw.empty()) return;
 	StringTokenizer<string> tok(_raw, ',');
 	const Action* a = RawManager::getInstance()->findAction(id);
@@ -430,6 +430,7 @@ void FavoriteManager::save() {
 			xml.addChildAttrib("Encoding", (*i)->getEncoding());
 			//BMDC++
 			xml.addChildAttrib("HideShare", (*i)->getHideShare());
+			xml.addChildAttrib("AutoConnect", (*i)->getAutoConnect());
 			//BMDC++
 			xml.addChildAttrib("Group", (*i)->getGroup());
 			//BMDC++
@@ -631,7 +632,7 @@ void FavoriteManager::load() {
 
 void FavoriteManager::load(SimpleXML& aXml) {
 	dontSave = true;
-	bool needSave = false;
+	const bool needSave = false;//cov
 
 	aXml.resetCurrentChild();
 	if(aXml.findChild("Hubs")) {
@@ -656,6 +657,7 @@ void FavoriteManager::load(SimpleXML& aXml) {
 			e->setEncoding(aXml.getChildAttrib("Encoding"));
 			//BMDC++
 			e->setHideShare(Util::toInt(aXml.getChildAttrib("HideShare")));
+			e->setAutoConnect(Util::toInt(aXml.getChildAttrib("AutoConnect")));
 			//BMDC++
 			e->setGroup(aXml.getChildAttrib("Group"));
 			e->setMode(aXml.getIntChildAttrib("Mode"));
@@ -670,12 +672,13 @@ void FavoriteManager::load(SimpleXML& aXml) {
 			e->setHubVisible(aXml.getChildAttrib("Visible"));
 			e->setHubWidth(aXml.getChildAttrib("Width"));
 			e->setPrivate(Util::toInt(aXml.getChildAttrib("Private")));//add
+			e->setId(e->getServer());
 			e->load(aXml);
 			favoriteHubs.push_back(e);
 
 			aXml.stepIn();
 			while(aXml.findChild("Action")) {
-				int64_t actionId = aXml.getIntChildAttrib("ID");
+				int actionId = aXml.getIntChildAttrib("ID");
 				bool enabled = aXml.getBoolChildAttrib("Active");
 				const string& raw = aXml.getChildAttrib("Raw");
 				if(RawManager::getInstance()->getValidAction(actionId))
@@ -704,6 +707,7 @@ void FavoriteManager::load(SimpleXML& aXml) {
 				u = ClientManager::getInstance()->getUser(CID(cid));
 			}
 
+			//ClientManager::getInstance()->saveUser(u->getCID());
 			FavoriteMap::iterator i = users.insert(make_pair(u->getCID(), FavoriteUser(u, nick, hubUrl))).first;
 
 			if(aXml.getBoolChildAttrib("GrantSlot"))
@@ -1027,13 +1031,17 @@ UserCommand::List FavoriteManager::getUserCommands(int ctx, const StringList& hu
 
 		for(size_t j = 0; j < hubs.size(); ++j) {
 			const string& hub = hubs[j];
-			bool hubAdc = hub.compare(0, 6, "adc://") == 0 || hub.compare(0, 7, "adcs://") == 0;
-			bool commandAdc = uc.adc();
+			bool hubAdc = Util::isAdc(hub);//hub.compare(0, 6, "adc://") == 0 || hub.compare(0, 7, "adcs://") == 0;
+			bool commandAdc = Util::isAdc(uc.getHub());//uc.adc();
+			//uc.getHub().compare(0, 6, "adc://") == 0 || uc.getHub().compare(0, 7, "adcs://") == 0;
 			if(hubAdc && commandAdc) {//its already know is it adc's no reason check again
-			{
+				//if((uc.getHub() == "adc://" || uc.getHub() == "adcs://") ||
+				//	((uc.getHub() == "adc://op" || uc.getHub() == "adcs://op") && isOp[j]) ||
+				//	(uc.getHub() == hub) )
+				{
 					lst.push_back(*i);
 					break;
-			}
+				}
 			} else if((!hubAdc && !commandAdc) || uc.isChat()) {
 				if((uc.getHub().length() == 0) ||
 					(uc.getHub() == "op" && isOp[j]) ||
@@ -1049,7 +1057,7 @@ UserCommand::List FavoriteManager::getUserCommands(int ctx, const StringList& hu
 }
 
 //Raw Manager
-bool FavoriteManager::getEnabledAction(FavoriteHubEntry* entry, int64_t actionId) {
+bool FavoriteManager::getEnabledAction(FavoriteHubEntry* entry, int actionId) {
 	auto h = find(favoriteHubs.begin(), favoriteHubs.end(), entry);
 	if(h == favoriteHubs.end())
 		return false;
@@ -1063,7 +1071,7 @@ bool FavoriteManager::getEnabledAction(FavoriteHubEntry* entry, int64_t actionId
 	}
 }
 
-void FavoriteManager::setEnabledAction(FavoriteHubEntry* entry, int64_t actionId, bool enabled) {
+void FavoriteManager::setEnabledAction(FavoriteHubEntry* entry, int actionId, bool enabled) {
 	auto h = find(favoriteHubs.begin(), favoriteHubs.end(), entry);
 	if(h == favoriteHubs.end())
 		return;
@@ -1077,7 +1085,7 @@ void FavoriteManager::setEnabledAction(FavoriteHubEntry* entry, int64_t actionId
 		(*h)->action.insert(make_pair(actionId, new FavoriteHubEntry::FavAction(true)));
 }
 
-bool FavoriteManager::getEnabledRaw(FavoriteHubEntry* entry, int64_t actionId, int64_t rawId) {
+bool FavoriteManager::getEnabledRaw(FavoriteHubEntry* entry, int actionId, int rawId) {
 	auto h = find(favoriteHubs.begin(), favoriteHubs.end(), entry);
 	if(h == favoriteHubs.end())
 		return false;
@@ -1085,7 +1093,7 @@ bool FavoriteManager::getEnabledRaw(FavoriteHubEntry* entry, int64_t actionId, i
 	FavoriteHubEntry::FavAction::List::const_iterator i = (*h)->action.find(actionId);
 	if(i == (*h)->action.end())
 		return false;
-	for(std::list<int64_t>::const_iterator j = i->second->raws.begin(); j != i->second->raws.end(); ++j) {
+	for(std::list<int>::const_iterator j = i->second->raws.begin(); j != i->second->raws.end(); ++j) {
 		if(*j == rawId) {
 			return true;
 		}
@@ -1093,14 +1101,14 @@ bool FavoriteManager::getEnabledRaw(FavoriteHubEntry* entry, int64_t actionId, i
 	return false;
 }
 
-void FavoriteManager::setEnabledRaw(FavoriteHubEntry* entry, int64_t actionId, int64_t rawId, bool enabled) {
+void FavoriteManager::setEnabledRaw(FavoriteHubEntry* entry, int actionId, int rawId, bool enabled) {
 	auto h = find(favoriteHubs.begin(), favoriteHubs.end(), entry);
 	if(h == favoriteHubs.end())
 		return;
 
 	FavoriteHubEntry::FavAction::List::const_iterator i = (*h)->action.find(actionId);
 	if(i != (*h)->action.end()) {
-		for(std::list<int64_t>::iterator j = i->second->raws.begin(); j != i->second->raws.end(); ++j) {
+		for(std::list<int>::iterator j = i->second->raws.begin(); j != i->second->raws.end(); ++j) {
 			if(*j == rawId) {
 				if(!enabled)
 					i->second->raws.erase(j);
@@ -1182,14 +1190,16 @@ void FavoriteManager::on(UserConnected, const UserPtr& user) noexcept {
 		//Idedetn Favorites
 		ClientManager::getInstance()->lock();
 		OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(HintedUser(user,Util::emptyString));
-		Identity id = ou->getIdentity();
-		string nick = id.getNick();
-		auto idt = favoritesNoCid.find(nick);
-		if(idt != favoritesNoCid.end())
-		{
-			idt->second->update(*ou);
-			fire(FavoriteManagerListener::FavoriteIUpdate(), nick, *(idt->second));
-		}
+		if(ou) {
+			Identity id = ou->getIdentity();
+			string nick = id.getNick();
+			auto idt = favoritesNoCid.find(nick);
+			if(idt != favoritesNoCid.end())
+			{
+				idt->second->update(*ou);
+				fire(FavoriteManagerListener::FavoriteIUpdate(), nick, *(idt->second));
+			}
+		}	
 	}
 }
 

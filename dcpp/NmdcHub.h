@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ public:
 	virtual void infoImpl() { myInfo(false); }
 
 	virtual size_t getUserCount() const { Lock l(cs); return users.size(); }
-	virtual int64_t getAvailable() const;
+	virtual uint64_t getAvailable() const;
 	
 	virtual void emulateCommand(const string& cmd) { onLine(cmd); }
 	virtual void refreshuserlist();
@@ -144,14 +144,14 @@ private:
 	void refreshLocalIp() noexcept;
 
 	virtual void checkNick(string& aNick);
-	virtual bool v4only() const { return false; }
+	//virtual bool v4only() const { return false; }
 	// TimerManagerListener
 	void on(Second, uint64_t aTick) noexcept;
 	void on(Minute, uint64_t aTick) noexcept;
 
-	/*virtual */void on(Connected) noexcept;
-	/*virtual */void on(Line, const string& l) noexcept;
-	/*virtual */void on(Failed, const string&) noexcept;
+	void on(Connected) noexcept;
+	void on(Line, const string& l) noexcept;
+	void on(Failed, const string&) noexcept;
 
 };
 

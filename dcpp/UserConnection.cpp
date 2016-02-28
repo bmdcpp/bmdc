@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -161,7 +161,7 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 void UserConnection::connect(const string& aServer, const uint16_t& aPort, const string& localPort, BufferedSocket::NatRoles natRole, const UserPtr& user) {
 	dcassert(!socket);
 
-	socket = BufferedSocket::getSocket(0,true);
+	socket = BufferedSocket::getSocket(0);
 	socket->addListener(this);
 	// TODO: verify that this KeyPrint was mediated by a trusted hub?
     string expKP = user ? ClientManager::getInstance()->getField(user->getCID(), hubUrl, "KP") : Util::emptyString;
@@ -170,7 +170,7 @@ void UserConnection::connect(const string& aServer, const uint16_t& aPort, const
 
 void UserConnection::accept(const Socket& aServer) {
 	dcassert(!socket);
-	socket = BufferedSocket::getSocket(0,true);
+	socket = BufferedSocket::getSocket(0);
 	socket->addListener(this);
    // Technically only one side needs to verify KeyPrint, also since we most likely requested to be connected to (and we have insufficent info otherwise) deal with TLS options check post handshake
     // -> SSLSocket::verifyKeyprint does full certificate verification after INF

@@ -60,9 +60,11 @@ atomic_flag ShareManager::refreshing = ATOMIC_FLAG_INIT;
 
 ShareManager::ShareManager() : hits(0), xmlListLen(0), bzXmlListLen(0),
 	xmlDirty(true), forceXmlRefresh(true), refreshDirs(false), update(false), listN(0),
-	lastXmlUpdate(0), lastFullUpdate(GET_TICK()), bloom(1<<20)
+	lastXmlUpdate(0), lastFullUpdate(GET_TICK()), bloom(1<<20), bzXmlRoot(NULL),xmlRoot(NULL)
 {
-	SettingsManager::getInstance()->addListener(this);
+	if(getName().empty())
+		SettingsManager::getInstance()->addListener(this);
+	
 	TimerManager::getInstance()->addListener(this);
 	QueueManager::getInstance()->addListener(this);
 	HashManager::getInstance()->addListener(this);
@@ -79,7 +81,9 @@ ShareManager::ShareManager() : hits(0), xmlListLen(0), bzXmlListLen(0),
 }
 
 ShareManager::~ShareManager() {
-	SettingsManager::getInstance()->removeListener(this);
+	if(getName().empty())
+		SettingsManager::getInstance()->removeListener(this);
+	
 	TimerManager::getInstance()->removeListener(this);
 	QueueManager::getInstance()->removeListener(this);
 	HashManager::getInstance()->removeListener(this);
@@ -933,8 +937,13 @@ void ShareManager::generateXmlList() {
 		try {
 			string tmp2;
 			string indent;
-
-			string newXmlName = Util::getPath(Util::PATH_USER_CONFIG) + "files" + Util::toString(listN) + ".xml.bz2";
+			
+			string _name = getName();
+			string newXmlName = Util::emptyString;
+			if(_name.empty())
+				newXmlName = Util::getPath(Util::PATH_USER_CONFIG) + "files" + Util::toString(listN) + ".xml.bz2";
+			else
+				newXmlName	= Util::getPath(Util::PATH_USER_CONFIG) + "files" + _name + ".xml.bz2";
 			{
 				File f(newXmlName, File::WRITE, File::TRUNCATE | File::CREATE);
 				// We don't care about the leaves...
@@ -964,13 +973,13 @@ void ShareManager::generateXmlList() {
 				bzXmlRef.reset();
 				File::deleteFile(getBZXmlFile());
 			}
-
+/*
 			try {
 				File::renameFile(newXmlName, Util::getPath(Util::PATH_USER_CONFIG) + "files.xml.bz2");
-				newXmlName =Util::getPath(Util::PATH_USER_CONFIG) + "files.xml.bz2";
+				newXmlName = Util::getPath(Util::PATH_USER_CONFIG) + "files.xml.bz2";
 			} catch(const FileException&) {
 				// Ignore, this is for caching only...
-			}
+			}*/
 			bzXmlRef = unique_ptr<File>(new File(newXmlName, File::READ, File::OPEN));
 			setBZXmlFile(newXmlName);
 			bzXmlListLen = File::getSize(newXmlName);
@@ -1126,7 +1135,7 @@ ShareManager::SearchQuery::SearchQuery(const StringList& adcParams) :
 
 		auto cmd = toCode(p[0], p[1]);
 		if(toCode('T', 'R') == cmd) {
-			root = new TTHValue(p.substr(2));
+			root = new TTHValue(p.substr(2));//this need be deleted somewhere....
 			return;
 		} else if(toCode('A', 'N') == cmd) {
 			includeInit.emplace_back(p.substr(2));

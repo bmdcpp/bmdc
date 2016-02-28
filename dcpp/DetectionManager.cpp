@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2015 adrian_007, adrian-007 on o2 point pl
+ * Copyright (C) 2007-2016 adrian_007, adrian-007 on o2 point pl
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -82,7 +82,7 @@ void DetectionManager::ProfilesLoad() {
 							while(xml.findChild("InfField")) {
 								const string& field = xml.getChildAttrib("Field");
 								const string& pattern = xml.getChildAttrib("Pattern");
-								const string& type = xml.getChildAttrib("Protocol", "both");
+								const string& type = xml.getChildAttrib("Protocol", "both");//todo some check (cov)
 								if(field.empty() || pattern.empty())
 									continue;
 								if(type == "both")

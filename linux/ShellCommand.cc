@@ -13,7 +13,7 @@ using namespace std;
 ShellCommand::ShellCommand(std::string input, int len):
 output(dcpp::Util::emptyString),
 errormessage(""),thirdPerson(false), resultsize(len),
-path(WulforManager::get()->getPath()+G_DIR_SEPARATOR_S+"extensions"+G_DIR_SEPARATOR_S+"Scripts"+G_DIR_SEPARATOR_S+input)
+path(WulforManager::get()->getPath()+"/extensions/Scripts/"+input)
 {
 	if(!dcpp::Util::fileExists(path))
 	{

@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2016 BMDC <freedcpp at seznam dot cz>
+ * Copyright © 2010-2016 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -123,13 +123,12 @@ void WulforManager::deleteMainWindow()
 	mainWin = NULL;
 	gtk_main_quit();
 }
-
+/*
 static void xnotify(gpointer data)
 { delete (FuncBase*)data; }
-
+*/
 void WulforManager::dispatchGuiFunc(FuncBase *func)
 {
-//g_idle_add_full ((gint)G_PRIORITY_DEFAULT_IDLE,(GSourceFunc)((func)->call_),func, xnotify);
     g_idle_add((GSourceFunc)(func)->call_,(gpointer)func);
 }
 

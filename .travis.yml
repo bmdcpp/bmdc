@@ -1,0 +1,26 @@
+sudo: required
+dist: trusty
+
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "A6VqvrsYwdTy8OLN54YTB70YlXYtZfZfS+iKgJu66Lg4e9dXT8spH9ZQvIeyIUGQRdGhuSKAZoYSOTe+S+Qq85u/xkAPB7QF7s9ElTkgdRDjsv398hnXJgiDhn5FiojVD2rsToHy0K/Zke3znlhR52YjqCj+va5yU7dSjL75AzK8/OWUxNnM4pS3ohWTULZv6aqrAHpbMQ/UKoxYhjzv+8iVgSsnjPGsT6sTCFyvJjE6ux5mcBQGh14qQahL9G9gfSFR6P5y5c3yG/MMJmJTLA3NdquBGEgN0KJs2sEIJgAE5nVE35Ot+fUs5FcfINtFJ4EgjtsFKoJg5h6oIr188lgwxRF1VYNH7A2zK3K3Y8fzVjWZkRl4qtAre/9ImT9dIyq09Ph7XlTE/7Emet2c6JW0yWLkeC4HqvRfWNSzVppCZphTZ5UItrnOn2eScEFv0wytEZ+3rRSGpe57LIE6ilNynKw9Umb1UzAIG3EXl2tnxhCpVb7drG2OmSUwITVjw3SDazpaRh+OOovSX4BAwHFVvTjxabvVKxMnNSaqbh4erpDW8zQgkplyYn8DW7nQehyVnVcoJ5lILay0K3Z2TXclYErzreaXCHLNRR++ArYn3LK8ACGJ/6OOv7c8M7qPMMphNPf3AFhti/Ry1IMw960Yqm5yfhuVP88z7sTDV18="
+
+
+before_install: 
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq -y scons libbz2-dev zlib1g-dev libgtk-3-dev libssl-dev libcanberra-dev libnotify-dev libgeoip-dev libtar-dev libxss-dev bzr g++ gcc
+
+install: true
+script: scons
+
+addons:
+  coverity_scan:
+    project:
+      name: "bmdc-team/bmdc-client"
+      description: "Build submitted via Travis CI"
+    notification_email: freedcpp@seznam.cz
+    build_command_prepend: "scons"
+    build_command:   "scons"
+    branch_pattern: coverity_scan

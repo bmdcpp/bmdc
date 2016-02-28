@@ -435,7 +435,7 @@ bool WulforUtil::profileIsLocked()
 	// We can't use Util::getConfigPath() since the core has not been started yet.
 	// Also, Util::getConfigPath() is utf8 and we need system encoding for g_open().
 	char *home = getenv("HOME");
-	string configPath = home ? string(home) + G_DIR_SEPARATOR_S + ".bmdc++" + G_DIR_SEPARATOR_S : "/tmp/";
+	string configPath = home ? string(home) + "/.bmdc++-s/" : "/tmp/";//@
 	string profileLockingFile = configPath + "profile.lck";
 	int flags = O_WRONLY | O_CREAT;
 	int mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
@@ -448,6 +448,7 @@ bool WulforUtil::profileIsLocked()
 		lock.l_len = 0;
 		lock.l_type = F_WRLCK;
 		lock.l_whence = SEEK_SET;
+		lock.l_pid = getpid();
 		struct flock testlock = lock;
 
 		if (fcntl(fd, F_GETLK, &testlock) != -1) // Locking not supported
@@ -456,7 +457,7 @@ bool WulforUtil::profileIsLocked()
 				profileIsLocked = true;
 		}
 	}
-
+	g_close(fd,NULL);
 	return profileIsLocked;
 }
 
@@ -702,7 +703,7 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
 	if( it  != countryIcon.end() )
 			return it->second;
 	GError *error = NULL;
-	gchar *path = g_strdup_printf(_DATADIR PATH_SEPARATOR_STR "bmdc" PATH_SEPARATOR_STR "country" PATH_SEPARATOR_STR "%s.png",
+	gchar *path = g_strdup_printf(_DATADIR PATH_SEPARATOR_STR "bmdc/country/%s.png",
 		                              (gchar *)country.c_str());
 	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_size(path,15,15,&error);
 	if (error != NULL || pixbuf == NULL) {
@@ -878,7 +879,6 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 		}
 		return true;
 	}
-	// #ifndef __WIN32
 	else if (cmd == "stats")
 	{
 			int z = 0 ,y = 0;
@@ -886,7 +886,6 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			z = uname(&u_name);
 			if (z == -1)
 				dcdebug("Failed on uname");
-				
 			string rel(u_name.release);
 			string mach(u_name.machine);
 			struct sysinfo sys; //instance of acct;
@@ -1220,7 +1219,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 
   return false;
 }
-/// Sdcpp 
+//SDDCPP Originaly
 string WulforUtil::formatTimeDifference(uint64_t diff, size_t levels /*= 3*/) {
 	string	buf;
 	int		n;
@@ -1392,10 +1391,10 @@ void WulforUtil::drop_combo(GtkWidget *widget, map<std::string,int> m)
 
 	for (auto i=m.begin();i!=m.end();++i)
 	{
-		char tmp[130];
-		sprintf(tmp,"%s",i->first.c_str());
+		char conteude[130];
+		sprintf(conteude,"%s",i->first.c_str());
 		gtk_list_store_append(list_store,&iter);
-		gtk_list_store_set(list_store,&iter,0,tmp,-1);
+		gtk_list_store_set(list_store,&iter,0,conteude,-1);
 	}
 
 	gtk_combo_box_set_model(GTK_COMBO_BOX(widget),GTK_TREE_MODEL(list_store));
@@ -1460,7 +1459,6 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 	return icon_d;
 }
 //Main point of this code is from ? Px
-// ifdef to win
 string WulforUtil::getStatsForMem() {
 	
 	string temp = Util::emptyString;
@@ -1518,7 +1516,7 @@ string WulforUtil::getStatsForMem() {
 
 					if(!memvmp.empty() && !memvms.empty()) {
 						temp+="-= VM size (Peak): "+formatSized(memvms)+ " ("+formatSized(memvmp)+") =-\n";
-					} else if(memrss.size() != 0) {
+					} else if(memvms.size() != 0) {
 						temp+="-= VM size: "+memvms+" =-\n";
 					}
 
@@ -1541,10 +1539,9 @@ std::string WulforUtil::formatSized(std::string& nonf)
 	return nonf;
 }
 
-/* Inspired by StrongDC catch code ips, but works with IPv6 as well :p */
-gboolean WulforUtil::HitIP(string& name, string &sIp)
+bool WulforUtil::HitIP(string& name/*, string &sIp*/)
 {
-	bool isOkIpV6 = false;
+	/*bool isOkIpV6 = false;
 	if(name.empty()) return false;
 	size_t n = std::count(name.begin(), name.end(), ':');
 	if( (n==2) && (name.size() == 2) ) return true;//Fix for "::"
@@ -1578,11 +1575,15 @@ gboolean WulforUtil::HitIP(string& name, string &sIp)
 	{
 		sIp = name;
 		return isOkIpV6;
-	}
-	return Ipv4Hit(name,sIp);
+	}*/
+	bool isOk = Util::isIp6(name);
+	if(isOk) {
+		return true;
+	}	
+	return Ipv4Hit(name/*,sIp*/);
 }
-
-bool WulforUtil::Ipv4Hit(string &name, string &sIp) {
+/* Inspired by StrongDC catch code ips */
+bool WulforUtil::Ipv4Hit(string &name/*, string &sIp*/) {
 	for(uint32_t i = 0;i < name.length(); i++)
 	{
 		if(!((name[i] == 0) || (name[i] == '.') || ((name[i] >= '0') && (name[i] <= '9')))) {
@@ -1611,15 +1612,15 @@ bool WulforUtil::Ipv4Hit(string &name, string &sIp) {
 	{
 		size_t nedle = name.find_last_of(".");
 		name = name.substr(0,nedle);
-		sIp = name.substr(0,pos);
+//		sIp = name.substr(0,pos);
 		struct sockaddr_in sa;
-		int result = inet_pton(AF_INET,sIp.c_str() , &(sa.sin_addr));
+		int result = inet_pton(AF_INET,name.c_str() , &(sa.sin_addr));
 		isOk = result == 1;
 	}
 	return isOk;
 
 }
-//ifdef on win
+
 string WulforUtil::cpuinfo()
 {
 	int num_cpus = 0;

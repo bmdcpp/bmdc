@@ -1,4 +1,4 @@
-//      Copyright 2011-2016 BMDC <freedcpp at seznam dot cz>
+//      Copyright 2011-2016 BMDC
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -60,9 +60,14 @@ void SystemLog::add_gui(time_t t, string message,int sev)
 	gtk_text_buffer_insert_pixbuf(buffer, &iter , getImageSev(sev));//The Severinity image
 	gtk_text_buffer_move_mark(buffer, sysMark, &iter);
 	
-	string line = Text::toUtf8("[ " + Util::getShortTimeString(t)+" ] " + message + "\n\0");
+	string line = "[ " + Util::getShortTimeString(t)+" ] " + message + "\n\0";
+	
+	if(!g_utf8_validate(line.c_str(),-1,NULL))
+			return;
+	gsize oread,owrite;
+	gchar*	buf = g_filename_to_utf8(line.c_str(),-1,&oread,&owrite,NULL);
 
-	gtk_text_buffer_insert(buffer, &iter, line.c_str(), line.size());
+	gtk_text_buffer_insert(buffer, &iter, buf, strlen(buf));
 	gtk_text_buffer_get_end_iter(buffer, &iter);
 	gtk_text_buffer_move_mark(buffer, sysMark, &iter);
 	// Limit size of chat text

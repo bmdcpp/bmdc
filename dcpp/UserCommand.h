@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -85,9 +85,6 @@ public:
 	inline bool once() const {
 		return type == TYPE_RAW_ONCE || type == TYPE_CHAT_ONCE;
 	}
-
-	static bool adc(const string& h);
-	inline bool adc() const { return adc(hub); }
 
 	GETSET(int, cid, Id);
 	GETSET(int, type, Type);

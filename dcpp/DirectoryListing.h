@@ -93,7 +93,7 @@ public:
 		Directory(Directory* aParent, const string& aName, bool _adls, bool aComplete) :
 			parent(aParent),name(aName), adlsComment(""), 
 			kickString(""), fullFileName("") ,adls(_adls), complete(aComplete),
-			points(0), overRidePoints(false),  fromFavs(false)
+			points(0), adlsRaw(0), overRidePoints(false),  fromFavs(false)
 			{ }
 
 		virtual ~Directory();

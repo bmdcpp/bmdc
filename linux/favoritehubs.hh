@@ -76,7 +76,7 @@ class FavoriteHubs:
 
 		// Client functions
 		void initializeList_client();
-		void addEntry_client(dcpp::FavoriteHubEntry entry);
+		void addEntry_client(dcpp::FavoriteHubEntry& entry);
 		void editEntry_client(dcpp::FavoriteHubEntry* entry);
 		void removeEntry_client(std::string address);
 

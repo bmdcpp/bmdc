@@ -35,7 +35,7 @@ NEW_SETTING = False
 #,'-Weffc++'
 BUILD_FLAGS = {#'-Wno-unused-parameter','-Wno-unused-value',
 	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib','-ldl', '-pipe','-DUSE_STACKTRACE'],
-	'debug'   : ['-O1','-g', '-ggdb', '-Wall','-Wextra','-D_DEBUG', '-Werror' ,'-Wfatal-errors'],#'-fpermissive' ,'-Wpadded'
+	'debug'   : ['-O1','-g', '-ggdb', '-Wall','-Wextra','-D_DEBUG'],#'-fpermissive' ,'-Wpadded'
 	'release' : ['-O3', '-fomit-frame-pointer', '-DNDEBUG']
 }
 
@@ -137,7 +137,7 @@ vars.AddVariables(
 	BoolVariable('libxattr', 'Enable xattr support for storing calculated Hash in extended attributes of file',1),
 	BoolVariable('libXss', 'Enable libxss support for AutoAway on idle feat',1),
 	BoolVariable('newSettings', 'Use new Settings dialog UI',0),
-	BoolVariable('enableStatusIcon', 'Enable deprecated calls of GtkStatusIcon',1),
+	BoolVariable('useStatusIcon', 'Use Status Icon',1),
 	PathVariable('PREFIX', 'Compile the program with PREFIX as the root for installation', '/usr/local/', PathVariable.PathIsDir),
 	('FAKE_ROOT', 'Make scons install the program under a fake root', '')
 )
@@ -344,9 +344,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		if conf.CheckPKG('appindicator3-0.1'):
 			print 'Found appindicator3'
 			conf.env.Append(CPPDEFINES = 'HAVE_APPINDCATOR')
-			conf.env.Append(CXXFLAGS = '-I/usr/include/libappindicator3-0.1')
-			conf.env.Append(LIBS = 'appindicator3')
-			conf.env.Append(LINKFLAGS = '-lappindicator3')
 			conf.env.ParseConfig('pkg-config --libs --cflags appindicator3-0.1')
 	
 	if conf.env.get('libXss'):
@@ -357,11 +354,11 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	
 	if conf.env.get('newSettings'):
 		conf.env.Append(CPPDEFINES = 'USE_NEW_SETTINGS')
-		NEW_SETTING = True
+		NEW_SETTING = True	
 	
-	if conf.env.get('enableStatusIcon'):
-		conf.env.Append(CPPDEFINES = 'USE_STATUS_ICON')
-
+	if conf.env.get('useStatusIcon'	):
+		conf.env.Append(CPPDEFINES = 'USE_STATUSICON')
+		
 	conf.CheckBZRRevision(env)
 	env = conf.Finish()
 
@@ -470,9 +467,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		env.Program(target = PACKAGE, source = [libdcpp,obj_files])	
 	else:
 		env.Program(target = PACKAGE, source = [libdcpp,obj_files])		
-		
-		
-		
 
 	# i18n
 	env.MergePotFiles(source = [glade_pot_file, linux_pot_file], target = 'po/%s.pot' % PACKAGE)

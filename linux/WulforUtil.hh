@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011-2016 BMDC Team,
+ * Copyright © 2011-2016 BMDC Team, <freedcpp at seznam dot cz>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -100,7 +100,7 @@ class WulforUtil
 
 		static std::map<std::string,int> getActions();
 
-		static gboolean HitIP(std::string &name, std::string& sIp);
+		static bool HitIP(std::string &name/*, std::string& sIp*/);
 
 		static const std::string ENCODING_LOCALE;
 		static const std::string commands;
@@ -113,7 +113,7 @@ class WulforUtil
 		static std::string generateLeech();
 		static std::string getStatsForMem();
 		static std::string cpuinfo();
-		static bool Ipv4Hit(std::string &name, std::string &sIp);
+		static bool Ipv4Hit(std::string &name/*, std::string &sIp*/);
 		static std::string formatSized(std::string& nonf);
 	#if GTK_CHECK_VERSION(3,9,0)
 	public:

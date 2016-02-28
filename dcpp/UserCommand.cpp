@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,4 @@
 
 namespace dcpp {
 
-bool UserCommand::adc(const string& h) {
-	return !h.empty() ?  h.compare(0, 6, "adc://") == 0 || h.compare(0, 7, "adcs://") == 0 : false;
-}
 } // namespace dcpp

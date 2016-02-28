@@ -142,22 +142,17 @@ class MainWindow:
 		} IconsToolbar;
 
 		#if GTK_CHECK_VERSION(3,9,0)
-		void setStatusOfIcons(IconsToolbar type, bool isClicked)
-		{
-			if(isClicked)
-				gtk_tool_button_set_icon_name(GTK_TOOL_BUTTON(getWidget(std::string(icons[type][2]))),(icons[type][1]));
-			else
-				gtk_tool_button_set_icon_name(GTK_TOOL_BUTTON(getWidget(std::string(icons[type][2]))),(icons[type][0]));
-		}
+			#define gtbs(w,i) gtk_tool_button_set_icon_name(w,i)
 		#else
+			#define gtbs(w,i) gtk_tool_button_set_stock_id(w,i)
+		#endif
 		void setStatusOfIcons(IconsToolbar type, bool isClicked)
 		{
 			if(isClicked)
-				gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget(std::string(icons[type][2]))),(icons[type][1]));
+				gtbs(GTK_TOOL_BUTTON(getWidget(icons[type][1])),std::string("bmdc-"+icons[type][0]+"-on").c_str());
 			else
-				gtk_tool_button_set_stock_id(GTK_TOOL_BUTTON(getWidget(std::string(icons[type][2]))),(icons[type][0]));
+				gtbs(GTK_TOOL_BUTTON(getWidget(icons[type][1])),std::string("bmdc-"+icons[type][0]).c_str());
 		}
-		#endif
 		
 		void setLimitingIcon(bool Limited);
 
@@ -171,7 +166,8 @@ class MainWindow:
 	private:
 		typedef std::pair<std::string, std::string> ParamPair;
 		typedef std::vector<ParamPair> ListParamPair;
-		static const char* icons[(MainWindow::IconsToolbar)END][3];
+		//static const char* icons[(MainWindow::IconsToolbar)END][3];
+		static std::string icons[(MainWindow::IconsToolbar)END][2];
 		// GUI functions
 #ifdef HAVE_XSSLIB			
 		void onIdle();
@@ -185,10 +181,11 @@ class MainWindow:
 		void previousTab_gui();
 		void nextTab_gui();
 		BookEntry *findBookEntry(const EntryType type, const std::string &id = "");
-#ifdef USE_STATUS_ICON
+#ifdef USE_STATUSICON
 		void createStatusIcon_gui();
 		void updateStatusIconTooltip_gui(std::string download, std::string upload);
 #endif
+
 #ifdef HAVE_APPINDCATOR
 		void createAppIndicator();
 		::AppIndicator * indicator;
@@ -198,7 +195,7 @@ class MainWindow:
 		void setToolbarButton_gui();
 		void setTabPosition_gui(int position);
 		void setToolbarStyle_gui(int style);
-#ifdef USE_STATUS_ICON
+#ifdef USE_STATUSICON
 		void removeTimerSource_gui();
 #endif
 		
@@ -217,7 +214,7 @@ class MainWindow:
 		static gboolean onKeyPressed_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static gboolean onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 
-#ifdef USE_STATUS_ICON
+#ifdef USE_STATUSICON
 		static gboolean animationStatusIcon_gui(gpointer data);
 #endif
 		static void onRaisePage_gui(GtkMenuItem *item, gpointer data);
@@ -246,7 +243,7 @@ class MainWindow:
 		static void onAboutClicked_gui(GtkWidget *widget, gpointer data);
 		static void onAboutDialogActivateLink_gui(GtkAboutDialog *dialog, const gchar *link, gpointer data);
 		static void onCloseBookEntry_gui(GtkWidget *widget, gpointer data);
-#ifdef USE_STATUS_ICON
+#ifdef USE_STATUSICON
 		static void onStatusIconActivated_gui(GtkStatusIcon *statusIcon, gpointer data);
 		static void onStatusIconPopupMenu_gui(GtkStatusIcon *statusIcon, guint button, guint time, gpointer data);
 		static void onStatusIconBlinkUseToggled_gui(GtkWidget *widget, gpointer data);
@@ -317,7 +314,7 @@ class MainWindow:
 		GtkWindow *window;
 		Transfers* transfers;
 		bool minimized;
-#ifdef USE_STATUS_ICON
+#ifdef USE_STATUSICON
 		GtkStatusIcon *statusIcon;
 		guint timer;
 #endif

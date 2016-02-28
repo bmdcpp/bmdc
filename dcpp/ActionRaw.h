@@ -37,8 +37,8 @@ struct Raw {
 	
 	GETSET(std::string, name, Name);
 	GETSET(std::string, raw, Raw);
-	GETSET(int64_t, id, Id);
-	GETSET(int64_t, time, Time);
+	GETSET(int, id, Id);
+	GETSET(int, time, Time);
 	GETSET(bool, enabled, Enabled);
 
 };
@@ -47,12 +47,12 @@ struct Action {
 	typedef vector<Raw> RawsList;
 	typedef std::vector<Action*> ActionList;
 
-	Action() : id(0), name(Util::emptyString), enabled(false) { }
-	Action(int _id, const std::string& _name, bool _enabled): id(_id), name(_name), enabled(_enabled) { }
+	Action() : name(Util::emptyString),id(0), enabled(false) { }
+	Action(int _id, const std::string& _name, bool _enabled): name(_name),id(_id), enabled(_enabled) { }
 	~Action() { raw.clear(); }
 
 	GETSET(std::string, name, Name);
-	GETSET(int64_t, id, Id);
+	GETSET(int, id, Id);
 	GETSET(bool, enabled, Enabled);
 
 	RawsList raw;

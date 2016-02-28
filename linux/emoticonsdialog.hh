@@ -1,5 +1,5 @@
 /*
- * Copyright © 2011-2016
+ * Copyright © 2009-2016 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,6 @@
 
 #ifndef _BMDC_EMOTICONS_DIALOG_HH
 #define _BMDC_EMOTICONS_DIALOG_HH
-
 #include <dcpp/stdinc.h>
 #include <dcpp/Util.h>
 #include <map>
@@ -45,6 +44,8 @@ class EmoticonsDialog
 		GtkWidget *Button;     // chat emoticons button
 		GtkWidget *Menu;       // packs menu
 		GtkWidget *dialog;     // emoticons dialog
+
+		static Emoticons* em_global;
 
 		int icon_width;
 		int icon_height;

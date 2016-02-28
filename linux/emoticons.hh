@@ -51,9 +51,9 @@ class Emot
 class Emoticons
 {
 	public:
-		static Emoticons* start(const std::string &packName = SETTING(EMOT_PACK), bool _global = true);
+		static Emoticons* start(const std::string &packName = SETTING(EMOT_PACK));
 		static void stop();
-		static Emoticons* get();
+		//static Emoticons* get();
 
 		Emoticons(const std::string &packName);
 		~Emoticons();
@@ -66,12 +66,12 @@ class Emoticons
 		void setCurrPackName_gui(const std::string &name) {currPackName = name;}
 		void reloadPack_gui() {create();}
 	private:
-		static Emoticons *emoticons;
+		//static Emoticons *emoticons;
 
 		bool load(const std::string &file);
 		void create();
 		void clean();
-		static bool global;
+//		static bool global;
 		bool useEmotions;
 		int countfile;
 		Emot::List pack;
