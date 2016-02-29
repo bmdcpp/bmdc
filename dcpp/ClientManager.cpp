@@ -481,6 +481,7 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 	Speaker<ClientManagerListener>::fire(ClientManagerListener::IncomingSearch(), aString);
 	if(aSeeker.empty()) return;
 	if(aSeeker.length() < 4) return;
+	if(aClient == NULL) return;
 
 
 	bool isPassive = (aSeeker.compare(0, 4, "Hub:") == 0);
@@ -491,7 +492,7 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 	}
 	ShareManager* sm = aClient->getShareManager();
 
-	SearchResultList l = /*ShareManager::getInstance()*/sm->search(aString, aSearchType, aSize, aFileType, isPassive ? 5 : 10);
+	SearchResultList l = sm->search(aString, aSearchType, aSize, aFileType, isPassive ? 5 : 10);
 //		dcdebug("Found %d items (%s)\n", l.size(), aString.c_str());
 	if(!l.empty()) {
 		if(isPassive) {
@@ -506,7 +507,7 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				str += '|';
 			}
 
-			if(!aClient && !str.empty())
+			if(!str.empty())
 				aClient->send(str);
 
 		} else {
@@ -517,7 +518,7 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				
 				parsePortIp(seek,ip,port);
 				
-				if( (aClient) || static_cast<NmdcHub*>(aClient)->isProtectedIP(ip))
+				if(static_cast<NmdcHub*>(aClient)->isProtectedIP(ip))
 					return;
 						
 				bool isOk = false;

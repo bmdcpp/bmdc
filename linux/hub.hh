@@ -263,7 +263,6 @@ private:
 		std::queue<std::string> statustext;
 		static const std::string tagPrefix;
 		std::string completionKey;
-		//std::string ip;
 		std::string sort; //sort order for TreeView
 		std::string address;
 		std::string encoding;

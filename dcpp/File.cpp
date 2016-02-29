@@ -266,8 +266,10 @@ int64_t File::getPos() noexcept {
 
 void File::setPos(int64_t pos) noexcept {
 	int ret = lseek(h, (off_t)pos, SEEK_SET);
-	if(ret == -1)
+	if(ret == -1) {
 		dcdebug("Error %d",errno);
+		
+	}	
 }
 
 void File::setEndPos(int64_t pos) noexcept {
@@ -330,8 +332,10 @@ void File::setEOF() {
 
 	pos = lseek(h, 0, SEEK_CUR);
 	eof = lseek(h, 0, SEEK_END);
-	if((pos == -1 ) || (eof	== -1))
+	if((pos == -1 ) || (eof	== -1)) {
 		dcdebug("error while lseek %d",errno);
+		return;
+	}	
 	
 	if (eof < pos)
 		ret = extendFile(pos);
