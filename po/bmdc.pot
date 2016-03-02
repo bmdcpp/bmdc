@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2016-03-02 15:10+0100\n"
+"POT-Creation-Date: 2016-03-02 16:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1000,13 +1000,13 @@ msgstr ""
 #: ui/favoritehubs.glade.ui:1560 ui/favoritehubs.glade.ui:1577
 #: ui/settingsdialog.glade.ui:5272 ui/settingsdialog.glade.ui:5964
 #: ui/settingsdialog.glade.ui:6148 ui/settingsdialog.glade.ui:6333
-#: ui/settingsdialog.glade.ui:8828 linux/AboutConfig.cc:83
-#: linux/AboutConfig.cc:98 linux/AboutConfig.cc:105 linux/AboutConfig.cc:112
-#: linux/AboutConfig.cc:119 linux/AboutConfig.cc:126 linux/AboutConfig.cc:143
-#: linux/AboutConfig.cc:159 linux/FavoriteHubDialog.cc:172
-#: linux/FavoriteHubDialog.cc:183 linux/FavoriteHubDialog.cc:256
-#: linux/FavoriteHubDialog.cc:379 linux/FavoriteHubDialog.cc:380
-#: linux/emoticonsdialog.cc:146 linux/previewmenu.cc:88 linux/AboutConfig.hh:50
+#: ui/settingsdialog.glade.ui:8828 linux/AboutConfig.cc:82
+#: linux/AboutConfig.cc:92 linux/AboutConfig.cc:157 linux/AboutConfig.cc:161
+#: linux/AboutConfig.cc:174 linux/AboutConfig.cc:178 linux/AboutConfig.cc:391
+#: linux/FavoriteHubDialog.cc:172 linux/FavoriteHubDialog.cc:183
+#: linux/FavoriteHubDialog.cc:256 linux/FavoriteHubDialog.cc:379
+#: linux/FavoriteHubDialog.cc:380 linux/emoticonsdialog.cc:146
+#: linux/previewmenu.cc:88 linux/AboutConfig.hh:50
 msgid "Default"
 msgstr ""
 
@@ -1876,8 +1876,8 @@ msgstr ""
 #: ui/detection.glade.ui:152 ui/detection.glade.ui:612
 #: ui/detection.glade.ui:949 ui/favoritehubs.glade.ui:85
 #: ui/settingsdialog.glade.ui:1156 linux/AboutConfig.cc:32
-#: linux/AboutConfig.cc:41 linux/AboutConfig.cc:43 linux/AboutConfig.cc:202
-#: linux/AboutConfig.cc:215 linux/AboutConfig.cc:302 linux/AboutConfig.cc:358
+#: linux/AboutConfig.cc:41 linux/AboutConfig.cc:43 linux/AboutConfig.cc:218
+#: linux/AboutConfig.cc:231 linux/AboutConfig.cc:319 linux/AboutConfig.cc:375
 #: linux/FavoriteHubDialog.cc:307 linux/FavoriteHubDialog.cc:574
 #: linux/FavoriteHubDialog.cc:587 linux/detectiontab.cc:42
 #: linux/detectiontab.cc:61 linux/detectiontab.cc:72 linux/detectiontab.cc:313
@@ -2757,7 +2757,7 @@ msgid "Trusted certificates path"
 msgstr ""
 
 #: ui/detection.glade.ui:288 ui/detection.glade.ui:967 linux/AboutConfig.cc:34
-#: linux/AboutConfig.cc:40 linux/AboutConfig.cc:204 linux/search.cc:104
+#: linux/AboutConfig.cc:40 linux/AboutConfig.cc:220 linux/search.cc:104
 #: linux/search.cc:228 linux/search.cc:709 linux/search.cc:788
 #: linux/search.cc:933 linux/search.cc:1784 linux/search.cc:1785
 #: linux/search.cc:1786 linux/search.cc:1800 linux/sharebrowser.cc:83
@@ -2856,8 +2856,8 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: ui/detection.glade.ui:956 linux/AboutConfig.cc:35 linux/AboutConfig.cc:205
-#: linux/AboutConfig.cc:217 linux/AboutConfig.cc:303 linux/detectiontab.cc:107
+#: ui/detection.glade.ui:956 linux/AboutConfig.cc:35 linux/AboutConfig.cc:221
+#: linux/AboutConfig.cc:233 linux/AboutConfig.cc:320 linux/detectiontab.cc:107
 #: linux/detectiontab.cc:1021 linux/detectiontab.cc:1123
 #: linux/detectiontab.cc:1220
 msgid "Value"
@@ -4962,7 +4962,7 @@ msgstr ""
 msgid "Started MyInfo check"
 msgstr ""
 
-#: linux/AboutConfig.cc:33 linux/AboutConfig.cc:203 linux/AboutConfig.cc:216
+#: linux/AboutConfig.cc:33 linux/AboutConfig.cc:219 linux/AboutConfig.cc:232
 #: linux/downloadqueue.cc:68 linux/downloadqueue.cc:279
 #: linux/downloadqueue.cc:386 linux/favoritehubs.cc:48
 #: linux/favoritehubs.cc:136 linux/favoritehubs.cc:760 linux/searchspy.cc:57
@@ -5240,6 +5240,10 @@ msgstr ""
 msgid "User Per Favorite Hub Set"
 msgstr ""
 
+#: linux/AboutConfig.cc:363
+msgid "User Set"
+msgstr ""
+
 #: linux/hub.cc:2467
 msgid "User favorite list:"
 msgstr ""
@@ -5276,9 +5280,9 @@ msgstr ""
 msgid "User operator (passive) "
 msgstr ""
 
-#: linux/AboutConfig.cc:98 linux/AboutConfig.cc:105 linux/AboutConfig.cc:112
-#: linux/AboutConfig.cc:119 linux/AboutConfig.cc:126 linux/AboutConfig.cc:151
-#: linux/AboutConfig.cc:169
+#: linux/AboutConfig.cc:100 linux/AboutConfig.cc:110 linux/AboutConfig.cc:120
+#: linux/AboutConfig.cc:130 linux/AboutConfig.cc:140 linux/AboutConfig.cc:166
+#: linux/AboutConfig.cc:184 linux/AboutConfig.cc:336
 msgid "User set"
 msgstr ""
 

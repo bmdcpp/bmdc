@@ -33,7 +33,7 @@ BookEntry(Entry::ABOUT_CONFIG, _("About:config"), "config")
 	aboutView.insertColumn(_("Status"), G_TYPE_STRING, TreeView::STRING, 100);
 	aboutView.insertColumn(_("Type"), G_TYPE_STRING, TreeView::STRING, 60);
 	aboutView.insertColumn(_("Value"), G_TYPE_STRING, TreeView::STRING, 100);
-	aboutView.insertHiddenColumn("WS", G_TYPE_STRING);
+	aboutView.insertHiddenColumn("WS", G_TYPE_BOOLEAN);
 	aboutView.finalize();
 	aboutStore = gtk_list_store_newv(aboutView.getColCount(), aboutView.getGTypes());
 	gtk_tree_view_set_model(aboutView.get(), GTK_TREE_MODEL(aboutStore));
@@ -79,76 +79,92 @@ void AboutConfig::show()
 	SettingsManager::Types type;
 	//probably not idea or (0)?
 	const gchar* rowname = 0;
-	gchar* isdefault = _("Default");
+	const gchar* isdefault = _("Default");
 	gchar types[10];
-	gchar* value = 0;
-	const gchar* tmp = 0;//probaly step in
+	const gchar* value = 0;//can we asume set is constat val?probably not
+	
 
 	for(int n = 0; n < SettingsManager::SETTINGS_LAST; n++ ) {
-		tmp = g_strdup(sm->getSettingTags()[n].data());
+		const gchar* tmp = (sm->getSettingTags()[n].c_str());
 		if (strncasecmp(tmp,"SENTRY",7) == 0) continue;
 		if (sm->getType(tmp, n, type)) {
 			rowname = tmp;
+			isdefault = _("Default");
+			value = 0;
 			switch(type) {
 				case SettingsManager::TYPE_STRING:
 				{
 					sprintf(types,"String");
-					value = g_strdup(Text::toUtf8(sm->get(static_cast<SettingsManager::StrSetting>(n))).c_str());
-					isdefault = sm->isDefault(static_cast<SettingsManager::StrSetting>(n)) ? _("Default") : _("User set");
-					break;
+					value = g_strdup(sm->get(static_cast<SettingsManager::StrSetting>(n)).c_str());
+					if(!sm->isDefault(static_cast<SettingsManager::StrSetting>(n))) { 
+						isdefault = _("User set");
+					}
+					addItem_gui(rowname, isdefault, types, value,FALSE);
+					continue;
 				}	
 				case SettingsManager::TYPE_INT:
 				{
 					sprintf(types,"Integer");
 					value = g_strdup(Util::toString((int)sm->get(static_cast<SettingsManager::IntSetting>(n))).c_str());
-					isdefault = sm->isDefault(static_cast<SettingsManager::IntSetting>(n)) ? _("Default") : _("User set");
-					break;
+					if(!sm->isDefault(static_cast<SettingsManager::IntSetting>(n))){
+						isdefault = _("User set");
+					}
+					addItem_gui(rowname, isdefault, types, value,FALSE);	
+					continue;
 				}	
 				case SettingsManager::TYPE_INT64:
 				{
 					sprintf(types,"Int64");
 					value = g_strdup(Util::toString((int64_t)sm->get(static_cast<SettingsManager::Int64Setting>(n))).c_str());
-					isdefault = sm->isDefault(static_cast<SettingsManager::Int64Setting>(n)) ? _("Default") : _("User set");
-					break;
+					if(!sm->isDefault(static_cast<SettingsManager::Int64Setting>(n))){
+						isdefault = _("User set");
+					}
+					addItem_gui(rowname, isdefault, types, value,FALSE);
+					continue;
 				}	
 				case SettingsManager::TYPE_FLOAT:
 				{
 					sprintf(types,"Float");
 					value = g_strdup(Util::toString((float)sm->get(static_cast<SettingsManager::FloatSetting>(n))).c_str());
-					isdefault = sm->isDefault(static_cast<SettingsManager::FloatSetting>(n)) ? _("Default") : _("User set");
-					break;
+					if(!sm->isDefault(static_cast<SettingsManager::FloatSetting>(n))){
+						isdefault = _("User set");
+					}
+					addItem_gui(rowname, isdefault, types, value,FALSE);	
+					continue;
 				}	
 				case SettingsManager::TYPE_BOOL:
 				{
 					sprintf(types,"Bool");
 					value = g_strdup(Util::toString((int)sm->get(static_cast<SettingsManager::BoolSetting>(n))).c_str());
-					isdefault = sm->isDefault(static_cast<SettingsManager::BoolSetting>(n)) ? _("Default") : _("User set");
-					break;
+					if(!sm->isDefault(static_cast<SettingsManager::BoolSetting>(n))) {
+					 isdefault = _("User set");
+					}
+					addItem_gui(rowname, isdefault, types, value,FALSE);
+					continue;
 				}	
 				default:
-					dcassert(0);
+					dcassert(0);break;break;
 			}
-			addItem_gui(rowname, isdefault, types, value,false);
-
 		}
 	}
 
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
 	WulforSettingsManager::StringMap map = wsm->getStringMap();
 	WulforSettingsManager::StringMap defMap = wsm->getStringDMap();
-	gchar* dvalue = g_strdup(Util::emptyString.c_str());
+	const gchar* dvalue = 0;
 	sprintf(types,"String");
 	bool isOk = false;
 	gchar* isDef = _("Default");
 
 	for(auto d = defMap.begin();d!= defMap.end();++d)
 	{
+		isDef = _("Default");
 		rowname = d->first.c_str();
-		dvalue = g_strdup(d->second.c_str());
+		dvalue = d->second.c_str();
 		isOk = map.find(rowname) != map.end();
-		value = g_strdup((isOk ? map.find(rowname)->second : Util::emptyString).c_str());
+		value = (isOk ? map.find(rowname)->second : Util::emptyString).c_str();
 		if(isOk) isDef = _("User set");
-		addItem_gui(rowname,isDef, types, ( !isOk ? dvalue : value), true);
+		addItem_gui(rowname,isDef, types, ( !isOk ? dvalue : value), TRUE);
 	}
 
 	WulforSettingsManager::IntMap imap = wsm->getIntMap();
@@ -159,41 +175,42 @@ void AboutConfig::show()
 
 	for(auto j = defIMap.begin();j != defIMap.end();++j) 
 	{
+		isDef = _("Default");
 		rowname = j->first.c_str();
-		dvalue = g_strdup(Util::toString(j->second).c_str());//probably not best way?
+		dvalue = Util::toString(j->second).c_str();
 		isOk = imap.find(rowname) != imap.end();
-		//probably not best idea too
-		value = g_strdup(Util::toString((isOk ? imap.find(rowname)->second : 0)).c_str());
+		value = Util::toString((isOk ? imap.find(rowname)->second : 0)).c_str();
 		
-		if(isOk) _("User set");
-		addItem_gui(rowname, isDef, types, ( !isOk ? dvalue : value), true);
+		if(isOk) isDef = _("User set");
+		addItem_gui(rowname, isDef, types, ( !isOk ? dvalue : value), TRUE);
 	}
 
 }
 
-void AboutConfig::addItem_gui(const gchar* rowname, const gchar* isdefault, const gchar* types, const gchar* value, bool isWulf)
+void AboutConfig::addItem_gui(const gchar* rowname, const gchar* isdefault, const gchar* types, const gchar* value, gboolean isWulf)
 {
 	GtkTreeIter iter;
-	g_print("\n%s-%s-%s-%s-%d",rowname,isdefault,types,value,(int)isWulf);
+	g_print("\n%s-%s-%s-%s-%d ",rowname,isdefault,types,value,(int)isWulf);
 	gboolean isOk = g_utf8_validate(value,-1,NULL);
 	gboolean isOk2 = g_utf8_validate(rowname,-1,NULL);
 	gboolean isOk3 = g_utf8_validate(isdefault,-1,NULL);
 	gboolean isOk4 = g_utf8_validate(types,-1,NULL);
 	if(!isOk) {
 		dcdebug("value\n");
-		return;
+		dcassert("bad\n");
+		//return;
 	}
 	if(!isOk2) {
 		dcdebug("rowname\n");
-		return;
+		//return;
 	}
 	if(!isOk3) {
 		dcdebug("isdef\n");
-		return;
+		//return;
 	}
 	if(!isOk4) {
 		dcdebug("types\n");
-		return;
+		//return;
 	}
 
 	gtk_list_store_append(aboutStore,&iter);
@@ -202,18 +219,19 @@ void AboutConfig::addItem_gui(const gchar* rowname, const gchar* isdefault, cons
 				aboutView.col(_("Status")), isdefault,
 				aboutView.col(_("Type")), types,
 				aboutView.col(_("Value")), value,
-				aboutView.col("WS"), (isWulf ? "1" : "0"),
+				aboutView.col("WS"), isWulf,
 	-1);
 
 }
 
-void AboutConfig::updateItem_gui(string rowname, string value, GtkTreeIter *iter, gchar* status )
+void AboutConfig::updateItem_gui(string rowname, string value, GtkTreeIter *iter, gchar* status,gboolean wul /*false*/ )
 {
 	if(iter) {
 		gtk_list_store_set(aboutStore,iter,
 				aboutView.col(_("Name")),rowname.c_str(),
 				aboutView.col(_("Status")), status,
 				aboutView.col(_("Value")), value.c_str(),
+				aboutView.col("WS"), wul,
 		-1);
 	}
 }
@@ -300,8 +318,7 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget*, gpointer data)
 	{
 		string name = s->aboutView.getString(&iter,_("Name"));
 		string value = s->aboutView.getString(&iter, _("Value"));
-		bool isWsm = (s->aboutView.getString(&iter, "WS") == "1") ? true : false;
-		int n = -1;
+		gboolean isWsm = s->aboutView.getValue<gboolean>(&iter, "WS");
 		bool run = s->getDialog(name, value, data);
 		if(!run)
 			return;
@@ -316,9 +333,10 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget*, gpointer data)
 			if(wsm->isInt(name))
 				wsm->set(name,Util::toInt(value));
 
-			s->updateItem_gui(name,value,&iter);
+			s->updateItem_gui(name,value,&iter,_("User set"),TRUE);
 			return;
 		}
+		int n = -1;
 		SettingsManager *sm = SettingsManager::getInstance();
 		SettingsManager::Types type;
 		sm->getType(name.c_str(), n, type);
@@ -342,7 +360,7 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget*, gpointer data)
 				break;
 			default: return;
 		}
-		s->updateItem_gui(name,value,&iter);
+		s->updateItem_gui(name,value,&iter,_("User Set"),FALSE);
 	}
 }
 
@@ -355,7 +373,7 @@ void AboutConfig::onSetDefault(GtkWidget*, gpointer data)
 	if (gtk_tree_selection_get_selected(s->aboutSelection, NULL, &iter))
 	{
 		string i = s->aboutView.getString(&iter,_("Name"));
-		bool isWsm = s->aboutView.getString(&iter, "WS") == "1" ? true : false;
+		gboolean isWsm = s->aboutView.getValue<gboolean>(&iter, "WS");
 
 		if(isWsm)
 		{
@@ -370,7 +388,7 @@ void AboutConfig::onSetDefault(GtkWidget*, gpointer data)
 				wsm->SetIntDef(i);
 				value = Util::toString(wsm->getInt(i));
 			}
-			s->updateItem_gui(i,value,&iter);
+			s->updateItem_gui(i,value,&iter,_("Default"),TRUE);
 			s->setStatus("Value "+i+" Setted to Default "+value);
 			return;
 		}

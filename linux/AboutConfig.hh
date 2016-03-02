@@ -46,8 +46,8 @@ class AboutConfig:
 		static void onInfoResponse(GtkWidget *info_bar, gint response_id,  gpointer data );
 	
 		bool getDialog(std::string name , std::string& value , gpointer data);
-		void addItem_gui(const gchar* rowname, const gchar* isdefault, const gchar* types, const gchar* value, bool isWulf = false);
-		void updateItem_gui(std::string rowname, std::string value, GtkTreeIter *iter, gchar* status = _("Default"));
+		void addItem_gui(const gchar* rowname, const gchar* isdefault, const gchar* types, const gchar* value, gboolean isWulf);
+		void updateItem_gui(std::string rowname, std::string value, GtkTreeIter *iter, gchar* status = _("Default"),gboolean wul = FALSE);
 		void setStatus(std::string msg);
 		
 		TreeView aboutView;
