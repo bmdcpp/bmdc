@@ -5,9 +5,21 @@
 #, fuzzy
 msgid ""
 msgstr ""
+"#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2016-02-29 13:49+0100\n"
+"POT-Creation-Date: 2016-03-02 14:41+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"#-#-#-#-#  linux.pot  #-#-#-#-#\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
+"POT-Creation-Date: 2016-03-02 15:10+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -988,13 +1000,13 @@ msgstr ""
 #: ui/favoritehubs.glade.ui:1560 ui/favoritehubs.glade.ui:1577
 #: ui/settingsdialog.glade.ui:5272 ui/settingsdialog.glade.ui:5964
 #: ui/settingsdialog.glade.ui:6148 ui/settingsdialog.glade.ui:6333
-#: ui/settingsdialog.glade.ui:8828 linux/AboutConfig.cc:94
-#: linux/AboutConfig.cc:99 linux/AboutConfig.cc:104 linux/AboutConfig.cc:109
-#: linux/AboutConfig.cc:114 linux/AboutConfig.cc:138 linux/AboutConfig.cc:152
-#: linux/FavoriteHubDialog.cc:172 linux/FavoriteHubDialog.cc:183
-#: linux/FavoriteHubDialog.cc:256 linux/FavoriteHubDialog.cc:379
-#: linux/FavoriteHubDialog.cc:380 linux/emoticonsdialog.cc:146
-#: linux/previewmenu.cc:88 linux/AboutConfig.hh:50
+#: ui/settingsdialog.glade.ui:8828 linux/AboutConfig.cc:83
+#: linux/AboutConfig.cc:98 linux/AboutConfig.cc:105 linux/AboutConfig.cc:112
+#: linux/AboutConfig.cc:119 linux/AboutConfig.cc:126 linux/AboutConfig.cc:143
+#: linux/AboutConfig.cc:159 linux/FavoriteHubDialog.cc:172
+#: linux/FavoriteHubDialog.cc:183 linux/FavoriteHubDialog.cc:256
+#: linux/FavoriteHubDialog.cc:379 linux/FavoriteHubDialog.cc:380
+#: linux/emoticonsdialog.cc:146 linux/previewmenu.cc:88 linux/AboutConfig.hh:50
 msgid "Default"
 msgstr ""
 
@@ -1864,8 +1876,8 @@ msgstr ""
 #: ui/detection.glade.ui:152 ui/detection.glade.ui:612
 #: ui/detection.glade.ui:949 ui/favoritehubs.glade.ui:85
 #: ui/settingsdialog.glade.ui:1156 linux/AboutConfig.cc:32
-#: linux/AboutConfig.cc:41 linux/AboutConfig.cc:43 linux/AboutConfig.cc:185
-#: linux/AboutConfig.cc:198 linux/AboutConfig.cc:285 linux/AboutConfig.cc:341
+#: linux/AboutConfig.cc:41 linux/AboutConfig.cc:43 linux/AboutConfig.cc:202
+#: linux/AboutConfig.cc:215 linux/AboutConfig.cc:302 linux/AboutConfig.cc:358
 #: linux/FavoriteHubDialog.cc:307 linux/FavoriteHubDialog.cc:574
 #: linux/FavoriteHubDialog.cc:587 linux/detectiontab.cc:42
 #: linux/detectiontab.cc:61 linux/detectiontab.cc:72 linux/detectiontab.cc:313
@@ -2640,10 +2652,10 @@ msgstr ""
 msgid "Start a search for this file"
 msgstr ""
 
-#: ui/settingsdialog.glade.ui:286 linux/AboutConfig.cc:128
-#: linux/settingsdialog.cc:1808 linux/settingsdialog.cc:1838
-#: linux/settingsdialog.cc:4913 linux/settingsdialog.cc:4995
-#: linux/settingsdialog.cc:5012 linux/settingsdialog.cc:5153
+#: ui/settingsdialog.glade.ui:286 linux/settingsdialog.cc:1808
+#: linux/settingsdialog.cc:1838 linux/settingsdialog.cc:4913
+#: linux/settingsdialog.cc:4995 linux/settingsdialog.cc:5012
+#: linux/settingsdialog.cc:5153
 msgid "String"
 msgstr ""
 
@@ -2745,7 +2757,7 @@ msgid "Trusted certificates path"
 msgstr ""
 
 #: ui/detection.glade.ui:288 ui/detection.glade.ui:967 linux/AboutConfig.cc:34
-#: linux/AboutConfig.cc:40 linux/AboutConfig.cc:187 linux/search.cc:104
+#: linux/AboutConfig.cc:40 linux/AboutConfig.cc:204 linux/search.cc:104
 #: linux/search.cc:228 linux/search.cc:709 linux/search.cc:788
 #: linux/search.cc:933 linux/search.cc:1784 linux/search.cc:1785
 #: linux/search.cc:1786 linux/search.cc:1800 linux/sharebrowser.cc:83
@@ -2844,8 +2856,8 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: ui/detection.glade.ui:956 linux/AboutConfig.cc:35 linux/AboutConfig.cc:188
-#: linux/AboutConfig.cc:200 linux/AboutConfig.cc:286 linux/detectiontab.cc:107
+#: ui/detection.glade.ui:956 linux/AboutConfig.cc:35 linux/AboutConfig.cc:205
+#: linux/AboutConfig.cc:217 linux/AboutConfig.cc:303 linux/detectiontab.cc:107
 #: linux/detectiontab.cc:1021 linux/detectiontab.cc:1123
 #: linux/detectiontab.cc:1220
 msgid "Value"
@@ -3321,7 +3333,7 @@ msgstr ""
 msgid "Add Plugin"
 msgstr ""
 
-#: linux/search.hh:167
+#: linux/search.hh:166
 msgid "Add Search Tab"
 msgstr ""
 
@@ -3589,7 +3601,7 @@ msgid "Client Type"
 msgstr ""
 
 #: linux/bookentry.cc:293 linux/privatemessage.cc:1575
-#: linux/sharebrowser.cc:1077 linux/search.hh:168
+#: linux/sharebrowser.cc:1077 linux/search.hh:167
 msgid "Close"
 msgstr ""
 
@@ -4254,10 +4266,6 @@ msgstr ""
 
 #: linux/hub.cc:4537
 msgid "Ignored private message from hub"
-msgstr ""
-
-#: linux/AboutConfig.cc:144
-msgid "Integer"
 msgstr ""
 
 #: linux/settingsdialog.cc:2507 linux/settingsdialog.cc:2695
@@ -4954,7 +4962,7 @@ msgstr ""
 msgid "Started MyInfo check"
 msgstr ""
 
-#: linux/AboutConfig.cc:33 linux/AboutConfig.cc:186 linux/AboutConfig.cc:199
+#: linux/AboutConfig.cc:33 linux/AboutConfig.cc:203 linux/AboutConfig.cc:216
 #: linux/downloadqueue.cc:68 linux/downloadqueue.cc:279
 #: linux/downloadqueue.cc:386 linux/favoritehubs.cc:48
 #: linux/favoritehubs.cc:136 linux/favoritehubs.cc:760 linux/searchspy.cc:57
@@ -5268,9 +5276,9 @@ msgstr ""
 msgid "User operator (passive) "
 msgstr ""
 
-#: linux/AboutConfig.cc:94 linux/AboutConfig.cc:99 linux/AboutConfig.cc:104
-#: linux/AboutConfig.cc:109 linux/AboutConfig.cc:114 linux/AboutConfig.cc:138
-#: linux/AboutConfig.cc:152
+#: linux/AboutConfig.cc:98 linux/AboutConfig.cc:105 linux/AboutConfig.cc:112
+#: linux/AboutConfig.cc:119 linux/AboutConfig.cc:126 linux/AboutConfig.cc:151
+#: linux/AboutConfig.cc:169
 msgid "User set"
 msgstr ""
 

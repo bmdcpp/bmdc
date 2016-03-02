@@ -53,10 +53,11 @@ BookEntry(Entry::ABOUT_CONFIG, _("About:config"), "config")
 
 	if(SETTING(AC_DISCLAIM) == false) {
 			gtk_widget_set_sensitive(getWidget("scrolledwindow"),FALSE);
-			gtk_widget_hide(getWidget("infobar"));
+			gtk_dialog_run(GTK_DIALOG(getWidget("infobar")));//@we need show this dialog
 	}
-	if(SETTING(AC_DISCLAIM) == true) {
+	if(SETTING(AC_DISCLAIM) == true) {// we already confrim editing and so on
 		gtk_widget_set_sensitive(getWidget("scrolledwindow"),TRUE);
+		gtk_widget_hide(getWidget("infobar"));
 	}
 
 	g_signal_connect(GTK_INFO_BAR(getWidget("infobar")),
@@ -76,43 +77,54 @@ void AboutConfig::show()
 	sm->addListener(this);
 
 	SettingsManager::Types type;
-	gchar* rowname;
-	gchar* isdefault;
-	gchar* types;
-	gchar* value = "";
-	gchar* tmp;
+	//probably not idea or (0)?
+	const gchar* rowname = 0;
+	gchar* isdefault = _("Default");
+	gchar types[10];
+	gchar* value = 0;
+	const gchar* tmp = 0;//probaly step in
 
 	for(int n = 0; n < SettingsManager::SETTINGS_LAST; n++ ) {
 		tmp = g_strdup(sm->getSettingTags()[n].data());
-		if (strncasecmp(tmp,"SENTRY",7)== 0) continue;
+		if (strncasecmp(tmp,"SENTRY",7) == 0) continue;
 		if (sm->getType(tmp, n, type)) {
 			rowname = tmp;
 			switch(type) {
 				case SettingsManager::TYPE_STRING:
-					types =  g_strdup("String");
+				{
+					sprintf(types,"String");
 					value = g_strdup(Text::toUtf8(sm->get(static_cast<SettingsManager::StrSetting>(n))).c_str());
 					isdefault = sm->isDefault(static_cast<SettingsManager::StrSetting>(n)) ? _("Default") : _("User set");
 					break;
+				}	
 				case SettingsManager::TYPE_INT:
-					types = g_strdup("Integer");
+				{
+					sprintf(types,"Integer");
 					value = g_strdup(Util::toString((int)sm->get(static_cast<SettingsManager::IntSetting>(n))).c_str());
 					isdefault = sm->isDefault(static_cast<SettingsManager::IntSetting>(n)) ? _("Default") : _("User set");
 					break;
+				}	
 				case SettingsManager::TYPE_INT64:
-					types = g_strdup("Int64");
+				{
+					sprintf(types,"Int64");
 					value = g_strdup(Util::toString((int64_t)sm->get(static_cast<SettingsManager::Int64Setting>(n))).c_str());
 					isdefault = sm->isDefault(static_cast<SettingsManager::Int64Setting>(n)) ? _("Default") : _("User set");
 					break;
+				}	
 				case SettingsManager::TYPE_FLOAT:
-					types = g_strdup("Float");
+				{
+					sprintf(types,"Float");
 					value = g_strdup(Util::toString((float)sm->get(static_cast<SettingsManager::FloatSetting>(n))).c_str());
 					isdefault = sm->isDefault(static_cast<SettingsManager::FloatSetting>(n)) ? _("Default") : _("User set");
 					break;
+				}	
 				case SettingsManager::TYPE_BOOL:
-					types = g_strdup("Bool");
+				{
+					sprintf(types,"Bool");
 					value = g_strdup(Util::toString((int)sm->get(static_cast<SettingsManager::BoolSetting>(n))).c_str());
 					isdefault = sm->isDefault(static_cast<SettingsManager::BoolSetting>(n)) ? _("Default") : _("User set");
 					break;
+				}	
 				default:
 					dcassert(0);
 			}
@@ -125,31 +137,35 @@ void AboutConfig::show()
 	WulforSettingsManager::StringMap map = wsm->getStringMap();
 	WulforSettingsManager::StringMap defMap = wsm->getStringDMap();
 	gchar* dvalue = g_strdup(Util::emptyString.c_str());
-	types = g_strdup(_("String"));
+	sprintf(types,"String");
 	bool isOk = false;
-	gchar* isDef = g_strdup(Util::emptyString.c_str());
+	gchar* isDef = _("Default");
 
 	for(auto d = defMap.begin();d!= defMap.end();++d)
 	{
-		rowname = g_strdup(d->first.c_str());
+		rowname = d->first.c_str();
 		dvalue = g_strdup(d->second.c_str());
 		isOk = map.find(rowname) != map.end();
 		value = g_strdup((isOk ? map.find(rowname)->second : Util::emptyString).c_str());
-		isDef = !isOk ? _("Default") : _("User set");
+		if(isOk) isDef = _("User set");
 		addItem_gui(rowname,isDef, types, ( !isOk ? dvalue : value), true);
 	}
 
 	WulforSettingsManager::IntMap imap = wsm->getIntMap();
 	WulforSettingsManager::IntMap defIMap = wsm->getIntDMap();
-	types = g_strdup(_("Integer"));
+	sprintf(types,"Integer");
 	isOk = false;
+	isDef = _("Default");
 
-	for(auto j = defIMap.begin();j != defIMap.end();++j) {
-		rowname = g_strdup(j->first.c_str());
-		dvalue = g_strdup(Util::toString(j->second).c_str());
+	for(auto j = defIMap.begin();j != defIMap.end();++j) 
+	{
+		rowname = j->first.c_str();
+		dvalue = g_strdup(Util::toString(j->second).c_str());//probably not best way?
 		isOk = imap.find(rowname) != imap.end();
+		//probably not best idea too
 		value = g_strdup(Util::toString((isOk ? imap.find(rowname)->second : 0)).c_str());
-		isDef = !isOk ? _("Default") : _("User set");
+		
+		if(isOk) _("User set");
 		addItem_gui(rowname, isDef, types, ( !isOk ? dvalue : value), true);
 	}
 
