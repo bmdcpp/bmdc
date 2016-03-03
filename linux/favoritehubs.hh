@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2014 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011-2015 Mank freedcpp@seznam.cz
+ * Copyright © 2011-2016 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@ class FavoriteHubs:
 		void addGroupComboBox_gui(const std::string &group);
 		void setFavoriteHubs_gui(bool remove, const std::string &group);
 		void popupMenu_gui();
-		static bool showErrorDialog_gui(const std::string &description, FavoriteHubs *fh);
+		static bool showErrorDialog_gui(const std::string description, FavoriteHubs *fh);
 		void updateFavHubGroups_gui(bool updated);
 		void saveFavHubGroups();
 		void initFavHubGroupsDialog_gui();

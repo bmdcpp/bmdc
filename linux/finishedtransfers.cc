@@ -39,7 +39,7 @@ FinishedTransfers* FinishedTransfers::createFinishedUploads()
 	return new FinishedTransfers(Entry::FINISHED_UPLOADS, _("Finished Uploads"), true);
 }
 
-FinishedTransfers::FinishedTransfers(const EntryType type, const string &title, bool isUpload):
+FinishedTransfers::FinishedTransfers(const EntryType type, const string title, bool isUpload):
 	BookEntry(type, title, "finishedtransfers"),
 	isUpload(isUpload),
 	totalFiles(0),

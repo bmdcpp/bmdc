@@ -278,10 +278,7 @@ Hub::Hub(const string &address, const string &encoding):
 	g_signal_connect(getWidget("UnProtectItem"), "activate", G_CALLBACK(onUnProtectUserClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("menurefresh"), "activate", G_CALLBACK(onRefreshUserListClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonrefresh"), "clicked", G_CALLBACK(onRefreshUserListClicked_gui), (gpointer)this);
-	/**/
-	//g_signal_connect(getWidget("ripeitem"), "activate", G_CALLBACK(onRipeDbItem_gui),(gpointer)this);
-	//g_signal_connect(getWidget("copyipItem"), "activate", G_CALLBACK(onCopyIpItem_gui),(gpointer)this);
-	//end
+
 	g_signal_connect(getWidget("downloadBrowseItem"), "activate", G_CALLBACK(onDownloadToClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("downloadItem"), "activate", G_CALLBACK(onDownloadClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("italicButton"), "clicked", G_CALLBACK(onItalicButtonClicked_gui), (gpointer)this);
@@ -432,8 +429,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 			return;
 		if(cell == NULL)
 			return;
-//		if( iter == NULL)
-//			return;
+
 		string color;
 		string sizeString;
 
@@ -444,25 +440,39 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		char a = tmp[0];
 		switch(a){
 			case 'A':
-			  color = WGETS("userlist-bg-bot-hub");
+			{
+				color = WGETS("userlist-bg-bot-hub");
 				break;
+			}	
 			case 'B':
+			{
 				color = WGETS("userlist-bg-operator");
 				break;
+			}	
 			case 'C':
+			{
      	   		color = WGETS("userlist-bg-favorite");
 				break;
+			}	
 			case 'I':
-			   color = WGETS("userlist-bg-ignored");
+			{
+				color = WGETS("userlist-bg-ignored");
 				break;
+			}	
 			case 'R':
-			   color	= WGETS("userlist-bg-protected");
+			{
+				color = WGETS("userlist-bg-protected");
 				break;
+			}	
 			case 'Z':
-			   color = WGETS("userlist-bg-pasive");
+			{
+				color = WGETS("userlist-bg-pasive");
 				break;
+			}	
 			default:
+			{
 			  color = WGETS("userlist-bg-normal");
+			}  
 		}
 //TODO: check? & UI
 bool isSet = false;
@@ -1151,8 +1161,8 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 	}
 	
 }
-
-void Hub::applyTags_gui(const string &cid, const string &line)
+//&&
+void Hub::applyTags_gui(const string cid, const string line)
 {
 	GtkTextIter start_iter;
 	gtk_text_buffer_get_end_iter(chatBuffer, &start_iter);

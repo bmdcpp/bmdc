@@ -156,7 +156,7 @@ void FavoriteHubs::removeEntry_gui(string address)
 	}
 }
 
-bool FavoriteHubs::showErrorDialog_gui(const string &description, FavoriteHubs *fh)
+bool FavoriteHubs::showErrorDialog_gui(const string description, FavoriteHubs *fh)
 {
 	GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(fh->getWidget("favoriteHubsDialog")),
 		GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_WARNING, GTK_BUTTONS_OK, "%s", description.c_str());
@@ -748,7 +748,7 @@ gboolean FavoriteHubs::onGroupsButtonReleased_gui(GtkWidget*, GdkEventButton *ev
 	return FALSE;
 }
 
-void FavoriteHubs::edit_online_status(std::string url,bool online)
+void FavoriteHubs::edit_online_status(string url,bool online)
 {
 	auto it = HubsIter.find(url);
 	GtkTreeIter iter;

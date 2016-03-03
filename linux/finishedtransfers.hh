@@ -44,7 +44,7 @@ class FinishedTransfers:
 		virtual void show();
 
 	private:
-		FinishedTransfers(const EntryType type, const std::string &title, bool isUpload);
+		FinishedTransfers(const EntryType type, const std::string title, bool isUpload);
 
 		// GUI functions
 		void addFile_gui(dcpp::StringMap params, bool update);

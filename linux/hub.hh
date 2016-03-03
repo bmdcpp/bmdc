@@ -89,7 +89,7 @@ class Hub:
 		void popupNickMenu_gui();
 		void getPassword_gui();
 		void addMessage_gui(std::string cid, std::string message, Msg::TypeMsg typemsg);
-		void applyTags_gui(const std::string &cid, const std::string &line);
+		void applyTags_gui(const std::string cid, const std::string line);
 
 		void applyEmoticons_gui();
 		void updateCursor_gui(GtkWidget *widget);

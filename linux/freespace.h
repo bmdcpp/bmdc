@@ -44,11 +44,11 @@ static void print_mount(std::string &s,const struct mntent *fs)
 {
 	if(strcmp(fs->mnt_type,MNTTYPE_SWAP) == 0 ||  strcmp(fs->mnt_type,MNTTYPE_IGNORE) == 0)
 			return;
-		unsigned long long  aviable = 0,total = 0;
+	unsigned long long  aviable = 0,total = 0;
 			
-			if(FreeDiscSpace(fs->mnt_dir,&aviable,&total) == false){
-						aviable = total = 0;
-			}	
+	if(FreeDiscSpace(fs->mnt_dir,&aviable,&total) == false){
+			aviable = total = 0;
+	}	
 		char buf[1000];
 		//@some unneeded FS
 		if(strcmp (fs->mnt_fsname,"none") == 0)
@@ -85,9 +85,9 @@ static void print_mount(std::string &s,const struct mntent *fs)
 						dcpp::Util::formatBytes(aviable).c_str(),
 						dcpp::Util::formatBytes(total).c_str()
 					);
-					_aviable += aviable;
-					_total += total;
-			s+=std::string(buf);
+		_aviable += aviable;
+		_total += total;
+		s+=std::string(buf);
 }
 
         static unsigned long long _aviable;

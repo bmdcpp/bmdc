@@ -528,9 +528,11 @@ void FavoriteUsers::onDescriptionItemClicked_gui(GtkMenuItem*, gpointer data)
 
 			if (response != GTK_RESPONSE_OK)
 				return;
+				
 			if(type == "ip") return;	
 
-			if(type == "nick") {
+			if(type == "nick") 
+			{
 				description = gtk_entry_get_text(GTK_ENTRY(fu->getWidget("descriptionEntry")));
 				gtk_list_store_set(fu->favoriteUserStore, &iter, fu->favoriteUserView.col(_("Description")), description.c_str(), -1);
 				typedef Func2<FavoriteUsers, string, string> F2;
