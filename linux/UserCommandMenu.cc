@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2016 BMDC , freedcpp at seznam dot cz
+ * Copyright © 2010-2016 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,33 +37,33 @@ UserCommandMenu::UserCommandMenu(GtkWidget *userCommandMenu, int ctx):
 {
 }
 
-void UserCommandMenu::addHub(const string &hub)
+void UserCommandMenu::addHub(const string hub)
 {
 	hubs.clear();
 	hubs.push_back(hub);
 }
 
-void UserCommandMenu::addHub(const StringList &hubs2)
+void UserCommandMenu::addHub(const StringList hubs2)
 {
 	hubs.clear();
 	hubs.insert(hubs.end(), hubs2.begin(), hubs2.end());
 }
 
-void UserCommandMenu::addUser(const string &cid)
+void UserCommandMenu::addUser(const string cid)
 {
 	UCParam u;
 	u.cid = cid;
 	ucParams.push_back(u);
 }
 
-void UserCommandMenu::addIp(const string &ip)
+void UserCommandMenu::addIp(const string ip)
 {
 	ips.clear();
 	ips.push_back(ip);
 }
 
-void UserCommandMenu::addFile(const string &cid, const string &name,
-	const int64_t &size, const string &tth)
+void UserCommandMenu::addFile(const string cid, const string name,
+	const int64_t size, const string tth)
 {
 	UCParam u;
 	u.cid = cid;

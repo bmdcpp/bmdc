@@ -263,26 +263,28 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 			gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode),1);//1active
 		else gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode),2);//2passive	
 	}*/
-	bool b_ip = true;
+	//bool b_ip = true;
 	switch(p_entry->getMode())
 	{
-		
 		case SettingsManager::INCOMING_DIRECT:
-									
 		case SettingsManager::INCOMING_FIREWALL_UPNP:
-						b_ip = false;
-						gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode), 0);
-						break;
+		{
+			//b_ip = false;
+			gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode), 0);
+			break;
+		}				
 		case SettingsManager::INCOMING_FIREWALL_NAT:
-						gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode), 1);
-						break;
+		{
+			gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode), 1);
+			break;
+		}				
 		case SettingsManager::INCOMING_FIREWALL_PASSIVE:
 		default:
+		{
 			gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode), 2);
-		break;
+			break;
+		}
 	};
-	
-	
 
 	g_g_a_c_s(comboMode,1,0,1,1);
 
@@ -333,7 +335,8 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	shareView.setSortColumn_gui(_("Size"), "Real Size");
 	gtk_container_add(GTK_CONTAINER(scroll),GTK_WIDGET(shareView.get()));
 
-	gtk_box_pack_start(GTK_BOX(boxShare),scroll,TRUE,TRUE,0);
+	gtk_grid_attach(GTK_GRID(boxShare),scroll,0,0,1,1);
+	//gtk_box_pack_start(GTK_BOX(boxShare),scroll,TRUE,TRUE,0);
 
 	button_add = gtk_button_new_with_label("Add");
 	button_rem = gtk_button_new_with_label("Remove");
@@ -344,7 +347,8 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 //	gtk_grid_attach(GTK_GRID(grid),button_edit,2,0,1,1);
 	labelShareSize = gtk_label_new("");
 	gtk_grid_attach(GTK_GRID(grid),labelShareSize,2,2,1,1);
-	gtk_box_pack_start(GTK_BOX(boxShare),grid,TRUE,TRUE,0);
+	gtk_grid_attach(GTK_GRID(boxShare),grid,0,1,1,1);
+	//gtk_box_pack_start(GTK_BOX(boxShare),grid,TRUE,TRUE,0);
 	
 	g_signal_connect(button_add, "clicked", G_CALLBACK(onAddShare_gui), (gpointer)this);
 	g_signal_connect(button_rem, "clicked", G_CALLBACK(onRemoveShare_gui), (gpointer)this);
@@ -450,7 +454,7 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 			gchar* image_path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(backImage));
 			
 			string tmp = Util::getFileExt(image_path);
-			std::transform(tmp.begin(), tmp.end(), tmp.begin(), (int(*)(int))toupper);
+			std::transform(tmp.begin(), tmp.end(), tmp.begin(), (int(*)(int))tolower);
 
 			if(tmp == ".png" || tmp == ".jpg" || tmp == ".gif" || tmp == ".svg")//alow only these types
 			{
@@ -612,7 +616,7 @@ void FavoriteHubDialog::initActions()
 			if (path[path.length() - 1] != PATH_SEPARATOR)
 				path += PATH_SEPARATOR;
 
-			GtkWidget* dialog = gtk_dialog_new_with_buttons ("Favorite name",
+			GtkWidget* dialog = gtk_dialog_new_with_buttons ("name",
                                       NULL,
                                      (GtkDialogFlags)(GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT),
                                       _("_OK"),

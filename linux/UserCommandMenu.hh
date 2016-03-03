@@ -36,12 +36,12 @@ class UserCommandMenu : public Entry
 		virtual ~UserCommandMenu() {}
 
 		GtkWidget *getContainer() { return userCommandMenu; }
-		void addHub(const std::string &hub);
-		void addHub(const dcpp::StringList &hubs2);
-		void addUser(const std::string &cid);
-		void addFile(const std::string &cid, const std::string &name,
-			const int64_t &size, const std::string &tth);
-		void addIp(const std::string& ip);
+		void addHub(const std::string hub);
+		void addHub(const dcpp::StringList hubs2);
+		void addUser(const std::string cid);
+		void addFile(const std::string cid, const std::string name,
+			const int64_t size, const std::string tth);
+		void addIp(const std::string ip);
 		void cleanMenu_gui();
 		void buildMenu_gui();
 

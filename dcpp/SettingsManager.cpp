@@ -784,7 +784,7 @@ bool SettingsManager::getType(const int& n, Types& type) const {
 const string SettingsManager::parseCoreCmd(const string cmd) {
 	StringTokenizer<string> sl(cmd, ' ');
 	if (sl.getTokens().size() == 2) {
-			int n;
+			int n = -1;
 			SettingsManager::Types type = SettingsManager::TYPE_NONE;
 			getType(sl.getTokens().at(0).c_str(),n,type);
            if (type == SettingsManager::TYPE_INT) {

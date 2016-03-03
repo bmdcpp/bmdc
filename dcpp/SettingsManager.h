@@ -213,6 +213,7 @@ public:
 
 	enum {	MAGNET_AUTO_SEARCH, MAGNET_AUTO_DOWNLOAD };
 
+	//probably ref-to-var-ret is not good idea?
 	const string& get(StrSetting key, bool useDefault = true) const {
 		return (isSet[key] || !useDefault) ? strSettings[key - STR_FIRST] : strDefaults[key - STR_FIRST];
 	}

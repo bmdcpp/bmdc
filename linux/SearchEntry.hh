@@ -1,5 +1,5 @@
 /*
- * Copyright © 2012-2015 BMDC++
+ * Copyright © 2012-2016 BMDC++
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -32,7 +32,7 @@
 class SearchEntry: public BookEntry
 {
 	private:
-		void showBook(/*Entry::EntryType type,*/ BookEntry *entry);
+		void showBook(BookEntry *entry);
 	public:
 		SearchEntry();
 		virtual ~SearchEntry();
@@ -45,7 +45,7 @@ class SearchEntry: public BookEntry
 					Search *s = dynamic_cast<Search*>(findBookEntry(Entry::SEARCH,str));
 					if(s == NULL) {
 						s = new Search(str);
-						showBook(/*Entry::SEARCH,*/s);
+						showBook(s);
 						s->putValue_gui(str,size,mode, type);
 					}
 					raisePage_gui(s->getContainer());
@@ -53,7 +53,7 @@ class SearchEntry: public BookEntry
 		}
 
 		virtual void show() {
-			showBook(/*Entry::SEARCH,*/ new Search(dcpp::Util::emptyString));
+			showBook(new Search(dcpp::Util::emptyString));
 		}
 		void setTabPosition_gui(GtkPositionType pos)
 		{ gtk_notebook_set_tab_pos(GTK_NOTEBOOK(getWidget("sebook")), pos);}

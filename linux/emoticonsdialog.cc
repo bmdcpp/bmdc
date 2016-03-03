@@ -35,7 +35,9 @@ using namespace dcpp;
 const string EmoticonsDialog::sizeIcon[] = {
 	"16x16", "22x22", "24x24", "32x32", "36x36", "48x48", "64x64", "0"
 };
+
 Emoticons* EmoticonsDialog::em_global = NULL;
+
 EmoticonsDialog::EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *menu, string packName /*Util::emptyString*/, const string& address /*Util::empty*/) :
 	Chat(chat),
 	Button(button),
@@ -52,7 +54,7 @@ EmoticonsDialog::EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *
 	if(!address.empty()) {
 		
 		bool dontCreate = false;
-		Emoticons *em = nullptr; 
+		Emoticons *em = NULL; 
 		for(auto i:hubs)
 		{
 			em = i.second;
@@ -91,9 +93,10 @@ EmoticonsDialog::~EmoticonsDialog()
 	{
 			delete it->second;
 			hubs.erase(it);
+	}else
+	{
+		delete em_global;
 	}
-	delete em_global;
-
 
 	if (dialog != NULL)
 		gtk_widget_destroy(dialog);

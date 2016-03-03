@@ -55,7 +55,7 @@ class Emoticons
 		static void stop();
 		//static Emoticons* get();
 
-		Emoticons(const std::string &packName);
+		Emoticons(const std::string &packName = SETTING(EMOT_PACK));
 		~Emoticons();
 
 		// GUI functions
