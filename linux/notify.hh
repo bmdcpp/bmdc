@@ -65,9 +65,9 @@ class Notify
 		Notify() : icon_width(0), icon_height(0), currIconSize(32) ,bAction(false) { init(); }
 		~Notify() { finalize(); }
 
-		void showNotify(const std::string &head, const std::string &body, TypeNotify notify);
-		void showNotify(const std::string &title, const std::string &head, const std::string &body,
-			const std::string &icon, const int iconSize, NotifyUrgency urgency);
+		void showNotify(const std::string head, const std::string body, TypeNotify notify);
+		void showNotify(const std::string title, const std::string head, const std::string body,
+			const std::string icon, const int iconSize, NotifyUrgency urgency);
 
 	private:
 		static Notify *notify;

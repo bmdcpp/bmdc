@@ -135,7 +135,7 @@ void Notify::setCurrIconSize(const int size)
 	}
 }
 
-void Notify::showNotify(const string &head, const string &body, TypeNotify notify)
+void Notify::showNotify(const string head, const string body, TypeNotify notify)
 {
 #ifdef HAVE_NOTIFY
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
@@ -225,7 +225,7 @@ void Notify::showNotify(const string &head, const string &body, TypeNotify notif
 	#endif
 }
 
-void Notify::showNotify(const string &title, const string &head, const string &body, const string &icon, const int iconSize, NotifyUrgency urgency)
+void Notify::showNotify(const string title, const string head, const string body, const string icon, const int iconSize, NotifyUrgency urgency)
 {
 	#ifdef HAVE_NOTIFY
 //@ only title is Fatal	

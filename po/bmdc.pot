@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2016-03-03 18:39+0100\n"
+"POT-Creation-Date: 2016-03-04 18:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -658,7 +658,7 @@ msgid "Away mode message on/off"
 msgstr ""
 
 #: ui/hub.glade.ui:25 ui/privatemessage.glade.ui:25 linux/WulforUtil.cc:796
-#: linux/WulforUtil.cc:816 linux/mainwindow.cc:2326
+#: linux/WulforUtil.cc:816 linux/mainwindow.cc:2325
 #: linux/privatemessage.cc:1067
 msgid "Away mode off"
 msgstr ""
@@ -842,8 +842,8 @@ msgid "Choose a File"
 msgstr ""
 
 #: ui/search.glade.ui:7 ui/settingsdialog.glade.ui:8901
-#: ui/sharebrowser.glade.ui:7 linux/hub.cc:3090 linux/mainwindow.cc:1651
-#: linux/mainwindow.cc:1719 linux/privatemessage.cc:1352
+#: ui/sharebrowser.glade.ui:7 linux/hub.cc:3090 linux/mainwindow.cc:1652
+#: linux/mainwindow.cc:1720 linux/privatemessage.cc:1352
 msgid "Choose a directory"
 msgstr ""
 
@@ -2430,7 +2430,7 @@ msgstr ""
 msgid "Select Text Color"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:772 linux/mainwindow.cc:2422
+#: ui/mainwindow.glade.ui:772 linux/mainwindow.cc:2423
 msgid "Select filelist to browse"
 msgstr ""
 
@@ -3046,8 +3046,8 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:3297 ui/settingsdialog.glade.ui:3313
 #: ui/settingsdialog.glade.ui:3357 linux/hashdialog.cc:77
-#: linux/mainwindow.cc:1024 linux/mainwindow.cc:1025 linux/mainwindow.cc:2797
-#: linux/mainwindow.cc:2799 linux/mainwindow.cc:3101 linux/treeview.cc:225
+#: linux/mainwindow.cc:1025 linux/mainwindow.cc:1026 linux/mainwindow.cc:2798
+#: linux/mainwindow.cc:2800 linux/mainwindow.cc:3102 linux/treeview.cc:225
 msgid "s"
 msgstr ""
 
@@ -3188,7 +3188,7 @@ msgid " items"
 msgstr ""
 
 #: linux/hashdialog.cc:68 linux/hashdialog.cc:77 linux/hashdialog.cc:86
-#: linux/mainwindow.cc:3101 linux/mainwindow.cc:3110
+#: linux/mainwindow.cc:3102 linux/mainwindow.cc:3111
 msgid " left"
 msgstr ""
 
@@ -3236,7 +3236,7 @@ msgstr ""
 msgid "*** T E S T ***"
 msgstr ""
 
-#: linux/hashdialog.cc:69 linux/hashdialog.cc:81 linux/mainwindow.cc:3105
+#: linux/hashdialog.cc:69 linux/hashdialog.cc:81 linux/mainwindow.cc:3106
 msgid "-:--:-- left"
 msgstr ""
 
@@ -3273,7 +3273,7 @@ msgstr ""
 msgid "1"
 msgstr ""
 
-#: linux/mainwindow.cc:3130
+#: linux/mainwindow.cc:3131
 msgid "100% Done"
 msgstr ""
 
@@ -3309,7 +3309,7 @@ msgstr ""
 msgid "<b>Under what name you see the directory</b>"
 msgstr ""
 
-#: linux/mainwindow.cc:2773
+#: linux/mainwindow.cc:2774
 msgid "<b>file:</b> "
 msgstr ""
 
@@ -3484,7 +3484,7 @@ msgstr ""
 msgid "Away Message:"
 msgstr ""
 
-#: linux/mainwindow.cc:2335 linux/mainwindow.cc:2870
+#: linux/mainwindow.cc:2334 linux/mainwindow.cc:2871
 msgid "Away mode on"
 msgstr ""
 
@@ -3821,7 +3821,7 @@ msgstr ""
 msgid "Download starting: "
 msgstr ""
 
-#: linux/mainwindow.cc:957
+#: linux/mainwindow.cc:958
 msgid "Download: "
 msgstr ""
 
@@ -3862,7 +3862,7 @@ msgstr ""
 msgid "Emotion packs"
 msgstr ""
 
-#: linux/mainwindow.cc:1123
+#: linux/mainwindow.cc:1124
 msgid "Empty hub address specified"
 msgstr ""
 
@@ -4342,7 +4342,7 @@ msgstr ""
 msgid "Loaded plugins: "
 msgstr ""
 
-#: linux/mainwindow.cc:2459
+#: linux/mainwindow.cc:2460
 msgid "Loading Own file list"
 msgstr ""
 
@@ -4358,11 +4358,11 @@ msgstr ""
 msgid "Log Mainchat by default"
 msgstr ""
 
-#: linux/mainwindow.cc:1712
+#: linux/mainwindow.cc:1713
 msgid "Magnet Choice"
 msgstr ""
 
-#: linux/mainwindow.cc:1642
+#: linux/mainwindow.cc:1643
 msgid "Magnet Properties / Choice"
 msgstr ""
 
@@ -4712,7 +4712,7 @@ msgstr ""
 msgid "Select Font"
 msgstr ""
 
-#: linux/mainwindow.cc:2890
+#: linux/mainwindow.cc:2891
 msgid "Select file to Get TTH"
 msgstr ""
 
@@ -4805,7 +4805,7 @@ msgstr ""
 msgid "Shared"
 msgstr ""
 
-#: linux/mainwindow.cc:1015
+#: linux/mainwindow.cc:1016
 msgid "Shared: "
 msgstr ""
 
@@ -4912,7 +4912,7 @@ msgstr ""
 msgid "Slots"
 msgstr ""
 
-#: linux/mainwindow.cc:1014
+#: linux/mainwindow.cc:1015
 msgid "Slots: "
 msgstr ""
 
@@ -5027,7 +5027,7 @@ msgstr ""
 msgid "This hub is not a favorite hub"
 msgstr ""
 
-#: linux/mainwindow.cc:670
+#: linux/mainwindow.cc:669
 msgid "Throtle "
 msgstr ""
 
@@ -5100,7 +5100,7 @@ msgstr ""
 msgid "Unable to load file list: "
 msgstr ""
 
-#: linux/mainwindow.cc:2447
+#: linux/mainwindow.cc:2448
 msgid "Unable to load file list: Invalid file list name"
 msgstr ""
 
@@ -5145,7 +5145,7 @@ msgstr ""
 msgid "Upload starting..."
 msgstr ""
 
-#: linux/mainwindow.cc:957
+#: linux/mainwindow.cc:958
 msgid "Upload: "
 msgstr ""
 
@@ -5219,7 +5219,7 @@ msgstr ""
 msgid "User "
 msgstr ""
 
-#: linux/mainwindow.cc:1495
+#: linux/mainwindow.cc:1496
 msgid "User Commands Dialog"
 msgstr ""
 
@@ -5566,11 +5566,11 @@ msgstr ""
 msgid "loading error"
 msgstr ""
 
-#: linux/mainwindow.cc:670
+#: linux/mainwindow.cc:669
 msgid "off"
 msgstr ""
 
-#: linux/mainwindow.cc:670
+#: linux/mainwindow.cc:669
 msgid "on"
 msgstr ""
 
