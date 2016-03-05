@@ -38,7 +38,7 @@ struct HubSettings
 	HubSettings();
 	HubSettings(const HubSettings& rhs) { *this = rhs; }
 	HubSettings& operator=(const HubSettings& rhs);
-	~HubSettings() { }
+	~HubSettings();
 
 	const string& get(SettingsManager::StrSetting key, const std::string& defValue) const;
 	int get(SettingsManager::IntSetting key, int defValue) const;
@@ -56,8 +56,12 @@ struct HubSettings
 	void save(SimpleXML& xml) const;
 	GETSET(bool, autoConnect, AutoConnect);
 	GETSET(string , id , Id);
-	ShareManager* getShareManager() {return share != NULL ? share : ShareManager::getInstance();}
-	void setShareManager(ShareManager* sm) { share = sm;}
+	ShareManager* getShareManager() const;
+	void setShareManager(ShareManager* sm)  { 
+		if(share == sm) return;
+		
+		share = sm;
+	}
 private:
 	map<SettingsManager::StrSetting, string> strings;
 	map<SettingsManager::IntSetting, int> ints;

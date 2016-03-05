@@ -58,11 +58,12 @@ using std::numeric_limits;
 
 atomic_flag ShareManager::refreshing = ATOMIC_FLAG_INIT;
 
-ShareManager::ShareManager() : hits(0), xmlListLen(0), bzXmlListLen(0),
+ShareManager::ShareManager(string _name) : hits(0), xmlListLen(0), bzXmlListLen(0),
 	xmlDirty(true), forceXmlRefresh(true), refreshDirs(false), update(false), listN(0),
-	lastXmlUpdate(0), lastFullUpdate(GET_TICK()), bloom(1<<20), bzXmlRoot(NULL),xmlRoot(NULL)
+	lastXmlUpdate(0), lastFullUpdate(GET_TICK()), bloom(1<<20), bzXmlRoot(NULL),xmlRoot(NULL),
+	name(_name)
 {
-	if(getName().empty())
+	if(name.empty())
 		SettingsManager::getInstance()->addListener(this);
 	
 	TimerManager::getInstance()->addListener(this);
@@ -868,7 +869,7 @@ void ShareManager::runRefresh(function<void (float)> progressF) {
 	if(refreshDirs) {
 		HashManager::HashPauser pauser;
 
-		LogManager::getInstance()->message(_("File list refresh initiated"));
+		LogManager::getInstance()->message(_("File list refresh initiated: ") + getName() );
 
 		lastFullUpdate = GET_TICK();
 
@@ -903,7 +904,7 @@ void ShareManager::runRefresh(function<void (float)> progressF) {
 		}
 		refreshDirs = false;
 
-		LogManager::getInstance()->message(_("File list refresh finished"));
+		LogManager::getInstance()->message(_("File list refresh finished :") + getName());
 	}
 
 	if(update) {

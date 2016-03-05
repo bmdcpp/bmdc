@@ -217,7 +217,7 @@ private:
 
 	friend class Singleton<ShareManager>;
 public:	
-	ShareManager();
+	ShareManager(std::string name = Util::emptyString);
 	virtual ~ShareManager();
 private:	
 
