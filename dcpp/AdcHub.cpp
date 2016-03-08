@@ -1140,21 +1140,16 @@ void AdcHub::on(Connected c) noexcept {
 void AdcHub::on(Line l, const string& aLine) noexcept {
 	Client::on(l, aLine);
 
-	//if(!Text::validateUtf8(aLine)) {
+	if(!Text::validateUtf8(aLine)) {
 		// @todo report to user?
-	//	return;
-	//}
-	if(!g_utf8_validate(aLine.c_str(),-1,NULL))
 		return;
-	gsize oread,owrite;
-	gchar* out = g_filename_to_utf8(aLine.c_str(),-1,&oread,&owrite,NULL);
-	
+	}
 	
 	COMMAND_DEBUG(aLine,TYPE_HUB,INCOMING,getHubUrl());
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_IN, this, aLine))
 		return;
 
-	dispatch(string(out));
+	dispatch(aLine);
 }
 
 void AdcHub::on(Failed f, const string& aLine) noexcept {

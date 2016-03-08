@@ -642,7 +642,9 @@ void FavoriteHubDialog::initActions()
 			{
 				try
 				{
-					s->p_entry->getShareManager()->addDirectory(path, name);
+					ShareManager *sm = new ShareManager(s->p_entry->getServer());
+					sm->addDirectory(path, name);
+					s->p_entry->setShareManager(sm);
 				}
 				catch (const ShareException &e)
 				{

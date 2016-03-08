@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2016-03-04 18:05+0100\n"
+"POT-Creation-Date: 2016-03-06 17:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1060,8 +1060,8 @@ msgid "Direct connection"
 msgstr ""
 
 #: ui/adlsearch.glade.ui:772 ui/settingsdialog.glade.ui:6430
-#: linux/FavoriteHubDialog.cc:329 linux/FavoriteHubDialog.cc:667
-#: linux/FavoriteHubDialog.cc:698 linux/FavoriteHubDialog.cc:715
+#: linux/FavoriteHubDialog.cc:329 linux/FavoriteHubDialog.cc:669
+#: linux/FavoriteHubDialog.cc:700 linux/FavoriteHubDialog.cc:717
 #: linux/UserCommandMenu.cc:74 linux/search.cc:1800 linux/settingsdialog.cc:979
 #: linux/settingsdialog.cc:993 linux/settingsdialog.cc:1081
 #: linux/settingsdialog.cc:1530 linux/settingsdialog.cc:4260
@@ -2581,7 +2581,7 @@ msgstr ""
 
 #: ui/mainwindow.glade.ui:115 ui/search.glade.ui:147 ui/search.glade.ui:839
 #: linux/FavoriteHubDialog.cc:330 linux/FavoriteHubDialog.cc:335
-#: linux/FavoriteHubDialog.cc:699 linux/FavoriteHubDialog.cc:716
+#: linux/FavoriteHubDialog.cc:701 linux/FavoriteHubDialog.cc:718
 #: linux/downloadqueue.cc:70 linux/downloadqueue.cc:89
 #: linux/downloadqueue.cc:281 linux/downloadqueue.cc:388 linux/search.cc:105
 #: linux/search.cc:135 linux/search.cc:229 linux/search.cc:707
@@ -5070,7 +5070,7 @@ msgstr ""
 msgid "Topic: "
 msgstr ""
 
-#: linux/FavoriteHubDialog.cc:704 linux/settingsdialog.cc:4385
+#: linux/FavoriteHubDialog.cc:706 linux/settingsdialog.cc:4385
 msgid "Total size: "
 msgstr ""
 
@@ -5466,8 +5466,8 @@ msgstr ""
 msgid "View status messages in main chat"
 msgstr ""
 
-#: linux/FavoriteHubDialog.cc:328 linux/FavoriteHubDialog.cc:697
-#: linux/FavoriteHubDialog.cc:714 linux/settingsdialog.cc:1080
+#: linux/FavoriteHubDialog.cc:328 linux/FavoriteHubDialog.cc:699
+#: linux/FavoriteHubDialog.cc:716 linux/settingsdialog.cc:1080
 #: linux/settingsdialog.cc:4309 linux/settingsdialog.cc:4378
 msgid "Virtual Name"
 msgstr ""
@@ -5514,7 +5514,7 @@ msgstr ""
 msgid "You must enter a name"
 msgstr ""
 
-#: linux/FavoriteHubDialog.cc:690 linux/settingsdialog.cc:4371
+#: linux/FavoriteHubDialog.cc:692 linux/settingsdialog.cc:4371
 msgid "[HIDDEN SHARE] "
 msgstr ""
 

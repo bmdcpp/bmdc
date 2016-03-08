@@ -57,8 +57,8 @@ public:
 	 * @param sep Line separator
 	 * @return An unconnected socket
 	 */
-	static BufferedSocket* getSocket(char sep/*, bool*/) {
-		return new BufferedSocket(sep/*, false*/);
+	static BufferedSocket* getSocket(char sep) {
+		return new BufferedSocket(sep);
 	}
 
 	static void putSocket(BufferedSocket* aSock) {
@@ -172,7 +172,6 @@ public:
 	GETSET(char, separator, Separator)
 private:	
 	bool disconnecting;
-//	bool v4only;
 
 	virtual int run();
 

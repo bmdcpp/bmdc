@@ -34,11 +34,11 @@ AdcCommand::AdcCommand(Severity sev, Error err, const string& desc, char aType /
 	addParam(desc);
 }
 
-AdcCommand::AdcCommand(const string& aLine, bool nmdc /* = false */) : cmdInt(0), type(TYPE_CLIENT),to(0) {
+AdcCommand::AdcCommand(const string aLine, bool nmdc /* = false */) : cmdInt(0), type(TYPE_CLIENT),to(0) {
 	parse(aLine, nmdc);
 }
 
-void AdcCommand::parse(const string& aLine, bool nmdc /* = false */) {
+void AdcCommand::parse(const string aLine, bool nmdc /* = false */) {
 	string::size_type i = 5;
 
 	if(nmdc) {

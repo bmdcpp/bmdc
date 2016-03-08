@@ -453,9 +453,9 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			return;
 		}
 	} else if(cmd == "$ConnectToMe") {
-		//$ConnectToMe PPK [::1]:1234|
+		//$ConnectToMe User [::1]:1234|
 		//or
-		//$ConnectToMe PPK 10.0.0.34:1234|
+		//$ConnectToMe User 10.0.0.34:1234|
 		// And also port 0 isnt valid
 		dcdebug("%s",param.c_str());
 		string::size_type i = param.find(' ');
