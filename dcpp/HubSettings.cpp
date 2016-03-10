@@ -89,6 +89,8 @@ void HubSettings::load(SimpleXML& xml) {
 	
 	if(xml.findChild("AutoConnect"))
 		setAutoConnect(Util::toInt(xml.getChildData()));
+	
+	xml.stepOut();
 	xml.stepIn();
 	if(xml.findChild("Share")) {
 		share = new ShareManager(getId());
@@ -96,7 +98,7 @@ void HubSettings::load(SimpleXML& xml) {
 		share->refresh(true,true,false);
 	}	
 	xml.stepOut();
-	xml.stepOut();
+	//xml.stepOut();
 }
 
 void HubSettings::save(SimpleXML& xml) const {
@@ -123,6 +125,7 @@ void HubSettings::save(SimpleXML& xml) const {
 	xml.addTag("AutoConnect",getAutoConnect());
 	xml.addChildAttrib(type,curType);
 	
+	xml.stepOut();
 	xml.stepIn();
 	if(share != NULL)
 	{
@@ -130,7 +133,7 @@ void HubSettings::save(SimpleXML& xml) const {
 			share->save(xml);
 	}
 	xml.stepOut();
-	xml.stepOut();
+	
 }
 
 HubSettings& HubSettings::operator=(const HubSettings& rhs)
