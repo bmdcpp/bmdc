@@ -139,9 +139,17 @@ public:
 	}
 	ShareManager* getShareManagerClient(const HintedUser& p){
 		Lock l(cs);
-		OnlineUser* ou = findOnlineUserHint(p.user->getCID(), p.hint);
-		if(ou)
-			return ou->getClient().getShareManager();
+		//OnlineUser* ou = findOnlineUserHint(p.user->getCID(), p.hint);
+		//if(ou)
+		//	return ou->getClient().getShareManager();
+		for(auto i:clients)
+		{
+			string chint = i->getHubUrl();
+			string ip = i->getIpPort();
+			if((chint == p.hint) || (ip== p.hint)) {
+				return i->getShareManager();
+			}
+		}
 		return ShareManager::getInstance();
 	}
 

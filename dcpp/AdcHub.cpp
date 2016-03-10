@@ -571,7 +571,7 @@ void AdcHub::handle(AdcCommand::GET, AdcCommand& c) noexcept {
 		
 		ShareManager* sm = getShareManager();
 
-		size_t n = /*ShareManager::getInstance()->*/sm->getSharedFiles();
+		size_t n = sm->getSharedFiles();
 
 		// When h >= 32, m can't go above 2^h anyway since it's stored in a size_t.
         if(m > (5 * (size_t)Util::roundUp((int64_t)(n * k / log(2.)), (int64_t)64)) || (h < 32 && m > static_cast<size_t>(1U << h))) {
@@ -581,7 +581,7 @@ void AdcHub::handle(AdcCommand::GET, AdcCommand& c) noexcept {
 		}
 
 		if (m > 0) {
-			/*ShareManager::getInstance()*/sm->getBloom(v, k, m, h);
+			sm->getBloom(v, k, m, h);
 		}
 
 		AdcCommand cmd(AdcCommand::CMD_SND, AdcCommand::TYPE_HUB);
@@ -1012,8 +1012,8 @@ void AdcHub::infoImpl() {
 	addParam(lastInfoMap, c, "DE", IsFreeSlots ? freeslots + " " + HUBSETTING(DESCRIPTION) : HUBSETTING(DESCRIPTION) );
 	addParam(lastInfoMap, c, "SL", Util::toString(SETTING(SLOTS)));
 	addParam(lastInfoMap, c, "FS", Util::toString(UploadManager::getInstance()->getFreeSlots()));
-	addParam(lastInfoMap, c, "SS", getHideShare() ? "0" : /*ShareManager::getInstance()*/sm->getShareSizeString());
-	addParam(lastInfoMap, c, "SF", getHideShare() ? "0" : Util::toString(/*ShareManager::getInstance()*/sm->getSharedFiles()));
+	addParam(lastInfoMap, c, "SS", getHideShare() ? "0" : sm->getShareSizeString());
+	addParam(lastInfoMap, c, "SF", getHideShare() ? "0" : Util::toString(sm->getSharedFiles()));
 	addParam(lastInfoMap, c, "EM", HUBSETTING(EMAIL));
 	addParam(lastInfoMap, c, "HN", Util::toString(counts[COUNT_NORMAL]));
 	addParam(lastInfoMap, c, "HR", Util::toString(counts[COUNT_REGISTERED]));

@@ -320,6 +320,8 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxKickAction ,lan("Kick Actions") );	
 	initActions();
 	
+	//Shara Page
+	
 	GtkWidget* boxShare = gtk_grid_new();
 	
 	GtkWidget *scroll = gtk_scrolled_window_new(NULL,NULL);
@@ -335,8 +337,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	shareView.setSortColumn_gui(_("Size"), "Real Size");
 	gtk_container_add(GTK_CONTAINER(scroll),GTK_WIDGET(shareView.get()));
 
-	gtk_grid_attach(GTK_GRID(boxShare),scroll,0,0,1,1);
-	//gtk_box_pack_start(GTK_BOX(boxShare),scroll,TRUE,TRUE,0);
+	gtk_grid_attach(GTK_GRID(boxShare),scroll,0,0,2,2);
 
 	button_add = gtk_button_new_with_label("Add");
 	button_rem = gtk_button_new_with_label("Remove");
@@ -346,9 +347,9 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	gtk_grid_attach(GTK_GRID(grid),button_rem,1,1,1,1);
 //	gtk_grid_attach(GTK_GRID(grid),button_edit,2,0,1,1);
 	labelShareSize = gtk_label_new("");
-	gtk_grid_attach(GTK_GRID(grid),labelShareSize,2,2,1,1);
-	gtk_grid_attach(GTK_GRID(boxShare),grid,0,1,1,1);
-	//gtk_box_pack_start(GTK_BOX(boxShare),grid,TRUE,TRUE,0);
+	gtk_grid_attach(GTK_GRID(grid),labelShareSize,2,1,1,1);
+	gtk_grid_attach(GTK_GRID(boxShare),grid,0,3,1,1);
+	
 	
 	g_signal_connect(button_add, "clicked", G_CALLBACK(onAddShare_gui), (gpointer)this);
 	g_signal_connect(button_rem, "clicked", G_CALLBACK(onRemoveShare_gui), (gpointer)this);
@@ -642,9 +643,17 @@ void FavoriteHubDialog::initActions()
 			{
 				try
 				{
-					ShareManager *sm = new ShareManager(s->p_entry->getServer());
-					sm->addDirectory(path, name);
-					s->p_entry->setShareManager(sm);
+					ShareManager *share = s->p_entry->getShareManager();
+					
+					if(share->getName().empty())
+					{
+						share = new ShareManager(s->p_entry->getServer());
+					}
+					share->addDirectory(path, name);
+					s->p_entry->setShareManager(share);
+					FavoriteManager::getInstance()->save();
+					s->p_entry->getShareManager()->refresh();	
+					s->updateShares_gui();
 				}
 				catch (const ShareException &e)
 				{
@@ -652,7 +661,7 @@ void FavoriteHubDialog::initActions()
 				}
 				catch(...){g_print("Some other exception");}
 				
-				s->addShare_gui(path, name);
+				s->addShare_gui(path, name);//did need?
 			}
 		}
 	}

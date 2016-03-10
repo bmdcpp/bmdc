@@ -56,10 +56,10 @@ struct HubSettings
 	void save(SimpleXML& xml) const;
 	GETSET(bool, autoConnect, AutoConnect);
 	GETSET(string , id , Id);
+	
 	ShareManager* getShareManager() const;
 	void setShareManager(ShareManager* sm)  { 
 		if(share == sm) return;
-		
 		share = sm;
 	}
 private:

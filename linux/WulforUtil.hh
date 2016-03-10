@@ -89,10 +89,10 @@ class WulforUtil
 		//NOTE: BMDC++
 		static void drop_combo(GtkWidget *widget, std::map<std::string,int> CONTEUDO);//Used in Detections Settinsg only
 
-		static GdkPixbuf* LoadCountryPixbuf(const std::string& country);
-		static std::string getCountryCode(std::string _countryname);
+		static GdkPixbuf* LoadCountryPixbuf(const std::string country);
+		static std::string getCountryCode(const std::string _countryname);
 
-		static GdkPixbuf* loadIconShare(std::string ext);
+		static GdkPixbuf* loadIconShare(const std::string ext);
 		static std::string formatReport(const dcpp::Identity& identity);
 		static bool checkCommand(std::string& cmd, std::string& param, std::string& message, std::string& status, bool& thirdperson);
 
@@ -100,7 +100,7 @@ class WulforUtil
 
 		static std::map<std::string,int> getActions();
 
-		static bool HitIP(std::string &name/*, std::string& sIp*/);
+		static bool HitIP(const std::string name);
 
 		static const std::string ENCODING_LOCALE;
 		static const std::string commands;
@@ -113,8 +113,8 @@ class WulforUtil
 		static std::string generateLeech();
 		static std::string getStatsForMem();
 		static std::string cpuinfo();
-		static bool Ipv4Hit(std::string &name/*, std::string &sIp*/);
-		static std::string formatSized(std::string& nonf);
+		static bool Ipv4Hit(std::string name);
+		static std::string formatSized(std::string nonf);
 	#if GTK_CHECK_VERSION(3,9,0)
 	public:
 		static GtkIconTheme *icon_theme;

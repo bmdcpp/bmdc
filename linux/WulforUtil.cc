@@ -680,7 +680,7 @@ void WulforUtil::registerIcons()
 	#endif
 }
 
-GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
+GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string country)
 {
 	if(country.empty())
 	{
@@ -706,6 +706,7 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string &country)
 	gchar *path = g_strdup_printf(_DATADIR PATH_SEPARATOR_STR "bmdc/country/%s.png",
 		                              (gchar *)country.c_str());
 	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_size(path,15,15,&error);
+	
 	if (error != NULL || pixbuf == NULL) {
 			g_warning("[BMDC::Country] Cannot open image: %s => %s", path, error->message);
 			g_error_free(error);
@@ -1308,7 +1309,6 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 							NULL);
 						}
 						ret = true;
-//						continue;
 					}
 				}
 			}
@@ -1332,7 +1332,6 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 					}
 					dcdebug("regexp hilg");
 					ret = true;
-//					continue;
 				}
 			}
 
@@ -1351,7 +1350,6 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 
 				}
 				ret = true;
-//				continue;
 			}	
 
 			if(ret && cs->getPopup())
@@ -1426,10 +1424,12 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 		return buf;
 		#endif
 	}
-	std::transform(ext.begin(), ext.end(), ext.begin(), (int(*)(int))tolower);
+	//std::transform(ext.begin(), ext.end(), ext.begin(), (int(*)(int))tolower);
+	string tmp = "dummy"+ext;
+	gchar *tmp2 = g_utf8_strup(tmp.c_str(),-1);
 
 	gboolean is_certain = FALSE;
-	gchar *content_type = g_content_type_guess ( (gchar*)(string("dummy.")+ext).c_str(), NULL, 0, &is_certain);
+	gchar *content_type = g_content_type_guess (tmp2/*(gchar*)(string("dummy.")+ext).c_str()*/, NULL, 0, &is_certain);
 	if (content_type == NULL)
 	{
 		
@@ -1456,6 +1456,7 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 	g_object_unref(icon);
 	g_free (mime_type);
 	g_free (content_type);
+	g_free(tmp2);//lowercase dummy
 	return icon_d;
 }
 //Main point of this code is from ? Px
@@ -1527,7 +1528,7 @@ string WulforUtil::getStatsForMem() {
 			return temp;
 }
 
-std::string WulforUtil::formatSized(std::string& nonf)
+string WulforUtil::formatSized(string nonf)
 {
 	size_t needle = nonf.find_last_of(' ');
 	if(needle != string::npos) {
@@ -1539,51 +1540,20 @@ std::string WulforUtil::formatSized(std::string& nonf)
 	return nonf;
 }
 
-bool WulforUtil::HitIP(string& name/*, string &sIp*/)
-{
-	/*bool isOkIpV6 = false;
-	if(name.empty()) return false;
-	size_t n = std::count(name.begin(), name.end(), ':');
-	if( (n==2) && (name.size() == 2) ) return true;//Fix for "::"
-	if(n == 0 || n < 2)
-			return Ipv4Hit(name,sIp);
-	bool ok = false;
-	for(auto i = name.begin();i!=name.end();++i) {
-			if(*i==':') {
-				for(int j = 5; j>0;--j){
-						if(isxdigit(name[j])){ ok = true; }
-				}
-		}
-			if(ok){break;}
-	}
-	bool ok2 = false;
-	for(auto i = name.end();i!=name.begin();--i) {
-			if(*i==':') {
-				for(int q = 0; q<5;++q){
-						if(isxdigit(name[q])) { ok2 = true; }
-				}
-			}
-		if(ok2) {break;}
-	}
-	if( (ok == true ) || (ok2 == true)) {
-		struct sockaddr_in sa;
-		int result = inet_pton(AF_INET6,name.c_str() , &(sa.sin_addr));
-		isOkIpV6 = result == 1;
-	}
 
-	if(isOkIpV6)
-	{
-		sIp = name;
-		return isOkIpV6;
-	}*/
+//simplfy and cleanup
+bool WulforUtil::HitIP(string name)
+{
 	bool isOk = Util::isIp6(name);
 	if(isOk) {
 		return true;
 	}	
-	return Ipv4Hit(name/*,sIp*/);
+	return Ipv4Hit(name);
 }
-/* Inspired by StrongDC catch code ips */
-bool WulforUtil::Ipv4Hit(string &name/*, string &sIp*/) {
+/* 
+ * Inspired by StrongDC catch code ips 
+ * */
+bool WulforUtil::Ipv4Hit(string name) {
 	for(uint32_t i = 0;i < name.length(); i++)
 	{
 		if(!((name[i] == 0) || (name[i] == '.') || ((name[i] >= '0') && (name[i] <= '9')))) {
@@ -1612,7 +1582,6 @@ bool WulforUtil::Ipv4Hit(string &name/*, string &sIp*/) {
 	{
 		size_t nedle = name.find_last_of(".");
 		name = name.substr(0,nedle);
-//		sIp = name.substr(0,pos);
 		struct sockaddr_in sa;
 		int result = inet_pton(AF_INET,name.c_str() , &(sa.sin_addr));
 		isOk = result == 1;
