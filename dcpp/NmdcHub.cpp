@@ -1155,7 +1155,6 @@ void NmdcHub::on(Minute, uint64_t aTick) noexcept {
 	if(aTick > (lastProtectedIPsUpdate + 24*3600*1000)) {
 		protectedIPs.clear();
 
-		//protectedIPs.push_back("dcpp.net");
 		protectedIPs.push_back("dchublist.com");
 		protectedIPs.push_back("hublista.hu");
 		protectedIPs.push_back("dcbase.org");
