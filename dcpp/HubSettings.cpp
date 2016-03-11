@@ -93,12 +93,11 @@ void HubSettings::load(SimpleXML& xml) {
 	xml.stepOut();
 	xml.stepIn();
 	if(xml.findChild("Share")) {
-		share = new ShareManager(getId());
+		setShareManager(new ShareManager(getId()));
 		share->load(xml);
-		share->refresh(true,true,false);
+		share->refresh(true,false,true);
 	}	
 	xml.stepOut();
-	//xml.stepOut();
 }
 
 void HubSettings::save(SimpleXML& xml) const {
