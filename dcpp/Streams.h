@@ -155,7 +155,7 @@ public:
 
 	virtual size_t write(const void* buf, size_t len) {
 		if(maxBytes < len) {
-			throw FileException(_("More bytes written than requested"));
+			throw FileException("More bytes written than requested");
 		}
 		maxBytes -= len;
 		return s->write(buf, len);

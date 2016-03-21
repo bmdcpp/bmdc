@@ -34,9 +34,9 @@ namespace dcpp {
 #endif
 TimerManager::TimerManager() {
 #ifdef _WIN32
-    if(Util::OsMajor >= 6) {
+ //   if(Util::OsMajor >= 6) {
         pGTC64 = (GTC64)::GetProcAddress(::GetModuleHandle(_T("Kernel32.dll")), "GetTickCount64");
-    }
+  //  }
 #else
 	gettimeofday(&tv, NULL);
 #endif

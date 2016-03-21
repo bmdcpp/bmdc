@@ -214,7 +214,7 @@ SettingsManager::SettingsManager()
 	const string downloadDir = xdgDir ? string(xdgDir) + PATH_SEPARATOR_STR : Util::getPath(Util::PATH_DOWNLOADS);
 	setDefault(DOWNLOAD_DIRECTORY, downloadDir);
 #else
-	setDefault(DOWNLOAD_DIRECTORY,Util::getPath(Util::PATH_DOWNLOADS))
+	setDefault(DOWNLOAD_DIRECTORY,Util::getPath(Util::PATH_DOWNLOADS));
 #endif
 	
 	setDefault(TEMP_DOWNLOAD_DIRECTORY, Util::getPath(Util::PATH_USER_LOCAL) + "Incomplete" PATH_SEPARATOR_STR);

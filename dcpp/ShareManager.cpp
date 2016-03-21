@@ -45,6 +45,8 @@
 #include <fnmatch.h>
 #endif
 
+#include "Exception.h"
+
 #include <limits>
 
 // define this to 1 to measure the time taken by searches to complete.
@@ -840,7 +842,7 @@ void ShareManager::refresh(bool dirs, bool aUpdate, bool block, function<void (f
 		try {
 			start();
 			setThreadPriority(Thread::LOW);
-		} catch(const ThreadException& e) {
+		} catch(const Exception &e) {
 			LogManager::getInstance()->message(_("File list refresh failed: ") + e.getError());
 		}
 	}

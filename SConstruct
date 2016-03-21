@@ -7,6 +7,8 @@ import string
 import re
 import fileinput
 import sys
+from sys import platform as _platform
+
 
 try:
 	from bzrlib import branch
@@ -33,8 +35,10 @@ NEW_SETTING = False
 #'-fno-stack-protector',
 # #,'-fpermissive' ],
 #,'-Weffc++'
+#'-L/usr/local/lib','-L/usr/lib',
+#'-ldl',
 BUILD_FLAGS = {#'-Wno-unused-parameter','-Wno-unused-value',
-	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT', '-L/usr/local/lib','-L/usr/lib','-ldl', '-pipe','-DUSE_STACKTRACE'],
+	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT','-pipe','-DUSE_STACKTRACE'],
 	'debug'   : ['-O1','-g', '-ggdb', '-Wall','-Wextra','-D_DEBUG'],#'-fpermissive' ,'-Wpadded'
 	'release' : ['-O3', '-fomit-frame-pointer', '-DNDEBUG']
 }
@@ -43,11 +47,17 @@ BUILD_FLAGS = {#'-Wno-unused-parameter','-Wno-unused-value',
 # Function definitions
 # ----------------------------------------------------------------------
 
-def check_pkg_config(context):
-	context.Message('Checking for pkg-config... ')
-	ret = context.TryAction('pkg-config --version')[0]
-	context.Result(ret)
-	return ret
+def check_pkg_config(context,name):
+	context.Message('Checking for %s... ' % name)
+	ret = commands.getoutput('\'%s\' --version' % name)
+	retval = 0
+	try:
+		retval = 1
+	except ValueError:
+		print "No pkg-config found!"
+
+	context.Result(retval)
+	return retval
 
 def check_pkg(context, name):
 	context.Message('Checking for %s... ' % name)
@@ -58,7 +68,7 @@ def check_pkg(context, name):
 def check_cxx_version(context, name, major, minor):
 	context.Message('Checking for %s >= %d.%d...' % (name, major, minor))
 	ret = commands.getoutput('%s -dumpversion' % name)
-
+	
 	retval = 0
 	try:
 		if ((string.atoi(ret[0]) == major and string.atoi(ret[2]) >= minor)
@@ -174,6 +184,9 @@ if os.environ.has_key('CFLAGS'):
 
 if os.environ.has_key('CPPPATH'):
 	env['CPPPATH'] = os.environ['CPPPATH'].split()	
+	
+if os.environ.has_key('PKG_CONFIG'):
+	env['PKG_CONFIG'] = os.environ['PKG_CONFIG']		
 
 env['CPPDEFINES'] = [] # Initialize as a list so Append doesn't concat strings
 
@@ -231,7 +244,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		env.Append( LIBS = 'pthread')
 		env.Append( LINKFLAGS = '-lpthread')
 
-	if not conf.CheckPKGConfig():
+	if not conf.CheckPKGConfig(env['PKG_CONFIG']):
 		print '\tpkg-config not found.'
 		Exit(1)
 
@@ -365,7 +378,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 # ----------------------------------------------------------------------
 # Compile and link flags
 # ----------------------------------------------------------------------
-
+	#_platform = 'win32'#flag for cross compile
 	env.MergeFlags(BUILD_FLAGS['common'])
 	env.MergeFlags(BUILD_FLAGS[env['mode']])
 
@@ -401,6 +414,11 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if os.sys.platform == 'sunos5':
 		conf.env.Append(CPPDEFINES = ('ICONV_CONST', 'const'))
 		env.Append(LIBS = ['socket', 'nsl'])
+		
+	if _platform == "win32":
+		env.Append(LIBS = ['wsock32','iphlpapi','ws2_32'])
+		#env.Append(LINKFLAGS= '-lwsock32 -liphlpapi ')
+		#env.Append(LDFLAGS = '-L/usr/i686-w64-mingw32/lib/')		
 
 	if LIB_IS_GEO:
 		env.Append(LINKFLAGS = '-lGeoIP')

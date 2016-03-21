@@ -16,26 +16,26 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef DCPLUSPLUS_DCPP_THREAD_H
-#define DCPLUSPLUS_DCPP_THREAD_H
+#ifndef THREAD_H
+#define THREAD_H
 
-#ifdef _WIN32
-#include "w.h"
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+
+#ifndef _WIN32
+	#include <pthread.h>
+	#include <sched.h>
+	#include <sys/resource.h>
 #else
-#include <pthread.h>
-#include <sched.h>
-#include <sys/resource.h>
-#include <unistd.h>
+#include "w.h"
 #endif
 
 #include "Exception.h"
 
 namespace dcpp {
 
-STANDARD_EXCEPTION(ThreadException);
-
-class Thread 
-{
+class Thread {
 public:
 #ifdef _WIN32
 	enum Priority {
@@ -45,14 +45,14 @@ public:
 		HIGH = THREAD_PRIORITY_ABOVE_NORMAL
 	};
 
-	Thread() : threadHandle(INVALID_HANDLE_VALUE), threadId(0) { }
+	Thread() throw() : threadHandle(INVALID_HANDLE_VALUE), threadId(0){ }
 	virtual ~Thread() {
 		if(threadHandle != INVALID_HANDLE_VALUE)
 			CloseHandle(threadHandle);
 	}
 
-	void start();
-	void join() {
+	void start() throw();
+	void join() throw() {
 		if(threadHandle == INVALID_HANDLE_VALUE) {
 			return;
 		}
@@ -62,10 +62,21 @@ public:
 		threadHandle = INVALID_HANDLE_VALUE;
 	}
 
-	void setThreadPriority(Priority p) { ::SetThreadPriority(threadHandle, p); }
+	void setThreadPriority(Priority p) throw() { ::SetThreadPriority(threadHandle, p); }
 
-	static void sleep(uint32_t millis) { ::Sleep(millis); }
-	static void yield() { ::Sleep(0); }
+	static void sleep(uint32_t millis) {
+		if(millis % 10 != 0) { // default precision ~10ms - don't use mm timers if not needed
+			//timeBeginPeriod(1);
+			::Sleep(millis);
+			//timeEndPeriod(1);
+		} else { 
+			::Sleep(millis);
+		}
+	}
+	static void yield() { ::Sleep(1); }
+	static long safeInc(volatile long& v) { return InterlockedIncrement(&v); }
+	static long safeDec(volatile long& v) { return InterlockedDecrement(&v); }
+	static long safeExchange(volatile long& target, long value) { return InterlockedExchange(&target, value); }
 
 #else
 
@@ -75,38 +86,61 @@ public:
 		NORMAL = 0,
 		HIGH = -1
 	};
-	
-	Thread() : threadHandle(0) { }
+	Thread() throw() : threadHandle(0) { }
 	virtual ~Thread() {
 		if(threadHandle != 0) {
 			pthread_detach(threadHandle);
 		}
 	}
-	void start();
-	void join() {
+	void start() throw(ThreadException);
+	void join() throw() {
 		if (threadHandle) {
-			pthread_join(threadHandle, NULL);
+			pthread_join(threadHandle, 0);
 			threadHandle = 0;
 		}
 	}
 
-	void setThreadPriority(Priority p) { setpriority(PRIO_PROCESS, 0, p); }
+	static void setThreadPriority(Priority p) { setpriority(PRIO_PROCESS, 0, p); }
 	static void sleep(uint32_t millis) { ::usleep(millis*1000); }
 	static void yield() { ::sched_yield(); }
+	static long safeInc(volatile long& v) {
+		pthread_mutex_lock(&mtx);
+		long ret = ++v;
+		pthread_mutex_unlock(&mtx);
+		return ret;
+	}
+	static long safeDec(volatile long& v) {
+		pthread_mutex_lock(&mtx);
+		long ret = --v;
+		pthread_mutex_unlock(&mtx);
+		return ret;
+	}
+	static long safeExchange(volatile long& target, long value) {
+		pthread_mutex_lock(&mtx);
+		long ret = target;
+		target = value;
+		pthread_mutex_unlock(&mtx);
+		return ret;
+	}
 #endif
 
 protected:
 	virtual int run() = 0;
 
+private:
+	Thread(const Thread&);
+	Thread& operator=(const Thread&);
+
 #ifdef _WIN32
 	HANDLE threadHandle;
-	DWORD threadId;
-	static DWORD WINAPI starter(void* p) {
+	unsigned int threadId;
+	static unsigned int WINAPI starter(void* p) {
 		Thread* t = (Thread*)p;
 		t->run();
 		return 0;
 	}
 #else
+	static pthread_mutex_t mtx;
 	pthread_t threadHandle;
 	static void* starter(void* p) {
 		Thread* t = (Thread*)p;
@@ -114,11 +148,11 @@ protected:
 		return NULL;
 	}
 #endif
-private:
-		Thread(Thread&);
-		Thread& operator=(Thread&);
 };
+}
+#endif // THREAD_H
 
-} // namespace dcpp
-
-#endif // !defined(THREAD_H)
+/*
+ * Some parts Copyright (C) 2002-2015 Petr Kozelka, PPK at czdc dot org
+ * Licensed under GNU General Public License version 3.
+ */

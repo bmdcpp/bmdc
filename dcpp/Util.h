@@ -22,15 +22,23 @@
 #include "compiler.h"
 //For locale
 #include <glib.h>
+#ifndef _WIN32
 #include <glib/gi18n.h>
+#endif
 //---
 #include <cstdlib>
 #include <ctime>
+
+
+#ifdef _WIN32
+#include <winsock2.h>
+#else
+#include <sys/socket.h>
 #include <arpa/inet.h>
-#include <fcntl.h>
 #include <sys/utsname.h>
 #include <sys/sysinfo.h>
-
+#endif
+#include <fcntl.h>
 #include <map>
 #include <cstring>
 #include <algorithm> //we dont need boost

@@ -68,14 +68,14 @@ void startup() {
 	WSADATA wsaData;
 	WSAStartup(MAKEWORD(2, 2), &wsaData);
 #endif
-
+#ifndef _WIN32
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset(PACKAGE, "UTF-8");
-
+#endif
 	SettingsManager::newInstance();
 
 	LogManager::newInstance();
-	//TimerManager::newInstance();
+	TimerManager::newInstance();
 	HashManager::newInstance();
 	CryptoManager::newInstance();
 	DebugManager::newInstance();

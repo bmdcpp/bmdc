@@ -20,7 +20,9 @@
 #include "Text.h"
 #include <errno.h>
 #include <iconv.h>
+#ifndef _WIN32
 #include <langinfo.h>
+#endif
 #include <cwctype>
 
 #ifndef ICONV_CONST

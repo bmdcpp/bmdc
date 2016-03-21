@@ -32,8 +32,9 @@
 #include <dcpp/typedefs.h>
 #include <dcpp/SettingsManager.h>
 #include <dcpp/Util.h>
-
+//#ifndef _WIN32
 #include <glib/gi18n.h>
+//#endif
 
 #define C_EMPTY(x) ((x) == NULL || (x)[0] == '\0')
 // Some Global typedefs

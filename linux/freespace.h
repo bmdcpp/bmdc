@@ -13,12 +13,16 @@
 #include <cstring>
 #include <cstdio>
 #include <errno.h>
-#include <mntent.h> /* for getmntent(), et al. */
+
+#ifndef _WIN32
+	#include <mntent.h> /* for getmntent(), et al. */
+#endif
+
 #include <dcpp/Util.h>
 
 struct FreeSpace {
         static bool FreeDiscSpace ( std::string path, unsigned long long * res, unsigned long long * res2);
-        
+#ifndef WIN32
         static std::string process_mounts(const char *filename)
 		{
 			FILE *fp;
@@ -92,6 +96,7 @@ static void print_mount(std::string &s,const struct mntent *fs)
 
         static unsigned long long _aviable;
         static unsigned long long _total;
+#endif        
         
 };
 

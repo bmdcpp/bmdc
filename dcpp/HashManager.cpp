@@ -548,8 +548,8 @@ bool upgradeFromV2(string& file) {
 		return false;
 	}
 
-	wstring buf(file.size() * 2, 0);
-	buf.resize(GetFinalPathNameByHandle(handle, &buf[0], buf.size(), 0));
+	string buf(file.size() * 2, 0);
+	buf.resize(GetFinalPathNameByHandle(handle, &buf[0], buf.size(), VOLUME_NAME_NT));
 
 	::CloseHandle(handle);
 
@@ -557,7 +557,7 @@ bool upgradeFromV2(string& file) {
 		return false;
 	}
 	// GetFinalPathNameByHandle prepends "\\?\"; remove it.
-	if(buf.size() >= 4 && buf.substr(0, 4) == L"\\\\?\\") {
+	if(buf.size() >= 4 && buf.substr(0, 4) == "\\\\?\\") {
 		buf.erase(0, 4);
 	}
 

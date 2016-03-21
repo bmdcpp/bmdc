@@ -16,7 +16,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
  */
-
+#ifndef _WIN32
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -400,4 +400,4 @@ bacon_message_connection_get_is_server (BaconMessageConnection *conn)
 
 	return conn->is_server;
 }
-
+#endif

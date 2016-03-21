@@ -17,7 +17,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 /* Space usage statistics for a file system.  Blocks are 512-byte. */
-
+#ifndef _WIN32
 #if !defined FSUSAGE_H_
 # define FSUSAGE_H_
 
@@ -37,4 +37,5 @@ struct fs_usage
 struct FS{
 static int get_fs_usage (char const *file, char const *disk, struct fs_usage *fsp);
 };
+#endif
 #endif

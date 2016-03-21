@@ -30,6 +30,8 @@
 #include "bookentry.hh"
 #include "treeview.hh"
 
+#define _(String) String
+
 class UserCommandMenu;
 
 class Search:

@@ -20,6 +20,9 @@
 #define DCPLUSPLUS_DCPP_SOCKET_H
 
 #ifdef _WIN32
+#include "w.h"
+#include <winsock2.h>
+#include <ws2tcpip.h>
 typedef int socklen_t;
 typedef SOCKET socket_t;
 #else
@@ -210,6 +213,10 @@ private:
 	// Low level interface
 	socket_t create(const addrinfo& ai);
 	static string resolveName(const sockaddr* sa, socklen_t sa_len, int flags = NI_NUMERICHOST);
+	
+public:	
+	static INT inet_pton(PCSTR pAddrString, PVOID pAddrBuf);
+	static void inet_ntop(PVOID pAddr, PSTR pStringBuf, size_t szStringBufSize);
 };
 
 } // namespace dcpp

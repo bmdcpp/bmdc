@@ -18,7 +18,11 @@
 
 #include "stdinc.h"
 #include "Mapper_NATPMP.h"
+#ifndef _WIN32
 #include <arpa/inet.h>
+#else
+#include "w.h"
+#endif
 #include "Util.h"
 
 extern "C" {

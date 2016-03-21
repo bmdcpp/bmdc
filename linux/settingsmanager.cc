@@ -29,6 +29,9 @@
 #include "message.hh"
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
+#ifdef _WIN32
+#include <direct.h>
+#endif
 
 using namespace std;
 using namespace dcpp;
@@ -491,7 +494,12 @@ WulforSettingsManager::WulforSettingsManager():
 	load();
 
 	string path_image = Util::getPath(Util::PATH_USER_CONFIG) + "Images/";
+	#ifndef _WIN32
 	g_mkdir_with_parents(path_image.c_str(), S_IRUSR | S_IWUSR | S_IXUSR);
+	#else
+	_mkdir(path_image.c_str());
+	
+	#endif
 }
 
 WulforSettingsManager::~WulforSettingsManager()

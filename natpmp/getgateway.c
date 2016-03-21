@@ -27,6 +27,9 @@ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 */
+#ifdef _WIN32
+#include "natpmp.h"
+#endif
 #include <stdio.h>
 #include <ctype.h>
 #ifndef WIN32
@@ -66,20 +69,20 @@ POSSIBILITY OF SUCH DAMAGE.
 #define USE_SOCKET_ROUTE
 #undef USE_SYSCTL_NET_ROUTE
 #endif
-
+/*
 #if !defined(USE_PROC_NET_ROUTE) && !defined(USE_SOCKET_ROUTE) && !defined(USE_SYSCTL_NET_ROUTE)
 int getdefaultgateway(in_addr_t * addr)
 {
 	return -1;
 }
 #endif
-
-#ifdef WIN32
+*/
+#ifdef _WIN32
 #undef USE_PROC_NET_ROUTE
 #undef USE_SOCKET_ROUTE
 #undef USE_SYSCTL_NET_ROUTE
 //#define USE_WIN32_CODE
-#define USE_WIN32_CODE_2
+//#define USE_WIN32_CODE_2
 #endif
 
 #ifdef __CYGWIN__

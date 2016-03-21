@@ -37,7 +37,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <sys/time.h>
 #endif	/* !defined(_MSC_VER) */
 
-#ifdef WIN32
+#ifdef _WIN32
 #include <winsock2.h>
 #if !defined(_MSC_VER) || _MSC_VER >= 1600
 #include <stdint.h>

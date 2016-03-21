@@ -34,7 +34,9 @@
 
 #include <algorithm>
 #include <cstring>
+#ifndef _WIN32
 #include <endian.h>
+#endif
 #include "debug.h"
 
 #if (__BYTE_ORDER == __BIG_ENDIAN)

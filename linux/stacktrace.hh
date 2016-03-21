@@ -19,7 +19,7 @@
  * Contributor(s):
  *
  */
-
+#ifndef _WIN32
 #ifndef _COW_STACKTRACE_H_
 #define _COW_STACKTRACE_H_
 
@@ -140,4 +140,5 @@ private:
 }
 
 #endif // _COW_STACKTRACE_H_
+#endif
 

@@ -38,6 +38,10 @@
 	#include <sys/utsname.h>
 	#include <cctype>
 	#include <cstring>
+#else
+#include "Text.h"
+#include "w.h"
+#include <shlobj.h>
 #endif
 #include <clocale>
 
@@ -90,7 +94,9 @@ static string getDownloadsPath(const string& def) {
 	             // Defined in KnownFolders.h.
 	             static GUID downloads = {0x374de290, 0x123f, 0x4565, {0x91, 0x64, 0x39, 0xc4, 0x92, 0x5e, 0x46, 0x7b}};
 	    		 if(getKnownFolderPath(downloads, 0, NULL, &path) == S_OK) {
-	    			 string ret = Text::fromT(path) + "\\";
+	    			 string ret = Util::emptyString;
+	    			 Text::wcToUtf8(*path,ret);
+	    			 //string ret = Text::fromT(path) + "\\";
 	    			 ::CoTaskMemFree(path);
 	    			 return ret;
 	    		 }
@@ -228,14 +234,14 @@ void Util::loadBootConfig() {
 		if(boot.findChild("ConfigPath")) {
 			ParamMap params;
 			/// @todo load environment variables instead? would make it more useful on *nix
-			params["APPDATA"] = []() -> string {
+			/*params["APPDATA"] = []() -> string {
 				TCHAR path[MAX_PATH];
 				return Text::fromT((::SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, SHGFP_TYPE_CURRENT, path), path));
 			};
 			params["PERSONAL"] = []() -> string {
 				TCHAR path[MAX_PATH];
 				return Text::fromT((::SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, path), path));
-			};
+			};*/
 			paths[PATH_USER_CONFIG] = Util::formatParams(boot.getChildData(), params);
 		}
 	} catch(const Exception& ) {
@@ -1101,6 +1107,7 @@ std::string Util::formatRegExp(const string& msg, ParamMap& params) {
 }
 
 bool Util::fileExists(const string& aFile) {
+    #ifndef _WIN32
     struct stat stFileInfo;
 	bool blnReturn;
 	int intStat;
@@ -1122,6 +1129,9 @@ bool Util::fileExists(const string& aFile) {
   }
 
   return blnReturn;
+  #else
+  return !(File::getSize(aFile) == -1);
+  #endif
 }
 
 string Util::getBackupTimeString(time_t t /*= time(NULL) */ ) {
@@ -1183,9 +1193,9 @@ string Util::convertCEscapes(string tmp)
 string Util::getIETFLang() {
 #ifdef _WIN32
 	auto lang = SETTING(LANGUAGE);
-	if(lang.empty()) {
+	/*if(lang.empty()) {
 		string lang = _nl_locale_name_default();
-	}
+	}*/
 	if(lang.empty() || lang == "C") {
 		lang = "en-US";
 	}
@@ -1233,7 +1243,11 @@ bool Util::isIp6(const string& name)
 	bool isOkIpV6 = false;
 	if( (ok == true ) || (ok2 == true)) {
 		struct sockaddr_in sa;
+		#ifdef _WIN32
+		int result = Socket::inet_pton(name.c_str() , &(sa.sin_addr));//6
+		#else
 		int result = inet_pton(AF_INET6,name.c_str() , &(sa.sin_addr));//6
+		#endif
 		isOkIpV6 = result == 1;
 	}
 

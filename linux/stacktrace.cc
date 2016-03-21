@@ -18,7 +18,7 @@
  * Contributor(s):
  *
  */
-
+#ifndef _WIN32
 #include <iostream>
 #include <cxxabi.h> // __cxxabiv1::__cxa_demangle
 #if USE_STACKTRACE
@@ -163,3 +163,4 @@ std::string StackTrace::demangle(const std::string &name)
 }
 
 } // namespace cow
+#endif

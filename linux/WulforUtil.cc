@@ -34,17 +34,20 @@
 #include <dcpp/HighlightManager.h>
 #include <dcpp/RawManager.h>
 #include <iostream>
+
+#ifndef _WIN32
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <sys/utsname.h>
 #include <sys/sysinfo.h>
-
+#include "freespace.h"
+#endif
 #include "settingsmanager.hh"
 #include "wulformanager.hh"
 #include "ShellCommand.hh"
 #include "hub.hh"
 #include "version.hh"
-#include "freespace.h"
+
 
 using namespace std;
 using namespace dcpp;
@@ -427,6 +430,7 @@ bool WulforUtil::isHubURL(const string &text)
 
 bool WulforUtil::profileIsLocked()
 {
+	#ifndef _WIN32
 	static bool profileIsLocked = false;
 
 	if (profileIsLocked)
@@ -459,6 +463,9 @@ bool WulforUtil::profileIsLocked()
 	}
 	g_close(fd,NULL);
 	return profileIsLocked;
+	#else
+	return false;
+	#endif
 }
 
 gboolean WulforUtil::getNextIter_gui(GtkTreeModel *model, GtkTreeIter *iter, bool children /* = TRUE */, bool parent /* = TRUE */)
@@ -882,6 +889,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	}
 	else if (cmd == "stats")
 	{
+		#ifndef _WIN32
 			int z = 0 ,y = 0;
 			struct utsname u_name; //instance of utsname
 			z = uname(&u_name);
@@ -925,6 +933,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 					+ "-=" + getStatsForMem() + " =-\n"
 					+ "-=" + cpuinfo() + " =-\n";
 		return true;
+		#endif
 	}
 	else if ( cmd == "g" || cmd == "google"){
 	  if(param.empty())
@@ -1056,9 +1065,11 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	// End of "Now Playing"
 	else if ( cmd == "df" )
 	{
+		#ifndef _WIN32
 		string tmp = "\n\t\t\t-=Free Space=-\t\t\t\n" +  FreeSpace::process_mounts("/etc/mtab");
 		tmp += "\n\t\t\tTotal:\t" + Util::formatBytes(FreeSpace::_aviable) + "/" + Util::formatBytes(FreeSpace::_total) + "\t\n";
 		message += tmp;
+		#endif
 		return true;
 	}
 	else if (cmd == "uptime")
@@ -1583,7 +1594,11 @@ bool WulforUtil::Ipv4Hit(string name) {
 		size_t nedle = name.find_last_of(".");
 		name = name.substr(0,nedle);
 		struct sockaddr_in sa;
+		#ifdef _WIN32
+		int result = dcpp::Socket::inet_pton(name.c_str() , &(sa.sin_addr));
+		#else
 		int result = inet_pton(AF_INET,name.c_str() , &(sa.sin_addr));
+		#endif
 		isOk = result == 1;
 	}
 	return isOk;

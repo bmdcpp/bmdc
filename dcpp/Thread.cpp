@@ -17,27 +17,35 @@
  */
 
 #include "stdinc.h"
+#include "DCPlusPlus.h"
+#include "Exception.h"
+#include <process.h>
 #include "Thread.h"
-#include "Util.h"
-#include "format.h"
 
 namespace dcpp {
+#ifndef _WIN32
+pthread_mutex_t Thread::mtx = PTHREAD_MUTEX_INITIALIZER;
+#endif
 
 #ifdef _WIN32
-void Thread::start() {
+void Thread::start() throw() {
 	join();
-	if( (threadHandle = CreateThread(NULL, 0, &starter, this, 0, &threadId)) == NULL) {
-		throw ThreadException(_("Unable to create thread"));
+	if((threadHandle = (HANDLE)_beginthreadex(NULL, 0, &starter, this, 0, &threadId)) == NULL) {
+		throw Exception("Can not create thread");
 	}
 }
 
 #else
-void Thread::start() {
+void Thread::start() throw(ThreadException) {
 	join();
 	if(pthread_create(&threadHandle, NULL, &starter, this) != 0) {
-		throw ThreadException(_("Unable to create thread"));
+		throw ThreadException(STRING(UNABLE_TO_CREATE_THREAD));
 	}
 }
 #endif
 
-} // namespace dcpp
+}
+/*
+ * Some parts Copyright (C) 2002-2015 Petr Kozelka, PPK at czdc dot org
+ * Licensed under GNU General Public License version 3.
+ */

@@ -91,14 +91,14 @@ string forwardRet(const char* ret) {
 
 #ifdef _WIN32
 string getGeoInfo(int id, GEOTYPE type) {
-	id = GeoIP_Win_GEOID_by_id(id);
+	/*id = GeoIP_Win_GEOID_by_id(id);
 	if(id) {
 		tstring str(GetGeoInfo(id, type, 0, 0, 0), 0);
 		str.resize(GetGeoInfo(id, type, &str[0], str.size(), 0));
 		if(!str.empty()) {
 			return Text::fromT(str);
 		}
-	}
+	}*/
 	return Util::emptyString;
 }
 #endif
@@ -120,7 +120,7 @@ void GeoIP::rebuild() {
 			params["3code"] = forwardRet(GeoIP_code3_by_id(id)); 
 			params["continent"] = forwardRet(GeoIP_continent_by_id(id)); 
 			params["engname"] = forwardRet(GeoIP_name_by_id(id)); 
-#ifdef _WIN32
+/*#ifdef _WIN32
 			params["name"] = [id]() -> string {
 				auto str = getGeoInfo(id, GEO_FRIENDLYNAME);
 				return str.empty() ? forwardRet(GeoIP_name_by_id(id)) : str;
@@ -129,11 +129,11 @@ void GeoIP::rebuild() {
 				auto str = getGeoInfo(id, GEO_OFFICIALNAME);
 				return str.empty() ? forwardRet(GeoIP_name_by_id(id)) : str;
 			};
-#else
+#else*/
 			/// @todo any way to get localized country names on non-Windows?
 			params["name"] =  forwardRet(GeoIP_name_by_id(id)); 
 			params["officialname"] = forwardRet(GeoIP_name_by_id(id)); 
-#endif
+//#endif
 
 			cache[id] = Util::formatParams(setting, params);
 		}

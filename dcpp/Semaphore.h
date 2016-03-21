@@ -22,6 +22,8 @@
 #include <semaphore.h>
 #include <sys/time.h>
 #include "noexcept.h"
+#include "w.h"
+
 
 namespace dcpp {
 

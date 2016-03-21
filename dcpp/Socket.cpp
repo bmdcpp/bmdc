@@ -278,12 +278,22 @@ void Socket::accept(const Socket& listeningSocket) {
 	// return the remote port
 	if(((struct sockaddr*)&sock_addr)->sa_family == AF_INET) {
 		struct sockaddr_in *s = (struct sockaddr_in *)&sock_addr;
+		#ifdef _WIN32
+		inet_ntop(&s->sin_addr, ipstr, sizeof ipstr);
+		#else
 		inet_ntop(AF_INET, &s->sin_addr, ipstr, sizeof ipstr);
+		#endif
 		setIp(ipstr);
 	}
 	else if(((struct sockaddr*)&sock_addr)->sa_family == AF_INET6) {
 		struct sockaddr_in6 *s = (struct sockaddr_in6 *)&sock_addr;
+		
+		#ifdef _WIN32
+		inet_ntop(&s->sin6_addr, ipstr, sizeof ipstr);
+		#else
 		inet_ntop(AF_INET6, &s->sin6_addr, ipstr, sizeof ipstr);
+		#endif
+		
 		setIp(ipstr);
 	}
 }
@@ -354,7 +364,11 @@ void Socket::connect(const string& aAddr, const int16_t& aPort, const string& lo
 	if(addr->ai_family == AF_INET6) {
         char sIP[46];
         sIP[0] = '\0';
+        #ifdef _WIN32
+        inet_ntop(&((struct sockaddr_in6 *)addr->ai_addr)->sin6_addr, sIP, 46);
+        #else
         inet_ntop(AF_INET6, &((struct sockaddr_in6 *)addr->ai_addr)->sin6_addr, sIP, 46);
+        #endif
         address = sIP;
     } else {
         address = inet_ntoa(((sockaddr_in *)addr->ai_addr)->sin_addr);
@@ -556,7 +570,11 @@ static string AddressToString(const sockaddr_storage * sasAddr) {
         } else {
             char sIP[40];
             sIP[0] = '\0';
+            #ifdef _WIN32
+            Socket::inet_ntop(&((struct sockaddr_in6 *)sasAddr)->sin6_addr, sIP, 40);
+            #else
             inet_ntop(AF_INET6,&((struct sockaddr_in6 *)sasAddr)->sin6_addr, sIP, 40);
+            #endif
             return sIP;
         }
     } else {
@@ -899,7 +917,8 @@ void Socket::socksUpdated() {
 			((struct sockaddr_in*)&udpAddr)->sin_family = AF_INET;
 			((struct sockaddr_in*)&udpAddr)->sin_port = *((uint16_t*)(&connStr[8]));
 #ifdef _WIN32
-			udpAddr.sai.sin_addr.S_un.S_addr = *((long*)(&connStr[4]));
+//			udpAddr.sai.sin_addr.S_un.S_addr = *((long*)(&connStr[4]));
+		inet_pton(&connStr[4],&((struct sockaddr_in*)&udpAddr)->sin_addr);
 #else
 //
 //			((struct sockaddr_in*)&udpAddr)->sin_addr = (struct in_addr)*((long*)(&connStr[4]));
@@ -960,7 +979,11 @@ string Socket::getLocalIp() noexcept  {
             } else {
                 char sIP[46];
                 sIP[0] = '\0';
+                #ifdef _WIN32
+                inet_ntop(&((struct sockaddr_in6 *)&sas_addr)->sin6_addr, sIP, 46);
+                #else
                 inet_ntop(AF_INET6,&((struct sockaddr_in6 *)&sas_addr)->sin6_addr, sIP, 46);
+                #endif
                 return (sIP);
             }
         } else {
@@ -983,7 +1006,11 @@ string Socket::getLocalIp() noexcept  {
             } else {
                 char sIP[46];
                 sIP[0] = '\0';
+                #ifdef _WIN32
+                inet_ntop(&((struct sockaddr_in6 *)&sas_addr)->sin6_addr, sIP, 46);
+                #else
                 inet_ntop(AF_INET6,&((struct sockaddr_in6 *)&sas_addr)->sin6_addr, sIP, 46);
+                #endif
                 return (sIP);
             }
         } else {
@@ -993,5 +1020,47 @@ string Socket::getLocalIp() noexcept  {
  }
 	return Util::emptyString;
 }
+
+//...
+#ifdef _WIN32
+
+typedef INT (WSAAPI * pInetPton)(INT, PCSTR, PVOID);
+pInetPton MyInetPton = NULL;
+typedef PCTSTR (WSAAPI *pInetNtop)(INT, PVOID, PSTR, size_t);
+pInetNtop MyInetNtop = NULL;
+
+INT Socket::inet_pton(PCSTR pAddrString, PVOID pAddrBuf) {
+    if(MyInetPton != NULL) {
+        return MyInetPton(AF_INET6, pAddrString, pAddrBuf);
+    } else {
+        sockaddr_storage sas_addr;
+        socklen_t sas_len = sizeof(sockaddr_storage);
+        memset(&sas_addr, 0, sas_len);
+
+        if(::WSAStringToAddressA((LPSTR)pAddrString, AF_INET6, NULL, (struct sockaddr *)&sas_addr, &sas_len) == 0) {
+            memcpy(pAddrBuf, &((struct sockaddr_in6 *)&sas_addr)->sin6_addr.s6_addr, 16);
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+}
+
+void Socket::inet_ntop(PVOID pAddr, PSTR pStringBuf, size_t szStringBufSize) {
+    if(MyInetNtop != NULL) {
+        MyInetNtop(AF_INET6, pAddr, pStringBuf, szStringBufSize);
+    } else {
+        struct sockaddr_in6 sin6;
+        socklen_t sin6_len = sizeof(sockaddr_in6);
+
+        memset(&sin6, 0, sin6_len);
+        sin6.sin6_family = AF_INET6;
+        memcpy(&sin6.sin6_addr, pAddr, 16);
+
+        ::WSAAddressToStringA((struct sockaddr *)&sin6, sin6_len, NULL, pStringBuf, (LPDWORD)&szStringBufSize);
+    }
+}
+#endif
+///
 
 } // namespace dcpp

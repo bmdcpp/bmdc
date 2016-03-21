@@ -21,11 +21,15 @@
  */
 
 #include <gtk/gtk.h>
+#ifndef _WIN32
 #include <glib/gi18n.h>
-
+#include "bacon-message-connection.hh"
+#endif
+#ifdef _WIN32
+#undef USE_STACKTRACE
+#endif
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
-#include "bacon-message-connection.hh"
 #include "settingsmanager.hh"
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
@@ -38,9 +42,9 @@
 #include "stacktrace.hh"
 
 #define GUI_LOCALE_DIR _DATADIR PATH_SEPARATOR_STR "locale"
-
+#ifndef _WIN32
 BaconMessageConnection *connection = NULL;
-
+#endif
 void receiver(const char *link, gpointer )
 {
 	g_return_if_fail(link != NULL);
@@ -60,7 +64,7 @@ void handle_crash(int )
     m_crash = true;
 
     std::cerr << "pid: " << getpid() << std::endl;
-
+#ifndef _WIN32
 #if USE_STACKTRACE
     cow::StackTrace trace;
     trace.generate_frames();
@@ -94,16 +98,19 @@ void handle_crash(int )
 #else
     std::cerr << "Stacktrace is not enabled\n";
 #endif
+
+#endif
 	return exit(0);
 }
 
 int main(int argc, char *argv[])
 {
+	#ifndef _WIN32
 	// Initialize i18n support
 	bindtextdomain(GUI_LOCALE_PACKAGE, GUI_LOCALE_DIR);
 	textdomain(GUI_LOCALE_PACKAGE);
 	bind_textdomain_codeset(GUI_LOCALE_PACKAGE, "UTF-8");
-
+	
 	connection = bacon_message_connection_new(GUI_PACKAGE);
 
 	if (connection != NULL) {
@@ -135,7 +142,7 @@ int main(int argc, char *argv[])
 		dcdebug("bmdc: is server...\n");
 		bacon_message_connection_set_callback(connection, receiver, NULL);
 	}
-
+	#endif
 	// Start the DC++ client core
 
 	dcpp::Util::initialize();
@@ -160,6 +167,7 @@ int main(int argc, char *argv[])
 	}
 	g_set_application_name("BMDC++");
 	WulforSettingsManager::newInstance();
+	#ifndef _WIN32
 	signal(SIGPIPE, SIG_IGN);
 	signal(SIGSEGV, handle_crash);
 	signal(SIGINT,  handle_crash);
@@ -167,9 +175,12 @@ int main(int argc, char *argv[])
 	signal(SIGFPE,  handle_crash);
 	signal(SIGABRT, handle_crash);
 	signal(SIGTERM, handle_crash);
+	#endif
 	WulforManager::start(argc, argv);
 	gtk_main();
+	#ifndef _WIN32
 	bacon_message_connection_free(connection);
+	#endif
 	WulforManager::stop();
 	WulforSettingsManager::deleteInstance();
 

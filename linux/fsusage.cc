@@ -16,6 +16,7 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
      /* POSIX 1003.1-2001 (and later) with XSI */
+#ifndef _WIN32
 #include "fsusage.h"
 #include <stdint.h>
 #include <limits.h>
@@ -91,3 +92,4 @@ int FS::get_fs_usage (char const *file, char const*, struct fs_usage *fsp) {
   return 0;
 }
 
+#endif
