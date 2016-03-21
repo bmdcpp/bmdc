@@ -251,7 +251,7 @@ void ShareBrowser::buildDirs_gui(DirectoryListing::Directory *dir, GtkTreeIter *
 
 	gtk_tree_store_set(dirStore, &newIter,
 		dirView.col("DL Dir"), (gpointer)dir,
-		dirView.col("Icon"), "bmdc-directory",
+		dirView.col("Icon"), BMDC_STOCK_DIRECTORY,
 		-1);
 
 	for (auto file = dir->files.begin(); file != dir->files.end(); ++file)

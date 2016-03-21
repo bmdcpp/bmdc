@@ -36,6 +36,8 @@
 #include <cstring>
 #ifndef _WIN32
 #include <endian.h>
+#else
+#include "portable_endian.h"
 #endif
 #include "debug.h"
 

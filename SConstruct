@@ -417,7 +417,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		
 	if _platform == "win32":
 		env.Append(LIBS = ['wsock32','iphlpapi','ws2_32'])
-		#env.Append(LINKFLAGS= '-lwsock32 -liphlpapi ')
+		#env.Append(LINKFLAGS= '-Wl,-subsystem ')
 		#env.Append(LDFLAGS = '-L/usr/i686-w64-mingw32/lib/')		
 
 	if LIB_IS_GEO:

@@ -14,7 +14,7 @@ export RANLIB="x86_64-w64-mingw32-ranlib";
 export AR="x86_64-w64-mingw32-ar";
 export AS="x86_64-w64-mingw32-as";
 export AR_FOR_TARGET=${AR};
-export LDFLAGS='-s';
+export LDFLAGS='-Wl,-subsystem,windows -s';
 ## we need override http://www.tarnyko.net/en/?q=node/45
 export PKG_CONFIG="/usr/bin/x86_64-w64-mingw32-pkg-config";
 mkdir -p $HOME/clang-bmdc/

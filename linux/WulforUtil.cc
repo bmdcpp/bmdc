@@ -710,8 +710,16 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string country)
 	if( it  != countryIcon.end() )
 			return it->second;
 	GError *error = NULL;
-	gchar *path = g_strdup_printf(_DATADIR PATH_SEPARATOR_STR "bmdc/country/%s.png",
-		                              (gchar *)country.c_str());
+	#ifdef _WIN32
+		#undef _DATADIR
+		#define _DATADIR "%s"
+		gchar *path = g_strdup_printf(_DATADIR PATH_SEPARATOR_STR "country/%s.png",
+                              WulforManager::get()->getPath().c_str(),(gchar *)country.c_str());
+		#undef _DATADIR
+	#else
+		gchar *path = g_strdup_printf(_DATADIR PATH_SEPARATOR_STR "bmdc/country/%s.png",
+                              (gchar *)country.c_str());
+	#endif	                              
 	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_size(path,15,15,&error);
 	
 	if (error != NULL || pixbuf == NULL) {
@@ -1435,12 +1443,12 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 		return buf;
 		#endif
 	}
-	//std::transform(ext.begin(), ext.end(), ext.begin(), (int(*)(int))tolower);
+
 	string tmp = "dummy"+ext;
 	gchar *tmp2 = g_utf8_strup(tmp.c_str(),-1);
 
 	gboolean is_certain = FALSE;
-	gchar *content_type = g_content_type_guess (tmp2/*(gchar*)(string("dummy.")+ext).c_str()*/, NULL, 0, &is_certain);
+	gchar *content_type = g_content_type_guess (tmp2, NULL, 0, &is_certain);
 	if (content_type == NULL)
 	{
 		
