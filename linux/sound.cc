@@ -19,8 +19,10 @@
  * In addition, as a special exception, compiling, linking, and/or
  * using OpenSSL with this program is allowed.
  */
- 
-#ifdef _HAVECANBERRA
+#ifdef _WIN32
+	#include <dcpp/w.h>
+	#include <mmsystem.h>
+#elif defined(_HAVECANBERRA)
 	#include <canberra-gtk.h> 
 #endif
 
@@ -126,12 +128,20 @@ void Sound::playSound(TypeSound sound)
 
 void Sound::playSound(const string &target)
 {
-	#ifdef _HAVECANBERRA
+	//if we on win call PlaySound not cannbera
+	#ifdef _WIN32
+		PlaySound(Text::toT(target).c_str(), NULL, SND_FILENAME | SND_ASYNC);
+	#elif defined(_HAVECANBERRA)
 		ca_context_play(context, 1,CA_PROP_MEDIA_FILENAME, target.c_str(), NULL);
 	#else
+		#ifdef _WIN32
+		::PlaySound(Text::toT(target), NULL, SND_FILENAME | SND_ASYNC);
+		#else
 		FILE *pipe = popen((WulforSettingsManager::getInstance()->getString("sound-command") + " \"" +target+"\" &" ).c_str(), "w" );
 		pclose(pipe);
+		#endif
 	#endif
+	
 }
 
 void Sound::sound_finalize() const

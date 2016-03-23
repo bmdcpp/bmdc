@@ -21,6 +21,9 @@
 #include <iostream>
 #include <gtk/gtk.h>
 #include <dcpp/Util.h>
+#ifdef _WIN32
+#include "genres.h"
+#endif
 
 using namespace std;
 using namespace dcpp;
@@ -40,7 +43,13 @@ class Splash
 			label = gtk_label_new("Loading...");
 			progressbar = gtk_progress_bar_new ();
 			box = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
+			#ifdef _WIN32
+			GResource* res = ::bmdc_get_resource();
+			g_resources_register(res);
+			image = gtk_image_new_from_resource("/org/gtk/bmdc/icons/hicolor/96x96/apps/bmdc.png");
+			#else
 			image = gtk_image_new_from_file(_DATADIR "/icons/hicolor/scalable/apps/bmdc.svg");
+			#endif
 			gtk_container_add(GTK_CONTAINER(box),image);
 			gtk_container_add(GTK_CONTAINER(box),label);
 			gtk_container_add(GTK_CONTAINER(box), progressbar);
