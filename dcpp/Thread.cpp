@@ -36,7 +36,7 @@ void Thread::start() throw() {
 }
 
 #else
-void Thread::start() throw(ThreadException) {
+void Thread::start() throw() {
 	join();
 	if(pthread_create(&threadHandle, NULL, &starter, this) != 0) {
 		throw ThreadException(STRING(UNABLE_TO_CREATE_THREAD));

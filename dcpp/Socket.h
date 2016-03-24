@@ -213,10 +213,11 @@ private:
 	// Low level interface
 	socket_t create(const addrinfo& ai);
 	static string resolveName(const sockaddr* sa, socklen_t sa_len, int flags = NI_NUMERICHOST);
-	
+#ifdef _WIN32	
 public:	
 	static INT inet_pton(PCSTR pAddrString, PVOID pAddrBuf);
 	static void inet_ntop(PVOID pAddr, PSTR pStringBuf, size_t szStringBufSize);
+#endif	
 };
 
 } // namespace dcpp
