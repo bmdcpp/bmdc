@@ -20,7 +20,10 @@
  */
 
 #include "hashdialog.hh"
+#include <dcpp/stdinc.h>
+#include <dcpp/DCPlusPlus.h>
 #include <dcpp/HashManager.h>
+#include <dcpp/format.h>
 #include "wulformanager.hh"
 
 using namespace std;

@@ -21,6 +21,7 @@
  */
 
 #include <gtk/gtk.h>
+#include <dcpp/format.h>
 #ifndef _WIN32
 #include <glib/gi18n.h>
 #include "bacon-message-connection.hh"
@@ -105,12 +106,12 @@ void handle_crash(int )
 
 int main(int argc, char *argv[])
 {
-	#ifndef _WIN32
 	// Initialize i18n support
 	bindtextdomain(GUI_LOCALE_PACKAGE, GUI_LOCALE_DIR);
 	textdomain(GUI_LOCALE_PACKAGE);
 	bind_textdomain_codeset(GUI_LOCALE_PACKAGE, "UTF-8");
 	
+	#ifndef _WIN32
 	connection = bacon_message_connection_new(GUI_PACKAGE);
 
 	if (connection != NULL) {

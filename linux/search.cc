@@ -30,6 +30,7 @@
 #include <dcpp/Client.h>
 #include <dcpp/AVManager.h>
 #include <dcpp/GeoManager.h>
+#include <dcpp/format.h>
 #include "UserCommandMenu.hh"
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
@@ -2214,4 +2215,25 @@ void Search::onAddItem(gpointer )
 {
 	BookEntry* entry = new Search(dcpp::Util::emptyString);
 	WulforManager::get()->getMainWindow()->getSearchEntry()->addBookEntry_gui(entry);
+}
+
+GtkWidget *Search::createmenu()
+{
+	if(isMenuCreated) {
+		GtkWidget *item = BookEntry::createItemFirstMenu();
+		menu =  gtk_menu_new();
+		GtkWidget *addSearchTab = gtk_menu_item_new_with_label(_("Add Search Tab"));
+		GtkWidget *close = gtk_menu_item_new_with_label(_("Close"));
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu),item);
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu),close);
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu),addSearchTab);
+		gtk_widget_show(close);
+		gtk_widget_show(addSearchTab);
+		gtk_widget_show(item);
+		gtk_widget_show_all(menu);
+		g_signal_connect_swapped(close, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
+		g_signal_connect_swapped(addSearchTab, "activate", G_CALLBACK(onAddItem), (gpointer)this);
+		isMenuCreated = false;
+	}
+	return menu;
 }

@@ -42,6 +42,9 @@
 #include <sys/sysinfo.h>
 #include "freespace.h"
 #endif
+#ifdef _WIN32
+#include "diskinfo.hh"
+#endif
 #include "settingsmanager.hh"
 #include "wulformanager.hh"
 #include "ShellCommand.hh"
@@ -1073,7 +1076,10 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	// End of "Now Playing"
 	else if ( cmd == "df" )
 	{
-		#ifndef _WIN32
+		#ifdef _WIN32
+		message += DiskInfo::diskInfoList();
+		message += DiskInfo::diskSpaceInfo();
+		#else
 		string tmp = "\n\t\t\t-=Free Space=-\t\t\t\n" +  FreeSpace::process_mounts("/etc/mtab");
 		tmp += "\n\t\t\tTotal:\t" + Util::formatBytes(FreeSpace::_aviable) + "/" + Util::formatBytes(FreeSpace::_total) + "\t\n";
 		message += tmp;

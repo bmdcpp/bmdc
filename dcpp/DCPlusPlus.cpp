@@ -53,6 +53,8 @@
 
 #include "AVManager.h"
 
+#include "format.h"
+
 #ifdef _WIN32
 extern "C" int _nl_msg_cat_cntr;
 #endif
@@ -68,10 +70,8 @@ void startup() {
 	WSADATA wsaData;
 	WSAStartup(MAKEWORD(2, 2), &wsaData);
 #endif
-#ifndef _WIN32
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset(PACKAGE, "UTF-8");
-#endif
 	SettingsManager::newInstance();
 
 	LogManager::newInstance();
