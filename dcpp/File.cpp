@@ -241,7 +241,7 @@ time_t File::getLastModified() noexcept {
 	return s.st_mtime;
 }
 
-bool File::isOpen() const noexcept {
+bool File::isOpen() noexcept {
 	return h != -1;
 }
 
