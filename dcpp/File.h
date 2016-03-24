@@ -67,7 +67,7 @@ public:
 
 	File(const string& aFileName, int access, int mode);
 
-	bool isOpen() /*const*/ noexcept;
+	bool isOpen() noexcept;
 	virtual void close() noexcept;
 	virtual int64_t getSize() noexcept;
 	virtual void setSize(int64_t newSize);
@@ -81,9 +81,11 @@ public:
 	virtual size_t read(void* buf, size_t& len);
 	virtual size_t write(const void* buf, size_t len);
 	virtual size_t flush();
-
+#ifdef _WIN32
 	uint32_t getLastModified() noexcept;
-
+#else	
+	time_t getLastModified() noexcept;
+#endif
 	static void copyFile(const string& src, const string& target);
 	static void renameFile(const string& source, const string& target);
 	static void deleteFile(const string& aFileName) noexcept;
