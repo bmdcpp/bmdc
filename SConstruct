@@ -379,7 +379,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 # ----------------------------------------------------------------------
 # Compile and link flags
 # ----------------------------------------------------------------------
-	#_platform = 'win32'#flag for cross compile
+	#_platform = 'win32'#flag for cross enable compile
 	env.MergeFlags(BUILD_FLAGS['common'])
 	env.MergeFlags(BUILD_FLAGS[env['mode']])
 
@@ -408,6 +408,9 @@ if not 'install' in COMMAND_LINE_TARGETS:
 
 	if os.sys.platform == 'linux2':
 		env.Append(LINKFLAGS = '-Wl,--as-needed')
+		if not _platform == 'win32':
+			env.Append(LIBS='dl')
+		
 
 	if os.name == 'mac' or os.sys.platform == 'darwin':
 		conf.env.Append(CPPDEFINES = ('ICONV_CONST', ''))
@@ -416,7 +419,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		conf.env.Append(CPPDEFINES = ('ICONV_CONST', 'const'))
 		env.Append(LIBS = ['socket', 'nsl'])
 		
-	if _platform == "win32":
+	if _platform == 'win32':
 		env.Append(LIBS = ['wsock32','iphlpapi','ws2_32'])
 		#env.Append(LINKFLAGS= '-Wl,-subsystem ')
 		#env.Append(LDFLAGS = '-L/usr/i686-w64-mingw32/lib/')		

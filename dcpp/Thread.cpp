@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,9 @@
 #include "stdinc.h"
 #include "DCPlusPlus.h"
 #include "Exception.h"
+#ifdef _WIN32
 #include <process.h>
+#endif
 #include "Thread.h"
 
 namespace dcpp {
@@ -39,13 +41,9 @@ void Thread::start() throw() {
 void Thread::start() throw() {
 	join();
 	if(pthread_create(&threadHandle, NULL, &starter, this) != 0) {
-		throw ThreadException(STRING(UNABLE_TO_CREATE_THREAD));
+		throw Exception("Can not create thread");
 	}
 }
 #endif
 
 }
-/*
- * Some parts Copyright (C) 2002-2015 Petr Kozelka, PPK at czdc dot org
- * Licensed under GNU General Public License version 3.
- */

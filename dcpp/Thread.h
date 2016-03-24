@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -153,7 +153,3 @@ private:
 }
 #endif // THREAD_H
 
-/*
- * Some parts Copyright (C) 2002-2015 Petr Kozelka, PPK at czdc dot org
- * Licensed under GNU General Public License version 3.
- */

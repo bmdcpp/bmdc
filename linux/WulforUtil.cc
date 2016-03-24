@@ -546,12 +546,21 @@ void WulforUtil::copyValue_gui(GtkTreeStore *store, GtkTreeIter *fromIter, GtkTr
  * Registers either the custom icons or the GTK+ icons as stock icons in
  * GtkIconFactory according to the user's preference. If the icons have
  * previously been loaded, they are removed and re-added.
+ * Note: Win need specified path to runtime bin
  */
 void WulforUtil::registerIcons()
 {
 	#if GTK_CHECK_VERSION(3,9,0)
 	icon_theme = gtk_icon_theme_get_default ();
-	gtk_icon_theme_prepend_search_path(icon_theme,_DATADIR PATH_SEPARATOR_STR GUI_LOCALE_PACKAGE "icons");
+			#ifdef _WIN32
+			#undef _DATADIR
+			#define _DATADIR "%s"
+			gchar buf[256];
+			sprintf(buf,_DATADIR PATH_SEPARATOR_STR GUI_LOCALE_PACKAGE "icons",WulforManager::get()->getPath().c_str());
+			gtk_icon_theme_prepend_search_path(icon_theme,buf);
+		#else
+			gtk_icon_theme_prepend_search_path(icon_theme,_DATADIR PATH_SEPARATOR_STR GUI_LOCALE_PACKAGE "icons");
+		#endif
 	#else
 	// Holds a mapping of custom icon names -> stock icon names.
 	// Not all icons have stock representations.

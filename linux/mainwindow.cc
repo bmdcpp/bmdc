@@ -460,7 +460,6 @@ MainWindow::MainWindow():
 	
 	setInitThrotles();
 	Sound::start();
-	//Emoticons::start();
 	Notify::start();
 
 	PluginManager::getInstance()->runHook(HOOK_UI_CREATED, getContainer(), NULL);
