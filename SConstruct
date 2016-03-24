@@ -184,7 +184,8 @@ if os.environ.has_key('CFLAGS'):
 
 if os.environ.has_key('CPPPATH'):
 	env['CPPPATH'] = os.environ['CPPPATH'].split()	
-	
+
+env['PKG_CONFIG'] = 'pkg-config'	
 if os.environ.has_key('PKG_CONFIG'):
 	env['PKG_CONFIG'] = os.environ['PKG_CONFIG']		
 
