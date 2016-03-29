@@ -1087,7 +1087,8 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	{
 		#ifdef _WIN32
 		message += DiskInfo::diskInfoList();
-		message += DiskInfo::diskSpaceInfo();
+		message += "\n\r";
+		message += DiskInfo::diskSpaceInfo(true);
 		#else
 		string tmp = "\n\t\t\t-=Free Space=-\t\t\t\n" +  FreeSpace::process_mounts("/etc/mtab");
 		tmp += "\n\t\t\tTotal:\t" + Util::formatBytes(FreeSpace::_aviable) + "/" + Util::formatBytes(FreeSpace::_total) + "\t\n";

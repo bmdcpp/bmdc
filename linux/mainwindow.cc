@@ -302,7 +302,6 @@ MainWindow::MainWindow():
 	GdkPixbuf* buf = NULL;
 	buf = gdk_pixbuf_new_from_resource("/org/gtk/bmdc/icons/hicolor/96x96/apps/bmdc.png",NULL);
 	gtk_window_set_default_icon(buf);
-	//gtk_window_set_icon_name(window,"bmdc");//force set icon name for win32
 	#endif
 
 	// All notebooks created in glade need one page.
