@@ -71,7 +71,7 @@ void QueueItem::removeSource(const UserPtr& aUser, int reason) {
 	sources.erase(i);
 }
 
-const string& QueueItem::getTempTarget() {
+const string QueueItem::getTempTarget() {
 	if(!isSet(QueueItem::FLAG_USER_LIST) && tempTarget.empty()) {
 		if(!SETTING(TEMP_DOWNLOAD_DIRECTORY).empty() && (File::getSize(getTarget()) == -1)) {
 #ifdef _WIN32

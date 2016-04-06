@@ -49,8 +49,8 @@
 namespace dcpp {
 
 QueueManager::FileQueue::~FileQueue() {
-	//for_each(queue | map_values, DeleteFunction());
-	for(auto i:queue){delete (i).second;}//TODO check if does as it does :p
+	for_each(queue.begin(),queue.end() , DeleteFunction2());
+	//for(auto i:queue){delete (i).second;}//TODO check if does as it does :p
 }
 
 QueueItem* QueueManager::FileQueue::add(const string& aTarget, int64_t aSize,

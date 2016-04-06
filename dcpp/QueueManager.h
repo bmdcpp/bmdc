@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -106,6 +106,7 @@ public:
 		StringList nicks = ClientManager::getInstance()->getNicks(aUser);
 		string nick = nicks.empty() ? Util::emptyString : Util::cleanPathChars(nicks[0]) + ".";
 		string filename = bmUtil::getTestSURString() + nick + aUser.user->getCID().toBase32();
+		
 		if(aUser.user == ClientManager::getInstance()->getMe())
 			return bmUtil::getTestSURString();
 

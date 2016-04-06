@@ -27,10 +27,16 @@ namespace dcpp {
 
 using std::unique_ptr;
 using std::forward;
-/**/
+
 struct DeleteFunction {
 	template<typename T>
 	void operator()(const T& p) const { delete p; }
+};
+
+//used in QueueManager::file
+struct DeleteFunction2 {
+	template<typename T>
+	void operator()(const T& p) const { delete p.second; }
 };
 
 template<typename T>

@@ -18,6 +18,7 @@
 
 #ifndef DCPLUSPLUS_DCPP_QUEUE_ITEM_H
 #define DCPLUSPLUS_DCPP_QUEUE_ITEM_H
+//because clang was buggy set
 #ifdef __clang__
 #include <list>
 #else
@@ -177,7 +178,6 @@ public:
 	}
 
 	string getListName() const {
-		//dcassert(isSet(QueueItem::FLAG_USER_LIST));
 		const Flags* f = dynamic_cast<const Flags*>(this);
 		if(f->isSet(QueueItem::FLAG_XML_BZLIST)) {
 			return getTarget() + ".xml.bz2";
@@ -186,7 +186,7 @@ public:
 		}
 	}
 
-	const string& getTempTarget();
+	const string getTempTarget();
 	void setTempTarget(const string& aTempTarget) { tempTarget = aTempTarget; }
 
 	QueueData* getPluginObject() noexcept;
