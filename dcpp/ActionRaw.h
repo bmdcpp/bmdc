@@ -38,7 +38,7 @@ struct Raw {
 	GETSET(std::string, name, Name);
 	GETSET(std::string, raw, Raw);
 	GETSET(int, id, Id);
-	GETSET(int, time, Time);
+	GETSET(int64_t, time, Time);
 	GETSET(bool, enabled, Enabled);
 
 };

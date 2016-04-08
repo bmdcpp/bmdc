@@ -192,9 +192,11 @@ QueueItem* QueueManager::UserQueue::getNext(const UserPtr& aUser, QueueItem::Pri
 
 	do {
 		auto i = userQueue[p].find(aUser);
-		if(i != userQueue[p].end()) {
+		if(i != userQueue[p].end()) 
+		{
 			dcassert(!i->second.empty());
-			for(auto j = i->second.begin(); j != i->second.end(); ++j) {
+			for(auto j = i->second.begin(); j != i->second.end(); ++j) 
+			{
 				QueueItem* qi = *j;
 				if(qi->isWaiting()) {
 					return qi;
@@ -213,7 +215,7 @@ QueueItem* QueueManager::UserQueue::getNext(const UserPtr& aUser, QueueItem::Pri
 						continue;
 					}
 				}
-				if(qi->isSet(QueueItem::FLAG_TESTSUR) || qi->isSet(QueueItem::FLAG_CHECK_FILE_LIST))//thinking BMDC++
+				if(qi->isSet(QueueItem::FLAG_TESTSUR) || qi->isSet(QueueItem::FLAG_CHECK_FILE_LIST))// TESTSUR and checkFL not need next BMDC++
 					continue;
 				return qi;
 			}
@@ -254,6 +256,7 @@ pair<size_t, int64_t> QueueManager::UserQueue::getQueued(const UserPtr& aUser) c
 	for(size_t i = QueueItem::LOWEST; i < QueueItem::LAST; ++i) {
 		auto& ulm = userQueue[i];
 		auto iulm = ulm.find(aUser);
+		
 		if(iulm == ulm.end()) {
 			continue;
 		}
