@@ -105,7 +105,7 @@ class ShareBrowser:
 		int64_t currentSize;
 		int64_t speed;
 		int64_t currentItems;
-		int shareItems;
+		int64_t shareItems;
 		int skipHits;
 		bool updateFileView;
 		bool fullfl;

@@ -40,7 +40,7 @@ struct HubSettings
 	HubSettings& operator=(const HubSettings& rhs);
 	~HubSettings();
 
-	const string& get(SettingsManager::StrSetting key, const std::string& defValue) const;
+	const string get(SettingsManager::StrSetting key, const std::string& defValue) const;
 	int get(SettingsManager::IntSetting key, int defValue) const;
 	bool get(SettingsManager::BoolSetting key, bool defValue);
 

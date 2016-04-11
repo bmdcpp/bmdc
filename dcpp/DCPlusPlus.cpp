@@ -53,6 +53,8 @@
 
 #include "AVManager.h"
 
+#include "UserManager.h"
+
 #include "format.h"
 
 #ifdef _WIN32
@@ -80,6 +82,7 @@ void startup() {
 	CryptoManager::newInstance();
 	DebugManager::newInstance();
 	SearchManager::newInstance();
+	UsersManager::newInstance();
 	ClientManager::newInstance();
 	ConnectionManager::newInstance();
 	DownloadManager::newInstance();
@@ -205,6 +208,7 @@ void shutdown() {
 	SearchManager::deleteInstance();
 	FavoriteManager::deleteInstance();
 	ClientManager::deleteInstance();
+	UsersManager::deleteInstance();//
 	DebugManager::deleteInstance();
 	HashManager::deleteInstance();
 	LogManager::deleteInstance();

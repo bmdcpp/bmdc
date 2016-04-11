@@ -198,19 +198,15 @@ void AboutConfig::addItem_gui(const gchar* rowname, const gchar* isdefault, cons
 	if(!isOk) {
 		dcdebug("value\n");
 		dcassert("bad\n");
-		//return;
 	}
 	if(!isOk2) {
 		dcdebug("rowname\n");
-		//return;
 	}
 	if(!isOk3) {
 		dcdebug("isdef\n");
-		//return;
 	}
 	if(!isOk4) {
 		dcdebug("types\n");
-		//return;
 	}
 
 	gtk_list_store_append(aboutStore,&iter);

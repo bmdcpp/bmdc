@@ -128,7 +128,7 @@ void Client::reloadSettings(bool updateNick) {
 		set(SettingsManager::NICK,prevNick);
 }
 
-const string& Client::getUserIp() const {
+const string Client::getUserIp() const {
 	if(!HUBSETTING(EXTERNAL_IP).empty()) {
 		return HUBSETTING(EXTERNAL_IP);
 	}
@@ -306,14 +306,14 @@ bool Client::isActionActive(const int aAction) const {
 	return hub ? FavoriteManager::getInstance()->getEnabledAction(hub, aAction) : true;
 }
 
-const string& Client::getUserIp4() const {
+const string Client::getUserIp4() const {
 	if(!HUBSETTING(EXTERNAL_IP).empty()) {
 		return HUBSETTING(EXTERNAL_IP);
 	}
 	return CONNSETTING(EXTERNAL_IP);
 }
 
-const string& Client::getUserIp6() const {
+const string Client::getUserIp6() const {
 	if(bIPv6 && sLocalIP.empty())
 	{
 		return sLocalIP;

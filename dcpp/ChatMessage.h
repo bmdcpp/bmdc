@@ -33,8 +33,10 @@ struct ChatMessage {
 		const OnlineUser* to = nullptr, const OnlineUser* replyTo = nullptr,
 		bool _thirdPerson = false, time_t _messageTimestamp = 0):
 	from(from->getUser()), to(to ? to->getUser() : nullptr),
-	replyTo(replyTo ? replyTo->getUser() : nullptr),timestamp(time(0)),
-	thirdPerson(_thirdPerson), messageTimestamp(_messageTimestamp),text(_text)
+	replyTo(replyTo ? replyTo->getUser() : nullptr),
+	text(_text),
+	timestamp(time(0)),
+	messageTimestamp(_messageTimestamp),thirdPerson(_thirdPerson) 
 	{ 
 
 	}

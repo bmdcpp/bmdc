@@ -145,7 +145,7 @@ HubSettings& HubSettings::operator=(const HubSettings& rhs)
 	return *this;
 }
 
-const string& HubSettings::get(SettingsManager::StrSetting key, const string& defValue) const
+const string HubSettings::get(SettingsManager::StrSetting key, const string& defValue) const
 {
 	auto i = strings.find(key);
 	return (i == strings.end()) ? defValue : i->second;

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2016 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -293,7 +293,7 @@ void ShareBrowser::updateFiles_gui(DirectoryListing::Directory *dir)
 			fileView.col("File Order"), Util::getFileName("d"+(*it_dir)->getName()).c_str(),
 			-1);
 		GdkPixbuf *buf = WulforUtil::loadIconShare("directory");
-		//size = (*it_dir)->getTotalSize(false);
+
 		size = (*it_dir)->getSize();
 		gtk_list_store_set(fileStore, &iter,
 			fileView.col("Icon"), buf,

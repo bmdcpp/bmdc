@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 #include "CryptoManager.h"
 //[BMDC
 #include "RawManager.h"
+#include "UserManager.h"
 //]
 #include "HttpConnection.h"
 #include "StringTokenizer.h"
@@ -174,12 +175,14 @@ void FavoriteManager::removeHubUserCommands(int ctx, const string& hub) {
         });
 }
 
+
 void FavoriteManager::addFavoriteUser(const UserPtr& aUser) {
 	{
 		Lock l(cs);
 		if(users.find(aUser->getCID()) == users.end()) {
-			StringList urls = ClientManager::getInstance()->getHubs(aUser->getCID(), Util::emptyString);
-			StringList nicks = ClientManager::getInstance()->getNicks(aUser->getCID(), Util::emptyString);
+			//ClientMan
+			StringList urls = UsersManager::getInstance()->getHubs(aUser->getCID(), Util::emptyString);
+			StringList nicks = UsersManager::getInstance()->getNicks(aUser->getCID(), Util::emptyString);
 
 			/// @todo make this an error probably...
 			if(urls.empty())

@@ -107,16 +107,16 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	string enc = p_entry->getEncoding();
 	// Fill the charset drop-down list in edit fav hub dialog.
 	auto& charsets = WulforUtil::getCharsets();
+	bool set = false;
 	for (auto ic = charsets.begin(); ic != charsets.end(); ++ic)
 	{
 			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(comboCodepage), (*ic).c_str());
-	}
-	bool set = false;
-	for(auto ii = charsets.begin(); ii != charsets.end(); ++ii) {
-			if(enc == *ii) {
-				gtk_combo_box_set_active(GTK_COMBO_BOX(comboCodepage), (ii - charsets.begin()));
+
+			if(enc == *ic) {
+				gtk_combo_box_set_active(GTK_COMBO_BOX(comboCodepage), (ic - charsets.begin()));
 				set = true;
 			}
+
 	}
 	//Default
 	if(set == false){
@@ -254,15 +254,6 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	GtkWidget* boxConnection = gtk_grid_new();
 	g_g_a_c_s(lan(_("Mode:")),0,0,1,1);
 	comboMode = createComboBoxWith3Options(_("Default"),_("Active"),_("Passive"));
-	//this need clarifiaction
-	/*if(p_entry->getMode() == SETTING(INCOMING_CONNECTIONS))
-		gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode), 0);
-	else{
-		int mode_i = p_entry->getMode();
-		if(mode_i <= 1)
-			gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode),1);//1active
-		else gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode),2);//2passive	
-	}*/
 	//bool b_ip = true;
 	switch(p_entry->getMode())
 	{
@@ -293,8 +284,6 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	entryIp = gen;
 	gtk_entry_set_text(GTK_ENTRY(entryIp), p_entry->get(SettingsManager::EXTERNAL_IP,SETTING(EXTERNAL_IP)).c_str());
 	g_g_a_c_s(entryIp,1,2,1,1);
-	//if(b_ip)
-	//	gtk_widget_set_sensitive(GTK_WIDGET(entryIp),FALSE);
 	
 	//GtkWidget* enableIp6 = g_c_b_n("Enable IPv6");
 	//g_g_a_c_s(enableIp6,0,3,1,1);
@@ -320,7 +309,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxKickAction ,lan("Kick Actions") );	
 	initActions();
 	
-	//Shara Page
+	//Share Page
 	
 	GtkWidget* boxShare = gtk_grid_new();
 	
@@ -341,7 +330,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 
 	button_add = gtk_button_new_with_label("Add");
 	button_rem = gtk_button_new_with_label("Remove");
-//	button_edit = gtk_button_new_with_label("Remove");
+//	button_edit = gtk_button_new_with_label("Edit");
 	GtkWidget* grid = gtk_grid_new();	
 	gtk_grid_attach(GTK_GRID(grid),button_add,0,1,1,1);
 	gtk_grid_attach(GTK_GRID(grid),button_rem,1,1,1,1);
@@ -454,16 +443,18 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 			
 			gchar* image_path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(backImage));
 			
-			string tmp = Util::getFileExt(image_path);
-			std::transform(tmp.begin(), tmp.end(), tmp.begin(), (int(*)(int))tolower);
-
-			if(tmp == ".png" || tmp == ".jpg" || tmp == ".gif" || tmp == ".svg")//alow only these types
+			const gchar* tmp = Util::getFileExt(image_path).c_str();
+						
+			if( (g_ascii_strcasecmp(tmp,".png") == 0) 
+			|| (g_ascii_strcasecmp(tmp,".jpg") == 0) 
+			|| (g_ascii_strcasecmp(tmp,".gif") ==0) 
+			|| (g_ascii_strcasecmp(tmp,".svg") == 0))//alow only these types
 			{
 				p_entry->set(SettingsManager::BACKGROUND_CHAT_IMAGE,string(image_path));
+
+				if(image_path)
+					g_free(image_path);
 			}
-			
-			if(image_path)//todo check if need
-				g_free(image_path);
 			
 			p_entry->setGroup(Util::emptyString);
 			

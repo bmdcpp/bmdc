@@ -33,6 +33,9 @@
 #include <dcpp/RegEx.h>
 #include <dcpp/HighlightManager.h>
 #include <dcpp/RawManager.h>
+
+#include <dcpp/UserManager.h>
+
 #include <iostream>
 
 #ifndef _WIN32
@@ -237,7 +240,7 @@ string WulforUtil::getHubNames(const UserPtr& user, const string& hintUrl)
 
 StringList WulforUtil::getHubAddress(const CID& cid, const string& hintUrl)
 {
-	return ClientManager::getInstance()->getHubs(cid, hintUrl);
+	return UsersManager::getInstance()->getHubs(cid, hintUrl);
 }
 
 StringList WulforUtil::getHubAddress(const UserPtr& user, const string& hintUrl)

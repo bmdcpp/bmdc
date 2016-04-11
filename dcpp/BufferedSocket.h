@@ -109,7 +109,6 @@ public:
 	string getLocalIp() const { return sock->getLocalIp(); }
 	uint16_t getLocalPort() const { return sock->getLocalPort(); }
 	
-	
 	bool isV6Valid() const { return sock->isV6Valid(); }
 
 private:
@@ -149,7 +148,7 @@ private:
 		function<void ()> f;
 	};
 
-	BufferedSocket(char aSeparator/*, bool v4only*/);
+	BufferedSocket(char aSeparator);
 
 	virtual ~BufferedSocket();
 	

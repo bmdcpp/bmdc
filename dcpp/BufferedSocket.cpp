@@ -74,7 +74,6 @@ void BufferedSocket::setMode (Modes aMode, size_t aRollback) {
 void BufferedSocket::setSocket(unique_ptr<Socket>&& s) {
 	dcassert(!sock.get());
 	sock = move(s);
-	//sock->setV4only(v4only);
 }
 
 void BufferedSocket::setOptions() {
@@ -316,6 +315,7 @@ void BufferedSocket::threadSendFile(InputStream* file) {
 
 	if(disconnecting)
 		return;
+		
 	dcassert(file != NULL);
 	size_t sockSize = (size_t)sock->getSocketOptInt(SO_SNDBUF);
 	size_t bufSize = max(sockSize, (size_t)64*1024);
@@ -355,7 +355,7 @@ void BufferedSocket::threadSendFile(InputStream* file) {
 		readPos = 0;
 
 		size_t writePos = 0, writeSize = 0;
-		int written = 0;
+		size_t written = 0;
 
 		while(writePos < writeBuf.size()) {
 			if(disconnecting)

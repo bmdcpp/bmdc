@@ -18,8 +18,6 @@ export LDFLAGS='-Wl,-subsystem,windows -s';
 ## we need override http://www.tarnyko.net/en/?q=node/45
 export PKG_CONFIG="/usr/bin/x86_64-w64-mingw32-pkg-config";
 mkdir -p $HOME/clang-bmdc/
-#$HOME/clang-bmdc/
 scons --debug=includes PREFIX=./ debug=1 libxattr=0 libappindicator=0 libtar=0
-#x86_64-w64-mingw32-ranlib # sometimes needed /usr/bin/x86_64-w64-mingw32-ranlib build/debug/libdcpp/libdcpp.a 
+#x86_64-w64-mingw32-ranlib # sometimes needed /usr/bin/x86_64-w64-mingw32-ranlib build/debug/libdcpp/libdcpp.a and then run scons again
 
-#scons install

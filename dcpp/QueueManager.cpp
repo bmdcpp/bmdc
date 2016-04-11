@@ -46,6 +46,9 @@
 #undef ff
 #endif
 
+
+#include "UserManager.h"
+
 namespace dcpp {
 
 QueueManager::FileQueue::~FileQueue() {
@@ -1833,7 +1836,7 @@ void QueueManager::logFinishedDownload(QueueItem* qi, Download*, bool crcChecked
 					}
 					hubNames.push_back(Util::toString(temp));
 
-					temp = ClientManager::getInstance()->getHubs(*i);
+					temp = UsersManager::getInstance()->getHubs(*i);
 					if(temp.empty()) {
 						temp.push_back(_("Offline"));
 					}

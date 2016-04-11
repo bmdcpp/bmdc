@@ -371,8 +371,12 @@ gint Hub::sort_iter_compare_func_nick(GtkTreeModel *model, GtkTreeIter  *a,
 	}
 	else
 	{
-		ret = dcpp::Util::stricmp(nick_a,nick_b);
-		
+		gchar* a_nick = g_utf8_casefold(nick_a,-1);
+		gchar* b_nick = g_utf8_casefold(nick_b,-1);
+		ret = g_utf8_collate(a_nick,b_nick);
+		//ret = dcpp::Util::stricmp(nick_a,nick_b);
+		g_free(a_nick);
+		g_free(b_nick);
 		g_free(nick_a);
 		g_free(nick_b);
 	}
