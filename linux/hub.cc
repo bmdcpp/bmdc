@@ -107,10 +107,6 @@ Hub::Hub(const string &address, const string &encoding):
 	sort = SETTING(SORT_FAVUSERS_FIRST) ? "Client Type" : "Nick Order";
 	if(faventry)
 		sort = faventry->get(SettingsManager::SORT_FAVUSERS_FIRST,SETTING(SORT_FAVUSERS_FIRST)) ? "Client Type" : "Nick Order";
-/*
-	nickView.setSortColumn_gui(_("Nick"), sort);
-	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);
-*/	
 	//Own sort
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(nickView.get(), nickView.col(_("Nick"))), TRUE);
 	gtk_tree_sortable_set_sort_func(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), sort_iter_compare_func_nick,
@@ -353,7 +349,7 @@ FavoriteHubEntry* Hub::getFavoriteHubEntry()
 {
 	return FavoriteManager::getInstance()->getFavoriteHubEntry(address);
 }
-//There we should be case-insestive
+
 gint Hub::sort_iter_compare_func_nick(GtkTreeModel *model, GtkTreeIter  *a,
 									GtkTreeIter  *b,  gpointer  data)
 {
@@ -503,7 +499,7 @@ if(WGETB("use-highlighting")) {//TODO:May hub-based?
 }//END
 		if(AVManager::getInstance()->isNickVirused(nick))
 		{
-			color = WGETS("userlist-bg-virus-an");//"#A52A2A";//another red
+			color = WGETS("userlist-bg-virus-an");
 			AVManager::AVEntry entry = AVManager::getInstance()->getEntryByNick(nick);
 			if(entry.share == size) {
 				color = WGETS("userlist-bg-virus"); // if size and nick is ok

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2010-2015 Mank
+ * Copyright © 2010-2016 Mank
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
  
 #ifndef _BMDC_EXPORT_MANAGER_HH
 #define _BMDC_EXPORT_MANAGER_HH
+
 #include "stdinc.h"
 #include "Singleton.h"
 #include "LogManager.h"

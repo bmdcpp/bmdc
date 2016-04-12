@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -89,14 +89,14 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 
 	try {
 		if(aType == Transfer::names[Transfer::TYPE_FILE]) {
-			auto info = /*ShareManager::getInstance()*/sm->toRealWithSize(aFile, isInSharingHub);
+			auto info = sm->toRealWithSize(aFile, isInSharingHub);
 			sourceFile = move(info.first);
 			type = (aFile == Transfer::USER_LIST_NAME_BZ || aFile == Transfer::USER_LIST_NAME) ?
 				Transfer::TYPE_FULL_LIST : Transfer::TYPE_FILE;
 			miniSlot = type == Transfer::TYPE_FULL_LIST || info.second <= static_cast<int64_t>(SETTING(SET_MINISLOT_SIZE) * 1024);
 
 		} else if(aType == Transfer::names[Transfer::TYPE_TREE]) {
-			sourceFile = /*ShareManager::getInstance()*/sm->toReal(aFile, isInSharingHub);
+			sourceFile = sm->toReal(aFile, isInSharingHub);
 			type = Transfer::TYPE_TREE;
 			miniSlot = true;
 

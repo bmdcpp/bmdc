@@ -2,7 +2,7 @@
  * FakeChecker.cpp
  * This file is part of BMDC++ 
  *
- * Copyright (C) 2012 - 2015 - Mank
+ * Copyright (C) 2012 - 2016 - Mank
  *
  * BMDC++ is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -37,7 +37,7 @@ void FakeChecker::setCheating(const HintedUser& p, const string& _ccResponse, co
 		bool _badClient, bool _badFileList, bool _clientCheckComplete, bool _fileListCheckComplete) {
 
 	OnlineUser* ou = nullptr;
-	string report;
+	string report = Util::emptyString;
 	{
 		cm->lock();
 		ou = cm->findOnlineUser(p);
@@ -51,10 +51,13 @@ void FakeChecker::setCheating(const HintedUser& p, const string& _ccResponse, co
 		}
 		if(_clientCheckComplete)
 			ou->getIdentity().setTestSURComplete("1");
+		
 		if(_fileListCheckComplete)
 			ou->getIdentity().setFileListComplete("1");
+		
 		if(!_cheatString.empty())
 			report += ou->setCheat(_cheatString, _badClient, _badFileList, _displayCheat);
+		
 		cm->sendAction(*ou, _actionId);
 	}
 

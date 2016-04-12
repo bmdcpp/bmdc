@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -93,6 +93,7 @@ public:
 	FavoriteNoCid getFavoritesIndepentOnCid() { Lock l(cs); return favoritesNoCid; }
 	FavoriteUser* getIndepentFavorite(const string& nick)
 	{
+		Lock l(cs);
 		auto fit = favoritesNoCid.find(nick);
 		if(fit!= favoritesNoCid.end())
 		{
@@ -102,10 +103,11 @@ public:
 	}
 
 	bool hasSlotI(const string& nick) {
+		Lock l(cs);
 		FavoriteUser* u = getIndepentFavorite(nick);
 		return (u != NULL) ? (u->isSet(FavoriteUser::FLAG_GRANTSLOT)) : false;
 	}
-	bool isFavoriteIUser(string nick) { return favoritesNoCid.find(nick) != favoritesNoCid.end(); }
+	bool isFavoriteIUser(string nick) { Lock l(cs); return favoritesNoCid.find(nick) != favoritesNoCid.end(); }
 	
 	void addFavoriteIUser(const string& nick, const time_t lastSeen = 0, const string& desc = Util::emptyString)
 	{

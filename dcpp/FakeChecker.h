@@ -2,7 +2,7 @@
  * FakeChecker.h
  * This file is part of BMDC++
  *
- * Copyright (C) 2012 - 2015 - Mank
+ * Copyright (C) 2012 - 2016 - Mank
  *
  * BMDC++ is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,7 +29,7 @@ class FakeChecker
 {
 	public:
 		FakeChecker(ClientManager *_cm): cm(_cm) { }
-		virtual ~FakeChecker() {};
+		virtual ~FakeChecker() { };
 
 	void setSupports(const HintedUser& user, const string& aSupport);
 	void setGenerator(const HintedUser& user, const string& aGenerator, const string& cid, const string& aBase);
