@@ -512,7 +512,7 @@ else:
 	info_image_files = env.Glob('info/*.png')
 	desktop_file = os.path.join('data', PACKAGE + '.desktop')
 
-	env.ReplaceAll(desktop_file,"/usr/share/",prefix+"share/")
+	env.ReplaceAll(desktop_file,"/usr/share/",env['PREFIX']+"share/")
 	
 	
 	app_icon_filter = lambda icon: os.path.splitext(icon)[0] == PACKAGE
