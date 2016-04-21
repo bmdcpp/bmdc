@@ -450,6 +450,8 @@ void FavoriteManager::save() {
 			xml.addChildAttrib("Width",(*i)->getHubWidth());
 			xml.addChildAttrib("Private", (*i)->getPrivate());
 
+			xml.addChildAttrib("EnableIPv6",(*i)->geteIPv6());	
+
 			(*i)->save(xml);
 			//RSX++
 			xml.stepIn();
@@ -675,6 +677,9 @@ void FavoriteManager::load(SimpleXML& aXml) {
 			e->setHubVisible(aXml.getChildAttrib("Visible"));
 			e->setHubWidth(aXml.getChildAttrib("Width"));
 			e->setPrivate(Util::toInt(aXml.getChildAttrib("Private")));//add
+			
+			e->seteIPv6(Util::toInt(aXml.getChildAttrib("EnableIPv6")));
+
 			e->setId(e->getServer());
 			e->load(aXml);
 			favoriteHubs.push_back(e);

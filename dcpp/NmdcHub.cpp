@@ -492,7 +492,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			
 		dcdebug("Port %d",p_port);
 		
-		if(b_ip6 && !server.empty())
+		if((geteIPv6() == true) && b_ip6 && !server.empty())
 		{
 			dcdebug("%s",server.c_str());
 		}

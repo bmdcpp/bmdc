@@ -254,13 +254,12 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	GtkWidget* boxConnection = gtk_grid_new();
 	g_g_a_c_s(lan(_("Mode:")),0,0,1,1);
 	comboMode = createComboBoxWith3Options(_("Default"),_("Active"),_("Passive"));
-	//bool b_ip = true;
+
 	switch(p_entry->getMode())
 	{
 		case SettingsManager::INCOMING_DIRECT:
 		case SettingsManager::INCOMING_FIREWALL_UPNP:
 		{
-			//b_ip = false;
 			gtk_combo_box_set_active(GTK_COMBO_BOX(comboMode), 0);
 			break;
 		}				
@@ -285,8 +284,9 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	gtk_entry_set_text(GTK_ENTRY(entryIp), p_entry->get(SettingsManager::EXTERNAL_IP,SETTING(EXTERNAL_IP)).c_str());
 	g_g_a_c_s(entryIp,1,2,1,1);
 	
-	//GtkWidget* enableIp6 = g_c_b_n("Enable IPv6");
-	//g_g_a_c_s(enableIp6,0,3,1,1);
+	enableIp6 = g_c_b_n("Enable IPv6 Support (NMDC)");
+	g_g_a_c_s(enableIp6,0,3,1,1);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enableIp6),p_entry->geteIPv6());
 	
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxConnection ,lan(_("Connection Setup")) );
 	
@@ -416,6 +416,7 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 			p_entry->setNotify(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON( enableNoti)));
 			
 			p_entry->setMode(gtk_combo_box_get_active(GTK_COMBO_BOX(comboMode)));
+			p_entry->seteIPv6(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(enableIp6)));
 			
 			p_entry->setAutoConnect(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkAutoConnect)));
 			p_entry->set(SettingsManager::LOG_CHAT_B, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(enableLog)));

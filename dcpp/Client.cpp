@@ -40,6 +40,7 @@ Client::Client(const string& hubURL, char separator_, bool secure_) :
 	secure(secure_), countType(COUNT_UNCOUNTED),
 	hideShare(true),checkClients(false), checkFilelists(false),
 	port(0),bIPv6(false),bIPv4(true)//defualt is ipv4
+	,ipv6(true)//defualt allow ipv6
 {
 	string file, proto, query, fragment;
 	Util::decodeUrl(hubURL, proto, address, port, file, query, fragment);
@@ -108,6 +109,7 @@ void Client::reloadSettings(bool updateNick) {
 		setCheckAtConnect(fav->getCheckAtConn());
 		setCheckClients(fav->getCheckClients());
 		setCheckFilelists(fav->getCheckFilelists());
+		seteIPv6(fav->geteIPv6());
 		//]
 	}else{
 		//[BMDC++
@@ -117,6 +119,7 @@ void Client::reloadSettings(bool updateNick) {
 		setCheckAtConnect(false);
 		setCheckClients(false);
 		setCheckFilelists(false);
+		seteIPv6(false);
 		//]
 	}
 	
@@ -156,7 +159,7 @@ void Client::connect() {
 	state = STATE_CONNECTING;
 
 	try {
-		sock = BufferedSocket::getSocket(separator/*, v4only()*/);
+		sock = BufferedSocket::getSocket(separator);
 		sock->addListener(this);
 		sock->connect(address, port, secure, SETTING(ALLOW_UNTRUSTED_HUBS), true);
 	} catch(const Exception& e) {
@@ -204,7 +207,13 @@ void Client::on(Connected) noexcept {
 	sLocalIP = sock->getLocalIp();
 	
 	 if(sock->isV6Valid() && sLocalIP.empty() == false && strchr(sLocalIP.c_str(), '.') == NULL) {
-		bIPv6 = true;
+		if(geteIPv6())
+		{//we allow ipv6 in fav
+			bIPv6 = true;
+		}else
+		{
+			bIPv6 = false;
+		}	
 	} else {
 		bIPv4 = true;
 	}

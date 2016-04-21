@@ -492,7 +492,7 @@ void DownloadManager::on(AdcCommand::STA, UserConnection* aSource, const AdcComm
 		return;
 	}
 
-	const string& err = cmd.getParameters()[0];
+	const string err = cmd.getParameters()[0];
 	if(err.length() != 3) {
 		aSource->disconnect();
 		return;
@@ -500,22 +500,32 @@ void DownloadManager::on(AdcCommand::STA, UserConnection* aSource, const AdcComm
 
 	switch(Util::toInt(err.substr(0, 1))) {
 	case AdcCommand::SEV_FATAL:
+	{
 		aSource->disconnect();
 		return;
-	case AdcCommand::SEV_RECOVERABLE:
+	}	
+	case AdcCommand::SEV_RECOVERABLE:{
 		switch(Util::toInt(err.substr(1))) {
 		case AdcCommand::ERROR_FILE_NOT_AVAILABLE:
+		{
 			fileNotAvailable(aSource);
 			return;
+		}	
 		case AdcCommand::ERROR_SLOTS_FULL:
+		{
 			string param;
 			noSlots(aSource, cmd.getParam("QP", 0, param) ? param : Util::emptyString);
 			return;
+		}	
+		default:{return;}
 		}
+	}	
 	case AdcCommand::SEV_SUCCESS:
+	{
 		// We don't know any messages that would give us these...
 		dcdebug("Unknown success message %s %s", err.c_str(), cmd.getParam(1).c_str());
 		return;
+	}	
 	}
 	aSource->disconnect();
 }

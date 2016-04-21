@@ -36,7 +36,8 @@ class FavoriteHubDialog: public Entry
 {
    public:
    		//@: entry : The Fav Entry to process to dialog
-		FavoriteHubDialog(FavoriteHubEntry* entry);
+   		//@: and always is it called like that
+		explicit FavoriteHubDialog(FavoriteHubEntry* entry);
 		//@: groups : wich groups should dialog show up
 		bool initDialog(UnMapIter &groups);
 		
@@ -99,6 +100,7 @@ private:
 					*enableLog,
 					*enableCountry,
 					*enableIp,
+					*enableIp6, 
 					*enableBold,
 					*enableStatusChat,
 					*enableFavFirst,

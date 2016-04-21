@@ -138,6 +138,9 @@ public:
 	GETSET(bool, checkAtConnect, CheckAtConnect);
 	GETSET(bool, checkClients, CheckClients);
 	GETSET(bool, checkFilelists, CheckFilelists);
+
+	GETSET(bool,ipv6,eIPv6);
+
 	mutable CriticalSection cs; //BMDC++//RSX++
 protected:
 	friend class ClientManager;
