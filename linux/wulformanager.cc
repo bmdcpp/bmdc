@@ -68,7 +68,7 @@ WulforManager *WulforManager::get()
 WulforManager::WulforManager():
 mainWin(NULL)
 {
-	abort = false;
+	//abort = false;
 
 	// Initialize sempahore variables
 	g_rw_lock_init(&entryMutex);
@@ -90,7 +90,7 @@ mainWin(NULL)
 
 WulforManager::~WulforManager()
 {
-	abort = TRUE;
+	//abort = TRUE;
 	g_rw_lock_clear(&entryMutex);
 }
 

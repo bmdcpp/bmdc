@@ -149,15 +149,28 @@ void SystemLog::on(LogManagerListener::Message, time_t t, const string& message,
 
 GdkPixbuf* SystemLog::getImageSev(int sev)
 {
+	GtkWidget* image = NULL;
 	string tmp = Util::emptyString;
 	switch(sev)
 	{
-		case LogManager::Sev::LOW: tmp = "info";break;
-		case LogManager::Sev::NORMAL: tmp = "warning";break;
-		case LogManager::Sev::HIGH: tmp = "error"; break;
+		case LogManager::Sev::LOW: 
+		image = gtk_image_new_from_resource("/org/gtk/bmdc/info/info.png");
+		//tmp = "info";
+		break;
+		case LogManager::Sev::NORMAL: 
+		image = gtk_image_new_from_resource("/org/gtk/bmdc/info/warning.png");
+		//tmp = "warning";
+		break;
+		case LogManager::Sev::HIGH: 
+		image = gtk_image_new_from_resource("/org/gtk/bmdc/info/error.png");
+		//tmp = "error"; 
+		break;
 		default:break;
 	};
-	GError* error = NULL;
+	gtk_image_set_pixel_size(GTK_IMAGE(image),32);
+	
+	
+	/*GError* error = NULL;
 
 	gchar *path = g_strdup_printf(_DATADIR PATH_SEPARATOR_STR "bmdc/info/%s.png",
 		                              (gchar *)tmp.c_str());
@@ -167,7 +180,8 @@ GdkPixbuf* SystemLog::getImageSev(int sev)
 	if(error != NULL || buf == NULL) {
 			g_error_free(error);
 			return NULL;
-	}
-	return buf;
+	}*/
+	//return buf;
+	return gtk_image_get_pixbuf(GTK_IMAGE(image));
 }
 

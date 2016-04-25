@@ -58,7 +58,7 @@ Client* ClientManager::getClient(const string& aHubURL) {
 
 	{
 		Lock l(cs);
-		clients.insert(c);
+		clients.insert(make_pair(aHubURL,c));
 	}
 
 	c->addListener(this);
@@ -72,7 +72,7 @@ void ClientManager::putClient(Client* aClient) {
 
 	{
 		Lock l(cs);
-		clients.erase(aClient);
+		clients.erase(aClient->getHubUrl());
 	}
 	aClient->shutdown();
 	delete aClient;
@@ -173,7 +173,7 @@ bool ClientManager::isConnected(const string& aUrl) const {
 	Lock l(cs);
 
 	for(auto i = clients.begin(); i != clients.end(); ++i) {
-		if((*i)->getHubUrl() == aUrl) {
+		if((*i).second->getHubUrl() == aUrl) {
 			return true;
 		}
 	}
@@ -184,8 +184,8 @@ bool ClientManager::isHubConnected(const string& aUrl) const {
 	Lock l(cs);
 
 	for(auto i: clients) {
-		if(i->getHubUrl() == aUrl) {
-			return i->isConnected();
+		if(i.second->getHubUrl() == aUrl) {
+			return i.second->isConnected();
 		}
 	}
 	return false;
@@ -211,7 +211,7 @@ string ClientManager::findHub(const string& ipPort) const {
 
 		string url;
 		for(auto i = clients.begin(); i != clients.end(); ++i) {
-			const Client* c = *i;
+			const Client* c = (*i).second;
 			if(c->getIp() == ip) {
 				// If exact match is found, return it
 				if(c->getPort() == port)
@@ -231,8 +231,8 @@ string ClientManager::findHubEncoding(const string& aUrl) const {
 	Lock l(cs);
 
 	for(auto i = clients.begin(); i != clients.end(); ++i) {
-		if((*i)->getHubUrl() == aUrl) {
-			return (*i)->getEncoding();
+		if((*i).second->getHubUrl() == aUrl) {
+			return (*i).second->getEncoding();
 		}
 	}
 	return Text::systemCharset;
@@ -481,8 +481,8 @@ void ClientManager::send(AdcCommand& cmd, const CID& cid) {
 void ClientManager::infoUpdated() {
 	Lock l(cs);
 	for(auto i = clients.begin(); i != clients.end(); ++i) {
-		if((*i)->isConnected()) {
-			(*i)->info();
+		if((*i).second->isConnected()) {
+			(*i).second->info();
 		}
 	}
 }
@@ -578,8 +578,8 @@ void ClientManager::search(int aSizeMode, int64_t aSize, int aFileType, const st
 	Lock l(cs);
 
 	for(auto i = clients.begin(); i != clients.end(); ++i) {
-		if((*i)->isConnected()) {
-			(*i)->search(aSizeMode, aSize, aFileType, aString, aToken, StringList() /*ExtList*/);
+		if((*i).second->isConnected()) {
+			(*i).second->search(aSizeMode, aSize, aFileType, aString, aToken, StringList() /*ExtList*/);
 		}
 	}
 }
@@ -588,8 +588,8 @@ void ClientManager::search(string& who, int aSizeMode, int64_t aSize, int aFileT
 	Lock l(cs);
 
 	for(auto i = clients.begin(); i != clients.end(); ++i) { //change clients set to map<string*(hubUrl), Client*> for better lookup with .find
-		if(((*i)->getHubUrl() == who) && (*i)->isConnected()) {
-			(*i)->search(aSizeMode, aSize, aFileType, aString, aToken, aExtList);
+		if(((*i).second->getHubUrl() == who) && (*i).second->isConnected()) {
+			(*i).second->search(aSizeMode, aSize, aFileType, aString, aToken, aExtList);
 			break;
 		}
 	}
@@ -598,8 +598,8 @@ void ClientManager::search(string& who, int aSizeMode, int64_t aSize, int aFileT
 void ClientManager::getOnlineClients(StringList& onlineClients) {
 	Lock l (cs);
 	for(auto i = clients.begin(); i != clients.end(); ++i) {
-		if((*i)->isConnected())
-			onlineClients.push_back((*i)->getHubUrl());
+		if((*i).second->isConnected())
+			onlineClients.push_back((*i).second->getHubUrl());
 	}
 }
 
@@ -619,8 +619,8 @@ void ClientManager::on(TimerManagerListener::Minute, uint64_t /* aTick */) noexc
 	}
 
 	for(auto j = clients.begin(); j != clients.end(); ++j) {
-		if((*j)->isConnected())
-			(*j)->info();
+		if((*j).second->isConnected())
+			(*j).second->info();
 	}
 }
 
@@ -929,4 +929,27 @@ void ClientManager::sendRawCommand(OnlineUser& ou, const string& aRaw, bool chec
 	}
 }
 
+//RSX++ hub stats
+/*
+string ClientManager::getHubsLoadInfo() const {
+        string hubsInfo = Util::emptyString;
+        int64_t overallShare = 0;
+        uint32_t overallUsers = 0;
+        {
+ 
+        Lock l(cs);
+ 
+			for(auto i = clients.begin(); i != clients.end(); ++i) {
+                overallShare += (*i).second->getAvailable();
+                overallUsers += (*i).second->getUserCount();
+			}
+        
+        }
+        hubsInfo = "Hubs stats:";
+        hubsInfo += "\n-]> Connected hubs:\t" + Util::toString(Client::getTotalCounts()) + " (" + Client::getCounts() + ")";
+        hubsInfo += "\n-]> Available bytes:\t\t" + Util::formatBytes(overallShare);
+        hubsInfo += "\n-]> Users count:\t\t" + Util::toString(overallUsers);
+        return (hubsInfo);
+}
+*/
 } // namespace dcpp

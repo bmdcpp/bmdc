@@ -181,7 +181,7 @@ void FavoriteManager::addFavoriteUser(const UserPtr& aUser) {
 		Lock l(cs);
 		if(users.find(aUser->getCID()) == users.end()) {
 			//ClientMan
-			StringList urls = UsersManager::getInstance()->getHubs(aUser->getCID(), Util::emptyString);
+			StringList urls = UsersManager::getInstance()->getHubs(aUser->getCID(), Util::emptyString);//how add hubUrl?
 			StringList nicks = UsersManager::getInstance()->getNicks(aUser->getCID(), Util::emptyString);
 
 			/// @todo make this an error probably...

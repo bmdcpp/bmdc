@@ -311,7 +311,7 @@ void Search::initHubs_gui()
 	Client *client = nullptr;
 	for (auto it = clients.begin(); it != clients.end(); ++it)
 	{
-		client = *it;
+		client = (*it).second;
 		if (client->isConnected())
 			addHub_gui(client->getHubName(), client->getHubUrl());
 	}
@@ -1758,7 +1758,7 @@ void Search::onCheckOp_gui(GtkToggleButton*, gpointer data)
 	Client *client = NULL;
 	for (auto it = clients.begin(); it != clients.end(); ++it)
 	{
-		client = *it;
+		client = (*it).second;
 		if (client->isConnected())
 		{
 			s->modifyHub_gui(client->getHubName(),client->getHubUrl(),client->getMyIdentity().isOp());

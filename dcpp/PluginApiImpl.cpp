@@ -656,8 +656,8 @@ HubDataPtr PluginApiImpl::findHub(const char* url) {
 	const auto& list = ClientManager::getInstance()->getClients();
 
 	for(auto i = list.begin(); i != list.end(); ++i) {
-		if(((*i)->getHubUrl() == url) && (*i)->isConnected())
-			 return (*i)->copyPluginObject();
+		if(((*i).second->getHubUrl() == url) && (*i).second->isConnected())
+			 return (*i).second->copyPluginObject();
 	}
 
 	return NULL;

@@ -77,7 +77,7 @@ class WulforManager
 		std::string path;
 		std::unordered_map<std::string, Entry *> entries;
 		GRWLock entryMutex;
-		bool abort;
+		//bool abort;
 };
 
 #else

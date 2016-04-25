@@ -63,7 +63,7 @@ stop(false)
 		auto& clients = clientMgr->getClients();
 		int i = 0;
 		for(auto it = clients.begin(); it != clients.end(); ++it) {
-			Client* client = *it;
+			Client* client = (*it).second;
 			if(!client->isConnected())
 				continue;
 			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(getWidget("comboboxadr")),client->getHubUrl().c_str());

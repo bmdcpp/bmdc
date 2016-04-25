@@ -190,7 +190,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 
 		case Transfer::TYPE_TREE:
 			{
-				MemoryInputStream* mis = ShareManager::getInstance()->getTree(aFile);
+				MemoryInputStream* mis = /*ShareManager::getInstance()*/sm->getTree(aFile);
 				if(!mis || !isInSharingHub) {
 					aSource.fileNotAvail();
 					return false;
@@ -205,7 +205,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 		case Transfer::TYPE_PARTIAL_LIST:
 			{
 				// Partial file list
-				MemoryInputStream* mis = ShareManager::getInstance()->generatePartialList(aFile, listRecursive, isInSharingHub);
+				MemoryInputStream* mis = /*ShareManager::getInstance()*/sm->generatePartialList(aFile, listRecursive, isInSharingHub);
 				if(!mis) {
 					aSource.fileNotAvail();
 					return false;

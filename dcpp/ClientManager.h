@@ -58,7 +58,7 @@ private:
 	using ClientListener::on;
 	using TimerManagerListener::on;	
 public:
-	typedef unordered_set<Client*> ClientList;
+	typedef unordered_map<string,Client*> ClientList;
 	typedef unordered_map<CID, UserPtr> UserMap;
 
 	Client* getClient(const string& aHubURL);
@@ -144,7 +144,7 @@ public:
 		//OnlineUser* ou = findOnlineUserHint(p.user->getCID(), p.hint);
 		//if(ou)
 		//	return ou->getClient().getShareManager();
-		for(auto i:clients)
+		/*for(auto i:clients)
 		{
 			string chint = i->getHubUrl();
 			string ip = i->getIpPort();
@@ -152,7 +152,13 @@ public:
 				return i->getShareManager();
 			}
 		}
-		return ShareManager::getInstance();
+		return ShareManager::getInstance();*/
+		//Lock l(cs);
+		auto i = clients.find(p.hint);
+		if(i != clients.end() && i->second->getShareManager() != NULL) {
+			return i->second->getShareManager();
+		}
+       return ShareManager::getInstance();
 	}
 
 	int getMode(const string& aHubUrl) const;
