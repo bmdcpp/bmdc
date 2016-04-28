@@ -139,7 +139,7 @@ public:
 			return (!ou->getClient().getHideShare());
 		return true;
 	}
-	ShareManager* getShareManagerClient(const HintedUser& p){
+	ShareManager* getShareManagerClient(const string hint){
 		Lock l(cs);
 		//OnlineUser* ou = findOnlineUserHint(p.user->getCID(), p.hint);
 		//if(ou)
@@ -154,7 +154,7 @@ public:
 		}
 		return ShareManager::getInstance();*/
 		//Lock l(cs);
-		auto i = clients.find(p.hint);
+		auto i = clients.find(hint);
 		if(i != clients.end() && i->second->getShareManager() != NULL) {
 			return i->second->getShareManager();
 		}

@@ -78,7 +78,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 			aSource.fileNotAvail();
 			return false;
 		}
-		sm = ClientManager::getInstance()->getShareManagerClient(aSource.getHintedUser());
+		sm = ClientManager::getInstance()->getShareManagerClient(aSource.getHintedUser().hint);
 		
 	}
 	
@@ -596,7 +596,9 @@ void UploadManager::on(AdcCommand::GFI, UserConnection* aSource, const AdcComman
 
 	if(type == Transfer::names[Transfer::TYPE_FILE]) {
 		try {
-			aSource->send(ShareManager::getInstance()->getFileInfo(ident));
+			ShareManager* shareManager = ClientManager::getInstance()->getShareManagerClient(aSource->getHubUrl());
+			aSource->send(shareManager->getFileInfo(ident));
+			//aSource->send(ShareManager::getInstance()->getFileInfo(ident));
 		} catch(const ShareException&) {
 			aSource->fileNotAvail();
 		}
