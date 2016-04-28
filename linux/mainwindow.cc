@@ -89,30 +89,13 @@ string MainWindow::icons[(MainWindow::IconsToolbar)END][2] =
 	{"search-adl", "searchADL"},
 	{"search-spy", "searchSpy"},
 	{"queue", "queue"},
-	{"finished-dowloads", "finishedDownloads"},
+	{"finished-downloads", "finishedDownloads"},
 	{"finished-uploads", "finishedUploads"},
 	{"notepad", "notepad"},
 	{"system", "system"},
 	{"away", "AwayIcon"},
 	{"limiting", "limitingButton"}
 };
-/*
-const char* MainWindow::icons[(MainWindow::IconsToolbar)END][3] =
-{
-{ /*( QUICKCON),*/ //"bmdc-connect", "bmdc-connect-on", "connect"},
-//{ /*( FAVORITE_HUBS),*/  "bmdc-favorite-hubs", "bmdc-favorite-hubs-on", "favHubs"},
-//{ /*( FAVORITE_USERS),*/  "bmdc-favorite-users", "bmdc-favorite-users-on", "favUsers"},
-//{ /*( PUBLIC_HUBS),*/  "bmdc-public-hubs", "bmdc-public-hubs-on", "publicHubs"},
-//{ /*( SEARCH_ADL),*/  "bmdc-search-adl", "bmdc-search-adl-on", "searchADL"},
-//{ /*( SEARCH_SPY),*/  "bmdc-search-spy", "bmdc-search-spy-on", "searchSpy"},
-//{ /*( QUEUE),*/  "bmdc-queue", "bmdc-queue-on", "queue"},
-//{ /*( FDOWNLOADS),*/  "bmdc-finished-downloads", "bmdc-finished-downloads-on", "finishedDownloads"},
-//{ /*( FUPLOADS),*/  "bmdc-finished-uploads", "bmdc-finished-uploads-on", "finishedUploads"},
-//{ /*( NOTEPAD),*/  "bmdc-notepad", "bmdc-notepad-on", "notepad"},
-//{ /*( SYSTEM),*/  "bmdc-system", "bmdc-system-on", "system"},
-//{ /*( AWAY),*/  "bmdc-away", "bmdc-away-on", "AwayIcon"},
-//{ /*( LIMITING),*/  "bmdc-limiting", "bmdc-limiting-on", "limitingButton"}
-//};
 
 MainWindow::MainWindow():
 	Entry(Entry::MAIN_WINDOW, "mainwindow"),

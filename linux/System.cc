@@ -154,32 +154,16 @@ GdkPixbuf* SystemLog::getImageSev(int sev)
 	switch(sev)
 	{
 		case LogManager::Sev::LOW: 
-		image = gtk_image_new_from_resource("/org/gtk/bmdc/info/info.png");
-		//tmp = "info";
-		break;
+			image = gtk_image_new_from_resource("/org/gtk/bmdc/info/info.png");
+			break;
 		case LogManager::Sev::NORMAL: 
-		image = gtk_image_new_from_resource("/org/gtk/bmdc/info/warning.png");
-		//tmp = "warning";
-		break;
+			image = gtk_image_new_from_resource("/org/gtk/bmdc/info/warning.png");
+			break;
 		case LogManager::Sev::HIGH: 
-		image = gtk_image_new_from_resource("/org/gtk/bmdc/info/error.png");
-		//tmp = "error"; 
-		break;
+			image = gtk_image_new_from_resource("/org/gtk/bmdc/info/error.png");
+			break;
 		default:break;
 	};
-		
-	/*GError* error = NULL;
-
-	gchar *path = g_strdup_printf(_DATADIR PATH_SEPARATOR_STR "bmdc/info/%s.png",
-		                              (gchar *)tmp.c_str());
-
-	GdkPixbuf* buf = gdk_pixbuf_new_from_file_at_size(path,15,15,&error);
-	g_free(path);
-	if(error != NULL || buf == NULL) {
-			g_error_free(error);
-			return NULL;
-	}*/
-	//return buf;
 	return WulforUtil::scalePixbuf(gtk_image_get_pixbuf(GTK_IMAGE(image)),24,24);
 }
 
