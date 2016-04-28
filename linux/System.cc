@@ -167,9 +167,7 @@ GdkPixbuf* SystemLog::getImageSev(int sev)
 		break;
 		default:break;
 	};
-	gtk_image_set_pixel_size(GTK_IMAGE(image),32);
-	
-	
+		
 	/*GError* error = NULL;
 
 	gchar *path = g_strdup_printf(_DATADIR PATH_SEPARATOR_STR "bmdc/info/%s.png",
@@ -182,6 +180,6 @@ GdkPixbuf* SystemLog::getImageSev(int sev)
 			return NULL;
 	}*/
 	//return buf;
-	return gtk_image_get_pixbuf(GTK_IMAGE(image));
+	return WulforUtil::scalePixbuf(gtk_image_get_pixbuf(GTK_IMAGE(image)),24,24);
 }
 
