@@ -71,16 +71,14 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 	access. we want to know the type of the upload to see if the user deserves a mini-slot. */
 
 	bool isInSharingHub = true;
-	ShareManager* sm = ShareManager::getInstance();
 	if(aSource.getUser()) {
 		isInSharingHub = ClientManager::getInstance()->getSharingHub(aSource.getHintedUser());
 		if(!isInSharingHub && (aType != Transfer::names[Transfer::TYPE_FULL_LIST] || aType != Transfer::names[Transfer::TYPE_PARTIAL_LIST])) {
 			aSource.fileNotAvail();
 			return false;
 		}
-		sm = ClientManager::getInstance()->getShareManagerClient(aSource.getHintedUser().hint);
-		
 	}
+	ShareManager* sm = ClientManager::getInstance()->getShareManagerClient(aSource.getHintedUser().hint);
 	
 
 	bool miniSlot;
@@ -165,8 +163,8 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 					start = 0;
 					size = xml.size();
 				} else {
-					bool isList = (aFile == Transfer::USER_LIST_NAME_BZ); // Will have to re-think this later
-					if(!isInSharingHub && !isList) { aSource.fileNotAvail(); return false; } // Hiding share, no file should be available besides filelists which should be empty anyways
+					//bool isList = (aFile == Transfer::USER_LIST_NAME_BZ); // Will have to re-think this later
+					//if(!isInSharingHub && !isList) { aSource.fileNotAvail(); return false; } // Hiding share, no file should be available besides filelists which should be empty anyways
 					File* f = new File(sourceFile, File::READ, File::OPEN);
 
 					start = aStartPos;
@@ -191,7 +189,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 		case Transfer::TYPE_TREE:
 			{
 				MemoryInputStream* mis = /*ShareManager::getInstance()*/sm->getTree(aFile);
-				if(!mis || !isInSharingHub) {
+				if(!mis /*|| !isInSharingHub*/) {
 					aSource.fileNotAvail();
 					return false;
 				}
