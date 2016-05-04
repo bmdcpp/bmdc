@@ -138,7 +138,7 @@ private:
 	void myInfo(bool alwaysSend);
 	void supports(const StringList& feat);
 	void clearFlooders(uint64_t tick);
-	bool isProtectedIP(const string& ip);
+	//bool isProtectedIP(const string& ip);
 
 	void updateFromTag(Identity& id, const string& tag);
 	void refreshLocalIp() noexcept;

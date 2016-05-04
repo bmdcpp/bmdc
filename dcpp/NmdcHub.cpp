@@ -41,8 +41,8 @@ namespace dcpp {
 
 NmdcHub::NmdcHub(const string& aHubURL) :
 Client(aHubURL, '|', false),
-supportFlags(0), lastUpdate(0),
-lastProtectedIPsUpdate(0)
+supportFlags(0), lastUpdate(0)
+//,lastProtectedIPsUpdate(0)
 {
 	
 }
@@ -504,8 +504,8 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				return;
 			}				
 		}		
-		if(isProtectedIP(server))
-			return;
+		//if(isProtectedIP(server))
+		//	return;
 
 		if( p_port < 1)
 			return;
@@ -796,7 +796,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		auto from = findUser(fromNick);
 		auto replyTo = findUser(rtNick);
 
-		if(!replyTo || !from) {
+		//if(!replyTo || !from) {
 			if(!replyTo) {
 				// Assume it's from the hub
 				OnlineUser& ou = getUser(rtNick);
@@ -813,7 +813,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				updated(ou);
 				from = &ou;
 			}
-		}
+		//}
 
 		auto chatMessage = unescape(toUtf8(param.substr(j + 2)));
 		if(PluginManager::getInstance()->runHook(HOOK_CHAT_PM_IN, replyTo, chatMessage))
@@ -1082,7 +1082,7 @@ void NmdcHub::clearFlooders(uint64_t aTick) {
 		flooders.pop_front();
 	}
 }
-
+/*
 bool NmdcHub::isProtectedIP(const string& ip) {
 	string _ip = Socket::resolve(ip);
 	if(find(protectedIPs.begin(), protectedIPs.end(), _ip) != protectedIPs.end()) {
@@ -1091,7 +1091,7 @@ bool NmdcHub::isProtectedIP(const string& ip) {
 	}
 	return false;
 }
-
+*/
 void NmdcHub::refreshLocalIp() noexcept {
 	if((!CONNSETTING(NO_IP_OVERRIDE) || getUserIp().empty()) && !getMyIdentity().getIp().empty()) {
 		// Best case - the server detected it
@@ -1149,10 +1149,10 @@ void NmdcHub::on(Second, uint64_t aTick) noexcept {
 	}
 }
 
-void NmdcHub::on(Minute, uint64_t aTick) noexcept {
+void NmdcHub::on(Minute, uint64_t) noexcept {
 	refreshLocalIp();
 
-	if(aTick > (lastProtectedIPsUpdate + 24*3600*1000)) {
+	/*if(aTick > (lastProtectedIPsUpdate + 24*3600*1000)) {
 		protectedIPs.clear();
 
 		protectedIPs.push_back("dchublist.com");
@@ -1167,7 +1167,7 @@ void NmdcHub::on(Minute, uint64_t aTick) noexcept {
 		}
 
 		lastProtectedIPsUpdate = aTick;
-	}
+	}*/
 }
 
 void NmdcHub::password(const string& aPass) {

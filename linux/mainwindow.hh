@@ -166,7 +166,6 @@ class MainWindow:
 	private:
 		typedef std::pair<std::string, std::string> ParamPair;
 		typedef std::vector<ParamPair> ListParamPair;
-		//static const char* icons[(MainWindow::IconsToolbar)END][3];
 		static std::string icons[(MainWindow::IconsToolbar)END][2];
 		// GUI functions
 #ifdef HAVE_XSSLIB			

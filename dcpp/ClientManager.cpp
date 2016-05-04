@@ -530,8 +530,8 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				
 				parsePortIp(seek,ip,port);
 				
-				if(static_cast<NmdcHub*>(aClient)->isProtectedIP(ip))
-					return;
+				//if(static_cast<NmdcHub*>(aClient)->isProtectedIP(ip))
+				//	return;
 						
 				bool isOk = false;
 				if(Util::isIp6(ip) == true)

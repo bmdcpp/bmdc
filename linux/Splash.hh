@@ -21,9 +21,7 @@
 #include <iostream>
 #include <gtk/gtk.h>
 #include <dcpp/Util.h>
-//#ifdef _WIN32
 #include "genres.h"
-//#endif
 
 using namespace std;
 using namespace dcpp;
