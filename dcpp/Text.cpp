@@ -53,8 +53,8 @@ void initialize() {
 #endif
 }
 
-bool isAscii(const char* str) noexcept {
-	for(const uint8_t* p = (const uint8_t*)str; *p; ++p) {
+bool isAscii(/*const char* str*/const string str) noexcept {
+	for(const uint8_t* p = (const uint8_t*)str.c_str(); *p; ++p) {
 		if(*p & 0x80)
 			return false;
 	}

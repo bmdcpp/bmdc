@@ -150,7 +150,6 @@ void SystemLog::on(LogManagerListener::Message, time_t t, const string& message,
 GdkPixbuf* SystemLog::getImageSev(int sev)
 {
 	GtkWidget* image = NULL;
-	string tmp = Util::emptyString;
 	switch(sev)
 	{
 		case LogManager::Sev::LOW: 

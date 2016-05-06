@@ -402,7 +402,7 @@ SettingsManager::SettingsManager()
 	setDefault(USERS_FILTER_QUEUE, false);
 	setDefault(USERS_FILTER_WAITING, false);
 	setDefault(MAX_PM_WINDOWS, 50);
-	setDefault(REQUIRE_TLS, false);//false
+	setDefault(REQUIRE_TLS, false);
 	setDefault(LAST_SHARED_FOLDER, Util::emptyString);
 	setDefault(AC_DISCLAIM, false);
 

@@ -2849,8 +2849,7 @@ if(_idleDetectionPossible) {
 	g_print("Detection Part 2");
 		long idlesecs = (_mit_info->idle/1000); // in sec
 		//TODO: (1000 ms = 1s)
-		if (idlesecs > WGETI("idle-time")) {
-			//g_print("Idle: Away Mode on");
+		if (idlesecs > SETTING(AWAY_IDLE)) {
 				if(!dcpp::Util::getAway()) {//dont set away twice
 
 					dcpp::Util::setAway(true);

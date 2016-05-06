@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2016-05-04 17:44+0200\n"
+"POT-Creation-Date: 2016-05-05 19:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3047,7 +3047,7 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:3297 ui/settingsdialog.glade.ui:3313
 #: ui/settingsdialog.glade.ui:3357 linux/hashdialog.cc:80
 #: linux/mainwindow.cc:1013 linux/mainwindow.cc:1014 linux/mainwindow.cc:2786
-#: linux/mainwindow.cc:2788 linux/mainwindow.cc:3090 linux/treeview.cc:225
+#: linux/mainwindow.cc:2788 linux/mainwindow.cc:3089 linux/treeview.cc:225
 msgid "s"
 msgstr ""
 
@@ -3188,7 +3188,7 @@ msgid " items"
 msgstr ""
 
 #: linux/hashdialog.cc:71 linux/hashdialog.cc:80 linux/hashdialog.cc:89
-#: linux/mainwindow.cc:3090 linux/mainwindow.cc:3099
+#: linux/mainwindow.cc:3089 linux/mainwindow.cc:3098
 msgid " left"
 msgstr ""
 
@@ -3236,7 +3236,7 @@ msgstr ""
 msgid "*** T E S T ***"
 msgstr ""
 
-#: linux/hashdialog.cc:72 linux/hashdialog.cc:84 linux/mainwindow.cc:3094
+#: linux/hashdialog.cc:72 linux/hashdialog.cc:84 linux/mainwindow.cc:3093
 msgid "-:--:-- left"
 msgstr ""
 
@@ -3273,7 +3273,7 @@ msgstr ""
 msgid "1"
 msgstr ""
 
-#: linux/mainwindow.cc:3119
+#: linux/mainwindow.cc:3118
 msgid "100% Done"
 msgstr ""
 
@@ -3484,7 +3484,7 @@ msgstr ""
 msgid "Away Message:"
 msgstr ""
 
-#: linux/mainwindow.cc:2322 linux/mainwindow.cc:2859
+#: linux/mainwindow.cc:2322 linux/mainwindow.cc:2858
 msgid "Away mode on"
 msgstr ""
 
@@ -4712,7 +4712,7 @@ msgstr ""
 msgid "Select Font"
 msgstr ""
 
-#: linux/mainwindow.cc:2879
+#: linux/mainwindow.cc:2878
 msgid "Select file to Get TTH"
 msgstr ""
 

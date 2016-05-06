@@ -108,8 +108,8 @@ namespace Text {
 		return tmp;
 	}
 
-	inline bool isAscii(const string& str) noexcept { return isAscii(str.c_str()); }
-	bool isAscii(const char* str) noexcept;
+	inline bool isAscii(const string str) noexcept ;//{ return isAscii(str.c_str()); }
+	//bool isAscii(const char* str) noexcept;
 
 	bool validateUtf8(const string& str) noexcept;
 
