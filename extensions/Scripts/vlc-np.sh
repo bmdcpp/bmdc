@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-# -*- coding: utf8 -*-
-#
+# -*- coding: CP1250 -*-#
+
 # Copyright  2006-2011 <funman at videolanorg>
 # Modifed to BMDC by Mank 2013-2014
 #
@@ -80,8 +80,8 @@ def Connect(name):
         length = Track['mpris:length']
     except:
         length = 0
-     #here change to what want pop up in Chat
-    print 'Playing %s - %s ' % (a[0] , t)
+    # here change to what want pop up in Chat
+    print 'Playing %s - %s ' % (a[0].encode(encoding='UTF-8',errors='strict') , t.encode(encoding='UTF-8',errors='strict'))
     return
 
 import sys
