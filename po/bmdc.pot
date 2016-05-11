@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2016-05-11 15:58+0200\n"
+"POT-Creation-Date: 2016-05-11 19:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1003,11 +1003,11 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:8828 linux/AboutConfig.cc:82
 #: linux/AboutConfig.cc:92 linux/AboutConfig.cc:157 linux/AboutConfig.cc:161
 #: linux/AboutConfig.cc:174 linux/AboutConfig.cc:178 linux/AboutConfig.cc:387
-#: linux/AboutConfigFav.cc:81 linux/AboutConfigFav.cc:91
+#: linux/AboutConfigFav.cc:96 linux/AboutConfigFav.cc:108
 #: linux/FavoriteHubDialog.cc:172 linux/FavoriteHubDialog.cc:183
 #: linux/FavoriteHubDialog.cc:262 linux/FavoriteHubDialog.cc:379
 #: linux/FavoriteHubDialog.cc:380 linux/emoticonsdialog.cc:149
-#: linux/previewmenu.cc:88 linux/AboutConfig.hh:50 linux/AboutConfigFav.hh:47
+#: linux/previewmenu.cc:88 linux/AboutConfig.hh:50 linux/AboutConfigFav.hh:48
 msgid "Default"
 msgstr ""
 
@@ -1879,10 +1879,10 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:1156 linux/AboutConfig.cc:32
 #: linux/AboutConfig.cc:41 linux/AboutConfig.cc:43 linux/AboutConfig.cc:214
 #: linux/AboutConfig.cc:227 linux/AboutConfig.cc:315 linux/AboutConfig.cc:371
-#: linux/AboutConfigFav.cc:33 linux/AboutConfigFav.cc:42
-#: linux/AboutConfigFav.cc:44 linux/AboutConfigFav.cc:172
-#: linux/AboutConfigFav.cc:184 linux/AboutConfigFav.cc:271
-#: linux/AboutConfigFav.cc:314 linux/FavoriteHubDialog.cc:304
+#: linux/AboutConfigFav.cc:35 linux/AboutConfigFav.cc:44
+#: linux/AboutConfigFav.cc:46 linux/AboutConfigFav.cc:191
+#: linux/AboutConfigFav.cc:203 linux/AboutConfigFav.cc:290
+#: linux/AboutConfigFav.cc:330 linux/FavoriteHubDialog.cc:304
 #: linux/FavoriteHubDialog.cc:577 linux/FavoriteHubDialog.cc:590
 #: linux/detectiontab.cc:42 linux/detectiontab.cc:61 linux/detectiontab.cc:72
 #: linux/detectiontab.cc:313 linux/detectiontab.cc:334
@@ -2762,8 +2762,8 @@ msgid "Trusted certificates path"
 msgstr ""
 
 #: ui/detection.glade.ui:288 ui/detection.glade.ui:967 linux/AboutConfig.cc:34
-#: linux/AboutConfig.cc:40 linux/AboutConfig.cc:216 linux/AboutConfigFav.cc:35
-#: linux/AboutConfigFav.cc:41 linux/AboutConfigFav.cc:174 linux/search.cc:105
+#: linux/AboutConfig.cc:40 linux/AboutConfig.cc:216 linux/AboutConfigFav.cc:37
+#: linux/AboutConfigFav.cc:43 linux/AboutConfigFav.cc:193 linux/search.cc:105
 #: linux/search.cc:229 linux/search.cc:710 linux/search.cc:789
 #: linux/search.cc:934 linux/search.cc:1785 linux/search.cc:1786
 #: linux/search.cc:1787 linux/search.cc:1801 linux/sharebrowser.cc:83
@@ -2863,9 +2863,9 @@ msgid "Users"
 msgstr ""
 
 #: ui/detection.glade.ui:956 linux/AboutConfig.cc:35 linux/AboutConfig.cc:217
-#: linux/AboutConfig.cc:229 linux/AboutConfig.cc:316 linux/AboutConfigFav.cc:36
-#: linux/AboutConfigFav.cc:175 linux/AboutConfigFav.cc:186
-#: linux/AboutConfigFav.cc:272 linux/detectiontab.cc:107
+#: linux/AboutConfig.cc:229 linux/AboutConfig.cc:316 linux/AboutConfigFav.cc:38
+#: linux/AboutConfigFav.cc:194 linux/AboutConfigFav.cc:205
+#: linux/AboutConfigFav.cc:291 linux/detectiontab.cc:107
 #: linux/detectiontab.cc:1021 linux/detectiontab.cc:1123
 #: linux/detectiontab.cc:1220
 msgid "Value"
@@ -3325,7 +3325,7 @@ msgstr ""
 msgid "About:config"
 msgstr ""
 
-#: linux/AboutConfigFav.cc:29
+#: linux/AboutConfigFav.cc:31
 msgid "About:config for "
 msgstr ""
 
@@ -4983,8 +4983,8 @@ msgid "Started MyInfo check"
 msgstr ""
 
 #: linux/AboutConfig.cc:33 linux/AboutConfig.cc:215 linux/AboutConfig.cc:228
-#: linux/AboutConfigFav.cc:34 linux/AboutConfigFav.cc:173
-#: linux/AboutConfigFav.cc:185 linux/downloadqueue.cc:69
+#: linux/AboutConfigFav.cc:36 linux/AboutConfigFav.cc:192
+#: linux/AboutConfigFav.cc:204 linux/downloadqueue.cc:69
 #: linux/downloadqueue.cc:280 linux/downloadqueue.cc:387
 #: linux/favoritehubs.cc:49 linux/favoritehubs.cc:138 linux/favoritehubs.cc:762
 #: linux/searchspy.cc:57 linux/searchspy.cc:293 linux/searchspy.cc:375
@@ -5261,7 +5261,7 @@ msgstr ""
 msgid "User Per Favorite Hub Set"
 msgstr ""
 
-#: linux/AboutConfig.cc:359 linux/AboutConfigFav.cc:302
+#: linux/AboutConfig.cc:359 linux/AboutConfigFav.cc:318
 msgid "User Set"
 msgstr ""
 

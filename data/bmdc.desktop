@@ -3,7 +3,7 @@
 Type=Application
 Exec=bmdc
 TryExec=bmdc
-Path=/usr/share/bmdc/
+Path=/home/mank/BMDC/share/bmdc/
 Icon=bmdc
 Terminal=false
 Categories=Network;FileTransfer;GTK;
