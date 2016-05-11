@@ -1,4 +1,4 @@
-﻿//
+//
 //      Copyright 2011 -2016 BMDC <freedcpp at seznam dot cz>
 //
 //      This program is free software; you can redistribute it and/or modify

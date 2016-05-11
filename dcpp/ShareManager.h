@@ -164,7 +164,7 @@ private:
 
 			string getADCPath() const { return parent->getADCPath() + name; }
 			string getFullName() const { return parent->getFullName() + name; }
-			string getRealPath() const { return (!realPath.empty()) ? realPath : parent->getRealPath(name); }
+			string getRealPath(const ShareManager* manager) const { return (!realPath.empty()) ? realPath : parent->getRealPath(manager,name); }
 
 			GETSET(string, name, Name);
 			string realPath; // only defined if this file had to be renamed to avoid duplication.
@@ -184,7 +184,7 @@ private:
 
 		string getADCPath() const noexcept;
 		string getFullName() const noexcept;
-		string getRealPath(const std::string& path) const;
+		string getRealPath(const ShareManager* manager,const std::string& path) const;
 
 		/** Check whether the given name would clash with this directory's sub-directories or
 		files. */
@@ -200,7 +200,7 @@ private:
 
 		auto findFile(const string& aFile) const -> decltype(files.cbegin()) { return find_if(files.begin(), files.end(), File::StringComp(aFile)); }
 
-		void merge(const Ptr& source, const string& realPath);
+		void merge(const ShareManager* manager,const Ptr& source, const string& realPath);
 
 		GETSET(string, name, Name);
 		GETSET(Directory*, parent, Parent);
@@ -329,7 +329,10 @@ private:
 	// TimerManagerListener
 	virtual void on(TimerManagerListener::Minute, uint64_t tick) noexcept;
 public:
-	GETSET(string, name , Name);	
+	string getName() const { return id;}
+	//GETSET(string, name , Name);
+	string id;
+	void setName(const string& id);
 	void load(SimpleXML& aXml);
 	void save(SimpleXML& aXml);
 

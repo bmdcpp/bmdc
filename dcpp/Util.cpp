@@ -568,8 +568,38 @@ string Util::getLocalIp() {//@TODO:IPv6?
 	if(!bindAddr.empty() && bindAddr != SettingsManager::getInstance()->getDefault(SettingsManager::BIND_ADDRESS)) {
 		return bindAddr;
 	}
-
-	string tmp;
+	//string tmp;
+	struct addrinfo hints;
+	memset(&hints, 0, sizeof(addrinfo));
+	hints.ai_family = AF_UNSPEC;
+	addrinfo *result;
+	
+	int ret = ::getaddrinfo("localhost",NULL,&hints,&result);
+	if( ret == 0)
+	{
+		struct addrinfo *res;
+		char buf[128];
+		for(res = result; res != NULL; res = res->ai_next)
+		{
+			if ( res->ai_family == AF_INET )
+			{	
+				inet_ntop(AF_INET,&((struct sockaddr_in *)res->ai_addr)->sin_addr,buf,sizeof(buf));
+				if(Util::isPrivateIp(buf) || strncmp(buf, "169.254", 7) == 0)
+				{
+					return buf;
+				}	
+			}
+			else 
+			{
+				inet_ntop(AF_INET6, &((struct sockaddr_in6 *)res->ai_addr)->sin6_addr, buf, sizeof(buf));
+				if(strncmp(buf,"fe80",4)==0) continue;
+				
+			}
+		}
+		return buf;
+	}
+	return emptyString;
+/*	string tmp;
 
 	char buf[256];
 	gethostname(buf, 255);
@@ -578,9 +608,9 @@ string Util::getLocalIp() {//@TODO:IPv6?
 		return Util::emptyString;
 	sockaddr_in dest;
 	int i = 0;
-
+*/
 	// We take the first ip as default, but if we can find a better one, use it instead...
-	memcpy(&(dest.sin_addr), he->h_addr_list[i++], he->h_length);
+	/*memcpy(&(dest.sin_addr), he->h_addr_list[i++], he->h_length);
 	tmp = inet_ntoa(dest.sin_addr);
 	if(Util::isPrivateIp(tmp) || strncmp(tmp.c_str(), "169.254", 7) == 0) {
 		while(he->h_addr_list[i]) {
@@ -591,8 +621,8 @@ string Util::getLocalIp() {//@TODO:IPv6?
 			}
 			i++;
 		}
-	}
-	return tmp;
+	}*/
+	//return tmp;
 }
 
 bool Util::isPrivateIp(string const& ip) {

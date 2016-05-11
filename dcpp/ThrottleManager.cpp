@@ -116,7 +116,11 @@ SettingsManager::IntSetting ThrottleManager::getCurSetting(SettingsManager::IntS
 	if(SETTING(TIME_DEPENDENT_THROTTLE)) {
 		time_t currentTime;
 		time(&currentTime);
-		int currentHour = localtime(&currentTime)->tm_hour;
+		
+		struct tm result;
+		localtime_r(&currentTime,&result);
+		int currentHour = result.tm_hour;
+		//int currentHour = localtime(&currentTime)->tm_hour;
 		if((SETTING(BANDWIDTH_LIMIT_START) < SETTING(BANDWIDTH_LIMIT_END) &&
 			currentHour >= SETTING(BANDWIDTH_LIMIT_START) && currentHour < SETTING(BANDWIDTH_LIMIT_END)) ||
 			(SETTING(BANDWIDTH_LIMIT_START) > SETTING(BANDWIDTH_LIMIT_END) &&

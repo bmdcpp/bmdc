@@ -382,8 +382,15 @@ void EmoticonsDialog::position()
 void EmoticonsDialog::graber()
 {
 	/* grabs the pointer (usually a mouse) */
+	//#if !GTK_CHECK_VERSION(3,20,0)
+	
 	if(gdk_device_grab(gtk_get_current_event_device(),gtk_widget_get_window(dialog), GDK_OWNERSHIP_NONE,TRUE,(GdkEventMask)(GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK),NULL,GDK_CURRENT_TIME))
 		gtk_grab_add(dialog);
+	//#else
+	//GdkSeat *seat = gdk_display_get_default_seat (gdk_display_get_default());
+	//if(gdk_seat_grab(seat,gtk_widget_get_window(dialog),(GdkSeatCapabilities)GDK_SEAT_CAPABILITY_POINTER,FALSE,NULL,NULL,NULL,NULL) == GDK_GRAB_SUCCESS)
+	//	gtk_grab_add(dialog);
+	//#endif	
 }
 
 void EmoticonsDialog::onChat(GtkWidget *widget , gpointer data /*this*/)

@@ -171,7 +171,11 @@ TTHValue* HashManager::getTTH(const string& aFileName, int64_t aSize, uint32_t a
 			if(check == NULL)
 			{
 				hasher.hashFile(aFileName, aSize);
-			} else return check;
+			} 
+			else 
+			{
+				return check;
+			}
 		}	
 		hasher.hashFile(aFileName, aSize);
 	}
