@@ -80,6 +80,17 @@ p_entry(entry)
 	isOk[SettingsManager::TIME_STAMPS] = true;
 	isOk[SettingsManager::COUNTRY_FORMAT] = true;
 	isOk[SettingsManager::GET_USER_COUNTRY] = true;
+	isOk[SettingsManager::EXTERNAL_IP] = true;
+	isOk[SettingsManager::EXTERNAL_IP6] = true;
+	isOk[SettingsManager::PROTECTED_USERS] = true;
+	isOk[SettingsManager::BACKGROUND_CHAT_COLOR] = true;
+	isOk[SettingsManager::BACKGROUND_CHAT_IMAGE] = true;
+	isOk[SettingsManager::CHAT_EXTRA_INFO] = true;
+	isOk[SettingsManager::HUB_ICON_STR] = true;
+	isOk[SettingsManager::EMOT_PACK] = true;
+	isOk[SettingsManager::SHOW_JOINS] = true;
+	isOk[SettingsManager::SHOW_FREE_SLOTS_DESC] = true;
+	isOk[SettingsManager::FAV_SHOW_JOINS] = true;
 }
 
 AboutConfigFav::~AboutConfigFav()

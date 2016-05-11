@@ -42,7 +42,6 @@ namespace dcpp {
 NmdcHub::NmdcHub(const string& aHubURL) :
 Client(aHubURL, '|', false),
 supportFlags(0), lastUpdate(0)
-//,lastProtectedIPsUpdate(0)
 {
 	
 }
@@ -504,8 +503,6 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 				return;
 			}				
 		}		
-		//if(isProtectedIP(server))
-		//	return;
 
 		if( p_port < 1)
 			return;
@@ -1082,16 +1079,7 @@ void NmdcHub::clearFlooders(uint64_t aTick) {
 		flooders.pop_front();
 	}
 }
-/*
-bool NmdcHub::isProtectedIP(const string& ip) {
-	string _ip = Socket::resolve(ip);
-	if(find(protectedIPs.begin(), protectedIPs.end(), _ip) != protectedIPs.end()) {
-		fire(ClientListener::StatusMessage(), this, string(F_("This hub is trying to use your client to spam "+ip+", please urge hub owner to fix this") ));
-		return true;
-	}
-	return false;
-}
-*/
+
 void NmdcHub::refreshLocalIp() noexcept {
 	if((!CONNSETTING(NO_IP_OVERRIDE) || getUserIp().empty()) && !getMyIdentity().getIp().empty()) {
 		// Best case - the server detected it
@@ -1151,23 +1139,6 @@ void NmdcHub::on(Second, uint64_t aTick) noexcept {
 
 void NmdcHub::on(Minute, uint64_t) noexcept {
 	refreshLocalIp();
-
-	/*if(aTick > (lastProtectedIPsUpdate + 24*3600*1000)) {
-		protectedIPs.clear();
-
-		protectedIPs.push_back("dchublist.com");
-		protectedIPs.push_back("hublista.hu");
-		protectedIPs.push_back("dcbase.org");
-		for(auto i = protectedIPs.begin(); i != protectedIPs.end();) {
-			*i = Socket::resolve(*i);
-			if(Util::isPrivateIp(*i))
-				i = protectedIPs.erase(i);
-			else
-				++i;
-		}
-
-		lastProtectedIPsUpdate = aTick;
-	}*/
 }
 
 void NmdcHub::password(const string& aPass) {
