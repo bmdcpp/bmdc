@@ -25,6 +25,7 @@
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
 #include "FavoriteHubDialog.hh"
+#include "AboutConfigFav.hh"
 
 using namespace std;
 using namespace dcpp;
@@ -96,6 +97,7 @@ FavoriteHubs::FavoriteHubs():
 	g_signal_connect(groupsView.get(), "button-release-event", G_CALLBACK(onGroupsButtonReleased_gui), (gpointer)this);
 	g_signal_connect(groupsView.get(), "key-release-event", G_CALLBACK(onGroupsKeyReleased_gui), (gpointer)this);
 
+	g_signal_connect(getWidget("AdvancedItem"),"activate",G_CALLBACK(onAdvancedSettings),(gpointer)this);
 }
 FavoriteHubs::~FavoriteHubs()
 {
@@ -827,5 +829,18 @@ void FavoriteHubs::on(ClientManagerListener::ClientDisconnected, Client* c) noex
 	typedef Func2<FavoriteHubs,string,bool> F2;
 	F2 *func = new F2(this,&FavoriteHubs::edit_online_status,c->getHubUrl(),false);
 	WulforManager::get()->dispatchGuiFunc(func);
+	
+}
+
+void FavoriteHubs::onAdvancedSettings(GtkWidget* item , gpointer data)
+{
+	FavoriteHubs* fh = (FavoriteHubs*)data;
+	
+	GtkTreeIter iter;
+
+	if (gtk_tree_selection_get_selected(fh->favoriteSelection, NULL, &iter))
+		WulforManager::get()->getMainWindow()->showBook(Entry::ABOUT_CONFIG,
+		new AboutConfigFav((FavoriteHubEntry*)fh->favoriteView.getValue<FavoriteHubEntry*>(&iter, _("FavPointer"))));
+		
 	
 }

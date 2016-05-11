@@ -1498,6 +1498,14 @@
         <property name="can_focus">False</property>
       </object>
     </child>
+	<child>
+      <object class="GtkMenuItem" id="AdvancedItem">
+        <property name="label">Open Advanced Settings</property>
+        <property name="use_action_appearance">False</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
   </object>
   <object class="GtkListStore" id="model1">
     <columns>

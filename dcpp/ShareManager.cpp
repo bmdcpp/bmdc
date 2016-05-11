@@ -920,7 +920,7 @@ void ShareManager::runRefresh(function<void (float)> progressF) {
 		}
 		refreshDirs = false;
 
-		LogManager::getInstance()->message(_("File list refresh finished :") + getName());
+		LogManager::getInstance()->message(_("File list refresh finished ") + !getName().empty() ? ":"+getName() : " ");
 	}
 
 	if(update) {

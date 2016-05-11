@@ -59,6 +59,8 @@ Hub::Hub(const string &address, const string &encoding):
 	notCreated(true), isFavBool(true)
 {
 	FavoriteHubEntry* faventry =  getFavoriteHubEntry();
+	//@note because "." and this is used in CSS'ing 
+	//@ use the CID'ing of it
 	setName(CID(address).toBase32());
 	// Initialize nick treeview
 	nickView.setView(GTK_TREE_VIEW(getWidget("nickView")), false, "hub");
@@ -4892,12 +4894,15 @@ void Hub::onToglleButtonIcon(GtkToggleButton *button, gpointer data)
 
 		FavoriteHubEntry* fav = FavoriteManager::getInstance()->getFavoriteHubEntry(hub->client->getHubUrl());
 		if(fav != NULL) {
+			
 			fav->set(SettingsManager::HUB_ICON_STR,Util::emptyString);
 			FavoriteManager::getInstance()->save();
 		}
 	}
+	
 	if( hub->tab_button == NULL) return;
 	gtk_widget_set_sensitive(hub->tab_button, !active);
+	
 	if( hub->tab_image == NULL ) return;
 	gtk_widget_set_sensitive(hub->tab_image, !active);
 }

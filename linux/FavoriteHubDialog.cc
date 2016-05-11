@@ -207,21 +207,27 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	
 	string path = WulforManager::get()->getPath() + G_DIR_SEPARATOR_S + "emoticons" + G_DIR_SEPARATOR_S;
 	StringList files = File::findFiles(path, "*.xml");
+	string pack_name = p_entry->get(SettingsManager::EMOT_PACK,SETTING(EMOT_PACK));
 	for(auto fi = files.begin(); fi != files.end();++fi) {
 			string file = Util::getFileName((*fi));
 			size_t nedle =  file.find(".");
 			string text = file.substr(0,nedle);
 			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(comboEmot), text.c_str() );
+			
+			if(pack_name == text) {
+				gtk_combo_box_set_active(GTK_COMBO_BOX(comboEmot), (fi - files.begin()));
+			}
+			
 	}
 	
-	string pack_name = p_entry->get(SettingsManager::EMOT_PACK,SETTING(EMOT_PACK));
-	for(auto fii = files.begin(); fii!= files.end(); ++fii) {
-			size_t needle = Util::getFileName(*fii).find(".");
-			string tmp  = Util::getFileName(*fii).substr(0,needle);
-			if(pack_name == tmp) {
-				gtk_combo_box_set_active(GTK_COMBO_BOX(comboEmot), (fii - files.begin()));
-			}
-	}
+	//string pack_name = p_entry->get(SettingsManager::EMOT_PACK,SETTING(EMOT_PACK));
+	//for(auto fii = files.begin(); fii!= files.end(); ++fii) {
+	//		size_t needle = Util::getFileName(*fii).find(".");
+	//		string tmp  = Util::getFileName(*fii).substr(0,needle);
+	//		if(pack_name == tmp) {
+	//			gtk_combo_box_set_active(GTK_COMBO_BOX(comboEmot), (fii - files.begin()));
+	//		}
+	//}
 	
 	enableNoti = g_c_b_n(_("Enable Notify for This Hub"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enableNoti), p_entry->getNotify());
@@ -284,7 +290,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	gtk_entry_set_text(GTK_ENTRY(entryIp), p_entry->get(SettingsManager::EXTERNAL_IP,SETTING(EXTERNAL_IP)).c_str());
 	g_g_a_c_s(entryIp,1,2,1,1);
 	
-	enableIp6 = g_c_b_n("Enable IPv6 Support (NMDC)");
+	enableIp6 = g_c_b_n("Enable IPv6 Support");
 	g_g_a_c_s(enableIp6,0,3,1,1);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enableIp6),p_entry->geteIPv6());
 	
@@ -324,7 +330,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	shareStore = gtk_list_store_newv(shareView.getColCount(), shareView.getGTypes());
 	gtk_tree_view_set_model(shareView.get(), GTK_TREE_MODEL(shareStore));
 	shareView.setSortColumn_gui(_("Size"), "Real Size");
-	gtk_container_add(GTK_CONTAINER(scroll),GTK_WIDGET(shareView.get()));
+	gtk_container_add(GTK_CONTAINER(shareTree),GTK_WIDGET(shareView.get()));
 
 	gtk_grid_attach(GTK_GRID(boxShare),scroll,0,0,2,2);
 
@@ -590,7 +596,7 @@ void FavoriteHubDialog::initActions()
 		}
 	}
 	
-	void FavoriteHubDialog::onAddShare_gui(GtkWidget*, gpointer data)
+void FavoriteHubDialog::onAddShare_gui(GtkWidget*, gpointer data)
 {
 	FavoriteHubDialog *s = (FavoriteHubDialog*)data;
 	GtkWidget* fileDialog = b_file_dialog_widget("Open Directory");
@@ -609,7 +615,7 @@ void FavoriteHubDialog::initActions()
 			if (path[path.length() - 1] != PATH_SEPARATOR)
 				path += PATH_SEPARATOR;
 
-			GtkWidget* dialog = gtk_dialog_new_with_buttons ("name",
+			GtkWidget* dialog = gtk_dialog_new_with_buttons (_("Set Name"),
                                       NULL,
                                      (GtkDialogFlags)(GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT),
                                       _("_OK"),
@@ -645,15 +651,17 @@ void FavoriteHubDialog::initActions()
 					s->p_entry->setShareManager(share);
 					FavoriteManager::getInstance()->save();
 					s->p_entry->getShareManager()->refresh();	
-					s->updateShares_gui();
+					//s->updateShares_gui();
 				}
 				catch (const ShareException &e)
 				{
 					return;//should not update GUI if any Share* exception hapened
 				}
-				catch(...){g_print("Some other exception");}
+				catch(...){
+					//g_log("Some other exception");
+				}
 				
-				s->addShare_gui(path, name);//did need?
+				s->addShare_gui(path, name);
 			}
 		}
 	}
