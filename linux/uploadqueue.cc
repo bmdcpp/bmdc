@@ -1,5 +1,5 @@
 //
-//      Copyright 2011 - 2016 BMDC <freedcpp@seznam.cz>
+//      Copyright 2011 - 2016 BMDC
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ using namespace dcpp;
 
 UploadQueue::UploadQueue():
 BookEntry(Entry::UPLOADQUEUE, _("Upload Queue"), "uploadqueue"),
-store(NULL), selection(NULL)
+selection(NULL)
 {
 
 	users.setView(GTK_TREE_VIEW(getWidget("viewUsers")));
@@ -67,8 +67,7 @@ UploadQueue::~UploadQueue()
 {
 	UploadManager::getInstance()->removeListener(this);
 	gtk_list_store_clear(store);
-	store = NULL;
-	selection = NULL;
+	g_object_unref(store);
 }
 
 void UploadQueue::show()
@@ -121,7 +120,7 @@ void UploadQueue::addFile(StringMap &params,GtkTreeIter *iter)
 void UploadQueue::AddFile_gui(StringMap params)
 {
 	GtkTreeIter iter;
-	gchar *file;
+	gchar *file = NULL;
 	unordered_map<string,GtkTreeIter>::iterator it = mapUsers.find(params["CID"]);
 	if(it != mapUsers.end())
 	{
@@ -342,20 +341,20 @@ void UploadQueue::grantSlot_client(const string &cid)
 
 void UploadQueue::removeUploadFromQueue(const string &cid)
 {
-	UserPtr ui = ClientManager::getInstance()->findUser(CID(cid));
-	if (ui)
+	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
+	if (user)
 	{
-          UploadManager::getInstance()->clearUserFiles(ui);
+          UploadManager::getInstance()->clearUserFiles(user);
 	}
 }
 
 void UploadQueue::getFileList_client(const string &cid)
 {
 	try {
-		UserPtr ui = ClientManager::getInstance()->findUser(CID(cid));
-		if(ui)
+		UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
+		if(user)
 		{
-			HintedUser hintedUser(ui, Util::emptyString);
+			HintedUser hintedUser(user, Util::emptyString);
 			QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW);
 		}
 	}catch(...)

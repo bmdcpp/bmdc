@@ -72,6 +72,7 @@ ShareManager::ShareManager(string _name) : hits(0), xmlListLen(0), bzXmlListLen(
 	QueueManager::getInstance()->addListener(this);
 	HashManager::getInstance()->addListener(this);
 
+	//did we need this now?
 	if(!Util::fileExists(Util::getPath(Util::PATH_USER_CONFIG) + "Emptyfiles.xml.bz2")) {
 		string emptyXmlName = Util::getPath(Util::PATH_USER_CONFIG) + "Emptyfiles.xml.bz2";
 		FilteredOutputStream<BZFilter, true> emptyXmlFile(new File(emptyXmlName, File::WRITE, File::TRUNCATE | File::CREATE));
@@ -84,6 +85,7 @@ ShareManager::ShareManager(string _name) : hits(0), xmlListLen(0), bzXmlListLen(
 }
 
 ShareManager::~ShareManager() {
+	
 	if(getName().empty())
 		SettingsManager::getInstance()->removeListener(this);
 	
@@ -92,17 +94,12 @@ ShareManager::~ShareManager() {
 	HashManager::getInstance()->removeListener(this);
 
 	join();
-
-	/*if(bzXmlRef.get()) {
-		bzXmlRef.reset();
-		File::deleteFile(getBZXmlFile());
-	}*/
 }
 
 //Borowed from wxStrong for Custom Share
-void ShareManager::setName(const string& _id) {
+void ShareManager::setName(const string _id) {
 	if(_id == id)
-		return; // nothing to change
+		return; // nothing to change since id is same
 
 	if(bzXmlRef.get()) {
 		// delete list with old name
@@ -140,7 +137,7 @@ string ShareManager::Directory::getRealPath(const ShareManager* manager,const st
 	if(getParent()) {
 		return getParent()->getRealPath(manager,getRealName() + PATH_SEPARATOR_STR + path);
 	} else {
-		return /*ShareManager::getInstance()*/manager->findRealRoot(getRealName(), path);
+		return manager->findRealRoot(getRealName(), path);
 	}
 }
 
@@ -885,7 +882,7 @@ void ShareManager::runRefresh(function<void (float)> progressF) {
 	if(refreshDirs) {
 		HashManager::HashPauser pauser;
 
-		LogManager::getInstance()->message(_("File list refresh initiated: ") + getName() );
+		LogManager::getInstance()->message(_("File list refresh initiated ") + getName() );
 
 		lastFullUpdate = GET_TICK();
 
@@ -990,13 +987,7 @@ void ShareManager::generateXmlList() {
 				bzXmlRef.reset();
 				File::deleteFile(getBZXmlFile());
 			}
-/*
-			try {
-				File::renameFile(newXmlName, Util::getPath(Util::PATH_USER_CONFIG) + "files.xml.bz2");
-				newXmlName = Util::getPath(Util::PATH_USER_CONFIG) + "files.xml.bz2";
-			} catch(const FileException&) {
-				// Ignore, this is for caching only...
-			}*/
+
 			bzXmlRef = unique_ptr<File>(new File(newXmlName, File::READ, File::OPEN));
 			setBZXmlFile(newXmlName);
 			bzXmlListLen = File::getSize(newXmlName);

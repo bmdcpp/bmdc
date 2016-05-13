@@ -330,9 +330,8 @@ private:
 	virtual void on(TimerManagerListener::Minute, uint64_t tick) noexcept;
 public:
 	string getName() const { return id;}
-	//GETSET(string, name , Name);
 	string id;
-	void setName(const string& id);
+	void setName(const string id);
 	void load(SimpleXML& aXml);
 	void save(SimpleXML& aXml);
 

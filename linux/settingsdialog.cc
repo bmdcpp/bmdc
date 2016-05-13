@@ -1718,7 +1718,7 @@ void Settings::setColorRow(string cell)
 void Settings::makeColor(GtkTreeViewColumn *column, GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter, gpointer )
 {
 		string color = "#A52A2A";
-		gchar *cltype;
+		gchar *cltype = NULL;
 
 		if(model == NULL)
 			return;

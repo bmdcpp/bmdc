@@ -1678,7 +1678,7 @@ int DetectionTab::save_combo(GtkWidget *widget)
     GtkWidget *combo = GTK_WIDGET(g_list_first(list)->data);
     GtkTreeIter iter;
     GtkTreeModel *model;
-    gchar *str;
+    gchar *str = NULL;
     gint ints = 0;
     if(!GTK_IS_COMBO_BOX(combo))
             return 0;

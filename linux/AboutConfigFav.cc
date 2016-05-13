@@ -70,14 +70,14 @@ p_entry(entry)
 							
 	for(int i = 0;i < SettingsManager::SETTINGS_LAST-1;i++)
 	{	
-					isOk[i] = false;
-					
+		isOk[i] = false;
 	}
+	//whitelist
 	isOk[SettingsManager::NICK] = true;
 	isOk[SettingsManager::DESCRIPTION] = true;
 	isOk[SettingsManager::EMAIL] = true;
 	isOk[SettingsManager::TIME_RECCON] = true;
-	isOk[SettingsManager::TIME_STAMPS] = true;
+	//isOk[SettingsManager::TIME_STAMPS] = true;
 	isOk[SettingsManager::COUNTRY_FORMAT] = true;
 	isOk[SettingsManager::GET_USER_COUNTRY] = true;
 	isOk[SettingsManager::EXTERNAL_IP] = true;
@@ -87,10 +87,17 @@ p_entry(entry)
 	isOk[SettingsManager::BACKGROUND_CHAT_IMAGE] = true;
 	isOk[SettingsManager::CHAT_EXTRA_INFO] = true;
 	isOk[SettingsManager::HUB_ICON_STR] = true;
+	isOk[SettingsManager::HUB_TEXT_STR] = true;
 	isOk[SettingsManager::EMOT_PACK] = true;
+	isOk[SettingsManager::USE_EMOTS] = true;
 	isOk[SettingsManager::SHOW_JOINS] = true;
 	isOk[SettingsManager::SHOW_FREE_SLOTS_DESC] = true;
 	isOk[SettingsManager::FAV_SHOW_JOINS] = true;
+	isOk[SettingsManager::HUB_UL_ORDER] =true;
+	isOk[SettingsManager::HUB_UL_SIZE] = true;
+	isOk[SettingsManager::HUB_UL_VISIBLE] = true;
+	isOk[SettingsManager::LOG_CHAT_B] = true;
+	isOk[SettingsManager::SORT_FAVUSERS_FIRST] = true;
 }
 
 AboutConfigFav::~AboutConfigFav()
@@ -102,7 +109,6 @@ void AboutConfigFav::show()
 {
 	SettingsManager* sm = SettingsManager::getInstance();
 	SettingsManager::Types type;
-	//probably not idea or (0)?
 	const gchar* rowname = 0;
 	const gchar* isdefault = _("Default");
 	gchar types[10];
@@ -141,19 +147,10 @@ void AboutConfigFav::show()
 				}	
 				case SettingsManager::TYPE_INT64:
 				{
-					//sprintf(types,"Int64");
-					
-					//addItem_gui(rowname, isdefault, types, value,FALSE);
 					continue;
 				}	
 				case SettingsManager::TYPE_FLOAT:
 				{
-					//sprintf(types,"Float");
-					//value = g_strdup(Util::toString((float)p_entry->get(static_cast<SettingsManager::FloatSetting>(n))).c_str());
-					//if(!sm->isDefault(static_cast<SettingsManager::FloatSetting>(n))){
-					//	isdefault = _("User set");
-					//}
-					//addItem_gui(rowname, isdefault, types, value,FALSE);	
 					continue;
 				}	
 				case SettingsManager::TYPE_BOOL:
@@ -178,7 +175,7 @@ void AboutConfigFav::show()
 void AboutConfigFav::addItem_gui(const gchar* rowname, const gchar* isdefault, const gchar* types, const gchar* value)
 {
 	GtkTreeIter iter;
-	g_print("\n%s-%s-%s-%s ",rowname,isdefault,types,value);
+	dcdebug("\n%s-%s-%s-%s\n ",rowname,isdefault,types,value);
 	gboolean isOk = g_utf8_validate(value,-1,NULL);
 	gboolean isOk2 = g_utf8_validate(rowname,-1,NULL);
 	gboolean isOk3 = g_utf8_validate(isdefault,-1,NULL);
@@ -353,19 +350,24 @@ void AboutConfigFav::onSetDefault(GtkWidget*, gpointer data)
 
 			switch(type) {
 				case SettingsManager::TYPE_STRING:
-					value = Text::toT(sm->get(static_cast<SettingsManager::StrSetting>(n)));
+					value = Text::toT(sm->getDefault(static_cast<SettingsManager::StrSetting>(n)));
+					s->p_entry->set(static_cast<SettingsManager::StrSetting>(n),value);
 					break;
 				case SettingsManager::TYPE_INT:
-					value = Text::toT(Util::toString(sm->get(static_cast<SettingsManager::IntSetting>(n))));
+					value = Text::toT(Util::toString(sm->getDefault(static_cast<SettingsManager::IntSetting>(n))));
+					s->p_entry->set(static_cast<SettingsManager::IntSetting>(n),sm->getDefault(
+					static_cast<SettingsManager::IntSetting>(n)));
 					break;
 				case SettingsManager::TYPE_INT64:
-					value = Text::toT(Util::toString(sm->get(static_cast<SettingsManager::Int64Setting>(n))));
+					//value = Text::toT(Util::toString(sm->get(static_cast<SettingsManager::Int64Setting>(n))));
 					break;
 				case SettingsManager::TYPE_FLOAT:
-					value = Text::toT(Util::toString(sm->get(static_cast<SettingsManager::FloatSetting>(n))));
+					//value = Text::toT(Util::toString(sm->get(static_cast<SettingsManager::FloatSetting>(n))));
 					break;
 				case SettingsManager::TYPE_BOOL:
-					value = Text::toT(Util::toString((int)sm->get(static_cast<SettingsManager::BoolSetting>(n))));
+					value = Text::toT(Util::toString((int)sm->getDefault(static_cast<SettingsManager::BoolSetting>(n))));
+					s->p_entry->set(static_cast<SettingsManager::BoolSetting>(n),sm->getDefault(
+					static_cast<SettingsManager::BoolSetting>(n)));
 					break;
 				default:
 					return;

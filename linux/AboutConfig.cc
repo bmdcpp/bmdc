@@ -1,4 +1,4 @@
-﻿//
+//
 //		Copyright (C) 2011 - 2016 - BMDC
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -77,12 +77,10 @@ void AboutConfig::show()
 	sm->addListener(this);
 
 	SettingsManager::Types type;
-	//probably not idea or (0)?
-	const gchar* rowname = 0;
+	const gchar* rowname = NULL;
 	const gchar* isdefault = _("Default");
 	gchar types[10];
-	const gchar* value = 0;//can we asume set is constat val?probably not
-	
+	const gchar* value = NULL;
 
 	for(int n = 0; n < SettingsManager::SETTINGS_LAST; n++ ) {
 		const gchar* tmp = (sm->getSettingTags()[n].c_str());
@@ -90,7 +88,7 @@ void AboutConfig::show()
 		if (sm->getType(tmp, n, type)) {
 			rowname = tmp;
 			isdefault = _("Default");
-			value = 0;
+			value = NULL;
 			switch(type) {
 				case SettingsManager::TYPE_STRING:
 				{
@@ -151,7 +149,7 @@ void AboutConfig::show()
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
 	WulforSettingsManager::StringMap map = wsm->getStringMap();
 	WulforSettingsManager::StringMap defMap = wsm->getStringDMap();
-	const gchar* dvalue = 0;
+	const gchar* dvalue = NULL;
 	sprintf(types,"String");
 	bool isOk = false;
 	gchar* isDef = _("Default");

@@ -369,10 +369,11 @@ gint Hub::sort_iter_compare_func_nick(GtkTreeModel *model, GtkTreeIter  *a,
 	}
 	else
 	{
+		//g_*_collate works better 
+		//that stricmp
 		gchar* a_nick = g_utf8_casefold(nick_a,-1);
 		gchar* b_nick = g_utf8_casefold(nick_b,-1);
 		ret = g_utf8_collate(a_nick,b_nick);
-		//ret = dcpp::Util::stricmp(nick_a,nick_b);
 		g_free(a_nick);
 		g_free(b_nick);
 		g_free(nick_a);
@@ -633,8 +634,11 @@ gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean 
 					  &model, &path, &iter))
 	return FALSE;
 
-	gchar *nick, *tag, *desc,*con,*ip,*e,*country,*slots,*hubs,*pk,*cheat,*gen,*sup,*cid,*type;
-	gint64 ssize;
+	gchar *nick = NULL,
+	*tag = NULL, *desc = NULL,*con = NULL,
+	*ip = NULL,*e = NULL,*country = NULL,*slots = NULL,*hubs = NULL,
+	*pk = NULL,*cheat = NULL,*gen = NULL,*sup = NULL,*cid = NULL,*type = NULL;
+	gint64 ssize = 0;
 	char buffer[1000];
 	
 	gtk_tree_model_get (model, &iter, hub->nickView.col(_("Nick")), &nick,
@@ -2150,6 +2154,7 @@ g_object_get(G_OBJECT(t), "name", &tmp, NULL); \
 string tagn = string(tmp); \
 g_free(tmp); \
 */
+
 gboolean Hub::onNickTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *event, GtkTextIter*, gpointer data)
 {
 	if (event->type == GDK_2BUTTON_PRESS)
@@ -2250,6 +2255,7 @@ gboolean Hub::onIpTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *event , GtkT
 			
 			gtk_widget_show_all(hub->getWidget("ipMenu"));
 			gtk_menu_popup(GTK_MENU(hub->getWidget("ipMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+			g_free(tmp);
 			return TRUE;
 		}
 	}
@@ -2516,7 +2522,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		else if( command == "listip")
 		{
 			auto list = FavoriteManager::getInstance()->getListIp();
-			string tmp;
+			string tmp = _("List WatchIPs\n");
 			for(auto it:list)
 					tmp += _("IP: ") + it.first + _(" Last Seen: ")+Util::formatTime("%Y-%m-%d %H:%M", it.second->getLastSeen())+"\n";
 			
@@ -2778,6 +2784,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 				hub->addStatusMessage_gui(_("No user given to command"),Msg::SYSTEM,Sound::NONE);
 			} else {
 				ClientManager* cm = ClientManager::getInstance();
+				cm->lock();
 				UserPtr ui = cm->findUser(params,hub->client->getHubUrl());
 				OnlineUser* ou = cm->findOnlineUser(ui->getCID(),hub->client->getHubUrl());
 				Identity& id = ou->getIdentity();
