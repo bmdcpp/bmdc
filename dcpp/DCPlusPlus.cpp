@@ -75,7 +75,7 @@ void startup() {
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset(PACKAGE, "UTF-8");
 	SettingsManager::newInstance();
-
+	TimerManager::newInstance();
 	LogManager::newInstance();
 	TimerManager::newInstance();
 	HashManager::newInstance();

@@ -73,7 +73,7 @@ private:
 
 	void startMapping();
 	void mappingFinished(const string& mapper);
-	void log(string&& message);
+	void log(const string& message);
 
 	void startSocket();
 	void listen();

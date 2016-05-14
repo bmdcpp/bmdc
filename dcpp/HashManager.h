@@ -212,7 +212,7 @@ private:
             TTHValue root;
         };
 
-        bool loadTree(const string& p_filePath, TigerTree &tree, int64_t p_aFileSize = -1);
+        bool loadTree(const string& p_filePath, TigerTree& tree, int64_t p_aFileSize = -1);
         bool saveTree(const string& p_filePath, const TigerTree& p_Tree);
         void deleteStream(const string& p_filePath);
 

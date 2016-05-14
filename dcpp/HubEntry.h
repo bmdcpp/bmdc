@@ -76,14 +76,14 @@ public:
 	FavoriteHubEntry() :
 	name(Util::emptyString), server(Util::emptyString), hubDescription(Util::emptyString), password(Util::emptyString),
 	encoding(Text::systemCharset), group(Util::emptyString), hideShare(false), autoConnect(false), mode(1),
-	chatExtraInfo(SETTING(CHAT_EXTRA_INFO)), protectUsers(Util::emptyString), checkAtConn(false), checkClients(false),
+	checkAtConn(false), checkClients(false),
 	checkFilelists(false), checkMyInfo(false), showUserList(true), 
 	order(SETTING(HUB_UL_ORDER)), visible(SETTING(HUB_UL_VISIBLE)), width(SETTING(HUB_UL_SIZE)), 
 	notify(false) ,priv(false) { }
 
 	FavoriteHubEntry(const HubEntry& rhs) : name(rhs.getName()), server(rhs.getServer()),
 		hubDescription(rhs.getDescription()), password(Util::emptyString), encoding(Text::systemCharset), group(Util::emptyString),
-	hideShare(false), autoConnect(false), mode(1), chatExtraInfo(SETTING(CHAT_EXTRA_INFO)), protectUsers(Util::emptyString), 
+	hideShare(false), autoConnect(false), mode(1),  
 	checkAtConn(false), checkClients(false), checkFilelists(false),  checkMyInfo(false), showUserList(true),
 	order(SETTING(HUB_UL_ORDER)),visible(SETTING(HUB_UL_VISIBLE)),width(SETTING(HUB_UL_SIZE)),
 	notify(false), priv(false),ipv6(true)
@@ -93,8 +93,8 @@ public:
 		HubSettings(rhs),
 		name(rhs.getName()), server(rhs.getServer()), hubDescription(rhs.getHubDescription()),
 		password(rhs.getPassword()), encoding(rhs.getEncoding()), group(rhs.getGroup()), hideShare(rhs.hideShare),
-		autoConnect(rhs.autoConnect),  mode(rhs.mode), chatExtraInfo(rhs.chatExtraInfo),
-		protectUsers(rhs.protectUsers),	checkAtConn(rhs.checkAtConn), checkClients(rhs.checkClients), checkFilelists(rhs.checkFilelists),  checkMyInfo(rhs.checkMyInfo),
+		autoConnect(rhs.autoConnect),  mode(rhs.mode), 
+		checkAtConn(rhs.checkAtConn), checkClients(rhs.checkClients), checkFilelists(rhs.checkFilelists),  checkMyInfo(rhs.checkMyInfo),
 		showUserList(rhs.showUserList), order(rhs.order), visible(rhs.visible), width(rhs.width), /*tabText(rhs.tabText), tabIconStr(rhs.tabIconStr), */notify(rhs.notify) ,priv(rhs.priv),ipv6(rhs.ipv6)
 		{ }
 
@@ -112,8 +112,6 @@ public:
 	GETSET(int, mode, Mode);
 	GETSET(bool,ipv6,eIPv6);
 	
-	GETSET(string, chatExtraInfo, ChatExtraInfo);//HubGroup?
-	GETSET(string, protectUsers, ProtectUsers);//Hub Group?
 	GETSET(bool, checkAtConn, CheckAtConn);
 	GETSET(bool, checkClients, CheckClients);
 	GETSET(bool, checkFilelists, CheckFilelists);

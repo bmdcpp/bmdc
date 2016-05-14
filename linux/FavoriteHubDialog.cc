@@ -56,8 +56,7 @@ static GtkWidget* createComboBoxWith3Options(const gchar* a,const gchar* b,const
 
 FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	Entry(Entry::FAV_HUB),
-	p_entry(entry),
-	actionStore(NULL), actionSel(NULL)
+	p_entry(entry)
 {
 	mainDialog = gtk_dialog_new();
 	if(!p_entry->getServer().empty())
@@ -136,7 +135,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxSimple ,lan(_("General Settings")));
 	//check
 	GtkWidget* boxCheck = gtk_grid_new();
-	g_g_a_c( lan(_("Protected Users:")) ,0,0,1,1);
+	g_g_a_c( lan(_("Protected Users: ")) ,0,0,1,1);
 	entryProtectedUser = gen;
 	gtk_entry_set_text(GTK_ENTRY(entryProtectedUser), p_entry->get(SettingsManager::PROTECTED_USERS,SETTING(PROTECTED_USERS)).c_str());
 	g_g_a_c(entryProtectedUser,1,0,1,1);
@@ -210,8 +209,8 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	string pack_name = p_entry->get(SettingsManager::EMOT_PACK,SETTING(EMOT_PACK));
 	for(auto fi = files.begin(); fi != files.end();++fi) {
 			string file = Util::getFileName((*fi));
-			size_t nedle =  file.find(".");
-			string text = file.substr(0,nedle);
+			size_t needle =  file.find(".");
+			string text = file.substr(0,needle);
 			gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(comboEmot), text.c_str() );
 			
 			if(pack_name == text) {
@@ -219,16 +218,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 			}
 			
 	}
-	
-	//string pack_name = p_entry->get(SettingsManager::EMOT_PACK,SETTING(EMOT_PACK));
-	//for(auto fii = files.begin(); fii!= files.end(); ++fii) {
-	//		size_t needle = Util::getFileName(*fii).find(".");
-	//		string tmp  = Util::getFileName(*fii).substr(0,needle);
-	//		if(pack_name == tmp) {
-	//			gtk_combo_box_set_active(GTK_COMBO_BOX(comboEmot), (fii - files.begin()));
-	//		}
-	//}
-	
+		
 	enableNoti = g_c_b_n(_("Enable Notify for This Hub"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enableNoti), p_entry->getNotify());
 	g_g_a_a(enableNoti,0,8,1,1);
@@ -295,7 +285,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enableIp6),p_entry->geteIPv6());
 	
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxConnection ,lan(_("Connection Setup")) );
-	
+	//Actions Page
 	treeView = gtk_tree_view_new();
 	GtkWidget* boxKickAction = gtk_grid_new();
 	gtk_grid_attach(GTK_GRID(boxKickAction),treeView,0,0,3,3);
@@ -332,7 +322,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	shareView.setSortColumn_gui(_("Size"), "Real Size");
 	gtk_container_add(GTK_CONTAINER(shareTree),GTK_WIDGET(shareView.get()));
 
-	gtk_grid_attach(GTK_GRID(boxShare),scroll,0,0,2,2);
+	gtk_grid_attach(GTK_GRID(boxShare),scroll,0,0,4,4);
 
 	button_add = gtk_button_new_with_label("Add");
 	button_rem = gtk_button_new_with_label("Remove");
@@ -342,8 +332,8 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	gtk_grid_attach(GTK_GRID(grid),button_rem,1,1,1,1);
 //	gtk_grid_attach(GTK_GRID(grid),button_edit,2,0,1,1);
 	labelShareSize = gtk_label_new("");
-	gtk_grid_attach(GTK_GRID(grid),labelShareSize,2,1,1,1);
-	gtk_grid_attach(GTK_GRID(boxShare),grid,0,3,1,1);
+	gtk_grid_attach(GTK_GRID(grid),labelShareSize,2,5,1,1);
+	gtk_grid_attach(GTK_GRID(boxShare),grid,0,5,1,1);
 	
 	
 	g_signal_connect(button_add, "clicked", G_CALLBACK(onAddShare_gui), (gpointer)this);
@@ -418,7 +408,7 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 			
 			p_entry->set(SettingsManager::CHAT_EXTRA_INFO ,gtk_entry_get_text(GTK_ENTRY(extraChatInfoEntry)));
 			p_entry->set(SettingsManager::EXTERNAL_IP, gtk_entry_get_text(GTK_ENTRY(entryIp)));
-			p_entry->setProtectUsers(gtk_entry_get_text(GTK_ENTRY(entryProtectedUser)));
+			p_entry->set(SettingsManager::PROTECTED_USERS,gtk_entry_get_text(GTK_ENTRY(entryProtectedUser)));
 			p_entry->setNotify(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON( enableNoti)));
 			
 			p_entry->setMode(gtk_combo_box_get_active(GTK_COMBO_BOX(comboMode)));
@@ -491,7 +481,7 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 
 		p_entry->set(SettingsManager::NICK, gtk_entry_get_text(GTK_ENTRY(entryUsername)));
 
-		p_entry->set(SettingsManager::DESCRIPTION,gtk_entry_get_text(GTK_ENTRY(entryUserDescriptio)));
+		p_entry->set(SettingsManager::DESCRIPTION, gtk_entry_get_text(GTK_ENTRY(entryUserDescriptio)));
 
 		if (p_entry->getName().empty() || p_entry->getServer().empty())
 		{
@@ -599,7 +589,7 @@ void FavoriteHubDialog::initActions()
 void FavoriteHubDialog::onAddShare_gui(GtkWidget*, gpointer data)
 {
 	FavoriteHubDialog *s = (FavoriteHubDialog*)data;
-	GtkWidget* fileDialog = b_file_dialog_widget("Open Directory");
+	GtkWidget* fileDialog = b_file_dialog_widget(_("Open Directory"));
 	
  	gint response = gtk_dialog_run(GTK_DIALOG(fileDialog));
 	gtk_widget_hide(fileDialog);

@@ -584,7 +584,7 @@ void ClientManager::search(int aSizeMode, int64_t aSize, int aFileType, const st
 	}
 }
 
-void ClientManager::search(string& who, int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken, const StringList& aExtList) {
+void ClientManager::search(const string& who, int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken, const StringList& aExtList) {
 	Lock l(cs);
 
 	for(auto i = clients.begin(); i != clients.end(); ++i) { //change clients set to map<string*(hubUrl), Client*> for better lookup with .find

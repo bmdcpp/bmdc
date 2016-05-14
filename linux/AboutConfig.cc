@@ -218,7 +218,7 @@ void AboutConfig::addItem_gui(const gchar* rowname, const gchar* isdefault, cons
 
 }
 
-void AboutConfig::updateItem_gui(string rowname, string value, GtkTreeIter *iter, gchar* status,gboolean wul /*false*/ )
+void AboutConfig::updateItem_gui(const string rowname,const string value, GtkTreeIter *iter,const gchar* status,gboolean wul /*false*/ )
 {
 	if(iter) {
 		gtk_list_store_set(aboutStore,iter,
@@ -230,7 +230,7 @@ void AboutConfig::updateItem_gui(string rowname, string value, GtkTreeIter *iter
 	}
 }
 
-void AboutConfig::setStatus(string msg)
+void AboutConfig::setStatus(const string msg)
 {
 	gtk_statusbar_pop(GTK_STATUSBAR(getWidget("status")), 0);
 	gtk_statusbar_push(GTK_STATUSBAR(getWidget("status")), 0, msg.c_str());
@@ -422,7 +422,7 @@ void AboutConfig::onSetDefault(GtkWidget*, gpointer data)
 	}
 }
 
-bool AboutConfig::getDialog(string name, string& value , gpointer data)
+bool AboutConfig::getDialog(const string name, string& value , gpointer data)
 {
 	AboutConfig *s = (AboutConfig *)data;
 	gtk_label_set_text(GTK_LABEL(s->getWidget("label")), name.c_str());

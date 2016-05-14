@@ -41,7 +41,7 @@ class FakeChecker
 
 	void setCheating(const HintedUser& user, const string& _ccResponse, const string& _cheatString, int _actionId, bool _displayCheat,
 		bool _badClient, bool _badFileList, bool _clientCheckComplete, bool _fileListCheckComplete);
-	ClientManager *cm;
+	 ClientManager *cm;
 };
 }//namespace dcpp
 #endif

@@ -133,8 +133,6 @@ public:
 
 	//BMDC++
 	GETSET(bool, hideShare, HideShare);
-	GETSET(string, chatExtraInfo, ChatExtraInfo);
-	GETSET(string, protectUser, ProtectUser);
 	GETSET(bool, checkAtConnect, CheckAtConnect);
 	GETSET(bool, checkClients, CheckClients);
 	GETSET(bool, checkFilelists, CheckFilelists);

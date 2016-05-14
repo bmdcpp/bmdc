@@ -59,7 +59,7 @@ public:
 	GETSET(bool, bHasBgColor, HasBgColor);
 	GETSET(bool, bHasFgColor, HasFgColor);
 
-	void setMatch(string match){
+	void setMatch(const string match){
 		if(match.find(("$Re:")) == 0) {
 			bUsingRegexp = true;
 		}

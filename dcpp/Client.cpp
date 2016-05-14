@@ -104,8 +104,6 @@ void Client::reloadSettings(bool updateNick) {
 			setPassword(fav->getPassword());
 		//[BMDC
 		setHideShare(fav->getHideShare());
-		setChatExtraInfo(fav->getChatExtraInfo());
-		setProtectUser(fav->getProtectUsers());
 		setCheckAtConnect(fav->getCheckAtConn());
 		setCheckClients(fav->getCheckClients());
 		setCheckFilelists(fav->getCheckFilelists());
@@ -114,8 +112,6 @@ void Client::reloadSettings(bool updateNick) {
 	}else{
 		//[BMDC++
 		setHideShare(false);
-		setChatExtraInfo(Util::emptyString);
-		setProtectUser(Util::emptyString);
 		setCheckAtConnect(false);
 		setCheckClients(false);
 		setCheckFilelists(false);

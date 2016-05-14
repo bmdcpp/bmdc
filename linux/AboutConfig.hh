@@ -1,4 +1,4 @@
-﻿//
+//
 //      Copyright 2011 - 2016 BMDC 
 //
 //      This program is free software; you can redistribute it and/or modify
@@ -45,10 +45,10 @@ class AboutConfig:
 		static void onSetDefault(GtkWidget *widget, gpointer data);
 		static void onInfoResponse(GtkWidget *info_bar, gint response_id,  gpointer data );
 	
-		bool getDialog(std::string name , std::string& value , gpointer data);
+		bool getDialog(const std::string name , std::string& value , gpointer data);
 		void addItem_gui(const gchar* rowname, const gchar* isdefault, const gchar* types, const gchar* value, gboolean isWulf);
-		void updateItem_gui(std::string rowname, std::string value, GtkTreeIter *iter, gchar* status = _("Default"),gboolean wul = FALSE);
-		void setStatus(std::string msg);
+		void updateItem_gui(const std::string rowname, const std::string value, GtkTreeIter *iter, const gchar* status = _("Default"),gboolean wul = FALSE);
+		void setStatus(const std::string msg);
 		
 		TreeView aboutView;
 		GtkListStore *aboutStore;

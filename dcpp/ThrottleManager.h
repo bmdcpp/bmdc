@@ -34,6 +34,7 @@ namespace dcpp
 		public Singleton<ThrottleManager>, private TimerManagerListener
 	{
 	private:
+		//@made clang happy
 		using TimerManagerListener::on;	
 	public:
 

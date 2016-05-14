@@ -36,7 +36,6 @@ p_entry(entry)
 	aboutView.insertColumn(_("Status"), G_TYPE_STRING, TreeView::STRING, 100);
 	aboutView.insertColumn(_("Type"), G_TYPE_STRING, TreeView::STRING, 60);
 	aboutView.insertColumn(_("Value"), G_TYPE_STRING, TreeView::STRING, 100);
-	aboutView.insertHiddenColumn("WS", G_TYPE_BOOLEAN);
 	aboutView.finalize();
 	aboutStore = gtk_list_store_newv(aboutView.getColCount(), aboutView.getGTypes());
 	gtk_tree_view_set_model(aboutView.get(), GTK_TREE_MODEL(aboutStore));
@@ -78,6 +77,7 @@ p_entry(entry)
 	isOk[SettingsManager::EMAIL] = true;
 	isOk[SettingsManager::TIME_RECCON] = true;
 	//isOk[SettingsManager::TIME_STAMPS] = true;
+	isOk[SettingsManager::USE_COUNTRY_FLAG] = true;
 	isOk[SettingsManager::COUNTRY_FORMAT] = true;
 	isOk[SettingsManager::GET_USER_COUNTRY] = true;
 	isOk[SettingsManager::EXTERNAL_IP] = true;
@@ -98,6 +98,11 @@ p_entry(entry)
 	isOk[SettingsManager::HUB_UL_VISIBLE] = true;
 	isOk[SettingsManager::LOG_CHAT_B] = true;
 	isOk[SettingsManager::SORT_FAVUSERS_FIRST] = true;
+	isOk[SettingsManager::DEFAULT_AWAY_MESSAGE] = true;
+	isOk[SettingsManager::STATUS_IN_CHAT] = true;
+	isOk[SettingsManager::USE_IP] = true;
+	isOk[SettingsManager::BOLD_HUB] = true;
+	
 }
 
 AboutConfigFav::~AboutConfigFav()
@@ -204,7 +209,7 @@ void AboutConfigFav::addItem_gui(const gchar* rowname, const gchar* isdefault, c
 
 }
 
-void AboutConfigFav::updateItem_gui(string rowname, string value, GtkTreeIter *iter, gchar* status)
+void AboutConfigFav::updateItem_gui(const string rowname,const string value, GtkTreeIter *iter,const gchar* status)
 {
 	if(iter) {
 		gtk_list_store_set(aboutStore,iter,
@@ -215,7 +220,7 @@ void AboutConfigFav::updateItem_gui(string rowname, string value, GtkTreeIter *i
 	}
 }
 
-void AboutConfigFav::setStatus(string msg)
+void AboutConfigFav::setStatus(const string msg)
 {
 	gtk_statusbar_pop(GTK_STATUSBAR(getWidget("status")), 0);
 	gtk_statusbar_push(GTK_STATUSBAR(getWidget("status")), 0, msg.c_str());
@@ -336,8 +341,6 @@ void AboutConfigFav::onSetDefault(GtkWidget*, gpointer data)
 	if (gtk_tree_selection_get_selected(s->aboutSelection, NULL, &iter))
 	{
 		string i = s->aboutView.getString(&iter,_("Name"));
-		gboolean isWsm = s->aboutView.getValue<gboolean>(&iter, "WS");
-
 		SettingsManager *sm = SettingsManager::getInstance();
 		int n = -1 ;
 		SettingsManager::Types type;
@@ -378,7 +381,7 @@ void AboutConfigFav::onSetDefault(GtkWidget*, gpointer data)
 	}
 }
 
-bool AboutConfigFav::getDialog(string name, string& value , gpointer data)
+bool AboutConfigFav::getDialog(const string name, string& value , gpointer data)
 {
 	AboutConfigFav *s = (AboutConfigFav *)data;
 	gtk_label_set_text(GTK_LABEL(s->getWidget("label")), name.c_str());

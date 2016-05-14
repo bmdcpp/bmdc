@@ -242,7 +242,6 @@ sock(Socket::TYPE_TCP), secure(secure), die(false) , nmdc(nmdc_)
 {
 	sock.setLocalIp4(ip);
 	sock.setLocalIp6(ipv6);
-//	sock.setV4only(false);
 
 	port = sock.listen(port_);
 	start();

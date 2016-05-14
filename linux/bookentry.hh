@@ -46,7 +46,7 @@ class BookEntry : public Entry
 		void setBackForeGround(const EntryType type); //@ Setting BackGround and ForeGround of BookEntry
 		void setIcon_gui(const std::string stock);
 		void setIconPixbufs_gui(const std::string iconspath);
-		void setLabel_gui(std::string text);
+		void setLabel_gui(const std::string text);
 		const std::string& getLabelText() const;
 		void setBold_gui();
 		void setUrgent_gui();

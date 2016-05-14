@@ -37,9 +37,9 @@ using std::max;
 // Polling is used for tasks...should be fixed...
 #define POLL_TIMEOUT 250
 
-BufferedSocket::BufferedSocket(char aSeparator/*, bool v4only*/) :
+BufferedSocket::BufferedSocket(char aSeparator) :
 separator(aSeparator), mode(MODE_LINE), dataBytes(0), rollback(0), state(STARTING),
-disconnecting(false),filterIn(NULL)//, v4only(v4only)
+disconnecting(false),filterIn(NULL)
 {
 	start();
 

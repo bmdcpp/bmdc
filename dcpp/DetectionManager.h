@@ -40,11 +40,11 @@ public:
 	void UserInfoLoad();
 	void UserInfoSave();
 
-	inline void load() {
+	void load() {
 		ProfilesLoad();
 		UserInfoLoad();
 	}
-	inline void save() {
+	void save() {
 		ProfilesSave();
 		UserInfoSave();
 	}

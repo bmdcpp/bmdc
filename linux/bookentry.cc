@@ -167,7 +167,7 @@ void BookEntry::setIconPixbufs_gui(const std::string iconspath)
     gtk_image_set_from_pixbuf(GTK_IMAGE(icon),pixbuf);
 }
 
-void BookEntry::setLabel_gui(string text)
+void BookEntry::setLabel_gui(const string text)
 {
 	// Update the tab menu item label
 	GtkWidget *child = gtk_bin_get_child(GTK_BIN(tabMenuItem));

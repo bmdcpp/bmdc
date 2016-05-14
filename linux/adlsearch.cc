@@ -563,7 +563,7 @@ gboolean SearchADL::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer d
 	return FALSE;
 }
 /* Util funtions */
-int SearchADL::find_raw(string rawString)
+int SearchADL::find_raw(const string rawString)
 {
 	if(rawString.empty())
 		return 0;
@@ -580,7 +580,7 @@ int SearchADL::find_raw(string rawString)
   return raw;
 }
 
-int SearchADL::find_rawInt(int raw)
+int SearchADL::find_rawInt(const int raw)
 {
 	if(raw == 0)
 		return 0;

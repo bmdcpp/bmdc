@@ -81,7 +81,7 @@ public:
 	bool isHubConnected(const string& aUrl) const;
 
 	void search(int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken);
-	void search(string& who, int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken, const StringList& aExtList);
+	void search(const string& who, int aSizeMode, int64_t aSize, int aFileType, const string& aString, const string& aToken, const StringList& aExtList);
 	void infoUpdated();
 
 	UserPtr getUser(const string& aNick, const string& aHubUrl) noexcept;
@@ -139,21 +139,8 @@ public:
 			return (!ou->getClient().getHideShare());
 		return true;
 	}
-	ShareManager* getShareManagerClient(const string hint){
+	ShareManager* getShareManagerClient(const string& hint){
 		Lock l(cs);
-		//OnlineUser* ou = findOnlineUserHint(p.user->getCID(), p.hint);
-		//if(ou)
-		//	return ou->getClient().getShareManager();
-		/*for(auto i:clients)
-		{
-			string chint = i->getHubUrl();
-			string ip = i->getIpPort();
-			if((chint == p.hint) || (ip== p.hint)) {
-				return i->getShareManager();
-			}
-		}
-		return ShareManager::getInstance();*/
-		//Lock l(cs);
 		auto i = clients.find(hint);
 		if(i != clients.end() && i->second->getShareManager() != NULL) {
 			return i->second->getShareManager();

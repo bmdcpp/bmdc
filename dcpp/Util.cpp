@@ -108,13 +108,13 @@ static string getDownloadsPath(const string& def) {
 }
 
 #endif
-#include "TimerManager.h"//fix?
+//#include "TimerManager.h"//fix?
 void Util::initialize(PathsMap pathOverrides) {
 	Text::initialize();
 
 	sgenrand((unsigned long)time(NULL));
 	
-	TimerManager::newInstance();
+	//TimerManager::newInstance();
 #ifdef _WIN32
 	TCHAR buf[MAX_PATH+1] = { 0 };
 	::GetModuleFileName(NULL, buf, MAX_PATH);
@@ -511,7 +511,7 @@ string Util::getAwayMessage(ParamMap& params) {
 	return formatParams((awayMsg.empty() ? SETTING(DEFAULT_AWAY_MESSAGE) : awayMsg), params);
 }
 
-string Util::formatBytes(int64_t aBytes) {
+string Util::formatBytes(const int64_t aBytes) {
 	char buf[128];
 	if(aBytes < 1024) {
 		snprintf(buf, sizeof(buf), ("%d B"), (int)(aBytes&0xffffffff));
@@ -530,7 +530,7 @@ string Util::formatBytes(int64_t aBytes) {
 	return buf;
 }
 
-string Util::formatExactSize(int64_t aBytes) {
+string Util::formatExactSize(const int64_t aBytes) {
 #ifdef _WIN32
 		TCHAR tbuf[128];
 		TCHAR number[64];

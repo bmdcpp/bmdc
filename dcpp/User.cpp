@@ -649,9 +649,9 @@ bool Identity::isProtectedUser(const Client& c, bool OpBotHubCheck) const {
 	if(isSet("PR") || getUser()->isSet(User::PROTECT))
 		return true;
 
-	string RegProtect = SETTING(PROTECTED_USERS);
-	if(!c.getProtectUser().empty()) {
-		RegProtect += c.getProtectUser();
+	string RegProtect = c.get(SettingsManager::PROTECTED_USERS,SETTING(PROTECTED_USERS));
+	if(RegProtect.empty()) {
+		return false;
 	}
 
 	bool ret = false;

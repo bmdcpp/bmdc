@@ -48,7 +48,7 @@ const int64_t HashManager::MIN_BLOCK_SIZE = 64 * 1024;
 
 const string HashManager::StreamStore::g_streamName(".gltth");
 
-inline void HashManager::StreamStore::setCheckSum(TTHStreamHeader& p_header) {
+void HashManager::StreamStore::setCheckSum(TTHStreamHeader& p_header) {
     p_header.magic = g_MAGIC;
     uint32_t l_sum = 0;
 
@@ -58,7 +58,7 @@ inline void HashManager::StreamStore::setCheckSum(TTHStreamHeader& p_header) {
     p_header.checksum ^= l_sum;
 }
 
-inline bool HashManager::StreamStore::validateCheckSum(const TTHStreamHeader& p_header) {
+bool HashManager::StreamStore::validateCheckSum(const TTHStreamHeader& p_header) {
     if (p_header.magic != g_MAGIC)
         return false;
 
@@ -89,7 +89,7 @@ static uint64_t getTimeStamp(const string &fname){
 
 #endif // USE_XATTR
 
-bool HashManager::StreamStore::loadTree(const string& p_filePath, TigerTree &tree, int64_t p_aFileSize)
+bool HashManager::StreamStore::loadTree(const string& p_filePath, TigerTree& tree, int64_t p_aFileSize)
 {
 #ifdef USE_XATTR
     const int64_t fileSize  = (p_aFileSize == -1) ?  File::getSize(p_filePath) : p_aFileSize;
@@ -159,26 +159,31 @@ void HashManager::StreamStore::deleteStream(const string& p_filePath)
 }
 
 TTHValue* HashManager::getTTH(const string& aFileName, int64_t aSize, uint32_t aTimeStamp) noexcept {
-	string fpath = Util::getFilePath(aFileName);
+	//string fpath = Util::getFilePath(aFileName);
 	Lock l(cs);
 	
-	TTHValue* tth = store.getTTH(aFileName, aSize, aTimeStamp);
+	TTHValue *tth = store.getTTH(aFileName, aSize, aTimeStamp);
 	if(tth == NULL) {
-		TigerTree _tth;
-		if(m_streamstore.loadTree(aFileName,_tth,-1)) {
-			printf ("%s: hash [%s] was loaded from Xattr.\n", aFileName.c_str(), _tth.getRoot().toBase32().c_str());
-			TTHValue* check = &(_tth.getRoot());
-			if(check == NULL)
+		//TTH is NULL create new variable
+		tth = new TTHValue();
+		if(m_streamstore.loadTree(aFileName,*(TigerTree*)tth,-1)) {
+			printf ("%s: hash [%s] was loaded from Xattr.\n", aFileName.c_str(), tth->toBase32().c_str());
+			//hash is still NULL. hash file NOW!
+			if(tth == NULL)
 			{
 				hasher.hashFile(aFileName, aSize);
 			} 
 			else 
 			{
-				return check;
+				//otherwise return found value	
+				return tth;
 			}
-		}	
+		}
+		//not found in. hash file
 		hasher.hashFile(aFileName, aSize);
 	}
+	//hash value found
+	//return that value
 	return tth;
 }
 
