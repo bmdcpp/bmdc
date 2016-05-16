@@ -110,7 +110,7 @@ public:
 	GETSET(bool, hideShare, HideShare);
 	GETSET(bool, autoConnect, AutoConnect);
 	GETSET(int, mode, Mode);
-	GETSET(bool,ipv6,eIPv6);
+	GETSET(bool, ipv6,eIPv6);
 	
 	GETSET(bool, checkAtConn, CheckAtConn);
 	GETSET(bool, checkClients, CheckClients);
@@ -118,6 +118,7 @@ public:
 	GETSET(bool, checkMyInfo,CheckMyInfo);
 
 	GETSET(bool, showUserList , ShowUserList);//TODO Hub Group?
+	
 	GETSET(string, order, HubOrder);
 	GETSET(string, visible, HubVisible);
 	GETSET(string, width, HubWidth);
@@ -127,12 +128,12 @@ public:
 
 	//Raw Manager
 	struct FavAction {
-		typedef unordered_map<int, FavAction*> List;
+		typedef unordered_map<size_t, FavAction*> List;
 		FavAction(): enabled(false) { }
-		FavAction(bool _enabled, string _raw = Util::emptyString, int id = 0) noexcept;
+		FavAction(bool _enabled, string _raw = Util::emptyString, size_t id = 0) noexcept;
 
 		GETSET(bool, enabled, Enabled);
-		std::list<int> raws;
+		std::list<size_t> raws;
 	};
 
 	FavAction::List action;

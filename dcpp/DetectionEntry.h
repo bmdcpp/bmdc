@@ -44,7 +44,7 @@ public:
 	string name;
 	string cheat;
 	string comment;
-	uint32_t Id;
+	size_t Id;
 	uint32_t rawToSend;
 	uint32_t clientFlag;
 	bool checkMismatch;

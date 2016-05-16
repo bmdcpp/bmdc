@@ -38,11 +38,7 @@ class ColorSettings: public Flags
 		bNoti(Util::emptyString), iMatchType(1), iBgColor(Util::emptyString), iFgColor(Util::emptyString), bHasBgColor(false),
 		bHasFgColor(false) , strSoundFile(Util::emptyString), strMatch(Util::emptyString), bUsingRegexp(false)  {	}
 	~ColorSettings(){ };
-
-private:
-	//string to match against
-	string strMatch;	
-public:	
+	
 	GETSET(string, bNoti, Noti);
 	GETSET(string,  iBgColor, BgColor);
 	GETSET(string,  iFgColor, FgColor);
@@ -79,6 +75,8 @@ public:
 		return 0;	
 	}
 private:
+	//string to match against
+	string strMatch;	
 	bool bUsingRegexp;
 
    };

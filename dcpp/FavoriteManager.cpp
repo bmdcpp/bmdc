@@ -39,13 +39,13 @@ using std::make_pair;
 using std::swap;
 
 //RSX++//BMDC++
-FavoriteHubEntry::FavAction::FavAction(bool _enabled, string _raw /*= Util::emptyString*/, int id /*=0*/) noexcept: enabled(_enabled) {
+FavoriteHubEntry::FavAction::FavAction(bool _enabled, string _raw /*= Util::emptyString*/, size_t id /*=0*/) noexcept: enabled(_enabled) {
 	if(_raw.empty()) return;
 	StringTokenizer<string> tok(_raw, ',');
 	const Action* a = RawManager::getInstance()->findAction(id);
 	if(a != NULL) {
 		for(auto j = tok.getTokens().begin(); j != tok.getTokens().end(); ++j) {
-			int64_t rId = Util::toInt(*j);
+			size_t rId = Util::toUInt32(*j);
 			for(auto i = a->raw.begin(); i != a->raw.end(); ++i) {
 				if(rId == i->getId()) {
 					raws.push_back(rId);
@@ -1092,7 +1092,7 @@ void FavoriteManager::setEnabledAction(FavoriteHubEntry* entry, int actionId, bo
 		(*h)->action.insert(make_pair(actionId, new FavoriteHubEntry::FavAction(true)));
 }
 
-bool FavoriteManager::getEnabledRaw(FavoriteHubEntry* entry, int actionId, int rawId) {
+bool FavoriteManager::getEnabledRaw(FavoriteHubEntry* entry, int actionId, unsigned int rawId) {
 	auto h = find(favoriteHubs.begin(), favoriteHubs.end(), entry);
 	if(h == favoriteHubs.end())
 		return false;
@@ -1100,7 +1100,7 @@ bool FavoriteManager::getEnabledRaw(FavoriteHubEntry* entry, int actionId, int r
 	FavoriteHubEntry::FavAction::List::const_iterator i = (*h)->action.find(actionId);
 	if(i == (*h)->action.end())
 		return false;
-	for(std::list<int>::const_iterator j = i->second->raws.begin(); j != i->second->raws.end(); ++j) {
+	for(std::list<size_t>::const_iterator j = i->second->raws.begin(); j != i->second->raws.end(); ++j) {
 		if(*j == rawId) {
 			return true;
 		}
@@ -1108,14 +1108,14 @@ bool FavoriteManager::getEnabledRaw(FavoriteHubEntry* entry, int actionId, int r
 	return false;
 }
 
-void FavoriteManager::setEnabledRaw(FavoriteHubEntry* entry, int actionId, int rawId, bool enabled) {
+void FavoriteManager::setEnabledRaw(FavoriteHubEntry* entry, int actionId, unsigned int rawId, bool enabled) {
 	auto h = find(favoriteHubs.begin(), favoriteHubs.end(), entry);
 	if(h == favoriteHubs.end())
 		return;
 
 	FavoriteHubEntry::FavAction::List::const_iterator i = (*h)->action.find(actionId);
 	if(i != (*h)->action.end()) {
-		for(std::list<int>::iterator j = i->second->raws.begin(); j != i->second->raws.end(); ++j) {
+		for(std::list<size_t>::iterator j = i->second->raws.begin(); j != i->second->raws.end(); ++j) {
 			if(*j == rawId) {
 				if(!enabled)
 					i->second->raws.erase(j);

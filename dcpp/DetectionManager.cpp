@@ -40,7 +40,7 @@ void DetectionManager::ProfilesLoad() {
 				while(xml.findChild("DetectionProfile")) {
 					xml.stepIn();
 					if(xml.findChild("DetectionEntry")) {
-						uint32_t curId = Util::toUInt32(xml.getChildAttrib("ProfileID", Util::toString(++lastId)));
+						size_t curId = Util::toUInt32(xml.getChildAttrib("ProfileID", Util::toString(++lastId)));
 		                if(curId < 1) continue;
 						xml.stepIn();
 
@@ -161,7 +161,7 @@ void DetectionManager::UserInfoLoad() {
 				while(xml.findChild("DetectionProfile")) {
 					xml.stepIn();
 					if(xml.findChild("DetectionEntry")) {
-						uint32_t curId = Util::toUInt32(xml.getChildAttrib("ProfileID", Util::toString(++ui_lastId)));
+						size_t curId = Util::toUInt32(xml.getChildAttrib("ProfileID", Util::toString(++ui_lastId)));
 		                if(curId < 1) continue;
 						xml.stepIn();
 
@@ -350,7 +350,7 @@ void DetectionManager::UserInfoSave() {
 		xml.stepOut();
 		xml.stepOut();
 
-		string fname = Util::getPath(Util::PATH_USER_CONFIG) + "UserInfoProfiles.xml";
+		const string fname = Util::getPath(Util::PATH_USER_CONFIG) + "UserInfoProfiles.xml";
 
 		File f(fname + ".tmp", File::WRITE, File::CREATE | File::TRUNCATE);
 		f.write(SimpleXML::utf8Header);
@@ -545,7 +545,7 @@ void DetectionManager::ProfilesSave() {
 		xml.stepOut();
 		xml.stepOut();
 
-		string fname = Util::getPath(Util::PATH_USER_CONFIG) + "Profiles.xml";
+		const string fname = Util::getPath(Util::PATH_USER_CONFIG) + "Profiles.xml";
 
 		File f(fname + ".tmp", File::WRITE, File::CREATE | File::TRUNCATE);
 		f.write(SimpleXML::utf8Header);
@@ -562,7 +562,7 @@ void DetectionManager::ProfilesSave() {
 void DetectionManager::addDetectionItem(DetectionEntry& e, bool isUserInfo /*=false*/) throw(Exception) {
 	Lock l(cs);
 	DetectionItems& list = isUserInfo ? ui_det : det;
-	if(list.size() >= 2147483647)
+	if(list.size() >= (list.max_size()-1))
 		throw Exception("No more items can be added!");
 
 	validateItem(e, true, isUserInfo);
@@ -572,7 +572,7 @@ void DetectionManager::addDetectionItem(DetectionEntry& e, bool isUserInfo /*=fa
 
 		// This should only happen if lastId (aka. unsigned int) goes over it's capacity ie. virtually never :P
 		while(e.Id == 0) {
-			e.Id = Util::rand(1, 2147483647);
+			e.Id = Util::rand(1,(uint64_t) list.max_size());
 			for(DetectionItems::iterator i = list.begin(); i != list.end(); ++i) {
 				if(i->Id == e.Id) {
 					e.Id = 0;

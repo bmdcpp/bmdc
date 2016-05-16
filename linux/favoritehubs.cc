@@ -281,7 +281,7 @@ void FavoriteHubs::onAddEntry_gui(GtkWidget*, gpointer data)
 	}
 }
 
-bool FavoriteHubs::checkAddys(string url)
+bool FavoriteHubs::checkAddys(const string url)
 {
 	string tmp = url;
 	size_t i = tmp.find("dchub://");
@@ -750,7 +750,7 @@ gboolean FavoriteHubs::onGroupsButtonReleased_gui(GtkWidget*, GdkEventButton *ev
 	return FALSE;
 }
 
-void FavoriteHubs::edit_online_status(string url,bool online)
+void FavoriteHubs::edit_online_status(const string url,bool online)
 {
 	auto it = HubsIter.find(url);
 	GtkTreeIter iter;

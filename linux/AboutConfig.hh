@@ -30,6 +30,14 @@ class AboutConfig:
 	public BookEntry,
 	private dcpp::SettingsManagerListener	
 {
+	enum
+	{
+		TYPE_BOOL,
+		TYPE_INT,
+		TYPE_STRING
+		
+	};
+	
 	private:
 	//make clang happy
 		using dcpp::SettingsManagerListener::on;

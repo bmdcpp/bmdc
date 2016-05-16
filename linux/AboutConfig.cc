@@ -313,6 +313,7 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget*, gpointer data)
 		string name = s->aboutView.getString(&iter,_("Name"));
 		string value = s->aboutView.getString(&iter, _("Value"));
 		gboolean isWsm = s->aboutView.getValue<gboolean>(&iter, "WS");
+		
 		bool run = s->getDialog(name, value, data);
 		if(!run)
 			return;
@@ -425,19 +426,96 @@ void AboutConfig::onSetDefault(GtkWidget*, gpointer data)
 bool AboutConfig::getDialog(const string name, string& value , gpointer data)
 {
 	AboutConfig *s = (AboutConfig *)data;
-	gtk_label_set_text(GTK_LABEL(s->getWidget("label")), name.c_str());
-	gtk_entry_set_text(GTK_ENTRY(s->getWidget("entry")), value.c_str());
-	int response = gtk_dialog_run(GTK_DIALOG(s->getWidget("dialog")));
+	WulforSettingsManager* wsm = WulforSettingsManager::getInstance();
+	SettingsManager* sm = SettingsManager::getInstance();
+	int t = -1;
+	if(wsm->isInt(name))
+		t = TYPE_INT;
+	
+	if(wsm->isString(name))
+		t = TYPE_STRING;
+	
+	int n = -1;
+	SettingsManager::Types type;
+	if(sm->getType(name.c_str(), n, type))
+	{
+		switch(type)
+		{
+			case SettingsManager::TYPE_BOOL:
+			t = TYPE_BOOL;
+			break;
+			case SettingsManager::TYPE_FLOAT:
+			case SettingsManager::TYPE_INT:
+			case SettingsManager::TYPE_INT64:
+			t = TYPE_INT;
+			break;
+			case SettingsManager::TYPE_STRING:
+			t = TYPE_STRING;
+			break;
+			default:break;
+		}
+		
+	}
+	
+	GtkDialog* dialog = GTK_DIALOG(gtk_dialog_new_with_buttons(name.c_str(),
+	NULL,(GtkDialogFlags)(GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT) 
+	,_("_OK"),GTK_RESPONSE_ACCEPT,
+	_("_Cancel"),GTK_RESPONSE_REJECT,NULL));
+	GtkWidget* box= gtk_dialog_get_content_area(dialog);
+	GtkWidget* item;
+	switch(t)
+	{
+		case TYPE_BOOL:
+			item = gtk_switch_new();
+			gtk_switch_set_active(GTK_SWITCH(item),(gboolean)Util::toInt(value));
+			break;
+		case TYPE_INT:
+			item = gtk_spin_button_new_with_range(-10,10000,1);
+			gtk_spin_button_set_value(GTK_SPIN_BUTTON(item),(gint)Util::toInt(value));
+			break;
+		case TYPE_STRING:
+			item = gtk_entry_new();
+			gtk_entry_set_text(GTK_ENTRY(item),value.c_str());
+			break;
+		default:
+			item = gtk_label_new("NO GO ZONE");	
+	}
+	GtkWidget* grip = gtk_grid_new();
+	gtk_container_add(GTK_CONTAINER(grip),gtk_label_new(name.c_str()));
+	gtk_container_add(GTK_CONTAINER(grip),item);
+	gtk_container_add(GTK_CONTAINER(box),grip);
+	gtk_widget_show_all(grip);
+
+	int response = gtk_dialog_run(dialog);
 
 	// Fix crash, if the dialog gets programmatically destroyed.
 	if (response == GTK_RESPONSE_NONE)
 		return false;
 
-	gtk_widget_hide(s->getWidget("dialog"));
+	gtk_widget_hide(GTK_WIDGET(dialog));
 
-	if (response == GTK_RESPONSE_OK)
+	if (response == GTK_RESPONSE_ACCEPT)
 	{
-		value = gtk_entry_get_text(GTK_ENTRY(getWidget("entry")));
+		switch(t)
+		{
+			case TYPE_BOOL:
+			{
+				bool val = gtk_switch_get_active(GTK_SWITCH(item));	
+				value = Util::toString(val);
+				break;
+			}	
+			case TYPE_INT:
+			{
+				int val = gtk_spin_button_get_value(GTK_SPIN_BUTTON(item));
+				value = Util::toString(val);
+				break;
+			}	
+			case TYPE_STRING:
+			{
+				value = gtk_entry_get_text(GTK_ENTRY(item));
+			}	
+			default:break;
+		}
 		return true;
 	}
 	return false;

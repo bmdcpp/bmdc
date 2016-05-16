@@ -85,7 +85,7 @@ void GeoIP::update() {
 
 namespace {
 
-string forwardRet(const char* ret) {
+inline string forwardRet(const char* ret) {
 	return ret ? ret : Util::emptyString;
 }
 

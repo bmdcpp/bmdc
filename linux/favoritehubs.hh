@@ -95,8 +95,8 @@ class FavoriteHubs:
 		GdkEventType previous;
 		UnMapIter GroupsIter;
 		UnMapIter HubsIter;
-		void edit_online_status(std::string url,bool online);
-		bool checkAddys(std::string url);//@True if not find in FavList
+		void edit_online_status(const std::string url,bool online);
+		bool checkAddys(const std::string url);//@True if not find in FavList
 
 };
 

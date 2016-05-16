@@ -246,7 +246,7 @@ void ConnectivityManager::mappingFinished(const string& mapper) {
 
 void ConnectivityManager::log(const string& message) {
 	if(SETTING(AUTO_DETECT_CONNECTION)) {
-		status = (message);
+		status = message;
 		LogManager::getInstance()->message(_("Connectivity: ") + status);
 		fire(ConnectivityManagerListener::Message(), status);
 	} else {

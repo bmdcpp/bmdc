@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2015 adrian_007, adrian-007 on o2 point pl
+ * Copyright (C) 2007-2016 adrian_007, adrian-007 on o2 point pl
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -91,8 +91,8 @@ private:
 	DetectionItems ui_det;
 
 	ParamMap params;
-	uint32_t lastId;
-	uint32_t ui_lastId;
+	size_t lastId;
+	size_t ui_lastId;
 
 	void validateItem(const DetectionEntry& e, bool checkIds, bool isUserInfo =false) throw(Exception);
 	void importProfiles(SimpleXML& xml);

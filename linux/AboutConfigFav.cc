@@ -28,7 +28,7 @@ using namespace dcpp;
 bool AboutConfigFav::isOk[SettingsManager::SETTINGS_LAST-1];
 
 AboutConfigFav::AboutConfigFav(FavoriteHubEntry* entry):
-BookEntry(Entry::ABOUT_CONFIG, _("About:config for ")+entry->getName(), "config"),
+BookEntry(Entry::ABOUT_CONFIG_FAV, _("About:config for ")+entry->getName(), "config"),
 p_entry(entry)
 {
 	aboutView.setView(GTK_TREE_VIEW(getWidget("aboutTree")));
@@ -114,10 +114,10 @@ void AboutConfigFav::show()
 {
 	SettingsManager* sm = SettingsManager::getInstance();
 	SettingsManager::Types type;
-	const gchar* rowname = 0;
+	const gchar* rowname = NULL;
 	const gchar* isdefault = _("Default");
 	gchar types[10];
-	const gchar* value = 0;//can we asume set is constat val?probably not
+	const gchar* value = NULL;
 	
 
 	for(int n = 0; n < SettingsManager::SETTINGS_LAST; n++ ) {
@@ -128,7 +128,7 @@ void AboutConfigFav::show()
 			
 			rowname = tmp;
 			isdefault = _("Default");
-			const gchar* isdefault = "Not";
+			
 			switch(type) {
 				case SettingsManager::TYPE_STRING:
 				{

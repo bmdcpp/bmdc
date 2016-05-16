@@ -210,8 +210,8 @@ public:
     //Raw Manager
 	bool getEnabledAction(FavoriteHubEntry* entry, int actionId);
 	void setEnabledAction(FavoriteHubEntry* entry, int actionId, bool enabled);
-	bool getEnabledRaw(FavoriteHubEntry* entry, int actionId, int rawId);
-	void setEnabledRaw(FavoriteHubEntry* entry, int actionId, int rawId, bool enabled);
+	bool getEnabledRaw(FavoriteHubEntry* entry, int actionId, unsigned int rawId);
+	void setEnabledRaw(FavoriteHubEntry* entry, int actionId, unsigned int rawId, bool enabled);
 
 	void load();
 	void save();
