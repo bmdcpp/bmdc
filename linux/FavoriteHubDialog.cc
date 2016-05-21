@@ -444,7 +444,7 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 						
 			if( (g_ascii_strcasecmp(tmp,".png") == 0) 
 			|| (g_ascii_strcasecmp(tmp,".jpg") == 0) 
-			|| (g_ascii_strcasecmp(tmp,".gif") ==0) 
+			|| (g_ascii_strcasecmp(tmp,".gif") == 0) 
 			|| (g_ascii_strcasecmp(tmp,".svg") == 0))//alow only these types
 			{
 				p_entry->set(SettingsManager::BACKGROUND_CHAT_IMAGE,string(image_path));

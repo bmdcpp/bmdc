@@ -249,7 +249,12 @@ void EmoticonsDialog::showEmotDialog_gui()
 	g_return_if_fail(dialog == NULL);
 
 	/* create popup dialog */
+	#if GTK_CHECK_VERSION(3,12,0)
+	dialog = gtk_popover_new(Button);
+	gtk_popover_set_position (GTK_POPOVER (dialog),GTK_POS_TOP);
+	#else
 	dialog = gtk_window_new(GTK_WINDOW_POPUP);
+	#endif
 	gtk_widget_set_name(dialog,"EmoticonsDialog");//name for CSS'ing
 
 	build();
@@ -383,9 +388,10 @@ void EmoticonsDialog::graber()
 {
 	/* grabs the pointer (usually a mouse) */
 	//#if !GTK_CHECK_VERSION(3,20,0)
-	
+	#if !GTK_CHECK_VERSION(3,12,0)
 	if(gdk_device_grab(gtk_get_current_event_device(),gtk_widget_get_window(dialog), GDK_OWNERSHIP_NONE,TRUE,(GdkEventMask)(GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK),NULL,GDK_CURRENT_TIME))
 		gtk_grab_add(dialog);
+	#endif	
 	//#else
 	//GdkSeat *seat = gdk_display_get_default_seat (gdk_display_get_default());
 	//if(gdk_seat_grab(seat,gtk_widget_get_window(dialog),(GdkSeatCapabilities)GDK_SEAT_CAPABILITY_POINTER,FALSE,NULL,NULL,NULL,NULL) == GDK_GRAB_SUCCESS)
@@ -402,7 +408,7 @@ void EmoticonsDialog::onChat(GtkWidget *widget , gpointer data /*this*/)
 		gtk_widget_grab_focus(ed->Chat);
 
 	/* insert text to chat entry */
-	gchar *text = (gchar *) g_object_get_data(G_OBJECT(widget), "text");
+	gchar *text = (gchar *)g_object_get_data(G_OBJECT(widget), "text");
 	gint pos = gtk_editable_get_position(GTK_EDITABLE(ed->Chat));
 	gtk_editable_insert_text(GTK_EDITABLE(ed->Chat), text, -1, &pos);
 	gtk_editable_set_position(GTK_EDITABLE(ed->Chat), pos);

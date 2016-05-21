@@ -116,11 +116,11 @@ void AboutConfigFav::show()
 	SettingsManager::Types type;
 	const gchar* rowname = NULL;
 	const gchar* isdefault = _("Default");
-	gchar types[10];
+	const gchar* types = NULL;
 	const gchar* value = NULL;
 	
 
-	for(int n = 0; n < SettingsManager::SETTINGS_LAST; n++ ) {
+	for(int n = 0; n < SettingsManager::SETTINGS_LAST-1; n++ ) {
 		const gchar* tmp = (sm->getSettingTags()[n].c_str());
 		if (strncasecmp(tmp,"SENTRY",7) == 0) continue;
 		if (sm->getType(tmp, n, type)) {
@@ -132,7 +132,7 @@ void AboutConfigFav::show()
 			switch(type) {
 				case SettingsManager::TYPE_STRING:
 				{
-					sprintf(types,"String");
+					types = "String";
 					const gchar* value = p_entry->get(static_cast<SettingsManager::StrSetting>(n),
 					sm->get(static_cast<SettingsManager::StrSetting>(n))
 					).c_str();
@@ -142,7 +142,7 @@ void AboutConfigFav::show()
 				}	
 				case SettingsManager::TYPE_INT:
 				{
-					sprintf(types,"Integer");
+					types = "Integer";
 					const gchar* value = Util::toString(p_entry->get(static_cast<SettingsManager::IntSetting>(n),
 					sm->get(static_cast<SettingsManager::IntSetting>(n)))
 					).c_str();
@@ -160,7 +160,7 @@ void AboutConfigFav::show()
 				}	
 				case SettingsManager::TYPE_BOOL:
 				{
-					sprintf(types,"Bool");
+					types = "Bool";
 					const gchar* value = Util::toString(p_entry->get(static_cast<SettingsManager::BoolSetting>(n),sm->get(static_cast<SettingsManager::BoolSetting>(n)))).c_str();
 					//if(!sm->isDefault(static_cast<SettingsManager::BoolSetting>(n))) {
 					// isdefault = _("User set");
@@ -187,7 +187,6 @@ void AboutConfigFav::addItem_gui(const gchar* rowname, const gchar* isdefault, c
 	gboolean isOk4 = g_utf8_validate(types,-1,NULL);
 	if(!isOk) {
 		dcdebug("value\n");
-		dcassert("bad\n");
 	}
 	if(!isOk2) {
 		dcdebug("rowname\n");

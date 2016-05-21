@@ -28,7 +28,7 @@
 #include <dcpp/Client.h>
 #include <dcpp/FavoriteManager.h>
 #include <dcpp/QueueManager.h>
-#include <dcpp/HttpDownload.h>
+#include <dcpp/TimerManager.h>
 #include <dcpp/Flags.h>
 #include "bookentry.hh"
 #include "treeview.hh"
@@ -47,12 +47,15 @@ class Hub:
 	public BookEntry,
 	public dcpp::ClientListener,
 	public dcpp::FavoriteManagerListener,
-	public dcpp::QueueManagerListener
+	public dcpp::QueueManagerListener,
+	public dcpp::TimerManagerListener
 {
 	private:
 		using dcpp::ClientListener::on;
 		using dcpp::FavoriteManagerListener::on;
 		using dcpp::QueueManagerListener::on;	
+		using dcpp::TimerManagerListener::on;
+		mutable dcpp::CriticalSection cs;
 	public:
 		Hub(const std::string &address, const std::string &encoding);
 		virtual ~Hub();
@@ -212,7 +215,7 @@ private:
 
 		void SetTabText(gpointer data);
 
-		void setColorRow(std::string cell);
+		void setColorRow(const std::string cell);
 		void setColorsRows();
 		void clickAction(gpointer data);
 
@@ -240,7 +243,52 @@ private:
 		virtual void on(dcpp::ClientListener::HubTopic, dcpp::Client *, const std::string &top) noexcept;
 		virtual void on(dcpp::ClientListener::ClientLine, dcpp::Client* , const std::string &mess, int type) noexcept;
 		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) noexcept;
+		
+		typedef std::multimap<uint64_t,std::string> TempMap;
+		TempMap listTempsNicks;
+		TempMap listTempsIps;
+		TempMap listTempsCids;
+		uint64_t lastTickCid;
+		uint64_t lastTickNick;
+		uint64_t lastTickIp;
+		static void onClickMenuItemTime(GtkMenuItem* item,gpointer data);
+		// TimerManagerListener
+		virtual void on(dcpp::TimerManagerListener::Minute, uint64_t aTick) noexcept
+		{
+			dcpp::Lock l(cs);
+			dcdebug("[HUB] TimerManager %lud",aTick);
+			for(auto i = listTempsCids.begin();i!=listTempsCids.end();++i)
+			{
+				if(aTick > lastTickCid)
+				{
+						lastTickCid = aTick + ((*i).first*(60*60*1000));
+						listTempsCids.erase(i);
+						continue;
+				}
+			}
+			
+			for(auto i = listTempsNicks.begin();i!=listTempsNicks.end();++i)
+			{
+				if(aTick > lastTickNick)
+				{
+						lastTickNick  = aTick + ((*i).first*(60*60*1000));
+						listTempsNicks.erase(i);
+						continue;
+				}
+			}			
+			
+			for(auto i = listTempsIps.begin();i!= listTempsIps.end();++i)
+			{
+				if(aTick > lastTickIp)
+				{
+					lastTickIp = aTick + ((*i).first*(60*60*1000));
+					listTempsIps.erase(i);
+					continue;
+				}
+			}	
+		}
 
+		
 		UserMap userMap;
 		UnMapIter userIters;
 		UserMap userFavoriteMap;

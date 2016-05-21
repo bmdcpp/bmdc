@@ -896,13 +896,18 @@ void PrivateMessage::updateCursor(GtkWidget *widget)
 	GtkTextIter iter;
 	GSList *tagList = NULL;
 	GtkTextTag *newTag = NULL;
+	GdkDevice *dev = NULL;
 
+#if !GTK_CHECK_VERSION(3,20,0)
 	GdkDeviceManager *device_manager = NULL;
-	GdkDevice *pointer = NULL;
-//@NOTE: GTK3
 	device_manager = gdk_display_get_device_manager (gdk_window_get_display (gtk_widget_get_window(widget)));
-	pointer = gdk_device_manager_get_client_pointer (device_manager);
-	gdk_window_get_device_position (gtk_widget_get_window(widget), pointer, &x, &y, NULL);
+	dev = gdk_device_manager_get_client_pointer (device_manager);
+#else	
+	GdkDisplay* win = gtk_widget_get_display(widget);
+	GdkSeat* seat = gdk_display_get_default_seat(win);
+	dev = gdk_seat_get_pointer(seat);
+#endif	
+	gdk_window_get_device_position (gtk_widget_get_window(widget), dev, &x, &y, NULL);
 
 	// Check for tags under the cursor, and change mouse cursor appropriately
 	gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW(widget), GTK_TEXT_WINDOW_WIDGET, x, y, &buf_x, &buf_y);

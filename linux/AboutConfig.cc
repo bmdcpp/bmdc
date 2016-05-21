@@ -1,5 +1,5 @@
 //
-//		Copyright (C) 2011 - 2016 - BMDC
+//		Copyright (C) 2011 - 2016 - BMDC++
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
 //      the Free Software Foundation; either version 2 of the License, or
@@ -82,7 +82,7 @@ void AboutConfig::show()
 	gchar types[10];
 	const gchar* value = NULL;
 
-	for(int n = 0; n < SettingsManager::SETTINGS_LAST; n++ ) {
+	for(int n = 0; n < SettingsManager::SETTINGS_LAST-1; n++ ) {
 		const gchar* tmp = (sm->getSettingTags()[n].c_str());
 		if (strncasecmp(tmp,"SENTRY",7) == 0) continue;
 		if (sm->getType(tmp, n, type)) {
@@ -156,12 +156,11 @@ void AboutConfig::show()
 
 	for(auto d = defMap.begin();d!= defMap.end();++d)
 	{
-		isDef = _("Default");
+		isOk = map.find(rowname) != map.end();
+		isDef = isOk ? _("User set") : _("Default");
 		rowname = d->first.c_str();
 		dvalue = d->second.c_str();
-		isOk = map.find(rowname) != map.end();
 		value = (isOk ? map.find(rowname)->second : Util::emptyString).c_str();
-		if(isOk) isDef = _("User set");
 		addItem_gui(rowname,isDef, types, ( !isOk ? dvalue : value), TRUE);
 	}
 
@@ -170,7 +169,7 @@ void AboutConfig::show()
 	sprintf(types,"Integer");
 	isOk = false;
 	isDef = _("Default");
-
+	dvalue = NULL;
 	for(auto j = defIMap.begin();j != defIMap.end();++j) 
 	{
 		isDef = _("Default");

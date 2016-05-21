@@ -47,7 +47,7 @@ class FavoriteManager : public Speaker<FavoriteManagerListener>, private HttpCon
 {
 private:
 	using SettingsManagerListener::on;
-	using ClientManagerListener::on;	
+	using ClientManagerListener::on;
 public:
 // Public Hubs
 	enum HubTypes {
@@ -273,7 +273,7 @@ private:
 	void on(SettingsManagerListener::Load, SimpleXML& xml) {
 		load(xml);
 	}
-
+	
 	void load(SimpleXML& aXml);
 	void recentload(SimpleXML& aXml);
 	void recentsave();

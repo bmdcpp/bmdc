@@ -649,6 +649,14 @@
       </object>
     </child>
     <child>
+      <object class="GtkMenuItem" id="ignoreMenuTimeItem">
+        <property name="use_action_appearance">False</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Add as Ignored User (with time)</property>
+      </object>
+    </child>
+    <child>
       <object class="GtkMenuItem" id="removeIgnoreMenuItem">
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
