@@ -17,6 +17,7 @@
 
 #ifndef USER_MANAGER
 #define USER_MANAGER
+#include "format.h"
 #include "Singleton.h"
 #include "ConnectionManager.h"
 

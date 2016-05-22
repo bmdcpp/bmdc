@@ -116,10 +116,13 @@ SettingsManager::IntSetting ThrottleManager::getCurSetting(SettingsManager::IntS
 	if(SETTING(TIME_DEPENDENT_THROTTLE)) {
 		time_t currentTime;
 		time(&currentTime);
-		
+#ifndef _WIN32		
 		struct tm result;
 		localtime_r(&currentTime,&result);
 		int currentHour = result.tm_hour;
+#else
+		int currentHour = localtime(&currentTime)->tm_hour;
+#endif			
 		//int currentHour = localtime(&currentTime)->tm_hour;
 		if((SETTING(BANDWIDTH_LIMIT_START) < SETTING(BANDWIDTH_LIMIT_END) &&
 			currentHour >= SETTING(BANDWIDTH_LIMIT_START) && currentHour < SETTING(BANDWIDTH_LIMIT_END)) ||

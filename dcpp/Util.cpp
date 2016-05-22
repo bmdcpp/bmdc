@@ -578,20 +578,28 @@ string Util::getLocalIp() {//@TODO:IPv6?
 	if( ret == 0)
 	{
 		struct addrinfo *res;
-		char buf[128];
+		char buf[INET6_ADDRSTRLEN + 1];
 		for(res = result; res != NULL; res = res->ai_next)
 		{
 			if ( res->ai_family == AF_INET )
 			{	
+				#ifdef _WIN32
+				Socket::inet_ntop(&((struct sockaddr_in *)res->ai_addr)->sin_addr,buf,sizeof(buf));
+				#else
 				inet_ntop(AF_INET,&((struct sockaddr_in *)res->ai_addr)->sin_addr,buf,sizeof(buf));
+				#endif
 				if(Util::isPrivateIp(buf) || strncmp(buf, "169.254", 7) == 0)
 				{
 					return buf;
 				}	
 			}
 			else 
-			{
+			{	
+				#ifdef _WIN32
+				Socket::inet_ntop(&((struct sockaddr_in *)res->ai_addr)->sin_addr,buf,sizeof(buf));
+				#else
 				inet_ntop(AF_INET6, &((struct sockaddr_in6 *)res->ai_addr)->sin6_addr, buf, sizeof(buf));
+				#endif
 				if(strncmp(buf,"fe80",4)==0) continue;
 				
 			}
