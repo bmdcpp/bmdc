@@ -244,6 +244,20 @@ private:
 		virtual void on(dcpp::ClientListener::ClientLine, dcpp::Client* , const std::string &mess, int type) noexcept;
 		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) noexcept;
 		
+		typedef enum 
+		{
+			ONE_HOUR = 1,
+			TWO_HOUR ,
+			THREE_HOUR,
+			FOUR_HOUR ,
+			FIVE_HOUR ,
+			SIX_HOUR ,
+			SEVEN_HOUR ,
+			EIGHT_HOUR,
+			NINE_HOUR,
+			TEN_HOUR
+		} TempTime;
+		
 		typedef std::multimap<uint64_t,std::string> TempMap;
 		TempMap listTempsNicks;
 		TempMap listTempsIps;
@@ -257,25 +271,48 @@ private:
 		{
 			dcpp::Lock l(cs);
 			dcdebug("[HUB] TimerManager %lud",aTick);
-			for(auto i = listTempsCids.begin();i!=listTempsCids.end();++i)
+			if(aTick > lastTickCid)
 			{
-				if(aTick > lastTickCid)
+				lastTickCid = aTick + (60*60*1000);//hour
+				for(auto i = listTempsCids.begin();i!= listTempsCids.end();++i)
 				{
-						lastTickCid = aTick + ((*i).first*(60*60*1000));
+					if( ( (*i).first == 60*60*1000) ||
+					( (*i).first == 60*60*1000*2) ||
+					( (*i).first == 60*60*1000*3) ||
+					 ( (*i).first == 60*60*1000*4) ||
+					 ( (*i).first == 60*60*1000*5) ||
+					 ( (*i).first == 60*60*1000*6) ||
+					 ( (*i).first == 60*60*1000*7) ||
+					 ( (*i).first == 60*60*1000*8) ||
+					 ( (*i).first == 60*60*1000*9) ||
+					 ( (*i).first == 60*60*1000*10))
+					{
 						listTempsCids.erase(i);
-						continue;
+					
+					}
 				}
-			}
-			
-			for(auto i = listTempsNicks.begin();i!=listTempsNicks.end();++i)
+			}	
+			if(aTick > lastTickNick)
 			{
-				if(aTick > lastTickNick)
+				lastTickNick = aTick + (60*60*1000);
+				for(auto i = listTempsNicks.begin();i!= listTempsNicks.end();++i)
 				{
-						lastTickNick  = aTick + ((*i).first*(60*60*1000));
+					if( ( (*i).first == 60*60*1000) ||
+					( (*i).first == 60*60*1000*2) ||
+					( (*i).first == 60*60*1000*3) ||
+					 ( (*i).first == 60*60*1000*4) ||
+					 ( (*i).first == 60*60*1000*5) ||
+					 ( (*i).first == 60*60*1000*6) ||
+					 ( (*i).first == 60*60*1000*7) ||
+					 ( (*i).first == 60*60*1000*8) ||
+					 ( (*i).first == 60*60*1000*9) ||
+					 ( (*i).first == 60*60*1000*10))
+					{
 						listTempsNicks.erase(i);
-						continue;
+					
+					}
 				}
-			}			
+			}	
 			
 			for(auto i = listTempsIps.begin();i!= listTempsIps.end();++i)
 			{

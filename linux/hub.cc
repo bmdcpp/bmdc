@@ -998,8 +998,8 @@ void Hub::onClickMenuItemTime(GtkMenuItem* item,gpointer data)
 	string ip = (gchar *)g_object_get_data(G_OBJECT(item),"gip");
 	string cid = (gchar *)g_object_get_data(G_OBJECT(item),"gcid");
 	GtkWidget* l = gtk_label_new(nick.c_str());
-	GtkWidget* s = gtk_spin_button_new_with_range(1,1000,1);
-	GtkWidget* l2 = gtk_label_new("Second(s)");
+	GtkWidget* s = gtk_spin_button_new_with_range(1,10,1);
+	GtkWidget* l2 = gtk_label_new("Hour(s)");
 	GtkWidget* c = gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(c),"NICK");
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(c),"CID");
@@ -1040,21 +1040,44 @@ void Hub::onClickMenuItemTime(GtkMenuItem* item,gpointer data)
 		if(_text)
 		{	
 			string text = string(_text);
-			uint64_t time = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(s));
+			gint time = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(s));
+			uint64_t tmp = 60*60*1000;
+			
+			if(time >= ONE_HOUR)
+				tmp = 60*60*1000;
+			if(time >= TWO_HOUR)
+				tmp = (60*60*1000)*2;
+			if(time >= THREE_HOUR)
+				tmp = (60*60*1000)*3;
+			if(time >= FOUR_HOUR)
+				tmp = (60*60*1000)*4;	
+			if(time >= FIVE_HOUR)
+				tmp = (60*60*1000)*5;
+			if(time >= SIX_HOUR)
+				tmp = (60*60*1000)*6;
+			if(time >= SEVEN_HOUR)
+				tmp = (60*60*1000)*7;
+			if(time >= EIGHT_HOUR)
+				tmp = (60*60*1000)*8;
+			if(time >= NINE_HOUR)
+				tmp = (60*60*1000)*9;
+			if(time >= TEN_HOUR)
+				tmp = (60*60*1000)*10;
+			
 			
 			if(text == "NICK")
 			{
-				hub->listTempsNicks.insert(make_pair(time,nick));
+				hub->listTempsNicks.insert(make_pair(tmp,nick));
 			}
 			if(text == "CID")
 			{
 				
-				hub->listTempsCids.insert(make_pair(time,cid));
+				hub->listTempsCids.insert(make_pair(tmp,cid));
 			}
 			if(text == "IP")
 			{
 						
-				hub->listTempsIps.insert(make_pair(time,ip));
+				hub->listTempsIps.insert(make_pair(tmp,ip));
 			}
 			
 			g_free(_text);
@@ -4586,29 +4609,30 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 		fid = ou->getIdentity();
 	}
 	bool ok = false;
-	Lock l(cs);//because this can be in same time as add
-	if(!listTempsNicks.empty())
 	{
-		for(auto i = listTempsNicks.begin();i != listTempsNicks.end();++i)
+		Lock l(cs);//because this can be in same time as add
+		if(!listTempsNicks.empty())
 		{
+			for(auto i = listTempsNicks.begin();i != listTempsNicks.end();++i)
+			{
 				if(fid.getNick() == (*i).second)
 				{	
 					ok = true;
 					break;
 				}
 			}
-	}
-	if(!listTempsIps.empty())
-	{	
-		for(auto i = listTempsNicks.begin();i != listTempsNicks.end();++i)
-			{
-				if(fid.getIp() == (*i).second)
-				{	
-					ok = true;
-					break;
+		}
+		if(!listTempsIps.empty())
+		{	
+			for(auto i = listTempsNicks.begin();i != listTempsNicks.end();++i)
+				{
+					if(fid.getIp() == (*i).second)
+					{	
+						ok = true;
+						break;
+					}
 				}
-			}
-	}
+		}
 	if(!listTempsCids.empty())	
 	{
 		for(auto i = listTempsNicks.begin();i != listTempsNicks.end();++i)
@@ -4619,6 +4643,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 					break;
 				}
 			}
+	}
 	}
 	if(ok)
 	{
