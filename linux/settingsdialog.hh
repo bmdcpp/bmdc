@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2014 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2014-2015 BMDC++
+ * Copyright © 2014-2016 BMDC++
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -228,7 +228,7 @@ class Settings:
 		void setDefaultColor(std::string color, std::string name, GtkTreeIter *iter);//BMDC++
 		void saveHighlighting(dcpp::StringMap &params, bool add, const std::string &name = "");//BMDC++
 		void addHighlighting_to_gui(dcpp::ColorSettings &cs, bool add);//BMDC++
-		//PLg
+		//Plugins
 		void addToGuiPlg();
 		void RemovePlg_client(std::string sel);
 		static void onToggledPluginsClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
