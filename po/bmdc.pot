@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2016-05-24 00:50+0200\n"
+"POT-Creation-Date: 2016-05-24 18:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -481,7 +481,7 @@ msgid "ADL Action"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1035 ui/mainwindow.glade.ui:2006
-#: ui/mainwindow.glade.ui:2235 linux/adlsearch.cc:31 linux/bookentry.cc:356
+#: ui/mainwindow.glade.ui:2235 linux/adlsearch.cc:31 linux/bookentry.cc:367
 #: linux/settingsdialog.cc:1523 linux/settingsdialog.cc:1586
 msgid "ADL Search"
 msgstr ""
@@ -494,7 +494,7 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:1246 linux/bookentry.cc:392
+#: ui/mainwindow.glade.ui:1246 linux/bookentry.cc:420
 msgid "About:Config"
 msgstr ""
 
@@ -1125,7 +1125,7 @@ msgstr ""
 msgid "Download Matches"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:1058 linux/bookentry.cc:347 linux/downloadqueue.cc:35
+#: ui/mainwindow.glade.ui:1058 linux/bookentry.cc:354 linux/downloadqueue.cc:35
 #: linux/settingsdialog.cc:1151 linux/settingsdialog.cc:1632
 msgid "Download Queue"
 msgstr ""
@@ -1302,14 +1302,14 @@ msgid "Favorite Hub Properties"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:986 ui/mainwindow.glade.ui:1905
-#: ui/mainwindow.glade.ui:2193 linux/bookentry.cc:335 linux/favoritehubs.cc:34
+#: ui/mainwindow.glade.ui:2193 linux/bookentry.cc:336 linux/favoritehubs.cc:34
 #: linux/settingsdialog.cc:1513 linux/settingsdialog.cc:1561
 #: linux/settingsdialog.cc:1631
 msgid "Favorite Hubs"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:995 ui/mainwindow.glade.ui:1921
-#: ui/mainwindow.glade.ui:2200 linux/bookentry.cc:339 linux/favoriteusers.cc:36
+#: ui/mainwindow.glade.ui:2200 linux/bookentry.cc:342 linux/favoriteusers.cc:36
 #: linux/settingsdialog.cc:1514 linux/settingsdialog.cc:1563
 #: linux/settingsdialog.cc:1635
 msgid "Favorite Users"
@@ -1377,7 +1377,7 @@ msgid "Find files"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1067 ui/mainwindow.glade.ui:2059
-#: ui/mainwindow.glade.ui:2256 linux/bookentry.cc:364
+#: ui/mainwindow.glade.ui:2256 linux/bookentry.cc:378
 #: linux/finishedtransfers.cc:34 linux/settingsdialog.cc:1149
 #: linux/settingsdialog.cc:1515 linux/settingsdialog.cc:1577
 #: linux/settingsdialog.cc:1633
@@ -1385,7 +1385,7 @@ msgid "Finished Downloads"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1075 ui/mainwindow.glade.ui:2076
-#: ui/mainwindow.glade.ui:2263 linux/bookentry.cc:368
+#: ui/mainwindow.glade.ui:2263 linux/bookentry.cc:384
 #: linux/finishedtransfers.cc:39 linux/settingsdialog.cc:1150
 #: linux/settingsdialog.cc:1516 linux/settingsdialog.cc:1579
 #: linux/settingsdialog.cc:1634
@@ -1559,7 +1559,7 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: ui/search.glade.ui:851 linux/bookentry.cc:376 linux/detectiontab.cc:108
+#: ui/search.glade.ui:851 linux/bookentry.cc:396 linux/detectiontab.cc:108
 #: linux/detectiontab.cc:1022 linux/detectiontab.cc:1124
 #: linux/detectiontab.cc:1221 linux/finishedtransfers.cc:77
 #: linux/finishedtransfers.cc:183 linux/search.cc:110 linux/search.cc:234
@@ -1885,8 +1885,8 @@ msgstr ""
 #: linux/AboutConfig.cc:223 linux/AboutConfig.cc:319 linux/AboutConfig.cc:376
 #: linux/AboutConfigFav.cc:35 linux/AboutConfigFav.cc:43
 #: linux/AboutConfigFav.cc:45 linux/AboutConfigFav.cc:203
-#: linux/AboutConfigFav.cc:215 linux/AboutConfigFav.cc:302
-#: linux/AboutConfigFav.cc:342 linux/FavoriteHubDialog.cc:294
+#: linux/AboutConfigFav.cc:215 linux/AboutConfigFav.cc:309
+#: linux/AboutConfigFav.cc:349 linux/FavoriteHubDialog.cc:294
 #: linux/FavoriteHubDialog.cc:567 linux/FavoriteHubDialog.cc:580
 #: linux/detectiontab.cc:42 linux/detectiontab.cc:61 linux/detectiontab.cc:72
 #: linux/detectiontab.cc:313 linux/detectiontab.cc:334
@@ -1998,7 +1998,7 @@ msgid "Note; because of changing download speeds, this is not 100% accurate..."
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1238 ui/mainwindow.glade.ui:2091
-#: ui/mainwindow.glade.ui:2270 linux/bookentry.cc:384 linux/notepad.cc:26
+#: ui/mainwindow.glade.ui:2270 linux/bookentry.cc:408 linux/notepad.cc:26
 #: linux/settingsdialog.cc:1524 linux/settingsdialog.cc:1584
 #: linux/settingsdialog.cc:1637
 msgid "Notepad"
@@ -2197,7 +2197,7 @@ msgid "Protected Users"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1004 ui/mainwindow.glade.ui:1940
-#: ui/mainwindow.glade.ui:2207 linux/bookentry.cc:343 linux/publichubs.cc:31
+#: ui/mainwindow.glade.ui:2207 linux/bookentry.cc:348 linux/publichubs.cc:31
 #: linux/settingsdialog.cc:1519 linux/settingsdialog.cc:1565
 #: linux/settingsdialog.cc:1630
 msgid "Public Hubs"
@@ -2355,7 +2355,7 @@ msgstr ""
 #: ui/hub.glade.ui:245 ui/mainwindow.glade.ui:1026 ui/mainwindow.glade.ui:1991
 #: ui/mainwindow.glade.ui:2228 ui/privatemessage.glade.ui:189
 #: ui/searchspy.glade.ui:94 ui/settingsdialog.glade.ui:8878
-#: ui/transfers.glade.ui:52 linux/bookentry.cc:352 linux/settingsdialog.cc:1154
+#: ui/transfers.glade.ui:52 linux/bookentry.cc:361 linux/settingsdialog.cc:1154
 #: linux/settingsdialog.cc:1521 linux/settingsdialog.cc:1571
 msgid "Search"
 msgstr ""
@@ -2672,7 +2672,7 @@ msgstr ""
 msgid "System"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:2106 linux/System.cc:29 linux/bookentry.cc:388
+#: ui/mainwindow.glade.ui:2106 linux/System.cc:29 linux/bookentry.cc:414
 msgid "System Log"
 msgstr ""
 
@@ -2869,7 +2869,7 @@ msgstr ""
 #: ui/detection.glade.ui:956 linux/AboutConfig.cc:35 linux/AboutConfig.cc:213
 #: linux/AboutConfig.cc:225 linux/AboutConfig.cc:320 linux/AboutConfigFav.cc:38
 #: linux/AboutConfigFav.cc:206 linux/AboutConfigFav.cc:217
-#: linux/AboutConfigFav.cc:303 linux/detectiontab.cc:107
+#: linux/AboutConfigFav.cc:310 linux/detectiontab.cc:107
 #: linux/detectiontab.cc:1021 linux/detectiontab.cc:1123
 #: linux/detectiontab.cc:1220
 msgid "Value"
@@ -4603,7 +4603,7 @@ msgstr ""
 msgid "Predefined"
 msgstr ""
 
-#: linux/bookentry.cc:372
+#: linux/bookentry.cc:390
 msgid "Private Message"
 msgstr ""
 
@@ -4825,7 +4825,7 @@ msgstr ""
 msgid "Setting for a Tab Text"
 msgstr ""
 
-#: linux/bookentry.cc:380
+#: linux/bookentry.cc:402
 msgid "Share Browser"
 msgstr ""
 
@@ -4978,7 +4978,7 @@ msgstr ""
 msgid "Speed: "
 msgstr ""
 
-#: linux/bookentry.cc:360
+#: linux/bookentry.cc:372
 msgid "Spy Search"
 msgstr ""
 
@@ -5277,7 +5277,7 @@ msgstr ""
 msgid "User Per Favorite Hub Set"
 msgstr ""
 
-#: linux/AboutConfig.cc:364 linux/AboutConfigFav.cc:330
+#: linux/AboutConfig.cc:364 linux/AboutConfigFav.cc:337
 msgid "User Set"
 msgstr ""
 

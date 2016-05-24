@@ -34,8 +34,7 @@ class BookEntry : public Entry
 		BookEntry(const EntryType type, const std::string &text, const std::string &glade, const std::string &id = "");
 		virtual ~BookEntry()
 		{
-			eventBox = NULL;
-			labelBox = NULL;
+
 		}
 
 		GtkWidget *getContainer(); //@ return Main Container of Book
@@ -54,8 +53,8 @@ class BookEntry : public Entry
 		bool isActive_gui();
 		virtual void show() = 0;
 		virtual GtkWidget *createmenu();
-		GtkWidget *getFItem() { return (createItemFirstMenu());}
-		
+		//GtkWidget *getFItem() { return (createItemFirstMenu());}
+
 		void setSearchButtons(bool s) { IsCloseButton = s;}
 		void setName(const std::string& name)
 		{ h_name = name; }
@@ -84,11 +83,10 @@ class BookEntry : public Entry
 		GtkWidget *tabMenuItem;
 		GtkWidget *closeButton;
 		GtkLabel *label;
-		//GtkWidget *fItem;
 		bool bCreated;//@ if menu created
 		bool bold;
 		bool urgent;
-		const glong labelSize;//@ size of Chars in Tab value in WulforSettingsManager 
+		const glong labelSize;//@ size of Chars in Tab value in WulforSettingsManager
 		GtkWidget *icon;
 		//[BMDC++
 		GdkEventType previous;
