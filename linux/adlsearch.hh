@@ -67,7 +67,7 @@ class SearchADL:
 		TreeView searchADLView;
 		GtkListStore *searchADLStore;
 		GtkTreeSelection *searchADLSelection;
-		gboolean sens,acts,forbid;
+		gboolean sens,acts,bForbid;
 };
 
 #else

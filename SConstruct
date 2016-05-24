@@ -68,7 +68,7 @@ def check_pkg(context, name):
 def check_cxx_version(context, name, major, minor):
 	context.Message('Checking for %s >= %d.%d...' % (name, major, minor))
 	ret = commands.getoutput('%s -dumpversion' % name)
-	
+
 	retval = 0
 	try:
 		if ((string.atoi(ret[0]) == major and string.atoi(ret[2]) >= minor)
@@ -183,11 +183,11 @@ if os.environ.has_key('CFLAGS'):
 	env['CFLAGS'] = os.environ['CFLAGS'].split()
 
 if os.environ.has_key('CPPPATH'):
-	env['CPPPATH'] = os.environ['CPPPATH'].split()	
+	env['CPPPATH'] = os.environ['CPPPATH'].split()
 
-env['PKG_CONFIG'] = 'pkg-config'	
+env['PKG_CONFIG'] = 'pkg-config'
 if os.environ.has_key('PKG_CONFIG'):
-	env['PKG_CONFIG'] = os.environ['PKG_CONFIG']		
+	env['PKG_CONFIG'] = os.environ['PKG_CONFIG']
 
 env['CPPDEFINES'] = [] # Initialize as a list so Append doesn't concat strings
 
@@ -234,10 +234,10 @@ conf = env.Configure(
 # ----------------------------------------------------------------------
 
 if not 'install' in COMMAND_LINE_TARGETS:
-	if not conf.CheckCXXVersion(env['CXX'], 4, 1): 
+	if not conf.CheckCXXVersion(env['CXX'], 4, 1):
 		print 'Compiler version check failed. g++ 4.6 or later is needed'
 		Exit(1)
-	elif env['CXX'] == 'clang++':	
+	elif env['CXX'] == 'clang++':
 		print 'Use clang compiler'
 		env.Append(CXXFLAGS = ['-I/usr/include/','-Wno-overloaded-virtual','-pthread'])
 		env.Append(CFLAGS = '-I/usr/include/')
@@ -307,7 +307,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 			conf.env.Append(CPPDEFINES = 'USE_XATTR')
 			LIB_HAVE_XATTR = True
 
-	# TODO: Implement a plugin system so libnotify doesn't have compile-time dependencies
 	if conf.env.get('libnotify'):
 			if not conf.CheckPKG('libnotify >= 0.4.1'):
 				print '\tlibnotify >= 0.4.1 not found, disabling notifications.'
@@ -359,20 +358,20 @@ if not 'install' in COMMAND_LINE_TARGETS:
 			print 'Found appindicator3'
 			conf.env.Append(CPPDEFINES = 'HAVE_APPINDCATOR')
 			conf.env.ParseConfig('pkg-config --libs --cflags appindicator3-0.1')
-	
+
 	if conf.env.get('libXss'):
 		if conf.CheckLibWithHeader('libXss','X11/extensions/scrnsaver.h' ,'c'):
 			print 'Found Xss'
 			conf.env.Append(CPPDEFINES = 'HAVE_XSSLIB')
 			LIB_HAVE_XSS = True
-	
+
 	if conf.env.get('newSettings'):
 		conf.env.Append(CPPDEFINES = 'USE_NEW_SETTINGS')
-		NEW_SETTING = True	
-	
+		NEW_SETTING = True
+
 	if conf.env.get('useStatusIcon'	):
 		conf.env.Append(CPPDEFINES = 'USE_STATUSICON')
-		
+
 	conf.CheckBZRRevision(env)
 	env = conf.Finish()
 
@@ -396,10 +395,10 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if LIB_HAVE_XATTR:
 		env.Append(LIBS='attr')
 		env.Append(LINKFLAGS='-lattr')
-		
+
 	if LIB_HAVE_XSS:
 		env.Append(LIBS='Xss')
-		env.Append(LINKFLAGS='-lXss')	
+		env.Append(LINKFLAGS='-lXss')
 
 	env.ParseConfig('pkg-config --libs gtk+-3.0')
 
@@ -410,7 +409,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		env.Append(LINKFLAGS = '-Wl,--as-needed')
 		if not _platform == 'win32':
 			env.Append(LIBS='dl')
-		
+
 
 	if os.name == 'mac' or os.sys.platform == 'darwin':
 		conf.env.Append(CPPDEFINES = ('ICONV_CONST', ''))
@@ -418,11 +417,11 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if os.sys.platform == 'sunos5':
 		conf.env.Append(CPPDEFINES = ('ICONV_CONST', 'const'))
 		env.Append(LIBS = ['socket', 'nsl'])
-		
+
 	if _platform == 'win32':
 		env.Append(LIBS = ['wsock32','iphlpapi','ws2_32'])
 		#env.Append(LINKFLAGS= '-Wl,-subsystem ')
-		#env.Append(LDFLAGS = '-L/usr/i686-w64-mingw32/lib/')		
+		#env.Append(LDFLAGS = '-L/usr/i686-w64-mingw32/lib/')
 
 	if LIB_IS_GEO:
 		env.Append(LINKFLAGS = '-lGeoIP')
@@ -480,15 +479,15 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	elif NEW_SETTING:
 		env.Program(target = PACKAGE, source = [libdcpp,settings_files, obj_files])
 	elif not NEW_SETTING and not LIB_IS_UPNP and not LIB_IS_NATPMP:
-		env.Program(target = PACKAGE, source = [libdcpp,obj_files])	
+		env.Program(target = PACKAGE, source = [libdcpp,obj_files])
 	elif not NEW_SETTING and not LIB_IS_UPNP:
 		env.Program(target = PACKAGE, source = [libdcpp,upnp,obj_files])
 	elif not NEW_SETTING and not LIB_IS_NATPMP:
 		env.Program(target = PACKAGE, source = [libdcpp,pmp,obj_files])
 	elif not NEW_SETTING:
-		env.Program(target = PACKAGE, source = [libdcpp,obj_files])	
+		env.Program(target = PACKAGE, source = [libdcpp,obj_files])
 	else:
-		env.Program(target = PACKAGE, source = [libdcpp,obj_files])		
+		env.Program(target = PACKAGE, source = [libdcpp,obj_files])
 
 	# i18n
 	env.MergePotFiles(source = [glade_pot_file, linux_pot_file], target = 'po/%s.pot' % PACKAGE)
@@ -513,8 +512,8 @@ else:
 	desktop_file = os.path.join('data', PACKAGE + '.desktop')
 
 	env.ReplaceAll(desktop_file,"/usr/share/",env['PREFIX']+"share/")
-	
-	
+
+
 	app_icon_filter = lambda icon: os.path.splitext(icon)[0] == PACKAGE
 	regular_icon_filter = lambda icon: os.path.splitext(icon)[0] != PACKAGE
 

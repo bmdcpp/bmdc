@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011-2016 BMDC
+ * Copyright © 2011-2016 BMDC++
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -270,7 +270,7 @@ void FavoriteHubs::onAddEntry_gui(GtkWidget*, gpointer data)
 	if(fh->checkAddys(entry.getServer()))
 	{
 		fh->showErrorDialog_gui(_("Duplicate entries are not allowed"),fh);
-		return;	
+		return;
 	}
 
 	if (updatedEntry)
@@ -284,10 +284,10 @@ void FavoriteHubs::onAddEntry_gui(GtkWidget*, gpointer data)
 bool FavoriteHubs::checkAddys(const string url)
 {
 	string tmp = url;
-	size_t i = tmp.find("dchub://");
-	if(i == string::npos)
+	size_t needle = tmp.find("dchub://");
+	if(needle == string::npos)
 		return false;
-	string newhubaddy = tmp.substr(i);
+	string newhubaddy = tmp.substr(needle);
 	GtkTreeIter iter;
 	GtkTreeModel *m = GTK_TREE_MODEL(favoriteStore);
 	bool valid = gtk_tree_model_get_iter_first(m, &iter);
@@ -311,7 +311,7 @@ void FavoriteHubs::onEditEntry_gui(GtkWidget*, gpointer data)
 
 	if (!gtk_tree_selection_get_selected(fh->favoriteSelection, NULL, &iter))
 		return;
-		
+
 	FavoriteHubEntry* entry = (FavoriteHubEntry *)fh->favoriteView.getValue<gpointer>(&iter, "FavPointer");
 	FavoriteHubDialog* f = new FavoriteHubDialog(entry);
 	bool entryUpdated = f->initDialog(fh->GroupsIter);
@@ -365,7 +365,7 @@ void FavoriteHubs::initFavHubGroupsDialog_gui()
 		bool FavShowJoins = i->second.get(SettingsManager::FAV_SHOW_JOINS, SETTING(FAV_SHOW_JOINS));
 		bool log = i->second.get(SettingsManager::LOG_CHAT_B, SETTING(LOG_CHAT_B));
 		bool connect = i->second.getAutoConnect();
-		
+
 		gtk_list_store_append(groupsStore, &iter);
 		gtk_list_store_set(groupsStore, &iter,
 			groupsView.col(_("Group name")), i->first.c_str(),
@@ -398,10 +398,10 @@ void FavoriteHubs::onRemoveEntry_gui(GtkWidget*, gpointer data)
 				_("Are you sure you want to delete favorite hub \"%s\"?"), name.c_str());
 
 			gtk_dialog_add_buttons(GTK_DIALOG(dialog), BMDC_STOCK_CANCEL, GTK_RESPONSE_CANCEL, BMDC_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
-			
-#if !GTK_CHECK_VERSION(3,12,0)		
+
+#if !GTK_CHECK_VERSION(3,12,0)
 			gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_CANCEL, -1);
-#endif			
+#endif
 			gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 			gtk_widget_destroy(dialog);
 
@@ -512,9 +512,9 @@ void FavoriteHubs::onRemoveGroupClicked_gui(GtkWidget*, gpointer data)
 			_("If you select 'Yes', all of these hubs are going to be deleted!\nIf you select 'No', these hubs will simply be moved to the main default group."));
 		gtk_dialog_add_buttons(GTK_DIALOG(dialog), BMDC_STOCK_CANCEL, GTK_RESPONSE_CANCEL, BMDC_STOCK_YES,
 			GTK_RESPONSE_YES, BMDC_STOCK_NO, GTK_RESPONSE_NO, NULL);
-#if !GTK_CHECK_VERSION(3,12,0)		
+#if !GTK_CHECK_VERSION(3,12,0)
 		gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_NO, GTK_RESPONSE_CANCEL, -1);
-#endif		
+#endif
 		gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 
 		// if the dialog gets programmatically destroyed.
@@ -598,14 +598,14 @@ void FavoriteHubs::saveFavHubGroups()
 		int favShowJoins = Util::toInt(groupsView.getString(&iter,"FavParts"));
 		int showJoins = Util::toInt(groupsView.getString(&iter,"Parts"));
 		string awayMsg = groupsView.getString(&iter, "AwayMessage");
-		
+
 		p.set(SettingsManager::NICK, nick);
 		p.set(SettingsManager::EMAIL,email);
 		p.set(SettingsManager::DESCRIPTION, desc);
 		p.set(SettingsManager::FAV_SHOW_JOINS, favShowJoins);
 		p.set(SettingsManager::SHOW_JOINS, showJoins);
 		p.set(SettingsManager::LOG_CHAT_B, log_hub);
-		p.setAutoConnect((bool)connect_hub);
+		p.setAutoConnect(connect_hub);
 		p.set(SettingsManager::DEFAULT_AWAY_MESSAGE, awayMsg);
 
 		favHubGroups.insert(FavHubGroup(group, p));
@@ -693,7 +693,7 @@ gboolean FavoriteHubs::onGroupsKeyReleased_gui(GtkWidget*, GdkEventKey *event, g
 			string parts = fh->groupsView.getString(&iter, "Parts");
 			string favParts = fh->groupsView.getString(&iter, "FavParts");
 			gboolean log_chat = fh->groupsView.getString(&iter, "LogChat") == "1" ? TRUE : FALSE;
-			string away = fh->groupsView.getString(&iter, "AwayMessage");
+			string awayMsg = fh->groupsView.getString(&iter, "AwayMessage");
 
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("connectAllHubsCheckButton")), con);
 			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fh->getWidget("LogCheckButton")), log_chat);
@@ -705,7 +705,7 @@ gboolean FavoriteHubs::onGroupsKeyReleased_gui(GtkWidget*, GdkEventKey *event, g
 			gtk_combo_box_set_active (GTK_COMBO_BOX(fh->getWidget("comboboxJoin")),Util::toInt(parts));
 			gtk_combo_box_set_active (GTK_COMBO_BOX(fh->getWidget("comboboxJoinFav")),Util::toInt(favParts));
 
-			gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryAwayGroup")),away.c_str());
+			gtk_entry_set_text(GTK_ENTRY(fh->getWidget("entryAwayGroup")),awayMsg.c_str());
 		}
 		else if (event->keyval == GDK_KEY_Delete || event->keyval == GDK_KEY_BackSpace)
 		{
@@ -754,13 +754,13 @@ void FavoriteHubs::edit_online_status(const string url,bool online)
 {
 	auto it = HubsIter.find(url);
 	GtkTreeIter iter;
-	
+
 	if(it != HubsIter.end())
 		 iter = it->second;
-	
+
 	gtk_list_store_set(favoriteStore,&iter,
 		favoriteView.col(_("Status")), online ? _("Online") : _("Offline"),-1);
-	
+
 }
 
 void FavoriteHubs::initializeList_client()
@@ -821,26 +821,26 @@ void FavoriteHubs::on(ClientManagerListener::ClientConnected, Client* c) noexcep
 	typedef Func2<FavoriteHubs,string,bool> F2;
 	F2 *func = new F2(this,&FavoriteHubs::edit_online_status,c->getHubUrl(),true);
 	WulforManager::get()->dispatchGuiFunc(func);
-	
+
 }
-void FavoriteHubs::on(ClientManagerListener::ClientDisconnected, Client* c) noexcept 
+void FavoriteHubs::on(ClientManagerListener::ClientDisconnected, Client* c) noexcept
 {
 
 	typedef Func2<FavoriteHubs,string,bool> F2;
 	F2 *func = new F2(this,&FavoriteHubs::edit_online_status,c->getHubUrl(),false);
 	WulforManager::get()->dispatchGuiFunc(func);
-	
+
 }
 
 void FavoriteHubs::onAdvancedSettings(GtkWidget* item , gpointer data)
 {
 	FavoriteHubs* fh = (FavoriteHubs*)data;
-	
+
 	GtkTreeIter iter;
 
 	if (gtk_tree_selection_get_selected(fh->favoriteSelection, NULL, &iter))
 		WulforManager::get()->getMainWindow()->showBook(Entry::ABOUT_CONFIG,
 		new AboutConfigFav((FavoriteHubEntry*)fh->favoriteView.getValue<FavoriteHubEntry*>(&iter, _("FavPointer"))));
-		
-	
+
+
 }

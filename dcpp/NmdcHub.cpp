@@ -1132,13 +1132,15 @@ void NmdcHub::on(Failed, const string& aLine) noexcept {
 void NmdcHub::on(Second, uint64_t aTick) noexcept {
 	Client::on(Second(), aTick);
 
-	if(state == STATE_NORMAL && (aTick > (getLastActivity() + 120*1000)) ) {
-		send("|", 1);
-	}
+	
 }
 
-void NmdcHub::on(Minute, uint64_t) noexcept {
+void NmdcHub::on(Minute, uint64_t aTick) noexcept {
 	refreshLocalIp();
+	
+	if( (state == STATE_NORMAL) && (aTick > (getLastActivity() + 120*1000)) ) {
+		send("|", 1);
+	}
 }
 
 void NmdcHub::password(const string& aPass) {

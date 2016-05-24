@@ -1,5 +1,5 @@
 //
-//		Copyright (C) 2011 - 2016 - BMDC++
+//	Copyright (C) 2011 - 2016 - BMDC++
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
 //      the Free Software Foundation; either version 2 of the License, or
@@ -94,12 +94,12 @@ void AboutConfig::show()
 				{
 					sprintf(types,"String");
 					value = g_strdup(sm->get(static_cast<SettingsManager::StrSetting>(n)).c_str());
-					if(!sm->isDefault(static_cast<SettingsManager::StrSetting>(n))) { 
+					if(!sm->isDefault(static_cast<SettingsManager::StrSetting>(n))) {
 						isdefault = _("User set");
 					}
 					addItem_gui(rowname, isdefault, types, value,FALSE);
 					continue;
-				}	
+				}
 				case SettingsManager::TYPE_INT:
 				{
 					sprintf(types,"Integer");
@@ -107,9 +107,9 @@ void AboutConfig::show()
 					if(!sm->isDefault(static_cast<SettingsManager::IntSetting>(n))){
 						isdefault = _("User set");
 					}
-					addItem_gui(rowname, isdefault, types, value,FALSE);	
+					addItem_gui(rowname, isdefault, types, value,FALSE);
 					continue;
-				}	
+				}
 				case SettingsManager::TYPE_INT64:
 				{
 					sprintf(types,"Int64");
@@ -119,7 +119,7 @@ void AboutConfig::show()
 					}
 					addItem_gui(rowname, isdefault, types, value,FALSE);
 					continue;
-				}	
+				}
 				case SettingsManager::TYPE_FLOAT:
 				{
 					sprintf(types,"Float");
@@ -127,9 +127,9 @@ void AboutConfig::show()
 					if(!sm->isDefault(static_cast<SettingsManager::FloatSetting>(n))){
 						isdefault = _("User set");
 					}
-					addItem_gui(rowname, isdefault, types, value,FALSE);	
+					addItem_gui(rowname, isdefault, types, value,FALSE);
 					continue;
-				}	
+				}
 				case SettingsManager::TYPE_BOOL:
 				{
 					sprintf(types,"Bool");
@@ -139,7 +139,7 @@ void AboutConfig::show()
 					}
 					addItem_gui(rowname, isdefault, types, value,FALSE);
 					continue;
-				}	
+				}
 				default:
 					dcassert(0);break;break;
 			}
@@ -148,71 +148,70 @@ void AboutConfig::show()
 
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
 	WulforSettingsManager::StringMap map = wsm->getStringMap();
-	WulforSettingsManager::StringMap defMap = wsm->getStringDMap();
-	const gchar* dvalue = NULL;
+	WulforSettingsManager::StringMap defaultStringMap = wsm->getStringDMap();
+	const gchar* dValue = NULL;
 	sprintf(types,"String");
-	bool isOk = false;
-	gchar* isDef = _("Default");
+	bool bIsOk = false;
+	gchar* sDefualt = _("Default");
 
-	for(auto d = defMap.begin();d!= defMap.end();++d)
+	for(auto i = defaultStringMap.begin();i!= defaultStringMap.end();++i)
 	{
-		isOk = map.find(rowname) != map.end();
-		isDef = isOk ? _("User set") : _("Default");
-		rowname = d->first.c_str();
-		dvalue = d->second.c_str();
-		value = (isOk ? map.find(rowname)->second : Util::emptyString).c_str();
-		addItem_gui(rowname,isDef, types, ( !isOk ? dvalue : value), TRUE);
+		bIsOk = map.find(rowname) != map.end();
+		sDefualt = bIsOk ? _("User set") : _("Default");
+		rowname = i->first.c_str();
+		dValue = g_strdup(i->second.c_str());
+		value = g_strdup( (bIsOk ? map.find(rowname)->second : Util::emptyString).c_str());
+		addItem_gui(rowname, sDefualt, types, ( !bIsOk ? dValue : value), TRUE);
 	}
 
 	WulforSettingsManager::IntMap imap = wsm->getIntMap();
 	WulforSettingsManager::IntMap defIMap = wsm->getIntDMap();
 	sprintf(types,"Integer");
-	isOk = false;
-	isDef = _("Default");
-	dvalue = NULL;
-	for(auto j = defIMap.begin();j != defIMap.end();++j) 
+	bIsOk = false;
+	sDefualt = _("Default");
+	dValue = NULL;
+	for(auto j = defIMap.begin();j != defIMap.end();++j)
 	{
-		isDef = _("Default");
+		bIsOk = imap.find(rowname) != imap.end();
+		sDefualt = bIsOk ? _("User set") : _("Default");
 		rowname = j->first.c_str();
-		dvalue = Util::toString(j->second).c_str();
-		isOk = imap.find(rowname) != imap.end();
-		value = Util::toString((isOk ? imap.find(rowname)->second : 0)).c_str();
-		
-		if(isOk) isDef = _("User set");
-		addItem_gui(rowname, isDef, types, ( !isOk ? dvalue : value), TRUE);
+		dValue = Util::toString(j->second).c_str();
+		value = g_strdup(Util::toString((bIsOk ? imap.find(rowname)->second : 0)).c_str());
+
+
+		addItem_gui(rowname, sDefualt, types, ( !bIsOk ? dValue : value), TRUE);
 	}
 
 }
 
-void AboutConfig::addItem_gui(const gchar* rowname, const gchar* isdefault, const gchar* types, const gchar* value, gboolean isWulf)
+void AboutConfig::addItem_gui(const gchar* rowname, const gchar* sDefault, const gchar* types, const gchar* value, gboolean bIsWulfor)
 {
 	GtkTreeIter iter;
-	g_print("\n%s-%s-%s-%s-%d ",rowname,isdefault,types,value,(int)isWulf);
-	gboolean isOk = g_utf8_validate(value,-1,NULL);
-	gboolean isOk2 = g_utf8_validate(rowname,-1,NULL);
-	gboolean isOk3 = g_utf8_validate(isdefault,-1,NULL);
-	gboolean isOk4 = g_utf8_validate(types,-1,NULL);
-	if(!isOk) {
+	g_print("\n%s-%s-%s-%s-%d ",rowname,sDefault,types,value,(int)bIsWulfor);
+	gboolean bIsOk = g_utf8_validate(value,-1,NULL);
+	gboolean bIsOk2 = g_utf8_validate(rowname,-1,NULL);
+	gboolean bIsOk3 = g_utf8_validate(sDefault,-1,NULL);
+	gboolean bIsOk4 = g_utf8_validate(types,-1,NULL);
+	if(!bIsOk) {
 		dcdebug("value\n");
-		dcassert("bad\n");
 	}
-	if(!isOk2) {
+	if(!bIsOk2) {
 		dcdebug("rowname\n");
 	}
-	if(!isOk3) {
+	if(!bIsOk3) {
 		dcdebug("isdef\n");
 	}
-	if(!isOk4) {
+	if(!bIsOk4) {
 		dcdebug("types\n");
 	}
 
 	gtk_list_store_append(aboutStore,&iter);
 	gtk_list_store_set(aboutStore,&iter,
 				aboutView.col(_("Name")),rowname,
-				aboutView.col(_("Status")), isdefault,
+				aboutView.col(_("Status")), sDefault,
 				aboutView.col(_("Type")), types,
 				aboutView.col(_("Value")), value,
-				aboutView.col("WS"), isWulf,
+				aboutView.col("WS"), bIsWulfor,
 	-1);
 
 }
@@ -284,21 +283,29 @@ void AboutConfig::onInfoResponse(GtkWidget *info_bar, gint response_id,  gpointe
 
 	switch(response_id)
 	{
-		case -5://alowing
+		//alowing
+		case GTK_RESPONSE_OK:
+		case GTK_RESPONSE_ACCEPT:
+		{
 			gtk_widget_hide(info_bar);
 			gtk_widget_set_sensitive(s->getWidget("scrolledwindow"),TRUE);
 			SettingsManager::getInstance()->set(static_cast<SettingsManager::BoolSetting>(SettingsManager::AC_DISCLAIM), true);
-			SettingsManager::getInstance()->save();
 			break;
-		case -6://not allowing
+		}
+		//not allowing
+		case GTK_RESPONSE_CANCEL:
+		case GTK_RESPONSE_REJECT:
+		{
 			gtk_widget_set_sensitive(s->getWidget("scrolledwindow"),FALSE);
 			gtk_widget_hide(info_bar);
 			SettingsManager::getInstance()->set(static_cast<SettingsManager::BoolSetting>(SettingsManager::AC_DISCLAIM), false);
-			SettingsManager::getInstance()->save();
+
 			break;
+		}
 		default:
 			break;
 	}
+	SettingsManager::getInstance()->save();
 
 }
 
@@ -311,13 +318,13 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget*, gpointer data)
 	{
 		string name = s->aboutView.getString(&iter,_("Name"));
 		string value = s->aboutView.getString(&iter, _("Value"));
-		gboolean isWsm = s->aboutView.getValue<gboolean>(&iter, "WS");
-		
+		gboolean isWulfor = s->aboutView.getValue<gboolean>(&iter, "WS");
+
 		bool run = s->getDialog(name, value, data);
 		if(!run)
 			return;
 
-		if(isWsm)
+		if(isWulfor)
 		{
 			WulforSettingsManager* wsm = WulforSettingsManager::getInstance();
 
@@ -366,24 +373,24 @@ void AboutConfig::onSetDefault(GtkWidget*, gpointer data)
 
 	if (gtk_tree_selection_get_selected(s->aboutSelection, NULL, &iter))
 	{
-		string i = s->aboutView.getString(&iter,_("Name"));
-		gboolean isWsm = s->aboutView.getValue<gboolean>(&iter, "WS");
+		string name = s->aboutView.getString(&iter,_("Name"));
+		gboolean isWulfor = s->aboutView.getValue<gboolean>(&iter, "WS");
 
-		if(isWsm)
+		if(isWulfor)
 		{
 			WulforSettingsManager* wsm = WulforSettingsManager::getInstance();
 			string value = Util::emptyString;
 
-			if(wsm->isString(i)) {
-				wsm->SetStringDef(i);
-				value = wsm->getString(i);
+			if(wsm->isString(name)) {
+				wsm->SetStringDef(name);
+				value = wsm->getString(name);
 			}
-			if(wsm->isInt(i)) {
-				wsm->SetIntDef(i);
-				value = Util::toString(wsm->getInt(i));
+			if(wsm->isInt(name)) {
+				wsm->SetIntDef(name);
+				value = Util::toString(wsm->getInt(name));
 			}
-			s->updateItem_gui(i,value,&iter,_("Default"),TRUE);
-			s->setStatus("Value "+i+" Setted to Default "+value);
+			s->updateItem_gui(name,value,&iter,_("Default"),TRUE);
+			s->setStatus("Value "+name+" Setted to Default "+value);
 			return;
 		}
 
@@ -391,7 +398,7 @@ void AboutConfig::onSetDefault(GtkWidget*, gpointer data)
 		int n = -1 ;
 		SettingsManager::Types type;
 
-		if (sm->getType(i.c_str(), n, type))
+		if (sm->getType(name.c_str(), n, type))
 		{
 			sm->unset(n);
 
@@ -416,24 +423,24 @@ void AboutConfig::onSetDefault(GtkWidget*, gpointer data)
 				default:
 					return;
 			}
-			s->updateItem_gui(i, value,&iter);
-			s->setStatus("Value" + i + "Setted to Default" + value);
+			s->updateItem_gui(name, value,&iter);
+			s->setStatus("Value" + name + "Setted to Default" + value);
 		}
 	}
 }
 
 bool AboutConfig::getDialog(const string name, string& value , gpointer data)
 {
-	AboutConfig *s = (AboutConfig *)data;
+	//AboutConfig *s = (AboutConfig *)data;
 	WulforSettingsManager* wsm = WulforSettingsManager::getInstance();
 	SettingsManager* sm = SettingsManager::getInstance();
 	int t = -1;
 	if(wsm->isInt(name))
 		t = TYPE_INT;
-	
+
 	if(wsm->isString(name))
 		t = TYPE_STRING;
-	
+
 	int n = -1;
 	SettingsManager::Types type;
 	if(sm->getType(name.c_str(), n, type))
@@ -453,11 +460,11 @@ bool AboutConfig::getDialog(const string name, string& value , gpointer data)
 			break;
 			default:break;
 		}
-		
+
 	}
-	
+
 	GtkDialog* dialog = GTK_DIALOG(gtk_dialog_new_with_buttons(name.c_str(),
-	NULL,(GtkDialogFlags)(GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT) 
+	NULL,(GtkDialogFlags)(GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT)
 	,_("_OK"),GTK_RESPONSE_ACCEPT,
 	_("_Cancel"),GTK_RESPONSE_REJECT,NULL));
 	GtkWidget* box= gtk_dialog_get_content_area(dialog);
@@ -465,19 +472,25 @@ bool AboutConfig::getDialog(const string name, string& value , gpointer data)
 	switch(t)
 	{
 		case TYPE_BOOL:
+		{
 			item = gtk_switch_new();
 			gtk_switch_set_active(GTK_SWITCH(item),(gboolean)Util::toInt(value));
 			break;
+		}
 		case TYPE_INT:
+		{
 			item = gtk_spin_button_new_with_range(-10,10000,1);
 			gtk_spin_button_set_value(GTK_SPIN_BUTTON(item),(gint)Util::toInt(value));
 			break;
+		}
 		case TYPE_STRING:
+		{
 			item = gtk_entry_new();
 			gtk_entry_set_text(GTK_ENTRY(item),value.c_str());
 			break;
+		}
 		default:
-			item = gtk_label_new("NO GO ZONE");	
+			item = gtk_label_new("NO GO ZONE");
 	}
 	GtkWidget* grip = gtk_grid_new();
 	gtk_container_add(GTK_CONTAINER(grip),gtk_label_new(name.c_str()));
@@ -499,20 +512,20 @@ bool AboutConfig::getDialog(const string name, string& value , gpointer data)
 		{
 			case TYPE_BOOL:
 			{
-				bool val = gtk_switch_get_active(GTK_SWITCH(item));	
+				bool val = gtk_switch_get_active(GTK_SWITCH(item));
 				value = Util::toString(val);
 				break;
-			}	
+			}
 			case TYPE_INT:
 			{
 				int val = gtk_spin_button_get_value(GTK_SPIN_BUTTON(item));
 				value = Util::toString(val);
 				break;
-			}	
+			}
 			case TYPE_STRING:
 			{
 				value = gtk_entry_get_text(GTK_ENTRY(item));
-			}	
+			}
 			default:break;
 		}
 		return true;

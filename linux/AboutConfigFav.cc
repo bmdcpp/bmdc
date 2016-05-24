@@ -66,9 +66,9 @@ p_entry(entry)
                             "response",
                             G_CALLBACK (onInfoResponse),
                             (gpointer)this);
-							
+
 	for(int i = 0;i < SettingsManager::SETTINGS_LAST-1;i++)
-	{	
+	{
 		isOk[i] = false;
 	}
 	//whitelist
@@ -102,12 +102,12 @@ p_entry(entry)
 	isOk[SettingsManager::STATUS_IN_CHAT] = true;
 	isOk[SettingsManager::USE_IP] = true;
 	isOk[SettingsManager::BOLD_HUB] = true;
-	
+
 }
 
 AboutConfigFav::~AboutConfigFav()
 {
-	
+
 }
 
 void AboutConfigFav::show()
@@ -118,17 +118,17 @@ void AboutConfigFav::show()
 	const gchar* isdefault = _("Default");
 	const gchar* types = NULL;
 	const gchar* value = NULL;
-	
+
 
 	for(int n = 0; n < SettingsManager::SETTINGS_LAST-1; n++ ) {
 		const gchar* tmp = (sm->getSettingTags()[n].c_str());
 		if (strncasecmp(tmp,"SENTRY",7) == 0) continue;
 		if (sm->getType(tmp, n, type)) {
 			if(isOk[n] == true) {
-			
+
 			rowname = tmp;
 			isdefault = _("Default");
-			
+
 			switch(type) {
 				case SettingsManager::TYPE_STRING:
 				{
@@ -136,28 +136,28 @@ void AboutConfigFav::show()
 					const gchar* value = p_entry->get(static_cast<SettingsManager::StrSetting>(n),
 					sm->get(static_cast<SettingsManager::StrSetting>(n))
 					).c_str();
-					
+
 					addItem_gui(rowname, isdefault, types, value);
 					continue;
-				}	
+				}
 				case SettingsManager::TYPE_INT:
 				{
 					types = "Integer";
 					const gchar* value = Util::toString(p_entry->get(static_cast<SettingsManager::IntSetting>(n),
 					sm->get(static_cast<SettingsManager::IntSetting>(n)))
 					).c_str();
-					
-					addItem_gui(rowname, isdefault, types, value);	
+
+					addItem_gui(rowname, isdefault, types, value);
 					continue;
-				}	
+				}
 				case SettingsManager::TYPE_INT64:
 				{
 					continue;
-				}	
+				}
 				case SettingsManager::TYPE_FLOAT:
 				{
 					continue;
-				}	
+				}
 				case SettingsManager::TYPE_BOOL:
 				{
 					types = "Bool";
@@ -167,11 +167,11 @@ void AboutConfigFav::show()
 					//}
 					addItem_gui(rowname, isdefault, types, value);
 					continue;
-				}	
+				}
 				default:
 					dcassert(0);break;break;
 			}
-			
+
 			}
 		}
 	}
@@ -274,21 +274,28 @@ void AboutConfigFav::onInfoResponse(GtkWidget *info_bar, gint response_id,  gpoi
 
 	switch(response_id)
 	{
-		case -5://alowing
+		case GTK_RESPONSE_OK:
+		case GTK_RESPONSE_ACCEPT:
+		//alowing
+		{
 			gtk_widget_hide(info_bar);
 			gtk_widget_set_sensitive(s->getWidget("scrolledwindow"),TRUE);
 			SettingsManager::getInstance()->set(static_cast<SettingsManager::BoolSetting>(SettingsManager::AC_DISCLAIM), true);
-			SettingsManager::getInstance()->save();
 			break;
-		case -6://not allowing
+		}
+		//not allowing
+		case GTK_RESPONSE_CANCEL:
+		case GTK_RESPONSE_REJECT:
+		{
 			gtk_widget_set_sensitive(s->getWidget("scrolledwindow"),FALSE);
 			gtk_widget_hide(info_bar);
 			SettingsManager::getInstance()->set(static_cast<SettingsManager::BoolSetting>(SettingsManager::AC_DISCLAIM), false);
-			SettingsManager::getInstance()->save();
 			break;
+		}
 		default:
 			break;
 	}
+	SettingsManager::getInstance()->save();
 
 }
 
@@ -339,12 +346,12 @@ void AboutConfigFav::onSetDefault(GtkWidget*, gpointer data)
 
 	if (gtk_tree_selection_get_selected(s->aboutSelection, NULL, &iter))
 	{
-		string i = s->aboutView.getString(&iter,_("Name"));
+		string name = s->aboutView.getString(&iter,_("Name"));
 		SettingsManager *sm = SettingsManager::getInstance();
 		int n = -1 ;
 		SettingsManager::Types type;
 
-		if (sm->getType(i.c_str(), n, type))
+		if (sm->getType(name.c_str(), n, type))
 		{
 			sm->unset(n);
 
@@ -374,8 +381,8 @@ void AboutConfigFav::onSetDefault(GtkWidget*, gpointer data)
 				default:
 					return;
 			}
-			s->updateItem_gui(i, value,&iter);
-			s->setStatus("Value" + i + "Setted to Default" + value);
+			s->updateItem_gui(name, value,&iter);
+			s->setStatus("Value" + name + "Setted to Default" + value);
 		}
 	}
 }
@@ -385,7 +392,7 @@ bool AboutConfigFav::getDialog(const string name, string& value , gpointer data)
 	AboutConfigFav *s = (AboutConfigFav *)data;
 	gtk_label_set_text(GTK_LABEL(s->getWidget("label")), name.c_str());
 	gtk_entry_set_text(GTK_ENTRY(s->getWidget("entry")), value.c_str());
-	int response = gtk_dialog_run(GTK_DIALOG(s->getWidget("dialog")));
+	gint response = gtk_dialog_run(GTK_DIALOG(s->getWidget("dialog")));
 
 	// Fix crash, if the dialog gets programmatically destroyed.
 	if (response == GTK_RESPONSE_NONE)
