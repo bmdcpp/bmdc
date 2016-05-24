@@ -86,7 +86,7 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
                 "-GtkWidget-focus-line-width : 0px;\n"
                 "-GtkWidget-focus-padding : 0px;\n"
                 "padding: 0px;}\n\0",-1, NULL);
-		gtk_style_context_add_provider_for_screen (screen, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);     
+		gtk_style_context_add_provider_for_screen (screen, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
      // Add the stock icon to the close button
      #if GTK_CHECK_VERSION(3,9,0)
 	    GtkWidget *image = gtk_image_new_from_icon_name("window-close",GTK_ICON_SIZE_MENU);
@@ -144,7 +144,7 @@ void BookEntry::setIcon_gui(const EntryType type)
 		case Entry::ABOUT_CONFIG : stock = WGETS("icon-system"); break;//for now
 		default: ;
 	}
-	
+
 	#if GTK_CHECK_VERSION(3,9,0)
 	gtk_image_set_from_icon_name(GTK_IMAGE(icon), stock.c_str(), GTK_ICON_SIZE_MENU);
 	#else
@@ -255,7 +255,7 @@ void BookEntry::updateLabel_gui()
 	bool b_color = WGETB("colorize-tab-text");
 	char color_format[256];
 	string color =  urgent ? WGETS("color-tab-text-urgent") : WGETS("color-tab-text-bold");
-	sprintf(color_format,"<span foreground=\"%s\">%%s</span>",color.c_str());	
+	sprintf(color_format,"<span foreground=\"%s\">%%s</span>",color.c_str());
 
 	if (urgent)
 		format = b_color ? color_format : "<i><b>%s</b></i>";
@@ -296,7 +296,7 @@ GtkWidget *BookEntry::createmenu()
 		gtk_widget_show(closeTabMenuItem);
 		gtk_widget_show(menuItemFirst);
 		g_signal_connect_swapped(closeTabMenuItem, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
-		return popTabMenuItem;		
+		return popTabMenuItem;
 	}
 	return NULL;
 }
@@ -326,71 +326,100 @@ gboolean BookEntry::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpoi
 
 GtkWidget *BookEntry::createItemFirstMenu()
 {
-	string stock, info;
 	if(bCreated) {
+		string stock, info;
 		switch (this->type)
 		{
 			case Entry::FAVORITE_HUBS :
+			{
 					stock = WGETS("icon-favorite-hubs");
 					info = _("Favorite Hubs");
 					break;
+			}
 			case Entry::FAVORITE_USERS :
+			{
 					stock = WGETS("icon-favorite-users");
 					info = _("Favorite Users");
 					break;
+			}
 			case Entry::PUBLIC_HUBS :
+			{
 					stock = WGETS("icon-public-hubs");
 					info = _("Public Hubs");
 					break;
+			}
 			case Entry::DOWNLOAD_QUEUE :
+			{
 					stock = WGETS("icon-queue");
 					info = _("Download Queue");
 					break;
+			}
 			case Entry::SEARCHS:
 			case Entry::SEARCH :
+			{
 					stock = WGETS("icon-search");
 					info = _("Search");
 					break;
+			}
 			case Entry::SEARCH_ADL :
+			{
 					stock = WGETS("icon-search-adl");
 					info = _("ADL Search");
 					break;
+			}
 			case Entry::SEARCH_SPY :
-					stock = WGETS("icon-search-spy");
+			{		stock = WGETS("icon-search-spy");
 					info = _("Spy Search");
 					break;
+			}
 			case Entry::FINISHED_DOWNLOADS :
+			{
 					stock = WGETS("icon-finished-downloads");
 					info = _("Finished Downloads");
 					break;
+			}
 			case Entry::FINISHED_UPLOADS :
+			{
 					stock = WGETS("icon-finished-uploads");
 					info = _("Finished Uploads");
 					break;
+			}
 			case Entry::PRIVATE_MESSAGE :
+			{
 					stock = WGETS("icon-pm-online");
 					info = _("Private Message");
 					break;
+			}
 			case Entry::HUB :
+			{
 					stock = WGETS("icon-hub-offline");
 					info = _("Hub");
 					break;
+			}
 			case Entry::SHARE_BROWSER :
+			{
 					stock = WGETS("icon-directory");
 					info = _("Share Browser");
 					break;
+			}
 			case Entry::NOTEPAD :
+			{
 					stock = WGETS("icon-notepad");
 					info = _("Notepad");
 					break;
+			}
 			case Entry::SYSTEML :
+			{
 					stock = WGETS("icon-system");
 					info = _("System Log");
 					break;
+			}
 			case Entry::ABOUT_CONFIG:
+			{
 					stock = WGETS("icon-system"); //for now
 					info = _("About:Config");
 					break;
+			}
 			default: ;
 		}
 		bCreated = false;
@@ -399,10 +428,10 @@ GtkWidget *BookEntry::createItemFirstMenu()
 			gtk_menu_item_set_label(GTK_MENU_ITEM(item),info.c_str());
 			return item;
 		#else
-			return gtk_image_menu_item_new_from_stock(stock.c_str(),NULL);	
+			return gtk_image_menu_item_new_from_stock(stock.c_str(),NULL);
 		#endif
 	}
-	return NULL;	
+	return NULL;
 }
 
 void BookEntry::setBackForeGround(const EntryType type)
@@ -411,31 +440,40 @@ void BookEntry::setBackForeGround(const EntryType type)
 	switch (type)
 	{
 		case Entry::FAVORITE_HUBS :
+		{
 					if(WGETB("colored-tabs-fav-hubs")) {
 						fg = WGETS("colored-tabs-fav-hubs-color-fg");
 						bg = WGETS("colored-tabs-fav-hubs-color-bg");
 					}
 					break;
+		}
 		case Entry::FAVORITE_USERS :
+		{
 					if(WGETB("colored-tabs-fav-users")) {
 						fg = WGETS("colored-tabs-fav-users-color-fg");
 						bg = WGETS("colored-tabs-fav-users-color-bg");
 					}
 					break;
+		}
 		case Entry::PUBLIC_HUBS :
+		{
 					if(WGETB("colored-tabs-public")) {
 						fg = WGETS("colored-tabs-public-color-fg");
 						bg = WGETS("colored-tabs-public-color-bg");
 					}
 					break;
+		}
 		case Entry::DOWNLOAD_QUEUE :
+		{
 					if(WGETB("colored-tabs-download-quene")) {
 						fg = WGETS("colored-tabs-download-quene-color-fg");
 						bg = WGETS("colored-tabs-download-quene-color-bg");
 					}
 					break;
+		}
 		case Entry::SEARCHS:
 		case Entry::SEARCH :
+		{
 				if(WGETB("colored-tabs-searchs")) {
 						fg = WGETS("colored-tabs-searchs-color-fg");
 						bg = WGETS("colored-tabs-searchs-color-bg");
@@ -443,33 +481,43 @@ void BookEntry::setBackForeGround(const EntryType type)
 				if(WGETB("colored-tabs-searchs-unread")) {
 						fg_unread = WGETS("colored-tabs-searchs-color-fg-unread");
 						bg_unread = WGETS("colored-tabs-searchs-color-bg-unread");
-				}	
+				}
 					break;
+		}
 		case Entry::SEARCH_ADL :
+		{
 					if(WGETB("colored-tabs-adl")) {
 						fg = WGETS("colored-tabs-adl-color-fg");
 						bg = WGETS("colored-tabs-adl-color-bg");
 					}
 					break;
+		}
 		case Entry::SEARCH_SPY :
+		{
 					if(WGETB("colored-tabs-spy")) {
 						fg = WGETS("colored-tabs-spy-color-fg");
 						bg = WGETS("colored-tabs-spy-color-bg");
 					}
 					break;
+		}
 		case Entry::FINISHED_DOWNLOADS :
+		{
 				if(WGETB("colored-tabs-downloads")) {
 						fg = WGETS("colored-tabs-downloads-color-fg");
 						bg = WGETS("colored-tabs-downloads-color-bg");
 					}
 					break;
+		}
 		case Entry::FINISHED_UPLOADS :
+		{
 				if(WGETB("colored-tabs-uploads")) {
 					fg = WGETS("colored-tabs-uploads-color-fg");
 					bg = WGETS("colored-tabs-uploads-color-bg");
 				}
 				break;
+		}
 		case Entry::PRIVATE_MESSAGE :
+		{
 					if(WGETB("colored-tabs-pm")) {
 						fg = WGETS("colored-tabs-pm-color-fg");
 						bg = WGETS("colored-tabs-pm-color-bg");
@@ -479,7 +527,9 @@ void BookEntry::setBackForeGround(const EntryType type)
 						bg_unread = WGETS("colored-tabs-pm-color-bg-unread");
 					}
 					break;
+		}
 		case Entry::HUB :
+		{
 					if(WGETB("colored-tabs-hub")) {
 						fg = WGETS("colored-tabs-hub-color-fg");
 						bg = WGETS("colored-tabs-hub-color-bg");
@@ -489,19 +539,25 @@ void BookEntry::setBackForeGround(const EntryType type)
 						bg_unread = WGETS("colored-tabs-hub-color-bg-unread");
 					}
 					break;
+		}
 		case Entry::SHARE_BROWSER :
+		{
 					if(WGETB("colored-tabs-shareb")) {
 						fg = WGETS("colored-tabs-shareb-color-fg");
 						bg = WGETS("colored-tabs-shareb-color-bg");
 					}
 					break;
+		}
 		case Entry::NOTEPAD :
+		{
 					if(WGETB("colored-tabs-notepad")) {
 						fg = WGETS("colored-tabs-notepad-color-fg");
 						bg = WGETS("colored-tabs-notepad-color-bg");
 					}
 					break;
+		}
 		case Entry::SYSTEML :
+		{
 				if(WGETB("colored-tabs-system")) {
 						fg = WGETS("colored-tabs-system-color-fg");
 						bg = WGETS("colored-tabs-system-color-bg");
@@ -511,6 +567,7 @@ void BookEntry::setBackForeGround(const EntryType type)
 						bg_unread = WGETS("colored-tabs-system-color-bg-unread");
 				}
 				break;
+		}
 		case Entry::ABOUT_CONFIG:
 		default: return;
 	}
@@ -518,14 +575,14 @@ void BookEntry::setBackForeGround(const EntryType type)
 	GtkCssProvider *provider = gtk_css_provider_new ();
 	GdkDisplay *display = gdk_display_get_default ();
 	GdkScreen *screen = gdk_display_get_default_screen (display);
-	
+
 	string t_css = dcpp::Util::emptyString;
 	if(WGETB("custom-font-size")) {
 		string size = dcpp::Util::toString(WGETI("book-font-size"))+" %";
 		t_css = std::string("#"+name+" { color:"+fg+"; background: "+bg+"; font-size:"+size+"; }\n\0");
 	} else
 		t_css = std::string("#"+name+" { color:"+fg+"; background: "+bg+"; }\n\0");
-	
+
 	gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
 
 	gtk_style_context_add_provider_for_screen (screen,
@@ -551,10 +608,10 @@ string BookEntry::getName() //CSS:getName() In this should not include : ,spaces
 {
 	string str = dcpp::Util::emptyString;
 	const Entry::EntryType  type = getType();
-	
+
 	switch(type)
 	{
-		
+
 		case	DOWNLOAD_QUEUE:
 				str = "DownloadQueue";
 				break;
@@ -571,7 +628,7 @@ string BookEntry::getName() //CSS:getName() In this should not include : ,spaces
 				str = "FinishedUploads";
 				break;
 		case	HASH_DIALOG:
-				break;	
+				break;
 		case	CMD:
 				str = "CMDDebug";
 				break;
@@ -618,7 +675,7 @@ string BookEntry::getName() //CSS:getName() In this should not include : ,spaces
 				break;
 		case	DETECTION:
 				str = "Detection";
-				break;	
+				break;
 		case	ABOUT_CONFIG:
 				str = "AboutConfig";
 				break;
@@ -629,8 +686,8 @@ string BookEntry::getName() //CSS:getName() In this should not include : ,spaces
 		case	FAV_HUB:
 		default:break;
 	};
-	
-	return str;	
+
+	return str;
 }
 
 
