@@ -50,6 +50,7 @@
 #endif
 #ifdef HAVE_XSSLIB
 //Note Idle detection
+//lib64x11-static-devel
 #include <X11/extensions/scrnsaver.h>
 #include <gdk/gdkx.h>
 #endif
@@ -304,7 +305,7 @@ class MainWindow:
 		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) noexcept;
 		virtual void on(dcpp::TimerManagerListener::Second, uint64_t ticks) noexcept;
 		
-		//lib64x11-static-devel
+		
 		virtual void on(dcpp::TimerManagerListener::Minute, uint64_t ticks) noexcept;
 		
 		//Partial filelist

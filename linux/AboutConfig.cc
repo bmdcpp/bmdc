@@ -178,7 +178,6 @@ void AboutConfig::show()
 		dValue = Util::toString(j->second).c_str();
 		value = g_strdup(Util::toString((bIsOk ? imap.find(rowname)->second : 0)).c_str());
 
-
 		addItem_gui(rowname, sDefualt, types, ( !bIsOk ? dValue : value), TRUE);
 	}
 
