@@ -4,7 +4,6 @@ summary: BMDC++ client
 description: |
   BMDC , the DC++ client for linux.
 icon: icons/hicolor/22x22/apps/bmdc.png
-confinement: strict
 
 apps:
   bmdc:
