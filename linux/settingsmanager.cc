@@ -52,7 +52,7 @@ WulforSettingsManager::WulforSettingsManager():
 		GdkRGBA color;
 		gdk_rgba_parse (&color,"white");
 	#endif
-	
+
 	defaultInt.insert(IntMap::value_type("main-window-maximized", 0));
 	defaultInt.insert(IntMap::value_type("main-window-size-x", 875));
 	defaultInt.insert(IntMap::value_type("main-window-size-y", 685));
@@ -148,13 +148,13 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("log-messages", 0));//per fav
 	defaultInt.insert(IntMap::value_type("text-cheat-bold", 1));
 	defaultInt.insert(IntMap::value_type("text-cheat-italic", 0));
-	
+
 	defaultInt.insert(IntMap::value_type("text-ip-bold", 1));
 	defaultInt.insert(IntMap::value_type("text-ip-italic", 1));
-	
+
 	defaultInt.insert(IntMap::value_type("text-high-bold", 1));
 	defaultInt.insert(IntMap::value_type("text-high-italic", 1));
-	
+
 	defaultInt.insert(IntMap::value_type("notify-high-use", 1));
 	defaultInt.insert(IntMap::value_type("notify-hub-chat-use", 1));
 
@@ -384,11 +384,11 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("userlist-bg-pasive", "#BFBFBF"));
 	defaultString.insert(StringMap::value_type("userlist-bg-protected", "#BFBFBF"));
 	defaultString.insert(StringMap::value_type("userlist-bg-ignored", "#BFBFBF"));
-	
+
 	defaultString.insert(StringMap::value_type("userlist-text-virus","white"));
 	defaultString.insert(StringMap::value_type("userlist-bg-virus","red"));
 	defaultString.insert(StringMap::value_type("userlist-bg-virus-an","#A52A2A"));
-	
+
 	/*end*/
 	defaultString.insert(StringMap::value_type("custom-aliases", "#"));
 	/* Extended text color*/
@@ -410,10 +410,10 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("share-default", "black"));
 	defaultString.insert(StringMap::value_type("sound-command", "aplay -q"));
 	defaultString.insert(StringMap::value_type("last-searchs", "."));
-	
+
 	defaultString.insert(StringMap::value_type("color-tab-text-bold", "blue"));
 	defaultString.insert(StringMap::value_type("color-tab-text-urgent", "blue"));
-	
+
 	defaultInt.insert(IntMap::value_type("colored-tabs-fav-hubs", 1));
 	defaultInt.insert(IntMap::value_type("colored-tabs-fav-users", 1));
 	defaultInt.insert(IntMap::value_type("colored-tabs-public", 1));
@@ -428,12 +428,12 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("colored-tabs-shareb", 1));
 	defaultInt.insert(IntMap::value_type("colored-tabs-notepad", 1));
 	defaultInt.insert(IntMap::value_type("colored-tabs-system", 1));
-	
+
 	defaultInt.insert(IntMap::value_type("colored-tabs-pm-unread",1));
 	defaultInt.insert(IntMap::value_type("colored-tabs-hub-unread",1));
 	defaultInt.insert(IntMap::value_type("colored-tabs-searchs-unread",1));
 	defaultInt.insert(IntMap::value_type("colored-tabs-system-unread",1));
-	
+
 	defaultString.insert(StringMap::value_type("colored-tabs-fav-hubs-color-bg","#7F7F7F"));
 	defaultString.insert(StringMap::value_type("colored-tabs-fav-users-color-bg","#7F7F7F"));
 	defaultString.insert(StringMap::value_type("colored-tabs-public-color-bg","#7F7F7F"));
@@ -448,12 +448,12 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("colored-tabs-shareb-color-bg","#7F7F7F"));
 	defaultString.insert(StringMap::value_type("colored-tabs-notepad-color-bg","green"));
 	defaultString.insert(StringMap::value_type("colored-tabs-system-color-bg","white"));
-	
+
 	defaultString.insert(StringMap::value_type("colored-tabs-pm-color-bg-unread","#E5E5E5"));
 	defaultString.insert(StringMap::value_type("colored-tabs-hub-color-bg-unread","#E5E5E5"));
 	defaultString.insert(StringMap::value_type("colored-tabs-system-color-bg-unread","#90EE90"));
 	defaultString.insert(StringMap::value_type("colored-tabs-searchs-color-bg-unread","#E5E5E5"));
-	
+
 	defaultString.insert(StringMap::value_type("colored-tabs-fav-hubs-color-fg","black"));
 	defaultString.insert(StringMap::value_type("colored-tabs-fav-users-color-fg","black"));
 	defaultString.insert(StringMap::value_type("colored-tabs-public-color-fg","black"));
@@ -474,7 +474,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultString.insert(StringMap::value_type("colored-tabs-system-color-fg-unread","#4D4D4D"));
 	defaultString.insert(StringMap::value_type("colored-tabs-searchs-color-fg-unread","#E5E5E5"));
 	/*
-	 * hub db click 
+	 * hub db click
 	 * /ws double-click-action #
 	 * 0 - Browse FL
 	 * 1 - Nick to Chat
@@ -487,10 +487,11 @@ WulforSettingsManager::WulforSettingsManager():
 	*/
 	defaultInt.insert(IntMap::value_type("double-click-action",(int)CActions::BROWSE));
 	defaultInt.insert(IntMap::value_type("hide-transfers",0));
-	//defaultInt.insert(IntMap::value_type("idle-time", 60*5));//@in minutes
 
 	defaultString.insert(StringMap::value_type("menu-userlist-color","blue"));//TODO: dcpp set
-	
+	defaultString.insert(StringMap::value_type("text-cmd-fore-color","black"));
+
+
 	load();
 
 	string path_image = Util::getPath(Util::PATH_USER_CONFIG) + "Images/";
@@ -498,7 +499,7 @@ WulforSettingsManager::WulforSettingsManager():
 	g_mkdir_with_parents(path_image.c_str(), S_IRUSR | S_IWUSR | S_IXUSR);
 	#else
 	_mkdir(path_image.c_str());
-	
+
 	#endif
 }
 

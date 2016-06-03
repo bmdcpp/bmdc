@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2014-2015 BMDC++
+ * Copyright © 2014-2016 BMDC++
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,7 +62,7 @@ using namespace dcpp;
 Settings::Settings(GtkWindow* parent):
 	DialogEntry(Entry::SETTINGS_DIALOG, "settingsdialog", parent)
 {
-	#if !GTK_CHECK_VERSION(3,12,0)		
+	#if !GTK_CHECK_VERSION(3,12,0)
 	// Configure the dialogs.
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("dialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("publicHubsDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
@@ -241,8 +241,8 @@ Settings::Settings(GtkWindow* parent):
 	initAppearance_gui();
 	initLog_gui();
 	initAdvanced_gui();
-	initBandwidthLimiting_gui(); //NOTE: core 0.762
-	initSearchTypes_gui(); //NOTE: core 0.770
+	initBandwidthLimiting_gui();
+	initSearchTypes_gui();
 	initHighlighting_gui();//NOTE: BMDC++
 	initPlugins_gui();//NOTE: BMDC++
 }
@@ -585,9 +585,9 @@ void Settings::saveSettings_client()
 		sm->set(SettingsManager::BACKUP_TIMESTAMP,string(gtk_entry_get_text(GTK_ENTRY(getWidget("backupTimestampEntry")))));
 		sm->set(SettingsManager::BACKUP_FILE_PATTERN, string(gtk_entry_get_text(GTK_ENTRY(getWidget("backupPatternEntry")))));
 		sm->set(SettingsManager::AUTOBACKUP_TIME, (int)gtk_spin_button_get_value(GTK_SPIN_BUTTON(getWidget("backupSpin"))));
-#endif		
+#endif
 	}
-	//NOTE: core 0.762
+
 	{
 		// Transfer Rate Limiting
 		sm->set(SettingsManager::MAX_UPLOAD_SPEED_MAIN,
@@ -614,7 +614,6 @@ void Settings::saveSettings_client()
 				gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("limitsToCombobox"))));
 		}
 	}
-	//NOTE: core 0.762
 
 	sm->save();
 	wsm->save();
@@ -1089,7 +1088,7 @@ void Settings::initSharing_gui()
 	g_signal_connect(shareView.get(), "button-release-event", G_CALLBACK(onShareButtonReleased_gui), (gpointer)this);
 	gtk_widget_set_sensitive(getWidget("sharedRemoveButton"), FALSE);
 
-	updateShares_gui();//NOTE: core 0.762
+	updateShares_gui();
 
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("shareHiddenCheckButton")), SETTING(SHARE_HIDDEN));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("followLinksCheckButton")), SETTING(FOLLOW_LINKS));
@@ -1160,7 +1159,7 @@ void Settings::initAppearance_gui()
 		tabsColors.insertHiddenColumn("key", G_TYPE_STRING);
 		tabsColors.insertHiddenColumn("Icon", G_TYPE_STRING);
 		tabsColors.finalize();
-		
+
 		tabColorStore = gtk_list_store_newv(tabsColors.getColCount(), tabsColors.getGTypes());
 		gtk_tree_view_set_model(tabsColors.get(), GTK_TREE_MODEL(tabColorStore));
 		g_object_unref(tabColorStore);
@@ -1179,12 +1178,12 @@ void Settings::initAppearance_gui()
 		addOption_gui_tabs(tabColorStore,"Public Hubs","public",WGETS("icon-public-hubs"));
 		addOption_gui_tabs(tabColorStore,"Favorite Users","fav-users",WGETS("icon-favorite-users"));
 		addOption_gui_tabs(tabColorStore,"Favorite Hubs","fav-hubs",WGETS("icon-favorite-hubs"));
-		
-		
+
+
 		tabSelections = gtk_tree_view_get_selection (GTK_TREE_VIEW (tabsColors.get()));
 		gtk_tree_selection_set_mode (tabSelections, GTK_SELECTION_SINGLE);
 		g_signal_connect(G_OBJECT(tabSelections),"changed",G_CALLBACK(onChangeTabSelections), (gpointer)this);
-		
+
 	}
 
 	{ // Sounds
@@ -1351,25 +1350,19 @@ void Settings::initAppearance_gui()
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkBoldAuthors")), WGETB("text-bold-autors"));
 		//[BMDC
 		string strcolor = SETTING(BACKGROUND_CHAT_COLOR);//WGETS("background-color-chat");
-		/*GdkRGBA color;
-		gdk_rgba_parse(&color,strcolor.c_str());
 
-		gtk_widget_override_background_color(getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_NORMAL,&color);
-		gtk_widget_override_background_color(getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_PRELIGHT,&color);
-		gtk_widget_override_background_color(getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_ACTIVE,&color);
-		gtk_widget_override_background_color(getWidget("textViewPreviewStyles"),GTK_STATE_FLAG_INSENSITIVE,&color);*/
 		gtk_widget_set_name(getWidget("textViewPreviewStyles"),"prewienTextView");
 		GtkCssProvider *provider = gtk_css_provider_new ();
 		GdkDisplay *display = gdk_display_get_default ();
 		GdkScreen *screen = gdk_display_get_default_screen (display);
 		std::string t_css = std::string("#prewienTextView { background: "+strcolor+" ;}\n\0");
 		gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
-	
+
 		gtk_style_context_add_provider_for_screen (screen,
-											GTK_STYLE_PROVIDER(provider),
-											GTK_STYLE_PROVIDER_PRIORITY_USER);
+								GTK_STYLE_PROVIDER(provider),
+								GTK_STYLE_PROVIDER_PRIORITY_USER);
 		g_object_unref (provider);
-		
+
 		g_signal_connect(getWidget("setBackGroundChatWin"), "clicked", G_CALLBACK(onSetBackGroundChat), (gpointer)this);
 		//]
 	}
@@ -1922,11 +1915,11 @@ void Settings::onToggledPluginsClicked_gui(GtkCellRendererToggle*, gchar *path, 
 			bool fixed = fh->plView.getValue<gboolean>(&iter, _("Enabled"));
 			fixed = !fixed;
 			gtk_list_store_set(fh->plStore, &iter, fh->plView.col(_("Enabled")), fixed, -1);
-			
+
 			if(fixed)
 				PluginManager::getInstance()->enablePlugin(guid);
-			else 
-				PluginManager::getInstance()->disablePlugin(guid);	
+			else
+				PluginManager::getInstance()->disablePlugin(guid);
 		}
 
 }
@@ -2001,14 +1994,14 @@ void Settings::onAboutPlugin_gui(GtkWidget*, gpointer data)
                 about += _("Author: ") + meta.author + "\n";
                 about += _("Description: ") + meta.description + "\n";
                 about += _("Web: ") + meta.website + "\n";
-			
+
 			GtkDialog *dialog = GTK_DIALOG(gtk_message_dialog_new_with_markup(GTK_WINDOW(s->getContainer()),
 			GTK_DIALOG_DESTROY_WITH_PARENT,
 			GTK_MESSAGE_INFO,
 			GTK_BUTTONS_CLOSE,"%s",
 			about.c_str()));
 			gtk_dialog_run(dialog);
-			
+
 			gtk_widget_hide(GTK_WIDGET(dialog));
 	}
 }
@@ -2021,7 +2014,7 @@ void Settings::addToGuiPlg()
          GtkTreeIter iter;
          for(auto i = list.cbegin(), iend = list.cend() ; i != iend; ++i) {
           auto info = pm->getPlugin(*i);
-  
+
                  gtk_list_store_append(plStore,&iter);
                          gtk_list_store_set(plStore,&iter,
                                       plView.col("Name"),info.name.c_str(),
@@ -2158,7 +2151,7 @@ void Settings::initAdvanced_gui()
 		g_signal_connect(getWidget("generateCertificatesButton"), "clicked", G_CALLBACK(onGenerateCertificatesClicked_gui), (gpointer)this);
 	}
 	{
-	#ifdef HAVE_LIBTAR	
+	#ifdef HAVE_LIBTAR
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("enableBackup")), SETTING(ENABLE_AUTOBACKUP) == 1 ? TRUE : FALSE);
 		gtk_entry_set_text(GTK_ENTRY(getWidget("backupTimestampEntry")), SETTING(BACKUP_TIMESTAMP).c_str());
 		gtk_entry_set_text(GTK_ENTRY(getWidget("backupPatternEntry")), SETTING(BACKUP_FILE_PATTERN).c_str());
@@ -3050,7 +3043,7 @@ void Settings::onDefaultFrameSPButton_gui(GtkWidget*, gpointer data)
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(s->getWidget("waitingSPSpinButton")), double(wsm->getInt("search-spy-waiting", TRUE)));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(s->getWidget("topSPSpinButton")), double(wsm->getInt("search-spy-top", TRUE)));
 }
-//NOTE: core 0.762
+
 void Settings::onLimitSecondToggled_gui(GtkWidget*, gpointer data)
 {
 	Settings *s = (Settings *)data;
@@ -3068,7 +3061,7 @@ void Settings::onLimitSecondToggled_gui(GtkWidget*, gpointer data)
 		gtk_widget_set_sensitive(s->getWidget("limitsToCombobox"), FALSE);
 	}
 }
-//NOTE: core 0.762
+
 void Settings::applyIconsTheme(bool useDefault)
 {
 	GtkTreeIter iter;
@@ -3507,7 +3500,7 @@ void Settings::onAddShare_gui(GtkWidget*, gpointer data)
 			gtk_label_set_markup(GTK_LABEL(s->getWidget("labelNameDialog")), _("<b>Name under which the others see the directory</b>"));
 			response = gtk_dialog_run(GTK_DIALOG(dialog));
 			string name = gtk_entry_get_text(GTK_ENTRY(s->getWidget("nameDialogEntry")));
-			gtk_widget_hide(dialog);//hide
+			gtk_widget_hide(dialog);
 
 			if (response == GTK_RESPONSE_OK)
 			{
@@ -3521,7 +3514,7 @@ void Settings::onAddShare_gui(GtkWidget*, gpointer data)
 					return;//should not update GUI if any Share* exception hapened
 				}
 				catch(...){g_print("Some other exception");}
-				
+
 				s->addShare_gui(path, name);
 			}
 		}
@@ -3670,13 +3663,13 @@ void Settings::selectTextStyle_gui(const int select)
 		showErrorDialog(_("selected style failed"));
 		return;
 	}
-	GtkWidget *dialog = gtk_font_chooser_dialog_new (_("Select Font"),GTK_WINDOW(getContainer())); 	
+	GtkWidget *dialog = gtk_font_chooser_dialog_new (_("Select Font"),GTK_WINDOW(getContainer()));
 	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 	gtk_widget_hide(dialog);
 
 	if (response == GTK_RESPONSE_OK)
 	{
-		gchar *temp =  gtk_font_chooser_get_font(GTK_FONT_CHOOSER(dialog)); 
+		gchar *temp =  gtk_font_chooser_get_font(GTK_FONT_CHOOSER(dialog));
 
 		if (temp)
 		{
@@ -3743,8 +3736,6 @@ void Settings::setBgColorUserList()
 
 		string strcolor = WulforUtil::colorToString(&color);
 
-//		auto qp = colorsIters.find(_("User ") + currname);
-
 		gtk_list_store_set(userListStore1, &iter, userListNames.col("BackSet"), strcolor.c_str(), -1);
 		if(currname.find(_("Normal")) != string::npos)
 			WSET("userlist-bg-normal",strcolor);
@@ -3762,7 +3753,7 @@ void Settings::setBgColorUserList()
 			WSET("userlist-bg-ignored",strcolor);
 		else
 			dcdebug("dont go here");
-			
+
 		WulforSettingsManager::getInstance()->save();
 		setColorRow(_("Name"));
 	}
@@ -3786,24 +3777,24 @@ void Settings::onTextColorDefaultULClicked_gui(GtkWidget*, gpointer data)
 	if(valid) {
 		s->setDefaultColor("#1E90FF", _("Operator"), &iter);
 		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(s->userListStore1), &iter);
-	}	
+	}
 	if(valid) {
 		s->setDefaultColor("#747677", _("Pasive"), &iter);
 		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(s->userListStore1), &iter);
-	}	
+	}
 	if(valid) {
 		s->setDefaultColor("#FF0000", _("Favorite"), &iter);
 		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(s->userListStore1), &iter);
-	}	
+	}
 	if(valid)
 	{
 		s->setDefaultColor("#8B6914", _("Protected"), &iter);
 		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(s->userListStore1), &iter);
-	}	
+	}
 	if(valid)
 	{
 		s->setDefaultColor("#9AFFAF", _("Ignored"), &iter);
-	}	
+	}
 }
 
 void Settings::setColorUL()
@@ -5000,7 +4991,7 @@ void Settings::onRemoveHighlighting_gui(GtkWidget*, gpointer data)
 				_("Are you sure you want to delete Highlighting \"%s\"?"), name.c_str());
 
 			gtk_dialog_add_buttons(GTK_DIALOG(dialog), BMDC_STOCK_CANCEL, GTK_RESPONSE_CANCEL, BMDC_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
-#if !GTK_CHECK_VERSION(3,12,0)		
+#if !GTK_CHECK_VERSION(3,12,0)
 			gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_CANCEL, -1);
 #endif
 			gint response = gtk_dialog_run(GTK_DIALOG(dialog));
@@ -5146,7 +5137,7 @@ void Settings::saveHighlighting(dcpp::StringMap &params, bool add, const string&
 void Settings::addHighlighting_to_gui(ColorSettings &cs, bool add)
 {
 	GtkTreeIter iter;
-	
+
 	if(add)
 		gtk_list_store_append(hStore,&iter);
 
@@ -5187,12 +5178,12 @@ void Settings::changeTab(GtkTreeSelection *selection) {
         {
                 gtk_tree_model_get (model, &iter, 1, &key, -1);
                 string keys = (string(key));
-				
+
 				string fg_string = WGETS("colored-tabs-" +(string(key))+"-color-bg");
 				g_free (key);
-				
+
 				GdkRGBA fg;
-								
+
 				gdk_rgba_parse(&fg,fg_string.c_str());
 				//TODO@ more...
 				GtkWidget *box = getWidget("box");
@@ -5207,19 +5198,19 @@ void Settings::changeTab(GtkTreeSelection *selection) {
 				GtkWidget *labelf = gtk_label_new("ForeGround Color");
 				GtkWidget *buttonb = gtk_button_new_with_label("Choose");
 				GtkWidget *buttonf = gtk_button_new_with_label("Choose");
-				gtk_grid_attach(GTK_GRID(grid),labelb,0,0,1,1); 
-				gtk_grid_attach (GTK_GRID(grid),buttonb,0,1,1,1); 
+				gtk_grid_attach(GTK_GRID(grid),labelb,0,0,1,1);
+				gtk_grid_attach (GTK_GRID(grid),buttonb,0,1,1,1);
 				gtk_grid_attach (GTK_GRID(grid),labelf,1,0,1,1);
-				gtk_grid_attach (GTK_GRID(grid),buttonf,1,1,1,1); 
+				gtk_grid_attach (GTK_GRID(grid),buttonf,1,1,1,1);
 				gtk_container_add(GTK_CONTAINER(box),frame);
-				
+
 				g_object_set_data_full(G_OBJECT(buttonf), "name", g_strdup(keys.c_str()), g_free);
 				g_object_set_data_full(G_OBJECT(buttonb), "name", g_strdup(keys.c_str()), g_free);
 				g_signal_connect(buttonb, "clicked", G_CALLBACK(onBackColorChooserTab), (gpointer)this);
 				g_signal_connect(buttonf, "clicked", G_CALLBACK(onForeColorChooserTab), (gpointer)this);
 				gtk_notebook_append_page(GTK_NOTEBOOK(note), grid, pagelabel);
 				gtk_widget_show_all(grid);
-				
+
 				//2nd
 				GtkWidget *pagelabel2 = gtk_label_new("Unread");
 				GtkWidget *grid2 = gtk_grid_new();
@@ -5227,11 +5218,11 @@ void Settings::changeTab(GtkTreeSelection *selection) {
 				GtkWidget *labelf2 = gtk_label_new("ForeGround Color");
 				GtkWidget *buttonb2 = gtk_button_new_with_label("Choose");
 				GtkWidget *buttonf2 = gtk_button_new_with_label("Choose");
-				gtk_grid_attach(GTK_GRID(grid2),labelb2,0,0,1,1); 
-				gtk_grid_attach (GTK_GRID(grid2),buttonb2,0,1,1,1); 
+				gtk_grid_attach(GTK_GRID(grid2),labelb2,0,0,1,1);
+				gtk_grid_attach (GTK_GRID(grid2),buttonb2,0,1,1,1);
 				gtk_grid_attach (GTK_GRID(grid2),labelf2,1,0,1,1);
-				gtk_grid_attach (GTK_GRID(grid2),buttonf2,1,1,1,1); 
-				
+				gtk_grid_attach (GTK_GRID(grid2),buttonf2,1,1,1,1);
+
 				g_object_set_data_full(G_OBJECT(buttonf2), "name", g_strdup(keys.c_str()), g_free);
 				g_object_set_data_full(G_OBJECT(buttonb2), "name", g_strdup(keys.c_str()), g_free);
 				g_signal_connect(buttonb2, "clicked", G_CALLBACK(onBackColorChooserTab_unread), (gpointer)this);
@@ -5243,15 +5234,15 @@ void Settings::changeTab(GtkTreeSelection *selection) {
         }
 }
 
-void Settings::onBackColorChooserTab(GtkWidget *button, gpointer data) 
-{	
+void Settings::onBackColorChooserTab(GtkWidget *button, gpointer data)
+{
 	Settings *s = (Settings *)data;
 	string key = (gchar *)g_object_get_data(G_OBJECT(button), "name");
 	string bg_string = WGETS("colored-tabs-" +(string(key))+"-color-bg");
 	GdkRGBA bg;
 	gdk_rgba_parse(&bg,bg_string.c_str());
 	GtkWidget *dialog =   gtk_color_chooser_dialog_new (("Chose BackGroun of "+key).c_str(),
-                                                        GTK_WINDOW(s->getContainer())); 
+                                                        GTK_WINDOW(s->getContainer()));
     gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog),&bg);
     int response = gtk_dialog_run(GTK_DIALOG(dialog));
     if(response ==  GTK_RESPONSE_OK)
@@ -5260,21 +5251,21 @@ void Settings::onBackColorChooserTab(GtkWidget *button, gpointer data)
 		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(dialog),&bg_s);
 		string color = WulforUtil::colorToString(&bg_s);
 		WSET("colored-tabs-" +(string(key))+"-color-bg",color);
-	 
+
 	}
 	gtk_widget_destroy(dialog);
-	
+
 }
 
-void Settings::onForeColorChooserTab(GtkWidget *button, gpointer data) 
-{	
+void Settings::onForeColorChooserTab(GtkWidget *button, gpointer data)
+{
 	Settings *s = (Settings *)data;
 	string key = (gchar *)g_object_get_data(G_OBJECT(button), "name");
 	string fg_string = WGETS("colored-tabs-" +(string(key))+"-color-fg");
 	GdkRGBA fg;
 	gdk_rgba_parse(&fg,fg_string.c_str());
 	GtkWidget *dialog =   gtk_color_chooser_dialog_new (("Chose ForeGroun of "+key).c_str(),
-                                                        GTK_WINDOW(s->getContainer())); 
+                                                        GTK_WINDOW(s->getContainer()));
     gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog),&fg);
     int response = gtk_dialog_run(GTK_DIALOG(dialog));
     if(response ==  GTK_RESPONSE_OK)
@@ -5283,22 +5274,22 @@ void Settings::onForeColorChooserTab(GtkWidget *button, gpointer data)
 		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(dialog),&fg_s);
 		string color = WulforUtil::colorToString(&fg_s);
 		WSET("colored-tabs-" +(string(key))+"-color-fg",color);
-	 
+
 	}
 	gtk_widget_destroy(dialog);
-	
+
 }
 
 
-void Settings::onBackColorChooserTab_unread(GtkWidget *button, gpointer data) 
-{	
+void Settings::onBackColorChooserTab_unread(GtkWidget *button, gpointer data)
+{
 	Settings *s = (Settings *)data;
 	string key = (gchar *)g_object_get_data(G_OBJECT(button), "name");
 	string bg_string = WGETS("colored-tabs-" +(string(key))+"-color-bg-unread");
 	GdkRGBA bg;
 	gdk_rgba_parse(&bg,bg_string.c_str());
 	GtkWidget *dialog =   gtk_color_chooser_dialog_new (("Chose BackGroun of "+key).c_str(),
-                                                        GTK_WINDOW(s->getContainer())); 
+                                                        GTK_WINDOW(s->getContainer()));
     gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog),&bg);
     int response = gtk_dialog_run(GTK_DIALOG(dialog));
     if(response ==  GTK_RESPONSE_OK)
@@ -5307,21 +5298,21 @@ void Settings::onBackColorChooserTab_unread(GtkWidget *button, gpointer data)
 		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(dialog),&bg_s);
 		string color = WulforUtil::colorToString(&bg_s);
 		WSET("colored-tabs-" +(string(key))+"-color-bg-unread",color);
-	 
+
 	}
 	gtk_widget_destroy(dialog);
-	
+
 }
 
-void Settings::onForeColorChooserTab_unread(GtkWidget *button, gpointer data) 
-{	
+void Settings::onForeColorChooserTab_unread(GtkWidget *button, gpointer data)
+{
 	Settings *s = (Settings *)data;
 	string key = (gchar *)g_object_get_data(G_OBJECT(button), "name");
 	string fg_string = WGETS("colored-tabs-" +(string(key))+"-color-fg-unread");
 	GdkRGBA fg;
 	gdk_rgba_parse(&fg,fg_string.c_str());
 	GtkWidget *dialog =   gtk_color_chooser_dialog_new (("Chose ForeGroun of "+key).c_str(),
-                                                        GTK_WINDOW(s->getContainer())); 
+                                                        GTK_WINDOW(s->getContainer()));
     gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog),&fg);
     int response = gtk_dialog_run(GTK_DIALOG(dialog));
     if(response ==  GTK_RESPONSE_OK)
@@ -5330,8 +5321,8 @@ void Settings::onForeColorChooserTab_unread(GtkWidget *button, gpointer data)
 		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(dialog),&fg_s);
 		string color = WulforUtil::colorToString(&fg_s);
 		WSET("colored-tabs-" +(string(key))+"-color-fg-unread",color);
-	 
+
 	}
 	gtk_widget_destroy(dialog);
-	
+
 }

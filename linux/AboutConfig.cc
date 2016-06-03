@@ -319,7 +319,7 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget*, gpointer data)
 		string value = s->aboutView.getString(&iter, _("Value"));
 		gboolean isWulfor = s->aboutView.getValue<gboolean>(&iter, "WS");
 
-		bool run = s->getDialog(name, value, data);
+		bool run = s->getDialog(name, value);
 		if(!run)
 			return;
 
@@ -428,7 +428,7 @@ void AboutConfig::onSetDefault(GtkWidget*, gpointer data)
 	}
 }
 
-bool AboutConfig::getDialog(const string name, string& value , gpointer data)
+bool AboutConfig::getDialog(const string name, string& value)
 {
 	//AboutConfig *s = (AboutConfig *)data;
 	WulforSettingsManager* wsm = WulforSettingsManager::getInstance();

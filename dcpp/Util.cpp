@@ -113,7 +113,7 @@ void Util::initialize(PathsMap pathOverrides) {
 	Text::initialize();
 
 	sgenrand((unsigned long)time(NULL));
-	
+
 	//TimerManager::newInstance();
 #ifdef _WIN32
 	TCHAR buf[MAX_PATH+1] = { 0 };
@@ -182,7 +182,7 @@ void Util::initialize(PathsMap pathOverrides) {
 	paths[PATH_RESOURCES] = "/usr/share/";
 	paths[PATH_LOCALE] = paths[PATH_RESOURCES] + "locale/";
 	paths[PATH_DOWNLOADS] = home + "/Downloads/";
-	
+
 #endif
 
 	paths[PATH_FILE_LISTS] = paths[PATH_USER_LOCAL] + "FileLists" PATH_SEPARATOR_STR;
@@ -466,10 +466,10 @@ void Util::decodeUrl(const string& url, string& protocol, string& host, uint16_t
 		} else {
 			dcdebug("p");
 			port = Util::toInt(url.substr(portStart, authorityEnd - portStart));
-			
+
 			if(port == UINT16_MAX )
 				port = 0;
-						
+
 		}
 	}
 
@@ -563,7 +563,7 @@ string Util::formatExactSize(const int64_t aBytes) {
 #endif
 }
 
-string Util::getLocalIp() {//@TODO:IPv6?
+string Util::getLocalIp() {
 	const string& bindAddr = CONNSETTING(BIND_ADDRESS);
 	if(!bindAddr.empty() && bindAddr != SettingsManager::getInstance()->getDefault(SettingsManager::BIND_ADDRESS)) {
 		return bindAddr;
@@ -573,7 +573,7 @@ string Util::getLocalIp() {//@TODO:IPv6?
 	memset(&hints, 0, sizeof(addrinfo));
 	hints.ai_family = AF_UNSPEC;
 	addrinfo *result;
-	
+
 	int ret = ::getaddrinfo("localhost",NULL,&hints,&result);
 	if( ret == 0)
 	{
@@ -582,7 +582,7 @@ string Util::getLocalIp() {//@TODO:IPv6?
 		for(res = result; res != NULL; res = res->ai_next)
 		{
 			if ( res->ai_family == AF_INET )
-			{	
+			{
 				#ifdef _WIN32
 				Socket::inet_ntop(&((struct sockaddr_in *)res->ai_addr)->sin_addr,buf,sizeof(buf));
 				#else
@@ -591,17 +591,17 @@ string Util::getLocalIp() {//@TODO:IPv6?
 				if(Util::isPrivateIp(buf) || strncmp(buf, "169.254", 7) == 0)
 				{
 					return buf;
-				}	
+				}
 			}
-			else 
-			{	
+			else
+			{
 				#ifdef _WIN32
 				Socket::inet_ntop(&((struct sockaddr_in *)res->ai_addr)->sin_addr,buf,sizeof(buf));
 				#else
 				inet_ntop(AF_INET6, &((struct sockaddr_in6 *)res->ai_addr)->sin6_addr, buf, sizeof(buf));
 				#endif
 				if(strncmp(buf,"fe80",4)==0) continue;
-				
+
 			}
 		}
 		return buf;
@@ -945,7 +945,7 @@ string Util::formatTime(const string &msg, const time_t t) {
 			return Util::emptyString;
 		gsize oread,owrite;
 		buf = g_filename_to_utf8(buf.c_str(),-1,&oread,&owrite,NULL);
-		
+
 		return buf;
 	}
 	return Util::emptyString;
@@ -994,7 +994,7 @@ uint32_t Util::rand() {
 		//...
 		static unsigned long mag01[2]={0x0, MATRIX_A};
 		/* mag01[x] = x * MATRIX_A  for x=0,1 */
-		
+
 		int kk;
 
 		if (mti == N+1)   /* if sgenrand() has not been called, */
@@ -1192,7 +1192,7 @@ string Util::convertCEscapes(string tmp)
 			{
 				return tmp;
 				break;
-			}	
+			}
 			case 'a': tmp.replace(i, 2, "\a"); break;
 			case 'b': tmp.replace(i, 2, "\b"); break;
 			case 'e': tmp.replace(i, 2, "\033"); break;
@@ -1209,7 +1209,7 @@ string Util::convertCEscapes(string tmp)
 					tmp.replace(i, 4, string(1, (char)num));
 				}
 				break;
-			}	
+			}
 			default:
 				if(tmp[i + 1] >= '0' && tmp[i + 1] <= '7') {
 					int c = 1;
@@ -1259,7 +1259,7 @@ bool Util::isIp6(const string& name)
 	if( (n==2) && (name.size() == 2) ) return true;//Fix for "::"
 	if( n < 2)
 			return false;
-			
+
 	bool ok = false;
 	for(auto i = name.begin();i!=name.end();++i) {
 			if(*i==':') {//cechk this

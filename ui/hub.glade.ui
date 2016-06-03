@@ -379,6 +379,14 @@
             <property name="visible">True</property>
             <property name="receives_default">True</property>
             <property name="use_action_appearance">False</property>
+            <child>
+              <object class="GtkImage" id="emotButtonImage">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="stock">bmdc-smile</property>
+                <property name="icon-size">1</property>
+              </object>
+            </child>
           </object>
           <packing>
             <property name="left_attach">5</property>
@@ -391,7 +399,7 @@
           <object class="GtkEntry" id="chatEntry">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="can-default">True</property> 
+            <property name="can-default">True</property>
             <property name="expand">True</property>
           </object>
           <packing>

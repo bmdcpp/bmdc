@@ -195,10 +195,10 @@ QueueItem* QueueManager::UserQueue::getNext(const UserPtr& aUser, QueueItem::Pri
 
 	do {
 		auto i = userQueue[p].find(aUser);
-		if(i != userQueue[p].end()) 
+		if(i != userQueue[p].end())
 		{
 			dcassert(!i->second.empty());
-			for(auto j = i->second.begin(); j != i->second.end(); ++j) 
+			for(auto j = i->second.begin(); j != i->second.end(); ++j)
 			{
 				QueueItem* qi = *j;
 				if(qi->isWaiting()) {
@@ -259,7 +259,7 @@ pair<size_t, int64_t> QueueManager::UserQueue::getQueued(const UserPtr& aUser) c
 	for(size_t i = QueueItem::LOWEST; i < QueueItem::LAST; ++i) {
 		auto& ulm = userQueue[i];
 		auto iulm = ulm.find(aUser);
-		
+
 		if(iulm == ulm.end()) {
 			continue;
 		}
@@ -443,18 +443,18 @@ int QueueManager::Rechecker::run() {
 		size_t pos = 0;
 		for(auto i = tt.getLeaves().begin();i!= tt.getLeaves().end();++i)
 		{
-				for(auto j = ttFile.getLeaves().begin();j!= ttFile.getLeaves().end();++j)
+			for(auto j = ttFile.getLeaves().begin();j!= ttFile.getLeaves().end();++j)
+			{
+				TTHValue& our = *i;
+				TTHValue& file = *j;
+				if(our == file)
 				{
-					TTHValue& our = *i;
-					TTHValue& file = *j;
-					if(our == file)
-					{
-						q->addSegment(Segment(pos,tt.getBlockSize())); 
-					}	
-					pos += tt.getBlockSize();	
+					q->addSegment(Segment(pos,tt.getBlockSize()));
 				}
-			
-		}	//TODO: check ...
+			pos += tt.getBlockSize();
+			}
+
+		}
 		/*for_each(tt.getLeaves(), ttFile.getLeaves(), [&](const TTHValue& our, const TTHValue& file) {
 			if(our == file) {
 				q->addSegment(Segment(pos, tt.getBlockSize()));

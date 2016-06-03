@@ -304,7 +304,7 @@ void AdcHub::handle(AdcCommand::QUI, AdcCommand& c) noexcept {
 			}
 
 			tmp = victim->getIdentity().getNick();
-				
+
 			if(source) {
 				tmp += F_(" was kicked by ") + source->getIdentity().getNick() + ": " + dMessage;
 			} else {
@@ -568,7 +568,7 @@ void AdcHub::handle(AdcCommand::GET, AdcCommand& c) noexcept {
 				"Unsupported h", AdcCommand::TYPE_HUB));
 			return;
 		}
-		
+
 		ShareManager* sm = getShareManager();
 
 		size_t n = sm->getSharedFiles();
@@ -580,9 +580,9 @@ void AdcHub::handle(AdcCommand::GET, AdcCommand& c) noexcept {
 			return;
 		}
 
-		if (m > 0) {
-			sm->getBloom(v, k, m, h);
-		}
+//		if (m > 0) {
+//			sm->getBloom(v, k, m, h);
+//		}
 
 		AdcCommand cmd(AdcCommand::CMD_SND, AdcCommand::TYPE_HUB);
 		cmd.addParam(c.getParam(0));
@@ -592,6 +592,7 @@ void AdcHub::handle(AdcCommand::GET, AdcCommand& c) noexcept {
 		cmd.addParam(c.getParam(4));
 		send(cmd);
 		if (m > 0) {
+			sm->getBloom(v, k, m, h);
 			send((char*)&v[0], v.size());
 		}
 	}
@@ -972,6 +973,7 @@ void AdcHub::password(const string& pwd) {
 		salt.clear();
 	}
 }
+//why this is not in AdcHub or AdcCommand class?
 
 static void addParam(StringMap& lastInfoMap, AdcCommand& c, const string& var, const string& value) {
 	StringMap::iterator i = lastInfoMap.find(var);
@@ -1003,13 +1005,13 @@ void AdcHub::infoImpl() {
 		updateCounts(false);
 	}
 
-	bool IsFreeSlots = SETTING(SHOW_FREE_SLOTS_DESC);//TODO: is good per Fav ?
+	bool bIsFreeSlots = SETTING(SHOW_FREE_SLOTS_DESC);//TODO: is good per Fav ?
 	string freeslots = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
 	ShareManager* sm = getShareManager();
 	addParam(lastInfoMap, c, "ID", ClientManager::getInstance()->getMyCID().toBase32());
 	addParam(lastInfoMap, c, "PD", ClientManager::getInstance()->getMyPID().toBase32());
 	addParam(lastInfoMap, c, "NI", HUBSETTING(NICK));
-	addParam(lastInfoMap, c, "DE", IsFreeSlots ? freeslots + " " + HUBSETTING(DESCRIPTION) : HUBSETTING(DESCRIPTION) );
+	addParam(lastInfoMap, c, "DE", bIsFreeSlots ? freeslots + " " + HUBSETTING(DESCRIPTION) : HUBSETTING(DESCRIPTION) );
 	addParam(lastInfoMap, c, "SL", Util::toString(SETTING(SLOTS)));
 	addParam(lastInfoMap, c, "FS", Util::toString(UploadManager::getInstance()->getFreeSlots()));
 	addParam(lastInfoMap, c, "SS", getHideShare() ? "0" : sm->getShareSizeString());
@@ -1144,7 +1146,7 @@ void AdcHub::on(Line l, const string& aLine) noexcept {
 		// @todo report to user?
 		return;
 	}
-	
+
 	COMMAND_DEBUG(aLine,TYPE_HUB,INCOMING,getHubUrl());
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_IN, this, aLine))
 		return;

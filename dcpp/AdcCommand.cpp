@@ -29,7 +29,7 @@ namespace dcpp {
 AdcCommand::AdcCommand(uint32_t aCmd, char aType /* = TYPE_CLIENT */) : cmdInt(aCmd), from(0), type(aType),to(0) { }
 AdcCommand::AdcCommand(uint32_t aCmd, const uint32_t aTarget, char aType) : cmdInt(aCmd), from(0), to(aTarget), type(aType) { }
 AdcCommand::AdcCommand(Severity sev, Error err, const string& desc, char aType /* = TYPE_CLIENT */) : cmdInt(CMD_STA), from(0), type(aType),to(0) {
-	
+
 	addParam((sev == SEV_SUCCESS && err == SUCCESS) ? "000" : Util::toString(sev * 100 + err));
 	addParam(desc);
 }
@@ -45,7 +45,7 @@ void AdcCommand::parse(const string aLine, bool nmdc /* = false */) {
 		// "$ADCxxx ..."
 		if(aLine.length() < 7) {
 			throw ParseException("Too short");
-		}	
+		}
 		type = TYPE_CLIENT;
 		cmd[0] = aLine[4];
 		cmd[1] = aLine[5];
@@ -55,7 +55,7 @@ void AdcCommand::parse(const string aLine, bool nmdc /* = false */) {
 		// "yxxx ..."
 		if(aLine.length() < 4){
 			throw ParseException("Too short");
-		}	
+		}
 		type = aLine[0];
 		cmd[0] = aLine[1];
 		cmd[1] = aLine[2];
@@ -82,29 +82,41 @@ void AdcCommand::parse(const string aLine, bool nmdc /* = false */) {
 	while(i < len) {
 		switch(buf[i]) {
 		case '\\':
+		{
 			++i;
 			if(i == len)
 				throw ParseException("Escape at eol");
 //Note:BMDC++ if => switch
-			switch(buf[i]) {	
+			switch(buf[i]) {
 				case 's':
+				{
 					cur += ' ';
 					break;
+				}
 				case 'n':
+				{
 					cur += '\n';
 					break;
+				}
 				case '\\':
+				{
 					cur += '\\';
 					break;
+				}
 				case ' ':
+				{
 					if (nmdc) // $ADCGET escaping, leftover from old specs
 						cur += ' ';
 					break;
+				}
 				default:
+				{
 					throw ParseException("Unknown escape");
 					break;
+				}
 			};
 			break;
+		}
 		case ' ':
 			// New parameter...
 			{

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 - 2016 - BMDC
+ * Copyright (C) 2012 - 2016 - BMDC++
  *
  * BMDC++ is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -40,20 +40,20 @@ class FavoriteHubDialog: public Entry
 		explicit FavoriteHubDialog(FavoriteHubEntry* entry);
 		//@: groups : wich groups should dialog show up
 		bool initDialog(UnMapIter &groups);
-		
+
 		~FavoriteHubDialog() {
 			WulforManager::get()->deleteEntry_gui(this);
 		}
 		GtkWidget* getContainer() { return mainDialog; }
-		
+
 private:
 		void initActions();
 		static void onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
 		static void onCheckButtonToggled_gui(GtkToggleButton *button, gpointer data);
-		
+
 		static void onAddShare_gui(GtkWidget *widget, gpointer data);
 		static void onRemoveShare_gui(GtkWidget *widget, gpointer data);
-		
+
 		bool showErrorDialog_gui(const string &description);
 		void updateShares_gui();
 		void addShare_gui(string path, string name);
@@ -100,7 +100,7 @@ private:
 					*enableLog,
 					*enableCountry,
 					*enableIp,
-					*enableIp6, 
+					*enableIp6,
 					*enableBold,
 					*enableStatusChat,
 					*enableFavFirst,
