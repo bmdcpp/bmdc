@@ -30,7 +30,7 @@ BookEntry(Entry::SYSTEML,_("System Log"),"system"),
  buffer(NULL),sysMark(NULL)
 {
 	WulforUtil::setTextDeufaults(getWidget("systextview"),SETTING(BACKGROUND_CHAT_COLOR),dcpp::Util::emptyString,false,dcpp::Util::emptyString,"SystemLog");
-	WulforUtil::setTextColor(string("black"),string("SystemLog"));//TODO: Settings
+	WulforUtil::setTextColor(WGETS("text-system-fore-color"),string("SystemLog"));
 
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("systextview")));
 	gtk_text_buffer_get_end_iter(buffer, &iter);

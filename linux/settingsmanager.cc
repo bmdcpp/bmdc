@@ -490,7 +490,7 @@ WulforSettingsManager::WulforSettingsManager():
 
 	defaultString.insert(StringMap::value_type("menu-userlist-color","blue"));//TODO: dcpp set
 	defaultString.insert(StringMap::value_type("text-cmd-fore-color","black"));
-
+	defaultString.insert(StringMap::value_type("text-system-fore-color","black"));
 
 	load();
 
