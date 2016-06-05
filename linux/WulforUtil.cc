@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2016 BMDC
+ * Copyright © 2010-2016 BMDC++
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1296,18 +1296,11 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 		ColorList* cList = HighlightManager::getInstance()->getList();
 		for(auto i = cList->begin();i != cList->end(); ++i) {
 			ColorSettings* cs = &(*i);
-			bool tBold = false;
-			bool tItalic = false;
-			bool tUnderline = false;
+			bool tBold = cs->getBold();
+			bool tItalic = cs->getItalic();
+			bool tUnderline = cs->getUnderline();
 			string fore("");
 			string back("");
-
-			if(cs->getBold())
-				tBold = true;
-			if(cs->getItalic())
-				tItalic = true;
-			if(cs->getUnderline())
-				tUnderline = true;
 
 			if(cs->getHasBgColor())
 				back = cs->getBgColor();
@@ -1319,8 +1312,7 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 			else
 				fore = WGETS("text-general-fore-color");
 
-			if(cs->getTab())
-				tTab = true;
+			tTab = cs->getTab();
 
 			string w = cs->getMatch();
 			string sW;
@@ -1354,7 +1346,6 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 			if((ret == false) && cs->usingRegexp())
 			{
 				string q = cs->getMatch().substr(4);
-				//bool reMatch  = dcpp::RegEx::match<string>(sMsgLower,q,cs->getCaseSensitive());
 				bool reMatch = g_pattern_match_simple (q.c_str(),word.c_str());
 				ret = false;
 				if(reMatch)
