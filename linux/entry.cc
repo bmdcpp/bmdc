@@ -46,7 +46,8 @@ Entry::Entry(const EntryType type, const string &ui, const string &id):
 			g_error_free(error);
 	}
 #else
-	xml = gtk_builder_new_from_file(file.c_str());
+	xml = gtk_builder_new_from_resource( (string("/org/gtk/bmdc/ui/")+ui+".glade.ui").c_str());
+	//xml = gtk_builder_new_from_file(file.c_str());
 #endif		
   }
   //Do nothink if ui empty

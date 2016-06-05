@@ -5,5 +5,29 @@
     <file>info/error.png</file>
     <file>info/info.png</file>
     <file>info/warning.png</file>
+    <file>ui/mainwindow.glade.ui</file>
+    <file>ui/hub.glade.ui</file>
+    <file>ui/notepad.glade.ui</file>
+    <file>ui/FavDialog.glade.ui</file>
+    <file>ui/favoritehubs.glade.ui</file>
+    <file>ui/favoriteusers.glade.ui</file>
+    <file>ui/hash.glade.ui</file>
+    <file>ui/adlsearch.glade.ui</file>
+    <file>ui/cmddebug.glade.ui</file>
+    <file>ui/detection.glade.ui</file>
+    <file>ui/downloadqueue.glade.ui</file>
+    <file>ui/export.glade.ui</file>
+    <file>ui/finishedtransfers.glade.ui</file>
+    <file>ui/privatemessage.glade.ui</file>
+    <file>ui/publichubs.glade.ui</file>
+    <file>ui/recenthub.glade.ui</file>
+    <file>ui/search.glade.ui</file>
+    <file>ui/SearchEntry.glade.ui</file>
+    <file>ui/searchspy.glade.ui</file>
+    <file>ui/settingsdialog.glade.ui</file>
+    <file>ui/sharebrowser.glade.ui</file>
+    <file>ui/system.glade.ui</file>
+    <file>ui/transfers.glade.ui</file>
+    <file>ui/uploadqueue.glade.ui</file>
   </gresource>
 </gresources>

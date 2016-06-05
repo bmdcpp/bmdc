@@ -1569,8 +1569,6 @@ string WulforUtil::formatSized(string nonf)
 	return nonf;
 }
 
-
-//simplfy and cleanup
 bool WulforUtil::HitIP(string name)
 {
 	bool isOk = Util::isIp6(name);

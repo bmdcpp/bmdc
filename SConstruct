@@ -9,7 +9,6 @@ import fileinput
 import sys
 from sys import platform as _platform
 
-
 try:
 	from bzrlib import branch
 except ImportError:
@@ -373,6 +372,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		conf.env.Append(CPPDEFINES = 'USE_STATUSICON')
 
 	conf.CheckBZRRevision(env)
+	os.system('sh linux/gen.sh')
 	env = conf.Finish()
 
 # ----------------------------------------------------------------------
@@ -522,12 +522,12 @@ else:
 	env.RecursiveInstall(BUILD_LOCALE_PATH, os.path.join(prefix, 'share', 'locale'))
 	env.RecursiveInstall('emoticons', os.path.join(prefix, 'share', PACKAGE))
 
-	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'ui'), source = glade_files))
+	#env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'ui'), source = glade_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', 'doc', PACKAGE), source = text_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', 'applications'), source = desktop_file))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'extensions/Scripts'), source = shell_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'extensions/Scripts'), source = py_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'country'), source = country_files))
- 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'info'), source = info_image_files))
+ 	#env.Alias('install', env.Install(dir = os.path.join(prefix, 'share', PACKAGE, 'info'), source = info_image_files))
 	env.Alias('install', env.Install(dir = os.path.join(prefix, 'bin'), source = PACKAGE))
 

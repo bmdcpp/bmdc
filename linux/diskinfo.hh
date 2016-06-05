@@ -16,8 +16,6 @@
  * 
  */
 
-
-
 #ifdef _WIN32
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
