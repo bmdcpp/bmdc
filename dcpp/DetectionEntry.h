@@ -24,7 +24,7 @@
 
 namespace dcpp {
 
-class DetectionEntry: public Flags {
+class DetectionEntry/*: public Flags*/ {
 public:
 	typedef std::deque<pair<std::string, std::string> > INFMap;
 
