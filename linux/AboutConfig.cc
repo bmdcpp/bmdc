@@ -68,13 +68,13 @@ BookEntry(Entry::ABOUT_CONFIG, _("About:config"), "config")
 
 AboutConfig::~AboutConfig()
 {
-	SettingsManager::getInstance()->removeListener(this);
+	//SettingsManager::getInstance()->removeListener(this);
 }
 
 void AboutConfig::show()
 {
 	SettingsManager* sm = SettingsManager::getInstance();
-	sm->addListener(this);
+	//sm->addListener(this);
 
 	SettingsManager::Types type;
 	const gchar* rowname = NULL;
@@ -430,7 +430,6 @@ void AboutConfig::onSetDefault(GtkWidget*, gpointer data)
 
 bool AboutConfig::getDialog(const string name, string& value)
 {
-	//AboutConfig *s = (AboutConfig *)data;
 	WulforSettingsManager* wsm = WulforSettingsManager::getInstance();
 	SettingsManager* sm = SettingsManager::getInstance();
 	int t = -1;

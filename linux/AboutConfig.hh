@@ -1,5 +1,5 @@
 //
-//      Copyright 2011 - 2016 BMDC
+//      Copyright 2011 - 2016 BMDC++
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -27,8 +27,8 @@
 #include "treeview.hh"
 
 class AboutConfig:
-	public BookEntry,
-	private dcpp::SettingsManagerListener
+	public BookEntry//,
+	//private dcpp::SettingsManagerListener
 {
 	enum
 	{
@@ -40,7 +40,7 @@ class AboutConfig:
 
 	private:
 	//make clang happy
-		using dcpp::SettingsManagerListener::on;
+		//using dcpp::SettingsManagerListener::on;
 	public:
 		AboutConfig();
 		virtual ~AboutConfig();
