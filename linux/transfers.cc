@@ -961,7 +961,7 @@ void Transfers::on(DownloadManagerListener::Requesting, Download* dl) noexcept
 	WulforManager::get()->dispatchGuiFunc(f1);
 }
 
-void Transfers::on(DownloadManagerListener::Starting, Download* dl) throw()
+void Transfers::on(DownloadManagerListener::Starting, Download* dl) noexcept
 {
 	StringMap params;
 
@@ -976,7 +976,7 @@ void Transfers::on(DownloadManagerListener::Starting, Download* dl) throw()
 	WulforManager::get()->dispatchGuiFunc(f3);
 }
 
-void Transfers::on(DownloadManagerListener::Tick, const DownloadList& dls) throw()
+void Transfers::on(DownloadManagerListener::Tick, const DownloadList& dls) noexcept
 {
 	for (auto it = dls.begin(); it != dls.end(); ++it)
 	{
@@ -1009,7 +1009,7 @@ void Transfers::on(DownloadManagerListener::Tick, const DownloadList& dls) throw
 	}
 }
 
-void Transfers::on(DownloadManagerListener::Complete, Download* dl) throw()
+void Transfers::on(DownloadManagerListener::Complete, Download* dl) noexcept
 {
 	StringMap params;
 
@@ -1029,7 +1029,7 @@ void Transfers::on(DownloadManagerListener::Complete, Download* dl) throw()
 	WulforManager::get()->dispatchGuiFunc(f2b);
 }
 
-void Transfers::on(DownloadManagerListener::Failed, Download* dl, const string& reason) throw()
+void Transfers::on(DownloadManagerListener::Failed, Download* dl, const string& reason) noexcept
 {
 	StringMap params;
 	getParams_client(params, dl);
@@ -1050,7 +1050,7 @@ void Transfers::on(DownloadManagerListener::Failed, Download* dl, const string& 
 	WulforManager::get()->dispatchGuiFunc(f2b);
 }
 
-void Transfers::on(ConnectionManagerListener::Added, ConnectionQueueItem* cqi) throw()
+void Transfers::on(ConnectionManagerListener::Added, ConnectionQueueItem* cqi) noexcept
 {
 	StringMap params;
 	getParams_client(params, cqi);
@@ -1061,7 +1061,7 @@ void Transfers::on(ConnectionManagerListener::Added, ConnectionQueueItem* cqi) t
 	WulforManager::get()->dispatchGuiFunc(f2);
 }
 
-void Transfers::on(ConnectionManagerListener::Connected, ConnectionQueueItem* cqi) throw()
+void Transfers::on(ConnectionManagerListener::Connected, ConnectionQueueItem* cqi) noexcept
 {
 	StringMap params;
 	getParams_client(params, cqi);
@@ -1072,7 +1072,7 @@ void Transfers::on(ConnectionManagerListener::Connected, ConnectionQueueItem* cq
 	WulforManager::get()->dispatchGuiFunc(f3);
 }
 
-void Transfers::on(ConnectionManagerListener::Removed, ConnectionQueueItem* cqi) throw()
+void Transfers::on(ConnectionManagerListener::Removed, ConnectionQueueItem* cqi) noexcept
 {
 	string cid = cqi->getUser().user->getCID().toBase32();//NOTE: core 0.762
 	typedef Func2<Transfers, const string, bool> F2;
@@ -1080,7 +1080,7 @@ void Transfers::on(ConnectionManagerListener::Removed, ConnectionQueueItem* cqi)
 	WulforManager::get()->dispatchGuiFunc(f2);
 }
 
-void Transfers::on(ConnectionManagerListener::Failed, ConnectionQueueItem* cqi, const string& reason) throw()
+void Transfers::on(ConnectionManagerListener::Failed, ConnectionQueueItem* cqi, const string& reason) noexcept
 {
 	StringMap params;
 	getParams_client(params, cqi);
@@ -1095,7 +1095,7 @@ void Transfers::on(ConnectionManagerListener::Failed, ConnectionQueueItem* cqi, 
 	WulforManager::get()->dispatchGuiFunc(f3);
 }
 
-void Transfers::on(ConnectionManagerListener::StatusChanged, ConnectionQueueItem* cqi) throw()
+void Transfers::on(ConnectionManagerListener::StatusChanged, ConnectionQueueItem* cqi) noexcept
 {
 	StringMap params;
 	getParams_client(params, cqi);
@@ -1111,7 +1111,7 @@ void Transfers::on(ConnectionManagerListener::StatusChanged, ConnectionQueueItem
 	WulforManager::get()->dispatchGuiFunc(f3);
 }
 
-void Transfers::on(QueueManagerListener::Finished, QueueItem* qi, const string& , int64_t) throw()
+void Transfers::on(QueueManagerListener::Finished, QueueItem* qi, const string& , int64_t) noexcept
 {
 	string target = qi->getTarget();
 	Sound::TypeSound sound = Sound::DOWNLOAD_FINISHED;
@@ -1130,7 +1130,7 @@ void Transfers::on(QueueManagerListener::Finished, QueueItem* qi, const string& 
 	WulforManager::get()->dispatchGuiFunc(f3);
 }
 
-void Transfers::on(QueueManagerListener::Removed, QueueItem* qi) throw()
+void Transfers::on(QueueManagerListener::Removed, QueueItem* qi) noexcept
 {
 	string target = qi->getTarget();
 
@@ -1139,7 +1139,7 @@ void Transfers::on(QueueManagerListener::Removed, QueueItem* qi) throw()
 	WulforManager::get()->dispatchGuiFunc(f3);
 }
 
-void Transfers::on(UploadManagerListener::Starting, Upload* ul) throw()
+void Transfers::on(UploadManagerListener::Starting, Upload* ul) noexcept
 {
 	StringMap params;
 
@@ -1154,7 +1154,7 @@ void Transfers::on(UploadManagerListener::Starting, Upload* ul) throw()
 	WulforManager::get()->dispatchGuiFunc(f3);
 }
 
-void Transfers::on(UploadManagerListener::Tick, const UploadList& uls) throw()
+void Transfers::on(UploadManagerListener::Tick, const UploadList& uls) noexcept
 {
 	for (UploadList::const_iterator it = uls.begin(); it != uls.end(); ++it)
 	{
@@ -1185,7 +1185,7 @@ void Transfers::on(UploadManagerListener::Tick, const UploadList& uls) throw()
 	}
 }
 
-void Transfers::on(UploadManagerListener::Complete, Upload* ul) throw()
+void Transfers::on(UploadManagerListener::Complete, Upload* ul) noexcept
 {
 	StringMap params;
 
@@ -1199,7 +1199,7 @@ void Transfers::on(UploadManagerListener::Complete, Upload* ul) throw()
 	WulforManager::get()->dispatchGuiFunc(f3);
 }
 
-void Transfers::on(UploadManagerListener::Failed, Upload* ul, const string& reason) throw()
+void Transfers::on(UploadManagerListener::Failed, Upload* ul, const string& reason) noexcept
 {
 	StringMap params;
 	getParams_client(params, ul);

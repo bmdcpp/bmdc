@@ -375,7 +375,6 @@ void DownloadManager::endData(UserConnection* aSource) {
 		if(SETTING(LOG_DOWNLOADS) && (SETTING(LOG_FILELIST_TRANSFERS) || d->getType() == Transfer::TYPE_FILE) ) {
 			logDownload(aSource, d);
 		}
-		//aSource->disconnect();
 	}
 
 	removeDownload(d);
