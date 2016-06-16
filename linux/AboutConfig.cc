@@ -187,6 +187,7 @@ void AboutConfig::addItem_gui(const gchar* rowname, const gchar* sDefault, const
 {
 	GtkTreeIter iter;
 	g_print("\n%s-%s-%s-%s-%d ",rowname,sDefault,types,value,(int)bIsWulfor);
+	if(value == NULL)return;
 	gboolean bIsOk = g_utf8_validate(value,-1,NULL);
 	gboolean bIsOk2 = g_utf8_validate(rowname,-1,NULL);
 	gboolean bIsOk3 = g_utf8_validate(sDefault,-1,NULL);

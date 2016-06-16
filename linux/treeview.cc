@@ -280,49 +280,73 @@ void TreeView::addColumn_gui(Column& column)
 	{
 		case INT:
 		case STRING:
-			renderer = gtk_cell_renderer_text_new();
+		{	renderer = gtk_cell_renderer_text_new();
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(),
 				renderer, "text", column.pos, NULL);
 			column.renderer2 = renderer;
 			break;
+		}	
+		case STRING_TEXT_COLOR:
+		{
+			renderer = gtk_cell_renderer_text_new();
+			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(),
+				renderer, "text", column.pos, NULL);
+			gtk_tree_view_column_add_attribute(col, renderer, "foreground-set", TRUE);
+			gtk_tree_view_column_add_attribute(col, renderer, "foreground", TreeView::col(column.linkedCol));
+			column.renderer2 = renderer;
+			break;
+		}	
 		case SIZE:
+		{
 			renderer = gtk_cell_renderer_text_new();
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(),
 					renderer, "text", column.pos, NULL);
 			gtk_tree_view_column_set_cell_data_func(col, renderer, TreeView::sizeDataFunc, &column, NULL);
 			column.renderer2 = renderer;
 			break;
+		}	
 		case SPEED:
+		{
 			renderer = gtk_cell_renderer_text_new();
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(),
 					renderer, "text", column.pos, NULL);
 			gtk_tree_view_column_set_cell_data_func(col, renderer, TreeView::speedDataFunc, &column, NULL);
 			column.renderer2 = renderer;
 			break;
+		}	
 		case TIME_LEFT:
+		{
 			renderer = gtk_cell_renderer_text_new();
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(),
 					renderer, "text", column.pos, NULL);
 			gtk_tree_view_column_set_cell_data_func(col, renderer, TreeView::timeLeftDataFunc, &column, NULL);
 			column.renderer2 = renderer;
 			break;
+		}	
 		case STRINGR:
+		{
 			renderer = gtk_cell_renderer_text_new();
 			g_object_set(renderer, "xalign", 1.0, NULL);
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(), renderer, "text", column.pos, NULL);
 			gtk_tree_view_column_set_alignment(col, 1.0);
 			break;
+		}	
 		case BOOL:
+		{
 			renderer = gtk_cell_renderer_toggle_new();
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(), renderer, "active", column.pos, NULL);
 			break;
+		}	
 		case PIXBUF:
+		{
 			renderer = gtk_cell_renderer_pixbuf_new();
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(),
 				renderer, "pixbuf", column.pos, NULL);
 			column.renderer2 = renderer;
 			break;
+		}	
 		case PIXBUF_STRING:
+		{
 			renderer = gtk_cell_renderer_pixbuf_new();
 			g_object_set(G_OBJECT(renderer),"height",(gint)GTK_ICON_SIZE_MENU,NULL);//This Fixes bogus Icon ( not at all but still beter)
 			col = gtk_tree_view_column_new();
@@ -334,7 +358,9 @@ void TreeView::addColumn_gui(Column& column)
 			gtk_tree_view_column_pack_start(col, renderer, true);
 			gtk_tree_view_column_add_attribute(col, renderer, "text", column.pos);
 			break;
+		}	
 		case ICON_STRING:
+		{
 			renderer = gtk_cell_renderer_pixbuf_new();
 			col = gtk_tree_view_column_new();
 			gtk_tree_view_column_set_title(col, column.title.c_str());
@@ -349,7 +375,9 @@ void TreeView::addColumn_gui(Column& column)
 			gtk_tree_view_column_pack_start(col, renderer, true);
 			gtk_tree_view_column_add_attribute(col, renderer, "text", column.pos);
 			break;
+		}	
 		case ICON_STRING_TEXT_COLOR:
+		{
 			// icon
 			renderer = gtk_cell_renderer_pixbuf_new();
 			col = gtk_tree_view_column_new();
@@ -366,9 +394,12 @@ void TreeView::addColumn_gui(Column& column)
 			renderer = gtk_cell_renderer_text_new();
 			gtk_tree_view_column_pack_start(col, renderer, true);
 			gtk_tree_view_column_add_attribute(col, renderer, "text", column.pos);
+			gtk_tree_view_column_add_attribute(col, renderer, "foreground-set", TRUE);
 			gtk_tree_view_column_add_attribute(col, renderer, "foreground", TreeView::col(column.linkedTextColor));
 			break;
+		}	
 		case PIXBUF_STRING_TEXT_COLOR:
+		{
 			// icon
 			renderer = gtk_cell_renderer_pixbuf_new();
 			col = gtk_tree_view_column_new();
@@ -380,32 +411,41 @@ void TreeView::addColumn_gui(Column& column)
 			renderer = gtk_cell_renderer_text_new();
 			gtk_tree_view_column_pack_start(col, renderer, true);
 			gtk_tree_view_column_add_attribute(col, renderer, "text", column.pos);
+			gtk_tree_view_column_add_attribute(col, renderer, "foreground-set", TRUE);
 			gtk_tree_view_column_add_attribute(col, renderer, "foreground", TreeView::col(column.linkedTextColor));
 			break;
+		}	
 		case EDIT_STRING:
+		{
 			renderer = gtk_cell_renderer_text_new();
  			g_object_set(renderer, "editable", TRUE, NULL);
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(), renderer, "text", column.pos, NULL);
 			break;
+		}	
 		case PROGRESS:
+		{
 			renderer = gtk_cell_renderer_progress_new();
 			g_object_set(renderer, "xalign", 0.0, NULL); // Doesn't work yet. See: http://bugzilla.gnome.org/show_bug.cgi?id=334576
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(),
 				renderer, "text", column.pos, "value", TreeView::col(column.linkedCol), NULL);
 			break;
+		}	
 		case EXSIZE:
+		{
 			renderer = gtk_cell_renderer_text_new();
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(),
 					renderer, "text", column.pos, NULL);
 			gtk_tree_view_column_set_cell_data_func(col, renderer, TreeView::exactsizeDataFunc, &column, NULL);
 			column.renderer2 = renderer;
             break;
+        }    
 	}
 
 	if (!col)
 		return;
 
 	// If columns are too small, they can't be manipulated
+	//hmm is 20 consider as small?
 	if (column.width >= 20)
 	{
 		#if !GTK_CHECK_VERSION(3,8,0)
@@ -729,6 +769,7 @@ string TreeView::getValueAsText(GtkTreeIter* i, const string &title)
 			{
 		        case STRING:
 		        case STRINGR:
+		        case STRING_TEXT_COLOR:
 		        case ICON_STRING:
 		        case ICON_STRING_TEXT_COLOR:
 		        case PIXBUF_STRING:

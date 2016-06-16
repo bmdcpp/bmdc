@@ -35,6 +35,7 @@ class TreeView
 		{
 			STRING,
 			STRINGR,
+			STRING_TEXT_COLOR,
 			INT,
 			BOOL,
 			PIXBUF,

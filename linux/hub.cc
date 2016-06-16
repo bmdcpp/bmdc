@@ -497,7 +497,7 @@ if(WGETB("use-highlighting")) {//TODO:May hub-based?
 					}
 					if(l.getHasFgColor())
 					{
-						g_object_set(cell,"cell-foreground-set",TRUE,"cell-foreground",l.getFgColor().c_str(),NULL);
+						g_object_set(cell,"foreground-set",TRUE,"foreground",l.getFgColor().c_str(),NULL);
 						isSet = true;
 					}
 				}

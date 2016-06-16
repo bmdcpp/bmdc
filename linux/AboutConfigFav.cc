@@ -32,10 +32,12 @@ BookEntry(Entry::ABOUT_CONFIG_FAV, _("About:config for ")+entry->getName(), "con
 p_entry(entry)
 {
 	aboutView.setView(GTK_TREE_VIEW(getWidget("aboutTree")));
-	aboutView.insertColumn(_("Name"), G_TYPE_STRING, TreeView::STRING, 120);
+	aboutView.insertColumn(_("Name"), G_TYPE_STRING, TreeView::STRING, 120, "Color");
 	aboutView.insertColumn(_("Status"), G_TYPE_STRING, TreeView::STRING, 100);
 	aboutView.insertColumn(_("Type"), G_TYPE_STRING, TreeView::STRING, 60);
 	aboutView.insertColumn(_("Value"), G_TYPE_STRING, TreeView::STRING, 100);
+	aboutView.insertHiddenColumn("ForeColor", G_TYPE_STRING);
+	//aboutView.insertHiddenColumn("BackColor", G_TYPE_STRING);
 	aboutView.finalize();
 	aboutStore = gtk_list_store_newv(aboutView.getColCount(), aboutView.getGTypes());
 	gtk_tree_view_set_model(aboutView.get(), GTK_TREE_MODEL(aboutStore));
@@ -102,13 +104,47 @@ p_entry(entry)
 	isOk[SettingsManager::STATUS_IN_CHAT] = true;
 	isOk[SettingsManager::USE_IP] = true;
 	isOk[SettingsManager::BOLD_HUB] = true;
-
+	setColorsRows();
 }
 
 AboutConfigFav::~AboutConfigFav()
 {
 
 }
+
+
+void AboutConfigFav::setColorsRows()
+{
+	setColorRow(_("Name"));
+	setColorRow(_("Status"));
+	setColorRow(_("Type"));
+	setColorRow(_("Value"));
+}
+
+void AboutConfigFav::setColorRow(string cell)
+{
+if(aboutView.getCellRenderOf(cell) != NULL)
+		gtk_tree_view_column_set_cell_data_func(aboutView.getColumn(cell),
+								aboutView.getCellRenderOf(cell),
+								AboutConfigFav::makeColor,
+								(gpointer)this,
+								NULL);
+
+}
+
+void AboutConfigFav::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
+{
+	AboutConfigFav* f = (AboutConfigFav*)data;
+	if(f == NULL) return;if(model == NULL) return;if(iter == NULL)return;
+	if(column == NULL)return;if(cell == NULL) return;
+	//string bcolor = f->aboutView.getString(iter,"BackColor",model);
+	string fcolor = f->aboutView.getString(iter,"ForeColor",model);
+	//g_object_set(cell,"cell-background-set",TRUE,"cell-background",bcolor.c_str(),NULL);
+	g_object_set(cell,"foreground-set",TRUE,"foreground",fcolor.c_str(),NULL);
+
+}
+
+
 
 void AboutConfigFav::show()
 {
@@ -117,8 +153,6 @@ void AboutConfigFav::show()
 	const gchar* rowname = NULL;
 	const gchar* isdefault = _("Default");
 	const gchar* types = NULL;
-	const gchar* value = NULL;
-
 
 	for(int n = 0; n < SettingsManager::SETTINGS_LAST-1; n++ ) {
 		const gchar* tmp = (sm->getSettingTags()[n].c_str());
@@ -127,27 +161,41 @@ void AboutConfigFav::show()
 			if(isOk[n] == true) {
 
 			rowname = tmp;
-			isdefault = _("Default");
+			isdefault = _("User Set");
 
 			switch(type) {
 				case SettingsManager::TYPE_STRING:
 				{
+					bool bIsOK = false;
 					types = "String";
-					const gchar* value = p_entry->get(static_cast<SettingsManager::StrSetting>(n),
+					const gchar* value = g_strdup(p_entry->get(static_cast<SettingsManager::StrSetting>(n),
 					sm->get(static_cast<SettingsManager::StrSetting>(n))
-					).c_str();
-
-					addItem_gui(rowname, isdefault, types, value);
+					).c_str());
+					const gchar* temp = sm->getDefault(static_cast<SettingsManager::StrSetting>(n)).c_str();
+					if(strcmp(value,temp) == 0)
+					{	
+						isdefault = _("Default");
+						 bIsOK = true;//they are same
+					}	
+					addItem_gui(rowname, isdefault, types, value, bIsOK);
 					continue;
 				}
 				case SettingsManager::TYPE_INT:
 				{
+					bool bIsOK = false;
 					types = "Integer";
-					const gchar* value = Util::toString(p_entry->get(static_cast<SettingsManager::IntSetting>(n),
+					const gchar* value = g_strdup(Util::toString(p_entry->get(static_cast<SettingsManager::IntSetting>(n),
 					sm->get(static_cast<SettingsManager::IntSetting>(n)))
-					).c_str();
+					).c_str());
 
-					addItem_gui(rowname, isdefault, types, value);
+					const gchar* temp = Util::toString(sm->getDefault(static_cast<SettingsManager::IntSetting>(n))).c_str();
+					if(strcmp(value,temp) == 0)
+					{	
+						isdefault = _("Default");
+						 bIsOK = true;//they are same
+					}	
+
+					addItem_gui(rowname, isdefault, types, value, bIsOK);
 					continue;
 				}
 				case SettingsManager::TYPE_INT64:
@@ -160,12 +208,17 @@ void AboutConfigFav::show()
 				}
 				case SettingsManager::TYPE_BOOL:
 				{
+					bool bIsOK = false;
 					types = "Bool";
-					const gchar* value = Util::toString(p_entry->get(static_cast<SettingsManager::BoolSetting>(n),sm->get(static_cast<SettingsManager::BoolSetting>(n)))).c_str();
-					//if(!sm->isDefault(static_cast<SettingsManager::BoolSetting>(n))) {
-					// isdefault = _("User set");
-					//}
-					addItem_gui(rowname, isdefault, types, value);
+					const gchar* value = g_strdup(Util::toString(p_entry->get(static_cast<SettingsManager::BoolSetting>(n),sm->get(static_cast<SettingsManager::BoolSetting>(n)))).c_str());
+
+					const gchar* temp = Util::toString(sm->getDefault(static_cast<SettingsManager::BoolSetting>(n))).c_str();
+					if(strcmp(value,temp) == 0)
+					{	
+						isdefault = _("Default");
+						 bIsOK = true;//they are same
+					}	
+					addItem_gui(rowname, isdefault, types, value , bIsOK);
 					continue;
 				}
 				default:
@@ -177,10 +230,11 @@ void AboutConfigFav::show()
 	}
 }
 
-void AboutConfigFav::addItem_gui(const gchar* rowname, const gchar* isdefault, const gchar* types, const gchar* value)
+void AboutConfigFav::addItem_gui(const gchar* rowname, const gchar* isdefault, const gchar* types, const gchar* value,bool isok)
 {
 	GtkTreeIter iter;
 	dcdebug("\n%s-%s-%s-%s\n ",rowname,isdefault,types,value);
+	if(value == NULL)return;
 	gboolean isOk = g_utf8_validate(value,-1,NULL);
 	gboolean isOk2 = g_utf8_validate(rowname,-1,NULL);
 	gboolean isOk3 = g_utf8_validate(isdefault,-1,NULL);
@@ -204,6 +258,8 @@ void AboutConfigFav::addItem_gui(const gchar* rowname, const gchar* isdefault, c
 				aboutView.col(_("Status")), isdefault,
 				aboutView.col(_("Type")), types,
 				aboutView.col(_("Value")), value,
+				//aboutView.col("BackColor"), isok ? "#FF0000" : "#000000",
+				aboutView.col("ForeColor"), !isok ? "#FF0000" : "#000000",
 	-1);
 
 }

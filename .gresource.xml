@@ -29,5 +29,6 @@
     <file>ui/system.glade.ui</file>
     <file>ui/transfers.glade.ui</file>
     <file>ui/uploadqueue.glade.ui</file>
+    <file>ui/config.glade.ui</file>
   </gresource>
 </gresources>
