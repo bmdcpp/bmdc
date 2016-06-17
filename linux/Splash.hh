@@ -44,7 +44,7 @@ class Splash
 			
 			GResource* res = ::bmdc_get_resource();
 			g_resources_register(res);
-			image = gtk_image_new_from_resource("/org/gtk/bmdc/icons/hicolor/96x96/apps/bmdc.png");
+			image = gtk_image_new_from_resource("/org/bmdc-team/bmdc/icons/hicolor/96x96/apps/bmdc.png");
 			
 			gtk_container_add(GTK_CONTAINER(box),image);
 			gtk_container_add(GTK_CONTAINER(box),label);

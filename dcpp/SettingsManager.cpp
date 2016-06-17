@@ -158,7 +158,8 @@ const string SettingsManager::settingTags[] =
 	"DisplayCheatsInMainChat",
 	"UseOemFont", "ServerCommands",
 	"UseAvFilter", "LogChatB",
-	"UseCountryFlag", "UseEmots", 
+	"UseCountryFlag", "UseEmots",
+	"UseHighliting", 
 	"SENTRY",
 	// Int64
 	"TotalUpload", "TotalDownload","SharingSkiplistMinSize", "SharingSkiplistMaxSize",
@@ -216,8 +217,8 @@ SettingsManager::SettingsManager()
 #else
 	setDefault(DOWNLOAD_DIRECTORY,Util::getPath(Util::PATH_DOWNLOADS));
 #endif
-	
 	setDefault(TEMP_DOWNLOAD_DIRECTORY, Util::getPath(Util::PATH_USER_LOCAL) + "Incomplete" PATH_SEPARATOR_STR);
+
 	setDefault(BIND_ADDRESS, "0.0.0.0");
 	setDefault(BIND_ADDRESS6, "::");
 	setDefault(SLOTS, 3);
@@ -443,13 +444,14 @@ SettingsManager::SettingsManager()
 	setDefault(BACKGROUND_PM_COLOR, "white");
 	setDefault(BACKGROUND_PM_IMAGE, Util::emptyString);
 	setDefault(RATIO_TEMPLATE, "%[client] Ratio: %[ratio]  Uploads: %[up] / Downloads %[down] ");
+	setDefault(USE_HIGHLITING,true);
 
 	setSearchTypeDefaults();
 
 #ifdef _WIN32
 	setDefault(MAIN_WINDOW_STATE, SW_SHOWNORMAL);
 	setDefault(MAIN_WINDOW_SIZE_X, CW_USEDEFAULT);
-	setDefault(MAIN_WINDOW_SIZE_Y, CW_USEDEFAULT);
+	setDefault(MAIN_WINDOW,_SIZE_Y, CW_USEDEFAULT);
 	setDefault(MAIN_WINDOW_POS_X, CW_USEDEFAULT);
 	setDefault(MAIN_WINDOW_POS_Y, CW_USEDEFAULT);
 	setDefault(UPLOAD_TEXT_COLOR, RGB(255, 255, 255));

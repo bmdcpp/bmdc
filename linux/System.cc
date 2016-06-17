@@ -153,13 +153,13 @@ GdkPixbuf* SystemLog::getImageSev(int sev)
 	switch(sev)
 	{
 		case LogManager::Sev::LOW: 
-			image = gtk_image_new_from_resource("/org/gtk/bmdc/info/info.png");
+			image = gtk_image_new_from_resource("/org/bmdc-team/bmdc/info/info.png");
 			break;
 		case LogManager::Sev::NORMAL: 
-			image = gtk_image_new_from_resource("/org/gtk/bmdc/info/warning.png");
+			image = gtk_image_new_from_resource("/org/bmdc-team/bmdc/info/warning.png");
 			break;
 		case LogManager::Sev::HIGH: 
-			image = gtk_image_new_from_resource("/org/gtk/bmdc/info/error.png");
+			image = gtk_image_new_from_resource("/org/bmdc-team/bmdc/info/error.png");
 			break;
 		default:break;
 	};

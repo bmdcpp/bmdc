@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-  <gresource prefix="/org/gtk/bmdc">
+  <gresource prefix="/org/bmdc-team/bmdc">
     <file>icons/hicolor/96x96/apps/bmdc.png</file>
     <file>info/error.png</file>
     <file>info/info.png</file>

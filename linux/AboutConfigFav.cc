@@ -78,7 +78,7 @@ p_entry(entry)
 	isOk[SettingsManager::DESCRIPTION] = true;
 	isOk[SettingsManager::EMAIL] = true;
 	isOk[SettingsManager::TIME_RECCON] = true;
-	//isOk[SettingsManager::TIME_STAMPS] = true;
+	isOk[SettingsManager::TIME_STAMPS] = true;
 	isOk[SettingsManager::USE_COUNTRY_FLAG] = true;
 	isOk[SettingsManager::COUNTRY_FORMAT] = true;
 	isOk[SettingsManager::GET_USER_COUNTRY] = true;
@@ -104,6 +104,7 @@ p_entry(entry)
 	isOk[SettingsManager::STATUS_IN_CHAT] = true;
 	isOk[SettingsManager::USE_IP] = true;
 	isOk[SettingsManager::BOLD_HUB] = true;
+	isOk[SettingsManager::USE_HIGHLITING] = true;
 	setColorsRows();
 }
 
@@ -144,8 +145,6 @@ void AboutConfigFav::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, 
 
 }
 
-
-
 void AboutConfigFav::show()
 {
 	SettingsManager* sm = SettingsManager::getInstance();
@@ -175,7 +174,7 @@ void AboutConfigFav::show()
 					if(strcmp(value,temp) == 0)
 					{	
 						isdefault = _("Default");
-						 bIsOK = true;//they are same
+						bIsOK = true;//they are same
 					}	
 					addItem_gui(rowname, isdefault, types, value, bIsOK);
 					continue;
@@ -192,7 +191,7 @@ void AboutConfigFav::show()
 					if(strcmp(value,temp) == 0)
 					{	
 						isdefault = _("Default");
-						 bIsOK = true;//they are same
+						bIsOK = true;//they are same
 					}	
 
 					addItem_gui(rowname, isdefault, types, value, bIsOK);
@@ -216,7 +215,7 @@ void AboutConfigFav::show()
 					if(strcmp(value,temp) == 0)
 					{	
 						isdefault = _("Default");
-						 bIsOK = true;//they are same
+						bIsOK = true;//they are same
 					}	
 					addItem_gui(rowname, isdefault, types, value , bIsOK);
 					continue;

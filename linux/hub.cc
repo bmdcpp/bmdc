@@ -483,7 +483,12 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		}
 //TODO: check? & UI
 bool isSet = false;
-if(WGETB("use-highlighting")) {//TODO:May hub-based?
+auto fav = hub->getFavoriteHubEntry();
+auto client = hub->client;
+
+if((client && client->get(SettingsManager::USE_HIGHLITING, SETTING(USE_HIGHLITING)))
+	||
+	(fav && fav->get(SettingsManager::USE_HIGHLITING, SETTING(USE_HIGHLITING)))) {
 		ColorList* cl = HighlightManager::getInstance()->getList();
 		for(auto& l:*cl)
 		{
@@ -857,6 +862,7 @@ void Hub::updateUser_gui(ParamMap params)
 	}
 			
 	if( !params["IP"].empty()) {
+
 		auto list = FavoriteManager::getInstance()->getListIp();	
 		auto i = list.find(params["IP"]);
 		if( i != list.end()) {
@@ -1171,13 +1177,17 @@ void Hub::addStatusMessage_gui(string message, Msg::TypeMsg typemsg, Sound::Type
 
 		setStatus_gui("statusMain", message);
 
-		if((getFavoriteHubEntry() != NULL) && getFavoriteHubEntry()->get(SettingsManager::STATUS_IN_CHAT,SETTING(STATUS_IN_CHAT)))
+		auto fav = getFavoriteHubEntry();
+		auto c = client;
+		if(( c && c->get(SettingsManager::STATUS_IN_CHAT,SETTING(STATUS_IN_CHAT)))
+			||
+			(fav  && fav->get(SettingsManager::STATUS_IN_CHAT,SETTING(STATUS_IN_CHAT))))
 		{
 			string line = "*** " + message;
 			addMessage_gui("", line, typemsg);
 			return;
 		}
-
+		//fallback...
 		if( SETTING(STATUS_IN_CHAT) )
 		{
 			string line = "*** " + message;
@@ -1211,8 +1221,12 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 	if (gtk_text_buffer_get_char_count(chatBuffer) > 0)
 		line += "\n";
 
-	if (SETTING(TIME_STAMPS))//may Fav?
-		line += "[" + Util::getShortTimeString() + "] ";
+	auto fav = getFavoriteHubEntry();
+	auto c = client;
+
+	if( ( c && c->get(SettingsManager::TIME_STAMPS,SETTING(TIME_STAMPS)))
+		|| (fav && fav->get(SettingsManager::TIME_STAMPS,SETTING(TIME_STAMPS))))
+			line += "[" + Util::getShortTimeString() + "] ";
 
 	line += message;
 
@@ -1288,7 +1302,12 @@ void Hub::applyTags_gui(const string cid, const string line)
 	gtk_text_buffer_get_end_iter(chatBuffer, &start_iter);
 
 	// apply timestamp tag
-	if (SETTING(TIME_STAMPS))//FAV?
+	auto fav = getFavoriteHubEntry();
+	auto c = client;
+	if (
+		(c && c->get(SettingsManager::TIME_STAMPS,SETTING(TIME_STAMPS)))
+		||
+		(fav && fav->get(SettingsManager::TIME_STAMPS,SETTING(TIME_STAMPS))) )
 	{
 		gtk_text_iter_backward_chars(&start_iter,
 			g_utf8_strlen(line.c_str(), -1) - g_utf8_strlen(Util::getShortTimeString().c_str(), -1) - 2);
@@ -1356,7 +1375,7 @@ void Hub::applyTags_gui(const string cid, const string line)
 		string image_magnet, bold_text, italic_text, underline_text, country_text;
 		gchar *temp = gtk_text_iter_get_text(&tag_start_iter, &tag_end_iter);
 
-		if(WGETB("use-highlighting"))//may per Fav?
+		if(fav && fav->get(SettingsManager::USE_HIGHLITING,SETTING(USE_HIGHLITING)))
 		{
 			GtkTextTag *tag = gtk_text_tag_table_lookup(gtk_text_buffer_get_tag_table(chatBuffer), temp);
 			bool isTab = false;
@@ -2267,16 +2286,26 @@ gboolean Hub::onEntryKeyPress_gui(GtkWidget *entry, GdkEventKey *event, gpointer
 	hub->completionKey.clear();
 	return FALSE;
 }
+//
+static string getTagName(GtkTextTag *tag)
+{
+	gchar *tmp  = NULL;
+	g_object_get(G_OBJECT(tag), "name", &tmp, NULL);
+	string tagName = string(tmp);
+	g_free(tmp);
+	return tagName;
+}
 
 gboolean Hub::onNickTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *event, GtkTextIter*, gpointer data)
 {
 	if (event->type == GDK_2BUTTON_PRESS)
 	{
 		Hub *hub = (Hub *)data;
-		gchar *tmp  = NULL;
-		g_object_get(G_OBJECT(tag), "name", &tmp, NULL);
-		string tagName = string(tmp);
-		g_free(tmp);
+		//gchar *tmp  = NULL;
+		//g_object_get(G_OBJECT(tag), "name", &tmp, NULL);
+		//string tagName = string(tmp);
+		//g_free(tmp);
+		string tagName = getTagName(tag);
 
 		hub->nickToChat_gui(tagName.substr(tagPrefix.size()));
 
@@ -2285,11 +2314,11 @@ gboolean Hub::onNickTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *event, Gtk
 	else if (event->type == GDK_BUTTON_PRESS)
 	{
 		GtkTreeIter nickIter;
-		gchar *tmp = NULL;
+/*		gchar *tmp = NULL;
 		g_object_get(G_OBJECT(tag), "name", &tmp, NULL);
 		string tagName = string(tmp);
 		g_free(tmp);
-
+*/		string tagName = getTagName(tag);
 		Hub *hub = (Hub *)data;
 
 		if (hub->findNick_gui(tagName.substr(tagPrefix.size()), &nickIter))
