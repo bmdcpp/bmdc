@@ -27,8 +27,7 @@
 #include "treeview.hh"
 
 class AboutConfig:
-	public BookEntry//,
-	//private dcpp::SettingsManagerListener
+	public BookEntry
 {
 	enum
 	{
@@ -37,15 +36,15 @@ class AboutConfig:
 		TYPE_STRING
 
 	};
-
-	private:
-	//make clang happy
-		//using dcpp::SettingsManagerListener::on;
 	public:
 		AboutConfig();
 		virtual ~AboutConfig();
 		virtual void show();
 	private:
+		void setColorsRows();
+		void setColorRow(std::string);
+		static void makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter, gpointer data);
+	
 		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
@@ -54,7 +53,7 @@ class AboutConfig:
 		static void onInfoResponse(GtkWidget *info_bar, gint response_id,  gpointer data );
 
 		bool getDialog(const std::string name , std::string& value);
-		void addItem_gui(const gchar* rowname, const gchar* isdefault, const gchar* types, const gchar* value, gboolean isWulf);
+		void addItem_gui(const gchar* rowname, const gchar* isdefault, const gchar* types, const gchar* value, gboolean isWulf,bool);
 		void updateItem_gui(const std::string rowname, const std::string value, GtkTreeIter *iter, const gchar* status = _("Default"),gboolean wul = FALSE);
 		void setStatus(const std::string msg);
 

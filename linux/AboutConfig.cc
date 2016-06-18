@@ -34,6 +34,7 @@ BookEntry(Entry::ABOUT_CONFIG, _("About:config"), "config")
 	aboutView.insertColumn(_("Type"), G_TYPE_STRING, TreeView::STRING, 60);
 	aboutView.insertColumn(_("Value"), G_TYPE_STRING, TreeView::STRING, 100);
 	aboutView.insertHiddenColumn("WS", G_TYPE_BOOLEAN);
+	aboutView.insertHiddenColumn("ForeColor", G_TYPE_STRING);
 	aboutView.finalize();
 	aboutStore = gtk_list_store_newv(aboutView.getColCount(), aboutView.getGTypes());
 	gtk_tree_view_set_model(aboutView.get(), GTK_TREE_MODEL(aboutStore));
@@ -64,18 +65,51 @@ BookEntry(Entry::ABOUT_CONFIG, _("About:config"), "config")
                             "response",
                             G_CALLBACK (onInfoResponse),
                             (gpointer)this);
+    setColorsRows();                        
 }
+
+void AboutConfig::setColorsRows()
+{
+	setColorRow(_("Name"));
+	setColorRow(_("Status"));
+	setColorRow(_("Type"));
+	setColorRow(_("Value"));
+}
+
+void AboutConfig::setColorRow(string cell)
+{
+	
+	if(aboutView.getCellRenderOf(cell) != NULL)
+		gtk_tree_view_column_set_cell_data_func(aboutView.getColumn(cell),
+								aboutView.getCellRenderOf(cell),
+								AboutConfig::makeColor,
+								(gpointer)this,
+								NULL);
+}
+
+
+void AboutConfig::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
+{
+	AboutConfig* f = (AboutConfig*)data;
+	if(f == NULL) return;if(model == NULL) return;if(iter == NULL)return;
+	if(column == NULL)return;if(cell == NULL) return;
+	//string bcolor = f->aboutView.getString(iter,"BackColor",model);
+	string fcolor = f->aboutView.getString(iter,"ForeColor",model);
+	//g_object_set(cell,"cell-background-set",TRUE,"cell-background",bcolor.c_str(),NULL);
+	g_object_set(cell,"foreground-set",TRUE,"foreground",fcolor.c_str(),NULL);
+
+}
+
 
 AboutConfig::~AboutConfig()
 {
-	//SettingsManager::getInstance()->removeListener(this);
+	
 }
 
 void AboutConfig::show()
 {
 	SettingsManager* sm = SettingsManager::getInstance();
-	//sm->addListener(this);
-
+	
 	SettingsManager::Types type;
 	const gchar* rowname = NULL;
 	const gchar* isdefault = _("Default");
@@ -89,6 +123,7 @@ void AboutConfig::show()
 			rowname = tmp;
 			isdefault = _("Default");
 			value = NULL;
+			bool bIsDef = true;
 			switch(type) {
 				case SettingsManager::TYPE_STRING:
 				{
@@ -96,8 +131,9 @@ void AboutConfig::show()
 					value = g_strdup(sm->get(static_cast<SettingsManager::StrSetting>(n)).c_str());
 					if(!sm->isDefault(static_cast<SettingsManager::StrSetting>(n))) {
 						isdefault = _("User set");
+						bIsDef = false;
 					}
-					addItem_gui(rowname, isdefault, types, value,FALSE);
+					addItem_gui(rowname, isdefault, types, value,FALSE,bIsDef);
 					continue;
 				}
 				case SettingsManager::TYPE_INT:
@@ -106,8 +142,9 @@ void AboutConfig::show()
 					value = g_strdup(Util::toString((int)sm->get(static_cast<SettingsManager::IntSetting>(n))).c_str());
 					if(!sm->isDefault(static_cast<SettingsManager::IntSetting>(n))){
 						isdefault = _("User set");
+						bIsDef = false;
 					}
-					addItem_gui(rowname, isdefault, types, value,FALSE);
+					addItem_gui(rowname, isdefault, types, value,FALSE,bIsDef);
 					continue;
 				}
 				case SettingsManager::TYPE_INT64:
@@ -116,8 +153,9 @@ void AboutConfig::show()
 					value = g_strdup(Util::toString((int64_t)sm->get(static_cast<SettingsManager::Int64Setting>(n))).c_str());
 					if(!sm->isDefault(static_cast<SettingsManager::Int64Setting>(n))){
 						isdefault = _("User set");
+						bIsDef = false;
 					}
-					addItem_gui(rowname, isdefault, types, value,FALSE);
+					addItem_gui(rowname, isdefault, types, value,FALSE,bIsDef);
 					continue;
 				}
 				case SettingsManager::TYPE_FLOAT:
@@ -126,8 +164,9 @@ void AboutConfig::show()
 					value = g_strdup(Util::toString((float)sm->get(static_cast<SettingsManager::FloatSetting>(n))).c_str());
 					if(!sm->isDefault(static_cast<SettingsManager::FloatSetting>(n))){
 						isdefault = _("User set");
+						bIsDef = false;
 					}
-					addItem_gui(rowname, isdefault, types, value,FALSE);
+					addItem_gui(rowname, isdefault, types, value,FALSE,bIsDef);
 					continue;
 				}
 				case SettingsManager::TYPE_BOOL:
@@ -136,8 +175,9 @@ void AboutConfig::show()
 					value = g_strdup(Util::toString((int)sm->get(static_cast<SettingsManager::BoolSetting>(n))).c_str());
 					if(!sm->isDefault(static_cast<SettingsManager::BoolSetting>(n))) {
 					 isdefault = _("User set");
+					 bIsDef = false;
 					}
-					addItem_gui(rowname, isdefault, types, value,FALSE);
+					addItem_gui(rowname, isdefault, types, value,FALSE,bIsDef);
 					continue;
 				}
 				default:
@@ -161,7 +201,7 @@ void AboutConfig::show()
 		rowname = i->first.c_str();
 		dValue = g_strdup(i->second.c_str());
 		value = g_strdup( (bIsOk ? map.find(rowname)->second : Util::emptyString).c_str());
-		addItem_gui(rowname, sDefualt, types, ( !bIsOk ? dValue : value), TRUE);
+		addItem_gui(rowname, sDefualt, types, ( !bIsOk ? dValue : value), TRUE,bIsOk);
 	}
 
 	WulforSettingsManager::IntMap imap = wsm->getIntMap();
@@ -178,12 +218,12 @@ void AboutConfig::show()
 		dValue = Util::toString(j->second).c_str();
 		value = g_strdup(Util::toString((bIsOk ? imap.find(rowname)->second : 0)).c_str());
 
-		addItem_gui(rowname, sDefualt, types, ( !bIsOk ? dValue : value), TRUE);
+		addItem_gui(rowname, sDefualt, types, ( !bIsOk ? dValue : value), TRUE,bIsOk);
 	}
 
 }
 
-void AboutConfig::addItem_gui(const gchar* rowname, const gchar* sDefault, const gchar* types, const gchar* value, gboolean bIsWulfor)
+void AboutConfig::addItem_gui(const gchar* rowname, const gchar* sDefault, const gchar* types, const gchar* value, gboolean bIsWulfor,bool bISDefualt)
 {
 	GtkTreeIter iter;
 	g_print("\n%s-%s-%s-%s-%d ",rowname,sDefault,types,value,(int)bIsWulfor);
@@ -212,6 +252,7 @@ void AboutConfig::addItem_gui(const gchar* rowname, const gchar* sDefault, const
 				aboutView.col(_("Type")), types,
 				aboutView.col(_("Value")), value,
 				aboutView.col("WS"), bIsWulfor,
+				aboutView.col("ForeColor"), bISDefualt ? "#000000" : "#FF0000",
 	-1);
 
 }
@@ -527,7 +568,6 @@ bool AboutConfig::getDialog(const string name, string& value)
 			}
 			default:break;
 		}
-		return true;
-	}
-	return false;
-}
+	return true;
+	}	
+}		

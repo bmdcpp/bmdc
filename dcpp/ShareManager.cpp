@@ -57,13 +57,13 @@
 namespace dcpp {
 
 using std::numeric_limits;
-
-atomic_flag ShareManager::refreshing = ATOMIC_FLAG_INIT;
+//this should not been static....
+//atomic_flag ShareManager::refreshing = ATOMIC_FLAG_INIT;
 
 ShareManager::ShareManager(string _name) : hits(0), xmlListLen(0), bzXmlListLen(0),
 	xmlDirty(true), forceXmlRefresh(true), refreshDirs(false), update(false), listN(0),
 	lastXmlUpdate(0), lastFullUpdate(GET_TICK()), bloom(1<<20), bzXmlRoot(NULL),xmlRoot(NULL),
-	id(_name)
+	id(_name) , refreshing(ATOMIC_FLAG_INIT)
 {
 	if(id.empty())
 		SettingsManager::getInstance()->addListener(this);

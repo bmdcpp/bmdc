@@ -256,7 +256,8 @@ private:
 
 	int listN;
 
-	static std::atomic_flag refreshing;
+	//static 
+	std::atomic_flag refreshing;
 
 	uint64_t lastXmlUpdate;
 	uint64_t lastFullUpdate;
