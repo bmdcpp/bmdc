@@ -78,7 +78,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 			return false;
 		}
 	}
-	ShareManager* sm = ClientManager::getInstance()->getShareManagerClient(aSource.getHintedUser().hint);
+	ShareManager* sm = ClientManager::getInstance()->getShareManagerClient(aSource.getHubUrl());
 	
 
 	bool miniSlot;

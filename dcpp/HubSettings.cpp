@@ -128,7 +128,7 @@ void HubSettings::save(SimpleXML& xml) const {
 	xml.stepIn();
 	if(share != NULL)
 	{
-		if(!share->getName().empty())
+		//if(!share->getName().empty())
 			share->save(xml);
 	}
 	xml.stepOut();
