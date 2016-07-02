@@ -128,7 +128,7 @@ void Sound::playSound(TypeSound sound)
 
 void Sound::playSound(const string &target)
 {
-	//if we on win call PlaySound not cannbera
+	//we on win call PlaySound not cannbera
 	#ifdef _WIN32
 		PlaySound(Text::toT(target).c_str(), NULL, SND_FILENAME | SND_ASYNC);
 	#elif defined(_HAVECANBERRA)

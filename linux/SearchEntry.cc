@@ -103,15 +103,15 @@ void SearchEntry::onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *, guint n
 	gtk_widget_grab_focus(child);
 }
 
-BookEntry* SearchEntry::findBookEntry(const EntryType type, const string &id)
+BookEntry* SearchEntry::findBookEntry(const string &id)
 {
-	Entry *entry = getChild(type, id);
+	Entry *entry = getChild(Entry::SEARCH, id);
 	return dynamic_cast<BookEntry*>(entry);
 }
 
 void SearchEntry::showBook(BookEntry *book)
 {
-	BookEntry *entry = findBookEntry(Entry::SEARCH);
+	BookEntry *entry = findBookEntry();
 
 	if(entry == NULL)
 	{

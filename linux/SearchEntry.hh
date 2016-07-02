@@ -42,7 +42,7 @@ class SearchEntry: public BookEntry
 					dcpp::SearchManager::SizeModes mode,
 					dcpp::SearchManager::TypeModes type) {
 
-					Search *s = dynamic_cast<Search*>(findBookEntry(Entry::SEARCH,str));
+					Search *s = dynamic_cast<Search*>(findBookEntry(str));
 					if(s == NULL) {
 						s = new Search(str);
 						showBook(s);
@@ -69,7 +69,7 @@ class SearchEntry: public BookEntry
 		static void onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *page, guint num , gpointer data);
 		static gboolean onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static void onCloseBookEntry_gui(GtkWidget *widget, gpointer data);
-		BookEntry* findBookEntry(const EntryType type, const std::string &id = "");
+		BookEntry* findBookEntry(const std::string &id = "");
 		
 		std::vector<BookEntry*> books;
 };
