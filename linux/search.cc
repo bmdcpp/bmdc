@@ -39,8 +39,8 @@
 
 using namespace std;
 using namespace dcpp;
-
-int Search::EN_STRING = 0;
+//no need as static var
+#define EN_STRING 0
 
 Search::Search(const string& str):
 	BookEntry(Entry::SEARCH, _("Search: "), "search", str.empty() ? generateID() : str),
@@ -869,8 +869,7 @@ void Search::regroup_gui()
 			if (!gtk_tree_model_iter_has_child(GTK_TREE_MODEL(resultStore), &groupParent))
 			{
 			#if GTK_CHECK_VERSION(3,9,0)
-				GError* error = NULL;
-					GdkPixbuf* buf = gtk_icon_theme_load_icon(WulforUtil::icon_theme,"dnd-multiple",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,&error);
+				GdkPixbuf* buf = gtk_icon_theme_load_icon(WulforUtil::icon_theme,"dnd-multiple",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,NULL);
 			#else
 				GtkWidget *iwid = gtk_invisible_new ();
 				GdkPixbuf *buf = gtk_widget_render_icon_pixbuf(iwid, GTK_STOCK_DND_MULTIPLE, GTK_ICON_SIZE_MENU);
@@ -2124,14 +2123,15 @@ gboolean Search::on_match_select_entry(GtkEntryCompletion*,GtkTreeModel *model, 
 	return FALSE;
 }
 
-gboolean Search::onResultView_gui(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer )
+gboolean Search::onResultView_gui(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer data)
 {
+	Search* s = (Search*)data;
 	GtkTreeIter iter;
 	GtkTreeView *view = GTK_TREE_VIEW(widget);
 	GtkTreeModel *model = gtk_tree_view_get_model (view);
 	GtkTreePath *path = NULL;
 	gchar *filename,*nick,*type,*size,*ppath,*slots,*con,*hub,*exsize,*country,*ip,*tth;
-	char buffer[1000];
+	
 
 	if(!gtk_tree_view_get_tooltip_context (view, &x, &y,
 					  keyboard_tip,
@@ -2139,20 +2139,20 @@ gboolean Search::onResultView_gui(GtkWidget *widget, gint x, gint y, gboolean ke
 		return FALSE;
 
 	gtk_tree_model_get (model,&iter,
-	                    0,&filename,
-	                    1,&nick,
-	                    2,&type,
-	                    3,&size,
-	                    4,&ppath,
-	                    5,&slots,
-	                    6,&con,
-	                    7,&hub,
-	                    8,&exsize,
-	                    9,&country,
-	                    10,&ip,
-	                    11,&tth,
+	                    s->resultView.col(_("Filename")),&filename,
+	                    s->resultView.col(_("Nick")),&nick,
+	                    s->resultView.col(_("Type")),&type,
+	                    s->resultView.col(_("Size")),&size,
+	                    s->resultView.col(_("Path")),&ppath,
+	                    s->resultView.col(_("Slots")),&slots,
+	                    s->resultView.col(_("Connection")),&con,
+	                    s->resultView.col(_("Hub")),&hub,
+	                    s->resultView.col(_("Exact Size")),&exsize,
+	                    s->resultView.col("Country"),&country,
+	                    s->resultView.col("IP"),&ip,
+	                    s->resultView.col("TTH"),&tth,
 						-1);
-
+	char buffer[1000];
 	g_snprintf(buffer,1000," Filename: %s\n Nick: %s\n Type: %s\n Size: %s\n Path: %s\n Slots: %s\n Connection: %s\n Hub: %s\n Exact Size: %s\n Country: %s\n IP: %s\n TTH: %s\n",
 					filename, nick,type,size,ppath,slots,con,hub,exsize,country,ip,tth);
 
@@ -2190,19 +2190,18 @@ void Search::columnHeader(int num, string name)
 
 void Search::set_Header_tooltip_gui()
 {
-	columnHeader(0, "Filename");
-	columnHeader(1, "Nick");
-	columnHeader(2, "Type");
-	columnHeader(3, "Size");
-	columnHeader(4, "Path");
-	columnHeader(5, "Slots");
-	columnHeader(6, "Connection");
-	columnHeader(7, "Hub");
-	columnHeader(8, "Filename");
-	columnHeader(9, "Exact Size");
-	columnHeader(10, "Country");
-	columnHeader(11, "IP");
-	columnHeader(12, "TTH");
+	columnHeader(resultView.col(_("Filename")), _("Filename"));
+	columnHeader(resultView.col(_("Nick")), _("Nick"));
+	columnHeader(resultView.col(_("Type")), _("Type"));
+	columnHeader(resultView.col(_("Size")), _("Size"));
+	columnHeader(resultView.col(_("Path")), _("Path"));
+	columnHeader(resultView.col(_("Slots")), _("Slots"));
+	columnHeader(resultView.col(_("Connection")), _("Connection"));
+	columnHeader(resultView.col(_("Hub")), _("Hub"));
+	columnHeader(resultView.col(_("Exact Size")), _("Exact Size"));
+	columnHeader(resultView.col("Country"), "Country");
+	columnHeader(resultView.col("IP"), "IP");
+	columnHeader(resultView.col("TTH"), "TTH");
 
 }
 

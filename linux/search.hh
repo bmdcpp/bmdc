@@ -51,7 +51,7 @@ class Search:
 		//for clang
 		using dcpp::SearchManagerListener::on;
 		using dcpp::ClientManagerListener::on;
-		// Keep these and the items in .glade file in same order, otherwise it will break
+		// Keep these and the items in .ui file in same order, otherwise it will break
 		typedef enum
 		{
 			NOGROUPING = 0,
@@ -154,33 +154,12 @@ class Search:
 		GroupType previousGrouping;
 		std::unordered_map<std::string, std::vector<dcpp::SearchResultPtr> > results;
 
-		static int EN_STRING;
-
 		GtkEntryCompletion *completion;
 		GtkListStore *emodel;
 		bool isMenuCreated;
 		GtkWidget* menu;	
 		public:
 			GtkWidget *createmenu();
-			/*{
-				if(isMenuCreated) {
-					GtkWidget *item = BookEntry::createItemFirstMenu();
-					menu =  gtk_menu_new();
-					GtkWidget *addSearchTab = gtk_menu_item_new_with_label(_("Add Search Tab"));
-					GtkWidget *close = gtk_menu_item_new_with_label(_("Close"));
-					gtk_menu_shell_append(GTK_MENU_SHELL(menu),item);
-					gtk_menu_shell_append(GTK_MENU_SHELL(menu),close);
-					gtk_menu_shell_append(GTK_MENU_SHELL(menu),addSearchTab);
-					gtk_widget_show(close);
-					gtk_widget_show(addSearchTab);
-					gtk_widget_show(item);
-					gtk_widget_show_all(menu);
-					g_signal_connect_swapped(close, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
-					g_signal_connect_swapped(addSearchTab, "activate", G_CALLBACK(onAddItem), (gpointer)this);
-					isMenuCreated = false;
-				}
-				return menu;
-			}*/
 		private:
 			static void onCloseItem(gpointer data);
 			static void onAddItem(gpointer data);
