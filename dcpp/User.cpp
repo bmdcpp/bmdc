@@ -62,19 +62,19 @@ bool Identity::isUdpActive() const {
 }
 
 bool Identity::isUdp4Active() const {
-	if(getIp4().empty() || getUdp4Port().empty())
+	if(getIp4().empty() || getUdp4Port())
 		return false;
 	return user->isSet(User::NMDC) ? !user->isSet(User::PASSIVE) : supports(AdcHub::UDP4_FEATURE);
 }
 
 bool Identity::isUdp6Active() const {
-	if(getIp6().empty() || getUdp6Port().empty())
+	if(getIp6().empty() || getUdp6Port())
 		return false;
 	return user->isSet(User::NMDC) ? false : supports(AdcHub::UDP6_FEATURE);
 }
 
-string Identity::getUdpPort() const {
-	if(getIp6().empty() || getUdp6Port().empty()) {
+uint16_t Identity::getUdpPort() const {
+	if(getIp6().empty() ) {
 		return getUdp4Port();
 	}
 
@@ -582,6 +582,9 @@ map<string, string> Identity::getReport() const
 			if(!name.empty())
 				reportSet.insert(make_pair(name, value));
 		}
+		//hack to show port
+		reportSet.insert(make_pair("U4",Util::toString(getUdp4Port())));
+		reportSet.insert(make_pair("U4",Util::toString(getUdp6Port())));
 	}
 	return reportSet;
 }

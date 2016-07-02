@@ -54,7 +54,7 @@ BookEntry(Entry::ABOUT_CONFIG, _("About:config"), "config")
 
 	if(SETTING(AC_DISCLAIM) == false) {
 			gtk_widget_set_sensitive(getWidget("scrolledwindow"),FALSE);
-			gtk_dialog_run(GTK_DIALOG(getWidget("infobar")));//@we need show this dialog
+			gtk_dialog_run(GTK_DIALOG(getWidget("infobar")));//@ need show this dialog
 	}
 	if(SETTING(AC_DISCLAIM) == true) {// we already confrim editing and so on
 		gtk_widget_set_sensitive(getWidget("scrolledwindow"),TRUE);

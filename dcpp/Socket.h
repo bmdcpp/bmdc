@@ -114,8 +114,8 @@ public:
 	void writeAll(const void* aBuffer, int aLen, uint32_t timeout = 0);
 	virtual int write(const void* aBuffer, int aLen);
 	int write(const string& aData) { return write(aData.data(), (int)aData.length()); }
-	virtual void writeTo(const string& aIp, const string& aPort, const void* aBuffer, int aLen, bool proxy = true);
-	void writeTo(const string& aIp, const string& aPort, const string& aData) { writeTo(aIp, aPort, aData.data(), (int)aData.length()); }
+	virtual void writeTo(const string& aIp, const uint16_t& aPort, const void* aBuffer, int aLen, bool proxy = true);
+	void writeTo(const string& aIp, const uint16_t& aPort, const string& aData) { writeTo(aIp, aPort, aData.data(), (int)aData.length()); }
 	virtual void shutdown() noexcept;
 	virtual void close() noexcept;
 	void disconnect() noexcept;

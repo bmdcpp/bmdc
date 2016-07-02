@@ -654,11 +654,11 @@ int Socket::write(const void* aBuffer, int aLen) {
  * @param aLen Data length
  * @throw SocketExcpetion Send failed.
  */
-void Socket::writeTo(const string& aAddr, const string& aPort, const void* aBuffer, int aLen, bool proxy) {
+void Socket::writeTo(const string& aAddr, const uint16_t& aPort, const void* aBuffer, int aLen, bool proxy) {
 	if(aLen <= 0)
 		return;
 
-	if(aAddr.empty() || aPort.empty()) {
+	if(aAddr.empty()) {
 		throw SocketException(EADDRNOTAVAIL);
 	}
 
@@ -683,7 +683,7 @@ void Socket::writeTo(const string& aAddr, const string& aPort, const void* aBuff
 			connStr.push_back((uint8_t)aAddr.size());
 			connStr.insert(connStr.end(), aAddr.begin(), aAddr.end());
 		} else {
-			auto ai = resolveAddr(aAddr, Util::toInt(aPort));
+			auto ai = resolveAddr(aAddr, aPort);
 
 			if(ai->ai_family == AF_INET) {
 				connStr.push_back(1);		// Address type: IPv4
@@ -701,7 +701,7 @@ void Socket::writeTo(const string& aAddr, const string& aPort, const void* aBuff
 		sent = check([&] { return ::sendto( (((struct sockaddr*)&udpAddr)->sa_family == AF_INET) ? sock4 : sock6,
 			(const char*)&connStr[0], (int)connStr.size(), 0, (struct sockaddr*)&udpAddr, udpAddrLen); });
 	} else {
-		auto ai = resolveAddr(aAddr, Util::toInt(aPort));
+		auto ai = resolveAddr(aAddr, aPort);
 		if((ai->ai_family == AF_INET && !sock4.valid()) || (ai->ai_family == AF_INET6 && !sock6.valid())) {
 			create(*ai);
 		}

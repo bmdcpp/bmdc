@@ -460,7 +460,7 @@ void ClientManager::send(AdcCommand& cmd, const CID& cid) {
 		} else {
 			try {
 				string ip = u.getIdentity().getIp();
-				string port = u.getIdentity().getUdpPort();
+				uint16_t port = u.getIdentity().getUdpPort();
 				bool ok = false;
 
 				if(Util::isIp6(ip) == true)
@@ -547,7 +547,7 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 					
 				for(SearchResultList::const_iterator i = l.begin(); i != l.end(); ++i) {
 					const SearchResultPtr& sr = *i;
-					udp.writeTo(ip, Util::toString(port), sr->toSR(*aClient));
+					udp.writeTo(ip, port, sr->toSR(*aClient));
 				}
 			  }
 			} catch(const SocketException& /* e */) {

@@ -397,7 +397,7 @@ void FavoriteHubs::onRemoveEntry_gui(GtkWidget*, gpointer data)
 				GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
 				_("Are you sure you want to delete favorite hub \"%s\"?"), name.c_str());
 
-			gtk_dialog_add_buttons(GTK_DIALOG(dialog), BMDC_STOCK_CANCEL, GTK_RESPONSE_CANCEL, BMDC_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
+			gtk_dialog_add_buttons(GTK_DIALOG(dialog), BMDC_STOCK_CANCEL, GTK_RESPONSE_CANCEL, BMDC_STOCK_YES, GTK_RESPONSE_YES, NULL);
 
 #if !GTK_CHECK_VERSION(3,12,0)
 			gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_CANCEL, -1);

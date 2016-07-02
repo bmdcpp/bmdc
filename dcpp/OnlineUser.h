@@ -26,6 +26,7 @@
 #include "User.h"
 #include "PluginEntity.h"
 #include "TimerManager.h"
+#include "GetSet.h"
 
 namespace dcpp {
 
@@ -54,8 +55,6 @@ public:
 	GESET(Description, "DE")
 	GESET(Ip4, "I4")
 	GESET(Ip6, "I6")
-	GESET(Udp4Port, "U4")
-	GESET(Udp6Port, "U6")
 	GESET(Email, "EM")
 	GESET(ClientType, "CL")
 	GESET(MyInfoType, "MT")
@@ -66,6 +65,11 @@ public:
 	GESET(TestSURQueued, "TQ")
 	GESET(FileListComplete, "CF")
 	GESET(TestSURComplete, "TK")
+
+#undef GESET
+	
+	GETSET(uint16_t,upd4port,Udp4Port)
+	GETSET(uint16_t,upd6port,Udp6Port)
 
 	void setBytesShared(const string& bs) { set("SS", bs); }
 	int64_t getBytesShared() const { return Util::toInt64(get("SS")); }
@@ -92,7 +96,7 @@ public:
 	bool isUdp4Active() const;
 	bool isUdp6Active() const;
 	string getIp() const;
-	string getUdpPort() const;
+	/*string*/ uint16_t getUdpPort() const;
 
 	std::map<string, string> getInfo() const;
 	string get(const char* name) const;

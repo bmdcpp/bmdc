@@ -468,7 +468,7 @@ void PluginApiImpl::terminateConnection(ConnectionDataPtr conn, Bool graceless) 
 }
 
 void PluginApiImpl::sendUdpData(const char* ip, uint32_t port, dcptr_t data, size_t n) {
-	try { getUdpSocket().writeTo(ip, Util::toString(port), data, n); } catch (const Exception&) { /* ... */ }
+	try { getUdpSocket().writeTo(ip, port, data, n); } catch (const Exception&) { /* ... */ }
 }
 
 UserDataPtr PluginApiImpl::getUserFromConn(ConnectionDataPtr conn) {

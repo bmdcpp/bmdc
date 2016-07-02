@@ -174,6 +174,8 @@ void AdcHub::handle(AdcCommand::INF, AdcCommand& c) noexcept {
 	for(auto i = c.getParameters().begin(); i != c.getParameters().end(); ++i) {
 		if(i->length() < 2)
 			continue;
+		if(*i == "U4") { u->getIdentity().setUdp4Port(Util::toInt(i->substr(2)));continue; }
+		if(*i == "U6") { u->getIdentity().setUdp6Port(Util::toInt(i->substr(2)));continue; }
 
 		u->getIdentity().set(i->c_str(), i->substr(2));
 	}
@@ -407,6 +409,11 @@ void AdcHub::handle(AdcCommand::RCM, AdcCommand& c) noexcept {
 void AdcHub::handle(AdcCommand::CMD, AdcCommand& c) noexcept {
 	if(c.getParameters().size() < 1)
 		return;
+	/*
+		Did we need this?
+	if(c.getFrom() != AdcCommand::HUB_SID)
+		return;
+	*/	
 	const string& name = c.getParam(0);
 	bool rem = c.hasFlag("RM", 1);
 	if(rem) {
@@ -434,7 +441,7 @@ void AdcHub::handle(AdcCommand::CMD, AdcCommand& c) noexcept {
 void AdcHub::sendUDP(const AdcCommand& cmd) noexcept {
 	string command;
 	string ip;
-	string port;
+	uint16_t port;//why string?
 	{
 		Lock l(cs);
 		SIDIter i = users.find(cmd.getTo());
@@ -579,10 +586,6 @@ void AdcHub::handle(AdcCommand::GET, AdcCommand& c) noexcept {
 				"Unsupported m", AdcCommand::TYPE_HUB));
 			return;
 		}
-
-//		if (m > 0) {
-//			sm->getBloom(v, k, m, h);
-//		}
 
 		AdcCommand cmd(AdcCommand::CMD_SND, AdcCommand::TYPE_HUB);
 		cmd.addParam(c.getParam(0));
