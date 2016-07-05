@@ -168,6 +168,7 @@ void AdcHub::handle(AdcCommand::INF, AdcCommand& c) noexcept {
 
 	if(!u) {
 		dcdebug("AdcHub::INF Unknown user / no ID\n");
+		DebugManager::getInstance()->SendCommandMessage("AdcHub::INF Unknown user / no ID\n",DebugManager::TYPE_HUB,DebugManager::INCOMING,"Unknow");
 		return;
 	}
 
@@ -308,9 +309,9 @@ void AdcHub::handle(AdcCommand::QUI, AdcCommand& c) noexcept {
 			tmp = victim->getIdentity().getNick();
 
 			if(source) {
-				tmp += F_(" was kicked by ") + source->getIdentity().getNick() + ": " + dMessage;
+				tmp += " was kicked by " + source->getIdentity().getNick() + ": " + dMessage;
 			} else {
-				tmp += F_(" was kicked: " ) + dMessage;
+				tmp += " was kicked: "  + dMessage;
 			}
 			fire(ClientListener::StatusMessage(), this, tmp, ClientListener::FLAG_IS_SPAM);
 		}
@@ -441,7 +442,7 @@ void AdcHub::handle(AdcCommand::CMD, AdcCommand& c) noexcept {
 void AdcHub::sendUDP(const AdcCommand& cmd) noexcept {
 	string command;
 	string ip;
-	uint16_t port;//why string?
+	uint16_t port;
 	{
 		Lock l(cs);
 		SIDIter i = users.find(cmd.getTo());

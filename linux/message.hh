@@ -21,8 +21,8 @@
  */
  /*
   * Changelog BMDC++:
-  * Added class Tag
-  * Added class CActions
+  * Added class Tag: Used for Chat "Text" Tags
+  * Added class CActions: Used for "right click action
   * */
 
 #ifndef _BMDC_MSG_TYPE_HH

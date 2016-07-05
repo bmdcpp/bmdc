@@ -53,6 +53,7 @@ private:
 
 		static void onAddShare_gui(GtkWidget *widget, gpointer data);
 		static void onRemoveShare_gui(GtkWidget *widget, gpointer data);
+		static gboolean onShareButtonReleased_gui(GtkWidget*, GdkEventButton*, gpointer data);
 
 		bool showErrorDialog_gui(const string &description);
 		void updateShares_gui();

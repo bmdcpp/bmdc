@@ -75,7 +75,7 @@ public:
 
 	void accept(const Socket& srv, bool secure, bool allowUntrusted, const string& expKP = Util::emptyString);
 	void connect(const string& aAddress, const uint16_t& aPort, bool secure, bool allowUntrusted, bool proxy, const string& expKP = Util::emptyString);
-	void connect(const string& aAddress, const uint16_t& aPort, const string& localPort, NatRoles natRole, bool secure, bool allowUntrusted, bool proxy, const string& expKP);
+	void connect(const string& aAddress, const uint16_t& aPort, const string& localPort, NatRoles natRole, bool secure, bool allowUntrusted, bool proxy, const string& expKP = Util::emptyString);
 
 	/** Sets data mode for aBytes bytes. Must be called within onLine. */
 	void setDataMode(int64_t aBytes = -1) { mode = MODE_DATA; dataBytes = aBytes; }

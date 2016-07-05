@@ -39,6 +39,8 @@
 #include <queue>
 #include <map>
 
+#include "IgnoreTempManager.hh"
+
 class UserCommandMenu;
 class WulforSettingsManager;
 class EmoticonsDialog;
@@ -47,15 +49,15 @@ class Hub:
 	public BookEntry,
 	public dcpp::ClientListener,
 	public dcpp::FavoriteManagerListener,
-	public dcpp::QueueManagerListener,
-	public dcpp::TimerManagerListener
+	public dcpp::QueueManagerListener//,
+//	public dcpp::TimerManagerListener
 {
 	private:
 		using dcpp::ClientListener::on;
 		using dcpp::FavoriteManagerListener::on;
 		using dcpp::QueueManagerListener::on;	
-		using dcpp::TimerManagerListener::on;
-		mutable dcpp::CriticalSection cs;
+		//using dcpp::TimerManagerListener::on;
+		//mutable dcpp::CriticalSection cs;
 	public:
 		Hub(const std::string &address, const std::string &encoding);
 		virtual ~Hub();
@@ -243,7 +245,7 @@ private:
 		virtual void on(dcpp::ClientListener::HubTopic, dcpp::Client *, const std::string &top) noexcept;
 		virtual void on(dcpp::ClientListener::ClientLine, dcpp::Client* , const std::string &mess, int type) noexcept;
 		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) noexcept;
-		
+		/*
 		typedef enum 
 		{
 			ONE_HOUR = 1,
@@ -264,10 +266,10 @@ private:
 		TempMap listTempsCids;
 		uint64_t lastTickCid;
 		uint64_t lastTickNick;
-		uint64_t lastTickIp;
+		uint64_t lastTickIp;*/
 		static void onClickMenuItemTime(GtkMenuItem* item,gpointer data);
 		// TimerManagerListener
-		virtual void on(dcpp::TimerManagerListener::Minute, uint64_t aTick) noexcept
+		/*virtual void on(dcpp::TimerManagerListener::Minute, uint64_t aTick) noexcept
 		{
 			dcpp::Lock l(cs);
 			dcdebug("[HUB] TimerManager %lud",aTick);
@@ -324,7 +326,7 @@ private:
 				}
 			}	
 		}
-
+*/
 		
 		UserMap userMap;
 		UnMapIter userIters;
@@ -332,6 +334,7 @@ private:
 		ImageList imageList;
 		ImageLoad imageLoad;
 		dcpp::StringPair imageMagnet;
+		IgnoreTempManager* im;	
 		GtkTextTag *TagsMap[Tag::TAG_LAST];
 		dcpp::Client *client;
 		TreeView nickView;

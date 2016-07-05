@@ -46,18 +46,31 @@
 #include "WulforUtil.hh"
 #include "version.hh"
 
+#include "IgnoreTempManager.hh"
+
 using namespace std;
 using namespace dcpp;
 
 const string Hub::tagPrefix = "#";
+
+//
+static string getTagName(GtkTextTag *tag)
+{
+	gchar *tmp  = NULL;
+	g_object_get(G_OBJECT(tag), "name", &tmp, NULL);
+	string tagName = string(tmp);
+	g_free(tmp);
+	return tagName;
+}
 
 Hub::Hub(const string &address, const string &encoding):
 	BookEntry(Entry::HUB, address, "hub", address),
 	client(NULL),address(address),
 	encoding(encoding),	ImgLimit(0),historyIndex(0),totalShared(0),
 	scrollToBottom(true), PasswordDialog(false), WaitingPassword(false),
-	notCreated(true), isFavBool(true), lastTickNick(GET_TICK()),lastTickCid(GET_TICK()),lastTickIp(GET_TICK())
+	notCreated(true), isFavBool(true)//, lastTickNick(GET_TICK()),lastTickCid(GET_TICK()),lastTickIp(GET_TICK())
 {
+	im = new IgnoreTempManager();
 	FavoriteHubEntry* faventry =  getFavoriteHubEntry();
 	//@note because "." and this is used in CSS'ing 
 	//@ use the CID'ing of it
@@ -482,13 +495,10 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 			}  
 		}
 //TODO: check? & UI
-bool isSet = false;
-auto fav = hub->getFavoriteHubEntry();
-auto client = hub->client;
-
-if((client && client->get(SettingsManager::USE_HIGHLITING, SETTING(USE_HIGHLITING)))
-	||
-	(fav && fav->get(SettingsManager::USE_HIGHLITING, SETTING(USE_HIGHLITING)))) {
+	bool isSet = false;
+	if(hub->client && hub->client->get(SettingsManager::USE_HIGHLITING, SETTING(USE_HIGHLITING)))
+	
+	 {
 		ColorList* cl = HighlightManager::getInstance()->getList();
 		for(auto& l:*cl)
 		{
@@ -508,7 +518,7 @@ if((client && client->get(SettingsManager::USE_HIGHLITING, SETTING(USE_HIGHLITIN
 				}
 			}
 		}
-}//END
+	}//END
 		if(AVManager::getInstance()->isNickVirused(nick))
 		{
 			color = WGETS("userlist-bg-virus-an");
@@ -588,13 +598,11 @@ Hub::~Hub()
 	g_object_unref(getWidget("hubMenu"));
 	g_object_unref(getWidget("chatCommandsMenu"));
 	g_object_unref(getWidget("imageMenu"));
-	
-	TimerManager::getInstance()->removeListener(this);
+	delete im;
 }
 
 void Hub::show()
 {
-	TimerManager::getInstance()->addListener(this);
 	// Connect to the hub
 	connectClient_client(address, encoding);
 }
@@ -1005,7 +1013,7 @@ void Hub::onClickMenuItemTime(GtkMenuItem* item,gpointer data)
 	string cid = (gchar *)g_object_get_data(G_OBJECT(item),"gcid");
 	GtkWidget* l = gtk_label_new(nick.c_str());
 	GtkWidget* s = gtk_spin_button_new_with_range(1,10,1);
-	GtkWidget* l2 = gtk_label_new("Hour(s)");
+	GtkWidget* l2 = gtk_label_new("Tick(s)");
 	GtkWidget* c = gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(c),"NICK");
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(c),"CID");
@@ -1032,7 +1040,6 @@ void Hub::onClickMenuItemTime(GtkMenuItem* item,gpointer data)
 	
 	gtk_widget_show_all(g);
 	
-	
 	gint response = gtk_dialog_run(GTK_DIALOG(d));
 	if (response == GTK_RESPONSE_NONE)
 		return ;
@@ -1047,8 +1054,8 @@ void Hub::onClickMenuItemTime(GtkMenuItem* item,gpointer data)
 		{	
 			string text = string(_text);
 			gint time = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(s));
-			uint64_t tmp = 60*60*1000;
-			
+			//time = time*60*60*1000;
+			/*
 			if(time >= ONE_HOUR)
 				tmp = 60*60*1000;
 			if(time >= TWO_HOUR)
@@ -1069,21 +1076,22 @@ void Hub::onClickMenuItemTime(GtkMenuItem* item,gpointer data)
 				tmp = (60*60*1000)*9;
 			if(time >= TEN_HOUR)
 				tmp = (60*60*1000)*10;
-			
+			*/
 			
 			if(text == "NICK")
 			{
-				hub->listTempsNicks.insert(make_pair(tmp,nick));
+				hub->im->addNickIgnored(nick,time);
+				//hub->listTempsNicks.insert(make_pair(tmp,nick));
 			}
 			if(text == "CID")
 			{
-				
-				hub->listTempsCids.insert(make_pair(tmp,cid));
+				hub->im->addCidIgnored(cid,time);
+				//hub->listTempsCids.insert(make_pair(tmp,cid));
 			}
 			if(text == "IP")
 			{
-						
-				hub->listTempsIps.insert(make_pair(tmp,ip));
+				hub->im->addIpIgnored(ip,time);	
+				//hub->listTempsIps.insert(make_pair(tmp,ip));
 			}
 			
 			g_free(_text);
@@ -1176,12 +1184,8 @@ void Hub::addStatusMessage_gui(string message, Msg::TypeMsg typemsg, Sound::Type
 			Sound::get()->playSound(sound);
 
 		setStatus_gui("statusMain", message);
-
-		auto fav = getFavoriteHubEntry();
-		auto c = client;
-		if(( c && c->get(SettingsManager::STATUS_IN_CHAT,SETTING(STATUS_IN_CHAT)))
-			||
-			(fav  && fav->get(SettingsManager::STATUS_IN_CHAT,SETTING(STATUS_IN_CHAT))))
+	
+		if( client && client->get(SettingsManager::STATUS_IN_CHAT,SETTING(STATUS_IN_CHAT)))
 		{
 			string line = "*** " + message;
 			addMessage_gui("", line, typemsg);
@@ -1221,11 +1225,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 	if (gtk_text_buffer_get_char_count(chatBuffer) > 0)
 		line += "\n";
 
-	auto fav = getFavoriteHubEntry();
-	auto c = client;
-
-	if( ( c && c->get(SettingsManager::TIME_STAMPS,SETTING(TIME_STAMPS)))
-		|| (fav && fav->get(SettingsManager::TIME_STAMPS,SETTING(TIME_STAMPS))))
+	if( client && client->get(SettingsManager::TIME_STAMPS,SETTING(TIME_STAMPS)))
 			line += "[" + Util::getShortTimeString() + "] ";
 
 	line += message;
@@ -1302,12 +1302,7 @@ void Hub::applyTags_gui(const string cid, const string line)
 	gtk_text_buffer_get_end_iter(chatBuffer, &start_iter);
 
 	// apply timestamp tag
-	auto fav = getFavoriteHubEntry();
-	auto c = client;
-	if (
-		(c && c->get(SettingsManager::TIME_STAMPS,SETTING(TIME_STAMPS)))
-		||
-		(fav && fav->get(SettingsManager::TIME_STAMPS,SETTING(TIME_STAMPS))) )
+	if (client && client->get(SettingsManager::TIME_STAMPS,SETTING(TIME_STAMPS)))
 	{
 		gtk_text_iter_backward_chars(&start_iter,
 			g_utf8_strlen(line.c_str(), -1) - g_utf8_strlen(Util::getShortTimeString().c_str(), -1) - 2);
@@ -1496,8 +1491,7 @@ void Hub::applyTags_gui(const string cid, const string line)
 
 					tagStyle = Tag::TAG_URL;
 				}
-				//string ip = Util::emptyString;
-				if(WulforUtil::HitIP(tagName/*,ip*/))
+				if(WulforUtil::HitIP(tagName))
 				{
 					callback = G_CALLBACK(onIpTagEvent_gui);
 					tagStyle = Tag::TAG_IPADR;
@@ -1871,10 +1865,10 @@ void Hub::updateCursor_gui(GtkWidget *widget)
 		if (newTag != NULL)
 		{
 			// Cursor is entering a tag.
-			gchar *tmp = NULL;
-			g_object_get(G_OBJECT(newTag),"name",&tmp,NULL);
-			selectedTagStr = string(tmp);
-			g_free(tmp);
+			//gchar *tmp = NULL;
+			//g_object_get(G_OBJECT(newTag),"name",&tmp,NULL);
+			selectedTagStr = getTagName(newTag);
+			//g_free(tmp);
 
 			if (find(TagsMap, TagsMap + Tag::TAG_MYNICK, newTag) == TagsMap + Tag::TAG_MYNICK)
 			{
@@ -2286,25 +2280,13 @@ gboolean Hub::onEntryKeyPress_gui(GtkWidget *entry, GdkEventKey *event, gpointer
 	hub->completionKey.clear();
 	return FALSE;
 }
-//
-static string getTagName(GtkTextTag *tag)
-{
-	gchar *tmp  = NULL;
-	g_object_get(G_OBJECT(tag), "name", &tmp, NULL);
-	string tagName = string(tmp);
-	g_free(tmp);
-	return tagName;
-}
+
 
 gboolean Hub::onNickTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *event, GtkTextIter*, gpointer data)
 {
 	if (event->type == GDK_2BUTTON_PRESS)
 	{
 		Hub *hub = (Hub *)data;
-		//gchar *tmp  = NULL;
-		//g_object_get(G_OBJECT(tag), "name", &tmp, NULL);
-		//string tagName = string(tmp);
-		//g_free(tmp);
 		string tagName = getTagName(tag);
 
 		hub->nickToChat_gui(tagName.substr(tagPrefix.size()));
@@ -2314,11 +2296,7 @@ gboolean Hub::onNickTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *event, Gtk
 	else if (event->type == GDK_BUTTON_PRESS)
 	{
 		GtkTreeIter nickIter;
-/*		gchar *tmp = NULL;
-		g_object_get(G_OBJECT(tag), "name", &tmp, NULL);
-		string tagName = string(tmp);
-		g_free(tmp);
-*/		string tagName = getTagName(tag);
+		string tagName = getTagName(tag);
 		Hub *hub = (Hub *)data;
 
 		if (hub->findNick_gui(tagName.substr(tagPrefix.size()), &nickIter))
@@ -2936,7 +2914,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if( command == "gettempignore")
 		{
-			map <string ,uint64_t> temp;
+			/*map <string ,uint64_t> temp;
 			for(auto i:hub->listTempsNicks)
 				temp.insert(make_pair(i.second,i.first));
 			for(auto i:hub->listTempsIps)
@@ -2947,7 +2925,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			for(auto i:temp)
 				lists += i.first + " " + Util::formatSeconds(i.second);
 				
-			hub->addMessage_gui("",lists,Msg::SYSTEM);	
+			hub->addMessage_gui("",lists,Msg::SYSTEM);	*/
 		}	
 		// protect command
 		else if (command == "password")
@@ -4637,8 +4615,10 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 		ou = cm->findOnlineUser(message.from->getCID(),client->getHubUrl());
 		fid = ou->getIdentity();
 	}
-	bool ok = false;
-	{
+	bool ok = im->isNickIgnored(fid.getNick());
+	ok = im->isIpIgnored(fid.getIp());
+	ok = im->isCidIgnored(message.from->getCID().toBase32());
+	/*{
 		Lock l(cs);//because this can be in same time as add
 		if(!listTempsNicks.empty())
 		{
@@ -4673,7 +4653,8 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 				}
 			}
 	}
-	}
+	}*/
+		
 	if(ok)
 	{
 		string error = _("Temp Ignored User ")+fid.getNick()+" "+fid.getIp()+" "

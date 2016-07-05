@@ -312,7 +312,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 
 	GtkWidget *scroll = gtk_scrolled_window_new(NULL,NULL);
 	GtkWidget *shareTree = gtk_tree_view_new();
-	g_object_set(G_OBJECT(shareTree),"expand",TRUE,NULL);
+	g_object_set(G_OBJECT(shareTree),"expand",TRUE,NULL);//this fixes size
 	shareView.setView(GTK_TREE_VIEW(shareTree));
 	shareView.insertColumn(_("Virtual Name"), G_TYPE_STRING, TreeView::STRING, -1);
 	shareView.insertColumn(_("Directory"), G_TYPE_STRING, TreeView::STRING, -1);
@@ -322,6 +322,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	shareStore = gtk_list_store_newv(shareView.getColCount(), shareView.getGTypes());
 	gtk_tree_view_set_model(shareView.get(), GTK_TREE_MODEL(shareStore));
 	shareView.setSortColumn_gui(_("Size"), "Real Size");
+	g_signal_connect(shareView.get(), "button-release-event", G_CALLBACK(onShareButtonReleased_gui), (gpointer)this);
 	gtk_container_add(GTK_CONTAINER(scroll),GTK_WIDGET(shareView.get()));
 
 	gtk_grid_attach(GTK_GRID(boxShare),scroll,0,0,7,7);
@@ -419,7 +420,7 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 
 			p_entry->setAutoConnect(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkAutoConnect)));
 			p_entry->set(SettingsManager::LOG_CHAT_B, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(enableLog)));
-			p_entry->setHideShare(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkHideShare)));
+			p_entry->setHideShare(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkHideShare)));//deprecated?
 			p_entry->setCheckAtConn(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkOnConn)));
 			p_entry->setCheckFilelists(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkFilelists)));
 			p_entry->setCheckClients(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkClients)));
@@ -616,7 +617,6 @@ void FavoriteHubDialog::onAddShare_gui(GtkWidget*, gpointer data)
                                       _("_Cancel"),
                                       GTK_RESPONSE_CANCEL,
                                       NULL);
-                        //gtk_window_set_transient_for(GTK_WINDOW(dialog),GTK_WINDOW(s->getContainer()));
 
 			GtkWidget *box = gtk_dialog_get_content_area (GTK_DIALOG(dialog));
 			GtkWidget *entry = gtk_entry_new();
@@ -645,7 +645,7 @@ void FavoriteHubDialog::onAddShare_gui(GtkWidget*, gpointer data)
 					s->p_entry->setShareManager(share);
 					FavoriteManager::getInstance()->save();
 					s->p_entry->getShareManager()->refresh();
-					s->updateShares_gui();
+					//s->updateShares_gui();
 				}
 				catch (const ShareException &e)
 				{
@@ -721,5 +721,19 @@ void FavoriteHubDialog::addShare_gui(string path, string name)
 		shareView.col(_("Size")), Util::formatBytes(size).c_str(),
 		shareView.col("Real Size"), size,
 		-1);
+}
+
+
+gboolean FavoriteHubDialog::onShareButtonReleased_gui(GtkWidget*, GdkEventButton*, gpointer data)
+{
+	FavoriteHubDialog *fd = (FavoriteHubDialog*)data;
+	GtkTreeSelection *selection = gtk_tree_view_get_selection(fd->shareView.get());
+
+	if (gtk_tree_selection_count_selected_rows(selection) == 0)
+		gtk_widget_set_sensitive(fd->button_rem, FALSE);
+	else
+		gtk_widget_set_sensitive(fd->button_rem, TRUE);
+
+	return FALSE;
 }
 
