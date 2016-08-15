@@ -1370,7 +1370,7 @@ void Hub::applyTags_gui(const string cid, const string line)
 		string image_magnet, bold_text, italic_text, underline_text, country_text;
 		gchar *temp = gtk_text_iter_get_text(&tag_start_iter, &tag_end_iter);
 
-		if(fav && fav->get(SettingsManager::USE_HIGHLITING,SETTING(USE_HIGHLITING)))
+		if(client && client->get(SettingsManager::USE_HIGHLITING,SETTING(USE_HIGHLITING)))
 		{
 			GtkTextTag *tag = gtk_text_tag_table_lookup(gtk_text_buffer_get_tag_table(chatBuffer), temp);
 			bool isTab = false;

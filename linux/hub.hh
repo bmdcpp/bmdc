@@ -49,15 +49,13 @@ class Hub:
 	public BookEntry,
 	public dcpp::ClientListener,
 	public dcpp::FavoriteManagerListener,
-	public dcpp::QueueManagerListener//,
-//	public dcpp::TimerManagerListener
+	public dcpp::QueueManagerListener
 {
 	private:
 		using dcpp::ClientListener::on;
 		using dcpp::FavoriteManagerListener::on;
 		using dcpp::QueueManagerListener::on;	
-		//using dcpp::TimerManagerListener::on;
-		//mutable dcpp::CriticalSection cs;
+				
 	public:
 		Hub(const std::string &address, const std::string &encoding);
 		virtual ~Hub();
