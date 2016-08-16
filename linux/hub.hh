@@ -55,7 +55,10 @@ class Hub:
 		using dcpp::ClientListener::on;
 		using dcpp::FavoriteManagerListener::on;
 		using dcpp::QueueManagerListener::on;	
-				
+		typedef enum
+		{
+		BOT,OPERATOR,FAVORITE,IGNORED,PROTECTED,PASIVE,NORMAL	
+		} UserType;		
 	public:
 		Hub(const std::string &address, const std::string &encoding);
 		virtual ~Hub();
