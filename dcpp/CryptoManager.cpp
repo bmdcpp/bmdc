@@ -27,6 +27,9 @@
 #include <openssl/bn.h>
 #include <openssl/err.h>
 #include <openssl/rand.h>
+
+//#include <openssl/x509_vfy.h>
+
 #ifndef DHAVE_EC_CRYPTO
 	#include <openssl/ec.h>
 #endif 
@@ -575,7 +578,8 @@ int CryptoManager::verify_callback(int preverify_ok, X509_STORE_CTX *ctx) {
 
 			if(err != X509_V_OK) {
 				// This is the right way to get the certificate store, although it is rather roundabout
-				X509_STORE* store = X509_STORE_CTX_get0_store(ctx);
+				X509_STORE* store = ctx->ctx;//for older openssl
+				//X509_STORE* store = X509_STORE_CTX_get0_store(ctx);
 				dcassert(store == ctx->ctx);
 
 				// Hide the potential library error about trying to add a dupe
