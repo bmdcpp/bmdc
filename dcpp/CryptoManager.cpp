@@ -602,7 +602,7 @@ int CryptoManager::verify_callback(int preverify_ok, X509_STORE_CTX *ctx) {
 
 							// Watch out for weird library errors that might not set the context error code
 							if(err == X509_V_OK && verify_result == 0)
-								err = X509_V_ERR_UNSPECIFIED;
+								err = 1/*X509_V_ERR_UNSPECIFIED*/;
 						}
 					}
 
