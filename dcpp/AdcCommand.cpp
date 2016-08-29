@@ -40,10 +40,11 @@ AdcCommand::AdcCommand(const string aLine, bool nmdc /* = false */) : cmdInt(0),
 
 void AdcCommand::parse(const string aLine, bool nmdc /* = false */) {
 	string::size_type i = 5;
-
+	string::size_type len = aLine.length();
+	
 	if(nmdc) {
 		// "$ADCxxx ..."
-		if(aLine.length() < 7) {
+		if(/*aLine.length()*/len < 7) {
 			throw ParseException("Too short");
 		}
 		type = TYPE_CLIENT;
@@ -53,7 +54,7 @@ void AdcCommand::parse(const string aLine, bool nmdc /* = false */) {
 		i += 3;
 	} else {
 		// "yxxx ..."
-		if(aLine.length() < 4){
+		if(/*aLine.length()*/len < 4){
 			throw ParseException("Too short");
 		}
 		type = aLine[0];
@@ -70,7 +71,7 @@ void AdcCommand::parse(const string aLine, bool nmdc /* = false */) {
 		from = HUB_SID;
 	}
 
-	string::size_type len = aLine.length();
+	//string::size_type len = aLine.length();
 	const char* buf = aLine.c_str();
 	string cur;
 	cur.reserve(128);
@@ -120,20 +121,21 @@ void AdcCommand::parse(const string aLine, bool nmdc /* = false */) {
 		case ' ':
 			// New parameter...
 			{
+				string::size_type clen = cur.length();
 				if((type == TYPE_BROADCAST || type == TYPE_DIRECT || type == TYPE_ECHO || type == TYPE_FEATURE) && !fromSet) {
-					if(cur.length() != 4) {
+					if(/*cur.length()*/clen != 4) {
 						throw ParseException("Invalid SID length");
 					}
 					from = toSID(cur);
 					fromSet = true;
 				} else if((type == TYPE_DIRECT || type == TYPE_ECHO) && !toSet) {
-					if(cur.length() != 4) {
+					if(/*cur.length()*/ clen != 4) {
 						throw ParseException("Invalid SID length");
 					}
 					to = toSID(cur);
 					toSet = true;
 				} else if(type == TYPE_FEATURE && !featureSet) {
-					if(cur.length() % 5 != 0) {
+					if(/*cur.length()*/clen % 5 != 0) {
 						throw ParseException("Invalid feature length");
 					}
 					// Skip...
@@ -150,21 +152,23 @@ void AdcCommand::parse(const string aLine, bool nmdc /* = false */) {
 		}
 		++i;
 	}
+
 	if(!cur.empty()) {
+		string::size_type clen = cur.length();
 		if((type == TYPE_BROADCAST || type == TYPE_DIRECT || type == TYPE_ECHO || type == TYPE_FEATURE) && !fromSet) {
-			if(cur.length() != 4) {
+			if(/*cur.length()*/clen != 4) {
 				throw ParseException("Invalid SID length");
 			}
 			from = toSID(cur);
 			fromSet = true;
 		} else if((type == TYPE_DIRECT || type == TYPE_ECHO) && !toSet) {
-			if(cur.length() != 4) {
+			if(/*cur.length()*/clen != 4) {
 				throw ParseException("Invalid SID length");
 			}
 			to = toSID(cur);
 			toSet = true;
 		} else if(type == TYPE_FEATURE && !featureSet) {
-			if(cur.length() % 5 != 0) {
+			if(/*cur.length()*/ clen % 5 != 0) {
 				throw ParseException("Invalid feature length");
 			}
             // Skip...
