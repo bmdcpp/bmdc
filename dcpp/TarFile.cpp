@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2016 BMDC++
+ * Copyright (C) 2011-2017 BMDC++
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
 
 
 namespace dcpp {
-	
+
 void TarFile::CreateTarredFile(const string& _path, const StringPairList& files)
 {
 	TAR *t;
@@ -42,7 +42,7 @@ void TarFile::CreateTarredFile(const string& _path, const StringPairList& files)
 	for(StringPairList::const_iterator i = files.begin(); i != files.end(); ++i) {
 			char *rpath = (char *)i->first.c_str();
 			char *tpath = (char *)i->second.c_str();
-			int x = tar_append_file(t,rpath,tpath);	
+			int x = tar_append_file(t,rpath,tpath);
 			if(x != 0)
 				continue;
 	}
@@ -55,12 +55,12 @@ void TarFile::DecompresTarredFile(const string& _file, const string& _prefix)
     const char *path = _file.c_str();
     int e = tar_open(&t,(char *)path,NULL, O_RDONLY, 0644, TAR_GNU);
     if(e == -1)
-    {	
+    {
 		//dcdebug("Error %s\n",strerror(e));
 		dcdebug("Error %d\n",e);
 		return;
 	}
-    
+
     char *prefix = const_cast<char*>(_prefix.c_str());
     tar_extract_all(t,prefix);
 	close(tar_fd(t));

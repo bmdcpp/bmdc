@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2016 BMDC++
+ * Copyright (C) 2011-2017 BMDC++
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,11 @@ namespace dcpp {
 class TarFile
 {
 	public:
+		/*
+		 * CreateTarredFile: tar files
+		 * @path: string for path where
+		 * @files: wich files
+		 * */
 		static void CreateTarredFile(const string& _path, const StringPairList& files);
 		static void DecompresTarredFile(const string& _file, const string& _prefix);
 };
