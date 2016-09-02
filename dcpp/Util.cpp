@@ -1124,15 +1124,15 @@ string Util::getTempPath() {
 #endif
 }
 
-std::string Util::formatRegExp(const string& msg, ParamMap& params) {
-		std::string result = msg;
-		std::string::size_type i, j, k;
+string Util::formatRegExp(const string& msg, ParamMap& params) {
+		string result = msg;
+		string::size_type i, j, k;
 		i = 0;
 		while (( j = result.find("%[", i)) != string::npos) {
 			if( (result.size() < j + 2) || ((k = result.find(']', j + 2)) == string::npos) ) {
 				break;
 			}
-			std::string name = result.substr(j + 2, k - j - 2);
+			string name = result.substr(j + 2, k - j - 2);
 			ParamMap::iterator smi = params.find(name);
 			if(smi != params.end()) {
 				result.replace(j, k-j + 1, (smi->second));
@@ -1168,6 +1168,7 @@ bool Util::fileExists(const string& aFile) {
 
   return blnReturn;
   #else
+  //TODO: find correct ver for WINdoze
   return !(File::getSize(aFile) == -1);
   #endif
 }
@@ -1294,6 +1295,18 @@ bool Util::isIp6(const string& name)
 		return isOkIpV6;
 	}
 	return false;
+}
+
+static string Util::trimUrl(string url)
+{
+	string currentUrl = url;
+		// Trim spaces
+		while(currentUrl[0] == ' ')
+			currentUrl.erase(0, 1);
+		while(currentUrl[currentUrl.length() - 1] == ' ') {
+			currentUrl.erase(currentUrl.length()-1);
+		}
+		return currentUrl;
 }
 
 
