@@ -55,9 +55,9 @@ const string SettingsManager::settingTags[] =
 	"SharingSkiplistExtensions", "SharingSkiplistRegEx", "SharingSkiplistPaths",
 	//[BMDC
 	"BackupFilePattern", "LogFileRaw", "LogFormatRaw", "ProtectedUsers", "BackupTimeStamp", "EmotPack", "RipeDB",
-	"HubIconStr", "HubTextStr", "HubULOrder", "HubULVisible", "HubULSize", "ChatExtraInfo", 
+	"HubIconStr", "HubTextStr", "HubULOrder", "HubULVisible", "HubULSize", "ChatExtraInfo",
 	"BackgroundChatColor", "BackgroundChatImage", "BackgroundPmColor", "BackgroundPmImage",
-	"RatioTemplate",
+	"RatioTemplate","LogFileProto", "LogFormatProto",
 	//]
 	"SENTRY",
 	// Ints
@@ -159,7 +159,7 @@ const string SettingsManager::settingTags[] =
 	"UseOemFont", "ServerCommands",
 	"UseAvFilter", "LogChatB",
 	"UseCountryFlag", "UseEmots",
-	"UseHighliting", 
+	"UseHighliting",
 	"SENTRY",
 	// Int64
 	"TotalUpload", "TotalDownload","SharingSkiplistMinSize", "SharingSkiplistMaxSize",

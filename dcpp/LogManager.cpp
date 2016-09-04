@@ -42,7 +42,7 @@ void LogManager::message(const string& msg,int sev ) {
 			lastLogs.pop_front();
 		lastLogs.emplace_back( msg , MessageData((Sev)sev,t) );
 	}
-	
+
 	fire(LogManagerListener::Message(), t, msg,sev);
 }
 
@@ -100,6 +100,8 @@ LogManager::LogManager() {
 	options[RAW][FORMAT]        = SettingsManager::LOG_FORMAT_RAW;
 	options[CHECK_USER][FILE]	= SettingsManager::LOG_FILE_RAW;//TODO
 	options[CHECK_USER][FORMAT]		= SettingsManager::LOG_FORMAT_RAW;//TODO
+	options[PROTO][FILE]		= SettingsManager::LOG_FILE_PROTO;
+	options[PROTO][FORMAT]	=		SettingsManager::LOG_FORMAT_PROTO;
 }
 
 LogManager::~LogManager() {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ class ClientManager : public Speaker<ClientManagerListener>,
 //made clang happy
 private:
 	using ClientListener::on;
-	using TimerManagerListener::on;	
+	using TimerManagerListener::on;
 public:
 	typedef unordered_map<string,Client*> ClientList;
 	typedef unordered_map<CID, UserPtr> UserMap;
@@ -121,7 +121,7 @@ public:
 	void connect(const HintedUser& user, const string& token);
 	void privateMessage(const HintedUser& user, const string& msg, bool thirdPerson);
 	void userCommand(const HintedUser& user, const UserCommand& uc, ParamMap& params, bool compatibility);
-	
+
 	Lock lock() { return Lock(cs); }
 
 	const ClientList& getClients() const { return clients; }

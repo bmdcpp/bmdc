@@ -61,9 +61,10 @@ adlsPoints(0),
 adlsComment(""),
 kickString(""),
 fromFavs(false),
-isCaseSensitive(false)
+isCaseSensitive(false),
+isRegEx(false)
 {
-	setRegEx(false);
+
 }
 
 ADLSearch::SourceType ADLSearch::StringToSourceType(const string& s) {
@@ -126,13 +127,6 @@ int64_t ADLSearch::GetSizeBase() {
 	}
 }
 
-bool ADLSearch::isRegEx() const {
-	return v;
-}
-
-void ADLSearch::setRegEx(bool b) {
-	v = b;
-}
 
 bool ADLSearch::matchesFile(const string& f, const string& fp, int64_t size, const TTHValue& root) {
 	// Check status
@@ -176,9 +170,9 @@ bool ADLSearch::matchesDirectory(const string& d) {
 }
 
 bool ADLSearch::searchAll(const string& s) {
-	if(isRegEx())
+	if(isRegEx) {
 		return RegEx::match<string>(s,searchString,isCaseSensitive);
-	else {
+	} else {
 		// Match all substrings
 		StringSearch ss(searchString);
 		return ss.match(s);
@@ -221,7 +215,7 @@ void ADLSearchManager::load() {
 					if(xml.findChild("SearchString")) {
 						search.searchString = xml.getChildData();
 						if(xml.getBoolChildAttrib("RegEx")) {
-							search.setRegEx(true);
+							search.isRegEx = true;
 						}
 					}
 					if(xml.findChild("SourceType")) {
@@ -304,7 +298,7 @@ void ADLSearchManager::save() {
 			xml.stepIn();
 
 			xml.addTag("SearchString", search.searchString);
-			xml.addChildAttrib("RegEx", search.isRegEx());
+			xml.addChildAttrib("RegEx", search.isRegEx);
 			xml.addTag("SourceType", search.SourceTypeToString(search.sourceType));
 			xml.addTag("DestDirectory", search.destDir);
 			xml.addTag("IsActive", search.isActive);

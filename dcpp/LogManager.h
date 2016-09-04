@@ -37,10 +37,10 @@ using std::deque;
 class LogManager : public Singleton<LogManager>, public Speaker<LogManagerListener>
 {
 public:
-	enum Area { CHAT, PM, DOWNLOAD, FINISHED_DOWNLOAD, UPLOAD, SYSTEM, STATUS, RAW , CHECK_USER ,LAST };
+	enum Area { CHAT, PM, DOWNLOAD, FINISHED_DOWNLOAD, UPLOAD, SYSTEM, STATUS, RAW , CHECK_USER, PROTO ,LAST };
 	enum { FILE, FORMAT };
 	enum Sev { LOW, NORMAL, HIGH };
-	
+
 	struct MessageData
 	{
 		MessageData(Sev _sev = Sev::LOW,time_t _t = time(NULL)):
@@ -48,7 +48,7 @@ public:
 		Sev sev;
 		time_t tim;
 	};
-	typedef std::deque<pair<std::string,MessageData> > List;	
+	typedef std::deque<pair<std::string,MessageData> > List;
 
 	void log(Area area, const string &message, int sev = Sev::NORMAL)
 	{
@@ -80,7 +80,7 @@ private:
 	virtual ~LogManager();
 };
 
-#define LOG(area, msg) LogManager::getInstance()->log(area, msg)
+#define LOG(area, msg) LogManager::getInstance()->log(LogManager::area, msg)
 
 } // namespace dcpp
 

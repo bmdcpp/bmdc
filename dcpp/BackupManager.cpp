@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 - 2016 iceman50
+ * Copyright (C) 2011 - 2017 iceman50
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
-#ifdef HAVE_LIBTAR 
+#ifdef HAVE_LIBTAR
 
 #include "stdinc.h"
 #include "noexcept.h"
@@ -30,17 +30,17 @@ namespace dcpp {
 int BackupManager::run() {
 	dcdebug("BackupManager::run() start %p\n", (void*)this);
 	setThreadPriority(Thread::LOW);
-	
+
 	while(true) {
 		s.wait(1000);
 		if(stop) {
 			break;
 		}
-		
+
 		//We need to prune the amount of backups, so how about the last 10 backups?
-		
+
 		Lock l(cs);
-		
+
 		const string zipFile = Util::getBackupPath() + "SettingsBackup-" + "[" + Util::getBackupTimeString() + "]" + ".tar";
 		try {
 			File::ensureDirectory(Util::getBackupPath());
@@ -51,13 +51,13 @@ int BackupManager::run() {
 					if(!Wildcard::match(Util::getFileName(*i), SETTING(BACKUP_FILE_PATTERN), ';')){
 						continue;
 					}
-								
+
 				files.push_back(make_pair(*i, Util::getFileName(*i)));
 			}
 			TarFile tar;
 			tar.CreateTarredFile(zipFile,files);
 			LogManager::getInstance()->message(_("Settings have been backed up!"), LogManager::Sev::NORMAL);
-			
+
 			} catch (...)
 			{
 				dcdebug("Exception caught");
@@ -76,7 +76,7 @@ void BackupManager::createBackup() {
 
 void BackupManager::on(TimerManagerListener::Minute, uint64_t aTick) noexcept {
 	uint64_t backupTime = ui64LastBackUpTime * ( SETTING(AUTOBACKUP_TIME) * 60);
-	
+
 	if(SETTING(ENABLE_AUTOBACKUP) && aTick >= backupTime) {
 		stop = false;
 		start();
@@ -89,18 +89,18 @@ void BackupManager::on(TimerManagerListener::Minute, uint64_t aTick) noexcept {
 int RestoreManager::run() {
 	dcdebug("RestoreManager::run() start %p\n", (void*)this);
 	setThreadPriority(Thread::LOW);
-	
+
 	while(true) {
 		s.wait(1000);
 		if(stop) {
 			break;
 		}
-		
+
 		Lock l(cs);
-		
+
 		StringList files = File::findFiles(Util::getBackupPath(), "SettingsBackup*.tar");
 		string recentBackup = files.front();
-		
+
 		try {
 			TarFile tar;
 			tar.DecompresTarredFile(recentBackup, Util::getPath(Util::PATH_USER_CONFIG));
@@ -111,7 +111,7 @@ int RestoreManager::run() {
 		}
 		stop = true;
 	}
-	
+
 	dcdebug("RestoreManager::run() end %p\n", (void*)this);
 	stop = true;
 	return 0;

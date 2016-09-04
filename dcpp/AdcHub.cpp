@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -168,6 +168,7 @@ void AdcHub::handle(AdcCommand::INF, AdcCommand& c) noexcept {
 
 	if(!u) {
 		dcdebug("AdcHub::INF Unknown user / no ID\n");
+		LOG(PROTO,"AdcHub::INF Unknown user / no ID");
 		DebugManager::getInstance()->SendCommandMessage("AdcHub::INF Unknown user / no ID\n",DebugManager::TYPE_HUB,DebugManager::INCOMING,"Unknow");
 		return;
 	}
@@ -241,6 +242,7 @@ void AdcHub::handle(AdcCommand::SUP, AdcCommand& c) noexcept {
 void AdcHub::handle(AdcCommand::SID, AdcCommand& c) noexcept {
 	if(state != STATE_PROTOCOL) {
 		dcdebug("Invalid state for SID\n");
+		LOG(PROTO,"Invalid state for SID");
 		return;
 	}
 
@@ -414,11 +416,11 @@ void AdcHub::handle(AdcCommand::CMD, AdcCommand& c) noexcept {
 		Did we need this?
 	if(c.getFrom() != AdcCommand::HUB_SID)
 		return;
-	*/	
+	*/
 	const string& name = c.getParam(0);
 	bool rem = c.hasFlag("RM", 1);
 	if(rem) {
-		fire(ClientListener::HubUserCommand(), this, (int)UserCommand::TYPE_REMOVE, 0, name, Util::emptyString);
+		fire(ClientListener::HubUserCommand(), this, (int)UserCommand::TYPE_REMOVE, 0, name, string());
 		return;
 	}
 	bool sep = c.hasFlag("SP", 1);
@@ -429,7 +431,7 @@ void AdcHub::handle(AdcCommand::CMD, AdcCommand& c) noexcept {
 	if(ctx <= 0)
 		return;
 	if(sep) {
-		fire(ClientListener::HubUserCommand(), this, (int)UserCommand::TYPE_SEPARATOR, ctx, name, Util::emptyString);
+		fire(ClientListener::HubUserCommand(), this, (int)UserCommand::TYPE_SEPARATOR, ctx, name, string());
 		return;
 	}
 	bool once = c.hasFlag("CO", 1);
@@ -448,6 +450,7 @@ void AdcHub::sendUDP(const AdcCommand& cmd) noexcept {
 		SIDIter i = users.find(cmd.getTo());
 		if(i == users.end()) {
 			dcdebug("AdcHub::sendUDP: invalid user\n");//Possible alow logging?
+			LOG(PROTO,"AdcHub::sendUDP: invalid user");
 			return;
 		}
 		OnlineUser& ou = *i->second;
@@ -525,7 +528,7 @@ void AdcHub::handle(AdcCommand::SCH, AdcCommand& c) noexcept {
 
 	OnlineUser* ou = findUser(c.getFrom());
 	if(!ou) {
-		dcdebug("Invalid user in AdcHub::onSCH\n");//should be logged ? sql...
+		dcdebug("Invalid user in AdcHub::onSCH\n");//should be logged ?
 		return;
 	}
 
@@ -535,7 +538,7 @@ void AdcHub::handle(AdcCommand::SCH, AdcCommand& c) noexcept {
 void AdcHub::handle(AdcCommand::RES, AdcCommand& c) noexcept {
 	OnlineUser* ou = findUser(c.getFrom());
 	if(!ou) {
-		dcdebug("Invalid user in AdcHub::onRES\n");//logging? sql
+		dcdebug("Invalid user in AdcHub::onRES\n");//logging?
 		return;
 	}
 	SearchManager::getInstance()->onRES(c, ou->getUser());

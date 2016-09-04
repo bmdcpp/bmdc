@@ -53,7 +53,7 @@ public:
 	// Negative values means do not check.
 	int64_t minFileSize;
 	int64_t maxFileSize;
-	
+
 	// dest dir index
 	unsigned long ddIndex;
 	int adlsRaw;
@@ -67,7 +67,7 @@ public:
 		TTHFile,
 		TypeLast
 	} sourceType;
-	
+
 	enum SizeType {
 		SizeBytes	= TypeFirst,
 		SizeKibiBytes,
@@ -88,19 +88,17 @@ public:
 	SizeType StringToSizeType(const string& s);
 	string SizeTypeToString(SizeType t);
 	int64_t GetSizeBase();
-	
-	bool isRegEx() const;
-	void setRegEx(bool b);
+
 	///@BMDC++
 	/* Forbiden */
 	bool isForbidden;
 	bool overRidePoints;
 	bool fromFavs;
 	bool isCaseSensitive;
-
+	bool isRegEx;
 private:
 	friend class ADLSearchManager;
-	bool v;
+	//bool v;
 
 	/// Prepare search
 	void prepare(ParamMap& params);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ public:
 		TYPE_NORMAL,
 		TYPE_BZIP2
 	};
-	
+
 	StringList getHubLists();
 	void setHubList(int aHubList);
 	int getSelectedHubList() { return lastServer; }
@@ -89,7 +89,7 @@ public:
 // Indepent Favorites on CID
 	typedef map<string, FavoriteUser*> FavoriteNoCid;
 	FavoriteNoCid favoritesNoCid;
-	
+
 	FavoriteNoCid getFavoritesIndepentOnCid() { Lock l(cs); return favoritesNoCid; }
 	FavoriteUser* getIndepentFavorite(const string& nick)
 	{
@@ -108,7 +108,7 @@ public:
 		return (u != NULL) ? (u->isSet(FavoriteUser::FLAG_GRANTSLOT)) : false;
 	}
 	bool isFavoriteIUser(string nick) { Lock l(cs); return favoritesNoCid.find(nick) != favoritesNoCid.end(); }
-	
+
 	void addFavoriteIUser(const string& nick, const time_t lastSeen = 0, const string& desc = Util::emptyString)
 	{
 		Lock l(cs);
@@ -135,13 +135,13 @@ public:
 	}
 	typedef map<string /*IP*/,FavoriteUser*> iplist;
 	iplist ips;
-	
+
 	iplist getListIp() {Lock l(cs); return ips;}
-	
+
 	void addFavoriteIp(const string& ip, time_t lastSeen = time(NULL), int type = FavoriteUser::Flags::FLAG_IP)
 	{
 		Lock l(cs);
-		
+
 		if(ips.find(ip) == ips.end())
 		{
 			FavoriteUser* fav = new FavoriteUser(type);
@@ -149,7 +149,7 @@ public:
 			fav->setLastSeen(lastSeen);
 			ips.insert(make_pair(ip,fav));
 			save();
-		}	
+		}
 	}
 	void remFavoriteIp(const string& iporange)
 	{
@@ -158,8 +158,8 @@ public:
 		ips.erase(it);
 		save();
 	}
-	
-	
+
+
 // Favorite Hubs
 	const FavoriteHubEntryList& getFavoriteHubs() const { return favoriteHubs; }
 	FavoriteHubEntryList& getFavoriteHubs() { return favoriteHubs; }
@@ -273,7 +273,7 @@ private:
 	void on(SettingsManagerListener::Load, SimpleXML& xml) {
 		load(xml);
 	}
-	
+
 	void load(SimpleXML& aXml);
 	void recentload(SimpleXML& aXml);
 	void recentsave();

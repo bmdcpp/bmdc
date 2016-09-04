@@ -108,13 +108,12 @@ static string getDownloadsPath(const string& def) {
 }
 
 #endif
-//#include "TimerManager.h"//fix?
+
 void Util::initialize(PathsMap pathOverrides) {
 	Text::initialize();
 
 	sgenrand((unsigned long)time(NULL));
 
-	//TimerManager::newInstance();
 #ifdef _WIN32
 	TCHAR buf[MAX_PATH+1] = { 0 };
 	::GetModuleFileName(NULL, buf, MAX_PATH);
@@ -1297,7 +1296,7 @@ bool Util::isIp6(const string& name)
 	return false;
 }
 
-static string Util::trimUrl(string url)
+string Util::trimUrl(string url)
 {
 	string currentUrl = url;
 		// Trim spaces

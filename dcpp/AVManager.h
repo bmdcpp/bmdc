@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2016 BMDC, freedcpp on seznam point cz
+ * Copyright (C) 2014-2017 BMDC, freedcpp on seznam point cz
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,12 +42,12 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 		};
 
 		AVManager(): timestamp_db(0), temp_tick(GET_TICK())
-		{	
+		{
 			TimerManager::getInstance()->addListener(this);
 		}
-		
+
 		virtual ~AVManager() {	TimerManager::getInstance()->removeListener(this); }
-		
+
 		bool isNickVirused(string nick) { Lock l(cs); return entries.find(Text::toLower(nick)) != entries.end(); }
 		bool isIpVirused(string ip) { Lock l(cs); return entip.find(ip) != entip.end(); }
 		void addItemNick(const string& nick, const AVEntry& entry);
