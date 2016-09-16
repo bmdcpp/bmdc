@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2016 BMDC
+ * Copyright © 2010-2017 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -94,7 +94,7 @@ void handle_crash(int )
 	f << "\n";
 	printf("Close");
 	f.close();
-	
+
 	std::cout << "\nException info to be posted on the bug tracker has also been saved in " + stackPath << std::endl;
 #else
     std::cerr << "Stacktrace is not enabled\n";
@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
 	bindtextdomain(GUI_LOCALE_PACKAGE, GUI_LOCALE_DIR);
 	textdomain(GUI_LOCALE_PACKAGE);
 	bind_textdomain_codeset(GUI_LOCALE_PACKAGE, "UTF-8");
-	
+
 	#ifndef _WIN32
 	connection = bacon_message_connection_new(GUI_PACKAGE);
 
@@ -147,7 +147,7 @@ int main(int argc, char *argv[])
 	// Start the DC++ client core
 
 	dcpp::Util::initialize();
-   
+
 	gtk_init(&argc, &argv);
 
 	Splash* sp = new Splash();
@@ -157,14 +157,14 @@ int main(int argc, char *argv[])
 		dcpp::load([sp](const string& str){ sp->setText(str); sp->update(); },
 		[sp](const float& str){ sp->setPercentage(str); sp->update(); }  );
 	}catch(...){
-	///	
+	///
 	}
 	sp->destroy();
 	delete sp;
 	try {
 	dcpp::TimerManager::getInstance()->start();
 	}catch(...){
-	///	
+	///
 	}
 	g_set_application_name("BMDC++");
 	WulforSettingsManager::newInstance();

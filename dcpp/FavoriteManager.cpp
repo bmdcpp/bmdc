@@ -438,11 +438,9 @@ void FavoriteManager::save() {
 			xml.addChildAttrib("Group", (*i)->getGroup());
 			//BMDC++
 			xml.addChildAttrib("Mode", (*i)->getMode());
-			//xml.addChildAttrib("ChatExtraInfo", (*i)->getChatExtraInfo());
 			xml.addChildAttrib("onConnect", (*i)->getCheckAtConn());
 			xml.addChildAttrib("CheckClients", (*i)->getCheckClients());
 			xml.addChildAttrib("CheckFilelists", (*i)->getCheckFilelists());
-			//xml.addChildAttrib("Protects", (*i)->getProtectUsers());
 			xml.addChildAttrib("UserListToggle", (*i)->getShowUserList());
 			xml.addChildAttrib("NotifyToggle", (*i)->getNotify());
 			xml.addChildAttrib("Order",(*i)->getHubOrder());
@@ -666,11 +664,9 @@ void FavoriteManager::load(SimpleXML& aXml) {
 			//BMDC++
 			e->setGroup(aXml.getChildAttrib("Group"));
 			e->setMode(aXml.getIntChildAttrib("Mode"));
-			//e->setChatExtraInfo(aXml.getChildAttrib("ChatExtraInfo"));
 			e->setCheckAtConn(Util::toInt(aXml.getChildAttrib("onConnect")));
 			e->setCheckClients(Util::toInt(aXml.getChildAttrib("CheckClients")));
 			e->setCheckFilelists(Util::toInt(aXml.getChildAttrib("CheckFilelists")));
-			//e->setProtectUsers(aXml.getChildAttrib("Protects"));
 			e->setShowUserList(Util::toInt(aXml.getChildAttrib("UserListToggle")));
 			e->setNotify(Util::toInt(aXml.getChildAttrib("NotifyToggle")));
 			e->setHubOrder(aXml.getChildAttrib("Order"));

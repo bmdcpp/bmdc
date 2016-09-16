@@ -640,12 +640,11 @@ void FavoriteHubDialog::onAddShare_gui(GtkWidget*, gpointer data)
 					if(share->getName().empty())
 					{
 						share = new ShareManager(s->p_entry->getServer());
-					}
-					share->addDirectory(path, name);
-					s->p_entry->setShareManager(share);
-					FavoriteManager::getInstance()->save();
-					s->p_entry->getShareManager()->refresh();
-					//s->updateShares_gui();
+						share->addDirectory(path, name);
+						s->p_entry->setShareManager(share);
+						FavoriteManager::getInstance()->save();
+						s->p_entry->getShareManager()->refresh();
+					}	
 				}
 				catch (const ShareException &e)
 				{
