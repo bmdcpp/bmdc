@@ -131,7 +131,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 				// Check for tth root identifier
 				string tFile = aFile;
 				if ( (tFile.compare(0, 4, "TTH/") == 0) && (aFile.length() > 4))//check also size...
-					tFile = /*ShareManager::getInstance()*/sm->toVirtual(TTHValue(aFile.substr(4)));
+					tFile = sm->toVirtual(TTHValue(aFile.substr(4)));
 
 				aSource.maxedOut(addFailedUpload(aSource, tFile +
 					" (" +  Util::formatBytes(aStartPos) + " - " + Util::formatBytes(aStartPos + aBytes) + ")"));
@@ -188,7 +188,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 
 		case Transfer::TYPE_TREE:
 			{
-				MemoryInputStream* mis = /*ShareManager::getInstance()*/sm->getTree(aFile);
+				MemoryInputStream* mis = sm->getTree(aFile);
 				if(!mis /*|| !isInSharingHub*/) {
 					aSource.fileNotAvail();
 					return false;
@@ -203,7 +203,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 		case Transfer::TYPE_PARTIAL_LIST:
 			{
 				// Partial file list
-				MemoryInputStream* mis = /*ShareManager::getInstance()*/sm->generatePartialList(aFile, listRecursive, isInSharingHub);
+				MemoryInputStream* mis = sm->generatePartialList(aFile, listRecursive, isInSharingHub);
 				if(!mis) {
 					aSource.fileNotAvail();
 					return false;

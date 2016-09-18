@@ -28,11 +28,16 @@
 #include "HintedUser.h"
 #include "AdcCommand.h"
 #include "MerkleTree.h"
+#if 0
 #include "PluginManager.h"
-
+#endif
 namespace dcpp {
 
-class UserConnection : public PluginEntity<ConnectionData>, public Speaker<UserConnectionListener>,
+class UserConnection : 
+#if 0 
+public PluginEntity<ConnectionData>,
+#endif
+ public Speaker<UserConnectionListener>,
 	private BufferedSocketListener, public Flags, private CommandHandler<UserConnection>
 {
 // for clang	
@@ -184,7 +189,9 @@ public:
 	void updateChunkSize(int64_t leafSize, int64_t lastChunk, uint64_t ticks);
 	//[BMDC++
 	void sendRaw(const string& raw) { send(raw);}
+	#if 0
 	ConnectionData* getPluginObject() noexcept;
+	#endif
 
 	GETSET(string, hubUrl, HubUrl);
 	GETSET(string, token, Token);

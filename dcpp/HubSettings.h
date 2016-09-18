@@ -55,7 +55,6 @@ struct HubSettings
 	void load(SimpleXML& xml);
 	void save(SimpleXML& xml) const;
 	GETSET(bool, autoConnect, AutoConnect);
-	//GETSET(string , id , Id);
 	void setId(const string &_url) { url = _url;}
 	
 	ShareManager* getShareManager() const;

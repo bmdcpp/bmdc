@@ -30,7 +30,9 @@
 #include <dcpp/version.h>
 #include <dcpp/ChatMessage.h>
 #include <dcpp/GeoManager.h>
+#if 0
 #include <dcpp/PluginManager.h>
+#endif
 #include <dcpp/ConnectivityManager.h>
 #include <dcpp/HighlightManager.h>
 #include <dcpp/AVManager.h>
@@ -1216,8 +1218,9 @@ void Hub::nickToChat_gui(const string &nick)
 
 void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 {
+#if 0
 	PluginManager::getInstance()->onChatDisplay(message);
-
+#endif
 	message = message.c_str();
 	if (message.empty())
 		return;
@@ -2535,13 +2538,14 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		{
 			params = text.substr(separator + 1);
 		}
-
+#if 0
 		if(PluginManager::getInstance()->onChatCommand(hub->client, text )) {
 			// Plugins, chat commands
 		  return;
 		}
-
-	    else if(WulforUtil::checkCommand(command, param, mess, status, thirdPerson))
+	    else
+#endif	    
+	    if(WulforUtil::checkCommand(command, param, mess, status, thirdPerson))
         {
 			if(!mess.empty())
 				hub->sendMessage_client(mess, thirdPerson);
@@ -2578,10 +2582,12 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 				{
 					Func1<Hub, const string&> *func = new Func1<Hub,const string&>(hub, &Hub::addFavoriteUser_client, cid);
 					WulforManager::get()->dispatchClientFunc(func);
-				} else
+				} else {
 					hub->addStatusMessage_gui(param + _(" is favorite user"), Msg::STATUS, Sound::NONE);
-			} else
+				}	
+			} else {
 				hub->addStatusMessage_gui(_("User not found: ") + params, Msg::SYSTEM, Sound::NONE);
+			}	
 		}
 		else if (command == "removefu" || command == "rmfu")
 		{
@@ -2629,19 +2635,22 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			else
 				hub->addStatusMessage_gui(_("Not found user: ") + param, Msg::SYSTEM, Sound::NONE);
 		}
+		//use with caution is ip not properly checked
 		else if(command == "addip")
 		{	
 			if(!params.empty()) {
+				
 				auto i = params.find(' ');
-				if(i == string::npos)
+				if(i == string::npos) {
 					FavoriteManager::getInstance()->addFavoriteIp(params);
-				else{
+				} else {
 					string r = params.substr(i+1);
 					if(r == "range")
 						FavoriteManager::getInstance()->addFavoriteIp(params.substr(0,i),time(NULL),FavoriteUser::FLAG_IP_RANGE);
 				}
-			}else
-				hub->addStatusMessage_gui(_("No IP/range given to the command"), Msg::SYSTEM , Sound::NONE );
+			}else {
+				hub->addStatusMessage_gui(_("No IP address or range of IP given to the command"), Msg::SYSTEM , Sound::NONE );
+			}	
 		}
 		else if( command == "listip")
 		{
@@ -2652,10 +2661,12 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			
 			hub->addMessage_gui("",tmp,Msg::SYSTEM);
 		} else if ( command == "remip") {
+			
 			if(!params.empty()) {
 				FavoriteManager::getInstance()->remFavoriteIp(params);
 			}else
-				hub->addStatusMessage_gui(_("No IP/range given to the command"), Msg::SYSTEM , Sound::NONE );	
+				hub->addStatusMessage_gui(_("No IP/range given to the command"), Msg::SYSTEM , Sound::NONE );
+					
 		}else if (command == "emoticons" || command == "emot")
 		{
 			if (hub->useEmoticons)
@@ -2727,6 +2738,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			WulforUtil::commands
 			,Msg::SYSTEM);
 		}
+#if 0		
 		else if(command == "plgadd")
 		{
 			if(!param.empty())
@@ -2746,6 +2758,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			}
 			hub->addMessage_gui("",status,Msg::SYSTEM);
 		}
+#endif		
 		else if (command == "join" && !param.empty())
 		{
 			if (SETTING(JOIN_OPEN_NEW_WINDOW))
@@ -2882,7 +2895,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		{
 			if(params.empty()) return;
 
-	        if(params[0] == '1') {
+	        if(params == "enable") {
 				hub->addStatusMessage_gui(_("Join/part showing on"), Msg::SYSTEM, Sound::NONE);
 				hub->client->set(SettingsManager::SHOW_JOINS,true);
 			} else {
@@ -2894,7 +2907,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		{
 			if(params.empty()) return;
 
-			if(params[0] == '1') {
+			if(params == "enable") {
 				hub->addStatusMessage_gui(_("Join/part for Fav showing on"), Msg::SYSTEM, Sound::NONE);
 				hub->client->set(SettingsManager::FAV_SHOW_JOINS,true);
 			} else {
@@ -2918,18 +2931,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if( command == "gettempignore")
 		{
-			/*map <string ,uint64_t> temp;
-			for(auto i:hub->listTempsNicks)
-				temp.insert(make_pair(i.second,i.first));
-			for(auto i:hub->listTempsIps)
-				temp.insert(make_pair(i.second,i.first));
-			for(auto i:hub->listTempsCids)
-				temp.insert(make_pair(i.second,i.first));
-			string lists;	
-			for(auto i:temp)
-				lists += i.first + " " + Util::formatSeconds(i.second);
-				
-			hub->addMessage_gui("",lists,Msg::SYSTEM);	*/
+			//todo?
 		}	
 		// protect command
 		else if (command == "password")
@@ -2946,7 +2948,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			{
 					if(SETTING(SERVER_COMMANDS)) {
 						if(text[0] == '!' || text[0] == '+' || text[0] == '-')
-							hub->addMessage_gui("",_("Server command: ") + text,Msg::SYSTEM);
+							hub->addMessage_gui("",_("Server command: ") + text, Msg::SYSTEM);
 					}
 				hub->sendMessage_client(text, false);
 			}
@@ -2959,7 +2961,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 	{
 		if(SETTING(SERVER_COMMANDS)) {
 			if(text[0] == '!' || text[0] == '+' || text[0] == '-')
-				hub->addMessage_gui("",_("Server command: ") + text,Msg::SYSTEM);
+				hub->addMessage_gui("",_("Server command: ") + text, Msg::SYSTEM);
 		}
 		hub->sendMessage_client(text, false);
 	}
@@ -3015,7 +3017,7 @@ void Hub::onBrowseItemClicked_gui(GtkMenuItem*, gpointer data)
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(hub->nickStore), &iter, path))
 			{
 				cid = hub->nickView.getString(&iter, "CID");
-				func = new F3(hub, &Hub::getFileList_client, cid, FALSE,FALSE);
+				func = new F3(hub, &Hub::getFileList_client, cid, false,false);
 				WulforManager::get()->dispatchClientFunc(func);
 			}
 			gtk_tree_path_free(path);
@@ -3780,12 +3782,13 @@ void Hub::getFileList_client(string cid, bool match,bool partial)
 	{
 		try
 		{
-			UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
-			if (user)
+			//UserPtr user = ClientManager::getInstance()->findUser(CID(cid), client->getHubUrl());
+			OnlineUser* ou = ClientManager::getInstance()->findOnlineUser(CID(cid), client->getHubUrl());
+			if (ou)
 			{
-				const HintedUser hintedUser(user, client->getHubUrl());
+				const HintedUser hintedUser(ou->getUser(), client->getHubUrl());
 
-				if (user == ClientManager::getInstance()->getMe())
+				if (ou->getUser() == ClientManager::getInstance()->getMe())
 				{
 					// Don't download file list, open locally instead
 					WulforManager::get()->getMainWindow()->openOwnList_client(TRUE);
@@ -4501,7 +4504,7 @@ void Hub::on(ClientListener::Redirect, Client *, const string &address) noexcept
 {
 	// redirect_client() crashes unless I put it into the dispatcher (why?)
 	typedef Func2<Hub, string, bool> F2;
-	F2 *func = new F2(this, &Hub::redirect_client, address, SETTING(AUTO_FOLLOW));//Fav?
+	F2 *func = new F2(this, &Hub::redirect_client, address, SETTING(AUTO_FOLLOW));
 	WulforManager::get()->dispatchClientFunc(func);
 }
 
@@ -4603,9 +4606,10 @@ string Hub::formatAdditionalInfo(const string& aIp, bool sIp, bool sCC) {
 void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexcept
 {
 	string txt = message.text;
+	#if 0
 	if(PluginManager::getInstance()->onChatDisplay(txt))
 		return;
-
+	#endif
 	if (message.text.empty())
 		return;
 
@@ -4623,43 +4627,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 	bool ok = im->isNickIgnored(fid.getNick());
 	ok = im->isIpIgnored(fid.getIp());
 	ok = im->isCidIgnored(message.from->getCID().toBase32());
-	/*{
-		Lock l(cs);//because this can be in same time as add
-		if(!listTempsNicks.empty())
-		{
-			for(auto i = listTempsNicks.begin();i != listTempsNicks.end();++i)
-			{
-				if(fid.getNick() == (*i).second)
-				{	
-					ok = true;
-					break;
-				}
-			}
-		}
-		if(!listTempsIps.empty())
-		{	
-			for(auto i = listTempsNicks.begin();i != listTempsNicks.end();++i)
-				{
-					if(fid.getIp() == (*i).second)
-					{	
-						ok = true;
-						break;
-					}
-				}
-		}
-	if(!listTempsCids.empty())	
-	{
-		for(auto i = listTempsNicks.begin();i != listTempsNicks.end();++i)
-			{
-				if(ou->getUser()->getCID() == CID((*i).second))
-				{	
-					ok = true;
-					break;
-				}
-			}
-	}
-	}*/
-		
+			
 	if(ok)
 	{
 		string error = _("Temp Ignored User ")+fid.getNick()+" "+fid.getIp()+" "

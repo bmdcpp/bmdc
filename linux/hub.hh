@@ -57,7 +57,7 @@ class Hub:
 		using dcpp::QueueManagerListener::on;	
 		typedef enum
 		{
-		BOT,OPERATOR,FAVORITE,IGNORED,PROTECTED,PASIVE,NORMAL	
+			BOT,OPERATOR,FAVORITE,IGNORED,PROTECTED,PASIVE,NORMAL	
 		} UserType;		
 	public:
 		Hub(const std::string &address, const std::string &encoding);
@@ -362,7 +362,7 @@ private:
 		Tag::TypeTag tagMsg;
 		unsigned int historyIndex;
 		static const int maxLines = 1000;
-		static const int maxHistory = 30;
+		static const int maxHistory = 30;//made settable
 		int64_t totalShared;
 		int ImgLimit;
 		gint totalEmoticons;

@@ -218,7 +218,7 @@ private:
 	friend class Singleton<ShareManager>;
 public:	
 	ShareManager(const std::string& name = Util::emptyString);
-	virtual ~ShareManager();
+	~ShareManager();
 private:	
 
 	struct SearchQuery {

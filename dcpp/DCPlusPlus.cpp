@@ -48,7 +48,9 @@
 #endif
 #include "DebugManager.h"
 #include "HighlightManager.h"
+#if 0
 #include "PluginManager.h"
+#endif
 #include "BMDCUtil.h"
 
 #include "AVManager.h"
@@ -98,8 +100,10 @@ void startup() {
 	ConnectivityManager::newInstance();
 	MappingManager::newInstance();
 	GeoManager::newInstance();
+#if 0	
 	PluginManager::newInstance();
     PluginApiImpl::init();
+#endif    
 #ifdef HAVE_LIBTAR
 	ExportManager::newInstance();
 #endif
@@ -145,9 +149,9 @@ void load(function<void (const string&)> stepF, function<void (float)> progressF
 
 	announce(_("Download Queue"));
 	QueueManager::getInstance()->loadQueue();
-
+#if 0
 	PluginManager::getInstance()->loadPlugins(stepF);
-
+#endif
 	if(SETTING(GET_USER_COUNTRY)) {
 		announce(_("Country information"));
 		GeoManager::getInstance()->init();
@@ -166,13 +170,17 @@ void load(function<void (const string&)> stepF, function<void (float)> progressF
 
 void shutdown() {
 	bmUtil::uinit();
+#if 0	
     PluginApiImpl::shutdown();
+#endif
 #ifdef HAVE_LIBTAR
 	ExportManager::deleteInstance();
 	RestoreManager::deleteInstance();
 	BackupManager::deleteInstance();
 #endif
+#if 0	
 	PluginManager::getInstance()->unloadPlugins();
+#endif
 	TimerManager::getInstance()->shutdown();
 	ThrottleManager::getInstance()->shutdown();//..
 
@@ -190,7 +198,9 @@ void shutdown() {
 	AVManager::deleteInstance();
 	HighlightManager::deleteInstance();
 	DetectionManager::deleteInstance();
+	#if 0
 	PluginManager::deleteInstance();//
+	#endif
 	GeoManager::deleteInstance();
 	MappingManager::deleteInstance();
 	ConnectivityManager::deleteInstance();

@@ -204,7 +204,7 @@ void QueueItem::addSegment(const Segment& segment) {
 		}
 	}
 }
-
+#if 0
 QueueData* QueueItem::getPluginObject() noexcept {
 	resetEntity();
 
@@ -217,5 +217,5 @@ QueueData* QueueItem::getPluginObject() noexcept {
 
 	return &pod;
 }
-
+#endif
 }

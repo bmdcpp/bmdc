@@ -57,10 +57,10 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 
 	if(aLine[0] == '$')
 		setFlag(FLAG_NMDC);
-
+#if 0
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_CONN_IN, this, aLine))
 		return;
-
+#endif
 	if(aLine[0] == 'C' && !isSet(FLAG_NMDC)) {
 		if(!Text::validateUtf8(aLine)) {
 			fire(UserConnectionListener::ProtocolError(), this, _("Non-UTF-8 data in an ADC connection"));
@@ -281,7 +281,7 @@ void UserConnection::updateChunkSize(int64_t leafSize, int64_t lastChunk, uint64
 
 	chunkSize = targetSize;
 }
-
+#if 0
 ConnectionData* UserConnection::getPluginObject() noexcept {
 	resetEntity();
 
@@ -294,12 +294,14 @@ ConnectionData* UserConnection::getPluginObject() noexcept {
 
 	return &pod;
 }
-
+#endif
 void UserConnection::send(const string& aString) {
 	lastActivity = GET_TICK();
 	COMMAND_DEBUG(aString,TYPE_CLIENT,OUTGOING,getRemoteIp());
+#if 0
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_CONN_OUT, this, aString))
 		return;
+#endif		
 	socket->write(aString);
 }
 

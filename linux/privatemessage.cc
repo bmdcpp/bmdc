@@ -24,7 +24,9 @@
 #include <dcpp/ClientManager.h>
 #include <dcpp/FavoriteManager.h>
 #include <dcpp/StringTokenizer.h>
+#if 0
 #include <dcpp/PluginManager.h>
+#endif
 #include "settingsmanager.hh"
 #include "emoticonsdialog.hh"
 #include "emoticons.hh"
@@ -1002,13 +1004,13 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		bool isThirdPerson = false;
 		string message = Util::emptyString, status = Util::emptyString;
-		
+#if 0		
 		if(PluginManager::getInstance()->onChatCommandPM(HintedUser(make_shared<User>(User(CID(pm->cid))),pm->hubUrl),command)) {
 			// Plugins, chat commands
 		  return;
 	    }
-
-		else if(WulforUtil::checkCommand(text, param, message, status, isThirdPerson))
+#endif
+		/*else*/ if(WulforUtil::checkCommand(text, param, message, status, isThirdPerson))
 		{
 			if(!message.empty())
 				pm->sendMessage_client(message);

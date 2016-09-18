@@ -58,7 +58,6 @@ namespace dcpp {
 
 using std::numeric_limits;
 //this should not been static....
-//atomic_flag ShareManager::refreshing = ATOMIC_FLAG_INIT;
 
 ShareManager::ShareManager(const string& _name) : hits(0), xmlListLen(0), bzXmlListLen(0),
 	xmlDirty(true), forceXmlRefresh(true), refreshDirs(false), update(false), listN(0),
@@ -190,15 +189,18 @@ string ShareManager::toReal(const string& virtualFile,bool isShared) {
 	return toRealWithSize(virtualFile,isShared).first;
 }
 
-pair<string, int64_t> ShareManager::toRealWithSize(const string& virtualFile, bool isInSharedHub) {
+pair<string, int64_t> ShareManager::toRealWithSize(const string& virtualFile, bool isInSharingHub) {
 	Lock l(cs);
-	if(!isInSharedHub) return make_pair((Util::getPath(Util::PATH_USER_CONFIG) + "Emptyfiles.xml.bz2"),0);
-
+	
 	if(virtualFile == "MyList.DcLst") {
 		throw ShareException("NMDC-style lists no longer supported, please upgrade your client");
 	}
 	if(virtualFile == Transfer::USER_LIST_NAME_BZ || virtualFile == Transfer::USER_LIST_NAME) {
 		generateXmlList();
+		if (!isInSharingHub) {
+			string emptyList = Util::getPath(Util::PATH_USER_CONFIG) + "Emptyfiles.xml.bz2";
+			return make_pair(emptyList, 0);
+		}
 		return make_pair(getBZXmlFile(), 0);
 	}
 
@@ -952,12 +954,7 @@ void ShareManager::generateXmlList() {
 			string tmp2;
 			string indent;
 			
-			string newXmlName = Util::emptyString;
-
-			if(id.empty())
-				newXmlName = Util::getPath(Util::PATH_USER_CONFIG) + "files" + Util::toString(listN) + ".xml.bz2";
-			else
-				newXmlName	= Util::getPath(Util::PATH_USER_CONFIG) + "files" + id + ".xml.bz2";
+			string newXmlName =  Util::getPath(Util::PATH_USER_CONFIG) + "files" + Util::toString(listN) + ".xml.bz2";
 			{
 				File f(newXmlName, File::WRITE, File::TRUNCATE | File::CREATE);
 				// We don't care about the leaves...

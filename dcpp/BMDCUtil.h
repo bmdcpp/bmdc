@@ -39,4 +39,4 @@ private:
 
 }; // namespace dcpp
 
-#endif //RSXUTIL_H
+#endif 

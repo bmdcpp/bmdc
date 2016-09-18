@@ -679,7 +679,7 @@ bool Identity::isProtectedUser(const Client& c, bool OpBotHubCheck) const {
 	}
 	return ret;
 }
-
+#if 0
 UserData* OnlineUser::getPluginObject() noexcept {
 	resetEntity();
 
@@ -692,5 +692,5 @@ UserData* OnlineUser::getPluginObject() noexcept {
 
 	return &pod;
 }
-
+#endif
 } // namespace dcpp

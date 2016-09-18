@@ -32,7 +32,9 @@
 #ifdef HAVE_LIBTAR
 	#include <dcpp/BackupManager.h>
 #endif
+#if 0
 #include <dcpp/PluginManager.h>
+#endif
 #include <dcpp/ConnectivityManager.h>
 #include "settingsmanager.hh"
 #include "sound.hh"
@@ -1868,6 +1870,7 @@ void Settings::initHighlighting_gui()//NOTE: BMDC++
 
 void Settings::initPlugins_gui()
 {
+	#if 0
 	GtkTreeIter iter;
 	plView.setView(GTK_TREE_VIEW(getWidget("PluginsTree")));
 	plView.insertColumn(_("Enabled"),G_TYPE_BOOLEAN,TreeView::BOOL,20);
@@ -1902,10 +1905,12 @@ void Settings::initPlugins_gui()
 	g_signal_connect(getWidget("buttonPLConfig"), "clicked", G_CALLBACK(onConfigurePlugin_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonAbout"), "clicked", G_CALLBACK(onAboutPlugin_gui), (gpointer)this);
 	g_signal_connect(plView.getCellRenderOf(_("Enabled")), "toggled", G_CALLBACK(onToggledPluginsClicked_gui), (gpointer)this);
+	#endif
 }
 
 void Settings::onToggledPluginsClicked_gui(GtkCellRendererToggle*, gchar *path, gpointer data)
 {
+	#if 0
 		Settings *fh = (Settings *)data;
 		GtkTreeIter iter;
 
@@ -1921,11 +1926,12 @@ void Settings::onToggledPluginsClicked_gui(GtkCellRendererToggle*, gchar *path, 
 			else
 				PluginManager::getInstance()->disablePlugin(guid);
 		}
-
+#endif
 }
 
 void Settings::onAddPluginTo_gui(GtkWidget*, gpointer data)
 {
+	#if 0
 	Settings *s = (Settings *)data;
 	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(s->getWidget("fileChooserDialog")), GTK_FILE_CHOOSER_ACTION_OPEN);
 	gint response = gtk_dialog_run(GTK_DIALOG(s->getWidget("fileChooserDialog")));
@@ -1941,11 +1947,13 @@ void Settings::onAddPluginTo_gui(GtkWidget*, gpointer data)
             s->addToGuiPlg();
 		}
 	}
+	#endif
 }
 
 
 void Settings::onRemPluginFrom_gui(GtkWidget*, gpointer data)
 {
+	#if 0
 	Settings *s = (Settings *)data;
 	GtkTreeIter iter;
 	if (gtk_tree_selection_get_selected(s->plselection, NULL, &iter))
@@ -1956,13 +1964,19 @@ void Settings::onRemPluginFrom_gui(GtkWidget*, gpointer data)
 		WulforManager::get()->dispatchClientFunc(func);
                 s->addToGuiPlg();
 	}
+	#endif
 }
 
 void Settings::RemovePlg_client(string sel)
-{ PluginManager::getInstance()->disablePlugin(sel); }
+{ 
+	#if 0
+	PluginManager::getInstance()->disablePlugin(sel); 
+	#endif	
+}
 
 void Settings::onConfigurePlugin_gui(GtkWidget*, gpointer data)
 {
+	#if 0
 	Settings *s = (Settings *)data;
 	GtkTreeIter iter;
 	if(gtk_tree_selection_get_selected(s->plselection, NULL, &iter))
@@ -1979,10 +1993,12 @@ void Settings::onConfigurePlugin_gui(GtkWidget*, gpointer data)
 			gtk_widget_destroy(GTK_WIDGET(dialog));
 		}
 	}
+	#endif
 }
 
 void Settings::onAboutPlugin_gui(GtkWidget*, gpointer data)
 {
+	#if 0
 	Settings *s = (Settings *)data;
 	GtkTreeIter iter;
 	if(gtk_tree_selection_get_selected(s->plselection, NULL, &iter))
@@ -2004,10 +2020,12 @@ void Settings::onAboutPlugin_gui(GtkWidget*, gpointer data)
 
 			gtk_widget_hide(GTK_WIDGET(dialog));
 	}
+	#endif
 }
 
 void Settings::addToGuiPlg()
 {
+	#if 0
  	auto pm = PluginManager::getInstance();
          const auto& list = pm->getPluginList();
          gtk_list_store_clear(plStore);
@@ -2023,6 +2041,7 @@ void Settings::addToGuiPlg()
                                           plView.col("Index"), info.guid.c_str() ,
                                          -1);
          }
+         #endif
 }
 
 

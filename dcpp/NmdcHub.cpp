@@ -34,7 +34,9 @@
 #include "UserCommand.h"
 #include "StringTokenizer.h"
 #include "format.h"
+#if 0
 #include "PluginManager.h"
+#endif
 #include "AVManager.h"
 
 namespace dcpp {
@@ -238,9 +240,10 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		}
 		COMMAND_DEBUG(aLine,TYPE_HUB,INCOMING,getHubUrl());
 		auto chatMessage = unescape(message);
+		#if 0
 		if(PluginManager::getInstance()->runHook(HOOK_CHAT_IN, this, chatMessage))
 			return;
-
+		#endif
 		fire(ClientListener::Message(), this, ChatMessage(chatMessage, from));
 		return;
 	}
@@ -813,9 +816,10 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		//}
 
 		auto chatMessage = unescape(toUtf8(param.substr(j + 2)));
+		#if 0
 		if(PluginManager::getInstance()->runHook(HOOK_CHAT_PM_IN, replyTo, chatMessage))
 			return;
-
+		#endif
 		fire(ClientListener::Message(), this, ChatMessage(chatMessage, from, &getUser(getMyNick()), replyTo));
 	} else if(cmd == "$GetPass") {
 		OnlineUser& ou = getUser(getMyNick());
@@ -894,7 +898,9 @@ void NmdcHub::revConnectToMe(const OnlineUser& aUser) {
 
 void NmdcHub::hubMessage(const string& aMessage, bool thirdPerson) {
 	checkstate();
+	#if 0
 	if(!PluginManager::getInstance()->runHook(HOOK_CHAT_OUT, this, aMessage))
+	#endif
 		send(fromUtf8( "<" + getMyNick() + "> " + escape(thirdPerson ? "/me " + aMessage : aMessage) + "|" ) );
 }
 
@@ -1042,10 +1048,10 @@ void NmdcHub::privateMessage(const string& nick, const string& message) {
 
 void NmdcHub::privateMessage(const OnlineUser& aUser, const string& aMessage, bool /*thirdPerson*/) {
 	checkstate();
-
+#if 0
 	if(PluginManager::getInstance()->runHook(HOOK_CHAT_PM_OUT, (void*)&(aUser), (void*)&(aMessage)))
 		return;
-
+#endif
 	privateMessage(aUser.getIdentity().getNick(), aMessage);
 	// Emulate a returning message...
 	Lock l(cs);
@@ -1119,8 +1125,10 @@ void NmdcHub::on(Connected) noexcept {
 
 void NmdcHub::on(Line, const string& aLine) noexcept {
 	Client::on(Line(), aLine);
+	#if 0
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_IN, this, validateMessage(aLine, true)))
 		return;
+	#endif
 	onLine(aLine);
 }
 

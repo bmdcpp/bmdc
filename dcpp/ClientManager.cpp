@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -398,7 +398,7 @@ OnlineUser* ClientManager::findOnlineUser(const CID& cid, const string& hintUrl)
 		return nullptr;
 
 	// return a random user that matches the given CID but not the hint.
-	return p.first->second;
+	return p.first->second;//should we do this?
 }
 //TODO ? needed....
 string ClientManager::findMySID(const HintedUser& p) {

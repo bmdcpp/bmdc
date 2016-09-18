@@ -358,9 +358,9 @@ void ConnectionManager::adcConnect(const OnlineUser& aUser, const uint16_t& aPor
 	uc->setEncoding(Text::utf8);
 	uc->setState(UserConnection::STATE_CONNECT);
 	uc->setHubUrl(aUser.getClient().getHubUrl());
-	
-	if(uc->getHubUrl().empty() || !hubUrl.empty())
-		uc->setHubUrl(hubUrl);
+	//this not need?
+	//if(uc->getHubUrl().empty() || !hubUrl.empty())
+		//uc->setHubUrl(hubUrl);
 	
 	if(aUser.getIdentity().isOp()) {
 		uc->setFlag(UserConnection::FLAG_OP);

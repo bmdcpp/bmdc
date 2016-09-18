@@ -36,7 +36,9 @@
 #include <dcpp/HttpDownload.h>
 #include <dcpp/version.h>
 #include <dcpp/ThrottleManager.h>
+#if 0
 #include <dcpp/PluginManager.h>
+#endif
 #include <dcpp/ConnectivityManager.h>
 #include <dcpp/HashManager.h>
 
@@ -450,8 +452,9 @@ MainWindow::MainWindow():
 	setInitThrotles();
 	Sound::start();
 	Notify::start();
-
+#if 0
 	PluginManager::getInstance()->runHook(HOOK_UI_CREATED, getContainer(), NULL);
+#endif	
 }
 
 MainWindow::~MainWindow()

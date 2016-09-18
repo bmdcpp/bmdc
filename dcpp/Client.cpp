@@ -23,7 +23,9 @@
 #include "ConnectivityManager.h"
 #include "FavoriteManager.h"
 #include "TimerManager.h"
+#if 0
 #include "PluginManager.h"
+#endif
 #include "DebugManager.h"
 #include "LogManager.h"
 
@@ -94,7 +96,8 @@ void Client::reloadSettings(bool updateNick) {
 // reset HubSettings to refresh it without a need to reopen hub window
 	HubSettings emptySettings;
 	*static_cast<HubSettings*>(this) = emptySettings;
-	
+	//*static_cast<HubSettings*>(this) = SettingsManager::getInstance()->getHubSettings();
+
 	FavoriteHubEntry* fav = FavoriteManager::getInstance()->getFavoriteHubEntry(getHubUrl());
 	if(fav)
 	{
@@ -173,16 +176,16 @@ void Client::send(const char* aMessage, size_t aLen) {
 		return;
 	}
 	dcdebug("\nPlugins");
-	
+#if 0	
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_OUT, this, aMessage))
 		return;
-		
+#endif		
 	Lock l(cs);
 	updateActivity();
 	sock->write(aMessage, aLen);
 	COMMAND_DEBUG(aMessage,TYPE_HUB,OUTGOING, getHubUrl());
 }
-
+#if 0
 HubData* Client::getPluginObject() noexcept {
 	resetEntity();
 
@@ -196,7 +199,7 @@ HubData* Client::getPluginObject() noexcept {
 
 	return &pod;
 }
-
+#endif
 void Client::on(Connected) noexcept {
 	updateActivity();
 	ip = sock->getIp();

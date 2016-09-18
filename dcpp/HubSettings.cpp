@@ -19,6 +19,7 @@
 #include "stdinc.h"
 #include "SettingsManager.h"
 #include "HubSettings.h"
+
 namespace dcpp {
 
 HubSettings::HubSettings():
