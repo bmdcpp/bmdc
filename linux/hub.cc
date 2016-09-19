@@ -1194,14 +1194,14 @@ void Hub::addStatusMessage_gui(string message, Msg::TypeMsg typemsg, Sound::Type
 		if( client && client->get(SettingsManager::STATUS_IN_CHAT,SETTING(STATUS_IN_CHAT)))
 		{
 			string line = "*** " + message;
-			addMessage_gui("", line, typemsg);
+			addMessage_gui("", line, typemsg,"");
 			return;
 		}
 		//fallback...
 		if( SETTING(STATUS_IN_CHAT) )
 		{
 			string line = "*** " + message;
-			addMessage_gui("", line, typemsg);
+			addMessage_gui("", line, typemsg,"");
 		}
 	}
 }
@@ -1216,7 +1216,7 @@ void Hub::nickToChat_gui(const string &nick)
 	gtk_editable_set_position(GTK_EDITABLE(getWidget("chatEntry")), pos);
 }
 
-void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
+void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg, string sCountry)
 {
 #if 0
 	PluginManager::getInstance()->onChatDisplay(message);
@@ -1234,7 +1234,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 
 	if( client && client->get(SettingsManager::TIME_STAMPS,SETTING(TIME_STAMPS)))
 			line += "[" + Util::getShortTimeString() + "] ";
-
+			
 	line += message;
 
 	gtk_text_buffer_get_end_iter(chatBuffer, &iter);
@@ -1276,7 +1276,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 
 	totalEmoticons = 0;
 
-	applyTags_gui(cid, line);
+	applyTags_gui(cid, line,sCountry);
 
 	gtk_text_buffer_get_end_iter(chatBuffer, &iter);
 
@@ -1287,7 +1287,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 		gtk_text_buffer_get_start_iter(chatBuffer, &iter);
 		gtk_text_buffer_get_iter_at_line(chatBuffer, &next, 1);
 		gtk_text_buffer_delete(chatBuffer, &iter, &next);
-		addMessage_gui(cid, message,typemsg);
+		addMessage_gui(cid, message,typemsg,sCountry);
 		return;
 	}
 	if(gtk_text_buffer_get_char_count (chatBuffer) > 25000)
@@ -1297,13 +1297,13 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg)
 		gtk_text_buffer_get_start_iter(chatBuffer, &startIter);
 		gtk_text_buffer_get_end_iter(chatBuffer, &endIter);
 		gtk_text_buffer_delete(chatBuffer, &startIter, &endIter);
-		addMessage_gui(cid, message,typemsg);
+		addMessage_gui(cid, message,typemsg,sCountry);
 		return;
 	}
 	
 }
-//&&
-void Hub::applyTags_gui(const string cid, const string line)
+
+void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 {
 	GtkTextIter start_iter;
 	gtk_text_buffer_get_end_iter(chatBuffer, &start_iter);
@@ -1324,7 +1324,19 @@ void Hub::applyTags_gui(const string cid, const string line)
 	}
 	else
 		gtk_text_iter_backward_chars(&start_iter, g_utf8_strlen(line.c_str(), -1));
-
+		
+	//
+	if(client && client->get(SettingsManager::GET_USER_COUNTRY,SETTING(GET_USER_COUNTRY)))	
+	{	
+		//GtkTextIter iter = start_iter;
+		gtk_text_iter_starts_line (&start_iter);
+		gtk_text_iter_forward_char (&start_iter);
+		
+		GdkPixbuf *pix = WulforUtil::LoadCountryPixbuf(sCountry);
+		gtk_text_buffer_insert_pixbuf(chatBuffer,&start_iter,pix);
+		//gtk_text_buffer_get_end_iter(chatBuffer, &start_iter);
+	}else
+		gtk_text_iter_backward_chars(&start_iter, g_utf8_strlen(line.c_str(), -1));
 	// apply tags: nick, link, hub-url, magnet
 	GtkTextIter tag_start_iter, tag_end_iter;
 
@@ -1373,8 +1385,7 @@ void Hub::applyTags_gui(const string cid, const string line)
 		bool bold_tag = false;
 		bool italic_tag = false;
 		bool underline_tag = false;
-		bool countryTag = false;
-		string image_magnet, bold_text, italic_text, underline_text, country_text;
+		string image_magnet, bold_text, italic_text, underline_text;
 		gchar *temp = gtk_text_iter_get_text(&tag_start_iter, &tag_end_iter);
 
 		if(client && client->get(SettingsManager::USE_HIGHLITING,SETTING(USE_HIGHLITING)))
@@ -1428,24 +1439,9 @@ void Hub::applyTags_gui(const string cid, const string line)
 			else
 			{
 			   bool notlink = false;
-			   bool country = false;
-
-                if(g_ascii_strncasecmp(tagName.c_str(), "[ccc]", 5) == 0)
-                {
-                    string::size_type i = tagName.rfind("[/ccc]");
-                    if (i != string::npos)
-                    {
-						country_text = tagName.substr(5, i - 5);
-						if(country_text.length() == 2 )
-						{
-							country = notlink = countryTag = true;
-
-						}
-                    }
-                }
+			  
 			// Support bbCode: [i]italic-text[/i], [u]underline-text[/u]
 			// [img]magnet-link[/img]
-            if(!country) {
 				if (g_ascii_strncasecmp(tagName.c_str(), "[img]", 5) == 0)
 				{
 					string::size_type i = tagName.rfind("[/img]");
@@ -1483,7 +1479,7 @@ void Hub::applyTags_gui(const string cid, const string line)
 						notlink = underline_tag = true;
 					}
 				}
-            }
+        
 
 				if (!notlink)
 				{
@@ -1510,25 +1506,6 @@ void Hub::applyTags_gui(const string cid, const string line)
 					gtk_widget_show_all(userCommandMenu2->getContainer());
 				}
 			}
-		}
-
-		if(countryTag)
-		{
-            gtk_text_buffer_move_mark(chatBuffer, tag_mark, &tag_end_iter);
-            if(country_text.length() == 2)
-            {
-                GdkPixbuf *buffer = WulforUtil::LoadCountryPixbuf(country_text);
-                if(buffer != NULL)
-				{
-					gtk_text_buffer_delete(chatBuffer,&tag_start_iter,&tag_end_iter);
-					
-					gtk_text_buffer_insert_pixbuf(chatBuffer, &tag_end_iter , buffer);
-
-					gtk_text_buffer_move_mark(chatBuffer, tag_mark, &tag_end_iter);
-
-				}
-            }
-
 		}
 
 		if (image_tag)
@@ -1602,7 +1579,7 @@ void Hub::applyTags_gui(const string cid, const string line)
 				underline_text.c_str(), underline_text.size(), UnderlineTag, TagsMap[tagMsg], NULL);
 		}
 
-		if (image_tag || bold_tag || italic_tag || underline_tag || countryTag)
+		if (image_tag || bold_tag || italic_tag || underline_tag )
 		{
 			applyEmoticons_gui();
 
@@ -1683,6 +1660,7 @@ void Hub::applyTags_gui(const string cid, const string line)
 		}
 	}
 }
+
 
 void Hub::applyEmoticons_gui()
 {
@@ -2612,7 +2590,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			{
 				list += " " + it->second;
 			}
-			hub->addMessage_gui("", _("User favorite list:") + (list.empty()? list = _(" empty...") : list), Msg::SYSTEM);
+			hub->addMessage_gui("", _("User favorite list:") + (list.empty()? list = _(" empty...") : list), Msg::SYSTEM,"");
 		}
 		else if (command == "getlist")
 		{
@@ -2659,7 +2637,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			for(auto it:list)
 					tmp += _("IP: ") + it.first + _(" Last Seen: ")+Util::formatTime("%Y-%m-%d %H:%M", it.second->getLastSeen())+"\n";
 			
-			hub->addMessage_gui("",tmp,Msg::SYSTEM);
+			hub->addMessage_gui("",tmp,Msg::SYSTEM,"");
 		} else if ( command == "remip") {
 			
 			if(!params.empty()) {
@@ -2693,7 +2671,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 					text = _("Download image: unlimit");
 				else
 					text = _("Download limit image: ") + Util::toString(n);
-				hub->addMessage_gui("", text.c_str(), Msg::SYSTEM);
+				hub->addMessage_gui("", text.c_str(), Msg::SYSTEM,"");
 				return;
 			}
 			n = Util::toInt(params);
@@ -2736,7 +2714,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			"\r\n/info\r\n\t" + _("Get Info about hub connection & favorite hub info") +
 			"\r\n/addfavorite\r\n\t" + _("Add Nick to Favorite users") +
 			WulforUtil::commands
-			,Msg::SYSTEM);
+			,Msg::SYSTEM,"");
 		}
 #if 0		
 		else if(command == "plgadd")
@@ -2756,7 +2734,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 				status += pm->isLoaded(p.guid) ? _("Loaded") : _("Not loaded");
 				status += "\n";
 			}
-			hub->addMessage_gui("",status,Msg::SYSTEM);
+			hub->addMessage_gui("",status,Msg::SYSTEM,"");
 		}
 #endif		
 		else if (command == "join" && !param.empty())
@@ -2779,7 +2757,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if (command == "topic" )
 		{
-			hub->addMessage_gui("", _("Topic: ") + hub->client->getHubDescription(), Msg::SYSTEM);
+			hub->addMessage_gui("", _("Topic: ") + hub->client->getHubDescription(), Msg::SYSTEM,"");
 		}
 		else if ( command == "info" )
 		{
@@ -2816,12 +2794,12 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 				text += _("\n") + (*i).first + _(": ") + Text::toT((*i).second);
 			}
 
-			hub->addMessage_gui("",text,Msg::SYSTEM);
+			hub->addMessage_gui("",text,Msg::SYSTEM,"");
 
 		} else if ( command == "conn") {
 
 			string info = ConnectivityManager::getInstance()->getInformation();
-			hub->addMessage_gui("", info, Msg::SYSTEM);
+			hub->addMessage_gui("", info, Msg::SYSTEM,"");
 
 		}else if (command == "pm")
 		{
@@ -2925,7 +2903,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 				UserPtr ui = cm->findUser(params,hub->client->getHubUrl());
 				OnlineUser* ou = cm->findOnlineUser(ui->getCID(),hub->client->getHubUrl());
 				Identity& id = ou->getIdentity();
-				hub->addMessage_gui("",WulforUtil::formatReport(id)+"\n",Msg::SYSTEM);
+				hub->addMessage_gui("",WulforUtil::formatReport(id)+"\n",Msg::SYSTEM,"");
 				
 			}
 		}
@@ -2948,7 +2926,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			{
 					if(SETTING(SERVER_COMMANDS)) {
 						if(text[0] == '!' || text[0] == '+' || text[0] == '-')
-							hub->addMessage_gui("",_("Server command: ") + text, Msg::SYSTEM);
+							hub->addMessage_gui("",_("Server command: ") + text, Msg::SYSTEM,"");
 					}
 				hub->sendMessage_client(text, false);
 			}
@@ -2961,7 +2939,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 	{
 		if(SETTING(SERVER_COMMANDS)) {
 			if(text[0] == '!' || text[0] == '+' || text[0] == '-')
-				hub->addMessage_gui("",_("Server command: ") + text, Msg::SYSTEM);
+				hub->addMessage_gui("",_("Server command: ") + text, Msg::SYSTEM,"");
 		}
 		hub->sendMessage_client(text, false);
 	}
@@ -3529,7 +3507,7 @@ void Hub::onShowReportClicked_gui(GtkMenuItem* , gpointer data)
 		OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hub->client->getHubUrl());
 		Identity id = ou->getIdentity();
 
-		hub->addMessage_gui("", WulforUtil::formatReport(id)+"\nIcon\t"+icon, Msg::CHEAT);
+		hub->addMessage_gui("", WulforUtil::formatReport(id)+"\nIcon\t"+icon, Msg::CHEAT,"");
 
 	}
 }
@@ -4581,11 +4559,10 @@ string Hub::formatAdditionalInfo(const string& aIp, bool sIp, bool sCC) {
 	string ret = Util::emptyString;
 
 	if(!aIp.empty()) {
-		string cc = GeoManager::getInstance()->getCountryAbbrevation(aIp);
 		string country_name = sCC ? GeoManager::getInstance()->getCountry(aIp) : Util::emptyString;
 		bool showIp = sIp;
-		bool showCc = sCC && !cc.empty();
-		bool useFlagIcons = (client->get(SettingsManager::USE_COUNTRY_FLAG,SETTING(USE_COUNTRY_FLAG)) && !cc.empty());
+		bool showCc = sCC && !country_name.empty();
+		//bool useFlagIcons = (client->get(SettingsManager::USE_COUNTRY_FLAG,SETTING(USE_COUNTRY_FLAG)) && !cc.empty());
 
 		if(showIp) {
 			ret = "[ " + aIp + " ] ";
@@ -4595,9 +4572,9 @@ string Hub::formatAdditionalInfo(const string& aIp, bool sIp, bool sCC) {
 			ret += "[" + country_name + "] ";
 		}
 
-		if(useFlagIcons) {
+		/*if(useFlagIcons) {
 			ret += " [ccc]" + cc + "[/ccc] ";
-		}
+		}*/
 
 	}
 	return ret;
@@ -4638,9 +4615,10 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 		return;
 	}
 		
-	
+	string cc = "";
 	if( (!fid.isHub()) && (!fid.isBot()) )
 	{
+		cc = GeoManager::getInstance()->getCountryAbbrevation(fid.getIp());
 		string info = formatAdditionalInfo(fid.getIp(), client->get(SettingsManager::USE_IP,SETTING(USE_IP)), client->get(SettingsManager::GET_USER_COUNTRY,SETTING(GET_USER_COUNTRY)));
 		//Extra Info
 		dcpp::ParamMap params;
@@ -4764,8 +4742,8 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 			LOG(LogManager::CHAT, params);
 		}
 
-		typedef Func3<Hub, string, string, Msg::TypeMsg> F3;
-		F3 *func = new F3(this, &Hub::addMessage_gui, cid, line, typemsg);
+		typedef Func4<Hub, string, string, Msg::TypeMsg,string> F4;
+		F4 *func = new F4(this, &Hub::addMessage_gui, cid, line, typemsg,cc);
 		WulforManager::get()->dispatchGuiFunc(func);
 
 		// Set urgency hint if message contains user's nick
@@ -4816,14 +4794,14 @@ void Hub::on(ClientListener::StatusMessage, Client *, const string &message, int
 		}
 
 		if(flag == FLAG_VIRUS) {
-			typedef Func3<Hub, string, string, Msg::TypeMsg> F3;
-			F3 *func = new F3(this, &Hub::addMessage_gui, "", message, Msg::CHEAT);
+			typedef Func4<Hub, string, string, Msg::TypeMsg,string> F4;
+			F4 *func = new F4(this, &Hub::addMessage_gui, "", message, Msg::CHEAT,"");
 			WulforManager::get()->dispatchGuiFunc(func);
 			return;
 		}
 
-		typedef Func3<Hub, string, string, Msg::TypeMsg> F3;
-		F3 *func = new F3(this, &Hub::addMessage_gui, "", message, Msg::STATUS);
+		typedef Func4<Hub, string, string, Msg::TypeMsg,string> F4;
+		F4 *func = new F4(this, &Hub::addMessage_gui, "", message, Msg::STATUS,"");
 		WulforManager::get()->dispatchGuiFunc(func);
 	}
 }

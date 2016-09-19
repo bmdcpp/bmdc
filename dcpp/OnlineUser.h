@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -96,7 +96,7 @@ public:
 	bool isUdp4Active() const;
 	bool isUdp6Active() const;
 	string getIp() const;
-	/*string*/ uint16_t getUdpPort() const;
+	uint16_t getUdpPort() const;
 
 	std::map<string, string> getInfo() const;
 	string get(const char* name) const;
