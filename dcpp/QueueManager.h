@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -95,7 +95,7 @@ public:
 		int aFlags = 0, bool addBad = true);
 
 	/** Add a user's filelist to the queue. */
-	void addList(const HintedUser& HintedUser, int aFlags, const string& aInitialDir = Util::emptyString);
+	void addList(const HintedUser& HintedUser, int aFlags, const string& aInitialDir = "");
 	/** Readd a source that was removed */
 	void readd(const string& target, const HintedUser& aUser);
 	/** Add a directory to the queue (downloads filelist and matches the directory). */

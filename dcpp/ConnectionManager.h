@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -109,8 +109,8 @@ public:
 	}
 
 	void nmdcConnect(const string& aServer, const uint16_t& aPort, const string& aMyNick, const string& hubUrl, const string& encoding);
-	void adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& aToken, bool secure,const string& hubUrl = Util::emptyString);
-	void adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& localPort, BufferedSocket::NatRoles natRole, const string& aToken, bool secure,const string& hubUrl=  Util::emptyString);
+	void adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& aToken, bool secure,const string& hubUrl = "");
+	void adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& localPort, BufferedSocket::NatRoles natRole, const string& aToken, bool secure,const string& hubUrl=  "");
 
 	void getDownloadConnection(const HintedUser& aUser);
 	void force(const UserPtr& aUser);

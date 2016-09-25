@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -74,7 +74,7 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 	}
 
 	string cmd;
-	string param = Util::emptyString;
+	string param ;//= Util::emptyString;
 
 	string::size_type x = 0;
 
@@ -129,9 +129,9 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 				x = param.find(' ');
 				if(x != string::npos) {
 					setFlag(FLAG_INVALIDKEY);
-					fire(UserConnectionListener::CLock(), this, param.substr(0, x), Util::emptyString);
+					fire(UserConnectionListener::CLock(), this, param.substr(0, x), string());
 				} else {
-					fire(UserConnectionListener::CLock(), this, param, Util::emptyString);
+					fire(UserConnectionListener::CLock(), this, param, string());
 				}
 			}
 		}

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -138,7 +138,6 @@ private:
 	void myInfo(bool alwaysSend);
 	void supports(const StringList& feat);
 	void clearFlooders(uint64_t tick);
-	//bool isProtectedIP(const string& ip);
 
 	void updateFromTag(Identity& id, const string& tag);
 	void refreshLocalIp() noexcept;

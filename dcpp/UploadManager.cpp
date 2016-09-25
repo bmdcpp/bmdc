@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -313,10 +313,11 @@ void UploadManager::reserveSlot(const HintedUser& aUser) {
 		{
 			Lock l(cs);
 			auto it = find_if(waitingUsers.cbegin(), waitingUsers.cend(), [&](const UserPtr& u) { return u == aUser.user; });
-			return (it != waitingUsers.cend()) ? it->token : Util::emptyString;
+			return (it != waitingUsers.cend()) ? it->token : string();
 		};
-		string token;
-		if((token = userToken()) != Util::emptyString)
+		string token = userToken();
+		//if((token = userToken()) != Util::emptyString)
+		if(!token.empty())
 			ClientManager::getInstance()->connect(aUser,token);
 	}
 }
@@ -562,7 +563,7 @@ void UploadManager::on(TimerManagerListener::Minute, uint64_t  aTick ) noexcept 
 
 	for(UserList::iterator i = disconnects.begin(); i != disconnects.end(); ++i) {
 		LogManager::getInstance()->message(string(F_("Disconnected user leaving the hub: ") +
-			Util::toString(ClientManager::getInstance()->getNicks((*i)->getCID(), Util::emptyString))));
+			Util::toString(ClientManager::getInstance()->getNicks((*i)->getCID(), ""))));
 		ConnectionManager::getInstance()->disconnect(*i, false);
 	}
 

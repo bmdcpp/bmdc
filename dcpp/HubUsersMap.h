@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007-2014 adrian_007, adrian-007 on o2 point pl
+ * Copyright (C) 2007-2017 adrian_007, adrian-007 on o2 point pl
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

@@ -281,7 +281,7 @@ private:
 
 	const Directory::File& findFile(const string& virtualFile) const;
 
-	Directory::Ptr buildTree(const string& realPath, const string& dirName = Util::emptyString, const Directory::Ptr& parent = nullptr);
+	Directory::Ptr buildTree(const string& realPath, const string& dirName = "", const Directory::Ptr& parent = nullptr);
 	bool checkHidden(const string& realPath) const;
 	bool checkInvalidFileName(const string& realPath) const;
 	bool checkInvalidPaths(const string& realPath) const;

@@ -147,17 +147,17 @@ const string& acpToUtf8(const string& str, string& tmp) noexcept {
 
 const wstring& acpToWide(const string& str, wstring& tmp) noexcept {
 	if(str.empty())
-		return Util::emptyStringW;
+		return wstring();
 #ifdef _WIN32
 	int n = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, str.c_str(), (int)str.length(), NULL, 0);
 	if(n == 0) {
-		return Util::emptyStringW;
+		return wstring();
 	}
 
 	tmp.resize(n);
 	n = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, str.c_str(), (int)str.length(), &tmp[0], n);
 	if(n == 0) {
-		return Util::emptyStringW;
+		return wstring();
 	}
 	return tmp;
 #else
@@ -189,7 +189,7 @@ const wstring& acpToWide(const string& str, wstring& tmp) noexcept {
 
 const string& wideToUtf8(const wstring& str, string& tgt) noexcept {
 	if(str.empty()) {
-		return Util::emptyString;
+		return string();
 	}
 
 	string::size_type n = str.length();
@@ -202,30 +202,30 @@ const string& wideToUtf8(const wstring& str, string& tgt) noexcept {
 
 const string& wideToAcp(const wstring& str, string& tmp) noexcept {
 	if(str.empty())
-		return Util::emptyString;
+		return string();
 #ifdef _WIN32
 	int n = WideCharToMultiByte(CP_ACP, 0, str.c_str(), (int)str.length(), NULL, 0, NULL, NULL);
 	if(n == 0) {
-		return Util::emptyString;
+		return string();
 	}
 
 	tmp.resize(n);
 	n = WideCharToMultiByte(CP_ACP, 0, str.c_str(), (int)str.length(), &tmp[0], n, NULL, NULL);
 	if(n == 0) {
-		return Util::emptyString;
+		return string();
 	}
 	return tmp;
 #else
 	const wchar_t* src = str.c_str();
 	int n = wcsrtombs(NULL, &src, 0, NULL);
 	if(n < 1) {
-		return Util::emptyString;
+		return string();
 	}
 	src = str.c_str();
 	tmp.resize(n);
 	n = wcsrtombs(&tmp[0], &src, n, NULL);
 	if(n < 1) {
-		return Util::emptyString;
+		return string();
 	}
 	return tmp;
 #endif
@@ -287,7 +287,7 @@ const wstring& toLower(const wstring& str, wstring& tmp) noexcept {
 
 const string& toLower(const string& str, string& tmp) noexcept {
 	if(str.empty())
-		return Util::emptyString;
+		return string();
 	tmp.reserve(str.length());
 	const char* end = &str[0] + str.length();
 	for(const char* p = &str[0]; p < end;) {

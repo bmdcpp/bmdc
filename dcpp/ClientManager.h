@@ -98,7 +98,7 @@ public:
 	OnlineUser* findOnlineUser(const CID& cid, const string& hintUrl);
 
 	UserPtr findUser(const string& aNick, const string& aHubUrl) const noexcept { return findUser(makeCid(aNick, aHubUrl),aHubUrl); }
-	UserPtr findUser(const CID& cid,const string& hubUrl = Util::emptyString) const noexcept;
+	UserPtr findUser(const CID& cid,const string& hubUrl = "") const noexcept;
 	UserPtr findLegacyUser(const string& aNick) const noexcept;
 
 	bool isOnline(const UserPtr& aUser) const {
@@ -150,7 +150,7 @@ public:
 
 	int getMode(const string& aHubUrl) const;
 	//bool getMode6(const string&) const;//@TODO?
-	bool isActive(const string& aHubUrl = Util::emptyString) const;
+	bool isActive(const string& aHubUrl = "") const;
 
 	void setIpAddress(const UserPtr& p, const string& ip);
 

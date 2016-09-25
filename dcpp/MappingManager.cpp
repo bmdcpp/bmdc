@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -108,9 +108,7 @@ int MappingManager::run() {
 
 		auto addRule = [this, &mapper](const uint16_t& port, Mapper::Protocol protocol, const string& description) {
 			// just launch renewal requests - don't bother with possible failures.
-			//if( port  != UINT16_MAX ) {
 				mapper.open(Util::toString(port), protocol, string(F_(string(APPNAME)+" "+description+" port ("+Util::toString(port)+" "+Mapper::protocols[protocol]+")")));
-			//}
 		};
 
 		addRule(conn_port, Mapper::PROTOCOL_TCP, _("Transfer"));
@@ -145,7 +143,7 @@ int MappingManager::run() {
 		}
 
 		auto addRule = [this, &mapper](const uint16_t& port, Mapper::Protocol protocol, const string& description) -> bool {
-			if( /*(port != UINT16_MAX ) &&*/ !mapper.open(Util::toString(port), protocol, string(F_(string(APPNAME)+" "+description+" port ("+Util::toString(port)+" "+Mapper::protocols[protocol]+")")
+			if( !mapper.open(Util::toString(port), protocol, string(F_(string(APPNAME)+" "+description+" port ("+Util::toString(port)+" "+Mapper::protocols[protocol]+")")
 				 )))
 			{
 				this->log(string(F_("Failed to map the "+description+" port ("+Util::toString(port)+" "+Mapper::protocols[protocol]+") with the "+mapper.getName()+" interface")));

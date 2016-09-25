@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,8 +34,8 @@ using std::string;
 class HubEntry {
 public:
 	HubEntry(const string& aName, const string& aServer, const string& aDescription, const string& aUsers) :
-	name(aName), server(aServer), description(aDescription), country(Util::emptyString),
-	rating(Util::emptyString), reliability(0.0), shared(0), minShare(0), users(Util::toInt(aUsers)), minSlots(0), maxHubs(0), maxUsers(0) { }
+	name(aName), server(aServer), description(aDescription), country(),
+	rating(), reliability(0.0), shared(0), minShare(0), users(Util::toInt(aUsers)), minSlots(0), maxHubs(0), maxUsers(0) { }
 
 	HubEntry(const string& aName, const string& aServer, const string& aDescription, const string& aUsers, const string& aCountry,
 		const string& aShared, const string& aMinShare, const string& aMinSlots, const string& aMaxHubs, const string& aMaxUsers,
@@ -47,8 +47,8 @@ public:
 	}
 
 	HubEntry():
-	name(Util::emptyString), server(Util::emptyString), description(Util::emptyString), country(Util::emptyString),
-	rating(Util::emptyString), reliability(0.0), shared(0), minShare(0), users(0), minSlots(0), maxHubs(0), maxUsers(0)
+	name(), server(), description(), country(),
+	rating(), reliability(0.0), shared(0), minShare(0), users(0), minSlots(0), maxHubs(0), maxUsers(0)
 	 { }
 	 
 	HubEntry(const HubEntry& rhs) : name(rhs.name), server(rhs.server), description(rhs.description), country(rhs.country),
@@ -74,15 +74,15 @@ public:
 class FavoriteHubEntry: public HubSettings {
 public:
 	FavoriteHubEntry() :
-	name(Util::emptyString), server(Util::emptyString), hubDescription(Util::emptyString), password(Util::emptyString),
-	encoding(Text::systemCharset), group(Util::emptyString), hideShare(false), autoConnect(false), mode(1),
+	name(), server(), hubDescription(), password(),
+	encoding(Text::systemCharset), group(), hideShare(false), autoConnect(false), mode(1),
 	checkAtConn(false), checkClients(false),
 	checkFilelists(false), checkMyInfo(false), showUserList(true), 
 	order(SETTING(HUB_UL_ORDER)), visible(SETTING(HUB_UL_VISIBLE)), width(SETTING(HUB_UL_SIZE)), 
 	notify(false) ,priv(false) { }
 
 	FavoriteHubEntry(const HubEntry& rhs) : name(rhs.getName()), server(rhs.getServer()),
-		hubDescription(rhs.getDescription()), password(Util::emptyString), encoding(Text::systemCharset), group(Util::emptyString),
+		hubDescription(rhs.getDescription()), password(Util::emptyString), encoding(Text::systemCharset), group(),
 	hideShare(false), autoConnect(false), mode(1),  
 	checkAtConn(false), checkClients(false), checkFilelists(false),  checkMyInfo(false), showUserList(true),
 	order(SETTING(HUB_UL_ORDER)),visible(SETTING(HUB_UL_VISIBLE)),width(SETTING(HUB_UL_SIZE)),
@@ -95,7 +95,7 @@ public:
 		password(rhs.getPassword()), encoding(rhs.getEncoding()), group(rhs.getGroup()), hideShare(rhs.hideShare),
 		autoConnect(rhs.autoConnect),  mode(rhs.mode), 
 		checkAtConn(rhs.checkAtConn), checkClients(rhs.checkClients), checkFilelists(rhs.checkFilelists),  checkMyInfo(rhs.checkMyInfo),
-		showUserList(rhs.showUserList), order(rhs.order), visible(rhs.visible), width(rhs.width), /*tabText(rhs.tabText), tabIconStr(rhs.tabIconStr), */notify(rhs.notify) ,priv(rhs.priv),ipv6(rhs.ipv6)
+		showUserList(rhs.showUserList), order(rhs.order), visible(rhs.visible), width(rhs.width), notify(rhs.notify) ,priv(rhs.priv),ipv6(rhs.ipv6)
 		{ }
 
 	~FavoriteHubEntry() { }
@@ -130,7 +130,7 @@ public:
 	struct FavAction {
 		typedef unordered_map<size_t, FavAction*> List;
 		FavAction(): enabled(false) { }
-		FavAction(bool _enabled, string _raw = Util::emptyString, size_t id = 0) noexcept;
+		FavAction(bool _enabled, string _raw = "", size_t id = 0) noexcept;
 
 		GETSET(bool, enabled, Enabled);
 		std::list<size_t> raws;

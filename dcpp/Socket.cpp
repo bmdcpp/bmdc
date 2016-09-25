@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,6 +42,7 @@
 #endif
 
 namespace dcpp {
+	
 bool Socket::isV6Valid() const noexcept {
 	return sock6.valid();
 }
@@ -424,7 +425,7 @@ void Socket::socksConnect(const string& aAddr, const int16_t& aPort, uint32_t ti
 
 	uint64_t start = GET_TICK();
 
-	connect(SETTING(SOCKS_SERVER), SETTING(SOCKS_PORT),Util::emptyString);
+	connect(SETTING(SOCKS_SERVER), SETTING(SOCKS_PORT),"");
 
 	if(!waitConnected(timeLeft(start, timeout))) {
 		throw SocketException(_("The socks server failed establish a connection"));
@@ -949,14 +950,14 @@ void Socket::disconnect() noexcept {
 
 string Socket::getRemoteHost(const string& aIp) {
 	if(aIp.empty())
-		return Util::emptyString;
+		return string();
 	hostent *h = NULL;
 	unsigned int addr;
 	addr = inet_addr(aIp.c_str());
 
 	h = gethostbyaddr(reinterpret_cast<char *>(&addr), 4, AF_INET);
 	if (h == NULL) {
-		return Util::emptyString;
+		return string();
 	} else {
 		return h->h_name;
 	}
@@ -966,7 +967,7 @@ string Socket::getLocalIp() noexcept  {
 	if(sock6.valid()) {
 	
 	if(sock6.get() == INVALID_SOCKET) {
-		return Util::emptyString;
+		return string();
     }
  
     sockaddr_storage sas_addr;
@@ -993,7 +994,7 @@ string Socket::getLocalIp() noexcept  {
  }else if(sock4.valid()) {
 	
 	if(sock4.get() == INVALID_SOCKET) {
-		return Util::emptyString;
+		return string();
     }
  
     sockaddr_storage sas_addr;
@@ -1018,7 +1019,7 @@ string Socket::getLocalIp() noexcept  {
         }
 	}
  }
-	return Util::emptyString;
+	return string();
 }
 
 //...

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ public:
 		typedef List::const_iterator Iter;
 
 		File(Directory* aDir, const string& aName, int64_t aSize, const TTHValue& aTTH) noexcept :
-			parent(aDir),tthRoot(aTTH), name(aName),kickString(""),fullFileName(aName), size(aSize), points(0), 
+			parent(aDir),tthRoot(aTTH), name(aName),kickString(),fullFileName(aName), size(aSize), points(0), 
 			adlsRaw(0),ts(0), adls(false),	overRidePoints(false), fromFavs(false)
 		{
 		}

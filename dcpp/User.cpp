@@ -318,7 +318,7 @@ string Identity::checkFilelistGenerator(OnlineUser& ou)
 		}
 	}
 
-	return Util::emptyString;
+	return string();
 }
 
 string Identity::myInfoDetect(OnlineUser& ou) {
@@ -368,7 +368,7 @@ string Identity::myInfoDetect(OnlineUser& ou) {
 		setMyInfoType(entry.name);
 		set("CM", entry.comment);
 
-		string report = Util::emptyString;
+		string report;// = Util::emptyString;
 		if(!entry.cheat.empty()) {
 			report = ou.setCheat(entry.cheat, true, false, ou.getClient().isActionActive(entry.rawToSend));
 		}
@@ -376,7 +376,7 @@ string Identity::myInfoDetect(OnlineUser& ou) {
 		ClientManager::getInstance()->sendAction(ou, entry.rawToSend);
 		return report;
 	}
-	return Util::emptyString;
+	return string();
 }
 
 string Identity::updateClientType(OnlineUser& ou) {
@@ -427,7 +427,7 @@ string Identity::updateClientType(OnlineUser& ou) {
 		setClientType(entry.name);
 		set("CM", entry.comment);
 		set("CS", entry.cheat);
-		set("BC", entry.cheat.empty() ? Util::emptyString : "1");
+		set("BC", entry.cheat.empty() ? "" : "1");
 		logDetection(true);
 
 		if(entry.checkMismatch && getUser()->isSet(User::NMDC) &&  (params["VE"]) != (params["PKVE"])) {
@@ -435,7 +435,7 @@ string Identity::updateClientType(OnlineUser& ou) {
 			return ou.setCheat(entry.cheat + " Version mis-match", true, false, ou.getClient().isActionActive(SETTING(VERSION_MISMATCH_RAW)));
 		}
 
-		string report = Util::emptyString;
+		string report;// = Util::emptyString;
 		if(!entry.cheat.empty()) {
 			report = ou.setCheat(entry.cheat, true, false, ou.getClient().isActionActive(entry.rawToSend));
 		}
@@ -446,7 +446,7 @@ string Identity::updateClientType(OnlineUser& ou) {
 
 	logDetection(false);
 	setClientType("Unknown");
-	return Util::emptyString;
+	return string();
 }
 
 void Identity::getDetectionParams(ParamMap& p) {
@@ -496,9 +496,8 @@ string Identity::getDetectionField(const string& aName) const {
 		if(aName == "PKVE") {
 			return getPkVersion();
 		}
-		return Util::emptyString;
 	}
-	return Util::emptyString;
+	return string();
 }
 
 map<string, string> Identity::getReport() const

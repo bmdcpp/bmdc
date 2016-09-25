@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -89,13 +89,16 @@ void* FileReader::align(void *buf, size_t alignment) {
 
 #ifdef _WIN32
 
-struct Handle /*: boost::noncopyable*/ {
+struct Handle  {
 	Handle(HANDLE h) : h(h) { }
 	~Handle() { ::CloseHandle(h); }
 
 	operator HANDLE() { return h; }
 
 	HANDLE h;
+	private:
+		Handle(const Handle&);
+		Handle& operator=(const Handle&);
 };
 
 size_t FileReader::readDirect(const string& file, const DataCallback& callback) {

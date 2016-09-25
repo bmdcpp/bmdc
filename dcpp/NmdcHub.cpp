@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -871,14 +871,15 @@ void NmdcHub::connectToMe(const OnlineUser& aUser) {
 			return;
 	}	
 	
-	bool isOkIp6 = aUser.getIdentity().getIp6().empty() == true;
+	bool isOkIp6 = !aUser.getIdentity().get("IX").empty();
+	//bool isOkIp6 = !aUser.getIdentity().getIp6().empty();
 	dcdebug("%d - %d - %d - %d",(int)bIPv6,isActiveV6(),(int)((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ),isOkIp6);
 	
 	//alows ports only above 0
 	uint16_t cport = ConnectionManager::getInstance()->getPort();
 	if(cport == 0)
 		return;
-	
+	//we have IPv6, Hub Support that and User too
 	if(bIPv6 && ((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ) && isOkIp6) {
 		send("$ConnectToMe " + nick + " [" + getUserIp6() + "]:" + Util::toString(cport) + "|");
 		dcdebug("\n%s",getUserIp6().c_str());

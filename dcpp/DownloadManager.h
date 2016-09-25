@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -91,7 +91,7 @@ private:
 	virtual void on(Data, UserConnection*, const uint8_t*, size_t) noexcept;
 	virtual void on(Failed, UserConnection* aSource, const string& aError) noexcept { onFailed(aSource, aError); }
 	virtual void on(ProtocolError, UserConnection* aSource, const string& aError) noexcept { onFailed(aSource, aError); }
-	virtual void on(MaxedOut, UserConnection*, string param = Util::emptyString) noexcept;
+	virtual void on(MaxedOut, UserConnection*, string param = "") noexcept;
 	virtual	void on(FileNotAvailable, UserConnection*) noexcept;
 	virtual void on(Updated, UserConnection*) noexcept;
 	virtual void on(UserConnectionListener::ListLength, UserConnection* aSource, const string& aListLength) noexcept;

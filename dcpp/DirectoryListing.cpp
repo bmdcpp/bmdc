@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ namespace dcpp {
 DirectoryListing::DirectoryListing(const HintedUser& aUser) :
 user(aUser),
 abort(false),
-root(new Directory(nullptr, Util::emptyString, false, false))
+root(new Directory(nullptr, "", false, false))
 {
 }
 

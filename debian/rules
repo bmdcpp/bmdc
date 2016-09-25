@@ -10,7 +10,7 @@ include /usr/share/cdbs/1/class/scons.mk
 
 #DEB_INSTALL_MANPAGES_bmdc := data/linuxdcpp.1
 DEB_INSTALL_CHANGELOGS_bmdc := BMDC-Changelog.txt
-DEB_SCONS_OPTIONS := release=0 PREFIX=/usr/ FAKE_ROOT=$(CURDIR)/debian/bmdc
+DEB_SCONS_OPTIONS := release=0 libxattr=0 PREFIX=/usr/ FAKE_ROOT=$(CURDIR)/debian/bmdc
 
 install/bmdc::
 	rm -rf $(CURDIR)/debian/bmdc/usr/share/doc/bmdc/License.txt 

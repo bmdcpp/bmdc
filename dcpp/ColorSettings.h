@@ -35,8 +35,8 @@ class ColorSettings: public Flags
 
 	ColorSettings(): Flags(CONTEXT_CHAT), bIncludeNick(false), bCaseSensitive(false), bPopup(false), bTab(false),
 		bPlaySound(false), bBold(false), bUnderline(false), bItalic(false),
-		bNoti(Util::emptyString), iMatchType(1), iBgColor(Util::emptyString), iFgColor(Util::emptyString), bHasBgColor(false),
-		bHasFgColor(false) , strSoundFile(Util::emptyString), strMatch(Util::emptyString), bUsingRegexp(false)  {	}
+		bNoti(), iMatchType(1), iBgColor(), iFgColor(), bHasBgColor(false),
+		bHasFgColor(false) , strSoundFile(), strMatch(), bUsingRegexp(false)  {	}
 	~ColorSettings(){ };
 
 	GETSET(string, bNoti, Noti);

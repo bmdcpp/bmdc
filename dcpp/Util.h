@@ -125,6 +125,7 @@ inline int compare(const T1& v1, const T1& v2) { return (v1 < v2) ? -1 : ((v1 ==
 class Util
 {
 public:
+//...
 	static tstring emptyStringT;
 	static string emptyString;
 	static wstring emptyStringW;
@@ -186,12 +187,12 @@ public:
 	}
 	static string getFileExt(const string& path) {
 		string::size_type i = path.rfind('.');
-		return (i != string::npos) ? path.substr(i) : Util::emptyString;
+		return (i != string::npos) ? path.substr(i) : string();
 	}
 	static string getLastDir(const string& path, char separator = PATH_SEPARATOR) {
 		string::size_type i = path.rfind(separator);
 		if(i == string::npos)
-			return Util::emptyString;
+			return string();
 		string::size_type j = path.rfind(separator, i-1);
 		return (j != string::npos) ? path.substr(j+1, i-j-1) : path;
 	}
@@ -211,7 +212,7 @@ public:
 	static wstring getLastDir(const wstring& path) {
 		wstring::size_type i = path.rfind(PATH_SEPARATOR);
 		if(i == wstring::npos)
-			return Util::emptyStringW;
+			return wstring();
 		wstring::size_type j = path.rfind(PATH_SEPARATOR, i-1);
 		return (j != wstring::npos) ? path.substr(j+1, i-j-1) : path;
 	}

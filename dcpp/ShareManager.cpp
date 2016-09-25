@@ -57,7 +57,6 @@
 namespace dcpp {
 
 using std::numeric_limits;
-//this should not been static....
 
 ShareManager::ShareManager(const string& _name) : hits(0), xmlListLen(0), bzXmlListLen(0),
 	xmlDirty(true), forceXmlRefresh(true), refreshDirs(false), update(false), listN(0),
@@ -132,7 +131,7 @@ string ShareManager::Directory::getFullName() const noexcept {
 	return getParent()->getFullName() + getName() + '\\';
 }
 
-string ShareManager::Directory::getRealPath(const ShareManager* manager,const std::string& path) const {
+string ShareManager::Directory::getRealPath(const ShareManager* manager, const std::string& path) const {
 	if(getParent()) {
 		return getParent()->getRealPath(manager,getRealName() + PATH_SEPARATOR_STR + path);
 	} else {

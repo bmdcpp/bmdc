@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2015 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,7 +53,6 @@ namespace dcpp {
 
 QueueManager::FileQueue::~FileQueue() {
 	for_each(queue.begin(),queue.end() , DeleteFunction2());
-	//for(auto i:queue){delete (i).second;}//TODO check if does as it does :p
 }
 
 QueueItem* QueueManager::FileQueue::add(const string& aTarget, int64_t aSize,
