@@ -60,7 +60,7 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("main-window-pos-y", 100));
 	defaultInt.insert(IntMap::value_type("main-window-no-close", 0));
 	defaultInt.insert(IntMap::value_type("transfer-pane-position", 482));
-	defaultInt.insert(IntMap::value_type("nick-pane-position", 500));//per Fav
+	//defaultInt.insert(IntMap::value_type("nick-pane-position", 500));
 	defaultInt.insert(IntMap::value_type("downloadqueue-pane-position", 200));
 	defaultInt.insert(IntMap::value_type("sharebrowser-pane-position", 200));
 	defaultInt.insert(IntMap::value_type("tab-position", 0));
@@ -499,7 +499,6 @@ WulforSettingsManager::WulforSettingsManager():
 	g_mkdir_with_parents(path_image.c_str(), S_IRUSR | S_IWUSR | S_IXUSR);
 	#else
 	_mkdir(path_image.c_str());
-
 	#endif
 }
 

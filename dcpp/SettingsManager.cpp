@@ -57,7 +57,7 @@ const string SettingsManager::settingTags[] =
 	"BackupFilePattern", "LogFileRaw", "LogFormatRaw", "ProtectedUsers", "BackupTimeStamp", "EmotPack", "RipeDB",
 	"HubIconStr", "HubTextStr", "HubULOrder", "HubULVisible", "HubULSize", "ChatExtraInfo",
 	"BackgroundChatColor", "BackgroundChatImage", "BackgroundPmColor", "BackgroundPmImage",
-	"RatioTemplate","LogFileProto", "LogFormatProto",
+	"RatioTemplate","LogFileProto", "LogFormatProto", "WildcardForExportSet",
 	//]
 	"SENTRY",
 	// Ints
@@ -106,7 +106,7 @@ const string SettingsManager::settingTags[] =
 	"RmdcRaw",
 	"FileListVersionMisMatch",
 	"AdlRaw",
-
+	"NickPanePos",
 	"SENTRY",
 	// Bools
 	"AddFinishedInstantly", "AdlsBreakOnFirst", "AltSortOrder",
@@ -445,6 +445,9 @@ SettingsManager::SettingsManager()
 	setDefault(BACKGROUND_PM_IMAGE, Util::emptyString);
 	setDefault(RATIO_TEMPLATE, "%[client] Ratio: %[ratio]  Uploads: %[up] / Downloads %[down] ");
 	setDefault(USE_HIGHLITING,true);
+	
+	setDefault(NICK_PANE_POS,400);//hub tab
+	setDefault(WILDCARD_FOR_EXPORT_SET,"profile.lck;Emptyfiles.xml.bz2;..;.;GeoIP*.dat;GeoIP*.gz;TestSUR*;");
 
 	setSearchTypeDefaults();
 

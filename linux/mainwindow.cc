@@ -2849,9 +2849,9 @@ void MainWindow::onIdle()
 	XScreenSaverQueryInfo(display, DefaultRootWindow(display), _mit_info);
 			
 if(_idleDetectionPossible) {
-	g_print("Detection Part 2");
+	//g_print("Detection Part 2");
 		long idlesecs = (_mit_info->idle/1000); // in sec
-		//TODO: (1000 ms = 1s)
+		//NOTE: (1000 ms = 1s)
 		if (idlesecs > SETTING(AWAY_IDLE)) {
 				if(!dcpp::Util::getAway()) {//dont set away twice
 

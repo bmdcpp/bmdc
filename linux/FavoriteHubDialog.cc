@@ -152,10 +152,10 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	//
 	boxAdvanced	= gtk_grid_new();
 	GtkWidget* labelAdvanced = lan(_("Chat&Misc"));
-	checkHideShare = g_c_b_n(_("Hide Share")); //@TODO: Possible move
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkHideShare), p_entry->getHideShare() );
+	//checkHideShare = g_c_b_n(_("Hide Share")); //@TODO: Possible move
+	//gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkHideShare), p_entry->getHideShare() );
 
-	g_g_a_a(checkHideShare,0,0,1,1);
+	//g_g_a_a(checkHideShare,0,0,1,1);
 
 	g_g_a_a(lan(_("Extra Chat Info:")),0,1,1,1);
 	extraChatInfoEntry = gen;
@@ -342,6 +342,11 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 
 	g_signal_connect(button_add, "clicked", G_CALLBACK(onAddShare_gui), (gpointer)this);
 	g_signal_connect(button_rem, "clicked", G_CALLBACK(onRemoveShare_gui), (gpointer)this);
+	//check
+	checkHideShare = g_c_b_n(_("Hide Share"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkHideShare), p_entry->getHideShare() );
+
+	gtk_grid_attach(GTK_GRID(boxShare),checkHideShare,0,9,1,1);
 
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook) , boxShare, lan("Share Setup"));
 

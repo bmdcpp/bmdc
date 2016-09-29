@@ -1,5 +1,5 @@
 /*
- * Copyright © 2010-2016 BMDC
+ * Copyright © 2010-2017 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 
 #include "exportimport.hh"
 #include <dcpp/ExportManager.h>
+#include <dcpp/SettingsManager.h>
 #include <dcpp/File.h>
 
 using namespace std;
@@ -57,7 +58,7 @@ exportStore(NULL), exportSelection(NULL)
 	for(auto i = paths.cbegin(); i != paths.cend(); ++i) {
 		if( (*i).empty() ) continue;
 		
-		if(Wildcard::match(Util::getFileName(*i), string("profile.lck;Emptyfiles.xml.bz2;..;.;GeoIP*.dat;GeoIP*.gz;TestSUR*;"), ';')){//TODO own match
+		if(Wildcard::match(Util::getFileName(*i), SETTING(WILDCARD_FOR_EXPORT_SET), ';')){
 			continue;
 		}
 		gtk_list_store_append(exportStore,&iter);					

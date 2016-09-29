@@ -380,6 +380,7 @@ string Util::getShortTimeString(time_t t) {
  * Decodes a URL the best it can...
  * Default ports:
  * http:// -> port 80
+ * https:// -> port 443
  * dchub:// -> port 411
  */
 void Util::decodeUrl(const string& url, string& protocol, string& host, uint16_t& port, string& path, string& query, string& fragment) {

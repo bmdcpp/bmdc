@@ -5,16 +5,27 @@
 #include <dcpp/Singleton.h>
 #include <dcpp/TimerManager.h>
 #include <map>
+/*
+struct IgnoreItem
+{
+	string nameItem;
+	uint64_t time;
+	int type;
+};
+*/
+
 class IgnoreTempManager: private dcpp::TimerManagerListener
 {
 	public:
-IgnoreTempManager();
-~IgnoreTempManager();
-mutable dcpp::CriticalSection cs;
-std::map<std::string, std::pair<uint64_t,uint64_t> > nickIgnore;
-std::map<std::string, std::pair<uint64_t,uint64_t> > ipIgnore;
-std::map<std::string, std::pair<uint64_t,uint64_t> > cidIgnore;
-uint64_t lastTick;
+		IgnoreTempManager();
+		~IgnoreTempManager();
+		mutable dcpp::CriticalSection cs;
+
+		std::map<std::string, std::pair<uint64_t,uint64_t> > nickIgnore;
+		std::map<std::string, std::pair<uint64_t,uint64_t> > ipIgnore;
+		std::map<std::string, std::pair<uint64_t,uint64_t> > cidIgnore;
+
+		uint64_t lastTick;
 void addNickIgnored(std::string nick, uint64_t time);
 void addIpIgnored(std::string ip,uint64_t time);
 void addCidIgnored(std::string cid,uint64_t time);

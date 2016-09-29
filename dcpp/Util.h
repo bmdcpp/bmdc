@@ -43,7 +43,7 @@
 #include <fcntl.h>
 #include <map>
 #include <cstring>
-#include <algorithm> //we dont need boost
+#include <algorithm> 
 
 #ifdef _WIN32
 

@@ -73,8 +73,11 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 		closeButton = gtk_button_new();
 		gtk_widget_set_name(closeButton,getName().c_str());
         gtk_button_set_relief(GTK_BUTTON(closeButton), GTK_RELIEF_NONE);
+        #if !GTK_CHECK_VERSION(3,20,0)
         gtk_button_set_focus_on_click(GTK_BUTTON(closeButton), FALSE);
-
+        #else
+        gtk_widget_set_focus_on_click(GTK_WIDGET(closeButton),FALSE);
+		#endif
         // Shrink the padding around the close button
 		GtkCssProvider *provider =  gtk_css_provider_get_default ();
 		GdkDisplay *display = gdk_display_get_default ();

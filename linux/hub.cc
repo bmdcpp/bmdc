@@ -304,7 +304,7 @@ Hub::Hub(const string &address, const string &encoding):
 	gtk_widget_grab_focus(getWidget("chatEntry"));
 
 	// Set the pane position
-	gint panePosition = WGETI("nick-pane-position");//TODO: move to general & fav?
+	gint panePosition = SETTING(NICK_PANE_POS);
 	gint width = 0;
 	GtkWindow *window = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
 	gtk_window_get_size(window, &width, NULL);
@@ -498,7 +498,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 			  color = WGETS("userlist-bg-normal");
 			}  
 		}
-//TODO: check? & UI
+//TODO:  UI
 	bool isSet = false;
 	if(hub->client && hub->client->get(SettingsManager::USE_HIGHLITING, SETTING(USE_HIGHLITING)))
 	
@@ -563,6 +563,7 @@ Hub::~Hub()
 	string order = Util::emptyString, hwidth = Util::emptyString, visible = Util::emptyString;
 	nickView.saveSettings(order,hwidth,visible);
 
+	SettingsManager* sm = SettingsManager::getInstance();
 	if(entry) {
 		entry->set(SettingsManager::HUB_UL_VISIBLE, visible);
 		entry->set(SettingsManager::HUB_UL_ORDER, order);
@@ -571,7 +572,6 @@ Hub::~Hub()
 		entry->setShowUserList(showUL);
 		FavoriteManager::getInstance()->save();
 	} else {
-		SettingsManager* sm = SettingsManager::getInstance();
 		//No Favotite, Save to main setting @Possible Made Enable/Disable of this also ?
 		sm->set(SettingsManager::HUB_UL_ORDER, order);
 		sm->set(SettingsManager::HUB_UL_SIZE, hwidth);
@@ -585,8 +585,7 @@ Hub::~Hub()
 	GtkWindow *window = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
 	gtk_window_get_size(window, &width, NULL);
 	gint panePosition = width - gtk_paned_get_position(GTK_PANED(getWidget("pane")));
-
-	WSET("nick-pane-position", panePosition);
+	sm->set(SettingsManager::NICK_PANE_POS, panePosition);
 
 	if (handCursor)
 	{
@@ -714,7 +713,7 @@ void Hub::setStatus_gui(string statusBar, string text)
 	{
 		if(!g_utf8_validate(text.c_str(),-1,NULL))
 		{
-			dcdebug("Should be aware about codepage ?");//@TODO inform user?
+			dcdebug("Should be aware about codepage ?");//@TODO inform user? probaly not need?
 			string _text = Text::toUtf8(text,client->getEncoding());
 			text = _text;
 		}
