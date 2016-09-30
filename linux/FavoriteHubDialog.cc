@@ -152,10 +152,10 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	//
 	boxAdvanced	= gtk_grid_new();
 	GtkWidget* labelAdvanced = lan(_("Chat&Misc"));
-	//checkHideShare = g_c_b_n(_("Hide Share")); //@TODO: Possible move
-	//gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkHideShare), p_entry->getHideShare() );
+	checkHigh = g_c_b_n(_("Use Highliting"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkHigh), p_entry->get(SettingsManager::USE_HIGHLITING, SETTING(USE_HIGHLITING) ));
 
-	//g_g_a_a(checkHideShare,0,0,1,1);
+	g_g_a_a(checkHigh,0,0,1,1);
 
 	g_g_a_a(lan(_("Extra Chat Info:")),0,1,1,1);
 	extraChatInfoEntry = gen;
@@ -425,7 +425,9 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 
 			p_entry->setAutoConnect(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkAutoConnect)));
 			p_entry->set(SettingsManager::LOG_CHAT_B, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(enableLog)));
-			p_entry->setHideShare(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkHideShare)));//deprecated?
+			p_entry->setHideShare(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkHideShare)));
+			p_entry->set(SettingsManager::USE_HIGHLITING,gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkHigh)));
+			
 			p_entry->setCheckAtConn(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkOnConn)));
 			p_entry->setCheckFilelists(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkFilelists)));
 			p_entry->setCheckClients(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkClients)));

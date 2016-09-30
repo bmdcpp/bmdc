@@ -105,6 +105,7 @@ private:
 					*enableBold,
 					*enableStatusChat,
 					*enableFavFirst,
+					*checkHigh,
 		//@: Connection
 					*comboMode,
 					*entryIp,
