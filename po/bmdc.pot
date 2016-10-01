@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2016-09-30 18:50+0200\n"
+"POT-Creation-Date: 2016-10-01 15:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1011,8 +1011,8 @@ msgstr ""
 #: linux/AboutConfigFav.cc:153 linux/AboutConfigFav.cc:176
 #: linux/AboutConfigFav.cc:193 linux/AboutConfigFav.cc:217
 #: linux/FavoriteHubDialog.cc:171 linux/FavoriteHubDialog.cc:182
-#: linux/FavoriteHubDialog.cc:252 linux/FavoriteHubDialog.cc:378
-#: linux/FavoriteHubDialog.cc:379 linux/emoticonsdialog.cc:149
+#: linux/FavoriteHubDialog.cc:252 linux/FavoriteHubDialog.cc:383
+#: linux/FavoriteHubDialog.cc:384 linux/emoticonsdialog.cc:149
 #: linux/previewmenu.cc:88 linux/AboutConfig.hh:57 linux/AboutConfigFav.hh:51
 msgid "Default"
 msgstr ""
@@ -1067,8 +1067,8 @@ msgid "Direct connection"
 msgstr ""
 
 #: ui/adlsearch.glade.ui:772 ui/settingsdialog.glade.ui:6430
-#: linux/FavoriteHubDialog.cc:318 linux/FavoriteHubDialog.cc:679
-#: linux/FavoriteHubDialog.cc:710 linux/FavoriteHubDialog.cc:727
+#: linux/FavoriteHubDialog.cc:323 linux/FavoriteHubDialog.cc:686
+#: linux/FavoriteHubDialog.cc:717 linux/FavoriteHubDialog.cc:734
 #: linux/UserCommandMenu.cc:74 linux/search.cc:1800 linux/settingsdialog.cc:980
 #: linux/settingsdialog.cc:994 linux/settingsdialog.cc:1082
 #: linux/settingsdialog.cc:1525 linux/settingsdialog.cc:4271
@@ -1225,10 +1225,10 @@ msgid "Enable Text Color"
 msgstr ""
 
 #: ui/adlsearch.glade.ui:331 ui/detection.glade.ui:267
-#: ui/detection.glade.ui:800 linux/FavoriteHubDialog.cc:296
-#: linux/FavoriteHubDialog.cc:305 linux/FavoriteHubDialog.cc:557
-#: linux/FavoriteHubDialog.cc:559 linux/FavoriteHubDialog.cc:579
-#: linux/FavoriteHubDialog.cc:592 linux/adlsearch.cc:47 linux/adlsearch.cc:76
+#: ui/detection.glade.ui:800 linux/FavoriteHubDialog.cc:301
+#: linux/FavoriteHubDialog.cc:310 linux/FavoriteHubDialog.cc:564
+#: linux/FavoriteHubDialog.cc:566 linux/FavoriteHubDialog.cc:586
+#: linux/FavoriteHubDialog.cc:599 linux/adlsearch.cc:47 linux/adlsearch.cc:76
 #: linux/adlsearch.cc:83 linux/adlsearch.cc:139 linux/adlsearch.cc:250
 #: linux/adlsearch.cc:295 linux/adlsearch.cc:494 linux/adlsearch.cc:496
 #: linux/exportimport.cc:38 linux/exportimport.cc:51 linux/exportimport.cc:66
@@ -1531,7 +1531,7 @@ msgid "Hidden"
 msgstr ""
 
 #: ui/FavDialog.glade.ui:593 ui/favoritehubs.glade.ui:1055
-#: linux/FavoriteHubDialog.cc:346 linux/hub.cc:2779
+#: linux/FavoriteHubDialog.cc:351 linux/hub.cc:2779
 msgid "Hide Share"
 msgstr ""
 
@@ -1889,8 +1889,8 @@ msgstr ""
 #: linux/AboutConfigFav.cc:45 linux/AboutConfigFav.cc:47
 #: linux/AboutConfigFav.cc:119 linux/AboutConfigFav.cc:256
 #: linux/AboutConfigFav.cc:270 linux/AboutConfigFav.cc:364
-#: linux/AboutConfigFav.cc:404 linux/FavoriteHubDialog.cc:295
-#: linux/FavoriteHubDialog.cc:578 linux/FavoriteHubDialog.cc:591
+#: linux/AboutConfigFav.cc:404 linux/FavoriteHubDialog.cc:300
+#: linux/FavoriteHubDialog.cc:585 linux/FavoriteHubDialog.cc:598
 #: linux/detectiontab.cc:42 linux/detectiontab.cc:61 linux/detectiontab.cc:72
 #: linux/detectiontab.cc:313 linux/detectiontab.cc:334
 #: linux/detectiontab.cc:405 linux/detectiontab.cc:455
@@ -2020,7 +2020,7 @@ msgstr ""
 msgid "Official"
 msgstr ""
 
-#: ui/export.glade.ui:21 linux/FavoriteHubDialog.cc:355
+#: ui/export.glade.ui:21 linux/FavoriteHubDialog.cc:360
 msgid "Ok"
 msgstr ""
 
@@ -2594,8 +2594,8 @@ msgid "Show version"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:115 ui/search.glade.ui:147 ui/search.glade.ui:839
-#: linux/FavoriteHubDialog.cc:319 linux/FavoriteHubDialog.cc:324
-#: linux/FavoriteHubDialog.cc:711 linux/FavoriteHubDialog.cc:728
+#: linux/FavoriteHubDialog.cc:324 linux/FavoriteHubDialog.cc:329
+#: linux/FavoriteHubDialog.cc:718 linux/FavoriteHubDialog.cc:735
 #: linux/downloadqueue.cc:70 linux/downloadqueue.cc:89
 #: linux/downloadqueue.cc:281 linux/downloadqueue.cc:388 linux/search.cc:106
 #: linux/search.cc:136 linux/search.cc:230 linux/search.cc:708
@@ -3220,7 +3220,7 @@ msgstr ""
 msgid " removed from favorites list"
 msgstr ""
 
-#: linux/settingsmanager.cc:729
+#: linux/settingsmanager.cc:728
 msgid " to "
 msgstr ""
 
@@ -3317,7 +3317,7 @@ msgstr ""
 msgid "<b>Name of the new search type</b>"
 msgstr ""
 
-#: linux/FavoriteHubDialog.cc:635 linux/settingsdialog.cc:3519
+#: linux/FavoriteHubDialog.cc:642 linux/settingsdialog.cc:3519
 msgid "<b>Name under which the others see the directory</b>"
 msgstr ""
 
@@ -3580,11 +3580,11 @@ msgstr ""
 msgid "CRC32 inconsistency (SFV-Check)"
 msgstr ""
 
-#: linux/FavoriteHubDialog.cc:356
+#: linux/FavoriteHubDialog.cc:361
 msgid "Cancel"
 msgstr ""
 
-#: linux/settingsmanager.cc:729
+#: linux/settingsmanager.cc:728
 msgid "Change setting "
 msgstr ""
 
@@ -3694,7 +3694,7 @@ msgstr ""
 msgid "Connecting..."
 msgstr ""
 
-#: linux/FavoriteHubDialog.cc:287
+#: linux/FavoriteHubDialog.cc:292
 msgid "Connection Setup"
 msgstr ""
 
@@ -3804,12 +3804,12 @@ msgid "Download failed: "
 msgstr ""
 
 #: linux/settingsdialog.cc:1210 linux/settingsdialog.cc:1392
-#: linux/settingsmanager.cc:254 linux/transfers.cc:1131
+#: linux/settingsmanager.cc:253 linux/transfers.cc:1131
 msgid "Download finished"
 msgstr ""
 
 #: linux/settingsdialog.cc:1211 linux/settingsdialog.cc:1396
-#: linux/settingsmanager.cc:256
+#: linux/settingsmanager.cc:255
 msgid "Download finished file list"
 msgstr ""
 
@@ -3944,11 +3944,11 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: linux/settingsmanager.cc:732
+#: linux/settingsmanager.cc:731
 msgid "Error: params have been not 2!"
 msgstr ""
 
-#: linux/settingsmanager.cc:728
+#: linux/settingsmanager.cc:727
 msgid "Error: setting not found!"
 msgstr ""
 
@@ -4046,12 +4046,12 @@ msgid "Favorite hub removed"
 msgstr ""
 
 #: linux/settingsdialog.cc:1216 linux/settingsdialog.cc:1412
-#: linux/settingsmanager.cc:264
+#: linux/settingsmanager.cc:263
 msgid "Favorite user joined"
 msgstr ""
 
 #: linux/settingsdialog.cc:1217 linux/settingsdialog.cc:1416
-#: linux/settingsmanager.cc:266
+#: linux/settingsmanager.cc:265
 msgid "Favorite user quit"
 msgstr ""
 
@@ -4165,7 +4165,7 @@ msgstr ""
 msgid "Highlightings"
 msgstr ""
 
-#: linux/settingsmanager.cc:402
+#: linux/settingsmanager.cc:401
 msgid "Highliting"
 msgstr ""
 
@@ -4179,7 +4179,7 @@ msgstr ""
 msgid "Hub (last seen in, if offline)"
 msgstr ""
 
-#: linux/settingsmanager.cc:405
+#: linux/settingsmanager.cc:404
 msgid "Hub Chat"
 msgstr ""
 
@@ -4197,12 +4197,12 @@ msgid "Hub address"
 msgstr ""
 
 #: linux/settingsdialog.cc:1214 linux/settingsdialog.cc:1404
-#: linux/settingsmanager.cc:262
+#: linux/settingsmanager.cc:261
 msgid "Hub connected"
 msgstr ""
 
 #: linux/settingsdialog.cc:1215 linux/settingsdialog.cc:1408
-#: linux/settingsmanager.cc:260
+#: linux/settingsmanager.cc:259
 msgid "Hub disconnected"
 msgstr ""
 
@@ -4553,7 +4553,7 @@ msgstr ""
 msgid "Only show joins / parts for favorite users"
 msgstr ""
 
-#: linux/FavoriteHubDialog.cc:603
+#: linux/FavoriteHubDialog.cc:610
 msgid "Open Directory"
 msgstr ""
 
@@ -4625,7 +4625,7 @@ msgid "Private Message (also sets urgency hint)"
 msgstr ""
 
 #: linux/hub.cc:2695 linux/settingsdialog.cc:1213 linux/settingsdialog.cc:1259
-#: linux/settingsdialog.cc:1400 linux/settingsmanager.cc:258
+#: linux/settingsdialog.cc:1400 linux/settingsmanager.cc:257
 msgid "Private message"
 msgstr ""
 
@@ -4798,7 +4798,7 @@ msgstr ""
 msgid "Set Icon: "
 msgstr ""
 
-#: linux/FavoriteHubDialog.cc:619
+#: linux/FavoriteHubDialog.cc:626
 msgid "Set Name"
 msgstr ""
 
@@ -5071,7 +5071,7 @@ msgstr ""
 msgid "Text: "
 msgstr ""
 
-#: linux/FavoriteHubDialog.cc:499
+#: linux/FavoriteHubDialog.cc:506
 msgid "The name and address fields are required"
 msgstr ""
 
@@ -5122,7 +5122,7 @@ msgstr ""
 msgid "Topic: "
 msgstr ""
 
-#: linux/FavoriteHubDialog.cc:716 linux/settingsdialog.cc:4396
+#: linux/FavoriteHubDialog.cc:723 linux/settingsdialog.cc:4396
 msgid "Total size: "
 msgstr ""
 
@@ -5523,13 +5523,13 @@ msgstr ""
 msgid "View status messages in main chat"
 msgstr ""
 
-#: linux/FavoriteHubDialog.cc:317 linux/FavoriteHubDialog.cc:709
-#: linux/FavoriteHubDialog.cc:726 linux/settingsdialog.cc:1081
+#: linux/FavoriteHubDialog.cc:322 linux/FavoriteHubDialog.cc:716
+#: linux/FavoriteHubDialog.cc:733 linux/settingsdialog.cc:1081
 #: linux/settingsdialog.cc:4320 linux/settingsdialog.cc:4389
 msgid "Virtual Name"
 msgstr ""
 
-#: linux/FavoriteHubDialog.cc:633 linux/settingsdialog.cc:3516
+#: linux/FavoriteHubDialog.cc:640 linux/settingsdialog.cc:3516
 msgid "Virtual name"
 msgstr ""
 
@@ -5571,7 +5571,7 @@ msgstr ""
 msgid "You must enter a name"
 msgstr ""
 
-#: linux/FavoriteHubDialog.cc:702 linux/settingsdialog.cc:4382
+#: linux/FavoriteHubDialog.cc:709 linux/settingsdialog.cc:4382
 msgid "[HIDDEN SHARE] "
 msgstr ""
 
@@ -5591,11 +5591,11 @@ msgstr ""
 msgid "[Z]"
 msgstr ""
 
-#: linux/AboutConfig.cc:509 linux/FavoriteHubDialog.cc:624 linux/hub.cc:1034
+#: linux/AboutConfig.cc:509 linux/FavoriteHubDialog.cc:631 linux/hub.cc:1034
 msgid "_Cancel"
 msgstr ""
 
-#: linux/AboutConfig.cc:508 linux/FavoriteHubDialog.cc:622 linux/hub.cc:1033
+#: linux/AboutConfig.cc:508 linux/FavoriteHubDialog.cc:629 linux/hub.cc:1033
 msgid "_OK"
 msgstr ""
 

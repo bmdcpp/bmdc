@@ -109,6 +109,7 @@ private:
 		//@: Connection
 					*comboMode,
 					*entryIp,
+					*checkUseSock5,
 		//@: Kick View
 					*treeView,
 		//@Share

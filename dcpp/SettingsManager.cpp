@@ -160,6 +160,7 @@ const string SettingsManager::settingTags[] =
 	"UseAvFilter", "LogChatB",
 	"UseCountryFlag", "UseEmots",
 	"UseHighliting",
+	"UseSock5"
 	"SENTRY",
 	// Int64
 	"TotalUpload", "TotalDownload","SharingSkiplistMinSize", "SharingSkiplistMaxSize",
@@ -448,6 +449,7 @@ SettingsManager::SettingsManager()
 	
 	setDefault(NICK_PANE_POS,400);//hub tab
 	setDefault(WILDCARD_FOR_EXPORT_SET,"profile.lck;Emptyfiles.xml.bz2;..;.;GeoIP*.dat;GeoIP*.gz;TestSUR*;");
+	setDefault(USE_SOCK5,false);
 
 	setSearchTypeDefaults();
 

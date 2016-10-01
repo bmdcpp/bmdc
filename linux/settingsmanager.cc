@@ -48,7 +48,7 @@ WulforSettingsManager::WulforSettingsManager():
 	GtkThemingEngine *engine = gtk_theming_engine_load(name_theme);
 	gtk_theming_engine_get_background_color (engine,(GtkStateFlags)GTK_STATE_FLAG_NORMAL,&color);
 	#else
-	//TODO: get from theme/sys/
+	//NOTE: get from theme/sys/ how?
 		GdkRGBA color;
 		gdk_rgba_parse (&color,"white");
 	#endif
@@ -60,7 +60,6 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("main-window-pos-y", 100));
 	defaultInt.insert(IntMap::value_type("main-window-no-close", 0));
 	defaultInt.insert(IntMap::value_type("transfer-pane-position", 482));
-	//defaultInt.insert(IntMap::value_type("nick-pane-position", 500));
 	defaultInt.insert(IntMap::value_type("downloadqueue-pane-position", 200));
 	defaultInt.insert(IntMap::value_type("sharebrowser-pane-position", 200));
 	defaultInt.insert(IntMap::value_type("tab-position", 0));

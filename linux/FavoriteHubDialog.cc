@@ -283,6 +283,11 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	enableIp6 = g_c_b_n("Enable IPv6 Support");
 	g_g_a_c_s(enableIp6,0,3,1,1);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enableIp6),p_entry->geteIPv6());
+	
+	checkUseSock5 = g_c_b_n("Enable Sock5 Conn");
+	g_g_a_c_s(checkUseSock5,0,4,1,1);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkUseSock5),p_entry->get(SettingsManager::USE_SOCK5,SETTING(USE_SOCK5)));
+
 
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxConnection ,lan(_("Connection Setup")) );
 	//Actions Page
@@ -427,6 +432,8 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 			p_entry->set(SettingsManager::LOG_CHAT_B, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(enableLog)));
 			p_entry->setHideShare(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkHideShare)));
 			p_entry->set(SettingsManager::USE_HIGHLITING,gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkHigh)));
+			
+			p_entry->set(SettingsManager::USE_SOCK5,gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkUseSock5)));
 			
 			p_entry->setCheckAtConn(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkOnConn)));
 			p_entry->setCheckFilelists(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkFilelists)));

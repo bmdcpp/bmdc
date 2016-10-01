@@ -96,7 +96,6 @@ void Client::reloadSettings(bool updateNick) {
 // reset HubSettings to refresh it without a need to reopen hub window
 	HubSettings emptySettings;
 	*static_cast<HubSettings*>(this) = emptySettings;
-	//*static_cast<HubSettings*>(this) = SettingsManager::getInstance()->getHubSettings();
 
 	FavoriteHubEntry* fav = FavoriteManager::getInstance()->getFavoriteHubEntry(getHubUrl());
 	if(fav)
@@ -127,7 +126,7 @@ void Client::reloadSettings(bool updateNick) {
 		checkNick(curNick);
 		set(SettingsManager::NICK, curNick);
 	}else
-		set(SettingsManager::NICK,prevNick);
+		set(SettingsManager::NICK, prevNick);
 }
 
 const string Client::getUserIp() const {
@@ -160,7 +159,7 @@ void Client::connect() {
 	try {
 		sock = BufferedSocket::getSocket(separator);
 		sock->addListener(this);
-		sock->connect(address, port, secure, SETTING(ALLOW_UNTRUSTED_HUBS), true, keyprint);
+		sock->connect(address, port, secure, SETTING(ALLOW_UNTRUSTED_HUBS), HUBSETTING(USE_SOCK5) , keyprint);
 	} catch(const Exception& e) {
 		state = STATE_DISCONNECTED;
 		fire(ClientListener::Failed(), this, e.getError());
