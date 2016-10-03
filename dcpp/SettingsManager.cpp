@@ -160,7 +160,7 @@ const string SettingsManager::settingTags[] =
 	"UseAvFilter", "LogChatB",
 	"UseCountryFlag", "UseEmots",
 	"UseHighliting",
-	"UseSock5"
+	"UseSock5",
 	"SENTRY",
 	// Int64
 	"TotalUpload", "TotalDownload","SharingSkiplistMinSize", "SharingSkiplistMaxSize",

@@ -159,7 +159,7 @@ void Client::connect() {
 	try {
 		sock = BufferedSocket::getSocket(separator);
 		sock->addListener(this);
-		sock->connect(address, port, secure, SETTING(ALLOW_UNTRUSTED_HUBS), HUBSETTING(USE_SOCK5) , keyprint);
+		sock->connect(address, port, secure, SETTING(ALLOW_UNTRUSTED_HUBS), HUBSETTING(USE_SOCK5) && (HUBSETTING(OUTGOING_CONNECTIONS) == SettingsManager::OUTGOING_SOCKS5) , keyprint);
 	} catch(const Exception& e) {
 		state = STATE_DISCONNECTED;
 		fire(ClientListener::Failed(), this, e.getError());

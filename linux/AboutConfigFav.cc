@@ -105,6 +105,8 @@ p_entry(entry)
 	isOk[SettingsManager::USE_IP] = true;
 	isOk[SettingsManager::BOLD_HUB] = true;
 	isOk[SettingsManager::USE_HIGHLITING] = true;
+	isOk[SettingsManager::USE_SOCK5] = true;
+	isOk[SettingsManager::OUTGOING_CONNECTIONS] = true;
 	setColorsRows();
 }
 

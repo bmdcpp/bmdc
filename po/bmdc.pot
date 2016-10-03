@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2016-10-01 15:03+0200\n"
+"POT-Creation-Date: 2016-10-03 13:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1008,8 +1008,8 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:8828 linux/AboutConfig.cc:115
 #: linux/AboutConfig.cc:124 linux/AboutConfig.cc:195 linux/AboutConfig.cc:200
 #: linux/AboutConfig.cc:211 linux/AboutConfig.cc:216 linux/AboutConfig.cc:433
-#: linux/AboutConfigFav.cc:153 linux/AboutConfigFav.cc:176
-#: linux/AboutConfigFav.cc:193 linux/AboutConfigFav.cc:217
+#: linux/AboutConfigFav.cc:155 linux/AboutConfigFav.cc:178
+#: linux/AboutConfigFav.cc:195 linux/AboutConfigFav.cc:219
 #: linux/FavoriteHubDialog.cc:171 linux/FavoriteHubDialog.cc:182
 #: linux/FavoriteHubDialog.cc:252 linux/FavoriteHubDialog.cc:383
 #: linux/FavoriteHubDialog.cc:384 linux/emoticonsdialog.cc:149
@@ -1887,9 +1887,9 @@ msgstr ""
 #: linux/AboutConfig.cc:250 linux/AboutConfig.cc:264 linux/AboutConfig.cc:360
 #: linux/AboutConfig.cc:417 linux/AboutConfigFav.cc:35
 #: linux/AboutConfigFav.cc:45 linux/AboutConfigFav.cc:47
-#: linux/AboutConfigFav.cc:119 linux/AboutConfigFav.cc:256
-#: linux/AboutConfigFav.cc:270 linux/AboutConfigFav.cc:364
-#: linux/AboutConfigFav.cc:404 linux/FavoriteHubDialog.cc:300
+#: linux/AboutConfigFav.cc:121 linux/AboutConfigFav.cc:258
+#: linux/AboutConfigFav.cc:272 linux/AboutConfigFav.cc:366
+#: linux/AboutConfigFav.cc:406 linux/FavoriteHubDialog.cc:300
 #: linux/FavoriteHubDialog.cc:585 linux/FavoriteHubDialog.cc:598
 #: linux/detectiontab.cc:42 linux/detectiontab.cc:61 linux/detectiontab.cc:72
 #: linux/detectiontab.cc:313 linux/detectiontab.cc:334
@@ -2773,7 +2773,7 @@ msgstr ""
 #: ui/detection.glade.ui:288 ui/detection.glade.ui:967 linux/AboutConfig.cc:34
 #: linux/AboutConfig.cc:41 linux/AboutConfig.cc:75 linux/AboutConfig.cc:252
 #: linux/AboutConfigFav.cc:37 linux/AboutConfigFav.cc:44
-#: linux/AboutConfigFav.cc:121 linux/AboutConfigFav.cc:258 linux/hub.cc:1040
+#: linux/AboutConfigFav.cc:123 linux/AboutConfigFav.cc:260 linux/hub.cc:1040
 #: linux/search.cc:105 linux/search.cc:229 linux/search.cc:710
 #: linux/search.cc:789 linux/search.cc:933 linux/search.cc:1784
 #: linux/search.cc:1785 linux/search.cc:1786 linux/search.cc:1800
@@ -2875,9 +2875,9 @@ msgstr ""
 
 #: ui/detection.glade.ui:956 linux/AboutConfig.cc:35 linux/AboutConfig.cc:76
 #: linux/AboutConfig.cc:253 linux/AboutConfig.cc:266 linux/AboutConfig.cc:361
-#: linux/AboutConfigFav.cc:38 linux/AboutConfigFav.cc:122
-#: linux/AboutConfigFav.cc:259 linux/AboutConfigFav.cc:272
-#: linux/AboutConfigFav.cc:365 linux/detectiontab.cc:107
+#: linux/AboutConfigFav.cc:38 linux/AboutConfigFav.cc:124
+#: linux/AboutConfigFav.cc:261 linux/AboutConfigFav.cc:274
+#: linux/AboutConfigFav.cc:367 linux/detectiontab.cc:107
 #: linux/detectiontab.cc:1021 linux/detectiontab.cc:1123
 #: linux/detectiontab.cc:1220
 msgid "Value"
@@ -5010,8 +5010,8 @@ msgstr ""
 
 #: linux/AboutConfig.cc:33 linux/AboutConfig.cc:74 linux/AboutConfig.cc:251
 #: linux/AboutConfig.cc:265 linux/AboutConfigFav.cc:36
-#: linux/AboutConfigFav.cc:120 linux/AboutConfigFav.cc:257
-#: linux/AboutConfigFav.cc:271 linux/downloadqueue.cc:69
+#: linux/AboutConfigFav.cc:122 linux/AboutConfigFav.cc:259
+#: linux/AboutConfigFav.cc:273 linux/downloadqueue.cc:69
 #: linux/downloadqueue.cc:280 linux/downloadqueue.cc:387
 #: linux/favoritehubs.cc:49 linux/favoritehubs.cc:138 linux/favoritehubs.cc:762
 #: linux/searchspy.cc:57 linux/searchspy.cc:293 linux/searchspy.cc:375
@@ -5296,8 +5296,8 @@ msgstr ""
 msgid "User Per Favorite Hub Set"
 msgstr ""
 
-#: linux/AboutConfig.cc:405 linux/AboutConfigFav.cc:163
-#: linux/AboutConfigFav.cc:392
+#: linux/AboutConfig.cc:405 linux/AboutConfigFav.cc:165
+#: linux/AboutConfigFav.cc:394
 msgid "User Set"
 msgstr ""
 
