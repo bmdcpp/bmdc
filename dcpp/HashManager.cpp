@@ -49,10 +49,9 @@ const int64_t HashManager::MIN_BLOCK_SIZE = 64 * 1024;
 const string HashManager::StreamStore::g_streamName(".gltth");
 
 void HashManager::StreamStore::setCheckSum(TTHStreamHeader& p_header) {
-    p_header.magic = g_MAGIC;
     uint32_t l_sum = 0;
 
-    for (size_t i = 0; i < sizeof(TTHStreamHeader) / sizeof(uint32_t); i++)
+    for (size_t i = 0; i < sizeof(TTHStreamHeader) / sizeof(uint32_t); ++i)
         l_sum ^= ((uint32_t*) & p_header)[i];
 
     p_header.checksum ^= l_sum;
@@ -133,6 +132,7 @@ bool HashManager::StreamStore::saveTree(const string& p_filePath, const TigerTre
     h.timeStamp = getTimeStamp(p_filePath);
     h.root = p_Tree.getRoot();
     h.blockSize = p_Tree.getBlockSize();
+    h.magic = g_MAGIC;
 
     setCheckSum(h);
     {
@@ -144,7 +144,7 @@ bool HashManager::StreamStore::saveTree(const string& p_filePath, const TigerTre
 
         int ret = attr_set(p_filePath.c_str(), g_streamName.c_str(), (char*)buf, sz, 0);
         delete [] buf;
-        return ret == 0;//Succesfull
+        return ret == 0;//NOTE: Succesfull state
     }
 #endif //USE_XATTR
     return false;

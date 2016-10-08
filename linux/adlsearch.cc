@@ -648,17 +648,17 @@ void SearchADL::onChangeCombo(GtkWidget *widget, gpointer data)
 void SearchADL::onToggleForb(GtkWidget*, gpointer data)
 {
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
-	string tmp;
+	//string tmp;
 	gint type;
 
 	gtk_widget_set_sensitive(s->getWidget("checkcasesensitive"), s->bForbid);
 	gtk_widget_set_sensitive(s->getWidget("checkoveride1"), s->bForbid);
 	gtk_widget_set_sensitive(s->getWidget("spinbuttonPoints"), s->bForbid);
 
-	tmp = string(gtk_entry_get_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry"))));
-	if( (tmp != "Forbidden Files") || (tmp != "Forbidden TTHS") || (tmp != "Forbidden Directories"))
+    //@this probaly not need?
+	//tmp = string(gtk_entry_get_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry"))));
+	//if( (tmp != "Forbidden Files") || (tmp != "Forbidden TTHS") || (tmp != "Forbidden Directories"))
 	{
-		//todo check this...
         type = gtk_combo_box_get_active(GTK_COMBO_BOX(s->getWidget("sourceTypeComboBox")));
         switch(type)
         {
@@ -682,7 +682,7 @@ void SearchADL::onToggleForb(GtkWidget*, gpointer data)
 		}
 
 	}
-	else gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"), !s->bForbid);
+	//else gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"), !s->bForbid);
 
 	s->bForbid = !s->bForbid;
 

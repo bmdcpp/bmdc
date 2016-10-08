@@ -238,7 +238,10 @@ void DownloadManager::on(AdcCommand::SND, UserConnection* aSource, const AdcComm
 	}
 	//END
 
-	if(type != Transfer::names[aSource->getDownload()->getType()]) {
+    Transfer::Type rtype = aSource->getDownload()->getType();
+    //check if its value wich suite to Transfer::Type format aka if we did not get strange value
+    dcassert(rtype < TYPE_FILE && rtype > TYPE_LAST)
+    if(type != Transfer::names[(int)rtype]) {
 		// Uhh??? We didn't ask for this...
 		aSource->disconnect();
 		return;

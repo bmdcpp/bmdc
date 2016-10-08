@@ -198,10 +198,12 @@ string ClientManager::findHub(const string& ipPort) const {
 	uint16_t port = 411;
 
 	parsePortIp(ipPort,ip, port);
-	//NOTE: *should* never get valua over 65535 since is it uint16_t
+	//NOTE: *should* never get value over 65535 since is it uint16_t
+	//NOTE: dont allow 0 as port
 	if( port < 1)
 		return Util::emptyString;
 	bool ok = false;
+	
 	if(Util::isIp6(ip) == true)
 		ok = true;
 	else
@@ -530,9 +532,6 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 				
 				parsePortIp(seek,ip,port);
 				
-				//if(static_cast<NmdcHub*>(aClient)->isProtectedIP(ip))
-				//	return;
-						
 				bool isOk = false;
 				if(Util::isIp6(ip) == true)
 					isOk = true;
@@ -675,7 +674,7 @@ int ClientManager::getMode(const string& aHubUrl) const {
 	return SETTING(INCOMING_CONNECTIONS);
 }
 
-bool ClientManager::isActive(const string& aHubUrl /*= Util::emptyString*/) const
+bool ClientManager::isActive(const string& aHubUrl /**/) const
 {
 	return ( (getMode(aHubUrl) != SettingsManager::INCOMING_FIREWALL_PASSIVE) );
 }
@@ -920,8 +919,8 @@ void ClientManager::sendRawCommand(OnlineUser& ou, const string& aRaw, bool chec
 		}
 		if(!skipRaw || !checkProtection) {
 			ParamMap ucParams;
-			UserCommand uc = UserCommand(0, 0, 0, 0, "", aRaw, "", Util::emptyString);
-			userCommand(HintedUser(ou.getUser(),Util::emptyString), uc, ucParams, true);
+			UserCommand uc = UserCommand(0, 0, 0, 0, "", aRaw, "", "");
+			userCommand(HintedUser(ou.getUser(),""), uc, ucParams, true);
 			if(SETTING(LOG_RAW_CMD)) {
 				LOG(LogManager::RAW, ucParams);
 			}

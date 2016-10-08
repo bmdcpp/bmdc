@@ -218,7 +218,6 @@ File::File(const string& aFileName, int access, int mode) {
 		m |= O_TRUNC;
 	}
 
-	//string filename = Text::fromUtf8(aFileName);
 	string filename = aFileName;
 
 	struct stat s;
@@ -227,8 +226,7 @@ File::File(const string& aFileName, int access, int mode) {
 			throw FileException("Invalid file type");
 	}
 	
-
-	h = g_open(filename.c_str(), m, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);//glib
+	h = g_open(filename.c_str(), m, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 	if(h == -1)
 		throw FileException(Util::translateError(errno));
 }

@@ -270,8 +270,6 @@ void Search::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeM
 			return;
 		if(cell == NULL)
 			return;
-		if( iter == NULL)
-			return;
 	string color = Util::emptyString;
 	string nick = se->resultView.getString(iter,_("Nick"),model);
 	string ip = se->resultView.getString(iter,"IP",model);

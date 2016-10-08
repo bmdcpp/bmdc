@@ -120,10 +120,6 @@ void WulforManager::deleteMainWindow()
 	mainWin = NULL;
 	gtk_main_quit();
 }
-/*
-static void xnotify(gpointer data)
-{ delete (FuncBase*)data; }
-*/
 void WulforManager::dispatchGuiFunc(FuncBase *func)
 {
     g_idle_add((GSourceFunc)(func)->call_,(gpointer)func);

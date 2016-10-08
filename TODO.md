@@ -1,4 +1,4 @@
-[ ] Transfer fully to new dialog
 [ ] Ignore for 15m-1h
-[ ] check if works with network share
+[ ] Check if works with network share
+[ ] Transfer fully to new dialog
 [ ] Fix other bugs

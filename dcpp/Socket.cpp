@@ -219,7 +219,9 @@ socket_t Socket::setSock(socket_t s, int af) {
 		sock4 = s;
 	} else if(af == AF_INET6) {
 		dcassert(sock6 == INVALID_SOCKET);
-		setSocketOpt2(s, IPPROTO_IPV6, IPV6_V6ONLY, 1);
+		int ret = setSocketOpt2(s, IPPROTO_IPV6, IPV6_V6ONLY, 1);
+		if(ret == -1)
+            throw SocketException("Unknow error");
 		sock6 = s;
 	} else {
 		throw SocketException(_("Unknown protocol ") + Util::toString(af));

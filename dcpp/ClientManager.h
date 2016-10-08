@@ -139,6 +139,7 @@ public:
 			return (!ou->getClient().getHideShare());
 		return true;
 	}
+	//custom share
 	ShareManager* getShareManagerClient(const string& hint){
 		Lock l(cs);
 		auto i = clients.find(hint);

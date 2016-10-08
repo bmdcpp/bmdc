@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@ void AdcCommand::parse(const string aLine, bool nmdc /* = false */) {
 	
 	if(nmdc) {
 		// "$ADCxxx ..."
-		if(/*aLine.length()*/len < 7) {
+		if(len < 7) {
 			throw ParseException("Too short");
 		}
 		type = TYPE_CLIENT;
@@ -54,7 +54,7 @@ void AdcCommand::parse(const string aLine, bool nmdc /* = false */) {
 		i += 3;
 	} else {
 		// "yxxx ..."
-		if(/*aLine.length()*/len < 4){
+		if(len < 4){
 			throw ParseException("Too short");
 		}
 		type = aLine[0];
@@ -71,7 +71,6 @@ void AdcCommand::parse(const string aLine, bool nmdc /* = false */) {
 		from = HUB_SID;
 	}
 
-	//string::size_type len = aLine.length();
 	const char* buf = aLine.c_str();
 	string cur;
 	cur.reserve(128);
