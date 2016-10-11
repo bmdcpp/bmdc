@@ -187,7 +187,7 @@ const wstring& acpToWide(const string& str, wstring& tmp) noexcept {
 #endif
 }
 
-const string& wideToUtf8(const wstring& str, string& tgt) noexcept {
+const string wideToUtf8(const wstring& str, string& tgt) noexcept {
 	if(str.empty()) {
 		return string();
 	}
@@ -200,7 +200,7 @@ const string& wideToUtf8(const wstring& str, string& tgt) noexcept {
 	return tgt;
 }
 
-const string& wideToAcp(const wstring& str, string& tmp) noexcept {
+const string wideToAcp(const wstring& str, string& tmp) noexcept {
 	if(str.empty())
 		return string();
 #ifdef _WIN32

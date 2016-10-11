@@ -67,13 +67,13 @@ namespace Text {
 		return utf8ToWide(str, tmp);
 	}
 
-	const string& wideToAcp(const wstring& str, string& tmp) noexcept;
+	const string wideToAcp(const wstring& str, string& tmp) noexcept;
 	inline string wideToAcp(const wstring& str) noexcept {
 		string tmp;
 		return wideToAcp(str, tmp);
 	}
 
-	const string& wideToUtf8(const wstring& str, string& tmp) noexcept;
+	const string wideToUtf8(const wstring& str, string& tmp) noexcept;
 	inline string wideToUtf8(const wstring& str) noexcept {
 		string tmp;
 		return wideToUtf8(str, tmp);
