@@ -149,7 +149,7 @@ void SystemLog::on(LogManagerListener::Message, time_t t, const string& message,
 
 GdkPixbuf* SystemLog::getImageSev(int sev)
 {
-	gchar* src = NULL;
+	string src;
 	switch(sev)
 	{
 		case LogManager::Sev::LOW: 
@@ -163,6 +163,6 @@ GdkPixbuf* SystemLog::getImageSev(int sev)
 			break;
 		default:break;
 	};
-	return gdk_pixbuf_new_from_resource_at_scale(src,24,24,FALSE,NULL);
+	return gdk_pixbuf_new_from_resource_at_scale(src.c_str(),24,24,FALSE,NULL);
 }
 

@@ -1,5 +1,6 @@
 /*
- * Copyright © 2004-2016 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2017 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2011-2017 BMDC++
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +25,7 @@
 #include <dcpp/ClientManager.h>
 #include <dcpp/FavoriteManager.h>
 #include <dcpp/StringTokenizer.h>
+#include <dcpp/GeoManager.h>
 #if 0
 #include <dcpp/PluginManager.h>
 #endif
@@ -135,15 +137,17 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 	g_signal_connect(getWidget("emotButton"), "button-release-event", G_CALLBACK(onEmotButtonRelease_gui), (gpointer)this);
 	g_signal_connect(getWidget("downloadBrowseItem"), "activate", G_CALLBACK(onDownloadToClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("downloadItem"), "activate", G_CALLBACK(onDownloadClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("ripeitem"), "activate", G_CALLBACK(onRipeDbItem_gui),(gpointer)this);
-//	g_signal_connect(getWidget("copyipItem"), "activate", G_CALLBACK(onCopyIpItem_gui),(gpointer)this);
 
 	gtk_widget_grab_focus(getWidget("entry"));
 	history.push_back("");
 	const OnlineUser* user = ClientManager::getInstance()->findOnlineUser(CID(cid), hubUrl);
+	
 	if(user != NULL) {
-		if(user->getIdentity().isBot() == true)
+		if(user->getIdentity().isBot())
 			setFlag(BOT);
+		
+		string country = GeoManager::getInstance()->getCountryAbbrevation(user->getIdentity().getIp());
+		setImageButton(country);
 	}	
 	setLabel_gui(WulforUtil::getNicks(cid, hubUrl) + " [" + WulforUtil::getHubNames(cid, hubUrl) + "]");
 
@@ -165,10 +169,10 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 	selectedTag = TagsMap[Tag::TAG_PRIVATE];
 
 	dcpp::ParamMap params;
-	params["hubNI"] = WulforUtil::getHubNames(cid, hubUrl);//NOTE: core 0.762
+	params["hubNI"] = WulforUtil::getHubNames(cid, hubUrl);
 	params["hubURL"] = hubUrl;
 	params["userCID"] = cid;
-	params["userNI"] = ClientManager::getInstance()->getNicks(CID(cid), hubUrl)[0];//NOTE: core 0.762
+	params["userNI"] = ClientManager::getInstance()->getNicks(CID(cid), hubUrl)[0];
 	params["myCID"] = ClientManager::getInstance()->getMe()->getCID().toBase32();
 
 	readLog(LogManager::getInstance()->getPath(LogManager::PM, params)
@@ -190,8 +194,6 @@ PrivateMessage::~PrivateMessage()
 	g_object_unref(getWidget("hubMenu"));
 	g_object_unref(getWidget("chatCommandsMenu"));
 
-	//delete emotdialog;
-	
 }
 
 void PrivateMessage::show()
@@ -1213,10 +1215,6 @@ gboolean PrivateMessage::onMagnetTagEvent_gui(GtkTextTag *tag, GObject*, GdkEven
 gboolean PrivateMessage::onIpTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *event , GtkTextIter*, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
-	//gchar *tmp = NULL;
-	//g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
-	//pm->ip = string(tmp);
-	//g_free(tmp);
 
 	if(event->type == GDK_BUTTON_PRESS)
 	{
@@ -1649,4 +1647,10 @@ void PrivateMessage::onRipeDbItem_gui(GtkWidget* widget, gpointer data)
 	string result = dcpp::Util::formatParams(SETTING(RIPE_DB),params);
 	WulforUtil::openURI(result,error);
 	pm->setStatus_gui(error);
+}
+
+void PrivateMessage::setImageButton(const string country)
+{
+	gtk_image_set_from_pixbuf (GTK_IMAGE(getWidget("ImageButton")),WulforUtil::LoadCountryPixbuf(country));
+	
 }

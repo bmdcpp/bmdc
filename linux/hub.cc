@@ -1331,8 +1331,8 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 		gtk_text_iter_starts_line (&start_iter);
 		gtk_text_iter_forward_char (&start_iter);
 		
-		GdkPixbuf *pix = WulforUtil::LoadCountryPixbuf(sCountry);
-		gtk_text_buffer_insert_pixbuf(chatBuffer,&start_iter,pix);
+		//GdkPixbuf *pix = WulforUtil::LoadCountryPixbuf(sCountry);
+		gtk_text_buffer_insert_pixbuf(chatBuffer,&start_iter,WulforUtil::LoadCountryPixbuf(sCountry));
 		//gtk_text_buffer_get_end_iter(chatBuffer, &start_iter);
 	}else
 		gtk_text_iter_backward_chars(&start_iter, g_utf8_strlen(line.c_str(), -1));

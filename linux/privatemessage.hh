@@ -104,6 +104,7 @@ class PrivateMessage:
 		static void onCopyCID(gpointer data);
 		static void onAddFavItem(gpointer data);
 		static void onCopyNicks(gpointer data);
+		void setImageButton(const std::string ip);
 
 		// Client functions
 		void sendMessage_client(std::string message);

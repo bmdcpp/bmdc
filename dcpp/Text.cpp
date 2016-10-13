@@ -53,7 +53,7 @@ void initialize() {
 #endif
 }
 
-bool isAscii(/*const char* str*/const string str) noexcept {
+bool isAscii(const string str) noexcept {
 	for(const uint8_t* p = (const uint8_t*)str.c_str(); *p; ++p) {
 		if(*p & 0x80)
 			return false;
@@ -140,12 +140,12 @@ void wcToUtf8(wchar_t c, string& str) {
 	}
 }
 
-const string& acpToUtf8(const string& str, string& tmp) noexcept {
+const string acpToUtf8(const string& str, string& tmp) noexcept {
 	wstring wtmp;
 	return wideToUtf8(acpToWide(str, wtmp), tmp);
 }
 
-const wstring& acpToWide(const string& str, wstring& tmp) noexcept {
+const wstring acpToWide(const string& str, wstring& tmp) noexcept {
 	if(str.empty())
 		return wstring();
 #ifdef _WIN32
@@ -243,12 +243,12 @@ bool validateUtf8(const string& str) noexcept {
 	return true;
 }
 
-const string& utf8ToAcp(const string& str, string& tmp) noexcept {
+const string utf8ToAcp(const string& str, string& tmp) noexcept {
 	wstring wtmp;
 	return wideToAcp(utf8ToWide(str, wtmp), tmp);
 }
 
-const wstring& utf8ToWide(const string& str, wstring& tgt) noexcept {
+const wstring utf8ToWide(const string& str, wstring& tgt) noexcept {
 	tgt.reserve(str.length());
 	string::size_type n = str.length();
 	for(string::size_type i = 0; i < n; ) {
@@ -273,7 +273,7 @@ wchar_t toLower(wchar_t c) noexcept {
 #endif
 }
 
-const wstring& toLower(const wstring& str, wstring& tmp) noexcept {
+const wstring toLower(const wstring& str, wstring& tmp) noexcept {
 	if(str.empty())
 		return Util::emptyStringW;
 	tmp.clear();
@@ -285,7 +285,7 @@ const wstring& toLower(const wstring& str, wstring& tmp) noexcept {
 	return tmp;
 }
 
-const string& toLower(const string& str, string& tmp) noexcept {
+const string toLower(const string& str, string& tmp) noexcept {
 	if(str.empty())
 		return string();
 	tmp.reserve(str.length());
@@ -304,7 +304,7 @@ const string& toLower(const string& str, string& tmp) noexcept {
 	return tmp;
 }
 
-const string& toUtf8(const string& str, const string& fromCharset, string& tmp) noexcept {
+const string toUtf8(const string& str, const string& fromCharset, string& tmp) noexcept {
 	if(str.empty()) {
 		return str;
 	}
