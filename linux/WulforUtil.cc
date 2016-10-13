@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2016 BMDC++
+ * Copyright © 2010-2017 BMDC++
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -706,22 +706,10 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string country)
 {
 	if(country.empty())
 	{
-		GdkPixbuf* buf = NULL;
-		#if GTK_CHECK_VERSION(3,9,0)
-		GError* error = NULL;
-		buf = gtk_icon_theme_load_icon(icon_theme,"gtk-dialog-question",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,&error);
-		if(error != NULL || buf == NULL) {
-			g_print("[BMDC:Country] Failed %s",error->message);
-			g_error_free(error);
-			return NULL;
-		}	
-		#else
-		GtkWidget* iwid = gtk_invisible_new ();
-		buf = gtk_widget_render_icon_pixbuf(iwid, BMDC_STOCK_DIALOG_QUESTION, GTK_ICON_SIZE_MENU);
-		#endif
-		return buf;
+		//@GTK3 icons exist all time....
+		return gtk_icon_theme_load_icon(icon_theme,"gtk-dialog-question",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,NULL);
 	}
-	unordered_map<string,GdkPixbuf*>::const_iterator it = countryIcon.find(country);
+	/*unordered_map<string,GdkPixbuf*>::const_iterator it = countryIcon.find(country);
 	if( it  != countryIcon.end() )
 			return it->second;
 	GError *error = NULL;
@@ -745,7 +733,10 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string country)
 	}
 	g_free(path);
 	countryIcon.insert(make_pair(country,pixbuf));
-	return pixbuf;
+	return pixbuf;*/
+	string res = "/org/bmdc-team/bmdc/country/"+country+".png";
+	return gdk_pixbuf_new_from_resource_at_scale(res.c_str(),15,15,FALSE,NULL);
+	
 }
 
 string WulforUtil::getCountryCode(string _countryname)

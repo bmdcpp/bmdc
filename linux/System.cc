@@ -149,20 +149,20 @@ void SystemLog::on(LogManagerListener::Message, time_t t, const string& message,
 
 GdkPixbuf* SystemLog::getImageSev(int sev)
 {
-	GtkWidget* image = NULL;
+	gchar* src = NULL;
 	switch(sev)
 	{
 		case LogManager::Sev::LOW: 
-			image = gtk_image_new_from_resource("/org/bmdc-team/bmdc/info/info.png");
+			src = "/org/bmdc-team/bmdc/info/info.png";
 			break;
 		case LogManager::Sev::NORMAL: 
-			image = gtk_image_new_from_resource("/org/bmdc-team/bmdc/info/warning.png");
+			src = "/org/bmdc-team/bmdc/info/warning.png";
 			break;
 		case LogManager::Sev::HIGH: 
-			image = gtk_image_new_from_resource("/org/bmdc-team/bmdc/info/error.png");
+			src = "/org/bmdc-team/bmdc/info/error.png";
 			break;
 		default:break;
 	};
-	return WulforUtil::scalePixbuf(gtk_image_get_pixbuf(GTK_IMAGE(image)),24,24);
+	return gdk_pixbuf_new_from_resource_at_scale(src,24,24,FALSE,NULL);
 }
 
