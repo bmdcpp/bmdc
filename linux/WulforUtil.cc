@@ -445,7 +445,7 @@ bool WulforUtil::profileIsLocked()
 	// We can't use Util::getConfigPath() since the core has not been started yet.
 	// Also, Util::getConfigPath() is utf8 and we need system encoding for g_open().
 	char *home = getenv("HOME");
-	string configPath = home ? string(home) + "/.bmdc++-s/" : "/tmp/";
+	string configPath = home ? string(home) + "/.bmdc++-x/" : "/tmp/";
 	string profileLockingFile = configPath + "profile.lck";
 	int flags = O_WRONLY | O_CREAT;
 	int mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;

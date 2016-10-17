@@ -163,7 +163,7 @@ void Util::initialize(PathsMap pathOverrides) {
 	//const char* home_ = getenv("HOME");
 	//string home = home_ ? Text::toUtf8(home_) : "/tmp/";
 	string home = g_get_home_dir ();//glib
-	paths[PATH_GLOBAL_CONFIG] = paths[PATH_USER_CONFIG] = home + "/.bmdc++-s/";
+	paths[PATH_GLOBAL_CONFIG] = paths[PATH_USER_CONFIG] = home + "/.bmdc++-x/";
 
 	loadBootConfig();
 
@@ -590,7 +590,7 @@ string Util::getLocalIp() {
 				#endif
 				if(!Util::isPrivateIp(buf) || strncmp(buf, "169.254", 7) != 0)
 				{
-					return buf;
+					break;
 				}
 			}
 			else

@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2016 BMDC
+ * Copyright © 2010-2017 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -108,7 +108,10 @@ MainWindow::MainWindow():
 #endif
 	lastUpdate(0),
 	lastUp(0), lastDown(0),
-	statusFrame(1)
+	statusFrame(1),
+	current_width(-1),
+	current_height(-1),
+	is_maximized(FALSE)
 {
 	string tmp;
 	startTime = GET_TICK();
@@ -282,12 +285,10 @@ MainWindow::MainWindow():
 
 	// Set all windows to the default icon
 	gtk_window_set_default_icon_name(g_get_prgname());
-	//#ifdef _WIN32
 	//note do not check Gerror here
 	GdkPixbuf* buf = NULL;
 	buf = gdk_pixbuf_new_from_resource("/org/bmdc-team/bmdc/icons/hicolor/96x96/apps/bmdc.png",NULL);
 	gtk_window_set_default_icon(buf);
-	//#endif
 
 	// All notebooks created in glade need one page.
 	// In our case, this is just a placeholder, so we remove it.
@@ -298,6 +299,7 @@ MainWindow::MainWindow():
 	// Connect the signals to their callback functions.
 	g_signal_connect(window, "delete-event", G_CALLBACK(onCloseWindow_gui), (gpointer)this);
 	g_signal_connect(window, "window-state-event", G_CALLBACK(onWindowState_gui), (gpointer)this);
+	g_signal_connect(window, "size-allocate", G_CALLBACK(onSizeWindowState_gui), (gpointer)this);
 	g_signal_connect(window, "focus-in-event", G_CALLBACK(onFocusIn_gui), (gpointer)this);
 	g_signal_connect(window, "key-press-event", G_CALLBACK(onKeyPressed_gui), (gpointer)this);
 	g_signal_connect(getWidget("book"), "switch-page", G_CALLBACK(onPageSwitched_gui), (gpointer)this);
@@ -418,7 +420,11 @@ MainWindow::MainWindow():
 	gint sizeY = WGETI("main-window-size-y");
 
 	gtk_window_move(window, posX, posY);
-	gtk_window_resize(window, sizeX, sizeY);
+
+	gtk_window_set_default_size (GTK_WINDOW (window),
+                               sizeX,
+                               sizeY);
+
 	if (WGETI("main-window-maximized"))
 		gtk_window_maximize(window);
 
@@ -469,26 +475,22 @@ MainWindow::~MainWindow()
 	g_list_free(list);
 
 	// Save window state and position
-	gint posX, posY, sizeX, sizeY, transferPanePosition;
-	bool maximized = true;
-	GdkWindowState gdkState;
+	gint posX, posY, transferPanePosition;
 
 	gtk_window_get_position(window, &posX, &posY);
-	gtk_window_get_size(window, &sizeX, &sizeY);
-	gdkState = gdk_window_get_state( gtk_widget_get_window(GTK_WIDGET(window)));
-	transferPanePosition = sizeY - gtk_paned_get_position(GTK_PANED(getWidget("pane")));
+	transferPanePosition = current_height - gtk_paned_get_position(GTK_PANED(getWidget("pane")));
 
-	if (!(gdkState & GDK_WINDOW_STATE_MAXIMIZED)) {
-		maximized = false;
+	if(!is_maximized || (minimized == false)) {
 		WSET("main-window-pos-x", posX);
 		WSET("main-window-pos-y", posY);
-		WSET("main-window-size-x", sizeX);
-		WSET("main-window-size-y", sizeY);
+		WSET("main-window-size-x", current_width);
+		WSET("main-window-size-y", current_height);
 	}
-	WSET("main-window-maximized", (int)maximized);
+	WSET("main-window-maximized", (int)is_maximized);
 	
-	if (transferPanePosition > 10)
+	if (transferPanePosition > 5)
 		WSET("transfer-pane-position", transferPanePosition);
+		
 	#ifdef USE_STATUSICON
 		if (timer > 0)
 		g_source_remove(timer);
@@ -1838,25 +1840,42 @@ void MainWindow::showMessageDialog_gui(const string primaryText, const string se
 	gtk_widget_show(dialog);
 }
 
+void MainWindow::onSizeWindowState_gui(GtkWidget* widget,GtkAllocation *allocation,gpointer data)
+{
+	g_print("\nCalled SizeWin\n");
+	MainWindow* mw = ( MainWindow*)data;
+	if(!mw->is_maximized)
+	{
+		gtk_window_get_size (GTK_WINDOW (widget),
+                         &mw->current_width,
+                         &mw->current_height);
+	}	
+		
+}
+
 gboolean MainWindow::onWindowState_gui(GtkWidget*, GdkEventWindowState *event, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
+	gboolean res = GDK_EVENT_PROPAGATE;
+		g_print("\nCalled StateWin\n");
 
-	if (!mw->minimized && event->new_window_state & (GDK_WINDOW_STATE_ICONIFIED | GDK_WINDOW_STATE_WITHDRAWN))
+	if (mw->minimized  || (event->new_window_state & (GDK_WINDOW_STATE_ICONIFIED | GDK_WINDOW_STATE_WITHDRAWN)))
 	{
-		mw->minimized = TRUE;
+		mw->minimized = true;
 		if (SETTING(SettingsManager::AUTO_AWAY) && !Util::getAway())
 			Util::setAway(true);
 	}
-	else if (mw->minimized && (event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED ||
-		event->new_window_state == 0))
+	else if (!mw->minimized || (event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED )!= 0)
 	{
-		mw->minimized = FALSE;
+		mw->minimized = false;
+		
 		if (SETTING(SettingsManager::AUTO_AWAY) && !Util::getManualAway())
 			Util::setAway(false);
 	}
-
-	return TRUE;
+	
+	mw->is_maximized =
+    (event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED) != 0;
+	return res;
 }
 
 gboolean MainWindow::onFocusIn_gui(GtkWidget*, GdkEventFocus*, gpointer data)
@@ -1880,7 +1899,7 @@ gboolean MainWindow::onCloseWindow_gui(GtkWidget*, GdkEvent*, gpointer data)
 
 	if (mw->onQuit)
 	{
-		mw->onQuit = FALSE;
+		mw->onQuit = false;
 	}
 	else if (WGETB("main-window-no-close") && SETTING(ALWAYS_TRAY))
 	{

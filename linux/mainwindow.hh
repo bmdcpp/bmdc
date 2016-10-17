@@ -209,6 +209,7 @@ class MainWindow:
 
 		// GUI Callbacks
 		static gboolean onWindowState_gui(GtkWidget *widget, GdkEventWindowState *event, gpointer data);
+		static void onSizeWindowState_gui(GtkWidget* widget,GtkAllocation *allocation,gpointer data);
 		static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);
 		static gboolean onCloseWindow_gui(GtkWidget *widget, GdkEvent *event, gpointer data);
 		static gboolean onKeyPressed_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
@@ -312,6 +313,8 @@ class MainWindow:
 		virtual void on(dcpp::QueueManagerListener::PartialList, const dcpp::HintedUser& aUser, const std::string& text) noexcept;
 
 		GtkWindow *window;
+		int current_width,current_height;
+		gboolean is_maximized;
 		Transfers* transfers;
 		bool minimized;
 #ifdef USE_STATUSICON

@@ -428,6 +428,7 @@ void TreeView::addColumn_gui(Column& column)
 			g_object_set(renderer, "xalign", 0.0, NULL); // Doesn't work yet. See: http://bugzilla.gnome.org/show_bug.cgi?id=334576
 			col = gtk_tree_view_column_new_with_attributes(column.title.c_str(),
 				renderer, "text", column.pos, "value", TreeView::col(column.linkedCol), NULL);
+				
 			break;
 		}	
 		case EXSIZE:

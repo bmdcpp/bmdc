@@ -209,7 +209,6 @@ void AboutConfig::show()
 	sprintf(types,"Integer");
 	bIsOk = false;
 	sDefualt = _("Default");
-	dValue = NULL;
 	for(auto j = defIMap.begin();j != defIMap.end();++j)
 	{
 		bIsOk = imap.find(rowname) != imap.end();
