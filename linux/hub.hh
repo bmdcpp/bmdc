@@ -121,6 +121,7 @@ private:
 		void columnHeader(int num, std::string name);
 
 		// GUI callbacks
+		static void onSizeWindowState_gui(GtkWidget* widget,GdkRectangle *allocation,gpointer data);
 		static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);
 		static gboolean onNickListButtonPress_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onNickListButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
@@ -286,6 +287,7 @@ private:
 		static const int maxHistory = 30;//made settable
 		int64_t totalShared;
 		int ImgLimit;
+		int width;
 		gint totalEmoticons;
 		gint oldType;
 		bool scrollToBottom;

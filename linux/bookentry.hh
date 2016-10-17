@@ -53,7 +53,6 @@ class BookEntry : public Entry
 		bool isActive_gui();
 		virtual void show() = 0;
 		virtual GtkWidget *createmenu();
-		//GtkWidget *getFItem() { return (createItemFirstMenu());}
 
 		void setSearchButtons(bool s) { IsCloseButton = s;}
 		void setName(const std::string& name)
@@ -66,6 +65,7 @@ class BookEntry : public Entry
 		{
 			gtk_widget_set_state_flags (labelBox,GTK_STATE_FLAG_NORMAL,TRUE);
 		}
+		int getPositionTab() { return (-1);};
 	protected:
 		GtkWidget *createItemFirstMenu();
 	private:
@@ -89,6 +89,7 @@ class BookEntry : public Entry
 		const glong labelSize;//@ size of Chars in Tab value in WulforSettingsManager
 		GtkWidget *icon;
 		//[BMDC++
+		//int book_pos;
 		GdkEventType previous;
 		GtkWidget *popTabMenuItem;
 		const EntryType type;

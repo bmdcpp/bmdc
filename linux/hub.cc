@@ -70,7 +70,7 @@ Hub::Hub(const string &address, const string &encoding):
 	client(NULL),address(address),
 	encoding(encoding),	ImgLimit(0),historyIndex(0),totalShared(0),
 	scrollToBottom(true), PasswordDialog(false), WaitingPassword(false),
-	notCreated(true), isFavBool(true)
+	notCreated(true), isFavBool(true), width(-1)
 {
 	im = new IgnoreTempManager();
 	FavoriteHubEntry* faventry =  getFavoriteHubEntry();
@@ -193,9 +193,6 @@ Hub::Hub(const string &address, const string &encoding):
 	userCommandMenu2 = new UserCommandMenu(getWidget("ipmenu"), ::UserCommand::CONTEXT_IP);
 	addChild(userCommandMenu2);
 	
-	//userMenu = new UserMenu(getWidget("nickMenu"));
-	//addChild(userMenu);
-
 	string packName = SETTING(EMOT_PACK);
 
 	if(faventry)
@@ -253,6 +250,9 @@ Hub::Hub(const string &address, const string &encoding):
 
 	GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("chatScroll")));
 	// Connect the signals to their callback functions.
+	g_signal_connect(getContainer(), "size-allocate", G_CALLBACK(onSizeWindowState_gui), (gpointer)this);
+
+	
 	g_signal_connect(getContainer(), "focus-in-event", G_CALLBACK(onFocusIn_gui), (gpointer)this);
 	g_signal_connect(nickView.get(), "button-press-event", G_CALLBACK(onNickListButtonPress_gui), (gpointer)this);
 	g_signal_connect(nickView.get(), "button-release-event", G_CALLBACK(onNickListButtonRelease_gui), (gpointer)this);
@@ -457,11 +457,9 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 
 		string nick = hub->nickView.getString(iter,_("Nick"),model);
 		uint64_t size = hub->nickView.getValue<gint64>(iter,_("Shared"),model);
-		//string tmp = hub->nickView.getString(iter,_("Client Type"),model);
 		int type = hub->nickView.getValue<gint>(iter,_("Client Type"),model);
 		//char a = tmp[0];
 		switch(type){
-			//case 'A':
 			case BOT:
 			{
 				color = WGETS("userlist-bg-bot-hub");
@@ -545,6 +543,12 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		}
 }
 
+void Hub::onSizeWindowState_gui(GtkWidget* widget,GdkRectangle *allocation,gpointer data)
+{
+	Hub* hub = (Hub*)data;
+	hub->width = allocation->width;	
+}
+
 Hub::~Hub()
 {
 	RecentHubEntry* rhe = FavoriteManager::getInstance()->getRecentHubEntry(address);
@@ -581,9 +585,6 @@ Hub::~Hub()
 	disconnect_client(true);
 
 	// Save the pane position
-	gint width = 0;
-	GtkWindow *window = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
-	gtk_window_get_size(window, &width, NULL);
 	gint panePosition = width - gtk_paned_get_position(GTK_PANED(getWidget("pane")));
 	sm->set(SettingsManager::NICK_PANE_POS, panePosition);
 

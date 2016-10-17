@@ -304,6 +304,7 @@
     <property name="column_homogeneous">True</property>
     <child>
       <object class="GtkPaned" id="pane">
+        <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
         <property name="visible">True</property>
         <child>
           <object class="GtkScrolledWindow" id="chatScroll">
@@ -323,7 +324,6 @@
           <packing>
             <property name="resize">False</property>
             <property name="shrink">True</property>
-            <property name="expand">True</property>
           </packing>
         </child>
         <child>
@@ -340,7 +340,6 @@
           <packing>
             <property name="resize">True</property>
             <property name="shrink">True</property>
-            <property name="expand">True</property>
           </packing>
         </child>
       </object>

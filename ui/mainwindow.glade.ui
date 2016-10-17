@@ -1376,8 +1376,9 @@ Contributors:
           <placeholder/>
         </child>
         <child>
-          <object class="GtkVPaned" id="pane">
+          <object class="GtkPaned" id="pane">
             <property name="can_focus">True</property>
+            <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
             <child>
               <object class="GtkHBox" id="hbox4">
                 <property name="visible">True</property>

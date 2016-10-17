@@ -726,10 +726,11 @@ void MainWindow::addBookEntry_gui(BookEntry *entry)
 	GtkWidget *page = entry->getContainer();
 	GtkWidget *label = entry->getLabelBox();
 	GtkWidget *tabMenuItem = entry->getTabMenuItem();
+	int pos = entry->getPositionTab();
 
 	addTabMenuItem_gui(tabMenuItem, page);
 
-	gtk_notebook_append_page(GTK_NOTEBOOK(getWidget("book")), page, label);
+	gtk_notebook_insert_page(GTK_NOTEBOOK(getWidget("book")), page, label, pos);
 
 	g_signal_connect(label, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
 	
