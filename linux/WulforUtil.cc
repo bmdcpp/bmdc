@@ -709,31 +709,6 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string country)
 		//@GTK3 icons exist all time....
 		return gtk_icon_theme_load_icon(icon_theme,"gtk-dialog-question",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,NULL);
 	}
-	/*unordered_map<string,GdkPixbuf*>::const_iterator it = countryIcon.find(country);
-	if( it  != countryIcon.end() )
-			return it->second;
-	GError *error = NULL;
-	#ifdef _WIN32
-		#undef _DATADIR
-		#define _DATADIR "%s"
-		gchar *path = g_strdup_printf(_DATADIR PATH_SEPARATOR_STR "country/%s.png",
-                              WulforManager::get()->getPath().c_str(),(gchar *)country.c_str());
-		#undef _DATADIR
-	#else
-		gchar *path = g_strdup_printf(_DATADIR PATH_SEPARATOR_STR "bmdc/country/%s.png",
-                              (gchar *)country.c_str());
-	#endif	                              
-	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_size(path,15,15,&error);
-	
-	if (error != NULL || pixbuf == NULL) {
-			g_warning("[BMDC::Country] Cannot open image: %s => %s", path, error->message);
-			g_error_free(error);
-			g_free(path);
-			return NULL;
-	}
-	g_free(path);
-	countryIcon.insert(make_pair(country,pixbuf));
-	return pixbuf;*/
 	string res = "/org/bmdc-team/bmdc/country/"+country+".png";
 	return gdk_pixbuf_new_from_resource_at_scale(res.c_str(),15,15,FALSE,NULL);
 	

@@ -1119,7 +1119,7 @@ void ShareManager::Directory::filesToXml(OutputStream& xmlFile, string& indent, 
 }
 
 ShareManager::SearchQuery::SearchQuery() :
-	include(&includeInit),
+	include(includeInit),
 	gt(0),
 	lt(numeric_limits<int64_t>::max()),
 	root(NULL),
@@ -1227,24 +1227,24 @@ void ShareManager::Directory::search(SearchResultList& results, SearchQuery& que
 		return;
 
 	// Find any matches in the directory name and removed matched terms from the query.
-	unique_ptr<StringSearch::List> newTerms;
+	StringSearch::List newTerms;
 
-	for(auto& term: *query.include) {
+	for(auto& term: query.include) {
 		if(term.match(name)) {
-			if(!newTerms) {
-				newTerms.reset(new StringSearch::List(*query.include));
+			if(!newTerms.empty()) {
+				newTerms = query.include;
 			}
-			newTerms->erase(remove(newTerms->begin(), newTerms->end(), term), newTerms->end());
+			newTerms.erase(remove(newTerms.begin(), newTerms.end(), term), newTerms.end());
 		}
 	}
 
-	auto const old = query.include;
-	ScopedFunctor(([old, &query] { query.include = old; }));
-	if(newTerms) {
-		query.include = newTerms.get();
+//	auto const old = query.include;
+
+	if(!newTerms.empty()) {
+		query.include = newTerms;
 	}
 
-	if(query.include->empty() && query.ext.empty() && query.gt == 0) {
+	if(query.include.empty() && query.ext.empty() && query.gt == 0) {
 		// We satisfied all the search words! Add the directory...
 		/// @todo send the directory hash when we have one
 		results.push_back(new SearchResult(SearchResult::TYPE_DIRECTORY, getSize(), getFullName(), TTHValue(string(39, 'A'))));
@@ -1266,10 +1266,10 @@ void ShareManager::Directory::search(SearchResultList& results, SearchQuery& que
 				continue;
 
 			// check if the name matches
-			auto j = query.include->begin();
-			for(; j != query.include->end() && j->match(i.getName()); ++j)
+			auto j = query.include.begin();
+			for(; j != query.include.end() && j->match(i.getName()); ++j)
 				;	// Empty
-			if(j != query.include->end())
+			if(j != query.include.end())
 				continue;
 
 			// check extensions

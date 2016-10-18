@@ -458,12 +458,7 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 
 			gchar* image_path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(backImage));
 
-			const gchar* tmp = Util::getFileExt(image_path).c_str();
-
-			if( (g_ascii_strcasecmp(tmp,".png") == 0)
-			|| (g_ascii_strcasecmp(tmp,".jpg") == 0)
-			|| (g_ascii_strcasecmp(tmp,".gif") == 0)
-			|| (g_ascii_strcasecmp(tmp,".svg") == 0))//alow only these types
+			if(WulforUtil::is_format_supported(image_path))//allow these types wich supported by GdkPixbuf
 			{
 				p_entry->set(SettingsManager::BACKGROUND_CHAT_IMAGE,string(image_path));
 

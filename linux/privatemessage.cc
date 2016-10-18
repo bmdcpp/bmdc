@@ -385,7 +385,7 @@ void PrivateMessage::addLine_gui(Msg::TypeMsg typemsg, const string &message)
 		return;
 	}
 	
-	if(gtk_text_buffer_get_char_count (messageBuffer) > 25000)
+	/*if(gtk_text_buffer_get_char_count (messageBuffer) > 25000)
 	{
 		
 		GtkTextIter next;
@@ -393,7 +393,7 @@ void PrivateMessage::addLine_gui(Msg::TypeMsg typemsg, const string &message)
 		gtk_text_buffer_get_iter_at_line(messageBuffer, &next, 1);
 		gtk_text_buffer_delete(messageBuffer, &iter, &next);
 		return;
-	}
+	}*/
 	
 }
 

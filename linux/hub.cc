@@ -1221,9 +1221,9 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg, strin
 #if 0
 	PluginManager::getInstance()->onChatDisplay(message);
 #endif
-	message = message.c_str();
-	if (message.empty())
-		return;
+	//message = message.c_str();
+	//if (message.empty())
+	//	return;
 
 	GtkTextIter iter;
 	string line = "";
@@ -1281,16 +1281,16 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg, strin
 	gtk_text_buffer_get_end_iter(chatBuffer, &iter);
 
 	// Limit size of chat text
-	if ( gtk_text_buffer_get_line_count(chatBuffer) > maxLines + 1)
+	if ( gtk_text_buffer_get_line_count(chatBuffer) > maxLines)
 	{
 		GtkTextIter next;
 		gtk_text_buffer_get_start_iter(chatBuffer, &iter);
 		gtk_text_buffer_get_iter_at_line(chatBuffer, &next, 1);
 		gtk_text_buffer_delete(chatBuffer, &iter, &next);
-		addMessage_gui(cid, message,typemsg,sCountry);
-		return;
+	//	addMessage_gui(cid, message,typemsg,sCountry);
+	//	return;
 	}
-	if(gtk_text_buffer_get_char_count (chatBuffer) > 25000)
+	/*if(gtk_text_buffer_get_char_count (chatBuffer) > 25000)
 	{
 		///try avoid chat-bug
 		GtkTextIter startIter, endIter;
@@ -1299,7 +1299,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg, strin
 		gtk_text_buffer_delete(chatBuffer, &startIter, &endIter);
 		addMessage_gui(cid, message,typemsg,sCountry);
 		return;
-	}
+	}*/
 	
 }
 
@@ -1326,15 +1326,13 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 		gtk_text_iter_backward_chars(&start_iter, g_utf8_strlen(line.c_str(), -1));
 		
 	//
-	if(client && client->get(SettingsManager::GET_USER_COUNTRY,SETTING(GET_USER_COUNTRY)))	
+	if( ( (!sCountry.empty()) &&  client && client->get(SettingsManager::GET_USER_COUNTRY,SETTING(GET_USER_COUNTRY))) )	
 	{	
 		//GtkTextIter iter = start_iter;
 		gtk_text_iter_starts_line (&start_iter);
 		gtk_text_iter_forward_char (&start_iter);
-		
-		//GdkPixbuf *pix = WulforUtil::LoadCountryPixbuf(sCountry);
 		gtk_text_buffer_insert_pixbuf(chatBuffer,&start_iter,WulforUtil::LoadCountryPixbuf(sCountry));
-		//gtk_text_buffer_get_end_iter(chatBuffer, &start_iter);
+
 	}else
 		gtk_text_iter_backward_chars(&start_iter, g_utf8_strlen(line.c_str(), -1));
 	// apply tags: nick, link, hub-url, magnet

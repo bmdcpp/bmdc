@@ -1843,7 +1843,6 @@ void MainWindow::showMessageDialog_gui(const string primaryText, const string se
 
 void MainWindow::onSizeWindowState_gui(GtkWidget* widget,GtkAllocation *allocation,gpointer data)
 {
-	g_print("\nCalled SizeWin\n");
 	MainWindow* mw = ( MainWindow*)data;
 	if(!mw->is_maximized)
 	{
@@ -1858,7 +1857,6 @@ gboolean MainWindow::onWindowState_gui(GtkWidget*, GdkEventWindowState *event, g
 {
 	MainWindow *mw = (MainWindow *)data;
 	gboolean res = GDK_EVENT_PROPAGATE;
-		g_print("\nCalled StateWin\n");
 
 	if (mw->minimized  || (event->new_window_state & (GDK_WINDOW_STATE_ICONIFIED | GDK_WINDOW_STATE_WITHDRAWN)))
 	{
@@ -2373,7 +2371,8 @@ void MainWindow::onExportItemClicked_gui(GtkWidget*, gpointer data)
 	MainWindow *mw = (MainWindow *)data;
 	ExportDialog *h = new ExportDialog(GTK_WINDOW(mw->getContainer()));
 	h->run();
-	delete h;
+	if(h)
+		delete h;//need?
 }
 #endif
 

@@ -225,11 +225,12 @@ private:
 		SearchQuery();
 		SearchQuery(const StringList& adcParams);
 		SearchQuery(const string& nmdcString, int searchType, int64_t size, int fileType);
+		~SearchQuery() {if (root) delete root;}
 
 		bool isExcluded(const string& str);
 		bool hasExt(const string& name);
 
-		StringSearch::List* include;
+		StringSearch::List include;
 		StringSearch::List includeInit;
 		StringSearch::List exclude;
 		StringList ext;
