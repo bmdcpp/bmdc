@@ -445,7 +445,7 @@ bool WulforUtil::profileIsLocked()
 	// We can't use Util::getConfigPath() since the core has not been started yet.
 	// Also, Util::getConfigPath() is utf8 and we need system encoding for g_open().
 	char *home = getenv("HOME");
-	string configPath = home ? string(home) + "/.bmdc++-s/" : "/tmp/";
+	string configPath = home ? string(home) + "/.bmdc++-x/" : "/tmp/";
 	string profileLockingFile = configPath + "profile.lck";
 	int flags = O_WRONLY | O_CREAT;
 	int mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
@@ -1674,10 +1674,10 @@ void WulforUtil::setTextDeufaults(GtkWidget* widget, std::string strcolor, std::
 		std::string strwhat = (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid ));
 		if(!where.empty()) strwhat = where;
 				
-		std::string t_css =std::string("GtkTextView#"+strwhat+":insensitive, GtkTextView#"+strwhat+" { background: "+strcolor+" ;}\n\0");
+		std::string t_css =std::string("GtkTextView#"+strwhat+" { background: "+strcolor+" ;}\n\0");
 				
 		if(!mono.empty()) {
-			t_css =	std::string("GtkTextView#"+strwhat+":insensitive, GtkTextView#"+strwhat+" { background: "+strcolor+" ;\n font: "+mono+"; }\n\0");	
+			t_css =	std::string("GtkTextView#"+strwhat+" { background: "+strcolor+" ;\n font: "+mono+"; }\n\0");	
 		}	
 
 		gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
@@ -1694,7 +1694,7 @@ void WulforUtil::setTextColor(std::string color,std::string where /*= dcpp::Util
 		GtkCssProvider *provider = gtk_css_provider_new ();
 		GdkDisplay *display = gdk_display_get_default ();
 		GdkScreen *screen = gdk_display_get_default_screen (display);
-		std::string t_css = std::string("GtkTextView#"+where+" ,GtkTextView#"+where+":insensitive, GtkTextView#"+where+":focused, GtkTextView#"+where+":active { color: "+color+" ;} GtkTextView#"+where+":selected { color: red ; }	\n\0");
+		std::string t_css = std::string("GtkTextView#"+where+" ,GtkTextView#"+where+":focus, GtkTextView#"+where+":active { color: "+color+" ;} GtkTextView#"+where+":selected { color: red ; }	\n\0");
 
 		gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
 

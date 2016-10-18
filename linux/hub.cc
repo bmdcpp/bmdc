@@ -1221,10 +1221,11 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg, strin
 #if 0
 	PluginManager::getInstance()->onChatDisplay(message);
 #endif
-	//message = message.c_str();
-	//if (message.empty())
-	//	return;
-
+	
+	message = message.c_str();
+	if (message.empty())
+		return;
+		
 	GtkTextIter iter;
 	string line = "";
 
@@ -1236,6 +1237,12 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg, strin
 			line += "[" + Util::getShortTimeString() + "] ";
 			
 	line += message;
+	
+	if(!g_utf8_validate(line.c_str(),-1,NULL))
+	{
+			string _line = Text::toUtf8(line,client->getEncoding());
+			line = _line;
+	}
 
 	gtk_text_buffer_get_end_iter(chatBuffer, &iter);
 	gtk_text_buffer_insert(chatBuffer, &iter, line.c_str(), line.size());
@@ -1287,19 +1294,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg, strin
 		gtk_text_buffer_get_start_iter(chatBuffer, &iter);
 		gtk_text_buffer_get_iter_at_line(chatBuffer, &next, 1);
 		gtk_text_buffer_delete(chatBuffer, &iter, &next);
-	//	addMessage_gui(cid, message,typemsg,sCountry);
-	//	return;
 	}
-	/*if(gtk_text_buffer_get_char_count (chatBuffer) > 25000)
-	{
-		///try avoid chat-bug
-		GtkTextIter startIter, endIter;
-		gtk_text_buffer_get_start_iter(chatBuffer, &startIter);
-		gtk_text_buffer_get_end_iter(chatBuffer, &endIter);
-		gtk_text_buffer_delete(chatBuffer, &startIter, &endIter);
-		addMessage_gui(cid, message,typemsg,sCountry);
-		return;
-	}*/
 	
 }
 
@@ -1639,7 +1634,7 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 			if (gtk_text_iter_is_end(&start_iter))
 				return;
 			
-			gtk_text_buffer_move_mark(chatBuffer, end_mark, &tag_end_iter);////new
+			//gtk_text_buffer_move_mark(chatBuffer, end_mark, &tag_end_iter);////new
 			start = false;
 		}
 		else
@@ -3505,7 +3500,7 @@ void Hub::onShowReportClicked_gui(GtkMenuItem* , gpointer data)
 		OnlineUser *ou = ClientManager::getInstance()->findOnlineUser(CID(cid), hub->client->getHubUrl());
 		Identity id = ou->getIdentity();
 
-		hub->addMessage_gui("", WulforUtil::formatReport(id)+"\nIcon\t"+icon, Msg::CHEAT,"");
+		hub->addMessage_gui("", WulforUtil::formatReport(id)+"\nIcon\t"+icon+"\n", Msg::CHEAT,"");
 
 	}
 }

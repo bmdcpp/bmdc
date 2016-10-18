@@ -263,19 +263,7 @@ MainWindow::MainWindow():
 	gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(getWidget("aboutDialog")), comments);
 	g_free(comments);
 
-	// set logo 96x96
-#if !GTK_CHECK_VERSION(3,9,0)
-	GtkIconTheme *iconTheme = gtk_icon_theme_get_default();
-	GdkPixbuf *logo = gtk_icon_theme_load_icon(iconTheme, g_get_prgname(), 96, GTK_ICON_LOOKUP_FORCE_SVG, NULL);
-#endif
-#if GTK_CHECK_VERSION(3,9,0)
-	GdkPixbuf *logo = gtk_icon_theme_load_icon(WulforUtil::icon_theme, g_get_prgname(), 96, GTK_ICON_LOOKUP_FORCE_SVG, NULL);
-#endif
-	if (logo != NULL)
-	{
-		gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(getWidget("aboutDialog")), logo);
-		g_object_unref(logo);
-	}
+	gtk_about_dialog_set_logo_icon_name(GTK_ABOUT_DIALOG(getWidget("aboutDialog")),"bmdc");
 
 	g_signal_connect(getWidget("aboutDialog"),"activate-link",G_CALLBACK(onAboutDialogActivateLink_gui),(gpointer)this);
 

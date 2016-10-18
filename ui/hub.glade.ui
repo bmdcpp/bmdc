@@ -310,11 +310,12 @@
           <object class="GtkScrolledWindow" id="chatScroll">
             <property name="visible">True</property>
             <property name="shadow_type">in</property>
-            <property name="expand">True</property>
+            <property name="min-content-width">150</property>
+            <property name="min-content-height">550</property>
+            <property name="propagate-natural-height">True</property>
             <child>
               <object class="GtkTextView" id="chatText">
                 <property name="visible">True</property>
-				<property name="expand">True</property>
 				<property name="cursor-visible">False</property>
 				<property name="editable">False</property>
 				<property name="wrap-mode">GTK_WRAP_WORD_CHAR</property>
@@ -322,14 +323,17 @@
             </child>
           </object>
           <packing>
-            <property name="resize">False</property>
-            <property name="shrink">True</property>
+            <property name="resize">True</property>
+            <property name="shrink">False</property>
           </packing>
         </child>
         <child>
           <object class="GtkScrolledWindow" id="scrolledwindow2">
             <property name="visible">True</property>
             <property name="shadow_type">in</property>
+            <property name="min-content-width">150</property>
+            <property name="min-content-height">400</property>
+            <property name="propagate-natural-height">True</property>
             <child>
               <object class="GtkTreeView" id="nickView">
                 <property name="visible">True</property>
@@ -339,7 +343,7 @@
           </object>
           <packing>
             <property name="resize">True</property>
-            <property name="shrink">True</property>
+            <property name="shrink">False</property>
           </packing>
         </child>
       </object>
@@ -348,7 +352,6 @@
         <property name="top_attach">0</property>
         <property name="width">1</property>
         <property name="height">1</property>
-        <property name="expand">True</property>
       </packing>
     </child>
     <child>
@@ -406,7 +409,6 @@
             <property name="top_attach">0</property>
             <property name="width">1</property>
             <property name="height">1</property>
-            <property name="expand">True</property>
           </packing>
         </child>
       </object>
@@ -480,7 +482,6 @@
             <property name="top_attach">0</property>
             <property name="width">1</property>
             <property name="height">1</property>
-            <property name="expand">True</property>
           </packing>
         </child>
         <child>
@@ -549,7 +550,6 @@
         <property name="top_attach">2</property>
         <property name="width">1</property>
         <property name="height">1</property>
-        <property name="expand">True</property>
       </packing>
     </child>
   </object>
