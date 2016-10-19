@@ -1328,8 +1328,8 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 		gtk_text_iter_forward_char (&start_iter);
 		gtk_text_buffer_insert_pixbuf(chatBuffer,&start_iter,WulforUtil::LoadCountryPixbuf(sCountry));
 
-	}else
-		gtk_text_iter_backward_chars(&start_iter, g_utf8_strlen(line.c_str(), -1));
+	}//else
+		//gtk_text_iter_backward_chars(&start_iter, g_utf8_strlen(line.c_str(), -1));
 	// apply tags: nick, link, hub-url, magnet
 	GtkTextIter tag_start_iter, tag_end_iter;
 
