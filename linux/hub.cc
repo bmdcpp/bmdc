@@ -1288,7 +1288,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg, strin
 	gtk_text_buffer_get_end_iter(chatBuffer, &iter);
 
 	// Limit size of chat text
-	if ( gtk_text_buffer_get_line_count(chatBuffer) > maxLines)
+	if ( gtk_text_buffer_get_line_count(chatBuffer) > maxLines + 1)
 	{
 		GtkTextIter next;
 		gtk_text_buffer_get_start_iter(chatBuffer, &iter);
@@ -1478,8 +1478,8 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 				{
 					if (WulforUtil::isLink(tagName)) {
 						callback = G_CALLBACK(onLinkTagEvent_gui);
-						if(tagName.find("http") == string::npos)
-									tagName = "http://"+tagName;
+						//if(tagName.find("http") == string::npos)
+							//		tagName = "http://"+tagName;
 					} else if (WulforUtil::isHubURL(tagName))
 						callback = G_CALLBACK(onHubTagEvent_gui);
 					else if (WulforUtil::isMagnet(tagName))
@@ -1634,7 +1634,6 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 			if (gtk_text_iter_is_end(&start_iter))
 				return;
 			
-			//gtk_text_buffer_move_mark(chatBuffer, end_mark, &tag_end_iter);////new
 			start = false;
 		}
 		else

@@ -1119,7 +1119,7 @@ void ShareManager::Directory::filesToXml(OutputStream& xmlFile, string& indent, 
 }
 
 ShareManager::SearchQuery::SearchQuery() :
-	include(includeInit),
+//	include(includeInit),
 	gt(0),
 	lt(numeric_limits<int64_t>::max()),
 	root(NULL),
