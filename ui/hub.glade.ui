@@ -297,11 +297,10 @@
       </object>
     </child>
   </object>
-  <object class="GtkGrid" id="mainBox">
+  <object class="GtkBox" id="mainBox">
     <property name="visible">True</property>
     <property name="can_focus">True</property>
-    <property name="orientation">vertical</property>
-    <property name="column_homogeneous">True</property>
+    <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
     <child>
       <object class="GtkPaned" id="pane">
         <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
@@ -311,7 +310,7 @@
             <property name="visible">True</property>
             <property name="shadow_type">in</property>
             <property name="min-content-width">150</property>
-            <property name="min-content-height">550</property>
+            <!--property name="min-content-height">550</property-->
             <property name="propagate-natural-height">True</property>
             <child>
               <object class="GtkTextView" id="chatText">
@@ -325,6 +324,7 @@
           <packing>
             <property name="resize">True</property>
             <property name="shrink">False</property>
+            <property name="expand">True</property>
           </packing>
         </child>
         <child>
@@ -332,7 +332,7 @@
             <property name="visible">True</property>
             <property name="shadow_type">in</property>
             <property name="min-content-width">150</property>
-            <property name="min-content-height">400</property>
+            <!--property name="min-content-height">400</property-->
             <property name="propagate-natural-height">True</property>
             <child>
               <object class="GtkTreeView" id="nickView">
@@ -344,6 +344,7 @@
           <packing>
             <property name="resize">True</property>
             <property name="shrink">False</property>
+            <property name="expand">True</property>
           </packing>
         </child>
       </object>
