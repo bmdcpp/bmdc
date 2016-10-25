@@ -310,8 +310,7 @@
             <property name="visible">True</property>
             <property name="shadow_type">in</property>
             <property name="min-content-width">150</property>
-            <!--property name="min-content-height">550</property-->
-            <!--property name="propagate-natural-height">True</property-->
+            <property name="overlay-scrolling">False</property>
             <child>
               <object class="GtkTextView" id="chatText">
                 <property name="visible">True</property>
@@ -350,10 +349,6 @@
       <packing>
 		 <property name="expand">True</property>
          <property name="fill">True</property>
-        <!--property name="left_attach">0</property>
-        <property name="top_attach">0</property>
-        <property name="width">1</property>
-        <property name="height">1</property-->
       </packing>
     </child>
     <child>

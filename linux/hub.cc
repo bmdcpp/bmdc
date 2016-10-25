@@ -1295,6 +1295,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg, strin
 		gtk_text_buffer_get_iter_at_line(chatBuffer, &next, 1);
 		gtk_text_buffer_delete(chatBuffer, &iter, &next);
 	}
+	//gtk_text_view_scroll_mark_onscreen (GTK_TEXT_VIEW(getWidget("chatText")), end_mark);
 	
 }
 
@@ -1328,8 +1329,7 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 		gtk_text_iter_forward_char (&start_iter);
 		gtk_text_buffer_insert_pixbuf(chatBuffer,&start_iter,WulforUtil::LoadCountryPixbuf(sCountry));
 
-	}//else
-		//gtk_text_iter_backward_chars(&start_iter, g_utf8_strlen(line.c_str(), -1));
+	}
 	// apply tags: nick, link, hub-url, magnet
 	GtkTextIter tag_start_iter, tag_end_iter;
 
@@ -1842,10 +1842,7 @@ void Hub::updateCursor_gui(GtkWidget *widget)
 		if (newTag != NULL)
 		{
 			// Cursor is entering a tag.
-			//gchar *tmp = NULL;
-			//g_object_get(G_OBJECT(newTag),"name",&tmp,NULL);
 			selectedTagStr = getTagName(newTag);
-			//g_free(tmp);
 
 			if (find(TagsMap, TagsMap + Tag::TAG_MYNICK, newTag) == TagsMap + Tag::TAG_MYNICK)
 			{
@@ -2473,7 +2470,8 @@ void Hub::onChatResize_gui(GtkAdjustment *adjustment, gpointer data)
 
 		gtk_text_buffer_get_end_iter(hub->chatBuffer, &iter);
 		gtk_text_buffer_move_mark(hub->chatBuffer, hub->chatMark, &iter);
-		gtk_text_view_scroll_to_mark(GTK_TEXT_VIEW(hub->getWidget("chatText")), hub->chatMark, 0, FALSE, 0, 0);
+		//gtk_text_view_scroll_to_mark(GTK_TEXT_VIEW(hub->getWidget("chatText")), hub->chatMark, 0, FALSE, 0, 0);
+		gtk_text_view_scroll_mark_onscreen (GTK_TEXT_VIEW(hub->getWidget("chatText")), hub->chatMark);
 	}
 }
 
