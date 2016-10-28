@@ -658,6 +658,12 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">Add as Ignored User (with time)</property>
+        <child type="submenu">
+          <object class="GtkMenu" id="ignoreMenuTime">
+			  <property name="visible">True</property>
+            <property name="can_focus">False</property>
+          </object>
+        </child>
       </object>
     </child>
     <child>

@@ -38,7 +38,7 @@
 #include "WulforUtil.hh"
 #include <queue>
 #include <map>
-
+#include "ignoremenu.hh"
 #include "IgnoreTempManager.hh"
 
 class UserCommandMenu;
@@ -248,16 +248,13 @@ private:
 		virtual void on(dcpp::ClientListener::ClientLine, dcpp::Client* , const std::string &mess, int type) noexcept;
 		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) noexcept;
 		
-		static void onClickMenuItemTime(GtkMenuItem* item,gpointer data);
-		
-		
 		UserMap userMap;
 		UnMapIter userIters;
 		UserMap userFavoriteMap;
 		ImageList imageList;
 		ImageLoad imageLoad;
 		dcpp::StringPair imageMagnet;
-		IgnoreTempManager* im;	
+		IgnoreMenu* ignoreMenu;
 		GtkTextTag *TagsMap[Tag::TAG_LAST];
 		dcpp::Client *client;
 		TreeView nickView;

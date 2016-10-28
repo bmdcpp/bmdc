@@ -14,7 +14,7 @@ struct IgnoreItem
 };
 */
 
-class IgnoreTempManager: private dcpp::TimerManagerListener
+class IgnoreTempManager: public dcpp::Singleton<IgnoreTempManager>, private dcpp::TimerManagerListener
 {
 	public:
 		IgnoreTempManager();

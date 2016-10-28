@@ -32,6 +32,7 @@
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
 #include "settingsmanager.hh"
+#include "IgnoreTempManager.hh"
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
 #include "Splash.hh"
@@ -168,6 +169,7 @@ int main(int argc, char *argv[])
 	}
 	g_set_application_name("BMDC++");
 	WulforSettingsManager::newInstance();
+	IgnoreTempManager::newInstance();
 	#ifndef _WIN32
 	signal(SIGPIPE, SIG_IGN);
 	signal(SIGSEGV, handle_crash);
@@ -183,6 +185,7 @@ int main(int argc, char *argv[])
 	bacon_message_connection_free(connection);
 	#endif
 	WulforManager::stop();
+	IgnoreTempManager::deleteInstance();
 	WulforSettingsManager::deleteInstance();
 
 	std::cout << _("Shutting down dcpp client...") << std::endl;

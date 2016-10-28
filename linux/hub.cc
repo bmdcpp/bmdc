@@ -48,6 +48,7 @@
 #include "WulforUtil.hh"
 #include "version.hh"
 
+#include "ignoremenu.hh"
 #include "IgnoreTempManager.hh"
 
 using namespace std;
@@ -64,7 +65,7 @@ static string getTagName(GtkTextTag *tag)
 	g_free(tmp);
 	return tagName;
 }
-
+//...
 Hub::Hub(const string &address, const string &encoding):
 	BookEntry(Entry::HUB, address, "hub", address),
 	client(NULL),address(address),
@@ -72,7 +73,7 @@ Hub::Hub(const string &address, const string &encoding):
 	scrollToBottom(true), PasswordDialog(false), WaitingPassword(false),
 	notCreated(true), isFavBool(true), width(-1)
 {
-	im = new IgnoreTempManager();
+	//im = new IgnoreTempManager();
 	FavoriteHubEntry* faventry =  getFavoriteHubEntry();
 	//@note because "." and this is used in CSS'ing 
 	//@ use the CID'ing of it
@@ -192,6 +193,8 @@ Hub::Hub(const string &address, const string &encoding):
 	// IP Address...
 	userCommandMenu2 = new UserCommandMenu(getWidget("ipmenu"), ::UserCommand::CONTEXT_IP);
 	addChild(userCommandMenu2);
+	
+	ignoreMenu = new IgnoreMenu(getWidget("ignoreMenuTime"));
 	
 	string packName = SETTING(EMOT_PACK);
 
@@ -360,8 +363,9 @@ Hub::Hub(const string &address, const string &encoding):
 	{
 		bool showUserList = faventry->getShowUserList();
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")), showUserList);
+	}	
 		isFavBool =  faventry ? faventry->getNotify() : WGETI("notify-hub-chat-use");
-	}
+	
 	setColorsRows();
 }
 
@@ -458,7 +462,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		string nick = hub->nickView.getString(iter,_("Nick"),model);
 		uint64_t size = hub->nickView.getValue<gint64>(iter,_("Shared"),model);
 		int type = hub->nickView.getValue<gint>(iter,_("Client Type"),model);
-		//char a = tmp[0];
+		
 		switch(type){
 			case BOT:
 			{
@@ -602,7 +606,7 @@ Hub::~Hub()
 	g_object_unref(getWidget("hubMenu"));
 	g_object_unref(getWidget("chatCommandsMenu"));
 	g_object_unref(getWidget("imageMenu"));
-	delete im;
+	//delete im;
 }
 
 void Hub::show()
@@ -967,6 +971,7 @@ void Hub::popupNickMenu_gui()
 {
 	// Build user command menu
 	userCommandMenu->cleanMenu_gui();
+	ignoreMenu->cleanMenu_gui();
 
 	GtkTreeIter iter;
 	GList *list = gtk_tree_selection_get_selected_rows(nickSelection, NULL);
@@ -984,6 +989,7 @@ void Hub::popupNickMenu_gui()
 			ip = nickView.getString(&iter,_("IP"));
 			lastNick = nickView.getString(&iter, _("Nick"));
 			userCommandMenu->addUser(cid);
+			
 			nicks += " " + lastNick;
 		}
 		gtk_tree_path_free(path);
@@ -999,20 +1005,49 @@ void Hub::popupNickMenu_gui()
 	gtk_label_set_markup (GTK_LABEL (label), markup);
 	g_free(markup);
 	
-	GtkWidget* menu_item = getWidget("ignoreMenuTimeItem");
-		
-	g_object_set_data_full(G_OBJECT(menu_item),"gnick",g_strdup(lastNick.c_str()),g_free);
-	g_object_set_data_full(G_OBJECT(menu_item),"gcid",g_strdup(cid.c_str()),g_free);
-	g_object_set_data_full(G_OBJECT(menu_item),"gip",g_strdup(ip.c_str()),g_free);
 	
-	g_signal_connect(G_OBJECT(menu_item),"activate",G_CALLBACK(onClickMenuItemTime),(gpointer)this);
+	ignoreMenu->buildMenu_gui(lastNick,cid,ip);	
+	//g_object_set_data_full(G_OBJECT(menu_item),"gnick",g_strdup(lastNick.c_str()),g_free);
+	//g_object_set_data_full(G_OBJECT(menu_item),"gcid",g_strdup(cid.c_str()),g_free);
+	//g_object_set_data_full(G_OBJECT(menu_item),"gip",g_strdup(ip.c_str()),g_free);
+	
+	//g_signal_connect(G_OBJECT(menu_item),"activate",G_CALLBACK(onClickMenuItemTime),(gpointer)this);
 	
 	gtk_menu_popup(GTK_MENU(getWidget("nickMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 	gtk_widget_show_all(getWidget("nickMenu"));
 }
-
+/*
 void Hub::onClickMenuItemTime(GtkMenuItem* item,gpointer data)
 {
+	Hub *hub = (Hub *)data;
+
+	if (gtk_tree_selection_count_selected_rows(hub->nickSelection) > 0)
+	{
+		string cid, nick,ip; 
+		GtkTreeIter iter;
+		GtkTreePath *path;
+		typedef Func1<Hub, const string&> F1;
+		GList *list = gtk_tree_selection_get_selected_rows(hub->nickSelection, NULL);
+
+		for (GList *i = list; i; i = i->next)
+		{
+			path = (GtkTreePath *)i->data;
+
+			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(hub->nickStore), &iter, path))
+			{
+				cid = hub->nickView.getString(&iter, "CID");
+				nick = hub->nickView.getString(&iter, _("Nick"));
+				ip = hub->nickView.getString(&iter, "IP");
+				hub->im->addNickIgnored(nick,60*60*5);
+
+			}
+			gtk_tree_path_free(path);
+		}
+		g_list_free(list);
+	}
+	
+	
+	/*
 	Hub* hub = (Hub*)data;
 	string nick = (gchar *)g_object_get_data(G_OBJECT(item),"gnick");
 	string ip = (gchar *)g_object_get_data(G_OBJECT(item),"gip");
@@ -1083,7 +1118,7 @@ void Hub::onClickMenuItemTime(GtkMenuItem* item,gpointer data)
 			if(time >= TEN_HOUR)
 				tmp = (60*60*1000)*10;
 			*/
-			
+		/*	
 			if(text == "NICK")
 			{
 				hub->im->addNickIgnored(nick,time);
@@ -1102,8 +1137,8 @@ void Hub::onClickMenuItemTime(GtkMenuItem* item,gpointer data)
 			
 			g_free(_text);
 		}
-	}
-}
+	}*/
+//}
 	
 
 void Hub::getPassword_gui()
@@ -4591,6 +4626,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 		ou = cm->findOnlineUser(message.from->getCID(),client->getHubUrl());
 		fid = ou->getIdentity();
 	}
+	IgnoreTempManager* im = IgnoreTempManager::getInstance();
 	bool ok = im->isNickIgnored(fid.getNick());
 	ok = im->isIpIgnored(fid.getIp());
 	ok = im->isCidIgnored(message.from->getCID().toBase32());
