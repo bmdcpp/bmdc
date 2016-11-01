@@ -188,7 +188,11 @@ void FavoriteHubs::popupMenu_gui()
 		gtk_widget_set_sensitive(getWidget("removeMenuItem"), TRUE);
 		gtk_widget_set_sensitive(getWidget("connectMenuItem"), TRUE);
 	}
+	#if GTK_CHECK_VERSION(3,22,0)
+	gtk_menu_popup_at_pointer(GTK_MENU(getWidget("menu")),NULL);
+	#else
 	gtk_menu_popup(GTK_MENU(getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+	#endif
 }
 
 gboolean FavoriteHubs::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)

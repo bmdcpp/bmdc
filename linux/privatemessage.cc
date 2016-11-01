@@ -1151,7 +1151,11 @@ gboolean PrivateMessage::onLinkTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent 
 			case 3:
 				// Pop-up link context menu
 				gtk_widget_show_all(pm->getWidget("linkMenu"));
-				gtk_menu_popup(GTK_MENU(pm->getWidget("linkMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+				#if GTK_CHECK_VERSION(3,22,0)
+					gtk_menu_popup_at_pointer(GTK_MENU(pm->getWidget("linkMenu")),NULL);
+				#else
+					gtk_menu_popup(GTK_MENU(pm->getWidget("linkMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+				#endif
 				break;
 		}
 		return TRUE;
@@ -1177,7 +1181,11 @@ gboolean PrivateMessage::onHubTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *
 			case 3:
 				// Popup hub context menu
 				gtk_widget_show_all(pm->getWidget("hubMenu"));
+				#if GTK_CHECK_VERSION(3,22,0)
+					gtk_menu_popup_at_pointer(GTK_MENU(pm->getWidget("hubMenu")),NULL);
+				#else
 				gtk_menu_popup(GTK_MENU(pm->getWidget("hubMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+				#endif
 				break;
 		}
 		return TRUE;
@@ -1204,7 +1212,11 @@ gboolean PrivateMessage::onMagnetTagEvent_gui(GtkTextTag *tag, GObject*, GdkEven
 			case 3:
 				// Popup magnet context menu
 				gtk_widget_show_all(pm->getWidget("magnetMenu"));
+				#if GTK_CHECK_VERSION(3,22,0)
+					gtk_menu_popup_at_pointer(GTK_MENU(pm->getWidget("magnetMenu")),NULL);
+				#else
 				gtk_menu_popup(GTK_MENU(pm->getWidget("magnetMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+				#endif
 				break;
 		}
 		return TRUE;
@@ -1229,7 +1241,11 @@ gboolean PrivateMessage::onIpTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *e
 			g_object_set_data_full(G_OBJECT(pm->getWidget("copyipItem")),"ip_addr",g_strdup(tmp),g_free);
 			
 			gtk_widget_show_all(pm->getWidget("ipMenu"));
+			#if GTK_CHECK_VERSION(3,22,0)
+					gtk_menu_popup_at_pointer(GTK_MENU(pm->getWidget("ipMenu")),NULL);
+				#else
 			gtk_menu_popup(GTK_MENU(pm->getWidget("ipMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+			#endif
 			return TRUE;
 		}
 	}
@@ -1254,7 +1270,7 @@ gboolean PrivateMessage::onChatVisibilityChanged_gui(GtkWidget* widget, GdkEvent
 	return FALSE;
 }
 
-gboolean PrivateMessage::onEmotButtonRelease_gui(GtkWidget*, GdkEventButton *event, gpointer data)
+gboolean PrivateMessage::onEmotButtonRelease_gui(GtkWidget* wid, GdkEventButton *event, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 
@@ -1285,7 +1301,11 @@ gboolean PrivateMessage::onEmotButtonRelease_gui(GtkWidget*, GdkEventButton *eve
 			g_signal_connect(check_item, "activate", G_CALLBACK(onUseEmoticons_gui), data);
 
 			gtk_widget_show_all(emot_menu);
+			#if GTK_CHECK_VERSION(3,22,0)
+					gtk_menu_popup_at_widget(GTK_MENU(emot_menu),wid,GDK_GRAVITY_SOUTH_WEST,GDK_GRAVITY_NORTH_WEST,NULL);
+				#else
 			gtk_menu_popup(GTK_MENU(emot_menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+			#endif
 		break;
 	}
 
@@ -1401,12 +1421,16 @@ void PrivateMessage::onCommandClicked_gui(GtkWidget *widget, gpointer data)
 	gtk_editable_set_position(GTK_EDITABLE(entry), pos);
 }
 
-gboolean PrivateMessage::onChatCommandButtonRelease_gui(GtkWidget*, GdkEventButton *event, gpointer data)
+gboolean PrivateMessage::onChatCommandButtonRelease_gui(GtkWidget* wid, GdkEventButton *event, gpointer data)
 {
 	if (event->button == 1)
 	{
 		PrivateMessage *pm = (PrivateMessage *)data;
+		#if GTK_CHECK_VERSION(3,22,0)
+		gtk_menu_popup_at_widget(GTK_MENU(pm->getWidget("chatCommandsMenu")),wid,GDK_GRAVITY_SOUTH_WEST,GDK_GRAVITY_NORTH_WEST,NULL);
+		#else
 		gtk_menu_popup(GTK_MENU(pm->getWidget("chatCommandsMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+		#endif
 	}
 
 	return FALSE;

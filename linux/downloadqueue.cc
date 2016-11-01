@@ -525,8 +525,13 @@ gboolean DownloadQueue::onDirButtonReleased_gui(GtkWidget*, GdkEventButton *even
 		else if (event->button == 3)
 		{
 			dq->updateFileView_gui();
+
+			#if GTK_CHECK_VERSION(3,22,0)
+				gtk_menu_popup_at_pointer(GTK_MENU(dq->getWidget("dirMenu")),NULL);
+			#else
 			gtk_menu_popup(GTK_MENU(dq->getWidget("dirMenu")), NULL, NULL,
 				NULL, NULL, 0, gtk_get_current_event_time());
+			#endif
 		}
 	}
 
@@ -546,8 +551,12 @@ gboolean DownloadQueue::onDirKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpo
 		}
 		else if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
+			#if GTK_CHECK_VERSION(3,22,0)
+				gtk_menu_popup_at_pointer(GTK_MENU(dq->getWidget("dirMenu")),NULL);
+			#else
 			gtk_menu_popup(GTK_MENU(dq->getWidget("dirMenu")), NULL, NULL,
 				NULL, NULL, 0, gtk_get_current_event_time());
+			#endif
 		}
 		else if (event->keyval == GDK_KEY_Up || event->keyval == GDK_KEY_Down)
 		{
@@ -595,15 +604,19 @@ gboolean DownloadQueue::onFileButtonReleased_gui(GtkWidget*, GdkEventButton *eve
 		if (gtk_tree_selection_count_selected_rows(dq->fileSelection) > 0)
 		{
 			dq->buildDynamicMenu_gui();
+			#if GTK_CHECK_VERSION(3,22,0)
+				gtk_menu_popup_at_pointer(GTK_MENU(dq->getWidget("fileMenu")),NULL);
+			#else
 			gtk_menu_popup(GTK_MENU(dq->getWidget("fileMenu")), NULL, NULL,
 				NULL, NULL, 0, gtk_get_current_event_time());
+			#endif
 			return TRUE;
 		}
 	}
 	return FALSE;
 }
 
-gboolean DownloadQueue::onFileKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer data)
+gboolean DownloadQueue::onFileKeyReleased_gui(GtkWidget* , GdkEventKey *event, gpointer data)
 {
 	DownloadQueue *dq = reinterpret_cast<DownloadQueue *>(data);
 	int count = gtk_tree_selection_count_selected_rows(dq->fileSelection);
@@ -617,8 +630,12 @@ gboolean DownloadQueue::onFileKeyReleased_gui(GtkWidget*, GdkEventKey *event, gp
 		else if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
 			dq->buildDynamicMenu_gui();
+			#if GTK_CHECK_VERSION(3,22,0)
+				gtk_menu_popup_at_pointer(GTK_MENU(dq->getWidget("fileMenu")),NULL);
+			#else
 			gtk_menu_popup(GTK_MENU(dq->getWidget("fileMenu")), NULL, NULL,
 				NULL, NULL, 0, gtk_get_current_event_time());
+			#endif
 		}
 	}
 

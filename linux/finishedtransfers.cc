@@ -356,7 +356,11 @@ gboolean FinishedTransfers::onButtonReleased_gui(GtkWidget*, GdkEventButton *eve
 		}
 
 		gtk_widget_show_all(ft->getWidget("menu"));
+		#if GTK_CHECK_VERSION(3,22,0)
+				gtk_menu_popup_at_pointer(GTK_MENU(ft->getWidget("menu")),NULL);
+		#else
 		gtk_menu_popup(GTK_MENU(ft->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+		#endif
 	}
 
 	return FALSE;
@@ -421,7 +425,11 @@ gboolean FinishedTransfers::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gp
 			}
 
 			gtk_widget_show_all(ft->getWidget("menu"));
+			#if GTK_CHECK_VERSION(3,22,0)
+				gtk_menu_popup_at_pointer(GTK_MENU(ft->getWidget("menu")),NULL);
+			#else
 			gtk_menu_popup(GTK_MENU(ft->getWidget("menu")), NULL, NULL, NULL, NULL, 1, event->time);
+			#endif
 		}
 	}
 

@@ -1997,11 +1997,14 @@ void MainWindow::onSizeToolbarToggled_gui(GtkWidget*, gpointer data)
 	g_object_set(G_OBJECT(toolbar), "icon-size", size, NULL);
 }
 
-gboolean MainWindow::onAddButtonClicked_gui(GtkWidget*, gpointer data)
+gboolean MainWindow::onAddButtonClicked_gui(GtkWidget* wid, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-
+	#if GTK_CHECK_VERSION(3,22,0)
+	gtk_menu_popup_at_widget(GTK_MENU(mw->getWidget("toolbarMenu")),wid,GDK_GRAVITY_SOUTH_WEST,GDK_GRAVITY_NORTH_WEST,NULL);
+	#else
 	gtk_menu_popup(GTK_MENU(mw->getWidget("toolbarMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+	#endif
 	return FALSE;
 }
 
@@ -2550,7 +2553,11 @@ void MainWindow::onStatusIconPopupMenu_gui(GtkStatusIcon *statusIcon, guint butt
 {
 	MainWindow *mw = (MainWindow *)data;
 	GtkMenu *menu = GTK_MENU(mw->getWidget("statusIconMenu"));
+	#if GTK_CHECK_VERSION(3,22,0)
+	gtk_menu_popup_at_pointer(menu,NULL);
+	#else
 	gtk_menu_popup(menu, NULL, NULL, gtk_status_icon_position_menu, statusIcon, button, time);
+	#endif
 }
 #endif
 

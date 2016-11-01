@@ -311,7 +311,7 @@ gboolean BookEntry::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpoin
 	return FALSE;
 }
 
-gboolean BookEntry::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
+gboolean BookEntry::onButtonReleased_gui(GtkWidget* wid, GdkEventButton *event, gpointer data)
 {
 	BookEntry *book = (BookEntry *)data;
 
@@ -321,7 +321,11 @@ gboolean BookEntry::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpoi
 		book->popTabMenuItem = book->createmenu();
 		gtk_widget_show(book->popTabMenuItem);
 		g_object_ref_sink(book->popTabMenuItem);
+		#if GTK_CHECK_VERSION(3,22,0)
+		gtk_menu_popup_at_widget(GTK_MENU(book->popTabMenuItem),wid,GDK_GRAVITY_SOUTH_WEST,GDK_GRAVITY_NORTH_WEST,NULL);
+		#else
 		gtk_menu_popup(GTK_MENU(book->popTabMenuItem),NULL, NULL, NULL,NULL,0,0);
+		#endif
 		return TRUE;
 	}
 	return FALSE;

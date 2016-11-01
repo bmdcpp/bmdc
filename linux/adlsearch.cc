@@ -537,14 +537,18 @@ gboolean SearchADL::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpoi
 		else if (event->button == 3 && event->type == GDK_BUTTON_RELEASE)
 		{
 			// show menu
+			#if GTK_CHECK_VERSION(3,22,0)
+			gtk_menu_popup_at_pointer(GTK_MENU(s->getWidget("menu")),NULL);
+			#else
 			gtk_menu_popup(GTK_MENU(s->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+			#endif
 		}
 	}
 
 	return FALSE;
 }
 
-gboolean SearchADL::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer data)
+gboolean SearchADL::onKeyReleased_gui(GtkWidget* wid, GdkEventKey *event, gpointer data)
 {
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 
@@ -556,7 +560,11 @@ gboolean SearchADL::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer d
 		}
 		else if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
+			#if GTK_CHECK_VERSION(3,22,0)
+			gtk_menu_popup_at_pointer(GTK_MENU(s->getWidget("menu")),NULL);
+			#else
 			gtk_menu_popup(GTK_MENU(s->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+			#endif
 		}
 	}
 
