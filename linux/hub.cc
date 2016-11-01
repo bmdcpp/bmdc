@@ -1006,8 +1006,11 @@ void Hub::popupNickMenu_gui()
 	g_free(markup);
 	
 	ignoreMenu->buildMenu_gui(lastNick,cid,ip);	
-	
+	#if GTK_CHECK_VERSION(3,22,0)
+			gtk_menu_popup_at_pointer(GTK_MENU(getWidget("nickMenu")),NULL);
+	#else
 	gtk_menu_popup(GTK_MENU(getWidget("nickMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+	#endif
 	gtk_widget_show_all(getWidget("nickMenu"));
 }
 
@@ -2209,7 +2212,11 @@ gboolean Hub::onLinkTagEvent_gui(GtkTextTag*, GObject*, GdkEvent *event, GtkText
 				Hub *hub = (Hub *)data;
 				// Popup uri context menu
 				gtk_widget_show_all(hub->getWidget("linkMenu"));
+				#if GTK_CHECK_VERSION(3,22,0)
+			gtk_menu_popup_at_pointer(GTK_MENU(hub->getWidget("linkMenu")),NULL);
+			#else
 				gtk_menu_popup(GTK_MENU(hub->getWidget("linkMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+				#endif
 				break;
 		}
 		return TRUE;
@@ -2230,7 +2237,11 @@ gboolean Hub::onHubTagEvent_gui(GtkTextTag*, GObject*, GdkEvent *event, GtkTextI
 				Hub *hub = (Hub *)data;
 				// Popup uri context menu
 				gtk_widget_show_all(hub->getWidget("hubMenu"));
+				#if GTK_CHECK_VERSION(3,22,0)
+			gtk_menu_popup_at_pointer(GTK_MENU(hub->getWidget("hubMenu")),NULL);
+			#else
 				gtk_menu_popup(GTK_MENU(hub->getWidget("hubMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+				#endif
 				break;
 		}
 		return TRUE;
@@ -2253,7 +2264,11 @@ gboolean Hub::onIpTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *event , GtkT
 			g_object_set_data_full(G_OBJECT(hub->getWidget("copyipItem")),"ip_addr",g_strdup(tmp),g_free);
 			
 			gtk_widget_show_all(hub->getWidget("ipMenu"));
+	        #if GTK_CHECK_VERSION(3,22,0)
+			gtk_menu_popup_at_pointer(GTK_MENU(hub->getWidget("ipMenu")),NULL);
+			#else
 			gtk_menu_popup(GTK_MENU(hub->getWidget("ipMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+			#endif
 			g_free(tmp);
 			return TRUE;
 		}
@@ -2293,7 +2308,11 @@ gboolean Hub::onMagnetTagEvent_gui(GtkTextTag*, GObject*, GdkEvent *event, GtkTe
 			case 3:
 				// Popup magnet context menu
 				gtk_widget_show_all(hub->getWidget("magnetMenu"));
+				#if GTK_CHECK_VERSION(3,22,0)
+				gtk_menu_popup_at_pointer(GTK_MENU(hub->getWidget("magnetMenu")),NULL);
+				#else
 				gtk_menu_popup(GTK_MENU(hub->getWidget("magnetMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+				#endif
 				break;
 		}
 		return TRUE;
@@ -2319,7 +2338,7 @@ gboolean Hub::onChatVisibilityChanged_gui(GtkWidget *widget, GdkEventVisibility*
 	return FALSE;
 }
 
-gboolean Hub::onEmotButtonRelease_gui(GtkWidget*, GdkEventButton *event, gpointer data)
+gboolean Hub::onEmotButtonRelease_gui(GtkWidget *wid, GdkEventButton *event, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
@@ -2350,7 +2369,11 @@ gboolean Hub::onEmotButtonRelease_gui(GtkWidget*, GdkEventButton *event, gpointe
 			g_signal_connect(check_item, "activate", G_CALLBACK(onUseEmoticons_gui), data);
 
 			gtk_widget_show_all(emot_menu);
+			#if GTK_CHECK_VERSION(3,22,0)
+			gtk_menu_popup_at_widget(GTK_MENU(emot_menu),wid,GDK_GRAVITY_SOUTH_WEST,GDK_GRAVITY_NORTH_WEST,NULL);
+			#else
 			gtk_menu_popup(GTK_MENU(emot_menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+			#endif
 		break;
 	}
 
@@ -2804,6 +2827,16 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		}
 		else if( command == "gettempignore")
 		{
+			IgnoreTempManager *im = IgnoreTempManager::getInstance();
+			Lock l(im->cs);
+			vector<string> tmp;
+			for(auto i:im->nickIgnore)
+				tmp.push_back(i.first);
+				
+			string text;
+			for(auto i:tmp)
+					text += "\n "+ i;
+			hub->addMessage_gui("",text,Msg::SYSTEM,"");
 			//todo?
 		}	
 		// protect command
@@ -3073,13 +3106,16 @@ void Hub::onDownloadClicked_gui(GtkMenuItem* , gpointer data)
 	WulforManager::get()->getMainWindow()->fileToDownload_gui(hub->selectedTagStr, SETTING(DOWNLOAD_DIRECTORY));
 }
 
-gboolean Hub::onChatCommandButtonRelease_gui(GtkWidget*, GdkEventButton *event, gpointer data)
+gboolean Hub::onChatCommandButtonRelease_gui(GtkWidget *wid, GdkEventButton *event, gpointer data)
 {
 	if (event->button == 1)
 	{
 		Hub *hub = (Hub *)data;
-
+		#if GTK_CHECK_VERSION(3,22,0)
+		gtk_menu_popup_at_widget(GTK_MENU(hub->getWidget("chatCommandsMenu")),wid,GDK_GRAVITY_SOUTH_WEST,GDK_GRAVITY_NORTH_WEST,NULL);
+		#else
 		gtk_menu_popup(GTK_MENU(hub->getWidget("chatCommandsMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+		#endif
 	}
 
 	return FALSE;
@@ -4107,7 +4143,11 @@ gboolean Hub::onImageEvent_gui(GtkWidget *widget, GdkEventButton *event, gpointe
 		hub->imageMagnet.second = (gchar*) g_object_get_data(G_OBJECT(widget), "cid");
 		g_object_set_data(G_OBJECT(hub->getWidget("removeImageItem")), "container", (gpointer)widget);
 		g_object_set_data(G_OBJECT(hub->getWidget("downloadImageItem")), "container", (gpointer)widget);
+        #if GTK_CHECK_VERSION(3,22,0)
+		gtk_menu_popup_at_widget(GTK_MENU(hub->getWidget("imageMenu")),widget,GDK_GRAVITY_SOUTH_WEST,GDK_GRAVITY_NORTH_WEST,NULL);
+		#else
 		gtk_menu_popup(GTK_MENU(hub->getWidget("imageMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+		#endif
 	}
 	return false;
 }

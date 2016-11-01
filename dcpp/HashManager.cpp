@@ -214,7 +214,7 @@ void HashManager::hashDone(const string& aFileName, uint32_t aTimeStamp, const T
 		LogManager::getInstance()->message(string(buf));
 	} else if(size >= 0) {
 		char buf[4024];
-		sprintf(buf,_("Finished hashing: %s (%s %%)"), Util::addBrackets(aFileName).c_str(),Util::formatBytes(size).c_str());
+		sprintf(buf,_("Finished hashing: %s (%s)"), Util::addBrackets(aFileName).c_str(),Util::formatBytes(size).c_str());
 		LogManager::getInstance()->message(string(buf));
 	} else {
 		LogManager::getInstance()->message(_("Finished hashing: ") + Util::addBrackets(aFileName));

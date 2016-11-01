@@ -1,3 +1,21 @@
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ */
+
 #include <dcpp/stdinc.h>
 #include <dcpp/DCPlusPlus.h>
 #include "IgnoreTempManager.hh"
@@ -47,14 +65,17 @@ void IgnoreTempManager::on(dcpp::TimerManagerListener::Minute, uint64_t aTick) n
 		Lock l(cs);
 		if(nickIgnore.size() >= 1)
 		{
+			vector<string> temp;
 			for(auto i = nickIgnore.begin(); i!= nickIgnore.end();++i)
 			{
 				auto s = i->second;
 				uint64_t timeRem = s.first + s.second;
-				if(timeRem > aTick)	
-						removeNick(i->first);
+				//if(timeRem > aTick)	
+						temp.push_back(i->first);
 			}
-			
+			for(auto ix:temp) {
+				removeNick(ix);
+			}	
 		}
 		if(ipIgnore.size() >= 1)
 		{
