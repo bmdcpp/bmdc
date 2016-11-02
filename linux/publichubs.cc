@@ -209,7 +209,11 @@ gboolean PublicHubs::onButtonRelease_gui(GtkWidget*, GdkEventButton *event, gpoi
 	{
 		if (event->button == 3 && ph->oldType == GDK_BUTTON_PRESS)
 		{
+			#if GTK_CHECK_VERSION(3,22,0)
+			gtk_menu_popup_at_pointer(GTK_MENU(ph->getWidget("menu")),NULL);
+			#else
 			gtk_menu_popup(GTK_MENU(ph->getWidget("menu")), NULL, NULL, NULL, NULL, 0, event->time);
+			#endif
 			gtk_widget_show_all(ph->getWidget("menu"));
 		}
 		else if (event->button == 1 && ph->oldType == GDK_2BUTTON_PRESS)
@@ -229,7 +233,11 @@ gboolean PublicHubs::onKeyRelease_gui(GtkWidget*, GdkEventKey *event, gpointer d
 	{
 		if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
+			#if GTK_CHECK_VERSION(3,22,0)
+			gtk_menu_popup_at_pointer(GTK_MENU(ph->getWidget("menu")),NULL);
+			#else
 			gtk_menu_popup(GTK_MENU(ph->getWidget("menu")), NULL, NULL, NULL, NULL, 0, event->time);
+			#endif
 			gtk_widget_show_all(ph->getWidget("menu"));
 		}
 		else if (event->keyval == GDK_KEY_Return)

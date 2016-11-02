@@ -287,7 +287,11 @@ gboolean UploadQueue::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer
 	{
 		if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
+			#if GTK_CHECK_VERSION(3,22,0)
+		gtk_menu_popup_at_pointer(GTK_MENU(qp->getWidget("menu")),NULL);
+	#else
 			gtk_menu_popup(GTK_MENU(qp->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+			#endif
 		}
 	}
 
@@ -323,7 +327,11 @@ gboolean UploadQueue::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gp
 	{
 		if (event->button == 3 && event->type == GDK_BUTTON_RELEASE)
 		{
+			#if GTK_CHECK_VERSION(3,22,0)
+		gtk_menu_popup_at_pointer(GTK_MENU(qp->getWidget("menu")),NULL);
+	#else
 			gtk_menu_popup(GTK_MENU(qp->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+			#endif
 		}
 	}
 

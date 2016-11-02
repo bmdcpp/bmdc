@@ -167,7 +167,11 @@ void Transfers::popupTransferMenu_gui()
 		gtk_widget_set_sensitive(getWidget("appsPreviewItem"), TRUE);
 	else gtk_widget_set_sensitive(getWidget("appsPreviewItem"), FALSE);
 
+#if GTK_CHECK_VERSION(3,22,0)
+		gtk_menu_popup_at_pointer(GTK_MENU(getWidget("transferMenu")),NULL);
+	#else
 	gtk_menu_popup(GTK_MENU(getWidget("transferMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+	#endif
 	gtk_widget_show_all(getWidget("transferMenu"));
 }
 

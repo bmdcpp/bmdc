@@ -527,7 +527,11 @@ void ShareBrowser::popupFileMenu_gui()
 	g_list_free(list);
 	fileUserCommandMenu->buildMenu_gui();
 
+	#if GTK_CHECK_VERSION(3,22,0)
+		gtk_menu_popup_at_pointer(GTK_MENU(getWidget("fileMenu")),NULL);
+	#else
 	gtk_menu_popup(GTK_MENU(getWidget("fileMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+	#endif
 	gtk_widget_show_all(getWidget("fileMenu"));
 }
 
@@ -575,8 +579,11 @@ void ShareBrowser::popupDirMenu_gui()
 	}
 	g_list_free(list);
 	dirUserCommandMenu->buildMenu_gui();
-
+	#if GTK_CHECK_VERSION(3,22,0)
+		gtk_menu_popup_at_pointer(GTK_MENU(getWidget("dirMenu")),NULL);
+	#else
 	gtk_menu_popup(GTK_MENU(getWidget("dirMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+	#endif
 	gtk_widget_show_all(getWidget("dirMenu"));
 }
 

@@ -493,7 +493,11 @@ void Search::popupMenu_gui()
 	// Build user command menu
 	userCommandMenu->buildMenu_gui();
 
+	#if GTK_CHECK_VERSION(3,22,0)
+	gtk_menu_popup_at_pointer(GTK_MENU(getWidget("mainMenu")),NULL);
+	#else
 	gtk_menu_popup(GTK_MENU(getWidget("mainMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+	#endif
 	gtk_widget_show_all(getWidget("mainMenu"));
 }
 

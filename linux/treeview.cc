@@ -514,7 +514,11 @@ gboolean TreeView::popupMenu_gui(GtkWidget*, GdkEventButton *event, gpointer dat
 
 	if (event->button == 3)
 	{
+		#if GTK_CHECK_VERSION(3,22,0)
+		gtk_menu_popup_at_pointer(tv->menu,NULL);
+	#else
 		gtk_menu_popup(tv->menu, NULL, NULL, NULL, NULL, event->button, gdk_event_get_time((GdkEvent*)event));
+		#endif
 		gtk_widget_show_all(GTK_WIDGET(tv->menu));
 		return true;
 	}
