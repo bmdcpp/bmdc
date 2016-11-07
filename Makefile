@@ -10,7 +10,7 @@ Release:
 Debug:
 	mkdir -p ${HOME}/debug
 	scons PREFIX=${HOME}/debug/ debug=1 profile=0 libappindicator=1 libxattr=1 newSettings=0
-	scons install
+	#scons install
 cleanrelease:
 	scons -c
 cleandebug:

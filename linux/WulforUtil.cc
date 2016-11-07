@@ -445,7 +445,11 @@ bool WulforUtil::profileIsLocked()
 	// We can't use Util::getConfigPath() since the core has not been started yet.
 	// Also, Util::getConfigPath() is utf8 and we need system encoding for g_open().
 	const char *home = g_get_home_dir();
+	#ifndef _DEBUG
 	string configPath = home ? string(home) + "/.bmdc++-s/" : g_get_tmp_dir();
+	#else
+	string configPath = home ? string(home) + "/.bmdc++-debug/" : g_get_tmp_dir();
+	#endif
 	string profileLockingFile = configPath + "profile.lck";
 	int flags = O_WRONLY | O_CREAT;
 	int mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
@@ -1454,7 +1458,7 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 	g_free(tmp2);//lowercase dummy
 	return icon_d;
 }
-//Main point of this code is from ? Px
+//Main point of this code is from ? PtokaX
 string WulforUtil::getStatsForMem() {
 	
 	string temp = Util::emptyString;

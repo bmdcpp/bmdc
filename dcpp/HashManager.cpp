@@ -109,7 +109,7 @@ bool HashManager::StreamStore::loadTree(const string& p_filePath, TigerTree& tre
             return false;
         }
 
-        TigerTree p_Tree = TigerTree(fileSize, h.blockSize, buf + hdrSz);
+        TigerTree p_Tree = TigerTree(fileSize, /*h.blockSize*/HashManager::MIN_BLOCK_SIZE , buf + hdrSz);
 
         if (p_Tree.getRoot() == h.root){
             tree = p_Tree;

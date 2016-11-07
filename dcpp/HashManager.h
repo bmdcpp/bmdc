@@ -208,7 +208,7 @@ private:
             uint32_t checksum;
             uint64_t fileSize;
             uint64_t timeStamp;
-            uint64_t blockSize;
+            int64_t blockSize;//@ need be signed
             TTHValue root;
         };
 
