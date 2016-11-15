@@ -23,10 +23,10 @@
 #ifndef WULFOR_PUBLIC_HUBS_HH
 #define WULFOR_PUBLIC_HUBS_HH
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/FavoriteManager.h>
-#include <dcpp/StringSearch.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/FavoriteManager.h"
+#include "../dcpp/StringSearch.h"
 
 #include "bookentry.hh"
 #include "treeview.hh"

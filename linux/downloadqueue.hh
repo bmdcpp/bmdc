@@ -22,9 +22,9 @@
 #ifndef BMDC_DOWNLOAD_QUEUE_HH
 #define BMDC_DOWNLOAD_QUEUE_HH
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/QueueManager.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/QueueManager.h"
 
 #include "bookentry.hh"
 #include "treeview.hh"

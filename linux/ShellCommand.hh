@@ -4,8 +4,8 @@
 #ifndef SHELL_COMMAND_HH
 #define SHELL_COMMAND_HH
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
 #include "settingsmanager.hh"
 
 class ShellCommand

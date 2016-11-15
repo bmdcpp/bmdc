@@ -19,10 +19,10 @@
 #ifndef _BMDC_ABOUT_CONFIG_FAV_
 #define _BMDC_ABOUT_CONFIG_FAV_
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/FavoriteManager.h>
-#include <dcpp/SettingsManager.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/FavoriteManager.h"
+#include "../dcpp/SettingsManager.h"
 #include "WulforUtil.hh"
 #include "bookentry.hh"
 #include "treeview.hh"

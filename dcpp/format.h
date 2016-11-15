@@ -27,12 +27,12 @@
 #include <glib/gi18n.h>
 #endif
 
-#ifdef BUILDING_DCPP
+//#ifdef BUILDING_DCPP
 
 #define PACKAGE "libdcpp"
 #define LOCALEDIR dcpp::Util::getPath(Util::PATH_LOCALE).c_str()
 #define F_(String) _(string(String).c_str())
-#endif
+//#endif
 
 #ifdef _WIN32
 #define _(String) gettext(String)

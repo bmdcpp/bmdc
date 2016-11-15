@@ -22,12 +22,12 @@
 #ifndef _SEARCH_HH
 #define _SEARCH_HH
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/ClientManager.h>
-#include <dcpp/SearchManager.h>
-#include <dcpp/SearchResult.h>
-#include <dcpp/format.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/ClientManager.h"
+#include "../dcpp/SearchManager.h"
+#include "../dcpp/SearchResult.h"
+#include "../dcpp/format.h"
 #include "bookentry.hh"
 #include "treeview.hh"
 

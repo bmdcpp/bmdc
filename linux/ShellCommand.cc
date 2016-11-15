@@ -2,8 +2,8 @@
 //Author: Irene//Modified by Mank
 // * Copyright © 2012-2016 BMDC++
 #include <cstring>
-#include <dcpp/stdinc.h>
-#include <dcpp/Util.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/Util.h"
 #include "ShellCommand.hh"
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
@@ -20,6 +20,12 @@ path(WulforManager::get()->getPath()+"/extensions/Scripts/"+input)
 		errormessage = output = _("File doesn't exist");
 		return;
 	}
+	if(!g_file_test(path.c_str(),G_FILE_TEST_IS_EXECUTABLE))
+	{
+		errormessage = output = _("File doesn't executable");
+		return;
+	}
+	
 	char* temp = new char[resultsize+1];
 	FILE *p = popen( (path).c_str(), "r");
 	char* x = fgets(temp,resultsize,p);

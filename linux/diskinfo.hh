@@ -17,10 +17,10 @@
  */
 
 #ifdef _WIN32
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/typedefs.h>
-#include <dcpp/w.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/typedefs.h"
+#include "../dcpp/w.h"
 
 class DiskInfo
 {

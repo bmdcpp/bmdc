@@ -18,8 +18,8 @@
 #ifndef _BMDC_NOTEPAD_HH
 #define _BMDC_NOTEPAD_HH
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
 
 #include "bookentry.hh"
 #include "treeview.hh"

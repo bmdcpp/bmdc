@@ -21,7 +21,7 @@
  */
 
 #include <gtk/gtk.h>
-#include <dcpp/format.h>
+#include "../dcpp/format.h"
 #ifndef _WIN32
 #include <glib/gi18n.h>
 #include "bacon-message-connection.hh"
@@ -29,8 +29,8 @@
 #ifdef _WIN32
 #undef USE_STACKTRACE
 #endif
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
 #include "settingsmanager.hh"
 #include "IgnoreTempManager.hh"
 #include "wulformanager.hh"

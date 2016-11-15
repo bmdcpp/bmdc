@@ -21,9 +21,9 @@
 #ifndef _BMDC_UPLOADQUEUE_H
 #define _BMDC_UPLOADQUEUE_H
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/UploadManager.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/UploadManager.h"
 #include <unordered_map>
 #include "bookentry.hh"
 #include "WulforUtil.hh"

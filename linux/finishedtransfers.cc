@@ -21,8 +21,8 @@
 
 #include "finishedtransfers.hh"
 #include "previewmenu.hh"
-#include <dcpp/Text.h>
-#include <dcpp/ClientManager.h>
+#include "../dcpp/Text.h"
+#include "../dcpp/ClientManager.h"
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
 

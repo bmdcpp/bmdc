@@ -21,10 +21,10 @@
 #ifndef _BMDC_SYSTEM_HH
 #define _BMDC_SYSTEM_HH
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/LogManager.h>
-#include <dcpp/LogManagerListener.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/LogManager.h"
+#include "../dcpp/LogManagerListener.h"
 
 #include "bookentry.hh"
 #include "treeview.hh"

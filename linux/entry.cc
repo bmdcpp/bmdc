@@ -20,9 +20,9 @@
  */
 
 #include "entry.hh"
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/Util.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/Util.h"
 #include "wulformanager.hh"
 
 using namespace std;

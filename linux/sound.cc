@@ -20,14 +20,14 @@
  * using OpenSSL with this program is allowed.
  */
 #ifdef _WIN32
-	#include <dcpp/w.h>
+	#include "../dcpp/w.h"
 	#include <mmsystem.h>
 #elif defined(_HAVECANBERRA)
 	#include <canberra-gtk.h> 
 #endif
 
 #include "settingsmanager.hh"
-#include <dcpp/Text.h>
+#include "../dcpp/Text.h"
 #include "sound.hh"
 
 using namespace std;

@@ -22,9 +22,9 @@
 #ifdef HAVE_LIBTAR
 
 #include "exportimport.hh"
-#include <dcpp/ExportManager.h>
-#include <dcpp/SettingsManager.h>
-#include <dcpp/File.h>
+#include "../dcpp/ExportManager.h"
+#include "../dcpp/SettingsManager.h"
+#include "../dcpp/File.h"
 
 using namespace std;
 using namespace dcpp;

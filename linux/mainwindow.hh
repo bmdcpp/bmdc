@@ -23,17 +23,17 @@
 #ifndef _BMDC_MAIN_WINDOW_HH_
 #define _BMDC_MAIN_WINDOW_HH_
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/ConnectionManager.h>
-#include <dcpp/DownloadManager.h>
-#include <dcpp/LogManager.h>
-#include <dcpp/QueueManager.h>
-#include <dcpp/TimerManager.h>
-#include <dcpp/UploadManager.h>
-#include <dcpp/FavoriteManager.h>
-#include <dcpp/UserCommand.h>
-#include <dcpp/StringTokenizer.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/ConnectionManager.h"
+#include "../dcpp/DownloadManager.h"
+#include "../dcpp/LogManager.h"
+#include "../dcpp/QueueManager.h"
+#include "../dcpp/TimerManager.h"
+#include "../dcpp/UploadManager.h"
+#include "../dcpp/FavoriteManager.h"
+#include "../dcpp/UserCommand.h"
+#include "../dcpp/StringTokenizer.h"
 
 #include "entry.hh"
 #include "treeview.hh"

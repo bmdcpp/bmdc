@@ -23,10 +23,10 @@
 #ifndef _HASH_HH
 #define _HASH_HH
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/format.h>
-#include <dcpp/TimerManager.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/format.h"
+#include "../dcpp/TimerManager.h"
 
 #include "dialogentry.hh"
 

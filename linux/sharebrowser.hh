@@ -22,10 +22,10 @@
 #ifndef _BMDC_SHARE_BROWSER_HH
 #define _BMDC_SHARE_BROWSER_HH
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/DirectoryListing.h>
-#include <dcpp/Thread.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/DirectoryListing.h"
+#include "../dcpp/Thread.h"
 #include "bookentry.hh"
 #include "treeview.hh"
 

@@ -21,11 +21,11 @@
 #ifndef _BMDC_SEARCH_ENTRY_HH
 #define _BMDC_SEARCH_ENTRY_HH
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
 #include "entry.hh"
 #include "bookentry.hh"
-#include <dcpp/SearchManager.h>
+#include "../dcpp/SearchManager.h"
 #include <vector>
 #include "search.hh"
 

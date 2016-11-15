@@ -25,9 +25,9 @@
 #include <string>
 #include <map>
 #include <vector>
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/Singleton.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/Singleton.h"
 
 #define WSET(key, value) WulforSettingsManager::getInstance()->set(key, value)
 #define WGETI(key) WulforSettingsManager::getInstance()->getInt(key)

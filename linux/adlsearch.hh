@@ -23,10 +23,10 @@
 #ifndef _BMDC_SEARCH_ADL_H
 #define _BMDC_SEARCH_ADL_H
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/ADLSearch.h>
-#include <dcpp/RawManager.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/ADLSearch.h"
+#include "../dcpp/RawManager.h"
 
 #include "bookentry.hh"
 #include "treeview.hh"

@@ -23,10 +23,10 @@
 #ifndef _BMDC_FAVORITE_HUBS_HH
 #define _BMDC_FAVORITE_HUBS_HH
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/FavoriteManager.h>
-#include <dcpp/ClientManager.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/FavoriteManager.h"
+#include "../dcpp/ClientManager.h"
 #include "WulforUtil.hh"
 #include "bookentry.hh"
 #include "treeview.hh"

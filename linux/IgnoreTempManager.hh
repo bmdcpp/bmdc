@@ -17,10 +17,10 @@
  */
 #ifndef _IGNORE_MANAGER
 #define _IGNORE_MANAGER
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/Singleton.h>
-#include <dcpp/TimerManager.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/Singleton.h"
+#include "../dcpp/TimerManager.h"
 #include <map>
 /*
 struct IgnoreItem

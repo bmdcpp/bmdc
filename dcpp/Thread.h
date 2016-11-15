@@ -18,10 +18,11 @@
 
 #ifndef THREAD_H
 #define THREAD_H
-
+#ifdef _WIN32
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
+#endif
 
 #ifndef _WIN32
 	#include <pthread.h>

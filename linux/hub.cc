@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2016 BMDC++
+ * Copyright © 2010-2017 BMDC++
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,21 +22,21 @@
 
 #include "hub.hh"
 #include <gdk/gdk.h>
-#include <dcpp/FavoriteManager.h>
-#include <dcpp/HashManager.h>
-#include <dcpp/SearchManager.h>
-#include <dcpp/ShareManager.h>
-#include <dcpp/UserCommand.h>
-#include <dcpp/version.h>
-#include <dcpp/ChatMessage.h>
-#include <dcpp/GeoManager.h>
+#include "../dcpp/FavoriteManager.h"
+#include "../dcpp/HashManager.h"
+#include "../dcpp/SearchManager.h"
+#include "../dcpp/ShareManager.h"
+#include "../dcpp/UserCommand.h"
+#include "../dcpp/version.h"
+#include "../dcpp/ChatMessage.h"
+#include "../dcpp/GeoManager.h"
 #if 0
-#include <dcpp/PluginManager.h>
+#include "../dcpp/PluginManager.h"
 #endif
-#include <dcpp/ConnectivityManager.h>
-#include <dcpp/HighlightManager.h>
-#include <dcpp/AVManager.h>
-#include <dcpp/Text.h>
+#include "../dcpp/ConnectivityManager.h"
+#include "../dcpp/HighlightManager.h"
+#include "../dcpp/AVManager.h"
+#include "../dcpp/Text.h"
 #include "WulforUtil.hh"
 #include "privatemessage.hh"
 #include "search.hh"
@@ -606,7 +606,6 @@ Hub::~Hub()
 	g_object_unref(getWidget("hubMenu"));
 	g_object_unref(getWidget("chatCommandsMenu"));
 	g_object_unref(getWidget("imageMenu"));
-	//delete im;
 }
 
 void Hub::show()

@@ -24,17 +24,17 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-#include <dcpp/ClientManager.h>
-#include <dcpp/Util.h>
-#include <dcpp/version.h>
-#include <dcpp/ShareManager.h>
-#include <dcpp/HashManager.h>
-#include <dcpp/StringTokenizer.h>
-#include <dcpp/RegEx.h>
-#include <dcpp/HighlightManager.h>
-#include <dcpp/RawManager.h>
+#include "../dcpp/ClientManager.h"
+#include "../dcpp/Util.h"
+#include "../dcpp/version.h"
+#include "../dcpp/ShareManager.h"
+#include "../dcpp/HashManager.h"
+#include "../dcpp/StringTokenizer.h"
+#include "../dcpp/RegEx.h"
+#include "../dcpp/HighlightManager.h"
+#include "../dcpp/RawManager.h"
 
-#include <dcpp/UserManager.h>
+#include "../dcpp/UserManager.h"
 
 #include <iostream>
 

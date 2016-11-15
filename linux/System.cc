@@ -20,7 +20,7 @@
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
 #include "settingsmanager.hh"
-#include <dcpp/LogManager.h>
+#include "../dcpp/LogManager.h"
 
 using namespace std;
 using namespace dcpp;

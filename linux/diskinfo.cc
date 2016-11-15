@@ -20,9 +20,9 @@
 
 #include "diskinfo.hh"
 #include <direct.h>
-#include <dcpp/Util.h>
-#include <dcpp/Text.h>
-#include <dcpp/version.h>
+#include "../dcpp/Util.h"
+#include "../dcpp/Text.h"
+#include "../dcpp/version.h"
 
 using namespace std;
 using namespace dcpp;

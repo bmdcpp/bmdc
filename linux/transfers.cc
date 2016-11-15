@@ -33,13 +33,14 @@
 #include "UserCommandMenu.hh"
 #include "search.hh"
 #include "SearchEntry.hh"
-#include <dcpp/Download.h>
-#include <dcpp/Upload.h>
-#include <dcpp/ClientManager.h>
-#include <dcpp/FavoriteManager.h>
-#include <dcpp/UserConnection.h>
-#include <dcpp/GeoManager.h>
-#include <dcpp/SearchManager.h>
+
+#include "../dcpp/Download.h"
+#include "../dcpp/Upload.h"
+#include "../dcpp/ClientManager.h"
+#include "../dcpp/FavoriteManager.h"
+#include "../dcpp/UserConnection.h"
+#include "../dcpp/GeoManager.h"
+#include "../dcpp/SearchManager.h"
 
 using namespace std;
 using namespace dcpp;

@@ -20,7 +20,7 @@
 
 #include <iostream>
 #include <gtk/gtk.h>
-#include <dcpp/Util.h>
+#include "../dcpp/Util.h"
 #include "genres.h"
 
 using namespace std;

@@ -22,14 +22,14 @@
 #ifndef _BMDC_PRIVATE_MESSAGE_HH
 #define _BMDC_PRIVATE_MESSAGE_HH
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/ClientManagerListener.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/ClientManagerListener.h"
 #include "bookentry.hh"
 #include "message.hh"
 #include "UserCommandMenu.hh"
 #include <vector>
-#include <dcpp/Flags.h>
+#include "../dcpp/Flags.h"
 
 
 class WulforSettingsManager;

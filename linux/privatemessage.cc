@@ -22,12 +22,12 @@
 
 #include "privatemessage.hh"
 
-#include <dcpp/ClientManager.h>
-#include <dcpp/FavoriteManager.h>
-#include <dcpp/StringTokenizer.h>
-#include <dcpp/GeoManager.h>
+#include "../dcpp/ClientManager.h"
+#include "../dcpp/FavoriteManager.h"
+#include "../dcpp/StringTokenizer.h"
+#include "../dcpp/GeoManager.h"
 #if 0
-#include <dcpp/PluginManager.h>
+#include "../dcpp/PluginManager.h"
 #endif
 #include "settingsmanager.hh"
 #include "emoticonsdialog.hh"

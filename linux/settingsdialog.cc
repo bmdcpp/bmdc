@@ -22,20 +22,20 @@
 
 #include "settingsdialog.hh"
 
-#include <dcpp/File.h>
-#include <dcpp/SimpleXML.h>
-#include <dcpp/CryptoManager.h>
-#include <dcpp/FavoriteManager.h>
-#include <dcpp/NmdcHub.h>
-#include <dcpp/ShareManager.h>
-#include <dcpp/StringTokenizer.h>
+#include "../dcpp/File.h"
+#include "../dcpp/SimpleXML.h"
+#include "../dcpp/CryptoManager.h"
+#include "../dcpp/FavoriteManager.h"
+#include "../dcpp/NmdcHub.h"
+#include "../dcpp/ShareManager.h"
+#include "../dcpp/StringTokenizer.h"
 #ifdef HAVE_LIBTAR
-	#include <dcpp/BackupManager.h>
+	#include "../dcpp/BackupManager.h"
 #endif
 #if 0
-#include <dcpp/PluginManager.h>
+#include "../dcpp/PluginManager.h"
 #endif
-#include <dcpp/ConnectivityManager.h>
+#include "../dcpp/ConnectivityManager.h"
 #include "settingsmanager.hh"
 #include "sound.hh"
 #include "notify.hh"

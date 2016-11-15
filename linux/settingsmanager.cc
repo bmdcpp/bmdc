@@ -21,10 +21,10 @@
 
 #include "settingsmanager.hh"
 #include "wulformanager.hh"
-#include <dcpp/File.h>
-#include <dcpp/SimpleXML.h>
-#include <dcpp/Util.h>
-#include <dcpp/StringTokenizer.h>
+#include "../dcpp/File.h"
+#include "../dcpp/SimpleXML.h"
+#include "../dcpp/Util.h"
+#include "../dcpp/StringTokenizer.h"
 #include "WulforUtil.hh"
 #include "message.hh"
 #include <gtk/gtk.h>

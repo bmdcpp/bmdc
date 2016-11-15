@@ -23,13 +23,13 @@
 #ifndef _BMDC_TRANSFERS_HH
 #define _BMDC_TRANSFERS_HH
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/ConnectionManager.h>
-#include <dcpp/DownloadManager.h>
-#include <dcpp/LogManager.h>
-#include <dcpp/QueueManager.h>
-#include <dcpp/UploadManager.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/ConnectionManager.h"
+#include "../dcpp/DownloadManager.h"
+#include "../dcpp/LogManager.h"
+#include "../dcpp/QueueManager.h"
+#include "../dcpp/UploadManager.h"
 
 #include "treeview.hh"
 #include "entry.hh"

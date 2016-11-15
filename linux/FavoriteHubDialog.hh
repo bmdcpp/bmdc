@@ -19,11 +19,11 @@
 #ifndef _BMDC_FAVORITE_HUB_DIALOG_H_
 #define _BMDC_FAVORITE_HUB_DIALOG_H_
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/File.h>
-#include <dcpp/FavoriteManager.h>
-#include <dcpp/RawManager.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/File.h"
+#include "../dcpp/FavoriteManager.h"
+#include "../dcpp/RawManager.h"
 #include "entry.hh"
 #include "wulformanager.hh"
 #include "WulforUtil.hh"

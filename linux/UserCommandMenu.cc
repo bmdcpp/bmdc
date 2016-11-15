@@ -21,9 +21,9 @@
  */
 
 #include "UserCommandMenu.hh"
-#include <dcpp/FavoriteManager.h>
-#include <dcpp/UserCommand.h>
-#include <dcpp/ClientManager.h>
+#include "../dcpp/FavoriteManager.h"
+#include "../dcpp/UserCommand.h"
+#include "../dcpp/ClientManager.h"
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
 

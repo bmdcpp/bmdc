@@ -24,14 +24,14 @@
 #define _BMDC_UTIL_H
 
 #include <gtk/gtk.h>
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/CID.h>
-#include <dcpp/User.h>
-#include <dcpp/HintedUser.h>
-#include <dcpp/typedefs.h>
-#include <dcpp/SettingsManager.h>
-#include <dcpp/Util.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/CID.h"
+#include "../dcpp/User.h"
+#include "../dcpp/HintedUser.h"
+#include "../dcpp/typedefs.h"
+#include "../dcpp/SettingsManager.h"
+#include "../dcpp/Util.h"
 
 #include <glib/gi18n.h>
 

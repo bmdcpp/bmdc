@@ -23,14 +23,14 @@
 #ifndef _BMDC_SETTINGS_DIALOG_HH
 #define _BMDC_SETTINGS_DIALOG_HH
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/SettingsManager.h>
-#include <dcpp/UserCommand.h>
-#include <dcpp/HighlightManager.h>
-#include <dcpp/PluginDefs.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/SettingsManager.h"
+#include "../dcpp/UserCommand.h"
+#include "../dcpp/HighlightManager.h"
+#include "../dcpp/PluginDefs.h"
 #if 0
-#include <dcpp/PluginManager.h>
+#include "../dcpp/PluginManager.h"
 #endif
 #include "WulforUtil.hh"
 #include "dialogentry.hh"

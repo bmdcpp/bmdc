@@ -24,7 +24,7 @@
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
 #include "settingsmanager.hh"
-#include <dcpp/DebugManager.h>
+#include "../dcpp/DebugManager.h"
 
 using namespace std;
 using namespace dcpp;

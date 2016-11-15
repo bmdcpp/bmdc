@@ -23,9 +23,9 @@
 #ifndef _EXPORT_DIALOG_HH
 #define _EXPORT_DIALOG_HH
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/RegEx.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/RegEx.h"
 #include "treeview.hh"
 #include "dialogentry.hh"
 

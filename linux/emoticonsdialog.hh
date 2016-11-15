@@ -21,8 +21,8 @@
 
 #ifndef _BMDC_EMOTICONS_DIALOG_HH
 #define _BMDC_EMOTICONS_DIALOG_HH
-#include <dcpp/stdinc.h>
-#include <dcpp/Util.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/Util.h"
 #include <map>
 #include "emoticons.hh"
 

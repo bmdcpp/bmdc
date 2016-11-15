@@ -1,5 +1,5 @@
 //
-//      Copyright 2011 - 2016 BMDC++
+//      Copyright 2011 - 2017 BMDC++
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -19,9 +19,9 @@
 #ifndef _BMDC_ABOUT_CONFIG_
 #define _BMDC_ABOUT_CONFIG_
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/SettingsManager.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/SettingsManager.h"
 #include "WulforUtil.hh"
 #include "bookentry.hh"
 #include "treeview.hh"

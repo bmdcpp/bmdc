@@ -1,4 +1,4 @@
-// Copyright (C) 2014-2016  BMDC
+// Copyright (C) 2014-2017  BMDC
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -661,7 +661,7 @@ void FavoriteHubDialog::onAddShare_gui(GtkWidget*, gpointer data)
 					return;//should not update GUI if any Share* exception hapened
 				}
 				catch(...){
-					//g_log("Some other exception");
+
 				}
 
 				s->addShare_gui(path, name);
@@ -736,9 +736,9 @@ void FavoriteHubDialog::addShare_gui(string path, string name)
 gboolean FavoriteHubDialog::onShareButtonReleased_gui(GtkWidget*, GdkEventButton*, gpointer data)
 {
 	FavoriteHubDialog *fd = (FavoriteHubDialog*)data;
-	GtkTreeSelection *selection = gtk_tree_view_get_selection(fd->shareView.get());
+	GtkTreeSelection *p_select = gtk_tree_view_get_selection(fd->shareView.get());
 
-	if (gtk_tree_selection_count_selected_rows(selection) == 0)
+	if (gtk_tree_selection_count_selected_rows(p_select) == 0)
 		gtk_widget_set_sensitive(fd->button_rem, FALSE);
 	else
 		gtk_widget_set_sensitive(fd->button_rem, TRUE);

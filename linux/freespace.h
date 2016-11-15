@@ -18,7 +18,7 @@
 	#include <mntent.h> /* for getmntent(), et al. */
 #endif
 
-#include <dcpp/Util.h>
+#include "../dcpp/Util.h"
 
 struct FreeSpace {
         static bool FreeDiscSpace ( std::string path, unsigned long long * res, unsigned long long * res2);

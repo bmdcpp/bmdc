@@ -22,9 +22,9 @@
 #ifndef FAVORITE_USERS_HH
 #define FAVORITE_USERS_HH
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/FavoriteManager.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/FavoriteManager.h"
 #include "WulforUtil.hh"
 #include "bookentry.hh"
 #include "treeview.hh"

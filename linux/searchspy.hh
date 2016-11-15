@@ -22,10 +22,10 @@
 #ifndef SEARCH_SPY_HH
 #define SEARCH_SPY_HH
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/ClientManager.h>
-#include <dcpp/TimerManager.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/ClientManager.h"
+#include "../dcpp/TimerManager.h"
 #include "WulforUtil.hh"
 #include "bookentry.hh"
 #include "treeview.hh"

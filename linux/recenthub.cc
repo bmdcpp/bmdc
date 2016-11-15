@@ -22,8 +22,8 @@
 #include "hub.hh"
 #include "settingsmanager.hh"
 
-#include <dcpp/FavoriteManager.h>
-#include <dcpp/ClientManager.h>
+#include "../dcpp/FavoriteManager.h"
+#include "../dcpp/ClientManager.h"
 
 using namespace std;
 using namespace dcpp;

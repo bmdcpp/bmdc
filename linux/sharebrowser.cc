@@ -21,10 +21,10 @@
 
 #include "sharebrowser.hh"
 
-#include <dcpp/FavoriteManager.h>
-#include <dcpp/ShareManager.h>
-#include <dcpp/Text.h>
-#include <dcpp/ADLSearch.h>
+#include "../dcpp/FavoriteManager.h"
+#include "../dcpp/ShareManager.h"
+#include "../dcpp/Text.h"
+#include "../dcpp/ADLSearch.h"
 #include "search.hh"
 #include "settingsmanager.hh"
 #include "UserCommandMenu.hh"

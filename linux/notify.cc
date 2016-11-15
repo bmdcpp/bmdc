@@ -38,7 +38,7 @@
 #include "wulformanager.hh"
 #include "WulforUtil.hh"
 #include "settingsmanager.hh"
-#include <dcpp/Text.h>
+#include "../dcpp/Text.h"
 #include "notify.hh"
 
 #ifndef NOTIFY_CHECK_VERSION

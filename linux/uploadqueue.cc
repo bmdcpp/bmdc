@@ -20,12 +20,12 @@
 
 #include "uploadqueue.hh"
 
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/Client.h>
-#include <dcpp/ClientManager.h>
-#include <dcpp/FavoriteManager.h>
-#include <dcpp/QueueManager.h>
-#include <dcpp/UploadManager.h>
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/Client.h"
+#include "../dcpp/ClientManager.h"
+#include "../dcpp/FavoriteManager.h"
+#include "../dcpp/QueueManager.h"
+#include "../dcpp/UploadManager.h"
 
 #include "wulformanager.hh"
 #include "WulforUtil.hh"

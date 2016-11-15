@@ -22,10 +22,10 @@
 #ifndef BMDC_FINISHED_TRANSFERS
 #define BMDC_FINISHED_TRANSFERS
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/FinishedManager.h>
-#include <dcpp/FinishedItem.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/FinishedManager.h"
+#include "../dcpp/FinishedItem.h"
 #include "bookentry.hh"
 #include "treeview.hh"
 

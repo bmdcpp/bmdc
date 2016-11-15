@@ -22,8 +22,8 @@
 #ifndef _BMDC_ENTRY_HH
 #define _BMDC_ENTRY_HH
 
-#include <dcpp/stdinc.h>
-#include <dcpp/Util.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/Util.h"
 #include <gtk/gtk.h>
 //#include <glib/gi18n.h>
 #include <string>

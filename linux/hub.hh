@@ -23,13 +23,13 @@
 #ifndef _BMDC_HUB_HH
 #define _BMDC_HUB_HH
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/Client.h>
-#include <dcpp/FavoriteManager.h>
-#include <dcpp/QueueManager.h>
-#include <dcpp/TimerManager.h>
-#include <dcpp/Flags.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/Client.h"
+#include "../dcpp/FavoriteManager.h"
+#include "../dcpp/QueueManager.h"
+#include "../dcpp/TimerManager.h"
+#include "../dcpp/Flags.h"
 #include "bookentry.hh"
 #include "treeview.hh"
 #include "sound.hh"

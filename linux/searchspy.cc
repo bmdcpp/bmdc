@@ -21,9 +21,9 @@
 
 #include "searchspy.hh"
 
-#include <dcpp/SearchManager.h>
-#include <dcpp/TimerManager.h>
-#include <dcpp/Util.h>
+#include "../dcpp/SearchManager.h"
+#include "../dcpp/TimerManager.h"
+#include "../dcpp/Util.h"
 #include "settingsmanager.hh"
 #include "search.hh"
 #include "wulformanager.hh"

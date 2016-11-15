@@ -21,10 +21,10 @@
 #ifndef BMDC_DETECTION_HH
 #define BMDC_DETECTION_HH
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/RawManager.h>
-#include <dcpp/DetectionManager.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/RawManager.h"
+#include "../dcpp/DetectionManager.h"
 
 #include "bookentry.hh"
 #include "treeview.hh"

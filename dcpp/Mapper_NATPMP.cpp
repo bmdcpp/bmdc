@@ -29,8 +29,8 @@ extern "C" {
 #ifndef STATICLIB
 #define STATICLIB
 #endif
-#include <natpmp/getgateway.h>
-#include <natpmp/natpmp.h>
+#include "../natpmp/getgateway.h"
+#include "../natpmp/natpmp.h"
 }
 
 ///@todo should bind to the local IP

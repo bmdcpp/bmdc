@@ -26,10 +26,18 @@
 	#define DCPP_REVISION_STRING "2972"
 #endif
 #ifndef BMDC_REVISION
+	#ifdef BZR_REVISION
 	#define BMDC_REVISION BZR_REVISION
+	#else
+	#define BMDC_REVISION 999
+	#endif
 #endif
 #ifndef BMDC_REVISION_STRING
-	#define BMDC_REVISION_STRING BZR_REVISION_STRING
+	#ifdef  BZR_REVISION_STRING
+		#define BMDC_REVISION_STRING BZR_REVISION_STRING
+	#else
+		#define BMDC_REVISION_STRING "1.0.0"
+	#endif	
 #endif
 #define xstrver(s) strver(s)
 #define strver(s) #s

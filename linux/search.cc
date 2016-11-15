@@ -21,16 +21,16 @@
 
 #include "search.hh"
 
-#include <dcpp/FavoriteManager.h>
-#include <dcpp/QueueManager.h>
-#include <dcpp/ShareManager.h>
-#include <dcpp/StringTokenizer.h>
-#include <dcpp/Text.h>
-#include <dcpp/UserCommand.h>
-#include <dcpp/Client.h>
-#include <dcpp/AVManager.h>
-#include <dcpp/GeoManager.h>
-#include <dcpp/format.h>
+#include "../dcpp/FavoriteManager.h"
+#include "../dcpp/QueueManager.h"
+#include "../dcpp/ShareManager.h"
+#include "../dcpp/StringTokenizer.h"
+#include "../dcpp/Text.h"
+#include "../dcpp/UserCommand.h"
+#include "../dcpp/Client.h"
+#include "../dcpp/AVManager.h"
+#include "../dcpp/GeoManager.h"
+#include "../dcpp/format.h"
 #include "UserCommandMenu.hh"
 #include "wulformanager.hh"
 #include "WulforUtil.hh"

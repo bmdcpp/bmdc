@@ -22,10 +22,10 @@
 #ifndef _BMDC_RECENT_HUBS_HH
 #define _BMDC_RECENT_HUBS_HH
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/FavoriteManager.h>
-#include <dcpp/FavoriteManagerListener.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/FavoriteManager.h"
+#include "../dcpp/FavoriteManagerListener.h"
 #include "WulforUtil.hh"
 #include "bookentry.hh"
 #include "treeview.hh"

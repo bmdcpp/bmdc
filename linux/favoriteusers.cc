@@ -23,7 +23,7 @@
  */
 #include "favoriteusers.hh"
 
-#include <dcpp/ClientManager.h>
+#include "../dcpp/ClientManager.h"
 #include "settingsmanager.hh"
 #include "wulformanager.hh"
 #include "WulforUtil.hh"

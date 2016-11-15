@@ -23,11 +23,11 @@
 #ifndef _BMDC_CMDDEBUG_HH
 #define _BMDC_CMDDEBUG_HH
 
-#include <dcpp/stdinc.h>
-#include <dcpp/DCPlusPlus.h>
-#include <dcpp/ClientManager.h>
-#include <dcpp/Util.h>
-#include <dcpp/DebugManager.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/DCPlusPlus.h"
+#include "../dcpp/ClientManager.h"
+#include "../dcpp/Util.h"
+#include "../dcpp/DebugManager.h"
 
 #include "bookentry.hh"
 #include "treeview.hh"

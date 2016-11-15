@@ -1,5 +1,5 @@
 //
-//		Copyright (C) 2011 - 2016 - BMDC++
+//		Copyright (C) 2011 - 2017 - BMDC++
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
 //      the Free Software Foundation; either version 2 of the License, or
@@ -15,8 +15,8 @@
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //      MA 02110-1301, USA.
 
-#include <dcpp/stdinc.h>
-#include <dcpp/SettingsManager.h>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/SettingsManager.h"
 #include "AboutConfigFav.hh"
 #include "WulforUtil.hh"
 #include "settingsmanager.hh"

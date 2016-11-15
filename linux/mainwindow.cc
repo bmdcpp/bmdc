@@ -19,28 +19,30 @@
  * In addition, as a special exception, compiling, linking, and/or
  * using OpenSSL with this program is allowed.
  */
-
+ #ifndef _DATADIR
+ #define _DATADIR DATADIR
+#endif
 #include "mainwindow.hh"
 
 #include <iostream>
 #include <sstream>
 #include <iomanip>
 #include <iterator>
-#include <dcpp/ShareManager.h>
-#include <dcpp/Text.h>
-#include <dcpp/Upload.h>
-#include <dcpp/Download.h>
-#include <dcpp/ClientManager.h>
-#include <dcpp/MappingManager.h>
-#include <dcpp/GeoManager.h>
-#include <dcpp/HttpDownload.h>
-#include <dcpp/version.h>
-#include <dcpp/ThrottleManager.h>
+#include "../dcpp/ShareManager.h"
+#include "../dcpp/Text.h"
+#include "../dcpp/Upload.h"
+#include "../dcpp/Download.h"
+#include "../dcpp/ClientManager.h"
+#include "../dcpp/MappingManager.h"
+#include "../dcpp/GeoManager.h"
+#include "../dcpp/HttpDownload.h"
+#include "../dcpp/version.h"
+#include "../dcpp/ThrottleManager.h"
 #if 0
-#include <dcpp/PluginManager.h>
+#include "../dcpp/PluginManager.h"
 #endif
-#include <dcpp/ConnectivityManager.h>
-#include <dcpp/HashManager.h>
+#include "../dcpp/ConnectivityManager.h"
+#include "../dcpp/HashManager.h"
 
 #include "downloadqueue.hh"
 #include "favoritehubs.hh"
