@@ -42,6 +42,16 @@
 
 
 namespace dcpp {
+// alway use this
+// partly taken from Verlihub	
+// maybe move to util or something?
+//	#ifdef USE_CUSTOM_AUTOSPRINTF
+#include <stdio.h>
+#include <stdarg.h>
+std::string my_autosprintf_va(const char *format, va_list ap);
+std::string my_autosprintf(const char *format, ...);
+#define autosprintf my_autosprintf
+//#endif
 
 }
 

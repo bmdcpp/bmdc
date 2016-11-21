@@ -18,6 +18,7 @@
 
 #include "stdinc.h"
 #include "AdcHub.h"
+#include "format.h"
 
 #include "ChatMessage.h"
 #include "ClientManager.h"
@@ -155,8 +156,9 @@ void AdcHub::handle(AdcCommand::INF, AdcCommand& c) noexcept {
 				if(!c.getParam("NI", 0, nick)) {
 					nick = "[nick unknown]";
 				}
-				fire(ClientListener::StatusMessage(), this, (F_((u->getIdentity().getNick()+"("+u->getIdentity().getSIDString()+") has same CID {"+cid+"} as "+nick+" ("+AdcCommand::fromSID(c.getFrom())+"), ignoring").c_str())
-					),	ClientListener::FLAG_IS_SPAM);
+				fire(ClientListener::StatusMessage(), this,autosprintf(_("%s has same CID %s as %s %s,%s, ignoring"),u->getIdentity().getNick().c_str()
+				,u->getIdentity().getSIDString().c_str(),cid.c_str(),nick.c_str(),AdcCommand::fromSID(c.getFrom()).c_str()).c_str() 
+					,ClientListener::FLAG_IS_SPAM);
 				return;
 			}
 		} else {

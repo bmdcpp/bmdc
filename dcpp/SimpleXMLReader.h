@@ -189,7 +189,7 @@ private:
 	bool process();
 	bool spaceOrError(const char* error);
 
-	bool error(const char* message);
+	[[ noreturn ]] void error(const char* message);
 };
 
 

@@ -1,4 +1,5 @@
 set(SOURCES
+format.cpp
 AdcCommand.cpp 
 AdcHub.cpp 
 ADLSearch.cpp 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -94,7 +94,7 @@ int SimpleXMLReader::charAt(size_t n) const { return buf[bufPos + n]; }
 void SimpleXMLReader::advancePos(size_t n) { bufPos += n; pos += n; }
 string::size_type SimpleXMLReader::bufSize() const { return buf.size() - bufPos; }
 
-bool SimpleXMLReader::error(const char* e) {
+[[noreturn]] void SimpleXMLReader::error(const char* e) {
 	throw SimpleXMLException(Util::toString(pos) + ": " + e);
 }
 
@@ -665,11 +665,11 @@ bool SimpleXMLReader::process() {
 			break;
 		case STATE_ELEMENT_NAME:
 			elementName()
-			|| error("Error while parsing element start");
+			|| spaceOrError("Error while parsing element start");
 			break;
 		case STATE_ELEMENT_END_SIMPLE:
 			elementEndSimple()
-			|| error("Expecting >");
+			|| spaceOrError("Expecting >");
 			break;
 		case STATE_ELEMENT_END:
 			elementEnd()
@@ -687,7 +687,7 @@ bool SimpleXMLReader::process() {
 			break;
 		case STATE_ELEMENT_ATTR_NAME:
 			elementAttrName()
-			|| error("Expecting attribute name");
+			|| spaceOrError("Expecting attribute name");
 			break;
 		case STATE_ELEMENT_ATTR_EQ:
 			character('=', STATE_ELEMENT_ATTR_VALUE)
@@ -701,15 +701,15 @@ bool SimpleXMLReader::process() {
 		case STATE_ELEMENT_ATTR_VALUE_APOS:
 		case STATE_ELEMENT_ATTR_VALUE_QUOT:
 			elementAttrValue()
-			|| error("Expecting attribute value");
+			|| spaceOrError("Expecting attribute value");
 			break;
 		case STATE_COMMENT:
 			comment()
-			|| error("Error while parsing comment");
+			|| spaceOrError("Error while parsing comment");
 			break;
 		case STATE_CDATA:
 			cdata()
-			|| error("Error while parsing CDATA");
+			|| spaceOrError("Error while parsing CDATA");
 			break;
 		case STATE_CONTENT:
 			skipSpace(true)
@@ -718,7 +718,7 @@ bool SimpleXMLReader::process() {
 			|| element()
 			|| literal(LITN("</"), false, STATE_ELEMENT_END)
 			|| content()
-			|| error("Expecting content, element or comment");
+			|| spaceOrError("Expecting content, element or comment");
 			break;
 		case STATE_END:
 			buf.clear();
