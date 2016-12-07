@@ -20,7 +20,7 @@
 
 #define VERSIONSTRING "0.851"
 #define VERSIONFLOAT 0.851
-
+//This does rep nothing
 #ifndef DCPP_REVISION
 	#define DCPP_REVISION 2972
 	#define DCPP_REVISION_STRING "2972"

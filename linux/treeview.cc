@@ -767,7 +767,6 @@ string TreeView::getValueAsText(GtkTreeIter* i, const string &title)
 		col = gtk_tree_view_get_column(view, this->col(title));
 		if (col != NULL)
 		{
-			//int64_t size = 0;
 			Column *column = (Column*)g_object_get_data(G_OBJECT(col), "column");
 
 			switch (column->type)
@@ -784,7 +783,6 @@ string TreeView::getValueAsText(GtkTreeIter* i, const string &title)
 		        case INT:
 		        case EXSIZE:
 		        {
-					//int64_t size = 0;
 		        	char buf[512];
 					int64_t isize = getValue<int64_t>(i, title);
 					snprintf(buf, sizeof(buf), "%.f", (double)(isize));
@@ -795,7 +793,7 @@ string TreeView::getValueAsText(GtkTreeIter* i, const string &title)
 		}
 	}
 
-	return dcpp::Util::emptyString;
+	return string();
 }
 
 GtkCellRenderer *TreeView::getCellRenderOf(const string &title)

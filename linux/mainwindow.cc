@@ -19,7 +19,7 @@
  * In addition, as a special exception, compiling, linking, and/or
  * using OpenSSL with this program is allowed.
  */
- #ifndef _DATADIR
+#ifndef _DATADIR
  #define _DATADIR DATADIR
 #endif
 #include "mainwindow.hh"

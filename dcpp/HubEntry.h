@@ -79,10 +79,10 @@ public:
 	checkAtConn(false), checkClients(false),
 	checkFilelists(false), checkMyInfo(false), showUserList(true), 
 	order(SETTING(HUB_UL_ORDER)), visible(SETTING(HUB_UL_VISIBLE)), width(SETTING(HUB_UL_SIZE)), 
-	notify(false) ,priv(false) { }
+	notify(false) ,priv(false), ipv6(true) { }
 
 	FavoriteHubEntry(const HubEntry& rhs) : name(rhs.getName()), server(rhs.getServer()),
-		hubDescription(rhs.getDescription()), password(Util::emptyString), encoding(Text::systemCharset), group(),
+		hubDescription(rhs.getDescription()), password(), encoding(Text::systemCharset), group(),
 	hideShare(false), autoConnect(false), mode(1),  
 	checkAtConn(false), checkClients(false), checkFilelists(false),  checkMyInfo(false), showUserList(true),
 	order(SETTING(HUB_UL_ORDER)),visible(SETTING(HUB_UL_VISIBLE)),width(SETTING(HUB_UL_SIZE)),
