@@ -1196,7 +1196,6 @@ string Util::convertCEscapes(string tmp)
 			case '\0':
 			{
 				return tmp;
-				break;
 			}
 			case 'a': tmp.replace(i, 2, "\a"); break;
 			case 'b': tmp.replace(i, 2, "\b"); break;

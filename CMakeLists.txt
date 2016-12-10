@@ -9,7 +9,7 @@ set(PROJECT_BUGREPORT "https://bugs.launchpad.net/bmdc++")
 set(PROJECT_URL "http://freedcppmv.sourceforge.net/doku.php/mainpage")
 #for now always use stacktrace
 #-Wall 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -D_LARGEFILE_SOURCE -DUSE_STACKTRACE")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -D_LARGEFILE_SOURCE -DUSE_STACKTRACE -D_FILE_OFFSET_BITS=64 -D_REENTRANT")
 # Required for FindIntltool module
 set(GETTEXT_PACKAGE ${PROJECT_NAME})
 set(GETTEXT_PO_DIR ${CMAKE_SOURCE_DIR}/po)

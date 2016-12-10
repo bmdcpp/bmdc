@@ -288,15 +288,15 @@ void SearchManager::onData(const uint8_t* buf, size_t aLen, const string& remote
 			return;
 		}
 		string _remoteIp;
-		uint16_t port = 0;
 		if(remoteIp.empty())
 		{
+			uint16_t eport = 0;
 			size_t end = x.rfind(')');
 			size_t start=x.rfind('(');
 			if(end == string::npos)return;
 			if(start == string::npos)return;
 
-			ClientManager::parsePortIp(x.substr(start+1,end-1),_remoteIp,port);
+			ClientManager::parsePortIp(x.substr(start+1,end-1),_remoteIp,eport);
 			ClientManager::getInstance()->setIpAddress(user,_remoteIp);
 		}
 

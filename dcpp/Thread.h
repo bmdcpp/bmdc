@@ -92,7 +92,7 @@ public:
 			pthread_detach(threadHandle);
 		}
 	}
-	void start() throw();
+	void start() ;
 	void join() throw() {
 		if (threadHandle) {
 			pthread_join(threadHandle, 0);
