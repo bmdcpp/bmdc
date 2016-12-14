@@ -19,7 +19,7 @@
 // @because GtkFactory -> GtkIconTheme and stock -> icon_name
 #include <gtk/gtk.h>
 
-#if GTK_CHECK_VERSION(3,9,0)
+//#if GTK_CHECK_VERSION(3,9,0)
 	#define BMDC_STOCK_CLOSE  "_Close"
 	#define BMDC_STOCK_CANCEL "_Cancel"
 	#define BMDC_STOCK_REMOVE "list-remove"
@@ -40,7 +40,7 @@
 	#define BMDC_STOCK_CONNECT "gtk-connect"
 	#define BMDC_STOCK_QUIT "application-exit"
 	#define BMDC_STOCK_DND_MULTIPLE "gtk-dnd-multiple"
-#else
+/*#else
 	#pragma GCC diagnostic push
 	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"	
 	#define BMDC_STOCK_CANCEL GTK_STOCK_CANCEL
@@ -65,5 +65,5 @@
 	#define BMDC_STOCK_DND_MULTIPLE GTK_STOCK_DND_MULTIPLE
 	#pragma GCC diagnostic pop		
 #endif
-
+*/
 

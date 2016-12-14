@@ -62,11 +62,11 @@ const string WulforUtil::ENCODING_LOCALE = _("System default");
 vector<string> WulforUtil::charsets;
 unordered_map<std::string,GdkPixbuf*> WulforUtil::countryIcon;
 const string WulforUtil::magnetSignature = "magnet:?xt=urn:tree:tiger:";
-#if GTK_CHECK_VERSION(3,9,0)
+//#if GTK_CHECK_VERSION(3,9,0)
 	GtkIconTheme* WulforUtil::icon_theme = NULL;
-#else
-	GtkIconFactory* WulforUtil::iconFactory = NULL;
-#endif
+//#else
+//	GtkIconFactory* WulforUtil::iconFactory = NULL;
+//#endif
 const string WulforUtil::commands =
 string("\r\n/away\r\n\t") + _("Set away mode") +
 +"\r\n/back\r\n\t" + _("Set normal mode") +
@@ -557,7 +557,7 @@ void WulforUtil::copyValue_gui(GtkTreeStore *store, GtkTreeIter *fromIter, GtkTr
  */
 void WulforUtil::registerIcons()
 {
-	#if GTK_CHECK_VERSION(3,9,0)
+	//#if GTK_CHECK_VERSION(3,9,0)
 	icon_theme = gtk_icon_theme_get_default ();
 			#ifdef _WIN32
 			#undef _DATADIR
@@ -568,7 +568,7 @@ void WulforUtil::registerIcons()
 		#else
 			gtk_icon_theme_prepend_search_path(icon_theme,_DATADIR PATH_SEPARATOR_STR GUI_LOCALE_PACKAGE "icons");
 		#endif
-	#else
+	/*#else
 	// Holds a mapping of custom icon names -> stock icon names.
 	// Not all icons have stock representations.
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
@@ -612,7 +612,7 @@ void WulforUtil::registerIcons()
 	icons["bmdc-pm-offline"] = wsm->getString("icon-pm-offline");
 	icons["bmdc-hub-online"] = wsm->getString("icon-hub-online");
 	icons["bmdc-hub-offline"] = wsm->getString("icon-hub-offline");
-	/**/
+	
 	icons["bmdc-notepad"] = wsm->getString("icon-notepad");
 	icons["bmdc-notepad-on"] = wsm->getString("icon-notepad-on");
 	icons["bmdc-system"] = wsm->getString("icon-system");
@@ -622,61 +622,61 @@ void WulforUtil::registerIcons()
 
 	icons["bmdc-limiting"] = wsm->getString("icon-limiting");
 	icons["bmdc-limiting-on"] = wsm->getString("icon-limiting-on");
-	/**/
+	
 	icons["bmdc-pm-online"] = wsm->getString("icon-pm-online");
 	icons["bmdc-pm-offline"] = wsm->getString("icon-pm-offline");
 	icons["bmdc-hub-online"] = wsm->getString("icon-hub-online");
 	icons["bmdc-hub-offline"] = wsm->getString("icon-hub-offline");
-	/**/
+	
 	icons["bmdc-connect"] = wsm->getString("icon-connect");
 	icons["bmdc-file"] = wsm->getString("icon-file");
 	icons["bmdc-directory"] = wsm->getString("icon-directory");
 
 	icons["bmdc-normal"] = wsm->getString("icon-normal");
-    /* normal mode */
+    
 	icons["bmdc-op"] = wsm->getString("icon-op");
 	icons["bmdc-modem"] = wsm->getString("icon-modem");
 	icons["bmdc-wireless"] = wsm->getString("icon-wireless");
 	icons["bmdc-dsl"] = wsm->getString("icon-dsl");
 	icons["bmdc-lan"] = wsm->getString("icon-lan");
 	icons["bmdc-netlimiter"] = wsm->getString("icon-netlimiter");
-	/***/
+	
 	icons["bmdc-ten"] = wsm->getString("icon-ten");
 	icons["bmdc-zeroone"] = wsm->getString("icon-zeroone");
 	icons["bmdc-zerozeroone"] = wsm->getString("icon-zerozeroone");
 	icons["bmdc-other"] = wsm->getString("icon-other");
-	/* aways mode */
+	
 	icons["bmdc-op-away"] = wsm->getString("icon-op-away");
 	icons["bmdc-modem-away"] = wsm->getString("icon-modem-away");
 	icons["bmdc-wireless-away"] = wsm->getString("icon-wireless-away");
 	icons["bmdc-dsl-away"] = wsm->getString("icon-dsl-away");
 	icons["bmdc-lan-away"] = wsm->getString("icon-lan-away");
 	icons["bmdc-netlimiter-away"] = wsm->getString("icon-netlimiter-away");
-	/**/
+	
 	icons["bmdc-ten-away"] = wsm->getString("icon-ten-away");
 	icons["bmdc-zeroone-away"] = wsm->getString("icon-zeroone-away");
 	icons["bmdc-zerozeroone-away"] = wsm->getString("icon-zerozeroone-away");
 	icons["bmdc-other-away"] = wsm->getString("icon-other-away");
-	/* normal pasive mod */
+	
 	icons["bmdc-op-pasive"] = wsm->getString("icon-op-pasive");
 	icons["bmdc-modem-pasive"] = wsm->getString("icon-modem-pasive");
 	icons["bmdc-wireless-pasive"] = wsm->getString("icon-wireless-pasive");
 	icons["bmdc-dsl-pasive"] = wsm->getString("icon-dsl-pasive");
 	icons["bmdc-lan-pasive"] = wsm->getString("icon-lan-pasive");
 	icons["bmdc-netlimiter-pasive"] = wsm->getString("icon-netlimiter-pasive");
-	/**/
+	
 	icons["bmdc-ten-pasive"] = wsm->getString("icon-ten-pasive");
 	icons["bmdc-zeroone-pasive"] = wsm->getString("icon-zeroone-pasive");
 	icons["bmdc-zerozeroone-pasive"] = wsm->getString("icon-zerozeroone-pasive");
 	icons["bmdc-other-pasive"] = wsm->getString("icon-other-pasive");
-	/* aways pasive mode */
+	
 	icons["bmdc-op-away-pasive"] = wsm->getString("icon-op-away-pasive");
 	icons["bmdc-modem-away-pasive"] = wsm->getString("icon-modem-away-pasive");
 	icons["bmdc-wireless-away-pasive"] = wsm->getString("icon-wireless-away-pasive");
 	icons["bmdc-dsl-away-pasive"] = wsm->getString("icon-dsl-away-pasive");
 	icons["bmdc-lan-away-pasive"] = wsm->getString("icon-lan-away-pasive");
 	icons["bmdc-netlimiter-away-pasive"] = wsm->getString("icon-netlimiter-away-pasive");
-	/**/
+	
 	icons["bmdc-ten-away-pasive"] = wsm->getString("icon-ten-away-pasive");
 	icons["bmdc-zeroone-away-pasive"] = wsm->getString("icon-zeroone-away-pasive");
 	icons["bmdc-zerozeroone-away-pasive"] = wsm->getString("icon-zerozeroone-away-pasive");
@@ -703,7 +703,7 @@ void WulforUtil::registerIcons()
 
 	gtk_icon_factory_add_default(iconFactory);
 	g_object_unref(iconFactory);
-	#endif
+	#endif*/
 }
 
 GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string country)
@@ -1408,7 +1408,7 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 {
 	if(ext == "directory" || ext.empty())
 	{
-		#if GTK_CHECK_VERSION(3,9,0)
+		//#if GTK_CHECK_VERSION(3,9,0)
 		GError* error = NULL;
 		GdkPixbuf* buf = gtk_icon_theme_load_icon(icon_theme,"folder",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,&error);
 		if(error){
@@ -1417,11 +1417,11 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 			return NULL;
 		}	
 		return buf;
-		#else
+		/*#else
 		GtkWidget* iwid = gtk_invisible_new ();
 		GdkPixbuf* buf = gtk_widget_render_icon_pixbuf(iwid, BMDC_STOCK_DIRECTORY, GTK_ICON_SIZE_MENU);
 		return buf;
-		#endif
+		#endif*/
 	}
 
 	string tmp = "dummy"+ext;
@@ -1432,7 +1432,7 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 	if (content_type == NULL)
 	{
 		
-		#if GTK_CHECK_VERSION(3,9,0)
+		//#if GTK_CHECK_VERSION(3,9,0)
 		GError* error = NULL;
 		GdkPixbuf* buf = gtk_icon_theme_load_icon(icon_theme,"text-x-generic",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,&error);
 		if(error){
@@ -1441,11 +1441,11 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 			return NULL;
 		}
 		return buf;
-		#else
+		/*#else
 		GtkWidget *iwid = gtk_invisible_new ();
 		GdkPixbuf *buf = gtk_widget_render_icon_pixbuf(iwid, BMDC_STOCK_FILE, GTK_ICON_SIZE_MENU);
 		return buf;
-		#endif
+		#endif*/
 	}
 	char *mime_type = g_content_type_get_mime_type (content_type);
 	GIcon *icon = g_content_type_get_icon(mime_type);

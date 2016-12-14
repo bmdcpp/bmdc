@@ -90,13 +90,9 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
                 "-GtkWidget-focus-padding : 0px;\n"
                 "padding: 0px;}\n\0",-1, NULL);
 		gtk_style_context_add_provider_for_screen (screen, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-     // Add the stock icon to the close button
-     #if GTK_CHECK_VERSION(3,9,0)
-	    GtkWidget *image = gtk_image_new_from_icon_name("window-close",GTK_ICON_SIZE_MENU);
-    #else
-        GtkWidget *image = gtk_image_new_from_stock(BMDC_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
-    #endif
-		gtk_widget_set_name(image,getName().c_str());
+     // Add the image to the close button
+        GtkWidget *image = gtk_image_new_from_icon_name("window-close",GTK_ICON_SIZE_MENU);
+    	gtk_widget_set_name(image,getName().c_str());
 
         gtk_container_add(GTK_CONTAINER(closeButton), image);
         gtk_box_pack_start(GTK_BOX(labelBox), closeButton, FALSE, FALSE, 0);
@@ -148,20 +144,13 @@ void BookEntry::setIcon_gui(const EntryType type)
 		default: ;
 	}
 
-	#if GTK_CHECK_VERSION(3,9,0)
 	gtk_image_set_from_icon_name(GTK_IMAGE(icon), stock.c_str(), GTK_ICON_SIZE_MENU);
-	#else
-	gtk_image_set_from_stock(GTK_IMAGE(icon), stock.c_str(), GTK_ICON_SIZE_MENU);
-	#endif
+
 }
 
 void BookEntry::setIcon_gui(const std::string stock)
 {
-	#if GTK_CHECK_VERSION(3,9,0)
 	gtk_image_set_from_icon_name(GTK_IMAGE(icon), stock.c_str(), GTK_ICON_SIZE_MENU);
-	#else
-	gtk_image_set_from_stock(GTK_IMAGE(icon), stock.c_str(), GTK_ICON_SIZE_MENU);
-	#endif
 }
 
 void BookEntry::setIconPixbufs_gui(const std::string iconspath)
@@ -430,13 +419,10 @@ GtkWidget *BookEntry::createItemFirstMenu()
 			default: ;
 		}
 		bCreated = false;
-		#if GTK_CHECK_VERSION(3,9,0)
-			GtkWidget *item = gtk_menu_item_new();
-			gtk_menu_item_set_label(GTK_MENU_ITEM(item),info.c_str());
-			return item;
-		#else
-			return gtk_image_menu_item_new_from_stock(stock.c_str(),NULL);
-		#endif
+
+		GtkWidget *item = gtk_menu_item_new();
+		gtk_menu_item_set_label(GTK_MENU_ITEM(item),info.c_str());
+		return item;
 	}
 	return NULL;
 }
@@ -583,26 +569,15 @@ void BookEntry::setBackForeGround(const EntryType type)
 	GdkDisplay *display = gdk_display_get_default ();
 	GdkScreen *screen = gdk_display_get_default_screen (display);
 
-	string t_css = dcpp::Util::emptyString;
+	string t_css = string();
 	if(WGETB("custom-font-size")) {
 		string size = dcpp::Util::toString(WGETI("book-font-size"))+" %";
 		t_css = std::string("#"+name+" { color:"+fg+"; background: "+bg+"; font-size:"+size+"; }\n\0");
 	} else
 		t_css = std::string("#"+name+" { color:"+fg+"; background: "+bg+"; }\n\0");
 
+	t_css += std::string("#"+name+":active { color:"+fg_unread+"; background: "+bg_unread+"; font-weight: bold; }\n\0");
 	gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
-
-	gtk_style_context_add_provider_for_screen (screen,
-											GTK_STYLE_PROVIDER(provider),
-											GTK_STYLE_PROVIDER_PRIORITY_USER);
-	g_object_unref (provider);
-
-
-	provider = gtk_css_provider_new ();
-	display = gdk_display_get_default ();
-	screen = gdk_display_get_default_screen (display);
-	std::string t_css2 = std::string("#"+name+":active { color:"+fg_unread+"; background: "+bg_unread+"; font-weight: bold; }\n\0");
-	gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css2.c_str(),-1, NULL);
 
 	gtk_style_context_add_provider_for_screen (screen,
 											GTK_STYLE_PROVIDER(provider),
@@ -613,7 +588,7 @@ void BookEntry::setBackForeGround(const EntryType type)
 //Dont Translate string in this function below!
 string BookEntry::getName() //CSS:getName() In this should not include : ,spaces and so #dialog(s) is there only for is it in one enum
 {
-	string str = dcpp::Util::emptyString;
+	string str = string();
 	const Entry::EntryType  type = getType();
 
 	switch(type)

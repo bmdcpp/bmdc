@@ -365,11 +365,11 @@ void TreeView::addColumn_gui(Column& column)
 			col = gtk_tree_view_column_new();
 			gtk_tree_view_column_set_title(col, column.title.c_str());
 			gtk_tree_view_column_pack_start(col, renderer, false);
-			#if GTK_CHECK_VERSION(3,9,0)
+			//if GTK_CHECK_VERSION(3,9,0)
 				gtk_tree_view_column_add_attribute(col, renderer, "icon-name", TreeView::col(column.linkedCol));
-			#else
-				gtk_tree_view_column_add_attribute(col, renderer, "stock-id", TreeView::col(column.linkedCol));
-			#endif
+			//#else
+			//	gtk_tree_view_column_add_attribute(col, renderer, "stock-id", TreeView::col(column.linkedCol));
+			//#endif
 			column.renderer2 = renderer;
 			renderer = gtk_cell_renderer_text_new();
 			gtk_tree_view_column_pack_start(col, renderer, true);
@@ -383,11 +383,11 @@ void TreeView::addColumn_gui(Column& column)
 			col = gtk_tree_view_column_new();
 			gtk_tree_view_column_set_title(col, column.title.c_str());
 			gtk_tree_view_column_pack_start(col, renderer, false);
-			#if GTK_CHECK_VERSION(3,9,0)
+			//#if GTK_CHECK_VERSION(3,9,0)
 				gtk_tree_view_column_add_attribute(col, renderer, "icon-name", TreeView::col(column.linkedCol));
-			#else
-				gtk_tree_view_column_add_attribute(col, renderer, "stock-id", TreeView::col(column.linkedCol));
-			#endif
+			//#else
+			//	gtk_tree_view_column_add_attribute(col, renderer, "stock-id", TreeView::col(column.linkedCol));
+			//#endif
 			
 			column.renderer2 = renderer;
 			// text
@@ -449,15 +449,15 @@ void TreeView::addColumn_gui(Column& column)
 	//hmm is 20 consider as small?
 	if (column.width >= 20)
 	{
-		#if !GTK_CHECK_VERSION(3,8,0)
-		gtk_tree_view_column_set_fixed_width(col, column.width);
-		#endif
+		//#if !GTK_CHECK_VERSION(3,8,0)
+		//gtk_tree_view_column_set_fixed_width(col, column.width);
+		//#endif
 		gtk_tree_view_column_set_resizable(col, TRUE);
 	}
-	#if !GTK_CHECK_VERSION(3,8,0)
-	if (column.width != -1)
-		gtk_tree_view_column_set_sizing(col, GTK_TREE_VIEW_COLUMN_FIXED);
-	#endif
+	//#if !GTK_CHECK_VERSION(3,8,0)
+	//if (column.width != -1)
+	//	gtk_tree_view_column_set_sizing(col, GTK_TREE_VIEW_COLUMN_FIXED);
+	//#endif
 	//make columns sortable
 	if (column.type != BOOL && column.type != PIXBUF && column.type != EDIT_STRING)
 	{

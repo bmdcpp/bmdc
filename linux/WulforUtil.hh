@@ -64,11 +64,9 @@ class WulforUtil
 		static std::vector<std::string>& getCharsets();
 		static void openURI(const std::string &uri, std::string &_error = dcpp::Util::emptyString);
 		static void openURItoApp(const std::string &cmd);
-		#if !GTK_CHECK_VERSION(3,4,0)
-			static std::string colorToString(const GdkColor *color); /* gdk < 2.12 */
-		#else
-			static std::string colorToString(const GdkRGBA *color);
-		#endif
+		
+		static std::string colorToString(const GdkRGBA *color);
+		
 		static GdkPixbuf* scalePixbuf(const GdkPixbuf *pixbuf,
 			const int width, const int height, GdkInterpType type = GDK_INTERP_BILINEAR);
 
@@ -116,13 +114,9 @@ class WulforUtil
 		static std::string cpuinfo();
 		static bool Ipv4Hit(std::string name);
 		static std::string formatSized(std::string nonf);
-	#if GTK_CHECK_VERSION(3,9,0)
 	public:
 		static GtkIconTheme *icon_theme;
-	#else
 	private:
-		static GtkIconFactory *iconFactory;
-	#endif
 		static std::vector<std::string> charsets;
 		static const std::string magnetSignature;
 		static std::unordered_map<std::string,GdkPixbuf*> countryIcon;

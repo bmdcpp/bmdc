@@ -388,7 +388,7 @@ MainWindow::MainWindow():
 		g_strdup("https://launchpad.net/~bmdc-team/+archive/ppa-stable"), g_free);
 	g_signal_connect(getWidget("dowloadMenuItem2"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
 
-	onQuit = FALSE;
+	onQuit = false;
 
 	// colourstuff 
 	string css = WulforManager::get()->getPath() + "/ui/resources.css";
@@ -558,20 +558,13 @@ void MainWindow::showTransfersPane_gui()
 }
 
 /*
- * Load the custom icons or the stock icons as per the setting
+ * Load the custom icons or the icon name as per the setting
  */
 void MainWindow::loadIcons_gui()
 {
 	WulforUtil::registerIcons();
-
-	// Reset the stock IDs manually to force the icon to refresh
-	#if GTK_CHECK_VERSION(3,9,0)
-		#define g_tool_set gtk_tool_button_set_icon_name
-		#define g_image_set gtk_image_set_from_icon_name
-	#else
-		#define g_tool_set gtk_tool_button_set_stock_id
-		#define g_image_set gtk_image_set_from_stock
-	#endif
+	#define g_tool_set gtk_tool_button_set_icon_name
+	#define g_image_set gtk_image_set_from_icon_name
 	
 	g_tool_set(GTK_TOOL_BUTTON(getWidget("favHubs")), "bmdc-favorite-hubs");
 	g_tool_set(GTK_TOOL_BUTTON(getWidget("favUsers")), "bmdc-favorite-users");
@@ -603,7 +596,11 @@ void MainWindow::autoOpen_gui()
 	if (WGETB("open-public"))
 		showPublicHubs_gui();
 	if (WGETB("open-queue"))
-		showDownloadQueue_gui();
+	{
+		showBook(Entry::DOWNLOAD_QUEUE,new DownloadQueue());
+		setStatusOfIcons(QUEUE,true);
+	}	
+		
 	if (WGETB("open-favorite-hubs"))
 		showFavoriteHubs_gui();
 	if (WGETB("open-favorite-users"))
@@ -1036,12 +1033,12 @@ void MainWindow::onAboutConfigClicked_gui(GtkWidget*, gpointer data)
 	MainWindow *mw = (MainWindow *)data;
 	mw->showBook(Entry::ABOUT_CONFIG,new AboutConfig());
 }
-
+/*
 void MainWindow::showDownloadQueue_gui()
 {
 	showBook(Entry::DOWNLOAD_QUEUE,new DownloadQueue());
 	setStatusOfIcons(QUEUE,true);
-}
+}*/
 
 void MainWindow::showFavoriteHubs_gui()
 {
@@ -2378,19 +2375,22 @@ void MainWindow::onSearchClicked_gui(GtkWidget*, gpointer data)
 void MainWindow::onSearchSpyClicked_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	mw->showSearchSpy_gui();
+	mw->showBook(Entry::SEARCH_SPY,new SearchSpy());
+	mw->setStatusOfIcons(SEARCH_SPY,true);
 }
 
 void MainWindow::onSearchADLClicked_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	mw->showSearchADL_gui();
+	mw->showBook(Entry::SEARCH_ADL,new SearchADL());
+	mw->setStatusOfIcons(SEARCH_ADL,true);
 }
 
 void MainWindow::onDownloadQueueClicked_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	mw->showDownloadQueue_gui();
+	mw->showBook(Entry::DOWNLOAD_QUEUE,new DownloadQueue());
+	mw->setStatusOfIcons(QUEUE,true);
 }
 
 void MainWindow::onFinishedDownloadsClicked_gui(GtkWidget*, gpointer data)
@@ -2413,7 +2413,7 @@ void MainWindow::onQuitClicked_gui(GtkWidget*, gpointer data)
 	if (gtk_widget_get_visible(mw->getWidget("exitDialog")))
 		return;
 
-	mw->onQuit = TRUE;
+	mw->onQuit = true;
 	gboolean retVal; // Not interested in the value, though.
 	g_signal_emit_by_name(mw->window, "delete-event", NULL, &retVal);
 }
@@ -2749,7 +2749,7 @@ void MainWindow::on(QueueManagerListener::Finished, QueueItem *item, const strin
 
 	if (item->isSet(QueueItem::FLAG_CLIENT_VIEW | QueueItem::FLAG_USER_LIST))
 	{
-		const HintedUser user = item->getDownloads()[0]->getHintedUser();//NOTE: core 0.762
+		const HintedUser user = item->getDownloads()[0]->getHintedUser();
 		string listName = item->getListName();
 
 		F3 *f3 = new F3(this, &MainWindow::showNotification_gui, _("file list from "), WulforUtil::getNicks(user),
@@ -2758,7 +2758,7 @@ void MainWindow::on(QueueManagerListener::Finished, QueueItem *item, const strin
 		WulforManager::get()->dispatchGuiFunc(f3);
 
 		typedef Func5<MainWindow, HintedUser, string, string, int64_t ,bool> F5;
-		F5 *func = new F5(this, &MainWindow::showShareBrowser_gui, user, listName, dir,avSpeed, TRUE);//NOTE: core 0.762
+		F5 *func = new F5(this, &MainWindow::showShareBrowser_gui, user, listName, dir,avSpeed, TRUE);
 		WulforManager::get()->dispatchGuiFunc(func);
 	}
 	else if(item->isSet(QueueItem::FLAG_USER_LIST) && item->isSet(QueueItem::FLAG_CHECK_FILE_LIST))

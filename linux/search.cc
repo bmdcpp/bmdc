@@ -683,13 +683,13 @@ void Search::addResult_gui(const SearchResultPtr result)
 	// tree until after the duplication check.
 	if (createParent)
 	{
-		#if GTK_CHECK_VERSION(3,9,0)
-		GError* error = NULL;
-		GdkPixbuf* buf = gtk_icon_theme_load_icon(WulforUtil::icon_theme,"dnd-multiple",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,&error);
-		#else
-		GtkWidget *iwid = gtk_invisible_new ();
-		GdkPixbuf *buf = gtk_widget_render_icon_pixbuf(iwid, BMDC_STOCK_DND_MULTIPLE, GTK_ICON_SIZE_MENU);
-		#endif
+		//#if GTK_CHECK_VERSION(3,9,0)
+		//GError* error = NULL;
+		GdkPixbuf* buf = gtk_icon_theme_load_icon(WulforUtil::icon_theme,"dnd-multiple",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,NULL);
+		//#else
+		//GtkWidget *iwid = gtk_invisible_new ();
+		//GdkPixbuf *buf = gtk_widget_render_icon_pixbuf(iwid, BMDC_STOCK_DND_MULTIPLE, GTK_ICON_SIZE_MENU);
+		//#endif
 		// Insert the new parent row
 		gtk_tree_store_insert_with_values(resultStore, &parent, NULL, -1,
 				resultView.col("Icon"),buf ,
@@ -870,13 +870,9 @@ void Search::regroup_gui()
 			// If this is the first child to be appended, create a new parent row.
 			if (!gtk_tree_model_iter_has_child(GTK_TREE_MODEL(resultStore), &groupParent))
 			{
-			#if GTK_CHECK_VERSION(3,9,0)
-				GdkPixbuf* buf = gtk_icon_theme_load_icon(WulforUtil::icon_theme,"dnd-multiple",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,NULL);
-			#else
-				GtkWidget *iwid = gtk_invisible_new ();
-				GdkPixbuf *buf = gtk_widget_render_icon_pixbuf(iwid, GTK_STOCK_DND_MULTIPLE, GTK_ICON_SIZE_MENU);
-			#endif
-				gtk_tree_store_insert_with_values(resultStore, &parent, NULL, position,
+			GdkPixbuf* buf = gtk_icon_theme_load_icon(WulforUtil::icon_theme,"dnd-multiple",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,NULL);
+
+			gtk_tree_store_insert_with_values(resultStore, &parent, NULL, position,
 					resultView.col("Icon"), buf,
 					resultView.col("Grouping String"), groupStr.c_str(),
 					-1);

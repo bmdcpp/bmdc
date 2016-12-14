@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2016 BMDC
+ * Copyright © 2010-2017 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -93,7 +93,7 @@ class MainWindow:
 
 		void showBook(const EntryType type, BookEntry* book);
 
-		void showDownloadQueue_gui();
+//		void showDownloadQueue_gui();
 		void showFavoriteHubs_gui();
 		void showFavoriteUsers_gui();
 		void showFinishedDownloads_gui();
@@ -142,11 +142,7 @@ class MainWindow:
 			END
 		} IconsToolbar;
 
-		#if GTK_CHECK_VERSION(3,9,0)
-			#define gtbs(w,i) gtk_tool_button_set_icon_name(w,i)
-		#else
-			#define gtbs(w,i) gtk_tool_button_set_stock_id(w,i)
-		#endif
+		#define gtbs(w,i) gtk_tool_button_set_icon_name(w,i)
 		void setStatusOfIcons(IconsToolbar type, bool isClicked)
 		{
 			if(isClicked)

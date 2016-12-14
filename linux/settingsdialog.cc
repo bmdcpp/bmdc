@@ -46,18 +46,18 @@
 #define ICON_SIZE_NORMAL 22
 
 
-#if GTK_CHECK_VERSION(3,4,0)
+//#if GTK_CHECK_VERSION(3,4,0)
 	#define g_c_b_g gtk_color_chooser_get_rgba
 	#define g_c_b_s gtk_color_chooser_set_rgba
 	#define G_C_B GTK_COLOR_CHOOSER
 	#define g_c_p(x,y) gdk_rgba_parse(y,x)
-#else
+/*#else
 	#define g_c_b_g gtk_color_button_get_color
 	#define g_c_b_s gtk_color_button_set_color
 	#define G_C_B GTK_COLOR_BUTTON
 	#define g_c_p(x,y) gdk_color_parse(x,y)
 #endif
-
+*/
 using namespace std;
 using namespace dcpp;
 
