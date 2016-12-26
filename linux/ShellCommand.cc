@@ -1,6 +1,6 @@
 //Implementation of ShellCommand.hh
 //Author: Irene//Modified by Mank
-// * Copyright © 2012-2016 BMDC++
+// * Copyright © 2012-2017 BMDC++
 #include <cstring>
 #include "../dcpp/stdinc.h"
 #include "../dcpp/Util.h"

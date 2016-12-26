@@ -1,5 +1,5 @@
 //
-//      Copyright 2011 -2016 BMDC <freedcpp at seznam dot cz>
+//      Copyright 2011 -2017 BMDC <freedcpp at seznam dot cz>
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by

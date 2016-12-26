@@ -16,7 +16,7 @@
  * In addition, as a special exception, compiling, linking, and/or
  * using OpenSSL with this program is allowed.
  */
-// @because GtkFactory -> GtkIconTheme and stock -> icon_name
+
 #include <gtk/gtk.h>
 
 #define BMDC_STOCK_CLOSE  "_Close"

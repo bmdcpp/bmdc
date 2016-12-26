@@ -93,7 +93,6 @@ class MainWindow:
 
 		void showBook(const EntryType type, BookEntry* book);
 
-//		void showDownloadQueue_gui();
 		void showFavoriteHubs_gui();
 		void showFavoriteUsers_gui();
 		void showFinishedDownloads_gui();

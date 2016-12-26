@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2016 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2017 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,7 +53,6 @@ class Emoticons
 	public:
 		static Emoticons* start(const std::string &packName = SETTING(EMOT_PACK));
 		static void stop();
-		//static Emoticons* get();
 
 		Emoticons(const std::string &packName = SETTING(EMOT_PACK));
 		~Emoticons();
@@ -66,12 +65,10 @@ class Emoticons
 		void setCurrPackName_gui(const std::string &name) {currPackName = name;}
 		void reloadPack_gui() {create();}
 	private:
-		//static Emoticons *emoticons;
 
 		bool load(const std::string &file);
 		void create();
 		void clean();
-//		static bool global;
 		bool useEmotions;
 		int countfile;
 		Emot::List pack;

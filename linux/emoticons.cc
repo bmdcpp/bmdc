@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2016 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2017 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,9 +29,6 @@
 using namespace std;
 using namespace dcpp;
 
-//Emoticons *Emoticons::emoticons = NULL;
-//bool Emoticons::global = true;
-
 Emoticons* Emoticons::start(const string &packName)
 {
 	return (new Emoticons(packName));
@@ -41,13 +38,7 @@ void Emoticons::stop()
 {
 
 }
-/*
-Emoticons* Emoticons::get()
-{
-	dcassert(emoticons);
-	return emoticons;
-}
-*/
+
 Emoticons::Emoticons(const string &packName):
 currPackName(packName)
 {
