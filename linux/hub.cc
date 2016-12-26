@@ -4449,6 +4449,7 @@ void Hub::on(ClientListener::HubUpdated, Client *) noexcept
 {
 	typedef Func1<Hub, const string> F1;
 	typedef Func1<Hub, string> FX;
+	typedef Func1<Hub, GdkPixbuf*> F2;
 	string hubName = Util::emptyString;
 	string hubText = client->get(SettingsManager::HUB_TEXT_STR, SETTING(HUB_TEXT_STR));
 	string iconPath = client->get(SettingsManager::HUB_ICON_STR, SETTING(HUB_ICON_STR));
@@ -4462,6 +4463,13 @@ void Hub::on(ClientListener::HubUpdated, Client *) noexcept
 		F1 *f = new F1(this, &BookEntry::setIcon_gui, "bmdc-hub-online");
 		WulforManager::get()->dispatchGuiFunc(f);
 	}
+	/*if(WGETB("country-hub-icon"))
+	{
+		string cc = GeoManager::getInstance()->getCountry(client->getIp());
+		GdkPixbuf* buf = WulforUtil::LoadCountryPixbuf(cc);
+		F2 *f = new F2(this, &BookEntry::setIconPixbufs_gui, buf);
+		WulforManager::get()->dispatchGuiFunc(f);
+	}*/
 
 	if(!hubText.empty())
 	{
@@ -4866,10 +4874,8 @@ void Hub::on_setImage_tab(GtkButton*, gpointer data)
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
 	{
 		char *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
-		string tmp = Util::getFileExt(string(filename));
-		std::transform(tmp.begin(), tmp.end(), tmp.begin(), (int(*)(int))toupper);
 
-		if(tmp == ".PNG" || tmp == ".JPG" || tmp == ".GIF")
+		if(WulforUtil::is_format_supported(filename))
 		{
 			GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_scale(filename,15,15,FALSE,NULL);
 			gtk_image_set_from_pixbuf(GTK_IMAGE(hub->tab_image),pixbuf);

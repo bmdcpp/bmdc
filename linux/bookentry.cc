@@ -152,6 +152,10 @@ void BookEntry::setIcon_gui(const std::string stock)
 {
 	gtk_image_set_from_icon_name(GTK_IMAGE(icon), stock.c_str(), GTK_ICON_SIZE_MENU);
 }
+/*void BookEntry::setIconPixbufs_gui(GdkPixbuf* pixbuf)
+{
+    gtk_image_set_from_pixbuf(GTK_IMAGE(icon),pixbuf);
+}*/
 
 void BookEntry::setIconPixbufs_gui(const std::string iconspath)
 {

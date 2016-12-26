@@ -62,7 +62,8 @@ class WulforUtil
 
 		static std::string getTextFromMenu(GtkMenuItem *item);
 		static std::vector<std::string>& getCharsets();
-		static void openURI(const std::string &uri, std::string &_error = dcpp::Util::emptyString);
+		static void openURI(const std::string &uri) {std::string tmp = std::string(); openURI(uri,tmp);}
+		static void openURI(const std::string &uri, std::string &_error);
 		static void openURItoApp(const std::string &cmd);
 		
 		static std::string colorToString(const GdkRGBA *color);
@@ -104,9 +105,9 @@ class WulforUtil
 		static const std::string ENCODING_LOCALE;
 		static const std::string commands;
 
-		static void setTextDeufaults(GtkWidget* widget, std::string strcolor, std::string back_image_path = dcpp::Util::emptyString,bool pm = false,std::string hubUrl = dcpp::Util::emptyString,std::string where = dcpp::Util::emptyString);
+		static void setTextDeufaults(GtkWidget* widget, std::string strcolor, std::string back_image_path = "",bool pm = false,std::string hubUrl = "",std::string where = "");
 		//Note : selected is red, because most themes get white or black
-		static void setTextColor(std::string color,std::string where = dcpp::Util::emptyString);
+		static void setTextColor(std::string color,std::string where = "");
 	private:
 		static std::string formatTimeDifference(uint64_t diff, size_t levels = 3);
 		static std::string generateLeech();

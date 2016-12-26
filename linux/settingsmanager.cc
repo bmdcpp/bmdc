@@ -52,6 +52,8 @@ WulforSettingsManager::WulforSettingsManager():
 		GdkRGBA color;
 		gdk_rgba_parse (&color,"white");
 	#endif
+	
+	defaultInt.insert(IntMap::value_type("country-hub-icon",1));
 
 	defaultInt.insert(IntMap::value_type("main-window-maximized", 0));
 	defaultInt.insert(IntMap::value_type("main-window-size-x", 875));

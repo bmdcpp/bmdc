@@ -19,51 +19,25 @@
 // @because GtkFactory -> GtkIconTheme and stock -> icon_name
 #include <gtk/gtk.h>
 
-//#if GTK_CHECK_VERSION(3,9,0)
-	#define BMDC_STOCK_CLOSE  "_Close"
-	#define BMDC_STOCK_CANCEL "_Cancel"
-	#define BMDC_STOCK_REMOVE "list-remove"
-	#define BMDC_STOCK_OPEN "_Open"
-	#define BMDC_STOCK_OK "_OK"
-	#define BMDC_STOCK_NO "_No"
-	#define BMDC_STOCK_YES "_Yes"
-	#define BMDC_STOCK_DIALOG_QUESTION "dialog-question"
-	#define BMDC_STOCK_FIND  "edit-find"
-	#define BMDC_STOCK_FILE "text-x-generic"
-	#define BMDC_STOCK_DIRECTORY "folder"
-	#define BMDC_STOCK_GO_DOWN "go-down"
-	#define BMDC_STOCK_GO_UP "go-up"
-	#define BMDC_STOCK_HOME "go-home"
-	#define BMDC_STOCK_CONVERT "convert"
-	#define BMDC_STOCK_PREFERENCES  "preferences-system"
-	#define BMDC_STOCK_NETWORK "network-workgroup"
-	#define BMDC_STOCK_CONNECT "gtk-connect"
-	#define BMDC_STOCK_QUIT "application-exit"
-	#define BMDC_STOCK_DND_MULTIPLE "gtk-dnd-multiple"
-/*#else
-	#pragma GCC diagnostic push
-	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"	
-	#define BMDC_STOCK_CANCEL GTK_STOCK_CANCEL
-	#define BMDC_STOCK_REMOVE GTK_STOCK_REMOVE 
-	#define BMDC_STOCK_OPEN GTK_STOCK_OPEN
-	#define BMDC_STOCK_OK GTK_STOCK_OK
-	#define BMDC_STOCK_NO GTK_STOCK_NO
-	#define BMDC_STOCK_YES GTK_STOCK_YES
-	#define BMDC_STOCK_DIALOG_QUESTION GTK_STOCK_DIALOG_QUESTION
-	#define BMDC_STOCK_FIND  GTK_STOCK_FIND
-	#define BMDC_STOCK_FILE GTK_STOCK_FILE
-	#define BMDC_STOCK_DIRECTORY GTK_STOCK_DIRECTORY
-	#define BMDC_STOCK_GO_DOWN GTK_STOCK_GO_DOWN
-	#define BMDC_STOCK_GO_UP GTK_STOCK_GO_UP
-	#define BMDC_STOCK_HOME GTK_STOCK_HOME
-	#define BMDC_STOCK_CONVERT GTK_STOCK_CONVERT
-	#define BMDC_STOCK_PREFERENCES  GTK_STOCK_PREFERENCES
-	#define BMDC_STOCK_NETWORK GTK_STOCK_NETWORK
-	#define BMDC_STOCK_CONNECT GTK_STOCK_CONNECT
-	#define BMDC_STOCK_QUIT GTK_STOCK_QUIT
-	#define BMDC_STOCK_CLOSE GTK_STOCK_CLOSE
-	#define BMDC_STOCK_DND_MULTIPLE GTK_STOCK_DND_MULTIPLE
-	#pragma GCC diagnostic pop		
-#endif
-*/
+#define BMDC_STOCK_CLOSE  "_Close"
+#define BMDC_STOCK_CANCEL "_Cancel"
+#define BMDC_STOCK_REMOVE "list-remove"
+#define BMDC_STOCK_OPEN "_Open"
+#define BMDC_STOCK_OK "_OK"
+#define BMDC_STOCK_NO "_No"
+#define BMDC_STOCK_YES "_Yes"
+#define BMDC_STOCK_DIALOG_QUESTION "dialog-question"
+#define BMDC_STOCK_FIND  "edit-find"
+#define BMDC_STOCK_FILE "text-x-generic"
+#define BMDC_STOCK_DIRECTORY "folder"
+#define BMDC_STOCK_GO_DOWN "go-down"
+#define BMDC_STOCK_GO_UP "go-up"
+#define BMDC_STOCK_HOME "go-home"
+#define BMDC_STOCK_CONVERT "convert"
+#define BMDC_STOCK_PREFERENCES  "preferences-system"
+#define BMDC_STOCK_NETWORK "network-workgroup"
+#define BMDC_STOCK_CONNECT "gtk-connect"
+#define BMDC_STOCK_QUIT "application-exit"
+#define BMDC_STOCK_DND_MULTIPLE "gtk-dnd-multiple"
+
 
