@@ -62,11 +62,8 @@ const string WulforUtil::ENCODING_LOCALE = _("System default");
 vector<string> WulforUtil::charsets;
 unordered_map<std::string,GdkPixbuf*> WulforUtil::countryIcon;
 const string WulforUtil::magnetSignature = "magnet:?xt=urn:tree:tiger:";
-//#if GTK_CHECK_VERSION(3,9,0)
-	GtkIconTheme* WulforUtil::icon_theme = NULL;
-//#else
-//	GtkIconFactory* WulforUtil::iconFactory = NULL;
-//#endif
+GtkIconTheme* WulforUtil::icon_theme = NULL;
+
 const string WulforUtil::commands =
 string("\r\n/away\r\n\t") + _("Set away mode") +
 +"\r\n/back\r\n\t" + _("Set normal mode") +
@@ -309,17 +306,7 @@ void WulforUtil::openURItoApp(const string &cmd)
 		g_error_free(error);
 	}
 }
-#if !GTK_CHECK_VERSION(3,4,0)
-string WulforUtil::colorToString(const GdkColor *color)
-{
-	gchar strcolor[14];
 
-	g_snprintf(strcolor, sizeof(strcolor), "#%04X%04X%04X",
-		color->red, color->green, color->blue);
-
-	return strcolor;
-}
-#else
 string WulforUtil::colorToString(const GdkRGBA *color)
 {
 	gchar* tmp = gdk_rgba_to_string(color);
@@ -327,7 +314,7 @@ string WulforUtil::colorToString(const GdkRGBA *color)
 	g_free(tmp);
 	return s;
 }
-#endif
+
 GdkPixbuf* WulforUtil::scalePixbuf(const GdkPixbuf *pixbuf, const int width, const int height, GdkInterpType type)
 {
 	g_return_val_if_fail(pixbuf != NULL, NULL);
@@ -440,7 +427,7 @@ bool WulforUtil::profileIsLocked()
 	static bool profileIsLocked = false;
 
 	if (profileIsLocked)
-		return TRUE;
+		return true;
 
 	// We can't use Util::getConfigPath() since the core has not been started yet.
 	// Also, Util::getConfigPath() is utf8 and we need system encoding for g_open().
@@ -557,7 +544,6 @@ void WulforUtil::copyValue_gui(GtkTreeStore *store, GtkTreeIter *fromIter, GtkTr
  */
 void WulforUtil::registerIcons()
 {
-	//#if GTK_CHECK_VERSION(3,9,0)
 	icon_theme = gtk_icon_theme_get_default ();
 			#ifdef _WIN32
 			#undef _DATADIR
@@ -568,142 +554,6 @@ void WulforUtil::registerIcons()
 		#else
 			gtk_icon_theme_prepend_search_path(icon_theme,_DATADIR PATH_SEPARATOR_STR GUI_LOCALE_PACKAGE "icons");
 		#endif
-	/*#else
-	// Holds a mapping of custom icon names -> stock icon names.
-	// Not all icons have stock representations.
-	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
-	map<string, string> icons;
-	icons["bmdc"] = "bmdc";
-	icons["bmdc-dc++"] = wsm->getString("icon-dc++");
-	icons["bmdc-dc++-fw"] = wsm->getString("icon-dc++-fw");
-	icons["bmdc-dc++-fw-op"] = wsm->getString("icon-dc++-fw-op");
-	icons["bmdc-dc++-op"] = wsm->getString("icon-dc++-op");
-	icons["bmdc-normal"] = wsm->getString("icon-normal");
-	icons["bmdc-normal-fw"] = wsm->getString("icon-normal-fw");
-	icons["bmdc-normal-fw-op"] = wsm->getString("icon-normal-fw-op");
-	icons["bmdc-normal-op"] = wsm->getString("icon-normal-op");
-	icons["bmdc-smile"] = wsm->getString("icon-smile");
-	icons["bmdc-download"] = wsm->getString("icon-download");
-	icons["bmdc-favorite-hubs"] = wsm->getString("icon-favorite-hubs");
-	icons["bmdc-favorite-hubs-on"] = wsm->getString("icon-favorite-hubs-on");
-	icons["bmdc-favorite-users"] = wsm->getString("icon-favorite-users");
-	icons["bmdc-favorite-users-on"] = wsm->getString("icon-favorite-users-on");
-	icons["bmdc-finished-downloads"] = wsm->getString("icon-finished-downloads");
-	icons["bmdc-finished-downloads-on"] = wsm->getString("icon-finished-downloads-on");
-	icons["bmdc-finished-uploads"] = wsm->getString("icon-finished-uploads");
-	icons["bmdc-finished-uploads-on"] = wsm->getString("icon-finished-uploads-on");
-	icons["bmdc-hash"] = wsm->getString("icon-hash");
-	icons["bmdc-preferences"] = wsm->getString("icon-preferences");
-	icons["bmdc-public-hubs"] = wsm->getString("icon-public-hubs");
-	icons["bmdc-public-hubs-on"] = wsm->getString("icon-public-hubs-on");
-	icons["bmdc-queue"] = wsm->getString("icon-queue");
-	icons["bmdc-queue-on"] = wsm->getString("icon-queue-on");
-	icons["bmdc-search"] = wsm->getString("icon-search");
-	icons["bmdc-search-adl"] = wsm->getString("icon-search-adl");
-	icons["bmdc-search-adl-on"] = wsm->getString("icon-search-adl-on");
-	icons["bmdc-search-spy"] = wsm->getString("icon-search-spy");
-	icons["bmdc-search-spy-on"] = wsm->getString("icon-search-spy-on");
-	icons["bmdc-upload"] = wsm->getString("icon-upload");
-	icons["bmdc-quit"] = wsm->getString("icon-quit");
-	icons["bmdc-connect"] = wsm->getString("icon-connect");
-	icons["bmdc-file"] = wsm->getString("icon-file");
-	icons["bmdc-directory"] = wsm->getString("icon-directory");
-	icons["bmdc-pm-online"] = wsm->getString("icon-pm-online");
-	icons["bmdc-pm-offline"] = wsm->getString("icon-pm-offline");
-	icons["bmdc-hub-online"] = wsm->getString("icon-hub-online");
-	icons["bmdc-hub-offline"] = wsm->getString("icon-hub-offline");
-	
-	icons["bmdc-notepad"] = wsm->getString("icon-notepad");
-	icons["bmdc-notepad-on"] = wsm->getString("icon-notepad-on");
-	icons["bmdc-system"] = wsm->getString("icon-system");
-	icons["bmdc-system-on"] = wsm->getString("icon-system-on");
-	icons["bmdc-away"] = wsm->getString("icon-away");
-	icons["bmdc-away-on"] = wsm->getString("icon-away-on");
-
-	icons["bmdc-limiting"] = wsm->getString("icon-limiting");
-	icons["bmdc-limiting-on"] = wsm->getString("icon-limiting-on");
-	
-	icons["bmdc-pm-online"] = wsm->getString("icon-pm-online");
-	icons["bmdc-pm-offline"] = wsm->getString("icon-pm-offline");
-	icons["bmdc-hub-online"] = wsm->getString("icon-hub-online");
-	icons["bmdc-hub-offline"] = wsm->getString("icon-hub-offline");
-	
-	icons["bmdc-connect"] = wsm->getString("icon-connect");
-	icons["bmdc-file"] = wsm->getString("icon-file");
-	icons["bmdc-directory"] = wsm->getString("icon-directory");
-
-	icons["bmdc-normal"] = wsm->getString("icon-normal");
-    
-	icons["bmdc-op"] = wsm->getString("icon-op");
-	icons["bmdc-modem"] = wsm->getString("icon-modem");
-	icons["bmdc-wireless"] = wsm->getString("icon-wireless");
-	icons["bmdc-dsl"] = wsm->getString("icon-dsl");
-	icons["bmdc-lan"] = wsm->getString("icon-lan");
-	icons["bmdc-netlimiter"] = wsm->getString("icon-netlimiter");
-	
-	icons["bmdc-ten"] = wsm->getString("icon-ten");
-	icons["bmdc-zeroone"] = wsm->getString("icon-zeroone");
-	icons["bmdc-zerozeroone"] = wsm->getString("icon-zerozeroone");
-	icons["bmdc-other"] = wsm->getString("icon-other");
-	
-	icons["bmdc-op-away"] = wsm->getString("icon-op-away");
-	icons["bmdc-modem-away"] = wsm->getString("icon-modem-away");
-	icons["bmdc-wireless-away"] = wsm->getString("icon-wireless-away");
-	icons["bmdc-dsl-away"] = wsm->getString("icon-dsl-away");
-	icons["bmdc-lan-away"] = wsm->getString("icon-lan-away");
-	icons["bmdc-netlimiter-away"] = wsm->getString("icon-netlimiter-away");
-	
-	icons["bmdc-ten-away"] = wsm->getString("icon-ten-away");
-	icons["bmdc-zeroone-away"] = wsm->getString("icon-zeroone-away");
-	icons["bmdc-zerozeroone-away"] = wsm->getString("icon-zerozeroone-away");
-	icons["bmdc-other-away"] = wsm->getString("icon-other-away");
-	
-	icons["bmdc-op-pasive"] = wsm->getString("icon-op-pasive");
-	icons["bmdc-modem-pasive"] = wsm->getString("icon-modem-pasive");
-	icons["bmdc-wireless-pasive"] = wsm->getString("icon-wireless-pasive");
-	icons["bmdc-dsl-pasive"] = wsm->getString("icon-dsl-pasive");
-	icons["bmdc-lan-pasive"] = wsm->getString("icon-lan-pasive");
-	icons["bmdc-netlimiter-pasive"] = wsm->getString("icon-netlimiter-pasive");
-	
-	icons["bmdc-ten-pasive"] = wsm->getString("icon-ten-pasive");
-	icons["bmdc-zeroone-pasive"] = wsm->getString("icon-zeroone-pasive");
-	icons["bmdc-zerozeroone-pasive"] = wsm->getString("icon-zerozeroone-pasive");
-	icons["bmdc-other-pasive"] = wsm->getString("icon-other-pasive");
-	
-	icons["bmdc-op-away-pasive"] = wsm->getString("icon-op-away-pasive");
-	icons["bmdc-modem-away-pasive"] = wsm->getString("icon-modem-away-pasive");
-	icons["bmdc-wireless-away-pasive"] = wsm->getString("icon-wireless-away-pasive");
-	icons["bmdc-dsl-away-pasive"] = wsm->getString("icon-dsl-away-pasive");
-	icons["bmdc-lan-away-pasive"] = wsm->getString("icon-lan-away-pasive");
-	icons["bmdc-netlimiter-away-pasive"] = wsm->getString("icon-netlimiter-away-pasive");
-	
-	icons["bmdc-ten-away-pasive"] = wsm->getString("icon-ten-away-pasive");
-	icons["bmdc-zeroone-away-pasive"] = wsm->getString("icon-zeroone-away-pasive");
-	icons["bmdc-zerozeroone-away-pasive"] = wsm->getString("icon-zerozeroone-away-pasive");
-	icons["bmdc-other-away-pasive"] = wsm->getString("icon-other-away-pasive");
-
-	if (iconFactory)
-	{
-		gtk_icon_factory_remove_default(iconFactory);
-		iconFactory = NULL;
-	}
-
-	iconFactory = gtk_icon_factory_new();
-
-	for (map<string, string>::const_iterator i = icons.begin(); i != icons.end(); ++i)
-	{
-		GtkIconSource *iconSource = gtk_icon_source_new();
-		GtkIconSet *iconSet = gtk_icon_set_new();
-		gtk_icon_source_set_icon_name(iconSource, i->second.c_str());
-		gtk_icon_set_add_source(iconSet, iconSource);
-		gtk_icon_factory_add(iconFactory, i->first.c_str(), iconSet);
-		gtk_icon_source_free(iconSource);
-		gtk_icon_set_unref(iconSet);
-	}
-
-	gtk_icon_factory_add_default(iconFactory);
-	g_object_unref(iconFactory);
-	#endif*/
 }
 
 GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string country)
@@ -1408,7 +1258,7 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 {
 	if(ext == "directory" || ext.empty())
 	{
-		//#if GTK_CHECK_VERSION(3,9,0)
+
 		GError* error = NULL;
 		GdkPixbuf* buf = gtk_icon_theme_load_icon(icon_theme,"folder",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,&error);
 		if(error){
@@ -1417,11 +1267,6 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 			return NULL;
 		}	
 		return buf;
-		/*#else
-		GtkWidget* iwid = gtk_invisible_new ();
-		GdkPixbuf* buf = gtk_widget_render_icon_pixbuf(iwid, BMDC_STOCK_DIRECTORY, GTK_ICON_SIZE_MENU);
-		return buf;
-		#endif*/
 	}
 
 	string tmp = "dummy"+ext;
@@ -1432,7 +1277,6 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 	if (content_type == NULL)
 	{
 		
-		//#if GTK_CHECK_VERSION(3,9,0)
 		GError* error = NULL;
 		GdkPixbuf* buf = gtk_icon_theme_load_icon(icon_theme,"text-x-generic",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,&error);
 		if(error){
@@ -1441,11 +1285,6 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 			return NULL;
 		}
 		return buf;
-		/*#else
-		GtkWidget *iwid = gtk_invisible_new ();
-		GdkPixbuf *buf = gtk_widget_render_icon_pixbuf(iwid, BMDC_STOCK_FILE, GTK_ICON_SIZE_MENU);
-		return buf;
-		#endif*/
 	}
 	char *mime_type = g_content_type_get_mime_type (content_type);
 	GIcon *icon = g_content_type_get_icon(mime_type);
