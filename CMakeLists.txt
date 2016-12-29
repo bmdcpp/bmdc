@@ -223,7 +223,7 @@ endif(ENABLE_CANBERRA)
 #empty
 #else(WIN32)
 	message(STATUS "Building needed files...")
-	execute_process(COMMAND "${CMAKE_SOURCE_DIR}/linux/gen.sh" "${CMAKE_SOURCE_DIR}/linux")
+	execute_process(COMMAND "${CMAKE_SOURCE_DIR}/linux/gen-cmake.sh" "${CMAKE_SOURCE_DIR}/linux")
 #ENDIF(WIN32)
 print_build_options()
 
