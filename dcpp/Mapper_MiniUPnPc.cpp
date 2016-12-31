@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,11 +19,9 @@
 #include "stdinc.h"
 #include "Mapper_MiniUPnPc.h"
 
-#include "Util.h"
-
 extern "C" {
-#ifndef STATICLIB
-#define STATICLIB
+#ifndef MINIUPNP_STATICLIB
+#define MINIUPNP_STATICLIB
 #endif
 #include <miniupnpc/miniupnpc.h>
 #include <miniupnpc/upnpcommands.h>
@@ -33,8 +31,8 @@ namespace dcpp {
 
 const string Mapper_MiniUPnPc::name = "MiniUPnP";
 
-Mapper_MiniUPnPc::Mapper_MiniUPnPc(string&& localIp) :
-Mapper(move(localIp))
+Mapper_MiniUPnPc::Mapper_MiniUPnPc(string&& localIp, bool v6) :
+Mapper(move(localIp), v6)
 {
 }
 
@@ -42,28 +40,28 @@ bool Mapper_MiniUPnPc::init() {
 	if(!url.empty())
 		return true;
 
-	UPNPDev* devices = upnpDiscover(2000, localIp.empty() ? nullptr : localIp.c_str(), NULL, 0,0,NULL);
+	UPNPDev* devices = upnpDiscover(2000, localIp.empty() ? nullptr : localIp.c_str(), 0, 0, v6, '2', 0);
 	if(!devices)
 		return false;
 
 	UPNPUrls urls;
 	IGDdatas data;
 
-	int ret = UPNP_GetValidIGD(devices, &urls, &data, 0, 0);
+	auto ret = UPNP_GetValidIGD(devices, &urls, &data, 0, 0);
 
-	if(ret == 1) {
+	bool ok = ret == 1;
+	if(ok) {
 		url = urls.controlURL;
 		service = data.first.servicetype;
-		//device = data.CIF.friendlyName;
 		device = data.cureltname;
 	}
 
-	if(ret != 0) {
+	if(ret > 0) {
 		FreeUPNPUrls(&urls);
+		freeUPNPDevlist(devices);
 	}
-	freeUPNPDevlist(devices);
 
-	return ret == 1;
+	return ok;
 }
 
 void Mapper_MiniUPnPc::uninit() {
@@ -71,7 +69,7 @@ void Mapper_MiniUPnPc::uninit() {
 
 bool Mapper_MiniUPnPc::add(const string& port, const Protocol protocol, const string& description) {
 	return UPNP_AddPortMapping(url.c_str(), service.c_str(), port.c_str(), port.c_str(),
-		localIp.c_str(), description.c_str(), protocols[protocol],0,0) == UPNPCOMMAND_SUCCESS;
+		localIp.c_str(), description.c_str(), protocols[protocol], 0, 0) == UPNPCOMMAND_SUCCESS;
 }
 
 bool Mapper_MiniUPnPc::remove(const string& port, const Protocol protocol) {
@@ -86,7 +84,7 @@ string Mapper_MiniUPnPc::getExternalIP() {
 	char buf[16] = { 0 };
 	if(UPNP_GetExternalIPAddress(url.c_str(), service.c_str(), buf) == UPNPCOMMAND_SUCCESS)
 		return buf;
-	return Util::emptyString;
+	return string();
 }
 
 } // dcpp namespace

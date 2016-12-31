@@ -421,7 +421,7 @@ public:
 	 * getLocalIP:
 	 * @return: local ip of system
 	 * */
-	static string getLocalIp();
+	static string getLocalIp(bool IsIPv6 = true);
 	/*
 	 * isPrivateIP:
 	 * @p: string to be scaned for

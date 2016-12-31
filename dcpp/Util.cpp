@@ -567,7 +567,7 @@ string Util::formatExactSize(const int64_t aBytes) {
 #endif
 }
 
-string Util::getLocalIp() {
+string Util::getLocalIp(bool IsIPv6) {
 	const string& bindAddr = CONNSETTING(BIND_ADDRESS);
 	if(!bindAddr.empty() && bindAddr != SettingsManager::getInstance()->getDefault(SettingsManager::BIND_ADDRESS)) {
 		return bindAddr;
@@ -597,7 +597,7 @@ string Util::getLocalIp() {
 					break;
 				}
 			}
-			else
+			else if(IsIPv6)
 			{
 				#ifdef _WIN32
 				Socket::inet_ntop(&((struct sockaddr_in *)res->ai_addr)->sin_addr,buf,sizeof(buf));

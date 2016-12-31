@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,8 +17,6 @@
  */
 
 #include "stdinc.h"
-#include "DCPlusPlus.h"
-
 #include "Mapper.h"
 
 namespace dcpp {
@@ -30,8 +28,8 @@ const char* Mapper::protocols[PROTOCOL_LAST] = {
 	"UDP"
 };
 
-Mapper::Mapper(string&& localIp) :
-localIp(move(localIp))
+Mapper::Mapper(string&& localIp, bool v6) :
+localIp(move(localIp)), v6(v6)
 {
 }
 
@@ -39,15 +37,15 @@ bool Mapper::open(const string& port, const Protocol protocol, const string& des
 	if(!add(port, protocol, description))
 		return false;
 
-	rules.push_back(make_pair(port, protocol));
+	rules.insert(make_pair(port, protocol));
 	return true;
 }
 
 bool Mapper::close() {
 	bool ret = true;
 
-	for(auto i = rules.cbegin(), iend = rules.cend(); i != iend; ++i)
-		ret &= remove(i->first, i->second);
+	for(auto& i: rules)
+		ret &= remove(i.first, i.second);
 	rules.clear();
 
 	return ret;

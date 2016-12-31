@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,19 +18,24 @@
 
 #include "stdinc.h"
 #include "Mapper_NATPMP.h"
-#ifndef _WIN32
-#include <arpa/inet.h>
-#else
-#include "w.h"
-#endif
+
 #include "Util.h"
+
+#ifndef _WIN32
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#endif
 
 extern "C" {
 #ifndef STATICLIB
 #define STATICLIB
 #endif
-#include "../natpmp/getgateway.h"
-#include "../natpmp/natpmp.h"
+#if defined(_WIN32) && !defined(WIN32)
+#define WIN32
+#endif
+#include <natpmp/getgateway.h>
+#include <natpmp/natpmp.h>
 }
 
 ///@todo should bind to the local IP
@@ -41,8 +46,8 @@ const string Mapper_NATPMP::name = "NAT-PMP";
 
 static natpmp_t nat;
 
-Mapper_NATPMP::Mapper_NATPMP(string&& localIp) :
-Mapper(move(localIp)),
+Mapper_NATPMP::Mapper_NATPMP(string&& localIp, bool v6) :
+Mapper(move(localIp), v6),
 lifetime(0)
 {
 }
@@ -93,7 +98,7 @@ bool read(natpmpresp_t& response) {
 		if(getnatpmprequesttimeout(&nat, &timeout) >= 0) {
 			fd_set fds;
 			FD_ZERO(&fds);
-			FD_SET(nat.s, &fds);
+			FD_SET(static_cast<unsigned int>(nat.s), &fds);
 			select(FD_SETSIZE, &fds, 0, 0, &timeout);
 		}
 
@@ -109,7 +114,7 @@ bool Mapper_NATPMP::add(const string& port, const Protocol protocol, const strin
 	if(sendRequest(port_, protocol, 3600)) {
 		natpmpresp_t response;
 		if(read(response) && response.type == respType(protocol) && response.pnu.newportmapping.mappedpublicport == port_) {
-			lifetime = std::min(lifetime ? lifetime : 3600, response.pnu.newportmapping.lifetime);
+			lifetime = std::min(3600u, response.pnu.newportmapping.lifetime) / 60;
 			return true;
 		}
 	}

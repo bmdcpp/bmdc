@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,6 @@
 #ifndef DCPLUSPLUS_DCPP_MAPPING_MANAGER_H
 #define DCPLUSPLUS_DCPP_MAPPING_MANAGER_H
 
-#include <atomic>
 #include <memory>
 #include <functional>
 #include <vector>
@@ -28,12 +27,13 @@
 #include "typedefs.h"
 #include "Mapper.h"
 #include "TimerManager.h"
+#include <atomic>
+//#include "tribool.h"
 
 namespace dcpp {
 
-using std::atomic_flag;
+using std::atomic;
 using std::function;
-using std::make_pair;
 using std::unique_ptr;
 using std::vector;
 
@@ -42,53 +42,42 @@ class MappingManager :
 	private Thread,
 	private TimerManagerListener
 {
-private:
-	using TimerManagerListener::on;	
 public:
 	/** add an implementation derived from the base Mapper class, passed as template parameter.
 	the first added mapper will be tried first, unless the "MAPPER" setting is not empty. */
-	template<typename T> void addMapper() {
-#ifndef _MSC_VER
-		mappers.emplace_back(T::name, [](string&& localIp) {
-			return new T(move(localIp));
+	template<typename T> void addMapper(bool v6) {
+		(v6 ? mappers6 : mappers4).emplace_back(T::name, [v6](string&& localIp) {
+			return new T(move(localIp), v6);
 		});
-#else
-		// the rvalue ref deal is too smart for MSVC; resort to a string copy...
-		mappers.push_back(make_pair(T::name, [](string localIp) {
-			return new T(std::move(localIp));
-		}));
-#endif
 	}
-	StringList getMappers() const;
+	StringList getMappers(bool v6) const;
 
-	bool open();
-	void close();
+	bool open(bool v4 = true, bool v6 = true);
+	void close(bool v6 = true);
 	/** whether a working port mapping implementation is currently in use. */
-	bool getOpened() const;
+	bool getOpened(bool v6 = true) const;
 	/** get information about the currently working implementation, if there is one; or a status
 	string stating otherwise. */
-	string getStatus() const;
+	string getStatus(bool v6 = false) const;
 
 private:
 	friend class Singleton<MappingManager>;
 
-#ifndef _MSC_VER
-	vector<pair<string, function<Mapper* (string&&)>>> mappers;
-#else
-	vector<pair<string, function<Mapper* (const string&)>>> mappers;
-#endif
+	vector<pair<string, function<Mapper* (string&&)>>> mappers4, mappers6;
 
-	atomic_flag busy;
-	unique_ptr<Mapper> working; /// currently working implementation.
+	static std::atomic_flag busy;
+	atomic<bool> needsV4PortMap, needsV6PortMap;
+	unique_ptr<Mapper> working4, working6; /// currently working implementations.
 	uint64_t renewal; /// when the next renewal should happen, if requested by the mapper.
 
 	MappingManager();
 	virtual ~MappingManager() { }
 
 	int run();
+	void runPortMapping(bool v6, const string& conn_port, const string& secure_port, const string& search_port);
 
 	void close(Mapper& mapper);
-	void log(const string& message);
+	void log(const string& message, bool v6 = true);
 	string deviceString(Mapper& mapper) const;
 	void renewLater(Mapper& mapper);
 

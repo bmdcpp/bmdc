@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,14 +19,14 @@
 #ifndef DCPLUSPLUS_DCPP_MAPPER_NATPMP_H
 #define DCPLUSPLUS_DCPP_MAPPER_NATPMP_H
 
-#include "Mapper.h"
+#include <dcpp/Mapper.h>
 
 namespace dcpp {
 
 class Mapper_NATPMP : public Mapper
 {
 public:
-	Mapper_NATPMP(string&& localIp);
+	Mapper_NATPMP(string&& localIp, bool v6);
 
 	static const string name;
 
@@ -45,7 +45,7 @@ private:
 	const string& getName() const { return name; }
 
 	string gateway;
-	uint32_t lifetime;
+	uint32_t lifetime; // in minutes
 };
 
 } // dcpp namespace

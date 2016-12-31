@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,8 +19,10 @@
 #ifndef DCPLUSPLUS_DCPP_MAPPER_H
 #define DCPLUSPLUS_DCPP_MAPPER_H
 
+#include <cstdint>
 #include <string>
-#include <vector>
+#include <set>
+#include <utility>
 
 namespace dcpp {
 
@@ -30,7 +32,7 @@ using std::string;
 class Mapper 
 {
 public:
-	Mapper(string&& localIp);
+	Mapper(string&& localIp, bool v6);
 	virtual ~Mapper() { }
 
 	enum Protocol {
@@ -63,17 +65,16 @@ public:
 	virtual const string& getName() const = 0;
 
 protected:
-	const string localIp;
+	string localIp;
+	const bool v6;
+
 private:
 	/** add a port mapping rule. */
 	virtual bool add(const string& port, const Protocol protocol, const string& description) = 0;
 	/** remove a port mapping rule. */
 	virtual bool remove(const string& port, const Protocol protocol) = 0;
 
-	std::vector<std::pair<string, Protocol>> rules;
-	Mapper(Mapper&);
-	Mapper& operator=(Mapper&);
-	
+	std::set<std::pair<string, Protocol>> rules;
 };
 
 } // namespace dcpp

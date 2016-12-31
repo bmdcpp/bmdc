@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2016-11-10 20:19+0100\n"
+"POT-Creation-Date: 2016-12-31 23:14+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -481,7 +481,7 @@ msgid "ADL Action"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1035 ui/mainwindow.glade.ui:2007
-#: ui/mainwindow.glade.ui:2236 linux/adlsearch.cc:31 linux/bookentry.cc:374
+#: ui/mainwindow.glade.ui:2236 linux/adlsearch.cc:31 linux/bookentry.cc:367
 #: linux/settingsdialog.cc:1518 linux/settingsdialog.cc:1581
 msgid "ADL Search"
 msgstr ""
@@ -494,7 +494,7 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:1246 linux/bookentry.cc:427
+#: ui/mainwindow.glade.ui:1246 linux/bookentry.cc:420
 msgid "About:Config"
 msgstr ""
 
@@ -661,8 +661,8 @@ msgstr ""
 msgid "Away mode message on/off"
 msgstr ""
 
-#: ui/hub.glade.ui:25 ui/privatemessage.glade.ui:25 linux/WulforUtil.cc:797
-#: linux/WulforUtil.cc:817 linux/mainwindow.cc:2327
+#: ui/hub.glade.ui:25 ui/privatemessage.glade.ui:25 linux/WulforUtil.cc:647
+#: linux/WulforUtil.cc:667 linux/mainwindow.cc:2324
 #: linux/privatemessage.cc:1076
 msgid "Away mode off"
 msgstr ""
@@ -846,8 +846,8 @@ msgid "Choose a File"
 msgstr ""
 
 #: ui/search.glade.ui:7 ui/settingsdialog.glade.ui:8901
-#: ui/sharebrowser.glade.ui:7 linux/hub.cc:3148 linux/mainwindow.cc:1636
-#: linux/mainwindow.cc:1704 linux/privatemessage.cc:1377
+#: ui/sharebrowser.glade.ui:7 linux/hub.cc:3148 linux/mainwindow.cc:1633
+#: linux/mainwindow.cc:1701 linux/privatemessage.cc:1377
 msgid "Choose a directory"
 msgstr ""
 
@@ -966,8 +966,8 @@ msgstr ""
 #: ui/settingsdialog.glade.ui:2374 linux/hub.cc:87 linux/hub.cc:414
 #: linux/hub.cc:635 linux/hub.cc:675 linux/hub.cc:810 linux/hub.cc:839
 #: linux/search.cc:109 linux/search.cc:233 linux/search.cc:713
-#: linux/search.cc:776 linux/search.cc:923 linux/search.cc:1815
-#: linux/search.cc:2150 linux/search.cc:2201
+#: linux/search.cc:776 linux/search.cc:919 linux/search.cc:1811
+#: linux/search.cc:2146 linux/search.cc:2197
 msgid "Connection"
 msgstr ""
 
@@ -1069,7 +1069,7 @@ msgstr ""
 #: ui/adlsearch.glade.ui:772 ui/settingsdialog.glade.ui:6430
 #: linux/FavoriteHubDialog.cc:323 linux/FavoriteHubDialog.cc:681
 #: linux/FavoriteHubDialog.cc:712 linux/FavoriteHubDialog.cc:729
-#: linux/UserCommandMenu.cc:74 linux/search.cc:1802 linux/settingsdialog.cc:980
+#: linux/UserCommandMenu.cc:74 linux/search.cc:1798 linux/settingsdialog.cc:980
 #: linux/settingsdialog.cc:994 linux/settingsdialog.cc:1082
 #: linux/settingsdialog.cc:1525 linux/settingsdialog.cc:4271
 #: linux/settingsdialog.cc:4291 linux/settingsdialog.cc:4321
@@ -1127,7 +1127,7 @@ msgstr ""
 msgid "Download Matches"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:1058 linux/bookentry.cc:361 linux/downloadqueue.cc:35
+#: ui/mainwindow.glade.ui:1058 linux/bookentry.cc:354 linux/downloadqueue.cc:35
 #: linux/settingsdialog.cc:1152 linux/settingsdialog.cc:1627
 msgid "Download Queue"
 msgstr ""
@@ -1304,14 +1304,14 @@ msgid "Favorite Hub Properties"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:986 ui/mainwindow.glade.ui:1906
-#: ui/mainwindow.glade.ui:2194 linux/bookentry.cc:343 linux/favoritehubs.cc:34
+#: ui/mainwindow.glade.ui:2194 linux/bookentry.cc:336 linux/favoritehubs.cc:34
 #: linux/settingsdialog.cc:1508 linux/settingsdialog.cc:1556
 #: linux/settingsdialog.cc:1626
 msgid "Favorite Hubs"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:995 ui/mainwindow.glade.ui:1922
-#: ui/mainwindow.glade.ui:2201 linux/bookentry.cc:349 linux/favoriteusers.cc:36
+#: ui/mainwindow.glade.ui:2201 linux/bookentry.cc:342 linux/favoriteusers.cc:36
 #: linux/settingsdialog.cc:1509 linux/settingsdialog.cc:1558
 #: linux/settingsdialog.cc:1630
 msgid "Favorite Users"
@@ -1347,12 +1347,12 @@ msgstr ""
 #: linux/downloadqueue.cc:863 linux/finishedtransfers.cc:56
 #: linux/finishedtransfers.cc:226 linux/search.cc:103 linux/search.cc:139
 #: linux/search.cc:227 linux/search.cc:434 linux/search.cc:708
-#: linux/search.cc:751 linux/search.cc:914 linux/search.cc:1149
-#: linux/search.cc:1190 linux/search.cc:1249 linux/search.cc:1330
-#: linux/search.cc:1369 linux/search.cc:1426 linux/search.cc:1729
-#: linux/search.cc:1777 linux/search.cc:1781 linux/search.cc:1785
-#: linux/search.cc:1786 linux/search.cc:1797 linux/search.cc:1801
-#: linux/search.cc:2062 linux/search.cc:2144 linux/search.cc:2195
+#: linux/search.cc:751 linux/search.cc:910 linux/search.cc:1145
+#: linux/search.cc:1186 linux/search.cc:1245 linux/search.cc:1326
+#: linux/search.cc:1365 linux/search.cc:1422 linux/search.cc:1725
+#: linux/search.cc:1773 linux/search.cc:1777 linux/search.cc:1781
+#: linux/search.cc:1782 linux/search.cc:1793 linux/search.cc:1797
+#: linux/search.cc:2058 linux/search.cc:2140 linux/search.cc:2191
 #: linux/sharebrowser.cc:81 linux/sharebrowser.cc:103 linux/sharebrowser.cc:104
 #: linux/sharebrowser.cc:292 linux/sharebrowser.cc:323
 #: linux/sharebrowser.cc:521 linux/sharebrowser.cc:621
@@ -1379,7 +1379,7 @@ msgid "Find files"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1067 ui/mainwindow.glade.ui:2060
-#: ui/mainwindow.glade.ui:2257 linux/bookentry.cc:385
+#: ui/mainwindow.glade.ui:2257 linux/bookentry.cc:378
 #: linux/finishedtransfers.cc:34 linux/settingsdialog.cc:1150
 #: linux/settingsdialog.cc:1510 linux/settingsdialog.cc:1572
 #: linux/settingsdialog.cc:1628
@@ -1387,7 +1387,7 @@ msgid "Finished Downloads"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1075 ui/mainwindow.glade.ui:2077
-#: ui/mainwindow.glade.ui:2264 linux/bookentry.cc:391
+#: ui/mainwindow.glade.ui:2264 linux/bookentry.cc:384
 #: linux/finishedtransfers.cc:39 linux/settingsdialog.cc:1151
 #: linux/settingsdialog.cc:1511 linux/settingsdialog.cc:1574
 #: linux/settingsdialog.cc:1629
@@ -1561,12 +1561,12 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: ui/search.glade.ui:851 linux/bookentry.cc:403 linux/detectiontab.cc:108
+#: ui/search.glade.ui:851 linux/bookentry.cc:396 linux/detectiontab.cc:108
 #: linux/detectiontab.cc:1026 linux/detectiontab.cc:1128
 #: linux/detectiontab.cc:1225 linux/finishedtransfers.cc:77
 #: linux/finishedtransfers.cc:183 linux/search.cc:110 linux/search.cc:234
-#: linux/search.cc:714 linux/search.cc:786 linux/search.cc:932
-#: linux/search.cc:1816 linux/search.cc:2151 linux/search.cc:2202
+#: linux/search.cc:714 linux/search.cc:786 linux/search.cc:928
+#: linux/search.cc:1812 linux/search.cc:2147 linux/search.cc:2198
 #: linux/settingsdialog.cc:2113 linux/settingsdialog.cc:2123
 #: linux/settingsdialog.cc:3879 linux/settingsdialog.cc:3958
 #: linux/settingsdialog.cc:4501 linux/settingsdialog.cc:4594
@@ -1953,8 +1953,8 @@ msgstr ""
 #: linux/hub.cc:989 linux/hub.cc:2132 linux/hub.cc:2187 linux/hub.cc:2691
 #: linux/hub.cc:2891 linux/hub.cc:3211 linux/hub.cc:3250 linux/search.cc:104
 #: linux/search.cc:228 linux/search.cc:274 linux/search.cc:707
-#: linux/search.cc:782 linux/search.cc:929 linux/search.cc:1812
-#: linux/search.cc:2145 linux/search.cc:2196
+#: linux/search.cc:782 linux/search.cc:925 linux/search.cc:1808
+#: linux/search.cc:2141 linux/search.cc:2192
 msgid "Nick"
 msgstr ""
 
@@ -2002,7 +2002,7 @@ msgid "Note; because of changing download speeds, this is not 100% accurate..."
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1238 ui/mainwindow.glade.ui:2092
-#: ui/mainwindow.glade.ui:2271 linux/bookentry.cc:415 linux/notepad.cc:26
+#: ui/mainwindow.glade.ui:2271 linux/bookentry.cc:408 linux/notepad.cc:26
 #: linux/settingsdialog.cc:1519 linux/settingsdialog.cc:1579
 #: linux/settingsdialog.cc:1632
 msgid "Notepad"
@@ -2092,12 +2092,12 @@ msgstr ""
 #: linux/downloadqueue.cc:394 linux/finishedtransfers.cc:57
 #: linux/finishedtransfers.cc:227 linux/finishedtransfers.cc:506
 #: linux/search.cc:107 linux/search.cc:231 linux/search.cc:711
-#: linux/search.cc:766 linux/search.cc:917 linux/search.cc:1148
-#: linux/search.cc:1189 linux/search.cc:1248 linux/search.cc:1329
-#: linux/search.cc:1368 linux/search.cc:1425 linux/search.cc:1490
-#: linux/search.cc:1782 linux/search.cc:1798 linux/search.cc:1799
-#: linux/search.cc:1800 linux/search.cc:2063 linux/search.cc:2148
-#: linux/search.cc:2199 linux/transfers.cc:71 linux/transfers.cc:767
+#: linux/search.cc:766 linux/search.cc:913 linux/search.cc:1144
+#: linux/search.cc:1185 linux/search.cc:1244 linux/search.cc:1325
+#: linux/search.cc:1364 linux/search.cc:1421 linux/search.cc:1486
+#: linux/search.cc:1778 linux/search.cc:1794 linux/search.cc:1795
+#: linux/search.cc:1796 linux/search.cc:2059 linux/search.cc:2144
+#: linux/search.cc:2195 linux/transfers.cc:71 linux/transfers.cc:767
 #: linux/transfers.cc:937
 msgid "Path"
 msgstr ""
@@ -2202,7 +2202,7 @@ msgid "Protected Users"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1004 ui/mainwindow.glade.ui:1941
-#: ui/mainwindow.glade.ui:2208 linux/bookentry.cc:355 linux/publichubs.cc:31
+#: ui/mainwindow.glade.ui:2208 linux/bookentry.cc:348 linux/publichubs.cc:31
 #: linux/settingsdialog.cc:1514 linux/settingsdialog.cc:1560
 #: linux/settingsdialog.cc:1625
 msgid "Public Hubs"
@@ -2360,7 +2360,7 @@ msgstr ""
 #: ui/hub.glade.ui:245 ui/mainwindow.glade.ui:1026 ui/mainwindow.glade.ui:1992
 #: ui/mainwindow.glade.ui:2229 ui/privatemessage.glade.ui:189
 #: ui/searchspy.glade.ui:94 ui/settingsdialog.glade.ui:8878
-#: ui/transfers.glade.ui:52 linux/bookentry.cc:368 linux/settingsdialog.cc:1155
+#: ui/transfers.glade.ui:52 linux/bookentry.cc:361 linux/settingsdialog.cc:1155
 #: linux/settingsdialog.cc:1516 linux/settingsdialog.cc:1566
 msgid "Search"
 msgstr ""
@@ -2589,7 +2589,7 @@ msgstr ""
 msgid "Show top search"
 msgstr ""
 
-#: ui/hub.glade.ui:124 ui/hub.glade.ui:125 linux/WulforUtil.cc:73
+#: ui/hub.glade.ui:124 ui/hub.glade.ui:125 linux/WulforUtil.cc:70
 msgid "Show version"
 msgstr ""
 
@@ -2599,8 +2599,8 @@ msgstr ""
 #: linux/downloadqueue.cc:70 linux/downloadqueue.cc:89
 #: linux/downloadqueue.cc:281 linux/downloadqueue.cc:388 linux/search.cc:106
 #: linux/search.cc:136 linux/search.cc:230 linux/search.cc:710
-#: linux/search.cc:771 linux/search.cc:920 linux/search.cc:1789
-#: linux/search.cc:1807 linux/search.cc:2147 linux/search.cc:2198
+#: linux/search.cc:771 linux/search.cc:916 linux/search.cc:1785
+#: linux/search.cc:1803 linux/search.cc:2143 linux/search.cc:2194
 #: linux/settingsdialog.cc:1083 linux/settingsdialog.cc:1089
 #: linux/settingsdialog.cc:4322 linux/settingsdialog.cc:4391
 #: linux/sharebrowser.cc:82 linux/sharebrowser.cc:105 linux/sharebrowser.cc:300
@@ -2677,7 +2677,7 @@ msgstr ""
 msgid "System"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:2107 linux/System.cc:29 linux/bookentry.cc:421
+#: ui/mainwindow.glade.ui:2107 linux/System.cc:29 linux/bookentry.cc:414
 msgid "System Log"
 msgstr ""
 
@@ -2775,9 +2775,9 @@ msgstr ""
 #: linux/AboutConfigFav.cc:37 linux/AboutConfigFav.cc:44
 #: linux/AboutConfigFav.cc:123 linux/AboutConfigFav.cc:260 linux/search.cc:105
 #: linux/search.cc:229 linux/search.cc:712 linux/search.cc:791
-#: linux/search.cc:935 linux/search.cc:1786 linux/search.cc:1787
-#: linux/search.cc:1788 linux/search.cc:1802 linux/search.cc:2146
-#: linux/search.cc:2197 linux/sharebrowser.cc:83 linux/sharebrowser.cc:303
+#: linux/search.cc:931 linux/search.cc:1782 linux/search.cc:1783
+#: linux/search.cc:1784 linux/search.cc:1798 linux/search.cc:2142
+#: linux/search.cc:2193 linux/sharebrowser.cc:83 linux/sharebrowser.cc:303
 #: linux/sharebrowser.cc:324
 msgid "Type"
 msgstr ""
@@ -3066,7 +3066,7 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:3297 ui/settingsdialog.glade.ui:3313
 #: ui/settingsdialog.glade.ui:3357 linux/hashdialog.cc:80
-#: linux/mainwindow.cc:1009 linux/mainwindow.cc:1010 linux/mainwindow.cc:2805
+#: linux/mainwindow.cc:1006 linux/mainwindow.cc:1007 linux/mainwindow.cc:2805
 #: linux/mainwindow.cc:2807 linux/mainwindow.cc:3108 linux/treeview.cc:225
 msgid "s"
 msgstr ""
@@ -3095,7 +3095,7 @@ msgstr ""
 msgid "\n"
 msgstr ""
 
-#: linux/hub.cc:4588
+#: linux/hub.cc:4596
 msgid ""
 "\n"
 "Message: "
@@ -3159,7 +3159,7 @@ msgstr ""
 msgid " added to favorites list"
 msgstr ""
 
-#: linux/search.cc:2007
+#: linux/search.cc:2003
 msgid " dropped"
 msgstr ""
 
@@ -3171,7 +3171,7 @@ msgstr ""
 msgid " files"
 msgstr ""
 
-#: linux/search.cc:1994
+#: linux/search.cc:1990
 msgid " filtered"
 msgstr ""
 
@@ -3220,7 +3220,7 @@ msgstr ""
 msgid " removed from favorites list"
 msgstr ""
 
-#: linux/settingsmanager.cc:728
+#: linux/settingsmanager.cc:730
 msgid " to "
 msgstr ""
 
@@ -3248,7 +3248,7 @@ msgstr ""
 msgid "*** Available commands:"
 msgstr ""
 
-#: linux/WulforUtil.cc:740
+#: linux/WulforUtil.cc:590
 msgid "*** Info on "
 msgstr ""
 
@@ -3357,11 +3357,11 @@ msgstr ""
 msgid "Add Plugin"
 msgstr ""
 
-#: linux/search.cc:2226
+#: linux/search.cc:2222
 msgid "Add Search Tab"
 msgstr ""
 
-#: linux/WulforUtil.cc:93
+#: linux/WulforUtil.cc:90
 msgid "Add alias A with uname -a exec"
 msgstr ""
 
@@ -3373,7 +3373,7 @@ msgstr ""
 msgid "Add to Favorite Users"
 msgstr ""
 
-#: linux/hub.cc:4787
+#: linux/hub.cc:4795
 msgid "Add to Favorite hubs"
 msgstr ""
 
@@ -3399,7 +3399,7 @@ msgstr ""
 msgid "Address: "
 msgstr ""
 
-#: linux/WulforUtil.cc:1131
+#: linux/WulforUtil.cc:981
 msgid "Aliases not found."
 msgstr ""
 
@@ -3508,11 +3508,11 @@ msgstr ""
 msgid "Away Message:"
 msgstr ""
 
-#: linux/mainwindow.cc:2336 linux/mainwindow.cc:2877
+#: linux/mainwindow.cc:2333 linux/mainwindow.cc:2877
 msgid "Away mode on"
 msgstr ""
 
-#: linux/WulforUtil.cc:808
+#: linux/WulforUtil.cc:658
 msgid "Away mode on: "
 msgstr ""
 
@@ -3548,27 +3548,27 @@ msgstr ""
 msgid "CMD"
 msgstr ""
 
-#: linux/WulforUtil.cc:269
+#: linux/WulforUtil.cc:266
 msgid "CP1250 (Central Europe)"
 msgstr ""
 
-#: linux/WulforUtil.cc:278
+#: linux/WulforUtil.cc:275
 msgid "CP1251 (Cyrillic)"
 msgstr ""
 
-#: linux/WulforUtil.cc:268
+#: linux/WulforUtil.cc:265
 msgid "CP1252 (Western Europe)"
 msgstr ""
 
-#: linux/WulforUtil.cc:279
+#: linux/WulforUtil.cc:276
 msgid "CP1256 (Arabic)"
 msgstr ""
 
-#: linux/WulforUtil.cc:280
+#: linux/WulforUtil.cc:277
 msgid "CP1257 (Baltic)"
 msgstr ""
 
-#: linux/WulforUtil.cc:276
+#: linux/WulforUtil.cc:273
 msgid "CP949 (Korean)"
 msgstr ""
 
@@ -3584,7 +3584,7 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: linux/settingsmanager.cc:728
+#: linux/settingsmanager.cc:730
 msgid "Change setting "
 msgstr ""
 
@@ -3608,7 +3608,7 @@ msgstr ""
 msgid "Checking"
 msgstr ""
 
-#: linux/WulforUtil.cc:87
+#: linux/WulforUtil.cc:84
 msgid "Clean Mainchat"
 msgstr ""
 
@@ -3624,12 +3624,12 @@ msgstr ""
 msgid "Client Type"
 msgstr ""
 
-#: linux/bookentry.cc:296 linux/privatemessage.cc:1604 linux/search.cc:2227
+#: linux/bookentry.cc:289 linux/privatemessage.cc:1604 linux/search.cc:2223
 #: linux/sharebrowser.cc:1084
 msgid "Close"
 msgstr ""
 
-#: linux/hub.cc:4791
+#: linux/hub.cc:4799
 msgid "Close Hub"
 msgstr ""
 
@@ -3637,7 +3637,7 @@ msgstr ""
 msgid "Close chat"
 msgstr ""
 
-#: linux/bookentry.cc:104
+#: linux/bookentry.cc:100
 msgid "Close tab"
 msgstr ""
 
@@ -3658,7 +3658,7 @@ msgstr ""
 msgid "Command name already exists"
 msgstr ""
 
-#: linux/WulforUtil.cc:785
+#: linux/WulforUtil.cc:635
 msgid "Command send: "
 msgstr ""
 
@@ -3710,7 +3710,7 @@ msgstr ""
 msgid "Copy Nick(s)"
 msgstr ""
 
-#: linux/hub.cc:4786
+#: linux/hub.cc:4794
 msgid "Copy URL"
 msgstr ""
 
@@ -3804,12 +3804,12 @@ msgid "Download failed: "
 msgstr ""
 
 #: linux/settingsdialog.cc:1210 linux/settingsdialog.cc:1392
-#: linux/settingsmanager.cc:253 linux/transfers.cc:1135
+#: linux/settingsmanager.cc:255 linux/transfers.cc:1135
 msgid "Download finished"
 msgstr ""
 
 #: linux/settingsdialog.cc:1211 linux/settingsdialog.cc:1396
-#: linux/settingsmanager.cc:255
+#: linux/settingsmanager.cc:257
 msgid "Download finished file list"
 msgstr ""
 
@@ -3845,7 +3845,7 @@ msgstr ""
 msgid "Download starting: "
 msgstr ""
 
-#: linux/mainwindow.cc:942
+#: linux/mainwindow.cc:939
 msgid "Download: "
 msgstr ""
 
@@ -3886,7 +3886,7 @@ msgstr ""
 msgid "Emotion packs"
 msgstr ""
 
-#: linux/mainwindow.cc:1108
+#: linux/mainwindow.cc:1105
 msgid "Empty hub address specified"
 msgstr ""
 
@@ -3944,11 +3944,11 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: linux/settingsmanager.cc:731
+#: linux/settingsmanager.cc:733
 msgid "Error: params have been not 2!"
 msgstr ""
 
-#: linux/settingsmanager.cc:727
+#: linux/settingsmanager.cc:729
 msgid "Error: setting not found!"
 msgstr ""
 
@@ -3965,7 +3965,7 @@ msgstr ""
 #: linux/downloadqueue.cc:75 linux/downloadqueue.cc:90
 #: linux/downloadqueue.cc:282 linux/downloadqueue.cc:389 linux/search.cc:111
 #: linux/search.cc:137 linux/search.cc:235 linux/search.cc:715
-#: linux/search.cc:770 linux/search.cc:2152 linux/search.cc:2203
+#: linux/search.cc:770 linux/search.cc:2148 linux/search.cc:2199
 #: linux/sharebrowser.cc:85 linux/sharebrowser.cc:106 linux/sharebrowser.cc:301
 #: linux/sharebrowser.cc:341
 msgid "Exact Size"
@@ -3975,7 +3975,7 @@ msgstr ""
 msgid "Execute Bash chunk"
 msgstr ""
 
-#: linux/WulforUtil.cc:94
+#: linux/WulforUtil.cc:91
 msgid "Execution of alias A"
 msgstr ""
 
@@ -4046,12 +4046,12 @@ msgid "Favorite hub removed"
 msgstr ""
 
 #: linux/settingsdialog.cc:1216 linux/settingsdialog.cc:1412
-#: linux/settingsmanager.cc:263
+#: linux/settingsmanager.cc:265
 msgid "Favorite user joined"
 msgstr ""
 
 #: linux/settingsdialog.cc:1217 linux/settingsdialog.cc:1416
-#: linux/settingsmanager.cc:265
+#: linux/settingsmanager.cc:267
 msgid "Favorite user quit"
 msgstr ""
 
@@ -4062,6 +4062,10 @@ msgstr ""
 
 #: linux/detectiontab.cc:1245
 msgid "Fields Name, ID and detection fields are required"
+msgstr ""
+
+#: linux/ShellCommand.cc:25
+msgid "File doesn't executable"
 msgstr ""
 
 #: linux/ShellCommand.cc:20
@@ -4114,7 +4118,7 @@ msgstr ""
 msgid "Full tree does not match TTH root"
 msgstr ""
 
-#: linux/WulforUtil.cc:281
+#: linux/WulforUtil.cc:278
 msgid "GB18030 (Chinese)"
 msgstr ""
 
@@ -4165,7 +4169,7 @@ msgstr ""
 msgid "Highlightings"
 msgstr ""
 
-#: linux/settingsmanager.cc:401
+#: linux/settingsmanager.cc:403
 msgid "Highliting"
 msgstr ""
 
@@ -4179,7 +4183,7 @@ msgstr ""
 msgid "Hub (last seen in, if offline)"
 msgstr ""
 
-#: linux/settingsmanager.cc:404
+#: linux/settingsmanager.cc:406
 msgid "Hub Chat"
 msgstr ""
 
@@ -4197,12 +4201,12 @@ msgid "Hub address"
 msgstr ""
 
 #: linux/settingsdialog.cc:1214 linux/settingsdialog.cc:1404
-#: linux/settingsmanager.cc:261
+#: linux/settingsmanager.cc:263
 msgid "Hub connected"
 msgstr ""
 
 #: linux/settingsdialog.cc:1215 linux/settingsdialog.cc:1408
-#: linux/settingsmanager.cc:259
+#: linux/settingsmanager.cc:261
 msgid "Hub disconnected"
 msgstr ""
 
@@ -4226,23 +4230,23 @@ msgstr ""
 msgid "IP: "
 msgstr ""
 
-#: linux/WulforUtil.cc:274
+#: linux/WulforUtil.cc:271
 msgid "ISO-2022-JP (Japanese)"
 msgstr ""
 
-#: linux/WulforUtil.cc:270
+#: linux/WulforUtil.cc:267
 msgid "ISO-8859-2 (Central Europe)"
 msgstr ""
 
-#: linux/WulforUtil.cc:271
+#: linux/WulforUtil.cc:268
 msgid "ISO-8859-7 (Greek)"
 msgstr ""
 
-#: linux/WulforUtil.cc:272
+#: linux/WulforUtil.cc:269
 msgid "ISO-8859-8 (Hebrew)"
 msgstr ""
 
-#: linux/WulforUtil.cc:273
+#: linux/WulforUtil.cc:270
 msgid "ISO-8859-9 (Turkish)"
 msgstr ""
 
@@ -4285,15 +4289,15 @@ msgstr ""
 msgid "Ignored User "
 msgstr ""
 
-#: linux/hub.cc:4587
+#: linux/hub.cc:4595
 msgid "Ignored message from User "
 msgstr ""
 
-#: linux/hub.cc:4628
+#: linux/hub.cc:4636
 msgid "Ignored private message from bot "
 msgstr ""
 
-#: linux/hub.cc:4621
+#: linux/hub.cc:4629
 msgid "Ignored private message from hub"
 msgstr ""
 
@@ -4301,7 +4305,7 @@ msgstr ""
 msgid "Invalid extension: "
 msgstr ""
 
-#: linux/WulforUtil.cc:872
+#: linux/WulforUtil.cc:722
 msgid "Invalid number of slots"
 msgstr ""
 
@@ -4333,7 +4337,7 @@ msgstr ""
 msgid "Join/part showing on"
 msgstr ""
 
-#: linux/WulforUtil.cc:277
+#: linux/WulforUtil.cc:274
 msgid "KOI8-R (Cyrillic)"
 msgstr ""
 
@@ -4347,7 +4351,7 @@ msgid ""
 "share size)"
 msgstr ""
 
-#: linux/WulforUtil.cc:91
+#: linux/WulforUtil.cc:88
 msgid "List Aliases"
 msgstr ""
 
@@ -4391,11 +4395,11 @@ msgstr ""
 msgid "Log Mainchat by default"
 msgstr ""
 
-#: linux/mainwindow.cc:1697
+#: linux/mainwindow.cc:1694
 msgid "Magnet Choice"
 msgstr ""
 
-#: linux/mainwindow.cc:1627
+#: linux/mainwindow.cc:1624
 msgid "Magnet Properties / Choice"
 msgstr ""
 
@@ -4416,8 +4420,8 @@ msgstr ""
 msgid "Max Users"
 msgstr ""
 
+#: linux/WulforUtil.cc:75 linux/WulforUtil.cc:76 linux/WulforUtil.cc:77
 #: linux/WulforUtil.cc:78 linux/WulforUtil.cc:79 linux/WulforUtil.cc:80
-#: linux/WulforUtil.cc:81 linux/WulforUtil.cc:82 linux/WulforUtil.cc:83
 msgid "Media Spam"
 msgstr ""
 
@@ -4474,7 +4478,7 @@ msgstr ""
 msgid "New search type"
 msgstr ""
 
-#: linux/hub.cc:4741
+#: linux/hub.cc:4749
 msgid "Nick already taken"
 msgstr ""
 
@@ -4535,7 +4539,7 @@ msgstr ""
 msgid "Notification"
 msgstr ""
 
-#: linux/WulforUtil.cc:231 linux/favoritehubs.cc:138 linux/favoritehubs.cc:766
+#: linux/WulforUtil.cc:228 linux/favoritehubs.cc:138 linux/favoritehubs.cc:766
 msgid "Offline"
 msgstr ""
 
@@ -4557,7 +4561,7 @@ msgstr ""
 msgid "Open Directory"
 msgstr ""
 
-#: linux/hub.cc:4859
+#: linux/hub.cc:4867
 msgid "Open Icon File to Set to Tab"
 msgstr ""
 
@@ -4616,7 +4620,7 @@ msgstr ""
 msgid "Predefined"
 msgstr ""
 
-#: linux/bookentry.cc:397
+#: linux/bookentry.cc:390
 msgid "Private Message"
 msgstr ""
 
@@ -4625,7 +4629,7 @@ msgid "Private Message (also sets urgency hint)"
 msgstr ""
 
 #: linux/hub.cc:2613 linux/settingsdialog.cc:1213 linux/settingsdialog.cc:1259
-#: linux/settingsdialog.cc:1400 linux/settingsmanager.cc:257
+#: linux/settingsdialog.cc:1400 linux/settingsmanager.cc:259
 msgid "Private message"
 msgstr ""
 
@@ -4650,15 +4654,15 @@ msgstr ""
 msgid "Rating"
 msgstr ""
 
-#: linux/WulforUtil.cc:86
+#: linux/WulforUtil.cc:83
 msgid "Rebuild Share"
 msgstr ""
 
-#: linux/hub.cc:4790
+#: linux/hub.cc:4798
 msgid "Reconnect this hub"
 msgstr ""
 
-#: linux/WulforUtil.cc:75
+#: linux/WulforUtil.cc:72
 msgid "Refresh share"
 msgstr ""
 
@@ -4674,11 +4678,11 @@ msgstr ""
 msgid "Remote client does not fully support TTH - cannot download"
 msgstr ""
 
-#: linux/WulforUtil.cc:92
+#: linux/WulforUtil.cc:89
 msgid "Remove Aliases A"
 msgstr ""
 
-#: linux/hub.cc:4788
+#: linux/hub.cc:4796
 msgid "Remove from Favorite hubs"
 msgstr ""
 
@@ -4702,7 +4706,7 @@ msgstr ""
 msgid "Running..."
 msgstr ""
 
-#: linux/WulforUtil.cc:275
+#: linux/WulforUtil.cc:272
 msgid "SJIS (Japanese)"
 msgstr ""
 
@@ -4715,15 +4719,15 @@ msgstr ""
 msgid "Search String"
 msgstr ""
 
-#: linux/WulforUtil.cc:95 linux/WulforUtil.cc:96
+#: linux/WulforUtil.cc:92 linux/WulforUtil.cc:93
 msgid "Search on Google"
 msgstr ""
 
-#: linux/WulforUtil.cc:97
+#: linux/WulforUtil.cc:94
 msgid "Search on imdb"
 msgstr ""
 
-#: linux/hub.cc:4748
+#: linux/hub.cc:4756
 msgid "Search spam detected from "
 msgstr ""
 
@@ -4782,7 +4786,7 @@ msgstr ""
 msgid "Set Color"
 msgstr ""
 
-#: linux/WulforUtil.cc:89
+#: linux/WulforUtil.cc:86
 msgid "Set GUI settings"
 msgstr ""
 
@@ -4790,11 +4794,11 @@ msgstr ""
 msgid "Set Hub to Bold everytime the content changes"
 msgstr ""
 
-#: linux/hub.cc:4914
+#: linux/hub.cc:4920
 msgid "Set Icon Aviable"
 msgstr ""
 
-#: linux/hub.cc:4918
+#: linux/hub.cc:4924
 msgid "Set Icon: "
 msgstr ""
 
@@ -4802,23 +4806,23 @@ msgstr ""
 msgid "Set Name"
 msgstr ""
 
-#: linux/WulforUtil.cc:76
+#: linux/WulforUtil.cc:73
 msgid "Set Slots to n"
 msgstr ""
 
-#: linux/WulforUtil.cc:879
+#: linux/WulforUtil.cc:729
 msgid "Set Slots to:"
 msgstr ""
 
-#: linux/hub.cc:4789
+#: linux/hub.cc:4797
 msgid "Set Tab Name"
 msgstr ""
 
-#: linux/WulforUtil.cc:71
+#: linux/WulforUtil.cc:68
 msgid "Set away mode"
 msgstr ""
 
-#: linux/WulforUtil.cc:90
+#: linux/WulforUtil.cc:87
 msgid "Set dcpp settings"
 msgstr ""
 
@@ -4830,15 +4834,15 @@ msgstr ""
 msgid "Set lowest priority for newly added files larger than low priority size"
 msgstr ""
 
-#: linux/WulforUtil.cc:72
+#: linux/WulforUtil.cc:69
 msgid "Set normal mode"
 msgstr ""
 
-#: linux/hub.cc:4900
+#: linux/hub.cc:4906
 msgid "Setting for a Tab Text"
 msgstr ""
 
-#: linux/bookentry.cc:409
+#: linux/bookentry.cc:402
 msgid "Share Browser"
 msgstr ""
 
@@ -4850,7 +4854,7 @@ msgstr ""
 msgid "Shared"
 msgstr ""
 
-#: linux/mainwindow.cc:1000
+#: linux/mainwindow.cc:997
 msgid "Shared: "
 msgstr ""
 
@@ -4882,7 +4886,7 @@ msgstr ""
 msgid "Show IP in chat"
 msgstr ""
 
-#: linux/WulforUtil.cc:88
+#: linux/WulforUtil.cc:85
 msgid "Show Leech stats"
 msgstr ""
 
@@ -4890,7 +4894,7 @@ msgstr ""
 msgid "Show Server Commands as Status Messages in Chat"
 msgstr ""
 
-#: linux/WulforUtil.cc:84
+#: linux/WulforUtil.cc:81
 msgid "Show df of disk(s)"
 msgstr ""
 
@@ -4898,7 +4902,7 @@ msgstr ""
 msgid "Show joins / parts in chat by default"
 msgstr ""
 
-#: linux/WulforUtil.cc:74
+#: linux/WulforUtil.cc:71
 msgid "Show ratio"
 msgstr ""
 
@@ -4906,7 +4910,7 @@ msgstr ""
 msgid "Show send /commands in status message"
 msgstr ""
 
-#: linux/WulforUtil.cc:77
+#: linux/WulforUtil.cc:74
 msgid "Show stats"
 msgstr ""
 
@@ -4922,7 +4926,7 @@ msgstr ""
 msgid "Show topic"
 msgstr ""
 
-#: linux/WulforUtil.cc:85
+#: linux/WulforUtil.cc:82
 msgid "Show uptime"
 msgstr ""
 
@@ -4953,12 +4957,12 @@ msgstr ""
 
 #: linux/hub.cc:93 linux/hub.cc:419 linux/hub.cc:640 linux/hub.cc:680
 #: linux/hub.cc:815 linux/hub.cc:844 linux/search.cc:108 linux/search.cc:138
-#: linux/search.cc:232 linux/search.cc:709 linux/search.cc:2149
-#: linux/search.cc:2200
+#: linux/search.cc:232 linux/search.cc:709 linux/search.cc:2145
+#: linux/search.cc:2196
 msgid "Slots"
 msgstr ""
 
-#: linux/mainwindow.cc:999
+#: linux/mainwindow.cc:996
 msgid "Slots: "
 msgstr ""
 
@@ -4975,7 +4979,7 @@ msgstr ""
 msgid "Source too slow"
 msgstr ""
 
-#: linux/WulforUtil.cc:933 linux/WulforUtil.cc:939
+#: linux/WulforUtil.cc:783 linux/WulforUtil.cc:789
 msgid "Specify a search string"
 msgstr ""
 
@@ -4992,7 +4996,7 @@ msgstr ""
 msgid "Speed: "
 msgstr ""
 
-#: linux/bookentry.cc:379
+#: linux/bookentry.cc:372
 msgid "Spy Search"
 msgstr ""
 
@@ -5054,7 +5058,7 @@ msgstr ""
 msgid "System message"
 msgstr ""
 
-#: linux/WulforUtil.cc:282
+#: linux/WulforUtil.cc:279
 msgid "TIS-620 (Thai)"
 msgstr ""
 
@@ -5063,11 +5067,11 @@ msgstr ""
 msgid "Tag"
 msgstr ""
 
-#: linux/hub.cc:4540
+#: linux/hub.cc:4548
 msgid "Temp Ignored User "
 msgstr ""
 
-#: linux/hub.cc:4911
+#: linux/hub.cc:4917
 msgid "Text: "
 msgstr ""
 
@@ -5079,7 +5083,7 @@ msgstr ""
 msgid "This hub is not a favorite hub"
 msgstr ""
 
-#: linux/mainwindow.cc:652
+#: linux/mainwindow.cc:649
 msgid "Throtle "
 msgstr ""
 
@@ -5118,7 +5122,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: linux/hub.cc:2677 linux/hub.cc:4762
+#: linux/hub.cc:2677 linux/hub.cc:4770
 msgid "Topic: "
 msgstr ""
 
@@ -5140,7 +5144,7 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
-#: linux/WulforUtil.cc:267
+#: linux/WulforUtil.cc:264
 msgid "UTF-8 (Unicode)"
 msgstr ""
 
@@ -5156,7 +5160,7 @@ msgstr ""
 msgid "Unable to load file list: Invalid file list name"
 msgstr ""
 
-#: linux/WulforUtil.cc:371 linux/WulforUtil.cc:373 linux/downloadqueue.cc:1306
+#: linux/WulforUtil.cc:358 linux/WulforUtil.cc:360 linux/downloadqueue.cc:1306
 #: linux/downloadqueue.cc:1307
 msgid "Unknown"
 msgstr ""
@@ -5197,7 +5201,7 @@ msgstr ""
 msgid "Upload starting..."
 msgstr ""
 
-#: linux/mainwindow.cc:942
+#: linux/mainwindow.cc:939
 msgid "Upload: "
 msgstr ""
 
@@ -5275,7 +5279,7 @@ msgstr ""
 msgid "User "
 msgstr ""
 
-#: linux/mainwindow.cc:1480
+#: linux/mainwindow.cc:1477
 msgid "User Commands Dialog"
 msgstr ""
 
@@ -5503,7 +5507,7 @@ msgstr ""
 msgid "Username: "
 msgstr ""
 
-#: linux/hub.cc:4785 linux/privatemessage.cc:1602
+#: linux/hub.cc:4793 linux/privatemessage.cc:1602
 msgid "Users Commands"
 msgstr ""
 
@@ -5623,15 +5627,15 @@ msgstr ""
 msgid "loading error"
 msgstr ""
 
-#: linux/mainwindow.cc:652
+#: linux/mainwindow.cc:649
 msgid "off"
 msgstr ""
 
-#: linux/mainwindow.cc:652
+#: linux/mainwindow.cc:649
 msgid "on"
 msgstr ""
 
-#: linux/WulforUtil.cc:829
+#: linux/WulforUtil.cc:679
 msgid "project home: "
 msgstr ""
 
