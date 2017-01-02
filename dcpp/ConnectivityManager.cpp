@@ -119,7 +119,7 @@ void ConnectivityManager::detectConnection() {
 
 	autoDetected = true;
 
-	if(!Util::isPrivateIp(Util::getLocalIp())) {
+	if(!Util::isPrivateIp(Util::getLocalIp(false))) {
 		autoSettings.insert(make_pair(SettingsManager::INCOMING_CONNECTIONS,std::make_tuple(false,SettingsManager::INCOMING_DIRECT,"")));
 		log(_("Public IP address detected, selecting active mode with direct connection"));
 		fire(ConnectivityManagerListener::Finished());

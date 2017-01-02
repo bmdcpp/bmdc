@@ -46,18 +46,11 @@
 #define ICON_SIZE_NORMAL 22
 
 
-//#if GTK_CHECK_VERSION(3,4,0)
-	#define g_c_b_g gtk_color_chooser_get_rgba
-	#define g_c_b_s gtk_color_chooser_set_rgba
-	#define G_C_B GTK_COLOR_CHOOSER
-	#define g_c_p(x,y) gdk_rgba_parse(y,x)
-/*#else
-	#define g_c_b_g gtk_color_button_get_color
-	#define g_c_b_s gtk_color_button_set_color
-	#define G_C_B GTK_COLOR_BUTTON
-	#define g_c_p(x,y) gdk_color_parse(x,y)
-#endif
-*/
+#define g_c_b_g gtk_color_chooser_get_rgba
+#define g_c_b_s gtk_color_chooser_set_rgba
+#define G_C_B GTK_COLOR_CHOOSER
+#define g_c_p(x,y) gdk_rgba_parse(y,x)
+
 using namespace std;
 using namespace dcpp;
 
@@ -309,7 +302,10 @@ void Settings::saveSettings_client()
 		else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("passiveRadioButton"))))
 			sm->set(SettingsManager::INCOMING_CONNECTIONS, SettingsManager::INCOMING_FIREWALL_PASSIVE);
 
-		sm->set(SettingsManager::EXTERNAL_IP, gtk_entry_get_text(GTK_ENTRY(getWidget("entryIpExt"))));//ipEntry
+		string ipv4 = gtk_entry_get_text(GTK_ENTRY(getWidget("entryIpExt")));
+		if(ipv4.length() >= 7)//@because empty is baaaaaaaaaaad
+			sm->set(SettingsManager::EXTERNAL_IP, ipv4);//ipEntry
+		
 		sm->set(SettingsManager::EXTERNAL_IP6, gtk_entry_get_text(GTK_ENTRY(getWidget("entryipv6"))));//ip6Entry
 
 		sm->set(SettingsManager::NO_IP_OVERRIDE, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("forceIPCheckButton"))));
