@@ -161,6 +161,7 @@ const string SettingsManager::settingTags[] =
 	"UseCountryFlag", "UseEmots",
 	"UseHighliting",
 	"UseSock5",
+	"NoIpOveride6",
 	"SENTRY",
 	// Int64
 	"TotalUpload", "TotalDownload","SharingSkiplistMinSize", "SharingSkiplistMaxSize",

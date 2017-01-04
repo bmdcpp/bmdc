@@ -28,8 +28,9 @@
 #endif
 
 //#ifdef BUILDING_DCPP
-
+#ifndef PACKAGE
 #define PACKAGE "libdcpp"
+#endif
 #define LOCALEDIR dcpp::Util::getPath(Util::PATH_LOCALE).c_str()
 #define F_(String) _(string(String).c_str())
 //#endif

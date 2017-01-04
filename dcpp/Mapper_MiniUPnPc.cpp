@@ -39,15 +39,16 @@ Mapper(move(localIp), v6)
 bool Mapper_MiniUPnPc::init() {
 	if(!url.empty())
 		return true;
-
+	
 	UPNPDev* devices = upnpDiscover(2000, localIp.empty() ? nullptr : localIp.c_str(), 0, 0, v6, '2', 0);
+	
 	if(!devices)
 		return false;
 
 	UPNPUrls urls;
 	IGDdatas data;
 
-	auto ret = UPNP_GetValidIGD(devices, &urls, &data, 0, 0);
+	int ret = UPNP_GetValidIGD(devices, &urls, &data, 0, 0);
 
 	bool ok = ret == 1;
 	if(ok) {

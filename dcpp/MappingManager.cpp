@@ -92,8 +92,8 @@ void MappingManager::close(bool v6) {
 			pMapper.reset();
 		}
 	};
-	if(!v6) { closeWorkingMapper(working4); }
-	if(v6) { closeWorkingMapper(working6); }
+	if(!v6 ) { closeWorkingMapper(working4); }
+	if(v6 ) { closeWorkingMapper(working6); }
 }
 
 bool MappingManager::getOpened(bool v6) const {
@@ -104,7 +104,8 @@ string MappingManager::getStatus(bool v6) const {
 	auto& pMapper = v6 ? working6 : working4;
 	if(pMapper.get()) {
 		auto& mapper = *pMapper;
-		return autosprintf(_("Successfully created port mappings on the %s device with the %s interface"),deviceString(mapper).c_str(),mapper.getName().c_str());
+		return autosprintf(_("Successfully created port mappings on the %s device with the %s interface") ,
+			deviceString(mapper).c_str(),mapper.getName().c_str());
 	}
 	return _("Failed to create port mappings");
 }
@@ -113,10 +114,10 @@ int MappingManager::run() {
 	ScopedFunctor([this] { busy.clear(); });
 
 	// cache ports
-	unsigned int
-		conn_port = ConnectionManager::getInstance()->getPort(),
-		secure_port = ConnectionManager::getInstance()->getSecurePort(),
-		search_port = SearchManager::getInstance()->getPort();
+	string
+		conn_port = Util::toString(ConnectionManager::getInstance()->getPort()),
+		secure_port = Util::toString(ConnectionManager::getInstance()->getSecurePort()),
+		search_port = Util::toString(SearchManager::getInstance()->getPort());
 
 	/** @todo for now renewal is only supported for IPv4 port mappers, which is fine since it is
 	 * for NAT-PMP which has not yet been ported to IPv6. */
@@ -133,21 +134,21 @@ int MappingManager::run() {
 		auto addRule = [this, &mapper](const string& port, Mapper::Protocol protocol, const string& description) {
 			// just launch renewal requests - don't bother with possible failures.
 			if(!port.empty()) {
-				mapper.open(port, protocol, autosprintf(_("%s %s port (%s %s)"), 
-					string(APPNAME).c_str(), description.c_str(), port.c_str(), Mapper::protocols[protocol]));
+				mapper.open(port, protocol, autosprintf(_("%s %s port (%s %s)") ,
+					string(APPNAME).c_str() , description.c_str(), port.c_str() ,Mapper::protocols[protocol]));
 			}
 		};
 
-		addRule(Util::toString(conn_port), Mapper::PROTOCOL_TCP, _("Transfer"));
-		addRule(Util::toString(secure_port), Mapper::PROTOCOL_TCP, _("Encrypted transfer"));
-		addRule(Util::toString(search_port), Mapper::PROTOCOL_UDP, _("Search"));
+		addRule(conn_port, Mapper::PROTOCOL_TCP, _("Transfer"));
+		addRule(secure_port, Mapper::PROTOCOL_TCP, _("Encrypted transfer"));
+		addRule(search_port, Mapper::PROTOCOL_UDP, _("Search"));
 
 		renewLater(mapper);
 		return 0;
 	}
 
-	if(needsV4PortMap) { runPortMapping(false, Util::toString(conn_port), Util::toString(secure_port), Util::toString(search_port)); }
-	if(needsV6PortMap) { runPortMapping(true, Util::toString(conn_port), Util::toString(secure_port), Util::toString(search_port)); }
+	if(needsV4PortMap) { runPortMapping(false, conn_port, secure_port, search_port); }
+	if(needsV6PortMap) { runPortMapping(true, conn_port, secure_port, search_port); }
 
 	ConnectivityManager::getInstance()->mappingFinished("");
 
@@ -179,16 +180,16 @@ void MappingManager::runPortMapping(
 
 		ScopedFunctor([&mapper] { mapper.uninit(); });
 		if(!mapper.init()) {
-			log(autosprintf(_("Failed to initialize the %s interface"),mapper.getName().c_str()), v6);
+			log(autosprintf(_("Failed to initialize the %s interface") ,mapper.getName().c_str()), v6);
 			continue;
 		}
 
 		auto addRule = [this, v6, &mapper](const string& port, Mapper::Protocol protocol, const string& description) -> bool {
-			if(!port.empty() && !mapper.open(port, protocol, autosprintf(_("%s %s port (%s %s)") ,
-				string(APPNAME).c_str(),description.c_str() ,port.c_str(),Mapper::protocols[protocol])))
+			if(!port.empty() && !mapper.open(port, protocol, autosprintf(_("%s %s port (%s %s)"), 
+				string(APPNAME).c_str() , description.c_str() , port.c_str() , Mapper::protocols[protocol])))
 			{
-				this->log(autosprintf(_("Failed to map the %s port (%s %s) with the %s interface") ,
-					description.c_str(),port.c_str(), Mapper::protocols[protocol] , mapper.getName().c_str()), v6);
+				this->log(autosprintf(_("Failed to map the %s port (%s %s) with the %s interface"),
+					description.c_str() , port.c_str() , Mapper::protocols[protocol] , mapper.getName().c_str()), v6);
 				mapper.close();
 				return false;
 			}
@@ -200,12 +201,12 @@ void MappingManager::runPortMapping(
 			addRule(search_port, Mapper::PROTOCOL_UDP, _("Search"))))
 			continue;
 
-		log(autosprintf(_("Successfully created port mappings (Transfers: %d, Encrypted transfers: %d, Search: %d) on the %s device with the %s interface"),
-			conn_port.c_str(),secure_port.c_str(),search_port.c_str(),deviceString(mapper).c_str(), mapper.getName().c_str()), v6);
+		log(autosprintf(_("Successfully created port mappings (Transfers: %s, Encrypted transfers: %s, Search: %s) on the %s device with the %s interface") ,
+			conn_port.c_str() , secure_port.c_str() , search_port.c_str() , deviceString(mapper).c_str() , mapper.getName().c_str()), v6);
 
 		(v6 ? working6 : working4) = move(pMapper);
 
-		if((!v6 && !CONNSETTING(NO_IP_OVERRIDE)) || (v6 && !CONNSETTING(NO_IP_OVERRIDE))) {//todo6
+		if((!v6 && !CONNSETTING(NO_IP_OVERRIDE)) || (v6 && !CONNSETTING(NO_IP_OVERRIDE6))) {
 			auto setting = v6 ? SettingsManager::EXTERNAL_IP6 : SettingsManager::EXTERNAL_IP;
 			string externalIP = mapper.getExternalIP();
 			if(!externalIP.empty()) {
@@ -216,7 +217,7 @@ void MappingManager::runPortMapping(
 			}
 		}
 
-		ConnectivityManager::getInstance()->mappingFinished(mapper.getName());
+		ConnectivityManager::getInstance()->mappingFinished(mapper.getName() + string(v6 ? "IPv6": "IPv4"));
 
 		renewLater(mapper);
 		break;
@@ -224,7 +225,7 @@ void MappingManager::runPortMapping(
 
 	if(!getOpened(v6)) { 
 		log(_("Failed to create port mappings"), v6); 
-		ConnectivityManager::getInstance()->mappingFinished(Util::emptyString);
+		ConnectivityManager::getInstance()->mappingFinished(_("Failed to create port mappings"));
 	}
 }
 
@@ -233,13 +234,13 @@ void MappingManager::close(Mapper& mapper) {
 		bool ret = mapper.init() && mapper.close();
 		mapper.uninit();
 		log(ret ?
-			autosprintf(_("Successfully removed port mappings from the %s device with the %s interface"),deviceString(mapper).c_str(), mapper.getName().c_str()) :
-			autosprintf(_("Failed to remove port mappings from the %s device with the %s interface") ,deviceString(mapper).c_str(),mapper.getName().c_str()));
+			autosprintf(_("Successfully removed port mappings from the %s device with the %s interface") ,deviceString(mapper).c_str(),mapper.getName().c_str()) :
+			autosprintf(_("Failed to remove port mappings from the %s device with the %s interface") , deviceString(mapper).c_str() , mapper.getName().c_str()));
 	}
 }
 
 void MappingManager::log(const string& message, bool v6) {
-	ConnectivityManager::getInstance()->log(autosprintf(_("Port mapping: %s, %d") ,message.c_str(),v6));
+	ConnectivityManager::getInstance()->log(autosprintf(_("Port mapping: %s , %d") ,message.c_str(), v6));
 }
 
 string MappingManager::deviceString(Mapper& mapper) const {

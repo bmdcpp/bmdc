@@ -47,6 +47,7 @@ public:
 class SettingsManager : public Singleton<SettingsManager>, public Speaker<SettingsManagerListener>
 {
 public:
+	//const string name = "MainConfig";
 	typedef std::unordered_map<string, StringList> SearchTypes;
 
 	enum Types {
@@ -198,7 +199,7 @@ public:
 		USE_COUNTRY_FLAG, USE_EMOTS,
 		USE_HIGHLITING,
 		USE_SOCK5,
-		
+		NO_IP_OVERRIDE6,
 		BOOL_LAST };
 
 	enum Int64Setting { INT64_FIRST = BOOL_LAST + 1,

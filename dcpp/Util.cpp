@@ -568,10 +568,10 @@ string Util::formatExactSize(const int64_t aBytes) {
 }
 
 string Util::getLocalIp(bool IsIPv6) {
-	const string& bindAddr = CONNSETTING(BIND_ADDRESS);
-	if(!bindAddr.empty() && bindAddr != SettingsManager::getInstance()->getDefault(SettingsManager::BIND_ADDRESS)) {
-		return bindAddr;
-	}
+	//const string& bindAddr = CONNSETTING(BIND_ADDRESS);
+	//if(!bindAddr.empty() && bindAddr != SettingsManager::getInstance()->getDefault(SettingsManager::BIND_ADDRESS)) {
+	//	return bindAddr;
+	//}
 	//string tmp;
 	struct addrinfo hints;
 	memset(&hints, 0, sizeof(addrinfo));

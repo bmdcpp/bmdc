@@ -326,7 +326,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		conf.env['HAVE_CANBERRA_LIB'] = 1
 
 	# Check for MiniUPnPc
-	if not conf.CheckLib('libminiupnpc'):
+	#if not conf.CheckLib('libminiupnpc'):
 		LIB_IS_UPNP = False
 	# Check for natpmp
 	if not conf.CheckLib('libnatpmp'):
