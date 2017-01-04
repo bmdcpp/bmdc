@@ -247,6 +247,13 @@ target_compile_options(dcpp PUBLIC
 	${GEOIP_CFLAGS}
 )
 
+IF (HAVE_LOCAL_MINIUPNPC)
+
+target_compile_definitions(dcpp PRIVATE
+"-DHAVE_LOCAL_MINIUPNPC=1"
+)
+ENDIF (HAVE_LOCAL_MINIUPNPC)
+
 target_include_directories(dcpp PUBLIC
 	${CMAKE_BINARY_DIR}
 	${CMAKE_BINARY_DIR}/src

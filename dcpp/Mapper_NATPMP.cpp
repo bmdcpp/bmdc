@@ -34,8 +34,15 @@ extern "C" {
 #if defined(_WIN32) && !defined(WIN32)
 #define WIN32
 #endif
+
+//#define HAVE_LOCAL_MINIUPNPC 1
+#ifdef HAVE_LOCAL_MINIUPNPC
+#include "../natpmp/getgateway.h"
+#include "../natpmp/natpmp.h"
+#else
 #include <natpmp/getgateway.h>
 #include <natpmp/natpmp.h>
+#endif
 }
 
 ///@todo should bind to the local IP

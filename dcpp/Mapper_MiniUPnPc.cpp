@@ -23,8 +23,14 @@ extern "C" {
 #ifndef MINIUPNP_STATICLIB
 #define MINIUPNP_STATICLIB
 #endif
+//#define HAVE_LOCAL_MINIUPNPC 1
+#ifdef HAVE_LOCAL_MINIUPNPC
+#include "../miniupnpc/miniupnpc.h"
+#include "../miniupnpc/upnpcommands.h"
+#else
 #include <miniupnpc/miniupnpc.h>
 #include <miniupnpc/upnpcommands.h>
+#endif
 }
 
 namespace dcpp {

@@ -170,11 +170,11 @@ void Client::connect() {
 void Client::send(const char* aMessage, size_t aLen) {
 	if(!isConnected()) {
 		dcassert(0);
-		dcdebug("\nno connected");
+		//dcdebug("\nno connected");
 		LogManager::getInstance()->message("Not Connected returning", LogManager::Sev::LOW);
 		return;
 	}
-	dcdebug("\nPlugins");
+	//dcdebug("\nPlugins");
 #if 0	
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_OUT, this, aMessage))
 		return;
