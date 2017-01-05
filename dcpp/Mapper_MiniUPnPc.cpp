@@ -19,6 +19,8 @@
 #include "stdinc.h"
 #include "Mapper_MiniUPnPc.h"
 
+#include "debug.h"
+
 extern "C" {
 #ifndef MINIUPNP_STATICLIB
 #define MINIUPNP_STATICLIB
@@ -75,8 +77,12 @@ void Mapper_MiniUPnPc::uninit() {
 }
 
 bool Mapper_MiniUPnPc::add(const string& port, const Protocol protocol, const string& description) {
-	return UPNP_AddPortMapping(url.c_str(), service.c_str(), port.c_str(), port.c_str(),
-		localIp.c_str(), description.c_str(), protocols[protocol], 0, 0) == UPNPCOMMAND_SUCCESS;
+	dcdebug("\nMINIUPPNC income %s , %s\n",port.c_str() ,protocols[protocol] );
+	
+	int x = UPNP_AddPortMapping(url.c_str(), service.c_str(), port.c_str(), port.c_str(),
+		localIp.c_str(), description.c_str(), protocols[protocol], 0, 0);
+		dcdebug("\nMINIUPPNC %d\n",x );
+	return (x == UPNPCOMMAND_SUCCESS);
 }
 
 bool Mapper_MiniUPnPc::remove(const string& port, const Protocol protocol) {

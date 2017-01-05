@@ -155,9 +155,7 @@ int MappingManager::run() {
 	return 0;
 }
 
-void MappingManager::runPortMapping(
-	bool v6, const string& conn_port, const string& secure_port, const string& search_port
-) {
+void MappingManager::runPortMapping(bool v6, const string& conn_port, const string& secure_port, const string& search_port) {
 	auto& mappers = v6 ? mappers6 : mappers4;
 
 	// move the preferred mapper to the top of the stack.

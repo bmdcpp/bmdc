@@ -568,10 +568,10 @@ string Util::formatExactSize(const int64_t aBytes) {
 }
 
 string Util::getLocalIp(bool IsIPv6) {
-	//const string& bindAddr = CONNSETTING(BIND_ADDRESS);
-	//if(!bindAddr.empty() && bindAddr != SettingsManager::getInstance()->getDefault(SettingsManager::BIND_ADDRESS)) {
-	//	return bindAddr;
-	//}
+	const string& bindAddr = CONNSETTING(BIND_ADDRESS);
+	if(!bindAddr.empty() && bindAddr != SettingsManager::getInstance()->getDefault(SettingsManager::BIND_ADDRESS)) {
+		return bindAddr;
+	}
 	//string tmp;
 	struct addrinfo hints;
 	memset(&hints, 0, sizeof(addrinfo));
@@ -592,8 +592,9 @@ string Util::getLocalIp(bool IsIPv6) {
 				#else
 				inet_ntop(AF_INET,&((struct sockaddr_in *)res->ai_addr)->sin_addr,buf,sizeof(buf));
 				#endif
-				if(!Util::isPrivateIp(buf) || strncmp(buf, "169.254", 7) != 0)
+				if(Util::isPrivateIp(buf) || strncmp(buf, "169.254", 7) == 0)
 				{
+					//local ip can be private ip or 169.254.x?
 					break;
 				}
 			}
@@ -604,13 +605,14 @@ string Util::getLocalIp(bool IsIPv6) {
 				#else
 				inet_ntop(AF_INET6, &((struct sockaddr_in6 *)res->ai_addr)->sin6_addr, buf, sizeof(buf));
 				#endif
-				if(strncmp(buf,"fe80",4)==0) continue;
+				//local ip is fe80 for IPv6
+				if(strncmp(buf,"fe80",4) == 0) break;
 
 			}
 		}
 		return buf;
 	}
-	return emptyString;
+	return string();
 /*	string tmp;
 
 	char buf[256];
