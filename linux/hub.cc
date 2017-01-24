@@ -457,7 +457,6 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 			return;
 
 		string color;
-		string sizeString;
 
 		string nick = hub->nickView.getString(iter,_("Nick"),model);
 		uint64_t size = hub->nickView.getValue<gint64>(iter,_("Shared"),model);
@@ -537,7 +536,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		if(isSet == false) {
 			g_object_set(cell,"cell-background-set",TRUE,"cell-background",color.c_str(),NULL);
 		}
-		
+		string sizeString;
 		gchar *title = const_cast<gchar*>(gtk_tree_view_column_get_title(column));
 
 		if(strcmp(title,_("Shared")) == 0)
@@ -1149,8 +1148,11 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg, strin
 	{
 			string _line = Text::toUtf8(line,client->getEncoding());
 			line = _line;
+			
 	}
-
+	//this need been here?
+	//line += "\n";
+	
 	gtk_text_buffer_get_end_iter(chatBuffer, &iter);
 	gtk_text_buffer_insert(chatBuffer, &iter, line.c_str(), line.size());
 
@@ -1215,7 +1217,7 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 	if (client && client->get(SettingsManager::TIME_STAMPS,SETTING(TIME_STAMPS)))
 	{
 		gtk_text_iter_backward_chars(&start_iter,
-			g_utf8_strlen(line.c_str(), -1) - g_utf8_strlen(Util::getShortTimeString().c_str(), -1) - 2);
+			g_utf8_strlen(line.c_str(), -1) - g_utf8_strlen(Util::getShortTimeString().c_str(), -1) - 3);
 
 		GtkTextIter ts_start_iter, ts_end_iter;
 		ts_end_iter = start_iter;
@@ -1231,9 +1233,11 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 	//
 	if( ( (!sCountry.empty()) &&  client && client->get(SettingsManager::GET_USER_COUNTRY,SETTING(GET_USER_COUNTRY))) )	
 	{	
+		gtk_text_buffer_get_end_iter(chatBuffer,&start_iter);
 		//GtkTextIter iter = start_iter;
-		gtk_text_iter_starts_line (&start_iter);
-		gtk_text_iter_forward_char (&start_iter);
+		//gtk_text_iter_starts_line (&start_iter);
+		//gtk_text_iter_forward_char (&start_iter);
+		gtk_text_iter_backward_to_tag_toggle(&start_iter,TagsMap[Tag::TAG_TIMESTAMP]);
 		gtk_text_buffer_insert_pixbuf(chatBuffer,&start_iter,WulforUtil::LoadCountryPixbuf(sCountry));
 
 	}

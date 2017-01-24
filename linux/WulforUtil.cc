@@ -545,7 +545,8 @@ void WulforUtil::copyValue_gui(GtkTreeStore *store, GtkTreeIter *fromIter, GtkTr
 void WulforUtil::registerIcons()
 {
 	icon_theme = gtk_icon_theme_get_default ();
-			#ifdef _WIN32
+		
+		#ifdef _WIN32
 			#undef _DATADIR
 			#define _DATADIR "%s"
 			gchar buf[256];

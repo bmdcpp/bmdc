@@ -2973,6 +2973,7 @@ int MainWindow::TTHHash::run()
 				tth.finalize();
 				f.close();
 				strcpy(&TTH[0], tth.getRoot().toBase32().c_str());
+				//TTH = tth.getRoot().toBase32();
 
 				typedef Func3<MainWindow, std::string, std::string, int64_t> F3;
 				F3 *func = new F3(mw,&MainWindow::back,TTH,filename,sized);
