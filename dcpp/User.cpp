@@ -503,7 +503,7 @@ string Identity::getDetectionField(const string& aName) const {
 map<string, string> Identity::getReport() const
 {
     map<string, string> reportSet;
-	string sid = getSIDString();
+	string sid_str = getSIDString();
 	{
 		FastLock l(cs);
 		for(auto i = info.begin(); i != info.end(); ++i) {
@@ -547,7 +547,7 @@ map<string, string> Identity::getReport() const
 				case TAG('R','F'): name = "Refferer url"; break;
 				case TAG('R','S'): name = "Shared bytes - real"; value = Util::formatExactSize(Util::toInt64(value)); break;
 				case TAG('S','F'): name = "Shared files"; break;
-				case TAG('S','I'): name = "Session ID"; value = sid; break;
+				case TAG('S','I'): name = "Session ID"; value = sid_str; break;
 				case TAG('S','L'): name = "Slots"; break;
 				case TAG('S','S'): name = "Shared bytes - reported"; value = Util::formatExactSize(Util::toInt64(value)); break;
 				case TAG('S','U'): name = "Supports"; break;

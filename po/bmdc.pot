@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2017-01-22 15:11+0100\n"
+"POT-Creation-Date: 2017-01-28 14:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1357,8 +1357,8 @@ msgstr ""
 #: linux/sharebrowser.cc:292 linux/sharebrowser.cc:323
 #: linux/sharebrowser.cc:521 linux/sharebrowser.cc:621
 #: linux/sharebrowser.cc:980 linux/sharebrowser.cc:1014 linux/transfers.cc:69
-#: linux/transfers.cc:720 linux/transfers.cc:760 linux/transfers.cc:766
-#: linux/transfers.cc:930 linux/transfers.cc:932 linux/transfers.cc:934
+#: linux/transfers.cc:716 linux/transfers.cc:756 linux/transfers.cc:762
+#: linux/transfers.cc:926 linux/transfers.cc:928 linux/transfers.cc:930
 msgid "Filename"
 msgstr ""
 
@@ -2097,8 +2097,8 @@ msgstr ""
 #: linux/search.cc:1364 linux/search.cc:1421 linux/search.cc:1486
 #: linux/search.cc:1778 linux/search.cc:1794 linux/search.cc:1795
 #: linux/search.cc:1796 linux/search.cc:2059 linux/search.cc:2144
-#: linux/search.cc:2195 linux/transfers.cc:71 linux/transfers.cc:767
-#: linux/transfers.cc:937
+#: linux/search.cc:2195 linux/transfers.cc:71 linux/transfers.cc:763
+#: linux/transfers.cc:933
 msgid "Path"
 msgstr ""
 
@@ -2604,9 +2604,9 @@ msgstr ""
 #: linux/settingsdialog.cc:1079 linux/settingsdialog.cc:1085
 #: linux/settingsdialog.cc:4318 linux/settingsdialog.cc:4387
 #: linux/sharebrowser.cc:82 linux/sharebrowser.cc:105 linux/sharebrowser.cc:300
-#: linux/sharebrowser.cc:340 linux/transfers.cc:70 linux/transfers.cc:593
-#: linux/transfers.cc:674 linux/transfers.cc:768 linux/transfers.cc:785
-#: linux/transfers.cc:938
+#: linux/sharebrowser.cc:340 linux/transfers.cc:70 linux/transfers.cc:591
+#: linux/transfers.cc:671 linux/transfers.cc:764 linux/transfers.cc:781
+#: linux/transfers.cc:934
 msgid "Size"
 msgstr ""
 
@@ -3224,7 +3224,7 @@ msgstr ""
 msgid " to "
 msgstr ""
 
-#: linux/transfers.cc:631
+#: linux/transfers.cc:628
 msgid " user(s)"
 msgstr ""
 
@@ -3236,7 +3236,7 @@ msgstr ""
 msgid " users"
 msgstr ""
 
-#: linux/transfers.cc:631
+#: linux/transfers.cc:628
 msgid "%) from "
 msgstr ""
 
@@ -3674,11 +3674,11 @@ msgstr ""
 msgid "Connect failed: "
 msgstr ""
 
-#: linux/hub.cc:4376 linux/transfers.cc:1074
+#: linux/hub.cc:4376 linux/transfers.cc:1070
 msgid "Connected"
 msgstr ""
 
-#: linux/transfers.cc:1110
+#: linux/transfers.cc:1106
 msgid "Connecting"
 msgstr ""
 
@@ -3690,7 +3690,7 @@ msgstr ""
 msgid "Connecting to "
 msgstr ""
 
-#: linux/transfers.cc:1063
+#: linux/transfers.cc:1059
 msgid "Connecting..."
 msgstr ""
 
@@ -3795,7 +3795,7 @@ msgstr ""
 msgid "Download begins"
 msgstr ""
 
-#: linux/transfers.cc:1023
+#: linux/transfers.cc:1019
 msgid "Download complete..."
 msgstr ""
 
@@ -3804,7 +3804,7 @@ msgid "Download failed: "
 msgstr ""
 
 #: linux/settingsdialog.cc:1206 linux/settingsdialog.cc:1388
-#: linux/settingsmanager.cc:255 linux/transfers.cc:1135
+#: linux/settingsmanager.cc:255 linux/transfers.cc:1131
 msgid "Download finished"
 msgstr ""
 
@@ -3833,11 +3833,11 @@ msgstr ""
 msgid "Download limit image: 0 - disable, n < 0 - unlimit, empty - info"
 msgstr ""
 
-#: linux/transfers.cc:1144
+#: linux/transfers.cc:1140
 msgid "Download removed"
 msgstr ""
 
-#: linux/transfers.cc:975
+#: linux/transfers.cc:971
 msgid "Download starting..."
 msgstr ""
 
@@ -3854,7 +3854,7 @@ msgstr ""
 msgid "Downloaded"
 msgstr ""
 
-#: linux/transfers.cc:626 linux/transfers.cc:1008
+#: linux/transfers.cc:623 linux/transfers.cc:1004
 msgid "Downloaded "
 msgstr ""
 
@@ -4072,7 +4072,7 @@ msgstr ""
 msgid "File doesn't exist"
 msgstr ""
 
-#: linux/transfers.cc:720 linux/transfers.cc:930
+#: linux/transfers.cc:716 linux/transfers.cc:926
 msgid "File list"
 msgstr ""
 
@@ -4191,8 +4191,8 @@ msgstr ""
 msgid "Hub IP & port"
 msgstr ""
 
-#: linux/transfers.cc:65 linux/transfers.cc:545 linux/transfers.cc:611
-#: linux/transfers.cc:642 linux/transfers.cc:918 linux/transfers.cc:936
+#: linux/transfers.cc:65 linux/transfers.cc:545 linux/transfers.cc:608
+#: linux/transfers.cc:639 linux/transfers.cc:914 linux/transfers.cc:932
 msgid "Hub Name"
 msgstr ""
 
@@ -4694,7 +4694,7 @@ msgstr ""
 msgid "Rename a search type"
 msgstr ""
 
-#: linux/transfers.cc:962
+#: linux/transfers.cc:958
 msgid "Requesting"
 msgstr ""
 
@@ -4985,10 +4985,10 @@ msgstr ""
 
 #: linux/finishedtransfers.cc:60 linux/finishedtransfers.cc:80
 #: linux/finishedtransfers.cc:186 linux/finishedtransfers.cc:230
-#: linux/transfers.cc:68 linux/transfers.cc:607 linux/transfers.cc:643
-#: linux/transfers.cc:674 linux/transfers.cc:822 linux/transfers.cc:940
-#: linux/transfers.cc:1025 linux/transfers.cc:1045 linux/transfers.cc:1096
-#: linux/transfers.cc:1201 linux/transfers.cc:1215
+#: linux/transfers.cc:68 linux/transfers.cc:604 linux/transfers.cc:640
+#: linux/transfers.cc:671 linux/transfers.cc:818 linux/transfers.cc:936
+#: linux/transfers.cc:1021 linux/transfers.cc:1041 linux/transfers.cc:1092
+#: linux/transfers.cc:1197 linux/transfers.cc:1211
 msgid "Speed"
 msgstr ""
 
@@ -5020,12 +5020,12 @@ msgstr ""
 #: linux/favoritehubs.cc:49 linux/favoritehubs.cc:138 linux/favoritehubs.cc:766
 #: linux/searchspy.cc:57 linux/searchspy.cc:293 linux/searchspy.cc:375
 #: linux/transfers.cc:66 linux/transfers.cc:419 linux/transfers.cc:452
-#: linux/transfers.cc:546 linux/transfers.cc:635 linux/transfers.cc:645
-#: linux/transfers.cc:820 linux/transfers.cc:962 linux/transfers.cc:975
-#: linux/transfers.cc:1010 linux/transfers.cc:1023 linux/transfers.cc:1042
-#: linux/transfers.cc:1063 linux/transfers.cc:1074 linux/transfers.cc:1093
-#: linux/transfers.cc:1110 linux/transfers.cc:1112 linux/transfers.cc:1153
-#: linux/transfers.cc:1186 linux/transfers.cc:1199 linux/transfers.cc:1212
+#: linux/transfers.cc:546 linux/transfers.cc:632 linux/transfers.cc:642
+#: linux/transfers.cc:816 linux/transfers.cc:958 linux/transfers.cc:971
+#: linux/transfers.cc:1006 linux/transfers.cc:1019 linux/transfers.cc:1038
+#: linux/transfers.cc:1059 linux/transfers.cc:1070 linux/transfers.cc:1089
+#: linux/transfers.cc:1106 linux/transfers.cc:1108 linux/transfers.cc:1149
+#: linux/transfers.cc:1182 linux/transfers.cc:1195 linux/transfers.cc:1208
 msgid "Status"
 msgstr ""
 
@@ -5098,9 +5098,9 @@ msgstr ""
 msgid "Time"
 msgstr ""
 
-#: linux/transfers.cc:67 linux/transfers.cc:644 linux/transfers.cc:674
-#: linux/transfers.cc:947 linux/transfers.cc:1046 linux/transfers.cc:1097
-#: linux/transfers.cc:1216
+#: linux/transfers.cc:67 linux/transfers.cc:641 linux/transfers.cc:671
+#: linux/transfers.cc:943 linux/transfers.cc:1042 linux/transfers.cc:1093
+#: linux/transfers.cc:1212
 msgid "Time Left"
 msgstr ""
 
@@ -5189,7 +5189,7 @@ msgstr ""
 msgid "Upload Queue Tab"
 msgstr ""
 
-#: linux/transfers.cc:1199
+#: linux/transfers.cc:1195
 msgid "Upload complete..."
 msgstr ""
 
@@ -5197,7 +5197,7 @@ msgstr ""
 msgid "Upload finished"
 msgstr ""
 
-#: linux/transfers.cc:1153
+#: linux/transfers.cc:1149
 msgid "Upload starting..."
 msgstr ""
 
@@ -5205,7 +5205,7 @@ msgstr ""
 msgid "Upload: "
 msgstr ""
 
-#: linux/transfers.cc:1184
+#: linux/transfers.cc:1180
 msgid "Uploaded "
 msgstr ""
 
@@ -5263,11 +5263,11 @@ msgid "Use magnet split"
 msgstr ""
 
 #: linux/transfers.cc:64 linux/transfers.cc:94 linux/transfers.cc:96
-#: linux/transfers.cc:544 linux/transfers.cc:610 linux/transfers.cc:641
-#: linux/transfers.cc:917 linux/transfers.cc:935 linux/transfers.cc:961
-#: linux/transfers.cc:976 linux/transfers.cc:1024 linux/transfers.cc:1043
-#: linux/transfers.cc:1095 linux/transfers.cc:1113 linux/transfers.cc:1154
-#: linux/transfers.cc:1200 linux/transfers.cc:1213
+#: linux/transfers.cc:544 linux/transfers.cc:607 linux/transfers.cc:638
+#: linux/transfers.cc:913 linux/transfers.cc:931 linux/transfers.cc:957
+#: linux/transfers.cc:972 linux/transfers.cc:1020 linux/transfers.cc:1039
+#: linux/transfers.cc:1091 linux/transfers.cc:1109 linux/transfers.cc:1150
+#: linux/transfers.cc:1196 linux/transfers.cc:1209
 msgid "User"
 msgstr ""
 
@@ -5542,11 +5542,11 @@ msgid ""
 "Waiting for input password (don't remove /password before your password)"
 msgstr ""
 
-#: linux/transfers.cc:628
+#: linux/transfers.cc:625
 msgid "Waiting for slot "
 msgstr ""
 
-#: linux/transfers.cc:1112
+#: linux/transfers.cc:1108
 msgid "Waiting to retry"
 msgstr ""
 
@@ -5579,19 +5579,19 @@ msgstr ""
 msgid "[HIDDEN SHARE] "
 msgstr ""
 
-#: linux/transfers.cc:998 linux/transfers.cc:1176
+#: linux/transfers.cc:994 linux/transfers.cc:1172
 msgid "[S]"
 msgstr ""
 
-#: linux/transfers.cc:1003
+#: linux/transfers.cc:999
 msgid "[T]"
 msgstr ""
 
-#: linux/transfers.cc:1000 linux/transfers.cc:1178
+#: linux/transfers.cc:996 linux/transfers.cc:1174
 msgid "[U]"
 msgstr ""
 
-#: linux/transfers.cc:1005 linux/transfers.cc:1181
+#: linux/transfers.cc:1001 linux/transfers.cc:1177
 msgid "[Z]"
 msgstr ""
 

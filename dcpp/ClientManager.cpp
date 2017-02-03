@@ -622,14 +622,12 @@ void ClientManager::on(TimerManagerListener::Minute, uint64_t /* aTick */) noexc
 			(*j).second->info();
 	}
 }
-
+//no need check me twice
 UserPtr& ClientManager::getMe() {
 	if(!me) {
 		Lock l(cs);
-		if(!me) {
-			me = make_shared<User>(getMyCID());
-			users.emplace(me->getCID(), me);
-		}
+		me = make_shared<User>(getMyCID());
+		users.emplace(me->getCID(), me);
 	}
 	return me;
 }

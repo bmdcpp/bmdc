@@ -168,10 +168,10 @@ void Transfers::popupTransferMenu_gui()
 		gtk_widget_set_sensitive(getWidget("appsPreviewItem"), TRUE);
 	else gtk_widget_set_sensitive(getWidget("appsPreviewItem"), FALSE);
 
-#if GTK_CHECK_VERSION(3,22,0)
+	#if GTK_CHECK_VERSION(3,22,0)
 		gtk_menu_popup_at_pointer(GTK_MENU(getWidget("transferMenu")),NULL);
 	#else
-	gtk_menu_popup(GTK_MENU(getWidget("transferMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+		gtk_menu_popup(GTK_MENU(getWidget("transferMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 	#endif
 	gtk_widget_show_all(getWidget("transferMenu"));
 }
@@ -582,8 +582,6 @@ void Transfers::updateParent_gui(GtkTreeIter* iter)
 	string users;
 	vector<string> hubs;
 	int64_t speed = 0;
-//	int64_t position = 0;
-//	int64_t totalSize = 0;
 	int64_t timeLeft = 0;
 	double progress = 0.0;
 	ostringstream stream;
@@ -595,7 +593,6 @@ void Transfers::updateParent_gui(GtkTreeIter* iter)
 	// Get Totals
 	if (gtk_tree_model_iter_has_child(GTK_TREE_MODEL(transferStore), iter))
 	{
-//		bool valid;
 		child = *iter;
 		bool valid = WulforUtil::getNextIter_gui(GTK_TREE_MODEL(transferStore), &child, TRUE, FALSE);
 		while (valid)
@@ -708,7 +705,6 @@ void Transfers::initTransfer_gui(StringMap params)
 
 	bool oldParentValid = false;
 	bool newParentValid = false;
-//	bool needParent;
 	GtkTreeIter iter;
 	GtkTreeIter oldParent;
 	GtkTreeIter newParent;
@@ -915,14 +911,14 @@ void Transfers::getParams_client(StringMap& params, ConnectionQueueItem* cqi)
 
 	params["CID"] = user.user->getCID().toBase32();
 	params[_("User")] = WulforUtil::getNicks(user);
-	params[_("Hub Name")] = WulforUtil::getHubNames(user);//NOTE: core 0.762
+	params[_("Hub Name")] = WulforUtil::getHubNames(user);
 	params["Failed"] = "0";
-	params["Hub URL"] = user.hint;//NOTE: core 0.762
+	params["Hub URL"] = user.hint;
 }
 
 void Transfers::getParams_client(StringMap& params, Transfer* tr)
 {
-	const HintedUser user = tr->getHintedUser();//NOTE: core 0.762
+	const HintedUser user = tr->getHintedUser();
 	double percent = 0.0;
 
 	params["CID"] = user.user->getCID().toBase32();
