@@ -1220,6 +1220,7 @@ void FavoriteManager::mergeHubSettings(const FavoriteHubEntry& entry, HubSetting
 
 string FavoriteManager::getAwayMessage(const string& aServer, ParamMap& params) {
 	FavoriteHubEntry* hub = getFavoriteHubEntry(aServer);
+    if(!hub) return Util::getAwayMessage(params);
 	string name = hub->getGroup();
 	auto group = favHubGroups.find(name);
 	if(group != favHubGroups.end())

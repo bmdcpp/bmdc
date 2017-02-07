@@ -79,7 +79,6 @@ void startup() {
 	SettingsManager::newInstance();
 	TimerManager::newInstance();
 	LogManager::newInstance();
-	TimerManager::newInstance();
 	HashManager::newInstance();
 	CryptoManager::newInstance();
 	DebugManager::newInstance();

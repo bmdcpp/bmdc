@@ -1068,9 +1068,9 @@ void QueueManager::moveFile_(const string& source, const string& target) {
 		string newTarget = Util::getFilePath(source) + Util::getFileName(target);
 		try {
 			File::renameFile(source, newTarget);
-			LogManager::getInstance()->message( F_( ("Unable to move "+Util::addBrackets(source)+" to "+Util::addBrackets(target)+" ("+e1.getError()+") renamed to "+ Util::addBrackets(newTarget)).c_str()),LogManager::Sev::HIGH);
+			LogManager::getInstance()->message( _( ("Unable to move "+Util::addBrackets(source)+" to "+Util::addBrackets(target)+" ("+e1.getError()+") renamed to "+ Util::addBrackets(newTarget)).c_str()),LogManager::Sev::HIGH);
 		} catch(const FileException& e2) {
-			LogManager::getInstance()->message( F_( ("Unable to move "+Util::addBrackets(source)+" to "+Util::addBrackets(target)+" ("+e1.getError()+") nor to rename to "+Util::addBrackets(newTarget)+" ("+e2.getError()+")").c_str()   ),LogManager::Sev::HIGH);
+			LogManager::getInstance()->message( _( ("Unable to move "+Util::addBrackets(source)+" to "+Util::addBrackets(target)+" ("+e1.getError()+") nor to rename to "+Util::addBrackets(newTarget)+" ("+e2.getError()+")").c_str()   ),LogManager::Sev::HIGH);
 		}
 	}
 }
@@ -1174,7 +1174,7 @@ void QueueManager::putDownload(Download* aDownload, bool finished, bool reportFi
 
 						if(aDownload->getType() != Transfer::TYPE_FILE || q->isFinished()) {
 							// Check if we need to move the file
-							if( (aDownload->getType() == Transfer::TYPE_FILE && !aDownload->getTempTarget().empty() && (Util::stricmp(aDownload->getPath().c_str(), aDownload->getTempTarget().c_str()) != 0 )) )  {
+							if( (aDownload->getType() == Transfer::TYPE_FILE) && !aDownload->getTempTarget().empty() && (Util::stricmp(aDownload->getPath().c_str(), aDownload->getTempTarget().c_str()) != 0 ))   {
 								moveFile(aDownload->getTempTarget(), aDownload->getPath());
 							}
 

@@ -226,7 +226,7 @@ File::File(const string& aFileName, int access, int mode) {
 			throw FileException("Invalid file type");
 	}
 	
-	h = g_open(filename.c_str(), m, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+	h = ::open(filename.c_str(), m, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 	if(h == -1)
 		throw FileException(Util::translateError(errno));
 }
@@ -292,15 +292,17 @@ size_t File::read(void* buf, size_t& len) {
 }
 
 size_t File::write(const void* buf, size_t len) {
-	ssize_t result;
+	ssize_t result = 0;
 	char* pointer = (char*)buf;
-	ssize_t left = len;
-
+	size_t left = len;
+	int old_err = 0;
 	while (left > 0) {
+		errno = 0;
 		result = ::write(h, pointer, left);
+		old_err = errno;
 		if (result == -1) {
-			if (errno != EINTR) {
-				throw FileException(Util::translateError(errno));
+			if (old_err != EINTR) {
+				throw FileException(Util::translateError(old_err));
 			}
 		} else {
 			pointer += result;
@@ -376,12 +378,17 @@ void File::renameFile(const string& source, const string& target) {
 // This doesn't assume all bytes are written in one write call, it is a bit safer
 void File::copyFile(const string& source, const string& target) {
 	const size_t BUF_SIZE = 64 * 1024;
-	char* buffer = new char[BUF_SIZE];
+	char* buffer = new char[BUF_SIZE+1];
 	size_t count = BUF_SIZE;
 	File src(source, File::READ, 0);
 	File dst(target, File::WRITE, File::CREATE | File::TRUNCATE);
 
-	while(src.read(&buffer, count) > 0) {
+	if(dst.isOpen())
+		dcdebug("\nFile dst open");
+	if(src.isOpen())
+		dcdebug("\nFile src open");
+	while(src.read(buffer, count) > 0) {
+		dcdebug("write?");
 		char* p = &buffer[0];
 		while(count > 0) {
 			size_t ret = dst.write(p, count);
@@ -390,7 +397,8 @@ void File::copyFile(const string& source, const string& target) {
 		}
 		count = BUF_SIZE;
 	}
-	delete [] buffer;
+	if(buffer)
+		delete [] buffer;
 }
 
 void File::deleteFile(const string& aFileName) noexcept {
