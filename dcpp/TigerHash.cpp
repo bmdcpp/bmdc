@@ -188,6 +188,7 @@ void TigerHash::update(const void* data, size_t length) {
 #ifdef TIGER_BIG_ENDIAN
 			for(j=0; j<BLOCK_SIZE; j++)
 				buf[j^7]=((uint8_t*)tmp)[j];
+				
 			tiger_compress_macro(((uint64_t*)buf), res);
 #else
 			tiger_compress_macro(((uint64_t*)tmp), res);

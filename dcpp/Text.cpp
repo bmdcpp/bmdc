@@ -165,9 +165,14 @@ const wstring acpToWide(const string& str, wstring& tmp) noexcept {
 	wchar_t wc;
 	const char *src = str.c_str();
 	size_t n = str.length() + 1;
-
+	//M
+	//mbstate_t mbs;
+	
 	tmp.clear();
 	tmp.reserve(n);
+	
+	//m
+	//mbrlen ( NULL, 0, &mbs );  /* initialize mbs */
 
 	while(n > 0) {
 		rv = mbrtowc(&wc, src, n, NULL);

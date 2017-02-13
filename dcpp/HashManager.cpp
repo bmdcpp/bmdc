@@ -165,22 +165,17 @@ TTHValue* HashManager::getTTH(const string& aFileName, int64_t aSize, uint32_t a
 	TTHValue *tth = store.getTTH(aFileName, aSize, aTimeStamp);
 	if(tth == NULL) {
 		//TTH is NULL create new variable
+		try {
 		tth = new TTHValue();
+		}catch(...){ }
+		//true... is find , false is not find
 		if(m_streamstore.loadTree(aFileName,*(TigerTree*)tth,-1)) {
 			printf ("%s: hash [%s] was loaded from Xattr.\n", aFileName.c_str(), tth->toBase32().c_str());
+			return tth;
+		} else	{
 			//hash is still NULL. hash file NOW!
-			if(tth == NULL)
-			{
-				hasher.hashFile(aFileName, aSize);
-			} 
-			else 
-			{
-				//otherwise return found value	
-				return tth;
-			}
-		}
-		//not found in. hash file
-		hasher.hashFile(aFileName, aSize);
+			hasher.hashFile(aFileName, aSize);
+		} 
 	}
 	//hash value found
 	return tth;

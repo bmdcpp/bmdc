@@ -387,6 +387,7 @@ void File::copyFile(const string& source, const string& target) {
 		dcdebug("\nFile dst open");
 	if(src.isOpen())
 		dcdebug("\nFile src open");
+		
 	while(src.read(buffer, count) > 0) {
 		dcdebug("write?");
 		char* p = &buffer[0];
