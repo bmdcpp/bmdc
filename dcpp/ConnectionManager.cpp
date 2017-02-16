@@ -338,18 +338,18 @@ void ConnectionManager::nmdcConnect(const string& aServer, const uint16_t& aPort
 	uc->setFlag(UserConnection::FLAG_NMDC);
 
 	try {
-		uc->connect(aServer, aPort, Util::emptyString, BufferedSocket::NAT_NONE,uc->getUser());
+		uc->connect(aServer, aPort, Util::emptyString, BufferedSocket::NAT_NONE);
 	} catch(const Exception&) {
 		putConnection(uc);
 		delete uc;
 	}
 }
 
-void ConnectionManager::adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& aToken, bool secure,const string& hubUrl) {
-	adcConnect(aUser, aPort, Util::emptyString, BufferedSocket::NAT_NONE, aToken, secure,hubUrl);
+void ConnectionManager::adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& aToken, bool secure/*,const string& hubUrl*/) {
+	adcConnect(aUser, aPort, Util::emptyString, BufferedSocket::NAT_NONE, aToken, secure);
 }
 
-void ConnectionManager::adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& localPort, BufferedSocket::NatRoles natRole, const string& aToken, bool secure,const string& hubUrl) {
+void ConnectionManager::adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& localPort, BufferedSocket::NatRoles natRole, const string& aToken, bool secure/*,const string& hubUrl*/) {
 	if(shuttingDown)
 		return;
 
@@ -358,15 +358,12 @@ void ConnectionManager::adcConnect(const OnlineUser& aUser, const uint16_t& aPor
 	uc->setEncoding(Text::utf8);
 	uc->setState(UserConnection::STATE_CONNECT);
 	uc->setHubUrl(aUser.getClient().getHubUrl());
-	//this not need?
-	//if(uc->getHubUrl().empty() || !hubUrl.empty())
-		//uc->setHubUrl(hubUrl);
 	
 	if(aUser.getIdentity().isOp()) {
 		uc->setFlag(UserConnection::FLAG_OP);
 	}
 	try {
-		uc->connect(aUser.getIdentity().getIp(), aPort, localPort, natRole,aUser.getUser());
+		uc->connect(aUser.getIdentity().getIp(), aPort, localPort, natRole);
 	} catch(const Exception&) {
 		putConnection(uc);
 		delete uc;

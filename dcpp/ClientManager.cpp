@@ -79,16 +79,16 @@ void ClientManager::putClient(Client* aClient) {
 }
 /*
 StringList ClientManager::getHubs(const CID& cid, const string& hintUrl) {
-	/*Lock l(cs);
+	Lock l(cs);
 	StringList lst;
 	OnlinePairC op = onlineUsers.equal_range(cid);
 	for(auto i = op.first; i != op.second; ++i) {
 		if(i->second->getClient().getHubUrl() == hintUrl)
 				lst.push_back(i->second->getClient().getHubUrl());
 	}
-	return lst;*/
-//	return UsersManager::getInstance()->getHubs(cid,hintUrl);
-//}
+	return lst;
+	return UsersManager::getInstance()->getHubs(cid,hintUrl);
+}*/
 
 StringList ClientManager::getHubNames(const CID& cid, const string& hubUrl) {
 	/*Lock l(cs);

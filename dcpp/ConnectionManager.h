@@ -100,6 +100,7 @@ class ConnectionManager : public Speaker<ConnectionManagerListener>,
 	public UserConnectionListener, TimerManagerListener,
 	public Singleton<ConnectionManager>
 {
+	///'cos clang
 private:
 	using UserConnectionListener::on;
 	using TimerManagerListener::on;	
@@ -109,8 +110,8 @@ public:
 	}
 
 	void nmdcConnect(const string& aServer, const uint16_t& aPort, const string& aMyNick, const string& hubUrl, const string& encoding);
-	void adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& aToken, bool secure,const string& hubUrl = "");
-	void adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& localPort, BufferedSocket::NatRoles natRole, const string& aToken, bool secure,const string& hubUrl=  "");
+	void adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& aToken, bool secure);
+	void adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& localPort, BufferedSocket::NatRoles natRole, const string& aToken, bool secure);
 
 	void getDownloadConnection(const HintedUser& aUser);
 	void force(const UserPtr& aUser);

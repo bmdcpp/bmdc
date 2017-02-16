@@ -379,7 +379,7 @@ void AdcHub::handle(AdcCommand::CTM, AdcCommand& c) noexcept {
 		return;
 	}
 
-	ConnectionManager::getInstance()->adcConnect(*u, Util::toInt(port), token, secure,getHubUrl());
+	ConnectionManager::getInstance()->adcConnect(*u, Util::toInt(port), token, secure);
 }
 
 void AdcHub::handle(AdcCommand::RCM, AdcCommand& c) noexcept {
@@ -640,7 +640,7 @@ void AdcHub::handle(AdcCommand::NAT, AdcCommand& c) noexcept {
 	// Trigger connection attempt sequence locally ...
 	string localPort = Util::toString(sock->getLocalPort());
 	dcdebug("triggering connecting attempt in NAT: remote port = %s, local port = %d\n", port.c_str(), sock->getLocalPort());
-	ConnectionManager::getInstance()->adcConnect(*u, Util::toInt(port), localPort, BufferedSocket::NAT_CLIENT, token, secure,getHubUrl());
+	ConnectionManager::getInstance()->adcConnect(*u, Util::toInt(port), localPort, BufferedSocket::NAT_CLIENT, token, secure);
 
 	// ... and signal other client to do likewise.
 	send(AdcCommand(AdcCommand::CMD_RNT, u->getIdentity().getSID(), AdcCommand::TYPE_DIRECT).addParam(protocol).
@@ -673,7 +673,7 @@ void AdcHub::handle(AdcCommand::RNT, AdcCommand& c) noexcept {
 
 	// Trigger connection attempt sequence locally
 	dcdebug("triggering connecting attempt in RNT: remote port = %s, local port = %d\n", port.c_str(), sock->getLocalPort());
-	ConnectionManager::getInstance()->adcConnect(*u, Util::toInt(port), Util::toString(sock->getLocalPort()), BufferedSocket::NAT_SERVER, token, secure,getHubUrl());
+	ConnectionManager::getInstance()->adcConnect(*u, Util::toInt(port), Util::toString(sock->getLocalPort()), BufferedSocket::NAT_SERVER, token, secure);
 }
 
 void AdcHub::handle(AdcCommand::ZON, AdcCommand& c) noexcept {
