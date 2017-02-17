@@ -546,7 +546,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		}
 }
 
-void Hub::onSizeWindowState_gui(GtkWidget* widget,GdkRectangle *allocation,gpointer data)
+void Hub::onSizeWindowState_gui(GtkWidget* ,GdkRectangle *allocation,gpointer data)
 {
 	Hub* hub = (Hub*)data;
 	hub->width = allocation->width;	
@@ -4453,7 +4453,7 @@ void Hub::on(ClientListener::HubUpdated, Client *) noexcept
 {
 	typedef Func1<Hub, const string> F1;
 	typedef Func1<Hub, string> FX;
-	typedef Func1<Hub, GdkPixbuf*> F2;
+//	typedef Func1<Hub, GdkPixbuf*> F2;
 	string hubName = Util::emptyString;
 	string hubText = client->get(SettingsManager::HUB_TEXT_STR, SETTING(HUB_TEXT_STR));
 	string iconPath = client->get(SettingsManager::HUB_ICON_STR, SETTING(HUB_ICON_STR));

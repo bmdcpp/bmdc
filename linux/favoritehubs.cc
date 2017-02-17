@@ -836,7 +836,7 @@ void FavoriteHubs::on(ClientManagerListener::ClientDisconnected, Client* c) noex
 
 }
 
-void FavoriteHubs::onAdvancedSettings(GtkWidget* item , gpointer data)
+void FavoriteHubs::onAdvancedSettings(GtkWidget*  , gpointer data)
 {
 	FavoriteHubs* fh = (FavoriteHubs*)data;
 

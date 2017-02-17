@@ -355,7 +355,7 @@ void BufferedSocket::threadSendFile(InputStream* file) {
 		readPos = 0;
 
 		size_t writePos = 0, writeSize = 0;
-		size_t written = 0;
+		int written = 0;
 
 		while(writePos < writeBuf.size()) {
 			if(disconnecting)

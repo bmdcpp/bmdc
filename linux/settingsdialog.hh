@@ -83,8 +83,9 @@ class Settings:
 		void initBandwidthLimiting_gui();//NOTE: core 0.762
 		void initSearchTypes_gui();//NOTE: core 0.770
 		void initHighlighting_gui();//NOTE: BMDC++
+		#if 0
 		void initPlugins_gui();//NOTE: BMDC++
-
+		#endif
 		void addShare_gui(std::string path, std::string name);
 		void selectTextColor_gui(const int select);
 		void selectTextStyle_gui(const int select);
@@ -206,10 +207,12 @@ class Settings:
 		static void onToggledHGNotify_gui(GtkWidget *widget, gpointer data);
 		static void onRawsClicked_gui(GtkToggleButton *button, gpointer data );
 		//Plugins
+		#if 0
 		static void onAddPluginTo_gui(GtkWidget *widget, gpointer data);
 		static void onRemPluginFrom_gui(GtkWidget *widget, gpointer data);
 		static void onConfigurePlugin_gui(GtkWidget *widget, gpointer data);
 		static void onAboutPlugin_gui(GtkWidget *widget, gpointer data);
+		#endif
 		//BMDC
 		static void onForeColorChooserTab(GtkWidget *button, gpointer data) ;
 		static void onBackColorChooserTab(GtkWidget *button, gpointer data) ;
@@ -231,10 +234,11 @@ class Settings:
 		void saveHighlighting(dcpp::StringMap &params, bool add, const std::string &name = "");//BMDC++
 		void addHighlighting_to_gui(dcpp::ColorSettings &cs, bool add);//BMDC++
 		//Plugins
+		#if 0
 		void addToGuiPlg();
 		void RemovePlg_client(std::string sel);
 		static void onToggledPluginsClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
-
+		#endif
 
 		GtkComboBoxText *connectionSpeedComboBox;
 		GtkListStore *downloadToStore, *publicListStore, *queueStore,

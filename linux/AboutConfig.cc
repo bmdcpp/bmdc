@@ -306,7 +306,7 @@ gboolean AboutConfig::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gp
 	return FALSE;
 }
 
-gboolean AboutConfig::onKeyReleased_gui(GtkWidget* wid, GdkEventKey *event, gpointer data)
+gboolean AboutConfig::onKeyReleased_gui(GtkWidget* , GdkEventKey *event, gpointer data)
 {
 	AboutConfig *s = (AboutConfig *)data;
 
@@ -576,5 +576,6 @@ bool AboutConfig::getDialog(const string name, string& value)
 			default:break;
 		}
 	return true;
-	}	
+	}
+	return false;	
 }		

@@ -45,7 +45,7 @@ FavoriteHubEntry::FavAction::FavAction(bool _enabled, string _raw /*= Util::empt
 	const Action* a = RawManager::getInstance()->findAction(id);
 	if(a != NULL) {
 		for(auto j = tok.getTokens().begin(); j != tok.getTokens().end(); ++j) {
-			size_t rId = Util::toUInt32(*j);
+			int rId = Util::toInt(*j);
 			for(auto i = a->raw.begin(); i != a->raw.end(); ++i) {
 				if(rId == i->getId()) {
 					raws.push_back(rId);
