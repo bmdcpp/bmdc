@@ -125,7 +125,15 @@ class WulforUtil
 		static const char* CountryCodes[];
 		static const char* msgs_dc[];
 	public:
-static gboolean	is_format_supported (const gchar *uri)
+	static std::string getTagName(GtkTextTag *tag)
+	{
+		gchar *tmp  = NULL;
+		g_object_get(G_OBJECT(tag), "name", &tmp, NULL);
+		std::string tagName = std::string(tmp);
+		g_free(tmp);
+		return tagName;
+	}
+	static gboolean	is_format_supported (const gchar *uri)
 {
 	GSList *pixbuf_formats = NULL;
 	GSList *iter;

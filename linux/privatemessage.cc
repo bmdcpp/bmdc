@@ -384,17 +384,7 @@ void PrivateMessage::addLine_gui(Msg::TypeMsg typemsg, const string &message)
 		gtk_text_buffer_delete(messageBuffer, &iter, &next);
 		return;
 	}
-	
-	/*if(gtk_text_buffer_get_char_count (messageBuffer) > 25000)
-	{
-		
-		GtkTextIter next;
-		gtk_text_buffer_get_start_iter(messageBuffer, &iter);
-		gtk_text_buffer_get_iter_at_line(messageBuffer, &next, 1);
-		gtk_text_buffer_delete(messageBuffer, &iter, &next);
-		return;
-	}*/
-	
+
 }
 
 void PrivateMessage::applyTags_gui(const string &line)
@@ -1168,10 +1158,7 @@ gboolean PrivateMessage::onHubTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *
 	if (event->type == GDK_BUTTON_PRESS)
 	{
 		PrivateMessage *pm = (PrivateMessage *)data;
-		gchar *tmp = NULL;
-		g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
-		pm->selectedTagStr = string(tmp);
-		g_free(tmp);
+		pm->selectedTagStr = WulforUtil::getTagName(tag);
 
 		switch (event->button.button)
 		{
@@ -1198,11 +1185,8 @@ gboolean PrivateMessage::onMagnetTagEvent_gui(GtkTextTag *tag, GObject*, GdkEven
 	if (event->type == GDK_BUTTON_PRESS)
 	{
 		PrivateMessage *pm = (PrivateMessage *)data;
-		gchar *tmp = NULL;
-		g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
-		pm->selectedTagStr = string(tmp);
-		g_free(tmp);
-
+		pm->selectedTagStr = WulforUtil::getTagName(tag);
+		
 		switch (event->button.button)
 		{
 			case 1:
@@ -1344,7 +1328,7 @@ void PrivateMessage::onCopyURIClicked_gui(GtkMenuItem*, gpointer data)
 void PrivateMessage::onOpenLinkClicked_gui(GtkMenuItem*, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
-	string error = Util::emptyString;
+	string error = "";
 	WulforUtil::openURI(pm->selectedTagStr, error);
 
 	if(!error.empty())
@@ -1592,39 +1576,40 @@ GtkWidget *PrivateMessage::createmenu()
 	GtkWidget* fitem = BookEntry::createItemFirstMenu();
 	gtk_menu_item_set_label(GTK_MENU_ITEM(fitem), nicks.c_str());
 
-if(notCreated) {
-	m_menu = gtk_menu_new();
-	userCommandMenu->cleanMenu_gui();
-	userCommandMenu->addUser(cid);
-	userCommandMenu->addHub(hubUrl);
-	userCommandMenu->buildMenu_gui();
-		
-	GtkWidget *u_item = gtk_menu_item_new_with_label(_("Users Commands"));
-	GtkWidget *copyHubUrl = gtk_menu_item_new_with_label(_("Copy CID"));
-	GtkWidget *close = gtk_menu_item_new_with_label(_("Close"));
-	GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite Users"));
-	GtkWidget *copyNicks = gtk_menu_item_new_with_label(_("Copy Nick(s)"));
+	if(notCreated) {
 	
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(u_item),userCommandMenu->getContainer());
-	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), fitem);
-	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu),close);
-	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu),copyHubUrl);
-	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu),addFav);
-	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu),copyNicks);
-	gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), u_item);
-	gtk_widget_show(close);
-	gtk_widget_show(copyHubUrl);
-	gtk_widget_show(addFav);
-	gtk_widget_show(copyNicks);
-	gtk_widget_show(fitem);
-	gtk_widget_show(u_item);
-	gtk_widget_show_all(m_menu);
+		m_menu = gtk_menu_new();
+		userCommandMenu->cleanMenu_gui();
+		userCommandMenu->addUser(cid);
+		userCommandMenu->addHub(hubUrl);
+		userCommandMenu->buildMenu_gui();
+		
+		GtkWidget *u_item = gtk_menu_item_new_with_label(_("Users Commands"));
+		GtkWidget *copyHubUrl = gtk_menu_item_new_with_label(_("Copy CID"));
+		GtkWidget *close = gtk_menu_item_new_with_label(_("Close"));
+		GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite Users"));
+		GtkWidget *copyNicks = gtk_menu_item_new_with_label(_("Copy Nick(s)"));
+	
+		gtk_menu_item_set_submenu(GTK_MENU_ITEM(u_item),userCommandMenu->getContainer());
+		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), fitem);
+		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu),close);
+		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu),copyHubUrl);
+		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu),addFav);
+		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu),copyNicks);
+		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), u_item);
+		gtk_widget_show(close);
+		gtk_widget_show(copyHubUrl);
+		gtk_widget_show(addFav);
+		gtk_widget_show(copyNicks);
+		gtk_widget_show(fitem);
+		gtk_widget_show(u_item);
+		gtk_widget_show_all(m_menu);
 
-	g_signal_connect_swapped(copyHubUrl, "activate", G_CALLBACK(onCopyCID), (gpointer)this);
-	g_signal_connect_swapped(close, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
-	g_signal_connect_swapped(addFav, "activate", G_CALLBACK(onAddFavItem), (gpointer)this);
-	g_signal_connect_swapped(copyNicks, "activate", G_CALLBACK(onCopyNicks), (gpointer)this);
-	notCreated = false;
+		g_signal_connect_swapped(copyHubUrl, "activate", G_CALLBACK(onCopyCID), (gpointer)this);
+		g_signal_connect_swapped(close, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
+		g_signal_connect_swapped(addFav, "activate", G_CALLBACK(onAddFavItem), (gpointer)this);
+		g_signal_connect_swapped(copyNicks, "activate", G_CALLBACK(onCopyNicks), (gpointer)this);
+		notCreated = false;
 	}	
     return m_menu;
 }
@@ -1665,7 +1650,7 @@ void PrivateMessage::onRipeDbItem_gui(GtkWidget* widget, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 	string ip = (char*)g_object_get_data(G_OBJECT(widget),"ip_addr");
-	string error = Util::emptyString;
+	string error = "";
 	dcpp::ParamMap params;
 	params["IP"] = ip;
 	string result = dcpp::Util::formatParams(SETTING(RIPE_DB),params);
