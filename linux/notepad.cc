@@ -25,7 +25,7 @@ using namespace dcpp;
 Notepad::Notepad():
 BookEntry(Entry::NOTEPAD, _("Notepad"), "notepad")
 {
-	WulforUtil::setTextDeufaults(getWidget("textview1"),SETTING(BACKGROUND_CHAT_COLOR),dcpp::Util::emptyString,false,dcpp::Util::emptyString,"Notepad");
+	WulforUtil::setTextDeufaults(getWidget("textview1"),SETTING(BACKGROUND_CHAT_COLOR),string(),false,string(),"Notepad");
 	WulforUtil::setTextColor(string("black"),string("Notepad"));
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("textview1")));
 }

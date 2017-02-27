@@ -270,7 +270,7 @@ void Search::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeM
 			return;
 		if(cell == NULL)
 			return;
-	string color = Util::emptyString;
+	string color = string();
 	string nick = se->resultView.getString(iter,_("Nick"),model);
 	string ip = se->resultView.getString(iter,"IP",model);
 
@@ -2210,7 +2210,7 @@ void Search::onCloseItem(gpointer data)
 }
 void Search::onAddItem(gpointer )
 {
-	BookEntry* entry = new Search(dcpp::Util::emptyString);
+	BookEntry* entry = new Search(string());
 	WulforManager::get()->getMainWindow()->getSearchEntry()->addBookEntry_gui(entry);
 }
 

@@ -316,7 +316,7 @@ void PublicHubs::onConfigure_gui(GtkWidget*, gpointer data)
 
 	// Have to get active here since temp could be NULL after dialog is closed
 	gchar *temp = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(ph->getWidget("hubListBox")));
-	string active = Util::emptyString;
+	string active = string();
 	if(temp){
 		active = string(temp);
 		g_free(temp);

@@ -556,7 +556,7 @@ Hub::~Hub()
 
 	bool showUL = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")));
 	FavoriteHubEntry* entry = getFavoriteHubEntry();
-	string order = Util::emptyString, hwidth = Util::emptyString, visible = Util::emptyString;
+	string order = string(), hwidth = string(), visible = string();
 	nickView.saveSettings(order,hwidth,visible);
 
 	SettingsManager* sm = SettingsManager::getInstance();
@@ -962,10 +962,10 @@ void Hub::popupNickMenu_gui()
 
 	GtkTreeIter iter;
 	GList *list = gtk_tree_selection_get_selected_rows(nickSelection, NULL);
-	string nicks = Util::emptyString;
-	string cid = Util::emptyString;
+	string nicks = string();
+	string cid = string();
 	string ip = "0.0.0.0";
-	string lastNick = Util::emptyString;
+	string lastNick = string();
 	
 	for (GList *i = list; i; i = i->next)
 	{
@@ -2294,7 +2294,7 @@ void Hub::onRipeDbItem_gui(GtkWidget* widget, gpointer data)
 {
 	Hub* hub=(Hub*)data;
 	string ip = (gchar*)g_object_get_data(G_OBJECT(widget),"ip_addr");
-	string error = Util::emptyString;
+	string error = string();
 	dcpp::ParamMap params;
 	params["IP"] = ip;
 	string result = dcpp::Util::formatParams(SETTING(RIPE_DB),params);
@@ -2435,7 +2435,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 	{
 		typedef Func1<Hub, string> F1;
 		F1 *func;
-		string command = text, param ,mess = Util::emptyString, status = Util::emptyString, params;
+		string command = text, param ,mess = string(), status = string(), params;
 		bool thirdPerson = false;
 		string::size_type separator = text.find_first_of(' ');
 		if (separator != string::npos && text.size() > separator + 1)
@@ -3089,7 +3089,7 @@ void Hub::onCopyURIClicked_gui(GtkMenuItem*, gpointer data)
 void Hub::onOpenLinkClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
-	string error = Util::emptyString;
+	string error = string();
 	WulforUtil::openURI(hub->selectedTagStr,error);
 
 	if(!error.empty())
@@ -3304,7 +3304,7 @@ void Hub::onAddIgnoreUserItemClicked_gui(GtkMenuItem*, gpointer data)
 				else
 				{
 					string message = _("User Ignored ");
-					message += WulforUtil::getNicks(user, Util::emptyString);
+					message += WulforUtil::getNicks(user, string());
 					hub->addStatusMessage_gui(message, Msg::SYSTEM, Sound::NONE);
 				}
 			}
@@ -3344,7 +3344,7 @@ void Hub::onRemoveIgnoreUserItemClicked_gui(GtkMenuItem*, gpointer data)
 				else
 				{
 					string message = _("User unIgnored ");
-					message += WulforUtil::getNicks(user, Util::emptyString);
+					message += WulforUtil::getNicks(user, /*hub->client->getHubUrl()*/string());
 					hub->addStatusMessage_gui(message, Msg::SYSTEM, Sound::NONE);
 
 				}
@@ -3818,9 +3818,9 @@ void Hub::addAsFavorite_client()
 		if(!client->getPassword().empty())
 			entry.setPassword(client->getPassword());
 		else
-			entry.setPassword(Util::emptyString);
+			entry.setPassword(string());
 
-		entry.setGroup(Util::emptyString);
+		entry.setGroup(string());
 
 		FavoriteManager::getInstance()->addFavorite(entry);
 
@@ -4034,7 +4034,7 @@ string Hub::realFile_client(string tth)
 	catch (const Exception&)
 	{
 	}
-	return Util::emptyString;
+	return string();
 }
 
 void Hub::on(QueueManagerListener::Finished, QueueItem *item, const string& , int64_t ) noexcept
@@ -4458,7 +4458,7 @@ void Hub::on(ClientListener::HubUpdated, Client *) noexcept
 {
 	typedef Func1<Hub, const string> F1;
 	typedef Func1<Hub, string> FX;
-	string hubName = Util::emptyString;
+	string hubName = string();
 	string hubText = client->get(SettingsManager::HUB_TEXT_STR, SETTING(HUB_TEXT_STR));
 	string iconPath = client->get(SettingsManager::HUB_ICON_STR, SETTING(HUB_ICON_STR));
 
@@ -4495,14 +4495,13 @@ void Hub::on(ClientListener::HubUpdated, Client *) noexcept
  * Inspired by code of RSX
  */
 string Hub::formatAdditionalInfo(const string& aIp, bool sIp, bool sCC) {
-	string ret = Util::emptyString;
+	string ret = string();
 
 	if(!aIp.empty()) {
 		
-		string country_name = sCC ? GeoManager::getInstance()->getCountry(aIp) : "";
+		string country_name = sCC ? GeoManager::getInstance()->getCountry(aIp) : string();
 		bool showIp = sIp;
 		bool showCc = sCC && !country_name.empty();
-		//bool useFlagIcons = (client->get(SettingsManager::USE_COUNTRY_FLAG,SETTING(USE_COUNTRY_FLAG)) && !cc.empty());
 
 		if(showIp) {
 			ret = "[ " + aIp + " ] ";
@@ -4969,13 +4968,13 @@ void Hub::onToglleButtonIcon(GtkToggleButton *button, gpointer data)
 	gboolean active = gtk_toggle_button_get_active(button);
 	if(active)
 	{
-		hub->client->set(SettingsManager::HUB_ICON_STR,Util::emptyString);
+		hub->client->set(SettingsManager::HUB_ICON_STR,string());
 		hub->client->fire(ClientListener::HubUpdated(), hub->client);
 
 		FavoriteHubEntry* fav = FavoriteManager::getInstance()->getFavoriteHubEntry(hub->client->getHubUrl());
 		if(fav != NULL) {
 			
-			fav->set(SettingsManager::HUB_ICON_STR,Util::emptyString);
+			fav->set(SettingsManager::HUB_ICON_STR,string());
 			FavoriteManager::getInstance()->save();
 		}
 	}

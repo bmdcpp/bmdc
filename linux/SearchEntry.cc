@@ -103,7 +103,7 @@ void SearchEntry::onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *, guint n
 	gtk_widget_grab_focus(child);
 }
 
-BookEntry* SearchEntry::findBookEntry(const string &id)
+BookEntry* SearchEntry::findBookEntry(const string& id)
 {
 	Entry *entry = getChild(Entry::SEARCH, id);
 	return dynamic_cast<BookEntry*>(entry);
@@ -148,7 +148,7 @@ void SearchEntry::removeBookEntry_gui(BookEntry *entry)
 
 		if (gtk_notebook_get_n_pages(book) == 0)
 		{
-			Search *s = new Search(Util::emptyString);
+			Search *s = new Search(string());
 			addBookEntry_gui(s);
 		}
 	}

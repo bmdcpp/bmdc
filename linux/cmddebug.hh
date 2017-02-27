@@ -112,7 +112,7 @@ class cmddebug:
 	Iters iters;
 
 	std::string getType(unsigned int type,unsigned int dir)
-	{	std::string tmp = dcpp::Util::emptyString;
+	{	std::string tmp = std::string();
 		bool hub = false;
 		switch(type){
 			case dcpp::DebugManager::TYPE_HUB: 

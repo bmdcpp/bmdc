@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2017-02-18 15:17+0100\n"
+"POT-Creation-Date: 2017-02-25 13:20+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -481,7 +481,7 @@ msgid "ADL Action"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1035 ui/mainwindow.glade.ui:2007
-#: ui/mainwindow.glade.ui:2236 linux/adlsearch.cc:31 linux/bookentry.cc:367
+#: ui/mainwindow.glade.ui:2236 linux/adlsearch.cc:31 linux/bookentry.cc:363
 #: linux/settingsdialog.cc:1516 linux/settingsdialog.cc:1579
 msgid "ADL Search"
 msgstr ""
@@ -494,7 +494,7 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:1246 linux/bookentry.cc:420
+#: ui/mainwindow.glade.ui:1246 linux/bookentry.cc:416
 msgid "About:Config"
 msgstr ""
 
@@ -662,7 +662,7 @@ msgid "Away mode message on/off"
 msgstr ""
 
 #: ui/hub.glade.ui:25 ui/privatemessage.glade.ui:25 linux/WulforUtil.cc:648
-#: linux/WulforUtil.cc:668 linux/mainwindow.cc:2324
+#: linux/WulforUtil.cc:668 linux/mainwindow.cc:2318
 #: linux/privatemessage.cc:1066
 msgid "Away mode off"
 msgstr ""
@@ -846,8 +846,8 @@ msgid "Choose a File"
 msgstr ""
 
 #: ui/search.glade.ui:7 ui/settingsdialog.glade.ui:8901
-#: ui/sharebrowser.glade.ui:7 linux/hub.cc:3159 linux/mainwindow.cc:1633
-#: linux/mainwindow.cc:1701 linux/privatemessage.cc:1361
+#: ui/sharebrowser.glade.ui:7 linux/hub.cc:3159 linux/mainwindow.cc:1627
+#: linux/mainwindow.cc:1695 linux/privatemessage.cc:1361
 msgid "Choose a directory"
 msgstr ""
 
@@ -1005,9 +1005,9 @@ msgstr ""
 #: ui/favoritehubs.glade.ui:1568 ui/favoritehubs.glade.ui:1585
 #: ui/settingsdialog.glade.ui:5272 ui/settingsdialog.glade.ui:5964
 #: ui/settingsdialog.glade.ui:6148 ui/settingsdialog.glade.ui:6333
-#: ui/settingsdialog.glade.ui:8828 linux/AboutConfig.cc:115
-#: linux/AboutConfig.cc:124 linux/AboutConfig.cc:195 linux/AboutConfig.cc:200
-#: linux/AboutConfig.cc:211 linux/AboutConfig.cc:215 linux/AboutConfig.cc:440
+#: ui/settingsdialog.glade.ui:8828 linux/AboutConfig.cc:116
+#: linux/AboutConfig.cc:125 linux/AboutConfig.cc:196 linux/AboutConfig.cc:201
+#: linux/AboutConfig.cc:212 linux/AboutConfig.cc:216 linux/AboutConfig.cc:441
 #: linux/AboutConfigFav.cc:155 linux/AboutConfigFav.cc:178
 #: linux/AboutConfigFav.cc:195 linux/AboutConfigFav.cc:219
 #: linux/FavoriteHubDialog.cc:171 linux/FavoriteHubDialog.cc:182
@@ -1127,7 +1127,7 @@ msgstr ""
 msgid "Download Matches"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:1058 linux/bookentry.cc:354 linux/downloadqueue.cc:35
+#: ui/mainwindow.glade.ui:1058 linux/bookentry.cc:350 linux/downloadqueue.cc:35
 #: linux/settingsdialog.cc:1150 linux/settingsdialog.cc:1625
 msgid "Download Queue"
 msgstr ""
@@ -1304,14 +1304,14 @@ msgid "Favorite Hub Properties"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:986 ui/mainwindow.glade.ui:1906
-#: ui/mainwindow.glade.ui:2194 linux/bookentry.cc:336 linux/favoritehubs.cc:34
+#: ui/mainwindow.glade.ui:2194 linux/bookentry.cc:332 linux/favoritehubs.cc:34
 #: linux/settingsdialog.cc:1506 linux/settingsdialog.cc:1554
 #: linux/settingsdialog.cc:1624
 msgid "Favorite Hubs"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:995 ui/mainwindow.glade.ui:1922
-#: ui/mainwindow.glade.ui:2201 linux/bookentry.cc:342 linux/favoriteusers.cc:36
+#: ui/mainwindow.glade.ui:2201 linux/bookentry.cc:338 linux/favoriteusers.cc:36
 #: linux/settingsdialog.cc:1507 linux/settingsdialog.cc:1556
 #: linux/settingsdialog.cc:1628
 msgid "Favorite Users"
@@ -1379,7 +1379,7 @@ msgid "Find files"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1067 ui/mainwindow.glade.ui:2060
-#: ui/mainwindow.glade.ui:2257 linux/bookentry.cc:378
+#: ui/mainwindow.glade.ui:2257 linux/bookentry.cc:374
 #: linux/finishedtransfers.cc:34 linux/settingsdialog.cc:1148
 #: linux/settingsdialog.cc:1508 linux/settingsdialog.cc:1570
 #: linux/settingsdialog.cc:1626
@@ -1387,7 +1387,7 @@ msgid "Finished Downloads"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1075 ui/mainwindow.glade.ui:2077
-#: ui/mainwindow.glade.ui:2264 linux/bookentry.cc:384
+#: ui/mainwindow.glade.ui:2264 linux/bookentry.cc:380
 #: linux/finishedtransfers.cc:39 linux/settingsdialog.cc:1149
 #: linux/settingsdialog.cc:1509 linux/settingsdialog.cc:1572
 #: linux/settingsdialog.cc:1627
@@ -1561,7 +1561,7 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: ui/search.glade.ui:851 linux/bookentry.cc:396 linux/detectiontab.cc:108
+#: ui/search.glade.ui:851 linux/bookentry.cc:392 linux/detectiontab.cc:108
 #: linux/detectiontab.cc:1026 linux/detectiontab.cc:1128
 #: linux/detectiontab.cc:1225 linux/finishedtransfers.cc:77
 #: linux/finishedtransfers.cc:183 linux/search.cc:110 linux/search.cc:234
@@ -1882,14 +1882,14 @@ msgstr ""
 
 #: ui/detection.glade.ui:152 ui/detection.glade.ui:612
 #: ui/detection.glade.ui:949 ui/favoritehubs.glade.ui:85
-#: ui/settingsdialog.glade.ui:1156 linux/AboutConfig.cc:32
-#: linux/AboutConfig.cc:42 linux/AboutConfig.cc:44 linux/AboutConfig.cc:73
-#: linux/AboutConfig.cc:249 linux/AboutConfig.cc:263 linux/AboutConfig.cc:367
-#: linux/AboutConfig.cc:424 linux/AboutConfigFav.cc:35
+#: ui/settingsdialog.glade.ui:1156 linux/AboutConfig.cc:33
+#: linux/AboutConfig.cc:43 linux/AboutConfig.cc:45 linux/AboutConfig.cc:74
+#: linux/AboutConfig.cc:250 linux/AboutConfig.cc:264 linux/AboutConfig.cc:368
+#: linux/AboutConfig.cc:425 linux/AboutConfigFav.cc:35
 #: linux/AboutConfigFav.cc:45 linux/AboutConfigFav.cc:47
 #: linux/AboutConfigFav.cc:121 linux/AboutConfigFav.cc:258
-#: linux/AboutConfigFav.cc:272 linux/AboutConfigFav.cc:374
-#: linux/AboutConfigFav.cc:414 linux/FavoriteHubDialog.cc:300
+#: linux/AboutConfigFav.cc:271 linux/AboutConfigFav.cc:373
+#: linux/AboutConfigFav.cc:413 linux/FavoriteHubDialog.cc:300
 #: linux/FavoriteHubDialog.cc:580 linux/FavoriteHubDialog.cc:593
 #: linux/detectiontab.cc:42 linux/detectiontab.cc:61 linux/detectiontab.cc:72
 #: linux/detectiontab.cc:313 linux/detectiontab.cc:334
@@ -2002,7 +2002,7 @@ msgid "Note; because of changing download speeds, this is not 100% accurate..."
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1238 ui/mainwindow.glade.ui:2092
-#: ui/mainwindow.glade.ui:2271 linux/bookentry.cc:408 linux/notepad.cc:26
+#: ui/mainwindow.glade.ui:2271 linux/bookentry.cc:404 linux/notepad.cc:26
 #: linux/settingsdialog.cc:1517 linux/settingsdialog.cc:1577
 #: linux/settingsdialog.cc:1630
 msgid "Notepad"
@@ -2202,7 +2202,7 @@ msgid "Protected Users"
 msgstr ""
 
 #: ui/mainwindow.glade.ui:1004 ui/mainwindow.glade.ui:1941
-#: ui/mainwindow.glade.ui:2208 linux/bookentry.cc:348 linux/publichubs.cc:31
+#: ui/mainwindow.glade.ui:2208 linux/bookentry.cc:344 linux/publichubs.cc:31
 #: linux/settingsdialog.cc:1512 linux/settingsdialog.cc:1558
 #: linux/settingsdialog.cc:1623
 msgid "Public Hubs"
@@ -2360,7 +2360,7 @@ msgstr ""
 #: ui/hub.glade.ui:245 ui/mainwindow.glade.ui:1026 ui/mainwindow.glade.ui:1992
 #: ui/mainwindow.glade.ui:2229 ui/privatemessage.glade.ui:189
 #: ui/searchspy.glade.ui:94 ui/settingsdialog.glade.ui:8878
-#: ui/transfers.glade.ui:52 linux/bookentry.cc:361 linux/settingsdialog.cc:1153
+#: ui/transfers.glade.ui:52 linux/bookentry.cc:357 linux/settingsdialog.cc:1153
 #: linux/settingsdialog.cc:1514 linux/settingsdialog.cc:1564
 msgid "Search"
 msgstr ""
@@ -2444,7 +2444,7 @@ msgstr ""
 msgid "Select Text Color"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:772 linux/mainwindow.cc:2426
+#: ui/mainwindow.glade.ui:772 linux/mainwindow.cc:2420
 msgid "Select filelist to browse"
 msgstr ""
 
@@ -2677,7 +2677,7 @@ msgstr ""
 msgid "System"
 msgstr ""
 
-#: ui/mainwindow.glade.ui:2107 linux/System.cc:29 linux/bookentry.cc:414
+#: ui/mainwindow.glade.ui:2107 linux/System.cc:29 linux/bookentry.cc:410
 msgid "System Log"
 msgstr ""
 
@@ -2770,8 +2770,8 @@ msgstr ""
 msgid "Trusted certificates path"
 msgstr ""
 
-#: ui/detection.glade.ui:288 ui/detection.glade.ui:967 linux/AboutConfig.cc:34
-#: linux/AboutConfig.cc:41 linux/AboutConfig.cc:75 linux/AboutConfig.cc:251
+#: ui/detection.glade.ui:288 ui/detection.glade.ui:967 linux/AboutConfig.cc:35
+#: linux/AboutConfig.cc:42 linux/AboutConfig.cc:76 linux/AboutConfig.cc:252
 #: linux/AboutConfigFav.cc:37 linux/AboutConfigFav.cc:44
 #: linux/AboutConfigFav.cc:123 linux/AboutConfigFav.cc:260 linux/search.cc:105
 #: linux/search.cc:229 linux/search.cc:712 linux/search.cc:791
@@ -2873,11 +2873,11 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: ui/detection.glade.ui:956 linux/AboutConfig.cc:35 linux/AboutConfig.cc:76
-#: linux/AboutConfig.cc:252 linux/AboutConfig.cc:265 linux/AboutConfig.cc:368
+#: ui/detection.glade.ui:956 linux/AboutConfig.cc:36 linux/AboutConfig.cc:77
+#: linux/AboutConfig.cc:253 linux/AboutConfig.cc:266 linux/AboutConfig.cc:369
 #: linux/AboutConfigFav.cc:38 linux/AboutConfigFav.cc:124
-#: linux/AboutConfigFav.cc:261 linux/AboutConfigFav.cc:274
-#: linux/AboutConfigFav.cc:375 linux/detectiontab.cc:107
+#: linux/AboutConfigFav.cc:261 linux/AboutConfigFav.cc:273
+#: linux/AboutConfigFav.cc:374 linux/detectiontab.cc:107
 #: linux/detectiontab.cc:1025 linux/detectiontab.cc:1127
 #: linux/detectiontab.cc:1224
 msgid "Value"
@@ -3066,8 +3066,8 @@ msgstr ""
 
 #: ui/settingsdialog.glade.ui:3297 ui/settingsdialog.glade.ui:3313
 #: ui/settingsdialog.glade.ui:3357 linux/hashdialog.cc:80
-#: linux/mainwindow.cc:1006 linux/mainwindow.cc:1007 linux/mainwindow.cc:2805
-#: linux/mainwindow.cc:2807 linux/mainwindow.cc:3109 linux/treeview.cc:225
+#: linux/mainwindow.cc:1006 linux/mainwindow.cc:1007 linux/mainwindow.cc:2799
+#: linux/mainwindow.cc:2801 linux/mainwindow.cc:3103 linux/treeview.cc:225
 msgid "s"
 msgstr ""
 
@@ -3095,7 +3095,7 @@ msgstr ""
 msgid "\n"
 msgstr ""
 
-#: linux/hub.cc:4595
+#: linux/hub.cc:4594
 msgid ""
 "\n"
 "Message: "
@@ -3208,7 +3208,7 @@ msgid " items"
 msgstr ""
 
 #: linux/hashdialog.cc:71 linux/hashdialog.cc:80 linux/hashdialog.cc:89
-#: linux/mainwindow.cc:3109 linux/mainwindow.cc:3118
+#: linux/mainwindow.cc:3103 linux/mainwindow.cc:3112
 msgid " left"
 msgstr ""
 
@@ -3256,7 +3256,7 @@ msgstr ""
 msgid "*** T E S T ***"
 msgstr ""
 
-#: linux/hashdialog.cc:72 linux/hashdialog.cc:84 linux/mainwindow.cc:3113
+#: linux/hashdialog.cc:72 linux/hashdialog.cc:84 linux/mainwindow.cc:3107
 msgid "-:--:-- left"
 msgstr ""
 
@@ -3293,7 +3293,7 @@ msgstr ""
 msgid "1"
 msgstr ""
 
-#: linux/mainwindow.cc:3138
+#: linux/mainwindow.cc:3132
 msgid "100% Done"
 msgstr ""
 
@@ -3329,11 +3329,11 @@ msgstr ""
 msgid "<b>Under what name you see the directory</b>"
 msgstr ""
 
-#: linux/mainwindow.cc:2781
+#: linux/mainwindow.cc:2775
 msgid "<b>file:</b> "
 msgstr ""
 
-#: linux/AboutConfig.cc:29
+#: linux/AboutConfig.cc:30
 msgid "About:config"
 msgstr ""
 
@@ -3373,7 +3373,7 @@ msgstr ""
 msgid "Add to Favorite Users"
 msgstr ""
 
-#: linux/hub.cc:4794
+#: linux/hub.cc:4793
 msgid "Add to Favorite hubs"
 msgstr ""
 
@@ -3508,7 +3508,7 @@ msgstr ""
 msgid "Away Message:"
 msgstr ""
 
-#: linux/mainwindow.cc:2333 linux/mainwindow.cc:2877
+#: linux/mainwindow.cc:2327 linux/mainwindow.cc:2871
 msgid "Away mode on"
 msgstr ""
 
@@ -3624,12 +3624,12 @@ msgstr ""
 msgid "Client Type"
 msgstr ""
 
-#: linux/bookentry.cc:289 linux/privatemessage.cc:1589 linux/search.cc:2223
+#: linux/bookentry.cc:285 linux/privatemessage.cc:1589 linux/search.cc:2223
 #: linux/sharebrowser.cc:1084
 msgid "Close"
 msgstr ""
 
-#: linux/hub.cc:4798
+#: linux/hub.cc:4797
 msgid "Close Hub"
 msgstr ""
 
@@ -3710,7 +3710,7 @@ msgstr ""
 msgid "Copy Nick(s)"
 msgstr ""
 
-#: linux/hub.cc:4793
+#: linux/hub.cc:4792
 msgid "Copy URL"
 msgstr ""
 
@@ -3886,7 +3886,7 @@ msgstr ""
 msgid "Emotion packs"
 msgstr ""
 
-#: linux/mainwindow.cc:1105
+#: linux/mainwindow.cc:1099
 msgid "Empty hub address specified"
 msgstr ""
 
@@ -4289,15 +4289,15 @@ msgstr ""
 msgid "Ignored User "
 msgstr ""
 
-#: linux/hub.cc:4594
+#: linux/hub.cc:4593
 msgid "Ignored message from User "
 msgstr ""
 
-#: linux/hub.cc:4635
+#: linux/hub.cc:4634
 msgid "Ignored private message from bot "
 msgstr ""
 
-#: linux/hub.cc:4628
+#: linux/hub.cc:4627
 msgid "Ignored private message from hub"
 msgstr ""
 
@@ -4379,7 +4379,7 @@ msgstr ""
 msgid "Loaded plugins: "
 msgstr ""
 
-#: linux/mainwindow.cc:2463
+#: linux/mainwindow.cc:2457
 msgid "Loading Own file list"
 msgstr ""
 
@@ -4395,11 +4395,11 @@ msgstr ""
 msgid "Log Mainchat by default"
 msgstr ""
 
-#: linux/mainwindow.cc:1694
+#: linux/mainwindow.cc:1688
 msgid "Magnet Choice"
 msgstr ""
 
-#: linux/mainwindow.cc:1624
+#: linux/mainwindow.cc:1618
 msgid "Magnet Properties / Choice"
 msgstr ""
 
@@ -4478,7 +4478,7 @@ msgstr ""
 msgid "New search type"
 msgstr ""
 
-#: linux/hub.cc:4748
+#: linux/hub.cc:4747
 msgid "Nick already taken"
 msgstr ""
 
@@ -4561,7 +4561,7 @@ msgstr ""
 msgid "Open Directory"
 msgstr ""
 
-#: linux/hub.cc:4866
+#: linux/hub.cc:4865
 msgid "Open Icon File to Set to Tab"
 msgstr ""
 
@@ -4620,7 +4620,7 @@ msgstr ""
 msgid "Predefined"
 msgstr ""
 
-#: linux/bookentry.cc:390
+#: linux/bookentry.cc:386
 msgid "Private Message"
 msgstr ""
 
@@ -4658,7 +4658,7 @@ msgstr ""
 msgid "Rebuild Share"
 msgstr ""
 
-#: linux/hub.cc:4797
+#: linux/hub.cc:4796
 msgid "Reconnect this hub"
 msgstr ""
 
@@ -4682,7 +4682,7 @@ msgstr ""
 msgid "Remove Aliases A"
 msgstr ""
 
-#: linux/hub.cc:4795
+#: linux/hub.cc:4794
 msgid "Remove from Favorite hubs"
 msgstr ""
 
@@ -4727,7 +4727,7 @@ msgstr ""
 msgid "Search on imdb"
 msgstr ""
 
-#: linux/hub.cc:4755
+#: linux/hub.cc:4754
 msgid "Search spam detected from "
 msgstr ""
 
@@ -4757,7 +4757,7 @@ msgstr ""
 msgid "Select Font"
 msgstr ""
 
-#: linux/mainwindow.cc:2897
+#: linux/mainwindow.cc:2891
 msgid "Select file to Get TTH"
 msgstr ""
 
@@ -4794,11 +4794,11 @@ msgstr ""
 msgid "Set Hub to Bold everytime the content changes"
 msgstr ""
 
-#: linux/hub.cc:4922
+#: linux/hub.cc:4921
 msgid "Set Icon Aviable"
 msgstr ""
 
-#: linux/hub.cc:4926
+#: linux/hub.cc:4925
 msgid "Set Icon: "
 msgstr ""
 
@@ -4814,7 +4814,7 @@ msgstr ""
 msgid "Set Slots to:"
 msgstr ""
 
-#: linux/hub.cc:4796
+#: linux/hub.cc:4795
 msgid "Set Tab Name"
 msgstr ""
 
@@ -4838,11 +4838,11 @@ msgstr ""
 msgid "Set normal mode"
 msgstr ""
 
-#: linux/hub.cc:4908
+#: linux/hub.cc:4907
 msgid "Setting for a Tab Text"
 msgstr ""
 
-#: linux/bookentry.cc:402
+#: linux/bookentry.cc:398
 msgid "Share Browser"
 msgstr ""
 
@@ -4996,7 +4996,7 @@ msgstr ""
 msgid "Speed: "
 msgstr ""
 
-#: linux/bookentry.cc:372
+#: linux/bookentry.cc:368
 msgid "Spy Search"
 msgstr ""
 
@@ -5012,10 +5012,10 @@ msgstr ""
 msgid "Started MyInfo check"
 msgstr ""
 
-#: linux/AboutConfig.cc:33 linux/AboutConfig.cc:74 linux/AboutConfig.cc:250
-#: linux/AboutConfig.cc:264 linux/AboutConfigFav.cc:36
+#: linux/AboutConfig.cc:34 linux/AboutConfig.cc:75 linux/AboutConfig.cc:251
+#: linux/AboutConfig.cc:265 linux/AboutConfigFav.cc:36
 #: linux/AboutConfigFav.cc:122 linux/AboutConfigFav.cc:259
-#: linux/AboutConfigFav.cc:273 linux/downloadqueue.cc:69
+#: linux/AboutConfigFav.cc:272 linux/downloadqueue.cc:69
 #: linux/downloadqueue.cc:280 linux/downloadqueue.cc:387
 #: linux/favoritehubs.cc:49 linux/favoritehubs.cc:138 linux/favoritehubs.cc:766
 #: linux/searchspy.cc:57 linux/searchspy.cc:293 linux/searchspy.cc:375
@@ -5067,11 +5067,11 @@ msgstr ""
 msgid "Tag"
 msgstr ""
 
-#: linux/hub.cc:4547
+#: linux/hub.cc:4546
 msgid "Temp Ignored User: "
 msgstr ""
 
-#: linux/hub.cc:4919
+#: linux/hub.cc:4918
 msgid "Text: "
 msgstr ""
 
@@ -5122,7 +5122,7 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: linux/hub.cc:2688 linux/hub.cc:4769
+#: linux/hub.cc:2688 linux/hub.cc:4768
 msgid "Topic: "
 msgstr ""
 
@@ -5156,7 +5156,7 @@ msgstr ""
 msgid "Unable to load file list: "
 msgstr ""
 
-#: linux/mainwindow.cc:2451
+#: linux/mainwindow.cc:2445
 msgid "Unable to load file list: Invalid file list name"
 msgstr ""
 
@@ -5279,7 +5279,7 @@ msgstr ""
 msgid "User "
 msgstr ""
 
-#: linux/mainwindow.cc:1477
+#: linux/mainwindow.cc:1471
 msgid "User Commands Dialog"
 msgstr ""
 
@@ -5300,8 +5300,8 @@ msgstr ""
 msgid "User Per Favorite Hub Set"
 msgstr ""
 
-#: linux/AboutConfig.cc:412 linux/AboutConfigFav.cc:165
-#: linux/AboutConfigFav.cc:402
+#: linux/AboutConfig.cc:413 linux/AboutConfigFav.cc:165
+#: linux/AboutConfigFav.cc:401
 msgid "User Set"
 msgstr ""
 
@@ -5341,9 +5341,9 @@ msgstr ""
 msgid "User operator (passive) "
 msgstr ""
 
-#: linux/AboutConfig.cc:133 linux/AboutConfig.cc:144 linux/AboutConfig.cc:155
-#: linux/AboutConfig.cc:166 linux/AboutConfig.cc:177 linux/AboutConfig.cc:200
-#: linux/AboutConfig.cc:215 linux/AboutConfig.cc:385
+#: linux/AboutConfig.cc:134 linux/AboutConfig.cc:145 linux/AboutConfig.cc:156
+#: linux/AboutConfig.cc:167 linux/AboutConfig.cc:178 linux/AboutConfig.cc:201
+#: linux/AboutConfig.cc:216 linux/AboutConfig.cc:386
 msgid "User set"
 msgstr ""
 
@@ -5507,7 +5507,7 @@ msgstr ""
 msgid "Username: "
 msgstr ""
 
-#: linux/hub.cc:4792 linux/privatemessage.cc:1587
+#: linux/hub.cc:4791 linux/privatemessage.cc:1587
 msgid "Users Commands"
 msgstr ""
 
@@ -5595,11 +5595,11 @@ msgstr ""
 msgid "[Z]"
 msgstr ""
 
-#: linux/AboutConfig.cc:516 linux/FavoriteHubDialog.cc:626
+#: linux/AboutConfig.cc:517 linux/FavoriteHubDialog.cc:626
 msgid "_Cancel"
 msgstr ""
 
-#: linux/AboutConfig.cc:515 linux/FavoriteHubDialog.cc:624
+#: linux/AboutConfig.cc:516 linux/FavoriteHubDialog.cc:624
 msgid "_OK"
 msgstr ""
 
@@ -5619,7 +5619,7 @@ msgstr ""
 msgid "e-Mail: "
 msgstr ""
 
-#: linux/mainwindow.cc:2755
+#: linux/mainwindow.cc:2749
 msgid "file list from "
 msgstr ""
 

@@ -97,9 +97,9 @@ void UploadQueue::intilaize_client()
 void UploadQueue::getParams(const string& file, UserPtr user, StringMap &params)
 {
 	params["file"]  = file;
-	params["Nick"]  = WulforUtil::getNicks(user->getCID(), Util::emptyString);
+	params["Nick"]  = WulforUtil::getNicks(user->getCID(), string());
 	params["CID"]   = user->getCID().toBase32();
-	params["hub"]	= WulforUtil::getHubNames(user->getCID(), Util::emptyString);
+	params["hub"]	= WulforUtil::getHubNames(user->getCID(), string());
 }
 
 void UploadQueue::addFile(StringMap &params,GtkTreeIter *iter)
@@ -343,7 +343,7 @@ void UploadQueue::grantSlot_client(const string &cid)
 	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
 	if (user)
 	{
-		UploadManager::getInstance()->reserveSlot(HintedUser(user, Util::emptyString));
+		UploadManager::getInstance()->reserveSlot(HintedUser(user, string()));
 	}
 }
 
@@ -362,7 +362,7 @@ void UploadQueue::getFileList_client(const string &cid)
 		UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
 		if(user)
 		{
-			HintedUser hintedUser(user, Util::emptyString);
+			HintedUser hintedUser(user, string());
 			QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW);
 		}
 	}catch(...)

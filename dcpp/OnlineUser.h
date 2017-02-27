@@ -122,7 +122,7 @@ public:
 	bool isClientQueued() const { return isSet("TQ"); }
 
 	void getParams(ParamMap& params, const string& prefix, bool compatibility) const;
-	//UserPtr& getUser() { return user; }
+
 	GETSET(UserPtr, user, User);
 	GETSET(uint64_t, loggedIn, LoggedIn);
 	GETSET(uint32_t, sid, SID);

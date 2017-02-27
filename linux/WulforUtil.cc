@@ -433,10 +433,11 @@ bool WulforUtil::profileIsLocked()
 	// Also, Util::getConfigPath() is utf8 and we need system encoding for g_open().
 	const char *home = g_get_home_dir();
 	#ifndef _DEBUG
-	string configPath = home ? string(home) + "/.bmdc++-s/" : g_get_tmp_dir();
+		string configPath = home ? string(home) + "/.bmdc++-s/" : g_get_tmp_dir();
 	#else
-	string configPath = home ? string(home) + "/.bmdc++-debug/" : g_get_tmp_dir();
+		string configPath = home ? string(home) + "/.bmdc++-debug/" : g_get_tmp_dir();
 	#endif
+	
 	string profileLockingFile = configPath + "profile.lck";
 	int flags = O_WRONLY | O_CREAT;
 	int mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
@@ -572,7 +573,7 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string country)
 string WulforUtil::getCountryCode(string _countryname)
 {
 	if(_countryname.empty())
-		return Util::emptyString;
+		return string();
 	std::transform(_countryname.begin(), _countryname.end(), _countryname.begin(), (int(*)(int))toupper);
 
 	for(uint8_t q = 0; q < (sizeof(CountryNames) / sizeof(CountryNames[0])); ++q)
@@ -581,7 +582,7 @@ string WulforUtil::getCountryCode(string _countryname)
 				return CountryCodes[q];
 
 	}
-	return Util::emptyString;
+	return string();
 }
 
 string WulforUtil::formatReport(const Identity& identity)
@@ -720,7 +721,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	else if ( cmd == "slots")
 	{
 		if (param == "0")
-					status += _("Invalid number of slots");
+			status += _("Invalid number of slots");
 		else
 		{
 			SettingsManager *sm = SettingsManager::getInstance();
@@ -1301,7 +1302,7 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 //Main point of this code is from ? PtokaX
 string WulforUtil::getStatsForMem() {
 	
-	string temp = Util::emptyString;
+	string temp = string();
 	FILE *fp = fopen("/proc/self/status", "r");
 				if(fp != NULL) {
 					string memrss, memhwm, memvms, memvmp, memstk, memlib;
@@ -1478,7 +1479,7 @@ void WulforUtil::setTextDeufaults(GtkWidget* widget, std::string strcolor, std::
 			gtk_widget_set_name(widget,where.c_str());
 
 		// Intialize the chat window
-		std::string mono = dcpp::Util::emptyString;
+		std::string mono = string();
 		if (SETTING(USE_OEM_MONOFONT))
 		{
 			mono = "Monospace";
@@ -1518,7 +1519,7 @@ void WulforUtil::setTextDeufaults(GtkWidget* widget, std::string strcolor, std::
 		std::string strwhat = (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid ));
 		if(!where.empty()) strwhat = where;
 				
-		std::string t_css =std::string("GtkTextView#"+strwhat+" { background: "+strcolor+" ;}\n\0");
+		std::string t_css = std::string("GtkTextView#"+strwhat+" { background: "+strcolor+" ;}\n\0");
 				
 		if(!mono.empty()) {
 			t_css =	std::string("GtkTextView#"+strwhat+" { background: "+strcolor+" ;\n font: "+mono+"; }\n\0");	

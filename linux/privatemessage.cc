@@ -987,7 +987,7 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 	// Process special commands
 	if (text[0] == '/')
 	{
-		string command = text, params = Util::emptyString, param;
+		string command = text, params = string(), param;
 		string::size_type separator = text.find_first_of(' ');
 		if (separator != string::npos && text.size() > separator + 1)
 		{
@@ -995,7 +995,7 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			params = text.substr(separator + 1);
 		}
 		bool isThirdPerson = false;
-		string message = Util::emptyString, status = Util::emptyString;
+		string message = string(), status = string();
 #if 0		
 		if(PluginManager::getInstance()->onChatCommandPM(HintedUser(make_shared<User>(User(CID(pm->cid))),pm->hubUrl),command)) {
 			// Plugins, chat commands

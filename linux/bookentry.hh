@@ -30,7 +30,7 @@ class BookEntry : public Entry
 {
 	public:
 		BookEntry(): eventBox(NULL), labelBox(NULL), tabMenuItem(NULL),	closeButton(NULL),
-				label(NULL), bCreated(true),bold(false), urgent(false), labelSize(20), icon(NULL) , popTabMenuItem(NULL), type((EntryType)0), IsCloseButton(true)  { }
+				label(NULL), bCreated(true),bold(false), urgent(false), labelSize(20), icon(NULL) , popTabMenuItem(NULL), type((EntryType)0), bIsCloseButton(true)  { }
 		BookEntry(const EntryType type, const std::string &text, const std::string &glade, const std::string &id = "");
 		virtual ~BookEntry()
 		{
@@ -44,7 +44,6 @@ class BookEntry : public Entry
 		void setIcon_gui(const EntryType type);
 		void setBackForeGround(const EntryType type); //@ Setting BackGround and ForeGround of BookEntry
 		void setIcon_gui(const std::string stock);
-		//void setIconPixbufs_gui(GdkPixbuf* pixbuf);
 		void setIconPixbufs_gui(const std::string iconspath);
 		void setLabel_gui(const std::string text);
 		const std::string& getLabelText() const;
@@ -55,7 +54,7 @@ class BookEntry : public Entry
 		virtual void show() = 0;
 		virtual GtkWidget *createmenu();
 
-		void setSearchButtons(bool s) { IsCloseButton = s;}
+		void setSearchButtons(bool s) { bIsCloseButton = s;}
 		void setName(const std::string& name)
 		{ h_name = name; }
 		void setUnread() //@set flag for tab
@@ -90,11 +89,10 @@ class BookEntry : public Entry
 		const glong labelSize;//@ size of Chars in Tab value in WulforSettingsManager
 		GtkWidget *icon;
 		//[BMDC++
-		//int book_pos;
 		GdkEventType previous;
 		GtkWidget *popTabMenuItem;
 		const EntryType type;
-		bool IsCloseButton;
+		bool bIsCloseButton;
 };
 
 #else

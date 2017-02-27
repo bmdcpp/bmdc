@@ -36,6 +36,7 @@ class FavoriteHubs:
 	public dcpp::FavoriteManagerListener,
 	public dcpp::ClientManagerListener
 {
+	//this is from clang
 	private:
 		using dcpp::FavoriteManagerListener::on;
 		using dcpp::ClientManagerListener::on;
@@ -82,8 +83,8 @@ class FavoriteHubs:
 		void removeEntry_client(std::string address);
 
 		// Client callbacks
-		virtual void on(dcpp::FavoriteManagerListener::FavoriteAdded, const dcpp::FavoriteHubEntryPtr entry) throw();
-		virtual void on(dcpp::FavoriteManagerListener::FavoriteRemoved, const dcpp::FavoriteHubEntryPtr entry) throw();
+		virtual void on(dcpp::FavoriteManagerListener::FavoriteAdded, const dcpp::FavoriteHubEntryPtr entry) noexcept;
+		virtual void on(dcpp::FavoriteManagerListener::FavoriteRemoved, const dcpp::FavoriteHubEntryPtr entry) noexcept;
 		
 		// ClientManagerListener
 		virtual void on(dcpp::ClientManagerListener::ClientConnected, dcpp::Client*) noexcept;

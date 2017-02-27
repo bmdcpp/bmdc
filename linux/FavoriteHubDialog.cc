@@ -449,7 +449,7 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 			p_entry->set(SettingsManager::FAV_SHOW_JOINS, gtk_combo_box_get_active(GTK_COMBO_BOX(comboFavParts)));
 			p_entry->set(SettingsManager::DEFAULT_AWAY_MESSAGE, gtk_entry_get_text(GTK_ENTRY(entryAwayMessage)));
 
-			p_entry->set(SettingsManager::EXTERNAL_IP6, Util::emptyString);
+			p_entry->set(SettingsManager::EXTERNAL_IP6, string());
 			GdkRGBA color;
 			gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER(colorBack),
                             &color);
@@ -466,7 +466,7 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 					g_free(image_path);
 			}
 
-			p_entry->setGroup(Util::emptyString);
+			p_entry->setGroup(string());
 
 		if (gtk_combo_box_get_active(GTK_COMBO_BOX(comboGroup)) != 0)
 		{

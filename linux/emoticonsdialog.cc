@@ -38,7 +38,7 @@ const string EmoticonsDialog::sizeIcon[] = {
 
 Emoticons* EmoticonsDialog::em_global = NULL;
 
-EmoticonsDialog::EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *menu, string packName /*Util::emptyString*/, const string& address /*Util::empty*/) :
+EmoticonsDialog::EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *menu, string packName /*Util::empty*/, const string& address /*Util::empty*/) :
 	Chat(chat),
 	Button(button),
 	Menu(menu),

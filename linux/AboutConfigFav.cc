@@ -235,7 +235,7 @@ void AboutConfigFav::addItem_gui(const gchar* rowname, const gchar* isdefault, c
 {
 	GtkTreeIter iter;
 	dcdebug("\n%s-%s-%s-%s\n ",rowname,isdefault,types,value);
-	if(value == NULL)return;
+	if(value == NULL) return;
 	gboolean isOk = g_utf8_validate(value,-1,NULL);
 	gboolean isOk2 = g_utf8_validate(rowname,-1,NULL);
 	gboolean isOk3 = g_utf8_validate(isdefault,-1,NULL);
@@ -259,7 +259,6 @@ void AboutConfigFav::addItem_gui(const gchar* rowname, const gchar* isdefault, c
 				aboutView.col(_("Status")), isdefault,
 				aboutView.col(_("Type")), types,
 				aboutView.col(_("Value")), value,
-				//aboutView.col("BackColor"), isok ? "#FF0000" : "#000000",
 				aboutView.col("ForeColor"), !isok ? "#FF0000" : "#000000",
 	-1);
 
@@ -433,10 +432,7 @@ void AboutConfigFav::onSetDefault(GtkWidget*, gpointer data)
 					static_cast<SettingsManager::IntSetting>(n)));
 					break;
 				case SettingsManager::TYPE_INT64:
-					//value = Text::toT(Util::toString(sm->get(static_cast<SettingsManager::Int64Setting>(n))));
-					break;
 				case SettingsManager::TYPE_FLOAT:
-					//value = Text::toT(Util::toString(sm->get(static_cast<SettingsManager::FloatSetting>(n))));
 					break;
 				case SettingsManager::TYPE_BOOL:
 					value = Text::toT(Util::toString((int)sm->getDefault(static_cast<SettingsManager::BoolSetting>(n))));

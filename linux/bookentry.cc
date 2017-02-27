@@ -37,7 +37,7 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	bold(false), urgent(false),
 	labelSize((glong)WGETI("size-label-box-bookentry")),
 	icon(NULL), popTabMenuItem(NULL),
-	type(type), IsCloseButton(false)
+	type(type), bIsCloseButton(false)
 {
 	GSList *group = NULL;
 	labelBox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
@@ -68,7 +68,7 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	gtk_widget_set_margin_top(GTK_WIDGET(label),0);
 	gtk_widget_set_margin_bottom(GTK_WIDGET(label),0);
     #endif
-    if(IsCloseButton || WGETB("use-close-button"))
+    if(bIsCloseButton || WGETB("use-close-button"))
      {
 		closeButton = gtk_button_new();
 		gtk_widget_set_name(closeButton,getName().c_str());
@@ -152,10 +152,6 @@ void BookEntry::setIcon_gui(const std::string stock)
 {
 	gtk_image_set_from_icon_name(GTK_IMAGE(icon), stock.c_str(), GTK_ICON_SIZE_MENU);
 }
-/*void BookEntry::setIconPixbufs_gui(GdkPixbuf* pixbuf)
-{
-    gtk_image_set_from_pixbuf(GTK_IMAGE(icon),pixbuf);
-}*/
 
 void BookEntry::setIconPixbufs_gui(const std::string iconspath)
 {
@@ -170,7 +166,7 @@ void BookEntry::setLabel_gui(const string text)
 	if (child && GTK_IS_LABEL(child))
 		gtk_label_set_text(GTK_LABEL(child), text.c_str());
 
-	if(IsCloseButton || WGETB("use-close-button"))
+	if(bIsCloseButton || WGETB("use-close-button"))
     {
         // Update the notebook tab label
        gtk_widget_set_tooltip_text(eventBox, text.c_str());
@@ -283,7 +279,7 @@ void BookEntry::removeBooK_GUI()
 
 GtkWidget *BookEntry::createmenu()
 {
-    if(!IsCloseButton) {
+    if(!bIsCloseButton) {
 		popTabMenuItem = gtk_menu_new();
 		GtkWidget *menuItemFirst =  createItemFirstMenu();
 		GtkWidget *closeTabMenuItem = gtk_menu_item_new_with_label(_("Close"));
@@ -589,8 +585,11 @@ void BookEntry::setBackForeGround(const EntryType type)
 	g_object_unref (provider);
 
 }
-//Dont Translate string in this function below!
-string BookEntry::getName() //CSS:getName() In this should not include : ,spaces and so #dialog(s) is there only for is it in one enum
+/*
+ Dont Translate string in this function below!
+ CSS:getName() In this should not include : ,spaces and so on #dialog(s) is there only for is it in one enum
+*/
+string BookEntry::getName() 
 {
 	string str = string();
 	const Entry::EntryType  type = getType();

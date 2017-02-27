@@ -1033,12 +1033,6 @@ void MainWindow::onAboutConfigClicked_gui(GtkWidget*, gpointer data)
 	MainWindow *mw = (MainWindow *)data;
 	mw->showBook(Entry::ABOUT_CONFIG,new AboutConfig());
 }
-/*
-void MainWindow::showDownloadQueue_gui()
-{
-	showBook(Entry::DOWNLOAD_QUEUE,new DownloadQueue());
-	setStatusOfIcons(QUEUE,true);
-}*/
 
 void MainWindow::showFavoriteHubs_gui()
 {
@@ -1795,12 +1789,12 @@ void MainWindow::addFileDownloadQueue_client(string name, int64_t size, string t
 	{
 		if (!tth.empty())
 		{
-			QueueManager::getInstance()->add(name, size, TTHValue(tth) , HintedUser(make_shared<User>(User(CID())),Util::emptyString));
+			QueueManager::getInstance()->add(name, size, TTHValue(tth) , HintedUser(make_shared<User>(User(CID())),string()));
 
 			// automatically search for alternative download locations
 			if (SETTING(AUTO_SEARCH))
 				SearchManager::getInstance()->search(tth, 0, SearchManager::TYPE_TTH, SearchManager::SIZE_DONTCARE,
-					Util::emptyString);
+					string());
 		}
 	}
 	catch (const Exception& e)
@@ -2446,7 +2440,7 @@ void MainWindow::onOpenFileListClicked_gui(GtkWidget*, gpointer data)
 
 			UserPtr user = DirectoryListing::getUserFromFilename(path);
 			if (user)
-				mw->showShareBrowser_gui(HintedUser(user,dcpp::Util::emptyString), path, "", 0, FALSE);
+				mw->showShareBrowser_gui(HintedUser(user,string()), path, "", 0, FALSE);
 			else
 				mw->setMainStatus_gui(_("Unable to load file list: Invalid file list name"));
 		}
@@ -2528,7 +2522,7 @@ void MainWindow::onAboutClicked_gui(GtkWidget*, gpointer data)
 void MainWindow::onAboutDialogActivateLink_gui(GtkAboutDialog*, const gchar *link, gpointer data)
 {
 	MainWindow *mw =(MainWindow *)data;
-	string error = Util::emptyString;
+	string error = string();
 	WulforUtil::openURI(link,error);
 	if(!error.empty())
 	    mw->setMainStatus_gui(error);
@@ -2696,7 +2690,7 @@ void MainWindow::openOwnList_client(bool useSetting)
 	string path = ShareManager::getInstance()->getOwnListFile();
 
 	typedef Func5<MainWindow, HintedUser, string, string, int64_t,bool> F5;
-	F5 *func = new F5(this, &MainWindow::showShareBrowser_gui,HintedUser(user,dcpp::Util::emptyString), path, "",0, useSetting);
+	F5 *func = new F5(this, &MainWindow::showShareBrowser_gui,HintedUser(user,string()), path, "",0, useSetting);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 

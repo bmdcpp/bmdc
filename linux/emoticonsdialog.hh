@@ -29,14 +29,14 @@
 class EmoticonsDialog
 {
 	public:
-		EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *menu, std::string packName = SETTING(EMOT_PACK), const std::string& address = dcpp::Util::emptyString);
+		EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *menu, std::string packName = SETTING(EMOT_PACK), const std::string& address = std::string());
 		~EmoticonsDialog();
 
 		// GUI functions
 		void showEmotDialog_gui();
 		void buildEmotMenu_gui();
 		std::string getCurrent(const std::string& address) { return getEmot(address)->getCurrPackName_gui();}
-		Emoticons *getEmot(const std::string &address = dcpp::Util::emptyString);
+		Emoticons *getEmot(const std::string &address = "");
 	private:
 		enum {FIRST, x16 = FIRST, x22, x24, x32, x36, x48, x64, DEFAULT, LAST};
 
