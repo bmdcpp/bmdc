@@ -979,16 +979,10 @@ gboolean DetectionTab::onButtonItemPressed_gui(GtkWidget*, GdkEventButton *event
 gboolean DetectionTab::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	DetectionTab *dt = reinterpret_cast<DetectionTab *>(data);
-	GtkTreeIter iter;
-	GtkTreeModel *tmodel;
-	//if (!gtk_tree_selection_get_selected(dt->itemselection, &tmodel, &iter))
-	//{
-	//need test
-		if (dt->previous == GDK_BUTTON_PRESS && event->button == 3)
-		{
+	if (dt->previous == GDK_BUTTON_PRESS && event->button == 3)
+	{
 			dt->popupMenu_gui();
-		}
-	//}
+	}
 	return TRUE;
 }
 

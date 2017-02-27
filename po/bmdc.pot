@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2017-02-25 13:20+0100\n"
+"POT-Creation-Date: 2017-02-27 19:19+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -499,8 +499,8 @@ msgid "About:Config"
 msgstr ""
 
 #: ui/adlsearch.glade.ui:444 ui/detection.glade.ui:3054
-#: linux/detectiontab.cc:178 linux/detectiontab.cc:1345
-#: linux/detectiontab.cc:1383 linux/detectiontab.cc:1439
+#: linux/detectiontab.cc:178 linux/detectiontab.cc:1339
+#: linux/detectiontab.cc:1377 linux/detectiontab.cc:1433
 msgid "Action"
 msgstr ""
 
@@ -661,8 +661,8 @@ msgstr ""
 msgid "Away mode message on/off"
 msgstr ""
 
-#: ui/hub.glade.ui:25 ui/privatemessage.glade.ui:25 linux/WulforUtil.cc:648
-#: linux/WulforUtil.cc:668 linux/mainwindow.cc:2318
+#: ui/hub.glade.ui:25 ui/privatemessage.glade.ui:25 linux/WulforUtil.cc:649
+#: linux/WulforUtil.cc:669 linux/mainwindow.cc:2318
 #: linux/privatemessage.cc:1066
 msgid "Away mode off"
 msgstr ""
@@ -1196,7 +1196,7 @@ msgstr ""
 #: linux/detectiontab.cc:644 linux/detectiontab.cc:653
 #: linux/detectiontab.cc:672 linux/detectiontab.cc:684
 #: linux/detectiontab.cc:828 linux/detectiontab.cc:897
-#: linux/detectiontab.cc:912 linux/detectiontab.cc:1080
+#: linux/detectiontab.cc:912 linux/detectiontab.cc:1074
 msgid "Enable"
 msgstr ""
 
@@ -1562,8 +1562,8 @@ msgid "Home"
 msgstr ""
 
 #: ui/search.glade.ui:851 linux/bookentry.cc:392 linux/detectiontab.cc:108
-#: linux/detectiontab.cc:1026 linux/detectiontab.cc:1128
-#: linux/detectiontab.cc:1225 linux/finishedtransfers.cc:77
+#: linux/detectiontab.cc:1020 linux/detectiontab.cc:1122
+#: linux/detectiontab.cc:1219 linux/finishedtransfers.cc:77
 #: linux/finishedtransfers.cc:183 linux/search.cc:110 linux/search.cc:234
 #: linux/search.cc:714 linux/search.cc:786 linux/search.cc:928
 #: linux/search.cc:1812 linux/search.cc:2147 linux/search.cc:2198
@@ -1597,7 +1597,7 @@ msgstr ""
 #: linux/detectiontab.cc:673 linux/detectiontab.cc:685
 #: linux/detectiontab.cc:833 linux/detectiontab.cc:857
 #: linux/detectiontab.cc:902 linux/detectiontab.cc:917
-#: linux/detectiontab.cc:1079
+#: linux/detectiontab.cc:1073
 msgid "ID"
 msgstr ""
 
@@ -2136,8 +2136,8 @@ msgid "Plugins"
 msgstr ""
 
 #: ui/detection.glade.ui:1215 linux/detectiontab.cc:177
-#: linux/detectiontab.cc:1344 linux/detectiontab.cc:1382
-#: linux/detectiontab.cc:1438
+#: linux/detectiontab.cc:1338 linux/detectiontab.cc:1376
+#: linux/detectiontab.cc:1432
 msgid "Points"
 msgstr ""
 
@@ -2878,8 +2878,8 @@ msgstr ""
 #: linux/AboutConfigFav.cc:38 linux/AboutConfigFav.cc:124
 #: linux/AboutConfigFav.cc:261 linux/AboutConfigFav.cc:273
 #: linux/AboutConfigFav.cc:374 linux/detectiontab.cc:107
-#: linux/detectiontab.cc:1025 linux/detectiontab.cc:1127
-#: linux/detectiontab.cc:1224
+#: linux/detectiontab.cc:1019 linux/detectiontab.cc:1121
+#: linux/detectiontab.cc:1218
 msgid "Value"
 msgstr ""
 
@@ -3248,7 +3248,7 @@ msgstr ""
 msgid "*** Available commands:"
 msgstr ""
 
-#: linux/WulforUtil.cc:591
+#: linux/WulforUtil.cc:592
 msgid "*** Info on "
 msgstr ""
 
@@ -3399,7 +3399,7 @@ msgstr ""
 msgid "Address: "
 msgstr ""
 
-#: linux/WulforUtil.cc:982
+#: linux/WulforUtil.cc:983
 msgid "Aliases not found."
 msgstr ""
 
@@ -3444,7 +3444,7 @@ msgstr ""
 msgid "Are you sure you want to delete favorite user(s)?"
 msgstr ""
 
-#: linux/detectiontab.cc:1053 linux/detectiontab.cc:1459
+#: linux/detectiontab.cc:1047 linux/detectiontab.cc:1453
 msgid "Are you sure you want to delete item?"
 msgstr ""
 
@@ -3512,7 +3512,7 @@ msgstr ""
 msgid "Away mode on"
 msgstr ""
 
-#: linux/WulforUtil.cc:659
+#: linux/WulforUtil.cc:660
 msgid "Away mode on: "
 msgstr ""
 
@@ -3658,7 +3658,7 @@ msgstr ""
 msgid "Command name already exists"
 msgstr ""
 
-#: linux/WulforUtil.cc:636
+#: linux/WulforUtil.cc:637
 msgid "Command send: "
 msgstr ""
 
@@ -4055,12 +4055,12 @@ msgstr ""
 msgid "Favorite user quit"
 msgstr ""
 
-#: linux/detectiontab.cc:106 linux/detectiontab.cc:1024
-#: linux/detectiontab.cc:1126 linux/detectiontab.cc:1223
+#: linux/detectiontab.cc:106 linux/detectiontab.cc:1018
+#: linux/detectiontab.cc:1120 linux/detectiontab.cc:1217
 msgid "Field"
 msgstr ""
 
-#: linux/detectiontab.cc:1245
+#: linux/detectiontab.cc:1239
 msgid "Fields Name, ID and detection fields are required"
 msgstr ""
 
@@ -4305,7 +4305,7 @@ msgstr ""
 msgid "Invalid extension: "
 msgstr ""
 
-#: linux/WulforUtil.cc:723
+#: linux/WulforUtil.cc:724
 msgid "Invalid number of slots"
 msgstr ""
 
@@ -4810,7 +4810,7 @@ msgstr ""
 msgid "Set Slots to n"
 msgstr ""
 
-#: linux/WulforUtil.cc:730
+#: linux/WulforUtil.cc:731
 msgid "Set Slots to:"
 msgstr ""
 
@@ -4979,7 +4979,7 @@ msgstr ""
 msgid "Source too slow"
 msgstr ""
 
-#: linux/WulforUtil.cc:784 linux/WulforUtil.cc:790
+#: linux/WulforUtil.cc:785 linux/WulforUtil.cc:791
 msgid "Specify a search string"
 msgstr ""
 
@@ -5635,7 +5635,7 @@ msgstr ""
 msgid "on"
 msgstr ""
 
-#: linux/WulforUtil.cc:680
+#: linux/WulforUtil.cc:681
 msgid "project home: "
 msgstr ""
 

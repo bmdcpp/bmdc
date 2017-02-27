@@ -108,6 +108,13 @@ class WulforUtil
 		static void setTextDeufaults(GtkWidget* widget, std::string strcolor, std::string back_image_path = "",bool pm = false,std::string hubUrl = "",std::string where = "");
 		//Note : selected is red, because most themes get white or black
 		static void setTextColor(std::string color,std::string where = "");
+
+		static std::string getTagName(GtkTextTag *tag);
+	
+		static gboolean	is_format_supported (const gchar *uri);
+
+		static GtkIconTheme *icon_theme;
+	
 	private:
 		static std::string formatTimeDifference(uint64_t diff, size_t levels = 3);
 		static std::string generateLeech();
@@ -115,56 +122,13 @@ class WulforUtil
 		static std::string cpuinfo();
 		static bool Ipv4Hit(std::string name);
 		static std::string formatSized(std::string nonf);
-	public:
-		static GtkIconTheme *icon_theme;
-	private:
 		static std::vector<std::string> charsets;
 		static const std::string magnetSignature;
 		static std::unordered_map<std::string,GdkPixbuf*> countryIcon;
 		static const char* CountryNames[];
 		static const char* CountryCodes[];
 		static const char* msgs_dc[];
-	public:
-	static std::string getTagName(GtkTextTag *tag)
-	{
-		gchar *tmp  = NULL;
-		g_object_get(G_OBJECT(tag), "name", &tmp, NULL);
-		std::string tagName = std::string(tmp);
-		g_free(tmp);
-		return tagName;
-	}
-	static gboolean	is_format_supported (const gchar *uri)
-{
-	GSList *pixbuf_formats = NULL;
-	GSList *iter;
-	int i;
-
-	pixbuf_formats = gdk_pixbuf_get_formats ();
-
-	for (iter = pixbuf_formats; iter; iter = iter->next) {
-		gchar **extension_list;
-		GdkPixbufFormat *format = (GdkPixbufFormat*)iter->data;
 		
-		if (gdk_pixbuf_format_is_disabled (format))
-		            continue;
-
-	        extension_list = gdk_pixbuf_format_get_extensions (format);
-
-		for (i = 0; extension_list[i] != 0; i++) {
-			if (g_str_has_suffix (uri, extension_list[i])) {
-			    g_slist_free (pixbuf_formats);
-				g_strfreev (extension_list);
-				return TRUE;
-			}
-		}
-		g_strfreev (extension_list);
-	}
-
-	g_slist_free (pixbuf_formats);
-	return FALSE;
-};
-
-	
 };
 
 #endif
