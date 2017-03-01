@@ -37,9 +37,9 @@
 
 #ifndef NOTIFY_HH
 #define NOTIFY_HH
-
+#ifdef HAVE_NOTIFY
 #include <libnotify/notify.h>
-
+#endif
 class Notify
 {
 	public:
@@ -66,9 +66,10 @@ class Notify
 		~Notify() { finalize(); }
 
 		void showNotify(const std::string head, const std::string body, TypeNotify notify);
+		#ifdef HAVE_NOTIFY
 		void showNotify(const std::string title, const std::string head, const std::string body,
 			const std::string icon, const int iconSize, NotifyUrgency urgency);
-
+		#endif
 	private:
 		static Notify *notify;
 		enum { x16, x22, x24, x32, x36, x48, x64, DEFAULT };
@@ -84,9 +85,10 @@ class Notify
 		NotifyNotification *notification;
 		#endif
 		bool bAction;
-
+		#ifdef HAVE_NOTIFY
 		//GUI callback functions
 		static void onAction(NotifyNotification *notify, const char *action, gpointer data);
+		#endif
 };
 
 #else

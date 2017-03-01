@@ -454,7 +454,7 @@ SettingsManager::SettingsManager()
 	setDefault(USE_SOCK5,false);
 
 	setSearchTypeDefaults();
-
+/*
 #ifdef _WIN32
 	setDefault(MAIN_WINDOW_STATE, SW_SHOWNORMAL);
 	setDefault(MAIN_WINDOW_SIZE_X, CW_USEDEFAULT);
@@ -465,7 +465,7 @@ SettingsManager::SettingsManager()
 	setDefault(UPLOAD_BG_COLOR, RGB(205, 60, 55));
 	setDefault(DOWNLOAD_TEXT_COLOR, RGB(255, 255, 255));
 	setDefault(DOWNLOAD_BG_COLOR, RGB(55, 170, 85));
-#endif
+#endif*/
 }
 
 void SettingsManager::load(string const& aFileName)

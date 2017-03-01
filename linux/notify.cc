@@ -224,10 +224,10 @@ void Notify::showNotify(const string head, const string body, TypeNotify notify)
 	}
 	#endif
 }
-
+#ifdef HAVE_NOTIFY
 void Notify::showNotify(const string title, const string head, const string body, const string icon, const int iconSize, NotifyUrgency urgency)
 {
-	#ifdef HAVE_NOTIFY
+
 //@ only title is Fatal	
 	if(title.empty())
 		return;
@@ -278,17 +278,19 @@ void Notify::showNotify(const string title, const string head, const string body
 	}
 
 	notify_notification_show(notification, NULL);
-	#endif
-}
 
+}
+#endif
+#ifdef HAVE_NOTIFY
 void Notify::onAction(NotifyNotification *notify, const char*, gpointer data)
 {
-	#ifdef HAVE_NOTIFY
+
 	string target = (gchar *)data;
 
 	if (!target.empty())
 		WulforUtil::openURI(target);
 
 	notify_notification_close(notify, NULL);
-	#endif
+
 }
+#endif

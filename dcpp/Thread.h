@@ -53,7 +53,7 @@ public:
 			CloseHandle(threadHandle);
 	}
 
-	void start() throw();
+	void start() ;
 	void join() throw() {
 		if(threadHandle == INVALID_HANDLE_VALUE) {
 			return;
