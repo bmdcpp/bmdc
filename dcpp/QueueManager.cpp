@@ -1263,7 +1263,6 @@ void QueueManager::processList(const string& name, const HintedUser& user, int f
 		{
 			Lock l(cs);
 			auto dp = directories.equal_range(user); //| map_values;
-			//dl.assign(boost::begin(dp), boost::end(dp));
 			for(auto i = dp.first;i!= dp.second;++i) {dl.push_back((*i).second);}//TODO check...
 			directories.erase(user);
 		}
@@ -1721,7 +1720,7 @@ void QueueManager::on(ClientManagerListener::UserConnected, const UserPtr& aUser
 
 	if(hasDown) {
 		// the user just came on, so there's only 1 possible hub, no need for a hint
-		ConnectionManager::getInstance()->getDownloadConnection(HintedUser(aUser, Util::emptyString));
+		ConnectionManager::getInstance()->getDownloadConnection(HintedUser(aUser, string()));
 	}
 }
 
@@ -1737,7 +1736,7 @@ void QueueManager::on(ClientManagerListener::UserDisconnected, const UserPtr& aU
 		}
 	}
 	if(hasTestSURinQueue)
-		removeTestSUR(HintedUser(aUser, Util::emptyString));
+		removeTestSUR(HintedUser(aUser, string()));
   }
 }
 
@@ -1829,7 +1828,7 @@ void QueueManager::logFinishedDownload(QueueItem* qi, Download*, bool crcChecked
 					}
 					ips.push_back(ip);
 
-					temp = ClientManager::getInstance()->getHubNames(*i);
+					temp = UsersManager::getInstance()->getHubNames(*i);
 					if(temp.empty()) {
 						temp.push_back(_("Offline"));
 					}
@@ -1869,7 +1868,7 @@ string QueueManager::addFileListCheck(const HintedUser& aUser) {
 	string fname = nick + aUser.user->getCID().toBase32();
 
 	if(aUser.user == ClientManager::getInstance()->getMe())
-		return Util::emptyString;
+		return string();
 
 	add(Util::getListPath() + fname, -1, TTHValue(), aUser, (Flags::MaskType)(QueueItem::FLAG_USER_LIST | QueueItem::FLAG_CHECK_FILE_LIST));
 	return fname;

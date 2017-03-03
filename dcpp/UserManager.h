@@ -38,7 +38,7 @@ class UsersManager: public Singleton<UsersManager>
 	
 	public:
 	
-	StringList getHubs(const CID& cid, const string& hintUrl = "") 
+	StringList getHubs(const CID& cid, const string& hintUrl = string()) 
 	{
 		Lock l(cs);
 		StringList lst;
@@ -50,15 +50,15 @@ class UsersManager: public Singleton<UsersManager>
 		return lst;
 	}
 	
-	StringList getHubNames(const CID& cid, const string&) {
-	Lock l(cs);
-	StringList lst;
-	OnlinePairC op = onlineUsers.equal_range(cid);
-	for(OnlineIterC i = op.first; i != op.second; ++i) {
-		lst.push_back(i->second->getClient().getHubName());
-	}
-	return lst;
-}	
+	StringList getHubNames(const CID& cid, const string& x = string()) {
+		Lock l(cs);
+		StringList lst;
+		OnlinePairC op = onlineUsers.equal_range(cid);
+		for(OnlineIterC i = op.first; i != op.second; ++i) {
+			lst.push_back(i->second->getClient().getHubName());
+		}
+		return lst;
+	}	
 	
 	StringList getNicks(const CID& cid, const string& hintUrl) {
 	Lock l(cs);

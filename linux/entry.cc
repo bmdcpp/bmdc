@@ -34,7 +34,7 @@ Entry::Entry(const EntryType type, const string &ui, const string &id):
 {
 	if(!ui.empty()) {
 	// Load the Builder XML file, if applicable
-	string file = WulforManager::get()->getPath() + "/ui/" + ui + ".glade.ui";
+	string file = WulforManager::get()->getPath() + "/ui/" + ui + ".ui";
 #if !GTK_CHECK_VERSION(3, 10, 0)
 	GError *error = NULL;
 	xml = gtk_builder_new();
@@ -46,10 +46,9 @@ Entry::Entry(const EntryType type, const string &ui, const string &id):
 			g_error_free(error);
 	}
 #else
-	xml = gtk_builder_new_from_resource( (string("/org/bmdc-team/bmdc/ui/")+ui+".glade.ui").c_str());
+	xml = gtk_builder_new_from_resource( (string("/org/bmdc-team/bmdc/ui/")+ui+".ui").c_str());
 #endif
   }
-  //Do nothink if ui empty
 }
 
 Entry::~Entry()

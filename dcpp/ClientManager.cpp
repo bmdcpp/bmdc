@@ -201,7 +201,7 @@ string ClientManager::findHub(const string& ipPort) const {
 	//NOTE: *should* never get value over 65535 since is it uint16_t
 	//NOTE: dont allow 0 as port
 	if( port < 1)
-		return Util::emptyString;
+		return string();
 	bool ok = false;
 	
 	if(Util::isIp6(ip) == true)
@@ -226,7 +226,7 @@ string ClientManager::findHub(const string& ipPort) const {
 
 		return url;
 	}
-	return Util::emptyString;
+	return string();
 }
 
 string ClientManager::findHubEncoding(const string& aUrl) const {
@@ -406,13 +406,13 @@ OnlineUser* ClientManager::findOnlineUser(const CID& cid, const string& hintUrl)
 string ClientManager::findMySID(const HintedUser& p) {
 	//this could also be done by just finding in the client list... better?
 	if(p.hint.empty()) // we cannot find the correct SID without a hubUrl
-		return Util::emptyString;
+		return string();
 
 	OnlineUser* u = findOnlineUser(p.user->getCID(), p.hint);
 	if(u)
 		return (&u->getClient())->getMyIdentity().getSIDString();
 
-	return Util::emptyString;
+	return string();
 }
 //
 void ClientManager::connect(const HintedUser& user, const string& token) {
@@ -561,11 +561,6 @@ void ClientManager::on(AdcSearch, Client* c, const AdcCommand& adc, const CID& f
 	{
 		Lock l(cs);
 
-		/*auto i = onlineUsers.find(from);
-		if(i != onlineUsers.end()) {
-			OnlineUser& u = *i->second;
-			isUdpActive = u.getIdentity().isUdpActive();
-		}*/
 		OnlineUser* ou = findOnlineUserHint(from,c->getHubUrl());
 		isUdpActive = ou->getIdentity().isUdpActive();
 

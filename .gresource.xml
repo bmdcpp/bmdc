@@ -5,31 +5,31 @@
     <file>info/error.png</file>
     <file>info/info.png</file>
     <file>info/warning.png</file>
-    <file compressed="true">ui/mainwindow.glade.ui</file>
-    <file>ui/hub.glade.ui</file>
-    <file>ui/notepad.glade.ui</file>
-    <file>ui/FavDialog.glade.ui</file>
-    <file>ui/favoritehubs.glade.ui</file>
-    <file>ui/favoriteusers.glade.ui</file>
-    <file>ui/hash.glade.ui</file>
-    <file>ui/adlsearch.glade.ui</file>
-    <file>ui/cmddebug.glade.ui</file>
-    <file>ui/detection.glade.ui</file>
-    <file>ui/downloadqueue.glade.ui</file>
-    <file>ui/export.glade.ui</file>
-    <file>ui/finishedtransfers.glade.ui</file>
-    <file>ui/privatemessage.glade.ui</file>
-    <file>ui/publichubs.glade.ui</file>
-    <file>ui/recenthub.glade.ui</file>
-    <file>ui/search.glade.ui</file>
-    <file>ui/SearchEntry.glade.ui</file>
-    <file>ui/searchspy.glade.ui</file>
-    <file compressed="true">ui/settingsdialog.glade.ui</file>
-    <file>ui/sharebrowser.glade.ui</file>
-    <file>ui/system.glade.ui</file>
-    <file>ui/transfers.glade.ui</file>
-    <file>ui/uploadqueue.glade.ui</file>
-    <file>ui/config.glade.ui</file>
+    <file compressed="true">ui/mainwindow.ui</file>
+    <file>ui/hub.ui</file>
+    <file>ui/notepad.ui</file>
+    <file>ui/FavDialog.ui</file>
+    <file>ui/favoritehubs.ui</file>
+    <file>ui/favoriteusers.ui</file>
+    <file>ui/hash.ui</file>
+    <file>ui/adlsearch.ui</file>
+    <file>ui/cmddebug.ui</file>
+    <file>ui/detection.ui</file>
+    <file>ui/downloadqueue.ui</file>
+    <file>ui/export.ui</file>
+    <file>ui/finishedtransfers.ui</file>
+    <file>ui/privatemessage.ui</file>
+    <file>ui/publichubs.ui</file>
+    <file>ui/recenthub.ui</file>
+    <file>ui/search.ui</file>
+    <file>ui/SearchEntry.ui</file>
+    <file>ui/searchspy.ui</file>
+    <file compressed="true">ui/settingsdialog.ui</file>
+    <file>ui/sharebrowser.ui</file>
+    <file>ui/system.ui</file>
+    <file>ui/transfers.ui</file>
+    <file>ui/uploadqueue.ui</file>
+    <file>ui/config.ui</file>
     <file>country/A1.png</file>
     <file>country/A2.png</file>
     <file>country/AD.png</file>
