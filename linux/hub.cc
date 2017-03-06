@@ -4795,6 +4795,7 @@ GtkWidget *Hub::createmenu()
 		GtkWidget *setTab = gtk_menu_item_new_with_label(_("Set Tab Name"));
 		GtkWidget *reconectItem = gtk_menu_item_new_with_label(_("Reconnect this hub"));
 		GtkWidget *closeItem = gtk_menu_item_new_with_label (_("Close Hub"));
+		GtkWidget *shareView = gtk_menu_item_new_with_label (_("Show Share Browser"));
 	
 		gtk_menu_item_set_submenu(GTK_MENU_ITEM(u_item), userCommandMenu1->getContainer());
 		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), fitem);
@@ -4803,6 +4804,7 @@ GtkWidget *Hub::createmenu()
 		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), addFav);
 		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), remfav);
 		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), setTab);
+		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), shareView);
 		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), reconectItem);
 		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), u_item);
 		gtk_widget_show(copyHubUrl);
@@ -4811,6 +4813,7 @@ GtkWidget *Hub::createmenu()
 		gtk_widget_show(setTab);
 		gtk_widget_show(u_item);
 		gtk_widget_show(fitem);
+		gtk_widget_show(shareView);
 		gtk_widget_show(reconectItem);
 		gtk_widget_show_all(userCommandMenu1->getContainer());
 		gtk_widget_show_all(m_menu);
@@ -4821,9 +4824,19 @@ GtkWidget *Hub::createmenu()
 		g_signal_connect_swapped(setTab, "activate", G_CALLBACK(onSetTabText), (gpointer)this);
 		g_signal_connect_swapped(reconectItem, "activate",G_CALLBACK(onReconnectItemTab), (gpointer)this);
 		g_signal_connect_swapped(closeItem, "activate" , G_CALLBACK(onCloseItem), (gpointer)this);
+		
+		g_signal_connect_swapped(shareView, "activate", G_CALLBACK(onShareView),(gpointer)this);
 		notCreated = false;
 	}
 	return m_menu;
+}
+
+void Hub::onShareView(gpointer data)
+{
+	Hub* hub = (Hub*)data;
+	ShareManager *sm = hub->client->getShareManager();
+	sm->generateXmlList();
+	WulforManager::get()->getMainWindow()->showShareBrowser_gui(HintedUser(ClientManager::getInstance()->getMe(),hub->client->getHubUrl()),sm->getBZXmlFile(),"",0, true);
 }
 
 void Hub::onReconnectItemTab(gpointer data)

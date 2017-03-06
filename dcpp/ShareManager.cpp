@@ -882,7 +882,7 @@ void ShareManager::runRefresh(function<void (float)> progressF) {
 
 	if(refreshDirs) {
 		HashManager::HashPauser pauser;
-		string shareName = id.empty() ? Util::emptyString : " for " + id;
+		string shareName = id.empty() ? string() : " for " + id;
 		LogManager::getInstance()->message(_("File list refresh initiated ") + shareName );
 
 		lastFullUpdate = GET_TICK();
@@ -953,7 +953,11 @@ void ShareManager::generateXmlList() {
 			string tmp2;
 			string indent;
 			
-			string newXmlName =  Util::getPath(Util::PATH_USER_CONFIG) + "files" + Util::toString(listN) + ".xml.bz2";
+			
+			string adr = getName();
+			adr = Util::cleanPathChars(adr);
+			
+			string newXmlName =  Util::getPath(Util::PATH_USER_CONFIG) + "files" + adr + " " + Util::toString(listN) + ".xml.bz2";
 			{
 				File f(newXmlName, File::WRITE, File::TRUNCATE | File::CREATE);
 				// We don't care about the leaves...
@@ -987,7 +991,7 @@ void ShareManager::generateXmlList() {
 			bzXmlRef = unique_ptr<File>(new File(newXmlName, File::READ, File::OPEN));
 			setBZXmlFile(newXmlName);
 			bzXmlListLen = File::getSize(newXmlName);
-			LogManager::getInstance()->message(_("File list generated") + Util::addBrackets(bzXmlFile));
+			LogManager::getInstance()->message(_("File list generated") + Util::addBrackets(bzXmlFile)) ;
 		} catch(const Exception&) {
 			// No new file lists...
 		}

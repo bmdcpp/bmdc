@@ -60,7 +60,9 @@ private:
 		void addShare_gui(string path, string name);
 
 		FavoriteHubEntry* p_entry; //@: The Fav Entry pointer
-		//@: The Kick/Ban Action part// share
+		//@TreeViews
+		//@: The Kick/Ban Action 
+		// share
 		GtkTreeStore *actionStore;
 		GtkListStore *shareStore;
 		TreeView actionView;

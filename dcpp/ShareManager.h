@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -299,7 +299,7 @@ private:
 
 	void merge(const Directory::Ptr& directory, const string& realPath);
 
-	void generateXmlList();
+	//void generateXmlList();
 	pair<Directory::Ptr, string> splitVirtual(const string& virtualPath) const;
 	string findRealRoot(const string& virtualRoot, const string& virtualLeaf) const;
 
@@ -331,6 +331,7 @@ private:
 	// TimerManagerListener
 	virtual void on(TimerManagerListener::Minute, uint64_t tick) noexcept;
 public:
+	void generateXmlList();
 	string getName() const { return id;}
 	string id;
 	void setName(const string id);

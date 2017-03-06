@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2017-03-03 16:27+0100\n"
+"POT-Creation-Date: 2017-03-05 14:41+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4508,7 +4508,7 @@ msgstr ""
 msgid "Open Directory"
 msgstr ""
 
-#: linux/hub.cc:4865
+#: linux/hub.cc:4878
 msgid "Open Icon File to Set to Tab"
 msgstr ""
 
@@ -4741,11 +4741,11 @@ msgstr ""
 msgid "Set Hub to Bold everytime the content changes"
 msgstr ""
 
-#: linux/hub.cc:4921
+#: linux/hub.cc:4934
 msgid "Set Icon Aviable"
 msgstr ""
 
-#: linux/hub.cc:4925
+#: linux/hub.cc:4938
 msgid "Set Icon: "
 msgstr ""
 
@@ -4785,7 +4785,7 @@ msgstr ""
 msgid "Set normal mode"
 msgstr ""
 
-#: linux/hub.cc:4907
+#: linux/hub.cc:4920
 msgid "Setting for a Tab Text"
 msgstr ""
 
@@ -4839,6 +4839,10 @@ msgstr ""
 
 #: linux/settingsdialog.cc:1130
 msgid "Show Server Commands as Status Messages in Chat"
+msgstr ""
+
+#: linux/hub.cc:4798
+msgid "Show Share Browser"
 msgstr ""
 
 #: linux/WulforUtil.cc:81
@@ -5018,7 +5022,7 @@ msgstr ""
 msgid "Temp Ignored User: "
 msgstr ""
 
-#: linux/hub.cc:4918
+#: linux/hub.cc:4931
 msgid "Text: "
 msgstr ""
 

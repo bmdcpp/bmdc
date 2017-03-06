@@ -172,6 +172,7 @@ private:
 		static void onAddFavItem(gpointer data);
 		static void onRemoveFavHub(gpointer data);
 		static void onSetTabText(gpointer data);
+		static void onShareView(gpointer data);
 		static void onReconnectItemTab(gpointer data);
 		static void onAddIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onRemoveIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data);
