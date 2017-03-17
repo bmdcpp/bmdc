@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2017-03-05 14:41+0100\n"
+"POT-Creation-Date: 2017-03-17 18:56+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4837,12 +4837,12 @@ msgstr ""
 msgid "Show Leech stats"
 msgstr ""
 
-#: linux/settingsdialog.cc:1130
-msgid "Show Server Commands as Status Messages in Chat"
+#: linux/hub.cc:4798
+msgid "Show Own Filelist Browser"
 msgstr ""
 
-#: linux/hub.cc:4798
-msgid "Show Share Browser"
+#: linux/settingsdialog.cc:1130
+msgid "Show Server Commands as Status Messages in Chat"
 msgstr ""
 
 #: linux/WulforUtil.cc:81

@@ -4795,7 +4795,7 @@ GtkWidget *Hub::createmenu()
 		GtkWidget *setTab = gtk_menu_item_new_with_label(_("Set Tab Name"));
 		GtkWidget *reconectItem = gtk_menu_item_new_with_label(_("Reconnect this hub"));
 		GtkWidget *closeItem = gtk_menu_item_new_with_label (_("Close Hub"));
-		GtkWidget *shareView = gtk_menu_item_new_with_label (_("Show Share Browser"));
+		GtkWidget *shareView = gtk_menu_item_new_with_label (_("Show Own Filelist Browser"));
 	
 		gtk_menu_item_set_submenu(GTK_MENU_ITEM(u_item), userCommandMenu1->getContainer());
 		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), fitem);
