@@ -331,6 +331,12 @@ void ConnectionManager::nmdcConnect(const string& aServer, const uint16_t& aPort
 		return;
 
 	UserConnection* uc = getConnection(true, false);
+	
+	
+	if (checkCTM2HUB(aServer, Util::toString(aPort), hubUrl))
+		return;
+	
+	
 	uc->setToken(aNick);
 	uc->setHubUrl(hubUrl);
 	uc->setEncoding(encoding);
@@ -764,7 +770,18 @@ void ConnectionManager::on(UserConnectionListener::Failed, UserConnection* aSour
 }
 
 void ConnectionManager::on(UserConnectionListener::ProtocolError, UserConnection* aSource, const string& aError) noexcept {
-	failed(aSource, aError, true);
+	if(aError.compare(0, 7, "CTM2HUB", 7) == 0) {
+
+		{
+			Lock l(cs);
+			ddosCTM2HUBs.insert(Text::toLower(aSource->getRemoteIp()));
+		}
+
+		string aServerPort = aSource->getRemoteIp() + ":" + aSource->getPort();
+		LogManager::getInstance()->message(autosprintf(_("Blocking '%s', potential DDoS detected (originating hub '%s')"), aServerPort.c_str(), aSource->getHubUrl().c_str() ));
+	}
+
+ 	failed(aSource, aError, true);
 }
 
 void ConnectionManager::disconnect(const UserPtr& aUser) {
@@ -830,5 +847,27 @@ void ConnectionManager::on(UserConnectionListener::Supports, UserConnection* con
 	}
 	ClientManager::getInstance()->setSupports(conn->getHintedUser(),sup);
 }
+
+ bool ConnectionManager::checkCTM2HUB(const string& aServer, const string& aPort, const string& aHubUrl)
+ {
+	const string server_lower = Text::toLower(aServer);
+	dcassert(server_lower == aServer);
+
+	bool is_ctm2hub = false;
+
+	{
+		Lock l(cs);
+		is_ctm2hub = !ddosCTM2HUBs.empty() && ddosCTM2HUBs.find(server_lower) != ddosCTM2HUBs.end();
+	}
+
+    if(is_ctm2hub)
+	{
+		LogManager::getInstance()->message(autosprintf(_("Block CTM2HUB = '%s:%s' on hub '%s'"), aServer.c_str(), aPort.c_str(), aHubUrl.c_str()));
+		return true;
+	}
+
+	return false;
+}
+ 
 
 } // namespace dcpp

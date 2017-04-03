@@ -282,7 +282,7 @@ private:
 		Tag::TypeTag tagMsg;
 		unsigned int historyIndex;
 		static const int maxLines = 1000;
-		static const int maxHistory = 30;//made settable
+		//static const int maxHistory = 30;//made settable
 		int64_t totalShared;
 		int ImgLimit;
 		int width;

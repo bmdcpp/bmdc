@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2017-03-17 18:56+0100\n"
+"POT-Creation-Date: 2017-04-03 13:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3167,7 +3167,7 @@ msgstr ""
 msgid " removed from favorites list"
 msgstr ""
 
-#: linux/settingsmanager.cc:730
+#: linux/settingsmanager.cc:732
 msgid " to "
 msgstr ""
 
@@ -3531,7 +3531,7 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: linux/settingsmanager.cc:730
+#: linux/settingsmanager.cc:732
 msgid "Change setting "
 msgstr ""
 
@@ -3891,11 +3891,11 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: linux/settingsmanager.cc:733
+#: linux/settingsmanager.cc:735
 msgid "Error: params have been not 2!"
 msgstr ""
 
-#: linux/settingsmanager.cc:729
+#: linux/settingsmanager.cc:731
 msgid "Error: setting not found!"
 msgstr ""
 

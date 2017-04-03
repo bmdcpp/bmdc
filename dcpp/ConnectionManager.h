@@ -170,6 +170,8 @@ private:
 
 	unique_ptr<Server> server;
 	unique_ptr<Server> secureServer;
+	
+	unordered_set<string> ddosCTM2HUBs;
 
 	bool shuttingDown;
 
@@ -190,6 +192,9 @@ private:
 	void accept(const Socket& sock, bool secure,bool nmdc = false) noexcept;
 
 	bool checkKeyprint(UserConnection *aSource);
+	
+	/*https://bugs.launchpad.net/dcplusplus/+bug/1419478*/
+	bool checkCTM2HUB(const string& aServer, const string& aPort, const string& aHubUrl);
 
 	void failed(UserConnection* aSource, const string& aError, bool protocolError);
 

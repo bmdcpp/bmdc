@@ -2427,7 +2427,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 	hub->history.push_back(text);
 	hub->history.push_back("");
 	hub->historyIndex = hub->history.size() - 1;
-	if (hub->history.size() > maxHistory + 1)
+	if (hub->history.size() > (WGETI("hub-max-history") + 1))
 		hub->history.erase(hub->history.begin());
 
 	// Process special commands

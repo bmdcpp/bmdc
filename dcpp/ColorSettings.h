@@ -64,6 +64,7 @@ class ColorSettings: public Flags
 	bool usingRegexp() const { return bUsingRegexp; }
 
 	const string & getMatch() const { return strMatch; }
+	
 	int getFlag() const
 	{
 		if(isSet(CONTEXT_CHAT))
