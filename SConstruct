@@ -413,7 +413,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 
 
 	if os.name == 'mac' or os.sys.platform == 'darwin':
-		conf.env.Append(CPPDEFINES = ('ICONV_CONST', ''))
+		conf.env.Append(CPPDEFINES = [('ICONV_CONST', ''),'-DAPPLE'])
 
 	if os.sys.platform == 'sunos5':
 		conf.env.Append(CPPDEFINES = ('ICONV_CONST', 'const'))

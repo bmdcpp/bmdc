@@ -981,7 +981,7 @@ void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 	pm->history.push_back(text);
 	pm->history.push_back("");
 	pm->historyIndex = pm->history.size() - 1;
-	if (pm->history.size() > maxHistory + 1)
+	if (pm->history.size() > ((size_t)(WGETI("pm-max-history") + 1)))
 		pm->history.erase(pm->history.begin());
 
 	// Process special commands

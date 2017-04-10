@@ -489,11 +489,13 @@ WulforSettingsManager::WulforSettingsManager():
 	defaultInt.insert(IntMap::value_type("double-click-action",(int)CActions::BROWSE));
 	defaultInt.insert(IntMap::value_type("hide-transfers",0));
 
-	defaultString.insert(StringMap::value_type("menu-userlist-color","blue"));//TODO: dcpp set
+	defaultString.insert(StringMap::value_type("menu-userlist-color","blue"));
 	defaultString.insert(StringMap::value_type("text-cmd-fore-color","black"));
 	defaultString.insert(StringMap::value_type("text-system-fore-color","black"));
 	
 	defaultInt.insert(IntMap::value_type("hub-max-history",30));
+	defaultInt.insert(IntMap::value_type("pm-max-history",30));
+	
 
 	load();
 

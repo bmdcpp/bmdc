@@ -38,7 +38,11 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <sys/utsname.h>
+
+#if 0
 #include <sys/sysinfo.h>
+#endif
+
 #endif
 #include <fcntl.h>
 #include <map>

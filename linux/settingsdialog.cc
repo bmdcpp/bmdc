@@ -1131,7 +1131,6 @@ void Settings::initAppearance_gui()
 		addOption_gui(appearanceStore, _("Filter download by antivirus db"),SettingsManager::USE_AV_FILTER);
 
 		/// @todo: Uncomment when implemented
-		//addOption_gui(appearanceStore, _("Minimize to tray"), SettingsManager::MINIMIZE_TRAY);
 		//addOption_gui(appearanceStore, _("Use system icons"), SettingsManager::USE_SYSTEM_ICONS);
 
 		gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("tabPositionComboBox")), WGETI("tab-position"));
@@ -1573,7 +1572,7 @@ void Settings::initAppearance_gui()
 			"icon-finished-uploads");
 		addOption_gui(toolbarStore, wsm, iconTheme, _("Quit"), "toolbar-button-quit",
 			"icon-quit");
-        /**/
+        
 		addOption_gui(toolbarStore, wsm, iconTheme, _("Notepad"), "toolbar-button-notepad",
 			"icon-notepad");
 		addOption_gui(toolbarStore, wsm, iconTheme, _("ADL Search"), "toolbar-button-search-adl",
@@ -1584,7 +1583,7 @@ void Settings::initAppearance_gui()
 			"icon-away");
 		addOption_gui(toolbarStore, wsm, iconTheme, _("Limiting"), "toolbar-limit-bandwith",
                 "icon-limiting");
-		/**/
+		
 	}
 
 	{ // Search Spy
@@ -5199,17 +5198,23 @@ void Settings::changeTab(GtkTreeSelection *selection) {
         if (gtk_tree_selection_get_selected (selection, &model, &iter))
         {
                 gtk_tree_model_get (model, &iter, 1, &key, -1);
-                string keys = (string(key));
-
-				string fg_string = WGETS("colored-tabs-" +(string(key))+"-color-bg");
-				g_free (key);
+                string keys = string();
+                string fg_string = string();
+                if(key)
+				{
+					keys = (string(key));
+					fg_string = WGETS("colored-tabs-" +(string(key))+"-color-bg");
+					g_free (key);
+				}
 
 				GdkRGBA fg;
 
 				gdk_rgba_parse(&fg,fg_string.c_str());
+				
 				//TODO@ more...
 				GtkWidget *box = getWidget("box");
 				gtk_container_foreach(GTK_CONTAINER(box),(GtkCallback)gtk_widget_destroy, NULL);
+				
 				GtkWidget *frame = gtk_frame_new("Tabs");
 				GtkWidget *note = gtk_notebook_new();
 				gtk_container_add(GTK_CONTAINER(frame),note);
@@ -5263,6 +5268,7 @@ void Settings::onBackColorChooserTab(GtkWidget *button, gpointer data)
 	string bg_string = WGETS("colored-tabs-" +(string(key))+"-color-bg");
 	GdkRGBA bg;
 	gdk_rgba_parse(&bg,bg_string.c_str());
+	
 	GtkWidget *dialog =   gtk_color_chooser_dialog_new (("Chose BackGroun of "+key).c_str(),
                                                         GTK_WINDOW(s->getContainer()));
     gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog),&bg);

@@ -125,11 +125,7 @@ class Settings:
 		static void onRemoveShare_gui(GtkWidget *widget, gpointer data);
 		static gboolean onShareButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onShareHiddenPressed_gui(GtkToggleButton *button, gpointer data);
-		///@todo Uncomment when implemented
-		//static void onWinColorClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
-		//static void onDownColorClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
-		//static void onUpColorClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
-		//static void onTextStyleClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
+
 		static void onLogBrowseClicked_gui(GtkWidget *widget, gpointer data);
 		static void onLogMainClicked_gui(GtkToggleButton *button, gpointer data);
 		static void onLogPrivateClicked_gui(GtkToggleButton *button, gpointer data);
