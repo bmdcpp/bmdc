@@ -34,11 +34,14 @@
 
 #include <algorithm>
 #include <cstring>
-#ifndef _WIN32
-#include <endian.h>
+
+#if defined(APPLE)
+#include <machine/endian.h>
 #else
 #include "portable_endian.h"
 #endif
+
+
 #include "debug.h"
 
 #if (__BYTE_ORDER == __BIG_ENDIAN)

@@ -66,7 +66,7 @@ public:
     bool wait() noexcept {
         Lock l(cs);
         while (count == 0) {
-            pthread_cond_wait(&cond, &cs.getMutex());
+            pthread_cond_wait(&cond, cs.native_handle());
         }
         count--;
         return true;
@@ -83,7 +83,7 @@ public:
             t.tv_nsec = (millis%1000)*1000*1000;
             int ret;
             do {
-                ret = pthread_cond_timedwait(&cond, &cs.getMutex(), &t);
+                ret = pthread_cond_timedwait(&cond, cs.native_handle(), &t);
             } while (ret==0 && count==0);
             if(ret != 0) {
                 return false;

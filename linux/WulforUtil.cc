@@ -42,7 +42,9 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <sys/utsname.h>
+#ifndef APPLE
 #include <sys/sysinfo.h>
+#endif
 #include "freespace.h"
 #endif
 #ifdef _WIN32
@@ -734,30 +736,8 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	}
 	else if (cmd == "stats")
 	{
-		#ifndef _WIN32
-			int z = 0 ,y = 0;
-			struct utsname u_name; //instance of utsname
-			z = uname(&u_name);
-			if (z == -1)
-				dcdebug("Failed on uname");
-			string rel(u_name.release);
-			string mach(u_name.machine);
-			struct sysinfo sys; //instance of acct;
-			y = sysinfo(&sys);
-			if(y != 0)
-				dcdebug("Failed on sysinfo");
-
-			const long minute = 60;
-			const long hour = minute * 60;
-			const long day = hour * 24;
-			long upt = sys.uptime;
-			long udays = upt/day;
-			long uhour = (upt % day) / hour;
-			long umin = (upt % hour) / minute;
-			/**/
-			int dettotal = SETTING(DETECTIONS);
-			int detfail = SETTING(DETECTIONF);
-			string build = "Built with ";
+		
+		string build = "Built with ";
 			#ifdef __clang__
 				build += "clang " __clang_version__;
 			#elif defined(__GNUC__)
@@ -768,6 +748,36 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 				build += " Release";
 				#endif
 			#endif
+		
+		string rel  = string(), mach = string();
+		long udays = 0, uhour = 0 , umin =0;		
+		#if defined(APPLE)
+			rel("macos");
+			mach("x86_64");
+		#elifndef _WIN32
+			int z = 0 ,y = 0;
+			struct utsname u_name; //instance of utsname
+			z = uname(&u_name);
+			if (z == -1)
+				dcdebug("Failed on uname");
+			rel(u_name.release);
+			mach(u_name.machine);
+			struct sysinfo sys; //instance of acct;
+			y = sysinfo(&sys);
+			if(y != 0)
+				dcdebug("Failed on sysinfo");
+
+			const long minute = 60;
+			const long hour = minute * 60;
+			const long day = hour * 24;
+			long upt = sys.uptime;
+			udays = upt/day;
+			uhour = (upt % day) / hour;
+			umin = (upt % hour) / minute;
+			/**/
+		#endif	
+			int dettotal = SETTING(DETECTIONS);
+			int detfail = SETTING(DETECTIONF);
 			
 		message =  "\n-= Stats " + dcpp::fullVersionString+" =-"
 					+"\n-= " +build+" =-\n"
@@ -775,10 +785,13 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 					+ "-= Uptime: " + formatTimeDifference(time(NULL) - Util::getUptime()) + " =-\n"
 					+ "-= System Uptime: " + Util::toString(udays) + " days," + Util::toString(uhour) + " Hours," + Util::toString(umin) + " min. =-\n"
 					+ "-= Detection (Failed/Successful): " + Util::toString(detfail) + " /" + Util::toString(dettotal) + " =-\n"
+					#ifndef APPLE
 					+ "-=" + getStatsForMem() + " =-\n"
-					+ "-=" + cpuinfo() + " =-\n";
+					+ "-=" + cpuinfo() + " =-\n"
+					#endif
+					;
 		return true;
-		#endif
+		
 	}
 	else if ( cmd == "g" || cmd == "google"){
 	  if(param.empty())
