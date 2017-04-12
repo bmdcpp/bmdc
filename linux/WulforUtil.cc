@@ -44,8 +44,8 @@
 #include <sys/utsname.h>
 #ifndef APPLE
 #include <sys/sysinfo.h>
-#endif
 #include "freespace.h"
+#endif
 #endif
 #ifdef _WIN32
 #include "diskinfo.hh"
@@ -752,16 +752,18 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 		string rel  = string(), mach = string();
 		long udays = 0, uhour = 0 , umin =0;		
 		#if defined(APPLE)
-			rel("macos");
-			mach("x86_64");
-		#elifndef _WIN32
+			rel = "macos";
+			mach= "x86_64";
+		#else
+		
+			#ifndef _WIN32
 			int z = 0 ,y = 0;
 			struct utsname u_name; //instance of utsname
 			z = uname(&u_name);
 			if (z == -1)
 				dcdebug("Failed on uname");
-			rel(u_name.release);
-			mach(u_name.machine);
+			rel = u_name.release;
+			mach = u_name.machine;
 			struct sysinfo sys; //instance of acct;
 			y = sysinfo(&sys);
 			if(y != 0)
@@ -775,6 +777,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			uhour = (upt % day) / hour;
 			umin = (upt % hour) / minute;
 			/**/
+			#endif	
 		#endif	
 			int dettotal = SETTING(DETECTIONS);
 			int detfail = SETTING(DETECTIONF);
@@ -921,6 +924,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 		return true;
 	}
 	// End of "Now Playing"
+	#ifndef APPLE
 	else if ( cmd == "df" )
 	{
 		#ifdef _WIN32
@@ -934,6 +938,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 		#endif
 		return true;
 	}
+	#endif
 	else if (cmd == "uptime")
 	{
 		message = "Uptime: " +  formatTimeDifference(time(NULL) - Util::getUptime());
@@ -1125,7 +1130,11 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 {
 		string sMsgLower;
 		sMsgLower.resize(word.size()+1);
-		std::transform(word.begin(), word.end(), sMsgLower.begin(), _tolower);
+				
+		std::transform(word.begin(), word.end(), sMsgLower.begin(), [](unsigned char c) { return std::tolower(c); } );
+		
+		
+		
 		bool ret = false;
 
 		ColorList* cList = HighlightManager::getInstance()->getList();
@@ -1152,7 +1161,7 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 			string w = cs->getMatch();
 			string sW;
 			sW.resize(w.size()+1);
-			std::transform(w.begin(), w.end(), sW.begin(), _tolower);
+			std::transform(w.begin(), w.end(), sW.begin(), [](unsigned char c) { return std::tolower(c); } );
 
 			int ffound = sMsgLower.compare(sW);
 

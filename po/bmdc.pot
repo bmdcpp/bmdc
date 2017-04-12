@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2017-04-12 15:49+0200\n"
+"POT-Creation-Date: 2017-04-12 18:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3346,7 +3346,7 @@ msgstr ""
 msgid "Address: "
 msgstr ""
 
-#: linux/WulforUtil.cc:996
+#: linux/WulforUtil.cc:1001
 msgid "Aliases not found."
 msgstr ""
 
@@ -4930,7 +4930,7 @@ msgstr ""
 msgid "Source too slow"
 msgstr ""
 
-#: linux/WulforUtil.cc:798 linux/WulforUtil.cc:804
+#: linux/WulforUtil.cc:801 linux/WulforUtil.cc:807
 msgid "Specify a search string"
 msgstr ""
 

@@ -8,6 +8,10 @@
 ***************************************************************************/
 
 #pragma once
+
+#ifndef APPLE
+
+
 #include <string>
 #include <errno.h>
 #include <cstring>
@@ -100,3 +104,4 @@ static void print_mount(std::string &s,const struct mntent *fs)
         
 };
 
+#endif

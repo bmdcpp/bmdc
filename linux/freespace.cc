@@ -6,6 +6,7 @@
 *   (at your option) any later version.                                   *
 *                                                                         *
 ***************************************************************************/
+#ifndef APPLE
 
 //function for use fsusage
 #ifdef WIN32
@@ -54,3 +55,5 @@ bool FreeSpace::FreeDiscSpace ( std::string path,  unsigned long long * res, uns
         }
 #endif //WIN32
 }
+
+#endif
