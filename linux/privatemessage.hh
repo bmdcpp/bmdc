@@ -125,7 +125,7 @@ class PrivateMessage:
 		int historyIndex;
 		bool sentAwayMessage;
 		static const int maxLines = 500; ///@todo: make these preferences
-		static const int maxHistory = 20;
+		//static const int maxHistory = 20;
 		GdkCursor* handCursor;
 		std::string selectedTagStr;
 		GtkTextTag* selectedTag;

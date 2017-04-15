@@ -382,7 +382,6 @@ void PrivateMessage::addLine_gui(Msg::TypeMsg typemsg, const string &message)
 		gtk_text_buffer_get_start_iter(messageBuffer, &iter);
 		gtk_text_buffer_get_iter_at_line(messageBuffer, &next, 1);
 		gtk_text_buffer_delete(messageBuffer, &iter, &next);
-		return;
 	}
 
 }

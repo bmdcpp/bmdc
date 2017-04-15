@@ -191,6 +191,7 @@ void NmdcHub::updateFromTag(Identity& id, const string& tag) {
 void NmdcHub::onLine(const string& aLine) noexcept {
 	if(aLine.empty())
 		return;
+	
 	dcdebug("%s",aLine.c_str());	
 
 	if(aLine[0] != '$') {
@@ -211,6 +212,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			fire(ClientListener::StatusMessage(), this, unescape(line));
 			return;
 		}
+		
 		string nick = line.substr(1, i-1);
 		string message;
 		if((line.length()-1) > i) {

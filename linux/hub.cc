@@ -4517,8 +4517,8 @@ string Hub::formatAdditionalInfo(const string& aIp, bool sIp, bool sCC) {
 
 void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexcept
 {
-	string txt = message.text;
 	#if 0
+	string txt = message.text;
 	if(PluginManager::getInstance()->onChatDisplay(txt))
 		return;
 	#endif
@@ -4583,7 +4583,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 		}
 	}
 
-	if (third || message.thirdPerson)
+	if (message.thirdPerson)
 		line += "* " + fid.getNick() + " " +  (mess.empty() ? message.text : mess);
 	else
 		line += "<" + fid.getNick() + "> " + message.text;
