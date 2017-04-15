@@ -89,7 +89,7 @@ StringList ClientManager::getHubs(const CID& cid, const string& hintUrl) {
 	return lst;
 	return UsersManager::getInstance()->getHubs(cid,hintUrl);
 }*/
-
+/*
 StringList ClientManager::getHubNames(const CID& cid, const string& hubUrl) {
 	/*Lock l(cs);
 	StringList lst;
@@ -97,10 +97,10 @@ StringList ClientManager::getHubNames(const CID& cid, const string& hubUrl) {
 	for(auto i = op.first; i != op.second; ++i) {
 		lst.push_back(i->second->getClient().getHubName());
 	}
-	return lst;*/
+	return lst;
 	return UsersManager::getInstance()->getHubNames(cid,hubUrl);
 }
-
+*/
 StringList ClientManager::getNicks(const CID& cid, const string& hintUrl) {
 	/*Lock l(cs);
 	StringSet ret;

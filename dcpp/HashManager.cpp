@@ -163,7 +163,7 @@ TTHValue* HashManager::getTTH(const string& aFileName, int64_t aSize, uint32_t a
 	Lock l(cs);
 	
 	TTHValue *tth = store.getTTH(aFileName, aSize, aTimeStamp);
-	if(tth == NULL) {
+	if(!tth) {
 		//TTH is NULL create new variable
 		try {
 		tth = new TTHValue();

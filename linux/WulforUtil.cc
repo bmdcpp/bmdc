@@ -225,7 +225,7 @@ string WulforUtil::getHubNames(const string &cid, const string& hintUrl)
 
 string WulforUtil::getHubNames(const CID& cid, const string& hintUrl)
 {
-	StringList hubs = ClientManager::getInstance()->getHubNames(cid, hintUrl);
+	StringList hubs = UsersManager::getInstance()->getHubNames(cid, hintUrl);
 	if (hubs.empty())
 		return _("Offline");
 	else

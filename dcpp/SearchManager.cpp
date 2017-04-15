@@ -31,6 +31,8 @@
 #include "SearchResult.h"
 #include "LogManager.h"
 
+#include "UserManager.h"
+
 namespace dcpp {
 
 const char* SearchManager::types[TYPE_LAST] = {
@@ -270,6 +272,7 @@ void SearchManager::onData(const uint8_t* buf, size_t aLen, const string& remote
 		hubName = Text::toUtf8(hubName, encoding);
 
 		UserPtr user = ClientManager::getInstance()->findUser(nick, url);
+		
 		if(!user) {
 			// Could happen if hub has multiple URLs / IPs
 			user = ClientManager::getInstance()->findLegacyUser(nick);
@@ -280,7 +283,7 @@ void SearchManager::onData(const uint8_t* buf, size_t aLen, const string& remote
 		string tth;
 		if(hubName.compare(0, 4, "TTH:") == 0) {
 			tth = hubName.substr(4);
-			StringList names = ClientManager::getInstance()->getHubNames(user->getCID(), Util::emptyString);
+			StringList names = UsersManager::getInstance()->getHubNames(user->getCID(), Util::emptyString);
 			hubName = names.empty() ? _("Offline") : Util::toString(names);
 		}
 
@@ -292,12 +295,12 @@ void SearchManager::onData(const uint8_t* buf, size_t aLen, const string& remote
 		{
 			uint16_t eport = 0;
 			size_t end = x.rfind(')');
-			size_t start=x.rfind('(');
-			if(end == string::npos)return;
-			if(start == string::npos)return;
+			size_t start = x.rfind('(');
+			if(end == string::npos) return;
+			if(start == string::npos) return;
 
-			ClientManager::parsePortIp(x.substr(start+1,end-1),_remoteIp,eport);
-			ClientManager::getInstance()->setIpAddress(user,_remoteIp);
+			ClientManager::parsePortIp(x.substr(start+1,end-1), _remoteIp, eport);
+			ClientManager::getInstance()->setIpAddress(user, _remoteIp);
 		}
 
 		SearchResultPtr sr(new SearchResult(user, type, slots, freeSlots, size,
@@ -309,7 +312,7 @@ void SearchManager::onData(const uint8_t* buf, size_t aLen, const string& remote
 		if(c.getParameters().empty())
 			return;
 		string cid = c.getParam(0);
-		if(cid.size() != 39)
+		if(cid.size() != CIDSIZE)
 			return;
 
 		UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
@@ -349,7 +352,7 @@ void SearchManager::onRES(const AdcCommand& cmd, const UserPtr& from, const stri
 	if(!file.empty() && freeSlots != -1 && size != -1) {
 
 		/// @todo get the hub this was sent from, to be passed as a hint? (eg by using the token?)
-		StringList names = ClientManager::getInstance()->getHubNames(from->getCID(), Util::emptyString);
+		StringList names = UsersManager::getInstance()->getHubNames(from->getCID(), string());
 		string hubName = names.empty() ? _("Offline") : Util::toString(names);
 //		StringList hubs = ClientManager::getInstance()->getHubs(from->getCID(), Util::emptyString);
 //		string hub = hubs.empty() ? _("Offline") : Util::toString(hubs);
@@ -384,14 +387,14 @@ void SearchManager::respond(const AdcCommand& adc, const CID& from,  bool isUdpA
 
 	SearchResultList results = ShareManager::getInstance()->search(adc.getParameters(), isUdpActive ? 10 : 5);
 
-	string token;
-
-	//adc.getParam("TO", 0, token);
-
 	if(results.empty())
 		return;
+		
+	string token;
+	adc.getParam("TO", 0, token);	
 
 	for(auto i = results.begin(); i != results.end(); ++i) {
+		
 		AdcCommand cmd = (*i)->toRES(AdcCommand::TYPE_UDP);
 		if(!token.empty())
 			cmd.addParam("TO", token);

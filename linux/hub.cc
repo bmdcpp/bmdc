@@ -994,9 +994,9 @@ void Hub::popupNickMenu_gui()
 	
 	ignoreMenu->buildMenu_gui(lastNick,cid,ip);	
 	#if GTK_CHECK_VERSION(3,22,0)
-			gtk_menu_popup_at_pointer(GTK_MENU(getWidget("nickMenu")),NULL);
+		gtk_menu_popup_at_pointer(GTK_MENU(getWidget("nickMenu")),NULL);
 	#else
-	gtk_menu_popup(GTK_MENU(getWidget("nickMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+		gtk_menu_popup(GTK_MENU(getWidget("nickMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 	#endif
 	gtk_widget_show_all(getWidget("nickMenu"));
 }
@@ -1139,8 +1139,6 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg, strin
 			line = _line;
 			
 	}
-	//this need been here?
-	//line += "\n";
 	
 	gtk_text_buffer_get_end_iter(chatBuffer, &iter);
 	gtk_text_buffer_insert(chatBuffer, &iter, line.c_str(), line.size());
@@ -1193,7 +1191,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg, strin
 		gtk_text_buffer_get_iter_at_line(chatBuffer, &next, 1);
 		gtk_text_buffer_delete(chatBuffer, &iter, &next);
 	}
-	//gtk_text_view_scroll_mark_onscreen (GTK_TEXT_VIEW(getWidget("chatText")), end_mark);
+	gtk_text_view_scroll_mark_onscreen (GTK_TEXT_VIEW(getWidget("chatText")), end_mark);//this might need?
 	
 }
 
@@ -4530,30 +4528,31 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 	string tmp_text = message.text;
 	OnlineUser* ou = nullptr; 
 	Identity fid;
-	ClientManager * cm = ClientManager::getInstance();
+	ClientManager * pClientMan = ClientManager::getInstance();
 	{
-		cm->lock();
-		ou = cm->findOnlineUser(message.from->getCID(),client->getHubUrl());
+		pClientMan->lock();
+		ou = pClientMan->findOnlineUser(message.from->getCID(),client->getHubUrl());
 		fid = ou->getIdentity();
 	}
-	IgnoreTempManager* im = IgnoreTempManager::getInstance();
-	bool bIsNickIgnored = im->isNickIgnored(fid.getNick());
-	bool bIsIpIgnored = im->isIpIgnored(fid.getIp());
-	bool bIsCidIgnored = im->isCidIgnored(message.from->getCID().toBase32());
+	
+	IgnoreTempManager* pIgnMan = IgnoreTempManager::getInstance();
+	bool bIsNickIgnored = pIgnMan->isNickIgnored(fid.getNick());
+	bool bIsIpIgnored = pIgnMan->isIpIgnored(fid.getIp());
+	bool bIsCidIgnored = pIgnMan->isCidIgnored(message.from->getCID().toBase32());
 			
 	if(bIsNickIgnored || bIsIpIgnored || bIsCidIgnored)
 	{
-		string error = _("Temp Ignored User: ") + fid.getNick() + " " + fid.getIp() + " " + ou->getUser()->getCID().toBase32();
+		string sError = _("Temp Ignored User: ") + fid.getNick() + " " + fid.getIp() + " " + ou->getUser()->getCID().toBase32();
 		typedef Func3<Hub, string, Msg::TypeMsg, Sound::TypeSound> F3;
-		F3 *func = new F3(this, &Hub::addStatusMessage_gui, error, Msg::STATUS, Sound::NONE);
+		F3 *func = new F3(this, &Hub::addStatusMessage_gui, sError, Msg::STATUS, Sound::NONE);
 		WulforManager::get()->dispatchGuiFunc(func);
 		return;
 	}
 		
-	string cc = "";
+	string sCc = "";
 	if( (!fid.isHub()) && (!fid.isBot()) )
 	{
-		cc = GeoManager::getInstance()->getCountryAbbrevation(fid.getIp());
+		sCc = GeoManager::getInstance()->getCountryAbbrevation(fid.getIp());
 		string info = formatAdditionalInfo(fid.getIp(), client->get(SettingsManager::USE_IP,SETTING(USE_IP)), client->get(SettingsManager::GET_USER_COUNTRY,SETTING(GET_USER_COUNTRY)));
 		//Extra Info
 		dcpp::ParamMap params;
@@ -4567,7 +4566,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 		line += info;
 	}
 
-	bool third = false;
+	bool bThird = false;
 
 	string mess = message.text;
 	{
@@ -4577,13 +4576,13 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 
 			size_t nt = message.text.find_first_of(" ",nestle);
 			if( message.text.compare(0,nt,"/me") == 0) {
-				 	third = true;
+				 	bThird = true;
 					mess.replace(0,nt+1,"");
 			}
 		}
 	}
 
-	if (message.thirdPerson)
+	if (bThird || message.thirdPerson)
 		line += "* " + fid.getNick() + " " +  (mess.empty() ? message.text : mess);
 	else
 		line += "<" + fid.getNick() + "> " + message.text;
@@ -4614,8 +4613,8 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 			message.to : message.replyTo;
 		Identity uid; 
 		{	
-			cm->lock();
-			OnlineUser* ou2 = cm->findOnlineUser(user->getCID(), client->getHubUrl());
+			pClientMan->lock();
+			OnlineUser* ou2 = pClientMan->findOnlineUser(user->getCID(), client->getHubUrl());
 			uid = ou2->getIdentity();
 		}
 		if (fid.isOp()) typemsg = Msg::OPERATOR;
@@ -4678,7 +4677,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 		}
 
 		typedef Func4<Hub, string, string, Msg::TypeMsg,string> F4;
-		F4 *func = new F4(this, &Hub::addMessage_gui, cid, line, typemsg,cc);
+		F4 *func = new F4(this, &Hub::addMessage_gui, cid, line, typemsg,sCc);
 		WulforManager::get()->dispatchGuiFunc(func);
 
 		// Set urgency hint if message contains user's nick
@@ -4975,26 +4974,25 @@ void Hub::SetTabText(gpointer data)
 
 void Hub::onToglleButtonIcon(GtkToggleButton *button, gpointer data)
 {
-	Hub *hub = (Hub *)data;
-	if(hub == NULL) return;
+	Hub *pHub = (Hub *)data;
+	if(pHub == NULL) return;
 	if(button == NULL) return;
-	gboolean active = gtk_toggle_button_get_active(button);
-	if(active)
+	gboolean bActive = gtk_toggle_button_get_active(button);
+	if(bActive)
 	{
-		hub->client->set(SettingsManager::HUB_ICON_STR,string());
-		hub->client->fire(ClientListener::HubUpdated(), hub->client);
+		pHub->client->set(SettingsManager::HUB_ICON_STR,string());
+		pHub->client->fire(ClientListener::HubUpdated(), pHub->client);
 
-		FavoriteHubEntry* fav = FavoriteManager::getInstance()->getFavoriteHubEntry(hub->client->getHubUrl());
+		FavoriteHubEntry* fav = FavoriteManager::getInstance()->getFavoriteHubEntry(pHub->client->getHubUrl());
 		if(fav != NULL) {
-			
 			fav->set(SettingsManager::HUB_ICON_STR,string());
 			FavoriteManager::getInstance()->save();
 		}
 	}
 	
-	if( hub->tab_button == NULL) return;
-	gtk_widget_set_sensitive(hub->tab_button, !active);
+	if( pHub->tab_button == NULL) return;
+	gtk_widget_set_sensitive(pHub->tab_button, !bActive);
 	
-	if( hub->tab_image == NULL ) return;
-	gtk_widget_set_sensitive(hub->tab_image, !active);
+	if( pHub->tab_image == NULL ) return;
+	gtk_widget_set_sensitive(pHub->tab_image, !bActive);
 }
