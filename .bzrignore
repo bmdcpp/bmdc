@@ -1,9 +1,0 @@
-CMakeLists.txt
-.gitignore
-.git
-build
-client.project
-bmdc
-BMDC++.workspace
-.clang
-.codelite
