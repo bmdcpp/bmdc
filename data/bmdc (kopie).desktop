@@ -1,0 +1,14 @@
+
+[Desktop Entry]
+Type=Application
+Exec=bmdc
+TryExec=bmdc
+Path=/home/mank/debug/share/bmdc/
+Icon=bmdc
+Terminal=false
+Categories=Network;FileTransfer;GTK;
+Name=BMDC++
+GenericName=DC++ Client
+Comment=DC++ Client
+X-Ubuntu-Gettext-Domain=bmdc
+Name[en_US]=bmdc
