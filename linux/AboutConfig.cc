@@ -299,7 +299,7 @@ gboolean AboutConfig::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gp
 			#if GTK_CHECK_VERSION(3,22,0)
 			gtk_menu_popup_at_pointer(GTK_MENU(ps->getWidget("menu")),NULL);
 			#else
-			gtk_menu_popup(GTK_MENU(s->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+			gtk_menu_popup(GTK_MENU(ps->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 			#endif
 		}
 	}
@@ -318,7 +318,7 @@ gboolean AboutConfig::onKeyReleased_gui(GtkWidget* , GdkEventKey *event, gpointe
 			#if GTK_CHECK_VERSION(3,22,0)
 			gtk_menu_popup_at_pointer(GTK_MENU(ps->getWidget("menu")),NULL);
 			#else
-			gtk_menu_popup(GTK_MENU(s->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+			gtk_menu_popup(GTK_MENU(ps->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 			#endif
 		}
 	}
