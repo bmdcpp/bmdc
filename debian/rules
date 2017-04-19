@@ -1,0 +1,21 @@
+#!/usr/bin/make -f
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+#include /usr/share/cdbs/1/rules/patchsys-quilt.mk
+include /usr/share/cdbs/1/class/scons.mk
+
+# In order to regenerate 'debian/control' :
+#   DEB_AUTO_UPDATE_DEBIAN_CONTROL=yes fakeroot debian/rules clean
+# Then check manually if everything's ok
+
+#DEB_INSTALL_MANPAGES_bmdc := data/linuxdcpp.1
+DEB_INSTALL_CHANGELOGS_bmdc := BMDC-Changelog.txt
+DEB_SCONS_OPTIONS := release=0 libxattr=0 PREFIX=/usr/ FAKE_ROOT=$(CURDIR)/debian/bmdc
+
+install/bmdc::
+	rm -rf $(CURDIR)/debian/bmdc/usr/share/doc/bmdc/License.txt 
+	#cp -rf $(CURDIR)/debian/icons/* $(CURDIR)/debian/bmdc/usr/share/pixmaps
+	cp $(CURDIR)/data/bmdc.desktop $(CURDIR)/debian/bmdc/usr/share/applications
+
+clean::
+	rm -rf build bmdc po/bmdc.pot 

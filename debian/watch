@@ -1,0 +1,3 @@
+version=3
+
+https://launchpad.net/bmdc++/+download .*bmdc-(.*)\.tar\.bz2

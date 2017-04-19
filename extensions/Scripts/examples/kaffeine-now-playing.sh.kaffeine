@@ -1,0 +1,38 @@
+#!/bin/sh
+# print out now playing info from kaffeine
+# based on amarok-now-playing.sh
+
+PROG="kaffeine"
+
+VERSION=`${PROG} --version | fgrep Kaffeine | cut -d " " -f 3`
+
+TEST=`dcop kaffeine KaffeineIface isPlaying`
+if [ $? -ne 0 ] ; then
+	echo "Kaffeine is not running."
+	exit 10
+fi
+
+if [ "${TEST}" != "true" ] ; then
+	echo "Kaffeine is not playing."
+	exit 20
+fi
+
+TITLE=`dcop kaffeine KaffeineIface title`
+
+FILENAME=`dcop kaffeine KaffeineIface getFileName`
+SIZE=`ls -lh "${FILENAME}" | cut -d " " -f 5`
+
+POSITIONSECONDS=`dcop kaffeine KaffeineIface getTimePos`
+POS_M=`expr ${POSITIONSECONDS} \/ 60`
+POS_SS=`expr ${POSITIONSECONDS} \% 60`
+POS_SS=`printf "%.2i" ${POS_SS}`
+
+LENGTHSECONDS=`dcop kaffeine KaffeineIface getLength`
+LEN_M=`expr ${LENGTHSECONDS} \/ 60`
+LEN_SS=`expr ${LENGTHSECONDS} \% 60`
+LEN_SS=`printf "%.2i" ${LEN_SS}`
+
+POSITION="${POS_M}:${POS_SS}"
+LENGTH="${LEN_M}:${LEN_SS}"
+
+echo "${PROG}(${VERSION}) playing ${TITLE} (${SIZE}) (${POSITION}/${LENGTH})"

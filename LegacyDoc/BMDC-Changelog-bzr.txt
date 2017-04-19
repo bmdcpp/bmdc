@@ -1,0 +1,904 @@
+-------------------------------------------------------
+PreVersion: (core 0.75)
+-------------------------------------------------------
+Favorite users (re-added from latest FreeDC++ orginal)
+Add Notepad
+Change Reconnect delay 0;
+Add no share (thx RedMaster)
+Add Ignore User (thx Core Code from CZDC)
+Add Copy Tag in User Menu
+Change /pm nick text
+Add Media Spam scripts
+Add /df (mc)
+Add emotions in PM
+Add ADL Search
+Add toolbar settings (from original freedcpp)
+Add on/off transfer panel
+Add color-set (with color change from CrZDC 0.75A1)
+Add Settings Log Chat in Fav Hub
+Add /stats /uptime
+Add ADL Go to directory
+Add ADL AutoQueue
+Fix: Better /help , and Fix Hide Share
+Add Exact Share in UL
+Fix ADL Dialog
+Fix Fav User Menu Item Main Windows
+Fix The Manual Connect , i think
+Add Country in chat
+Add Setting Country,ip in chat ;)
+Add CC Transfer Tab
+Add CC UL Tab
+Fix /passwd command
+Add Search Alternate in Transfer Tab
+Fix: Fix CC in chat ( if set only CC visible)
+----Version 0.0.0alpha1 (core 0.762)
+Add System Logs Tab
+Add LUA support (BDCD) without DC():
+little improvements in chat country code&IP (RSX)
+sync with freedcpp original ;)
+Add Passive,OP,Ignore color to UL
+Add Alias Patch
+Add dctmp DW. (not UP)
+Fix ADL Search not show add/remove item
+Add color of Shared/Queue Item in Search windows
+Fix Memory Stats definitely
+Add color of Shared/Queue Item in ShareBrowser tab too
+Fix Slots bug and Fix shutdown bug
+--
+Add Icon tabs (freedcpp original r126)
+--
+Change /freedcpp ;)
+Fix Memory stats again
+Change Don't show partial finished downloads (linuxdc r377)
+Add Ctrl+F4 to close a tab (linuxdcpp r381)
+Add Command in hub chat /slots slots =)
+Add Favorite Groups =) ((one know bug add hub show on close and open tab, too to edit =)))
+Add Menu in Favorite Hubs, and key release
+Add clikable/resiable Favorite Hub Tab Tree
+Add Tool tip to hub status bar
+----------0.0.1
+Fix Favorite Groups
+Update po files
+Add Lua UC (BCDC)
+Fix Hub list loading
+Add DNS resolve ip to UserInfo
+Change Notepad load from
+Add DNS resolve ip to transfers ;)
+Add icon Share Browser
+---------0.0.2
+Add Icons Country
+Fix Hide Share (nmdc)
+Add Icons Country to Hub list
+---------0.0.2-2
+Add Core code of Recent Hubs
+Add Recent Hubs Tab
+Fix in Favorite Hubs Tab
+---------0.0.2-3
+Fix Loaded Cached Hub list
+Update po files
+Add Get TTH from File in File Menu
+Fix ADL Dialog
+Change url in About Dialog
+--------0.0.2-6
+Add Highlighting Word Support
+-------0.0.x
+-------Alfa1----------
+Add core code of CMD support
+Add Detection Tab , More ADL
+--------alfa3--------
+Fix many crash in /sc
+Fix Notepad
+--------alfa4-------
+Fix queue crash.
+Add SLDW Kick + Show Cheats on MC on GUI
+Fix dcplusplus r2282 => * [L#571914] Fix crash when zero sized bloom filter requested (emtee)
+-----r71
+Add PK,Cheat to User list
+---r72
+Fix from Eiskaltdcpp GTK => https://github.com/negativ/eiskaltdcpp/commit/db39230f7594dce8a131f441375a5e17ed1ff299
+Fix from Egik Petrov (dhampire), (scons arch)
+---r73
+Fix CmdTab Scroll from Eiskaltdcpp core77=> https://github.com/negativ/eiskaltdcpp/tree/core77
+-----r74
+Add /ratio command
+Add Anti-Spam.lua to subversion repository
+Update TigerHash from dcpp
+Fix Action Edit in Detection Tab
+-----r75
+Add Possibly run without lua files ( with no bunch of errors in System Tab)
+Add settings to Detection Tab
+-----r76
+Add Setting Use Highlights
+dcpp r2296
+Fix hub UC
+-----r77
+linuxdcpp 385: Show preferences dialog on initial startup. (Steven)
+linuxdcpp 382: Show the filename when grouping by TTH in search. (Steven)
+linuxdcpp 386: lp#308683: Fixed downloading files multiple times when grouping by TTH. (Steven)
+Add CC to Search Tab
+-----r78
+Fix icon if not set theme
+Add Close All PM
+Add Close All hub
+Add close All Search
+------r79
+Add close All off-line PM
+Change /xx basic commands to WulforUtil func
+Add UnProtect User in User Hub Menu
+Add right/left key as expand directory tree
+------r80
+Fixed build without Lua
+Change Sconscript as linuxdcpp (CPPDEFINES etc)
+Add /userlistr for refresh User list
+Add Nick to Nick Menu in hub User list
+dcpp r2317
+dcpp r2318
+small fix in main window.glade
+Fixed PK
+-----r81
+Fixed one crash after checking running
+------r82
+Add new context menu for tabs - Close,UserCommands
+Add option to remove X from tabs
+Fix Icon of Client (pixmaps)
+------r83
+Add After Nick in Nick Menu separator
+Fix for /commands
+Fix in DetectionTab
+Show sent global /commands in status messages
+Add Toolbar Button for Enable/Disable Limiting
+Add Copy HubUrl in hub tab
+Add Copy Nick in PM Tab
+Add FL Generator column to hub TreeView
+Add Count Forbids Files to statusbar of ShareBrowser
+------r85
+Add redirect message show on Main-chat as SYSTEM Messages
+Fix in Favorite Hubs Groups
+Update Copyright to 2011
+------r86
+Fix ADLSearch Checker
+------r87
+Add Icon of Connection Type in UL
+------r88
+Add Missing Passive icons of connection type too
+------r89
+Theme-able Icons of Connections
+Improvements in ADLSearch Tab/Dialog
+extensions directory fix
+------r90
+Add GUI for Setting Pattern of Protected Users
+-------r91
+Fix Search Alternate from queue tab
+Fix Many Open Search on Transfers -> Alternate Search
+-------r92
+Fix Show Name of file in queue tab
+-------r93
+Fix Magnet Dialog and after Search Tab close
+Fix Color in Highlighting Tab
+-------r94
+Fix Freeze on set button of Download directory (a others directories too)
+Fix checker crash after run >30 m
+-------r95
+Fix Active/Pasive on yourself
+Add Button and Menu Item to Refresh User list
+-------r96
+dcpp r2398 : Prevent a remote crash triggered via malformed user commands (poy)
+delete option in Appearance with "Use Lua"
+Rewrote Popup Menu (now can use different menu to User and Hub )
+Update Czech po and pot files
+--------r97
+Add Country Flag to Chat
+Fix Build without Lua
+-------r98
+update dcpp
+Add Extra Chat Info (from RSX++)
+Add Favorite Hub Connection Mode mode
+Change report (type has latest RSX 1.20/Strong 2.42)
+-------r99
+Fix handling /me message (Fix For ADCs hubs)
+Add Option To disable Show DNS in Transfers
+Fix Icon of Limiting Enable/Disable
+Add Allow PM only From Favorite Users
+Fix overflow widget to transfers in Detection 3rd Tab
+dcpp 0.780 - Fix Linux Semaphore
+Linuxdcpp - Support i18n (now only updated Czech ,and old Russian Translate)
+-------r100
+Add cleanmc command (CrZDC)
+Fix ratio command
+Change Icon of Unknown Country
+Change Icon of Unknown Connection Type
+Add UP/Down keys to Queue Dir Browser
+Add SYSTEM Msg when send password from favorite hubs
+Add "Leech" command (CrZDC)
+Update Highlighting Tab
+Add Speed to statusbar in ShareBrowser
+Add Icon of highlight tab
+------r101
+dcpp r2422 (Don't duplicate file list entries when re-downloading it)
+Possibly Manual check if you have hidekeys
+see Eiskaltdcpp git b6e8c45 for sound changes
+Rewrite Favorite Hubs Tab with use class TreeView
+Timer´s virtual function, tick uint32_t -> uint64_t
+Add Menu to Limiting Toolbars Item
+-----r102
+Clear Button in CMDTab
+dcpp r2446
+----r103
+Fix Default group
+----r104
+see linuxdcpp r412 for Breakage API libnotify
+----r105
+small Fix in Favorite Hubs
+Move drop_combo(GtkWidget *widget, vector<pair< string, int> > CONTEUDO) to WulforUtil
+Move getActions to WulforUtil
+Add RPM pclinuxos spec file
+----r106
+Add Copy Menu Based on linuxdcpp BUG => https://bugs.launchpad.net/linuxdcpp/+bug/473205
+----r107
+removed old Copy Nick/Tag Menu Items
+properly debian folder
+----r108
+Added Filelist icons based on mime-types
+----r109
+Maybe Fix Match Queue infinite loop from hub user menu
+----r110
+Fix copy menu
+----post
+Fix Desktop File
+--------------------
+Rename project to BMDC++
+--------------------
+Fix System Log Tab
+Fix Match queue definitive
+Fix UC on Hub Tab Right click
+Refactoring Detection Settings
+Fix groups
+Add Support as User list column
+Small Fix Det. Settings
+Small Fix with compatibility with CZDC
+Make NICK Item insensible from user actions/events
+Add ubu emotion pack
+Remove Auto-gran slot column from Ignore Users tab
+Small Fix to open Notepad,System, Ignore after start program
+Fix normal icon in Favorite & Ignore tab
+Add miniupnp lib and supports it
+Add custum search on adc hubs
+More Re-factor Det. Settings
+Update core
+Add change icon Away/Limit
+Add Copy and Ripe DB of IP in chat in menu
+Fix Copy IP
+Fix sort UL
+Add Option Hide Lua error
+Fix Copy IP
+Added a build flag to enable/disable libnotify. (Francisco Blas Izquierdo Riera)
+-||- lua support (liblua)
+-||- libgnome supports (libgnome)
+Change Cheat message to show on hub´s main chat
+Add hub client command /topic to show topic of Hub
+Move unordered-* out from tr1
+Add Ax => name to report in UserInfo
+Small Fix Det.Tab
+Update Core partially
+Fix Crash if no country folder and no GeoIpCountryWhois.csv in ~/.bmdc++
+Fix /me handling
+Smallest Country Icons
+Fix Hub list loading.
+Add FS in ADC (and in UserInfo too as Free Slots)
+Updated Czech , Turkish translate
+Some cleanup code
+Add Hub´s menu Add Favorite
+Add PM´s menu Add Favorite
+Simplify load country
+Add Remember password if available on /fav or Add Favorite from Hub´s tab menu
+Supports Highlighting on PM
+Move regexp from POSIX ver. to boost ver.
+Add Remove All to Recent´s tab menu Items
+Fix Highlighting
+Fix debian folder
+Fix if opened PM and then open setting and then hit ok.
+Add UC param fileMN
+Add cmd /ws and /dcpps for setting what is not in GUI
+Better info for error when no install xdg-util for open link
+Add Setting in colors&Font for Cheat message and IP address
+Applied ZLIF patch from iceman50
+Add setting of Colors text in User List
+Update Czech translate.
+Some missing code of UPNP
+Some translatable strings fix in settings
+Add Setting in GUI for reconnect time (sec)
+Fix Highlighting if no items in it
+Fix debianize for 64bit
+Fix /away /back and Icon in toolbar
+Fix hiding Away Icon
+Move Highlighting to Settings Dialog
+Add Hashesh/Salted password from iceman50
+More responsible error in SSLSocket
+Add QP (mainly from Dice!) (Upload Queue)
+Better Formated Copy all on Hub UserList
+Add tooltip to main Statusbar where show from System log
+Fix items in tooltip to main window
+Add tooltip on hover at Nick row in User list
+Fix entry on Settings External IP
+Better tooltips on hub statusbar
+Load Log file into Private Message frame if available
+Fix missing description in tooltips at User list on Hubs
+Add Upload Queue Tab
+Add VLC Spam script (curse)
+Fixed Upload Queue
+Ipv6 support
+Custom Country format
+Fix writing in chat when in Advanced off tick Send Unknown commands
+Fix Sett. Man.
+Fix Behavior in Setting´s connection page
+Bug Fix of $SaltPass (iceman50)
+Add Auto Update of GeoIP along with HttpDownload helper´s struct
+Added option to Bold Hub Tab all times when changes what in it
+Bug Fix of $SaltPass (now working fine) (by iceman50)
+Finally Fix isue with off tick Unknown Command
+Move to template for RegExp (and also add Wildcard Support to Protect Users)
+Set a users IP address sooner during a connection attempt (dcpp r2624)
+Fix Remove All in Recent Hubs
+tar support
+Backup/Restore Manager
+Fixed issue with bad *.sfv files with off check
+Remove Check if OP in Hub Messages for Additional Info
+Little Fix for Limiting´s GUI Part
+Little Tweak /stats
+Save IP Address on connect to users (NMDC)
+Proper Audacius Script along with /rb for Rhytmobox
+Some change in startup (annouce)
+Better Error if same port for TCP and TLS
+Trying Fix some stuff in Favorite Hubs
+Fix Highlighting typo
+Add Splash class
+Some more up-to-date core.
+Some more up-to-date-to FreeDC++
+Fixed Remove All Recent Hubs
+Add Reconnect all in File menu item
+Trying add support of $SetIcon
+Add Forgotten /exec command
+add Forgotten /topic command
+Fix TestSUR
+Fix Ratio
+Add Remember checked button in CMD Debug Tab
+Class Recent Tab => Recent Hubs
+Some small changes in main Sconscripts
+Added Arch's PKGBUILD
+Build without -fpermisive
+GtkEntry with GtkCompletion in Search
+Fix The Settings
+Fixed tooltip on main status bar
+Add MediaInfo
+Fix Crash on checker when con-timeout is
+Add tooltips to Search TreeView
+Add System-wide Icons to Queue/Search Tab too (for files)
+Add emotions to install
+Change IP Box In CMDDEBUG´s tab to combobox
+Fixed Open Notepad&System&Ignore Tab on startup and add to Upload Queue on startup
+Add Icon of User to Upload Queue Tab
+Add readlog on PMs if set more that zero line in settings
+Some Fixes
+Update Copyright
+[LP#908039] Fixed Hash Dialog
+Add C++0x GetSet
+Fixed invalid iterators in WUlforManager
+Change GetTestSur in hub tab to load more that from one users
+some changes in WulforManger as size() > 0 to empty()
+Fix Highlighting Ignore in UserList
+remove Fast Hash option (DC++ r2781) with add FileReader
+Add remove Favorite Hub to right click on Hub tab
+Move country folder to [prefix]/share/bmdc
+Fix FileReader (dcpp rev2808)
+Fix GTK-Colors Warning on PM/HUB tab .
+--r96
+Add Plug-ins Supports
+Add Custom Hub Tab Text
+Add Custom Hub Tab Icon
+Add Support of ComboBox-like UC (need more testing)
+Fixed Terminal magnet parameter
+Little updated ArchLinux PKGBUILD
+Add stacktrace
+--r97
+Update Plug-in API to latest version
+Update examples of Plug-in
+Add possible settings of Chat Color Background
+Fixed Showing/Hiding toolbars icons
+Fixed some commands not working on Private Message
+--r98
+Fixed dbus plug-in
+Add Colorize Background in User list
+--r99
+Add Support NATPMP
+Remove UPnPManager
+Fix myspell in PrivateMessage´s right click menu
+--r100
+added nullptr.h (fixed buidl with gcc 4.5.2)
+Add clicked status of some buttons in toolbar
+Fixed Selections in chats
+Some Others small changes
+Added Pragha Media spam script
+===0.0.2===
+---r101
+Threaded Get TTH from file
+---r102
+Possible set custom font size in BookEntry class (/ws custom-font-size 1/0 for enable/disable and /ws book-font-size for settings itself)
+Possible Highlighting IPv6 (with it callback as ipv4 have)
+Add Favorites independent on CID & History of Favorite with CID
+Add DC++ bot fix by [LP##966339]
+Small speed-up fix on load Filelist
+Fixed CRC when disabled still used it.
+Possible Fixed Settings of BG of Userlist
+---r103
+Add Copy Nicks to PM
+Fixed UL Colors
+Fixed build with gcc 4.7.0 (tested on ArchLinux)
+---r104
+Fixed default setting of colors in userlist
+Removed /freedcpp command from help
+Bot Fix by dcpp style
+Some Small cleanup
+---r105
+Fixed crash when Geo/Country disabled
+---r106
+Add Icon to menu on right click on Tabs
+---r107
+Maybe Fix checker(/sc) isue..
+Fix PM after click on Link.
+Guessing Fix bad version icon on Startup (Limiting)
+---r111
+Fix PM show log
+Add RF on ADC(s) (http://adc.sourceforge.net/ADC-EXT.html#_rf_referrer_notification) but in B/C INF,
+Fix ShellCommand on LXDE (and may others DE/WM)
+Fix some of warnings (remove -Wextra from build flags) and remove some of unused values
+---r112
+Add AC Tab
+Fix CMD Debug Tab
+Fix repeated messages about loading emoticons
+Change Next/Prev tab to ctrl + right  and ctrl + left keys
+Fix About Dialog
+Add "Normal" Stats about mem to /stats and remove Time
+Add fsusage/freespace to dbus plug-in ..
+---r113
+Fixed AC Tab&add WSetting to it too
+Small fix in Plug-in API on shutdown
+---r114
+Fix Formating of /stats
+Add Search by type to ACTab
+---r115
+Add SetDefault to ACTab
+Add Icon to ACTab (same as System log for now)
+---r116
+Add UC to right click on IPs
+---r117
+add missing commands to help
+Partial update to rev 2923 of dcpp
+GUI for Per-hub/group settings with extending with Log this /group Chat(s)
+---r118
+Fix User Description in Fav´s Hubs
+----r119
+Add Possible do nothing on middle button in Books
+Add Possible only ctrl + arow for history
+Fix Limiting Icon/On Startup/
+----r120
+Add Basic Browse for Partially Filelist
+----r121
+updated UploadManager from dcpp (r2929)
+   (fix double-locking when creating an upload&
+    don't bother loading files on upload requests when there's no slot&remove old defs)
+Fix svn → bzr in One Help menu Item
+Fix FreeDC++ → BMDC++ in Dialog on Close
+-----r122
+(dcpp rev2935) Fix a mix-up between IPs and hostnames leading to wrong search results
+trim hub address.
+Fix compatibility with gcc 4.5.2
+-----r123
+Threaded Loading of FileList (eiskaltdcpp (dhamp))
+-----r124
+Fixed . after ip copy etc
+Better dchub adc(s) link (eg not handle dchub://)
+Fix CMD Debug Frame
+-----r125
+Added /info cmd
+Added /raw cmd
+Added in Plug-ins Tab in Settings About Dialog..
+-----r126
+Fix leak in OpenSSL...
+-----r127
+Now New glib API Thread used (this need at least glib 2.32)
+Maybe Fix SIGPIPE if few upload...
+-----r128
+Fix PubHubsTab stuck disabled after a download attempt from an invalid URL and few sync with dcpp
+Add Color of Text on Tabs
+Add Remember of Checkbox of Userlist
+add command /conn
+Fix SIGPIPE finally...
+-----r129
+Small Fixes
+Fix closing of Non-Fav Hub
+-----r130
+[dcpp sync r2967] Greatly improve user command removal time when closing a hub
+[dcpp sync r2972] Don't block addition of permanent items if a temporary one exists; Rise some defaults to keep up with the times
+[dbus-plugin] add GUI for config value to /fspace
+[GUI] Use ConnectivityManager
+-----r131
+[GUI&Core] Remove Internal Lua
+[Lua] Add Plug-in for it
+[Plug-ins] Few Fixes around it
+-----r132
+Fix loading icon from http in Hub Tab
+-----r133
+Merge BoolSetting from dcpp
+Few Fixes since BoolSetting
+Removed ADC Debug , Few LUA_DEBUG from core
+-----r134
+update Lua Scripts
+Bool Settings to Plug-ins API
+Remove Send $BotInfo for now...
+-----r135
+Remove priv fron ClientManager´s findOnlineUser func
+Add Patch from (Search) https://bugs.launchpad.net/dcplusplus/+bug/689460
+-----r136
+Fix few of -Wreorder , -Wdeprecated ,...
+-----r137
+Remove Debug Manager;using to it Plug-in Manager iternal;
+Few update from dcpps
+Few fixes
+------r139
+Partial Updated Plugins API&Plugins Updated
+Few cleanup
+------r140
+Update QP code,Fix hangout connection on Upload on granting slots.
+------r141
+Small Fix of QP&Granting slots on ADC(s)
+Cleanup
+------r142
+Mutexed The QP's code
+May Fix Invalid File type..
+unfriendly OnlineUser and Nmdc class
+Lock Plug-ins
+-----r143
+Fix High CPU usage..
+Small Update of QP code..
+----r144
+Update QP,
+Add Export Dialog (under Tools in Menu)
+----r145
+small sync with dcpps
+Another Fixes,
+May Fix one crash
+----r146
+Add /imdb [param] and /g /google [param] for search in default browser/application on Google/imdb
+Few sync with dcpp
+----r148
+Update HubSettings from dcpp
+Fixies
+----151
+Add Tabbed Searches
+----152
+Fix Tabbed Searches
+Add Notify to Main chat messages arrived
+----r155
+Few Fixed, Few updates...
+----r156
+Some fixes
+----r157
+Some Fixes..
+GTK_ICON_SIZE_BUTTON -> GTK_ICON_SIZE_MENU in stock/icon in BookEntry
+----r159
+Few updates from dcpp
+Add random funny message to /bmdc
+----r161
+Add Copy Menu Item to Favorite Hubs's right click..
+May Fix some issue with ShellCommand class...
+Removed double versions in /bmdc++
+----r162
+does libtar as optional dependencies
+Few updates from dcpps
+----r164
+Added Sound Callback to Plug-in Api
+Some small cleanup
+Fix Build Without libtar
+----r166
+Move Ignore Users as Flag of Favorite Users and Split Independent Favorite User Class with Favorite User class
+----r167
+Prepare to switch for GTK3/GtkBuilder (except ComboBoxes for Char-set ..)
+----r168
+Fixed Encoding comboBoxes
+Few Fixed around GSEAL
+----r169
+Fixed Fav Groups ComboBox
+----r170
+GDK_ => GDK_KEY for keys
+----r171
+Full Switch to GTK3
+----r172
+Divide Favorite Tab and Favorite Hub Properties to two class
+----r174
+Partially Fixed Detection Tab
+Fix ADLSearch add/edit Dialog
+Use Search icon on right click searches
+----r175
+Modify Emoticons to Settings per-fav
+More Per-Fav options
+----r176
+using gtk_show_uri
+Default BoldTab&Notify in Favorite Dialog to Enable
+----r177
+Fix Group Combobox
+Sound on Start Downloading..
+Add Emotions to Fav Dialog
+----r178
+Fixed color of Background
+-----r180
+Removed FastAloc class ( for speedup)
+Add IP Tag to pm too
+-----r181
+Use Font Chooser
+----r183
+Fix Emotions Favorite Combobox
+Some Fixes
+----r184
+Callback to IP's PM's menu
+Redone Per-Fav Hub emotions
+----r185
+Some fixes around deprecated functions
+Some Fixes around emotions (mainly on PM)
+----r187
+Fixed ShareBrowser duplicates widgets ids
+Remove $HubIcon|
+----r188
+boost::noncopyable -> = detete copytor (C++11)
+Some work around Text Color in User List..
+Fix Ignore Users in User List visible as Favorite User
+Some boost::scoped_array -> std::shared_ptr
+----r189
+Fixed menu in Download Queue
+----r190
+Fixed typpo in Highlighting settings
+Move some of FakeChecker Functions to parent function(FakeChecker) of ClientManager
+----r191
+Fix Settings color of IPs
+----r192
+Fix some of "Gtk-WARNING **: Unknown property: GtkStatusbar.has-resize-grip"
+Fix some of items.size() > 0 to !items.empty()
+---r193
+Fix some of "Gtk-WARNING **: Unknown property: GtkStatusbar.has-resize-grip"
+Some Checker code UserPtr => HintedUser
+---r194
+Some mirror cleanup
+---r195
+Away status on NMDC
+---r196
+Seperate Calc ADL Points
+---r197
+Remove some unused code
+Add one more message to /bmdc
+---r198
+some cleanup
+---r199
+Do not -O2 in Debug build on some systems
+---r200
+Add option to no. of chars in Tabs
+---r201
+remove some remaining gtk2-code in BookEntry
+---r202
+Some more auto in for-cycles
+---r203
+May fix ShellCommands class..
+Remove some cruft from gtk2 version..
+---r204
+Close file after load in Favorite Manager::load
+We Don't Interesting what/where is sending $LogedIn on NMDC
+---r205
+Partially Fix Settings Combobox
+---r206
+Remove some stuff from Main Windows
+disable some of Ipv6 stuff
+update some of copyright(2013)
+---r207
+Fix some Socket issue on *Buntu & may in future other distros...
+---r208
+Fix Hide Share,
+Update copyright to 2013
+some mirror changes
+---210
+Fix some UL icons
+---r211
+Fixed Crash in Download Queue in GUI
+Add VLC2 Script
+---r212
+May Fix issue with ShellCommand class
+May Fix loading/saving of plug-ins
+----r213
+Fix Changelog entry in about menu
+----r214
+Fix typos&Fix remaining freedcpp's stock in Main Win
+----r217
+Fix missing some default values in settings
+----r219
+don't count in /df some unusefull Filesystem..
+May Fix dialog on startup on bad settings ...
+-----r223
+Fix some warning around deprecated functions
+misc stuff
+-----r224
+do not use RegExp in PM&HUB HitIp
+Misc Stuff
+-----r225
+Fixed tooltips in maintoolbar
+[RegExp.h] Change to pcre q
+-----r226
+Some Compile Fixies for boost 1.53/gcc 4.8+
+-----r227
+[add] Converter of Win-like emotions xml
+-----r228
+Fixed Passive Mod (icon&func)
+Fixed Background Chat (Settings)
+Patched bmicon.xml
+-----r229
+Fixed some build issue on *Buntu
+Fixed Background Chat (again)
+Fixed tooltips
+-----r230
+Use GtkSearchEntry in Search's Tabs (relq at least gtk 3.6+)
+Apply Enhanced from Bug #LP1166502 (bmicon)
+-----r231
+Add Menu Item to Open Search Tab in SearchEntry
+Misc stuff (like as moving duplicated function,..)
+-----r232
+Fix ADLSearch icon
+Fix some -Wreorder
+Fix gdk_pointer_* deprecated uses
+-----0.0.4-------
+-----r233
+properly format sized in /stats
+some remove of boost::str
+misc stuff
+----r234
+Add disclaimer to About:Config Tab
+----r235
+some prepare to remove boost
+Remove Torrent.cpp/h file
+-----r236
+some more removal of boost
+-----r237
+Complete removed boost
+-----r238
+plug-in API: add a notification function
+-----r239
+remove leftovers files
+add some basic support of clang ( not done)
+some cleanup
+-----r240
+Fix some deprecated functions in use
+-----r241
+add colorful tab ( for now settings via About:config => values with colored-tabs-*
+some std::shared_ptr => new/delete operator
+some cleanup
+-----r242
+Add Settings for colorful tab to Settings Dialog ( under Appearence -> Tabs)
+-----r243
+some compile fixes
+-----r246
+add unread status to colorful tab Highlighting.
+-----r247
+Fix show/unshow join users messages and some others Hub-Preference related code
+-----r249
+Fix spaces between hidden limiting and unhidden limiting toolbar icon
+Possible better look v 1st page of Settings
+some cleanup
+-----r250
+cleanup& remove some unused settings
+-----r252
+some small fixies&cleanup
+Fix Arch's PKGBUILD
+-----r253
+Add More options for using double click on User List Items
+/*
+/ws double-click-action
+	 * 0 - Browse FL
+	 * 1 - Nick to Chat
+	 * 2 - PM to nick
+	 * 3 - match queue
+	 * 4 - grant slot
+	 * 5 - add to favorite users
+	 * 6 - Partial FL
+*/
+-----r254
+Remember state of Transfers checkbox
+-----r257
+  Fix Downloading status
+-----r258
+[dbus-plugin] Fix year field in /np
+-----r259
+1st startup using for chat background color from theme
+----r260
+Fix some settings ( icon of wireless etc in away passive mod)
+----r261
+Made Hub-Bot (uhub,..) visible to users
+----r262
+Possible Fix pos of UserList in Hub tab
+----r264
+[dbus-plugin] add /hdd
+----r265
+Fix building ...
+----r266
+[dbus-plugin] add some items what should be ignored
+----r267
+Possible fix some issue within in connection setup
+----r268
+Fix UserList Text color
+Possible Fix some locking in WUlforManager
+-----r269
+Possible Fix loading big FL
+-----r270
+Possible Fix infinitive loop in BackupManager
+-----r271
+Possible Fix AAAA&A entry on DNS when connecting
+-----r272
+Fix root item in ShareBrowser
+-----r273
+Fix Partial Listing
+-----r274
+Fix hiding transfers
+-----r275
+Fix ADLSearch
+-----r276
+Fix Weird chars in Connection Type
+-----
+Fix build with 3.10 gtk
+----r287
+Remove Plug-in API from Debug CMD Frame
+----r298
+Better handling of crashes
+----
+Fix IPv6 coloring in chat
+----
+Fix DebugManager
+Update Hash/Share Manager
+----
+Fix UserList icons
+Fix some free'ing memory
+Fix chat commands
+----
+Fix Translate of tooltip in UserList
+Add ability save per-fav columns in Userslist
+some cleanup
+----
+added status column to Favorite Hubs Tab.
+----
+Made Settings for menu item on right click in User Action in Hub Frame
+----
+Add some more info to /info command
+----
+Fix horizontal scrollbars
+----
+Add info about if send server command
+----
+Fix some of deprecated warning on 3.12+ gtk
+Fix bad char in Shellcommand class
+---
+Fix deprecation with 3.14+
+add AVDB
+add global settings for UL_VISIBLE/ORDER/SIZE, TAB_TEXT/ICON
+---
+HubSetting changes with respective UI changes
+checking size of aFile in UploadManager
+Fix deabeef a bit,Fix set nick
+---
+Fix Behavior of About:Config's GtkInfoBar,Fix typpo in / commands ( dcpp vs dcpps)
+
+Alow only jpg,png,gif and svg in FavoriteHubDialog as background image
+remove typedef StringMap to ParamMap from Hub UI Class
+Add per Favorite STATUS_IN_CHAT value
+Bug Fixes
+---
+some code around users
+Fix conf of kaffeine script
+Use real time units in client uptime
+--------------------------------------------------------
+deprecated file!!
+Use VCS log (bzr log) for this purpose
+--------------------------------------------------------
+

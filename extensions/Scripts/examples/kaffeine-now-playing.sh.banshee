@@ -1,0 +1,8 @@
+#!/bin/sh
+PROG=banshee
+TITLE=`banshee --query-title`
+ALBUM=`banshee --query-album`
+ARTIST=`banshee --query-artist`
+
+echo "${PROG} playing ${ARTIST} - ${ALBUM} - ${TITLE}"
+

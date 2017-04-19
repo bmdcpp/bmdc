@@ -1,0 +1,280 @@
+set(SOURCES
+format.cpp
+AdcCommand.cpp 
+AdcHub.cpp 
+ADLSearch.cpp 
+AVManager.cpp 
+BackupManager.cpp 
+BMDCUtil.cpp 
+BufferedSocket.cpp 
+BZUtils.cpp 
+CID.cpp 
+Client.cpp 
+ClientManager.cpp 
+CommandQueue.cpp 
+ConnectionManager.cpp 
+ConnectivityManager.cpp 
+CryptoManager.cpp 
+DCPlusPlus.cpp 
+DebugManager.cpp 
+DetectionManager.cpp 
+DirectoryListing.cpp 
+Download.cpp 
+DownloadManager.cpp 
+Encoder.cpp 
+Exception.cpp 
+ExportManager.cpp 
+FakeChecker.cpp 
+FavoriteManager.cpp 
+File.cpp 
+FileReader.cpp 
+FinishedItem.cpp 
+FinishedManager.cpp 
+GeoIP.cpp 
+GeoManager.cpp 
+HashBloom.cpp 
+HashManager.cpp 
+HighlightManager.cpp 
+HttpConnection.cpp 
+HttpDownload.cpp 
+HubSettings.cpp 
+ChatMessage.cpp 
+LogManager.cpp 
+Mapper.cpp 
+Mapper_MiniUPnPc.cpp 
+Mapper_NATPMP.cpp 
+MappingManager.cpp 
+NmdcHub.cpp 
+PluginApiImpl.cpp 
+PluginManager.cpp 
+QueueItem.cpp 
+QueueManager.cpp 
+RawManager.cpp 
+SearchManager.cpp 
+SearchResult.cpp 
+SettingsManager.cpp 
+SFVReader.cpp 
+ShareManager.cpp 
+SimpleXML.cpp 
+SimpleXMLReader.cpp 
+Socket.cpp 
+SSL.cpp 
+SSLSocket.cpp 
+stdinc.cpp 
+StringMatch.cpp 
+StringTokenizer.cpp 
+TarFile.cpp 
+Text.cpp 
+Thread.cpp 
+ThrottleManager.cpp 
+TigerHash.cpp 
+TimerManager.cpp 
+Transfer.cpp 
+Upload.cpp 
+UploadManager.cpp 
+UserCommand.cpp 
+UserConnection.cpp 
+User.cpp 
+Util.cpp 
+version.cpp 
+ZUtils.cpp 
+
+)
+
+set(HEADERS
+	ActionRaw.h 
+AdcCommand.h 
+AdcHub.h 
+ADLSearch.cpp 
+ADLSearch.h 
+AVManager.h 
+BackupManager.h 
+BloomFilter.h 
+BMDCUtil.h 
+BufferedSocket.h 
+BufferedSocketListener.h 
+BZUtils.h 
+CalcADLAction.h 
+CID.h 
+Client.h 
+ClientListener.h 
+ClientManager.h 
+ClientManagerListener.h 
+ColorSettings.h 
+CommandQueue.h 
+compiler.h 
+ConnectionManager.h 
+ConnectionManagerListener.h 
+ConnectivityManager.h 
+CriticalSection.h 
+CryptoManager.h 
+DCPlusPlus.h 
+debug.h 
+DebugManager.h 
+DetectionEntry.h 
+DetectionManager.h 
+DirectoryListing.h 
+Download.h 
+DownloadManager.h 
+DownloadManagerListener.h 
+Encoder.h 
+Exception.h 
+ExportManager.h 
+FakeChecker.cpp 
+FakeChecker.h 
+FavHubGroup.h 
+FavoriteManager.h 
+FavoriteManagerListener.h 
+FavoriteUser.h 
+File.h 
+FileReader.h 
+FilteredFile.h 
+FinishedItem.cpp 
+FinishedItem.h 
+FinishedManager.cpp 
+FinishedManager.h 
+FinishedManagerListener.h 
+Flags.h 
+format.h 
+forward.h 
+GeoIP.h 
+GeoManager.h 
+GetSet.h 
+HashBloom.cpp 
+HashBloom.h 
+HashManager.cpp 
+HashManager.h 
+HashManagerListener.h 
+HashValue.h 
+HighlightManager.cpp 
+HighlightManager.h 
+HintedUser.h 
+HttpConnection.h 
+HttpConnectionListener.h 
+HttpDownload.h 
+HubEntry.h 
+HubSettings.h 
+HubUsersMap.h 
+ChatMessage.cpp 
+ChatMessage.h 
+LogManager.h 
+LogManagerListener.h 
+Mapper.h 
+Mapper_MiniUPnPc.h 
+Mapper_NATPMP.h 
+MappingManager.h 
+MD5Hash.h 
+MediaInfo.h 
+MerkleCheckOutputStream.h 
+MerkleTree.h 
+NmdcHub.h 
+noexcept.h 
+nullptr.h 
+OnlineUser.h 
+PluginApiImpl.h 
+PluginDefs.h 
+PluginEntity.h 
+PluginManager.h 
+Pointer.h 
+portable_endian.h 
+QueueItem.h 
+QueueManager.h 
+QueueManagerListener.h 
+RawManager.h 
+RegEx.h 
+ScopedFunctor.h 
+SearchManager.cpp 
+SearchManager.h 
+SearchManagerListener.h 
+SearchResult.cpp 
+SearchResult.h 
+Segment.h 
+Semaphore.h 
+SettingsManager.h 
+SFVReader.h 
+ShareManager.cpp 
+ShareManager.h 
+SimpleXML.h 
+SimpleXMLReader.h 
+Singleton.h 
+Socket.h 
+Speaker.h 
+SSL.h 
+SSLSocket.h 
+stdinc.h 
+Streams.h 
+StringMatch.cpp 
+StringMatch.h 
+StringSearch.h 
+StringTokenizer.h 
+TarFile.h 
+TaskQueue.h 
+Text.h 
+Thread.cpp 
+Thread.h 
+ThrottleManager.cpp 
+ThrottleManager.h 
+TigerHash.cpp 
+TigerHash.h 
+TimerManager.h 
+Transfer.h 
+typedefs.h 
+Upload.h 
+UploadManager.h 
+UploadManagerListener.h 
+UserCommand.h 
+UserConnection.h 
+UserConnectionListener.h 
+User.h 
+UserManager.h 
+Util.h 
+version.h 
+w.h 
+ZUtils.h 
+
+)
+
+add_library(dcpp
+	${SOURCES}
+	${HEADERS}
+	${CMAKE_SOURCE_DIR}/natpmp
+)
+
+target_compile_options(dcpp PUBLIC
+	${CANBERRA_CFLAGS}
+	${GTK_PLATFORM_CFLAGS}
+	${OPENSSL_CFLAGS}
+	${GEOIP_CFLAGS}
+)
+
+IF (HAVE_LOCAL_MINIUPNPC)
+
+target_compile_definitions(dcpp PRIVATE
+"-DHAVE_LOCAL_MINIUPNPC=1"
+)
+ENDIF (HAVE_LOCAL_MINIUPNPC)
+
+target_include_directories(dcpp PUBLIC
+	${CMAKE_BINARY_DIR}
+	${CMAKE_BINARY_DIR}/src
+	${CMAKE_SOURCE_DIR}/natpmp
+	${CANBERRA_INCLUDE_DIRS}
+	${GTK_PLATFORM_INCLUDE_DIRS}
+	${MINIUPNP_INCLUDE_DIR}
+	${OPENSSL_INCLUDE_DIR}
+	${GEOIP_INCLUDE_DIR}
+	${PCRE_INCLUDE_DIR}
+)
+
+target_link_libraries(dcpp
+	${DEPENDENCIES}
+	${CANBERRA_LDFLAGS}
+	${GTK_PLATFORM_LDFLAGS}
+	${MINIUPNP_LIBRARY}
+	${OPENSSL_LIBRARIES}
+	${GEOIP_LIBRARIES}
+	${PCRE_LIBRARY}
+	${BZIP2_LIBRARIES}
+	${ZLIB_LIBRARIES}
+)
+
