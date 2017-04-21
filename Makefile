@@ -9,7 +9,7 @@ Release:
 	chmod +x ${HOME}/BMDC-release/bin/bmdc
 Debug:
 	mkdir -p ${HOME}/debug
-	scons PREFIX=${HOME}/debug/ debug=1 profile=0 libappindicator=1 libxattr=0 newSettings=0
+	scons PREFIX=${HOME}/debug/ debug=1 profile=0 libappindicator=1 useStatusIcon=0 libxattr=0 newSettings=0 -j4
 	#scons install
 cleanrelease:
 	scons -c
