@@ -945,7 +945,7 @@ void MainWindow::updateStatusIconTooltip_gui(string download, string upload)
 void MainWindow::createAppIndicator()
 {
 	indicator = app_indicator_new ( "bmdc","bmdc",APP_INDICATOR_CATEGORY_SYSTEM_SERVICES );
-	app_indicator_set_status ( indicator, APP_INDICATOR_STATUS_PASIVE );
+	app_indicator_set_status ( indicator, APP_INDICATOR_STATUS_PASSIVE );
 	g_signal_connect(getWidget("statusIconQuitItem"), "activate", G_CALLBACK(onQuitClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("statusIconShowInterfaceItem"), "toggled", G_CALLBACK(onShowInterfaceToggled_gui), (gpointer)this);
 	gtk_widget_set_sensitive(getWidget("statusIconBlinkUseItem"),FALSE);
@@ -2574,7 +2574,7 @@ void MainWindow::onShowInterfaceToggled_gui(GtkCheckMenuItem*, gpointer data)
 		gtk_widget_hide(GTK_WIDGET(win));
 		
 		#ifdef HAVE_APPINDCATOR
-			app_indicator_set_status(indicator,APP_INDICATOR_STATUS_INACTIVE);
+			app_indicator_set_status(mw->indicator,APP_INDICATOR_STATUS_PASSIVE);
 		#endif	
 	}
 	else
@@ -2585,7 +2585,7 @@ void MainWindow::onShowInterfaceToggled_gui(GtkCheckMenuItem*, gpointer data)
 		gtk_widget_show(GTK_WIDGET(win));
 		
 		#ifdef HAVE_APPINDCATOR
-			app_indicator_set_status(indicator,APP_INDICATOR_STATUS_ACTIVE);
+			app_indicator_set_status(mw->indicator,APP_INDICATOR_STATUS_ACTIVE);
 		#endif
 	}
 }
