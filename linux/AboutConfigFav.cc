@@ -167,7 +167,7 @@ void AboutConfigFav::show()
 			switch(type) {
 				case SettingsManager::TYPE_STRING:
 				{
-					bool bIsOK = false;
+					bool bIsSame = false;
 					types = "String";
 					const gchar* value = g_strdup(p_entry->get(static_cast<SettingsManager::StrSetting>(n),
 					sm->get(static_cast<SettingsManager::StrSetting>(n))
@@ -176,14 +176,14 @@ void AboutConfigFav::show()
 					if(strcmp(value,temp) == 0)
 					{	
 						isdefault = _("Default");
-						bIsOK = true;//they are same
+						bIsSame = true;//they are same
 					}	
-					addItem_gui(rowname, isdefault, types, value, bIsOK);
+					addItem_gui(rowname, isdefault, types, value, bIsSame);
 					continue;
 				}
 				case SettingsManager::TYPE_INT:
 				{
-					bool bIsOK = false;
+					bool bIsSame = false;
 					types = "Integer";
 					const gchar* value = g_strdup(Util::toString(p_entry->get(static_cast<SettingsManager::IntSetting>(n),
 					sm->get(static_cast<SettingsManager::IntSetting>(n)))
@@ -193,10 +193,10 @@ void AboutConfigFav::show()
 					if(strcmp(value,temp) == 0)
 					{	
 						isdefault = _("Default");
-						bIsOK = true;//they are same
+						bIsSame = true;//they are same
 					}	
 
-					addItem_gui(rowname, isdefault, types, value, bIsOK);
+					addItem_gui(rowname, isdefault, types, value, bIsSame);
 					continue;
 				}
 				case SettingsManager::TYPE_INT64:
@@ -209,7 +209,7 @@ void AboutConfigFav::show()
 				}
 				case SettingsManager::TYPE_BOOL:
 				{
-					bool bIsOK = false;
+					bool bIsSame = false;
 					types = "Bool";
 					const gchar* value = g_strdup(Util::toString(p_entry->get(static_cast<SettingsManager::BoolSetting>(n),sm->get(static_cast<SettingsManager::BoolSetting>(n)))).c_str());
 
@@ -217,9 +217,9 @@ void AboutConfigFav::show()
 					if(strcmp(value,temp) == 0)
 					{	
 						isdefault = _("Default");
-						bIsOK = true;//they are same
+						bIsSame = true;//they are same
 					}	
-					addItem_gui(rowname, isdefault, types, value , bIsOK);
+					addItem_gui(rowname, isdefault, types, value , bIsSame);
 					continue;
 				}
 				default:
@@ -231,25 +231,25 @@ void AboutConfigFav::show()
 	}
 }
 
-void AboutConfigFav::addItem_gui(const gchar* rowname, const gchar* isdefault, const gchar* types, const gchar* value,bool isok)
+void AboutConfigFav::addItem_gui(const gchar* rowname, const gchar* isdefault, const gchar* types, const gchar* value,bool bissame)
 {
 	GtkTreeIter iter;
 	dcdebug("\n%s-%s-%s-%s\n ",rowname,isdefault,types,value);
 	if(value == NULL) return;
-	gboolean isOk = g_utf8_validate(value,-1,NULL);
-	gboolean isOk2 = g_utf8_validate(rowname,-1,NULL);
-	gboolean isOk3 = g_utf8_validate(isdefault,-1,NULL);
-	gboolean isOk4 = g_utf8_validate(types,-1,NULL);
-	if(!isOk) {
+	gboolean bisOk = g_utf8_validate(value,-1,NULL);
+	gboolean bisOk2 = g_utf8_validate(rowname,-1,NULL);
+	gboolean bisOk3 = g_utf8_validate(isdefault,-1,NULL);
+	gboolean bisOk4 = g_utf8_validate(types,-1,NULL);
+	if(!bisOk) {
 		dcdebug("value\n");
 	}
-	if(!isOk2) {
+	if(!bisOk2) {
 		dcdebug("rowname\n");
 	}
-	if(!isOk3) {
+	if(!bisOk3) {
 		dcdebug("isdef\n");
 	}
-	if(!isOk4) {
+	if(!bisOk4) {
 		dcdebug("types\n");
 	}
 
@@ -259,7 +259,7 @@ void AboutConfigFav::addItem_gui(const gchar* rowname, const gchar* isdefault, c
 				aboutView.col(_("Status")), isdefault,
 				aboutView.col(_("Type")), types,
 				aboutView.col(_("Value")), value,
-				aboutView.col("ForeColor"), !isok ? "#FF0000" : "#000000",
+				aboutView.col("ForeColor"), !bissame ? "#FF0000" : "#000000",
 	-1);
 
 }
@@ -372,8 +372,8 @@ void AboutConfigFav::onPropertiesClicked_gui(GtkWidget*, gpointer data)
 	{
 		string name = s->aboutView.getString(&iter,_("Name"));
 		string value = s->aboutView.getString(&iter, _("Value"));
-		bool run = s->getDialog(name, value, data);
-		if(!run)
+		bool brun = s->getDialog(name, value, data);
+		if(!brun)
 			return;
 
 		int n = -1;
@@ -419,15 +419,15 @@ void AboutConfigFav::onSetDefault(GtkWidget*, gpointer data)
 		{
 			sm->unset(n);
 
-			string value = Util::emptyString;
+			string sValue = string();
 
 			switch(type) {
 				case SettingsManager::TYPE_STRING:
-					value = Text::toT(sm->getDefault(static_cast<SettingsManager::StrSetting>(n)));
-					s->p_entry->set(static_cast<SettingsManager::StrSetting>(n),value);
+					sValue = Text::toT(sm->getDefault(static_cast<SettingsManager::StrSetting>(n)));
+					s->p_entry->set(static_cast<SettingsManager::StrSetting>(n),sValue);
 					break;
 				case SettingsManager::TYPE_INT:
-					value = Text::toT(Util::toString(sm->getDefault(static_cast<SettingsManager::IntSetting>(n))));
+					sValue = Text::toT(Util::toString(sm->getDefault(static_cast<SettingsManager::IntSetting>(n))));
 					s->p_entry->set(static_cast<SettingsManager::IntSetting>(n),sm->getDefault(
 					static_cast<SettingsManager::IntSetting>(n)));
 					break;
@@ -435,35 +435,35 @@ void AboutConfigFav::onSetDefault(GtkWidget*, gpointer data)
 				case SettingsManager::TYPE_FLOAT:
 					break;
 				case SettingsManager::TYPE_BOOL:
-					value = Text::toT(Util::toString((int)sm->getDefault(static_cast<SettingsManager::BoolSetting>(n))));
+					sValue = Text::toT(Util::toString((int)sm->getDefault(static_cast<SettingsManager::BoolSetting>(n))));
 					s->p_entry->set(static_cast<SettingsManager::BoolSetting>(n),sm->getDefault(
 					static_cast<SettingsManager::BoolSetting>(n)));
 					break;
 				default:
 					return;
 			}
-			s->updateItem_gui(name, value,&iter);
-			s->setStatus("Value" + name + "Setted to Default" + value);
+			s->updateItem_gui(name, sValue,&iter);
+			s->setStatus("Value" + name + "Setted to Default" + sValue);
 		}
 	}
 }
 
-bool AboutConfigFav::getDialog(const string name, string& value , gpointer data)
+bool AboutConfigFav::getDialog(const string sName, string& sValue , gpointer data)
 {
-	AboutConfigFav *s = (AboutConfigFav *)data;
-	gtk_label_set_text(GTK_LABEL(s->getWidget("label")), name.c_str());
-	gtk_entry_set_text(GTK_ENTRY(s->getWidget("entry")), value.c_str());
-	gint response = gtk_dialog_run(GTK_DIALOG(s->getWidget("dialog")));
+	AboutConfigFav *ps = (AboutConfigFav *)data;
+	gtk_label_set_text(GTK_LABEL(ps->getWidget("label")), sName.c_str());
+	gtk_entry_set_text(GTK_ENTRY(ps->getWidget("entry")), sValue.c_str());
+	gint response = gtk_dialog_run(GTK_DIALOG(ps->getWidget("dialog")));
 
 	// Fix crash, if the dialog gets programmatically destroyed.
 	if (response == GTK_RESPONSE_NONE)
 		return false;
 
-	gtk_widget_hide(s->getWidget("dialog"));
+	gtk_widget_hide(ps->getWidget("dialog"));
 
 	if (response == GTK_RESPONSE_OK)
 	{
-		value = gtk_entry_get_text(GTK_ENTRY(getWidget("entry")));
+		sValue = gtk_entry_get_text(GTK_ENTRY(getWidget("entry")));
 		return true;
 	}
 	return false;

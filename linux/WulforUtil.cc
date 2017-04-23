@@ -163,8 +163,9 @@ const char* WulforUtil::msgs_dc[] = {
 		"\r\n-- My client supports segmented downloading, does yours?\r\n" LINE2,
 		"\r\n-- My client support pack of Emoticons per Fav Hubs does yours?\r\n" LINE2,//[BMDC++
 		"\r\n-- My client support Flags in Chat does Yours ?\r\n" LINE2,
+		"\r\n-- My client can set background image to chat does yours? \r\n" LINE2,
  };
-#define MSGS 14
+#define MSGS 15
 
 vector<int> WulforUtil::splitString(const string &str, const string &delimiter)
 {

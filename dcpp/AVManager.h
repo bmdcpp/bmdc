@@ -37,11 +37,11 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 	public:
 		struct AVEntry
 		{
-			string nick;
-			uint64_t share;
+			string sNick;
+			uint64_t ui64share;
 		};
 
-		AVManager(): timestamp_db(0), temp_tick(GET_TICK())
+		AVManager(): timestamp_db(0), ui64temp_tick(GET_TICK())
 		{
 			TimerManager::getInstance()->addListener(this);
 		}
@@ -60,7 +60,7 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 		void loadDb(const string& buf);
 		std::unique_ptr<dcpp::HttpDownload> conn;
 		time_t timestamp_db;
-		uint64_t temp_tick;
+		uint64_t ui64temp_tick;
 		virtual void on(TimerManagerListener::Minute, uint64_t aTick) noexcept;
 		CriticalSection cs;
 		friend class Singleton<AVManager>;

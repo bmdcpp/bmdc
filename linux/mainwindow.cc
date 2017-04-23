@@ -115,9 +115,9 @@ MainWindow::MainWindow():
 	current_height(-1),
 	is_maximized(FALSE)
 {
-	string tmp;
+	string stmp;
 	startTime = GET_TICK();
-	HashManager::getInstance()->getStats(tmp, startBytes, startFiles);
+	HashManager::getInstance()->getStats(stmp, startBytes, startFiles);
 	updateStats_gui("", 0, 0, 0);
 	
 	window = GTK_WINDOW(getWidget("mainWindow"));
@@ -276,9 +276,9 @@ MainWindow::MainWindow():
 	// Set all windows to the default icon
 	gtk_window_set_default_icon_name(g_get_prgname());
 	//note do not check Gerror here
-	GdkPixbuf* buf = NULL;
-	buf = gdk_pixbuf_new_from_resource("/org/bmdc-team/bmdc/icons/hicolor/96x96/apps/bmdc.png",NULL);
-	gtk_window_set_default_icon(buf);
+	GdkPixbuf* p_buf = NULL;
+	p_buf = gdk_pixbuf_new_from_resource("/org/bmdc-team/bmdc/icons/hicolor/96x96/apps/bmdc.png",NULL);
+	gtk_window_set_default_icon(p_buf);
 
 	// All notebooks created in glade need one page.
 	// In our case, this is just a placeholder, so we remove it.
@@ -391,11 +391,11 @@ MainWindow::MainWindow():
 	onQuit = false;
 
 	// colourstuff 
-	string css = WulforManager::get()->getPath() + "/ui/resources.css";
-	if(Util::fileExists(css) == true) {
+	string s_css = WulforManager::get()->getPath() + "/ui/resources.css";
+	if(Util::fileExists(s_css) == true) {
 		GtkCssProvider *provider =  gtk_css_provider_get_default ();
 		GError *error = NULL;
-		gtk_css_provider_load_from_path (provider,css.c_str(),&error);
+		gtk_css_provider_load_from_path (provider,s_css.c_str(),&error);
 		if(error != NULL) {
 			g_print("Error while loading custom CSS for BMDC %s",error->message);
 			g_error_free(error);
@@ -521,14 +521,14 @@ void MainWindow::show()
 
 void MainWindow::setTitle(const string& text)
 {
-	string title;
+	string sTitle;
 
 	if (!text.empty())
-		title = text + " - " + g_get_application_name();
+		sTitle = text + " - " + g_get_application_name();
 	else
-		title = g_get_application_name();
+		sTitle = g_get_application_name();
 
-	gtk_window_set_title(window, title.c_str());
+	gtk_window_set_title(window, sTitle.c_str());
 }
 
 bool MainWindow::isActive_gui()
@@ -622,20 +622,20 @@ void MainWindow::autoOpen_gui()
 void MainWindow::onLimitingMenuItem_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	string speed = (gchar *)g_object_get_data(G_OBJECT(widget), "speed");
-	string type = (gchar *)g_object_get_data(G_OBJECT(widget), "type");
+	string s_speed = (gchar *)g_object_get_data(G_OBJECT(widget), "speed");
+	string s_type = (gchar *)g_object_get_data(G_OBJECT(widget), "type");
 
-	if(speed.empty() || type.empty())
+	if(s_speed.empty() || s_type.empty())
 			return;
 
-	if(type == "up")
+	if(s_type == "up")
 	{
-		ThrottleManager::setSetting(SettingsManager::MAX_UPLOAD_SPEED_MAIN, Util::toInt(speed)/1024 );
+		ThrottleManager::setSetting(SettingsManager::MAX_UPLOAD_SPEED_MAIN, Util::toInt(s_speed)/1024 );
 		mw->setLimitingIcon(true);
 	}
-	else if(type == "dw")
+	else if(s_type == "dw")
 	{
-		ThrottleManager::setSetting(SettingsManager::MAX_DOWNLOAD_SPEED_MAIN, Util::toInt(speed)/1024 );
+		ThrottleManager::setSetting(SettingsManager::MAX_DOWNLOAD_SPEED_MAIN, Util::toInt(s_speed)/1024 );
 		mw->setLimitingIcon(true);
 	}
 	
@@ -644,25 +644,25 @@ void MainWindow::onLimitingMenuItem_gui(GtkWidget *widget, gpointer data)
 
 }
 
-void MainWindow::setLimitingIcon(bool Limited)
+void MainWindow::setLimitingIcon(bool bLimited)
 {
-	setMainStatus_gui(string(_("Throtle ")) + ( Limited ? string(_("on")) : string(_("off"))));
-	setStatusOfIcons(LIMITING, Limited);
+	setMainStatus_gui(string(_("Throtle ")) + ( bLimited ? string(_("on")) : string(_("off"))));
+	setStatusOfIcons(LIMITING, bLimited);
 }
 
 void MainWindow::onLimitingDisable(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	string type = (gchar *)g_object_get_data(G_OBJECT(widget), "type");
+	string s_type = (gchar *)g_object_get_data(G_OBJECT(widget), "type");
 
-	if(type.empty())
+	if(s_type.empty())
 		return;
 	
-	if(type == "dw")
+	if(s_type == "dw")
 	{
 		ThrottleManager::setSetting(SettingsManager::MAX_DOWNLOAD_SPEED_MAIN, 0);
 	}
-	else if(type == "up")
+	else if(s_type == "up")
 	{
 		ThrottleManager::setSetting(SettingsManager::MAX_UPLOAD_SPEED_MAIN, 0);
 	}
@@ -674,24 +674,24 @@ void MainWindow::onLimitingDisable(GtkWidget *widget, gpointer data)
 
 void MainWindow::setInitThrotles()
 {
-	int up = SETTING(MAX_UPLOAD_SPEED_MAIN);
-	int down = SETTING(MAX_DOWNLOAD_SPEED_MAIN);
-	bool enabled = SETTING(THROTTLE_ENABLE);
+	int iup = SETTING(MAX_UPLOAD_SPEED_MAIN);
+	int idown = SETTING(MAX_DOWNLOAD_SPEED_MAIN);
+	bool benabled = SETTING(THROTTLE_ENABLE);
 //@:Enabled
-	if(enabled && (up > 0) ) {
+	if(benabled && (iup > 0) ) {
 		setLimitingIcon(true);
 		return;
 	}
-	if(enabled && (down > 0)) {
+	if(benabled && (idown > 0)) {
 		setLimitingIcon(true);
 		return;
 	}
 //@:disabled
-	if(!enabled && (up == 0)) {
+	if(!benabled && (iup == 0)) {
 		setLimitingIcon(false);
 		return;
 	}
-	if(!enabled && (down == 0)) {
+	if(!benabled && (idown == 0)) {
 		setLimitingIcon(false);
 		return;
 	}
@@ -713,11 +713,11 @@ void MainWindow::addBookEntry_gui(BookEntry *entry)
 	GtkWidget *page = entry->getContainer();
 	GtkWidget *label = entry->getLabelBox();
 	GtkWidget *tabMenuItem = entry->getTabMenuItem();
-	int pos = entry->getPositionTab();
+	int ipos = entry->getPositionTab();
 
 	addTabMenuItem_gui(tabMenuItem, page);
 
-	gtk_notebook_insert_page(GTK_NOTEBOOK(getWidget("book")), page, label, pos);
+	gtk_notebook_insert_page(GTK_NOTEBOOK(getWidget("book")), page, label, ipos);
 
 	g_signal_connect(label, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
 	
@@ -736,21 +736,21 @@ void MainWindow::addBookEntry_gui(BookEntry *entry)
 
 GtkWidget *MainWindow::currentPage_gui()
 {
-	int pageNum = gtk_notebook_get_current_page(GTK_NOTEBOOK(getWidget("book")));
+	int ipageNum = gtk_notebook_get_current_page(GTK_NOTEBOOK(getWidget("book")));
 
-	if (pageNum == -1)
+	if (ipageNum == -1)
 		return NULL;
 	else
-		return gtk_notebook_get_nth_page(GTK_NOTEBOOK(getWidget("book")), pageNum);
+		return gtk_notebook_get_nth_page(GTK_NOTEBOOK(getWidget("book")), ipageNum);
 }
 
 void MainWindow::raisePage_gui(GtkWidget *page)
 {
-	int num = gtk_notebook_page_num(GTK_NOTEBOOK(getWidget("book")), page);
-	int currentNum = gtk_notebook_get_current_page(GTK_NOTEBOOK(getWidget("book")));
+	int inum = gtk_notebook_page_num(GTK_NOTEBOOK(getWidget("book")), page);
+	int icurrentNum = gtk_notebook_get_current_page(GTK_NOTEBOOK(getWidget("book")));
 
-	if (num != -1 && num != currentNum)
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(getWidget("book")), num);
+	if (inum != -1 && inum != icurrentNum)
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(getWidget("book")), inum);
 }
 
 void MainWindow::removeBookEntry_gui(BookEntry *entry)
@@ -772,17 +772,17 @@ void MainWindow::removeBookEntry_gui(BookEntry *entry)
 	GtkNotebook *book = GTK_NOTEBOOK(getWidget("book"));
 	GtkWidget *page = entry->getContainer();
 	GtkWidget* menuItem = entry->getTabMenuItem();
-	int num = gtk_notebook_page_num(book, page);
+	int inum = gtk_notebook_page_num(book, page);
 	removeChild(entry);
 
-	if (num != -1)
+	if (inum != -1)
 	{
 		GList *list = (GList *)g_object_get_data(G_OBJECT(book), "page-rotation-list");
 		list = g_list_remove(list, (gpointer)page);
 		g_object_set_data(G_OBJECT(book), "page-rotation-list", (gpointer)list);
 
 		// if removing the current page, switch to the previous page in the rotation list
-		if (num == gtk_notebook_get_current_page(book))
+		if (inum == gtk_notebook_get_current_page(book))
 		{
 			GList *prev = g_list_first(list);
 			if (prev != NULL)
@@ -791,7 +791,7 @@ void MainWindow::removeBookEntry_gui(BookEntry *entry)
 				gtk_notebook_set_current_page(book, childNum);
 			}
 		}
-		gtk_notebook_remove_page(book, num);
+		gtk_notebook_remove_page(book, inum);
 
 		removeTabMenuItem_gui(menuItem);
 
@@ -803,7 +803,7 @@ void MainWindow::removeBookEntry_gui(BookEntry *entry)
 	}
 }
 
-void MainWindow::removeItemFromList(Entry::EntryType type, string id)
+void MainWindow::removeItemFromList(Entry::EntryType type, string sid)
 {
 	vector<Entry*> tmp;
 	switch(type)
@@ -843,7 +843,7 @@ void MainWindow::removeItemFromList(Entry::EntryType type, string id)
 			 for(auto it = Hubs.begin();it != Hubs.end();++it)
 			 {
 				 string hubId = (*it)->getID();
-				 if(hubId == id)
+				 if(hubId == sid)
 					 continue;
 				tmp.push_back(*it);
 			 }
@@ -854,7 +854,7 @@ void MainWindow::removeItemFromList(Entry::EntryType type, string id)
 			for(auto it = privateMessage.begin();it != privateMessage.end();++it)
 			 {
 				 string pId = (*it)->getID();
-				 if(pId == id)
+				 if(pId == sid)
 					 continue;
 				tmp.push_back(*it);
 			 }
@@ -992,21 +992,21 @@ void MainWindow::setStats_gui(string hubs, string downloadSpeed,
 	gtk_label_set_text(GTK_LABEL(getWidget("labelUploadSpeed")), uploadSpeed.c_str());
 	gtk_label_set_text(GTK_LABEL(getWidget("labelUploaded")), uploaded.c_str());
 
-	string freeslots = Util::toString(UploadManager::getInstance()->getFreeSlots());
-	string slots = _("Slots: ") + freeslots + "/" + Util::toString(SETTING(SLOTS));
-	string shared = _("Shared: ") + Util::formatBytes(ShareManager::getInstance()->getShareSize());
-	gtk_label_set_text(GTK_LABEL(getWidget("labelShare")), shared.c_str());
-	gtk_label_set_text(GTK_LABEL(getWidget("labelSlots")), slots.c_str());
+	string sfreeslots = Util::toString(UploadManager::getInstance()->getFreeSlots());
+	string sslots = _("Slots: ") + sfreeslots + "/" + Util::toString(SETTING(SLOTS));
+	string sshared = _("Shared: ") + Util::formatBytes(ShareManager::getInstance()->getShareSize());
+	gtk_label_set_text(GTK_LABEL(getWidget("labelShare")), sshared.c_str());
+	gtk_label_set_text(GTK_LABEL(getWidget("labelSlots")), sslots.c_str());
 }
 
 void MainWindow::setStatRate_gui()
 {
-	int uploadSpeed = SETTING(MAX_UPLOAD_SPEED_MAIN);
-	int downloadSpeed = SETTING(MAX_DOWNLOAD_SPEED_MAIN);
-	string uploadRate = uploadSpeed ? Util::formatBytes(uploadSpeed*1024) + "/" + _("s") : "max";
-	string downloadRate = downloadSpeed ? Util::formatBytes(downloadSpeed*1024) + "/" + _("s") : "max";
-	gtk_label_set_text(GTK_LABEL(getWidget("labelDownloadRate")), downloadRate.c_str());
-	gtk_label_set_text(GTK_LABEL(getWidget("labelUploadRate")), uploadRate.c_str());
+	int iuploadSpeed = SETTING(MAX_UPLOAD_SPEED_MAIN);
+	int idownloadSpeed = SETTING(MAX_DOWNLOAD_SPEED_MAIN);
+	string suploadRate = iuploadSpeed ? Util::formatBytes(iuploadSpeed*1024) + "/" + _("s") : "max";
+	string sdownloadRate = idownloadSpeed ? Util::formatBytes(idownloadSpeed*1024) + "/" + _("s") : "max";
+	gtk_label_set_text(GTK_LABEL(getWidget("labelDownloadRate")), sdownloadRate.c_str());
+	gtk_label_set_text(GTK_LABEL(getWidget("labelUploadRate")), suploadRate.c_str());
 }
 
 BookEntry* MainWindow::findBookEntry(const EntryType type, const string &id)
@@ -1090,24 +1090,24 @@ void MainWindow::showFinishedUploads_gui()
 	setStatusOfIcons(FUPLOADS, true);
 }
 
-void MainWindow::showHub_gui(string address, string encoding)
+void MainWindow::showHub_gui(string saddress, string encoding)
 {
-	address = Util::trimUrl(address);
+	saddress = Util::trimUrl(saddress);
 
-	if(address.empty())
+	if(saddress.empty())
 	{
 		showMessageDialog_gui(_("Empty hub address specified"),_("Empty hub address specified"));
 		return;
 	}
 
-	BookEntry *entry = findBookEntry(Entry::HUB, address);
+	BookEntry *entry = findBookEntry(Entry::HUB, saddress);
 
 	if (entry == NULL)
 	{
-		entry = new Hub(address, encoding);
+		entry = new Hub(saddress, encoding);
 		addBookEntry_gui(entry);
 
-		EntryList.push_back(address);
+		EntryList.push_back(saddress);
 		Hubs.push_back(dynamic_cast<Entry*>(entry));
 	}
 
@@ -1129,11 +1129,11 @@ void MainWindow::showSearchADL_gui()
 void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string hubUrl, string message, bool useSetting)
 {
 	BookEntry *entry = findBookEntry(Entry::PRIVATE_MESSAGE, cid);
-	bool raise = true;
+	bool braise = true;
 
 	// If PM is initiated by another user, use setting except if tab is already open.
 	if (useSetting)
-		raise = (entry == NULL) ? !SETTING(POPUNDER_PM) : false;
+		braise = (entry == NULL) ? !SETTING(POPUNDER_PM) : false;
 
 	if (entry == NULL)
 	{
@@ -1147,7 +1147,7 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 	if(!message.empty() && hubUrl.empty())
 	{
 		dynamic_cast<PrivateMessage*>(entry)->sendMessage_p(message);
-		if(raise)
+		if(braise)
 			raisePage_gui(entry->getContainer());
 		return;
 	}
@@ -1201,7 +1201,7 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 		}
 	}
 
-	if (raise)
+	if (braise)
 		raisePage_gui(entry->getContainer());
 }
 #ifdef USE_STATUSICON
@@ -1239,7 +1239,7 @@ void MainWindow::showPublicHubs_gui()
 
 void MainWindow::showShareBrowser_gui(HintedUser user, string filename, string dir, int64_t speed ,bool useSetting)
 {
-	bool raise = useSetting ? !SETTING(POPUNDER_FILELIST) : true;
+	bool braise = useSetting ? !SETTING(POPUNDER_FILELIST) : true;
 	BookEntry *entry = findBookEntry(Entry::SHARE_BROWSER, user.user->getCID().toBase32());
 
 	if (entry == NULL)
@@ -1248,7 +1248,7 @@ void MainWindow::showShareBrowser_gui(HintedUser user, string filename, string d
 		addBookEntry_gui(entry);
 	}
 
-	if (raise)
+	if (braise)
 		raisePage_gui(entry->getContainer());
 }
 
@@ -1265,29 +1265,29 @@ SearchEntry *MainWindow::addSearch_gui()
 
 void MainWindow::addSearch_gui(string magnet)
 {
-	string name;
-	int64_t size;
-	string tth;
+	string sname;
+	int64_t i64size;
+	string stth;
 
-	if (WulforUtil::splitMagnet(magnet, name, size, tth))
+	if (WulforUtil::splitMagnet(magnet, sname, i64size, stth))
 	{
 		SearchEntry *s = addSearch_gui();
-		s->putValue_gui(tth, 0, SearchManager::SIZE_DONTCARE, SearchManager::TYPE_TTH);
+		s->putValue_gui(stth, 0, SearchManager::SIZE_DONTCARE, SearchManager::TYPE_TTH);
 	}
 }
 
 void MainWindow::fileToDownload_gui(string magnet, string path)
 {
-	string name;
-	int64_t size;
-	string tth;
+	string sname;
+	int64_t i64size;
+	string stth;
 
-	if (!WulforUtil::splitMagnet(magnet, name, size, tth))
+	if (!WulforUtil::splitMagnet(magnet, sname, i64size, stth))
 		return;
-	name = path + name;
+	sname = path + sname;
 
 	typedef Func3<MainWindow, string, int64_t, string> F3;
-	F3 *func = new F3(this, &MainWindow::addFileDownloadQueue_client, name, size, tth);
+	F3 *func = new F3(this, &MainWindow::addFileDownloadQueue_client, sname, i64size, stth);
 	WulforManager::get()->dispatchClientFunc(func);
 }
 
@@ -1366,9 +1366,9 @@ void MainWindow::updateFavoriteHubMenu_gui(ListParamPair list)
 void MainWindow::onHubClicked_gui(GtkWidget *widget, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	string address = (gchar *)g_object_get_data(G_OBJECT(widget), "address");
-	string encoding = (gchar *)g_object_get_data(G_OBJECT(widget), "encoding");
-	mw->showHub_gui(address, encoding);
+	string saddress = (gchar *)g_object_get_data(G_OBJECT(widget), "address");
+	string sencoding = (gchar *)g_object_get_data(G_OBJECT(widget), "encoding");
+	mw->showHub_gui(saddress, sencoding);
 }
 
 void MainWindow::setToolbarButton_gui()
@@ -1399,7 +1399,6 @@ void MainWindow::setToolbarButton_gui()
 		gtk_widget_hide(getWidget("finishedDownloads"));
 	if (!WGETB("toolbar-button-finished-uploads"))
 		gtk_widget_hide(getWidget("finishedUploads"));
-	//-------------------------------------------
 	if (!WGETB("toolbar-button-notepad"))
 		gtk_widget_hide(getWidget("notepad"));
 	if (!WGETB("toolbar-button-system"))
@@ -1435,11 +1434,11 @@ void MainWindow::setTabPosition_gui(int position)
 	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(getWidget("book")), tabPosition);
 }
 
-void MainWindow::setToolbarStyle_gui(int style)
+void MainWindow::setToolbarStyle_gui(int istyle)
 {
 	GtkToolbarStyle toolbarStyle;
 
-	switch (style)
+	switch (istyle)
 	{
 		case 1:
 			toolbarStyle = GTK_TOOLBAR_TEXT;
@@ -1458,7 +1457,7 @@ void MainWindow::setToolbarStyle_gui(int style)
 			toolbarStyle = GTK_TOOLBAR_ICONS;
 	}
 
-	if (style != 4)
+	if (istyle != 4)
 	{
 		gtk_widget_show(getWidget("toolbar1"));
 		gtk_toolbar_set_style(GTK_TOOLBAR(getWidget("toolbar1")), toolbarStyle);
@@ -1483,7 +1482,7 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 
 	string::size_type i = 0;
 	StringList names;
-	guint row = 0;guint acolums= 0;
+	guint iuRow = 0,iuacolums= 0;
 	vector<Widgets*> WidgList;
 	while((i = commands.find("%[line:", i)) != string::npos) {
 		i += 7;
@@ -1516,7 +1515,7 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 			}
 
 			if(combo_sel >= 0) {
-				acolums = 0;
+				iuacolums = 0;
 				for(auto i = combo_values.begin(), iend = combo_values.end(); i != iend; ++i)
 					Util::replace("\t", "/", *i);
 
@@ -1537,13 +1536,13 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 				wid->widget = comboBox;
 				wid->label = label;
 				WidgList.push_back(wid);
-				gtk_grid_attach(GTK_GRID(table), label, acolums++, row,1,1);
-				gtk_grid_attach(GTK_GRID(table), comboBox, acolums, ++row,1,1);
+				gtk_grid_attach(GTK_GRID(table), label, iuacolums++, iuRow,1,1);
+				gtk_grid_attach(GTK_GRID(table), comboBox, iuacolums, ++iuRow,1,1);
 				gtk_widget_show(label);
 				gtk_widget_show(comboBox);
 
 		  } else {
-				acolums = 0;
+				iuacolums = 0;
 				GtkWidget *label = gtk_label_new(caption.c_str());
 				GtkWidget *entry = gtk_entry_new();
 				gtk_entry_set_text(GTK_ENTRY(entry),(ucParams["line:"+ name]).c_str());
@@ -1551,8 +1550,8 @@ bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucPar
 				wid->widget = entry;
 				wid->label = label;
 				WidgList.push_back(wid);
-				gtk_grid_attach(GTK_GRID(table),label,acolums++,row,1,1);
-				gtk_grid_attach(GTK_GRID(table),entry,acolums,++row,1,1);
+				gtk_grid_attach(GTK_GRID(table),label,iuacolums++,iuRow,1,1);
+				gtk_grid_attach(GTK_GRID(table),entry,iuacolums,++iuRow,1,1);
 
 				gtk_widget_show(label);
 				gtk_widget_show(entry);
@@ -1822,7 +1821,7 @@ void MainWindow::showMessageDialog_gui(const string primaryText, const string se
 	gtk_widget_show(dialog);
 }
 
-void MainWindow::onSizeWindowState_gui(GtkWidget* widget,GtkAllocation *allocation,gpointer data)
+void MainWindow::onSizeWindowState_gui(GtkWidget* widget,GtkAllocation*,gpointer data)
 {
 	MainWindow* mw = ( MainWindow*)data;
 	if(!mw->is_maximized)
@@ -1837,7 +1836,7 @@ void MainWindow::onSizeWindowState_gui(GtkWidget* widget,GtkAllocation *allocati
 gboolean MainWindow::onWindowState_gui(GtkWidget*, GdkEventWindowState *event, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	gboolean res = GDK_EVENT_PROPAGATE;
+	//gboolean res = GDK_EVENT_PROPAGATE;
 
 	if (mw->minimized  || (event->new_window_state & (GDK_WINDOW_STATE_ICONIFIED | GDK_WINDOW_STATE_WITHDRAWN)))
 	{
@@ -1855,7 +1854,7 @@ gboolean MainWindow::onWindowState_gui(GtkWidget*, GdkEventWindowState *event, g
 	
 	mw->is_maximized =
     (event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED) != 0;
-	return res;
+	return GDK_EVENT_PROPAGATE;
 }
 
 gboolean MainWindow::onFocusIn_gui(GtkWidget*, GdkEventFocus*, gpointer data)
@@ -1956,8 +1955,8 @@ void MainWindow::onHideToolbarToggled_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 
-	gboolean active = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(mw->getWidget("hideToolbarItem")));
-	if (active)
+	gboolean bactive = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(mw->getWidget("hideToolbarItem")));
+	if (bactive)
 	{
 		gtk_widget_hide(mw->getWidget("toolbar1"));
 		mw->ToolbarStyle = WGETI("toolbar-style");
@@ -1974,10 +1973,10 @@ void MainWindow::onSizeToolbarToggled_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 
-	gboolean active = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(mw->getWidget("sizeToolbarItem")));
+	gboolean bactive = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(mw->getWidget("sizeToolbarItem")));
 	GtkWidget *toolbar = mw->getWidget("toolbar1");
 	GtkIconSize size;
-	if (active)
+	if (bactive)
 	{
 		WSET("toolbar-small", TRUE);
 		size = GTK_ICON_SIZE_SMALL_TOOLBAR;
@@ -2003,11 +2002,11 @@ gboolean MainWindow::onAddButtonClicked_gui(GtkWidget* wid, gpointer data)
 
 void MainWindow::onToolToggled_gui(GtkWidget *widget, gpointer data)
 {
-	string key = (gchar *)g_object_get_data(G_OBJECT(widget), "key");
+	string skey = (gchar *)g_object_get_data(G_OBJECT(widget), "key");
 	GtkWidget *button = (GtkWidget*)data;
-	bool active = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget));
-	active ? gtk_widget_show(button) : gtk_widget_hide(button);
-	WSET(key, active);
+	bool bactive = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget));
+	bactive ? gtk_widget_show(button) : gtk_widget_hide(button);
+	WSET(skey, bactive);
 }
 
 void MainWindow::checkToolbarMenu_gui()
@@ -2051,14 +2050,14 @@ gboolean MainWindow::onKeyPressed_gui(GtkWidget*, GdkEventKey *event, gpointer d
 
 gboolean MainWindow::onButtonReleasePage_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
-	gint width, height;
-	height = gdk_window_get_height(event->window);
-	width = gdk_window_get_width(event->window);
+	gint iwidth, iheight;
+	iheight = gdk_window_get_height(event->window);
+	iwidth = gdk_window_get_width(event->window);
 
 	// If middle mouse button was released when hovering over tab label
 	// with setting to it
 	if ( (!WGETB("book-three-button-disable")) &&  (event->button == 2 && event->x >= 0 && event->y >= 0
-		&& event->x < width && event->y < height))
+		&& event->x < iwidth && event->y < iheight))
 	{
 		BookEntry *entry = (BookEntry *)data;
 		WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
@@ -2122,14 +2121,14 @@ void MainWindow::onPageSwitched_gui(GtkNotebook *notebook, GtkWidget*, guint num
 void MainWindow::onPaneRealized_gui(GtkWidget *pane, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	gint position = WGETI("transfer-pane-position");
+	gint iposition = WGETI("transfer-pane-position");
 
-	if (position > 10)
+	if (iposition > 10)
 	{
 		// @todo: fix get window height when maximized
-		gint height;
-		gtk_window_get_size(mw->window, NULL, &height);
-		gtk_paned_set_position(GTK_PANED(pane), height - position);
+		gint iheight;
+		gtk_window_get_size(mw->window, NULL, &iheight);
+		gtk_paned_set_position(GTK_PANED(pane), iheight - iposition);
 	}
 }
 
@@ -2150,8 +2149,8 @@ void MainWindow::onConnectClicked_gui(GtkWidget*, gpointer data)
 
 	if (response == GTK_RESPONSE_OK)
 	{
-		string address = gtk_entry_get_text(GTK_ENTRY(mw->getWidget("connectEntry")));
-		mw->showHub_gui(address);
+		string saddress = gtk_entry_get_text(GTK_ENTRY(mw->getWidget("connectEntry")));
+		mw->showHub_gui(saddress);
 	}
 }
 
@@ -2213,14 +2212,14 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 
-	uint16_t prevTCP = SETTING(TCP_PORT);
-	uint16_t prevUDP = SETTING(UDP_PORT);
-	uint16_t prevTLS = SETTING(TLS_PORT);
+	uint16_t ui16prevTCP = SETTING(TCP_PORT);
+	uint16_t ui16prevUDP = SETTING(UDP_PORT);
+	uint16_t ui16prevTLS = SETTING(TLS_PORT);
 
 	auto prevConn = SETTING(INCOMING_CONNECTIONS);
-	string prevMapper = SETTING(MAPPER);
-	string prevBind = SETTING(BIND_ADDRESS);
-	string prevBind6 = SETTING(BIND_ADDRESS6);
+	string sprevMapper = SETTING(MAPPER);
+	string sprevBind = SETTING(BIND_ADDRESS);
+	string sprevBind6 = SETTING(BIND_ADDRESS6);
 	auto prevProxy = CONNSETTING(OUTGOING_CONNECTIONS);
 
 	if (mw->useStatusIconBlink != WGETB("status-icon-blink-use"))
@@ -2233,8 +2232,8 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget*, gpointer data)
 		//NOTE: BMDC
 		try {
 			ConnectivityManager::getInstance()->setup(SETTING(INCOMING_CONNECTIONS) != prevConn ||
-				SETTING(TCP_PORT) != prevTCP || SETTING(UDP_PORT) != prevUDP || SETTING(TLS_PORT) != prevTLS ||
-				SETTING(MAPPER) != prevMapper || SETTING(BIND_ADDRESS) != prevBind || SETTING(BIND_ADDRESS6) != prevBind6);
+				SETTING(TCP_PORT) != ui16prevTCP || SETTING(UDP_PORT) != ui16prevUDP || SETTING(TLS_PORT) != ui16prevTLS ||
+				SETTING(MAPPER) != sprevMapper || SETTING(BIND_ADDRESS) != sprevBind || SETTING(BIND_ADDRESS6) != sprevBind6);
 		} catch (const Exception& e) {
 			mw->showMessageDialog_gui(e.getError(),e.getError());
 		}
@@ -2408,8 +2407,8 @@ void MainWindow::onQuitClicked_gui(GtkWidget*, gpointer data)
 		return;
 
 	mw->onQuit = true;
-	gboolean retVal; // Not interested in the value, though.
-	g_signal_emit_by_name(mw->window, "delete-event", NULL, &retVal);
+	gboolean bretVal; // Not interested in the value, though.
+	g_signal_emit_by_name(mw->window, "delete-event", NULL, &bretVal);
 }
 
 void MainWindow::onOpenFileListClicked_gui(GtkWidget*, gpointer data)
@@ -2431,16 +2430,16 @@ void MainWindow::onOpenFileListClicked_gui(GtkWidget*, gpointer data)
 
 	if (response == GTK_RESPONSE_OK)
 	{
-		gchar *temp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
+		gchar *cptemp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
 
-		if (temp)
+		if (cptemp)
 		{
-			string path(temp);
-			g_free(temp);
+			string spath(cptemp);
+			g_free(cptemp);
 
-			UserPtr user = DirectoryListing::getUserFromFilename(path);
+			UserPtr user = DirectoryListing::getUserFromFilename(spath);
 			if (user)
-				mw->showShareBrowser_gui(HintedUser(user,string()), path, "", 0, FALSE);
+				mw->showShareBrowser_gui(HintedUser(user,string()), spath, "", 0, FALSE);
 			else
 				mw->setMainStatus_gui(_("Unable to load file list: Invalid file list name"));
 		}
@@ -2596,15 +2595,15 @@ void MainWindow::onStatusIconBlinkUseToggled_gui(GtkWidget*, gpointer data)
 	mw->removeTimerSource_gui();
 
 	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(mw->getWidget("statusIconBlinkUseItem"))))
-		mw->useStatusIconBlink = TRUE;
+		mw->useStatusIconBlink = true;
 	else
-		mw->useStatusIconBlink = FALSE;
+		mw->useStatusIconBlink = false;
 }
 #endif
 void MainWindow::onLinkClicked_gui(GtkWidget *widget, gpointer )
 {
-	string link = (gchar *)g_object_get_data(G_OBJECT(widget), "link");
-	WulforUtil::openURI(link);
+	string slink = (gchar *)g_object_get_data(G_OBJECT(widget), "link");
+	WulforUtil::openURI(slink);
 }
 
 void MainWindow::autoConnect_client()
@@ -2616,8 +2615,8 @@ void MainWindow::autoConnect_client()
 	for (auto i = favoriteHubs.begin(); i != favoriteHubs.end(); ++i)
 	{
 		FavoriteHubEntry *hub = *i;
-		string group = hub->getGroup();
-		FavHubGroups::const_iterator it = favHubGroups.find(group);
+		string sgroup = hub->getGroup();
+		FavHubGroups::const_iterator it = favHubGroups.find(sgroup);
 
 		if (it != favHubGroups.end())
 		{
@@ -2638,22 +2637,22 @@ void MainWindow::autoConnect_client()
 		}
 	}
 
-	string link = WulforManager::get()->getURL();
+	string slink = WulforManager::get()->getURL();
 
-	if (link.empty()) return;
+	if (slink.empty()) return;
 
 	typedef Func1<MainWindow, string> F1;
 	F1 *func1;
 
-	if (WulforUtil::isHubURL(link) && SETTING(URL_HANDLER))
+	if (WulforUtil::isHubURL(slink) && SETTING(URL_HANDLER))
 	{
 		typedef Func2<MainWindow, string, string> F2;
-		F2 *func = new F2(this, &MainWindow::showHub_gui, link, "");
+		F2 *func = new F2(this, &MainWindow::showHub_gui, slink, "");
 		WulforManager::get()->dispatchGuiFunc(func);
 	}
-	else if (WulforUtil::isMagnet(link) && SETTING(MAGNET_REGISTER))
+	else if (WulforUtil::isMagnet(slink) && SETTING(MAGNET_REGISTER))
 	{
-		func1 = new F1(this, &MainWindow::actionMagnet_gui, link);
+		func1 = new F1(this, &MainWindow::actionMagnet_gui, slink);
 		WulforManager::get()->dispatchGuiFunc(func1);
 	}
 }
@@ -2902,7 +2901,7 @@ void MainWindow::onTTHFileButton_gui(GtkWidget* , gpointer data)
 
 	if (response == GTK_RESPONSE_OK)
 	{
-		gchar *temp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
+		gchar *cptemp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
 		gtk_widget_set_sensitive(mw->getWidget("buttonok"),FALSE);
 		TTHHash hasht;
 		if(hasht.stop)
@@ -2910,11 +2909,11 @@ void MainWindow::onTTHFileButton_gui(GtkWidget* , gpointer data)
 			hasht.stop = false;
 			Lock l(hasht.cs);
 			hasht.mw = mw;
-			hasht.filename = temp;
+			hasht.filename = cptemp;
 			hasht.start();
 			hasht.s.signal();
 		}
-		g_free(temp);
+		g_free(cptemp);
 	}
 }
 
@@ -2943,7 +2942,7 @@ int MainWindow::TTHHash::run()
 				s.wait(15000);
 				if(stop)
 						break;
-				string TTH;
+				string sTTH;
 				char *buf = new char[512*1024];
 				int64_t sized = 0;
 				try {
@@ -2966,17 +2965,17 @@ int MainWindow::TTHHash::run()
 				delete [] buf;
 				tth.finalize();
 				f.close();
-				strcpy(&TTH[0], tth.getRoot().toBase32().c_str());
+				strcpy(&sTTH[0], tth.getRoot().toBase32().c_str());
 				//TTH = tth.getRoot().toBase32();
 
 				typedef Func3<MainWindow, std::string, std::string, int64_t> F3;
-				F3 *func = new F3(mw,&MainWindow::back,TTH,filename,sized);
+				F3 *func = new F3(mw,&MainWindow::back,sTTH,filename,sized);
 				WulforManager::get()->dispatchGuiFunc(func);
 				typedef Func1<MainWindow, bool> F1;
 				F1 *func1 = new F1(mw,&MainWindow::progress,false);
 				WulforManager::get()->dispatchGuiFunc(func1);
 
-			LogManager::getInstance()->message("TTH: " + TTH + "filename: " + filename + "sized: " + dcpp::Util::toString(sized));
+			LogManager::getInstance()->message("TTH: " + sTTH + "filename: " + filename + "sized: " + dcpp::Util::toString(sized));
 			stop = true;
 		} catch(...) { }
 	}
@@ -3052,10 +3051,10 @@ void MainWindow::onCloseAlloffPM_gui(GtkWidget*, gpointer data)
 /* partial */
 void MainWindow::parsePartial(HintedUser aUser, string txt)
 {
-	const string cid = aUser.user->getCID().toBase32();
-	bool raise = !SETTING(POPUNDER_FILELIST);
-	BookEntry *entry = findBookEntry(Entry::SHARE_BROWSER, cid);
-	string path = QueueManager::getInstance()->getListPath(aUser) + ".xml.bz2";
+	const string scid = aUser.user->getCID().toBase32();
+	bool braise = !SETTING(POPUNDER_FILELIST);
+	BookEntry *entry = findBookEntry(Entry::SHARE_BROWSER, scid);
+	string spath = QueueManager::getInstance()->getListPath(aUser) + ".xml.bz2";
 
 	if(entry != NULL)
 	{
@@ -3063,14 +3062,14 @@ void MainWindow::parsePartial(HintedUser aUser, string txt)
 	}
 	else
 	{
-		if ( (entry == NULL) && !path.empty())
+		if ( (entry == NULL) && !spath.empty())
 		{
-			entry = new ShareBrowser(aUser, path, "/", 0, false);
+			entry = new ShareBrowser(aUser, spath, "/", 0, false);
 			addBookEntry_gui(entry);
 			dynamic_cast<ShareBrowser*>(entry)->loadXML(txt);
 		}
 	}
-	if ((entry != NULL) && raise)
+	if ((entry != NULL) && braise)
 		raisePage_gui(entry->getContainer());
 }
 
