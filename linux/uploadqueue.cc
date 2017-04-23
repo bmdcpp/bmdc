@@ -120,14 +120,14 @@ void UploadQueue::addFile(StringMap &params,GtkTreeIter *iter)
 void UploadQueue::AddFile_gui(StringMap params)
 {
 	GtkTreeIter iter;
-	gchar *file = NULL;
+	gchar *cpfile = NULL;
 	unordered_map<string,GtkTreeIter>::iterator it = mapUsers.find(params["CID"]);
 	if(it != mapUsers.end())
 	{
 		iter = it->second;
 		gtk_tree_model_get(GTK_TREE_MODEL(store),&iter,
-								1,&file,-1);
-		params["file"] += string(file);
+								1,&cpfile,-1);
+		params["file"] += string(cpfile);
 
 	}
 	addFile(params,&iter);
@@ -366,8 +366,8 @@ void UploadQueue::getFileList_client(const string &cid)
 			QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW);
 		}
 	}catch(...)
-	{ //... for now ignore it
-
+	{ 
+		//... for now ignore it
 	}
 
 }

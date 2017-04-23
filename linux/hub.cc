@@ -63,7 +63,7 @@ Hub::Hub(const string &address, const string &encoding):
 	scrollToBottom(true), PasswordDialog(false), WaitingPassword(false),
 	notCreated(true), isFavBool(true), width(-1)
 {
-	FavoriteHubEntry* faventry =  getFavoriteHubEntry();
+	FavoriteHubEntry* p_faventry =  getFavoriteHubEntry();
 	//@note because "." and this is used in CSS'ing 
 	//@ use the CID'ing of it
 	setName(CID(address).toBase32());
@@ -94,10 +94,10 @@ Hub::Hub(const string &address, const string &encoding):
 	nickView.insertHiddenColumn("Pixbuf", GDK_TYPE_PIXBUF);
 	nickView.insertHiddenColumn("Client Type", G_TYPE_INT);
 
-	if(faventry) {
-		nickView.restoreSettings(faventry->get(SettingsManager::HUB_UL_ORDER,SETTING(HUB_UL_ORDER)),
-												faventry->get(SettingsManager::HUB_UL_SIZE,SETTING(HUB_UL_SIZE)),
-												faventry->get(SettingsManager::HUB_UL_VISIBLE,SETTING(HUB_UL_VISIBLE)));
+	if(p_faventry) {
+		nickView.restoreSettings(p_faventry->get(SettingsManager::HUB_UL_ORDER,SETTING(HUB_UL_ORDER)),
+												p_faventry->get(SettingsManager::HUB_UL_SIZE,SETTING(HUB_UL_SIZE)),
+												p_faventry->get(SettingsManager::HUB_UL_VISIBLE,SETTING(HUB_UL_VISIBLE)));
 	}else{
 		//Maybe usefull also disabling?
 		nickView.restoreSettings(SETTING(HUB_UL_ORDER),SETTING(HUB_UL_SIZE),SETTING(HUB_UL_VISIBLE));
@@ -112,8 +112,8 @@ Hub::Hub(const string &address, const string &encoding):
 	gtk_tree_selection_set_mode(gtk_tree_view_get_selection(nickView.get()), GTK_SELECTION_MULTIPLE);
 
 	sort = SETTING(SORT_FAVUSERS_FIRST) ? "Client Type" : "Nick Order";
-	if(faventry)
-		sort = faventry->get(SettingsManager::SORT_FAVUSERS_FIRST,SETTING(SORT_FAVUSERS_FIRST)) ? "Client Type" : "Nick Order";
+	if(p_faventry)
+		sort = p_faventry->get(SettingsManager::SORT_FAVUSERS_FIRST,SETTING(SORT_FAVUSERS_FIRST)) ? "Client Type" : "Nick Order";
 	//Own sort
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(nickView.get(), nickView.col(_("Nick"))), TRUE);
 	gtk_tree_sortable_set_sort_func(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), sort_iter_compare_func_nick,
@@ -132,8 +132,8 @@ Hub::Hub(const string &address, const string &encoding):
 	set_Header_tooltip_gui();
 
 	// Initialize the chat window
-	string color = faventry ? faventry->get(SettingsManager::BACKGROUND_CHAT_COLOR, SETTING(BACKGROUND_CHAT_COLOR)) : SETTING(BACKGROUND_CHAT_COLOR);
-	string image = faventry ? faventry->get(SettingsManager::BACKGROUND_CHAT_IMAGE, SETTING(BACKGROUND_CHAT_IMAGE)) : SETTING(BACKGROUND_CHAT_IMAGE);
+	string color = p_faventry ? p_faventry->get(SettingsManager::BACKGROUND_CHAT_COLOR, SETTING(BACKGROUND_CHAT_COLOR)) : SETTING(BACKGROUND_CHAT_COLOR);
+	string image = p_faventry ? p_faventry->get(SettingsManager::BACKGROUND_CHAT_IMAGE, SETTING(BACKGROUND_CHAT_IMAGE)) : SETTING(BACKGROUND_CHAT_IMAGE);
 
 	WulforUtil::setTextDeufaults(getWidget("chatText"),color,image,false,address);
 
@@ -187,13 +187,13 @@ Hub::Hub(const string &address, const string &encoding):
 	
 	string packName = SETTING(EMOT_PACK);
 
-	if(faventry)
+	if(p_faventry)
 	{
-		packName = faventry->get(SettingsManager::EMOT_PACK,SETTING(EMOT_PACK));
+		packName = p_faventry->get(SettingsManager::EMOT_PACK,SETTING(EMOT_PACK));
 	}
 	// Emoticons dialog
 	emotdialog = new EmoticonsDialog(getWidget("chatEntry"), getWidget("emotButton"), getWidget("emotPacksMenu"), packName, address);
-	if ( (faventry) &&  ( !faventry->get(SettingsManager::USE_EMOTS,SETTING(USE_EMOTS))))
+	if ( (p_faventry) &&  ( !p_faventry->get(SettingsManager::USE_EMOTS,SETTING(USE_EMOTS))))
 		gtk_widget_set_sensitive(getWidget("emotButton"), FALSE);
 
 	useEmoticons = true;
@@ -348,12 +348,12 @@ Hub::Hub(const string &address, const string &encoding):
 		entry.setServer(address);
 		FavoriteManager::getInstance()->addRecent(entry);
 	}
-	if(faventry)
+	if(p_faventry)
 	{
-		bool showUserList = faventry->getShowUserList();
+		bool showUserList = p_faventry->getShowUserList();
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")), showUserList);
 	}	
-		isFavBool =  faventry ? faventry->getNotify() : WGETI("notify-hub-chat-use");
+		isFavBool =  p_faventry ? p_faventry->getNotify() : WGETI("notify-hub-chat-use");
 	
 	setColorsRows();
 }
@@ -517,7 +517,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		{
 			color = WGETS("userlist-bg-virus-an");
 			AVManager::AVEntry entry = AVManager::getInstance()->getEntryByNick(nick);
-			if(entry.share == size) {
+			if(entry.ui64share == size) {
 				color = WGETS("userlist-bg-virus"); // if size and nick is ok
 			}
 		}
@@ -1782,9 +1782,9 @@ void Hub::preferences_gui()
 
 	gtk_widget_queue_draw(getWidget("nickView"));
 	gtk_widget_queue_draw(getWidget("emotButton"));
-	FavoriteHubEntry* faventry = getFavoriteHubEntry();
+	FavoriteHubEntry* p_faventry = getFavoriteHubEntry();
 
-	if ( (faventry) && (!faventry->get(SettingsManager::USE_EMOTS,SETTING(USE_EMOTS))))
+	if ( (p_faventry) && (!p_faventry->get(SettingsManager::USE_EMOTS,SETTING(USE_EMOTS))))
 	{
 		if (gtk_widget_is_sensitive(getWidget("emotButton")))
 			gtk_widget_set_sensitive(getWidget("emotButton"), FALSE);
@@ -1797,14 +1797,14 @@ void Hub::preferences_gui()
 	// resort users
 	string sort = SETTING(SORT_FAVUSERS_FIRST) ? "Client Type" : "Nick Order";
 
-	if(faventry)
-		sort = faventry->get(SettingsManager::SORT_FAVUSERS_FIRST, SETTING(SORT_FAVUSERS_FIRST)) ? "Client Type" : "Nick Order";
+	if(p_faventry)
+		sort = p_faventry->get(SettingsManager::SORT_FAVUSERS_FIRST, SETTING(SORT_FAVUSERS_FIRST)) ? "Client Type" : "Nick Order";
 
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(nickStore), nickView.col(sort), GTK_SORT_ASCENDING);
 	//Set Colors
 // Re-Initialize the chat window
-	string color = faventry ? faventry->get(SettingsManager::BACKGROUND_CHAT_COLOR, SETTING(BACKGROUND_CHAT_COLOR)) : SETTING(BACKGROUND_CHAT_COLOR);
-	string image = faventry ? faventry->get(SettingsManager::BACKGROUND_CHAT_IMAGE, SETTING(BACKGROUND_CHAT_IMAGE)) : SETTING(BACKGROUND_CHAT_IMAGE);
+	string color = p_faventry ? p_faventry->get(SettingsManager::BACKGROUND_CHAT_COLOR, SETTING(BACKGROUND_CHAT_COLOR)) : SETTING(BACKGROUND_CHAT_COLOR);
+	string image = p_faventry ? p_faventry->get(SettingsManager::BACKGROUND_CHAT_IMAGE, SETTING(BACKGROUND_CHAT_IMAGE)) : SETTING(BACKGROUND_CHAT_IMAGE);
 
 	WulforUtil::setTextDeufaults(getWidget("chatText"),color,image,false,address);
 	gtk_widget_queue_draw(getWidget("chatText"));

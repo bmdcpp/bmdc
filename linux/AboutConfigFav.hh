@@ -47,7 +47,7 @@ class AboutConfigFav:
 		static void onInfoResponse(GtkWidget *info_bar, gint response_id,  gpointer data );
 
 		bool getDialog(const std::string name , std::string& value , gpointer data);
-		void addItem_gui(const gchar* rowname, const gchar* isdefault, const gchar* types, const gchar* value,bool isok = true );
+		void addItem_gui(const gchar* rowname, const gchar* isdefault, const gchar* types, const gchar* value,bool bIsSame = true );
 		void updateItem_gui(const std::string rowname, const std::string value, GtkTreeIter *iter, const gchar* status = _("Default"));
 		void setStatus(const std::string msg);
 

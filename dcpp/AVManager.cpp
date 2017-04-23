@@ -71,8 +71,8 @@ void AVManager::loadDb(const string& buf)
 				}
 				
 				AVEntry entry;
-				entry.nick = nick;
-				entry.share = Util::toInt64(share);
+				entry.sNick = nick;
+				entry.ui64share = Util::toInt64(share);
 				addItemNick(nick,entry);
 				addItemIp(ip,entry);
 			}	
@@ -98,16 +98,16 @@ void AVManager::on(TimerManagerListener::Minute, uint64_t aTick) noexcept
 {
 		if(SETTING(USE_AV_FILTER)) {
 
-			if(aTick >= temp_tick) {
+			if(aTick >= ui64temp_tick) {
 			string address =
 			 ("http://te-home.net/?do=tools&action=avdbload&time="+Util::toString(timestamp_db)+"&notime=1");
 				conn.reset( new HttpDownload(address,[this](bool s,const string& b) { if(s) loadDb(b); }, false));
 				timestamp_db = time(NULL);
-				LogManager::getInstance()->message(_("[AVDB] load on ")+Util::toString(temp_tick)+"/"+Util::toString(timestamp_db)+"/"+Util::toString(aTick),LogManager::Sev::NORMAL);	
-				temp_tick = aTick+(60*60*1000);
+				LogManager::getInstance()->message(_("[AVDB] load on ")+Util::toString(ui64temp_tick)+"/"+Util::toString(timestamp_db)+"/"+Util::toString(aTick),LogManager::Sev::NORMAL);	
+				ui64temp_tick = aTick+(60*60*1000);
 			}
 			#ifdef _DEBUG
-			LogManager::getInstance()->message(_("[AVDB] next ")+Util::toString(temp_tick)+" - "+Util::toString(timestamp_db)+" - "+Util::toString(aTick), LogManager::Sev::LOW);
+			LogManager::getInstance()->message(_("[AVDB] next ")+Util::toString(ui64temp_tick)+" - "+Util::toString(timestamp_db)+" - "+Util::toString(aTick), LogManager::Sev::LOW);
 			#endif
 		  }					
 }
