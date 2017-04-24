@@ -37,6 +37,7 @@
 #include "../dcpp/UserManager.h"
 
 #include <iostream>
+#include <sstream>
 
 #ifndef _WIN32
 #include <arpa/inet.h>
@@ -739,16 +740,16 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	{
 		
 		string build = "Built with ";
-			#ifdef __clang__
-				build += "clang " __clang_version__;
-			#elif defined(__GNUC__)
-				build += "gcc " __VERSION__;
-				#ifdef _DEBUG
-				build += " Debug";
-				#else
-				build += " Release";
-				#endif
+		#ifdef __clang__
+			build += "clang " __clang_version__;
+		#elif defined(__GNUC__)
+			build += "gcc " __VERSION__;
+			#ifdef _DEBUG
+			build += " Debug";
+			#else
+			build += " Release";
 			#endif
+		#endif
 		
 		string rel  = string(), mach = string();
 		long udays = 0, uhour = 0 , umin =0;		
@@ -783,8 +784,18 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			int dettotal = SETTING(DETECTIONS);
 			int detfail = SETTING(DETECTIONF);
 			
+			std::stringstream s_gtk_version;
+			s_gtk_version << "\nGTK Version: \n";
+			s_gtk_version << gtk_get_major_version();
+			s_gtk_version << ".";
+			s_gtk_version << gtk_get_minor_version();
+			s_gtk_version << ".";
+			s_gtk_version << gtk_get_micro_version();
+			
+			
 		message =  "\n-= Stats " + dcpp::fullVersionString+" =-"
-					+"\n-= " +build+" =-\n"
+					+"\n-= " +build+" =-\n" +
+					+"\n-= GTK+ version: " + s_gtk_version.str() +"=-\n"
 					+ "-= " + rel + " " + mach + " =-\n"
 					+ "-= Uptime: " + formatTimeDifference(time(NULL) - Util::getUptime()) + " =-\n"
 					+ "-= System Uptime: " + Util::toString(udays) + " days," + Util::toString(uhour) + " Hours," + Util::toString(umin) + " min. =-\n"
@@ -1412,7 +1423,7 @@ bool WulforUtil::HitIP(string name)
 	return Ipv4Hit(name);
 }
 /* 
- * Inspired by StrongDC catch code ips 
+ * Inspired by StrongDC catch code ip address
  * */
 bool WulforUtil::Ipv4Hit(string name) {
 	for(uint32_t i = 0;i < name.length(); i++)
@@ -1582,25 +1593,27 @@ std::string WulforUtil::getTagName(GtkTextTag *tag)
 	return tagName;
 }
 
-gboolean	WulforUtil::is_format_supported (const gchar *uri)
+gboolean WulforUtil::is_format_supported (const gchar *uri)
 {
 	GSList *pixbuf_formats = NULL;
 	GSList *iter;
-	int i;
 
 	pixbuf_formats = gdk_pixbuf_get_formats ();
 
-	for (iter = pixbuf_formats; iter; iter = iter->next) {
-		gchar **extension_list;
+	for (iter = pixbuf_formats; iter; iter = iter->next) 
+	{
+		
 		GdkPixbufFormat *format = (GdkPixbufFormat*)iter->data;
 		
 		if (gdk_pixbuf_format_is_disabled (format))
 		            continue;
 
-	        extension_list = gdk_pixbuf_format_get_extensions (format);
+	    gchar **extension_list = gdk_pixbuf_format_get_extensions (format);
 
-		for (i = 0; extension_list[i] != 0; i++) {
-			if (g_str_has_suffix (uri, extension_list[i])) {
+		for (int i = 0; extension_list[i] != 0; i++) 
+		{
+			if (g_str_has_suffix (uri, extension_list[i])) 
+			{
 			    g_slist_free (pixbuf_formats);
 				g_strfreev (extension_list);
 				return TRUE;
