@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2017-04-24 13:52+0200\n"
+"POT-Creation-Date: 2017-04-25 14:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3617,11 +3617,11 @@ msgstr ""
 msgid "Confirm favorite hub removal"
 msgstr ""
 
-#: linux/hub.cc:4435
+#: linux/hub.cc:4436
 msgid "Connect failed: "
 msgstr ""
 
-#: linux/hub.cc:4379 linux/transfers.cc:1070
+#: linux/hub.cc:4380 linux/transfers.cc:1070
 msgid "Connected"
 msgstr ""
 
@@ -3633,7 +3633,7 @@ msgstr ""
 msgid "Connecting (forced)..."
 msgstr ""
 
-#: linux/hub.cc:4372
+#: linux/hub.cc:4373
 msgid "Connecting to "
 msgstr ""
 
@@ -4508,7 +4508,7 @@ msgstr ""
 msgid "Open Directory"
 msgstr ""
 
-#: linux/hub.cc:4877
+#: linux/hub.cc:4878
 msgid "Open Icon File to Set to Tab"
 msgstr ""
 
@@ -4593,7 +4593,7 @@ msgstr ""
 msgid "Protected Users: "
 msgstr ""
 
-#: linux/wulfor.cc:195
+#: linux/wulfor.cc:193
 msgid "Quit..."
 msgstr ""
 
@@ -4712,7 +4712,7 @@ msgstr ""
 msgid "Send Raw data"
 msgstr ""
 
-#: linux/hub.cc:4445
+#: linux/hub.cc:4446
 msgid "Send Stored password... "
 msgstr ""
 
@@ -4741,11 +4741,11 @@ msgstr ""
 msgid "Set Hub to Bold everytime the content changes"
 msgstr ""
 
-#: linux/hub.cc:4933
+#: linux/hub.cc:4934
 msgid "Set Icon Aviable"
 msgstr ""
 
-#: linux/hub.cc:4937
+#: linux/hub.cc:4938
 msgid "Set Icon: "
 msgstr ""
 
@@ -4785,7 +4785,7 @@ msgstr ""
 msgid "Set normal mode"
 msgstr ""
 
-#: linux/hub.cc:4919
+#: linux/hub.cc:4920
 msgid "Setting for a Tab Text"
 msgstr ""
 
@@ -4881,7 +4881,7 @@ msgstr ""
 msgid "Show uptime"
 msgstr ""
 
-#: linux/wulfor.cc:191
+#: linux/wulfor.cc:189
 msgid "Shutting down dcpp client..."
 msgstr ""
 
@@ -5022,7 +5022,7 @@ msgstr ""
 msgid "Temp Ignored User: "
 msgstr ""
 
-#: linux/hub.cc:4930
+#: linux/hub.cc:4931
 msgid "Text: "
 msgstr ""
 
@@ -5554,7 +5554,7 @@ msgstr ""
 msgid "_OK"
 msgstr ""
 
-#: linux/hub.cc:4072
+#: linux/hub.cc:4073
 msgid "bad image"
 msgstr ""
 
@@ -5574,7 +5574,7 @@ msgstr ""
 msgid "file list from "
 msgstr ""
 
-#: linux/hub.cc:4063
+#: linux/hub.cc:4064
 msgid "loading error"
 msgstr ""
 

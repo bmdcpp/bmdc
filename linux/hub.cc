@@ -3503,9 +3503,9 @@ void Hub::onCheckFLItemClicked_gui(GtkMenuItem* , gpointer data)
 		string nick;
 		GtkTreeIter iter;
 		GtkTreePath *path = NULL;
-		GList *list = gtk_tree_selection_get_selected_rows(hub->nickSelection, NULL);
+		GList *plist = gtk_tree_selection_get_selected_rows(hub->nickSelection, NULL);
 
-		for (GList *i = list; i; i = i->next)
+		for (GList *i = plist; i; i = i->next)
 		{
 			path = (GtkTreePath *)i->data;
 			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(hub->nickStore), &iter, path))
@@ -3514,7 +3514,7 @@ void Hub::onCheckFLItemClicked_gui(GtkMenuItem* , gpointer data)
 			}
 			gtk_tree_path_free(path);
 		}
-		g_list_free(list);
+		g_list_free(plist);
 
 		if (!nick.empty())
 		{
@@ -3691,7 +3691,7 @@ void Hub::sendMessage_client(string message, bool thirdPerson)
 		client->hubMessage(message, thirdPerson);
 }
 
-void Hub::getFileList_client(string cid, bool match,bool partial)
+void Hub::getFileList_client(string cid, bool bMatch,bool bPartial)
 {
 	string message;
 
@@ -3709,13 +3709,13 @@ void Hub::getFileList_client(string cid, bool match,bool partial)
 					// Don't download file list, open locally instead
 					WulforManager::get()->getMainWindow()->openOwnList_client(TRUE);
 				}
-				else if (match)
+				else if (bMatch)
 				{
 					QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_MATCH_QUEUE);
 				}
 				else
 				{
-					QueueManager::getInstance()->addList(hintedUser,partial ? (QueueItem::FLAG_CLIENT_VIEW | QueueItem::FLAG_PARTIAL_LIST) : (QueueItem::FLAG_CLIENT_VIEW));
+					QueueManager::getInstance()->addList(hintedUser, bPartial ? (QueueItem::FLAG_CLIENT_VIEW | QueueItem::FLAG_PARTIAL_LIST) : (QueueItem::FLAG_CLIENT_VIEW));
 				}
 			}
 			else
@@ -3768,7 +3768,7 @@ void Hub::removeUserFromQueue_client(string cid)
 	}
 }
 
-void Hub::redirect_client(string address, bool follow)
+void Hub::redirect_client(string address, bool bFollow)
 {
 	if (!address.empty())
 	{
@@ -3781,7 +3781,7 @@ void Hub::redirect_client(string address, bool follow)
 			return;
 		}
 
-		if (follow)
+		if (bFollow)
 		{
 			// the client is dead, long live the client!
 			disconnect_client();
@@ -3789,7 +3789,7 @@ void Hub::redirect_client(string address, bool follow)
 			Func0<Hub> *func = new Func0<Hub>(this, &Hub::clearNickList_gui);
 			WulforManager::get()->dispatchGuiFunc(func);
 
-			connectClient_client(address, encoding);
+			connectClient_client(address, encoding); //this assume a redirect hub 'can' use same encoding
 		}
 	}
 }
@@ -3801,9 +3801,9 @@ void Hub::addAsFavorite_client()
 
 	FavoriteHubEntry *existingHub = FavoriteManager::getInstance()->getFavoriteHubEntry(client->getHubUrl());
 	FavoriteHubEntry *exHub = NULL;
-	string tmp = client->getHubUrl();
-	size_t i = tmp.find("dchub://");
-	if(i != string::npos) exHub = FavoriteManager::getInstance()->getFavoriteHubEntry(tmp.substr(i));
+	string sHubUrl = client->getHubUrl();
+	size_t i = sHubUrl.find("dchub://");
+	if(i != string::npos) exHub = FavoriteManager::getInstance()->getFavoriteHubEntry(sHubUrl.substr(i));
 
 	if (!exHub && !existingHub)
 	{
@@ -4024,13 +4024,14 @@ string Hub::realFile_client(string tth)
 {
 	try
 	{
-		string virt = ShareManager::getInstance()->toVirtual(TTHValue(tth));
-		string real = ShareManager::getInstance()->toReal(virt,false);
+		string sVirt = ShareManager::getInstance()->toVirtual(TTHValue(tth));
+		string sReal = ShareManager::getInstance()->toReal(sVirt,false);
 
-		return real;
+		return sReal;
 	}
 	catch (const Exception&)
 	{
+		
 	}
 	return string();
 }
@@ -4105,7 +4106,7 @@ void Hub::loadImage_gui(string target, string tth)
 
 void Hub::onImageDestroy_gui(GtkWidget *widget, gpointer data)
 {
-	Hub *hub = (Hub*) data;
+	Hub *hub = (Hub*)data;
 
 	// fix crash, if entry delete...
 	if (!WulforManager::get()->isEntry_gui(hub))
@@ -4162,7 +4163,7 @@ gboolean Hub::onImageEvent_gui(GtkWidget *widget, GdkEventButton *event, gpointe
 
 void Hub::onDownloadImageClicked_gui(GtkMenuItem *item, gpointer data)
 {
-	Hub *hub = (Hub*) data;
+	Hub *hub = (Hub*)data;
 
 	string name, tth, target;
 	int64_t size;
@@ -4492,25 +4493,24 @@ void Hub::on(ClientListener::HubUpdated, Client *) noexcept
 /* 
  * Inspired by code of RSX
  */
-string Hub::formatAdditionalInfo(const string& aIp, bool sIp, bool sCC) {
-	string ret = string();
+string Hub::formatAdditionalInfo(const string& sIp, bool bIp, bool bCC) {
+	string sRet = string();
 
-	if(!aIp.empty()) {
+	if(!sIp.empty()) {
 		
-		string country_name = sCC ? GeoManager::getInstance()->getCountry(aIp) : string();
-		bool showIp = sIp;
-		bool showCc = sCC && !country_name.empty();
+		string country_name = bCC ? GeoManager::getInstance()->getCountry(sIp) : string();
+		bool showCc = bCC && !country_name.empty();
 
-		if(showIp) {
-			ret = "[ " + aIp + " ] ";
+		if(bIp) {
+			sRet = "[ " + sIp + " ] ";
 		}
 
 		if(showCc) {
-			ret += "[" + country_name + "] ";
+			sRet += "[" + country_name + "] ";
 		}
 
 	}
-	return ret;
+	return sRet;
 }
 
 void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexcept
@@ -4825,6 +4825,7 @@ GtkWidget *Hub::createmenu()
 		g_signal_connect_swapped(closeItem, "activate" , G_CALLBACK(onCloseItem), (gpointer)this);
 		
 		g_signal_connect_swapped(shareView, "activate", G_CALLBACK(onShareView),(gpointer)this);
+		
 		notCreated = false;
 	}
 	return m_menu;

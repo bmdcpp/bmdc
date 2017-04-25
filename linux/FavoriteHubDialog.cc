@@ -33,7 +33,7 @@ using namespace dcpp;
 #define g_g_a_a(widget,x,y,z,c) grid_add( boxAdvanced, widget ,x,y,z,c)
 #define g_g_a_c_s(widget,x,y,z,c) grid_add(boxConnection, widget, x,y,z,c)
 
-#define g_c_b_n(label) gtk_check_button_new_with_label(label)
+#define g_c_b_n(pwlabel) gtk_check_button_new_with_label(pwlabel)
 
 #ifndef b_file_dialog_widget
 #define b_file_dialog_widget(a) gtk_file_chooser_dialog_new (a, NULL, GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,\
@@ -44,14 +44,14 @@ using namespace dcpp;
                                       NULL);
 #endif
 
-static GtkWidget* createComboBoxWith3Options(const gchar* a,const gchar* b,const gchar* c)
+static GtkWidget* createComboBoxWith3Options(const gchar* ca,const gchar* cb,const gchar* cc)
 {
-	GtkWidget* combo = gtk_combo_box_text_new();
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo),a);
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo),b);
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo),c);
+	GtkWidget* pwcombo = gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pwcombo),ca);
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pwcombo),cb);
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(pwcombo),cc);
 
-	return combo;
+	return pwcombo;
 }
 
 FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):

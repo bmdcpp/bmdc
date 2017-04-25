@@ -47,23 +47,23 @@
 #ifndef _WIN32
 BaconMessageConnection *connection = NULL;
 #endif
-void receiver(const char *link, gpointer )
+void receiver(const char *clink, gpointer )
 {
-	g_return_if_fail(link != NULL);
-	WulforManager::get()->onReceived_gui(link);
+	g_return_if_fail(clink != NULL);
+	WulforManager::get()->onReceived_gui(clink);
 }
 
 using namespace std;
 using namespace dcpp;
 
-static bool m_crash = false;
+static bool b_crash = false;
 
 void handle_crash(int )
 {
-    if(m_crash)
+    if(b_crash)
         abort();
 
-    m_crash = true;
+    b_crash = true;
 
     std::cerr << "pid: " << getpid() << std::endl;
 #ifndef _WIN32
@@ -78,22 +78,20 @@ void handle_crash(int )
 	f.open(stackPath.c_str(),ios_base::out | ios_base::app);
 	std::copy(trace.begin(), trace.end(),
 		std::ostream_iterator<cow::StackFrame>(f, "\n"));
-	f << "\nGTK Version: \n";
-	printf("Version");
+	f << "\nGTK Version: " << std::endl;
 	f << gtk_get_major_version();
 	f << ".";
 	f << gtk_get_minor_version();
 	f << ".";
 	f << gtk_get_micro_version();
-	printf("\nCompiler version\n");
-	f << "\n Compiler Version: \n";
+	f << std::endl;
+	f << " Compiler Version: " << std::endl;
 	#ifdef __clang__
 	f << "clang " __clang_version__;
 	#elif defined(__GNUC__)
 	f << "gcc " __VERSION__;
 	#endif
-	f << "\n";
-	printf("Close");
+	f << std::endl;
 	f.close();
 
 	std::cout << "\nException info to be posted on the bug tracker has also been saved in " + stackPath << std::endl;
@@ -151,17 +149,17 @@ int main(int argc, char *argv[])
 
 	gtk_init(&argc, &argv);
 
-	Splash* sp = new Splash();
-	sp->show();
+	Splash* pSplash = new Splash();
+	pSplash->show();
 	dcpp::startup();
 	try{
-		dcpp::load([sp](const string& str){ sp->setText(str); sp->update(); },
-		[sp](const float& str){ sp->setPercentage(str); sp->update(); }  );
+		dcpp::load([pSplash](const string& str){ pSplash->setText(str); pSplash->update(); },
+		[pSplash](const float& str){ pSplash->setPercentage(str); pSplash->update(); }  );
 	}catch(...){
 	///
 	}
-	sp->destroy();
-	delete sp;
+	pSplash->destroy();
+	delete pSplash;
 	try {
 	dcpp::TimerManager::getInstance()->start();
 	}catch(...){
