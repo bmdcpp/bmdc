@@ -397,9 +397,9 @@ bool WulforUtil::splitMagnet(const string &magnet, string &line)
 	if (splitMagnet(magnet, name, size, tth))
 		line = name + " (" + Util::formatBytes(size) + ")";
 	else
-		return FALSE;
+		return false;
 
-	return TRUE;
+	return true;
 }
 
 bool WulforUtil::isMagnet(const string &text)
@@ -569,8 +569,8 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string country)
 		//@GTK3 icons exist all time....
 		return gtk_icon_theme_load_icon(icon_theme,"gtk-dialog-question",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,NULL);
 	}
-	string res = "/org/bmdc-team/bmdc/country/"+country+".png";
-	return gdk_pixbuf_new_from_resource_at_scale(res.c_str(),15,15,FALSE,NULL);
+	string sRes = "/org/bmdc-team/bmdc/country/"+country+".png";
+	return gdk_pixbuf_new_from_resource_at_scale( sRes.c_str(),15,15,FALSE,NULL);
 	
 }
 
@@ -795,7 +795,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			
 		message =  "\n-= Stats " + dcpp::fullVersionString+" =-"
 					+"\n-= " +build+" =-\n" +
-					+"\n-= GTK+ version: " + s_gtk_version.str() +"=-\n"
+					+"\n-=  " + s_gtk_version.str() +"=-\n"
 					+ "-= " + rel + " " + mach + " =-\n"
 					+ "-= Uptime: " + formatTimeDifference(time(NULL) - Util::getUptime()) + " =-\n"
 					+ "-= System Uptime: " + Util::toString(udays) + " days," + Util::toString(uhour) + " Hours," + Util::toString(umin) + " min. =-\n"

@@ -78,24 +78,24 @@ ExportDialog::~ExportDialog(){
 void ExportDialog::onButtonExportedClicked(GtkWidget*,gpointer data)
 {
 	ExportDialog *ed = (ExportDialog *)data;
-	StringList list;
+	StringList pslist;
 	GtkTreeIter iter;
 	GtkTreeModel *m = GTK_TREE_MODEL(ed->exportStore);
 	gboolean valid = gtk_tree_model_get_iter_first(m, &iter);
 	
 	while(valid)
 	{
-		bool isSelected = ed->exportView.getValue<gboolean>(&iter, _("Enabled"));
-		if(isSelected){
-			string add = ed->exportView.getString(&iter,"Name Hidden");
-			list.push_back(add);
+		bool bSelected = ed->exportView.getValue<gboolean>(&iter, _("Enabled"));
+		if(bSelected){
+			string sAdd = ed->exportView.getString(&iter,"Name Hidden");
+			pslist.push_back(sAdd);
 		}
 		valid = gtk_tree_model_iter_next(m, &iter);	
 	}
 	
 	///getpath
-	string to = gtk_entry_get_text(GTK_ENTRY(ed->getWidget("entry")));
-	ExportManager::getInstance()->export_(to,list);
+	string sTo = gtk_entry_get_text(GTK_ENTRY(ed->getWidget("entry")));
+	ExportManager::getInstance()->export_(sTo,pslist);
 }
 
 void ExportDialog::onGetPathGui(GtkWidget*, gpointer data)

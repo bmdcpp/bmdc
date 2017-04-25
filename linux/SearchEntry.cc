@@ -21,6 +21,7 @@
 #include "entry.hh"
 #include "SearchEntry.hh"
 #include "search.hh"
+#include "settingsmanager.hh"
 #include "wulformanager.hh"
 
 using namespace std;
@@ -40,8 +41,8 @@ SearchEntry::SearchEntry():
 
 SearchEntry::~SearchEntry()
 {
-	GList *list = (GList *)g_object_get_data(G_OBJECT(getWidget("sebook")), "page-rotation-list");
-	g_list_free(list);
+	GList *gplist = (GList *)g_object_get_data(G_OBJECT(getWidget("sebook")), "page-rotation-list");
+	g_list_free(gplist);
 
 	books.clear();
 
@@ -53,13 +54,17 @@ void SearchEntry::addBookEntry_gui(BookEntry *entry)
 
 	GtkWidget *page = entry->getContainer();
 	GtkWidget *label = entry->getLabelBox();
-	GtkWidget *closeButton = entry->getCloseButton();
+	
 
 	gtk_notebook_append_page(GTK_NOTEBOOK(getWidget("sebook")), page, label);
 	
 	g_signal_connect(label, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
-	g_signal_connect(closeButton, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
-	g_signal_connect(closeButton, "clicked", G_CALLBACK(onCloseBookEntry_gui), (gpointer)entry);
+	if(WGETB("use-close-button")) 
+	{
+		GtkWidget *closeButton = entry->getCloseButton();
+		g_signal_connect(closeButton, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
+		g_signal_connect(closeButton, "clicked", G_CALLBACK(onCloseBookEntry_gui), (gpointer)entry);
+	}
 
 	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(getWidget("sebook")), page, FALSE);
 

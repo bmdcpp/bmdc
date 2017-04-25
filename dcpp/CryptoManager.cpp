@@ -98,8 +98,10 @@ CryptoManager::~CryptoManager() {
 	CRYPTO_set_locking_callback(NULL);
 	delete[] cs;
 
-	/* thread-local cleanup */ 
+	/* thread-local cleanup */
+	#if OPENSSL_API_COMPAT < 0x10100000L 
 	ERR_remove_thread_state(NULL);
+	#endif
 
 	clientContext.reset();
 	serverContext.reset();
