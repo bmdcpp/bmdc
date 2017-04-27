@@ -26,7 +26,7 @@
 namespace dcpp {
 
 namespace ssl {
-/*
+
 bool SSL_CTX_use_certificate_file(::SSL_CTX* ctx, const char* file, int ) {
 	auto x509 = getX509(file);
 	if(!x509) {
@@ -34,7 +34,7 @@ bool SSL_CTX_use_certificate_file(::SSL_CTX* ctx, const char* file, int ) {
 	}
 	return SSL_CTX_use_certificate(ctx, x509) == SSL_SUCCESS;
 }
-*//*
+
 bool SSL_CTX_use_PrivateKey_file(::SSL_CTX* ctx, const char* file, int ) {
 	FILE* f = fopen(file, "r");
 	if(!f) {
@@ -52,7 +52,7 @@ bool SSL_CTX_use_PrivateKey_file(::SSL_CTX* ctx, const char* file, int ) {
 
 	return SSL_CTX_use_PrivateKey(ctx, key) == SSL_SUCCESS;
 }
-*/
+
 X509 getX509(const char* file) {
 	::X509* ret = nullptr;
 	FILE* f = fopen(file, "r");
