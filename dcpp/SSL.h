@@ -72,8 +72,8 @@ typedef scoped_handle<X509, X509_free> X509;
 typedef scoped_handle<X509_NAME, X509_NAME_free> X509_NAME;
 
 // functions that operate with file paths - here in order to support UTF16 Windows paths
-//bool SSL_CTX_use_certificate_file(::SSL_CTX* ctx, const char* file, int type);
-//bool SSL_CTX_use_PrivateKey_file(::SSL_CTX* ctx, const char* file, int type);
+bool SSL_CTX_use_certificate_file(::SSL_CTX* ctx, const char* file, int type);
+bool SSL_CTX_use_PrivateKey_file(::SSL_CTX* ctx, const char* file, int type);
 
 X509 getX509(const char* file);
 ByteVector X509_digest(::X509* x509, const ::EVP_MD* md);
