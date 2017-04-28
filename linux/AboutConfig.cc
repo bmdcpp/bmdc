@@ -77,12 +77,12 @@ void AboutConfig::setColorsRows()
 	setColorRow(_("Value"));
 }
 
-void AboutConfig::setColorRow(string cell)
+void AboutConfig::setColorRow(string scell)
 {
 
-	if(aboutView.getCellRenderOf(cell) != NULL)
-		gtk_tree_view_column_set_cell_data_func(aboutView.getColumn(cell),
-								aboutView.getCellRenderOf(cell),
+	if(aboutView.getCellRenderOf(scell) != NULL)
+		gtk_tree_view_column_set_cell_data_func(aboutView.getColumn(scell),
+								aboutView.getCellRenderOf(scell),
 								AboutConfig::makeColor,
 								(gpointer)this,
 								NULL);
@@ -94,9 +94,7 @@ void AboutConfig::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, Gtk
 	AboutConfig* pf = (AboutConfig*)data;
 	if(pf == NULL) return;if(model == NULL) return;if(iter == NULL)return;
 	if(column == NULL)return;if(cell == NULL) return;
-	//string bcolor = f->aboutView.getString(iter,"BackColor",model);
 	string fcolor = pf->aboutView.getString(iter,"ForeColor",model);
-	//g_object_set(cell,"cell-background-set",TRUE,"cell-background",bcolor.c_str(),NULL);
 	g_object_set(cell,"foreground-set",TRUE,"foreground",fcolor.c_str(),NULL);
 
 }
@@ -482,12 +480,12 @@ bool AboutConfig::getDialog(const string name, string& value)
 {
 	WulforSettingsManager* wsm = WulforSettingsManager::getInstance();
 	SettingsManager* sm = SettingsManager::getInstance();
-	int t = -1;
+	int ft = -1;
 	if(wsm->isInt(name))
-		t = TYPE_INT;
+		ft = TYPE_INT;
 
 	if(wsm->isString(name))
-		t = TYPE_STRING;
+		ft = TYPE_STRING;
 
 	int n = -1;
 	SettingsManager::Types type;
@@ -496,15 +494,15 @@ bool AboutConfig::getDialog(const string name, string& value)
 		switch(type)
 		{
 			case SettingsManager::TYPE_BOOL:
-			t = TYPE_BOOL;
+			ft = TYPE_BOOL;
 			break;
 			case SettingsManager::TYPE_FLOAT:
 			case SettingsManager::TYPE_INT:
 			case SettingsManager::TYPE_INT64:
-			t = TYPE_INT;
+			ft = TYPE_INT;
 			break;
 			case SettingsManager::TYPE_STRING:
-			t = TYPE_STRING;
+			ft = TYPE_STRING;
 			break;
 			default:break;
 		}
@@ -517,7 +515,7 @@ bool AboutConfig::getDialog(const string name, string& value)
 	_("_Cancel"),GTK_RESPONSE_REJECT,NULL));
 	GtkWidget* box= gtk_dialog_get_content_area(dialog);
 	GtkWidget* item;
-	switch(t)
+	switch(ft)
 	{
 		case TYPE_BOOL:
 		{
@@ -556,7 +554,7 @@ bool AboutConfig::getDialog(const string name, string& value)
 
 	if (response == GTK_RESPONSE_ACCEPT)
 	{
-		switch(t)
+		switch(ft)
 		{
 			case TYPE_BOOL:
 			{

@@ -22,6 +22,7 @@
 #ifndef _DATADIR
  #define _DATADIR DATADIR
 #endif
+
 #include "mainwindow.hh"
 
 #include <iostream>
@@ -156,7 +157,7 @@ MainWindow::MainWindow():
 	setToolbarMenu_gui("awaycitem", "AwayIcon", "toolbar-button-away");
 	setToolbarMenu_gui("limitingcmenu", "limitingButton", "toolbar-button-limiting");
 
-	gint pos = 0;
+	gint fpos = 0;
 	ToolbarStyle = 0;
 	GtkBox *box = GTK_BOX(getWidget("hbox4"));
 	GtkWidget *child = getWidget("toolbar1");
@@ -172,10 +173,10 @@ MainWindow::MainWindow():
 		box = GTK_BOX(getWidget("vbox1"));
 		gtk_orientable_set_orientation(GTK_ORIENTABLE(child), GTK_ORIENTATION_HORIZONTAL);
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("topToolbarItem")), TRUE);
-		pos = 1;
+		fpos = 1;
 	}
 	gtk_box_pack_start(box, child, FALSE, FALSE, 2);
-	gtk_box_reorder_child(box, child, pos);
+	gtk_box_reorder_child(box, child, fpos);
 	g_object_unref(child);
 
 	g_signal_connect(G_OBJECT(getWidget("sizeToolbarItem")), "toggled", G_CALLBACK(onSizeToolbarToggled_gui), (gpointer)this);
@@ -192,12 +193,12 @@ MainWindow::MainWindow():
 	for (auto it = fh.begin(); it != fh.end(); ++it)
 	{
 		FavoriteHubEntry *entry = *it;
-		string address = entry->getServer();
-		string encoding = entry->getEncoding();
-		GtkWidget *item = gtk_menu_item_new_with_label(address.c_str());
+		string saddress = entry->getServer();
+		string sencoding = entry->getEncoding();
+		GtkWidget *item = gtk_menu_item_new_with_label(saddress.c_str());
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-		g_object_set_data_full(G_OBJECT(item), "address", g_strdup(address.c_str()), g_free);
-		g_object_set_data_full(G_OBJECT(item), "encoding", g_strdup(encoding.c_str()), g_free);
+		g_object_set_data_full(G_OBJECT(item), "address", g_strdup(saddress.c_str()), g_free);
+		g_object_set_data_full(G_OBJECT(item), "encoding", g_strdup(sencoding.c_str()), g_free);
 		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(onHubClicked_gui), (gpointer)this);
 	}
 	gtk_widget_show_all(menu);
@@ -206,10 +207,10 @@ MainWindow::MainWindow():
 	menu = gtk_menu_new();
 	gtk_menu_tool_button_set_menu(GTK_MENU_TOOL_BUTTON(getWidget("limitingButton")), menu);
 	gtk_container_foreach(GTK_CONTAINER(menu), (GtkCallback)gtk_widget_destroy, NULL);
-	GtkWidget *upitem = gtk_menu_item_new_with_label(_("Upload Limit (disable)"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), upitem);
-	g_object_set_data_full(G_OBJECT(upitem), "type", g_strdup("up"), g_free);
-	g_signal_connect(G_OBJECT(upitem), "activate", G_CALLBACK(onLimitingDisable), (gpointer)this);
+	GtkWidget *wdisupitem = gtk_menu_item_new_with_label(_("Upload Limit (disable)"));
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), wdisupitem);
+	g_object_set_data_full(G_OBJECT(wdisupitem), "type", g_strdup("up"), g_free);
+	g_signal_connect(G_OBJECT(wdisupitem), "activate", G_CALLBACK(onLimitingDisable), (gpointer)this);
 	GtkWidget *sep =  gtk_separator_menu_item_new();
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep);
 	///TODO @change to dynamic
@@ -562,7 +563,7 @@ void MainWindow::showTransfersPane_gui()
  */
 void MainWindow::loadIcons_gui()
 {
-	WulforUtil::registerIcons();
+	//WulforUtil::registerIcons();
 	#define g_tool_set gtk_tool_button_set_icon_name
 	#define g_image_set gtk_image_set_from_icon_name
 	
@@ -600,7 +601,6 @@ void MainWindow::autoOpen_gui()
 		showBook(Entry::DOWNLOAD_QUEUE,new DownloadQueue());
 		setStatusOfIcons(QUEUE,true);
 	}	
-		
 	if (WGETB("open-favorite-hubs"))
 		showFavoriteHubs_gui();
 	if (WGETB("open-favorite-users"))

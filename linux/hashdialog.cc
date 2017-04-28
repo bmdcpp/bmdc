@@ -32,9 +32,9 @@ using namespace dcpp;
 Hash::Hash(GtkWindow* parent):
 	DialogEntry(Entry::HASH_DIALOG, "hash", parent)
 {
-	string tmp;
+	string stmp;
 	startTime = GET_TICK();
-	HashManager::getInstance()->getStats(tmp, startBytes, startFiles);
+	HashManager::getInstance()->getStats(stmp, startBytes, startFiles);
 	HashManager::getInstance()->setPriority(Thread::NORMAL);
 	updateStats_gui("", 0, 0, 0);
 	bool paused = HashManager::getInstance()->isHashingPaused();
@@ -64,7 +64,7 @@ void Hash::updateStats_gui(string file, uint64_t bytes, size_t files, uint32_t t
 		startFiles = files;
 
 	double diff = tick - startTime;
-	bool paused = HashManager::getInstance()->isHashingPaused();//NOTE: core 0.762
+	bool paused = HashManager::getInstance()->isHashingPaused();
 
 	if (diff < 1000 || files == 0 || bytes == 0 || paused)
 	{

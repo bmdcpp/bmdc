@@ -544,24 +544,6 @@ void WulforUtil::copyValue_gui(GtkTreeStore *store, GtkTreeIter *fromIter, GtkTr
 	g_value_unset(&value);
 }
 
-/*
-register path to icons
- */
-void WulforUtil::registerIcons()
-{
-	icon_theme = gtk_icon_theme_get_default ();
-		
-		#ifdef _WIN32
-			#undef _DATADIR
-			#define _DATADIR "%s"
-			gchar buf[256];
-			sprintf(buf,_DATADIR PATH_SEPARATOR_STR GUI_LOCALE_PACKAGE "icons",WulforManager::get()->getPath().c_str());
-			gtk_icon_theme_prepend_search_path(icon_theme,buf);
-		#else
-			gtk_icon_theme_prepend_search_path(icon_theme,_DATADIR PATH_SEPARATOR_STR GUI_LOCALE_PACKAGE "icons");
-		#endif
-}
-
 GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string country)
 {
 	if(country.empty())
@@ -602,7 +584,7 @@ string WulforUtil::formatReport(const Identity& identity)
 
 	return report + "\n";
 }
-///From CrzDC++
+//From CrzDC++
 string WulforUtil::generateLeech() {
 
 	char buf[650];
@@ -785,7 +767,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			int detfail = SETTING(DETECTIONF);
 			
 			std::stringstream s_gtk_version;
-			s_gtk_version << "\nGTK Version: \n";
+			s_gtk_version << "GTK Version: ";
 			s_gtk_version << gtk_get_major_version();
 			s_gtk_version << ".";
 			s_gtk_version << gtk_get_minor_version();
@@ -794,7 +776,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			
 			
 		message =  "\n-= Stats " + dcpp::fullVersionString+" =-"
-					+"\n-= " +build+" =-\n" +
+					+"\n-= " +build+" =-" +
 					+"\n-=  " + s_gtk_version.str() +"=-\n"
 					+ "-= " + rel + " " + mach + " =-\n"
 					+ "-= Uptime: " + formatTimeDifference(time(NULL) - Util::getUptime()) + " =-\n"
