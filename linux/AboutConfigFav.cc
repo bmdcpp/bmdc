@@ -140,9 +140,7 @@ void AboutConfigFav::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, 
 	AboutConfigFav* f = (AboutConfigFav*)data;
 	if(f == NULL) return;if(model == NULL) return;if(iter == NULL)return;
 	if(column == NULL)return;if(cell == NULL) return;
-	//string bcolor = f->aboutView.getString(iter,"BackColor",model);
 	string fcolor = f->aboutView.getString(iter,"ForeColor",model);
-	//g_object_set(cell,"cell-background-set",TRUE,"cell-background",bcolor.c_str(),NULL);
 	g_object_set(cell,"foreground-set",TRUE,"foreground",fcolor.c_str(),NULL);
 
 }

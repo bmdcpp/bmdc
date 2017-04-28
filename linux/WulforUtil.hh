@@ -85,7 +85,6 @@ class WulforUtil
 		static void copyValue_gui(GtkListStore* store, GtkTreeIter *fromIter, GtkTreeIter *toIter, int position);
 		static GtkTreeIter copyRow_gui(GtkTreeStore *store, GtkTreeIter *fromIter, GtkTreeIter *parent = NULL, int position = -1);
 		static void copyValue_gui(GtkTreeStore* store, GtkTreeIter *fromIter, GtkTreeIter *toIter, int position);
-		static void registerIcons();
 		//NOTE: BMDC++
 		static void drop_combo(GtkWidget *widget, std::map<std::string,int> CONTEUDO);//Used in Detections Settinsg only
 

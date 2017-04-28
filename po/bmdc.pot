@@ -8,7 +8,7 @@ msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2017-04-21 14:14+0200\n"
+"POT-Creation-Date: 2017-04-27 19:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2017-04-25 14:08+0200\n"
+"POT-Creation-Date: 2017-04-28 18:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -657,8 +657,8 @@ msgstr ""
 msgid "Away mode message on/off"
 msgstr ""
 
-#: ui/hub.ui:25 ui/privatemessage.ui:25 linux/WulforUtil.cc:653
-#: linux/WulforUtil.cc:673 linux/mainwindow.cc:2317
+#: ui/hub.ui:25 ui/privatemessage.ui:25 linux/WulforUtil.cc:635
+#: linux/WulforUtil.cc:655 linux/mainwindow.cc:2317
 #: linux/privatemessage.cc:1065
 msgid "Away mode off"
 msgstr ""
@@ -989,11 +989,11 @@ msgstr ""
 #: ui/favoritehubs.ui:1517 ui/favoritehubs.ui:1534 ui/favoritehubs.ui:1551
 #: ui/favoritehubs.ui:1568 ui/favoritehubs.ui:1585 ui/settingsdialog.ui:5272
 #: ui/settingsdialog.ui:5964 ui/settingsdialog.ui:6148
-#: ui/settingsdialog.ui:6333 ui/settingsdialog.ui:8828 linux/AboutConfig.cc:116
-#: linux/AboutConfig.cc:125 linux/AboutConfig.cc:196 linux/AboutConfig.cc:201
-#: linux/AboutConfig.cc:212 linux/AboutConfig.cc:216 linux/AboutConfig.cc:441
-#: linux/AboutConfigFav.cc:155 linux/AboutConfigFav.cc:178
-#: linux/AboutConfigFav.cc:195 linux/AboutConfigFav.cc:219
+#: ui/settingsdialog.ui:6333 ui/settingsdialog.ui:8828 linux/AboutConfig.cc:114
+#: linux/AboutConfig.cc:123 linux/AboutConfig.cc:194 linux/AboutConfig.cc:199
+#: linux/AboutConfig.cc:210 linux/AboutConfig.cc:214 linux/AboutConfig.cc:439
+#: linux/AboutConfigFav.cc:153 linux/AboutConfigFav.cc:176
+#: linux/AboutConfigFav.cc:193 linux/AboutConfigFav.cc:217
 #: linux/FavoriteHubDialog.cc:171 linux/FavoriteHubDialog.cc:182
 #: linux/FavoriteHubDialog.cc:252 linux/FavoriteHubDialog.cc:383
 #: linux/FavoriteHubDialog.cc:384 linux/emoticonsdialog.cc:149
@@ -1850,12 +1850,12 @@ msgstr ""
 #: ui/detection.ui:152 ui/detection.ui:612 ui/detection.ui:949
 #: ui/favoritehubs.ui:85 ui/settingsdialog.ui:1156 linux/AboutConfig.cc:33
 #: linux/AboutConfig.cc:43 linux/AboutConfig.cc:45 linux/AboutConfig.cc:74
-#: linux/AboutConfig.cc:250 linux/AboutConfig.cc:264 linux/AboutConfig.cc:368
-#: linux/AboutConfig.cc:425 linux/AboutConfigFav.cc:35
+#: linux/AboutConfig.cc:248 linux/AboutConfig.cc:262 linux/AboutConfig.cc:366
+#: linux/AboutConfig.cc:423 linux/AboutConfigFav.cc:35
 #: linux/AboutConfigFav.cc:45 linux/AboutConfigFav.cc:47
-#: linux/AboutConfigFav.cc:121 linux/AboutConfigFav.cc:258
-#: linux/AboutConfigFav.cc:271 linux/AboutConfigFav.cc:373
-#: linux/AboutConfigFav.cc:413 linux/FavoriteHubDialog.cc:300
+#: linux/AboutConfigFav.cc:121 linux/AboutConfigFav.cc:256
+#: linux/AboutConfigFav.cc:269 linux/AboutConfigFav.cc:371
+#: linux/AboutConfigFav.cc:411 linux/FavoriteHubDialog.cc:300
 #: linux/FavoriteHubDialog.cc:580 linux/FavoriteHubDialog.cc:593
 #: linux/detectiontab.cc:42 linux/detectiontab.cc:61 linux/detectiontab.cc:72
 #: linux/detectiontab.cc:313 linux/detectiontab.cc:334
@@ -2719,9 +2719,9 @@ msgid "Trusted certificates path"
 msgstr ""
 
 #: ui/detection.ui:288 ui/detection.ui:967 linux/AboutConfig.cc:35
-#: linux/AboutConfig.cc:42 linux/AboutConfig.cc:76 linux/AboutConfig.cc:252
+#: linux/AboutConfig.cc:42 linux/AboutConfig.cc:76 linux/AboutConfig.cc:250
 #: linux/AboutConfigFav.cc:37 linux/AboutConfigFav.cc:44
-#: linux/AboutConfigFav.cc:123 linux/AboutConfigFav.cc:260 linux/search.cc:105
+#: linux/AboutConfigFav.cc:123 linux/AboutConfigFav.cc:258 linux/search.cc:105
 #: linux/search.cc:229 linux/search.cc:712 linux/search.cc:791
 #: linux/search.cc:931 linux/search.cc:1782 linux/search.cc:1783
 #: linux/search.cc:1784 linux/search.cc:1798 linux/search.cc:2142
@@ -2821,10 +2821,10 @@ msgid "Users"
 msgstr ""
 
 #: ui/detection.ui:956 linux/AboutConfig.cc:36 linux/AboutConfig.cc:77
-#: linux/AboutConfig.cc:253 linux/AboutConfig.cc:266 linux/AboutConfig.cc:369
+#: linux/AboutConfig.cc:251 linux/AboutConfig.cc:264 linux/AboutConfig.cc:367
 #: linux/AboutConfigFav.cc:38 linux/AboutConfigFav.cc:124
-#: linux/AboutConfigFav.cc:261 linux/AboutConfigFav.cc:273
-#: linux/AboutConfigFav.cc:374 linux/detectiontab.cc:107
+#: linux/AboutConfigFav.cc:259 linux/AboutConfigFav.cc:271
+#: linux/AboutConfigFav.cc:372 linux/detectiontab.cc:107
 #: linux/detectiontab.cc:1019 linux/detectiontab.cc:1121
 #: linux/detectiontab.cc:1218
 msgid "Value"
@@ -3195,7 +3195,7 @@ msgstr ""
 msgid "*** Available commands:"
 msgstr ""
 
-#: linux/WulforUtil.cc:596
+#: linux/WulforUtil.cc:578
 msgid "*** Info on "
 msgstr ""
 
@@ -3216,7 +3216,7 @@ msgstr ""
 msgid "...must not be empty"
 msgstr ""
 
-#: linux/mainwindow.cc:217 linux/mainwindow.cc:236
+#: linux/mainwindow.cc:218 linux/mainwindow.cc:237
 msgid "/s"
 msgstr ""
 
@@ -3346,7 +3346,7 @@ msgstr ""
 msgid "Address: "
 msgstr ""
 
-#: linux/WulforUtil.cc:1013
+#: linux/WulforUtil.cc:995
 msgid "Aliases not found."
 msgstr ""
 
@@ -3459,7 +3459,7 @@ msgstr ""
 msgid "Away mode on"
 msgstr ""
 
-#: linux/WulforUtil.cc:664
+#: linux/WulforUtil.cc:646
 msgid "Away mode on: "
 msgstr ""
 
@@ -3605,7 +3605,7 @@ msgstr ""
 msgid "Command name already exists"
 msgstr ""
 
-#: linux/WulforUtil.cc:641
+#: linux/WulforUtil.cc:623
 msgid "Command send: "
 msgstr ""
 
@@ -3672,7 +3672,7 @@ msgstr ""
 msgid "Country"
 msgstr ""
 
-#: linux/mainwindow.cc:263
+#: linux/mainwindow.cc:264
 #, c-format, boost-format
 msgid ""
 "DC++ Client based on the source code FreeDC++\n"
@@ -3734,7 +3734,7 @@ msgstr ""
 msgid "Done"
 msgstr ""
 
-#: linux/mainwindow.cc:228
+#: linux/mainwindow.cc:229
 msgid "Download Limit (disable)"
 msgstr ""
 
@@ -4252,7 +4252,7 @@ msgstr ""
 msgid "Invalid extension: "
 msgstr ""
 
-#: linux/WulforUtil.cc:728
+#: linux/WulforUtil.cc:710
 msgid "Invalid number of slots"
 msgstr ""
 
@@ -4757,7 +4757,7 @@ msgstr ""
 msgid "Set Slots to n"
 msgstr ""
 
-#: linux/WulforUtil.cc:735
+#: linux/WulforUtil.cc:717
 msgid "Set Slots to:"
 msgstr ""
 
@@ -4930,7 +4930,7 @@ msgstr ""
 msgid "Source too slow"
 msgstr ""
 
-#: linux/WulforUtil.cc:813 linux/WulforUtil.cc:819
+#: linux/WulforUtil.cc:795 linux/WulforUtil.cc:801
 msgid "Specify a search string"
 msgstr ""
 
@@ -4963,10 +4963,10 @@ msgstr ""
 msgid "Started MyInfo check"
 msgstr ""
 
-#: linux/AboutConfig.cc:34 linux/AboutConfig.cc:75 linux/AboutConfig.cc:251
-#: linux/AboutConfig.cc:265 linux/AboutConfigFav.cc:36
-#: linux/AboutConfigFav.cc:122 linux/AboutConfigFav.cc:259
-#: linux/AboutConfigFav.cc:272 linux/downloadqueue.cc:69
+#: linux/AboutConfig.cc:34 linux/AboutConfig.cc:75 linux/AboutConfig.cc:249
+#: linux/AboutConfig.cc:263 linux/AboutConfigFav.cc:36
+#: linux/AboutConfigFav.cc:122 linux/AboutConfigFav.cc:257
+#: linux/AboutConfigFav.cc:270 linux/downloadqueue.cc:69
 #: linux/downloadqueue.cc:280 linux/downloadqueue.cc:387
 #: linux/favoritehubs.cc:49 linux/favoritehubs.cc:138 linux/favoritehubs.cc:766
 #: linux/searchspy.cc:57 linux/searchspy.cc:293 linux/searchspy.cc:375
@@ -5132,7 +5132,7 @@ msgstr ""
 msgid "Upload"
 msgstr ""
 
-#: linux/mainwindow.cc:209
+#: linux/mainwindow.cc:210
 msgid "Upload Limit (disable)"
 msgstr ""
 
@@ -5251,8 +5251,8 @@ msgstr ""
 msgid "User Per Favorite Hub Set"
 msgstr ""
 
-#: linux/AboutConfig.cc:413 linux/AboutConfigFav.cc:165
-#: linux/AboutConfigFav.cc:401
+#: linux/AboutConfig.cc:411 linux/AboutConfigFav.cc:163
+#: linux/AboutConfigFav.cc:399
 msgid "User Set"
 msgstr ""
 
@@ -5292,9 +5292,9 @@ msgstr ""
 msgid "User operator (passive) "
 msgstr ""
 
-#: linux/AboutConfig.cc:134 linux/AboutConfig.cc:145 linux/AboutConfig.cc:156
-#: linux/AboutConfig.cc:167 linux/AboutConfig.cc:178 linux/AboutConfig.cc:201
-#: linux/AboutConfig.cc:216 linux/AboutConfig.cc:386
+#: linux/AboutConfig.cc:132 linux/AboutConfig.cc:143 linux/AboutConfig.cc:154
+#: linux/AboutConfig.cc:165 linux/AboutConfig.cc:176 linux/AboutConfig.cc:199
+#: linux/AboutConfig.cc:214 linux/AboutConfig.cc:384
 msgid "User set"
 msgstr ""
 
@@ -5505,7 +5505,7 @@ msgstr ""
 msgid "Web: "
 msgstr ""
 
-#: linux/mainwindow.cc:421
+#: linux/mainwindow.cc:422
 msgid "Welcome to "
 msgstr ""
 
@@ -5546,11 +5546,11 @@ msgstr ""
 msgid "[Z]"
 msgstr ""
 
-#: linux/AboutConfig.cc:517 linux/FavoriteHubDialog.cc:626
+#: linux/AboutConfig.cc:515 linux/FavoriteHubDialog.cc:626
 msgid "_Cancel"
 msgstr ""
 
-#: linux/AboutConfig.cc:516 linux/FavoriteHubDialog.cc:624
+#: linux/AboutConfig.cc:514 linux/FavoriteHubDialog.cc:624
 msgid "_OK"
 msgstr ""
 
@@ -5586,7 +5586,7 @@ msgstr ""
 msgid "on"
 msgstr ""
 
-#: linux/WulforUtil.cc:685
+#: linux/WulforUtil.cc:667
 msgid "project home: "
 msgstr ""
 

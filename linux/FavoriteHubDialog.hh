@@ -42,7 +42,7 @@ class FavoriteHubDialog: public Entry
 		bool initDialog(UnMapIter &groups);
 
 		~FavoriteHubDialog() {
-			WulforManager::get()->deleteEntry_gui(this);//this is?
+			WulforManager::get()->deleteEntry_gui(this);//this is for?
 		}
 		GtkWidget* getContainer() { return mainDialog; }
 
