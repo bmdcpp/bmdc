@@ -1348,7 +1348,7 @@ void Settings::initAppearance_gui()
 
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("checkBoldAuthors")), WGETB("text-bold-autors"));
 		//[BMDC
-		string strcolor = SETTING(BACKGROUND_CHAT_COLOR);//WGETS("background-color-chat");
+		string strcolor = SETTING(BACKGROUND_CHAT_COLOR);
 
 		gtk_widget_set_name(getWidget("textViewPreviewStyles"),"prewienTextView");
 		GtkCssProvider *provider = gtk_css_provider_new ();

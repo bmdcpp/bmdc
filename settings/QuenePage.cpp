@@ -31,10 +31,10 @@ void QuenePage::show(GtkWidget *parent, GtkWidget* old)
 	GtkWidget *box = gtk_grid_new();
 	gtk_container_add(GTK_CONTAINER(frame),box);
 
-	spin_low = gtk_spin_button_new_with_range(10,100000000000,1);
-	spin_normal = gtk_spin_button_new_with_range(10,100000000000,1);
-	spin_higlest = gtk_spin_button_new_with_range(10,100000000000,1);
-	spin_higt = gtk_spin_button_new_with_range(10,100000000000,1);
+	spin_low = gtk_spin_button_new_with_range(0,100000000000,1);
+	spin_normal = gtk_spin_button_new_with_range(0,100000000000,1);
+	spin_higlest = gtk_spin_button_new_with_range(0,100000000000,1);
+	spin_higt = gtk_spin_button_new_with_range(0,100000000000,1);
 	gtk_grid_attach(GTK_GRID(box),gtk_label_new("Low"),0,0,1,1);
 	gtk_grid_attach(GTK_GRID(box),spin_low,1,0,1,1);
 

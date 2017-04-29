@@ -35,7 +35,6 @@ static GtkWidget* createComboWith3Option(gchar* a,gchar* b,gchar *c)
 
 HigDialog::HigDialog(dcpp::ColorSettings *_cs , bool add):
 init(add),cs(_cs)
-//Entry(Entry::HIG_DIALOG)
 {
 	dialogWin = gtk_dialog_new();
 	if(cs != NULL && (cs->getMatch().empty() == false ) )
