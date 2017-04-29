@@ -167,14 +167,20 @@ void ChatPage::show(GtkWidget* parent, GtkWidget* old)
 		
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(toggle_autors), WGETB("text-bold-autors"));
 		//[BMDC
-		string strcolor = SETTING(BACKGROUND_CHAT_COLOR);//WGETS("background-color-chat");
-		GdkRGBA color;
-		gdk_rgba_parse(&color,strcolor.c_str());
+		//[BMDC
+		string strcolor = SETTING(BACKGROUND_CHAT_COLOR);
 
-		gtk_widget_override_background_color(textView,GTK_STATE_FLAG_NORMAL,&color);
-		gtk_widget_override_background_color(textView,GTK_STATE_FLAG_PRELIGHT,&color);
-		gtk_widget_override_background_color(textView,GTK_STATE_FLAG_ACTIVE,&color);
-		gtk_widget_override_background_color(textView,GTK_STATE_FLAG_INSENSITIVE,&color);
+		gtk_widget_set_name(textView,"prewienTextView");
+		GtkCssProvider *provider = gtk_css_provider_new ();
+		GdkDisplay *display = gdk_display_get_default ();
+		GdkScreen *screen = gdk_display_get_default_screen (display);
+		std::string t_css = std::string("#prewienTextView { background: "+strcolor+" ;}\n\0");
+		gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
+
+		gtk_style_context_add_provider_for_screen (screen,
+								GTK_STYLE_PROVIDER(provider),
+								GTK_STYLE_PROVIDER_PRIORITY_USER);
+		g_object_unref (provider);
 
 		gtk_box_pack_start(GTK_BOX(box),toggle_autors,TRUE,TRUE,0);
 		GtkWidget *grid = gtk_grid_new();
@@ -449,12 +455,18 @@ void ChatPage::onTextBackGroundChat(GtkWidget *widget , gpointer data)
 	{
 		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(dialog),&color);
 		string strcolor = WulforUtil::colorToString(&color);
-		SettingsManager::getInstance()->set(SettingsManager::BACKGROUND_CHAT_COLOR,strcolor);
+		SettingsManager::getInstance()->set(SettingsManager::BACKGROUND_CHAT_COLOR, strcolor);
+		SettingsManager::getInstance()->save();
+		GtkCssProvider *provider = gtk_css_provider_new ();
+		GdkDisplay *display = gdk_display_get_default ();
+		GdkScreen *screen = gdk_display_get_default_screen (display);
+		std::string t_css = std::string("#prewienTextView { background: "+strcolor+" ;}\n\0");
+		gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
 
-		gtk_widget_override_background_color(s->textView,GTK_STATE_FLAG_NORMAL,&color);
-		gtk_widget_override_background_color(s->textView,GTK_STATE_FLAG_PRELIGHT,&color);
-		gtk_widget_override_background_color(s->textView,GTK_STATE_FLAG_ACTIVE,&color);
-		gtk_widget_override_background_color(s->textView,GTK_STATE_FLAG_INSENSITIVE,&color);
+		gtk_style_context_add_provider_for_screen (screen,
+											GTK_STYLE_PROVIDER(provider),
+											GTK_STYLE_PROVIDER_PRIORITY_USER);
+		g_object_unref (provider);
 	}
 }
 

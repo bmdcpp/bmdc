@@ -43,8 +43,10 @@ class SettingsDialog
 			}*/
 			if(pages[0] != NULL)
 				pages[0]->write();
+			
 			if(pages[previous_page] != NULL)
 				pages[previous_page]->write();
+			
 			gtk_widget_destroy(getContainer());
 		}
 
@@ -53,7 +55,7 @@ static void tree_selection_changed_cb (GtkTreeSelection *selection, gpointer dat
 		SettingsDialog *sd = (SettingsDialog*)data;
         GtkTreeIter iter;
         GtkTreeModel *model = NULL;
-        gint num=0;
+        gint num = 0;
 
         if (gtk_tree_selection_get_selected (selection, &model, &iter))
         {
@@ -64,11 +66,8 @@ static void tree_selection_changed_cb (GtkTreeSelection *selection, gpointer dat
                 if(num != sd->previous_page)
                 {
 						dcdebug("\npage %s\n",sd->pages[num]->get_name_page());
-//						if(sd->pages[num] != NULL){
-							sd->pages[num]->show(sd->containBox,sd->pages[sd->previous_page]->getTopWidget());
-							gtk_widget_show_all(sd->pages[num]->getTopWidget());
-//						}	
-
+						sd->pages[num]->show(sd->containBox,sd->pages[sd->previous_page]->getTopWidget());
+						gtk_widget_show_all(sd->pages[num]->getTopWidget());
 				}
 				sd->previous_page = num;
         }

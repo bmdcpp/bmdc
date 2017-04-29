@@ -24,7 +24,7 @@ class SEUtil
 	public:
 	static void reAddItemCo(GtkWidget* parent,GtkWidget* old,GtkWidget* box)
 	{
-		if( (GTK_IS_WIDGET(old) == TRUE) && (gtk_widget_get_realized (old) == TRUE))
+		if((GTK_IS_WIDGET(old) == TRUE) && (gtk_widget_get_realized (old) == TRUE))
 				gtk_container_remove(GTK_CONTAINER(parent), old );
 		gtk_container_add(GTK_CONTAINER(parent),box);
 	}

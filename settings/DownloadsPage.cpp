@@ -39,12 +39,12 @@ void DownloadsPage::show(GtkWidget *parent, GtkWidget* old)
 	gtk_grid_attach(GTK_GRID(box_grid),entry_down_path_temp,1,1,1,1);
 	gtk_grid_attach(GTK_GRID(box_grid),button_browse_temp,2,1,1,1);
 	
-	spin_max_down_speed = gtk_spin_button_new_with_range(10,100000000000,1);
+	spin_max_down_speed = gtk_spin_button_new_with_range(0,100000000000,1);
 	
 	gtk_grid_attach(GTK_GRID(box_grid),gtk_label_new(_("Max Download Speed: ")),0,2,1,1);
 	gtk_grid_attach(GTK_GRID(box_grid),spin_max_down_speed,1,2,1,1);
 	
-	spin_slots_d = gtk_spin_button_new_with_range(10,100,1);
+	spin_slots_d = gtk_spin_button_new_with_range(0,100,1);
 
 	gtk_grid_attach(GTK_GRID(box_grid),gtk_label_new(_("Max Download Slots: ")),0,3,1,1);
 	gtk_grid_attach(GTK_GRID(box_grid),spin_slots_d,1,3,1,1);
