@@ -212,45 +212,44 @@ std::map<string, string> Identity::getInfo() const {
 }
 //[BMDC++
 void Identity::checkTagState(OnlineUser& ou) const {
-	string usrTag = getTag();
-	if(usrTag.empty()) return;
-	bool isActive = ou.getIdentity().isTcpActive(NULL);
+	string sUsrTag = getTag();
+	if(sUsrTag.empty()) return;
+	bool bIsActive = ou.getIdentity().isTcpActive(NULL);
 
-	if(isActive && (usrTag.find(",M:P,") != string::npos)) {
+	if(bIsActive && (sUsrTag.find(",M:P,") != string::npos)) {
 		ou.getClient().cheatMessage("*** " + getNick() + " - Tag states passive mode, but user is using active mode");
-	} else if(!isActive && (usrTag.find(",M:A,") != string::npos)) {
+	} else if(!bIsActive && (sUsrTag.find(",M:A,") != string::npos)) {
 		ou.getClient().cheatMessage("*** " + getNick() + " - Tag states active mode, but user is using passive mode");
 	}
 }
 
-string Identity::setCheat(const Client&, const string& aCheatDescription, bool aBadClient, bool aBadFilelist /*=false*/, bool aDisplayCheat /* = true*/) {
+string Identity::setCheat(const Client&, const string& aCheatDescription, bool fBadClient, bool fBadFilelist /*=false*/, bool fDisplayCheat /* = true*/) {
 	ParamMap ucParams;
 	getParams(ucParams, "user", true);
-	string cheat = Util::formatParams(aCheatDescription, ucParams);
-	string newCheat = Util::emptyString;
+	string sCheat = Util::formatParams(aCheatDescription, ucParams);
+	string sNewCheat = string();
 
 	string currentCS = get("CS");
 	StringTokenizer<string> st(currentCS, ';');
 	for(auto i = st.getTokens().begin(); i != st.getTokens().end(); ++i) {
-		if((*i).find(cheat) == string::npos) {
-			newCheat += (*i) + ";";
+		if((*i).find(sCheat) == string::npos) {
+			sNewCheat += (*i) + ";";
 		}
 	}
 
-	newCheat += cheat + ";";
+	sNewCheat += sCheat + ";";
 
-	if(!cheat.empty())
-		set("CS", newCheat);
-	if(aBadClient)
+	if(!sCheat.empty())
+		set("CS", sNewCheat);
+	if(fBadClient)
 		set("BC", "1");
-	if(aBadFilelist)
+	if(fBadFilelist)
  		set("BF", "1");
 
-	if(SETTING(DISPLAY_CHEATS_IN_MAIN_CHAT) && aDisplayCheat) {
-		string report = "*** *** " +  getNick() + " - " + newCheat;
-		return report;
+	if(SETTING(DISPLAY_CHEATS_IN_MAIN_CHAT) && fDisplayCheat) {
+		return string("*** *** " +  getNick() + " - " + sNewCheat);
 	}
-	return Util::emptyString;
+	return string();
 }
 
 string Identity::getPkVersion() const {
@@ -258,19 +257,19 @@ string Identity::getPkVersion() const {
 	if(pk.find("DCPLUSPLUS") != string::npos && pk.find("ABCABC") != string::npos) {
 		return pk.substr(10, pk.length() - 16);
 	}
-	return Util::emptyString;
+	return string();
 }
 
 string Identity::getFilelistGeneratorVer() const {
 	if(!get("FG").empty()) {
-		string genVer = get("FG");
-		string::size_type i = genVer.find(' ');
+		string sGenVer = get("FG");
+		string::size_type i = sGenVer.find(' ');
 		if(i != string::npos ) {
-			genVer = genVer.substr(i+1);
+			sGenVer = sGenVer.substr(i+1);
 		}
-		return genVer;
+		return sGenVer;
 	} else {
-		return Util::emptyString;
+		return string();
 	}
 }
 
@@ -278,31 +277,31 @@ string Identity::checkFilelistGenerator(OnlineUser& ou)
 {
     if((get("FG") == "DC++ 0.403")) {
 		if((RegEx::match<string>(getTag(), "^<StrgDC\\+\\+ V:1.00 RC([89]){1}")))  {
-			string report = ou.setCheat("rmDC++ in StrongDC++ %[userVE] emulation mode" , true, false, true);
+			string sReport = ou.setCheat("rmDC++ in StrongDC++ %[userVE] emulation mode" , true, false, true);
 			setClientType("rmDC++");
 			logDetection(true);
 			ou.getClient().updated(ou);
 			ClientManager::getInstance()->sendAction(ou, SETTING(RMDC_RAW));
-			return report;
+			return sReport;
 		}
 	}
 
 	if(!get("VE").empty() && strncmp(getTag().c_str(), "<++ V:", 6) == 0) {
 		if((Util::toFloat(get("VE")) > 0.668)) {
 			if(get("FI").empty() || get("FB").empty()) {
-				string report = ou.setCheat("DC++ emulation", true, false, true);
+				string sReport = ou.setCheat("DC++ emulation", true, false, true);
 				logDetection(true);
 				ou.getClient().updated(ou);
 				ClientManager::getInstance()->sendAction(ou,SETTING(DCPP_EMULATION_RAW));
-				return report;
+				return sReport;
 			}
 		} else {
 			if(!get("FI").empty() || !get("FB").empty()) {
-				string report = ou.setCheat("DC++ emulation", true, false, true);
+				string sReport = ou.setCheat("DC++ emulation", true, false, true);
 				logDetection(true);
 				ou.getClient().updated(ou);
 				ClientManager::getInstance()->sendAction(ou,SETTING(DCPP_EMULATION_RAW));
-				return report;
+				return sReport;
 			}
 		}
 	}
@@ -310,11 +309,11 @@ string Identity::checkFilelistGenerator(OnlineUser& ou)
 
 	if((RegEx::match<string>(get("FG"), "^DC\\+\\+.*"))) {
 		if(!get("VE").empty() && (get("VE") != getFilelistGeneratorVer())) {
-			string report = ou.setCheat("Filelist Version mis-match", false, true, SETTING(SHOW_FILELIST_VERSION_MISMATCH));
+			string sReport = ou.setCheat("Filelist Version mis-match", false, true, SETTING(SHOW_FILELIST_VERSION_MISMATCH));
 			logDetection(true);
 			ou.getClient().updated(ou);
 			ClientManager::getInstance()->sendAction(ou, SETTING(FILELIST_VERSION_MISMATCH));
-			return report;
+			return sReport;
 		}
 	}
 
@@ -347,7 +346,7 @@ string Identity::myInfoDetect(OnlineUser& ou) {
 		if(INFList.empty())
 			continue;
 
-		bool _continue = false;
+		bool bContinue = false;
 		DETECTION_DEBUG("\tChecking User Info Profile: " + entry.name);
 
 
@@ -356,11 +355,11 @@ string Identity::myInfoDetect(OnlineUser& ou) {
 			string aField = getDetectionField(j->first);
 			DETECTION_DEBUG("\t\tPattern: " + aPattern + " Field: " + aField);
 			if(!RegEx::match<string>(aField, aPattern)) {
-				_continue = true;
+				bContinue = true;
 				break;
 			}
 		}
-		if(_continue)
+		if(bContinue)
 			continue;
 
 		DETECTION_DEBUG("**** Client found: " + entry.name + " ****\r\n");
@@ -368,13 +367,13 @@ string Identity::myInfoDetect(OnlineUser& ou) {
 		setMyInfoType(entry.name);
 		set("CM", entry.comment);
 
-		string report;// = Util::emptyString;
+		string sReport = string();
 		if(!entry.cheat.empty()) {
-			report = ou.setCheat(entry.cheat, true, false, ou.getClient().isActionActive(entry.rawToSend));
+			sReport = ou.setCheat(entry.cheat, true, false, ou.getClient().isActionActive(entry.rawToSend));
 		}
 
 		ClientManager::getInstance()->sendAction(ou, entry.rawToSend);
-		return report;
+		return sReport;
 	}
 	return string();
 }
@@ -384,7 +383,7 @@ string Identity::updateClientType(OnlineUser& ou) {
 
 	ParamMap params;
 	getDetectionParams(params); // get identity fields and escape them, then get the rest and leave as-is
-	const DetectionManager::DetectionItems& profiles = DetectionManager::getInstance()->getProfiles(params, true);//thinking//true
+	const DetectionManager::DetectionItems& profiles = DetectionManager::getInstance()->getProfiles(params, true);
 
 	for(auto i = profiles.begin(); i != profiles.end(); ++i) {
 		const DetectionEntry& entry = *i;
@@ -405,7 +404,7 @@ string Identity::updateClientType(OnlineUser& ou) {
 		if(INFList.empty())
 			continue;
 
-		bool _continue = false;
+		bool bContinue = false;
 
 		DETECTION_DEBUG("\tChecking profile: " + entry.name);
 
@@ -414,12 +413,12 @@ string Identity::updateClientType(OnlineUser& ou) {
 			string aField = getDetectionField(j->first);
 			DETECTION_DEBUG("\t\tPattern: " + aPattern + " Field: " + aField);
 			if(!RegEx::match<string>(aField, aPattern)) {
-				_continue = true;
+				bContinue = true;
 				break;
 			}
 		}
 		
-		if(_continue)
+		if(bContinue)
 			continue;
 
 		DETECTION_DEBUG("**** Client found: " + entry.name + " time taken: " + Util::toString(GET_TICK()-tick) + " ms ****\r\n");
@@ -435,13 +434,13 @@ string Identity::updateClientType(OnlineUser& ou) {
 			return ou.setCheat(entry.cheat + " Version mis-match", true, false, ou.getClient().isActionActive(SETTING(VERSION_MISMATCH_RAW)));
 		}
 
-		string report;// = Util::emptyString;
+		string sReport = string();
 		if(!entry.cheat.empty()) {
-			report = ou.setCheat(entry.cheat, true, false, ou.getClient().isActionActive(entry.rawToSend));
+			sReport = ou.setCheat(entry.cheat, true, false, ou.getClient().isActionActive(entry.rawToSend));
 		}
 
 		ClientManager::getInstance()->sendAction(ou, entry.rawToSend);
-		return report;
+		return sReport;
 	}
 
 	logDetection(false);
@@ -450,7 +449,7 @@ string Identity::updateClientType(OnlineUser& ou) {
 }
 
 void Identity::getDetectionParams(ParamMap& p) {
-	getParams(p, Util::emptyString, true);
+	getParams(p, string(), true);
 	p["PKVE"] = getPkVersion();
 
 	if(!user->isSet(User::NMDC)) {
@@ -484,16 +483,16 @@ void Identity::getDetectionParams(ParamMap& p) {
 	}
 }
 
-string Identity::getDetectionField(const string& aName) const {
-	if(aName.length() == 2) {
-		if(aName == "TA")
+string Identity::getDetectionField(const string& sName) const {
+	if(sName.length() == 2) {
+		if(sName == "TA")
 			return getTag();
-		else if(aName == "CO")
+		else if(sName == "CO")
 			return getConnection();
 		else
-			return get(aName.c_str());
+			return get(sName.c_str());
 	} else {
-		if(aName == "PKVE") {
+		if(sName == "PKVE") {
 			return getPkVersion();
 		}
 	}
@@ -589,16 +588,16 @@ map<string, string> Identity::getReport() const
 }
 
 //sumary detection
-void Identity::logDetection(bool successful) {
+void Identity::logDetection(bool bSuccessful) {
 	SettingsManager *sm = SettingsManager::getInstance();
 	if(sm != NULL)
 	{
-		if(successful) {
-			int a = SETTING(DETECTIONS);
-			sm->set(SettingsManager::DETECTIONS , ++a);
+		if(bSuccessful) {
+			int isucc = SETTING(DETECTIONS);
+			sm->set(SettingsManager::DETECTIONS , ++isucc);
 		} else {
-			int b = SETTING(DETECTIONF);
-			sm->set(SettingsManager::DETECTIONF , ++b);
+			int ifail = SETTING(DETECTIONF);
+			sm->set(SettingsManager::DETECTIONF , ++ifail);
 		}
 	}
 }
@@ -623,8 +622,9 @@ bool OnlineUser::isCheckable(uint32_t delay /* = 0*/)
 	return (GET_TICK() - identity.getLoggedIn()) > delay;
 }
 
-//RSX++ //checking stuff
-bool OnlineUser::getChecked(bool filelist/* = false*/, bool checkComplete/* = true*/) {
+//checking stuff
+// From RSX or Zion?
+bool OnlineUser::getChecked(bool bFilelist/* = false*/, bool bCheckComplete/* = true*/) {
 	if(!identity.isTcpActive() && !getClient().isActive()) {
 		identity.setClientType("[Passive]");
 		identity.setTestSURChecked("1");
@@ -635,39 +635,39 @@ bool OnlineUser::getChecked(bool filelist/* = false*/, bool checkComplete/* = tr
 		identity.setFileListChecked("1");
 		return true;
 	} else if(isProtectedUser()) {
-		if((SETTING(UNCHECK_CLIENT_PROTECTED_USER) && !filelist) || (SETTING(UNCHECK_LIST_PROTECTED_USER) && filelist)) {
+		if((SETTING(UNCHECK_CLIENT_PROTECTED_USER) && !bFilelist) || (SETTING(UNCHECK_LIST_PROTECTED_USER) && bFilelist)) {
 			identity.setClientType("[Protected]");
 			identity.setTestSURChecked("1");
 			identity.setFileListChecked("1");
 			return true;
 		}
 	}
-	if(checkComplete) //prevent double checking (shouldCheckClient/Filelist)
-		return filelist ? identity.isFileListChecked() : identity.isClientChecked();
+	if(bCheckComplete) //prevent double checking (shouldCheckClient/Filelist)
+		return bFilelist ? identity.isFileListChecked() : identity.isClientChecked();
 	return false;
 }
 ////Protected users
-bool Identity::isProtectedUser(const Client& c, bool OpBotHubCheck) const {
+bool Identity::isProtectedUser(const Client& c, bool bOpBotHubCheck) const {
 	if(isSet("PR") || getUser()->isSet(User::PROTECT))
 		return true;
 
-	string RegProtect = c.get(SettingsManager::PROTECTED_USERS,SETTING(PROTECTED_USERS));
-	if(RegProtect.empty()) {
+	string sRegProtect = c.get(SettingsManager::PROTECTED_USERS,SETTING(PROTECTED_USERS));
+	if(sRegProtect.empty()) {
 		return false;
 	}
 
 	bool ret = false;
-	if(OpBotHubCheck && (isOp() || isBot() || isHub())) {
+	if(bOpBotHubCheck && (isOp() || isBot() || isHub())) {
 		ret = true;
 	} else if(SETTING(FAV_USER_IS_PROTECTED_USER) && FavoriteManager::getInstance()->isFavoriteUser(getUser())) {
 		ret = true;
-	} else if(!RegProtect.empty()) {
+	} else if(!sRegProtect.empty()) {
 		if(SETTING(USE_WILDCARDS_TO_PROTECT)) {
-			if(Wildcard::match<string>(getNick(), RegProtect, '|')) {
+			if(Wildcard::match<string>(getNick(), sRegProtect, '|')) {
 				ret = true;
 			}
 		} else {
-			if(RegEx::match<string>(getNick(), RegProtect, true)) {
+			if(RegEx::match<string>(getNick(), sRegProtect, true)) {
 				ret = true;
 			}
 		}
