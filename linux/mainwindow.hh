@@ -277,7 +277,7 @@ class MainWindow:
 		/**/
 		static void onCloseAllHub_gui(GtkWidget *widget, gpointer data);
 		static void onCloseAllPM_gui(GtkWidget *widget, gpointer data);
-		static void onCloseAlloffPM_gui(GtkWidget *widget, gpointer data);
+		static void onCloseAllofPM_gui(GtkWidget *widget, gpointer data);
 		static void onReconectAllHub_gui(GtkWidget *widget, gpointer data);
 		/**/
 		static void onAboutConfigClicked_gui(GtkWidget *widget, gpointer data);
@@ -319,7 +319,7 @@ class MainWindow:
 		int64_t lastUpdate, lastUp, lastDown;
 		dcpp::StringList EntryList;
 		int statusFrame;
-		bool useStatusIconBlink;
+		bool bUseStatusIconBlink;
 		bool onQuit;
 		int ToolbarStyle;
 

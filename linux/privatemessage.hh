@@ -56,12 +56,12 @@ class PrivateMessage:
 	private:
 		using dcpp::ClientManagerListener::on;
 		//@ Status of PM's user
-		enum
+		typedef enum
 		{
 			NORMAL = 0,
 			OFFLINE = 1,
 			BOT = 2,
-		};
+		} UserStatus;
 	
 		// GUI functions
 		void setStatus_gui(std::string text);
@@ -104,7 +104,7 @@ class PrivateMessage:
 		static void onCopyCID(gpointer data);
 		static void onAddFavItem(gpointer data);
 		static void onCopyNicks(gpointer data);
-		void setImageButton(const std::string ip);
+		void setImageButton(const std::string country);
 
 		// Client functions
 		void sendMessage_client(std::string message);
@@ -125,7 +125,6 @@ class PrivateMessage:
 		int historyIndex;
 		bool sentAwayMessage;
 		static const int maxLines = 500; ///@todo: make these preferences
-		//static const int maxHistory = 20;
 		GdkCursor* handCursor;
 		std::string selectedTagStr;
 		GtkTextTag* selectedTag;

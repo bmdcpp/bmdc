@@ -355,7 +355,7 @@ MainWindow::MainWindow():
 	/**/
 	g_signal_connect(getWidget("CloseTabHubAllMenuItem"), "activate", G_CALLBACK(onCloseAllHub_gui), (gpointer)this);
 	g_signal_connect(getWidget("CloseTabPMAllMenuItem"), "activate", G_CALLBACK(onCloseAllPM_gui), (gpointer)this);
-	g_signal_connect(getWidget("CloseTabPMOfflineItem"), "activate", G_CALLBACK(onCloseAlloffPM_gui), (gpointer)this);
+	g_signal_connect(getWidget("CloseTabPMOfflineItem"), "activate", G_CALLBACK(onCloseAllofPM_gui), (gpointer)this);
 	g_signal_connect(getWidget("recontallitem"), "activate", G_CALLBACK(onReconectAllHub_gui), (gpointer)this);
 	/**/
 	g_signal_connect(getWidget("menunotepad"), "activate",G_CALLBACK(onNotepadClicked_gui), (gpointer)this);
@@ -405,16 +405,16 @@ MainWindow::MainWindow():
 	// colourstuff end
 
 	// Load window state and position from settings manager
-	gint posX = WGETI("main-window-pos-x");
-	gint posY = WGETI("main-window-pos-y");
-	gint sizeX = WGETI("main-window-size-x");
-	gint sizeY = WGETI("main-window-size-y");
+	gint iposX = WGETI("main-window-pos-x");
+	gint iposY = WGETI("main-window-pos-y");
+	gint isizeX = WGETI("main-window-size-x");
+	gint isizeY = WGETI("main-window-size-y");
 
-	gtk_window_move(window, posX, posY);
+	gtk_window_move(window, iposX, iposY);
 
 	gtk_window_set_default_size (GTK_WINDOW (window),
-                               sizeX,
-                               sizeY);
+                               isizeX,
+                               isizeY);
 
 	if (WGETI("main-window-maximized"))
 		gtk_window_maximize(window);
@@ -487,7 +487,7 @@ MainWindow::~MainWindow()
 		g_source_remove(timer);
 	#endif
 
-	WSET("status-icon-blink-use", useStatusIconBlink);
+	WSET("status-icon-blink-use", bUseStatusIconBlink);
 	gtk_widget_destroy(GTK_WIDGET(window));
 #ifdef USE_STATUSICON
 		g_object_unref(statusIcon);
@@ -916,7 +916,7 @@ void MainWindow::removeTabMenuItem_gui(GtkWidget *menuItem)
 #ifdef USE_STATUSICON
 void MainWindow::createStatusIcon_gui()
 {
-	useStatusIconBlink = WGETB("status-icon-blink-use");
+	bUseStatusIconBlink = WGETB("status-icon-blink-use");
 	statusIcon = gtk_status_icon_new_from_icon_name(g_get_prgname());
 
 	g_signal_connect(getWidget("statusIconQuitItem"), "activate", G_CALLBACK(onQuitClicked_gui), (gpointer)this);
@@ -924,7 +924,7 @@ void MainWindow::createStatusIcon_gui()
 	g_signal_connect(statusIcon, "activate", G_CALLBACK(onStatusIconActivated_gui), (gpointer)this);
 	g_signal_connect(statusIcon, "popup-menu", G_CALLBACK(onStatusIconPopupMenu_gui), (gpointer)this);
 
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("statusIconBlinkUseItem")), useStatusIconBlink);
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("statusIconBlinkUseItem")), bUseStatusIconBlink);
 	g_signal_connect(getWidget("statusIconBlinkUseItem"), "toggled", G_CALLBACK(onStatusIconBlinkUseToggled_gui), (gpointer)this);
 
 	if (SETTING(ALWAYS_TRAY))
@@ -1162,7 +1162,7 @@ void MainWindow::addPrivateMessage_gui(Msg::TypeMsg typemsg, string cid, string 
 		{
 			show = true;
 	#ifdef USE_STATUSICON
-				if (useStatusIconBlink && timer == 0)
+				if (bUseStatusIconBlink && timer == 0)
 				{
 					timer = g_timeout_add(1000, animationStatusIcon_gui, (gpointer)this);
 				}
@@ -1836,7 +1836,6 @@ void MainWindow::onSizeWindowState_gui(GtkWidget* widget,GtkAllocation*,gpointer
 gboolean MainWindow::onWindowState_gui(GtkWidget*, GdkEventWindowState *event, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	//gboolean res = GDK_EVENT_PROPAGATE;
 
 	if (mw->minimized  || (event->new_window_state & (GDK_WINDOW_STATE_ICONIFIED | GDK_WINDOW_STATE_WITHDRAWN)))
 	{
@@ -2222,8 +2221,8 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget*, gpointer data)
 	string sprevBind6 = SETTING(BIND_ADDRESS6);
 	auto prevProxy = CONNSETTING(OUTGOING_CONNECTIONS);
 
-	if (mw->useStatusIconBlink != WGETB("status-icon-blink-use"))
-		WSET("status-icon-blink-use", mw->useStatusIconBlink);
+	if (mw->bUseStatusIconBlink != WGETB("status-icon-blink-use"))
+		WSET("status-icon-blink-use", mw->bUseStatusIconBlink);
 	
 	gint response = WulforManager::get()->openSettingsDialog_gui();
 
@@ -2595,9 +2594,9 @@ void MainWindow::onStatusIconBlinkUseToggled_gui(GtkWidget*, gpointer data)
 	mw->removeTimerSource_gui();
 
 	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(mw->getWidget("statusIconBlinkUseItem"))))
-		mw->useStatusIconBlink = true;
+		mw->bUseStatusIconBlink = true;
 	else
-		mw->useStatusIconBlink = false;
+		mw->bUseStatusIconBlink = false;
 }
 #endif
 void MainWindow::onLinkClicked_gui(GtkWidget *widget, gpointer )
@@ -2710,16 +2709,16 @@ int MainWindow::FileListQueue::run() {
 		}
 
 		if(Util::fileExists(i->file)) {
-			DirectoryListing* dl = new DirectoryListing(i->user);
+			DirectoryListing* pdl = new DirectoryListing(i->user);
 			try {
-				dl->loadFile(i->file);
-				ADLSearchManager::getInstance()->matchListing(*dl);
-				ClientManager::getInstance()->checkCheating(i->user, dl);
+				pdl->loadFile(i->file);
+				ADLSearchManager::getInstance()->matchListing(*pdl);
+				ClientManager::getInstance()->checkCheating(i->user, pdl);
 			} catch(...)
 			{
 				//...
 			}
-			delete dl;
+			delete pdl;
 		}
 		delete i;
 	}
@@ -3029,7 +3028,7 @@ void MainWindow::onReconectAllHub_gui(GtkWidget*, gpointer data)
 	}
 }
 ///PM
-void MainWindow::onCloseAlloffPM_gui(GtkWidget*, gpointer data)
+void MainWindow::onCloseAllofPM_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 	vector<Entry*> noff;
@@ -3073,10 +3072,13 @@ void MainWindow::parsePartial(HintedUser aUser, string txt)
 		raisePage_gui(entry->getContainer());
 }
 
-void MainWindow::on(QueueManagerListener::PartialList, const HintedUser& aUser, const string& text) noexcept {
+void MainWindow::on(QueueManagerListener::PartialList, const HintedUser& aUser, const string& text) noexcept 
+{
+	
 	typedef Func2<MainWindow, HintedUser, string> F2;
 	F2 *func = new F2(this,&MainWindow::parsePartial,aUser,text);
 	WulforManager::get()->dispatchGuiFunc(func);
+	
 }
 
 void MainWindow::updateStats_gui(string file, uint64_t bytes, size_t files, uint32_t tick)
@@ -3088,9 +3090,9 @@ void MainWindow::updateStats_gui(string file, uint64_t bytes, size_t files, uint
 		startFiles = files;
 
 	double diff = tick - startTime;
-	bool paused = HashManager::getInstance()->isHashingPaused(); 
+	bool bpaused = HashManager::getInstance()->isHashingPaused(); 
 
-	if (diff < 1000 || files == 0 || bytes == 0 || paused)
+	if (diff < 1000 || files == 0 || bytes == 0 || bpaused)
 	{
 		gtk_progress_bar_set_text (GTK_PROGRESS_BAR(getWidget("progressbarHashBar")), "0%");
 		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(getWidget("progressbarHashBar")), 0.0);
