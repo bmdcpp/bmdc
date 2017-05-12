@@ -275,7 +275,7 @@ string Identity::getFilelistGeneratorVer() const {
 
 string Identity::checkFilelistGenerator(OnlineUser& ou)
 {
-    if((get("FG") == "DC++ 0.403")) {
+    if(get("FG") == "DC++ 0.403") {
 		if((RegEx::match<string>(getTag(), "^<StrgDC\\+\\+ V:1.00 RC([89]){1}")))  {
 			string sReport = ou.setCheat("rmDC++ in StrongDC++ %[userVE] emulation mode" , true, false, true);
 			setClientType("rmDC++");
@@ -307,7 +307,7 @@ string Identity::checkFilelistGenerator(OnlineUser& ou)
 	}
 
 
-	if((RegEx::match<string>(get("FG"), "^DC\\+\\+.*"))) {
+	if(RegEx::match<string>(get("FG"), "^DC\\+\\+.*")) {
 		if(!get("VE").empty() && (get("VE") != getFilelistGeneratorVer())) {
 			string sReport = ou.setCheat("Filelist Version mis-match", false, true, SETTING(SHOW_FILELIST_VERSION_MISMATCH));
 			logDetection(true);

@@ -51,6 +51,7 @@ exportStore(NULL), exportSelection(NULL)
 	g_signal_connect(exportView.getCellRenderOf(_("Enabled")), "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
 	
 	gtk_list_store_clear(exportStore);
+	
 	GtkTreeIter iter;
 	
 	const auto& paths = File::findFiles(Util::getPath(Util::PATH_USER_CONFIG), "*");

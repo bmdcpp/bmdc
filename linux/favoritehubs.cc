@@ -99,6 +99,7 @@ FavoriteHubs::FavoriteHubs():
 
 	g_signal_connect(getWidget("AdvancedItem"),"activate",G_CALLBACK(onAdvancedSettings),(gpointer)this);
 }
+
 FavoriteHubs::~FavoriteHubs()
 {
 	FavoriteManager::getInstance()->removeListener(this);

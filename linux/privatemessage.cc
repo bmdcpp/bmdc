@@ -1649,7 +1649,7 @@ void PrivateMessage::onRipeDbItem_gui(GtkWidget* widget, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 	string ip = (char*)g_object_get_data(G_OBJECT(widget),"ip_addr");
-	string error = "";
+	string error = string();
 	dcpp::ParamMap params;
 	params["IP"] = ip;
 	string result = dcpp::Util::formatParams(SETTING(RIPE_DB),params);
