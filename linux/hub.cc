@@ -61,7 +61,7 @@ Hub::Hub(const string &address, const string &encoding):
 	client(NULL),address(address),
 	encoding(encoding),	ImgLimit(0),historyIndex(0),totalShared(0),
 	scrollToBottom(true), PasswordDialog(false), WaitingPassword(false),
-	notCreated(true), isFavBool(true), width(-1)
+	notCreated(true), isFavBool(WGETI("notify-hub-chat-use")), width(-1)
 {
 	FavoriteHubEntry* p_faventry =  getFavoriteHubEntry();
 	//@note because "." and this is used in CSS'ing 
@@ -348,12 +348,23 @@ Hub::Hub(const string &address, const string &encoding):
 		entry.setServer(address);
 		FavoriteManager::getInstance()->addRecent(entry);
 	}
+	
 	if(p_faventry)
 	{
-		bool showUserList = p_faventry->getShowUserList();
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")), showUserList);
-	}	
-		isFavBool =  p_faventry ? p_faventry->getNotify() : WGETI("notify-hub-chat-use");
+		// It is a FavoriteHub
+		bool bShowUserList = p_faventry->getShowUserList();
+		
+		if ( (bShowUserList == false) && gtk_widget_get_visible(getWidget("scrolledwindow2"))) {
+		gtk_widget_hide(getWidget("scrolledwindow2"));
+		} else {
+			gtk_widget_show_all(getWidget("scrolledwindow2"));
+		}
+		
+		isFavBool = p_faventry->getNotify();
+		
+	}
+	//always show userlist for non-fav?
+	gtk_widget_show_all(getWidget("scrolledwindow2"));
 	
 	setColorsRows();
 }
@@ -451,7 +462,8 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		uint64_t size = hub->nickView.getValue<gint64>(iter,_("Shared"),model);
 		int type = hub->nickView.getValue<gint>(iter,_("Client Type"),model);
 		
-		switch(type){
+		switch(type)
+		{
 			case BOT:
 			{
 				color = WGETS("userlist-bg-bot-hub");
@@ -490,9 +502,9 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		}
 //TODO:  UI
 	bool isSet = false;
-	if(hub->client && hub->client->get(SettingsManager::USE_HIGHLITING, SETTING(USE_HIGHLITING)))
 	
-	 {
+	if(hub->client && hub->client->get(SettingsManager::USE_HIGHLITING, SETTING(USE_HIGHLITING)))
+	{
 		ColorList* cl = HighlightManager::getInstance()->getList();
 		for(auto& l:*cl)
 		{
@@ -568,7 +580,7 @@ Hub::~Hub()
 		entry->setShowUserList(showUL);
 		FavoriteManager::getInstance()->save();
 	} else {
-		//No Favotite, Save to main setting @Possible Made Enable/Disable of this also ?
+		//No Favorite, Save to main setting @Possible Made Enable/Disable of this also ?
 		sm->set(SettingsManager::HUB_UL_ORDER, order);
 		sm->set(SettingsManager::HUB_UL_SIZE, hwidth);
 		sm->set(SettingsManager::HUB_UL_VISIBLE ,visible);
@@ -1374,18 +1386,23 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 
 				if (!notlink)
 				{
-					if (WulforUtil::isLink(tagName)) {
+					if (WulforUtil::isLink(tagName)) 
+					{
 						callback = G_CALLBACK(onLinkTagEvent_gui);
-						//if(tagName.find("http") == string::npos)
-							//		tagName = "http://"+tagName;
-					} else if (WulforUtil::isHubURL(tagName))
+					}
+					else if (WulforUtil::isHubURL(tagName)) 
+					{
 						callback = G_CALLBACK(onHubTagEvent_gui);
+					} 
 					else if (WulforUtil::isMagnet(tagName))
-						callback = G_CALLBACK(onMagnetTagEvent_gui);
+					{	
+						callback = G_CALLBACK(onMagnetTagEvent_gui); 
+					}
 
 					tagStyle = Tag::TAG_URL;
 				}
-				if(WulforUtil::HitIP(tagName))
+				
+				if(!notlink &&  WulforUtil::HitIP(tagName))
 				{
 					callback = G_CALLBACK(onIpTagEvent_gui);
 					tagStyle = Tag::TAG_IPADR;
@@ -1414,11 +1431,7 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 
 				// Creating a visible window may cause artifacts that are visible to the user.
 				gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
-//#if GTK_CHECK_VERSION(3,9,0)
 				GtkWidget *image = gtk_image_new_from_icon_name("text-x-generic",GTK_ICON_SIZE_BUTTON);
-//#else
-//				GtkWidget *image = gtk_image_new_from_stock(BMDC_STOCK_FILE, GTK_ICON_SIZE_BUTTON);
-//#endif
 				gtk_container_add(GTK_CONTAINER(event_box), image);
 				gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW(getWidget("chatText")), event_box, anchor);
 				g_object_set_data_full(G_OBJECT(event_box), "magnet", g_strdup(image_magnet.c_str()), g_free);
@@ -3671,6 +3684,7 @@ void Hub::disconnect_client(bool shutdownHub /* = FALSE */)
 		client->removeListener(this);
 		if(shutdownHub)
 			client->disconnect(true);
+			
 		ClientManager::getInstance()->putClient(client);
 		client = nullptr;
 	}

@@ -51,13 +51,13 @@
 
 #ifdef _WIN32
 
-# define PATH_SEPARATOR '\\'
-# define PATH_SEPARATOR_STR "\\"
+#define PATH_SEPARATOR '\\'
+#define PATH_SEPARATOR_STR "\\"
 
 #else
 
-# define PATH_SEPARATOR '/'
-# define PATH_SEPARATOR_STR "/"
+#define PATH_SEPARATOR '/'
+#define PATH_SEPARATOR_STR "/"
 
 #include <sys/stat.h>
 #include <unistd.h>
