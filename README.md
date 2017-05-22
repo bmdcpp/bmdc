@@ -24,6 +24,7 @@ Dependencies:
 - libappindicator3 ( Note: For appindicators)
 - xattr ( Note: for storing hashes beside files to not always re-hash )
 - Runtime-deps is also glib-networking ( or similar) for open URI
+- also python2-dbus and qdbus for Media Spam (/kaff and /vlc)
 
 
 Compiling:
