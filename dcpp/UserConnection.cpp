@@ -163,8 +163,7 @@ void UserConnection::connect(const string& aServer, const uint16_t& aPort, const
 
 	socket = BufferedSocket::getSocket(0);
 	socket->addListener(this);
-	// TODO: verify that this KeyPrint was mediated by a trusted hub?
-    //string expKP = user ? ClientManager::getInstance()->getField(user->getCID(), hubUrl, "KP") : Util::emptyString;
+
     socket->connect(aServer, aPort, localPort, natRole, secure, SETTING(ALLOW_UNTRUSTED_CLIENTS));
 }
 

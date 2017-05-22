@@ -351,11 +351,11 @@ void ConnectionManager::nmdcConnect(const string& aServer, const uint16_t& aPort
 	}
 }
 
-void ConnectionManager::adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& aToken, bool secure/*,const string& hubUrl*/) {
+void ConnectionManager::adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& aToken, bool secure) {
 	adcConnect(aUser, aPort, Util::emptyString, BufferedSocket::NAT_NONE, aToken, secure);
 }
 
-void ConnectionManager::adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& localPort, BufferedSocket::NatRoles natRole, const string& aToken, bool secure/*,const string& hubUrl*/) {
+void ConnectionManager::adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& localPort, BufferedSocket::NatRoles natRole, const string& aToken, bool secure) {
 	if(shuttingDown)
 		return;
 
@@ -363,7 +363,7 @@ void ConnectionManager::adcConnect(const OnlineUser& aUser, const uint16_t& aPor
 	uc->setToken(aToken);
 	uc->setEncoding(Text::utf8);
 	uc->setState(UserConnection::STATE_CONNECT);
-	uc->setHubUrl(aUser.getClient().getHubUrl());
+	uc->setHubUrl(aUser.getClient().getHubUrl());//this need proper way?
 	
 	if(aUser.getIdentity().isOp()) {
 		uc->setFlag(UserConnection::FLAG_OP);

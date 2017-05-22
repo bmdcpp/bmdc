@@ -78,6 +78,7 @@ void Transfer::getParams(const UserConnection& aSource, ParamMap& params) {
 	params["userCID"] = aSource.getUser()->getCID().toBase32();
 	params["userNI"] = Util::toString(ClientManager::getInstance()->getNicks(aSource.getUser()->getCID(), aSource.getHubUrl()));
 	params["userI4"] = aSource.getRemoteIp();
+	params["userI6"] = aSource.getRemoteIp();
 	StringList hubNames = UsersManager::getInstance()->getHubNames(aSource.getUser()->getCID(), aSource.getHubUrl());
 	if(hubNames.empty())
 		hubNames.push_back(_("Offline"));

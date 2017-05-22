@@ -568,11 +568,6 @@ string Util::formatExactSize(const int64_t aBytes) {
 }
 
 string Util::getLocalIp(bool IsIPv6) {
-	const string& bindAddr = CONNSETTING(BIND_ADDRESS);
-	if(!bindAddr.empty() && bindAddr != SettingsManager::getInstance()->getDefault(SettingsManager::BIND_ADDRESS)) {
-		return bindAddr;
-	}
-	//string tmp;
 	struct addrinfo hints;
 	memset(&hints, 0, sizeof(addrinfo));
 	hints.ai_family = AF_UNSPEC;
@@ -592,9 +587,15 @@ string Util::getLocalIp(bool IsIPv6) {
 				#else
 				inet_ntop(AF_INET,&((struct sockaddr_in *)res->ai_addr)->sin_addr,buf,sizeof(buf));
 				#endif
+				
 				if(Util::isPrivateIp(buf) || strncmp(buf, "169.254", 7) == 0)
 				{
-					//local ip can be private ip or 169.254.x?
+					//local ip can be private ip or 169.254.x? or that wich is set as bindaddr....
+					const string& bindAddr = CONNSETTING(BIND_ADDRESS);
+					if(!bindAddr.empty() && bindAddr != SettingsManager::getInstance()->getDefault(SettingsManager::BIND_ADDRESS)) {
+						return bindAddr;
+					}
+					
 					break;
 				}
 			}
@@ -613,8 +614,7 @@ string Util::getLocalIp(bool IsIPv6) {
 		return buf;
 	}
 	return string();
-/*	string tmp;
-
+/*	
 	char buf[256];
 	gethostname(buf, 255);
 	hostent* he = gethostbyname(buf);
@@ -622,9 +622,9 @@ string Util::getLocalIp(bool IsIPv6) {
 		return Util::emptyString;
 	sockaddr_in dest;
 	int i = 0;
-*/
+
 	// We take the first ip as default, but if we can find a better one, use it instead...
-	/*memcpy(&(dest.sin_addr), he->h_addr_list[i++], he->h_length);
+	memcpy(&(dest.sin_addr), he->h_addr_list[i++], he->h_length);
 	tmp = inet_ntoa(dest.sin_addr);
 	if(Util::isPrivateIp(tmp) || strncmp(tmp.c_str(), "169.254", 7) == 0) {
 		while(he->h_addr_list[i]) {
@@ -636,7 +636,7 @@ string Util::getLocalIp(bool IsIPv6) {
 			i++;
 		}
 	}*/
-	//return tmp;
+	
 }
 
 bool Util::isPrivateIp(string const& ip) {

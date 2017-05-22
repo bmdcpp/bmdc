@@ -238,7 +238,7 @@ void MappingManager::close(Mapper& mapper) {
 }
 
 void MappingManager::log(const string& message, bool v6) {
-	ConnectivityManager::getInstance()->log(autosprintf(_("Port mapping: %s , %d") ,message.c_str(), v6));
+	ConnectivityManager::getInstance()->log(autosprintf(_("Port mapping: %s on %s ") ,message.c_str(), v6 ? string("IPv6").c_str() : string("IPv4").c_str()  ));
 }
 
 string MappingManager::deviceString(Mapper& mapper) const {
