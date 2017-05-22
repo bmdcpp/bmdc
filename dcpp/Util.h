@@ -129,7 +129,7 @@ inline int compare(const T1& v1, const T1& v2) { return (v1 < v2) ? -1 : ((v1 ==
 class Util
 {
 public:
-//...
+
 	static tstring emptyStringT;
 	static string emptyString;
 	static wstring emptyStringW;

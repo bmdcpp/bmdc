@@ -63,7 +63,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 		return false;
 	}
 	///@BMDC++
-	if((aFile.length() > 6) && (aFile.find("TestSUR") != string::npos)) { //Check also size
+	if((aFile.length() > 7) && (aFile.find("TestSUR") != string::npos)) { //Check also size
 		LogManager::getInstance()->message("User: " + ClientManager::getInstance()->getNicks((*aSource.getUser()),"")[0] + " (" + aSource.getRemoteIp() + ") testing me!");
 	}
 
@@ -71,13 +71,15 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 	access. we want to know the type of the upload to see if the user deserves a mini-slot. */
 
 	bool isInSharingHub = true;
-	if(aSource.getUser()) {
+	if(aSource.getUser()) {//todo aint this redudant?
 		isInSharingHub = ClientManager::getInstance()->getSharingHub(aSource.getHintedUser());
-		if(!isInSharingHub && (aType != Transfer::names[Transfer::TYPE_FULL_LIST] || aType != Transfer::names[Transfer::TYPE_PARTIAL_LIST])) {
+		
+		if(!isInSharingHub && (aType != Transfer::names[Transfer::TYPE_FULL_LIST] || aType != Transfer::names[Transfer::TYPE_PARTIAL_LIST])) {//not a hub where share is ignore it
 			aSource.fileNotAvail();
 			return false;
 		}
 	}
+	//end
 	ShareManager* sm = ClientManager::getInstance()->getShareManagerClient(aSource.getHubUrl());
 	
 
@@ -163,8 +165,6 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 					start = 0;
 					size = xml.size();
 				} else {
-					//bool isList = (aFile == Transfer::USER_LIST_NAME_BZ); // Will have to re-think this later
-					//if(!isInSharingHub && !isList) { aSource.fileNotAvail(); return false; } // Hiding share, no file should be available besides filelists which should be empty anyways
 					File* f = new File(sourceFile, File::READ, File::OPEN);
 
 					start = aStartPos;
@@ -189,7 +189,7 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 		case Transfer::TYPE_TREE:
 			{
 				MemoryInputStream* mis = sm->getTree(aFile);
-				if(!mis /*|| !isInSharingHub*/) {
+				if(!mis) {
 					aSource.fileNotAvail();
 					return false;
 				}
@@ -216,8 +216,8 @@ bool UploadManager::prepareFile(UserConnection& aSource, const string& aType, co
 			}
 		case Transfer::TYPE_CHECK_FILE_LIST:
 		case Transfer::TYPE_TESTSUR:
-		case Transfer::TYPE_LAST: break;
-		default:break;
+		case Transfer::TYPE_LAST: 
+		default: break;
 		}
 
 	} catch(const ShareException& e) {
@@ -316,7 +316,7 @@ void UploadManager::reserveSlot(const HintedUser& aUser) {
 			return (it != waitingUsers.cend()) ? it->token : string();
 		};
 		string token = userToken();
-		//if((token = userToken()) != Util::emptyString)
+		
 		if(!token.empty())
 			ClientManager::getInstance()->connect(aUser,token);
 	}
@@ -597,7 +597,6 @@ void UploadManager::on(AdcCommand::GFI, UserConnection* aSource, const AdcComman
 		try {
 			ShareManager* shareManager = ClientManager::getInstance()->getShareManagerClient(aSource->getHubUrl());
 			aSource->send(shareManager->getFileInfo(ident));
-			//aSource->send(ShareManager::getInstance()->getFileInfo(ident));
 		} catch(const ShareException&) {
 			aSource->fileNotAvail();
 		}
