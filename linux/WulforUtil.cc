@@ -63,7 +63,7 @@ using namespace dcpp;
 
 const string WulforUtil::ENCODING_LOCALE = _("System default");
 vector<string> WulforUtil::charsets;
-unordered_map<std::string,GdkPixbuf*> WulforUtil::countryIcon;
+//unordered_map<std::string,GdkPixbuf*> WulforUtil::countryIcon;
 const string WulforUtil::magnetSignature = "magnet:?xt=urn:tree:tiger:";
 GtkIconTheme* WulforUtil::icon_theme = NULL;
 
@@ -1127,8 +1127,6 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 				
 		std::transform(word.begin(), word.end(), sMsgLower.begin(), [](unsigned char c) { return std::tolower(c); } );
 		
-		
-		
 		bool ret = false;
 
 		ColorList* cList = HighlightManager::getInstance()->getList();
@@ -1149,8 +1147,6 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 				fore = cs->getFgColor();
 			else
 				fore = WGETS("text-general-fore-color");
-
-			tTab = cs->getTab();
 
 			string w = cs->getMatch();
 			string sW;
@@ -1224,6 +1220,9 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 
 			if(ret && cs->getPlaySound())
 				Sound::get()->playSound(cs->getSoundFile());
+				
+			if(ret)
+				tTab = cs->getTab();
 					
 			if(!ret)
 				continue;
