@@ -171,6 +171,8 @@ public:
 				port = (uint16_t)Util::toInt(aIpPort.substr(i + 1));
 			}
 	}
+	string getHubsLoadInfo() const;
+
 
 private:
 	typedef unordered_map<string, UserPtr> LegacyMap;

@@ -2652,6 +2652,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 			"\r\n/listip\r\n\t" + _("List watched ips") +
 			"\r\n/info\r\n\t" + _("Get Info about hub connection & favorite hub info") +
 			"\r\n/addfavorite\r\n\t" + _("Add Nick to Favorite users") +
+			"\r\n/getloadhubinfo\r\n\t" + _("Get load hub info") +
 			WulforUtil::commands
 			,Msg::SYSTEM,"");
 		}
@@ -2845,6 +2846,13 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 				hub->addMessage_gui("",WulforUtil::formatReport(id)+"\n",Msg::SYSTEM,"");
 				
 			}
+		}
+		else if ( command == "getloadhubinfo")
+		{
+			ClientManager* cm = ClientManager::getInstance();
+			hub->addMessage_gui("",cm->getHubsLoadInfo(),Msg::SYSTEM,"");
+			
+			
 		}
 		else if( command == "gettempignore")
 		{
