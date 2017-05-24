@@ -77,63 +77,12 @@ void ClientManager::putClient(Client* aClient) {
 	aClient->shutdown();
 	delete aClient;
 }
-/*
-StringList ClientManager::getHubs(const CID& cid, const string& hintUrl) {
-	Lock l(cs);
-	StringList lst;
-	OnlinePairC op = onlineUsers.equal_range(cid);
-	for(auto i = op.first; i != op.second; ++i) {
-		if(i->second->getClient().getHubUrl() == hintUrl)
-				lst.push_back(i->second->getClient().getHubUrl());
-	}
-	return lst;
-	return UsersManager::getInstance()->getHubs(cid,hintUrl);
-}*/
-/*
-StringList ClientManager::getHubNames(const CID& cid, const string& hubUrl) {
-	/*Lock l(cs);
-	StringList lst;
-	OnlinePairC op = onlineUsers.equal_range(cid);
-	for(auto i = op.first; i != op.second; ++i) {
-		lst.push_back(i->second->getClient().getHubName());
-	}
-	return lst;
-	return UsersManager::getInstance()->getHubNames(cid,hubUrl);
-}
-*/
+
 StringList ClientManager::getNicks(const CID& cid, const string& hintUrl) {
-	/*Lock l(cs);
-	StringSet ret;
-
-	OnlinePairC op = onlineUsers.equal_range(cid);
-	for(auto i = op.first; i != op.second; ++i) {
-		if(i->second->getClient().getHubUrl() == hintUrl)
-				ret.insert(i->second->getIdentity().getNick());
-	}
-
-	if(ret.empty()) {
-		// offline
-		NickMap::const_iterator i = nicks.find(cid);
-		if(i != nicks.end()) {
-			ret.insert(i->second.first);
-		} else {
-			ret.insert('{' + cid.toBase32() + '}');
-		}
-	}
-
-	return StringList(ret.begin(), ret.end());*/
 	return UsersManager::getInstance()->getNicks(cid,hintUrl);
 }
 
 vector<Identity> ClientManager::getIdentities(const UserPtr &u) const {
-	/*Lock l(cs);
-	auto op = onlineUsers.equal_range(u->getCID());
-	vector<Identity> ret;
-	for(auto i = op.first; i != op.second; ++i) {
-		ret.emplace_back(i->second->getIdentity());
-	}
-
-	return ret;*/
 	return UsersManager::getInstance()->getIdentities(u);
 }
 
@@ -156,16 +105,10 @@ string ClientManager::getField(const CID& cid, const string& hint, const char* f
 		}
 	}
 
-	return Util::emptyString;
+	return string();
 }
 
 string ClientManager::getConnection(const CID& cid) const {
-	/*Lock l(cs);
-	auto i = onlineUsers.find(cid);
-	if(i != onlineUsers.end()) {
-		return i->second->getIdentity().getConnection();
-	}
-	return _("Offline");*/
 	return UsersManager::getInstance()->getConnection(cid);
 }
 
@@ -241,17 +184,6 @@ string ClientManager::findHubEncoding(const string& aUrl) const {
 }
 
 UserPtr ClientManager::findLegacyUser(const string& aNick) const noexcept {
-	/*if (aNick.empty())
-		return UserPtr();
-
-	Lock l(cs);
-
-	for(auto i = onlineUsers.begin(); i != onlineUsers.end(); ++i) {
-		const OnlineUser* ou = i->second;
-		if(ou->getUser()->isSet(User::NMDC) && Util::stricmp(ou->getIdentity().getNick(), aNick) == 0)
-			return ou->getUser();
-	}
-	return UserPtr();*/
 	return UsersManager::getInstance()->findLegacyUser(aNick);
 }
 
@@ -260,8 +192,11 @@ UserPtr ClientManager::getUser(const string& aNick, const string& aHubUrl) noexc
 	Lock l(cs);
 
 	UserIter ui = users.find(cid);
-	if(ui != users.end()) {
-		if(ui->second->getCID()) {//there should always have CID
+	if(ui != users.end()) 
+	{
+		if(ui->second->getCID()) 
+		{
+			//there should always have CID
 			ui->second->setFlag(User::NMDC);
 			return ui->second;
 		}
@@ -291,25 +226,15 @@ UserPtr ClientManager::getUser(const CID& cid) noexcept {
 }
 
 UserPtr ClientManager::findUser(const CID& cid,const string&) const noexcept {
-	{
-		Lock l(cs);
-		UserMap::const_iterator ui = users.find(cid);
-		if(ui != users.end()) {
-			return ui->second;
-		}
+	Lock l(cs);
+	UserMap::const_iterator ui = users.find(cid);
+	if(ui != users.end()) {
+		return ui->second;
 	}
 	return nullptr;
 }
 
 bool ClientManager::isOp(const UserPtr& user, const string& aHubUrl) const {
-	/*Lock l(cs);
-	auto p = onlineUsers.equal_range(user->getCID());
-	for(auto i = p.first; i != p.second; ++i) {
-		if(i->second->getClient().getHubUrl() == aHubUrl) {
-			return i->second->getIdentity().isOp();
-		}
-	}
-	return false;*/
 	return UsersManager::getInstance()->isOp(user,aHubUrl);
 }
 
@@ -324,65 +249,14 @@ CID ClientManager::makeCid(const string& aNick, const string& aHubUrl) const noe
 }
 
 void ClientManager::putOnline(OnlineUser* ou) noexcept {
-	/*{
-		Lock l(cs);
-		onlineUsers.emplace(ou->getUser()->getCID(),ou);
-	}
-
-	if(ou && !ou->getUser()->isOnline()) {
-		ou->getUser()->setFlag(User::ONLINE);
-		ou->initializeData(); //RSX++-like
-		fire(ClientManagerListener::UserConnected(), ou->getUser());
-	}*/
 	UsersManager::getInstance()->putOnline(ou);
 }
 
 void ClientManager::putOffline(OnlineUser* ou, bool disconnect) noexcept {
-	/*OnlineIter::difference_type diff = 0;
-	{
-		Lock l(cs);
-		auto op = onlineUsers.equal_range(ou->getUser()->getCID());
-		dcassert(op.first != op.second);
-		OnlineUser* ou2 = nullptr;
-		for(auto i = op.first; i != op.second; ++i) {
-			ou2 = i->second;
-			if(ou == ou2) {
-				diff = distance(op.first, op.second);
-				onlineUsers.erase(i);
-				break;
-			}
-		}
-	}
-
-	if(diff == 1) { //last user
-		UserPtr u = ou->getUser();
-		u->unsetFlag(User::ONLINE);
-		u->unsetFlag(User::PROTECT);
-		if(disconnect)
-			ConnectionManager::getInstance()->disconnect(u);
-
-		fire(ClientManagerListener::UserDisconnected(), u);
-	} else if(diff > 1) {
-			fire(ClientManagerListener::UserUpdated(), *ou);
-	}*/
 	UsersManager::getInstance()->putOffline(ou,disconnect);
 }
 
 OnlineUser* ClientManager::findOnlineUserHint(const CID& cid, const string& hintUrl, OnlinePairC& p) const {
-	/*p = onlineUsers.equal_range(cid);
-	if(p.first == p.second) // no user found with the given CID.
-		return nullptr;
-
-	if(!hintUrl.empty()) {
-		for(auto i = p.first; i != p.second; ++i) {
-			OnlineUser* u = i->second;
-			if(u->getClient().getHubUrl() == hintUrl) {
-				return u;
-			}
-		}
-	}
-
-	return nullptr;*/
 	return UsersManager::getInstance()->findOnlineUserHint(cid ,hintUrl,p);
 }
 
@@ -674,21 +548,6 @@ bool ClientManager::isActive(const string& aHubUrl /**/) const
 
 //@TODO: Check ipv6 if ok
 void ClientManager::setIpAddress(const UserPtr& p, const string& ip) {
-    /*Lock l(cs);
-	OnlineIterC i = onlineUsers.find(p->getCID());
-	if(i != onlineUsers.end()) {
-		bool ipv6 = false;	
-
-		if(Util::isIp6(ip)) {
-			i->second->getIdentity().set("I6", ip);
-			ipv6 = true;
-		}
-		
-		if( ipv6 == false) {
-			i->second->getIdentity().set("I4", ip);
-		}
-		fire(ClientManagerListener::UserUpdated(),(dynamic_cast<const OnlineUser&>(*i->second)));
-	}*/
 	UsersManager::getInstance()->setIpAddress(p,ip);
 }
 
@@ -922,9 +781,9 @@ void ClientManager::sendRawCommand(OnlineUser& ou, const string& aRaw, bool chec
 }
 
 //RSX++ hub stats
-/*
+
 string ClientManager::getHubsLoadInfo() const {
-        string hubsInfo = Util::emptyString;
+        string hubsInfo = string();
         int64_t overallShare = 0;
         uint32_t overallUsers = 0;
         {
@@ -943,5 +802,5 @@ string ClientManager::getHubsLoadInfo() const {
         hubsInfo += "\n-]> Users count:\t\t" + Util::toString(overallUsers);
         return (hubsInfo);
 }
-*/
+
 } // namespace dcpp
