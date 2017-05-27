@@ -1142,8 +1142,6 @@ void NmdcHub::on(Failed, const string& aLine) noexcept {
 
 void NmdcHub::on(Second, uint64_t aTick) noexcept {
 	Client::on(Second(), aTick);
-
-	
 }
 
 void NmdcHub::on(Minute, uint64_t aTick) noexcept {

@@ -74,7 +74,7 @@ void UserConnection::on(BufferedSocketListener::Line, const string& aLine) noexc
 	}
 
 	string cmd;
-	string param ;//= Util::emptyString;
+	string param = string();
 
 	string::size_type x = 0;
 

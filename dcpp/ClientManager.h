@@ -150,7 +150,6 @@ public:
 	}
 
 	int getMode(const string& aHubUrl) const;
-	//bool getMode6(const string&) const;//@TODO?
 	bool isActive(const string& aHubUrl = "") const;
 
 	void setIpAddress(const UserPtr& p, const string& ip);

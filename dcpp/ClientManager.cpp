@@ -47,35 +47,35 @@ ClientManager::~ClientManager() {
 }
 
 Client* ClientManager::getClient(const string& aHubURL) {
-	Client* c = nullptr;
+	Client* pClient = nullptr;
 	if(Util::strnicmp("adc://", aHubURL.c_str(), 6) == 0) {
-		c = new AdcHub(aHubURL, false);
+		pClient = new AdcHub(aHubURL, false);
 	} else if(Util::strnicmp("adcs://", aHubURL.c_str(), 7) == 0) {
-		c = new AdcHub(aHubURL, true);
+		pClient = new AdcHub(aHubURL, true);
 	} else {
-		c = new NmdcHub(aHubURL);
+		pClient = new NmdcHub(aHubURL);
 	}
 
 	{
 		Lock l(cs);
-		clients.insert(make_pair(aHubURL,c));
+		clients.insert(make_pair(aHubURL,pClient));
 	}
 
-	c->addListener(this);
+	pClient->addListener(this);
 
-	return c;
+	return pClient;
 }
 
-void ClientManager::putClient(Client* aClient) {
-	fire(ClientManagerListener::ClientDisconnected(), aClient);
-	aClient->removeListeners();
+void ClientManager::putClient(Client* pClient) {
+	fire(ClientManagerListener::ClientDisconnected(), pClient);
+	pClient->removeListeners();
 
 	{
 		Lock l(cs);
-		clients.erase(aClient->getHubUrl());
+		clients.erase(pClient->getHubUrl());
 	}
-	aClient->shutdown();
-	delete aClient;
+	pClient->shutdown();
+	delete pClient;
 }
 
 StringList ClientManager::getNicks(const CID& cid, const string& hintUrl) {
@@ -491,7 +491,7 @@ void ClientManager::on(TimerManagerListener::Minute, uint64_t /* aTick */) noexc
 			(*j).second->info();
 	}
 }
-//no need check me twice
+
 UserPtr& ClientManager::getMe() {
 	if(!me) {
 		Lock l(cs);
@@ -514,16 +514,7 @@ CID ClientManager::getMyCID() {
 }
 
 void ClientManager::updateNick(const OnlineUser& user) noexcept {
-	/*if(!user.getIdentity().getNick().empty()) {
-		Lock l(cs);
-		NickMap::iterator i = nicks.find(user.getUser()->getCID());
-		if(i == nicks.end()) {
-			nicks[user.getUser()->getCID()] = std::make_pair(user.getIdentity().getNick(), false);
-		} else {
-			i->second.first = user.getIdentity().getNick();
-		}
-	}*/
-	UsersManager::getInstance()->updateNick(user);
+		UsersManager::getInstance()->updateNick(user);
 }
 int ClientManager::getMode(const string& aHubUrl) const {
 
@@ -762,13 +753,17 @@ void ClientManager::checkCheating(const HintedUser& p, DirectoryListing* dl) {
 	}
 }
 
-void ClientManager::sendRawCommand(OnlineUser& ou, const string& aRaw, bool checkProtection/* = false*/) {
-	if(!aRaw.empty()) {
+void ClientManager::sendRawCommand(OnlineUser& ou, const string& aRaw, bool checkProtection/* = false*/) 
+{
+	if(!aRaw.empty()) 
+	{
 		bool skipRaw = false;
 		Lock l(cs);
+		
 		if(checkProtection) {
 			skipRaw = ou.isProtectedUser();
 		}
+		
 		if(!skipRaw || !checkProtection) {
 			ParamMap ucParams;
 			UserCommand uc = UserCommand(0, 0, 0, 0, "", aRaw, "", "");
@@ -783,24 +778,24 @@ void ClientManager::sendRawCommand(OnlineUser& ou, const string& aRaw, bool chec
 //RSX++ hub stats
 
 string ClientManager::getHubsLoadInfo() const {
-        string hubsInfo = string();
-        int64_t overallShare = 0;
-        uint32_t overallUsers = 0;
-        {
+    string hubsInfo = string();
+    int64_t overallShare = 0;
+    uint32_t overallUsers = 0;
+    {
  
         Lock l(cs);
  
-			for(auto i = clients.begin(); i != clients.end(); ++i) {
-                overallShare += (*i).second->getAvailable();
-                overallUsers += (*i).second->getUserCount();
-			}
+		for(auto i = clients.begin(); i != clients.end(); ++i) {
+            overallShare += (*i).second->getAvailable();
+            overallUsers += (*i).second->getUserCount();
+		}
         
-        }
-        hubsInfo = "Hubs stats:";
-        hubsInfo += "\n-]> Connected hubs:\t" + Util::toString(Client::getTotalCounts()) + " (" + Client::getCounts() + ")";
-        hubsInfo += "\n-]> Available bytes:\t\t" + Util::formatBytes(overallShare);
-        hubsInfo += "\n-]> Users count:\t\t" + Util::toString(overallUsers);
-        return (hubsInfo);
+    }
+    hubsInfo = "Hubs stats:";
+    hubsInfo += "\n-]> Connected hubs:\t" + Util::toString(Client::getTotalCounts()) + " (" + Client::getCounts() + ")";
+    hubsInfo += "\n-]> Available bytes:\t\t" + Util::formatBytes(overallShare);
+    hubsInfo += "\n-]> Users count:\t\t" + Util::toString(overallUsers);
+    return (hubsInfo);
 }
 
 } // namespace dcpp
