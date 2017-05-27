@@ -148,7 +148,7 @@ string Mapper_NATPMP::getExternalIP() {
 			return inet_ntoa(response.pnu.publicaddress.addr);
 		}
 	}
-	return Util::emptyString;
+	return string();
 }
 
 } // dcpp namespace
