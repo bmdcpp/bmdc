@@ -32,13 +32,13 @@ SSLSocket::SSLSocket(CryptoManager::SSLContext context, bool allowUntrusted, con
 	verifyData.reset(new CryptoManager::SSLVerifyData(allowUntrusted, expKP));
 }
 
-SSLSocket::SSLSocket(CryptoManager::SSLContext context) : Socket(TYPE_TCP), ctx(NULL), ssl(NULL), verifyData(nullptr) {
+SSLSocket::SSLSocket(CryptoManager::SSLContext context) : Socket(TYPE_TCP), ctx(NULL), ssl(NULL), verifyData(nullptr), bIsClient(true) {
 	ctx = CryptoManager::getInstance()->getSSLContext(context);
 }
 
 void SSLSocket::connect(const string& aIp, const uint16_t& aPort) {
 	Socket::connect(aIp, aPort);
-
+	bIsClient = true;
 	waitConnected(0);
 }
 
@@ -63,9 +63,9 @@ bool SSLSocket::waitConnected(int32_t millis) {
 	}
 
 	while(true) {
-		int ret = ssl->server?SSL_accept(ssl):SSL_connect(ssl);
+		int ret = /*ssl->server*/ (!bIsClient) ? SSL_accept(ssl): SSL_connect(ssl);
 		if(ret == 1) {
-			dcdebug("Connected to SSL server using %s as %s\n", SSL_get_cipher(ssl), ssl->server?"server":"client");
+			dcdebug("Connected to SSL server using %s as %s\n", SSL_get_cipher(ssl), /*ssl->server*/bIsClient?"server":"client");
 			return true;
 		}
 		if(!waitWant(ret, millis)) {
@@ -76,6 +76,7 @@ bool SSLSocket::waitConnected(int32_t millis) {
 
 void SSLSocket::accept(const Socket& listeningSocket) {
 	Socket::accept(listeningSocket);
+	bIsClient = false;
 	waitAccepted(0);
 }
 

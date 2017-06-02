@@ -65,8 +65,8 @@ CryptoManager::CryptoManager()
 		sslRandCheck();
 
 		// Init temp data for DH keys
-		for(int i = KEY_FIRST; i != KEY_RSA_2048; ++i)
-			tmpKeysMap[i] = getTmpDH(getKeyLength(static_cast<TLSTmpKeys>(i)));
+		//for(int i = KEY_FIRST; i != KEY_RSA_2048; ++i)
+		//	tmpKeysMap[i] = getTmpDH(getKeyLength(static_cast<TLSTmpKeys>(i)));
 
 		// and same for RSA keys
 		for(int i = KEY_RSA_2048; i != KEY_LAST; ++i)
@@ -106,9 +106,9 @@ CryptoManager::~CryptoManager() {
 	clientContext.reset();
 	serverContext.reset();
 
-	for(int i = KEY_FIRST; i != KEY_RSA_2048; ++i) {
-		if(tmpKeysMap[i]) DH_free((DH*)tmpKeysMap[i]);
-	}
+	//for(int i = KEY_FIRST; i != KEY_RSA_2048; ++i) {
+	//	if(tmpKeysMap[i]) DH_free((DH*)tmpKeysMap[i]);
+	//}
 
 	for(int i = KEY_RSA_2048; i != KEY_LAST; ++i) {
 		if(tmpKeysMap[i]) RSA_free((RSA*)tmpKeysMap[i]);
@@ -231,7 +231,7 @@ int CryptoManager::getKeyLength(TLSTmpKeys key) {
 			dcassert(0); return 0;
 	}
 }
-
+/*
 DH* CryptoManager::getTmpDH(int keyLen) {
 #ifndef WITH_WEAK_KEYS
 	if (keyLen < 2048)
@@ -364,7 +364,7 @@ DH* CryptoManager::getTmpDH(int keyLen) {
 		return NULL;
 	} else return tmpDH;
 }
-
+*/
 RSA* CryptoManager::getTmpRSA(int keyLen) {
 #ifndef WITH_WEAK_KEYS
 	if (keyLen < 2048)
@@ -580,9 +580,9 @@ int CryptoManager::verify_callback(int preverify_ok, X509_STORE_CTX *ctx) {
 
 			if(err != X509_V_OK) {
 				// This is the right way to get the certificate store, although it is rather roundabout
-				X509_STORE* store = ctx->ctx;//for older openssl
-				//X509_STORE* store = X509_STORE_CTX_get0_store(ctx);
-				dcassert(store == ctx->ctx);
+				//X509_STORE* store = ctx->ctx;//for older openssl
+				X509_STORE* store = X509_STORE_CTX_get0_store(ctx);
+				//dcassert(store == ctx->ctx);
 
 				// Hide the potential library error about trying to add a dupe
 				ERR_set_mark();

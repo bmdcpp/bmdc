@@ -76,7 +76,7 @@ private:
 
 	SSL_CTX* ctx;
 	ssl::SSL ssl;
-
+	bool bIsClient;
 	unique_ptr<CryptoManager::SSLVerifyData> verifyData;	// application data used by CryptoManager::verify_callback(...)
 
 	int checkSSL(int ret);
