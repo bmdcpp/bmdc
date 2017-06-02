@@ -93,7 +93,7 @@ private:
 	void sslRandCheck();
 
 	int getKeyLength(TLSTmpKeys key);
-	DH* getTmpDH(int keyLen);
+	//DH* getTmpDH(int keyLen);
 	RSA* getTmpRSA(int keyLen);
 
 	static void* tmpKeysMap[KEY_LAST];

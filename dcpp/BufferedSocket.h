@@ -22,6 +22,7 @@
 #include <atomic>
 #include <deque>
 #include <memory>
+#include <functional>
 
 #include "typedefs.h"
 #include "BufferedSocketListener.h"
