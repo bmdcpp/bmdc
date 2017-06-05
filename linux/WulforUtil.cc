@@ -63,7 +63,6 @@ using namespace dcpp;
 
 const string WulforUtil::ENCODING_LOCALE = _("System default");
 vector<string> WulforUtil::charsets;
-//unordered_map<std::string,GdkPixbuf*> WulforUtil::countryIcon;
 const string WulforUtil::magnetSignature = "magnet:?xt=urn:tree:tiger:";
 GtkIconTheme* WulforUtil::icon_theme = NULL;
 
@@ -1135,18 +1134,15 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 			bool tBold = cs->getBold();
 			bool tItalic = cs->getItalic();
 			bool tUnderline = cs->getUnderline();
-			string fore("");
-			string back("");
+			string fore = WGETS("text-general-fore-color");;
+			string back = WGETS("text-general-back-color");
 
 			if(cs->getHasBgColor())
-				back = cs->getBgColor();
-			else
-				back = WGETS("text-general-back-color");
-
+					back = cs->getBgColor();
+			
 			if(cs->getHasFgColor())
-				fore = cs->getFgColor();
-			else
-				fore = WGETS("text-general-fore-color");
+					fore = cs->getFgColor();
+			
 
 			string w = cs->getMatch();
 			string sW;
@@ -1155,7 +1151,7 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 
 			int ffound = sMsgLower.compare(sW);
 
-			if(!ffound && cs->usingRegexp() == false) {
+			if( (ffound == 0) && (cs->usingRegexp() == false) ) {
 				
 				if((Hub *)hub)
 				{
@@ -1177,7 +1173,7 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 				}
 			}
 
-			if((ret == false) && cs->usingRegexp())
+			if( (ret == false) && cs->usingRegexp())
 			{
 				string q = cs->getMatch().substr(4);
 				bool reMatch = g_pattern_match_simple (q.c_str(),word.c_str());
@@ -1198,8 +1194,8 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 				}
 			}
 
-			int found = sMsgLower.compare(sW);
-			if( (ret == false) && (!found) ) {
+			//int found = sMsgLower.compare(sW);
+			if( (ret == false) && (ffound == 0) ) {
 
 				if(!tag)
 				{
@@ -1287,7 +1283,7 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 	}
 
 	string tmp = "dummy"+ext;
-	gchar *tmp2 = g_utf8_strup(tmp.c_str(),-1);
+	g_autofree gchar *tmp2 = g_utf8_strup(tmp.c_str(),-1);
 
 	gboolean is_certain = FALSE;
 	gchar *content_type = g_content_type_guess (tmp2, NULL, 0, &is_certain);
@@ -1311,7 +1307,7 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 	g_object_unref(icon);
 	g_free (mime_type);
 	g_free (content_type);
-	g_free(tmp2);//lowercase dummy
+	//g_free(tmp2);//lowercase dummy
 	return icon_d;
 }
 //Main point of this code is from ? PtokaX
@@ -1479,7 +1475,7 @@ string WulforUtil::cpuinfo()
 
 void WulforUtil::setTextDeufaults(GtkWidget* widget, std::string strcolor, std::string back_image_path /*= dcpp::Util::emptyString*/,bool pm/* = false*/,std::string hubUrl /*= dcpp::Util::emptyString*/,std::string where /*= dcpp::Util::emptyString*/)
 {
-		if( (pm == false) && hubUrl.empty())
+		if( (pm == false) && hubUrl.empty()) // Global any hub?
 			gtk_widget_set_name(widget,"Hub");
 
 		if( pm == true)
@@ -1490,6 +1486,7 @@ void WulforUtil::setTextDeufaults(GtkWidget* widget, std::string strcolor, std::
 			hubCid = dcpp::CID(hubUrl.c_str()).toBase32();
 			gtk_widget_set_name(widget,hubCid.c_str());
 		}
+		
 		if(!where.empty())
 			gtk_widget_set_name(widget,where.c_str());
 
@@ -1567,11 +1564,9 @@ void WulforUtil::setTextColor(std::string color,std::string where /*= dcpp::Util
 
 std::string WulforUtil::getTagName(GtkTextTag *tag)
 {
-	gchar *tmp  = NULL;
+	g_autofree gchar *tmp  = NULL;
 	g_object_get(G_OBJECT(tag), "name", &tmp, NULL);
-	std::string tagName = std::string(tmp);
-	g_free(tmp);
-	return tagName;
+	return string(tmp);
 }
 
 gboolean WulforUtil::is_format_supported (const gchar *uri)
