@@ -957,9 +957,11 @@ void NmdcHub::myInfo(bool alwaysSend) {
     char staFlag = Util::getAway() ? '\x02' : '\x01';
 		
 	string uMin = (SETTING(MIN_UPLOAD_SPEED) == 0) ? Util::emptyString : tmp5 + Util::toString(SETTING(MIN_UPLOAD_SPEED));
+	
 	string myInfoA =
 		"$MyINFO $ALL " + fromUtf8(HUBSETTING(NICK)) + " " + fromUtf8(escape(bFreeSlot ? sFreeSlot + HUBSETTING(DESCRIPTION) : HUBSETTING(DESCRIPTION))) +
-		tmp1 + VERSIONSTRING + tmp2 + modeChar + tmp3 + getCounts();
+		"<"+APPNAME+" " + VERSIONSTRING + tmp2 + modeChar + tmp3 + getCounts();
+		
 	string myInfoB = tmp4 + Util::toString(SETTING(SLOTS));
 	string myInfoC = uMin +
 		">$ $" + uploadSpeed + staFlag + '$' + fromUtf8(escape(HUBSETTING(EMAIL))) + '$';

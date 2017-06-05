@@ -1037,7 +1037,7 @@ void AdcHub::infoImpl() {
 	addParam(lastInfoMap, c, "HN", Util::toString(counts[COUNT_NORMAL]));
 	addParam(lastInfoMap, c, "HR", Util::toString(counts[COUNT_REGISTERED]));
 	addParam(lastInfoMap, c, "HO", Util::toString(counts[COUNT_OP]));
-	addParam(lastInfoMap, c, "AP", "++");
+	addParam(lastInfoMap, c, "AP", APPNAME);//APPNAME
 	addParam(lastInfoMap, c, "VE", VERSIONSTRING);
 	addParam(lastInfoMap, c, "AW", Util::getAway() ? "1" : Util::emptyString);
 	// RF = ref address from connected...
