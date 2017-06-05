@@ -18,7 +18,7 @@
 
 #define APPNAME "BMDC++"
 
-#define VERSIONSTRING "0.851"
+#define VERSIONSTRING "0.1.7"
 #define VERSIONFLOAT 0.851
 //This does rep nothing
 #ifndef DCPP_REVISION
