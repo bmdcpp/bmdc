@@ -81,9 +81,12 @@ void UploadQueue::intilaize_client()
 // Load queue
 	const HintedUserList _users = UploadManager::getInstance()->getWaitingUsers();
 	UploadManager *up = UploadManager::getInstance();
-	for(HintedUserList::const_iterator uit = _users.begin(); uit != _users.end(); ++uit) {
+	for(HintedUserList::const_iterator uit = _users.begin(); uit != _users.end(); ++uit) 
+	{
+		
 		const UploadManager::FileSet f = up->getWaitingUserFiles(((*uit).user));
 		StringMap params;
+		
 		for(auto fit = f.begin(); fit!= f.end();++fit)
 		{
 			GtkTreeIter iter;
@@ -120,7 +123,7 @@ void UploadQueue::addFile(StringMap &params,GtkTreeIter *iter)
 void UploadQueue::AddFile_gui(StringMap params)
 {
 	GtkTreeIter iter;
-	gchar *cpfile = NULL;
+	g_autofree gchar *cpfile = NULL;
 	unordered_map<string,GtkTreeIter>::iterator it = mapUsers.find(params["CID"]);
 	if(it != mapUsers.end())
 	{
