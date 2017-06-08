@@ -960,7 +960,7 @@ void NmdcHub::myInfo(bool alwaysSend) {
 	
 	string myInfoA =
 		"$MyINFO $ALL " + fromUtf8(HUBSETTING(NICK)) + " " + fromUtf8(escape(bFreeSlot ? sFreeSlot + HUBSETTING(DESCRIPTION) : HUBSETTING(DESCRIPTION))) +
-		"<"+APPNAME+" " + VERSIONSTRING + tmp2 + modeChar + tmp3 + getCounts();
+		"<"+APPNAME+" V:" + VERSIONSTRING + tmp2 + modeChar + tmp3 + getCounts();
 		
 	string myInfoB = tmp4 + Util::toString(SETTING(SLOTS));
 	string myInfoC = uMin +
