@@ -56,6 +56,7 @@ const string AdcHub::UDP4_FEATURE("UDP4");
 const string AdcHub::UDP6_FEATURE("UDP6");
 const string AdcHub::NAT0_FEATURE("NAT0");
 const string AdcHub::SEGA_FEATURE("SEGA");
+
 const string AdcHub::BASE_SUPPORT("ADBASE");
 const string AdcHub::BAS0_SUPPORT("ADBAS0");
 const string AdcHub::TIGR_SUPPORT("ADTIGR");
@@ -256,7 +257,7 @@ void AdcHub::handle(AdcCommand::SID, AdcCommand& c) noexcept {
 	sid = AdcCommand::toSID(c.getParam(0));
 
 	state = STATE_IDENTIFY;
-	infoImpl();
+	info();
 }
 
 void AdcHub::handle(AdcCommand::MSG, AdcCommand& c) noexcept {
@@ -1025,6 +1026,7 @@ void AdcHub::infoImpl() {
 	bool bIsFreeSlots = SETTING(SHOW_FREE_SLOTS_DESC);//TODO: is good per Fav ?
 	string freeslots = "[" + Util::toString(UploadManager::getInstance()->getFreeSlots()) + "]";
 	ShareManager* sm = getShareManager();
+	
 	addParam(lastInfoMap, c, "ID", ClientManager::getInstance()->getMyCID().toBase32());
 	addParam(lastInfoMap, c, "PD", ClientManager::getInstance()->getMyPID().toBase32());
 	addParam(lastInfoMap, c, "NI", HUBSETTING(NICK));
