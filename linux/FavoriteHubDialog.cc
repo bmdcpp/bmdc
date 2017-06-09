@@ -126,11 +126,14 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 	comboGroup = gtk_combo_box_text_new();
 	g_g_a(comboGroup, 1,8,1,1);
 
-	//group combo
-	checkAutoConnect = g_c_b_n(_("Auto-Connect to this Hub"));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkAutoConnect), p_entry->getAutoConnect());
-
-	g_g_a(checkAutoConnect,0,9,1,1);
+	//group combo end
+	
+	GtkWidget* pgrid = gtk_grid_new();
+	checkAutoConnect = gtk_switch_new();
+	grid_add(pgrid,checkAutoConnect,0,0,1,1);
+	grid_add(pgrid,lan(_("Auto-Connect to this Hub")),1,0,1,1);
+	gtk_switch_set_active(GTK_SWITCH(checkAutoConnect), (gboolean)p_entry->getAutoConnect() );
+	g_g_a(pgrid,0,9,1,1);
 
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxSimple ,lan(_("General Settings")));
 	//check
@@ -347,12 +350,12 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry):
 
 	g_signal_connect(button_add, "clicked", G_CALLBACK(onAddShare_gui), (gpointer)this);
 	g_signal_connect(button_rem, "clicked", G_CALLBACK(onRemoveShare_gui), (gpointer)this);
-	//check
+	//check button for hide share
 	checkHideShare = g_c_b_n(_("Hide Share"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkHideShare), p_entry->getHideShare() );
 
 	gtk_grid_attach(GTK_GRID(boxShare),checkHideShare,0,9,1,1);
-
+//end
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook) , boxShare, lan("Share Setup"));
 
 	//NOTE: need be after all contain stuff
@@ -428,7 +431,10 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 			p_entry->setMode(gtk_combo_box_get_active(GTK_COMBO_BOX(comboMode)));
 			p_entry->seteIPv6(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(enableIp6)));
 
-			p_entry->setAutoConnect(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkAutoConnect)));
+			p_entry->setAutoConnect(gtk_switch_get_active (GTK_SWITCH(checkAutoConnect)));
+			
+			
+			
 			p_entry->set(SettingsManager::LOG_CHAT_B, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(enableLog)));
 			p_entry->setHideShare(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkHideShare)));
 			p_entry->set(SettingsManager::USE_HIGHLITING,gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkHigh)));
@@ -609,11 +615,10 @@ void FavoriteHubDialog::onAddShare_gui(GtkWidget*, gpointer data)
 
 	if (response == GTK_RESPONSE_OK)
 	{
-		gchar *temp = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(fileDialog));
+		g_autofree gchar* temp = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(fileDialog));
 		if (temp)
 		{
 			string path = temp;
-			g_free(temp);
 
 			if (path[path.length() - 1] != PATH_SEPARATOR)
 				path += PATH_SEPARATOR;
@@ -628,20 +633,24 @@ void FavoriteHubDialog::onAddShare_gui(GtkWidget*, gpointer data)
                                       NULL);
 
 			GtkWidget *box = gtk_dialog_get_content_area (GTK_DIALOG(dialog));
-			GtkWidget *entry = gtk_entry_new();
+			GtkWidget *entry = gen;
 			GtkWidget *label = gtk_label_new("");
+			
 			gtk_box_pack_start(GTK_BOX(box),label,TRUE,TRUE,0);
 			gtk_box_pack_start(GTK_BOX(box),entry,TRUE,TRUE,0);
 			gtk_window_set_title(GTK_WINDOW(dialog), _("Virtual name"));
+			
 			gtk_entry_set_text(GTK_ENTRY(entry), "");
 			gtk_label_set_markup(GTK_LABEL(label), _("<b>Name under which the others see the directory</b>"));
 			gtk_widget_show_all(box);
+			
 			response = gtk_dialog_run(GTK_DIALOG(dialog));
-			string name = gtk_entry_get_text(GTK_ENTRY(entry));
-			gtk_widget_hide(dialog);
+			
+			//gtk_widget_hide(dialog);
 
 			if (response == GTK_RESPONSE_OK)
 			{
+				string name = gtk_entry_get_text(GTK_ENTRY(entry));
 				try
 				{
 					ShareManager *share = s->p_entry->getShareManager();
@@ -654,18 +663,18 @@ void FavoriteHubDialog::onAddShare_gui(GtkWidget*, gpointer data)
 						FavoriteManager::getInstance()->save();
 						s->p_entry->getShareManager()->refresh(true,false,false,NULL);
 					}
-						
+					s->addShare_gui(path, name);	
 				}
 				catch (const ShareException &e)
 				{
-					return;//should not update GUI if any Share* exception hapened
+					
 				}
 				catch(...){
 
 				}
-
-				s->addShare_gui(path, name);
+			
 			}
+			gtk_widget_destroy (dialog);
 		}
 	}
 }
