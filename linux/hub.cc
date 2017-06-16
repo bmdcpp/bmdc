@@ -355,17 +355,17 @@ Hub::Hub(const string &address, const string &encoding):
 		bool bShowUserList = p_faventry->getShowUserList();
 		
 		if ( (bShowUserList == false) && gtk_widget_get_visible(getWidget("scrolledwindow2"))) {
-		gtk_widget_hide(getWidget("scrolledwindow2"));
+			gtk_widget_hide(getWidget("scrolledwindow2"));
 		} else {
 			gtk_widget_show_all(getWidget("scrolledwindow2"));
 		}
 		
 		isFavBool = p_faventry->getNotify();
 		
+	}/*else*/ {
+		//always show userlist for non-fav?
+		gtk_widget_show_all(getWidget("scrolledwindow2"));
 	}
-	//always show userlist for non-fav?
-	gtk_widget_show_all(getWidget("scrolledwindow2"));
-	
 	setColorsRows();
 }
 
@@ -378,7 +378,7 @@ gint Hub::sort_iter_compare_func_nick(GtkTreeModel *model, GtkTreeIter  *a,
 									GtkTreeIter  *b,  gpointer  data)
 {
 	Hub* hub = (Hub *)data;
-	gchar *nick_a = NULL , *nick_b = NULL;
+	g_autofree gchar *nick_a = NULL , *nick_b = NULL;
 	gtk_tree_model_get(model, a, hub->nickView.col(hub->sort), &nick_a, -1);
 	gtk_tree_model_get(model, b, hub->nickView.col(hub->sort), &nick_b, -1);
 	gint ret = 0;
@@ -394,13 +394,13 @@ gint Hub::sort_iter_compare_func_nick(GtkTreeModel *model, GtkTreeIter  *a,
 		// NOTE:
 		// g_utf8_collate works better 
 		// that stricmp
-		gchar* a_nick = g_utf8_casefold(nick_a,-1);
-		gchar* b_nick = g_utf8_casefold(nick_b,-1);
+		g_autofree gchar* a_nick = g_utf8_casefold(nick_a,-1);
+		g_autofree gchar* b_nick = g_utf8_casefold(nick_b,-1);
 		ret = g_utf8_collate(a_nick,b_nick);
-		g_free(a_nick);
-		g_free(b_nick);
-		g_free(nick_a);
-		g_free(nick_b);
+		//g_free(a_nick);
+		//g_free(b_nick);
+		//g_free(nick_a);
+		//g_free(nick_b);
 	}
 	return ret;
 }
@@ -538,7 +538,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 			g_object_set(cell,"cell-background-set",TRUE,"cell-background",color.c_str(),NULL);
 		}
 		string sizeString;
-		gchar *title = const_cast<gchar*>(gtk_tree_view_column_get_title(column));
+		const gchar* title = gtk_tree_view_column_get_title(column);
 
 		if(strcmp(title,_("Shared")) == 0)
 		{
@@ -661,7 +661,7 @@ gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean 
 					  &model, &path, &iter))
 	return FALSE;
 
-	gchar *nick = NULL,
+	g_autofree gchar *nick = NULL,
 	*tag = NULL, *desc = NULL,*con = NULL,
 	*ip = NULL,*e = NULL,*country = NULL,*slots = NULL,*hubs = NULL,
 	*pk = NULL,*cheat = NULL,*gen = NULL,*sup = NULL,*cid = NULL;
@@ -695,19 +695,6 @@ gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean 
 
 	gtk_tree_view_set_tooltip_row (tree_view, _tooltip, path);
 	gtk_tree_path_free (path);
-	g_free (nick);
-	g_free (tag);
-	g_free (desc);
-	g_free (con);
-	g_free (e);
-	g_free (country);
-	g_free (slots);
-	g_free (hubs);
-	g_free (pk);
-	g_free (cheat);
-	g_free (gen);
-	g_free (sup);
-	g_free (cid);
 	return TRUE;
 }
 
@@ -1101,14 +1088,14 @@ void Hub::addStatusMessage_gui(string message, Msg::TypeMsg typemsg, Sound::Type
 		if( client && client->get(SettingsManager::STATUS_IN_CHAT,SETTING(STATUS_IN_CHAT)))
 		{
 			string line = "*** " + message;
-			addMessage_gui("", line, typemsg,"");
+			addMessage_gui("", line, typemsg, "");
 			return;
 		}
 		//fallback...
 		if( SETTING(STATUS_IN_CHAT) )
 		{
 			string line = "*** " + message;
-			addMessage_gui("", line, typemsg,"");
+			addMessage_gui("", line, typemsg, "");
 		}
 	}
 }
@@ -2275,20 +2262,23 @@ gboolean Hub::onIpTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *event , GtkT
 	{
 		if(event->button.button == 3)
 		{
-			gchar *tmp = NULL;
+			g_autofree gchar *tmp = NULL;
 			g_object_get(G_OBJECT(tag),"name",&tmp,NULL);
+			
+			
 			g_signal_connect(hub->getWidget("ripeitem"), "activate", G_CALLBACK(onRipeDbItem_gui),(gpointer)hub);
 			g_signal_connect(hub->getWidget("copyipItem"), "activate", G_CALLBACK(onCopyIpItem_gui),(gpointer)hub);
 			g_object_set_data_full(G_OBJECT(hub->getWidget("ripeitem")),"ip_addr",g_strdup(tmp),g_free);
 			g_object_set_data_full(G_OBJECT(hub->getWidget("copyipItem")),"ip_addr",g_strdup(tmp),g_free);
 			
 			gtk_widget_show_all(hub->getWidget("ipMenu"));
+	        
 	        #if GTK_CHECK_VERSION(3,22,0)
 			gtk_menu_popup_at_pointer(GTK_MENU(hub->getWidget("ipMenu")),NULL);
 			#else
 			gtk_menu_popup(GTK_MENU(hub->getWidget("ipMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 			#endif
-			g_free(tmp);
+			//g_free(tmp);
 			return TRUE;
 		}
 	}
@@ -2790,7 +2780,7 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		else if(command == "addfavorite")
 		{
 			FavoriteManager::getInstance()->addFavoriteIUser(params);
-			hub->addStatusMessage_gui(_("Added Indepent Fav ")+params, Msg::SYSTEM, Sound::NONE);
+			hub->addStatusMessage_gui(_("Added Indepent Fav ") + params, Msg::SYSTEM, Sound::NONE);
 		}
 		else if (command == "scmyinfo")
 		{
@@ -2851,7 +2841,6 @@ void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
 		{
 			ClientManager* cm = ClientManager::getInstance();
 			hub->addMessage_gui("",cm->getHubsLoadInfo(),Msg::SYSTEM,"");
-			
 			
 		}
 		else if( command == "gettempignore")
@@ -3186,13 +3175,13 @@ void Hub::onDownloadToClicked_gui(GtkMenuItem*, gpointer data)
 
 	if (response == GTK_RESPONSE_OK)
 	{
-		gchar *temp = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(dialog));
+		g_autofree gchar *temp = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(dialog));
 
 		if (temp)
 		{
 			Hub *hub = (Hub *)data;
 			string path = Text::toUtf8(temp) + G_DIR_SEPARATOR_S;
-			g_free(temp);
+			//g_free(temp);
 
 			WulforManager::get()->getMainWindow()->fileToDownload_gui(hub->selectedTagStr, path);
 		}
@@ -3729,7 +3718,7 @@ void Hub::getFileList_client(string cid, bool bMatch,bool bPartial)
 				if (ou->getUser() == ClientManager::getInstance()->getMe())
 				{
 					// Don't download file list, open locally instead
-					WulforManager::get()->getMainWindow()->openOwnList_client(TRUE);
+					WulforManager::get()->getMainWindow()->openOwnList_client(true);
 				}
 				else if (bMatch)
 				{
@@ -4816,6 +4805,7 @@ GtkWidget *Hub::createmenu()
 		GtkWidget *setTab = gtk_menu_item_new_with_label(_("Set Tab Name"));
 		GtkWidget *reconectItem = gtk_menu_item_new_with_label(_("Reconnect this hub"));
 		GtkWidget *closeItem = gtk_menu_item_new_with_label (_("Close Hub"));
+		//custom share things...
 		GtkWidget *shareView = gtk_menu_item_new_with_label (_("Show Own Filelist Browser"));
 		GtkWidget* shareRefresh = gtk_menu_item_new_with_label(_("Refresh Share for this hub"));
 	
