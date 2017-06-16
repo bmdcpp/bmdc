@@ -462,40 +462,34 @@ bool FavoriteHubDialog::initDialog(UnMapIter &groups)
 
 			p_entry->set(SettingsManager::BACKGROUND_CHAT_COLOR, WulforUtil::colorToString(&color) );
 
-			gchar* image_path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(backImage));
+			g_autofree gchar* image_path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(backImage));
 
 			if(WulforUtil::is_format_supported(image_path))//allow these types wich supported by GdkPixbuf
 			{
 				p_entry->set(SettingsManager::BACKGROUND_CHAT_IMAGE,string(image_path));
-
-				if(image_path)
-					g_free(image_path);
 			}
 
 			p_entry->setGroup(string());
 
 		if (gtk_combo_box_get_active(GTK_COMBO_BOX(comboGroup)) != 0)
 		{
-			gchar *group = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboGroup));
+			g_autofree gchar *group = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboGroup));
 			if(group) {
 				p_entry->setGroup(string(group));
-				g_free(group);
 		   	}
 		}
 
-		gchar *encoding = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboCodepage));
+		g_autofree gchar *encoding = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboCodepage));
 		if(encoding)
 		{
 				p_entry->setEncoding(string(encoding));
-				g_free(encoding);
 		}
 
-		gchar *pack = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboEmot));
+		g_autofree gchar *pack = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(comboEmot));
 
 		if(pack)
 		{
 			p_entry->set(SettingsManager::EMOT_PACK,string(pack));
-			g_free(pack);
 		}
 
 		p_entry->set(SettingsManager::NICK, gtk_entry_get_text(GTK_ENTRY(entryUsername)));
@@ -646,8 +640,6 @@ void FavoriteHubDialog::onAddShare_gui(GtkWidget*, gpointer data)
 			
 			response = gtk_dialog_run(GTK_DIALOG(dialog));
 			
-			//gtk_widget_hide(dialog);
-
 			if (response == GTK_RESPONSE_OK)
 			{
 				string name = gtk_entry_get_text(GTK_ENTRY(entry));

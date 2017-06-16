@@ -174,6 +174,8 @@ private:
 		static void onSetTabText(gpointer data);
 		static void onShareView(gpointer data);
 		static void onReconnectItemTab(gpointer data);
+		static void onRefreshShare(gpointer data);
+		
 		static void onAddIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onRemoveIgnoreUserItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onShowReportClicked_gui(GtkMenuItem *item, gpointer data);
