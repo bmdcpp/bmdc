@@ -30,7 +30,7 @@
 class Emot
 {
 	public:
-		//enum {SIZE_NAME = 255};
+
 		typedef std::vector<Emot *> List;
 		typedef List::const_iterator Iter;
 

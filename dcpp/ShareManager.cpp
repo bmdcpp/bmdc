@@ -181,7 +181,7 @@ if(!tth) {
 		}
 	}
 //	throw ShareException(UserConnection::FILE_NOT_AVAILABLE);
-	return Util::emptyString;
+	return string();
 }
 
 string ShareManager::toReal(const string& virtualFile,bool isShared) {
@@ -814,7 +814,7 @@ void ShareManager::rebuildIndices() {
 void ShareManager::updateIndices(Directory& dir, const decltype(std::declval<Directory>().files.begin())& i) {
 	const Directory::File& f = *i;
 
-	if(f.tth == NULL) {
+	if(!f.tth) {
 		return;
 	}
 	auto j = tthIndex.find(*f.tth);
@@ -823,11 +823,16 @@ void ShareManager::updateIndices(Directory& dir, const decltype(std::declval<Dir
 
 	} else {
 		if(!SETTING(LIST_DUPES)) {
+			
 			try {
-				LogManager::getInstance()->message(_("Duplicate file will not be shared: ")+Util::addBrackets(f.getRealPath(this))+_("Size: ")+Util::toString(f.getSize())+_(" B) Dupe matched against: ") + Util::addBrackets(j->second->getRealPath(this)));
+				LogManager::getInstance()->message( _("Duplicate file will not be shared: ") 
+				+ Util::addBrackets(f.getRealPath(this)) + _("Size: ") + Util::toString(f.getSize()) + _(" B) Dupe matched against: ") + Util::addBrackets(j->second->getRealPath(this)));
+				
 				dir.files.erase(i);
 			} catch (const ShareException&) {
+			
 			}
+			
 			return;
 		}
 	}
