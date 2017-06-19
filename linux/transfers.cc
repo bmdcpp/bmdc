@@ -1076,7 +1076,7 @@ void Transfers::on(ConnectionManagerListener::Connected, ConnectionQueueItem* cq
 
 void Transfers::on(ConnectionManagerListener::Removed, ConnectionQueueItem* cqi) noexcept
 {
-	string cid = cqi->getUser().user->getCID().toBase32();//NOTE: core 0.762
+	string cid = cqi->getUser().user->getCID().toBase32();
 	typedef Func2<Transfers, const string, bool> F2;
 	F2* f2 = new F2(this, &Transfers::removeConnection_gui, cid, cqi->getDownload());
 	WulforManager::get()->dispatchGuiFunc(f2);

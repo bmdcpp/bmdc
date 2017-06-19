@@ -397,10 +397,6 @@ gint Hub::sort_iter_compare_func_nick(GtkTreeModel *model, GtkTreeIter  *a,
 		g_autofree gchar* a_nick = g_utf8_casefold(nick_a,-1);
 		g_autofree gchar* b_nick = g_utf8_casefold(nick_b,-1);
 		ret = g_utf8_collate(a_nick,b_nick);
-		//g_free(a_nick);
-		//g_free(b_nick);
-		//g_free(nick_a);
-		//g_free(nick_b);
 	}
 	return ret;
 }
@@ -547,7 +543,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 		}
 }
 
-void Hub::onSizeWindowState_gui(GtkWidget* ,GdkRectangle *allocation,gpointer data)
+void Hub::onSizeWindowState_gui(GtkWidget* ,GdkRectangle *allocation, gpointer data)
 {
 	Hub* hub = (Hub*)data;
 	hub->width = allocation->width;	
@@ -1132,12 +1128,12 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg, strin
 			
 	line += message;
 	
-	if(!g_utf8_validate(line.c_str(),-1,NULL))
+	/*if(!g_utf8_validate(line.c_str(),-1,NULL))
 	{
 			string _line = Text::toUtf8(line,client->getEncoding());
 			line = _line;
 			
-	}
+	}*/
 	
 	gtk_text_buffer_get_end_iter(chatBuffer, &iter);
 	gtk_text_buffer_insert(chatBuffer, &iter, line.c_str(), line.size());
@@ -4560,7 +4556,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 		return;
 	}
 		
-	string sCc = "";
+	string sCc = string();
 	if( (!fid.isHub()) && (!fid.isBot()) )
 	{
 		sCc = GeoManager::getInstance()->getCountryAbbrevation(fid.getIp());
@@ -5005,6 +5001,7 @@ void Hub::onToglleButtonIcon(GtkToggleButton *button, gpointer data)
 	if(pHub == NULL) return;
 	if(button == NULL) return;
 	gboolean bActive = gtk_toggle_button_get_active(button);
+	
 	if(bActive)
 	{
 		pHub->client->set(SettingsManager::HUB_ICON_STR,string());
