@@ -144,10 +144,10 @@ Hub::Hub(const string &address, const string &encoding):
 	GtkTextIter iter;
 	gtk_text_buffer_get_end_iter(chatBuffer, &iter);
 
-	chatMark = gtk_text_buffer_create_mark(chatBuffer, NULL, &iter, FALSE);
+	chatMark = gtk_text_buffer_create_mark(chatBuffer, NULL, &iter, TRUE);//false
 	start_mark = gtk_text_buffer_create_mark(chatBuffer, NULL, &iter, TRUE);
 	end_mark = gtk_text_buffer_create_mark(chatBuffer, NULL, &iter, TRUE);
-	tag_mark = gtk_text_buffer_create_mark(chatBuffer, NULL, &iter, FALSE);
+	tag_mark = gtk_text_buffer_create_mark(chatBuffer, NULL, &iter, TRUE);//false
 	emot_mark = gtk_text_buffer_create_mark(chatBuffer, NULL, &iter, TRUE);
 
 #if !GTK_CHECK_VERSION(3, 16, 0)
@@ -1120,20 +1120,13 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg, strin
 	string line = "";
 
 	// Add a new line if this isn't the first line in buffer.
-	if (gtk_text_buffer_get_char_count(chatBuffer) > 0)
+	if(gtk_text_buffer_get_line_count(chatBuffer) >= 1)
 		line += "\n";
 
 	if( client && client->get(SettingsManager::TIME_STAMPS,SETTING(TIME_STAMPS)))
 			line += "[" + Util::getShortTimeString() + "] ";
 			
 	line += message;
-	
-	/*if(!g_utf8_validate(line.c_str(),-1,NULL))
-	{
-			string _line = Text::toUtf8(line,client->getEncoding());
-			line = _line;
-			
-	}*/
 	
 	gtk_text_buffer_get_end_iter(chatBuffer, &iter);
 	gtk_text_buffer_insert(chatBuffer, &iter, line.c_str(), line.size());
@@ -4906,7 +4899,7 @@ void Hub::on_setImage_tab(GtkButton*, gpointer data)
 				        
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
 	{
-		gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+		g_autofree gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
 
 		if(WulforUtil::is_format_supported(filename))
 		{
@@ -4925,7 +4918,6 @@ void Hub::on_setImage_tab(GtkButton*, gpointer data)
 			
 			g_object_unref(pixbuf);
 		}
-		g_free (filename);
 
 	}
 	gtk_widget_destroy (dialog);

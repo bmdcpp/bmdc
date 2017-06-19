@@ -249,17 +249,13 @@ void EmoticonsDialog::showEmotDialog_gui()
 	g_return_if_fail(dialog == NULL);
 
 	/* create popup dialog */
-	#if GTK_CHECK_VERSION(3,12,0)
 	dialog = gtk_popover_new(Button);
 	gtk_popover_set_position (GTK_POPOVER (dialog),GTK_POS_TOP);
-	#else
-	dialog = gtk_window_new(GTK_WINDOW_POPUP);
-	#endif
 	gtk_widget_set_name(dialog,"EmoticonsDialog");//name for CSS'ing
 
 	build();
 	position();
-	graber();
+	//graber();
 
 	g_signal_connect(G_OBJECT(dialog), "event", G_CALLBACK(event), (gpointer)this);
 }
@@ -383,16 +379,16 @@ void EmoticonsDialog::position()
 	gtk_window_move(GTK_WINDOW(dialog), Wx, Wy);
 	gtk_widget_show(dialog);
 }
-
+/*
 void EmoticonsDialog::graber()
 {
 	/* grabs the pointer (usually a mouse) */
-	#if !GTK_CHECK_VERSION(3,12,0)
+/*	#if !GTK_CHECK_VERSION(3,12,0)
 	if(gdk_device_grab(gtk_get_current_event_device(),gtk_widget_get_window(dialog), GDK_OWNERSHIP_NONE,TRUE,(GdkEventMask)(GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK),NULL,GDK_CURRENT_TIME))
 		gtk_grab_add(dialog);
 	#endif	
 }
-
+*/
 void EmoticonsDialog::onChat(GtkWidget *widget , gpointer data /*this*/)
 {
 	EmoticonsDialog *ed = (EmoticonsDialog *) data;

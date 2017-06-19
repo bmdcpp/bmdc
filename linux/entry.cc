@@ -34,8 +34,8 @@ Entry::Entry(const EntryType type, const string &ui, const string &id):
 {
 	if(!ui.empty()) {
 	// Load the Builder XML file, if applicable
-	string sFile = WulforManager::get()->getPath() + "/ui/" + ui + ".ui";
 #if !GTK_CHECK_VERSION(3, 10, 0)
+	string sFile = WulforManager::get()->getPath() + "/ui/" + ui + ".ui";
 	GError *error = NULL;
 	xml = gtk_builder_new();
 	gtk_builder_add_from_file(xml, sFile.c_str(), &error);
@@ -46,7 +46,7 @@ Entry::Entry(const EntryType type, const string &ui, const string &id):
 			g_error_free(error);
 	}
 #else
-	xml = gtk_builder_new_from_resource( (string("/org/bmdc-team/bmdc/ui/")+ui+".ui").c_str());
+	xml = gtk_builder_new_from_resource( (string("/org/bmdc-team/bmdc/ui/") + ui + ".ui").c_str());
 #endif
   }
 }

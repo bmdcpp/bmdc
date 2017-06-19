@@ -124,12 +124,6 @@ MainWindow::MainWindow():
 	window = GTK_WINDOW(getWidget("mainWindow"));
 	gtk_window_set_role(window, getID().c_str());
 	// Configure the dialogs
-	#if !GTK_CHECK_VERSION(3,12,0)		
-	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("exitDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
-	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("connectDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
-	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("flistDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
-	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("ucLineDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
-	#endif	
 	gtk_window_set_transient_for(GTK_WINDOW(getWidget("exitDialog")), window);
 	gtk_window_set_transient_for(GTK_WINDOW(getWidget("connectDialog")), window);
 	gtk_window_set_transient_for(GTK_WINDOW(getWidget("flistDialog")), window);
@@ -250,9 +244,6 @@ MainWindow::MainWindow():
 	g_object_ref_sink(getWidget("toolbarMenu"));
 
 	// magnet dialog
-	#if !GTK_CHECK_VERSION(3,12,0)	
-	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("MagnetDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
-	#endif	
 	gtk_window_set_transient_for(GTK_WINDOW(getWidget("MagnetDialog")), window);
 	setChooseMagnetDialog_gui();
 	g_signal_connect(getWidget("MagnetDialog"), "response", G_CALLBACK(onResponseMagnetDialog_gui), (gpointer) this);

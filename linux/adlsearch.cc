@@ -32,10 +32,6 @@ SearchADL::SearchADL():
 	sens(TRUE),	acts(TRUE),
 	bForbid(TRUE)
 {
-	#if !GTK_CHECK_VERSION(3,12,0)
-	// Configure the dialog
-	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("ADLSearchDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
-	#endif
 	g_object_ref_sink(getWidget("menu"));
 
 	// Fill drop down actions
