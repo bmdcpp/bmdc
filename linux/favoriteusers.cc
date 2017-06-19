@@ -35,10 +35,6 @@ using namespace dcpp;
 FavoriteUsers::FavoriteUsers():
 	BookEntry(Entry::FAVORITE_USERS, _("Favorite Users"), "favoriteusers")
 {
-	#if !GTK_CHECK_VERSION(3,12,0)	
-	// Configure the dialog
-	gtk_dialog_set_alternative_button_order(GTK_DIALOG(getWidget("DescriptionDialog")), GTK_RESPONSE_OK, GTK_RESPONSE_CANCEL, -1);
-	#endif
 	// menu
 	g_object_ref_sink(getWidget("menu"));
 
@@ -608,9 +604,7 @@ void FavoriteUsers::onRemoveItemClicked_gui(GtkMenuItem*, gpointer data)
 				_("Are you sure you want to delete favorite user(s)?"));
 			gtk_dialog_add_buttons(GTK_DIALOG(dialog), BMDC_STOCK_CANCEL, GTK_RESPONSE_CANCEL, BMDC_STOCK_REMOVE,
 				GTK_RESPONSE_YES, NULL);
-#if !GTK_CHECK_VERSION(3,12,0)		
-			gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_CANCEL, -1);
-#endif			
+
 			gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 			// Widget failed if the dialog gets programmatically destroyed.
 			if (response == GTK_RESPONSE_NONE)

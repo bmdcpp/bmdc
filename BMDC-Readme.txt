@@ -7,9 +7,9 @@ Dependencies:
 -------------
 - scons >= 0.96
 - pkg-config
-- g++ >= 4.7
-- glib >= 2.32
-- gtk+-3.0 >= 3.6
+- g++ >= 4.9
+- glib >= 2.44
+- gtk+-3.0 >= 3.14
 - pthread
 - zlib
 - libbz2

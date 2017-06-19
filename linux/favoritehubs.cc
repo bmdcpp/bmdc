@@ -292,6 +292,7 @@ bool FavoriteHubs::checkAddys(const string url)
 	size_t needle = tmp.find("dchub://");
 	if(needle == string::npos)
 		return false;
+		
 	string newhubaddy = tmp.substr(needle);
 	GtkTreeIter iter;
 	GtkTreeModel *m = GTK_TREE_MODEL(favoriteStore);
@@ -404,9 +405,6 @@ void FavoriteHubs::onRemoveEntry_gui(GtkWidget*, gpointer data)
 
 			gtk_dialog_add_buttons(GTK_DIALOG(dialog), BMDC_STOCK_CANCEL, GTK_RESPONSE_CANCEL, BMDC_STOCK_YES, GTK_RESPONSE_YES, NULL);
 
-#if !GTK_CHECK_VERSION(3,12,0)
-			gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_CANCEL, -1);
-#endif
 			gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 			gtk_widget_destroy(dialog);
 
@@ -517,9 +515,7 @@ void FavoriteHubs::onRemoveGroupClicked_gui(GtkWidget*, gpointer data)
 			_("If you select 'Yes', all of these hubs are going to be deleted!\nIf you select 'No', these hubs will simply be moved to the main default group."));
 		gtk_dialog_add_buttons(GTK_DIALOG(dialog), BMDC_STOCK_CANCEL, GTK_RESPONSE_CANCEL, BMDC_STOCK_YES,
 			GTK_RESPONSE_YES, BMDC_STOCK_NO, GTK_RESPONSE_NO, NULL);
-#if !GTK_CHECK_VERSION(3,12,0)
-		gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog), GTK_RESPONSE_YES, GTK_RESPONSE_NO, GTK_RESPONSE_CANCEL, -1);
-#endif
+
 		gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 
 		// if the dialog gets programmatically destroyed.
