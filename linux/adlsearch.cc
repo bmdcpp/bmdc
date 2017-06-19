@@ -225,9 +225,8 @@ void SearchADL::onPropertiesClicked_gui(GtkWidget*, gpointer data)
 
 		if (showPropertiesDialog_gui(search, true, s))
 		{
-			gchar *p = gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(s->searchADLStore), &iter);
+			g_autofree gchar *p = gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(s->searchADLStore), &iter);
 			SearchType i = (SearchType)Util::toInt(p);
-			g_free(p);
 
 			ADLSearchManager::SearchCollection &collection = ADLSearchManager::getInstance()->collection;
 			if (i < collection.size())
@@ -425,9 +424,8 @@ void SearchADL::onMoveUpClicked_gui(GtkWidget*, gpointer data)
 
 	if (gtk_tree_selection_get_selected(sel, NULL, &current))
 	{
-		gchar *p = gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(s->searchADLStore), &current);
+		g_autofree gchar *p = gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(s->searchADLStore), &current);
 		SearchType i = (SearchType)Util::toInt(p);
-		g_free(p);
 
 		ADLSearchManager::SearchCollection &collection = ADLSearchManager::getInstance()->collection;
 		if (i == 0 || !(i < collection.size()))
@@ -456,9 +454,8 @@ void SearchADL::onMoveDownClicked_gui(GtkWidget*, gpointer data)
 
 	if (gtk_tree_selection_get_selected(sel, NULL, &current))
 	{
-		gchar *p = gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(s->searchADLStore), &current);
+		g_autofree gchar *p = gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(s->searchADLStore), &current);
 		SearchType i = (SearchType)Util::toInt(p);
-		g_free(p);
 
 		ADLSearchManager::SearchCollection &collection = ADLSearchManager::getInstance()->collection;
 		if (collection.empty() || !(i < collection.size() - 1))
@@ -484,9 +481,8 @@ void SearchADL::onActiveToggled_gui(GtkCellRendererToggle* , gchar *path, gpoint
 
 	if (gtk_tree_model_get_iter_from_string(GTK_TREE_MODEL(s->searchADLStore), &iter, path))
 	{
-		gchar *p = gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(s->searchADLStore), &iter);
+		g_autofree gchar *p = gtk_tree_model_get_string_from_iter(GTK_TREE_MODEL(s->searchADLStore), &iter);
 		SearchType i = (SearchType)Util::toInt(p);
-		g_free(p);
 
 		ADLSearchManager::SearchCollection &collection = ADLSearchManager::getInstance()->collection;
 		if (i < collection.size())

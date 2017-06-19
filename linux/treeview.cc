@@ -76,18 +76,21 @@ string TreeView::getString(GtkTreeIter *i, const string &column, GtkTreeModel *m
 {
 	if (m == NULL)
 		m = gtk_tree_view_get_model(view);
-	string value;
-	gchar* temp = NULL;
+	string value = string();
+	g_autofree gchar* temp = NULL;
 	dcassert(gtk_tree_model_get_column_type(m, col(column)) == G_TYPE_STRING);
 	gtk_tree_model_get(m, i, col(column), &temp, -1);
 
-	if (temp != NULL)
+	/*if (temp != NULL)
 	{
 		value = string(temp);
-		g_free(temp);
+		//g_free(temp);
 	}
 
-	return value;
+	return value;*/
+	if(temp)
+		return string(temp);
+	return value;	
 }
 
 void TreeView::insertColumn(const string &title, const GType &gtype, const columnType type, const int width, const string &linkedCol)
@@ -365,11 +368,9 @@ void TreeView::addColumn_gui(Column& column)
 			col = gtk_tree_view_column_new();
 			gtk_tree_view_column_set_title(col, column.title.c_str());
 			gtk_tree_view_column_pack_start(col, renderer, false);
-			//if GTK_CHECK_VERSION(3,9,0)
-				gtk_tree_view_column_add_attribute(col, renderer, "icon-name", TreeView::col(column.linkedCol));
-			//#else
-			//	gtk_tree_view_column_add_attribute(col, renderer, "stock-id", TreeView::col(column.linkedCol));
-			//#endif
+
+			gtk_tree_view_column_add_attribute(col, renderer, "icon-name", TreeView::col(column.linkedCol));
+
 			column.renderer2 = renderer;
 			renderer = gtk_cell_renderer_text_new();
 			gtk_tree_view_column_pack_start(col, renderer, true);
@@ -383,11 +384,8 @@ void TreeView::addColumn_gui(Column& column)
 			col = gtk_tree_view_column_new();
 			gtk_tree_view_column_set_title(col, column.title.c_str());
 			gtk_tree_view_column_pack_start(col, renderer, false);
-			//#if GTK_CHECK_VERSION(3,9,0)
-				gtk_tree_view_column_add_attribute(col, renderer, "icon-name", TreeView::col(column.linkedCol));
-			//#else
-			//	gtk_tree_view_column_add_attribute(col, renderer, "stock-id", TreeView::col(column.linkedCol));
-			//#endif
+
+			gtk_tree_view_column_add_attribute(col, renderer, "icon-name", TreeView::col(column.linkedCol));
 			
 			column.renderer2 = renderer;
 			// text
@@ -449,15 +447,13 @@ void TreeView::addColumn_gui(Column& column)
 	//hmm is 20 consider as small?
 	if (column.width >= 20)
 	{
-		//#if !GTK_CHECK_VERSION(3,8,0)
-		//gtk_tree_view_column_set_fixed_width(col, column.width);
-		//#endif
 		gtk_tree_view_column_set_resizable(col, TRUE);
 	}
 	//#if !GTK_CHECK_VERSION(3,8,0)
 	//if (column.width != -1)
 	//	gtk_tree_view_column_set_sizing(col, GTK_TREE_VIEW_COLUMN_FIXED);
 	//#endif
+
 	//make columns sortable
 	if (column.type != BOOL && column.type != PIXBUF && column.type != EDIT_STRING)
 	{

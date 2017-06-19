@@ -283,7 +283,7 @@ private:
 		GtkWidget *m_menu;
 		Tag::TypeTag tagMsg;
 		unsigned int historyIndex;
-		static const int maxLines = 1000;
+		static const int maxLines = 500;//1000
 		int64_t totalShared;
 		int ImgLimit;
 		int width;

@@ -315,10 +315,8 @@ void WulforUtil::openURItoApp(const string &cmd)
 
 string WulforUtil::colorToString(const GdkRGBA *color)
 {
-	gchar* tmp = gdk_rgba_to_string(color);
-	string s(tmp);
-	g_free(tmp);
-	return s;
+	g_autofree gchar* tmp = gdk_rgba_to_string(color);
+	return string(tmp);
 }
 
 GdkPixbuf* WulforUtil::scalePixbuf(const GdkPixbuf *pixbuf, const int width, const int height, GdkInterpType type)
@@ -978,7 +976,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
  				StringTokenizer<string> aliases( WGETS("custom-aliases"), '#' );
 
  				if( sl.getTokens().at(0) == "list" )
- 				/// List aliasu
+ 				/// List alias
  				{
  					if( !aliases.getTokens().empty() )
  					{
@@ -996,7 +994,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 					return true;
  				}
  				else if( sl.getTokens().at(0) == "purge" )
- 					///odstraneni aliasu
+ 					///remove alias
  				{
  						string store(""), name("");
  						for(StringIter i = aliases.getTokens().begin(); i != aliases.getTokens().end(); ++i)
@@ -1011,7 +1009,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
  				}
  				else
  				{
-					///pridani aliasu
+					///add alias
  					StringTokenizer<string> command( param, "::" );//'
  					string name("");
  					bool exists = false;
@@ -1271,7 +1269,6 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 {
 	if(ext == "directory" || ext.empty())
 	{
-
 		GError* error = NULL;
 		GdkPixbuf* buf = gtk_icon_theme_load_icon(icon_theme,"folder",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,&error);
 		if(error){
@@ -1286,7 +1283,7 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 	g_autofree gchar *tmp2 = g_utf8_strup(tmp.c_str(),-1);
 
 	gboolean is_certain = FALSE;
-	gchar *content_type = g_content_type_guess (tmp2, NULL, 0, &is_certain);
+	g_autofree gchar *content_type = g_content_type_guess (tmp2, NULL, 0, &is_certain);
 	if (content_type == NULL)
 	{
 		
@@ -1299,15 +1296,12 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 		}
 		return buf;
 	}
-	char *mime_type = g_content_type_get_mime_type (content_type);
+	g_autofree gchar *mime_type = g_content_type_get_mime_type (content_type);
 	GIcon *icon = g_content_type_get_icon(mime_type);
 	GtkIconTheme *theme = gtk_icon_theme_get_default ();
 	GtkIconInfo *info = gtk_icon_theme_lookup_by_gicon(theme,icon, (GtkIconSize)16, GTK_ICON_LOOKUP_GENERIC_FALLBACK);
 	GdkPixbuf *icon_d = gtk_icon_info_load_icon (info, NULL);
 	g_object_unref(icon);
-	g_free (mime_type);
-	g_free (content_type);
-	//g_free(tmp2);//lowercase dummy
 	return icon_d;
 }
 //Main point of this code is from ? PtokaX
@@ -1473,7 +1467,7 @@ string WulforUtil::cpuinfo()
 	return string(cpu_info);
 }
 
-void WulforUtil::setTextDeufaults(GtkWidget* widget, std::string strcolor, std::string back_image_path /*= dcpp::Util::emptyString*/,bool pm/* = false*/,std::string hubUrl /*= dcpp::Util::emptyString*/,std::string where /*= dcpp::Util::emptyString*/)
+void WulforUtil::setTextDeufaults(GtkWidget* widget, std::string strcolor, std::string back_image_path /*= */,bool pm/* = false*/,std::string hubUrl /*= */,std::string where /**/)
 {
 		if( (pm == false) && hubUrl.empty()) // Global any hub?
 			gtk_widget_set_name(widget,"Hub");
