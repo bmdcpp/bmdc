@@ -1499,12 +1499,12 @@ void WulforUtil::setTextDeufaults(GtkWidget* widget, std::string strcolor, std::
 			GdkScreen *screen = gdk_display_get_default_screen (display);
 
 			std::string t_css = std::string("GtkTextView#") + (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid )) + "{\n"
-                            "   background: url('"+back_image_path+"');\n"
+                            "   background-image: url('"+back_image_path+"');\n"
                             "}\n\0";
 			
 			if(!mono.empty()) {
 				t_css = std::string("GtkTextView#") + (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid )) + "{\n"
-                            "   background: url('"+back_image_path+"');\n"
+                            "   background-image: url('"+back_image_path+"');\n"
                             "	font: "+mono+";\n"
                             "}\n\0";
            }                
@@ -1525,10 +1525,10 @@ void WulforUtil::setTextDeufaults(GtkWidget* widget, std::string strcolor, std::
 		std::string strwhat = (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid ));
 		if(!where.empty()) strwhat = where;
 				
-		std::string t_css = std::string("GtkTextView#"+strwhat+" { background: "+strcolor+" ;}\n\0");
+		std::string t_css = std::string("GtkTextView#"+strwhat+" { background-color: "+strcolor+" ;}\n\0");
 				
 		if(!mono.empty()) {
-			t_css =	std::string("GtkTextView#"+strwhat+" { background: "+strcolor+" ;\n font: "+mono+"; }\n\0");	
+			t_css =	std::string("GtkTextView#"+strwhat+" { background-color: "+strcolor+" ;\n font: "+mono+"; }\n\0");	
 		}	
 
 		gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
@@ -1539,7 +1539,7 @@ void WulforUtil::setTextDeufaults(GtkWidget* widget, std::string strcolor, std::
 		g_object_unref (provider);
 }
 
-void WulforUtil::setTextColor(std::string color,std::string where /*= dcpp::Util::emptyString*/)
+void WulforUtil::setTextColor(std::string color,std::string where /*= */)
 //Note : selected is red, because most themes get white or black
 {
 		GtkCssProvider *provider = gtk_css_provider_new ();
