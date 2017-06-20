@@ -1655,7 +1655,7 @@ void Settings::initAppearance_gui()
 
 		addOption_gui(userListStore1, _("Normal"), "userlist-text-normal", "userlist-bg-normal");
 		addOption_gui(userListStore1, _("Operator"), "userlist-text-operator", "userlist-bg-operator");
-		addOption_gui(userListStore1, _("Pasive"), "userlist-text-pasive", "userlist-bg-pasive");
+		addOption_gui(userListStore1, _("Passive"), "userlist-text-pasive", "userlist-bg-pasive");
 		addOption_gui(userListStore1, _("Favorite"), "userlist-text-favorite", "userlist-bg-favorite");
 		addOption_gui(userListStore1, _("Protected"), "userlist-text-protected", "userlist-bg-protected");
 		addOption_gui(userListStore1, _("Ignored"), "userlist-text-ignored", "userlist-bg-ignored");
@@ -1734,7 +1734,7 @@ void Settings::makeColor(GtkTreeViewColumn *column, GtkCellRenderer *cell, GtkTr
 		else if ( strcmp(a,"n") == 0)
 		{
 			color = WGETS("userlist-bg-normal");
-		}//Pasive
+		}//Passive
 		else if ( strcmp(a,"p") == 0)
 		{
 			color = WGETS("userlist-bg-pasive");
@@ -3758,7 +3758,7 @@ void Settings::setBgColorUserList()
 			WSET("userlist-bg-bot-hub",strcolor);
 		else if (currname.find(_("Protect")) != string::npos)
 			WSET("userlist-bg-protected",strcolor);
-		else if (currname.find(_("Pasive")) != string::npos)
+		else if (currname.find(_("Passive")) != string::npos)
 			WSET("userlist-bg-pasive",strcolor);
 		else if (currname.find(_("Favorite")) != string::npos)
 			WSET("userlist-bg-favorite",strcolor);
@@ -3792,7 +3792,7 @@ void Settings::onTextColorDefaultULClicked_gui(GtkWidget*, gpointer data)
 		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(s->userListStore1), &iter);
 	}
 	if(valid) {
-		s->setDefaultColor("#747677", _("Pasive"), &iter);
+		s->setDefaultColor("#747677", _("Passive"), &iter);
 		valid = gtk_tree_model_iter_next(GTK_TREE_MODEL(s->userListStore1), &iter);
 	}
 	if(valid) {
@@ -3826,8 +3826,10 @@ void Settings::setColorUL()
 	string currentcolor = "", currname = "";
 	currentcolor = userListNames.getString(&iter, "Color");
 	currname = userListNames.getString(&iter, _("Name"));
+	
 	if( gdk_rgba_parse(&color,currentcolor.c_str() ))
 		gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog),&color);
+	
 	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 	gtk_widget_hide(dialog);
 
