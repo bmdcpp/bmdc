@@ -1498,12 +1498,12 @@ void WulforUtil::setTextDeufaults(GtkWidget* widget, std::string strcolor, std::
 			GdkDisplay *display = gdk_display_get_default ();
 			GdkScreen *screen = gdk_display_get_default_screen (display);
 
-			std::string t_css = std::string("GtkTextView#") + (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid )) + "{\n"
+			std::string t_css = std::string("textview#") + (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid )) + " text {\n"
                             "   background-image: url('"+back_image_path+"');\n"
                             "}\n\0";
 			
 			if(!mono.empty()) {
-				t_css = std::string("GtkTextView#") + (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid )) + "{\n"
+				t_css = std::string("textview#") + (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid )) + " text {\n"
                             "   background-image: url('"+back_image_path+"');\n"
                             "	font: "+mono+";\n"
                             "}\n\0";
@@ -1519,24 +1519,38 @@ void WulforUtil::setTextDeufaults(GtkWidget* widget, std::string strcolor, std::
 			return;
 		}
 		
-		GtkCssProvider *provider = gtk_css_provider_new ();
+		/*GtkCssProvider *provider = gtk_css_provider_new ();
 		GdkDisplay *display = gdk_display_get_default ();
-		GdkScreen *screen = gdk_display_get_default_screen (display);
+		GdkScreen *screen = gdk_display_get_default_screen (display);*/
 		std::string strwhat = (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid ));
-		if(!where.empty()) strwhat = where;
+		//if(!where.empty()) strwhat = where;
 				
-		std::string t_css = std::string("GtkTextView#"+strwhat+" { background-color: "+strcolor+" ;}\n\0");
+		std::string t_css = std::string("textview#"+strwhat+" text { background: "+strcolor+" ;}\n");
 				
 		if(!mono.empty()) {
-			t_css =	std::string("GtkTextView#"+strwhat+" { background-color: "+strcolor+" ;\n font: "+mono+"; }\n\0");	
+			t_css =	std::string("textview#"+strwhat+" text { background: "+strcolor+" ; font: "+mono+"; }\n");	
 		}	
-
+/*
 		gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
 
 		gtk_style_context_add_provider_for_screen (screen,
 														GTK_STYLE_PROVIDER(provider),
 														GTK_STYLE_PROVIDER_PRIORITY_USER);
+		g_object_unref (provider);*/
+		
+		GtkStyleContext *context;
+		GtkCssProvider *provider;
+		context = gtk_widget_get_style_context (widget);
+		provider = gtk_css_provider_new ();
+		gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),
+                                 t_css.c_str(), -1, NULL);
+                                 
+		gtk_style_context_add_provider (context,
+                                GTK_STYLE_PROVIDER (provider),
+                                GTK_STYLE_PROVIDER_PRIORITY_USER);
 		g_object_unref (provider);
+		
+		
 }
 
 void WulforUtil::setTextColor(std::string color,std::string where /*= */)
