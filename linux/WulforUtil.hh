@@ -104,9 +104,9 @@ class WulforUtil
 		static const std::string ENCODING_LOCALE;
 		static const std::string commands;
 
-		static void setTextDeufaults(GtkWidget* widget, std::string strcolor, std::string back_image_path = "",bool pm = false,std::string hubUrl = "",std::string where = "");
+		static void setTextDeufaults(GtkWidget* widget, std::string strcolor, std::string back_image_path = "",bool pm = false,std::string hubUrl = "",std::string where = std::string());
 		//Note : selected is red, because most themes get white or black
-		static void setTextColor(std::string color,std::string where = "");
+		static void setTextColor(std::string color,std::string where = std::string());
 
 		static std::string getTagName(GtkTextTag *tag);
 	
