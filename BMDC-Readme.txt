@@ -9,7 +9,7 @@ Dependencies:
 - pkg-config
 - g++ >= 4.9
 - glib >= 2.44
-- gtk+-3.0 >= 3.14
+- gtk+-3.0 >= 3.16
 - pthread
 - zlib
 - libbz2

@@ -165,12 +165,12 @@ void TreeView::finalize()
 	{
 		GtkTreeViewColumn *col = gtk_tree_view_column_new();
 		// Set to fixed so that gtk_tree_view_set_fixed_height() doesn't complain.
-	#if !GTK_CHECK_VERSION(3,8,0)
-		gtk_tree_view_column_set_sizing(col, GTK_TREE_VIEW_COLUMN_FIXED);
-	#else
+	//#if !GTK_CHECK_VERSION(3,8,0)
+	//	gtk_tree_view_column_set_sizing(col, GTK_TREE_VIEW_COLUMN_FIXED);
+	//#else
 		if( (name.length() == 9) &&  (name == "transfers"))
 			gtk_tree_view_column_set_sizing(col, GTK_TREE_VIEW_COLUMN_GROW_ONLY);
-	#endif	
+	//#endif	
 		gtk_tree_view_insert_column(view, col, count);
 	}
 }
