@@ -470,11 +470,8 @@ void Settings::saveSettings_client()
 		}
 
 		{ // Search Spy
-			#if !GTK_CHECK_VERSION(3,4,0)
-			GdkColor color;
-			#else
 			GdkRGBA color;
-			#endif
+
 			g_c_b_g(G_C_B(getWidget("aSPColorButton")), &color);
 			WSET("search-spy-a-color", WulforUtil::colorToString(&color));
 
@@ -1579,11 +1576,8 @@ void Settings::initAppearance_gui()
 	}
 
 	{ // Search Spy
-		#if !GTK_CHECK_VERSION(3,4,0)
-		GdkColor color;
-		#else
 		GdkRGBA color;
-		#endif
+		
 		if (g_c_p(wsm->getString("search-spy-a-color").c_str(), &color))
 			g_c_b_s(G_C_B(getWidget("aSPColorButton")), &color);
 
@@ -1775,7 +1769,7 @@ void Settings::onSetBackGroundChat(GtkWidget* , gpointer data)
 		GtkCssProvider *provider = gtk_css_provider_new ();
 		GdkDisplay *display = gdk_display_get_default ();
 		GdkScreen *screen = gdk_display_get_default_screen (display);
-		std::string t_css = std::string("#prewienTextView { background: "+strcolor+" ;}\n\0");
+		std::string t_css = std::string("#prewienTextView text { background: "+strcolor+" ;}\n\0");
 		gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
 
 		gtk_style_context_add_provider_for_screen (screen,
@@ -3024,11 +3018,9 @@ void Settings::onDefaultThemeButton_gui(GtkWidget*, gpointer data)
 void Settings::onDefaultColorsSPButton_gui(GtkWidget *, gpointer data)
 {
 	Settings *s = (Settings *)data;
-	#if !GTK_CHECK_VERSION(3,4,0)
-	GdkColor color;
-	#else
+
 	GdkRGBA color;
-	#endif
+
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
 
 	if (g_c_p(wsm->getString("search-spy-a-color", TRUE).c_str(), &color))

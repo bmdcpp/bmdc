@@ -680,13 +680,7 @@ void Search::addResult_gui(const SearchResultPtr result)
 	// tree until after the duplication check.
 	if (createParent)
 	{
-		//#if GTK_CHECK_VERSION(3,9,0)
-		//GError* error = NULL;
 		GdkPixbuf* buf = gtk_icon_theme_load_icon(WulforUtil::icon_theme,"dnd-multiple",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,NULL);
-		//#else
-		//GtkWidget *iwid = gtk_invisible_new ();
-		//GdkPixbuf *buf = gtk_widget_render_icon_pixbuf(iwid, BMDC_STOCK_DND_MULTIPLE, GTK_ICON_SIZE_MENU);
-		//#endif
 		// Insert the new parent row
 		gtk_tree_store_insert_with_values(resultStore, &parent, NULL, -1,
 				resultView.col("Icon"),buf ,

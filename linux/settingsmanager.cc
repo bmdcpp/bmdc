@@ -39,19 +39,10 @@ using namespace dcpp;
 WulforSettingsManager::WulforSettingsManager():
 	configFile(Util::getPath(Util::PATH_USER_CONFIG) + "BMDC.xml")
 {
-	#if !GTK_CHECK_VERSION(3,14,1)
-	//obtain "background" color from theme what used on 1st startup
+	//NOTE: get from theme/sys/ how? (background)
 	GdkRGBA color;
-	//  "gtk-theme-name"           gchar*    : Read / Write (from gtk-doc)
-	gchar *name_theme = NULL;
-	g_object_get(gtk_settings_get_default(),"gtk-theme-name",&name_theme,NULL);
-	GtkThemingEngine *engine = gtk_theming_engine_load(name_theme);
-	gtk_theming_engine_get_background_color (engine,(GtkStateFlags)GTK_STATE_FLAG_NORMAL,&color);
-	#else
-	//NOTE: get from theme/sys/ how?
-		GdkRGBA color;
-		gdk_rgba_parse (&color,"white");
-	#endif
+	gdk_rgba_parse (&color,"white");
+	
 	
 	defaultInt.insert(IntMap::value_type("country-hub-icon",1));
 

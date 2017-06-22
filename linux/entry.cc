@@ -32,23 +32,11 @@ Entry::Entry(const EntryType type, const string &ui, const string &id):
 	type(type),
 	id(dcpp::Util::toString(type) + ":" + id)
 {
-	if(!ui.empty()) {
-	// Load the Builder XML file, if applicable
-#if !GTK_CHECK_VERSION(3, 10, 0)
-	string sFile = WulforManager::get()->getPath() + "/ui/" + ui + ".ui";
-	GError *error = NULL;
-	xml = gtk_builder_new();
-	gtk_builder_add_from_file(xml, sFile.c_str(), &error);
-
-	if(error != NULL)
+	if(!ui.empty()) 
 	{
-			g_print("[BMDC][GTKBUILDER][Error] file => %s , => %s\n", sFile.c_str(), error->message);
-			g_error_free(error);
-	}
-#else
+	// Load the Builder XML resource, if applicable
 	xml = gtk_builder_new_from_resource( (string("/org/bmdc-team/bmdc/ui/") + ui + ".ui").c_str());
-#endif
-  }
+	}
 }
 
 Entry::~Entry()

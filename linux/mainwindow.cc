@@ -727,12 +727,12 @@ void MainWindow::addBookEntry_gui(BookEntry *entry)
 
 GtkWidget *MainWindow::currentPage_gui()
 {
-	int ipageNum = gtk_notebook_get_current_page(GTK_NOTEBOOK(getWidget("book")));
+	int iPageNum = gtk_notebook_get_current_page(GTK_NOTEBOOK(getWidget("book")));
 
-	if (ipageNum == -1)
+	if (iPageNum == -1)
 		return NULL;
 	else
-		return gtk_notebook_get_nth_page(GTK_NOTEBOOK(getWidget("book")), ipageNum);
+		return gtk_notebook_get_nth_page(GTK_NOTEBOOK(getWidget("book")), iPageNum);
 }
 
 void MainWindow::raisePage_gui(GtkWidget *page)
@@ -1704,11 +1704,11 @@ void MainWindow::onResponseMagnetDialog_gui(GtkWidget *dialog, gint response, gp
 		{
 			if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(mw->getWidget("dowloadQueueRadioButton"))))
 			{
-				gchar *temp = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(mw->getWidget("flistDialog")));
+				g_autofree gchar *temp = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(mw->getWidget("flistDialog")));
 				if (temp)
 				{
 					path = string(temp) + G_DIR_SEPARATOR_S;
-					g_free(temp);
+					//g_free(temp);
 				}
 				if (!File::isAbsolute(path))
 					path = SETTING(DOWNLOAD_DIRECTORY);
@@ -1736,11 +1736,11 @@ void MainWindow::onResponseMagnetDialog_gui(GtkWidget *dialog, gint response, gp
 
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(mw->getWidget("dowloadQueueRadioButton"))))
 		{
-			gchar *temp = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(mw->getWidget("flistDialog")));
+			g_autofree gchar *temp = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(mw->getWidget("flistDialog")));
 			if (temp)
 			{
 				path = string(temp) + G_DIR_SEPARATOR_S;
-				g_free(temp);
+				//g_free(temp);
 			}
 
 			if (!File::isAbsolute(path))
@@ -2420,12 +2420,11 @@ void MainWindow::onOpenFileListClicked_gui(GtkWidget*, gpointer data)
 
 	if (response == GTK_RESPONSE_OK)
 	{
-		gchar *cptemp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
+		g_autofree gchar *cptemp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
 
 		if (cptemp)
 		{
 			string spath(cptemp);
-			g_free(cptemp);
 
 			UserPtr user = DirectoryListing::getUserFromFilename(spath);
 			if (user)
@@ -2670,6 +2669,7 @@ void MainWindow::refreshFileList_client()
 	}
 	catch (const ShareException&)
 	{
+		
 	}
 }
 
@@ -2757,7 +2757,7 @@ void MainWindow::on(QueueManagerListener::Finished, QueueItem *item, const strin
 			listQueue.fileLists.push_back(i);
 		}
 		listQueue.s.signal();
-		}catch(...){}
+		}catch(...){ }
 		
 	}else if (!item->isSet(QueueItem::FLAG_XML_BZLIST))
 	{
@@ -2891,7 +2891,7 @@ void MainWindow::onTTHFileButton_gui(GtkWidget* , gpointer data)
 
 	if (response == GTK_RESPONSE_OK)
 	{
-		gchar *cptemp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
+		g_autofree gchar *cptemp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(chooser));
 		gtk_widget_set_sensitive(mw->getWidget("buttonok"),FALSE);
 		TTHHash hasht;
 		if(hasht.stop)
@@ -2903,7 +2903,6 @@ void MainWindow::onTTHFileButton_gui(GtkWidget* , gpointer data)
 			hasht.start();
 			hasht.s.signal();
 		}
-		g_free(cptemp);
 	}
 }
 
