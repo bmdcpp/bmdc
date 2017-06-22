@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2017-06-22 14:50+0200\n"
+"POT-Creation-Date: 2017-06-22 15:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3166,7 +3166,7 @@ msgstr ""
 msgid " removed from favorites list"
 msgstr ""
 
-#: linux/settingsmanager.cc:725
+#: linux/settingsmanager.cc:727
 msgid " to "
 msgstr ""
 
@@ -3530,7 +3530,7 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: linux/settingsmanager.cc:725
+#: linux/settingsmanager.cc:727
 msgid "Change setting "
 msgstr ""
 
@@ -3750,12 +3750,12 @@ msgid "Download failed: "
 msgstr ""
 
 #: linux/settingsdialog.cc:1196 linux/settingsdialog.cc:1378
-#: linux/settingsmanager.cc:246 linux/transfers.cc:1131
+#: linux/settingsmanager.cc:248 linux/transfers.cc:1131
 msgid "Download finished"
 msgstr ""
 
 #: linux/settingsdialog.cc:1197 linux/settingsdialog.cc:1382
-#: linux/settingsmanager.cc:248
+#: linux/settingsmanager.cc:250
 msgid "Download finished file list"
 msgstr ""
 
@@ -3890,11 +3890,11 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: linux/settingsmanager.cc:728
+#: linux/settingsmanager.cc:730
 msgid "Error: params have been not 2!"
 msgstr ""
 
-#: linux/settingsmanager.cc:724
+#: linux/settingsmanager.cc:726
 msgid "Error: setting not found!"
 msgstr ""
 
@@ -3992,12 +3992,12 @@ msgid "Favorite hub removed"
 msgstr ""
 
 #: linux/settingsdialog.cc:1202 linux/settingsdialog.cc:1398
-#: linux/settingsmanager.cc:256
+#: linux/settingsmanager.cc:258
 msgid "Favorite user joined"
 msgstr ""
 
 #: linux/settingsdialog.cc:1203 linux/settingsdialog.cc:1402
-#: linux/settingsmanager.cc:258
+#: linux/settingsmanager.cc:260
 msgid "Favorite user quit"
 msgstr ""
 
@@ -4119,7 +4119,7 @@ msgstr ""
 msgid "Highlightings"
 msgstr ""
 
-#: linux/settingsmanager.cc:394
+#: linux/settingsmanager.cc:396
 msgid "Highliting"
 msgstr ""
 
@@ -4133,7 +4133,7 @@ msgstr ""
 msgid "Hub (last seen in, if offline)"
 msgstr ""
 
-#: linux/settingsmanager.cc:397
+#: linux/settingsmanager.cc:399
 msgid "Hub Chat"
 msgstr ""
 
@@ -4151,12 +4151,12 @@ msgid "Hub address"
 msgstr ""
 
 #: linux/settingsdialog.cc:1200 linux/settingsdialog.cc:1390
-#: linux/settingsmanager.cc:254
+#: linux/settingsmanager.cc:256
 msgid "Hub connected"
 msgstr ""
 
 #: linux/settingsdialog.cc:1201 linux/settingsdialog.cc:1394
-#: linux/settingsmanager.cc:252
+#: linux/settingsmanager.cc:254
 msgid "Hub disconnected"
 msgstr ""
 
@@ -4581,7 +4581,7 @@ msgid "Private Message (also sets urgency hint)"
 msgstr ""
 
 #: linux/hub.cc:2610 linux/settingsdialog.cc:1199 linux/settingsdialog.cc:1245
-#: linux/settingsdialog.cc:1386 linux/settingsmanager.cc:250
+#: linux/settingsdialog.cc:1386 linux/settingsmanager.cc:252
 msgid "Private message"
 msgstr ""
 

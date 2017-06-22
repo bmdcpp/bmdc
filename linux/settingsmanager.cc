@@ -39,10 +39,12 @@ using namespace dcpp;
 WulforSettingsManager::WulforSettingsManager():
 	configFile(Util::getPath(Util::PATH_USER_CONFIG) + "BMDC.xml")
 {
-	//NOTE: get from theme/sys/ how? (background)
+	//NOTE: get from theme/sys/  (background)
 	GdkRGBA color;
-	gdk_rgba_parse (&color,"white");
-	
+	//gdk_rgba_parse (&color,"white");
+	gtk_style_context_get (gtk_style_context_new(), GTK_STATE_FLAG_NORMAL,
+                       "background-color", &color,
+                       NULL);
 	
 	defaultInt.insert(IntMap::value_type("country-hub-icon",1));
 
