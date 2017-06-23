@@ -99,7 +99,6 @@ void AboutConfig::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, Gtk
 
 }
 
-
 AboutConfig::~AboutConfig()
 {
 

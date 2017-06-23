@@ -137,7 +137,7 @@ void Transfers::popupTransferMenu_gui()
 	GtkTreePath *path;
 	GtkTreeIter iter;
 	GList *list = gtk_tree_selection_get_selected_rows(transferSelection, NULL);
-	string target = "";
+	string target = string();
 
 	for (GList *i = list; i; i = i->next)
 	{
@@ -505,12 +505,12 @@ bool Transfers::findParent_gui(const string& target, GtkTreeIter* iter)
 		if (transferView.getValue<gboolean>(iter, "Download") &&
 				target == transferView.getString(iter, "Target") &&
 				transferView.getString(iter, "CID").empty())
-			return TRUE;
+			return true;
 
 		valid = WulforUtil::getNextIter_gui(m, iter, FALSE, FALSE);
 	}
 
-	return FALSE;
+	return false;
 }
 
 bool Transfers::findTransfer_gui(const string& cid, bool download, GtkTreeIter* iter)
@@ -523,14 +523,14 @@ bool Transfers::findTransfer_gui(const string& cid, bool download, GtkTreeIter* 
 		if (cid == transferView.getString(iter, "CID") && !cid.empty())
 		{
 			if (download && transferView.getValue<gboolean>(iter, "Download"))
-				return TRUE;
+				return true;
 			if (!download && !transferView.getValue<gboolean>(iter, "Download"))
-				return TRUE;
+				return true;
 		}
 		valid = WulforUtil::getNextIter_gui(m, iter, TRUE, TRUE);
 	}
 
-	return FALSE;
+	return false;
 }
 
 void Transfers::addConnection_gui(StringMap params, bool download)
@@ -751,7 +751,7 @@ void Transfers::initTransfer_gui(StringMap params)
 		}
 		else
 		{
-			GdkPixbuf *buf = WulforUtil::LoadCountryPixbuf((SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountryAbbrevation(params["IP"]) : Util::emptyString);
+			//GdkPixbuf* buf = 
 
 			string filename = params[_("Filename")];
 			if (filename.find("TTH: ") != string::npos)
@@ -763,12 +763,12 @@ void Transfers::initTransfer_gui(StringMap params)
 				transferView.col(_("Path")), params[_("Path")].c_str(),
 				transferView.col(_("Size")), Util::toInt64(params["File Size"]),
 				transferView.col("IP"), params["IP"].c_str(),
-				transferView.col("DNS"), WGETB("use-dns") ? Socket::getRemoteHost(params["IP"]).c_str() : Util::emptyString.c_str(),
+				transferView.col("DNS"), WGETB("use-dns") ? Socket::getRemoteHost(params["IP"]).c_str() : string().c_str(),
 				transferView.col("Icon"), "bmdc-download",
 				transferView.col("Download"), TRUE,
 				transferView.col("Target"), params["Target"].c_str(),
 				transferView.col("Country"), GeoManager::getInstance()->getCountry(params["IP"]).c_str(),
-				transferView.col("Pixbuf"), buf,
+				transferView.col("Pixbuf"), WulforUtil::LoadCountryPixbuf((SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountryAbbrevation(params["IP"]) : string()),
 				transferView.col("TTH"), params["TTH"].c_str(),
 				-1);
 
