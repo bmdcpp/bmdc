@@ -456,9 +456,11 @@ void DownloadManager::failDownload(UserConnection* aSource, const string& reason
 }
 
 void DownloadManager::removeConnection(UserConnectionPtr aConn) {
-	dcassert(aConn->getDownload() == NULL);
-	aConn->removeListener(this);
-	aConn->disconnect();
+	//dcassert(aConn->getDownload() == NULL);
+	if(aConn) {
+		aConn->removeListener(this);
+		aConn->disconnect();
+	}
 	Lock l(cs);
 	if( find(idlers.begin(), idlers.end(), aConn) != idlers.end())
 		idlers.erase(remove(idlers.begin(), idlers.end(), aConn), idlers.end());
@@ -553,8 +555,9 @@ void DownloadManager::fileNotAvailable(UserConnection* aSource) {
 
 	Download* d = aSource->getDownload();
 
-	if(d == NULL)
-	{  return;
+	if(!d)
+	{  
+		return;
 	}
 	dcdebug("File Not Available: %s\n", d->getPath().c_str());
 
@@ -583,7 +586,7 @@ void DownloadManager::fileNotAvailable(UserConnection* aSource) {
 	QueueManager::getInstance()->putDownload(d, false);
 
 	checkDownloads(aSource);
-	removeConnection(aSource);
+	
 }
 
 void DownloadManager::on(UserConnectionListener::ListLength, UserConnection* aSource, const string& aListLength) noexcept {

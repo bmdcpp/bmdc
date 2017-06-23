@@ -164,7 +164,7 @@ int64_t ShareManager::Directory::getSize() const noexcept {
 }
 
 string ShareManager::toVirtual(const TTHValue& tth) const {
-if(!tth) {	
+	if(tth) {	
 
 		if( (bzXmlRoot != NULL ) && (tth == *bzXmlRoot)) {
 			return Transfer::USER_LIST_NAME_BZ;
@@ -260,7 +260,7 @@ MemoryInputStream* ShareManager::getTree(const string& virtualFile) const {
 	} else {
 		try {
 			TTHValue* tth = getTTH(virtualFile);
-			if(tth == NULL) { return nullptr; }
+			if(!tth) { return nullptr; }
 			HashManager::getInstance()->getTree(*tth, tree);
 		} catch(const Exception&) {
 			return nullptr;
