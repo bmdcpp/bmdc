@@ -87,38 +87,46 @@ static uint64_t getTimeStamp(const string &fname){
 }
 
 #endif // USE_XATTR
-
+#define __STDC_FORMAT_MACROS
+#include <inttypes.h>
 bool HashManager::StreamStore::loadTree(const string& p_filePath, TigerTree& tree, int64_t p_aFileSize)
 {
 #ifdef USE_XATTR
-    const int64_t fileSize  = (p_aFileSize == -1) ?  File::getSize(p_filePath) : p_aFileSize;
+   const int64_t fileSize  = (p_aFileSize == -1) ? File::getSize(p_filePath) : p_aFileSize;
     const size_t hdrSz      = sizeof(TTHStreamHeader);
-    int totalSz    = ATTR_MAX_VALUELEN;
+    const size_t totalSz    = ATTR_MAX_VALUELEN;
+    int blockSize           = totalSz;
     TTHStreamHeader h;
 
-    uint8_t buf[ATTR_MAX_VALUELEN];
+    std::unique_ptr<uint8_t[]> buf(new uint8_t[totalSz]);
 
-    if (attr_get(p_filePath.c_str(), g_streamName.c_str(), (char*)buf, &totalSz, 0) == 0) {
-        memcpy(&h, buf, hdrSz);
-        //Note: see http://stackoverflow.com/questions/8132399/how-to-printf-uint64-t
-		printf("%s: timestamps header%" PRIu64 ", current%" PRIu64 ", difference(should be zero)%" PRIu64 "\n",
-               p_filePath.c_str(), h.timeStamp, getTimeStamp(p_filePath), h.timeStamp - getTimeStamp(p_filePath));
-               
-        if ( (h.timeStamp == getTimeStamp(p_filePath) && validateCheckSum(h))){ // File was modified and we should reset attr.
+    if (attr_get(p_filePath.c_str(), g_streamName.c_str(), (char*)(void*)buf.get(), &blockSize, 0) == 0){
+        memcpy(&h, buf.get(), hdrSz);
+
+        printf("%s: timestamps header=%" PRIu64 ", current=%" PRIu64 ", difference(should be zero)=%" PRIu64 "\n",
+               p_filePath.c_str(), h.timeStamp, getTimeStamp(p_filePath), (h.timeStamp - getTimeStamp(p_filePath)));
+
+        if (!(h.timeStamp == getTimeStamp(p_filePath) && validateCheckSum(h))){ // File was modified and we should reset attr.
             deleteStream(p_filePath);
+
             return false;
         }
 
-        TigerTree p_Tree = TigerTree(fileSize, /*h.blockSize*/HashManager::MIN_BLOCK_SIZE , buf + hdrSz);
+        const size_t datalen = blockSize - hdrSz;
+        std::unique_ptr<uint8_t[]> tail(new uint8_t[datalen]);
+
+        memcpy(tail.get(), (uint8_t*)buf.get() + hdrSz, datalen);
+
+        TigerTree p_Tree = TigerTree(fileSize, h.blockSize, tail.get());
 
         if (p_Tree.getRoot() == h.root){
             tree = p_Tree;
+
             return true;
         }
-        else {
+        else
             return false;
-        }    
-    }
+}
 #endif //USE_XATTR
     return false;
 }
@@ -165,12 +173,13 @@ TTHValue* HashManager::getTTH(const string& aFileName, int64_t aSize, uint32_t a
 	if(!tth) {
 		//TTH is NULL create new variable
 		try {
-		tth = new TTHValue();
+		//tth = new TTHValue();
 		}catch(...){ }
 		//true... is find , false is not find
-		if(m_streamstore.loadTree(aFileName,*(TigerTree*)tth,-1)) {
-			printf ("%s: hash [%s] was loaded from Xattr.\n", aFileName.c_str(), tth->toBase32().c_str());
-			return tth;
+		TigerTree tt;
+		if(m_streamstore.loadTree(aFileName,tt,-1)) {
+			printf ("%s: hash [%s] was loaded from Xattr.\n", aFileName.c_str(), tt.getRoot().toBase32().c_str());
+			return &(tt.getRoot());
 		} else	{
 			//hash is still NULL. hash file NOW!
 			hasher.hashFile(aFileName, aSize);
