@@ -88,7 +88,7 @@ public:
 	}
 
 	static size_t calcBlocks(int64_t aFileSize, int64_t aBlockSize) {
-		return max((size_t)((aFileSize + aBlockSize - 1) / aBlockSize), (size_t)1);
+		return std::max((size_t)((aFileSize + aBlockSize - 1) / aBlockSize), (size_t)1);
 	}
 
 	/**
