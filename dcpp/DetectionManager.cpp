@@ -559,13 +559,13 @@ void DetectionManager::ProfilesSave() {
 	}
 }
 
-void DetectionManager::addDetectionItem(DetectionEntry& e, bool isUserInfo /*=false*/) throw(Exception) {
+string DetectionManager::addDetectionItem(DetectionEntry& e, bool isUserInfo /*=false*/) noexcept {
 	Lock l(cs);
 	DetectionItems& list = isUserInfo ? ui_det : det;
 	if(list.size() >= (list.max_size()-1))
-		throw Exception("No more items can be added!");
+		return("No more items can be added!");
 
-	validateItem(e, true, isUserInfo);
+	if(validateItem(e, true, isUserInfo) == false) return _("Item already exist or other?");
 
 	if(e.Id == 0) {
 		e.Id = isUserInfo ? ++ui_lastId : ++lastId;
@@ -582,55 +582,69 @@ void DetectionManager::addDetectionItem(DetectionEntry& e, bool isUserInfo /*=fa
 	}
 
 	list.push_back(e);
-
+	return _("Successfull");
 }
 
-void DetectionManager::validateItem(const DetectionEntry& e, bool checkIds, bool isUserInfo /*=false*/) throw(Exception) {
+bool DetectionManager::validateItem(const DetectionEntry& e, bool checkIds, bool isUserInfo /*=false*/) noexcept {
 	Lock l(cs);
 	const DetectionItems& list = isUserInfo ? ui_det : det;
 	if(checkIds && e.Id > 0) {
 		for(auto i = list.begin(); i != list.end(); ++i) {
 			if(i->Id == e.Id || e.Id <= 0) {
-				throw Exception("Item with this ID already exist!");
+				printf("Item with this ID already exist!");
+				return false;
 			}
 		}
 	}
 
-	if(e.defaultMap.empty() && e.adcMap.empty() && e.nmdcMap.empty())
-		throw Exception("You have to fill at least one map (Both, ADC or NMDC protocol)");
-
+	if(e.defaultMap.empty() && e.adcMap.empty() && e.nmdcMap.empty()) {
+		printf("You have to fill at least one map (Both, ADC or NMDC protocol)");
+		return false;
+	}
 	{
 		const DetectionEntry::INFMap& inf = e.defaultMap;
 		for(auto i = inf.begin(); i != inf.end(); ++i) {
-			if(i->first == Util::emptyString)
-				throw Exception("INF entry name can't be empty!");
-			else if(i->second == Util::emptyString)
-				throw Exception("INF entry pattern can't be empty!");
+			if(i->first.empty()) {
+				printf("INF entry name can't be empty!");
+				return false;
+			}
+			else if(i->second.empty()) {
+				printf("INF entry pattern can't be empty!");
+				return false;
+			}
 		}
 	}
 	{
 		const DetectionEntry::INFMap& inf = e.nmdcMap;
 		for(auto i = inf.begin(); i != inf.end(); ++i) {
-			if(i->first == Util::emptyString)
-				throw Exception("INF entry name can't be empty!");
-			else if(i->second == Util::emptyString)
-				throw Exception("INF entry pattern can't be empty!");
+			if(i->first.empty()){
+				printf("INF entry name can't be empty!");
+				return false;
+			}else if(i->second.empty()) {
+				printf("INF entry pattern can't be empty!");
+				return false;
+			}
 		}
 	}
 	{
 		const DetectionEntry::INFMap& inf = e.adcMap;
 		for(auto i = inf.begin(); i != inf.end(); ++i) {
-			if(i->first == Util::emptyString)
-				throw Exception("INF entry name can't be empty!");
-			else if(i->second == Util::emptyString)
-				throw Exception("INF entry pattern can't be empty!");
+			if(i->first.empty()){
+				printf("INF entry name can't be empty!");
+				return false;
+			} else if(i->second.empty()) {
+				printf("INF entry pattern can't be empty!");
+				return false;
+			}
 		}
 	}
 
-//	if(e.name.empty()) throw Exception("Item's name can't be empty!");
+	if(e.name.empty()) return false;
+
+	return true;
 }
 
-void DetectionManager::removeDetectionItem(const uint32_t id, bool isUserInfo /*=false*/) throw() {
+void DetectionManager::removeDetectionItem(const uint32_t id, bool isUserInfo /*=false*/) noexcept {
 	Lock l(cs);
 	DetectionItems& list = isUserInfo ? ui_det : det;
 	for(auto i = list.begin(); i != list.end(); ++i) {
@@ -641,7 +655,7 @@ void DetectionManager::removeDetectionItem(const uint32_t id, bool isUserInfo /*
 	}
 }
 
-void DetectionManager::updateDetectionItem(const uint32_t aOrigId, const DetectionEntry& e, bool isUserInfo /*=false*/) throw(Exception) {
+void DetectionManager::updateDetectionItem(const uint32_t aOrigId, const DetectionEntry& e, bool isUserInfo /*=false*/) noexcept {
 	Lock l(cs);
 	DetectionItems& list = isUserInfo ? ui_det : det;
 	validateItem(e, e.Id != aOrigId, isUserInfo);
@@ -653,7 +667,7 @@ void DetectionManager::updateDetectionItem(const uint32_t aOrigId, const Detecti
 	}
 }
 
-bool DetectionManager::getDetectionItem(const uint32_t aId, DetectionEntry& e, bool isUserInfo /*=false*/) throw() {
+bool DetectionManager::getDetectionItem(const uint32_t aId, DetectionEntry& e, bool isUserInfo /*=false*/) noexcept {
 	Lock l(cs);
 	DetectionItems& list = isUserInfo ? ui_det : det;
 	for(auto i = list.begin(); i != list.end(); ++i) {
@@ -665,7 +679,7 @@ bool DetectionManager::getDetectionItem(const uint32_t aId, DetectionEntry& e, b
 	return false;
 }
 
-bool DetectionManager::getNextDetectionItem(const uint32_t aId, int pos, DetectionEntry& e, bool isUserInfo /*=false*/) throw() {
+bool DetectionManager::getNextDetectionItem(const uint32_t aId, int pos, DetectionEntry& e, bool isUserInfo /*=false*/) noexcept {
 	Lock l(cs);
 	DetectionItems& list = isUserInfo ? ui_det : det;
 	for(auto i = list.begin(); i != list.end(); ++i) {
@@ -693,7 +707,7 @@ bool DetectionManager::moveDetectionItem(const uint32_t aId, int pos, bool isUse
 	return false;
 }
 
-void DetectionManager::setItemEnabled(const uint32_t aId, bool enabled, bool isUserInfo /*=false*/) throw() {
+void DetectionManager::setItemEnabled(const uint32_t aId, bool enabled, bool isUserInfo /*=false*/) noexcept {
 	Lock l(cs);
 	DetectionItems& list = isUserInfo ? ui_det : det;
 	for(auto i = list.begin(); i != list.end(); ++i) {

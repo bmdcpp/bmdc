@@ -213,7 +213,7 @@ void DownloadManager::checkDownloads(UserConnection* aConn) {
 	the hinturl of the connection is updated to the hub where the connection reguest is coming from,
 	so we should be able to find our own SID by finding the hub where the user is at (if we have a hint).
 	*/
-	string mySID = Util::emptyString;
+	string mySID = string();
 	if(!aConn->getUser()->isNMDC() && (d->getType() == Transfer::TYPE_FULL_LIST || d->getType() == Transfer::TYPE_PARTIAL_LIST))
 		mySID = ClientManager::getInstance()->findMySID(aConn->getHintedUser());
 

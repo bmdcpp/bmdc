@@ -49,14 +49,14 @@ public:
 		UserInfoSave();
 	}
 
-	void addDetectionItem(DetectionEntry& e, bool isUserInfo = false) throw(Exception);
-	void updateDetectionItem(const uint32_t aOrigId, const DetectionEntry& e, bool isUserInfo = false) throw(Exception);
-	void removeDetectionItem(const uint32_t id, bool isUserInfo = false) throw();
+	string addDetectionItem(DetectionEntry& e, bool isUserInfo = false) noexcept;
+	void updateDetectionItem(const uint32_t aOrigId, const DetectionEntry& e, bool isUserInfo = false) noexcept;
+	void removeDetectionItem(const uint32_t id, bool isUserInfo = false) noexcept;
 
-	bool getNextDetectionItem(const uint32_t aId, int pos, DetectionEntry& e, bool isUserInfo = false) throw();
-	bool getDetectionItem(const uint32_t aId, DetectionEntry& e, bool isUserInfo = false) throw();
+	bool getNextDetectionItem(const uint32_t aId, int pos, DetectionEntry& e, bool isUserInfo = false) noexcept;
+	bool getDetectionItem(const uint32_t aId, DetectionEntry& e, bool isUserInfo = false) noexcept;
 	bool moveDetectionItem(const uint32_t aId, int pos, bool isUserInfo = false);
-	void setItemEnabled(const uint32_t aId, bool enabled, bool isUserInfo = false) throw();
+	void setItemEnabled(const uint32_t aId, bool enabled, bool isUserInfo = false) noexcept;
 
 	const DetectionItems& getProfiles(bool isUserInfo = false) noexcept {
 		Lock l(cs);
@@ -94,7 +94,7 @@ private:
 	size_t lastId;
 	size_t ui_lastId;
 
-	void validateItem(const DetectionEntry& e, bool checkIds, bool isUserInfo =false) throw(Exception);
+	bool validateItem(const DetectionEntry& e, bool checkIds , bool isUserInfo = false) noexcept;
 	void importProfiles(SimpleXML& xml);
 
 	friend class Singleton<DetectionManager>;

@@ -159,7 +159,6 @@ void HashManager::StreamStore::deleteStream(const string& p_filePath)
 }
 
 TTHValue* HashManager::getTTH(const string& aFileName, int64_t aSize, uint32_t aTimeStamp) noexcept {
-	//string fpath = Util::getFilePath(aFileName);
 	Lock l(cs);
 	
 	TTHValue *tth = store.getTTH(aFileName, aSize, aTimeStamp);

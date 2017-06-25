@@ -77,7 +77,6 @@ uint16_t Identity::getUdpPort() const {
 	if(getIp6().empty() ) {
 		return getUdp4Port();
 	}
-
 	return getUdp6Port();
 }
 
@@ -93,30 +92,30 @@ void Identity::getParams(ParamMap& params, const string& prefix, bool compatibil
 		}
 	}
 	if(user) {
-		params[prefix + "SID"] =  getSIDString(); 
-		params[prefix + "CID"] =  user->getCID().toBase32(); 
-		params[prefix + "TAG"] =  getTag(); 
-		params[prefix + "SSshort"] =  Util::formatBytes(get("SS")); 
+		params[prefix + "SID"] =  getSIDString();
+		params[prefix + "CID"] =  user->getCID().toBase32();
+		params[prefix + "TAG"] =  getTag();
+		params[prefix + "SSshort"] =  Util::formatBytes(get("SS"));
 
 		if(compatibility) {
 			if(prefix == "my") {
-				params["mynick"] =  getNick(); 
+				params["mynick"] =  getNick();
 				params["mycid"] = user->getCID().toBase32();
 			} else {
-				params["nick"] = getNick(); 
-				params["cid"] =  user->getCID().toBase32(); 
-				params["ip"] =  get("I4"); 
-				params["tag"] =  getTag(); 
-				params["description"] =  get("DE"); 
-				params["email"] =  get("EM"); 
-				params["share"] =  get("SS"); 
-				params["shareshort"] =  Util::formatBytes(get("SS")); 
+				params["nick"] = getNick();
+				params["cid"] =  user->getCID().toBase32();
+				params["ip"] =  get("I4");
+				params["tag"] =  getTag();
+				params["description"] =  get("DE");
+				params["email"] =  get("EM");
+				params["share"] =  get("SS");
+				params["shareshort"] =  Util::formatBytes(get("SS"));
 				params["slots"] =  get("SL");
 				/**/
-				params["mode"] =  string(isTcpActive() ? "A" : "P");  
-				params["newhubs"] = "H:" + get("HN") + "/" + get("HR") + "/" + get("HO");  
+				params["mode"] =  string(isTcpActive() ? "A" : "P");
+				params["newhubs"] = "H:" + get("HN") + "/" + get("HR") + "/" + get("HO");
 				//some simple names instead of Ax ;)
-				params["adlFile"] =	 get("A1"); 
+				params["adlFile"] =	 get("A1");
 				params["adlComment"] =  get("A2");
 				params["adlFileSize"] =  get("A3");
 				params["adlTTH"] = 	get("A4");
@@ -417,7 +416,7 @@ string Identity::updateClientType(OnlineUser& ou) {
 				break;
 			}
 		}
-		
+
 		if(bContinue)
 			continue;
 
@@ -462,7 +461,7 @@ void Identity::getDetectionParams(ParamMap& p) {
 	} else {
 		p["VEformat"] = get("VE");
 	}
-		
+
 	// convert all special chars to make regex happy
 	for(auto i:p) {
 	// looks really bad... but do the job
@@ -582,7 +581,7 @@ map<string, string> Identity::getReport() const
 		}
 		//hack to show port
 		reportSet.insert(make_pair("U4",Util::toString(getUdp4Port())));
-		reportSet.insert(make_pair("U4",Util::toString(getUdp6Port())));
+		reportSet.insert(make_pair("U6",Util::toString(getUdp6Port())));
 	}
 	return reportSet;
 }
@@ -590,7 +589,7 @@ map<string, string> Identity::getReport() const
 //sumary detection
 void Identity::logDetection(bool bSuccessful) {
 	SettingsManager *sm = SettingsManager::getInstance();
-	if(sm != NULL)
+	if(sm)
 	{
 		if(bSuccessful) {
 			int isucc = SETTING(DETECTIONS);

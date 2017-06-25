@@ -41,8 +41,8 @@ Client::Client(const string& hubURL, char separator_, bool secure_) :
 	hubUrl(hubURL),separator(separator_),
 	secure(secure_), countType(COUNT_UNCOUNTED),
 	hideShare(true),checkClients(false), checkFilelists(false),
-	port(0),bIPv6(false),bIPv4(true)//defualt is ipv4
-	,ipv6(true)//defualt allow ipv6
+	port(0),bIPv6(false),bIPv4(true) //Default is IPv4
+	, ipv6(true) // Defualt allow ipv6
 {
 	string file, proto, query, fragment;
 	Util::decodeUrl(hubURL, proto, address, port, file, query, fragment);
@@ -109,15 +109,16 @@ void Client::reloadSettings(bool updateNick) {
 		setCheckAtConnect(fav->getCheckAtConn());
 		setCheckClients(fav->getCheckClients());
 		setCheckFilelists(fav->getCheckFilelists());
-		seteIPv6(fav->geteIPv6());
+		setisipv6(fav->geteIPv6());
 		//]
 	}else{
 		//[BMDC++
+		// Dont Hide Share , OP'Checking
 		setHideShare(false);
 		setCheckAtConnect(false);
 		setCheckClients(false);
 		setCheckFilelists(false);
-		seteIPv6(false);
+		setisipv6(false);
 		//]
 	}
 	
@@ -170,11 +171,9 @@ void Client::connect() {
 void Client::send(const char* aMessage, size_t aLen) {
 	if(!isConnected()) {
 		dcassert(0);
-		//dcdebug("\nno connected");
 		LogManager::getInstance()->message("Not Connected returning", LogManager::Sev::LOW);
 		return;
 	}
-	//dcdebug("\nPlugins");
 #if 0	
 	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_OUT, this, aMessage))
 		return;
@@ -205,11 +204,9 @@ void Client::on(Connected) noexcept {
 	sLocalIP = sock->getLocalIp();
 	
 	 if(sock->isV6Valid() && sLocalIP.empty() == false && strchr(sLocalIP.c_str(), '.') == NULL) {
-		if(geteIPv6())
-		{//we allow ipv6 in fav
+		if(getisipv6()) {//we allow ipv6 in fav
 			bIPv6 = true;
-		}else
-		{
+		} else	{
 			bIPv6 = false;
 		}	
 	} else {

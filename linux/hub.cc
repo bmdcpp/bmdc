@@ -4765,13 +4765,14 @@ void Hub::on(ClientListener::HubTopic, Client *, const string &top) noexcept
     F3 *func = new F3(this, &Hub::addStatusMessage_gui, _("Topic: ") + top, Msg::STATUS, Sound::NONE);
     WulforManager::get()->dispatchGuiFunc(func);
 }
-
+#if 0
 void Hub::on(ClientListener::ClientLine, Client* , const string &mess, int) noexcept
 {
 	typedef Func3<Hub, string, Msg::TypeMsg, Sound::TypeSound> F3;
 	F3 *func = new F3(this, &Hub::addStatusMessage_gui, mess, Msg::STATUS, Sound::NONE);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
+#endif
 //Custom popup menu
 GtkWidget *Hub::createmenu()
 {

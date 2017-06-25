@@ -203,7 +203,7 @@ Action* RawManager::findAction(const std::string& name) noexcept {
 }
 
 void RawManager::addRaw(Action* a, Raw& r) throw(Exception) {
-	if(a == NULL) return; // nothing to do
+	if(!a) return; // nothing to do
 
 	if(r.getName().empty())
 		throw Exception("NO NAME SPECIFIED");

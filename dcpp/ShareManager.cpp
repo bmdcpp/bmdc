@@ -959,7 +959,7 @@ void ShareManager::generateXmlList() {
 			string indent;
 			
 			
-			string adr = getName();
+			string adr = getName();//probaly need sanite?
 			adr = Util::cleanPathChars(adr);
 			
 			string newXmlName =  Util::getPath(Util::PATH_USER_CONFIG) + "files" + adr + " " + Util::toString(listN) + ".xml.bz2";
@@ -1458,7 +1458,7 @@ void ShareManager::on(HashManagerListener::TTHDone, const string& realPath, cons
 	Lock l(cs);
 	auto f = getFile(realPath);
 	if(f) {
-		if( (f->tth != NULL) && (root != (*f->tth)) ){
+		if( (f->tth) && (root != (*f->tth)) ) {
 			tthIndex.erase(*(f->tth));
 		}	
 		const_cast<Directory::File&>(*f).tth = const_cast<TTHValue*>(&root);
