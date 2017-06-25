@@ -60,7 +60,7 @@ using std::numeric_limits;
 
 ShareManager::ShareManager(const string& _name) : hits(0), xmlListLen(0), bzXmlListLen(0),
 	xmlDirty(true), forceXmlRefresh(true), refreshDirs(false), update(false), listN(0),
-	lastXmlUpdate(0), lastFullUpdate(GET_TICK()), bloom(1<<20), bzXmlRoot(NULL),xmlRoot(NULL),
+	lastXmlUpdate(0), lastFullUpdate(GET_TICK()), bloom(1<<20),/* bzXmlRoot(NULL),xmlRoot(NULL),*/
 	id(_name) , refreshing(ATOMIC_FLAG_INIT)
 {
 	if(id.empty())
@@ -166,9 +166,9 @@ int64_t ShareManager::Directory::getSize() const noexcept {
 string ShareManager::toVirtual(const TTHValue& tth) const {
 	if(tth) {	
 
-		if( (bzXmlRoot != NULL ) && (tth == *bzXmlRoot)) {
+		if(tth == bzXmlRoot) {
 			return Transfer::USER_LIST_NAME_BZ;
-		} else if((xmlRoot != NULL) && (tth == *xmlRoot)) {
+		} else if(tth == xmlRoot) {
 			return Transfer::USER_LIST_NAME;
 		}
 
@@ -241,7 +241,7 @@ StringList ShareManager::getRealPaths(const string& virtualPath) {
 	return ret;
 }
 
-TTHValue* ShareManager::getTTH(const string& virtualFile) const {
+TTHValue ShareManager::getTTH(const string& virtualFile) const {
 	Lock l(cs);
 	if(virtualFile == Transfer::USER_LIST_NAME_BZ) {
 		return bzXmlRoot;
@@ -259,9 +259,9 @@ MemoryInputStream* ShareManager::getTree(const string& virtualFile) const {
 			return nullptr;
 	} else {
 		try {
-			TTHValue* tth = getTTH(virtualFile);
-			if(!tth) { return nullptr; }
-			HashManager::getInstance()->getTree(*tth, tree);
+			TTHValue tth = getTTH(virtualFile);
+			//if(!tth) { return nullptr; }
+			HashManager::getInstance()->getTree(tth, tree);
 		} catch(const Exception&) {
 			return nullptr;
 		}
@@ -274,27 +274,27 @@ MemoryInputStream* ShareManager::getTree(const string& virtualFile) const {
 AdcCommand ShareManager::getFileInfo(const string& aFile) {
 	if(aFile == Transfer::USER_LIST_NAME) {
 		generateXmlList();
-		if(!xmlRoot) {
+		if(!(&xmlRoot)) {
 			throw ShareException(UserConnection::FILE_NOT_AVAILABLE);
 		}
 
 		AdcCommand cmd(AdcCommand::CMD_RES);
 		cmd.addParam("FN", aFile);
 		cmd.addParam("SI", Util::toString(xmlListLen));
-		cmd.addParam("TR", xmlRoot->toBase32());
+		cmd.addParam("TR", xmlRoot.toBase32());
 		return cmd;
 	}
 
 	if(aFile == Transfer::USER_LIST_NAME_BZ) {
 		generateXmlList();
-		if(!bzXmlRoot) {
+		if(!(&bzXmlRoot)) {
 			throw ShareException(UserConnection::FILE_NOT_AVAILABLE);
 		}
 
 		AdcCommand cmd(AdcCommand::CMD_RES);
 		cmd.addParam("FN", aFile);
 		cmd.addParam("SI", Util::toString(bzXmlListLen));
-		cmd.addParam("TR", bzXmlRoot->toBase32());
+		cmd.addParam("TR", bzXmlRoot.toBase32());
 		return cmd;
 	}
 
@@ -312,7 +312,7 @@ AdcCommand ShareManager::getFileInfo(const string& aFile) {
 	AdcCommand cmd(AdcCommand::CMD_RES);
 	cmd.addParam("FN", f.getADCPath());
 	cmd.addParam("SI", Util::toString(f.getSize()));
-	cmd.addParam("TR", f.tth->toBase32());
+	cmd.addParam("TR", f.tth.toBase32());
 	return cmd;
 }
 
@@ -663,7 +663,7 @@ ShareManager::Directory::Ptr ShareManager::buildTree(const string& realPath, con
 			if(fileName == SETTING(TLS_PRIVATE_KEY_FILE)) { continue; }
 
 			Directory::File f(name, size, dir,
-				HashManager::getInstance()->getTTH(fileName, size, i->getLastWriteTime()));
+				(HashManager::getInstance()->getTTH(fileName, size, i->getLastWriteTime())));
 			f.validateName(realPath);
 			lastFileIter = dir->files.insert(lastFileIter, move(f));
 		}
@@ -814,10 +814,10 @@ void ShareManager::rebuildIndices() {
 void ShareManager::updateIndices(Directory& dir, const decltype(std::declval<Directory>().files.begin())& i) {
 	const Directory::File& f = *i;
 
-	if(!f.tth) {
-		return;
-	}
-	auto j = tthIndex.find(*f.tth);
+	//if(!f.tth) {
+	//	return;
+	//}
+	auto j = tthIndex.find(f.tth);
 	if(j == tthIndex.end()) {
 		dir.size += f.getSize();
 
@@ -837,7 +837,7 @@ void ShareManager::updateIndices(Directory& dir, const decltype(std::declval<Dir
 		}
 	}
 	{
-		tthIndex[*f.tth] = &f;
+		tthIndex[f.tth] = &f;
 		bloom.add(Text::toLower(f.getName()));
 	}
 }
@@ -960,9 +960,9 @@ void ShareManager::generateXmlList() {
 			
 			
 			string adr = getName();//probaly need sanite?
-			adr = Util::cleanPathChars(adr);
+			//adr = Util::cleanPathChars(adr);
 			
-			string newXmlName =  Util::getPath(Util::PATH_USER_CONFIG) + "files" + adr + " " + Util::toString(listN) + ".xml.bz2";
+			string newXmlName =  Util::getPath(Util::PATH_USER_CONFIG) + "files_" + adr + "_" + Util::toString(listN) + ".xml.bz2";
 			{
 				File f(newXmlName, File::WRITE, File::TRUNCATE | File::CREATE);
 				// We don't care about the leaves...
@@ -984,8 +984,8 @@ void ShareManager::generateXmlList() {
 				newXmlFile.getFilter().getTree().finalize();
 				bzTree.getFilter().getTree().finalize();
 
-				xmlRoot = &newXmlFile.getFilter().getTree().getRoot();
-				bzXmlRoot = &bzTree.getFilter().getTree().getRoot();
+				xmlRoot = newXmlFile.getFilter().getTree().getRoot();
+				bzXmlRoot = bzTree.getFilter().getTree().getRoot();
 			}
 
 			if(bzXmlRef.get()) {
@@ -996,7 +996,7 @@ void ShareManager::generateXmlList() {
 			bzXmlRef = unique_ptr<File>(new File(newXmlName, File::READ, File::OPEN));
 			setBZXmlFile(newXmlName);
 			bzXmlListLen = File::getSize(newXmlName);
-			LogManager::getInstance()->message(_("File list generated") + Util::addBrackets(bzXmlFile)) ;
+			LogManager::getInstance()->message(_("File list generated for ") + adr + " " + Util::addBrackets(bzXmlFile)) ;
 		} catch(const Exception&) {
 			// No new file lists...
 		}
@@ -1122,7 +1122,7 @@ void ShareManager::Directory::filesToXml(OutputStream& xmlFile, string& indent, 
 		xmlFile.write(Util::toString(f.getSize()));
 		xmlFile.write(LITERAL("\" TTH=\""));
 		tmp2.clear();
-		xmlFile.write(f.tth->toBase32(tmp2));
+		xmlFile.write(f.tth.toBase32(tmp2));
 		xmlFile.write(LITERAL("\"/>\r\n"));
 	}
 }
@@ -1286,7 +1286,7 @@ void ShareManager::Directory::search(SearchResultList& results, SearchQuery& que
 				continue;
 
 			results.push_back(new SearchResult(SearchResult::TYPE_FILE, i.getSize(),
-				getFullName() + i.getName(), *(i.tth)));
+				getFullName() + i.getName(), (i.tth)));
 			ShareManager::getInstance()->addHits(1);
 
 			if(results.size() >= maxResults) { return; }
@@ -1309,7 +1309,7 @@ SearchResultList ShareManager::search(SearchQuery&& query, size_t maxResults) no
 		auto i = tthIndex.find(*(query.root));
 		if(i != tthIndex.end()) {
 			results.push_back(new SearchResult(SearchResult::TYPE_FILE, i->second->getSize(),
-				i->second->getParent()->getFullName() + i->second->getName(), *i->second->tth));
+				i->second->getParent()->getFullName() + i->second->getName(), i->second->tth));
 			addHits(1);
 		}
 		return results;
@@ -1447,7 +1447,7 @@ void ShareManager::on(QueueManagerListener::FileMoved, const string& realPath) n
 		auto dir = getDirectory(realPath);
 		if(dir) {
 			Directory::File f(Util::getFileName(realPath), size, dir,
-				HashManager::getInstance()->getTTH(realPath, size,0));
+				HashManager::getInstance()->getTTH(realPath, size, 0));
 			f.validateName(Util::getFilePath(realPath));
 			dir->files.insert(move(f));
 		}
@@ -1458,11 +1458,11 @@ void ShareManager::on(HashManagerListener::TTHDone, const string& realPath, cons
 	Lock l(cs);
 	auto f = getFile(realPath);
 	if(f) {
-		if( (f->tth) && (root != (*f->tth)) ) {
-			tthIndex.erase(*(f->tth));
+		if( (root != (f->tth)) ) {
+			tthIndex.erase((f->tth));
 		}	
-		const_cast<Directory::File&>(*f).tth = const_cast<TTHValue*>(&root);
-		tthIndex[*(f->tth)] = f;
+		const_cast<Directory::File&>(*f).tth = root;
+		tthIndex[(f->tth)] = f;
 		setDirty();
 		forceXmlRefresh = true;
 	}

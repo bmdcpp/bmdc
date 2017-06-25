@@ -111,7 +111,7 @@ bool HashManager::StreamStore::loadTree(const string& p_filePath, TigerTree& tre
 
             return false;
         }
-
+		//we cant get buf directly to TT
         const size_t datalen = blockSize - hdrSz;
         std::unique_ptr<uint8_t[]> tail(new uint8_t[datalen]);
 
@@ -166,10 +166,10 @@ void HashManager::StreamStore::deleteStream(const string& p_filePath)
 #endif //USE_XATTR
 }
 
-TTHValue* HashManager::getTTH(const string& aFileName, int64_t aSize, uint32_t aTimeStamp) noexcept {
+TTHValue HashManager::getTTH(const string& aFileName, int64_t aSize, uint32_t aTimeStamp) noexcept {
 	Lock l(cs);
 	
-	TTHValue *tth = store.getTTH(aFileName, aSize, aTimeStamp);
+	TTHValue tth = store.getTTH(aFileName, aSize, aTimeStamp);
 	if(!tth) {
 		//TTH is NULL create new variable
 		try {
@@ -179,7 +179,7 @@ TTHValue* HashManager::getTTH(const string& aFileName, int64_t aSize, uint32_t a
 		TigerTree tt;
 		if(m_streamstore.loadTree(aFileName,tt,-1)) {
 			printf ("%s: hash [%s] was loaded from Xattr.\n", aFileName.c_str(), tt.getRoot().toBase32().c_str());
-			return &(tt.getRoot());
+			return (tt.getRoot());
 		} else	{
 			//hash is still NULL. hash file NOW!
 			hasher.hashFile(aFileName, aSize);
@@ -315,7 +315,7 @@ int64_t HashManager::HashStore::getBlockSize(const TTHValue& root) const {
 	return i == treeIndex.end() ? 0 : i->second.getBlockSize();
 }
 
-TTHValue* HashManager::HashStore::getTTH(const string& aFileName, int64_t aSize, uint32_t aTimeStamp) noexcept {
+TTHValue HashManager::HashStore::getTTH(const string& aFileName, int64_t aSize, uint32_t aTimeStamp) noexcept {
 	string fname = Util::getFileName(aFileName), fpath = Util::getFilePath(aFileName);
 
 	auto i = fileIndex.find(fpath);
@@ -323,8 +323,8 @@ TTHValue* HashManager::HashStore::getTTH(const string& aFileName, int64_t aSize,
 		auto j = find(i->second.begin(), i->second.end(), fname);
 		if (j != i->second.end()) {
 			FileInfo& fi = *j;
-			TTHValue* root = const_cast<TTHValue*>(&(fi.getRoot()));
-			auto ti = treeIndex.find(*root);
+			TTHValue root = fi.getRoot();
+			auto ti = treeIndex.find(root);
 			if(ti != treeIndex.end() && ti->second.getSize() == aSize && fi.getTimeStamp() == aTimeStamp) {
 				fi.setUsed(true);
 				return root;
@@ -335,7 +335,7 @@ TTHValue* HashManager::HashStore::getTTH(const string& aFileName, int64_t aSize,
 			dirty = true;
 		}
 	}
-	return nullptr;
+	return TTHValue();
 }
 
 void HashManager::HashStore::rebuild() {
