@@ -84,7 +84,7 @@ public:
 	/** @return Actual file path & size. Returns 0 for file lists. */
 	pair<string, int64_t> toRealWithSize(const string& virtualFile,bool isSharedHub);
 	StringList getRealPaths(const string& virtualPath);
-	TTHValue* getTTH(const string& virtualFile) const;
+	TTHValue getTTH(const string& virtualFile) const;
 
 	void refresh(bool dirs = false, bool aUpdate = true, bool block = false, function<void (float)> progressF = nullptr) noexcept;
 	void setDirty() { xmlDirty = true; }
@@ -139,8 +139,8 @@ private:
 		typedef Directory* Ptr;
 
 		struct File {
-			File() : name(Util::emptyString), tth(nullptr) , size(0), parent(0)   { }
-			File(const string& aName, int64_t aSize, const Directory::Ptr& aParent, TTHValue* aRoot) :
+			File() : name(),  size(0), parent(0)   { }
+			File(const string& aName, int64_t aSize, const Directory::Ptr& aParent, TTHValue aRoot) :
 				name(aName), tth(aRoot), size(aSize), parent(aParent) { }
 
 			bool operator==(const File& rhs) const {
@@ -168,7 +168,7 @@ private:
 
 			GETSET(string, name, Name);
 			string realPath; // only defined if this file had to be renamed to avoid duplication.
-			TTHValue* tth;
+			TTHValue tth;
 			GETSET(int64_t, size, Size);
 			GETSET(Directory*, parent, Parent);
 		};
@@ -217,7 +217,7 @@ private:
 
 	friend class Singleton<ShareManager>;
 public:	
-	ShareManager(const std::string& name = Util::emptyString);
+	ShareManager(const std::string& name = string());
 	~ShareManager();
 private:	
 
@@ -245,9 +245,9 @@ private:
 	};
 
 	int64_t xmlListLen;
-	TTHValue* xmlRoot;
+	TTHValue xmlRoot;
 	int64_t bzXmlListLen;
-	TTHValue* bzXmlRoot;
+	TTHValue bzXmlRoot;
 	unique_ptr<File> bzXmlRef;
 
 	bool xmlDirty;
@@ -332,7 +332,7 @@ private:
 	virtual void on(TimerManagerListener::Minute, uint64_t tick) noexcept;
 public:
 	void generateXmlList();
-	string getName() const { return id;}
+	string getName() const { return Util::cleanPathChars(id);}
 	string id;
 	void setName(const string id);
 	void load(SimpleXML& aXml);

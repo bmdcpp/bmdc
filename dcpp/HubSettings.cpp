@@ -31,7 +31,7 @@ autoConnect(false),share(NULL)
 
 HubSettings::~HubSettings()
 {
-	if(share != NULL)
+	if(share)
 	{
 		if(!share->getName().empty())
 			delete share;
@@ -50,7 +50,7 @@ void HubSettings::merge(const HubSettings& sub) {
 		bools[i->first] = i->second;
 	}
 	setAutoConnect(sub.getAutoConnect());
-	if(sub.share != NULL)
+	if(sub.share)
 		setShareManager(sub.share);
 }
 
@@ -97,7 +97,7 @@ void HubSettings::load(SimpleXML& xml) {
 	if(xml.findChild("Share")) {
 		setShareManager(new ShareManager(url));
 		share->load(xml);
-		share->refresh(true,false,true);
+		share->refresh(true,true,false);
 	}	
 	xml.stepOut();
 }
@@ -128,7 +128,7 @@ void HubSettings::save(SimpleXML& xml) const {
 	
 	xml.stepOut();
 	xml.stepIn();
-	if(share != NULL)
+	if(share)
 	{
 		share->save(xml);
 	}
@@ -198,7 +198,7 @@ void HubSettings::set(SettingsManager::BoolSetting key, bool value)
 
 
 ShareManager* HubSettings::getShareManager() const {
-	return (share == NULL || share->getName().empty()) ? ShareManager::getInstance() : share;
+	return (!share || share->getName().empty()) ? ShareManager::getInstance() : share;
 }
 
 } // namespace dcpp
