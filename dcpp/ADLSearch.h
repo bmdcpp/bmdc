@@ -98,7 +98,6 @@ public:
 	bool isRegEx;
 private:
 	friend class ADLSearchManager;
-	//bool v;
 
 	/// Prepare search
 	void prepare(ParamMap& params);
@@ -126,7 +125,7 @@ public:
 		DirectoryListing::Directory* subdir;
 		string name;
 		bool fileAdded;
-		DestDir() : name(""), dir(NULL), subdir(NULL), fileAdded(false) {}
+		DestDir() : name(), dir(nullptr), subdir(nullptr), fileAdded(false) { }
 	};
 	typedef vector<DestDir> DestDirList;
 

@@ -112,7 +112,6 @@ void AdcCommand::parse(const string aLine, bool nmdc /* = false */) {
 				default:
 				{
 					throw ParseException("Unknown escape");
-					//break;
 				}
 			};
 			break;

@@ -58,8 +58,8 @@ isForbidden(false),//BMDC++
 overRidePoints(false),
 adlsRaw(0),
 adlsPoints(0),
-adlsComment(""),
-kickString(""),
+adlsComment(),
+kickString(),
 fromFavs(false),
 isCaseSensitive(false),
 isRegEx(false)
@@ -179,7 +179,7 @@ bool ADLSearch::searchAll(const string& s) {
 	}
 }
 
-ADLSearchManager::ADLSearchManager() : breakOnFirst(false), user(UserPtr(), Util::emptyString)  {
+ADLSearchManager::ADLSearchManager() : breakOnFirst(false), user(UserPtr(), string())  {
 	load();
 }
 
@@ -507,12 +507,8 @@ void ADLSearchManager::finalizeDestinationDirectories(DestDirList& destDirVector
 }
 
 void ADLSearchManager::matchListing(DirectoryListing& aDirList) {
-	/*ParamMap params;
-	params["userNI"] = ClientManager::getInstance()->getNicks(aDirList.getUser())[0];
-	params["userCID"] = aDirList.getUser().user->getCID().toBase32();
-*/
-	setUser(aDirList.getUser());
 
+	setUser(aDirList.getUser());
 	auto root = aDirList.getRoot();
 
 	DestDirList destDirs;

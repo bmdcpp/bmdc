@@ -41,7 +41,6 @@ WulforSettingsManager::WulforSettingsManager():
 {
 	//NOTE: get from theme/sys/  (background)
 	GdkRGBA color;
-	//gdk_rgba_parse (&color,"white");
 	gtk_style_context_get (gtk_style_context_new(), GTK_STATE_FLAG_NORMAL,
                        "background-color", &color,
                        NULL);
