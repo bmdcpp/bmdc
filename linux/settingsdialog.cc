@@ -45,7 +45,6 @@
 #define ICON_SIZE 32
 #define ICON_SIZE_NORMAL 22
 
-
 #define g_c_b_g gtk_color_chooser_get_rgba
 #define g_c_b_s gtk_color_chooser_set_rgba
 #define G_C_B GTK_COLOR_CHOOSER

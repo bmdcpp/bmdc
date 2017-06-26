@@ -30,17 +30,17 @@ namespace dcpp {
 class SimpleXML;
 class RawManager : public Singleton<RawManager> {
 public:
-
+	//-2 Exist , -1 - Other things , 0 Success
 	Action::ActionList& getActions() { Lock l(cs); return actions; }
 	Action* findAction(int id) noexcept;
 	Action* findAction(const std::string& name) noexcept;
 
-	Action* addAction(int id, const std::string& name, bool enabled) throw(Exception);
-	void editAction(Action* a, const std::string& name) throw(Exception);
-	bool remAction(Action* a) throw();
+	Action* addAction(int id, const std::string& name, bool enabled) noexcept;
+	int editAction(Action* a, const std::string& name) noexcept;
+	bool remAction(Action* a) noexcept;
 
-	void addRaw(Action* a, Raw& r) throw(Exception);
-	void editRaw(const Action* a, Raw* old, Raw _new) throw(Exception);
+	int addRaw(Action* a, Raw& r) noexcept;
+	int editRaw(const Action* a, Raw* old, Raw _new) noexcept;
 	bool remRaw(Action* a, Raw* r) noexcept;
 
 	void loadActionRaws();
