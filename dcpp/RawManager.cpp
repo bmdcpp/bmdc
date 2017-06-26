@@ -136,9 +136,11 @@ string RawManager::getNameActionId(int actionId) {
 	return _("Undefined Action");
 }
 
-Action* RawManager::addAction(int id, const std::string& name, bool enabled) throw(Exception) {
-	if(name.empty())
-		throw Exception("NO NAME SPECIFIED");
+Action* RawManager::addAction(int id, const std::string& name, bool enabled) noexcept {
+	if(name.empty()) {
+		printf("NO NAME SPECIFIED");
+		return nullptr;
+	}	
 
 	Lock l(cs);
 	for(auto i = actions.begin(); i != actions.end(); ++i) {
@@ -159,17 +161,18 @@ Action* RawManager::addAction(int id, const std::string& name, bool enabled) thr
 	return actions.back();
 }
 
-void RawManager::editAction(Action* a, const std::string& name) throw(Exception) {
-	if(name.empty()) throw Exception("NO NAME SPECIFIED");
+int RawManager::editAction(Action* a, const std::string& name) noexcept {
+	if(name.empty()) return -1;
 
 	{
 		Lock l(cs);
 		for(auto i = actions.begin(); i != actions.end(); ++i) {
 			if(Util::stricmp(name, (*i)->getName()) == 0)
-				throw Exception("ACTION EXISTS");
+				return -2;
 		}
 	}
 	a->setName(name);
+	return 0;
 }
 
 bool RawManager::remAction(Action* a) noexcept {
@@ -202,16 +205,16 @@ Action* RawManager::findAction(const std::string& name) noexcept {
 	return nullptr;
 }
 
-void RawManager::addRaw(Action* a, Raw& r) throw(Exception) {
-	if(!a) return; // nothing to do
+int RawManager::addRaw(Action* a, Raw& r) noexcept {
+	if(!a) return -1; // nothing to do
 
 	if(r.getName().empty())
-		throw Exception("NO NAME SPECIFIED");
+		return -1;
 
 	Lock l(cs);
 	for(auto j = a->raw.begin(); j != a->raw.end(); ++j) {
 		if(Util::stricmp(j->getName(), r.getName()) == 0)
-			throw Exception("RAW EXISTS");
+			return -2;
 	}
 
 	while(r.getId() == 0) {
@@ -225,11 +228,12 @@ void RawManager::addRaw(Action* a, Raw& r) throw(Exception) {
 	}
 
 	a->raw.push_back(r);
+	return 0;
 }
 
-void RawManager::editRaw(const Action* a, Raw* old, Raw _new) throw(Exception) {
+int RawManager::editRaw(const Action* a, Raw* old, Raw _new) noexcept {
 	if(_new.getName().empty())
-		throw Exception("NO NAME SPECIFIED");
+		return -1;
 	if(Util::stricmp(old->getName(), _new.getName()) != 0) {
 		Lock l(cs);
 		for(auto j = a->raw.begin(); j != a->raw.end(); ++j) {
@@ -238,6 +242,7 @@ void RawManager::editRaw(const Action* a, Raw* old, Raw _new) throw(Exception) {
 		}
 	}
 	*old = _new;
+	return 0;
 }
 
 bool RawManager::remRaw(Action* a, Raw* r) noexcept {

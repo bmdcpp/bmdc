@@ -325,91 +325,92 @@ GtkWidget *BookEntry::createItemFirstMenu()
 		{
 			case Entry::FAVORITE_HUBS :
 			{
-					stock = WGETS("icon-favorite-hubs");
+					//stock = WGETS("icon-favorite-hubs");
 					info = _("Favorite Hubs");
 					break;
 			}
 			case Entry::FAVORITE_USERS :
 			{
-					stock = WGETS("icon-favorite-users");
+					//stock = WGETS("icon-favorite-users");
 					info = _("Favorite Users");
 					break;
 			}
 			case Entry::PUBLIC_HUBS :
 			{
-					stock = WGETS("icon-public-hubs");
+					//stock = WGETS("icon-public-hubs");
 					info = _("Public Hubs");
 					break;
 			}
 			case Entry::DOWNLOAD_QUEUE :
 			{
-					stock = WGETS("icon-queue");
+					//stock = WGETS("icon-queue");
 					info = _("Download Queue");
 					break;
 			}
 			case Entry::SEARCHS:
 			case Entry::SEARCH :
 			{
-					stock = WGETS("icon-search");
+					//stock = WGETS("icon-search");
 					info = _("Search");
 					break;
 			}
 			case Entry::SEARCH_ADL :
 			{
-					stock = WGETS("icon-search-adl");
+					//stock = WGETS("icon-search-adl");
 					info = _("ADL Search");
 					break;
 			}
 			case Entry::SEARCH_SPY :
-			{		stock = WGETS("icon-search-spy");
+			{		
+				//stock = WGETS("icon-search-spy");
 					info = _("Spy Search");
 					break;
 			}
 			case Entry::FINISHED_DOWNLOADS :
 			{
-					stock = WGETS("icon-finished-downloads");
+				//	stock = WGETS("icon-finished-downloads");
 					info = _("Finished Downloads");
 					break;
 			}
 			case Entry::FINISHED_UPLOADS :
 			{
-					stock = WGETS("icon-finished-uploads");
+				//	stock = WGETS("icon-finished-uploads");
 					info = _("Finished Uploads");
 					break;
 			}
 			case Entry::PRIVATE_MESSAGE :
 			{
-					stock = WGETS("icon-pm-online");
+				//	stock = WGETS("icon-pm-online");
 					info = _("Private Message");
 					break;
 			}
 			case Entry::HUB :
 			{
-					stock = WGETS("icon-hub-offline");
+				//	stock = WGETS("icon-hub-offline");
 					info = _("Hub");
 					break;
 			}
 			case Entry::SHARE_BROWSER :
 			{
-					stock = WGETS("icon-directory");
+				//	stock = WGETS("icon-directory");
 					info = _("Share Browser");
 					break;
 			}
 			case Entry::NOTEPAD :
 			{
-					stock = WGETS("icon-notepad");
+				//	stock = WGETS("icon-notepad");
 					info = _("Notepad");
 					break;
 			}
 			case Entry::SYSTEML :
 			{
-					stock = WGETS("icon-system");
+				//	stock = WGETS("icon-system");
 					info = _("System Log");
 					break;
 			}
 			case Entry::ABOUT_CONFIG:
 			{
-					stock = WGETS("icon-system"); //for now
+				//	stock = WGETS("icon-system"); //for now
 					info = _("About:Config");
 					break;
 			}

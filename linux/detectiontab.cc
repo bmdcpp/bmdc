@@ -717,8 +717,9 @@ void DetectionTab::addRaw_client(StringMap params)
 	raw.setRaw(params["RAW"]);
 	raw.setTime(Util::toInt(params["Time"]));
 	raw.setEnabled(true);
-	RawManager::getInstance()->addRaw(a,raw);
-	RawManager::getInstance()->saveActionRaws();
+	int ret = RawManager::getInstance()->addRaw(a,raw);
+	if(ret == 0)
+		RawManager::getInstance()->saveActionRaws();
 }
 
 void DetectionTab::editAct_client(StringMap params)
@@ -740,7 +741,8 @@ void DetectionTab::editRaw_client(dcpp::StringMap params)
     string a = params["Action"];
     int ids = Util::toInt(params["ID"]);
     const Action *action = RawManager::getInstance()->findAction(a);
-    if(action != NULL)
+    int ret = 1;
+    if(action)
     {
         Raw *old = NULL;
         for(Action::RawsList::const_iterator j = action->raw.begin(); j != action->raw.end(); ++j) {
@@ -751,9 +753,11 @@ void DetectionTab::editRaw_client(dcpp::StringMap params)
             }
         }
 		if(old)
-			RawManager::getInstance()->editRaw(&(*action),&(*old),(Raw(Util::toInt(params["ID"]),params["Name"],params["RAW"],Util::toInt(params["Time"]),Util::toInt(params["Enabled"]))));
+			ret = RawManager::getInstance()->editRaw(&(*action),&(*old),(Raw(Util::toInt(params["ID"]),params["Name"],params["RAW"],Util::toInt(params["Time"]),Util::toInt(params["Enabled"]))));
+			
     }
-    RawManager::getInstance()->saveActionRaws();
+    if(ret == 0) // Success
+		RawManager::getInstance()->saveActionRaws();
 }
 
 void DetectionTab::removeAct_client(int id)
@@ -1185,6 +1189,7 @@ bool DetectionTab::showAddEntryDetDialog(StringMap &params, DetectionTab *dt)
 		// Fix crash, if the dialog gets programmatically destroyed.
 		if (response == GTK_RESPONSE_NONE)
 			return FALSE;
+			
 		while(response == GTK_RESPONSE_OK)
 		{
 			params.clear();
@@ -1257,10 +1262,10 @@ bool DetectionTab::findAct_gui(const int &Id, GtkTreeIter *iter)
 		if (iter)
 			*iter = it->second;
 
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 bool DetectionTab::findRaw_gui(const int &Id, GtkTreeIter *iter)
 {
@@ -1271,10 +1276,10 @@ bool DetectionTab::findRaw_gui(const int &Id, GtkTreeIter *iter)
 		if (iter)
 			*iter = it->second;
 
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 /*Util func*/
@@ -1312,9 +1317,9 @@ bool DetectionTab::findProf_gui(const uint32_t &id, GtkTreeIter *iter)
 		if (iter)
 			*iter = it->second;
 
-		return TRUE;
+		return true;
 	}
-	return FALSE;
+	return false;
 }
 /*3d page*/
 void DetectionTab::addPoints_gui(StringMap params)
@@ -1389,15 +1394,15 @@ bool DetectionTab::showAddPointsDialog(StringMap &params,DetectionTab *dt)
 
 	// Fix crash, if the dialog gets programmatically destroyed.
 	if (response == GTK_RESPONSE_NONE)
-			return FALSE;
+			return false;
 	if(response == GTK_RESPONSE_OK)
 	{
 		params["Action"] = Util::toString(dt->save_combo(dt->getWidget("comboboxentryactionp1")));//gtk_combo_box_get_active(GTK_COMBO_BOX(dt->getWidget("comboboxentryactionp1")));
 		params["Points"] = Util::toString(gtk_spin_button_get_value(GTK_SPIN_BUTTON(dt->getWidget("spinbuttonpointss1"))));
 		gtk_widget_hide(dt->getWidget("dialogpointitem1"));
-		return TRUE;
+		return true;
 	}
-	return FALSE;
+	return false;
 }
 
 void DetectionTab::onADSLPointsADD(GtkWidget*, gpointer data)
