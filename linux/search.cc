@@ -419,7 +419,7 @@ void Search::popupMenu_gui()
 	gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("downloadMenu")), menuItem);
 
 	// Add search results with the same TTH to menu
-	bool firstTTH = TRUE,	hasTTH = FALSE;
+	bool firstTTH = true,	hasTTH = false;
 
 	for (GList *i = list; i; i = i->next)
 	{
@@ -435,13 +435,13 @@ void Search::popupMenu_gui()
 			if (firstTTH)
 			{
 				tth = resultView.getString(&iter, "TTH");
-				firstTTH = FALSE;
-				hasTTH = TRUE;
+				firstTTH = false;
+				hasTTH = true;
 			}
 			else if (hasTTH)
 			{
 				if (tth.empty() || tth != resultView.getString(&iter, "TTH"))
-					hasTTH = FALSE; // Can't break here since we have to free all the paths
+					hasTTH = false; // Can't break here since we have to free all the paths
 			}
 		}
 		gtk_tree_path_free(path);
@@ -481,12 +481,13 @@ void Search::popupMenu_gui()
 		}
 		menuItem = gtk_separator_menu_item_new();
 		gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("downloadDirMenu")), menuItem);
+	
 	}
-
-	menuItem = gtk_menu_item_new_with_label(_("Browse..."));
-	g_signal_connect(menuItem, "activate", G_CALLBACK(onDownloadDirToClicked_gui), (gpointer)this);
-	gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("downloadDirMenu")), menuItem);
-
+		menuItem = gtk_menu_item_new_with_label(_("Browse..."));
+		g_signal_connect(menuItem, "activate", G_CALLBACK(onDownloadDirToClicked_gui), (gpointer)this);
+		gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("downloadDirMenu")), menuItem);
+		
+	
 	// Build user command menu
 	userCommandMenu->buildMenu_gui();
 
