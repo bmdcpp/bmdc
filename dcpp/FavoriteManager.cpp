@@ -552,7 +552,7 @@ void FavoriteManager::save() {
 	} catch(const Exception& e) {
 		dcdebug("FavoriteManager::save: %s\n", e.getError().c_str());
 	}
-	l.unlock();
+	
 }
 
 void FavoriteManager::recentsave() {
