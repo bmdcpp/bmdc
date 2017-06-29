@@ -751,7 +751,6 @@ void Transfers::initTransfer_gui(StringMap params)
 		}
 		else
 		{
-			//GdkPixbuf* buf = 
 
 			string filename = params[_("Filename")];
 			if (filename.find("TTH: ") != string::npos)
@@ -815,7 +814,7 @@ void Transfers::finishParent_gui(const string target, const string status, Sound
 			gtk_tree_store_set(transferStore, &iter,
 				transferView.col(_("Status")), status.c_str(),
 				transferView.col("Failed"), (gboolean)1,
-				transferView.col(_("Speed")), (uint64_t)-1,
+				transferView.col(_("Speed")), (int64_t)0,
 				-1);
 		}
 	}
@@ -1018,7 +1017,7 @@ void Transfers::on(DownloadManagerListener::Complete, Download* dl) noexcept
 	getParams_client(params, dl);
 	params[_("Status")] = _("Download complete...");
 	params["Sort Order"] = "w" + params[_("User")];
-	params[_("Speed")] = "-1";
+	params[_("Speed")] = "0";
 
 	int64_t pos = QueueManager::getInstance()->getPos(dl->getPath()) + dl->getPos();
 
@@ -1038,8 +1037,8 @@ void Transfers::on(DownloadManagerListener::Failed, Download* dl, const string& 
 	params[_("Status")] = reason;
 	params["Sort Order"] = "w" + params[_("User")];
 	params["Failed"] = "1";
-	params[_("Speed")] = "-1";
-	params[_("Time Left")] = "-1";
+	params[_("Speed")] = "0";
+	params[_("Time Left")] = "0";
 
 	int64_t pos = QueueManager::getInstance()->getPos(dl->getPath()) + dl->getPos();
 
@@ -1089,8 +1088,8 @@ void Transfers::on(ConnectionManagerListener::Failed, ConnectionQueueItem* cqi, 
 	params[_("Status")] = reason;
 	params["Failed"] = "1";
 	params["Sort Order"] = "w" + params[_("User")];
-	params[_("Speed")] = "-1";
-	params[_("Time Left")] = "-1";
+	params[_("Speed")] = "0";
+	params[_("Time Left")] = "0";
 
 	typedef Func3<Transfers, StringMap, bool, Sound::TypeSound> F3;
 	F3* f3 = new F3(this, &Transfers::updateTransfer_gui, params, cqi->getDownload(), Sound::NONE);
@@ -1194,7 +1193,7 @@ void Transfers::on(UploadManagerListener::Complete, Upload* ul) noexcept
 	getParams_client(params, ul);
 	params[_("Status")] = _("Upload complete...");
 	params["Sort Order"] = "w" + params[_("User")];
-	params[_("Speed")] = "-1";
+	params[_("Speed")] = "0";
 
 	typedef Func3<Transfers, StringMap, bool, Sound::TypeSound> F3;
 	F3* f3 = new F3(this, &Transfers::updateTransfer_gui, params, FALSE, Sound::UPLOAD_FINISHED);
@@ -1208,8 +1207,8 @@ void Transfers::on(UploadManagerListener::Failed, Upload* ul, const string& reas
 	params[_("Status")] = reason;
 	params["Sort Order"] = "w" + params[_("User")];
 	params["Failed"] = "1";
-	params[_("Speed")] = "-1";
-	params[_("Time Left")] = "-1";
+	params[_("Speed")] = "0";
+	params[_("Time Left")] = "0";
 
 	typedef Func3<Transfers, StringMap, bool, Sound::TypeSound> F3;
 	F3* f3 = new F3(this, &Transfers::updateTransfer_gui, params, FALSE, Sound::NONE);
