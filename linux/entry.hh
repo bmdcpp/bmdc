@@ -60,7 +60,8 @@ class Entry
 			ABOUT_CONFIG_FAV,
 			EXPORT_DIALOG,
 			SEARCHS,
-			FAV_HUB
+			FAV_HUB,
+			SHORTCUTS,
 		} EntryType;
 
 		Entry() : xml(NULL), type((EntryType)0) { }

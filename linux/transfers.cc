@@ -613,7 +613,8 @@ void Transfers::updateParent_gui(GtkTreeIter* iter)
 	if (totalSize > 0)
 		progress = (double)(position * 100.0) / totalSize;
 	if (speed > 0)
-		timeLeft = (totalSize - position) / speed;
+		timeLeft = ((GET_TICK() - position )/1000);
+		//(totalSize - position) / speed;
 
 	stream << setiosflags(ios::fixed) << setprecision(1);
 
@@ -937,9 +938,11 @@ void Transfers::getParams_client(StringMap& params, Transfer* tr)
 		percent = static_cast<double>(tr->getPos() * 100.0)/ tr->getSize();
 	params["Progress"] = Util::toString(static_cast<int>(percent));
 	params["IP"] = tr->getUserConnection().getRemoteIp();
-	//params[_("Time Left")] = tr->getSecondsLeft() > 0 ? Util::toString(tr->getSecondsLeft()) : "-1";
-	double timeleft = static_cast<double>(tr->getSize() - tr->getPos()) / tr->getAverageSpeed();
-	params[_("Time Left")] = Util::formatSeconds(timeleft);
+	//params[_("Time Left")] = tr->getSecondsLeft() > 0 ? Util::toString(tr->getSecondsLeft()) : "0";
+	//double timeleft = static_cast<double>(tr->getSize() - tr->getPos()) / tr->getAverageSpeed();
+	
+	params[_("Time Left")] = Util::formatSeconds((GET_TICK() - tr->getStart())/1000);
+	//Util::formatSeconds(timeleft);
 	params["Target"] = tr->getPath();
 	params["Hub URL"] = tr->getUserConnection().getHubUrl();
 	params["TTH"] = tr->getTTH().toBase32();
@@ -999,9 +1002,9 @@ void Transfers::on(DownloadManagerListener::Tick, const DownloadList& dls) noexc
 		if (dl->isSet(Download::FLAG_ZDOWNLOAD))
 			stream << _("[Z]");
 
-		stream << setiosflags(ios::fixed) << setprecision(1);
+		//stream << setiosflags(ios::fixed); //<< setprecision(1);
 		stream << " " << _("Downloaded ") << Util::formatBytes(dl->getPos()) << " (" << params["Progress"]
-		<< "%) in " << Util::formatSeconds((GET_TICK() - dl->getStart()) / 1000);
+		<< "%) in " << Util::formatSeconds((int64_t)(GET_TICK() - dl->getStart()) / 1000);
 		params[_("Status")] = stream.str();
 
 		typedef Func3<Transfers, StringMap, bool, Sound::TypeSound> F3;

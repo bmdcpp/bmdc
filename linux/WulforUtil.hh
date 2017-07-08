@@ -128,6 +128,8 @@ class WulforUtil
 		static const char* CountryCodes[];
 		static const char* msgs_dc[];
 		
+		static bool _profileIsLocked;
+		
 };
 
 #endif

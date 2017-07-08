@@ -279,6 +279,8 @@ class MainWindow:
 		static void onCloseAllPM_gui(GtkWidget *widget, gpointer data);
 		static void onCloseAllofPM_gui(GtkWidget *widget, gpointer data);
 		static void onReconectAllHub_gui(GtkWidget *widget, gpointer data);
+		
+		static void onShortcutsWin(GtkWidget* widget, gpointer data);
 		/**/
 		static void onAboutConfigClicked_gui(GtkWidget *widget, gpointer data);
 		#ifdef HAVE_LIBTAR
