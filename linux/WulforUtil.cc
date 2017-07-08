@@ -61,6 +61,8 @@
 using namespace std;
 using namespace dcpp;
 
+bool WulforUtil::_profileIsLocked = false;
+
 const string WulforUtil::ENCODING_LOCALE = _("System default");
 vector<string> WulforUtil::charsets;
 const string WulforUtil::magnetSignature = "magnet:?xt=urn:tree:tiger:";
@@ -428,9 +430,9 @@ bool WulforUtil::isHubURL(const string &text)
 bool WulforUtil::profileIsLocked()
 {
 	#ifndef _WIN32
-	static bool profileIsLocked = false;
+	//static bool profileIsLocked = false;
 
-	if (profileIsLocked)
+	if (_profileIsLocked)
 		return true;
 
 	// We can't use Util::getConfigPath() since the core has not been started yet.
@@ -460,11 +462,11 @@ bool WulforUtil::profileIsLocked()
 		if (fcntl(fd, F_GETLK, &testlock) != -1) // Locking not supported
 		{
 			if (fcntl(fd, F_SETLK, &lock) == -1)
-				profileIsLocked = true;
+				_profileIsLocked = true;
 		}
 	}
 	g_close(fd,NULL);
-	return profileIsLocked;
+	return _profileIsLocked;
 	#else
 	return false;
 	#endif
@@ -774,7 +776,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			
 		message =  "\n-= Stats " + dcpp::fullVersionString+" =-"
 					+"\n-= " +build+" =-" +
-					+"\n-=  " + s_gtk_version.str() +"=-\n"
+					+"\n-= " + s_gtk_version.str() +"=-\n"
 					+ "-= " + rel + " " + mach + " =-\n"
 					+ "-= Uptime: " + formatTimeDifference(time(NULL) - Util::getUptime()) + " =-\n"
 					+ "-= System Uptime: " + Util::toString(udays) + " days," + Util::toString(uhour) + " Hours," + Util::toString(umin) + " min. =-\n"
@@ -1523,7 +1525,7 @@ void WulforUtil::setTextDeufaults(GtkWidget* widget, std::string strcolor, std::
 		GdkDisplay *display = gdk_display_get_default ();
 		GdkScreen *screen = gdk_display_get_default_screen (display);*/
 		std::string strwhat = (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid ));
-		//if(!where.empty()) strwhat = where;
+		if(!where.empty()) strwhat = where;
 				
 		std::string t_css = std::string("textview#"+strwhat+" text { background: "+strcolor+" ;}\n");
 				

@@ -263,7 +263,7 @@ void TreeView::exactsizeDataFunc(GtkTreeViewColumn*, GtkCellRenderer *renderer, 
 void TreeView::timeLeftDataFunc(GtkTreeViewColumn*, GtkCellRenderer *renderer, GtkTreeModel *model, GtkTreeIter *iter, gpointer column)
 {
 	string timeLeftString;
-	int64_t seconds;
+	int64_t seconds = 0;
 	gtk_tree_model_get(model, iter, static_cast<Column*>(column)->pos, &seconds, -1);
 
 	if (seconds >= 0)

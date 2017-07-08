@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <!-- interface-requires gtk+ 3.17 -->
+
+  <object class="GtkShortcutsWindow" id="shortcuts-bmdc">
+    <property name="modal">1</property>
+    <child>
+      <object class="GtkShortcutsSection">
+        <property name="visible">1</property>
+        <property name="section-name">shortcuts</property>
+        <property name="max-height">12</property>
+        <child>
+          <object class="GtkShortcutsGroup">
+            <property name="visible">1</property>
+            <property name="title" translatable="yes">Documents</property>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
+                <property name="accelerator">&lt;ctrl&gt;N</property>
+                <property name="title" translatable="yes">Open new Hub Tab</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
+                <property name="accelerator">&lt;ctrl&gt;O</property>
+                <property name="title" translatable="yes">Open a Settings</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
+                <property name="accelerator">&lt;ctrl&gt;S</property>
+                <property name="title" translatable="yes">Open Search</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
+                <property name="accelerator">&lt;ctrl&gt;&lt;;Right</property>
+                <property name="title" translatable="yes">Switch to the next Tab</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
+                <property name="accelerator">&lt;ctrl&gt;Left</property>
+                <property name="title" translatable="yes">Switch to the previous Tab</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
+                <property name="accelerator">&lt;ctrl&gt;F</property>
+                <property name="title" translatable="yes">Open Favorite Hubs</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
+                <property name="accelerator">&lt;ctrl&gt;L</property>
+                <property name="title" translatable="yes">Open Filelist</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
+                <property name="accelerator">&lt;ctrl&gt;R</property>
+                <property name="title" translatable="yes">Reconnect actual hub</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
+                <property name="accelerator">&lt;ctrl&gt;m</property>
+                <property name="title" translatable="yes">Open Magnet Settings</property>
+              </object>
+            </child>
+           </object>
+      </child>  
+    </object>
+  </child>
+ </object>   
+
+</interface>

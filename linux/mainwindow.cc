@@ -81,6 +81,8 @@
 	#include <libappindicator/app-indicator.h>
 #endif
 
+#include "Shortcuts.hh"
+
 using namespace std;
 using namespace dcpp;
 
@@ -349,6 +351,8 @@ MainWindow::MainWindow():
 	g_signal_connect(getWidget("CloseTabPMOfflineItem"), "activate", G_CALLBACK(onCloseAllofPM_gui), (gpointer)this);
 	g_signal_connect(getWidget("recontallitem"), "activate", G_CALLBACK(onReconectAllHub_gui), (gpointer)this);
 	/**/
+	g_signal_connect(getWidget("ShortCutsWin"),"activate", G_CALLBACK(onShortcutsWin), (gpointer)this);
+	
 	g_signal_connect(getWidget("menunotepad"), "activate",G_CALLBACK(onNotepadClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("AboutConfigItem"), "activate", G_CALLBACK(onAboutConfigClicked_gui), (gpointer)this);
 	// Help menu
@@ -3127,4 +3131,14 @@ void MainWindow::updateStats_gui(string file, uint64_t bytes, size_t files, uint
 	{
 		gtk_progress_bar_set_text(GTK_PROGRESS_BAR(getWidget("progressbar")), file.c_str());
 	}
+}
+
+void MainWindow::onShortcutsWin(GtkWidget* widget, gpointer data)
+{
+	MainWindow* mw = (MainWindow*)data;
+	
+	ShortCuts* sc = new ShortCuts();
+	sc->show();
+	
+	
 }
