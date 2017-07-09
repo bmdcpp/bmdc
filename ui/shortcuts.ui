@@ -12,7 +12,7 @@
         <child>
           <object class="GtkShortcutsGroup">
             <property name="visible">1</property>
-            <property name="title" translatable="yes">Documents</property>
+            <property name="title" translatable="yes">Client</property>
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">1</property>
@@ -37,7 +37,7 @@
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">1</property>
-                <property name="accelerator">&lt;ctrl&gt;&lt;;Right</property>
+                <property name="accelerator">&lt;ctrl&gt;Right</property>
                 <property name="title" translatable="yes">Switch to the next Tab</property>
               </object>
             </child>
