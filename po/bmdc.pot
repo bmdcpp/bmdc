@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2017-07-08 13:43+0200\n"
+"POT-Creation-Date: 2017-07-09 12:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -851,6 +851,10 @@ msgstr ""
 msgid "Clear frame search"
 msgstr ""
 
+#: ui/shortcuts.ui:15
+msgid "Client"
+msgstr ""
+
 #: ui/detection.ui:766
 msgid "ClientFlag"
 msgstr ""
@@ -1065,10 +1069,6 @@ msgstr ""
 
 #: ui/mainwindow.ui:755
 msgid "Do you really want to exit?"
-msgstr ""
-
-#: ui/shortcuts.ui:15
-msgid "Documents"
 msgstr ""
 
 #: ui/settingsdialog.ui:1912
