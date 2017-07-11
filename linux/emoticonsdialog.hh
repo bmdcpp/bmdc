@@ -57,7 +57,7 @@ class EmoticonsDialog
 
 		void build();
 		void position();
-		//void graber();
+
 		void addPacksMenu(GtkWidget *item);
 		void addIconSizeMenu(GtkWidget *item);
 		void setCurrIconSize(const std::string &size);

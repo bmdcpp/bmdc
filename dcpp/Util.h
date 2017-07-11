@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2018 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -469,7 +469,7 @@ public:
 
 	static string getAwayMessage(ParamMap& params );//BMDC @add ParamMap&
 	static void setAwayMessage(const string& aMsg) { awayMsg = aMsg; }
-
+	/* some psedo-random numbers gens... stuff*/
 	static uint32_t rand();
 	static uint32_t rand(uint32_t high) { return rand() % high; }
 	static uint32_t rand(uint32_t low, uint32_t high) { return rand(high-low) + low; }
@@ -539,8 +539,9 @@ private:
 	static string awayMsg;
 	static time_t awayTime;
 	static uint64_t uptime;
-
+#ifdef _WIN32
 	static void loadBootConfig();
+#endif	
 };
 
 /** Case insensitive hash function for strings */

@@ -540,7 +540,7 @@ gboolean SearchADL::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpoi
 	return FALSE;
 }
 
-gboolean SearchADL::onKeyReleased_gui(GtkWidget* wid, GdkEventKey *event, gpointer data)
+gboolean SearchADL::onKeyReleased_gui(GtkWidget* , GdkEventKey *event, gpointer data)
 {
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
 

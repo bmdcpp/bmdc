@@ -52,6 +52,7 @@ class UsersManager: public Singleton<UsersManager>
 	
 	StringList getHubNames(const CID& cid, const string& x = string()) {
 		Lock l(cs);
+		(void)x;//hide warns...
 		StringList lst;
 		OnlinePairC op = onlineUsers.equal_range(cid);
 		for(OnlineIterC i = op.first; i != op.second; ++i) {
