@@ -683,7 +683,7 @@ gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean 
 
 	string sharesize  = Util::formatBytes(ssize);
 	g_snprintf (buffer, 1000, " Nick: %s\n Connection: %s\n Description: %s\n Tag: %s\n Share: %s\n IP: %s\n eMail: %s\nCountry: %s\n Slots: %s\n Hubs: %s\n PK: %s\n Cheat: %s\n Generator: %s\n Support: %s\n CID: %s,\n Type %d", nick, con,desc, tag , sharesize.c_str() ,ip, e, country, slots, hubs, pk, cheat, gen, sup, cid,type);
-	gtk_tooltip_set_text (_tooltip, buffer);
+	gtk_tooltip_set_text (_tooltip, g_filename_to_utf8(buffer,-1,NULL,NULL,NULL));
 	if(path == NULL) return FALSE;
 	if(tree_view == NULL) return FALSE;
 
@@ -696,12 +696,12 @@ void Hub::setStatus_gui(string statusBar, string text)
 {
 	if (!statusBar.empty() && !text.empty())
 	{
-		if(!g_utf8_validate(text.c_str(),-1,NULL))
+		/*if(!g_utf8_validate(text.c_str(),-1,NULL))
 		{
 			dcdebug("Should be aware about codepage ?");//@TODO inform user? probaly not need?
 			string _text = Text::toUtf8(text,client->getEncoding());
 			text = _text;
-		}
+		}*/
 
 		if (statusBar == "statusMain")
 		{
@@ -723,11 +723,11 @@ void Hub::setStatus_gui(string statusBar, string text)
 			statustext.push(text);
             statusTextOnToolTip += "\n" + text;
 
-            gtk_widget_set_tooltip_text(getWidget("statusMain"), statusTextOnToolTip.c_str());
+            gtk_widget_set_tooltip_text(getWidget("statusMain"), g_filename_to_utf8(statusTextOnToolTip.c_str(),-1,NULL,NULL,NULL));
 		}
 
 		gtk_statusbar_pop(GTK_STATUSBAR(getWidget(statusBar)), 0);
-		gtk_statusbar_push(GTK_STATUSBAR(getWidget(statusBar)), 0, text.c_str());
+		gtk_statusbar_push(GTK_STATUSBAR(getWidget(statusBar)), 0, g_filename_to_utf8(text.c_str(),-1,NULL,NULL,NULL));
 	}
 }
 
@@ -762,7 +762,7 @@ void Hub::updateUser_gui(ParamMap params)
 	int64_t shared = Util::toInt64(params["Shared"]);
 	const string& cid = params["CID"];
 	const string icon = "bmdc-" + params["Icon"];
-	const string& Nick = params["Nick"];
+	const gchar* Nick = g_filename_to_utf8(params["Nick"].c_str(),-1,NULL,NULL,NULL);
 	const string& nickOrder = params["Nick Order"];
 	bool favorite = userFavoriteMap.find(cid) != userFavoriteMap.end();
 
@@ -771,12 +771,12 @@ void Hub::updateUser_gui(ParamMap params)
 		totalShared += shared - nickView.getValue<int64_t>(&iter, _("Shared"));
 		string nick = nickView.getString(&iter, _("Nick"));
 
-		if (nick != Nick)
+		if (nick != params["Nick"])
 		{
 			// User has changed nick, update userMap and remove the old Nick tag
 			userMap.erase(nick);
 			removeTag_gui(nick);
-			userMap.insert(UserMap::value_type(Nick, cid));
+			userMap.insert(UserMap::value_type(params["Nick"], cid));
 
 			// update favorite
 			if (favorite)
@@ -784,7 +784,7 @@ void Hub::updateUser_gui(ParamMap params)
 		}
 
 		gtk_list_store_set(nickStore, &iter,
-			nickView.col(_("Nick")), Nick.c_str(),
+			nickView.col(_("Nick")), Nick,
 			nickView.col(_("Shared")), shared,
 			nickView.col(_("Description")), params["Description"].c_str(),
 			nickView.col(_("Tag")), params["Tag"].c_str(),
@@ -810,10 +810,10 @@ void Hub::updateUser_gui(ParamMap params)
 	else
 	{
 		totalShared += shared;
-		userMap.insert(UserMap::value_type(Nick, cid));
+		userMap.insert(UserMap::value_type(string(Nick), cid));
 
 		gtk_list_store_insert_with_values(nickStore, &iter, userMap.size(),
-			nickView.col(_("Nick")), Nick.c_str(),
+			nickView.col(_("Nick")), Nick,
 			nickView.col(_("Shared")), shared,
 			nickView.col(_("Description")), params["Description"].c_str(),
 			nickView.col(_("Tag")), params["Tag"].c_str(),
@@ -841,8 +841,8 @@ void Hub::updateUser_gui(ParamMap params)
 		if(client && client->get(SettingsManager::SHOW_JOINS,SETTING(SHOW_JOINS)))
 		{
 			// Show joins in chat by default
-			addStatusMessage_gui(Nick + _(" has joined"), Msg::STATUS, favorite ? Sound::FAVORITE_USER_JOIN : Sound::NONE);
-			string message = Nick + _(" has joined hub ") + client->getHubName();
+			addStatusMessage_gui(string(Nick) + _(" has joined"), Msg::STATUS, favorite ? Sound::FAVORITE_USER_JOIN : Sound::NONE);
+			string message = string(Nick) + _(" has joined hub ") + client->getHubName();
 			WulforManager::get()->getMainWindow()->addPrivateStatusMessage_gui(Msg::STATUS, cid, message);
 
 			if (favorite)
@@ -851,8 +851,8 @@ void Hub::updateUser_gui(ParamMap params)
 		else if ( client && ( (client->get(SettingsManager::FAV_SHOW_JOINS,SETTING(FAV_SHOW_JOINS))) && favorite ))
 		{
 			// Only show joins for favorite users
-			string message = Nick + _(" has joined hub ") + client->getHubName();
-			addStatusMessage_gui(Nick + _(" has joined"), Msg::STATUS, Sound::FAVORITE_USER_JOIN);
+			string message = string(Nick) + _(" has joined hub ") + client->getHubName();
+			addStatusMessage_gui(string(Nick) + _(" has joined"), Msg::STATUS, Sound::FAVORITE_USER_JOIN);
 			WulforManager::get()->getMainWindow()->addPrivateStatusMessage_gui(Msg::STATUS, cid, message);
 			Notify::get()->showNotify("", message, Notify::FAVORITE_USER_JOIN);
 		}
@@ -1124,7 +1124,7 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg, strin
 	if( client && client->get(SettingsManager::TIME_STAMPS,SETTING(TIME_STAMPS)))
 			line += "[" + Util::getShortTimeString() + "] ";
 			
-	line += message;
+	line += string(g_filename_to_utf8(message.c_str(),-1,NULL,NULL,NULL));
 	
 	gtk_text_buffer_get_end_iter(chatBuffer, &iter);
 	gtk_text_buffer_insert(chatBuffer, &iter, line.c_str(), line.size());

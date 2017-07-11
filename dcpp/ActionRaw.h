@@ -30,7 +30,7 @@ namespace dcpp {
 	
 struct Raw {
 	
-	Raw() : name(""), raw(""),id(0),time(0), enabled(false) { }
+	Raw() : name(), raw(),id(0),time(0), enabled(false) { }
 	
 	Raw(int _id, const std::string& _name, const std::string& _raw, int _time, bool _enabled)
 		: name(_name), raw(_raw),id(_id), time(_time), enabled(_enabled) { }
@@ -47,7 +47,7 @@ struct Action {
 	typedef vector<Raw> RawsList;
 	typedef std::vector<Action*> ActionList;
 
-	Action() : name(""),id(0), enabled(false) { }
+	Action() : name(),id(0), enabled(false) { }
 	Action(int _id, const std::string& _name, bool _enabled): name(_name),id(_id), enabled(_enabled) { }
 	~Action() { raw.clear(); }
 

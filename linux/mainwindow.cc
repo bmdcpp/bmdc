@@ -3133,12 +3133,8 @@ void MainWindow::updateStats_gui(string file, uint64_t bytes, size_t files, uint
 	}
 }
 
-void MainWindow::onShortcutsWin(GtkWidget* widget, gpointer data)
+void MainWindow::onShortcutsWin(GtkWidget*, gpointer)
 {
-	MainWindow* mw = (MainWindow*)data;
-	
 	ShortCuts* sc = new ShortCuts();
 	sc->show();
-	
-	
 }

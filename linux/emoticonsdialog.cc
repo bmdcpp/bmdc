@@ -379,16 +379,7 @@ void EmoticonsDialog::position()
 	gtk_window_move(GTK_WINDOW(dialog), Wx, Wy);
 	gtk_widget_show(dialog);
 }
-/*
-void EmoticonsDialog::graber()
-{
-	/* grabs the pointer (usually a mouse) */
-/*	#if !GTK_CHECK_VERSION(3,12,0)
-	if(gdk_device_grab(gtk_get_current_event_device(),gtk_widget_get_window(dialog), GDK_OWNERSHIP_NONE,TRUE,(GdkEventMask)(GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK),NULL,GDK_CURRENT_TIME))
-		gtk_grab_add(dialog);
-	#endif	
-}
-*/
+
 void EmoticonsDialog::onChat(GtkWidget *widget , gpointer data /*this*/)
 {
 	EmoticonsDialog *ed = (EmoticonsDialog *) data;

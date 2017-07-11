@@ -430,8 +430,6 @@ bool WulforUtil::isHubURL(const string &text)
 bool WulforUtil::profileIsLocked()
 {
 	#ifndef _WIN32
-	//static bool profileIsLocked = false;
-
 	if (_profileIsLocked)
 		return true;
 
@@ -547,8 +545,8 @@ GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string country)
 {
 	if(country.empty())
 	{
-		//@GTK3 icons exist all time....
-		return gtk_icon_theme_load_icon(icon_theme,"gtk-dialog-question",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,NULL);
+		string sRes = "/org/bmdc-team/bmdc/info/info.png";
+		return gdk_pixbuf_new_from_resource_at_scale( sRes.c_str(),15,15,FALSE,NULL);
 	}
 	string sRes = "/org/bmdc-team/bmdc/country/"+country+".png";
 	return gdk_pixbuf_new_from_resource_at_scale( sRes.c_str(),15,15,FALSE,NULL);
@@ -1521,9 +1519,6 @@ void WulforUtil::setTextDeufaults(GtkWidget* widget, std::string strcolor, std::
 			return;
 		}
 		
-		/*GtkCssProvider *provider = gtk_css_provider_new ();
-		GdkDisplay *display = gdk_display_get_default ();
-		GdkScreen *screen = gdk_display_get_default_screen (display);*/
 		std::string strwhat = (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid ));
 		if(!where.empty()) strwhat = where;
 				
@@ -1532,13 +1527,6 @@ void WulforUtil::setTextDeufaults(GtkWidget* widget, std::string strcolor, std::
 		if(!mono.empty()) {
 			t_css =	std::string("textview#"+strwhat+" text { background: "+strcolor+" ; font: "+mono+"; }\n");	
 		}	
-/*
-		gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
-
-		gtk_style_context_add_provider_for_screen (screen,
-														GTK_STYLE_PROVIDER(provider),
-														GTK_STYLE_PROVIDER_PRIORITY_USER);
-		g_object_unref (provider);*/
 		
 		GtkStyleContext *context;
 		GtkCssProvider *provider;

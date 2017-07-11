@@ -94,7 +94,7 @@ static string getDownloadsPath(const string& def) {
 	             // Defined in KnownFolders.h.
 	             static GUID downloads = {0x374de290, 0x123f, 0x4565, {0x91, 0x64, 0x39, 0xc4, 0x92, 0x5e, 0x46, 0x7b}};
 	    		 if(getKnownFolderPath(downloads, 0, NULL, &path) == S_OK) {
-	    			 string ret;// = Util::emptyString;
+	    			 string ret = std::string();
 	    			 Text::wcToUtf8(*path,ret);
 	    			 //string ret = Text::fromT(path) + "\\";
 	    			 ::CoTaskMemFree(path);
@@ -159,18 +159,15 @@ void Util::initialize(PathsMap pathOverrides) {
 	paths[PATH_LOCALE] = Text::fromT(buf);
 
 #else
-	//paths[PATH_GLOBAL_CONFIG] = "/etc/";
-	//const char* home_ = getenv("HOME");
-	//string home = home_ ? Text::toUtf8(home_) : "/tmp/";
 	string home = g_get_home_dir ();//glib
 	#ifndef _DEBUG
 	paths[PATH_GLOBAL_CONFIG] = paths[PATH_USER_CONFIG] = home + "/.bmdc++-s/";
 	#else
 	paths[PATH_GLOBAL_CONFIG] = paths[PATH_USER_CONFIG] = home + "/.bmdc++-debug/";
 	#endif
-
+	#ifdef _WIN32
 	loadBootConfig();
-
+	#endif
 	if(!File::isAbsolute(paths[PATH_USER_CONFIG])) {
 		paths[PATH_USER_CONFIG] = paths[PATH_GLOBAL_CONFIG] + paths[PATH_USER_CONFIG];
 	}
@@ -221,9 +218,9 @@ void Util::migrate(const string& file) {
 
 	File::renameFile(old, file);
 }
-
-void Util::loadBootConfig() {
 #ifdef _WIN32
+void Util::loadBootConfig() {
+
 	// Load boot settings
 	try {
 		SimpleXML boot;
@@ -250,9 +247,9 @@ void Util::loadBootConfig() {
 	} catch(const Exception& ) {
 		// Unable to load boot settings...
 	}
-#endif
-}
 
+}
+#endif
 #ifdef _WIN32
 static const char badChars[] = {
 	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
