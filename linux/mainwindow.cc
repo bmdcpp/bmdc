@@ -945,6 +945,7 @@ void MainWindow::createAppIndicator()
 	g_signal_connect(getWidget("statusIconShowInterfaceItem"), "toggled", G_CALLBACK(onShowInterfaceToggled_gui), (gpointer)this);
 	gtk_widget_set_sensitive(getWidget("statusIconBlinkUseItem"),FALSE);
 	app_indicator_set_menu ( indicator, GTK_MENU (getWidget("statusIconMenu") ));
+	app_indicator_set_secondary_activate_target ( indicator, GTK_WIDGET (getWidget("statusIconShowInterfaceItem") ));
 }
 #endif
 
