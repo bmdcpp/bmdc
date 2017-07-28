@@ -1342,7 +1342,7 @@ void Settings::initAppearance_gui()
 		GtkCssProvider *provider = gtk_css_provider_new ();
 		GdkDisplay *display = gdk_display_get_default ();
 		GdkScreen *screen = gdk_display_get_default_screen (display);
-		std::string t_css = std::string("#prewienTextView { background: "+strcolor+" ;}\n\0");
+		std::string t_css = std::string("#prewienTextView text { background: "+strcolor+" ;}\n\0");
 		gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
 
 		gtk_style_context_add_provider_for_screen (screen,

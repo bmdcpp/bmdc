@@ -1481,9 +1481,10 @@ void WulforUtil::setTextDeufaults(GtkWidget* widget, std::string strcolor, std::
 			gtk_widget_set_name(widget,hubCid.c_str());
 		}
 		
-		if(!where.empty())
+		if( (!where.empty()) || (hubUrl.empty() && (pm == false)) )
+		{
 			gtk_widget_set_name(widget,where.c_str());
-
+		}
 		// Intialize the chat window
 		std::string mono = string();
 		if (SETTING(USE_OEM_MONOFONT))
@@ -1491,7 +1492,7 @@ void WulforUtil::setTextDeufaults(GtkWidget* widget, std::string strcolor, std::
 			mono = "Monospace";
 		}
 
-		if( !back_image_path.empty() && (dcpp::Util::fileExists(back_image_path) == true) ) {
+		if( strcolor.empty() || (!back_image_path.empty() && (dcpp::Util::fileExists(back_image_path) == true)) ) {
 		///NOTE: CSS
 			dcdebug("Test:img %s\n",hubUrl.c_str());
 			GtkCssProvider *provider = gtk_css_provider_new ();
