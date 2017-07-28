@@ -276,11 +276,11 @@ bool AdcCommand::getParam(const char* name, size_t start, string& ret) const {
 	}
 	return false;
 }
-
+// did 2 make more sense?
 bool AdcCommand::hasFlag(const char* name, size_t start) const {
 	for(string::size_type i = start; i < getParameters().size(); ++i) {
 		if( (strlen(name) == 2) &&  (toCode(name) == toCode(getParameters()[i].c_str()) &&
-			getParameters()[i].size() == 3 &&
+			getParameters()[i].size() == 2 &&
 			getParameters()[i][2] == '1'))
 		{
 			return true;
