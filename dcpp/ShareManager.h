@@ -219,6 +219,12 @@ private:
 public:	
 	ShareManager(const std::string& name = string());
 	~ShareManager();
+	bool operator==(const ShareManager& rhs){
+			return this->id == rhs.id;
+	}
+	bool operator==(const ShareManager* rhs){
+			return this->id == rhs->id;
+	}
 private:	
 
 	struct SearchQuery {
