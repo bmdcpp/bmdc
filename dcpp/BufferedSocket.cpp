@@ -254,6 +254,7 @@ void BufferedSocket::threadRead() {
 				}
 			}	
 			case MODE_LINE:
+			{
 				// Special to autodetect nmdc connections...
 				if(separator == 0) {
 					if(inbuf[0] == '$') {
@@ -279,7 +280,9 @@ void BufferedSocket::threadRead() {
 					left = 0;
 				line = l;
 				break;
+			}
 			case MODE_DATA:
+			{
 				while(left > 0) {
 					if(dataBytes == -1) {
 						fire(BufferedSocketListener::Data(), &inbuf[bufpos], left);
@@ -301,6 +304,8 @@ void BufferedSocket::threadRead() {
 					}
 				}
 				break;
+			}
+			default:break;
 		}
 	}
 

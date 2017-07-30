@@ -82,6 +82,7 @@ void UserCommandMenu::cleanMenu_gui()
 	gtk_container_foreach(GTK_CONTAINER(userCommandMenu), (GtkCallback)gtk_widget_destroy, NULL);
 	hubs.clear();
 	ucParams.clear();
+	ips.clear();//should?
 }
 
 void UserCommandMenu::buildMenu_gui()
