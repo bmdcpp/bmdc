@@ -183,7 +183,6 @@ public:
 	}
 
 	string getListName() const {
-		//const Flags* f = dynamic_cast<const Flags*>(this);
 		if(isSet(QueueItem::FLAG_XML_BZLIST)) {
 			return getTarget() + ".xml.bz2";
 		} else {

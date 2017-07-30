@@ -20,6 +20,8 @@
 #define DCPLUSPLUS_DCPP_HASH_VALUE_H
 #include "Encoder.h"
 #include <cstring>
+#include <algorithm>
+
 namespace dcpp {
 
 template<class Hasher>
@@ -39,7 +41,7 @@ struct HashValue {
 	std::string toBase32() const { return Encoder::toBase32(data, BYTES); }
 	std::string& toBase32(std::string& tmp) const { return Encoder::toBase32(data, BYTES, tmp); }
 
-	explicit operator bool() const { return find_if(data, data + BYTES, [](uint8_t c) { return c != 0; }) != data + BYTES; }
+	explicit operator bool() const { return std::find_if(data, data + BYTES, [](uint8_t c) { return c != 0; }) != data + BYTES; }
 
 	uint8_t data[BYTES];
 };

@@ -59,6 +59,7 @@ public:
 	GESET(ClientType, "CL")
 	GESET(MyInfoType, "MT")
 	GESET(cheats, "CS")
+	
 	GESET(TestSURChecked, "TC")
 	GESET(FileListChecked, "FC")
 	GESET(FileListQueued, "FQ")
