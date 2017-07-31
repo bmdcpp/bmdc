@@ -252,6 +252,7 @@ void BufferedSocket::threadRead() {
 						delete [] buffer;
 					break;
 				}
+				break;
 			}	
 			case MODE_LINE:
 			{
@@ -305,7 +306,7 @@ void BufferedSocket::threadRead() {
 				}
 				break;
 			}
-			default:break;
+			default:continue;
 		}
 	}
 
