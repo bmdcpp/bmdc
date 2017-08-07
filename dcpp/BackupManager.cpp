@@ -28,7 +28,9 @@
 namespace dcpp {
 
 int BackupManager::run() {
+	#ifdef _DEBUG
 	dcdebug("BackupManager::run() start %p\n", (void*)this);
+	#endif
 	setThreadPriority(Thread::LOW);
 
 	while(true) {
@@ -60,12 +62,15 @@ int BackupManager::run() {
 
 			} catch (...)
 			{
+				#ifdef _DEBUG
 				dcdebug("Exception caught");
+				#endif
 			}
 		stop = true;
 	}
-
+#ifdef _DEBUG
 	dcdebug("BackupManager::run() end %p\n", (void*)this);
+#endif	
 	stop = true;
 	return 0;
 }

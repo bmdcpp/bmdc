@@ -31,11 +31,11 @@ const string defaultTestSURName = "TestSUR";
 void bmUtil::init() {
 	generateTestSURString();
 }
-
+/*
 void bmUtil::uinit() {
 	//...
 }
-
+*/
 bool bmUtil::checkVersion(const string& tag) {
 	const char* aTag = tag.c_str();
 	if(strncmp(aTag, "<++ V:0.69", 10) == 0) {
