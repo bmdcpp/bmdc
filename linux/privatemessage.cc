@@ -44,10 +44,8 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 	BookEntry(Entry::PRIVATE_MESSAGE, WulforUtil::getNicks(_cid, _hubUrl), "privatemessage", _cid),
 	dcpp::Flags(NORMAL),
 	cid(_cid), hubUrl(_hubUrl),
-	historyIndex(0),
-	sentAwayMessage(false),
-	scrollToBottom(true),
-	notCreated(true)
+	historyIndex(0), sentAwayMessage(false),
+	scrollToBottom(true), notCreated(true)
 {
 	setName(cid);
 	//Set Colors
@@ -137,6 +135,7 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 
 	gtk_widget_grab_focus(getWidget("entry"));
 	history.push_back("");
+	
 	const OnlineUser* user = ClientManager::getInstance()->findOnlineUser(CID(cid), hubUrl);
 	
 	if(user != NULL) {
@@ -145,7 +144,8 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 		
 		string country = GeoManager::getInstance()->getCountryAbbrevation(user->getIdentity().getIp());
 		setImageButton(country);
-	}	
+	}
+		
 	setLabel_gui(WulforUtil::getNicks(cid, hubUrl) + " [" + WulforUtil::getHubNames(cid, hubUrl) + "]");
 
 	/* initial tags map */
@@ -321,7 +321,7 @@ void PrivateMessage::addLine_gui(Msg::TypeMsg typemsg, const string &message)
 	if (SETTING(TIME_STAMPS))
 		line += "[" + Util::getShortTimeString() + "] ";
 
-	line += message + "\n";
+	line += string(g_filename_to_utf8((message + "\n").c_str(),-1,NULL,NULL,NULL));
 
 	gtk_text_buffer_get_end_iter(messageBuffer, &iter);
 	gtk_text_buffer_insert(messageBuffer, &iter, line.c_str(), line.size());

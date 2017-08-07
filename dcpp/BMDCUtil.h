@@ -22,7 +22,7 @@ namespace dcpp {
 class bmUtil {
 public:
 	static void		init();
-	static void		uinit();
+	//static void		uinit();
 	static bool		checkVersion(const string& tag);
 /*	static string			toIP(const uint32_t ipnum);*/
 	static uint32_t			toIpNumber(const string& aIp);

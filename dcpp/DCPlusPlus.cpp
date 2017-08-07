@@ -168,7 +168,7 @@ void load(function<void (const string&)> stepF, function<void (float)> progressF
 }
 
 void shutdown() {
-	bmUtil::uinit();
+	//bmUtil::uinit();
 #if 0	
     PluginApiImpl::shutdown();
 #endif

@@ -549,15 +549,15 @@ void Hub::onSizeWindowState_gui(GtkWidget* ,GdkRectangle *allocation, gpointer d
 
 Hub::~Hub()
 {
-	RecentHubEntry* rhe = FavoriteManager::getInstance()->getRecentHubEntry(address);
+	RecentHubEntry* p_rhe = FavoriteManager::getInstance()->getRecentHubEntry(address);
 
-	if(rhe != NULL)
+	if(p_rhe)
 	{
-		rhe->setName(client->getHubName());
-		rhe->setDescription(client->getHubDescription());
-		rhe->setUsers(Util::toString(client->getUserCount()));
-		rhe->setShared(Util::toString(client->getAvailable()));
-		FavoriteManager::getInstance()->updateRecent(rhe);
+		p_rhe->setName(client->getHubName());
+		p_rhe->setDescription(client->getHubDescription());
+		p_rhe->setUsers(Util::toString(client->getUserCount()));
+		p_rhe->setShared(Util::toString(client->getAvailable()));
+		FavoriteManager::getInstance()->updateRecent(p_rhe);
 	}
 
 	bool showUL = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")));
@@ -566,6 +566,7 @@ Hub::~Hub()
 	nickView.saveSettings(order,hwidth,visible);
 
 	SettingsManager* sm = SettingsManager::getInstance();
+	
 	if(entry) {
 		entry->set(SettingsManager::HUB_UL_VISIBLE, visible);
 		entry->set(SettingsManager::HUB_UL_ORDER, order);
@@ -608,9 +609,9 @@ void Hub::show()
 	connectClient_client(address, encoding);
 }
 
-void Hub::selection_changed_userlist_gui(GtkTreeSelection*, GtkWidget *tree_view)
+void Hub::selection_changed_userlist_gui(GtkTreeSelection*, GtkWidget *ptree_view)
 {
-	gtk_widget_trigger_tooltip_query (tree_view);
+	gtk_widget_trigger_tooltip_query (ptree_view);
 }
 
 void Hub::columnHeader(int num, string name)
@@ -696,13 +697,6 @@ void Hub::setStatus_gui(string statusBar, string text)
 {
 	if (!statusBar.empty() && !text.empty())
 	{
-		/*if(!g_utf8_validate(text.c_str(),-1,NULL))
-		{
-			dcdebug("Should be aware about codepage ?");//@TODO inform user? probaly not need?
-			string _text = Text::toUtf8(text,client->getEncoding());
-			text = _text;
-		}*/
-
 		if (statusBar == "statusMain")
 		{
 			text = "[" + Util::getShortTimeString() + "] " + text;

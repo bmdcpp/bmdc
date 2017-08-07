@@ -22,24 +22,24 @@
 #include <cstdio>
 
 #ifdef _DEBUG
-#include <cassert>
-#define dcdebug printf
-#ifdef _MSC_VER
+	#include <cassert>
+	#define dcdebug printf
+	#ifdef _MSC_VER
 	#include <crtdbg.h>
 
-#define dcassert(exp) \
-do { if (!(exp)) { \
-	dcdebug("Assertion hit in %s(%d): " #exp "\n", __FILE__, __LINE__); \
-	if(1 == _CrtDbgReport(_CRT_ASSERT, __FILE__, __LINE__, NULL, #exp)) \
-_CrtDbgBreak(); } } while(false)
-#else
-#define dcassert(exp) assert(exp)
-#endif
-#define dcdrun(exp) exp
+	#define dcassert(exp) \
+	do { if (!(exp)) { \
+		dcdebug("Assertion hit in %s(%d): " #exp "\n", __FILE__, __LINE__); \
+		if(1 == _CrtDbgReport(_CRT_ASSERT, __FILE__, __LINE__, NULL, #exp)) \
+	_CrtDbgBreak(); } } while(false)
+	#else
+	#define dcassert(exp) assert(exp)
+	#endif
+	#define dcdrun(exp) exp
 #else //_DEBUG
-#define dcdebug printf
-#define dcassert(exp)
-#define dcdrun(exp)
+	#define dcdebug ;
+	#define dcassert(exp)
+	#define dcdrun(exp)
 #endif //_DEBUG
 
 #endif /* DCPP_DCPLUSPLUS_DEBUG_H_ */
