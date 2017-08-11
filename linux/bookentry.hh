@@ -31,7 +31,7 @@ class BookEntry : public Entry
 	public:
 		BookEntry(): eventBox(NULL), labelBox(NULL), tabMenuItem(NULL),	closeButton(NULL),
 				label(NULL), bCreated(true),bold(false), urgent(false), labelSize(20), icon(NULL) , popTabMenuItem(NULL), type((EntryType)0), bIsCloseButton(true)  { }
-		BookEntry(const EntryType type, const std::string &text, const std::string &glade, const std::string &id = "");
+		BookEntry(const EntryType type, const std::string &text, const std::string &glade, const std::string &id = std::string());
 		virtual ~BookEntry()
 		{
 
@@ -57,10 +57,12 @@ class BookEntry : public Entry
 		void setSearchButtons(bool s) { bIsCloseButton = s;}
 		void setName(const std::string& name)
 		{ h_name = name; }
+		
 		void setUnread() //@set flag for tab
 		{
 			gtk_widget_set_state_flags (labelBox,GTK_STATE_FLAG_ACTIVE,TRUE);
 		}
+		
 		void setNormal()
 		{
 			gtk_widget_set_state_flags (labelBox,GTK_STATE_FLAG_NORMAL,TRUE);
@@ -83,10 +85,10 @@ class BookEntry : public Entry
 		GtkWidget *tabMenuItem;
 		GtkWidget *closeButton;
 		GtkLabel *label;
-		bool bCreated;//@ if menu created
+		bool bCreated; //@ if menu created
 		bool bold;
 		bool urgent;
-		const glong labelSize;//@ size of Chars in Tab value in WulforSettingsManager
+		const glong labelSize; //@ size of Chars in Tab value in WulforSettingsManager
 		GtkWidget *icon;
 		//[BMDC++
 		GdkEventType previous;
