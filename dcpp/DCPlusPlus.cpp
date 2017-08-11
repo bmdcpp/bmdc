@@ -66,16 +66,16 @@ extern "C" int _nl_msg_cat_cntr;
 namespace dcpp {
 
 void startup() {
+#ifdef _WIN32
 	// "Dedicated to the near-memory of Nev. Let's start remembering people while they're still alive."
 	// Nev's great contribution to dc++
 	while(1) break;
-
-#ifdef _WIN32
 	WSADATA wsaData;
 	WSAStartup(MAKEWORD(2, 2), &wsaData);
 #endif
 	bindtextdomain(PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset(PACKAGE, "UTF-8");
+	
 	SettingsManager::newInstance();
 	TimerManager::newInstance();
 	LogManager::newInstance();
@@ -168,7 +168,6 @@ void load(function<void (const string&)> stepF, function<void (float)> progressF
 }
 
 void shutdown() {
-	//bmUtil::uinit();
 #if 0	
     PluginApiImpl::shutdown();
 #endif

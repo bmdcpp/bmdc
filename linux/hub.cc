@@ -3921,14 +3921,14 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 	params.insert(ParamMap::value_type("Shared", Util::toString(id.getBytesShared())));
 	params.insert(ParamMap::value_type("Description", id.getDescription()));
 	params.insert(ParamMap::value_type("Tag", id.getTag()));
-	params.insert(ParamMap::value_type("Connection", /*Text::acpToUtf8(*/id.getConnection()/*)*/));
+	params.insert(ParamMap::value_type("Connection", id.getConnection()));
 	params.insert(ParamMap::value_type("IP", id.getIp()));
 	params.insert(ParamMap::value_type("eMail", id.getEmail()));
 	params.insert(ParamMap::value_type("CID", id.getUser()->getCID().toBase32()));
 	//BMDC++
 	if( !id.isHub() || !id.isBot() ) { //should *not* getting CC from Bot/Hub User
-		params.insert(ParamMap::value_type("Country", (SETTING(GET_USER_COUNTRY)) ? id.getCountry() : "" ));
-		params.insert(ParamMap::value_type("Abbrevation", (SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountryAbbrevation(id.getIp()): "" ));
+		params.insert(ParamMap::value_type("Country", (SETTING(GET_USER_COUNTRY)) ? id.getCountry() : string() ));
+		params.insert(ParamMap::value_type("Abbrevation", (SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountryAbbrevation(id.getIp()): string() ));
 	}
 	params.insert(ParamMap::value_type("Slots", id.get("SL")));
 	const string hubs = Util::toString(Util::toInt(id.get("HN")) + Util::toInt(id.get("HR")) + Util::toInt(id.get("HO")));//@Hubs
@@ -4853,7 +4853,7 @@ void Hub::onReconnectItemTab(gpointer data)
 void Hub::onCloseItem(gpointer data)
 {
     BookEntry *entry = (BookEntry *)data;
-	if(entry == NULL) return;
+	if(!entry) return;
     WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
 }
 
@@ -4985,6 +4985,7 @@ void Hub::onToglleButtonIcon(GtkToggleButton *button, gpointer data)
 	Hub *pHub = (Hub *)data;
 	if(pHub == NULL) return;
 	if(button == NULL) return;
+	
 	gboolean bActive = gtk_toggle_button_get_active(button);
 	
 	if(bActive)
