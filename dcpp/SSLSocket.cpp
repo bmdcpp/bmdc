@@ -165,14 +165,16 @@ int SSLSocket::checkSSL(int ret) {
 		case SSL_ERROR_WANT_READ:	// Fallthrough
 		case SSL_ERROR_WANT_WRITE:
 			return -1;
-		case SSL_ERROR_ZERO_RETURN:
+		case SSL_ERROR_ZERO_RETURN: {
 			throw SocketException(_("Connection closed"));
+			break;
+		}
 		case SSL_ERROR_SYSCALL:
 			{
 				int sys_err = ERR_get_error();
 				if(sys_err == 0) {
 					if(ret == 0) {
-						dcdebug("TLS error: call ret = %d, SSL_get_error = %d, ERR_get_error = %d\n", ret, err, sys_err);
+						dcdebug("TLS error: call ret = %d, SSL_get_error = %d, ERR_get_error = %d, errrno: %d\n", ret, err, sys_err, errno);
 						throw SSLSocketException(_("Connection closed"));
 					}
 					sys_err = getLastError();
