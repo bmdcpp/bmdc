@@ -125,7 +125,7 @@ def replaceAll(env,file,searchExp,replaceExp):
     for line in fileinput.input(file, inplace=1):
         if searchExp in line:
             line = line.replace(searchExp,replaceExp)
-    sys.stdout.write(line)
+	sys.stdout.write(line)
 
 # ----------------------------------------------------------------------
 # Command-line options
@@ -514,9 +514,6 @@ else:
 	country_files = env.Glob('country/*.png')
 	info_image_files = env.Glob('info/*.png')
 	desktop_file = os.path.join('data', PACKAGE + '.desktop')
-
-	env.ReplaceAll(desktop_file,"Path=","Path="+env['PREFIX']+"share/")
-
 
 	app_icon_filter = lambda icon: os.path.splitext(icon)[0] == PACKAGE
 	regular_icon_filter = lambda icon: os.path.splitext(icon)[0] != PACKAGE
