@@ -471,8 +471,8 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		if(j == string::npos) {
 			return;
 		}
-		uint16_t p_port = -1;
-		string server = Util::emptyString;
+		uint16_t p_port = 0;
+		string server = string();
 		
 		string p = param.substr(++i);
 		size_t y = p.find('[');
@@ -509,9 +509,6 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			}				
 		}		
 
-		if( p_port < 1)
-			return;
-				
 		ConnectionManager::getInstance()->nmdcConnect(server, p_port, getMyNick(), getHubUrl(), getEncoding());
 		// For simplicity, we make the assumption that users on a hub have the same character encoding
 	} else if(cmd == "$RevConnectToMe") {
@@ -877,10 +874,7 @@ void NmdcHub::connectToMe(const OnlineUser& aUser) {
 	//bool isOkIp6 = !aUser.getIdentity().getIp6().empty();
 	dcdebug("%d - %d - %d - %d",(int)bIPv6,isActiveV6(),(int)((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ),isOkIp6);
 	
-	//alows ports only above 0
 	uint16_t cport = ConnectionManager::getInstance()->getPort();
-	if(cport == 0)
-		return;
 	//we have IPv6, Hub Support that and User too
 	if(bIPv6 && ((supportFlags & SUPPORTS_IP64) == SUPPORTS_IP64 ) && isOkIp6) {
 		send("$ConnectToMe " + nick + " [" + getUserIp6() + "]:" + Util::toString(cport) + "|");
