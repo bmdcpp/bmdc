@@ -167,9 +167,9 @@ int SSLSocket::checkSSL(int ret) {
 			return -1;
 		case SSL_ERROR_ZERO_RETURN: {
 			throw SocketException(_("Connection closed"));
-			break;
+//			break;
 		}
-		case SSL_ERROR_SYSCALL:
+		/*case SSL_ERROR_SYSCALL:
 			{
 				int sys_err = ERR_get_error();
 				if(sys_err == 0) {
@@ -180,8 +180,9 @@ int SSLSocket::checkSSL(int ret) {
 					sys_err = getLastError();
 				}
 				throw SSLSocketException(sys_err);
-			}
+			}*/
 		default:
+			ssl.reset();
 			/* don't bother getting error messages from the codes because 1) there is some
 			additional management necessary (eg SSL_load_error_strings) and 2) openssl error codes
 			aren't shown to the end user; they only hit standard output in debug builds. */
