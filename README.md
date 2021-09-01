@@ -13,8 +13,6 @@ GNU GPL v2.0 or later. See [License.txt](https://github.com/bmdcpp/bmdc/blob/mas
 
 - Website: https://bmdcpp.github.io/bmdc
 - Sources: https://github.com/bmdcpp/bmdc
-- Old sources: https://launchpad.net/bmdc++
-- Downloads: https://sourceforge.net/projects/freedcppmv/
 
 ## Dependencies
 
@@ -41,6 +39,7 @@ GNU GPL v2.0 or later. See [License.txt](https://github.com/bmdcpp/bmdc/blob/mas
 
 
 ## Compiling and installing
+=======
 
 ### Compiling
 
@@ -81,3 +80,14 @@ or if you used scons to install into the file system then use the same scons com
 ```
 # scons -c install
 ```
+
+=======
+
+## License
+
+GNU GPL Version 2 or later
+See License.txt for details.
+
+## Contact
+@bmdcpp @Mank16
+
