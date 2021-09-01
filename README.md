@@ -1,9 +1,18 @@
-# BMDC++
+# BMDC++ &ndash; file sharing using DC and ADC protocols
 
 ## Introduction
 
-BMDC++ - DC++ client based on FreeDC++ with Ignore Users,... 
-see BMDC-Changelog.txt for detailed info.
+BMDC++ &ndash; DC++ client based on FreeDC++ with Ignore Users and other changes.<br/>
+See [BMDC-Changelog.txt](https://github.com/bmdcpp/bmdc/blob/master/BMDC-Changelog.txt) for detailed info.
+
+## License
+
+GNU GPL v2.0 or later. See [License.txt](https://github.com/bmdcpp/bmdc/blob/master/License.txt) for details.
+
+## Links
+
+- Website: https://bmdcpp.github.io/bmdc
+- Sources: https://github.com/bmdcpp/bmdc
 
 ## Dependencies
 
@@ -29,7 +38,8 @@ see BMDC-Changelog.txt for detailed info.
 - also python2-dbus and qdbus for Media Spam (/kaff and /vlc)
 
 
-## Compiling & installing
+## Compiling and installing
+=======
 
 ### Compiling
 
@@ -71,13 +81,13 @@ or if you used scons to install into the file system then use the same scons com
 # scons -c install
 ```
 
+=======
+
 ## License
 
 GNU GPL Version 2 or later
 See License.txt for details.
 
 ## Contact
+@bmdcpp @Mank16
 
-Website: 
- - https://launchpad.net/bmdc++
-  - https://sourceforge.net/projects/freedcppmv/
