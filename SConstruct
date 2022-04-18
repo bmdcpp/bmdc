@@ -2,17 +2,12 @@
 # -*- coding: utf-8 -*-
 
 import os
-import commands
+import subprocess
 import string
 import re
 import fileinput
 import sys
 from sys import platform as _platform
-
-try:
-	from bzrlib import branch
-except ImportError:
-	print "bzrlib not installed"
 
 EnsureSConsVersion(0, 98, 1)
 
@@ -38,7 +33,7 @@ NEW_SETTING = False
 #'-ldl',
 # http://stackoverflow.com/questions/1564937/gcc-warning-will-be-initialized-after
 BUILD_FLAGS = {#'-Wno-unused-parameter','-Wno-unused-value',
-	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT','-pipe','-DUSE_STACKTRACE'],
+	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT','-pipe','-DUSE_STACKTRACE' ,'-fpermissive','-DUSE_WIN32_CODE'],#temp
 	'debug'   : ['-O1','-g', '-ggdb','-W', '-Wall','-Wextra','-D_DEBUG' ,'-DUSE_ADDR2LINE','-Wno-reorder'],#'-fpermissive' ,'-Wpadded'
 	'release' : ['-O3', '-fomit-frame-pointer', '-DNDEBUG']
 }
@@ -49,12 +44,13 @@ BUILD_FLAGS = {#'-Wno-unused-parameter','-Wno-unused-value',
 
 def check_pkg_config(context,name):
 	context.Message('Checking for %s... ' % name)
-	ret = commands.getoutput('\'%s\' --version' % name)
+	ret = subprocess.run([name, '-dumpversion'],capture_output=True)
+
 	retval = 0
 	try:
 		retval = 1
 	except ValueError:
-		print "No pkg-config found!"
+		print ("No pkg-config found!")
 
 	context.Result(retval)
 	return retval
@@ -67,15 +63,15 @@ def check_pkg(context, name):
 
 def check_cxx_version(context, name, major, minor):
 	context.Message('Checking for %s >= %d.%d...' % (name, major, minor))
-	ret = commands.getoutput('%s -dumpversion' % name)
+	ret = subprocess.run([name, '-dumpversion'],capture_output=True)
 
 	retval = 0
 	try:
-		if ((string.atoi(ret[0]) == major and string.atoi(ret[2]) >= minor)
-		or (string.atoi(ret[0]) > major)):
+		if ret.stdout[0] > major:
 			retval = 1
+
 	except ValueError:
-		print "No C++ compiler found!"
+		print ("No C++ compiler found!")
 
 	context.Result(retval)
 	return retval
@@ -113,7 +109,7 @@ def check_bzr_revision(context,env):
 		b = branch.Branch.open('.')
 		revision = str(b.revno())
 	except:
-		print "failed"
+		print ("failed")
 
 	context.env['BZR_REVISION'] = revision
 	env.Append( CPPDEFINES = ('-DBZR_REVISION=') + revision)
@@ -122,9 +118,9 @@ def check_bzr_revision(context,env):
 	return revision
 
 def replaceAll(env,file,searchExp,replaceExp):
-    for line in fileinput.input(file, inplace=1):
-        if searchExp in line:
-            line = line.replace(searchExp,replaceExp)
+	for line in fileinput.input(file, inplace=1):
+		if searchExp in line:
+			line = line.replace(searchExp,replaceExp)
 	sys.stdout.write(line)
 
 # ----------------------------------------------------------------------
@@ -161,32 +157,32 @@ env = Environment(ENV = os.environ, variables = vars, package = PACKAGE)
 env['mode'] = 'debug' if env.get('debug') else 'release'
 env['build_path'] = BUILD_PATH + env['mode'] + '/'
 
-if os.environ.has_key('CXX'):
+if 'CXX' in os.environ:
 	env['CXX'] = os.environ['CXX']
 	if(os.environ['CXX'] == 'clang++'):
 		env.Append( CPPPATH ='/usr/include/')
 		env.Append( CXXFLAGS ='-Wno-overloaded-virtual')
 else:
-	print 'CXX env variable is not set, attempting to use g++'
+	print ('CXX env variable is not set, attempting to use g++')
 	env['CXX'] = 'g++'
 
-if os.environ.has_key('CC'):
+if 'CC' in os.environ:
 	env['CC'] = os.environ['CC']
 
-if os.environ.has_key('CXXFLAGS'):
+if 'CXXFLAGS' in os.environ:
 	env['CPPFLAGS'] = env['CXXFLAGS'] = os.environ['CXXFLAGS'].split()
 
-if os.environ.has_key('LDFLAGS'):
+if 'LDFLAGS' in os.environ:
 	env['LINKFLAGS'] = os.environ['LDFLAGS'].split()
 
-if os.environ.has_key('CFLAGS'):
+if 'CFLAGS' in os.environ:
 	env['CFLAGS'] = os.environ['CFLAGS'].split()
 
-if os.environ.has_key('CPPPATH'):
+if 'CPPPATH' in os.environ:
 	env['CPPPATH'] = os.environ['CPPPATH'].split()
 
 env['PKG_CONFIG'] = 'pkg-config'
-if os.environ.has_key('PKG_CONFIG'):
+if 'PKG_CONFIG' in os.environ:
 	env['PKG_CONFIG'] = os.environ['PKG_CONFIG']
 
 env['CPPDEFINES'] = [] # Initialize as a list so Append doesn't concat strings
@@ -235,10 +231,10 @@ conf = env.Configure(
 
 if not 'install' in COMMAND_LINE_TARGETS:
 	if not conf.CheckCXXVersion(env['CXX'], 4, 1):
-		print 'Compiler version check failed. g++ 4.6 or later is needed'
+		print ('Compiler version check failed. g++ 4.6 or later is needed')
 		Exit(1)
 	elif env['CXX'] == 'clang++':
-		print 'Use clang compiler'
+		print ('Use clang compiler')
 		env.Append(CXXFLAGS = ['-I/usr/include/','-Wno-overloaded-virtual','-pthread'])
 		env.Append(CFLAGS = '-I/usr/include/')
 		env.Append( CPPPATH ='/usr/include/')
@@ -246,12 +242,12 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		env.Append( LINKFLAGS = '-lpthread')
 
 	if not conf.CheckPKGConfig(env['PKG_CONFIG']):
-		print '\tpkg-config not found.'
+		print ('\tpkg-config not found.')
 		Exit(1)
 
 	if not conf.CheckPKG('gtk+-3.0 > 3.00'):
-		print '\tgtk+ >= 3.14 not found.'
-		print '\tNote: You might have the lib but not the headers'
+		print ('\tgtk+ >= 3.14 not found.')
+		print ('\tNote: You might have the lib but not the headers')
 		Exit(1)
 
 	if not conf.CheckHeader('time.h'):
@@ -264,33 +260,33 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		Exit(1)
 
 	if not conf.CheckLibWithHeader('pthread', 'pthread.h', 'c'):
-		print '\tpthread library not found'
-		print '\tNote: You might have the lib but not the headers'
+		print ('\tpthread library not found')
+		print ('\tNote: You might have the lib but not the headers')
 		Exit(1)
 
 	if not conf.CheckLibWithHeader('z', 'zlib.h', 'c'):
-		print '\tz library (gzip/z compression) not found'
-		print '\tNote: You might have the lib but not the headers'
+		print ('\tz library (gzip/z compression) not found')
+		print ('\tNote: You might have the lib but not the headers')
 		Exit(1)
 
 	if not conf.CheckLibWithHeader('bz2', 'bzlib.h', 'c'):
-		print '\tbz2 library (bz2 compression) not found'
-		print '\tNote: You might have the lib but not the headers'
+		print ('\tbz2 library (bz2 compression) not found')
+		print ('\tNote: You might have the lib but not the headers')
 		Exit(1)
 
 	# This needs to be before ssl check on *BSD systems
 	if not conf.CheckLib('crypto'):
-		print '\tcrypto library not found'
-		print '\tNote: This library may be a part of libssl on your system'
+		print ('\tcrypto library not found')
+		print ('\tNote: This library may be a part of libssl on your system')
 		Exit(1)
 
 	if not conf.CheckLibWithHeader('ssl', 'openssl/ssl.h', 'c'):
-		print '\tOpenSSL library (libssl) not found'
-		print '\tNote: You might have the lib but not the headers'
+		print ('\tOpenSSL library (libssl) not found')
+		print ('\tNote: You might have the lib but not the headers')
 		Exit(1)
 	#Fedora dont have EC
 	if not conf.CheckHeader('openssl/ec.h'):
-		print '\tOpenSSL Don`t have an EC Extesions'
+		print ('\tOpenSSL Don`t have an EC Extesions')
 		conf.env.Append(CPPDEFINES = ('DHAVE_EC_CRYPTO'))
 
 	if not conf.CheckHeader('iconv.h'):
@@ -309,8 +305,8 @@ if not 'install' in COMMAND_LINE_TARGETS:
 
 	if conf.env.get('libnotify'):
 			if not conf.CheckPKG('libnotify >= 0.4.1'):
-				print '\tlibnotify >= 0.4.1 not found, disabling notifications.'
-				print '\tNote: You might have the lib but not the headers'
+				print ('\tlibnotify >= 0.4.1 not found, disabling notifications.')
+				print ('\tNote: You might have the lib but not the headers')
 			else:
 				conf.env.Append(CPPDEFINES = 'HAVE_NOTIFY')
 				conf.env.ParseConfig('pkg-config --libs --cflags libnotify')
@@ -318,50 +314,50 @@ if not 'install' in COMMAND_LINE_TARGETS:
 					conf.env.Append(CPPDEFINES = 'HAVE_LIBNOTIFY_0_7')
 
 	# Sound
-	conf.env['HAVE_CANBERRA_LIB'] = 0
-	if not conf.CheckPKG('libcanberra'):
-		print '\tlibcanberra not found.'
-		print '\tNote: You might have the lib but not the headers'
-		Exit(1)
-	else:
-		conf.env['HAVE_CANBERRA_LIB'] = 1
+	#conf.env['HAVE_CANBERRA_LIB'] = 0
+	#if not conf.CheckPKG('libcanberra'):
+	#	print ('\tlibcanberra not found.')
+	#	print ('\tNote: You might have the lib but not the headers')
+	#	Exit(1)
+	#else:
+	#	conf.env['HAVE_CANBERRA_LIB'] = 1
 
 	# Check for MiniUPnPc
 	#if not conf.CheckLib('libminiupnpc'):
-		LIB_IS_UPNP = False
+	#	LIB_IS_UPNP = False
 	# Check for natpmp
 	if not conf.CheckLib('libnatpmp'):
 		LIB_IS_NATPMP = False
 
 	# GeoIp
-	if conf.CheckHeader('GeoIP.h'):
-		print 'Found GeoIP headers'
-		conf.env.Append(CPPDEFINES = 'HAVE_GEOIPLIB')
-		LIB_IS_GEO = True
-	else:
-		print 'Dont Found GeoIP headers or libs'
-		Exit(1)
+	#if conf.CheckHeader('GeoIP.h'):
+	#	print ('Found GeoIP headers')
+	#	conf.env.Append(CPPDEFINES = 'HAVE_GEOIPLIB')
+	#	LIB_IS_GEO = True
+	#else:
+	#	print ('Dont Found GeoIP headers or libs')
+	#	Exit(1)
 
 	# libtar for Backup/Restore man...
 	if conf.env.get('libtar'):
 		if conf.CheckHeader('libtar.h'):
-			print 'Found Libtar\n'
+			print ('Found Libtar\n')
 			conf.env.Append(CPPDEFINES = 'HAVE_LIBTAR')
 			LIB_IS_TAR = True
 		else:
-			print 'Dont Found libtar headers'
+			print ('Dont Found libtar headers')
 			LIB_IS_TAR = False
 
 	# Support of appindicator # Very Experimental!
 	if conf.env.get('libappindicator'):
 		if conf.CheckPKG('appindicator3-0.1'):
-			print 'Found appindicator3'
+			print ('Found appindicator3')
 			conf.env.Append(CPPDEFINES = 'HAVE_APPINDCATOR')
 			conf.env.ParseConfig('pkg-config --libs --cflags appindicator3-0.1')
 
 	if conf.env.get('libXss'):
 		if conf.CheckLibWithHeader('libXss','X11/extensions/scrnsaver.h' ,'c'):
-			print 'Found Xss'
+			print ('Found Xss')
 			conf.env.Append(CPPDEFINES = 'HAVE_XSSLIB')
 			LIB_HAVE_XSS = True
 
@@ -373,19 +369,23 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		conf.env.Append(CPPDEFINES = 'USE_STATUSICON')
 
 	conf.CheckBZRRevision(env)
-	os.system('sh linux/gen.sh')
+	#os.system('sh linux/gen.sh')
 	env = conf.Finish()
 
 # ----------------------------------------------------------------------
 # Compile and link flags
 # ----------------------------------------------------------------------
-	#_platform = 'win32'#flag for cross enable compile
+	_platform = 'win32'#flag for cross enable compile
 	env.MergeFlags(BUILD_FLAGS['common'])
 	env.MergeFlags(BUILD_FLAGS[env['mode']])
 
 	env.Append(CXXFLAGS = '-std=c++11')
 	env.Append(LIBS = ['pcre'])
 	env.Append(LINKFLAGS = ['-lpcre'])
+	#temp
+	env.Append(LIBS = ['maxminddb'])
+	env.Append(LINKFLAGS = ['-lmaxminddb'])
+
 
 	env.Append(CPPDEFINES = ['STATICLIB'])
 	env.Append(CPPPATH = '#/natpmp')
@@ -458,9 +458,9 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if not LIB_IS_UPNP:
 		mini_env = env.Clone(package = LIB_UPNP)
 		upnp = SConscript(dirs = 'miniupnpc', variant_dir = BUILD_PATH + LIB_UPNP, duplicate = 0, exports = {'env': mini_env})
-	if not LIB_IS_NATPMP:
-		natpmp_env = env.Clone(package = LIB_NATPMP)
-		pmp = SConscript(dirs = 'natpmp', variant_dir = BUILD_PATH + LIB_NATPMP, duplicate = 0, exports = { 'env': natpmp_env })
+	#if not LIB_IS_NATPMP:
+	natpmp_env = env.Clone(package = LIB_NATPMP)
+	pmp = SConscript(dirs = 'natpmp', variant_dir = BUILD_PATH + LIB_NATPMP, duplicate = 0, exports = { 'env': natpmp_env })
 
 	# Build the dcpp library
 	dcpp_env = env.Clone(package = CORE_PACKAGE)
@@ -474,31 +474,31 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	(linux_pot_file, obj_files) = SConscript(dirs = 'linux', variant_dir = env['build_path'] + 'gui', duplicate = 0, exports = {'env': ui_env})
 
 	# Create the executable
-	if not LIB_IS_UPNP and not LIB_IS_NATPMP and NEW_SETTING:
-		env.Program(target = PACKAGE, source = [libdcpp, upnp, pmp, settings_files, obj_files])
-	elif not LIB_IS_UPNP and NEW_SETTING:
-		env.Program(target = PACKAGE, source = [libdcpp, upnp,settings_files, obj_files])
-	elif not LIB_IS_NATPMP and NEW_SETTING:
-		env.Program(target = PACKAGE, source = [libdcpp, pmp,settings_files, obj_files])
-	elif NEW_SETTING:
-		env.Program(target = PACKAGE, source = [libdcpp,settings_files, obj_files])
-	elif not NEW_SETTING and not LIB_IS_UPNP and not LIB_IS_NATPMP:
-		env.Program(target = PACKAGE, source = [libdcpp,obj_files])
-	elif not NEW_SETTING and not LIB_IS_UPNP:
-		env.Program(target = PACKAGE, source = [libdcpp,upnp,obj_files])
-	elif not NEW_SETTING and not LIB_IS_NATPMP:
-		env.Program(target = PACKAGE, source = [libdcpp,pmp,obj_files])
-	elif not NEW_SETTING:
-		env.Program(target = PACKAGE, source = [libdcpp,obj_files])
-	else:
-		env.Program(target = PACKAGE, source = [libdcpp,obj_files])
+	#if not LIB_IS_UPNP and not LIB_IS_NATPMP and NEW_SETTING:
+	#	env.Program(target = PACKAGE, source = [libdcpp, upnp, pmp, settings_files, obj_files])
+	#elif not LIB_IS_UPNP and NEW_SETTING:
+	#	env.Program(target = PACKAGE, source = [libdcpp, upnp,settings_files, obj_files])
+	#elif not LIB_IS_NATPMP and NEW_SETTING:
+	#	env.Program(target = PACKAGE, source = [libdcpp, pmp,settings_files, obj_files])
+	#elif NEW_SETTING:
+	#	env.Program(target = PACKAGE, source = [libdcpp,settings_files, obj_files])
+	#elif not NEW_SETTING and not LIB_IS_UPNP and not LIB_IS_NATPMP:
+	#	env.Program(target = PACKAGE, source = [libdcpp,obj_files])
+	#elif not NEW_SETTING and not LIB_IS_UPNP:
+	#	env.Program(target = PACKAGE, source = [libdcpp,upnp,obj_files])
+	#elif not NEW_SETTING and not LIB_IS_NATPMP:
+	#	env.Program(target = PACKAGE, source = [libdcpp,pmp,obj_files])
+	#elif not NEW_SETTING:
+	#	env.Program(target = PACKAGE, source = [libdcpp,obj_files])
+	#else:
+	env.Program(target = PACKAGE, source = [libdcpp,obj_files])
 
 	# i18n
 	env.MergePotFiles(source = [glade_pot_file, linux_pot_file], target = 'po/%s.pot' % PACKAGE)
 	env.GenerateMessageCatalogs()
 
 	# Build source files followed by everything else
-	Default(PACKAGE, '.')
+	#Default(PACKAGE)
 
 # ----------------------------------------------------------------------
 # Install
