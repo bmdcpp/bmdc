@@ -81,11 +81,11 @@ class ConnectionQueueItem;
 class QueueLoader;
 
 class QueueManager : public Singleton<QueueManager>, public Speaker<QueueManagerListener>, private TimerManagerListener,
-	private SearchManagerListener, private ClientManagerListener
+	private SearchManagerListener, private UsersManagerListener
 {
 private:
 	using SearchManagerListener::on;
-	using ClientManagerListener::on;
+	using UsersManagerListener::on;
 	using TimerManagerListener::on;	
 public:
 	typedef list<QueueItemPtr> QueueItemList;
@@ -323,8 +323,8 @@ private:
 	virtual void on(SearchManagerListener::SR, const SearchResultPtr&) noexcept;
 
 	// ClientManagerListener
-	virtual void on(ClientManagerListener::UserConnected, const UserPtr& aUser) noexcept;
-	virtual void on(ClientManagerListener::UserDisconnected, const UserPtr& aUser) noexcept;
+	virtual void on(UsersManagerListener::UserConnected, const UserPtr& aUser) noexcept;
+	virtual void on(UsersManagerListener::UserDisconnected, const UserPtr& aUser) noexcept;
 };
 
 } // namespace dcpp

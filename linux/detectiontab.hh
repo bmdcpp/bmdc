@@ -1,5 +1,5 @@
 /*
- * Copyright © 2010-2017 BMDC <freedcpp at seznam dot cz>
+ * Copyright © 2010-2021 BMDC
   *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,9 +51,9 @@ class DetectionTab:
 		static void onRemoveAct(GtkWidget *widget , gpointer data);
 		static void onRemoveRaw(GtkWidget *widget , gpointer data);
 
-		static gboolean onActButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean onActButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean onActKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+//		static gboolean onActButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+//		static gboolean onActButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+//		static gboolean onActKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 
 		void removeRaw_gui(std::string Id, std::string name);
 		void create_actions_raws();
@@ -112,9 +112,9 @@ class DetectionTab:
 		GtkListStore *itemstore;
 		GdkEventType previous;
 		GtkTreeSelection *itemselection;
-		static gboolean onButtonItemPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		void popupMenu_gui();
+//		static gboolean onButtonItemPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+//		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+//		void popupMenu_gui();
 		static void onAddItemDlg_gui(GtkWidget *widget, gpointer data);
 		static void onModItemDlg_gui(GtkWidget *widget, gpointer data);
 		static void onRemItemDlg_gui(GtkWidget *widget, gpointer data);

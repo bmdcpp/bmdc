@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,13 +31,15 @@
 #include "Singleton.h"
 #include "DirectoryListing.h"
 #include "HintedUser.h"
+#include <vector>
 
 namespace dcpp {
+	using namespace std;
 
 class AdlSearchManager;
 
 /// Class that represent an ADL search
-class ADLSearch
+class ADLSearch: public Flags
 {
 public:
 	ADLSearch();
@@ -75,6 +77,15 @@ public:
 		SizeGibiBytes
 	};
 
+	enum DetectionType {
+		D_FORBIDEN = 1,
+		D_REGEX,
+		D_CASESEN,
+		D_FAV,
+		D_OVERIDE
+
+	} detectionType;
+
 	SizeType typeFileSize;
 	/// Active search
 	bool isActive;
@@ -91,11 +102,11 @@ public:
 
 	///@BMDC++
 	/* Forbiden */
-	bool isForbidden;
+	bool isForbidden;//
 	bool overRidePoints;
-	bool fromFavs;
-	bool isCaseSensitive;
-	bool isRegEx;
+	bool fromFavs;//
+	bool isCaseSensitive;//
+	bool isRegEx;//
 private:
 	friend class ADLSearchManager;
 
@@ -133,8 +144,7 @@ public:
 	virtual ~ADLSearchManager();
 
 	// Search collection
-	typedef vector<ADLSearch> SearchCollection;
-	SearchCollection collection;
+	vector<ADLSearch> collection;
 
 	// Load/save search collection to XML file
 	void load();

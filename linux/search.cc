@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2017 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2018 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@
 #include "../dcpp/format.h"
 #include "UserCommandMenu.hh"
 #include "wulformanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include "settingsmanager.hh"
 #include "gtk-fixies.hh"
 
@@ -70,9 +70,9 @@ Search::Search(const string& str):
 
 	// Configure the dialog
 	File::ensureDirectory(SETTING(DOWNLOAD_DIRECTORY));
-	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(getWidget("dirChooserDialog")), Text::fromUtf8(SETTING(DOWNLOAD_DIRECTORY)).c_str());
+	//gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(getWidget("dirChooserDialog")), Text::fromUtf8(SETTING(DOWNLOAD_DIRECTORY)).c_str());
 	// menu
-	g_object_ref_sink(getWidget("mainMenu"));
+//	g_object_ref_sink(getWidget("mainMenu"));
 
 	// Initialize check button options.
 	onlyFree = SETTING(SEARCH_ONLY_FREE_SLOTS);
@@ -136,7 +136,7 @@ Search::Search(const string& str):
 	resultView.setSortColumn_gui(_("Filename"), "File Order");
 	//
 	resultView.setSelection(selection);
-	resultView.buildCopyMenu(getWidget("CopyMenu"));
+//	resultView.buildCopyMenu(getWidget("CopyMenu"));
 	//..
 	g_object_set(G_OBJECT(resultView.get()),"has-tooltip", TRUE, NULL);
 	g_signal_connect(resultView.get(), "query-tooltip", G_CALLBACK(onResultView_gui), (gpointer)this);
@@ -145,8 +145,8 @@ Search::Search(const string& str):
 	set_Header_tooltip_gui();
 
 	// Initialize the user command menu
-	userCommandMenu = new UserCommandMenu(getWidget("usercommandMenu"), ::UserCommand::CONTEXT_SEARCH);
-	addChild(userCommandMenu);
+	//userCommandMenu = new UserCommandMenu(getWidget("usercommandMenu"), ::UserCommand::CONTEXT_SEARCH);
+	//addChild(userCommandMenu);
 
 	// Initialize search types
 	GtkTreeIter iter;
@@ -172,29 +172,29 @@ Search::Search(const string& str):
 	gtk_combo_box_set_active(combo_box, 0);
 
 	// Connect the signals to their callback functions.
-	g_signal_connect(getContainer(), "focus-in-event", G_CALLBACK(onFocusIn_gui), (gpointer)this);
+//	g_signal_connect(getContainer(), "focus-in-event", G_CALLBACK(onFocusIn_gui), (gpointer)this);
 	g_signal_connect(getWidget("checkbuttonFilter"), "toggled", G_CALLBACK(onFilterButtonToggled_gui), (gpointer)this);
 	g_signal_connect(getWidget("checkbuttonSlots"), "toggled", G_CALLBACK(onSlotsButtonToggled_gui), (gpointer)this);
 	g_signal_connect(getWidget("checkbuttonShared"), "toggled", G_CALLBACK(onSharedButtonToggled_gui), (gpointer)this);
 	g_signal_connect(hubView.getCellRenderOf("Search"), "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
-	g_signal_connect(resultView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
-	g_signal_connect(resultView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
-	g_signal_connect(resultView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
-	g_signal_connect(getWidget("SearchEntry"), "key-press-event", G_CALLBACK(onSearchEntryKeyPressed_gui), (gpointer)this);
-	g_signal_connect(getWidget("SearchEntry"), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
-	g_signal_connect(getWidget("entrySize"), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
+//	g_signal_connect(resultView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
+//	g_signal_connect(resultView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
+//	g_signal_connect(resultView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
+	//g_signal_connect(getWidget("SearchEntry"), "key-press-event", G_CALLBACK(onSearchEntryKeyPressed_gui), (gpointer)this);
+	//g_signal_connect(getWidget("SearchEntry"), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
+	//g_signal_connect(getWidget("entrySize"), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonSearch"), "clicked", G_CALLBACK(onSearchButtonClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("downloadItem"), "activate", G_CALLBACK(onDownloadClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("downloadWholeDirItem"), "activate", G_CALLBACK(onDownloadDirClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("searchByTTHItem"), "activate", G_CALLBACK(onSearchByTTHClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("copyMagnetItem"), "activate", G_CALLBACK(onCopyMagnetClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("getFileListItem"), "activate", G_CALLBACK(onGetFileListClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("matchQueueItem"), "activate", G_CALLBACK(onMatchQueueClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("sendPrivateMessageItem"), "activate", G_CALLBACK(onPrivateMessageClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("addToFavoritesItem"), "activate", G_CALLBACK(onAddFavoriteUserClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("grantExtraSlotItem"), "activate", G_CALLBACK(onGrantExtraSlotClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("removeUserFromQueueItem"), "activate", G_CALLBACK(onRemoveUserFromQueueClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("removeItem"), "activate", G_CALLBACK(onRemoveClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("downloadItem"), "activate", G_CALLBACK(onDownloadClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("downloadWholeDirItem"), "activate", G_CALLBACK(onDownloadDirClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("searchByTTHItem"), "activate", G_CALLBACK(onSearchByTTHClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("copyMagnetItem"), "activate", G_CALLBACK(onCopyMagnetClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("getFileListItem"), "activate", G_CALLBACK(onGetFileListClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("matchQueueItem"), "activate", G_CALLBACK(onMatchQueueClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("sendPrivateMessageItem"), "activate", G_CALLBACK(onPrivateMessageClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("addToFavoritesItem"), "activate", G_CALLBACK(onAddFavoriteUserClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("grantExtraSlotItem"), "activate", G_CALLBACK(onGrantExtraSlotClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("removeUserFromQueueItem"), "activate", G_CALLBACK(onRemoveUserFromQueueClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("removeItem"), "activate", G_CALLBACK(onRemoveClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("comboboxSize"), "changed", G_CALLBACK(onComboBoxChanged_gui), (gpointer)this);
 	g_signal_connect(getWidget("comboboxUnit"), "changed", G_CALLBACK(onComboBoxChanged_gui), (gpointer)this);
 	g_signal_connect(getWidget("comboboxFile"), "changed", G_CALLBACK(onComboBoxChanged_gui), (gpointer)this);
@@ -208,8 +208,8 @@ Search::~Search()
 	ClientManager::getInstance()->removeListener(this);
 	SearchManager::getInstance()->removeListener(this);
 
-	gtk_widget_destroy(getWidget("dirChooserDialog"));
-	g_object_unref(getWidget("mainMenu"));
+//	gtk_widget_destroy(getWidget("dirChooserDialog"));
+//	g_object_unref(getWidget("mainMenu"));
 }
 
 void Search::show()
@@ -289,8 +289,8 @@ void Search::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeM
 
 void Search::putValue_gui(const string &str, int64_t size, SearchManager::SizeModes mode, SearchManager::TypeModes type)
 {
-	gtk_entry_set_text(GTK_ENTRY(getWidget("SearchEntry")), str.c_str());
-	gtk_entry_set_text(GTK_ENTRY(getWidget("entrySize")), Util::toString(size).c_str());
+//	gtk_entry_set_text(GTK_ENTRY(getWidget("SearchEntry")), str.c_str());
+//	gtk_entry_set_text(GTK_ENTRY(getWidget("entrySize")), Util::toString(size).c_str());
 	gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxSize")), (int)mode);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxFile")), (int)type);
 
@@ -392,8 +392,8 @@ void Search::popupMenu_gui()
 	string tth;
 
 	// Clean menus
-	gtk_container_foreach(GTK_CONTAINER(getWidget("downloadMenu")), (GtkCallback)gtk_widget_destroy, NULL);
-	gtk_container_foreach(GTK_CONTAINER(getWidget("downloadDirMenu")), (GtkCallback)gtk_widget_destroy, NULL);
+//	gtk_container_foreach(GTK_CONTAINER(getWidget("downloadMenu")), (GtkCallback)gtk_widget_destroy, NULL);
+//	gtk_container_foreach(GTK_CONTAINER(getWidget("downloadDirMenu")), (GtkCallback)gtk_widget_destroy, NULL);
 	userCommandMenu->cleanMenu_gui();
 
 	// Build "Download to..." submenu
@@ -404,19 +404,19 @@ void Search::popupMenu_gui()
 	{
 		for (StringPairIter i = spl.begin(); i != spl.end(); i++)
 		{
-			menuItem = gtk_menu_item_new_with_label(i->second.c_str());
-			g_object_set_data_full(G_OBJECT(menuItem), "fav", g_strdup(i->first.c_str()), g_free);
-			g_signal_connect(menuItem, "activate", G_CALLBACK(onDownloadFavoriteClicked_gui), (gpointer)this);
-			gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("downloadMenu")), menuItem);
+//			menuItem = gtk_menu_item_new_with_label(i->second.c_str());
+//			g_object_set_data_full(G_OBJECT(menuItem), "fav", g_strdup(i->first.c_str()), g_free);
+//			g_signal_connect(menuItem, "activate", G_CALLBACK(onDownloadFavoriteClicked_gui), (gpointer)this);
+//			gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("downloadMenu")), menuItem);
 		}
-		menuItem = gtk_separator_menu_item_new();
-		gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("downloadMenu")), menuItem);
+//		menuItem = gtk_separator_menu_item_new();
+//		gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("downloadMenu")), menuItem);
 	}
 
 	// Add Browse item
-	menuItem = gtk_menu_item_new_with_label(_("Browse..."));
-	g_signal_connect(menuItem, "activate", G_CALLBACK(onDownloadToClicked_gui), (gpointer)this);
-	gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("downloadMenu")), menuItem);
+//	menuItem = gtk_menu_item_new_with_label(_("Browse..."));
+//	g_signal_connect(menuItem, "activate", G_CALLBACK(onDownloadToClicked_gui), (gpointer)this);
+//	gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("downloadMenu")), menuItem);
 
 	// Add search results with the same TTH to menu
 	bool firstTTH = true,	hasTTH = false;
@@ -455,13 +455,13 @@ void Search::popupMenu_gui()
 
 		if (targets.size() > static_cast<size_t>(0))
 		{
-			menuItem = gtk_separator_menu_item_new();
-			gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("downloadMenu")), menuItem);
+///			menuItem = gtk_separator_menu_item_new();
+	//		gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("downloadMenu")), menuItem);
 			for (StringIter i = targets.begin(); i != targets.end(); ++i)
 			{
-				menuItem = gtk_menu_item_new_with_label(i->c_str());
-				g_signal_connect(menuItem, "activate", G_CALLBACK(onDownloadToMatchClicked_gui), (gpointer)this);
-				gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("downloadMenu")), menuItem);
+	//			menuItem = gtk_menu_item_new_with_label(i->c_str());
+	//			g_signal_connect(menuItem, "activate", G_CALLBACK(onDownloadToMatchClicked_gui), (gpointer)this);
+	//			gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("downloadMenu")), menuItem);
 			}
 		}
 	}
@@ -474,29 +474,29 @@ void Search::popupMenu_gui()
 	{
 		for (StringPairIter i = spl.begin(); i != spl.end(); i++)
 		{
-			menuItem = gtk_menu_item_new_with_label(i->second.c_str());
-			g_object_set_data_full(G_OBJECT(menuItem), "fav", g_strdup(i->first.c_str()), g_free);
-			g_signal_connect(menuItem, "activate", G_CALLBACK(onDownloadFavoriteDirClicked_gui), (gpointer)this);
-			gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("downloadDirMenu")), menuItem);
+	//		menuItem = gtk_menu_item_new_with_label(i->second.c_str());
+	//		g_object_set_data_full(G_OBJECT(menuItem), "fav", g_strdup(i->first.c_str()), g_free);
+	//		g_signal_connect(menuItem, "activate", G_CALLBACK(onDownloadFavoriteDirClicked_gui), (gpointer)this);
+	//		gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("downloadDirMenu")), menuItem);
 		}
-		menuItem = gtk_separator_menu_item_new();
-		gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("downloadDirMenu")), menuItem);
+	//	menuItem = gtk_separator_menu_item_new();
+	//	gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("downloadDirMenu")), menuItem);
 	
 	}
-		menuItem = gtk_menu_item_new_with_label(_("Browse..."));
-		g_signal_connect(menuItem, "activate", G_CALLBACK(onDownloadDirToClicked_gui), (gpointer)this);
-		gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("downloadDirMenu")), menuItem);
+	//	menuItem = gtk_menu_item_new_with_label(_("Browse..."));
+	//	g_signal_connect(menuItem, "activate", G_CALLBACK(onDownloadDirToClicked_gui), (gpointer)this);
+	//	gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("downloadDirMenu")), menuItem);
 		
 	
 	// Build user command menu
 	userCommandMenu->buildMenu_gui();
 
-	#if GTK_CHECK_VERSION(3,22,0)
-	gtk_menu_popup_at_pointer(GTK_MENU(getWidget("mainMenu")),NULL);
-	#else
-	gtk_menu_popup(GTK_MENU(getWidget("mainMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-	#endif
-	gtk_widget_show_all(getWidget("mainMenu"));
+//	#if GTK_CHECK_VERSION(3,22,0)
+//	gtk_menu_popup_at_pointer(GTK_MENU(getWidget("mainMenu")),NULL);
+//	#else
+//	gtk_menu_popup(GTK_MENU(getWidget("mainMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+//	#endif
+//	gtk_widget_show_all(getWidget("mainMenu"));
 }
 
 void Search::setStatus_gui(string statusBar, string text)
@@ -510,7 +510,7 @@ void Search::search_gui()
 	StringList clients;
 	GtkTreeIter iter;
 
-	string text = gtk_entry_get_text(GTK_ENTRY(getWidget("SearchEntry")));
+	string text ;// gtk_entry_get_text(GTK_ENTRY(getWidget("SearchEntry")));
 	if (text.empty())
 		return;
 
@@ -532,7 +532,7 @@ void Search::search_gui()
 	if (clients.size() < 1)
 		return;
 
-	double lsize = Util::toDouble(gtk_entry_get_text(GTK_ENTRY(getWidget("entrySize"))));
+	double lsize = -1;//Util::toDouble(gtk_entry_get_text(GTK_ENTRY(getWidget("entrySize"))));
 
 	switch (gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("comboboxUnit"))))
 	{
@@ -609,16 +609,16 @@ void Search::search_gui()
 
 	if (SearchManager::getInstance()->okToSearch())
 	{
-		dcdebug("Sent ADC extensions : %s\n",Util::toString(";", exts).c_str());//NOTE: core 0.770
+		dcdebug("Sent ADC extensions : %s\n",Util::toString(";", exts).c_str());
 		SearchManager::getInstance()->search(clients, text, llsize, (SearchManager::TypeModes)ftype, mode, "manual", exts);//NOTE: core 0.770
 
-		if (SETTING(CLEAR_SEARCH)) // Only clear if the search was sent.
-			gtk_entry_set_text(GTK_ENTRY(getWidget("SearchEntry")), "");
+		//if (SETTING(CLEAR_SEARCH)) // Only clear if the search was sent.
+		//	gtk_entry_set_text(GTK_ENTRY(getWidget("SearchEntry")), "");
 	}
 	else
 	{
 		int32_t waitFor = SearchManager::getInstance()->timeToSearch();
-		string line = _("Searching too soon, retry in ") + Util::toString(waitFor) + " s";
+		string line = _("Searching too soon, retry in ") + Util::formatSeconds(waitFor) + " s";
 		setStatus_gui("statusbar1", line);
 		setStatus_gui("statusbar2", "");
 		setStatus_gui("statusbar3", "");
@@ -632,8 +632,8 @@ void Search::addResult_gui(const SearchResultPtr result)
 	GtkTreeIter parent;
 	GtkTreeIter child;
 	GtkTreeModel *m = GTK_TREE_MODEL(resultStore);
-	bool foundParent = FALSE;
-	bool createParent = FALSE;
+	bool foundParent = false;
+	bool createParent = false;
 
 	vector<SearchResultPtr> &existingResults = results[result->getUser()->getCID().toBase32()];
 	for (vector<SearchResultPtr>::iterator it = existingResults.begin(); it != existingResults.end(); ++it)
@@ -681,10 +681,10 @@ void Search::addResult_gui(const SearchResultPtr result)
 	// tree until after the duplication check.
 	if (createParent)
 	{
-		GdkPixbuf* buf = gtk_icon_theme_load_icon(WulforUtil::icon_theme,"dnd-multiple",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,NULL);
+//		GdkPixbuf* buf = gtk_icon_theme_load_icon(WulforUtil::icon_theme,"dnd-multiple",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,NULL);
 		// Insert the new parent row
 		gtk_tree_store_insert_with_values(resultStore, &parent, NULL, -1,
-				resultView.col("Icon"),buf ,
+//				resultView.col("Icon"),buf ,
 				resultView.col("Grouping String"), groupStr.c_str(),
 				-1);
 
@@ -862,10 +862,10 @@ void Search::regroup_gui()
 			// If this is the first child to be appended, create a new parent row.
 			if (!gtk_tree_model_iter_has_child(GTK_TREE_MODEL(resultStore), &groupParent))
 			{
-			GdkPixbuf* buf = gtk_icon_theme_load_icon(WulforUtil::icon_theme,"dnd-multiple",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,NULL);
+//			GdkPixbuf* buf = gtk_icon_theme_load_icon(WulforUtil::icon_theme,"dnd-multiple",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,NULL);
 
 			gtk_tree_store_insert_with_values(resultStore, &parent, NULL, position,
-					resultView.col("Icon"), buf,
+//					resultView.col("Icon"), buf,
 					resultView.col("Grouping String"), groupStr.c_str(),
 					-1);
 
@@ -929,7 +929,7 @@ string Search::getGroupingColumn(GroupType groupBy)
 
 	return column;
 }
-
+/*
 gboolean Search::onFocusIn_gui(GtkWidget*, GdkEventFocus*, gpointer data)
 {
 	Search *s = (Search *)data;
@@ -937,7 +937,7 @@ gboolean Search::onFocusIn_gui(GtkWidget*, GdkEventFocus*, gpointer data)
 
 	return TRUE;
 }
-
+/*
 gboolean Search::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	Search *s = (Search *)data;
@@ -957,7 +957,7 @@ gboolean Search::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer
 	}
 	return FALSE;
 }
-
+/*
 gboolean Search::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	Search *s = (Search *)data;
@@ -970,7 +970,7 @@ gboolean Search::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointe
 
 	return FALSE;
 }
-
+/*
 gboolean Search::onKeyReleased_gui(GtkWidget* widget, GdkEventKey *event, gpointer data)
 {
 	Search *s = (Search *)data;
@@ -995,8 +995,8 @@ gboolean Search::onKeyReleased_gui(GtkWidget* widget, GdkEventKey *event, gpoint
 	}
 
 	return FALSE;
-}
-
+}*/
+/*
 gboolean Search::onSearchEntryKeyPressed_gui(GtkWidget*, GdkEventKey *event, gpointer data)
 {
 	Search *s = (Search *)data;
@@ -1008,7 +1008,7 @@ gboolean Search::onSearchEntryKeyPressed_gui(GtkWidget*, GdkEventKey *event, gpo
 
 	return FALSE;
 }
-
+*/
 void Search::onComboBoxChanged_gui(GtkWidget* , gpointer data)
 {
 	Search *s = (Search *)data;
@@ -1108,7 +1108,7 @@ void Search::onToggledClicked_gui(GtkCellRendererToggle*, gchar *path, gpointer 
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkbuttonFilter"))))
 		gtk_tree_model_filter_refilter(GTK_TREE_MODEL_FILTER(s->searchFilterModel));
 }
-
+/*
 void Search::onDownloadClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Search *s = (Search *)data;
@@ -1149,7 +1149,7 @@ void Search::onDownloadClicked_gui(GtkMenuItem*, gpointer data)
 		g_list_free(list);
 	}
 }
-
+/*
 void Search::onDownloadFavoriteClicked_gui(GtkMenuItem *item, gpointer data)
 {
 	Search *s = (Search *)data;
@@ -1190,7 +1190,7 @@ void Search::onDownloadFavoriteClicked_gui(GtkMenuItem *item, gpointer data)
 		g_list_free(list);
 	}
 }
-
+/*
 void Search::onDownloadToClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Search *s = (Search *)data;
@@ -1250,7 +1250,7 @@ void Search::onDownloadToClicked_gui(GtkMenuItem*, gpointer data)
 		}
 	}
 }
-
+/*
 void Search::onDownloadToMatchClicked_gui(GtkMenuItem *item, gpointer data)
 {
 	Search *s = (Search *)data;
@@ -1289,7 +1289,7 @@ void Search::onDownloadToMatchClicked_gui(GtkMenuItem *item, gpointer data)
 		g_list_free(list);
 	}
 }
-
+/*
 void Search::onDownloadDirClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Search *s = (Search *)data;
@@ -1328,7 +1328,7 @@ void Search::onDownloadDirClicked_gui(GtkMenuItem*, gpointer data)
 		g_list_free(list);
 	}
 }
-
+/*
 void Search::onDownloadFavoriteDirClicked_gui(GtkMenuItem *item, gpointer data)
 {
 	Search *s = (Search *)data;
@@ -1367,7 +1367,7 @@ void Search::onDownloadFavoriteDirClicked_gui(GtkMenuItem *item, gpointer data)
 		g_list_free(list);
 	}
 }
-
+/*
 void Search::onDownloadDirToClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Search *s = (Search *)data;
@@ -1425,7 +1425,7 @@ void Search::onDownloadDirToClicked_gui(GtkMenuItem*, gpointer data)
 		}
 	}
 }
-
+/*
 void Search::onSearchByTTHClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Search *s = (Search *)data;
@@ -1453,7 +1453,7 @@ void Search::onSearchByTTHClicked_gui(GtkMenuItem*, gpointer data)
 		g_list_free(list);
 	}
 }
-
+/*
 void Search::onGetFileListClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Search *s = (Search *)data;
@@ -1487,7 +1487,7 @@ void Search::onGetFileListClicked_gui(GtkMenuItem*, gpointer data)
 		g_list_free(list);
 	}
 }
-
+/*
 void Search::onMatchQueueClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Search *s = (Search *)data;
@@ -1520,7 +1520,7 @@ void Search::onMatchQueueClicked_gui(GtkMenuItem*, gpointer data)
 		g_list_free(list);
 	}
 }
-
+/*
 void Search::onPrivateMessageClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Search *s = (Search *)data;
@@ -1552,7 +1552,7 @@ void Search::onPrivateMessageClicked_gui(GtkMenuItem*, gpointer data)
 		g_list_free(list);
 	}
 }
-
+/*
 void Search::onAddFavoriteUserClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Search *s = (Search *)data;
@@ -1736,7 +1736,7 @@ void Search::onCopyMagnetClicked_gui(GtkMenuItem* , gpointer data)
 			gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), magnets.c_str(), magnets.length());
 	}
 }
-
+*/
 void Search::onCheckOp_gui(GtkToggleButton*, gpointer data)
 {
 	Search *s = (Search *)data;
@@ -1797,7 +1797,7 @@ void Search::parseSearchResult_gui(SearchResultPtr result, StringMap &resultMap)
 		}
 	}
 
-	resultMap[_("Nick")] = WulforUtil::getNicks(result->getUser(), result->getHubURL());//NOTE: core 0.762
+	resultMap[_("Nick")] = WulforUtil::getNicks(result->getUser(), result->getHubURL());
 	resultMap["CID"] = result->getUser()->getCID().toBase32();
 	resultMap["Slots"] = result->getSlotString();
 	resultMap[_("Connection")] = ClientManager::getInstance()->getConnection(result->getUser()->getCID());
@@ -2045,8 +2045,8 @@ gboolean Search::searchFilterFunc_gui(GtkTreeModel *model, GtkTreeIter *iter, gp
 		return FALSE;
 
 	// Filter based on search terms.
-	string filter = Text::toLower(gtk_entry_get_text(GTK_ENTRY(s->getWidget("SearchEntry")/*searchEntry*/)));
-	TStringList filterList = StringTokenizer<tstring>(filter, ' ').getTokens();
+	/*string filter = Text::toLower(gtk_entry_get_text(GTK_ENTRY(s->getWidget("SearchEntry")/*searchEntry*//*)));
+	/*TStringList filterList = StringTokenizer<tstring>(filter, ' ').getTokens();
 	string filename = Text::toLower(s->resultView.getString(iter, _("Filename"), model));
 	string path = Text::toLower(s->resultView.getString(iter, _("Path"), model));
 	for (TStringList::const_iterator term = filterList.begin(); term != filterList.end(); ++term)
@@ -2098,9 +2098,9 @@ gboolean Search::searchFilterFunc_gui(GtkTreeModel *model, GtkTreeIter *iter, gp
 	}
 
 	int type = gtk_combo_box_get_active(GTK_COMBO_BOX(s->getWidget("comboboxFile")));
-	if (type != SearchManager::TYPE_ANY/* && type != SearchManager::getTypeStr(filename)*/)
-		return FALSE;
-
+	if (type != SearchManager::TYPE_ANY/* && type != SearchManager::getTypeStr(filename)*//*)
+	/*	return FALSE;
+*/
 	return TRUE;
 }
 
@@ -2108,7 +2108,7 @@ gboolean Search::on_match_select_entry(GtkEntryCompletion*,GtkTreeModel *model, 
 {
 	GValue value = G_VALUE_INIT;
 	gtk_tree_model_get_value(model, iter, EN_STRING, &value);
-	fprintf(stdout, "You have selected %s\n", g_value_get_string(&value));
+	dcdebug("You have selected %s\n", g_value_get_string(&value));
 	g_value_unset(&value);
 	return FALSE;
 }
@@ -2120,15 +2120,15 @@ gboolean Search::onResultView_gui(GtkWidget *widget, gint x, gint y, gboolean ke
 	GtkTreeView *view = GTK_TREE_VIEW(widget);
 	GtkTreeModel *model = gtk_tree_view_get_model (view);
 	GtkTreePath *path = NULL;
-	gchar *filename,*nick,*type,*size,*ppath,*slots,*con,*hub,*exsize,*country,*ip,*tth;
+	g_autofree gchar *filename,*nick,*type,*size,*ppath,*slots,*con,*hub,*exsize,*country,*ip,*tth;
 	
 
-	if(!gtk_tree_view_get_tooltip_context (view, &x, &y,
-					  keyboard_tip,
-					  &model, &path, &iter))
-		return FALSE;
+//	if(!gtk_tree_view_get_tooltip_context (view, &x, &y,
+//					  keyboard_tip,
+//					  &model, &path, &iter))
+//		return FALSE;
 
-	gtk_tree_model_get (model,&iter,
+/*	gtk_tree_model_get (model,&iter,
 	                    s->resultView.col(_("Filename")),&filename,
 	                    s->resultView.col(_("Nick")),&nick,
 	                    s->resultView.col(_("Type")),&type,
@@ -2151,7 +2151,7 @@ gboolean Search::onResultView_gui(GtkWidget *widget, gint x, gint y, gboolean ke
 	gtk_tree_view_set_tooltip_row (view, _tooltip, path);
 
 	gtk_tree_path_free (path);
-	g_free(filename);
+	/*g_free(filename);
 	g_free(nick);
 	g_free(type);
 	g_free(size);
@@ -2162,7 +2162,7 @@ gboolean Search::onResultView_gui(GtkWidget *widget, gint x, gint y, gboolean ke
 	g_free(exsize);
 	g_free(country);
 	g_free(ip);
-	g_free(tth);
+	g_free(tth);*/
 	return TRUE;
 }
 
@@ -2198,31 +2198,35 @@ void Search::set_Header_tooltip_gui()
 void Search::onCloseItem(gpointer data)
 {
 	Search *entry = (Search *)data;
-	WulforManager::get()->getMainWindow()->getSearchEntry()->removeBookEntry_gui(entry);
+    if(entry)
+        WulforManager::get()->getMainWindow()->getSearchEntry()->removeBookEntry_gui(entry);
 }
+
 void Search::onAddItem(gpointer )
 {
 	BookEntry* entry = new Search(string());
-	WulforManager::get()->getMainWindow()->getSearchEntry()->addBookEntry_gui(entry);
+    if(entry)
+        WulforManager::get()->getMainWindow()->getSearchEntry()->addBookEntry_gui(entry);
 }
 
-GtkWidget *Search::createmenu()
+GMenu *Search::createmenu()
 {
-	if(isMenuCreated) {
-		GtkWidget *item = BookEntry::createItemFirstMenu();
-		menu =  gtk_menu_new();
-		GtkWidget *addSearchTab = gtk_menu_item_new_with_label(_("Add Search Tab"));
-		GtkWidget *close = gtk_menu_item_new_with_label(_("Close"));
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu),item);
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu),close);
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu),addSearchTab);
-		gtk_widget_show(close);
-		gtk_widget_show(addSearchTab);
-		gtk_widget_show(item);
-		gtk_widget_show_all(menu);
-		g_signal_connect_swapped(close, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
-		g_signal_connect_swapped(addSearchTab, "activate", G_CALLBACK(onAddItem), (gpointer)this);
-		isMenuCreated = false;
-	}
-	return menu;
+//	if(isMenuCreated) {
+//		GtkWidget *item = BookEntry::createItemFirstMenu();
+//		menu =  gtk_menu_new();
+//		GtkWidget *addSearchTab = gtk_menu_item_new_with_label(_("Add Search Tab"));
+//		GtkWidget *close = gtk_menu_item_new_with_label(_("Close"));
+//		gtk_menu_shell_append(GTK_MENU_SHELL(menu),item);
+//		gtk_menu_shell_append(GTK_MENU_SHELL(menu),close);
+//		gtk_menu_shell_append(GTK_MENU_SHELL(menu),addSearchTab);
+//		gtk_widget_show(close);
+//		gtk_widget_show(addSearchTab);
+//		gtk_widget_show(item);
+//		gtk_widget_show_all(menu);
+//		g_signal_connect_swapped(close, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
+//		g_signal_connect_swapped(addSearchTab, "activate", G_CALLBACK(onAddItem), (gpointer)this);
+//		isMenuCreated = false;
+//	}
+//	return menu;
+	return NULL;
 }

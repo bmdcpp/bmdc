@@ -30,6 +30,7 @@
 #include "UploadManagerListener.h"
 #include "ClientManagerListener.h"
 #include "User.h"
+#include "UserManager.h"
 #include "TimerManager.h"
 #include "Speaker.h"
 #include "SettingsManager.h"
@@ -50,10 +51,10 @@ struct WaitingUser {
 	operator const UserPtr&() const { return user.user; }
 };
 
-class UploadManager : private ClientManagerListener, private UserConnectionListener, public Speaker<UploadManagerListener>, private TimerManagerListener, public Singleton<UploadManager>
+class UploadManager : private UsersManagerListener, private UserConnectionListener, public Speaker<UploadManagerListener>, private TimerManagerListener, public Singleton<UploadManager>
 {
 private:
-	using ClientManagerListener::on;
+	using UsersManagerListener::on;
 	using UserConnectionListener::on;
 	using TimerManagerListener::on;	
 public:
@@ -125,7 +126,7 @@ private:
 	void removeUpload(Upload* aUpload);
 
 	// ClientManagerListener
-	virtual void on(ClientManagerListener::UserDisconnected, const UserPtr& aUser) noexcept;
+	virtual void on(UsersManagerListener::UserDisconnected, const UserPtr& aUser) noexcept;
 
 	// TimerManagerListener
 	virtual void on(Second, uint64_t aTick) noexcept;

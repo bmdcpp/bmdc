@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017
+ * Copyright © 2020
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  */
 
 #include "settingsmanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include <glib/gi18n.h>
 #include "../dcpp/Util.h"
 #include "ignoremenu.hh"
@@ -33,7 +33,7 @@ using namespace dcpp;
 
 void IgnoreMenu::cleanMenu_gui()
 {
-	gtk_container_foreach(GTK_CONTAINER(appsPreviewMenu), (GtkCallback)gtk_widget_destroy, NULL);
+//	gtk_container_foreach(GTK_CONTAINER(appsPreviewMenu), (GtkCallback)gtk_widget_destroy, NULL);
 }
 
 void IgnoreMenu::buildMenu_gui(const string &nick,const string& cid,const string& ip)
@@ -45,32 +45,32 @@ void IgnoreMenu::buildMenu_gui(const string &nick,const string& cid,const string
 		char buf[512];
 		sprintf(buf,"For %d Minutes",i);
 		
-		itemApp = gtk_menu_item_new_with_label(buf);
+	//	itemApp = gtk_menu_item_new_with_label(buf);
 		
-		gtk_menu_shell_append(GTK_MENU_SHELL(appsPreviewMenu), itemApp);
+	//	gtk_menu_shell_append(GTK_MENU_SHELL(appsPreviewMenu), itemApp);
 
-		g_signal_connect(itemApp, "activate", G_CALLBACK(onClicked_gui), (gpointer) this);
+		//g_signal_connect(itemApp, "activate", G_CALLBACK(onClicked_gui), (gpointer) this);
 
 		g_object_set_data_full(G_OBJECT(itemApp), "time", g_strdup(Util::toString(i).c_str()), g_free);
 		g_object_set_data_full(G_OBJECT(itemApp), "nick", g_strdup(nick.c_str()), g_free);
 		
 		
 		
-		itemApp1 = gtk_menu_item_new_with_label((string(buf)+" CID").c_str());
+		//itemApp1 = gtk_menu_item_new_with_label((string(buf)+" CID").c_str());
 		
-		gtk_menu_shell_append(GTK_MENU_SHELL(appsPreviewMenu), itemApp1);
+		//gtk_menu_shell_append(GTK_MENU_SHELL(appsPreviewMenu), itemApp1);
 
-		g_signal_connect(itemApp1, "activate", G_CALLBACK(onClickedCid_gui), (gpointer) this);
+		//g_signal_connect(itemApp1, "activate", G_CALLBACK(onClickedCid_gui), (gpointer) this);
 
 		g_object_set_data_full(G_OBJECT(itemApp1), "time", g_strdup(Util::toString(i).c_str()), g_free);
 		g_object_set_data_full(G_OBJECT(itemApp1), "cid", g_strdup(cid.c_str()), g_free);	
 
 		
-		itemApp2 = gtk_menu_item_new_with_label((string(buf)+" IP Address").c_str());
+		//itemApp2 = gtk_menu_item_new_with_label((string(buf)+" IP Address").c_str());
 		
-		gtk_menu_shell_append(GTK_MENU_SHELL(appsPreviewMenu), itemApp2);
+		//gtk_menu_shell_append(GTK_MENU_SHELL(appsPreviewMenu), itemApp2);
 
-		g_signal_connect(itemApp2, "activate", G_CALLBACK(onClickedIp_gui), (gpointer) this);
+		//g_signal_connect(itemApp2, "activate", G_CALLBACK(onClickedIp_gui), (gpointer) this);
 
 		g_object_set_data_full(G_OBJECT(itemApp2), "time", g_strdup(Util::toString(i).c_str()), g_free);
 		g_object_set_data_full(G_OBJECT(itemApp2), "ip", g_strdup(ip.c_str()), g_free);
@@ -78,7 +78,7 @@ void IgnoreMenu::buildMenu_gui(const string &nick,const string& cid,const string
 		
 	}
 }
-
+/*
 void IgnoreMenu::onClicked_gui(GtkMenuItem *menuItem, gpointer )
 {
 	int64_t time = Util::toInt((gchar *) g_object_get_data(G_OBJECT(menuItem), "time"));
@@ -100,3 +100,4 @@ void IgnoreMenu::onClickedCid_gui(GtkMenuItem *menuItem, gpointer )
 	string cid = (gchar *) g_object_get_data(G_OBJECT(menuItem), "cid");
 	IgnoreTempManager::getInstance()->addCidIgnored(cid,time);
 }
+*/

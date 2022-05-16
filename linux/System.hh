@@ -1,5 +1,5 @@
 //
-//      Copyright 2011-2017 BMDC++
+//      Copyright 2011-2021 BMDC++
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -57,7 +57,7 @@ class SystemLog:
 		GtkTextMark *sysMark;
 		static const int maxLines = 1000;
 		bool scrollToBottom;
-		GdkPixbuf* getImageSev(int sev);
+		GdkPaintable* getImageSev(int sev);
 
 };
 

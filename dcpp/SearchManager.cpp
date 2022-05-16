@@ -264,7 +264,8 @@ void SearchManager::onData(const uint8_t* buf, size_t aLen, const string& remote
 		string hubIpPort = x.substr(i, j-i);
 		string url = ClientManager::getInstance()->findHub(hubIpPort);
 		
-		if(url.empty()) return;
+		if(url.empty())
+                dcdebug("Dont hapen?");
 
 		string encoding = ClientManager::getInstance()->findHubEncoding(url);
 		nick = Text::toUtf8(nick, encoding);
@@ -290,7 +291,7 @@ void SearchManager::onData(const uint8_t* buf, size_t aLen, const string& remote
 		if(tth.empty() && type == SearchResult::TYPE_FILE) {
 			return;
 		}
-		string _remoteIp;
+		string _remoteIp = string();
 		if(remoteIp.empty())
 		{
 			uint16_t eport = 0;
@@ -312,7 +313,7 @@ void SearchManager::onData(const uint8_t* buf, size_t aLen, const string& remote
 		if(c.getParameters().empty())
 			return;
 		string cid = c.getParam(0);
-		if(cid.size() != CIDSIZE)
+		if(cid.size() != CID::SIZE)
 			return;
 
 		UserPtr user = ClientManager::getInstance()->findUser(CID(cid));

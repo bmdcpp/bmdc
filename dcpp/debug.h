@@ -39,7 +39,7 @@
 #else //_DEBUG
 	#define dcdebug ;
 	#define dcassert(exp)
-	#define dcdrun(exp)
+	#define dcdrun(exp) if(exp)
 #endif //_DEBUG
 
 #endif /* DCPP_DCPLUSPLUS_DEBUG_H_ */

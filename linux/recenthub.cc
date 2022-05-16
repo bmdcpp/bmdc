@@ -1,4 +1,4 @@
-//      Copyright 2010-2017 BMDC <freedcpp@seznam.cz>
+//      Copyright 2010-2018 BMDC
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 
 #include "recenthub.hh"
 #include "wulformanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include "hub.hh"
 #include "settingsmanager.hh"
 
@@ -45,13 +45,13 @@ BookEntry(Entry::RECENT,_("Recent Hubs"),"recenthub")
 
 		recentSelection = gtk_tree_view_get_selection(recentView.get());
 
-		g_signal_connect(getWidget("connectItem"), "activate", G_CALLBACK(onConnectItemClicked_gui), (gpointer)this);
-		g_signal_connect(getWidget("removeItem"), "activate", G_CALLBACK(onRemoveItemClicked_gui), (gpointer)this);
-		g_signal_connect(getWidget("removeALLItem"), "activate", G_CALLBACK(onDeleteAll_gui), (gpointer)this);
+//		g_signal_connect(getWidget("connectItem"), "activate", G_CALLBACK(onConnectItemClicked_gui), (gpointer)this);
+//		g_signal_connect(getWidget("removeItem"), "activate", G_CALLBACK(onRemoveItemClicked_gui), (gpointer)this);
+//		g_signal_connect(getWidget("removeALLItem"), "activate", G_CALLBACK(onDeleteAll_gui), (gpointer)this);
 		
-		g_signal_connect(recentView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
-		g_signal_connect(recentView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
-		g_signal_connect(recentView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
+//		g_signal_connect(recentView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
+//		g_signal_connect(recentView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
+//		g_signal_connect(recentView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 
 }
 
@@ -83,7 +83,7 @@ void RecentHubs::show()
 	
 	FavoriteManager::getInstance()->addListener(this);
 }
-
+/*
 gboolean RecentHubs::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer data)
 {
 	RecentHubs *fu = (RecentHubs *)data;
@@ -106,7 +106,7 @@ gboolean RecentHubs::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer 
 
 	return FALSE;
 }
-
+/*
 gboolean RecentHubs::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	RecentHubs *fu = (RecentHubs *)data;
@@ -127,7 +127,7 @@ gboolean RecentHubs::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpoi
 	}
 	return FALSE;
 }
-
+/**
 gboolean RecentHubs::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	RecentHubs *fu = (RecentHubs *)data;
@@ -146,7 +146,7 @@ gboolean RecentHubs::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpo
 
 	return FALSE;
 }
-
+/*
 void RecentHubs::onConnectItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	RecentHubs *fu = (RecentHubs *)data;
@@ -170,7 +170,7 @@ void RecentHubs::onConnectItemClicked_gui(GtkMenuItem*, gpointer data)
 		g_list_free(list);
 	}
 }
-
+/*
 void RecentHubs::onRemoveItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	RecentHubs *fu = (RecentHubs *)data;
@@ -204,9 +204,9 @@ void RecentHubs::onRemoveItemClicked_gui(GtkMenuItem*, gpointer data)
 				GTK_MESSAGE_QUESTION,
 				GTK_BUTTONS_NONE,
 				_("Are you sure you want to delete recent hub(s)?"));
-			gtk_dialog_add_buttons(GTK_DIALOG(dialog), BMDC_STOCK_CANCEL, GTK_RESPONSE_CANCEL, BMDC_STOCK_REMOVE,
+			gtk_dialog_add_buttons(GTK_DIALOG(dialog), "_Cancel", GTK_RESPONSE_CANCEL, BMDC_STOCK_REMOVE,
 				GTK_RESPONSE_YES, NULL);
-			gint response = gtk_dialog_run(GTK_DIALOG(dialog));
+//			gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 
 			// Widget failed if the dialog gets programmatically destroyed.
 			if (response == GTK_RESPONSE_NONE)
@@ -225,7 +225,7 @@ void RecentHubs::onRemoveItemClicked_gui(GtkMenuItem*, gpointer data)
 		}
 	}
 }
-
+*/
 void RecentHubs::onDeleteAll_gui(GtkWidget*, gpointer data)
 {
 	RecentHubs *rt = (RecentHubs *)data;

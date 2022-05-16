@@ -35,7 +35,7 @@ public:
 	Action* findAction(int id) noexcept;
 	Action* findAction(const std::string& name) noexcept;
 
-	Action* addAction(int id, const std::string& name, bool enabled) noexcept;
+	Action* addAction(int id, const std::string& name, bool enabled , string &reason) noexcept;
 	int editAction(Action* a, const std::string& name) noexcept;
 	bool remAction(Action* a) noexcept;
 

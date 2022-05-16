@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017
+ * Copyright © 2018
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,9 +34,9 @@ class IgnoreMenu
 	private:
 
 		GtkWidget *appsPreviewMenu;
-		static void onClicked_gui(GtkMenuItem *menuItem, gpointer data);
-		static void onClickedIp_gui(GtkMenuItem *menuItem, gpointer data);
-		static void onClickedCid_gui(GtkMenuItem *menuItem, gpointer data);
+		//static void onClicked_gui(GtkMenuItem *menuItem, gpointer data);
+		//static void onClickedIp_gui(GtkMenuItem *menuItem, gpointer data);
+		//static void onClickedCid_gui(GtkMenuItem *menuItem, gpointer data);
 };
 
 #else

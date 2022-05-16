@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2017 BMDC++
+ * Copyright © 2010-2023 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,6 @@
 #include "../dcpp/format.h"
 #ifndef _WIN32
 #include <glib/gi18n.h>
-#include "bacon-message-connection.hh"
 #endif
 #ifdef _WIN32
 #undef USE_STACKTRACE
@@ -34,7 +33,7 @@
 #include "settingsmanager.hh"
 #include "IgnoreTempManager.hh"
 #include "wulformanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include "Splash.hh"
 #include "version.hh"
 #include <iostream>
@@ -44,9 +43,7 @@
 #include "stacktrace.hh"
 
 #define GUI_LOCALE_DIR _DATADIR PATH_SEPARATOR_STR "locale"
-#ifndef _WIN32
-BaconMessageConnection *connection = NULL;
-#endif
+
 void receiver(const char *clink, gpointer )
 {
 	g_return_if_fail(clink != NULL);
@@ -110,44 +107,23 @@ int main(int argc, char *argv[])
 	textdomain(GUI_LOCALE_PACKAGE);
 	bind_textdomain_codeset(GUI_LOCALE_PACKAGE, "UTF-8");
 
-	#ifndef _WIN32
-	connection = bacon_message_connection_new(GUI_PACKAGE);
-
-	if (connection != NULL) {
-		dcdebug("bmdc: connection yes...\n");
-	}else {
-		dcdebug("bmdc: connection no...\n");
-	}
-	// Check if profile is locked
-	if (WulforUtil::profileIsLocked())
-	{
-		if (!bacon_message_connection_get_is_server(connection))
-		{
-			dcdebug("bmdc: is client...\n");
-
-			if (argc > 1)
-			{
-				dcdebug("bmdc: send %s\n", argv[1]);
-				bacon_message_connection_send(connection, argv[1]);
+	dcpp::Util::PathsMap map;
+	string home = string(g_get_home_dir ()) + "/.bmdc++/";
+	map[dcpp::Util::PATH_GLOBAL_CONFIG] = home;
+	if(argc >= 1) {
+		if(argv[1] != NULL) {
+			map[dcpp::Util::PATH_GLOBAL_CONFIG] = string(argv[1]);
+			map[dcpp::Util::PATH_USER_CONFIG] = string(argv[1]);
+			map[dcpp::Util::PATH_DOWNLOADS] = string(argv[1]);
 			}
-		}
-
-		bacon_message_connection_free(connection);
-
-		return 1;
 	}
-
-	if (bacon_message_connection_get_is_server(connection))
-	{
-		dcdebug("bmdc: is server...\n");
-		bacon_message_connection_set_callback(connection, receiver, NULL);
-	}
-	#endif
 	// Start the DC++ client core
+	if(map.size() > 1) {
+		dcpp::Util::initialize(map);
+	} else
+		dcpp::Util::initialize();
 
-	dcpp::Util::initialize();
-
-	gtk_init(&argc, &argv);
+	gtk_init();
 
 	Splash* pSplash = new Splash();
 	pSplash->show();
@@ -178,10 +154,10 @@ int main(int argc, char *argv[])
 	signal(SIGTERM, handle_crash);
 	#endif
 	WulforManager::start(argc, argv);
-	gtk_main();
-	#ifndef _WIN32
-	bacon_message_connection_free(connection);
-	#endif
+	
+	while (g_list_model_get_n_items (gtk_window_get_toplevels ()) > 0)
+  			g_main_context_iteration (NULL, TRUE);
+
 	WulforManager::stop();
 	IgnoreTempManager::deleteInstance();
 	WulforSettingsManager::deleteInstance();
@@ -189,7 +165,7 @@ int main(int argc, char *argv[])
 	std::cout << _("Shutting down dcpp client...") << std::endl;
 	try{
 	dcpp::shutdown();
-}catch(...){}
+}catch(...){ }
 	std::cout << _("Quit...") << std::endl;
 
 	return 0;

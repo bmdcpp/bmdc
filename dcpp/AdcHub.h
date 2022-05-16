@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -156,6 +156,9 @@ private:
 	//TimerManagerListener
 	virtual void on(Second, uint64_t aTick) noexcept;
 	void appendConnectivity(StringMap& lastInfoMap, AdcCommand& c, bool v4, bool v6);
+	
+	//
+	static void addParam(StringMap& lastInfoMap, AdcCommand& c, const string& var, const string& value);
 
 };
 

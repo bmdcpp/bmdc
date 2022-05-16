@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2016 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2018 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -159,15 +159,13 @@ void MappingManager::runPortMapping(bool v6, const string& conn_port, const stri
 	auto& mappers = v6 ? mappers6 : mappers4;
 
 	// move the preferred mapper to the top of the stack.
-	const auto& prefMapper = v6 ? SETTING(MAPPER6) : SETTING(MAPPER);
+	const string& prefMapper = v6 ? SETTING(MAPPER6) : SETTING(MAPPER);
 	for(auto i = mappers.begin(); i != mappers.end(); ++i) {
 		if(i->first == prefMapper) {
-			if(i != mappers.begin()) {
 				auto mapper = *i;
 				mappers.erase(i);
 				mappers.insert(mappers.begin(), mapper);
-			}
-			break;
+				break;
 		}
 	}
 
@@ -177,6 +175,7 @@ void MappingManager::runPortMapping(bool v6, const string& conn_port, const stri
 		Mapper& mapper = *pMapper;
 
 		ScopedFunctor([&mapper] { mapper.uninit(); });
+		
 		if(!mapper.init()) {
 			log(autosprintf(_("Failed to initialize the %s interface") ,mapper.getName().c_str()), v6);
 			continue;
@@ -249,13 +248,13 @@ string MappingManager::deviceString(Mapper& mapper) const {
 }
 
 void MappingManager::renewLater(Mapper& mapper) {
-	auto minutes = mapper.renewal();
+	uint32_t minutes = mapper.renewal();
 	if(minutes) {
-		//bool addTimer = (bool)renewal;
+		bool addTimer = (bool)!renewal;
 		renewal = GET_TICK() + std::max(minutes, 10u) * 60 * 1000;
-		//if(addTimer) {
-		TimerManager::getInstance()->addListener(this);
-		//}
+		if(addTimer) {
+            TimerManager::getInstance()->addListener(this);
+		}
 
 	} else if(renewal) {
 		renewal = 0;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2018 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,9 +34,6 @@
 #include "UserCommand.h"
 #include "StringTokenizer.h"
 #include "format.h"
-#if 0
-#include "PluginManager.h"
-#endif
 #include "AVManager.h"
 
 namespace dcpp {
@@ -242,10 +239,6 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		}
 		COMMAND_DEBUG(aLine,TYPE_HUB,INCOMING,getHubUrl());
 		auto chatMessage = unescape(message);
-		#if 0
-		if(PluginManager::getInstance()->runHook(HOOK_CHAT_IN, this, chatMessage))
-			return;
-		#endif
 		fire(ClientListener::Message(), this, ChatMessage(chatMessage, from));
 		return;
 	}
@@ -301,15 +294,17 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 
 		int count = 0;
 		for(auto fi = seekers.begin(); fi != seekers.end(); ++fi) {
-			if(fi->first == seeker)
+			if(fi->first == seeker) {
 				count++;
+			}	
 
 			if(count > 7) {
 				
-				if( (seeker.size() > 4) && seeker.compare(0, 4, "Hub:") == 0)
+				if(seeker.compare(0, 4, "Hub:") == 0) {
 					fire(ClientListener::SearchFlood(), this, seeker.substr(4));
-				else
+				} else {
 					fire(ClientListener::SearchFlood(), this, string(seeker+F_(" (Nick unknown)")));
+				}	
 
 				flooders.push_back(make_pair(seeker, tick));
 				return;
@@ -496,7 +491,7 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 			
 		dcdebug("Port %d",p_port);
 		
-		if(b_ip6 && !server.empty())
+		if(bIPv6 && !server.empty())
 		{
 			dcdebug("%s",server.c_str());
 		}
@@ -815,10 +810,6 @@ void NmdcHub::onLine(const string& aLine) noexcept {
 		//}
 
 		auto chatMessage = unescape(toUtf8(param.substr(j + 2)));
-		#if 0
-		if(PluginManager::getInstance()->runHook(HOOK_CHAT_PM_IN, replyTo, chatMessage))
-			return;
-		#endif
 		fire(ClientListener::Message(), this, ChatMessage(chatMessage, from, &getUser(getMyNick()), replyTo));
 	} else if(cmd == "$GetPass") {
 		OnlineUser& ou = getUser(getMyNick());
@@ -895,10 +886,7 @@ void NmdcHub::revConnectToMe(const OnlineUser& aUser) {
 
 void NmdcHub::hubMessage(const string& aMessage, bool thirdPerson) {
 	checkstate();
-	#if 0
-	if(!PluginManager::getInstance()->runHook(HOOK_CHAT_OUT, this, aMessage))
-	#endif
-		send(fromUtf8( "<" + getMyNick() + "> " + escape(thirdPerson ? "/me " + aMessage : aMessage) + "|" ) );
+	send(fromUtf8( "<" + getMyNick() + "> " + escape(thirdPerson ? "/me " + aMessage : aMessage) + "|" ) );
 }
 
 void NmdcHub::myInfo(bool alwaysSend) {
@@ -1047,10 +1035,6 @@ void NmdcHub::privateMessage(const string& nick, const string& message) {
 
 void NmdcHub::privateMessage(const OnlineUser& aUser, const string& aMessage, bool /*thirdPerson*/) {
 	checkstate();
-#if 0
-	if(PluginManager::getInstance()->runHook(HOOK_CHAT_PM_OUT, (void*)&(aUser), (void*)&(aMessage)))
-		return;
-#endif
 	privateMessage(aUser.getIdentity().getNick(), aMessage);
 	// Emulate a returning message...
 	Lock l(cs);
@@ -1074,13 +1058,13 @@ void NmdcHub::sendUserCmd(const UserCommand& command, const ParamMap& params) {
 		send(fromUtf8(cmd));
 	}
 }
-
+// 5*60*1000 ms is 5 Minutes?
 void NmdcHub::clearFlooders(uint64_t aTick) {
-	while(!seekers.empty() && seekers.front().second + (5 * 1000) < aTick) {
+	while(!seekers.empty() && ( (seekers.front().second + (5 * 60 * 1000)) < aTick)) {
 		seekers.pop_front();
 	}
 
-	while(!flooders.empty() && flooders.front().second + (120 * 1000) < aTick) {
+	while(!flooders.empty() && ((flooders.front().second + (120 * 60 * 1000)) < aTick)) {
 		flooders.pop_front();
 	}
 }
@@ -1124,10 +1108,6 @@ void NmdcHub::on(Connected) noexcept {
 
 void NmdcHub::on(Line, const string& aLine) noexcept {
 	Client::on(Line(), aLine);
-	#if 0
-	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_IN, this, validateMessage(aLine, true)))
-		return;
-	#endif
 	onLine(aLine);
 }
 

@@ -23,9 +23,6 @@
 #include "ConnectivityManager.h"
 #include "FavoriteManager.h"
 #include "TimerManager.h"
-#if 0
-#include "PluginManager.h"
-#endif
 #include "DebugManager.h"
 #include "LogManager.h"
 
@@ -174,30 +171,13 @@ void Client::send(const char* aMessage, size_t aLen) {
 		LogManager::getInstance()->message("Not Connected returning", LogManager::Sev::LOW);
 		return;
 	}
-#if 0	
-	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_OUT, this, aMessage))
-		return;
-#endif		
+
 	Lock l(cs);
 	updateActivity();
 	sock->write(aMessage, aLen);
 	COMMAND_DEBUG(aMessage,TYPE_HUB,OUTGOING, getHubUrl());
 }
-#if 0
-HubData* Client::getPluginObject() noexcept {
-	resetEntity();
 
-	pod.url = pluginString(hubUrl);
-	pod.ip = pluginString(ip);
-	pod.object = this;
-	pod.port = port;
-	pod.protocol = Util::isAdc(hubUrl) ? PROTOCOL_ADC : PROTOCOL_NMDC; 
-	pod.isOp = isOp() ? True : False;
-	pod.isSecure = isSecure() ? True : False;
-
-	return &pod;
-}
-#endif
 void Client::on(Connected) noexcept {
 	updateActivity();
 	ip = sock->getIp();
@@ -254,7 +234,7 @@ bool Client::isActiveV4() const {
 }
 
 bool Client::isActiveV6() const {
-	return !getUserIp6().empty();
+	return bIPv6 && (!getUserIp6().empty());
 }
 
 void Client::updateCounts(bool aRemove) {
@@ -318,7 +298,7 @@ const string Client::getUserIp4() const {
 }
 
 const string Client::getUserIp6() const {
-	if(bIPv6 && sLocalIP.empty())
+	if(bIPv6 && (!sLocalIP.empty()))
 	{
 		return sLocalIP;
 	}

@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2017 BMDC
+ * Copyright © 2010-2023 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ class BookEntry : public Entry
 		void setActive_gui();
 		bool isActive_gui();
 		virtual void show() = 0;
-		virtual GtkWidget *createmenu();
+		virtual GMenu *createmenu();
 
 		void setSearchButtons(bool s) { bIsCloseButton = s;}
 		void setName(const std::string& name)
@@ -67,16 +67,24 @@ class BookEntry : public Entry
 		{
 			gtk_widget_set_state_flags (labelBox,GTK_STATE_FLAG_NORMAL,TRUE);
 		}
-		int getPositionTab() { return (-1);};
+		int getPositionTab() { return (-1);}
 	protected:
-		GtkWidget *createItemFirstMenu();
+		GMenuItem *createItemFirstMenu();
 	private:
 		void updateLabel_gui();
-		static void onCloseItem(gpointer data);
+		static void onCloseItem(GtkWidget*,GVariant* ,gpointer data);
 		void removeBooK_GUI();
 		std::string getName();//@NOTE: For CSS
-		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		static void onButtonPressed_gui(GtkGestureClick *gesture,
+                                   int                n_press,
+                                   double             x,
+                                   double             y,
+                                   gpointer         *data);
+		static void onButtonReleased_gui(GtkGestureClick *gesture,
+                                    int              n_press,
+                                    double           x,
+                                    double           y,
+                                    GtkWidget       *widget);
 		std::string labelText;
 		std::string truncatedLabelText;
 		std::string h_name;
@@ -95,6 +103,7 @@ class BookEntry : public Entry
 		GtkWidget *popTabMenuItem;
 		const EntryType type;
 		bool bIsCloseButton;
+		static const GActionEntry win_entries[];
 };
 
 #else

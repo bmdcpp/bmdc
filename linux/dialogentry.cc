@@ -30,18 +30,11 @@ DialogEntry::DialogEntry(const EntryType type, const string &glade, GtkWindow*):
 {
 	GtkWindow* window = GTK_WINDOW(getContainer());
 
-	gtk_window_set_role(window, getID().c_str());
 
-	gboolean modal = gtk_window_get_modal(window);
-	if (modal)
-		gtk_window_set_transient_for(window, NULL);
-
-	WulforManager::get()->insertEntry_gui(this);
 }
 
 DialogEntry::~DialogEntry()
 {
-	gtk_widget_destroy(getContainer());
 	
 }
 
@@ -52,13 +45,12 @@ GtkWidget* DialogEntry::getContainer()
 
 gint DialogEntry::run()
 {
-	responseID = gtk_dialog_run(GTK_DIALOG(getContainer()));
-	WulforManager::get()->deleteEntry_gui(this);
+	gtk_widget_show(getWidget("dialog"));
 
-	return responseID;
+	return GTK_RESPONSE_OK;
 }
 
 gint DialogEntry::getResponseID() const
 {
-	return responseID;
+	return GTK_RESPONSE_OK;
 }

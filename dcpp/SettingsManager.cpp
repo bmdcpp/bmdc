@@ -171,6 +171,10 @@ const string SettingsManager::settingTags[] =
 	"SENTRY"
 };
 
+
+
+
+
 SettingsManager::SettingsManager()
 {
 
@@ -190,7 +194,7 @@ SettingsManager::SettingsManager()
 	connectionSpeeds.push_back("100");
 	connectionSpeeds.push_back("1000");
 
-	for(int i=0; i<SETTINGS_LAST; i++)
+	for(int i=0; i < SETTINGS_LAST; i++)
 		isSet[i] = false;
 
 	for(int i=0; i<INT_LAST-INT_FIRST; i++) {
@@ -222,6 +226,7 @@ SettingsManager::SettingsManager()
 	setDefault(TEMP_DOWNLOAD_DIRECTORY, Util::getPath(Util::PATH_USER_LOCAL) + "Incomplete" PATH_SEPARATOR_STR);
 
 	setDefault(EXTERNAL_IP, "0.0.0.0");
+	defaultString.insert(StringMap::value_type("ExternalIP","0.0.0.0"));
 	setDefault(BIND_ADDRESS, "0.0.0.0");
 	setDefault(BIND_ADDRESS6, "::");
 	setDefault(SLOTS, 3);
@@ -245,7 +250,7 @@ SettingsManager::SettingsManager()
 	setDefault(IGNORE_BOT_PMS, false);
 	setDefault(LIST_DUPES, true);
 	setDefault(BUFFER_SIZE, 64);
-	setDefault(HUBLIST_SERVERS, "http://dchublist.com/hublist.xml.bz2;http://www.hublista.hu/hublist.xml.bz2");
+	setDefault(HUBLIST_SERVERS, "http://www.te-home.net/?do=hublist&get=hublist.xml.bz2");
 	setDefault(DOWNLOAD_SLOTS, 6);
 	setDefault(MAX_DOWNLOAD_SPEED, 0);
 	setDefault(LOG_DIRECTORY, Util::getPath(Util::PATH_USER_LOCAL) + "Logs" PATH_SEPARATOR_STR);
@@ -274,8 +279,8 @@ SettingsManager::SettingsManager()
 	setDefault(LOG_FILE_UPLOAD, "Uploads.log");
 	setDefault(LOG_FILE_DOWNLOAD, "Downloads.log");
 	setDefault(LOG_FILE_FINISHED_DOWNLOAD, "Finished_downloads.log");
-	setDefault(LOG_FILE_SYSTEM, "system.log");
-	setDefault(LOG_FILE_RAW, "Raws.log");// BMDC : UI?
+	setDefault(LOG_FILE_SYSTEM, "System.log");
+	setDefault(LOG_FILE_RAW, "Raws.log");//@TODO: BMDC : UI?
 	setDefault(GET_USER_INFO, true);
 	setDefault(URL_HANDLER, false);
 	//Possible unused
@@ -283,7 +288,7 @@ SettingsManager::SettingsManager()
 	setDefault(SETTINGS_HEIGHT, 600); //not used?
 	//--//
 	setDefault(SOCKS_PORT, 1080);
-	setDefault(SOCKS_RESOLVE, 1);
+	setDefault(SOCKS_RESOLVE, true);
 	setDefault(CONFIG_VERSION, "0.181");		// 0.181 is the last version missing configversion
 	setDefault(KEEP_LISTS, false);
 	setDefault(AUTO_KICK, false);
@@ -310,7 +315,7 @@ SettingsManager::SettingsManager()
 	setDefault(FAV_SHOW_JOINS, false);
 	setDefault(LOG_STATUS_MESSAGES, false);
 	setDefault(SHOW_MENU_BAR, true);//TODO?
-	setDefault(SHOW_TRANSFERVIEW, true);//hide-transfer in WUl?
+	setDefault(SHOW_TRANSFERVIEW, true); //hide-transfer in WUl?
 	setDefault(SHOW_STATUSBAR, true);
 	setDefault(SHOW_TOOLBAR, true);
 	setDefault(POPUNDER_PM, false);
@@ -447,25 +452,13 @@ SettingsManager::SettingsManager()
 	setDefault(BACKGROUND_PM_COLOR, "white");
 	setDefault(BACKGROUND_PM_IMAGE, Util::emptyString);
 	setDefault(RATIO_TEMPLATE, "%[client] Ratio: %[ratio]  Uploads: %[up] / Downloads %[down] ");
-	setDefault(USE_HIGHLITING,true);
+	setDefault(USE_HIGHLITING, true);
 	
-	setDefault(NICK_PANE_POS,400);//hub tab
-	setDefault(WILDCARD_FOR_EXPORT_SET,"profile.lck;Emptyfiles.xml.bz2;..;.;GeoIP*.dat;GeoIP*.gz;TestSUR*;");
-	setDefault(USE_SOCK5,false);
+	setDefault(NICK_PANE_POS, 400);//hub tab
+	setDefault(WILDCARD_FOR_EXPORT_SET, "profile.lck;Emptyfiles.xml.bz2;..;.;GeoIP*.dat;GeoIP*.gz;TestSUR*;");
+	setDefault(USE_SOCK5, false);
 
 	setSearchTypeDefaults();
-/*
-#ifdef _WIN32
-	setDefault(MAIN_WINDOW_STATE, SW_SHOWNORMAL);
-	setDefault(MAIN_WINDOW_SIZE_X, CW_USEDEFAULT);
-	setDefault(MAIN_WINDOW,_SIZE_Y, CW_USEDEFAULT);
-	setDefault(MAIN_WINDOW_POS_X, CW_USEDEFAULT);
-	setDefault(MAIN_WINDOW_POS_Y, CW_USEDEFAULT);
-	setDefault(UPLOAD_TEXT_COLOR, RGB(255, 255, 255));
-	setDefault(UPLOAD_BG_COLOR, RGB(205, 60, 55));
-	setDefault(DOWNLOAD_TEXT_COLOR, RGB(255, 255, 255));
-	setDefault(DOWNLOAD_BG_COLOR, RGB(55, 170, 85));
-#endif*/
 }
 
 void SettingsManager::load(string const& aFileName)

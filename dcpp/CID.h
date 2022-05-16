@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2021 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,54 +19,55 @@
 #ifndef DCPLUSPLUS_DCPP_CID_H
 #define DCPLUSPLUS_DCPP_CID_H
 
-#include <cstring>
 #include <algorithm>
+#include <cstdint>
+#include <cstring>
 
 #include "Encoder.h"
 
 namespace dcpp {
 
-using std::find_if;
-//192/8 == 24
-#define CIDSIZE 24
-class CID {
-public:
+	using std::find_if;
 
-	CID() { memset(cid, (uint8_t)0, sizeof(cid)); }
-	explicit CID(const uint8_t* data) { memcpy(cid, data, sizeof(cid)); }
-	explicit CID(const string& base32) { Encoder::fromBase32(base32.c_str(), cid, sizeof(cid)); }
+	class CID {
+	public:
+		enum { SIZE = 192 / 8 };
 
-	bool operator==(const CID& rhs) const { return memcmp(cid, rhs.cid, sizeof(cid)) == 0; }
-	bool operator<(const CID& rhs) const { return memcmp(cid, rhs.cid, sizeof(cid)) < 0; }
+		CID() { memset(cid, 0, sizeof(cid)); }
+		explicit CID(const uint8_t* data) { memcpy(cid, data, sizeof(cid)); }
+		explicit CID(const string& base32) { Encoder::fromBase32(base32.c_str(), cid, sizeof(cid)); }
 
-	string toBase32() const { return Encoder::toBase32(cid, sizeof(cid)); }
-	string& toBase32(string& tmp) const { return Encoder::toBase32(cid, sizeof(cid), tmp); }
+		bool operator==(const CID& rhs) const { return memcmp(cid, rhs.cid, sizeof(cid)) == 0; }
+		bool operator<(const CID& rhs) const { return memcmp(cid, rhs.cid, sizeof(cid)) < 0; }
 
-	size_t toHash() const {
-		// RVO should handle this as efficiently as reinterpret_cast version
-		size_t cidHash;
-		memcpy(&cidHash, cid, sizeof(size_t));
-		return cidHash;
-	}
-	const uint8_t* data() const { return cid; }
+		string toBase32() const { return Encoder::toBase32(cid, sizeof(cid)); }
+		string& toBase32(string& tmp) const { return Encoder::toBase32(cid, sizeof(cid), tmp); }
 
-	explicit operator bool() const { return find_if(cid, cid + CIDSIZE, [](uint8_t c) { return c != 0; }) != cid + CIDSIZE; }
+		size_t toHash() const {
+			// RVO should handle this as efficiently as reinterpret_cast version
+			size_t cidHash;
+			memcpy(&cidHash, cid, sizeof(size_t));
+			return cidHash;
+		}
+		const uint8_t* data() const { return cid; }
 
-	static CID generate();
+		explicit operator bool() const { return find_if(cid, cid + SIZE, [](uint8_t c) { return c != 0; }) != cid + SIZE; }
 
-private:
-	uint8_t cid[CIDSIZE];
-};
+		static CID generate();
+
+	private:
+		uint8_t cid[SIZE];
+	};
 
 } // namespace dcpp
 
 namespace std {
-template<>
-struct hash<dcpp::CID> {
-	size_t operator()(const dcpp::CID& cid) const {
-		return cid.toHash();
-	}
-};
+	template<>
+	struct hash<dcpp::CID> {
+		size_t operator()(const dcpp::CID& cid) const {
+			return cid.toHash();
+		}
+	};
 }
 
 #endif // !defined(CID_H)

@@ -1,5 +1,5 @@
 //
-//      Copyright 2011-2017 BMDC++
+//      Copyright 2011-2021 BMDC
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 #include "../dcpp/UploadManager.h"
 #include <unordered_map>
 #include "bookentry.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include "treeview.hh"
 
 class UploadQueue:
@@ -46,7 +46,7 @@ class UploadQueue:
 		void AddFile_gui(dcpp::StringMap params);
 		void removeUser(const std::string &cid);
 
-		static void onGrantSlotItemClicked_gui(GtkMenuItem*, gpointer data);
+		/*static void onGrantSlotItemClicked_gui(GtkMenuItem*, gpointer data);
 		static void onRemoveItem_gui(GtkMenuItem *item, gpointer data);
 		static void onSendPMItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data);
@@ -54,7 +54,7 @@ class UploadQueue:
 		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-
+*/
 		//client funcs
 		void grantSlot_client(const std::string &cid);
 		void getFileList_client(const std::string &cid);

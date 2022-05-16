@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2018 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -107,11 +107,11 @@ string ClientManager::getField(const CID& cid, const string& hint, const char* f
 
 	return string();
 }
-
+//TODO:rem
 string ClientManager::getConnection(const CID& cid) const {
 	return UsersManager::getInstance()->getConnection(cid);
 }
-
+//end
 bool ClientManager::isConnected(const string& aUrl) const {
 	Lock l(cs);
 
@@ -137,29 +137,29 @@ bool ClientManager::isHubConnected(const string& aUrl) const {
 string ClientManager::findHub(const string& ipPort) const {
 	Lock l(cs);
 
-	string ip;
-	uint16_t port = 411;
+	string sip;
+	uint16_t uiport = 411;
 
-	parsePortIp(ipPort,ip, port);
+	parsePortIp(ipPort,sip, uiport);
 	//NOTE: *should* never get value over 65535 since is it uint16_t
 	//NOTE: dont allow 0 as port
-	if( port < 1)
+	if( uiport <= 1)
 		return string();
-	bool ok = false;
+	bool bok = false;
 	
-	if(Util::isIp6(ip) == true)
-		ok = true;
+	if(Util::isIp6(sip) == true)
+		bok = true;
 	else
-		ok = (inet_addr(ip.c_str()) != INADDR_NONE);
+		bok = (inet_addr(sip.c_str()) != INADDR_NONE);
 				
-	if(ok == true) {
+	if(bok == true) {
 
 		string url;
 		for(auto i = clients.begin(); i != clients.end(); ++i) {
 			const Client* c = (*i).second;
-			if(c->getIp() == ip) {
+			if(c->getIp() == sip) {
 				// If exact match is found, return it
-				if(c->getPort() == port)
+				if(c->getPort() == uiport)
 					return c->getHubUrl();
 
 				// Port is not always correct, so use this as a best guess...
@@ -182,11 +182,11 @@ string ClientManager::findHubEncoding(const string& aUrl) const {
 	}
 	return Text::systemCharset;
 }
-
+//TODO:rem?
 UserPtr ClientManager::findLegacyUser(const string& aNick) const noexcept {
 	return UsersManager::getInstance()->findLegacyUser(aNick);
 }
-
+//end
 UserPtr ClientManager::getUser(const string& aNick, const string& aHubUrl) noexcept {
 	CID cid = makeCid(aNick, aHubUrl);
 	Lock l(cs);
@@ -194,7 +194,7 @@ UserPtr ClientManager::getUser(const string& aNick, const string& aHubUrl) noexc
 	UserIter ui = users.find(cid);
 	if(ui != users.end()) 
 	{
-		if(ui->second->getCID()) 
+		if(!ui->second->getCID().toBase32().empty()) //TODO need?
 		{
 			//there should always have CID
 			ui->second->setFlag(User::NMDC);
@@ -202,11 +202,11 @@ UserPtr ClientManager::getUser(const string& aNick, const string& aHubUrl) noexc
 		}
 	}
 
-	UserPtr p = make_shared<User>(cid);
-	p->setFlag(User::NMDC);
-	users.emplace(cid,p);
+	UserPtr pu = make_shared<User>(cid);
+	pu->setFlag(User::NMDC);
+	users.emplace(cid,pu);
 
-	return p;
+	return pu;
 }
 
 UserPtr ClientManager::getUser(const CID& cid) noexcept {
@@ -247,7 +247,7 @@ CID ClientManager::makeCid(const string& aNick, const string& aHubUrl) const noe
 	// fairly random, and hopefully low-collision
 	return CID(th.finalize());
 }
-
+//rem?
 void ClientManager::putOnline(OnlineUser* ou) noexcept {
 	UsersManager::getInstance()->putOnline(ou);
 }
@@ -259,7 +259,7 @@ void ClientManager::putOffline(OnlineUser* ou, bool disconnect) noexcept {
 OnlineUser* ClientManager::findOnlineUserHint(const CID& cid, const string& hintUrl, OnlinePairC& p) const {
 	return UsersManager::getInstance()->findOnlineUserHint(cid ,hintUrl,p);
 }
-
+//end
 OnlineUser* ClientManager::findOnlineUser(const HintedUser& user) {
 	return findOnlineUser(user.user->getCID(), user.hint);
 }
@@ -326,24 +326,24 @@ void ClientManager::userCommand(const HintedUser& user, const UserCommand& uc, P
 
 void ClientManager::send(AdcCommand& cmd, const CID& cid) {
 	Lock l(cs);
-	auto i = onlineUsers.find(cid);
-	if(i != onlineUsers.end()) {
-		OnlineUser& u = *i->second;
-		if(cmd.getType() == AdcCommand::TYPE_UDP && !u.getIdentity().isUdpActive()) {
+    OnlineUser* ou = findOnlineUser(cid,string());
+    if(ou) {
+		if(cmd.getType() == AdcCommand::TYPE_UDP && !ou->getIdentity().isUdpActive()) {
 			cmd.setType(AdcCommand::TYPE_DIRECT);
-			cmd.setTo(u.getIdentity().getSID());
-			u.getClient().send(cmd);
+			cmd.setTo(ou->getIdentity().getSID());
+			ou->getClient().send(cmd);
 		} else {
-			try {
-				string ip = u.getIdentity().getIp();
-				uint16_t port = u.getIdentity().getUdpPort();
+			
+				string ip = ou->getIdentity().getIp();
+				uint16_t port = ou->getIdentity().getUdpPort();
 				bool ok = false;
 
 				if(Util::isIp6(ip) == true)
 					ok = true;
 				else
 					ok = (inet_addr(ip.c_str()) != INADDR_NONE);
-				
+			
+            try {	
 				if(ok == true) {
 					udp.writeTo(ip, port, cmd.toString(getMe()->getCID()));
 				}	
@@ -369,7 +369,7 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 	Speaker<ClientManagerListener>::fire(ClientManagerListener::IncomingSearch(), aString);
 	if(aSeeker.empty()) return;
 	if(aSeeker.length() < 4) return;
-	if(aClient == NULL) return;
+	if(!aClient) return;
 
 
 	bool isPassive = (aSeeker.compare(0, 4, "Hub:") == 0);
@@ -400,7 +400,7 @@ void ClientManager::on(NmdcSearch, Client* aClient, const string& aSeeker, int a
 
 		} else {
 			try {
-				string ip;
+				string ip = string();
 				uint16_t port = 0 ;
 				string seek = Util::trimUrl(aSeeker);
 				
@@ -478,8 +478,6 @@ void ClientManager::on(TimerManagerListener::Minute, uint64_t /* aTick */) noexc
 	auto i = users.begin();
 	while(i != users.end()) {
 		if(i->second.unique()) {
-			unordered_map<CID, NickMapEntry>::const_iterator n = nicks.find(i->second->getCID());//should also remove from nicks...
-			if(n != nicks.end()) nicks.erase(n);
 			users.erase(i++);
 		} else {
 			++i;
@@ -509,7 +507,7 @@ const CID& ClientManager::getMyPID() {
 
 CID ClientManager::getMyCID() {
 	TigerHash tiger;
-	tiger.update(getMyPID().data(), CIDSIZE);
+	tiger.update(getMyPID().data(), CID::SIZE);
 	return CID(tiger.finalize());
 }
 
@@ -536,14 +534,13 @@ bool ClientManager::isActive(const string& aHubUrl /**/) const
 {
 	return ( (getMode(aHubUrl) != SettingsManager::INCOMING_FIREWALL_PASSIVE) );
 }
-
-//@TODO: Check ipv6 if ok
+//TODO:rem
 void ClientManager::setIpAddress(const UserPtr& p, const string& ip) {
 	UsersManager::getInstance()->setIpAddress(p,ip);
 }
 
 void ClientManager::sendAction(OnlineUser& ou, const int aAction) {
-	if(aAction < 1)
+	if(aAction <= 1)
 		return;
 
 	if(ou.getClient().isOp() && !ou.isProtectedUser()) {
@@ -585,18 +582,6 @@ void ClientManager::addCheckToQueue(const HintedUser& hintedUser, bool filelist)
 
 void ClientManager::on(Connected, Client* c) noexcept {
 	fire(ClientManagerListener::ClientConnected(), c);
-}
-
-void ClientManager::on(UserUpdated, Client*, const OnlineUser& user) noexcept {
-	updateNick(user);
-	fire(ClientManagerListener::UserUpdated(), user);
-}
-
-void ClientManager::on(UsersUpdated, Client* , const OnlineUserList& l) noexcept {
-	for(OnlineUserList::const_iterator i = l.begin(), iend = l.end(); i != iend; ++i) {
-		updateNick(*(*i));
-		fire(ClientManagerListener::UserUpdated(), *(*i));
-	}
 }
 
 void ClientManager::on(HubUpdated, Client* c) noexcept {
@@ -663,7 +648,7 @@ void ClientManager::checkCheating(const HintedUser& p, DirectoryListing* dl) {
 
 			if(!forbiddenList.empty() || !forbiddenDirList.empty() ) {
 				int64_t fs = 0;
-				string s, c, sz, tth, stringForKick; //forbiddenFilesList;
+				string s, c, sz, tth, stringForKick; 
 
 				int actionCommand = 0, totalPoints = 0, point = 0;
 				bool forFromFavs = false;
@@ -776,10 +761,9 @@ void ClientManager::sendRawCommand(OnlineUser& ou, const string& aRaw, bool chec
 }
 
 //RSX++ hub stats
-
 string ClientManager::getHubsLoadInfo() const {
     string hubsInfo = string();
-    int64_t overallShare = 0;
+    uint64_t overallShare = 0;
     uint32_t overallUsers = 0;
     {
  
@@ -791,7 +775,7 @@ string ClientManager::getHubsLoadInfo() const {
 		}
         
     }
-    hubsInfo = "Hubs stats:";
+    hubsInfo = "\nHubs stats:";
     hubsInfo += "\n-]> Connected hubs:\t" + Util::toString(Client::getTotalCounts()) + " (" + Client::getCounts() + ")";
     hubsInfo += "\n-]> Available bytes:\t\t" + Util::formatBytes(overallShare);
     hubsInfo += "\n-]> Users count:\t\t" + Util::toString(overallUsers);

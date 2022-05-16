@@ -1,5 +1,5 @@
 //
-//      Copyright 2011 - 2017 BMDC
+//      Copyright 2011 - 2020 BMDC
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@
 #include "../dcpp/UploadManager.h"
 
 #include "wulformanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 
 using namespace std;
 using namespace dcpp;
@@ -52,7 +52,7 @@ selection(NULL)
 
 	selection = gtk_tree_view_get_selection(users.get());
 
-	g_signal_connect(getWidget("GranSlotItem"), "activate", G_CALLBACK(onGrantSlotItemClicked_gui), (gpointer)this);
+	/*g_signal_connect(getWidget("GranSlotItem"), "activate", G_CALLBACK(onGrantSlotItemClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("removeItem"), "activate", G_CALLBACK(onRemoveItem_gui), (gpointer)this);
 	g_signal_connect(getWidget("pmItem"), "activate", G_CALLBACK(onSendPMItemClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("BrowseItem"), "activate", G_CALLBACK(onBrowseItemClicked_gui), (gpointer)this);
@@ -60,14 +60,14 @@ selection(NULL)
 
 	g_signal_connect(users.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
 	g_signal_connect(users.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
-	g_signal_connect(users.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
+	g_signal_connect(users.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);*/
 
 }
 UploadQueue::~UploadQueue()
 {
 	UploadManager::getInstance()->removeListener(this);
 	gtk_list_store_clear(store);
-	g_object_unref(store);
+	//g_object_unref(store);
 }
 
 void UploadQueue::show()
@@ -148,7 +148,7 @@ void UploadQueue::removeUser(const string &cid)
 
 	}
 }
-
+/*
 void UploadQueue::onGrantSlotItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	UploadQueue *qp = (UploadQueue *)data;
@@ -290,11 +290,7 @@ gboolean UploadQueue::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer
 	{
 		if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
-			#if GTK_CHECK_VERSION(3,22,0)
 		     gtk_menu_popup_at_pointer(GTK_MENU(qp->getWidget("menu")),NULL);
-	        #else
-			gtk_menu_popup(GTK_MENU(qp->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-			#endif
 		}
 	}
 
@@ -330,17 +326,13 @@ gboolean UploadQueue::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gp
 	{
 		if (event->button == 3 && event->type == GDK_BUTTON_RELEASE)
 		{
-			#if GTK_CHECK_VERSION(3,22,0)
-		gtk_menu_popup_at_pointer(GTK_MENU(qp->getWidget("menu")),NULL);
-	#else
-			gtk_menu_popup(GTK_MENU(qp->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-			#endif
+			gtk_menu_popup_at_pointer(GTK_MENU(qp->getWidget("menu")),NULL);
 		}
 	}
 
 	return FALSE;
 }
-
+*/
 void UploadQueue::grantSlot_client(const string &cid)
 {
 	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));

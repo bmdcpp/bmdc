@@ -79,7 +79,8 @@ void RawManager::loadActionRaws(SimpleXML& aXml) {
 	while(aXml.findChild("Action")) {
 		Action* a = NULL;
 		try {
-			a = addAction(aXml.getIntChildAttrib("ID"), aXml.getChildAttrib("Name"), aXml.getBoolChildAttrib("Enabled"));
+            string res = string();
+			a = addAction(aXml.getIntChildAttrib("ID"), aXml.getChildAttrib("Name"), aXml.getBoolChildAttrib("Enabled") , res);
 		} catch(const Exception&) {
 			continue;
 		}
@@ -135,21 +136,26 @@ string RawManager::getNameActionId(int actionId) {
 	}
 	return _("Undefined Action");
 }
-
-Action* RawManager::addAction(int id, const std::string& name, bool enabled) noexcept {
+//todo better reporting....
+Action* RawManager::addAction(int id, const std::string& name, bool enabled , string &reason) noexcept {
 	if(name.empty()) {
 		printf("NO NAME SPECIFIED");
+        reason = "No Name Specified";
 		return nullptr;
 	}	
 
 	Lock l(cs);
 	for(auto i = actions.begin(); i != actions.end(); ++i) {
 		if(Util::stricmp(name, (*i)->getName()) == 0)
-			throw Exception("ACTION EXISTS");
+         {	
+             printf("ACTION EXISTS");
+             reason = "Action already exist";   
+             return *i; 
+         }
 	}
 
 	while(id == 0) {
-		id = Util::rand(1, 2147483647);
+		id = Util::rand(1, 2147483647);//hope random enought :p
 		for(auto i = actions.begin(); i != actions.end(); ++i) {
 			if((*i)->getId() == id) {
 				id = 0;

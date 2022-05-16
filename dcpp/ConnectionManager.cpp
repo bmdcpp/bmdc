@@ -333,7 +333,7 @@ void ConnectionManager::nmdcConnect(const string& aServer, const uint16_t& aPort
 	UserConnection* uc = getConnection(true, false);
 	
 	
-	if (checkCTM2HUB(aServer, Util::toString(aPort), hubUrl))
+	if (checkCTM2HUB(aServer, aPort, hubUrl))
 		return;
 	
 	
@@ -344,7 +344,7 @@ void ConnectionManager::nmdcConnect(const string& aServer, const uint16_t& aPort
 	uc->setFlag(UserConnection::FLAG_NMDC);
 
 	try {
-		uc->connect(aServer, aPort, Util::emptyString, BufferedSocket::NAT_NONE);
+		uc->connect(aServer, aPort, 0, BufferedSocket::NAT_NONE);
 	} catch(const Exception&) {
 		putConnection(uc);
 		delete uc;
@@ -352,10 +352,10 @@ void ConnectionManager::nmdcConnect(const string& aServer, const uint16_t& aPort
 }
 
 void ConnectionManager::adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& aToken, bool secure) {
-	adcConnect(aUser, aPort, Util::emptyString, BufferedSocket::NAT_NONE, aToken, secure);
+	adcConnect(aUser, aPort, 0, BufferedSocket::NAT_NONE, aToken, secure);
 }
 
-void ConnectionManager::adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& localPort, BufferedSocket::NatRoles natRole, const string& aToken, bool secure) {
+void ConnectionManager::adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const uint16_t& localPort, BufferedSocket::NatRoles natRole, const string& aToken, bool secure) {
 	if(shuttingDown)
 		return;
 
@@ -507,9 +507,13 @@ void ConnectionManager::on(UserConnectionListener::MyNick, UserConnection* aSour
 
 	if(!aSource->getUser()) {
 		// Make sure we know who it is, i e that he/she is connected...
-
-		aSource->setUser(ClientManager::getInstance()->findUser(cid,aSource->getHubUrl()));
-		if(!aSource->getUser() || !ClientManager::getInstance()->isOnline(aSource->getUser())) {
+        ClientManager::getInstance()->lock();
+        OnlineUser* ou = ClientManager::getInstance()->findOnlineUser(CID(cid),aSource->getHubUrl());
+		if(ou)
+            aSource->setUser(ou->getUser());
+        //aSource->setUser(ClientManager::getInstance()->findUser(cid,aSource->getHubUrl()));
+		//if(!ClientManager::getInstance()->isOnline(aSource->getUser())) {
+        if(!ou) {
 			dcdebug("CM::onMyNick Incoming connection from unknown user %s\n", nick.c_str());
 			putConnection(aSource);
 			return;
@@ -520,7 +524,7 @@ void ConnectionManager::on(UserConnectionListener::MyNick, UserConnection* aSour
 
 	ClientManager::getInstance()->setIpAddress(aSource->getUser(),aSource->getRemoteIp());
 
-	if(ClientManager::getInstance()->isOp(aSource->getUser(), aSource->getHubUrl()))
+	if(UsersManager::getInstance()->isOp(aSource->getUser(), aSource->getHubUrl()))
 		aSource->setFlag(UserConnection::FLAG_OP);
 
 	if( aSource->isSet(UserConnection::FLAG_INCOMING) ) {
@@ -848,7 +852,7 @@ void ConnectionManager::on(UserConnectionListener::Supports, UserConnection* con
 	ClientManager::getInstance()->setSupports(conn->getHintedUser(),sup);
 }
 
- bool ConnectionManager::checkCTM2HUB(const string& aServer, const string& aPort, const string& aHubUrl)
+ bool ConnectionManager::checkCTM2HUB(const string& aServer, const uint16_t& aPort, const string& aHubUrl)
  {
 	const string server_lower = Text::toLower(aServer);
 	dcassert(server_lower == aServer);
@@ -862,7 +866,7 @@ void ConnectionManager::on(UserConnectionListener::Supports, UserConnection* con
 
     if(is_ctm2hub)
 	{
-		LogManager::getInstance()->message(autosprintf(_("Block CTM2HUB = '%s:%s' on hub '%s'"), aServer.c_str(), aPort.c_str(), aHubUrl.c_str()));
+		LogManager::getInstance()->message(autosprintf(_("Block CTM2HUB = '%s:%d' on hub '%s'"), aServer.c_str(), aPort, aHubUrl.c_str()));
 		return true;
 	}
 

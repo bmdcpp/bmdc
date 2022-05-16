@@ -151,7 +151,7 @@ template<bool managed>
 class LimitedOutputStream : public OutputStream {
 public:
 	LimitedOutputStream(OutputStream* os, uint64_t aMaxBytes) : s(os), maxBytes(aMaxBytes) {	}
-	/*virtual*/ ~LimitedOutputStream() { if(managed) delete s; }
+	virtual ~LimitedOutputStream() { if(managed) delete s; }
 
 	virtual size_t write(const void* buf, size_t len) {
 		if(maxBytes < len) {
@@ -177,7 +177,7 @@ public:
 	using OutputStream::write;
 
 	BufferedOutputStream(OutputStream* aStream, size_t aBufSize = SETTING(BUFFER_SIZE) * 1024) : s(aStream), pos(0), buf(aBufSize) { }
-	/*virtual*/ ~BufferedOutputStream() {
+	virtual ~BufferedOutputStream() {
 		try {
 			// We must do this in order not to lose bytes when a download
 			// is disconnected prematurely

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2014 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2018 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,79 +15,61 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
+// Some CODE Under GPL by BMDC-Team (Mank)
 
 #include "stdinc.h"
 #include "GeoManager.h"
 
-#include "GeoIP.h"
+#include "GeoIPc.h"
 #include "Util.h"
 
 namespace dcpp {
 
 void GeoManager::init() {
-	geo6.reset(new GeoIP(getDbPath(true)));
-	geo4.reset(new GeoIP(getDbPath(false)));
-
-	rebuild();
+	geo.reset(new GeoIP(getDbPath()));
 }
 
-void GeoManager::update(bool v6) {
-	GeoIP* geo = (v6 ? geo6 : geo4).get();
+void GeoManager::update() {
 	if(geo) {
 		geo->update();
-		geo->rebuild();
 	}
-}
-
-void GeoManager::rebuild() {
-	geo6->rebuild();
-	geo4->rebuild();
 }
 
 void GeoManager::close() {
-	geo6.reset();
-	geo4.reset();
+	geo.reset();
 }
 
-const string& GeoManager::getCountry(const string& ip, int flags) {
+const string GeoManager::getCountry(const string& ip) {
+	
 	if(!ip.empty()) {
-
-		if((flags & V6) && geo6.get()) {
-			const string& ret = geo6->getCountry(ip);
-			if(!ret.empty())
-				return ret;
-		}
-
-		if((flags & V4) && geo4.get()) {
-			return geo4->getCountry(ip);
-		}
+		dcdebug("%s",geo->getCountry(ip).c_str());
+		return geo->getCountry(ip);
 	}
 
 	return Util::emptyString;
 }
 
-const string GeoManager::getCountryAbbrevation(const string& ip, int flags)
+const string GeoManager::getCountryAbbrevation(const string& ip)
 {
 	if(!ip.empty())
 	{
-		if((flags & V6) && geo6.get()) {
-		const string& ret = geo6->getCountryAB(ip);
-		if(!ret.empty()) {
-			return ret;
-		}
-		if((flags & V4) && geo4.get()) {
-			return geo4->getCountryAB(ip);
-		}
-	  }	
+		dcdebug("%s",geo->getCountryAB(ip).c_str());
+		return geo->getCountryAB(ip);
 	}
 	return Util::emptyString;
 }
-string GeoManager::getDbPath(bool v6) {
-#ifdef _WIN32	
-	return Util::getPath(Util::PATH_USER_LOCAL) + (v6 ? "GeoIPv6.dat" : "GeoIP.dat");
-#else	
-	return v6 ? "/usr/share/GeoIP/GeoIPv6.dat" : "/usr/share/GeoIP/GeoIP.dat";
-#endif	
+
+const string GeoManager::getAnyInfo(const string ip, ...)
+{
+	va_list keys;
+	va_start (keys, ip);
+	string ret = geo->GetAnyInfoItem(ip,keys);
+	va_end(keys);
+	return ret;
+	
+}
+string GeoManager::getDbPath() {
+	return Util::getPath(Util::PATH_USER_LOCAL) + "GeoLite2-Country.mmdb";
 }
 
 } // namespace dcpp

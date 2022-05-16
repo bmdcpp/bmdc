@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2017 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2018 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include "../dcpp/Text.h"
 #include "../dcpp/ClientManager.h"
 #include "wulformanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 
 using namespace std;
 using namespace dcpp;
@@ -48,7 +48,7 @@ FinishedTransfers::FinishedTransfers(const EntryType type, const string title, b
 	totalTime(0)
 {
 	// menu
-	g_object_ref_sink(getWidget("menu"));
+	//g_object_ref_sink(getWidget("menu"));
 
 	// Initialize transfer treeview
 	fileView.setView(GTK_TREE_VIEW(getWidget("fileView")), true, "finished");
@@ -93,7 +93,7 @@ FinishedTransfers::FinishedTransfers(const EntryType type, const string title, b
 	appsPreviewMenu = new PreviewMenu(getWidget("appsPreviewMenu"));
 
 	// Connect the signals to their callback functions.
-	g_signal_connect(getWidget("openFolderItem"), "activate", G_CALLBACK(onOpenFolder_gui), (gpointer)this);
+	/*g_signal_connect(getWidget("openFolderItem"), "activate", G_CALLBACK(onOpenFolder_gui), (gpointer)this);
 	g_signal_connect(getWidget("removeItem"), "activate", G_CALLBACK(onRemoveItems_gui), (gpointer)this);
 	g_signal_connect(getWidget("removeAllItem"), "activate", G_CALLBACK(onRemoveAll_gui), (gpointer)this);
 	g_signal_connect(fileView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
@@ -103,13 +103,13 @@ FinishedTransfers::FinishedTransfers(const EntryType type, const string title, b
 	g_signal_connect(userView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 	g_signal_connect(userView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 	g_signal_connect_after(getWidget("finishedbook"), "switch-page", G_CALLBACK(onPageSwitched_gui), (gpointer)this);
-
+*/
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("showOnlyFullFilesCheckButton")), SETTING(FINISHED_DL_ONLY_FULL));
 
-	if (type == Entry::FINISHED_DOWNLOADS)
-		g_signal_connect(getWidget("showOnlyFullFilesCheckButton"), "toggled", G_CALLBACK(onShowOnlyFullFilesToggled_gui), (gpointer)this);
-	else
-		gtk_widget_hide(getWidget("showOnlyFullFilesCheckButton"));
+//	if (type == Entry::FINISHED_DOWNLOADS)
+		//g_signal_connect(getWidget("showOnlyFullFilesCheckButton"), "toggled", G_CALLBACK(onShowOnlyFullFilesToggled_gui), (gpointer)this);
+//	else
+//		gtk_widget_hide(getWidget("showOnlyFullFilesCheckButton"));
 }
 
 FinishedTransfers::~FinishedTransfers()
@@ -271,7 +271,7 @@ void FinishedTransfers::updateStatus_gui()
 	gtk_statusbar_push(GTK_STATUSBAR(getWidget("totalSize")), 0, size.c_str());
 	gtk_statusbar_push(GTK_STATUSBAR(getWidget("averageSpeed")), 0, speed.c_str());
 }
-
+/*
 gboolean FinishedTransfers::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	FinishedTransfers *ft = (FinishedTransfers *)data;
@@ -356,11 +356,7 @@ gboolean FinishedTransfers::onButtonReleased_gui(GtkWidget*, GdkEventButton *eve
 		}
 
 		gtk_widget_show_all(ft->getWidget("menu"));
-		#if GTK_CHECK_VERSION(3,22,0)
-				gtk_menu_popup_at_pointer(GTK_MENU(ft->getWidget("menu")),NULL);
-		#else
-		gtk_menu_popup(GTK_MENU(ft->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-		#endif
+		gtk_menu_popup_at_pointer(GTK_MENU(ft->getWidget("menu")),NULL);
 	}
 
 	return FALSE;
@@ -425,11 +421,7 @@ gboolean FinishedTransfers::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gp
 			}
 
 			gtk_widget_show_all(ft->getWidget("menu"));
-			#if GTK_CHECK_VERSION(3,22,0)
-				gtk_menu_popup_at_pointer(GTK_MENU(ft->getWidget("menu")),NULL);
-			#else
-			gtk_menu_popup(GTK_MENU(ft->getWidget("menu")), NULL, NULL, NULL, NULL, 1, event->time);
-			#endif
+			gtk_menu_popup_at_pointer(GTK_MENU(ft->getWidget("menu")),NULL);
 		}
 	}
 
@@ -565,7 +557,7 @@ void FinishedTransfers::onRemoveItems_gui(GtkMenuItem*, gpointer data)
 
 	ft->updateStatus_gui();		// Why? model won't change until after the _client call.
 }
-
+*/
 void FinishedTransfers::removeUser_gui(string target)
 {
 	GtkTreeIter iter;
@@ -605,7 +597,7 @@ void FinishedTransfers::removeFile_gui(string target)
 		valid = gtk_tree_model_iter_next(m, &iter);
 	}
 }
-
+/*
 void FinishedTransfers::onRemoveAll_gui(GtkMenuItem*, gpointer data)
 {
 	FinishedTransfers *ft = (FinishedTransfers *)data;
@@ -622,7 +614,7 @@ void FinishedTransfers::onRemoveAll_gui(GtkMenuItem*, gpointer data)
 	F0 *func = new F0(ft, &FinishedTransfers::removeAll_client);
 	WulforManager::get()->dispatchClientFunc(func);
 }
-
+*/
 void FinishedTransfers::initializeList_client()
 {
 	StringMap params;

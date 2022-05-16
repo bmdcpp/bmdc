@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2013 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011-2017 Mank, freedcpp at seznam dot cz
+ * Copyright © 2011-2018 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,18 +22,26 @@
 
 #include "publichubs.hh"
 #include "wulformanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
+
+#include <gdk/gdk.h>
+
 
 using namespace std;
 using namespace dcpp;
+
+
+const GActionEntry PublicHubs::win_entries[] = {
+    { "connect", onConnect_gui_click, NULL, NULL, NULL }};
 
 PublicHubs::PublicHubs():
 	BookEntry(Entry::PUBLIC_HUBS, _("Public Hubs"), "publichubs"),
 	hubs(0), filter("")
 {
-	// menu
-	g_object_ref_sink(getWidget("menu"));
-
+	//@TODO: non-deprecated things
+	GSimpleActionGroup* simple = g_simple_action_group_new ();
+	g_simple_action_group_add_entries(simple, win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+	gtk_widget_insert_action_group(getContainer(),"pub" ,G_ACTION_GROUP(simple));
 	// Initialize public hub list treeview
 	hubView.setView(GTK_TREE_VIEW(getWidget("hubView")), true, "publichubs");
 	hubView.insertColumn(_("Name"), G_TYPE_STRING, TreeView::PIXBUF_STRING, 200, "Pixbuf");
@@ -68,12 +76,11 @@ PublicHubs::PublicHubs():
 
 	// Initialize the hub lists combo box
 	gtk_combo_box_set_model(GTK_COMBO_BOX(getWidget("hubListBox")), GTK_TREE_MODEL(listsStore));
-
 	// Connect the signals to their callback functions.
-	g_signal_connect(getContainer(), "focus-in-event", G_CALLBACK(onFocusIn_gui), (gpointer)this);
-	g_signal_connect(getWidget("filterEntry"), "key-release-event", G_CALLBACK(onFilterHubs_gui), (gpointer)this);
+/*	g_signal_connect(getContainer(), "focus-in-event", G_CALLBACK(onFocusIn_gui), (gpointer)this);
+	g_signal_connect(getWidget("filterEntry"), "key-release-event", G_CALLBACK(onFilterHubs_gui), (gpointer)this);*/
 	g_signal_connect(getWidget("connectButton"), "clicked", G_CALLBACK(onConnect_gui), (gpointer)this);
-	g_signal_connect(getWidget("connectMenuItem"), "activate", G_CALLBACK(onConnect_gui), (gpointer)this);
+/*	g_signal_connect(getWidget("connectMenuItem"), "activate", G_CALLBACK(onConnect_gui), (gpointer)this);*/
 	g_signal_connect(getWidget("refreshButton"), "clicked", G_CALLBACK(onRefresh_gui), (gpointer)this);
 	g_signal_connect(getWidget("hubListBox"), "changed", G_CALLBACK(onRefresh_gui), (gpointer)this);
 	g_signal_connect(getWidget("configureButton"), "clicked", G_CALLBACK(onConfigure_gui), (gpointer)this);
@@ -81,18 +88,59 @@ PublicHubs::PublicHubs():
 	g_signal_connect(getWidget("downButton"), "clicked", G_CALLBACK(onMoveDown_gui), (gpointer)this);
 	g_signal_connect(getWidget("addButton"), "clicked", G_CALLBACK(onAdd_gui), (gpointer)this);
 	g_signal_connect(getWidget("removeButton"), "clicked", G_CALLBACK(onRemove_gui), (gpointer)this);
-	g_signal_connect(listsView.getCellRenderOf("List"), "edited", G_CALLBACK(onCellEdited_gui), (gpointer)this);
-	g_signal_connect(hubView.get(), "button-press-event", G_CALLBACK(onButtonPress_gui), (gpointer)this);
-	g_signal_connect(hubView.get(), "button-release-event", G_CALLBACK(onButtonRelease_gui), (gpointer)this);
-	g_signal_connect(hubView.get(), "key-release-event", G_CALLBACK(onKeyRelease_gui), (gpointer)this);
-	g_signal_connect(getWidget("favMenuItem"), "activate", G_CALLBACK(onAddFav_gui), (gpointer)this);
+//	g_signal_connect(listsView.getCellRenderOf("List"), "edited", G_CALLBACK(onCellEdited_gui), (gpointer)this);
+//	g_signal_connect(hubView.get(), "key-release-event", G_CALLBACK(onKeyRelease_gui), (gpointer)this);
+//	g_signal_connect(getWidget("favMenuItem"), "activate", G_CALLBACK(onAddFav_gui), (gpointer)this);*/
+
+/* Register for mouse right button click "pressed" and "released" events on  widget*/
+	GtkGesture *gesture;
+  gesture = gtk_gesture_click_new ();
+  gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (gesture), 3);
+  g_signal_connect (gesture, "pressed",
+                    G_CALLBACK (on_inner_widget_right_btn_pressed), (gpointer)this);
+  g_signal_connect (gesture, "released",
+                    G_CALLBACK (on_inner_widget_right_btn_released), (gpointer)this);
+  gtk_widget_add_controller (GTK_WIDGET(hubView.get()), GTK_EVENT_CONTROLLER (gesture));
+
+}
+
+
+void PublicHubs::on_inner_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
+                                   int               /* n_press*/,
+                                   double             x,
+                                   double             y,
+                                   gpointer         *data)
+{
+	PublicHubs *FH = (PublicHubs*)data;
+	g_print ("on_inner_widget_right_btn_pressed() called\n");
+
+	GMenu *menu = g_menu_new ();
+	GMenuItem* menu_item_conn = g_menu_item_new ("Connect", "pub.connect");
+	g_menu_append_item (menu, menu_item_conn);
+	g_object_unref (menu_item_conn);
+
+	GtkWidget *pop = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
+	gtk_widget_set_parent(pop, FH->getContainer());
+	gtk_popover_set_pointing_to(GTK_POPOVER(pop), &(const GdkRectangle){x,y,1,1});
+	gtk_popover_popup (GTK_POPOVER(pop));
+
+}
+
+void PublicHubs::on_inner_widget_right_btn_released (GtkGestureClick *gesture,
+                                    int              /*n_press*/,
+                                    double           /*x*/,
+                                    double           /*y*/,
+                                    GtkWidget*       /*widget*/)
+{
+  g_print ("on_inner_widget_right_btn_released() called\n");
+
+  gtk_gesture_set_state (GTK_GESTURE (gesture),
+                         GTK_EVENT_SEQUENCE_CLAIMED);
 }
 
 PublicHubs::~PublicHubs()
 {
 	FavoriteManager::getInstance()->removeListener(this);
-	gtk_widget_destroy(getWidget("configureDialog"));
-	g_object_unref(getWidget("menu"));
 }
 
 void PublicHubs::show()
@@ -174,7 +222,7 @@ void PublicHubs::setStatus_gui(string statusBar, string text)
 	gtk_statusbar_pop(GTK_STATUSBAR(getWidget(statusBar)), 0);
 	gtk_statusbar_push(GTK_STATUSBAR(getWidget(statusBar)), 0, text.c_str());
 }
-
+/*
 gboolean PublicHubs::onFocusIn_gui(GtkWidget *, GdkEventFocus *, gpointer data)
 {
 	PublicHubs *ph = (PublicHubs *)data;
@@ -183,44 +231,8 @@ gboolean PublicHubs::onFocusIn_gui(GtkWidget *, GdkEventFocus *, gpointer data)
 
 	return TRUE;
 }
-
-gboolean PublicHubs::onButtonPress_gui(GtkWidget*, GdkEventButton *event, gpointer data)
-{
-	PublicHubs *ph = (PublicHubs *)data;
-
-	if (event->type == GDK_BUTTON_PRESS || event->type == GDK_2BUTTON_PRESS)
-	{
-		ph->oldType = event->type;
-		ph->oldButton = event->button;
-	}
-
-	return FALSE;
-}
-
-gboolean PublicHubs::onButtonRelease_gui(GtkWidget*, GdkEventButton *event, gpointer data)
-{
-	PublicHubs *ph = (PublicHubs *)data;
-
-	if (ph->oldButton == event->button && gtk_tree_selection_get_selected(ph->hubSelection, NULL, NULL))
-	{
-		if (event->button == 3 && ph->oldType == GDK_BUTTON_PRESS)
-		{
-			#if GTK_CHECK_VERSION(3,22,0)
-			gtk_menu_popup_at_pointer(GTK_MENU(ph->getWidget("menu")),NULL);
-			#else
-			gtk_menu_popup(GTK_MENU(ph->getWidget("menu")), NULL, NULL, NULL, NULL, 0, event->time);
-			#endif
-			gtk_widget_show_all(ph->getWidget("menu"));
-		}
-		else if (event->button == 1 && ph->oldType == GDK_2BUTTON_PRESS)
-		{
-			ph->onConnect_gui(NULL, data);
-		}
-	}
-
-	return FALSE;
-}
-
+*/
+/*
 gboolean PublicHubs::onKeyRelease_gui(GtkWidget*, GdkEventKey *event, gpointer data)
 {
 	PublicHubs *ph = (PublicHubs *)data;
@@ -244,11 +256,12 @@ gboolean PublicHubs::onKeyRelease_gui(GtkWidget*, GdkEventKey *event, gpointer d
 
 	return FALSE;
 }
-
+*/
+/*
 gboolean PublicHubs::onFilterHubs_gui(GtkWidget*, GdkEventKey*, gpointer data)
 {
 	PublicHubs *ph = (PublicHubs *)data;
-	StringSearch pattern(gtk_entry_get_text(GTK_ENTRY(ph->getWidget("filterEntry"))));
+	StringSearch pattern(gtk_editable_get_text(GTK_EDITABLE(ph->getWidget("filterEntry"))));
 
 	if (!(pattern == ph->filter))
 	{
@@ -258,6 +271,20 @@ gboolean PublicHubs::onFilterHubs_gui(GtkWidget*, GdkEventKey*, gpointer data)
 
 	return FALSE;
 }
+*/
+/*
+void PublicHubs::pressed_cb (GtkGestureClick *gesture,
+            guint            n_press,
+            double           x,
+            double           y,
+            gpointer     *self)
+{
+	PublicHubs* pb = (PublicHubs*)self;
+  gtk_popover_set_pointing_to (GTK_POPOVER (pb->mmenu),
+                               &(const GdkRectangle){ x, y, 1, 1 });
+  gtk_popover_popup (GTK_POPOVER (pb->mmenu));
+}
+*/
 
 void PublicHubs::onConnect_gui(GtkWidget*, gpointer data)
 {
@@ -280,7 +307,7 @@ void PublicHubs::onRefresh_gui(GtkWidget*, gpointer data)
 	F1 *func = new F1(ph, &PublicHubs::refresh_client, pos);
 	WulforManager::get()->dispatchClientFunc(func);
 }
-
+/*
 void PublicHubs::onAddFav_gui(GtkMenuItem*, gpointer data)
 {
 	PublicHubs *ph = (PublicHubs *)data;
@@ -305,7 +332,7 @@ void PublicHubs::onAddFav_gui(GtkMenuItem*, gpointer data)
 		WulforManager::get()->dispatchClientFunc(func);
 	}
 }
-
+*/
 void PublicHubs::onConfigure_gui(GtkWidget*, gpointer data)
 {
 	PublicHubs *ph = (PublicHubs *)data;
@@ -317,15 +344,15 @@ void PublicHubs::onConfigure_gui(GtkWidget*, gpointer data)
 		active = string(temp);
 		g_free(temp);
 	}
-	gint response = gtk_dialog_run(GTK_DIALOG(ph->getWidget("configureDialog")));
+//	gint response = gtk_dialog_run(GTK_DIALOG(ph->getWidget("configureDialog")));
 
 	// Fix crash, if the dialog gets programmatically destroyed.
-	if (response == GTK_RESPONSE_NONE)
-		return;
+//	if (response == GTK_RESPONSE_NONE)
+//		return;
 
 	gtk_widget_hide(ph->getWidget("configureDialog"));
 
-	if (response == GTK_RESPONSE_OK)
+//	if (response == GTK_RESPONSE_OK)
 	{
 		string lists, url;
 		GtkTreeIter iter;

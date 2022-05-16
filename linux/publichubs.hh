@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011-2017 Mank, freedcpp at seznam dot cz
+ * Copyright © 2011-2018 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,20 +47,30 @@ class PublicHubs:
 		void setStatus_gui(std::string statusBar, std::string text);
 
 		// GUI callbacks
-		static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);
-		static gboolean onButtonPress_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean onButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean onKeyRelease_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
-		static gboolean onFilterHubs_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+/*		static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);*/
+/*		static gboolean onKeyRelease_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+		static gboolean onFilterHubs_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);*/
+		static void onConnect_gui_click(GtkWidget* wid, GVariant* , gpointer data)
+		{ onConnect_gui(wid , data);}
 		static void onConnect_gui(GtkWidget *widget, gpointer data);
 		static void onRefresh_gui(GtkWidget *widget, gpointer data);
-		static void onAddFav_gui(GtkMenuItem *item, gpointer data);
+//		static void onAddFav_gui(GtkMenuItem *item, gpointer data);
 		static void onConfigure_gui(GtkWidget *widget, gpointer data);
 		static void onAdd_gui(GtkWidget *widget, gpointer data);
 		static void onMoveUp_gui(GtkWidget *widget, gpointer data);
 		static void onMoveDown_gui(GtkWidget *widget, gpointer data);
 		static void onRemove_gui(GtkWidget *widget, gpointer data);
 		static void onCellEdited_gui(GtkCellRendererText *cell, char *path, char *text, gpointer data);
+
+		static void on_inner_widget_right_btn_pressed (GtkGestureClick *gesture, int       n_press,
+                                   double             x,
+                                   double             y,
+                                   gpointer         *data);
+
+		static void on_inner_widget_right_btn_released (GtkGestureClick *gesture,int       n_press,
+                                    double           x,
+                                    double           y,
+                                    GtkWidget       *widget);
 
 		// Client functions
 		void downloadList_client();
@@ -78,6 +88,9 @@ class PublicHubs:
 		GtkTreeSelection *hubSelection, *listsSelection;
 		GtkListStore *hubStore, *listsStore;
 		guint oldButton, oldType;
+		GtkWidget* mmenu;
+
+		static const GActionEntry win_entries[];
 };
 
 #else

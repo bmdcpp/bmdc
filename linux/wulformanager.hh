@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2017 BMDC++
+ * Copyright © 2010-2023 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@
 #include "dialogentry.hh"
 #include "func.hh"
 #include "mainwindow.hh"
-// @because GtkFactory -> GtkIconTheme and stock -> icon_name
+
 #include "gtk-fixies.hh"
 
 class WulforManager
@@ -61,7 +61,7 @@ class WulforManager
 		DialogEntry *getSettingsDialog_gui();
 
 		void onReceived_gui(const std::string& link);
-
+        GApplication* getApplication() { return application;}
 	private:
 		// argv[1] from main
 		static std::string argv1;
@@ -77,6 +77,7 @@ class WulforManager
 		std::string path;
 		std::unordered_map<std::string, Entry *> entries;
 		GRWLock entryMutex;
+        GApplication *application;
 
 };
 

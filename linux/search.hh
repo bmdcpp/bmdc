@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2017 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2018 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,8 +30,6 @@
 #include "../dcpp/format.h"
 #include "bookentry.hh"
 #include "treeview.hh"
-
-//##define _(String) String
 
 class UserCommandMenu;
 
@@ -83,11 +81,11 @@ class Search:
 		void columnHeader(int num, std::string name);
 
 		// GUI callbacks
-		static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);
-		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
-		static gboolean onSearchEntryKeyPressed_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+//		static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);
+//		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+//		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+//		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+//		static gboolean onSearchEntryKeyPressed_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static gboolean searchFilterFunc_gui(GtkTreeModel *model, GtkTreeIter *iter, gpointer data);
 		static void onComboBoxChanged_gui(GtkWidget *widget, gpointer data);
 		static void onGroupByComboBoxChanged_gui(GtkWidget* widget, gpointer data);
@@ -96,22 +94,22 @@ class Search:
 		static void onSlotsButtonToggled_gui(GtkToggleButton *button, gpointer data);
 		static void onSharedButtonToggled_gui(GtkToggleButton *button, gpointer data);
 		static void onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
-		static void onDownloadClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onDownloadFavoriteClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onDownloadToClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onDownloadToMatchClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onDownloadDirClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onDownloadFavoriteDirClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onDownloadDirToClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onSearchByTTHClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onCopyMagnetClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onGetFileListClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onMatchQueueClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onPrivateMessageClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onAddFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onGrantExtraSlotClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onRemoveUserFromQueueClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onRemoveClicked_gui(GtkMenuItem *item, gpointer data);
+//		static void onDownloadClicked_gui(GtkMenuItem *item, gpointer data);
+//		static void onDownloadFavoriteClicked_gui(GtkMenuItem *item, gpointer data);
+//		static void onDownloadToClicked_gui(GtkMenuItem *item, gpointer data);
+//		static void onDownloadToMatchClicked_gui(GtkMenuItem *item, gpointer data);
+//		static void onDownloadDirClicked_gui(GtkMenuItem *item, gpointer data);
+//		static void onDownloadFavoriteDirClicked_gui(GtkMenuItem *item, gpointer data);
+//		static void onDownloadDirToClicked_gui(GtkMenuItem *item, gpointer data);
+//		static void onSearchByTTHClicked_gui(GtkMenuItem *item, gpointer data);
+//		static void onCopyMagnetClicked_gui(GtkMenuItem *item, gpointer data);
+//		static void onGetFileListClicked_gui(GtkMenuItem *item, gpointer data);
+//		static void onMatchQueueClicked_gui(GtkMenuItem *item, gpointer data);
+//		static void onPrivateMessageClicked_gui(GtkMenuItem *item, gpointer data);
+//		static void onAddFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data);
+//		static void onGrantExtraSlotClicked_gui(GtkMenuItem *item, gpointer data);
+//		static void onRemoveUserFromQueueClicked_gui(GtkMenuItem *item, gpointer data);
+//		static void onRemoveClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onCheckOp_gui(GtkToggleButton *button, gpointer data);
 		static gboolean on_match_select_entry(GtkEntryCompletion *widget,GtkTreeModel *model, GtkTreeIter *iter, gpointer data);
 		static gboolean onResultView_gui(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer data);
@@ -133,10 +131,10 @@ class Search:
 		void removeSource_client(std::string cid);
 
 		// Client callbacks
-		virtual void on(dcpp::ClientManagerListener::ClientConnected, dcpp::Client *client) throw();
-	 	virtual void on(dcpp::ClientManagerListener::ClientUpdated, dcpp::Client *client) throw();
-		virtual void on(dcpp::ClientManagerListener::ClientDisconnected, dcpp::Client *client) throw();
-		virtual void on(dcpp::SearchManagerListener::SR, const dcpp::SearchResultPtr &result) throw();
+		virtual void on(dcpp::ClientManagerListener::ClientConnected, dcpp::Client *client) noexcept;
+	 	virtual void on(dcpp::ClientManagerListener::ClientUpdated, dcpp::Client *client) noexcept;
+		virtual void on(dcpp::ClientManagerListener::ClientDisconnected, dcpp::Client *client) noexcept;
+		virtual void on(dcpp::SearchManagerListener::SR, const dcpp::SearchResultPtr &result) noexcept;
 
 		TreeView hubView, resultView;
 		GtkListStore *hubStore;
@@ -159,7 +157,7 @@ class Search:
 		bool isMenuCreated;
 		GtkWidget* menu;	
 		public:
-			GtkWidget *createmenu();
+			GMenu *createmenu() override;
 		private:
 			static void onCloseItem(gpointer data);
 			static void onAddItem(gpointer data);

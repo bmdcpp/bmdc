@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2017 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2017 BMDC
+ * Copyright © 2018 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 #include "SearchEntry.hh"
 #include "settingsmanager.hh"
 #include "wulformanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 
 using namespace std;
 using namespace dcpp;
@@ -41,17 +41,17 @@ DownloadQueue::DownloadQueue():
 	// Configure the dialogs
 	File::ensureDirectory(SETTING(DOWNLOAD_DIRECTORY));//@ Possible unneeded?
 	
-	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(getWidget("dirChooserDialog")), Text::fromUtf8(SETTING(DOWNLOAD_DIRECTORY)).c_str());
+	//gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(getWidget("dirChooserDialog")), Text::fromUtf8(SETTING(DOWNLOAD_DIRECTORY)).c_str());
 	// menu
-	g_object_ref_sink(getWidget("dirMenu"));
-	g_object_ref_sink(getWidget("fileMenu"));
+	//g_object_ref_sink(getWidget("dirMenu"));
+	//g_object_ref_sink(getWidget("fileMenu"));
 
 	// Initialize directory treeview
 	dirView.setView(GTK_TREE_VIEW(getWidget("dirView")));
-	dirView.insertColumn("Dir", G_TYPE_STRING, TreeView::ICON_STRING, -1, "Icon");
+	dirView.insertColumn("Dir", G_TYPE_STRING, TreeView::PIXBUF_STRING, -1, "Icon");
 	dirView.insertHiddenColumn("Path", G_TYPE_STRING);
 	dirView.insertHiddenColumn("File Count", G_TYPE_INT);
-	dirView.insertHiddenColumn("Icon", G_TYPE_STRING);
+	dirView.insertHiddenColumn("Icon", GDK_TYPE_PIXBUF);
 	dirView.finalize();
 	dirStore = gtk_tree_store_newv(dirView.getColCount(), dirView.getGTypes());
 	gtk_tree_view_set_model(dirView.get(), GTK_TREE_MODEL(dirStore));
@@ -90,7 +90,7 @@ DownloadQueue::DownloadQueue():
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(fileView.get(), fileView.col(_("Filename"))), TRUE);
 
 	// Connect the signals to their callback functions.
-	g_signal_connect(getWidget("pausedPriorityItem"), "activate", G_CALLBACK(onDirPriorityClicked_gui), (gpointer)this);
+	/*g_signal_connect(getWidget("pausedPriorityItem"), "activate", G_CALLBACK(onDirPriorityClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("lowestPriorityItem"), "activate", G_CALLBACK(onDirPriorityClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("lowPrioritytem"), "activate", G_CALLBACK(onDirPriorityClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("normalPriorityItem"), "activate", G_CALLBACK(onDirPriorityClicked_gui), (gpointer)this);
@@ -114,7 +114,7 @@ DownloadQueue::DownloadQueue():
 	g_signal_connect(fileView.get(), "button-press-event", G_CALLBACK(onFileButtonPressed_gui), (gpointer)this);
 	g_signal_connect(fileView.get(), "button-release-event", G_CALLBACK(onFileButtonReleased_gui), (gpointer)this);
 	g_signal_connect(fileView.get(), "key-release-event", G_CALLBACK(onFileKeyReleased_gui), (gpointer)this);
-
+*/
 	// Set the pane position
 	gtk_paned_set_position(GTK_PANED(getWidget("pane")), WGETI("downloadqueue-pane-position"));
 	int panePosition = WGETI("downloadqueue-pane-position");
@@ -131,9 +131,9 @@ DownloadQueue::~DownloadQueue()
 	if (panePosition > 10)
 		WSET("downloadqueue-pane-position", panePosition);
 
-	gtk_widget_destroy(getWidget("dirChooserDialog"));
-	g_object_unref(getWidget("dirMenu"));
-	g_object_unref(getWidget("fileMenu"));
+//	gtk_widget_destroy(getWidget("dirChooserDialog"));
+//	g_object_unref(getWidget("dirMenu"));
+//	g_object_unref(getWidget("fileMenu"));
 }
 
 void DownloadQueue::show()
@@ -144,7 +144,7 @@ void DownloadQueue::show()
 
 void DownloadQueue::buildDynamicMenu_gui()
 {
-	bool showMenus = false;
+/*	bool showMenus = false;
 	bool showReAddMenu = false;
 	int count = gtk_tree_selection_count_selected_rows(fileSelection);
 
@@ -154,11 +154,11 @@ void DownloadQueue::buildDynamicMenu_gui()
 		GList *list = gtk_tree_selection_get_selected_rows(fileSelection, NULL);
 		GtkTreePath *path = (GtkTreePath *)g_list_nth_data(list, 0);
 
-		gtk_container_foreach(GTK_CONTAINER(getWidget("browseMenu")), (GtkCallback)gtk_widget_destroy, NULL);
-		gtk_container_foreach(GTK_CONTAINER(getWidget("pmMenu")), (GtkCallback)gtk_widget_destroy, NULL);
-		gtk_container_foreach(GTK_CONTAINER(getWidget("reAddMenu")), (GtkCallback)gtk_widget_destroy, NULL);
-		gtk_container_foreach(GTK_CONTAINER(getWidget("removeMenu")), (GtkCallback)gtk_widget_destroy, NULL);
-		gtk_container_foreach(GTK_CONTAINER(getWidget("removeAllMenu")), (GtkCallback)gtk_widget_destroy, NULL);
+		//gtk_container_foreach(GTK_CONTAINER(getWidget("browseMenu")), (GtkCallback)gtk_widget_destroy, NULL);
+		//gtk_container_foreach(GTK_CONTAINER(getWidget("pmMenu")), (GtkCallback)gtk_widget_destroy, NULL);
+		//gtk_container_foreach(GTK_CONTAINER(getWidget("reAddMenu")), (GtkCallback)gtk_widget_destroy, NULL);
+		//gtk_container_foreach(GTK_CONTAINER(getWidget("removeMenu")), (GtkCallback)gtk_widget_destroy, NULL);
+		//gtk_container_foreach(GTK_CONTAINER(getWidget("removeAllMenu")), (GtkCallback)gtk_widget_destroy, NULL);
 
 		if (gtk_tree_model_get_iter(GTK_TREE_MODEL(fileStore), &iter, path))
 		{
@@ -216,7 +216,7 @@ void DownloadQueue::buildDynamicMenu_gui()
 	gtk_widget_set_sensitive(getWidget("sendPrivateMessageItem"), showMenus);
 	gtk_widget_set_sensitive(getWidget("removeSourceItem"), showMenus);
 	gtk_widget_set_sensitive(getWidget("removeUserFromQueueItem"), showMenus);
-	gtk_widget_set_sensitive(getWidget("reAddSourceItem"), showReAddMenu);
+	gtk_widget_set_sensitive(getWidget("reAddSourceItem"), showReAddMenu);*/
 }
 
 void DownloadQueue::setStatus_gui(string text, string statusItem)
@@ -286,7 +286,7 @@ void DownloadQueue::addFile_gui(StringMap params, bool updateDirs)
 			fileView.col(_("Added")), params["Added"].c_str(),
 			fileView.col("TTH"), params["TTH"].c_str(),
 			fileView.col("Target"), params["Target"].c_str(),
-			fileView.col("Icon"), /*"bmdc-file"*/WulforUtil::loadIconShare(Util::getFileExt(params["Filename"])),
+			fileView.col("Icon"), WulforUtil::loadIconShare(Util::getFileExt(params["Filename"])),
 			-1);
 
 		if (SETTING(BOLD_QUEUE))
@@ -306,7 +306,7 @@ void DownloadQueue::addFile_gui(StringMap params, bool updateDirs)
 				dirView.col("Dir"), "/",
 				dirView.col("Path"), "/",
 				dirView.col("File Count"), 0,
-				dirView.col("Icon"), "bmdc-directory",
+				dirView.col("Icon"), WulforUtil::loadIconShare("directory"),
 				-1);
 		}
 
@@ -350,7 +350,7 @@ void DownloadQueue::addDir_gui(const string &path, GtkTreeIter *parent)
 		dirView.col("Dir"), dir.c_str(),
 		dirView.col("Path"), fullpath.c_str(),
 		dirView.col("File Count"), 0,
-		dirView.col("Icon"), "bmdc-directory",
+		dirView.col("Icon"), WulforUtil::loadIconShare("directory"),
 		-1);
 
 	GtkTreePath *treePath = gtk_tree_model_get_path(GTK_TREE_MODEL(dirStore), parent);
@@ -500,7 +500,7 @@ void DownloadQueue::sendMessage_gui(string cid)
 	if (!cid.empty())
 		WulforManager::get()->getMainWindow()->addPrivateMessage_gui(Msg::UNKNOWN, cid);
 }
-
+/*
 gboolean DownloadQueue::onDirButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	DownloadQueue *dq = reinterpret_cast<DownloadQueue *>(data);
@@ -522,13 +522,7 @@ gboolean DownloadQueue::onDirButtonReleased_gui(GtkWidget*, GdkEventButton *even
 		else if (event->button == 3)
 		{
 			dq->updateFileView_gui();
-
-			#if GTK_CHECK_VERSION(3,22,0)
 				gtk_menu_popup_at_pointer(GTK_MENU(dq->getWidget("dirMenu")),NULL);
-			#else
-			gtk_menu_popup(GTK_MENU(dq->getWidget("dirMenu")), NULL, NULL,
-				NULL, NULL, 0, gtk_get_current_event_time());
-			#endif
 		}
 	}
 
@@ -548,12 +542,7 @@ gboolean DownloadQueue::onDirKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpo
 		}
 		else if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
-			#if GTK_CHECK_VERSION(3,22,0)
-				gtk_menu_popup_at_pointer(GTK_MENU(dq->getWidget("dirMenu")),NULL);
-			#else
-			gtk_menu_popup(GTK_MENU(dq->getWidget("dirMenu")), NULL, NULL,
-				NULL, NULL, 0, gtk_get_current_event_time());
-			#endif
+			gtk_menu_popup_at_pointer(GTK_MENU(dq->getWidget("dirMenu")),NULL);
 		}
 		else if (event->keyval == GDK_KEY_Up || event->keyval == GDK_KEY_Down)
 		{
@@ -600,13 +589,8 @@ gboolean DownloadQueue::onFileButtonReleased_gui(GtkWidget*, GdkEventButton *eve
 	{
 		if (gtk_tree_selection_count_selected_rows(dq->fileSelection) > 0)
 		{
-			dq->buildDynamicMenu_gui();
-			#if GTK_CHECK_VERSION(3,22,0)
-				gtk_menu_popup_at_pointer(GTK_MENU(dq->getWidget("fileMenu")),NULL);
-			#else
-			gtk_menu_popup(GTK_MENU(dq->getWidget("fileMenu")), NULL, NULL,
-				NULL, NULL, 0, gtk_get_current_event_time());
-			#endif
+		//	dq->buildDynamicMenu_gui();
+		//	gtk_menu_popup_at_pointer(GTK_MENU(dq->getWidget("fileMenu")),NULL);
 			return TRUE;
 		}
 	}
@@ -626,13 +610,8 @@ gboolean DownloadQueue::onFileKeyReleased_gui(GtkWidget* , GdkEventKey *event, g
 		}
 		else if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
-			dq->buildDynamicMenu_gui();
-			#if GTK_CHECK_VERSION(3,22,0)
-				gtk_menu_popup_at_pointer(GTK_MENU(dq->getWidget("fileMenu")),NULL);
-			#else
-			gtk_menu_popup(GTK_MENU(dq->getWidget("fileMenu")), NULL, NULL,
-				NULL, NULL, 0, gtk_get_current_event_time());
-			#endif
+		//	dq->buildDynamicMenu_gui();
+		//	gtk_menu_popup_at_pointer(GTK_MENU(dq->getWidget("fileMenu")),NULL);
 		}
 	}
 
@@ -1061,7 +1040,7 @@ void DownloadQueue::onFileRemoveClicked_gui(GtkMenuItem*, gpointer data)
 	}
 	g_list_free(list);
 }
-
+*/
 void DownloadQueue::addQueueList(const QueueItem::StringMap &ll)
 {
 	StringMap params;

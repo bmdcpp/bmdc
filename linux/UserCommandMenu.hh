@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2017 BMDC
+ * Copyright © 2010-2018 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,13 +29,13 @@
 #include "../dcpp/typedefs.h"
 #include "entry.hh"
 
-class UserCommandMenu : public Entry
+class UserCommandMenu //: public Entry
 {
 	public:
-		UserCommandMenu(GtkWidget *userCommandMenu, int ctx);
+		UserCommandMenu(GMenu *userCommandMenu, int ctx);
 		virtual ~UserCommandMenu() {}
 
-		GtkWidget *getContainer() { return userCommandMenu; }
+		//GtkWidget *getContainer() { return userCommandMenu; }
 		void addHub(const std::string hub);
 		void addHub(const dcpp::StringList hubs2);
 		void addUser(const std::string cid);
@@ -50,12 +50,12 @@ class UserCommandMenu : public Entry
 		void createSubMenu_gui(GtkWidget *&menu, std::string &command);
 
 		// GUI callbacks
-		static void onUserCommandClick_gui(GtkMenuItem *item, gpointer data);
+		static void onUserCommandClick_gui(GMenu *item,GVariant*, gpointer data);
 
 		// Client functions
 		void sendUserCommand_client(std::string cid, std::string commandName, std::string hub, dcpp::ParamMap params);
 
-		GtkWidget *userCommandMenu;
+		GMenu *userCommandMenu;
 		int ctx;
 		dcpp::StringList hubs;
  		struct UCParam
@@ -68,6 +68,8 @@ class UserCommandMenu : public Entry
  		};
  		std::vector<UCParam> ucParams;
  		std::vector<std::string> ips;
+
+ 		static const GActionEntry uc[];
 
 };
 

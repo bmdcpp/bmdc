@@ -1,5 +1,4 @@
 /*
- * Copyright © 2010-2017 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +17,7 @@
  * In addition, as a special exception, compiling, linking, and/or
  * using OpenSSL with this program is allowed.
  */
+ 
 #ifdef HAVE_LIBTAR
 
 #ifndef _EXPORT_DIALOG_HH

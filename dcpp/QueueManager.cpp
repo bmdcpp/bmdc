@@ -477,7 +477,8 @@ nextSearch(0)
 {
 	TimerManager::getInstance()->addListener(this);
 	SearchManager::getInstance()->addListener(this);
-	ClientManager::getInstance()->addListener(this);
+	//ClientManager::getInstance()->addListener(this);
+    UsersManager::getInstance()->addListener(this);
 
 	File::ensureDirectory(Util::getListPath());
 }
@@ -485,8 +486,8 @@ nextSearch(0)
 QueueManager::~QueueManager() {
 	SearchManager::getInstance()->removeListener(this);
 	TimerManager::getInstance()->removeListener(this);
-	ClientManager::getInstance()->removeListener(this);
-
+	//ClientManager::getInstance()->removeListener(this);
+    UsersManager::getInstance()->removeListener(this);
 	saveQueue();
 
 	if(!SETTING(KEEP_LISTS)) {
@@ -1703,7 +1704,7 @@ void QueueManager::on(SearchManagerListener::SR, const SearchResultPtr& sr) noex
 }
 
 // ClientManagerListener
-void QueueManager::on(ClientManagerListener::UserConnected, const UserPtr& aUser) noexcept {
+void QueueManager::on(UsersManagerListener::UserConnected, const UserPtr& aUser) noexcept {
 	bool hasDown = false;
 	{
 		Lock l(cs);
@@ -1724,7 +1725,7 @@ void QueueManager::on(ClientManagerListener::UserConnected, const UserPtr& aUser
 	}
 }
 
-void QueueManager::on(ClientManagerListener::UserDisconnected, const UserPtr& aUser) noexcept {
+void QueueManager::on(UsersManagerListener::UserDisconnected, const UserPtr& aUser) noexcept {
 	bool hasTestSURinQueue = false;
 	Lock l(cs);
 	for(int i = 0; i < QueueItem::LAST; ++i) {

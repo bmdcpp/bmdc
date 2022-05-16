@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011-2017 BMDC++
+ * Copyright © 2011-2018 BMDC++
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -77,21 +77,22 @@ class Transfers:
 		void playSound_gui(Sound::TypeSound sound);
 
 		// GUI callbacks
-		static gboolean onTransferButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean onTransferButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static void onGetFileListClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onMatchQueueClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onPrivateMessageClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onAddFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onGrantExtraSlotClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onRemoveUserFromQueueClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onForceAttemptClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onCloseConnectionClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onSearchAlternateClicked_gui(GtkMenuItem *item, gpointer data);
+		//static gboolean onTransferButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		//static gboolean onTransferButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		//static void onGetFileListClicked_gui(GtkMenuItem *item, gpointer data);
+		//static void onMatchQueueClicked_gui(GtkMenuItem *item, gpointer data);
+		//static void onPrivateMessageClicked_gui(GtkMenuItem *item, gpointer data);
+		//static void onAddFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data);
+		//static void onGrantExtraSlotClicked_gui(GtkMenuItem *item, gpointer data);
+		//static void onRemoveUserFromQueueClicked_gui(GtkMenuItem *item, gpointer data);
+		//static void onForceAttemptClicked_gui(GtkMenuItem *item, gpointer data);
+		//static void onCloseConnectionClicked_gui(GtkMenuItem *item, gpointer data);
+		//static void onSearchAlternateClicked_gui(GtkMenuItem *item, gpointer data);
 
 		// Client functions
 		void getParams_client(dcpp::StringMap& params, dcpp::ConnectionQueueItem* cqi);
-		void getParams_client(dcpp::StringMap& params, dcpp::Transfer* transfer);
+        // down = dowload , false mean upload
+		void getParams_client(dcpp::StringMap& params, dcpp::Transfer* transfer , bool down = true);
 		void getFileList_client(std::string cid, std::string hubUrl);
 		void matchQueue_client(std::string cid, std::string hubUrl);
 		void addFavoriteUser_client(std::string cid);

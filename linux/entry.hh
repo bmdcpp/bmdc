@@ -1,5 +1,5 @@
 /*
- * Copyright © 2004-2017 Jens Oknelid, paskharen@gmail.com
+ * Copyright © 2004-2021 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -76,8 +76,8 @@ class Entry
 
 	protected:
 		std::string generateID();
-		GtkWidget *getWidget(const std::string &name);
-		GtkWidget *getWidget(std::string* name);
+		GtkWidget *getWidget(const std::string& name);
+
 		void addChild(Entry *entry);
 		Entry *getChild(const EntryType childType, const std::string &childId);
 		void removeChild(const EntryType childType, const std::string &childId);
@@ -89,6 +89,8 @@ class Entry
 		const EntryType type;
 		std::string id;
 		std::unordered_map<std::string, Entry *> children;
+	public:
+		GSettings *sett;
 };
 
 #else

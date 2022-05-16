@@ -1,5 +1,5 @@
 /*
- * Copyright © 2010-2017 BMDC
+ * Copyright © 2010-2021 BMDC
  * Copyright © 2010-2011 Eugene Petrov <dhamp@ya.ru>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 
 #include "cmddebug.hh"
 #include "wulformanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include "settingsmanager.hh"
 #include "../dcpp/DebugManager.h"
 

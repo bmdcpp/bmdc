@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2018 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -661,14 +661,14 @@ void Socket::writeTo(const string& aAddr, const uint16_t& aPort, const void* aBu
 	if(aLen <= 0)
 		return;
 
-	if(aAddr.empty()) {
+	if(aAddr.empty() || aPort == 0) {
 		throw SocketException(EADDRNOTAVAIL);
 	}
 
 	auto buf = (const uint8_t*)aBuffer;
 
 	int sent;
-	if(proxy && CONNSETTING(OUTGOING_CONNECTIONS) == SettingsManager::OUTGOING_SOCKS5) {
+	if(/*proxy && */CONNSETTING(OUTGOING_CONNECTIONS) == SettingsManager::OUTGOING_SOCKS5) {
 		if( ((struct sockaddr*)&udpAddr)->sa_family == 0) {
 			throw SocketException(_("Failed to set up the socks server for UDP relay (check socks address and port)"));
 		}
@@ -709,7 +709,7 @@ void Socket::writeTo(const string& aAddr, const uint16_t& aPort, const void* aBu
 			create(*ai);
 		}
 		sent = check([&] { return ::sendto(ai->ai_family == AF_INET ? sock4 : sock6,
-			(const char*)aBuffer, (int)aLen, 0, ai->ai_addr, ai->ai_addrlen); });
+			(const char*)aBuffer, (int)aLen, 0, (struct sockaddr*)ai->ai_addr, ai->ai_addrlen); });
 	}
 
 	stats.totalUp += sent;
@@ -846,7 +846,7 @@ Socket::addrinfo_p Socket::resolveAddr(const string& name, const uint16_t& port,
 	hints.ai_socktype = type == TYPE_TCP ? SOCK_STREAM : SOCK_DGRAM;
 	hints.ai_protocol = type;
 
-	addrinfo *result = 0;
+	addrinfo *result = nullptr;
 
 	auto err = ::getaddrinfo(name.c_str(), Util::toString(port).c_str(), &hints, &result);
 	if(err) {

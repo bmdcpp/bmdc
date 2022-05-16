@@ -95,8 +95,9 @@ public:
 
 	void onRES(const AdcCommand& cmd, const UserPtr& from, const string& removeIp = Util::emptyString);
 
-	int64_t timeToSearch() {
-		return 5 - (static_cast<int64_t>(GET_TICK() - lastSearch) / 1000);
+	int32_t timeToSearch() {
+		//return 5 - (static_cast<uint64_t>(GET_TICK() - lastSearch) / 1000);
+        return (int32_t)((((int64_t)(lastSearch + 10000)) - (int64_t)GET_TICK() ) / 1000);
 	}
 
 	bool okToSearch() {

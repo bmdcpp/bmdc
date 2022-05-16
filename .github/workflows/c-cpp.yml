@@ -1,0 +1,22 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Update repository metadata
+      run: 
+        sudo apt-get update  
+    - name: Install Dependencies
+      run: sudo apt install scons libbz2-dev zlib1g-dev libgtk-4-dev libssl-dev libcanberra-dev libnotify-dev libgeoip-dev libmaxminddb-dev libtar-dev libxss-dev gettext make gcc g++
+    - name: make
+      run: scons

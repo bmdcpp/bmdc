@@ -111,7 +111,7 @@ public:
 
 	void nmdcConnect(const string& aServer, const uint16_t& aPort, const string& aMyNick, const string& hubUrl, const string& encoding);
 	void adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& aToken, bool secure);
-	void adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const string& localPort, BufferedSocket::NatRoles natRole, const string& aToken, bool secure);
+	void adcConnect(const OnlineUser& aUser, const uint16_t& aPort, const uint16_t& localPort, BufferedSocket::NatRoles natRole, const string& aToken, bool secure);
 
 	void getDownloadConnection(const HintedUser& aUser);
 	void force(const UserPtr& aUser);
@@ -194,7 +194,7 @@ private:
 	bool checkKeyprint(UserConnection *aSource);
 	
 	/*https://bugs.launchpad.net/dcplusplus/+bug/1419478*/
-	bool checkCTM2HUB(const string& aServer, const string& aPort, const string& aHubUrl);
+	bool checkCTM2HUB(const string& aServer, const uint16_t& aPort, const string& aHubUrl);
 
 	void failed(UserConnection* aSource, const string& aError, bool protocolError);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2010-2017 BMDC++
+ * Copyright © 2010-2021 BMDC
  * Copyright © 2010-2011 Eugene Petrov <dhamp@ya.ru>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -130,13 +130,20 @@ class cmddebug:
 		}
 		
 		switch(dir){
-			case dcpp::DebugManager::INCOMING:{
-					if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget(hub ? "hub_in_button" : "client_in_button"))) == TRUE)
-							tmp+="\t\tIncoming: "; break;
-				}			
+			case dcpp::DebugManager::INCOMING:
+			{
+				if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget(hub ? "hub_in_button" : "client_in_button"))) == TRUE)
+				{	
+					tmp+="\t\tIncoming: ";
+				}
+				break;
+			}			
 			case dcpp::DebugManager::OUTGOING: {
 					if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(getWidget(hub ? "hub_out_button": "client_out_button"))) == TRUE)
-							tmp+="\t\tOutcoming: "; break;
+					{	
+							tmp+="\t\tOutcoming: ";
+					}
+					break;		
 			}				
 			default:break;
 		}

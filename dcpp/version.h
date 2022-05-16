@@ -18,12 +18,12 @@
 
 #define APPNAME "BMDC++"
 
-#define VERSIONSTRING "0.1.7"
+#define VERSIONSTRING "0.1.20"
 #define VERSIONFLOAT 0.851
 //This does rep nothing
 #ifndef DCPP_REVISION
 	#define DCPP_REVISION 2972
-	#define DCPP_REVISION_STRING "2972"
+	#define DCPP_REVISION_STRING ""
 #endif
 #ifndef BMDC_REVISION
 	#ifdef BZR_REVISION
@@ -36,11 +36,9 @@
 	#ifdef  BZR_REVISION_STRING
 		#define BMDC_REVISION_STRING BZR_REVISION_STRING
 	#else
-		#define BMDC_REVISION_STRING "1.0.0"
+		#define BMDC_REVISION_STRING "0.1.20"
 	#endif	
 #endif
-#define xstrver(s) strver(s)
-#define strver(s) #s
 
 namespace dcpp {
 extern const string fullVersionString;

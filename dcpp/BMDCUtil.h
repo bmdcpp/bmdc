@@ -22,14 +22,10 @@ namespace dcpp {
 class bmUtil {
 public:
 	static void		init();
-	//static void		uinit();
 	static bool		checkVersion(const string& tag);
-/*	static string			toIP(const uint32_t ipnum);*/
 	static uint32_t			toIpNumber(const string& aIp);
-/*	static uint32_t			getUpperRange(const string& aRange);
-	static uint32_t			getLowerRange(const string& aRange);
-*/
 	static void generateTestSURString();
+
 	static const string&	getTestSURString();
 	static bool isIpInRange(const string& aIp, const string& aRange);
 

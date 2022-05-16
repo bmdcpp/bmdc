@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2017 BMDC, freedcpp on seznam point cz
+ * Copyright (C) BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,6 +54,7 @@ class AVManager: public Singleton<AVManager>, private TimerManagerListener
 		void addItemIp(const string& ip, const AVEntry& entry);
 		AVEntry getEntryByNick(string nick) { Lock l(cs); return entries.find(Text::toLower(nick))->second; }
 		AVEntry getEntryByIP(string ip) { Lock l(cs); return entip.find(ip)->second; }
+	//protected:	
 		std::map<string /*nick*/,AVEntry> entries;
 		std::map<string /*ip*/,AVEntry> entip;
 		//@ <nick>|<ip>|<share>|<time>\n

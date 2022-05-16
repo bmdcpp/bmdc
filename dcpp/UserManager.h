@@ -14,21 +14,41 @@
 // MA 02110-1301, USA.
 // 
 
-
 #ifndef USER_MANAGER
 #define USER_MANAGER
 #include "format.h"
 #include "Singleton.h"
+#include "Speaker.h"
 #include "ConnectionManager.h"
+#include "Client.h"
+#include <unordered_map>
+#include <unordered_set>
 
 namespace dcpp
 {
+    
+class UsersManagerListener
+{   
+    public:
+	virtual ~UsersManagerListener() { }
+	template<int I>	struct X { enum { TYPE = I }; };
 
-class UsersManager: public Singleton<UsersManager>
+	typedef X<0> UserConnected;
+	typedef X<1> UserUpdated;
+	typedef X<2> UserDisconnected;
+
+	/** User online in at least one hub */
+	virtual void on(UserConnected, const UserPtr&) noexcept { }
+	virtual void on(UserUpdated, const OnlineUser&) noexcept { }
+	/** User offline in all hubs */
+	virtual void on(UserDisconnected, const UserPtr&) noexcept { }
+};
+
+class UsersManager: public Singleton<UsersManager>, public Speaker<UsersManagerListener>
 {
 	typedef map<CID,string> OnlineHubUserMap;
 	
-	typedef unordered_multimap<CID, OnlineUser*> OnlineMap;
+	typedef std::unordered_multimap<CID, OnlineUser*> OnlineMap;
 	typedef OnlineMap::iterator OnlineIter;
 	typedef OnlineMap::const_iterator OnlineIterC;
 	typedef pair<OnlineIter, OnlineIter> OnlinePair;
@@ -61,28 +81,29 @@ class UsersManager: public Singleton<UsersManager>
 		return lst;
 	}	
 	
-	StringList getNicks(const CID& cid, const string& hintUrl) {
-	Lock l(cs);
-	StringList ret;
+	StringList getNicks(const CID& cid, const string& hintUrl) 
+	{
+		Lock l(cs);
+		StringList ret;
 
-	OnlinePairC op = onlineUsers.equal_range(cid);
-	for(auto i = op.first; i != op.second; ++i) {
-		if(i->second->getClient().getHubUrl() == hintUrl)
+		OnlinePairC op = onlineUsers.equal_range(cid);
+		for(auto i = op.first; i != op.second; ++i) {
+			if(i->second->getClient().getHubUrl() == hintUrl)
 				ret.push_back(i->second->getIdentity().getNick());
-	}
-
-	if(ret.empty()) {
-		// offline
-		NickMap::const_iterator i = nicks.find(cid);
-		if(i != nicks.end()) {
-			ret.push_back(i->second.first);
-		} else {
-			ret.push_back('{' + cid.toBase32() + '}');
 		}
-	}
 
-	return ret;
-}
+		if(ret.empty()) {
+			// offline
+			NickMap::const_iterator i = nicks.find(cid);
+			if(i != nicks.end()) {
+				ret.push_back(i->second.first);
+			} else {
+				ret.push_back('{' + cid.toBase32() + '}');
+			}
+		}
+
+		return ret;
+	}
 
 
 
@@ -145,7 +166,7 @@ void putOnline(OnlineUser* ou) noexcept {
 	if(ou && !ou->getUser()->isOnline()) {
 		ou->getUser()->setFlag(User::ONLINE);
 		ou->initializeData(); //RSX++-like
-		//fire(ClientManagerListener::UserConnected(), ou->getUser());
+		fire(UsersManagerListener::UserConnected(), ou->getUser());
 	}
 }
 
@@ -177,16 +198,17 @@ void putOffline(OnlineUser* ou, bool disconnect) noexcept {
 		if(disconnect)
 			ConnectionManager::getInstance()->disconnect(u);
 
-	//	fire(ClientManagerListener::UserDisconnected(), u);
+		fire(UsersManagerListener::UserDisconnected(), u);
 	} else if(diff > 1) {
-		//	fire(ClientManagerListener::UserUpdated(), *ou);
+			fire(UsersManagerListener::UserUpdated(), *ou);
 	}
 }
 
 
 
 OnlineUser* findOnlineUserHint(const CID& cid, const string& hintUrl, OnlinePairC& p) const {
-	p = onlineUsers.equal_range(cid);
+	Lock l(cs);
+    p = onlineUsers.equal_range(cid);
 	if(p.first == p.second) // no user found with the given CID.
 		return nullptr;
 
@@ -229,7 +251,21 @@ void setIpAddress(const UserPtr& p, const string& ip) {
 		if( ipv6 == false) {
 			i->second->getIdentity().set("I4", ip);
 		}
-		//fire(ClientManagerListener::UserUpdated(),(dynamic_cast<const OnlineUser&>(*i->second)));
+		fire(UsersManagerListener::UserUpdated(),(dynamic_cast<const OnlineUser&>(*i->second)));
+	}
+}
+
+void on(ClientListener::UserUpdated, dcpp::Client*, const OnlineUser& user) noexcept {
+	updateNick(user);
+	fire(UsersManagerListener::UserUpdated(), user);
+
+}
+
+
+void on(ClientListener::UsersUpdated, Client* , const OnlineUserList& l) noexcept {
+	for(OnlineUserList::const_iterator i = l.begin(), iend = l.end(); i != iend; ++i) {
+		updateNick(*(*i));
+		fire(UsersManagerListener::UserUpdated(), *(*i));
 	}
 }
 private:

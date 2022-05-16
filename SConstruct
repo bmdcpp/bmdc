@@ -245,7 +245,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		print ('\tpkg-config not found.')
 		Exit(1)
 
-	if not conf.CheckPKG('gtk+-3.0 > 3.00'):
+	if not conf.CheckPKG('gtk4 > 4.00'):
 		print ('\tgtk+ >= 3.14 not found.')
 		print ('\tNote: You might have the lib but not the headers')
 		Exit(1)
@@ -401,7 +401,10 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		env.Append(LIBS='Xss')
 		env.Append(LINKFLAGS='-lXss')
 
-	env.ParseConfig('pkg-config --libs gtk+-3.0')
+	env.ParseConfig('pkg-config --libs gtk4')
+	
+	env.ParseConfig('pkg-config --cflags glib-2.0')
+	env.ParseConfig('pkg-config --libs glib-2.0')
 
 	env.Append(LIBPATH = env['build_path'] + CORE_PACKAGE)
 	env.Prepend(LIBS = 'dcpp')
@@ -423,8 +426,8 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		env.Append(LIBS = ['socket', 'nsl'])
 
 	if _platform == 'win32':
-		env.Append(LIBS = ['wsock32','iphlpapi','ws2_32'])
-		#env.Append(LINKFLAGS= '-Wl,-subsystem ')
+		env.Append(LIBS = ['wsock32','iphlpapi','ws2_32' ,'Winmm' ,'ole32'])
+		env.Append(LINKFLAGS= '-Wl,-subsystem,windows')
 		#env.Append(LDFLAGS = '-L/usr/i686-w64-mingw32/lib/')
 
 	if LIB_IS_GEO:

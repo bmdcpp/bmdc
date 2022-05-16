@@ -38,7 +38,7 @@ class ShareBrowser:
 		ShareBrowser(dcpp::HintedUser user, const std::string &file, const std::string &initialDirectory, int64_t speed, bool full = true);
 		virtual ~ShareBrowser();
 		virtual void show();
-		virtual GtkWidget* createmenu();
+		virtual GMenu* createmenu();
 		void loadXML(std::string txt);
 	private:
 		static void onCloseItem(gpointer data);
@@ -60,7 +60,7 @@ class ShareBrowser:
 		void load(std::string xml);
 
 		// GUI callbacks
-		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		/*static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onFileButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onFileKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static gboolean onDirButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
@@ -80,7 +80,7 @@ class ShareBrowser:
 		static void onClickedPartial(GtkWidget *widget, gpointer data);
 		
 		static gpointer threadLoad_list(gpointer data);
-
+*/
 		// Client functions
 		void downloadFile_client(dcpp::DirectoryListing::File *file, std::string target);
 		void downloadDir_client(dcpp::DirectoryListing::Directory *dir, std::string target);

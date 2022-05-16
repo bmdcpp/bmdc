@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 - 2017 iceman50
+ * Copyright (C) iceman50
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ private:
 	friend class Singleton<BackupManager>;
 
 	BackupManager() : stop(false), ui64LastBackUpTime(GET_TICK()) { TimerManager::getInstance()->addListener(this); }
-	~BackupManager() throw() {
+	~BackupManager() {
 		shutdown();
 			TimerManager::getInstance()->removeListener(this);
 		}
@@ -80,7 +80,7 @@ private:
 	friend class Singleton<RestoreManager>;
 
 	RestoreManager() : stop(false) {}
-	~RestoreManager() throw() {
+	~RestoreManager() {
 		shutdown();
 		}
 };

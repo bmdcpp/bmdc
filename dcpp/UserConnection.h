@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) 2001-2018 Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,17 +28,12 @@
 #include "HintedUser.h"
 #include "AdcCommand.h"
 #include "MerkleTree.h"
-#if 0
-#include "PluginManager.h"
-#endif
+
 namespace dcpp {
 
 class UserConnection : 
-#if 0 
-public PluginEntity<ConnectionData>,
-#endif
- public Speaker<UserConnectionListener>,
-	private BufferedSocketListener, public Flags, private CommandHandler<UserConnection>
+public Speaker<UserConnectionListener>,
+private BufferedSocketListener, public Flags, private CommandHandler<UserConnection>
 {
 // for clang	
 private:
@@ -119,10 +114,11 @@ public:
 	void error(const string& aError) { send("$Error " + aError + '|'); }
 	void listLen(const string& aLength) { send("$ListLen " + aLength + '|'); }
 	void getListLen() { send("$GetListLen|"); }
-	void maxedOut(size_t queue_position = 0) {
+	void maxedOut(size_t queue_position = 0) 
+    {
 		 bool sendPos = queue_position > 0;
 		 if(isSet(FLAG_NMDC)) {
-			send("$MaxedOut" + (sendPos ? (" " + Util::toString(queue_position)) : Util::emptyString) + "|");
+			send("$MaxedOut" + (sendPos ? (" " + Util::toString(queue_position)) : std::string()) + "|");
 		 } else {
 		  	AdcCommand cmd(AdcCommand::SEV_RECOVERABLE, AdcCommand::ERROR_SLOTS_FULL, "Slots full");
 			if(sendPos) {
@@ -145,7 +141,7 @@ public:
 	void setDataMode(int64_t aBytes = -1) { dcassert(socket); socket->setDataMode(aBytes); }
 	void setLineMode(size_t rollback) { dcassert(socket); socket->setLineMode(rollback); }
 
-	void connect(const string& aServer, const uint16_t& aPort, const string& localPort, const BufferedSocket::NatRoles natRole);
+	void connect(const string& aServer, const uint16_t& aPort, const uint16_t& localPort, const BufferedSocket::NatRoles natRole);
 	void accept(const Socket& aServer);
 
 	template<typename F>
@@ -189,9 +185,6 @@ public:
 	void updateChunkSize(int64_t leafSize, int64_t lastChunk, uint64_t ticks);
 	//[BMDC++
 	void sendRaw(const string& raw) { send(raw);}
-	#if 0
-	ConnectionData* getPluginObject() noexcept;
-	#endif
 
 	GETSET(string, hubUrl, HubUrl);
 	GETSET(string, token, Token);

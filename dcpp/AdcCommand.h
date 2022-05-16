@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,13 +27,14 @@
 #include "Util.h"
 #include "noexcept.h"
 #include "GetSet.h"
-
+//WIN
+#include "CID.h"
 
 namespace dcpp {
 
 STANDARD_EXCEPTION(ParseException);
 
-class CID;
+//class CID;
 
 class AdcCommand {
 private:

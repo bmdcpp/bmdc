@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2013 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011-2017 BMDC
+ * Copyright © 2011-2023 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,8 +53,8 @@ class TreeView
 
 		TreeView();
 		~TreeView();
-		void setView(GtkTreeView *view);
-		void setView(GtkTreeView *view, bool padding, const std::string &name = "");
+		void setView(GtkTreeView *v);
+		void setView(GtkTreeView *v, bool padding, const std::string &name = "");
 		GtkTreeView *get();
 		void insertColumn(const std::string &title, const GType &gtype, const columnType type, const int width, const std::string &linkedCol = "");
 		void insertColumn(const std::string &title, const GType &gtype, const columnType type, const int width,
@@ -141,15 +141,15 @@ class TreeView
 
 		void addColumn_gui(Column& column);
 		void restoreSettings();
-		static gboolean popupMenu_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static void toggleColumnVisibility(GtkMenuItem *item, gpointer data);
+		//static gboolean popupMenu_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		//static void toggleColumnVisibility(GtkMenuItem *item, gpointer data);
 		static void speedDataFunc(GtkTreeViewColumn*, GtkCellRenderer*, GtkTreeModel*, GtkTreeIter*, gpointer);
 		static void sizeDataFunc(GtkTreeViewColumn*, GtkCellRenderer*, GtkTreeModel*, GtkTreeIter*, gpointer);
 		static void exactsizeDataFunc(GtkTreeViewColumn *col, GtkCellRenderer *renderer, GtkTreeModel *model, GtkTreeIter *iter, gpointer column);
 		static void timeLeftDataFunc(GtkTreeViewColumn*, GtkCellRenderer*, GtkTreeModel*, GtkTreeIter*, gpointer);
 		//BMDC++
-		static void onCopyRowClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onCopyDataItemClicked_gui(GtkMenuItem *item, gpointer data);
+		//static void onCopyRowClicked_gui(GtkMenuItem *item, gpointer data);
+		//static void onCopyDataItemClicked_gui(GtkMenuItem *item, gpointer data);
 		std::string getValueAsText(GtkTreeIter *i, const std::string &title);
 
 		GtkTreeView *view;
@@ -157,7 +157,7 @@ class TreeView
 		bool padding;
 		int count;
 		int visibleColumns;
-		GtkMenu *menu;
+		//GtkMenu *menu;
 		GType *gtypes;
 		std::map<std::string, GtkWidget*> colMenuItems;
 

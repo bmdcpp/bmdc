@@ -26,7 +26,7 @@
 #include "../dcpp/DCPlusPlus.h"
 #include "../dcpp/ClientManager.h"
 #include "../dcpp/TimerManager.h"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include "bookentry.hh"
 #include "treeview.hh"
 
@@ -57,8 +57,8 @@ class SearchSpy:
 		void resetCount();
 
 		// GUI callbacks
-		static void onSearchItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data);
+		//static void onSearchItemClicked_gui(GtkMenuItem *item, gpointer data);
+		//static void onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onClearFrameClicked_gui(GtkWidget *widget, gpointer data);
 		static void onUpdateFrameClicked_gui(GtkWidget *widget, gpointer data);
 		static void onShowTopClicked_gui(GtkWidget *widget, gpointer data);
@@ -67,9 +67,9 @@ class SearchSpy:
 		static void onRemoveTopClicked_gui(GtkWidget *widget, gpointer data);
 		static void onIgnoreTTHSearchToggled_gui(GtkWidget *widget, gpointer data);
 		static void onOKButtonClicked_gui(GtkWidget *widget, gpointer data);
-		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+		//static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		//static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		//static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 
 		// Client callbacks
 		virtual void on(dcpp::ClientManagerListener::IncomingSearch, const std::string& s) throw();

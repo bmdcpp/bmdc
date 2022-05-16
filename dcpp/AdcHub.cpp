@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2017 Jacek Sieka, arnetheduck on gmail point com
+ * Copyright (C) Jacek Sieka, arnetheduck on gmail point com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,9 +34,6 @@
 #include "ThrottleManager.h"
 #include "UploadManager.h"
 #include "format.h"
-#if 0
-#include "PluginManager.h"
-#endif
 #include "DebugManager.h"
 #include <cmath>
 #include "BufferedSocket.h"
@@ -157,8 +154,8 @@ void AdcHub::handle(AdcCommand::INF, AdcCommand& c) noexcept {
 				if(!c.getParam("NI", 0, nick)) {
 					nick = "[nick unknown]";
 				}
-				fire(ClientListener::StatusMessage(), this, autosprintf(_("%s has same CID %s as %s %s,%s, ignoring"),u->getIdentity().getNick().c_str()
-				,u->getIdentity().getSIDString().c_str(), sCid.c_str(), nick.c_str(),AdcCommand::fromSID(c.getFrom()).c_str()).c_str()
+				fire(ClientListener::StatusMessage(), this, autosprintf(_("%s has same CID %s as %s %s,%s, ignoring"), u->getIdentity().getNick().c_str()
+				, u->getIdentity().getSIDString().c_str(), sCid.c_str(), nick.c_str(),AdcCommand::fromSID(c.getFrom()).c_str()).c_str()
 					,ClientListener::FLAG_IS_SPAM);
 				return;
 			}
@@ -172,17 +169,17 @@ void AdcHub::handle(AdcCommand::INF, AdcCommand& c) noexcept {
 	}
 
 	if(!u) {
-		dcdebug("AdcHub::INF Unknown user / no ID\n");
-		LOG(PROTO,"AdcHub::INF Unknown user / no ID");
-		DebugManager::getInstance()->SendCommandMessage("AdcHub::INF Unknown user / no ID\n",DebugManager::TYPE_HUB,DebugManager::INCOMING,"Unknow");
+		LOG(PROTO, "AdcHub::INF Unknown user / no ID");
+		DebugManager::getInstance()->SendCommandMessage("AdcHub::INF Unknown user / no ID\n", DebugManager::TYPE_HUB, DebugManager::INCOMING, "Unknow");
 		return;
 	}
 
 	for(auto i = c.getParameters().begin(); i != c.getParameters().end(); ++i) {
 		if(i->length() < 2)
 			continue;
-		if(*i == "U4") { u->getIdentity().setUdp4Port(Util::toInt(i->substr(2)));continue; }
-		if(*i == "U6") { u->getIdentity().setUdp6Port(Util::toInt(i->substr(2)));continue; }
+			
+		if(*i == "U4") { u->getIdentity().setUdp4Port(Util::toInt(i->substr(2))); continue; }
+		if(*i == "U6") { u->getIdentity().setUdp6Port(Util::toInt(i->substr(2))); continue; }
 
 		u->getIdentity().set(i->c_str(), i->substr(2));
 	}
@@ -279,17 +276,9 @@ void AdcHub::handle(AdcCommand::MSG, AdcCommand& c) noexcept {
 			return;
 
 		replyTo = findUser(AdcCommand::toSID(temp));
-		if(!replyTo
-		#if 0
-		|| PluginManager::getInstance()->runHook(HOOK_CHAT_PM_IN, replyTo, chatMessage)
-		 #endif
-		)
+		if(!replyTo)
 			return;
 	}
-	#if 0
-	 else if(PluginManager::getInstance()->runHook(HOOK_CHAT_IN, this, chatMessage))
-		return;
-	#endif
 	fire(ClientListener::Message(), this, ChatMessage(chatMessage, from, to, replyTo, c.hasFlag("ME", 1),
 		c.getParam("TS", 1, temp) ? Util::toInt64(temp) : 0));
 }
@@ -596,7 +585,7 @@ void AdcHub::handle(AdcCommand::GET, AdcCommand& c) noexcept {
 		size_t n = sm->getSharedFiles();
 
 		// When h >= 32, m can't go above 2^h anyway since it's stored in a size_t.
-        if(m > (5 * (size_t)Util::roundUp((int64_t)(n * k / log(2.)), (int64_t)64)) || (h < 32 && m > static_cast<size_t>(1U << h))) {
+        if(m > (5. * (size_t)Util::roundUp((int64_t)(n * k / log(2.)), (int64_t)64.)) || (h < 32. && m > static_cast<size_t>(1U << h))) {
 			send(AdcCommand(AdcCommand::SEV_FATAL, AdcCommand::ERROR_TRANSFER_GENERIC,
 				"Unsupported m", AdcCommand::TYPE_HUB));
 			return;
@@ -609,6 +598,7 @@ void AdcHub::handle(AdcCommand::GET, AdcCommand& c) noexcept {
 		cmd.addParam(c.getParam(3));
 		cmd.addParam(c.getParam(4));
 		send(cmd);
+		
 		if (m > 0) {
 			sm->getBloom(v, k, m, h);
 			send((char*)&v[0], v.size());
@@ -639,13 +629,13 @@ void AdcHub::handle(AdcCommand::NAT, AdcCommand& c) noexcept {
 	}
 
 	// Trigger connection attempt sequence locally ...
-	string localPort = Util::toString(sock->getLocalPort());
+	uint16_t localPort = sock->getLocalPort();
 	dcdebug("triggering connecting attempt in NAT: remote port = %s, local port = %d\n", port.c_str(), sock->getLocalPort());
 	ConnectionManager::getInstance()->adcConnect(*u, Util::toInt(port), localPort, BufferedSocket::NAT_CLIENT, token, secure);
 
 	// ... and signal other client to do likewise.
 	send(AdcCommand(AdcCommand::CMD_RNT, u->getIdentity().getSID(), AdcCommand::TYPE_DIRECT).addParam(protocol).
-		addParam(localPort).addParam(token));
+		addParam(Util::toString(localPort)).addParam(token));
 }
 
 void AdcHub::handle(AdcCommand::RNT, AdcCommand& c) noexcept {
@@ -674,7 +664,7 @@ void AdcHub::handle(AdcCommand::RNT, AdcCommand& c) noexcept {
 
 	// Trigger connection attempt sequence locally
 	dcdebug("triggering connecting attempt in RNT: remote port = %s, local port = %d\n", port.c_str(), sock->getLocalPort());
-	ConnectionManager::getInstance()->adcConnect(*u, Util::toInt(port), Util::toString(sock->getLocalPort()), BufferedSocket::NAT_SERVER, token, secure);
+	ConnectionManager::getInstance()->adcConnect(*u, Util::toInt(port), sock->getLocalPort(), BufferedSocket::NAT_SERVER, token, secure);
 }
 
 void AdcHub::handle(AdcCommand::ZON, AdcCommand& c) noexcept {
@@ -724,7 +714,7 @@ void AdcHub::connect(const OnlineUser& user, string const& token, bool secure) {
 		const string& port = secure ? Util::toString(ConnectionManager::getInstance()->getSecurePort()) : Util::toString(ConnectionManager::getInstance()->getPort());
 		if(port.empty()) {
 			// Oops?
-			LogManager::getInstance()->message((F_("Not listening for connections - please restart ")+string(APPNAME)),LogManager::Sev::HIGH);
+			LogManager::getInstance()->message((F_("Not listening for connections - please restart ") + string(APPNAME)) , LogManager::Sev::HIGH);
 			return;
 		}
 		send(AdcCommand(AdcCommand::CMD_CTM, user.getIdentity().getSID(), AdcCommand::TYPE_DIRECT).addParam(proto).addParam(port).addParam(token));
@@ -736,10 +726,6 @@ void AdcHub::connect(const OnlineUser& user, string const& token, bool secure) {
 void AdcHub::hubMessage(const string& aMessage, bool thirdPerson) {
 	if(state != STATE_NORMAL)
 		return;
-#if 0
-	if(PluginManager::getInstance()->runHook(HOOK_CHAT_OUT, this, aMessage))
-		return;
-#endif
 	AdcCommand c(AdcCommand::CMD_MSG, AdcCommand::TYPE_BROADCAST);
 	c.addParam(aMessage);
 	if(thirdPerson)
@@ -982,7 +968,7 @@ void AdcHub::password(const string& pwd) {
 		TigerHash th;
 		if(oldPassword) {
 			CID cid = getMyIdentity().getUser()->getCID();
-			th.update(cid.data(), CIDSIZE);
+			th.update(cid.data(), CID::SIZE);
 		}
 		th.update(pwd.data(), pwd.length());
 		th.update(buf, saltBytes);
@@ -991,9 +977,8 @@ void AdcHub::password(const string& pwd) {
 		salt.clear();
 	}
 }
-//why this is not in AdcHub or AdcCommand class?
 
-static void addParam(StringMap& lastInfoMap, AdcCommand& c, const string& var, const string& value) {
+void AdcHub::addParam(StringMap& lastInfoMap, AdcCommand& c, const string& var, const string& value) {
 	StringMap::iterator i = lastInfoMap.find(var);
 
 	if(i != lastInfoMap.end()) {
@@ -1011,8 +996,9 @@ static void addParam(StringMap& lastInfoMap, AdcCommand& c, const string& var, c
 	}
 }
 
-void AdcHub::infoImpl() {
-	if(state != STATE_IDENTIFY && state != STATE_NORMAL)
+void AdcHub::infoImpl() 
+{
+	if((state != STATE_IDENTIFY) && (state != STATE_NORMAL))
 				return;
 
 	reloadSettings(false);
@@ -1039,22 +1025,22 @@ void AdcHub::infoImpl() {
 	addParam(lastInfoMap, c, "HN", Util::toString(counts[COUNT_NORMAL]));
 	addParam(lastInfoMap, c, "HR", Util::toString(counts[COUNT_REGISTERED]));
 	addParam(lastInfoMap, c, "HO", Util::toString(counts[COUNT_OP]));
-	addParam(lastInfoMap, c, "AP", APPNAME);//APPNAME
+	addParam(lastInfoMap, c, "AP", APPNAME);
 	addParam(lastInfoMap, c, "VE", VERSIONSTRING);
 	addParam(lastInfoMap, c, "AW", Util::getAway() ? "1" : Util::emptyString);
 	// RF = ref address from connected...
 	addParam(lastInfoMap, c, "RF", getHubUrl());
 
-	int limit = ThrottleManager::getInstance()->getDownLimit();
-	if (limit > 0) {
-		addParam(lastInfoMap, c, "DS", Util::toString(limit * 1024));
+	int64_t iLimit = ThrottleManager::getInstance()->getDownLimit();
+	if (iLimit > 0) {
+		addParam(lastInfoMap, c, "DS", Util::toString(iLimit * 1024));
 	} else {
 		addParam(lastInfoMap, c, "DS", Util::emptyString);
 	}
 
-	limit = ThrottleManager::getInstance()->getUpLimit();
-	if (limit > 0) {
-		addParam(lastInfoMap, c, "US", Util::toString(limit * 1024));
+	iLimit = ThrottleManager::getInstance()->getUpLimit();
+	if (iLimit > 0) {
+		addParam(lastInfoMap, c, "US", Util::toString(iLimit * 1024));
 	} else {
 		addParam(lastInfoMap, c, "US", Util::toString((long)(Util::toDouble(SETTING(UPLOAD_SPEED))*1024*1024/8)));
 	}
@@ -1163,14 +1149,12 @@ void AdcHub::on(Line l, const string& aLine) noexcept {
 
 	if(!Text::validateUtf8(aLine)) {
 		// @todo report to user?
+		dcdebug("non-valid utf-8");
 		return;
 	}
 
 	COMMAND_DEBUG(aLine,TYPE_HUB,INCOMING,getHubUrl());
-	#if 0
-	if(PluginManager::getInstance()->runHook(HOOK_NETWORK_HUB_IN, this, aLine))
-		return;
-	#endif
+
 	dispatch(aLine);
 }
 

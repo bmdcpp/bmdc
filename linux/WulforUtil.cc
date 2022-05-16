@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2017 BMDC++
+ * Copyright © 2010-2021 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  * using OpenSSL with this program is allowed.
  */
 
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
@@ -33,7 +33,7 @@
 #include "../dcpp/RegEx.h"
 #include "../dcpp/HighlightManager.h"
 #include "../dcpp/RawManager.h"
-
+#include "../dcpp/GeoManager.h"
 #include "../dcpp/UserManager.h"
 
 #include <iostream>
@@ -61,7 +61,7 @@
 using namespace std;
 using namespace dcpp;
 
-bool WulforUtil::_profileIsLocked = false;
+//bool WulforUtil::_profileIsLocked = false;
 
 const string WulforUtil::ENCODING_LOCALE = _("System default");
 vector<string> WulforUtil::charsets;
@@ -98,6 +98,7 @@ string("\r\n/away\r\n\t") + _("Set away mode") +
 +"\r\n/imdb\r\n\t"+ _("Search on imdb")
 ;
 
+//GeoIP
 const char* WulforUtil::CountryNames[] = {
 "ANDORRA", "UNITED ARAB EMIRATES", "AFGHANISTAN", "ANTIGUA AND BARBUDA",
 "ANGUILLA", "ALBANIA", "ARMENIA", "NETHERLANDS ANTILLES", "ANGOLA", "ANTARCTICA", "ARGENTINA", "AMERICAN SAMOA",
@@ -147,18 +148,17 @@ const char* WulforUtil::CountryCodes[] = {
  "RW", "SA", "SB", "SC", "SD", "SE", "SG", "SH", "SI", "SJ", "SK", "SL", "SM", "SN", "SO", "SR", "ST", "SV", "SY",
  "SZ", "TC", "TD", "TF", "TG", "TH", "TJ", "TK", "TL", "TM", "TN", "TO", "TR", "TT", "TV", "TW", "TZ", "UA", "UG",
  "UM", "US", "UY", "UZ", "VA", "VC", "VE", "VG", "VI", "VN", "VU", "WF", "WS", "YE", "YT", "YU", "ZA", "ZM", "ZW" };
+///end
+
 
 #define LINE2 "-- http://launchpad.net/bmdc++ <BMDC++ " GUI_VERSION_STRING "." BMDC_REVISION_STRING ">"
 
 const char* WulforUtil::msgs_dc[] = {
-		"\r\n-- I'm a happy DC++ user. You could be happy too.\r\n" LINE2,
 		"\r\n-- Neo-...what? Nope...never heard of it...\r\n" LINE2,
-		"\r\n-- Evolution of species: Ape --> Man\r\n-- Evolution of science: \"The Earth is Flat\" --> \"The Earth is Round\"\r\n-- Evolution of DC: NMDC --> ADC\r\n" LINE2,
 		"\r\n-- I share, therefore I am.\r\n" LINE2,
 		"\r\n-- I came, I searched, I found...\r\n" LINE2,
 		"\r\n-- I came, I shared, I sent...\r\n" LINE2,
 		"\r\n-- I don't have to see any ads, do you?\r\n" LINE2,
-		"\r\n-- My client supports passive-passive downloads, does yours?\r\n" LINE2,
 		"\r\n-- My client automatically detects the connection, does yours?\r\n" LINE2,
 		"\r\n-- These addies are pretty annoying, aren't they? Get revenge by sending them yourself!\r\n" LINE2,
 		"\r\n-- My client supports grouping favorite hubs, does yours?\r\n" LINE2,
@@ -167,7 +167,7 @@ const char* WulforUtil::msgs_dc[] = {
 		"\r\n-- My client support Flags in Chat does Yours ?\r\n" LINE2,
 		"\r\n-- My client can set background image to chat does yours? \r\n" LINE2,
  };
-#define MSGS 15
+#define MSGS 12
 
 vector<int> WulforUtil::splitString(const string &str, const string &delimiter)
 {
@@ -249,7 +249,7 @@ StringList WulforUtil::getHubAddress(const UserPtr& user, const string& hintUrl)
 {
 	return getHubAddress(user->getCID(), hintUrl);
 }
-
+/*
 string WulforUtil::getTextFromMenu(GtkMenuItem *item)
 {
 	string text;
@@ -260,7 +260,7 @@ string WulforUtil::getTextFromMenu(GtkMenuItem *item)
 
 	return text;
 }
-
+*/
 vector<string>& WulforUtil::getCharsets()
 {
 	if (charsets.empty())
@@ -288,7 +288,7 @@ vector<string>& WulforUtil::getCharsets()
 
 void WulforUtil::openURI(const string &uri, string &_error)
 {
-	GError* perror = NULL;
+/*	GError* perror = NULL;
 #if !GTK_CHECK_VERSION(3, 22, 0)
 	gtk_show_uri(NULL,uri.c_str(),GDK_CURRENT_TIME,&perror);
 #else	
@@ -299,7 +299,7 @@ void WulforUtil::openURI(const string &uri, string &_error)
 		cerr << "Failed to open URI: " << perror->message << endl;
 		_error = perror->message;
 		g_error_free(perror);
-	}
+	}*/
 }
 
 void WulforUtil::openURItoApp(const string &cmd)
@@ -427,49 +427,6 @@ bool WulforUtil::isHubURL(const string &text)
 		g_ascii_strncasecmp(text.c_str(), "adcs://", 7) == 0;
 }
 
-bool WulforUtil::profileIsLocked()
-{
-	#ifndef _WIN32
-	if (_profileIsLocked)
-		return true;
-
-	// We can't use Util::getConfigPath() since the core has not been started yet.
-	// Also, Util::getConfigPath() is utf8 and we need system encoding for g_open().
-	const char *home = g_get_home_dir();
-	#ifndef _DEBUG
-		string configPath = home ? string(home) + "/.bmdc++-s/" : g_get_tmp_dir();
-	#else
-		string configPath = home ? string(home) + "/.bmdc++-debug/" : g_get_tmp_dir();
-	#endif
-	
-	string profileLockingFile = configPath + "profile.lck";
-	int flags = O_WRONLY | O_CREAT;
-	int mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
-
-	int fd = g_open(profileLockingFile.c_str(), flags, mode);
-	if (fd != -1) // read error
-	{
-		struct flock lock;
-		lock.l_start = 0;
-		lock.l_len = 0;
-		lock.l_type = F_WRLCK;
-		lock.l_whence = SEEK_SET;
-		lock.l_pid = getpid();
-		struct flock testlock = lock;
-
-		if (fcntl(fd, F_GETLK, &testlock) != -1) // Locking not supported
-		{
-			if (fcntl(fd, F_SETLK, &lock) == -1)
-				_profileIsLocked = true;
-		}
-	}
-	g_close(fd,NULL);
-	return _profileIsLocked;
-	#else
-	return false;
-	#endif
-}
-
 gboolean WulforUtil::getNextIter_gui(GtkTreeModel *model, GtkTreeIter *iter, bool children /* = TRUE */, bool parent /* = TRUE */)
 {
 	gboolean valid = FALSE;
@@ -540,7 +497,7 @@ void WulforUtil::copyValue_gui(GtkTreeStore *store, GtkTreeIter *fromIter, GtkTr
 	gtk_tree_store_set_value(store, toIter, position, &value);
 	g_value_unset(&value);
 }
-
+//maybe?
 GdkPixbuf *WulforUtil::LoadCountryPixbuf(const string country)
 {
 	if(country.empty())
@@ -567,7 +524,7 @@ string WulforUtil::getCountryCode(string _countryname)
 	}
 	return string();
 }
-
+//end
 string WulforUtil::formatReport(const Identity& identity)
 {
 	map<string, string> mss_reportMap = identity.getReport();
@@ -578,15 +535,14 @@ string WulforUtil::formatReport(const Identity& identity)
 	{
 		report += "\n" + i->first + ": " +  i->second;
 	}
-
 	return report + "\n";
 }
-//From CrzDC++
+
 string WulforUtil::generateLeech() {
 
 	char buf[650];
-	snprintf(buf, sizeof(buf), "\n\t [ BMDC++ %s %s Leech Stats ]\r\n [ Downloaded:\t\t\t %s ]\r\n [ Uploaded:\t\t\t %s ]\r\n [ Total Download:\t\t %s ]\r\n [ Total Upload:\t\t\t %s ]\r\n [ Ratio: \t\t\t\t %s ]\r\n [ Current Uploads:\t\t %s Running Upload(s) ]\r\n [ Current Upload Speed: \t\t %s/s ]\r\n [ Current Downloads:\t\t %s Running Download(s) ]\r\n [ Current Download Speed: \t %s/s ]",
-		VERSIONSTRING, GUI_VERSION_STRING, Util::formatBytes(Socket::getTotalDown()).c_str(), Util::formatBytes(Socket::getTotalUp()).c_str(),
+	snprintf(buf, sizeof(buf), "\n\t [ BMDC++ %s Leech Stats ]\r\n [ Downloaded:\t\t\t %s ]\r\n [ Uploaded:\t\t\t %s ]\r\n [ Total Download:\t\t %s ]\r\n [ Total Upload:\t\t\t %s ]\r\n [ Ratio: \t\t\t\t %s ]\r\n [ Current Uploads:\t\t %s Running Upload(s) ]\r\n [ Current Upload Speed: \t\t %s/s ]\r\n [ Current Downloads:\t\t %s Running Download(s) ]\r\n [ Current Download Speed: \t %s/s ]",
+		GUI_VERSION_STRING, Util::formatBytes(Socket::getTotalDown()).c_str(), Util::formatBytes(Socket::getTotalUp()).c_str(),
 		Util::formatBytes(static_cast<double>(SETTING(TOTAL_DOWNLOAD))).c_str(), Util::formatBytes(static_cast<double>(SETTING(TOTAL_UPLOAD))).c_str(),
 		Util::toString(((static_cast<double>(SETTING(TOTAL_UPLOAD)))) / static_cast<double>(SETTING(TOTAL_DOWNLOAD))).c_str(),
 		Util::toString(UploadManager::getInstance()->getUploadCount()).c_str(), Util::formatBytes(UploadManager::getInstance()->getRunningAverage()).c_str(),
@@ -630,18 +586,18 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 				Util::setAway(FALSE);
 				Util::setManualAway(FALSE);
 				status += _("Away mode off");
-				WulforManager::get()->getMainWindow()->setAwayIcon(false);
+			//	WulforManager::get()->getMainWindow()->setAwayIcon(false);
 		}
 		else
 		{
-				Util::setAway(TRUE);
-				Util::setManualAway(TRUE);
+				Util::setAway(true);
+				Util::setManualAway(true);
 				Util::setAwayMessage(param);
 				ParamMap p;
 				p["message"] = param;
 
 				status += _("Away mode on: ") + Util::getAwayMessage(p);
-				WulforManager::get()->getMainWindow()->setAwayIcon(true);
+		//		WulforManager::get()->getMainWindow()->setAwayIcon(true);
 		}
 		ClientManager::getInstance()->infoUpdated();
 		return true;
@@ -650,7 +606,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	{
 		Util::setAway(FALSE);
 		status += _("Away mode off");
-		WulforManager::get()->getMainWindow()->setAwayIcon(false);
+//		WulforManager::get()->getMainWindow()->setAwayIcon(false);
 		ClientManager::getInstance()->infoUpdated();
 
 		return true;
@@ -734,7 +690,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 		long udays = 0, uhour = 0 , umin =0;		
 		#if defined(APPLE)
 			rel = "macos";
-			mach= "x86_64";
+			mach = "x86_64";
 		#else
 		
 			#ifndef _WIN32
@@ -742,13 +698,13 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 			struct utsname u_name; //instance of utsname
 			z = uname(&u_name);
 			if (z == -1)
-				dcdebug("Failed on uname");
+				g_info("Failed on uname");
 			rel = u_name.release;
 			mach = u_name.machine;
 			struct sysinfo sys; //instance of acct;
 			y = sysinfo(&sys);
 			if(y != 0)
-				dcdebug("Failed on sysinfo");
+				g_info("Failed on sysinfo");
 
 			const long minute = 60;
 			const long hour = minute * 60;
@@ -787,18 +743,21 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 		return true;
 		
 	}
-	else if ( cmd == "g" || cmd == "google"){
-	  if(param.empty())
-		status += _("Specify a search string");
-	   else
-		openURI("http://www.google.com/search?q=" + param);
+	else if ( cmd == "g" || cmd == "google")
+    {
+	  if(param.empty()) {
+            status += _("Specify a search string");
+	   } else {
+            openURI("http://www.google.com/search?q=" + param);
+       }
 		return true;
 	}else if ( cmd == "imdb") {
-	  if(param.empty())
+	  if(param.empty()) {
 		status += _("Specify a search string");
-	   else
+	   }else {
 		openURI("http://www.imdb.com/find?q=" + param);
-		return true;
+     }   
+	return true;
 	/// "Now Playing" spam // added by curse and Irene
 	}else if (cmd == "amar")
 	{
@@ -1089,7 +1048,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 
   return false;
 }
-//SDDCPP Originaly
+
 string WulforUtil::formatTimeDifference(uint64_t diff, size_t levels /*= 3*/) {
 	string	buf;
 	int		n;
@@ -1187,7 +1146,7 @@ bool WulforUtil::isHighlightingWorld( GtkTextBuffer *buffer, GtkTextTag* &tag, s
 						"underline", tUnderline ? PANGO_UNDERLINE_DOUBLE : PANGO_UNDERLINE_NONE,
 						NULL);
 					}
-					dcdebug("regexp hilg");
+					//dcdebug("regexp hilg");
 					ret = true;
 				}
 			}
@@ -1267,19 +1226,10 @@ void WulforUtil::drop_combo(GtkWidget *widget, map<std::string,int> m)
 
 GdkPixbuf *WulforUtil::loadIconShare(string ext)
 {
-	if(ext == "directory" || ext.empty())
-	{
-		GError* error = NULL;
-		GdkPixbuf* buf = gtk_icon_theme_load_icon(icon_theme,"folder",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,&error);
-		if(error){
-			g_print("Failed %s",error->message);
-			g_error_free(error);
-			return NULL;
-		}	
-		return buf;
-	}
-
 	string tmp = "dummy"+ext;
+    if(ext == "directory")
+        tmp = "inode/directory";
+    
 	g_autofree gchar *tmp2 = g_utf8_strup(tmp.c_str(),-1);
 
 	gboolean is_certain = FALSE;
@@ -1288,23 +1238,24 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 	{
 		
 		GError* error = NULL;
-		GdkPixbuf* buf = gtk_icon_theme_load_icon(icon_theme,"text-x-generic",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,&error);
+	//	GdkPixbuf* buf = gtk_icon_theme_load_icon(icon_theme,"text-x-generic",GTK_ICON_SIZE_MENU,GTK_ICON_LOOKUP_USE_BUILTIN,&error);
 		if(error){
 			g_print("Failed %s",error->message);
 			g_error_free(error);
 			return NULL;
 		}
-		return buf;
+	//	return buf;
 	}
-	g_autofree gchar *mime_type = g_content_type_get_mime_type (content_type);
-	GIcon *icon = g_content_type_get_icon(mime_type);
-	GtkIconTheme *theme = gtk_icon_theme_get_default ();
-	GtkIconInfo *info = gtk_icon_theme_lookup_by_gicon(theme,icon, (GtkIconSize)16, GTK_ICON_LOOKUP_GENERIC_FALLBACK);
-	GdkPixbuf *icon_d = gtk_icon_info_load_icon (info, NULL);
-	g_object_unref(icon);
-	return icon_d;
+//	g_autofree gchar *mime_type = g_content_type_get_mime_type (content_type);
+//	GIcon *icon = g_content_type_get_icon(mime_type);
+//	GtkIconTheme *theme = gtk_icon_theme_get_default ();
+//	GtkIconInfo *info = gtk_icon_theme_lookup_by_gicon(theme,icon, (GtkIconSize)GTK_ICON_SIZE_MENU,  (GtkIconLookupFlags)(GTK_ICON_LOOKUP_GENERIC_FALLBACK | GTK_ICON_LOOKUP_USE_BUILTIN));
+//	GdkPixbuf *icon_d = gtk_icon_info_load_icon (info, NULL);
+//	g_object_unref(icon);
+//	return icon_d;
+	return NULL;
 }
-//Main point of this code is from ? PtokaX
+
 string WulforUtil::getStatsForMem() {
 	
 	string temp = string();
@@ -1393,9 +1344,7 @@ bool WulforUtil::HitIP(string name)
 	}	
 	return Ipv4Hit(name);
 }
-/* 
- * Inspired by StrongDC catch code ip address
- * */
+
 bool WulforUtil::Ipv4Hit(string name) {
 	for(uint32_t i = 0;i < name.length(); i++)
 	{
@@ -1467,15 +1416,15 @@ string WulforUtil::cpuinfo()
 	return string(cpu_info);
 }
 
-void WulforUtil::setTextDeufaults(GtkWidget* widget, std::string strcolor, std::string back_image_path /*= */,bool pm/* = false*/,std::string hubUrl /*= */,std::string where /**/)
+void WulforUtil::setTextDeufaults(GtkWidget* widget, string strcolor, string back_image_path /*= */,bool pm/* = false*/,string hubUrl /*= */,string where /**/)
 {
-		if( (pm == false) && hubUrl.empty()) // Global any hub?
+	/*	if( (pm == false) && hubUrl.empty()) // Global any hub?
 			gtk_widget_set_name(widget,"Hub");
 
 		if( pm == true)
 			gtk_widget_set_name(widget,"pm");
 
-		std::string hubCid;
+		string hubCid;
 		if(!hubUrl.empty() && (pm == false)) {
 			hubCid = dcpp::CID(hubUrl.c_str()).toBase32();
 			gtk_widget_set_name(widget,hubCid.c_str());
@@ -1486,7 +1435,7 @@ void WulforUtil::setTextDeufaults(GtkWidget* widget, std::string strcolor, std::
 			gtk_widget_set_name(widget,where.c_str());
 		}
 		// Intialize the chat window
-		std::string mono = string();
+		string mono = string();
 		if (SETTING(USE_OEM_MONOFONT))
 		{
 			mono = "Monospace";
@@ -1494,17 +1443,16 @@ void WulforUtil::setTextDeufaults(GtkWidget* widget, std::string strcolor, std::
 
 		if( strcolor.empty() || (!back_image_path.empty() && (dcpp::Util::fileExists(back_image_path) == true)) ) {
 		///NOTE: CSS
-			dcdebug("Test:img %s\n",hubUrl.c_str());
 			GtkCssProvider *provider = gtk_css_provider_new ();
 			GdkDisplay *display = gdk_display_get_default ();
 			GdkScreen *screen = gdk_display_get_default_screen (display);
 
-			std::string t_css = std::string("textview#") + (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid )) + " text {\n"
+			string t_css = string("textview#") + (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid )) + " text {\n"
                             "   background-image: url('"+back_image_path+"');\n"
                             "}\n\0";
 			
 			if(!mono.empty()) {
-				t_css = std::string("textview#") + (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid )) + " text {\n"
+				t_css = string("textview#") + (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid )) + " text {\n"
                             "   background-image: url('"+back_image_path+"');\n"
                             "	font: "+mono+";\n"
                             "}\n\0";
@@ -1520,13 +1468,13 @@ void WulforUtil::setTextDeufaults(GtkWidget* widget, std::string strcolor, std::
 			return;
 		}
 		
-		std::string strwhat = (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid ));
+		string strwhat = (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid ));
 		if(!where.empty()) strwhat = where;
 				
-		std::string t_css = std::string("textview#"+strwhat+" text { background: "+strcolor+" ;}\n");
+		string t_css = string("textview#"+strwhat+" text { background: "+strcolor+" ;}\n");
 				
 		if(!mono.empty()) {
-			t_css =	std::string("textview#"+strwhat+" text { background: "+strcolor+" ; font: "+mono+"; }\n");	
+			t_css =	string("textview#"+strwhat+" text { background: "+strcolor+" ; font: "+mono+"; }\n");	
 		}	
 		
 		GtkStyleContext *context;
@@ -1541,23 +1489,23 @@ void WulforUtil::setTextDeufaults(GtkWidget* widget, std::string strcolor, std::
                                 GTK_STYLE_PROVIDER_PRIORITY_USER);
 		g_object_unref (provider);
 		
-		
+	*/	
 }
 
-void WulforUtil::setTextColor(std::string color,std::string where /*= */)
+void WulforUtil::setTextColor(string color,string where /*= */)
 //Note : selected is red, because most themes get white or black
 {
-		GtkCssProvider *provider = gtk_css_provider_new ();
+	/*	GtkCssProvider *provider = gtk_css_provider_new ();
 		GdkDisplay *display = gdk_display_get_default ();
 		GdkScreen *screen = gdk_display_get_default_screen (display);
-		std::string t_css = std::string("textview#"+where+" ,textview#"+where+":focus, textview#"+where+":active text { color: "+color+" ;} GtkTextView#"+where+":selected { color: red ; }	\n\0");
+		string t_css = string("textview#"+where+" ,textview#"+where+":focus, textview#"+where+":active text { color: "+color+" ;} GtkTextView#"+where+":selected { color: red ; }	\n\0");
 
 		gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
 
 		gtk_style_context_add_provider_for_screen (screen,
 																GTK_STYLE_PROVIDER(provider),
 																GTK_STYLE_PROVIDER_PRIORITY_USER);
-		g_object_unref (provider);
+		g_object_unref (provider);*/
 }
 
 

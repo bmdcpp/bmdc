@@ -33,6 +33,8 @@
 #include "FavHubGroup.h"
 #include "User.h"
 #include "OnlineUser.h"
+#include "UserManager.h"
+
 
 namespace dcpp {
 
@@ -43,11 +45,11 @@ class SimpleXML;
  * Public hub list, favorites (hub&user). Assumed to be called only by UI thread.
  */
 class FavoriteManager : public Speaker<FavoriteManagerListener>, private HttpConnectionListener, public Singleton<FavoriteManager>,
-	private SettingsManagerListener, private ClientManagerListener
+	private SettingsManagerListener, private UsersManagerListener
 {
 private:
 	using SettingsManagerListener::on;
-	using ClientManagerListener::on;
+	using UsersManagerListener::on;
 public:
 // Public Hubs
 	enum HubTypes {

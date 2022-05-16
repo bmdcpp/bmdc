@@ -1,5 +1,5 @@
 /*
- * Copyright © 2010-2017 BMDC++, freedcpp at seznam dot cz
+ * Copyright © 2010-2018 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 #include "../dcpp/DCPlusPlus.h"
 #include "../dcpp/FavoriteManager.h"
 #include "../dcpp/FavoriteManagerListener.h"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include "bookentry.hh"
 #include "treeview.hh"
 
@@ -47,13 +47,13 @@ class RecentHubs:
 		void updateRecent_gui(ParamMap params);
 		void removeRecent_gui(const std::string cid);
 		// GUI callbacks
-		static void onConnectItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data);
+//		static void onConnectItemClicked_gui(GtkMenuItem *item, gpointer data);
+//		static void onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onDeleteAll_gui(GtkWidget *widget, gpointer data);
 
-		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
-		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+//		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+//		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+//		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 
 		void removeRecent_client(const std::string adr);
 

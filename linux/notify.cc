@@ -1,5 +1,6 @@
 /*
- * Copyright © 2009-2017 Leliksan Floyd <leliksan@Quadrafon2>
+ * Copyright © 2009-2018 Leliksan Floyd <leliksan@Quadrafon2>
+ * Copyright © 2018 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,31 +20,12 @@
  * using OpenSSL with this program is allowed.
  */
 
-/* patch changelog:
- * [05.11.09] модификация исходного кода, убрал лишний код.
- * [05.11.09] масштабирование изображения иконки.
- * [06.11.09] исправлена ошибка, "забивание" экрана уведомлениями, когда период сообщений меньше периода уведомления.
- * [07.11.09] установка уровня уведомления в зависимости от типа сообщения (critical-ошибки, normal-все остальные).
- * [08.11.09] исправлена ошибка, после выхода не закрывалось уведомление.
- * [08.11.09] исправлена ошибка, не обновлялась иконка.
- *
- * Copyright © 2009-2012, author patch: troll, freedcpp, http://code.google.com/p/freedcpp
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- */
 
 #include "wulformanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include "settingsmanager.hh"
 #include "../dcpp/Text.h"
 #include "notify.hh"
-
-#ifndef NOTIFY_CHECK_VERSION
-#define NOTIFY_CHECK_VERSION(major,minor,micro) 0
-#endif
 
 using namespace std;
 using namespace dcpp;
@@ -70,27 +52,22 @@ Notify* Notify::get()
 
 void Notify::init()
 {
-#ifdef HAVE_NOTIFY
-	notify_init(g_get_application_name());
+    application = WulforManager::get()->getApplication();
+    
+    static GActionEntry actions[] = {
+    { .name = "launch", .activate = onAction, .parameter_type = "s", .state = NULL , .change_state = NULL , .padding = {0,0,0} }
+    };
 
-	#if NOTIFY_CHECK_VERSION(0,7,0)
-		notification = notify_notification_new("template", "template", NULL);
-	#else
-		notification = notify_notification_new("template", "template", NULL, NULL);
-	#endif
-		bAction = false;
-#endif
+    g_action_map_add_action_entries (G_ACTION_MAP (application),
+                                 actions, G_N_ELEMENTS (actions),
+                                 application);
 }
 
 void Notify::finalize() 
 {
-#ifdef HAVE_NOTIFY
-	notify_notification_close(notification, NULL);
-	g_object_unref(notification);
-	notify_uninit();
-#endif
-}
 
+}
+/*
 void Notify::setCurrIconSize(const int size)
 {
 	currIconSize = size;
@@ -134,34 +111,21 @@ void Notify::setCurrIconSize(const int size)
 			WSET("notify-icon-size", DEFAULT);
 	}
 }
-
+*/
 void Notify::showNotify(const string head, const string body, TypeNotify notify)
 {
-#ifdef HAVE_NOTIFY
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
 
 	switch (notify)
 	{
 		case DOWNLOAD_FINISHED:
 
-			if(bAction)
-			{
-				notify_notification_clear_actions(notification);
-				bAction = false;
-			}
-
 			if (wsm->getInt("notify-download-finished-use"))
 			{
-				notify_notification_add_action(notification, "1", _("Open file"),
-					(NotifyActionCallback) onAction, g_strdup(body.c_str()), g_free);
 
-				notify_notification_add_action(notification, "2", _("Open folder"),
-					(NotifyActionCallback) onAction, g_strdup(Util::getFilePath(body).c_str()), g_free);
-
-				showNotify(wsm->getString("notify-download-finished-title"), head, Util::getFileName(body),
-					wsm->getString("notify-download-finished-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_NORMAL);
-
-				bAction = true;
+				bAction = true;//set action
+				showNotify(wsm->getString("notify-download-finished-title"), head, body,
+					wsm->getString("notify-download-finished-icon"), wsm->getInt("notify-icon-size"), G_NOTIFICATION_PRIORITY_NORMAL);
 			}
 
 			break;
@@ -170,127 +134,90 @@ void Notify::showNotify(const string head, const string body, TypeNotify notify)
 
 			if (wsm->getInt("notify-download-finished-ul-use"))
 			showNotify(wsm->getString("notify-download-finished-ul-title"), head, body,
-				wsm->getString("notify-download-finished-ul-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_LOW);
+				wsm->getString("notify-download-finished-ul-icon"), wsm->getInt("notify-icon-size"), G_NOTIFICATION_PRIORITY_LOW);
 			break;
 
 		case PRIVATE_MESSAGE:
 
 			if (wsm->getInt("notify-private-message-use"))
 			showNotify(wsm->getString("notify-private-message-title"), head, body,
-				wsm->getString("notify-private-message-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_NORMAL);
+				wsm->getString("notify-private-message-icon"), wsm->getInt("notify-icon-size"), G_NOTIFICATION_PRIORITY_NORMAL);
 			break;
 
 		case HUB_CONNECT:
 
 			if (wsm->getInt("notify-hub-connect-use"))
 			showNotify(wsm->getString("notify-hub-connect-title"), head, body,
-				wsm->getString("notify-hub-connect-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_NORMAL);
+				wsm->getString("notify-hub-connect-icon"), wsm->getInt("notify-icon-size"), G_NOTIFICATION_PRIORITY_NORMAL);
 			break;
 
 		case HUB_DISCONNECT:
 
 			if (wsm->getInt("notify-hub-disconnect-use"))
 			showNotify(wsm->getString("notify-hub-disconnect-title"), head, body,
-				wsm->getString("notify-hub-disconnect-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_CRITICAL);
+				wsm->getString("notify-hub-disconnect-icon"), wsm->getInt("notify-icon-size"), G_NOTIFICATION_PRIORITY_URGENT);
 			break;
 
 		case FAVORITE_USER_JOIN:
 
 			if (wsm->getInt("notify-fuser-join"))
 			showNotify(wsm->getString("notify-fuser-join-title"), head, body,
-				wsm->getString("notify-fuser-join-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_NORMAL);
+				wsm->getString("notify-fuser-join-icon"), wsm->getInt("notify-icon-size"), G_NOTIFICATION_PRIORITY_NORMAL);
 			break;
 
 		case FAVORITE_USER_QUIT:
 
 			if (wsm->getInt("notify-fuser-quit"))
 			showNotify(wsm->getString("notify-fuser-quit-title"), head, body,
-				wsm->getString("notify-fuser-quit-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_NORMAL);
+				wsm->getString("notify-fuser-quit-icon"), wsm->getInt("notify-icon-size"), G_NOTIFICATION_PRIORITY_NORMAL);
 			break;
 		case HIGHLITING:
 			if (wsm->getInt("notify-high-use"))
 				showNotify(wsm->getString("notify-high-title"), head , body,
-						wsm->getString("notify-high-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_LOW);
+						wsm->getString("notify-high-icon"), wsm->getInt("notify-icon-size"), G_NOTIFICATION_PRIORITY_LOW);
 			break;
 		case HUB_CHAT:
 			if (wsm->getInt("notify-hub-chat-use"))
 				showNotify(wsm->getString("notify-hub-chat-title"), head , body,
-						wsm->getString("notify-hub-chat-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_NORMAL);
+						wsm->getString("notify-hub-chat-icon"), wsm->getInt("notify-icon-size"), G_NOTIFICATION_PRIORITY_NORMAL);
 			break;
-		case PLUGINS://TODO may settable as others :p or remove in future rel?
-				showNotify(head,head, body, wsm->getString("notify-high-icon"), wsm->getInt("notify-icon-size"), NOTIFY_URGENCY_NORMAL);
-				break;
 		default: break;
 	}
-	#endif
 }
-#ifdef HAVE_NOTIFY
-void Notify::showNotify(const string title, const string head, const string body, const string icon, const int iconSize, NotifyUrgency urgency)
+void Notify::showNotify(const string title, const string head, const string body, const string icon, const int /*iconSize*/, GNotificationPriority urgency)
 {
 
 //@ only title is Fatal	
 	if(title.empty())
 		return;
 	
-	gchar *esc_title = g_markup_escape_text(title.c_str(), -1);
-	gchar *esc_body = g_markup_escape_text(body.c_str(), -1);
+	g_autofree gchar *esc_title = g_markup_escape_text(g_filename_to_utf8(title.c_str(),-1,NULL,NULL,NULL), -1);
+	g_autofree gchar *esc_body = g_markup_escape_text(g_filename_to_utf8(Util::getFileName(body).c_str(),-1,NULL,NULL,NULL), -1);
 	string message = head + esc_body;
 
-	notify_notification_close(notification,NULL);
-	notify_notification_clear_hints(notification);
-	notify_notification_update(notification, esc_title, message.c_str(), NULL);
-	notify_notification_set_urgency(notification, urgency);
-
-	g_free(esc_title);
-	g_free(esc_body);
-
-	if (!icon.empty())
-	{
-		setCurrIconSize(iconSize);
-		GdkPixbuf *pixbuf = NULL;
-
-		if (currIconSize != DEFAULT)
-		{
-			GdkPixbuf *temp = gdk_pixbuf_new_from_file(Text::fromUtf8(icon).c_str(), NULL);
-
-			if (temp != NULL)
-			{
-				pixbuf = WulforUtil::scalePixbuf(temp, icon_width, icon_height);
-				g_object_unref(temp);
-			}
-		}
-		else
-		{
-			pixbuf = gdk_pixbuf_new_from_file(Text::fromUtf8(icon).c_str(), NULL);
-		}
-
-		if (pixbuf != NULL)
-		{
-			notify_notification_set_icon_from_pixbuf(notification, pixbuf);
-			g_object_unref(pixbuf);
-		}
-	}
-
-	if (bAction)
-	{
-		notify_notification_clear_actions(notification);
-		bAction = false;
-	}
-
-	notify_notification_show(notification, NULL);
-
+    GFile* ficon = g_file_new_for_path(icon.c_str());
+    GIcon *gicon = g_file_icon_new (ficon);
+    GNotification *notification = g_notification_new (esc_title);
+	g_notification_set_body (notification, esc_body);
+	g_notification_set_icon (notification, gicon);
+    if(bAction) {
+        g_notification_add_button_with_target (notification, "Open Folder", "app.launch", "s", (string("file:///")+Util::getFilePath(body)).c_str());
+        g_notification_add_button_with_target (notification, "Open File", "app.launch", "s", (string("file:///")+body).c_str());
+    } 
+    g_notification_set_priority (notification,urgency);          
+	g_application_send_notification (application, NULL, notification);
+    g_object_unref (gicon);
+	g_object_unref (notification);
+    bAction = false;
 }
-#endif
-#ifdef HAVE_NOTIFY
-void Notify::onAction(NotifyNotification *notify, const char*, gpointer data)
+
+void Notify::onAction(GSimpleAction*, GVariant* var, gpointer)
 {
 
-	string target = (gchar *)data;
+	string target = g_variant_get_string (var, NULL);
 
 	if (!target.empty())
 		WulforUtil::openURI(target);
-
-	notify_notification_close(notify, NULL);
-
 }
-#endif
+
+

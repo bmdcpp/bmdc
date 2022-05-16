@@ -22,38 +22,31 @@
 #include "../dcpp/Singleton.h"
 #include "../dcpp/TimerManager.h"
 #include <map>
-/*
-struct IgnoreItem
-{
-	string nameItem;
-	uint64_t time;
-	int type;
-};
-*/
 
 class IgnoreTempManager: public dcpp::Singleton<IgnoreTempManager>, private dcpp::TimerManagerListener
 {
 	public:
 		IgnoreTempManager();
 		~IgnoreTempManager();
-		mutable dcpp::CriticalSection cs;
 
-		std::map<std::string, std::pair<uint64_t,uint64_t> > nickIgnore;
+		uint64_t lastTick;//not used?
+
+		void addNickIgnored(std::string nick, uint64_t time);
+		void addIpIgnored(std::string ip,uint64_t time);
+		void addCidIgnored(std::string cid,uint64_t time);
+		bool isCidIgnored(std::string cid);
+		bool isIpIgnored(std::string ip);
+		bool isNickIgnored(std::string nick);
+
+		void removeNick(std::string nick);
+		void removeIp(std::string ip);
+		void removeCid(std::string cid);
+
+		std::map<std::string, time_t > nickIgnore;
 		std::map<std::string, std::pair<uint64_t,uint64_t> > ipIgnore;
 		std::map<std::string, std::pair<uint64_t,uint64_t> > cidIgnore;
-
-		uint64_t lastTick;
-void addNickIgnored(std::string nick, uint64_t time);
-void addIpIgnored(std::string ip,uint64_t time);
-void addCidIgnored(std::string cid,uint64_t time);
-bool isCidIgnored(std::string cid);
-bool isIpIgnored(std::string ip);
-bool isNickIgnored(std::string nick);
-
-void removeNick(std::string nick);
-void removeIp(std::string ip);
-void removeCid(std::string cid);
-
-virtual void on(dcpp::TimerManagerListener::Minute, uint64_t aTick) noexcept;
+	
+		virtual void on(dcpp::TimerManagerListener::Minute, uint64_t aTick) noexcept;
+		mutable dcpp::CriticalSection cs;
 };
 #endif

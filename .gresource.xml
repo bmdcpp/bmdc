@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/org/bmdc-team/bmdc">
+	<file>icons/hicolor/22x22/categories/bmdc-favorite-hubs.png</file>
+  <file>icons/hicolor/22x22/categories/bmdc-favorite-users.png</file>
+  <file>icons/hicolor/22x22/categories/bmdc-notepad.png</file>
+  <file>icons/hicolor/22x22/categories/bmdc-system.png</file>
+  <file>icons/hicolor/22x22/categories/bmdc-public-hubs.png</file>
+  <file>icons/hicolor/22x22/categories/bmdc-search.png</file>
     <file>icons/hicolor/96x96/apps/bmdc.png</file>
     <file>info/error.png</file>
     <file>info/info.png</file>

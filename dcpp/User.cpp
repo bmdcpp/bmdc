@@ -165,9 +165,9 @@ string Identity::getConnection() const {
 	return get("CO");
 }
 
-const string& Identity::getCountry() const {
-	bool v6 = !getIp6().empty();
-	return GeoManager::getInstance()->getCountry(v6 ? getIp6() : getIp4(), v6 ? GeoManager::V6 : GeoManager::V4);
+const string Identity::getCountry() const {
+//	bool v6 = !getIp6().empty();
+	return GeoManager::getInstance()->getCountry(getIp());
 }
 
 string Identity::get(const char* name) const {
@@ -580,8 +580,8 @@ map<string, string> Identity::getReport() const
 				reportSet.insert(make_pair(name, value));
 		}
 		//hack to show port
-		reportSet.insert(make_pair("U4",Util::toString(getUdp4Port())));
-		reportSet.insert(make_pair("U6",Util::toString(getUdp6Port())));
+		//reportSet.insert(make_pair("UP",Util::toString((int16_t)getUdpPort())));
+		//reportSet.insert(make_pair("U6",Util::toString(getUdp6Port())));
 	}
 	return reportSet;
 }
@@ -677,18 +677,5 @@ bool Identity::isProtectedUser(const Client& c, bool bOpBotHubCheck) const {
 	}
 	return ret;
 }
-#if 0
-UserData* OnlineUser::getPluginObject() noexcept {
-	resetEntity();
 
-	pod.nick = pluginString(getIdentity().getNick());
-	pod.hubHint = pluginString(getClient().getHubUrl());
-	pod.cid = pluginString(getUser()->getCID().toBase32());
-	pod.sid = getIdentity().getSID();
-	pod.protocol = getUser()->isNMDC() ? PROTOCOL_NMDC : PROTOCOL_ADC;
-	pod.isOp = getIdentity().isOp() ? True : False;
-
-	return &pod;
-}
-#endif
 } // namespace dcpp

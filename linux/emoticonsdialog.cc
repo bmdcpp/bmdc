@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2017 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2018 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 
 #include "settingsmanager.hh"
 #include "wulformanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include "emoticons.hh"
 #include "emoticonsdialog.hh"
 
@@ -98,10 +98,10 @@ EmoticonsDialog::~EmoticonsDialog()
 		delete em_global;
 	}
 
-	if (dialog != NULL)
-		gtk_widget_destroy(dialog);
+//	if (dialog != NULL)
+//		gtk_widget_destroy(dialog);
 }
-
+/*
 void EmoticonsDialog::buildEmotMenu_gui()
 {
 	gtk_container_foreach(GTK_CONTAINER(Menu), (GtkCallback)gtk_widget_destroy, NULL);
@@ -109,12 +109,12 @@ void EmoticonsDialog::buildEmotMenu_gui()
 	GtkWidget *item;
 
 	/* add packs menu */
-	item = gtk_menu_item_new_with_label(_("Emotion packs"));
+/*	item = gtk_menu_item_new_with_label(_("Emotion packs"));
 	gtk_menu_shell_append(GTK_MENU_SHELL(Menu), item);
 	addPacksMenu(item);
 
 	/* add icon size menu */
-	item = gtk_menu_item_new_with_label(_("Icon size"));
+/*	item = gtk_menu_item_new_with_label(_("Icon size"));
 	gtk_menu_shell_append(GTK_MENU_SHELL(Menu), item);
 	addIconSizeMenu(item);
 }
@@ -159,7 +159,7 @@ void EmoticonsDialog::addPacksMenu(GtkWidget *item)
 		g_object_set_data_full(G_OBJECT(check_item), "current-pack-name", g_strdup(packName.c_str()), g_free);
 	}
 }
-
+/*
 void EmoticonsDialog::addIconSizeMenu(GtkWidget *item)
 {
 	GtkWidget *check_item;
@@ -192,7 +192,7 @@ void EmoticonsDialog::addIconSizeMenu(GtkWidget *item)
 		g_object_set_data_full(G_OBJECT(check_item), "icon-size", g_strdup(sizeIcon[i].c_str()), g_free);
 	}
 }
-
+/*
 void EmoticonsDialog::onCheckIconSizeMenu(GtkMenuItem *checkItem, gpointer data)
 {
 	EmoticonsDialog *ed = (EmoticonsDialog *) data;
@@ -201,7 +201,7 @@ void EmoticonsDialog::onCheckIconSizeMenu(GtkMenuItem *checkItem, gpointer data)
 	WSET("emoticons-icon-size", icon_size);
 	ed->setCurrIconSize(icon_size);
 }
-
+*//*
 void EmoticonsDialog::setCurrIconSize(const string &size)
 {
 	currIconSize = size;
@@ -232,8 +232,8 @@ void EmoticonsDialog::setCurrIconSize(const string &size)
 		currIconSize = sizeIcon[DEFAULT];
 		WSET("emoticons-icon-size", sizeIcon[DEFAULT]);
 	}
-}
-
+}*/
+/*
 void EmoticonsDialog::onCheckPacksMenu(GtkMenuItem *checkItem, gpointer data)
 {
 	EmoticonsDialog *ed = (EmoticonsDialog *)data;	
@@ -243,21 +243,20 @@ void EmoticonsDialog::onCheckPacksMenu(GtkMenuItem *checkItem, gpointer data)
 		ed->getEmot(ed->address)->reloadPack_gui();
 	}
 }
-
+*/
 void EmoticonsDialog::showEmotDialog_gui()
 {
 	g_return_if_fail(dialog == NULL);
 
 	/* create popup dialog */
-	dialog = gtk_popover_new(Button);
+	dialog = gtk_popover_new(/*Button*/);
 	gtk_popover_set_position (GTK_POPOVER (dialog),GTK_POS_TOP);
 	gtk_widget_set_name(dialog,"EmoticonsDialog");//name for CSS'ing
 
 	build();
 	position();
-	//graber();
 
-	g_signal_connect(G_OBJECT(dialog), "event", G_CALLBACK(event), (gpointer)this);
+	//g_signal_connect(G_OBJECT(dialog), "event", G_CALLBACK(event), (gpointer)this);
 }
 
 void EmoticonsDialog::build()
@@ -277,29 +276,27 @@ void EmoticonsDialog::build()
 
 	/* set options dialog */
 	GtkCssProvider *provider = gtk_css_provider_new ();
-	GdkDisplay *display = gdk_display_get_default ();
-	GdkScreen *screen = gdk_display_get_default_screen (display);
+	GtkStyleContext *csc = gtk_widget_get_style_context(GTK_WIDGET(dialog)); 
 	std::string t_css = "GtkDialog#EmoticonsDialog { background: #faddab; }\n\0";
-	gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
-	gtk_style_context_add_provider_for_screen (screen,
-														GTK_STYLE_PROVIDER(provider),
-														GTK_STYLE_PROVIDER_PRIORITY_USER);
-	g_object_unref (provider);
+	//gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
+	//gtk_style_context_add_provider(csc,
+	//							GTK_STYLE_PROVIDER(provider),
+	//							GTK_STYLE_PROVIDER_PRIORITY_USER);
 	/*-------*/
 	/* create dialog body */
 	GtkWidget *frame = gtk_frame_new(NULL);
-	gtk_container_add(GTK_CONTAINER(dialog), frame);
-	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_ETCHED_OUT);
+//	gtk_container_add(GTK_CONTAINER(dialog), frame);
+//	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_ETCHED_OUT);
 
 	GtkWidget *table = gtk_grid_new();
-	gtk_container_add(GTK_CONTAINER(frame), table);
+//	gtk_container_add(GTK_CONTAINER(frame), table);
 
 	gtk_widget_show(frame);
 	gtk_widget_show(table);
 
 	int i = 1;
 
-	setCurrIconSize(WGETS("emoticons-icon-size"));
+	//setCurrIconSize(WGETS("emoticons-icon-size"));
 	bool useDefault = currIconSize != sizeIcon[DEFAULT]? FALSE : TRUE;
 
 	for (Emot::Iter it = list.begin(); it != list.end(); ++it)
@@ -321,15 +318,15 @@ void EmoticonsDialog::build()
 				image = gtk_image_new_from_pixbuf(pixbuf);
 
 			GtkWidget *icon = gtk_button_new();
-			gtk_button_set_image(GTK_BUTTON(icon), image);
-			gtk_button_set_relief(GTK_BUTTON(icon), GTK_RELIEF_NONE);
+			//gtk_button_set_image(GTK_BUTTON(icon), image);
+			//gtk_button_set_relief(GTK_BUTTON(icon), GTK_RELIEF_NONE);
 			gtk_widget_show(icon);
 			gtk_grid_attach(GTK_GRID(table), icon, left_attach, top_attach, 1, 1);
 
-			gtk_widget_set_tooltip_text(icon, name);
+			//gtk_widget_set_tooltip_text(icon, name);
 
 			g_object_set_data_full(G_OBJECT(icon), "text", g_strdup(name), g_free);
-			g_signal_connect(G_OBJECT(icon), "clicked", G_CALLBACK(onChat), (gpointer) this);
+//			g_signal_connect(G_OBJECT(icon), "clicked", G_CALLBACK(onChat), (gpointer) this);
 
 			right_attach = ++left_attach + 1;
 
@@ -365,9 +362,9 @@ void EmoticonsDialog::position()
 	gtk_widget_get_preferred_size(Button,NULL, &requisition);
 
 	Bw = requisition.width;
-
+	//TODO:?
 	/* the position of a window in root window coordinates */
-	gdk_window_get_origin( gtk_widget_get_window(Button), &Bx, &By);
+//	gdk_window_get_origin( gtk_widget_get_window(Button), &Bx, &By);
 	gtk_widget_get_allocation(Button,&allocation);
 
 	Bx += allocation.x;
@@ -376,12 +373,12 @@ void EmoticonsDialog::position()
 	Wx = Bx - Dw + Bw;
 	Wy = By - Dh;
 
-	gtk_window_move(GTK_WINDOW(dialog), Wx, Wy);
+//	gtk_window_move(GTK_WINDOW(dialog), Wx, Wy);
 	gtk_widget_show(dialog);
 }
-
-void EmoticonsDialog::onChat(GtkWidget *widget , gpointer data /*this*/)
-{
+/*
+void EmoticonsDialog::onChat(GtkWidget *widget , gpointer data /*this*///)
+/*{
 	EmoticonsDialog *ed = (EmoticonsDialog *) data;
 
 	// set focus chat enry
@@ -389,7 +386,7 @@ void EmoticonsDialog::onChat(GtkWidget *widget , gpointer data /*this*/)
 		gtk_widget_grab_focus(ed->Chat);
 
 	/* insert text to chat entry */
-	gchar *text = (gchar *)g_object_get_data(G_OBJECT(widget), "text");
+/*	gchar *text = (gchar *)g_object_get_data(G_OBJECT(widget), "text");
 	gint pos = gtk_editable_get_position(GTK_EDITABLE(ed->Chat));
 	gtk_editable_insert_text(GTK_EDITABLE(ed->Chat), text, -1, &pos);
 	gtk_editable_set_position(GTK_EDITABLE(ed->Chat), pos);
@@ -397,9 +394,9 @@ void EmoticonsDialog::onChat(GtkWidget *widget , gpointer data /*this*/)
 	gtk_widget_destroy(ed->dialog);
 	ed->dialog = NULL;
 }
-
-gboolean EmoticonsDialog::event(GtkWidget*, GdkEvent *event, gpointer data /*this*/)
-{
+/*
+gboolean EmoticonsDialog::event(GtkWidget*, GdkEvent *event, gpointer data /*this*///)
+/*{
 	EmoticonsDialog *ed = (EmoticonsDialog *) data;
 
 	if (event->type == GDK_BUTTON_PRESS || event->type == GDK_BUTTON_RELEASE)
@@ -415,3 +412,4 @@ gboolean EmoticonsDialog::event(GtkWidget*, GdkEvent *event, gpointer data /*thi
 	}
 	return FALSE;
 }
+*/

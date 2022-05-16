@@ -27,7 +27,7 @@
 #include "settingsmanager.hh"
 #include "search.hh"
 #include "wulformanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 
 using namespace std;
 using namespace dcpp;
@@ -82,8 +82,8 @@ SearchSpy::SearchSpy():
 	gtk_tree_view_set_model(topView.get(), GTK_TREE_MODEL(topStore));
 	g_object_unref(topStore);
 
-	g_signal_connect(getWidget("searchItem"), "activate", G_CALLBACK(onSearchItemClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("removeItem"), "activate", G_CALLBACK(onRemoveItemClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("searchItem"), "activate", G_CALLBACK(onSearchItemClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("removeItem"), "activate", G_CALLBACK(onRemoveItemClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("clearFrameButton"), "clicked", G_CALLBACK(onClearFrameClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("updateFrameButton"), "clicked", G_CALLBACK(onUpdateFrameClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("showTopButton"), "clicked", G_CALLBACK(onShowTopClicked_gui), (gpointer)this);
@@ -91,9 +91,9 @@ SearchSpy::SearchSpy():
 	g_signal_connect(getWidget("searchTopButton"), "clicked", G_CALLBACK(onSearchTopClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("removeTopButton"), "clicked", G_CALLBACK(onRemoveTopClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("ignoreTTHSearchCheckButton"), "toggled", G_CALLBACK(onIgnoreTTHSearchToggled_gui), (gpointer)this);
-	g_signal_connect(searchView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
-	g_signal_connect(searchView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
-	g_signal_connect(searchView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
+//	g_signal_connect(searchView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
+//	g_signal_connect(searchView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
+//	g_signal_connect(searchView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 	g_signal_connect(getWidget("okButton"), "clicked", G_CALLBACK(onOKButtonClicked_gui), (gpointer)this);
 
 	aSearchColor = WGETS("search-spy-a-color");
@@ -109,8 +109,8 @@ SearchSpy::~SearchSpy()
 	WSET("search-spy-waiting", (int)gtk_spin_button_get_value(GTK_SPIN_BUTTON(getWidget("waitingSpinButton"))));
 	WSET("search-spy-top", (int)gtk_spin_button_get_value(GTK_SPIN_BUTTON(getWidget("topSpinButton"))));
 
-	gtk_widget_destroy(getWidget("TopSearchDialog"));
-	g_object_unref(getWidget("menu"));
+//	gtk_widget_destroy(getWidget("TopSearchDialog"));
+//	g_object_unref(getWidget("menu"));
 
 	TimerManager::getInstance()->removeListener(this);
 	ClientManager::getInstance()->removeListener(this);
@@ -189,7 +189,7 @@ void SearchSpy::resetFrame()
 			iter = it->second;
 			gtk_tree_selection_unselect_iter(searchSelection, &iter);
 		}
-		onRemoveItemClicked_gui(NULL, (gpointer)this);
+	//	onRemoveItemClicked_gui(NULL, (gpointer)this);
 	}
 }
 
@@ -438,11 +438,11 @@ void SearchSpy::onShowTopClicked_gui(GtkWidget*, gpointer data)
 	SearchSpy *s = (SearchSpy *)data;
 
 	GtkWidget *dialog = s->getWidget("TopSearchDialog");
-	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
+//	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 
 	// if the dialog gets programmatically destroyed.
-	if (response == GTK_RESPONSE_NONE)
-		return;
+//	if (response == GTK_RESPONSE_NONE)
+//		return;
 	gtk_widget_hide(dialog);
 }
 
@@ -510,7 +510,7 @@ void SearchSpy::onIgnoreTTHSearchToggled_gui(GtkWidget *widget, gpointer )
 	gboolean toggle = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 	SettingsManager::getInstance()->set(SettingsManager::SPY_FRAME_IGNORE_TTH_SEARCHES, toggle);
 }
-
+/*
 void SearchSpy::onRemoveItemClicked_gui(GtkMenuItem*, gpointer data)
 {
 	SearchSpy *s = (SearchSpy *)data;
@@ -576,8 +576,8 @@ void SearchSpy::onSearchItemClicked_gui(GtkMenuItem*, gpointer data)
 		}
 		g_list_free(list);
 	}
-}
-
+}*/
+/*
 gboolean SearchSpy::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	SearchSpy *s = (SearchSpy *)data;
@@ -646,7 +646,7 @@ gboolean SearchSpy::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer d
 
 	return FALSE;
 }
-
+*/
 void SearchSpy::on(ClientManagerListener::IncomingSearch, const string& s) throw()
 {
 	if(SETTING(SPY_FRAME_IGNORE_TTH_SEARCHES) && s.compare(0, 4, "TTH:") == 0)

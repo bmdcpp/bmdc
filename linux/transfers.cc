@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011-2017 BMDC
+ * Copyright © 2011-2021 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
 #include <iomanip>
 #include <iterator>
 #include "transfers.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include "wulformanager.hh"
 #include "settingsmanager.hh"
 #include "func.hh"
@@ -50,14 +50,14 @@ Transfers::Transfers() :
 	transferStore(NULL), transferSelection(NULL),  appsPreviewMenu(NULL)
 {
 	// menu
-	g_object_ref_sink(getWidget("transferMenu"));
+//	g_object_ref_sink(getWidget("transferMenu"));
 
 	// Initialize the user command menu
-	userCommandMenu = new UserCommandMenu(getWidget("userCommandMenu"), ::UserCommand::CONTEXT_USER);
-	addChild(userCommandMenu);
+//	userCommandMenu = new UserCommandMenu(getWidget("userCommandMenu"), ::UserCommand::CONTEXT_USER);
+//	addChild(userCommandMenu);
 
 	// Initialize the preview menu
-	appsPreviewMenu = new PreviewMenu(getWidget("appsPreviewMenu"));
+//	appsPreviewMenu = new PreviewMenu(getWidget("appsPreviewMenu"));
 
 	// Initialize transfer treeview
 	transferView.setView(GTK_TREE_VIEW(getWidget("transfers")), TRUE, "transfers");
@@ -95,18 +95,18 @@ Transfers::Transfers() :
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(transferStore), transferView.col("Sort Order"), GTK_SORT_ASCENDING);
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(transferView.get(), transferView.col(_("User"))), TRUE);
 
-	g_signal_connect(transferView.get(), "button-press-event", G_CALLBACK(onTransferButtonPressed_gui), (gpointer)this);
-	g_signal_connect(transferView.get(), "button-release-event", G_CALLBACK(onTransferButtonReleased_gui), (gpointer)this);
-	g_signal_connect(getWidget("getFileListItem"), "activate", G_CALLBACK(onGetFileListClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("matchQueueItem"), "activate", G_CALLBACK(onMatchQueueClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("sendPrivateMessageItem"), "activate", G_CALLBACK(onPrivateMessageClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("addToFavoritesItem"), "activate", G_CALLBACK(onAddFavoriteUserClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("grantExtraSlotItem"), "activate", G_CALLBACK(onGrantExtraSlotClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("removeUserItem"), "activate", G_CALLBACK(onRemoveUserFromQueueClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("forceAttemptItem"), "activate", G_CALLBACK(onForceAttemptClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("closeConnectionItem"), "activate", G_CALLBACK(onCloseConnectionClicked_gui), (gpointer)this);
+//	g_signal_connect(transferView.get(), "button-press-event", G_CALLBACK(onTransferButtonPressed_gui), (gpointer)this);
+//	g_signal_connect(transferView.get(), "button-release-event", G_CALLBACK(onTransferButtonReleased_gui), (gpointer)this);
+//	g_signal_connect(getWidget("getFileListItem"), "activate", G_CALLBACK(onGetFileListClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("matchQueueItem"), "activate", G_CALLBACK(onMatchQueueClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("sendPrivateMessageItem"), "activate", G_CALLBACK(onPrivateMessageClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("addToFavoritesItem"), "activate", G_CALLBACK(onAddFavoriteUserClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("grantExtraSlotItem"), "activate", G_CALLBACK(onGrantExtraSlotClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("removeUserItem"), "activate", G_CALLBACK(onRemoveUserFromQueueClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("forceAttemptItem"), "activate", G_CALLBACK(onForceAttemptClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("closeConnectionItem"), "activate", G_CALLBACK(onCloseConnectionClicked_gui), (gpointer)this);
 
-	g_signal_connect(getWidget("SearchItem"), "activate", G_CALLBACK(onSearchAlternateClicked_gui), (gpointer)this);
+//	g_signal_connect(getWidget("SearchItem"), "activate", G_CALLBACK(onSearchAlternateClicked_gui), (gpointer)this);
 }
 
 Transfers::~Transfers()
@@ -116,8 +116,8 @@ Transfers::~Transfers()
 	UploadManager::getInstance()->removeListener(this);
 	ConnectionManager::getInstance()->removeListener(this);
 
-	g_object_unref(getWidget("transferMenu"));
-	delete appsPreviewMenu;
+//	g_object_unref(getWidget("transferMenu"));
+//	delete appsPreviewMenu;
 }
 
 void Transfers::show()
@@ -131,7 +131,7 @@ void Transfers::show()
 void Transfers::popupTransferMenu_gui()
 {
 	// Build user command menu
-	appsPreviewMenu->cleanMenu_gui();
+/*	appsPreviewMenu->cleanMenu_gui();
 	userCommandMenu->cleanMenu_gui();
 
 	GtkTreePath *path;
@@ -173,9 +173,9 @@ void Transfers::popupTransferMenu_gui()
 	#else
 		gtk_menu_popup(GTK_MENU(getWidget("transferMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 	#endif
-	gtk_widget_show_all(getWidget("transferMenu"));
+	gtk_widget_show_all(getWidget("transferMenu"));*/
 }
-
+/*
 void Transfers::onGetFileListClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
@@ -208,7 +208,7 @@ void Transfers::onGetFileListClicked_gui(GtkMenuItem*, gpointer data)
 	g_list_free(list);
 }
 
-void Transfers::onMatchQueueClicked_gui(GtkMenuItem*, gpointer data)
+/*void Transfers::onMatchQueueClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
 	GtkTreeIter iter;
@@ -240,7 +240,7 @@ void Transfers::onMatchQueueClicked_gui(GtkMenuItem*, gpointer data)
 	g_list_free(list);
 }
 
-void Transfers::onPrivateMessageClicked_gui(GtkMenuItem*, gpointer data)
+/*void Transfers::onPrivateMessageClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
 	string cid;
@@ -267,7 +267,7 @@ void Transfers::onPrivateMessageClicked_gui(GtkMenuItem*, gpointer data)
 	}
 	g_list_free(list);
 }
-
+/*
 void Transfers::onAddFavoriteUserClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
@@ -461,8 +461,8 @@ void Transfers::onCloseConnectionClicked_gui(GtkMenuItem*, gpointer data)
 		gtk_tree_path_free(path);
 	}
 	g_list_free(list);
-}
-
+}*/
+/*
 gboolean Transfers::onTransferButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
@@ -493,7 +493,7 @@ gboolean Transfers::onTransferButtonReleased_gui(GtkWidget*, GdkEventButton *eve
 
 	return FALSE;
 }
-
+*/
 bool Transfers::findParent_gui(const string& target, GtkTreeIter* iter)
 {
 	dcassert(!target.empty());
@@ -614,7 +614,6 @@ void Transfers::updateParent_gui(GtkTreeIter* iter)
 		progress = (double)(position * 100.0) / totalSize;
 	if (speed > 0)
 		timeLeft = ((GET_TICK() - position )/1000);
-		//(totalSize - position) / speed;
 
 	stream << setiosflags(ios::fixed) << setprecision(1);
 
@@ -669,7 +668,9 @@ void Transfers::updateTransfer_gui(StringMap params, bool download, Sound::TypeS
 
 	for (StringMap::const_iterator it = params.begin(); it != params.end(); ++it)
 	{
-		if (it->first == _("Size") || it->first == _("Speed") || it->first == "Download Position" || it->first == _("Time Left"))
+        if(it->first == _("Time Left")) //just in case
+            gtk_tree_store_set(transferStore, &iter, transferView.col(it->first), Util::toInt64(it->second), -1);
+		else if (it->first == _("Size") || it->first == _("Speed") || it->first == "Download Position")
 			gtk_tree_store_set(transferStore, &iter, transferView.col(it->first), Util::toInt64(it->second), -1);
 		else if (it->first == "Progress" || it->first == "Failed")
 			gtk_tree_store_set(transferStore, &iter, transferView.col(it->first), Util::toInt(it->second), -1);
@@ -873,7 +874,7 @@ void Transfers::grantExtraSlot_client(string cid, string hubUrl)
 	if (!cid.empty() && !hubUrl.empty())
 	{
 		UserPtr user = ClientManager::getInstance()->getUser(CID(cid));
-		UploadManager::getInstance()->reserveSlot(HintedUser(user, hubUrl));//NOTE: core 0.762
+		UploadManager::getInstance()->reserveSlot(HintedUser(user, hubUrl));
 	}
 }
 
@@ -916,7 +917,7 @@ void Transfers::getParams_client(StringMap& params, ConnectionQueueItem* cqi)
 	params["Hub URL"] = user.hint;
 }
 
-void Transfers::getParams_client(StringMap& params, Transfer* tr)
+void Transfers::getParams_client(StringMap& params, Transfer* tr, bool down)
 {
 	const HintedUser user = tr->getHintedUser();
 	double percent = 0.0;
@@ -928,6 +929,7 @@ void Transfers::getParams_client(StringMap& params, Transfer* tr)
 		params[_("Filename")] = "TTH: " + Util::getFileName(tr->getPath());
 	else
 		params[_("Filename")] = Util::getFileName(tr->getPath());
+	
 	params[_("User")] = WulforUtil::getNicks(user);
 	params[_("Hub Name")] = WulforUtil::getHubNames(user);
 	params[_("Path")] = Util::getFilePath(tr->getPath());
@@ -938,11 +940,20 @@ void Transfers::getParams_client(StringMap& params, Transfer* tr)
 		percent = static_cast<double>(tr->getPos() * 100.0)/ tr->getSize();
 	params["Progress"] = Util::toString(static_cast<int>(percent));
 	params["IP"] = tr->getUserConnection().getRemoteIp();
-	//params[_("Time Left")] = tr->getSecondsLeft() > 0 ? Util::toString(tr->getSecondsLeft()) : "0";
-	//double timeleft = static_cast<double>(tr->getSize() - tr->getPos()) / tr->getAverageSpeed();
 	
-	params[_("Time Left")] = Util::formatSeconds((GET_TICK() - tr->getStart())/1000);
-	//Util::formatSeconds(timeleft);
+    
+    if(down) {
+        Download *d = reinterpret_cast<Download*>(tr);
+       // string pos = Util::formatBytes(d->getPos());
+       // double percent = (double) d->getPos()*100.0 / (double) d->getSize();
+        string elapsed = Util::formatSeconds((GET_TICK() - d->getStart())/1000);
+        params[_("Time Left")] = elapsed;
+    } else {    
+        params[_("Time Left")] = tr->getSecondsLeft() > 0 ? Util::toString(tr->getSecondsLeft()) : "0";
+    }
+	//double timeleft = static_cast<double>(tr->getSize() - tr->getPos()) / tr->getAverageSpeed();
+	//params[_("Time Left")] = Util::formatSeconds((GET_TICK() - tr->getStart())/1000);
+	
 	params["Target"] = tr->getPath();
 	params["Hub URL"] = tr->getUserConnection().getHubUrl();
 	params["TTH"] = tr->getTTH().toBase32();
@@ -1002,9 +1013,9 @@ void Transfers::on(DownloadManagerListener::Tick, const DownloadList& dls) noexc
 		if (dl->isSet(Download::FLAG_ZDOWNLOAD))
 			stream << _("[Z]");
 
-		//stream << setiosflags(ios::fixed); //<< setprecision(1);
+		stream << setiosflags(ios::fixed); //<< setprecision(1);
 		stream << " " << _("Downloaded ") << Util::formatBytes(dl->getPos()) << " (" << params["Progress"]
-		<< "%) in " << Util::formatSeconds((int64_t)(GET_TICK() - dl->getStart()) / 1000);
+		<< "%) in " << Util::formatTime/*Seconds*/("%H:%M:%S",(int64_t)(GET_TICK() - dl->getStart()) / 1000);
 		params[_("Status")] = stream.str();
 
 		typedef Func3<Transfers, StringMap, bool, Sound::TypeSound> F3;
@@ -1147,7 +1158,7 @@ void Transfers::on(UploadManagerListener::Starting, Upload* ul) noexcept
 {
 	StringMap params;
 
-	getParams_client(params, ul);
+	getParams_client(params, ul, false);
 	params[_("Status")] = _("Upload starting...");
 	params["Sort Order"] = "u" + params[_("User")];
 	params["Failed"] = "0";
@@ -1166,7 +1177,7 @@ void Transfers::on(UploadManagerListener::Tick, const UploadList& uls) noexcept
 		StringMap params;
 		ostringstream stream;
 
-		getParams_client(params, ul);
+		getParams_client(params, ul, false);
 
 		if (ul->getUserConnection().isSecure())
 		{
@@ -1193,7 +1204,7 @@ void Transfers::on(UploadManagerListener::Complete, Upload* ul) noexcept
 {
 	StringMap params;
 
-	getParams_client(params, ul);
+	getParams_client(params, ul , false);
 	params[_("Status")] = _("Upload complete...");
 	params["Sort Order"] = "w" + params[_("User")];
 	params[_("Speed")] = "0";
@@ -1206,7 +1217,7 @@ void Transfers::on(UploadManagerListener::Complete, Upload* ul) noexcept
 void Transfers::on(UploadManagerListener::Failed, Upload* ul, const string& reason) noexcept
 {
 	StringMap params;
-	getParams_client(params, ul);
+	getParams_client(params, ul, false);
 	params[_("Status")] = reason;
 	params["Sort Order"] = "w" + params[_("User")];
 	params["Failed"] = "1";

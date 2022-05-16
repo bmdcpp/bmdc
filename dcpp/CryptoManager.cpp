@@ -99,9 +99,9 @@ CryptoManager::~CryptoManager() {
 	delete[] cs;
 
 	/* thread-local cleanup */
-	#if OPENSSL_API_COMPAT < 0x10100000L 
-	ERR_remove_thread_state(NULL);
-	#endif
+//	#if OPENSSL_API_COMPAT < 0x10100000L 
+//	ERR_remove_thread_state(NULL);
+//	#endif
 
 	clientContext.reset();
 	serverContext.reset();

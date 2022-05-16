@@ -1,5 +1,4 @@
 /*
- * Copyright © 2004-2017 Jens Oknelid, paskharen@gmail.com
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,7 +53,7 @@ class DownloadQueue:
 		void sendMessage_gui(std::string cid);
 
 		// GUI callbacks
-		static gboolean onDirButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+		/*static gboolean onDirButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onDirButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onDirKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static gboolean onFileButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
@@ -73,7 +72,7 @@ class DownloadQueue:
 		static void onFileRemoveSourceClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onFileRemoveUserFromQueueClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onFileRemoveClicked_gui(GtkMenuItem *menuitem, gpointer data);
-
+*/
 		// Client functions
 		void addQueueList(const dcpp::QueueItem::StringMap& ll);
 		void move_client(std::string source, std::string target);

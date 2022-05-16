@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 - 2017 - BMDC++
+ * Copyright (C) BMDC
  *
  * BMDC++ is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -26,7 +26,7 @@
 #include "../dcpp/RawManager.h"
 #include "entry.hh"
 #include "wulformanager.hh"
-#include "WulforUtil.hh"
+#include "GuiUtil.hh"
 #include "treeview.hh"
 
 using namespace std;
@@ -37,28 +37,31 @@ class FavoriteHubDialog: public Entry
    public:
    		//@: entry : The Fav Entry to process to dialog
    		//@: and always is it called like that
-		explicit FavoriteHubDialog(FavoriteHubEntry* entry);
-		//@: groups : wich groups should dialog show up
-		bool initDialog(UnMapIter &groups);
-
-		~FavoriteHubDialog() {
-			WulforManager::get()->deleteEntry_gui(this);//this is for?
+		explicit FavoriteHubDialog(FavoriteHubEntry* entry, bool updated = false);
+		~FavoriteHubDialog() 
+		{
+		
 		}
 		GtkWidget* getContainer() { return mainDialog; }
+		FavoriteHubEntry* getEntryFav() { return p_entry;}
 
 private:
 		void initActions();
+		
+		static void	onResponse(GtkWidget* dialog ,int response, gpointer data);
+
 		static void onToggledClicked_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
 		static void onCheckButtonToggled_gui(GtkToggleButton *button, gpointer data);
 
 		static void onAddShare_gui(GtkWidget *widget, gpointer data);
 		static void onRemoveShare_gui(GtkWidget *widget, gpointer data);
-		static gboolean onShareButtonReleased_gui(GtkWidget*, GdkEventButton*, gpointer data);
+		//static gboolean onShareButtonReleased_gui(GtkWidget*, GdkEventButton*, gpointer data);
 
 		bool showErrorDialog_gui(const string &description);
 		void updateShares_gui();
 		void addShare_gui(string path, string name);
 
+		bool updated;
 		FavoriteHubEntry* p_entry; //@: The Fav Entry pointer
 		//@TreeViews
 		//@: The Kick/Ban Action 

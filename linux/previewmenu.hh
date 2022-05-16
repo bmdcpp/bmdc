@@ -1,5 +1,5 @@
 /*
- * Copyright © 2009-2017 freedcpp, http://code.google.com/p/freedcpp
+ * Copyright © 2009-2018 freedcpp, http://code.google.com/p/freedcpp
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ class PreviewMenu
 	private:
 
 		GtkWidget *appsPreviewMenu;
-		static void onPreviewAppClicked_gui(GtkMenuItem *menuItem, gpointer data);
+		//static void onPreviewAppClicked_gui(GtkMenuItem *menuItem, gpointer data);
 };
 
 #else
