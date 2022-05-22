@@ -6,7 +6,7 @@ Import('env')
 gui_files = env.Glob('*.cpp')
 obj_files = []
 
-env.ParseConfig('pkg-config --cflags --libs gtk+-3.0')
+env.ParseConfig('pkg-config --cflags --libs gtk4')
 
 # Build the gui_files
 obj_files = env.Object(gui_files)

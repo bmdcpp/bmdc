@@ -1,10 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
-  <schema path="/org/bmdc-team/bmdc" id="org.bmdc-tean.bmdc">
+  <schema path="/org/bmdc-team/bmdc" id="org.bmdc-team.bmdc">
     <key name="font" type="s">
       <default>'Monospace 12'</default>
       <summary>Font</summary>
       <description>The font to be used for content.</description>
     </key>
+    <key name="main-max-history" type="i">
+      <default>30</default>
+      <summary>history</summary>
+      <description>Max size of history.</description>
+    </key>
+    <key name="private-max-history" type="i">
+      <default>30</default>
+      <summary>history</summary>
+      <description>max size of history.</description>
+    </key>
+    <key name="icon-country" type="b">
+      <default>1</default>
+      <summary>icon country</summary>
+      <description>max size of history.</description>
+    </key>
+    <key name="hide-transfers" type="b">
+      <default>1</default>
+      <summary>icon country</summary>
+      <description>max size of history.</description>
+    </key>
+    <key name="main-window-maximized" type="b">
+      <default>1</default>
+      <summary>icon country</summary>
+      <description>max size of history.</description>
+    </key>
+
+    <!--key name="username" type="s">
+      <default>'User'</default>
+      <summary>username</summary>
+      <description>username.</description>
+    </key>
+    <key name="UserDesc" type="s">
+      <default>'BMDC++'</default>
+      <summary>Descrption</summary>
+      <description>description.</description>
+    </key-->
+
   </schema>
 </schemalist>

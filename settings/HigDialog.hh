@@ -19,11 +19,11 @@
 #ifndef _HIG_DIALOG
 #define _HIG_DIALOG_
 
-#include <dcpp/stdinc.h>
-#include <dcpp/GetSet.h>
-#include <dcpp/Util.h>
-#include <dcpp/ColorSettings.h>
-#include <linux/entry.hh>
+#include "../dcpp/stdinc.h"
+#include "../dcpp/GetSet.h"
+#include "../dcpp/Util.h"
+#include "../dcpp/ColorSettings.h"
+#include "../linux/entry.hh"
 
 class HigDialog: public Entry
 {

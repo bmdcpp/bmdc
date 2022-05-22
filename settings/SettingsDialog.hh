@@ -18,12 +18,12 @@ class SettingsDialog
 	public:
 		SettingsDialog();
 		~SettingsDialog();
-		GtkWidget *getContainer() { return dialogWin; }
+		GtkWidget *getContainer() { return dia; }
 		void run();
 		std::string& getID() { return id;}
 	private:
 		SettingsPage* pages[17];
-		GtkWidget* dialogWin,
+		GtkWidget* dialogWin,*dia ,
 		* mainBox,	* statusBox,
 		* okButton,*stButton,
 		* paned,*tree,
@@ -35,6 +35,7 @@ class SettingsDialog
 		gint actual_page;
 		std::string id;
 		int m_num;
+	public:	
 		void close() { 
 			/*for(int i = 0; i < m_num; ++i) {
 				if(pages[i] != NULL && pages[i]->showed >= 1) {
@@ -46,10 +47,8 @@ class SettingsDialog
 			
 			if(pages[previous_page] != NULL)
 				pages[previous_page]->write();
-			
-			gtk_widget_destroy(getContainer());
 		}
-
+	private:	
 static void tree_selection_changed_cb (GtkTreeSelection *selection, gpointer data)
 {
 		SettingsDialog *sd = (SettingsDialog*)data;
@@ -67,7 +66,7 @@ static void tree_selection_changed_cb (GtkTreeSelection *selection, gpointer dat
                 {
 						dcdebug("\npage %s\n",sd->pages[num]->get_name_page());
 						sd->pages[num]->show(sd->containBox,sd->pages[sd->previous_page]->getTopWidget());
-						gtk_widget_show_all(sd->pages[num]->getTopWidget());
+//						gtk_widget_show_all(sd->pages[num]->getTopWidget());
 				}
 				sd->previous_page = num;
         }

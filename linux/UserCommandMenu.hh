@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2018 BMDC
+ * Copyright © 2010-2023 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,13 +29,13 @@
 #include "../dcpp/typedefs.h"
 #include "entry.hh"
 
-class UserCommandMenu //: public Entry
+class UserCommandMenu
 {
 	public:
-		UserCommandMenu(GMenu *userCommandMenu, int ctx);
+		UserCommandMenu(GMenu *userCommandMenu,GtkWidget* parent, int ctx);
 		virtual ~UserCommandMenu() {}
 
-		//GtkWidget *getContainer() { return userCommandMenu; }
+		GMenu *getContainer() { return userCommandMenu; }
 		void addHub(const std::string hub);
 		void addHub(const dcpp::StringList hubs2);
 		void addUser(const std::string cid);
@@ -47,7 +47,7 @@ class UserCommandMenu //: public Entry
 
 	private:
 		// GUI functions
-		void createSubMenu_gui(GtkWidget *&menu, std::string &command);
+		void createSubMenu_gui(GMenuItem *&menu, std::string &command);
 
 		// GUI callbacks
 		static void onUserCommandClick_gui(GMenu *item,GVariant*, gpointer data);

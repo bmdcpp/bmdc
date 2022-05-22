@@ -36,6 +36,8 @@ const string EmoticonsDialog::sizeIcon[] = {
 	"16x16", "22x22", "24x24", "32x32", "36x36", "48x48", "64x64", "0"
 };
 
+//const GActionEntry EmoticonsDialog::win_entries[] ={{}};
+
 Emoticons* EmoticonsDialog::em_global = NULL;
 
 EmoticonsDialog::EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *menu, string packName /*empty*/, const string& address /*empty*/) :
@@ -49,8 +51,6 @@ EmoticonsDialog::EmoticonsDialog(GtkWidget *chat, GtkWidget *button, GtkWidget *
 	packName(packName),
 	address(address)
 {
-	g_object_ref_sink(Menu);
-
 	if(!address.empty()) {
 		
 		bool dontCreate = false;
@@ -87,7 +87,6 @@ Emoticons *EmoticonsDialog::getEmot(const std::string &address)
 
 EmoticonsDialog::~EmoticonsDialog()
 {
-	g_object_unref(Menu);
 	map<std::string,Emoticons*>::iterator it;
 	if( (it = hubs.find(address)) != hubs.end() )
 	{
@@ -97,9 +96,6 @@ EmoticonsDialog::~EmoticonsDialog()
 	{
 		delete em_global;
 	}
-
-//	if (dialog != NULL)
-//		gtk_widget_destroy(dialog);
 }
 /*
 void EmoticonsDialog::buildEmotMenu_gui()
@@ -285,11 +281,9 @@ void EmoticonsDialog::build()
 	/*-------*/
 	/* create dialog body */
 	GtkWidget *frame = gtk_frame_new(NULL);
-//	gtk_container_add(GTK_CONTAINER(dialog), frame);
 //	gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_ETCHED_OUT);
 
 	GtkWidget *table = gtk_grid_new();
-//	gtk_container_add(GTK_CONTAINER(frame), table);
 
 	gtk_widget_show(frame);
 	gtk_widget_show(table);

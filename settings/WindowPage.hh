@@ -17,7 +17,7 @@
 #ifndef _WIN_SETTINGS_PAGE_
 #define _WIN_SETTINGS_PAGE_
 #include <gtk/gtk.h>
-#include <linux/treeview.hh>
+#include "../linux/treeview.hh"
 #include "SettingsPage.hh"
 /*-----------------------------------------------------------------------------*/
 class WindowPage : public SettingsPage

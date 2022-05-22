@@ -53,11 +53,9 @@ ShareBrowser::ShareBrowser(HintedUser user, const string &file, const string &in
 	}
     //@Nick can have in it .% and so on thus reason why we use CID'ed ver
 	setName(CID(nick).toBase32());
-
 	// Configure the dialogs
 	File::ensureDirectory(SETTING(DOWNLOAD_DIRECTORY));
 //	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(getWidget("dirChooserDialog")), Text::fromUtf8(SETTING(DOWNLOAD_DIRECTORY)).c_str());
-	// menu
 	// Set the pane position
 	gtk_paned_set_position(GTK_PANED(getWidget("pane")), WGETI("sharebrowser-pane-position"));
 

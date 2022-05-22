@@ -428,6 +428,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	if _platform == 'win32':
 		env.Append(LIBS = ['wsock32','iphlpapi','ws2_32' ,'Winmm' ,'ole32'])
 		env.Append(LINKFLAGS= '-Wl,-subsystem,windows')
+		#env.Append(CPPDEFINES = '_WIN32')
 		#env.Append(LDFLAGS = '-L/usr/i686-w64-mingw32/lib/')
 
 	if LIB_IS_GEO:
@@ -472,8 +473,8 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	# Build the GUI
 	ui_env = env.Clone()
 	glade_pot_file = SConscript(dirs = 'ui', variant_dir = env['build_path'] + 'ui', duplicate = 0, exports = {'env': ui_env})
-	if NEW_SETTING:
-		settings_files = SConscript(dirs = 'settings', variant_dir = env['build_path']+'settings', duplicate = 0, exports = { 'env': ui_env})
+	#if NEW_SETTING:
+	settings_files = SConscript(dirs = 'settings', variant_dir = env['build_path']+'settings', duplicate = 0, exports = { 'env': ui_env})
 	(linux_pot_file, obj_files) = SConscript(dirs = 'linux', variant_dir = env['build_path'] + 'gui', duplicate = 0, exports = {'env': ui_env})
 
 	# Create the executable
@@ -494,7 +495,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	#elif not NEW_SETTING:
 	#	env.Program(target = PACKAGE, source = [libdcpp,obj_files])
 	#else:
-	env.Program(target = PACKAGE, source = [libdcpp,obj_files])
+	env.Program(target = PACKAGE, source = [libdcpp,obj_files ,settings_files  ])
 
 	# i18n
 	env.MergePotFiles(source = [glade_pot_file, linux_pot_file], target = 'po/%s.pot' % PACKAGE)

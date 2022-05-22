@@ -46,9 +46,6 @@ SearchSpy::SearchSpy():
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("waitingSpinButton")), (double)Waiting);
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(getWidget("topSpinButton")), (double)Top);
 
-	// menu
-	g_object_ref_sink(getWidget("menu"));
-
 	// Initialize search list treeview
 	searchView.setView(GTK_TREE_VIEW(getWidget("searchSpyView")), TRUE, "searchspy");
 	searchView.insertColumn(_("Search String"), G_TYPE_STRING, TreeView::ICON_STRING_TEXT_COLOR, 305, "icon", "color");
@@ -110,7 +107,6 @@ SearchSpy::~SearchSpy()
 	WSET("search-spy-top", (int)gtk_spin_button_get_value(GTK_SPIN_BUTTON(getWidget("topSpinButton"))));
 
 //	gtk_widget_destroy(getWidget("TopSearchDialog"));
-//	g_object_unref(getWidget("menu"));
 
 	TimerManager::getInstance()->removeListener(this);
 	ClientManager::getInstance()->removeListener(this);
@@ -439,10 +435,6 @@ void SearchSpy::onShowTopClicked_gui(GtkWidget*, gpointer data)
 
 	GtkWidget *dialog = s->getWidget("TopSearchDialog");
 //	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-
-	// if the dialog gets programmatically destroyed.
-//	if (response == GTK_RESPONSE_NONE)
-//		return;
 	gtk_widget_hide(dialog);
 }
 

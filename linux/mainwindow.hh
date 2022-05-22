@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2023 BMDC
+ * Copyright © 2010-2023 BMDC++
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,6 +41,8 @@
 #include "message.hh"
 #include "notify.hh"
 #include "SearchEntry.hh"
+#include "settingsmanager.hh"
+
 
 #include <queue>
 #include <vector>
@@ -68,6 +70,8 @@ class MainWindow:
 		// Inherited from Entry
 		GtkWidget *getContainer();
 
+		static void onResponse(GtkWidget* wid , int response , gpointer data);
+
 		// GUI functions
 		void show();
 		void setTitle(const std::string& text);
@@ -86,7 +90,7 @@ class MainWindow:
 		void showFavoriteUsers_gui();
 		void showFinishedDownloads_gui();
 		void showFinishedUploads_gui();
-		void showHub_gui(std::string address, std::string encoding = "");
+		void showHub_gui(std::string address, std::string encoding = WGETS("default-charset") );
 		void showSearchSpy_gui();
 		void showSearchADL_gui();
 		void showDetection_gui();
@@ -130,7 +134,7 @@ class MainWindow:
 			END
 		} IconsToolbar;
 
-		/*#define gtbs(w,i) gtk_tool_button_set_icon_name(w,i)
+		/*
 		void setStatusOfIcons(IconsToolbar type, bool isClicked)
 		{
 			if(isClicked)
@@ -138,14 +142,8 @@ class MainWindow:
 			else
 				gtbs(GTK_TOOL_BUTTON(getWidget(icons[type][1])),std::string("bmdc-"+icons[type][0]).c_str());
 		}
-*/
-/*		void setLimitingIcon(bool Limited);
+		*/
 
-		void setAwayIcon(bool isAway)
-		{
-			setStatusOfIcons(AWAY,isAway);
-		}
-*/
 		SearchEntry *getSearchEntry () { return dynamic_cast<SearchEntry*>(findBookEntry(Entry::SEARCHS));}
 
 	private:

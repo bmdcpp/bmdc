@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2014-2018 BMDC++
+ * Copyright © 2014-2023 BMDC++
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -832,9 +832,9 @@ void Settings::saveOptionsView_gui(TreeView &treeView, SettingsManager *sm)
 
 void Settings::initPersonal_gui()
 {
-//	gtk_entry_set_text(GTK_ENTRY(getWidget("nickEntry")), SETTING(NICK).c_str());
-//	gtk_entry_set_text(GTK_ENTRY(getWidget("emailEntry")), SETTING(EMAIL).c_str());
-//	gtk_entry_set_text(GTK_ENTRY(getWidget("descriptionEntry")), SETTING(DESCRIPTION).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(getWidget("nickEntry")), SETTING(NICK).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(getWidget("emailEntry")), SETTING(EMAIL).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(getWidget("descriptionEntry")), SETTING(DESCRIPTION).c_str());
 //	connectionSpeedComboBox = GTK_COMBO_BOX_TEXT(gtk_combo_box_text_new());
 //	gtk_box_pack_start(GTK_BOX(getWidget("connectionBox")), GTK_WIDGET(connectionSpeedComboBox), FALSE, TRUE, 0);
 //	gtk_widget_show_all(GTK_WIDGET(connectionSpeedComboBox));

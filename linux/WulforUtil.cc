@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2021 BMDC
+ * Copyright © 2010-2023 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -57,11 +57,8 @@
 #include "hub.hh"
 #include "version.hh"
 
-
 using namespace std;
 using namespace dcpp;
-
-//bool WulforUtil::_profileIsLocked = false;
 
 const string WulforUtil::ENCODING_LOCALE = _("System default");
 vector<string> WulforUtil::charsets;

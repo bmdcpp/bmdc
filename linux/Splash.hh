@@ -32,12 +32,12 @@ class Splash
 		Splash() :
 		 Text("") ,percentage(0),win(NULL), label(NULL), box(NULL), image(NULL), progressbar(NULL) { }
 		void show() {
-			/*win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-			gtk_window_set_decorated(GTK_WINDOW(win),FALSE);
-			gtk_window_set_default_size(GTK_WINDOW(win),350,20);
-			gtk_window_set_skip_taskbar_hint(GTK_WINDOW(win),TRUE);//@is this good idea?
-			gtk_window_set_keep_above(GTK_WINDOW(win), TRUE);//
-			gtk_window_set_position(GTK_WINDOW(win),GTK_WIN_POS_CENTER);
+			win = gtk_window_new();
+			//gtk_window_set_decorated(GTK_WINDOW(win),FALSE);
+			//gtk_window_set_default_size(GTK_WINDOW(win),350,20);
+			//gtk_window_set_skip_taskbar_hint(GTK_WINDOW(win),TRUE);//@is this good idea?
+			//gtk_window_set_keep_above(GTK_WINDOW(win), TRUE);//
+			//gtk_window_set_position(GTK_WINDOW(win),GTK_WIN_POS_CENTER);*/
 			label = gtk_label_new("Loading...");
 			progressbar = gtk_progress_bar_new ();
 			box = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
@@ -46,27 +46,16 @@ class Splash
 			g_resources_register(res);
 			image = gtk_image_new_from_resource("/org/bmdc-team/bmdc/icons/hicolor/96x96/apps/bmdc.png");
 			
-			/*gtk_box_append(GTK_BOX(box), image);
+			gtk_box_append(GTK_BOX(box), image);
 			gtk_box_append(GTK_BOX(box), label);
 			gtk_box_append(GTK_BOX(box), progressbar);
-			gtk_window_set_child(GTK_WINDOW(win), box);//
-*/
-/*			gtk_container_add(GTK_CONTAINER(box),image);
-			gtk_container_add(GTK_CONTAINER(box),label);
-			gtk_container_add(GTK_CONTAINER(box), progressbar);
-			gtk_container_add(GTK_CONTAINER(win),box);
+			gtk_window_set_child(GTK_WINDOW(win), box);
 
+			gtk_widget_show(win);
 
-
-			gtk_widget_show_now(image);
-			gtk_widget_show_now(label);
-			gtk_widget_show_now(progressbar);
-			gtk_widget_show_now(box);
-			gtk_widget_show_now(win);
-*/
 			update();
 		}
-		~Splash() {	win = NULL;label= NULL;box= NULL;image= NULL;progressbar= NULL; }///
+		~Splash() {	win = NULL;label= NULL;box= NULL;image= NULL;progressbar= NULL; }
 
 	void setText(const string &text)
 	{
@@ -81,11 +70,11 @@ class Splash
 
 	void update()
 	{
-	//	gtk_label_set_text(GTK_LABEL(label),("Loading ..."+Text+" "+Util::toString(percentage*100)+" %").c_str());
-	//	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR(progressbar),percentage);
-	//	while (g_main_context_iteration(NULL, FALSE));//?
+		gtk_label_set_text(GTK_LABEL(label),("Loading ..."+Text+" "+Util::toString(percentage*100)+" %").c_str());
+		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR(progressbar),percentage);
+		while (g_main_context_iteration(NULL, FALSE));
 	}
-	void destroy() { /*gtk_widget_destroy(win);*/ }
+	void destroy() { gtk_widget_hide(win); }
 
 	private:
 		float percentage;

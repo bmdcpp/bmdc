@@ -17,7 +17,7 @@
 #ifndef _HIGLIT_PAGE_
 #define _HIGLIT_PAGE_
 #include <gtk/gtk.h>
-#include <linux/treeview.hh>
+#include "../linux/treeview.hh"
 #include "SettingsPage.hh"
 /*----------------------------HigPage---------------------------------------------*/
 class HigPage: public SettingsPage

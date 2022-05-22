@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2017 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2018 BMDC
+ * Copyright © 2018-2023 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,13 +39,9 @@ DownloadQueue::DownloadQueue():
 	totalSize(0)
 {
 	// Configure the dialogs
-	File::ensureDirectory(SETTING(DOWNLOAD_DIRECTORY));//@ Possible unneeded?
+	//File::ensureDirectory(SETTING(DOWNLOAD_DIRECTORY));//@ Possible unneeded?
 	
 	//gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(getWidget("dirChooserDialog")), Text::fromUtf8(SETTING(DOWNLOAD_DIRECTORY)).c_str());
-	// menu
-	//g_object_ref_sink(getWidget("dirMenu"));
-	//g_object_ref_sink(getWidget("fileMenu"));
-
 	// Initialize directory treeview
 	dirView.setView(GTK_TREE_VIEW(getWidget("dirView")));
 	dirView.insertColumn("Dir", G_TYPE_STRING, TreeView::PIXBUF_STRING, -1, "Icon");
@@ -116,10 +112,10 @@ DownloadQueue::DownloadQueue():
 	g_signal_connect(fileView.get(), "key-release-event", G_CALLBACK(onFileKeyReleased_gui), (gpointer)this);
 */
 	// Set the pane position
-	gtk_paned_set_position(GTK_PANED(getWidget("pane")), WGETI("downloadqueue-pane-position"));
-	int panePosition = WGETI("downloadqueue-pane-position");
-	if (panePosition > 10)
-		gtk_paned_set_position(GTK_PANED(getWidget("pane")), panePosition);
+	//gtk_paned_set_position(GTK_PANED(getWidget("pane")), WGETI("downloadqueue-pane-position"));
+	//int panePosition = WGETI("downloadqueue-pane-position");
+	//if (panePosition > 10)
+	//	gtk_paned_set_position(GTK_PANED(getWidget("pane")), panePosition);
 }
 
 DownloadQueue::~DownloadQueue()
@@ -127,13 +123,9 @@ DownloadQueue::~DownloadQueue()
 	QueueManager::getInstance()->removeListener(this);
 
 	// Save the pane position
-	int panePosition = gtk_paned_get_position(GTK_PANED(getWidget("pane")));
-	if (panePosition > 10)
-		WSET("downloadqueue-pane-position", panePosition);
-
-//	gtk_widget_destroy(getWidget("dirChooserDialog"));
-//	g_object_unref(getWidget("dirMenu"));
-//	g_object_unref(getWidget("fileMenu"));
+	//int panePosition = gtk_paned_get_position(GTK_PANED(getWidget("pane")));
+	//if (panePosition > 10)
+	//	WSET("downloadqueue-pane-position", panePosition);
 }
 
 void DownloadQueue::show()

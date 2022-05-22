@@ -125,7 +125,7 @@ FavoriteHubs::FavoriteHubs():
 
 gboolean FavoriteHubs::key_pressed_gui ( GtkEventControllerKey* self,  guint keyval,  guint keycode,  GdkModifierType state,  gpointer data )
 {
-	g_print( "key_pressed");
+	g_debug( "key_pressed");
 	if( keyval == GDK_KEY_Return  ) {
 			onConnect_gui_b(NULL,data);
 			return TRUE;
@@ -135,7 +135,8 @@ gboolean FavoriteHubs::key_pressed_gui ( GtkEventControllerKey* self,  guint key
 
 void FavoriteHubs::key_released_gui (  GtkEventControllerKey* self,  guint keyval,  guint keycode,  GdkModifierType state,  gpointer user_data )
 {
-	g_print( "key_released");
+	g_debug( "key_released");
+	
 }
 
 void FavoriteHubs::on_inner_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
@@ -145,7 +146,7 @@ void FavoriteHubs::on_inner_widget_right_btn_pressed (GtkGestureClick* /*gesture
                                    gpointer         *data)
 {
 	FavoriteHubs *FH = (FavoriteHubs*)data;
-  g_print ("on_inner_widget_right_btn_pressed() called\n");
+  g_debug ("on_inner_widget_right_btn_pressed() called\n");
 
 	GMenu *menu = g_menu_new ();
 	GMenuItem *menu_item_add = g_menu_item_new ("Add", "fav.add");
@@ -185,7 +186,7 @@ void FavoriteHubs::on_inner_widget_right_btn_released (GtkGestureClick *gesture,
                                     double           /*y*/,
                                     GtkWidget*       /*widget*/)
 {
-  g_print ("on_inner_widget_right_btn_released() called\n");
+  g_debug ("on_inner_widget_right_btn_released() called\n");
 
   gtk_gesture_set_state (GTK_GESTURE (gesture),
                          GTK_EVENT_SEQUENCE_CLAIMED);

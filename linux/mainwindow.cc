@@ -105,6 +105,7 @@ MainWindow::MainWindow():
 //	HashManager::getInstance()->getStats(stmp, startBytes, startFiles);
 //	updateStats_gui("", 0, 0, 0);
 	window = gtk_window_new();
+	gtk_window_set_default_size (GTK_WINDOW(window),500,500);
 //	setStatRate_gui();
 
 	GtkWidget* mWidget = gtk_box_new(GTK_ORIENTATION_VERTICAL , 12);
@@ -150,20 +151,26 @@ MainWindow::MainWindow():
          GtkWidget* sl = gtk_button_new_with_label("SystemLog");
   gtk_box_append(GTK_BOX(tool),sl);
   
-	GtkWidget* hpaned = gtk_paned_new(GTK_ORIENTATION_HORIZONTAL);
+           GtkWidget* cmd = gtk_button_new_with_label("CmdLog");
+  gtk_box_append(GTK_BOX(tool),cmd);
+  
+	GtkWidget* hpaned = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
 	note = gtk_notebook_new();
 	
 	gtk_paned_set_start_child (GTK_PANED (hpaned), note);
 //	gtk_paned_set_start_child_resize (GTK_PANED (hpaned), TRUE);
 //	gtk_paned_set_start_child_shrink (GTK_PANED (hpaned), FALSE);
-	gtk_widget_set_size_request (note, 300,300);
-
 	/*gtk_paned_set_end_child (GTK_PANED (hpaned), frame2);
 	gtk_paned_set_end_child_resize (GTK_PANED (hpaned), FALSE);
 	gtk_paned_set_end_child_shrink (GTK_PANED (hpaned), FALSE);
-	gtk_widget_set_size_request (frame2, 50, -1);
 	*/
-    
+    transfers = new Transfers();
+    gtk_paned_set_end_child(GTK_PANED(hpaned) , transfers->getContainer());
+    transfers->show();
+
+		int  pos = WGETI("transfer-pane-position");
+		gtk_paned_set_position(GTK_PANED(hpaned), pos);
+
     gtk_box_append(GTK_BOX(mWidget) , GTK_WIDGET(hpaned));
 
 	GtkWidget* bBox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL , 300);
@@ -173,7 +180,6 @@ MainWindow::MainWindow():
     statusBar = gtk_statusbar_new();
     gtk_box_append(GTK_BOX(bBox) , statusBar);
 
-//	gtk_widget_show(note);
 /*	GtkWidget *menu = gtk_menu_new();
 	gtk_menu_tool_button_set_menu(GTK_MENU_TOOL_BUTTON(getWidget("favHubs")), menu);
 	const FavoriteHubEntryList &fh = FavoriteManager::getInstance()->getFavoriteHubs();
@@ -236,14 +242,14 @@ MainWindow::MainWindow():
 	g_signal_connect(note, "switch-page", G_CALLBACK(onPageSwitched_gui), (gpointer)this);
 //	g_signal_connect_after(getWidget("pane"), "realize", G_CALLBACK(onPaneRealized_gui), (gpointer)this);
 	g_signal_connect(favHub, "clicked", G_CALLBACK(onFavoriteHubsClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("favUsers"), "clicked", G_CALLBACK(onFavoriteUsersClicked_gui), (gpointer)this);
+	g_signal_connect(favuser, "clicked", G_CALLBACK(onFavoriteUsersClicked_gui), (gpointer)this);
 	g_signal_connect(publicHub, "clicked", G_CALLBACK(onPublicHubsClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("settings"), "clicked", G_CALLBACK(onPreferencesClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("hash"), "clicked", G_CALLBACK(onHashClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("search"), "clicked", G_CALLBACK(onSearchClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("searchADL"), "clicked", G_CALLBACK(onSearchADLClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("searchSpy"), "clicked", G_CALLBACK(onSearchSpyClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("queue"), "clicked", G_CALLBACK(onDownloadQueueClicked_gui), (gpointer)this);
+	g_signal_connect(dq, "clicked", G_CALLBACK(onDownloadQueueClicked_gui), (gpointer)this);
 	g_signal_connect(nt, "clicked", G_CALLBACK(onNotepadClicked_gui), (gpointer)this);
 	g_signal_connect(sl, "clicked", G_CALLBACK(onSystemLogClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("AwayIcon"), "clicked", G_CALLBACK(onAwayClicked_gui), (gpointer)this);
@@ -264,7 +270,7 @@ MainWindow::MainWindow():
 //	g_signal_connect(getWidget("indexingProgressMenuItem"), "activate", G_CALLBACK(onHashClicked_gui), (gpointer)this);
 	/**/
 //	g_signal_connect(getWidget("detitem"), "activate", G_CALLBACK(onDetectionClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("cmditem"), "activate", G_CALLBACK(onCmdDebugClicked_gui), (gpointer)this);
+	g_signal_connect(cmd, "clicked", G_CALLBACK(onCmdDebugClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("uqueueitem"), "activate", G_CALLBACK(onUploadQueueClicked_gui), (gpointer)this);
 	g_signal_connect(rec, "clicked", G_CALLBACK(onRecentHubClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("tthitem"), "activate", G_CALLBACK(onTTHFileDialog_gui), (gpointer)this);
@@ -368,7 +374,7 @@ MainWindow::~MainWindow()
 	gint posX, posY, transferPanePosition;
 
 //	gtk_window_get_position(window, &posX, &posY);
-	transferPanePosition = current_height - gtk_paned_get_position(GTK_PANED(getWidget("pane")));
+	transferPanePosition =  gtk_paned_get_position(GTK_PANED(getWidget("pane")));
 
 	if(!is_maximized || (minimized == false)) {
 		WSET("main-window-pos-x", posX);
@@ -378,22 +384,19 @@ MainWindow::~MainWindow()
 	}
 
 	if (g_settings_set_boolean (sett, "main-window-maximized",(gboolean)is_maximized))
-			g_print("Success");
+			g_debug("Success");
 
 
 	if (transferPanePosition > 5)
 		WSET("transfer-pane-position", transferPanePosition);
 
-//	gtk_widget_destroy(GTK_WIDGET(window));
-
-	g_object_unref(getWidget("toolbarMenu"));
+	//g_object_unref(getWidget("toolbarMenu"));
 	Sound::stop();
 	Notify::stop();
 }
 
 GtkWidget *MainWindow::getContainer()
 {
-	//return getWidget("mainWindow");
 	return window;
 }
 
@@ -444,7 +447,6 @@ void MainWindow::showTransfersPane_gui()
 
 //	transfers = new Transfers();
 //	gtk_paned_pack2(GTK_PANED(getWidget("pane")), transfers->getContainer(), TRUE, TRUE);
-//	addChild(transfers);
 //	transfers->show();
 //	if (g_settings_get_boolean (sett, "hide-transfers"))
 //		gtk_widget_hide(transfers->getContainer());
@@ -977,7 +979,7 @@ void MainWindow::showHub_gui(string saddress, string encoding)
 
 	if(saddress.empty())
 	{
-		showMessageDialog_gui(_("Empty hub address specified"),_("Empty hub address specified"));
+	//	showMessageDialog_gui(_("Empty hub address specified"),_("Empty hub address specified"));
 		return;
 	}
 
@@ -2071,6 +2073,15 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 
+	GtkWidget* response = WulforManager::get()->openSettingsDialog_gui();
+
+	g_signal_connect(response , "response" ,G_CALLBACK(onResponse) ,mw);
+	gtk_widget_show(response);
+
+}
+void MainWindow::onResponse(GtkWidget* wid , int response ,gpointer data)
+{	
+	MainWindow* mw = (MainWindow*)data;
 	uint16_t ui16prevTCP = SETTING(TCP_PORT);
 	uint16_t ui16prevUDP = SETTING(UDP_PORT);
 	uint16_t ui16prevTLS = SETTING(TLS_PORT);
@@ -2081,8 +2092,6 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget*, gpointer data)
 	string sprevBind6 = SETTING(BIND_ADDRESS6);
 	auto prevProxy = CONNSETTING(OUTGOING_CONNECTIONS);
 
-	gint response = WulforManager::get()->openSettingsDialog_gui();
-
 	if (response == GTK_RESPONSE_OK)
 	{
 		//NOTE: BMDC
@@ -2091,7 +2100,7 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget*, gpointer data)
 				SETTING(TCP_PORT) != ui16prevTCP || SETTING(UDP_PORT) != ui16prevUDP || SETTING(TLS_PORT) != ui16prevTLS ||
 				SETTING(MAPPER) != sprevMapper || SETTING(BIND_ADDRESS) != sprevBind || SETTING(BIND_ADDRESS6) != sprevBind6);
 		} catch (const Exception& e) {
-			mw->showMessageDialog_gui(e.getError(),e.getError());
+			//mw->showMessageDialog_gui(e.getError(),e.getError());
 		}
 
 		auto outConns = CONNSETTING(OUTGOING_CONNECTIONS);
@@ -2100,11 +2109,11 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget*, gpointer data)
 		}
 		//END
 
-		mw->setTabPosition_gui(WGETI("tab-position"));
-		mw->setToolbarStyle_gui(WGETI("toolbar-style"));
+		//mw->setTabPosition_gui(WGETI("tab-position"));
+		//mw->setToolbarStyle_gui(WGETI("toolbar-style"));
 
 		// Reload the icons only if the setting has changed
-		mw->loadIcons_gui();
+		//mw->loadIcons_gui();
 
 		// All hubs and PMs
 		for (StringIterC it = mw->EntryList.begin(); it != mw->EntryList.end(); ++it)
@@ -2145,8 +2154,9 @@ void MainWindow::onPreferencesClicked_gui(GtkWidget*, gpointer data)
 		}
 
 		// Rate
-		mw->setStatRate_gui();
+		//mw->setStatRate_gui();
 	}
+	gtk_widget_hide(wid);
 }
 
 void MainWindow::onAwayClicked_gui(GtkWidget*, gpointer data)

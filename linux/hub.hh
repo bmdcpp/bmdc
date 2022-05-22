@@ -201,6 +201,15 @@ private:
   							guint keycode,	GdkModifierType state,	gpointer user_data	);
 		static void key_released_gui (  GtkEventControllerKey* self,  guint keyval,
   							guint keycode,  GdkModifierType state,  gpointer user_data  );
+		static void on_inner_widget_right_btn_pressed (GtkGestureClick *gesture, int       n_press,
+                                   double             x,
+                                   double             y,
+                                   gpointer         *data);
+
+		static void on_inner_widget_right_btn_released (GtkGestureClick *gesture,int       n_press,
+                                    double           x,
+                                    double           y,
+                                    GtkWidget       *widget);
 
 		// Client functions
 		void addFavoriteUser_client(const std::string& cid);

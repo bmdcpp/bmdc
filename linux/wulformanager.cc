@@ -29,11 +29,11 @@
 #include <glib/gi18n.h>
 #include "hashdialog.hh"
 
-//#ifdef USE_NEW_SETTINGS
-//#include "../settings/SettingsDialog.hh"
-//#else
+#ifdef USE_NEW_SETTINGS
+#include "../settings/SettingsDialog.hh"
+#else
 #include "settingsdialog.hh"
-//#endif
+#endif
 
 using namespace std;
 using namespace dcpp;
@@ -216,16 +216,14 @@ gint WulforManager::openHashDialog_gui()
 	return response;
 }
 
-gint WulforManager::openSettingsDialog_gui()
+GtkWidget* WulforManager::openSettingsDialog_gui()
 {
 //#ifdef USE_NEW_SETTINGS
-//	SettingsDialog *s = new SettingsDialog();
-//	s->run();
-//	return 1;
+	SettingsDialog *s = new SettingsDialog();
+	return s->getContainer();
 //#else
-	Settings *s = new Settings(nullptr);
-	gint response = s->run();
-	return response;
+//	Settings *s = new Settings(nullptr);
+//	return s->getContainer();
 //#endif
 }
 

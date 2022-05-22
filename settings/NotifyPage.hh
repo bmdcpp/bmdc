@@ -18,8 +18,8 @@
 #define _NOTI_SETTINGS_PAGE_
 #ifdef HAVE_NOTIFY
 #include <gtk/gtk.h>
-#include <linux/treeview.hh>
-#include <linux/settingsmanager.hh>
+#include "../linux/treeview.hh"
+#include "../linux/settingsmanager.hh"
 #include <string>
 #include "SettingsPage.hh"
 /*----------------------------Meta---------------------------------------------*/
@@ -41,8 +41,8 @@ class NotifyPage: public SettingsPage
 		const std::string &name, const std::string &key1, const std::string &key2, const std::string &key3, const int key4);
 		static void onNotifyTestButton_gui(GtkWidget *widget, gpointer data);
 		static void onNotifyIconFileBrowseClicked_gui(GtkWidget *widget, gpointer data);
-		static void onNotifyKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
-		static void onNotifyButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
+//		static void onNotifyKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+//		static void onNotifyButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static void onNotifyOKClicked_gui(GtkWidget *widget, gpointer data);
 		static void onNotifyIconNoneButton_gui(GtkWidget *widget, gpointer data);
 		static void onNotifyDefaultButton_gui(GtkWidget *widget, gpointer data);

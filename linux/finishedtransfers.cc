@@ -47,9 +47,6 @@ FinishedTransfers::FinishedTransfers(const EntryType type, const string title, b
 	totalBytes(0),
 	totalTime(0)
 {
-	// menu
-	//g_object_ref_sink(getWidget("menu"));
-
 	// Initialize transfer treeview
 	fileView.setView(GTK_TREE_VIEW(getWidget("fileView")), true, "finished");
 	fileView.insertColumn(_("Time"), G_TYPE_STRING, TreeView::STRING, 150);
@@ -90,7 +87,7 @@ FinishedTransfers::FinishedTransfers(const EntryType type, const string title, b
 	gtk_tree_selection_set_mode(gtk_tree_view_get_selection(userView.get()), GTK_SELECTION_MULTIPLE);
 
 	// Initialize the preview menu
-	appsPreviewMenu = new PreviewMenu(getWidget("appsPreviewMenu"));
+	//appsPreviewMenu = new PreviewMenu(getWidget("appsPreviewMenu"));
 
 	// Connect the signals to their callback functions.
 	/*g_signal_connect(getWidget("openFolderItem"), "activate", G_CALLBACK(onOpenFolder_gui), (gpointer)this);
@@ -115,8 +112,7 @@ FinishedTransfers::FinishedTransfers(const EntryType type, const string title, b
 FinishedTransfers::~FinishedTransfers()
 {
 	FinishedManager::getInstance()->removeListener(this);
-	g_object_unref(getWidget("menu"));
-	delete appsPreviewMenu;
+//	delete appsPreviewMenu;
 	int active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("showOnlyFullFilesCheckButton")));
 	SettingsManager::getInstance()->set(SettingsManager::FINISHED_DL_ONLY_FULL, active);
 }

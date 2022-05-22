@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <object class="GtkDialog" id="FavoriteHubGroupsDialog">
+    <property name="width-request">380</property>
+    <property name="height-request">400</property>
+    <property name="title" translatable="yes">Favorite Hub Groups</property>
+    <property name="resizable">0</property>
+    <property name="destroy-with-parent">1</property>
+    <child internal-child="content_area">
+      <object class="GtkBox">
+        <property name="visible">0</property>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-5">okbutton3</action-widget>
+    </action-widgets>
+    <child internal-child="action_area">
+      <object class="GtkBox" id="dialog-action_area2">
+        <property name="halign">center</property>
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <child>
+          <object class="GtkButton" id="okbutton3">
+            <property name="label">gtk-ok</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkDialog" id="favoriteHubsDialog">
+    <property name="title" translatable="yes">Favorite Hub Properties</property>
+    <property name="destroy-with-parent">1</property>
+    <child internal-child="content_area">
+      <object class="GtkBox">
+        <property name="visible">0</property>
+      </object>
+    </child>
+    <child internal-child="action_area">
+      <object class="GtkBox">
+        <property name="halign">center</property>
+        <property name="can-focus">False</property>
+      </object>
+    </child>
+  </object>
+  <object class="GtkBox" id="mainBox">
+    <property name="spacing">4</property>
+    <child>
+      <object class="GtkScrolledWindow" id="scrolledwindow1x">
+        <property name="child">
+          <object class="GtkTreeView" id="favoriteView">
+            <child internal-child="selection">
+              <object class="GtkTreeSelection"/>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkBox" id="hbox1p">
+        <property name="spacing">4</property>
+        <child>
+          <object class="GtkButton" id="buttonNew">
+            <property name="label">gtk-add</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="buttonConnect">
+            <property name="label">gtk-connect</property>
+            <property name="sensitive">0</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="buttonProperties">
+            <property name="label">gtk-properties</property>
+            <property name="sensitive">0</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="buttonRemove">
+            <property name="label">gtk-remove</property>
+            <property name="sensitive">0</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="manageGroupsButton">
+            <property name="label" translatable="yes">Manage groups</property>
+            <property name="receives-default">1</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkListStore" id="model1">
+    <columns>
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Default</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Enable</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Disable</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="model2">
+    <columns>
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Default</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Enable</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Disable</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="model3">
+    <columns>
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Default</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Enable</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Disable</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="model4">
+    <columns>
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Default</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Enable</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Disable</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="model5">
+    <columns>
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Default</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Active</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Pasive</col>
+      </row>
+    </data>
+  </object>
+</interface>

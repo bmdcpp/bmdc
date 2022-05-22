@@ -223,15 +223,15 @@ public:
 	
 	StringMap defaultString;
 	
-	const string get(string key,bool useDefault = true){
-			if (!useDefault)
-					return defaultString[key];
+	//const string get(string key,bool useDefault = true){
+	//		if (!useDefault)
+	//				return defaultString[key];
 
 			//if (stringMap.find(key) == stringMap.end())
 			//	return defaultString[key];
 			//else
 			//	return stringMap[key];
-	}
+	//}
 	
 	//probably ref-to-var-ret is not good idea?
 	const string& get(StrSetting key, bool useDefault = true) const {

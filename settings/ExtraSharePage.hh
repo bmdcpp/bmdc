@@ -3,7 +3,7 @@
 #define _OTHER_SHARING_PAGE_
 #include <gtk/gtk.h>
 #include "SettingsPage.hh"
-#include <linux/treeview.hh>
+#include "../linux/treeview.hh"
 
 /*-------------------------------------------------------------------------*/
 class OSharingPage: public SettingsPage

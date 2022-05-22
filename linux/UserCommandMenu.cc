@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2021 BMDC
+ * Copyright © 2010-2023 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,13 +31,17 @@ using namespace std;
 using namespace dcpp;
 
 static const GActionEntry UserCommandMenu::uc[]
-{{"uc.send",onUserCommandClick_gui,NULL,NULL,NULL}};
+{{"send",onUserCommandClick_gui,NULL,NULL,NULL}};
 
-UserCommandMenu::UserCommandMenu(GMenu *userCommandMenu, int ctx):
-//	Entry(Entry::USER_COMMAND_MENU, "", generateID()),
+UserCommandMenu::UserCommandMenu(GMenu *userCommandMenu,GtkWidget* parent , int ctx):
 	userCommandMenu(userCommandMenu),
 	ctx(ctx)
 {
+	//@TODO: non-deprecated things
+	GSimpleActionGroup* simple = g_simple_action_group_new ();
+	g_simple_action_group_add_entries(simple, uc, G_N_ELEMENTS (uc), (gpointer)this);
+	gtk_widget_insert_action_group(parent,"uc" ,G_ACTION_GROUP(simple));
+	
 }
 
 void UserCommandMenu::addHub(const string hub)
@@ -112,11 +116,9 @@ void UserCommandMenu::buildMenu_gui()
 			separator = false;
 			menu = userCommandMenu;
 
-			//createSubMenu_gui(menu, command);
-
 			// Append the user command to the sub menu
 			menuItem = g_menu_item_new(command.c_str() , "uc.send");
-			//g_signal_connect(menuItem, "activate", GCallback(onUserCommandClick_gui), (gpointer)this);
+			createSubMenu_gui(menuItem, command);
 			g_object_set_data_full(G_OBJECT(menuItem), "name", g_strdup(uc.getName().c_str()), g_free);
 			g_object_set_data_full(G_OBJECT(menuItem), "command", g_strdup(uc.getCommand().c_str()), g_free);
 			g_object_set_data_full(G_OBJECT(menuItem), "hub", g_strdup(uc.getHub().c_str()), g_free);
@@ -125,42 +127,42 @@ void UserCommandMenu::buildMenu_gui()
 	}
 }
 
-void UserCommandMenu::createSubMenu_gui(GtkWidget *&menu, string &command)
+void UserCommandMenu::createSubMenu_gui(GMenuItem *&menu, string &command)
 {
-/*	string::size_type i = 0;
-	GtkWidget *menuItem;
+	string::size_type i = 0;
+	GMenuItem *menuItem;
 
 	// Create subfolders based on path separators in the command
 	while ((i = command.find('/')) != string::npos)
 	{
 		bool createSubmenu = true;
-		GList *menuItems = gtk_container_get_children(GTK_CONTAINER(menu));
+//		GList *menuItems = gtk_container_get_children(GTK_CONTAINER(menu));
 
 		// Search for the sub menu to append the command to
-		for (GList *iter = menuItems; iter; iter = iter->next)
-		{
-			GtkMenuItem *item = (GtkMenuItem *)iter->data;
-			if (gtk_menu_item_get_submenu(item) && WulforUtil::getTextFromMenu(item) == command.substr(0, i))
-			{
-				menu = gtk_menu_item_get_submenu(item);
-				createSubmenu = false;
-				break;
-			}
-		}
-		g_list_free(menuItems);
+//		for (GList *iter = menuItems; iter; iter = iter->next)
+//		{
+//			GtkMenuItem *item = (GtkMenuItem *)iter->data;
+//			if (gtk_menu_item_get_submenu(item) && WulforUtil::getTextFromMenu(item) == command.substr(0, i))
+//			{
+//				menu = gtk_menu_item_get_submenu(item);
+//				createSubmenu = false;
+//				break;
+//			}
+//		}
+//		g_list_free(menuItems);
 
 		// Couldn't find existing sub menu, so we create one
 		if (createSubmenu)
 		{
-			GtkWidget *subMenu = gtk_menu_new();
-			menuItem = gtk_menu_item_new_with_label(command.substr(0, i).c_str());
-			gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuItem);
-			gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuItem), subMenu);
-			menu = subMenu;
+			GMenu *subMenu = g_menu_new();
+			menuItem = g_menu_item_new(command.substr(0, i).c_str() ,NULL);
+			g_menu_append_item(subMenu , menuItem);
+			g_menu_item_set_submenu(menu,G_MENU_MODEL(subMenu));
+			
 		}
 
 		command = command.substr(++i);
-	}*/
+	}
 }
 
 void UserCommandMenu::onUserCommandClick_gui(GMenu *item,GVariant*, gpointer data)

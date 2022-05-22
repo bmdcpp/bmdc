@@ -27,14 +27,14 @@ void WindowPage::show(GtkWidget *parent, GtkWidget* old)
 {
 	box = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
 	GtkWidget *frame = gtk_frame_new("Auto-Open");
-	GtkWidget *scroll = gtk_scrolled_window_new(NULL,NULL);
+	GtkWidget *scroll = gtk_scrolled_window_new();
 	// Auto-open
 	windowOpenView = TreeView();
 	SEUtil::createOptionsView_gui(windowOpenView, windowStore1);
 
-	gtk_container_add(GTK_CONTAINER(scroll),GTK_WIDGET(windowOpenView.get()));
-	gtk_container_add(GTK_CONTAINER(frame),scroll);
-	gtk_box_pack_start(GTK_BOX(box),frame,TRUE,TRUE,0);
+	//gtk_container_add(GTK_CONTAINER(scroll),GTK_WIDGET(windowOpenView.get()));
+	//gtk_container_add(GTK_CONTAINER(frame),scroll);
+	gtk_box_append(GTK_BOX(box),frame);
 
 	SEUtil::addOption_gui(windowStore1, _("Public Hubs"), "open-public");
 	SEUtil::addOption_gui(windowStore1, _("Favorite Hubs"), "open-favorite-hubs");
@@ -49,11 +49,11 @@ void WindowPage::show(GtkWidget *parent, GtkWidget* old)
 	// Window options
 	windowView2 = TreeView();
 	GtkWidget *frame2 = gtk_frame_new("Window Settings");
-	GtkWidget *scroll2 = gtk_scrolled_window_new(NULL,NULL);	
+	GtkWidget *scroll2 = gtk_scrolled_window_new();	
 	SEUtil::createOptionsView_gui(windowView2, windowStore2);
-	gtk_container_add(GTK_CONTAINER(scroll2),GTK_WIDGET(windowView2.get()));
-	gtk_container_add(GTK_CONTAINER(frame2),scroll2);
-	gtk_box_pack_start(GTK_BOX(box),frame2,TRUE,TRUE,0);
+//	gtk_container_add(GTK_CONTAINER(scroll2),GTK_WIDGET(windowView2.get()));
+//	gtk_container_add(GTK_CONTAINER(frame2),scroll2);
+	gtk_box_append(GTK_BOX(box),frame2);
 
 	SEUtil::addOption_gui(windowStore2, _("Open file list window in the background"), SettingsManager::POPUNDER_FILELIST);
 	SEUtil::addOption_gui(windowStore2, _("Open new private messages from other users in the background"), SettingsManager::POPUNDER_PM);
@@ -64,11 +64,11 @@ void WindowPage::show(GtkWidget *parent, GtkWidget* old)
 	windowView3 = TreeView();
 	// Confirmation dialog
 	GtkWidget* frame3 = gtk_frame_new("Confrimation Option");
-	GtkWidget *scroll3 = gtk_scrolled_window_new(NULL,NULL);
+	GtkWidget *scroll3 = gtk_scrolled_window_new();
 	SEUtil::createOptionsView_gui(windowView3, windowStore3);
-	gtk_container_add(GTK_CONTAINER(scroll3),GTK_WIDGET(windowView3.get()));
-	gtk_container_add(GTK_CONTAINER(frame3),scroll3);
-	gtk_box_pack_start(GTK_BOX(box),frame3,TRUE,TRUE,0);
+//	gtk_container_add(GTK_CONTAINER(scroll3),GTK_WIDGET(windowView3.get()));
+//	gtk_container_add(GTK_CONTAINER(frame3),scroll3);
+	gtk_box_append(GTK_BOX(box),frame3);
 
 	SEUtil::addOption_gui(windowStore3, _("Confirm application exit"), SettingsManager::CONFIRM_EXIT);
 	SEUtil::addOption_gui(windowStore3, _("Confirm favorite hub removal"), SettingsManager::CONFIRM_HUB_REMOVAL);

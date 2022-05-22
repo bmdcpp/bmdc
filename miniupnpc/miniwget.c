@@ -83,6 +83,7 @@ getHTTPResponse(int s, int * size, int * status_code)
 	unsigned int content_buf_used = 0;
 	char chunksize_buf[32];
 	unsigned int chunksize_buf_index;
+	
 	char * reason_phrase = NULL;
 	int reason_phrase_len = 0;
 

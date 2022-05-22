@@ -33,8 +33,6 @@ using namespace dcpp;
 FavoriteUsers::FavoriteUsers():
 	BookEntry(Entry::FAVORITE_USERS, _("Favorite Users"), "favoriteusers")
 {
-	// menu
-//	g_object_ref_sink(getWidget("menu"));
 
 	// Initialize favorite users list treeview
 	favoriteUserView.setView(GTK_TREE_VIEW(getWidget("favoriteUserView")), TRUE, "favoriteusers");
@@ -80,9 +78,6 @@ FavoriteUsers::FavoriteUsers():
 FavoriteUsers::~FavoriteUsers()
 {
 	FavoriteManager::getInstance()->removeListener(this);
-
-//	gtk_widget_destroy(getWidget("DescriptionDialog"));
-//	g_object_unref(getWidget("menu"));
 }
 
 void FavoriteUsers::show()

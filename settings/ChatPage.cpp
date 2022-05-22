@@ -14,9 +14,8 @@
 // MA 02110-1301, USA.
 // 
 
-#include <dcpp/format.h>
-#include <dcpp/Util.h>
-#include <linux/WulforUtil.hh>
+#include "../dcpp/Util.h"
+#include "../linux/GuiUtil.hh"
 #include "ChatPage.hh"
 #include "seUtil.hh"
 
@@ -30,7 +29,7 @@ void ChatPage::show(GtkWidget* parent, GtkWidget* old)
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
 	box = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
 	GtkWidget *box2 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
-	GtkWidget *scroll = gtk_scrolled_window_new(NULL,NULL);
+	//GtkWidget *scroll = gtk_scrolled_window_new(NULL);
 	textStyleView = TreeView();//fix crashes
 	textStyleView.setView(GTK_TREE_VIEW(gtk_tree_view_new()));
 	textStyleView.insertColumn(_("Style"), G_TYPE_STRING, TreeView::STRING, -1);
@@ -48,10 +47,11 @@ void ChatPage::show(GtkWidget* parent, GtkWidget* old)
 	gtk_tree_view_set_model(textStyleView.get(), GTK_TREE_MODEL(textStyleStore));
 	g_object_unref(textStyleStore);
 
-	gtk_container_add(GTK_CONTAINER(scroll), GTK_WIDGET(textStyleView.get()));
-	gtk_box_pack_start(GTK_BOX(box2),scroll,TRUE,TRUE,0);
+	//gtk_container_add(GTK_CONTAINER(scroll),GTK_WIDGET(textStyleView.get()) );
+	gtk_box_append(GTK_BOX(box2),GTK_WIDGET(textStyleView.get()));
+	
 
-	gtk_box_pack_start(GTK_BOX(box),box2,TRUE,TRUE,0);
+	gtk_box_append(GTK_BOX(box),box2);
 
 		// Available styles
 	addOption_gui(textStyleStore, wsm, _("General text"),
@@ -94,9 +94,7 @@ void ChatPage::show(GtkWidget* parent, GtkWidget* old)
 		textView = gtk_text_view_new();
 		textStyleBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textView));
 		gtk_text_view_set_buffer(GTK_TEXT_VIEW(textView), textStyleBuffer);
-		GtkWidget *scroll2 = gtk_scrolled_window_new(NULL,NULL);	
-		gtk_container_add(GTK_CONTAINER(scroll2),textView);
-		gtk_box_pack_start(GTK_BOX(box2),scroll2,TRUE,TRUE,0);
+		gtk_box_append(GTK_BOX(box2),GTK_WIDGET(textView));
 
  		// Preview style
 		GtkTreeIter treeIter;
@@ -171,18 +169,18 @@ void ChatPage::show(GtkWidget* parent, GtkWidget* old)
 		string strcolor = SETTING(BACKGROUND_CHAT_COLOR);
 
 		gtk_widget_set_name(textView,"prewienTextView");
-		GtkCssProvider *provider = gtk_css_provider_new ();
-		GdkDisplay *display = gdk_display_get_default ();
-		GdkScreen *screen = gdk_display_get_default_screen (display);
-		std::string t_css = std::string("#prewienTextView text { background: "+strcolor+" ;}\n\0");
-		gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
+//		GtkCssProvider *provider = gtk_css_provider_new ();
+//		GdkDisplay *display = gdk_display_get_default ();
+//		GdkScreen *screen = gdk_display_get_default_screen (display);
+//		std::string t_css = std::string("#prewienTextView text { background: "+strcolor+" ;}\n\0");
+//		gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
+//
+//		gtk_style_context_add_provider_for_screen (screen,
+//								GTK_STYLE_PROVIDER(provider),
+//								GTK_STYLE_PROVIDER_PRIORITY_USER);
+//		g_object_unref (provider);
 
-		gtk_style_context_add_provider_for_screen (screen,
-								GTK_STYLE_PROVIDER(provider),
-								GTK_STYLE_PROVIDER_PRIORITY_USER);
-		g_object_unref (provider);
-
-		gtk_box_pack_start(GTK_BOX(box),toggle_autors,TRUE,TRUE,0);
+		gtk_box_append(GTK_BOX(box),toggle_autors);
 		GtkWidget *grid = gtk_grid_new();
 		bFore = gtk_button_new_with_label("Foreground");
 		bBack = gtk_button_new_with_label("Background");
@@ -190,7 +188,7 @@ void ChatPage::show(GtkWidget* parent, GtkWidget* old)
 		bBW = gtk_button_new_with_label("Black&White");
 		bDef = gtk_button_new_with_label("Default Styles");
 		bBaAll = gtk_button_new_with_label("Whole Background");//TODO ?
-		gtk_box_pack_start(GTK_BOX(box),grid,TRUE,TRUE,0);
+		gtk_box_append(GTK_BOX(box),grid);
 
 		gtk_grid_attach(GTK_GRID(grid),bFore,0,0,1,1);
 		gtk_grid_attach(GTK_GRID(grid),bBack,1,0,1,1);
@@ -303,7 +301,6 @@ void ChatPage::selectTextColor_gui(const int select)
 
 	if (!gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
-	//	showErrorDialog(_("selected style failed"));
 		return;
 	}
 
@@ -319,7 +316,7 @@ void ChatPage::selectTextColor_gui(const int select)
 	if (gdk_rgba_parse(&color,currentcolor.c_str()))
 		gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog), &color);
 
-	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
+	/*gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 	gtk_widget_hide(dialog);
 
 	if (response == GTK_RESPONSE_OK)
@@ -347,7 +344,7 @@ void ChatPage::selectTextColor_gui(const int select)
 			g_object_set(tag, ground.c_str(), &color, NULL);
 
 		gtk_widget_queue_draw(textView);
-	}
+	}*/
 }
 
 void ChatPage::selectTextStyle_gui(const int select)
@@ -404,10 +401,10 @@ void ChatPage::selectTextStyle_gui(const int select)
 
 	if (!gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
-	//	showErrorDialog(_("selected style failed"));
+
 		return;
 	}
-	GtkWidget *dialog = gtk_font_chooser_dialog_new (_("Select Font"),NULL); 	
+	/*GtkWidget *dialog = gtk_font_chooser_dialog_new (_("Select Font"),NULL); 	
 	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 	gtk_widget_hide(dialog);
 
@@ -435,13 +432,13 @@ void ChatPage::selectTextStyle_gui(const int select)
 					NULL);
 			gtk_widget_queue_draw(textView);
 		}
-	}
+	}*/
 }
 
 
 void ChatPage::onTextBackGroundChat(GtkWidget *widget , gpointer data)
 {
-	ChatPage *s = (ChatPage *)data;
+	/*ChatPage *s = (ChatPage *)data;
 	GtkWidget *dialog = gtk_color_chooser_dialog_new(_("Set Color"),NULL);
 
 	GdkRGBA color;
@@ -456,18 +453,18 @@ void ChatPage::onTextBackGroundChat(GtkWidget *widget , gpointer data)
 		gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(dialog),&color);
 		string strcolor = WulforUtil::colorToString(&color);
 		SettingsManager::getInstance()->set(SettingsManager::BACKGROUND_CHAT_COLOR, strcolor);
-		SettingsManager::getInstance()->save();
-		GtkCssProvider *provider = gtk_css_provider_new ();
-		GdkDisplay *display = gdk_display_get_default ();
-		GdkScreen *screen = gdk_display_get_default_screen (display);
-		std::string t_css = std::string("#prewienTextView { background: "+strcolor+" ;}\n\0");
-		gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
-
-		gtk_style_context_add_provider_for_screen (screen,
-											GTK_STYLE_PROVIDER(provider),
-											GTK_STYLE_PROVIDER_PRIORITY_USER);
-		g_object_unref (provider);
-	}
+		SettingsManager::getInstance()->save();*/
+//		GtkCssProvider *provider = gtk_css_provider_new ();
+//		GdkDisplay *display = gdk_display_get_default ();
+//		GdkScreen *screen = gdk_display_get_default_screen (display);
+//		std::string t_css = std::string("#prewienTextView { background: "+strcolor+" ;}\n\0");
+//		gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
+//
+//		gtk_style_context_add_provider_for_screen (screen,
+//											GTK_STYLE_PROVIDER(provider),
+//											GTK_STYLE_PROVIDER_PRIORITY_USER);
+//		g_object_unref (provider);
+//	}
 }
 
 void ChatPage::write()

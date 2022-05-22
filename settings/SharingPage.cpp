@@ -17,10 +17,10 @@
 #include "SharingPage.hh"
 #include "definitons.hh"
 #include "seUtil.hh"
-#include <linux/treeview.hh>
-#include <dcpp/format.h>
-#include <dcpp/ShareManager.h>
-#include <dcpp/Util.h>
+#include "../linux/treeview.hh"
+#include "../dcpp/format.h"
+#include "../dcpp/ShareManager.h"
+#include "../dcpp/Util.h"
 
 using namespace std;
 using namespace dcpp;
@@ -40,10 +40,10 @@ void SharingPage::show(GtkWidget *parent, GtkWidget *old)
 	shareStore = gtk_list_store_newv(shareView.getColCount(), shareView.getGTypes());
 	gtk_tree_view_set_model(shareView.get(), GTK_TREE_MODEL(shareStore));
 	shareView.setSortColumn_gui(_("Size"), "Real Size");
-	gtk_container_add(GTK_CONTAINER(scroll),GTK_WIDGET(shareView.get()));
+	//gtk_container_add(GTK_CONTAINER(scroll),GTK_WIDGET(shareView.get()));
 
 	box = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
-	gtk_box_pack_start(GTK_BOX(box),scroll,TRUE,TRUE,0);
+	gtk_box_append(GTK_BOX(box),scroll);
 
 	button_add = gtk_button_new_with_label("Add");
 	button_rem = gtk_button_new_with_label("Remove");
@@ -55,21 +55,21 @@ void SharingPage::show(GtkWidget *parent, GtkWidget *old)
 	labelShareSize = gtk_label_new("");
 	gtk_grid_attach(GTK_GRID(grid),labelShareSize,2,2,1,1);
 	
-	gtk_box_pack_start(GTK_BOX(box),grid,TRUE,TRUE,0);
+	gtk_box_append(GTK_BOX(box),grid);
 
 //	if(old != NULL)
 //		gtk_container_remove(GTK_CONTAINER(parent), old );
 //	gtk_container_add(GTK_CONTAINER(parent),box);
 	SEUtil::reAddItemCo(parent,old,box);
 
-	g_signal_connect(shareView.get(), "button-release-event", G_CALLBACK(onShareButtonReleased_gui), (gpointer)this);
+	//g_signal_connect(shareView.get(), "button-release-event", G_CALLBACK(onShareButtonReleased_gui), (gpointer)this);
 	g_signal_connect(button_add, "clicked", G_CALLBACK(onAddShare_gui), (gpointer)this);
 	g_signal_connect(button_rem, "clicked", G_CALLBACK(onRemoveShare_gui), (gpointer)this);
 	gtk_widget_set_sensitive(button_rem, FALSE);
 	updateShares_gui();
 
 }
-
+/*
 gboolean SharingPage::onShareButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
 	SharingPage *s = (SharingPage *)data;
@@ -82,18 +82,18 @@ gboolean SharingPage::onShareButtonReleased_gui(GtkWidget *widget, GdkEventButto
 
 	return FALSE;
 }
-
+*/
 void SharingPage::onAddShare_gui(GtkWidget *widget, gpointer data)
 {
 	SharingPage *s = (SharingPage*)data;
 	GtkWidget* fileDialog = b_file_dialog_widget("Open Directory");
-	
- 	gint response = gtk_dialog_run(GTK_DIALOG(fileDialog));
-	gtk_widget_hide(fileDialog);
+	int response = -1;
+ 	//gint response = gtk_dialog_run(GTK_DIALOG(fileDialog));
+	//gtk_widget_hide(fileDialog);
 
 	if (response == GTK_RESPONSE_OK)
 	{
-		gchar *temp = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(fileDialog));
+		gchar *temp ="r"; //gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(fileDialog));
 		if (temp)
 		{
 			string path = temp;
@@ -114,14 +114,14 @@ void SharingPage::onAddShare_gui(GtkWidget *widget, gpointer data)
 			GtkWidget *box = gtk_dialog_get_content_area (GTK_DIALOG(dialog));
 			GtkWidget *entry = gtk_entry_new();
 			GtkWidget *label = gtk_label_new("");
-			gtk_box_pack_start(GTK_BOX(box),label,TRUE,TRUE,0);
-			gtk_box_pack_start(GTK_BOX(box),entry,TRUE,TRUE,0);
+			gtk_box_append(GTK_BOX(box),label);
+			gtk_box_append(GTK_BOX(box),entry);
 			gtk_window_set_title(GTK_WINDOW(dialog), _("Virtual name"));
-			gtk_entry_set_text(GTK_ENTRY(entry), "");
+			gtk_editable_set_text(GTK_EDITABLE(entry), "");
 			gtk_label_set_markup(GTK_LABEL(label), _("<b>Name under which the others see the directory</b>"));
-			gtk_widget_show_all(box);
-			response = gtk_dialog_run(GTK_DIALOG(dialog));
-			string name = gtk_entry_get_text(GTK_ENTRY(entry));
+			gtk_widget_show(box);
+			response = -1;//gtk_dialog_run(GTK_DIALOG(dialog));
+			string name = gtk_editable_get_text(GTK_EDITABLE(entry));
 			gtk_widget_hide(dialog);
 
 			if (response == GTK_RESPONSE_OK)

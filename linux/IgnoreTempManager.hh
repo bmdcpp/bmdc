@@ -15,6 +15,7 @@
  * MA 02110-1301, USA.
  * 
  */
+
 #ifndef _IGNORE_MANAGER
 #define _IGNORE_MANAGER
 #include "../dcpp/stdinc.h"

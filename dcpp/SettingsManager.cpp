@@ -226,7 +226,7 @@ SettingsManager::SettingsManager()
 	setDefault(TEMP_DOWNLOAD_DIRECTORY, Util::getPath(Util::PATH_USER_LOCAL) + "Incomplete" PATH_SEPARATOR_STR);
 
 	setDefault(EXTERNAL_IP, "0.0.0.0");
-	defaultString.insert(StringMap::value_type("ExternalIP","0.0.0.0"));
+	//defaultString.insert(StringMap::value_type("ExternalIP","0.0.0.0"));
 	setDefault(BIND_ADDRESS, "0.0.0.0");
 	setDefault(BIND_ADDRESS6, "::");
 	setDefault(SLOTS, 3);

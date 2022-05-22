@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+<object class="GtkBox" id="mainBox">
+	<property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
+	<child>
+	<object class="GtkBox" id="other">
+	<child>
+      <object class="GtkScrolledWindow" id="sysscroll">
+        <property name="visible">True</property>
+		<property name="has-frame">1</property>
+		<property name="hexpand">1</property>
+        <property name="vexpand">1</property>
+		<property name="hscrollbar-policy">never</property>
+        <property name="hadjustment">
+          <object class="GtkAdjustment" id="hadjustment"/>
+        </property>
+        <property name="vadjustment">
+          <object class="GtkAdjustment" id="vadjustment"/>
+        </property>
+        <child>
+          <object class="GtkTextView" id="systextview">
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkBox" id="hbox1">
+        <property name="visible">True</property>
+		<property name="hexpand">0</property>
+        <property name="vexpand">0</property>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <object class="GtkButton" id="buttonClear">
+            <property name="label" translatable="yes">Clear</property>
+            <property name="visible">True</property>
+			<property name="hexpand">0</property>
+			<property name="vexpand">0</property>
+          </object>
+        </child>
+      </object>
+    </child>
+	</object>
+	</child>
+</object>
+</interface>

@@ -71,8 +71,6 @@ Search::Search(const string& str):
 	// Configure the dialog
 	File::ensureDirectory(SETTING(DOWNLOAD_DIRECTORY));
 	//gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(getWidget("dirChooserDialog")), Text::fromUtf8(SETTING(DOWNLOAD_DIRECTORY)).c_str());
-	// menu
-//	g_object_ref_sink(getWidget("mainMenu"));
 
 	// Initialize check button options.
 	onlyFree = SETTING(SEARCH_ONLY_FREE_SLOTS);
@@ -209,7 +207,7 @@ Search::~Search()
 	SearchManager::getInstance()->removeListener(this);
 
 //	gtk_widget_destroy(getWidget("dirChooserDialog"));
-//	g_object_unref(getWidget("mainMenu"));
+
 }
 
 void Search::show()
@@ -289,8 +287,8 @@ void Search::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeM
 
 void Search::putValue_gui(const string &str, int64_t size, SearchManager::SizeModes mode, SearchManager::TypeModes type)
 {
-//	gtk_entry_set_text(GTK_ENTRY(getWidget("SearchEntry")), str.c_str());
-//	gtk_entry_set_text(GTK_ENTRY(getWidget("entrySize")), Util::toString(size).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(getWidget("SearchEntry")), str.c_str());
+	gtk_editable_set_text(GTK_EDITABLE(getWidget("entrySize")), Util::toString(size).c_str());
 	gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxSize")), (int)mode);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(getWidget("comboboxFile")), (int)type);
 
@@ -489,7 +487,7 @@ void Search::popupMenu_gui()
 		
 	
 	// Build user command menu
-	userCommandMenu->buildMenu_gui();
+//	userCommandMenu->buildMenu_gui();
 
 //	#if GTK_CHECK_VERSION(3,22,0)
 //	gtk_menu_popup_at_pointer(GTK_MENU(getWidget("mainMenu")),NULL);
@@ -532,7 +530,7 @@ void Search::search_gui()
 	if (clients.size() < 1)
 		return;
 
-	double lsize = -1;//Util::toDouble(gtk_entry_get_text(GTK_ENTRY(getWidget("entrySize"))));
+	double lsize = Util::toDouble(gtk_editable_get_text(GTK_EDITABLE(getWidget("entrySize"))));
 
 	switch (gtk_combo_box_get_active(GTK_COMBO_BOX(getWidget("comboboxUnit"))))
 	{
@@ -612,8 +610,8 @@ void Search::search_gui()
 		dcdebug("Sent ADC extensions : %s\n",Util::toString(";", exts).c_str());
 		SearchManager::getInstance()->search(clients, text, llsize, (SearchManager::TypeModes)ftype, mode, "manual", exts);//NOTE: core 0.770
 
-		//if (SETTING(CLEAR_SEARCH)) // Only clear if the search was sent.
-		//	gtk_entry_set_text(GTK_ENTRY(getWidget("SearchEntry")), "");
+		if (SETTING(CLEAR_SEARCH)) // Only clear if the search was sent.
+			gtk_editable_set_text(GTK_EDITABLE(getWidget("SearchEntry")), "");
 	}
 	else
 	{
@@ -2211,7 +2209,11 @@ void Search::onAddItem(gpointer )
 
 GMenu *Search::createmenu()
 {
+	GMenu* menu = g_menu_new();
+	GMenuItem* item = g_menu_item_new("Search", NULL);
+	
 //	if(isMenuCreated) {
+	
 //		GtkWidget *item = BookEntry::createItemFirstMenu();
 //		menu =  gtk_menu_new();
 //		GtkWidget *addSearchTab = gtk_menu_item_new_with_label(_("Add Search Tab"));
@@ -2228,5 +2230,5 @@ GMenu *Search::createmenu()
 //		isMenuCreated = false;
 //	}
 //	return menu;
-	return NULL;
+	return menu;
 }

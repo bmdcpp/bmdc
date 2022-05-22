@@ -49,9 +49,6 @@ Transfers::Transfers() :
 	Entry(Entry::TRANSFERS, "transfers"),
 	transferStore(NULL), transferSelection(NULL),  appsPreviewMenu(NULL)
 {
-	// menu
-//	g_object_ref_sink(getWidget("transferMenu"));
-
 	// Initialize the user command menu
 //	userCommandMenu = new UserCommandMenu(getWidget("userCommandMenu"), ::UserCommand::CONTEXT_USER);
 //	addChild(userCommandMenu);
@@ -115,8 +112,6 @@ Transfers::~Transfers()
 	DownloadManager::getInstance()->removeListener(this);
 	UploadManager::getInstance()->removeListener(this);
 	ConnectionManager::getInstance()->removeListener(this);
-
-//	g_object_unref(getWidget("transferMenu"));
 //	delete appsPreviewMenu;
 }
 

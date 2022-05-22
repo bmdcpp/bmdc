@@ -77,11 +77,12 @@ Hub::Hub(const string &address, const string &encoding):
 	g_simple_action_group_add_entries(simple, win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
 	gtk_widget_insert_action_group(getContainer(), "hub" ,G_ACTION_GROUP(simple));
 	gtk_widget_insert_action_group(getLabelBox(), "hub" ,G_ACTION_GROUP(simple));
+	gtk_widget_insert_action_group(getWidget("nickView"), "hub" ,G_ACTION_GROUP(simple));
 	
 	FavoriteHubEntry* p_faventry =  getFavoriteHubEntry();
 	
 	// Initialize nick treeview
-	nickView.setView(GTK_TREE_VIEW(getWidget("nickView"))/**, true, "hub"*/);
+	nickView.setView(GTK_TREE_VIEW(getWidget("nickView")), true, "hub");
 	nickView.insertColumn(_("Nick"), G_TYPE_STRING, TreeView::ICON_STRING_TEXT_COLOR, 100, "Icon", "NickColor");
 	nickView.insertColumn(_("Shared"), G_TYPE_INT64, TreeView::SIZE, 75);
 	nickView.insertColumn(_("Description"), G_TYPE_STRING, TreeView::STRING, 85);
@@ -136,7 +137,7 @@ Hub::Hub(const string &address, const string &encoding):
 
 	//BMDC++
 	nickView.setSelection(nickSelection);
-	nickView.buildCopyMenu(getWidget("CopyMenu"));
+	//nickView.buildCopyMenu(getWidget("CopyMenu"));
 
 	g_object_set(G_OBJECT(nickView.get()), "has-tooltip", TRUE, NULL);
 	g_signal_connect(nickView.get(), "query-tooltip", G_CALLBACK(onUserListTooltip_gui), (gpointer)this);
@@ -148,7 +149,7 @@ Hub::Hub(const string &address, const string &encoding):
 	string sColor = p_faventry ? p_faventry->get(SettingsManager::BACKGROUND_CHAT_COLOR, SETTING(BACKGROUND_CHAT_COLOR)) : SETTING(BACKGROUND_CHAT_COLOR);
 	string sImage = p_faventry ? p_faventry->get(SettingsManager::BACKGROUND_CHAT_IMAGE, SETTING(BACKGROUND_CHAT_IMAGE)) : SETTING(BACKGROUND_CHAT_IMAGE);
 
-	WulforUtil::setTextDeufaults(getWidget("chatText"),sColor,sImage,false,address);
+	//WulforUtil::setTextDeufaults(getWidget("chatText"),sColor,sImage,false,address);
 
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
 	chatBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(getWidget("chatText")));
@@ -172,14 +173,14 @@ Hub::Hub(const string &address, const string &encoding):
 	imageMagnet.second = string();
 
 	// Initialize the user command menu
-//	userCommandMenu = new UserCommandMenu(getWidget("usercommandMenu"), ::UserCommand::CONTEXT_USER);
-//	addChild(userCommandMenu);
+	userCommandMenu = new UserCommandMenu(g_menu_new(), GTK_WIDGET(nickView.get()), ::UserCommand::CONTEXT_USER);
 	// Hub ...
-//	userCommandMenu1 = new UserCommandMenu(gtk_menu_new(), ::UserCommand::CONTEXT_HUB);
-//	addChild(userCommandMenu1);
+	userCommandMenu1 = new UserCommandMenu(BookEntry::createmenu(),getLabelBox(), ::UserCommand::CONTEXT_HUB);
+	userCommandMenu1->addHub(address);
+	userCommandMenu1->buildMenu_gui();
 	// IP Address...
 //	userCommandMenu2 = new UserCommandMenu(getWidget("ipmenu"), ::UserCommand::CONTEXT_IP);
-//	addChild(userCommandMenu2);
+
 
 	//ignoreMenu = new IgnoreMenu(getWidget("ignoreMenuTime"));
 
@@ -197,7 +198,7 @@ Hub::Hub(const string &address, const string &encoding):
 	useEmoticons = true;
 
 	// Chat commands
-	g_object_set_data_full(G_OBJECT(getWidget("awayCommandItem")), "command", g_strdup("/away"), g_free);
+	/*g_object_set_data_full(G_OBJECT(getWidget("awayCommandItem")), "command", g_strdup("/away"), g_free);
 	g_signal_connect(getWidget("awayCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
 
 	g_object_set_data_full(G_OBJECT(getWidget("backCommandItem")), "command", g_strdup("/back"), g_free);
@@ -229,7 +230,7 @@ Hub::Hub(const string &address, const string &encoding):
 
 	g_object_set_data_full(G_OBJECT(getWidget("versionCommandItem")), "command", g_strdup("/bmdc"), g_free);
 	g_signal_connect(getWidget("versionCommandItem"), "activate", G_CALLBACK(onCommandClicked_gui), (gpointer)this);
-
+*/
 	// chat commands button
 //	g_signal_connect(getWidget("chatCommandsButton"), "button-release-event", G_CALLBACK(onChatCommandButtonRelease_gui), (gpointer)this);
 
@@ -240,7 +241,7 @@ Hub::Hub(const string &address, const string &encoding):
 
 	GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("chatScroll")));
 	// Connect the signals to their callback functions.
-	g_signal_connect(getContainer(), "size-allocate", G_CALLBACK(onSizeWindowState_gui), (gpointer)this);
+	//g_signal_connect(getContainer(), "size-allocate", G_CALLBACK(onSizeWindowState_gui), (gpointer)this);
 
 
 //	g_signal_connect(getContainer(), "focus-in-event", G_CALLBACK(onFocusIn_gui), (gpointer)this);
@@ -291,13 +292,9 @@ Hub::Hub(const string &address, const string &encoding):
 	//g_signal_connect(getWidget("boldButton"), "clicked", G_CALLBACK(onBoldButtonClicked_gui), (gpointer)this);
 	//g_signal_connect(getWidget("underlineButton"), "clicked", G_CALLBACK(onUnderlineButtonClicked_gui), (gpointer)this);
 
-
 	// Set the pane position
 	gint panePosition = SETTING(NICK_PANE_POS);
-	width = 0;
-//	GtkWindow *window = GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer());
-//	gtk_window_get_size(window, &width, NULL);
-//	gtk_paned_set_position(GTK_PANED(getWidget("pane")), width - panePosition);
+	gtk_paned_set_position(GTK_PANED(getWidget("pane")), /*width -*/ panePosition);
 
 	history.push_back("");
 
@@ -364,8 +361,17 @@ Hub::Hub(const string &address, const string &encoding):
 		//gtk_widget_show_all(getWidget("scrolledwindow2"));
 	}
 	setColorsRows();
-
-//-------keys stuff
+	//
+	GtkGesture *gesture;
+  gesture = gtk_gesture_click_new ();
+  gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (gesture), 3);
+  g_signal_connect (gesture, "pressed",
+                    G_CALLBACK (on_inner_widget_right_btn_pressed), (gpointer)this);
+  g_signal_connect (gesture, "released",
+                    G_CALLBACK (on_inner_widget_right_btn_released), (gpointer)this);
+  gtk_widget_add_controller (GTK_WIDGET(nickView.get()), GTK_EVENT_CONTROLLER (gesture));
+	
+//------- keys stuff
   GtkEventController* keys = gtk_event_controller_key_new ();
 
   g_signal_connect (keys, "key-pressed",
@@ -374,8 +380,38 @@ Hub::Hub(const string &address, const string &encoding):
                     G_CALLBACK (key_released_gui), (gpointer)this);
   gtk_widget_add_controller (GTK_WIDGET(getWidget("chatEntry")), GTK_EVENT_CONTROLLER (keys));
 
-
 }
+
+void Hub::on_inner_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
+                                   int                /*n_press*/,
+                                   double             x,
+                                   double             y,
+                                   gpointer         *data)
+{
+	Hub* hub = (Hub*)data;
+	g_print("right click");
+	GMenu *menu = g_menu_new ();
+	GMenuItem* item = g_menu_item_new("Browse Filelist", "hub.browse-fl" );
+	g_menu_append_item(menu ,item);
+	
+	GtkWidget *pop = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
+	gtk_widget_set_parent(pop, GTK_WIDGET(hub->nickView.get()));
+	gtk_popover_set_pointing_to(GTK_POPOVER(pop), &(const GdkRectangle){x,y,1,1});
+	gtk_popover_popup (GTK_POPOVER(pop));
+}	
+
+
+void Hub::on_inner_widget_right_btn_released (GtkGestureClick *gesture,
+                                    int             /* n_press*/,
+                                    double          /* x*/,
+                                    double           /*y*/,
+                                    GtkWidget*       /*widget*/)
+{
+  g_debug ("on_inner_widget_right_btn_released() called\n");
+
+  gtk_gesture_set_state (GTK_GESTURE (gesture),
+                         GTK_EVENT_SEQUENCE_CLAIMED);
+}							   
 
 FavoriteHubEntry* Hub::getFavoriteHubEntry()
 {
@@ -538,7 +574,7 @@ void Hub::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeMode
 					}
 					if(l.getHasFgColor())
 					{
-						g_object_set(G_OBJECT(cell),"foreground-set",TRUE,"foreground",l.getFgColor().c_str(),NULL);
+						//g_object_set(G_OBJECT(cell),"foreground-set",TRUE,"foreground",l.getFgColor().c_str(),NULL);
 						isSet = true;
 					}
 				}
@@ -610,7 +646,7 @@ Hub::~Hub()
 	disconnect_client(true);
 
 	// Save the pane position
-	gint panePosition = width - gtk_paned_get_position(GTK_PANED(getWidget("pane")));
+	gint panePosition = /*width -*/ gtk_paned_get_position(GTK_PANED(getWidget("pane")));
 	sm->set(SettingsManager::NICK_PANE_POS, panePosition);
 
 /*	if (handCursor)
@@ -1385,10 +1421,10 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 //					callback = G_CALLBACK(onIpTagEvent_gui);
 					tagStyle = Tag::TAG_IPADR;
 					isIp = true;
-					userCommandMenu2->cleanMenu_gui();
-					userCommandMenu2->addIp(tagName);
-					userCommandMenu2->addHub(address);
-					userCommandMenu2->buildMenu_gui();
+					//userCommandMenu2->cleanMenu_gui();
+					//userCommandMenu2->addIp(tagName);
+					//userCommandMenu2->addHub(address);
+					//userCommandMenu2->buildMenu_gui();
 //					gtk_widget_show_all(userCommandMenu2->getContainer());
 				}
 			}
@@ -2390,14 +2426,16 @@ void Hub::onChatResize_gui(GtkAdjustment *adjustment, gpointer data)
 	}
 }
 
-void Hub::onSendMessage_gui(GtkEntry *entry, gpointer data)
+void Hub::onSendMessage_gui(GtkEntry *e, gpointer data)
 {
-	string text; //gtk_entry_get_text(entry);
+	Hub *hub = (Hub *)data;
+
+	string text = gtk_editable_get_text(GTK_EDITABLE(hub->getWidget("chatEntry")));
 	if (text.empty())
 		return;
 
-//	gtk_entry_set_text(entry, "");
-	Hub *hub = (Hub *)data;
+	gtk_editable_set_text(GTK_EDITABLE(hub->getWidget("chatEntry")), "");
+
 	typedef Func2<Hub, string, bool> F2;
 	F2 *func2;
 
@@ -4727,13 +4765,11 @@ GMenu* Hub::createmenu()
 	GMenuItem * fav = g_menu_item_new(_("Add to Favorite hubs"), "hub.fav-hubs");
 	g_menu_append_item(menu , fav);
 
+	GMenuItem * userCommands = g_menu_item_new("User Commands", NULL);
+	g_menu_item_set_submenu(userCommands , G_MENU_MODEL(userCommandMenu1->getContainer()));
+	g_menu_append_item(menu , userCommands);
 /*	
-		userCommandMenu1->cleanMenu_gui();
 		userCommandMenu1->addUser(client->getMyIdentity().getUser()->getCID().toBase32());
-		userCommandMenu1->addHub(client->getHubUrl());
-		userCommandMenu1->buildMenu_gui();
-		GtkWidget *u_item = gtk_menu_item_new_with_label(_("Users Commands"));
-		GtkWidget *addFav = gtk_menu_item_new_with_label(_("Add to Favorite hubs"));
 		GtkWidget *remfav = gtk_menu_item_new_with_label(_("Remove from Favorite hubs"));
 		GtkWidget *setTab = gtk_menu_item_new_with_label(_("Set Tab Name"));
 		GtkWidget *reconectItem = gtk_menu_item_new_with_label(_("Reconnect this hub"));
@@ -4745,7 +4781,6 @@ GMenu* Hub::createmenu()
             shareView = gtk_menu_item_new_with_label (_("Show Own Filelist Browser"));
             shareRefresh = gtk_menu_item_new_with_label(_("Refresh Share for this hub"));
         }
-		gtk_menu_item_set_submenu(GTK_MENU_ITEM(u_item), userCommandMenu1->getContainer());
 	*/
 	return menu;
 }
@@ -4895,7 +4930,7 @@ void Hub::SetTabText(gpointer data)
 		}
 	}
 	g_object_unref(pixbuf);
-//	gtk_widget_destroy(GTK_WIDGET(dialog));
+
 }
 
 void Hub::onToglleButtonIcon(GtkToggleButton *button, gpointer data)
@@ -4936,7 +4971,7 @@ gboolean Hub::key_pressed_gui ( GtkEventControllerKey* self,  guint keyval,  gui
 	return FALSE;
 }
 
-void Hub::key_released_gui (  GtkEventControllerKey* self,  guint keyval,  guint keycode,  GdkModifierType state,  gpointer user_data )
+void Hub::key_released_gui (  GtkEventControllerKey* self,  guint keyval,  guint keycode,  GdkModifierType state,  gpointer data )
 {
 	g_print( "key_released");
 }

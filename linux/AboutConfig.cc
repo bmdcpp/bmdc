@@ -1,5 +1,5 @@
 /*
-	Copyright (C) 2011 - 2023 - BMDC
+	Copyright (C) 2011 - 2023 - 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
@@ -609,6 +609,8 @@ void AboutConfig::setSettings(string sName ,string sValue, bool bIsWulfor)
 
 			if(wsm->isInt(sName))
 				wsm->set(sName,Util::toInt(sValue));
+
+			wsm->save();
 			return;
 		}
 		int n = -1;
@@ -635,5 +637,6 @@ void AboutConfig::setSettings(string sName ,string sValue, bool bIsWulfor)
 				break;
 			default: ;
 		}
+			sm->save();
 }
 

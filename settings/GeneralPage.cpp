@@ -21,9 +21,9 @@
 #include "GeneralPage.hh"
 #include "definitons.hh"
 #include "seUtil.hh"
-#include <dcpp/SettingsManager.h>
-#include <linux/WulforUtil.hh>
-#include <linux/settingsmanager.hh>
+#include "../dcpp/SettingsManager.h"
+#include "../linux/GuiUtil.hh"
+#include "../linux/settingsmanager.hh"
 
 using namespace std;
 using namespace dcpp;
@@ -76,9 +76,9 @@ void GeneralPage::show(GtkWidget *parent, GtkWidget* old)
 	g_g_a(gtk_label_new("Codepage: "),0,4);
 	g_g_a(GTK_WIDGET(codepage),1,4);
 
-	gtk_entry_set_text(GTK_ENTRY(entry_nick), SETTING(NICK).c_str());
-	gtk_entry_set_text(GTK_ENTRY(entry_email), SETTING(EMAIL).c_str());
-	gtk_entry_set_text(GTK_ENTRY(entry_desc), SETTING(DESCRIPTION).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_nick), SETTING(NICK).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_email), SETTING(EMAIL).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_desc), SETTING(DESCRIPTION).c_str());
 
 	for (vector<string>::const_iterator i = connectionSpeeds.begin(); i != connectionSpeeds.end(); ++i)
 	{
@@ -103,12 +103,12 @@ void GeneralPage::write()
 	dcpp::SettingsManager *sm = dcpp::SettingsManager::getInstance();
 	
 	const gchar* nick = NULL,*desc= NULL,*email = NULL;
-	if(GTK_IS_ENTRY(entry_nick))
-		nick = gtk_entry_get_text(GTK_ENTRY(entry_nick));
-	if(GTK_IS_ENTRY(entry_desc))
-		desc = gtk_entry_get_text(GTK_ENTRY(entry_desc));
-	if(GTK_IS_ENTRY(entry_email))
-		email = gtk_entry_get_text(GTK_ENTRY(entry_email));
+	//if(GTK_IS_ENTRY(entry_nick))
+		nick = gtk_editable_get_text(GTK_EDITABLE(entry_nick));
+	//if(GTK_IS_ENTRY(entry_desc))
+		desc = gtk_editable_get_text(GTK_EDITABLE(entry_desc));
+	//if(GTK_IS_ENTRY(entry_email))
+		email = gtk_editable_get_text(GTK_EDITABLE(entry_email));
 	
 	if(nick != NULL) {
 		sm->set(dcpp::SettingsManager::NICK, nick);

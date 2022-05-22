@@ -15,6 +15,7 @@ env.Append(CPPFLAGS = '-IC:/msys64/mingw64/include/glib-2.0 -IC:/msys64/mingw64/
 if _platform == "win32":
 	env.Append(LIBS = ['wsock32','iphlpapi','ws2_32'])
 	env.Append(LINKFLAGS= ['-lwsock32','-lws2_32'])
+	#env.Append(CPPDEFINES = '_WIN32')
 	#env.Append(LINKFLAGS='-lwsock32 -lws2_32')		
 
 # Build the dcpp files and create the library

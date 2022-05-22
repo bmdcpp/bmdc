@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="2.24"/>
+  <requires lib="gtk+" version="4.00"/>
   <!-- interface-naming-policy toplevel-contextual -->
-  <object class="GtkVBox" id="mainBox">
+  <object class="GtkBox" id="mainBox">
     <property name="visible">True</property>
-    <property name="can_focus">True</property>
-    <property name="border_width">4</property>
+    <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
     <property name="spacing">4</property>
     <child>
       <object class="GtkScrolledWindow" id="scrolledwindow1">
         <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="shadow_type">in</property>
         <child>
           <object class="GtkTextView" id="textview1">
             <property name="visible">True</property>
@@ -19,11 +16,6 @@
           </object>
         </child>
       </object>
-      <packing>
-        <property name="expand">True</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing>
     </child>
   </object>
 </interface>

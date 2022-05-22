@@ -17,8 +17,7 @@
 #include "ApearencePage.hh"
 #include "seUtil.hh"
 #include "definitons.hh"
-#include <dcpp/SettingsManager.h>
-#include <dcpp/format.h>
+#include "../dcpp/SettingsManager.h"
 
 using namespace dcpp;
 
@@ -26,10 +25,10 @@ const char* ApearencePage::page_name = "Apearence";
 
 void  ApearencePage::show(GtkWidget *parent, GtkWidget* old)
 {
-	box3 = gtk_scrolled_window_new(NULL,NULL);
+	box3 = gtk_scrolled_window_new();
 	appearenceView = TreeView();//Fix Crash
 	SEUtil::createOptionsView_gui(appearenceView,appStore);
-	gtk_container_add(GTK_CONTAINER(box3),GTK_WIDGET(appearenceView.get()));
+	//gtk_container_add(GTK_CONTAINER(box3),GTK_WIDGET(appearenceView.get()));
 	/*@Add to parent*/
 	SEUtil::reAddItemCo(parent,old,box3);
 

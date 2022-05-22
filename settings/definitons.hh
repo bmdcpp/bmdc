@@ -16,7 +16,7 @@
 //entry_new
 #define gen gtk_entry_new()
 
-#define sw_new gtk_scrolled_window_new(NULL,NULL)
+#define sw_new gtk_scrolled_window_new()
 
 #define b_file_dialog_widget(a) gtk_file_chooser_dialog_new (a, NULL, GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,\
                                       "_Cancel",\

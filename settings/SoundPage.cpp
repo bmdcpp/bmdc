@@ -1,8 +1,8 @@
 /**/
 #include "SoundPage.hh"
-#include <linux/treeview.hh>
-#include <dcpp/format.h>
-#include <linux/sound.hh>
+#include "../linux/treeview.hh"
+#include "../dcpp/format.h"
+#include "../linux/sound.hh"
 #include "seUtil.hh"
 
 using namespace std;
@@ -12,7 +12,7 @@ const char* SoundPage::name_page = "→ Sound";
 void SoundPage::show(GtkWidget *parent, GtkWidget* old)
 {
 		box = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
-		GtkWidget *scroll = gtk_scrolled_window_new(NULL,NULL);
+		GtkWidget *scroll = gtk_scrolled_window_new();
 		WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
 		soundView = TreeView();
 		soundView.setView(GTK_TREE_VIEW(gtk_tree_view_new()));
@@ -26,9 +26,9 @@ void SoundPage::show(GtkWidget *parent, GtkWidget* old)
 		soundStore = gtk_list_store_newv(soundView.getColCount(), soundView.getGTypes());
 		gtk_tree_view_set_model(soundView.get(), GTK_TREE_MODEL(soundStore));
 		g_object_unref(soundStore);
-		gtk_container_add(GTK_CONTAINER(scroll),GTK_WIDGET(soundView.get()));
+		//gtk_container_add(GTK_CONTAINER(scroll),GTK_WIDGET(soundView.get()));
 
-		gtk_box_pack_start(GTK_BOX(box),scroll,TRUE,TRUE,0);
+		gtk_box_append(GTK_BOX(box),scroll);
 		g_signal_connect(soundView.getCellRenderOf(_("Use")), "toggled", G_CALLBACK(SEUtil::onOptionsViewToggled_gui), (gpointer)soundStore);
 
 		addOption_gui(soundStore, wsm, _("Download begins"), "sound-download-begins-use", "sound-download-begins");
@@ -47,7 +47,7 @@ void SoundPage::show(GtkWidget *parent, GtkWidget* old)
 		gtk_grid_attach(GTK_GRID(grid), button_play,0,0,1,1);
 		gtk_grid_attach(GTK_GRID(grid), button_browse,1,0,1,1);
 
-		gtk_box_pack_start(GTK_BOX(box),grid,TRUE,TRUE,0);
+		gtk_box_append(GTK_BOX(box),grid);
 		
 		g_signal_connect(button_play, "clicked", G_CALLBACK(onSoundPlayButton_gui), (gpointer)this);
 		g_signal_connect(button_browse, "clicked", G_CALLBACK(onSoundFileBrowseClicked_gui), (gpointer)this);
@@ -86,12 +86,12 @@ void SoundPage::onSoundFileBrowseClicked_gui(GtkWidget *widget, gpointer data)
                                       GTK_RESPONSE_OK,
                                       NULL);
 
-	gint response = gtk_dialog_run(GTK_DIALOG(fileDialog));
+	gint response = -1;//gtk_dialog_run(GTK_DIALOG(fileDialog));
 	gtk_widget_hide(fileDialog);
 
 	if (response == GTK_RESPONSE_OK)
 	{
-		gchar *path = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fileDialog));
+		gchar *path;// = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(fileDialog));
 
 		if (path)
 		{

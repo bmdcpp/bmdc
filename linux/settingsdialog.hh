@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2014 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2014-2021 BMDC++
+ * Copyright © 2014-2023 BMDC++
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,8 +42,6 @@ class Settings:
 		~Settings();
 
 		void response_gui();
-
-		//void run(){}
 	private:
 		// GUI functions
 		void addOption_gui(GtkListStore *store, const std::string &name, dcpp::SettingsManager::IntSetting setting);

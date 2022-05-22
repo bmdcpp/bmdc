@@ -18,7 +18,7 @@
 #define _TABS_PAGE_
 #include <gtk/gtk.h>
 #include "SettingsPage.hh"
-#include <linux/treeview.hh>
+#include "../linux/treeview.hh"
 /*----------------------------Meta---------------------------------------------*/
 class TabsPage : public SettingsPage
 {

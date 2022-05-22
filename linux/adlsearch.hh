@@ -1,6 +1,6 @@
 /*
  * Copyright © 2009-2012 freedcpp, http://code.google.com/p/freedcpp
- * Copyright © 2018 of Parts (CMD supports) BMDC
+ * Copyright © 2018 of Parts (CMD supports) BMDC 2018-2023
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

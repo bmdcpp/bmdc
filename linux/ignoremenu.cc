@@ -33,7 +33,7 @@ using namespace dcpp;
 
 void IgnoreMenu::cleanMenu_gui()
 {
-//	gtk_container_foreach(GTK_CONTAINER(appsPreviewMenu), (GtkCallback)gtk_widget_destroy, NULL);
+
 }
 
 void IgnoreMenu::buildMenu_gui(const string &nick,const string& cid,const string& ip)

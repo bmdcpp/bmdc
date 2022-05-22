@@ -1,4 +1,4 @@
-// * Copyright © 2012-2021 BMDC++
+// * Copyright © 2012-2023 BMDC++
 #include <cstring>
 #include "../dcpp/stdinc.h"
 #include "../dcpp/Util.h"

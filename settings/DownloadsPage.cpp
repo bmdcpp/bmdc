@@ -17,7 +17,7 @@
 #include "DownloadsPage.hh"
 #include "definitons.hh"
 #include "seUtil.hh"
-#include <dcpp/SettingsManager.h>
+#include "../dcpp/SettingsManager.h"
 
 using namespace dcpp;
 
@@ -49,8 +49,8 @@ void DownloadsPage::show(GtkWidget *parent, GtkWidget* old)
 	gtk_grid_attach(GTK_GRID(box_grid),gtk_label_new(_("Max Download Slots: ")),0,3,1,1);
 	gtk_grid_attach(GTK_GRID(box_grid),spin_slots_d,1,3,1,1);
 	
-	gtk_entry_set_text(GTK_ENTRY(entry_down_path), SETTING(DOWNLOAD_DIRECTORY).c_str());
-	gtk_entry_set_text(GTK_ENTRY(entry_down_path_temp), SETTING(TEMP_DOWNLOAD_DIRECTORY).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_down_path), SETTING(DOWNLOAD_DIRECTORY).c_str());
+	gtk_editable_set_text(GTK_EDITABLE(entry_down_path_temp), SETTING(TEMP_DOWNLOAD_DIRECTORY).c_str());
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin_slots_d), (double)SETTING(DOWNLOAD_SLOTS));
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin_max_down_speed), (double)SETTING(MAX_DOWNLOAD_SPEED));
 	
@@ -65,14 +65,14 @@ void DownloadsPage::write()
 	SettingsManager *sm = SettingsManager::getInstance();
 	
 	// Downloads
-	const gchar* s_path = gtk_entry_get_text(GTK_ENTRY(entry_down_path));
+	const gchar* s_path = gtk_editable_get_text(GTK_EDITABLE(entry_down_path));
 	if(s_path) {
 		string path = s_path;
 		if (path[path.length() - 1] != PATH_SEPARATOR)
 			path += PATH_SEPARATOR;
 		sm->set(SettingsManager::DOWNLOAD_DIRECTORY, path);
 	}
-	const gchar* s_path2 = gtk_entry_get_text(GTK_ENTRY(entry_down_path_temp));
+	const gchar* s_path2 = gtk_editable_get_text(GTK_EDITABLE(entry_down_path_temp));
 	if(s_path2) {
 		string path = s_path2;
 		if (!path.empty() && path[path.length() - 1] != PATH_SEPARATOR)
@@ -87,7 +87,7 @@ void DownloadsPage::write()
 void DownloadsPage::onBrowseFinished_gui(GtkWidget *widget, gpointer data)
 {
 	DownloadsPage *s = (DownloadsPage *)data;
-	GtkWidget* dialog = b_file_dialog_widget(_("Open Directory"));
+	/*GtkWidget* dialog = b_file_dialog_widget(_("Open Directory"));
 		
  	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 	gtk_widget_hide(dialog);
@@ -97,16 +97,16 @@ void DownloadsPage::onBrowseFinished_gui(GtkWidget *widget, gpointer data)
 		gchar *path = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(dialog));
 		if (path)
 		{
-			gtk_entry_set_text(GTK_ENTRY(s->entry_down_path), Text::toUtf8(path).c_str());
+			gtk_editable_set_text(GTK_EDITABLE(s->entry_down_path), Text::toUtf8(path).c_str());
 			g_free(path);
 		}
-	}
+	}*/
 }
 
 void DownloadsPage::onBrowseUnfinished_gui(GtkWidget *widget, gpointer data)
 {
 	DownloadsPage *s = (DownloadsPage *)data;
-	GtkWidget* dialog = b_file_dialog_widget(_("Open Directory"));
+	/*GtkWidget* dialog = b_file_dialog_widget(_("Open Directory"));
 	
  	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 	gtk_widget_hide(dialog);
@@ -116,8 +116,8 @@ void DownloadsPage::onBrowseUnfinished_gui(GtkWidget *widget, gpointer data)
 		gchar *path = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(dialog));
 		if (path)
 		{
-			gtk_entry_set_text(GTK_ENTRY(s->entry_down_path_temp),  Text::toUtf8(path).c_str());
+			gtk_editable_set_text(GTK_EDITABLE(s->entry_down_path_temp),  Text::toUtf8(path).c_str());
 			g_free(path);
 		}
-	}
+	}*/
 }

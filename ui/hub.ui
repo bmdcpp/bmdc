@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <!-- interface-requires gtk+ 3.0 -->
-  <object class="GtkMenu" id="chatCommandsMenu">
+  <!--object class="GtkMenu" id="chatCommandsMenu">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <child>
@@ -126,7 +125,7 @@
       </object>
     </child>
   </object>
-  <object class="GtkMenu" id="emotPacksMenu">
+  <!--object class="GtkMenu" id="emotPacksMenu">
     <property name="can_focus">False</property>
   </object>
   <object class="GtkMenu" id="hubMenu">
@@ -296,10 +295,9 @@
         <property name="label" translatable="yes">Propteries</property>
       </object>
     </child>
-  </object>
+  </object-->
   <object class="GtkBox" id="mainBox">
     <property name="visible">True</property>
-    <property name="can_focus">True</property>
     <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
     <child>
       <object class="GtkPaned" id="pane">
@@ -308,114 +306,67 @@
         <child>
           <object class="GtkScrolledWindow" id="chatScroll">
             <property name="visible">True</property>
-            <property name="shadow_type">in</property>
-            <property name="min-content-width">150</property>
+            <property name="min-content-width">250</property>
             <property name="overlay-scrolling">False</property>
+            <property name="vexpand">True</property>
             <child>
               <object class="GtkTextView" id="chatText">
                 <property name="visible">True</property>
 				<property name="cursor-visible">False</property>
 				<property name="editable">False</property>
 				<property name="wrap-mode">GTK_WRAP_WORD_CHAR</property>
+        <property name="vexpand">True</property>
               </object>
             </child>
           </object>
-          <packing>
-            <property name="resize">True</property>
-            <property name="shrink">False</property>
-         </packing>
         </child>
         <child>
           <object class="GtkScrolledWindow" id="scrolledwindow2">
             <property name="visible">True</property>
-            <property name="shadow_type">in</property>
             <property name="min-content-width">150</property>
-            <!--property name="min-content-height">400</property-->
-            <!--property name="propagate-natural-height">True</property-->
             <child>
               <object class="GtkTreeView" id="nickView">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
+                <property name="vexpand">True</property>
               </object>
             </child>
           </object>
-          <packing>
-            <property name="resize">True</property>
-            <property name="shrink">False</property>
-           
-          </packing>
         </child>
       </object>
-      <packing>
-		 <property name="expand">True</property>
-         <property name="fill">True</property>
-      </packing>
     </child>
     <child>
       <object class="GtkGrid" id="grid2">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
         <property name="vexpand">False</property>
         <child>
           <object class="GtkButton" id="chatCommandsButton">
             <property name="label" translatable="yes">Commands</property>
-            <property name="use_action_appearance">False</property>
             <property name="visible">True</property>
             <property name="receives_default">True</property>
-            <property name="use_action_appearance">False</property>
           </object>
-          <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">0</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
-          </packing>
         </child>
         <child>
           <object class="GtkButton" id="emotButton">
             <property name="label" translatable="yes">Smile</property>
-            <property name="use_action_appearance">False</property>
             <property name="visible">True</property>
             <property name="receives_default">True</property>
-            <property name="use_action_appearance">False</property>
             <child>
               <object class="GtkImage" id="emotButtonImage">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="stock">bmdc-smile</property>
                 <property name="icon-size">1</property>
               </object>
             </child>
           </object>
-          <packing>
-            <property name="left_attach">5</property>
-            <property name="top_attach">0</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
-          </packing>
         </child>
         <child>
           <object class="GtkEntry" id="chatEntry">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="can-default">True</property>
-            <property name="expand">True</property>
+			<property name="vexpand">True</property>
+			<property name="hexpand">True</property>
           </object>
-          <packing>
-            <property name="left_attach">2</property>
-            <property name="top_attach">0</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
-          </packing>
         </child>
       </object>
-      <packing>
-        <property name="left_attach">0</property>
-        <property name="top_attach">1</property>
-        <property name="width">1</property>
-        <property name="height">1</property>
-        <property name="hexpand">True</property>
-      </packing>
     </child>
     <child>
       <object class="GtkGrid" id="grid3">
@@ -425,136 +376,58 @@
         <child>
           <object class="GtkButton" id="italicButton">
             <property name="label" translatable="yes">Italic</property>
-            <property name="use_action_appearance">False</property>
             <property name="visible">True</property>
-            <property name="use_action_appearance">False</property>
           </object>
-          <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">0</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
-          </packing>
         </child>
         <child>
           <object class="GtkButton" id="boldButton">
             <property name="label" translatable="yes">Bold</property>
-            <property name="use_action_appearance">False</property>
             <property name="visible">True</property>
             <property name="receives_default">True</property>
-            <property name="use_action_appearance">False</property>
           </object>
-          <packing>
-            <property name="left_attach">1</property>
-            <property name="top_attach">0</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
-          </packing>
         </child>
         <child>
           <object class="GtkButton" id="underlineButton">
             <property name="label" translatable="yes">UnderLine</property>
-            <property name="use_action_appearance">False</property>
             <property name="visible">True</property>
             <property name="receives_default">True</property>
-            <property name="use_action_appearance">False</property>
           </object>
-          <packing>
-            <property name="left_attach">2</property>
-            <property name="top_attach">0</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
-          </packing>
         </child>
         <child>
           <object class="GtkStatusbar" id="statusMain">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="orientation">vertical</property>
-            <property name="spacing">2</property>
-            <property name="expand">True</property>
           </object>
-          <packing>
-            <property name="left_attach">3</property>
-            <property name="top_attach">0</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
-          </packing>
         </child>
         <child>
           <object class="GtkStatusbar" id="statusUsers">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="orientation">vertical</property>
-            <property name="spacing">2</property>
           </object>
-          <packing>
-            <property name="left_attach">4</property>
-            <property name="top_attach">0</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
-          </packing>
         </child>
         <child>
           <object class="GtkStatusbar" id="statusShared">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="orientation">vertical</property>
-            <property name="spacing">2</property>
           </object>
-          <packing>
-            <property name="left_attach">5</property>
-            <property name="top_attach">0</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
-          </packing>
         </child>
         <child>
           <object class="GtkCheckButton" id="userListCheckButton">
             <property name="label" translatable="yes">+/-</property>
-            <property name="use_action_appearance">False</property>
             <property name="visible">True</property>
-            <property name="receives_default">False</property>
-            <property name="use_action_appearance">False</property>
-            <property name="xalign">0</property>
-            <property name="draw_indicator">True</property>
           </object>
-          <packing>
-            <property name="left_attach">6</property>
-            <property name="top_attach">0</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
-          </packing>
         </child>
         <child>
           <object class="GtkButton" id="buttonrefresh">
             <property name="label" translatable="yes">Refresh</property>
-            <property name="use_action_appearance">False</property>
             <property name="visible">True</property>
             <property name="receives_default">True</property>
-            <property name="use_action_appearance">False</property>
           </object>
-          <packing>
-            <property name="left_attach">7</property>
-            <property name="top_attach">0</property>
-            <property name="width">1</property>
-            <property name="height">1</property>
-          </packing>
         </child>
       </object>
-      <packing>
-        <property name="left_attach">0</property>
-        <property name="top_attach">2</property>
-        <property name="width">1</property>
-        <property name="height">1</property>
-      </packing>
     </child>
   </object>
-  <object class="GtkMenu" id="nickMenu">
+  <!--object class="GtkMenu" id="nickMenu">
     <property name="can_focus">False</property>
     <child>
       <object class="GtkMenuItem" id="nickItem">
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="app_paintable">True</property>
         <property name="can_focus">False</property>
@@ -564,7 +437,6 @@
     </child>
     <child>
       <object class="GtkMenuItem" id="copyNickItem">
-        <property name="use_action_appearance">False</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">Copy</property>
@@ -775,5 +647,5 @@
         <property name="label" translatable="yes">Refresh Userlist</property>
       </object>
     </child>
-  </object>
+  </object-->
 </interface>

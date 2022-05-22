@@ -1,6 +1,6 @@
 /*
  * Copyright © 2009-2012 freedcpp, http://code.google.com/p/freedcpp
- * Copyright © Parts (CMD supports) BMDC
+ * Copyright © Parts (CMD supports) BMDC 2018-2023
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,8 +32,6 @@ SearchADL::SearchADL():
 	sens(TRUE),	acts(TRUE),
 	bForbid(TRUE)
 {
-	g_object_ref_sink(getWidget("menu"));
-
 	// Fill drop down actions
 	auto action = WulforUtil::getActions();
 	WulforUtil::drop_combo(getWidget("comboboxAction"),action);
@@ -111,8 +109,6 @@ SearchADL::SearchADL():
 SearchADL::~SearchADL()
 {
 	ADLSearchManager::getInstance()->save();
-//	gtk_widget_destroy(getWidget("ADLSearchDialog"));
-//	g_object_unref(getWidget("menu"));
 }
 
 void SearchADL::show()
@@ -299,8 +295,8 @@ bool SearchADL::showPropertiesDialog_gui(ADLSearch &search, bool edit, SearchADL
 		overide = s->searchADLView.getValue<gboolean>(&iter, "OverRideP");
 
 		// set text
-	//	gtk_entry_set_text(GTK_ENTRY(s->getWidget("searchStringEntry")), searchString.c_str());
-	//	gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")), destDir.c_str());
+		gtk_editable_set_text(GTK_EDITABLE(s->getWidget("searchStringEntry")), searchString.c_str());
+		gtk_editable_set_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry")), destDir.c_str());
 
 		// set size
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(s->getWidget("minFileSizeSpinButton")), minSize);
@@ -317,13 +313,13 @@ bool SearchADL::showPropertiesDialog_gui(ADLSearch &search, bool edit, SearchADL
 		//Forbiden
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkForbiden")), (isForbid == _("1")) ? TRUE : FALSE);
 		//Comment
-//		gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryComment")), commentStr.c_str());
+		gtk_editable_set_text(GTK_EDITABLE(s->getWidget("entryComment")), commentStr.c_str());
 		//raw
 		gtk_combo_box_set_active(GTK_COMBO_BOX(s->getWidget("comboboxAction")), (gint)(s->find_rawInt(raw)) );
 		//FromFav
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkFromFav")), isFav);
 		//KickSTr
-		//gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryKick")), kickStr.c_str());
+		gtk_editable_set_text(GTK_EDITABLE(s->getWidget("entryKick")), kickStr.c_str());
 		//Points
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(s->getWidget("spinbuttonPoints")),(gint)point);
 		//Overide
@@ -333,8 +329,8 @@ bool SearchADL::showPropertiesDialog_gui(ADLSearch &search, bool edit, SearchADL
 	else
 	{
 		// set text default
-	//	gtk_entry_set_text(GTK_ENTRY(s->getWidget("searchStringEntry")), search.searchString.c_str());
-	//	gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")), search.destDir.c_str());
+		gtk_editable_set_text(GTK_EDITABLE(s->getWidget("searchStringEntry")), search.searchString.c_str());
+		gtk_editable_set_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry")), search.destDir.c_str());
 
 		// set size default
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(s->getWidget("minFileSizeSpinButton")), search.minFileSize);
@@ -349,9 +345,9 @@ bool SearchADL::showPropertiesDialog_gui(ADLSearch &search, bool edit, SearchADL
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("downloadMatchesCheckButton")), search.isAutoQueue);
 		///CMD
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkForbiden")), FALSE);
-//		gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryComment")), "");
+		gtk_editable_set_text(GTK_EDITABLE(s->getWidget("entryComment")), "");
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkFromFav")), FALSE);
-	//	gtk_entry_set_text(GTK_ENTRY(s->getWidget("entryKick")), "");
+		gtk_editable_set_text(GTK_EDITABLE(s->getWidget("entryKick")), "");
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(s->getWidget("spinbuttonPoints")),(gint)0);
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(s->getWidget("checkoveride1")),false);
 	}
@@ -371,8 +367,8 @@ bool SearchADL::showPropertiesDialog_gui(ADLSearch &search, bool edit, SearchADL
 	// set search
 	enabledCheck = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("enabledCheckButton")));
 	matchesCheck = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("downloadMatchesCheckButton")));
-//	searchString = gtk_entry_get_text(GTK_ENTRY(s->getWidget("searchStringEntry")));
-//	destDir = gtk_entry_get_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")));
+	searchString = gtk_editable_get_text(GTK_EDITABLE(s->getWidget("searchStringEntry")));
+	destDir = gtk_editable_get_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry")));
 	minSize = gtk_spin_button_get_value(GTK_SPIN_BUTTON(s->getWidget("minFileSizeSpinButton")));
 	maxSize = gtk_spin_button_get_value(GTK_SPIN_BUTTON(s->getWidget("maxFileSizeSpinButton")));
 	sizeType = gtk_combo_box_get_active(GTK_COMBO_BOX(s->getWidget("sizeTypeComboBox")));
@@ -384,7 +380,7 @@ bool SearchADL::showPropertiesDialog_gui(ADLSearch &search, bool edit, SearchADL
 	}
 	g_free(tmp);
 	isFavs = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkFromFav")));
-	//kickStr = gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryKick")));
+	kickStr = gtk_editable_get_text(GTK_EDITABLE(s->getWidget("entryKick")));
 	point = (int)gtk_spin_button_get_value (GTK_SPIN_BUTTON(s->getWidget("spinbuttonPoints")));
 
 	if(gtk_widget_is_sensitive(s->getWidget("checkoveride1")))
@@ -400,7 +396,7 @@ bool SearchADL::showPropertiesDialog_gui(ADLSearch &search, bool edit, SearchADL
 	search.typeFileSize = (ADLSearch::SizeType)sizeType;
 	///CMD
 	search.isForbidden = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s->getWidget("checkForbiden"))) ? true : false;
-//	search.adlsComment = gtk_entry_get_text(GTK_ENTRY(s->getWidget("entryComment")));
+	search.adlsComment = gtk_editable_get_text(GTK_EDITABLE(s->getWidget("entryComment")));
 	search.adlsRaw = raw;
 	search.fromFavs = isFavs;
 	search.kickString = kickStr;
@@ -627,16 +623,16 @@ void SearchADL::onChangeCombo(GtkWidget *widget, gpointer data)
 
 		switch(type) {
     case 0:
-  //      gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")),"Forbidden Files");
+        gtk_editable_set_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry")),"Forbidden Files");
         break;
     case 1:
-        // gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")),"Forbidden Directories");
+        gtk_editable_set_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry")),"Forbidden Directories");
          break;
     case 2:
-        //gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")),"Forbidden Full Paths");
+        gtk_editable_set_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry")),"Forbidden Full Paths");
         break;
     case 3:
-        //gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")),"Forbidden TTHS");
+        gtk_editable_set_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry")),"Forbidden TTHS");
         break;
     default: return;
 	}
@@ -648,7 +644,7 @@ void SearchADL::onChangeCombo(GtkWidget *widget, gpointer data)
 void SearchADL::onToggleForb(GtkWidget*, gpointer data)
 {
 	SearchADL *s = reinterpret_cast<SearchADL *>(data);
-	//string tmp;
+	string tmp;
 	gint type;
 
 	gtk_widget_set_sensitive(s->getWidget("checkcasesensitive"), s->bForbid);
@@ -656,26 +652,26 @@ void SearchADL::onToggleForb(GtkWidget*, gpointer data)
 	gtk_widget_set_sensitive(s->getWidget("spinbuttonPoints"), s->bForbid);
 
     //@this probaly not need?
-	//tmp = string(gtk_entry_get_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry"))));
-	//if( (tmp != "Forbidden Files") || (tmp != "Forbidden TTHS") || (tmp != "Forbidden Directories"))
+	tmp = string(gtk_editable_get_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry"))));
+	if( (tmp != "Forbidden Files") || (tmp != "Forbidden TTHS") || (tmp != "Forbidden Directories"))
 	{
         type = gtk_combo_box_get_active(GTK_COMBO_BOX(s->getWidget("sourceTypeComboBox")));
         switch(type)
         {
         case 0:
-//           gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")), "Forbidden Files");
+           gtk_editable_set_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry")), "Forbidden Files");
            gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"), !s->bForbid);
            break;
         case 1:
-        //   gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")), "Forbidden Directories");
+           gtk_editable_set_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry")), "Forbidden Directories");
            gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"), !s->bForbid);
            break;
         case 2:
-          // gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")),"Forbidden Full Paths");
+           gtk_editable_set_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry")),"Forbidden Full Paths");
            gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"), !s->bForbid);
            break;
         case 3:
-          // gtk_entry_set_text(GTK_ENTRY(s->getWidget("destinationDirectoryEntry")), "Forbidden TTHS");
+           gtk_editable_set_text(GTK_EDITABLE(s->getWidget("destinationDirectoryEntry")), "Forbidden TTHS");
            gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"), !s->bForbid);
            break;
         default: gtk_widget_set_sensitive(s->getWidget("destinationDirectoryEntry"), !s->bForbid);;

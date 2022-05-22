@@ -56,8 +56,10 @@ class WulforManager
 
 		// DialogEntry functions
 		gint openHashDialog_gui();
-		gint openSettingsDialog_gui();
+		GtkWidget* openSettingsDialog_gui();
+		
 		DialogEntry *getHashDialog_gui();
+		
 		DialogEntry *getSettingsDialog_gui();
 
 		void onReceived_gui(const std::string& link);

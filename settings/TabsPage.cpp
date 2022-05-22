@@ -16,7 +16,7 @@
 
 #include "TabsPage.hh"
 #include <linux/settingsmanager.hh>
-#include <linux/WulforUtil.hh>
+#include <linux/GuiUtil.hh>
 #include "seUtil.hh"
 
 using namespace std;
@@ -28,7 +28,7 @@ void TabsPage::show(GtkWidget *parent, GtkWidget *old)
 {
 	box =  gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
 	GtkWidget *grid = gtk_grid_new();
-	GtkWidget *scroll = gtk_scrolled_window_new(NULL,NULL);
+	GtkWidget *scroll = gtk_scrolled_window_new();
 	tabsView = TreeView();
 	tabsView.setView(GTK_TREE_VIEW(gtk_tree_view_new()));
 	tabsView.insertColumn("Type", G_TYPE_STRING, TreeView::ICON_STRING,30,"Icon");
@@ -41,7 +41,7 @@ void TabsPage::show(GtkWidget *parent, GtkWidget *old)
 	gtk_tree_view_set_model(tabsView.get(), GTK_TREE_MODEL(tabStore));
 	g_object_unref(tabStore);
 
-	gtk_container_add(GTK_CONTAINER(scroll),GTK_WIDGET(tabsView.get()));
+	//gtk_container_add(GTK_CONTAINER(scroll),GTK_WIDGET(tabsView.get()));
 	gtk_grid_attach(GTK_GRID(grid),scroll,0,0,10,8);
 	gtk_grid_set_column_homogeneous (GTK_GRID(grid),TRUE);
 	gtk_widget_set_size_request(scroll,150,200);
@@ -61,15 +61,15 @@ void TabsPage::show(GtkWidget *parent, GtkWidget *old)
 	addItem_gui("Favorite Users","favorite-users");
 	addItem_gui("Favorite Hubs","favorite-hubs");
 	
-	gtk_box_pack_start(GTK_BOX(box),grid,TRUE,TRUE,0);		
+	gtk_box_append(GTK_BOX(box),grid);		
 	tabsSelection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tabsView.get()));
 	gtk_tree_selection_set_mode (tabsSelection, GTK_SELECTION_SINGLE);
 	g_signal_connect(G_OBJECT(tabsSelection),"changed",G_CALLBACK(onChangeTabSelections), (gpointer)this);
 
 	frame = gtk_frame_new("Tab Settings");
-	gtk_box_pack_start(GTK_BOX(box),frame,TRUE,TRUE,0);
+	gtk_box_append(GTK_BOX(box),frame);
 	GtkWidget *note = gtk_notebook_new();
-	gtk_container_add(GTK_CONTAINER(frame),note);
+	//gtk_container_add(GTK_CONTAINER(frame),note);
 
 	GtkWidget *pagelabel = gtk_label_new("Normal");
 	GtkWidget *grid2 = gtk_grid_new();
@@ -155,7 +155,7 @@ void TabsPage::onBackColorChooserTab(GtkWidget *button, gpointer data)
 	GtkWidget *dialog =   gtk_color_chooser_dialog_new (("Chose BackGroun of "+key).c_str(),
                                                         NULL); 
     gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog),&bg);
-    int response = gtk_dialog_run(GTK_DIALOG(dialog));
+    int response =-1;// gtk_dialog_run(GTK_DIALOG(dialog));
     if(response ==  GTK_RESPONSE_OK)
 	{
 		GdkRGBA bg_s;
@@ -164,7 +164,7 @@ void TabsPage::onBackColorChooserTab(GtkWidget *button, gpointer data)
 		WSET("colored-tabs-" +(string(key))+"-color-bg",color);
 	 
 	}
-	gtk_widget_destroy(dialog);
+	//gtk_widget_destroy(dialog);
 	
 }
 
@@ -178,7 +178,7 @@ void TabsPage::onForeColorChooserTab(GtkWidget *button, gpointer data)
 	GtkWidget *dialog =   gtk_color_chooser_dialog_new (("Chose ForeGroun of "+key).c_str(),
                                                         NULL); 
     gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog),&fg);
-    int response = gtk_dialog_run(GTK_DIALOG(dialog));
+    int response = -1;//gtk_dialog_run(GTK_DIALOG(dialog));
     if(response ==  GTK_RESPONSE_OK)
 	{
 		GdkRGBA fg_s;
@@ -187,7 +187,7 @@ void TabsPage::onForeColorChooserTab(GtkWidget *button, gpointer data)
 		WSET("colored-tabs-" +(string(key))+"-color-fg",color);
 	 
 	}
-	gtk_widget_destroy(dialog);
+	//gtk_widget_destroy(dialog);
 	
 }
 
@@ -202,7 +202,7 @@ void TabsPage::onBackColorChooserTab_unread(GtkWidget *button, gpointer data)
 	GtkWidget *dialog =   gtk_color_chooser_dialog_new (("Chose BackGroun of "+key).c_str(),
                                                         NULL); 
     gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog),&bg);
-    int response = gtk_dialog_run(GTK_DIALOG(dialog));
+    int response = -1;//gtk_dialog_run(GTK_DIALOG(dialog));
     if(response ==  GTK_RESPONSE_OK)
 	{
 		GdkRGBA bg_s;
@@ -211,7 +211,7 @@ void TabsPage::onBackColorChooserTab_unread(GtkWidget *button, gpointer data)
 		WSET("colored-tabs-" +(string(key))+"-color-bg-unread",color);
 	 
 	}
-	gtk_widget_destroy(dialog);
+	//gtk_widget_destroy(dialog);
 	
 }
 
@@ -225,7 +225,7 @@ void TabsPage::onForeColorChooserTab_unread(GtkWidget *button, gpointer data)
 	GtkWidget *dialog =   gtk_color_chooser_dialog_new (("Chose ForeGroun of "+key).c_str(),
                                                         NULL); 
     gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(dialog),&fg);
-    int response = gtk_dialog_run(GTK_DIALOG(dialog));
+    int response = -1;//gtk_dialog_run(GTK_DIALOG(dialog));
     if(response ==  GTK_RESPONSE_OK)
 	{
 		GdkRGBA fg_s;
@@ -234,7 +234,7 @@ void TabsPage::onForeColorChooserTab_unread(GtkWidget *button, gpointer data)
 		WSET("colored-tabs-" +(string(key))+"-color-fg-unread",color);
 	 
 	}
-	gtk_widget_destroy(dialog);
+//	gtk_widget_destroy(dialog);
 	
 }
 
