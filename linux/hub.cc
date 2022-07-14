@@ -180,9 +180,7 @@ Hub::Hub(const string &address, const string &encoding):
 	userCommandMenu1->buildMenu_gui();
 	// IP Address...
 //	userCommandMenu2 = new UserCommandMenu(getWidget("ipmenu"), ::UserCommand::CONTEXT_IP);
-
-
-	//ignoreMenu = new IgnoreMenu(getWidget("ignoreMenuTime"));
+//  ignoreMenu = new IgnoreMenu(getWidget("ignoreMenuTime"));
 
 	string packName = SETTING(EMOT_PACK);
 
@@ -649,14 +647,6 @@ Hub::~Hub()
 	gint panePosition = /*width -*/ gtk_paned_get_position(GTK_PANED(getWidget("pane")));
 	sm->set(SettingsManager::NICK_PANE_POS, panePosition);
 
-/*	if (handCursor)
-	{
-		g_object_unref(handCursor);
-		handCursor = NULL;
-	}
-
-	delete emotdialog;
-*/
 }
 
 void Hub::show()
@@ -1425,7 +1415,6 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 					//userCommandMenu2->addIp(tagName);
 					//userCommandMenu2->addHub(address);
 					//userCommandMenu2->buildMenu_gui();
-//					gtk_widget_show_all(userCommandMenu2->getContainer());
 				}
 			}
 		}
@@ -4863,7 +4852,6 @@ void Hub::on_setImage_tab(GtkButton*, gpointer data)
 			}
 
 			hub->client->fire(ClientListener::HubUpdated(), hub->client);
-
 
 		}
 */

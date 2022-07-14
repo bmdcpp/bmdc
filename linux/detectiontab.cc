@@ -1,5 +1,5 @@
 //
-//      Copyright 2011 -2021 BMDC
+//      Copyright 2011 -2023 BMDC
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -57,7 +57,7 @@ BookEntry(Entry::DETECTION, _("Detection Settings"), "detection")
 	//Action&Raw
 	///Actions
 	actionView.setView(GTK_TREE_VIEW(getWidget("treeviewAction")));
-    actionView.insertColumn(N_("Enable"), G_TYPE_BOOLEAN, TreeView::BOOL, 100);//checkbox
+    actionView.insertColumn(N_("Enable"), G_TYPE_BOOLEAN, TreeView::BOOL, 100);
 	actionView.insertColumn(N_("Name"), G_TYPE_STRING, TreeView::STRING, 100);
 	actionView.insertColumn(N_("ID"), G_TYPE_INT, TreeView::INT, 100);
 	actionView.finalize();
@@ -68,7 +68,7 @@ BookEntry(Entry::DETECTION, _("Detection Settings"), "detection")
 	actionSelection = gtk_tree_view_get_selection(actionView.get());
 	///Raws
 	RawView.setView(GTK_TREE_VIEW(getWidget("treeviewRaw")));
-	RawView.insertColumn(N_("Enable"), G_TYPE_BOOLEAN, TreeView::BOOL, 100);//checkbox
+	RawView.insertColumn(N_("Enable"), G_TYPE_BOOLEAN, TreeView::BOOL, 100);
 	RawView.insertColumn(N_("Name"), G_TYPE_STRING, TreeView::STRING, 100);
 	RawView.insertColumn(N_("Raw"), G_TYPE_STRING, TreeView::STRING, 100);
 	RawView.insertColumn(N_("Time"), G_TYPE_INT, TreeView::INT, 100);
@@ -532,10 +532,7 @@ void DetectionTab::onRemoveAct(GtkWidget* , gpointer data)
 				GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
 				_("Are you sure you want to delete this item \"%s\"?"), name.c_str());
 				gtk_dialog_add_buttons(GTK_DIALOG(dialog),_("_Cancel"), GTK_RESPONSE_CANCEL, BMDC_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
-
 				//gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-				//gtk_widget_destroy(dialog);
-
 				//if (response != GTK_RESPONSE_YES)
 				//	return;
 		}
@@ -566,7 +563,6 @@ void DetectionTab::onRemoveRaw(GtkWidget* , gpointer data)
 				gtk_dialog_add_buttons(GTK_DIALOG(dialog), "_Cancel", GTK_RESPONSE_CANCEL, BMDC_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
 
 			//	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-			//	gtk_widget_destroy(dialog);
 
 			//	if (response != GTK_RESPONSE_YES)
 			//		return;
@@ -599,9 +595,6 @@ bool DetectionTab::showAddActRawDialog(StringMap &params,DetectionTab *dt)
 
 		//gint response = gtk_dialog_run(GTK_DIALOG(dt->getWidget("ActRawDialog")));
 
-		// Fix crash, if the dialog gets programmatically destroyed.
-		//if (response == GTK_RESPONSE_NONE)
-		//	return FALSE;
 		//while (response == GTK_RESPONSE_OK)
 		{
 			params.clear();
@@ -620,11 +613,9 @@ bool DetectionTab::showAddActRawDialog(StringMap &params,DetectionTab *dt)
 			}
 			else
 			{
-		//		gtk_widget_hide(dt->getWidget("ActRawDialog"));
 				return TRUE;
 			}
 		}
-      //gtk_widget_hide(dt->getWidget("ActRawDialog"));
 	return FALSE;
 }
 
@@ -867,7 +858,6 @@ void DetectionTab::onRemoveEntryDet(GtkWidget*, gpointer data)
 					gtk_dialog_add_buttons(GTK_DIALOG(dialog), "_Cancel", GTK_RESPONSE_CANCEL, BMDC_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
 
 		//			gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-		//			gtk_widget_destroy(dialog);
 
 		//			if (response != GTK_RESPONSE_YES)
 		//				return;
@@ -1045,11 +1035,6 @@ void DetectionTab::onRemItemDlg_gui(GtkWidget*, gpointer data)
 
 		//		gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 				// Widget failed if the dialog gets programmatically destroyed.
-		//		if (response == GTK_RESPONSE_NONE)
-		//			return;
-
-		//		gtk_widget_hide(dialog);
-
 		//		if (response != GTK_RESPONSE_YES)
 		//			return;
 	}
@@ -1078,10 +1063,6 @@ bool DetectionTab::runDialogItem(StringMap &params,DetectionTab *dt)
 		gtk_combo_box_set_active(GTK_COMBO_BOX(dt->getWidget("comboboxt1")), (gint)(Util::toInt(params["Type"])));
 	//	gint response = gtk_dialog_run(GTK_DIALOG(dt->getWidget("dialogItem1")));
 
-		// Fix crash, if the dialog gets programmatically destroyed.
-	//	if (response == GTK_RESPONSE_NONE)
-	//		return FALSE;
-
 	//	while(response == GTK_RESPONSE_OK)
 		{
 			params.clear();
@@ -1093,11 +1074,8 @@ bool DetectionTab::runDialogItem(StringMap &params,DetectionTab *dt)
 			else if(iftype =="1")
 				params["Type"] = "ADC";
 			else params["Type"] = "BOTH";
-
-	//		gtk_widget_hide(dt->getWidget("dialogItem1"));
 			return TRUE;
 		}
-	//gtk_widget_hide(dt->getWidget("dialogItem1"));
 	return FALSE;
 }
 
@@ -1183,10 +1161,6 @@ bool DetectionTab::showAddEntryDetDialog(StringMap &params, DetectionTab *dt)
 
 		//gint response = gtk_dialog_run(GTK_DIALOG(dt->getWidget("dialogDetection")));
 
-		// Fix crash, if the dialog gets programmatically destroyed.
-		//if (response == GTK_RESPONSE_NONE)
-		//	return FALSE;
-			
 		//while(response == GTK_RESPONSE_OK)
 		{
 			params.clear();
@@ -1233,19 +1207,15 @@ bool DetectionTab::showAddEntryDetDialog(StringMap &params, DetectionTab *dt)
                         if(showErrorDialog_gui(_("Fields Name, ID and detection fields are required"),dt))
                         {
                         //    response = gtk_dialog_run(GTK_DIALOG(dt->getWidget("dialogDetection")));
-                            // Fix crash, if the dialog gets programmatically destroyed.
-                          //  if (response == GTK_RESPONSE_NONE)
-                            //    return FALSE;
                         }
                         else return FALSE;
                 }
                 else
                 {
-          //          gtk_widget_hide(dt->getWidget("dialogDetection"));
                     return TRUE;
                 }
 		}
-		//gtk_widget_hide(dt->getWidget("dialogDetection"));
+
 		return FALSE;
 }
 
@@ -1356,10 +1326,6 @@ gboolean DetectionTab::showADLPoints(DetectionTab *dt)
 	}
 
 //	gint response = gtk_dialog_run(GTK_DIALOG(dt->getWidget("dialogitemPoints")));
-
-	// Fix crash, if the dialog gets programmatically destroyed.
-//	if (response == GTK_RESPONSE_NONE)
-//			return FALSE;
 //	if(response == GTK_RESPONSE_OK)
 	{
 		GtkTreeIter iter;
@@ -1375,10 +1341,9 @@ gboolean DetectionTab::showADLPoints(DetectionTab *dt)
 			valid = gtk_tree_model_iter_next(tmodel, &iter);
 		}
 
-//		gtk_widget_hide(dt->getWidget("dialogitemPoints"));
 		return TRUE;
 	}
-//	gtk_widget_hide(dt->getWidget("dialogitemPoints"));
+
 	return FALSE;
 }
 
@@ -1388,15 +1353,10 @@ bool DetectionTab::showAddPointsDialog(StringMap &params,DetectionTab *dt)
 	dt->set_combo(dt->getWidget("comboboxentryactionp1"), WulforUtil::getActions(), (int)Util::toInt(params["Action"]), false, dt);
 
 //	gint response = gtk_dialog_run(GTK_DIALOG(dt->getWidget("dialogpointitem1")));
-
-	// Fix crash, if the dialog gets programmatically destroyed.
-//	if (response == GTK_RESPONSE_NONE)
-//			return false;
 //	if(response == GTK_RESPONSE_OK)
 	{
 		params["Action"] = Util::toString(dt->save_combo(dt->getWidget("comboboxentryactionp1")));//gtk_combo_box_get_active(GTK_COMBO_BOX(dt->getWidget("comboboxentryactionp1")));
 		params["Points"] = Util::toString(gtk_spin_button_get_value(GTK_SPIN_BUTTON(dt->getWidget("spinbuttonpointss1"))));
-//		gtk_widget_hide(dt->getWidget("dialogpointitem1"));
 		return true;
 	}
 	return false;
@@ -1449,12 +1409,6 @@ void DetectionTab::onADSLPointsDEL(GtkWidget*, gpointer data)
 					GTK_RESPONSE_YES, NULL);
 
 //					gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-					// Widget failed if the dialog gets programmatically destroyed.
-//					if (response == GTK_RESPONSE_NONE)
-//						return;
-
-//					gtk_widget_hide(dialog);
-
 //					if (response != GTK_RESPONSE_YES)
 //						return;
 		}
@@ -1559,15 +1513,7 @@ bool DetectionTab::showErrorDialog_gui(const string &description, DetectionTab *
 {
 	GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(dt->getWidget("dialogDetection")),
 		GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_WARNING, GTK_BUTTONS_OK, "%s", description.c_str());
-
 //	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-
-	// Fix crash, if the dialog gets programmatically destroyed.
-//	if (response == GTK_RESPONSE_NONE)
-//		return FALSE;
-
-//	gtk_widget_destroy(dialog);
-
 	return TRUE;
 }
 
@@ -1578,11 +1524,6 @@ void DetectionTab::onSelectAction(GtkWidget *widget, gpointer data)
 	GtkTreeIter iter;
 	dt->initDialogWithValues();
 //	gint response = gtk_dialog_run(GTK_DIALOG(dt->getWidget("dialogActionsSelection")));
-
-	// Fix crash, if the dialog gets programmatically destroyed.
-//	if (response == GTK_RESPONSE_NONE)
-//		return;
-
 //	if( response == GTK_RESPONSE_OK)
 	{
 		 if(gtk_tree_selection_count_selected_rows(dt->actionSelectionRR) == 1)
@@ -1591,10 +1532,9 @@ void DetectionTab::onSelectAction(GtkWidget *widget, gpointer data)
 			gint n = dt->actionsSelectionsR.getValue<gint>(&iter, "Number");
 //			gtk_entry_set_text(GTK_ENTRY(entry), Util::toString(n).c_str());
 		}
-//		gtk_widget_hide(dt->getWidget("dialogActionsSelection"));
 		return;
 	}
-//	gtk_widget_hide(dt->getWidget("dialogActionsSelection"));
+
 }
 
 void DetectionTab::initDialogWithValues()
@@ -1721,7 +1661,6 @@ void DetectionTab::loadAgain(GtkWidget *widget, vector<pair<string,int> > act, i
 
 	}
 	 gtk_combo_box_set_model (GTK_COMBO_BOX(combo), model);
-	 gtk_widget_show(combo);
 
  	gtk_combo_box_set_active_iter(GTK_COMBO_BOX(combo),piter);
 

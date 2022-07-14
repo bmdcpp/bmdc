@@ -192,7 +192,6 @@ void FavoriteHubs::on_inner_widget_right_btn_released (GtkGestureClick *gesture,
                          GTK_EVENT_SEQUENCE_CLAIMED);
 }
 
-
 FavoriteHubs::~FavoriteHubs()
 {
 	FavoriteManager::getInstance()->removeListener(this);
@@ -396,7 +395,6 @@ void FavoriteHubs::onManageGroupsClicked_gui(GtkWidget*, gpointer data)
 //	GtkWidget *dialog = fh->getWidget("FavoriteHubGroupsDialog");
 //	fh->initFavHubGroupsDialog_gui();
 //	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-//	gtk_widget_hide(dialog);
 
 //	if (response == GTK_RESPONSE_OK)
 //	{
@@ -458,7 +456,6 @@ void FavoriteHubs::onRemoveEntry_gui(GtkWidget*,GVariant*, gpointer data)
 			gtk_dialog_add_buttons(GTK_DIALOG(dialog), "_Cancel", GTK_RESPONSE_CANCEL, "_Yes", GTK_RESPONSE_YES, NULL);
 
 //			gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-//			gtk_widget_destroy(dialog);
 
 //			if (response != GTK_RESPONSE_YES)
 //				return;

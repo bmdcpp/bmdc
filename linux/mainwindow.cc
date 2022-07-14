@@ -390,7 +390,6 @@ MainWindow::~MainWindow()
 	if (transferPanePosition > 5)
 		WSET("transfer-pane-position", transferPanePosition);
 
-	//g_object_unref(getWidget("toolbarMenu"));
 	Sound::stop();
 	Notify::stop();
 }
@@ -824,21 +823,6 @@ void MainWindow::removeTabMenuItem_gui(GtkWidget *menuItem)
 	}
 }
 
-/*
-#ifdef HAVE_APPINDCATOR
-//TODO: status icon in gtk4 find solution
-void MainWindow::createAppIndicator()
-{
-	indicator = app_indicator_new ( "bmdc","bmdc",APP_INDICATOR_CATEGORY_SYSTEM_SERVICES );
-	app_indicator_set_status ( indicator, APP_INDICATOR_STATUS_PASSIVE );
-	g_signal_connect(getWidget("statusIconQuitItem"), "activate", G_CALLBACK(onQuitClicked_gui), (gpointer)this);
-	g_signal_connect(getWidget("statusIconShowInterfaceItem"), "toggled", G_CALLBACK(onShowInterfaceToggled_gui), (gpointer)this);
-	gtk_widget_set_sensitive(getWidget("statusIconBlinkUseItem"),FALSE);
-	app_indicator_set_menu ( indicator, GTK_MENU (getWidget("statusIconMenu") ));
-	app_indicator_set_secondary_activate_target ( indicator, GTK_WIDGET (getWidget("statusIconShowInterfaceItem") ));
-}
-#endif
-*/
 void MainWindow::setMainStatus_gui(string text, time_t t)
 {
 	if (!text.empty())
@@ -1226,7 +1210,6 @@ void MainWindow::updateFavoriteHubMenu_gui(ListParamPair list)
 //		g_object_set_data_full(G_OBJECT(item), "encoding", g_strdup(encoding.c_str()), g_free);
 //		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(onHubClicked_gui), (gpointer)this);
 	}
-//	gtk_widget_show_all(menu);
 }
 */
 void MainWindow::onHubClicked_gui(GtkWidget *widget, gpointer data)
@@ -1494,7 +1477,6 @@ void MainWindow::showMagnetDialog_gui(const string &magnet, const string &name, 
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("choiceCheckButton")), FALSE);
 	setChooseMagnetDialog_gui();
 
-//	gtk_widget_show(getWidget("MagnetDialog"));
 }
 
 void MainWindow::setChooseMagnetDialog_gui()
@@ -1523,8 +1505,6 @@ void MainWindow::onBrowseMagnetButton_gui(GtkWidget*, gpointer data)
 
 	GtkWidget *dialog = mw->getWidget("flistDialog");
 //	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-
-//	gtk_widget_hide(dialog);
 }
 
 void MainWindow::onDowloadQueueToggled_gui(GtkWidget*, gpointer data)
@@ -1677,7 +1657,6 @@ void MainWindow::showMessageDialog_gui(const string primaryText, const string se
 */
 //	gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
 //	g_signal_connect(dialog, "response", G_CALLBACK(gtk_widget_destroy), dialog);
-//	gtk_widget_show(dialog);
 }
 
 void MainWindow::onSizeWindowState_gui(GtkWidget* widget,GtkAllocation*,gpointer data)
@@ -2363,7 +2342,6 @@ void MainWindow::onAboutClicked_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 //	gint response = gtk_dialog_run(GTK_DIALOG(mw->getWidget("aboutDialog")));
-//	gtk_widget_hide(mw->getWidget("aboutDialog"));
 }
 
 void MainWindow::onAboutDialogActivateLink_gui(GtkAboutDialog*, const gchar *link, gpointer data)
@@ -2593,10 +2571,6 @@ void MainWindow::on(QueueManagerListener::Finished, QueueItem *item, const strin
 
 void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) noexcept
 {
-	// Avoid calculating status update if it's not needed
-	//if (!SETTING(ALWAYS_TRAY) && minimized)
-	//	return;
-
 	int64_t diff = (int64_t)((lastUpdate == 0) ? ticks - 1000 : ticks - lastUpdate);
 	int64_t downBytes = 0;
 	int64_t upBytes = 0;
@@ -2627,14 +2601,6 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) noexcept
 	//F5 *func = new F5(this, &MainWindow::setStats_gui, hubs, downloadSpeed, downloaded, uploadSpeed, uploaded);
 	//WulforManager::get()->dispatchGuiFunc(func);
 
-/*#ifdef USE_STATUSICON
-	if (SETTING(ALWAYS_TRAY) && !downloadSpeed.empty() && !uploadSpeed.empty())
-	{
-		typedef Func2<MainWindow, string, string> F2;
-		F2 *f2 = new F2(this, &MainWindow::updateStatusIconTooltip_gui, downloadSpeed, uploadSpeed);
-		WulforManager::get()->dispatchGuiFunc(f2);
-	}
-#endif*/
 	string file;
 	uint64_t bytes = 0;
 	size_t files = 0;
@@ -2694,8 +2660,7 @@ void MainWindow::onTTHFileDialog_gui(GtkWidget*, gpointer data)
 //	GtkWidget *dialog = mw->getWidget("TTHFileDialog");
 //	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 //	if(response == GTK_RESPONSE_NONE)
-//	{ ; }
-//	gtk_widget_hide(dialog);
+
 }
 
 void MainWindow::onTTHFileButton_gui(GtkWidget* , gpointer data)
@@ -2711,8 +2676,6 @@ void MainWindow::onTTHFileButton_gui(GtkWidget* , gpointer data)
 	// if the dialog gets programmatically destroyed.
 //	if (response == GTK_RESPONSE_NONE)
 //		return;
-
-//	gtk_widget_hide(chooser);
 
 //	if (response == GTK_RESPONSE_OK)
 	{

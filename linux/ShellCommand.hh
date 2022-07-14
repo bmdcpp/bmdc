@@ -1,5 +1,5 @@
 //Class to take care of communication with the shell
-// * Copyright © 2012-2021 BMDC
+// * Copyright © 2012-2023 BMDC
 #ifndef SHELL_COMMAND_HH
 #define SHELL_COMMAND_HH
 

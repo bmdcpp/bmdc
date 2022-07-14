@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011-2021 BMDC
+ * Copyright © 2011-2023 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,7 +51,6 @@ Transfers::Transfers() :
 {
 	// Initialize the user command menu
 //	userCommandMenu = new UserCommandMenu(getWidget("userCommandMenu"), ::UserCommand::CONTEXT_USER);
-//	addChild(userCommandMenu);
 
 	// Initialize the preview menu
 //	appsPreviewMenu = new PreviewMenu(getWidget("appsPreviewMenu"));
@@ -112,7 +111,6 @@ Transfers::~Transfers()
 	DownloadManager::getInstance()->removeListener(this);
 	UploadManager::getInstance()->removeListener(this);
 	ConnectionManager::getInstance()->removeListener(this);
-//	delete appsPreviewMenu;
 }
 
 void Transfers::show()

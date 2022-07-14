@@ -98,10 +98,11 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 	gtk_editable_set_text (GTK_EDITABLE(entryUsername), p_entry->get(SettingsManager::NICK,SETTING(NICK)).c_str());
 	g_g_a(entryUsername,1,3,1,1);
 	g_g_a( lan(_("Password: ")) ,0,4,1,1);
-	entryPassword = gen;
-//	gtk_entry_set_visibility (GTK_ENTRY(entryPassword),FALSE);
+	entryPassword = gtk_password_entry_new();
 	gtk_editable_set_text (GTK_EDITABLE(entryPassword), p_entry->getPassword().c_str());
+
 	g_g_a(entryPassword,1,4,1,1);
+	
 	g_g_a( lan(_("User Description: ")) ,0,5,1,1);
 	entryUserDescriptio = gen;
 	gtk_editable_set_text (GTK_EDITABLE( entryUserDescriptio), p_entry->get(SettingsManager::DESCRIPTION,SETTING(DESCRIPTION)).c_str());
@@ -369,12 +370,9 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 	gtk_grid_attach(GTK_GRID(boxShare),checkHideShare,0,9,1,1);
 //end
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook) , boxShare, lan("Share Setup"));
-
 	//NOTE: need be after all contain stuff
 	gtk_widget_show(notebook);
-
 	g_signal_connect(mainDialog ,"response" , G_CALLBACK(onResponse),(gpointer)this);							  
-							  
 	gtk_widget_show(mainDialog);
 
 }
@@ -524,7 +522,6 @@ bool FavoriteHubDialog::showErrorDialog_gui(const string &description)
 		GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_WARNING, GTK_BUTTONS_OK, "%s", description.c_str());
 
 //		gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-//		gtk_widget_destroy(dialog);
 
 		return TRUE;
 }

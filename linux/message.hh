@@ -1,6 +1,6 @@
 /*
  * Copyright © 2009-2010 freedcpp, http://code.google.com/p/freedcpp
- * Copyright © 2011-2018 BMDC
+ * Copyright © 2011-2023 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

@@ -1,5 +1,5 @@
 /*
-	Copyright (C) 2011 - 2023 - 
+		Copyright (C) 2011 - 2023 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
@@ -92,7 +92,7 @@ void   AboutConfig::on_inner_widget_right_btn_pressed (GtkGestureClick* /*gestur
                                    gpointer         *data)
 {
 	AboutConfig *FH = (gpointer)data;
-  g_print ("on_inner_widget_right_btn_pressed() called\n");
+  g_debug ("on_inner_widget_right_btn_pressed() called\n");
 
 GMenu *menu = g_menu_new ();
 GMenuItem *menu_item_add = g_menu_item_new ("Edit", "abc.edit");
@@ -116,7 +116,7 @@ void AboutConfig::on_inner_widget_right_btn_released (GtkGestureClick *gesture,
                                     double           /*y*/,
                                     GtkWidget*       /*widget*/)
 {
-  g_print ("on_inner_widget_right_btn_released() called\n");
+  g_debug ("on_inner_widget_right_btn_released() called\n");
 
   gtk_gesture_set_state (GTK_GESTURE (gesture),
                          GTK_EVENT_SEQUENCE_CLAIMED);
@@ -156,7 +156,7 @@ void AboutConfig::makeColor(GtkTreeViewColumn*,GtkCellRenderer *cell, GtkTreeMod
 
 AboutConfig::~AboutConfig()
 {
-
+	
 }
 
 void AboutConfig::show()

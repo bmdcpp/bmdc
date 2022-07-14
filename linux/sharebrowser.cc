@@ -102,13 +102,8 @@ ShareBrowser::ShareBrowser(HintedUser user, const string &file, const string &in
 
 	// Initialize the user command menus
 	//fileUserCommandMenu = new UserCommandMenu(getWidget("fileUserCommandMenu"), ::UserCommand::CONTEXT_FILELIST);
-	//addChild(fileUserCommandMenu);
 	//dirUserCommandMenu = new UserCommandMenu(getWidget("dirUserCommandMenu"), ::UserCommand::CONTEXT_FILELIST);
-	//addChild(dirUserCommandMenu);
-	//Tab UC
 	//TabUserCommandMenu = new UserCommandMenu(BookEntry::createmenu(), ::UserCommand::CONTEXT_FILELIST);
-	//addChild(TabUserCommandMenu);
-
 	// Connect the signals to their callback functions.
 //	g_signal_connect(fileView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
 //	g_signal_connect(fileView.get(), "button-release-event", G_CALLBACK(onFileButtonReleased_gui), (gpointer)this);
@@ -793,8 +788,6 @@ void ShareBrowser::onFindButtonClicked_gui(GtkWidget*, gpointer data)
 	// Fix crash, if the dialog gets programmatically destroyed.
 //	if (response == GTK_RESPONSE_NONE)
 //		return;
-
-//	gtk_widget_hide(sb->getWidget("findDialog"));
 
 //	if (response == GTK_RESPONSE_OK)
 /*	{

@@ -26,15 +26,12 @@
 #include "GuiUtil.hh"
 #include "gtk-fixies.hh"
 
-
 using namespace std;
 
 const GActionEntry BookEntry::win_entries[] =
  {
     { "close-butt", onCloseItem , NULL, NULL, NULL }
 };
-
-
 
 BookEntry::BookEntry(const EntryType type, const string &text, const string &glade, const string &id):
 	Entry(type, glade, id),

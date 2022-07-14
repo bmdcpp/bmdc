@@ -70,7 +70,6 @@ string Entry::generateID()
 
 GtkWidget* Entry::getWidget(const string& name)
 {
-	//dcassert(xml && !name.empty());
 	GtkWidget* wid = GTK_WIDGET(gtk_builder_get_object(xml,name.c_str()));
 	return wid;
 }

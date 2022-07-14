@@ -112,7 +112,6 @@ FinishedTransfers::FinishedTransfers(const EntryType type, const string title, b
 FinishedTransfers::~FinishedTransfers()
 {
 	FinishedManager::getInstance()->removeListener(this);
-//	delete appsPreviewMenu;
 	int active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("showOnlyFullFilesCheckButton")));
 	SettingsManager::getInstance()->set(SettingsManager::FINISHED_DL_ONLY_FULL, active);
 }
