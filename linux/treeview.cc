@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011-2022 BMDC
+ * Copyright © 2011-2024 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,10 +41,8 @@ TreeView::~TreeView()
 {
 //	if (!name.empty() && !( (name.length() == 3) && (name == "hub"))  )
 //		saveSettings();
-//	delete [] gtypes;
-//	g_object_unref(menu);
-//	menu = NULL;
-//	view = NULL;
+	delete [] gtypes;
+	view = NULL;
 //	sel = NULL;
 }
 

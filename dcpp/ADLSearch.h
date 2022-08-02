@@ -74,7 +74,8 @@ public:
 		SizeBytes	= TypeFirst,
 		SizeKibiBytes,
 		SizeMebiBytes,
-		SizeGibiBytes
+		SizeGibiBytes,
+		SizeTibiBytes,
 	};
 
 	enum DetectionType {

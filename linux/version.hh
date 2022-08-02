@@ -1,5 +1,5 @@
 /*
- * Copyright © 2010-2021 BMDC++
+ * Copyright © 2010-2024 BMDC++
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,4 +21,4 @@
 
 #define GUI_PACKAGE "BMDC"
 #define GUI_LOCALE_PACKAGE "bmdc"
-#define GUI_VERSION_STRING "0.1.20"
+#define GUI_VERSION_STRING "0.1.22"

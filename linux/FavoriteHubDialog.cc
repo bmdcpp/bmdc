@@ -1,4 +1,4 @@
-// Copyright (C) 2014-2023  BMDC
+// Copyright (C) 2014-2024  BMDC
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -19,21 +19,10 @@
 using namespace std;
 using namespace dcpp;
 
-#ifndef gen
-#define gen gtk_entry_new()
-#endif
-#ifndef lan
-#define lan(x) gtk_label_new(x)
-#endif
-#ifndef grid_add
-#define grid_add(box,widget,x,y,z,c) gtk_grid_attach(GTK_GRID(box), widget ,x,y,z,c)
-#endif
-#define g_g_a(widget,x,y,z,c) grid_add(boxSimple,widget,x,y,z,c)
-#define g_g_a_c(widget,x,y,z,c) grid_add( boxCheck, widget ,x,y,z,c)
-#define g_g_a_a(widget,x,y,z,c) grid_add( boxAdvanced, widget ,x,y,z,c)
-#define g_g_a_c_s(widget,x,y,z,c) grid_add(boxConnection, widget, x,y,z,c)
-
-#define g_c_b_n(pwlabel) gtk_check_button_new_with_label(pwlabel)
+#define g_g_a(widget,x,y,z,c) gtk_grid_attach(GTK_GRID(boxSimple),widget,x,y,z,c)
+#define g_g_a_c(widget,x,y,z,c) gtk_grid_attach(GTK_GRID(boxCheck), widget ,x,y,z,c)
+#define g_g_a_a(widget,x,y,z,c) gtk_grid_attach(GTK_GRID(boxAdvanced), widget ,x,y,z,c)
+#define g_g_a_c_s(widget,x,y,z,c) gtk_grid_attach(GTK_GRID(boxConnection), widget, x,y,z,c)
 
 #ifndef b_file_dialog_widget
 #define b_file_dialog_widget(a) gtk_file_chooser_dialog_new (a, NULL, GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,\
@@ -80,40 +69,40 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 	notebook = gtk_notebook_new();
 	gtk_box_append(GTK_BOX(mainBox), notebook);
 	boxSimple = gtk_grid_new();
-	g_g_a(lan(_("Name: ")),0,0,1,1);
-	entryName = gen;
+	g_g_a( gtk_label_new (_("Name: ")),0,0,1,1);
+	entryName = gtk_entry_new();
 	gtk_editable_set_text (GTK_EDITABLE(entryName), p_entry->getName().c_str());
 	g_g_a(entryName,1,0,1,1);
-	g_g_a(lan(_("Address: ")),0,1,1,1);
-	entryAddress = gen;
+	g_g_a(gtk_label_new (_("Address: ")),0,1,1,1);
+	entryAddress = gtk_entry_new();
 	gtk_editable_set_text (GTK_EDITABLE(entryAddress), p_entry->getServer().c_str());
 	g_g_a(entryAddress,1,1,1,1);
-	g_g_a(lan(_("Description: ")),0,2,1,1);
-	entryDesc = gen;
+	g_g_a( gtk_label_new(_("Description: ")),0,2,1,1);
+	entryDesc = gtk_entry_new();
 	gtk_editable_set_text (GTK_EDITABLE(entryDesc), p_entry->getHubDescription().c_str());
 	g_g_a(entryDesc,1,2,1,1);
 	//
-	g_g_a( 	lan(_("Username: ")) ,0,3,1,1);
-	entryUsername = gen;
+	g_g_a( 	gtk_label_new(_("Username: ")) ,0,3,1,1);
+	entryUsername = gtk_entry_new();
 	gtk_editable_set_text (GTK_EDITABLE(entryUsername), p_entry->get(SettingsManager::NICK,SETTING(NICK)).c_str());
 	g_g_a(entryUsername,1,3,1,1);
-	g_g_a( lan(_("Password: ")) ,0,4,1,1);
+	g_g_a( gtk_label_new(_("Password: ")) ,0,4,1,1);
 	entryPassword = gtk_password_entry_new();
 	gtk_editable_set_text (GTK_EDITABLE(entryPassword), p_entry->getPassword().c_str());
 
 	g_g_a(entryPassword,1,4,1,1);
 	
-	g_g_a( lan(_("User Description: ")) ,0,5,1,1);
-	entryUserDescriptio = gen;
+	g_g_a( gtk_label_new(_("User Description: ")) ,0,5,1,1);
+	entryUserDescriptio = gtk_entry_new();
 	gtk_editable_set_text (GTK_EDITABLE( entryUserDescriptio), p_entry->get(SettingsManager::DESCRIPTION,SETTING(DESCRIPTION)).c_str());
 	g_g_a(entryUserDescriptio,1,5,1,1);
 
-	g_g_a( lan(_("e-Mail: ")) ,0,6,1,1);
-	entryMail = gen;
+	g_g_a( gtk_label_new(_("e-Mail: ")) ,0,6,1,1);
+	entryMail = gtk_entry_new();
 	gtk_editable_set_text (GTK_EDITABLE(entryMail), p_entry->get(SettingsManager::EMAIL,SETTING(EMAIL)).c_str());
 	g_g_a(entryMail,1,6,1,1);
 
-	g_g_a( lan(_("Codepage: ")),0,7,1,1);
+	g_g_a( gtk_label_new(_("Codepage: ")),0,7,1,1);
 	comboCodepage = gtk_combo_box_text_new();
 	g_g_a(comboCodepage,1,7,1,1);
 	string enc = p_entry->getEncoding();
@@ -135,7 +124,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 		gtk_combo_box_set_active(GTK_COMBO_BOX(comboCodepage),0);
 	}
 
-	g_g_a( lan(_("Group")),0,8,1,1);
+	g_g_a( gtk_label_new(_("Group")),0,8,1,1);
 	comboGroup = gtk_combo_box_text_new();
 	g_g_a(comboGroup, 1,8,1,1);
 
@@ -143,16 +132,16 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 	
 	GtkWidget* pgrid = gtk_grid_new();
 	checkAutoConnect = gtk_switch_new();
-	grid_add(pgrid,checkAutoConnect,0,0,1,1);
-	grid_add(pgrid,lan(_("Auto-Connect to this Hub")),1,0,1,1);
+	gtk_grid_attach(GTK_GRID(pgrid),checkAutoConnect,0,0,1,1);
+	gtk_grid_attach(GTK_GRID(pgrid),gtk_label_new(_("Auto-Connect to this Hub")),1,0,1,1);
 	gtk_switch_set_active(GTK_SWITCH(checkAutoConnect), (gboolean)p_entry->getAutoConnect() );
 	g_g_a(pgrid,0,9,1,1);
 
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxSimple ,lan(_("General Settings")));
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxSimple ,gtk_label_new(_("General Settings")));
 	//check
 	GtkWidget* boxCheck = gtk_grid_new();
-	g_g_a_c( lan(_("Protected Users: ")) ,0,0,1,1);
-	entryProtectedUser = gen;
+	g_g_a_c( gtk_label_new(_("Protected Users: ")) ,0,0,1,1);
+	entryProtectedUser = gtk_entry_new();
 	gtk_editable_set_text (GTK_EDITABLE(entryProtectedUser), p_entry->get(SettingsManager::PROTECTED_USERS,SETTING(PROTECTED_USERS)).c_str());
 	g_g_a_c(entryProtectedUser,1,0,1,1);
 	checkFilelists = gtk_toggle_button_new_with_label(_("Check Filelists"));
@@ -164,26 +153,26 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 	checkOnConn = gtk_toggle_button_new_with_label(_("Check On Connect to Hub"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(checkOnConn),p_entry->getCheckAtConn());
 	g_g_a_c(checkOnConn,0,2,1,1);
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxCheck , lan(_("Checking")));
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxCheck , gtk_label_new(_("Checking")));
 	//
 	boxAdvanced	= gtk_grid_new();
-	GtkWidget* labelAdvanced = lan(_("Chat&Misc"));
+	GtkWidget* labelAdvanced = gtk_label_new(_("Chat&Misc"));
 	checkHigh = gtk_toggle_button_new_with_label(_("Use Highliting"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkHigh), p_entry->get(SettingsManager::USE_HIGHLITING, SETTING(USE_HIGHLITING) ));
 
 	g_g_a_a(checkHigh,0,0,1,1);
 
-	g_g_a_a(lan(_("Extra Chat Info:")),0,1,1,1);
-	extraChatInfoEntry = gen;
+	g_g_a_a( gtk_label_new(_("Extra Chat Info:")),0,1,1,1);
+	extraChatInfoEntry = gtk_entry_new();
 	gtk_editable_set_text (GTK_EDITABLE(extraChatInfoEntry), p_entry->get(SettingsManager::CHAT_EXTRA_INFO,SETTING(CHAT_EXTRA_INFO)).c_str());
 	g_g_a_a(extraChatInfoEntry,1,1,1,1);
 
-	g_g_a_a(lan(_("Away Message:")),0,2,1,1);
-	entryAwayMessage = gen;
+	g_g_a_a( gtk_label_new(_("Away Message:")),0,2,1,1);
+	entryAwayMessage = gtk_entry_new();
 	gtk_editable_set_text (GTK_EDITABLE(entryAwayMessage), p_entry->get(SettingsManager::DEFAULT_AWAY_MESSAGE,SETTING(DEFAULT_AWAY_MESSAGE)).c_str());
 	g_g_a_a(entryAwayMessage,1,2,1,1);
 
-	g_g_a_a( lan(_("Favorite Users Joins/Parts:")) ,0,3,1,1);
+	g_g_a_a( gtk_label_new(_("Favorite Users Joins/Parts:")) ,0,3,1,1);
 	comboFavParts = createComboBoxWith3Options(_("Default"),_("Enable"),_("Disable"));
 
 	if(p_entry->get(SettingsManager::FAV_SHOW_JOINS,SETTING(FAV_SHOW_JOINS)) == SETTING(FAV_SHOW_JOINS))
@@ -193,7 +182,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 
 	g_g_a_a(comboFavParts,1,3,1,1);
 
-	g_g_a_a( lan(_("Users Joins/Parts:")) ,0,4,1,1);
+	g_g_a_a( gtk_label_new(_("Users Joins/Parts:")) ,0,4,1,1);
 
 	comboParts = createComboBoxWith3Options(_("Default"),_("Enable"),_("Disable"));
 
@@ -204,19 +193,19 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 
 	g_g_a_a(comboParts,1,4,1,1);
 
-	g_g_a_a( lan(_("Background Chat Color:")) ,0,5,1,1);
+	g_g_a_a( gtk_label_new(_("Background Chat Color:")) ,0,5,1,1);
 	colorBack = gtk_color_button_new();
 	GdkRGBA color;
 	gdk_rgba_parse(&color,p_entry->get(SettingsManager::BACKGROUND_CHAT_COLOR,SETTING(BACKGROUND_CHAT_COLOR)).c_str());
 	gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(colorBack),&color);
 	g_g_a_a(colorBack,1,5,1,1);
 
-	g_g_a_a( lan(_("Background Chat Image:")),0,6,1,1);
+	g_g_a_a( gtk_label_new(_("Background Chat Image:")),0,6,1,1);
 //	backImage = gtk_file_chooser_button_new(_("Open Image"),GTK_FILE_CHOOSER_ACTION_OPEN);
 //	gtk_file_chooser_select_filename (GTK_FILE_CHOOSER(backImage),p_entry->get(SettingsManager::BACKGROUND_CHAT_IMAGE,SETTING(BACKGROUND_CHAT_IMAGE)).c_str());
 //	g_g_a_a(backImage,1,6,1,1);
 
-	g_g_a_a( lan(_("Emoticons:")) ,0,7,1,1);
+	g_g_a_a( gtk_label_new(_("Emoticons:")) ,0,7,1,1);
 	comboEmot = gtk_combo_box_text_new();
 	g_g_a_a(comboEmot,1,7,1,1);
 
@@ -264,7 +253,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxAdvanced ,labelAdvanced );
 	//
 	GtkWidget* boxConnection = gtk_grid_new();
-	g_g_a_c_s(lan(_("Mode:")),0,0,1,1);
+	g_g_a_c_s(gtk_label_new(_("Mode:")),0,0,1,1);
 	comboMode = createComboBoxWith3Options(_("Default"),_("Active"),_("Passive"));
 
 	switch(p_entry->getMode())
@@ -290,9 +279,9 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 
 	g_g_a_c_s(comboMode,1,0,1,1);
 
-	g_g_a_c_s(lan(_("IP Address:")),0,2,1,1);
+	g_g_a_c_s( gtk_label_new(_("IP Address:")),0,2,1,1);
 
-	entryIp = gen;
+	entryIp = gtk_entry_new();
 	gtk_editable_set_text(GTK_EDITABLE(entryIp), p_entry->get(SettingsManager::EXTERNAL_IP,SETTING(EXTERNAL_IP)).c_str());
 	g_g_a_c_s(entryIp,1,2,1,1);
 
@@ -305,7 +294,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkUseSock5),p_entry->get(SettingsManager::USE_SOCK5,SETTING(USE_SOCK5)));
 
 
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxConnection ,lan(_("Connection Setup")) );
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxConnection , gtk_label_new(_("Connection Setup")) );
 	//Actions Page
 	treeView = gtk_tree_view_new();
 	GtkWidget* boxKickAction = gtk_grid_new();
@@ -324,7 +313,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 	actionSel = gtk_tree_view_get_selection(actionView.get());
 
 	g_signal_connect(actionView.getCellRenderOf(_("Enabled")), "toggled", G_CALLBACK(onToggledClicked_gui), (gpointer)this);
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxKickAction ,lan("Kick Actions") );
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxKickAction ,gtk_label_new("Kick Actions") );
 	initActions();
 
 	//Share Page
@@ -369,7 +358,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 
 	gtk_grid_attach(GTK_GRID(boxShare),checkHideShare,0,9,1,1);
 //end
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook) , boxShare, lan("Share Setup"));
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook) , boxShare, gtk_label_new("Share Setup"));
 	//NOTE: need be after all contain stuff
 	gtk_widget_show(notebook);
 	g_signal_connect(mainDialog ,"response" , G_CALLBACK(onResponse),(gpointer)this);							  
@@ -617,7 +606,7 @@ void FavoriteHubDialog::onAddShare_gui(GtkWidget*, gpointer data)
                                       NULL);
 
 			GtkWidget *box = gtk_dialog_get_content_area (GTK_DIALOG(dialog));
-			GtkWidget *entry = gen;
+			GtkWidget *entry = gtk_entry_new();
 			GtkWidget *label = gtk_label_new("");
 			
 	//		gtk_box_pack_start(GTK_BOX(box),label,TRUE,TRUE,0);
@@ -626,13 +615,12 @@ void FavoriteHubDialog::onAddShare_gui(GtkWidget*, gpointer data)
 			
 //			gtk_entry_set_text(GTK_ENTRY(entry), "");
 			gtk_label_set_markup(GTK_LABEL(label), _("<b>Name under which the others see the directory</b>"));
-	//		gtk_widget_show_all(box);
 			
 //			response = gtk_dialog_run(GTK_DIALOG(dialog));
 			
 			if (response == GTK_RESPONSE_OK)
 			{
-				string name;// = gtk_entry_get_text(GTK_ENTRY(entry));
+				string name = gtk_editable_get_text(GTK_EDITABLE(entry));
 				try
 				{
 					ShareManager *share = s->p_entry->getShareManager();

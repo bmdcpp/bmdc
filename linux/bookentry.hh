@@ -31,7 +31,7 @@ class BookEntry : public Entry
 	public:
 		BookEntry(): eventBox(NULL), labelBox(NULL), tabMenuItem(NULL),	closeButton(NULL),
 				label(NULL), bCreated(true),bold(false), urgent(false), labelSize(20), icon(NULL) , popTabMenuItem(NULL), type((EntryType)0), bIsCloseButton(true)  { }
-		BookEntry(const EntryType type, const std::string &text, const std::string &glade, const std::string &id = std::string());
+		BookEntry(const EntryType type, const std::string &text, const std::string &glade, const std::string &id = dcpp::Util::emptyString  );
 		virtual ~BookEntry()
 		{
 

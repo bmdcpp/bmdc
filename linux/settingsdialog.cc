@@ -4790,7 +4790,7 @@ void Settings::onRemoveHighlighting_gui(GtkWidget*, gpointer data)
 				GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
 				_("Are you sure you want to delete Highlighting \"%s\"?"), name.c_str());
 
-			gtk_dialog_add_buttons(GTK_DIALOG(dialog), "_Cancel", GTK_RESPONSE_CANCEL, BMDC_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
+			gtk_dialog_add_buttons(GTK_DIALOG(dialog), "_Cancel", GTK_RESPONSE_CANCEL, "_Yes", GTK_RESPONSE_YES, NULL);
 
 		//	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 		//	gtk_widget_destroy(dialog);

@@ -65,7 +65,7 @@ class Entry
 		} EntryType;
 
 		Entry() : xml(NULL), type((EntryType)0) { }
-		Entry(const EntryType type, const std::string &ui = std::string(), const std::string &id = "");
+		Entry(const EntryType type, const std::string &ui =  dcpp::Util::emptyString , const std::string &id = dcpp::Util::emptyString );
 		virtual ~Entry();
 
 		EntryType getType();
@@ -89,8 +89,7 @@ class Entry
 		const EntryType type;
 		std::string id;
 		std::unordered_map<std::string, Entry *> children;
-	public:
-		GSettings *sett;
+
 };
 
 #else

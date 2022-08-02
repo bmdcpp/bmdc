@@ -510,10 +510,6 @@ bool AboutConfigFav::getDialog(const string sName, string& sValue , gpointer dat
 	gtk_editable_set_text(GTK_EDITABLE(ps->getWidget("entry")), sValue.c_str());
 //	gint response = gtk_dialog_run(GTK_DIALOG(ps->getWidget("dialog")));
 
-	// Fix crash, if the dialog gets programmatically destroyed.
-//	if (response == GTK_RESPONSE_NONE)
-//		return false;
-
 	gtk_widget_hide(ps->getWidget("dialog"));
 
 //	if (response == GTK_RESPONSE_OK)

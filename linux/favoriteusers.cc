@@ -595,7 +595,7 @@ void FavoriteUsers::onRemoveItemClicked_gui(GtkMenuItem*, gpointer data)
 				GTK_MESSAGE_QUESTION,
 				GTK_BUTTONS_NONE,
 				_("Are you sure you want to delete favorite user(s)?"));
-			gtk_dialog_add_buttons(GTK_DIALOG(dialog), "_Cancel", GTK_RESPONSE_CANCEL, BMDC_STOCK_REMOVE,
+			gtk_dialog_add_buttons(GTK_DIALOG(dialog), "_Cancel", GTK_RESPONSE_CANCEL, "YES",
 				GTK_RESPONSE_YES, NULL);
 
 //			gint response = gtk_dialog_run(GTK_DIALOG(dialog));

@@ -356,7 +356,7 @@ MainWindow::MainWindow():
 
 void MainWindow::onButtonPressed_gui(GtkGestureClick* self, gint n_press, gdouble x, gdouble y, gpointer user_data)
 {
-	g_print("clicked");
+	g_debug("clicked");
 }
 
 MainWindow::~MainWindow()
@@ -383,8 +383,8 @@ MainWindow::~MainWindow()
 		WSET("main-window-size-y", current_height);
 	}
 
-	if (g_settings_set_boolean (sett, "main-window-maximized",(gboolean)is_maximized))
-			g_debug("Success");
+//	if (g_settings_set_boolean (sett, "main-window-maximized",(gboolean)is_maximized))
+//			g_debug("Success");
 
 
 	if (transferPanePosition > 5)

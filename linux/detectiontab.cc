@@ -531,7 +531,7 @@ void DetectionTab::onRemoveAct(GtkWidget* , gpointer data)
 			GtkWidget* dialog = gtk_message_dialog_new(parent,
 				GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
 				_("Are you sure you want to delete this item \"%s\"?"), name.c_str());
-				gtk_dialog_add_buttons(GTK_DIALOG(dialog),_("_Cancel"), GTK_RESPONSE_CANCEL, BMDC_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
+				gtk_dialog_add_buttons(GTK_DIALOG(dialog),_("_Cancel"), GTK_RESPONSE_CANCEL, "_Yes", GTK_RESPONSE_YES, NULL);
 				//gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 				//if (response != GTK_RESPONSE_YES)
 				//	return;
@@ -560,7 +560,7 @@ void DetectionTab::onRemoveRaw(GtkWidget* , gpointer data)
 			GtkWidget* dialog = gtk_message_dialog_new(parent,
 				GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
 				_("Are you sure you want to delete this item \"%s\"?"), name.c_str());
-				gtk_dialog_add_buttons(GTK_DIALOG(dialog), "_Cancel", GTK_RESPONSE_CANCEL, BMDC_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
+				gtk_dialog_add_buttons(GTK_DIALOG(dialog), "_Cancel", GTK_RESPONSE_CANCEL, "_Yes", GTK_RESPONSE_YES, NULL);
 
 			//	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 
@@ -855,7 +855,7 @@ void DetectionTab::onRemoveEntryDet(GtkWidget*, gpointer data)
 					GtkWidget* dialog = gtk_message_dialog_new(parent,
 					GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
 					_("Are you sure you want to delete Entry \"%s\"?"), name.c_str());
-					gtk_dialog_add_buttons(GTK_DIALOG(dialog), "_Cancel", GTK_RESPONSE_CANCEL, BMDC_STOCK_REMOVE, GTK_RESPONSE_YES, NULL);
+					gtk_dialog_add_buttons(GTK_DIALOG(dialog), "_Cancel", GTK_RESPONSE_CANCEL, "_Yes", GTK_RESPONSE_YES, NULL);
 
 		//			gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 
@@ -1030,7 +1030,7 @@ void DetectionTab::onRemItemDlg_gui(GtkWidget*, gpointer data)
 					GTK_MESSAGE_QUESTION,
 					GTK_BUTTONS_NONE,
 					_("Are you sure you want to delete item?"));
-				gtk_dialog_add_buttons(GTK_DIALOG(dialog), "_Cancel", GTK_RESPONSE_CANCEL, BMDC_STOCK_REMOVE,
+				gtk_dialog_add_buttons(GTK_DIALOG(dialog), "_Cancel", GTK_RESPONSE_CANCEL, "_Yes",
 				GTK_RESPONSE_YES, NULL);
 
 		//		gint response = gtk_dialog_run(GTK_DIALOG(dialog));
@@ -1405,7 +1405,7 @@ void DetectionTab::onADSLPointsDEL(GtkWidget*, gpointer data)
 						GTK_MESSAGE_QUESTION,
 						GTK_BUTTONS_NONE,
 						_("Are you sure you want to delete item?"));
-					gtk_dialog_add_buttons(GTK_DIALOG(dialog), "_Cancel", GTK_RESPONSE_CANCEL, BMDC_STOCK_REMOVE,
+					gtk_dialog_add_buttons(GTK_DIALOG(dialog), "_Cancel", GTK_RESPONSE_CANCEL, "yes",
 					GTK_RESPONSE_YES, NULL);
 
 //					gint response = gtk_dialog_run(GTK_DIALOG(dialog));

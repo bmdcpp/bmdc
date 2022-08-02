@@ -26,7 +26,6 @@
 using namespace std;
 using namespace dcpp;
 
-
 const GActionEntry AboutConfig::win_entries[] = {
     { "edit", onPropertiesClicked_gui, NULL, NULL, NULL },
     { "deff",onSetDefault, NULL, NULL, NULL },
@@ -35,6 +34,7 @@ const GActionEntry AboutConfig::win_entries[] = {
 AboutConfig::AboutConfig():
 BookEntry(Entry::ABOUT_CONFIG, _("About:config"), "config")
 {
+	//non-depr?
 	GSimpleActionGroup* simple = g_simple_action_group_new ();
 	g_simple_action_group_add_entries(simple, win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
 	gtk_widget_insert_action_group(getContainer(),"abc" ,G_ACTION_GROUP(simple));
@@ -336,11 +336,8 @@ gboolean AboutConfig::onKeyReleased_gui(GtkWidget* , GdkEventKey *event, gpointe
 	{
 		if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
-			#if GTK_CHECK_VERSION(3,22,0)
 			gtk_menu_popup_at_pointer(GTK_MENU(ps->getWidget("menu")),NULL);
-			#else
-			gtk_menu_popup(GTK_MENU(ps->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-			#endif
+//			gtk_menu_popup(GTK_MENU(ps->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 		}
 	}
 
@@ -456,7 +453,7 @@ void AboutConfig::onPropertiesClicked_gui(GtkWidget*, GVariant  *parameter, gpoi
 		case TYPE_STRING:
 		{
 			item = gtk_entry_new();
-			gtk_entry_buffer_set_text(GTK_ENTRY_BUFFER(item),sValue.c_str(),-1);
+			gtk_editable_set_text(GTK_EDITABLE(item),sValue.c_str());
 			break;
 		}
 		default:

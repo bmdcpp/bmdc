@@ -1,5 +1,4 @@
 #pragma once
-#define BMDC_STOCK_REMOVE "list-remove"
 #define BMDC_STOCK_OPEN "_Open"
 #define BMDC_STOCK_DIALOG_QUESTION "dialog-question"
 #define BMDC_STOCK_FIND  "edit-find"

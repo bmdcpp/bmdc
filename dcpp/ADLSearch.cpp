@@ -104,7 +104,9 @@ ADLSearch::SizeType ADLSearch::StringToSizeType(const string& s) {
 		return SizeMebiBytes;
 	} else if(Util::stricmp(s.c_str(), "GiB") == 0) {
 		return SizeGibiBytes;
-	} else {
+	} else if(Util::stricmp(s.c_str(), "TiB") == 0) {
+		return SizeTibiBytes;
+	} else {	
 		return SizeBytes;
 	}
 }
@@ -116,6 +118,7 @@ string ADLSearch::SizeTypeToString(SizeType t) {
 	case SizeKibiBytes:	return "KiB";
 	case SizeMebiBytes:	return "MiB";
 	case SizeGibiBytes:	return "GiB";
+	case SizeTibiBytes:	return "TiB";
 	}
 }
 
@@ -126,6 +129,7 @@ int64_t ADLSearch::GetSizeBase() {
 	case SizeKibiBytes:	return (int64_t)1024;
 	case SizeMebiBytes:	return (int64_t)1024 * (int64_t)1024;
 	case SizeGibiBytes:	return (int64_t)1024 * (int64_t)1024 * (int64_t)1024;
+	case SizeTibiBytes:	return (int64_t)1024 * (int64_t)1024 * (int64_t)1024 * (int64_t)1024;
 	}
 }
 
