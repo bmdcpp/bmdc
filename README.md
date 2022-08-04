@@ -89,5 +89,6 @@ GNU GPL Version 2 or later
 See License.txt for details.
 
 ## Contact
-@bmdcpp @Mank16
+[@Mank16](https://www.github.com/Mank16)
+[@bmdcpp](https://www.github.com/@bmdcpp)
 
