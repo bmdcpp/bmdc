@@ -73,17 +73,14 @@ mainWin(NULL)
 	// Initialize sempahore variables
 	g_rw_lock_init(&entryMutex);
 	// Determine path to data files
-	// Maybe best way determine Path is by compile prefix?
+
 //	const gchar* const* g_path = g_get_system_data_dirs();
-	path = string(_DATADIR) + "bmdc" + G_DIR_SEPARATOR_S;
+//path = string(_DATADIR) + "bmdc" + G_DIR_SEPARATOR_S;
+	path = ".";
 
-//    GtkIconTheme *iconTheme = gtk_icon_theme_get_default();
    	// Set the custom icon search path so GTK+ can find our icons
-   const string iconPath = path + G_DIR_SEPARATOR_S + "icons";
+//   const string iconPath = path + G_DIR_SEPARATOR_S + "icons";
    const string themes = path + G_DIR_SEPARATOR_S + "themes";
-
-  // gtk_icon_theme_append_search_path(iconTheme, iconPath.c_str());
-  // gtk_icon_theme_append_search_path(iconTheme, themes.c_str());
 }
 
 WulforManager::~WulforManager()

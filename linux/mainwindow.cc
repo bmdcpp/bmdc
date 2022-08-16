@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © BMDC 2022 - 2023
+ * Copyright © BMDC 2022 - 2024
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -271,7 +271,7 @@ MainWindow::MainWindow():
 	/**/
 //	g_signal_connect(getWidget("detitem"), "activate", G_CALLBACK(onDetectionClicked_gui), (gpointer)this);
 	g_signal_connect(cmd, "clicked", G_CALLBACK(onCmdDebugClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("uqueueitem"), "activate", G_CALLBACK(onUploadQueueClicked_gui), (gpointer)this);
+	g_signal_connect(uq, "clicked", G_CALLBACK(onUploadQueueClicked_gui), (gpointer)this);
 	g_signal_connect(rec, "clicked", G_CALLBACK(onRecentHubClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("tthitem"), "activate", G_CALLBACK(onTTHFileDialog_gui), (gpointer)this);
 //	g_signal_connect(getWidget("buttonfile"), "clicked", G_CALLBACK(onTTHFileButton_gui), (gpointer)this);
@@ -383,11 +383,7 @@ MainWindow::~MainWindow()
 		WSET("main-window-size-y", current_height);
 	}
 
-//	if (g_settings_set_boolean (sett, "main-window-maximized",(gboolean)is_maximized))
-//			g_debug("Success");
-
-
-	if (transferPanePosition > 5)
+	if (transferPanePosition)
 		WSET("transfer-pane-position", transferPanePosition);
 
 	Sound::stop();
@@ -490,15 +486,9 @@ void MainWindow::autoOpen_gui()
 	if (WGETB("open-public"))
 		showPublicHubs_gui();
 	if (WGETB("open-queue"))
-	{
 		showBook(Entry::DOWNLOAD_QUEUE,new DownloadQueue());
-		//setStatusOfIcons(QUEUE,true);
-	}
-	if (WGETB("open-favorite-hubs")) {
+	if (WGETB("open-favorite-hubs"))
 		showBook(Entry::FAVORITE_HUBS, new FavoriteHubs());
-		//setStatusOfIcons(FAVORITE_HUBS,true);
-	}
-
 	if (WGETB("open-favorite-users"))
 		showFavoriteUsers_gui();
 	if (WGETB("open-finished-downloads"))
@@ -558,12 +548,10 @@ void MainWindow::onLimitingMenuItem_gui(GtkRange *widget, gpointer data)
 	if(s_type == "up")
 	{
 		ThrottleManager::setSetting(SettingsManager::MAX_UPLOAD_SPEED_MAIN, gtk_range_get_value(widget)/1024 );
-//		mw->setLimitingIcon(true);
 	}
 	else if(s_type == "dw")
 	{
 		ThrottleManager::setSetting(SettingsManager::MAX_DOWNLOAD_SPEED_MAIN, gtk_range_get_value(widget)/1024 );
-//		mw->setLimitingIcon(true);
 	}
 
     if(gtk_range_get_value(widget) == 0)
@@ -1913,25 +1901,15 @@ void MainWindow::onPageSwitched_gui(GtkNotebook *notebook, GtkWidget*, guint num
 
 	if (entry)
 	{
-		// Disable "activate" signal on the tab menu item since it can cause
-		// onPageSwitched_gui to be called multiple times
 		//GtkWidget *item = entry->getTabMenuItem();
-		//g_signal_handlers_block_by_func(item, (gpointer)onRaisePage_gui, child);
-
 		entry->setActive_gui();
 //		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(entry->getTabMenuItem()), TRUE);
 		mw->setTitle(entry->getLabelText()); // Update window title with selected tab label
-
-		//g_signal_handlers_unblock_by_func(item, (gpointer)onRaisePage_gui, (gpointer)child);
 	}
-
 	GList *list = (GList *)g_object_get_data(G_OBJECT(notebook), "page-rotation-list");
 	list = g_list_remove(list, (gpointer)child);
 	list = g_list_prepend(list, (gpointer)child);
 	g_object_set_data(G_OBJECT(notebook), "page-rotation-list", (gpointer)list);
-
-	// Focus the tab so it will focus its children (e.g. a text entry box)
-	//gtk_widget_grab_focus(child);
 }
 
 void MainWindow::onPaneRealized_gui(GtkWidget *pane, gpointer data)
@@ -1957,7 +1935,7 @@ typedef struct
 void MainWindow::onConnectClicked_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	g_print("clicked");
+	g_debug("clicked");
 	GtkWidget *dialog, *label, *content_area, *entry;
  	GtkDialogFlags flags;
 
@@ -1989,10 +1967,8 @@ void MainWindow::responseDialogOnClicked_gui(GtkWidget* dialog ,int response, gp
 	ResponseData* res = (ResponseData*)data;
 	string saddress = gtk_editable_get_text( GTK_EDITABLE(res->entry));
 	res->mw->showHub_gui(saddress);
-	
 	gtk_window_destroy(GTK_WINDOW(dialog));
 }
-
 
 void MainWindow::onFavoriteHubsClicked_gui(GtkWidget*, gpointer data)
 {
@@ -2090,10 +2066,6 @@ void MainWindow::onResponse(GtkWidget* wid , int response ,gpointer data)
 
 		//mw->setTabPosition_gui(WGETI("tab-position"));
 		//mw->setToolbarStyle_gui(WGETI("toolbar-style"));
-
-		// Reload the icons only if the setting has changed
-		//mw->loadIcons_gui();
-
 		// All hubs and PMs
 		for (StringIterC it = mw->EntryList.begin(); it != mw->EntryList.end(); ++it)
 		{
@@ -2358,40 +2330,7 @@ void MainWindow::onCloseBookEntry_gui(GtkWidget*, gpointer data)
 	BookEntry *entry = (BookEntry *)data;
 	WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
 }
-/*
-void MainWindow::onShowInterfaceToggled_gui(GtkCheckMenuItem*, gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-	GtkWindow *win = mw->window;
-	static int x, y;
-	static bool isMaximized, isIconified;
 
-	if (gtk_widget_get_visible(GTK_WIDGET(win)))
-	{
-		GdkWindowState state;
-		gtk_window_get_position(win, &x, &y);
-		state = gdk_window_get_state(gtk_widget_get_window(GTK_WIDGET(win)));
-		isMaximized = (state & GDK_WINDOW_STATE_MAXIMIZED);
-		isIconified = (state & GDK_WINDOW_STATE_ICONIFIED);
-		gtk_widget_hide(GTK_WIDGET(win));
-
-		#ifdef HAVE_APPINDCATOR
-			app_indicator_set_status(mw->indicator,APP_INDICATOR_STATUS_PASSIVE);
-		#endif
-	}
-	else
-	{
-		gtk_window_move(win, x, y);
-		if (isMaximized) gtk_window_maximize(win);
-		if (isIconified) gtk_window_iconify(win);
-		gtk_widget_show(GTK_WIDGET(win));
-
-		#ifdef HAVE_APPINDCATOR
-			app_indicator_set_status(mw->indicator,APP_INDICATOR_STATUS_ACTIVE);
-		#endif
-	}
-}
-*/
 void MainWindow::onLinkClicked_gui(GtkWidget *widget, gpointer )
 {
 	string slink = (gchar *)g_object_get_data(G_OBJECT(widget), "link");
@@ -2614,13 +2553,10 @@ void MainWindow::on(TimerManagerListener::Second, uint64_t ticks) noexcept
 
 void MainWindow::on(dcpp::TimerManagerListener::Minute, uint64_t ) noexcept
 {
-#ifdef HAVE_XSSLIB
-	typedef Func0<MainWindow> F0;
-	F0 *func = new F0(this,&MainWindow::onIdle);
-	WulforManager::get()->dispatchGuiFunc(func);
-#endif
+
 }
 
+/*
 #ifdef HAVE_XSSLIB
 void MainWindow::onIdle()
 {
@@ -2653,7 +2589,7 @@ if(_idleDetectionPossible) {
 		}
 	}
 }
-#endif
+#endif*/
 void MainWindow::onTTHFileDialog_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw =(MainWindow *)data;
@@ -2697,8 +2633,8 @@ void MainWindow::onTTHFileButton_gui(GtkWidget* , gpointer data)
 void MainWindow::back(string tth, string filename, int64_t size)
 {
 	string magnetlink = "magnet:?xt=urn:tree:tiger:" + tth + "&xl=" + Util::toString(size) + "&dn=" + Util::encodeURI(Text::fromT(Util::getFileName(filename)));
-//	gtk_entry_set_text(GTK_ENTRY(getWidget("entrymagnet")), magnetlink.c_str());
-//	gtk_entry_set_text(GTK_ENTRY(getWidget("entrytthfileresult")), tth.c_str());
+	gtk_editable_set_text(GTK_EDITABLE(getWidget("entrymagnet")), magnetlink.c_str());
+	gtk_editable_set_text(GTK_EDITABLE(getWidget("entrytthfileresult")), tth.c_str());
 }
 
 void MainWindow::progress(bool progress)

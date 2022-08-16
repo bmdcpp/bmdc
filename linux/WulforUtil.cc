@@ -285,18 +285,7 @@ vector<string>& WulforUtil::getCharsets()
 
 void WulforUtil::openURI(const string &uri, string &_error)
 {
-/*	GError* perror = NULL;
-#if !GTK_CHECK_VERSION(3, 22, 0)
-	gtk_show_uri(NULL,uri.c_str(),GDK_CURRENT_TIME,&perror);
-#else	
-	gtk_show_uri_on_window(NULL,uri.c_str(),GDK_CURRENT_TIME,&perror);
-#endif	
-	if(perror != NULL)
-	{
-		cerr << "Failed to open URI: " << perror->message << endl;
-		_error = perror->message;
-		g_error_free(perror);
-	}*/
+	gtk_show_uri(NULL,uri.c_str(),GDK_CURRENT_TIME);
 }
 
 void WulforUtil::openURItoApp(const string &cmd)
@@ -583,7 +572,6 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 				Util::setAway(FALSE);
 				Util::setManualAway(FALSE);
 				status += _("Away mode off");
-			//	WulforManager::get()->getMainWindow()->setAwayIcon(false);
 		}
 		else
 		{
@@ -594,7 +582,6 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 				p["message"] = param;
 
 				status += _("Away mode on: ") + Util::getAwayMessage(p);
-		//		WulforManager::get()->getMainWindow()->setAwayIcon(true);
 		}
 		ClientManager::getInstance()->infoUpdated();
 		return true;
@@ -603,9 +590,7 @@ bool WulforUtil::checkCommand(string& cmd, string& param, string& message, strin
 	{
 		Util::setAway(FALSE);
 		status += _("Away mode off");
-//		WulforManager::get()->getMainWindow()->setAwayIcon(false);
 		ClientManager::getInstance()->infoUpdated();
-
 		return true;
 	} else if ( cmd == "bmdc" )
 	{
@@ -1415,7 +1400,8 @@ string WulforUtil::cpuinfo()
 
 void WulforUtil::setTextDeufaults(GtkWidget* widget, string strcolor, string back_image_path /*= */,bool pm/* = false*/,string hubUrl /*= */,string where /**/)
 {
-	/*	if( (pm == false) && hubUrl.empty()) // Global any hub?
+	GtkStyleContext* ctx = gtk_widget_get_style_context(widget);
+		if( (pm == false) && hubUrl.empty()) // Global any hub?
 			gtk_widget_set_name(widget,"Hub");
 
 		if( pm == true)
@@ -1441,9 +1427,6 @@ void WulforUtil::setTextDeufaults(GtkWidget* widget, string strcolor, string bac
 		if( strcolor.empty() || (!back_image_path.empty() && (dcpp::Util::fileExists(back_image_path) == true)) ) {
 		///NOTE: CSS
 			GtkCssProvider *provider = gtk_css_provider_new ();
-			GdkDisplay *display = gdk_display_get_default ();
-			GdkScreen *screen = gdk_display_get_default_screen (display);
-
 			string t_css = string("textview#") + (pm ? "pm" : ( hubCid.empty() ? "Hub": hubCid )) + " text {\n"
                             "   background-image: url('"+back_image_path+"');\n"
                             "}\n\0";
@@ -1455,13 +1438,12 @@ void WulforUtil::setTextDeufaults(GtkWidget* widget, string strcolor, string bac
                             "}\n\0";
            }                
 
-			gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
+			gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1);
 
-			gtk_style_context_add_provider_for_screen (screen,
+			gtk_style_context_add_provider(ctx,
                                              GTK_STYLE_PROVIDER(provider),
                                              GTK_STYLE_PROVIDER_PRIORITY_USER);
 
-			g_object_unref (provider);
 			return;
 		}
 		
@@ -1479,30 +1461,24 @@ void WulforUtil::setTextDeufaults(GtkWidget* widget, string strcolor, string bac
 		context = gtk_widget_get_style_context (widget);
 		provider = gtk_css_provider_new ();
 		gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),
-                                 t_css.c_str(), -1, NULL);
+                                 t_css.c_str(), -1);
                                  
 		gtk_style_context_add_provider (context,
                                 GTK_STYLE_PROVIDER (provider),
                                 GTK_STYLE_PROVIDER_PRIORITY_USER);
-		g_object_unref (provider);
-		
-	*/	
+
 }
 
-void WulforUtil::setTextColor(string color,string where /*= */)
-//Note : selected is red, because most themes get white or black
+void WulforUtil::setTextColor(string color,string where /*= */, GtkWidget* widget )
 {
-	/*	GtkCssProvider *provider = gtk_css_provider_new ();
-		GdkDisplay *display = gdk_display_get_default ();
-		GdkScreen *screen = gdk_display_get_default_screen (display);
+		GtkCssProvider *provider = gtk_css_provider_new ();
+		//TODO?
 		string t_css = string("textview#"+where+" ,textview#"+where+":focus, textview#"+where+":active text { color: "+color+" ;} GtkTextView#"+where+":selected { color: red ; }	\n\0");
 
-		gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
+		gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1);
 
-		gtk_style_context_add_provider_for_screen (screen,
-																GTK_STYLE_PROVIDER(provider),
-																GTK_STYLE_PROVIDER_PRIORITY_USER);
-		g_object_unref (provider);*/
+		gtk_style_context_add_provider (gtk_widget_get_style_context(widget),GTK_STYLE_PROVIDER(provider),
+															GTK_STYLE_PROVIDER_PRIORITY_USER);
 }
 
 

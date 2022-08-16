@@ -46,12 +46,23 @@ class UploadQueue:
 		void AddFile_gui(dcpp::StringMap params);
 		void removeUser(const std::string &cid);
 
-		/*static void onGrantSlotItemClicked_gui(GtkMenuItem*, gpointer data);
-		static void onRemoveItem_gui(GtkMenuItem *item, gpointer data);
-		static void onSendPMItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static void onFavoriteUserAddItemClicked_gui(GtkMenuItem *item, gpointer data);
-		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+		static void onGrantSlotItemClicked_gui(GtkWidget *widget,GVariant  *parameter, gpointer data);
+		static void onRemoveItem_gui(GtkWidget *widget,GVariant  *parameter, gpointer data);
+		static void onSendPMItemClicked_gui(GtkWidget *widget,GVariant  *parameter, gpointer data);
+		static void onBrowseItemClicked_gui(GtkWidget *widget,GVariant  *parameter, gpointer data);
+		static void onFavoriteUserAddItemClicked_gui(GtkWidget *widget,GVariant  *parameter, gpointer data);
+
+		static void on_inner_widget_right_btn_pressed (GtkGestureClick *gesture, int       n_press,
+                                   double             x,
+                                   double             y,
+                                   gpointer         *data);
+
+		static void on_inner_widget_right_btn_released (GtkGestureClick *gesture,int       n_press,
+                                    double           x,
+                                    double           y,
+                                    GtkWidget       *widget);
+		
+/*		static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 */
@@ -71,6 +82,8 @@ class UploadQueue:
 		UnMapIter mapUsers;
 		GtkTreeSelection *selection;
 		GdkEventType previous;
+
+		static const GActionEntry win_entries[];
 
 };
 

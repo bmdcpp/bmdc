@@ -64,21 +64,12 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 	//handCursor = gdk_cursor_new_from_name(gdk_display_get_default(),"pointer"); 
 
 	GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("scroll")));
-
 	// menu
-	/*g_object_ref_sink(getWidget("magnetMenu"));
-	g_object_ref_sink(getWidget("linkMenu"));
-	g_object_ref_sink(getWidget("hubMenu"));
-	g_object_ref_sink(getWidget("chatCommandsMenu"));
-*/
 //	userCommandMenu = new UserCommandMenu(gtk_menu_new(), ::UserCommand::CONTEXT_USER);
-//	addChild(userCommandMenu);
-
 	// Emoticons dialog
 //	emotdialog = new EmoticonsDialog(getWidget("entry"), getWidget("emotButton"), getWidget("emotMenu"));
 //	if (!SETTING(USE_EMOTS))
 //		gtk_widget_set_sensitive(getWidget("emotButton"), FALSE);
-//	useEmoticons = true;
 
 	// PM commands
 	/*
@@ -177,18 +168,6 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 PrivateMessage::~PrivateMessage()
 {
 	UsersManager::getInstance()->removeListener(this);
-/*
-	if (handCursor)
-	{
-		g_object_unref(handCursor);
-		handCursor = NULL;
-	}
-
-	g_object_unref(getWidget("magnetMenu"));
-	g_object_unref(getWidget("linkMenu"));
-	g_object_unref(getWidget("hubMenu"));
-	g_object_unref(getWidget("chatCommandsMenu"));
-*/
 }
 
 void PrivateMessage::show()
@@ -528,8 +507,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 				userCommandMenu->cleanMenu_gui();
 				userCommandMenu->addIp(tagName);
 				userCommandMenu->addHub(cid);
-				userCommandMenu->buildMenu_gui();
-				gtk_widget_show_all(userCommandMenu->getContainer());*/
+				userCommandMenu->buildMenu_gui();*/
 			}
 
 		}
@@ -549,7 +527,6 @@ void PrivateMessage::applyTags_gui(const string &line)
 				GtkWidget *image = gtk_image_new_from_pixbuf(buffer);
 			//	gtk_container_add(GTK_CONTAINER(event_box),image);
 			//	gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW(getWidget("text")), event_box, anchor);
-			//	gtk_widget_show_all(event_box);
 			//	gtk_widget_set_tooltip_text(event_box, country_text.c_str());
 				g_object_unref(buffer);
 			}
@@ -741,8 +718,8 @@ void PrivateMessage::applyEmoticons_gui()
 
 			/* delete text-emoticon and insert pixbuf-emoticon */
 			gtk_text_buffer_delete(messageBuffer, &p_start, &p_end);
-			//if(*p_it)
-			//	gtk_text_buffer_insert_pixbuf(messageBuffer, &p_start, (*p_it)->getPixbuf());
+			if(*p_it)
+				gtk_text_buffer_insert_paintable(messageBuffer, &p_start, WulforUtil::convertPixBuf((*p_it)->getPixbuf()));
 
 			searchEmoticons++;
 			totalEmoticons++;
@@ -958,12 +935,12 @@ gboolean PrivateMessage::onFocusIn_gui(GtkWidget*, GdkEventFocus*, gpointer data
 */
 void PrivateMessage::onSendMessage_gui(GtkEntry *entry, gpointer data)
 {
-	string text;// = gtk_entry_get_text(entry);
-	//if (text.empty())
-	//	return;
+	string text = gtk_editable_get_text(GTK_EDITABLE(entry));
+	if (text.empty())
+		return;
 
 	PrivateMessage *pm = (PrivateMessage *)data;
-	///gtk_entry_set_text(entry, "");
+	gtk_editable_set_text(GTK_EDITABLE(entry), "");
 
 	// Store line in chat history
 	pm->history.pop_back();

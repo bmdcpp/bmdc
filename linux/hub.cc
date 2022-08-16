@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © BMDC 2010-2023
+ * Copyright © BMDC 2010-2024
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,7 +50,6 @@ using namespace std;
 using namespace dcpp;
 
 const string Hub::tagPrefix = "#";
-
 
 const GActionEntry Hub::win_entries[] = {
     { "nick-to-chat", onNickToChat_gui  , NULL, NULL, NULL },
@@ -149,7 +148,7 @@ Hub::Hub(const string &address, const string &encoding):
 	string sColor = p_faventry ? p_faventry->get(SettingsManager::BACKGROUND_CHAT_COLOR, SETTING(BACKGROUND_CHAT_COLOR)) : SETTING(BACKGROUND_CHAT_COLOR);
 	string sImage = p_faventry ? p_faventry->get(SettingsManager::BACKGROUND_CHAT_IMAGE, SETTING(BACKGROUND_CHAT_IMAGE)) : SETTING(BACKGROUND_CHAT_IMAGE);
 
-	//WulforUtil::setTextDeufaults(getWidget("chatText"),sColor,sImage,false,address);
+	WulforUtil::setTextDeufaults(getWidget("chatText"),sColor,sImage,false,address);
 
 	// the reference count on the buffer is not incremented and caller of this function won't own a new reference.
 	chatBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(getWidget("chatText")));
@@ -1237,11 +1236,13 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 	if( ( (!sCountry.empty()) &&  client && client->get(SettingsManager::GET_USER_COUNTRY,SETTING(GET_USER_COUNTRY))) )
 	{
 		gtk_text_buffer_get_end_iter(chatBuffer,&start_iter);
-		//GtkTextIter iter = start_iter;
-		//gtk_text_iter_starts_line (&start_iter);
-		//gtk_text_iter_forward_char (&start_iter);
+		
+		GtkTextIter iter = start_iter;
+		gtk_text_iter_starts_line (&start_iter);
+		gtk_text_iter_forward_char (&start_iter);
+		
 		gtk_text_iter_backward_to_tag_toggle(&start_iter,TagsMap[Tag::TAG_TIMESTAMP]);
-		//gtk_text_buffer_insert_pixbuf(chatBuffer,&start_iter,WulforUtil::LoadCountryPixbuf(sCountry));
+		gtk_text_buffer_insert_paintable(chatBuffer,&start_iter,WulforUtil::convertPixBuf(WulforUtil::LoadCountryPixbuf(sCountry)));
 
 	}
 	// apply tags: nick, link, hub-url, magnet
@@ -4741,7 +4742,7 @@ void Hub::on(ClientListener::HubTopic, Client *, const string &top) noexcept
     F3 *func = new F3(this, &Hub::addStatusMessage_gui, _("Topic: ") + top, Msg::STATUS, Sound::NONE);
     WulforManager::get()->dispatchGuiFunc(func);
 }
-//Custom popup menu
+//Custom popup 
 GMenu* Hub::createmenu()
 {
 	GMenu *menu = BookEntry::createmenu();

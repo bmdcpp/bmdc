@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011-2023 BMDC
+ * Copyright © 2011-2024 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -105,13 +105,19 @@ class WulforUtil
 
 		static void setTextDeufaults(GtkWidget* widget, std::string strcolor, std::string back_image_path = std::string(),bool pm = false,std::string hubUrl = "",std::string where = std::string());
 		//Note : selected is red, because most themes get white or black
-		static void setTextColor(std::string color,std::string where = std::string());
+		static void setTextColor(std::string color, std::string where = dcpp::Util::emptyString , GtkWidget* widget = NULL );
 
 		static std::string getTagName(GtkTextTag *tag);
 	
 		static gboolean	is_format_supported (const gchar *uri);
 
 		static GtkIconTheme *icon_theme;
+
+		static GdkPaintable* convertPixBuf(GdkPixbuf* buf)
+		{
+			GtkWidget * image = gtk_image_new_from_pixbuf(buf);	
+			return gtk_image_get_paintable(GTK_IMAGE(image));
+		}
 	
 	private:
 		static std::string formatTimeDifference(uint64_t diff, size_t levels = 3);

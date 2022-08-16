@@ -19,7 +19,6 @@
 using namespace std;
 using namespace dcpp;
 
-#define g_g_a(widget,x,y,z,c) gtk_grid_attach(GTK_GRID(boxSimple),widget,x,y,z,c)
 #define g_g_a_c(widget,x,y,z,c) gtk_grid_attach(GTK_GRID(boxCheck), widget ,x,y,z,c)
 #define g_g_a_a(widget,x,y,z,c) gtk_grid_attach(GTK_GRID(boxAdvanced), widget ,x,y,z,c)
 #define g_g_a_c_s(widget,x,y,z,c) gtk_grid_attach(GTK_GRID(boxConnection), widget, x,y,z,c)
@@ -69,42 +68,42 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 	notebook = gtk_notebook_new();
 	gtk_box_append(GTK_BOX(mainBox), notebook);
 	boxSimple = gtk_grid_new();
-	g_g_a( gtk_label_new (_("Name: ")),0,0,1,1);
+	gtk_grid_attach(GTK_GRID(boxSimple),gtk_label_new(_("Name: ")),0,0,1,1);
 	entryName = gtk_entry_new();
 	gtk_editable_set_text (GTK_EDITABLE(entryName), p_entry->getName().c_str());
-	g_g_a(entryName,1,0,1,1);
-	g_g_a(gtk_label_new (_("Address: ")),0,1,1,1);
+	gtk_grid_attach(GTK_GRID(boxSimple),entryName,1,0,1,1);
+	gtk_grid_attach(GTK_GRID(boxSimple),gtk_label_new (_("Address: ")),0,1,1,1);
 	entryAddress = gtk_entry_new();
 	gtk_editable_set_text (GTK_EDITABLE(entryAddress), p_entry->getServer().c_str());
-	g_g_a(entryAddress,1,1,1,1);
-	g_g_a( gtk_label_new(_("Description: ")),0,2,1,1);
+	gtk_grid_attach(GTK_GRID(boxSimple),entryAddress,1,1,1,1);
+	gtk_grid_attach(GTK_GRID(boxSimple),gtk_label_new(_("Description: ")),0,2,1,1);
 	entryDesc = gtk_entry_new();
 	gtk_editable_set_text (GTK_EDITABLE(entryDesc), p_entry->getHubDescription().c_str());
-	g_g_a(entryDesc,1,2,1,1);
+	gtk_grid_attach(GTK_GRID(boxSimple),entryDesc,1,2,1,1);
 	//
-	g_g_a( 	gtk_label_new(_("Username: ")) ,0,3,1,1);
+	gtk_grid_attach(GTK_GRID(boxSimple),gtk_label_new(_("Username: ")),0,3,1,1);
 	entryUsername = gtk_entry_new();
 	gtk_editable_set_text (GTK_EDITABLE(entryUsername), p_entry->get(SettingsManager::NICK,SETTING(NICK)).c_str());
-	g_g_a(entryUsername,1,3,1,1);
-	g_g_a( gtk_label_new(_("Password: ")) ,0,4,1,1);
+	gtk_grid_attach(GTK_GRID(boxSimple),entryUsername,1,3,1,1);
+	gtk_grid_attach(GTK_GRID(boxSimple), gtk_label_new(_("Password: ")) ,0,4,1,1);
 	entryPassword = gtk_password_entry_new();
 	gtk_editable_set_text (GTK_EDITABLE(entryPassword), p_entry->getPassword().c_str());
 
-	g_g_a(entryPassword,1,4,1,1);
+	gtk_grid_attach(GTK_GRID(boxSimple),entryPassword,1,4,1,1);
 	
-	g_g_a( gtk_label_new(_("User Description: ")) ,0,5,1,1);
+	gtk_grid_attach(GTK_GRID(boxSimple),gtk_label_new(_("User Description: ")) ,0,5,1,1);
 	entryUserDescriptio = gtk_entry_new();
 	gtk_editable_set_text (GTK_EDITABLE( entryUserDescriptio), p_entry->get(SettingsManager::DESCRIPTION,SETTING(DESCRIPTION)).c_str());
-	g_g_a(entryUserDescriptio,1,5,1,1);
+	gtk_grid_attach(GTK_GRID(boxSimple),entryUserDescriptio,1,5,1,1);
 
-	g_g_a( gtk_label_new(_("e-Mail: ")) ,0,6,1,1);
+	gtk_grid_attach(GTK_GRID(boxSimple),gtk_label_new(_("e-Mail: ")) ,0,6,1,1);
 	entryMail = gtk_entry_new();
 	gtk_editable_set_text (GTK_EDITABLE(entryMail), p_entry->get(SettingsManager::EMAIL,SETTING(EMAIL)).c_str());
-	g_g_a(entryMail,1,6,1,1);
+	gtk_grid_attach(GTK_GRID(boxSimple),entryMail,1,6,1,1);
 
-	g_g_a( gtk_label_new(_("Codepage: ")),0,7,1,1);
+	gtk_grid_attach(GTK_GRID(boxSimple),gtk_label_new(_("Codepage: ")),0,7,1,1);
 	comboCodepage = gtk_combo_box_text_new();
-	g_g_a(comboCodepage,1,7,1,1);
+	gtk_grid_attach(GTK_GRID(boxSimple),comboCodepage,1,7,1,1);
 	string enc = p_entry->getEncoding();
 	// Fill the charset drop-down list in edit fav hub dialog.
 	auto& charsets = WulforUtil::getCharsets();
@@ -124,9 +123,9 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 		gtk_combo_box_set_active(GTK_COMBO_BOX(comboCodepage),0);
 	}
 
-	g_g_a( gtk_label_new(_("Group")),0,8,1,1);
+	gtk_grid_attach(GTK_GRID(boxSimple),gtk_label_new(_("Group")),0,8,1,1);
 	comboGroup = gtk_combo_box_text_new();
-	g_g_a(comboGroup, 1,8,1,1);
+	gtk_grid_attach(GTK_GRID(boxSimple),comboGroup, 1,8,1,1);
 
 	//group combo end
 	
@@ -135,7 +134,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 	gtk_grid_attach(GTK_GRID(pgrid),checkAutoConnect,0,0,1,1);
 	gtk_grid_attach(GTK_GRID(pgrid),gtk_label_new(_("Auto-Connect to this Hub")),1,0,1,1);
 	gtk_switch_set_active(GTK_SWITCH(checkAutoConnect), (gboolean)p_entry->getAutoConnect() );
-	g_g_a(pgrid,0,9,1,1);
+	gtk_grid_attach(GTK_GRID(boxSimple),pgrid,0,9,1,1);
 
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxSimple ,gtk_label_new(_("General Settings")));
 	//check

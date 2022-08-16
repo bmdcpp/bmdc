@@ -30,8 +30,8 @@ BookEntry(Entry::SYSTEML,_("System Log"),"system"),
  buffer(NULL),sysMark(NULL)
 {
 	
-	//WulforUtil::setTextDeufaults(getWidget("systextview"),SETTING(BACKGROUND_CHAT_COLOR),"",false,"","SystemLog");
-	//WulforUtil::setTextColor(WGETS("text-system-fore-color"),string("SystemLog"));
+	WulforUtil::setTextDeufaults(getWidget("systextview"),SETTING(BACKGROUND_CHAT_COLOR),"",false,"","SystemLog");
+	WulforUtil::setTextColor(WGETS("text-system-fore-color"),string("SystemLog"),getWidget("systextview"));
 
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("systextview")));
 	gtk_text_buffer_get_end_iter(buffer, &iter);
@@ -40,13 +40,12 @@ BookEntry(Entry::SYSTEML,_("System Log"),"system"),
 	GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("sysscroll")));
 
 	g_signal_connect(adjustment, "value_changed", G_CALLBACK(onScroll_gui), (gpointer)this);
-	//g_signal_connect(adjustment, "changed", G_CALLBACK(onResize_gui), (gpointer)this);
 	g_signal_connect(getWidget("buttonClear"), "clicked", G_CALLBACK(onClearButton), (gpointer)this);
 }
 
 void SystemLog::preferences_gui()
 {
-//	WulforUtil::setTextDeufaults(getWidget("systextview"),SETTING(BACKGROUND_CHAT_COLOR));
+	WulforUtil::setTextDeufaults(getWidget("systextview"),SETTING(BACKGROUND_CHAT_COLOR));
 }
 
 SystemLog::~SystemLog()
@@ -150,7 +149,7 @@ void SystemLog::on(LogManagerListener::Message, time_t t, const string& message,
 
 GdkPaintable* SystemLog::getImageSev(int sev)
 {
-	string src;
+	string src = dcpp::Util::emptyString;
 	switch(sev)
 	{
 		case LogManager::Sev::LOW: 
@@ -165,7 +164,7 @@ GdkPaintable* SystemLog::getImageSev(int sev)
 		default:break;
 	};
 	GtkWidget* icon = gtk_image_new_from_resource(src.c_str());
-	g_object_set(icon ,"icon-size" ,GTK_ICON_SIZE_NORMAL);
+	g_object_set(icon ,"icon-size" ,GTK_ICON_SIZE_NORMAL, NULL);
 	return gtk_image_get_paintable(GTK_IMAGE(icon));
 }
 
