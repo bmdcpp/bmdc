@@ -44,10 +44,8 @@ WulforSettingsManager::WulforSettingsManager():
 	//NOTE: get from theme/sys/  (background)
 	GdkRGBA color;
 	//gtk_style_context_get (gtk_style_context_new(), GTK_STATE_FLAG_NORMAL,
-     //                  "background-color", &color,
-     //                  NULL);
-
-//    ss = g_settings_new ("org.bmdc-team.bmdc");
+    //                  "background-color", &color,
+    //                  NULL);
 
 	defaultInt.insert(IntMap::value_type("country-hub-icon",1));
 
@@ -483,26 +481,27 @@ WulforSettingsManager::WulforSettingsManager():
 	 * message.hh
 	*/
 	defaultInt.insert(IntMap::value_type("double-click-action",(int)CActions::BROWSE));
-	defaultInt.insert(IntMap::value_type("hide-transfers",0));//.
+	defaultInt.insert(IntMap::value_type("hide-transfers",0));
 
 	defaultString.insert(StringMap::value_type("menu-userlist-color","blue"));
 	defaultString.insert(StringMap::value_type("text-cmd-fore-color","black"));
 	defaultString.insert(StringMap::value_type("text-system-fore-color","black"));
 
-	defaultInt.insert(IntMap::value_type("hub-max-history",30));//
-	defaultInt.insert(IntMap::value_type("pm-max-history",30));//
+	defaultInt.insert(IntMap::value_type("hub-max-history",30));
+	defaultInt.insert(IntMap::value_type("pm-max-history",30));
 
 
 	load();
 
 
 //TODO:rem
+/*	
 	string path_image = Util::getPath(Util::PATH_USER_CONFIG) + "Images/";
 	#ifndef _WIN32
 	g_mkdir_with_parents(path_image.c_str(), S_IRUSR | S_IWUSR | S_IXUSR);
 	#else
 	_mkdir(path_image.c_str());
-	#endif
+	#endif*/
 }
 
 WulforSettingsManager::~WulforSettingsManager()

@@ -25,7 +25,6 @@
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="has_default">True</property>
               </object>
             </child>
           </object>
@@ -41,7 +40,6 @@
                 <child>
                   <object class="GtkEntry" id="descriptionEntry">
                     <property name="can_focus">True</property>
-                    <property name="has_focus">True</property>
                     <property name="activates_default">True</property>
                     <property name="primary_icon_activatable">False</property>
                     <property name="secondary_icon_activatable">False</property>

@@ -45,13 +45,27 @@
 using namespace std;
 using namespace dcpp;
 
+const GActionEntry Transfers::win_entries[] = {
+    { "grant-slot", onGrantExtraSlotClicked_gui, NULL, NULL, NULL },
+    { "get-fl", onGetFileListClicked_gui, NULL, NULL, NULL },
+    { "match-queue", onMatchQueueClicked_gui, NULL, NULL, NULL },
+    { "send-pm", onPrivateMessageClicked_gui, NULL, NULL, NULL },
+    { "add-fav-user", onAddFavoriteUserClicked_gui, NULL, NULL, NULL },
+    { "remove-user", onRemoveUserFromQueueClicked_gui, NULL, NULL, NULL },
+    { "force-conn", onForceAttemptClicked_gui, NULL, NULL, NULL },
+    { "close-conn", onCloseConnectionClicked_gui, NULL, NULL, NULL },
+    { "search-alt", onSearchAlternateClicked_gui, NULL, NULL, NULL },
+};
+
 Transfers::Transfers() :
 	Entry(Entry::TRANSFERS, "transfers"),
 	transferStore(NULL), transferSelection(NULL),  appsPreviewMenu(NULL)
 {
+	GSimpleActionGroup* simple = g_simple_action_group_new ();
+	g_simple_action_group_add_entries(simple, win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+	gtk_widget_insert_action_group(getWidget("transfers"), "Transfers" ,G_ACTION_GROUP(simple));
 	// Initialize the user command menu
 //	userCommandMenu = new UserCommandMenu(getWidget("userCommandMenu"), ::UserCommand::CONTEXT_USER);
-
 	// Initialize the preview menu
 //	appsPreviewMenu = new PreviewMenu(getWidget("appsPreviewMenu"));
 
@@ -91,18 +105,81 @@ Transfers::Transfers() :
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(transferStore), transferView.col("Sort Order"), GTK_SORT_ASCENDING);
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(transferView.get(), transferView.col(_("User"))), TRUE);
 
-//	g_signal_connect(transferView.get(), "button-press-event", G_CALLBACK(onTransferButtonPressed_gui), (gpointer)this);
-//	g_signal_connect(transferView.get(), "button-release-event", G_CALLBACK(onTransferButtonReleased_gui), (gpointer)this);
-//	g_signal_connect(getWidget("getFileListItem"), "activate", G_CALLBACK(onGetFileListClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("matchQueueItem"), "activate", G_CALLBACK(onMatchQueueClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("sendPrivateMessageItem"), "activate", G_CALLBACK(onPrivateMessageClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("addToFavoritesItem"), "activate", G_CALLBACK(onAddFavoriteUserClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("grantExtraSlotItem"), "activate", G_CALLBACK(onGrantExtraSlotClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("removeUserItem"), "activate", G_CALLBACK(onRemoveUserFromQueueClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("forceAttemptItem"), "activate", G_CALLBACK(onForceAttemptClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("closeConnectionItem"), "activate", G_CALLBACK(onCloseConnectionClicked_gui), (gpointer)this);
+	GtkGesture *gesture;
+	gesture = gtk_gesture_click_new ();
+	gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (gesture), 3);
+	g_signal_connect (gesture, "pressed",
+                    G_CALLBACK (on_inner_widget_right_btn_pressed), (gpointer)this);
+	g_signal_connect (gesture, "released",
+                    G_CALLBACK (on_inner_widget_right_btn_released), (gpointer)this);
+	gtk_widget_add_controller (GTK_WIDGET(transferView.get()), GTK_EVENT_CONTROLLER (gesture));
 
-//	g_signal_connect(getWidget("SearchItem"), "activate", G_CALLBACK(onSearchAlternateClicked_gui), (gpointer)this);
+}
+
+
+void Transfers::on_inner_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
+                                   int                /*n_press*/,
+                                   double             x,
+                                   double             y,
+                                   gpointer         *data)
+{
+	Transfers *FH = (Transfers*)data;
+	g_debug ("on_inner_widget_right_btn_pressed() called\n");
+
+	GMenu *menu = g_menu_new ();
+	GMenuItem *menu_item_add = g_menu_item_new ("Grant Slot", "transfers.grant-slot");
+	g_menu_append_item (menu, menu_item_add);
+	g_object_unref (menu_item_add);
+
+	GMenuItem* menu_item_edit = g_menu_item_new ("Browse Filelist", "transfers.get-fl");
+	g_menu_append_item (menu, menu_item_edit);
+	g_object_unref (menu_item_edit);
+
+	GMenuItem* menu_item_conn = g_menu_item_new ("Add Favorite User", "transfers.add-fav-user");
+	g_menu_append_item (menu, menu_item_conn);
+	g_object_unref (menu_item_conn);
+
+	GMenuItem* menu_item_copy = g_menu_item_new ("Remove User", "transfers.remove-user");
+	g_menu_append_item (menu, menu_item_copy);
+	g_object_unref (menu_item_copy);
+
+	GMenuItem* menu_item_pm = g_menu_item_new ("Send Private Message", "transfers.pm-item");
+	g_menu_append_item (menu, menu_item_pm);
+	g_object_unref (menu_item_pm);
+
+	GMenuItem* menu_item_force = g_menu_item_new ("Force Connecting", "transfers.force-conn");
+	g_menu_append_item (menu, menu_item_force);
+	g_object_unref (menu_item_force);
+
+	GMenuItem* menu_item_close = g_menu_item_new ("Close Connecting", "transfers.close-conn");
+	g_menu_append_item (menu, menu_item_close);
+	g_object_unref (menu_item_close);
+
+	GMenuItem* menu_item_alt = g_menu_item_new ("Search Alternative", "transfers.search-alt");
+	g_menu_append_item (menu, menu_item_alt);
+	g_object_unref (menu_item_alt);
+
+	GMenuItem* menu_item_q = g_menu_item_new ("Match Queue", "transfers.match-queue");
+	g_menu_append_item (menu, menu_item_q);
+	g_object_unref (menu_item_q);
+
+	GtkWidget *pop = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
+	gtk_widget_set_parent(pop, FH->getContainer());
+	gtk_popover_set_pointing_to(GTK_POPOVER(pop), &(const GdkRectangle){x,y,1,1});
+	gtk_popover_popup (GTK_POPOVER(pop));
+
+}
+
+void Transfers::on_inner_widget_right_btn_released (GtkGestureClick *gesture,
+                                    int             /* n_press*/,
+                                    double          /* x*/,
+                                    double           /*y*/,
+                                    GtkWidget*       /*widget*/)
+{
+  g_debug ("on_inner_widget_right_btn_released() called\n");
+
+  gtk_gesture_set_state (GTK_GESTURE (gesture),
+                         GTK_EVENT_SEQUENCE_CLAIMED);
 }
 
 Transfers::~Transfers()
@@ -121,55 +198,7 @@ void Transfers::show()
 	ConnectionManager::getInstance()->addListener(this);
 }
 
-void Transfers::popupTransferMenu_gui()
-{
-	// Build user command menu
-/*	appsPreviewMenu->cleanMenu_gui();
-	userCommandMenu->cleanMenu_gui();
-
-	GtkTreePath *path;
-	GtkTreeIter iter;
-	GList *list = gtk_tree_selection_get_selected_rows(transferSelection, NULL);
-	string target = string();
-
-	for (GList *i = list; i; i = i->next)
-	{
-		path = (GtkTreePath *)i->data;
-		if (gtk_tree_model_get_iter(GTK_TREE_MODEL(transferStore), &iter, path))
-		{
-			bool parent = gtk_tree_model_iter_has_child(GTK_TREE_MODEL(transferStore), &iter);
-
-			do
-			{
-				if (target.empty())
-					target = transferView.getString(&iter, "tmpTarget");
-
-				string cid = transferView.getString(&iter, "CID");
-				string hubUrl = transferView.getString(&iter, "Hub URL");//NOTE: core 0.762
-				userCommandMenu->addUser(cid);
-				userCommandMenu->addHub(WulforUtil::getHubAddress(CID(cid), hubUrl));//NOTE: core 0.762
-			}
-			while (parent && WulforUtil::getNextIter_gui(GTK_TREE_MODEL(transferStore), &iter, TRUE, FALSE));
-		}
-		gtk_tree_path_free(path);
-	}
-	g_list_free(list);
-
-	userCommandMenu->buildMenu_gui();
-
-	if (appsPreviewMenu->buildMenu_gui(target))
-		gtk_widget_set_sensitive(getWidget("appsPreviewItem"), TRUE);
-	else gtk_widget_set_sensitive(getWidget("appsPreviewItem"), FALSE);
-
-	#if GTK_CHECK_VERSION(3,22,0)
-		gtk_menu_popup_at_pointer(GTK_MENU(getWidget("transferMenu")),NULL);
-	#else
-		gtk_menu_popup(GTK_MENU(getWidget("transferMenu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-	#endif
-	gtk_widget_show_all(getWidget("transferMenu"));*/
-}
-/*
-void Transfers::onGetFileListClicked_gui(GtkMenuItem*, gpointer data)
+void Transfers::onGetFileListClicked_gui(GtkWidget *widget,GVariant  *, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
 	GtkTreeIter iter;
@@ -201,7 +230,7 @@ void Transfers::onGetFileListClicked_gui(GtkMenuItem*, gpointer data)
 	g_list_free(list);
 }
 
-/*void Transfers::onMatchQueueClicked_gui(GtkMenuItem*, gpointer data)
+void Transfers::onMatchQueueClicked_gui(GtkWidget *widget,GVariant  *, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
 	GtkTreeIter iter;
@@ -233,7 +262,7 @@ void Transfers::onGetFileListClicked_gui(GtkMenuItem*, gpointer data)
 	g_list_free(list);
 }
 
-/*void Transfers::onPrivateMessageClicked_gui(GtkMenuItem*, gpointer data)
+void Transfers::onPrivateMessageClicked_gui(GtkWidget *widget,GVariant  *, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
 	string cid;
@@ -260,8 +289,8 @@ void Transfers::onGetFileListClicked_gui(GtkMenuItem*, gpointer data)
 	}
 	g_list_free(list);
 }
-/*
-void Transfers::onAddFavoriteUserClicked_gui(GtkMenuItem*, gpointer data)
+
+void Transfers::onAddFavoriteUserClicked_gui(GtkWidget *widget,GVariant  *, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
 	string cid;
@@ -294,7 +323,7 @@ void Transfers::onAddFavoriteUserClicked_gui(GtkMenuItem*, gpointer data)
 	g_list_free(list);
 }
 
-void Transfers::onGrantExtraSlotClicked_gui(GtkMenuItem*, gpointer data)
+void Transfers::onGrantExtraSlotClicked_gui(GtkWidget *widget,GVariant  *, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
 	GtkTreeIter iter;
@@ -326,7 +355,7 @@ void Transfers::onGrantExtraSlotClicked_gui(GtkMenuItem*, gpointer data)
 	g_list_free(list);
 }
 
-void Transfers::onRemoveUserFromQueueClicked_gui(GtkMenuItem*, gpointer data)
+void Transfers::onRemoveUserFromQueueClicked_gui(GtkWidget *widget,GVariant  *, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
 	string cid;
@@ -359,7 +388,7 @@ void Transfers::onRemoveUserFromQueueClicked_gui(GtkMenuItem*, gpointer data)
 	g_list_free(list);
 }
 
-void Transfers::onSearchAlternateClicked_gui(GtkMenuItem*, gpointer data)
+void Transfers::onSearchAlternateClicked_gui(GtkWidget *widget,GVariant  *, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
 	string tth;
@@ -393,7 +422,7 @@ void Transfers::onSearchAlternateClicked_gui(GtkMenuItem*, gpointer data)
 	g_list_free(list);
 }
 
-void Transfers::onForceAttemptClicked_gui(GtkMenuItem*, gpointer data)
+void Transfers::onForceAttemptClicked_gui(GtkWidget *widget,GVariant  *, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
 	string cid;
@@ -419,7 +448,7 @@ void Transfers::onForceAttemptClicked_gui(GtkMenuItem*, gpointer data)
 	g_list_free(list);
 }
 
-void Transfers::onCloseConnectionClicked_gui(GtkMenuItem*, gpointer data)
+void Transfers::onCloseConnectionClicked_gui(GtkWidget *widget,GVariant  *, gpointer data)
 {
 	Transfers *tr = (Transfers *)data;
 	string cid;
@@ -454,7 +483,7 @@ void Transfers::onCloseConnectionClicked_gui(GtkMenuItem*, gpointer data)
 		gtk_tree_path_free(path);
 	}
 	g_list_free(list);
-}*/
+}
 /*
 gboolean Transfers::onTransferButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {

@@ -28,9 +28,7 @@ DialogEntry::DialogEntry(const EntryType type, const string &glade, GtkWindow*):
 	Entry(type, glade),
 	responseID(GTK_RESPONSE_NONE)
 {
-	GtkWindow* window = GTK_WINDOW(getContainer());
-
-
+	
 }
 
 DialogEntry::~DialogEntry()

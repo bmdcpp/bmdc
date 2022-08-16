@@ -73,21 +73,30 @@ class Transfers:
 		bool findParent_gui(const std::string& target, GtkTreeIter* iter);
 		bool findTransfer_gui(const std::string& cid, bool download, GtkTreeIter* iter);
 
-		void popupTransferMenu_gui();
 		void playSound_gui(Sound::TypeSound sound);
 
 		// GUI callbacks
+		static void on_inner_widget_right_btn_pressed (GtkGestureClick *gesture, int       n_press,
+                                   double             x,
+                                   double             y,
+                                   gpointer         *data);
+
+		static void on_inner_widget_right_btn_released (GtkGestureClick *gesture,int       n_press,
+                                    double           x,
+                                    double           y,
+                                    GtkWidget       *widget);
 		//static gboolean onTransferButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		//static gboolean onTransferButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		//static void onGetFileListClicked_gui(GtkMenuItem *item, gpointer data);
-		//static void onMatchQueueClicked_gui(GtkMenuItem *item, gpointer data);
-		//static void onPrivateMessageClicked_gui(GtkMenuItem *item, gpointer data);
-		//static void onAddFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data);
-		//static void onGrantExtraSlotClicked_gui(GtkMenuItem *item, gpointer data);
-		//static void onRemoveUserFromQueueClicked_gui(GtkMenuItem *item, gpointer data);
-		//static void onForceAttemptClicked_gui(GtkMenuItem *item, gpointer data);
-		//static void onCloseConnectionClicked_gui(GtkMenuItem *item, gpointer data);
-		//static void onSearchAlternateClicked_gui(GtkMenuItem *item, gpointer data);
+		
+		static void onGetFileListClicked_gui(GtkWidget *widget,GVariant  *value, gpointer data);
+		static void onMatchQueueClicked_gui(GtkWidget *widget,GVariant  *value, gpointer data);
+		static void onPrivateMessageClicked_gui(GtkWidget *widget,GVariant  *value, gpointer data);
+		static void onAddFavoriteUserClicked_gui(GtkWidget *widget,GVariant  *value, gpointer data);
+		static void onGrantExtraSlotClicked_gui(GtkWidget *widget,GVariant  *value, gpointer data);
+		static void onRemoveUserFromQueueClicked_gui(GtkWidget *widget,GVariant  *value, gpointer data);
+		static void onForceAttemptClicked_gui(GtkWidget *widget,GVariant  *value, gpointer data);
+		static void onCloseConnectionClicked_gui(GtkWidget *widget,GVariant  *value, gpointer data);
+		static void onSearchAlternateClicked_gui(GtkWidget *widget,GVariant  *value, gpointer data);
 
 		// Client functions
 		void getParams_client(dcpp::StringMap& params, dcpp::ConnectionQueueItem* cqi);
@@ -127,6 +136,8 @@ class Transfers:
 		GtkTreeSelection *transferSelection;
 		UserCommandMenu* userCommandMenu;
 		PreviewMenu *appsPreviewMenu;
+
+		static const GActionEntry win_entries[];
 };
 
 #endif // BMDC_TRANSFERS_HH

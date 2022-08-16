@@ -30,7 +30,7 @@ using namespace dcpp;
 
 void PreviewMenu::cleanMenu_gui()
 {
-//	gtk_container_foreach(GTK_CONTAINER(appsPreviewMenu), (GtkCallback)gtk_widget_destroy, NULL);
+
 }
 
 bool PreviewMenu::buildMenu_gui(const string &target)

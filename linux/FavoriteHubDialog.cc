@@ -508,9 +508,6 @@ bool FavoriteHubDialog::showErrorDialog_gui(const string &description)
 {
 		GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(getContainer()),
 		GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_WARNING, GTK_BUTTONS_OK, "%s", description.c_str());
-
-//		gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-
 		return TRUE;
 }
 
@@ -518,13 +515,7 @@ void FavoriteHubDialog::onCheckButtonToggled_gui(GtkToggleButton *button, gpoint
 {
 		GtkWidget *widget = (GtkWidget*)data;
 //		bool override = gtk_toggle_button_get_active(button);
-
 //		gtk_widget_set_sensitive(widget, override);
-
-//		if (override)
-//		{
-	//			gtk_widget_grab_focus(widget);
-//		}
 }
 
 void FavoriteHubDialog::onToggledClicked_gui(GtkCellRendererToggle*, gchar *path, gpointer data)
@@ -643,7 +634,6 @@ void FavoriteHubDialog::onAddShare_gui(GtkWidget*, gpointer data)
 				}
 			
 			}
-	//		gtk_widget_destroy (dialog);
 		}
 	}
 }

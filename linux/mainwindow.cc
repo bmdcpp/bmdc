@@ -2313,7 +2313,6 @@ void MainWindow::onNextTabClicked_gui(GtkWidget*, gpointer data)
 void MainWindow::onAboutClicked_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-//	gint response = gtk_dialog_run(GTK_DIALOG(mw->getWidget("aboutDialog")));
 }
 
 void MainWindow::onAboutDialogActivateLink_gui(GtkAboutDialog*, const gchar *link, gpointer data)

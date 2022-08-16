@@ -28,13 +28,13 @@ using namespace dcpp;
 
 const GActionEntry AboutConfig::win_entries[] = {
     { "edit", onPropertiesClicked_gui, NULL, NULL, NULL },
-    { "deff",onSetDefault, NULL, NULL, NULL },
+    { "deff", onSetDefault, NULL, NULL, NULL },
 };
 
 AboutConfig::AboutConfig():
 BookEntry(Entry::ABOUT_CONFIG, _("About:config"), "config")
 {
-	//non-depr?
+	//non-dep
 	GSimpleActionGroup* simple = g_simple_action_group_new ();
 	g_simple_action_group_add_entries(simple, win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
 	gtk_widget_insert_action_group(getContainer(),"abc" ,G_ACTION_GROUP(simple));
@@ -81,7 +81,7 @@ BookEntry(Entry::ABOUT_CONFIG, _("About:config"), "config")
                     G_CALLBACK (on_inner_widget_right_btn_released), (gpointer)this);
   gtk_widget_add_controller (GTK_WIDGET(aboutView.get()), GTK_EVENT_CONTROLLER (gesture));
 
-    setColorsRows();
+  setColorsRows();
 }
 
 

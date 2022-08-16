@@ -39,8 +39,6 @@ class AboutConfigFav:
 		void setColorsRows();
 		void setColorRow(std::string);
 		static void makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter, gpointer data);
-		//static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		//static gboolean onButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		//static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		static void onPropertiesClicked_gui(GtkWidget *widget,GVariant  *parameter, gpointer data);
 		static void onSetDefault(GtkWidget *widget,GVariant  *parameter, gpointer data);

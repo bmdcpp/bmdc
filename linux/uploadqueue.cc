@@ -16,7 +16,6 @@
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //      MA 02110-1301, USA.
 //
-//
 
 #include "uploadqueue.hh"
 
@@ -49,7 +48,6 @@ selection(NULL)
 	g_simple_action_group_add_entries(simple, win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
 	gtk_widget_insert_action_group(getWidget("viewUsers"), "UploadQueue" ,G_ACTION_GROUP(simple));
 
-
 	users.setView(GTK_TREE_VIEW(getWidget("viewUsers")));
 	users.insertColumn("User", G_TYPE_STRING, TreeView::ICON_STRING, 100, "Icon");
 	users.insertColumn("File", G_TYPE_STRING, TreeView::STRING, 300);
@@ -67,13 +65,13 @@ selection(NULL)
 	g_signal_connect(users.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 	*/
 	GtkGesture *gesture;
-  gesture = gtk_gesture_click_new ();
-  gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (gesture), 3);
-  g_signal_connect (gesture, "pressed",
+	gesture = gtk_gesture_click_new ();
+	gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (gesture), 3);
+	g_signal_connect (gesture, "pressed",
                     G_CALLBACK (on_inner_widget_right_btn_pressed), (gpointer)this);
-  g_signal_connect (gesture, "released",
+	g_signal_connect (gesture, "released",
                     G_CALLBACK (on_inner_widget_right_btn_released), (gpointer)this);
-  gtk_widget_add_controller (GTK_WIDGET(users.get()), GTK_EVENT_CONTROLLER (gesture));
+	gtk_widget_add_controller (GTK_WIDGET(users.get()), GTK_EVENT_CONTROLLER (gesture));
 
 }
 
@@ -84,7 +82,7 @@ void UploadQueue::on_inner_widget_right_btn_pressed (GtkGestureClick* /*gesture*
                                    gpointer         *data)
 {
 	UploadQueue *FH = (UploadQueue*)data;
-  g_debug ("on_inner_widget_right_btn_pressed() called\n");
+	g_debug ("on_inner_widget_right_btn_pressed() called\n");
 
 	GMenu *menu = g_menu_new ();
 	GMenuItem *menu_item_add = g_menu_item_new ("Grant Slot", "UploadQueue.grant-slot");
@@ -353,42 +351,6 @@ gboolean UploadQueue::onKeyReleased_gui(GtkWidget*, GdkEventKey *event, gpointer
 		if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
 		     gtk_menu_popup_at_pointer(GTK_MENU(qp->getWidget("menu")),NULL);
-		}
-	}
-
-	return FALSE;
-}
-
-gboolean UploadQueue::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
-{
-	UploadQueue *qp = (UploadQueue *)data;
-	qp->previous = event->type;
-
-	if (event->button == 3)
-	{
-		GtkTreePath *path = NULL;
-
-		if (gtk_tree_view_get_path_at_pos(qp->users.get(), (gint)event->x, (gint)event->y, &path, NULL, NULL, NULL))
-		{
-			bool selected = gtk_tree_selection_path_is_selected(qp->selection, path);
-			gtk_tree_path_free(path);
-
-			if (selected)
-				return TRUE;
-		}
-	}
-	return FALSE;
-}
-
-gboolean UploadQueue::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
-{
-	UploadQueue *qp = (UploadQueue *)data;
-
-	if (gtk_tree_selection_count_selected_rows(qp->selection) > 0)
-	{
-		if (event->button == 3 && event->type == GDK_BUTTON_RELEASE)
-		{
-			gtk_menu_popup_at_pointer(GTK_MENU(qp->getWidget("menu")),NULL);
 		}
 	}
 

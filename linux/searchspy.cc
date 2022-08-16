@@ -88,8 +88,6 @@ SearchSpy::SearchSpy():
 	g_signal_connect(getWidget("searchTopButton"), "clicked", G_CALLBACK(onSearchTopClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("removeTopButton"), "clicked", G_CALLBACK(onRemoveTopClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("ignoreTTHSearchCheckButton"), "toggled", G_CALLBACK(onIgnoreTTHSearchToggled_gui), (gpointer)this);
-//	g_signal_connect(searchView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
-//	g_signal_connect(searchView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 //	g_signal_connect(searchView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 	g_signal_connect(getWidget("okButton"), "clicked", G_CALLBACK(onOKButtonClicked_gui), (gpointer)this);
 
@@ -105,8 +103,6 @@ SearchSpy::~SearchSpy()
 	WSET("search-spy-frame", (int)gtk_spin_button_get_value(GTK_SPIN_BUTTON(getWidget("frameSpinButton"))));
 	WSET("search-spy-waiting", (int)gtk_spin_button_get_value(GTK_SPIN_BUTTON(getWidget("waitingSpinButton"))));
 	WSET("search-spy-top", (int)gtk_spin_button_get_value(GTK_SPIN_BUTTON(getWidget("topSpinButton"))));
-
-//	gtk_widget_destroy(getWidget("TopSearchDialog"));
 
 	TimerManager::getInstance()->removeListener(this);
 	ClientManager::getInstance()->removeListener(this);

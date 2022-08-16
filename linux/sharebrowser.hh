@@ -68,6 +68,7 @@ class ShareBrowser:
 		static void onMatchButtonClicked_gui(GtkWidget *widget, gpointer data);
 		static void onFindButtonClicked_gui(GtkWidget *widget, gpointer);
 		static void onNextButtonClicked_gui(GtkWidget *widget, gpointer);
+		
 		static void onDownloadClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onDownloadToClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onDownloadFavoriteClicked_gui(GtkMenuItem *item, gpointer data);

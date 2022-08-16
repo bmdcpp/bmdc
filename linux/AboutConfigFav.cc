@@ -33,9 +33,10 @@ const GActionEntry AboutConfigFav::win_entries[] = {
   };
 
 AboutConfigFav::AboutConfigFav(FavoriteHubEntry* entry):
-BookEntry(Entry::ABOUT_CONFIG_FAV, _("About:config for ")+entry->getName(), "config"),
+BookEntry(Entry::ABOUT_CONFIG_FAV, _("About:config for ") + entry->getName(), "config"),
 p_entry(entry)
 {
+
 	GSimpleActionGroup* simple = g_simple_action_group_new ();
 	g_simple_action_group_add_entries(simple, win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
 	gtk_widget_insert_action_group(getContainer(),"abcf" ,G_ACTION_GROUP(simple));
@@ -57,9 +58,6 @@ p_entry(entry)
 	g_object_unref(aboutStore);
 
 	aboutSelection = gtk_tree_view_get_selection(aboutView.get());
-
-	//g_signal_connect(aboutView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
-	//g_signal_connect(aboutView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 	//g_signal_connect(aboutView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 
 	if(SETTING(AC_DISCLAIM) == false) {
@@ -336,38 +334,6 @@ void AboutConfigFav::setStatus(const string msg)
 	gtk_statusbar_push(GTK_STATUSBAR(getWidget("status")), 0, msg.c_str());
 }
 /*
-gboolean AboutConfigFav::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
-{
-	AboutConfigFav *s = (AboutConfigFav *)data;
-	s->previous = event->type;
-	return FALSE;
-}
-
-gboolean AboutConfigFav::onButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
-{
-	AboutConfigFav *s = (AboutConfigFav *)data;
-
-	if (gtk_tree_selection_get_selected(s->aboutSelection, NULL, NULL))
-	{
-		if (event->button == 1 && s->previous == GDK_2BUTTON_PRESS)
-		{
-			// show dialog
-			onPropertiesClicked_gui(NULL, data);
-		}
-		else if (event->button == 3 && event->type == GDK_BUTTON_RELEASE)
-		{
-			// show menu
-			#if GTK_CHECK_VERSION(3,22,0)
-			gtk_menu_popup_at_pointer(GTK_MENU(s->getWidget("menu")),NULL);
-			#else
-			gtk_menu_popup(GTK_MENU(s->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-			#endif
-		}
-	}
-
-	return FALSE;
-}
-
 gboolean AboutConfigFav::onKeyReleased_gui(GtkWidget* , GdkEventKey *event, gpointer data)
 {
 	AboutConfigFav *s = (AboutConfigFav *)data;
@@ -376,14 +342,9 @@ gboolean AboutConfigFav::onKeyReleased_gui(GtkWidget* , GdkEventKey *event, gpoi
 	{
 		if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
-			#if GTK_CHECK_VERSION(3,22,0)
 			gtk_menu_popup_at_pointer(GTK_MENU(s->getWidget("menu")),NULL);
-			#else
-			gtk_menu_popup(GTK_MENU(s->getWidget("menu")), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-			#endif
 		}
 	}
-
 	return FALSE;
 }
 */
@@ -503,18 +464,21 @@ void AboutConfigFav::onSetDefault(GtkWidget*,GVariant  *parameter, gpointer data
 	}
 }
 
+
+
+
+///
 bool AboutConfigFav::getDialog(const string sName, string& sValue , gpointer data)
 {
 	AboutConfigFav *ps = (AboutConfigFav *)data;
 	gtk_label_set_text(GTK_LABEL(ps->getWidget("label")), sName.c_str());
 	gtk_editable_set_text(GTK_EDITABLE(ps->getWidget("entry")), sValue.c_str());
-//	gint response = gtk_dialog_run(GTK_DIALOG(ps->getWidget("dialog")));
 
-	gtk_widget_hide(ps->getWidget("dialog"));
+	gtk_widget_show(ps->getWidget("dialog"));
 
 //	if (response == GTK_RESPONSE_OK)
 	{
-		//sValue = gtk_entry_get_text(GTK_ENTRY(getWidget("entry")));
+		sValue = gtk_editable_get_text(GTK_EDITABLE(getWidget("entry")));
 		return true;
 	}
 	return false;

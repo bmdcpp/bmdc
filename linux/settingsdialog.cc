@@ -19,7 +19,7 @@
  * In addition, as a special exception, compiling, linking, and/or
  * using OpenSSL with this program is allowed.
  */
-
+//OutDate
 #include "settingsdialog.hh"
 
 #include "../dcpp/File.h"
