@@ -34,7 +34,7 @@ NEW_SETTING = False
 # http://stackoverflow.com/questions/1564937/gcc-warning-will-be-initialized-after
 BUILD_FLAGS = {#'-Wno-unused-parameter','-Wno-unused-value',
 	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT','-pipe','-DUSE_STACKTRACE' ,'-fpermissive','-DUSE_WIN32_CODE'],#temp
-	'debug'   : ['-O1','-g', '-ggdb','-W', '-Wall','-Wextra','-D_DEBUG' ,'-DUSE_ADDR2LINE','-Wno-reorder'],#'-fpermissive' ,'-Wpadded'
+	'debug'   : ['-O1','-g', '-ggdb','-W', '-Wall','-Wextra','-D_DEBUG' ,'-DUSE_ADDR2LINE','-Wno-reorder','-DGDK_DISABLE_DEPRECATED','-DGTK_DISABLE_DEPRECATED','-Wno-unused-parameter','-Wno-unused-value'],#'-fpermissive' ,'-Wpadded'
 	'release' : ['-O3', '-fomit-frame-pointer', '-DNDEBUG']
 }
 
@@ -246,7 +246,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		Exit(1)
 
 	if not conf.CheckPKG('gtk4 > 4.00'):
-		print ('\tgtk+ >= 3.14 not found.')
+		print ('\tgtk+ >= 4.00 not found.')
 		print ('\tNote: You might have the lib but not the headers')
 		Exit(1)
 
