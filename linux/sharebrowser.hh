@@ -82,6 +82,22 @@ class ShareBrowser:
 		
 		static gpointer threadLoad_list(gpointer data);
 */
+		// GUI callbacks
+		static void on_inner_widget_right_btn_pressed (GtkGestureClick *gesture, int       n_press,
+                                   double             x,
+                                   double             y,
+                                   gpointer         *data){
+			g_print("CLICK");
+
+		};
+
+		static void on_inner_widget_right_btn_released (GtkGestureClick *gesture,int       n_press,
+                                    double           x,
+                                    double           y,
+                                    GtkWidget       *widget){
+			g_print("de-click");
+
+		};
 		// Client functions
 		void downloadFile_client(dcpp::DirectoryListing::File *file, std::string target);
 		void downloadDir_client(dcpp::DirectoryListing::Directory *dir, std::string target);

@@ -62,7 +62,7 @@ class WulforUtil
 
 		//static std::string getTextFromMenu(GtkMenuItem *item);
 		static std::vector<std::string>& getCharsets();
-		static void openURI(const std::string &uri) {std::string tmp = std::string(); openURI(uri,tmp);}
+		static void openURI(const std::string &uri) {std::string tmp = dcpp::Util::emptyString; openURI(uri,tmp);}
 		static void openURI(const std::string &uri, std::string &_error);
 		static void openURItoApp(const std::string &cmd);
 		

@@ -625,6 +625,7 @@
   <object class="GtkBox" id="mainBox">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
+    <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
     <child>
       <object class="GtkScrolledWindow" id="scrolledwindow">
         <property name="visible">True</property>
@@ -640,7 +641,7 @@
       </object>
     </child>
     <child>
-      <object class="GtkHButtonBox" id="hbuttonbox1">
+      <object class="GtkBox" id="hbuttonbox1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <child>
@@ -686,33 +687,6 @@
       </object>
     </child>
   </object>
-  <!--object class="GtkMenu" id="menu">
-    <property name="can_focus">False</property>
-    <child>
-      <object class="GtkMenuItem" id="addItem">
-        <property name="use_action_appearance">False</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Add</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="propertiesItem">
-        <property name="use_action_appearance">False</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Propteries</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="removeItem">
-        <property name="use_action_appearance">False</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Remove</property>
-      </object>
-    </child>
-  </object-->
   <object class="GtkListStore" id="model1">
     <columns>
       <!-- column-name gchararray -->

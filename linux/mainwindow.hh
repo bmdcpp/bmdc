@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2023 BMDC++
+ * Copyright © 2010-2024 BMDC++
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -151,9 +151,6 @@ class MainWindow:
 		typedef std::vector<ParamPair> ListParamPair;
 		static std::string icons[(MainWindow::IconsToolbar)END][2];
 		// GUI functions
-#ifdef HAVE_XSSLIB
-		void onIdle();
-#endif
 		void loadIcons_gui();
 		void showTransfersPane_gui();
 		void autoOpen_gui();

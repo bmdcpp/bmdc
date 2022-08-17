@@ -348,15 +348,12 @@ Hub::Hub(const string &address, const string &encoding):
 		if ( (bShowUserList == false) && gtk_widget_get_visible(getWidget("scrolledwindow2"))) {
 		//	gtk_widget_hide(getWidget("scrolledwindow2"));
 		} else {
-		//	gtk_widget_show_all(getWidget("scrolledwindow2"));
+
 		}
 
 		isFavBool = p_faventry->getNotify();
-
-	}/*else*/ {
-		//always show userlist for non-fav?
-		//gtk_widget_show_all(getWidget("scrolledwindow2"));
-	}
+	} 
+	
 	setColorsRows();
 	//
 	GtkGesture *gesture;
@@ -386,7 +383,7 @@ void Hub::on_inner_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
                                    gpointer         *data)
 {
 	Hub* hub = (Hub*)data;
-	g_print("right click");
+	g_debug("right click");
 	GMenu *menu = g_menu_new ();
 	GMenuItem* item = g_menu_item_new("Browse Filelist", "hub.browse-fl" );
 	g_menu_append_item(menu ,item);

@@ -85,8 +85,6 @@ class Transfers:
                                     double           x,
                                     double           y,
                                     GtkWidget       *widget);
-		//static gboolean onTransferButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-		//static gboolean onTransferButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		
 		static void onGetFileListClicked_gui(GtkWidget *widget,GVariant  *value, gpointer data);
 		static void onMatchQueueClicked_gui(GtkWidget *widget,GVariant  *value, gpointer data);

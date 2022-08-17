@@ -1,6 +1,6 @@
 /*
  * Copyright © 2009-2012 freedcpp, http://code.google.com/p/freedcpp
- * Copyright © Parts (CMD supports) BMDC 2018-2023
+ * Copyright © Parts (CMD supports) BMDC 2018-2024
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -86,8 +86,6 @@ SearchADL::SearchADL():
 	g_signal_connect(getWidget("moveDownButton"), "clicked", G_CALLBACK(onMoveDownClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("removeButton"), "clicked", G_CALLBACK(onRemoveClicked_gui), (gpointer)this);
 
-//	g_signal_connect(searchADLView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
-//	g_signal_connect(searchADLView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 //	g_signal_connect(searchADLView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 
 	g_signal_connect(getWidget("checkoveride1"), "toggled", G_CALLBACK(onToggleOveride), (gpointer)this);
