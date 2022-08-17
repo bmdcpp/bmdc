@@ -75,7 +75,7 @@
 
 using namespace std;
 using namespace dcpp;
-
+/*
 string MainWindow::icons[(MainWindow::IconsToolbar)END][2] =
 {
 	{"connect", "connect"},
@@ -92,7 +92,7 @@ string MainWindow::icons[(MainWindow::IconsToolbar)END][2] =
 	{"away", "AwayIcon"},
 	{"limiting", "limitingButton"}
 };
-
+*/
 MainWindow::MainWindow():
 	Entry(Entry::MAIN_WINDOW, "mainwindow"),
 	transfers(NULL), minimized(false),
@@ -114,54 +114,66 @@ MainWindow::MainWindow():
 	GtkWidget* tool = gtk_box_new(GTK_ORIENTATION_HORIZONTAL , 12);
 	gtk_box_append(GTK_BOX(mWidget),tool);
 
-	GtkWidget* bConnect = gtk_button_new_with_label("Connect");
+	//GtkWidget* bConnect = gtk_button_new_with_label("Connect");
+	GtkWidget * bConnect = gtk_button_new_from_icon_name("bmdc-connect");
 	gtk_box_append(GTK_BOX(tool),bConnect);
-	
 	g_signal_connect(bConnect, "clicked" , G_CALLBACK(onConnectClicked_gui) , (gpointer)this);
 
-  GtkWidget* favHub = gtk_button_new_with_label("Favorite Hubs");
+//  GtkWidget* favHub = gtk_button_new_with_label("Favorite Hubs");
+	GtkWidget* favHub = gtk_button_new_from_icon_name("bmdc-favorite-hubs");
   gtk_box_append(GTK_BOX(tool),favHub);
   
-    GtkWidget* rec = gtk_button_new_with_label("Recent Hubs");
+  //GtkWidget* rec = gtk_button_new_with_label("Recent Hubs");
+  GtkWidget* rec = gtk_button_new_from_icon_name("bmdc-recent-hubs");
   gtk_box_append(GTK_BOX(tool),rec);
 
-  GtkWidget* favuser = gtk_button_new_with_label("Favorite Users");
+  GtkWidget* favuser = gtk_button_new_from_icon_name("bmdc-favorite-users");
+  //GtkWidget* favuser = gtk_button_new_with_label("Favorite Users");
   gtk_box_append(GTK_BOX(tool),favuser);
   
-    GtkWidget* dq = gtk_button_new_with_label("Download Queue");
+  //GtkWidget* dq = gtk_button_new_with_label("Download Queue");
+  GtkWidget* dq = gtk_button_new_from_icon_name("bmdc-queue");
   gtk_box_append(GTK_BOX(tool),dq);
 
-      GtkWidget* search = gtk_button_new_with_label("Search");
+  //GtkWidget* search = gtk_button_new_with_label("Search");
+  GtkWidget* search = gtk_button_new_from_icon_name("bmdc-search");
   gtk_box_append(GTK_BOX(tool),search);
   
-    GtkWidget* publicHub = gtk_button_new_with_label("Public Hubs");
+  GtkWidget* publicHub = gtk_button_new_from_icon_name("bmdc-public-hubs");
+  //GtkWidget* publicHub = gtk_button_new_with_label("Public Hubs");
   gtk_box_append(GTK_BOX(tool),publicHub);
   
-    GtkWidget* df = gtk_button_new_with_label("Finished");
+  GtkWidget* df = gtk_button_new_from_icon_name("bmdc-finished-downloads");
+  //GtkWidget* df = gtk_button_new_with_label("Finished");
   gtk_box_append(GTK_BOX(tool),df);
   
-    GtkWidget* uq = gtk_button_new_with_label("Upload Queue");
+  GtkWidget* uq = gtk_button_new_from_icon_name("bmdc-upload-quene");
+  //GtkWidget* uq = gtk_button_new_with_label("Upload Queue");
   gtk_box_append(GTK_BOX(tool),uq);
   
-      GtkWidget* sp = gtk_button_new_with_label("Settings");
+  GtkWidget* sp = gtk_button_new_from_icon_name("bmdc-preferences");
+  //GtkWidget* sp = gtk_button_new_with_label("Settings");
   gtk_box_append(GTK_BOX(tool),sp);
 
-     GtkWidget* ac = gtk_button_new_with_label("About Config");
+  GtkWidget* ac = gtk_button_new_with_label("About Config");
   gtk_box_append(GTK_BOX(tool),ac);
 
-       GtkWidget* nt = gtk_button_new_with_label("Notepad");
+  GtkWidget* nt = gtk_button_new_from_icon_name("bmdc-notepad");
+  //GtkWidget* nt = gtk_button_new_with_label("Notepad");
   gtk_box_append(GTK_BOX(tool),nt);
 
-    GtkWidget* sl = gtk_button_new_with_label("System Log");
+  GtkWidget* sl = gtk_button_new_with_label("System Log");
   gtk_box_append(GTK_BOX(tool),sl);
   
-    GtkWidget* cmd = gtk_button_new_with_label("Cmd Log");
+  GtkWidget* cmd = gtk_button_new_with_label("Cmd Log");
   gtk_box_append(GTK_BOX(tool),cmd);
 
-  GtkWidget* adl = gtk_button_new_with_label("ADL Search");
+  //GtkWidget* adl = gtk_button_new_with_label("ADL Search");
+  GtkWidget* adl = gtk_button_new_from_icon_name("bmdc-search-adl");
   gtk_box_append(GTK_BOX(tool),adl);
 
-  GtkWidget* sspy = gtk_button_new_with_label("Seatch Spy");
+  //GtkWidget* sspy = gtk_button_new_with_label("Search Spy");
+  GtkWidget* sspy = gtk_button_new_from_icon_name("bmdc-search-spy");
   gtk_box_append(GTK_BOX(tool),sspy);
   ///
 	GtkWidget* hpaned = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
@@ -368,7 +380,7 @@ MainWindow::~MainWindow()
 	//g_list_free(list);
 
 	// Save window state and position
-	gint posX = 0 , posY = 0, transferPanePosition =0;
+	gint posX = 0 , posY = 0, transferPanePosition = 0;
 
 //	gtk_window_get_position(window, &posX, &posY);
 	transferPanePosition =  gtk_paned_get_position(GTK_PANED(getWidget("pane")));
@@ -435,46 +447,23 @@ void MainWindow::setUrgent_gui()
  */
 void MainWindow::showTransfersPane_gui()
 {
-//	transfers = new Transfers();
-//	gtk_paned_pack2(GTK_PANED(getWidget("pane")), transfers->getContainer(), TRUE, TRUE);
-//	transfers->show();
 //	if (g_settings_get_boolean (sett, "hide-transfers"))
 //		gtk_widget_hide(transfers->getContainer());
 }
-
-/*
- * Load the custom icons or the icon name as per the setting
- */
-void MainWindow::loadIcons_gui()
-{
-	/*#define g_tool_set gtk_tool_button_set_icon_name
-	#define g_image_set gtk_image_set_from_icon_name
-
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("favHubs")), "bmdc-favorite-hubs");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("favUsers")), "bmdc-favorite-users");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("publicHubs")), "bmdc-public-hubs");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("settings")), "bmdc-preferences");
+	/*
 	g_tool_set(GTK_TOOL_BUTTON(getWidget("hash")), "bmdc-hash");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("search")), "bmdc-search");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("searchADL")), "bmdc-search-adl");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("searchSpy")), "bmdc-search-spy");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("queue")), "bmdc-queue");
 	g_tool_set(GTK_TOOL_BUTTON(getWidget("finishedDownloads")), "bmdc-finished-downloads");
 	g_tool_set(GTK_TOOL_BUTTON(getWidget("finishedUploads")), "bmdc-finished-uploads");
 	g_tool_set(GTK_TOOL_BUTTON(getWidget("quit")), "bmdc-quit");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("connect")), "bmdc-connect");
 	g_tool_set(GTK_TOOL_BUTTON(getWidget("system")), "bmdc-system");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("notepad")), "bmdc-notepad");
 	g_tool_set(GTK_TOOL_BUTTON(getWidget("AwayIcon")), "bmdc-away");
 	g_tool_set(GTK_TOOL_BUTTON(getWidget("limitingButton")), "bmdc-limiting");
-/*
 	g_image_set(GTK_IMAGE(getWidget("imageHubs")), "bmdc-public-hubs", GTK_ICON_SIZE_SMALL_TOOLBAR);
 	g_image_set(GTK_IMAGE(getWidget("imageDownloadSpeed")), "bmdc-download", GTK_ICON_SIZE_SMALL_TOOLBAR);
 	g_image_set(GTK_IMAGE(getWidget("imageUploadSpeed")), "bmdc-upload", GTK_ICON_SIZE_SMALL_TOOLBAR);
 	g_image_set(GTK_IMAGE(getWidget("imageDownloadRate")), "bmdc-download", GTK_ICON_SIZE_SMALL_TOOLBAR);
-	g_image_set(GTK_IMAGE(getWidget("imageUploadRate")), "bmdc-upload", GTK_ICON_SIZE_SMALL_TOOLBAR);*/
-}
-
+	g_image_set(GTK_IMAGE(getWidget("imageUploadRate")), "bmdc-upload", GTK_ICON_SIZE_SMALL_TOOLBAR);
+	*/
 void MainWindow::autoOpen_gui()
 {
 	if (WGETB("open-public"))
@@ -560,12 +549,6 @@ void MainWindow::onLimitingMenuItem_gui(GtkRange *widget, gpointer data)
 
 }
 
-//void MainWindow::setLimitingIcon(bool bLimited)
-//{
-//	setMainStatus_gui(string(_("Throtle ")) + ( bLimited ? string(_("on")) : string(_("off"))));
-//	setStatusOfIcons(LIMITING, bLimited);
-//}
-
 void MainWindow::setInitThrotles()
 {
 	int iup = SETTING(MAX_UPLOAD_SPEED_MAIN);
@@ -590,16 +573,7 @@ void MainWindow::setInitThrotles()
 		return;
 	}
 }
-/*
-void MainWindow::setToolbarMenu_gui(const string &item_key, const string &button_key, const string &key)
-{
-	GtkWidget *item = getWidget(item_key);
-	GtkWidget *button = getWidget(button_key);
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), WGETB(key));
-	g_object_set_data_full(G_OBJECT(item), "key", g_strdup(key.c_str()), g_free);
-	g_signal_connect(G_OBJECT(item), "toggled", G_CALLBACK(onToolToggled_gui), (gpointer)button);
-}
-*/
+
 void MainWindow::addBookEntry_gui(BookEntry *entry)
 {
 	addChild(entry);
@@ -1263,36 +1237,6 @@ void MainWindow::setTabPosition_gui(int position)
 	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(note), tabPosition);
 }
 
-void MainWindow::setToolbarStyle_gui(int istyle)
-{
-	/*GtkToolbarStyle toolbarStyle;
-
-	switch (istyle)
-	{
-		case 1:
-			toolbarStyle = GTK_TOOLBAR_TEXT;
-			break;
-		case 2:
-			toolbarStyle = GTK_TOOLBAR_BOTH;
-			break;
-		case 3:
-			toolbarStyle = GTK_TOOLBAR_BOTH_HORIZ;
-			break;
-		case 4:
-			gtk_widget_hide(getWidget("toolbar1"));
-			return;
-		case 0:
-		default:
-			toolbarStyle = GTK_TOOLBAR_ICONS;
-	}
-*/
-//	if (istyle != 4)
-	{
-		gtk_widget_show(getWidget("toolbar1"));
-//		gtk_toolbar_set_style(GTK_TOOLBAR(getWidget("toolbar1")), toolbarStyle);
-	}
-}
-
 bool MainWindow::getUserCommandLines_gui(const string &commands, ParamMap &ucParams)
 {
 	MainWindow *mw = WulforManager::get()->getMainWindow();
@@ -1725,7 +1669,7 @@ gboolean MainWindow::onDeleteEventMagnetDialog_gui(GtkWidget *dialog, GdkEvent*,
 	gtk_widget_hide(dialog);
 	return TRUE;
 }
-
+/*
 void MainWindow::onTopToolbarToggled_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
@@ -1745,8 +1689,8 @@ void MainWindow::onTopToolbarToggled_gui(GtkWidget*, gpointer data)
 	g_object_unref(child);
 	WSET("toolbar-position", 1);
 }
-
-void MainWindow::onLeftToolbarToggled_gui(GtkWidget*, gpointer data)
+*/
+/*void MainWindow::onLeftToolbarToggled_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 
@@ -1765,59 +1709,7 @@ void MainWindow::onLeftToolbarToggled_gui(GtkWidget*, gpointer data)
 	g_object_unref(child);
 	WSET("toolbar-position", 0);
 }
-
-void MainWindow::onHideToolbarToggled_gui(GtkWidget*, gpointer data)
-{
-	MainWindow *mw = (MainWindow *)data;
-
-	//gboolean bactive = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(mw->getWidget("hideToolbarItem")));
-	//if (bactive)
-	{
-		mw->ToolbarStyle = WGETI("toolbar-style");
-		WSET("toolbar-style", 4);
-	}
-	//else
-	{
-		WSET("toolbar-style", mw->ToolbarStyle);
-	}
-}
-
-void MainWindow::onSizeToolbarToggled_gui(GtkWidget*, gpointer /*data*/)
-{
-//	MainWindow *mw = (MainWindow *)data;
-
-	//gboolean bactive = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(mw->getWidget("sizeToolbarItem")));
-	//GtkWidget *toolbar = mw->getWidget("toolbar1");
-	//GtkIconSize size;
-	//if (bactive)
-	{
-		WSET("toolbar-small", TRUE);
-	//	size = GTK_ICON_SIZE_SMALL_TOOLBAR;
-	}
-	//else
-	{
-		WSET("toolbar-small", FALSE);
-	//	size = GTK_ICON_SIZE_LARGE_TOOLBAR;
-	}
-	//g_object_set(G_OBJECT(toolbar), "icon-size", size, NULL);
-}
-
-gboolean MainWindow::onAddButtonClicked_gui(GtkWidget* /*wid*/, gpointer /*data*/)
-{
-//	MainWindow *mw = (MainWindow *)data;
-	//gtk_menu_popup_at_widget(GTK_MENU(mw->getWidget("toolbarMenu")),wid,GDK_GRAVITY_SOUTH_WEST,GDK_GRAVITY_NORTH_WEST,NULL);
-	return FALSE;
-}
-
-void MainWindow::onToolToggled_gui(GtkWidget * /*widget*/, gpointer/* data*/)
-{
-//	string skey = (gchar *)g_object_get_data(G_OBJECT(widget), "key");
-//	GtkWidget *button = (GtkWidget*)data;
-//	bool bactive = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget));
-//	bactive ? gtk_widget_show(button) : gtk_widget_hide(button);
-//	WSET(skey, bactive);
-}
-
+*/
 /*void MainWindow::checkToolbarMenu_gui()
 {
 	/*gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(getWidget("connectMenuItemBar")), WGETB("toolbar-button-connect"));

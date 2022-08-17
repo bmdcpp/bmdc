@@ -43,7 +43,6 @@
 #include "SearchEntry.hh"
 #include "settingsmanager.hh"
 
-
 #include <queue>
 #include <vector>
 
@@ -116,42 +115,13 @@ class MainWindow:
 		// Client functions
 		void openOwnList_client(bool useSetting);
 		void updateFavoriteHubMenu_client(const dcpp::FavoriteHubEntryList &fh);
-		/*----*/
-		typedef enum {
-			QUICKCON = 0,
-			FAVORITE_HUBS,
-			FAVORITE_USERS,
-			PUBLIC_HUBS,
-			SEARCH_ADL,
-			SEARCH_SPY,
-			QUEUE,
-			FDOWNLOADS,
-			FUPLOADS,
-			NOTEPAD,
-			SYSTEM,
-			AWAY,
-			LIMITING,
-			END
-		} IconsToolbar;
-
-		/*
-		void setStatusOfIcons(IconsToolbar type, bool isClicked)
-		{
-			if(isClicked)
-				gtbs(GTK_TOOL_BUTTON(getWidget(icons[type][1])),std::string("bmdc-"+icons[type][0]+"-on").c_str());
-			else
-				gtbs(GTK_TOOL_BUTTON(getWidget(icons[type][1])),std::string("bmdc-"+icons[type][0]).c_str());
-		}
-		*/
 
 		SearchEntry *getSearchEntry () { return dynamic_cast<SearchEntry*>(findBookEntry(Entry::SEARCHS));}
 
 	private:
 		typedef std::pair<std::string, std::string> ParamPair;
 		typedef std::vector<ParamPair> ListParamPair;
-		static std::string icons[(MainWindow::IconsToolbar)END][2];
 		// GUI functions
-		void loadIcons_gui();
 		void showTransfersPane_gui();
 		void autoOpen_gui();
 		void addTabMenuItem_gui(GtkWidget* menuItem, GtkWidget* page);
@@ -161,15 +131,9 @@ class MainWindow:
 		void nextTab_gui();
 		BookEntry *findBookEntry(const EntryType type, const std::string &id = "");
 
-#ifdef HAVE_APPINDCATOR
-		void createAppIndicator();
-		::AppIndicator * indicator;
-#endif
 		void setStats_gui(std::string hubs, std::string downloadSpeed,
 			std::string downloaded, std::string uploadSpeed, std::string uploaded);
-		//void setToolbarButton_gui();
 		void setTabPosition_gui(int position);
-		void setToolbarStyle_gui(int style);
 
 		void setChooseMagnetDialog_gui();
 		void showMagnetDialog_gui(const std::string &magnet, const std::string &name, const int64_t size,
@@ -221,11 +185,11 @@ class MainWindow:
 		static gboolean onMenuButtonClicked_gui(GtkWidget *widget, gpointer data);
 		static gboolean onAddButtonClicked_gui(GtkWidget *widget, gpointer data);
 		/*outdated*/
-		static void onToolToggled_gui(GtkWidget *widget, gpointer data);
-		static void onTopToolbarToggled_gui(GtkWidget *widget, gpointer data);
-		static void onLeftToolbarToggled_gui(GtkWidget *widget, gpointer data);
-		static void onHideToolbarToggled_gui(GtkWidget *widget, gpointer data);
-		static void onSizeToolbarToggled_gui(GtkWidget *widget, gpointer data);
+		//static void onToolToggled_gui(GtkWidget *widget, gpointer data);
+		//static void onTopToolbarToggled_gui(GtkWidget *widget, gpointer data);
+		//static void onLeftToolbarToggled_gui(GtkWidget *widget, gpointer data);
+		//static void onHideToolbarToggled_gui(GtkWidget *widget, gpointer data);
+		//static void onSizeToolbarToggled_gui(GtkWidget *widget, gpointer data);
 
 		static void onHubClicked_gui(GtkWidget *widget, gpointer data);
 		/**/

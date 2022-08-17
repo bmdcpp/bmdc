@@ -79,14 +79,17 @@ mainWin(NULL)
 	path = ".";
 
    	// Set the custom icon search path so GTK+ can find our icons
-//   const string iconPath = path + G_DIR_SEPARATOR_S + "icons";
+   const string iconPath = path + G_DIR_SEPARATOR_S + "icons";
    const string themes = path + G_DIR_SEPARATOR_S + "themes";
+
+	GtkIconTheme* icon_theme = gtk_icon_theme_get_for_display (gdk_display_get_default());
+   gtk_icon_theme_add_search_path(icon_theme , iconPath.c_str());
 }
 
 WulforManager::~WulforManager()
 {
 	g_rw_lock_clear(&entryMutex);
-    g_object_unref (application);
+   g_object_unref (application);
 }
 
 void WulforManager::createMainWindow()

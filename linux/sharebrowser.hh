@@ -88,7 +88,15 @@ class ShareBrowser:
                                    double             y,
                                    gpointer         *data){
 			g_print("CLICK");
+			ShareBrowser* dq = (ShareBrowser*)data;
+			GtkTreeIter iter;
 
+			if ( gtk_tree_selection_get_selected(dq->dirSelection, NULL, &iter) )
+			{	
+				auto pzt= dq->dirView.getString(&iter, "Dir");
+				dq->openDir_gui(pzt);
+
+			}	
 		};
 
 		static void on_inner_widget_right_btn_released (GtkGestureClick *gesture,int       n_press,

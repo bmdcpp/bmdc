@@ -59,6 +59,7 @@ class DownloadQueue:
 		static gboolean onFileButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onFileButtonReleased_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static gboolean onFileKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
+		
 		static void onDirPriorityClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onDirMoveClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onDirRemoveClicked_gui(GtkMenuItem *menuitem, gpointer data);
@@ -73,6 +74,16 @@ class DownloadQueue:
 		static void onFileRemoveUserFromQueueClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onFileRemoveClicked_gui(GtkMenuItem *menuitem, gpointer data);
 */
+		// GUI callbacks
+		static void on_inner_widget_right_btn_pressed (GtkGestureClick *gesture, int       n_press,
+                                   double             x,
+                                   double             y,
+                                   gpointer         *data);
+
+		static void on_inner_widget_right_btn_released (GtkGestureClick *gesture,int       n_press,
+                                    double           x,
+                                    double           y,
+                                    GtkWidget       *widget);
 		// Client functions
 		void addQueueList(const dcpp::QueueItem::StringMap& ll);
 		void move_client(std::string source, std::string target);

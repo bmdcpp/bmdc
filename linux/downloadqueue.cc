@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2017 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2018-2023 BMDC
+ * Copyright © 2018-2024 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,15 +33,8 @@ using namespace dcpp;
 
 DownloadQueue::DownloadQueue():
 	BookEntry(Entry::DOWNLOAD_QUEUE, _("Download Queue"), "downloadqueue"),
-	currentItems(0),
-	totalItems(0),
-	currentSize(0),
-	totalSize(0)
+	currentItems(0),totalItems(0),currentSize(0),totalSize(0)
 {
-	// Configure the dialogs
-	//File::ensureDirectory(SETTING(DOWNLOAD_DIRECTORY));//@ Possible unneeded?
-	
-	//gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(getWidget("dirChooserDialog")), Text::fromUtf8(SETTING(DOWNLOAD_DIRECTORY)).c_str());
 	// Initialize directory treeview
 	dirView.setView(GTK_TREE_VIEW(getWidget("dirView")));
 	dirView.insertColumn("Dir", G_TYPE_STRING, TreeView::PIXBUF_STRING, -1, "Icon");
@@ -57,7 +50,7 @@ DownloadQueue::DownloadQueue():
 	gtk_tree_view_set_enable_tree_lines(dirView.get(), TRUE);
 
 	// Initialize file treeview
-	fileView.setView(GTK_TREE_VIEW(getWidget("fileView")), TRUE, "downloadqueue");
+	fileView.setView(GTK_TREE_VIEW(getWidget("fileView"))/*, TRUE, "downloadqueue"*/);
 	fileView.insertColumn(_("Filename"), G_TYPE_STRING, TreeView::PIXBUF_STRING, 200, "Icon");
 	fileView.insertColumn(_("Status"), G_TYPE_STRING, TreeView::STRING, 100);
 	fileView.insertColumn(_("Size"), G_TYPE_STRING, TreeView::STRING, 100);
@@ -116,6 +109,75 @@ DownloadQueue::DownloadQueue():
 	//int panePosition = WGETI("downloadqueue-pane-position");
 	//if (panePosition > 10)
 	//	gtk_paned_set_position(GTK_PANED(getWidget("pane")), panePosition);
+
+	GtkGesture *gesture;
+	gesture = gtk_gesture_click_new ();
+	gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (gesture), 1);
+	g_signal_connect (gesture, "pressed",
+                    G_CALLBACK (on_inner_widget_right_btn_pressed), (gpointer)this);
+	g_signal_connect (gesture, "released",
+                    G_CALLBACK (on_inner_widget_right_btn_released), (gpointer)this);
+	gtk_widget_add_controller (GTK_WIDGET(dirView.get()), GTK_EVENT_CONTROLLER (gesture));
+}
+
+void DownloadQueue::on_inner_widget_right_btn_pressed (GtkGestureClick *gesture, int  n_press,
+                                   double             x,
+                                   double             y,
+                                   gpointer         *data){
+			g_print("CLICK");
+			DownloadQueue* dq = (DownloadQueue*)data;
+
+    		GtkTreePath * path;
+    		GtkTreeViewColumn * column;
+ 			int i, j;
+    		if (gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW(dq->dirView.get()), x, y, &path, &column, &i,  &j))
+    		{
+
+        			 GtkTreeIter iter,fIter;
+      				if(gtk_tree_model_get_iter (GTK_TREE_MODEL(dq->dirStore), &iter, path))
+      				{	
+      						string sPath = dq->dirView.getString(&iter,"Path");
+      						g_print("%s",sPath.c_str());
+							//char* tmp = "test";
+
+			
+							dq->updateFileView_client(sPath);
+			
+
+
+
+
+      						//gtk_list_store_append(dq->fileStore,&fIter);
+      						/*gtk_list_store_set(dq->fileStore, &fIter,
+							dq->fileView.col(_("Filename")), tmp,
+							dq->fileView.col(_("Users")), tmp,
+							dq->fileView.col(_("Status")), tmp,
+							dq->fileView.col(_("Size")), tmp,
+			dq->fileView.col(_("Exact Size")), tmp,
+			dq->fileView.col("Size Sort"), -1,
+			dq->fileView.col(_("Downloaded")), tmp,
+			dq->fileView.col("Downloaded Sort"), 0,
+			dq->fileView.col(_("Priority")),tmp ,
+			dq->fileView.col(_("Path")), tmp,
+			dq->fileView.col(_("Errors")),tmp ,
+			dq->fileView.col(_("Added")),tmp ,
+			dq->fileView.col("TTH"), tmp,
+			dq->fileView.col("Target"),tmp,
+			-1);	*/
+
+					}
+			
+    		}	
+}
+
+void DownloadQueue::on_inner_widget_right_btn_released (GtkGestureClick *gesture,int       n_press,
+                                    double           x,
+                                    double           y,
+                                    GtkWidget       *widget){
+			g_print("de-click");
+			gtk_gesture_set_state (GTK_GESTURE (gesture),
+                         GTK_EVENT_SEQUENCE_CLAIMED);
+
 }
 
 DownloadQueue::~DownloadQueue()
@@ -124,7 +186,7 @@ DownloadQueue::~DownloadQueue()
 
 	// Save the pane position
 	//int panePosition = gtk_paned_get_position(GTK_PANED(getWidget("pane")));
-	//if (panePosition > 10)
+	//if (panePosition)
 	//	WSET("downloadqueue-pane-position", panePosition);
 }
 
@@ -233,7 +295,7 @@ void DownloadQueue::updateStatus_gui()
 
 void DownloadQueue::addFiles_gui(vector<StringMap> files, bool firstUpdate)
 {
-	if (!files.empty() && currentDir == files[0]["Path"] &&
+	if (/*!files.empty() && currentDir == files[0]["Path"] &&*/
 	    gtk_tree_selection_get_selected(dirSelection, NULL, NULL))
 	{
 		if (firstUpdate)
