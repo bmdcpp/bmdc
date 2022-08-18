@@ -80,6 +80,6 @@ or if you used scons to install into the file system then use the same scons com
 
 ## Contact
 [@Mank16](https://www.github.com/Mank16)
-[@bmdcpp](https://www.github.com/@bmdcpp)
+
 
 
