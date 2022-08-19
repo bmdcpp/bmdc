@@ -36,7 +36,7 @@
 class WulforManager
 {
 	public:
-		static void start(int argc, char **argv);
+		static int start(int argc, char **argv);
 		static void stop();
 		static WulforManager *get();
 
@@ -63,13 +63,17 @@ class WulforManager
 		DialogEntry *getSettingsDialog_gui();
 
 		void onReceived_gui(const std::string& link);
-        GApplication* getApplication() { return application;}
+        GApplication* getApplication() { return G_APPLICATION(application);}
 	private:
 		// argv[1] from main
 		static std::string argv1;
 
 		// MainWindow-related functions
-		void createMainWindow();
+		int createMainWindow();
+		static void activate(GtkApplication* app,
+          gpointer        user_data);
+		static void shutdown(GtkApplication* app,
+          gpointer        user_data);
 
 		// Entry functions
 		DialogEntry *getDialogEntry_gui(const std::string &id);
@@ -79,7 +83,9 @@ class WulforManager
 		std::string path;
 		std::unordered_map<std::string, Entry *> entries;
 		GRWLock entryMutex;
-        GApplication *application;
+        GtkApplication *application;
+        static int argc;
+        static char** argv;
 
 };
 

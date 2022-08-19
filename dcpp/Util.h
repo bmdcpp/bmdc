@@ -47,8 +47,15 @@
 #include <cstring>
 #include <algorithm> 
 
-#define PATH_SEPARATOR G_DIR_SEPARATOR
-#define PATH_SEPARATOR_STR G_DIR_SEPARATOR_S
+#ifdef _WIN32
+	#define PATH_SEPARATOR '\\'
+	#define PATH_SEPARATOR_STR "\\"
+#else
+	#define PATH_SEPARATOR '/'
+	#define PATH_SEPARATOR_STR "/"
+#endif
+//#define PATH_SEPARATOR G_DIR_SEPARATOR
+//#define PATH_SEPARATOR_STR G_DIR_SEPARATOR_S
 
 #include "Text.h"
 #include "GetSet.h"

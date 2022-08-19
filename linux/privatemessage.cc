@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2017 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011-2022
+ * Copyright © 2011-2024
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -122,7 +122,7 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 	g_signal_connect(getWidget("downloadBrowseItem"), "activate", G_CALLBACK(onDownloadToClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("downloadItem"), "activate", G_CALLBACK(onDownloadClicked_gui), (gpointer)this);
 
-	gtk_widget_grab_focus(getWidget("entry"));*/
+	*/
 	history.push_back("");
 	
 	const OnlineUser* user = ClientManager::getInstance()->findOnlineUser(CID(cid), hubUrl);

@@ -184,7 +184,7 @@ void FavoriteHubs::on_inner_widget_right_btn_released (GtkGestureClick *gesture,
                                     int             /* n_press*/,
                                     double          /* x*/,
                                     double           /*y*/,
-                                    GtkWidget*       /*widget*/)
+                                    gpointer*       /*widget*/)
 {
   g_debug ("on_inner_widget_right_btn_released() called\n");
 

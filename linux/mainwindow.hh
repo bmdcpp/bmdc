@@ -63,7 +63,7 @@ class MainWindow:
 		using dcpp::QueueManagerListener::on;
 		using dcpp::TimerManagerListener::on;
 	public:
-		MainWindow();
+		MainWindow(GtkWidget* window = NULL);
 		virtual ~MainWindow();
 
 		// Inherited from Entry

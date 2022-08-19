@@ -145,7 +145,7 @@ void ShareBrowser::show()
 {
 	updateStatus_gui();
 	if(fullfl) {
-		ThreadedDirectoryListing* tdl = new ThreadedDirectoryListing(this, file,string(),initialDirectory);
+		ThreadedDirectoryListing* tdl = new ThreadedDirectoryListing(this, file,dcpp::Util::emptyString,initialDirectory);
 		WulforManager::get()->getMainWindow()->setMainStatus_gui(_("File list loading"));
 		tdl->start();
 	}else

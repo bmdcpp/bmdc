@@ -33,7 +33,7 @@ using namespace dcpp;
 
 DownloadQueue::DownloadQueue():
 	BookEntry(Entry::DOWNLOAD_QUEUE, _("Download Queue"), "downloadqueue"),
-	currentItems(0),totalItems(0),currentSize(0),totalSize(0)
+	currentItems(0),totalItems(0),currentSize(0),totalSize(0),currentDir(dcpp::Util::emptyString)
 {
 	// Initialize directory treeview
 	dirView.setView(GTK_TREE_VIEW(getWidget("dirView")));
@@ -50,7 +50,7 @@ DownloadQueue::DownloadQueue():
 	gtk_tree_view_set_enable_tree_lines(dirView.get(), TRUE);
 
 	// Initialize file treeview
-	fileView.setView(GTK_TREE_VIEW(getWidget("fileView"))/*, TRUE, "downloadqueue"*/);
+	fileView.setView(GTK_TREE_VIEW(getWidget("fileView")), TRUE, "downloadqueue");
 	fileView.insertColumn(_("Filename"), G_TYPE_STRING, TreeView::PIXBUF_STRING, 200, "Icon");
 	fileView.insertColumn(_("Status"), G_TYPE_STRING, TreeView::STRING, 100);
 	fileView.insertColumn(_("Size"), G_TYPE_STRING, TreeView::STRING, 100);
@@ -77,6 +77,11 @@ DownloadQueue::DownloadQueue():
 	fileView.setSortColumn_gui(_("Downloaded"), "Downloaded Sort");
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(fileStore), fileView.col(_("Filename")), GTK_SORT_ASCENDING);
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(fileView.get(), fileView.col(_("Filename"))), TRUE);
+
+	//gtk_tree_selection_set_mode (dirSelection, GTK_SELECTION_SINGLE);
+	//g_signal_connect (G_OBJECT (dirSelection), "changed",
+    //              G_CALLBACK (tree_selection_changed_cb),
+    //              (gpointer)this);
 
 	// Connect the signals to their callback functions.
 	/*g_signal_connect(getWidget("pausedPriorityItem"), "activate", G_CALLBACK(onDirPriorityClicked_gui), (gpointer)this);
@@ -120,13 +125,30 @@ DownloadQueue::DownloadQueue():
 	gtk_widget_add_controller (GTK_WIDGET(dirView.get()), GTK_EVENT_CONTROLLER (gesture));
 }
 
+void DownloadQueue::tree_selection_changed_cb (GtkTreeSelection *selection, gpointer data)
+{
+		DownloadQueue *dq = (DownloadQueue*)data;
+		dq->updateFileView_gui();
+        GtkTreeIter iter;
+        GtkTreeModel *model = NULL;
+
+        if (gtk_tree_selection_get_selected (selection, &model, &iter))
+        {
+                string value = dq->dirView.getString(&iter,"Path");
+            	//dq->updateFileView_client(value);
+        }
+}
+
+
 void DownloadQueue::on_inner_widget_right_btn_pressed (GtkGestureClick *gesture, int  n_press,
                                    double             x,
                                    double             y,
                                    gpointer         *data){
-			g_print("CLICK");
+			g_print("CLICK\n");
 			DownloadQueue* dq = (DownloadQueue*)data;
+			
 
+			dq->updateFileView_gui();
     		GtkTreePath * path;
     		GtkTreeViewColumn * column;
  			int i, j;
@@ -136,47 +158,24 @@ void DownloadQueue::on_inner_widget_right_btn_pressed (GtkGestureClick *gesture,
         			 GtkTreeIter iter,fIter;
       				if(gtk_tree_model_get_iter (GTK_TREE_MODEL(dq->dirStore), &iter, path))
       				{	
-      						string sPath = dq->dirView.getString(&iter,"Path");
-      						g_print("%s",sPath.c_str());
-							//char* tmp = "test";
-
-			
-							dq->updateFileView_client(sPath);
-			
-
-
-
-
-      						//gtk_list_store_append(dq->fileStore,&fIter);
-      						/*gtk_list_store_set(dq->fileStore, &fIter,
-							dq->fileView.col(_("Filename")), tmp,
-							dq->fileView.col(_("Users")), tmp,
-							dq->fileView.col(_("Status")), tmp,
-							dq->fileView.col(_("Size")), tmp,
-			dq->fileView.col(_("Exact Size")), tmp,
-			dq->fileView.col("Size Sort"), -1,
-			dq->fileView.col(_("Downloaded")), tmp,
-			dq->fileView.col("Downloaded Sort"), 0,
-			dq->fileView.col(_("Priority")),tmp ,
-			dq->fileView.col(_("Path")), tmp,
-			dq->fileView.col(_("Errors")),tmp ,
-			dq->fileView.col(_("Added")),tmp ,
-			dq->fileView.col("TTH"), tmp,
-			dq->fileView.col("Target"),tmp,
-			-1);	*/
-
+      					g_print("Update Call\n");
+      					dq->updateFileView_gui();
+      						//string sPath = dq->dirView.getString(&iter,"Path");
+							//dq->updateFileView_client(sPath);
 					}
 			
     		}	
+    
 }
 
 void DownloadQueue::on_inner_widget_right_btn_released (GtkGestureClick *gesture,int       n_press,
                                     double           x,
                                     double           y,
-                                    GtkWidget       *widget){
+                                    gpointer       *data){
 			g_print("de-click");
-			gtk_gesture_set_state (GTK_GESTURE (gesture),
-                         GTK_EVENT_SEQUENCE_CLAIMED);
+			//((DownloadQueue*)data)->updateFileView_gui();
+			//gtk_gesture_set_state (GTK_GESTURE (gesture),
+            //             GTK_EVENT_SEQUENCE_CLAIMED);
 
 }
 
@@ -295,7 +294,7 @@ void DownloadQueue::updateStatus_gui()
 
 void DownloadQueue::addFiles_gui(vector<StringMap> files, bool firstUpdate)
 {
-	if (/*!files.empty() && currentDir == files[0]["Path"] &&*/
+	if (!files.empty() && currentDir == files[0]["Path"] &&
 	    gtk_tree_selection_get_selected(dirSelection, NULL, NULL))
 	{
 		if (firstUpdate)
@@ -531,11 +530,14 @@ void DownloadQueue::updateFileView_gui()
 {
 	GtkTreeIter iter;
 
+	g_print("Update Calling\n");
 	if (gtk_tree_selection_get_selected(dirSelection, NULL, &iter))
 	{
+		g_print("Call Dir = Current dir\n");	
 		string dir = dirView.getString(&iter, "Path");
 		if (dir != currentDir)
 		{
+			g_print("Curr != dir\n");
 
 			gtk_list_store_clear(fileStore);
 			currentDir = dir;
@@ -1274,8 +1276,10 @@ void DownloadQueue::removeDir_client(string path)
 
 void DownloadQueue::updateFileView_client(string path)
 {
+	g_print("Update F View Clien\n");
 	if (!path.empty())
 	{
+		g_print("Path not empty\n");
 		vector<StringMap> files;
 		const QueueItem::StringMap &ll = QueueManager::getInstance()->getQueue();
 

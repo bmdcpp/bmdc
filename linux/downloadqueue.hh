@@ -75,6 +75,7 @@ class DownloadQueue:
 		static void onFileRemoveClicked_gui(GtkMenuItem *menuitem, gpointer data);
 */
 		// GUI callbacks
+		static void tree_selection_changed_cb (GtkTreeSelection *selection, gpointer data);
 		static void on_inner_widget_right_btn_pressed (GtkGestureClick *gesture, int       n_press,
                                    double             x,
                                    double             y,
@@ -83,7 +84,7 @@ class DownloadQueue:
 		static void on_inner_widget_right_btn_released (GtkGestureClick *gesture,int       n_press,
                                     double           x,
                                     double           y,
-                                    GtkWidget       *widget);
+                                    gpointer       *widget);
 		// Client functions
 		void addQueueList(const dcpp::QueueItem::StringMap& ll);
 		void move_client(std::string source, std::string target);

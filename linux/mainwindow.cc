@@ -93,19 +93,20 @@ string MainWindow::icons[(MainWindow::IconsToolbar)END][2] =
 	{"limiting", "limitingButton"}
 };
 */
-MainWindow::MainWindow():
+MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 	Entry(Entry::MAIN_WINDOW, "mainwindow"),
 	transfers(NULL), minimized(false),
 	lastUpdate(0), lastUp(0), lastDown(0),
 	statusFrame(1),	current_width(-1),
-	current_height(-1),	is_maximized(FALSE)
+	current_height(-1),	is_maximized(FALSE),
+	window(window)
 {
 //	string stmp;
 //	startTime = GET_TICK();
 //	HashManager::getInstance()->getStats(stmp, startBytes, startFiles);
 //	updateStats_gui("", 0, 0, 0);
-	window = gtk_window_new();
-	gtk_window_set_default_size (GTK_WINDOW(window),500,500);
+	//window = gtk_window_new();
+//	gtk_window_set_default_size (GTK_WINDOW(window),500,500);
 //	setStatRate_gui();
 
 	GtkWidget* mWidget = gtk_box_new(GTK_ORIENTATION_VERTICAL , 12);

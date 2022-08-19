@@ -57,8 +57,20 @@ class SearchSpy:
 		void resetCount();
 
 		// GUI callbacks
-		//static void onSearchItemClicked_gui(GtkMenuItem *item, gpointer data);
-		//static void onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data);
+		static void onSearchItemClicked_gui(GtkWidget *widget,GVariant  *parameter, gpointer data);
+		static void onRemoveItemClicked_gui(GtkWidget *widget,GVariant  *parameter, gpointer data);
+
+
+		static void onClickPressed_gui(GtkGestureClick* /*gesture*/,
+                                   int                /*n_press*/,
+                                   double             x,
+                                   double             y,
+                                   gpointer         *data);
+		static void onClickReleased_gui(GtkGestureClick* /*gesture*/,
+                                   int                /*n_press*/,
+                                   double             x,
+                                   double             y,
+                                   GtkWidget         *data);
 		static void onClearFrameClicked_gui(GtkWidget *widget, gpointer data);
 		static void onUpdateFrameClicked_gui(GtkWidget *widget, gpointer data);
 		static void onShowTopClicked_gui(GtkWidget *widget, gpointer data);
@@ -84,6 +96,7 @@ class SearchSpy:
 		TreeView topView;
 		GtkListStore *topStore;
 		std::string aSearchColor, cSearchColor, rSearchColor, tSearchColor, qSearchColor;
+		static const GActionEntry win_entries[];
 };
 
 #else

@@ -356,7 +356,7 @@ Hub::Hub(const string &address, const string &encoding):
 	
 	setColorsRows();
 	//
-	GtkGesture *gesture;
+  GtkGesture *gesture;
   gesture = gtk_gesture_click_new ();
   gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (gesture), 3);
   g_signal_connect (gesture, "pressed",
@@ -387,6 +387,16 @@ void Hub::on_inner_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
 	GMenu *menu = g_menu_new ();
 	GMenuItem* item = g_menu_item_new("Browse Filelist", "hub.browse-fl" );
 	g_menu_append_item(menu ,item);
+	
+	GMenuItem* match = g_menu_item_new("Match Filelist", "hub.match-fl" );
+	g_menu_append_item(menu ,match);
+
+	GMenuItem* pm = g_menu_item_new("Browse Filelist", "hub.msg-to-user" );
+	g_menu_append_item(menu ,pm);
+	
+	GMenuItem* grant = g_menu_item_new("Grant Slot", "hub.grant-slot" );
+	g_menu_append_item(menu ,grant);
+
 	
 	GtkWidget *pop = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
 	gtk_widget_set_parent(pop, GTK_WIDGET(hub->nickView.get()));
@@ -984,6 +994,7 @@ void Hub::clearNickList_gui()
 	setStatus_gui("statusShared", "0 B");
 }
 
+//@TODO:rem
 void Hub::popupNickMenu_gui()
 {
 	// Build user command menu
@@ -1022,7 +1033,7 @@ void Hub::popupNickMenu_gui()
 	//gtk_label_set_markup (GTK_LABEL (label), markup);
 	g_free(markup);
 }
-
+//END
 void Hub::getPassword_gui()
 {
 	if(!SETTING(PROMPT_PASSWORD))
@@ -2304,12 +2315,11 @@ void Hub::onRipeDbItem_gui(GtkWidget* widget, gpointer data)
 {
 	Hub* hub = (Hub*)data;
 	string ip = (gchar*)g_object_get_data(G_OBJECT(widget),"ip_addr");
-	string error = string();
 	dcpp::ParamMap params;
 	params["IP"] = ip;
 	string result = dcpp::Util::formatParams(SETTING(RIPE_DB),params);
-	WulforUtil::openURI(result,error);
-	hub->setStatus_gui("statusMain",error);
+	WulforUtil::openURI(result/*,error*/);
+	//hub->setStatus_gui("statusMain",error);
 }
 /*
 gboolean Hub::onMagnetTagEvent_gui(GtkTextTag* tag, GObject*, GdkEvent *event, GtkTextIter*, gpointer data)
@@ -2326,7 +2336,6 @@ gboolean Hub::onMagnetTagEvent_gui(GtkTextTag* tag, GObject*, GdkEvent *event, G
 		//		break;
 		//	case 3:
 				// Popup magnet context menu
-//				gtk_widget_show_all(hub->getWidget("magnetMenu"));
 //				gtk_menu_popup_at_pointer(GTK_MENU(hub->getWidget("magnetMenu")),NULL);
 		//		break;
 		}
@@ -4949,7 +4958,7 @@ void Hub::onToglleButtonIcon(GtkToggleButton *button, gpointer data)
 
 gboolean Hub::key_pressed_gui ( GtkEventControllerKey* self,  guint keyval,  guint keycode,  GdkModifierType state,  gpointer data )
 {
-	g_print( "key_pressed");
+	g_debug( "key_pressed");
 	if( keyval == GDK_KEY_Return  ) {
 			onSendMessage_gui(NULL,data);
 			return TRUE;
@@ -4959,5 +4968,5 @@ gboolean Hub::key_pressed_gui ( GtkEventControllerKey* self,  guint keyval,  gui
 
 void Hub::key_released_gui (  GtkEventControllerKey* self,  guint keyval,  guint keycode,  GdkModifierType state,  gpointer data )
 {
-	g_print( "key_released");
+	g_debug( "key_released");
 }

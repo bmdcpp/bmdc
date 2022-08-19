@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2023 BMDC
+ * Copyright © 2010-2024 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -145,7 +145,7 @@ void BookEntry::setIcon_gui(const EntryType type)
 
 void BookEntry::setIcon_gui(const std::string stock)
 {
-//	gtk_image_set_from_icon_name(GTK_IMAGE(icon), stock.c_str(), GTK_ICON_SIZE_MENU);
+	gtk_image_set_from_icon_name(GTK_IMAGE(icon), stock.c_str());
 }
 
 void BookEntry::setIconPixbufs_gui(const std::string iconspath)
@@ -161,10 +161,10 @@ void BookEntry::setLabel_gui(const string text)
 	//if (child && GTK_IS_LABEL(child))
 	//	gtk_label_set_text(GTK_LABEL(child), text.c_str());
 
-	if(bIsCloseButton || WGETB("use-close-button"))
+	//if(bIsCloseButton || WGETB("use-close-button"))
     {
         // Update the notebook tab label
-    //   gtk_widget_set_tooltip_text(eventBox, text.c_str());
+       gtk_widget_set_tooltip_text(getLabelBox(), text.c_str());
     }
 
 	glong len = g_utf8_strlen(text.c_str(), -1);
@@ -407,11 +407,9 @@ GMenuItem *BookEntry::createItemFirstMenu()
 	}
 }
 
-
-
 void BookEntry::setBackForeGround(const EntryType type)
 {
-	string fg,bg,fg_unread,bg_unread;
+	string fg = "#FFFFFF",bg = "#000000",fg_unread = fg,bg_unread = bg;
 	switch (type)
 	{
 		case Entry::FAVORITE_HUBS :
@@ -547,9 +545,11 @@ void BookEntry::setBackForeGround(const EntryType type)
 		default: return;
 	}
 	string name = getName();
-//	GtkCssProvider *provider = gtk_css_provider_new ();
-//	GdkDisplay *display = gdk_display_get_default ();
-//	GdkScreen *screen = gdk_display_get_default_screen (display);
+
+	GtkStyleContext *context;
+	GtkCssProvider *provider;
+	context = gtk_widget_get_style_context (getLabelBox());
+	provider = gtk_css_provider_new ();
 
 	string t_css = string();
 	if(WGETB("custom-font-size")) {
@@ -559,12 +559,11 @@ void BookEntry::setBackForeGround(const EntryType type)
 		t_css = std::string("#"+name+" { color:"+fg+"; background: "+bg+"; }\n\0");
 
 	t_css += std::string("#"+name+":active { color:"+fg_unread+"; background: "+bg_unread+"; font-weight: bold; }\n\0");
-//	gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1, NULL);
+	gtk_css_provider_load_from_data (GTK_CSS_PROVIDER (provider),t_css.c_str(),-1);
 
-//	gtk_style_context_add_provider_for_screen (screen,
-//											GTK_STYLE_PROVIDER(provider),
-//											GTK_STYLE_PROVIDER_PRIORITY_USER);
-//	g_object_unref (provider);
+	gtk_style_context_add_provider (context,
+                                GTK_STYLE_PROVIDER (provider),
+                                GTK_STYLE_PROVIDER_PRIORITY_USER);
 
 }
 /*

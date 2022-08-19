@@ -94,12 +94,12 @@ class FavoriteHubs:
 		static void on_inner_widget_right_btn_released (GtkGestureClick *gesture,int       n_press,
                                     double           x,
                                     double           y,
-                                    GtkWidget       *widget);
+                                    gpointer       *data);
 		
 		static gboolean key_pressed_gui ( GtkEventControllerKey* self,	guint keyval,
-  							guint keycode,	GdkModifierType state,	gpointer user_data	);
+  							guint keycode,	GdkModifierType state,	gpointer data	);
 		static void key_released_gui (  GtkEventControllerKey* self,  guint keyval,
-  							guint keycode,  GdkModifierType state,  gpointer user_data  );
+  							guint keycode,  GdkModifierType state,  gpointer data  );
 
 
 //		static gboolean onGroupsButtonReleased_gui(GtkWidget *widget, GdkEvent *event, gpointer data);

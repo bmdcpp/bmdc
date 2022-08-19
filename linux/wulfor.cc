@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2023 BMDC
+ * Copyright © 2010-2024 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -153,21 +153,8 @@ int main(int argc, char *argv[])
 	signal(SIGABRT, handle_crash);
 	signal(SIGTERM, handle_crash);
 	#endif
-	WulforManager::start(argc, argv);
-	
-	while (g_list_model_get_n_items (gtk_window_get_toplevels ()) > 0)
-  			g_main_context_iteration (NULL, TRUE);
-
-	WulforManager::stop();
-	IgnoreTempManager::deleteInstance();
-	WulforSettingsManager::deleteInstance();
-
-	std::cout << _("Shutting down dcpp client...") << std::endl;
-	try{
-	dcpp::shutdown();
-}catch(...){ }
-	std::cout << _("Quit...") << std::endl;
-
-	return 0;
+	int status = WulforManager::start(argc, argv);
+//	WulforManager::stop();
+	return status;
 }
 

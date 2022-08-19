@@ -40,18 +40,24 @@ using namespace dcpp;
 
 WulforManager *WulforManager::manager = NULL;
 string WulforManager::argv1;
+char** WulforManager::argv;
+int WulforManager::argc;
 
-void WulforManager::start(int argc, char **argv)
+int WulforManager::start(int _argc, char **_argv)
 {
+	argc = _argc;
+	argv = _argv;
 	if (argc > 1)
 	{
-		argv1 = argv[1];
+		argv1 = _argv[1];
 	}
 
+	int status;
 	// Create WulforManager
 	dcassert(!manager);
 	manager = new WulforManager();
-	manager->createMainWindow();
+	status = manager->createMainWindow();
+	return status;
 }
 
 void WulforManager::stop()
@@ -89,19 +95,39 @@ mainWin(NULL)
 WulforManager::~WulforManager()
 {
 	g_rw_lock_clear(&entryMutex);
-   g_object_unref (application);
+   
 }
 
-void WulforManager::createMainWindow()
+int WulforManager::createMainWindow()
 {
-	dcassert(!mainWin);
+	int status;
 
-    application = g_application_new ("org.bmdcteam.bmdc", G_APPLICATION_FLAGS_NONE);
-    g_application_register (application, NULL, NULL);
+    application = gtk_application_new ("org.bmdcteam.bmdc", G_APPLICATION_FLAGS_NONE);
+    g_signal_connect (application, "activate", G_CALLBACK (activate), (gpointer)this);
+    g_signal_connect (application, "shutdown", G_CALLBACK (shutdown), (gpointer)this);
+	status = g_application_run (G_APPLICATION (application), argc, argv);
+	return status;
+}
 
-	mainWin = new MainWindow();
-	WulforManager::insertEntry_gui(mainWin);
-	mainWin->show();
+void WulforManager::shutdown(GtkApplication* app,
+          gpointer        user_data)
+{
+	//IgnoreTempManager::deleteInstance();
+	WulforSettingsManager::deleteInstance();
+	std::cout << _("Shutting down dcpp client...") << std::endl;
+	try{
+	dcpp::shutdown();
+}catch(...){ }
+	std::cout << _("Quit...") << std::endl;
+}          
+
+void WulforManager::activate(GtkApplication* app,
+          gpointer        user_data)
+{
+	GtkWidget* window = gtk_application_window_new (app);
+	WulforManager* w = (WulforManager*)user_data;
+	w->mainWin = new MainWindow(window);
+	w->mainWin->show();
 }
 
 void WulforManager::deleteMainWindow()
@@ -128,6 +154,7 @@ void WulforManager::deleteMainWindow()
 void WulforManager::dispatchGuiFunc(FuncBase *func)
 {
     g_idle_add((GSourceFunc)(func)->call_,(gpointer)func);
+ 	//func->call();   
 }
 
 void WulforManager::dispatchClientFunc(FuncBase *func)

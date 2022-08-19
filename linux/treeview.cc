@@ -74,7 +74,7 @@ string TreeView::getString(GtkTreeIter *i, const string &column, GtkTreeModel *m
 {
 	if (m == NULL)
 		m = gtk_tree_view_get_model(view);
-	string value = string();
+	string value = dcpp::Util::emptyString;
 	g_autofree gchar* temp = NULL;
 	dcassert(gtk_tree_model_get_column_type(m, col(column)) == G_TYPE_STRING);
 	gtk_tree_model_get(m, i, col(column), &temp, -1);
