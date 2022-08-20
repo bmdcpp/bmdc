@@ -29,6 +29,7 @@
           <object class="GtkBox" id="vbox1">
             <property name="can_focus">False</property>
             <property name="spacing">4</property>
+            <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
             <child>
               <object class="GtkLabel" id="label1">
                 <property name="can_focus">False</property>
@@ -53,6 +54,7 @@
                   <object class="GtkBox" id="vbox2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
                     <child>
                       <object class="GtkLabel" id="labelSpeed">
                         <property name="visible">True</property>
@@ -82,6 +84,7 @@
             <child>
               <object class="GtkBox" id="hbox1">
                 <property name="spacing">4</property>
+                <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
                 <child>
                   <object class="GtkProgressBar" id="progressbar">
                     <property name="pulse_step">0.10000000149011612</property>

@@ -48,15 +48,15 @@ Search::Search(const string& str):
 {
 	setSearchButtons(true);
 
-	gtk_widget_grab_focus(getWidget("SearchEntry"));
+	//gtk_widget_grab_focus(getWidget("SearchEntry"));
 	/* set up completion */
-	completion = gtk_entry_completion_new();
-	gtk_entry_completion_set_text_column(completion, EN_STRING);
-	gtk_entry_set_completion(GTK_ENTRY(getWidget("SearchEntry")), completion);
-	g_signal_connect(G_OBJECT (completion), "match-selected", G_CALLBACK (on_match_select_entry), (gpointer)this);
+	//completion = gtk_entry_completion_new();
+	//gtk_entry_completion_set_text_column(completion, EN_STRING);
+	//gtk_entry_set_completion(GTK_ENTRY(getWidget("SearchEntry")), completion);
+	//g_signal_connect(G_OBJECT (completion), "match-selected", G_CALLBACK (on_match_select_entry), (gpointer)this);
 
 	/* Create the ListStore set it as the model of the entrycompletion */
-	emodel = gtk_list_store_new(1, G_TYPE_STRING);
+	/*emodel = gtk_list_store_new(1, G_TYPE_STRING);
 	StringTokenizer<string> st(WGETS("last-searchs"),';');
 	GtkTreeIter eiter;
 
@@ -67,7 +67,7 @@ Search::Search(const string& str):
 	}
 
 	gtk_entry_completion_set_model(completion, GTK_TREE_MODEL(emodel));
-
+*/
 	// Configure the dialog
 	File::ensureDirectory(SETTING(DOWNLOAD_DIRECTORY));
 	//gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(getWidget("dirChooserDialog")), Text::fromUtf8(SETTING(DOWNLOAD_DIRECTORY)).c_str());
@@ -205,9 +205,6 @@ Search::~Search()
 {
 	ClientManager::getInstance()->removeListener(this);
 	SearchManager::getInstance()->removeListener(this);
-
-//	gtk_widget_destroy(getWidget("dirChooserDialog"));
-
 }
 
 void Search::show()
@@ -232,8 +229,6 @@ void Search::setColorsRows()
 	setColorRow("IP");
 	setColorRow("TTH");
 }
-static void se_notify(gpointer )
-{ }
 
 void Search::setColorRow(string cell)
 {
@@ -243,14 +238,14 @@ void Search::setColorRow(string cell)
 								resultView.getCellRenderOf(cell),
 								Search::makeColor,
 								(gpointer)this,
-								(GDestroyNotify)se_notify);
+								NULL);
 	
 	if(resultView.getCellRenderOf2(cell) != NULL)
 		gtk_tree_view_column_set_cell_data_func(resultView.getColumn(cell),
 								resultView.getCellRenderOf2(cell),
 								Search::makeColor,
 								(gpointer)this,
-								(GDestroyNotify)se_notify);
+								NULL);
 }
 
 void Search::makeColor(GtkTreeViewColumn *column,GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,gpointer data)

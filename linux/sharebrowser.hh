@@ -54,8 +54,10 @@ class ShareBrowser:
 		void fileViewSelected_gui();
 		void downloadSelectedFiles_gui(const std::string &target);
 		void downloadSelectedDirs_gui(const std::string &target);
+		
 		void popupFileMenu_gui();
 		void popupDirMenu_gui();
+		
 		void find_gui();
 		void load(std::string xml);
 
@@ -90,7 +92,7 @@ class ShareBrowser:
 			g_print("CLICK");
 			ShareBrowser* dq = (ShareBrowser*)data;
 			GtkTreeIter iter;
-
+			dq->fileViewSelected_gui();
 			if ( gtk_tree_selection_get_selected(dq->dirSelection, NULL, &iter) )
 			{	
 				auto pzt= dq->dirView.getString(&iter, "Dir");

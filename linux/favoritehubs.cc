@@ -42,10 +42,10 @@ const GActionEntry FavoriteHubs::win_entries[] = {
 FavoriteHubs::FavoriteHubs():
 	BookEntry(Entry::FAVORITE_HUBS, _("Favorite Hubs"), "favoritehubs")
 {
-	//@TODO: non-deprecated things
-		GSimpleActionGroup* simple = g_simple_action_group_new ();
-		g_simple_action_group_add_entries(simple, win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
-		gtk_widget_insert_action_group(getContainer(),"fav" ,G_ACTION_GROUP(simple));
+	GSimpleActionGroup *group;
+  group = g_simple_action_group_new ();
+  g_action_map_add_action_entries (G_ACTION_MAP (group), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+  gtk_widget_insert_action_group(getContainer(),"fav" ,G_ACTION_GROUP(group));
 
 	// Initialize favorite hub list treeview
 	favoriteView.setView(GTK_TREE_VIEW(getWidget("favoriteView")), TRUE, "favoritehubs");
@@ -253,7 +253,6 @@ void FavoriteHubs::removeEntry_gui(string address)
 bool FavoriteHubs::showErrorDialog_gui(const string description, FavoriteHubs *fh)
 {
 //@todo: info bar?
-
 	GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(fh->getWidget("favoriteHubsDialog")),
 		GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_WARNING, GTK_BUTTONS_OK, "%s", description.c_str());
 

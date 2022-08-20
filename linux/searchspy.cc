@@ -147,7 +147,10 @@ void SearchSpy::onClickReleased_gui (GtkGestureClick* /*gesture*/,
                                    double             x,
                                    double             y,
                                    GtkWidget         *data)
-{}
+{
+
+	
+}
 
 SearchSpy::~SearchSpy()
 {

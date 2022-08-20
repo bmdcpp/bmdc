@@ -73,7 +73,7 @@ Hub::Hub(const string &address, const string &encoding):
 	setName(CID(address).toBase32());
 	
 	GSimpleActionGroup* simple = g_simple_action_group_new ();
-	g_simple_action_group_add_entries(simple, win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+	g_action_map_add_action_entries (G_ACTION_MAP (simple), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
 	gtk_widget_insert_action_group(getContainer(), "hub" ,G_ACTION_GROUP(simple));
 	gtk_widget_insert_action_group(getLabelBox(), "hub" ,G_ACTION_GROUP(simple));
 	gtk_widget_insert_action_group(getWidget("nickView"), "hub" ,G_ACTION_GROUP(simple));

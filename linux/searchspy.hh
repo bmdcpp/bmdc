@@ -71,6 +71,7 @@ class SearchSpy:
                                    double             x,
                                    double             y,
                                    GtkWidget         *data);
+		
 		static void onClearFrameClicked_gui(GtkWidget *widget, gpointer data);
 		static void onUpdateFrameClicked_gui(GtkWidget *widget, gpointer data);
 		static void onShowTopClicked_gui(GtkWidget *widget, gpointer data);

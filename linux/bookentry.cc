@@ -44,9 +44,8 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	type(type), bIsCloseButton(false)
 {
 	labelBox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,1);
-	//@TODO: non-deprecated things
 	GSimpleActionGroup* simple = g_simple_action_group_new ();
-	g_simple_action_group_add_entries(simple, win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+	g_action_map_add_action_entries (G_ACTION_MAP (simple), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
 	gtk_widget_insert_action_group(labelBox,"book" ,G_ACTION_GROUP(simple));
 //	GSList *group = NULL;
 	gtk_widget_set_name(labelBox,getName().c_str());//CSS

@@ -127,16 +127,16 @@ DownloadQueue::DownloadQueue():
 
 void DownloadQueue::tree_selection_changed_cb (GtkTreeSelection *selection, gpointer data)
 {
-		DownloadQueue *dq = (DownloadQueue*)data;
-		dq->updateFileView_gui();
-        GtkTreeIter iter;
-        GtkTreeModel *model = NULL;
+		//DownloadQueue *dq = (DownloadQueue*)data;
+		//dq->updateFileView_gui();
+        //GtkTreeIter iter;
+        //GtkTreeModel *model = NULL;
 
-        if (gtk_tree_selection_get_selected (selection, &model, &iter))
-        {
-                string value = dq->dirView.getString(&iter,"Path");
+        //if (gtk_tree_selection_get_selected (selection, &model, &iter))
+        //{
+         ///       string value = dq->dirView.getString(&iter,"Path");
             	//dq->updateFileView_client(value);
-        }
+        //}
 }
 
 
@@ -146,25 +146,30 @@ void DownloadQueue::on_inner_widget_right_btn_pressed (GtkGestureClick *gesture,
                                    gpointer         *data){
 			g_print("CLICK\n");
 			DownloadQueue* dq = (DownloadQueue*)data;
-			
-
+			GtkTreeIter iter;
 			dq->updateFileView_gui();
-    		GtkTreePath * path;
-    		GtkTreeViewColumn * column;
- 			int i, j;
-    		if (gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW(dq->dirView.get()), x, y, &path, &column, &i,  &j))
-    		{
+			if ( gtk_tree_selection_get_selected(dq->dirSelection, NULL, &iter) )
+			{	
+				auto pzt= dq->dirView.getString(&iter, "Dir");
+				dq->updateFileView_client(pzt);
+			}	
 
-        			 GtkTreeIter iter,fIter;
-      				if(gtk_tree_model_get_iter (GTK_TREE_MODEL(dq->dirStore), &iter, path))
-      				{	
-      					g_print("Update Call\n");
-      					dq->updateFileView_gui();
+    		//GtkTreePath * path;
+    		//GtkTreeViewColumn * column;
+ 			//int i, j;
+    		//if (gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW(dq->dirView.get()), x, y, &path, &column, &i,  &j))
+    		//{
+//
+  //      			 GtkTreeIter iter,fIter;
+    //  				if(gtk_tree_model_get_iter (GTK_TREE_MODEL(dq->dirStore), &iter, path))
+      //				{	
+      	//				g_print("Update Call\n");
+      	//				dq->updateFileView_gui();
       						//string sPath = dq->dirView.getString(&iter,"Path");
 							//dq->updateFileView_client(sPath);
-					}
+		//			}
 			
-    		}	
+    	//	}	
     
 }
 
@@ -1276,10 +1281,8 @@ void DownloadQueue::removeDir_client(string path)
 
 void DownloadQueue::updateFileView_client(string path)
 {
-	g_print("Update F View Clien\n");
 	if (!path.empty())
 	{
-		g_print("Path not empty\n");
 		vector<StringMap> files;
 		const QueueItem::StringMap &ll = QueueManager::getInstance()->getQueue();
 
@@ -1292,7 +1295,7 @@ void DownloadQueue::updateFileView_client(string path)
 				files.push_back(params);
 			}
 		}
-
+		g_print("%d",files.size());
 		// Updating gui is smoother if we do it in large chunks.
 		typedef Func2<DownloadQueue, vector<StringMap>, bool> F2;
 		F2 *func = new F2(this, &DownloadQueue::addFiles_gui, files, TRUE);

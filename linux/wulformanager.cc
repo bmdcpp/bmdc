@@ -112,7 +112,6 @@ int WulforManager::createMainWindow()
 void WulforManager::shutdown(GtkApplication* app,
           gpointer        user_data)
 {
-	//IgnoreTempManager::deleteInstance();
 	WulforSettingsManager::deleteInstance();
 	std::cout << _("Shutting down dcpp client...") << std::endl;
 	try{
@@ -149,12 +148,10 @@ void WulforManager::deleteMainWindow()
 #endif
 	mainWin->remove();
 	mainWin = NULL;
-	//gtk_main_quit();
 }
 void WulforManager::dispatchGuiFunc(FuncBase *func)
 {
     g_idle_add((GSourceFunc)(func)->call_,(gpointer)func);
- 	//func->call();   
 }
 
 void WulforManager::dispatchClientFunc(FuncBase *func)

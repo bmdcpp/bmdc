@@ -26,6 +26,7 @@
     <child>
       <object class="GtkBox" id="chatHBox">
         <property name="can_focus">0</property>
+        <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
         <property name="spacing">4</property>
         <property name="baseline_position">bottom</property>
         <child>

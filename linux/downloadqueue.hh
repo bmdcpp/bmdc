@@ -41,6 +41,7 @@ class DownloadQueue:
 		using dcpp::QueueManagerListener::on;
 		// GUI functions
 		void buildDynamicMenu_gui();
+		//--
 		void setStatus_gui(std::string text, std::string statusItem);
 		void updateStatus_gui();
 		void addFiles_gui(std::vector<dcpp::StringMap> files, bool firstUpdate);

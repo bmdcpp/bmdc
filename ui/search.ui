@@ -15,11 +15,15 @@
         <child>
           <object class="GtkPaned" id="hpaned1">
             <property name="focusable">1</property>
+            <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
             <child>
               <object class="GtkBox" id="vbox2">
                 <property name="spacing">4</property>
+                <property name="vexpand">False</property>
+                <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
                 <child>
                   <object class="GtkBox" id="vbox3">
+                    <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
                     <child>
                       <object class="GtkLabel" id="label1">
                         <property name="label" translatable="1">Search for</property>
@@ -34,6 +38,7 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="vbox4">
+                    <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
                     <child>
                       <object class="GtkLabel" id="label2">
                         <property name="label" translatable="1">Size</property>
@@ -41,6 +46,7 @@
                     </child>
                     <child>
                       <object class="GtkBox" id="hbox2">
+                        <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
                         <property name="spacing">4</property>
                         <child>
                           <object class="GtkComboBox" id="comboboxSize">
@@ -76,6 +82,7 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="vbox6">
+                    <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
                     <child>
                       <object class="GtkLabel" id="label4">
                         <property name="label" translatable="1">File type</property>
@@ -88,6 +95,7 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="vbox1">
+                    <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
                     <child>
                       <object class="GtkLabel" id="label7">
                         <property name="label" translatable="1">Group by</property>
@@ -108,6 +116,7 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="vbox5">
+                    <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
                     <child>
                       <object class="GtkLabel" id="label3">
                         <property name="label" translatable="1">Search options</property>
@@ -144,6 +153,7 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="vbox7">
+                    <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
                     <child>
                       <object class="GtkLabel" id="label5">
                         <property name="label" translatable="1">Hubs</property>
@@ -153,11 +163,13 @@
                       <object class="GtkScrolledWindow" id="scrolledwindow1">
                         <property name="height_request">75</property>
                         <property name="focusable">1</property>
+                        <property name="vexpand">True</property>
                         <property name="child">
                           <object class="GtkTreeView" id="treeviewHubs">
                             <property name="focusable">1</property>
                             <property name="model">model2</property>
                             <property name="headers_visible">0</property>
+                            <!--property name="vexpand">True</property-->
                           </object>
                         </property>
                       </object>
@@ -166,6 +178,7 @@
                 </child>
                 <child>
                   <object class="GtkBox" id="hbox3">
+                    <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
                     <child>
                       <object class="GtkLabel" id="label6"/>
                     </child>
@@ -175,6 +188,7 @@
                         <child>
                               <object class="GtkBox" id="hbox5">
                                 <property name="spacing">2</property>
+                                <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
                                 <child>
                                   <object class="GtkImage" id="image1"/>
                                 </child>
@@ -195,10 +209,13 @@
             <child>
               <object class="GtkScrolledWindow" id="scrolledwindow2">
                 <property name="focusable">1</property>
+                <property name="height_request">75</property>
+                <property name="vexpand">True</property>
                 <property name="child">
                   <object class="GtkTreeView" id="treeviewResult">
                     <property name="focusable">1</property>
                     <property name="model">model1</property>
+                    <property name="vexpand">True</property>
                   </object>
                 </property>
               </object>
@@ -210,6 +227,7 @@
     <child>
       <object class="GtkBox" id="hbox4">
         <property name="spacing">5</property>
+        <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
         <child>
           <object class="GtkStatusbar" id="statusbar1"/>
         </child>

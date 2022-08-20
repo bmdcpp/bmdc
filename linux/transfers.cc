@@ -62,7 +62,7 @@ Transfers::Transfers() :
 	transferStore(NULL), transferSelection(NULL),  appsPreviewMenu(NULL)
 {
 	GSimpleActionGroup* simple = g_simple_action_group_new ();
-	g_simple_action_group_add_entries(simple, win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+	g_action_map_add_action_entries (G_ACTION_MAP (simple), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
 	gtk_widget_insert_action_group(getWidget("transfers"), "transfers" ,G_ACTION_GROUP(simple));
 	// Initialize the user command menu
 //	userCommandMenu = new UserCommandMenu(getWidget("userCommandMenu"), ::UserCommand::CONTEXT_USER);

@@ -105,8 +105,6 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 //	startTime = GET_TICK();
 //	HashManager::getInstance()->getStats(stmp, startBytes, startFiles);
 //	updateStats_gui("", 0, 0, 0);
-	//window = gtk_window_new();
-//	gtk_window_set_default_size (GTK_WINDOW(window),500,500);
 //	setStatRate_gui();
 
 	GtkWidget* mWidget = gtk_box_new(GTK_ORIENTATION_VERTICAL , 12);

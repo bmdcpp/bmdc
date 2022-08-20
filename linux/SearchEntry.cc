@@ -92,11 +92,11 @@ void SearchEntry::onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *, guint n
 		// onPageSwitched_gui to be called multiple times
 		GtkWidget *item = entry->getTabMenuItem();
 		g_object_set_data(G_OBJECT(item),"data",(gpointer)data);
-		g_signal_handlers_block_by_func(item, (gpointer)onRaisePage_gui, child);
+		//g_signal_handlers_block_by_func(item, (gpointer)onRaisePage_gui, child);
 
 		entry->setActive_gui();
 		g_object_set_data(G_OBJECT(item),"data",(gpointer)data);
-		g_signal_handlers_unblock_by_func(item, (gpointer)onRaisePage_gui, (gpointer)child);
+		//g_signal_handlers_unblock_by_func(item, (gpointer)onRaisePage_gui, (gpointer)child);
 	}
 
 	GList *list = (GList *)g_object_get_data(G_OBJECT(notebook), "page-rotation-list");
@@ -105,7 +105,7 @@ void SearchEntry::onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *, guint n
 	g_object_set_data(G_OBJECT(notebook), "page-rotation-list", (gpointer)list);
 
 	// Focus the tab so it will focus its children (e.g. a text entry box)
-	gtk_widget_grab_focus(child);
+	//gtk_widget_grab_focus(child);
 }
 
 BookEntry* SearchEntry::findBookEntry(const string& id)
