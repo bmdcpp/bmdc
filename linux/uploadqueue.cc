@@ -44,8 +44,9 @@ UploadQueue::UploadQueue():
 BookEntry(Entry::UPLOADQUEUE, _("Upload Queue"), "uploadqueue"),
 selection(NULL)
 {
+
 	GSimpleActionGroup* simple = g_simple_action_group_new ();
-	g_simple_action_group_add_entries(simple, win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+	g_action_map_add_action_entries (G_ACTION_MAP (simple), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
 	gtk_widget_insert_action_group(getWidget("viewUsers"), "UploadQueue" ,G_ACTION_GROUP(simple));
 
 	users.setView(GTK_TREE_VIEW(getWidget("viewUsers")));
@@ -81,6 +82,7 @@ void UploadQueue::on_inner_widget_right_btn_pressed (GtkGestureClick* /*gesture*
                                    double             y,
                                    gpointer         *data)
 {
+	
 	UploadQueue *FH = (UploadQueue*)data;
 	g_debug ("on_inner_widget_right_btn_pressed() called\n");
 

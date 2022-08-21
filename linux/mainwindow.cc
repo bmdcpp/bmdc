@@ -591,7 +591,6 @@ void MainWindow::addBookEntry_gui(BookEntry *entry)
 //	if(WGETB("use-close-button"))
 	{
 		GtkWidget *closeButton = entry->getCloseButton();
-//		g_signal_connect(closeButton, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
 		g_signal_connect(closeButton, "clicked", G_CALLBACK(onCloseBookEntry_gui), (gpointer)entry);
 	}
 	//gtk_widget_set_sensitive(getWidget("closeMenuItem"), TRUE);

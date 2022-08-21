@@ -154,7 +154,6 @@ int main(int argc, char *argv[])
 	signal(SIGTERM, handle_crash);
 	#endif
 	int status = WulforManager::start(argc, argv);
-//	WulforManager::stop();
 	return status;
 }
 

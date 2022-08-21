@@ -62,7 +62,6 @@ void SearchEntry::addBookEntry_gui(BookEntry *entry)
 	if(WGETB("use-close-button")) 
 	{
 		GtkWidget *closeButton = entry->getCloseButton();
-//		g_signal_connect(closeButton, "button-release-event", G_CALLBACK(onButtonReleasePage_gui), (gpointer)entry);
 		g_signal_connect(closeButton, "clicked", G_CALLBACK(onCloseBookEntry_gui), (gpointer)entry);
 	}
 
@@ -92,20 +91,15 @@ void SearchEntry::onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *, guint n
 		// onPageSwitched_gui to be called multiple times
 		GtkWidget *item = entry->getTabMenuItem();
 		g_object_set_data(G_OBJECT(item),"data",(gpointer)data);
-		//g_signal_handlers_block_by_func(item, (gpointer)onRaisePage_gui, child);
 
 		entry->setActive_gui();
 		g_object_set_data(G_OBJECT(item),"data",(gpointer)data);
-		//g_signal_handlers_unblock_by_func(item, (gpointer)onRaisePage_gui, (gpointer)child);
 	}
 
 	GList *list = (GList *)g_object_get_data(G_OBJECT(notebook), "page-rotation-list");
 	list = g_list_remove(list, (gpointer)child);
 	list = g_list_prepend(list, (gpointer)child);
 	g_object_set_data(G_OBJECT(notebook), "page-rotation-list", (gpointer)list);
-
-	// Focus the tab so it will focus its children (e.g. a text entry box)
-	//gtk_widget_grab_focus(child);
 }
 
 BookEntry* SearchEntry::findBookEntry(const string& id)
@@ -153,7 +147,7 @@ void SearchEntry::removeBookEntry_gui(BookEntry *entry)
 
 		if (gtk_notebook_get_n_pages(book) == 0)
 		{
-			Search *s = new Search(string());
+			Search *s = new Search(dcpp::Util::emptyString);
 			addBookEntry_gui(s);
 		}
 	}

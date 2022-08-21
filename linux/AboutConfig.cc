@@ -1,5 +1,5 @@
 /*
-		Copyright (C) 2011 - 2023 
+		Copyright (C) 2011 - 2024 BMDC 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
@@ -70,6 +70,7 @@ BookEntry(Entry::ABOUT_CONFIG, _("About:config"), "config")
                             "response",
                             G_CALLBACK (onInfoResponse),
                             (gpointer)this);
+	
 	/* Register for mouse right button click "pressed" and "released" events on  widget*/
 	GtkGesture *gesture;
   gesture = gtk_gesture_click_new ();

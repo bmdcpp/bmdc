@@ -163,8 +163,6 @@ Hub::Hub(const string &address, const string &encoding):
 	tag_mark = gtk_text_buffer_create_mark(chatBuffer, NULL, &iter, TRUE);
 	emot_mark = gtk_text_buffer_create_mark(chatBuffer, NULL, &iter, TRUE);
 
-//	handCursor = gdk_cursor_new_from_name(gdk_display_get_default(),"pointer");
-
 	// image magnet
 	imageLoad.first = string();
 	imageLoad.second = NULL;
@@ -396,7 +394,6 @@ void Hub::on_inner_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
 	
 	GMenuItem* grant = g_menu_item_new("Grant Slot", "hub.grant-slot" );
 	g_menu_append_item(menu ,grant);
-
 	
 	GtkWidget *pop = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
 	gtk_widget_set_parent(pop, GTK_WIDGET(hub->nickView.get()));
@@ -4530,7 +4527,7 @@ void Hub::on(ClientListener::Message, Client*, const ChatMessage& message) noexc
 		return;
 	}
 
-	string sCc = string();
+	string sCc = dcpp::Util::emptyString;
 	if( (!fid.isHub()) && (!fid.isBot()) )
 	{
 		sCc = GeoManager::getInstance()->getCountryAbbrevation(fid.getIp());

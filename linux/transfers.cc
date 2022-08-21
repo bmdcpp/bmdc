@@ -116,7 +116,6 @@ Transfers::Transfers() :
 
 }
 
-
 void Transfers::on_inner_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
                                    int                /*n_press*/,
                                    double             x,

@@ -78,13 +78,9 @@ DownloadQueue::DownloadQueue():
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(fileStore), fileView.col(_("Filename")), GTK_SORT_ASCENDING);
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(fileView.get(), fileView.col(_("Filename"))), TRUE);
 
-	//gtk_tree_selection_set_mode (dirSelection, GTK_SELECTION_SINGLE);
-	//g_signal_connect (G_OBJECT (dirSelection), "changed",
-    //              G_CALLBACK (tree_selection_changed_cb),
-    //              (gpointer)this);
-
 	// Connect the signals to their callback functions.
-	/*g_signal_connect(getWidget("pausedPriorityItem"), "activate", G_CALLBACK(onDirPriorityClicked_gui), (gpointer)this);
+	/*
+	g_signal_connect(getWidget("pausedPriorityItem"), "activate", G_CALLBACK(onDirPriorityClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("lowestPriorityItem"), "activate", G_CALLBACK(onDirPriorityClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("lowPrioritytem"), "activate", G_CALLBACK(onDirPriorityClicked_gui), (gpointer)this);
 	g_signal_connect(getWidget("normalPriorityItem"), "activate", G_CALLBACK(onDirPriorityClicked_gui), (gpointer)this);
@@ -139,12 +135,12 @@ void DownloadQueue::tree_selection_changed_cb (GtkTreeSelection *selection, gpoi
         //}
 }
 
-
+//TODO:assume correct handling
 void DownloadQueue::on_inner_widget_right_btn_pressed (GtkGestureClick *gesture, int  n_press,
                                    double             x,
                                    double             y,
                                    gpointer         *data){
-			g_print("CLICK\n");
+			g_debug("CLICK\n");
 			DownloadQueue* dq = (DownloadQueue*)data;
 			GtkTreeIter iter;
 			dq->updateFileView_gui();

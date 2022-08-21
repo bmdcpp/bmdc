@@ -61,8 +61,6 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 	tag_mark = gtk_text_buffer_create_mark(messageBuffer, NULL, &iter, FALSE);
 	emot_mark = gtk_text_buffer_create_mark(messageBuffer, NULL, &iter, TRUE);
 
-	//handCursor = gdk_cursor_new_from_name(gdk_display_get_default(),"pointer"); 
-
 	GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("scroll")));
 	// menu
 //	userCommandMenu = new UserCommandMenu(gtk_menu_new(), ::UserCommand::CONTEXT_USER);
