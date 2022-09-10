@@ -132,7 +132,7 @@ void AboutConfigFav::on_inner_widget_right_btn_pressed (GtkGestureClick *gesture
                                    double             y,
                                    gpointer         *data)
 {
-	AboutConfigFav *FH = (gpointer)data;
+	AboutConfigFav *FH = (AboutConfigFav*)data;
   g_print ("on_inner_widget_right_btn_pressed() called\n");
 
 GMenu *menu = g_menu_new ();

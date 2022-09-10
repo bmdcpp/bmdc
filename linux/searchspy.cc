@@ -32,7 +32,6 @@
 using namespace std;
 using namespace dcpp;
 
-
 const GActionEntry SearchSpy::win_entries[] = {
     { "on-search", onSearchItemClicked_gui  , NULL, NULL, NULL },
     { "remove-item", onRemoveItemClicked_gui  , NULL, NULL, NULL },

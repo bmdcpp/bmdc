@@ -91,7 +91,7 @@ void   AboutConfig::on_inner_widget_right_btn_pressed (GtkGestureClick* /*gestur
                                    double             y,
                                    gpointer         *data)
 {
-	AboutConfig *FH = (gpointer)data;
+	AboutConfig *FH = (AboutConfig*)data;
   g_debug ("on_inner_widget_right_btn_pressed() called\n");
 
 GMenu *menu = g_menu_new ();
