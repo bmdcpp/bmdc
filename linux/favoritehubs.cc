@@ -108,9 +108,9 @@ FavoriteHubs::FavoriteHubs():
   gesture = gtk_gesture_click_new ();
   gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (gesture), 3);
   g_signal_connect (gesture, "pressed",
-                    G_CALLBACK (on_inner_widget_right_btn_pressed), (gpointer)this);
+                    G_CALLBACK (on_widget_right_btn_pressed), (gpointer)this);
   g_signal_connect (gesture, "released",
-                    G_CALLBACK (on_inner_widget_right_btn_released), (gpointer)this);
+                    G_CALLBACK (on_widget_right_btn_released), (gpointer)this);
   gtk_widget_add_controller (GTK_WIDGET(favoriteView.get()), GTK_EVENT_CONTROLLER (gesture));
 //-------keys stuff
   GtkEventController* keys = gtk_event_controller_key_new ();
@@ -139,7 +139,7 @@ void FavoriteHubs::key_released_gui (  GtkEventControllerKey* self,  guint keyva
 	
 }
 
-void FavoriteHubs::on_inner_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
+void FavoriteHubs::on_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
                                    int                /*n_press*/,
                                    double             x,
                                    double             y,
@@ -180,7 +180,7 @@ void FavoriteHubs::on_inner_widget_right_btn_pressed (GtkGestureClick* /*gesture
 
 }
 
-void FavoriteHubs::on_inner_widget_right_btn_released (GtkGestureClick *gesture,
+void FavoriteHubs::on_widget_right_btn_released (GtkGestureClick *gesture,
                                     int             /* n_press*/,
                                     double          /* x*/,
                                     double           /*y*/,

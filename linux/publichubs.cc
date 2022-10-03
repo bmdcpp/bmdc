@@ -97,22 +97,22 @@ PublicHubs::PublicHubs():
   gesture = gtk_gesture_click_new ();
   gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (gesture), 3);
   g_signal_connect (gesture, "pressed",
-                    G_CALLBACK (on_inner_widget_right_btn_pressed), (gpointer)this);
+                    G_CALLBACK (on_widget_right_btn_pressed), (gpointer)this);
   g_signal_connect (gesture, "released",
-                    G_CALLBACK (on_inner_widget_right_btn_released), (gpointer)this);
+                    G_CALLBACK (on_widget_right_btn_released), (gpointer)this);
   gtk_widget_add_controller (GTK_WIDGET(hubView.get()), GTK_EVENT_CONTROLLER (gesture));
 
 }
 
 
-void PublicHubs::on_inner_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
+void PublicHubs::on_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
                                    int               /* n_press*/,
                                    double             x,
                                    double             y,
                                    gpointer         *data)
 {
 	PublicHubs *FH = (PublicHubs*)data;
-	g_print ("on_inner_widget_right_btn_pressed() called\n");
+	g_debug ("on_inner_widget_right_btn_pressed() called\n");
 
 	GMenu *menu = g_menu_new ();
 	GMenuItem* menu_item_conn = g_menu_item_new ("Connect", "pub.connect");
@@ -126,7 +126,7 @@ void PublicHubs::on_inner_widget_right_btn_pressed (GtkGestureClick* /*gesture*/
 
 }
 
-void PublicHubs::on_inner_widget_right_btn_released (GtkGestureClick *gesture,
+void PublicHubs::on_widget_right_btn_released (GtkGestureClick *gesture,
                                     int              /*n_press*/,
                                     double           /*x*/,
                                     double           /*y*/,

@@ -358,9 +358,9 @@ Hub::Hub(const string &address, const string &encoding):
   gesture = gtk_gesture_click_new ();
   gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (gesture), 3);
   g_signal_connect (gesture, "pressed",
-                    G_CALLBACK (on_inner_widget_right_btn_pressed), (gpointer)this);
+                    G_CALLBACK (on_widget_right_btn_pressed), (gpointer)this);
   g_signal_connect (gesture, "released",
-                    G_CALLBACK (on_inner_widget_right_btn_released), (gpointer)this);
+                    G_CALLBACK (on_widget_right_btn_released), (gpointer)this);
   gtk_widget_add_controller (GTK_WIDGET(nickView.get()), GTK_EVENT_CONTROLLER (gesture));
 	
 //------- keys stuff
@@ -374,7 +374,7 @@ Hub::Hub(const string &address, const string &encoding):
 
 }
 
-void Hub::on_inner_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
+void Hub::on_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
                                    int                /*n_press*/,
                                    double             x,
                                    double             y,
@@ -389,7 +389,7 @@ void Hub::on_inner_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
 	GMenuItem* match = g_menu_item_new("Match Filelist", "hub.match-fl" );
 	g_menu_append_item(menu ,match);
 
-	GMenuItem* pm = g_menu_item_new("Browse Filelist", "hub.msg-to-user" );
+	GMenuItem* pm = g_menu_item_new("Message To User", "hub.msg-to-user" );
 	g_menu_append_item(menu ,pm);
 	
 	GMenuItem* grant = g_menu_item_new("Grant Slot", "hub.grant-slot" );
@@ -402,7 +402,7 @@ void Hub::on_inner_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
 }	
 
 
-void Hub::on_inner_widget_right_btn_released (GtkGestureClick *gesture,
+void Hub::on_widget_right_btn_released (GtkGestureClick *gesture,
                                     int             /* n_press*/,
                                     double          /* x*/,
                                     double           /*y*/,

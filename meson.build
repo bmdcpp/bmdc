@@ -1,0 +1,15 @@
+project('bmdcpp', ['c','cpp'], default_options : ['c_std=c11', 'cpp_std=c++11'])
+pkg_config = import('gnome')
+pkg_config = import('pkgconfig')
+gtkdep = dependency('gtk4')
+thread_dep = dependency('threads')
+cc = meson.get_compiler('c')
+conf = configuration_data()
+conf.set('HAVE_GETADDRINFO', cc.has_function('getaddrinfo'))
+subdir('natpmp')
+subdir('miniupnpc')
+subdir('dcpp')
+subdir('linux')
+subdir('settings')
+
+

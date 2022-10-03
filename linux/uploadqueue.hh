@@ -52,12 +52,12 @@ class UploadQueue:
 		static void onBrowseItemClicked_gui(GtkWidget *widget,GVariant  *parameter, gpointer data);
 		static void onFavoriteUserAddItemClicked_gui(GtkWidget *widget,GVariant  *parameter, gpointer data);
 
-		static void on_inner_widget_right_btn_pressed (GtkGestureClick *gesture, int       n_press,
+		static void on_widget_right_btn_pressed (GtkGestureClick *gesture, int       n_press,
                                    double             x,
                                    double             y,
                                    gpointer         *data);
 
-		static void on_inner_widget_right_btn_released (GtkGestureClick *gesture,int       n_press,
+		static void on_widget_right_btn_released (GtkGestureClick *gesture,int       n_press,
                                     double           x,
                                     double           y,
                                     GtkWidget       *widget);

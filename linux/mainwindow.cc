@@ -101,6 +101,9 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 	current_height(-1),	is_maximized(FALSE),
 	window(window)
 {
+	//bool bText = false;
+	//if(text)
+	//	text = true;
 //	string stmp;
 //	startTime = GET_TICK();
 //	HashManager::getInstance()->getStats(stmp, startBytes, startFiles);
