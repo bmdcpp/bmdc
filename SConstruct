@@ -269,7 +269,8 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		print ('\tNote: You might have the lib but not the headers')
 		Exit(1)
 
-	if not conf.CheckLibWithHeader('bz2', 'bzlib.h', 'c'):
+#	if not conf.CheckLibWithHeader('bzip2', 'bzlib.h', 'c'):
+	if not conf.CheckPKG('bzip2') :
 		print ('\tbz2 library (bz2 compression) not found')
 		print ('\tNote: You might have the lib but not the headers')
 		Exit(1)
@@ -402,6 +403,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		env.Append(LINKFLAGS='-lXss')
 
 	env.ParseConfig('pkg-config --libs gtk4')
+	env.ParseConfig('pkg-config --libs bzip2')
 	
 	env.ParseConfig('pkg-config --cflags glib-2.0')
 	env.ParseConfig('pkg-config --libs glib-2.0')
