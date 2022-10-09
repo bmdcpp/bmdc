@@ -100,23 +100,6 @@ def generate_message_catalogs(env):
 
 	return None
 
-
-def check_bzr_revision(context,env):
-	context.Message("Checking bzr revision...")
-	revision = ''
-
-	try:
-		b = branch.Branch.open('.')
-		revision = str(b.revno())
-	except:
-		print ("failed")
-
-	context.env['BZR_REVISION'] = revision
-	env.Append( CPPDEFINES = ('-DBZR_REVISION=') + revision)
-	env.Append( CPPDEFINES = ('-DBZR_REVISION_STRING=\'"') + revision+('\"\''))
-	context.Result(revision)
-	return revision
-
 def replaceAll(env,file,searchExp,replaceExp):
 	for line in fileinput.input(file, inplace=1):
 		if searchExp in line:
@@ -139,11 +122,9 @@ vars.AddVariables(
 	BoolVariable('profile', 'Compile the program with profiling information', 0),
 	BoolVariable('libnotify', 'Enable notifications through libnotify', 1),
 	BoolVariable('libtar', 'Enable Backup&Export with libtar', 1),
-	BoolVariable('libappindicator', 'Enable AppIndicator Support', 0),
 	BoolVariable('libxattr', 'Enable xattr support for storing calculated Hash in extended attributes of file',1),
 	BoolVariable('libXss', 'Enable libxss support for AutoAway on idle feat',1),
 	BoolVariable('newSettings', 'Use new Settings dialog UI',0),
-	BoolVariable('useStatusIcon', 'Use Status Icon',1),
 	PathVariable('PREFIX', 'Compile the program with PREFIX as the root for installation', '/usr/local/', PathVariable.PathIsDir),
 	('FAKE_ROOT', 'Make scons install the program under a fake root', '')
 )
@@ -220,7 +201,6 @@ conf = env.Configure(
 		'CheckPKGConfig' : check_pkg_config,
 		'CheckPKG' : check_pkg,
 		'CheckCXXVersion' : check_cxx_version,
-		'CheckBZRRevision' : check_bzr_revision
 	},
 	conf_dir = 'build/sconf',
 	log_file = 'build/sconf/config.log')
@@ -349,13 +329,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 			print ('Dont Found libtar headers')
 			LIB_IS_TAR = False
 
-	# Support of appindicator # Very Experimental!
-	if conf.env.get('libappindicator'):
-		if conf.CheckPKG('appindicator3-0.1'):
-			print ('Found appindicator3')
-			conf.env.Append(CPPDEFINES = 'HAVE_APPINDCATOR')
-			conf.env.ParseConfig('pkg-config --libs --cflags appindicator3-0.1')
-
 	if conf.env.get('libXss'):
 		if conf.CheckLibWithHeader('libXss','X11/extensions/scrnsaver.h' ,'c'):
 			print ('Found Xss')
@@ -366,10 +339,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		conf.env.Append(CPPDEFINES = 'USE_NEW_SETTINGS')
 		NEW_SETTING = True
 
-	if conf.env.get('useStatusIcon'	):
-		conf.env.Append(CPPDEFINES = 'USE_STATUSICON')
-
-	conf.CheckBZRRevision(env)
 	#os.system('sh linux/gen.sh')
 	env = conf.Finish()
 

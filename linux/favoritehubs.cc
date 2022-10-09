@@ -43,9 +43,9 @@ FavoriteHubs::FavoriteHubs():
 	BookEntry(Entry::FAVORITE_HUBS, _("Favorite Hubs"), "favoritehubs")
 {
 	GSimpleActionGroup *group;
-  group = g_simple_action_group_new ();
-  g_action_map_add_action_entries (G_ACTION_MAP (group), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
-  gtk_widget_insert_action_group(getContainer(),"fav" ,G_ACTION_GROUP(group));
+	group = g_simple_action_group_new ();
+	g_action_map_add_action_entries (G_ACTION_MAP (group), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+	gtk_widget_insert_action_group(getContainer(),"fav" ,G_ACTION_GROUP(group));
 
 	// Initialize favorite hub list treeview
 	favoriteView.setView(GTK_TREE_VIEW(getWidget("favoriteView")), TRUE, "favoritehubs");

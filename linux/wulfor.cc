@@ -44,13 +44,6 @@
 
 #define GUI_LOCALE_DIR _DATADIR PATH_SEPARATOR_STR "locale"
 
-/*
-void receiver(const char *clink, gpointer )
-{
-	g_return_if_fail(clink != NULL);
-	WulforManager::get()->onReceived_gui(clink);
-}
-*/
 using namespace std;
 using namespace dcpp;
 

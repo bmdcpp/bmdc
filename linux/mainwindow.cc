@@ -99,11 +99,10 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 	lastUpdate(0), lastUp(0), lastDown(0),
 	statusFrame(1),	current_width(-1),
 	current_height(-1),	is_maximized(FALSE),
-	window(window)
+	window(window), bText(false)
 {
-	//bool bText = false;
-	//if(text)
-	//	text = true;
+	if(bText)
+		bText = true;
 //	string stmp;
 //	startTime = GET_TICK();
 //	HashManager::getInstance()->getStats(stmp, startBytes, startFiles);
@@ -116,52 +115,90 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 	GtkWidget* tool = gtk_box_new(GTK_ORIENTATION_HORIZONTAL , 12);
 	gtk_box_append(GTK_BOX(mWidget),tool);
 
-	//GtkWidget* bConnect = gtk_button_new_with_label("Connect");
-	GtkWidget * bConnect = gtk_button_new_from_icon_name("bmdc-connect");
+	GtkWidget* bConnect;
+	if(bText)
+	 	bConnect = gtk_button_new_with_label("Connect");
+	else		
+		bConnect = gtk_button_new_from_icon_name("bmdc-connect");
 	gtk_box_append(GTK_BOX(tool),bConnect);
 	g_signal_connect(bConnect, "clicked" , G_CALLBACK(onConnectClicked_gui) , (gpointer)this);
 
-//  GtkWidget* favHub = gtk_button_new_with_label("Favorite Hubs");
-	GtkWidget* favHub = gtk_button_new_from_icon_name("bmdc-favorite-hubs");
-  gtk_box_append(GTK_BOX(tool),favHub);
+  	GtkWidget* favHub;
+	if(bText)
+ 		favHub = gtk_button_new_with_label("Favorite Hubs");
+	else		
+		favHub = gtk_button_new_from_icon_name("bmdc-favorite-hubs");
+  	gtk_box_append(GTK_BOX(tool),favHub);
   
-  //GtkWidget* rec = gtk_button_new_with_label("Recent Hubs");
-  GtkWidget* rec = gtk_button_new_from_icon_name("bmdc-recent-hubs");
-  gtk_box_append(GTK_BOX(tool),rec);
+  	GtkWidget* rec; 
+	if(bText)
+  		rec= gtk_button_new_with_label("Recent Hubs");
+	else	
+  		rec = gtk_button_new_from_icon_name("bmdc-recent-hubs");
+  	gtk_box_append(GTK_BOX(tool),rec);
 
-  GtkWidget* favuser = gtk_button_new_from_icon_name("bmdc-favorite-users");
-  //GtkWidget* favuser = gtk_button_new_with_label("Favorite Users");
-  gtk_box_append(GTK_BOX(tool),favuser);
+	GtkWidget* favuser;
+	if(bText)
+  		favuser = gtk_button_new_with_label("Favorite Users");
+	else
+		favuser = gtk_button_new_from_icon_name("bmdc-favorite-users");	
+	gtk_box_append(GTK_BOX(tool),favuser);
   
-  //GtkWidget* dq = gtk_button_new_with_label("Download Queue");
-  GtkWidget* dq = gtk_button_new_from_icon_name("bmdc-queue");
+	GtkWidget* dq;
+  if(bText)
+  		dq = gtk_button_new_with_label("Download Queue");
+	else	
+        dq = gtk_button_new_from_icon_name("bmdc-queue");
   gtk_box_append(GTK_BOX(tool),dq);
 
-  //GtkWidget* search = gtk_button_new_with_label("Search");
-  GtkWidget* search = gtk_button_new_from_icon_name("bmdc-search");
+	GtkWidget* search;
+	if(bText)
+  		search = gtk_button_new_with_label("Search");
+	else		
+  		search = gtk_button_new_from_icon_name("bmdc-search");
   gtk_box_append(GTK_BOX(tool),search);
   
-  GtkWidget* publicHub = gtk_button_new_from_icon_name("bmdc-public-hubs");
-  //GtkWidget* publicHub = gtk_button_new_with_label("Public Hubs");
+  GtkWidget* publicHub;
+  if(bText)
+  	publicHub = gtk_button_new_with_label("Public Hubs");
+  else		
+   publicHub = gtk_button_new_from_icon_name("bmdc-public-hubs");
+  
   gtk_box_append(GTK_BOX(tool),publicHub);
   
-  GtkWidget* df = gtk_button_new_from_icon_name("bmdc-finished-downloads");
-  //GtkWidget* df = gtk_button_new_with_label("Finished");
+	GtkWidget* df;
+	if(bText)
+		df = gtk_button_new_with_label("Finished");
+	else	
+		df = gtk_button_new_from_icon_name("bmdc-finished-downloads");
+
   gtk_box_append(GTK_BOX(tool),df);
   
-  GtkWidget* uq = gtk_button_new_from_icon_name("bmdc-upload-quene");
-  //GtkWidget* uq = gtk_button_new_with_label("Upload Queue");
-  gtk_box_append(GTK_BOX(tool),uq);
+	GtkWidget* uq;
+	if(bText)
+		uq = gtk_button_new_with_label("Upload Queue");
+	else	
+  		uq = gtk_button_new_from_icon_name("bmdc-upload-quene");
   
-  GtkWidget* sp = gtk_button_new_from_icon_name("bmdc-preferences");
-  //GtkWidget* sp = gtk_button_new_with_label("Settings");
+  gtk_box_append(GTK_BOX(tool),uq);
+
+  GtkWidget* sp;
+  if(bText)	
+  	sp = gtk_button_new_with_label("Settings");  
+  else		
+  	sp = gtk_button_new_from_icon_name("bmdc-preferences");
   gtk_box_append(GTK_BOX(tool),sp);
 
   GtkWidget* ac = gtk_button_new_with_label("About Config");
   gtk_box_append(GTK_BOX(tool),ac);
 
-  GtkWidget* nt = gtk_button_new_from_icon_name("bmdc-notepad");
-  //GtkWidget* nt = gtk_button_new_with_label("Notepad");
+
+  GtkWidget* nt;
+  if(bText)
+  		nt = gtk_button_new_with_label("Notepad");
+	else	
+  		nt = gtk_button_new_from_icon_name("bmdc-notepad");
+
   gtk_box_append(GTK_BOX(tool),nt);
 
   GtkWidget* sl = gtk_button_new_with_label("System Log");
@@ -170,14 +207,20 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
   GtkWidget* cmd = gtk_button_new_with_label("Cmd Log");
   gtk_box_append(GTK_BOX(tool),cmd);
 
-  //GtkWidget* adl = gtk_button_new_with_label("ADL Search");
-  GtkWidget* adl = gtk_button_new_from_icon_name("bmdc-search-adl");
+	GtkWidget* adl;
+	if(bText)	
+  		adl = gtk_button_new_with_label("ADL Search");
+  else
+  		adl = gtk_button_new_from_icon_name("bmdc-search-adl");
   gtk_box_append(GTK_BOX(tool),adl);
 
-  //GtkWidget* sspy = gtk_button_new_with_label("Search Spy");
-  GtkWidget* sspy = gtk_button_new_from_icon_name("bmdc-search-spy");
-  gtk_box_append(GTK_BOX(tool),sspy);
-  ///
+	GtkWidget* sspy;
+	if(bText)
+  		sspy = gtk_button_new_with_label("Search Spy");
+	else	
+  		sspy = gtk_button_new_from_icon_name("bmdc-search-spy");
+  	gtk_box_append(GTK_BOX(tool),sspy);
+  
 	GtkWidget* hpaned = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
 	note = gtk_notebook_new();
 	
@@ -192,8 +235,8 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
     gtk_paned_set_end_child(GTK_PANED(hpaned) , transfers->getContainer());
     transfers->show();
 
-		int  pos = WGETI("transfer-pane-position");
-		gtk_paned_set_position(GTK_PANED(hpaned), pos);
+	int  pos = WGETI("transfer-pane-position");
+	gtk_paned_set_position(GTK_PANED(hpaned), pos);
 
     gtk_box_append(GTK_BOX(mWidget) , GTK_WIDGET(hpaned));
 
@@ -320,18 +363,6 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 //	g_object_set_data_full(G_OBJECT(getWidget("homeMenuItem")), "link",
 //		g_strdup("http://launchpad.net/bmdc++"), g_free);
 //	g_signal_connect(getWidget("homeMenuItem"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
-
-//	g_object_set_data_full(G_OBJECT(getWidget("sourceMenuItem")), "link",
-//		g_strdup("http://code.launchpad.net/bmdc++"), g_free);
-//	g_signal_connect(getWidget("sourceMenuItem"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
-
-//	g_object_set_data_full(G_OBJECT(getWidget("issueMenuItem")), "link",
-//		g_strdup("http://bugs.launchpad.net/bmdc++"), g_free);
-//	g_signal_connect(getWidget("issueMenuItem"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
-
-//	g_object_set_data_full(G_OBJECT(getWidget("forumDiscussionItem")), "link",
-//		g_strdup("http://answers.launchpad.net/bmdc++"), g_free);
-//	g_signal_connect(getWidget("forumDiscussionItem"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
 
 	onQuit = false;
 
