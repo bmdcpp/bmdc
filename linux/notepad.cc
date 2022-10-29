@@ -25,7 +25,7 @@ using namespace dcpp;
 Notepad::Notepad():
 BookEntry(Entry::NOTEPAD, _("Notepad"), "notepad")
 {
-	WulforUtil::setTextDeufaults(getWidget("textview1"),SETTING(BACKGROUND_CHAT_COLOR),string(),false,string(),"Notepad");
+	WulforUtil::setTextDeufaults(getWidget("textview1"),SETTING(BACKGROUND_CHAT_COLOR),dcpp::Util::emptyString,false,dcpp::Util::emptyString,"Notepad");
 	WulforUtil::setTextColor(string("black"),string("Notepad"),getWidget("textview1"));
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (getWidget("textview1")));
 }
@@ -35,7 +35,7 @@ Notepad::~Notepad()
 	GtkTextIter start;
 	GtkTextIter end;
 
-	gchar *text = NULL;
+	g_autofree gchar *text = NULL;
 	/* Obtain iters for the start and end of points of the buffer */
 	gtk_text_buffer_get_start_iter (buffer, &start);
 	gtk_text_buffer_get_end_iter (buffer, &end);
@@ -53,7 +53,6 @@ Notepad::~Notepad()
 	}
 	catch (const Exception &e)
 	{ }
-	g_free (text);
 
 }
 
