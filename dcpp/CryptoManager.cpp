@@ -212,7 +212,7 @@ void CryptoManager::generateCertificate() {
 void CryptoManager::sslRandCheck() {
 	if(!RAND_status()) {
 #ifdef _WIN32
-		RAND_screen();
+		RAND_poll();
 #endif
 	}
 }
