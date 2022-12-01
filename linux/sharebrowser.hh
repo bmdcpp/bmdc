@@ -89,7 +89,7 @@ class ShareBrowser:
                                    double             x,
                                    double             y,
                                    gpointer         *data){
-			g_print("CLICK");
+			g_debug("CLICK");
 			ShareBrowser* dq = (ShareBrowser*)data;
 			GtkTreeIter iter;
 			dq->fileViewSelected_gui();
@@ -105,7 +105,7 @@ class ShareBrowser:
                                     double           x,
                                     double           y,
                                     GtkWidget       *widget){
-			g_print("de-click");
+			g_debug("de-click");
 
 		};
 		// Client functions

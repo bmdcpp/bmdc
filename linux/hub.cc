@@ -164,15 +164,15 @@ Hub::Hub(const string &address, const string &encoding):
 	emot_mark = gtk_text_buffer_create_mark(chatBuffer, NULL, &iter, TRUE);
 
 	// image magnet
-	imageLoad.first = string();
+	imageLoad.first = dcpp::Util::emptyString;
 	imageLoad.second = NULL;
-	imageMagnet.first = string();
-	imageMagnet.second = string();
+	imageMagnet.first = dcpp::Util::emptyString;
+	imageMagnet.second = dcpp::Util::emptyString;
 
 	// Initialize the user command menu
 	userCommandMenu = new UserCommandMenu(g_menu_new(), GTK_WIDGET(nickView.get()), ::UserCommand::CONTEXT_USER);
 	// Hub ...
-	userCommandMenu1 = new UserCommandMenu(BookEntry::createmenu(),getLabelBox(), ::UserCommand::CONTEXT_HUB);
+	userCommandMenu1 = new UserCommandMenu(BookEntry::createmenu(), getLabelBox(), ::UserCommand::CONTEXT_HUB);
 	userCommandMenu1->addHub(address);
 	userCommandMenu1->buildMenu_gui();
 	// IP Address...
@@ -625,7 +625,7 @@ Hub::~Hub()
 
 	bool showUL = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("userListCheckButton")));
 	FavoriteHubEntry* entry = getFavoriteHubEntry();
-	string order = string(), hwidth = string(), visible = string();
+	string order = dcpp::Util::emptyString, hwidth = dcpp::Util::emptyString, visible = dcpp::Util::emptyString;
 	nickView.saveSettings(order,hwidth,visible);
 
 	SettingsManager* sm = SettingsManager::getInstance();
@@ -1000,10 +1000,10 @@ void Hub::popupNickMenu_gui()
 
 	GtkTreeIter iter;
 	GList *list = gtk_tree_selection_get_selected_rows(nickSelection, NULL);
-	string nicks = string();
-	string cid = string();
+	string nicks = dcpp::Util::emptyString;
+	string cid = dcpp::Util::emptyString;
 	string ip = "0.0.0.0";
-	string lastNick = string();
+	string lastNick = dcpp::Util::emptyString;
 
 	for (GList *i = list; i; i = i->next)
 	{
@@ -1149,13 +1149,13 @@ void Hub::addMessage_gui(string cid, string message, Msg::TypeMsg typemsg, strin
 		return;
 
 	GtkTextIter iter;
-	string line = string();
+	string line = dcpp::Util::emptyString;
 
 	// Add a new line if this isn't the first line in buffer.
 	if(gtk_text_buffer_get_line_count(chatBuffer) >= 1)
 		line += "\n";
 
-	if( client && client->get(SettingsManager::TIME_STAMPS,SETTING(TIME_STAMPS)))
+	if( client && client->get(SettingsManager::TIME_STAMPS, SETTING(TIME_STAMPS)))
 			line += string(g_filename_to_utf8( string("[" + Util::getShortTimeString() + "] ").c_str(),-1,NULL,NULL,NULL));
 
 	line += string(g_filename_to_utf8(message.c_str(),-1,NULL,NULL,NULL));
@@ -2445,7 +2445,7 @@ void Hub::onSendMessage_gui(GtkEntry *e, gpointer data)
 	{
 		typedef Func1<Hub, string> F1;
 		F1 *func;
-		string command = text, param ,mess = string(), status = string(), params;
+		string command = text, param ,mess = dcpp::Util::emptyString, status = dcpp::Util::emptyString, params;
 		bool thirdPerson = false;
 		string::size_type separator = text.find_first_of(' ');
 		if (separator != string::npos && text.size() > separator + 1)
@@ -3799,9 +3799,9 @@ void Hub::addAsFavorite_client()
 		if(!client->getPassword().empty())
 			entry.setPassword(client->getPassword());
 		else
-			entry.setPassword(string());
+			entry.setPassword(dcpp::Util::emptyString);
 
-		entry.setGroup(string());
+		entry.setGroup(dcpp::Util::emptyString);
 
 		FavoriteManager::getInstance()->addFavorite(entry);
 
@@ -3918,8 +3918,8 @@ void Hub::getParams_client(ParamMap &params, Identity &id)
 	params.insert(ParamMap::value_type("CID", id.getUser()->getCID().toBase32()));
 	//BMDC++
 	if( !id.isHub() || !id.isBot() || !id.getIp().empty() ) { //should *not* getting CC from Bot/Hub User
-		params.insert(ParamMap::value_type("Country", (SETTING(GET_USER_COUNTRY)) ? /*GeoManager::getInstance()->getCountry(id.getIp())*/id.getCountry() : string() ));
-		params.insert(ParamMap::value_type("Abbrevation", (SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountryAbbrevation(id.getIp()): string() ));
+		params.insert(ParamMap::value_type("Country", (SETTING(GET_USER_COUNTRY)) ? /*GeoManager::getInstance()->getCountry(id.getIp())*/id.getCountry() : dcpp::Util::emptyString ));
+		params.insert(ParamMap::value_type("Abbrevation", (SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountryAbbrevation(id.getIp()): dcpp::Util::emptyString ));
 	}
 	params.insert(ParamMap::value_type("Slots", id.get("SL")));
 	const string hubs = Util::toString(Util::toInt(id.get("HN")) + Util::toInt(id.get("HR")) + Util::toInt(id.get("HO")));//@Hubs
@@ -4440,7 +4440,7 @@ void Hub::on(ClientListener::HubUpdated, Client *) noexcept
 {
 	typedef Func1<Hub, const string> F1;
 	typedef Func1<Hub, string> FX;
-	string hubName = string();
+	string hubName = dcpp::Util::emptyString;
 	string hubText = client->get(SettingsManager::HUB_TEXT_STR, SETTING(HUB_TEXT_STR));
 	string iconPath = client->get(SettingsManager::HUB_ICON_STR, SETTING(HUB_ICON_STR));
 
@@ -4473,11 +4473,8 @@ void Hub::on(ClientListener::HubUpdated, Client *) noexcept
 	WulforManager::get()->dispatchGuiFunc(func1);
 }
 
-/*
- * Inspired by code of RSX
- */
 string Hub::formatAdditionalInfo(const string& sIp, bool bIp, bool bCC) {
-	string sRet = string();
+	string sRet = dcpp::Util::emptyString;
 
 	if(!sIp.empty()) {
 
@@ -4783,7 +4780,7 @@ void Hub::onShareView(GtkWidget* ,GVariant*, gpointer data)
 	Hub* hub = (Hub*)data;
 	ShareManager *sm = hub->client->getShareManager();
 	sm->generateXmlList();
-	WulforManager::get()->getMainWindow()->showShareBrowser_gui(HintedUser(ClientManager::getInstance()->getMe(),hub->client->getHubUrl()),sm->getBZXmlFile(),string(),0, true);
+	WulforManager::get()->getMainWindow()->showShareBrowser_gui(HintedUser(ClientManager::getInstance()->getMe(),hub->client->getHubUrl()),sm->getBZXmlFile(),dcpp::Util::emptyString, 0, true);
 }
 
 void Hub::onRefreshShare(GtkWidget* ,GVariant*, gpointer data)
@@ -4838,7 +4835,7 @@ void Hub::on_setImage_tab(GtkButton*, gpointer data)
 				BMDC_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 				NULL);
 
-	//if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+	//if (gtk_widget_show (GTK_DIALOG (dialog))) 
 	{
 	//	g_autofree gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
 

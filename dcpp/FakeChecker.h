@@ -1,8 +1,7 @@
 /*
  * FakeChecker.h
- * This file is part of BMDC++
  *
- * Copyright (C) 2012 - 2017 - Mank
+ * Copyright (C) 2012 - 2025 - BMDC
  *
  * BMDC++ is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public

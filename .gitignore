@@ -78,3 +78,4 @@ UserInfoProfiles.xml
 *.tlog
 mingw.sh
 mingw64.sh
+*.bz2

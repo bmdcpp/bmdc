@@ -28,8 +28,6 @@
 #include <openssl/err.h>
 #include <openssl/rand.h>
 
-//#include <openssl/x509_vfy.h>
-
 #ifndef DHAVE_EC_CRYPTO
 	#include <openssl/ec.h>
 #endif 

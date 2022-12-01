@@ -1,6 +1,6 @@
 /*
  *
- * Copyright (C) 2012 - 2019 BMDC
+ * Copyright (C) 2012 - 2025 BMDC
  *
  * BMDC++ is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,6 +27,7 @@
 #include "CriticalSection.h"
 
 namespace dcpp {
+	
 class SimpleXML;
 class CalcADLAction: public Singleton<CalcADLAction>, public SettingsManagerListener
 {
@@ -42,7 +43,6 @@ class CalcADLAction: public Singleton<CalcADLAction>, public SettingsManagerList
 	private:
 		//clang
 		using SettingsManagerListener::on;
-		//end
 		IntMap points;
 		CriticalSection cs;
 		void on(SettingsManagerListener::Load, SimpleXML& xml);

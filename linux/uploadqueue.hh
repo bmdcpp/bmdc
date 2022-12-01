@@ -1,5 +1,5 @@
 //
-//      Copyright 2011-2024 BMDC
+//      Copyright 2011-2025 BMDC
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ class UploadQueue:
 		static void onBrowseItemClicked_gui(GtkWidget *widget,GVariant  *parameter, gpointer data);
 		static void onFavoriteUserAddItemClicked_gui(GtkWidget *widget,GVariant  *parameter, gpointer data);
 
-		static void on_widget_right_btn_pressed (GtkGestureClick *gesture, int       n_press,
+		static void onWidgetPressed (GtkGestureClick *gesture, int       n_press,
                                    double             x,
                                    double             y,
                                    gpointer         *data);

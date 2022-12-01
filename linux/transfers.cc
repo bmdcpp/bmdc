@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011-2024 BMDC
+ * Copyright © 2011-2025 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -122,7 +122,7 @@ void Transfers::on_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
                                    double             y,
                                    gpointer         *data)
 {
-	Transfers *FH = (Transfers*)data;
+	Transfers *TR = (Transfers*)data;
 	g_debug ("on_inner_widget_right_btn_pressed() called\n");
 
 	GMenu *menu = g_menu_new ();
@@ -163,7 +163,7 @@ void Transfers::on_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
 	g_object_unref (menu_item_q);
 
 	GtkWidget *pop = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
-	gtk_widget_set_parent(pop, FH->getContainer());
+	gtk_widget_set_parent(pop, TR->getContainer());
 	gtk_popover_set_pointing_to(GTK_POPOVER(pop), &(const GdkRectangle){x,y,1,1});
 	gtk_popover_popup (GTK_POPOVER(pop));
 
@@ -785,12 +785,12 @@ void Transfers::initTransfer_gui(StringMap params)
 				transferView.col(_("Path")), params[_("Path")].c_str(),
 				transferView.col(_("Size")), Util::toInt64(params["File Size"]),
 				transferView.col("IP"), params["IP"].c_str(),
-				transferView.col("DNS"), WGETB("use-dns") ? Socket::getRemoteHost(params["IP"]).c_str() : string().c_str(),
+				transferView.col("DNS"), WGETB("use-dns") ? Socket::getRemoteHost(params["IP"]).c_str() : dcpp::Util::emptyString.c_str(),
 				transferView.col("Icon"), "bmdc-download",
 				transferView.col("Download"), TRUE,
 				transferView.col("Target"), params["Target"].c_str(),
 				transferView.col("Country"), GeoManager::getInstance()->getCountry(params["IP"]).c_str(),
-				transferView.col("Pixbuf"), WulforUtil::LoadCountryPixbuf((SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountryAbbrevation(params["IP"]) : string()),
+				transferView.col("Pixbuf"), WulforUtil::LoadCountryPixbuf((SETTING(GET_USER_COUNTRY)) ? GeoManager::getInstance()->getCountryAbbrevation(params["IP"]) : dcpp::Util::emptyString),
 				transferView.col("TTH"), params["TTH"].c_str(),
 				-1);
 

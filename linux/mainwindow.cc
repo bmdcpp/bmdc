@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2012 Jens Oknelid, paskharen@gmail.com
- * Copyright © BMDC 2022 - 2024
+ * Copyright © BMDC 2022 - 2025
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -93,6 +93,18 @@ string MainWindow::icons[(MainWindow::IconsToolbar)END][2] =
 	{"limiting", "limitingButton"}
 };
 */
+
+static GtkWidget* createButtonToolbarWidget(std::string name, std::string label, bool bText )
+{
+	GtkWidget* widget;
+	if(bText)
+	 	widget = gtk_button_new_with_label(label.c_str());
+	else		
+		widget = gtk_button_new_from_icon_name(name.c_str());
+	
+	return widget;	
+}
+
 MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 	Entry(Entry::MAIN_WINDOW, "mainwindow"),
 	transfers(NULL), minimized(false),
@@ -101,7 +113,7 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 	current_height(-1),	is_maximized(FALSE),
 	window(window), bText(false)
 {
-	if(bText)
+	if(bText)//set
 		bText = true;
 //	string stmp;
 //	startTime = GET_TICK();
@@ -115,11 +127,7 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 	GtkWidget* tool = gtk_box_new(GTK_ORIENTATION_HORIZONTAL , 12);
 	gtk_box_append(GTK_BOX(mWidget),tool);
 
-	GtkWidget* bConnect;
-	if(bText)
-	 	bConnect = gtk_button_new_with_label("Connect");
-	else		
-		bConnect = gtk_button_new_from_icon_name("bmdc-connect");
+	GtkWidget* bConnect = createButtonToolbarWidget("bmdc-connect","Connect",bText);
 	gtk_box_append(GTK_BOX(tool),bConnect);
 	g_signal_connect(bConnect, "clicked" , G_CALLBACK(onConnectClicked_gui) , (gpointer)this);
 
@@ -145,26 +153,26 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 	gtk_box_append(GTK_BOX(tool),favuser);
   
 	GtkWidget* dq;
-  if(bText)
+	if(bText)
   		dq = gtk_button_new_with_label("Download Queue");
 	else	
         dq = gtk_button_new_from_icon_name("bmdc-queue");
-  gtk_box_append(GTK_BOX(tool),dq);
+	gtk_box_append(GTK_BOX(tool),dq);
 
 	GtkWidget* search;
 	if(bText)
   		search = gtk_button_new_with_label("Search");
 	else		
   		search = gtk_button_new_from_icon_name("bmdc-search");
-  gtk_box_append(GTK_BOX(tool),search);
+	gtk_box_append(GTK_BOX(tool),search);
+
+	GtkWidget* publicHub;
+	if(bText)
+  		publicHub = gtk_button_new_with_label("Public Hubs");
+	else		
+		publicHub = gtk_button_new_from_icon_name("bmdc-public-hubs");
   
-  GtkWidget* publicHub;
-  if(bText)
-  	publicHub = gtk_button_new_with_label("Public Hubs");
-  else		
-   publicHub = gtk_button_new_from_icon_name("bmdc-public-hubs");
-  
-  gtk_box_append(GTK_BOX(tool),publicHub);
+	gtk_box_append(GTK_BOX(tool),publicHub);
   
 	GtkWidget* df;
 	if(bText)
@@ -172,7 +180,7 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 	else	
 		df = gtk_button_new_from_icon_name("bmdc-finished-downloads");
 
-  gtk_box_append(GTK_BOX(tool),df);
+	gtk_box_append(GTK_BOX(tool),df);
   
 	GtkWidget* uq;
 	if(bText)
@@ -187,6 +195,7 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
   	sp = gtk_button_new_with_label("Settings");  
   else		
   	sp = gtk_button_new_from_icon_name("bmdc-preferences");
+  
   gtk_box_append(GTK_BOX(tool),sp);
 
   GtkWidget* ac = gtk_button_new_with_label("About Config");
@@ -277,7 +286,6 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 	//gchar *comments = g_strdup_printf(_("DC++ Client based on the source code FreeDC++\n\nBMDC++ version: %s.%s\nCore version: %s"),
 	//	GUI_VERSION_STRING, BMDC_REVISION_STRING, VERSIONSTRING);
 	//gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(getWidget("aboutDialog")), comments);
-	//g_free(comments);
 
 	//gtk_about_dialog_set_logo_icon_name(GTK_ABOUT_DIALOG(getWidget("aboutDialog")),"bmdc");
 
@@ -1581,12 +1589,12 @@ void MainWindow::addFileDownloadQueue_client(string name, int64_t size, string t
 	{
 		if (!tth.empty())
 		{
-			QueueManager::getInstance()->add(name, size, TTHValue(tth) , HintedUser(make_shared<User>(User(CID())),string()));
+			QueueManager::getInstance()->add(name, size, TTHValue(tth) , HintedUser(make_shared<User>(User(CID())), dcpp::Util::emptyString));
 
 			// automatically search for alternative download locations
 			if (SETTING(AUTO_SEARCH))
 				SearchManager::getInstance()->search(tth, 0, SearchManager::TYPE_TTH, SearchManager::SIZE_DONTCARE,
-					string());
+					dcpp::Util::emptyString);
 		}
 	}
 	catch (const Exception& e)
@@ -2328,7 +2336,7 @@ void MainWindow::openOwnList_client(bool useSetting)
 	string path = ShareManager::getInstance()->getOwnListFile();
 
 	typedef Func5<MainWindow, HintedUser, string, string, int64_t,bool> F5;
-	F5 *func = new F5(this, &MainWindow::showShareBrowser_gui,HintedUser(user,string()), path, "",0, useSetting);
+	F5 *func = new F5(this, &MainWindow::showShareBrowser_gui,HintedUser(user,dcpp::Util::emptyString), path, "", 0, useSetting);
 	WulforManager::get()->dispatchGuiFunc(func);
 }
 

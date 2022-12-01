@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2013 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2011-2018 BMDC
+ * Copyright © 2011-2025 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -339,7 +339,7 @@ void PublicHubs::onConfigure_gui(GtkWidget*, gpointer data)
 
 	// Have to get active here since temp could be NULL after dialog is closed
 	gchar *temp = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(ph->getWidget("hubListBox")));
-	string active = string();
+	string active = dcpp::Util::emptyString;
 	if(temp){
 		active = string(temp);
 		g_free(temp);

@@ -1,5 +1,5 @@
 //
-//      Copyright 2011 - 2024 BMDC
+//      Copyright 2011 - 2025 BMDC
 //
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -69,14 +69,14 @@ selection(NULL)
 	gesture = gtk_gesture_click_new ();
 	gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (gesture), 3);
 	g_signal_connect (gesture, "pressed",
-                    G_CALLBACK (on_widget_right_btn_pressed), (gpointer)this);
+                    G_CALLBACK (onWidgetPressed), (gpointer)this);
 	g_signal_connect (gesture, "released",
                     G_CALLBACK (on_widget_right_btn_released), (gpointer)this);
 	gtk_widget_add_controller (GTK_WIDGET(users.get()), GTK_EVENT_CONTROLLER (gesture));
 
 }
 
-void UploadQueue::on_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
+void UploadQueue::onWidgetPressed (GtkGestureClick* /*gesture*/,
                                    int                /*n_press*/,
                                    double             x,
                                    double             y,
@@ -364,7 +364,7 @@ void UploadQueue::grantSlot_client(const string &cid)
 	UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
 	if (user)
 	{
-		UploadManager::getInstance()->reserveSlot(HintedUser(user, string()));
+		UploadManager::getInstance()->reserveSlot(HintedUser(user, dcpp::Util::emptyString));
 	}
 }
 
@@ -383,7 +383,7 @@ void UploadQueue::getFileList_client(const string &cid)
 		UserPtr user = ClientManager::getInstance()->findUser(CID(cid));
 		if(user)
 		{
-			HintedUser hintedUser(user, string());
+			HintedUser hintedUser(user, dcpp::Util::emptyString);
 			QueueManager::getInstance()->addList(hintedUser, QueueItem::FLAG_CLIENT_VIEW);
 		}
 	}catch(...)

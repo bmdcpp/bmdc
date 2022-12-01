@@ -550,7 +550,7 @@ void BookEntry::setBackForeGround(const EntryType type)
 	context = gtk_widget_get_style_context (getLabelBox());
 	provider = gtk_css_provider_new ();
 
-	string t_css = string();
+	string t_css = dcpp::Util::emptyString;
 	if(WGETB("custom-font-size")) {
 		string size = dcpp::Util::toString(WGETI("book-font-size"))+" %";
 		t_css = std::string("#"+name+" { color:"+fg+"; background: "+bg+"; font-size:"+size+"; }\n\0");

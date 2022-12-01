@@ -23,7 +23,7 @@ class bmUtil {
 public:
 	static void		init();
 	static bool		checkVersion(const string& tag);
-	static uint32_t			toIpNumber(const string& aIp);
+	static uint32_t		toIpNumber(const string& aIp);
 	static void generateTestSURString();
 
 	static const string&	getTestSURString();

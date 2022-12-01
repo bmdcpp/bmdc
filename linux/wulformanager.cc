@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2010-2024 BMDC
+ * Copyright © 2010-2025 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -102,7 +102,7 @@ int WulforManager::createMainWindow()
 {
 	int status;
 
-    application = gtk_application_new ("org.bmdcteam.bmdc", G_APPLICATION_FLAGS_NONE);
+    application = gtk_application_new ("org.bmdcteam.bmdc", G_APPLICATION_DEFAULT_FLAGS);
     g_signal_connect (application, "activate", G_CALLBACK (activate), (gpointer)this);
     g_signal_connect (application, "shutdown", G_CALLBACK (shutdown), (gpointer)this);
 	status = g_application_run (G_APPLICATION (application), argc, argv);

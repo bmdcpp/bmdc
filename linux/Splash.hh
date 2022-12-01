@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 - 2021 - BMDC
+ * Copyright (C) 2011 - 2025 - BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,11 +33,6 @@ class Splash
 		 Text("") ,percentage(0),win(NULL), label(NULL), box(NULL), image(NULL), progressbar(NULL) { }
 		void show() {
 			win = gtk_window_new();
-			//gtk_window_set_decorated(GTK_WINDOW(win),FALSE);
-			//gtk_window_set_default_size(GTK_WINDOW(win),350,20);
-			//gtk_window_set_skip_taskbar_hint(GTK_WINDOW(win),TRUE);//@is this good idea?
-			//gtk_window_set_keep_above(GTK_WINDOW(win), TRUE);//
-			//gtk_window_set_position(GTK_WINDOW(win),GTK_WIN_POS_CENTER);*/
 			label = gtk_label_new("Loading...");
 			progressbar = gtk_progress_bar_new ();
 			box = gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
