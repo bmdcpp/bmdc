@@ -31,13 +31,13 @@
 
 using namespace std;
 using namespace dcpp;
-
+//0->padding
 const GActionEntry UploadQueue::win_entries[] = {
-    { "grant-slot", onGrantSlotItemClicked_gui, NULL, NULL, NULL },
-    { "favorite-user", onFavoriteUserAddItemClicked_gui , NULL, NULL, NULL },
-    { "remove-item",  onRemoveItem_gui , NULL, NULL, NULL },
-    { "pm-item", onSendPMItemClicked_gui , NULL, NULL, NULL },
-    { "browse-item", onBrowseItemClicked_gui , NULL, NULL, NULL },
+    { "grant-slot", onGrantSlotItemClicked_gui, NULL, NULL, NULL , 0 },
+    { "favorite-user", onFavoriteUserAddItemClicked_gui , NULL, NULL, NULL, 0 },
+    { "remove-item",  onRemoveItem_gui , NULL, NULL, NULL , 0 },
+    { "pm-item", onSendPMItemClicked_gui , NULL, NULL, NULL, 0 },
+    { "browse-item", onBrowseItemClicked_gui , NULL, NULL, NULL , 0 },
 };
 
 UploadQueue::UploadQueue():

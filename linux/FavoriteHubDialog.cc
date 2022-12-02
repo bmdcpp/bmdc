@@ -139,19 +139,19 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxSimple ,gtk_label_new(_("General Settings")));
 	//check
 	GtkWidget* boxCheck = gtk_grid_new();
-	g_g_a_c( gtk_label_new(_("Protected Users: ")) ,0,0,1,1);
+	gtk_grid_attach(GTK_GRID(boxCheck),gtk_label_new(_("Protected Users: ")) ,0,0,1,1);
 	entryProtectedUser = gtk_entry_new();
 	gtk_editable_set_text (GTK_EDITABLE(entryProtectedUser), p_entry->get(SettingsManager::PROTECTED_USERS,SETTING(PROTECTED_USERS)).c_str());
-	g_g_a_c(entryProtectedUser,1,0,1,1);
+	gtk_grid_attach(GTK_GRID(boxCheck), entryProtectedUser,1,0,1,1);
 	checkFilelists = gtk_toggle_button_new_with_label(_("Check Filelists"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(checkFilelists),p_entry->getCheckFilelists());
-	g_g_a_c(checkFilelists,0,1,1,1);
+	gtk_grid_attach(GTK_GRID(boxCheck), checkFilelists,0,1,1,1);
 	checkClients = gtk_toggle_button_new_with_label(_("Check Clients"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(checkClients),p_entry->getCheckClients());
-	g_g_a_c(checkClients,1,1,1,1);
+	gtk_grid_attach(GTK_GRID(boxCheck), checkClients,1,1,1,1);
 	checkOnConn = gtk_toggle_button_new_with_label(_("Check On Connect to Hub"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(checkOnConn),p_entry->getCheckAtConn());
-	g_g_a_c(checkOnConn,0,2,1,1);
+	gtk_grid_attach(GTK_GRID(boxCheck), checkOnConn,0,2,1,1);
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxCheck , gtk_label_new(_("Checking")));
 	//
 	boxAdvanced	= gtk_grid_new();
@@ -317,9 +317,7 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 	initActions();
 
 	//Share Page
-
 	GtkWidget* boxShare = gtk_grid_new();
-
 //	GtkWidget *scroll = gtk_scrolled_window_new(NULL,NULL);
 	GtkWidget *shareTree = gtk_tree_view_new();
 	g_object_set(G_OBJECT(shareTree),"hexpand",TRUE,NULL);//this fixes size

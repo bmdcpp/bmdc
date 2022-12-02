@@ -46,15 +46,15 @@ using namespace std;
 using namespace dcpp;
 
 const GActionEntry Transfers::win_entries[] = {
-    { "grant-slot", onGrantExtraSlotClicked_gui, NULL, NULL, NULL },
-    { "get-fl", onGetFileListClicked_gui, NULL, NULL, NULL },
-    { "match-queue", onMatchQueueClicked_gui, NULL, NULL, NULL },
-    { "send-pm", onPrivateMessageClicked_gui, NULL, NULL, NULL },
-    { "add-fav-user", onAddFavoriteUserClicked_gui, NULL, NULL, NULL },
-    { "remove-user", onRemoveUserFromQueueClicked_gui, NULL, NULL, NULL },
-    { "force-conn", onForceAttemptClicked_gui, NULL, NULL, NULL },
-    { "close-conn", onCloseConnectionClicked_gui, NULL, NULL, NULL },
-    { "search-alt", onSearchAlternateClicked_gui, NULL, NULL, NULL },
+    { "grant-slot", onGrantExtraSlotClicked_gui, NULL, NULL, NULL,0 },
+    { "get-fl", onGetFileListClicked_gui, NULL, NULL, NULL,0 },
+    { "match-queue", onMatchQueueClicked_gui, NULL, NULL, NULL,0 },
+    { "send-pm", onPrivateMessageClicked_gui, NULL, NULL, NULL,0 },
+    { "add-fav-user", onAddFavoriteUserClicked_gui, NULL, NULL, NULL,0 },
+    { "remove-user", onRemoveUserFromQueueClicked_gui, NULL, NULL, NULL,0 },
+    { "force-conn", onForceAttemptClicked_gui, NULL, NULL, NULL,0 },
+    { "close-conn", onCloseConnectionClicked_gui, NULL, NULL, NULL,0 },
+    { "search-alt", onSearchAlternateClicked_gui, NULL, NULL, NULL,0 }
 };
 
 Transfers::Transfers() :
