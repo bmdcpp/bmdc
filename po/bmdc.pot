@@ -19,7 +19,7 @@ msgstr ""
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2022-12-02 20:23+0100\n"
+"POT-Creation-Date: 2022-12-06 16:47+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -266,7 +266,7 @@ msgstr ""
 msgid "Choose a File"
 msgstr ""
 
-#: ui/settingsdialog.ui:338 linux/mainwindow.cc:1435 linux/mainwindow.cc:1496
+#: ui/settingsdialog.ui:338 linux/mainwindow.cc:1383 linux/mainwindow.cc:1444
 msgid "Choose a directory"
 msgstr ""
 
@@ -1063,7 +1063,7 @@ msgid " items"
 msgstr ""
 
 #: linux/hashdialog.cc:71 linux/hashdialog.cc:80 linux/hashdialog.cc:89
-#: linux/mainwindow.cc:2735 linux/mainwindow.cc:2744
+#: linux/mainwindow.cc:2683 linux/mainwindow.cc:2692
 msgid " left"
 msgstr ""
 
@@ -1111,7 +1111,7 @@ msgstr ""
 msgid "*** T E S T ***"
 msgstr ""
 
-#: linux/hashdialog.cc:72 linux/hashdialog.cc:84 linux/mainwindow.cc:2739
+#: linux/hashdialog.cc:72 linux/hashdialog.cc:84 linux/mainwindow.cc:2687
 msgid "-:--:-- left"
 msgstr ""
 
@@ -1143,7 +1143,7 @@ msgstr ""
 msgid "1"
 msgstr ""
 
-#: linux/mainwindow.cc:2764
+#: linux/mainwindow.cc:2712
 msgid "100% Done"
 msgstr ""
 
@@ -1175,7 +1175,7 @@ msgstr ""
 msgid "<b>New name</b>"
 msgstr ""
 
-#: linux/mainwindow.cc:2421
+#: linux/mainwindow.cc:2369
 msgid "<b>file:</b> "
 msgstr ""
 
@@ -1332,12 +1332,12 @@ msgstr ""
 msgid "Away mode message on/off"
 msgstr ""
 
-#: linux/WulforUtil.cc:574 linux/WulforUtil.cc:592 linux/mainwindow.cc:2041
+#: linux/WulforUtil.cc:574 linux/WulforUtil.cc:592 linux/mainwindow.cc:1989
 #: linux/privatemessage.cc:1025
 msgid "Away mode off"
 msgstr ""
 
-#: linux/mainwindow.cc:2050
+#: linux/mainwindow.cc:1998
 msgid "Away mode on"
 msgstr ""
 
@@ -2223,7 +2223,7 @@ msgstr ""
 msgid "List: "
 msgstr ""
 
-#: linux/mainwindow.cc:2179
+#: linux/mainwindow.cc:2127
 msgid "Loading Own file list"
 msgstr ""
 
@@ -2247,11 +2247,11 @@ msgstr ""
 msgid "Lowest"
 msgstr ""
 
-#: linux/mainwindow.cc:1489
+#: linux/mainwindow.cc:1437
 msgid "Magnet Choice"
 msgstr ""
 
-#: linux/mainwindow.cc:1426
+#: linux/mainwindow.cc:1374
 msgid "Magnet Properties / Choice"
 msgstr ""
 
@@ -2701,7 +2701,7 @@ msgstr ""
 msgid "Shared"
 msgstr ""
 
-#: linux/mainwindow.cc:859
+#: linux/mainwindow.cc:807
 msgid "Shared: "
 msgstr ""
 
@@ -2828,7 +2828,7 @@ msgstr ""
 msgid "Slots"
 msgstr ""
 
-#: linux/mainwindow.cc:858
+#: linux/mainwindow.cc:806
 msgid "Slots: "
 msgstr ""
 
@@ -3132,7 +3132,7 @@ msgstr ""
 msgid "User "
 msgstr ""
 
-#: linux/mainwindow.cc:1283
+#: linux/mainwindow.cc:1231
 msgid "User Commands Dialog"
 msgstr ""
 
@@ -3237,7 +3237,7 @@ msgstr ""
 msgid "Waiting to retry"
 msgstr ""
 
-#: linux/mainwindow.cc:395
+#: linux/mainwindow.cc:343
 msgid "Welcome to "
 msgstr ""
 
@@ -3284,7 +3284,7 @@ msgid "_Cancel"
 msgstr ""
 
 #: linux/AboutConfig.cc:433 linux/FavoriteHubDialog.cc:55
-#: linux/FavoriteHubDialog.cc:591 linux/mainwindow.cc:1867
+#: linux/FavoriteHubDialog.cc:591 linux/mainwindow.cc:1815
 msgid "_OK"
 msgstr ""
 
@@ -3309,7 +3309,7 @@ msgstr ""
 msgid "eMail"
 msgstr ""
 
-#: linux/mainwindow.cc:2395
+#: linux/mainwindow.cc:2343
 msgid "file list from "
 msgstr ""
 
@@ -3317,8 +3317,8 @@ msgstr ""
 msgid "project home: "
 msgstr ""
 
-#: linux/hashdialog.cc:80 linux/mainwindow.cc:868 linux/mainwindow.cc:869
-#: linux/mainwindow.cc:2441 linux/mainwindow.cc:2443 linux/mainwindow.cc:2735
+#: linux/hashdialog.cc:80 linux/mainwindow.cc:816 linux/mainwindow.cc:817
+#: linux/mainwindow.cc:2389 linux/mainwindow.cc:2391 linux/mainwindow.cc:2683
 #: linux/treeview.cc:213
 msgid "s"
 msgstr ""

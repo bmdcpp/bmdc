@@ -131,83 +131,39 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 	gtk_box_append(GTK_BOX(tool),bConnect);
 	g_signal_connect(bConnect, "clicked" , G_CALLBACK(onConnectClicked_gui) , (gpointer)this);
 
-  	GtkWidget* favHub;
-	if(bText)
- 		favHub = gtk_button_new_with_label("Favorite Hubs");
-	else		
-		favHub = gtk_button_new_from_icon_name("bmdc-favorite-hubs");
+  	GtkWidget* favHub = createButtonToolbarWidget("bmdc-favorite-hubs","Favorite Hubs",bText);
   	gtk_box_append(GTK_BOX(tool),favHub);
   
-  	GtkWidget* rec; 
-	if(bText)
-  		rec= gtk_button_new_with_label("Recent Hubs");
-	else	
-  		rec = gtk_button_new_from_icon_name("bmdc-recent-hubs");
+  	GtkWidget* rec = createButtonToolbarWidget("bmdc-recent-hubs","Recent Hubs",bText); 
   	gtk_box_append(GTK_BOX(tool),rec);
 
-	GtkWidget* favuser;
-	if(bText)
-  		favuser = gtk_button_new_with_label("Favorite Users");
-	else
-		favuser = gtk_button_new_from_icon_name("bmdc-favorite-users");	
+	GtkWidget* favuser = createButtonToolbarWidget("bmdc-favorite-users","Favorite Users",bText);
 	gtk_box_append(GTK_BOX(tool),favuser);
   
-	GtkWidget* dq;
-	if(bText)
-  		dq = gtk_button_new_with_label("Download Queue");
-	else	
-        dq = gtk_button_new_from_icon_name("bmdc-queue");
+	GtkWidget* dq = createButtonToolbarWidget("bmdc-queue","Download Queue",bText);
 	gtk_box_append(GTK_BOX(tool),dq);
 
-	GtkWidget* search;
-	if(bText)
-  		search = gtk_button_new_with_label("Search");
-	else		
-  		search = gtk_button_new_from_icon_name("bmdc-search");
+	GtkWidget* search = createButtonToolbarWidget("bmdc-search","Search",bText);
 	gtk_box_append(GTK_BOX(tool),search);
 
-	GtkWidget* publicHub;
-	if(bText)
-  		publicHub = gtk_button_new_with_label("Public Hubs");
-	else		
-		publicHub = gtk_button_new_from_icon_name("bmdc-public-hubs");
-  
+	GtkWidget* publicHub = createButtonToolbarWidget("bmdc-public-hubs", "Public Hubs",bText);
 	gtk_box_append(GTK_BOX(tool),publicHub);
   
-	GtkWidget* df;
-	if(bText)
-		df = gtk_button_new_with_label("Finished");
-	else	
-		df = gtk_button_new_from_icon_name("bmdc-finished-downloads");
-
+	GtkWidget* df = createButtonToolbarWidget("bmdc-finished-downloads","Finished Downloads",bText);
 	gtk_box_append(GTK_BOX(tool),df);
   
-	GtkWidget* uq;
-	if(bText)
-		uq = gtk_button_new_with_label("Upload Queue");
-	else	
-  		uq = gtk_button_new_from_icon_name("bmdc-upload-quene");
-  
-  gtk_box_append(GTK_BOX(tool),uq);
+	GtkWidget* uq = createButtonToolbarWidget("bmdc-upload-quene","Upload Queue",bText);
+	gtk_box_append(GTK_BOX(tool),uq);
 
-  GtkWidget* sp;
-  if(bText)	
-  	sp = gtk_button_new_with_label("Settings");  
-  else		
-  	sp = gtk_button_new_from_icon_name("bmdc-preferences");
-  
+  GtkWidget* sp =createButtonToolbarWidget("bmdc-preferences","Settings",bText);
   gtk_box_append(GTK_BOX(tool),sp);
+
 
   GtkWidget* ac = gtk_button_new_with_label("About Config");
   gtk_box_append(GTK_BOX(tool),ac);
 
 
-  GtkWidget* nt;
-  if(bText)
-  		nt = gtk_button_new_with_label("Notepad");
-	else	
-  		nt = gtk_button_new_from_icon_name("bmdc-notepad");
-
+  GtkWidget* nt = createButtonToolbarWidget("bmdc-notepad","Notepad",bText);
   gtk_box_append(GTK_BOX(tool),nt);
 
   GtkWidget* sl = gtk_button_new_with_label("System Log");
@@ -216,18 +172,10 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
   GtkWidget* cmd = gtk_button_new_with_label("Cmd Log");
   gtk_box_append(GTK_BOX(tool),cmd);
 
-	GtkWidget* adl;
-	if(bText)	
-  		adl = gtk_button_new_with_label("ADL Search");
-  else
-  		adl = gtk_button_new_from_icon_name("bmdc-search-adl");
-  gtk_box_append(GTK_BOX(tool),adl);
+	GtkWidget* adl = createButtonToolbarWidget("bmdc-search-adl","ADL Search",bText);
+	gtk_box_append(GTK_BOX(tool),adl);
 
-	GtkWidget* sspy;
-	if(bText)
-  		sspy = gtk_button_new_with_label("Search Spy");
-	else	
-  		sspy = gtk_button_new_from_icon_name("bmdc-search-spy");
+	GtkWidget* sspy = createButtonToolbarWidget("bmdc-search-spy","Search Spy",bText);
   	gtk_box_append(GTK_BOX(tool),sspy);
   
 	GtkWidget* hpaned = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
@@ -1874,7 +1822,7 @@ void MainWindow::onConnectClicked_gui(GtkWidget*, gpointer data)
 	ResponseData* dat = g_new(ResponseData ,1);
 	dat->mw = mw;
 	dat->entry = entry;
-	g_signal_connect_data(dialog ,"response" , G_CALLBACK(responseDialogOnClicked_gui), dat , (GClosureNotify)g_free , (GConnectFlags)0);
+	g_signal_connect_data(dialog ,"response" , G_CALLBACK(responseDialogOnClicked_gui), dat , NULL , (GConnectFlags)0);
 	// Add the label, and show everything we’ve added
 	gtk_box_append (GTK_BOX (content_area), label);
 	gtk_box_append (GTK_BOX (content_area), entry);
