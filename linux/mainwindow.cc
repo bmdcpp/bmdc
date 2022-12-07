@@ -1979,26 +1979,26 @@ void MainWindow::onResponse(GtkWidget* wid , int response ,gpointer data)
 
 void MainWindow::onAwayClicked_gui(GtkWidget*, gpointer data)
 {
-	MainWindow *mw = (MainWindow *)data;
+//	MainWindow *mw = (MainWindow *)data;
 //	typedef Func1<MainWindow, bool> F1;
 
-	if(Util::getAway())
-	{
-		Util::switchAway();
-		Util::setManualAway(false);
-		mw->setMainStatus_gui(_("Away mode off"));
+//	if(Util::getAway())
+//	{
+//		Util::switchAway();
+//		Util::setManualAway(false);
+//		mw->setMainStatus_gui(_("Away mode off"));
 
 //		F1 *func = new F1(mw,&MainWindow::setAwayIcon, false);
 //		WulforManager::get()->dispatchGuiFunc(func);
 
-	}else
-	{
-		Util::switchAway();
-		Util::setManualAway(true);
-		mw->setMainStatus_gui(_("Away mode on"));
+//	}else
+//	{
+//		Util::switchAway();
+//		Util::setManualAway(true);
+//		mw->setMainStatus_gui(_("Away mode on"));
 		//F1 *func = new F1(mw,&MainWindow::setAwayIcon, true);
 		//WulforManager::get()->dispatchGuiFunc(func);
-	}
+//	}
 }
 
 void MainWindow::onTransferToggled_gui(GtkWidget*, gpointer data)
@@ -2568,7 +2568,7 @@ void MainWindow::onCloseAllHub_gui(GtkWidget*, gpointer data)
 	while(!mw->Hubs.empty())
 	{
 		Hub *hub = dynamic_cast<Hub*>(mw->Hubs.back());
-		if(!hub) continue;//should never hapen but :-D
+		if(!hub) continue;//should never hapen but ...
 		typedef Func1<MainWindow,BookEntry*> F1;
 		F1 *func = new F1(mw,&MainWindow::removeBookEntry_gui,hub);
 		WulforManager::get()->dispatchGuiFunc(func);

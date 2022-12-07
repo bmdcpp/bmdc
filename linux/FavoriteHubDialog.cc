@@ -159,19 +159,19 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 	checkHigh = gtk_toggle_button_new_with_label(_("Use Highliting"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkHigh), p_entry->get(SettingsManager::USE_HIGHLITING, SETTING(USE_HIGHLITING) ));
 
-	g_g_a_a(checkHigh,0,0,1,1);
+	gtk_grid_attach(GTK_GRID(boxAdvanced),checkHigh,0,0,1,1);
 
-	g_g_a_a( gtk_label_new(_("Extra Chat Info:")),0,1,1,1);
+	gtk_grid_attach(GTK_GRID(boxAdvanced),gtk_label_new(_("Extra Chat Info:")),0,1,1,1);
 	extraChatInfoEntry = gtk_entry_new();
 	gtk_editable_set_text (GTK_EDITABLE(extraChatInfoEntry), p_entry->get(SettingsManager::CHAT_EXTRA_INFO,SETTING(CHAT_EXTRA_INFO)).c_str());
-	g_g_a_a(extraChatInfoEntry,1,1,1,1);
+	gtk_grid_attach(GTK_GRID(boxAdvanced),extraChatInfoEntry,1,1,1,1);
 
-	g_g_a_a( gtk_label_new(_("Away Message:")),0,2,1,1);
+	gtk_grid_attach(GTK_GRID(boxAdvanced),gtk_label_new(_("Away Message:")),0,2,1,1);
 	entryAwayMessage = gtk_entry_new();
 	gtk_editable_set_text (GTK_EDITABLE(entryAwayMessage), p_entry->get(SettingsManager::DEFAULT_AWAY_MESSAGE,SETTING(DEFAULT_AWAY_MESSAGE)).c_str());
-	g_g_a_a(entryAwayMessage,1,2,1,1);
+	gtk_grid_attach(GTK_GRID(boxAdvanced),entryAwayMessage,1,2,1,1);
 
-	g_g_a_a( gtk_label_new(_("Favorite Users Joins/Parts:")) ,0,3,1,1);
+	gtk_grid_attach(GTK_GRID(boxAdvanced),gtk_label_new(_("Favorite Users Joins/Parts:")) ,0,3,1,1);
 	comboFavParts = createComboBoxWith3Options(_("Default"),_("Enable"),_("Disable"));
 
 	if(p_entry->get(SettingsManager::FAV_SHOW_JOINS,SETTING(FAV_SHOW_JOINS)) == SETTING(FAV_SHOW_JOINS))
@@ -179,9 +179,9 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 	else
 		gtk_combo_box_set_active(GTK_COMBO_BOX(comboFavParts),p_entry->get(SettingsManager::FAV_SHOW_JOINS,SETTING(FAV_SHOW_JOINS))+1);
 
-	g_g_a_a(comboFavParts,1,3,1,1);
+	gtk_grid_attach(GTK_GRID(boxAdvanced),comboFavParts,1,3,1,1);
 
-	g_g_a_a( gtk_label_new(_("Users Joins/Parts:")) ,0,4,1,1);
+	gtk_grid_attach(GTK_GRID(boxAdvanced),gtk_label_new(_("Users Joins/Parts:")) ,0,4,1,1);
 
 	comboParts = createComboBoxWith3Options(_("Default"),_("Enable"),_("Disable"));
 
@@ -190,24 +190,24 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 	else
 		gtk_combo_box_set_active(GTK_COMBO_BOX(comboParts),p_entry->get(SettingsManager::SHOW_JOINS,SETTING(SHOW_JOINS))+1);
 
-	g_g_a_a(comboParts,1,4,1,1);
+	gtk_grid_attach(GTK_GRID(boxAdvanced),comboParts,1,4,1,1);
 
-	g_g_a_a( gtk_label_new(_("Background Chat Color:")) ,0,5,1,1);
+	gtk_grid_attach(GTK_GRID(boxAdvanced),gtk_label_new(_("Background Chat Color:")) ,0,5,1,1);
 	colorBack = gtk_color_button_new();
 	GdkRGBA color;
 	gdk_rgba_parse(&color,p_entry->get(SettingsManager::BACKGROUND_CHAT_COLOR,SETTING(BACKGROUND_CHAT_COLOR)).c_str());
 	gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(colorBack),&color);
-	g_g_a_a(colorBack,1,5,1,1);
+	gtk_grid_attach(GTK_GRID(boxAdvanced),colorBack,1,5,1,1);
 
-	g_g_a_a( gtk_label_new(_("Background Chat Image:")),0,6,1,1);
+	gtk_grid_attach(GTK_GRID(boxAdvanced),gtk_label_new(_("Background Chat Image:")),0,6,1,1);
 //	backImage = gtk_file_chooser_button_new(_("Open Image"),GTK_FILE_CHOOSER_ACTION_OPEN);
 //	gtk_file_chooser_select_filename (GTK_FILE_CHOOSER(backImage),p_entry->get(SettingsManager::BACKGROUND_CHAT_IMAGE,SETTING(BACKGROUND_CHAT_IMAGE)).c_str());
 //	g_g_a_a(backImage,1,6,1,1);
-	g_g_a_a(gtk_label_new(_("Hub Tab Icon")),0,7,1,1);
+	gtk_grid_attach(GTK_GRID(boxAdvanced),gtk_label_new(_("Hub Tab Icon")),0,7,1,1);
 
-	g_g_a_a( gtk_label_new(_("Emoticons:")) ,0,8,1,1);
+	gtk_grid_attach(GTK_GRID(boxAdvanced),gtk_label_new(_("Emoticons:")) ,0,8,1,1);
 	comboEmot = gtk_combo_box_text_new();
-	g_g_a_a(comboEmot,1,7,1,1);
+	gtk_grid_attach(GTK_GRID(boxAdvanced),comboEmot,1,7,1,1);
 
 	string path = WulforManager::get()->getPath() + G_DIR_SEPARATOR_S + "emoticons" + G_DIR_SEPARATOR_S;
 	StringList files = File::findFiles(path, "*.xml");
@@ -226,29 +226,29 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 
 	enableNoti = gtk_toggle_button_new_with_label(_("Enable Notify for This Hub"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enableNoti), p_entry->getNotify());
-	g_g_a_a(enableNoti,0,9,1,1);
+	gtk_grid_attach(GTK_GRID(boxAdvanced),enableNoti,0,9,1,1);
 	enableLog = gtk_toggle_button_new_with_label(_("Enable Logging for This Hub"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enableLog), p_entry->get(SettingsManager::LOG_CHAT_B,SETTING(LOG_CHAT_B)));
-	g_g_a_a(enableLog,1,9,1,1);
+	gtk_grid_attach(GTK_GRID(boxAdvanced),enableLog,1,9,1,1);
 	enableCountry = gtk_toggle_button_new_with_label(_("Enable Country Info in Chat"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enableCountry), p_entry->get(SettingsManager::USE_COUNTRY_FLAG,SETTING(USE_COUNTRY_FLAG)));
-	g_g_a_a(enableCountry,0,10,1,1);
+	gtk_grid_attach(GTK_GRID(boxAdvanced),enableCountry,0,10,1,1);
 
 	enableIp = gtk_toggle_button_new_with_label(_("Enable IP Info in Chat"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enableIp), p_entry->get(SettingsManager::USE_IP,SETTING(USE_IP)));
-	g_g_a_a(enableIp,1,10,1,1);
+	gtk_grid_attach(GTK_GRID(boxAdvanced),enableIp,1,10,1,1);
 
 	enableBold = gtk_toggle_button_new_with_label(_("Enable Tab Bolding"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enableBold), p_entry->get(SettingsManager::BOLD_HUB,SETTING(BOLD_HUB)));
-	g_g_a_a(enableBold,0,11,1,1);
+	gtk_grid_attach(GTK_GRID(boxAdvanced),enableBold,0,11,1,1);
 
 	enableStatusChat = gtk_toggle_button_new_with_label(_("Enable Status Chat message"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enableStatusChat), p_entry->get(SettingsManager::STATUS_IN_CHAT,SETTING(STATUS_IN_CHAT)));
-	g_g_a_a(enableStatusChat,1,11,1,1);
+	gtk_grid_attach(GTK_GRID(boxAdvanced),enableStatusChat,1,11,1,1);
 
 	enableFavFirst = gtk_toggle_button_new_with_label(_("Enable Favorite Users First in UserList"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enableFavFirst), p_entry->get(SettingsManager::SORT_FAVUSERS_FIRST,SETTING(SORT_FAVUSERS_FIRST)));
-	g_g_a_a(enableFavFirst,0,12,1,1);
+	gtk_grid_attach(GTK_GRID(boxAdvanced),enableFavFirst,0,12,1,1);
 
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), boxAdvanced ,labelAdvanced );
 	//
