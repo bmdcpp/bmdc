@@ -197,7 +197,7 @@ private:
 		typedef vector<FilePair> FileList;
 		typedef FileList::iterator FileIter;
 
-		bool active;
+		std::atomic<bool> active;
 
 		FileList files;
 		CriticalSection cs;
@@ -218,7 +218,7 @@ private:
 
 	private:
 		QueueManager* qm;
-		bool active;
+		std::atomic<bool> active;
 
 		StringList files;
 		CriticalSection cs;

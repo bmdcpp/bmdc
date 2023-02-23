@@ -66,7 +66,7 @@ private:
 	vector<pair<string, function<Mapper* (string&&)>>> mappers4, mappers6;
 
 	static std::atomic_flag busy;
-	atomic<bool> needsV4PortMap, needsV6PortMap;
+	std::atomic_bool needsV4PortMap, needsV6PortMap;
 	unique_ptr<Mapper> working4, working6; /// currently working implementations.
 	uint64_t renewal; /// when the next renewal should happen, if requested by the mapper.
 

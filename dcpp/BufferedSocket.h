@@ -156,7 +156,7 @@ private:
 	deque<pair<Tasks, unique_ptr<TaskData> > > tasks;
 	CriticalSection cs;
 	Semaphore taskSem;
-	static atomic<long> sockets;
+	static std::atomic_long sockets;
 	UnZFilter* filterIn;
 	ByteVector inbuf;
 	ByteVector writeBuf;
@@ -171,7 +171,7 @@ private:
 public:	
 	GETSET(char, separator, Separator)
 private:	
-	bool disconnecting;
+	std::atomic_bool disconnecting;
 
 	virtual int run();
 

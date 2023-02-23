@@ -29,7 +29,7 @@
 
 namespace dcpp {
 
-atomic<long> Client::counts[COUNT_UNCOUNTED];
+std::atomic_long Client::counts[COUNT_UNCOUNTED];
 
 Client::Client(const string& hubURL, char separator_, bool secure_) :
 	myIdentity(ClientManager::getInstance()->getMe(), 0),

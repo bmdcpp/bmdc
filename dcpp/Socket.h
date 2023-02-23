@@ -42,7 +42,7 @@ const int INVALID_SOCKET = -1;
 #include "GetSet.h"
 #include "Util.h"
 #include "Exception.h"
-
+#include <atomic>
 #include <memory>
 
 namespace dcpp {
@@ -197,8 +197,8 @@ protected:
 
 	class Stats {
 	public:
-		uint64_t totalDown;
-		uint64_t totalUp;
+		std::atomic<uint64_t> totalDown;
+		std::atomic<uint64_t> totalUp;
 	};
 	static Stats stats;
 

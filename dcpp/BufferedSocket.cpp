@@ -46,7 +46,7 @@ disconnecting(false),filterIn(NULL)
 	++sockets;
 }
 
-atomic<long> BufferedSocket::sockets(0);
+std::atomic_long BufferedSocket::sockets(0);
 
 BufferedSocket::~BufferedSocket() {
 	--sockets;

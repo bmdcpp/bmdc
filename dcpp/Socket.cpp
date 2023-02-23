@@ -46,6 +46,8 @@ namespace dcpp {
 bool Socket::isV6Valid() const noexcept {
 	return sock6.valid();
 }
+
+Socket::Stats Socket::stats;
 	 
 namespace {
 
