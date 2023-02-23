@@ -21,10 +21,12 @@
 #ifndef _WIN32
 #include <iostream>
 #include <cxxabi.h> // __cxxabiv1::__cxa_demangle
+
+#ifndef WIN32
 #if USE_STACKTRACE
 #include <execinfo.h> // backtrace_symbols
 #endif
-
+#endif
 #include "stacktrace.hh"
 
 namespace cow {

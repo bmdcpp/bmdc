@@ -10,8 +10,6 @@
 #pragma once
 
 #ifndef APPLE
-
-
 #include <string>
 #include <errno.h>
 #include <cstring>
@@ -50,7 +48,8 @@ struct FreeSpace {
 /* print_mount --- print a single mount entry */
 static void print_mount(std::string &s,const struct mntent *fs)
 {
-	if(strcmp(fs->mnt_type,MNTTYPE_SWAP) == 0 ||  strcmp(fs->mnt_type,MNTTYPE_IGNORE) == 0)
+	//@TODO:  names?
+	if(strcmp(fs->mnt_type,/*MNTTYPE_SWAP*/"swap") == 0 ||  strcmp(fs->mnt_type,"ignore"/*MNTTYPE_IGNORE*/) == 0)
 			return;
 	unsigned long long  aviable = 0,total = 0;
 			

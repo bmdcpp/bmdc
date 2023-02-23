@@ -172,9 +172,6 @@ const string SettingsManager::settingTags[] =
 };
 
 
-
-
-
 SettingsManager::SettingsManager()
 {
 

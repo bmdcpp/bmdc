@@ -33,7 +33,7 @@ NEW_SETTING = False
 #'-ldl',
 # http://stackoverflow.com/questions/1564937/gcc-warning-will-be-initialized-after
 BUILD_FLAGS = {#'-Wno-unused-parameter','-Wno-unused-value',
-	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT','-pipe','-DUSE_STACKTRACE' ,'-fpermissive','-DUSE_WIN32_CODE'],#temp
+	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT','-pipe','-DUSE_STACKTRACE=0' ,'-fpermissive','-DUSE_WIN32_CODE'],#temp
 	'debug'   : ['-O1','-g', '-ggdb','-W', '-Wall','-Wextra','-D_DEBUG' ,'-DUSE_ADDR2LINE','-Wno-reorder','-DGDK_DISABLE_DEPRECATED','-DGTK_DISABLE_DEPRECATED','-Wno-unused-parameter','-Wno-unused-value','-Wno-format','-Wfatal-errors'],#'-fpermissive' ,'-Wpadded'
 	'release' : ['-O3', '-fomit-frame-pointer', '-DNDEBUG']
 }
@@ -173,7 +173,7 @@ vars.Save('build/sconf/scache.conf', env)
 Help(vars.GenerateHelpText(env))
 
 pot_args = ['xgettext', '--default-domain=$PACKAGE', '--package-name=$PACKAGE',
-		'--msgid-bugs-address=https://sourceforge.net/projects/freedcppmv/',
+		'--msgid-bugs-address=https://github.com/bmdcpp/bmdc',
 		'--copyright-holder=BMDC++ Team', '--add-comments=TRANSLATORS',
 		'--keyword=_', '--keyword=N_', '--keyword=C_:1c,2', '--keyword=F_',
 		'--keyword=P_:1,2', '--from-code=UTF-8', '--foreign-user',
@@ -271,6 +271,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		conf.env.Append(CPPDEFINES = ('DHAVE_EC_CRYPTO'))
 
 	if not conf.CheckHeader('iconv.h'):
+		print ('\t No Iconv found you may have lib but not headers')
 		Exit(1)
 	elif conf.CheckLibWithHeader('iconv', 'iconv.h', 'c', 'iconv(0, (const char **)0, 0, (char**)0, 0);'):
 		conf.env.Append(CPPDEFINES = ('ICONV_CONST', 'const'))
@@ -311,7 +312,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		LIB_IS_NATPMP = False
 
 	# GeoIp
-	#if conf.CheckHeader('GeoIP.h'):
+	#if conf.CheckHeader('maxminddb.h'):
 	#	print ('Found GeoIP headers')
 	#	conf.env.Append(CPPDEFINES = 'HAVE_GEOIPLIB')
 	#	LIB_IS_GEO = True
@@ -355,6 +356,9 @@ if not 'install' in COMMAND_LINE_TARGETS:
 	#temp
 	env.Append(LIBS = ['maxminddb'])
 	env.Append(LINKFLAGS = ['-lmaxminddb'])
+
+	env.Append( CPPPATH ='/ucrt64/include/')
+
 
 
 	env.Append(CPPDEFINES = ['STATICLIB'])
@@ -400,7 +404,8 @@ if not 'install' in COMMAND_LINE_TARGETS:
 		env.Append(LIBS = ['wsock32','iphlpapi','ws2_32' ,'Winmm' ,'ole32'])
 		env.Append(LINKFLAGS= '-Wl,-subsystem,windows')
 		#env.Append(CPPDEFINES = '_WIN32')
-		#env.Append(LDFLAGS = '-L/usr/i686-w64-mingw32/lib/')
+		env.Append(LDFLAGS = '-L/usr/ucrt64/lib/')
+		env.Append(LDFLAGS = '-L/usr/msys64/usr/lib/')
 
 	if LIB_IS_GEO:
 		env.Append(LINKFLAGS = '-lGeoIP')

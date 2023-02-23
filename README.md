@@ -20,19 +20,20 @@ GNU GPL v2.0 or later. See [License.txt](https://github.com/bmdcpp/bmdc/blob/mas
 - pkg-config
 - g++ >= 4.7
 - glib >= 2.32
-- gtk+-3.0 >= 3.6
+- gtk+ >= 4.0
 - pthread
 - zlib
 - libbz2
 - libssl
 - libGeoIP >= 1.4.7
+- gettext
+- pcre
 
 ### Optional dependencies
 
 - libXss (Note: for idle detection)
 - libtar (Note: For Backup/Restore options )
 - libnotify >= 0.4.1 ( Note: For popups notifications )
-- libappindicator3 ( Note: For appindicators)
 - xattr ( Note: for storing hashes beside files to not always re-hash )
 - Runtime-deps is also glib-networking ( or similar) for open URI
 - also python2-dbus and qdbus for Media Spam (/kaff and /vlc)

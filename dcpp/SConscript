@@ -8,8 +8,9 @@ dcpp_files = env.Glob('*.cpp')
 
 env.Append(CPPDEFINES = 'BUILDING_DCPP')
 env.ParseConfig('pkg-config --cflags glib-2.0')
+env.ParseConfig('pkg-config --cflags libmaxminddb')
 
-env.Append(CPPFLAGS = '-IC:/msys64/mingw64/include/glib-2.0 -IC:/msys64/mingw64/lib/glib-2.0/include -IC:/msys64/mingw64/include')
+env.Append(CPPFLAGS = '-IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64//lib/glib-2.0/include -IC:/msys64/ucrt64/include')
 
 
 if _platform == "win32":

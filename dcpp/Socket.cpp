@@ -198,7 +198,7 @@ int Socket::getLastError() { return errno; }
 
 #endif
 
-Socket::Stats Socket::stats = { 0, 0 };
+//Socket::Stats Socket::stats = { 0, 0 };
 
 static const uint32_t SOCKS_TIMEOUT = 30000;
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "#-#-#-#-#  glade.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2022-12-02 19:54+0100\n"
+"Report-Msgid-Bugs-To: https://github.com/bmdcpp/bmdc\n"
+"POT-Creation-Date: 2023-02-23 20:47+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,8 +18,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "#-#-#-#-#  linux.pot  #-#-#-#-#\n"
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: https://sourceforge.net/projects/freedcppmv/\n"
-"POT-Creation-Date: 2022-12-06 16:47+0100\n"
+"Report-Msgid-Bugs-To: https://github.com/bmdcpp/bmdc\n"
+"POT-Creation-Date: 2023-02-23 21:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1332,13 +1332,8 @@ msgstr ""
 msgid "Away mode message on/off"
 msgstr ""
 
-#: linux/WulforUtil.cc:574 linux/WulforUtil.cc:592 linux/mainwindow.cc:1989
-#: linux/privatemessage.cc:1025
+#: linux/WulforUtil.cc:574 linux/WulforUtil.cc:592 linux/privatemessage.cc:1025
 msgid "Away mode off"
-msgstr ""
-
-#: linux/mainwindow.cc:1998
-msgid "Away mode on"
 msgstr ""
 
 #: linux/WulforUtil.cc:584
