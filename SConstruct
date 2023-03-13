@@ -33,7 +33,7 @@ NEW_SETTING = False
 #'-ldl',
 # http://stackoverflow.com/questions/1564937/gcc-warning-will-be-initialized-after
 BUILD_FLAGS = {#'-Wno-unused-parameter','-Wno-unused-value',
-	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT','-pipe','-DUSE_STACKTRACE=0' ,'-fpermissive','-DUSE_WIN32_CODE'],#temp
+	'common'  : ['-I#','-D_GNU_SOURCE', '-D_LARGEFILE_SOURCE', '-D_FILE_OFFSET_BITS=64', '-D_REENTRANT','-pipe','-DUSE_STACKTRACE=0' ,'-fpermissive'],#temp,'-DUSE_WIN32_CODE'
 	'debug'   : ['-O1','-g', '-ggdb','-W', '-Wall','-Wextra','-D_DEBUG' ,'-DUSE_ADDR2LINE','-Wno-reorder','-DGDK_DISABLE_DEPRECATED','-DGTK_DISABLE_DEPRECATED','-Wno-unused-parameter','-Wno-unused-value','-Wno-format','-Wfatal-errors'],#'-fpermissive' ,'-Wpadded'
 	'release' : ['-O3', '-fomit-frame-pointer', '-DNDEBUG']
 }
@@ -346,7 +346,7 @@ if not 'install' in COMMAND_LINE_TARGETS:
 # ----------------------------------------------------------------------
 # Compile and link flags
 # ----------------------------------------------------------------------
-	_platform = 'win32'#flag for cross enable compile
+	#_platform = 'win32'#flag for cross enable compile
 	env.MergeFlags(BUILD_FLAGS['common'])
 	env.MergeFlags(BUILD_FLAGS[env['mode']])
 
