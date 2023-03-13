@@ -398,11 +398,11 @@ GMenuItem *BookEntry::createItemFirstMenu()
 			default: ;
 		}
 		bCreated = false;
-	GMenuItem* item = g_menu_item_new(info.c_str(),NULL);
-	GtkWidget* image = gtk_image_new_from_resource((string("/org/bmdc-team/bmdc/icons/hicolor/22x22/categories")+stock+".png").c_str());
-	GIcon* icon = gtk_image_get_gicon(GTK_IMAGE(image));
-	g_menu_item_set_icon (item, icon);
-		return item;	
+	    GMenuItem* item = g_menu_item_new(info.c_str(),NULL);
+	    GtkWidget* image = gtk_image_new_from_resource((string("/org/bmdc-team/bmdc/icons/hicolor/22x22/categories")+stock+".png").c_str());
+	    GIcon* icon = gtk_image_get_gicon(GTK_IMAGE(image));
+	    g_menu_item_set_icon (item, icon);
+        return item;
 	}
 }
 
@@ -654,5 +654,6 @@ string BookEntry::getName()
 
 	return str;
 }
+
 
 

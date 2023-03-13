@@ -318,7 +318,6 @@ FavoriteHubDialog::FavoriteHubDialog(FavoriteHubEntry* entry, bool updated):
 
 	//Share Page
 	GtkWidget* boxShare = gtk_grid_new();
-//	GtkWidget *scroll = gtk_scrolled_window_new(NULL,NULL);
 	GtkWidget *shareTree = gtk_tree_view_new();
 	g_object_set(G_OBJECT(shareTree),"hexpand",TRUE,NULL);//this fixes size
 	shareView.setView(GTK_TREE_VIEW(shareTree));
@@ -713,3 +712,4 @@ gboolean FavoriteHubDialog::onShareButtonReleased_gui(GtkWidget*, GdkEventButton
 	return FALSE;
 }
 */
+

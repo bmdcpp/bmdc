@@ -146,7 +146,6 @@ void FavoriteHubs::on_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
                                    gpointer         *data)
 {
 	FavoriteHubs *FH = (FavoriteHubs*)data;
-  g_debug ("on_inner_widget_right_btn_pressed() called\n");
 
 	GMenu *menu = g_menu_new ();
 	GMenuItem *menu_item_add = g_menu_item_new ("Add", "fav.add");
@@ -186,8 +185,6 @@ void FavoriteHubs::on_widget_right_btn_released (GtkGestureClick *gesture,
                                     double           /*y*/,
                                     gpointer*       /*widget*/)
 {
-  g_debug ("on_inner_widget_right_btn_released() called\n");
-
   gtk_gesture_set_state (GTK_GESTURE (gesture),
                          GTK_EVENT_SEQUENCE_CLAIMED);
 }
@@ -857,3 +854,4 @@ void FavoriteHubs::onAdvancedSettings(GtkWidget*, GVariant*, gpointer data)
 		new AboutConfigFav((FavoriteHubEntry*)fh->favoriteView.getValue<FavoriteHubEntry*>(&iter, _("FavPointer"))));
 
 }
+

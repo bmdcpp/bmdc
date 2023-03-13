@@ -29,7 +29,7 @@ bool AboutConfigFav::isOk[SettingsManager::SETTINGS_LAST-1];
 
 const GActionEntry AboutConfigFav::win_entries[] = {
     { "edit", onPropertiesClicked_gui, NULL, NULL, NULL },
-    { "deff", onSetDefault, NULL, NULL, NULL },
+    { "def", onSetDefault, NULL, NULL, NULL },
   };
 
 AboutConfigFav::AboutConfigFav(FavoriteHubEntry* entry):
@@ -133,21 +133,20 @@ void AboutConfigFav::on_widget_right_btn_pressed (GtkGestureClick *gesture,
                                    gpointer         *data)
 {
 	AboutConfigFav *FH = (AboutConfigFav*)data;
-  g_print ("on_inner_widget_right_btn_pressed() called\n");
 
-GMenu *menu = g_menu_new ();
-GMenuItem *menu_item_add = g_menu_item_new ("Edit", "abcf.edit");
-g_menu_append_item (menu, menu_item_add);
-g_object_unref (menu_item_add);
+    GMenu *menu = g_menu_new ();
+    GMenuItem *menu_item_add = g_menu_item_new ("Edit", "abcf.edit");
+    g_menu_append_item (menu, menu_item_add);
+    g_object_unref (menu_item_add);
 
-GMenuItem* menu_item_edit = g_menu_item_new ("Default", "abcf.deff");
-g_menu_append_item (menu, menu_item_edit);
-g_object_unref (menu_item_edit);
+    GMenuItem* menu_item_edit = g_menu_item_new ("Default", "abcf.def");
+    g_menu_append_item (menu, menu_item_edit);
+    g_object_unref (menu_item_edit);
 
-GtkWidget *pop = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
-gtk_widget_set_parent(pop, FH->getContainer());
-gtk_popover_set_pointing_to(GTK_POPOVER(pop), &(const GdkRectangle){x,y,1,1});
-gtk_popover_popup (GTK_POPOVER(pop));
+    GtkWidget *pop = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
+    gtk_widget_set_parent(pop, FH->getContainer());
+    gtk_popover_set_pointing_to(GTK_POPOVER(pop), &(const GdkRectangle){x,y,1,1});
+    gtk_popover_popup (GTK_POPOVER(pop));
 
 }
 
@@ -157,9 +156,8 @@ void AboutConfigFav::on_widget_right_btn_released (GtkGestureClick *gesture,
                                     double           y,
                                     GtkWidget       *widget)
 {
-  g_debug ("on_inner_widget_right_btn_released() called\n");
 
-  gtk_gesture_set_state (GTK_GESTURE (gesture),
+    gtk_gesture_set_state (GTK_GESTURE (gesture),
                          GTK_EVENT_SEQUENCE_CLAIMED);
 }
 
@@ -464,9 +462,6 @@ void AboutConfigFav::onSetDefault(GtkWidget*,GVariant  *parameter, gpointer data
 	}
 }
 
-
-
-
 ///
 bool AboutConfigFav::getDialog(const string sName, string& sValue , gpointer data)
 {
@@ -475,11 +470,10 @@ bool AboutConfigFav::getDialog(const string sName, string& sValue , gpointer dat
 	gtk_editable_set_text(GTK_EDITABLE(ps->getWidget("entry")), sValue.c_str());
 
 	gtk_widget_show(ps->getWidget("dialog"));
-
-//	if (response == GTK_RESPONSE_OK)
 	{
 		sValue = gtk_editable_get_text(GTK_EDITABLE(getWidget("entry")));
 		return true;
 	}
 	return false;
 }
+

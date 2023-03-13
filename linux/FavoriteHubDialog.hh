@@ -1,5 +1,5 @@
 /*
- * Copyright (C) BMDC
+ * Copyright (C) BMDC 2011-2025
  *
  * BMDC++ is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public

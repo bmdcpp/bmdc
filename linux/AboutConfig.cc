@@ -28,7 +28,7 @@ using namespace dcpp;
 
 const GActionEntry AboutConfig::win_entries[] = {
     { "edit", onPropertiesClicked_gui, NULL, NULL, NULL },
-    { "deff", onSetDefault, NULL, NULL, NULL },
+    { "def", onSetDefault, NULL, NULL, NULL },
 };
 
 AboutConfig::AboutConfig():
@@ -91,22 +91,20 @@ void   AboutConfig::on_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
                                    double             y,
                                    gpointer         *data)
 {
-	AboutConfig *FH = (AboutConfig*)data;
-  g_debug ("on_inner_widget_right_btn_pressed() called\n");
+	AboutConfig *AC = (AboutConfig*)data;
+    GMenu *menu = g_menu_new ();
+    GMenuItem *menu_item_add = g_menu_item_new ("Edit", "abc.edit");
+    g_menu_append_item (menu, menu_item_add);
+    g_object_unref (menu_item_add);
 
-GMenu *menu = g_menu_new ();
-GMenuItem *menu_item_add = g_menu_item_new ("Edit", "abc.edit");
-g_menu_append_item (menu, menu_item_add);
-g_object_unref (menu_item_add);
+    GMenuItem* menu_item_edit = g_menu_item_new ("Default", "abc.def");
+    g_menu_append_item (menu, menu_item_edit);
+    g_object_unref (menu_item_edit);
 
-GMenuItem* menu_item_edit = g_menu_item_new ("Default", "abc.deff");
-g_menu_append_item (menu, menu_item_edit);
-g_object_unref (menu_item_edit);
-
-GtkWidget *pop = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
-gtk_widget_set_parent(pop, FH->getContainer());
-gtk_popover_set_pointing_to(GTK_POPOVER(pop), &(const GdkRectangle){x,y,1,1});
-gtk_popover_popup (GTK_POPOVER(pop));
+    GtkWidget *pop = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
+    gtk_widget_set_parent(pop, AC->getContainer());
+    gtk_popover_set_pointing_to(GTK_POPOVER(pop), &(const GdkRectangle){x,y,1,1});
+    gtk_popover_popup (GTK_POPOVER(pop));
 
 }
 
@@ -116,9 +114,7 @@ void AboutConfig::on_widget_right_btn_released (GtkGestureClick *gesture,
                                     double           /*y*/,
                                     GtkWidget*       /*widget*/)
 {
-  g_debug ("on_inner_widget_right_btn_released() called\n");
-
-  gtk_gesture_set_state (GTK_GESTURE (gesture),
+    gtk_gesture_set_state (GTK_GESTURE (gesture),
                          GTK_EVENT_SEQUENCE_CLAIMED);
 }
 
@@ -279,7 +275,7 @@ void AboutConfig::addItem_gui(const gchar* rowname, const gchar* sDefault, const
 {
 	GtkTreeIter iter;
 	g_debug("\n%s-%s-%s-%s-%d ",rowname,sDefault,types,value,(int)bIsWulfor);
-	if(value == NULL)return;
+	if(value == NULL) return;
 	gboolean bIsOk = g_utf8_validate(value,-1,NULL);
 	gboolean bIsOk2 = g_utf8_validate(rowname,-1,NULL);
 	gboolean bIsOk3 = g_utf8_validate(sDefault,-1,NULL);
@@ -636,4 +632,5 @@ void AboutConfig::setSettings(string sName ,string sValue, bool bIsWulfor)
 		}
 			sm->save();
 }
+
 

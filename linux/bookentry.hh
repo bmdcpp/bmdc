@@ -24,8 +24,8 @@
 #define _BMDC_BOOK_ENTRY_HH
 
 #include "entry.hh"
-
 #include <gtk/gtk.h>
+
 class BookEntry : public Entry
 {
 	public:
