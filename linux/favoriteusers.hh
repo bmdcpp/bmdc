@@ -52,14 +52,23 @@ class FavoriteUsers:
 		void setStatus_gui(const std::string text);
 
 		// GUI callbacks
+		static void on_right_btn_pressed (GtkGestureClick *gesture, int       n_press,
+                                   double             x,
+                                   double             y,
+                                   gpointer         *data);
+
+		static void on_right_btn_released (GtkGestureClick *gesture,int       n_press,
+                                    double           x,
+                                    double           y,
+                                    gpointer       *data);
 		//static void onBrowseItemClicked_gui(GtkMenuItem *item, gpointer data);
 		//static void onMatchQueueItemClicked_gui(GtkMenuItem *item, gpointer data);
 		//static void onSendPMItemClicked_gui(GtkMenuItem *item, gpointer data);
-		//static void onGrantSlotItemClicked_gui(GtkMenuItem *item, gpointer data);
+		static void onGrantSlotItemClicked_gui(GtkWidget *widget,GVariant  *parameter, gpointer data);
 		//static void onConnectItemClicked_gui(GtkMenuItem *item, gpointer data);
 		//static void onRemoveFromQueueItemClicked_gui(GtkMenuItem *item, gpointer data);
 		//static void onDescriptionItemClicked_gui(GtkMenuItem *item, gpointer data);
-		//static void onRemoveItemClicked_gui(GtkMenuItem *item, gpointer data);
+		static void onRemoveItemClicked_gui(GtkWidget *widget,GVariant  *parameter, gpointer data);
 		//static void onAutoGrantSlotToggled_gui(GtkCellRendererToggle *cell, gchar *path, gpointer data);
 		//static gboolean onKeyReleased_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 		//static gboolean onButtonPressed_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
@@ -93,6 +102,7 @@ class FavoriteUsers:
 		TreeView favoriteUserView;
 		GtkListStore *favoriteUserStore;
 		GtkTreeSelection *favoriteUserSelection;
+		static const GActionEntry FavoriteUsers::win_entries[];
 };
 
 #else

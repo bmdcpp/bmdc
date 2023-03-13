@@ -381,7 +381,7 @@ void Hub::on_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
                                    gpointer         *data)
 {
 	Hub* hub = (Hub*)data;
-	g_debug("right click");
+
 	GMenu *menu = g_menu_new ();
 	GMenuItem* item = g_menu_item_new("Browse Filelist", "hub.browse-fl" );
 	g_menu_append_item(menu ,item);
@@ -408,8 +408,6 @@ void Hub::on_widget_right_btn_released (GtkGestureClick *gesture,
                                     double           /*y*/,
                                     GtkWidget*       /*widget*/)
 {
-  g_debug ("on_inner_widget_right_btn_released() called\n");
-
   gtk_gesture_set_state (GTK_GESTURE (gesture),
                          GTK_EVENT_SEQUENCE_CLAIMED);
 }							   
@@ -692,7 +690,7 @@ void Hub::set_Header_tooltip_gui()
 gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer data)
 {
 	Hub* hub = (Hub*)data;
-	if(!hub) return FALSE; //@Should never hapen but :-D
+	if(!hub) return FALSE; 
 	if(!_tooltip) return FALSE;
 
 	GtkTreeIter iter;
