@@ -1210,8 +1210,9 @@ GdkPixbuf *WulforUtil::loadIconShare(string ext)
 {
 	string tmp = "dummy"+ext;
     if(ext == "directory")
+    {
         tmp = "inode/directory";
-    
+    }
 	g_autofree gchar *tmp2 = g_utf8_strup(tmp.c_str(),-1);
 
 	gboolean is_certain = FALSE;

@@ -71,15 +71,15 @@ Hub::Hub(const string &address, const string &encoding):
 	//@note because "." and this is used in CSS'ing
 	//@ use the CID'ing of it
 	setName(CID(address).toBase32());
-	
+
 	GSimpleActionGroup* simple = g_simple_action_group_new ();
 	g_action_map_add_action_entries (G_ACTION_MAP (simple), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
 	gtk_widget_insert_action_group(getContainer(), "hub" ,G_ACTION_GROUP(simple));
 	gtk_widget_insert_action_group(getLabelBox(), "hub" ,G_ACTION_GROUP(simple));
 	gtk_widget_insert_action_group(getWidget("nickView"), "hub" ,G_ACTION_GROUP(simple));
-	
+
 	FavoriteHubEntry* p_faventry =  getFavoriteHubEntry();
-	
+
 	// Initialize nick treeview
 	nickView.setView(GTK_TREE_VIEW(getWidget("nickView")), true, "hub");
 	nickView.insertColumn(_("Nick"), G_TYPE_STRING, TreeView::ICON_STRING_TEXT_COLOR, 100, "Icon", "NickColor");
@@ -350,19 +350,18 @@ Hub::Hub(const string &address, const string &encoding):
 		}
 
 		isFavBool = p_faventry->getNotify();
-	} 
-	
+	}
+
 	setColorsRows();
 	//
-  GtkGesture *gesture;
-  gesture = gtk_gesture_click_new ();
-  gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (gesture), 3);
-  g_signal_connect (gesture, "pressed",
+    GtkGesture *gesture;
+    gesture = gtk_gesture_click_new ();
+    gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (gesture), 3);
+    g_signal_connect (gesture, "pressed",
                     G_CALLBACK (on_widget_right_btn_pressed), (gpointer)this);
-  g_signal_connect (gesture, "released",
+    g_signal_connect (gesture, "released",
                     G_CALLBACK (on_widget_right_btn_released), (gpointer)this);
-  gtk_widget_add_controller (GTK_WIDGET(nickView.get()), GTK_EVENT_CONTROLLER (gesture));
-	
+    gtk_widget_add_controller (GTK_WIDGET(nickView.get()), GTK_EVENT_CONTROLLER (gesture));
 //------- keys stuff
   GtkEventController* keys = gtk_event_controller_key_new ();
 
@@ -385,21 +384,21 @@ void Hub::on_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
 	GMenu *menu = g_menu_new ();
 	GMenuItem* item = g_menu_item_new("Browse Filelist", "hub.browse-fl" );
 	g_menu_append_item(menu ,item);
-	
+
 	GMenuItem* match = g_menu_item_new("Match Filelist", "hub.match-fl" );
 	g_menu_append_item(menu ,match);
 
 	GMenuItem* pm = g_menu_item_new("Message To User", "hub.msg-to-user" );
 	g_menu_append_item(menu ,pm);
-	
+
 	GMenuItem* grant = g_menu_item_new("Grant Slot", "hub.grant-slot" );
 	g_menu_append_item(menu ,grant);
-	
+
 	GtkWidget *pop = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
 	gtk_widget_set_parent(pop, GTK_WIDGET(hub->nickView.get()));
 	gtk_popover_set_pointing_to(GTK_POPOVER(pop), &(const GdkRectangle){x,y,1,1});
 	gtk_popover_popup (GTK_POPOVER(pop));
-}	
+}
 
 
 void Hub::on_widget_right_btn_released (GtkGestureClick *gesture,
@@ -410,7 +409,7 @@ void Hub::on_widget_right_btn_released (GtkGestureClick *gesture,
 {
   gtk_gesture_set_state (GTK_GESTURE (gesture),
                          GTK_EVENT_SEQUENCE_CLAIMED);
-}							   
+}
 
 FavoriteHubEntry* Hub::getFavoriteHubEntry()
 {
@@ -690,7 +689,7 @@ void Hub::set_Header_tooltip_gui()
 gboolean Hub::onUserListTooltip_gui(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip, GtkTooltip *_tooltip, gpointer data)
 {
 	Hub* hub = (Hub*)data;
-	if(!hub) return FALSE; 
+	if(!hub) return FALSE;
 	if(!_tooltip) return FALSE;
 
 	GtkTreeIter iter;
@@ -1239,11 +1238,11 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 	if( ( (!sCountry.empty()) &&  client && client->get(SettingsManager::GET_USER_COUNTRY,SETTING(GET_USER_COUNTRY))) )
 	{
 		gtk_text_buffer_get_end_iter(chatBuffer,&start_iter);
-		
+
 		GtkTextIter iter = start_iter;
 		gtk_text_iter_starts_line (&start_iter);
 		gtk_text_iter_forward_char (&start_iter);
-		
+
 		gtk_text_iter_backward_to_tag_toggle(&start_iter,TagsMap[Tag::TAG_TIMESTAMP]);
 		gtk_text_buffer_insert_paintable(chatBuffer,&start_iter,WulforUtil::convertPixBuf(WulforUtil::LoadCountryPixbuf(sCountry)));
 
@@ -1695,8 +1694,8 @@ void Hub::applyEmoticons_gui()
 				GtkImage* image = GTK_IMAGE(gtk_image_new_from_pixbuf((*p_it)->getPixbuf()));
 				GdkPaintable* paint = gtk_image_get_paintable(GTK_IMAGE(image));
 				gtk_text_buffer_insert_paintable(chatBuffer, &p_start,paint);
-			}	
-				
+			}
+
 
 			searchEmoticons++;
 			totalEmoticons++;
@@ -4740,13 +4739,13 @@ void Hub::on(ClientListener::HubTopic, Client *, const string &top) noexcept
     F3 *func = new F3(this, &Hub::addStatusMessage_gui, _("Topic: ") + top, Msg::STATUS, Sound::NONE);
     WulforManager::get()->dispatchGuiFunc(func);
 }
-//Custom popup 
+//Custom popup
 GMenu* Hub::createmenu()
 {
 	GMenu *menu = BookEntry::createmenu();
 	GMenuItem* label = g_menu_item_new(address.c_str(), NULL);
 	g_menu_prepend_item(menu ,label);
-	
+
 	GMenuItem* copy = g_menu_item_new(_("Copy URL") , NULL);
 	g_menu_append_item(menu , copy);
 
@@ -4756,7 +4755,7 @@ GMenu* Hub::createmenu()
 	GMenuItem * userCommands = g_menu_item_new("User Commands", NULL);
 	g_menu_item_set_submenu(userCommands , G_MENU_MODEL(userCommandMenu1->getContainer()));
 	g_menu_append_item(menu , userCommands);
-/*	
+/*
 		userCommandMenu1->addUser(client->getMyIdentity().getUser()->getCID().toBase32());
 		GtkWidget *remfav = gtk_menu_item_new_with_label(_("Remove from Favorite hubs"));
 		GtkWidget *setTab = gtk_menu_item_new_with_label(_("Set Tab Name"));
@@ -4833,7 +4832,7 @@ void Hub::on_setImage_tab(GtkButton*, gpointer data)
 				BMDC_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 				NULL);
 
-	//if (gtk_widget_show (GTK_DIALOG (dialog))) 
+	//if (gtk_widget_show (GTK_DIALOG (dialog)))
 	{
 	//	g_autofree gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
 
@@ -4962,3 +4961,4 @@ void Hub::key_released_gui (  GtkEventControllerKey* self,  guint keyval,  guint
 {
 	g_debug( "key_released");
 }
+
