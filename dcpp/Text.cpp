@@ -224,7 +224,7 @@ const string& wideToAcp(const wstring& str, string& tmp) noexcept {
 	const wchar_t* src = str.c_str();
 	int n = wcsrtombs(NULL, &src, 0, NULL);
 	if(n < 1) {
-		return string();
+		return Util::emptyString;
 	}
 	src = str.c_str();
 	tmp.resize(n);

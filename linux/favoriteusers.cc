@@ -104,9 +104,9 @@ void FavoriteUsers::on_right_btn_pressed (GtkGestureClick* /*gesture*/,
                                    double             y,
                                    gpointer         *data)
 {
-	FavoriteUsers *FU = (FavoriteHubs*)data;
+	FavoriteUsers *FU = (FavoriteUsers*)data;
 
-//	GMenu *menu = g_menu_new ();
+	GMenu *menu = g_menu_new ();
 //	GMenuItem *menu_item_add = g_menu_item_new ("Add", "favu.add");
 //	g_menu_append_item (menu, menu_item_add);
 //	g_object_unref (menu_item_add);
@@ -126,7 +126,7 @@ void FavoriteUsers::on_right_btn_pressed (GtkGestureClick* /*gesture*/,
 
 }
 
-void FavoriteHubs::on_right_btn_released (GtkGestureClick *gesture,
+void FavoriteUsers::on_right_btn_released (GtkGestureClick *gesture,
                                     int             /* n_press*/,
                                     double          /* x*/,
                                     double           /*y*/,
@@ -649,7 +649,7 @@ void FavoriteUsers::onRemoveItemClicked_gui(GtkWidget *widget,GVariant  *paramet
 		g_list_free(list);
 
 		if (SETTING(CONFIRM_USER_REMOVAL))
-		{
+		{/*
 			
 			GtkWidget* dialog = gtk_message_dialog_new(GTK_WINDOW(WulforManager::get()->getMainWindow()->getContainer()),
 				GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -661,13 +661,13 @@ void FavoriteUsers::onRemoveItemClicked_gui(GtkWidget *widget,GVariant  *paramet
 
 //			gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 			// Widget failed if the dialog gets programmatically destroyed.
-			if (response == GTK_RESPONSE_NONE)
-				return;
+			//if (response == GTK_RESPONSE_NONE)
+			//	return;
 
 			//gtk_widget_hide(dialog);
 
 			if (response != GTK_RESPONSE_YES)
-				return;
+				return;*/
 		}
 
 		for (vector<string>::const_iterator it = remove.begin(); it != remove.end(); ++it)
@@ -1058,3 +1058,4 @@ void FavoriteUsers::setIgnore(const string cid, bool ignore)
 
 	}
 }
+
