@@ -103,20 +103,15 @@ FinishedTransfers::FinishedTransfers(const EntryType type, const string title, b
 					  G_CALLBACK (on_right_btn_pressed), (gpointer)this);
 	g_signal_connect (gesture, "released",
 					  G_CALLBACK (on_right_btn_released), (gpointer)this);
-	gtk_widget_add_controller (GTK_WIDGET(favoriteView.get()), GTK_EVENT_CONTROLLER (gesture));
+	gtk_widget_add_controller (GTK_WIDGET(fileView.get()), GTK_EVENT_CONTROLLER (gesture));
 	
 	// Initialize the preview menu
 	//appsPreviewMenu = new PreviewMenu(getWidget("appsPreviewMenu"));
 
 	// Connect the signals to their callback functions.
-	/*g_signal_connect(getWidget("openFolderItem"), "activate", G_CALLBACK(onOpenFolder_gui), (gpointer)this);
-	g_signal_connect(getWidget("removeItem"), "activate", G_CALLBACK(onRemoveItems_gui), (gpointer)this);
+	/*
 	g_signal_connect(getWidget("removeAllItem"), "activate", G_CALLBACK(onRemoveAll_gui), (gpointer)this);
-	g_signal_connect(fileView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
-	g_signal_connect(fileView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 	g_signal_connect(fileView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
-	g_signal_connect(userView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
-	g_signal_connect(userView.get(), "button-release-event", G_CALLBACK(onButtonReleased_gui), (gpointer)this);
 	g_signal_connect(userView.get(), "key-release-event", G_CALLBACK(onKeyReleased_gui), (gpointer)this);
 	g_signal_connect_after(getWidget("finishedbook"), "switch-page", G_CALLBACK(onPageSwitched_gui), (gpointer)this);
 */
