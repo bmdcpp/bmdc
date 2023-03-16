@@ -37,6 +37,11 @@
 using namespace std;
 using namespace dcpp;
 
+const GActionEntry PrivateMessage::win_entries[] = {
+		{ "add-fav-user", onAddEntry_gui, NULL, NULL, NULL },
+		{ "rem-fav-user", onEditEntry_gui, NULL, NULL, NULL },
+};
+
 PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 	BookEntry(Entry::PRIVATE_MESSAGE, WulforUtil::getNicks(_cid, _hubUrl), "privatemessage", _cid),
 	dcpp::Flags(NORMAL),
@@ -44,6 +49,11 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 	historyIndex(0), sentAwayMessage(false),
 	scrollToBottom(true), notCreated(true)
 {
+	GSimpleActionGroup *group;
+	group = g_simple_action_group_new ();
+	g_action_map_add_action_entries (G_ACTION_MAP (group), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+	gtk_widget_insert_action_group(getContainer(),"pm" ,G_ACTION_GROUP(group));
+
 	setName(cid);
 	//Set Colors
 	gtk_widget_set_name(getWidget("text"),"pm");
@@ -121,6 +131,15 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 	g_signal_connect(getWidget("downloadItem"), "activate", G_CALLBACK(onDownloadClicked_gui), (gpointer)this);
 
 	*/
+	GtkGesture *gesture;
+  gesture = gtk_gesture_click_new ();
+  gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (gesture), 3);
+  g_signal_connect (gesture, "pressed",
+                    G_CALLBACK (on_right_btn_pressed), (gpointer)this);
+  g_signal_connect (gesture, "released",
+                    G_CALLBACK (on_right_btn_released), (gpointer)this);
+  gtk_widget_add_controller (GTK_WIDGET(getContainer()), GTK_EVENT_CONTROLLER (gesture));
+
 	history.push_back("");
 	
 	const OnlineUser* user = ClientManager::getInstance()->findOnlineUser(CID(cid), hubUrl);
@@ -162,6 +181,44 @@ PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
 	readLog(LogManager::getInstance()->getPath(LogManager::PM, params)
 		,(unsigned int)SETTING(PM_LAST_LOG_LINES));
 }
+
+
+void PrivateMessage::on_right_btn_pressed (GtkGestureClick* /*gesture*/,
+                                   int                /*n_press*/,
+                                   double             x,
+                                   double             y,
+                                   gpointer         *data)
+{
+	PrivateMessage *FH = (PrivateMessage*)data;
+
+	GMenu *menu = g_menu_new ();
+	GMenuItem *menu_item_add = g_menu_item_new ("Add Favorite User", "pm.add-fav-user");
+	g_menu_append_item (menu, menu_item_add);
+	g_object_unref (menu_item_add);
+
+	GMenuItem* menu_item_edit = g_menu_item_new ("Delete Favorite User", "pm.rem-fav-user");
+	g_menu_append_item (menu, menu_item_edit);
+	g_object_unref (menu_item_edit);
+
+	GtkWidget *pop = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
+	gtk_widget_set_parent(pop, PM->getContainer());
+	gtk_popover_set_pointing_to(GTK_POPOVER(pop), &(const GdkRectangle){x,y,1,1});
+	gtk_popover_popup (GTK_POPOVER(pop));
+
+}
+
+void PrivateMessage::on_right_btn_released (GtkGestureClick *gesture,
+                                    int             /* n_press*/,
+                                    double          /* x*/,
+                                    double           /*y*/,
+                                    gpointer*       /*widget*/)
+{
+  gtk_gesture_set_state (GTK_GESTURE (gesture),
+                         GTK_EVENT_SEQUENCE_CLAIMED);
+}
+
+
+
 
 PrivateMessage::~PrivateMessage()
 {

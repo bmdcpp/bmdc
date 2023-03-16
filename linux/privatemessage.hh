@@ -74,6 +74,16 @@ class PrivateMessage:
 		void updateOnlineStatus_gui(bool online);
 		void readLog(const std::string& logPath, const unsigned setting);
 
+		static void on_right_btn_pressed (GtkGestureClick *gesture, int       n_press,
+                                   double             x,
+                                   double             y,
+                                   gpointer         *data);
+
+		static void on_right_btn_released (GtkGestureClick *gesture,int       n_press,
+                                    double           x,
+                                    double           y,
+                                    GtkWidget       *widget);
+
 		// GUI callbacks
 		/*static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);
 		static gboolean onKeyPress_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
@@ -137,6 +147,7 @@ class PrivateMessage:
 		UserCommandMenu *userCommandMenu;
 		bool notCreated;
 		GtkWidget* m_menu;
+		static const GActionEntry win_entries[];
 
 };
 
