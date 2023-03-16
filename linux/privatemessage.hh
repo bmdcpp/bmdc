@@ -82,7 +82,7 @@ class PrivateMessage:
 		static void on_right_btn_released (GtkGestureClick *gesture,int       n_press,
                                     double           x,
                                     double           y,
-                                    GtkWidget       *widget);
+                                    gpointer *widget);
 
 		// GUI callbacks
 		/*static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);
