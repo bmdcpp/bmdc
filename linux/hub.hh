@@ -123,8 +123,6 @@ private:
 		// GUI callbacks
 		static void onSizeWindowState_gui(GtkWidget* widget,GdkRectangle *allocation,gpointer data);
 //		static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);
-//		static gboolean onNickListButtonPress_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
-//		static gboolean onNickListButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 //		static gboolean onNickListKeyRelease_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 //		static gboolean onEntryKeyPress_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 //		static gboolean onNickTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);
@@ -143,26 +141,25 @@ private:
 		static void onMatchItemClicked_gui(GtkWidget *item,GVariant*, gpointer data);
 		static void onMsgItemClicked_gui(GtkWidget *item,GVariant*, gpointer data);
 		static void onGrantItemClicked_gui(GtkWidget *item,GVariant*, gpointer data);
-//		static void onRemoveUserItemClicked_gui(GtkMenuItem *item, gpointer data);
-//		static void onCopyURIClicked_gui(GtkMenuItem *item, gpointer data);
-//		static void onOpenLinkClicked_gui(GtkMenuItem *item, gpointer data);
+		static void onRemoveUserItemClicked_gui(GtkWidget *item,GVariant* v, gpointer data);
+//		static void onCopyURIClicked_gui(GtkWidget *item,GVariant* vg, gpointer data);
+//		static void onOpenLinkClicked_gui(GtkWidget *item, GVariant* v, gpointer data);
 //		static void onOpenHubClicked_gui(GtkMenuItem *item, gpointer data);
 //		static void onSearchMagnetClicked_gui(GtkMenuItem *item, gpointer data);
 //		static void onMagnetPropertiesClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onUserListToggled_gui(GtkWidget *widget, gpointer data);
 		static void onAddFavoriteUserClicked_gui(GtkWidget*item,GVariant* v, gpointer data);
-//		static void onRemoveFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data);
+		static void onRemoveFavoriteUserClicked_gui(GtkWidget *item,GVariant* v, gpointer data);
 		static void onPasswordDialog(GtkWidget *dialog, gint response, gpointer data);
 //		static void onDownloadToClicked_gui(GtkMenuItem *item, gpointer data);
 //		static void onDownloadClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onCommandClicked_gui(GtkWidget *widget, gpointer data);
 //		static gboolean onChatCommandButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static void onUseEmoticons_gui(GtkWidget *widget, gpointer data);
-		//static void onItalicButtonClicked_gui(GtkWidget *widget, gpointer data);
-		//static void onBoldButtonClicked_gui(GtkWidget *widget, gpointer data);
-		//static void onUnderlineButtonClicked_gui(GtkWidget *widget, gpointer data);
-		//[BMDC++
-	//	static void onPartialFileListOpen_gui(GtkMenuItem *item, gpointer data);
+//		static void onItalicButtonClicked_gui(GtkWidget *widget, gpointer data);
+//		static void onBoldButtonClicked_gui(GtkWidget *widget, gpointer data);
+//		static void onUnderlineButtonClicked_gui(GtkWidget *widget, gpointer data);
+//		static void onPartialFileListOpen_gui(GtkMenuItem *item, gpointer data);
 		static void onCloseItem(GtkWidget* ,GVariant*, gpointer data);
 		static void onCopyHubUrl(GtkWidget* ,GVariant*, gpointer data);
 		static void onAddFavItem(GtkWidget* ,GVariant*, gpointer data);
