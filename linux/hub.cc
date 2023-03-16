@@ -3170,8 +3170,8 @@ void Hub::onUserListToggled_gui(GtkWidget*, gpointer data)
 		gtk_widget_show_all(hub->getWidget("scrolledwindow2"));
 	}*/
 }
-/*
-void Hub::onAddFavoriteUserClicked_gui(GtkMenuItem*, gpointer data)
+
+void Hub::onAddFavoriteUserClicked_gui(GtkWidget* wid,GVariant* v, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
