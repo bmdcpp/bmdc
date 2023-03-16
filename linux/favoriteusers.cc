@@ -33,7 +33,7 @@ using namespace dcpp;
 const GActionEntry FavoriteUsers::win_entries[] = {
 //    { "add", onAddEntry_gui, NULL, NULL, NULL },
     { "delete", onRemoveItemClicked_gui, NULL, NULL, NULL },
-    { "grant-slot",onGrantSlotItemClicked_gui, NULL, NULL, NULL },
+    { "grant-slot",onGrantSlotItemClicked_gui, NULL, NULL, NULL }
 };
 
 FavoriteUsers::FavoriteUsers():

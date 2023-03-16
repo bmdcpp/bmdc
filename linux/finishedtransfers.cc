@@ -31,7 +31,7 @@ using namespace dcpp;
 
 const GActionEntry FinishedTransfers::win_entries[] = {
 	{ "delete",onRemoveItems_gui, NULL, NULL, NULL },
-	{ "open",onOpen_gui, NULL, NULL, NULL },
+	{ "open",onOpen_gui, NULL, NULL, NULL }
 };
 
 FinishedTransfers* FinishedTransfers::createFinishedDownloads()

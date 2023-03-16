@@ -111,11 +111,12 @@ class PrivateMessage:
 		static void onCopyIpItem_gui(GtkWidget *wid, gpointer data);
 		static void onRipeDbItem_gui(GtkWidget *wid, gpointer data);
 		static void onCloseItem(gpointer data);
-		static void onCopyCID(gpointer data);
-		static void onAddFavItem(gpointer data);
-		static void onCopyNicks(gpointer data);
-		void setImageButton(const std::string country);
-*/
+		static void onCopyCID(gpointer data);*/
+		static void onAddFavItem(GtkWidget* wid , GVariant* var , gpointer data);
+		static void onDeleteFavItem(GtkWidget* wid , GVariant* var , gpointer data){};
+//		static void onCopyNicks(gpointer data);
+//		void setImageButton(const std::string country);
+
 		// Client functions
 		void sendMessage_client(std::string message);
 		void addFavoriteUser_client();

@@ -38,8 +38,8 @@ using namespace std;
 using namespace dcpp;
 
 const GActionEntry PrivateMessage::win_entries[] = {
-		{ "add-fav-user", onAddEntry_gui, NULL, NULL, NULL },
-		{ "rem-fav-user", onEditEntry_gui, NULL, NULL, NULL },
+		{ "add-fav-user", onAddFavItem, NULL, NULL, NULL },
+		{ "rem-fav-user", onDeleteFavItem, NULL, NULL, NULL }
 };
 
 PrivateMessage::PrivateMessage(const string &_cid, const string &_hubUrl):
@@ -1624,13 +1624,13 @@ void PrivateMessage::onCopyNicks(gpointer data)
 	string nicks = WulforUtil::getNicks(pm->cid, pm->hubUrl);
 	gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), nicks.c_str(), nicks.length());
 }
-
-void PrivateMessage::onAddFavItem(gpointer data)
+*/
+void PrivateMessage::onAddFavItem(GtkWidget* wid , GVariant* var , gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 	pm->addFavoriteUser_client();
 }
-
+/*
 void PrivateMessage::onCopyIpItem_gui(GtkWidget* widget, gpointer)
 {
 	gchar* ip = (gchar*)g_object_get_data(G_OBJECT(widget),"ip_addr");
