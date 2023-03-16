@@ -79,3 +79,6 @@ UserInfoProfiles.xml
 mingw.sh
 mingw64.sh
 *.bz2
+.idea/.idea.bmdc.dir/.idea/vcs.xml
+.idea/.idea.bmdc.dir/.idea/indexLayout.xml
+.idea/.idea.bmdc.dir/.idea/encodings.xml
