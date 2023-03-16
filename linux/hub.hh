@@ -150,7 +150,7 @@ private:
 //		static void onSearchMagnetClicked_gui(GtkMenuItem *item, gpointer data);
 //		static void onMagnetPropertiesClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onUserListToggled_gui(GtkWidget *widget, gpointer data);
-//		static void onAddFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data);
+		static void onAddFavoriteUserClicked_gui(GtkWidget*item,GVariant* v, gpointer data);
 //		static void onRemoveFavoriteUserClicked_gui(GtkMenuItem *item, gpointer data);
 		static void onPasswordDialog(GtkWidget *dialog, gint response, gpointer data);
 //		static void onDownloadToClicked_gui(GtkMenuItem *item, gpointer data);
@@ -158,11 +158,6 @@ private:
 		static void onCommandClicked_gui(GtkWidget *widget, gpointer data);
 //		static gboolean onChatCommandButtonRelease_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		static void onUseEmoticons_gui(GtkWidget *widget, gpointer data);
-		//static void onImageDestroy_gui(GtkWidget *widget, gpointer data);
-		//static void onDownloadImageClicked_gui(GtkMenuItem *item, gpointer data);
-		//static void onRemoveImageClicked_gui(GtkMenuItem *item, gpointer data);
-		//static void onOpenImageClicked_gui(GtkMenuItem *item, gpointer data);
-		//static gboolean onImageEvent_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 		//static void onItalicButtonClicked_gui(GtkWidget *widget, gpointer data);
 		//static void onBoldButtonClicked_gui(GtkWidget *widget, gpointer data);
 		//static void onUnderlineButtonClicked_gui(GtkWidget *widget, gpointer data);

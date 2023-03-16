@@ -58,7 +58,8 @@ const GActionEntry Hub::win_entries[] = {
     { "match-fl", onMatchItemClicked_gui, NULL, NULL, NULL },
     { "grant-slot", onGrantItemClicked_gui, NULL, NULL, NULL },
     { "fav-hubs", onAddFavItem, NULL, NULL,NULL },
-    { "rem-f-hub" , onRemoveFavHub , NULL, NULL,NULL}
+    { "rem-f-hub" , onRemoveFavHub , NULL, NULL,NULL},
+    { "add-fav-user",onAddFavoriteUserClicked_gui, NULL, NULL, NULL}
 };
 
 Hub::Hub(const string &address, const string &encoding):
@@ -229,15 +230,9 @@ Hub::Hub(const string &address, const string &encoding):
 	// chat commands button
 //	g_signal_connect(getWidget("chatCommandsButton"), "button-release-event", G_CALLBACK(onChatCommandButtonRelease_gui), (gpointer)this);
 
-	// image menu
-	//g_signal_connect(getWidget("downloadImageItem"), "activate", G_CALLBACK(onDownloadImageClicked_gui), (gpointer)this);
-	//g_signal_connect(getWidget("removeImageItem"), "activate", G_CALLBACK(onRemoveImageClicked_gui), (gpointer)this);
-	//g_signal_connect(getWidget("openImageItem"), "activate", G_CALLBACK(onOpenImageClicked_gui), (gpointer)this);
-
 	GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("chatScroll")));
 	// Connect the signals to their callback functions.
 	//g_signal_connect(getContainer(), "size-allocate", G_CALLBACK(onSizeWindowState_gui), (gpointer)this);
-
 
 //	g_signal_connect(getContainer(), "focus-in-event", G_CALLBACK(onFocusIn_gui), (gpointer)this);
 //	g_signal_connect(nickView.get(), "button-press-event", G_CALLBACK(onNickListButtonPress_gui), (gpointer)this);
@@ -252,9 +247,7 @@ Hub::Hub(const string &address, const string &encoding):
 	g_signal_connect(adjustment, "changed", G_CALLBACK(onChatResize_gui), (gpointer)this);
 //	g_signal_connect(getWidget("nickToChatItem"), "activate", G_CALLBACK(onNickToChat_gui), (gpointer)this);
 //	g_signal_connect(getWidget("browseItem"), "activate", G_CALLBACK(onBrowseItemClicked_gui), (gpointer)this);
-	//[BMDC: Partial Filelists
 //	g_signal_connect(getWidget("openPartial"), "activate", G_CALLBACK(onPartialFileListOpen_gui), (gpointer)this);
-	/**/
 //	g_signal_connect(getWidget("matchItem"), "activate", G_CALLBACK(onMatchItemClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("msgItem"), "activate", G_CALLBACK(onMsgItemClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("grantItem"), "activate", G_CALLBACK(onGrantItemClicked_gui), (gpointer)this);
@@ -270,7 +263,6 @@ Hub::Hub(const string &address, const string &encoding):
 //	g_signal_connect(getWidget("emotButton"), "button-release-event", G_CALLBACK(onEmotButtonRelease_gui), (gpointer)this);
 //	g_signal_connect(getWidget("favoriteUserItem"), "activate", G_CALLBACK(onAddFavoriteUserClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("removeFavoriteUserItem"), "activate", G_CALLBACK(onRemoveFavoriteUserClicked_gui), (gpointer)this);
-	//[BMDC++
 //	g_signal_connect(getWidget("ignoreMenuItem"), "activate", G_CALLBACK(onAddIgnoreUserItemClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("removeIgnoreMenuItem"), "activate", G_CALLBACK(onRemoveIgnoreUserItemClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("reportItem"), "activate", G_CALLBACK(onShowReportClicked_gui), (gpointer)this);
@@ -393,6 +385,9 @@ void Hub::on_right_btn_pressed (GtkGestureClick* /*gesture*/,
 
 	GMenuItem* grant = g_menu_item_new("Grant Slot", "hub.grant-slot" );
 	g_menu_append_item(menu ,grant);
+
+	GMenuItem* favu = g_menu_item_new("Favorite User","hub.add-fav-user");
+	g_menu_append_item(menu ,favu);
 
 	GtkWidget *pop = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
 	gtk_widget_set_parent(pop, GTK_WIDGET(hub->nickView.get()));
