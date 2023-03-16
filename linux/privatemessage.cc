@@ -189,7 +189,7 @@ void PrivateMessage::on_right_btn_pressed (GtkGestureClick* /*gesture*/,
                                    double             y,
                                    gpointer         *data)
 {
-	PrivateMessage *FH = (PrivateMessage*)data;
+	PrivateMessage *PM = (PrivateMessage*)data;
 
 	GMenu *menu = g_menu_new ();
 	GMenuItem *menu_item_add = g_menu_item_new ("Add Favorite User", "pm.add-fav-user");
@@ -216,8 +216,6 @@ void PrivateMessage::on_right_btn_released (GtkGestureClick *gesture,
   gtk_gesture_set_state (GTK_GESTURE (gesture),
                          GTK_EVENT_SEQUENCE_CLAIMED);
 }
-
-
 
 
 PrivateMessage::~PrivateMessage()
