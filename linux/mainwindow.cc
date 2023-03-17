@@ -191,12 +191,7 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 	gtk_widget_insert_action_group(note,"app" ,G_ACTION_GROUP(group));
 	
 	gtk_paned_set_start_child (GTK_PANED (hpaned), note);
-//	gtk_paned_set_start_child_resize (GTK_PANED (hpaned), TRUE);
-//	gtk_paned_set_start_child_shrink (GTK_PANED (hpaned), FALSE);
-	/*gtk_paned_set_end_child (GTK_PANED (hpaned), frame2);
-	gtk_paned_set_end_child_resize (GTK_PANED (hpaned), FALSE);
-	gtk_paned_set_end_child_shrink (GTK_PANED (hpaned), FALSE);
-	*/
+
     transfers = new Transfers();
     gtk_paned_set_end_child(GTK_PANED(hpaned) , transfers->getContainer());
     transfers->show();
@@ -248,19 +243,13 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 
 	//g_signal_connect(getWidget("aboutDialog"),"activate-link",G_CALLBACK(onAboutDialogActivateLink_gui),(gpointer)this);
 
-	// This has to be set in code in order to activate the link
-//	gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(getWidget("aboutDialog")), "http://launchpad.net/bmdc++");
-//	gtk_window_set_transient_for(GTK_WINDOW(getWidget("aboutDialog")), window);
-
 	// Set all windows to the default icon
 	gtk_window_set_default_icon_name(g_get_prgname());
 	// All notebooks created in glade need one page.
 	// In our case, this is just a placeholder, so we remove it.
 //	gtk_notebook_remove_page(GTK_NOTEBOOK(note), -1);
 //	g_object_set_data(G_OBJECT(note), "page-rotation-list", NULL);
-//	gtk_widget_set_sensitive(getWidget("closeMenuItem"), FALSE);
-//	gtk_notebook_set_show_border (GTK_NOTEBOOK(note),FALSE);
-	// Connect the signals to their callback functions.
+//  Connect the signals to their callback functions.
 //	g_signal_connect(window, "delete-event", G_CALLBACK(onCloseWindow_gui), (gpointer)this);
 //	g_signal_connect(window, "window-state-event", G_CALLBACK(onWindowState_gui), (gpointer)this);
 //	g_signal_connect(window, "size-allocate", G_CALLBACK(onSizeWindowState_gui), (gpointer)this);
@@ -315,7 +304,6 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 //	g_signal_connect(getWidget("searchRadioButton"), "toggled", G_CALLBACK(onSearchMagnetToggled_gui), (gpointer)this);
 //	g_signal_connect(getWidget("showRadioButton"), "toggled", G_CALLBACK(onSearchMagnetToggled_gui), (gpointer)this);
 //	g_signal_connect(getWidget("setMagnetChoiceItem"), "activate", G_CALLBACK(onSetMagnetChoiceDialog_gui), (gpointer)this);
-	/**/
 //	g_signal_connect(getWidget("CloseTabHubAllMenuItem"), "activate", G_CALLBACK(onCloseAllHub_gui), (gpointer)this);
 //	g_signal_connect(getWidget("CloseTabPMAllMenuItem"), "activate", G_CALLBACK(onCloseAllPM_gui), (gpointer)this);
 //	g_signal_connect(getWidget("CloseTabPMOfflineItem"), "activate", G_CALLBACK(onCloseAllofPM_gui), (gpointer)this);
@@ -354,7 +342,7 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 
 void MainWindow::onButtonPressed_gui(GtkGestureClick* self, gint n_press, gdouble x, gdouble y, gpointer user_data)
 {
-	g_debug("clicked");
+
 }
 
 MainWindow::~MainWindow()
@@ -570,10 +558,7 @@ void MainWindow::addBookEntry_gui(BookEntry *entry)
 		GtkWidget *closeButton = entry->getCloseButton();
 		g_signal_connect(closeButton, "clicked", G_CALLBACK(onCloseBookEntry_gui), (gpointer)entry);
 	}
-	//gtk_widget_set_sensitive(getWidget("closeMenuItem"), TRUE);
-
 	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(note), page, TRUE);
-
 	entry->show();
 }
 
@@ -640,7 +625,6 @@ void MainWindow::removeBookEntry_gui(BookEntry *entry)
 
 		if (gtk_notebook_get_n_pages(book) == 0)
 		{
-			//gtk_widget_set_sensitive(getWidget("closeMenuItem"), FALSE);
 			setTitle(""); // Reset window title to default
 		}
 	}

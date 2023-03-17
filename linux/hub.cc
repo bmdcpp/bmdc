@@ -59,7 +59,8 @@ const GActionEntry Hub::win_entries[] = {
     { "grant-slot", onGrantItemClicked_gui, NULL, NULL, NULL },
     { "fav-hubs", onAddFavItem, NULL, NULL,NULL },
     { "rem-f-hub" , onRemoveFavHub , NULL, NULL,NULL},
-    { "add-fav-user",onAddFavoriteUserClicked_gui, NULL, NULL, NULL}
+    { "add-fav-user",onAddFavoriteUserClicked_gui, NULL, NULL, NULL},
+    { "copy-url",onCopyHubUrl, NULL, NULL, NULL}
 };
 
 Hub::Hub(const string &address, const string &encoding):
@@ -233,16 +234,12 @@ Hub::Hub(const string &address, const string &encoding):
 	GtkAdjustment *adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(getWidget("chatScroll")));
 	// Connect the signals to their callback functions.
 	//g_signal_connect(getContainer(), "size-allocate", G_CALLBACK(onSizeWindowState_gui), (gpointer)this);
-
 //	g_signal_connect(getContainer(), "focus-in-event", G_CALLBACK(onFocusIn_gui), (gpointer)this);
-//	g_signal_connect(nickView.get(), "button-press-event", G_CALLBACK(onNickListButtonPress_gui), (gpointer)this);
-//	g_signal_connect(nickView.get(), "button-release-event", G_CALLBACK(onNickListButtonRelease_gui), (gpointer)this);
 //	g_signal_connect(nickView.get(), "key-release-event", G_CALLBACK(onNickListKeyRelease_gui), (gpointer)this);
 	g_signal_connect(getWidget("chatEntry"), "activate", G_CALLBACK(onSendMessage_gui), (gpointer)this);
 //	g_signal_connect(getWidget("chatEntry"), "key-press-event", G_CALLBACK(onEntryKeyPress_gui), (gpointer)this);
 //	g_signal_connect(getWidget("chatText"), "motion-notify-event", G_CALLBACK(onChatPointerMoved_gui), (gpointer)this);
 //	g_signal_connect(getWidget("chatText"), "visibility-notify-event", G_CALLBACK(onChatVisibilityChanged_gui), (gpointer)this);
-
 	g_signal_connect(adjustment, "value_changed", G_CALLBACK(onChatScroll_gui), (gpointer)this);
 	g_signal_connect(adjustment, "changed", G_CALLBACK(onChatResize_gui), (gpointer)this);
 //	g_signal_connect(getWidget("nickToChatItem"), "activate", G_CALLBACK(onNickToChat_gui), (gpointer)this);
@@ -4490,7 +4487,7 @@ GMenu* Hub::createmenu()
 	GMenuItem* label = g_menu_item_new(address.c_str(), NULL);
 	g_menu_prepend_item(menu ,label);
 
-	GMenuItem* copy = g_menu_item_new(_("Copy URL") , NULL);
+	GMenuItem* copy = g_menu_item_new(_("Copy URL") , "hub.copy-url");
 	g_menu_append_item(menu , copy);
 
 	GMenuItem * fav = g_menu_item_new(_("Add to Favorite hubs"), "hub.fav-hubs");
@@ -4543,11 +4540,21 @@ void Hub::onCloseItem(GtkWidget* ,GVariant*, gpointer data)
     WulforManager::get()->getMainWindow()->removeBookEntry_gui(entry);
 }
 
-void Hub::onCopyHubUrl(GtkWidget* ,GVariant*, gpointer data)
+void Hub::onCopyHubUrl(GtkWidget* widget ,GVariant*, gpointer data)
 {
-    Hub *hub = (Hub *)data;
+	Hub *hub = (Hub *)data;
 	if(!hub) return;
- //   gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), hub->address.c_str(), hub->address.length());
+	
+	GValue value = G_VALUE_INIT;
+	g_value_init (&value, G_TYPE_STRING);
+	g_value_set_string (&value, hub->address.c_str());
+
+	// Store the value in the clipboard object
+	GdkClipboard *clipboard = gtk_widget_get_clipboard (widget);
+	gdk_clipboard_set_value (clipboard, &value);
+
+	g_value_unset (&value);
+ 
 }
 
 void Hub::onAddFavItem(GtkWidget* ,GVariant*, gpointer data)
