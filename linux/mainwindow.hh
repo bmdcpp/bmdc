@@ -220,7 +220,6 @@ class MainWindow:
 		void startSocket_client();
 		void refreshFileList_client();
 		void addFileDownloadQueue_client(std::string name, int64_t size, std::string tth);
-		void addTabMenuItem_gui(GMenu* menuItem, GtkWidget* page);
 		void removeItemFromList(Entry::EntryType type, std::string id);
 		//[BMDC++
 		void setInitThrotles();
