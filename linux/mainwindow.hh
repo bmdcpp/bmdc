@@ -124,7 +124,7 @@ class MainWindow:
 		// GUI functions
 		void showTransfersPane_gui();
 		void autoOpen_gui();
-		void addTabMenuItem_gui(GtkWidget* menuItem, GtkWidget* page);
+		void addTabMenuItem_gui(GMenu* menuItem, GtkWidget* page);
 		void removeTabMenuItem_gui(GtkWidget *menuItem);
 		void addBookEntry_gui(BookEntry *entry);
 		void previousTab_gui();
@@ -145,7 +145,6 @@ class MainWindow:
 //		static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);
 //		static gboolean onCloseWindow_gui(GtkWidget *widget, GdkEvent *event, gpointer data);
 //		static gboolean onKeyPressed_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
-//		static gboolean onButtonReleasePage_gui(GtkWidget *widget, GdkEventButton *event, gpointer data);
 
 //		static void onRaisePage_gui(GtkMenuItem *item, gpointer data);
 		static void onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *page, guint num, gpointer data);
@@ -167,7 +166,7 @@ class MainWindow:
 		static void onOpenOwnListClicked_gui(GtkWidget *widget, gpointer data);
 		static void onRefreshFileListClicked_gui(GtkWidget *widget, gpointer data);
 		static void onReconnectClicked_gui(GtkWidget *widget, gpointer data);
-		static void onCloseClicked_gui(GtkWidget *widget, gpointer data);
+		static void onCloseClicked_gui(GtkWidget *widget,GVariant* v, gpointer data);
 		static void onPreviousTabClicked_gui(GtkWidget* widget, gpointer data);
 		static void onNextTabClicked_gui(GtkWidget* widget, gpointer data);
 		static void onAboutClicked_gui(GtkWidget *widget, gpointer data);
@@ -221,7 +220,7 @@ class MainWindow:
 		void startSocket_client();
 		void refreshFileList_client();
 		void addFileDownloadQueue_client(std::string name, int64_t size, std::string tth);
-
+		void addTabMenuItem_gui(GMenu* menuItem, GtkWidget* page);
 		void removeItemFromList(Entry::EntryType type, std::string id);
 		//[BMDC++
 		void setInitThrotles();
@@ -321,6 +320,7 @@ class MainWindow:
 
 		GtkWidget *statusBar,*note;
 		bool bText;
+		static const GActionEntry win_entries[] ;
 
 };
 

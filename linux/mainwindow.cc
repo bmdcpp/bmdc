@@ -94,6 +94,10 @@ string MainWindow::icons[(MainWindow::IconsToolbar)END][2] =
 };
 */
 
+const GActionEntry MainWindow::win_entries[] = {
+		{ "close-tab", onCloseClicked_gui, NULL, NULL, NULL }
+};
+
 static GtkWidget* createButtonToolbarWidget(std::string name, std::string label, bool bText )
 {
 	GtkWidget* widget;
@@ -113,6 +117,10 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 	current_height(-1),	is_maximized(FALSE),
 	window(window), bText(false)
 {
+	GSimpleActionGroup *group;
+	group = g_simple_action_group_new ();
+	g_action_map_add_action_entries (G_ACTION_MAP (group), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+	gtk_widget_insert_action_group(getContainer(),"app" ,G_ACTION_GROUP(group));
 	if(bText)//set
 		bText = true;
 //	string stmp;
@@ -270,8 +278,7 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 	g_signal_connect(nt, "clicked", G_CALLBACK(onNotepadClicked_gui), (gpointer)this);
 	g_signal_connect(sl, "clicked", G_CALLBACK(onSystemLogClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("AwayIcon"), "clicked", G_CALLBACK(onAwayClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("quit"), "clicked", G_CALLBACK(onQuitClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("finishedDownloads"), "clicked", G_CALLBACK(onFinishedDownloadsClicked_gui), (gpointer)this);
+	g_signal_connect(df, "clicked", G_CALLBACK(onFinishedDownloadsClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("finishedUploads"), "clicked", G_CALLBACK(onFinishedUploadsClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("openFileListMenuItem"), "activate", G_CALLBACK(onOpenFileListClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("openOwnListMenuItem"), "activate", G_CALLBACK(onOpenOwnListClicked_gui), (gpointer)this);
@@ -279,7 +286,6 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 //	g_signal_connect(getWidget("quickConnectMenuItem"), "activate", G_CALLBACK(onConnectClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("reconnectMenuItem"), "activate", G_CALLBACK(onReconnectClicked_gui), (gpointer)this);
 	g_signal_connect(sp, "clicked", G_CALLBACK(onPreferencesClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("closeMenuItem"), "activate", G_CALLBACK(onCloseClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("exitMenuItem"), "activate", G_CALLBACK(onQuitClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("indexingProgressMenuItem"), "activate", G_CALLBACK(onHashClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("detitem"), "activate", G_CALLBACK(onDetectionClicked_gui), (gpointer)this);
@@ -313,15 +319,8 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 //	g_signal_connect(getWidget("CloseTabPMAllMenuItem"), "activate", G_CALLBACK(onCloseAllPM_gui), (gpointer)this);
 //	g_signal_connect(getWidget("CloseTabPMOfflineItem"), "activate", G_CALLBACK(onCloseAllofPM_gui), (gpointer)this);
 //	g_signal_connect(getWidget("recontallitem"), "activate", G_CALLBACK(onReconectAllHub_gui), (gpointer)this);
-//	g_signal_connect(getWidget("ShortCutsWin"),"activate", G_CALLBACK(onShortcutsWin), (gpointer)this);
 	g_signal_connect(ac, "clicked", G_CALLBACK(onAboutConfigClicked_gui), (gpointer)this);
-	// Help menu
-//	g_object_set_data_full(G_OBJECT(getWidget("homeMenuItem")), "link",
-//		g_strdup("http://launchpad.net/bmdc++"), g_free);
-//	g_signal_connect(getWidget("homeMenuItem"), "activate", G_CALLBACK(onLinkClicked_gui), NULL);
-
 	onQuit = false;
-
 	// colourstuff
 /*	string s_css = WulforManager::get()->getPath() + "/ui/resources.css";
 	if(Util::fileExists(s_css) == true) {
@@ -439,20 +438,7 @@ void MainWindow::showTransfersPane_gui()
 //	if (g_settings_get_boolean (sett, "hide-transfers"))
 //		gtk_widget_hide(transfers->getContainer());
 }
-	/*
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("hash")), "bmdc-hash");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("finishedDownloads")), "bmdc-finished-downloads");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("finishedUploads")), "bmdc-finished-uploads");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("quit")), "bmdc-quit");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("system")), "bmdc-system");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("AwayIcon")), "bmdc-away");
-	g_tool_set(GTK_TOOL_BUTTON(getWidget("limitingButton")), "bmdc-limiting");
-	g_image_set(GTK_IMAGE(getWidget("imageHubs")), "bmdc-public-hubs", GTK_ICON_SIZE_SMALL_TOOLBAR);
-	g_image_set(GTK_IMAGE(getWidget("imageDownloadSpeed")), "bmdc-download", GTK_ICON_SIZE_SMALL_TOOLBAR);
-	g_image_set(GTK_IMAGE(getWidget("imageUploadSpeed")), "bmdc-upload", GTK_ICON_SIZE_SMALL_TOOLBAR);
-	g_image_set(GTK_IMAGE(getWidget("imageDownloadRate")), "bmdc-download", GTK_ICON_SIZE_SMALL_TOOLBAR);
-	g_image_set(GTK_IMAGE(getWidget("imageUploadRate")), "bmdc-upload", GTK_ICON_SIZE_SMALL_TOOLBAR);
-	*/
+
 void MainWindow::autoOpen_gui()
 {
 	if (WGETB("open-public"))
@@ -569,10 +555,10 @@ void MainWindow::addBookEntry_gui(BookEntry *entry)
 
 	GtkWidget *page = entry->getContainer();
 	GtkWidget *label = entry->getLabelBox();
-//	GtkWidget *tabMenuItem = entry->getTabMenuItem();
+	GMenu *tabMenuItem = entry->getTabMenuItem();
 	int ipos = entry->getPositionTab();
 
-//	addTabMenuItem_gui(tabMenuItem, page);
+	addTabMenuItem_gui(tabMenuItem, page);
 
 	gtk_notebook_insert_page(GTK_NOTEBOOK(note), page, label, ipos);
 
@@ -741,15 +727,11 @@ void MainWindow::nextTab_gui()
 		gtk_notebook_next_page(book);
 }
 
-void MainWindow::addTabMenuItem_gui(GtkWidget* menuItem, GtkWidget* page)
+void MainWindow::addTabMenuItem_gui(GMenu* menuItem, GtkWidget* page)
 {
-//	g_signal_connect(menuItem, "activate", G_CALLBACK(onRaisePage_gui), (gpointer)page);
-//	gtk_menu_shell_append(GTK_MENU_SHELL(getWidget("tabsMenu")), menuItem);
-//	gtk_widget_show_all(getWidget("tabsMenu"));
+ 	g_menu_iten_new("Close Tab","app.tab-close");
+ 	g_menu_append_item(menu ,menuItem);
 
-//	gtk_widget_set_sensitive(getWidget("previousTabMenuItem"), TRUE);
-	//gtk_widget_set_sensitive(getWidget("nextTabMenuItem"), TRUE);
-//	gtk_widget_set_sensitive(getWidget("tabMenuSeparator"), TRUE);
 }
 
 void MainWindow::removeTabMenuItem_gui(GtkWidget *menuItem)
@@ -2151,9 +2133,13 @@ void MainWindow::onReconnectClicked_gui(GtkWidget*, gpointer data)
 	}
 }
 
-void MainWindow::onCloseClicked_gui(GtkWidget*, gpointer data)
+void MainWindow::onCloseClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
+	int number = gtk_notebook_get_current_page(mw->note);
+	if(number != -1 )
+		gtk_notebook_remove_page(mw->note,number);
+/*
 	GtkWidget *entryWidget = mw->currentPage_gui();
 
 	if (entryWidget)
@@ -2162,7 +2148,7 @@ void MainWindow::onCloseClicked_gui(GtkWidget*, gpointer data)
 
 		if (entry)
 			mw->removeBookEntry_gui(entry);
-	}
+	}*/
 }
 
 void MainWindow::onPreviousTabClicked_gui(GtkWidget*, gpointer data)
@@ -2179,7 +2165,7 @@ void MainWindow::onNextTabClicked_gui(GtkWidget*, gpointer data)
 
 void MainWindow::onAboutClicked_gui(GtkWidget*, gpointer)
 {
-	//MainWindow *mw = (MainWindow *)data;
+	
 }
 
 void MainWindow::onAboutDialogActivateLink_gui(GtkAboutDialog*, const gchar *link, gpointer)
@@ -2419,40 +2405,6 @@ void MainWindow::on(dcpp::TimerManagerListener::Minute, uint64_t ) noexcept
 
 }
 
-/*
-#ifdef HAVE_XSSLIB
-void MainWindow::onIdle()
-{
-	bool _idleDetectionPossible;
-	XScreenSaverInfo *_mit_info;
-
-	int event_base, error_base;
-	Display* display = gdk_x11_display_get_xdisplay(gdk_display_get_default());
-	if(XScreenSaverQueryExtension(display, &event_base, &error_base))
-			_idleDetectionPossible = true;
-	else
-			_idleDetectionPossible = false;
-
-	_mit_info = XScreenSaverAllocInfo();
-
-	XScreenSaverQueryInfo(display, DefaultRootWindow(display), _mit_info);
-
-if(_idleDetectionPossible) {
-	//g_debug("Detection Part 2");
-		long idlesecs = (_mit_info->idle/1000); // in sec
-		//NOTE: (1000 ms = 1s)
-		if (idlesecs > SETTING(AWAY_IDLE)) {
-				if(!dcpp::Util::getAway()) {//dont set away twice
-
-					dcpp::Util::setAway(true);
-					dcpp::Util::setManualAway(true);
-					//setStatusOfIcons(AWAY,true);
-					setMainStatus_gui(_("Away mode on"));
-			}
-		}
-	}
-}
-#endif*/
 void MainWindow::onTTHFileDialog_gui(GtkWidget*, gpointer /*data*/)
 {
 //	MainWindow *mw =(MainWindow *)data;

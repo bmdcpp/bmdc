@@ -33,6 +33,7 @@ const GActionEntry BookEntry::win_entries[] =
     { "close-butt", onCloseItem , NULL, NULL, NULL }
 };
 
+
 BookEntry::BookEntry(const EntryType type, const string &text, const string &glade, const string &id):
 	Entry(type, glade, id),
 	labelBox(NULL),
@@ -47,7 +48,6 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
 	GSimpleActionGroup* simple = g_simple_action_group_new ();
 	g_action_map_add_action_entries (G_ACTION_MAP (simple), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
 	gtk_widget_insert_action_group(labelBox,"book" ,G_ACTION_GROUP(simple));
-//	GSList *group = NULL;
 	gtk_widget_set_name(labelBox,getName().c_str());//CSS
 	// icon
 	icon = gtk_image_new();
@@ -90,8 +90,9 @@ BookEntry::BookEntry(const EntryType type, const string &text, const string &gla
     }
 	gtk_widget_show(labelBox);
 
-//	tabMenuItem = gtk_radio_menu_item_new_with_label(group, text.c_str());
-//	group = gtk_radio_menu_item_get_group(GTK_RADIO_MENU_ITEM(tabMenuItem));
+	tabMenuItem =  g_menu_new();
+
+
 
 	setLabel_gui(text);
 	setIcon_gui(type);

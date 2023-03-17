@@ -40,7 +40,7 @@ class BookEntry : public Entry
 		GtkWidget *getContainer(); //@ return Main Container of Book
 		GtkWidget *getLabelBox() { return labelBox; }
 		GtkWidget *getCloseButton() { return closeButton; }
-		GtkWidget *getTabMenuItem() { return tabMenuItem; }
+		GMenu *getTabMenuItem() { return tabMenuItem; }
 		void setIcon_gui(const EntryType type);
 		void setBackForeGround(const EntryType type); //@ Setting BackGround and ForeGround of BookEntry
 		void setIcon_gui(const std::string stock);
@@ -90,7 +90,7 @@ class BookEntry : public Entry
 		std::string h_name;
 		GtkWidget *eventBox;
 		GtkWidget *labelBox;
-		GtkWidget *tabMenuItem;
+		GMenu *tabMenuItem;
 		GtkWidget *closeButton;
 		GtkLabel *label;
 		bool bCreated; //@ if menu created
