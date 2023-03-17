@@ -476,7 +476,7 @@ void FavoriteHubs::onCopyAddress(GtkWidget*,GVariant*, gpointer data)
 		g_value_init (&value, G_TYPE_STRING);
 		g_value_set_string (&value, address.c_str());
 		// Store the value in the clipboard object
-		GdkClipboard *clipboard = gtk_widget_get_clipboard (widget);
+		GdkClipboard *clipboard = gtk_widget_get_clipboard (GTK_WIDGET(fh->favoriteView.get()));
 		gdk_clipboard_set_value (clipboard, &value);
 
 		g_value_unset (&value);
