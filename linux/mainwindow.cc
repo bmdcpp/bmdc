@@ -599,7 +599,7 @@ void MainWindow::removeBookEntry_gui(BookEntry *entry)
 
 	GtkNotebook *book = GTK_NOTEBOOK(note);
 	GtkWidget *page = entry->getContainer();
-	GtkWidget* menuItem = entry->getTabMenuItem();
+	GMenu* menuItem = entry->getTabMenuItem();
 	int inum = gtk_notebook_page_num(book, page);
 	removeChild(entry);
 
@@ -712,9 +712,9 @@ void MainWindow::nextTab_gui()
 		gtk_notebook_next_page(book);
 }
 
-void MainWindow::addTabMenuItem_gui(GMenu* menuItem, GtkWidget* page)
+void MainWindow::addTabMenuItem_gui(GMenu* menu, GtkWidget* page)
 {
- 	g_menu_iten_new("Close Tab","app.tab-close");
+ 	GMenuItem * menuItem = g_menu_item_new("Close Tab","app.tab-close");
  	g_menu_append_item(menu ,menuItem);
 
 }
