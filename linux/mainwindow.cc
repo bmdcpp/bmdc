@@ -2121,9 +2121,9 @@ void MainWindow::onReconnectClicked_gui(GtkWidget*, gpointer data)
 void MainWindow::onCloseClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
-	int number = gtk_notebook_get_current_page(mw->note);
+	int number = gtk_notebook_get_current_page(GTK_NOTEBOOK(mw->note));
 	if(number != -1 )
-		gtk_notebook_remove_page(mw->note,number);
+		gtk_notebook_remove_page(GTK_NOTEBOOK(mw->note),number);
 /*
 	GtkWidget *entryWidget = mw->currentPage_gui();
 
