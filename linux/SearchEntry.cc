@@ -89,11 +89,11 @@ void SearchEntry::onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *, guint n
 	{
 		// Disable "activate" signal on the tab menu item since it can cause
 		// onPageSwitched_gui to be called multiple times
-		GtkWidget *item = entry->getTabMenuItem();
-		g_object_set_data(G_OBJECT(item),"data",(gpointer)data);
+		//GtkWidget *item = entry->getTabMenuItem();
+		//g_object_set_data(G_OBJECT(item),"data",(gpointer)data);
 
 		entry->setActive_gui();
-		g_object_set_data(G_OBJECT(item),"data",(gpointer)data);
+		//g_object_set_data(G_OBJECT(item),"data",(gpointer)data);
 	}
 
 	GList *list = (GList *)g_object_get_data(G_OBJECT(notebook), "page-rotation-list");
