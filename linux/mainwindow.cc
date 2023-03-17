@@ -117,11 +117,7 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 	current_height(-1),	is_maximized(FALSE),
 	window(window), bText(false)
 {
-	GSimpleActionGroup *group;
-	group = g_simple_action_group_new ();
-	g_action_map_add_action_entries (G_ACTION_MAP (group), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
-	gtk_widget_insert_action_group(getContainer(),"app" ,G_ACTION_GROUP(group));
-	if(bText)//set
+	if(bText) //set
 		bText = true;
 //	string stmp;
 //	startTime = GET_TICK();
@@ -188,6 +184,11 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
   
 	GtkWidget* hpaned = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
 	note = gtk_notebook_new();
+
+	GSimpleActionGroup *group;
+	group = g_simple_action_group_new ();
+	g_action_map_add_action_entries (G_ACTION_MAP (group), win_entries, G_N_ELEMENTS (win_entries), (gpointer)this);
+	gtk_widget_insert_action_group(note,"app" ,G_ACTION_GROUP(group));
 	
 	gtk_paned_set_start_child (GTK_PANED (hpaned), note);
 //	gtk_paned_set_start_child_resize (GTK_PANED (hpaned), TRUE);
