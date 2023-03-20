@@ -75,24 +75,6 @@
 
 using namespace std;
 using namespace dcpp;
-/*
-string MainWindow::icons[(MainWindow::IconsToolbar)END][2] =
-{
-	{"connect", "connect"},
-	{"favorite-hubs", "favHubs"},
-	{"favorite-users", "favUsers"},
-	{"public-hubs", "publicHubs"},
-	{"search-adl", "searchADL"},
-	{"search-spy", "searchSpy"},
-	{"queue", "queue"},
-	{"finished-downloads", "finishedDownloads"},
-	{"finished-uploads", "finishedUploads"},
-	{"notepad", "notepad"},
-	{"system", "system"},
-	{"away", "AwayIcon"},
-	{"limiting", "limitingButton"}
-};
-*/
 
 const GActionEntry MainWindow::win_entries[] = {
 		{ "close-tab", onCloseClicked_gui, NULL, NULL, NULL }
@@ -147,6 +129,9 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 	GtkWidget* dq = createButtonToolbarWidget("bmdc-queue","Download Queue",bText);
 	gtk_box_append(GTK_BOX(tool),dq);
 
+	GtkWidget* hash = createButtonToolbarWidget("bmdc-hash","Hashing",bText);
+	gtk_box_append(GTK_BOX(tool),hash);
+
 	GtkWidget* search = createButtonToolbarWidget("bmdc-search","Search",bText);
 	gtk_box_append(GTK_BOX(tool),search);
 
@@ -155,13 +140,15 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
   
 	GtkWidget* df = createButtonToolbarWidget("bmdc-finished-downloads","Finished Downloads",bText);
 	gtk_box_append(GTK_BOX(tool),df);
+
+	GtkWidget* du = createButtonToolbarWidget("bmdc-finished-uploads","Finished Uploads",bText);
+	gtk_box_append(GTK_BOX(tool),du);
   
 	GtkWidget* uq = createButtonToolbarWidget("bmdc-upload-quene","Upload Queue",bText);
 	gtk_box_append(GTK_BOX(tool),uq);
 
   GtkWidget* sp =createButtonToolbarWidget("bmdc-preferences","Settings",bText);
   gtk_box_append(GTK_BOX(tool),sp);
-
 
   GtkWidget* ac = gtk_button_new_with_label("About Config");
   gtk_box_append(GTK_BOX(tool),ac);
@@ -208,30 +195,13 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
     statusBar = gtk_statusbar_new();
     gtk_box_append(GTK_BOX(bBox) , statusBar);
 
-/*	GtkWidget *menu = gtk_menu_new();
-	gtk_menu_tool_button_set_menu(GTK_MENU_TOOL_BUTTON(getWidget("favHubs")), menu);
-	const FavoriteHubEntryList &fh = FavoriteManager::getInstance()->getFavoriteHubs();
-//	gtk_container_foreach(GTK_CONTAINER(menu), (GtkCallback)gtk_widget_destroy, NULL);
-
-	for (auto it = fh.begin(); it != fh.end(); ++it)
-	{
-		FavoriteHubEntry *entry = *it;
-		string saddress = entry->getServer();
-		string sencoding = entry->getEncoding();
-		GtkWidget *item = gtk_menu_item_new_with_label(saddress.c_str());
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-		g_object_set_data_full(G_OBJECT(item), "address", g_strdup(saddress.c_str()), g_free);
-		g_object_set_data_full(G_OBJECT(item), "encoding", g_strdup(sencoding.c_str()), g_free);
-		g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(onHubClicked_gui), (gpointer)this);
-	}
-	gtk_widget_show_all(menu);
+/*	
     g_signal_connect(getWidget("limitingButton"),"clicked",G_CALLBACK(onPopupPopover),(gpointer)this);
 */
 	// magnet dialog
 	//setChooseMagnetDialog_gui();
 	//g_signal_connect(getWidget("MagnetDialog"), "response", G_CALLBACK(onResponseMagnetDialog_gui), (gpointer) this);
 	//g_signal_connect(getWidget("MagnetDialog"), "delete-event", G_CALLBACK(onDeleteEventMagnetDialog_gui), (gpointer) this);
-
 	//gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(getWidget("transferCheckButton")), TRUE);
 
 	// About dialog
@@ -240,8 +210,6 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 	//gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(getWidget("aboutDialog")), comments);
 
 	//gtk_about_dialog_set_logo_icon_name(GTK_ABOUT_DIALOG(getWidget("aboutDialog")),"bmdc");
-
-	//g_signal_connect(getWidget("aboutDialog"),"activate-link",G_CALLBACK(onAboutDialogActivateLink_gui),(gpointer)this);
 
 	// Set all windows to the default icon
 	gtk_window_set_default_icon_name(g_get_prgname());
@@ -260,7 +228,7 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 	g_signal_connect(favHub, "clicked", G_CALLBACK(onFavoriteHubsClicked_gui), (gpointer)this);
 	g_signal_connect(favuser, "clicked", G_CALLBACK(onFavoriteUsersClicked_gui), (gpointer)this);
 	g_signal_connect(publicHub, "clicked", G_CALLBACK(onPublicHubsClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("hash"), "clicked", G_CALLBACK(onHashClicked_gui), (gpointer)this);
+	g_signal_connect(hash, "clicked", G_CALLBACK(onHashClicked_gui), (gpointer)this);
 	g_signal_connect(search, "clicked", G_CALLBACK(onSearchClicked_gui), (gpointer)this);
 	g_signal_connect(adl, "clicked", G_CALLBACK(onSearchADLClicked_gui), (gpointer)this);
 	g_signal_connect(sspy, "clicked", G_CALLBACK(onSearchSpyClicked_gui), (gpointer)this);
@@ -269,7 +237,7 @@ MainWindow::MainWindow(GtkWidget* window /*= NULL*/):
 	g_signal_connect(sl, "clicked", G_CALLBACK(onSystemLogClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("AwayIcon"), "clicked", G_CALLBACK(onAwayClicked_gui), (gpointer)this);
 	g_signal_connect(df, "clicked", G_CALLBACK(onFinishedDownloadsClicked_gui), (gpointer)this);
-//	g_signal_connect(getWidget("finishedUploads"), "clicked", G_CALLBACK(onFinishedUploadsClicked_gui), (gpointer)this);
+	g_signal_connect(du, "clicked", G_CALLBACK(onFinishedUploadsClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("openFileListMenuItem"), "activate", G_CALLBACK(onOpenFileListClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("openOwnListMenuItem"), "activate", G_CALLBACK(onOpenOwnListClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("refreshFileListMenuItem"), "activate", G_CALLBACK(onRefreshFileListClicked_gui), (gpointer)this);
@@ -1522,18 +1490,14 @@ void MainWindow::addFileDownloadQueue_client(string name, int64_t size, string t
 }
 
 void MainWindow::showMessageDialog_gui(const string primaryText, const string secondaryText)
-{/*
+{
 	if (primaryText.empty())
 		return;
+	if (secondaryText.empty())
+		return;
 
-	GtkWidget* dialog = gtk_message_dialog_new(window, GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_MESSAGE_WARNING, GTK_BUTTONS_OK, "%s", primaryText.c_str());
-
-	if (!secondaryText.empty())
-		gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(dialog), "%s", secondaryText.c_str());
-*/
-//	gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
-//	g_signal_connect(dialog, "response", G_CALLBACK(gtk_widget_destroy), dialog);
+	GtkWidget* dialog = gtk_alert_dialog_new ("%s - %s", primaryText.c_str() , secondaryText.c_str() );
+	gtk_alert_dialog_show(dialog , window);
 }
 
 void MainWindow::onSizeWindowState_gui(GtkWidget* /*widget*/,GtkAllocation*,gpointer data)

@@ -1407,35 +1407,7 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 			}
 		}
 
-		if (image_tag)
-		{
-			gtk_text_buffer_move_mark(chatBuffer, tag_mark, &tag_end_iter);
-			string name, tth, target;
-			int64_t size;
-
-			if (WulforUtil::splitMagnet(image_magnet, name, size, tth))
-			{
-				gtk_text_buffer_delete(chatBuffer, &tag_start_iter, &tag_end_iter);
-
-				GtkTextChildAnchor *anchor = gtk_text_buffer_create_child_anchor(chatBuffer, &tag_start_iter);
-//				GtkWidget *event_box = gtk_event_box_new();
-
-				// Creating a visible window may cause artifacts that are visible to the user.
-//				gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
-//				GtkWidget *image = gtk_image_new_from_icon_name("text-x-generic",GTK_ICON_SIZE_BUTTON);
-//				gtk_container_add(GTK_CONTAINER(event_box), image);
-//				gtk_text_view_add_child_at_anchor(GTK_TEXT_VIEW(getWidget("chatText")), event_box, anchor);
-//				g_object_set_data_full(G_OBJECT(event_box), "magnet", g_strdup(image_magnet.c_str()), g_free);
-//				g_object_set_data_full(G_OBJECT(event_box), "cid", g_strdup(cid.c_str()), g_free);
-//				g_signal_connect(G_OBJECT(event_box), "event", G_CALLBACK(onImageEvent_gui), (gpointer)this);
-//				gtk_widget_show_all(event_box);
-//				imageList.insert(ImageList::value_type(image, tth));
-				string text = "name: " + name + "\n" + "size: " + Util::formatBytes(size);
-//				gtk_widget_set_tooltip_text(event_box, text.c_str());
-				//g_signal_connect(G_OBJECT(image), "destroy", G_CALLBACK(onImageDestroy_gui), (gpointer)this);
-			}
-		}
-		else if (bold_tag)
+		if (bold_tag)
 		{
 			dcassert(tagMsg >= Tag::TAG_GENERAL && tagMsg < Tag::TAG_TIMESTAMP);
 
@@ -1463,7 +1435,7 @@ void Hub::applyTags_gui(const string cid, const string line,string sCountry)
 				underline_text.c_str(), underline_text.size(), UnderlineTag, TagsMap[tagMsg], NULL);
 		}
 
-		if (image_tag || bold_tag || italic_tag || underline_tag )
+		if ( bold_tag || italic_tag || underline_tag )
 		{
 			applyEmoticons_gui();
 
@@ -1709,8 +1681,6 @@ void Hub::updateCursor_gui(GtkWidget *widget)
 	GdkSeat* seat = gdk_display_get_default_seat(win);
 	dev = gdk_seat_get_pointer(seat);
 #endif
-	//gdk_surface_get_device_position
-	//gdk_window_get_device_position (gtk_widget_get_window(widget), dev, &x, &y, NULL);
 	// Check for tags under the cursor, and change mouse cursor appropriately
 	gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW(widget), GTK_TEXT_WINDOW_WIDGET, x, y, &buf_x, &buf_y);
 	gtk_text_view_get_iter_at_location(GTK_TEXT_VIEW(widget), &iter, buf_x, buf_y);
@@ -1949,8 +1919,6 @@ gboolean Hub::onFocusIn_gui(GtkWidget*, GdkEventFocus*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
 
-	gtk_widget_grab_focus(hub->getWidget("chatEntry"));
-
 	// fix select text
 	gtk_editable_set_position(GTK_EDITABLE(hub->getWidget("chatEntry")), -1);
 
@@ -2001,25 +1969,11 @@ void Hub::clickAction(gpointer data)
 	}*/
 }
 /*
-gboolean Hub::onNickListKeyRelease_gui(GtkWidget*, GdkEventKey *event, gpointer data)
-{
-	Hub *hub = (Hub *)data;
-
-	if (gtk_tree_selection_count_selected_rows(hub->nickSelection) > 0)
-	{
-		if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
-		{
-			hub->popupNickMenu_gui();
-		}
 		else if (event->keyval == GDK_KEY_Return)
 		{
 			hub->onBrowseItemClicked_gui(NULL, data);
 		}
-	}
-
-	return FALSE;
-}
-/*
+*//*
 gboolean Hub::onEntryKeyPress_gui(GtkWidget *entry, GdkEventKey *event, gpointer data)
 {
 	Hub *hub = (Hub *)data;
@@ -2155,7 +2109,8 @@ gboolean Hub::onNickTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *event, Gtk
 	}
 
 	return FALSE;
-}*/
+}
+*/
 /*
 gboolean Hub::onLinkTagEvent_gui(GtkTextTag*, GObject*, GdkEvent *event, GtkTextIter*, gpointer data)
 {
@@ -2229,7 +2184,15 @@ gboolean Hub::onIpTagEvent_gui(GtkTextTag *tag, GObject*, GdkEvent *event , GtkT
 void Hub::onCopyIpItem_gui(GtkWidget* widget, gpointer)
 {
 	gchar* ip = (gchar *)g_object_get_data(G_OBJECT(widget),"ip_addr");
-//	gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), ip, strlen(ip));
+
+	GValue value = G_VALUE_INIT;
+	g_value_init (&value, G_TYPE_STRING);
+	g_value_set_string (&value, ip);
+	// Store the value in the clipboard object
+	GdkClipboard *clipboard = gtk_widget_get_clipboard (GTK_WIDGET(widget));
+	gdk_clipboard_set_value (clipboard, &value);
+	g_value_unset (&value);
+
 }
 
 void Hub::onRipeDbItem_gui(GtkWidget* widget, gpointer data)
@@ -2992,9 +2955,19 @@ void Hub::onRemoveUserItemClicked_gui(GtkWidget*,GVariant* v, gpointer data)
 void Hub::onCopyURIClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
-//	gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), hub->selectedTagStr.c_str(), hub->selectedTagStr.length());
-}
 
+	GValue value = G_VALUE_INIT;
+		g_value_init (&value, G_TYPE_STRING);
+		g_value_set_string (&value, address.c_str());
+		// Store the value in the clipboard object
+		GdkClipboard *clipboard = gtk_widget_get_clipboard (GTK_WIDGET(fh->hub->selectedTagStr.c_str()));
+		gdk_clipboard_set_value (clipboard, &value);
+
+		g_value_unset (&value);
+
+}
+*/
+/*
 void Hub::onOpenLinkClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
@@ -3035,7 +3008,7 @@ gboolean Hub::onChatCommandButtonRelease_gui(GtkWidget *wid, GdkEventButton *eve
 
 	return FALSE;
 }
-*/
+*//*
 void Hub::onCommandClicked_gui(GtkWidget *widget, gpointer data)
 {
 	Hub *hub = (Hub *)data;
@@ -3044,8 +3017,6 @@ void Hub::onCommandClicked_gui(GtkWidget *widget, gpointer data)
 
 	gint pos = 0;
 	GtkWidget *chatEntry = hub->getWidget("chatEntry");
-	if (!gtk_widget_is_focus(chatEntry))
-		gtk_widget_grab_focus(chatEntry);
 	gtk_editable_delete_text(GTK_EDITABLE(chatEntry), pos, -1);
 	gtk_editable_insert_text(GTK_EDITABLE(chatEntry), command.c_str(), -1, &pos);
 	gtk_editable_set_position(GTK_EDITABLE(chatEntry), pos);
@@ -4496,8 +4467,9 @@ GMenu* Hub::createmenu()
 	GMenuItem * userCommands = g_menu_item_new("User Commands", NULL);
 	g_menu_item_set_submenu(userCommands , G_MENU_MODEL(userCommandMenu1->getContainer()));
 	g_menu_append_item(menu , userCommands);
+	userCommandMenu1->addUser(client->getMyIdentity().getUser()->getCID().toBase32());
 /*
-		userCommandMenu1->addUser(client->getMyIdentity().getUser()->getCID().toBase32());
+		
 		GtkWidget *remfav = gtk_menu_item_new_with_label(_("Remove from Favorite hubs"));
 		GtkWidget *setTab = gtk_menu_item_new_with_label(_("Set Tab Name"));
 		GtkWidget *reconectItem = gtk_menu_item_new_with_label(_("Reconnect this hub"));

@@ -221,18 +221,13 @@ class MainWindow:
 		void refreshFileList_client();
 		void addFileDownloadQueue_client(std::string name, int64_t size, std::string tth);
 		void removeItemFromList(Entry::EntryType type, std::string id);
-		//[BMDC++
 		void setInitThrotles();
-		//void parsePartial(dcpp::HintedUser aUser, std::string txt);
-		//]
 
 		// Client callbacks
 		virtual void on(dcpp::LogManagerListener::Message, time_t t, const std::string &m,int sev) noexcept;
 		virtual void on(dcpp::QueueManagerListener::Finished, dcpp::QueueItem *item, const std::string& dir, int64_t avSpeed) noexcept;
 		virtual void on(dcpp::TimerManagerListener::Second, uint64_t ticks) noexcept;
 		virtual void on(dcpp::TimerManagerListener::Minute, uint64_t ticks) noexcept;
-		//Partial filelist
-		//virtual void on(dcpp::QueueManagerListener::PartialList, const dcpp::HintedUser& aUser, const std::string& text) noexcept;
 		static void onButtonPressed_gui(GtkGestureClick* self, gint n_press, gdouble x, gdouble y, gpointer user_data);
 		static void responseDialogOnClicked_gui(GtkWidget* dialog ,int, gpointer data);
 

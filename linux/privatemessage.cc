@@ -515,6 +515,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 			if(WulforUtil::isHighlightingWorld(messageBuffer,tag,string(temp),isTab,(gpointer)NULL))
 			{
 				gtk_text_buffer_apply_tag(messageBuffer, tag, &tag_start_iter, &tag_end_iter);
+				
 				if(isTab)
 				{
 					typedef Func0<PrivateMessage> F0;
@@ -540,8 +541,8 @@ void PrivateMessage::applyTags_gui(const string &line)
 					{
 							notlink = isCountryFlag = true;
 					}
-                		}
             	}
+            }
 
 			if(!notlink)
 			{
@@ -565,7 +566,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 
 		}
 
-		if(isCountryFlag)
+		/*if(isCountryFlag)
 		{
 			gtk_text_buffer_move_mark(messageBuffer, tag_mark, &tag_end_iter);
 
@@ -594,7 +595,7 @@ void PrivateMessage::applyTags_gui(const string &line)
 			start = false;
 
 			continue;
-		}
+		}*/
 
 		if (callback)
 		{
@@ -919,8 +920,6 @@ void PrivateMessage::updateCursor(GtkWidget *widget)
 	GdkDisplay* win = gtk_widget_get_display(widget);
 	GdkSeat* seat = gdk_display_get_default_seat(win);
 	dev = gdk_seat_get_pointer(seat);
-
-	//gdk_window_get_device_position (gtk_widget_get_window(widget), dev, &x, &y, NULL);
 
 	// Check for tags under the cursor, and change mouse cursor appropriately
 	gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW(widget), GTK_TEXT_WINDOW_WIDGET, x, y, &buf_x, &buf_y);
@@ -1560,14 +1559,14 @@ void PrivateMessage::readLog(const string& logPath, const unsigned setting)
 //custom popup menu
 GMenu *PrivateMessage::createmenu()
 {
-/*	string nicks = WulforUtil::getNicks(this->cid, this->hubUrl);
-	GtkWidget* fitem = BookEntry::createItemFirstMenu();
-	gtk_menu_item_set_label(GTK_MENU_ITEM(fitem), nicks.c_str());
+	string nicks = WulforUtil::getNicks(this->cid, this->hubUrl);
+	GMenu *menu = BookEntry::createmenu();
+	GMenuItem* label = g_menu_item_new(nicks.c_str(), NULL);
+	g_menu_prepend_item(menu ,label);
 
+/*	
 	if(notCreated) {
-	
-		m_menu = gtk_menu_new();
-		userCommandMenu->cleanMenu_gui();
+			userCommandMenu->cleanMenu_gui();
 		userCommandMenu->addUser(cid);
 		userCommandMenu->addHub(hubUrl);
 		userCommandMenu->buildMenu_gui();
@@ -1600,7 +1599,7 @@ GMenu *PrivateMessage::createmenu()
 		notCreated = false;
 	}	
     return m_menu;*/
-    return NULL;
+    return menu;
 }
 /*
 void PrivateMessage::onCloseItem(gpointer data)
