@@ -1497,7 +1497,7 @@ void MainWindow::showMessageDialog_gui(const string primaryText, const string se
 		return;
 
 	GtkAlertDialog* dialog = gtk_alert_dialog_new ("%s - %s", primaryText.c_str() , secondaryText.c_str() );
-	gtk_alert_dialog_show(dialog , window);
+	gtk_alert_dialog_show(dialog ,GTK_WINDOW(window));
 }
 
 void MainWindow::onSizeWindowState_gui(GtkWidget* /*widget*/,GtkAllocation*,gpointer data)
