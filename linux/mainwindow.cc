@@ -1585,7 +1585,7 @@ gboolean MainWindow::onCloseWindow_gui(GtkWidget*, GdkEvent*, gpointer data)
 */
 gboolean MainWindow::onDeleteEventMagnetDialog_gui(GtkWidget *dialog, GdkEvent*, gpointer )
 {
-	gtk_widget_hide(dialog);
+	gtk_widget_set_visible (dialog , FALSE);
 	return TRUE;
 }
 /*
@@ -1938,10 +1938,9 @@ void MainWindow::onTransferToggled_gui(GtkWidget*, gpointer data)
 	GtkWidget *transfer = mw->transfers->getContainer();
 
 	if (gtk_widget_get_visible(transfer)) {
-//		gtk_widget_hide(transfer);
+//		gtk_widget_set_visible (transfer, TRUE);
 		WSET("hide-transfers",TRUE);
 	} else {
-//		gtk_widget_show_all(transfer);
 		WSET("hide-transfers",FALSE);
 	}
 }
@@ -1958,7 +1957,7 @@ void MainWindow::onExportItemClicked_gui(GtkWidget*, gpointer data)
 	ExportDialog *h = new ExportDialog(GTK_WINDOW(mw->getContainer()));
 	h->run();
 	if(h)
-		delete h;//need?
+		delete h;
 }
 #endif
 
@@ -1972,21 +1971,18 @@ void MainWindow::onSearchSpyClicked_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 	mw->showBook(Entry::SEARCH_SPY,new SearchSpy());
-	//mw->setStatusOfIcons(SEARCH_SPY,true);
 }
 
 void MainWindow::onSearchADLClicked_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 	mw->showBook(Entry::SEARCH_ADL,new SearchADL());
-//	mw->setStatusOfIcons(SEARCH_ADL,true);
 }
 
 void MainWindow::onDownloadQueueClicked_gui(GtkWidget*, gpointer data)
 {
 	MainWindow *mw = (MainWindow *)data;
 	mw->showBook(Entry::DOWNLOAD_QUEUE,new DownloadQueue());
-//	mw->setStatusOfIcons(QUEUE,true);
 }
 
 void MainWindow::onFinishedDownloadsClicked_gui(GtkWidget*, gpointer data)
@@ -2119,7 +2115,6 @@ void MainWindow::onAboutClicked_gui(GtkWidget*, gpointer)
 
 void MainWindow::onAboutDialogActivateLink_gui(GtkAboutDialog*, const gchar *link, gpointer)
 {
-//	MainWindow *mw =(MainWindow *)data;
 	WulforUtil::openURI(link);
 }
 

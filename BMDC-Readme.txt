@@ -9,16 +9,14 @@ Dependencies:
 - pkg-config
 - g++ >= 4.9
 - glib >= 2.44
-- gtk+-3.0 >= 3.17
+- gtk+-4.0
 - pthread
 - zlib
 - libbz2
 - libssl
-- libGeoIP >= 1.4.7
 
 --optional--
 
-- libXss (Note: for idle detection)
 - libtar (Note: For Backup/Restore options )
 - libnotify >= 0.4.1 ( Note: For popups notifications )
 - libappindicator3 ( Note: For appindicators)
@@ -56,8 +54,4 @@ License:
 GNU GPL Version 2 or later
 See License.txt for details.
 
-Contact:
---------
-Website: 
-	https://launchpad.net/bmdc++
-	https://sourceforge.net/projects/freedcppmv/
+

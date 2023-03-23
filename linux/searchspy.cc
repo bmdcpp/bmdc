@@ -141,13 +141,16 @@ void SearchSpy::onClickPressed_gui(GtkGestureClick* /*gesture*/,
 
 }
 
-void SearchSpy::onClickReleased_gui (GtkGestureClick* /*gesture*/,
+void SearchSpy::onClickReleased_gui (GtkGestureClick* gesture,
                                    int                /*n_press*/,
                                    double             x,
                                    double             y,
                                    GtkWidget         *data)
 {
 
+
+  gtk_gesture_set_state (GTK_GESTURE (gesture),
+                         GTK_EVENT_SEQUENCE_CLAIMED);
 	
 }
 

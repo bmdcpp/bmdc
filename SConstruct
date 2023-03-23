@@ -330,12 +330,6 @@ if not 'install' in COMMAND_LINE_TARGETS:
 			print ('Dont Found libtar headers')
 			LIB_IS_TAR = False
 
-	if conf.env.get('libXss'):
-		if conf.CheckLibWithHeader('libXss','X11/extensions/scrnsaver.h' ,'c'):
-			print ('Found Xss')
-			conf.env.Append(CPPDEFINES = 'HAVE_XSSLIB')
-			LIB_HAVE_XSS = True
-
 	if conf.env.get('newSettings'):
 		conf.env.Append(CPPDEFINES = 'USE_NEW_SETTINGS')
 		NEW_SETTING = True

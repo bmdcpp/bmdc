@@ -123,7 +123,6 @@ void Transfers::on_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
                                    gpointer         *data)
 {
 	Transfers *TR = (Transfers*)data;
-	g_debug ("on_inner_widget_right_btn_pressed() called\n");
 
 	GMenu *menu = g_menu_new ();
 	GMenuItem *menu_item_add = g_menu_item_new ("Grant Slot", "transfers.grant-slot");

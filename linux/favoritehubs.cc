@@ -56,7 +56,7 @@ FavoriteHubs::FavoriteHubs():
 	favoriteView.insertColumn(_("Password"), G_TYPE_STRING, TreeView::STRING, 10);
 	favoriteView.insertColumn(_("User Description"), G_TYPE_STRING, TreeView::STRING, 50);
 	favoriteView.insertColumn(_("Encoding"), G_TYPE_STRING, TreeView::STRING, 80);
-	favoriteView.insertColumn(_("Group"), G_TYPE_STRING, TreeView::STRING, 100);
+//	favoriteView.insertColumn(_("Group"), G_TYPE_STRING, TreeView::STRING, 100);
 	favoriteView.insertColumn(_("Status"), G_TYPE_STRING, TreeView::STRING, 60);
 	favoriteView.insertHiddenColumn("Hidden Password", G_TYPE_STRING);
 	favoriteView.insertHiddenColumn("FavPointer",G_TYPE_POINTER);

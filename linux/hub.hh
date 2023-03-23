@@ -218,9 +218,7 @@ private:
 		void removeAsFavorite_client();
 
 		void getParams_client(dcpp::StringMap &user, dcpp::Identity &id);
-		//void download_client(std::string target, int64_t size, std::string tth, std::string cid);
 		std::string realFile_client(std::string tth);
-		void openImage_client(std::string tth);
 		//BMDC++
 		std::string formatAdditionalInfo(const std::string& aIp, bool sIp, bool sCC);
 		std::string getIcons(const dcpp::Identity& id);

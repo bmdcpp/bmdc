@@ -1,3 +1,7 @@
+0.1.25
+ ======
+ Intial GTK4+
+
 0.1.10
  ======
  Add Idle Detection after 5 minutes and set away status

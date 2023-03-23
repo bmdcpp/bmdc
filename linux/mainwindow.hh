@@ -145,7 +145,6 @@ class MainWindow:
 //		static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);
 //		static gboolean onCloseWindow_gui(GtkWidget *widget, GdkEvent *event, gpointer data);
 //		static gboolean onKeyPressed_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
-
 //		static void onRaisePage_gui(GtkMenuItem *item, gpointer data);
 		static void onPageSwitched_gui(GtkNotebook *notebook, GtkWidget *page, guint num, gpointer data);
 		static void onPaneRealized_gui(GtkWidget *pane, gpointer data);
@@ -183,12 +182,6 @@ class MainWindow:
 		static gboolean onDeleteEventMagnetDialog_gui(GtkWidget *dialog, GdkEvent *event, gpointer data);
 		static gboolean onMenuButtonClicked_gui(GtkWidget *widget, gpointer data);
 		static gboolean onAddButtonClicked_gui(GtkWidget *widget, gpointer data);
-		/*outdated*/
-		//static void onToolToggled_gui(GtkWidget *widget, gpointer data);
-		//static void onTopToolbarToggled_gui(GtkWidget *widget, gpointer data);
-		//static void onLeftToolbarToggled_gui(GtkWidget *widget, gpointer data);
-		//static void onHideToolbarToggled_gui(GtkWidget *widget, gpointer data);
-		//static void onSizeToolbarToggled_gui(GtkWidget *widget, gpointer data);
 
 		static void onHubClicked_gui(GtkWidget *widget, gpointer data);
 		/**/

@@ -31,7 +31,6 @@ GNU GPL v2.0 or later. See [License.txt](https://github.com/bmdcpp/bmdc/blob/mas
 
 ### Optional dependencies
 
-- libXss (Note: for idle detection)
 - libtar (Note: For Backup/Restore options )
 - libnotify >= 0.4.1 ( Note: For popups notifications )
 - xattr ( Note: for storing hashes beside files to not always re-hash )

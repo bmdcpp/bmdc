@@ -31,7 +31,7 @@
 
 using namespace std;
 using namespace dcpp;
-//0->padding
+
 const GActionEntry UploadQueue::win_entries[] = {
     { "grant-slot", onGrantSlotItemClicked_gui, NULL, NULL, NULL , 0 },
     { "favorite-user", onFavoriteUserAddItemClicked_gui , NULL, NULL, NULL, 0 },
@@ -83,8 +83,7 @@ void UploadQueue::onWidgetPressed (GtkGestureClick* /*gesture*/,
                                    gpointer         *data)
 {
 	
-	UploadQueue *FH = (UploadQueue*)data;
-	g_debug ("on_inner_widget_right_btn_pressed() called\n");
+	UploadQueue *UQ = (UploadQueue*)data;
 
 	GMenu *menu = g_menu_new ();
 	GMenuItem *menu_item_add = g_menu_item_new ("Grant Slot", "UploadQueue.grant-slot");
@@ -108,7 +107,7 @@ void UploadQueue::onWidgetPressed (GtkGestureClick* /*gesture*/,
 	g_object_unref (menu_item_rem);
 
 	GtkWidget *pop = gtk_popover_menu_new_from_model(G_MENU_MODEL(menu));
-	gtk_widget_set_parent(pop, FH->getContainer());
+	gtk_widget_set_parent(pop, UQ->getContainer());
 	gtk_popover_set_pointing_to(GTK_POPOVER(pop), &(const GdkRectangle){x,y,1,1});
 	gtk_popover_popup (GTK_POPOVER(pop));
 
@@ -120,7 +119,6 @@ void UploadQueue::on_widget_right_btn_released (GtkGestureClick *gesture,
                                     double           /*y*/,
                                     GtkWidget*       /*widget*/)
 {
-  g_debug ("on_inner_widget_right_btn_released() called\n");
 
   gtk_gesture_set_state (GTK_GESTURE (gesture),
                          GTK_EVENT_SEQUENCE_CLAIMED);

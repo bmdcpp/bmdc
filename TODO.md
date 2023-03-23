@@ -1,5 +1,3 @@
-[dp] Ignore for 15m-1h
-[  ] Check if works with network share
+[  ] Ignore for 15m-1h
 [  ] Transfer fully to new dialog?
-[x] OpenSSL 1.1.0+
-[  ] ....
+

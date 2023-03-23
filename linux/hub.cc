@@ -60,7 +60,8 @@ const GActionEntry Hub::win_entries[] = {
     { "fav-hubs", onAddFavItem, NULL, NULL,NULL },
     { "rem-f-hub" , onRemoveFavHub , NULL, NULL,NULL},
     { "add-fav-user",onAddFavoriteUserClicked_gui, NULL, NULL, NULL},
-    { "copy-url",onCopyHubUrl, NULL, NULL, NULL}
+    { "copy-url",onCopyHubUrl, NULL, NULL, NULL},
+    { "reconnect",onReconnectItemTab, NULL, NULL, NULL}
 };
 
 Hub::Hub(const string &address, const string &encoding):
@@ -326,10 +327,8 @@ Hub::Hub(const string &address, const string &encoding):
 		bool bShowUserList = p_faventry->getShowUserList();
 
 		if ( (bShowUserList == false) && gtk_widget_get_visible(getWidget("scrolledwindow2"))) {
-		//	gtk_widget_hide(getWidget("scrolledwindow2"));
-		} else {
-
-		}
+			gtk_widget_set_visible(getWidget("scrolledwindow2") , FALSE);
+		} 
 
 		isFavBool = p_faventry->getNotify();
 	}
@@ -1879,7 +1878,7 @@ void Hub::getSettingTag_gui(WulforSettingsManager *wsm, Tag::TypeTag type, strin
 			italic = (bool)wsm->getInt("text-general-italic");
 	}
 }
-//todo fix change themes... wich change backgroun color...
+
 GtkTextTag* Hub::createTag_gui(const string &tagname, Tag::TypeTag type)
 {
 	WulforSettingsManager *wsm = WulforSettingsManager::getInstance();
@@ -2203,7 +2202,6 @@ void Hub::onRipeDbItem_gui(GtkWidget* widget, gpointer data)
 	params["IP"] = ip;
 	string result = dcpp::Util::formatParams(SETTING(RIPE_DB),params);
 	WulforUtil::openURI(result/*,error*/);
-	//hub->setStatus_gui("statusMain",error);
 }
 /*
 gboolean Hub::onMagnetTagEvent_gui(GtkTextTag* tag, GObject*, GdkEvent *event, GtkTextIter*, gpointer data)
@@ -3066,12 +3064,12 @@ void Hub::onMagnetPropertiesClicked_gui(GtkMenuItem*, gpointer data)
 void Hub::onUserListToggled_gui(GtkWidget*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
-/*
+
 	if (gtk_widget_get_visible(hub->getWidget("scrolledwindow2"))) {
-		gtk_widget_hide(hub->getWidget("scrolledwindow2"));
+		gtk_widget_set_visible (hub->getWidget("scrolledwindow2") , FALSE);
 	} else {
 		gtk_widget_show_all(hub->getWidget("scrolledwindow2"));
-	}*/
+	}
 }
 
 void Hub::onAddFavoriteUserClicked_gui(GtkWidget* wid,GVariant* v, gpointer data)
@@ -4464,15 +4462,18 @@ GMenu* Hub::createmenu()
 	GMenuItem * fav = g_menu_item_new(_("Add to Favorite hubs"), "hub.fav-hubs");
 	g_menu_append_item(menu , fav);
 
+	GMenuItem *rem = g_menu_item_new(_("Remove from Favorite Hubs") , "hub.fav-rem");
+	g_menu_append_item(menu , rem);
+
+	GMenuItem *reconnectItem  = g_menu_item_new("Reconnect" , "hub.reconnect");
+	g_menu_append_item(menu , reconnectItem);
+
 	GMenuItem * userCommands = g_menu_item_new("User Commands", NULL);
 	g_menu_item_set_submenu(userCommands , G_MENU_MODEL(userCommandMenu1->getContainer()));
 	g_menu_append_item(menu , userCommands);
 	userCommandMenu1->addUser(client->getMyIdentity().getUser()->getCID().toBase32());
 /*
-		
-		GtkWidget *remfav = gtk_menu_item_new_with_label(_("Remove from Favorite hubs"));
 		GtkWidget *setTab = gtk_menu_item_new_with_label(_("Set Tab Name"));
-		GtkWidget *reconectItem = gtk_menu_item_new_with_label(_("Reconnect this hub"));
 		//custom share things...
         GtkWidget *shareView = NULL,*shareRefresh = NULL;
         ShareManager *sm = client->getShareManager();

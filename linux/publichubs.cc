@@ -112,7 +112,6 @@ void PublicHubs::on_widget_right_btn_pressed (GtkGestureClick* /*gesture*/,
                                    gpointer         *data)
 {
 	PublicHubs *FH = (PublicHubs*)data;
-	g_debug ("on_inner_widget_right_btn_pressed() called\n");
 
 	GMenu *menu = g_menu_new ();
 	GMenuItem* menu_item_conn = g_menu_item_new ("Connect", "pub.connect");
@@ -132,7 +131,6 @@ void PublicHubs::on_widget_right_btn_released (GtkGestureClick *gesture,
                                     double           /*y*/,
                                     GtkWidget*       /*widget*/)
 {
-  g_print ("on_inner_widget_right_btn_released() called\n");
 
   gtk_gesture_set_state (GTK_GESTURE (gesture),
                          GTK_EVENT_SEQUENCE_CLAIMED);
