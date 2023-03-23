@@ -1496,7 +1496,7 @@ void MainWindow::showMessageDialog_gui(const string primaryText, const string se
 	if (secondaryText.empty())
 		return;
 
-	GtkWidget* dialog = gtk_alert_dialog_new ("%s - %s", primaryText.c_str() , secondaryText.c_str() );
+	GtkAlertDialog* dialog = gtk_alert_dialog_new ("%s - %s", primaryText.c_str() , secondaryText.c_str() );
 	gtk_alert_dialog_show(dialog , window);
 }
 
