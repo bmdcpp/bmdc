@@ -126,7 +126,7 @@ void SearchSpy::onClickPressed_gui(GtkGestureClick* /*gesture*/,
 {
 
 	SearchSpy* hub = (SearchSpy*)data;
-	g_debug("right click");
+
 	GMenu *menu = g_menu_new ();
 	GMenuItem* item = g_menu_item_new("Search Item", "searchspy.on-search" );
 	g_menu_append_item(menu ,item);
@@ -147,8 +147,6 @@ void SearchSpy::onClickReleased_gui (GtkGestureClick* gesture,
                                    double             y,
                                    GtkWidget         *data)
 {
-
-
   gtk_gesture_set_state (GTK_GESTURE (gesture),
                          GTK_EVENT_SEQUENCE_CLAIMED);
 	

@@ -105,11 +105,7 @@ ShareBrowser::ShareBrowser(HintedUser user, const string &file, const string &in
 	//dirUserCommandMenu = new UserCommandMenu(getWidget("dirUserCommandMenu"), ::UserCommand::CONTEXT_FILELIST);
 	//TabUserCommandMenu = new UserCommandMenu(BookEntry::createmenu(), ::UserCommand::CONTEXT_FILELIST);
 	// Connect the signals to their callback functions.
-//	g_signal_connect(fileView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
-//	g_signal_connect(fileView.get(), "button-release-event", G_CALLBACK(onFileButtonReleased_gui), (gpointer)this);
 //	g_signal_connect(fileView.get(), "key-release-event", G_CALLBACK(onFileKeyReleased_gui), (gpointer)this);
-//	g_signal_connect(dirView.get(), "button-press-event", G_CALLBACK(onButtonPressed_gui), (gpointer)this);
-//	g_signal_connect(dirView.get(), "button-release-event", G_CALLBACK(onDirButtonReleased_gui), (gpointer)this);
 //	g_signal_connect(dirView.get(), "key-release-event", G_CALLBACK(onDirKeyReleased_gui), (gpointer)this);
 //	g_signal_connect(getWidget("matchButton"), "clicked", G_CALLBACK(onMatchButtonClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("findButton"), "clicked", G_CALLBACK(onFindButtonClicked_gui), (gpointer)this);
@@ -119,7 +115,6 @@ ShareBrowser::ShareBrowser(HintedUser user, const string &file, const string &in
 //	g_signal_connect(getWidget("searchForAlternatesItem"), "activate", G_CALLBACK(onSearchAlternatesClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("copyMagnetItem"), "activate", G_CALLBACK(onCopyMagnetClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("copyPictureItem"), "activate", G_CALLBACK(onCopyPictureClicked_gui), (gpointer)this);
-
 //	g_signal_connect(getWidget("downloadPartialFile"), "activate", G_CALLBACK(onClickedPartial), (gpointer)this);
 //	g_signal_connect(getWidget("downloadPartialDir"), "activate", G_CALLBACK(onClickedPartial), (gpointer)this);
 
@@ -507,7 +502,7 @@ void ShareBrowser::popupFileMenu_gui()
 	fileUserCommandMenu->buildMenu_gui();
 
 	gtk_menu_popup_at_pointer(GTK_MENU(getWidget("fileMenu")),NULL);
-	gtk_widget_show_all(getWidget("fileMenu"));*/
+*/
 }
 
 void ShareBrowser::popupDirMenu_gui()
@@ -555,8 +550,7 @@ void ShareBrowser::popupDirMenu_gui()
 	g_list_free(list);
 	dirUserCommandMenu->buildMenu_gui();
 	gtk_menu_popup_at_pointer(GTK_MENU(getWidget("dirMenu")),NULL);
-
-	gtk_widget_show_all(getWidget("dirMenu"));*/
+*/
 }
 
 /*
@@ -669,27 +663,6 @@ void ShareBrowser::find_gui()
 	}
 }
 /*
-gboolean ShareBrowser::onButtonPressed_gui(GtkWidget*, GdkEventButton *event, gpointer data)
-{
-	ShareBrowser *sb = (ShareBrowser *)data;
-	sb->oldType = event->type;
-
-	if (event->button == 3)
-	{
-		GtkTreePath *path;
-
-		if (gtk_tree_view_get_path_at_pos(sb->fileView.get(), (gint)event->x, (gint)event->y, &path, NULL, NULL, NULL))
-		{
-			bool selected = gtk_tree_selection_path_is_selected(sb->fileSelection, path);
-			gtk_tree_path_free(path);
-
-			if (selected)
-				return TRUE;
-		}
-	}
-
-	return FALSE;
-}
 
 gboolean ShareBrowser::onFileButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
 {
@@ -791,16 +764,9 @@ void ShareBrowser::onMatchButtonClicked_gui(GtkWidget*, gpointer data)
 void ShareBrowser::onFindButtonClicked_gui(GtkWidget*, gpointer data)
 {
 	ShareBrowser *sb = (ShareBrowser *)data;
-
-//	gtk_widget_grab_focus(GTK_WIDGET(sb->getWidget("findEntry")));
-//	gint response = gtk_dialog_run(GTK_DIALOG(sb->getWidget("findDialog")));
-
-	// Fix crash, if the dialog gets programmatically destroyed.
-//	if (response == GTK_RESPONSE_NONE)
-//		return;
-
-//	if (response == GTK_RESPONSE_OK)
-/*	{
+	gint response = gtk_dialog_run(GTK_DIALOG(sb->getWidget("findDialog")));
+	if (response == GTK_RESPONSE_OK)
+	{
 		string text = gtk_entry_get_text(GTK_ENTRY(sb->getWidget("findEntry")));
 		if (!text.empty())
 		{
@@ -836,12 +802,6 @@ void ShareBrowser::onDownloadToClicked_gui(GtkMenuItem*, gpointer data)
 
 	gint response = gtk_dialog_run(GTK_DIALOG(sb->getWidget("dirChooserDialog")));
 
-	// Fix crash, if the dialog gets programmatically destroyed.
-	if (response == GTK_RESPONSE_NONE)
-		return;
-
-	gtk_widget_hide(sb->getWidget("dirChooserDialog"));
-
 	if (response == GTK_RESPONSE_OK)
 	{
 		g_autofree gchar *temp = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(sb->getWidget("dirChooserDialog")));
@@ -874,12 +834,6 @@ void ShareBrowser::onDownloadDirToClicked_gui(GtkMenuItem*, gpointer data)
 	ShareBrowser *sb = (ShareBrowser *)data;
 
 	gint response = gtk_dialog_run(GTK_DIALOG(sb->getWidget("dirChooserDialog")));
-
-	// Fix crash, if the dialog gets programmatically destroyed.
-	if (response == GTK_RESPONSE_NONE)
-		return;
-
-	gtk_widget_hide(sb->getWidget("dirChooserDialog"));
 
 	if (response == GTK_RESPONSE_OK)
 	{
@@ -1055,9 +1009,6 @@ GMenu *ShareBrowser::createmenu()
 
     gtk_menu_shell_append(GTK_MENU_SHELL(menu),close);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu),copyHubUrl);
-    gtk_widget_show(close);
-    gtk_widget_show(copyHubUrl);
-    gtk_widget_show_all(TabUserCommandMenu->getContainer());
 
     g_signal_connect_swapped(copyHubUrl, "activate", G_CALLBACK(onCopyCID), (gpointer)this);
     g_signal_connect_swapped(close, "activate", G_CALLBACK(onCloseItem), (gpointer)this);

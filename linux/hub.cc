@@ -2946,7 +2946,7 @@ void Hub::onCopyURIClicked_gui(GtkMenuItem*, gpointer data)
 void Hub::onOpenLinkClicked_gui(GtkMenuItem*, gpointer data)
 {
 	Hub *hub = (Hub *)data;
-	string error = string();
+	string error = dcpp::Util::emptyString;
 	WulforUtil::openURI(hub->selectedTagStr,error);
 
 	if(!error.empty())
@@ -2977,10 +2977,7 @@ gboolean Hub::onChatCommandButtonRelease_gui(GtkWidget *wid, GdkEventButton *eve
 {
 	if (event->button == 1)
 	{
-		Hub *hub = (Hub *)data;
-		gtk_menu_popup_at_widget(GTK_MENU(hub->getWidget("chatCommandsMenu")),wid,GDK_GRAVITY_SOUTH_WEST,GDK_GRAVITY_NORTH_WEST,NULL);
 	}
-
 	return FALSE;
 }
 *//*
@@ -3012,10 +3009,6 @@ void Hub::onDownloadToClicked_gui(GtkMenuItem*, gpointer data)
 	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), Text::fromUtf8(WGETS("magnet-choose-dir")).c_str());
 	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
 
-	// if the dialog gets programmatically destroyed.
-	if (response == GTK_RESPONSE_NONE)
-		return;
-
 	if (response == GTK_RESPONSE_OK)
 	{
 		g_autofree gchar *temp = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(dialog));
@@ -3028,7 +3021,7 @@ void Hub::onDownloadToClicked_gui(GtkMenuItem*, gpointer data)
 			WulforManager::get()->getMainWindow()->fileToDownload_gui(hub->selectedTagStr, path);
 		}
 	}
-	gtk_widget_hide(dialog);
+
 }
 
 void Hub::onMagnetPropertiesClicked_gui(GtkMenuItem*, gpointer data)
@@ -3885,7 +3878,7 @@ string Hub::realFile_client(string tth)
 	{
 
 	}
-	return string();
+	return dcpp::Util::emptyString;
 }
 /*
 void Hub::on(QueueManagerListener::Finished, QueueItem *item, const string& , int64_t ) noexcept

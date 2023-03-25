@@ -15,7 +15,6 @@
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //      MA 02110-1301, USA.
 
-
 #include "recenthub.hh"
 #include "wulformanager.hh"
 #include "GuiUtil.hh"
@@ -207,12 +206,6 @@ void RecentHubs::onRemoveItemClicked_gui(GtkMenuItem*, gpointer data)
 			gtk_dialog_add_buttons(GTK_DIALOG(dialog), "_Cancel", GTK_RESPONSE_CANCEL, "yes",
 				GTK_RESPONSE_YES, NULL);
 //			gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-
-			// Widget failed if the dialog gets programmatically destroyed.
-			if (response == GTK_RESPONSE_NONE)
-				return;
-
-			gtk_widget_hide(dialog);
 
 			if (response != GTK_RESPONSE_YES)
 				return;

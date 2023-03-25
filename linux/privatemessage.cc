@@ -977,8 +977,6 @@ gboolean PrivateMessage::onFocusIn_gui(GtkWidget*, GdkEventFocus*, gpointer data
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 
-	gtk_widget_grab_focus(pm->getWidget("entry"));
-
 	// fix select text
 	gtk_editable_set_position(GTK_EDITABLE(pm->getWidget("entry")), -1);
 
@@ -1319,7 +1317,7 @@ void PrivateMessage::onCopyURIClicked_gui(GtkMenuItem*, gpointer data)
 void PrivateMessage::onOpenLinkClicked_gui(GtkMenuItem*, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
-	string error = string();
+	string error = dcpp::Util::emptyString;
 	WulforUtil::openURI(pm->selectedTagStr, error);
 
 	if(!error.empty())
@@ -1353,10 +1351,6 @@ void PrivateMessage::onDownloadToClicked_gui(GtkMenuItem*, gpointer data)
 	gtk_file_chooser_set_action(GTK_FILE_CHOOSER(dialog), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
 	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), Text::fromUtf8(WGETS("magnet-choose-dir")).c_str());
 	gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-
-	// if the dialog gets programmatically destroyed.
-	if (response == GTK_RESPONSE_NONE)
-		return;
 
 	if (response == GTK_RESPONSE_OK)
 	{
@@ -1566,7 +1560,7 @@ GMenu *PrivateMessage::createmenu()
 
 /*	
 	if(notCreated) {
-			userCommandMenu->cleanMenu_gui();
+		userCommandMenu->cleanMenu_gui();
 		userCommandMenu->addUser(cid);
 		userCommandMenu->addHub(hubUrl);
 		userCommandMenu->buildMenu_gui();
@@ -1584,13 +1578,6 @@ GMenu *PrivateMessage::createmenu()
 		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu),addFav);
 		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu),copyNicks);
 		gtk_menu_shell_append(GTK_MENU_SHELL(m_menu), u_item);
-		gtk_widget_show(close);
-		gtk_widget_show(copyHubUrl);
-		gtk_widget_show(addFav);
-		gtk_widget_show(copyNicks);
-		gtk_widget_show(fitem);
-		gtk_widget_show(u_item);
-		gtk_widget_show_all(m_menu);
 
 		g_signal_connect_swapped(copyHubUrl, "activate", G_CALLBACK(onCopyCID), (gpointer)this);
 		g_signal_connect_swapped(close, "activate", G_CALLBACK(onCloseItem), (gpointer)this);
@@ -1631,14 +1618,13 @@ void PrivateMessage::onAddFavItem(GtkWidget* wid , GVariant* var , gpointer data
 void PrivateMessage::onCopyIpItem_gui(GtkWidget* widget, gpointer)
 {
 	gchar* ip = (gchar*)g_object_get_data(G_OBJECT(widget),"ip_addr");
-	gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), ip, strlen(ip));
 }
 
 void PrivateMessage::onRipeDbItem_gui(GtkWidget* widget, gpointer data)
 {
 	PrivateMessage *pm = (PrivateMessage *)data;
 	string ip = (char*)g_object_get_data(G_OBJECT(widget),"ip_addr");
-	string error = string();
+	string error = dcpp::Util::emptyString;
 	dcpp::ParamMap params;
 	params["IP"] = ip;
 	string result = dcpp::Util::formatParams(SETTING(RIPE_DB),params);
@@ -1649,6 +1635,5 @@ void PrivateMessage::onRipeDbItem_gui(GtkWidget* widget, gpointer data)
 void PrivateMessage::setImageButton(const string country)
 {
 	gtk_image_set_from_pixbuf (GTK_IMAGE(getWidget("ImageButton")),WulforUtil::LoadCountryPixbuf(country));
-	
 }
 */

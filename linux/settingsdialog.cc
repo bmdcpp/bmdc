@@ -1,6 +1,6 @@
 /*
  * Copyright © 2004-2015 Jens Oknelid, paskharen@gmail.com
- * Copyright © 2014-2025 BMDC++
+ * Copyright © 2014-2025 BMDC
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -233,15 +233,6 @@ Settings::~Settings()
 {
 	if (getResponseID() == GTK_RESPONSE_OK)
 		saveSettings_client();
-/*
-	gtk_widget_destroy(getWidget("publicHubsDialog"));
-	gtk_widget_destroy(getWidget("nameDialog")); 
-	gtk_widget_destroy(getWidget("dirChooserDialog"));
-	gtk_widget_destroy(getWidget("fileChooserDialog"));
-	gtk_widget_destroy(getWidget("commandDialog"));
-	gtk_widget_destroy(getWidget("fontSelectionDialog"));
-	gtk_widget_destroy(getWidget("colorSelectionDialog"));
-	gtk_widget_destroy(getWidget("ExtensionsDialog")); */
 }
 
 void Settings::response_gui()
