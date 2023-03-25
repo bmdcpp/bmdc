@@ -290,7 +290,6 @@ private:
 		unsigned int historyIndex;
 		static const int maxLines = 500;
 		int64_t totalShared;
-		int ImgLimit;
 		int width;
 		gint totalEmoticons;
 		gint oldType;

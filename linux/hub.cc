@@ -67,7 +67,7 @@ const GActionEntry Hub::win_entries[] = {
 Hub::Hub(const string &address, const string &encoding):
 	BookEntry(Entry::HUB, address, "hub", address),
 	client(nullptr),address(address),
-	encoding(encoding),	ImgLimit(0),historyIndex(0),totalShared(0),
+	encoding(encoding),	historyIndex(0),totalShared(0),
 	scrollToBottom(true), PasswordDialog(false), WaitingPassword(false),
 	notCreated(true), isFavBool(WGETI("notify-hub-chat-use")), width(-1)
 {
@@ -244,7 +244,6 @@ Hub::Hub(const string &address, const string &encoding):
 	g_signal_connect(adjustment, "value_changed", G_CALLBACK(onChatScroll_gui), (gpointer)this);
 	g_signal_connect(adjustment, "changed", G_CALLBACK(onChatResize_gui), (gpointer)this);
 //	g_signal_connect(getWidget("nickToChatItem"), "activate", G_CALLBACK(onNickToChat_gui), (gpointer)this);
-//	g_signal_connect(getWidget("openPartial"), "activate", G_CALLBACK(onPartialFileListOpen_gui), (gpointer)this);
 //	g_signal_connect(getWidget("copyLinkItem"), "activate", G_CALLBACK(onCopyURIClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("openLinkItem"), "activate", G_CALLBACK(onOpenLinkClicked_gui), (gpointer)this);
 //	g_signal_connect(getWidget("copyhubItem"), "activate", G_CALLBACK(onCopyURIClicked_gui), (gpointer)this);
@@ -2472,27 +2471,6 @@ void Hub::onSendMessage_gui(GtkEntry *e, gpointer data)
 				hub->addStatusMessage_gui(_("Emoticons mode on"), Msg::SYSTEM, Sound::NONE);
 			}
 		}
-		else if (command == "limitimg" || command == "limg")
-		{
-			int n;
-			string text;
-			if (params.empty())
-			{
-				n = hub->ImgLimit;
-				if (n == 0)
-					text = _("Download image: disable");
-				else if (n < 0)
-					text = _("Download image: unlimit");
-				else
-					text = _("Download limit image: ") + Util::toString(n);
-				hub->addMessage_gui("", text.c_str(), Msg::SYSTEM,"");
-				return;
-			}
-			n = Util::toInt(params);
-			hub->ImgLimit = n;
-			text = _("Set download limit image: ") + Util::toString(n);
-			hub->addStatusMessage_gui(text, Msg::SYSTEM, Sound::NONE);
-		}
 		else if (command == "help")
 		{
 			hub->addMessage_gui("", string(_("*** Available commands:")) + "\n" +
@@ -2510,7 +2488,6 @@ void Hub::onSendMessage_gui(GtkEntry *e, gpointer data)
 			"\r\n/pm <nick>\r\n\t" + _("Private message") +
 			"\r\n/exec <cmd>\r\n\t" + _("Execute Bash chunk") +
 			"\r\n/userlist\r\n\t" + _("User list show/hide") +
-			"\r\n/limitimg <n>, limg <n>\r\n\t" + _("Download limit image: 0 - disable, n < 0 - unlimit, empty - info") +
 			"\r\n/emoticons, /emot\r\n\t" + _("Emoticons on/off") +
 			"\r\n/sc <stop/start>\r\n\t" + _("Start/Stop checkers") +
 			"\r\n/scmyinfo\r\n\t" + _("Start/Stop checkers of Myinfo") +
