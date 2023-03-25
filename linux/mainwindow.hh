@@ -114,7 +114,6 @@ class MainWindow:
 
 		// Client functions
 		void openOwnList_client(bool useSetting);
-		void updateFavoriteHubMenu_client(const dcpp::FavoriteHubEntryList &fh);
 
 		SearchEntry *getSearchEntry () { return dynamic_cast<SearchEntry*>(findBookEntry(Entry::SEARCHS));}
 
