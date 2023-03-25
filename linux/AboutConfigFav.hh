@@ -44,12 +44,12 @@ class AboutConfigFav:
 		static void onSetDefault(GtkWidget *widget,GVariant  *parameter, gpointer data);
 		static void onInfoResponse(GtkWidget *info_bar, gint response_id,  gpointer data );
 
-		static void on_widget_right_btn_pressed (GtkGestureClick *gesture, int                n_press,
+		static void on_right_btn_pressed (GtkGestureClick *gesture, int                n_press,
                                    double             x,
                                    double             y,
                                    gpointer         *data);
 
-		static void on_widget_right_btn_released (GtkGestureClick *gesture,int              n_press,
+		static void on_right_btn_released (GtkGestureClick *gesture,int              n_press,
                                     double           x,
                                     double           y,
                                     GtkWidget       *widget);

@@ -79,9 +79,9 @@ p_entry(entry)
   gesture = gtk_gesture_click_new ();
   gtk_gesture_single_set_button (GTK_GESTURE_SINGLE (gesture), 3);
   g_signal_connect (gesture, "pressed",
-                    G_CALLBACK (on_widget_right_btn_pressed), (gpointer)this);
+                    G_CALLBACK (on_right_btn_pressed), (gpointer)this);
   g_signal_connect (gesture, "released",
-                    G_CALLBACK (on_widget_right_btn_released), (gpointer)this);
+                    G_CALLBACK (on_right_btn_released), (gpointer)this);
   gtk_widget_add_controller (GTK_WIDGET(aboutView.get()), GTK_EVENT_CONTROLLER (gesture));
 
 	for(int i = 0;i < SettingsManager::SETTINGS_LAST-1;i++)
