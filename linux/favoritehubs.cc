@@ -125,9 +125,13 @@ FavoriteHubs::FavoriteHubs():
 
 gboolean FavoriteHubs::key_pressed_gui ( GtkEventControllerKey* self,  guint keyval,  guint keycode,  GdkModifierType state,  gpointer data )
 {
-	g_debug( "key_pressed");
 	if( keyval == GDK_KEY_Return  ) {
 			onConnect_gui_b(NULL, data);
+			return TRUE;
+	}
+	if (keyval == GDK_KEY_Delete || keyval == GDK_KEY_BackSpace)
+	{
+			onRemoveEntry_gui(NULL, data);
 			return TRUE;
 	}
 	return FALSE;
@@ -135,7 +139,6 @@ gboolean FavoriteHubs::key_pressed_gui ( GtkEventControllerKey* self,  guint key
 
 void FavoriteHubs::key_released_gui (  GtkEventControllerKey* self,  guint keyval,  guint keycode,  GdkModifierType state,  gpointer user_data )
 {
-	g_debug( "key_released");
 	
 }
 
@@ -302,32 +305,14 @@ gboolean FavoriteHubs::onButtonReleased_gui(GtkWidget*, GdkEvent*, gpointer data
 /*
 gboolean FavoriteHubs::onKeyReleased_gui(GtkWidget* widget, GdkEventKey *event, gpointer data)
 {
-	FavoriteHubs *fh = (FavoriteHubs *)data;
 	GtkTreeIter iter;
-
 	if (gtk_tree_selection_get_selected(fh->favoriteSelection, NULL, &iter))
 	{
-		gtk_widget_set_sensitive(fh->getWidget("buttonProperties"), TRUE);
-		gtk_widget_set_sensitive(fh->getWidget("buttonRemove"), TRUE);
-		gtk_widget_set_sensitive(fh->getWidget("buttonConnect"), TRUE);
-
-		if (event->keyval == GDK_KEY_Return)
-		{
-			WulforManager::get()->getMainWindow()->showHub_gui(
-				fh->favoriteView.getString(&iter, _("Address")),
-				fh->favoriteView.getString(&iter, _("Encoding")));
-		}
-		else if (event->keyval == GDK_KEY_Delete || event->keyval == GDK_KEY_BackSpace)
-		{
-			fh->onRemoveEntry_gui(widget, data);
-		}
 		else if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
 		{
 			fh->popupMenu_gui();
 		}
 	}
-
-	return FALSE;
 }
 */
 void FavoriteHubs::onAddEntry_gui(GtkWidget*, gpointer data)
