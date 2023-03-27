@@ -3038,7 +3038,7 @@ void Hub::onUserListToggled_gui(GtkWidget*, gpointer data)
 	if (gtk_widget_get_visible(hub->getWidget("scrolledwindow2"))) {
 		gtk_widget_set_visible (hub->getWidget("scrolledwindow2") , FALSE);
 	} else {
-		gtk_widget_show_all(hub->getWidget("scrolledwindow2"));
+		gtk_widget_set_visible (hub->getWidget("scrolledwindow2") , TRUE);
 	}
 }
 
