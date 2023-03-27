@@ -126,7 +126,7 @@ p_entry(entry)
 }
 
 
-void AboutConfigFav::on_widget_right_btn_pressed (GtkGestureClick *gesture,
+void AboutConfigFav::on_right_btn_pressed (GtkGestureClick *gesture,
                                    int                n_press,
                                    double             x,
                                    double             y,
@@ -150,7 +150,7 @@ void AboutConfigFav::on_widget_right_btn_pressed (GtkGestureClick *gesture,
 
 }
 
-void AboutConfigFav::on_widget_right_btn_released (GtkGestureClick *gesture,
+void AboutConfigFav::on_right_btn_released (GtkGestureClick *gesture,
                                     int              n_press,
                                     double           x,
                                     double           y,
