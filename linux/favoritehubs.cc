@@ -131,7 +131,7 @@ gboolean FavoriteHubs::key_pressed_gui ( GtkEventControllerKey* self,  guint key
 	}
 	if (keyval == GDK_KEY_Delete || keyval == GDK_KEY_BackSpace)
 	{
-			onRemoveEntry_gui(NULL, data);
+			onRemoveEntry_gui_b(NULL, data);
 			return TRUE;
 	}
 	return FALSE;
