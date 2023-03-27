@@ -3718,7 +3718,7 @@ void Settings::saveUserCommand(UserCommand *uc)
 
 void Settings::updateUserCommandTextSent_gui()
 {
-	string command; = gtk_editable_get_text(GTK_EDITABLE(getWidget("commandDialogCommand")));
+	string command = gtk_editable_get_text(GTK_EDITABLE(getWidget("commandDialogCommand")));
 
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("commandDialogSeparator"))))
 	{
