@@ -523,7 +523,7 @@ void Settings::saveSettings_client()
 		//sm->set(SettingsManager::LOG_STATUS_MESSAGES, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("logStatusCheckButton"))));
 		//sm->set(SettingsManager::LOG_FILELIST_TRANSFERS, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("logFilelistTransfersCheckButton"))));
 		//sm->set(SettingsManager::LOG_RAW_CMD, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(getWidget("checkraws"))));
-		sm->set(SettingsManager::LOG_FORMAT_RAW, gtk_editable_get_text(GTK_EDITABLE(getWidget("entryraws"))));*/
+		sm->set(SettingsManager::LOG_FORMAT_RAW, gtk_editable_get_text(GTK_EDITABLE(getWidget("entryraws"))));
 	}
 
 	{ // Advanced
@@ -2288,7 +2288,7 @@ void Settings::onAddExtensionButton_gui(GtkWidget*, gpointer data)
 	}
 
 	if (!error.empty())
-		s->showErrorDialog(string(_("Invalid extension: ")) + error);*/
+		s->showErrorDialog(string(_("Invalid extension: ")) + error);
 }
 
 void Settings::onModifySTButton_gui(GtkWidget*, gpointer data)
@@ -3770,7 +3770,6 @@ void Settings::showErrorDialog(const string error)
 		GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "%s", error.c_str());
 	gtk_window_set_modal(GTK_WINDOW(errorDialog), TRUE);
 	//g_signal_connect(errorDialog, "response", G_CALLBACK(gtk_widget_destroy), errorDialog);
-	gtk_widget_show(errorDialog);
 }
 
 void Settings::onOptionsViewToggled_gui(GtkCellRendererToggle*, gchar *path, gpointer data)
