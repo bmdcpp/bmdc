@@ -3668,8 +3668,8 @@ void Hub::addAsFavorite_client()
 
 		FavoriteManager::getInstance()->addFavorite(entry);
 
-		const FavoriteHubEntryList &fh = FavoriteManager::getInstance()->getFavoriteHubs();
-		WulforManager::get()->getMainWindow()->updateFavoriteHubMenu_client(fh);
+//		const FavoriteHubEntryList &fh = FavoriteManager::getInstance()->getFavoriteHubs();
+//		WulforManager::get()->getMainWindow()->updateFavoriteHubMenu_client(fh);
 
 		func = new F3(this, &Hub::addStatusMessage_gui, _("Favorite hub added"), Msg::STATUS, Sound::NONE);
 		WulforManager::get()->dispatchGuiFunc(func);
