@@ -174,10 +174,8 @@ void Transfers::on_widget_right_btn_released (GtkGestureClick *gesture,
                                     double           /*y*/,
                                     GtkWidget*       /*widget*/)
 {
-  g_debug ("on_inner_widget_right_btn_released() called\n");
-
   gtk_gesture_set_state (GTK_GESTURE (gesture),
-                         GTK_EVENT_SEQUENCE_CLAIMED);
+                        GTK_EVENT_SEQUENCE_CLAIMED);
 }
 
 Transfers::~Transfers()
@@ -503,16 +501,6 @@ gboolean Transfers::onTransferButtonPressed_gui(GtkWidget*, GdkEventButton *even
 	return FALSE;
 }
 
-gboolean Transfers::onTransferButtonReleased_gui(GtkWidget*, GdkEventButton *event, gpointer data)
-{
-	Transfers *tr = (Transfers *)data;
-	int count = gtk_tree_selection_count_selected_rows(tr->transferSelection);
-
-	if (count > 0 && event->type == GDK_BUTTON_RELEASE && event->button == 3)
-		tr->popupTransferMenu_gui();
-
-	return FALSE;
-}
 */
 bool Transfers::findParent_gui(const string& target, GtkTreeIter* iter)
 {

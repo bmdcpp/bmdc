@@ -122,7 +122,6 @@ private:
 
 		// GUI callbacks
 		static void onSizeWindowState_gui(GtkWidget* widget,GdkRectangle *allocation,gpointer data);
-//		static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);
 //		static gboolean onNickListKeyRelease_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 //		static gboolean onEntryKeyPress_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 //		static gboolean onNickTagEvent_gui(GtkTextTag *tag, GObject *textView, GdkEvent *event, GtkTextIter *iter, gpointer data);

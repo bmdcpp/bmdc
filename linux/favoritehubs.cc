@@ -302,19 +302,7 @@ gboolean FavoriteHubs::onButtonReleased_gui(GtkWidget*, GdkEvent*, gpointer data
 
 	return FALSE;
 }
-/*
-gboolean FavoriteHubs::onKeyReleased_gui(GtkWidget* widget, GdkEventKey *event, gpointer data)
-{
-	GtkTreeIter iter;
-	if (gtk_tree_selection_get_selected(fh->favoriteSelection, NULL, &iter))
-	{
-		else if (event->keyval == GDK_KEY_Menu || (event->keyval == GDK_KEY_F10 && event->state & GDK_SHIFT_MASK))
-		{
-			fh->popupMenu_gui();
-		}
-	}
-}
-*/
+
 void FavoriteHubs::onAddEntry_gui(GtkWidget*, gpointer data)
 {
 

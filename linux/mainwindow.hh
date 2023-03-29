@@ -141,7 +141,6 @@ class MainWindow:
 		// GUI Callbacks
 //		static gboolean onWindowState_gui(GtkWidget *widget, GdkEventWindowState *event, gpointer data);
 		static void onSizeWindowState_gui(GtkWidget* widget,GtkAllocation *allocation,gpointer data);
-//		static gboolean onFocusIn_gui(GtkWidget *widget, GdkEventFocus *event, gpointer data);
 //		static gboolean onCloseWindow_gui(GtkWidget *widget, GdkEvent *event, gpointer data);
 //		static gboolean onKeyPressed_gui(GtkWidget *widget, GdkEventKey *event, gpointer data);
 //		static void onRaisePage_gui(GtkMenuItem *item, gpointer data);
@@ -170,7 +169,6 @@ class MainWindow:
 		static void onAboutClicked_gui(GtkWidget *widget, gpointer data);
 		static void onAboutDialogActivateLink_gui(GtkAboutDialog *dialog, const gchar *link, gpointer data);
 		static void onCloseBookEntry_gui(GtkWidget *widget, gpointer data);
-
 		static void onLinkClicked_gui(GtkWidget *widget, gpointer data);
 		static void onTransferToggled_gui(GtkWidget *widget, gpointer data);
 		static void onBrowseMagnetButton_gui(GtkWidget *widget, gpointer data);
@@ -181,9 +179,8 @@ class MainWindow:
 		static gboolean onDeleteEventMagnetDialog_gui(GtkWidget *dialog, GdkEvent *event, gpointer data);
 		static gboolean onMenuButtonClicked_gui(GtkWidget *widget, gpointer data);
 		static gboolean onAddButtonClicked_gui(GtkWidget *widget, gpointer data);
-
 		static void onHubClicked_gui(GtkWidget *widget, gpointer data);
-		/**/
+
 		static void onCmdDebugClicked_gui( GtkWidget *widget, gpointer data);
 		static void onSystemLogClicked_gui(GtkWidget *widget, gpointer data);
 		static void onNotepadClicked_gui(GtkWidget *widget, gpointer data);
@@ -194,14 +191,14 @@ class MainWindow:
 		static void onLimitingMenuItem_gui(GtkRange *widget, gpointer data);
 		static void onTTHFileDialog_gui(GtkWidget *widget, gpointer data);
 		static void onTTHFileButton_gui(GtkWidget *widget, gpointer data);
-		/**/
+
 		static void onCloseAllHub_gui(GtkWidget *widget, gpointer data);
 		static void onCloseAllPM_gui(GtkWidget *widget, gpointer data);
 		static void onCloseAllofPM_gui(GtkWidget *widget, gpointer data);
 		static void onReconectAllHub_gui(GtkWidget *widget, gpointer data);
 
 		static void onShortcutsWin(GtkWidget* widget, gpointer data);
-		/**/
+
 		static void onAboutConfigClicked_gui(GtkWidget *widget, gpointer data);
 		#ifdef HAVE_LIBTAR
 		static void onExportItemClicked_gui(GtkWidget *widget, gpointer data);

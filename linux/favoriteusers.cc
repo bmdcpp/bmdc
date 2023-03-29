@@ -70,7 +70,6 @@ FavoriteUsers::FavoriteUsers():
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(favoriteUserStore), favoriteUserView.col(_("Nick")), GTK_SORT_ASCENDING);
 	gtk_tree_view_column_set_sort_indicator(gtk_tree_view_get_column(favoriteUserView.get(), favoriteUserView.col(_("Nick"))), TRUE);
 
-
 	/* Register for mouse right button click "pressed" and "released" events on  widget*/
 	GtkGesture *gesture;
 	gesture = gtk_gesture_click_new ();
@@ -659,9 +658,6 @@ void FavoriteUsers::onRemoveItemClicked_gui(GtkWidget *widget,GVariant  *paramet
 				GTK_RESPONSE_YES, NULL);
 
 //			gint response = gtk_dialog_run(GTK_DIALOG(dialog));
-			// Widget failed if the dialog gets programmatically destroyed.
-			//if (response == GTK_RESPONSE_NONE)
-			//	return;
 
 			//gtk_widget_hide(dialog);
 
