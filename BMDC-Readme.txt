@@ -9,17 +9,17 @@ Dependencies:
 - pkg-config
 - g++ >= 4.9
 - glib >= 2.44
-- gtk+-4.0
+- gtk+ 4.0
 - pthread
 - zlib
 - libbz2
 - libssl
+- libmaxminddb
 
 --optional--
 
 - libtar (Note: For Backup/Restore options )
 - libnotify >= 0.4.1 ( Note: For popups notifications )
-- libappindicator3 ( Note: For appindicators)
 - xattr ( Note: for storing hashes beside files to not always re-hash )
 - Runtime-deps is also glib-networking ( or similar) for open URI
 - also python2-dbus and qdbus for Media Spam (/kaff and /vlc)

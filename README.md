@@ -25,7 +25,7 @@ GNU GPL v2.0 or later. See [License.txt](https://github.com/bmdcpp/bmdc/blob/mas
 - zlib
 - libbz2
 - libssl
-- libGeoIP >= 1.4.7
+- libmaxminddb
 - gettext
 - pcre
 
@@ -89,6 +89,5 @@ GNU GPL Version 2 or later
 See License.txt for details.
 
 ## Contact
-[@Mank16](https://www.github.com/Mank16)
 [@bmdcpp](https://www.github.com/@bmdcpp)
 
